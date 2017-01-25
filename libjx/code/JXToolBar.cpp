@@ -257,7 +257,7 @@ JXToolBar::Receive
 		const JSize count = itsButtons->GetElementCount();
 		for (JIndex i=1; i<=count; i++)
 			{
-			JXToolBarButton* button = itsButtons->NthElement(i);
+			JXToolBarButton* button = itsButtons->GetElement(i);
 			if (sender == button)
 				{
 				JXTextMenu* menu = button->GetMenu();
@@ -530,7 +530,7 @@ JXToolBar::ItemIsUsed
 	const JSize count = itsButtons->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		JXToolBarButton* button = itsButtons->NthElement(i);
+		JXToolBarButton* button = itsButtons->GetElement(i);
 		JIndex j;
 		if (button->GetMenu() == menu &&
 			(button->GetMenuItemIndex(&j) && j == index))
@@ -631,7 +631,7 @@ JXToolBar::WritePrefs
 
 	for (JIndex i=1; i<=count; i++)
 		{
-		output << ' ' << (itsButtons->NthElement(i))->GetMenuItemID();
+		output << ' ' << (itsButtons->GetElement(i))->GetMenuItemID();
 		output << ' ' << itsGroupStarts->GetElement(i);
 		}
 
@@ -808,7 +808,7 @@ JXToolBar::PlaceGroup
 		{
 		for (JSize i = range.first; i <= range.last; i++)
 			{
-			JXToolBarButton* button = itsButtons->NthElement(i);
+			JXToolBarButton* button = itsButtons->GetElement(i);
 			JCoordinate butWidth	= button->GetFrameWidth();
 			JCoordinate totalWidth	= GetBoundsWidth();
 			if (itsNextButtonPosition + butWidth <= totalWidth)
@@ -844,7 +844,7 @@ JXToolBar::PlaceButton
 	const JIndex index
 	)
 {
-	JXToolBarButton* button = itsButtons->NthElement(index);
+	JXToolBarButton* button = itsButtons->GetElement(index);
 	button->Place(itsNextButtonPosition, itsCurrentLineY);
 	itsNextButtonPosition += button->GetFrameWidth();
 }
@@ -863,7 +863,7 @@ JXToolBar::GetGroupWidth
 	JSize w = 0;
 	for (JSize index = range.first; index <= range.last; index++)
 		{
-		JXToolBarButton* button = itsButtons->NthElement(index);
+		JXToolBarButton* button = itsButtons->GetElement(index);
 		w += button->GetFrameWidth();
 		}
 	return w;
@@ -1021,7 +1021,7 @@ JXToolBar::UpdateButtons()
 	JIndex i;
 	for (i=1; i<=count; i++)
 		{
-		JXMenu* menu = itsMenus->NthElement(i);
+		JXMenu* menu = itsMenus->GetElement(i);
 		if (menu->IsActive())
 			{
 			menu->PrepareToOpenMenu(kJTrue);
@@ -1032,7 +1032,7 @@ JXToolBar::UpdateButtons()
 	count = itsButtons->GetElementCount();
 	for (i=count; i>=1; i--)
 		{
-		JXToolBarButton* button = itsButtons->NthElement(i);
+		JXToolBarButton* button = itsButtons->GetElement(i);
 		JIndex itemIndex;
 		if (button->GetMenuItemIndex(&itemIndex) &&
 			button->GetMenu()->IsActive()        &&

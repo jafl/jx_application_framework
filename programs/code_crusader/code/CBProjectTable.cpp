@@ -442,7 +442,7 @@ CBProjectTable::AddFiles
 
 	for (JIndex i=1; i<=count; i++)
 		{
-		const JString* fullName = fullNameList.NthElement(i);
+		const JString* fullName = fullNameList.GetElement(i);
 		if (!fullName->EndsWith("~")  &&
 			!fullName->EndsWith("#")  &&
 			!root->Includes(*fullName))
@@ -648,7 +648,7 @@ CBProjectTable::SelectFileNodes
 	const JSize count     = nodeList.GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		const JTreeNode* node = nodeList.NthElement(i);
+		const JTreeNode* node = nodeList.GetElement(i);
 		treeList->Open(node->GetParent());
 
 		JIndex rowIndex;
@@ -1812,7 +1812,7 @@ CBProjectTable::HandleDNDDrop
 
 				for (JIndex i=fileCount; i>=1; i--)
 					{
-					JString* fullName = fileNameList.NthElement(i);
+					JString* fullName = fileNameList.GetElement(i);
 					if (JDirectoryExists(*fullName))
 						{
 						fileNameList.RemoveElement(i);
@@ -1856,7 +1856,7 @@ CBProjectTable::HandleDNDDrop
 						const JSize pathCount = pathList.GetElementCount();
 						for (JIndex i=1; i<=pathCount; i++)
 							{
-							AddDirectoryTree(*(pathList.NthElement(i)), (CBRelPathCSF::PathType) action);
+							AddDirectoryTree(*(pathList.GetElement(i)), (CBRelPathCSF::PathType) action);
 							}
 						}
 					}
@@ -1867,7 +1867,7 @@ CBProjectTable::HandleDNDDrop
 					const JSize pathCount = pathList.GetElementCount();
 					for (JIndex i=1; i<=pathCount; i++)
 						{
-						AddDirectoryTree(*(pathList.NthElement(i)), (CBRelPathCSF::PathType) itsDropFileAction);
+						AddDirectoryTree(*(pathList.GetElement(i)), (CBRelPathCSF::PathType) itsDropFileAction);
 						}
 					}
 				}
@@ -1897,7 +1897,7 @@ CBProjectTable::InsertFileSelectionAfter
 	const JSize count = list.GetElementCount();
 	for (JIndex i=count; i>=1; i--)
 		{
-		JTreeNode* node = list.NthElement(i);
+		JTreeNode* node = list.GetElement(i);
 		if (depth == kGroupDepth)
 			{
 			after->Prepend(node);
@@ -1926,7 +1926,7 @@ CBProjectTable::AppendFileSelectionToGroup
 	const JSize count = list.GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		group->Append(list.NthElement(i));
+		group->Append(list.GetElement(i));
 		}
 }
 
@@ -1950,7 +1950,7 @@ CBProjectTable::InsertGroupSelectionBefore
 	const JSize count = list.GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		JTreeNode* node = list.NthElement(i);
+		JTreeNode* node = list.GetElement(i);
 		if (before != NULL)
 			{
 			root->InsertBefore(before, node);

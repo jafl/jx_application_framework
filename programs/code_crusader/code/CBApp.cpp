@@ -447,7 +447,7 @@ CBApp::CollectSearchPaths
 	JBoolean recurse;
 	for (JIndex j=1; j<=docCount; j++)
 		{
-		CBProjectDocument* doc   = docList->NthElement(j);
+		CBProjectDocument* doc   = docList->GetElement(j);
 		const CBDirList& dirList = doc->GetDirectories();
 		const JSize count        = dirList.GetElementCount();
 		for (JIndex i=1; i<=count; i++)

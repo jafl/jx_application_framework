@@ -250,7 +250,7 @@ JXFSDirMenu::SetFileList
 	JString fullName;
 	for (JIndex i = 1; i <= count; i++)
 		{
-		JDirEntry* entry = jnew JDirEntry(*(fileNameList.NthElement(i)));
+		JDirEntry* entry = jnew JDirEntry(*(fileNameList.GetElement(i)));
 		assert( entry != NULL );
 		itsEntries->Append(entry);
 		AppendEntry(*entry);
@@ -349,7 +349,7 @@ JXFSDirMenu::Receive
 		assert(info != NULL);
 		if (itsEntries != NULL)
 			{
-			BroadcastIfTopLevel(itsEntries->NthElement(info->GetIndex())->GetFullName());
+			BroadcastIfTopLevel(itsEntries->GetElement(info->GetIndex())->GetFullName());
 			}
 		else if (itsDirInfo != NULL)
 			{

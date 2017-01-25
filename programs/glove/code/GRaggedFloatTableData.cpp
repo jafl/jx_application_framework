@@ -63,7 +63,7 @@ GRaggedFloatTableData::GRaggedFloatTableData
 	const JSize count = (source.itsCols)->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		const JArray<JFloat>* origColData = (source.itsCols)->NthElement(i);
+		const JArray<JFloat>* origColData = (source.itsCols)->GetElement(i);
 		JArray<JFloat>* newColData = jnew JArray<JFloat>(*origColData);
 		assert( newColData != NULL );
 		itsCols->Append(newColData);
@@ -100,7 +100,7 @@ GRaggedFloatTableData::GetElement
 		return kJFalse;
 		}
 
-	const JArray<JFloat>* dataCol = itsCols->NthElement(col);
+	const JArray<JFloat>* dataCol = itsCols->GetElement(col);
 	*value =  dataCol->GetElement(row);
 	return kJTrue;
 }
@@ -142,7 +142,7 @@ GRaggedFloatTableData::CreateCellIfNeeded
 		ShouldBroadcast(kJFalse);
 		}
 
-	const JArray<JFloat>* dataCol = itsCols->NthElement(col);
+	const JArray<JFloat>* dataCol = itsCols->GetElement(col);
 	while (row > dataCol->GetElementCount())
 		{
 		AppendElement(col, itsDefValue);
@@ -168,7 +168,7 @@ GRaggedFloatTableData::SetElement
 	)
 {
 	CreateCellIfNeeded(row, col);
-	JArray<JFloat>* dataCol = itsCols->NthElement(col);
+	JArray<JFloat>* dataCol = itsCols->GetElement(col);
 	dataCol->SetElement(row, data);
 	if (itsBroadcast)
 		{
@@ -194,7 +194,7 @@ GRaggedFloatTableData::GetRow
 	const JSize colCount = GetDataColCount();
 	for (JIndex i=1; i<=colCount; i++)
 		{
-		const JArray<JFloat>* dataCol = itsCols->NthElement(i);
+		const JArray<JFloat>* dataCol = itsCols->GetElement(i);
 		rowData->AppendElement(dataCol->GetElement(index));
 		}
 }
@@ -216,7 +216,7 @@ GRaggedFloatTableData::SetRow
 
 	for (JIndex i=1; i<=colCount; i++)
 		{
-		JArray<JFloat>* dataCol = itsCols->NthElement(i);
+		JArray<JFloat>* dataCol = itsCols->GetElement(i);
 		dataCol->SetElement(index, rowData.GetElement(i));
 		}
 
@@ -240,7 +240,7 @@ GRaggedFloatTableData::GetCol
 {
 	colData->RemoveAll();
 
-	const JArray<JFloat>* dataCol = itsCols->NthElement(index);
+	const JArray<JFloat>* dataCol = itsCols->GetElement(index);
 	const JSize rowCount = dataCol->GetElementCount();
 
 	for (JIndex i=1; i<=rowCount; i++)
@@ -261,7 +261,7 @@ GRaggedFloatTableData::SetCol
 	const JOrderedSet<JFloat>&	colData
 	)
 {
-	JArray<JFloat>* dataCol = itsCols->NthElement(index);
+	JArray<JFloat>* dataCol = itsCols->GetElement(index);
 	const JSize rowCount = colData.GetElementCount();
 	CreateCellIfNeeded(rowCount, index);
 
@@ -294,7 +294,7 @@ GRaggedFloatTableData::InsertRow
 	const JSize colCount = itsCols->GetElementCount();
 	for (JIndex i=1; i<=colCount; i++)
 		{
-		JArray<JFloat>* colData = itsCols->NthElement(i);
+		JArray<JFloat>* colData = itsCols->GetElement(i);
 		if (index <= colData->GetElementCount())
 			{
 			JFloat value = 0;
@@ -340,7 +340,7 @@ GRaggedFloatTableData::DuplicateRow
 	const JSize colCount = itsCols->GetElementCount();
 	for (JIndex i=1; i<=colCount; i++)
 		{
-		JArray<JFloat>* colData = itsCols->NthElement(i);
+		JArray<JFloat>* colData = itsCols->GetElement(i);
 		const JSize rowCount = colData->GetElementCount();
 
 		if (index <= rowCount)
@@ -373,7 +373,7 @@ GRaggedFloatTableData::RemoveRow
 	const JSize colCount = itsCols->GetElementCount();
 	for (JIndex i=1; i<=colCount; i++)
 		{
-		JArray<JFloat>* colData = itsCols->NthElement(i);
+		JArray<JFloat>* colData = itsCols->GetElement(i);
 		const JSize rowCount = colData->GetElementCount();
 
 		if (index <= rowCount)
@@ -395,7 +395,7 @@ GRaggedFloatTableData::RemoveAllRows()
 	const JSize colCount = itsCols->GetElementCount();
 	for (JIndex i=1; i<=colCount; i++)
 		{
-		JArray<JFloat>* colData = itsCols->NthElement(i);
+		JArray<JFloat>* colData = itsCols->GetElement(i);
 		colData->RemoveAll();
 		}
 	const JSize count	= GetRowCount();
@@ -426,7 +426,7 @@ GRaggedFloatTableData::MoveRow
 	const JSize colCount = itsCols->GetElementCount();
 	for (JIndex i=1; i<=colCount; i++)
 		{
-		JArray<JFloat>* colData = itsCols->NthElement(i);
+		JArray<JFloat>* colData = itsCols->GetElement(i);
 		const JSize rowCount = colData->GetElementCount();
 		if ( (origIndex <= rowCount) && (newIndex <= rowCount) )
 			{
@@ -517,7 +517,7 @@ GRaggedFloatTableData::DuplicateCol
 		trueIndex = maxIndex;
 		}
 
-	JArray<JFloat>* origColData = itsCols->NthElement(origIndex);
+	JArray<JFloat>* origColData = itsCols->GetElement(origIndex);
 	JArray<JFloat>* newColData = jnew JArray<JFloat>(*origColData);
 	assert( newColData != NULL );
 	itsCols->InsertAtIndex(trueIndex, newColData);
@@ -614,7 +614,7 @@ GRaggedFloatTableData::InsertElement
 	const JFloat value
 	)
 {
-	JArray<JFloat>* dataCol = itsCols->NthElement(col);
+	JArray<JFloat>* dataCol = itsCols->GetElement(col);
 	dataCol->InsertElementAtIndex(row, value);
 	const JSize rowCount = dataCol->GetElementCount();
 	if (itsBroadcast)
@@ -663,7 +663,7 @@ GRaggedFloatTableData::RemoveElement
 	const JIndex col
 	)
 {
-	JArray<JFloat>* dataCol = itsCols->NthElement(col);
+	JArray<JFloat>* dataCol = itsCols->GetElement(col);
 	const JSize rowCount = dataCol->GetElementCount();
 	if (row <= rowCount)
 		{
@@ -695,7 +695,7 @@ GRaggedFloatTableData::RemoveAllElements
 	const JIndex col
 	)
 {
-	JArray<JFloat>* dataCol = itsCols->NthElement(col);
+	JArray<JFloat>* dataCol = itsCols->GetElement(col);
 	const JSize rowCount = dataCol->GetElementCount();
 	for (JSize i = 1; i <= rowCount; i++)
 		{
@@ -737,7 +737,7 @@ GRaggedFloatTableData::GetMaxRowCount()
 	const JSize colCount = itsCols->GetElementCount();
 	for (JSize i = 1; i <= colCount; i++)
 		{
-		JArray<JFloat>* dataCol = itsCols->NthElement(i);
+		JArray<JFloat>* dataCol = itsCols->GetElement(i);
 		if (dataCol->GetElementCount() > max)
 			{
 			max = dataCol->GetElementCount();

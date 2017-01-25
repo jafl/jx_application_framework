@@ -107,7 +107,7 @@ SVNWDManager::GetBrowser
 	JString p2, p3;
 	for (JIndex i=1; i<=windowCount; i++)
 		{
-		SVNMainDirector* d = dynamic_cast<SVNMainDirector*>(windowList.NthElement(i));
+		SVNMainDirector* d = dynamic_cast<SVNMainDirector*>(windowList.GetElement(i));
 		if (d == NULL)
 			{
 			continue;
@@ -158,7 +158,7 @@ SVNWDManager::GetBrowserForExactURL
 	JString p2;
 	for (JIndex i=1; i<=windowCount; i++)
 		{
-		SVNMainDirector* d = dynamic_cast<SVNMainDirector*>(windowList.NthElement(i));
+		SVNMainDirector* d = dynamic_cast<SVNMainDirector*>(windowList.GetElement(i));
 		if (d != NULL && d->GetRepoPath(&p2) && p1 == p2)
 			{
 			*dir = d;
@@ -265,7 +265,7 @@ SVNWDManager::SaveState
 
 	for (JIndex i=1; i<=windowCount; i++)
 		{
-		SVNMainDirector* dir = dynamic_cast<SVNMainDirector*>(windowList.NthElement(i));
+		SVNMainDirector* dir = dynamic_cast<SVNMainDirector*>(windowList.GetElement(i));
 
 		output << ' ';
 		dir->StreamOut(output);

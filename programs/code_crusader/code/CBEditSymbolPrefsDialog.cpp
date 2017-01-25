@@ -146,7 +146,7 @@ CBEditSymbolPrefsDialog::UpdateSettings()
 
 	for (JIndex i=1; i<=docCount; i++)
 		{
-		((docList->NthElement(i))->GetSymbolDirector())->
+		((docList->GetElement(i))->GetSymbolDirector())->
 			SetPrefs(itsRaiseTreeOnRightClickCB->IsChecked(),
 					 JI2B(i==1));
 

@@ -1098,7 +1098,7 @@ CBFileTypeTable::UpdateScriptMenu()
 			// We have to extract user/sys here because otherwise we would
 			// have to keep extra state while building the sorted list.
 
-			itemText = *(menuText.NthElement(i));
+			itemText = *(menuText.GetElement(i));
 
 			JIndex j;
 			const JBoolean found = itemText.LocateLastSubstring(" (", &j);

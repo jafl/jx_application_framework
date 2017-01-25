@@ -375,7 +375,7 @@ FitModule::HandleFit()
 				{
 				index = i * 2 - 1;
 				}
-			JString parm(*(itsNames->NthElement(index)));
+			JString parm(*(itsNames->GetElement(index)));
 			JFloat value = itsValues->GetElement(index);
 			JBoolean added = list->AddVariable(parm, value);
 			}

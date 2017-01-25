@@ -299,7 +299,7 @@ THX2DPlotDirector::ReceiveGoingAway
 	const JSize count = itsFnList->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		if (sender == itsFnList->NthElement(i))
+		if (sender == itsFnList->GetElement(i))
 			{
 			itsFnList->RemoveElement(i);
 			break;
@@ -506,7 +506,7 @@ THX2DPlotDirector::EditFunction
 {
 	assert( itsEditFnDialog == NULL );
 
-	const J2DPlotJFunction* curve = itsFnList->NthElement(index);
+	const J2DPlotJFunction* curve = itsFnList->GetElement(index);
 
 	JFloat min, max;
 	curve->GetXRange(&min, &max);
@@ -538,7 +538,7 @@ THX2DPlotDirector::UpdateFunction()
 	JFloat xMin, xMax;
 	itsEditFnDialog->GetSettings(&plotIndex, &f, &curveName, &xMin, &xMax);
 
-	J2DPlotJFunction* curve = itsFnList->NthElement(itsEditFnIndex);
+	J2DPlotJFunction* curve = itsFnList->GetElement(itsEditFnIndex);
 	curve->SetFunction((THXGetApplication())->GetVariableList(), f->Copy(), kJTrue,
 					   THXVarList::kXIndex, xMin, xMax);
 

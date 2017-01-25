@@ -175,7 +175,7 @@ JXDockWidget::GetWindow
 		return kJFalse;
 		}
 
-	*window = itsWindowList->NthElement(index);
+	*window = itsWindowList->GetElement(index);
 	return kJTrue;
 }
 

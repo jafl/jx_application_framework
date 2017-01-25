@@ -105,7 +105,7 @@ JXVertDockPartition::GetDockWidget
 	)
 	const
 {
-	return itsDockList->NthElement(index);
+	return itsDockList->GetElement(index);
 }
 
 #endif

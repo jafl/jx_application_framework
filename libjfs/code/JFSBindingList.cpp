@@ -152,7 +152,7 @@ JFSBindingList::AddBinding
 		itsBindingList->SearchSorted1(b, JOrderedSetT::kLastMatch, &found);
 	if (found)
 		{
-		JFSBinding* origB = itsBindingList->NthElement(index);
+		JFSBinding* origB = itsBindingList->GetElement(index);
 		if (b->IsSystemBinding() && !origB->IsSystemBinding())
 			{
 			if (!itsOverriddenList->InsertSorted(b, kJFalse))
@@ -191,7 +191,7 @@ JFSBindingList::DeleteBinding
 	const JIndex index
 	)
 {
-	JFSBinding* b = itsBindingList->NthElement(index);
+	JFSBinding* b = itsBindingList->GetElement(index);
 	if (b->IsSystemBinding())
 		{
 		return kJTrue;
@@ -206,7 +206,7 @@ JFSBindingList::DeleteBinding
 
 	if (found)
 		{
-		b = itsOverriddenList->NthElement(fIndex);
+		b = itsOverriddenList->GetElement(fIndex);
 		itsOverriddenList->RemoveElement(fIndex);
 
 		const JBoolean inserted = itsBindingList->InsertSorted(b, kJFalse);
@@ -239,7 +239,7 @@ JFSBindingList::SetPattern
 {
 	*newIndex = index;
 
-	JFSBinding* b = itsBindingList->NthElement(index);
+	JFSBinding* b = itsBindingList->GetElement(index);
 	if (b->GetPattern() == pattern)
 		{
 		return kJTrue;
@@ -287,7 +287,7 @@ JFSBindingList::SetCommand
 	const JCharacter*	cmd
 	)
 {
-	JFSBinding* b = itsBindingList->NthElement(index);
+	JFSBinding* b = itsBindingList->GetElement(index);
 
 	JFSBinding::CommandType type;
 	JBoolean singleFile;
@@ -323,7 +323,7 @@ JFSBindingList::SetCommandType
 	const JFSBinding::CommandType	type
 	)
 {
-	JFSBinding* b = itsBindingList->NthElement(index);
+	JFSBinding* b = itsBindingList->GetElement(index);
 	if (b->GetCommandType() == type)
 		{
 		return kJFalse;
@@ -359,7 +359,7 @@ JFSBindingList::SetSingleFile
 	const JBoolean	singleFile
 	)
 {
-	JFSBinding* b = itsBindingList->NthElement(index);
+	JFSBinding* b = itsBindingList->GetElement(index);
 	if (b->IsSingleFileCommand() == singleFile)
 		{
 		return kJFalse;
@@ -402,10 +402,10 @@ JFSBindingList::SetCommand
 
 	JIndex index;
 	if (itsBindingList->SearchSorted(b, JOrderedSetT::kLastMatch, &index) &&
-		!(itsBindingList->NthElement(index))->IsSystemBinding())
+		!(itsBindingList->GetElement(index))->IsSystemBinding())
 		{
 		jdelete b;
-		b = itsBindingList->NthElement(index);
+		b = itsBindingList->GetElement(index);
 		b->SetCommand(cmd, type, singleFile);
 		}
 	else

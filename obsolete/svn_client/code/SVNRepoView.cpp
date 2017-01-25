@@ -579,7 +579,7 @@ SVNRepoView::CopySelectedFiles
 		JString path, name;
 		for (JIndex i=1; i<=count; i++)
 			{
-			JString* s = list.NthElement(i);
+			JString* s = list.GetElement(i);
 			if (JSplitPathAndName(*s, &path, &name))
 				{
 				*s = name;

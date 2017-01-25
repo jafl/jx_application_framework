@@ -413,7 +413,7 @@ main
 			for (JIndex i=1; i<=prevEmptyTargets; i++)
 				{
 				const JIndex j = mainTargetCount-i+1;
-				*(mainTargetObjsList.NthElement(j)) = *mainTargetObjs;
+				*(mainTargetObjsList.GetElement(j)) = *mainTargetObjs;
 				javaTargetList.SetElement(j, usesJava);
 				}
 			prevEmptyTargets = 0;
@@ -487,8 +487,8 @@ main
 	{
 	for (JIndex i=1; i<=mainTargetCount; i++)
 		{
-		JString* mainTargetName = mainTargetList.NthElement(i);
-		JString* mainTargetObjs = mainTargetObjsList.NthElement(i);
+		JString* mainTargetName = mainTargetList.GetElement(i);
+		JString* mainTargetObjs = mainTargetObjsList.GetElement(i);
 
 		// mark it with a comment
 
@@ -571,7 +571,7 @@ main
 	{
 	for (JIndex i=1; i<=mainTargetCount; i++)
 		{
-		JString* mainTargetName = mainTargetList.NthElement(i);
+		JString* mainTargetName = mainTargetList.GetElement(i);
 		output << ' ';
 		mainTargetName->Print(output);
 		}
@@ -594,9 +594,9 @@ main
 	for (JIndex i=1; i<=targetCount; i++)
 		{
 		output << ' ';
-		(outPrefixList.NthElement(i))->Print(output);
-		(targetList.NthElement(i))->Print(output);
-		(outSuffixList.NthElement(i))->Print(output);
+		(outPrefixList.GetElement(i))->Print(output);
+		(targetList.GetElement(i))->Print(output);
+		(outSuffixList.GetElement(i))->Print(output);
 		}
 	}
 	output << "\n\n";
@@ -616,9 +616,9 @@ main
 	for (JIndex i=1; i<=targetCount; i++)
 		{
 		output << ' ';
-		(prefixList.NthElement(i))->Print(output);
-		(targetList.NthElement(i))->Print(output);
-		(suffixList.NthElement(i))->Print(output);
+		(prefixList.GetElement(i))->Print(output);
+		(targetList.GetElement(i))->Print(output);
+		(suffixList.GetElement(i))->Print(output);
 		}
 	}
 	output << "\n\n";
@@ -682,22 +682,22 @@ main
 	{
 	for (JIndex i=1; i<=targetCount; i++)
 		{
-		if (!noParseFileSuffix.Match(*(suffixList.NthElement(i))))
+		if (!noParseFileSuffix.Match(*(suffixList.GetElement(i))))
 			{
 			// write the file to parse
 
 			output << "\t@echo ";
-			(prefixList.NthElement(i))->Print(output);
-			(targetList.NthElement(i))->Print(output);
-			(suffixList.NthElement(i))->Print(output);
+			(prefixList.GetElement(i))->Print(output);
+			(targetList.GetElement(i))->Print(output);
+			(suffixList.GetElement(i))->Print(output);
 			output << " >> " << kDependInputFile << '\n';
 
 			// write the string that should be used in the Makefile
 
 			output << "\t@echo ";
-			PrintForMake(output, *(outPrefixList.NthElement(i)));
-			PrintForMake(output, *(targetList.NthElement(i)));
-			PrintForMake(output, *(outSuffixList.NthElement(i)));
+			PrintForMake(output, *(outPrefixList.GetElement(i)));
+			PrintForMake(output, *(targetList.GetElement(i)));
+			PrintForMake(output, *(outSuffixList.GetElement(i)));
 			output << " >> " << kDependInputFile << '\n';
 			}
 		}
@@ -729,21 +729,21 @@ main
 	{
 	for (JIndex i=1; i<=targetCount; i++)
 		{
-		if (!noParseFileSuffix.Match(*(suffixList.NthElement(i))))
+		if (!noParseFileSuffix.Match(*(suffixList.GetElement(i))))
 			{
 			// write the file to parse
 
 			output << ' ';
-			(prefixList.NthElement(i))->Print(output);
-			(targetList.NthElement(i))->Print(output);
-			(suffixList.NthElement(i))->Print(output);
+			(prefixList.GetElement(i))->Print(output);
+			(targetList.GetElement(i))->Print(output);
+			(suffixList.GetElement(i))->Print(output);
 
 			// write the string that should be used in the Makefile
 
 			output << ' ';
-			PrintForMake(output, *(outPrefixList.NthElement(i)));
-			PrintForMake(output, *(targetList.NthElement(i)));
-			PrintForMake(output, *(outSuffixList.NthElement(i)));
+			PrintForMake(output, *(outPrefixList.GetElement(i)));
+			PrintForMake(output, *(targetList.GetElement(i)));
+			PrintForMake(output, *(outSuffixList.GetElement(i)));
 			}
 		}
 	}
@@ -837,7 +837,7 @@ ShouldMakeTarget
 	const JSize count = list.GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		if (target == *(list.NthElement(i)))
+		if (target == *(list.GetElement(i)))
 			{
 			return kJTrue;
 			}
@@ -944,9 +944,9 @@ GetOutputSuffix
 
 	for (JIndex i=1; i<=count; i++)
 		{
-		if (inputSuffix == *(suffixMapIn.NthElement(i)))
+		if (inputSuffix == *(suffixMapIn.GetElement(i)))
 			{
-			return *(suffixMapOut.NthElement(i));
+			return *(suffixMapOut.GetElement(i));
 			}
 		}
 
@@ -1276,7 +1276,7 @@ PickTargets
 			}
 		else
 			{
-			JString* targetName = jnew JString(*(all.NthElement(choice)));
+			JString* targetName = jnew JString(*(all.GetElement(choice)));
 			assert( targetName != NULL );
 
 			list->Append(targetName);
@@ -1684,7 +1684,7 @@ PrintDependencies
 		for (JIndex i=1; i<=depCount; i++)
 			{
 			output << ' ';
-			(depList.NthElement(i))->Print(output);
+			(depList.GetElement(i))->Print(output);
 			}
 
 		output << "\n\n";
@@ -1732,7 +1732,7 @@ AddDependency
 		const JSize count = (info.depList)->GetElementCount();
 		for (JIndex i=1; i<=count; i++)
 			{
-			const JString* includedFileName = (info.depList)->NthElement(i);
+			const JString* includedFileName = (info.depList)->GetElement(i);
 
 			#if ! ALLOW_INCLUDE_LOOPS
 
@@ -1942,7 +1942,7 @@ FindFile
 	const JSize count = pathList.GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		const JString* path = pathList.NthElement(i);
+		const JString* path = pathList.GetElement(i);
 		*fullName           = JCombinePathAndName(*path, fileName);
 		if (JFileExists(*fullName))
 			{

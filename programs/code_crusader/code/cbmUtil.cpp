@@ -932,7 +932,7 @@ CBMGetSuffixList
 	const JSize count = list->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		JString* suffix = list->NthElement(i);
+		JString* suffix = list->GetElement(i);
 		if (suffix->GetFirstCharacter() != '.')
 			{
 			suffix->PrependCharacter('.');
@@ -963,7 +963,7 @@ CBMSetStringList
 			{
 			text += " ";
 			}
-		text += *(list.NthElement(i));
+		text += *(list.GetElement(i));
 		}
 
 	inputField->SetText(text);

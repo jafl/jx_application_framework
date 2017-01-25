@@ -118,7 +118,7 @@ JXCardFile::RemoveCard
 	const JIndex index
 	)
 {
-	JXWidgetSet* card = dynamic_cast<JXWidgetSet*>(itsCards->NthElement(index));
+	JXWidgetSet* card = dynamic_cast<JXWidgetSet*>(itsCards->GetElement(index));
 	assert( card != NULL );
 
 	itsCards->RemoveElement(index);
@@ -153,7 +153,7 @@ JXCardFile::KillFocusOnCurrentCard()
 	if (itsCurrCardIndex > 0)
 		{
 		JXWindow* window      = GetWindow();
-		JXContainer* currCard = itsCards->NthElement(itsCurrCardIndex);
+		JXContainer* currCard = itsCards->GetElement(itsCurrCardIndex);
 
 		JXWidget* widget;
 		if (window->GetFocusWidget(&widget) &&
@@ -208,7 +208,7 @@ JXCardFile::ShowCard
 	JBoolean hadFocus = kJFalse;
 	if (itsCurrCardIndex > 0)
 		{
-		JXContainer* currCard = itsCards->NthElement(itsCurrCardIndex);
+		JXContainer* currCard = itsCards->GetElement(itsCurrCardIndex);
 
 		JXWidget* widget;
 		if (window->GetFocusWidget(&widget) &&
@@ -230,7 +230,7 @@ JXCardFile::ShowCard
 	// Show the requested card and focus to the first widget on it.
 
 	itsCurrCardIndex      = index;
-	JXContainer* currCard = itsCards->NthElement(itsCurrCardIndex);
+	JXContainer* currCard = itsCards->GetElement(itsCurrCardIndex);
 
 	currCard->Show();
 	if (hadFocus)

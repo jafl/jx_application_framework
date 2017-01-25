@@ -176,11 +176,11 @@ JTEST(Exercise)
 
 		for (JIndex j=1; j<=2; j++)
 			{
-			JSubsetIterator iter = (sampleList.NthElement(j))->NewIterator();
+			JSubsetIterator iter = (sampleList.GetElement(j))->NewIterator();
 			while (iter.Next(&index))
 				{
 				hist[j-1]->IncrementCount(index, 1);
-				assert( !(sampleList.NthElement(3-j))->Contains(index) );
+				assert( !(sampleList.GetElement(3-j))->Contains(index) );
 				}
 			}
 		}
@@ -204,11 +204,11 @@ JTEST(Exercise)
 
 		for (JIndex j=1; j<=2; j++)
 			{
-			JSubsetIterator iter = (sampleList.NthElement(j))->NewIterator();
+			JSubsetIterator iter = (sampleList.GetElement(j))->NewIterator();
 			while (iter.Next(&index))
 				{
 				hist[j-1]->IncrementCount(index, 1);
-				assert( !(sampleList.NthElement(3-j))->Contains(index) );
+				assert( !(sampleList.GetElement(3-j))->Contains(index) );
 				}
 			}
 		}

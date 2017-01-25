@@ -99,7 +99,7 @@ GDBGetStackArguments::HandleSuccess
 		const JSize count = argList.GetElementCount();
 		for (JIndex i=1; i<=count; i++)
 			{
-			JStringPtrMap<JString>* arg = argList.NthElement(i);
+			JStringPtrMap<JString>* arg = argList.GetElement(i);
 			JString *name, *value;
 			if (!arg->GetElement("name", &name) ||
 				!arg->GetElement("value", &value))

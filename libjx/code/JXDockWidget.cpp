@@ -95,7 +95,7 @@ JXDockWidget::~JXDockWidget()
 		const JSize count = itsWindowList->GetElementCount();
 		for (JIndex i=1; i<=count; i++)
 			{
-			JXWindow* w = itsWindowList->NthElement(i);
+			JXWindow* w = itsWindowList->GetElement(i);
 			StopListening(w);
 			w->Undock();
 			}
@@ -109,7 +109,7 @@ JXDockWidget::~JXDockWidget()
 		const JSize count = itsWindowList->GetElementCount();
 		for (JIndex i=1; i<=count; i++)
 			{
-			JXWindow* w = itsWindowList->NthElement(i);
+			JXWindow* w = itsWindowList->GetElement(i);
 			StopListening(w);
 			w->Close();
 			}
@@ -241,7 +241,7 @@ JXDockWidget::GetTabInsertionIndex
 			}
 
 		const JCharacter* t =
-			JXFileDocument::SkipNeedsSavePrefix((itsWindowList->NthElement(i))->GetTitle());
+			JXFileDocument::SkipNeedsSavePrefix((itsWindowList->GetElement(i))->GetTitle());
 		if (JString::Compare(title, t, kJFalse) < 0)
 			{
 			index = i;
@@ -273,7 +273,7 @@ JXDockWidget::TransferAll
 		const JSize count = itsWindowList->GetElementCount();
 		for (JIndex i=count; i>=1; i--)
 			{
-			JXWindow* w = itsWindowList->NthElement(i);
+			JXWindow* w = itsWindowList->GetElement(i);
 			if (!target->Dock(w))
 				{
 				success = kJFalse;
@@ -299,7 +299,7 @@ JXDockWidget::UndockAll()
 			{
 			itsTabGroup->DeleteTab(1);
 
-			JXWindow* w = itsWindowList->NthElement(i);
+			JXWindow* w = itsWindowList->GetElement(i);
 			StopListening(w);
 			w->Undock();
 			}
@@ -328,7 +328,7 @@ JXDockWidget::CloseAll()
 		const JSize count = itsWindowList->GetElementCount();
 		for (JIndex i=count; i>=1; i--)
 			{
-			JXWindow* w = itsWindowList->NthElement(i);
+			JXWindow* w = itsWindowList->GetElement(i);
 			StopListening(w);
 
 			Window xWindow = w->GetXWindow();
@@ -605,7 +605,7 @@ JXDockWidget::HandleDNDLeave()
 		const JSize count = itsWindowList->GetElementCount();
 		for (JIndex i=1; i<=count; i++)
 			{
-			(itsWindowList->NthElement(i))->Refresh();
+			(itsWindowList->GetElement(i))->Refresh();
 			}
 		}
 }
@@ -654,7 +654,7 @@ JXDockWidget::BoundsMoved
 		const JSize count = itsWindowList->GetElementCount();
 		for (JIndex i=1; i<=count; i++)
 			{
-			(itsWindowList->NthElement(i))->UndockedMove(dx, dy);
+			(itsWindowList->GetElement(i))->UndockedMove(dx, dy);
 			}
 		}
 }
@@ -683,7 +683,7 @@ JXDockWidget::BoundsResized
 		const JSize count = itsWindowList->GetElementCount();
 		for (JIndex i=1; i<=count; i++)
 			{
-			(itsWindowList->NthElement(i))->UndockedSetSize(boundsG.width(), boundsG.height());
+			(itsWindowList->GetElement(i))->UndockedSetSize(boundsG.width(), boundsG.height());
 			}
 		}
 }
@@ -767,7 +767,7 @@ JXDockWidget::Receive
 		JIndex index;
 		if (info->GetCardIndex(&index))
 			{
-			JXWindow* w = itsWindowList->NthElement(index);
+			JXWindow* w = itsWindowList->GetElement(index);
 			(w->GetDirector())->Activate();
 			}
 		}
@@ -821,7 +821,7 @@ JXDockWidget::FindWindow
 		const JSize count = itsWindowList->GetElementCount();
 		for (JIndex i=1; i<=count; i++)
 			{
-			JXWindow* w = itsWindowList->NthElement(i);
+			JXWindow* w = itsWindowList->GetElement(i);
 			if (w == sender)
 				{
 				*window = w;
@@ -852,7 +852,7 @@ JXDockWidget::RemoveWindow
 		const JSize count = itsWindowList->GetElementCount();
 		for (JIndex i=1; i<=count; i++)
 			{
-			if (itsWindowList->NthElement(i) == sender)
+			if (itsWindowList->GetElement(i) == sender)
 				{
 				itsTabGroup->DeleteTab(i);
 
@@ -899,7 +899,7 @@ JXDockWidget::HasWindows()
 		const JSize count = itsWindowList->GetElementCount();
 		for (JIndex i=1; i<=count; i++)
 			{
-			if ((itsWindowList->NthElement(i))->IsVisible())
+			if ((itsWindowList->GetElement(i))->IsVisible())
 				{
 				return kJTrue;
 				}
@@ -973,7 +973,7 @@ JXDockWidget::UpdateMinSize()
 		const JSize count = itsWindowList->GetElementCount();
 		for (JIndex i=1; i<=count; i++)
 			{
-			const JPoint pt = (itsWindowList->NthElement(i))->GetMinSize();
+			const JPoint pt = (itsWindowList->GetElement(i))->GetMinSize();
 			itsMinSize.x    = JMax(pt.x, itsMinSize.x);
 			itsMinSize.y    = JMax(pt.y, itsMinSize.y);
 			}

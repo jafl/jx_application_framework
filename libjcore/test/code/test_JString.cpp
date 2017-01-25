@@ -661,38 +661,38 @@ JTEST(Split)
 
 	s.Split(separator, &list);
 	JAssertEqual(4, list.GetElementCount());
-	JAssertStringsEqual("", *list.NthElement(1));
-	JAssertStringsEqual("foo", *list.NthElement(2));
-	JAssertStringsEqual("bar", *list.NthElement(3));
-	JAssertStringsEqual("baz", *list.NthElement(4));
+	JAssertStringsEqual("", *list.GetElement(1));
+	JAssertStringsEqual("foo", *list.GetElement(2));
+	JAssertStringsEqual("bar", *list.GetElement(3));
+	JAssertStringsEqual("baz", *list.GetElement(4));
 
 	separator = ",";
 
 	s = "1,2,x,z,";
 	s.Split(separator, &list);
 	JAssertEqual(4, list.GetElementCount());
-	JAssertStringsEqual("1", *list.NthElement(1));
-	JAssertStringsEqual("2", *list.NthElement(2));
-	JAssertStringsEqual("x", *list.NthElement(3));
-	JAssertStringsEqual("z", *list.NthElement(4));
+	JAssertStringsEqual("1", *list.GetElement(1));
+	JAssertStringsEqual("2", *list.GetElement(2));
+	JAssertStringsEqual("x", *list.GetElement(3));
+	JAssertStringsEqual("z", *list.GetElement(4));
 
 	s = ",1,2,x,z";
 	s.Split(separator, &list);
 	JAssertEqual(5, list.GetElementCount());
-	JAssertStringsEqual("", *list.NthElement(1));
-	JAssertStringsEqual("1", *list.NthElement(2));
-	JAssertStringsEqual("2", *list.NthElement(3));
-	JAssertStringsEqual("x", *list.NthElement(4));
-	JAssertStringsEqual("z", *list.NthElement(5));
+	JAssertStringsEqual("", *list.GetElement(1));
+	JAssertStringsEqual("1", *list.GetElement(2));
+	JAssertStringsEqual("2", *list.GetElement(3));
+	JAssertStringsEqual("x", *list.GetElement(4));
+	JAssertStringsEqual("z", *list.GetElement(5));
 
 	s = "1,2,x,z,,";
 	s.Split(separator, &list);
 	JAssertEqual(5, list.GetElementCount());
-	JAssertStringsEqual("1", *list.NthElement(1));
-	JAssertStringsEqual("2", *list.NthElement(2));
-	JAssertStringsEqual("x", *list.NthElement(3));
-	JAssertStringsEqual("z", *list.NthElement(4));
-	JAssertStringsEqual("", *list.NthElement(5));
+	JAssertStringsEqual("1", *list.GetElement(1));
+	JAssertStringsEqual("2", *list.GetElement(2));
+	JAssertStringsEqual("x", *list.GetElement(3));
+	JAssertStringsEqual("z", *list.GetElement(4));
+	JAssertStringsEqual("", *list.GetElement(5));
 }
 
 #include <iomanip>

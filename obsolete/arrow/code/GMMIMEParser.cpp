@@ -719,14 +719,14 @@ GMMIMEParser::ParseContentType
 	JSize count = strings.GetElementCount();
 	for (JIndex i = 1; i <= count; i += 2)
 		{
-		JString* str	= strings.NthElement(i);
+		JString* str	= strings.GetElement(i);
 		if (type == kTextType)
 			{
 			if (*str == "charset")
 				{
 				if (strings.IndexValid(i+1))
 					{
-					str	= strings.NthElement(i+1);
+					str	= strings.GetElement(i+1);
 					header->SetCharSet(*str);
 					}
 				}
@@ -737,7 +737,7 @@ GMMIMEParser::ParseContentType
 				{
 				if (strings.IndexValid(i+1))
 					{
-					str	= strings.NthElement(i+1);
+					str	= strings.GetElement(i+1);
 					header->SetBoundary(*str);
 					}
 				}
@@ -750,7 +750,7 @@ GMMIMEParser::ParseContentType
 				{
 				if (strings.IndexValid(i+1))
 					{
-					str	= strings.NthElement(i+1);
+					str	= strings.GetElement(i+1);
 					if (str->LocateLastSubstring("/", &findex))
 						{
 						str->RemoveSubstring(1, findex);
@@ -804,11 +804,11 @@ GMMIMEParser::ParseContentDisposition
 	JSize count = strings.GetElementCount();
 	for (JIndex i = 1; i <= count; i += 2)
 		{
-		JString* str = strings.NthElement(i);
+		JString* str = strings.GetElement(i);
 		if ((*str == "filename") &&
 			(strings.IndexValid(i+1)))
 			{
-			str	= strings.NthElement(i+1);
+			str	= strings.GetElement(i+1);
 			if (str->LocateLastSubstring("/", &findex))
 				{
 				str->RemoveSubstring(1, findex);

@@ -61,7 +61,7 @@ JXMDIServer::PreprocessArgList
 	const JSize count = argList->GetElementCount();
 	for (JIndex i=2; i<=count; i++)
 		{
-		if (*(argList->NthElement(i)) == JMDIServer::kQuitOptionName)
+		if (*(argList->GetElement(i)) == JMDIServer::kQuitOptionName)
 			{
 			(JXGetApplication())->Quit();
 			argList->CleanOut();	// don't invoke HandleMDIRequest()

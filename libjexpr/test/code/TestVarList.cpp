@@ -195,7 +195,7 @@ TestVarList::GetVariableName
 	)
 	const
 {
-	return *(itsNumericNames->NthElement(index));
+	return *(itsNumericNames->GetElement(index));
 }
 
 void
@@ -207,7 +207,7 @@ TestVarList::GetVariableName
 	)
 	const
 {
-	const JString* fullName = itsNumericNames->NthElement(index);
+	const JString* fullName = itsNumericNames->GetElement(index);
 	const JSize fullLen     = fullName->GetLength();
 
 	JIndex subStart;
@@ -266,7 +266,7 @@ TestVarList::IsArray
 	)
 	const
 {
-	return JConvertToBoolean( itsNumericArrays->NthElement(index) != NULL );
+	return JConvertToBoolean( itsNumericArrays->GetElement(index) != NULL );
 }
 
 /******************************************************************************
@@ -285,7 +285,7 @@ TestVarList::ArrayIndexValid
 	return JConvertToBoolean(
 			elementIndex == 1 ||
 			(IsArray(variableIndex) &&
-			 (itsNumericArrays->NthElement(variableIndex))->IndexValid(elementIndex)));
+			 (itsNumericArrays->GetElement(variableIndex))->IndexValid(elementIndex)));
 }
 
 /******************************************************************************
@@ -333,7 +333,7 @@ TestVarList::GetNumericValue
 	)
 	const
 {
-	TVLNArray* values = itsNumericArrays->NthElement(variableIndex);
+	TVLNArray* values = itsNumericArrays->GetElement(variableIndex);
 	if (values == NULL && elementIndex == 1)
 		{
 		*value = itsNumericValues->GetElement(variableIndex);

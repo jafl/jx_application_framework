@@ -471,9 +471,9 @@ GNBTreeDir::OpenNote
 	const JSize count = itsNoteDirs->GetElementCount();
 	for (JSize i = 1; i <= count; i++)
 		{
-		if (itsNoteDirs->NthElement(i)->GetID() == id)
+		if (itsNoteDirs->GetElement(i)->GetID() == id)
 			{
-			itsNoteDirs->NthElement(i)->Activate();
+			itsNoteDirs->GetElement(i)->Activate();
 			return;
 			}
 		}
@@ -498,9 +498,9 @@ GNBTreeDir::CloseNote
 	const JSize count = itsNoteDirs->GetElementCount();
 	for (JSize i = 1; i <= count; i++)
 		{
-		if (itsNoteDirs->NthElement(i)->GetID() == id)
+		if (itsNoteDirs->GetElement(i)->GetID() == id)
 			{
-			itsNoteDirs->NthElement(i)->Close();
+			itsNoteDirs->GetElement(i)->Close();
 			return;
 			}
 		}
@@ -536,9 +536,9 @@ GNBTreeDir::DeleteFileElement
 	const JSize count = itsNoteDirs->GetElementCount();
 	for (JSize i = 1; i <= count; i++)
 		{
-		if (itsNoteDirs->NthElement(i)->GetID() == id)
+		if (itsNoteDirs->GetElement(i)->GetID() == id)
 			{
-			itsNoteDirs->NthElement(i)->Close();
+			itsNoteDirs->GetElement(i)->Close();
 			return;
 			}
 		}
@@ -559,7 +559,7 @@ GNBTreeDir::SaveOpenWindows()
 	os << count << ' ';
 	for (JSize i = 1; i <= count; i++)
 		{
-		JFAID_t id = itsNoteDirs->NthElement(i)->GetID();
+		JFAID_t id = itsNoteDirs->GetElement(i)->GetID();
 		os << id << ' ';
 		}
 

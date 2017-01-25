@@ -319,7 +319,7 @@ SyGViewManPageDialog::ViewManPages
 		for (JIndex i=1; i<=count; i++)
 			{
 			cmd += kDefaultViewArg;
-			cmd += JPrepArgForExec(*(list.NthElement(i)));
+			cmd += JPrepArgForExec(*(list.GetElement(i)));
 			}
 
 		JSimpleProcess::Create(cmd, kJTrue);
@@ -329,7 +329,7 @@ SyGViewManPageDialog::ViewManPages
 		const JSize count = list.GetElementCount();
 		for (JIndex i=1; i<=count; i++)
 			{
-			ViewManPage(*(list.NthElement(i)));
+			ViewManPage(*(list.GetElement(i)));
 			}
 		}
 }

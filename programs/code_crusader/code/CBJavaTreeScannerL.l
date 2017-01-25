@@ -265,7 +265,7 @@ implements{WS} {
 			const JSize count = importList.GetElementCount();
 			for (JIndex i=1; i<=count; i++)
 				{
-				const JString* c = importList.NthElement(i);
+				const JString* c = importList.GetElement(i);
 				if (c->EndsWith(s))
 					{
 					JString s1 = *c;

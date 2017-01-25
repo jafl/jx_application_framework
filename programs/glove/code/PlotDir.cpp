@@ -247,7 +247,7 @@ PlotDir::~PlotDir()
 	jdelete itsCurveStats;
 //	for (JSize i = itsDiffDirs->GetElementCount(); i >= 1; i++)
 //		{
-//		itsDiffDirs->NthElement(i)->Close();
+//		itsDiffDirs->GetElement(i)->Close();
 //		}
 	jdelete itsDiffDirs;
 	itsSessionDir->Close();
@@ -360,9 +360,9 @@ PlotDir::Receive
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
-		PlotDir* dir = itsDiffDirs->NthElement(selection->GetIndex());
+		PlotDir* dir = itsDiffDirs->GetElement(selection->GetIndex());
 		dir->Activate();
-//		(itsDiffDirs->NthElement(selection->GetIndex()))->Activate();
+//		(itsDiffDirs->GetElement(selection->GetIndex()))->Activate();
 		}
 
 
@@ -517,8 +517,8 @@ PlotDir::WriteData
 	os << diffCount << ' ';
 	for (JIndex i = 1; i <= diffCount; i++)
 		{
-		(itsDiffDirs->NthElement(i))->WriteSetup(os);
-		(itsDiffDirs->NthElement(i))->WriteData(os, data);
+		(itsDiffDirs->GetElement(i))->WriteSetup(os);
+		(itsDiffDirs->GetElement(i))->WriteData(os, data);
 		}
 	itsSessionDir->WriteData(os);
 }
@@ -717,8 +717,8 @@ PlotDir::ReadData
 		assert(diffCount == itsDiffDirs->GetElementCount());
 		for (JIndex i = 1; i <= diffCount; i++)
 			{
-			(itsDiffDirs->NthElement(i))->ReadSetup(is, gloveVersion);
-			(itsDiffDirs->NthElement(i))->ReadData(is, data, gloveVersion);
+			(itsDiffDirs->GetElement(i))->ReadSetup(is, gloveVersion);
+			(itsDiffDirs->GetElement(i))->ReadData(is, data, gloveVersion);
 			}
 
 		itsSessionDir->ReadData(is);
@@ -1147,7 +1147,7 @@ PlotDir::RemoveFit
 {
 	CurveStats stats = itsCurveStats->GetElement(index);
 	itsFits->RemoveElement(stats.fitNumber);
-	PlotDir* dir = itsDiffDirs->NthElement(stats.fitNumber);
+	PlotDir* dir = itsDiffDirs->GetElement(stats.fitNumber);
 	dir->Close();
 	itsDiffDirs->RemoveElement(stats.fitNumber);
 	const JSize count = itsCurveStats->GetElementCount();

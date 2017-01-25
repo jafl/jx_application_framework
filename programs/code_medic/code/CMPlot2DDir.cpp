@@ -669,7 +669,7 @@ CMPlot2DDir::Update
 		CMPlot2DCommand* cmd;
 		if (itsUpdateCmdList->IndexValid(i))
 			{
-			cmd = itsUpdateCmdList->NthElement(i);
+			cmd = itsUpdateCmdList->GetElement(i);
 			}
 		else
 			{

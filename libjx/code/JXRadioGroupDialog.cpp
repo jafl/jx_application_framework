@@ -137,7 +137,7 @@ JIndex i;
 	for (i=1; i<=actionCount; i++)
 		{
 		JXTextRadioButton* button =
-			jnew JXTextRadioButton(i, *(choiceList.NthElement(i)), itsRG,
+			jnew JXTextRadioButton(i, *(choiceList.GetElement(i)), itsRG,
 								  JXWidget::kFixedLeft, JXWidget::kFixedTop,
 								  kRGHLMarginWidth, kItemVDelta + (i-1) * kItemVSeparation,
 								  10,kTextHeight);
@@ -145,7 +145,7 @@ JIndex i;
 
 		if (shortcutList != NULL)
 			{
-			button->SetShortcuts(*(shortcutList->NthElement(i)));
+			button->SetShortcuts(*(shortcutList->GetElement(i)));
 			}
 
 		buttonList.Append(button);
@@ -156,7 +156,7 @@ JIndex i;
 
 	for (i=1; i<=actionCount; i++)
 		{
-		(buttonList.NthElement(i))->SetSize(wmin, kTextHeight);
+		(buttonList.GetElement(i))->SetSize(wmin, kTextHeight);
 		}
 
 	wmin += kRGHLMarginWidth + kRGHRMarginWidth;

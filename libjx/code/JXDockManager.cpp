@@ -182,7 +182,7 @@ JXDockManager::FindDock
 	const JSize count = itsDockList->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		if ((itsDockList->NthElement(i))->FindDock(id, dock))
+		if ((itsDockList->GetElement(i))->FindDock(id, dock))
 			{
 			return kJTrue;
 			}
@@ -210,7 +210,7 @@ JXDockManager::CloseAll()
 	const JSize count = list.GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		(list.NthElement(i))->Close();
+		(list.GetElement(i))->Close();
 		}
 }
 
@@ -314,7 +314,7 @@ JXDockManager::DirectorClosed
 	const JSize count = itsDockList->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		JXDockDirector* dock = itsDockList->NthElement(i);
+		JXDockDirector* dock = itsDockList->GetElement(i);
 		if (theDirector == dock)
 			{
 			itsDockList->RemoveElement(i);
@@ -409,7 +409,7 @@ JXDockManager::WriteSetup
 
 	for (JIndex i=1; i<=count; i++)
 		{
-		(itsDockList->NthElement(i))->StreamOut(output);
+		(itsDockList->GetElement(i))->StreamOut(output);
 		}
 
 	JStringMapCursor<JIndex> cursor(itsWindowTypeMap);

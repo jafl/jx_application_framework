@@ -179,7 +179,7 @@ CMEditCommandsDialog::SetString
 	const JString&	str
 	)
 {
-	*(itsCommands->NthElement(index)) = str;
+	*(itsCommands->GetElement(index)) = str;
 }
 
 /******************************************************************************

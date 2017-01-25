@@ -71,7 +71,7 @@ SVNMDIServer::HandleMDIRequest
 	JBoolean failedRefresh = kJFalse;
 	for (JIndex i=2; i<=argCount; i++)
 		{
-		const JString& arg = *(argList.NthElement(i));
+		const JString& arg = *(argList.GetElement(i));
 		if (arg == "--status")
 			{
 			action = kStatus;

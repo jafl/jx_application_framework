@@ -139,7 +139,7 @@ CBPathTable::AddDirectories
 	const JSize count = list.GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		const JString* name = list.NthElement(i);
+		const JString* name = list.GetElement(i);
 		if (JDirectoryExists(*name))
 			{
 			itsData->AppendRows(1);

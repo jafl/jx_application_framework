@@ -150,7 +150,7 @@ SCCircuit::SCCircuit
 	const JSize nodeCount = (source.itsNodeNames)->GetElementCount();
 	for (JIndex i=1; i<=nodeCount; i++)
 		{
-		const JString* origName = (source.itsNodeNames)->NthElement(i);
+		const JString* origName = (source.itsNodeNames)->GetElement(i);
 		itsNodeNames->Append(*origName);
 		}
 	}
@@ -165,7 +165,7 @@ SCCircuit::SCCircuit
 	const JSize compCount = (source.itsComponents)->GetElementCount();
 	for (JIndex i=1; i<=compCount; i++)
 		{
-		const SCComponent* origComp = (source.itsComponents)->NthElement(i);
+		const SCComponent* origComp = (source.itsComponents)->GetElement(i);
 		SCComponent* newComp = origComp->Copy(this);
 		itsComponents->Append(newComp);
 		}
@@ -261,7 +261,7 @@ JIndex i;
 
 	for (i=1; i<=nullCount; i++)
 		{
-		const JString* nullFn = nullList.NthElement(i);
+		const JString* nullFn = nullList.GetElement(i);
 
 		// null signals
 
@@ -961,11 +961,11 @@ SCCircuit::Evaluate
 	{
 	for (JIndex i=1; i<=auxEqCount; i++)
 		{
-		JString* lhs = new JString(*(auxLHSList.NthElement(i)));
+		JString* lhs = new JString(*(auxLHSList.GetElement(i)));
 		assert( lhs != NULL );
 		lhsList.Append(lhs);
 
-		JString* rhs = new JString(*(auxRHSList.NthElement(i)));
+		JString* rhs = new JString(*(auxRHSList.GetElement(i)));
 		assert( rhs != NULL );
 		rhsList.Append(rhs);
 		}
@@ -976,7 +976,7 @@ SCCircuit::Evaluate
 	const JSize nodeCount = itsNodeNames->GetElementCount();
 	for (JIndex i=1; i<=nodeCount; i++)
 		{
-		solveVars.Append(*(itsNodeNames->NthElement(i)));
+		solveVars.Append(*(itsNodeNames->GetElement(i)));
 		}
 	}
 
@@ -985,7 +985,7 @@ SCCircuit::Evaluate
 	const JSize varCount = extraVars.GetElementCount();
 	for (JIndex i=1; i<=varCount; i++)
 		{
-		solveVars.Append(*(extraVars.NthElement(i)));
+		solveVars.Append(*(extraVars.GetElement(i)));
 		}
 	}
 
@@ -1027,13 +1027,13 @@ JIndex i;
 	const JSize nodeCount = itsNodeNames->GetElementCount();
 	for (i=1; i<=nodeCount; i++)
 		{
-		varList->AddVariable(*(itsNodeNames->NthElement(i)), 0.0, kJFalse);
+		varList->AddVariable(*(itsNodeNames->GetElement(i)), 0.0, kJFalse);
 		}
 
 	const JSize compCount = itsComponents->GetElementCount();
 	for (i=1; i<=compCount; i++)
 		{
-		SCLinearComp* comp = (itsComponents->NthElement(i))->CastToSCLinearComp();
+		SCLinearComp* comp = (itsComponents->GetElement(i))->CastToSCLinearComp();
 		assert( comp != NULL );
 		comp->GetParserVariables(varList);
 		}
@@ -1121,7 +1121,7 @@ SCCircuit::RemoveComponent
 			}
 		}
 
-	*comp = itsComponents->NthElement(index);
+	*comp = itsComponents->GetElement(index);
 	itsComponents->RemoveElement(index);
 	return kJTrue;
 }
@@ -1215,7 +1215,7 @@ SCCircuit::IsLinear
 	)
 	const
 {
-	SCComponent* comp = itsComponents->NthElement(compIndex);
+	SCComponent* comp = itsComponents->GetElement(compIndex);
 	return JConvertToBoolean( comp->CastToSCLinearComp() != NULL );
 }
 
@@ -1451,7 +1451,7 @@ SCCircuit::GetNodeIndexForNetlist
 	)
 	const
 {
-	JString* nodeName = itsNodeNames->NthElement(node);
+	JString* nodeName = itsNodeNames->GetElement(node);
 	const JString spiceIndex = 
 		nodeName->GetSubstring(kNodeNamePrefixLength+1, nodeName->GetLength());
 	JIndex nodeIndex;
@@ -1543,7 +1543,7 @@ SCCircuit::GenerateEquations
 
 		for (JIndex j=1; j<=compCount; j++)
 			{
-			SCLinearComp* comp = (itsComponents->NthElement(j))->CastToSCLinearComp();
+			SCLinearComp* comp = (itsComponents->GetElement(j))->CastToSCLinearComp();
 			assert( comp != NULL );
 
 			if (comp->GetNegativeNode() == i)			// current into junction
@@ -1578,7 +1578,7 @@ SCCircuit::GenerateEquations
 	{
 	for (JIndex i=1; i<=compCount; i++)
 		{
-		SCLinearComp* comp = (itsComponents->NthElement(i))->CastToSCLinearComp();
+		SCLinearComp* comp = (itsComponents->GetElement(i))->CastToSCLinearComp();
 		assert( comp != NULL );
 
 		comp->GetAuxEquations(lhsList, rhsList, varList);
@@ -1613,7 +1613,7 @@ JIndex i;
 
 	for (i=1; i<=nodeCount; i++)
 		{
-		output << ' ' << *((circuit.itsNodeNames)->NthElement(i));
+		output << ' ' << *((circuit.itsNodeNames)->GetElement(i));
 		}
 
 	const JSize componentCount = (circuit.itsComponents)->GetElementCount();
@@ -1622,7 +1622,7 @@ JIndex i;
 	for (i=1; i<=componentCount; i++)
 		{
 		output << ' ';
-		((circuit.itsComponents)->NthElement(i))->StreamOut(output);
+		((circuit.itsComponents)->GetElement(i))->StreamOut(output);
 		}
 
 	// allow chaining

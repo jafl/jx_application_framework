@@ -188,7 +188,7 @@ FitParmsDir::HandleFitMenu
 	assert ( index <= itsFits->GetElementCount());
 	itsCurrentIndex = index;
 	itsTable->Clear();
-	JFitBase* fit = itsFits->NthElement(index);
+	JFitBase* fit = itsFits->GetElement(index);
 	const JSize count = fit->GetParameterCount();
 	itsTable->Append("Function:", fit->GetFitFunctionString());
 	JSize i;
@@ -268,7 +268,7 @@ FitParmsDir::SendToSession
 {
 	assert ( index <= itsFits->GetElementCount());
 	GloveHistoryDir* dir = itsPlotDir->GetSessionDir();
-	JFitBase* fit = itsFits->NthElement(index);
+	JFitBase* fit = itsFits->GetElement(index);
 	const JSize count = fit->GetParameterCount();
 	JString str;
 	str = "Fit " + JString(index);

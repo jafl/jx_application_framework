@@ -84,7 +84,7 @@ GLFitManager::GetFitDescription
 	const
 {
 	assert(itsFitDescriptions->IndexValid(index));
-	return *(itsFitDescriptions->NthElement(index));
+	return *(itsFitDescriptions->GetElement(index));
 }
 
 GLFitDescription&
@@ -94,7 +94,7 @@ GLFitManager::GetFitDescription
 	)
 {
 	assert(itsFitDescriptions->IndexValid(index));
-	return *(itsFitDescriptions->NthElement(index));
+	return *(itsFitDescriptions->GetElement(index));
 }
 
 /******************************************************************************
@@ -213,7 +213,7 @@ GLFitManager::WritePrefs
 	JSize rCount		= 0;
 	for (JIndex i = 1; i <= count; i++)
 		{
-		GLFitDescription* fd	= itsFitDescriptions->NthElement(i);
+		GLFitDescription* fd	= itsFitDescriptions->GetElement(i);
 		if (fd->GetType() == GLFitDescription::kPolynomial ||
 			fd->GetType() == GLFitDescription::kNonLinear)
 			{
@@ -223,7 +223,7 @@ GLFitManager::WritePrefs
 	output << ' ' << rCount << ' ';
 	for (JIndex i = 1; i <= count; i++)
 		{
-		GLFitDescription* fd	= itsFitDescriptions->NthElement(i);
+		GLFitDescription* fd	= itsFitDescriptions->GetElement(i);
 		if (fd->GetType() == GLFitDescription::kPolynomial ||
 			fd->GetType() == GLFitDescription::kNonLinear)
 			{
@@ -259,7 +259,7 @@ GLFitManager::InitializeList()
 	const JSize count	= paths.GetElementCount();
 	for (JIndex i = 1; i <= count; i++)
 		{
-		const JString& path	= *(paths.NthElement(i));
+		const JString& path	= *(paths.GetElement(i));
 		JString fitPath	= JCombinePathAndName(path, kFitDlDirName);
 		JDirInfo* dir;
 		if (JDirInfo::Create(fitPath, &dir))
@@ -295,7 +295,7 @@ GLFitManager::FitIsRemovable
 	)
 {
 	assert(itsFitDescriptions->IndexValid(index));
-	GLFitDescription* fd	= itsFitDescriptions->NthElement(index);
+	GLFitDescription* fd	= itsFitDescriptions->GetElement(index);
 	if (fd->GetType() == GLFitDescription::kPolynomial ||
 		fd->GetType() == GLFitDescription::kNonLinear)
 		{

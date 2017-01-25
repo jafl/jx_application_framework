@@ -118,7 +118,7 @@ LLDBGetAssembly::HandleSuccess
 		const JSize count = addrList.GetElementCount();
 		for (JIndex i=1; i<count; i++)
 			{
-			JString* s = addrList.NthElement(i);
+			JString* s = addrList.GetElement(i);
 			JIndexRange r;
 			if (offsetPattern.Match(*s, &r))
 				{

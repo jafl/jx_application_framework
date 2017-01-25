@@ -85,7 +85,7 @@ CMEditCommandsDialog::GetString
 	)
 	const
 {
-	return *(itsCommands->NthElement(index));
+	return *(itsCommands->GetElement(index));
 }
 
 /******************************************************************************

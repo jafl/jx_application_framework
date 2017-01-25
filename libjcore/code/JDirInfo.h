@@ -348,7 +348,7 @@ JDirInfo::GetEntry
 	)
 	const
 {
-	return *(itsVisEntries->NthElement(index));
+	return *(itsVisEntries->GetElement(index));
 }
 
 /******************************************************************************

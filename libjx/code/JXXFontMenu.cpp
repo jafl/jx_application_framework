@@ -140,7 +140,7 @@ JXXFontMenu::BuildMenu
 	assert( count > 0 );
 	for (JIndex i=1; i<=count; i++)
 		{
-		const JString* fontName = fontNames.NthElement(i);
+		const JString* fontName = fontNames.GetElement(i);
 		AppendItem(*fontName, kRadioType);
 		SetItemFontName(i, *fontName);
 		}

@@ -217,13 +217,13 @@ CBDocumentManager::RefreshCVSStatus()
 	JIndex i;
 	for (i=1; i<=count; i++)
 		{
-		(itsProjectDocuments->NthElement(i))->RefreshCVSStatus();
+		(itsProjectDocuments->GetElement(i))->RefreshCVSStatus();
 		}
 
 	count = itsTextDocuments->GetElementCount();
 	for (i=1; i<=count; i++)
 		{
-		(itsTextDocuments->NthElement(i))->RefreshCVSStatus();
+		(itsTextDocuments->GetElement(i))->RefreshCVSStatus();
 		}
 }
 
@@ -353,7 +353,7 @@ CBDocumentManager::ProjectDocumentIsOpen
 	const JSize count = itsProjectDocuments->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		*doc = itsProjectDocuments->NthElement(i);
+		*doc = itsProjectDocuments->GetElement(i);
 
 		JBoolean onDisk;
 		const JString docName = (**doc).GetFullName(&onDisk);
@@ -379,7 +379,7 @@ CBDocumentManager::CloseProjectDocuments()
 	const JSize count = itsProjectDocuments->GetElementCount();
 	for (JIndex i=count; i>=1; i--)
 		{
-		CBProjectDocument* doc = itsProjectDocuments->NthElement(i);
+		CBProjectDocument* doc = itsProjectDocuments->GetElement(i);
 		if (!doc->Close())
 			{
 			break;
@@ -400,7 +400,7 @@ CBDocumentManager::UpdateSymbolDatabases()
 	const JSize count = itsProjectDocuments->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		(itsProjectDocuments->NthElement(i))->DelayUpdateSymbolDatabase();
+		(itsProjectDocuments->GetElement(i))->DelayUpdateSymbolDatabase();
 		}
 }
 
@@ -415,7 +415,7 @@ CBDocumentManager::CancelUpdateSymbolDatabases()
 	const JSize count = itsProjectDocuments->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		(itsProjectDocuments->NthElement(i))->CancelUpdateSymbolDatabase();
+		(itsProjectDocuments->GetElement(i))->CancelUpdateSymbolDatabase();
 		}
 }
 
@@ -782,7 +782,7 @@ CBDocumentManager::OpenSomething
 
 		for (JIndex i=1; i<=count; i++)
 			{
-			const JString* fileName = fileNameList.NthElement(i);
+			const JString* fileName = fileNameList.GetElement(i);
 			if (!fileName->IsEmpty())
 				{
 				OpenSomething(*fileName);
@@ -1058,7 +1058,7 @@ CBDocumentManager::SaveTextDocuments
 		const JSize count = itsTextDocuments->GetElementCount();
 		for (JIndex i=1; i<=count; i++)
 			{
-			CBTextDocument* doc = itsTextDocuments->NthElement(i);
+			CBTextDocument* doc = itsTextDocuments->GetElement(i);
 			if (CBIsExecOutput(doc->GetFileType()))
 				{
 				CBExecOutputDocument* execDoc =
@@ -1094,7 +1094,7 @@ CBDocumentManager::ReloadTextDocuments
 	const JSize count = itsTextDocuments->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		CBTextDocument* doc = itsTextDocuments->NthElement(i);
+		CBTextDocument* doc = itsTextDocuments->GetElement(i);
 		doc->RevertIfChangedByOthers(force);
 		}
 }
@@ -1116,7 +1116,7 @@ CBDocumentManager::CloseTextDocuments()
 		JIndex i=1;
 		while (i <= itsTextDocuments->GetElementCount())
 			{
-			CBTextDocument* doc = itsTextDocuments->NthElement(i);
+			CBTextDocument* doc = itsTextDocuments->GetElement(i);
 			if (CBIsExecOutput(doc->GetFileType()))
 				{
 				CBExecOutputDocument* execDoc =
@@ -1154,7 +1154,7 @@ CBDocumentManager::FileRenamed
 	const JSize count = itsProjectDocuments->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		itsProjectDocuments->NthElement(i)->
+		itsProjectDocuments->GetElement(i)->
 			GetFileTree()->GetProjectRoot()->
 				FileRenamed(origFullName, newFullName);
 		}
@@ -1178,7 +1178,7 @@ CBDocumentManager::StylerChanged
 
 	for (JIndex i=1; i<=count; i++)
 		{
-		(itsTextDocuments->NthElement(i))->StylerChanged(styler);
+		(itsTextDocuments->GetElement(i))->StylerChanged(styler);
 		pg.IncrementProgress();
 		}
 
@@ -1440,7 +1440,7 @@ JIndex i;
 	JString fullName;
 	for (i=1; i<=suffixCount; i++)
 		{
-		fullName = baseName + *(suffixList.NthElement(i));
+		fullName = baseName + *(suffixList.GetElement(i));
 		if (FileDocumentIsOpen(fullName, doc))
 			{
 			return kJTrue;
@@ -1454,10 +1454,10 @@ JIndex i;
 	const JSize docCount = itsTextDocuments->GetElementCount();
 	for (i=1; i<=suffixCount; i++)
 		{
-		name = base + *(suffixList.NthElement(i));
+		name = base + *(suffixList.GetElement(i));
 		for (JIndex j=1; j<=docCount; j++)
 			{
-			CBTextDocument* d = itsTextDocuments->NthElement(j);
+			CBTextDocument* d = itsTextDocuments->GetElement(j);
 			if (d->GetFileName() == name)
 				{
 				*doc = d;
@@ -1528,7 +1528,7 @@ CBDocumentManager::FindComplementFile
 	JBoolean found = kJFalse;
 	for (JIndex i=1; i<=suffixCount; i++)
 		{
-		*outputName = baseName + *(suffixList.NthElement(i));
+		*outputName = baseName + *(suffixList.GetElement(i));
 		if (JFileExists(*outputName))
 			{
 			found = kJTrue;
@@ -1635,7 +1635,7 @@ JIndex i;
 	JString searchName, newPath, newName;
 	for (i=1; i<=suffixCount; i++)
 		{
-		searchName = baseName + *(suffixList.NthElement(i));
+		searchName = baseName + *(suffixList.GetElement(i));
 		for (JIndex j=1; j<=dirCount; j++)
 			{
 			const DirMatchInfo info = dirList.GetElement(j);
@@ -1773,7 +1773,7 @@ CBDocumentManager::WriteForProject
 	for (JIndex i=1; i<=textCount; i++)
 		{
 		output << ' ';
-		CBTextDocument* doc = itsTextDocuments->NthElement(i);
+		CBTextDocument* doc = itsTextDocuments->GetElement(i);
 		doc->WriteForProject(output);
 		}
 }
@@ -1885,7 +1885,7 @@ CBDocumentManager::SaveState
 		JString fullName;
 		for (JIndex i=1; i<=projCount; i++)
 			{
-			fullName = (itsProjectDocuments->NthElement(i))->GetFullName(&onDisk);
+			fullName = (itsProjectDocuments->GetElement(i))->GetFullName(&onDisk);
 			output << ' ' << onDisk << ' ' << fullName;
 			}
 		}
@@ -1980,7 +1980,7 @@ CBDocumentManager::Receive
 
 			for (JIndex i=1; i<=count; i++)
 				{
-				(itsTextDocuments->NthElement(i))->UpdateFileType();
+				(itsTextDocuments->GetElement(i))->UpdateFileType();
 				pg.IncrementProgress();
 				}
 

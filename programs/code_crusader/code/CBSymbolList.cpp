@@ -488,7 +488,7 @@ CBSymbolList::PrepareContextNamespaceList
 		const JSize count = contextNamespace->GetElementCount();
 		for (JIndex i=count; i>=1; i--)
 			{
-			JString* cns1 = contextNamespace->NthElement(i);	// name::
+			JString* cns1 = contextNamespace->GetElement(i);	// name::
 			*cns1 += namespaceOp;
 
 			JString* cns2 = jnew JString(*cns1);					// ::name::
@@ -516,8 +516,8 @@ CBSymbolList::InContext
 	const JSize count = contextNamespace.GetElementCount();
 	for (JIndex i=1; i<=count; i+=2)
 		{
-		const JString* cns1 = contextNamespace.NthElement(i);
-		const JString* cns2 = contextNamespace.NthElement(i+1);
+		const JString* cns1 = contextNamespace.GetElement(i);
+		const JString* cns2 = contextNamespace.GetElement(i+1);
 		if (fullName.BeginsWith(*cns1, caseSensitive) ||
 			fullName.Contains(*cns2, caseSensitive))
 			{

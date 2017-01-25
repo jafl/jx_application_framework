@@ -222,7 +222,7 @@ GAddressBookMgr::AddAddressBook
 						{
 						item =
 							new GAddressItemTreeNode(GAddressItemTreeNode::kEMail,
-													 aEntry, *(list.NthElement(i)), kJFalse);
+													 aEntry, *(list.GetElement(i)), kJFalse);
 						assert(item != NULL);
 						}
 					list.DeleteAll();

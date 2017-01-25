@@ -76,7 +76,7 @@ War2Wiz::PlayerIndexValid
 	const
 {
 	return JI2B(itsPlayerList->IndexValid(index) &&
-				itsPlayerList->NthElement(index) != NULL);
+				itsPlayerList->GetElement(index) != NULL);
 }
 
 #endif

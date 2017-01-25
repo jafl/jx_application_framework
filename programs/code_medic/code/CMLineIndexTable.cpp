@@ -291,7 +291,7 @@ CMLineIndexTable::DrawBreakpoints
 		}
 	else
 		{
-		DrawBreakpoint(itsBPList->NthElement(itsBPDrawIndex), p, GetColormap(), r);
+		DrawBreakpoint(itsBPList->GetElement(itsBPDrawIndex), p, GetColormap(), r);
 		}
 }
 
@@ -351,13 +351,13 @@ CMLineIndexTable::FindNextBreakpoint
 
 	while (itsBPList->IndexValid(itsBPDrawIndex))
 		{
-		CMBreakpoint* bp = itsBPList->NthElement(itsBPDrawIndex);
+		CMBreakpoint* bp = itsBPList->GetElement(itsBPDrawIndex);
 		const JIndex i   = itsText->CRLineIndexToVisualLineIndex(GetBreakpointLineIndex(itsBPDrawIndex, bp));
 		if (i == rowIndex)
 			{
 			if (multiple != NULL && itsBPList->IndexValid(itsBPDrawIndex+1))
 				{
-				*multiple = BreakpointsOnSameLine(bp, itsBPList->NthElement(itsBPDrawIndex+1));
+				*multiple = BreakpointsOnSameLine(bp, itsBPList->GetElement(itsBPDrawIndex+1));
 				}
 			return kJTrue;
 			}
@@ -390,8 +390,8 @@ CMLineIndexTable::HasMultipleBreakpointsOnLine
 		}
 
 	return BreakpointsOnSameLine(
-		itsBPList->NthElement(bpIndex),
-		itsBPList->NthElement(bpIndex+1));
+		itsBPList->GetElement(bpIndex),
+		itsBPList->GetElement(bpIndex+1));
 }
 
 /******************************************************************************
@@ -471,11 +471,11 @@ CMLineIndexTable::AdjustBreakpoints
 		}
 	else if (modifiers.shift())
 		{
-		(itsBPList->NthElement(bpIndex))->ToggleEnabled();
+		(itsBPList->GetElement(bpIndex))->ToggleEnabled();
 		}
 	else
 		{
-		itsLink->RemoveBreakpoint(*(itsBPList->NthElement(bpIndex)));
+		itsLink->RemoveBreakpoint(*(itsBPList->GetElement(bpIndex)));
 		}
 }
 
@@ -529,7 +529,7 @@ CMLineIndexTable::OpenLineMenu
 	while (itsBPList->IndexValid(bpIndex))
 		{
 		itsLineMenuBPRange.last = bpIndex;
-		const CMBreakpoint* bp  = itsBPList->NthElement(bpIndex);
+		const CMBreakpoint* bp  = itsBPList->GetElement(bpIndex);
 
 		const JString bpIndexStr(bp->GetDebuggerIndex(), 0);
 		const JString ignoreCountStr(bp->GetIgnoreCount(), 0);
@@ -600,7 +600,7 @@ CMLineIndexTable::UpdateLineMenu()
 			itsLineMenu->SetItemEnable(offset + kIgnoreNextNCmd,
 				itsLink->GetFeature(CMLink::kSetBreakpointIgnoreCount));
 
-			const CMBreakpoint* bp = itsBPList->NthElement(i);
+			const CMBreakpoint* bp = itsBPList->GetElement(i);
 			if (!bp->HasCondition())
 				{
 				itsLineMenu->DisableItem(offset + kRemoveConditionCmd);
@@ -669,7 +669,7 @@ CMLineIndexTable::HandleLineMenu
 		{
 		for (JIndex i=itsLineMenuBPRange.first; i<=itsLineMenuBPRange.last; i++)
 			{
-			CMBreakpoint* bp = itsBPList->NthElement(i);
+			CMBreakpoint* bp = itsBPList->GetElement(i);
 			if (index == offset + kShowBreakpointInfoCmd)
 				{
 				(itsDirector->GetCommandDirector()->GetBreakpointsDir()->GetBreakpointTable())->Show(bp);

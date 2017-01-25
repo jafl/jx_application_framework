@@ -108,7 +108,7 @@ JIndex i;
 	const JSize count = shortcutList.GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		(shortcutList.NthElement(i))->Print(output);
+		(shortcutList.GetElement(i))->Print(output);
 		output << std::endl;
 		}
 

@@ -93,7 +93,7 @@ JXRadioGroup::SelectItem
 		const JSize count = itsButtons->GetElementCount();
 		for (JIndex i=1; i<=count; i++)
 			{
-			JXRadioButton* aButton = itsButtons->NthElement(i);
+			JXRadioButton* aButton = itsButtons->GetElement(i);
 			if (aButton->GetID() == id)
 				{
 				newButton = aButton;
@@ -149,7 +149,7 @@ JXRadioGroup::GetRadioButton
 	const JSize count = itsButtons->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		JXRadioButton* aButton = itsButtons->NthElement(i);
+		JXRadioButton* aButton = itsButtons->GetElement(i);
 		if (aButton->GetID() == id)
 			{
 			*rb = aButton;

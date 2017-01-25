@@ -184,7 +184,7 @@ J3DObject::RenderAll
 		const JSize count = itsChildList->GetElementCount();
 		for (JIndex i=1; i<=count; i++)
 			{
-			(itsChildList->NthElement(i))->RenderAll(p);
+			(itsChildList->GetElement(i))->RenderAll(p);
 			}
 		}
 

@@ -345,7 +345,7 @@ JIndex i;
 	const JSize dCount = itsDVarUserList->GetElementCount();
 	for (i=1; i<=dCount; i++)
 		{
-		if ((itsDVarUserList->NthElement(i))->UsesVariable(variableIndex))
+		if ((itsDVarUserList->GetElement(i))->UsesVariable(variableIndex))
 			{
 			return kJFalse;
 			}
@@ -354,7 +354,7 @@ JIndex i;
 	const JSize fCount = itsFVarUserList->GetElementCount();
 	for (i=1; i<=fCount; i++)
 		{
-		if ((itsFVarUserList->NthElement(i))->UsesVariable(variableIndex))
+		if ((itsFVarUserList->GetElement(i))->UsesVariable(variableIndex))
 			{
 			return kJFalse;
 			}
@@ -433,14 +433,14 @@ JIndex i;
 	const JSize dCount = itsDVarUserList->GetElementCount();
 	for (i=1; i<=dCount; i++)
 		{
-		(itsDVarUserList->NthElement(i))->
+		(itsDVarUserList->GetElement(i))->
 			VariablesInserted(info.GetFirstIndex(), info.GetCount());
 		}
 
 	const JSize fCount = itsFVarUserList->GetElementCount();
 	for (i=1; i<=fCount; i++)
 		{
-		(itsFVarUserList->NthElement(i))->
+		(itsFVarUserList->GetElement(i))->
 			VariablesInserted(info.GetFirstIndex(), info.GetCount());
 		}
 }
@@ -473,14 +473,14 @@ JIndex i;
 	const JSize dCount = itsDVarUserList->GetElementCount();
 	for (i=1; i<=dCount; i++)
 		{
-		(itsDVarUserList->NthElement(i))->
+		(itsDVarUserList->GetElement(i))->
 			VariablesRemoved(info.GetFirstIndex(), info.GetCount());
 		}
 
 	const JSize fCount = itsFVarUserList->GetElementCount();
 	for (i=1; i<=fCount; i++)
 		{
-		(itsFVarUserList->NthElement(i))->
+		(itsFVarUserList->GetElement(i))->
 			VariablesRemoved(info.GetFirstIndex(), info.GetCount());
 		}
 }
@@ -504,14 +504,14 @@ JIndex i;
 	const JSize dCount = itsDVarUserList->GetElementCount();
 	for (i=1; i<=dCount; i++)
 		{
-		(itsDVarUserList->NthElement(i))->
+		(itsDVarUserList->GetElement(i))->
 			VariableMoved(info.GetOrigIndex(), info.GetNewIndex());
 		}
 
 	const JSize fCount = itsFVarUserList->GetElementCount();
 	for (i=1; i<=fCount; i++)
 		{
-		(itsFVarUserList->NthElement(i))->
+		(itsFVarUserList->GetElement(i))->
 			VariableMoved(info.GetOrigIndex(), info.GetNewIndex());
 		}
 }
@@ -535,14 +535,14 @@ JIndex i;
 	const JSize dCount = itsDVarUserList->GetElementCount();
 	for (i=1; i<=dCount; i++)
 		{
-		(itsDVarUserList->NthElement(i))->
+		(itsDVarUserList->GetElement(i))->
 			VariablesSwapped(info.GetIndex1(), info.GetIndex2());
 		}
 
 	const JSize fCount = itsFVarUserList->GetElementCount();
 	for (i=1; i<=fCount; i++)
 		{
-		(itsFVarUserList->NthElement(i))->
+		(itsFVarUserList->GetElement(i))->
 			VariablesSwapped(info.GetIndex1(), info.GetIndex2());
 		}
 }

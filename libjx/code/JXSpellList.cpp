@@ -80,7 +80,7 @@ JXSpellList::HandleMouseDown
 		s.ClearSelection();
 		s.SelectCell(cell);
 
-		const JString& word = *((GetStringList()).NthElement(cell.y));
+		const JString& word = *((GetStringList()).GetElement(cell.y));
 
 		JBroadcaster::Message* msg = NULL;
 		if (clickCount == 1)

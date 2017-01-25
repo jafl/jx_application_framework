@@ -120,7 +120,7 @@ GLUndoElementsChange::Undo()
 		JSize cols = itsValues->GetElementCount();
 		for (JSize i = 1; i <= cols; i++)
 			{
-			JArray<JFloat>* col = itsValues->NthElement(i);
+			JArray<JFloat>* col = itsValues->GetElement(i);
 			JSize rows = col->GetElementCount();
 			for (JSize j = 1; j <= rows; j++)
 				{
@@ -133,7 +133,7 @@ GLUndoElementsChange::Undo()
 		{
 		for (JSize i = start.x; i <= (JSize)end.x; i++)
 			{
-			JArray<JFloat>* col = itsValues->NthElement(i - start.x + 1);
+			JArray<JFloat>* col = itsValues->GetElement(i - start.x + 1);
 			JSize rows = col->GetElementCount();
 			for (JSize j = start.y; j <= start.y + rows -1; j++)
 				{

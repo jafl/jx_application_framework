@@ -109,7 +109,7 @@ CMBreakpointManager::GetBreakpoints
 		const JSize count = itsBPList->GetElementCount();
 		for (JIndex i=startIndex; i<=count; i++)
 			{
-			CMBreakpoint* bp = itsBPList->NthElement(i);
+			CMBreakpoint* bp = itsBPList->GetElement(i);
 			if (bp->GetFileID() == target.GetFileID())
 				{
 				list->Append(bp);
@@ -152,7 +152,7 @@ CMBreakpointManager::GetBreakpoints
 		const JSize count = itsBPList->GetElementCount();
 		for (JIndex i=startIndex; i<=count; i++)
 			{
-			CMBreakpoint* bp = itsBPList->NthElement(i);
+			CMBreakpoint* bp = itsBPList->GetElement(i);
 			if (bp->GetLocation() == loc)
 				{
 				list->Append(bp);
@@ -168,7 +168,7 @@ CMBreakpointManager::GetBreakpoints
 		const JSize count = itsBPList->GetElementCount();
 		for (JIndex i=1; i<=count; i++)
 			{
-			CMBreakpoint* bp = itsBPList->NthElement(i);
+			CMBreakpoint* bp = itsBPList->GetElement(i);
 			if (bp->GetFunctionName() == loc.GetFunctionName())
 				{
 				list->Append(bp);
@@ -300,7 +300,7 @@ CMBreakpointManager::Receive
 
 			for (JIndex i=1; i<=count; i++)
 				{
-				itsLink->SetBreakpoint(*(itsBPList->NthElement(i)));
+				itsLink->SetBreakpoint(*(itsBPList->GetElement(i)));
 				}
 			}
 		itsRestoreBreakpointsFlag = kJFalse;
@@ -347,8 +347,8 @@ CMBreakpointManager::UpdateBreakpoints
 		JString condition;
 		for (JIndex i=1; i<=count; i++)
 			{
-			CMBreakpoint* bp = itsSavedBPList->NthElement(i);
-			const JIndex j   = (itsBPList->NthElement(i))->GetDebuggerIndex();
+			CMBreakpoint* bp = itsSavedBPList->GetElement(i);
+			const JIndex j   = (itsBPList->GetElement(i))->GetDebuggerIndex();
 
 			if (!bp->IsEnabled())
 				{

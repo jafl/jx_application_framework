@@ -172,7 +172,7 @@ GlovePlotter::UpdateModuleMenu()
 	JPtrArray<JString>* names = (GLGetApplication())->GetCursorModules();
 	for (i = 1; i <= names->GetElementCount(); i++)
 		{
-		itsModuleMenu->AppendItem(*(names->NthElement(i)));
+		itsModuleMenu->AppendItem(*(names->GetElement(i)));
 		}
 }
 

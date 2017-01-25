@@ -65,7 +65,7 @@ GFGMDIServer::HandleMDIRequest
 
 	for (JIndex i = 2; i <= count; i++)
 		{
-		JString arg	= *(argList.NthElement(i));
+		JString arg	= *(argList.GetElement(i));
 		if (arg == "--delete")
 			{
 			GFGGetApplication()->ShouldBeDeletingTemplate(kJTrue);
@@ -80,7 +80,7 @@ GFGMDIServer::HandleMDIRequest
 		{
 		for (JIndex i = 2; i <= count; i++)
 			{
-			JString arg	= *(argList.NthElement(i));
+			JString arg	= *(argList.GetElement(i));
 			if (!arg.BeginsWith("-"))
 				{
 				JRemoveFile(arg);

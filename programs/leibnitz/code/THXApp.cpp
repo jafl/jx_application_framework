@@ -188,7 +188,7 @@ THXApp::SetKeyPadVisible
 		const JSize count = itsExprList->GetElementCount();
 		for (JIndex i=1; i<=count; i++)
 			{
-			(itsExprList->NthElement(i))->UpdateDisplay();
+			(itsExprList->GetElement(i))->UpdateDisplay();
 			}
 		}
 }
@@ -238,7 +238,7 @@ THXApp::Create2DPlot()
 		its2DPlotList->Append(plot);
 		}
 
-	THX2DPlotDirector* plot = its2DPlotList->NthElement(plotIndex);
+	THX2DPlotDirector* plot = its2DPlotList->GetElement(plotIndex);
 	plot->AddFunction(itsVarList, *f, curveName, xMin, xMax);
 	plot->Activate();
 }
@@ -495,7 +495,7 @@ JIndex i;
 	for (i=1; i<=exprCount; i++)
 		{
 		output << ' ';
-		(itsExprList->NthElement(i))->WriteState(output);
+		(itsExprList->GetElement(i))->WriteState(output);
 		}
 
 	JSize plotCount = its2DPlotList->GetElementCount();
@@ -504,7 +504,7 @@ JIndex i;
 	for (i=1; i<=plotCount; i++)
 		{
 		output << ' ';
-		(its2DPlotList->NthElement(i))->WriteState(output);
+		(its2DPlotList->GetElement(i))->WriteState(output);
 		}
 }
 
@@ -600,7 +600,7 @@ THXApp::BuildPlotMenu
 	const JSize count = its2DPlotList->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		const THX2DPlotDirector* plot = its2DPlotList->NthElement(i);
+		const THX2DPlotDirector* plot = its2DPlotList->GetElement(i);
 		menu->AppendItem((plot->GetWindow())->GetTitle(), JXMenu::kRadioType);
 
 		if (plot == origPlot)

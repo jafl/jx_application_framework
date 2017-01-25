@@ -162,7 +162,7 @@ J2DPlotWidget::~J2DPlotWidget()
 		J2DCurveInfo info = itsCurveInfo->GetElement(i);
 		if (info.own)
 			{
-			StopListening(itsCurves->NthElement(i));
+			StopListening(itsCurves->GetElement(i));
 			itsCurves->DeleteElement(i);
 			}
 		jdelete info.name;
@@ -601,7 +601,7 @@ J2DPlotWidget::ArrayIsInCurve
 /*
 	for (JSize i = 1; i <= itsCurves->GetElementCount(); i++)
 		{
-		if ((itsCurves->NthElement(i))->ArrayInData(testArray))
+		if ((itsCurves->GetElement(i))->ArrayInData(testArray))
 			{
 			return kJTrue;
 			}
@@ -625,7 +625,7 @@ J2DPlotWidget::RemoveCurvesContainingArray
 /*
 	for (JSize i = 1; i<= itsCurves->GetElementCount(); i++)
 		{
-		if ((itsCurves->NthElement(i))->ArrayInData(testArray))
+		if ((itsCurves->GetElement(i))->ArrayInData(testArray))
 			{
 			RemoveCurve(i);
 			i--;
@@ -957,7 +957,7 @@ J2DPlotWidget::GetMinimumPositiveValue
 	const JSize ccount = itsCurves->GetElementCount();
 	for (JIndex i=1; i<=ccount; i++)
 		{
-		JPlotDataBase* data = itsCurves->NthElement(i);
+		JPlotDataBase* data = itsCurves->GetElement(i);
 		const JSize dcount = data->GetElementCount();
 		for (JIndex j=1; j<=dcount; j++)
 			{
@@ -1022,7 +1022,7 @@ J2DPlotWidget::GetXDataRange
 	const JSize count = itsCurves->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		const JPlotDataBase* data = itsCurves->NthElement(i);
+		const JPlotDataBase* data = itsCurves->GetElement(i);
 
 		JFloat testMin, testMax;
 		data->GetXRange(&testMin, &testMax);
@@ -1062,7 +1062,7 @@ J2DPlotWidget::GetYDataRange
 	const JSize count = itsCurves->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		const JPlotDataBase* data = itsCurves->NthElement(i);
+		const JPlotDataBase* data = itsCurves->GetElement(i);
 
 		JFloat testMin, testMax;
 		if (data->GetYRange(xmin, xmax, itsXAxisIsLinear, &testMin, &testMax))
@@ -2094,7 +2094,7 @@ JIndex i;
 				p.Rect(JPoint(startx + kLegendItemBuffer, yPos + strHeight/2), 2,2);
 				}
 
-			const JPlotDataBase* curve     = itsCurves->NthElement(i);
+			const JPlotDataBase* curve     = itsCurves->GetElement(i);
 			const JPlotDataBase::Type type = curve->GetType();
 			if (type == JPlotDataBase::kVectorPlot)
 				{
@@ -2837,7 +2837,7 @@ J2DPlotWidget::DrawData
 	for (JIndex i=1; i<=count; i++)
 		{
 		const J2DCurveInfo info        = itsCurveInfo->GetElement(i);
-		const JPlotDataBase* curve     = itsCurves->NthElement(i);
+		const JPlotDataBase* curve     = itsCurves->GetElement(i);
 		const JPlotDataBase::Type type = curve->GetType();
 
 		p.SetPenColor(itsColors->GetElement(info.color));

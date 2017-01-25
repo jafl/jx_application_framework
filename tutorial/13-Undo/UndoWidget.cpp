@@ -323,7 +323,7 @@ UndoWidget::GetCurrentUndo
 {
 	if (HasUndo())
 		{
-		*undo = itsUndoList->NthElement(itsFirstRedoIndex - 1);
+		*undo = itsUndoList->GetElement(itsFirstRedoIndex - 1);
 		return kJTrue;
 		}
 	else
@@ -346,7 +346,7 @@ UndoWidget::GetCurrentRedo
 {
 	if (HasRedo())
 		{
-		*redo = itsUndoList->NthElement(itsFirstRedoIndex);
+		*redo = itsUndoList->GetElement(itsFirstRedoIndex);
 		return kJTrue;
 		}
 	else

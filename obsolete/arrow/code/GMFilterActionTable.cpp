@@ -154,7 +154,7 @@ GMFilterActionTable::TableDrawCell
 
 	HilightIfSelected(p, JPoint(1, cell.y), rect);
 
-	GMFilterAction* action	= itsActions->NthElement(cell.y);
+	GMFilterAction* action	= itsActions->GetElement(cell.y);
 	if (cell.x == (JCoordinate)kTypeColumn)
 		{
 		JString str;
@@ -235,13 +235,13 @@ GMFilterActionTable::HandleMouseDown
 
 	if (cell.x == (JCoordinate)kTypeColumn)
 		{
-		GMFilterAction* action	= itsActions->NthElement(cell.y);
+		GMFilterAction* action	= itsActions->GetElement(cell.y);
 		action->ShouldBeMailbox(!action->IsMailbox());
 		}
 	else if (cell.x == (JCoordinate)kCopyColumn &&
 			 cell.y == (JCoordinate)GetRowCount())
 		{
-		GMFilterAction* action	= itsActions->NthElement(cell.y);
+		GMFilterAction* action	= itsActions->GetElement(cell.y);
 		action->ShouldCopy(!action->IsCopying());
 		}
 
@@ -297,7 +297,7 @@ GMFilterActionTable::CreateXInputField
 		new JXInputField(this, kFixedLeft, kFixedTop, x, y, w, h);
 	assert(itsInput != NULL);
 	itsInput->SetIsRequired(kJTrue);
-	GMFilterAction* action	= itsActions->NthElement(cell.y);
+	GMFilterAction* action	= itsActions->GetElement(cell.y);
 	itsInput->SetText(action->GetDestination());
 	return itsInput;
 }
@@ -316,7 +316,7 @@ GMFilterActionTable::ExtractInputData
 	JBoolean ok = itsInput->InputValid();
 	if (ok)
 		{
-		GMFilterAction* action	= itsActions->NthElement(cell.y);
+		GMFilterAction* action	= itsActions->GetElement(cell.y);
 		action->SetDestination(itsInput->GetText());
 		}
 	return ok;
@@ -444,7 +444,7 @@ GMFilterActionTable::AdjustButtons()
 	JBoolean hasSingle	= s.GetSingleSelectedCell(&cell);
 	if (hasSelection && hasSingle)
 		{
-		GMFilterAction* action	= itsActions->NthElement(cell.y);
+		GMFilterAction* action	= itsActions->GetElement(cell.y);
 		if (action->IsMailbox())
 			{
 			itsChooseButton->Activate();
@@ -500,7 +500,7 @@ GMFilterActionTable::NewAction()
 	const JSize count = itsActions->GetElementCount();
 	for (JIndex i = 1; i < count; i++)
 		{
-		action = itsActions->NthElement(i);
+		action = itsActions->GetElement(i);
 		action->ShouldCopy(kJTrue);
 		}
 
@@ -553,7 +553,7 @@ GMFilterActionTable::ChooseMailbox()
 	if (JXGetChooseSaveFile()->ChooseFile("","",&fullname))
 		{
 		JString name	= GGetRelativeToHome(fullname);
-		GMFilterAction* action = itsActions->NthElement(cell.y);
+		GMFilterAction* action = itsActions->GetElement(cell.y);
 		action->SetDestination(name);
 		if (IsEditing())
 			{

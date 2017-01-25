@@ -239,7 +239,7 @@ JXTextSelection::SetData
 			{
 			itsText->AppendCharacter('\n');
 			}
-		*itsText += *(list.NthElement(i));
+		*itsText += *(list.GetElement(i));
 		selectCount++;
 		}
 

@@ -420,7 +420,7 @@ SVNRepoTreeNode::DisplayErrors()
 	for (JIndex i=1; i<=count; i++)
 		{
 		SVNRepoTreeNode* node =
-			new SVNRepoTreeNode(GetTree(), "", 0, *(itsErrorList->NthElement(i)),
+			new SVNRepoTreeNode(GetTree(), "", 0, *(itsErrorList->GetElement(i)),
 								kError, 0, 0, "", 0);
 		assert( node != NULL );
 		this->InsertAtIndex(i, node);

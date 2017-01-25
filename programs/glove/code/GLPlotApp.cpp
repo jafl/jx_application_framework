@@ -178,7 +178,7 @@ GLPlotApp::ReloadImportModules()
 	const JSize count = itsModulePath->GetElementCount();
 	for (JSize i = 1; i <= count; i++)
 		{
-		JString path = *(itsModulePath->NthElement(i)) + kImportSubPath;
+		JString path = *(itsModulePath->GetElement(i)) + kImportSubPath;
 		if (JDirInfo::Create(path, &info))
 			{
 			for (JSize j = 1; j <= info->GetEntryCount(); j++)
@@ -211,8 +211,8 @@ GLPlotApp::GetImportModulePath
 	assert (itsImportModules->IndexValid(index));
 	
 	JIndex mIndex = itsImportPathIndex->GetElement(index);
-	*path = *(itsModulePath->NthElement(mIndex)) + kImportSubPath +
-				*(itsImportModules->NthElement(index));
+	*path = *(itsModulePath->GetElement(mIndex)) + kImportSubPath +
+				*(itsImportModules->GetElement(index));
 	return kJTrue;
 /*	
 	if (foundFileImpDir)
@@ -221,7 +221,7 @@ GLPlotApp::GetImportModulePath
 		
 		JString str = itsFileImpDir->GetCWD();
 		JAppendDirSeparator(&str);
-		str += *(itsFileImpProgs->NthElement(index));
+		str += *(itsFileImpProgs->GetElement(index));
 		*path = str;
 		return kJTrue;
 		}
@@ -367,7 +367,7 @@ GLPlotApp::ReloadDataModules()
 	const JSize count = itsModulePath->GetElementCount();
 	for (JSize i = 1; i <= count; i++)
 		{
-		JString path = *(itsModulePath->NthElement(i)) + kDataSubPath;
+		JString path = *(itsModulePath->GetElement(i)) + kDataSubPath;
 		if (JDirInfo::Create(path, &info))
 			{
 			for (JSize j = 1; j <= info->GetEntryCount(); j++)
@@ -400,8 +400,8 @@ GLPlotApp::GetDataModulePath
 	assert (itsDataModules->IndexValid(index));
 	
 	JIndex mIndex = itsDataPathIndex->GetElement(index);
-	*path = *(itsModulePath->NthElement(mIndex)) + kDataSubPath + 
-				*(itsDataModules->NthElement(index));
+	*path = *(itsModulePath->GetElement(mIndex)) + kDataSubPath + 
+				*(itsDataModules->GetElement(index));
 	return kJTrue;
 		
 }
@@ -432,7 +432,7 @@ GLPlotApp::ReloadCursorModules()
 	const JSize count = itsModulePath->GetElementCount();
 	for (JSize i = 1; i <= count; i++)
 		{
-		JString path = *(itsModulePath->NthElement(i)) + kCursorSubPath;
+		JString path = *(itsModulePath->GetElement(i)) + kCursorSubPath;
 		if (JDirInfo::Create(path, &info))
 			{
 			for (JSize j = 1; j <= info->GetEntryCount(); j++)
@@ -465,8 +465,8 @@ GLPlotApp::GetCursorModulePath
 	assert (itsCursorModules->IndexValid(index));
 	
 	JIndex mIndex = itsCursorPathIndex->GetElement(index);
-	*path = *(itsModulePath->NthElement(mIndex)) + kCursorSubPath +
-				*(itsCursorModules->NthElement(index));
+	*path = *(itsModulePath->GetElement(mIndex)) + kCursorSubPath +
+				*(itsCursorModules->GetElement(index));
 	return kJTrue;
 		
 }
@@ -497,7 +497,7 @@ GLPlotApp::ReloadExportModules()
 	const JSize count = itsModulePath->GetElementCount();
 	for (JSize i = 1; i <= count; i++)
 		{
-		JString path = *(itsModulePath->NthElement(i)) + kExportSubPath;
+		JString path = *(itsModulePath->GetElement(i)) + kExportSubPath;
 		if (JDirInfo::Create(path, &info))
 			{
 			for (JSize j = 1; j <= info->GetEntryCount(); j++)
@@ -530,8 +530,8 @@ GLPlotApp::GetExportModulePath
 	assert (itsExportModules->IndexValid(index));
 	
 	JIndex mIndex = itsExportPathIndex->GetElement(index);
-	*path = *(itsModulePath->NthElement(mIndex)) + kExportSubPath +
-				*(itsExportModules->NthElement(index));
+	*path = *(itsModulePath->GetElement(mIndex)) + kExportSubPath +
+				*(itsExportModules->GetElement(index));
 	return kJTrue;
 		
 }
@@ -562,7 +562,7 @@ GLPlotApp::ReloadFitModules()
 	const JSize count = itsModulePath->GetElementCount();
 	for (JSize i = 1; i <= count; i++)
 		{
-		JString path = *(itsModulePath->NthElement(i)) + kFitSubPath;
+		JString path = *(itsModulePath->GetElement(i)) + kFitSubPath;
 		if (JDirInfo::Create(path, &info))
 			{
 			for (JSize j = 1; j <= info->GetEntryCount(); j++)
@@ -595,8 +595,8 @@ GLPlotApp::GetFitModulePath
 	assert (itsFitModules->IndexValid(index));
 	
 	JIndex mIndex = itsFitPathIndex->GetElement(index);
-	*path = *(itsModulePath->NthElement(mIndex)) + kFitSubPath +
-				*(itsFitModules->NthElement(index));
+	*path = *(itsModulePath->GetElement(mIndex)) + kFitSubPath +
+				*(itsFitModules->GetElement(index));
 	return kJTrue;
 		
 }

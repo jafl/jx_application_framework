@@ -73,7 +73,7 @@ JDiagBandMatrix::JDiagBandMatrix
 
 	for (JIndex i=1; i<=bandCount; i++)
 		{
-		Band* origBand = (source.itsBands)->NthElement(i);
+		Band* origBand = (source.itsBands)->GetElement(i);
 		Band* band = new Band(*origBand);
 		assert( band != NULL );
 		itsBands->Append(band);
@@ -116,7 +116,7 @@ JDiagBandMatrix::operator=
 
 	for (JIndex i=1; i<=bandCount; i++)
 		{
-		Band* origBand = (source.itsBands)->NthElement(i);
+		Band* origBand = (source.itsBands)->GetElement(i);
 		Band* band = new Band(*origBand);
 		assert( band != NULL );
 		itsBands->Append(band);
@@ -143,7 +143,7 @@ JDiagBandMatrix::GetElement
 	if (columnIndex - itsUpperBandCount <= rowIndex &&
 		rowIndex <= columnIndex + itsLowerBandCount)
 		{
-		Band* band = itsBands->NthElement(itsLowerBandCount+1+columnIndex-rowIndex);
+		Band* band = itsBands->GetElement(itsLowerBandCount+1+columnIndex-rowIndex);
 		return band->GetElement(columnIndex);
 		}
 	else
@@ -170,7 +170,7 @@ JDiagBandMatrix::SetElement
 	if (columnIndex - itsUpperBandCount <= rowIndex &&
 		rowIndex <= columnIndex + itsLowerBandCount)
 		{
-		Band* band = itsBands->NthElement(itsLowerBandCount+1+columnIndex-rowIndex);
+		Band* band = itsBands->GetElement(itsLowerBandCount+1+columnIndex-rowIndex);
 		band->SetElement(columnIndex, value);
 		}
 	else
@@ -194,7 +194,7 @@ JDiagBandMatrix::SetBand
 	assert( -(JSignedIndex)itsLowerBandCount <= bandIndex &&
 			bandIndex <= (JSignedIndex)itsUpperBandCount );
 
-	Band* band = itsBands->NthElement(itsLowerBandCount+1+bandIndex);
+	Band* band = itsBands->GetElement(itsLowerBandCount+1+bandIndex);
 	for (JIndex i=1; i<=itsSize; i++)
 		{
 		band->SetElement(i, value);

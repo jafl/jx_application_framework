@@ -690,7 +690,7 @@ XDLink::RemoveAllBreakpointsOnLine
 		{
 		for (JIndex i=1; i<=list.GetElementCount(); i++)
 			{
-			CMBreakpoint* bp = list.NthElement(i);
+			CMBreakpoint* bp = list.GetElement(i);
 			if (bp->GetLineNumber() == lineIndex)
 				{
 				cmd  = "breakpoint_remove -d ";
@@ -734,7 +734,7 @@ XDLink::RemoveAllBreakpoints()
 	JString cmd;
 	for (JIndex i=1; i<=list.GetElementCount(); i++)
 		{
-		const CMBreakpoint* bp = list.NthElement(i);
+		const CMBreakpoint* bp = list.GetElement(i);
 
 		cmd	 = "breakpoint_remove -d ";
 		cmd += bp->GetDebuggerIndex();

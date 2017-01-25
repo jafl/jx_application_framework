@@ -224,7 +224,7 @@ JXFileListTable::RemoveFiles
 	const JSize count = fileList.GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		JString* s = const_cast<JString*>(fileList.NthElement(i));
+		JString* s = const_cast<JString*>(fileList.GetElement(i));
 		JIndex index;
 		if (itsFileList->SearchSorted(s, JOrderedSetT::kAnyMatch, &index))
 			{
@@ -409,7 +409,7 @@ JXFileListTable::FilterFile
 	const JIndex fileIndex
 	)
 {
-	const JString* fullName = itsFileList->NthElement(fileIndex);
+	const JString* fullName = itsFileList->GetElement(fileIndex);
 
 	VisInfo info;
 	if (fullName->LocateLastSubstring(ACE_DIRECTORY_SEPARATOR_STR, &(info.nameIndex)))
@@ -448,7 +448,7 @@ JXFileListTable::FilterFile
 			{
 			info = itsVisibleList->GetElement(i);
 			const JCharacter* drawStr =
-				(itsFileList->NthElement(info.fileIndex))->GetCString() + info.drawIndex-1;
+				(itsFileList->GetElement(info.fileIndex))->GetCString() + info.drawIndex-1;
 			const JSize w = (GetFontManager()->GetDefaultFont()).GetStringWidth(drawStr);
 			if (w > itsMaxStringWidth)
 				{
@@ -484,7 +484,7 @@ JIndex i;
 		{
 		const VisInfo info  = itsVisibleList->GetElement(lastIndex);
 		const JCharacter* n =
-			(itsFileList->NthElement(info.fileIndex))->GetCString() + info.nameIndex-1;
+			(itsFileList->GetElement(info.fileIndex))->GetCString() + info.nameIndex-1;
 		if (JString::Compare(n, fileName, kJFalse) != 0)
 			{
 			break;
@@ -495,12 +495,12 @@ JIndex i;
 
 	// calculate the length of the minimum prefix shared by the files
 
-	const JString* firstFile = itsFileList->NthElement(RowIndexToFileIndex(firstIndex));
+	const JString* firstFile = itsFileList->GetElement(RowIndexToFileIndex(firstIndex));
 	JSize minLength = firstFile->GetLength();
 	for (i=firstIndex; i<lastIndex; i++)
 		{
-		const JString* s1 = itsFileList->NthElement(RowIndexToFileIndex(i));
-		const JString* s2 = itsFileList->NthElement(RowIndexToFileIndex(i+1));
+		const JString* s1 = itsFileList->GetElement(RowIndexToFileIndex(i));
+		const JString* s2 = itsFileList->GetElement(RowIndexToFileIndex(i+1));
 		minLength         = JMin(minLength, JCalcMatchLength(*s1, *s2));
 		}
 
@@ -540,7 +540,7 @@ JXFileListTable::GetFileName
 	const
 {
 	const VisInfo info      = itsVisibleList->GetElement(rowIndex);
-	const JString* fullName = itsFileList->NthElement(info.fileIndex);
+	const JString* fullName = itsFileList->GetElement(info.fileIndex);
 	return JString(*fullName, JIndexRange(info.nameIndex, fullName->GetLength()));
 }
 
@@ -561,7 +561,7 @@ JXFileListTable::GetFullName
 	const
 {
 	const JIndex fileIndex = RowIndexToFileIndex(rowIndex);
-	JString* n             = itsFileList->NthElement(fileIndex);
+	JString* n             = itsFileList->GetElement(fileIndex);
 	if (IsInactive(*n))
 		{
 		fullName->Clear();
@@ -657,7 +657,7 @@ JXFileListTable::GetFullName
 	JIndex index;
 	if (FileNameToFileIndex(fileName, &index))
 		{
-		*fullName = *(itsFileList->NthElement(index));
+		*fullName = *(itsFileList->GetElement(index));
 		return kJTrue;
 		}
 	else
@@ -687,7 +687,7 @@ JXFileListTable::FileNameToFileIndex
 	const JSize count = itsFileList->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		const JString* f = itsFileList->NthElement(i);
+		const JString* f = itsFileList->GetElement(i);
 		const JSize len  = f->GetLength();
 		if (f->EndsWith(name) &&
 			(len == nameLen ||
@@ -835,7 +835,7 @@ JXFileListTable::TableDrawCell
 	// draw name
 
 	const VisInfo info  = itsVisibleList->GetElement(cell.y);
-	const JString* name = itsFileList->NthElement(info.fileIndex);
+	const JString* name = itsFileList->GetElement(info.fileIndex);
 	const JCharacter* s = name->GetCString() + info.drawIndex-1;
 
 	if (IsInactive(*name))
@@ -1120,12 +1120,12 @@ JXFileListTable::PrefixMatch::Compare
 	const JCharacter* s1 =
 		(i1.fileIndex == 0 ?
 		 itsPrefix.GetCString() :
-		 (itsFileList.NthElement(i1.fileIndex))->GetCString() + i1.nameIndex-1);
+		 (itsFileList.GetElement(i1.fileIndex))->GetCString() + i1.nameIndex-1);
 
 	const JCharacter* s2 =
 		(i2.fileIndex == 0 ?
 		 itsPrefix.GetCString() :
-		 (itsFileList.NthElement(i2.fileIndex))->GetCString() + i2.nameIndex-1);
+		 (itsFileList.GetElement(i2.fileIndex))->GetCString() + i2.nameIndex-1);
 
 	const int r = JString::Compare(s1, s2, kJFalse);
 	if (r > 0)
@@ -1492,7 +1492,7 @@ JXFileListTable::HandleDNDDrop
 		const JSize fileCount = fileNameList.GetElementCount();
 		for (JIndex i=1; i<=fileCount; i++)
 			{
-			AddFile(*(fileNameList.NthElement(i)));
+			AddFile(*(fileNameList.GetElement(i)));
 			}
 		JXReportUnreachableHosts(urlList);
 		}

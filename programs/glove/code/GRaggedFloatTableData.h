@@ -212,7 +212,7 @@ GRaggedFloatTableData::GetColPointer
 	)
 	const
 {
-	return *(itsCols->NthElement(index));
+	return *(itsCols->GetElement(index));
 }
 
 /******************************************************************************
@@ -242,7 +242,7 @@ GRaggedFloatTableData::AppendElement
 	const JFloat value
 	)
 {
-	JArray<JFloat>* dataCol = itsCols->NthElement(col);
+	JArray<JFloat>* dataCol = itsCols->GetElement(col);
 	InsertElement(dataCol->GetElementCount()+1, col, value);
 }
 
@@ -393,7 +393,7 @@ GRaggedFloatTableData::GetDataRowCount
 	)
 	const
 {
-	const JArray<JFloat>* dataCol = itsCols->NthElement(index);
+	const JArray<JFloat>* dataCol = itsCols->GetElement(index);
 	return dataCol->GetElementCount();
 }
 
@@ -411,7 +411,7 @@ GRaggedFloatTableData::CellValid
 	const
 {
 	return JI2B(itsCols->IndexValid(colIndex) &&
-				(itsCols->NthElement(colIndex))->IndexValid(rowIndex));
+				(itsCols->GetElement(colIndex))->IndexValid(rowIndex));
 }
 
 inline JBoolean

@@ -66,7 +66,7 @@ JIndex i;
 
 	for (i=1; i<=itsLayerCount; i++)
 		{
-		JMatrix* w = itsWeights->NthElement(i);
+		JMatrix* w = itsWeights->GetElement(i);
 		input >> *w;
 		}
 }
@@ -134,7 +134,7 @@ FFNetwork::GetEmptyWeightMatrix
 	)
 	const
 {
-	JMatrix w(*(itsWeights->NthElement(layer)));
+	JMatrix w(*(itsWeights->GetElement(layer)));
 	w.SetAllElements(0.0);
 	return w;
 }
@@ -153,7 +153,7 @@ FFNetwork::SetWeights
 	const JMatrix&	w
 	)
 {
-	*(itsWeights->NthElement(layer)) = w;
+	*(itsWeights->GetElement(layer)) = w;
 }
 
 /******************************************************************************
@@ -194,7 +194,7 @@ FFNetwork::GetLayerOutput
 	JPtrArray<JVector> layerOutputs(JPtrArrayT::kDeleteAll);
 	ForwardPropagate(input, &layerOutputs);
 
-	JVector* output = layerOutputs.NthElement(index);
+	JVector* output = layerOutputs.GetElement(index);
 	return *output;
 }
 
@@ -338,7 +338,7 @@ FFNetwork::Learn
 
 	for (JSize i=1;i<=itsLayerCount;i++)
 		{
-		JMatrix* weights = itsWeights->NthElement(i);
+		JMatrix* weights = itsWeights->GetElement(i);
 
 		JMatrix* dw = new JMatrix(*weights);
 		assert( dw != NULL );
@@ -491,7 +491,7 @@ JIndex i;
 
 	for (i=1; i<=itsLayerCount; i++)
 		{
-		JMatrix* dw = currentdws->NthElement(i);
+		JMatrix* dw = currentdws->GetElement(i);
 		dw->SetAllElements(0.0);
 		}
 
@@ -527,7 +527,7 @@ FFNetwork::AdjustWeightsForExample
 {
 	for (JIndex i=1; i<=itsLayerCount; i++)
 		{
-		JMatrix* dw = currentdws->NthElement(i);
+		JMatrix* dw = currentdws->GetElement(i);
 		dw->SetAllElements(0.0);
 		}
 
@@ -573,12 +573,12 @@ FFNetwork::CalcWeightChangeForExample
 			}
 		else
 			{
-			output = layerOutputs.NthElement(i-1);
+			output = layerOutputs.GetElement(i-1);
 			}
 		const JVector newOutput = PrependOffsetUnit(*output);
 
-		JVector* delta  = deltas.NthElement(i);
-		JMatrix* dw     = dws->NthElement(i);
+		JVector* delta  = deltas.GetElement(i);
+		JMatrix* dw     = dws->GetElement(i);
 		*dw            -= learningRate * JOuterProduct(*delta, newOutput);
 		}
 }
@@ -600,13 +600,13 @@ FFNetwork::IncrementWeights
 {
 	for (JIndex i=1; i<=itsLayerCount; i++)
 		{
-		const JMatrix* dw = currentdws.NthElement(i);
+		const JMatrix* dw = currentdws.GetElement(i);
 
-		JMatrix* olddw = olddws->NthElement(i);
+		JMatrix* olddw = olddws->GetElement(i);
 		*olddw *= momentum;
 		*olddw += *dw;		// this automatically saves it for next time
 
-		JMatrix* weights = itsWeights->NthElement(i);
+		JMatrix* weights = itsWeights->GetElement(i);
 		*weights += *olddw;
 		}
 }
@@ -628,7 +628,7 @@ FFNetwork::DecayWeights
 		{
 		for (JIndex i=1; i<=itsLayerCount; i++)
 			{
-			JMatrix* weights = itsWeights->NthElement(i);
+			JMatrix* weights = itsWeights->GetElement(i);
 			*weights *= decayFactor;
 			}
 		}
@@ -661,7 +661,7 @@ FFNetwork::ForwardPropagate
 			delete layerOutput;
 			}
 
-		JMatrix* weights = itsWeights->NthElement(i);
+		JMatrix* weights = itsWeights->GetElement(i);
 		JMatrix netInput = (*weights) * newOutput;
 
 		layerOutput = new JVector(g(i, netInput.GetColVector(1)));
@@ -715,14 +715,14 @@ FFNetwork::BackPropagate
 		{
 		const JSize layerSize = GetLayerSize(j-1);
 
-		JMatrix* weights = itsWeights->NthElement(j);
+		JMatrix* weights = itsWeights->GetElement(j);
 		JMatrix temp     = (weights->Transpose()) * (*prevDelta);
 		JVector delta1   = temp.GetColVector(1);
 
 		JVector* delta = new JVector(RemoveOffsetUnit(delta1));
 		assert( delta != NULL );
 
-		const JVector* actualOutput = layerOutputs.NthElement(j-1);
+		const JVector* actualOutput = layerOutputs.GetElement(j-1);
 
 		for (JIndex i=1; i<=layerSize; i++)
 			{
@@ -750,7 +750,7 @@ FFNetwork::RandomizeWeights
 {
 	for (JIndex i=1; i<=itsLayerCount; i++)
 		{
-		JMatrix* weights     = itsWeights->NthElement(i);
+		JMatrix* weights     = itsWeights->GetElement(i);
 		const JSize rowCount = weights->GetRowCount();
 		const JSize colCount = weights->GetColCount();
 
@@ -778,7 +778,7 @@ FFNetwork::PrintWeights
 {
 	for (JIndex i=1; i<=itsLayerCount; i++)
 		{
-		JMatrix* weights = itsWeights->NthElement(i);
+		JMatrix* weights = itsWeights->GetElement(i);
 
 		output << "Layer " << i << ':' << std::endl;
 		output << *weights << std::endl << std::endl;
@@ -862,6 +862,6 @@ JIndex i;
 
 	for (i=1; i<=itsLayerCount; i++)
 		{
-		output << ' ' << *(itsWeights->NthElement(i));
+		output << ' ' << *(itsWeights->GetElement(i));
 		}
 }

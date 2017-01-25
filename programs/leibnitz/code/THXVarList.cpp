@@ -83,7 +83,7 @@ JIndex i;
 	const JSize misfitCount = misfitIndexList.GetElementCount();
 	for (i=1; i<=misfitCount; i++)
 		{
-		const JString* fStr = misfitFnList.NthElement(i);
+		const JString* fStr = misfitFnList.GetElement(i);
 		JFunction* f;
 		if (JParseFunction(*fStr, this, &f))
 			{
@@ -216,7 +216,7 @@ THXVarList::SetVariableName
 		}
 	else
 		{
-		JString* varName = itsNames->NthElement(varIndex);
+		JString* varName = itsNames->GetElement(varIndex);
 		*varName = name;
 		Broadcast(VarNameChanged(varIndex));
 		return kJTrue;
@@ -269,7 +269,7 @@ THXVarList::GetVariableName
 	)
 	const
 {
-	return *(itsNames->NthElement(index));
+	return *(itsNames->GetElement(index));
 }
 
 void
@@ -281,7 +281,7 @@ THXVarList::GetVariableName
 	)
 	const
 {
-	const JString* fullName    = itsNames->NthElement(index);
+	const JString* fullName    = itsNames->GetElement(index);
 	const JCharacter firstChar = fullName->GetFirstCharacter();
 	const JSize fullLen        = fullName->GetLength();
 
@@ -414,7 +414,7 @@ THXVarList::GetNumericValue
 	)
 	const
 {
-	const JFunction* f = itsFunctions->NthElement(variableIndex);
+	const JFunction* f = itsFunctions->GetElement(variableIndex);
 	if (elementIndex == 1)
 		{
 		if (IsOnEvalStack(variableIndex))
@@ -443,7 +443,7 @@ THXVarList::GetNumericValue
 	)
 	const
 {
-	const JFunction* f = itsFunctions->NthElement(variableIndex);
+	const JFunction* f = itsFunctions->GetElement(variableIndex);
 	if (elementIndex == 1)
 		{
 		if (IsOnEvalStack(variableIndex))
@@ -592,10 +592,10 @@ operator<<
 
 	for (JIndex i = 1+THXVarList::kUserFnOffset; i<=varCount; i++)
 		{
-		const JString* name = (varList.itsNames)->NthElement(i);
+		const JString* name = (varList.itsNames)->GetElement(i);
 		output << ' ' << *name;
 
-		const JFunction* f = (varList.itsFunctions)->NthElement(i);
+		const JFunction* f = (varList.itsFunctions)->GetElement(i);
 		output << ' ' << f->Print();
 		}
 

@@ -137,7 +137,7 @@ CBFnListWidget::GetFunctionName
 	)
 	const
 {
-	return *(itsFnNames->NthElement(index));
+	return *(itsFnNames->GetElement(index));
 }
 
 /******************************************************************************

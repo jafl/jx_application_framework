@@ -84,7 +84,7 @@ SyGCopyProcess::CleanSrcList
 	JBoolean ask, first = kJTrue;
 	for (JIndex i=1; i<=count; i++)
 		{
-		const JString* srcName = srcNameList->NthElement(i);
+		const JString* srcName = srcNameList->GetElement(i);
 		if (!ActionIsUseful(*srcName, destPath, &destName) ||
 			!OKToReplace(*srcName, destName, &ask, &first))
 			{
@@ -286,7 +286,7 @@ SyGCopyProcess::SyGCopyProcess
 	JString path, name;
 	for (JIndex i=1; i<=srcCount; i++)
 		{
-		const JString* src   = srcNameList->NthElement(i);
+		const JString* src   = srcNameList->GetElement(i);
 		const JBoolean isDir = JDirectoryExists(*src);
 		JBoolean isVCS3      = kJFalse;
 		if (isDir)
@@ -501,7 +501,7 @@ SyGCopyProcess::Receive
 			JFileSystemType fsType;
 			for (JIndex i=1; i<=count; i++)
 				{
-				JString* fullName = itsSrcNameList->NthElement(i);
+				JString* fullName = itsSrcNameList->GetElement(i);
 				JStripTrailingDirSeparator(fullName);
 				JSplitPathAndName(*fullName, &path, &name);
 
@@ -521,7 +521,7 @@ SyGCopyProcess::Receive
 				newName = JCombinePathAndName(*destPath, name);
 				if (itsIsMoveFlag && JDirectoryExists(newName))
 					{
-					oldName = *(itsSrcNameList->NthElement(i));
+					oldName = *(itsSrcNameList->GetElement(i));
 					JAppendDirSeparator(&oldName);
 					JAppendDirSeparator(&newName);
 					JFSFileTree::DirectoryRenamed msg(oldName, newName);

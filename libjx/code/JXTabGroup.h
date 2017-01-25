@@ -382,7 +382,7 @@ JXTabGroup::GetTabTitle
 	)
 	const
 {
-	return *(itsTitles->NthElement(index));
+	return *(itsTitles->GetElement(index));
 }
 
 inline void
@@ -392,7 +392,7 @@ JXTabGroup::SetTabTitle
 	const JCharacter*	title
 	)
 {
-	*(itsTitles->NthElement(index)) = title;
+	*(itsTitles->GetElement(index)) = title;
 	Refresh();
 }
 

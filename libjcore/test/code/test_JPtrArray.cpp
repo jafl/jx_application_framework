@@ -47,7 +47,7 @@ JTEST(Exercise)
 	assert( stringPtr != NULL );
 
 	snoop1.Expect(JOrderedSetT::kElementsInserted);
-	a1.InsertAtIndex(3, stringPtr);
+	a1.InsertElementAtIndex(3, stringPtr);
 
 	snoop1.Expect(JOrderedSetT::kElementMoved);
 	a1.MoveElementToIndex(3, a1.GetElementCount());
@@ -65,7 +65,7 @@ JTEST(Exercise)
 
 		if (*stringPtr == "5")
 			{
-			stringPtr = a1.NthElement(4);
+			stringPtr = a1.GetElement(4);
 			a1.Remove(stringPtr);
 			jdelete stringPtr;
 			stringPtr = NULL;
@@ -75,7 +75,7 @@ JTEST(Exercise)
 	}
 
 	JIndex index;
-	stringPtr = a1.NthElement(4);
+	stringPtr = a1.GetElement(4);
 	JAssertTrue(a1.Find(stringPtr, &index));
 	JAssertEqual(4, index);
 

@@ -73,7 +73,7 @@ J3DUniverse::Refresh()
 	const JSize count = itsCameraList->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		(itsCameraList->NthElement(i))->Refresh();
+		(itsCameraList->GetElement(i))->Refresh();
 		}
 }
 
@@ -90,7 +90,7 @@ J3DUniverse::Redraw()
 	const JSize count = itsCameraList->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		(itsCameraList->NthElement(i))->Redraw();
+		(itsCameraList->GetElement(i))->Redraw();
 		}
 }
 

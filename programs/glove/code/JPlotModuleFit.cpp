@@ -128,7 +128,7 @@ JPlotModuleFit::JPlotModuleFit
 			{
 			index = i * 2 - 1;
 			}
-		JString parm(*(names->NthElement(index)));
+		JString parm(*(names->GetElement(index)));
 		JFloat value = values->GetElement(index);
 		JBoolean added = list->AddVariable(parm, value);
 		}
@@ -365,7 +365,7 @@ JPlotModuleFit::GetGoodnessOfFitName
 		return kJFalse;
 		}
 	JIndex arrayIndex = itsNames->GetElementCount();
-	*name = *(itsNames->NthElement(arrayIndex));
+	*name = *(itsNames->GetElement(arrayIndex));
 	return kJTrue;
 }
 
@@ -490,7 +490,7 @@ JPlotModuleFit::WriteData
 	os << count << " ";
 	for (JSize i = 1; i <= count; i++)
 		{
-		os << *(itsNames->NthElement(i)) << " ";
+		os << *(itsNames->GetElement(i)) << " ";
 		os << itsValues->GetElement(i) << " ";
 		}
 	os << GetParameterCount() << " ";

@@ -332,7 +332,7 @@ ShouldGenerateForm
 	const JSize count = list.GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		if (form == *(list.NthElement(i)))
+		if (form == *(list.GetElement(i)))
 			{
 			return kJTrue;
 			}
@@ -522,7 +522,7 @@ ShouldBackupForm
 	const JSize count = list->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		if (form == *(list->NthElement(i)))
+		if (form == *(list->GetElement(i)))
 			{
 			return kJFalse;
 			}
@@ -810,7 +810,7 @@ JIndex i;
 		JRect localFrame = frame;
 		if (GetEnclosure(rectList, objCount, &enclIndex))
 			{
-			enclName = *(objNames->NthElement(enclIndex));
+			enclName = *(objNames->GetElement(enclIndex));
 			const JRect enclFrame = rectList.GetElement(enclIndex);
 			localFrame.Shift(-enclFrame.topLeft());
 			}
@@ -1000,7 +1000,7 @@ GenerateHeader
 	JSize maxLen = 0;
 	for (i=1; i<=count; i++)
 		{
-		const JString* type = objTypes.NthElement(i);
+		const JString* type = objTypes.GetElement(i);
 		const JSize len     = type->GetLength();
 		if (len > maxLen)
 			{
@@ -1013,7 +1013,7 @@ GenerateHeader
 	for (i=1; i<=count; i++)
 		{
 		output << indent;
-		const JString* type = objTypes.NthElement(i);
+		const JString* type = objTypes.GetElement(i);
 		type->Print(output);
 		output << '*';
 		const JSize len = type->GetLength();
@@ -1021,7 +1021,7 @@ GenerateHeader
 			{
 			output << ' ';
 			}
-		(objNames.NthElement(i))->Print(output);
+		(objNames.GetElement(i))->Print(output);
 		output << ';' << std::endl;
 		}
 
@@ -1112,7 +1112,7 @@ GetTempVarName
 		JBoolean unique = kJTrue;
 		for (JIndex j=1; j<=count; j++)
 			{
-			const JString* usedName = objNames.NthElement(j);
+			const JString* usedName = objNames.GetElement(j);
 			if (*varName == *usedName)
 				{
 				unique = kJFalse;
@@ -1335,7 +1335,7 @@ ApplyOptions
 					{
 					optionMap >> std::ws;
 					const JString function = JReadUntilws(optionMap);
-					const JString* value   = values.NthElement(kShortcutsIndex);
+					const JString* value   = values.GetElement(kShortcutsIndex);
 					if (!value->IsEmpty())
 						{
 						JString id = varName;
@@ -1372,7 +1372,7 @@ ApplyOptions
 						optionMap >> std::ws;
 						const JString defValue = JReadUntilws(optionMap);
 						const JString function = JReadUntilws(optionMap);
-						const JString* value   = values.NthElement(i);
+						const JString* value   = values.GetElement(i);
 						if (*value != defValue)
 							{
 							JString jxColor;
@@ -1945,7 +1945,7 @@ PickForms
 			}
 		else
 			{
-			JString* formName = jnew JString(*(all.NthElement(choice)));
+			JString* formName = jnew JString(*(all.GetElement(choice)));
 			assert( formName != NULL );
 
 			JIndex tagIndex;

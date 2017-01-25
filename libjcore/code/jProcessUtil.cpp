@@ -355,7 +355,7 @@ JExecute
 
 	for (JIndex i=1; i<=argc; i++)
 		{
-		argv[i-1] = argList.NthElement(i)->GetBytes();
+		argv[i-1] = argList.GetElement(i)->GetBytes();
 		}
 	argv[argc] = NULL;
 
@@ -895,7 +895,7 @@ JProgramAvailable
 	const JSize pathCount = pathList.GetElementCount();
 	for (JIndex i=1; i<=pathCount; i++)
 		{
-		const JString& dir = *(pathList.NthElement(i));
+		const JString& dir = *(pathList.GetElement(i));
 		fullName = JCombinePathAndName(dir, programName);
 		if (JFileExists(fullName) && JFileExecutable(fullName))
 			{

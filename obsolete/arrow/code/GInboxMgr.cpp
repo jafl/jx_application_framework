@@ -92,7 +92,7 @@ GInboxMgr::Receive
 		GGetPrefsMgr()->GetInboxes(inboxes);
 		JIndex index = info->GetIndex();
 		assert(inboxes.IndexValid(index));
-		JDirEntry* entry = new JDirEntry(*(inboxes.NthElement(index)));
+		JDirEntry* entry = new JDirEntry(*(inboxes.GetElement(index)));
 		assert(entry != NULL);
 		itsEntries->InsertAtIndex(index, entry);
 		itsTimes->InsertElementAtIndex(index, entry->GetModTime());
@@ -134,7 +134,7 @@ GInboxMgr::UpdateEntries()
 
 	for (JSize i = 1; i <= inboxes.GetElementCount(); i++)
 		{
-		JDirEntry* entry = new JDirEntry(*(inboxes.NthElement(i)));
+		JDirEntry* entry = new JDirEntry(*(inboxes.GetElement(i)));
 		assert(entry != NULL);
 		itsEntries->Append(entry);
 		itsTimes->AppendElement(entry->GetModTime());
@@ -152,7 +152,7 @@ GInboxMgr::CheckEntries()
 {
 	for (JSize i = 1; i <= itsEntries->GetElementCount(); i++)
 		{
-		JDirEntry* entry = itsEntries->NthElement(i);
+		JDirEntry* entry = itsEntries->GetElement(i);
 		if (entry->Update())
 			{
 			entry->ForceUpdate();
@@ -212,7 +212,7 @@ GInboxMgr::ReadState
 		is >> time;
 		if (currentTime > time)
 			{
-			JDirEntry* entry = itsEntries->NthElement(i);
+			JDirEntry* entry = itsEntries->GetElement(i);
 			if (JFileExists(entry->GetFullName()))
 				{
 				GMGetApplication()->OpenIconifiedMailbox(entry->GetFullName(), kJFalse);
@@ -236,7 +236,7 @@ GInboxMgr::MailboxClosed
 	JGetTrueName(mailbox, &trueMBox);
 	for (JSize i = 1; i <= itsEntries->GetElementCount(); i++)
 		{
-		JDirEntry* entry = itsEntries->NthElement(i);
+		JDirEntry* entry = itsEntries->GetElement(i);
 		JString trueFN;
 		JGetTrueName(entry->GetFullName(), &trueFN);
 		if (trueFN == trueMBox)

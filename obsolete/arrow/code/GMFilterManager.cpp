@@ -114,7 +114,7 @@ GMFilterManager::Receive
 			const JSize count = filters->GetElementCount();
 			for (JIndex i = 1; i <= count; i++)
 				{
-				itsFilters->Append(filters->NthElement(i));
+				itsFilters->Append(filters->GetElement(i));
 				}
 			filters->RemoveAll();
 			WriteFilterFile();
@@ -169,7 +169,7 @@ GMFilterManager::WritePrefs
 	output << count << ' ';
 	for (JIndex i = 1; i <= count; i++)
 		{
-		GMFilter* filter = itsFilters->NthElement(i);
+		GMFilter* filter = itsFilters->GetElement(i);
 		filter->WriteSetup(output);
 		}
 }
@@ -249,7 +249,7 @@ GMFilterManager::WriteFilterFile()
 	const JSize count	= itsFilters->GetElementCount();
 	for (JIndex i = 1; i <= count; i++)
 		{
-		GMFilter* filter	= itsFilters->NthElement(i);
+		GMFilter* filter	= itsFilters->GetElement(i);
 		WriteFilter(os, filter);
 		}
 }
@@ -275,7 +275,7 @@ GMFilterManager::WriteFilter
 
 	os << ":0";
 
-	GMFilterAction* action	= actions->NthElement(1);
+	GMFilterAction* action	= actions->GetElement(1);
 	if (action->IsCopying())
 		{
 		os << " c";
@@ -287,7 +287,7 @@ GMFilterManager::WriteFilter
 	const JSize condCount	= conditions->GetElementCount();
 	for (JIndex i = 1; i <= condCount; i++)
 		{
-		GMFilterCondition* condition	= conditions->NthElement(i);
+		GMFilterCondition* condition	= conditions->GetElement(i);
 		WriteCondition(os, condition);
 		}
 
@@ -302,7 +302,7 @@ GMFilterManager::WriteFilter
 	for (JIndex i = 2; i <= actionCount; i++)
 		{
 		os << std::endl;
-		action	= actions->NthElement(i);
+		action	= actions->GetElement(i);
 		os << ":0 A";
 		if (i != actionCount)
 			{

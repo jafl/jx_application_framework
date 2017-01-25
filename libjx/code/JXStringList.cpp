@@ -97,7 +97,7 @@ JXStringList::TableDrawCell
 	font.SetStyle(itsStyles->GetCellStyle(cell));
 	p.SetFont(font);
 
-	const JString* str = itsList->NthElement(cell.y);
+	const JString* str = itsList->GetElement(cell.y);
 
 	// check that column is wide enough
 	// (Not assuming rect == cell_rect allows icons in derived classes.)

@@ -152,7 +152,7 @@ JXDisplay::JXDisplay
 	)
 	:
 	itsName(displayName),
-	itsMaxStringLength( 4*(XMaxRequestSize(xDisplay)-3) * 4/5 ),
+	itsMaxStringByteCount( 4*(XMaxRequestSize(xDisplay)-3) * 4/5 ),
 	itsLatestKeyModifiers(this)
 {
 	itsXDisplay             = xDisplay;
@@ -344,7 +344,7 @@ JIndex i;
 
 	for (i=1; i<=childCount; i++)
 		{
-		JXWindow* w = childMapping.NthElement(i);
+		JXWindow* w = childMapping.GetElement(i);
 		if (w != NULL && w->IsVisible() && !w->IsIconified())
 			{
 			w->Raise();

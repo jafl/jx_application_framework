@@ -703,7 +703,7 @@ JIndex i;
 
 		for (i=1; i<=sampleCount; i++)
 			{
-			JSubset* sample = sampleList->NthElement(i);
+			JSubset* sample = sampleList->GetElement(i);
 			assert( sample != NULL );
 			sample->RemoveAll();
 			}
@@ -732,7 +732,7 @@ JIndex i;
 			count[j]--;		// must decrement, even when break
 			if (theRNG.UniformULong(1,count[j]+1) <= remaining[j])
 				{
-				(sampleList->NthElement(j+1))->Add(itsIndices->GetElement(i));
+				(sampleList->GetElement(j+1))->Add(itsIndices->GetElement(i));
 				remaining[j]--;
 				done = kJFalse;
 				break;

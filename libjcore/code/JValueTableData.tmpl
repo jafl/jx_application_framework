@@ -58,7 +58,7 @@ JValueTableData<S,T>::JValueTableData
 	const JSize count = (source.itsCols)->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		itsCols->Append(*((source.itsCols)->NthElement(i)));
+		itsCols->Append(*((source.itsCols)->GetElement(i)));
 		}
 }
 
@@ -115,7 +115,7 @@ JValueTableData<S,T>::GetElement
 	)
 	const
 {
-	const S* dataCol = itsCols->NthElement(col);
+	const S* dataCol = itsCols->GetElement(col);
 	return dataCol->GetElement(row);
 }
 
@@ -127,7 +127,7 @@ JValueTableData<S,T>::GetElement
 	)
 	const
 {
-	const S* dataCol = itsCols->NthElement(cell.x);
+	const S* dataCol = itsCols->GetElement(cell.x);
 	return dataCol->GetElement(cell.y);
 }
 
@@ -145,7 +145,7 @@ JValueTableData<S,T>::SetElement
 	const T&		data
 	)
 {
-	S* dataCol = itsCols->NthElement(col);
+	S* dataCol = itsCols->GetElement(col);
 	if (data != dataCol->GetElement(row))
 		{
 		dataCol->SetElement(row, data);
@@ -161,7 +161,7 @@ JValueTableData<S,T>::SetElement
 	const T&		data
 	)
 {
-	S* dataCol = itsCols->NthElement(cell.x);
+	S* dataCol = itsCols->GetElement(cell.x);
 	if (data != dataCol->GetElement(cell.y))
 		{
 		dataCol->SetElement(cell.y, data);
@@ -188,7 +188,7 @@ JValueTableData<S,T>::GetRow
 	const JSize colCount = GetColCount();
 	for (JIndex i=1; i<=colCount; i++)
 		{
-		const S* dataCol = itsCols->NthElement(i);
+		const S* dataCol = itsCols->GetElement(i);
 		rowData->InsertElementAtIndex(i, dataCol->GetElement(index));
 		}
 }
@@ -211,7 +211,7 @@ JValueTableData<S,T>::SetRow
 
 	for (JIndex i=1; i<=colCount; i++)
 		{
-		S* dataCol = itsCols->NthElement(i);
+		S* dataCol = itsCols->GetElement(i);
 		dataCol->SetElement(index, rowData.GetElement(i));
 		}
 
@@ -237,7 +237,7 @@ JValueTableData<S,T>::GetCol
 	colData->RemoveAll();
 
 	const JSize rowCount = GetRowCount();
-	const S* dataCol = itsCols->NthElement(index);
+	const S* dataCol = itsCols->GetElement(index);
 	for (JIndex i=1; i<=rowCount; i++)
 		{
 		colData->InsertElementAtIndex(i, dataCol->GetElement(i));
@@ -262,7 +262,7 @@ JValueTableData<S,T>::SetCol
 	const JSize rowCount = GetRowCount();
 	assert( colData.GetElementCount() == rowCount );
 
-	S* dataCol = itsCols->NthElement(index);
+	S* dataCol = itsCols->GetElement(index);
 	for (JIndex i=1; i<=rowCount; i++)
 		{
 		dataCol->SetElement(i, colData.GetElement(i));
@@ -296,7 +296,7 @@ JValueTableData<S,T>::InsertRows
 			{
 			for (JIndex i=1; i<=colCount; i++)
 				{
-				S* colData = itsCols->NthElement(i);
+				S* colData = itsCols->GetElement(i);
 				if (initData != NULL)
 					{
 					colData->InsertElementAtIndex(trueIndex, initData->GetElement(i));
@@ -358,7 +358,7 @@ JValueTableData<S,T>::DuplicateRow
 	const JSize colCount = GetColCount();
 	for (JIndex i=1; i<=colCount; i++)
 		{
-		S* colData = itsCols->NthElement(i);
+		S* colData = itsCols->GetElement(i);
 		const T element = colData->GetElement(origIndex);
 		colData->InsertElementAtIndex(trueIndex, element);
 		}
@@ -404,7 +404,7 @@ JValueTableData<S,T>::RemoveNextRows
 		const JSize colCount = GetColCount();
 		for (JIndex i=1; i<=colCount; i++)
 			{
-			S* colData = itsCols->NthElement(i);
+			S* colData = itsCols->GetElement(i);
 			colData->RemoveNextElements(firstIndex, count);
 			}
 
@@ -441,7 +441,7 @@ JValueTableData<S,T>::RemoveAllRows()
 	const JSize colCount = GetColCount();
 	for (JIndex i=1; i<=colCount; i++)
 		{
-		S* colData = itsCols->NthElement(i);
+		S* colData = itsCols->GetElement(i);
 		colData->RemoveAll();
 		}
 
@@ -468,7 +468,7 @@ JValueTableData<S,T>::MoveRow
 		const JSize colCount = GetColCount();
 		for (JIndex i=1; i<=colCount; i++)
 			{
-			S* colData = itsCols->NthElement(i);
+			S* colData = itsCols->GetElement(i);
 			colData->MoveElementToIndex(origIndex, newIndex);
 			}
 
@@ -565,7 +565,7 @@ JValueTableData<S,T>::DuplicateCol
 	)
 {
 	const JIndex trueIndex = JMin(newIndex, GetColCount()+1);
-	itsCols->InsertAtIndex(trueIndex, *(itsCols->NthElement(origIndex)));
+	itsCols->InsertAtIndex(trueIndex, *(itsCols->GetElement(origIndex)));
 
 	ColsAdded(1);
 	Broadcast(JTableData::ColDuplicated(origIndex, trueIndex));

@@ -89,7 +89,7 @@ SVNTabBase::OpenFiles()
 	const JSize count = list.GetElementCount();
 	for (JIndex i=count; i>=1; i--)
 		{
-		JString* s = list.NthElement(i);
+		JString* s = list.GetElement(i);
 		if (JDirectoryExists(*s))
 			{
 			pathList.Append(s);
@@ -267,7 +267,7 @@ SVNTabBase::ExecuteDiff
 	for (JIndex i=1; i<=count; i++)
 		{
 		cmd      = origCmd;
-		fullName = JPrepArgForExec(*(fileList.NthElement(i)));
+		fullName = JPrepArgForExec(*(fileList.GetElement(i)));
 
 		if (customPrev)
 			{
@@ -334,7 +334,7 @@ SVNTabBase::ExecuteJCCDiff
 			}
 		s += " $file_name";
 
-		fullName = JPrepArgForExec(*(fileList.NthElement(i)));
+		fullName = JPrepArgForExec(*(fileList.GetElement(i)));
 		subst.DefineVariable("file_name", fullName);
 		subst.Substitute(&s);
 
@@ -581,7 +581,7 @@ SVNTabBase::Prepare
 	JString fileList;
 	for (JIndex i=1; i<=count; i++)
 		{
-		fileList += JPrepArgForExec(*(list.NthElement(i)));
+		fileList += JPrepArgForExec(*(list.GetElement(i)));
 		fileList += " ";
 		}
 

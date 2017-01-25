@@ -123,7 +123,7 @@ THXVarList::GetFunction
 	)
 	const
 {
-	return itsFunctions->NthElement(index);
+	return itsFunctions->GetElement(index);
 }
 
 /******************************************************************************

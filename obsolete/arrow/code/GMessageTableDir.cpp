@@ -975,7 +975,7 @@ GMessageTableDir::UpdateInboxMenu()
 		{
 		JString inbox;
 		JString path;
-		JSplitPathAndName(*(inboxes.NthElement(i)), &path, &inbox);
+		JSplitPathAndName(*(inboxes.GetElement(i)), &path, &inbox);
 		itsInboxMenu->AppendItem(inbox);
 		}
 	inboxes.DeleteAll();
@@ -1021,7 +1021,7 @@ GMessageTableDir::HandleInboxMenu
 		GGetPrefsMgr()->GetInboxes(inboxes);
 		for (JSize i = 1; i <= inboxes.GetElementCount(); i++)
 			{
-			GMGetApplication()->OpenMailbox(*(inboxes.NthElement(i)));
+			GMGetApplication()->OpenMailbox(*(inboxes.GetElement(i)));
 			}
 		}
 	else
@@ -1030,7 +1030,7 @@ GMessageTableDir::HandleInboxMenu
 		GGetPrefsMgr()->GetInboxes(inboxes);
 		JSize count = inboxes.GetElementCount();
 		assert(count >= index - 4);
-		JString filename = *(inboxes.NthElement(index - 4));
+		JString filename = *(inboxes.GetElement(index - 4));
 		if (JFileExists(filename))
 			{
 			GMGetApplication()->OpenMailbox(filename);
@@ -1182,7 +1182,7 @@ GMessageTableDir::ViewMessage
 	GMessageViewDir* dir;
 	for (JSize i = 1; i <= itsViewDirs->GetElementCount(); i++)
 		{
-		dir = itsViewDirs->NthElement(i);
+		dir = itsViewDirs->GetElement(i);
 		if (header == dir->GetMessageHeader())
 			{
 			dir->Activate();
@@ -1210,7 +1210,7 @@ GMessageTableDir::CloseMessage
 	const JSize count = itsViewDirs->GetElementCount();
 	for (JIndex i=count; i>=1; i--)
 		{
-		GMessageViewDir* dir = itsViewDirs->NthElement(i);
+		GMessageViewDir* dir = itsViewDirs->GetElement(i);
 		if (const_cast<GMessageHeader*>(header) == dir->GetMessageHeader())
 			{
 			dir->Close();
@@ -1258,7 +1258,7 @@ GMessageTableDir::SaveState
 	for (JSize i = 1; i <= count; i++)
 		{
 		std::ostringstream os;
-		itsViewDirs->NthElement(i)->SaveState(os);
+		itsViewDirs->GetElement(i)->SaveState(os);
 		fileArray.AppendElement(os);
 		}
 }
@@ -1672,7 +1672,7 @@ GMessageTableDir::SearchMessages()
 		JBoolean match		= kJFalse;
 		for (JIndex j = 1; j <= pcount; j++)
 			{
-			JString pattern	= *(patterns.NthElement(j));
+			JString pattern	= *(patterns.GetElement(j));
 			if (header->GetFrom().Contains(pattern, kJFalse) ||
 				header->GetSubject().Contains(pattern, kJFalse))
 				{

@@ -177,7 +177,7 @@ GMAccountList::TableDrawCell
 
 	p.SetFont(JGetDefaultFontName(), kJDefaultFontSize, fontstyle);
 
-	JString str = itsAccountInfo->NthElement(cell.y)->GetNickname();
+	JString str = itsAccountInfo->GetElement(cell.y)->GetNickname();
 
 	// check that column is wide enough
 
@@ -296,7 +296,7 @@ GMAccountList::CreateXInputField
 	assert(itsInput != NULL);
 	assert(cell.y <= (JCoordinate)(itsAccountInfo->GetElementCount()));
 	// need to check for duplicates here
-	itsInput->SetText(itsAccountInfo->NthElement(cell.y)->GetNickname());
+	itsInput->SetText(itsAccountInfo->GetElement(cell.y)->GetNickname());
 	itsInput->SetIsRequired();
 	if (itsDialog->GetDefaultIndex() == (JIndex)cell.y)
 		{
@@ -335,7 +335,7 @@ GMAccountList::ExtractInputData
 	const JSize count	= itsAccountInfo->GetElementCount();
 	for (JIndex i = 1; i <= count; i++)
 		{
-		if (name == itsAccountInfo->NthElement(i)->GetNickname() &&
+		if (name == itsAccountInfo->GetElement(i)->GetNickname() &&
 			(JCoordinate)i != cell.y)
 			{
 			JGetUserNotification()->ReportError("This nickname is already in use.");
@@ -343,7 +343,7 @@ GMAccountList::ExtractInputData
 			}
 		}
 	assert(cell.y <= (JCoordinate)(itsAccountInfo->GetElementCount()));
-	itsAccountInfo->NthElement(cell.y)->SetNickname(name);
+	itsAccountInfo->GetElement(cell.y)->SetNickname(name);
 	return kJTrue;
 }
 

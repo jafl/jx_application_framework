@@ -244,7 +244,7 @@ GPMSystemStats::ComputeStats
 	count = hidden.GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		const GPMProcessEntry* e = hidden.NthElement(i);
+		const GPMProcessEntry* e = hidden.GetElement(i);
 		*otherCPUPercentage     += e->GetPercentCPU();
 		}
 

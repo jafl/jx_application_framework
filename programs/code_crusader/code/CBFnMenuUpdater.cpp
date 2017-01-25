@@ -231,7 +231,7 @@ CBFnMenuUpdater::ReadFunctionList
 		JSize count = fnNameList.GetElementCount();
 		for (JIndex i=1; i<=count; i++)
 			{
-			const JString* fnName  = fnNameList.NthElement(i);
+			const JString* fnName  = fnNameList.GetElement(i);
 			const JIndex lineIndex = lineIndexList->GetElement(i);
 			if (cbIsQualified(*fnName))
 				{
@@ -258,7 +258,7 @@ CBFnMenuUpdater::ReadFunctionList
 	const JSize count = fnNameList.GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		menu->AppendItem(*(fnNameList.NthElement(i)));
+		menu->AppendItem(*(fnNameList.GetElement(i)));
 		}
 }
 

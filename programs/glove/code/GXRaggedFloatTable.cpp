@@ -2101,7 +2101,7 @@ GXRaggedFloatTable::UpdateModuleMenu()
 	JPtrArray<JString>* names = (GLGetApplication())->GetDataModules();
 	for (i = 1; i <= names->GetElementCount(); i++)
 		{
-		itsModuleMenu->AppendItem(*(names->NthElement(i)));
+		itsModuleMenu->AppendItem(*(names->GetElement(i)));
 		}
 }
 
@@ -2853,7 +2853,7 @@ GXRaggedFloatTable::GetCurrentUndo
 {
 	if (HasUndo())
 		{
-		*undo = itsUndoList->NthElement(itsFirstRedoIndex - 1);
+		*undo = itsUndoList->GetElement(itsFirstRedoIndex - 1);
 		return kJTrue;
 		}
 	else
@@ -2876,7 +2876,7 @@ GXRaggedFloatTable::GetCurrentRedo
 {
 	if (HasRedo())
 		{
-		*redo = itsUndoList->NthElement(itsFirstRedoIndex);
+		*redo = itsUndoList->GetElement(itsFirstRedoIndex);
 		return kJTrue;
 		}
 	else
@@ -2943,7 +2943,7 @@ GXRaggedFloatTable::NewUndo
 		assert( itsFirstRedoIndex > 1 );
 
 		itsFirstRedoIndex--;
-		JUndo* oldUndo = itsUndoList->NthElement(itsFirstRedoIndex);
+		JUndo* oldUndo = itsUndoList->GetElement(itsFirstRedoIndex);
 //		jdelete oldUndo;
 		itsUndoList->SetElement(itsFirstRedoIndex, undo, JPtrArrayT::kDelete);
 
@@ -2955,7 +2955,7 @@ GXRaggedFloatTable::NewUndo
 		{
 		assert( itsFirstRedoIndex <= itsUndoList->GetElementCount() );
 
-		JUndo* oldRedo = itsUndoList->NthElement(itsFirstRedoIndex);
+		JUndo* oldRedo = itsUndoList->GetElement(itsFirstRedoIndex);
 //		jdelete oldRedo;
 		itsUndoList->SetElement(itsFirstRedoIndex, undo, JPtrArrayT::kDelete);
 		itsFirstRedoIndex++;

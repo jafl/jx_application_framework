@@ -435,7 +435,7 @@ SMTPMessage::ReplaceAliases
 	JSize i = 1;
 	while (i <= names.GetElementCount())
 		{
-		JString& name = *(names.NthElement(i));
+		JString& name = *(names.GetElement(i));
 		JString alias;
 		JString fcc;
 		if (GGetAddressBookMgr()->NameIsAlias(name, alias, fcc))
@@ -444,7 +444,7 @@ SMTPMessage::ReplaceAliases
 			if (!aliases.SearchSorted(&name, JOrderedSetT::kAnyMatch, &findex))
 				{
 				GParseNameList(alias, names);
-				aliases.InsertSorted(names.NthElement(i));
+				aliases.InsertSorted(names.GetElement(i));
 				names.RemoveElement(i);
 				}
 			else
@@ -764,7 +764,7 @@ SMTPMessage::SendNextData()
 		{
 		assert(itsCurrentIndex <= itsToNames->GetElementCount());
 		JString senddata;
-		JString name = *(itsToNames->NthElement(itsCurrentIndex));
+		JString name = *(itsToNames->GetElement(itsCurrentIndex));
 		senddata = "RCPT TO: " + name;
 		SendLine(senddata);
 		senddata += "\n";
@@ -774,7 +774,7 @@ SMTPMessage::SendNextData()
 		{
 		assert(itsCurrentIndex <= itsCcNames->GetElementCount());
 		JString senddata;
-		JString name = *(itsCcNames->NthElement(itsCurrentIndex));
+		JString name = *(itsCcNames->GetElement(itsCurrentIndex));
 		senddata = "RCPT TO: " + name;
 		SendLine(senddata);
 		senddata += "\n";
@@ -784,7 +784,7 @@ SMTPMessage::SendNextData()
 		{
 		assert(itsCurrentIndex <= itsBccNames->GetElementCount());
 		JString senddata;
-		JString name = *(itsBccNames->NthElement(itsCurrentIndex));
+		JString name = *(itsBccNames->GetElement(itsCurrentIndex));
 		senddata = "RCPT TO: " + name;
 		SendLine(senddata);
 		senddata += "\n";
@@ -825,10 +825,10 @@ SMTPMessage::SendNextData()
 
 		senddata = "To: ";
 		assert(itsToNames->GetElementCount() > 0);
-		senddata += *(itsToNames->NthElement(1));
+		senddata += *(itsToNames->GetElement(1));
 		for (JSize i = 2; i <= itsToNames->GetElementCount(); i++)
 			{
-			senddata += ",\n\t" + *(itsToNames->NthElement(i));
+			senddata += ",\n\t" + *(itsToNames->GetElement(i));
 			}
 		SendLine(senddata);
 		AppendToOutbox(senddata);
@@ -846,10 +846,10 @@ SMTPMessage::SendNextData()
 			{
 			JSize count = itsCcNames->GetElementCount();
 			senddata = "Cc: ";
-			senddata += *(itsCcNames->NthElement(1));
+			senddata += *(itsCcNames->GetElement(1));
 			for (JSize i = 2; i <= count; i++)
 				{
-				senddata += ",\n\t" + *(itsCcNames->NthElement(i));
+				senddata += ",\n\t" + *(itsCcNames->GetElement(i));
 				}
 			SendLine(senddata);
 			AppendToOutbox(senddata);

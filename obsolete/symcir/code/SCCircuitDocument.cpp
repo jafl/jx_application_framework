@@ -521,7 +521,7 @@ JIndex i;
 	for (i=1; i<=exprCount; i++)
 		{
 		output << ' ';
-		(itsExprList->NthElement(i))->StreamOut(output);
+		(itsExprList->GetElement(i))->StreamOut(output);
 		}
 
 	const JSize plotCount = itsPlotList->GetElementCount();
@@ -530,7 +530,7 @@ JIndex i;
 	for (i=1; i<=plotCount; i++)
 		{
 		output << ' ';
-		(itsPlotList->NthElement(i))->StreamOut(output);
+		(itsPlotList->GetElement(i))->StreamOut(output);
 		}
 }
 
@@ -717,7 +717,7 @@ SCCircuitDocument::BuildPlotMenu
 	const JSize count = itsPlotList->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		SCPlotDirector* dir = itsPlotList->NthElement(i);
+		SCPlotDirector* dir = itsPlotList->GetElement(i);
 		menu->AppendItem((dir->GetWindow())->GetTitle(), kJTrue, kJTrue);
 		}
 

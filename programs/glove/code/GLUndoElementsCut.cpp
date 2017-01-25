@@ -118,7 +118,7 @@ GLUndoElementsCut::Undo()
 		JSize cols = itsValues->GetElementCount();
 		for (JSize i = 1; i <= cols; i++)
 			{
-			JArray<JFloat>* col = itsValues->NthElement(i);
+			JArray<JFloat>* col = itsValues->GetElement(i);
 			data->InsertCol(i + start.x - 1, col);
 			}
 		}
@@ -127,7 +127,7 @@ GLUndoElementsCut::Undo()
 		JSize cols = itsValues->GetElementCount();
 		for (JSize i = 1; i <= cols; i++)
 			{
-			JArray<JFloat>* col = itsValues->NthElement(i);
+			JArray<JFloat>* col = itsValues->GetElement(i);
 			JSize rows = col->GetElementCount();
 			for (JSize j = 1; j <= rows; j++)
 				{

@@ -138,7 +138,7 @@ JX2DCurveNameList::TableDrawCell
 {
 	HilightIfSelected(p, cell, rect);
 
-	const JString* curveName = itsNameList->NthElement(cell.y);
+	const JString* curveName = itsNameList->GetElement(cell.y);
 
 	JRect r = rect;
 	r.left += kHMarginWidth;
@@ -196,7 +196,7 @@ JX2DCurveNameList::CreateXInputField
 	itsInput = jnew JXInputField(this, kHElastic, kVElastic, x, y, w, h);
 	assert(itsInput != NULL);
 
-	itsInput->SetText(*(itsNameList->NthElement(cell.y)));
+	itsInput->SetText(*(itsNameList->GetElement(cell.y)));
 	itsInput->SetIsRequired();
 	return itsInput;
 }
@@ -226,7 +226,7 @@ JX2DCurveNameList::ExtractInputData
 	const JString& name = itsInput->GetText();
 	if (!name.IsEmpty())
 		{
-		*(itsNameList->NthElement(cell.y)) = name;
+		*(itsNameList->GetElement(cell.y)) = name;
 		return kJTrue;
 		}
 	else

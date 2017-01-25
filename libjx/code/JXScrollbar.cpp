@@ -263,7 +263,7 @@ JXScrollbar::DrawHoriz
 		const JSize tabCount = itsScrolltabList->GetElementCount();
 		for (JIndex i=1; i<=tabCount; i++)
 			{
-			(itsScrolltabList->NthElement(i))->
+			(itsScrolltabList->GetElement(i))->
 				PlaceHoriz(minThumbLoc, maxThumbLoc, thumbLocScale);
 			}
 		}
@@ -372,7 +372,7 @@ JXScrollbar::DrawVert
 		const JSize tabCount = itsScrolltabList->GetElementCount();
 		for (JIndex i=1; i<=tabCount; i++)
 			{
-			(itsScrolltabList->NthElement(i))->
+			(itsScrolltabList->GetElement(i))->
 				PlaceVert(minThumbLoc, maxThumbLoc, thumbLocScale);
 			}
 		}
@@ -746,7 +746,7 @@ JXScrollbar::SetMaxValue
 			const JSize tabCount = itsScrolltabList->GetElementCount();
 			for (JIndex i=tabCount; i>=1; i--)
 				{
-				JXScrolltab* tab = itsScrolltabList->NthElement(i);
+				JXScrolltab* tab = itsScrolltabList->GetElement(i);
 				if (tab->GetValue() > maxValue)
 					{
 					jdelete tab;
@@ -858,7 +858,7 @@ JXScrollbar::ScrollToTab
 {
 	if (itsScrolltabList != NULL && itsScrolltabList->IndexValid(tabIndex))
 		{
-		(itsScrolltabList->NthElement(tabIndex))->ScrollToTab();
+		(itsScrolltabList->GetElement(tabIndex))->ScrollToTab();
 		}
 }
 
@@ -887,7 +887,7 @@ JXScrollbar::PrepareForLowerMaxValue
 		const JSize tabCount = itsScrolltabList->GetElementCount();
 		for (JIndex i=tabCount; i>=1; i--)
 			{
-			JXScrolltab* tab = itsScrolltabList->NthElement(i);
+			JXScrolltab* tab = itsScrolltabList->GetElement(i);
 			if (tab->GetValue() >= start + (JCoordinate) length)
 				{
 				tab->AdjustValue(delta);
@@ -923,7 +923,7 @@ JXScrollbar::PrepareForHigherMaxValue
 		const JSize tabCount = itsScrolltabList->GetElementCount();
 		for (JIndex i=1; i<=tabCount; i++)
 			{
-			JXScrolltab* tab = itsScrolltabList->NthElement(i);
+			JXScrolltab* tab = itsScrolltabList->GetElement(i);
 			if (tab->GetValue() >= start)
 				{
 				tab->AdjustValue(length);
@@ -952,7 +952,7 @@ JXScrollbar::PrepareForScaledMaxValue
 		const JSize tabCount = itsScrolltabList->GetElementCount();
 		for (JIndex i=1; i<=tabCount; i++)
 			{
-			JXScrolltab* tab = itsScrolltabList->NthElement(i);
+			JXScrolltab* tab = itsScrolltabList->GetElement(i);
 			tab->ScaleValue(scaleFactor);
 			}
 		}
@@ -985,7 +985,7 @@ JIndex i;
 		const JSize tabCount = itsScrolltabList->GetElementCount();
 		for (i=tabCount; i>=1; i--)
 			{
-			JXScrolltab* tab    = itsScrolltabList->NthElement(i);
+			JXScrolltab* tab    = itsScrolltabList->GetElement(i);
 			const JCoordinate v = tab->GetValue();
 			if (origStart <= v && v <= origEnd)
 				{
@@ -1001,7 +1001,7 @@ JIndex i;
 		const JSize saveCount   = savedTabList.GetElementCount();
 		for (i=1; i<=saveCount; i++)
 			{
-			JXScrolltab* tab = savedTabList.NthElement(i);
+			JXScrolltab* tab = savedTabList.GetElement(i);
 			tab->AdjustValue(delta);
 			itsScrolltabList->InsertSorted(tab);
 			}
@@ -1151,7 +1151,7 @@ JXScrollbar::WriteSetup
 
 		for (JIndex i=1; i<=tabCount; i++)
 			{
-			output << ' ' << (itsScrolltabList->NthElement(i))->GetValue();
+			output << ' ' << (itsScrolltabList->GetElement(i))->GetValue();
 			}
 		}
 	else

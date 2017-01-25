@@ -39,6 +39,8 @@ public:
 
 	virtual ~JPtrArray();
 
+	// we use different names so the insert-copy versions don't shadow the JArray functions
+
 	const JPtrArray<T>& CopyPointers(const JPtrArray<T>& source,
 									 const JPtrArrayT::CleanUpAction action,
 									 const JBoolean append);
@@ -72,14 +74,6 @@ public:
 	void	DeleteAll();
 	void	DeleteElementAsArray(const JIndex index);
 	void	DeleteAllAsArrays();
-
-	T*		NthElement(const JIndex index);
-	T*		FirstElement();
-	T*		LastElement();
-
-	const T*	NthElement(const JIndex index) const;
-	const T*	FirstElement() const;
-	const T*	LastElement() const;
 
 	JBoolean	Includes(const T* dataPtr) const;
 	JBoolean	Find(const T* dataPtr, JIndex* elementIndex) const;

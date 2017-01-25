@@ -112,10 +112,10 @@ GFGMainDirector::GFGMainDirector
 	JString classname, filename;
 	for (JIndex i = 1; i <= count; i++)
 		{
-		const JString* argName = files.NthElement(i);
+		const JString* argName = files.GetElement(i);
 		if (*argName == "--output_path" && i < count)
 			{
-			outputPath = *(files.NthElement(i+1));
+			outputPath = *(files.GetElement(i+1));
 			i++;
 			}
 		else if (!argName->BeginsWith("-"))

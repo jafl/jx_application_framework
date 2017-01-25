@@ -207,14 +207,14 @@ JIndex i;
 				{
 				JIndex j;
 				*symInput >> j;
-				itsVisibleByGeom->Append(itsVisibleByName->NthElement(j));
+				itsVisibleByGeom->Append(itsVisibleByName->GetElement(j));
 				}
 			itsVisibleByGeom->SetBlockSize(kBlockSize);
 			}
 
 		for (i=1; i<=classCount; i++)
 			{
-			(itsClassesByFull->NthElement(i))->FindParentsAfterRead();
+			(itsClassesByFull->GetElement(i))->FindParentsAfterRead();
 			}
 
 		// We can only sort this after calling FindParentsAfterRead(),
@@ -404,7 +404,7 @@ JIndex i;
 		{
 		JIndex j;
 		input >> j;
-		itsVisibleByGeom->Append(itsVisibleByName->NthElement(j));
+		itsVisibleByGeom->Append(itsVisibleByName->GetElement(j));
 		}
 
 	itsVisibleByGeom->SetBlockSize(kBlockSize);
@@ -413,7 +413,7 @@ JIndex i;
 
 	for (i=1; i<=classCount; i++)
 		{
-		(itsClassesByFull->NthElement(i))->FindParentsAfterRead();
+		(itsClassesByFull->GetElement(i))->FindParentsAfterRead();
 		}
 
 	// check for change in file suffixes
@@ -488,7 +488,7 @@ JIndex i;
 		for (i=1; i<=classCount; i++)
 			{
 			*symOutput << ' ';
-			(itsClassesByFull->NthElement(i))->StreamOut(*symOutput);
+			(itsClassesByFull->GetElement(i))->StreamOut(*symOutput);
 			}
 
 		// write geometry ordering
@@ -498,7 +498,7 @@ JIndex i;
 		for (i=1; i<=geomCount; i++)
 			{
 			JIndex j;
-			const JBoolean found = itsVisibleByName->Find(itsVisibleByGeom->NthElement(i), &j);
+			const JBoolean found = itsVisibleByName->Find(itsVisibleByGeom->GetElement(i), &j);
 			assert( found );
 			*symOutput << ' ' << j;
 			}
@@ -675,7 +675,7 @@ CBTree::RemoveFile
 	const JSize classCount = itsClassesByFull->GetElementCount();
 	for (JIndex i=classCount; i>=1; i--)
 		{
-		const CBClass* theClass = itsClassesByFull->NthElement(i);
+		const CBClass* theClass = itsClassesByFull->GetElement(i);
 		JFAID_t fileID;
 		if (theClass->GetFileID(&fileID) && fileID == id)
 			{
@@ -705,7 +705,7 @@ CBTree::SaveCollapsedClasses
 	const JSize count = itsClassesByFull->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		const CBClass* theClass = itsClassesByFull->NthElement(i);
+		const CBClass* theClass = itsClassesByFull->GetElement(i);
 		if (theClass->IsCollapsed())
 			{
 			list->Append(theClass->GetFullName());
@@ -733,7 +733,7 @@ CBTree::RestoreCollapsedClasses
 	const JSize count = list.GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		const JString* fullName = list.NthElement(i);
+		const JString* fullName = list.GetElement(i);
 		CBClass* theClass;
 		if (FindClass(*fullName, &theClass) && !theClass->IsCollapsed())
 			{
@@ -799,7 +799,7 @@ JIndex i;
 	JSize classCount = itsClassesByFull->GetElementCount();
 	for (i=classCount; i>=1; i--)
 		{
-		CBClass* theClass = itsClassesByFull->NthElement(i);
+		CBClass* theClass = itsClassesByFull->GetElement(i);
 		if (theClass->IsGhost())
 			{
 			itsClassesByFull->DeleteElement(i);
@@ -823,7 +823,7 @@ JIndex i;
 		for (i=1; i<=classCount; i++)
 			{
 			const JBoolean foundAnotherParent =
-				(itsClassesByFull->NthElement(i))->FindParents(kJFalse);
+				(itsClassesByFull->GetElement(i))->FindParents(kJFalse);
 			progress = JConvertToBoolean( progress || foundAnotherParent );
 			}
 		}
@@ -834,7 +834,7 @@ JIndex i;
 
 	for (i=1; i<=classCount; i++)
 		{
-		(itsClassesByFull->NthElement(i))->FindParents(kJTrue);
+		(itsClassesByFull->GetElement(i))->FindParents(kJTrue);
 		classCount = GetElementCount();
 		}
 
@@ -869,7 +869,7 @@ CBTree::RecalcVisible
 
 	for (JIndex i=1; i<=classCount; i++)
 		{
-		CBClass* theClass       = itsClassesByFull->NthElement(i);
+		CBClass* theClass       = itsClassesByFull->GetElement(i);
 		const JBoolean isStruct = theClass->IsStruct();
 		const JBoolean isEnum   = theClass->IsEnum();
 
@@ -917,7 +917,7 @@ CBTree::RecalcVisible
 		changed = kJFalse;
 		for (JIndex i=1; i<=classCount; i++)
 			{
-			CBClass* theClass = itsClassesByFull->NthElement(i);
+			CBClass* theClass = itsClassesByFull->GetElement(i);
 			CBClass* parent;
 			if (theClass->GetParent(1, &parent))
 				{
@@ -944,7 +944,7 @@ CBTree::RecalcVisible
 		itsVisibleByName->RemoveAll();
 		for (JIndex i=1; i<=classCount; i++)
 			{
-			CBClass* theClass = itsClassesByFull->NthElement(i);
+			CBClass* theClass = itsClassesByFull->GetElement(i);
 			if (theClass->IsVisible())
 				{
 				itsVisibleByName->InsertSorted(theClass);
@@ -1005,7 +1005,7 @@ CBTree::PlaceAll
 	const JSize classCount = itsVisibleByGeom->GetElementCount();
 	for (JIndex i=1; i<=classCount; i++)
 		{
-		CBClass* theClass = itsVisibleByGeom->NthElement(i);
+		CBClass* theClass = itsVisibleByGeom->GetElement(i);
 		if (!theClass->HasParents())
 			{
 			const JCoordinate prevH = itsHeight;
@@ -1047,7 +1047,7 @@ CBTree::PlaceClass
 	const JSize classCount = itsVisibleByGeom->GetElementCount();
 	for (JIndex i=1; i<=classCount; i++)
 		{
-		CBClass* aClass = itsVisibleByGeom->NthElement(i);
+		CBClass* aClass = itsVisibleByGeom->GetElement(i);
 		CBClass* firstParent;
 		if (aClass->GetParent(1, &firstParent) && theClass == firstParent)
 			{
@@ -1145,7 +1145,7 @@ JIndex i,j;
 
 	for (i=1; i<=classCount; i++)
 		{
-		CBClass* theClass = itsVisibleByGeom->NthElement(i);
+		CBClass* theClass = itsVisibleByGeom->GetElement(i);
 		if (theClass->GetParentCount() > 1 && !marked.GetElement(i))
 			{
 			// find the roots that this class connects
@@ -1405,7 +1405,7 @@ CBTree::FindMIClasses
 	const JSize classCount = itsVisibleByGeom->GetElementCount();
 	for (JIndex i=1; i<=classCount; i++)
 		{
-		CBClass* c              = itsVisibleByGeom->NthElement(i);
+		CBClass* c              = itsVisibleByGeom->GetElement(i);
 		const JSize parentCount = c->GetParentCount();
 		for (JIndex parentIndex=1; parentIndex<=parentCount; parentIndex++)
 			{
@@ -1577,7 +1577,7 @@ CBTree::FindClass
 
 	if (found)
 		{
-		*theClass = itsClassesByFull->NthElement(index);
+		*theClass = itsClassesByFull->GetElement(index);
 		return kJTrue;
 		}
 	else
@@ -1608,7 +1608,7 @@ CBTree::IsUniqueClassName
 	const JSize classCount = itsClassesByFull->GetElementCount();
 	for (JIndex i=1; i<=classCount; i++)
 		{
-		CBClass* c = itsClassesByFull->NthElement(i);
+		CBClass* c = itsClassesByFull->GetElement(i);
 		if (c->GetName() == name)
 			{
 			if (*theClass == NULL)
@@ -1655,7 +1655,7 @@ CBTree::ClosestVisibleMatch
 		{
 		index = itsVisibleByName->GetElementCount();
 		}
-	*theClass = itsVisibleByName->NthElement(index);
+	*theClass = itsVisibleByName->GetElement(index);
 	return kJTrue;
 }
 
@@ -1692,7 +1692,7 @@ CBTree::FindParent
 	const JSize classCount = itsClassesByFull->GetElementCount();
 	for (JIndex i=1; i<=classCount; i++)
 		{
-		CBClass* c           = itsClassesByFull->NthElement(i);
+		CBClass* c           = itsClassesByFull->GetElement(i);
 		const JString& cName = c->GetFullName();
 		if (cName.EndsWith(parentSuffix) &&
 			parentSuffix.GetLength() < cName.GetLength())
@@ -1733,7 +1733,7 @@ CBTree::IndexToClassAfterRead
 	)
 	const
 {
-	return itsClassesByFull->NthElement(index);
+	return itsClassesByFull->GetElement(index);
 }
 
 /******************************************************************************
@@ -1768,7 +1768,7 @@ CBTree::HasSelection()
 	const JSize classCount = itsVisibleByName->GetElementCount();
 	for (JIndex i=1; i<=classCount; i++)
 		{
-		if ((itsVisibleByName->NthElement(i))->IsSelected())
+		if ((itsVisibleByName->GetElement(i))->IsSelected())
 			{
 			return kJTrue;
 			}
@@ -1797,7 +1797,7 @@ CBTree::GetSelectedClasses
 	const JSize classCount = itsVisibleByName->GetElementCount();
 	for (JIndex i=1; i<=classCount; i++)
 		{
-		CBClass* c = itsVisibleByName->NthElement(i);
+		CBClass* c = itsVisibleByName->GetElement(i);
 		if (c->IsSelected())
 			{
 			classList->Append(c);
@@ -1820,7 +1820,7 @@ CBTree::DeselectAll()
 	const JSize count = itsClassesByFull->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		(itsClassesByFull->NthElement(i))->SetSelected(kJFalse);
+		(itsClassesByFull->GetElement(i))->SetSelected(kJFalse);
 		}
 
 	itsBroadcastClassSelFlag = kJTrue;
@@ -1852,7 +1852,7 @@ CBTree::GetSelectionCoverage
 		const JSize count = classList.GetElementCount();
 		for (JIndex i=2; i<=count; i++)
 			{
-			*coverage = JCovering(*coverage, (classList.NthElement(i))->GetFrame());
+			*coverage = JCovering(*coverage, (classList.GetElement(i))->GetFrame());
 			}
 
 		*selCount = classList.GetElementCount();
@@ -1889,7 +1889,7 @@ CBTree::SelectClasses
 	const JSize classCount = itsClassesByFull->GetElementCount();
 	for (JIndex i=1; i<=classCount; i++)
 		{
-		CBClass* theClass = itsClassesByFull->NthElement(i);
+		CBClass* theClass = itsClassesByFull->GetElement(i);
 		if (theClass->GetName() == name)
 			{
 			theClass->SetSelected(kJTrue);
@@ -1932,7 +1932,7 @@ CBTree::SelectImplementors
 	const JSize classCount = itsClassesByFull->GetElementCount();
 	for (JIndex i=1; i<=classCount; i++)
 		{
-		CBClass* theClass = itsClassesByFull->NthElement(i);
+		CBClass* theClass = itsClassesByFull->GetElement(i);
 		if (theClass->Implements(fnName, caseSensitive))
 			{
 			theClass->SetSelected(kJTrue);
@@ -1968,7 +1968,7 @@ CBTree::SelectParents()
 		const JSize classCount = classList.GetElementCount();
 		for (JIndex i=1; i<=classCount; i++)
 			{
-			CBClass* c = classList.NthElement(i);
+			CBClass* c = classList.GetElement(i);
 			const JSize parentCount = c->GetParentCount();
 			for (JIndex j=1; j<=parentCount; j++)
 				{
@@ -2010,10 +2010,10 @@ CBTree::SelectDescendants()
 		const JSize totalCount = itsClassesByFull->GetElementCount();
 		for (JIndex i=1; i<=classCount; i++)
 			{
-			CBClass* c = classList.NthElement(i);
+			CBClass* c = classList.GetElement(i);
 			for (JIndex j=1; j<=totalCount; j++)
 				{
-				CBClass* c1 = itsClassesByFull->NthElement(j);
+				CBClass* c1 = itsClassesByFull->GetElement(j);
 				if (c->IsAncestor(c1))
 					{
 					c1->SetSelected(kJTrue);
@@ -2051,7 +2051,7 @@ CBTree::ViewSelectedSources()
 		const JSize classCount = classList.GetElementCount();
 		for (JIndex i=1; i<=classCount; i++)
 			{
-			(classList.NthElement(i))->ViewSource();
+			(classList.GetElement(i))->ViewSource();
 			}
 		}
 }
@@ -2073,7 +2073,7 @@ CBTree::ViewSelectedHeaders()
 		const JSize classCount = classList.GetElementCount();
 		for (JIndex i=1; i<=classCount; i++)
 			{
-			(classList.NthElement(i))->ViewHeader();
+			(classList.GetElement(i))->ViewHeader();
 			}
 		}
 }
@@ -2095,7 +2095,7 @@ CBTree::ViewSelectedFunctionLists()
 		const JSize classCount = classList.GetElementCount();
 		for (JIndex i=1; i<=classCount; i++)
 			{
-			itsDirector->ViewFunctionList(classList.NthElement(i));
+			itsDirector->ViewFunctionList(classList.GetElement(i));
 			}
 		}
 }
@@ -2117,7 +2117,7 @@ CBTree::CopySelectedClassNames()
 	const JSize classCount              = classList.GetElementCount();
 	for (JIndex i=1; i<=classCount; i++)
 		{
-		const CBClass* theClass = classList.NthElement(i);
+		const CBClass* theClass = classList.GetElement(i);
 		if (theClass->IsSelected())
 			{
 			const JString& name = theClass->GetFullName();
@@ -2167,7 +2167,7 @@ CBTree::DeriveFromSelected()
 	JString dataFileName, srcFileName;
 	for (JIndex i=1; i<=parentCount; i++)
 		{
-		CBClass* parent = parentList.NthElement(i);
+		CBClass* parent = parentList.GetElement(i);
 
 		ancestorList.RemoveAll();
 		CollectAncestors(parent, &ancestorList);
@@ -2190,7 +2190,7 @@ CBTree::DeriveFromSelected()
 
 		for (JIndex j=1; j<=ancestorCount; j++)
 			{
-			CBClass* ancestor = ancestorList.NthElement(j);
+			CBClass* ancestor = ancestorList.GetElement(j);
 			if (ancestor->GetFileName(&srcFileName))
 				{
 				output << ancestor->GetFullName() << '\t' << srcFileName << std::endl;
@@ -2225,7 +2225,7 @@ CBTree::DeriveFromSelected()
 		{
 		for (JIndex i=1; i<=fileCount; i++)
 			{
-			remove(*(argList.NthElement(i)));
+			remove(*(argList.GetElement(i)));
 			}
 		}
 }
@@ -2254,7 +2254,7 @@ CBTree::CollectAncestors
 			const JSize count = list->GetElementCount();
 			for (JIndex j=1; j<=count; j++)
 				{
-				if (CompareClassFullNames(parent, list->NthElement(j)) ==
+				if (CompareClassFullNames(parent, list->GetElement(j)) ==
 					JOrderedSetT::kFirstEqualSecond)
 					{
 					found = kJTrue;
@@ -2392,7 +2392,7 @@ CBTree::GetMenuInfo
 		const JSize classCount = classList.GetElementCount();
 		for (JIndex i=1; i<=classCount; i++)
 			{
-			CBClass* c = classList.NthElement(i);
+			CBClass* c = classList.GetElement(i);
 			if (c->IsCollapsed())
 				{
 				*canExpand = kJTrue;
@@ -2423,7 +2423,7 @@ CBTree::CollapseExpandSelectedClasses
 		const JSize classCount = classList.GetElementCount();
 		for (JIndex i=1; i<=classCount; i++)
 			{
-			CBClass* c = classList.NthElement(i);
+			CBClass* c = classList.GetElement(i);
 			if ((!collapse || c->HasPrimaryChildren()) &&
 				c->IsCollapsed() != collapse)
 				{
@@ -2452,7 +2452,7 @@ CBTree::ExpandAllClasses()
 	const JSize classCount = itsClassesByFull->GetElementCount();
 	for (JIndex i=1; i<=classCount; i++)
 		{
-		CBClass* c = itsClassesByFull->NthElement(i);
+		CBClass* c = itsClassesByFull->GetElement(i);
 		if (c->IsCollapsed())
 			{
 			changed = kJTrue;
@@ -2485,7 +2485,7 @@ CBTree::GetClass
 	const JSize classCount = itsVisibleByName->GetElementCount();
 	for (JIndex i=1; i<=classCount; i++)
 		{
-		CBClass* c = itsVisibleByName->NthElement(i);
+		CBClass* c = itsVisibleByName->GetElement(i);
 		if (c->Contains(pt))
 			{
 			*theClass = c;
@@ -2516,7 +2516,7 @@ CBTree::HitSameClass
 	const JSize classCount = itsVisibleByName->GetElementCount();
 	for (JIndex i=1; i<=classCount; i++)
 		{
-		CBClass* c        = itsVisibleByName->NthElement(i);
+		CBClass* c        = itsVisibleByName->GetElement(i);
 		const JBoolean c1 = c->Contains(pt1);
 		const JBoolean c2 = c->Contains(pt2);
 		if (c1 && c2)
@@ -2581,26 +2581,26 @@ JIndex i;
 		{
 		for (i=1; i<=classCount; i++)
 			{
-			(itsVisibleByName->NthElement(i))->DrawMILinks(p, rect);
+			(itsVisibleByName->GetElement(i))->DrawMILinks(p, rect);
 			}
 		}
 
 	for (i=1; i<=classCount; i++)
 		{
-		(itsVisibleByName->NthElement(i))->Draw(p, rect);
+		(itsVisibleByName->GetElement(i))->Draw(p, rect);
 		}
 
 	if (itsDrawMILinksOnTopFlag)
 		{
 		for (i=1; i<=classCount; i++)
 			{
-			(itsVisibleByName->NthElement(i))->DrawMILinks(p, rect);
+			(itsVisibleByName->GetElement(i))->DrawMILinks(p, rect);
 			}
 		}
 
 	for (i=1; i<=classCount; i++)
 		{
-		(itsVisibleByName->NthElement(i))->DrawText(p, rect);
+		(itsVisibleByName->GetElement(i))->DrawText(p, rect);
 		}
 }
 
@@ -2651,7 +2651,7 @@ CBTree::SetFontSize
 		const JSize count = itsClassesByFull->GetElementCount();
 		for (JIndex i=1; i<=count; i++)
 			{
-			(itsClassesByFull->NthElement(i))->CalcFrame();
+			(itsClassesByFull->GetElement(i))->CalcFrame();
 			}
 
 		const JFloat h2 = CBClass::GetTotalHeight(this, GetFontManager());

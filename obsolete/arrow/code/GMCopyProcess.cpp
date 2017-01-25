@@ -93,7 +93,7 @@ GMCopyProcess::CleanSrcList
 	JBoolean ask, first = kJTrue;
 	for (JIndex i=1; i<=count; i++)
 		{
-		const JString* srcName = srcNameList->NthElement(i);
+		const JString* srcName = srcNameList->GetElement(i);
 		if (!ActionIsUseful(*srcName, destPath, &destName) ||
 			!OKToReplace(*srcName, destName, &ask, &first))
 			{

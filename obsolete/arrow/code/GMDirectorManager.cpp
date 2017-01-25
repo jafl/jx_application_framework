@@ -112,7 +112,7 @@ GMDirectorManager::ActivateDirector
 	)
 {
 	assert(itsDirectors->IndexValid(index));
-	itsDirectors->NthElement(index)->Activate();
+	itsDirectors->GetElement(index)->Activate();
 }
 
 /******************************************************************************
@@ -140,7 +140,7 @@ GMDirectorManager::UpdateDirectorMenu
 	const JSize count = itsDirectors->GetElementCount();
 	for (JSize i = 1; i <= count; i++)
 		{
-		GMManagedDirector* dir = itsDirectors->NthElement(i);
+		GMManagedDirector* dir = itsDirectors->GetElement(i);
 		const JString name = dir->GetWindow()->GetTitle();
 		menu->AppendItem(name);
 

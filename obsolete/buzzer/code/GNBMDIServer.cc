@@ -98,7 +98,7 @@ GNBMDIServer::HandleMDIRequest
 
 	for (JIndex i=2; i<=argCount; i++)
 		{
-		const JString& fileName = *(argList.NthElement(i));
+		const JString& fileName = *(argList.GetElement(i));
 		if (fileName.IsEmpty())
 			{
 			continue;

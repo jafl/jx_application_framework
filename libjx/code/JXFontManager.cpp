@@ -954,23 +954,25 @@ JXFontManager::GetStringWidth
 		}
 	else
 		{
-		const JSize maxStringLength = itsDisplay->GetMaxStringLength();
+		const JSize byteCount      = str.GetByteCount();
+		const JSize chunkByteCount = itsDisplay->GetMaxStringByteCount();
 
 		JSize width  = 0;
 		JSize offset = 0;
 		XGlyphInfo g;
-		while (offset < charCount)
+		while (offset < byteCount)
 			{
-			const JSize count = JMin(charCount - offset, maxStringLength);
+			const JSize count = JMin(byteCount - offset, chunkByteCount);
 
+			const JUtf8Byte* s = str.GetBytes() + offset;
 			if (info.xfont.type == kStdType)
 				{
-				width += XTextWidth(info.xfont.xfstd, str + offset, count);
+				width += XTextWidth(info.xfont.xfstd, s, count);
 				}
 			else
 				{
 				assert( info.xfont.type == kTrueType );
-				XftTextExtentsUtf8(*itsDisplay, info.xfont.xftt, (FcChar8*) (str + offset), count, &g);
+				XftTextExtentsUtf8(*itsDisplay, info.xfont.xftt, (FcChar8*) s, count, &g);
 				width += g.xOff;
 				}
 

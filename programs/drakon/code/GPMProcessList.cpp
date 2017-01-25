@@ -202,7 +202,7 @@ GPMProcessList::Update()
 	JSize count = itsHiddenEntries->GetElementCount();
 	for (JIndex i=count; i>=1; i--)
 		{
-		GPMProcessEntry* pentry	= itsHiddenEntries->NthElement(i);
+		GPMProcessEntry* pentry	= itsHiddenEntries->GetElement(i);
 		JIndex findex;
 		if (!newEntries.SearchSorted(pentry, JOrderedSetT::kAnyMatch, &findex))
 			{
@@ -217,7 +217,7 @@ GPMProcessList::Update()
 		count = newEntries.GetElementCount();
 		for (JIndex i=count; i>=1; i--)
 			{
-			GPMProcessEntry* pentry	= newEntries.NthElement(i);
+			GPMProcessEntry* pentry	= newEntries.GetElement(i);
 			if (pentry->GetUID() != itsUID)
 				{
 				newEntries.RemoveElement(i);
@@ -237,7 +237,7 @@ GPMProcessList::Update()
 		count = itsHiddenEntries->GetElementCount();
 		for (JIndex i=1; i<=count; i++)
 			{
-			(itsHiddenEntries->NthElement(i))->Update(itsElapsedTime);
+			(itsHiddenEntries->GetElement(i))->Update(itsElapsedTime);
 			}
 		}
 
@@ -246,7 +246,7 @@ GPMProcessList::Update()
 	count = itsVisibleEntries->GetElementCount();
 	for (JIndex i=count; i>=1; i--)
 		{
-		GPMProcessEntry* pentry	= itsVisibleEntries->NthElement(i);
+		GPMProcessEntry* pentry	= itsVisibleEntries->GetElement(i);
 		JIndex findex;
 		if (newEntries.SearchSorted(pentry, JOrderedSetT::kAnyMatch, &findex))
 			{
@@ -269,7 +269,7 @@ GPMProcessList::Update()
 	count = itsVisibleEntries->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		(itsVisibleEntries->NthElement(i))->Update(itsElapsedTime);
+		(itsVisibleEntries->GetElement(i))->Update(itsElapsedTime);
 		}
 
 	itsVisibleEntries->Sort();
@@ -285,7 +285,7 @@ GPMProcessList::Update()
 	count = newEntries.GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		GPMProcessEntry* pentry = newEntries.NthElement(i);
+		GPMProcessEntry* pentry = newEntries.GetElement(i);
 		pentry->Update(itsElapsedTime);
 		itsVisibleEntries->InsertSorted(pentry);
 		itsAlphaEntries->InsertSorted(pentry);
@@ -298,7 +298,7 @@ GPMProcessList::Update()
 	count = itsVisibleEntries->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		GPMProcessEntry* pentry = itsVisibleEntries->NthElement(i);
+		GPMProcessEntry* pentry = itsVisibleEntries->GetElement(i);
 		GPMProcessEntry* parent;
 		if (FindProcessEntry(pentry->GetPPID(), &parent) &&
 			parent != pentry)
@@ -330,7 +330,7 @@ GPMProcessList::FindProcessEntry
 	const JSize count = itsVisibleEntries->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		GPMProcessEntry* e = itsVisibleEntries->NthElement(i);
+		GPMProcessEntry* e = itsVisibleEntries->GetElement(i);
 		if (e->GetPID() == pid)
 			{
 			*entry = e;
@@ -365,7 +365,7 @@ GPMProcessList::ClosestMatch
 
 	if (i > 0)
 		{
-		*entry = itsAlphaEntries->NthElement(i);
+		*entry = itsAlphaEntries->GetElement(i);
 		return kJTrue;
 		}
 	else

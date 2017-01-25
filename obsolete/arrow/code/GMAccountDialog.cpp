@@ -74,9 +74,9 @@ GMAccountDialog::GMAccountDialog
 
 	for (JIndex i = 1; i <= count; i++)
 		{
-		GMAccount* account	= new GMAccount(*(array.NthElement(i)));
+		GMAccount* account	= new GMAccount(*(array.GetElement(i)));
 		assert(account != NULL);
-		account->SetReadList(array.NthElement(i)->GetReadList());
+		account->SetReadList(array.GetElement(i)->GetReadList());
 		itsAccountInfo->Append(account);
 		}
 
@@ -549,7 +549,7 @@ GMAccountDialog::Receive
 	else if (sender == itsDupButton && message.Is(JXButton::kPushed))
 		{
 		const JIndex current  = itsAccountList->GetCurrentIndex();
-		GMAccount* curAccount = itsAccountInfo->NthElement(current);
+		GMAccount* curAccount = itsAccountInfo->GetElement(current);
 		NewAccount(curAccount);
 		}
 	else if (sender == itsDefButton && message.Is(JXButton::kPushed))
@@ -596,7 +596,7 @@ void
 GMAccountDialog::AdjustWidgets()
 {
 	JIndex current		= itsAccountList->GetCurrentIndex();
-	GMAccount* account	= itsAccountInfo->NthElement(current);
+	GMAccount* account	= itsAccountInfo->GetElement(current);
 	itsSMTPServerInput->SetText(account->GetSMTPServer());
 	itsSMTPUserName->SetText(account->GetSMTPUser());
 	itsReplyToAddress->SetText(account->GetReplyTo());
@@ -693,7 +693,7 @@ GMAccountDialog::OKToDeactivate()
 	const JSize count	= itsAccountInfo->GetElementCount();
 	for (JIndex i = 1; i <= count; i++)
 		{
-		GMAccount* account	= itsAccountInfo->NthElement(i);
+		GMAccount* account	= itsAccountInfo->GetElement(i);
 		JString path		= account->GetMailDir();
 		if (!JDirectoryExists(path))
 			{
@@ -709,7 +709,7 @@ GMAccountDialog::OKToDeactivate()
 			}
 		}
 		
-	JString defNickname	= itsAccountInfo->NthElement(itsDefaultIndex)->GetNickname();
+	JString defNickname	= itsAccountInfo->GetElement(itsDefaultIndex)->GetNickname();
 	itsAccountInfo->Sort();
 
 	GMAccount account;
@@ -862,7 +862,7 @@ GMAccountDialog::OKToSwitchAccounts()
 	const JSize count	= itsAccountInfo->GetElementCount();
 	for (JIndex i = 1; i <= count; i++)
 		{
-		GMAccount* account	= itsAccountInfo->NthElement(i);
+		GMAccount* account	= itsAccountInfo->GetElement(i);
 		if (i != currentIndex && account->IsUsingPOP() &&
 			account->GetFullPOPAccountName() == accountName)
 			{
@@ -885,7 +885,7 @@ void
 GMAccountDialog::SetCurrentAccount()
 {
 	JIndex current		= itsAccountList->GetCurrentIndex();
-	GMAccount* account	= itsAccountInfo->NthElement(current);
+	GMAccount* account	= itsAccountInfo->GetElement(current);
 	account->SetSMTPServer(itsSMTPServerInput->GetText());
 	account->SetSMTPUser(itsSMTPUserName->GetText());
 	account->SetReplyTo(itsReplyToAddress->GetText());

@@ -84,7 +84,7 @@ MDRecordList::ClosestMatch
 
 	if (i > 0)
 		{
-		*record = itsAlphaRecords->NthElement(i);
+		*record = itsAlphaRecords->GetElement(i);
 		return kJTrue;
 		}
 	else

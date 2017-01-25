@@ -143,7 +143,7 @@ JXHorizDockPartition::FindDock
 	const JSize count = GetCompartmentCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		JXDockWidget* d = itsDockList->NthElement(i);
+		JXDockWidget* d = itsDockList->GetElement(i);
 		assert( d != NULL );
 
 		if (d->GetID() == id)
@@ -175,7 +175,7 @@ JXHorizDockPartition::HasWindows()
 	const JSize count = GetCompartmentCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		JXDockWidget* d = itsDockList->NthElement(i);
+		JXDockWidget* d = itsDockList->GetElement(i);
 		assert( d != NULL );
 
 		if (d->HasWindows())
@@ -198,7 +198,7 @@ JXHorizDockPartition::CloseAllWindows()
 	const JSize count = GetCompartmentCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		JXDockWidget* d = itsDockList->NthElement(i);
+		JXDockWidget* d = itsDockList->GetElement(i);
 		assert( d != NULL );
 
 		if (!d->CloseAllWindows())
@@ -249,7 +249,7 @@ JXHorizDockPartition::ReadSetup
 
 	for (JIndex i=1; i<=compartmentCount; i++)
 		{
-		JXDockWidget* dock = itsDockList->NthElement(i);
+		JXDockWidget* dock = itsDockList->GetElement(i);
 		assert( dock != NULL );
 
 		JIndex id;
@@ -298,7 +298,7 @@ JXHorizDockPartition::WriteSetup
 
 	for (JIndex i=1; i<=count; i++)
 		{
-		JXDockWidget* dock = itsDockList->NthElement(i);
+		JXDockWidget* dock = itsDockList->GetElement(i);
 		assert( dock != NULL );
 
 		output << ' ' << dock->GetID();
@@ -516,7 +516,7 @@ JXHorizDockPartition::SplitVert
 		*returnPartition = NULL;
 		}
 
-	JXDockWidget* parent = itsDockList->NthElement(index);
+	JXDockWidget* parent = itsDockList->GetElement(index);
 	assert( parent != NULL );
 
 	JXVertDockPartition* p = NULL;
@@ -623,7 +623,7 @@ JXHorizDockPartition::UpdateMinSize()
 	const JSize count = itsDockList->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		const JPoint minSize = (itsDockList->NthElement(i))->GetMinSize();
+		const JPoint minSize = (itsDockList->GetElement(i))->GetMinSize();
 		minWidth            += minSize.x;
 		minHeight            = JMax(minSize.y, minHeight);
 

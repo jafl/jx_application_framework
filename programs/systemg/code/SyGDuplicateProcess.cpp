@@ -57,7 +57,7 @@ SyGDuplicateProcess::SyGDuplicateProcess
 	const JSize count = nodeList.GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		SyGFileTreeNode* node = const_cast<SyGFileTreeNode*>(nodeList.NthElement(i));
+		SyGFileTreeNode* node = const_cast<SyGFileTreeNode*>(nodeList.GetElement(i));
 		itsNodeList.Append(node);
 		itsFullNameList.Append((node->GetDirEntry())->GetFullName());
 		ListenTo(node);
@@ -135,7 +135,7 @@ SyGDuplicateProcess::ReceiveGoingAway
 	const JSize count = itsNodeList.GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		if (sender == itsNodeList.NthElement(i))
+		if (sender == itsNodeList.GetElement(i))
 			{
 			nodeIndex = i;
 			break;

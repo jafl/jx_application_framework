@@ -91,7 +91,7 @@ AnimateHelpMenuTask::Perform
 			itsCurrentImage = 1;
 			}
 
-		itsMenu->SetItemImage(itsMenuItem, itsImageList->NthElement(itsCurrentImage),
+		itsMenu->SetItemImage(itsMenuItem, itsImageList->GetElement(itsCurrentImage),
 							  kJFalse);
 		}
 

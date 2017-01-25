@@ -913,7 +913,7 @@ GPOPRetriever::HandleUIDL()
 	const JSize count = itsUIDList->GetElementCount();
 	for (JSize i = 1; i <= count; i++)
 		{
-		JString id = *(itsUIDList->NthElement(i));
+		JString id = *(itsUIDList->GetElement(i));
 		JIndex findex;
 		if (itsReadUIDList->SearchSorted(&id, JOrderedSetT::kAnyMatch, &findex))
 			{
@@ -1032,7 +1032,7 @@ GPOPRetriever::ReadFinished()
 			{
 			JIndex newIndex = itsNewUIDIndexes->GetElement(i);
 			assert(itsUIDList->IndexValid(newIndex));
-			JString* id = new JString(*(itsUIDList->NthElement(newIndex)));
+			JString* id = new JString(*(itsUIDList->GetElement(newIndex)));
 			assert(id != NULL);
 			if (!itsReadUIDList->InsertSorted(id, kJFalse))
 				{

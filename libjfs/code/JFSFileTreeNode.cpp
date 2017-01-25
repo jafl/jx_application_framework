@@ -603,7 +603,7 @@ JFSFileTreeNode::UpdateChildren()
 	const JSize leftOverCount = newChildren.GetElementCount();
 	for (JIndex i=1; i<=leftOverCount; i++)
 		{
-		InsertSorted(newChildren.NthElement(i));
+		InsertSorted(newChildren.GetElement(i));
 		}
 
 	// re-sort since mod time, size, etc. of *pre-existing* children may have changed

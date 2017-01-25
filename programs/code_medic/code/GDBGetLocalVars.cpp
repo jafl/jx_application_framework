@@ -139,7 +139,7 @@ GDBGetLocalVars::HandleSuccess
 	for (JIndex i=1; i<=origCount; i++)
 		{
 		if ((itsRootNode->GetVarChild(i))->GetName() !=
-			*(nameList.NthElement(i)))
+			*(nameList.GetElement(i)))
 			{
 			if (i == 1)		// optimize since likely to be most common case
 				{
@@ -169,12 +169,12 @@ GDBGetLocalVars::HandleSuccess
 			}
 		else
 			{
-			node = (CMGetLink())->CreateVarNode(NULL, *(nameList.NthElement(i)), NULL, "");
+			node = (CMGetLink())->CreateVarNode(NULL, *(nameList.GetElement(i)), NULL, "");
 			assert( node != NULL );
 			itsRootNode->Append(node);	// avoid automatic update
 			}
 
-		const JString* value = valueList.NthElement(i);
+		const JString* value = valueList.GetElement(i);
 		if (gdb7RefPattern.Match(*value))
 			{
 			node->UpdateValue();
@@ -189,7 +189,7 @@ GDBGetLocalVars::HandleSuccess
 				}
 			else
 				{
-				node->UpdateFailed(*(valueList.NthElement(i)));
+				node->UpdateFailed(*(valueList.GetElement(i)));
 				}
 			}
 		}

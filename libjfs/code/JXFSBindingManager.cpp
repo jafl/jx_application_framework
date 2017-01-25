@@ -230,7 +230,7 @@ JXFSBindingManager::Exec
 	const JSize count = fileList.GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		const JString* fileName = fileList.NthElement(i);
+		const JString* fileName = fileList.GetElement(i);
 
 		JFSBinding* f = jnew JFSBinding(*fileName, "", JFSBinding::kRunPlain, kJTrue, kJFalse);
 		assert( f != NULL );
@@ -274,7 +274,7 @@ JXFSBindingManager::ProcessFiles()
 	JSize count = itsFileList->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		JFSBinding* f           = itsFileList->NthElement(i);
+		JFSBinding* f           = itsFileList->GetElement(i);
 		const JString& fileName = f->GetPattern();
 
 		JFSBinding::CommandType type;
@@ -309,7 +309,7 @@ JXFSBindingManager::ProcessFiles()
 		{
 		JFSBinding::CommandType t;
 		JBoolean singleFile;
-		(itsFileList->NthElement(i))->GetCommand(&t, &singleFile);
+		(itsFileList->GetElement(i))->GetCommand(&t, &singleFile);
 
 		if (singleFile)
 			{
@@ -333,7 +333,7 @@ JXFSBindingManager::ProcessFiles()
 
 		for (JIndex i=1; i<=count; i++)
 			{
-			JFSBinding* f           = itsFileList->NthElement(i);
+			JFSBinding* f           = itsFileList->GetElement(i);
 			const JString& fileName = f->GetPattern();
 
 			JFSBinding::CommandType t;
@@ -388,7 +388,7 @@ JXFSBindingManager::Exec
 		JString p;
 		for (JIndex i=startIndex; i<=endIndex; i++)
 			{
-			const JString& fullName = (itsFileList->NthElement(i))->GetPattern();
+			const JString& fullName = (itsFileList->GetElement(i))->GetPattern();
 			JSplitPathAndName(fullName, &p, &name);
 			if (i > startIndex && p != path)
 				{
@@ -404,7 +404,7 @@ JXFSBindingManager::Exec
 	JString q, u, qf, uf;
 	for (JIndex i=startIndex; i<=endIndex; i++)
 		{
-		const JString& fullName = (itsFileList->NthElement(i))->GetPattern();
+		const JString& fullName = (itsFileList->GetElement(i))->GetPattern();
 
 		if (samePath)
 			{
@@ -430,7 +430,7 @@ JXFSBindingManager::Exec
 
 	// run command
 
-	JFSBinding* f = itsFileList->NthElement(startIndex);
+	JFSBinding* f = itsFileList->GetElement(startIndex);
 	JSplitPathAndName(f->GetPattern(), &path, &name);
 
 	JFSBinding::CommandType type;
@@ -558,19 +558,19 @@ JXFSBindingManager::Receive
 				JSize count = itsFileList->GetElementCount();
 				for (JIndex i=1; i<=count; i++)
 					{
-					JFSBinding* f = itsFileList->NthElement(i);
+					JFSBinding* f = itsFileList->GetElement(i);
 					f->SetCommand(cmd, type, singleFile);
 					}
 				}
 			else
 				{
-				JFSBinding* f = itsFileList->NthElement(itsRunFileIndex);
+				JFSBinding* f = itsFileList->GetElement(itsRunFileIndex);
 				f->SetCommand(cmd, type, singleFile);
 				}
 
 			if (saveBinding)
 				{
-				JFSBinding* f = itsFileList->NthElement(itsRunFileIndex);
+				JFSBinding* f = itsFileList->GetElement(itsRunFileIndex);
 				SaveBinding(f->GetPattern(), cmd, type, singleFile);
 				}
 

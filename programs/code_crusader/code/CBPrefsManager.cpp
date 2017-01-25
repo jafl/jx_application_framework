@@ -251,7 +251,7 @@ JIndex i;
 		GetFileSuffixes((CBTextFileType) i, &suffixes);
 
 		msg.SetChanged((CBTextFileType) i,
-			!JSameStrings(*(origSuffixList.NthElement(i+1)), suffixes, kJTrue));
+			!JSameStrings(*(origSuffixList.GetElement(i+1)), suffixes, kJTrue));
 		}
 
 	Broadcast(msg);
@@ -1349,10 +1349,10 @@ std::string data;
 			{
 			JString* complSuffix = jnew JString;
 			assert( complSuffix != NULL );
-			InitComplementSuffix(*(suffixList.NthElement(j)), complSuffix);
+			InitComplementSuffix(*(suffixList.GetElement(j)), complSuffix);
 
 			itsFileTypeList->AppendElement(
-				FileTypeInfo(suffixList.NthElement(j), NULL, NULL, kOrigFileType[i],
+				FileTypeInfo(suffixList.GetElement(j), NULL, NULL, kOrigFileType[i],
 							 kOrigFTMacroMap[i], kCBEmptyCRMRuleListID,
 							 kJTrue, NULL, wordWrap, complSuffix, NULL));
 			}
@@ -3313,7 +3313,7 @@ CBPrefsManager::FileMatchesSuffix
 	const JSize count = suffixList.GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		const JString& suffix = *(suffixList.NthElement(i));
+		const JString& suffix = *(suffixList.GetElement(i));
 		if (fileName.EndsWith(suffix))
 			{
 			return kJTrue;

@@ -2013,7 +2013,7 @@ GDBLink::ParseMap
 					{
 					value.AppendCharacter('\1');
 					}
-				value.Append(*(list.NthElement(i)));
+				value.Append(*(list.GetElement(i)));
 				}
 			}
 		else

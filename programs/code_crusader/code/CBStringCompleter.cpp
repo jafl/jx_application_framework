@@ -72,7 +72,7 @@ CBStringCompleter::CBStringCompleter
 	const JSize docCount = docList->GetElementCount();
 	for (JIndex i=1; i<=docCount; i++)
 		{
-		ListenTo(((docList->NthElement(i))->GetSymbolDirector())->GetSymbolList());
+		ListenTo(((docList->GetElement(i))->GetSymbolDirector())->GetSymbolList());
 		}
 }
 
@@ -279,13 +279,13 @@ CBStringCompleter::Complete
 		}
 
 	JPtrArray<JString> matchList(JPtrArrayT::kForgetAll, 100);
-	*maxPrefix = *(itsStringList->NthElement(startIndex));
+	*maxPrefix = *(itsStringList->GetElement(startIndex));
 
 	JSize matchCount   = 0;
 	JBoolean addString = kJTrue;
 	for (JIndex i=startIndex; i<=stringCount; i++)
 		{
-		const JString* s = itsStringList->NthElement(i);
+		const JString* s = itsStringList->GetElement(i);
 		if (!s->BeginsWith(prefix, itsCaseSensitiveFlag))
 			{
 			break;
@@ -323,7 +323,7 @@ CBStringCompleter::Complete
 		assert( matchCount == matchList.GetElementCount() );
 		for (JIndex i=1; i<=matchCount; i++)
 			{
-			if (!menu->AddString(*(matchList.NthElement(i))))
+			if (!menu->AddString(*(matchList.GetElement(i))))
 				{
 				matchCount = i-1;
 				break;
@@ -465,7 +465,7 @@ CBStringCompleter::CopySymbolsForLanguage
 	for (JIndex i=1; i<=docCount; i++)
 		{
 		const CBSymbolList* symbolList =
-			((docList->NthElement(i))->GetSymbolDirector())->GetSymbolList();
+			((docList->GetElement(i))->GetSymbolDirector())->GetSymbolList();
 
 		const JSize symbolCount = symbolList->GetElementCount();
 		for (JIndex j=1; j<=symbolCount; j++)

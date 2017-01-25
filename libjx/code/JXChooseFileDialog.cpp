@@ -122,7 +122,7 @@ JXChooseFileDialog::GetFullNames
 		const JSize count = entryList.GetElementCount();
 		for (JIndex i=1; i<=count; i++)
 			{
-			JString* s = jnew JString((entryList.NthElement(i))->GetFullName());
+			JString* s = jnew JString((entryList.GetElement(i))->GetFullName());
 			assert( s != NULL );
 			fullNameList->Append(s);
 			}
@@ -444,7 +444,7 @@ JXChooseFileDialog::OKToDeactivate()
 		const JSize count = entryList.GetElementCount();
 		for (JIndex i=1; i<=count; i++)
 			{
-			JDirEntry* entry = entryList.NthElement(i);
+			JDirEntry* entry = entryList.GetElement(i);
 			entry->ForceUpdate();	// check that link hasn't been broken behind our back
 			if (!entry->IsFile())
 				{

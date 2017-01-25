@@ -170,7 +170,7 @@ GXCreatePlotDialog::BuildWindow
 	
 	for (JSize i = 1; i <= strCount; i++)
 		{
-		itsPlotsMenu->AppendItem(*(names.NthElement(i)));
+		itsPlotsMenu->AppendItem(*(names.GetElement(i)));
 		}
 
 	itsPlotsMenu->ShowSeparatorAfter(1, kJTrue);

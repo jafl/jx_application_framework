@@ -302,7 +302,7 @@ CBNewProjectSaveFileDialog::BuildTemplateMenu
 			// We have to extract user/sys here because otherwise we would
 			// have to keep extra state while building the sorted list.
 
-			itemText = *(menuText.NthElement(i));
+			itemText = *(menuText.GetElement(i));
 
 			JIndex j;
 			const JBoolean found = itemText.LocateLastSubstring(" (", &j);
@@ -317,7 +317,7 @@ CBNewProjectSaveFileDialog::BuildTemplateMenu
 
 			// mark item corresponding to initial template selection
 
-			if (menuText.NthElement(i) == menuTextStr)
+			if (menuText.GetElement(i) == menuTextStr)
 				{
 				itsTemplateIndex = itsTemplateMenu->GetItemCount();
 				}
@@ -536,7 +536,7 @@ CBNewProjectSaveFileDialog::OKToDeactivate()
 	const JSize count = makefileList.GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		const JString* fullName = makefileList.NthElement(i);
+		const JString* fullName = makefileList.GetElement(i);
 		if (JFileExists(*fullName) &&
 			!OKToReplaceFile(*fullName, CBBuildManager::GetMakefileMethodName(GetMakefileMethod())))
 			{

@@ -148,7 +148,7 @@ JIndex i;
 		{
 		if (!fileUsage.GetElement(i))
 			{
-			deadFileNameList.Append(*(fileNameList.NthElement(i)));
+			deadFileNameList.Append(*(fileNameList.GetElement(i)));
 			deadFileIDList.AppendElement((itsFileInfo->GetElement(i)).id);
 			}
 		}
@@ -406,7 +406,7 @@ CBFileListTable::GetFileName
 	JIndex index;
 	const JBoolean found = IDToIndex(id, &index);
 	assert( found );
-	return *((GetFullNameList()).NthElement(index));
+	return *((GetFullNameList()).GetElement(index));
 }
 
 /******************************************************************************
@@ -631,7 +631,7 @@ CBFileListTable::FilesAdded
 	for (JIndex i = info.GetFirstIndex(); i <= info.GetLastIndex(); i++)
 		{
 		time_t t;
-		const JError err = JGetModificationTime(*(fileNameList.NthElement(i)), &t);
+		const JError err = JGetModificationTime(*(fileNameList.GetElement(i)), &t);
 		assert_ok( err );
 
 		itsFileInfo->InsertElementAtIndex(i, FileInfo(GetUniqueID(), t));
@@ -659,7 +659,7 @@ CBFileListTable::UpdateFileInfo
 
 	info.id = GetUniqueID();
 
-	const JString& fileName = *(GetFullNameList().NthElement(index));
+	const JString& fileName = *(GetFullNameList().GetElement(index));
 	const JError err        = JGetModificationTime(fileName, &(info.modTime));
 	assert_ok( err );
 
@@ -759,7 +759,7 @@ CBFileListTable::WriteSetup
 
 		for (JIndex i=1; i<=fileCount; i++)
 			{
-			*symOutput << ' ' << *(fileNameList.NthElement(i));
+			*symOutput << ' ' << *(fileNameList.GetElement(i));
 
 			const FileInfo info = itsFileInfo->GetElement(i);
 			*symOutput << ' ' << info.id;

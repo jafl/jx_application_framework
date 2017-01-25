@@ -71,7 +71,7 @@ GMessageDragData::SetHeaders
 	const JSize count	= headers->GetElementCount();
 	for (JIndex i = 1; i <= count; i++)
 		{
-		itsHeaders->Append(headers->NthElement(i));
+		itsHeaders->Append(headers->GetElement(i));
 		}
 }
 
@@ -119,7 +119,7 @@ GMessageDragData::ConvertData
 		os << count << ' ';
 		for (JIndex i = 1; i <= count; i++)
 			{
-			GMessageHeader* header = itsHeaders->NthElement(i);
+			GMessageHeader* header = itsHeaders->GetElement(i);
 			os << *header;
 			}
 
@@ -137,7 +137,7 @@ GMessageDragData::ConvertData
 		const JSize count = itsHeaders->GetElementCount();
 		for (JIndex i = 1; i <= count; i++)
 			{
-			GMessageHeader* header = itsHeaders->NthElement(i);
+			GMessageHeader* header = itsHeaders->GetElement(i);
 			itsDir->GetData()->ChangeMessageStatus(header, GMessageHeader::kDelete);
 			}
 

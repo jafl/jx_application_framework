@@ -184,7 +184,7 @@ JXApplication::Suspend()
 	const JSize count = itsDisplayList->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		itsDisplayList->NthElement(i)->GetMenuManager()->CloseCurrentMenus();
+		itsDisplayList->GetElement(i)->GetMenuManager()->CloseCurrentMenus();
 		}
 
 	JXDirector::Suspend();
@@ -315,7 +315,7 @@ JXApplication::FindDisplay
 	const JSize count = itsDisplayList->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		JXDisplay* d = itsDisplayList->NthElement(i);
+		JXDisplay* d = itsDisplayList->GetElement(i);
 		if (d->GetXDisplay() == xDisplay)
 			{
 			*display = d;
@@ -340,7 +340,7 @@ JXApplication::DisplayBusyCursor()
 	const JSize count = itsDisplayList->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		(itsDisplayList->NthElement(i))->DisplayCursorInAllWindows(kJXBusyCursor);
+		(itsDisplayList->GetElement(i))->DisplayCursorInAllWindows(kJXBusyCursor);
 		}
 }
 
@@ -357,7 +357,7 @@ JXApplication::DisplayInactiveCursor()
 	const JSize count = itsDisplayList->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		(itsDisplayList->NthElement(i))->DisplayCursorInAllWindows(kJXInactiveCursor);
+		(itsDisplayList->GetElement(i))->DisplayCursorInAllWindows(kJXInactiveCursor);
 		}
 }
 
@@ -372,7 +372,7 @@ JXApplication::HideAllWindows()
 	const JSize count = itsDisplayList->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		(itsDisplayList->NthElement(i))->HideAllWindows();
+		(itsDisplayList->GetElement(i))->HideAllWindows();
 		}
 }
 
@@ -443,7 +443,7 @@ JXApplication::Close()
 	const JSize count = itsDisplayList->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		JXDisplay* display = itsDisplayList->NthElement(i);
+		JXDisplay* display = itsDisplayList->GetElement(i);
 		(display->GetMenuManager())->CloseCurrentMenus();
 		}
 
@@ -882,7 +882,7 @@ JXApplication::InstallIdleTask
 		const JSize count = itsIdleTaskStack->GetElementCount();
 		for (JIndex i=1; i<=count; i++)
 			{
-			(itsIdleTaskStack->NthElement(i))->Remove(newTask);
+			(itsIdleTaskStack->GetElement(i))->Remove(newTask);
 			}
 		}
 }
@@ -905,7 +905,7 @@ JXApplication::RemoveIdleTask
 		const JSize count = itsIdleTaskStack->GetElementCount();
 		for (JIndex i=1; i<=count; i++)
 			{
-			(itsIdleTaskStack->NthElement(i))->Remove(task);
+			(itsIdleTaskStack->GetElement(i))->Remove(task);
 			}
 		}
 }
@@ -1093,7 +1093,7 @@ JXApplication::PerformUrgentTasks()
 		const JSize count = taskList.GetElementCount();
 		for (JIndex i=1; i<=count; i++)
 			{
-			(taskList.NthElement(i))->Perform();
+			(taskList.GetElement(i))->Perform();
 			}
 		}
 
@@ -1164,7 +1164,7 @@ JXApplication::StripBaseOptions
 	JSize count = argList->GetElementCount();
 	for (JIndex i=2; i<=count; i++)
 		{
-		JString* arg = argList->NthElement(i);
+		JString* arg = argList->GetElement(i);
 		if (*arg == kXDebugOptionName)
 			{
 			argList->DeleteElement(i);

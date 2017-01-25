@@ -170,7 +170,7 @@ JPtrArray<T>::CopyPointers
 	const JSize count = source.GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		Append(const_cast<T*>(source.NthElement(i)));
+		Append(const_cast<T*>(source.GetElement(i)));
 		}
 
 	return *this;
@@ -208,7 +208,7 @@ JPtrArray<T>::CopyObjects
 	const JSize count = source.GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		const T* ptr = source.NthElement(i);
+		const T* ptr = source.GetElement(i);
 		if (ptr == NULL)
 			{
 			Append(NULL);
@@ -220,76 +220,6 @@ JPtrArray<T>::CopyObjects
 		}
 
 	return *this;
-}
-
-/******************************************************************************
- NthElement
-
- ******************************************************************************/
-
-template <class T>
-T*
-JPtrArray<T>::NthElement
-	(
-	const JIndex index
-	)
-{
-	assert( JCollection::IndexValid(index) );
-
-	return JArray<T*>::ProtectedGetElement(index);
-}
-
-template <class T>
-const T*
-JPtrArray<T>::NthElement
-	(
-	const JIndex index
-	)
-	const
-{
-	assert( JCollection::IndexValid(index) );
-
-	return JArray<T*>::ProtectedGetElement(index);
-}
-
-/******************************************************************************
- FirstElement
-
- ******************************************************************************/
-
-template <class T>
-T*
-JPtrArray<T>::FirstElement()
-{
-	return NthElement(1);
-}
-
-template <class T>
-const T*
-JPtrArray<T>::FirstElement()
-	const
-{
-	return NthElement(1);
-}
-
-/******************************************************************************
- LastElement
-
- ******************************************************************************/
-
-template <class T>
-T*
-JPtrArray<T>::LastElement()
-{
-	return NthElement(JCollection::GetElementCount());
-}
-
-template <class T>
-const T*
-JPtrArray<T>::LastElement()
-	const
-{
-	return NthElement(JCollection::GetElementCount());
 }
 
 /******************************************************************************
@@ -475,11 +405,11 @@ JPtrArray<T>::SetElement
 {
 	if (action == JPtrArrayT::kDelete)
 		{
-		jdelete NthElement(index);
+		jdelete JArray<T*>::GetElement(index);
 		}
 	else if (action == JPtrArrayT::kDeleteAsArray)
 		{
-		jdelete [] NthElement(index);
+		jdelete [] JArray<T*>::GetElement(index);
 		}
 	else
 		{
@@ -554,7 +484,7 @@ JPtrArray<T>::DeleteElement
 	const JIndex index
 	)
 {
-	jdelete (NthElement(index));
+	jdelete JArray<T*>::GetElement(index);
 	JOrderedSet<T*>::RemoveElement(index);
 }
 
@@ -570,7 +500,7 @@ JPtrArray<T>::DeleteAll()
 	const JSize elementCount = JCollection::GetElementCount();
 	for (JIndex i=1; i<=elementCount; i++)
 		{
-		jdelete (NthElement(i));
+		jdelete JArray<T*>::GetElement(i);
 		}
 	JArray<T*>::RemoveAll();
 }
@@ -587,7 +517,7 @@ JPtrArray<T>::DeleteElementAsArray
 	const JIndex index
 	)
 {
-	jdelete [] (NthElement(index));
+	jdelete [] JArray<T*>::GetElement(index);
 	JOrderedSet<T*>::RemoveElement(index);
 }
 
@@ -603,7 +533,7 @@ JPtrArray<T>::DeleteAllAsArrays()
 	const JSize elementCount = JCollection::GetElementCount();
 	for (JIndex i=1; i<=elementCount; i++)
 		{
-		jdelete [] (NthElement(i));
+		jdelete [] JArray<T*>::GetElement(i);
 		}
 	JArray<T*>::RemoveAll();
 }

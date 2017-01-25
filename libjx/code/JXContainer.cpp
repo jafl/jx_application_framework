@@ -267,7 +267,7 @@ JXContainer::DrawAll
 		const JSize objCount = itsEnclosedObjs->GetElementCount();
 		for (JIndex i=objCount; i>=1; i--)
 			{
-			JXContainer* obj = itsEnclosedObjs->NthElement(i);
+			JXContainer* obj = itsEnclosedObjs->GetElement(i);
 			if (obj->IsVisible())
 				{
 				obj->DrawAll(p, apClipRectG);
@@ -421,7 +421,7 @@ JXContainer::FindContainer
 		const JSize objCount = itsEnclosedObjs->GetElementCount();
 		for (JIndex i=1; i<=objCount; i++)
 			{
-			JXContainer* obj = itsEnclosedObjs->NthElement(i);
+			JXContainer* obj = itsEnclosedObjs->GetElement(i);
 			if (obj->FindContainer(ptG, container))
 				{
 				return kJTrue;
@@ -461,7 +461,7 @@ JXContainer::DispatchNewMouseEvent
 		const JSize objCount = itsEnclosedObjs->GetElementCount();
 		for (JIndex i=1; i<=objCount; i++)
 			{
-			JXContainer* obj = itsEnclosedObjs->NthElement(i);
+			JXContainer* obj = itsEnclosedObjs->GetElement(i);
 			if (obj->IsVisible() &&
 				(obj->GetFrameGlobal()).Contains(ptG))
 				{
@@ -1068,7 +1068,7 @@ JXContainer::DispatchClientMessage
 		const JSize objCount = itsEnclosedObjs->GetElementCount();
 		for (JIndex i=1; i<=objCount; i++)
 			{
-			JXContainer* obj = itsEnclosedObjs->NthElement(i);
+			JXContainer* obj = itsEnclosedObjs->GetElement(i);
 			if (obj->DispatchClientMessage(clientMessage))
 				{
 				return kJTrue;
@@ -1119,7 +1119,7 @@ JXContainer::Show()
 			const JSize objCount = itsEnclosedObjs->GetElementCount();
 			for (JIndex i=1; i<=objCount; i++)
 				{
-				JXContainer* widget = itsEnclosedObjs->NthElement(i);
+				JXContainer* widget = itsEnclosedObjs->GetElement(i);
 				if (widget->itsWasVisibleFlag)
 					{
 					widget->Show();
@@ -1170,7 +1170,7 @@ JXContainer::Hide()
 			const JSize objCount = itsEnclosedObjs->GetElementCount();
 			for (JIndex i=1; i<=objCount; i++)
 				{
-				JXContainer* widget       = itsEnclosedObjs->NthElement(i);
+				JXContainer* widget       = itsEnclosedObjs->GetElement(i);
 				const JBoolean wasVisible = widget->IsVisible();
 				if (wasVisible)
 					{
@@ -1240,7 +1240,7 @@ JXContainer::Activate()
 			const JSize objCount = itsEnclosedObjs->GetElementCount();
 			for (JIndex i=1; i<=objCount; i++)
 				{
-				JXContainer* widget = itsEnclosedObjs->NthElement(i);
+				JXContainer* widget = itsEnclosedObjs->GetElement(i);
 				if (widget->itsWasActiveFlag)
 					{
 					widget->Activate();
@@ -1282,7 +1282,7 @@ JXContainer::Deactivate()
 			const JSize objCount = itsEnclosedObjs->GetElementCount();
 			for (JIndex i=1; i<=objCount; i++)
 				{
-				JXContainer* widget      = itsEnclosedObjs->NthElement(i);
+				JXContainer* widget      = itsEnclosedObjs->GetElement(i);
 				const JBoolean wasActive = widget->itsActiveFlag;
 				if (wasActive)
 					{
@@ -1342,7 +1342,7 @@ JXContainer::Suspend()
 		const JSize objCount = itsEnclosedObjs->GetElementCount();
 		for (JIndex i=1; i<=objCount; i++)
 			{
-			(itsEnclosedObjs->NthElement(i))->Suspend();
+			(itsEnclosedObjs->GetElement(i))->Suspend();
 			}
 		}
 
@@ -1371,7 +1371,7 @@ JXContainer::Resume()
 		const JSize objCount = itsEnclosedObjs->GetElementCount();
 		for (JIndex i=1; i<=objCount; i++)
 			{
-			(itsEnclosedObjs->NthElement(i))->Resume();
+			(itsEnclosedObjs->GetElement(i))->Resume();
 			}
 		}
 
@@ -1452,7 +1452,7 @@ JXContainer::DispatchCursor
 		const JSize objCount = itsEnclosedObjs->GetElementCount();
 		for (JIndex i=1; i<=objCount; i++)
 			{
-			JXContainer* obj = itsEnclosedObjs->NthElement(i);
+			JXContainer* obj = itsEnclosedObjs->GetElement(i);
 			if (obj->IsVisible() && (obj->GetFrameGlobal()).Contains(ptG))
 				{
 				obj->DispatchCursor(ptG, modifiers);
@@ -1758,7 +1758,7 @@ JXContainer::NotifyBoundsMoved
 			const JSize objCount = itsEnclosedObjs->GetElementCount();
 			for (JIndex i=1; i<=objCount; i++)
 				{
-				(itsEnclosedObjs->NthElement(i))->EnclosingBoundsMoved(dx,dy);
+				(itsEnclosedObjs->GetElement(i))->EnclosingBoundsMoved(dx,dy);
 				}
 			}
 		}
@@ -1787,7 +1787,7 @@ JXContainer::NotifyBoundsResized
 			const JSize objCount = itsEnclosedObjs->GetElementCount();
 			for (JIndex i=1; i<=objCount; i++)
 				{
-				(itsEnclosedObjs->NthElement(i))->EnclosingBoundsResized(dw,dh);
+				(itsEnclosedObjs->GetElement(i))->EnclosingBoundsResized(dw,dh);
 				}
 			}
 		}

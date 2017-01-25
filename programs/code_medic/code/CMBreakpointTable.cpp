@@ -156,7 +156,7 @@ CMBreakpointTable::Update()
 	JSize count = list1.GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		itsBPList->InsertSorted(const_cast<CMBreakpoint*>(list1.NthElement(i)));
+		itsBPList->InsertSorted(const_cast<CMBreakpoint*>(list1.GetElement(i)));
 		}
 
 	const JPtrArray<CMBreakpoint>& list2 = mgr->GetOtherpoints();
@@ -164,7 +164,7 @@ CMBreakpointTable::Update()
 	count = list2.GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		itsBPList->InsertSorted(const_cast<CMBreakpoint*>(list2.NthElement(i)));
+		itsBPList->InsertSorted(const_cast<CMBreakpoint*>(list2.GetElement(i)));
 		}
 
 	// adjust table
@@ -186,7 +186,7 @@ CMBreakpointTable::Update()
 		{
 		for (JIndex i=1; i<=count; i++)
 			{
-			if ((itsBPList->NthElement(i))->GetDebuggerIndex() == (JSize) cell.y)
+			if ((itsBPList->GetElement(i))->GetDebuggerIndex() == (JSize) cell.y)
 				{
 				SelectSingleCell(JPoint(cell.x, i));
 				break;
@@ -277,7 +277,7 @@ CMBreakpointTable::FindBreakpointByDebuggerIndex
 	const JSize count = itsBPList->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		const CMBreakpoint* b = itsBPList->NthElement(i);
+		const CMBreakpoint* b = itsBPList->GetElement(i);
 		if (b->GetDebuggerIndex() == bp->GetDebuggerIndex())
 			{
 			*index = i;
@@ -308,7 +308,7 @@ CMBreakpointTable::Receive
 		if ((GetTableSelection()).GetSingleSelectedCell(&itsSelectedCell))
 			{
 			itsSelectedCell.y =
-				(itsBPList->NthElement(itsSelectedCell.y))->GetDebuggerIndex();
+				(itsBPList->GetElement(itsSelectedCell.y))->GetDebuggerIndex();
 			}
 		}
 
@@ -347,7 +347,7 @@ CMBreakpointTable::TableDrawCell
 
 	HilightIfSelected(p, cell, rect);
 
-	const CMBreakpoint* bp = itsBPList->NthElement(cell.y);
+	const CMBreakpoint* bp = itsBPList->GetElement(cell.y);
 	if (cell.x == kStatusColumn)
 		{
 		JRect r = rect;
@@ -450,7 +450,7 @@ CMBreakpointTable::HandleMouseDown
 			SelectSingleCell(cell);
 			}
 
-		CMBreakpoint* bp = itsBPList->NthElement(cell.y);
+		CMBreakpoint* bp = itsBPList->GetElement(cell.y);
 		if (cell.x == kStatusColumn)
 			{
 			(CMGetLink())->SetBreakpointEnabled(bp->GetDebuggerIndex(), !bp->IsEnabled());
@@ -502,7 +502,7 @@ CMBreakpointTable::HandleKeyPress
 		JPoint cell;
 		if (s.GetSingleSelectedCell(&cell))
 			{
-			CMBreakpoint* bp = itsBPList->NthElement(cell.y);
+			CMBreakpoint* bp = itsBPList->GetElement(cell.y);
 			(CMGetLink())->RemoveBreakpoint(*bp);
 			}
 		}
@@ -516,12 +516,12 @@ CMBreakpointTable::HandleKeyPress
 			}
 		else if (cell.x == kStatusColumn)
 			{
-			CMBreakpoint* bp = itsBPList->NthElement(cell.y);
+			CMBreakpoint* bp = itsBPList->GetElement(cell.y);
 			(CMGetLink())->SetBreakpointEnabled(bp->GetDebuggerIndex(), !bp->IsEnabled());
 			}
 		else if (cell.x == kFileNameColumn || cell.x == kLineNumberColumn)
 			{
-			CMBreakpoint* bp = itsBPList->NthElement(cell.y);
+			CMBreakpoint* bp = itsBPList->GetElement(cell.y);
 			if (bp->GetLineNumber() > 0)
 				{
 				(itsDir->GetCommandDirector())->OpenSourceFile(bp->GetFileName(), bp->GetLineNumber());
@@ -529,7 +529,7 @@ CMBreakpointTable::HandleKeyPress
 			}
 		else if (cell.x == kFunctionColumn || cell.x == kAddressColumn)
 			{
-			CMBreakpoint* bp = itsBPList->NthElement(cell.y);
+			CMBreakpoint* bp = itsBPList->GetElement(cell.y);
 			if (!bp->GetFunctionName().IsEmpty())
 				{
 				(itsDir->GetCommandDirector())->DisassembleFunction(bp->GetFunctionName(), bp->GetAddress());
@@ -558,7 +558,7 @@ CMBreakpointTable::IsEditable
 	)
 	const
 {
-	CMBreakpoint* bp = itsBPList->NthElement(cell.y);
+	CMBreakpoint* bp = itsBPList->GetElement(cell.y);
 	return JI2B( cell.x == kIgnoreCountColumn ||
 				 (cell.x == kConditionColumn && bp->GetLineNumber() > 0) );
 }
@@ -584,7 +584,7 @@ CMBreakpointTable::CreateXInputField
 	s.ClearSelection();
 	s.SelectCell(cell);
 
-	CMBreakpoint* bp = itsBPList->NthElement(cell.y);
+	CMBreakpoint* bp = itsBPList->GetElement(cell.y);
 	JString text;
 	if (cell.x == kIgnoreCountColumn)
 		{
@@ -629,7 +629,7 @@ CMBreakpointTable::ExtractInputData
 		return kJFalse;
 		}
 
-	CMBreakpoint* bp = itsBPList->NthElement(cell.y);
+	CMBreakpoint* bp = itsBPList->GetElement(cell.y);
 	if (cell.x == kIgnoreCountColumn)
 		{
 		JInteger count;

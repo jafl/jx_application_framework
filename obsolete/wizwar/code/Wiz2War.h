@@ -267,7 +267,7 @@ Wiz2War::GetPlayer
 	)
 	const
 {
-	return itsPlayerList->NthElement(index);
+	return itsPlayerList->GetElement(index);
 }
 
 #endif

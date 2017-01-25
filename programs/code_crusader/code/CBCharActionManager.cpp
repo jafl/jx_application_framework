@@ -72,7 +72,7 @@ CBCharActionManager::Perform
 	CBTextDocument*		doc
 	)
 {
-	const JString* script = itsActionList->NthElement(c+1);
+	const JString* script = itsActionList->GetElement(c+1);
 	if (script != NULL)
 		{
 		CBMacroManager::Perform(*script, doc);
@@ -92,7 +92,7 @@ CBCharActionManager::GetAction
 	)
 	const
 {
-	const JString* s = itsActionList->NthElement(c+1);
+	const JString* s = itsActionList->GetElement(c+1);
 	if (s != NULL)
 		{
 		*script = *s;
@@ -215,7 +215,7 @@ CBCharActionManager::WriteSetup
 
 	for (JIndex i=1; i<=kActionCount; i++)
 		{
-		const JString* script = itsActionList->NthElement(i);
+		const JString* script = itsActionList->GetElement(i);
 		if (script != NULL)
 			{
 			output.put((unsigned char) i-1);

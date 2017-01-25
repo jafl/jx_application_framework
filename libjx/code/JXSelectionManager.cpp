@@ -1198,7 +1198,7 @@ JXSelectionManager::GetData
 	const JSize count = itsDataList->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		*data         = itsDataList->NthElement(i);
+		*data         = itsDataList->GetElement(i);
 		const Time t1 = (**data).GetStartTime();
 
 		Time t2;
@@ -1239,7 +1239,7 @@ JXSelectionManager::DeleteOutdatedData()
 	const JSize count = itsDataList->GetElementCount();
 	for (JIndex i=count; i>=1; i--)
 		{
-		JXSelectionData* data = itsDataList->NthElement(i);
+		JXSelectionData* data = itsDataList->GetElement(i);
 
 		// toss if outdated or clock has wrapped
 

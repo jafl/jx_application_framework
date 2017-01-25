@@ -102,7 +102,7 @@ JXColHeaderWidget::GetColTitle
 {
 	if (itsTitles != NULL)
 		{
-		const JString* str = itsTitles->NthElement(index);
+		const JString* str = itsTitles->GetElement(index);
 		if (str != NULL)
 			{
 			*title = *str;
@@ -179,7 +179,7 @@ JXColHeaderWidget::TableDrawCell
 	JBoolean hasTitle = kJFalse;
 	if (itsTitles != NULL)
 		{
-		const JString* title = itsTitles->NthElement(cell.x);
+		const JString* title = itsTitles->GetElement(cell.x);
 		if (title != NULL)
 			{
 			str      = *title;

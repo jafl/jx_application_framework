@@ -86,7 +86,7 @@ Wiz2War::GetPlayer
 {
 	if (itsPlayerList->IndexValid(index))
 		{
-		*player = itsPlayerList->NthElement(index);
+		*player = itsPlayerList->GetElement(index);
 		return JI2B( *player != NULL );
 		}
 	else
@@ -298,7 +298,7 @@ JIndex i;
 
 	for (i=1; i<=playerCount; i++)
 		{
-		const WizPlayer* player = itsPlayerList->NthElement(i);
+		const WizPlayer* player = itsPlayerList->GetElement(i);
 		if (player != NULL)
 			{
 			Broadcast(PlayerJoined(i, *player, kJFalse));

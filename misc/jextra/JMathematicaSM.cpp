@@ -307,8 +307,8 @@ JMathematicaSM::SolveEquations
 	JString equations;
 	for (JIndex i=1; i<=eqCount; i++)
 		{
-		const JString lhsStr = ConvertToMathematica(lhs.NthElement(i));
-		const JString rhsStr = ConvertToMathematica(rhs.NthElement(i));
+		const JString lhsStr = ConvertToMathematica(lhs.GetElement(i));
+		const JString rhsStr = ConvertToMathematica(rhs.GetElement(i));
 		equations += lhsStr;  
 		equations += " == ";
 		equations += rhsStr;
@@ -340,9 +340,9 @@ JMathematicaSM::SolveEquations
 	JString equations;
 	for (JIndex i=1; i<=eqCount; i++)
 		{
-		equations += *(lhs.NthElement(i));  
+		equations += *(lhs.GetElement(i));  
 		equations += " == ";
-		equations += *(rhs.NthElement(i));
+		equations += *(rhs.GetElement(i));
 		if (i < eqCount)
 			{
 			equations += ", ";
@@ -368,7 +368,7 @@ JMathematicaSM::PrivateSolveEqns
 	const JSize varCount = variables.GetElementCount();
 	for (JIndex i=1; i<=varCount; i++)
 		{
-		vars += *(variables.NthElement(i));
+		vars += *(variables.GetElement(i));
 		if (i < varCount)
 			{
 			vars += ", ";

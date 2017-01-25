@@ -6,7 +6,7 @@ if (ok)
 	JSize index;
 	for (index = 1; index <= count; index++)
 		{
-		GMessageHeader* header = list->NthElement(index);
+		GMessageHeader* header = list->GetElement(index);
 		GMessageFrom* from = new GMessageFrom(header);
 		assert(from != NULL);
 		fromlist.InsertSorted(from, kJTrue);
@@ -14,7 +14,7 @@ if (ok)
 	count = itsFromList->GetElementCount();
 	for (index = count; index >= 1; index--)
 		{
-		GMessageFrom* from = itsFromList->NthElement(index);
+		GMessageFrom* from = itsFromList->GetElement(index);
 		JIndex findindex;
 		if (!fromlist.SearchSorted(from, JOrderedSetT::kFirstMatch, &findindex))
 			{
@@ -29,11 +29,11 @@ if (ok)
 	count = fromlist.GetElementCount();
 	for (index = count; index >= 1; index--)
 		{
-		GMessageFrom* from = fromlist.NthElement(index);
+		GMessageFrom* from = fromlist.GetElement(index);
 		JIndex findindex;
 		if (itsFromList->SearchSorted(from, JOrderedSetT::kFirstMatch, &findindex))
 			{
-			GMessageFrom* currentfrom = itsFromList->NthElement(findindex);
+			GMessageFrom* currentfrom = itsFromList->GetElement(findindex);
 			GMessageHeader* header = currentfrom->GetHeader();
 			GMessageHeader* header2 = from->GetHeader();
 			header->SetHeaderStart(header2->GetHeaderStart());
@@ -50,7 +50,7 @@ if (ok)
 	count = fromlist.GetElementCount();
 	for (index = 1; index <= count; index++)
 		{
-		GMessageFrom* from = fromlist.NthElement(index);
+		GMessageFrom* from = fromlist.GetElement(index);
 		GMessageHeader* header = from->GetHeader();
 		itsList->Append(header);
 		itsFromList->InsertSorted(from, kJTrue);

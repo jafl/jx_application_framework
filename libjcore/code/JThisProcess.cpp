@@ -609,14 +609,14 @@ JIndex i;
 	const JSize quitCount = theQuitList.GetElementCount();
 	for (i=1; i<=quitCount; i++)
 		{
-		(theQuitList.NthElement(i))->Quit();
+		(theQuitList.GetElement(i))->Quit();
 		}
 	theQuitList.RemoveAll();
 
 	const JSize killCount = theKillList.GetElementCount();
 	for (i=1; i<=killCount; i++)
 		{
-		(theKillList.NthElement(i))->Kill();
+		(theKillList.GetElement(i))->Kill();
 		}
 	theKillList.RemoveAll();
 }

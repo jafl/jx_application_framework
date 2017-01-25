@@ -286,7 +286,7 @@ GMAccount::WritePrefs
 				os << ' ' << count << ' ';
 				for (JIndex i = 1; i <= count; i++)
 					{
-					os << ' ' << *(itsReadUIDList->NthElement(i)) << ' ';
+					os << ' ' << *(itsReadUIDList->GetElement(i)) << ' ';
 					}
 				}
 			}

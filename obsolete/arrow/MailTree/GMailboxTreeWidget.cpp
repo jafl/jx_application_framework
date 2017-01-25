@@ -519,7 +519,7 @@ GMailboxTreeWidget::HandleGMailboxMenu
 			JSize count = fullNameList.GetElementCount();
 			for (JSize i = 1; i <= count; i++)
 				{
-				AddFile(*(fullNameList.NthElement(i)));
+				AddFile(*(fullNameList.GetElement(i)));
 				}
 
 //			JTreeNode* base = itsTree->GetRoot();
@@ -529,7 +529,7 @@ GMailboxTreeWidget::HandleGMailboxMenu
 //			JSize count = fullNameList.GetElementCount();
 //			for (JSize i = 1; i <= count; i++)
 //				{
-//				JDirEntry* entry = new JDirEntry(*(fullNameList.NthElement(i)));
+//				JDirEntry* entry = new JDirEntry(*(fullNameList.GetElement(i)));
 //				assert(entry != NULL);
 //				GMailFileTreeNode* node =
 //					new GMailFileTreeNode(itsTree, entry, parent, entry->GetName(),kJFalse);
@@ -1219,7 +1219,7 @@ GMailboxTreeWidget::HandleDNDDrop
 				temp.Print(os);
 				for (index = 1; index <= lcount; index++)
 					{
-					GMessageHeader* header = list.NthElement(index);
+					GMessageHeader* header = list.GetElement(index);
 					GSaveMessage(mboxis, os, header, kJTrue, kJFalse);
 					}
 				is.close();

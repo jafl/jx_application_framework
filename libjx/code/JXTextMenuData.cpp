@@ -269,7 +269,7 @@ JXTextMenuData::InsertMenuItems
 	JString itemText, shortcuts, nmShortcut, id, strID, id1;
 	for (JIndex i=1; i<=itemCount; i++)
 		{
-		itemText = *(itemList.NthElement(i));
+		itemText = *(itemList.GetElement(i));
 
 		JBoolean isActive, hasSeparator;
 		JXMenu::ItemType type;
@@ -324,7 +324,9 @@ jGetOpValue
 	iter.SkipNext();
 	iter.BeginMatch();
 	iter.MoveTo(kJIteratorStartAtEnd, 0);
-	return iter.FinishMatch().GetString();
+	JString result = iter.FinishMatch().GetString();
+	result.TrimWhitespace();
+	return result;
 }
 
 void
@@ -356,7 +358,7 @@ JXTextMenuData::ParseMenuItemStr
 	const JSize count = list.GetElementCount();
 	for (JIndex i=2; i<=count; i++)
 		{
-		const JString* op        = list.NthElement(i);
+		const JString* op        = list.GetElement(i);
 		const JUtf8Character opc = op->GetFirstCharacter().ToLower();
 		if (opc == 'd')
 			{
@@ -865,13 +867,14 @@ JIndex i;
 
 	// decode modifiers
 
+	JStringIterator iter(&keyStr);
 	while (1)
 		{
 		JBoolean found = kJFalse;
 		for (i=0; i<kNMModConvCount; i++)
 			{
 			if (keyStr.BeginsWith(kNMModConv[i].str) &&
-				keyStr.GetLength() > kNMModConv[i].strLength)
+				keyStr.GetByteCount() > kNMModConv[i].strLength)
 				{
 				const JXModifierKey key = JXMenu::AdjustNMShortcutModifier(kNMModConv[i].key);
 				if (!modifiers->Available(key))
@@ -884,7 +887,8 @@ JIndex i;
 					AdjustNMShortcutString(str, i, key);
 					}
 
-				keyStr.RemoveSubstring(1, kNMModConv[i].strLength);
+				iter.SkipNext(kNMModConv[i].strLength);
+				iter.RemoveAllPrev();
 				modifiers->SetState(key, kJTrue);
 				found = kJTrue;
 				break;
@@ -905,7 +909,7 @@ JIndex i;
 			const int k = kNMKeyConv[i].key;
 			if (0 < k && k <= (int) UCHAR_MAX)
 				{
-				const JCharacter s[2] = { k, '\0' };
+				const JUtf8Byte s[2] = { k, '\0' };
 				keyStr = s;
 				break;	// extra processing below
 				}
@@ -919,16 +923,16 @@ JIndex i;
 
 	// check for single character
 
-	const int c1 = (unsigned char) keyStr.GetFirstCharacter();
-	if (keyStr.GetLength() == 1)
+	const JUtf8Character& c1 = keyStr.GetFirstCharacter();
+	if (keyStr.GetCharacterCount() == 1)
 		{
-		if (!isalpha(c1) && !iscntrl(c1))
+		if (!c1.IsAlpha() && !c1.IsControl())
 			{
 			// can't complain because of menu_strings file
 			modifiers->SetState(kJXShiftKeyIndex, kJFalse);
 			}
 
-		*key = tolower(c1);
+		*key = c1.ToLower().GetBytes()[0];
 		return kJTrue;
 		}
 
@@ -936,7 +940,7 @@ JIndex i;
 
 	JSize fnIndex;
 	if (c1 == 'F' &&
-		JString::ConvertToUInt(keyStr.GetCString()+1, &fnIndex) &&
+		JString::ConvertToUInt(keyStr.GetBytes()+1, &fnIndex) &&
 		1 <= fnIndex && fnIndex <= 35)
 		{
 		*key = XK_F1 + fnIndex-1;
@@ -974,15 +978,15 @@ JXTextMenuData::AdjustNMShortcutString
 			}
 		}
 
-	if (found)
+	if (!found)
 		{
-		JIndex i = 1;
-		while (str->LocateNextSubstring(kNMModConv[origKeyIndex].str, &i))
-			{
-			str->ReplaceSubstring(i, i + kNMModConv[origKeyIndex].strLength-1,
-								  kNMModConv[newKeyIndex].str);
-			i += kNMModConv[newKeyIndex].strLength;
-			}
+		return;
+		}
+
+	JStringIterator iter(str);
+	while (iter.Next(kNMModConv[origKeyIndex].str))
+		{
+		iter.ReplaceLastMatch(kNMModConv[newKeyIndex].str);
 		}
 }
 

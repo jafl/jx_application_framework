@@ -100,7 +100,7 @@ GCLAlarmManager::CheckAlarms()
 	JSize count	= itsAlarms->GetElementCount();
 	for (JIndex i = 1; i <= count; i++)
 		{
-		GCLAlarm* alarm	= itsAlarms->NthElement(i);
+		GCLAlarm* alarm	= itsAlarms->GetElement(i);
 		if (alarm->GetAlarmTime() <= (JIndex)now)
 			{
 			AlarmTriggered(alarm);

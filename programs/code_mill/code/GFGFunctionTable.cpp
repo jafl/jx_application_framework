@@ -160,7 +160,7 @@ GFGFunctionTable::HandleMouseDown
 	JPoint cell;
 	if (GetCell(pt, &cell))
 		{
-		GFGMemberFunction* fn	= itsList->NthElement(cell.y);
+		GFGMemberFunction* fn	= itsList->GetElement(cell.y);
 		fn->ShouldBeUsed(!fn->IsUsed());
 		TableRefresh();
 		}
@@ -189,7 +189,7 @@ GFGFunctionTable::TableDrawCell
 		p.SetFilling(kJFalse);
 		}
 
-	const GFGMemberFunction* fn	= itsList->NthElement(cell.y);
+	const GFGMemberFunction* fn	= itsList->GetElement(cell.y);
 
 	if (cell.x == kFUsed)
 		{
@@ -291,7 +291,7 @@ GFGFunctionTable::AdjustColumnWidths()
 	const JSize count	= itsList->GetElementCount();
 	for (JIndex i = 1; i <= count; i++)
 		{
-		const GFGMemberFunction* fn	= itsList->NthElement(i);
+		const GFGMemberFunction* fn	= itsList->GetElement(i);
 		JSize width	= font.GetStringWidth(fn->GetReturnType());
 		JCoordinate adjWidth = width + 2 * kHMarginWidth;
 		if (adjWidth > GetColWidth(kFReturnType))

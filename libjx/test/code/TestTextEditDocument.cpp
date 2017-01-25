@@ -274,7 +274,7 @@ TestTextEditDocument::OpenFiles()
 
 		for (JIndex i=1; i<=count; i++)
 			{
-			const JString& fileName = *(fullNameList.NthElement(i));
+			const JString& fileName = *(fullNameList.GetElement(i));
 
 			JXFileDocument* doc;
 			if (!(JXGetDocumentManager())->FileDocumentIsOpen(fileName, &doc))

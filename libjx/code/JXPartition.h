@@ -89,7 +89,7 @@ JXPartition::GetCompartment
 	)
 	const
 {
-	return itsCompartments->NthElement(index);
+	return itsCompartments->GetElement(index);
 }
 
 /******************************************************************************

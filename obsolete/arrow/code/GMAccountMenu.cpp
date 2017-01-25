@@ -91,7 +91,7 @@ GMAccountMenu::AdjustItems()
 		}
 	for (JIndex i = 1; i <= count; i++)
 		{
-		AppendItem(*(accounts.NthElement(i)));
+		AppendItem(*(accounts.GetElement(i)));
 		}
 	accounts.DeleteAll();
 }

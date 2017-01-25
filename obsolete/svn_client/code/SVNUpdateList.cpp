@@ -149,7 +149,7 @@ SVNUpdateList::Receive
 		const JSize count        = list->GetElementCount();
 		for (JIndex i=1; i<=count; i++)
 			{
-			const JString* line = list->NthElement(i);
+			const JString* line = list->GetElement(i);
 			if (revisionPattern.Match(*line))
 				{
 				list->MoveElementToIndex(i, 1);

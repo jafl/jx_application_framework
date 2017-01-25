@@ -166,7 +166,7 @@ SVNPropertiesList::OpenSelectedItems()
 	JSubstitute subst;
 	while (iter.Next(&cell))
 		{
-		const JString* line = (GetStringList()).NthElement(cell.y);
+		const JString* line = (GetStringList()).GetElement(cell.y);
 
 		prop = JPrepArgForExec(*line);
 
@@ -201,7 +201,7 @@ SVNPropertiesList::CopySelectedItems
 	JPoint cell;
 	while (iter.Next(&cell))
 		{
-		list.Append(*((GetStringList()).NthElement(cell.y)));
+		list.Append(*((GetStringList()).GetElement(cell.y)));
 		}
 
 	JXTextSelection* data = new JXTextSelection(GetDisplay(), list);
@@ -292,7 +292,7 @@ SVNPropertiesList::Receive
 		const JSize count = itsProcessList->GetElementCount();
 		for (JIndex i=1; i<=count; i++)
 			{
-			if (sender == itsProcessList->NthElement(i))
+			if (sender == itsProcessList->GetElement(i))
 				{
 				itsProcessList->RemoveElement(i);
 				RemoveNextProperty();
@@ -377,7 +377,7 @@ SVNPropertiesList::SchedulePropertiesForRemove()
 	JSubstitute subst;
 	while (iter.Next(&cell))
 		{
-		const JString* line = (GetStringList()).NthElement(cell.y);
+		const JString* line = (GetStringList()).GetElement(cell.y);
 
 		prop = JPrepArgForExec(*line);
 

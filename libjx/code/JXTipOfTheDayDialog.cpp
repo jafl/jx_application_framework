@@ -271,7 +271,7 @@ JXTipOfTheDayDialog::AddTip
 void
 JXTipOfTheDayDialog::DisplayTip()
 {
-	const JString* s = itsTipList->NthElement(itsTipIndex);
+	const JString* s = itsTipList->GetElement(itsTipIndex);
 	const std::string s1(*s);
 	std::istringstream input(s1);
 	itsText->ReadHTML(input);

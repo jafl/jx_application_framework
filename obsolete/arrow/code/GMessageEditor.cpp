@@ -439,7 +439,7 @@ GMessageEditor::HandleDNDDrop
 		const JSize count	= fileNameList.GetElementCount();
 		for (JIndex i = 1; i <= count; i++)
 			{
-			itsDir->FileDropped(*(fileNameList.NthElement(i)), JI2B(source != NULL));
+			itsDir->FileDropped(*(fileNameList.GetElement(i)), JI2B(source != NULL));
 			}
 		selManager->DeleteData(&data, delMethod);
 		Focus();

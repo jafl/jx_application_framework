@@ -158,7 +158,7 @@ SVNTabGroup::DrawTab
 {
 	if (index == itsBusyIndex)
 		{
-		JXImage* image = itsImageList->NthElement(itsSpinnerIndex);
+		JXImage* image = itsImageList->GetElement(itsSpinnerIndex);
 		p.JPainter::Image(*image, image->GetBounds(),
 						  rect.left + kMarginWidth, rect.ycenter() - (image->GetHeight()/2));
 		}

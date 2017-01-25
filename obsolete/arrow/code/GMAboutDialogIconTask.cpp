@@ -111,5 +111,5 @@ GMAboutDialogIconTask::GetFrame
 	const JIndex frameIndex
 	)
 {
-	return itsImageList->NthElement(frameIndex);
+	return itsImageList->GetElement(frameIndex);
 }

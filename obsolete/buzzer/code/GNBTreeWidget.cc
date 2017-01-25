@@ -438,7 +438,7 @@ GNBTreeWidget::HandleNBMenu
 			const JSize count	= files.GetElementCount();
 			for (JIndex i = 1; i <= count; i++)
 				{
-				GNBGetApplication()->OpenNotebook(*(files.NthElement(i)));
+				GNBGetApplication()->OpenNotebook(*(files.GetElement(i)));
 				}
 			}
 		}

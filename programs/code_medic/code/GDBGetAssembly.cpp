@@ -109,7 +109,7 @@ GDBGetAssembly::HandleSuccess
 			JString *addr, *offset, *inst;
 			for (JIndex i=1; i<=count; i++)
 				{
-				JStringPtrMap<JString>* map = list.NthElement(i);
+				JStringPtrMap<JString>* map = list.GetElement(i);
 
 				if (!map->GetElement("address", &addr))
 					{
@@ -148,7 +148,7 @@ GDBGetAssembly::HandleSuccess
 	const JSize count = addrList.GetElementCount();
 	for (JIndex i=1; i<count; i++)
 		{
-		JString* s = addrList.NthElement(i);
+		JString* s = addrList.GetElement(i);
 		if (offsetPattern.Match(*s, &r))
 			{
 			const JSize pad = maxOffsetLength - r.GetLength();

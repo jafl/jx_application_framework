@@ -157,10 +157,10 @@ GMessageHeader::SetFrom
 	GGetRealNames(itsFrom, names);
 	if (names.GetElementCount() > 0)
 		{
-		itsFromNames = *(names.NthElement(1));
+		itsFromNames = *(names.GetElement(1));
 		for (JSize i = 2; i <= names.GetElementCount(); i++)
 			{
-			itsFromNames += ", " + *(names.NthElement(i));
+			itsFromNames += ", " + *(names.GetElement(i));
 			}
 		}
 	else

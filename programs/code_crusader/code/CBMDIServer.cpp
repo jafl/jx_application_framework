@@ -98,7 +98,7 @@ CBMDIServer::HandleMDIRequest
 	JBoolean restore = IsFirstTime();
 	for (JIndex i=2; i<=argCount; i++)
 		{
-		const JString& arg = *(argList.NthElement(i));
+		const JString& arg = *(argList.GetElement(i));
 		if (arg.IsEmpty())
 			{
 			continue;
@@ -114,7 +114,7 @@ CBMDIServer::HandleMDIRequest
 		else if (arg == "--apropos" && i < argCount)
 			{
 			i++;
-			CBManPageDocument::Create(NULL, *(argList.NthElement(i)), ' ', kJTrue);
+			CBManPageDocument::Create(NULL, *(argList.GetElement(i)), ' ', kJTrue);
 			lineRange.SetToNothing();
 			restore = kJFalse;
 			}
@@ -350,7 +350,7 @@ CBMDIServer::DisplayManPage
 	const JString* arg1 = NULL;
 	if (*index < argCount)
 		{
-		arg1 = argList.NthElement((*index)+1);
+		arg1 = argList.GetElement((*index)+1);
 		}
 	if (arg1 == NULL || arg1->IsEmpty())
 		{
@@ -361,7 +361,7 @@ CBMDIServer::DisplayManPage
 	const JString* arg2 = NULL;
 	if (*index < argCount-1)
 		{
-		arg2 = argList.NthElement((*index)+2);
+		arg2 = argList.GetElement((*index)+2);
 		}
 
 	if (arg2 != NULL && !arg2->IsEmpty() && arg2->GetFirstCharacter() != '-')
@@ -415,7 +415,7 @@ CBMDIServer::AddFilesToSearch
 	JString fullName;
 	for (JIndex i=*index+1; i<=count; i++)
 		{
-		const JString* fileName = argList.NthElement(i);
+		const JString* fileName = argList.GetElement(i);
 		if (JGetTrueName(*fileName, &fullName))
 			{
 			dlog->AddFileToSearch(fullName);
@@ -456,7 +456,7 @@ CBMDIServer::DisplayFileDiffs
 	JSize count = 0;
 	if (*index < argCount-1)
 		{
-		const JString* arg2 = argList.NthElement((*index)+2);
+		const JString* arg2 = argList.GetElement((*index)+2);
 		const JCharacter c  = arg2->IsEmpty() ? ' ' : arg2->GetFirstCharacter();
 		count               = (c == '-' || c == '+') ? 1 : 2;
 		}
@@ -468,7 +468,7 @@ CBMDIServer::DisplayFileDiffs
 	JString file1, file2;
 	if (count == 1)
 		{
-		file2 = *(argList.NthElement((*index)+1));
+		file2 = *(argList.GetElement((*index)+1));
 		if (file2.BeginsWith("#"))	// allows empty argument
 			{
 			file1 = file2;
@@ -488,8 +488,8 @@ CBMDIServer::DisplayFileDiffs
 		}
 	else if (count == 2)
 		{
-		file1 = *(argList.NthElement((*index)+1));
-		file2 = *(argList.NthElement((*index)+2));
+		file1 = *(argList.GetElement((*index)+1));
+		file2 = *(argList.GetElement((*index)+2));
 
 		if (JFileExists(file1) && JDirectoryExists(file2))
 			{
@@ -548,7 +548,7 @@ CBMDIServer::DisplayVCSDiffs
 	JSize count = 0;
 	if (*index < argCount-1)
 		{
-		const JString* arg2 = argList.NthElement((*index)+2);
+		const JString* arg2 = argList.GetElement((*index)+2);
 		const JCharacter c  = arg2->IsEmpty() ? ' ' : arg2->GetFirstCharacter();
 		count               = (c == '-' || c == '+') ? 1 : 2;
 		}
@@ -560,13 +560,13 @@ CBMDIServer::DisplayVCSDiffs
 	JString file, rev1, rev2;
 	if (count == 1)
 		{
-		file = *(argList.NthElement((*index)+1));
+		file = *(argList.GetElement((*index)+1));
 		}
 	else if (count == 2)
 		{
-		file = *(argList.NthElement((*index)+2));
+		file = *(argList.GetElement((*index)+2));
 
-		const JString* r = argList.NthElement((*index)+1);
+		const JString* r = argList.GetElement((*index)+1);
 		JIndex i;
 		if (r->LocateSubstring(":", &i) &&
 			1 < i && i < r->GetLength())

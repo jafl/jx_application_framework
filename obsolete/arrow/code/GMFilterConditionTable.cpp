@@ -181,7 +181,7 @@ GMFilterConditionTable::TableDrawCell
 
 	HilightIfSelected(p, JPoint(1, cell.y), rect);
 
-	GMFilterCondition* condition	= itsConditions->NthElement(cell.y);
+	GMFilterCondition* condition	= itsConditions->GetElement(cell.y);
 	if (cell.x == (JCoordinate)kTypeColumn)
 		{
 		p.JPainter::String(rect, kGMTypeStrings[condition->GetType() - 1],
@@ -313,7 +313,7 @@ GMFilterConditionTable::CreateXInputField
 		new JXInputField(this, kFixedLeft, kFixedTop, x, y, w, h);
 	assert(itsInput != NULL);
 	itsInput->SetIsRequired(kJTrue);
-	GMFilterCondition* condition	= itsConditions->NthElement(cell.y);
+	GMFilterCondition* condition	= itsConditions->GetElement(cell.y);
 	itsInput->SetText(condition->GetPattern());
 	return itsInput;
 }
@@ -332,7 +332,7 @@ GMFilterConditionTable::ExtractInputData
 	JBoolean ok = itsInput->InputValid();
 	if (ok)
 		{
-		GMFilterCondition* condition	= itsConditions->NthElement(cell.y);
+		GMFilterCondition* condition	= itsConditions->GetElement(cell.y);
 		condition->SetPattern(itsInput->GetText());
 		}
 	return ok;
@@ -523,7 +523,7 @@ GMFilterConditionTable::HandleTypeMenu
 		{
 		return;
 		}
-	GMFilterCondition* condition = itsConditions->NthElement(cell.y);
+	GMFilterCondition* condition = itsConditions->GetElement(cell.y);
 	condition->SetType((GMFilterCondition::ConditionType)index);
 	TableRefresh();
 }
@@ -544,7 +544,7 @@ GMFilterConditionTable::HandleRelationMenu
 		{
 		return;
 		}
-	GMFilterCondition* condition = itsConditions->NthElement(cell.y);
+	GMFilterCondition* condition = itsConditions->GetElement(cell.y);
 	condition->SetRelation((GMFilterCondition::ConditionRelation)index);
 	TableRefresh();
 }

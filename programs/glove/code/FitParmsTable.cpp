@@ -84,13 +84,13 @@ FitParmsTable::TableDrawCell
 	if (cell.x == 1)
 		{
 		r.right -= kHMarginWidth;
-		str = itsCol1->NthElement(cell.y);
+		str = itsCol1->GetElement(cell.y);
 		p.String(r, *str, JPainter::kHAlignRight, JPainter::kVAlignCenter);
 		}
 	else
 		{
 		r.left += kHMarginWidth;
-		str = itsCol2->NthElement(cell.y);
+		str = itsCol2->GetElement(cell.y);
 		p.String(r, *str, JPainter::kHAlignLeft, JPainter::kVAlignCenter);
 		}
 }

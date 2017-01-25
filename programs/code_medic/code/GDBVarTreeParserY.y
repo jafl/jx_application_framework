@@ -91,7 +91,7 @@ top_group :
 		itsCurrentNode = $$ = (CMGetLink())->CreateVarNode(NULL, "", NULL, $1->GetName());
 		for (JIndex i=1; i<=$1->list->GetElementCount(); i++)
 			{
-			itsCurrentNode->Append($1->list->NthElement(i));
+			itsCurrentNode->Append($1->list->GetElement(i));
 			}
 		itsIsPointerFlag = kJFalse;
 
@@ -105,7 +105,7 @@ top_group :
 		itsCurrentNode = $$ = (CMGetLink())->CreateVarNode(NULL, "", NULL, *$1);
 		for (JIndex i=1; i<=$2->list->GetElementCount(); i++)
 			{
-			itsCurrentNode->Append($2->list->NthElement(i));
+			itsCurrentNode->Append($2->list->GetElement(i));
 			}
 		itsIsPointerFlag = kJFalse;
 
@@ -293,7 +293,7 @@ node :
 		itsIsPointerFlag = kJFalse;
 		for (JIndex i=1; i<=$2->list->GetElementCount(); i++)
 			{
-			itsCurrentNode->Append($2->list->NthElement(i));
+			itsCurrentNode->Append($2->list->GetElement(i));
 			}
 
 		jdelete $1;

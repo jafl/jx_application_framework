@@ -112,7 +112,7 @@ GDBGetThreads::HandleSuccess
 	JString fileName;
 	for (JIndex i=1; i<=count; i++)
 		{
-		const JString* line = threadList.NthElement(i);
+		const JString* line = threadList.GetElement(i);
 
 		if (ExtractThreadIndex(*line, &threadIndex))
 			{

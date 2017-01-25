@@ -451,7 +451,7 @@ CBTreeDirector::StreamOut
 		for (JIndex i=1; i<=fnListCount; i++)
 			{
 			*symOutput << ' ';
-			(itsFnBrowsers->NthElement(i))->StreamOut(*symOutput);
+			(itsFnBrowsers->GetElement(i))->StreamOut(*symOutput);
 			}
 
 		*symOutput << ' ';
@@ -550,7 +550,7 @@ CBTreeDirector::ReconnectFunctionBrowsers()
 	const JSize count = itsFnBrowsers->GetElementCount();
 	for (JIndex i=count; i>=1; i--)
 		{
-		(itsFnBrowsers->NthElement(i))->Reconnect();
+		(itsFnBrowsers->GetElement(i))->Reconnect();
 		}
 }
 
@@ -568,7 +568,7 @@ CBTreeDirector::ViewFunctionList
 	const JSize count = itsFnBrowsers->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		CBFnListDirector* dir = itsFnBrowsers->NthElement(i);
+		CBFnListDirector* dir = itsFnBrowsers->GetElement(i);
 		if (dir->IsShowingClass(theClass))
 			{
 			dir->Activate();
@@ -1166,7 +1166,7 @@ CBTreeDirector::ReceiveWithFeedback
 			JString fullName;
 			for (JIndex i=1; i<=count; i++)
 				{
-				if ((classList.NthElement(i))->GetFileName(&fullName))
+				if ((classList.GetElement(i))->GetFileName(&fullName))
 					{
 					info->AddFile(fullName);
 					}

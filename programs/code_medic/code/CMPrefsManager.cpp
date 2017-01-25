@@ -575,7 +575,7 @@ CMPrefsManager::GetFileType
 			const JSize count = suffixList.GetElementCount();
 			for (JIndex j=1; j<=count; j++)
 				{
-				if (fileName.EndsWith(*(suffixList.NthElement(j))))
+				if (fileName.EndsWith(*(suffixList.GetElement(j))))
 					{
 					return kSuffixTypeMap[i].type;
 					}

@@ -223,7 +223,7 @@ JTreeList::GetNode
 	const JIndex index
 	)
 {
-	return itsVisibleNodeList->NthElement(index);
+	return itsVisibleNodeList->GetElement(index);
 }
 
 inline const JTreeNode*
@@ -233,7 +233,7 @@ JTreeList::GetNode
 	)
 	const
 {
-	return itsVisibleNodeList->NthElement(index);
+	return itsVisibleNodeList->GetElement(index);
 }
 
 /******************************************************************************

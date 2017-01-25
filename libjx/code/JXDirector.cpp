@@ -153,7 +153,7 @@ JXDirector::Deactivate()
 		const JSize dirCount = itsSubdirectors->GetElementCount();
 		for (JIndex i=1; i<=dirCount; i++)
 			{
-			if (!(itsSubdirectors->NthElement(i))->Deactivate())
+			if (!(itsSubdirectors->GetElement(i))->Deactivate())
 				{
 				return kJFalse;
 				}
@@ -176,7 +176,7 @@ JXDirector::Suspend()
 		const JSize dirCount = itsSubdirectors->GetElementCount();
 		for (JIndex i=1; i<=dirCount; i++)
 			{
-			(itsSubdirectors->NthElement(i))->Suspend();
+			(itsSubdirectors->GetElement(i))->Suspend();
 			}
 		}
 	itsSuspendCount++;
@@ -200,7 +200,7 @@ JXDirector::Resume()
 		const JSize dirCount = itsSubdirectors->GetElementCount();
 		for (JIndex i=1; i<=dirCount; i++)
 			{
-			(itsSubdirectors->NthElement(i))->Resume();
+			(itsSubdirectors->GetElement(i))->Resume();
 			}
 		}
 }

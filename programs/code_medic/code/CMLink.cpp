@@ -113,7 +113,7 @@ CMLink::DeleteOneShotCommands
 	const JSize count = list->GetElementCount();
 	for (JIndex i=count; i>=1; i--)
 		{
-		CMCommand* cmd = list->NthElement(i);
+		CMCommand* cmd = list->GetElement(i);
 		if (cmd->IsOneShot())
 			{
 			jdelete cmd;		// automatically removed from list
@@ -259,7 +259,7 @@ CMLink::RunNextCommand()
 		const JSize count = itsForegroundQ->GetElementCount();
 		for (JIndex i=1; i<=count; i++)
 			{
-			CMCommand* command = itsForegroundQ->NthElement(i);
+			CMCommand* command = itsForegroundQ->GetElement(i);
 			if (command->GetState() != CMCommand::kExecuting)
 				{
 				SendMedicCommand(command);
@@ -300,7 +300,7 @@ CMLink::HandleCommandRunning
 	const JSize fgCount = itsForegroundQ->GetElementCount();
 	for (JIndex i=1; i<=fgCount; i++)
 		{
-		CMCommand* command = itsForegroundQ->NthElement(i);
+		CMCommand* command = itsForegroundQ->GetElement(i);
 		if (command->GetTransactionID() == cmdID)
 			{
 			itsRunningCommand = command;
@@ -330,7 +330,7 @@ CMLink::CancelAllCommands()
 {
 	for (JIndex i=itsForegroundQ->GetElementCount(); i>=1; i--)
 		{
-		CMCommand* cmd = itsForegroundQ->NthElement(i);
+		CMCommand* cmd = itsForegroundQ->GetElement(i);
 		itsForegroundQ->RemoveElement(i);	// remove first, in case auto-delete
 		cmd->Finished(kJFalse);
 
@@ -353,7 +353,7 @@ CMLink::CancelBackgroundCommands()
 {
 	for (JIndex i=itsBackgroundQ->GetElementCount(); i>=1; i--)
 		{
-		CMCommand* cmd = itsBackgroundQ->NthElement(i);
+		CMCommand* cmd = itsBackgroundQ->GetElement(i);
 		itsBackgroundQ->RemoveElement(i);	// remove first, in case auto-delete
 		cmd->Finished(kJFalse);
 
@@ -435,7 +435,7 @@ CMLink::FindFile
 		const JSize count = itsPathList->GetElementCount();
 		for (JIndex i=1; i<=count; i++)
 			{
-			*fullName = JCombinePathAndName(*(itsPathList->NthElement(i)), fileName);
+			*fullName = JCombinePathAndName(*(itsPathList->GetElement(i)), fileName);
 			if (JFileExists(*fullName))
 				{
 				return kJTrue;

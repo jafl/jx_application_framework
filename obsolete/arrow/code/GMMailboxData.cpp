@@ -248,7 +248,7 @@ GMMailboxData::Update
 				JSize index;
 				for (index = 1; index <= count; index++)
 					{
-					GMessageHeader* header = list->NthElement(index);
+					GMessageHeader* header = list->GetElement(index);
 					GMessageFrom* from = new GMessageFrom(header);
 					assert(from != NULL);
 					fromlist.Append(from);
@@ -256,11 +256,11 @@ GMMailboxData::Update
 				count = fromlist.GetElementCount();
 				for (index = count; index >= 1; index--)
 					{
-					GMessageFrom* from = fromlist.NthElement(index);
+					GMessageFrom* from = fromlist.GetElement(index);
 					JIndex findindex;
 					if (itsFromList->SearchSorted(from, JOrderedSetT::kFirstMatch, &findindex))
 						{
-						GMessageFrom* currentfrom = itsFromList->NthElement(findindex);
+						GMessageFrom* currentfrom = itsFromList->GetElement(findindex);
 						GMessageHeader* header = currentfrom->GetHeader();
 						GMessageHeader* header2 = from->GetHeader();
 						header->SetHeaderStart(header2->GetHeaderStart());
@@ -277,7 +277,7 @@ GMMailboxData::Update
 				count = itsFromList->GetElementCount();
 				for (index = count; index >= 1; index--)
 					{
-					GMessageFrom* from = itsFromList->NthElement(index);
+					GMessageFrom* from = itsFromList->GetElement(index);
 					GMessageHeader* header = from->GetHeader();
 					RemoveHeader(header);
 					itsFromList->Remove(from);
@@ -287,7 +287,7 @@ GMMailboxData::Update
 				count = fromlist.GetElementCount();
 				for (index = 1; index <= count; index++)
 					{
-					GMessageFrom* from = fromlist.NthElement(index);
+					GMessageFrom* from = fromlist.GetElement(index);
 					GMessageHeader* header = from->GetHeader();
 					itsList->Append(header);
 					HeaderAppended(header);
@@ -372,7 +372,7 @@ GMMailboxData::Save()
 	JSize index;
 	for (index = 1; index <= count; index++)
 		{
-		GMessageHeader* header = itsList->NthElement(index);
+		GMessageHeader* header = itsList->GetElement(index);
 		GSaveMessage(is, os, header, kJTrue);
 		}
 
@@ -415,7 +415,7 @@ GMMailboxData::Flush()
 	JSize count 		= itsList->GetElementCount();
 	for (JSize index = count; index >= 1; index--)
 		{
-		GMessageHeader* header = itsList->NthElement(index);
+		GMessageHeader* header = itsList->GetElement(index);
 		if (header->GetMessageStatus() == GMessageHeader::kDelete)
 			{
 			BroadcastDataModified();
@@ -458,7 +458,7 @@ GMMailboxData::SaveSelectedMessages
 	const JSize count	= list->GetElementCount();
 	for (JIndex i = 1; i <= count; i++)
 		{
-		GMessageHeader* header = list->NthElement(i);
+		GMessageHeader* header = list->GetElement(i);
 		if (itsList->Includes(header))
 			{
 			SaveHeader(is, os, header, headers);
@@ -517,7 +517,7 @@ GMMailboxData::AdjustList
 		{
 		return;
 		}
-	GMessageHeader* header	= list->NthElement(1);
+	GMessageHeader* header	= list->GetElement(1);
 	if (header->GetFrom().Contains("Mail System Internal Data"))
 		{
 		std::ifstream is(itsMailFile);
@@ -553,7 +553,7 @@ GMMailboxData::HandleMessageTransfer
 	const JSize count	= list->GetElementCount();
 	for (JIndex i = count; i >= 1; i--)
 		{
-		GMessageHeader* header = list->NthElement(i);
+		GMessageHeader* header = list->GetElement(i);
 		if (!itsList->Includes(header))
 			{
 			list->Remove(header);
@@ -565,7 +565,7 @@ GMMailboxData::HandleMessageTransfer
 		const JSize count = list->GetElementCount();
 		for (JIndex i = 1; i <= count; i++)
 			{
-			GMessageHeader* header = list->NthElement(i);
+			GMessageHeader* header = list->GetElement(i);
 			header->SetMessageStatus(GMessageHeader::kDelete);
 			Broadcast(HeaderMarkedDeleted(header));
 			BroadcastDataModified();
@@ -588,7 +588,7 @@ GMMailboxData::GenerateFromList()
 	JSize count = itsList->GetElementCount();
 	for (JSize index = 1; index <= count; index++)
 		{
-		GMessageHeader* header = itsList->NthElement(index);
+		GMessageHeader* header = itsList->GetElement(index);
 		GMessageFrom* from = new GMessageFrom(header);
 		assert(from != NULL);
 		itsFromList->InsertSorted(from, kJTrue);
@@ -680,7 +680,7 @@ GMMailboxData::GetHeader
 	assert(itsList->IndexValid(index));
 	if (itsSortType == kNone)
 		{
-		return itsList->NthElement(index);
+		return itsList->GetElement(index);
 		}
 
 	JIndex realIndex	= index;
@@ -691,23 +691,23 @@ GMMailboxData::GetHeader
 
 	if (itsSortType == kDate)
 		{
-		return itsListByDate->NthElement(realIndex);
+		return itsListByDate->GetElement(realIndex);
 		}
 	else if (itsSortType == kSize)
 		{
-		return itsListBySize->NthElement(realIndex);
+		return itsListBySize->GetElement(realIndex);
 		}
 	else if (itsSortType == kSubject)
 		{
-		return itsListBySubject->NthElement(realIndex);
+		return itsListBySubject->GetElement(realIndex);
 		}
 	else if (itsSortType == kFrom)
 		{
-		return itsListByFrom->NthElement(realIndex);
+		return itsListByFrom->GetElement(realIndex);
 		}
 	else
 		{
-		return itsList->NthElement(index);
+		return itsList->GetElement(index);
 		}
 	
 }
@@ -851,17 +851,17 @@ GMMailboxData::DropHeaders
 			{
 			for (index = 1; index <= lcount; index++)
 				{
-				GMessageHeader* header = headers->NthElement(index);
+				GMessageHeader* header = headers->GetElement(index);
 				GSaveMessage(mboxis, os, header, kJTrue, kJFalse);
 				}
 			for (index = 1; index <= count; index++)
 				{
-				GMessageHeader* header = itsList->NthElement(index);
+				GMessageHeader* header = itsList->GetElement(index);
 				GSaveMessage(is, os, header, kJTrue, kJFalse);
 				}
 			for (index = lcount; index >= 1; index--)
 				{
-				GMessageHeader* header = headers->NthElement(index);
+				GMessageHeader* header = headers->GetElement(index);
 				itsList->Prepend(header);
 				HeaderAppended(header);
 				}
@@ -871,13 +871,13 @@ GMMailboxData::DropHeaders
 			{
 			for (index = 1; index <= count; index++)
 				{
-				GMessageHeader* header = itsList->NthElement(index);
+				GMessageHeader* header = itsList->GetElement(index);
 				JSize pos = JTellp(os);
 				GSaveMessage(is, os, header, kJTrue, kJFalse);
 				}
 			for (index = 1; index <= lcount; index++)
 				{
-				GMessageHeader* header = headers->NthElement(index);
+				GMessageHeader* header = headers->GetElement(index);
 				JSize pos = JTellp(os);
 				GSaveMessage(mboxis, os, header, kJTrue, kJFalse);
 				itsList->Append(header);
@@ -887,30 +887,30 @@ GMMailboxData::DropHeaders
 		// insert after afterIndex
 		else
 			{
-			GMessageHeader* after	= itsList->NthElement(afterIndex);
+			GMessageHeader* after	= itsList->GetElement(afterIndex);
 
 			for (index = 1; index <= afterIndex; index++)
 				{
-				GMessageHeader* header = itsList->NthElement(index);
+				GMessageHeader* header = itsList->GetElement(index);
 				JSize pos = JTellp(os);
 				GSaveMessage(is, os, header, kJTrue, kJFalse);
 				}
 
 			for (index = 1; index <= lcount; index++)
 				{
-				GMessageHeader* header = headers->NthElement(index);
+				GMessageHeader* header = headers->GetElement(index);
 				JSize pos = JTellp(os);
 				GSaveMessage(mboxis, os, header, kJTrue, kJFalse);
 				}
 			for (index = afterIndex+1; index <= count; index++)
 				{
-				GMessageHeader* header = itsList->NthElement(index);
+				GMessageHeader* header = itsList->GetElement(index);
 				JSize pos = JTellp(os);
 				GSaveMessage(is, os, header, kJTrue, kJFalse);
 				}
 			for (index = lcount; index >= 1; index--)
 				{
-				GMessageHeader* src = headers->NthElement(index);
+				GMessageHeader* src = headers->GetElement(index);
 				itsList->InsertAfter(after, src);
 				HeaderAppended(src);
 				}
@@ -1062,7 +1062,7 @@ GMMailboxData::RemoveHeaderAtIndex
 	)
 {
 	assert(itsList->IndexValid(index));
-	GMessageHeader* header	= itsList->NthElement(index);
+	GMessageHeader* header	= itsList->GetElement(index);
 	
 	Broadcast(HeaderRemoved(header));
 	itsList->RemoveElement(index);
@@ -1158,7 +1158,7 @@ GMMailboxData::SyncLists()
 	const JSize count	= itsList->GetElementCount();
 	for (JIndex i = 1; i <= count; i++)
 		{
-		GMessageHeader* header	= itsList->NthElement(i);
+		GMessageHeader* header	= itsList->GetElement(i);
 		itsListByDate->InsertSorted(header);
 		itsListBySize->InsertSorted(header);
 		itsListBySubject->InsertSorted(header);

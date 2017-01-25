@@ -877,7 +877,7 @@ JXDirTable::HandleDNDDrop
 					s.ClearSelection();
 					for (JIndex i=1; i<=fileCount; i++)
 						{
-						entryName = fileNameList.NthElement(i);
+						entryName = fileNameList.GetElement(i);
 						if (JFileExists(*entryName))
 							{
 							JSplitPathAndName(*entryName, &path, &name);
@@ -976,7 +976,7 @@ JXDirTable::AdjustTableContents()
 		for (JIndex i=1; i<=count; i++)
 			{
 			JIndex j;
-			if (itsDirInfo->FindEntry(*(itsReselectNameList->NthElement(i)), &j) &&
+			if (itsDirInfo->FindEntry(*(itsReselectNameList->GetElement(i)), &j) &&
 				ItemIsActive(j))	// check for active in case of single, broken link
 				{
 				s.SelectRow(j);
@@ -1221,7 +1221,7 @@ JXDirTable::RememberSelections()
 		const JSize count = entryList.GetElementCount();
 		for (JIndex i=1; i<=count; i++)
 			{
-			itsReselectNameList->Append((entryList.NthElement(i))->GetName());
+			itsReselectNameList->Append((entryList.GetElement(i))->GetName());
 			}
 
 		JPoint cell;

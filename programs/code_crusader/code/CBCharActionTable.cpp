@@ -118,7 +118,7 @@ CBCharActionTable::SetData
 	const JSize count                    = actionList.GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		const JString* script = actionList.NthElement(i);
+		const JString* script = actionList.GetElement(i);
 		if (script != NULL)
 			{
 			data->AppendRows(1);

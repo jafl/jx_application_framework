@@ -105,8 +105,8 @@ CBSearchTE::SearchFiles
 
 	for (JIndex i=1; i<=count; i++)
 		{
-		const JString* file = fileList.NthElement(i);
-		const JString* name = nameList.NthElement(i);
+		const JString* file = fileList.GetElement(i);
+		const JString* name = nameList.GetElement(i);
 		SearchFile(*file, *name, onlyListFiles, listFilesWithoutMatch, output,
 				   searchStr, searchIsRegex, caseSensitive, entireWord, *regex);
 

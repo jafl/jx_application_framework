@@ -495,7 +495,7 @@ JXTabGroup::ScrollUpToTab
 		const TabInfo info = itsTabInfoList->GetElement(index);
 
 		right += 2*kBorderWidth + info.preMargin + info.postMargin +
-				 itsFont.GetStringWidth(*(itsTitles->NthElement(i)));
+				 itsFont.GetStringWidth(*(itsTitles->GetElement(i)));
 		if (info.closable)
 			{
 			right += kCloseMarginWidth + itsCloseImage->GetWidth();
@@ -563,7 +563,7 @@ JXTabGroup::Draw
 
 		for (JIndex i=itsFirstDrawIndex; i<=count; i++)
 			{
-			const JString* title = itsTitles->NthElement(i);
+			const JString* title = itsTitles->GetElement(i);
 			const JBoolean isSel = JI2B(hasSelection && i == selIndex);
 			const TabInfo info   = itsTabInfoList->GetElement(i);
 
@@ -634,7 +634,7 @@ JXTabGroup::Draw
 
 		for (JIndex i=itsFirstDrawIndex; i<=count; i++)
 			{
-			const JString* title = itsTitles->NthElement(i);
+			const JString* title = itsTitles->GetElement(i);
 			const JBoolean isSel = JI2B(hasSelection && i == selIndex);
 			const TabInfo info   = itsTabInfoList->GetElement(i);
 
@@ -705,7 +705,7 @@ JXTabGroup::Draw
 
 		for (JIndex i=itsFirstDrawIndex; i<=count; i++)
 			{
-			const JString* title = itsTitles->NthElement(i);
+			const JString* title = itsTitles->GetElement(i);
 			const JBoolean isSel = JI2B(hasSelection && i == selIndex);
 			const TabInfo info   = itsTabInfoList->GetElement(i);
 
@@ -776,7 +776,7 @@ JXTabGroup::Draw
 
 		for (JIndex i=itsFirstDrawIndex; i<=count; i++)
 			{
-			const JString* title = itsTitles->NthElement(i);
+			const JString* title = itsTitles->GetElement(i);
 			const JBoolean isSel = JI2B(hasSelection && i == selIndex);
 			const TabInfo info   = itsTabInfoList->GetElement(i);
 

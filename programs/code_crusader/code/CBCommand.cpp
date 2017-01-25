@@ -202,7 +202,7 @@ CBCommand::Add
 	JString cmd;
 	for (JIndex i=1; i<=count; i++)
 		{
-		JString* arg = argList.NthElement(i);
+		JString* arg = argList.GetElement(i);
 		if (*arg == ";")
 			{
 			cmd.TrimWhitespace();
@@ -230,7 +230,7 @@ CBCommand::Add
 			const JSize cmdCount = cmdList->GetElementCount();
 			for (JIndex j=1; j<=cmdCount; j++)
 				{
-				if (cmdName == *(cmdList->NthElement(j)))
+				if (cmdName == *(cmdList->GetElement(j)))
 					{
 					ReportInfiniteLoop(*cmdList, j);
 					return kJFalse;
@@ -256,7 +256,7 @@ CBCommand::Add
 				itsCmdList->AppendElement(CmdInfo(NULL, cmdObj, cmdInfo, kJFalse));
 
 				i++;
-				while (*(argList.NthElement(i)) != ";")
+				while (*(argList.GetElement(i)) != ";")
 					{
 					i++;
 					}
@@ -319,10 +319,10 @@ CBCommand::ReportInfiniteLoop
 			{
 			loop += " -> ";
 			}
-		loop += *(cmdList.NthElement(i));
+		loop += *(cmdList.GetElement(i));
 		}
 	loop += " -> ";
-	loop += *(cmdList.NthElement(startIndex));
+	loop += *(cmdList.GetElement(startIndex));
 
 	const JCharacter* map[] =
 		{

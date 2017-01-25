@@ -359,13 +359,13 @@ JXColormap::Get3DShadeColor()
 JBoolean
 JXColormap::GetColor
 	(
-	const JCharacter*	name,
-	JColorIndex*		colorIndex
+	const JString&	name,
+	JColorIndex*	colorIndex
 	)
 	const
 {
 	XColor xColor;
-	if (XParseColor(*itsDisplay, itsXColormap, name, &xColor))
+	if (XParseColor(*itsDisplay, itsXColormap, name.GetBytes(), &xColor))
 		{
 		*colorIndex = GetColor(xColor.red, xColor.green, xColor.blue);
 		return kJTrue;

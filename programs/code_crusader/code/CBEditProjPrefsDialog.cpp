@@ -201,7 +201,7 @@ CBEditProjPrefsDialog::UpdateSettings()
 
 	for (JIndex i=1; i<=docCount; i++)
 		{
-		(docList->NthElement(i))->
+		(docList->GetElement(i))->
 			SetProjectPrefs(reopenTextFiles, doubleSpaceCompile,
 							rebuildMakefileDaily, dropFileAction);
 		}

@@ -141,7 +141,7 @@ JWebBrowser::ShowFileLocations
 		{
 		for (JIndex i=1; i<=count; i++)
 			{
-			ShowFileLocation(*(fileList.NthElement(i)));
+			ShowFileLocation(*(fileList.GetElement(i)));
 			}
 		}
 	else
@@ -150,7 +150,7 @@ JWebBrowser::ShowFileLocations
 		for (JIndex i=1; i<=count; i++)
 			{
 			s += " ";
-			s += JPrepArgForExec(*(fileList.NthElement(i)));
+			s += JPrepArgForExec(*(fileList.GetElement(i)));
 			}
 
 		JSimpleProcess::Create(s, kJTrue);

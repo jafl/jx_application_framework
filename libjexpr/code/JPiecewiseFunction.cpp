@@ -97,11 +97,11 @@ JPiecewiseFunction::JPiecewiseFunction
 	const JSize caseCount = (source.itsCases)->GetElementCount();
 	for (JIndex i=1; i<=caseCount; i++)
 		{
-		const JDecision* origDecision = (source.itsCases)->NthElement(i);
+		const JDecision* origDecision = (source.itsCases)->GetElement(i);
 		JDecision* newDecision = origDecision->Copy();
 		itsCases->Append(newDecision);
 
-		const JFunction* origFunction = (source.itsFunctions)->NthElement(i);
+		const JFunction* origFunction = (source.itsFunctions)->GetElement(i);
 		JFunction* newFunction = origFunction->Copy();
 		itsFunctions->Append(newFunction);
 		}
@@ -124,10 +124,10 @@ JPiecewiseFunction::Evaluate
 	const JSize caseCount = itsCases->GetElementCount();
 	for (JIndex i=1; i<=caseCount; i++)
 		{
-		JDecision* theDecision = itsCases->NthElement(i);
+		JDecision* theDecision = itsCases->GetElement(i);
 		if (theDecision->Evaluate())
 			{
-			JFunction* theFunction = itsFunctions->NthElement(i);
+			JFunction* theFunction = itsFunctions->GetElement(i);
 			return theFunction->Evaluate(value);
 			}
 		}
@@ -159,14 +159,14 @@ JPiecewiseFunction::SameAs
 
 	for (JIndex i=1; i<=caseCount; i++)
 		{
-		JDecision* d1 = itsCases->NthElement(i);
-		JDecision* d2 = (thePWFunction.itsCases)->NthElement(i);
+		JDecision* d1 = itsCases->GetElement(i);
+		JDecision* d2 = (thePWFunction.itsCases)->GetElement(i);
 		if (*d1 != *d2)
 			{
 			return kJFalse;
 			}
-		JFunction* f1 = itsFunctions->NthElement(i);
-		JFunction* f2 = (thePWFunction.itsFunctions)->NthElement(i);
+		JFunction* f1 = itsFunctions->GetElement(i);
+		JFunction* f2 = (thePWFunction.itsFunctions)->GetElement(i);
 		if (*f1 != *f2)
 			{
 			return kJFalse;
@@ -236,11 +236,11 @@ operator<<
 
 	for (JIndex i=1; i<=caseCount; i++)
 		{
-		JDecision* theDecision = (aPWFunc.itsCases)->NthElement(i);
+		JDecision* theDecision = (aPWFunc.itsCases)->GetElement(i);
 		output << ' ';
 		theDecision->StreamOut(output);
 
-		JFunction* theFunction = (aPWFunc.itsFunctions)->NthElement(i);
+		JFunction* theFunction = (aPWFunc.itsFunctions)->GetElement(i);
 		output << ' ';
 		theFunction->StreamOut(output);
 		}

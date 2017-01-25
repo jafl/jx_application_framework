@@ -277,7 +277,7 @@ JMessageProtocol<ACE_PEER_STREAM_2>::GetNextMessage
 {
 	if (itsMessageList.GetElementCount() > 1)
 		{
-		*message = *(itsMessageList.FirstElement());
+		*message = *(itsMessageList.GetFirstElement());
 		itsMessageList.DeleteElement(1);
 		return kJTrue;
 		}
@@ -305,7 +305,7 @@ JMessageProtocol<ACE_PEER_STREAM_2>::PeekNextMessage
 {
 	if (itsMessageList.GetElementCount() > 1)
 		{
-		*message = *(itsMessageList.FirstElement());
+		*message = *(itsMessageList.GetFirstElement());
 		return kJTrue;
 		}
 	else
@@ -429,18 +429,18 @@ JMessageProtocol<ACE_PEER_STREAM_2>::handle_input
 	JPtrArray<JString> list(JPtrArrayT::kDeleteAll);
 	itsRecvData.Split(itsTokenPattern, &list, 0, kJTrue);
 
-	if (itsTokenPattern.Match(*(list.FirstElement())))
+	if (itsTokenPattern.Match(*(list.GetFirstElement())))
 		{
 		list.DeleteElement(1);
 		}
 
-	if (itsTokenPattern.Match(*(list.LastElement())))
+	if (itsTokenPattern.Match(*(list.GetLastElement())))
 		{
 		itsRecvData.Clear();
 		}
 	else
 		{
-		itsRecvData = *(list.LastElement());
+		itsRecvData = *(list.GetLastElement());
 		list.DeleteElement(list.GetElementCount());
 		}
 
@@ -449,16 +449,16 @@ JMessageProtocol<ACE_PEER_STREAM_2>::handle_input
 
 	for (JIndex i=1; i<=blockCount; i+=2)
 		{
-		const JString* s = list.NthElement(i);
+		const JString* s = list.GetElement(i);
 		if (!s->IsEmpty())
 			{
-			JString* msg = itsMessageList.LastElement();
+			JString* msg = itsMessageList.GetLastElement();
 			msg->Append(*s);
 			NewMessage();
 			Broadcast(JMessageProtocolT::MessageReady(*msg));
 			}
 
-		s = list.NthElement(i+1);
+		s = list.GetElement(i+1);
 		if (*s == itsDisconnectStr)
 			{
 			itsReceivedDisconnectFlag = kJTrue;

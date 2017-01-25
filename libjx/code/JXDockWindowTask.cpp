@@ -93,7 +93,7 @@ JXDockWindowTask::~JXDockWindowTask()
 		const JSize count = theUpdateList->GetElementCount();
 		for (JIndex i=1; i<=count; i++)
 			{
-			(theUpdateList->NthElement(i))->ShowTab(1);
+			(theUpdateList->GetElement(i))->ShowTab(1);
 			}
 
 		jdelete theUpdateList;

@@ -104,7 +104,7 @@ JXAssert::UnlockDisplays()
 	const JSize count = itsDisplayList->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		JXDisplay* display = itsDisplayList->NthElement(i);
+		JXDisplay* display = itsDisplayList->GetElement(i);
 		Display* xDisplay  = display->GetXDisplay();
 		XUngrabServer(xDisplay);
 		XUngrabPointer(xDisplay, CurrentTime);

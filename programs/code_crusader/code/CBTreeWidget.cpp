@@ -571,7 +571,7 @@ CBTreeWidget::GetSelectionData
 		JString headerName, sourceName;
 		for (JIndex i=1; i<=classCount; i++)
 			{
-			CBClass* c = classList.NthElement(i);
+			CBClass* c = classList.GetElement(i);
 			if (c->GetFileName(&headerName))
 				{
 				JString* s = jnew JString(headerName);
@@ -708,7 +708,7 @@ CBTreeWidget::HandleDNDDrop
 			const JSize fileCount = dirList.GetElementCount();
 			for (JIndex i=fileCount; i>=1; i--)
 				{
-				const JString* name = dirList.NthElement(i);
+				const JString* name = dirList.GetElement(i);
 				if (!JDirectoryExists(*name))
 					{
 					dirList.DeleteElement(i);
@@ -887,7 +887,7 @@ CBTreeWidget::Receive
 			const JSize count = sel.GetElementCount();
 			for (JIndex i=1; i<=count; i++)
 				{
-				CBClass* c    = sel.NthElement(i);
+				CBClass* c    = sel.GetElement(i);
 				const JRect r = c->GetFrame();
 				if (ap.Contains(r))
 					{

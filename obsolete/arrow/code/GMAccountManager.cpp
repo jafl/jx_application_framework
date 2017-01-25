@@ -133,7 +133,7 @@ GMAccountManager::WritePrefs
 	output << ' ' << count << ' ';
 	for (JIndex i = 1; i <= count; i++)
 		{
-		GMAccount* account	= itsAccounts->NthElement(i);
+		GMAccount* account	= itsAccounts->GetElement(i);
 		account->WritePrefs(output);
 		}
 
@@ -167,14 +167,14 @@ GMAccountManager::Receive
 			const JSize count	= list.GetElementCount();
 			for (JIndex i = 1; i <= count; i++)
 				{
-				list.NthElement(i)->SetReadList(NULL);
+				list.GetElement(i)->SetReadList(NULL);
 				}
 			}
 		itsDialog = NULL;
 		}
 	else if (message.Is(GPOPRetriever::kCheckFinished))
 		{
-		GPOPRetriever* r	= itsPendingRetrievers->NthElement(1);
+		GPOPRetriever* r	= itsPendingRetrievers->GetElement(1);
 		StopListening(r);
 		itsPendingRetrievers->RemoveElement(1);
 		CheckNextAccount();
@@ -289,7 +289,7 @@ GMAccountManager::GeneratePOPRetreivers()
 	const JSize count	= itsAccounts->GetElementCount();
 	for (JIndex i = 1; i <= count; i++)
 		{
-		GMAccount* account	= itsAccounts->NthElement(i);
+		GMAccount* account	= itsAccounts->GetElement(i);
 		if (account->IsUsingPOP())
 			{
 			GPOPRetriever* r	= new GPOPRetriever(account);
@@ -311,7 +311,7 @@ GMAccountManager::GetEditedAccounts()
 	JSize count	= itsAccounts->GetElementCount();
 	for (JIndex i = 1; i <= count; i++)
 		{
-		itsAccounts->NthElement(i)->SetReadList(NULL);
+		itsAccounts->GetElement(i)->SetReadList(NULL);
 		}
 	itsAccounts->DeleteAll();
 
@@ -319,7 +319,7 @@ GMAccountManager::GetEditedAccounts()
 	count	= list.GetElementCount();
 	for (JIndex i = 1; i <= count; i++)
 		{
-		itsAccounts->Append(list.NthElement(i));
+		itsAccounts->Append(list.GetElement(i));
 		}
 	list.RemoveAll();
 
@@ -356,7 +356,7 @@ GMAccountManager::GetPOPAccounts
 	const JSize count	= itsAccounts->GetElementCount();
 	for (JIndex i = 1; i <= count; i++)
 		{
-		GMAccount* account	= itsAccounts->NthElement(i);
+		GMAccount* account	= itsAccounts->GetElement(i);
 		if (account->IsUsingPOP())
 			{
 			JString* str	= new JString(account->GetNickname());
@@ -378,7 +378,7 @@ GMAccountManager::CheckAccount
 	)
 {
 	assert(itsRetrievers->IndexValid(index));
-	GPOPRetriever* r	= itsRetrievers->NthElement(index);
+	GPOPRetriever* r	= itsRetrievers->GetElement(index);
 	itsPendingRetrievers->Append(r);
 	CheckNextAccount();
 }
@@ -410,7 +410,7 @@ GMAccountManager::CheckAllAccounts()
 	const JSize count	= itsRetrievers->GetElementCount();
 	for (JIndex index = 1; index <= count; index++)
 		{
-		GPOPRetriever* r	= itsRetrievers->NthElement(index);
+		GPOPRetriever* r	= itsRetrievers->GetElement(index);
 		itsPendingRetrievers->Append(r);
 		}
 	CheckNextAccount();
@@ -440,7 +440,7 @@ GMAccountManager::CheckNextAccount()
 		{
 		return;
 		}
-	GPOPRetriever* r	= itsPendingRetrievers->NthElement(1);
+	GPOPRetriever* r	= itsPendingRetrievers->GetElement(1);
 	ListenTo(r);
 	r->CheckMail();
 }
@@ -460,7 +460,7 @@ GMAccountManager::GetPOPAccount
 	const JSize count	= itsAccounts->GetElementCount();
 	for (JIndex i = 1; i <= count; i++)
 		{
-		GMAccount* a	= itsAccounts->NthElement(i);
+		GMAccount* a	= itsAccounts->GetElement(i);
 		if (a->IsUsingPOP() && a->GetFullPOPAccountName() == accountName)
 			{
 			*account	= a;
@@ -485,7 +485,7 @@ GMAccountManager::GetAccountWithNickname
 	const JSize count	= itsAccounts->GetElementCount();
 	for (JIndex i = 1; i <= count; i++)
 		{
-		GMAccount* a	= itsAccounts->NthElement(i);
+		GMAccount* a	= itsAccounts->GetElement(i);
 		if (a->GetNickname() == nickname)
 			{
 			*account	= a;
@@ -510,7 +510,7 @@ GMAccountManager::GetReplyAccount
 	const JSize count	= itsAccounts->GetElementCount();
 	for (JIndex i = 1; i <= count; i++)
 		{
-		GMAccount* a	= itsAccounts->NthElement(i);
+		GMAccount* a	= itsAccounts->GetElement(i);
 //		std::cout << "\tCompare: " << a->GetSMTPUser() << std::endl;
 		if (a->GetSMTPUser() == to)
 			{
@@ -521,7 +521,7 @@ GMAccountManager::GetReplyAccount
 
 	for (JIndex i = 1; i <= count; i++)
 		{
-		GMAccount* a	= itsAccounts->NthElement(i);
+		GMAccount* a	= itsAccounts->GetElement(i);
 		if (a->GetReplyTo() == to)
 			{
 //			std::cout << "\tCompare: " << a->GetReplyTo() << std::endl;
@@ -542,7 +542,7 @@ GMAccount*
 GMAccountManager::GetFirstAccount()
 {
 	assert(itsAccounts->GetElementCount() > 0);
-	return itsAccounts->NthElement(1);
+	return itsAccounts->GetElement(1);
 }
 
 /******************************************************************************
@@ -569,7 +569,7 @@ GMAccountManager::GetAccount
 	)
 {
 	assert(itsAccounts->IndexValid(index));
-	GMAccount* account	= itsAccounts->NthElement(index);
+	GMAccount* account	= itsAccounts->GetElement(index);
 	return account;
 }
 
@@ -587,7 +587,7 @@ GMAccountManager::GetAccountNames
 	const JSize count	= itsAccounts->GetElementCount();
 	for (JIndex i = 1; i <= count; i++)
 		{
-		GMAccount* account	= itsAccounts->NthElement(i);
+		GMAccount* account	= itsAccounts->GetElement(i);
 		JString* str	= new JString(account->GetNickname());
 		assert(str != NULL);
 		accounts->Append(str);
@@ -603,5 +603,5 @@ GMAccount*
 GMAccountManager::GetDefaultAccount()
 {
 	assert(itsAccounts->IndexValid(itsDefaultIndex));
-	return itsAccounts->NthElement(itsDefaultIndex);
+	return itsAccounts->GetElement(itsDefaultIndex);
 }

@@ -58,7 +58,7 @@ CMQuitTask::Perform
 		const JSize count = list->GetElementCount();
 		for (JIndex i=1; i<=count; i++)
 			{
-			if ((list->NthElement(i))->IsActive())
+			if ((list->GetElement(i))->IsActive())
 				{
 				quit = kJFalse;
 				break;

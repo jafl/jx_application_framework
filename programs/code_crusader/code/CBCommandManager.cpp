@@ -394,7 +394,7 @@ CBCommandManager::Prepare
 			cmdPath = *(info.path);
 			cmdStr  = *(info.cmd);
 			if (Substitute(&cmdPath, &cmdStr, projDoc,
-						   *(fullNameList.NthElement(i)),
+						   *(fullNameList.GetElement(i)),
 						   (hasLines ? lineIndexList.GetElement(i) : 0),
 						   kJTrue) &&
 				Add(cmdPath, cmdStr, info, projDoc, NULL,
@@ -1494,8 +1494,8 @@ CBCommandManager::ConvertCompileDialog
 	JSize count = makeList.GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		UpdateFileMarkers(JI2B(vers < 26), makeList.NthElement(i));
-		AppendCommand(path, *(makeList.NthElement(i)), "",
+		UpdateFileMarkers(JI2B(vers < 26), makeList.GetElement(i));
+		AppendCommand(path, *(makeList.GetElement(i)), "",
 					  kJTrue, kJFalse, kJTrue, kJFalse, kJTrue, kJFalse, kJTrue,
 					  "", "", JI2B(i == count));
 		}
@@ -1503,8 +1503,8 @@ CBCommandManager::ConvertCompileDialog
 	count = compileList.GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		UpdateFileMarkers(JI2B(vers < 26), compileList.NthElement(i));
-		AppendCommand(path, *(compileList.NthElement(i)), "",
+		UpdateFileMarkers(JI2B(vers < 26), compileList.GetElement(i));
+		AppendCommand(path, *(compileList.GetElement(i)), "",
 					  kJTrue, kJFalse, kJTrue, kJTrue, kJTrue, kJTrue, kJFalse,
 					  "", "", JI2B(i == count));
 		}
@@ -1574,8 +1574,8 @@ CBCommandManager::ConvertRunDialog
 	JSize count = runList.GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		UpdateFileMarkers(JI2B(vers < 26), runList.NthElement(i));
-		AppendCommand(path, *(runList.NthElement(i)), "",
+		UpdateFileMarkers(JI2B(vers < 26), runList.GetElement(i));
+		AppendCommand(path, *(runList.GetElement(i)), "",
 					  kJFalse, kJFalse, kJFalse, kJFalse, kJTrue, kJTrue, kJFalse,
 					  "", "", JI2B(i == count));
 		}
@@ -1583,8 +1583,8 @@ CBCommandManager::ConvertRunDialog
 	count = debugList.GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		UpdateFileMarkers(JI2B(vers < 26), debugList.NthElement(i));
-		AppendCommand(path, *(debugList.NthElement(i)), "",
+		UpdateFileMarkers(JI2B(vers < 26), debugList.GetElement(i));
+		AppendCommand(path, *(debugList.GetElement(i)), "",
 					  kJFalse, kJFalse, kJFalse, kJTrue, kJFalse, kJFalse, kJFalse,
 					  "", "", JI2B(i == count));
 		}
@@ -1669,7 +1669,7 @@ CBCommandManager::GetOutputDoc()
 	for (JIndex i=1; i<=count; i++)
 		{
 		CBExecOutputDocument* doc =
-			dynamic_cast<CBExecOutputDocument*>(theExecDocList.NthElement(i));
+			dynamic_cast<CBExecOutputDocument*>(theExecDocList.GetElement(i));
 		assert( doc != NULL );
 		if (!doc->ProcessRunning())
 			{
@@ -1751,7 +1751,7 @@ CBCommandManager::DocumentDeleted
 	const JSize count = theExecDocList.GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		if (sender == theExecDocList.NthElement(i))
+		if (sender == theExecDocList.GetElement(i))
 			{
 			theExecDocList.RemoveElement(i);
 			return kJTrue;

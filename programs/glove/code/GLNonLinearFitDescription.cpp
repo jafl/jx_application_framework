@@ -35,7 +35,7 @@ GLNonLinearFitDescription::GLNonLinearFitDescription
 
 	JSize count		= vars.GetElementCount();
 	JIndex offset	= 0;
-	if (count > 1 && *(vars.NthElement(1)) == "x")
+	if (count > 1 && *(vars.GetElement(1)) == "x")
 		{
 		offset = 1;
 		count--;
@@ -43,7 +43,7 @@ GLNonLinearFitDescription::GLNonLinearFitDescription
 	SetParameterCount(count);
 	for (JIndex i = 1; i <= count; i++)
 		{
-		JString var	= *(vars.NthElement(i + offset));
+		JString var	= *(vars.GetElement(i + offset));
 		GetVarList()->AddVariable(var, 0);
 		}
 }

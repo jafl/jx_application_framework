@@ -196,9 +196,9 @@ GNBApp::OpenNotebook
 	JGetTrueName(fileName, &testName);
 	for (JSize i = 1; i <= count; i++)
 		{
-		if (itsTreeDirs->NthElement(i)->GetFileName() == testName)
+		if (itsTreeDirs->GetElement(i)->GetFileName() == testName)
 			{
-			itsTreeDirs->NthElement(i)->Activate();
+			itsTreeDirs->GetElement(i)->Activate();
 			return;
 			}
 		}
@@ -271,7 +271,7 @@ GNBApp::SaveState
 	
 	for (JSize i = 1; i <= count; i++)
 		{
-		os << itsTreeDirs->NthElement(i)->GetFileName() << ' ';
+		os << itsTreeDirs->GetElement(i)->GetFileName() << ' ';
 		}
 
 	return kJTrue;
@@ -404,7 +404,7 @@ GNBApp::Receive
 					const JSize count	= files.GetElementCount();
 					for (JIndex i = 1; i <= count; i++)
 						{
-						OpenNotebook(*(files.NthElement(i)));
+						OpenNotebook(*(files.GetElement(i)));
 						}
 					}
 				}

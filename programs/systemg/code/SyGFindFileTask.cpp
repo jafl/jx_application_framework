@@ -194,7 +194,7 @@ SyGFindFileTask::ReceiveMessageLine()
 
 	for (JIndex i=itsPathList->GetElementCount(); i>=1; i--)
 		{
-		pathList.Prepend(*(itsPathList->NthElement(i)));
+		pathList.Prepend(*(itsPathList->GetElement(i)));
 		}
 
 	JPoint cell;

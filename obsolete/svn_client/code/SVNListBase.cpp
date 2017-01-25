@@ -144,7 +144,7 @@ SVNListBase::RefreshContent()
 		JPoint cell;
 		while (iter.Next(&cell))
 			{
-			const JString* line = itsLineList->NthElement(cell.y);
+			const JString* line = itsLineList->GetElement(cell.y);
 			itsSavedSelection->InsertSorted(new JString(ExtractRelativePath(*line)));
 			}
 		}
@@ -354,7 +354,7 @@ SVNListBase::DisplayErrors()
 	const JSize count = itsErrorList->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		itsLineList->InsertAtIndex(i, itsErrorList->NthElement(i));
+		itsLineList->InsertAtIndex(i, itsErrorList->GetElement(i));
 		SetStyle(i, red);
 		}
 
@@ -439,7 +439,7 @@ SVNListBase::CopySelectedItems
 		JString fullPath;
 		for (JIndex i=1; i<=count; i++)
 			{
-			JString* path = list.NthElement(i);
+			JString* path = list.GetElement(i);
 			*path         = JConvertToRelativePath(*path, basePath);
 			}
 		}
@@ -799,7 +799,7 @@ SVNListBase::GetSelectedFiles
 	const JString& basePath = GetPath();
 	while (iter.Next(&cell))
 		{
-		const JString* line   = itsLineList->NthElement(cell.y);
+		const JString* line   = itsLineList->GetElement(cell.y);
 		name                  = ExtractRelativePath(*line);
 		const JBoolean exists = JConvertToAbsolutePath(name, basePath, &fullName);
 		if (exists || includeDeleted)

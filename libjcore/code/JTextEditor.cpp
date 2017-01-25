@@ -1025,7 +1025,7 @@ JIndex i;
 		fStyle.color = colorList.GetElement(colorIndex);
 
 		style->AppendElements(
-			fontMgr->GetFont(*(fontList.NthElement(fontIndex)), size, fStyle),
+			fontMgr->GetFont(*(fontList.GetElement(fontIndex)), size, fStyle),
 			charCount);
 		}
 
@@ -1205,7 +1205,7 @@ JTextEditor::WritePrivateFormat
 
 	for (i=1; i<=fontCount; i++)
 		{
-		output << ' ' << *(fontList.NthElement(i));
+		output << ' ' << *(fontList.GetElement(i));
 		}
 
 	// write list of rgb values
@@ -4142,7 +4142,7 @@ JTextEditor::SetAllFontNameAndSize
 		const JSize undoCount = itsUndoList->GetElementCount();
 		for (JIndex i=1; i<=undoCount; i++)
 			{
-			(itsUndoList->NthElement(i))->SetFont(name, size);
+			(itsUndoList->GetElement(i))->SetFont(name, size);
 			}
 		}
 	else if (itsUndo != NULL)
@@ -6520,7 +6520,7 @@ JTextEditor::GetCurrentUndo
 {
 	if (itsUndoList != NULL && itsFirstRedoIndex > 1)
 		{
-		*undo = itsUndoList->NthElement(itsFirstRedoIndex - 1);
+		*undo = itsUndoList->GetElement(itsFirstRedoIndex - 1);
 		return kJTrue;
 		}
 	else if (itsUndoList != NULL)
@@ -6548,7 +6548,7 @@ JTextEditor::GetCurrentRedo
 {
 	if (itsUndoList != NULL && itsFirstRedoIndex <= itsUndoList->GetElementCount())
 		{
-		*redo = itsUndoList->NthElement(itsFirstRedoIndex);
+		*redo = itsUndoList->GetElement(itsFirstRedoIndex);
 		return kJTrue;
 		}
 	else if (itsUndoList != NULL)
@@ -6667,7 +6667,7 @@ JTextEditor::SameUndo
 		assert( itsFirstRedoIndex > 1 );
 
 		itsFirstRedoIndex--;
-		assert( undo == itsUndoList->NthElement(itsFirstRedoIndex) );
+		assert( undo == itsUndoList->GetElement(itsFirstRedoIndex) );
 
 		undo->SetRedo(kJTrue);
 		}
@@ -6676,7 +6676,7 @@ JTextEditor::SameUndo
 		{
 		assert( itsFirstRedoIndex <= itsUndoList->GetElementCount() );
 
-		assert( undo == itsUndoList->NthElement(itsFirstRedoIndex) );
+		assert( undo == itsUndoList->GetElement(itsFirstRedoIndex) );
 		itsFirstRedoIndex++;
 
 		undo->SetRedo(kJFalse);

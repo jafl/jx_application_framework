@@ -178,7 +178,7 @@ JTreeList::Close
 			const JSize count = nodeList.GetElementCount();
 			for (JIndex i=1; i<=count; i++)
 				{
-				const JTreeNode* n = nodeList.NthElement(i);
+				const JTreeNode* n = nodeList.GetElement(i);
 				JIndex j;
 				if (FindNode(n, &j))
 					{
@@ -363,7 +363,7 @@ JTreeList::CloseDescendants
 	const JSize count = nodeList.GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		itsOpenNodeList->Remove(nodeList.NthElement(i));
+		itsOpenNodeList->Remove(nodeList.GetElement(i));
 		}
 }
 

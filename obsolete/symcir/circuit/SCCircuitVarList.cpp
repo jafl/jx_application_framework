@@ -107,7 +107,7 @@ JIndex i;
 		{
 		const JIndex j      = misfitIndexList.GetElement(i);
 		VarInfo info        = itsVars->GetElement(j);
-		const JString* fStr = misfitFnList.NthElement(i);
+		const JString* fStr = misfitFnList.GetElement(i);
 		if (JParseFunction(*fStr, this, &(info.f)))
 			{
 			itsVars->SetElement(j, info);

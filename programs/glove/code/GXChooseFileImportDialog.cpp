@@ -125,7 +125,7 @@ GXChooseFileImportDialog::BuildWindow
 	
 	for (JSize i = 1; i <= strCount; i++)
 		{
-		itsFilterMenu->AppendItem(*(names->NthElement(i)));
+		itsFilterMenu->AppendItem(*(names->GetElement(i)));
 		}
 
 	itsFilterIndex = 1;
@@ -182,7 +182,7 @@ GXChooseFileImportDialog::Receive
 		const JSize strCount = names->GetElementCount();
 		for (JSize i = 1; i <= strCount; i++)
 			{
-			itsFilterMenu->AppendItem(*(names->NthElement(i)));
+			itsFilterMenu->AppendItem(*(names->GetElement(i)));
 			}
 		itsFilterIndex = 1;
 		itsFilterMenu->SetToPopupChoice(kJTrue, itsFilterIndex);

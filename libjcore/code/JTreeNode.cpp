@@ -109,7 +109,7 @@ JTreeNode::SetTree
 			const JSize count = itsChildren->GetElementCount();
 			for (JIndex i=1; i<=count; i++)
 				{
-				(itsChildren->NthElement(i))->SetTree(tree);
+				(itsChildren->GetElement(i))->SetTree(tree);
 				}
 			}
 		}
@@ -245,7 +245,7 @@ JTreeNode::GetDescendantCount()
 		const JSize childCount = itsChildren->GetElementCount();
 		for (JIndex i=1; i<=childCount; i++)
 			{
-			count += 1 + (itsChildren->NthElement(i))->GetDescendantCount();
+			count += 1 + (itsChildren->GetElement(i))->GetDescendantCount();
 			}
 		}
 
@@ -273,7 +273,7 @@ JTreeNode::CollectDescendants
 		const JSize count = itsChildren->GetElementCount();
 		for (JIndex i=1; i<=count; i++)
 			{
-			JTreeNode* child = itsChildren->NthElement(i);
+			JTreeNode* child = itsChildren->GetElement(i);
 			list->Append(child);
 			child->CollectDescendants(list);
 			}
@@ -296,7 +296,7 @@ JTreeNode::GetChild
 	)
 {
 	assert( itsChildren != NULL );
-	return itsChildren->NthElement(index);
+	return itsChildren->GetElement(index);
 }
 
 const JTreeNode*
@@ -307,7 +307,7 @@ JTreeNode::GetChild
 	const
 {
 	assert( itsChildren != NULL );
-	return itsChildren->NthElement(index);
+	return itsChildren->GetElement(index);
 }
 
 /******************************************************************************
@@ -488,7 +488,7 @@ JTreeNode::Receive
 
 		const JIndex origIndex = info->GetOrigIndex();
 		const JIndex newIndex  = info->GetNewIndex();
-		JTreeNode* child       = itsChildren->NthElement(newIndex);
+		JTreeNode* child       = itsChildren->GetElement(newIndex);
 
 		itsChildren->RemoveElement(newIndex);			// avoid another ElementMoved
 		itsChildren->InsertAtIndex(origIndex, child);
@@ -631,7 +631,7 @@ JTreeNode::DeleteAllChildren()
 		const JSize count = itsChildren->GetElementCount();
 		for (JIndex i=count; i>=1; i--)
 			{
-			jdelete itsChildren->NthElement(i);
+			jdelete itsChildren->GetElement(i);
 			}
 
 		jdelete itsChildren;

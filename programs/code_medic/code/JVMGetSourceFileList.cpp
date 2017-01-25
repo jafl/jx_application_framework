@@ -57,7 +57,7 @@ JVMGetSourceFileList::Starting()
 	const JSize count              = list.GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		ScanDirectory(*(list.NthElement(i)));
+		ScanDirectory(*(list.GetElement(i)));
 		}
 }
 

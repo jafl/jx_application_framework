@@ -139,7 +139,7 @@ GDBGetCompletions::HandleSuccess
 
 	JString maxPrefix;
 
-	maxPrefix = *(lines.NthElement(startIndex));
+	maxPrefix = *(lines.GetElement(startIndex));
 	if (stringCount == 1)
 		{
 		// There's only one completion, which must be what we meant so we
@@ -153,7 +153,7 @@ GDBGetCompletions::HandleSuccess
 
 	for (JIndex i=startIndex+1; i<=stringCount; i++)
 		{
-		const JString* s = lines.NthElement(i);
+		const JString* s = lines.GetElement(i);
 		const JSize matchLength  = JCalcMatchLength(maxPrefix, *s);
 		const JSize prefixLength = maxPrefix.GetLength();
 		if (matchLength < prefixLength)

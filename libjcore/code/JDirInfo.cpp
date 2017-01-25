@@ -419,7 +419,7 @@ JDirInfo::CopyDirEntries
 	const JSize entryCount = (source.itsDirEntries)->GetElementCount();
 	for (JIndex i=1; i<=entryCount; i++)
 		{
-		JDirEntry* origEntry = (source.itsDirEntries)->NthElement(i);
+		JDirEntry* origEntry = (source.itsDirEntries)->GetElement(i);
 		JDirEntry* entry     = jnew JDirEntry(*origEntry);
 		assert( entry != NULL );
 		itsDirEntries->Append(entry);
@@ -924,7 +924,7 @@ JDirInfo::ApplyFilters
 	const JSize count = itsDirEntries->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		JDirEntry* entry = itsDirEntries->NthElement(i);
+		JDirEntry* entry = itsDirEntries->GetElement(i);
 		if (IsVisible(*entry))
 			{
 			itsVisEntries->Append(entry);
@@ -1104,7 +1104,7 @@ JDirInfo::BuildRegexFromWildcardFilter
 	const JSize count = list.GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		AppendRegex(*(list.NthElement(i)), regexStr);
+		AppendRegex(*(list.GetElement(i)), regexStr);
 		}
 
 	return kJTrue;

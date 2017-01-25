@@ -76,7 +76,7 @@ main
 
 		for (JIndex i=1; i<=inputCount; i++)
 			{
-			const JString* inputFileName = inputFileList.NthElement(i);
+			const JString* inputFileName = inputFileList.GetElement(i);
 			time_t t;
 			if (!(JGetModificationTime(*inputFileName, &t)).OK())
 				{
@@ -102,7 +102,7 @@ main
 
 	for (JIndex i=1; i<=inputCount; i++)
 		{
-		const JString* inputFileName = inputFileList.NthElement(i);
+		const JString* inputFileName = inputFileList.GetElement(i);
 		if (JDirectoryExists(*inputFileName))
 			{
 			continue;

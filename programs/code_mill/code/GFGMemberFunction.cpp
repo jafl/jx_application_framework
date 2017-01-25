@@ -73,7 +73,7 @@ GFGMemberFunction::GetArg
 {
 	assert(itsArgs != NULL);
 	assert(itsArgs->IndexValid(index));
-	return *(itsArgs->NthElement(index));
+	return *(itsArgs->GetElement(index));
 }
 
 /******************************************************************************

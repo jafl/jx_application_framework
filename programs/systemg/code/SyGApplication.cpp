@@ -246,10 +246,10 @@ SyGApplication::OpenDirectory
 		const JIndex count = itsWindowList->GetElementCount();
 		for (JIndex i=1; i<=count; i++)
 			{
-			const JString name = (itsWindowList->NthElement(i))->GetDirectory();
+			const JString name = (itsWindowList->GetElement(i))->GetDirectory();
 			if (JSameDirEntry(name, ancestor))
 				{
-				SyGTreeDir* childDir = itsWindowList->NthElement(i);
+				SyGTreeDir* childDir = itsWindowList->GetElement(i);
 				childDir->Activate();
 				if (dir != NULL)
 					{
@@ -324,7 +324,7 @@ SyGApplication::GetWindowNames
 	for (JIndex i=1; i<=count; i++)
 		{
 		name = JConvertToHomeDirShortcut(
-					(itsWindowList->NthElement(i))->GetDirectory());
+					(itsWindowList->GetElement(i))->GetDirectory());
 		names->Append(name);
 		}
 }
@@ -430,7 +430,7 @@ SyGApplication::UpdateShortcutMenu
 	count = itsShortcutList->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		const JString* path = itsShortcutList->NthElement(i);
+		const JString* path = itsShortcutList->GetElement(i);
 		menu->AppendItem(*path, JXMenu::kPlainType, NULL,
 						 GetNMShortcut(&shortcutIndex), *path);
 		menu->SetItemImage(menu->GetItemCount(), folderIcon, kJFalse);
@@ -518,7 +518,7 @@ SyGApplication::OpenShortcut
 		}
 	else
 		{
-		path = itsShortcutList->NthElement(index - shortcutOffset);
+		path = itsShortcutList->GetElement(index - shortcutOffset);
 		}
 
 	if (!OpenDirectory(*path, NULL, NULL, kJTrue, kJFalse) && index > shortcutOffset)
@@ -690,7 +690,7 @@ SyGApplication::RestoreProgramState()
 	const JSize count = children.GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		const JString* str = children.NthElement(i);
+		const JString* str = children.GetElement(i);
 		OpenDirectory(*str, NULL, NULL, kJFalse, kJFalse);
 		}
 
@@ -719,7 +719,7 @@ SyGApplication::SaveProgramState()
 	const JSize count = itsWindowList->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		children.Append((itsWindowList->NthElement(i))->GetDirectory());
+		children.Append((itsWindowList->GetElement(i))->GetDirectory());
 		}
 	(SyGGetPrefsMgr())->SaveProgramState(children);
 }
@@ -923,7 +923,7 @@ SyGApplication::CleanUpBeforeSuddenDeath
 		const JSize count = itsWindowList->GetElementCount();
 		for (JIndex i=1; i<=count; i++)
 			{
-			(itsWindowList->NthElement(i))->SaveState();
+			(itsWindowList->GetElement(i))->SaveState();
 			}
 		}
 

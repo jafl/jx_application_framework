@@ -331,7 +331,7 @@ JXSpellCheckerDialog::Check()
 					}
 				else if (goodFirstSuggestion)
 					{
-					itsFirstGuess->SetText(*(itsSuggestionList->NthElement(1)));
+					itsFirstGuess->SetText(*(itsSuggestionList->GetElement(1)));
 					}
 				itsSuggestionWidget->SetStringList(itsSuggestionList);
 

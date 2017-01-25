@@ -1335,11 +1335,11 @@ GNBTreeWidgetBase::ArrangeDroppedNodes
 			{
 			if (external)
 				{
-				lastparent->Append(GNBBaseNode::Create(*(nodes.NthElement(i)), itsTree));
+				lastparent->Append(GNBBaseNode::Create(*(nodes.GetElement(i)), itsTree));
 				}
 			else
 				{
-				lastparent->Append(nodes.NthElement(i));
+				lastparent->Append(nodes.GetElement(i));
 				}
 			}
 		}
@@ -1351,11 +1351,11 @@ GNBTreeWidgetBase::ArrangeDroppedNodes
 			{
 			if (external)
 				{
-				iparent->InsertBefore(inode, GNBBaseNode::Create(*(nodes.NthElement(i)), itsTree));
+				iparent->InsertBefore(inode, GNBBaseNode::Create(*(nodes.GetElement(i)), itsTree));
 				}
 			else
 				{
-				iparent->InsertBefore(inode, nodes.NthElement(i));
+				iparent->InsertBefore(inode, nodes.GetElement(i));
 				}
 			}
 		}
@@ -1366,11 +1366,11 @@ GNBTreeWidgetBase::ArrangeDroppedNodes
 			{
 			if (external)
 				{
-				cnode->Append(GNBBaseNode::Create(*(nodes.NthElement(i)), itsTree));
+				cnode->Append(GNBBaseNode::Create(*(nodes.GetElement(i)), itsTree));
 				}
 			else
 				{
-				cnode->Append(nodes.NthElement(i));
+				cnode->Append(nodes.GetElement(i));
 				}
 			}
 		}

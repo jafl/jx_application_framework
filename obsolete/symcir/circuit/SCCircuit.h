@@ -144,7 +144,7 @@ SCCircuit::GetComponent
 	const JIndex index
 	)
 {
-	return itsComponents->NthElement(index);
+	return itsComponents->GetElement(index);
 }
 
 inline const SCComponent*
@@ -154,7 +154,7 @@ SCCircuit::GetComponent
 	)
 	const
 {
-	return itsComponents->NthElement(index);
+	return itsComponents->GetElement(index);
 }
 
 /******************************************************************************
@@ -197,7 +197,7 @@ SCCircuit::GetNodeName
 	)
 	const
 {
-	return *(itsNodeNames->NthElement(node));
+	return *(itsNodeNames->GetElement(node));
 }
 
 /******************************************************************************

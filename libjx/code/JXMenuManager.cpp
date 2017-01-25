@@ -74,7 +74,7 @@ JXMenuManager::IsMenuForWindow
 	JIndex index;
 	if (itsOpenWindowList->Find(menuWindow, &index))
 		{
-		JXMenu* menu = itsOpenMenuList->NthElement(index);
+		JXMenu* menu = itsOpenMenuList->GetElement(index);
 		return JI2B(mainWindow == menu->GetWindow());
 		}
 	else

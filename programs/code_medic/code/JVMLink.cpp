@@ -636,7 +636,7 @@ JVMLink::FindThread
 	JIndex i;
 	if (itsThreadList->SearchSorted(&target, JOrderedSetT::kAnyMatch, &i))
 		{
-		*node = itsThreadList->NthElement(i);
+		*node = itsThreadList->GetElement(i);
 		return kJTrue;
 		}
 	else
@@ -667,7 +667,7 @@ JVMLink::CheckNextThreadGroup()
 	JVMThreadNode* node;
 	while (1)
 		{
-		node = itsThreadList->NthElement(itsCullThreadGroupIndex);
+		node = itsThreadList->GetElement(itsCullThreadGroupIndex);
 		if (node->GetType() == JVMThreadNode::kGroupType)
 			{
 			break;
@@ -991,7 +991,7 @@ JVMLink::ClassSignatureToFile
 	const JSize pathCount = itsSourcePathList->GetElementCount();
 	for (JIndex i=1; i<=pathCount; i++)
 		{
-		const JString* path = itsSourcePathList->NthElement(i);
+		const JString* path = itsSourcePathList->GetElement(i);
 		*fullName           = JCombinePathAndName(*path, file);
 		if (JFileReadable(*fullName))
 			{

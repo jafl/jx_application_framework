@@ -788,7 +788,7 @@ GMessageEditDir::HandleMessageMenu
 			const JSize count	= files.GetElementCount();
 			for (JIndex i = 1; i <= count; i++)
 				{
-				FileDropped(*(files.NthElement(i)), kJFalse);
+				FileDropped(*(files.GetElement(i)), kJFalse);
 				}
 			}
 		}
@@ -1507,7 +1507,7 @@ GMessageEditDir::SetHeader
 	JPtrArray<JString> names(JPtrArrayT::kDeleteAll);
 	GParseNameList(header->GetTo(), names);
 	if (names.GetElementCount() > 0 &&
-		GGetAccountMgr()->GetReplyAccount(*(names.NthElement(1)), &itsAccount))
+		GGetAccountMgr()->GetReplyAccount(*(names.GetElement(1)), &itsAccount))
 		{
 		SetAccount(itsAccount);
 		}

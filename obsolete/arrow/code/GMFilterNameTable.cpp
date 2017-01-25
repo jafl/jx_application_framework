@@ -200,7 +200,7 @@ GMFilterNameTable::TableDrawCell
 
 	JRect r = rect;
 	r.left += kHMarginWidth;
-	p.JPainter::String(r, itsFilters->NthElement(cell.y)->GetNickname(),
+	p.JPainter::String(r, itsFilters->GetElement(cell.y)->GetNickname(),
 			 JPainter::kHAlignLeft, JPainter::kVAlignCenter);
 }
 
@@ -356,7 +356,7 @@ GMFilterNameTable::CreateXInputField
 		new JXInputField(this, kFixedLeft, kFixedTop, x, y, w, h);
 	assert(itsInput != NULL);
 	itsInput->SetIsRequired(kJTrue);
-	GMFilter* filter	= itsFilters->NthElement(cell.y);
+	GMFilter* filter	= itsFilters->GetElement(cell.y);
 	itsInput->SetText(filter->GetNickname());
 	return itsInput;
 }
@@ -375,7 +375,7 @@ GMFilterNameTable::ExtractInputData
 	JBoolean ok = itsInput->InputValid();
 	if (ok)
 		{
-		GMFilter* filter	= itsFilters->NthElement(cell.y);
+		GMFilter* filter	= itsFilters->GetElement(cell.y);
 		filter->SetNickname(itsInput->GetText());
 		}
 	return ok;
@@ -503,7 +503,7 @@ GMFilterNameTable::SelectFilter
 	)
 {
 	assert(itsFilters->IndexValid(index));
-	GMFilter* filter	= itsFilters->NthElement(index);
+	GMFilter* filter	= itsFilters->GetElement(index);
 
 	itsConditionTable->SetFilter(filter);
 	itsActionTable->SetFilter(filter);
@@ -655,7 +655,7 @@ GMFilterNameTable::HandleDNDDrop
 			{
 			return;
 			}
-		GMFilter* filter	= itsFilters->NthElement(cell.y);
+		GMFilter* filter	= itsFilters->GetElement(cell.y);
 		itsFilters->Remove(filter);
 		JIndex newIndex		= dropIndex;
 		if (cell.y < (JCoordinate)newIndex)

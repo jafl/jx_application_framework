@@ -95,7 +95,7 @@ CMLineAddressTable::SetLineNumbers
 		const JSize count = itsLineTextList->GetElementCount();
 		for (JIndex i=1; i<=count; i++)
 			{
-			itsLineTextList->NthElement(i)->RemoveSubstring(1, startIndex-1);
+			itsLineTextList->GetElement(i)->RemoveSubstring(1, startIndex-1);
 			}
 		}
 }
@@ -156,7 +156,7 @@ CMLineAddressTable::GetLineText
 	const
 {
 	return itsLineTextList->IndexValid(lineIndex) ?
-		*(itsLineTextList->NthElement(lineIndex)) : JString();
+		*(itsLineTextList->GetElement(lineIndex)) : JString();
 }
 
 /******************************************************************************
@@ -254,7 +254,7 @@ CMLineAddressTable::GetBreakpoints
 	JString target;
 	for (JIndex i=1; i<=count; i++)
 		{
-		const CMBreakpoint* bp = list->NthElement(i);
+		const CMBreakpoint* bp = list->GetElement(i);
 
 		target = GetLineTextFromAddress(bp->GetAddress());
 

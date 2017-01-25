@@ -295,7 +295,7 @@ GPrefsMgr::SetInboxes
 
 	for (JIndex i=1; i<=count; i++)
 		{
-		data << ' ' << *(inboxes.NthElement(i));
+		data << ' ' << *(inboxes.GetElement(i));
 		}
 
 	SetData(kGInboxesID, data);
@@ -361,7 +361,7 @@ GPrefsMgr::DeleteInbox
 	JBoolean found = kJFalse;
 	for (JSize i = 1; i <= inboxes.GetElementCount(); i++)
 		{
-		if (*(inboxes.NthElement(i)) == inbox)
+		if (*(inboxes.GetElement(i)) == inbox)
 			{
 			inboxes.DeleteElement(i);
 			found = kJTrue;
@@ -956,7 +956,7 @@ GPrefsMgr::SetUIDList
 
 	for (JIndex i=1; i<=count; i++)
 		{
-		data << ' ' << *(list.NthElement(i));
+		data << ' ' << *(list.GetElement(i));
 		}
 
 	SetData(kGUIDListID, data);

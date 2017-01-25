@@ -561,7 +561,7 @@ CBFnListWidget::CopySelectedFunctionNames()
 		JPoint cell;
 		while (iter.Next(&cell))
 			{
-			list.Append(itsFnNames->NthElement(cell.y));
+			list.Append(itsFnNames->GetElement(cell.y));
 			}
 
 		JXTextSelection* data = jnew JXTextSelection(GetDisplay(), list);
@@ -764,7 +764,7 @@ CBFnListWidget::TableDrawCell
 
 	if (itsHasImagesFlag)
 		{
-		JXImage* image = itsImageList->NthElement(cell.y);
+		JXImage* image = itsImageList->GetElement(cell.y);
 		if (image != NULL)
 			{
 			JPoint pt(rect.topLeft());
@@ -798,7 +798,7 @@ CBFnListWidget::PrepareFunctionMenu
 		menu->AppendItem(GetFunctionName(i));
 		menu->SetItemFontStyle(i, GetStyle(i));
 
-		JXImage* image = itsImageList->NthElement(i);
+		JXImage* image = itsImageList->GetElement(i);
 		if (image != NULL)
 			{
 			menu->SetItemImage(i, image, kJFalse);

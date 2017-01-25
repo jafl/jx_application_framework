@@ -251,7 +251,7 @@ GLDLFitModule::GetParameterName
 	)
 	const
 {
-	return *(itsParmNames->NthElement(index));
+	return *(itsParmNames->GetElement(index));
 }
 
 /******************************************************************************

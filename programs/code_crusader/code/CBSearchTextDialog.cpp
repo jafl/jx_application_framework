@@ -773,7 +773,7 @@ CBSearchTextDialog::BuildSearchFileList
 		const JSize count = fullNameList.GetElementCount();
 		for (JIndex i=1; i<=count; i++)
 			{
-			SaveFileForSearch(*(fullNameList.NthElement(i)), fileList, nameList);
+			SaveFileForSearch(*(fullNameList.GetElement(i)), fileList, nameList);
 			}
 		}
 
@@ -1038,7 +1038,7 @@ CBSearchTextDialog::SaveFileSet()
 		const JSize fileCount = fullNameList.GetElementCount();
 		for (JIndex i=1; i<=fileCount; i++)
 			{
-			(fullNameList.NthElement(i))->Print(output);
+			(fullNameList.GetElement(i))->Print(output);
 			output << '\n';
 			}
 		}
@@ -1058,7 +1058,7 @@ CBSearchTextDialog::AddSearchFiles()
 		const JSize count = fileList.GetElementCount();
 		for (JIndex i=1; i<=count; i++)
 			{
-			itsFileList->AddFile(*(fileList.NthElement(i)));
+			itsFileList->AddFile(*(fileList.GetElement(i)));
 			}
 		}
 }
@@ -1240,7 +1240,7 @@ CBSearchTextDialog::WritePrefs
 
 	for (JIndex i=1; i<=fileCount; i++)
 		{
-		output << ' ' << *(fullNameList.NthElement(i));
+		output << ' ' << *(fullNameList.GetElement(i));
 		}
 
 	// directory

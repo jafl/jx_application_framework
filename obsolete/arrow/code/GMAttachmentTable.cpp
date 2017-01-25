@@ -167,7 +167,7 @@ GMAttachmentTable::TableDrawCell
 
 	JString path;
 	JString name;
-	JString filename	= *(itsFiles->NthElement(cell.y));
+	JString filename	= *(itsFiles->GetElement(cell.y));
 //	std::cout << filename << std::endl;
 	JSplitPathAndName(filename, &path, &name);
 
@@ -419,7 +419,7 @@ GMAttachmentTable::GetSelectionData
 		JPoint cell;
 		while (iter.Next(&cell))
 			{
-			fileList.Append(itsFiles->NthElement(cell.y));
+			fileList.Append(itsFiles->GetElement(cell.y));
 			}
 		fileData->SetData(fileList);
 		}
@@ -590,7 +590,7 @@ GMAttachmentTable::HandleDNDDrop
 		for (JIndex i = 1; i <= count; i++)
 			{
 			JBoolean local = JI2B(source != NULL);
-			AddFile(*(fileNameList.NthElement(i)), local);
+			AddFile(*(fileNameList.GetElement(i)), local);
 			}
 		selManager->DeleteData(&data, delMethod);
 		}
@@ -612,7 +612,7 @@ GMAttachmentTable::GetAttachmentName
 	assert(itsFiles->IndexValid(index));
 	assert(itsEncoding->IndexValid(index));
 	*binary	= itsEncoding->GetElement(index);
-	return *(itsFiles->NthElement(index));
+	return *(itsFiles->GetElement(index));
 }
 
 /******************************************************************************
@@ -815,7 +815,7 @@ GMAttachmentTable::OpenSelectedAttachments()
 	JPoint cell;
 	while (iter.Next(&cell))
 		{
-		JString* str	= new JString(*itsFiles->NthElement(cell.y));
+		JString* str	= new JString(*itsFiles->GetElement(cell.y));
 		assert(str != NULL);
 		files.Append(str);
 		}

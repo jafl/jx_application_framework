@@ -62,7 +62,7 @@ War2Wiz::ConnectionEstablished
 	const JSize count = itsPlayerList->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		if (itsPlayerList->NthElement(i) == NULL)
+		if (itsPlayerList->GetElement(i) == NULL)
 			{
 			playerIndex = i;
 			break;
@@ -176,7 +176,7 @@ War2Wiz::GetSocket
 	)
 	const
 {
-	const WarPlayer* player = itsPlayerList->NthElement(index);
+	const WarPlayer* player = itsPlayerList->GetElement(index);
 	if (player != NULL)
 		{
 		*socket = player->GetSocket();
@@ -286,7 +286,7 @@ War2Wiz::GetSender
 	const JSize count = itsPlayerList->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		const WarPlayer* player = itsPlayerList->NthElement(i);
+		const WarPlayer* player = itsPlayerList->GetElement(i);
 		if (player != NULL && player->GetSocket() == sender)
 			{
 			*senderIndex = i;
@@ -333,7 +333,7 @@ War2Wiz::ReceiveMessage
 	WarSocket&		socket
 	)
 {
-	WarPlayer* sender = itsPlayerList->NthElement(senderIndex);
+	WarPlayer* sender = itsPlayerList->GetElement(senderIndex);
 
 	JString s;
 	const JBoolean ok = socket.GetNextMessage(&s);
@@ -446,7 +446,7 @@ War2Wiz::PlayerNameUsed
 	const JSize playerCount = itsPlayerList->GetElementCount();
 	for (JIndex i=1; i<=playerCount; i++)
 		{
-		const WarPlayer* player = itsPlayerList->NthElement(i);
+		const WarPlayer* player = itsPlayerList->GetElement(i);
 		if (i != senderIndex && player != NULL &&
 			player->GetName() == sender.GetName())
 			{
@@ -496,7 +496,7 @@ War2Wiz::WriteCurrentState
 		if (exists)
 			{
 			data << ' ';
-			(itsPlayerList->NthElement(i))->WriteState(data);
+			(itsPlayerList->GetElement(i))->WriteState(data);
 			}
 		}
 }

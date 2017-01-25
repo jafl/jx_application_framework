@@ -135,7 +135,7 @@ GDBVarTreeParser::AppendAsArrayElement
 	const JSize count = data.GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		node->Append(const_cast<CMVarNode*>(data.NthElement(i)));
+		node->Append(const_cast<CMVarNode*>(data.GetElement(i)));
 		}
 }
 

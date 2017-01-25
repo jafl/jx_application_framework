@@ -97,7 +97,7 @@ MDRecordList::GetRecord
 	)
 	const
 {
-	return itsRecords->NthElement(index);
+	return itsRecords->GetElement(index);
 }
 
 /******************************************************************************

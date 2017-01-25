@@ -1108,13 +1108,13 @@ GMessageTable::HandleDNDDrop
 		const JSize count = list.GetElementCount();
 		for (JIndex i=1; i<=count; i++)
 			{
-			itsData->DropHeader(list.NthElement(i), &dropIndex);
+			itsData->DropHeader(list.GetElement(i), &dropIndex);
 			}
 
 		s.ClearSelection();
 		for (JIndex index = 1; index <= list.GetElementCount(); index++)
 			{
-			const GMessageHeader* src = list.NthElement(index);
+			const GMessageHeader* src = list.GetElement(index);
 
 			JIndex findIndex;
 			const JBoolean ok = itsData->Includes(src, &findIndex);
@@ -1159,7 +1159,7 @@ GMessageTable::HandleDNDDrop
 			for (JSize index = 1; index <= list.GetElementCount(); index++)
 				{
 				JIndex findindex;
-				GMessageHeader* src = list.NthElement(index);
+				GMessageHeader* src = list.GetElement(index);
 				JBoolean ok = itsData->Includes(src, &findindex);
 				assert(ok);
 				s.SelectCell(findindex, 1);

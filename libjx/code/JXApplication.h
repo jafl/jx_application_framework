@@ -199,7 +199,7 @@ inline JXDisplay*
 JXApplication::GetCurrentDisplay()
 	const
 {
-	return itsDisplayList->NthElement(itsCurrDisplayIndex);
+	return itsDisplayList->GetElement(itsCurrDisplayIndex);
 }
 
 /******************************************************************************
@@ -226,7 +226,7 @@ JXApplication::GetDisplay
 	)
 	const
 {
-	return itsDisplayList->NthElement(index);
+	return itsDisplayList->GetElement(index);
 }
 
 /******************************************************************************

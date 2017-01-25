@@ -99,7 +99,7 @@ JBroadcaster::~JBroadcaster()
 		{
 		while (itsRecipients != NULL && !itsRecipients->IsEmpty())
 			{
-			JBroadcaster* aRecipient = itsRecipients->LastElement();
+			JBroadcaster* aRecipient = itsRecipients->GetLastElement();
 			itsRecipients->RemoveElement(itsRecipients->GetElementCount());
 			aRecipient->RemoveSender(this);
 			aRecipient->ClearGone(this);
@@ -114,7 +114,7 @@ JBroadcaster::~JBroadcaster()
 		const JSize count = itsSenders->GetElementCount();
 		for (JIndex i=1; i<=count; i++)
 			{
-			JBroadcaster* aSender = itsSenders->NthElement(i);
+			JBroadcaster* aSender = itsSenders->GetElement(i);
 			aSender->RemoveRecipient(this);
 			}
 

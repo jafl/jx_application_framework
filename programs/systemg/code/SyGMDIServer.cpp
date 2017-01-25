@@ -84,7 +84,7 @@ SyGMDIServer::HandleMDIRequest
 		JBoolean clearSelection = kJTrue;
 		for (JIndex i=2; i<=argCount; i++)
 			{
-			const JString& arg = *(argList.NthElement(i));
+			const JString& arg = *(argList.GetElement(i));
 			if (arg == "--no-force-new")
 				{
 				forceNew = kJFalse;

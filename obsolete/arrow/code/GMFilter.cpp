@@ -37,7 +37,7 @@ GMFilter::GMFilter
 	const JSize ccount = conditions.GetElementCount();
 	for (JIndex i = 1; i <= ccount; i++)
 		{
-		GMFilterCondition* condition = new GMFilterCondition(*(conditions.NthElement(i)));
+		GMFilterCondition* condition = new GMFilterCondition(*(conditions.GetElement(i)));
 		assert(condition != NULL);
 		itsConditions->Append(condition);
 		}
@@ -46,7 +46,7 @@ GMFilter::GMFilter
 	const JSize acount = actions.GetElementCount();
 	for (JIndex i = 1; i <= acount; i++)
 		{
-		GMFilterAction* action = new GMFilterAction(*(actions.NthElement(i)));
+		GMFilterAction* action = new GMFilterAction(*(actions.GetElement(i)));
 		assert(action != NULL);
 		itsActions->Append(action);
 		}
@@ -118,7 +118,7 @@ GMFilter::SetConditions
 	const JSize count	= conditions.GetElementCount();
 	for (JIndex i = 1; i <= count; i++)
 		{
-		const GMFilterCondition* oldcond	= conditions.NthElement(i);
+		const GMFilterCondition* oldcond	= conditions.GetElement(i);
 		GMFilterCondition* newcond			= new GMFilterCondition(*oldcond);
 		assert(newcond != NULL);
 		itsConditions->Append(newcond);
@@ -146,7 +146,7 @@ GMFilter::SetActions
 	const JSize count	= actions.GetElementCount();
 	for (JIndex i = 1; i <= count; i++)
 		{
-		const GMFilterAction* oldcond	= actions.NthElement(i);
+		const GMFilterAction* oldcond	= actions.GetElement(i);
 		GMFilterAction* newcond			= new GMFilterAction(*oldcond);
 		assert(newcond != NULL);
 		itsActions->Append(newcond);
@@ -209,14 +209,14 @@ GMFilter::WriteSetup
 	output << ccount << ' ';
 	for (JIndex i = 1; i <= ccount; i++)
 		{
-		GMFilterCondition* condition	= itsConditions->NthElement(i);
+		GMFilterCondition* condition	= itsConditions->GetElement(i);
 		condition->WriteSetup(output);
 		}
 	const JSize acount	= itsActions->GetElementCount();
 	output << acount << ' ';
 	for (JIndex i = 1; i <= acount; i++)
 		{
-		GMFilterAction* action	= itsActions->NthElement(i);
+		GMFilterAction* action	= itsActions->GetElement(i);
 		action->WriteSetup(output);
 		}
 }

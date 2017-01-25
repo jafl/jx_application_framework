@@ -597,7 +597,7 @@ CBEditTextPrefsDialog::UpdateSettings()
 
 	for (JIndex i=1; i<=docCount; i++)
 		{
-		CBTextDocument* doc = docList->NthElement(i);
+		CBTextDocument* doc = docList->GetElement(i);
 
 		doc->ShouldMakeBackupFile(itsCreateBackupCB->IsChecked());
 		doc->ShouldMakeNewBackupEveryOpen(!itsOnlyBackupIfNoneCB->IsChecked());

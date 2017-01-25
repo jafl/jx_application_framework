@@ -370,8 +370,8 @@ CBBuildManager::UpdateMakeHeader
 		{
 		const JCharacter* map[] =
 			{
-			"lib_full_name", (libFileList.NthElement(i))->GetCString(),
-			"lib_proj_path", (libProjPathList.NthElement(i))->GetCString(),
+			"lib_full_name", (libFileList.GetElement(i))->GetCString(),
+			"lib_proj_path", (libProjPathList.GetElement(i))->GetCString(),
 			};
 		const JString target = JGetString(kMakeHeaderLibTargetID, map, sizeof(map));
 		target.Print(output);
@@ -792,7 +792,7 @@ CBBuildManager::EditMakeConfig()
 	const JSize count = makefileNameList.GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		JString* fileName = makefileNameList.NthElement(i);
+		JString* fileName = makefileNameList.GetElement(i);
 		if (JFileReadable(*fileName) &&
 			(CBGetDocumentManager())->OpenTextDocument(*fileName))
 			{
@@ -802,7 +802,7 @@ CBBuildManager::EditMakeConfig()
 
 	for (JIndex i=1; i<=count; i++)
 		{
-		if ((CBGetDocumentManager())->OpenTextDocument(*(makefileNameList.NthElement(i))))
+		if ((CBGetDocumentManager())->OpenTextDocument(*(makefileNameList.GetElement(i))))
 			{
 			return kJTrue;
 			}
@@ -1130,7 +1130,7 @@ CBBuildManager::WriteTemplate
 		JString path, name;
 		for (JIndex i=1; i<=count; i++)
 			{
-			const JString* fullName = list.NthElement(i);
+			const JString* fullName = list.GetElement(i);
 			JSplitPathAndName(*fullName, &path, &name);
 			output << ' ' << name;
 			cbSaveFile(output, *fullName);
@@ -1665,7 +1665,7 @@ CBBuildManager::MakefileExists()
 	GetMakefileNames(&list);
 	for (JIndex i=kFirstDefaultMakefileIndex; i<=kMakefileNameCount; i++)
 		{
-		if (JFileExists(*(list.NthElement(i))))
+		if (JFileExists(*(list.GetElement(i))))
 			{
 			return kJTrue;
 			}

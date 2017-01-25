@@ -1,3 +1,16 @@
+JXPackStrings
+	convert to JPtrArray.Join(separator)
+search for other uses of Join
+
+JString
+	option to store raw bytes - not normalized, allow null
+JMessageProtocol
+	switch back to null for disconnect
+	use raw until full message received - in case non-normalized utf-8
+test null in JRegex
+
+-----
+
 unit test every function that uses JStringIterator or Split
 	libjx
 	libjexpr

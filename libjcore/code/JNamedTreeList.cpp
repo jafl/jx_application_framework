@@ -126,7 +126,7 @@ JNamedTreeList::Find
 	JNamedTreeNode target(NULL, name);
 	if (itsSortedNodeList->SearchSorted(&target, JOrderedSetT::kFirstMatch, index))
 		{
-		const JBoolean found = FindNode(itsSortedNodeList->NthElement(*index), index);
+		const JBoolean found = FindNode(itsSortedNodeList->GetElement(*index), index);
 		assert( found );
 		return kJTrue;
 		}
@@ -166,7 +166,7 @@ JNamedTreeList::ClosestMatch
 
 	if (*index > 0)
 		{
-		const JBoolean found = FindNode(itsSortedNodeList->NthElement(*index), index);
+		const JBoolean found = FindNode(itsSortedNodeList->GetElement(*index), index);
 		assert( found );
 		return kJTrue;
 		}

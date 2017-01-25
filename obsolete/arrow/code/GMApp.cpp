@@ -169,7 +169,7 @@ GMApp::GMApp
 	JSize i = 1;
 	while (i <= names.GetElementCount())
 		{
-		JString& name = *(names.NthElement(i));
+		JString& name = *(names.GetElement(i));
 		JString alias;
 		JString fcc;
 		if (GGetAddressBookMgr()->NameIsAlias(name, alias, fcc))
@@ -178,7 +178,7 @@ GMApp::GMApp
 			if (!aliases.SearchSorted(&name, JOrderedSetT::kAnyMatch, &findex))
 				{
 				GParseNameList(alias, names);
-				aliases.InsertSorted(names.NthElement(i));
+				aliases.InsertSorted(names.GetElement(i));
 				names.RemoveElement(i);
 				}
 			else
@@ -195,7 +195,7 @@ GMApp::GMApp
 	const JSize count	= names.GetElementCount();
 	for (JIndex i = 1; i <= count; i++)
 		{
-		std::cout << *(names.NthElement(i)) << std::endl;
+		std::cout << *(names.GetElement(i)) << std::endl;
 		}*/
 }
 
@@ -465,15 +465,15 @@ GMApp::SaveState()
 			{
 			JFileArray* embed;
 			err = JFileArray::Create(fileArray, id, &embed);
-			itsTableDirs->NthElement(i)->GetData()->Save();
-			itsTableDirs->NthElement(i)->SaveState(*embed);
+			itsTableDirs->GetElement(i)->GetData()->Save();
+			itsTableDirs->GetElement(i)->SaveState(*embed);
 			delete embed;
 			id ++;
 			}
 
 		for (JSize i = itsEditDirs->GetElementCount(); i >= 1; i--)
 			{
-			itsEditDirs->NthElement(i)->CheckForPendingMessage();
+			itsEditDirs->GetElement(i)->CheckForPendingMessage();
 			}
 
 		{
@@ -486,7 +486,7 @@ GMApp::SaveState()
 		for (JSize i = 1; i <= count; i++)
 			{
 			std::ostringstream dataStream;
-			itsEditDirs->NthElement(i)->SaveState(dataStream);
+			itsEditDirs->GetElement(i)->SaveState(dataStream);
 			fileArray->AppendElement(dataStream);
 			}
 
@@ -635,7 +635,7 @@ GMApp::CleanUpBeforeSuddenDeath
 	JSize count = itsTableDirs->GetElementCount();
 	for (JSize i = 1; i <= count; i++)
 		{
-		itsTableDirs->NthElement(i)->GetData()->Save();
+		itsTableDirs->GetElement(i)->GetData()->Save();
 		}
 	SaveState();
 	GMGetAddressBookDir()->SaveOnDeath();
@@ -686,7 +686,7 @@ GMApp::FileLocked
 		JBoolean found = kJFalse;
 		for (JSize i = 1; i <= itsLockTasks->GetElementCount(); i++)
 			{
-			if (itsLockTasks->NthElement(i)->GetMailbox() == filename)
+			if (itsLockTasks->GetElement(i)->GetMailbox() == filename)
 				{
 				JString report;
 				if (iconify)
@@ -706,12 +706,12 @@ GMApp::FileLocked
 						{
 						GUnlockFile(filename);
 						locked = kJFalse;
-						itsLockTasks->NthElement(i)->Stop();
+						itsLockTasks->GetElement(i)->Stop();
 						itsLockTasks->DeleteElement(i);
 						}
 					else
 						{
-						itsLockTasks->NthElement(i)->Stop();
+						itsLockTasks->GetElement(i)->Stop();
 						itsLockTasks->DeleteElement(i);
 						}
 					}
@@ -754,9 +754,9 @@ GMApp::FileLocked
 		{
 		for (JSize i = 1; i <= itsLockTasks->GetElementCount(); i++)
 			{
-			if (itsLockTasks->NthElement(i)->GetMailbox() == filename)
+			if (itsLockTasks->GetElement(i)->GetMailbox() == filename)
 				{
-				itsLockTasks->NthElement(i)->Stop();
+				itsLockTasks->GetElement(i)->Stop();
 				itsLockTasks->DeleteElement(i);
 				break;
 				}
@@ -864,7 +864,7 @@ GMApp::HeaderStateChanged
 	const JSize count	= itsTableDirs->GetElementCount();
 	for (JSize i = 1; i <= count; i++)
 		{
-		dir	= itsTableDirs->NthElement(i);
+		dir	= itsTableDirs->GetElement(i);
 		if (dir->GetData()->Includes(header))
 			{
 			dir->GetData()->BroadcastDataModified();
@@ -891,12 +891,12 @@ GMApp::MailboxOpen
 	for (JSize i = 1; i <= itsTableDirs->GetElementCount(); i++)
 		{
 		JString trueDirMBox;
-		JGetTrueName(itsTableDirs->NthElement(i)->GetData()->GetMailFile(), &trueDirMBox);
+		JGetTrueName(itsTableDirs->GetElement(i)->GetData()->GetMailFile(), &trueDirMBox);
 		if (trueDirMBox == mailbox)
 			{
 			if (activate)
 				{
-				itsTableDirs->NthElement(i)->Activate();
+				itsTableDirs->GetElement(i)->Activate();
 				}
 			return kJTrue;
 			}

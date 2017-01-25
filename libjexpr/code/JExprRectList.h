@@ -150,7 +150,7 @@ JExprRectList::GetFunction
 	const JIndex index
 	)
 {
-	return itsFunctions->NthElement(index);
+	return itsFunctions->GetElement(index);
 }
 
 inline const JFunction*
@@ -160,7 +160,7 @@ JExprRectList::GetFunction
 	)
 	const
 {
-	return itsFunctions->NthElement(index);
+	return itsFunctions->GetElement(index);
 }
 
 /******************************************************************************

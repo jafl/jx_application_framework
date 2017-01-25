@@ -85,8 +85,8 @@ GFGClass::GetBaseClass
 	assert(itsBaseClassFiles != NULL);
 	assert(itsBaseClassFiles->IndexValid(index));
 	
-	*classname	= *(itsBaseClasses->NthElement(index));
-	*filename	= *(itsBaseClassFiles->NthElement(index));
+	*classname	= *(itsBaseClasses->GetElement(index));
+	*filename	= *(itsBaseClassFiles->GetElement(index));
 }
 
 /******************************************************************************
@@ -158,8 +158,8 @@ GFGClass::GetAncestor
 	assert(itsAncestorFiles != NULL);
 	assert(itsAncestorFiles->IndexValid(index));
 	
-	*classname	= *(itsAncestors->NthElement(index));
-	*filename	= *(itsAncestorFiles->NthElement(index));
+	*classname	= *(itsAncestors->GetElement(index));
+	*filename	= *(itsAncestorFiles->GetElement(index));
 }
 
 /******************************************************************************
@@ -244,7 +244,7 @@ GFGClass::WritePublic
 	const JSize count	= GetElementCount();
 	for (JIndex i = 1; i <= count; i++)
 		{
-		GFGMemberFunction* fn	= NthElement(i);
+		GFGMemberFunction* fn	= GetElement(i);
 		if (fn->IsUsed() &&
 			!fn->IsProtected())
 			{
@@ -268,7 +268,7 @@ GFGClass::WriteProtected
 	const JSize count	= GetElementCount();
 	for (JIndex i = 1; i <= count; i++)
 		{
-		GFGMemberFunction* fn	= NthElement(i);
+		GFGMemberFunction* fn	= GetElement(i);
 		if (fn->IsUsed() &&
 			fn->IsProtected())
 			{
@@ -357,7 +357,7 @@ GFGClass::Receive
 /*		const JSize count	= GetElementCount();
 		for (JIndex i = 1; i <= count; i++)
 			{
-			GFGMemberFunction* fn	= NthElement(i);
+			GFGMemberFunction* fn	= GetElement(i);
 			std::cout << "#########################" << std::endl;
 			std::cout << fn->GetFnName() << '\t' << fn->IsProtected() << '\t' << fn->IsRequired() << '\t' << fn->IsConst() << std::endl;
 			std::cout << "-------------------------" << std::endl;

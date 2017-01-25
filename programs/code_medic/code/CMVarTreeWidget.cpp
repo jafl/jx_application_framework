@@ -297,7 +297,7 @@ CMVarTreeWidget::DisplayAsCString()
 	const JSize count = exprList.GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		itsDir->DisplayExpression(*(exprList.NthElement(i)));
+		itsDir->DisplayExpression(*(exprList.GetElement(i)));
 		}
 
 	ClearIncrementalSearchBuffer();

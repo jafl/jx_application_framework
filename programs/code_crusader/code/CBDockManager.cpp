@@ -119,7 +119,7 @@ CBDockManager::DockAll()
 	JSize count = projList->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		CBProjectDocument* projDoc = projList->NthElement(i);
+		CBProjectDocument* projDoc = projList->GetElement(i);
 
 		dock1->Dock(projDoc);
 		dock1->Dock(projDoc->GetSymbolDirector());
@@ -136,7 +136,7 @@ CBDockManager::DockAll()
 	count = textList->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		CBTextDocument* textDoc = textList->NthElement(i);
+		CBTextDocument* textDoc = textList->GetElement(i);
 
 		const CBTextFileType type = textDoc->GetFileType();
 		if (type == kCBExecOutputFT   ||

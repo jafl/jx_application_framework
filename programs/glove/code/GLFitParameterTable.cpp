@@ -183,7 +183,7 @@ GLFitParameterTable::TableDrawCell
 	JString str;
 	if (realIndex == kNameColIndex)
 		{
-		str	= *(itsNameList->NthElement(cell.y));
+		str	= *(itsNameList->GetElement(cell.y));
 		}
 	else if (realIndex == kStartColIndex)
 		{
@@ -535,7 +535,7 @@ GLFitParameterTable::GetValueString
 	const JSize count	= itsNameList->GetElementCount();
 	for (JIndex i = 1; i <= count; i++)
 		{
-		JString* str	= itsNameList->NthElement(i);
+		JString* str	= itsNameList->GetElement(i);
 		JFloat start	= itsStartValues->GetElement(i);
 		JFloat fit		= itsFitValues->GetElement(i);
 		JFloat error	= itsErrorValues->GetElement(i);

@@ -128,7 +128,7 @@ JXCheckboxGroup::AllChecked()
 	const JSize count = GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		if (!(itsCBList->NthElement(i))->IsChecked())
+		if (!(itsCBList->GetElement(i))->IsChecked())
 			{
 			return kJFalse;
 			}
@@ -149,7 +149,7 @@ JXCheckboxGroup::AllUnchecked()
 	const JSize count = GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		if ((itsCBList->NthElement(i))->IsChecked())
+		if ((itsCBList->GetElement(i))->IsChecked())
 			{
 			return kJFalse;
 			}
@@ -195,7 +195,7 @@ JXCheckboxGroup::CheckboxDisabled
 	)
 	const
 {
-	JXCheckbox* cb = itsCBList->NthElement(index);
+	JXCheckbox* cb = itsCBList->GetElement(index);
 	return JConvertToBoolean(!cb->WouldBeVisible() || !cb->WouldBeActive());
 }
 
@@ -246,7 +246,7 @@ JXCheckboxGroup::FindCheckbox
 	const JSize count = GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		if (itsCBList->NthElement(i) == obj)
+		if (itsCBList->GetElement(i) == obj)
 			{
 			*index = i;
 			return kJTrue;

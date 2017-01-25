@@ -207,7 +207,7 @@ CBEditTreePrefsDialog::UpdateSettings()
 
 	for (JIndex i=1; i<=docCount; i++)
 		{
-		(docList->NthElement(i))->
+		(docList->GetElement(i))->
 			SetTreePrefs(itsFontSizeMenu->GetFontSize(),
 						 itsShowInheritedFnsCB->IsChecked(),
 						 itsAutoMinMILinkCB->IsChecked(),

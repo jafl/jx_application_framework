@@ -847,7 +847,7 @@ SyGFileTreeTable::SelectName
 	const JSize count = pathList.GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		const JString& name1 = *(pathList.NthElement(i));
+		const JString& name1 = *(pathList.GetElement(i));
 
 		const JNamedTreeNode* node;
 		JIndex index;
@@ -1709,7 +1709,7 @@ SyGFileTreeTable::HandleDNDDrop
 					const JSize count = fileNameList->GetElementCount();
 					for (JIndex i=1; i<=count; i++)
 						{
-						MakeLinkToFile(*(fileNameList->NthElement(i)), destNode, kJTrue);
+						MakeLinkToFile(*(fileNameList->GetElement(i)), destNode, kJTrue);
 						}
 
 					jdelete fileNameList;
@@ -2946,7 +2946,7 @@ SyGFileTreeTable::OpenSelection
 
 		if (fileList.GetElementCount() == 1)
 			{
-			SyGAddRecentFile(*(fileList.NthElement(1)));
+			SyGAddRecentFile(*(fileList.GetElement(1)));
 			}
 		}
 	else if (!found)
@@ -3035,7 +3035,7 @@ SyGFileTreeTable::MakeLinks()
 	const JSize count = nodeList.GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		const SyGFileTreeNode* node = nodeList.NthElement(i);
+		const SyGFileTreeNode* node = nodeList.GetElement(i);
 		MakeLinkToFile((node->GetDirEntry())->GetFullName(), node->GetSyGParent(), kJFalse);
 		}
 
@@ -3804,7 +3804,7 @@ SyGFileTreeTable::SaveDirState
 
 	for (JIndex i=1; i<=count; i++)
 		{
-		os << ' ' << *(names.NthElement(i));
+		os << ' ' << *(names.GetElement(i));
 		}
 
 	os << ' ';
@@ -3928,7 +3928,7 @@ SyGFileTreeTable::UpdateGitMenus
 	const JSize repoCount = repoList.GetElementCount();
 	for (JIndex i=1; i<=repoCount; i++)
 		{
-		const JString* s = repoList.NthElement(i);
+		const JString* s = repoList.GetElement(i);
 		itsGitPullSourceMenu->AppendItem(*s);
 		itsGitPushDestMenu->AppendItem(*s);
 		itsGitRemoveRemoteMenu->AppendItem(*s);
@@ -3943,7 +3943,7 @@ SyGFileTreeTable::UpdateGitMenus
 		const JSize localCount = localList.GetElementCount();
 		for (JIndex i=1; i<=localCount; i++)
 			{
-			const JString* s = localList.NthElement(i);
+			const JString* s = localList.GetElement(i);
 			itsGitLocalBranchMenu->AppendItem(*s, JXMenu::kRadioType);
 			itsGitMergeBranchMenu->AppendItem(*s);
 			itsGitRemoveBranchMenu->AppendItem(*s);
@@ -3980,8 +3980,8 @@ SyGFileTreeTable::UpdateGitMenus
 		const JSize remoteCount = remoteList.GetElementCount();
 		for (JIndex i=1; i<=remoteCount; i++)
 			{
-			itsGitRemoteBranchMenu->AppendItem(*(remoteList.NthElement(i)));
-			itsGitMergeBranchMenu->AppendItem(*(remoteList.NthElement(i)));
+			itsGitRemoteBranchMenu->AppendItem(*(remoteList.GetElement(i)));
+			itsGitMergeBranchMenu->AppendItem(*(remoteList.GetElement(i)));
 			}
 		}
 	else
@@ -4003,16 +4003,16 @@ SyGFileTreeTable::UpdateGitMenus
 	for (JIndex i=1; i<=stashCount; i++)
 		{
 		itsGitStashPopMenu->AppendItem(
-			*(stashList.NthElement(i)), JXMenu::kPlainType, NULL,
-			*(nameList.NthElement(i)));
+			*(stashList.GetElement(i)), JXMenu::kPlainType, NULL,
+			*(nameList.GetElement(i)));
 
 		itsGitStashApplyMenu->AppendItem(
-			*(stashList.NthElement(i)), JXMenu::kPlainType, NULL,
-			*(nameList.NthElement(i)));
+			*(stashList.GetElement(i)), JXMenu::kPlainType, NULL,
+			*(nameList.GetElement(i)));
 
 		itsGitStashDropMenu->AppendItem(
-			*(stashList.NthElement(i)), JXMenu::kPlainType, NULL,
-			*(nameList.NthElement(i)));
+			*(stashList.GetElement(i)), JXMenu::kPlainType, NULL,
+			*(nameList.GetElement(i)));
 		}
 
 	if (!itsCurrentGitBranch.IsEmpty())
@@ -4339,9 +4339,9 @@ SyGFileTreeTable::SwitchToGitBranch
 			const JSize count = nameList.GetElementCount();
 			for (JIndex i=1; i<=count; i++)
 				{
-				if (name == *(nameList.NthElement(i)))
+				if (name == *(nameList.GetElement(i)))
 					{
-					Unstash("pop", *(stashList.NthElement(i)));
+					Unstash("pop", *(stashList.GetElement(i)));
 					break;
 					}
 				}

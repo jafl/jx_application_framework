@@ -367,37 +367,37 @@ CMCommandDirector::CloseDynamicDirectors()
 	JSize count = itsSourceDirs->GetElementCount();
 	for (JIndex i=count; i>=1; i--)
 		{
-		(itsSourceDirs->NthElement(i))->Close();
+		(itsSourceDirs->GetElement(i))->Close();
 		}
 
 	count = itsAsmDirs->GetElementCount();
 	for (JIndex i=count; i>=1; i--)
 		{
-		(itsAsmDirs->NthElement(i))->Close();
+		(itsAsmDirs->GetElement(i))->Close();
 		}
 
 	count = itsArray1DDirs->GetElementCount();
 	for (JIndex i=count; i>=1; i--)
 		{
-		(itsArray1DDirs->NthElement(i))->Close();
+		(itsArray1DDirs->GetElement(i))->Close();
 		}
 
 	count = itsArray2DDirs->GetElementCount();
 	for (JIndex i=count; i>=1; i--)
 		{
-		(itsArray2DDirs->NthElement(i))->Close();
+		(itsArray2DDirs->GetElement(i))->Close();
 		}
 
 	count = itsPlot2DDirs->GetElementCount();
 	for (JIndex i=count; i>=1; i--)
 		{
-		(itsPlot2DDirs->NthElement(i))->Close();
+		(itsPlot2DDirs->GetElement(i))->Close();
 		}
 
 	count = itsMemoryDirs->GetElementCount();
 	for (JIndex i=count; i>=1; i--)
 		{
-		(itsMemoryDirs->NthElement(i))->Close();
+		(itsMemoryDirs->GetElement(i))->Close();
 		}
 }
 
@@ -613,13 +613,13 @@ CMCommandDirector::DockAll
 	JSize count = itsSourceDirs->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		srcDock->Dock(itsSourceDirs->NthElement(i));
+		srcDock->Dock(itsSourceDirs->GetElement(i));
 		}
 
 	count = itsAsmDirs->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		srcDock->Dock(itsAsmDirs->NthElement(i));
+		srcDock->Dock(itsAsmDirs->GetElement(i));
 		}
 
 	infoDock->Dock(itsThreadsDir);
@@ -634,25 +634,25 @@ CMCommandDirector::DockAll
 	count = itsArray1DDirs->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		dataDock->Dock(itsArray1DDirs->NthElement(i));
+		dataDock->Dock(itsArray1DDirs->GetElement(i));
 		}
 
 	count = itsArray2DDirs->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		dataDock->Dock(itsArray2DDirs->NthElement(i));
+		dataDock->Dock(itsArray2DDirs->GetElement(i));
 		}
 
 	count = itsPlot2DDirs->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		dataDock->Dock(itsPlot2DDirs->NthElement(i));
+		dataDock->Dock(itsPlot2DDirs->GetElement(i));
 		}
 
 	count = itsMemoryDirs->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		dataDock->Dock(itsMemoryDirs->NthElement(i));
+		dataDock->Dock(itsMemoryDirs->GetElement(i));
 		}
 }
 
@@ -828,7 +828,7 @@ CMCommandDirector::AdjustDebugMenu
 	const JSize count = cmds.GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		const JString* cmd = cmds.NthElement(i);
+		const JString* cmd = cmds.GetElement(i);
 		menu->AppendItem(*cmd, JXMenu::kPlainType, NULL, NULL, *cmd);
 		}
 }
@@ -1333,7 +1333,7 @@ CMCommandDirector::OpenSourceFiles()
 		const JSize count = list.GetElementCount();
 		for (JIndex i=1; i<=count; i++)
 			{
-			OpenSourceFile(*(list.NthElement(i)));
+			OpenSourceFile(*(list.GetElement(i)));
 			}
 		}
 }
@@ -1376,7 +1376,7 @@ CMCommandDirector::OpenSourceFile
 		const JSize count = itsSourceDirs->GetElementCount();
 		for (JIndex i=1; i<=count; i++)
 			{
-			CMSourceDirector* dir = itsSourceDirs->NthElement(i);
+			CMSourceDirector* dir = itsSourceDirs->GetElement(i);
 			const JString* f;
 			if (dir->GetFileName(&f) && JSameDirEntry(fullName, *f))
 				{
@@ -1427,7 +1427,7 @@ CMCommandDirector::DisassembleFunction
 	const JSize count = itsAsmDirs->GetElementCount();
 	for (i=1; i<=count; i++)
 		{
-		dir = itsAsmDirs->NthElement(i);
+		dir = itsAsmDirs->GetElement(i);
 		const JString* f;
 		if (dir->GetFunctionName(&f) && fn == *f)
 			{

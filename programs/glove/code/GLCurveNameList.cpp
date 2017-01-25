@@ -148,7 +148,7 @@ GLCurveNameList::TableDrawCell
 {
 	HilightIfSelected(p, cell, rect);
 
-	const JString* curveName = itsNameList->NthElement(cell.y);
+	const JString* curveName = itsNameList->GetElement(cell.y);
 
 	JRect r = rect;
 	r.left += kHMarginWidth;
@@ -212,7 +212,7 @@ GLCurveNameList::CreateXInputField
 	itsInput = jnew JXInputField(this, kFixedLeft, kFixedTop, x, y, w, h);
 	assert(itsInput != NULL);
 
-	itsInput->SetText(*(itsNameList->NthElement(cell.y)));
+	itsInput->SetText(*(itsNameList->GetElement(cell.y)));
 	itsInput->SetIsRequired();
 	return itsInput;
 }
@@ -242,7 +242,7 @@ GLCurveNameList::ExtractInputData
 	const JString& name = itsInput->GetText();
 	if (!name.IsEmpty())
 		{
-		*(itsNameList->NthElement(cell.y)) = name;
+		*(itsNameList->GetElement(cell.y)) = name;
 		return kJTrue;
 		}
 	else

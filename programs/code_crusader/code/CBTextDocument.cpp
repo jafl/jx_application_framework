@@ -1361,7 +1361,7 @@ CBTextDocument::ReadFile
 			for (JIndex i=1; i<=count; i++)
 				{
 				(CBGetDocumentManager())->
-					OpenTextDocument(*(safetyFilesToOpen.NthElement(i)));
+					OpenTextDocument(*(safetyFilesToOpen.GetElement(i)));
 				}
 			}
 		}

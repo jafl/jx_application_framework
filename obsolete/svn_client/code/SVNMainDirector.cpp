@@ -857,7 +857,7 @@ SVNMainDirector::UpdateFileMenu()
 	if (itsTabGroup->GetCurrentTabIndex(&i))
 		{
 		JPtrArray<JString> list(JPtrArrayT::kDeleteAll);
-		(itsTabList->NthElement(i))->GetSelectedFiles(&list);
+		(itsTabList->GetElement(i))->GetSelectedFiles(&list);
 
 		if (!list.IsEmpty() && itsStatusWidget != NULL)
 			{
@@ -865,7 +865,7 @@ SVNMainDirector::UpdateFileMenu()
 			itsFileMenu->EnableItem(kShowFilesCmd);
 			}
 
-		if ((itsTabList->NthElement(i))->CanCheckOutSelection())
+		if ((itsTabList->GetElement(i))->CanCheckOutSelection())
 			{
 			itsFileMenu->EnableItem(kCheckOutSelectionCmd);
 			}
@@ -920,7 +920,7 @@ SVNMainDirector::HandleFileMenu
 		JIndex i;
 		if (itsTabGroup->GetCurrentTabIndex(&i))
 			{
-			SVNTabBase* tab = itsTabList->NthElement(i);
+			SVNTabBase* tab = itsTabList->GetElement(i);
 			tab->CheckOutSelection();
 			}
 		}
@@ -930,7 +930,7 @@ SVNMainDirector::HandleFileMenu
 		JIndex i;
 		if (itsTabGroup->GetCurrentTabIndex(&i))
 			{
-			SVNTabBase* tab = itsTabList->NthElement(i);
+			SVNTabBase* tab = itsTabList->GetElement(i);
 			tab->OpenFiles();
 			}
 		}
@@ -939,7 +939,7 @@ SVNMainDirector::HandleFileMenu
 		JIndex i;
 		if (itsTabGroup->GetCurrentTabIndex(&i))
 			{
-			SVNTabBase* tab = itsTabList->NthElement(i);
+			SVNTabBase* tab = itsTabList->GetElement(i);
 			tab->ShowFiles();
 			}
 		}
@@ -1077,7 +1077,7 @@ SVNMainDirector::UpdateActionsMenu()
 
 		if (hasTab)
 			{
-			(itsTabList->NthElement(i))->UpdateActionsMenu(itsActionsMenu);
+			(itsTabList->GetElement(i))->UpdateActionsMenu(itsActionsMenu);
 			}
 		}
 }
@@ -1098,7 +1098,7 @@ SVNMainDirector::HandleActionsMenu
 		JIndex i;
 		if (itsTabGroup->GetCurrentTabIndex(&i))
 			{
-			(itsTabList->NthElement(i))->RefreshContent();
+			(itsTabList->GetElement(i))->RefreshContent();
 			}
 		}
 	else if (index == kCloseTabCmd)
@@ -1124,7 +1124,7 @@ SVNMainDirector::HandleActionsMenu
 		JIndex i;
 		if (itsTabGroup->GetCurrentTabIndex(&i))
 			{
-			(itsTabList->NthElement(i))->ScheduleForAdd();
+			(itsTabList->GetElement(i))->ScheduleForAdd();
 			}
 		}
 	else if (index == kRemoveSelectedFilesCmd)
@@ -1132,7 +1132,7 @@ SVNMainDirector::HandleActionsMenu
 		JIndex i;
 		if (itsTabGroup->GetCurrentTabIndex(&i))
 			{
-			(itsTabList->NthElement(i))->ScheduleForRemove();
+			(itsTabList->GetElement(i))->ScheduleForRemove();
 			}
 		}
 	else if (index == kForceRemoveSelectedFilesCmd)
@@ -1140,7 +1140,7 @@ SVNMainDirector::HandleActionsMenu
 		JIndex i;
 		if (itsTabGroup->GetCurrentTabIndex(&i))
 			{
-			(itsTabList->NthElement(i))->ForceScheduleForRemove();
+			(itsTabList->GetElement(i))->ForceScheduleForRemove();
 			}
 		}
 
@@ -1149,7 +1149,7 @@ SVNMainDirector::HandleActionsMenu
 		JIndex i;
 		if (itsTabGroup->GetCurrentTabIndex(&i))
 			{
-			(itsTabList->NthElement(i))->Resolved();
+			(itsTabList->GetElement(i))->Resolved();
 			}
 		}
 
@@ -1158,7 +1158,7 @@ SVNMainDirector::HandleActionsMenu
 		JIndex i;
 		if (itsTabGroup->GetCurrentTabIndex(&i))
 			{
-			(itsTabList->NthElement(i))->Commit();
+			(itsTabList->GetElement(i))->Commit();
 			}
 		}
 	else if (index == kCommitAllChangesCmd)
@@ -1171,7 +1171,7 @@ SVNMainDirector::HandleActionsMenu
 		JIndex i;
 		if (itsTabGroup->GetCurrentTabIndex(&i))
 			{
-			(itsTabList->NthElement(i))->Revert();
+			(itsTabList->GetElement(i))->Revert();
 			}
 		}
 	else if (index == kRevertAllChangesCmd)
@@ -1184,7 +1184,7 @@ SVNMainDirector::HandleActionsMenu
 		JIndex i;
 		if (itsTabGroup->GetCurrentTabIndex(&i))
 			{
-			(itsTabList->NthElement(i))->CreateDirectory();
+			(itsTabList->GetElement(i))->CreateDirectory();
 			}
 		}
 	else if (index == kDuplicateSelectedItemCmd)
@@ -1192,7 +1192,7 @@ SVNMainDirector::HandleActionsMenu
 		JIndex i;
 		if (itsTabGroup->GetCurrentTabIndex(&i))
 			{
-			(itsTabList->NthElement(i))->DuplicateItem();
+			(itsTabList->GetElement(i))->DuplicateItem();
 			}
 		}
 
@@ -1201,7 +1201,7 @@ SVNMainDirector::HandleActionsMenu
 		JIndex i;
 		if (itsTabGroup->GetCurrentTabIndex(&i))
 			{
-			(itsTabList->NthElement(i))->CreateProperty();
+			(itsTabList->GetElement(i))->CreateProperty();
 			}
 		}
 	else if (index == kRemoveSelectedPropertiesCmd)
@@ -1210,7 +1210,7 @@ SVNMainDirector::HandleActionsMenu
 		if (itsTabGroup->GetCurrentTabIndex(&i) &&
 			(JGetUserNotification())->AskUserNo(JGetString("WarnRemoveProperties::SVNMainDirector")))
 			{
-			(itsTabList->NthElement(i))->SchedulePropertiesForRemove();
+			(itsTabList->GetElement(i))->SchedulePropertiesForRemove();
 			}
 		}
 	else if (index == kIgnoreSelectionCmd)
@@ -1218,7 +1218,7 @@ SVNMainDirector::HandleActionsMenu
 		JIndex i;
 		if (itsTabGroup->GetCurrentTabIndex(&i))
 			{
-			(itsTabList->NthElement(i))->Ignore();
+			(itsTabList->GetElement(i))->Ignore();
 			}
 		}
 }
@@ -1424,7 +1424,7 @@ SVNMainDirector::UpdateInfoMenu()
 	JIndex i;
 	if (itsTabGroup->GetCurrentTabIndex(&i))
 		{
-		(itsTabList->NthElement(i))->UpdateInfoMenu(itsInfoMenu);
+		(itsTabList->GetElement(i))->UpdateInfoMenu(itsInfoMenu);
 		}
 }
 
@@ -1444,7 +1444,7 @@ SVNMainDirector::HandleInfoMenu
 		JIndex i;
 		if (itsTabGroup->GetCurrentTabIndex(&i))
 			{
-			ShowInfoLog(itsTabList->NthElement(i));
+			ShowInfoLog(itsTabList->GetElement(i));
 			}
 		}
 	else if (index == kPropSelectedFilesCmd)
@@ -1452,7 +1452,7 @@ SVNMainDirector::HandleInfoMenu
 		JIndex i;
 		if (itsTabGroup->GetCurrentTabIndex(&i))
 			{
-			ShowProperties(itsTabList->NthElement(i));
+			ShowProperties(itsTabList->GetElement(i));
 			}
 		}
 
@@ -1461,7 +1461,7 @@ SVNMainDirector::HandleInfoMenu
 		JIndex i;
 		if (itsTabGroup->GetCurrentTabIndex(&i))
 			{
-			SVNTabBase* tab = itsTabList->NthElement(i);
+			SVNTabBase* tab = itsTabList->GetElement(i);
 			JString rev;
 			if (tab->GetBaseRevision(&rev))
 				{
@@ -1474,7 +1474,7 @@ SVNMainDirector::HandleInfoMenu
 		JIndex i;
 		if (itsTabGroup->GetCurrentTabIndex(&i))
 			{
-			SVNTabBase* tab = itsTabList->NthElement(i);
+			SVNTabBase* tab = itsTabList->GetElement(i);
 			JString rev;
 			tab->GetBaseRevision(&rev);
 			tab->CompareCurrent(rev);
@@ -1485,7 +1485,7 @@ SVNMainDirector::HandleInfoMenu
 		JIndex i;
 		if (itsTabGroup->GetCurrentTabIndex(&i))
 			{
-			SVNTabBase* tab = itsTabList->NthElement(i);
+			SVNTabBase* tab = itsTabList->GetElement(i);
 			JString rev;
 			tab->GetBaseRevision(&rev);
 			tab->ComparePrev(rev);
@@ -1509,7 +1509,7 @@ SVNMainDirector::HandleInfoMenu
 		JIndex i;
 		if (itsTabGroup->GetCurrentTabIndex(&i))
 			{
-			SVNTabBase* tab = itsTabList->NthElement(i);
+			SVNTabBase* tab = itsTabList->GetElement(i);
 			JString rev;
 			if (tab->GetBaseRevision(&rev))
 				{
@@ -1536,7 +1536,7 @@ SVNMainDirector::ShowInfoLog
 	const JSize count = list.GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		ShowInfoLog(*(list.NthElement(i)));
+		ShowInfoLog(*(list.GetElement(i)));
 		}
 }
 
@@ -1592,7 +1592,7 @@ SVNMainDirector::ShowProperties
 	const JSize count = list.GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		ShowProperties(*(list.NthElement(i)));
+		ShowProperties(*(list.GetElement(i)));
 		}
 }
 

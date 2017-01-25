@@ -1242,7 +1242,7 @@ TestWidget::PrintFileNames
 				std::cout << "File/directory names:" << std::endl << std::endl;
 				for (JIndex i=1; i<=fileCount; i++)
 					{
-					std::cout << *(fileNameList.NthElement(i)) << std::endl;
+					std::cout << *(fileNameList.GetElement(i)) << std::endl;
 					}
 				std::cout << std::endl << std::endl;
 				}
@@ -1253,7 +1253,7 @@ TestWidget::PrintFileNames
 				std::cout << "Unconvertable URLs:" << std::endl << std::endl;
 				for (JIndex i=1; i<=urlCount; i++)
 					{
-					std::cout << *(urlList.NthElement(i)) << std::endl;
+					std::cout << *(urlList.GetElement(i)) << std::endl;
 					}
 				std::cout << std::endl << std::endl;
 				}
@@ -1644,7 +1644,7 @@ TestWidget::BuildXlsfontsMenu
 	const JSize fontCount = fontList.GetElementCount();
 	for (JIndex i=1; i<=fontCount; i++)
 		{
-		JString* fontName = fontList.NthElement(i);
+		JString* fontName = fontList.GetElement(i);
 		menu->AppendItem(*fontName);
 		}
 

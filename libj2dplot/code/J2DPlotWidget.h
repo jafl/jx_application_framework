@@ -1041,7 +1041,7 @@ J2DPlotWidget::GetCurve
 	const JIndex index
 	)
 {
-	return *(itsCurves->NthElement(index));
+	return *(itsCurves->GetElement(index));
 }
 
 inline const JPlotDataBase&
@@ -1051,7 +1051,7 @@ J2DPlotWidget::GetCurve
 	)
 	const
 {
-	return *(itsCurves->NthElement(index));
+	return *(itsCurves->GetElement(index));
 }
 
 /*******************************************************************************

@@ -113,7 +113,7 @@ JXRowHeaderWidget::GetRowTitle
 {
 	if (itsTitles != NULL)
 		{
-		const JString* str = itsTitles->NthElement(index);
+		const JString* str = itsTitles->GetElement(index);
 		if (str != NULL)
 			{
 			*title = *str;
@@ -206,7 +206,7 @@ JXRowHeaderWidget::TableDrawCell
 	JBoolean hasTitle = kJFalse;
 	if (itsTitles != NULL)
 		{
-		const JString* title = itsTitles->NthElement(cell.y);
+		const JString* title = itsTitles->GetElement(cell.y);
 		if (title != NULL)
 			{
 			str      = *title;

@@ -44,7 +44,7 @@ Test
 	for (JIndex i=1; i<=count; i++)
 		{
 		const JUtf8Byte* expected = va_arg(ap, const JUtf8Byte*);
-		const JString* arg        = argList.NthElement(i);
+		const JString* arg        = argList.GetElement(i);
 		JAssertStringsEqualWithMessage(expected, *arg,
 			(JString(origCmd, 0, kJFalse) + ", " + JString(i, JString::kBase10)).GetBytes());
 		}

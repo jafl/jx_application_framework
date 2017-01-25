@@ -416,7 +416,7 @@ GAddressBookTreeWidget::HandleKeyPress
 					JSize count = names.GetElementCount();
 					for (JSize i = 1; i <= count; i++)
 						{
-						GMGetApplication()->NewMessage(*(names.NthElement(i)));
+						GMGetApplication()->NewMessage(*(names.GetElement(i)));
 						}
 					}
 				names.DeleteAll();
@@ -977,7 +977,7 @@ GAddressBookTreeWidget::HandleAddressBookMenu
 			JSize count = fullNameList.GetElementCount();
 			for (JSize i = 1; i <= count; i++)
 				{
-				GGetAddressBookMgr()->AddAddressBook(*(fullNameList.NthElement(i)), itsTree);
+				GGetAddressBookMgr()->AddAddressBook(*(fullNameList.GetElement(i)), itsTree);
 				}
 			}
 		}
@@ -1764,7 +1764,7 @@ GAddressBookTreeWidget::HandleDNDDrop
 					{
 					for (JSize i = count; i >= 1; i--)
 						{
-						AddAddressToEntry(nnode, *(list.NthElement(i)));
+						AddAddressToEntry(nnode, *(list.GetElement(i)));
 						}
 					}
 				}
@@ -2893,7 +2893,7 @@ GAddressBookTreeWidget::NewNickName
 			{
 			add += ",";
 			}
-		add += *(addresses.NthElement(i));
+		add += *(addresses.GetElement(i));
 		}
 
 	JString name;
@@ -2917,7 +2917,7 @@ GAddressBookTreeWidget::NewNickName
 			{
 			item =
 				new GAddressItemTreeNode(GAddressItemTreeNode::kEMail,
-										 aEntry, *(addresses.NthElement(i)), kJFalse);
+										 aEntry, *(addresses.GetElement(i)), kJFalse);
 			assert(item != NULL);
 			}
 		parent->InsertSorted(aEntry);

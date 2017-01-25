@@ -3585,7 +3585,7 @@ JXWindow::SwitchFocusToFirstWidgetWithAncestor
 	const JSize count = itsFocusList->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		JXWidget* widget = itsFocusList->NthElement(i);
+		JXWidget* widget = itsFocusList->GetElement(i);
 		if (widget->WillAcceptFocus() &&
 			ancestor->IsAncestor(widget))
 			{
@@ -3812,7 +3812,7 @@ JXWindow::FindNextFocusWidget
 
 	while (1)
 		{
-		JXWidget* widget = itsFocusList->NthElement(i);
+		JXWidget* widget = itsFocusList->GetElement(i);
 		if (widget->WillAcceptFocus())
 			{
 			*focusWidget = widget;
@@ -3871,7 +3871,7 @@ JXWindow::FindPrevFocusWidget
 
 	while (1)
 		{
-		JXWidget* widget = itsFocusList->NthElement(i);
+		JXWidget* widget = itsFocusList->GetElement(i);
 		if (widget->WillAcceptFocus())
 			{
 			*focusWidget = widget;

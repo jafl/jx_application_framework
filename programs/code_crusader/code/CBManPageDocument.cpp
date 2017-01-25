@@ -71,7 +71,7 @@ CBManPageDocument::Create
 	if (theManCmdList.SearchSorted(&cmd, JOrderedSetT::kAnyMatch, &i))
 		{
 		CBManPageDocument* doc =
-			dynamic_cast<CBManPageDocument*>(theManDocList.NthElement(i));
+			dynamic_cast<CBManPageDocument*>(theManDocList.GetElement(i));
 		assert( doc != NULL );
 		doc->Activate();
 		if (returnDoc != NULL)
@@ -190,7 +190,7 @@ CBManPageDocument::CBManPageDocument
 		if (theManCmdList.SearchSorted(cmd, JOrderedSetT::kAnyMatch, &i))
 			{
 			CBManPageDocument* doc =
-				dynamic_cast<CBManPageDocument*>(theManDocList.NthElement(i));
+				dynamic_cast<CBManPageDocument*>(theManDocList.GetElement(i));
 			assert( doc != NULL );
 			*trueDoc = doc;
 			return;

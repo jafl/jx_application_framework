@@ -49,7 +49,7 @@ GMFilterDialog::GMFilterDialog
 	const JSize count = filters.GetElementCount();
 	for (JIndex i = 1; i <= count; i++)
 		{
-		GMFilter* filter = new GMFilter(*(filters.NthElement(i)));
+		GMFilter* filter = new GMFilter(*(filters.GetElement(i)));
 		assert(filter != NULL);
 		itsFilters->Append(filter);
 		}

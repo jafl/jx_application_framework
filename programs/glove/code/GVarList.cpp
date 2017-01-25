@@ -57,7 +57,7 @@ GVarList::GVarList
 	const JSize ncount	= list.itsNames->GetElementCount();
 	for (JIndex i = 1; i <= ncount; i++)
 		{
-		JString* str	= jnew JString(*(list.itsNames->NthElement(i)));
+		JString* str	= jnew JString(*(list.itsNames->GetElement(i)));
 		assert(str != NULL);
 		itsNames->Append(str);
 		}
@@ -65,7 +65,7 @@ GVarList::GVarList
 	const JSize acount	= list.itsArrays->GetElementCount();
 	for (JIndex i = 1; i <= acount; i++)
 		{
-		JArray<JFloat>* array	= list.itsArrays->NthElement(i);
+		JArray<JFloat>* array	= list.itsArrays->GetElement(i);
 		if (array != NULL)
 			{
 			array	= jnew JArray<JFloat>(*(array));
@@ -280,7 +280,7 @@ GVarList::SetNumericValue
 {
 	if (IsArray(variableIndex))
 		{
-		GNArray* values = itsArrays->NthElement(variableIndex);
+		GNArray* values = itsArrays->GetElement(variableIndex);
 		const JFloat oldValue = values->GetElement(elementIndex);
 		if (value != oldValue)
 			{
@@ -324,7 +324,7 @@ GVarList::GetVariableName
 	)
 	const
 {
-	return *(itsNames->NthElement(index));
+	return *(itsNames->GetElement(index));
 }
 
 void
@@ -336,7 +336,7 @@ GVarList::GetVariableName
 	)
 	const
 {
-	const JString* fullName = itsNames->NthElement(index);
+	const JString* fullName = itsNames->GetElement(index);
 	const JSize fullLen     = fullName->GetLength();
 
 	JIndex subStart;
@@ -377,7 +377,7 @@ GVarList::SetVariableName
 		}
 	else
 		{
-		JString* varName = itsNames->NthElement(varIndex);
+		JString* varName = itsNames->GetElement(varIndex);
 		*varName = str;
 		Broadcast(VarNameChanged(varIndex));
 		return kJTrue;
@@ -427,7 +427,7 @@ GVarList::IsArray
 	)
 	const
 {
-	return JConvertToBoolean( itsArrays->NthElement(index) != NULL );
+	return JConvertToBoolean( itsArrays->GetElement(index) != NULL );
 }
 
 /******************************************************************************
@@ -446,7 +446,7 @@ GVarList::ArrayIndexValid
 	return JConvertToBoolean(
 			elementIndex == 1 ||
 			(IsArray(variableIndex) &&
-			 (itsArrays->NthElement(variableIndex))->IndexValid(elementIndex)));
+			 (itsArrays->GetElement(variableIndex))->IndexValid(elementIndex)));
 }
 
 /******************************************************************************
@@ -494,7 +494,7 @@ GVarList::GetNumericValue
 	)
 	const
 {
-	GNArray* values = itsArrays->NthElement(variableIndex);
+	GNArray* values = itsArrays->GetElement(variableIndex);
 	if (values == NULL && elementIndex == 1)
 		{
 		*value = itsValues->GetElement(variableIndex);

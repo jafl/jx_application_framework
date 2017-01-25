@@ -104,7 +104,7 @@ void GParseNameList
 	scanner.yylex();
 	for (JSize i = 1; i <= names.GetElementCount(); i++)
 		{
-		JString* str = names.NthElement(i);
+		JString* str = names.GetElement(i);
 		if (forName)
 			{
 			*str = GGetName(*str);
@@ -215,7 +215,7 @@ JBoolean GVerifyPGPNames
 {
 	for (JSize i = 1; i <= names.GetElementCount(); i++)
 		{
-		JString name = *(names.NthElement(i));
+		JString name = *(names.GetElement(i));
 		JString sysCmd = "pgp -kv " + name;
 		int inFD;
 		JError err =
@@ -272,7 +272,7 @@ JBoolean GVerifyGPGNames
 {
 	for (JSize i = 1; i <= names.GetElementCount(); i++)
 		{
-		JString name = *(names.NthElement(i));
+		JString name = *(names.GetElement(i));
 		JString sysCmd = "gpg --list-key --no-secmem-warning " + name;
 		int errFD;
 		JError err =
@@ -948,7 +948,7 @@ GAppendMessage
 	temp.Print(os);
 	for (index = 1; index <= lcount; index++)
 		{
-		GMessageHeader* header = list->NthElement(index);
+		GMessageHeader* header = list->GetElement(index);
 		GSaveMessage(mboxis, os, header);
 		}
 	is.close();
@@ -1021,7 +1021,7 @@ GEncryptPGP2_6_2
 		{
 		for (JSize i = 1; i <= names->GetElementCount(); i++)
 			{
-			sysCmd += *(names->NthElement(i)) + " ";
+			sysCmd += *(names->GetElement(i)) + " ";
 			}
 		setenv("PGPPASS", passwd, 1);
 		int errFD;
@@ -1068,7 +1068,7 @@ GEncryptGPG1_0
 		{
 		for (JSize i = 1; i <= names->GetElementCount(); i++)
 			{
-			sysCmd += " -r " + *(names->NthElement(i));
+			sysCmd += " -r " + *(names->GetElement(i));
 			}
 		int errFD, toFD, fromFD;
 		pid_t pid;

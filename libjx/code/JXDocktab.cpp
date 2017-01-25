@@ -282,7 +282,7 @@ JXDocktab::UpdateActionMenu()
 	const JSize dockCount = dockList->GetElementCount();
 	for (JIndex i=1; i<=dockCount; i++)
 		{
-		JString itemText = ((dockList->NthElement(i))->GetWindow())->GetTitle();
+		JString itemText = ((dockList->GetElement(i))->GetWindow())->GetTitle();
 		itemText.Prepend(JGetString(kShowDockPrefixID));
 		itsActionMenu->AppendItem(itemText);
 		}
@@ -378,7 +378,7 @@ JXDocktab::HandleActionMenu
 		const JIndex i                      = index - kShowFirstDockCmd + 1;
 		if (dockList->IndexValid(i))		// paranoia
 			{
-			(dockList->NthElement(i))->Activate();
+			(dockList->GetElement(i))->Activate();
 			}
 		}
 }

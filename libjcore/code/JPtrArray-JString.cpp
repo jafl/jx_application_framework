@@ -61,7 +61,7 @@ operator<<
 
 	for (JIndex i=1; i<=count; i++)
 		{
-		output << ' ' << *(list.NthElement(i));
+		output << ' ' << *(list.GetElement(i));
 		}
 
 	output << ' ';
@@ -170,13 +170,13 @@ JIndex i;
 
 	for (i=1; i<=count; i++)
 		{
-		const JString* s1 = list1.NthElement(i);
+		const JString* s1 = list1.GetElement(i);
 		JBoolean found    = kJFalse;
 
 		for (JIndex j=1; j<=count; j++)
 			{
 			if (!matched.GetElement(j) &&
-				JString::Compare(*s1, *(list2.NthElement(j)), caseSensitive) == 0)
+				JString::Compare(*s1, *(list2.GetElement(j)), caseSensitive) == 0)
 				{
 				found = kJTrue;
 				matched.SetElement(j, kJTrue);

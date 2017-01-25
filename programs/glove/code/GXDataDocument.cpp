@@ -773,7 +773,7 @@ GXDataDocument::AddToPlot
 {
 	assert( itsPlotWindows->IndexValid(plotIndex) );
 
-	PlotDir* plotDir = itsPlotWindows->NthElement(plotIndex);
+	PlotDir* plotDir = itsPlotWindows->GetElement(plotIndex);
 	assert (plotDir != NULL);
 
 	JX2DPlotWidget* plot = plotDir->GetPlot();
@@ -835,7 +835,7 @@ GXDataDocument::GetPlotNames
 
 	for (JIndex i = 1; i <= index; i++)
 		{
-		PlotDir* plotDir = itsPlotWindows->NthElement(i);
+		PlotDir* plotDir = itsPlotWindows->GetElement(i);
 		assert (plotDir != NULL);
 
 		JX2DPlotWidget* plot = plotDir->GetPlot();
@@ -892,7 +892,7 @@ GXDataDocument::WriteTextFile
 
 	for (JSize i = 1; i <= plotCount; i++)
 		{
-		PlotDir* plotDir = itsPlotWindows->NthElement(i);
+		PlotDir* plotDir = itsPlotWindows->GetElement(i);
 		assert (plotDir != NULL);
 		plotDir->WriteSetup(output);
 		plotDir->WriteData(output, itsData);
@@ -1017,7 +1017,7 @@ GXDataDocument::UpdateExportMenu()
 	JPtrArray<JString>* names = (GLGetApplication())->GetExportModules();
 	for (i = 1; i <= names->GetElementCount(); i++)
 		{
-		itsExportMenu->AppendItem(*(names->NthElement(i)));
+		itsExportMenu->AppendItem(*(names->GetElement(i)));
 		}
 }
 

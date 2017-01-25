@@ -163,7 +163,7 @@ GLFitDescriptionList::TableDrawCell
 {
 	HilightIfSelected(p, cell, rect);
 
-	const JString* curveName = itsNameList->NthElement(cell.y);
+	const JString* curveName = itsNameList->GetElement(cell.y);
 
 	const GLFitDescription& fd	= GetFitManager()->GetFitDescription(cell.y);
 
@@ -242,7 +242,7 @@ GLFitDescriptionList::CreateXInputField
 	itsInput = jnew JXInputField(this, kFixedLeft, kFixedTop, x, y, w, h);
 	assert(itsInput != NULL);
 
-	itsInput->SetText(*(itsNameList->NthElement(cell.y)));
+	itsInput->SetText(*(itsNameList->GetElement(cell.y)));
 	itsInput->SetIsRequired();
 	return itsInput;
 }
@@ -272,7 +272,7 @@ GLFitDescriptionList::ExtractInputData
 	const JString& name = itsInput->GetText();
 	if (!name.IsEmpty())
 		{
-		*(itsNameList->NthElement(cell.y)) = name;
+		*(itsNameList->GetElement(cell.y)) = name;
 		return kJTrue;
 		}
 	else

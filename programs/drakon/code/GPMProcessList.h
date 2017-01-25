@@ -231,7 +231,7 @@ GPMProcessList::GetProcessEntry
 	)
 	const
 {
-	return itsVisibleEntries->NthElement(index);
+	return itsVisibleEntries->GetElement(index);
 }
 
 /******************************************************************************

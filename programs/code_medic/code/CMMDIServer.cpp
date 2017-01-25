@@ -77,7 +77,7 @@ CMMDIServer::HandleMDIRequest
 	const JSize count = argList.GetElementCount();
 	for (JIndex i=2; i<=count; i++)
 		{
-		const JString* arg = argList.NthElement(i);
+		const JString* arg = argList.GetElement(i);
 
 		if (*arg == "--gdb")
 			{
@@ -141,7 +141,7 @@ CMMDIServer::HandleMDIRequest
 			// must do before changing context
 			breakList.AppendElement(JI2B(context == kWaitingForBreakpoint));
 
-			const JString* arg = argList.NthElement(i);
+			const JString* arg = argList.GetElement(i);
 			if (arg->GetFirstCharacter() == '+')
 				{
 				JString temp = *arg;
@@ -201,7 +201,7 @@ CMMDIServer::HandleMDIRequest
 	const JSize fileCount = fileList.GetElementCount();
 	for (JIndex i=1; i<=fileCount; i++)
 		{
-		const JString* fileName = fileList.NthElement(i);
+		const JString* fileName = fileList.GetElement(i);
 		const JIndex lineIndex  = lineIndexList.GetElement(i);
 		if (breakList.GetElement(i) && lineIndex > 0)
 			{

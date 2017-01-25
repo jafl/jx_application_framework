@@ -84,7 +84,7 @@ JXCheckboxGroup::GetCheckbox
 	)
 	const
 {
-	return itsCBList->NthElement(index);
+	return itsCBList->GetElement(index);
 }
 
 /******************************************************************************

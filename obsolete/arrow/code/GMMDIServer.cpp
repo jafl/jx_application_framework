@@ -65,7 +65,7 @@ GMMDIServer::HandleMDIRequest
 		{
 		for (JSize i = 2; i <= count; i++)
 			{
-			JString arg = *(argList.NthElement(i));
+			JString arg = *(argList.GetElement(i));
 			if (arg == "--mailto")
 				{
 				if (i == count)
@@ -76,7 +76,7 @@ GMMDIServer::HandleMDIRequest
 					{
 					i++;
 					assert(i <= count);
-					arg = *(argList.NthElement(i));
+					arg = *(argList.GetElement(i));
 					itsApp->NewMessage(arg);
 					}
 				}

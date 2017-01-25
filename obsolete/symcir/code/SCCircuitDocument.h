@@ -192,7 +192,7 @@ SCCircuitDocument::GetPlot
 	)
 	const
 {
-	return itsPlotList->NthElement(index);
+	return itsPlotList->GetElement(index);
 }
 
 #endif
