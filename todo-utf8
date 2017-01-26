@@ -1,6 +1,5 @@
 makemake
 jxlayout
-webgif
 
 JXPackStrings
 	convert to JPtrArray.Join(separator)

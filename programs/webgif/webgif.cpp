@@ -43,15 +43,15 @@ enum LaceOption
 
 // Prototypes
 
-gdImagePtr	ReadGIF(const JCharacter* fileName);
-void		WriteGIF(gdImagePtr image, const JCharacter* fileName);
+gdImagePtr	ReadGIF(const JString& fileName);
+void		WriteGIF(gdImagePtr image, const JString& fileName);
 void		PrintGIFInfo(gdImagePtr image);
 JBoolean	SetTransparentColor(gdImagePtr image, const int color);
 JBoolean	SetInterlace(gdImagePtr image, const LaceOption interlace);
 JBoolean	PadColormap(gdImagePtr image);
 
 void	Blend(gdImagePtr image, const JFloat alpha, const JRGB& alphaColor,
-			  const JCharacter* outputFileName);
+			  const JString& outputFileName);
 
 void ParseOptions(const JSize argc, char* argv[], JString* fileName,
 				  JBoolean* printInfo, int* transparentColor,
@@ -239,17 +239,17 @@ ParseOptions
 
 		else if (fileName->IsEmpty())
 			{
-			if (!JFileReadable(argv[index]))
+			*fileName = argv[index];
+			if (!JFileReadable(*fileName))
 				{
 				std::cerr << argv[0] << ": file is unreadable" << std::endl;
 				exit(1);
 				}
-			if (!JFileWritable(argv[index]))
+			if (!JFileWritable(*fileName))
 				{
 				std::cerr << argv[0] << ": file is unwriteable" << std::endl;
 				exit(1);
 				}
-			*fileName = argv[index];
 			}
 
 		else
@@ -325,10 +325,10 @@ PrintVersion()
 gdImagePtr
 ReadGIF
 	(
-	const JCharacter* fileName
+	const JString& fileName
 	)
 {
-	FILE* input = fopen(fileName, "rb");
+	FILE* input = fopen(fileName.GetBytes(), "rb");
 	assert( input != NULL );
 	gdImagePtr image = gdImageCreateFromGif(input);
 	if (image == NULL)
@@ -348,11 +348,11 @@ ReadGIF
 void
 WriteGIF
 	(
-	gdImagePtr			image,
-	const JCharacter*	fileName
+	gdImagePtr		image,
+	const JString&	fileName
 	)
 {
-	FILE* output = fopen(fileName, "wb");
+	FILE* output = fopen(fileName.GetBytes(), "wb");
 	assert( output != NULL );
 	gdImageGif(image, output);
 	assert( ferror(output) == 0 );
@@ -552,10 +552,10 @@ BlendComponent
 void
 Blend
 	(
-	gdImagePtr			image,
-	const JFloat		alpha,
-	const JRGB&			alphaColor,
-	const JCharacter*	outputFileName
+	gdImagePtr		image,
+	const JFloat	alpha,
+	const JRGB&		alphaColor,
+	const JString&	outputFileName
 	)
 {
 	const JSize w = gdImageSX(image);

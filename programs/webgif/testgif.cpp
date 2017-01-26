@@ -14,7 +14,7 @@
 #include <jTypes.h>
 #include <jAssert.h>
 
-void CreateGIF(const JBoolean incr[], const JCharacter* fileName);
+void CreateGIF(const JBoolean incr[], const JUtf8Byte* fileName);
 
 /******************************************************************************
  main
@@ -64,7 +64,7 @@ void
 CreateGIF
 	(
 	const JBoolean		incr[],
-	const JCharacter*	fileName
+	const JUtf8Byte*	fileName
 	)
 {
 	gdImagePtr image = gdImageCreate(256, kImageHeight);
