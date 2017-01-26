@@ -9,6 +9,8 @@
 
 #include <JStringManager.h>
 #include <JPtrArray-JString.h>
+#include <JStringIterator.h>
+#include <JStringMatch.h>
 #include <JMinMax.h>
 #include <jFStreamUtil.h>
 #include <jStreamUtil.h>
@@ -108,7 +110,7 @@ main
 			continue;
 			}
 
-		std::ifstream input(*inputFileName);
+		std::ifstream input(inputFileName->GetBytes());
 		if (!input.good())
 			{
 			std::cerr << argv[0] << ":  unable to open " << *inputFileName << std::endl;
@@ -127,32 +129,28 @@ main
 	std::ostringstream data1;
 	mgr.WriteFile(data1);
 
-	JString data1Str = data1.str();
+	JString data1Str(data1.str(), JUtf8ByteRange());
 	if (!databaseFileName.IsEmpty())
 		{
-		std::ofstream dbOutput(databaseFileName);
+		std::ofstream dbOutput(databaseFileName.GetBytes());
 		data1Str.Print(dbOutput);
 		}
 
 	if (!outputFileName.IsEmpty())
 		{
-		JIndex i = 1;
-		while (data1Str.LocateNextSubstring("\\", &i))
+		JStringIterator iter(&data1Str, kJIteratorStartAtEnd);
+		JUtf8Character c;
+		while (iter.Prev(&c))
 			{
-			data1Str.ReplaceSubstring(i,i, "\\\\");
-			i += 2;
-			}
-		i = 1;
-		while (data1Str.LocateNextSubstring("\"", &i))
-			{
-			data1Str.ReplaceSubstring(i,i, "\\\"");
-			i += 2;
-			}
-		i = 1;
-		while (data1Str.LocateNextSubstring("\n", &i))
-			{
-			data1Str.ReplaceSubstring(i,i, "\\n");
-			i += 2;
+			if (c == "\\" || c == "\"")
+				{
+				iter.Insert("\\");
+				}
+			else if (c == "\n")
+				{
+				iter.SetNext("n", kJFalse);
+				iter.Insert("\\");
+				}
 			}
 
 		std::ostringstream data2;
@@ -163,29 +161,31 @@ main
 
 		// Visual C++ cannot handle file with more than 2048 characters on a line
 		// and cannot compile string constant more than 2048 characters!
+		// (2040 / 4bytes = 510 characters)
 
-		const JSize l1 = data1Str.GetLength();
-		for (i=0; i<l1; )
+		iter.MoveTo(kJIteratorStartAtBeginning, 0);
+		iter.BeginMatch();
+		while (!iter.AtEnd())
 			{
-			JSize l2 = JMin((JSize) 2040, l1 - i);
-			while (l2 > 0 && data1Str.GetCharacter(i+l2) == '\\')
+			iter.SkipNext(510);
+			while (iter.Prev(&c) && c == "\\")
 				{
-				l2--;
+				// back up
 				}
-			assert( l2 > 0 );
+			iter.SkipNext();	// compensate
 
 			data2 << "\"";
-			data2.write(((const char*) data1Str) + i, l2);
+			iter.FinishMatch().GetString().Print(data2);
 			data2 << "\"," << std::endl;
 
-			i += l2;
+			iter.BeginMatch();
 			}
 
 		data2 << "NULL };" << std::endl;
 
 		// if the file won't change, don't re-write it
 
-		const JString s2 = data2.str();
+		const JString s2(data2.str(), JUtf8ByteRange());
 		if (JFileExists(outputFileName))
 			{
 			JString origData;
@@ -199,7 +199,7 @@ main
 
 		// write file
 
-		std::ofstream output(outputFileName);
+		std::ofstream output(outputFileName.GetBytes());
 		s2.Print(output);
 
 		if (!output.good())
@@ -279,7 +279,7 @@ GetOptions
 
 		else
 			{
-			JString* inputFileName = jnew JString(argv[index]);
+			JString* inputFileName = jnew JString(argv[index], 0);
 			assert( inputFileName != NULL );
 
 			if (inputFileName->EndsWith("~") ||

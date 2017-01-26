@@ -1,3 +1,7 @@
+makemake
+jxlayout
+webgif
+
 JXPackStrings
 	convert to JPtrArray.Join(separator)
 search for other uses of Join
