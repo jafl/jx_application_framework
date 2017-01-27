@@ -5,7 +5,7 @@
 ###################################################
 echo ""
 echo Welcome to the JX Development Suite installation program.
-echo "Copyright © 2001 New Planet Software"
+echo "Copyright (C) 2001 New Planet Software"
 echo ""
 
 $* $ $$ $@ $% $3 ${039823#abc} ${#xyz} ${xy+z}

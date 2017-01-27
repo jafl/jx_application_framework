@@ -6,7 +6,7 @@
 #	Dirdiff diffs files of the same name in different directories against each
 #	other, as diff can, but with more output flexibility.
 #
-#   Copyright © 1998-1999 by Dustin Laurence. All rights reserved.
+#   Copyright (C) 1998-1999 by Dustin Laurence. All rights reserved.
 #
 #   This source code is released for free distribution under the terms of the
 #   GNU General Public License.
