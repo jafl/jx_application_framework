@@ -9,7 +9,8 @@ CODEDIR  := .
 JCOREDIR := ${JX_ROOT}/include/jcore
 PCREDIR  := ${JX_ROOT}/misc/pcre-8.37
 
-JLIBDIR := ${JX_ROOT}/lib
+JLIBDIR     := ${JX_ROOT}/lib
+JCORELIBDIR := ${JX_ROOT}/libjcore
 
 # Directories to search for header files
 
@@ -36,7 +37,7 @@ DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} \
 
 # make variables
 
-LOADLIBES := ${J_ACE_LIBS} ${J_IMG_LIBS} ${J_GCC_LIBS}
+LOADLIBES := -L${JLIBDIR} ${ljcore} ${J_IMG_LIBS} ${J_ACE_LIBS} ${J_GCC_LIBS}
 ifdef J_BUILD_SHARED_LIB
   LDFLAGS := -Xlinker -R/usr/lib/jxcb
 endif
@@ -44,12 +45,20 @@ endif
 #####
 
 .PHONY : default
-default: makemake
+default: libs makemake
 
 .PHONY : Makefiles
 Makefiles:
 
 include ${JX_ROOT}/include/make/jx_targets
+
+#
+# required libraries
+#
+
+.PHONY : libs
+libs::
+	@cd ${JCORELIBDIR}; ${MAKE}
 
 #
 # install binaries
@@ -86,12 +95,12 @@ jcc: debug
 
 DEBUG_LOADLIBES := -L${JLIBDIR} \
                    ${J_BEGIN_LINK_STATIC} \
-                   ${J_ACE_LIBS} \
+                   ${ljcore} ${J_ACE_LIBS} \
                    ${J_END_LINK_STATIC} \
                    ${J_IMG_LIBS} ${J_GCC_LIBS}
 
 .PHONY : debug
-debug: staticACE
+debug: staticACE libs
 	@${RM} makemake
 	@${MAKE} "LOADLIBES=${DEBUG_LOADLIBES}" makemake
 

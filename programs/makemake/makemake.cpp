@@ -10,6 +10,8 @@
 
 #include <JRegex.h>
 #include <JPtrArray-JString.h>
+#include <JStringIterator.h>
+#include <JStringMatch.h>
 #include <jFStreamUtil.h>
 #include <jStreamUtil.h>
 #include <jFileUtil.h>
@@ -33,7 +35,7 @@
 
 // Constants
 
-static const JCharacter* kVersionStr =
+static const JUtf8Byte* kVersionStr =
 
 	"makemake 3.4.0\n"
 	"\n"
@@ -41,41 +43,39 @@ static const JCharacter* kVersionStr =
 	"\n"
 	"http://www.newplanetsoftware.com/";
 
-static const JCharacter* kMakeBinary         = J_MAKE_BINARY_NAME;
-static const JCharacter* kDependTargetName   = "jdepend";
-static const JCharacter* kMakemakeBinaryVar  = "MAKEMAKE";
-static const JCharacter* kMakemakeBinary     = "${MAKEMAKE}";
-static const JCharacter* kDependInputFileVar = "JDEPEND_INPUT_FILE";
-static const JCharacter* kDependInputFile    = "${JDEPEND_INPUT_FILE}";
+static const JUtf8Byte* kMakeBinary         = J_MAKE_BINARY_NAME;
+static const JUtf8Byte* kDependTargetName   = "jdepend";
+static const JUtf8Byte* kMakemakeBinaryVar  = "MAKEMAKE";
+static const JUtf8Byte* kMakemakeBinary     = "${MAKEMAKE}";
+static const JUtf8Byte* kDependInputFileVar = "JDEPEND_INPUT_FILE";
+static const JUtf8Byte* kDependInputFile    = "${JDEPEND_INPUT_FILE}";
 
-static const JCharacter* kMakeFooterMarkerStr =
+static const JUtf8Byte* kMakeFooterMarkerStr =
 	"### makemake inserts here ###";
 
-static const JCharacter* kMakedependMarkerStr =
+static const JUtf8Byte* kMakedependMarkerStr =
 	"# DO NOT DELETE THIS LINE -- makemake depends on it.";
 
-static const JCharacter* kObjDirArg   = "--obj-dir";
-static const JCharacter* kNoStdIncArg = "--no-std-inc";
-static const JCharacter* kAutoGenArg  = "--assume-autogen";
+static const JUtf8Byte* kObjDirArg   = "--obj-dir";
+static const JUtf8Byte* kNoStdIncArg = "--no-std-inc";
+static const JUtf8Byte* kAutoGenArg  = "--assume-autogen";
 
-static const JCharacter* kCurrentDir    = "./";
-static const JCharacter* kSysIncludeDir = "/usr/include/";
+static const JString kCurrentDir   ("./", 0, kJFalse);
+static const JString kSysIncludeDir("/usr/include/", 0, kJFalse);
 
-static const JCharacter* kDontInterpretFlag = "literal: ";
-const JSize kDontInterpretFlagLen           = strlen(kDontInterpretFlag);
+static const JUtf8Byte* kDontInterpretFlag = "literal: ";
+const JSize kDontInterpretFlagLen          = strlen(kDontInterpretFlag);
 
-static const JCharacter* kDefOutputSuffix = ".o";
+static const JUtf8Byte* kDefOutputSuffix = ".o";
 
 #define J_LINUX_SHARED_LIB_SUFFIX	".so"
 #define J_OSX_SHARED_LIB_SUFFIX		".dylib"
 
-static const JCharacter* kSharedLibSuffix[] =
-{
-	J_LINUX_SHARED_LIB_SUFFIX,
-	J_OSX_SHARED_LIB_SUFFIX
-};
-
-const JSize kSharedLibSuffixCount = sizeof(kSharedLibSuffix) / sizeof(JCharacter*);
+static const JRegex libSuffixPattern =
+	"("
+		"\\" J_LINUX_SHARED_LIB_SUFFIX "|"
+		"\\" J_OSX_SHARED_LIB_SUFFIX
+	")$";
 
 #ifdef _J_OSX
 #define J_SHARED_LIB_SUFFIX	J_OSX_SHARED_LIB_SUFFIX
@@ -93,7 +93,8 @@ static const JRegex noParsePattern    = "\\.([^.]+)";
 
 // .in_suffix [.out_suffix ]name
 
-static const JRegex fileSuffix = "^(\\.[^ ]+) +((\\.[^ ]+) +)?(.+)$";
+static const JRegex linePattern =
+	"^(?P<inSuffix>\\.[^ ]+) +(?:(?P<outSuffix>\\.[^ ]+) +)?(?P<target>.+)$";
 
 // Prototypes
 
@@ -104,9 +105,9 @@ JBoolean AddSubTarget(JPtrArray<JString>& targetList,
 					  JString* targetName, JString* prefixName, JString* suffixName,
 					  JString* outPrefix, JString* outSuffixName);
 void PrintForMake(std::ostream& output, const JString& str);
-const JCharacter* GetOutputSuffix(const JString& inputSuffix,
-								  const JPtrArray<JString>& suffixMapIn,
-								  const JPtrArray<JString>& suffixMapOut);
+JString GetOutputSuffix(const JString& inputSuffix,
+						const JPtrArray<JString>& suffixMapIn,
+						const JPtrArray<JString>& suffixMapOut);
 
 void GetOptions(const JSize argc, char* argv[], JString* defSuffix,
 				JString* defineText, JString* headerName,
@@ -114,7 +115,7 @@ void GetOptions(const JSize argc, char* argv[], JString* defSuffix,
 				JPtrArray<JString>* userTargetList, JBoolean* searchSysDir,
 				JBoolean* assumeAutoGen,
 				JPtrArray<JString>* suffixMapIn, JPtrArray<JString>* suffixMapOut);
-JBoolean FindFile(const JCharacter* fileName, const JPtrArray<JString>& pathList,
+JBoolean FindFile(const JString& fileName, const JPtrArray<JString>& pathList,
 				  JString* fullName);
 void PickTargets(const JString& fileName, JPtrArray<JString>* list);
 
@@ -168,13 +169,11 @@ main
 	JPtrArray<JString> outPrefixList(JPtrArrayT::kDeleteAll),
 					   outSuffixList(JPtrArrayT::kDeleteAll);
 
-	JArray<JIndexRange> matchList;
-
 	targetList.SetCompareFunction(JCompareStringsCaseSensitive);
 
 	// skip comments and check for possible first suffix instruction
 
-	std::ifstream input(inputName);
+	std::ifstream input(inputName.GetBytes());
 	input >> std::ws;
 	while (!input.eof() && !input.fail())
 		{
@@ -239,16 +238,10 @@ main
 			continue;
 			}
 
-		for (JIndex i=1; i<=kSharedLibSuffixCount; i++)
+		JStringIterator mtnIter(mainTargetName);
+		if (mtnIter.Next(libSuffixPattern))
 			{
-			if (mainTargetName->EndsWith(kSharedLibSuffix[i-1]))
-				{
-				const JSize len = mainTargetName->GetLength();
-				mainTargetName->ReplaceSubstring(
-					len - strlen(kSharedLibSuffix[i-1]) + 1, len,
-					J_SHARED_LIB_SUFFIX);
-				break;
-				}
+			mtnIter.ReplaceLastMatch(J_SHARED_LIB_SUFFIX);
 			}
 
 		JString* mainTargetObjs = jnew JString;
@@ -258,6 +251,8 @@ main
 
 		while (!input.eof() && !input.fail() && input.peek() != '@')
 			{
+			// set option
+
 			if (input.peek() == '-')
 				{
 				input.ignore(1);
@@ -277,124 +272,142 @@ main
 					{
 					std::cerr << argv[0] << ": unknown parameter: " << cmd << '\n';
 					}
+				continue;
 				}
-			else if (input.peek() == '#')
+
+			// comment
+
+			if (input.peek() == '#')
 				{
 				JIgnoreLine(input);
 				input >> std::ws;
+				continue;
+				}
+
+			JString fullName = JReadUntil(input, '\n');
+			input >> std::ws;
+
+			fullName.TrimWhitespace();
+			if (fullName.IsEmpty())
+				{
+				continue;
+				}
+
+			// binary object file
+
+			JStringIterator fnIter(&fullName);
+			if (fnIter.Next(objFileSuffix))
+				{
+				const JStringMatch& m = fnIter.GetLastMatch();
+				JString suffix(m.GetString());
+				suffix.TrimWhitespace();
+
+				fnIter.RemoveLastMatch();
+				fullName.TrimWhitespace();	// invalidates fnIter
+
+				*mainTargetObjs += " ";
+				*mainTargetObjs += prefix;
+				*mainTargetObjs += fullName;
+				*mainTargetObjs += suffix;
+
+				usesJava = JI2B(usesJava || javaObjFileSuffix.Match(suffix));
+				continue;
+				}
+
+			// raw text
+
+			fnIter.MoveTo(kJIteratorStartAtBeginning, 0);
+			if (fnIter.Next(kDontInterpretFlag))
+				{
+				fnIter.RemoveAllPrev();
+				fullName.TrimWhitespace();	// invalidates fnIter
+
+				*mainTargetObjs += " ";
+				*mainTargetObjs += fullName;
+
+				continue;
+				}
+
+			// analyze 
+
+			fnIter.MoveTo(kJIteratorStartAtBeginning, 0);
+
+			JString* targetName    = NULL;
+			JString* suffixName    = NULL;
+			JString* outSuffixName = NULL;
+			if (fnIter.Next(linePattern))
+				{
+				const JStringMatch& m = fnIter.GetLastMatch();
+
+				targetName = jnew JString(m.GetSubstring("target"));
+				assert( targetName != NULL );
+				targetName->TrimWhitespace();
+				suffixName = jnew JString(m.GetSubstring("inSuffix"));
+				assert( suffixName != NULL );
+
+				outSuffixName = jnew JString(m.GetSubstring("outSuffix"));
+				assert( outSuffixName != NULL );
+
+				if (outSuffixName->IsEmpty())
+					{
+					*outSuffixName = GetOutputSuffix(*suffixName, suffixMapIn, suffixMapOut);
+					}
+				}
+			else if (fullName.GetFirstCharacter() == '.')
+				{
+				std::cerr << argv[0] << ": invalid dependency \"";
+				std::cerr << fullName << "\"\n";
+				continue;
 				}
 			else
 				{
-				JString fullName = JReadUntil(input, '\n');
-				input >> std::ws;
-
-				JBoolean usesJava1 = kJFalse;
-				JIndexRange suffixRange;
-				if (objFileSuffix.Match(fullName, &suffixRange))
-					{
-					JString suffix(fullName, suffixRange);
-					suffix.TrimWhitespace();
-					fullName.RemoveSubstring(suffixRange);
-					fullName.TrimWhitespace();
-
-					*mainTargetObjs += " ";
-					*mainTargetObjs += prefix;
-					*mainTargetObjs += fullName;
-					*mainTargetObjs += suffix;
-
-					usesJava1 = javaObjFileSuffix.Match(suffix);
-					}
-				else if (fullName.BeginsWith(kDontInterpretFlag))
-					{
-					fullName.RemoveSubstring(1, kDontInterpretFlagLen);
-					fullName.TrimWhitespace();
-
-					*mainTargetObjs += " ";
-					*mainTargetObjs += fullName;
-					}
-				else if (fullName.GetLength() > 0)
-					{
-					JString* targetName    = NULL;
-					JString* suffixName    = NULL;
-					JString* outSuffixName = NULL;
-					if (fileSuffix.Match(fullName, &matchList))
-						{
-						targetName = jnew JString(fullName, matchList.GetElement(5));
-						assert( targetName != NULL );
-						targetName->TrimWhitespace();
-						suffixName = jnew JString(fullName, matchList.GetElement(2));
-						assert( suffixName != NULL );
-
-						JIndexRange r = matchList.GetElement(4);
-						if (!r.IsEmpty())
-							{
-							outSuffixName = jnew JString(fullName, r);
-							}
-						else
-							{
-							outSuffixName = jnew JString(
-								GetOutputSuffix(*suffixName, suffixMapIn, suffixMapOut));
-							}
-						assert( outSuffixName != NULL );
-						}
-					else if (fullName.GetFirstCharacter() == '.')
-						{
-						std::cerr << argv[0] << ": invalid dependency \"";
-						std::cerr << fullName << "\"\n";
-						continue;
-						}
-					else
-						{
-						targetName = jnew JString(fullName);
-						assert( targetName != NULL );
-						suffixName = jnew JString(defSuffix);
-						assert( suffixName != NULL );
-						outSuffixName = jnew JString(
-							GetOutputSuffix(*suffixName, suffixMapIn, suffixMapOut));
-						assert( outSuffixName != NULL );
-						}
-
-					JString* prefixName = jnew JString(prefix);
-					assert( prefixName != NULL );
-
-					usesJava1 = JI2B(javaObjFileSuffix.Match(*suffixName) ||
-									 javaObjFileSuffix.Match(*outSuffixName));
-
-					// We want all the path information to be
-					// in the prefix.
-
-					JString targetPrefix, targetSuffix;
-					JSplitPathAndName(*targetName, &targetPrefix, &targetSuffix);
-					if (targetSuffix.GetLength() < targetName->GetLength())
-						{
-						*prefixName += targetPrefix;
-						*targetName  = targetSuffix;
-						}
-
-					JString* outPrefixName = jnew JString;
-					assert( outPrefixName != NULL );
-
-					*mainTargetObjs += " ";
-					if (!outputDirName.IsEmpty())
-						{
-						*outPrefixName = "${" + outputDirName + "}/";
-						}
-					else
-						{
-						*outPrefixName = *prefixName;
-						}
-					*mainTargetObjs += *outPrefixName;
-					*mainTargetObjs += *targetName;
-					*mainTargetObjs += *outSuffixName;
-
-					// may delete *Name objects
-
-					AddSubTarget(targetList, prefixList, suffixList, outPrefixList, outSuffixList,
-								 targetName, prefixName, suffixName, outPrefixName, outSuffixName);
-					}
-
-				usesJava = JI2B(usesJava || usesJava1);
+				targetName = jnew JString(fullName);
+				assert( targetName != NULL );
+				suffixName = jnew JString(defSuffix);
+				assert( suffixName != NULL );
+				outSuffixName = jnew JString(
+					GetOutputSuffix(*suffixName, suffixMapIn, suffixMapOut));
+				assert( outSuffixName != NULL );
 				}
+
+			JString* prefixName = jnew JString(prefix);
+			assert( prefixName != NULL );
+
+			usesJava = JI2B(usesJava ||
+							javaObjFileSuffix.Match(*suffixName) ||
+							javaObjFileSuffix.Match(*outSuffixName));
+
+			// We want all the path information to be
+			// in the prefix.
+
+			JString targetPrefix, targetSuffix;
+			JSplitPathAndName(*targetName, &targetPrefix, &targetSuffix);
+			if (targetSuffix.GetCharacterCount() < targetName->GetCharacterCount())
+				{
+				*prefixName += targetPrefix;
+				*targetName  = targetSuffix;
+				}
+
+			JString* outPrefixName = jnew JString;
+			assert( outPrefixName != NULL );
+
+			*mainTargetObjs += " ";
+			if (!outputDirName.IsEmpty())
+				{
+				*outPrefixName = "${" + outputDirName + "}/";
+				}
+			else
+				{
+				*outPrefixName = *prefixName;
+				}
+			*mainTargetObjs += *outPrefixName;
+			*mainTargetObjs += *targetName;
+			*mainTargetObjs += *outSuffixName;
+
+			// may delete *Name objects
+
+			AddSubTarget(targetList, prefixList, suffixList, outPrefixList, outSuffixList,
+						 targetName, prefixName, suffixName, outPrefixName, outSuffixName);
 			}
 
 		// If the dependency list is empty, remember it for later.
@@ -446,7 +459,7 @@ main
 // build the output file: we start with defineText + a copy of the header file
 // and then append the make rules to the output file
 
-	std::ofstream output(outputName);
+	std::ofstream output(outputName.GetBytes());
 	if (output.fail())
 		{
 		std::cerr << argv[0] << ": unable to write to " << outputName << std::endl;
@@ -462,20 +475,21 @@ main
 
 	JString footerText;
 	{
-	JString headerText;
-	JReadFile(headerName, &headerText);
+	JString s;
+	JReadFile(headerName, &s);
 
-	JIndex i;
-	if (headerText.LocateSubstring(kMakeFooterMarkerStr, &i))
+	JPtrArray<JString> list(JPtrArrayT::kDeleteAll);
+	s.Split(kMakeFooterMarkerStr, &list, 2);
+
+	JString* headerText = list.GetFirstElement();
+	headerText->TrimWhitespace();
+	headerText->Print(output);
+
+	if (list.GetElementCount() > 1)
 		{
-		footerText = headerText.GetSubstring(i+strlen(kMakeFooterMarkerStr),
-											 headerText.GetLength());
+		footerText = *(list.GetLastElement());
 		footerText.TrimWhitespace();
-		headerText.RemoveSubstring(i, headerText.GetLength());
 		}
-
-	headerText.TrimWhitespace();
-	headerText.Print(output);
 	}
 
 	output << "\n\n\n# This is what makemake added\n\n";
@@ -763,25 +777,25 @@ main
 
 	// build the dependency graph
 
-	JString makemakeBinaryDef = kMakemakeBinaryVar;
+	JString makemakeBinaryDef(kMakemakeBinaryVar, 0);
 	makemakeBinaryDef += "=";
 	makemakeBinaryDef += argv[0];
 
 #if USE_TEMP_FILE_FOR_DEPEND
 
-	JString tempFileDef = kDependInputFileVar;
+	JString tempFileDef(kDependInputFileVar, 0);
 	tempFileDef += "=";
 	tempFileDef += tempFileName;
 
-	const JCharacter* depArgv[] =
-		{ kMakeBinary, makemakeBinaryDef, tempFileDef,
-		  "-f", outputName, kDependTargetName, NULL };
+	const JUtf8Byte* depArgv[] =
+		{ kMakeBinary, makemakeBinaryDef.GetBytes(), tempFileDef.GetBytes(),
+		  "-f", outputName.GetBytes(), kDependTargetName, NULL };
 
 #else
 
-	const JCharacter* depArgv[] =
-		{ kMakeBinary, makemakeBinaryDef,
-		  "-f", outputName, kDependTargetName, NULL };
+	const JUtf8Byte* depArgv[] =
+		{ kMakeBinary, makemakeBinaryDef.GetBytes(),
+		  "-f", outputName.GetBytes(), kDependTargetName, NULL };
 
 #endif
 
@@ -904,14 +918,14 @@ AddSubTarget
 void
 PrintForMake
 	(
-	std::ostream&		output,
+	std::ostream&	output,
 	const JString&	str
 	)
 {
-	const JSize length = str.GetLength();
-	for (JIndex i=1; i<=length; i++)
+	JStringIterator iter(str);
+	JUtf8Character c;
+	while (iter.Next(&c))
 		{
-		const JCharacter c = str.GetCharacter(i);
 		if (c == '$')
 			{
 			output << "\\$$";
@@ -931,7 +945,7 @@ PrintForMake
 
  ******************************************************************************/
 
-const JCharacter*
+JString
 GetOutputSuffix
 	(
 	const JString&				inputSuffix,
@@ -950,7 +964,7 @@ GetOutputSuffix
 			}
 		}
 
-	return kDefOutputSuffix;
+	return JString(kDefOutputSuffix, 0, kJFalse);
 }
 
 /******************************************************************************
@@ -990,10 +1004,10 @@ GetOptions
 	*assumeAutoGen = kJFalse;
 
 	{
-	JString* s = jnew JString(".java");
+	JString* s = jnew JString(".java", 0);
 	assert( s != NULL );
 	suffixMapIn->Append(s);
-	s = jnew JString(".java");
+	s = jnew JString(".java", 0);
 	assert( s != NULL );
 	suffixMapOut->Append(s);
 	}
@@ -1010,7 +1024,6 @@ GetOptions
 	// command line options
 
 	JIndex index = 1;
-	JArray<JIndexRange> matchList;
 	while (index < argc)
 		{
 		if (JIsVersionRequest(argv[index]))
@@ -1028,13 +1041,13 @@ GetOptions
 			{
 			JCheckForValues(1, &index, argc, argv);
 			*defineText += argv[index];
-			defineText->AppendCharacter('\n');
+			defineText->Append("\n");
 			}
 
 		else if (strcmp(argv[index], "--search-path") == 0)
 			{
 			JCheckForValues(1, &index, argc, argv);
-			JString* s = jnew JString(argv[index]);
+			JString* s = jnew JString(argv[index], 0);
 			assert( s != NULL );
 			searchPaths.Append(s);
 			}
@@ -1065,12 +1078,15 @@ GetOptions
 			{
 			JCheckForValues(1, &index, argc, argv);
 
-			if (suffixMapPattern.Match(argv[index], &matchList))
+			JString arg(argv[index], 0, kJFalse);
+			JStringIterator iter(arg);
+			if (iter.Next(suffixMapPattern))
 				{
-				JString* s = jnew JString(argv[index], matchList.GetElement(2));
+				const JStringMatch& m = iter.GetLastMatch();
+				JString* s = jnew JString(m.GetSubstring(1));
 				assert( s != NULL );
 				suffixMapIn->Append(s);
-				s = jnew JString(argv[index], matchList.GetElement(3));
+				s = jnew JString(m.GetSubstring(2));
 				assert( s != NULL );
 				suffixMapOut->Append(s);
 				}
@@ -1086,14 +1102,15 @@ GetOptions
 			JCheckForValues(1, &index, argc, argv);
 
 			JString p = noParseFileSuffix.GetPattern();
+			JStringIterator iter1(&p, kJIteratorStartAtEnd);
+			iter1.SkipPrev(2);
 
-			JIndexRange r;
-			while (noParsePattern.MatchAfter(argv[index], r, &matchList))
+			JStringIterator iter2(JString(argv[index], 0, kJFalse));
+			while (iter2.Next(noParsePattern))
 				{
-				JString s(argv[index], matchList.GetElement(2));
-				s.PrependCharacter('|');
-				p.InsertSubstring(s, p.GetLength()-1);
-				r = matchList.GetElement(1);
+				JString s = iter2.GetLastMatch().GetSubstring(1);
+				s.Prepend("|");
+				iter1.Insert(s);
 				}
 
 			noParseFileSuffix.SetPatternOrDie(p);
@@ -1132,7 +1149,7 @@ GetOptions
 
 		else
 			{
-			JString* userTarget = jnew JString(argv[index]);
+			JString* userTarget = jnew JString(argv[index], 0);
 			assert( userTarget != NULL );
 			userTargetList->Append(userTarget);
 			}
@@ -1238,7 +1255,7 @@ PickTargets
 	JSize count = 0;
 	std::cout << std::endl;
 
-	std::ifstream input(fileName);
+	std::ifstream input(fileName.GetBytes());
 	JIgnoreUntil(input, '@');
 	while (!input.eof() && !input.fail())
 		{
@@ -1382,15 +1399,15 @@ struct HeaderDep
 	{ };
 };
 
-void		WriteDependencies(std::ostream& output, const JCharacter* fileName,
-							  const JCharacter* makeName,
+void		WriteDependencies(std::ostream& output, const JString& fileName,
+							  const JString& makeName,
 							  const JPtrArray<JString>& pathList1,
 							  const JPtrArray<JString>& pathList2,
 							  const JBoolean assumeAutoGen,
-							  const JCharacter* outputDirName,
+							  const JString& outputDirName,
 							  JArray<HeaderDep>* headerList);
-void		PrintDependencies(std::ostream& output, const JCharacter* outputDirName,
-							  const JCharacter* makeName,
+void		PrintDependencies(std::ostream& output, const JString& outputDirName,
+							  const JString& makeName,
 							  const JPtrArray<JString>& depList);
 void		AddDependency(JPtrArray<JString>* depList, const JString& headerName,
 						  const JPtrArray<JString>& pathList1,
@@ -1403,12 +1420,12 @@ HeaderDep	ParseHeaderFile(const JString& fileName,
 							const JPtrArray<JString>& pathList2,
 							const JBoolean assumeAutoGen,
 							JArray<HeaderDep>* headerList);
-JBoolean	GetNextIncludedFile(const JCharacter* inputFileName, std::istream& input,
+JBoolean	GetNextIncludedFile(const JString& inputFileName, std::istream& input,
 								const JPtrArray<JString>& pathList1,
 								const JPtrArray<JString>& pathList2,
 								const JBoolean assumeAutoGen,
 								JString* fileName);
-void		TruncateMakefile(const JCharacter* fileName);
+void		TruncateMakefile(const JString& fileName);
 
 JOrderedSetT::CompareResult CompareHeaderFiles(const HeaderDep& h1, const HeaderDep& h2);
 
@@ -1437,7 +1454,7 @@ CalcDepend
 
 	// apply environment variables
 
-	const JCharacter* env = getenv("J_MAKEMAKE_IGNORE_PATTERN");
+	const JUtf8Byte* env = getenv("J_MAKEMAKE_IGNORE_PATTERN");
 	if (!JString::IsEmpty(env))
 		{
 		globalIgnorePattern = jnew JRegex(env);
@@ -1452,7 +1469,7 @@ CalcDepend
 
 	JIndex i = startArg;
 
-	const JCharacter* makefileName = argv[i];
+	const JString makefileName(argv[i], 0, kJFalse);
 	i++;
 
 	while (i < argc-1 && strcmp(argv[i], "--") != 0)
@@ -1505,9 +1522,9 @@ CalcDepend
 		else if (argv[i][0] == '-' && argv[i][1] == 'I' &&
 				 argv[i][2] != '\0' && argv[i][2] != '-')
 			{
-			if (JDirectoryReadable(argv[i]+2))
+			if (JDirectoryReadable(JString(argv[i]+2, 0, kJFalse)))
 				{
-				path = jnew JString(argv[i]+2);		// strip off "-I"
+				path = jnew JString(argv[i]+2, 0);		// strip off "-I"
 				assert( path != NULL );
 				if (searchCurrDir)
 					{
@@ -1553,7 +1570,7 @@ CalcDepend
 
 	TruncateMakefile(makefileName);
 
-	std::ofstream output(makefileName, std::ios::app);
+	std::ofstream output(makefileName.GetBytes(), std::ios::app);
 	output << '\n';
 
 	JArray<HeaderDep> headerList;		// header files that have been processed
@@ -1616,13 +1633,13 @@ CalcDepend
 void
 WriteDependencies
 	(
-	std::ostream&					output,
-	const JCharacter*			fileName,
-	const JCharacter*			makeName,
+	std::ostream&				output,
+	const JString&				fileName,
+	const JString&				makeName,
 	const JPtrArray<JString>&	pathList1,
 	const JPtrArray<JString>&	pathList2,
 	const JBoolean				assumeAutoGen,
-	const JCharacter*			outputDirName,
+	const JString&				outputDirName,
 	JArray<HeaderDep>*			headerList
 	)
 {
@@ -1637,7 +1654,7 @@ WriteDependencies
 	JPtrArray<JString> depList(JPtrArrayT::kForgetAll);
 	depList.SetCompareFunction(JCompareStringsCaseSensitive);
 
-	std::ifstream input(fileName);
+	std::ifstream input(fileName.GetBytes());
 	JString headerName;
 	while (GetNextIncludedFile(fileName, input, pathList1, pathList2, assumeAutoGen, &headerName))
 		{
@@ -1658,15 +1675,15 @@ WriteDependencies
 void
 PrintDependencies
 	(
-	std::ostream&					output,
-	const JCharacter*			outputDirName,
-	const JCharacter*			makeName,
+	std::ostream&				output,
+	const JString&				outputDirName,
+	const JString&				makeName,
 	const JPtrArray<JString>&	depList
 	)
 {
 	if (!depList.IsEmpty())
 		{
-		if (!JString::IsEmpty(outputDirName))
+		if (!outputDirName.IsEmpty())
 			{
 			JString s = makeName, p,f;
 			JSplitPathAndName(s, &p, &f);
@@ -1802,7 +1819,7 @@ ParseHeaderFile
 
 	// find the files that fileName depends on and add them to depList
 
-	std::ifstream input(fileName);
+	std::ifstream input(fileName.GetBytes());
 	JString headerName;
 	while (GetNextIncludedFile(fileName, input, pathList1, pathList2, assumeAutoGen, &headerName))
 		{
@@ -1825,14 +1842,13 @@ ParseHeaderFile
 
  ******************************************************************************/
 
-static const JCharacter* kIncludeMarker = "include";
-const JSize kIncludeMarkerLength        = strlen(kIncludeMarker);
+static const JRegex includePattern = "^\\s*#\\s*include\\s*([<\"])(.+?)[>\"]";
 
 JBoolean
 GetNextIncludedFile
 	(
-	const JCharacter*			inputFileName,
-	std::istream&					input,
+	const JString&				inputFileName,
+	std::istream&				input,
 	const JPtrArray<JString>&	pathList1,
 	const JPtrArray<JString>&	pathList2,
 	const JBoolean				assumeAutoGen,
@@ -1841,61 +1857,34 @@ GetNextIncludedFile
 {
 	while (!input.eof() && !input.fail())
 		{
-		input >> std::ws;
-		if (input.peek() != '#')
+		JString line = JReadLine(input);
+
+		JStringIterator iter(&line);
+		if (iter.Next(includePattern))
 			{
-			JIgnoreLine(input);
-			}
-		else
-			{
-			input.ignore();
-			input >> std::ws;
-			JString line = JReadLine(input);
-			if (line.BeginsWith(kIncludeMarker))
+			const JStringMatch& m     = iter.GetLastMatch();
+			const JUtf8Character type = m.GetSubstring(1).GetFirstCharacter();
+			const JString name        = m.GetSubstring(2);
+
+			if (globalIgnorePattern != NULL &&
+				globalIgnorePattern->Match(name))
 				{
-				line.RemoveSubstring(1, kIncludeMarkerLength);
-				line.TrimWhitespace();
-
-				JCharacter c = line.GetFirstCharacter();
-				if (c == '"' || c == '<')
+				// skip
+				}
+			else if ((type == '"' && FindFile(name, pathList1, fileName)) ||
+					 FindFile(name, pathList2, fileName))
+				{
+				return kJTrue;
+				}
+			else if (type == '"' && assumeAutoGen)	// assume in same dir as including file
+				{
+				JString p, n;
+				if (!JSplitPathAndName(inputFileName, &p, &n))
 					{
-					if (c == '<')
-						{
-						c = '>';
-						}
-
-					const JSize length = line.GetLength();
-					JIndex i = 2;
-					while (i <= length && line.GetCharacter(i) != c)
-						{
-						i++;
-						}
-
-					if (i <= length)
-						{
-						const JString name = line.GetSubstring(2, i-1);
-						if (globalIgnorePattern != NULL &&
-							globalIgnorePattern->Match(name))
-							{
-							// skip
-							}
-						else if ((c == '"' && FindFile(name, pathList1, fileName)) ||
-								 FindFile(name, pathList2, fileName))
-							{
-							return kJTrue;
-							}
-						else if (c == '"' && assumeAutoGen)	// assume in same dir as including file
-							{
-							JString p, n;
-							if (!JSplitPathAndName(inputFileName, &p, &n))
-								{
-								p = "./";
-								}
-							*fileName = JCombinePathAndName(p, name);
-							return kJTrue;
-							}
-						}
+					p = "./";
 					}
+				*fileName = JCombinePathAndName(p, name);
+				return kJTrue;
 				}
 			}
 		}
@@ -1914,16 +1903,16 @@ GetNextIncludedFile
 JBoolean
 FindFile
 	(
-	const JCharacter*			fileName,
+	const JString&				fileName,
 	const JPtrArray<JString>&	pathList,
 	JString*					fullName
 	)
 {
 	// if full path is specified, use it
 
-	if (fileName[0] == '/' ||
-		JCompareMaxN(fileName, "./", 2, kJTrue) ||
-		JCompareMaxN(fileName, "../", 3, kJTrue))
+	if (fileName.GetFirstCharacter() == '/' ||
+		fileName.BeginsWith("./") ||
+		fileName.BeginsWith("../"))
 		{
 		if (JFileExists(fileName))
 			{
@@ -1964,10 +1953,10 @@ FindFile
 void
 TruncateMakefile
 	(
-	const JCharacter* fileName
+	const JString& fileName
 	)
 {
-	std::fstream f(fileName, kJTextFile);
+	std::fstream f(fileName.GetBytes(), kJTextFile);
 
 	JString line;
 	do
