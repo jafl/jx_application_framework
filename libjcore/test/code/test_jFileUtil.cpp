@@ -137,7 +137,7 @@ JTEST(Path)
 
 	JString path, name;
 	JAssertTrue(JSplitPathAndName(s, &path, &name));
-	JAssertStringsEqual("/usr", path);
+	JAssertStringsEqual("/usr/", path);
 	JAssertStringsEqual("local", name);
 
 	JStripTrailingDirSeparator(&s);
@@ -176,13 +176,13 @@ JTEST(Path)
 
 	s = JGetClosestDirectory(
 		JString("/usr/include/zzz/junk/foo/bar/baz.cc", 0, kJFalse));
-	JAssertStringsEqual("/usr/include", s);
+	JAssertStringsEqual("/usr/include/", s);
 
 	s = "./test_j_file_util_test_directory";
 	JAssertOK(JCreateDirectory(s));
 	s = JGetClosestDirectory(
 		JString("./test_j_file_util_test_directory/foo/bar/baz", 0, kJFalse));
-	JAssertStringsEqual("test_j_file_util_test_directory", s);
+	JAssertStringsEqual("test_j_file_util_test_directory/", s);
 	JAssertOK(JRemoveDirectory(s));
 }
 
@@ -252,7 +252,7 @@ JTEST(HomeDirShortcut)
 	s = JGetClosestDirectory(
 		JString("~/test_j_file_util_test_directory/foo/bar/baz", 0, kJFalse),
 		kJTrue);
-	JAssertStringsEqual("~/test_j_file_util_test_directory", s);
+	JAssertStringsEqual("~/test_j_file_util_test_directory/", s);
 
 	JAssertOK(JRemoveDirectory(path));
 }
