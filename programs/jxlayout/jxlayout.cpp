@@ -7,11 +7,13 @@
 
  ******************************************************************************/
 
-#include <jXGlobals.h>
 #include <JXLibVersion.h>
-#include <JPtrArray-JString.h>
+#include <jGlobals.h>
+#include <JStringManager.h>
+#include <JStringIterator.h>
 #include <JRegex.h>
 #include <JTextEditor.h>
+#include <JPtrArray-JString.h>
 #include <jFStreamUtil.h>
 #include <jStreamUtil.h>
 #include <jFileUtil.h>
@@ -27,61 +29,60 @@
 
 // Constants
 
-static const JCharacter* kVersionStr =
+static const JUtf8Byte* kVersionStr =
 
 	"jxlayout 4.0.0\n"
 	"\n"
 	"Copyright (C) 1996-2016 John Lindal.  All rights reserved.";
 
-static const JCharacter* kBackupSuffix = "~";
+static const JUtf8Byte* kBackupSuffix = "~";
 
-static const JCharacter* kBeginCodeDelimiterPrefix = "// begin ";
-static const JCharacter* kEndCodeDelimiterPrefix   = "// end ";
+static const JUtf8Byte* kBeginCodeDelimiterPrefix = "// begin ";
+static const JUtf8Byte* kEndCodeDelimiterPrefix   = "// end ";
 
-static const JCharacter* kDefaultDelimTag = "JXLayout";
-static const JCharacter* kCustomTagMarker = "__";
-const JSize kCustomTagMarkerLength        = strlen(kCustomTagMarker);
+static const JString kDefaultDelimTag("JXLayout", 0, kJFalse);
+static const JString kCustomTagMarker("__",       0, kJFalse);
 
-static const JCharacter* kDefTopEnclVarName = "window";
+static const JString kDefTopEnclVarName("window", 0, kJFalse);
 
 // Data files (search for at startup)
 
-static const JCharacter* kMainConfigFileDir    = CONFIG_FILE_DIR;
-static const JCharacter* kEnvUserConfigFileDir = "JXLAYOUTDIR";
+static const JString kMainConfigFileDir   (CONFIG_FILE_DIR, 0, kJFalse);
+static const JString kEnvUserConfigFileDir("JXLAYOUTDIR",   0, kJFalse);
 
-static JString classMapFile       = "class_map";
-static JString optionMapFile      = "option_map";
-static JString needFontListFile   = "need_font_list";
-static JString needStringListFile = "need_string_list";
-static JString needCreateListFile = "need_create_list";
+static JString classMapFile      ("class_map",        0, kJFalse);
+static JString optionMapFile     ("option_map",       0, kJFalse);
+static JString needFontListFile  ("need_font_list",   0, kJFalse);
+static JString needStringListFile("need_string_list", 0, kJFalse);
+static JString needCreateListFile("need_create_list", 0, kJFalse);
 
 // Form fields
 
-static const JCharacter* kBeginFormLine      = "=============== FORM ===============";
-static const JCharacter* kFormNameMarker     = "Name:";
-static const JCharacter* kFormWidthMarker    = "Width:";
-static const JCharacter* kFormHeightMarker   = "Height:";
-static const JCharacter* kFormObjCountMarker = "Number of Objects:";
+static const JString kBeginFormLine     ("=============== FORM ===============", 0, kJFalse);
+static const JString kFormNameMarker    ("Name:",              0, kJFalse);
+static const JString kFormWidthMarker   ("Width:",             0, kJFalse);
+static const JString kFormHeightMarker  ("Height:",            0, kJFalse);
+static const JString kFormObjCountMarker("Number of Objects:", 0, kJFalse);
 
 // Object fields
 
-static const JCharacter* kBeginObjLine      = "--------------------";
-static const JCharacter* kObjClassMarker    = "class:";
-static const JCharacter* kObjTypeMarker     = "type:";
-static const JCharacter* kObjRectMarker     = "box:";
-static const JCharacter* kObjBoxTypeMarker  = "boxtype:";
-static const JCharacter* kObjColorsMarker   = "colors:";
-static const JCharacter* kObjLAlignMarker   = "alignment:";
-static const JCharacter* kObjLStyleMarker   = "style:";
-static const JCharacter* kObjLSizeMarker    = "size:";
-static const JCharacter* kObjLColorMarker   = "lcol:";
-static const JCharacter* kObjLabelMarker    = "label:";
-static const JCharacter* kObjShortcutMarker = "shortcut:";
-static const JCharacter* kObjResizeMarker   = "resize:";
-static const JCharacter* kObjGravityMarker  = "gravity:";
-static const JCharacter* kObjNameMarker     = "name:";
-static const JCharacter* kObjCallbackMarker = "callback:";
-static const JCharacter* kObjCBArgMarker    = "argument:";
+static const JString kBeginObjLine     ("--------------------", 0, kJFalse);
+static const JString kObjClassMarker   ("class:",     0, kJFalse);
+static const JString kObjTypeMarker    ("type:",      0, kJFalse);
+static const JString kObjRectMarker    ("box:",       0, kJFalse);
+static const JString kObjBoxTypeMarker ("boxtype:",   0, kJFalse);
+static const JString kObjColorsMarker  ("colors:",    0, kJFalse);
+static const JString kObjLAlignMarker  ("alignment:", 0, kJFalse);
+static const JString kObjLStyleMarker  ("style:",     0, kJFalse);
+static const JString kObjLSizeMarker   ("size:",      0, kJFalse);
+static const JString kObjLColorMarker  ("lcol:",      0, kJFalse);
+static const JString kObjLabelMarker   ("label:",     0, kJFalse);
+static const JString kObjShortcutMarker("shortcut:",  0, kJFalse);
+static const JString kObjResizeMarker  ("resize:",    0, kJFalse);
+static const JString kObjGravityMarker ("gravity:",   0, kJFalse);
+static const JString kObjNameMarker    ("name:",      0, kJFalse);
+static const JString kObjCallbackMarker("callback:",  0, kJFalse);
+static const JString kObjCBArgMarker   ("argument:",  0, kJFalse);
 
 // Options for each object
 
@@ -98,8 +99,8 @@ enum
 
 struct FontSizeConversion
 {
-	const JCharacter* flSize;
-	const JCharacter* jxSize;
+	const JUtf8Byte* flSize;
+	const JUtf8Byte* jxSize;
 };
 
 static const FontSizeConversion kFontSizeTable[] =
@@ -119,8 +120,8 @@ const JSize kFontSizeTableSize = sizeof(kFontSizeTable)/sizeof(FontSizeConversio
 
 struct ColorConversion
 {
-	const JCharacter* flColor;
-	const JCharacter* jxColor;
+	const JUtf8Byte* flColor;
+	const JUtf8Byte* jxColor;
 };
 
 static const ColorConversion kColorTable[] =
@@ -157,13 +158,13 @@ JBoolean ShouldGenerateForm(const JString& form, const JPtrArray<JString>& list)
 JBoolean ShouldBackupForm(const JString& form, JPtrArray<JString>* list);
 void GenerateCode(std::istream& input, std::ostream& output, const JString& stringPath,
 				  const JString& formName, const JString& tagName,
-				  const JString& userTopEnclVarName, const JCharacter* indent,
+				  const JString& userTopEnclVarName, const JString& indent,
 				  JPtrArray<JString>* objTypes, JPtrArray<JString>* objNames);
 void GenerateHeader(std::ostream& output, const JPtrArray<JString>& objTypes,
-					const JPtrArray<JString>& objNames, const JCharacter* indent);
+					const JPtrArray<JString>& objNames, const JString& indent);
 
 JBoolean ParseGravity(const JString& gravity, JString* hSizing, JString* vSizing);
-void GetTempVarName(const JCharacter* tagName, JString* varName,
+void GetTempVarName(const JString& tagName, JString* varName,
 					const JPtrArray<JString>& objNames);
 JBoolean GetEnclosure(const JArray<JRect>& rectList, const JIndex rectIndex, JIndex* enclIndex);
 JBoolean GetConstructor(const JString& flClass, const JString& flType,
@@ -173,7 +174,7 @@ void ApplyOptions(std::ostream& output, const JString& className,
 				  const JString& formName, const JString& tagName, const JString& varName,
 				  const JPtrArray<JString>& values, const JString& flSize,
 				  const JString& flStyle, const JString& flColor,
-				  const JCharacter* indent, JStringManager* stringMgr);
+				  const JString& indent, JStringManager* stringMgr);
 JBoolean AcceptsFontSpec(const JString& className);
 JBoolean NeedsStringArg(const JString& className);
 JBoolean NeedsCreateFunction(const JString& className);
@@ -184,7 +185,7 @@ JBoolean ConvertXFormsColor(const JString& flColor, JString* jxColor);
 JBoolean CopyBeforeCodeDelimiter(const JString& tag, std::istream& input, std::ostream& output,
 								 JString* indent);
 JBoolean CopyAfterCodeDelimiter(const JString& tag, std::istream& input, std::ostream& output);
-void RemoveIdentifier(const JCharacter* id, JString* line);
+void RemoveIdentifier(const JString& id, JString* line);
 
 void GetOptions(const JSize argc, char* argv[], JString* inputName,
 				JString* codePath, JString* stringPath,
@@ -235,7 +236,7 @@ main
 
 	JBoolean changed = kJFalse;
 
-	std::ifstream input(inputName);
+	std::ifstream input(inputName.GetBytes());
 	while (!input.eof() && !input.fail())
 		{
 		const JString line = JReadLine(input);
@@ -251,40 +252,44 @@ main
 
 		// look for custom tag
 
-		const JSize formNameLength = formName.GetLength();
-		JString tagName            = kDefaultDelimTag;
+		JString tagName = kDefaultDelimTag;
 		JString enclName;
-		JIndex tagMarkerIndex;
-		if (formName.LocateSubstring(kCustomTagMarker, &tagMarkerIndex) &&
-			tagMarkerIndex <= formNameLength - kCustomTagMarkerLength)
+		JStringIterator fnIter(&formName);
+		if (fnIter.Next(kCustomTagMarker) && !fnIter.AtEnd())
 			{
-			tagName = formName.GetSubstring(
-				tagMarkerIndex + kCustomTagMarkerLength, formNameLength);
-			formName.RemoveSubstring(tagMarkerIndex, formNameLength);
+			fnIter.BeginMatch();
+			fnIter.MoveTo(kJIteratorStartAtEnd, 0);
+			tagName = fnIter.FinishMatch().GetString();
+
+			fnIter.RemoveLastMatch();
+			fnIter.Prev(kCustomTagMarker);
+			fnIter.FinishMatch();
+			fnIter.RemoveLastMatch();
 
 			// get enclosure name
 
-			const JSize tagNameLength = tagName.GetLength();
-			JIndex enclMarkerIndex;
-			if (tagName.LocateSubstring(kCustomTagMarker, &enclMarkerIndex) &&
-				enclMarkerIndex <= tagNameLength - kCustomTagMarkerLength)
+			JStringIterator tnIter(&tagName);
+			if (tnIter.Next(kCustomTagMarker) && !tnIter.AtEnd())
 				{
-				enclName = tagName.GetSubstring(
-					enclMarkerIndex + kCustomTagMarkerLength, tagNameLength);
-				tagName.RemoveSubstring(enclMarkerIndex, tagNameLength);
+				tnIter.BeginMatch();
+				tnIter.MoveTo(kJIteratorStartAtEnd, 0);
+				enclName = tnIter.FinishMatch().GetString();
+
+				tnIter.RemoveLastMatch();
+				tnIter.Prev(kCustomTagMarker);
+				tnIter.FinishMatch();
+				tnIter.RemoveLastMatch();
 				}
 
 			// report errors
 
-			if (tagName != kDefaultDelimTag)
+			if (tagName != kDefaultDelimTag && enclName.IsEmpty())
 				{
-				if (enclName.IsEmpty())
-					{
-					std::cerr << formName << ", " << tagName;
-					std::cerr << ": no enclosure specified" << std::endl;
-					}
+				std::cerr << formName << ", " << tagName;
+				std::cerr << ": no enclosure specified" << std::endl;
 				}
-			else if (!enclName.IsEmpty() && enclName != kDefTopEnclVarName)
+			else if (tagName == kDefaultDelimTag &&
+					 !enclName.IsEmpty() && enclName != kDefTopEnclVarName)
 				{
 				std::cerr << formName << ", " << tagName;
 				std::cerr << ": not allowed to specify enclosure other than ";
@@ -348,7 +353,7 @@ ShouldGenerateForm
 void
 GenerateForm
 	(
-	std::istream&			input,
+	std::istream&		input,
 	const JString&		formName,
 	const JString&		tagName,
 	const JString&		enclName,
@@ -383,7 +388,7 @@ GenerateForm
 	// copy code file contents before start delimiter
 
 	JString tempCodeFileName;
-	JError err = JCreateTempFile(codePath, NULL, &tempCodeFileName);
+	JError err = JCreateTempFile(&codePath, NULL, &tempCodeFileName);
 	if (!err.OK())
 		{
 		std::cerr << "Unable to create temporary file in " << codePath << std::endl;
@@ -393,19 +398,19 @@ GenerateForm
 
 	JString indent;
 
-	std::ifstream origCode(codeFileName);
-	std::ofstream outputCode(tempCodeFileName);
+	std::ifstream origCode(codeFileName.GetBytes());
+	std::ofstream outputCode(tempCodeFileName.GetBytes());
 	if (!outputCode.good())
 		{
 		std::cerr << "Unable to open temporary file in " << codePath << std::endl;
-		remove(tempCodeFileName);
+		JRemoveFile(tempCodeFileName);
 		return;
 		}
 	if (!CopyBeforeCodeDelimiter(tagName, origCode, outputCode, &indent))
 		{
 		std::cerr << "No starting delimiter in " << codeFileName << std::endl;
 		outputCode.close();
-		remove(tempCodeFileName);
+		JRemoveFile(tempCodeFileName);
 		return;
 		}
 
@@ -425,22 +430,22 @@ GenerateForm
 	if (!done)
 		{
 		std::cerr << "No ending delimiter in " << codeFileName << std::endl;
-		remove(tempCodeFileName);
+		JRemoveFile(tempCodeFileName);
 		return;
 		}
-	else if (shouldBackup && rename(codeFileName, codeFileBakName) != 0)
+	else if (shouldBackup && !JRenameFile(codeFileName, codeFileBakName).OK())
 		{
 		std::cerr << "Unable to rename original " << codeFileName << std::endl;
-		remove(tempCodeFileName);
+		JRemoveFile(tempCodeFileName);
 		return;
 		}
 	JEditVCS(codeFileName);
-	rename(tempCodeFileName, codeFileName);
+	JRenameFile(tempCodeFileName, codeFileName);
 
 	// copy header file contents before start delimiter
 
 	JString tempHeaderFileName;
-	err = JCreateTempFile(codePath, NULL, &tempHeaderFileName);
+	err = JCreateTempFile(&codePath, NULL, &tempHeaderFileName);
 	if (!err.OK())
 		{
 		std::cerr << "Unable to create temporary file in " << codePath << std::endl;
@@ -448,19 +453,19 @@ GenerateForm
 		return;
 		}
 
-	std::ifstream origHeader(headerFileName);
-	std::ofstream outputHeader(tempHeaderFileName);
+	std::ifstream origHeader(headerFileName.GetBytes());
+	std::ofstream outputHeader(tempHeaderFileName.GetBytes());
 	if (!outputHeader.good())
 		{
 		std::cerr << "Unable to open temporary file in " << codePath << std::endl;
-		remove(tempHeaderFileName);
+		JRemoveFile(tempHeaderFileName);
 		return;
 		}
 	if (!CopyBeforeCodeDelimiter(tagName, origHeader, outputHeader, &indent))
 		{
 		std::cerr << "No starting delimiter in " << headerFileName << std::endl;
 		outputHeader.close();
-		remove(tempHeaderFileName);
+		JRemoveFile(tempHeaderFileName);
 		return;
 		}
 
@@ -477,7 +482,7 @@ GenerateForm
 	if (!done)
 		{
 		std::cerr << "No ending delimiter in " << headerFileName << std::endl;
-		remove(tempHeaderFileName);
+		JRemoveFile(tempHeaderFileName);
 		return;
 		}
 
@@ -488,18 +493,18 @@ GenerateForm
 	JReadFile(tempHeaderFileName, &newHeaderText);
 	if (newHeaderText != origHeaderText)
 		{
-		if (shouldBackup && rename(headerFileName, headerFileBakName) != 0)
+		if (shouldBackup && !JRenameFile(headerFileName, headerFileBakName).OK())
 			{
 			std::cerr << "Unable to rename original " << headerFileName << std::endl;
-			remove(tempHeaderFileName);
+			JRemoveFile(tempHeaderFileName);
 			return;
 			}
 		JEditVCS(headerFileName);
-		rename(tempHeaderFileName, headerFileName);
+		JRenameFile(tempHeaderFileName, headerFileName);
 		}
 	else
 		{
-		remove(tempHeaderFileName);
+		JRemoveFile(tempHeaderFileName);
 		}
 }
 
@@ -545,13 +550,13 @@ ShouldBackupForm
 void
 GenerateCode
 	(
-	std::istream&			input,
-	std::ostream&			output,
+	std::istream&		input,
+	std::ostream&		output,
 	const JString&		stringPath,
 	const JString&		formName,
 	const JString&		tagName,
 	const JString&		userTopEnclVarName,
-	const JCharacter*	indent,
+	const JString&		indent,
 	JPtrArray<JString>*	objTypes,
 	JPtrArray<JString>*	objNames
 	)
@@ -733,18 +738,20 @@ JIndex i;
 			GetTempVarName(tagName, varName, *objNames);
 			isLocal = kJTrue;
 			}
-		else if (varName->GetFirstCharacter() == '(' &&
-				 varName->GetLastCharacter()  == ')')
+		else if ((varName->GetFirstCharacter() == '(' &&
+				  varName->GetLastCharacter()  == ')') ||
+				 (varName->GetFirstCharacter() == '<' &&
+				  varName->GetLastCharacter()  == '>'))
 			{
 			isInstanceVar.AppendElement(kJFalse);
-			isLocal  = kJTrue;
-			*varName = varName->GetSubstring(2, varName->GetLength()-1);
-			}
-		else if (varName->GetFirstCharacter() == '<' &&
-				 varName->GetLastCharacter()  == '>')
-			{
-			isInstanceVar.AppendElement(kJFalse);
-			*varName = varName->GetSubstring(2, varName->GetLength()-1);
+			isLocal = JI2B( varName->GetFirstCharacter() == '(' );
+
+			JStringIterator iter(varName);
+			iter.SkipNext();
+			iter.RemoveAllPrev();
+			iter.MoveTo(kJIteratorStartAtEnd, 0);
+			iter.SkipPrev();
+			iter.RemoveAllNext();
 			}
 		else
 			{
@@ -938,7 +945,7 @@ JIndex i;
 	if (stringMgr.GetElementCount() > 0)
 		{
 		JEditVCS(dbFileName);
-		std::ofstream dbOutput(dbFileName);
+		std::ofstream dbOutput(dbFileName.GetBytes());
 		stringMgr.WriteFile(dbOutput);
 		}
 	else
@@ -985,10 +992,10 @@ JIndex i;
 void
 GenerateHeader
 	(
-	std::ostream&					output,
+	std::ostream&				output,
 	const JPtrArray<JString>&	objTypes,
 	const JPtrArray<JString>&	objNames,
-	const JCharacter*			indent
+	const JString&				indent
 	)
 {
 	JIndex i;
@@ -1001,7 +1008,7 @@ GenerateHeader
 	for (i=1; i<=count; i++)
 		{
 		const JString* type = objTypes.GetElement(i);
-		const JSize len     = type->GetLength();
+		const JSize len     = type->GetCharacterCount();
 		if (len > maxLen)
 			{
 			maxLen = len;
@@ -1016,7 +1023,7 @@ GenerateHeader
 		const JString* type = objTypes.GetElement(i);
 		type->Print(output);
 		output << '*';
-		const JSize len = type->GetLength();
+		const JSize len = type->GetCharacterCount();
 		for (JIndex j=len+1; j<=maxLen+1; j++)
 			{
 			output << ' ';
@@ -1038,7 +1045,7 @@ GenerateHeader
 
  ******************************************************************************/
 
-static const JCharacter* kGravityMap[] =
+static const JUtf8Byte* kGravityMap[] =
 {
 	"FL_NoGravity", "kHElastic",   "kVElastic",
 	"FL_North",     "kHElastic",   "kFixedTop",
@@ -1051,7 +1058,7 @@ static const JCharacter* kGravityMap[] =
 	"FL_NorthWest", "kFixedLeft",  "kFixedTop"
 };
 
-const JSize kGravityCount = sizeof(kGravityMap) / (3*sizeof(JCharacter*));
+const JSize kGravityCount = sizeof(kGravityMap) / (3*sizeof(JUtf8Byte*));
 
 JBoolean
 ParseGravity
@@ -1091,21 +1098,21 @@ static const JRegex illegalCChar = "[^_A-Za-z0-9]+";
 void
 GetTempVarName
 	(
-	const JCharacter*			tagName,
+	const JString&				tagName,
 	JString*					varName,
 	const JPtrArray<JString>&	objNames
 	)
 {
 	JString suffix = tagName;
-	JIndexRange r;
-	while (illegalCChar.Match(suffix, &r))
+	JStringIterator iter(&suffix);
+	while (iter.Next(illegalCChar))
 		{
-		suffix.RemoveSubstring(r);
+		iter.RemoveLastMatch();
 		}
-	suffix.PrependCharacter('_');
+	suffix.Prepend("_");
 
-	const JString prefix = "obj";
-	const JSize count    = objNames.GetElementCount();
+	const JString prefix("obj", 0, kJFalse);
+	const JSize count = objNames.GetElementCount();
 	for (JIndex i=1; i<=INT_MAX; i++)
 		{
 		*varName = prefix + JString(i) + suffix;
@@ -1193,7 +1200,7 @@ GetConstructor
 		return ok;
 		}
 
-	std::ifstream classMap(classMapFile);
+	std::ifstream classMap(classMapFile.GetBytes());
 	classMap >> std::ws;
 	while (1)
 		{
@@ -1243,18 +1250,22 @@ SplitClassNameAndArgs
 	JString*		args
 	)
 {
-	JIndex i;
-	const JBoolean hasArgs = str.LocateSubstring("(", &i);
-	if (hasArgs && 1 < i && i < str.GetLength())
+	JPtrArray<JString> list(JPtrArrayT::kDeleteAll);
+	str.Split("(", &list, 2);
+
+	const JBoolean hasArgs = JI2B( list.GetElementCount() > 1 );
+	if (hasArgs &&
+		!list.GetFirstElement()->IsEmpty() &&
+		!list.GetLastElement()->IsEmpty())
 		{
-		*name = str.GetSubstring(1, i-1);
-		*args = str.GetSubstring(i+1, str.GetLength());
+		*name = *(list.GetFirstElement());
+		*args = *(list.GetLastElement());
 
 		name->TrimWhitespace();
 		args->TrimWhitespace();
 		return kJTrue;
 		}
-	else if (hasArgs && i == 1)
+	else if (hasArgs && list.GetFirstElement()->IsEmpty())
 		{
 		std::cerr << "No class name in " << str << std::endl;
 		name->Clear();
@@ -1265,7 +1276,7 @@ SplitClassNameAndArgs
 		{
 		if (hasArgs)
 			{
-			*name = str.GetSubstring(1, i-1);
+			*name = *(list.GetFirstElement());
 			}
 		else
 			{
@@ -1288,7 +1299,7 @@ SplitClassNameAndArgs
 void
 ApplyOptions
 	(
-	std::ostream&					output,
+	std::ostream&				output,
 	const JString&				className,
 	const JString&				formName,
 	const JString&				tagName,
@@ -1297,11 +1308,11 @@ ApplyOptions
 	const JString&				flSize,
 	const JString&				flStyle,
 	const JString&				flColor,
-	const JCharacter*			indent,
+	const JString&				indent,
 	JStringManager*				stringMgr
 	)
 {
-	std::ifstream optionMap(optionMapFile);
+	std::ifstream optionMap(optionMapFile.GetBytes());
 	optionMap >> std::ws;
 	while (1)
 		{
@@ -1554,7 +1565,7 @@ FindClassName
 	const JString& className
 	)
 {
-	std::ifstream list(fileName);
+	std::ifstream list(fileName.GetBytes());
 	list >> std::ws;
 	while (!list.eof() && !list.fail())
 		{
@@ -1635,8 +1646,8 @@ JBoolean
 CopyBeforeCodeDelimiter
 	(
 	const JString&	tag,
-	std::istream&		input,
-	std::ostream&		output,
+	std::istream&	input,
+	std::ostream&	output,
 	JString*		indent
 	)
 {
@@ -1677,8 +1688,8 @@ JBoolean
 CopyAfterCodeDelimiter
 	(
 	const JString&	tag,
-	std::istream&		input,
-	std::ostream&		output
+	std::istream&	input,
+	std::ostream&	output
 	)
 {
 	const JString delim = kEndCodeDelimiterPrefix + tag;
@@ -1730,16 +1741,16 @@ CopyAfterCodeDelimiter
 void
 RemoveIdentifier
 	(
-	const JCharacter*	id,
-	JString*			line
+	const JString&	id,
+	JString*		line
 	)
 {
-	const JSize lineLength = line->GetLength();
-	const JSize idLength   = strlen(id);
-	assert( lineLength >= idLength && line->GetSubstring(1,idLength) == id );
+	assert( line->BeginsWith(id) );
 
-	line->RemoveSubstring(1,idLength);
-	line->TrimWhitespace();
+	JStringIterator iter(line);
+	iter.Next(id);
+	iter.RemoveAllPrev();
+	line->TrimWhitespace();	// invalidates iter
 }
 
 /******************************************************************************
@@ -1839,7 +1850,6 @@ GetOptions
 		else if (inputName->IsEmpty())
 			{
 			*inputName = argv[index];
-			const JSize length = inputName->GetLength();
 			if (!inputName->EndsWith(".fd"))
 				{
 				std::cerr << argv[0] << ": not an fdesign (.fd) file: " << argv[index] << std::endl;
@@ -1849,7 +1859,7 @@ GetOptions
 
 		else
 			{
-			JString* userForm = jnew JString(argv[index]);
+			JString* userForm = jnew JString(argv[index], 0);
 			assert( userForm != NULL );
 			userFormList->Append(userForm);
 			}
@@ -1906,7 +1916,7 @@ PickForms
 	JSize count = 0;
 	std::cout << std::endl;
 
-	std::ifstream input(fileName);
+	std::ifstream input(fileName.GetBytes());
 	while (!input.eof() && !input.fail())
 		{
 		const JString line = JReadLine(input);
@@ -1948,10 +1958,11 @@ PickForms
 			JString* formName = jnew JString(*(all.GetElement(choice)));
 			assert( formName != NULL );
 
-			JIndex tagIndex;
-			if (formName->LocateSubstring(kCustomTagMarker, &tagIndex))
+			JStringIterator iter(formName);
+			if (iter.Next(kCustomTagMarker))
 				{
-				formName->RemoveSubstring(tagIndex, formName->GetLength());
+				iter.SkipPrev(kCustomTagMarker.GetCharacterCount());
+				iter.RemoveAllNext();
 				}
 
 			list->Append(formName);
@@ -1984,10 +1995,10 @@ FindConfigFile
 		return kJTrue;
 		}
 
-	char* envStr = getenv(kEnvUserConfigFileDir);
+	char* envStr = getenv(kEnvUserConfigFileDir.GetBytes());
 	if (envStr != NULL && envStr[0] != '\0')
 		{
-		JString otherFileName = JCombinePathAndName(envStr, *configFileName);
+		JString otherFileName = JCombinePathAndName(JString(envStr, 0, kJFalse), *configFileName);
 		if (JFileExists(otherFileName))
 			{
 			*configFileName = otherFileName;

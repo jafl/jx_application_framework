@@ -11,7 +11,6 @@ JXDIR    := ${JX_ROOT}/include/jx
 
 JLIBDIR     := ${JX_ROOT}/lib
 JCORELIBDIR := ${JX_ROOT}/libjcore
-JXLIBDIR    := ${JX_ROOT}/libjx
 
 # Directories to search for header files
 
@@ -39,13 +38,12 @@ DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} \
                -DCONFIG_FILE_DIR=\"${ROOT_DATA_FILE_DIR}/\" \
                ${J_COMPILE_DEBUG} ${SEARCHDIRS}
 
-TOUCHPATHS := ${JCORELIBDIR} ${JXLIBDIR}
+TOUCHPATHS := ${JCORELIBDIR}
 
 # library dependencies
 
 ifndef J_BUILD_SHARED_LIB
-  LIB_DEPS := ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a \
-              ${JLIBDIR}/libjx-${JX_LIB_VERSION}.a
+  LIB_DEPS := ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
 endif
 
 # make variables
@@ -95,7 +93,7 @@ jxuninstall:
 
 DEBUG_LOADLIBES := -L${JLIBDIR} \
                    ${J_BEGIN_LINK_STATIC} \
-                   ${ljx} ${ljcore} ${J_ACE_LIBS} \
+                   ${ljcore} ${J_ACE_LIBS} \
                    ${J_END_LINK_STATIC} \
                    ${J_IMG_LIBS} ${J_GCC_LIBS}
 
