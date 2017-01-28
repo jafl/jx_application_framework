@@ -33,11 +33,11 @@ JAnalyzeWhitespace
 	JSize spaceLines = 0, tinySpaceLines = 0, tabLines = 0;
 
 	JStringIterator iter(buffer);
+	JUtf8Character c;
 	do
 		{
 		JSize spaceCount = 0, tailSpaceCount = 0;
 		JBoolean tabs = kJFalse;
-		JUtf8Character c;
 		while (iter.Next(&c))
 			{
 			if (c == ' ')
@@ -85,7 +85,7 @@ JAnalyzeWhitespace
 			spaceLines++;
 			}
 		}
-		while (iter.Next("\n") && !iter.AtEnd());
+		while ((c == "\n" || iter.Next("\n")) && !iter.AtEnd());
 
 	if (tabLines > 0)
 		{

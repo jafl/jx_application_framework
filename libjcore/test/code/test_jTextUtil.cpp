@@ -84,4 +84,9 @@ JTEST(AnalyzeWhitespace)
 	JAnalyzeWhitespace(buffer, 4, kJTrue, &useSpaces, &isMixed);
 	JAssertFalse(useSpaces);
 	JAssertTrue(isMixed);
+
+	buffer = "abc\n foobar\n\n\txyz\n\nxyz\n";
+	JAnalyzeWhitespace(buffer, 4, kJFalse, &useSpaces, &isMixed);
+	JAssertFalse(useSpaces);
+	JAssertFalse(isMixed);
 }

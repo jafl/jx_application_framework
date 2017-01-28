@@ -30,10 +30,15 @@
 JError
 JRenameFile
 	(
-	const JString& oldName,
-	const JString& newName
+	const JString&	oldName,
+	const JString&	newName,
+	const JBoolean	forceReplace
 	)
 {
+	if (forceReplace)
+		{
+		JRemoveFile(newName);	// ignore errors
+		}
 	return JRenameDirEntry(oldName, newName);
 }
 

@@ -159,10 +159,10 @@ JBoolean ShouldGenerateForm(const JString& form, const JPtrArray<JString>& list)
 JBoolean ShouldBackupForm(const JString& form, JPtrArray<JString>* list);
 void GenerateCode(std::istream& input, std::ostream& output, const JString& stringPath,
 				  const JString& formName, const JString& tagName,
-				  const JString& userTopEnclVarName, const JString& indent,
+				  const JString& userTopEnclVarName, const JUtf8Byte* indent,
 				  JPtrArray<JString>* objTypes, JPtrArray<JString>* objNames);
 void GenerateHeader(std::ostream& output, const JPtrArray<JString>& objTypes,
-					const JPtrArray<JString>& objNames, const JString& indent);
+					const JPtrArray<JString>& objNames, const JUtf8Byte* indent);
 
 JBoolean ParseGravity(const JString& gravity, JString* hSizing, JString* vSizing);
 void GetTempVarName(const JString& tagName, JString* varName,
@@ -175,7 +175,7 @@ void ApplyOptions(std::ostream& output, const JString& className,
 				  const JString& formName, const JString& tagName, const JString& varName,
 				  const JPtrArray<JString>& values, const JString& flSize,
 				  const JString& flStyle, const JString& flColor,
-				  const JString& indent, JStringManager* stringMgr);
+				  const JUtf8Byte* indent, JStringManager* stringMgr);
 JBoolean AcceptsFontSpec(const JString& className);
 JBoolean NeedsStringArg(const JString& className);
 JBoolean NeedsCreateFunction(const JString& className);
@@ -258,13 +258,12 @@ main
 		JStringIterator fnIter(&formName);
 		if (fnIter.Next(kCustomTagMarker) && !fnIter.AtEnd())
 			{
+			fnIter.RemoveLastMatch();
+
 			fnIter.BeginMatch();
 			fnIter.MoveTo(kJIteratorStartAtEnd, 0);
 			tagName = fnIter.FinishMatch().GetString();
 
-			fnIter.RemoveLastMatch();
-			fnIter.Prev(kCustomTagMarker);
-			fnIter.FinishMatch();
 			fnIter.RemoveLastMatch();
 
 			// get enclosure name
@@ -272,13 +271,12 @@ main
 			JStringIterator tnIter(&tagName);
 			if (tnIter.Next(kCustomTagMarker) && !tnIter.AtEnd())
 				{
+				tnIter.RemoveLastMatch();
+
 				tnIter.BeginMatch();
 				tnIter.MoveTo(kJIteratorStartAtEnd, 0);
 				enclName = tnIter.FinishMatch().GetString();
 
-				tnIter.RemoveLastMatch();
-				tnIter.Prev(kCustomTagMarker);
-				tnIter.FinishMatch();
 				tnIter.RemoveLastMatch();
 				}
 
@@ -420,7 +418,7 @@ GenerateForm
 	JPtrArray<JString> objTypes(JPtrArrayT::kDeleteAll),
 					   objNames(JPtrArrayT::kDeleteAll);
 	GenerateCode(input, outputCode, stringPath, formName, tagName, enclName,
-				 indent, &objTypes, &objNames);
+				 indent.GetBytes(), &objTypes, &objNames);
 
 	// copy code file contents after end delimiter
 
@@ -434,14 +432,14 @@ GenerateForm
 		JRemoveFile(tempCodeFileName);
 		return;
 		}
-	else if (shouldBackup && !JRenameFile(codeFileName, codeFileBakName).OK())
+	else if (shouldBackup && !JRenameFile(codeFileName, codeFileBakName, kJTrue).OK())
 		{
 		std::cerr << "Unable to rename original " << codeFileName << std::endl;
 		JRemoveFile(tempCodeFileName);
 		return;
 		}
 	JEditVCS(codeFileName);
-	JRenameFile(tempCodeFileName, codeFileName);
+	JRenameFile(tempCodeFileName, codeFileName, kJTrue);
 
 	// copy header file contents before start delimiter
 
@@ -472,7 +470,7 @@ GenerateForm
 
 	// generate instance variable for each object in the form
 
-	GenerateHeader(outputHeader, objTypes, objNames, indent);
+	GenerateHeader(outputHeader, objTypes, objNames, indent.GetBytes());
 
 	// copy header file contents after end delimiter
 
@@ -494,14 +492,14 @@ GenerateForm
 	JReadFile(tempHeaderFileName, &newHeaderText);
 	if (newHeaderText != origHeaderText)
 		{
-		if (shouldBackup && !JRenameFile(headerFileName, headerFileBakName).OK())
+		if (shouldBackup && !JRenameFile(headerFileName, headerFileBakName, kJTrue).OK())
 			{
 			std::cerr << "Unable to rename original " << headerFileName << std::endl;
 			JRemoveFile(tempHeaderFileName);
 			return;
 			}
 		JEditVCS(headerFileName);
-		JRenameFile(tempHeaderFileName, headerFileName);
+		JRenameFile(tempHeaderFileName, headerFileName, kJTrue);
 		}
 	else
 		{
@@ -557,7 +555,7 @@ GenerateCode
 	const JString&		formName,
 	const JString&		tagName,
 	const JString&		userTopEnclVarName,
-	const JString&		indent,
+	const JUtf8Byte*	indent,
 	JPtrArray<JString>*	objTypes,
 	JPtrArray<JString>*	objNames
 	)
@@ -996,7 +994,7 @@ GenerateHeader
 	std::ostream&				output,
 	const JPtrArray<JString>&	objTypes,
 	const JPtrArray<JString>&	objNames,
-	const JString&				indent
+	const JUtf8Byte*			indent
 	)
 {
 	JIndex i;
@@ -1309,7 +1307,7 @@ ApplyOptions
 	const JString&				flSize,
 	const JString&				flStyle,
 	const JString&				flColor,
-	const JString&				indent,
+	const JUtf8Byte*			indent,
 	JStringManager*				stringMgr
 	)
 {

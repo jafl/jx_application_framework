@@ -417,7 +417,7 @@ JStringManager::WriteFile
 	JStringPtrMapCursor<JString> cursor(const_cast<JStringManager*>(this));
 	while (cursor.Next())
 		{
-		output << cursor.GetKey();
+		cursor.GetKey().Print(output);
 		output << ' ' << *(cursor.GetValue()) << std::endl;
 		}
 }

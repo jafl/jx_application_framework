@@ -26,7 +26,8 @@ JBoolean	JFileExecutable(const JString& fileName);
 JError		JGetFileLength(const JString& name, JSize* size);
 JString		JPrintFileSize(const JSize size);
 
-JError		JRenameFile(const JString& oldName, const JString& newName);
+JError		JRenameFile(const JString& oldName, const JString& newName,
+						const JBoolean forceReplace = kJFalse);
 JError		JRemoveFile(const JString& fileName);
 JBoolean	JKillFile(const JString& fileName);
 

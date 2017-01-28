@@ -122,6 +122,7 @@ JTEST(Files)
 		fileList.Append(fileName);
 		}
 
+	JAssertOK(JRenameFile(*(fileList.GetFirstElement()), *(fileList.GetLastElement()), kJTrue));
 	JAssertTrue(JKillDirectory(JString("/tmp/junk", 0, kJFalse)));
 }
 
