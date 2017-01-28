@@ -98,6 +98,10 @@ T
 2 "JStringManager.cpp"
 F
 "./code/JStringManager.cpp"
+T
+2 "jTextUtil.cpp"
+F
+"./code/jTextUtil.cpp"
 F
 T
 1 "math"

@@ -25,6 +25,7 @@
 .cpp ./code/JSubstitute
 .cpp ./code/JInterpolate
 .cpp ./code/JStringManager
+.cpp ./code/jTextUtil
 .cpp ./code/jMath
 .cpp ./code/JComplex
 .cpp ./code/JVector

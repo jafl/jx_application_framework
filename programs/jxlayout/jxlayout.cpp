@@ -3,7 +3,7 @@
 
 	Program to generate JX code from an fdesign .fd file.
 
-	Copyright (C) 1996-2011 by John Lindal. All rights reserved.
+	Copyright (C) 1996-2017 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 
@@ -14,6 +14,7 @@
 #include <JRegex.h>
 #include <JTextEditor.h>
 #include <JPtrArray-JString.h>
+#include <jTextUtil.h>
 #include <jFStreamUtil.h>
 #include <jStreamUtil.h>
 #include <jFileUtil.h>
@@ -31,9 +32,9 @@
 
 static const JUtf8Byte* kVersionStr =
 
-	"jxlayout 4.0.0\n"
+	"jxlayout 4.0.1\n"
 	"\n"
-	"Copyright (C) 1996-2016 John Lindal.  All rights reserved.";
+	"Copyright (C) 1996-2017 John Lindal.  All rights reserved.";
 
 static const JUtf8Byte* kBackupSuffix = "~";
 
@@ -1669,9 +1670,8 @@ CopyBeforeCodeDelimiter
 		buffer += "\n";
 		}
 
-	JBoolean useSpaces, showWhitespace;
-	JTextEditor::AnalyzeWhitespace(buffer, 4, kJFalse,
-								   &useSpaces, &showWhitespace);
+	JBoolean useSpaces, isMixed;
+	JAnalyzeWhitespace(buffer, 4, kJFalse, &useSpaces, &isMixed);
 	*indent = useSpaces ? "    " : "\t";
 
 	return JI2B( !input.eof() && !input.fail() );

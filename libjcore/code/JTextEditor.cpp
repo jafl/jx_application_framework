@@ -161,6 +161,7 @@
 #include <JRegex.h>
 #include <JLatentPG.h>
 #include <JMinMax.h>
+#include <jTextUtil.h>
 #include <jASCIIConstants.h>
 #include <jFStreamUtil.h>
 #include <jStreamUtil.h>
@@ -5043,108 +5044,12 @@ JTextEditor::AnalyzeWhitespace
 	const JSize tabWidth
 	)
 {
-	JBoolean useSpaces, showWhitespace;
-	AnalyzeWhitespace(*itsBuffer, tabWidth, itsTabToSpacesFlag,
-					  &useSpaces, &showWhitespace);
+	JBoolean useSpaces, isMixed;
+	JAnalyzeWhitespace(*itsBuffer, tabWidth, itsTabToSpacesFlag,
+					   &useSpaces, &isMixed);
 
 	TabShouldInsertSpaces(useSpaces);
-	ShouldShowWhitespace(showWhitespace);
-}
-
-// static
-
-void
-JTextEditor::AnalyzeWhitespace
-	(
-	const JString&	buffer,
-	const JSize		tabWidth,
-	const JBoolean	defaultUseSpaces,
-	JBoolean*		useSpaces,
-	JBoolean*		showWhitespace
-	)
-{
-	assert( tabWidth > 0 );
-
-	*showWhitespace = kJFalse;
-
-	JSize spaceLines = 0, tinySpaceLines = 0, tabLines = 0;
-
-	JIndex i = 0;
-	do
-		{
-		i++;	// start at 1; move past newline
-
-		JSize spaceCount = 0, tailSpaceCount = 0;
-		JBoolean tabs = kJFalse;
-		while (buffer.IndexValid(i))
-			{
-			const JCharacter c = buffer.GetCharacter(i);
-			if (c == ' ')
-				{
-				spaceCount++;
-				tailSpaceCount++;
-				}
-			else if (c == '\t')
-				{
-				tabs           = kJTrue;
-				tailSpaceCount = 0;
-				}
-			else
-				{
-				break;
-				}
-
-			i++;
-			}
-
-		if (spaceCount == tailSpaceCount && tailSpaceCount < tabWidth)
-			{
-			if (tabs)
-				{
-				tabLines++;
-				}
-			else if (spaceCount > 0)
-				{
-				tinySpaceLines++;
-				}
-			}
-		else if (spaceCount > 0 && tabs)
-			{
-			*showWhitespace = kJTrue;
-
-			if (defaultUseSpaces)
-				{
-				spaceLines++;
-				}
-			else
-				{
-				tabLines++;
-				}
-			}
-		else if (spaceCount > 0)
-			{
-			spaceLines++;
-			}
-		}
-		while (buffer.LocateNextSubstring("\n", &i) && i < buffer.GetLength());
-
-	if (tabLines > 0)
-		{
-		tabLines += tinySpaceLines;
-		}
-	else
-		{
-		spaceLines += tinySpaceLines;
-		}
-
-	if (tabLines > 0 && spaceLines > 0)
-		{
-		*showWhitespace = kJTrue;
-		}
-
-	*useSpaces = JI2B(spaceLines > tabLines);
-
-//	std::cout << "space: " << spaceLines << ", tab: " << tabLines << std::endl;
+	ShouldShowWhitespace(isMixed);
 }
 
 /******************************************************************************
