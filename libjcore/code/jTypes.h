@@ -21,6 +21,7 @@
 	// general types
 
 typedef char								JCharacter;
+typedef char								JUtf8Byte;	// for transition
 
 const JCharacter kJCharacterMin				= CHAR_MIN;
 const JCharacter kJCharacterMax				= (JCharacter) CHAR_MAX;	// cast required for VCPP

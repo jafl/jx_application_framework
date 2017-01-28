@@ -66,6 +66,7 @@ JXApplication::JXApplication
 	JXDirector(NULL),
 	itsIgnoreDisplayDeletedFlag(kJFalse),
 	itsIgnoreTaskDeletedFlag(kJFalse),
+	itsRunningUrgentTasks(NULL),
 	itsSignature(appSignature),
 	itsRestartCmd(argv[0])
 {
@@ -1070,6 +1071,11 @@ JXApplication::RemoveUrgentTask
 	if (!itsIgnoreTaskDeletedFlag)
 		{
 		itsUrgentTasks->Remove(task);
+
+		if (itsRunningUrgentTasks != NULL)
+			{
+			itsRunningUrgentTasks->Remove(task);
+			}
 		}
 }
 
@@ -1088,13 +1094,19 @@ JXApplication::PerformUrgentTasks()
 		JPtrArray<JXUrgentTask> taskList(*itsUrgentTasks, JPtrArrayT::kDeleteAll);
 		itsUrgentTasks->RemoveAll();
 
-		// perform each task
+		itsRunningUrgentTasks = &taskList;
 
-		const JSize count = taskList.GetElementCount();
-		for (JIndex i=1; i<=count; i++)
+		// perform each task - use iterator because task might be deleted
+
+		JOrderedSetIterator<JXUrgentTask*>* iter = taskList.NewIterator();
+		JXUrgentTask* task;
+		while (iter->Next(&task))
 			{
-			(taskList.NthElement(i))->Perform();
+			task->Perform();
 			}
+
+		jdelete iter;
+		itsRunningUrgentTasks = NULL;
 		}
 
 	JXDisplay::CheckForXErrors();
