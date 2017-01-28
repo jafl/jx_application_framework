@@ -1692,7 +1692,7 @@ PrintDependencies
 			}
 		else
 			{
-			output << makeName;
+			makeName.Print(output);
 			}
 
 		output << ':';
