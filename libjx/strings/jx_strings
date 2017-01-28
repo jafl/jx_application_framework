@@ -2,6 +2,10 @@
 
 # Copyright (C) 2000 by John Lindal. All rights reserved.
 
+# JXApplication
+
+DisplayConnectError	"Unable to connect to $name"
+
 # JXTEBase
 
 NoData::JXTEBase					"The X Clipboard is empty."
@@ -247,3 +251,47 @@ NameUsed::JXGetNewDirDialog			"This name is in use."
 
 NewDirWindowTitle::JXCSFDialogBase	"Create Directory"
 NewDirPrompt::JXCSFDialogBase		"Name of new directory:"
+OpenLabel::JXCSFDialogBase			"Open"
+GoToLabel::JXCSFDialogBase			"Go"
+SetLabel::JXCSFDialogBase			"Set"
+NoAccessUp::JXCSFDialogBase			"You don't have access to the enclosing directory."
+NoHomeDir::JXCSFDialogBase			"Unable to find your home directory."
+DirExists::JXCSFDialogBase			"That directory already exists."
+DirNotWritable::JXCSFDialogBase		"You do not have write access to this directory."
+CannotCreateDir::JXCSFDialogBase	"Unable to create the directory."
+DesktopName::JXCSFDialogBase		"Desktop"
+
+UpShortcut::JXCSFDialogBase			"#U"
+HomeShortcut::JXCSFDialogBase		"#H"
+DesktopShortcut::JXCSFDialogBase	"#D"
+NewDirShortcut::JXCSFDialogBase		"#N"
+ShowHiddenShortcut::JXCSFDialogBase	"#S"
+
+# JXChooseFileDialog
+
+ChooseFileTitle::JXChooseFileDialog		"Choose file"
+ChooseFilesTitle::JXChooseFileDialog	"Choose files"
+CancelShortcut::JXChooseFileDialog		"^["
+
+# JXMessageDialog
+
+WindowTitle::JXMessageDialog	"Message"
+
+# JXWarningDialog
+
+WindowTitle::JXWarningDialog	"Warning"
+NoShortcuts::JXWarningDialog	"#N"
+
+# JXErrorDialog
+
+WindowTitle::JXErrorDialog	"Error"
+
+# JXOKToCloseDialog
+
+WindowTitle::JXOKToCloseDialog	"Warning"
+
+# JXStringCompletionMenu
+
+TruncationMarker::JXStringCompletionMenu	"etc."
+InsertTabText::JXStringCompletionMenu		"` - tab character"
+InsertTabShortcut::JXStringCompletionMenu	"`"

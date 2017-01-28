@@ -80,7 +80,7 @@ TestStrTableDirector::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 400,330, JString::empty);
+	JXWindow* window = jnew JXWindow(this, 400,330, "");
 	assert( window != NULL );
 
 	JXMenuBar* menuBar =

@@ -47,7 +47,7 @@ AboutDialog::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 100,100, JString::empty);
+	JXWindow* window = jnew JXWindow(this, 100,100, "");
 	assert( window != NULL );
 
 	JXTextButton* okButton =

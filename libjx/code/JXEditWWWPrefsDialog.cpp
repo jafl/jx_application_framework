@@ -60,7 +60,7 @@ JXEditWWWPrefsDialog::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 520,290, JString::empty);
+	JXWindow* window = jnew JXWindow(this, 520,290, "");
 	assert( window != NULL );
 
 	itsShowURLCmdInput =

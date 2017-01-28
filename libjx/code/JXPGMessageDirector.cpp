@@ -55,7 +55,7 @@ JXPGMessageDirector::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 500,210, JString::empty);
+	JXWindow* window = jnew JXWindow(this, 500,210, "");
 	assert( window != NULL );
 
 	JXScrollbarSet* scrollbarSet =

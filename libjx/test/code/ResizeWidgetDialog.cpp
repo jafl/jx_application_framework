@@ -53,7 +53,7 @@ ResizeWidgetDialog::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 160,120, JString::empty);
+	JXWindow* window = jnew JXWindow(this, 160,120, "");
 	assert( window != NULL );
 
 	JXTextButton* cancelButton =

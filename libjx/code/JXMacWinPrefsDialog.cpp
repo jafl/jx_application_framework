@@ -61,7 +61,7 @@ JXMacWinPrefsDialog::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 350,230, JString::empty);
+	JXWindow* window = jnew JXWindow(this, 350,230, "");
 	assert( window != NULL );
 
 	JXTextButton* okButton =

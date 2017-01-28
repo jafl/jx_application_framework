@@ -97,7 +97,7 @@ JXPSPrintSetupDialog::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 370,250, JString::empty);
+	JXWindow* window = jnew JXWindow(this, 370,250, "");
 	assert( window != NULL );
 
 	itsPrintCmdLabel =

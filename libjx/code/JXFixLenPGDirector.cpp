@@ -59,7 +59,7 @@ JXFixLenPGDirector::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 270,80, JString::empty);
+	JXWindow* window = jnew JXWindow(this, 270,80, "");
 	assert( window != NULL );
 
 	JXTextButton* cancelButton =

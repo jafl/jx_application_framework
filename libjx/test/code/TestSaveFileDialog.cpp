@@ -103,7 +103,7 @@ TestSaveFileDialog::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 310,390, JString::empty);
+	JXWindow* window = jnew JXWindow(this, 310,390, "");
 	assert( window != NULL );
 
 	JXScrollbarSet* scrollbarSet =
@@ -192,12 +192,12 @@ TestSaveFileDialog::BuildWindow
 	assert( obj4_JXLayout != NULL );
 
 	JXPathHistoryMenu* pathHistory =
-		jnew JXPathHistoryMenu(1, JString::empty, window,
+		jnew JXPathHistoryMenu(1, "", window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 260,20, 30,20);
 	assert( pathHistory != NULL );
 
 	JXStringHistoryMenu* filterHistory =
-		jnew JXStringHistoryMenu(1, JString::empty, window,
+		jnew JXStringHistoryMenu(1, "", window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 260,50, 30,20);
 	assert( filterHistory != NULL );
 

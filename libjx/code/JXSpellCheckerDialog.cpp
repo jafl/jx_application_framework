@@ -125,7 +125,7 @@ JXSpellCheckerDialog::BuildWindow()
 
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 530,270, JString::empty);
+	JXWindow* window = jnew JXWindow(this, 530,270, "");
 	assert( window != NULL );
 
 	JXStaticText* obj1_JXLayout =

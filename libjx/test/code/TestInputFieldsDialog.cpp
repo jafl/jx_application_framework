@@ -52,7 +52,7 @@ TestInputFieldsDialog::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 620,180, JString::empty);
+	JXWindow* window = jnew JXWindow(this, 620,180, "");
 	assert( window != NULL );
 
 	JXTextButton* cancelButton =
