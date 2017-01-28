@@ -1,12 +1,12 @@
 /******************************************************************************
- jXMLUtils.h
+ jXMLUtil.h
 
    Copyright (C) 2009 by John Lindal. All rights reserved.
 
  *****************************************************************************/
 
-#ifndef _H_jXMLUtils
-#define _H_jXMLUtils
+#ifndef _H_jXMLUtil
+#define _H_jXMLUtil
 
 #include "JString.h"
 #include <libxml/tree.h>

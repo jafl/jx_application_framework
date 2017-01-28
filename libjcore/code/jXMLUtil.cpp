@@ -1,5 +1,5 @@
 /******************************************************************************
- jXMLUtils.cc
+ jXMLUtil.cc
 
 	Utilities built on top of libxml2.
 

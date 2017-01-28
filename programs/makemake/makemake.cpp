@@ -4,7 +4,7 @@
 	Program to create a Makefile given the source file names and a
 	Makefile header.
 
-	Copyright (C) 1994-99 by John Lindal. All rights reserved.
+	Copyright (C) 1994-2016 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 
@@ -37,9 +37,9 @@
 
 static const JUtf8Byte* kVersionStr =
 
-	"makemake 3.4.0\n"
+	"makemake 3.4.1\n"
 	"\n"
-	"Copyright (C) 1994-2010 by John Lindal.  All rights reserved.\n"
+	"Copyright (C) 1994-2017 by John Lindal.  All rights reserved.\n"
 	"\n"
 	"http://www.newplanetsoftware.com/";
 

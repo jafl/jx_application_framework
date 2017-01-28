@@ -3,7 +3,7 @@
 
 	Program to create a source file from a set of JStringManager data files.
 
-	Copyright (C) 2000 by John Lindal. All rights reserved.
+	Copyright (C) 2000-2017 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 
@@ -26,9 +26,9 @@
 
 static const JUtf8Byte* kVersionStr =
 
-	"compile_jstrings 1.1.0\n"
+	"compile_jstrings 1.1.1\n"
 	"\n"
-	"Copyright (C) 2000-05 John Lindal.  All rights reserved.\n"
+	"Copyright (C) 2000-17 John Lindal.  All rights reserved.\n"
 	"\n"
 	"http://www.newplanetsoftware.com/jx/";
 

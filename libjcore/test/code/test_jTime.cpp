@@ -16,7 +16,7 @@ int main()
 	return JUnitTestManager::Execute();
 }
 
-JTEST(URL)
+JTEST(PrintTimeInterval)
 {
 	JString s = JPrintTimeInterval(23);
 	JAssertStringsEqual("23 sec", s);
