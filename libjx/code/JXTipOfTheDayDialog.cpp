@@ -86,7 +86,7 @@ JXTipOfTheDayDialog::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 410,260, "");
+	JXWindow* window = jnew JXWindow(this, 410,260, JString::empty);
 	assert( window != NULL );
 
 	JXFlatRect* sideBar =

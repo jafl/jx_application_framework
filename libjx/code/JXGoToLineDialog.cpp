@@ -58,7 +58,7 @@ JXGoToLineDialog::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 190,120, "");
+	JXWindow* window = jnew JXWindow(this, 190,120, JString::empty);
 	assert( window != NULL );
 
 	JXTextButton* okButton =

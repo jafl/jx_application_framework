@@ -598,7 +598,7 @@ JIndex i;
 
 		output << indent << "JXWindow* window = jnew JXWindow(this, ";
 		output << formWidth << ',' << formHeight;
-		output << ", \"\");" << std::endl;
+		output << ", JString::empty);" << std::endl;
 		output << indent << "assert( window != NULL );" << std::endl;
 		output << std::endl;
 		}

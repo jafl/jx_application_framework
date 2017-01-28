@@ -49,7 +49,7 @@ JXAcceptLicenseDialog::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 510,570, "");
+	JXWindow* window = jnew JXWindow(this, 510,570, JString::empty);
 	assert( window != NULL );
 
 	JXTextButton* noButton =

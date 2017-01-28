@@ -53,7 +53,7 @@ JXChooseFontSizeDialog::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 190,90, "");
+	JXWindow* window = jnew JXWindow(this, 190,90, JString::empty);
 	assert( window != NULL );
 
 	JXTextButton* okButton =
