@@ -1,7 +1,7 @@
 /******************************************************************************
  test_JArray.cc
 
-	Program to test JArray and JOrderedSetIterator classes.
+	Program to test JArray and JListIterator classes.
 
 	Written by John Lindal.
 
@@ -17,7 +17,7 @@ int main()
 	return JUnitTestManager::Execute();
 }
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 CompareLongs
 	(
 	const long& a,
@@ -26,15 +26,15 @@ CompareLongs
 {
 	if (a < b)
 		{
-		return JOrderedSetT::kFirstLessSecond;
+		return JListT::kFirstLessSecond;
 		}
 	else if (a == b)
 		{
-		return JOrderedSetT::kFirstEqualSecond;
+		return JListT::kFirstEqualSecond;
 		}
 	else
 		{
-		return JOrderedSetT::kFirstGreaterSecond;
+		return JListT::kFirstGreaterSecond;
 		}
 }
 
@@ -48,25 +48,25 @@ JTEST(Exercise)
 	long i;
 	for (i=1;i<=5;i++)
 		{
-		snoop1.Expect(JOrderedSetT::kElementsInserted);
+		snoop1.Expect(JListT::kElementsInserted);
 		a1.AppendElement(i);
 		}
 
 	JAssertFalse(a1.IsEmpty());
 	JAssertEqual(5, a1.GetElementCount());
 
-	snoop1.Expect(JOrderedSetT::kElementsSwapped);
+	snoop1.Expect(JListT::kElementsSwapped);
 	a1.SwapElements(2,5);
 
-	snoop1.Expect(JOrderedSetT::kElementsInserted);
+	snoop1.Expect(JListT::kElementsInserted);
 	a1.InsertElementAtIndex(3,1);
 
-	snoop1.Expect(JOrderedSetT::kElementMoved);
+	snoop1.Expect(JListT::kElementMoved);
 	a1.MoveElementToIndex(3,a1.GetElementCount());
 
-	JOrderedSetIterator<long> iter(&a1);
+	JListIterator<long> iter(&a1);
 
-	snoop1.Expect(JOrderedSetT::kElementsRemoved);
+	snoop1.Expect(JListT::kElementsRemoved);
 	{
 	long expect[] = { 1, 5, 3, 2, 1 };
 	long j        = 0;
@@ -79,7 +79,7 @@ JTEST(Exercise)
 		}
 	JAssertEqual(5, j);
 	}
-	snoop1.Expect(JOrderedSetT::kElementsRemoved);
+	snoop1.Expect(JListT::kElementsRemoved);
 	{
 	long expect[] = { 1, 2, 3, 5, 1 };
 	long j        = 0;
@@ -102,7 +102,7 @@ JTEST(Exercise)
 	JAssertFalse(a2.IsEmpty());
 	JAssertEqual(4, a2.GetElementCount());
 
-	JOrderedSetIterator<long> iter2(&a2, kJIteratorStartAtEnd);
+	JListIterator<long> iter2(&a2, kJIteratorStartAtEnd);
 	{
 	long expect[] = { 1, 3, 5, 1 };
 	long j        = 0;
@@ -113,7 +113,7 @@ JTEST(Exercise)
 		}
 	JAssertEqual(4, j);
 	}
-	snoop2.Expect(JOrderedSetT::kElementsRemoved);
+	snoop2.Expect(JListT::kElementsRemoved);
 
 	a2.RemoveAll();
 	JAssertTrue(a2.IsEmpty());
@@ -134,15 +134,15 @@ JTEST(Exercise)
 		}
 	JAssertEqual(4, j);
 	}
-	snoop2.Expect(JOrderedSetT::kElementsInserted);
+	snoop2.Expect(JListT::kElementsInserted);
 	a2.AppendElement(1);
 }
-	JOrderedSetIterator<long> iter2(&a2);
+	JListIterator<long> iter2(&a2);
 
 // test sort ascending
 
 	a2.SetCompareFunction(CompareLongs);
-	a2.SetSortOrder(JOrderedSetT::kSortAscending);
+	a2.SetSortOrder(JListT::kSortAscending);
 	a2.Sort();
 	{
 	long expect[] = { 1, 1, 1, 3, 5 };
@@ -190,18 +190,18 @@ JTEST(Exercise)
 		{
 		JIndex j;
 		JAssertTrue(
-			a2.SearchSorted(element[i], JOrderedSetT::kFirstMatch, &j) == found[i] &&
+			a2.SearchSorted(element[i], JListT::kFirstMatch, &j) == found[i] &&
 			j == first[i] &&
-			a2.SearchSorted(element[i], JOrderedSetT::kLastMatch, &j) == found[i] &&
+			a2.SearchSorted(element[i], JListT::kLastMatch, &j) == found[i] &&
 			j == last[i] &&
-			a2.SearchSorted(element[i], JOrderedSetT::kAnyMatch, &j) == found[i] &&
+			a2.SearchSorted(element[i], JListT::kAnyMatch, &j) == found[i] &&
 			first[i] <= j && j <= last[i]);
 		}
 	}
 
 // test sort descending
 
-	a2.SetSortOrder(JOrderedSetT::kSortDescending);
+	a2.SetSortOrder(JListT::kSortDescending);
 	a2.Sort();
 	{
 	long expect[] = { 10, 5, 4, 3, 3, 1, 1, 1, -1 };
@@ -229,11 +229,11 @@ JTEST(Exercise)
 		{
 		JIndex j;
 		JAssertTrue(
-			a2.SearchSorted(element[i], JOrderedSetT::kFirstMatch, &j) == found[i] &&
+			a2.SearchSorted(element[i], JListT::kFirstMatch, &j) == found[i] &&
 			j == first[i] &&
-			a2.SearchSorted(element[i], JOrderedSetT::kLastMatch, &j) == found[i] &&
+			a2.SearchSorted(element[i], JListT::kLastMatch, &j) == found[i] &&
 			j == last[i] &&
-			a2.SearchSorted(element[i], JOrderedSetT::kAnyMatch, &j) == found[i] &&
+			a2.SearchSorted(element[i], JListT::kAnyMatch, &j) == found[i] &&
 			first[i] <= j && j <= last[i]);
 		}
 	}
@@ -241,11 +241,11 @@ JTEST(Exercise)
 
 JTEST(SearchSorted1EdgeCases)
 {
-	const JOrderedSetT::SortOrder order[] =
-		{ JOrderedSetT::kSortAscending, JOrderedSetT::kSortDescending };
+	const JListT::SortOrder order[] =
+		{ JListT::kSortAscending, JListT::kSortDescending };
 
-	const JOrderedSetT::SearchReturn search[] =
-		{ JOrderedSetT::kFirstMatch, JOrderedSetT::kAnyMatch, JOrderedSetT::kLastMatch };
+	const JListT::SearchReturn search[] =
+		{ JListT::kFirstMatch, JListT::kAnyMatch, JListT::kLastMatch };
 
 	// one element: 1
 
@@ -294,13 +294,13 @@ JTEST(SearchSorted1EdgeCases)
 					index == index1[i==0 ? k : 2-k] );
 				}
 
-			if (order[i] == JOrderedSetT::kSortAscending)
+			if (order[i] == JListT::kSortAscending)
 				{
 				a3.AppendElement(3);
 				}
 			else
 				{
-				assert( order[i] == JOrderedSetT::kSortDescending );
+				assert( order[i] == JListT::kSortDescending );
 				a3.PrependElement(3);
 				}
 			for (k=0; k<=4; k++)

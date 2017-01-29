@@ -89,7 +89,7 @@ THXApp::THXApp
 	its2DPlotList = jnew JPtrArray<THX2DPlotDirector>(JPtrArrayT::kForgetAll);
 	assert( its2DPlotList != NULL );
 	its2DPlotList->SetCompareFunction(Compare2DPlotTitles);
-	its2DPlotList->SetSortOrder(JOrderedSetT::kSortAscending);
+	its2DPlotList->SetSortOrder(JListT::kSortAscending);
 
 	its2DPlotFnDialog = NULL;
 
@@ -627,7 +627,7 @@ THXApp::BuildPlotMenu
 
  ******************************************************************************/
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 THXApp::Compare2DPlotTitles
 	(
 	THX2DPlotDirector* const & p1,

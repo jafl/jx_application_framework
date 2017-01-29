@@ -294,7 +294,7 @@ CBTree::CBTreeX
 	itsClassesByFull = jnew JPtrArray<CBClass>(JPtrArrayT::kDeleteAll, kBlockSize);
 	assert( itsClassesByFull != NULL );
 	itsClassesByFull->SetCompareFunction(CompareClassFullNames);
-	itsClassesByFull->SetSortOrder(JOrderedSetT::kSortAscending);
+	itsClassesByFull->SetSortOrder(JListT::kSortAscending);
 
 	itsVisibleByGeom = jnew JPtrArray<CBClass>(JPtrArrayT::kForgetAll, kBlockSize);
 	assert( itsVisibleByGeom != NULL );
@@ -302,7 +302,7 @@ CBTree::CBTreeX
 	itsVisibleByName = jnew JPtrArray<CBClass>(JPtrArrayT::kForgetAll, kBlockSize);
 	assert( itsVisibleByName != NULL );
 	itsVisibleByName->SetCompareFunction(CompareClassNames);
-	itsVisibleByName->SetSortOrder(JOrderedSetT::kSortAscending);
+	itsVisibleByName->SetSortOrder(JListT::kSortAscending);
 
 	itsSuffixList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 	assert( itsSuffixList != NULL );
@@ -1305,7 +1305,7 @@ CBTree::ArrangeRoots
 					(subset->content)->SetElement(newRootIndex, kJTrue);
 
 					JBoolean found;
-					i = list2->SearchSorted1(*subset, JOrderedSetT::kAnyMatch, &found);
+					i = list2->SearchSorted1(*subset, JListT::kAnyMatch, &found);
 					if (found && newLinkLength < (list2->GetCArray())[i-1].linkLength)
 						{
 						RootSubset foundSubset = list2->GetElement(i);
@@ -1469,7 +1469,7 @@ CBTree::FindRoots
 		// find the geometry information
 
 		JIndex geomIndex;
-		ok = rootGeom.SearchSorted(RootGeom(root,0,0), JOrderedSetT::kAnyMatch, &geomIndex);
+		ok = rootGeom.SearchSorted(RootGeom(root,0,0), JListT::kAnyMatch, &geomIndex);
 		assert( ok );
 		const RootGeom geom = rootGeom.GetElement(geomIndex);
 
@@ -1572,7 +1572,7 @@ CBTree::FindClass
 	if (!IsEmpty())
 		{
 		CBClass target(fullName);
-		found = itsClassesByFull->SearchSorted(&target, JOrderedSetT::kFirstMatch, &index);
+		found = itsClassesByFull->SearchSorted(&target, JListT::kFirstMatch, &index);
 		}
 
 	if (found)
@@ -1650,7 +1650,7 @@ CBTree::ClosestVisibleMatch
 	CBClass target(prefixStr);
 	JBoolean found;
 	JIndex index =
-		itsVisibleByName->SearchSorted1(&target, JOrderedSetT::kFirstMatch, &found);
+		itsVisibleByName->SearchSorted1(&target, JListT::kFirstMatch, &found);
 	if (index > itsVisibleByName->GetElementCount())		// insert beyond end of list
 		{
 		index = itsVisibleByName->GetElementCount();
@@ -2255,7 +2255,7 @@ CBTree::CollectAncestors
 			for (JIndex j=1; j<=count; j++)
 				{
 				if (CompareClassFullNames(parent, list->GetElement(j)) ==
-					JOrderedSetT::kFirstEqualSecond)
+					JListT::kFirstEqualSecond)
 					{
 					found = kJTrue;
 					}
@@ -2679,7 +2679,7 @@ CBTree::GetLineHeight()
 
  ******************************************************************************/
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 CBTree::CompareClassFullNames
 	(
 	CBClass* const & c1,
@@ -2696,7 +2696,7 @@ CBTree::CompareClassFullNames
 
  ******************************************************************************/
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 CBTree::CompareClassNames
 	(
 	CBClass* const & c1,
@@ -2715,7 +2715,7 @@ CBTree::CompareClassNames
 
  ******************************************************************************/
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 CBTree::CompareRGClassPtrs
 	(
 	const RootGeom& i1,
@@ -2724,15 +2724,15 @@ CBTree::CompareRGClassPtrs
 {
 	if (i1.root < i2.root)
 		{
-		return JOrderedSetT::kFirstLessSecond;
+		return JListT::kFirstLessSecond;
 		}
 	else if (i1.root == i2.root)
 		{
-		return JOrderedSetT::kFirstEqualSecond;
+		return JListT::kFirstEqualSecond;
 		}
 	else
 		{
-		return JOrderedSetT::kFirstGreaterSecond;
+		return JListT::kFirstGreaterSecond;
 		}
 }
 
@@ -2743,7 +2743,7 @@ CBTree::CompareRGClassPtrs
 
  ******************************************************************************/
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 CBTree::CompareRSContent
 	(
 	const RootSubset& s1,
@@ -2758,13 +2758,13 @@ CBTree::CompareRSContent
 		{
 		if (!(*b1) && *b2)
 			{
-			return JOrderedSetT::kFirstLessSecond;
+			return JListT::kFirstLessSecond;
 			}
 		else if (*b1 && !(*b2))
 			{
-			return JOrderedSetT::kFirstGreaterSecond;
+			return JListT::kFirstGreaterSecond;
 			}
 		}
 
-	return JOrderedSetT::kFirstEqualSecond;
+	return JListT::kFirstEqualSecond;
 }

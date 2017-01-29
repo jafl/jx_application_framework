@@ -82,7 +82,7 @@ private:
 	void	LoadData(JPrefsFile* file);
 	JError	DeletePrefsFile(const JString& fileName) const;
 
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		ComparePrefIDs(const PrefItem& p1, const PrefItem& p2);
 
 	// not allowed
@@ -186,7 +186,7 @@ JPrefsManager::IDValid
 {
 	PrefItem target(id.GetID(), (JString*) NULL);
 	JIndex index;
-	return itsData->SearchSorted(target, JOrderedSetT::kAnyMatch, &index);
+	return itsData->SearchSorted(target, JListT::kAnyMatch, &index);
 }
 
 /******************************************************************************

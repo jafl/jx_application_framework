@@ -29,7 +29,7 @@
 #include <JStdError.h>
 #include <jStreamUtil.h>
 #include <jFileUtil.h>
-#include <JOrderedSetUtil.h>
+#include <JListUtil.h>
 #include <X11/xpm.h>
 #include <jAssert.h>
 

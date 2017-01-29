@@ -12,7 +12,7 @@
 #include "CMThreadNode.h"
 #include <JTree.h>
 #include <JRegex.h>
-#include <JOrderedSetUtil.h>
+#include <JListUtil.h>
 #include <jStreamUtil.h>
 #include <sstream>
 #include <jAssert.h>
@@ -59,7 +59,7 @@ GDBGetThreads::HandleSuccess
 {
 	JPtrArray<JString> threadList(JPtrArrayT::kDeleteAll);
 	threadList.SetCompareFunction(CompareThreadIndices);
-	threadList.SetSortOrder(JOrderedSetT::kSortAscending);
+	threadList.SetSortOrder(JListT::kSortAscending);
 
 	JIndex currentThreadIndex = 0;
 
@@ -197,7 +197,7 @@ GDBGetThreads::ExtractLocation
 
  ******************************************************************************/
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 GDBGetThreads::CompareThreadIndices
 	(
 	JString* const & l1,
@@ -208,7 +208,7 @@ GDBGetThreads::CompareThreadIndices
 	if (!ExtractThreadIndex(*l1, &i1) ||
 		!ExtractThreadIndex(*l2, &i1))
 		{
-		return JOrderedSetT::kFirstLessSecond;
+		return JListT::kFirstLessSecond;
 		}
 	else
 		{

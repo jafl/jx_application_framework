@@ -715,7 +715,7 @@ GMAccountDialog::OKToDeactivate()
 	GMAccount account;
 	account.SetNickname(defNickname);
 	JIndex findex;
-	ok	= itsAccountInfo->SearchSorted(&account, JOrderedSetT::kFirstMatch, &findex);
+	ok	= itsAccountInfo->SearchSorted(&account, JListT::kFirstMatch, &findex);
 	assert(ok);
 	itsDefaultIndex	= findex;
 	return kJTrue;

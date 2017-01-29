@@ -11,7 +11,7 @@
 	This class ensures that newly prepended tasks will not be executed
 	during the current pass.
 
-	Refer to JOrderedSetIterator.tmpl for information about interators in
+	Refer to JListIterator.tmpl for information about interators in
 	general.
 
 	Copyright (C) 1994-97 by John Lindal. All rights reserved.
@@ -70,14 +70,14 @@ JTaskIterator<T>::OrderedSetChanged
 
 	// adjust cursor after base class is finished
 
-	if (message.Is(JOrderedSetT::kElementsInserted))
+	if (message.Is(JListT::kElementsInserted))
 		{
-		const JOrderedSetT::ElementsInserted* info =
-			dynamic_cast<const JOrderedSetT::ElementsInserted*>(&message);
+		const JListT::ElementsInserted* info =
+			dynamic_cast<const JListT::ElementsInserted*>(&message);
 		assert( info != NULL );
-		if (JOrderedSetIterator<T*>::GetCursor() == 0 && info->GetFirstIndex() == 1)
+		if (JListIterator<T*>::GetCursor() == 0 && info->GetFirstIndex() == 1)
 			{
-			JOrderedSetIterator<T*>::MoveTo(kJIteratorStartAfter, info->GetCount());
+			JListIterator<T*>::MoveTo(kJIteratorStartAfter, info->GetCount());
 			}
 		}
 }

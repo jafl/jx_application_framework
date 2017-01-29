@@ -1,7 +1,7 @@
 /******************************************************************************
- JOrderedSetIterator.h
+ JListIterator.h
 
-	Interface for JOrderedSetIterator class template
+	Interface for JListIterator class template
 
 	Copyright (C) 1994-97 by John Lindal. All rights reserved.
 
@@ -13,25 +13,25 @@
 #include <JCollection.h>
 
 // must forward declare to avoid #include loop
-// (We do it here so JOrderedSet includes JOrderedSetIterator for convenience.)
-template <class T> class JOrderedSet;
+// (We do it here so JList includes JListIterator for convenience.)
+template <class T> class JList;
 
 template <class T>
-class JOrderedSetIterator
+class JListIterator
 {
-	friend class JOrderedSet<T>;
+	friend class JList<T>;
 
 public:
 
-	JOrderedSetIterator(const JOrderedSet<T>& theOrderedSet,
+	JListIterator(const JList<T>& theOrderedSet,
 						const JIteratorPosition start = kJIteratorStartAtBeginning,
 						const JIndex index = 0);
-	JOrderedSetIterator(JOrderedSet<T>* theOrderedSet,
+	JListIterator(JList<T>* theOrderedSet,
 						const JIteratorPosition start = kJIteratorStartAtBeginning,
 						const JIndex index = 0);
-	JOrderedSetIterator(const JOrderedSetIterator<T>& source);
+	JListIterator(const JListIterator<T>& source);
 
-	virtual ~JOrderedSetIterator();
+	virtual ~JListIterator();
 
 	virtual JBoolean	Prev(T* data);
 	virtual JBoolean	Next(T* data);
@@ -43,7 +43,7 @@ public:
 	JBoolean			AtBeginning();
 	JBoolean			AtEnd();
 
-	// only allowed if constructed from non-const JOrderedSet<T>*
+	// only allowed if constructed from non-const JList<T>*
 
 	virtual JBoolean	SetPrev(const T& data);
 	virtual JBoolean	SetNext(const T& data);
@@ -53,8 +53,8 @@ public:
 
 protected:
 
-	const JOrderedSet<T>*	GetConstOrderedSet() const;
-	JBoolean				GetOrderedSet(JOrderedSet<T>** obj) const;
+	const JList<T>*	GetConstOrderedSet() const;
+	JBoolean				GetOrderedSet(JList<T>** obj) const;
 
 	JCursorPosition	GetCursor() const;
 	void			SetCursor(const JCursorPosition pos);
@@ -63,11 +63,11 @@ protected:
 
 private:
 
-	const JOrderedSet<T>*	itsConstOrderedSet;		// JOrderedSet that is being iterated over
-	JOrderedSet<T>*			itsOrderedSet;			// NULL if we were passed a const object
+	const JList<T>*	itsConstOrderedSet;		// JList that is being iterated over
+	JList<T>*			itsOrderedSet;			// NULL if we were passed a const object
 	JCursorPosition			itsCursorPosition;		// Current iterator position
 
-	JOrderedSetIterator<T>*	itsNextIterator;		// Next iterator in linked list
+	JListIterator<T>*	itsNextIterator;		// Next iterator in linked list
 
 private:
 
@@ -78,7 +78,7 @@ private:
 
 	// not allowed
 
-	const JOrderedSetIterator<T>& operator=(const JOrderedSetIterator<T>& source);
+	const JListIterator<T>& operator=(const JListIterator<T>& source);
 };
 
 #endif

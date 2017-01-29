@@ -22,7 +22,7 @@
 #include <JXIntegerInput.h>
 #include <JXColormap.h>
 
-#include <JOrderedSet.h>
+#include <JList.h>
 #include <JString.h>
 #include <JTableSelection.h>
 
@@ -193,11 +193,11 @@ EditTable::Receive
 		// Our data array sent us a message
 
 		// Was data inserted?
-		if (message.Is(JOrderedSetT::kElementsInserted))
+		if (message.Is(JListT::kElementsInserted))
 			{
 			// cast the message to an ElementsInserted object
-			const JOrderedSetT::ElementsInserted* info =
-				dynamic_cast<const JOrderedSetT::ElementsInserted*>(&message);
+			const JListT::ElementsInserted* info =
+				dynamic_cast<const JListT::ElementsInserted*>(&message);
 			assert(info != NULL);
 
 			// For each element inserted, we insert a row
@@ -205,11 +205,11 @@ EditTable::Receive
 			}
 
 		// Was data removed?
-		else if (message.Is(JOrderedSetT::kElementsRemoved))
+		else if (message.Is(JListT::kElementsRemoved))
 			{
 			// cast the message to an ElementsRemoved object
-			const JOrderedSetT::ElementsRemoved* info =
-				dynamic_cast<const JOrderedSetT::ElementsRemoved*>(&message);
+			const JListT::ElementsRemoved* info =
+				dynamic_cast<const JListT::ElementsRemoved*>(&message);
 			assert(info != NULL);
 
 			// Remove corresponding table rows.
@@ -217,11 +217,11 @@ EditTable::Receive
 			}
 
 		// Was an element changed?
-		else if (message.Is(JOrderedSetT::kElementChanged))
+		else if (message.Is(JListT::kElementChanged))
 			{
 			// cast the message to an ElementsRemoved object
-			const JOrderedSetT::ElementChanged* info =
-				dynamic_cast<const JOrderedSetT::ElementChanged*>(&message);
+			const JListT::ElementChanged* info =
+				dynamic_cast<const JListT::ElementChanged*>(&message);
 			assert(info != NULL);
 
 			// The element changed, so redraw it.

@@ -18,7 +18,7 @@
 std::istream&
 operator>>
 	(
-	std::istream&			input,
+	std::istream&		input,
 	JPtrArray<JString>&	list
 	)
 {
@@ -52,7 +52,7 @@ operator>>
 std::ostream&
 operator<<
 	(
-	std::ostream&					output,
+	std::ostream&				output,
 	const JPtrArray<JString>&	list
 	)
 {
@@ -76,7 +76,7 @@ operator<<
 std::istream&
 operator>>
 	(
-	std::istream&				input,
+	std::istream&			input,
 	JStringPtrMap<JString>&	map
 	)
 {
@@ -107,7 +107,7 @@ operator>>
 std::ostream&
 operator<<
 	(
-	std::ostream&						output,
+	std::ostream&					output,
 	const JStringPtrMap<JString>&	map
 	)
 {
@@ -198,7 +198,7 @@ JIndex i;
 
  ******************************************************************************/
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 JCompareStringsCaseSensitive
 	(
 	JString* const & s1,
@@ -209,15 +209,15 @@ JCompareStringsCaseSensitive
 
 	if (r > 0)
 		{
-		return JOrderedSetT::kFirstGreaterSecond;
+		return JListT::kFirstGreaterSecond;
 		}
 	else if (r < 0)
 		{
-		return JOrderedSetT::kFirstLessSecond;
+		return JListT::kFirstLessSecond;
 		}
 	else
 		{
-		return JOrderedSetT::kFirstEqualSecond;
+		return JListT::kFirstEqualSecond;
 		}
 }
 
@@ -226,7 +226,7 @@ JCompareStringsCaseSensitive
 
  ******************************************************************************/
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 JCompareStringsCaseInsensitive
 	(
 	JString* const & s1,
@@ -237,14 +237,14 @@ JCompareStringsCaseInsensitive
 
 	if (r > 0)
 		{
-		return JOrderedSetT::kFirstGreaterSecond;
+		return JListT::kFirstGreaterSecond;
 		}
 	else if (r < 0)
 		{
-		return JOrderedSetT::kFirstLessSecond;
+		return JListT::kFirstLessSecond;
 		}
 	else
 		{
-		return JOrderedSetT::kFirstEqualSecond;
+		return JListT::kFirstEqualSecond;
 		}
 }

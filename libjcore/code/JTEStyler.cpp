@@ -51,7 +51,7 @@
 
 #include <JTEStyler.h>
 #include <JFontManager.h>
-#include <JOrderedSetUtil.h>
+#include <JListUtil.h>
 #include <JMinMax.h>
 #include <jStreamUtil.h>
 #include <JStopWatch.h>
@@ -213,7 +213,7 @@ JTEStyler::UpdateStyles
 			JBoolean foundTokenStart;
 			TokenData target(itsCheckRange.first, TokenExtra());
 			JIndex tokenStartIndex =
-				tokenStartList->SearchSorted1(target, JOrderedSetT::kAnyMatch, &foundTokenStart);
+				tokenStartList->SearchSorted1(target, JListT::kAnyMatch, &foundTokenStart);
 			if (!foundTokenStart)
 				{
 				tokenStartIndex--;	// wants to insert -after- the value
@@ -438,7 +438,7 @@ JTEStyler::NewTokenStartList()
 {
 	JArray<TokenData>* list = jnew JArray<TokenData>(kListBlockSize);
 	assert( list != NULL );
-	list->SetSortOrder(JOrderedSetT::kSortAscending);
+	list->SetSortOrder(JListT::kSortAscending);
 	list->SetCompareFunction(CompareTokenStarts);
 	return list;
 }
@@ -483,7 +483,7 @@ JTEStyler::GetFirstTokenExtraData()
 
  ******************************************************************************/
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 JTEStyler::CompareTokenStarts
 	(
 	const TokenData& t1,

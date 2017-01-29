@@ -59,7 +59,7 @@ CBPrefsManager::CreateListFn()
 {
 	JArray<DataType>* list = new JArray<DataType>;
 	assert( list != NULL );
-	list->SetSortOrder(JOrderedSetT::kSortAscending);
+	list->SetSortOrder(JListT::kSortAscending);
 	list->SetCompareFunction(CompareNameFn);
 	return list;
 }
@@ -69,7 +69,7 @@ CBPrefsManager::CreateListFn()
 
  ******************************************************************************/
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 CBPrefsManager::CompareNameFn
 	(
 	const DataType& i1,

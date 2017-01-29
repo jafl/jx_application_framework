@@ -319,7 +319,7 @@ GPrefsMgr::AddInbox
 	assert(str != NULL);
 	JIndex index;
 	inboxes.SetCompareFunction(CompareFileNames);
-	JBoolean found = inboxes.SearchSorted(str, JOrderedSetT::kAnyMatch, &index);
+	JBoolean found = inboxes.SearchSorted(str, JListT::kAnyMatch, &index);
 	if (!found)
 		{
 		if (inboxes.InsertSorted(str, kJFalse, &index))
@@ -354,7 +354,7 @@ GPrefsMgr::DeleteInbox
 	JIndex index;
 	JString str(inbox);
 	inboxes.SetCompareFunction(CompareFileNames);
-	if (inboxes.SearchSorted(&str, JOrderedSetT::kAnyMatch, &index))
+	if (inboxes.SearchSorted(&str, JListT::kAnyMatch, &index))
 		{
 		Broadcast(InboxRemoved(index));
 		}
@@ -1551,7 +1551,7 @@ GPrefsMgr::WriteChooseSaveDialogPrefs()
 
  ******************************************************************************/
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 GPrefsMgr::CompareFileNames
 	(
 	JString* const & n1,
@@ -1573,15 +1573,15 @@ GPrefsMgr::CompareFileNames
 
 	if (r > 0)
 		{
-		return JOrderedSetT::kFirstGreaterSecond;
+		return JListT::kFirstGreaterSecond;
 		}
 	else if (r < 0)
 		{
-		return JOrderedSetT::kFirstLessSecond;
+		return JListT::kFirstLessSecond;
 		}
 	else
 		{
-		return JOrderedSetT::kFirstEqualSecond;
+		return JListT::kFirstEqualSecond;
 		}
 }
 

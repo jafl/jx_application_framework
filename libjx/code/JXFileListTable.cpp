@@ -86,7 +86,7 @@ JXFileListTable::JXFileListTable
 
 	itsVisibleList = jnew JArray<VisInfo>(100);
 	assert( itsVisibleList != NULL );
-	itsVisibleList->SetSortOrder(JOrderedSetT::kSortAscending);
+	itsVisibleList->SetSortOrder(JListT::kSortAscending);
 
 	itsFileIcon = jnew JXImage(GetDisplay(), jx_plain_file_small);
 	assert( itsFileIcon != NULL );
@@ -167,7 +167,7 @@ JXFileListTable::AddFile
 	assert( s != NULL );
 
 	JBoolean found;
-	const JIndex index = itsFileList->SearchSorted1(s, JOrderedSetT::kAnyMatch, &found);
+	const JIndex index = itsFileList->SearchSorted1(s, JListT::kAnyMatch, &found);
 	if (fullNameIndex != NULL)
 		{
 		*fullNameIndex = index;
@@ -202,7 +202,7 @@ JXFileListTable::RemoveFile
 
 	JString s = fullName;
 	JIndex index;
-	if (itsFileList->SearchSorted(&s, JOrderedSetT::kAnyMatch, &index))
+	if (itsFileList->SearchSorted(&s, JListT::kAnyMatch, &index))
 		{
 		itsFileList->DeleteElement(index);
 		}
@@ -226,7 +226,7 @@ JXFileListTable::RemoveFiles
 		{
 		JString* s = const_cast<JString*>(fileList.GetElement(i));
 		JIndex index;
-		if (itsFileList->SearchSorted(s, JOrderedSetT::kAnyMatch, &index))
+		if (itsFileList->SearchSorted(s, JListT::kAnyMatch, &index))
 			{
 			itsFileList->DeleteElement(index);
 			}
@@ -428,7 +428,7 @@ JXFileListTable::FilterFile
 
 		info.fileIndex = 0;
 		JBoolean found;
-		const JIndex rowIndex = itsVisibleList->SearchSorted1(info, JOrderedSetT::kFirstMatch, &found);
+		const JIndex rowIndex = itsVisibleList->SearchSorted1(info, JListT::kFirstMatch, &found);
 
 		info.fileIndex = fileIndex;
 		info.drawIndex = info.nameIndex;
@@ -1079,7 +1079,7 @@ JXFileListTable::ClosestMatch
 	target.fileIndex = 0;
 
 	itsVisibleList->SetCompareObject(PrefixMatch(prefixStr, *itsFileList));
-	*index = itsVisibleList->SearchSorted1(target, JOrderedSetT::kFirstMatch, &found);
+	*index = itsVisibleList->SearchSorted1(target, JListT::kFirstMatch, &found);
 	if (*index > itsVisibleList->GetElementCount())		// insert beyond end of list
 		{
 		*index = itsVisibleList->GetElementCount();
@@ -1107,7 +1107,7 @@ JXFileListTable::PrefixMatch::~PrefixMatch()
 {
 }
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 JXFileListTable::PrefixMatch::Compare
 	(
 	const VisInfo& i1,
@@ -1130,15 +1130,15 @@ JXFileListTable::PrefixMatch::Compare
 	const int r = JString::Compare(s1, s2, kJFalse);
 	if (r > 0)
 		{
-		return JOrderedSetT::kFirstGreaterSecond;
+		return JListT::kFirstGreaterSecond;
 		}
 	else if (r < 0)
 		{
-		return JOrderedSetT::kFirstLessSecond;
+		return JListT::kFirstLessSecond;
 		}
 	else
 		{
-		return JOrderedSetT::kFirstEqualSecond;
+		return JListT::kFirstEqualSecond;
 		}
 }
 
@@ -1199,17 +1199,17 @@ JXFileListTable::Receive
 	const Message&	message
 	)
 {
-	if (sender == itsFileList && message.Is(JOrderedSetT::kElementsInserted))
+	if (sender == itsFileList && message.Is(JListT::kElementsInserted))
 		{
-		const JOrderedSetT::ElementsInserted* m =
-			dynamic_cast<const JOrderedSetT::ElementsInserted*>(&message);
+		const JListT::ElementsInserted* m =
+			dynamic_cast<const JListT::ElementsInserted*>(&message);
 		assert( m != NULL );
 		ADJUST_INDEX(m);
 		}
-	else if (sender == itsFileList && message.Is(JOrderedSetT::kElementsRemoved))
+	else if (sender == itsFileList && message.Is(JListT::kElementsRemoved))
 		{
-		const JOrderedSetT::ElementsRemoved* m =
-			dynamic_cast<const JOrderedSetT::ElementsRemoved*>(&message);
+		const JListT::ElementsRemoved* m =
+			dynamic_cast<const JListT::ElementsRemoved*>(&message);
 		assert( m != NULL );
 
 		const JSize count = itsVisibleList->GetElementCount();
@@ -1227,25 +1227,25 @@ JXFileListTable::Receive
 				}
 			}
 		}
-	else if (sender == itsFileList && message.Is(JOrderedSetT::kElementMoved))
+	else if (sender == itsFileList && message.Is(JListT::kElementMoved))
 		{
-		const JOrderedSetT::ElementMoved* m =
-			dynamic_cast<const JOrderedSetT::ElementMoved*>(&message);
+		const JListT::ElementMoved* m =
+			dynamic_cast<const JListT::ElementMoved*>(&message);
 		assert( m != NULL );
 		ADJUST_INDEX(m);
 		}
-	else if (sender == itsFileList && message.Is(JOrderedSetT::kElementsSwapped))
+	else if (sender == itsFileList && message.Is(JListT::kElementsSwapped))
 		{
-		const JOrderedSetT::ElementsSwapped* m =
-			dynamic_cast<const JOrderedSetT::ElementsSwapped*>(&message);
+		const JListT::ElementsSwapped* m =
+			dynamic_cast<const JListT::ElementsSwapped*>(&message);
 		assert( m != NULL );
 		ADJUST_INDEX(m);
 		}
-	else if (sender == itsFileList && message.Is(JOrderedSetT::kElementChanged))
+	else if (sender == itsFileList && message.Is(JListT::kElementChanged))
 		{
 		assert( 0 /* makes no sense since it's a JPtrArray */ );
 		}
-	else if (sender == itsFileList && message.Is(JOrderedSetT::kSorted))
+	else if (sender == itsFileList && message.Is(JListT::kSorted))
 		{
 		assert( 0 /* not allowed */ );
 		}

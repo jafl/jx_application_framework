@@ -214,5 +214,5 @@ GCLRecurrence::IsSkippingDay
 		return kJFalse;
 		}
 	JIndex findex;
-	return itsSkipDays->SearchSorted(day, JOrderedSetT::kAnyMatch, &findex);
+	return itsSkipDays->SearchSorted(day, JListT::kAnyMatch, &findex);
 }

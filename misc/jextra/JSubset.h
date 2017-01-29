@@ -13,7 +13,7 @@
 #include <JCollection.h>
 #include <JPtrArray.h>
 
-typedef JOrderedSetIterator<JIndex>	JSubsetIterator;
+typedef JListIterator<JIndex>	JSubsetIterator;
 
 class JSubset : public JCollection
 {
@@ -152,7 +152,7 @@ JSubset::Contains
 	const
 {
 	JIndex i;
-	return itsIndices->SearchSorted(indexToFind, JOrderedSetT::kAnyMatch, &i);
+	return itsIndices->SearchSorted(indexToFind, JListT::kAnyMatch, &i);
 }
 
 /******************************************************************************

@@ -32,15 +32,15 @@ public:
 	void	SetElement(const JIndex row, const JIndex col, const T& data);
 	void	SetElement(const JPoint& cell, const T& data);
 
-	void	GetRow(const JIndex index, JOrderedSet<T>* rowData) const;
-	void	SetRow(const JIndex index, const JOrderedSet<T>& rowData);
+	void	GetRow(const JIndex index, JList<T>* rowData) const;
+	void	SetRow(const JIndex index, const JList<T>& rowData);
 	void	SetRow(const JIndex index, const T& data);
 	void	SetPartialRow(const JIndex rowIndex,
 						  const JIndex firstColIndex, const JIndex lastColIndex,
 						  const T& data);
 
-	void	GetCol(const JIndex index, JOrderedSet<T>* colData) const;
-	void	SetCol(const JIndex index, const JOrderedSet<T>& colData);
+	void	GetCol(const JIndex index, JList<T>* colData) const;
+	void	SetCol(const JIndex index, const JList<T>& colData);
 	void	SetCol(const JIndex index, const T& data);
 	void	SetPartialCol(const JIndex colIndex,
 						  const JIndex firstRowIndex, const JIndex lastRowIndex,
@@ -55,9 +55,9 @@ public:
 						const JCoordinate w, const JCoordinate h, T (*f)(const T&));
 
 	void	InsertRows(const JIndex index, const JSize count,
-					   const JOrderedSet<T>* initData = NULL);
-	void	PrependRows(const JSize count, const JOrderedSet<T>* initData = NULL);
-	void	AppendRows(const JSize count, const JOrderedSet<T>* initData = NULL);
+					   const JList<T>* initData = NULL);
+	void	PrependRows(const JSize count, const JList<T>* initData = NULL);
+	void	AppendRows(const JSize count, const JList<T>* initData = NULL);
 	void	DuplicateRow(const JIndex origIndex, const JIndex newIndex);
 	void	RemoveRow(const JIndex index);
 	void	RemoveNextRows(const JIndex firstIndex, const JSize count);
@@ -66,9 +66,9 @@ public:
 	void	MoveRow(const JIndex origIndex, const JIndex newIndex);
 
 	void	InsertCols(const JIndex index, const JSize count,
-					   const JOrderedSet<T>* initData = NULL);
-	void	PrependCols(const JSize count, const JOrderedSet<T>* initData = NULL);
-	void	AppendCols(const JSize count, const JOrderedSet<T>* initData = NULL);
+					   const JList<T>* initData = NULL);
+	void	PrependCols(const JSize count, const JList<T>* initData = NULL);
+	void	AppendCols(const JSize count, const JList<T>* initData = NULL);
 	void	DuplicateCol(const JIndex origIndex, const JIndex newIndex);
 	void	RemoveCol(const JIndex index);
 	void	RemoveNextCols(const JIndex firstIndex, const JSize count);

@@ -198,7 +198,7 @@ JXChooseMonoFont::PrependOtherMonospaceFonts
 
  ******************************************************************************/
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 JXChooseMonoFont::CompareFontNames
 	(
 	JString* const & s1,
@@ -213,11 +213,11 @@ JXChooseMonoFont::CompareFontNames
 
 	if (v1 > v2)
 		{
-		return JOrderedSetT::kFirstGreaterSecond;
+		return JListT::kFirstGreaterSecond;
 		}
 	else if (v1 < v2)
 		{
-		return JOrderedSetT::kFirstLessSecond;
+		return JListT::kFirstLessSecond;
 		}
 	else
 		{
@@ -228,15 +228,15 @@ JXChooseMonoFont::CompareFontNames
 
 		if (v1 > v2)
 			{
-			return JOrderedSetT::kFirstGreaterSecond;
+			return JListT::kFirstGreaterSecond;
 			}
 		else if (v1 < v2)
 			{
-			return JOrderedSetT::kFirstLessSecond;
+			return JListT::kFirstLessSecond;
 			}
 		else
 			{
-			return JOrderedSetT::kFirstEqualSecond;
+			return JListT::kFirstEqualSecond;
 			}
 		}
 }

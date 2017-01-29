@@ -81,7 +81,7 @@ private:
 
 	void	Create2DPlot();
 
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		Compare2DPlotTitles(THX2DPlotDirector* const & p1, THX2DPlotDirector* const & p2);
 
 	// not allowed

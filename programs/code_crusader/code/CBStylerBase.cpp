@@ -29,7 +29,7 @@
 #include <JXWindow.h>
 #include <JXColormap.h>
 #include <jXGlobals.h>
-#include <JOrderedSetUtil.h>
+#include <JListUtil.h>
 #include <jAssert.h>
 
 // setup information -- remember to increment shared prefs file version
@@ -300,7 +300,7 @@ CBStylerBase::GetWordList
 	const
 {
 	wordList->RemoveAll();
-	wordList->SetSortOrder(JOrderedSetT::kSortAscending);
+	wordList->SetSortOrder(JListT::kSortAscending);
 	wordList->SetCompareFunction(CompareWords);
 
 	JStringMapCursor<JFontStyle> cursor(&wordStyles);
@@ -323,7 +323,7 @@ CBStylerBase::GetWordList
 
  ******************************************************************************/
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 CBStylerBase::CompareWords
 	(
 	const WordStyle& w1,
@@ -334,15 +334,15 @@ CBStylerBase::CompareWords
 
 	if (result < 0)
 		{
-		return JOrderedSetT::kFirstLessSecond;
+		return JListT::kFirstLessSecond;
 		}
 	else if (result == 0)
 		{
-		return JOrderedSetT::kFirstEqualSecond;
+		return JListT::kFirstEqualSecond;
 		}
 	else
 		{
-		return JOrderedSetT::kFirstGreaterSecond;
+		return JListT::kFirstGreaterSecond;
 		}
 }
 

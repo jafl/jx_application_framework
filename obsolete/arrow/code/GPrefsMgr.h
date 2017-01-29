@@ -227,7 +227,7 @@ public:
 	void		GetEditorWindowPrefs(GMessageEditDir* dir);
 	void		SetEditorWindowPrefs(GMessageEditDir* dir);
 
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		CompareFileNames(JString* const & n1, JString* const & n2);
 
 protected:

@@ -52,7 +52,7 @@ VerifyContents
 	JAreEqual(expectedStr, s, __FILE__, line);
 }
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 CompareLongs
 	(
 	const long& a,
@@ -61,15 +61,15 @@ CompareLongs
 {
 	if (a < b)
 		{
-		return JOrderedSetT::kFirstLessSecond;
+		return JListT::kFirstLessSecond;
 		}
 	else if (a == b)
 		{
-		return JOrderedSetT::kFirstEqualSecond;
+		return JListT::kFirstEqualSecond;
 		}
 	else
 		{
-		return JOrderedSetT::kFirstGreaterSecond;
+		return JListT::kFirstGreaterSecond;
 		}
 }
 
@@ -103,7 +103,7 @@ JTEST(Exercise)
 
 	for (i=1;i<=5;i++)
 		{
-		snoop1.Expect(JOrderedSetT::kElementsInserted);
+		snoop1.Expect(JListT::kElementsInserted);
 		a1.AppendElement(i);
 		}
 	// 1 2 3 4 5
@@ -111,27 +111,27 @@ JTEST(Exercise)
 	JAssertFalse(a1.IsEmpty());
 	JAssertEqual(5, a1.GetElementCount());
 
-	snoop1.Expect(JOrderedSetT::kElementChanged);
+	snoop1.Expect(JListT::kElementChanged);
 	a1.SetElement(5,1);
 	// 1 2 3 4 1
 
-	snoop1.Expect(JOrderedSetT::kElementsSwapped);
+	snoop1.Expect(JListT::kElementsSwapped);
 	a1.SwapElements(2,5);
 	// 1 1 3 4 2
 
-	snoop1.Expect(JOrderedSetT::kElementsInserted);
+	snoop1.Expect(JListT::kElementsInserted);
 	a1.InsertElementAtIndex(3,1);
 	// 1 1 1 3 4 2
 
-	snoop1.Expect(JOrderedSetT::kElementChanged);
+	snoop1.Expect(JListT::kElementChanged);
 	a1.SetElement(2,2);
 	// 1 2 1 3 4 2
 
-	snoop1.Expect(JOrderedSetT::kElementChanged);
+	snoop1.Expect(JListT::kElementChanged);
 	a1.SetElement(2,1);
 	// 1 1 1 3 4 2
 
-	snoop1.Expect(JOrderedSetT::kElementMoved);
+	snoop1.Expect(JListT::kElementMoved);
 	a1.MoveElementToIndex(3,a1.GetElementCount());
 	// 1 1 3 4 2 1
 
@@ -146,13 +146,13 @@ JTEST(Exercise)
 
 		if (j == 1)
 			{
-			snoop1.Expect(JOrderedSetT::kElementChanged);
+			snoop1.Expect(JListT::kElementChanged);
 			a1.SetElement(2,3);
 			// 1 3 3 4 2 1
 			}
 		else if (j == 3)
 			{
-			snoop1.Expect(JOrderedSetT::kElementsRemoved);
+			snoop1.Expect(JListT::kElementsRemoved);
 			a1.RemoveElement(4);
 			// 1 3 3 2 1
 			}
@@ -170,10 +170,10 @@ JTEST(Exercise)
 
 		if (j == 3)
 			{
-			snoop1.Expect(JOrderedSetT::kElementChanged);
+			snoop1.Expect(JListT::kElementChanged);
 			a1.SetElement(2,1);
 			// 1 1 3 2 1
-			snoop1.Expect(JOrderedSetT::kElementsRemoved);
+			snoop1.Expect(JListT::kElementsRemoved);
 			a1.RemoveElement(4);
 			// 1 1 3 1
 			}
@@ -202,7 +202,7 @@ JTEST(Exercise)
 	JAssertEqual(4, j);
 	}
 
-	snoop2.Expect(JOrderedSetT::kElementsRemoved);
+	snoop2.Expect(JListT::kElementsRemoved);
 	a2.RemoveAll();
 	JAssertTrue(a2.IsEmpty());
 	JAssertEqual(0, a2.GetElementCount());
@@ -233,7 +233,7 @@ JTEST(Exercise)
 	a2.AppendElement(5);
 
 	a2.SetCompareFunction(CompareLongs);
-	a2.SetSortOrder(JOrderedSetT::kSortAscending);
+	a2.SetSortOrder(JListT::kSortAscending);
 	a2.Sort();
 
 	verify2("1 1 1 1 2 3 3 5 5");
@@ -269,24 +269,24 @@ JTEST(Exercise)
 		{
 		JIndex p1=0, p2=0, p3=0;
 		JAssertTrue(
-			a2.SearchSorted(element[i], JOrderedSetT::kFirstMatch, &p1) == found[i] &&
+			a2.SearchSorted(element[i], JListT::kFirstMatch, &p1) == found[i] &&
 			pos[i] == p1 &&
-			a2.SearchSorted(element[i], JOrderedSetT::kLastMatch, &p2) == found[i] &&
+			a2.SearchSorted(element[i], JListT::kLastMatch, &p2) == found[i] &&
 			pos[i] == p2 &&
-			a2.SearchSorted(element[i], JOrderedSetT::kAnyMatch, &p3) == found[i] &&
+			a2.SearchSorted(element[i], JListT::kAnyMatch, &p3) == found[i] &&
 			pos[i] == p3);
 		}
 
 	JIndex p4=0, p5=0;
-	JAssertTrue(a2.SearchSorted(1, JOrderedSetT::kFirstMatch, &p4));
+	JAssertTrue(a2.SearchSorted(1, JListT::kFirstMatch, &p4));
 	JAssertEqual(2, p4);
-	JAssertTrue(a2.SearchSorted(1, JOrderedSetT::kLastMatch, &p5));
+	JAssertTrue(a2.SearchSorted(1, JListT::kLastMatch, &p5));
 	JAssertEqual(5, p5);
 	}
 
 // test sort descending
 
-	a2.SetSortOrder(JOrderedSetT::kSortDescending);
+	a2.SetSortOrder(JListT::kSortDescending);
 	a2.Sort();
 
 	verify2("10 5 5 4 3 3 3 2 1 1 1 1 -1");
@@ -304,18 +304,18 @@ JTEST(Exercise)
 		{
 		JIndex p6=0, p7=0, p8=0;
 		JAssertTrue(
-			a2.SearchSorted(element[i], JOrderedSetT::kFirstMatch, &p6) == found[i] &&
+			a2.SearchSorted(element[i], JListT::kFirstMatch, &p6) == found[i] &&
 			pos[i] == p6 &&
-			a2.SearchSorted(element[i], JOrderedSetT::kLastMatch, &p7) == found[i] &&
+			a2.SearchSorted(element[i], JListT::kLastMatch, &p7) == found[i] &&
 			pos[i] == p7 &&
-			a2.SearchSorted(element[i], JOrderedSetT::kAnyMatch, &p8) == found[i] &&
+			a2.SearchSorted(element[i], JListT::kAnyMatch, &p8) == found[i] &&
 			pos[i] == p8);
 		}
 
 	JIndex p4=0, p5=0;
-	JAssertTrue(a2.SearchSorted(3, JOrderedSetT::kFirstMatch, &p4));
+	JAssertTrue(a2.SearchSorted(3, JListT::kFirstMatch, &p4));
 	JAssertEqual(5, p4);
-	JAssertTrue(a2.SearchSorted(3, JOrderedSetT::kLastMatch, &p5));
+	JAssertTrue(a2.SearchSorted(3, JListT::kLastMatch, &p5));
 	JAssertEqual(7, p5);
 	}
 
@@ -497,12 +497,12 @@ JTEST(Exercise)
 
 // test InsertSlice()
 
-	snoop1.Expect(JOrderedSetT::kElementsRemoved);
-	snoop1.Expect(JOrderedSetT::kElementsInserted);
-	snoop1.Expect(JOrderedSetT::kElementsInserted);
-	snoop1.Expect(JOrderedSetT::kElementsInserted);
-	snoop1.Expect(JOrderedSetT::kElementsInserted);
-	snoop1.Expect(JOrderedSetT::kElementsInserted);
+	snoop1.Expect(JListT::kElementsRemoved);
+	snoop1.Expect(JListT::kElementsInserted);
+	snoop1.Expect(JListT::kElementsInserted);
+	snoop1.Expect(JListT::kElementsInserted);
+	snoop1.Expect(JListT::kElementsInserted);
+	snoop1.Expect(JListT::kElementsInserted);
 
 	a1.RemoveAll();
 	a1.AppendElements(1, 3);

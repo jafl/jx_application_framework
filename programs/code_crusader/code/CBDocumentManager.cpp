@@ -1563,7 +1563,7 @@ struct DirMatchInfo
 	JSize		matchLength;
 };
 
-static JOrderedSetT::CompareResult
+static JListT::CompareResult
 	CompareMatchLengths(const DirMatchInfo& i1, const DirMatchInfo& i2);
 
 JBoolean
@@ -1592,7 +1592,7 @@ JIndex i;
 		}
 
 	JArray<DirMatchInfo> dirList(dirCount);
-	dirList.SetSortOrder(JOrderedSetT::kSortDescending);
+	dirList.SetSortOrder(JListT::kSortDescending);
 	dirList.SetCompareFunction(CompareMatchLengths);
 
 	DirMatchInfo info;
@@ -1685,7 +1685,7 @@ JIndex i;
 
 // static
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 CompareMatchLengths
 	(
 	const DirMatchInfo& i1,
@@ -1694,15 +1694,15 @@ CompareMatchLengths
 {
 	if (i1.matchLength < i2.matchLength)
 		{
-		return JOrderedSetT::kFirstLessSecond;
+		return JListT::kFirstLessSecond;
 		}
 	else if (i1.matchLength == i2.matchLength)
 		{
-		return JOrderedSetT::kFirstEqualSecond;
+		return JListT::kFirstEqualSecond;
 		}
 	else
 		{
-		return JOrderedSetT::kFirstGreaterSecond;
+		return JListT::kFirstGreaterSecond;
 		}
 }
 
@@ -1913,57 +1913,57 @@ CBDocumentManager::Receive
 	const Message&	message
 	)
 {
-	if (sender == itsProjectDocuments && message.Is(JOrderedSetT::kElementsInserted))
+	if (sender == itsProjectDocuments && message.Is(JListT::kElementsInserted))
 		{
-		const JOrderedSetT::ElementsInserted* info =
-			dynamic_cast<const JOrderedSetT::ElementsInserted*>(&message);
+		const JListT::ElementsInserted* info =
+			dynamic_cast<const JListT::ElementsInserted*>(&message);
 		assert( info != NULL );
 		if (info->Contains(1))
 			{
 			Broadcast(ProjectDocumentActivated(itsProjectDocuments));
 			}
 		}
-	else if (sender == itsProjectDocuments && message.Is(JOrderedSetT::kElementsRemoved))
+	else if (sender == itsProjectDocuments && message.Is(JListT::kElementsRemoved))
 		{
-		const JOrderedSetT::ElementsRemoved* info =
-			dynamic_cast<const JOrderedSetT::ElementsRemoved*>(&message);
+		const JListT::ElementsRemoved* info =
+			dynamic_cast<const JListT::ElementsRemoved*>(&message);
 		assert( info != NULL );
 		if (info->Contains(1))
 			{
 			Broadcast(ProjectDocumentActivated(itsProjectDocuments));
 			}
 		}
-	else if (sender == itsProjectDocuments && message.Is(JOrderedSetT::kElementMoved))
+	else if (sender == itsProjectDocuments && message.Is(JListT::kElementMoved))
 		{
-		const JOrderedSetT::ElementMoved* info =
-			dynamic_cast<const JOrderedSetT::ElementMoved*>(&message);
+		const JListT::ElementMoved* info =
+			dynamic_cast<const JListT::ElementMoved*>(&message);
 		assert( info != NULL );
 		if (info->GetOrigIndex() == 1 || info->GetNewIndex() == 1)
 			{
 			Broadcast(ProjectDocumentActivated(itsProjectDocuments));
 			}
 		}
-	else if (sender == itsProjectDocuments && message.Is(JOrderedSetT::kElementsSwapped))
+	else if (sender == itsProjectDocuments && message.Is(JListT::kElementsSwapped))
 		{
-		const JOrderedSetT::ElementsSwapped* info =
-			dynamic_cast<const JOrderedSetT::ElementsSwapped*>(&message);
+		const JListT::ElementsSwapped* info =
+			dynamic_cast<const JListT::ElementsSwapped*>(&message);
 		assert( info != NULL );
 		if (info->GetIndex1() == 1 || info->GetIndex2() == 1)
 			{
 			Broadcast(ProjectDocumentActivated(itsProjectDocuments));
 			}
 		}
-	else if (sender == itsProjectDocuments && message.Is(JOrderedSetT::kElementChanged))
+	else if (sender == itsProjectDocuments && message.Is(JListT::kElementChanged))
 		{
-		const JOrderedSetT::ElementChanged* info =
-			dynamic_cast<const JOrderedSetT::ElementChanged*>(&message);
+		const JListT::ElementChanged* info =
+			dynamic_cast<const JListT::ElementChanged*>(&message);
 		assert( info != NULL );
 		if (info->Contains(1))
 			{
 			Broadcast(ProjectDocumentActivated(itsProjectDocuments));
 			}
 		}
-	else if (sender == itsProjectDocuments && message.Is(JOrderedSetT::kSorted))
+	else if (sender == itsProjectDocuments && message.Is(JListT::kSorted))
 		{
 		assert( 0 /* not allowed */ );
 		}

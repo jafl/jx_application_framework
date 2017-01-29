@@ -24,7 +24,7 @@
 #include <JXPTPrinter.h>
 
 #include <JPtrArray-JString.h>
-#include <JOrderedSet.h>
+#include <JList.h>
 
 #include <jSysUtil.h>
 #include <jTypes.h>

@@ -59,7 +59,7 @@ MDRecord::~MDRecord()
 
  ******************************************************************************/
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 MDRecord::CompareState
 	(
 	MDRecord * const & r1,
@@ -68,11 +68,11 @@ MDRecord::CompareState
 {
 	if (!r1->itsIsValidFlag && r2->itsIsValidFlag)
 		{
-		return JOrderedSetT::kFirstLessSecond;
+		return JListT::kFirstLessSecond;
 		}
 	else if (r1->itsIsValidFlag && !r2->itsIsValidFlag)
 		{
-		return JOrderedSetT::kFirstGreaterSecond;
+		return JListT::kFirstGreaterSecond;
 		}
 	else
 		{
@@ -80,7 +80,7 @@ MDRecord::CompareState
 		}
 }
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 MDRecord::CompareFileName
 	(
 	MDRecord * const & r1,
@@ -116,19 +116,19 @@ MDRecord::CompareFileName
 
 	if (result < 0)
 		{
-		return JOrderedSetT::kFirstLessSecond;
+		return JListT::kFirstLessSecond;
 		}
 	else if (result > 0)
 		{
-		return JOrderedSetT::kFirstGreaterSecond;
+		return JListT::kFirstGreaterSecond;
 		}
 	else
 		{
-		return JOrderedSetT::kFirstEqualSecond;
+		return JListT::kFirstEqualSecond;
 		}
 }
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 MDRecord::CompareSize
 	(
 	MDRecord * const & r1,
@@ -138,11 +138,11 @@ MDRecord::CompareSize
 	const int result = r1->itsSize - r2->itsSize;
 	if (result < 0)
 		{
-		return JOrderedSetT::kFirstLessSecond;
+		return JListT::kFirstLessSecond;
 		}
 	else if (result > 0)
 		{
-		return JOrderedSetT::kFirstGreaterSecond;
+		return JListT::kFirstGreaterSecond;
 		}
 	else
 		{
@@ -150,18 +150,18 @@ MDRecord::CompareSize
 		}
 }
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 MDRecord::CompareData
 	(
 	MDRecord * const & r1,
 	MDRecord * const & r2
 	)
 {
-	JOrderedSetT::CompareResult	result =
+	JListT::CompareResult	result =
 		JCompareStringsCaseInsensitive(const_cast<JString*>(&r1->itsData),
 									   const_cast<JString*>(&r2->itsData));
 
-	if (result == JOrderedSetT::kFirstEqualSecond)
+	if (result == JListT::kFirstEqualSecond)
 		{
 		return CompareFileName(r1, r2);
 		}

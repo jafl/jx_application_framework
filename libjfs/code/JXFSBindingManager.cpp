@@ -17,7 +17,7 @@
 #include <JXTimerTask.h>
 #include <jXGlobals.h>
 #include <JSimpleProcess.h>
-#include <JOrderedSetUtil.h>
+#include <JListUtil.h>
 #include <jFileUtil.h>
 #include <jDirUtil.h>
 #include <jStreamUtil.h>
@@ -653,7 +653,7 @@ JXFSBindingManager::SaveBinding
 
  ******************************************************************************/
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 JXFSBindingManager::ComparePatterns
 	(
 	JFSBinding* const & b1,
@@ -669,7 +669,7 @@ JXFSBindingManager::ComparePatterns
 
  ******************************************************************************/
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 JXFSBindingManager::CompareCommands
 	(
 	JFSBinding* const & b1,
@@ -681,10 +681,10 @@ JXFSBindingManager::CompareCommands
 	const JString& c1 = b1->GetCommand(&t1, &s1);
 	const JString& c2 = b2->GetCommand(&t2, &s2);
 
-	JOrderedSetT::CompareResult result =
+	JListT::CompareResult result =
 		JCompareStringsCaseSensitive(const_cast<JString*>(&c1),
 									 const_cast<JString*>(&c2));
-	if (result == JOrderedSetT::kFirstEqualSecond)
+	if (result == JListT::kFirstEqualSecond)
 		{
 		result = JCompareIndices(t1, t2);
 		}

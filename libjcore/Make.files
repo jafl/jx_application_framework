@@ -35,11 +35,11 @@
 .cpp ./code/JKLRand
 .cpp ./code/JCollection
 .cpp ./code/JContainer
-.cpp ./code/JOrderedSetT
-.cpp ./code/JOrderedSetUtil
-.cpp ./code/JPtrArray-JString
+.cpp ./code/JListT
+.cpp ./code/JListUtil
 .cpp ./code/JFileArray
 .cpp ./code/JFileArrayIndex
+.cpp ./code/JPtrArray-JString
 .cpp ./code/jHashFunctions
 .cpp ./code/JDirInfo
 .cpp ./code/JDirInfo_UNIX

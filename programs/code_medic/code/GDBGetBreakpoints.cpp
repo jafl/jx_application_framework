@@ -55,7 +55,7 @@ GDBGetBreakpoints::HandleSuccess
 
 	JPtrArray<CMBreakpoint> bpList(JPtrArrayT::kForgetAll);		// ownership taken by CMBreakpointManager
 	bpList.SetCompareFunction(CMBreakpointManager::CompareBreakpointLocations);
-	bpList.SetSortOrder(JOrderedSetT::kSortAscending);
+	bpList.SetSortOrder(JListT::kSortAscending);
 
 	JPtrArray<CMBreakpoint> otherList(JPtrArrayT::kForgetAll);	// ownership taken by CMBreakpointManager
 

@@ -50,7 +50,7 @@ CBMacroManager::CBMacroManagerX()
 {
 	itsMacroList = jnew CBMacroList;
 	assert( itsMacroList != NULL );
-	itsMacroList->SetSortOrder(JOrderedSetT::kSortAscending);
+	itsMacroList->SetSortOrder(JListT::kSortAscending);
 	itsMacroList->SetCompareFunction(CompareMacros);
 }
 
@@ -266,7 +266,7 @@ CBMacroManager::AddMacro
 
  ******************************************************************************/
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 CBMacroManager::CompareMacros
 	(
 	const MacroInfo& m1,

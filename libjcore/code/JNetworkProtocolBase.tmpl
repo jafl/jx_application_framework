@@ -174,7 +174,7 @@ JNetworkProtocolBase<ACE_PEER_STREAM_2>::Flush()
 		return;
 		}
 
-	JOrderedSetIterator<Chunk>* iter = itsSendData.NewIterator();
+	JListIterator<Chunk>* iter = itsSendData.NewIterator();
 	Chunk c;
 	while (iter->Next(&c))
 		{

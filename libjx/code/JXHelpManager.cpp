@@ -216,7 +216,7 @@ JXHelpManager::ShowSection
 		JBoolean found = kJFalse;
 
 		JIndex i;
-		if (itsSections->SearchSorted(target, JOrderedSetT::kAnyMatch, &i))
+		if (itsSections->SearchSorted(target, JListT::kAnyMatch, &i))
 			{
 			target = itsSections->GetElement(i);
 			JString* text;
@@ -555,7 +555,7 @@ JXHelpManager::DirectorClosed
 
  ******************************************************************************/
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 JXHelpManager::CompareSections
 	(
 	const SectionInfo& s1,
@@ -566,14 +566,14 @@ JXHelpManager::CompareSections
 
 	if (r > 0)
 		{
-		return JOrderedSetT::kFirstGreaterSecond;
+		return JListT::kFirstGreaterSecond;
 		}
 	else if (r < 0)
 		{
-		return JOrderedSetT::kFirstLessSecond;
+		return JListT::kFirstLessSecond;
 		}
 	else
 		{
-		return JOrderedSetT::kFirstEqualSecond;
+		return JListT::kFirstEqualSecond;
 		}
 }

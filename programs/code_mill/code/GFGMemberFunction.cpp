@@ -107,7 +107,7 @@ GFGMemberFunction::AddArg
 
  ******************************************************************************/
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 GFGMemberFunction::CompareFunction
 	(
 	GFGMemberFunction* const & f1,
@@ -116,10 +116,10 @@ GFGMemberFunction::CompareFunction
 {
 	const JString& name1 = f1->GetFnName();
 	const JString& name2 = f2->GetFnName();
-	JOrderedSetT::CompareResult r =
+	JListT::CompareResult r =
 		JCompareStringsCaseInsensitive(
 			const_cast<JString*>(&name1), const_cast<JString*>(&name2));
-	if (r != JOrderedSetT::kFirstEqualSecond)
+	if (r != JListT::kFirstEqualSecond)
 		{
 		return r;
 		}
@@ -128,16 +128,16 @@ GFGMemberFunction::CompareFunction
 		{
 		if (f1->IsConst())
 			{
-			return JOrderedSetT::kFirstLessSecond;
+			return JListT::kFirstLessSecond;
 			}
-		return JOrderedSetT::kFirstGreaterSecond;
+		return JListT::kFirstGreaterSecond;
 		}
 
 	const JString& type1 = f1->GetReturnType();
 	const JString& type2 = f2->GetReturnType();
 	r = JCompareStringsCaseInsensitive(const_cast<JString*>(&type1),
 									   const_cast<JString*>(&type2));
-	if (r != JOrderedSetT::kFirstEqualSecond)
+	if (r != JListT::kFirstEqualSecond)
 		{
 		return r;
 		}

@@ -189,7 +189,7 @@ void
 JPackedTableData<T>::GetRow
 	(
 	const JIndex	index,
-	JOrderedSet<T>*	rowData
+	JList<T>*	rowData
 	)
 	const
 {
@@ -214,7 +214,7 @@ void
 JPackedTableData<T>::SetRow
 	(
 	const JIndex			index,
-	const JOrderedSet<T>&	rowData
+	const JList<T>&	rowData
 	)
 {
 	const JSize colCount = GetColCount();
@@ -278,7 +278,7 @@ void
 JPackedTableData<T>::GetCol
 	(
 	const JIndex	index,
-	JOrderedSet<T>*	colData
+	JList<T>*	colData
 	)
 	const
 {
@@ -303,7 +303,7 @@ void
 JPackedTableData<T>::SetCol
 	(
 	const JIndex			index,
-	const JOrderedSet<T>&	colData
+	const JList<T>&	colData
 	)
 {
 	const JSize rowCount = GetRowCount();
@@ -461,7 +461,7 @@ JPackedTableData<T>::InsertRows
 	(
 	const JIndex			index,
 	const JSize				count,
-	const JOrderedSet<T>*	initData
+	const JList<T>*	initData
 	)
 {
 	assert( initData == NULL || initData->GetElementCount() == GetColCount() );
@@ -501,7 +501,7 @@ void
 JPackedTableData<T>::PrependRows
 	(
 	const JSize				count,
-	const JOrderedSet<T>*	initData
+	const JList<T>*	initData
 	)
 {
 	InsertRows(1, count, initData);
@@ -512,7 +512,7 @@ void
 JPackedTableData<T>::AppendRows
 	(
 	const JSize				count,
-	const JOrderedSet<T>*	initData
+	const JList<T>*	initData
 	)
 {
 	InsertRows(GetRowCount()+1, count, initData);
@@ -660,7 +660,7 @@ JPackedTableData<T>::InsertCols
 	(
 	const JIndex			index,
 	const JSize				count,
-	const JOrderedSet<T>*	initData
+	const JList<T>*	initData
 	)
 {
 	assert( initData == NULL || initData->GetElementCount() == GetRowCount() );
@@ -701,7 +701,7 @@ void
 JPackedTableData<T>::PrependCols
 	(
 	const JSize				count,
-	const JOrderedSet<T>*	initData
+	const JList<T>*	initData
 	)
 {
 	InsertCols(1, count, initData);
@@ -712,7 +712,7 @@ void
 JPackedTableData<T>::AppendCols
 	(
 	const JSize				count,
-	const JOrderedSet<T>*	initData
+	const JList<T>*	initData
 	)
 {
 	InsertCols(GetColCount()+1, count, initData);

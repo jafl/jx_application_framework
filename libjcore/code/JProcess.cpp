@@ -363,7 +363,7 @@ JProcess::CheckForFinishedChild
 
 		JProcess target(pid, 0);
 		JIndex i;
-		if (theProcessList.SearchSorted(&target, JOrderedSetT::kFirstMatch, &i))
+		if (theProcessList.SearchSorted(&target, JListT::kFirstMatch, &i))
 			{
 			// Broadcast message from each JProcess object with the
 			// given pid.  There could be more than one!
@@ -408,7 +408,7 @@ JProcess::CheckForFinishedChild
 
  ******************************************************************************/
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 JProcess::ComparePID
 	(
 	JProcess* const & p1,
@@ -417,14 +417,14 @@ JProcess::ComparePID
 {
 	if (p1->GetPID() > p2->GetPID())
 		{
-		return JOrderedSetT::kFirstGreaterSecond;
+		return JListT::kFirstGreaterSecond;
 		}
 	else if (p1->GetPID() < p2->GetPID())
 		{
-		return JOrderedSetT::kFirstLessSecond;
+		return JListT::kFirstLessSecond;
 		}
 	else
 		{
-		return JOrderedSetT::kFirstEqualSecond;
+		return JListT::kFirstEqualSecond;
 		}
 }

@@ -24,7 +24,7 @@
 #include <JFontManager.h>
 #include <jStreamUtil.h>
 #include <jDirUtil.h>
-#include <JOrderedSetUtil.h>
+#include <JListUtil.h>
 #include <jASCIIConstants.h>
 #include <sstream>
 #include <jAssert.h>
@@ -93,7 +93,7 @@ CMBreakpointTable::CMBreakpointTable
 	itsBPList = jnew JPtrArray<CMBreakpoint>(JPtrArrayT::kForgetAll);
 	assert(itsBPList != NULL);
 	itsBPList->SetCompareFunction(CompareBreakpointLocations);
-	itsBPList->SetSortOrder(JOrderedSetT::kSortAscending);
+	itsBPList->SetSortOrder(JListT::kSortAscending);
 
 	// font
 
@@ -751,7 +751,7 @@ CMBreakpointTable::SetColTitles
 
  ******************************************************************************/
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 CMBreakpointTable::CompareBreakpointLocations
 	(
 	CMBreakpoint* const & bp1,
@@ -763,24 +763,24 @@ CMBreakpointTable::CompareBreakpointLocations
 		bp2->GetFileName().GetCString() + cmFileNameOffset(bp2), kJFalse);
 	if (r > 0)
 		{
-		return JOrderedSetT::kFirstGreaterSecond;
+		return JListT::kFirstGreaterSecond;
 		}
 	else if (r < 0)
 		{
-		return JOrderedSetT::kFirstLessSecond;
+		return JListT::kFirstLessSecond;
 		}
 
-	JOrderedSetT::CompareResult r1 =
+	JListT::CompareResult r1 =
 		JCompareIndices(bp1->GetLineNumber(), bp2->GetLineNumber());
 
-	if (r1 == JOrderedSetT::kFirstEqualSecond)
+	if (r1 == JListT::kFirstEqualSecond)
 		{
 		r1 = JCompareStringsCaseInsensitive(
 				const_cast<JString*>(&(bp1->GetFunctionName())),
 				const_cast<JString*>(&(bp2->GetFunctionName())));
 		}
 
-	if (r1 == JOrderedSetT::kFirstEqualSecond)
+	if (r1 == JListT::kFirstEqualSecond)
 		{
 		JString c1, c2;
 		bp1->GetCondition(&c1);

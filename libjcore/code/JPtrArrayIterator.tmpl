@@ -8,7 +8,7 @@
 
 	Provides a consistent interface for iterating over a JPtrArray.
 
-	Refer to JOrderedSetIterator.tmpl for information about interators in general.
+	Refer to JListIterator.tmpl for information about interators in general.
 
 	Copyright (C) 1994-97 by John Lindal. All rights reserved.
 
@@ -30,7 +30,7 @@ JPtrArrayIterator<T>::JPtrArrayIterator
 	const JIndex			index
 	)
 	:
-	JOrderedSetIterator<T*>(theArray, start, index)
+	JListIterator<T*>(theArray, start, index)
 {
 }
 
@@ -42,7 +42,7 @@ JPtrArrayIterator<T>::JPtrArrayIterator
 	const JIndex			index
 	)
 	:
-	JOrderedSetIterator<T*>(theArray, start, index)
+	JListIterator<T*>(theArray, start, index)
 {
 }
 
@@ -62,8 +62,8 @@ JPtrArrayIterator<T>::SetPrev
 	const JPtrArrayT::SetElementAction	action
 	)
 {
-	JOrderedSet<T*>* obj;
-	if (!JPtrArrayIterator<T>::GetOrderedSet(&obj) || JOrderedSetIterator<T*>::AtBeginning())
+	JList<T*>* obj;
+	if (!JPtrArrayIterator<T>::GetOrderedSet(&obj) || JListIterator<T*>::AtBeginning())
 		{
 		return kJFalse;
 		}
@@ -71,7 +71,7 @@ JPtrArrayIterator<T>::SetPrev
 	JPtrArray<T>* ptr = dynamic_cast<JPtrArray<T>*>(obj);
 	assert( ptr != NULL );
 
-	ptr->SetElement(JOrderedSetIterator<T*>::GetCursor(), dataPtr, action);
+	ptr->SetElement(JListIterator<T*>::GetCursor(), dataPtr, action);
 	return kJTrue;
 }
 
@@ -91,8 +91,8 @@ JPtrArrayIterator<T>::SetNext
 	const JPtrArrayT::SetElementAction	action
 	)
 {
-	JOrderedSet<T*>* obj;
-	if (!JPtrArrayIterator<T>::GetOrderedSet(&obj) || JOrderedSetIterator<T*>::AtEnd())
+	JList<T*>* obj;
+	if (!JPtrArrayIterator<T>::GetOrderedSet(&obj) || JListIterator<T*>::AtEnd())
 		{
 		return kJFalse;
 		}
@@ -100,7 +100,7 @@ JPtrArrayIterator<T>::SetNext
 	JPtrArray<T>* ptr = dynamic_cast<JPtrArray<T>*>(obj);
 	assert( ptr != NULL );
 
-	ptr->SetElement(JOrderedSetIterator<T*>::GetCursor()+1, dataPtr, action);
+	ptr->SetElement(JListIterator<T*>::GetCursor()+1, dataPtr, action);
 	return kJTrue;
 }
 
@@ -116,8 +116,8 @@ template <class T>
 JBoolean
 JPtrArrayIterator<T>::DeletePrev()
 {
-	JOrderedSet<T*>* obj;
-	if (!JPtrArrayIterator<T>::GetOrderedSet(&obj) || JOrderedSetIterator<T*>::AtBeginning())
+	JList<T*>* obj;
+	if (!JPtrArrayIterator<T>::GetOrderedSet(&obj) || JListIterator<T*>::AtBeginning())
 		{
 		return kJFalse;
 		}
@@ -125,7 +125,7 @@ JPtrArrayIterator<T>::DeletePrev()
 	JPtrArray<T>* ptr = dynamic_cast<JPtrArray<T>*>(obj);
 	assert( ptr != NULL );
 
-	ptr->DeleteElement(JOrderedSetIterator<T*>::GetCursor());
+	ptr->DeleteElement(JListIterator<T*>::GetCursor());
 	return kJTrue;
 }
 
@@ -141,8 +141,8 @@ template <class T>
 JBoolean
 JPtrArrayIterator<T>::DeleteNext()
 {
-	JOrderedSet<T*>* obj;
-	if (!JPtrArrayIterator<T>::GetOrderedSet(&obj) || JOrderedSetIterator<T*>::AtEnd())
+	JList<T*>* obj;
+	if (!JPtrArrayIterator<T>::GetOrderedSet(&obj) || JListIterator<T*>::AtEnd())
 		{
 		return kJFalse;
 		}
@@ -150,7 +150,7 @@ JPtrArrayIterator<T>::DeleteNext()
 	JPtrArray<T>* ptr = dynamic_cast<JPtrArray<T>*>(obj);
 	assert( ptr != NULL );
 
-	ptr->DeleteElement(JOrderedSetIterator<T*>::GetCursor()+1);
+	ptr->DeleteElement(JListIterator<T*>::GetCursor()+1);
 	return kJTrue;
 }
 
@@ -166,8 +166,8 @@ template <class T>
 JBoolean
 JPtrArrayIterator<T>::DeletePrevAsArray()
 {
-	JOrderedSet<T*>* obj;
-	if (!JPtrArrayIterator<T>::GetOrderedSet(&obj) || JOrderedSetIterator<T*>::AtBeginning())
+	JList<T*>* obj;
+	if (!JPtrArrayIterator<T>::GetOrderedSet(&obj) || JListIterator<T*>::AtBeginning())
 		{
 		return kJFalse;
 		}
@@ -175,7 +175,7 @@ JPtrArrayIterator<T>::DeletePrevAsArray()
 	JPtrArray<T>* ptr = dynamic_cast<JPtrArray<T>*>(obj);
 	assert( ptr != NULL );
 
-	ptr->DeleteElementAsArray(JOrderedSetIterator<T*>::GetCursor());
+	ptr->DeleteElementAsArray(JListIterator<T*>::GetCursor());
 	return kJTrue;
 }
 
@@ -191,8 +191,8 @@ template <class T>
 JBoolean
 JPtrArrayIterator<T>::DeleteNextAsArray()
 {
-	JOrderedSet<T*>* obj;
-	if (!JPtrArrayIterator<T>::GetOrderedSet(&obj) || JOrderedSetIterator<T*>::AtEnd())
+	JList<T*>* obj;
+	if (!JPtrArrayIterator<T>::GetOrderedSet(&obj) || JListIterator<T*>::AtEnd())
 		{
 		return kJFalse;
 		}
@@ -200,7 +200,7 @@ JPtrArrayIterator<T>::DeleteNextAsArray()
 	JPtrArray<T>* ptr = dynamic_cast<JPtrArray<T>*>(obj);
 	assert( ptr != NULL );
 
-	ptr->DeleteElementAsArray(JOrderedSetIterator<T*>::GetCursor()+1);
+	ptr->DeleteElementAsArray(JListIterator<T*>::GetCursor()+1);
 	return kJTrue;
 }
 

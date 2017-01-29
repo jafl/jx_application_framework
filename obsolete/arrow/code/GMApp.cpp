@@ -175,7 +175,7 @@ GMApp::GMApp
 		if (GGetAddressBookMgr()->NameIsAlias(name, alias, fcc))
 			{
 			JIndex findex;
-			if (!aliases.SearchSorted(&name, JOrderedSetT::kAnyMatch, &findex))
+			if (!aliases.SearchSorted(&name, JListT::kAnyMatch, &findex))
 				{
 				GParseNameList(alias, names);
 				aliases.InsertSorted(names.GetElement(i));

@@ -149,7 +149,7 @@ JFSBindingList::AddBinding
 {
 	JBoolean found;
 	const JIndex index =
-		itsBindingList->SearchSorted1(b, JOrderedSetT::kLastMatch, &found);
+		itsBindingList->SearchSorted1(b, JListT::kLastMatch, &found);
 	if (found)
 		{
 		JFSBinding* origB = itsBindingList->GetElement(index);
@@ -199,7 +199,7 @@ JFSBindingList::DeleteBinding
 
 	JIndex fIndex;
 	const JBoolean found =
-		itsOverriddenList->SearchSorted(b, JOrderedSetT::kLastMatch, &fIndex);
+		itsOverriddenList->SearchSorted(b, JListT::kLastMatch, &fIndex);
 
 	itsBindingList->DeleteElement(index);
 	b = NULL;
@@ -247,7 +247,7 @@ JFSBindingList::SetPattern
 
 	JFSBinding temp(pattern, "", JFSBinding::kRunPlain, kJFalse, kJFalse);
 	JIndex fIndex;
-	if (itsBindingList->SearchSorted(&temp, JOrderedSetT::kAnyMatch, &fIndex))
+	if (itsBindingList->SearchSorted(&temp, JListT::kAnyMatch, &fIndex))
 		{
 		return kJFalse;
 		}
@@ -267,7 +267,7 @@ JFSBindingList::SetPattern
 		}
 
 	const JBoolean found =
-		itsBindingList->SearchSorted(b, JOrderedSetT::kAnyMatch, newIndex);
+		itsBindingList->SearchSorted(b, JListT::kAnyMatch, newIndex);
 	assert( found );
 
 	return kJTrue;
@@ -401,7 +401,7 @@ JFSBindingList::SetCommand
 	assert( b != NULL );
 
 	JIndex index;
-	if (itsBindingList->SearchSorted(b, JOrderedSetT::kLastMatch, &index) &&
+	if (itsBindingList->SearchSorted(b, JListT::kLastMatch, &index) &&
 		!(itsBindingList->GetElement(index))->IsSystemBinding())
 		{
 		jdelete b;

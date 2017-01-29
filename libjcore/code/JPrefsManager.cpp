@@ -105,7 +105,7 @@ JPrefsManager::GetData
 {
 	PrefItem item(id.GetID(), NULL);
 	JIndex index;
-	if (itsData->SearchSorted(item, JOrderedSetT::kAnyMatch, &index))
+	if (itsData->SearchSorted(item, JListT::kAnyMatch, &index))
 		{
 		item = itsData->GetElement(index);
 		data->assign(item.data->GetBytes(), item.data->GetByteCount());
@@ -144,7 +144,7 @@ JPrefsManager::SetData
 	PrefItem item(id.GetID(), NULL);
 	JBoolean found;
 	const JIndex index =
-		itsData->SearchSorted1(item, JOrderedSetT::kAnyMatch, &found);
+		itsData->SearchSorted1(item, JListT::kAnyMatch, &found);
 	if (found)
 		{
 		item         = itsData->GetElement(index);
@@ -174,7 +174,7 @@ JPrefsManager::RemoveData
 	PrefItem item(id.GetID(), NULL);
 
 	JIndex index;
-	if (itsData->SearchSorted(item, JOrderedSetT::kAnyMatch, &index))
+	if (itsData->SearchSorted(item, JListT::kAnyMatch, &index))
 		{
 		item = itsData->GetElement(index);
 		jdelete item.data;
@@ -419,7 +419,7 @@ JPrefsManager::DeletePrefsFile
 
  ******************************************************************************/
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 JPrefsManager::ComparePrefIDs
 	(
 	const PrefItem& p1,
@@ -428,14 +428,14 @@ JPrefsManager::ComparePrefIDs
 {
 	if (p1.id < p2.id)
 		{
-		return JOrderedSetT::kFirstLessSecond;
+		return JListT::kFirstLessSecond;
 		}
 	else if (p1.id == p2.id)
 		{
-		return JOrderedSetT::kFirstEqualSecond;
+		return JListT::kFirstEqualSecond;
 		}
 	else
 		{
-		return JOrderedSetT::kFirstGreaterSecond;
+		return JListT::kFirstGreaterSecond;
 		}
 }

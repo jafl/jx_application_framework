@@ -16,7 +16,7 @@
  *****************************************************************************/
 
 // Putting constants inside a template class sucks, so we use the same trick
-// JOrderedSet does to keep the namespace clean
+// JList does to keep the namespace clean
 class JHashRecordT
 {
 public:

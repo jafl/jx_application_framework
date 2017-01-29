@@ -80,7 +80,7 @@ GetOrdString
 
  ******************************************************************************/
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 CLCompareDays
 	(
 	CLDay const & d1,
@@ -93,31 +93,31 @@ CLCompareDays
 			{
 			if (d1.day == d2.day)
 				{
-				return JOrderedSetT::kFirstEqualSecond;
+				return JListT::kFirstEqualSecond;
 				}
 			else if (d1.day > d2.day)
 				{
-				return JOrderedSetT::kFirstGreaterSecond;
+				return JListT::kFirstGreaterSecond;
 				}
 			else
 				{
-				return JOrderedSetT::kFirstLessSecond;
+				return JListT::kFirstLessSecond;
 				}
 			}
 		else if (d1.month > d2.month)
 			{
-			return JOrderedSetT::kFirstGreaterSecond;
+			return JListT::kFirstGreaterSecond;
 			}
 		else
 			{
-			return JOrderedSetT::kFirstLessSecond;
+			return JListT::kFirstLessSecond;
 			}
 		}
 	else if (d1.year > d2.year)
 		{
-		return JOrderedSetT::kFirstGreaterSecond;
+		return JListT::kFirstGreaterSecond;
 		}
-	return JOrderedSetT::kFirstLessSecond;
+	return JListT::kFirstLessSecond;
 }
 
 /******************************************************************************
@@ -153,8 +153,8 @@ operator<
 	const CLDay d2
 	)
 {
-	JOrderedSetT::CompareResult r	= CLCompareDays(d1, d2);
-	if (r == JOrderedSetT::kFirstLessSecond)
+	JListT::CompareResult r	= CLCompareDays(d1, d2);
+	if (r == JListT::kFirstLessSecond)
 		{
 		return kJTrue;
 		}
@@ -173,8 +173,8 @@ operator>
 	const CLDay d2
 	)
 {
-	JOrderedSetT::CompareResult r	= CLCompareDays(d1, d2);
-	if (r == JOrderedSetT::kFirstGreaterSecond)
+	JListT::CompareResult r	= CLCompareDays(d1, d2);
+	if (r == JListT::kFirstGreaterSecond)
 		{
 		return kJTrue;
 		}

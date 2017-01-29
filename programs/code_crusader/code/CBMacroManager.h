@@ -69,7 +69,7 @@ private:
 
 	void	CBMacroManagerX();
 
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		CompareMacros(const MacroInfo& m1, const MacroInfo& m2);
 
 	// not allowed

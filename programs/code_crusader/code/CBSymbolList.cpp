@@ -64,7 +64,7 @@ CBSymbolList::CBSymbolList
 
 	itsSymbolList = jnew JArray<SymbolInfo>(kBlockSize);
 	assert( itsSymbolList != NULL );
-	itsSymbolList->SetSortOrder(JOrderedSetT::kSortAscending);
+	itsSymbolList->SetSortOrder(JListT::kSortAscending);
 	itsSymbolList->SetCompareFunction(CompareSymbols);
 
 	InstallOrderedSet(itsSymbolList);
@@ -190,7 +190,7 @@ public:
 
 	virtual ~FindSymbolCompare() { };
 
-	virtual JOrderedSetT::CompareResult
+	virtual JListT::CompareResult
 	Compare(const JIndex& s1, const JIndex& s2) const
 	{
 		const CBSymbolList::SymbolInfo* info = itsData.GetCArray();
@@ -237,13 +237,13 @@ CBSymbolList::FindSymbol
 	SymbolInfo target;
 	target.name = &s;
 	JIndex startIndex;
-	if (itsSymbolList->SearchSorted(target, JOrderedSetT::kFirstMatch, &startIndex))
+	if (itsSymbolList->SearchSorted(target, JListT::kFirstMatch, &startIndex))
 		{
 		const JSize count = itsSymbolList->GetElementCount();
 		for (JIndex i=startIndex; i<=count; i++)
 			{
 			const SymbolInfo info = itsSymbolList->GetElement(i);
-			if (CompareSymbols(target, info) != JOrderedSetT::kFirstEqualSecond)
+			if (CompareSymbols(target, info) != JListT::kFirstEqualSecond)
 				{
 				break;
 				}
@@ -551,7 +551,7 @@ public:
 
 	virtual ~ClosestMatchCompare() { };
 
-	virtual JOrderedSetT::CompareResult
+	virtual JListT::CompareResult
 	Compare(const JIndex& s1, const JIndex& s2) const
 	{
 		JString* prefix = const_cast<JString*>(&itsPrefix);
@@ -568,7 +568,7 @@ public:
 		else
 			{
 			assert( 0 /* CBSymbolList.cc:ClosestMatchCompare::Compare() didn't get a zero */ );
-			return JOrderedSetT::kFirstEqualSecond;
+			return JListT::kFirstEqualSecond;
 			}
 	}
 
@@ -599,7 +599,7 @@ CBSymbolList::ClosestMatch
 	visibleList.SetSortOrder(itsSymbolList->GetSortOrder());
 
 	JBoolean found;
-	*index = visibleList.SearchSorted1(0, JOrderedSetT::kFirstMatch, &found);
+	*index = visibleList.SearchSorted1(0, JListT::kFirstMatch, &found);
 	if (*index > visibleList.GetElementCount())		// insert beyond end of list
 		{
 		*index = visibleList.GetElementCount();
@@ -1080,7 +1080,7 @@ CBSymbolList::Receive
 
  ******************************************************************************/
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 CBSymbolList::CompareSymbols
 	(
 	const SymbolInfo& s1,
@@ -1095,29 +1095,29 @@ CBSymbolList::CompareSymbols
 
  ******************************************************************************/
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 CBSymbolList::CompareSymbolsAndTypes
 	(
 	const SymbolInfo& s1,
 	const SymbolInfo& s2
 	)
 {
-	const JOrderedSetT::CompareResult result =
+	const JListT::CompareResult result =
 		JCompareStringsCaseInsensitive(s1.name, s2.name);
 
-	if (result == JOrderedSetT::kFirstEqualSecond)
+	if (result == JListT::kFirstEqualSecond)
 		{
 		if (s1.type < s2.type)
 			{
-			return JOrderedSetT::kFirstLessSecond;
+			return JListT::kFirstLessSecond;
 			}
 		else if (s1.type == s2.type)
 			{
-			return JOrderedSetT::kFirstEqualSecond;
+			return JListT::kFirstEqualSecond;
 			}
 		else
 			{
-			return JOrderedSetT::kFirstGreaterSecond;
+			return JListT::kFirstGreaterSecond;
 			}
 		}
 	else

@@ -62,40 +62,40 @@ public:
 	JFloat			GetPercentMemory() const;
 	JFloat			GetPercentCPU() const;
 
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		CompareListPID(GPMProcessEntry * const & e1, GPMProcessEntry * const & e2);
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		CompareListUser(GPMProcessEntry * const & e1, GPMProcessEntry * const & e2);
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		CompareListNice(GPMProcessEntry * const & e1, GPMProcessEntry * const & e2);
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		CompareListSize(GPMProcessEntry * const & e1, GPMProcessEntry * const & e2);
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		CompareListPercentMemory(GPMProcessEntry * const & e1, GPMProcessEntry * const & e2);
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		CompareListPercentCPU(GPMProcessEntry * const & e1, GPMProcessEntry * const & e2);
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		CompareListTime(GPMProcessEntry * const & e1, GPMProcessEntry * const & e2);
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		CompareListCommand(GPMProcessEntry * const & e1, GPMProcessEntry * const & e2);
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		CompareListCommandForIncrSearch(GPMProcessEntry * const & e1, GPMProcessEntry * const & e2);
 
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		CompareTreePID(JTreeNode * const & e1, JTreeNode * const & e2);
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		CompareTreeUser(JTreeNode * const & e1, JTreeNode * const & e2);
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		CompareTreeNice(JTreeNode * const & e1, JTreeNode * const & e2);
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		CompareTreeSize(JTreeNode * const & e1, JTreeNode * const & e2);
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		CompareTreePercentMemory(JTreeNode * const & e1, JTreeNode * const & e2);
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		CompareTreePercentCPU(JTreeNode * const & e1, JTreeNode * const & e2);
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		CompareTreeTime(JTreeNode * const & e1, JTreeNode * const & e2);
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		CompareTreeCommand(JTreeNode * const & e1, JTreeNode * const & e2);
 
 private:

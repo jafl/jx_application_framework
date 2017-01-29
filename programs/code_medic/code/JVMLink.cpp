@@ -103,7 +103,7 @@ JVMLink::JVMLink()
 	assert( itsClassByIDList != NULL );
 	itsClassByIDList->SetCompareFunction(CompareClassIDs);
 
-	itsClassByNameList = jnew JAliasArray<ClassInfo>(itsClassByIDList, CompareClassNames, JOrderedSetT::kSortAscending);
+	itsClassByNameList = jnew JAliasArray<ClassInfo>(itsClassByIDList, CompareClassNames, JListT::kSortAscending);
 	assert( itsClassByNameList != NULL );
 
 	itsThreadRoot = jnew JVMThreadNode(JVMThreadNode::kGroupType, JVMThreadNode::kRootThreadGroupID);
@@ -511,7 +511,7 @@ JVMLink::DispatchEventsFromJVM
 			ClassInfo info;
 			info.name = const_cast<JString*>(&name);
 			JIndex j;
-			if (itsClassByNameList->SearchSorted(info, JOrderedSetT::kAnyMatch, &j))
+			if (itsClassByNameList->SearchSorted(info, JListT::kAnyMatch, &j))
 				{
 				info = itsClassByNameList->GetElement(j);
 				info.Clean();
@@ -634,7 +634,7 @@ JVMLink::FindThread
 {
 	JVMThreadNode target(id);
 	JIndex i;
-	if (itsThreadList->SearchSorted(&target, JOrderedSetT::kAnyMatch, &i))
+	if (itsThreadList->SearchSorted(&target, JListT::kAnyMatch, &i))
 		{
 		*node = itsThreadList->GetElement(i);
 		return kJTrue;
@@ -722,7 +722,7 @@ JVMLink::AddClass
 	info.id = id;
 
 	JIndex i;
-	if (itsClassByIDList->SearchSorted(info, JOrderedSetT::kAnyMatch, &i))
+	if (itsClassByIDList->SearchSorted(info, JListT::kAnyMatch, &i))
 		{
 		return;
 		}
@@ -772,7 +772,7 @@ JVMLink::GetClassName
 	ClassInfo target;
 	target.id = id;
 	JIndex i;
-	if (itsClassByIDList->SearchSorted(target, JOrderedSetT::kAnyMatch, &i))
+	if (itsClassByIDList->SearchSorted(target, JListT::kAnyMatch, &i))
 		{
 		target = itsClassByIDList->GetElement(i);
 		*name  = *(target.name);
@@ -803,7 +803,7 @@ JVMLink::GetClassSourceFile
 	ClassInfo target;
 	target.id = id;
 	JIndex i;
-	if (itsClassByIDList->SearchSorted(target, JOrderedSetT::kAnyMatch, &i))
+	if (itsClassByIDList->SearchSorted(target, JListT::kAnyMatch, &i))
 		{
 		target = itsClassByIDList->GetElement(i);
 		if (target.path != NULL)
@@ -833,7 +833,7 @@ JVMLink::AddMethod
 	ClassInfo target;
 	target.id = classID;
 	JIndex i;
-	const JBoolean found = itsClassByIDList->SearchSorted(target, JOrderedSetT::kAnyMatch, &i);
+	const JBoolean found = itsClassByIDList->SearchSorted(target, JListT::kAnyMatch, &i);
 	assert( found );
 
 	target = itsClassByIDList->GetElement(i);
@@ -869,7 +869,7 @@ JVMLink::GetMethodName
 	ClassInfo target1;
 	target1.id = classID;
 	JIndex i;
-	if (!itsClassByIDList->SearchSorted(target1, JOrderedSetT::kAnyMatch, &i))
+	if (!itsClassByIDList->SearchSorted(target1, JListT::kAnyMatch, &i))
 		{
 		name->Clear();
 		return kJFalse;
@@ -879,7 +879,7 @@ JVMLink::GetMethodName
 
 	MethodInfo target2;
 	target2.id = methodID;
-	if (target1.methods->SearchSorted(target2, JOrderedSetT::kAnyMatch, &i))
+	if (target1.methods->SearchSorted(target2, JListT::kAnyMatch, &i))
 		{
 		target2 = target1.methods->GetElement(i);
 		*name   = *(target2.name);
@@ -1008,7 +1008,7 @@ JVMLink::ClassSignatureToFile
 
  ******************************************************************************/
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 JVMLink::CompareClassIDs
 	(
 	const ClassInfo& c1,
@@ -1017,15 +1017,15 @@ JVMLink::CompareClassIDs
 {
 	if (c1.id > c2.id)
 		{
-		return JOrderedSetT::kFirstGreaterSecond;
+		return JListT::kFirstGreaterSecond;
 		}
 	else if (c1.id < c2.id)
 		{
-		return JOrderedSetT::kFirstLessSecond;
+		return JListT::kFirstLessSecond;
 		}
 	else
 		{
-		return JOrderedSetT::kFirstEqualSecond;
+		return JListT::kFirstEqualSecond;
 		}
 }
 
@@ -1034,7 +1034,7 @@ JVMLink::CompareClassIDs
 
  ******************************************************************************/
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 JVMLink::CompareClassNames
 	(
 	const ClassInfo& c1,
@@ -1049,7 +1049,7 @@ JVMLink::CompareClassNames
 
  ******************************************************************************/
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 JVMLink::CompareMethodIDs
 	(
 	const MethodInfo& m1,
@@ -1058,15 +1058,15 @@ JVMLink::CompareMethodIDs
 {
 	if (m1.id > m2.id)
 		{
-		return JOrderedSetT::kFirstGreaterSecond;
+		return JListT::kFirstGreaterSecond;
 		}
 	else if (m1.id < m2.id)
 		{
-		return JOrderedSetT::kFirstLessSecond;
+		return JListT::kFirstLessSecond;
 		}
 	else
 		{
-		return JOrderedSetT::kFirstEqualSecond;
+		return JListT::kFirstEqualSecond;
 		}
 }
 

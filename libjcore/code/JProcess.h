@@ -122,7 +122,7 @@ private:
 
 	JProcess(const pid_t pid, const int x);
 
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		ComparePID(JProcess* const & p1, JProcess* const & p2);
 
 	// not allowed

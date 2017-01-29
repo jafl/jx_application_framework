@@ -75,9 +75,9 @@ private:
 							const JFSBinding::CommandType type,
 							const JBoolean singleFile);
 
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		ComparePatterns(JFSBinding* const & b1, JFSBinding* const & b2);
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		CompareCommands(JFSBinding* const & b1, JFSBinding* const & b2);
 
 	// not allowed

@@ -34,16 +34,16 @@ JTEST(Broadcaster)
 	JBroadcastTester t1(&t3);
 	JBroadcastTester t2(&t3);
 
-	t1.Expect(JOrderedSetT::kSorted);
-	t1.Expect(JOrderedSetT::kElementMoved);
+	t1.Expect(JListT::kSorted);
+	t1.Expect(JListT::kElementMoved);
 
-	t2.Expect(JOrderedSetT::kSorted);
-	t2.Expect(JOrderedSetT::kElementMoved);
+	t2.Expect(JListT::kSorted);
+	t2.Expect(JListT::kElementMoved);
 
-	JOrderedSetT::Sorted msg1;
+	JListT::Sorted msg1;
 	t3.Bcast(msg1);
 
-	JOrderedSetT::ElementMoved msg2(3, 5);
+	JListT::ElementMoved msg2(3, 5);
 	t3.Bcast(msg2);
 }
 

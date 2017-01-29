@@ -150,7 +150,7 @@ JDirInfo::JDirInfo
 	itsDirEntries = jnew JPtrArray<JDirEntry>(JPtrArrayT::kDeleteAll);
 	assert( itsDirEntries != NULL);
 	itsDirEntries->SetCompareFunction(JDirEntry::CompareNames);
-	itsDirEntries->SetSortOrder(JOrderedSetT::kSortAscending);
+	itsDirEntries->SetSortOrder(JListT::kSortAscending);
 
 	itsVisEntries = jnew JPtrArray<JDirEntry>(JPtrArrayT::kForgetAll);
 	assert( itsVisEntries != NULL);
@@ -158,7 +158,7 @@ JDirInfo::JDirInfo
 	itsAlphaEntries = jnew JPtrArray<JDirEntry>(JPtrArrayT::kForgetAll);
 	assert( itsAlphaEntries != NULL);
 	itsAlphaEntries->SetCompareFunction(JDirEntry::CompareNames);
-	itsAlphaEntries->SetSortOrder(JOrderedSetT::kSortAscending);
+	itsAlphaEntries->SetSortOrder(JListT::kSortAscending);
 
 	InstallOrderedSet(itsVisEntries);
 
@@ -253,7 +253,7 @@ JDirInfo::JDirInfoX
 	itsAlphaEntries = jnew JPtrArray<JDirEntry>(JPtrArrayT::kForgetAll);
 	assert( itsAlphaEntries != NULL);
 	itsAlphaEntries->SetCompareFunction(JDirEntry::CompareNames);
-	itsAlphaEntries->SetSortOrder(JOrderedSetT::kSortAscending);
+	itsAlphaEntries->SetSortOrder(JListT::kSortAscending);
 }
 
 /******************************************************************************
@@ -555,7 +555,7 @@ void
 JDirInfo::ChangeSort
 	(
 	JCompareDirEntries*				f,
-	const JOrderedSetT::SortOrder	order
+	const JListT::SortOrder	order
 	)
 {
 	Broadcast(ContentsWillBeUpdated());
@@ -619,7 +619,7 @@ JDirInfo::FindEntry
 	const
 {
 	JDirEntry target(name, 0);
-	return itsAlphaEntries->SearchSorted(&target, JOrderedSetT::kFirstMatch, index);
+	return itsAlphaEntries->SearchSorted(&target, JListT::kFirstMatch, index);
 }
 
 /******************************************************************************
@@ -639,7 +639,7 @@ JDirInfo::ClosestMatch
 {
 	JDirEntry target(prefixStr, 0);
 	JBoolean found;
-	*index = itsAlphaEntries->SearchSorted1(&target, JOrderedSetT::kFirstMatch, &found);
+	*index = itsAlphaEntries->SearchSorted1(&target, JListT::kFirstMatch, &found);
 	if (*index > itsAlphaEntries->GetElementCount())		// insert beyond end of list
 		{
 		*index = itsAlphaEntries->GetElementCount();

@@ -11,7 +11,7 @@
 #include "CMGetBreakpoints.h"
 #include "cmGlobals.h"
 #include "cmFileVersions.h"
-#include <JOrderedSetUtil.h>
+#include <JListUtil.h>
 #include <jDirUtil.h>
 #include <jFileUtil.h>
 #include <jAssert.h>
@@ -43,7 +43,7 @@ CMBreakpointManager::CMBreakpointManager
 	itsBPList = jnew JPtrArray<CMBreakpoint>(JPtrArrayT::kDeleteAll);
 	assert(itsBPList != NULL);
 	itsBPList->SetCompareFunction(CompareBreakpointLocations);
-	itsBPList->SetSortOrder(JOrderedSetT::kSortAscending);
+	itsBPList->SetSortOrder(JListT::kSortAscending);
 
 	itsOtherList = jnew JPtrArray<CMBreakpoint>(JPtrArrayT::kDeleteAll);
 	assert(itsOtherList != NULL);
@@ -78,7 +78,7 @@ CMBreakpointManager::HasBreakpointAt
 {
 	CMBreakpoint target(loc.GetFileName(), loc.GetLineNumber());
 	JIndex i;
-	return itsBPList->SearchSorted(&target, JOrderedSetT::kAnyMatch, &i);
+	return itsBPList->SearchSorted(&target, JListT::kAnyMatch, &i);
 }
 
 /******************************************************************************
@@ -104,7 +104,7 @@ CMBreakpointManager::GetBreakpoints
 		CMBreakpoint target(fileName, 1);
 		JBoolean found;
 		const JIndex startIndex =
-			itsBPList->SearchSorted1(&target, JOrderedSetT::kFirstMatch, &found);
+			itsBPList->SearchSorted1(&target, JListT::kFirstMatch, &found);
 
 		const JSize count = itsBPList->GetElementCount();
 		for (JIndex i=startIndex; i<=count; i++)
@@ -147,7 +147,7 @@ CMBreakpointManager::GetBreakpoints
 		CMBreakpoint target(loc.GetFileName(), loc.GetLineNumber());
 		JBoolean found;
 		const JIndex startIndex =
-			itsBPList->SearchSorted1(&target, JOrderedSetT::kFirstMatch, &found);
+			itsBPList->SearchSorted1(&target, JListT::kFirstMatch, &found);
 
 		const JSize count = itsBPList->GetElementCount();
 		for (JIndex i=startIndex; i<=count; i++)
@@ -416,15 +416,15 @@ CMBreakpointManager::BreakpointFileNameInvalid
 
  ******************************************************************************/
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 CMBreakpointManager::CompareBreakpointLocations
 	(
 	CMBreakpoint* const & bp1,
 	CMBreakpoint* const & bp2
 	)
 {
-	JOrderedSetT::CompareResult r = JFileID::Compare(bp1->GetFileID(), bp2->GetFileID());
-	if (r == JOrderedSetT::kFirstEqualSecond)
+	JListT::CompareResult r = JFileID::Compare(bp1->GetFileID(), bp2->GetFileID());
+	if (r == JListT::kFirstEqualSecond)
 		{
 		r = JCompareIndices(bp1->GetLineNumber(), bp2->GetLineNumber());
 		}

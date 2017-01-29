@@ -26,7 +26,7 @@ class CMLineIndexTable : public JXTable
 
 public:
 
-	CMLineIndexTable(JOrderedSetT::CompareResult (*bpCcompareFn)(CMBreakpoint *const &, CMBreakpoint *const &),
+	CMLineIndexTable(JListT::CompareResult (*bpCcompareFn)(CMBreakpoint *const &, CMBreakpoint *const &),
 					 CMSourceDirector* dir, CMSourceText* text,
 					 JXScrollbarSet* scrollbarSet, JXContainer* enclosure,
 					 const HSizingOption hSizing, const VSizingOption vSizing,

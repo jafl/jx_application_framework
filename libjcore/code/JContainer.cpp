@@ -3,17 +3,17 @@
 
 							The JContainer Class
 
-	Class for a collection of objects stored in a JOrderedSet.
+	Class for a collection of objects stored in a JList.
 
 	By calling InstallOrderedSet in the constructors and copy constructors,
 	derived classes need not worry about keeping JCollection::itsElementCount
 	up to date.  This class does it automatically by listening to Broadcast
-	from the specified JOrderedSet.
+	from the specified JList.
 
 	Implementation notes:
 
 	We store a JCollection* only to avoid making this class a template.
-	We should actually store an JOrderedSet*.  But instantiating templates
+	We should actually store an JList*.  But instantiating templates
 	is such a pain, and, in this case, is conceptually unnecessary.
 
 	BASE CLASS = JCollection
@@ -23,7 +23,7 @@
  ******************************************************************************/
 
 #include <JContainer.h>
-#include <JOrderedSet.h>
+#include <JList.h>
 #include <jAssert.h>
 
 /******************************************************************************
@@ -35,7 +35,7 @@ JContainer::JContainer()
 	:
 	JCollection()
 {
-	// We get called before the JOrderedSet gets created.
+	// We get called before the JList gets created.
 	// Derived classes must therefore call InstallOrderedSet
 
 	itsOrderedSet = NULL;
@@ -53,7 +53,7 @@ JContainer::JContainer
 	:
 	JCollection(source)
 {
-	// We get called before the JOrderedSet gets created.
+	// We get called before the JList gets created.
 	// Derived classes must therefore call InstallOrderedSet()
 
 	itsOrderedSet = NULL;
@@ -75,7 +75,7 @@ JContainer::operator=
 		return *this;
 		}
 
-	// Usually, the pointer to the JOrderedSet won't change, so we maintain the
+	// Usually, the pointer to the JList won't change, so we maintain the
 	// element count.  If the pointer does change, the derived class must call
 	// InstallOrderedSet() again.
 
@@ -121,17 +121,17 @@ JContainer::Receive
 	const Message&	message
 	)
 {
-	if (sender == itsOrderedSet && message.Is(JOrderedSetT::kElementsInserted))
+	if (sender == itsOrderedSet && message.Is(JListT::kElementsInserted))
 		{
-		const JOrderedSetT::ElementsInserted* info =
-			dynamic_cast<const JOrderedSetT::ElementsInserted*>(&message);
+		const JListT::ElementsInserted* info =
+			dynamic_cast<const JListT::ElementsInserted*>(&message);
 		assert( info != NULL );
 		SetElementCount(GetElementCount() + info->GetCount());
 		}
-	else if (sender == itsOrderedSet && message.Is(JOrderedSetT::kElementsRemoved))
+	else if (sender == itsOrderedSet && message.Is(JListT::kElementsRemoved))
 		{
-		const JOrderedSetT::ElementsRemoved* info =
-			dynamic_cast<const JOrderedSetT::ElementsRemoved*>(&message);
+		const JListT::ElementsRemoved* info =
+			dynamic_cast<const JListT::ElementsRemoved*>(&message);
 		assert( info != NULL );
 		SetElementCount(GetElementCount() - info->GetCount());
 		}

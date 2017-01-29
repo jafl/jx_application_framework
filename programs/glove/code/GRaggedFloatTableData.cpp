@@ -226,7 +226,7 @@ GRaggedFloatTableData::SetRow
 /******************************************************************************
  GetCol
 
-	operator= doesn't work because it could be -any- class derived from JOrderedSet.
+	operator= doesn't work because it could be -any- class derived from JList.
 
  ******************************************************************************/
 
@@ -234,7 +234,7 @@ void
 GRaggedFloatTableData::GetCol
 	(
 	const JIndex	index,
-	JOrderedSet<JFloat>*	colData
+	JList<JFloat>*	colData
 	)
 	const
 {
@@ -258,7 +258,7 @@ void
 GRaggedFloatTableData::SetCol
 	(
 	const JIndex			index,
-	const JOrderedSet<JFloat>&	colData
+	const JList<JFloat>&	colData
 	)
 {
 	JArray<JFloat>* dataCol = itsCols->GetElement(index);
@@ -286,7 +286,7 @@ void
 GRaggedFloatTableData::InsertRow
 	(
 	const JIndex				index,
-	const JOrderedSet<JFloat>*	initData
+	const JList<JFloat>*	initData
 	)
 {
 	assert( initData == NULL || initData->GetElementCount() == GetDataColCount() );
@@ -317,7 +317,7 @@ GRaggedFloatTableData::InsertRows
 	(
 	const JIndex				index,
 	const JSize 				count,
-	const JOrderedSet<JFloat>*	initData
+	const JList<JFloat>*	initData
 	)
 {
 	for (JIndex i = 0; i < count; i++)
@@ -449,7 +449,7 @@ void
 GRaggedFloatTableData::InsertCol
 	(
 	const JIndex			index,
-	const JOrderedSet<JFloat>*	initData
+	const JList<JFloat>*	initData
 	)
 {
 	JIndex trueIndex = index;
@@ -489,7 +489,7 @@ GRaggedFloatTableData::InsertCols
 	(
 	const JIndex				index,
 	const JSize 				count,
-	const JOrderedSet<JFloat>*	initData
+	const JList<JFloat>*	initData
 	)
 {
 	for (JIndex i = 0; i < count; i++)

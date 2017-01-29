@@ -143,10 +143,10 @@ private:
 						  const JPtrArray<JString>& contextNamespace,
 						  const JBoolean caseSensitive) const;
 
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 	CompareSymbols(const SymbolInfo& s1, const SymbolInfo& s2);
 
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 	CompareSymbolsAndTypes(const SymbolInfo& s1, const SymbolInfo& s2);
 
 	// not allowed

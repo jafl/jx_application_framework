@@ -424,7 +424,7 @@ CBFileListTable::GetFileID
 {
 	JString target(trueName);
 	JIndex index;
-	if ((GetFullNameList()).SearchSorted(&target, JOrderedSetT::kAnyMatch, &index))
+	if ((GetFullNameList()).SearchSorted(&target, JListT::kAnyMatch, &index))
 		{
 		*id = (itsFileInfo->GetElement(index)).id;
 		return kJTrue;
@@ -558,17 +558,17 @@ CBFileListTable::Receive
 	const Message&	message
 	)
 {
-	if (sender == GetFullNameDataList() && message.Is(JOrderedSetT::kElementsInserted))
+	if (sender == GetFullNameDataList() && message.Is(JListT::kElementsInserted))
 		{
-		const JOrderedSetT::ElementsInserted* info =
-			dynamic_cast<const JOrderedSetT::ElementsInserted*>(&message);
+		const JListT::ElementsInserted* info =
+			dynamic_cast<const JListT::ElementsInserted*>(&message);
 		assert( info != NULL );
 		FilesAdded(*info);
 		}
-	else if (sender == GetFullNameDataList() && message.Is(JOrderedSetT::kElementsRemoved))
+	else if (sender == GetFullNameDataList() && message.Is(JListT::kElementsRemoved))
 		{
-		const JOrderedSetT::ElementsRemoved* info =
-			dynamic_cast<const JOrderedSetT::ElementsRemoved*>(&message);
+		const JListT::ElementsRemoved* info =
+			dynamic_cast<const JListT::ElementsRemoved*>(&message);
 		assert( info != NULL );
 		itsFileInfo->RemoveElements(*info);
 		if (itsFileUsage != NULL)
@@ -577,10 +577,10 @@ CBFileListTable::Receive
 			}
 		}
 
-	else if (sender == GetFullNameDataList() && message.Is(JOrderedSetT::kElementMoved))
+	else if (sender == GetFullNameDataList() && message.Is(JListT::kElementMoved))
 		{
-		const JOrderedSetT::ElementMoved* info =
-			dynamic_cast<const JOrderedSetT::ElementMoved*>(&message);
+		const JListT::ElementMoved* info =
+			dynamic_cast<const JListT::ElementMoved*>(&message);
 		assert( info != NULL );
 		itsFileInfo->MoveElementToIndexWithMsg(*info);
 		if (itsFileUsage != NULL)
@@ -588,10 +588,10 @@ CBFileListTable::Receive
 			itsFileUsage->MoveElementToIndexWithMsg(*info);
 			}
 		}
-	else if (sender == GetFullNameDataList() && message.Is(JOrderedSetT::kElementsSwapped))
+	else if (sender == GetFullNameDataList() && message.Is(JListT::kElementsSwapped))
 		{
-		const JOrderedSetT::ElementsSwapped* info =
-			dynamic_cast<const JOrderedSetT::ElementsSwapped*>(&message);
+		const JListT::ElementsSwapped* info =
+			dynamic_cast<const JListT::ElementsSwapped*>(&message);
 		assert( info != NULL );
 		itsFileInfo->SwapElementsWithMsg(*info);
 		if (itsFileUsage != NULL)
@@ -599,15 +599,15 @@ CBFileListTable::Receive
 			itsFileUsage->SwapElementsWithMsg(*info);
 			}
 		}
-	else if (sender == GetFullNameDataList() && message.Is(JOrderedSetT::kSorted))
+	else if (sender == GetFullNameDataList() && message.Is(JListT::kSorted))
 		{
 		assert( 0 /* CBFileListTable can't handle full sort of file list */ );
 		}
 
-	else if (sender == GetFullNameDataList() && message.Is(JOrderedSetT::kElementChanged))
+	else if (sender == GetFullNameDataList() && message.Is(JListT::kElementChanged))
 		{
-		const JOrderedSetT::ElementChanged* info =
-			dynamic_cast<const JOrderedSetT::ElementChanged*>(&message);
+		const JListT::ElementChanged* info =
+			dynamic_cast<const JListT::ElementChanged*>(&message);
 		assert( info != NULL );
 		UpdateFileInfo(info->GetFirstIndex());
 		}
@@ -623,7 +623,7 @@ CBFileListTable::Receive
 void
 CBFileListTable::FilesAdded
 	(
-	const JOrderedSetT::ElementsInserted& info
+	const JListT::ElementsInserted& info
 	)
 {
 	const JPtrArray<JString>& fileNameList = GetFullNameList();

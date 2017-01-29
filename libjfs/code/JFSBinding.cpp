@@ -285,7 +285,7 @@ JFSBinding::GetCommandType
 
  ******************************************************************************/
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 JFSBinding::ComparePatterns
 	(
 	JFSBinding* const & n1,

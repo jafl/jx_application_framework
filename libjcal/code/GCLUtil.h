@@ -11,7 +11,7 @@
 #define _H_GCLUtil
 
 #include <JString.h>
-#include <JOrderedSet.h>
+#include <JList.h>
 #include <time.h>
 
 class GCLAppointment;
@@ -79,7 +79,7 @@ time_t		GetEpochTime(const CLDay day, const CLTime appTime);
 CLDay		GetCurrentDate();
 CLTime		GetCurrentTime();
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 CLCompareDays(CLDay const & d1, CLDay const & d2);
 
 int operator== (const CLDay d1, const CLDay d2);

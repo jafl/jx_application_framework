@@ -96,16 +96,16 @@ public:
 
 	void			AdjustPosition(const JIndex newposition);
 
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		CompareDates(GMessageHeader* const & h1, GMessageHeader* const & h2);
 
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		CompareFrom(GMessageHeader* const & h1, GMessageHeader* const & h2);
 
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		CompareSubject(GMessageHeader* const & h1, GMessageHeader* const & h2);
 
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		CompareSize(GMessageHeader* const & h1, GMessageHeader* const & h2);
 
 private:

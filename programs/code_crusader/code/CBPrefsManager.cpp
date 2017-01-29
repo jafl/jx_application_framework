@@ -1728,7 +1728,7 @@ CBPrefsManager::CreateFileTypeList()
 {
 	JArray<FileTypeInfo>* list = jnew JArray<FileTypeInfo>;
 	assert( list != NULL );
-	list->SetSortOrder(JOrderedSetT::kSortAscending);
+	list->SetSortOrder(JListT::kSortAscending);
 	list->SetCompareFunction(CompareFileTypeSpecAndLength);
 	return list;
 }
@@ -1938,7 +1938,7 @@ CBPrefsManager::FileTypeInfo::Free()
 
  ******************************************************************************/
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 CBPrefsManager::CompareFileTypeSpec
 	(
 	const FileTypeInfo& i1,
@@ -1950,11 +1950,11 @@ CBPrefsManager::CompareFileTypeSpec
 
 	if (c1 == kCBContentRegexMarker && c2 != kCBContentRegexMarker)
 		{
-		return JOrderedSetT::kFirstLessSecond;
+		return JListT::kFirstLessSecond;
 		}
 	else if (c1 != kCBContentRegexMarker && c2 == kCBContentRegexMarker)
 		{
-		return JOrderedSetT::kFirstGreaterSecond;
+		return JListT::kFirstGreaterSecond;
 		}
 	else
 		{
@@ -1970,7 +1970,7 @@ CBPrefsManager::CompareFileTypeSpec
 
  ******************************************************************************/
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 CBPrefsManager::CompareFileTypeSpecAndLength
 	(
 	const FileTypeInfo& i1,
@@ -1982,21 +1982,21 @@ CBPrefsManager::CompareFileTypeSpecAndLength
 
 	if (c1 == kCBContentRegexMarker && c2 != kCBContentRegexMarker)
 		{
-		return JOrderedSetT::kFirstLessSecond;
+		return JListT::kFirstLessSecond;
 		}
 	else if (c1 != kCBContentRegexMarker && c2 == kCBContentRegexMarker)
 		{
-		return JOrderedSetT::kFirstGreaterSecond;
+		return JListT::kFirstGreaterSecond;
 		}
 	else if (i1.suffix->Contains(kCBNameRegexMarker) &&
 			 !i2.suffix->Contains(kCBNameRegexMarker))
 		{
-		return JOrderedSetT::kFirstLessSecond;
+		return JListT::kFirstLessSecond;
 		}
 	else if (!i1.suffix->Contains(kCBNameRegexMarker) &&
 			 i2.suffix->Contains(kCBNameRegexMarker))
 		{
-		return JOrderedSetT::kFirstGreaterSecond;
+		return JListT::kFirstGreaterSecond;
 		}
 	else
 		{

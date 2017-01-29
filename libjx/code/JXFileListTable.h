@@ -164,7 +164,7 @@ private:
 
 		PrefixMatch(const JString& prefix, const JPtrArray<JString>& fileList);
 		virtual ~PrefixMatch();
-		virtual JOrderedSetT::CompareResult		Compare(const VisInfo&, const VisInfo&) const;
+		virtual JListT::CompareResult		Compare(const VisInfo&, const VisInfo&) const;
 		virtual JElementComparison<VisInfo>*	Copy() const;
 
 	private:

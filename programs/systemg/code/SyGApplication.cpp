@@ -104,7 +104,7 @@ SyGApplication::SyGApplication
 	itsShortcutList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 	assert( itsShortcutList != NULL );
 	itsShortcutList->SetCompareFunction(CompareShortcuts);
-	itsShortcutList->SetSortOrder(JOrderedSetT::kSortAscending);
+	itsShortcutList->SetSortOrder(JListT::kSortAscending);
 
 	itsMountPointPrefs = jnew JStringPtrMap<JString>(JPtrArrayT::kDeleteAll);
 	assert( itsMountPointPrefs != NULL );
@@ -565,7 +565,7 @@ SyGApplication::RemoveShortcut
 {
 	JString s = JConvertToHomeDirShortcut(shortcut);
 	JIndex i;
-	if (itsShortcutList->SearchSorted(&s, JOrderedSetT::kAnyMatch, &i))
+	if (itsShortcutList->SearchSorted(&s, JListT::kAnyMatch, &i))
 		{
 		itsShortcutList->DeleteElement(i);
 		}
@@ -960,7 +960,7 @@ SyGApplication::InitStrings()
 
  ******************************************************************************/
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 SyGApplication::CompareShortcuts
 	(
 	JString* const & s1,
@@ -971,11 +971,11 @@ SyGApplication::CompareShortcuts
 	const JBoolean h2 = s2->BeginsWith("~");
 	if (h1 && !h2)
 		{
-		return JOrderedSetT::kFirstLessSecond;
+		return JListT::kFirstLessSecond;
 		}
 	else if (!h1 && h2)
 		{
-		return JOrderedSetT::kFirstGreaterSecond;
+		return JListT::kFirstGreaterSecond;
 		}
 	else
 		{

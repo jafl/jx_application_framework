@@ -16,7 +16,7 @@
 #include <JXTextMenu.h>
 #include <jXConstants.h>
 #include <JPtrArray-JString.h>
-#include <JOrderedSetUtil.h>
+#include <JListUtil.h>
 #include <jStreamUtil.h>
 #include <strstream>
 #include <jAssert.h>
@@ -171,10 +171,10 @@ CBFnMenuUpdater::ReadFunctionList
 {
 	JPtrArray<JString> fnNameList(JPtrArrayT::kDeleteAll);
 	fnNameList.SetCompareFunction(JCompareStringsCaseInsensitive);
-	fnNameList.SetSortOrder(JOrderedSetT::kSortAscending);
+	fnNameList.SetSortOrder(JListT::kSortAscending);
 
 	lineIndexList->SetCompareFunction(JCompareIndices);
-	lineIndexList->SetSortOrder(JOrderedSetT::kSortAscending);
+	lineIndexList->SetSortOrder(JListT::kSortAscending);
 
 	// build symbol list
 

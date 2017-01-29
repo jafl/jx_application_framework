@@ -95,7 +95,7 @@ JXDocumentManager::JXDocumentManager
 	itsDocList = jnew JArray<DocInfo>;
 	assert( itsDocList != NULL );
 	itsDocList->SetCompareFunction(CompareDocNames);
-	itsDocList->SetSortOrder(JOrderedSetT::kSortAscending);
+	itsDocList->SetSortOrder(JListT::kSortAscending);
 
 	itsNewDocCount = 0;
 
@@ -783,7 +783,7 @@ JXDocumentManager::Receive
 
  ******************************************************************************/
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 JXDocumentManager::CompareDocNames
 	(
 	const DocInfo& d1,

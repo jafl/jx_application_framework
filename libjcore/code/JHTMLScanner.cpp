@@ -308,7 +308,7 @@ JHTMLScanner::HandleGreekChar
 		{
 		itsTagInfo->name = "font";
 		(itsTagInfo->attr).CleanOut();
-		JString* value = jnew JString(JGetGreekFontName());
+		JString* value = jnew JString();
 		assert( value != NULL );
 		(itsTagInfo->attr).SetNewElement(JString("face", 0, kJFalse), value);
 		result = HandleHTMLTag(itsTagInfo->name, itsTagInfo->attr,

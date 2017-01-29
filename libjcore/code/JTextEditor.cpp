@@ -156,7 +156,7 @@
 #include <JPagePrinter.h>
 #include <JFontManager.h>
 #include <JColormap.h>
-#include <JOrderedSetUtil.h>
+#include <JListUtil.h>
 #include <JRunArrayIterator.h>
 #include <JRegex.h>
 #include <JLatentPG.h>
@@ -283,7 +283,7 @@ JTextEditor::JTextEditor
 	itsLineStarts = jnew JArray<JIndex>;
 	assert( itsLineStarts != NULL );
 	itsLineStarts->SetCompareFunction(JCompareIndices);
-	itsLineStarts->SetSortOrder(JOrderedSetT::kSortAscending);
+	itsLineStarts->SetSortOrder(JListT::kSortAscending);
 
 	itsLineGeom = jnew JRunArray<LineGeometry>;
 	assert( itsLineGeom != NULL );
@@ -1178,7 +1178,7 @@ JTextEditor::WritePrivateFormat
 		const JFont& f   = style.GetRunDataRef(runIndex);
 		JString fontName = f.GetName();
 		const JIndex fontIndex =
-			fontList.SearchSorted1(&fontName, JOrderedSetT::kAnyMatch, &found);
+			fontList.SearchSorted1(&fontName, JListT::kAnyMatch, &found);
 		if (!found)
 			{
 			fontList.InsertAtIndex(fontIndex, fontName);
@@ -1186,7 +1186,7 @@ JTextEditor::WritePrivateFormat
 
 		const JColorIndex color = f.GetStyle().color;
 		const JIndex colorIndex =
-			colorList.SearchSorted1(color, JOrderedSetT::kAnyMatch, &found);
+			colorList.SearchSorted1(color, JListT::kAnyMatch, &found);
 		if (!found)
 			{
 			colorList.InsertElementAtIndex(colorIndex, color);
@@ -1238,13 +1238,13 @@ JTextEditor::WritePrivateFormat
 		JString fontName = f.GetName();
 
 		JIndex fontIndex;
-		found = fontList.SearchSorted(&fontName, JOrderedSetT::kAnyMatch, &fontIndex);
+		found = fontList.SearchSorted(&fontName, JListT::kAnyMatch, &fontIndex);
 		assert( found );
 
 		const JFontStyle& fStyle = f.GetStyle();
 
 		JIndex colorIndex;
-		found = colorList.SearchSorted(fStyle.color, JOrderedSetT::kAnyMatch, &colorIndex);
+		found = colorList.SearchSorted(fStyle.color, JListT::kAnyMatch, &colorIndex);
 		assert( found );
 
 		output << ' ' << charCount;
@@ -10373,7 +10373,7 @@ JTextEditor::GetLineForChar
 
 	JBoolean found;
 	JIndex lineIndex =
-		itsLineStarts->SearchSorted1(charIndex, JOrderedSetT::kAnyMatch, &found);
+		itsLineStarts->SearchSorted1(charIndex, JListT::kAnyMatch, &found);
 	if (!found)
 		{
 		lineIndex--;	// wants to insert -after- the value

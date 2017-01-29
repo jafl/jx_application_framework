@@ -11,11 +11,6 @@
 #include <jXGlobals.h>
 #include <jAssert.h>
 
-// string ID's
-
-static const JCharacter* kWindowTitleID = "WindowTitle::JXOpenDisplayDialog";
-static const JCharacter* kPromptID      = "Prompt::JXOpenDisplayDialog";
-
 /******************************************************************************
  Constructor
 
@@ -26,8 +21,8 @@ JXOpenDisplayDialog::JXOpenDisplayDialog
 	JXWindowDirector* supervisor
 	)
 	:
-	JXGetStringDialog(supervisor, JGetString(kWindowTitleID),
-					  JGetString(kPromptID), JString::empty, kJTrue)
+	JXGetStringDialog(supervisor, JGetString("WindowTitle::JXOpenDisplayDialog"),
+					  JGetString("Prompt::JXOpenDisplayDialog"), JString::empty, kJTrue)
 {
 }
 

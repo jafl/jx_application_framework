@@ -1100,7 +1100,7 @@ JXApplication::PerformUrgentTasks()
 
 		// perform each task - use iterator because task might be deleted
 
-		JOrderedSetIterator<JXUrgentTask*>* iter = taskList.NewIterator();
+		JListIterator<JXUrgentTask*>* iter = taskList.NewIterator();
 		JXUrgentTask* task;
 		while (iter->Next(&task))
 			{

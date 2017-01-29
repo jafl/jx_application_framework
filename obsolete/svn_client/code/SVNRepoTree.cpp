@@ -151,7 +151,7 @@ SVNRepoTree::ReopenIfNeeded
 	const JString& repoPath = node->GetRepoPath();
 	JIndex i;
 	if (itsView != NULL &&
-		itsSavedOpenNodes->SearchSorted(const_cast<JString*>(&repoPath), JOrderedSetT::kAnyMatch, &i))
+		itsSavedOpenNodes->SearchSorted(const_cast<JString*>(&repoPath), JListT::kAnyMatch, &i))
 		{
 		itsView->Open(node);
 		}

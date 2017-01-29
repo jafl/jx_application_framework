@@ -110,7 +110,7 @@ private:
 
 	JBoolean	OnlyColorChanged(JFontStyle s1, JFontStyle s2) const;
 
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		CompareTokenStarts(const TokenData& t1, const TokenData& t2);
 
 	// not allowed

@@ -116,7 +116,7 @@ GCLAlarm::~GCLAlarm()
 
  ******************************************************************************/
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 GCLAlarm::CompareTimes
 	(
 	GCLAlarm * const & a1,
@@ -128,14 +128,14 @@ GCLAlarm::CompareTimes
 
 	if (t1 == t2)
 		{
-		return JOrderedSetT::kFirstEqualSecond;
+		return JListT::kFirstEqualSecond;
 		}
 	else if (t1 > t2)
 		{
-		return JOrderedSetT::kFirstGreaterSecond;
+		return JListT::kFirstGreaterSecond;
 		}
 	else
 		{
-		return JOrderedSetT::kFirstLessSecond;
+		return JListT::kFirstLessSecond;
 		}
 }

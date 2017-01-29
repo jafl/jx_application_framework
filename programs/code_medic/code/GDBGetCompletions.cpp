@@ -68,7 +68,7 @@ GDBGetCompletions::HandleSuccess
 	)
 {
 	JPtrArray<JString> lines(JPtrArrayT::kDeleteAll);
-	lines.SetSortOrder(JOrderedSetT::kSortAscending);
+	lines.SetSortOrder(JListT::kSortAscending);
 	lines.SetCompareFunction(JCompareStringsCaseSensitive);
 
 	// loop through each line and add each one to our list
@@ -113,7 +113,7 @@ GDBGetCompletions::HandleSuccess
 
 	const JSize stringCount = lines.GetElementCount();
 	JBoolean found;
-	JIndex startIndex = lines.SearchSorted1(&itsPrefix, JOrderedSetT::kAnyMatch, &found);
+	JIndex startIndex = lines.SearchSorted1(&itsPrefix, JListT::kAnyMatch, &found);
 	if (found)
 		{
 		if (stringCount == 1)

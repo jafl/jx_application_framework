@@ -10,14 +10,14 @@
 #ifndef _H_JRunArrayIterator
 #define _H_JRunArrayIterator
 
-#include <JOrderedSetIterator.h>
+#include <JListIterator.h>
 
 // must forward declare to avoid #include loop
 // (We do it here so JRunArray includes JRunArrayIterator for convenience.)
 template <class T> class JRunArray;
 
 template <class T>
-class JRunArrayIterator : public JOrderedSetIterator<T>
+class JRunArrayIterator : public JListIterator<T>
 {
 public:
 
@@ -39,7 +39,7 @@ public:
 
 	virtual void		MoveTo(const JIteratorPosition newPosition, const JIndex index);
 
-	// only allowed if constructed from non-const JOrderedSet<T>*
+	// only allowed if constructed from non-const JList<T>*
 
 	virtual JBoolean	SetPrev(const T& data);
 	virtual JBoolean	SetNext(const T& data);

@@ -365,7 +365,7 @@ SMTPMessage::HandleAddresses()
 			str->Append(">");
 			}
 		JIndex findex;
-		if (itsToNames->SearchSorted(str, JOrderedSetT::kFirstMatch, &findex))
+		if (itsToNames->SearchSorted(str, JListT::kFirstMatch, &findex))
 			{
 			names.DeleteElement(1);
 			}
@@ -393,13 +393,13 @@ SMTPMessage::HandleAddresses()
 			str->Append(">");
 			}
 		JIndex findex;
-		if (itsToNames->SearchSorted(str, JOrderedSetT::kFirstMatch, &findex))
+		if (itsToNames->SearchSorted(str, JListT::kFirstMatch, &findex))
 			{
 			names.DeleteElement(1);
 			}
 		else
 			{
-			if (itsCcNames->SearchSorted(str, JOrderedSetT::kFirstMatch, &findex))
+			if (itsCcNames->SearchSorted(str, JListT::kFirstMatch, &findex))
 				{
 				names.DeleteElement(1);
 				}
@@ -441,7 +441,7 @@ SMTPMessage::ReplaceAliases
 		if (GGetAddressBookMgr()->NameIsAlias(name, alias, fcc))
 			{
 			JIndex findex;
-			if (!aliases.SearchSorted(&name, JOrderedSetT::kAnyMatch, &findex))
+			if (!aliases.SearchSorted(&name, JListT::kAnyMatch, &findex))
 				{
 				GParseNameList(alias, names);
 				aliases.InsertSorted(names.GetElement(i));

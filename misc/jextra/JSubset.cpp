@@ -24,7 +24,7 @@
  ******************************************************************************/
 
 #include <JSubset.h>
-#include <JOrderedSetUtil.h>
+#include <JListUtil.h>
 #include <JKLRand.h>
 #include <limits.h>
 #include <jAssert.h>
@@ -63,7 +63,7 @@ JSubset::JSubset
 	itsIndices = jnew JArray<JIndex>(kBlockSize);
 	assert( itsIndices != NULL );
 	itsIndices->SetCompareFunction(JCompareIndices);
-	itsIndices->SetSortOrder(JOrderedSetT::kSortAscending);
+	itsIndices->SetSortOrder(JListT::kSortAscending);
 }
 
 /******************************************************************************
@@ -217,7 +217,7 @@ JSubset::operator+=
 	JIndex indexToAdd = otherIndices->GetFirstElement();
 
 	JBoolean found;
-	JIndex i = itsIndices->SearchSorted1(indexToAdd, JOrderedSetT::kAnyMatch, &found);
+	JIndex i = itsIndices->SearchSorted1(indexToAdd, JListT::kAnyMatch, &found);
 
 //	JIndex i = 1;
 	JIndex ourIndex = itsIndices->GetElement(i);
@@ -321,7 +321,7 @@ JSubset::operator-=
 	JIndex indexToRemove = otherIndices->GetFirstElement();
 
 	JBoolean found;
-	JIndex i = itsIndices->SearchSorted1(indexToRemove, JOrderedSetT::kAnyMatch, &found);
+	JIndex i = itsIndices->SearchSorted1(indexToRemove, JListT::kAnyMatch, &found);
 
 //	JIndex i = 1;
 	JIndex ourIndex = itsIndices->GetElement(i);
@@ -435,7 +435,7 @@ JSubset::AddRange
 	JIndex indexToAdd = startIndex;
 
 	JBoolean found;
-	JIndex i = itsIndices->SearchSorted1(indexToAdd, JOrderedSetT::kAnyMatch, &found);
+	JIndex i = itsIndices->SearchSorted1(indexToAdd, JListT::kAnyMatch, &found);
 
 //	JIndex i = 1;
 	JIndex ourIndex = itsIndices->GetElement(i);
@@ -543,7 +543,7 @@ JSubset::Remove
 	)
 {
 	JIndex i;
-	if (itsIndices->SearchSorted(indexToRemove, JOrderedSetT::kAnyMatch, &i))
+	if (itsIndices->SearchSorted(indexToRemove, JListT::kAnyMatch, &i))
 		{
 		itsIndices->RemoveElement(i);
 		ElementRemoved();
@@ -570,9 +570,9 @@ JSubset::RemoveRange
 
 	JBoolean foundFirst, foundLast;
 	const JIndex i1 =
-		itsIndices->SearchSorted1(startIndex, JOrderedSetT::kAnyMatch, &foundFirst);
+		itsIndices->SearchSorted1(startIndex, JListT::kAnyMatch, &foundFirst);
 	JIndex i2 =
-		itsIndices->SearchSorted1(endIndex, JOrderedSetT::kAnyMatch, &foundLast);
+		itsIndices->SearchSorted1(endIndex, JListT::kAnyMatch, &foundLast);
 	if (!foundLast)
 		{
 		i2--;

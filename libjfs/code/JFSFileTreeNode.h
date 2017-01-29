@@ -51,16 +51,16 @@ protected:
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message);
 
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		CompareUserName(JTreeNode * const & e1, JTreeNode * const & e2);
 
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		CompareGroupName(JTreeNode * const & e1, JTreeNode * const & e2);
 
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		CompareSize(JTreeNode * const & e1, JTreeNode * const & e2);
 
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		CompareDate(JTreeNode * const & e1, JTreeNode * const & e2);
 
 private:
@@ -79,7 +79,7 @@ private:
 	void		UpdatePath(const JCharacter* fullName,
 						   const JString& oldPath, const JString& newPath);
 
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		CompareTypeAndName(JTreeNode * const & e1, JTreeNode * const & e2);
 
 	// not allowed

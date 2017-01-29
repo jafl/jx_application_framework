@@ -468,7 +468,7 @@ JPtrArray<T>::Remove
 
 	if (found)
 		{
-		JOrderedSet<T*>::RemoveElement(index);
+		JList<T*>::RemoveElement(index);
 		}
 }
 
@@ -485,7 +485,7 @@ JPtrArray<T>::DeleteElement
 	)
 {
 	jdelete JArray<T*>::GetElement(index);
-	JOrderedSet<T*>::RemoveElement(index);
+	JList<T*>::RemoveElement(index);
 }
 
 /******************************************************************************
@@ -518,7 +518,7 @@ JPtrArray<T>::DeleteElementAsArray
 	)
 {
 	jdelete [] JArray<T*>::GetElement(index);
-	JOrderedSet<T*>::RemoveElement(index);
+	JList<T*>::RemoveElement(index);
 }
 
 /******************************************************************************
@@ -592,6 +592,45 @@ JPtrArray<T>::Find
 	// if we fall through, there was no match
 
 	return kJFalse;
+}
+
+/******************************************************************************
+ Join
+
+ ******************************************************************************/
+
+template <class T>
+T
+JPtrArray<T>::Join
+	(
+	const T& separator
+	)
+	const
+{
+	return Join(separator.GetBytes());
+}
+
+template <class T>
+T
+JPtrArray<T>::Join
+	(
+	const JUtf8Byte* separator
+	)
+	const
+{
+	T s;
+
+	const JSize count = JCollection::GetElementCount();
+	for (JIndex i=1; i<=count; i++)
+		{
+		if (i > 1)
+			{
+			s += separator;
+			}
+		s += *(JArray<T*>::GetElement(i));
+		}
+
+	return s;
 }
 
 /******************************************************************************

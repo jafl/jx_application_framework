@@ -272,7 +272,7 @@ private:
 	JPoint		GetLinkFromPt() const;
 	JPoint		GetLinkToPt() const;
 
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		CompareFunctionNames(const FunctionInfo& i1, const FunctionInfo& i2);
 
 	// called by CBTree

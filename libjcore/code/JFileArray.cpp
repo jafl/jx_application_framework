@@ -87,7 +87,7 @@
 #include <JFileArray.h>
 #include <JFileArrayIndex.h>
 #include <JString.h>
-#include <JOrderedSetUtil.h>
+#include <JListUtil.h>
 #include <jFStreamUtil.h>
 #include <jStreamUtil.h>
 #include <jFileUtil.h>

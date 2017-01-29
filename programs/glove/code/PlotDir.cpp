@@ -332,15 +332,15 @@ PlotDir::Receive
 		}
 
 	else if (sender == itsFits &&
-		( 	message.Is(JOrderedSetT::kElementsInserted) ||
-			message.Is(JOrderedSetT::kElementsRemoved)))
+		( 	message.Is(JListT::kElementsInserted) ||
+			message.Is(JListT::kElementsRemoved)))
 		{
 		UpdateFitParmsMenu();
 		}
 
 	else if (sender == itsDiffDirs &&
-		( 	message.Is(JOrderedSetT::kElementsInserted) ||
-			message.Is(JOrderedSetT::kElementsRemoved)))
+		( 	message.Is(JListT::kElementsInserted) ||
+			message.Is(JListT::kElementsRemoved)))
 		{
 		UpdateDiffMenu();
 		}

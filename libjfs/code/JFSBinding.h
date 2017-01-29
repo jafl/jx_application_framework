@@ -59,7 +59,7 @@ public:
 	static JFSBinding::CommandType	GetCommandType(const JBoolean shell,
 												   const JBoolean window);
 
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		ComparePatterns(JFSBinding* const & n1, JFSBinding* const & n2);
 
 private:

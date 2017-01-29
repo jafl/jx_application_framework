@@ -43,7 +43,7 @@ public:
 	void		SetParent(J3DObject* parent);
 
 	JBoolean	HasChildren() const;
-	JBoolean	GetChildIterator(JOrderedSetIterator<J3DObject*>** iter) const;
+	JBoolean	GetChildIterator(JListIterator<J3DObject*>** iter) const;
 
 	// called by derived class of J3DCamera
 

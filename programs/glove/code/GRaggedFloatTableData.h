@@ -30,23 +30,23 @@ public:
 	void	GetRow(const JIndex index, JArray<JFloat>* rowData) const;
 	void	SetRow(const JIndex index, const JArray<JFloat>& rowData);
 
-	void	GetCol(const JIndex index, JOrderedSet<JFloat>* colData) const;
-	void	SetCol(const JIndex index, const JOrderedSet<JFloat>& colData);
+	void	GetCol(const JIndex index, JList<JFloat>* colData) const;
+	void	SetCol(const JIndex index, const JList<JFloat>& colData);
 
 	const JArray<JFloat>&	GetColPointer(const JIndex index) const;
 
-	void	InsertRow(const JIndex index, const JOrderedSet<JFloat>* initData = NULL);
-	void	InsertRows(const JIndex index, const JSize count, const JOrderedSet<JFloat>* initData = NULL);
+	void	InsertRow(const JIndex index, const JList<JFloat>* initData = NULL);
+	void	InsertRows(const JIndex index, const JSize count, const JList<JFloat>* initData = NULL);
 	void	PrependRow();
 	void	DuplicateRow(const JIndex index);
 	void	RemoveRow(const JIndex index);
 	void	RemoveAllRows();
 	void	MoveRow(const JIndex origIndex, const JIndex newIndex);
 
-	void	InsertCol(const JIndex index, const JOrderedSet<JFloat>* initData = NULL);
-	void	InsertCols(const JIndex index, const JSize count, const JOrderedSet<JFloat>* initData = NULL);
-	void	PrependCol(const JOrderedSet<JFloat>* initData = NULL);
-	void	AppendCol(const JOrderedSet<JFloat>* initData = NULL);
+	void	InsertCol(const JIndex index, const JList<JFloat>* initData = NULL);
+	void	InsertCols(const JIndex index, const JSize count, const JList<JFloat>* initData = NULL);
+	void	PrependCol(const JList<JFloat>* initData = NULL);
+	void	AppendCol(const JList<JFloat>* initData = NULL);
 	void	DuplicateCol(const JIndex origIndex, const JIndex newIndex);
 	void	RemoveCol(const JIndex index);
 	void	RemoveAllCols();
@@ -185,7 +185,7 @@ GRaggedFloatTableData::PrependRow()
 inline void
 GRaggedFloatTableData::PrependCol
 	(
-	const JOrderedSet<JFloat>* initData
+	const JList<JFloat>* initData
 	)
 {
 	InsertCol(1, initData);
@@ -194,7 +194,7 @@ GRaggedFloatTableData::PrependCol
 inline void
 GRaggedFloatTableData::AppendCol
 	(
-	const JOrderedSet<JFloat>* initData
+	const JList<JFloat>* initData
 	)
 {
 	InsertCol(itsCols->GetElementCount()+1, initData);

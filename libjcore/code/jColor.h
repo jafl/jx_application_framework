@@ -8,7 +8,7 @@
 #ifndef _H_JColor
 #define _H_JColor
 
-#include <JOrderedSet.h>
+#include <JList.h>
 #include <jMath.h>
 
 struct JHSB;
@@ -70,7 +70,7 @@ struct JRGB
 std::istream& operator>>(std::istream& input, JRGB& color);
 std::ostream& operator<<(std::ostream& output, const JRGB& color);
 
-JOrderedSetT::CompareResult JCompareRGBValues(const JRGB& c1, const JRGB& c2);
+JListT::CompareResult JCompareRGBValues(const JRGB& c1, const JRGB& c2);
 
 inline JRGB
 JBlend
@@ -171,7 +171,7 @@ struct JHSB
 std::istream& operator>>(std::istream& input, JHSB& color);
 std::ostream& operator<<(std::ostream& output, const JHSB& color);
 
-JOrderedSetT::CompareResult JCompareHSBValues(const JHSB& c1, const JHSB& c2);
+JListT::CompareResult JCompareHSBValues(const JHSB& c1, const JHSB& c2);
 
 inline int
 operator==

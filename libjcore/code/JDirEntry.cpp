@@ -15,7 +15,7 @@
 #include <jDirUtil.h>
 #include <jSysUtil.h>
 #include <JPtrArray-JString.h>
-#include <JOrderedSetUtil.h>
+#include <JListUtil.h>
 #include <JRegex.h>
 #include <unistd.h>
 #include <utime.h>
@@ -571,7 +571,7 @@ JDirEntry::MatchesContentFilter
 
  ******************************************************************************/
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 JDirEntry::CompareNames
 	(
 	JDirEntry * const & e1,
@@ -581,15 +581,15 @@ JDirEntry::CompareNames
 	return JCompareStringsCaseInsensitive(&(e1->itsName), &(e2->itsName));
 }
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 JDirEntry::CompareSizes
 	(
 	JDirEntry * const & e1,
 	JDirEntry * const & e2
 	)
 {
-	const JOrderedSetT::CompareResult result = JCompareSizes(e1->itsSize, e2->itsSize);
-	if (result != JOrderedSetT::kFirstEqualSecond)
+	const JListT::CompareResult result = JCompareSizes(e1->itsSize, e2->itsSize);
+	if (result != JListT::kFirstEqualSecond)
 		{
 		return result;
 		}
@@ -599,15 +599,15 @@ JDirEntry::CompareSizes
 		}
 }
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 JDirEntry::CompareModTimes
 	(
 	JDirEntry * const & e1,
 	JDirEntry * const & e2
 	)
 {
-	const JOrderedSetT::CompareResult result = JCompareSizes(e1->itsModTime, e2->itsModTime);
-	if (result != JOrderedSetT::kFirstEqualSecond)
+	const JListT::CompareResult result = JCompareSizes(e1->itsModTime, e2->itsModTime);
+	if (result != JListT::kFirstEqualSecond)
 		{
 		return result;
 		}

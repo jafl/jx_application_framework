@@ -21,10 +21,10 @@ std::ostream& operator<<(std::ostream&, const JStringPtrMap<JString>&);
 JBoolean JSameStrings(const JPtrArray<JString>&, const JPtrArray<JString>&,
 					  const JBoolean caseSensitive);
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 JCompareStringsCaseSensitive(JString* const &, JString* const &);
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 JCompareStringsCaseInsensitive(JString* const &, JString* const &);
 
 #endif

@@ -20,7 +20,7 @@
 	A JArray is used to store the run lengths + actual items.
 	Thus, JRunArrays cannot store objects, only intrinisic types.
 
-	BASE CLASS = JOrderedSet
+	BASE CLASS = JList
 
 	Copyright (C) 1994-97 by John Lindal. All rights reserved.
 
@@ -42,7 +42,7 @@ static int (*theCurrentQuickSortCompareFn)(const void*, const void*) = NULL;
 template <class T>
 JRunArray<T>::JRunArray()
 	:
-	JOrderedSet<T>()
+	JList<T>()
 {
 	itsRuns = jnew JArray< JRunArrayElement<T> >;
 	assert( itsRuns != NULL );
@@ -59,7 +59,7 @@ JRunArray<T>::JRunArray
 	const JRunArray<T>& source
 	)
 	:
-	JOrderedSet<T>(source)
+	JList<T>(source)
 {
 	itsRuns = jnew JArray< JRunArrayElement<T> >(*(source.itsRuns));
 	assert( itsRuns != NULL );
@@ -72,7 +72,7 @@ JRunArray<T>::JRunArray
 	const JIndexRange&	range
 	)
 	:
-	JOrderedSet<T>(source)
+	JList<T>(source)
 {
 	itsRuns = jnew JArray< JRunArrayElement<T> >;
 	assert( itsRuns != NULL );
@@ -88,7 +88,7 @@ JRunArray<T>::JRunArray
 	const JIndex		endIndex
 	)
 	:
-	JOrderedSet<T>(source)
+	JList<T>(source)
 {
 	itsRuns = jnew JArray< JRunArrayElement<T> >;
 	assert( itsRuns != NULL );
@@ -124,7 +124,7 @@ JRunArray<T>::operator=
 		return *this;
 		}
 
-	JCollection::operator=(source);		// JOrderedSet::operator= is private
+	JCollection::operator=(source);		// JList::operator= is private
 
 	*itsRuns = *(source.itsRuns);
 	JRunArray<T>::OrderedSetAssigned(source);
@@ -181,8 +181,8 @@ JRunArray<T>::InsertElementsAtIndex
 		const JIndex trueElementIndex =
 			PrivateInsertElementsAtIndex(elementIndex, data, newElementCount);
 
-		JOrderedSetT::ElementsInserted message(trueElementIndex, newElementCount);
-		JOrderedSet<T>::NotifyIterators(message);
+		JListT::ElementsInserted message(trueElementIndex, newElementCount);
+		JList<T>::NotifyIterators(message);
 		JBroadcaster::Broadcast(message);
 		}
 }
@@ -206,8 +206,8 @@ JRunArray<T>::InsertElementsAtIndex
 			PrivateInsertElementsAtIndex(elementIndex, data, newElementCount,
 										 runIndex, firstIndexInRun);
 
-		JOrderedSetT::ElementsInserted message(trueElementIndex, newElementCount);
-		JOrderedSet<T>::NotifyIterators(message);
+		JListT::ElementsInserted message(trueElementIndex, newElementCount);
+		JList<T>::NotifyIterators(message);
 		JBroadcaster::Broadcast(message);
 		}
 }
@@ -292,7 +292,7 @@ JRunArray<T>::PrivateInsertElementsAtIndex
 	assert( elementIndex > 0 );
 	assert( newElementCount > 0 );
 
-	if (JOrderedSet<T>::IndexValid(elementIndex))
+	if (JList<T>::IndexValid(elementIndex))
 		{
 		if (data == GetRunDataRef(*runIndex))
 			{
@@ -383,13 +383,13 @@ JRunArray<T>::RemoveNextElements
 		}
 	else if (count > 0)
 		{
-		assert( JOrderedSet<T>::IndexValid(firstIndex) &&
-				JOrderedSet<T>::IndexValid(firstIndex+count-1) );
+		assert( JList<T>::IndexValid(firstIndex) &&
+				JList<T>::IndexValid(firstIndex+count-1) );
 
 		PrivateRemoveNextElements(firstIndex, count);
 
-		JOrderedSetT::ElementsRemoved message(firstIndex, count);
-		JOrderedSet<T>::NotifyIterators(message);
+		JListT::ElementsRemoved message(firstIndex, count);
+		JList<T>::NotifyIterators(message);
 		JBroadcaster::Broadcast(message);
 		}
 }
@@ -410,14 +410,14 @@ JRunArray<T>::RemoveNextElements
 		}
 	else if (count > 0)
 		{
-		assert( JOrderedSet<T>::IndexValid(firstIndex) &&
-				JOrderedSet<T>::IndexValid(firstIndex+count-1) );
+		assert( JList<T>::IndexValid(firstIndex) &&
+				JList<T>::IndexValid(firstIndex+count-1) );
 		assert( *firstIndexInRun <= firstIndex );
 
 		PrivateRemoveNextElements(firstIndex, count, runIndex, firstIndexInRun);
 
-		JOrderedSetT::ElementsRemoved message(firstIndex, count);
-		JOrderedSet<T>::NotifyIterators(message);
+		JListT::ElementsRemoved message(firstIndex, count);
+		JList<T>::NotifyIterators(message);
 		JBroadcaster::Broadcast(message);
 		}
 }
@@ -444,8 +444,8 @@ JRunArray<T>::IteratorRemoveNextElements
 		JIndex firstIndexInRun = origFirstIndexInRun;
 		PrivateRemoveNextElements(firstIndex, count, &runIndex, &firstIndexInRun);
 
-		JOrderedSetT::ElementsRemoved message(firstIndex, count);
-		JOrderedSet<T>::NotifyIterators(message);
+		JListT::ElementsRemoved message(firstIndex, count);
+		JList<T>::NotifyIterators(message);
 		JBroadcaster::Broadcast(message);
 		}
 }
@@ -530,12 +530,12 @@ JRunArray<T>::RemoveAll()
 {
 	if (!JCollection::IsEmpty())
 		{
-		JOrderedSetT::ElementsRemoved message(1, JCollection::GetElementCount());
+		JListT::ElementsRemoved message(1, JCollection::GetElementCount());
 
 		itsRuns->RemoveAll();
 		JCollection::SetElementCount(0);
 
-		JOrderedSet<T>::NotifyIterators(message);
+		JList<T>::NotifyIterators(message);
 		JBroadcaster::Broadcast(message);
 		}
 }
@@ -572,12 +572,12 @@ JRunArray<T>::SetElement
 	const T&		data
 	)
 {
-	assert( JOrderedSet<T>::IndexValid(elementIndex) );
+	assert( JList<T>::IndexValid(elementIndex) );
 
 	if (PrivateSetElement(elementIndex, data))
 		{
-		JOrderedSetT::ElementChanged message(elementIndex);
-		JOrderedSet<T>::NotifyIterators(message);
+		JListT::ElementChanged message(elementIndex);
+		JList<T>::NotifyIterators(message);
 		JBroadcaster::Broadcast(message);
 		}
 }
@@ -598,8 +598,8 @@ JRunArray<T>::IteratorSetElement
 	JIndex firstIndexInRun = origFirstIndexInRun;
 	if (PrivateSetElement(elementIndex, data, &runIndex, &firstIndexInRun))
 		{
-		JOrderedSetT::ElementChanged message(elementIndex);
-		JOrderedSet<T>::NotifyIterators(message);
+		JListT::ElementChanged message(elementIndex);
+		JList<T>::NotifyIterators(message);
 		JBroadcaster::Broadcast(message);
 		}
 }
@@ -777,8 +777,8 @@ JRunArray<T>::MoveElementToIndex
 	const JIndex newIndex
 	)
 {
-	assert( JOrderedSet<T>::IndexValid(currentIndex) );
-	assert( JOrderedSet<T>::IndexValid(newIndex) );
+	assert( JList<T>::IndexValid(currentIndex) );
+	assert( JList<T>::IndexValid(newIndex) );
 
 	if (currentIndex == newIndex)
 		{
@@ -789,8 +789,8 @@ JRunArray<T>::MoveElementToIndex
 	PrivateRemoveNextElements(currentIndex, 1);
 	PrivateInsertElementsAtIndex(newIndex, savedElement, 1);
 
-	JOrderedSetT::ElementMoved message(currentIndex, newIndex);
-	JOrderedSet<T>::NotifyIterators(message);
+	JListT::ElementMoved message(currentIndex, newIndex);
+	JList<T>::NotifyIterators(message);
 	JBroadcaster::Broadcast(message);
 }
 
@@ -809,8 +809,8 @@ JRunArray<T>::SwapElements
 	const JIndex index2
 	)
 {
-	assert( JOrderedSet<T>::IndexValid(index1) );
-	assert( JOrderedSet<T>::IndexValid(index2) );
+	assert( JList<T>::IndexValid(index1) );
+	assert( JList<T>::IndexValid(index2) );
 
 	if (index1 == index2)
 		{
@@ -825,8 +825,8 @@ JRunArray<T>::SwapElements
 		PrivateSetElement(index2, savedElement);
 		}
 
-	JOrderedSetT::ElementsSwapped message(index1, index2);
-	JOrderedSet<T>::NotifyIterators(message);
+	JListT::ElementsSwapped message(index1, index2);
+	JList<T>::NotifyIterators(message);
 	JBroadcaster::Broadcast(message);
 }
 
@@ -855,7 +855,7 @@ JRunArray<T>::SumElements
 
 	JIndex runIndex, firstIndexInRun;
 	const JBoolean found = FindRun(index, &runIndex, &firstIndexInRun);
-	assert( found && JOrderedSet<T>::IndexValid(endIndex) );
+	assert( found && JList<T>::IndexValid(endIndex) );
 
 	const JSize runCount = GetRunCount();
 	for (JIndex i=runIndex; i<=runCount && index <= endIndex; i++)
@@ -1065,8 +1065,8 @@ JRunArray<T>::InsertSlice
 	JIndex i    = PrivateInsertElementsAtIndex(index, sourceRuns[startRun-1].data, count,
 											   &runIndex, &firstIndexInRun);
 	{
-	JOrderedSetT::ElementsInserted message(i, count);
-	JOrderedSet<T>::NotifyIterators(message);
+	JListT::ElementsInserted message(i, count);
+	JList<T>::NotifyIterators(message);
 	JBroadcaster::Broadcast(message);
 	}
 
@@ -1095,8 +1095,8 @@ JRunArray<T>::InsertSlice
 			InsertRun(runIndex, count, sourceRuns[j-1].data);
 			}
 
-		JOrderedSetT::ElementsInserted message(i, count);
-		JOrderedSet<T>::NotifyIterators(message);
+		JListT::ElementsInserted message(i, count);
+		JList<T>::NotifyIterators(message);
 		JBroadcaster::Broadcast(message);
 
 		i += count;
@@ -1108,8 +1108,8 @@ JRunArray<T>::InsertSlice
 	PrivateInsertElementsAtIndex(i, sourceRuns[endRun-1].data, count,
 								 &runIndex, &firstIndexInRun);
 	{
-	JOrderedSetT::ElementsInserted message(i, count);
-	JOrderedSet<T>::NotifyIterators(message);
+	JListT::ElementsInserted message(i, count);
+	JList<T>::NotifyIterators(message);
 	JBroadcaster::Broadcast(message);
 	}
 }
@@ -1118,7 +1118,7 @@ JRunArray<T>::InsertSlice
  Sort (virtual)
 
 	We sort the runs and then merge them afterwards.
-	Broadcasts JOrderedSetT::Sorted.
+	Broadcasts JListT::Sorted.
 
  ******************************************************************************/
 
@@ -1132,7 +1132,7 @@ JRunArray<T>::Sort()
 	assert( ok );
 
 	itsRuns->SetCompareFunction(CompareRuns);
-	itsRuns->SetSortOrder(JOrderedSet<T>::GetSortOrder());
+	itsRuns->SetSortOrder(JList<T>::GetSortOrder());
 
 	itsRuns->Sort();
 
@@ -1141,8 +1141,8 @@ JRunArray<T>::Sort()
 
 	MergeAdjacentRuns();
 
-	JOrderedSetT::Sorted message;
-	JOrderedSet<T>::NotifyIterators(message);
+	JListT::Sorted message;
+	JList<T>::NotifyIterators(message);
 	JBroadcaster::Broadcast(message);
 }
 
@@ -1158,7 +1158,7 @@ JIndex
 JRunArray<T>::SearchSorted1
 	(
 	const T&							origTarget,
-	const JOrderedSetT::SearchReturn	which,
+	const JListT::SearchReturn	which,
 	JBoolean*							found
 	)
 	const
@@ -1169,7 +1169,7 @@ JRunArray<T>::SearchSorted1
 	assert( ok );
 
 	itsRuns->SetCompareFunction(CompareRuns);
-	itsRuns->SetSortOrder(JOrderedSet<T>::GetSortOrder());
+	itsRuns->SetSortOrder(JList<T>::GetSortOrder());
 
 	JRunArrayElement<T> target(1, origTarget);
 	const JIndex runIndex = itsRuns->SearchSorted1(target, which, found);
@@ -1184,7 +1184,7 @@ JRunArray<T>::SearchSorted1
 		{
 		elementIndex += runData[i-1].length;
 		}
-	if (*found && which == JOrderedSetT::kLastMatch)
+	if (*found && which == JListT::kLastMatch)
 		{
 		elementIndex += runData[runIndex-1].length - 1;
 		}
@@ -1200,7 +1200,7 @@ JRunArray<T>::SearchSorted1
  ******************************************************************************/
 
 template <class T>
-JOrderedSetT::CompareResult
+JListT::CompareResult
 JRunArray<T>::CompareRuns
 	(
 	const JRunArrayElement<T>& r1,
@@ -1215,11 +1215,11 @@ JRunArray<T>::CompareRuns
 
 	We sort the runs and then merge them afterwards.
 
-	Uses qsort() and broadcasts JOrderedSetT::Sorted afterwards.
+	Uses qsort() and broadcasts JListT::Sorted afterwards.
 
 	Since qsort() wants the sort order to be encoded in the comparison
 	function, and since the comparison function prototype is different,
-	we do -not- use the sorting information from JOrderedSet.
+	we do -not- use the sorting information from JList.
 
 	The compare function should compare the data, not JRunArrayElements.
 
@@ -1240,8 +1240,8 @@ JRunArray<T>::QuickSort
 
 	MergeAdjacentRuns();
 
-	JOrderedSetT::Sorted message;
-	JOrderedSet<T>::NotifyIterators(message);
+	JListT::Sorted message;
+	JList<T>::NotifyIterators(message);
 	JBroadcaster::Broadcast(message);
 }
 
@@ -1295,7 +1295,7 @@ JRunArray<T>::MergeAdjacentRuns()
  ******************************************************************************/
 
 template <class T>
-JOrderedSetIterator<T>*
+JListIterator<T>*
 JRunArray<T>::NewIterator
 	(
 	const JIteratorPosition	start,
@@ -1308,7 +1308,7 @@ JRunArray<T>::NewIterator
 }
 
 template <class T>
-JOrderedSetIterator<T>*
+JListIterator<T>*
 JRunArray<T>::NewIterator
 	(
 	const JIteratorPosition	start,
@@ -1414,8 +1414,8 @@ JRunArray<T>::FindRun
 	)
 	const
 {
-	if (!JOrderedSet<T>::IndexValid(origIndex) ||
-		!JOrderedSet<T>::IndexValid(newIndex))
+	if (!JList<T>::IndexValid(origIndex) ||
+		!JList<T>::IndexValid(newIndex))
 		{
 		return kJFalse;
 		}

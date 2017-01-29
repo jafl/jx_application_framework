@@ -69,7 +69,7 @@ GMessageFrom::~GMessageFrom()
 
  ******************************************************************************/
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 GMessageFrom::CompareFromLines
 	(
 	GMessageFrom* const & n1,
@@ -127,14 +127,14 @@ GMessageFrom::CompareFromLines
 
 	if (r > 0)
 		{
-		return JOrderedSetT::kFirstGreaterSecond;
+		return JListT::kFirstGreaterSecond;
 		}
 	else if (r < 0)
 		{
-		return JOrderedSetT::kFirstLessSecond;
+		return JListT::kFirstLessSecond;
 		}
 	else
 		{
-		return JOrderedSetT::kFirstEqualSecond;
+		return JListT::kFirstEqualSecond;
 		}
 }

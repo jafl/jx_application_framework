@@ -43,7 +43,7 @@ PrintWidget::PrintWidget
 	// This array keeps track of the points that define the beginning and
 	// ending of each line the is draw in the window.
 
-	// See JCollection.h, JOrderedSet.h, and JArray.h for functionality
+	// See JCollection.h, JList.h, and JArray.h for functionality
 
 	itsPoints = jnew JArray<JPoint>();
 	assert( itsPoints != NULL );

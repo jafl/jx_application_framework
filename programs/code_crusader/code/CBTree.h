@@ -278,14 +278,14 @@ private:
 
 	void	CollectAncestors(CBClass* cbClass, JPtrArray<CBClass>* list) const;
 
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		CompareClassFullNames(CBClass* const & c1, CBClass* const & c2);
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		CompareClassNames(CBClass* const & c1, CBClass* const & c2);
 
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		CompareRGClassPtrs(const RootGeom& i1, const RootGeom& i2);
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		CompareRSContent(const RootSubset& i1, const RootSubset& i2);
 
 	// called by CBClass

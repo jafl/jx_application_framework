@@ -156,42 +156,42 @@ SCNodeMenu::Receive
 
 	else if (sender == nodeList)
 		{
-		if (message.Is(JOrderedSetT::kElementsInserted))
+		if (message.Is(JListT::kElementsInserted))
 			{
-			const JOrderedSetT::ElementsInserted* info =
-				dynamic_cast<const JOrderedSetT::ElementsInserted*>(&message);
+			const JListT::ElementsInserted* info =
+				dynamic_cast<const JListT::ElementsInserted*>(&message);
 			assert( info != NULL && info->GetCount() == 1 );
 			info->AdjustIndex(&itsNodeIndex);
 			}
-		else if (message.Is(JOrderedSetT::kElementsRemoved))
+		else if (message.Is(JListT::kElementsRemoved))
 			{
-			const JOrderedSetT::ElementsRemoved* info =
-				dynamic_cast<const JOrderedSetT::ElementsRemoved*>(&message);
+			const JListT::ElementsRemoved* info =
+				dynamic_cast<const JListT::ElementsRemoved*>(&message);
 			assert( info != NULL && info->GetCount() == 1 );
 			if (!info->AdjustIndex(&itsNodeIndex))
 				{
 				itsNodeIndex = 1;
 				}
 			}
-		else if (message.Is(JOrderedSetT::kElementMoved))
+		else if (message.Is(JListT::kElementMoved))
 			{
-			const JOrderedSetT::ElementMoved* info =
-				dynamic_cast<const JOrderedSetT::ElementMoved*>(&message);
+			const JListT::ElementMoved* info =
+				dynamic_cast<const JListT::ElementMoved*>(&message);
 			assert( info != NULL );
 			info->AdjustIndex(&itsNodeIndex);
 			}
-		else if (message.Is(JOrderedSetT::kElementsSwapped))
+		else if (message.Is(JListT::kElementsSwapped))
 			{
-			const JOrderedSetT::ElementsSwapped* info =
-				dynamic_cast<const JOrderedSetT::ElementsSwapped*>(&message);
+			const JListT::ElementsSwapped* info =
+				dynamic_cast<const JListT::ElementsSwapped*>(&message);
 			assert( info != NULL );
 			info->AdjustIndex(&itsNodeIndex);
 			}
-		else if (message.Is(JOrderedSetT::kSorted))
+		else if (message.Is(JListT::kSorted))
 			{
 			assert( 0 );
 			}
-		// nothing extra required for JOrderedSetT::kElementChanged
+		// nothing extra required for JListT::kElementChanged
 
 		const JIndex savedNode = itsNodeIndex;
 		BuildMenu();

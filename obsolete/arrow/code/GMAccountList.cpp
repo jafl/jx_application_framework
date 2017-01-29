@@ -229,10 +229,10 @@ GMAccountList::Receive
 	)
 {
 	if (sender == itsAccountInfo &&
-		message.Is(JOrderedSetT::kElementsInserted))
+		message.Is(JListT::kElementsInserted))
 		{
-		const JOrderedSetT::ElementsInserted* info =
-			dynamic_cast<const JOrderedSetT::ElementsInserted*>(&message);
+		const JListT::ElementsInserted* info =
+			dynamic_cast<const JListT::ElementsInserted*>(&message);
 		assert( info != NULL );
 		const JIndex firstIndex = info->GetFirstIndex();
 		const JSize count       = info->GetCount();
@@ -240,10 +240,10 @@ GMAccountList::Receive
 		}
 
 	else if (sender == itsAccountInfo &&
-			 message.Is(JOrderedSetT::kElementsRemoved))
+			 message.Is(JListT::kElementsRemoved))
 		{
-		const JOrderedSetT::ElementsRemoved* info =
-			dynamic_cast<const JOrderedSetT::ElementsRemoved*>(&message);
+		const JListT::ElementsRemoved* info =
+			dynamic_cast<const JListT::ElementsRemoved*>(&message);
 		assert( info != NULL );
 		const JIndex firstIndex = info->GetFirstIndex();
 		const JSize count       = info->GetCount();

@@ -10,7 +10,7 @@
 #ifndef _H_JLinkedList
 #define _H_JLinkedList
 
-#include <JOrderedSet.h>
+#include <JList.h>
 #include <JLinkedListIterator.h>
 
 template <class T>
@@ -30,7 +30,7 @@ public:
 };
 
 template <class T>
-class JLinkedList : public JOrderedSet<T>
+class JLinkedList : public JList<T>
 {
 	friend class JLinkedListIterator<T>;
 
@@ -54,10 +54,10 @@ public:
 	virtual void	MoveElementToIndex(const JIndex currentIndex, const JIndex newIndex);
 	virtual void	SwapElements(const JIndex index1, const JIndex index2);
 
-	virtual JOrderedSetIterator<T>*
+	virtual JListIterator<T>*
 		NewIterator(const JIteratorPosition start = kJIteratorStartAtBeginning,
 					const JIndex index = 0);
-	virtual JOrderedSetIterator<T>*
+	virtual JListIterator<T>*
 		NewIterator(const JIteratorPosition start = kJIteratorStartAtBeginning,
 					const JIndex index = 0) const;
 

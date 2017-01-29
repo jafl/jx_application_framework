@@ -411,13 +411,13 @@ J2DVectorData::Receive
 	if (sender == itsXData  || sender == itsYData ||
 		sender == itsVXData || sender == itsVYData)
 		{
-		if (message.Is(JOrderedSetT::kElementChanged) ||
-			message.Is(JOrderedSetT::kElementMoved) )
+		if (message.Is(JListT::kElementChanged) ||
+			message.Is(JListT::kElementMoved) )
 			{
 			BroadcastCurveChanged();
 			}
-		else if (message.Is(JOrderedSetT::kElementsInserted) ||
-				 message.Is(JOrderedSetT::kElementsRemoved) )
+		else if (message.Is(JListT::kElementsInserted) ||
+				 message.Is(JListT::kElementsRemoved) )
 			{
 			ValidateData();
 			BroadcastCurveChanged();

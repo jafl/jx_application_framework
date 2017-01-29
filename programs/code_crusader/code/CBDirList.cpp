@@ -31,7 +31,7 @@ CBDirList::CBDirListX()
 {
 	itsDirList = jnew CBDirInfoList;
 	assert( itsDirList != NULL );
-	itsDirList->SetSortOrder(JOrderedSetT::kSortAscending);
+	itsDirList->SetSortOrder(JListT::kSortAscending);
 	itsDirList->SetCompareFunction(CBDirInfo::ComparePathNames);
 
 	InstallOrderedSet(itsDirList);
@@ -400,7 +400,7 @@ CBDirInfoList::DeleteAll()
 
  ******************************************************************************/
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 CBDirInfo::ComparePathNames
 	(
 	const CBDirInfo& i1,
@@ -415,7 +415,7 @@ CBDirInfo::ComparePathNames
 
  ******************************************************************************/
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 CBDirInfo::CompareProjIndex
 	(
 	const CBDirInfo& i1,
@@ -424,11 +424,11 @@ CBDirInfo::CompareProjIndex
 {
 	if (i1.projIndex < i2.projIndex)
 		{
-		return JOrderedSetT::kFirstLessSecond;
+		return JListT::kFirstLessSecond;
 		}
 	else if (i1.projIndex > i2.projIndex)
 		{
-		return JOrderedSetT::kFirstGreaterSecond;
+		return JListT::kFirstGreaterSecond;
 		}
 	else
 		{

@@ -8,7 +8,7 @@
 #ifndef _H_JFileID
 #define _H_JFileID
 
-#include <JOrderedSet.h>
+#include <JList.h>
 #include <sys/types.h>
 
 class JString;
@@ -30,7 +30,7 @@ public:
 	JBoolean	IsValid() const;
 	void		SetFileName(const JString& fullName);
 
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		Compare(const JFileID& id1, const JFileID& id2);
 
 private:

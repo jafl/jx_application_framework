@@ -247,7 +247,7 @@ GLFitDescription::WriteSetup
 
  ******************************************************************************/
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 GLFitDescription::CompareFits
 	(
 	GLFitDescription* const & f1,
@@ -260,32 +260,32 @@ GLFitDescription::CompareFits
 		}
 	else if (f1->GetType() >= kBLinear)
 		{
-		return JOrderedSetT::kFirstLessSecond;
+		return JListT::kFirstLessSecond;
 		}
 	else if (f1->GetType() == kModule)
 		{
-		return JOrderedSetT::kFirstGreaterSecond;
+		return JListT::kFirstGreaterSecond;
 		}
 	else if (f1->GetType() == kPolynomial)
 		{
 		if (f2->GetType() >= kBLinear)
 			{
-			return JOrderedSetT::kFirstGreaterSecond;
+			return JListT::kFirstGreaterSecond;
 			}
 		else
 			{
-			return JOrderedSetT::kFirstLessSecond;
+			return JListT::kFirstLessSecond;
 			}
 		}
 	else
 		{
 		if (f2->GetType() == kModule)
 			{
-			return JOrderedSetT::kFirstLessSecond;
+			return JListT::kFirstLessSecond;
 			}
 		else
 			{
-			return JOrderedSetT::kFirstGreaterSecond;
+			return JListT::kFirstGreaterSecond;
 			}
 		}
 	

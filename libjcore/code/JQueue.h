@@ -11,7 +11,7 @@
 #define _H_JQueue
 
 #include <JContainer.h>
-#include <JOrderedSetIterator.h>	// template
+#include <JListIterator.h>	// template
 
 template <class T, class S>
 class JQueue : public JContainer
@@ -36,8 +36,8 @@ public:
 	void	Flush();
 	void	Discard(const JSize numToDiscard);
 
-	JOrderedSetIterator<T>*	NewIterator();
-	JOrderedSetIterator<T>*	NewIterator() const;
+	JListIterator<T>*	NewIterator();
+	JListIterator<T>*	NewIterator() const;
 
 protected:
 

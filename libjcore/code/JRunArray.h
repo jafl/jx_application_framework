@@ -39,7 +39,7 @@ public:
 };
 
 template <class T>
-class JRunArray : public JOrderedSet<T>
+class JRunArray : public JList<T>
 {
 	friend class JRunArrayIterator<T>;
 
@@ -77,15 +77,15 @@ public:
 
 	virtual void	Sort();
 	virtual JIndex	SearchSorted1(const T& target,
-								  const JOrderedSetT::SearchReturn which,
+								  const JListT::SearchReturn which,
 								  JBoolean* found) const;
 
 	void	QuickSort(int (*compare)(const void*, const void*));
 
-	virtual JOrderedSetIterator<T>*
+	virtual JListIterator<T>*
 		NewIterator(const JIteratorPosition start = kJIteratorStartAtBeginning,
 					const JIndex index = 0);
-	virtual JOrderedSetIterator<T>*
+	virtual JListIterator<T>*
 		NewIterator(const JIteratorPosition start = kJIteratorStartAtBeginning,
 					const JIndex index = 0) const;
 
@@ -172,7 +172,7 @@ private:
 
 	void	MergeAdjacentRuns();
 
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		CompareRuns(const JRunArrayElement<T>& r1, const JRunArrayElement<T>& r2);
 
 	static int	QuickSortCompareRuns(const void* p1, const void* p2);

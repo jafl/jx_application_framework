@@ -105,7 +105,7 @@ public:
 	JPtrArray<JString>* GetReadList();
 	void				SetReadList(JPtrArray<JString>* list);
 
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		CompareNicknames(GMAccount* const & a1, GMAccount* const & a2);
 
 protected:

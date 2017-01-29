@@ -29,7 +29,7 @@ JNamedTreeList::JNamedTreeList
 {
 	itsSortedNodeList = jnew JPtrArray<JTreeNode>(JPtrArrayT::kForgetAll);
 	assert( itsSortedNodeList != NULL );
-	itsSortedNodeList->SetSortOrder(JOrderedSetT::kSortAscending);
+	itsSortedNodeList->SetSortOrder(JListT::kSortAscending);
 	itsSortedNodeList->SetCompareFunction(JNamedTreeNode::DynamicCastCompareNames);
 
 	BuildSortedNodeList();
@@ -124,7 +124,7 @@ JNamedTreeList::Find
 	const
 {
 	JNamedTreeNode target(NULL, name);
-	if (itsSortedNodeList->SearchSorted(&target, JOrderedSetT::kFirstMatch, index))
+	if (itsSortedNodeList->SearchSorted(&target, JListT::kFirstMatch, index))
 		{
 		const JBoolean found = FindNode(itsSortedNodeList->GetElement(*index), index);
 		assert( found );
@@ -156,7 +156,7 @@ JNamedTreeList::ClosestMatch
 
 	JNamedTreeNode target(NULL, prefixStr);
 	JBoolean found;
-	*index = itsSortedNodeList->SearchSorted1(&target, JOrderedSetT::kFirstMatch, &found);
+	*index = itsSortedNodeList->SearchSorted1(&target, JListT::kFirstMatch, &found);
 	if (*index > itsSortedNodeList->GetElementCount())		// insert beyond end of list
 		{
 		*index = itsSortedNodeList->GetElementCount();

@@ -146,7 +146,7 @@ private:
 	void	DocumentMenusNeedUpdate();
 	void	UpdateAllDocumentMenus();
 
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		CompareDocNames(const DocInfo& d1, const DocInfo& d2);
 
 	// not allowed

@@ -15,7 +15,7 @@
 
 #include <gMailUtils.h>
 
-#include <JOrderedSetUtil.h>
+#include <JListUtil.h>
 #include <JPtrArray-JString.h>
 #include <JRegex.h>
 #include <jStreamUtil.h>
@@ -1113,7 +1113,7 @@ GMessageHeader::AdjustPosition
 
  *****************************************************************************/
 
-JOrderedSetT::CompareResult 	
+JListT::CompareResult 	
 GMessageHeader::CompareDates
 	(
 	GMessageHeader* const & h1,
@@ -1149,15 +1149,15 @@ GMessageHeader::CompareDates
 
 	if (r > 0)
 		{
-		return JOrderedSetT::kFirstGreaterSecond;
+		return JListT::kFirstGreaterSecond;
 		}
 	else if (r < 0)
 		{
-		return JOrderedSetT::kFirstLessSecond;
+		return JListT::kFirstLessSecond;
 		}
 	else
 		{
-		return JOrderedSetT::kFirstEqualSecond;
+		return JListT::kFirstEqualSecond;
 		}
 }
 
@@ -1166,7 +1166,7 @@ GMessageHeader::CompareDates
 
  *****************************************************************************/
 
-JOrderedSetT::CompareResult 	
+JListT::CompareResult 	
 GMessageHeader::CompareFrom
 	(
 	GMessageHeader* const & h1,
@@ -1181,7 +1181,7 @@ GMessageHeader::CompareFrom
 
  *****************************************************************************/
 
-JOrderedSetT::CompareResult 	
+JListT::CompareResult 	
 GMessageHeader::CompareSubject
 	(
 	GMessageHeader* const & h1,
@@ -1191,11 +1191,11 @@ GMessageHeader::CompareSubject
 	const int r	=  JStringCompare(h1->GetBaseSubject(), h2->GetBaseSubject(), kJFalse);
 	if (r > 0)
 		{
-		return JOrderedSetT::kFirstGreaterSecond;
+		return JListT::kFirstGreaterSecond;
 		}
 	else if (r < 0)
 		{
-		return JOrderedSetT::kFirstLessSecond;
+		return JListT::kFirstLessSecond;
 		}
 	else
 		{
@@ -1208,7 +1208,7 @@ GMessageHeader::CompareSubject
 
  *****************************************************************************/
 
-JOrderedSetT::CompareResult 	
+JListT::CompareResult 	
 GMessageHeader::CompareSize
 	(
 	GMessageHeader* const & h1,

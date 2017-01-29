@@ -969,7 +969,7 @@ SyGAddRecentFile
 			count = info->GetEntryCount();
 			if (count >= kRecentFileCount)
 				{
-				info->ChangeSort(JDirEntry::CompareModTimes, JOrderedSetT::kSortDescending);
+				info->ChangeSort(JDirEntry::CompareModTimes, JListT::kSortDescending);
 				for (JIndex i=count; i>=kRecentFileCount; i--)
 					{
 					JRemoveFile(info->GetEntry(i).GetFullName());

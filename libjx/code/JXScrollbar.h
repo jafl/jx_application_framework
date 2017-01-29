@@ -166,7 +166,7 @@ private:
 						   const JXKeyModifiers& modifiers);
 	void	HandleActionMenu(const JIndex index);
 
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		CompareScrolltabValues(JXScrolltab* const & t1, JXScrolltab* const & t2);
 
 	// not allowed

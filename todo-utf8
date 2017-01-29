@@ -1,9 +1,3 @@
-jxlayout
-
-JXPackStrings
-	convert to JPtrArray.Join(separator)
-search for other uses of Join
-
 JString
 	option to store raw bytes - not normalized, allow null
 JMessageProtocol

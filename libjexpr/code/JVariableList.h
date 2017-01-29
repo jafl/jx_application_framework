@@ -114,10 +114,10 @@ private:
 private:
 
 	void	JVariableListX();
-	void	VariablesInserted(const JOrderedSetT::ElementsInserted& info) const;
-	void	VariablesRemoved(const JOrderedSetT::ElementsRemoved& info) const;
-	void	VariableMoved(const JOrderedSetT::ElementMoved& info) const;
-	void	VariablesSwapped(const JOrderedSetT::ElementsSwapped& info) const;
+	void	VariablesInserted(const JListT::ElementsInserted& info) const;
+	void	VariablesRemoved(const JListT::ElementsRemoved& info) const;
+	void	VariableMoved(const JListT::ElementMoved& info) const;
+	void	VariablesSwapped(const JListT::ElementsSwapped& info) const;
 
 	// not allowed
 

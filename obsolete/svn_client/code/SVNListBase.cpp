@@ -301,7 +301,7 @@ SVNListBase::ReceiveMessageLine()
 
 	JString relPath = ExtractRelativePath(line);
 	JIndex j;
-	if (itsSavedSelection->SearchSorted(&relPath, JOrderedSetT::kAnyMatch, &j))
+	if (itsSavedSelection->SearchSorted(&relPath, JListT::kAnyMatch, &j))
 		{
 		(GetTableSelection()).SelectRow(i);
 		}
@@ -827,7 +827,7 @@ SVNListBase::CompareLines::~CompareLines()
 {
 }
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 SVNListBase::CompareLines::Compare
 	(
 	JString* const & s1,
@@ -841,15 +841,15 @@ SVNListBase::CompareLines::Compare
 	const int r = JStringCompare(p1, p2, kJFalse);
 	if (r > 0)
 		{
-		return JOrderedSetT::kFirstGreaterSecond;
+		return JListT::kFirstGreaterSecond;
 		}
 	else if (r < 0)
 		{
-		return JOrderedSetT::kFirstLessSecond;
+		return JListT::kFirstLessSecond;
 		}
 	else
 		{
-		return JOrderedSetT::kFirstEqualSecond;
+		return JListT::kFirstEqualSecond;
 		}
 }
 

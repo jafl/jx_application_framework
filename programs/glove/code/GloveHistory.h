@@ -56,7 +56,7 @@ private:
 	void	AdjustFont();
 	void	AdjustTabWidth();
 
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		CompareFontNames(JString * const &, JString * const &);
 
 	// not allowed

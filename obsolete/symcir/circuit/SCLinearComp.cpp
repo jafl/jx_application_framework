@@ -363,21 +363,21 @@ SCLinearComp::Receive
 {
 	JCollection* nodeList = GetCircuit()->GetNodeList();
 
-	if (sender == nodeList && message.Is(JOrderedSetT::kElementsInserted))
+	if (sender == nodeList && message.Is(JListT::kElementsInserted))
 		{
-		const JOrderedSetT::ElementsInserted* info =
-			dynamic_cast<const JOrderedSetT::ElementsInserted*>(&message);
+		const JListT::ElementsInserted* info =
+			dynamic_cast<const JListT::ElementsInserted*>(&message);
 		assert( info != NULL );
 		info->AdjustIndex(&itsPosNode);
 		info->AdjustIndex(&itsNegNode);
 		}
 
-	else if (sender == nodeList && message.Is(JOrderedSetT::kElementsRemoved))
+	else if (sender == nodeList && message.Is(JListT::kElementsRemoved))
 		{
 		if (!nodeList->IsEmpty())
 			{
-			const JOrderedSetT::ElementsRemoved* info =
-				dynamic_cast<const JOrderedSetT::ElementsRemoved*>(&message);
+			const JListT::ElementsRemoved* info =
+				dynamic_cast<const JListT::ElementsRemoved*>(&message);
 			assert( info != NULL );
 			const JBoolean posOK = info->AdjustIndex(&itsPosNode);
 			assert( posOK );
@@ -386,19 +386,19 @@ SCLinearComp::Receive
 			}
 		}
 
-	else if (sender == nodeList && message.Is(JOrderedSetT::kElementMoved))
+	else if (sender == nodeList && message.Is(JListT::kElementMoved))
 		{
-		const JOrderedSetT::ElementMoved* info =
-			dynamic_cast<const JOrderedSetT::ElementMoved*>(&message);
+		const JListT::ElementMoved* info =
+			dynamic_cast<const JListT::ElementMoved*>(&message);
 		assert( info != NULL );
 		info->AdjustIndex(&itsPosNode);
 		info->AdjustIndex(&itsNegNode);
 		}
 
-	else if (sender == nodeList && message.Is(JOrderedSetT::kElementsSwapped))
+	else if (sender == nodeList && message.Is(JListT::kElementsSwapped))
 		{
-		const JOrderedSetT::ElementsSwapped* info =
-			dynamic_cast<const JOrderedSetT::ElementsSwapped*>(&message);
+		const JListT::ElementsSwapped* info =
+			dynamic_cast<const JListT::ElementsSwapped*>(&message);
 		assert( info != NULL );
 		info->AdjustIndex(&itsPosNode);
 		info->AdjustIndex(&itsNegNode);

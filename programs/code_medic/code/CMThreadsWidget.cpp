@@ -21,7 +21,7 @@
 #include <JTableSelection.h>
 #include <JPainter.h>
 #include <JFontManager.h>
-#include <JOrderedSetUtil.h>
+#include <JListUtil.h>
 #include <jASCIIConstants.h>
 #include <jAssert.h>
 
@@ -598,7 +598,7 @@ CMThreadsWidget::RestoreOpenNodes
 		{
 		CMThreadNode* child = dynamic_cast<CMThreadNode*>(root->GetChild(i));
 		JIndex j;
-		if (itsOpenIDList->SearchSorted(child->GetID(), JOrderedSetT::kAnyMatch, &j))
+		if (itsOpenIDList->SearchSorted(child->GetID(), JListT::kAnyMatch, &j))
 			{
 			list->Open(child);
 			}

@@ -10,7 +10,7 @@
 #include <jSysUtil.h>
 #include <JStdError.h>
 #include <jErrno.h>
-#include <JOrderedSetUtil.h>
+#include <JListUtil.h>
 #include <jGlobals.h>
 #include <unistd.h>
 #include <sys/stat.h>
@@ -80,7 +80,7 @@ struct jUIDInfo
 
 static JArray<jUIDInfo> theUserInfoMap;
 
-static JOrderedSetT::CompareResult
+static JListT::CompareResult
 jCompareUIDs
 	(
 	const jUIDInfo& i1,
@@ -111,13 +111,13 @@ jGetUserInfo
 	if (theUserInfoMap.IsEmpty())
 		{
 		theUserInfoMap.SetCompareFunction(jCompareUIDs);
-		theUserInfoMap.SetSortOrder(JOrderedSetT::kSortAscending);
+		theUserInfoMap.SetSortOrder(JListT::kSortAscending);
 		atexit(jCleanUserInfoMap);
 		}
 
 	const jUIDInfo target = { uid, NULL, NULL };
 	JIndex i;
-	if (theUserInfoMap.SearchSorted(target, JOrderedSetT::kAnyMatch, &i))
+	if (theUserInfoMap.SearchSorted(target, JListT::kAnyMatch, &i))
 		{
 		*info = theUserInfoMap.GetElement(i);
 		}
@@ -287,7 +287,7 @@ struct jGIDInfo
 
 static JArray<jGIDInfo> groupInfoMap;
 
-static JOrderedSetT::CompareResult
+static JListT::CompareResult
 jCompareGIDs
 	(
 	const jGIDInfo& i1,
@@ -307,12 +307,12 @@ jGetGroupInfo
 	if (groupInfoMap.IsEmpty())
 		{
 		groupInfoMap.SetCompareFunction(jCompareGIDs);
-		groupInfoMap.SetSortOrder(JOrderedSetT::kSortAscending);
+		groupInfoMap.SetSortOrder(JListT::kSortAscending);
 		}
 
 	const jGIDInfo target = { gid, NULL };
 	JIndex i;
-	if (groupInfoMap.SearchSorted(target, JOrderedSetT::kAnyMatch, &i))
+	if (groupInfoMap.SearchSorted(target, JListT::kAnyMatch, &i))
 		{
 		*info = groupInfoMap.GetElement(i);
 		}

@@ -29,7 +29,7 @@
 #include <JPainter.h>
 #include <JColormap.h>
 #include <jDirUtil.h>
-#include <JOrderedSetUtil.h>
+#include <JListUtil.h>
 #include <jAssert.h>
 
 enum
@@ -101,7 +101,7 @@ const JSize kBreakpointMenuItemCount = kIgnoreNextNCmd;
 
 CMLineIndexTable::CMLineIndexTable
 	(
-	JOrderedSetT::CompareResult (*bpCcompareFn)(CMBreakpoint *const &, CMBreakpoint *const &),
+	JListT::CompareResult (*bpCcompareFn)(CMBreakpoint *const &, CMBreakpoint *const &),
 
 	CMSourceDirector*	dir,
 	CMSourceText*		text,
@@ -129,7 +129,7 @@ CMLineIndexTable::CMLineIndexTable
 	itsBPList = jnew JPtrArray<CMBreakpoint>(JPtrArrayT::kForgetAll);
 	assert(itsBPList != NULL);
 	itsBPList->SetCompareFunction(bpCcompareFn);
-	itsBPList->SetSortOrder(JOrderedSetT::kSortAscending);
+	itsBPList->SetSortOrder(JListT::kSortAscending);
 
 	WantInput(kJFalse);
 	SetBackColor(CMGetPrefsManager()->GetColor(CMPrefsManager::kBackColorIndex));

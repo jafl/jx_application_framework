@@ -12,7 +12,7 @@
 #include "CMBreakpointManager.h"
 #include "CMLink.h"
 #include <JXColormap.h>
-#include <JOrderedSetUtil.h>
+#include <JListUtil.h>
 #include <jAssert.h>
 
 /******************************************************************************
@@ -119,7 +119,7 @@ CMLineNumberTable::GetFirstBreakpointOnLine
 	const
 {
 	CMBreakpoint bp("", lineIndex);
-	return GetBreakpointList()->SearchSorted(&bp, JOrderedSetT::kFirstMatch, bpIndex);
+	return GetBreakpointList()->SearchSorted(&bp, JListT::kFirstMatch, bpIndex);
 }
 
 /******************************************************************************
@@ -234,7 +234,7 @@ CMLineNumberTable::SetExecutionPoint
 
  ******************************************************************************/
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 CMLineNumberTable::CompareBreakpointLines
 	(
 	CMBreakpoint* const & bp1,

@@ -156,7 +156,7 @@ JXStringList::SetStringList
 		itsSortedList =
 			jnew JAliasArray<JString*>(const_cast<JPtrArray<JString>*>(itsList),
 									  JCompareStringsCaseInsensitive,
-									  JOrderedSetT::kSortAscending);
+									  JListT::kSortAscending);
 		assert( itsSortedList != NULL );
 		}
 	else
@@ -352,7 +352,7 @@ JXStringList::ClosestMatch
 
 	JBoolean found;
 	*index = itsSortedList->SearchSorted1(const_cast<JString*>(&prefixStr),
-										  JOrderedSetT::kFirstMatch, &found);
+										  JListT::kFirstMatch, &found);
 	if (*index > GetRowCount())		// insert beyond end of list
 		{
 		*index = GetRowCount();
@@ -384,38 +384,38 @@ JXStringList::Receive
 	// then check how the list changed
 
 	if (sender == const_cast<JPtrArray<JString>*>(itsList) &&
-		message.Is(JOrderedSetT::kElementsInserted))
+		message.Is(JListT::kElementsInserted))
 		{
-		const JOrderedSetT::ElementsInserted* info =
-			dynamic_cast<const JOrderedSetT::ElementsInserted*>(&message);
+		const JListT::ElementsInserted* info =
+			dynamic_cast<const JListT::ElementsInserted*>(&message);
 		assert( info != NULL );
 		InsertRows(info->GetFirstIndex(), info->GetCount());
 		}
 
 	else if (sender == const_cast<JPtrArray<JString>*>(itsList) &&
-			 message.Is(JOrderedSetT::kElementsRemoved))
+			 message.Is(JListT::kElementsRemoved))
 		{
-		const JOrderedSetT::ElementsRemoved* info =
-			dynamic_cast<const JOrderedSetT::ElementsRemoved*>(&message);
+		const JListT::ElementsRemoved* info =
+			dynamic_cast<const JListT::ElementsRemoved*>(&message);
 		assert( info != NULL );
 		itsMinColWidth = 1;
 		RemoveNextRows(info->GetFirstIndex(), info->GetCount());
 		}
 
 	else if (sender == const_cast<JPtrArray<JString>*>(itsList) &&
-			 message.Is(JOrderedSetT::kElementMoved))
+			 message.Is(JListT::kElementMoved))
 		{
-		const JOrderedSetT::ElementMoved* info =
-			dynamic_cast<const JOrderedSetT::ElementMoved*>(&message);
+		const JListT::ElementMoved* info =
+			dynamic_cast<const JListT::ElementMoved*>(&message);
 		assert( info != NULL );
 		MoveRow(info->GetOrigIndex(), info->GetNewIndex());
 		}
 
 	else if (sender == const_cast<JPtrArray<JString>*>(itsList) &&
-			 message.Is(JOrderedSetT::kElementsSwapped))
+			 message.Is(JListT::kElementsSwapped))
 		{
-		const JOrderedSetT::ElementsSwapped* info =
-			dynamic_cast<const JOrderedSetT::ElementsSwapped*>(&message);
+		const JListT::ElementsSwapped* info =
+			dynamic_cast<const JListT::ElementsSwapped*>(&message);
 		assert( info != NULL );
 		const JFontStyle s1 = itsStyles->GetElement(info->GetIndex1(), 1);
 		itsStyles->SetElement(info->GetIndex1(), 1, itsStyles->GetElement(info->GetIndex2(), 1));
@@ -423,13 +423,13 @@ JXStringList::Receive
 		}
 
 	else if (sender == const_cast<JPtrArray<JString>*>(itsList) &&
-			 message.Is(JOrderedSetT::kSorted))
+			 message.Is(JListT::kSorted))
 		{
 		assert( 0 );	// we don't allow this
 		}
 
 	else if (sender == const_cast<JPtrArray<JString>*>(itsList) &&
-			 message.Is(JOrderedSetT::kElementChanged))
+			 message.Is(JListT::kElementChanged))
 		{
 		itsMinColWidth = 1;
 		Refresh();

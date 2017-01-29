@@ -54,7 +54,7 @@
 #include <JXWindow.h>
 #include <JXWindowPainter.h>
 
-#include <JOrderedSetIterator.h>
+#include <JListIterator.h>
 #include <JTableSelection.h>
 #include <JDirInfo.h>
 

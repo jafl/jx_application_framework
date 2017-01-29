@@ -82,7 +82,7 @@ JXWDManager::JXWDManager
 	itsWindowList = jnew JArray<WindowInfo>;
 	assert( itsWindowList != NULL );
 	itsWindowList->SetCompareFunction(CompareWindowNames);
-	itsWindowList->SetSortOrder(JOrderedSetT::kSortAscending);
+	itsWindowList->SetSortOrder(JListT::kSortAscending);
 
 	display->SetWDManager(this);
 }
@@ -507,7 +507,7 @@ JXWDManager::ActivateDirector
 
  ******************************************************************************/
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 JXWDManager::CompareWindowNames
 	(
 	const WindowInfo& w1,

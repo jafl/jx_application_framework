@@ -7,7 +7,7 @@
 								The Queue Class
 
 	This class manages a queue.  The first template argument must be
-	a derived class of JOrderedSet.  The second template argument is the
+	a derived class of JList.  The second template argument is the
 	data type of the stack.
 
 	Refer to JArray.tmpl for warning associated with using JArray's.
@@ -267,14 +267,14 @@ JQueue<T,S>::GetElements()
  ******************************************************************************/
 
 template <class T, class S>
-JOrderedSetIterator<T>*
+JListIterator<T>*
 JQueue<T,S>::NewIterator()
 {
 	return itsElements->NewIterator();
 }
 
 template <class T, class S>
-JOrderedSetIterator<T>*
+JListIterator<T>*
 JQueue<T,S>::NewIterator()
 	const
 {

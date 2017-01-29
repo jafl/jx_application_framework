@@ -1083,7 +1083,7 @@ CBFileTypeTable::UpdateScriptMenu()
 
 	JPtrArray<JString> menuText(JPtrArrayT::kDeleteAll);
 	menuText.SetCompareFunction(JCompareStringsCaseInsensitive);
-	menuText.SetSortOrder(JOrderedSetT::kSortAscending);
+	menuText.SetSortOrder(JListT::kSortAscending);
 
 	JString sysDir, userDir;
 	if (CBPrefsManager::GetScriptPaths(&sysDir, &userDir))

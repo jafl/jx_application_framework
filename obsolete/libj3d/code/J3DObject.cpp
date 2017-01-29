@@ -122,7 +122,7 @@ J3DObject::SetParent
 JBoolean
 J3DObject::GetChildIterator
 	(
-	JOrderedSetIterator<J3DObject*>** iter
+	JListIterator<J3DObject*>** iter
 	)
 	const
 {

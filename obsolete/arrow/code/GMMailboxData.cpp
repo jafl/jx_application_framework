@@ -258,7 +258,7 @@ GMMailboxData::Update
 					{
 					GMessageFrom* from = fromlist.GetElement(index);
 					JIndex findindex;
-					if (itsFromList->SearchSorted(from, JOrderedSetT::kFirstMatch, &findindex))
+					if (itsFromList->SearchSorted(from, JListT::kFirstMatch, &findindex))
 						{
 						GMessageFrom* currentfrom = itsFromList->GetElement(findindex);
 						GMessageHeader* header = currentfrom->GetHeader();

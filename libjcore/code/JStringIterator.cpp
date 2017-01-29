@@ -34,7 +34,7 @@
 		and any modification not done via the iterator will invalidate the
 		iterator.
 
-	Refer to the docs for JOrderedSetIterator for more details.
+	Refer to the docs for JListIterator for more details.
 
 	Copyright (C) 2016 by John Lindal. All rights reserved.
 

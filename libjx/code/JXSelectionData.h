@@ -76,7 +76,7 @@ private:
 
 	void	JXSelectionDataX();
 
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		CompareAtoms(const Atom& atom1, const Atom& atom2);
 
 	// not allowed

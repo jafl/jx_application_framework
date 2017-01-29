@@ -40,18 +40,18 @@ public:
 	JNamedTreeNode*			GetNamedChild(const JIndex index);
 	const JNamedTreeNode*	GetNamedChild(const JIndex index) const;
 
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		CompareNames(JNamedTreeNode * const & e1, JNamedTreeNode * const & e2);
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		CompareNamesForIncrSearch(JNamedTreeNode * const & e1, JNamedTreeNode * const & e2);
 
 protected:
 
 	virtual void	NameChanged();
 
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		DynamicCastCompareNames(JTreeNode * const & e1, JTreeNode * const & e2);
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		DynamicCastCompareNamesForIncrSearch(JTreeNode * const & e1, JTreeNode * const & e2);
 
 private:

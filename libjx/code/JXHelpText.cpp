@@ -110,7 +110,7 @@ JXHelpText::ShowSubsection
 		JString s = name;
 		MarkInfo info(&s, 0);
 		JIndex index;
-		if (itsMarks->SearchSorted(info, JOrderedSetT::kAnyMatch, &index))
+		if (itsMarks->SearchSorted(info, JListT::kAnyMatch, &index))
 			{
 			info = itsMarks->GetElement(index);
 			ScrollTo(0, GetLineTop(GetLineForChar(info.index)));
@@ -426,7 +426,7 @@ JXHelpText::ClearAnchorInfo()
 
  ******************************************************************************/
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 JXHelpText::CompareMarkNames
 	(
 	const MarkInfo& m1,

@@ -63,13 +63,13 @@ public:
 
 	void		InsertSorted(JTreeNode* child);
 	JBoolean	GetChildCompareFunction(
-					JOrderedSetT::CompareResult (**compareFn)(JTreeNode * const &,
+					JListT::CompareResult (**compareFn)(JTreeNode * const &,
 															  JTreeNode * const &),
-					JOrderedSetT::SortOrder* order);
+					JListT::SortOrder* order);
 	void		SetChildCompareFunction(
-					JOrderedSetT::CompareResult (*compareFn)(JTreeNode * const &,
+					JListT::CompareResult (*compareFn)(JTreeNode * const &,
 															 JTreeNode * const &),
-					const JOrderedSetT::SortOrder order,
+					const JListT::SortOrder order,
 					const JBoolean propagate);
 	void		SortChildren(const JBoolean propagate = kJFalse);
 
@@ -91,9 +91,9 @@ private:
 	JBoolean				itsIsOpenableFlag;
 	JBoolean				itsIsDestructingFlag;
 
-	JOrderedSetT::CompareResult (*itsCompareFn)(JTreeNode * const &,
+	JListT::CompareResult (*itsCompareFn)(JTreeNode * const &,
 												JTreeNode * const &);
-	JOrderedSetT::SortOrder	itsSortOrder;
+	JListT::SortOrder	itsSortOrder;
 
 private:
 
@@ -337,9 +337,9 @@ JTreeNode::IsOpenable()
 inline JBoolean
 JTreeNode::GetChildCompareFunction
 	(
-	JOrderedSetT::CompareResult (**compareFn)(JTreeNode * const &,
+	JListT::CompareResult (**compareFn)(JTreeNode * const &,
 											  JTreeNode * const &),
-	JOrderedSetT::SortOrder* order
+	JListT::SortOrder* order
 	)
 {
 	*compareFn = itsCompareFn;

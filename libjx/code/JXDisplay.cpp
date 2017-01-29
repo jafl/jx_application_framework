@@ -399,7 +399,7 @@ JXDisplay::CloseAllOtherWindows
 	JXWindow* window
 	)
 {
-	JOrderedSetIterator<WindowInfo> iter(*itsWindowList);
+	JListIterator<WindowInfo> iter(*itsWindowList);
 
 	WindowInfo info;
 	while (iter.Next(&info))
@@ -1441,7 +1441,7 @@ JXDisplay::FindXWindow
 {
 	WindowInfo target(NULL, xWindow);
 	JIndex i;
-	if (itsWindowList->SearchSorted(target, JOrderedSetT::kAnyMatch, &i))
+	if (itsWindowList->SearchSorted(target, JListT::kAnyMatch, &i))
 		{
 		target  = itsWindowList->GetElement(i);
 		*window = target.window;
@@ -1459,7 +1459,7 @@ JXDisplay::FindXWindow
 
  ******************************************************************************/
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 JXDisplay::CompareXWindows
 	(
 	const WindowInfo& info1,
@@ -1468,15 +1468,15 @@ JXDisplay::CompareXWindows
 {
 	if (info1.xWindow < info2.xWindow)
 		{
-		return JOrderedSetT::kFirstLessSecond;
+		return JListT::kFirstLessSecond;
 		}
 	else if (info1.xWindow == info2.xWindow)
 		{
-		return JOrderedSetT::kFirstEqualSecond;
+		return JListT::kFirstEqualSecond;
 		}
 	else
 		{
-		return JOrderedSetT::kFirstGreaterSecond;
+		return JListT::kFirstGreaterSecond;
 		}
 }
 

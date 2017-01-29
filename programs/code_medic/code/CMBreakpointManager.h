@@ -41,7 +41,7 @@ public:
 	void	BreakpointFileNameResolved(CMBreakpoint* bp);
 	void	BreakpointFileNameInvalid(CMBreakpoint* bp);
 
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		CompareBreakpointLocations(CMBreakpoint* const & bp1,
 								   CMBreakpoint* const & bp2);
 

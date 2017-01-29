@@ -16,7 +16,7 @@
 class JFontManager;
 class JString;
 
-template <class T> class JOrderedSet;
+template <class T> class JList;
 template <class T> class JArray;
 template <class T> class JRunArray;
 template <class T> class JRunArrayElement;

@@ -10,7 +10,7 @@
 #ifndef _H_JDirEntry
 #define _H_JDirEntry
 
-#include <JOrderedSet.h>
+#include <JList.h>
 #include <JError.h>
 #include <JString.h>
 #include <sys/stat.h>
@@ -106,11 +106,11 @@ public:
 	JBoolean	MatchesContentFilter(const JRegex& regex,
 									 const JSize kBlockSize = 1024) const;
 
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		CompareNames(JDirEntry * const & e1, JDirEntry * const & e2);
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		CompareSizes(JDirEntry * const & e1, JDirEntry * const & e2);
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		CompareModTimes(JDirEntry * const & e1, JDirEntry * const & e2);
 
 private:

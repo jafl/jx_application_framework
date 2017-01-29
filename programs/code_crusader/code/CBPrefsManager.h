@@ -242,7 +242,7 @@ public:
 
 	static JIndexRange	GetLiteralPrefixRange(const JCharacter* regexStr);
 
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		CompareFileTypeSpec(const FileTypeInfo& i1, const FileTypeInfo& i2);
 
 	struct MacroSetInfo
@@ -361,11 +361,11 @@ private:
 	void	ReadStaticGlobalPrefs(const JFileVersion vers) const;
 	void	WriteStaticGlobalPrefs();
 
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		CompareFileTypeSpecAndLength(const FileTypeInfo& i1, const FileTypeInfo& i2);
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		CompareMacroNames(const MacroSetInfo& i1, const MacroSetInfo& i2);
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		CompareCRMNames(const CRMRuleListInfo& i1, const CRMRuleListInfo& i2);
 
 	// not allowed

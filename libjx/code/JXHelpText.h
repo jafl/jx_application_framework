@@ -97,7 +97,7 @@ private:
 	void	EndAnchor();
 	void	ClearAnchorInfo();
 
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		CompareMarkNames(const MarkInfo& m1, const MarkInfo& m2);
 
 	// not allowed

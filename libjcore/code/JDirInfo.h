@@ -20,7 +20,7 @@
 class JRegex;
 class JProgressDisplay;
 
-typedef JOrderedSetT::CompareResult
+typedef JListT::CompareResult
 	(JCompareDirEntries)(JDirEntry * const &, JDirEntry * const &);
 
 typedef JBoolean (JCheckPermissions)(const JDirEntry&);
@@ -51,7 +51,7 @@ public:
 	void	GoToClosest(const JString& dirName);
 	JError	GoTo(const JString& dirName);
 
-	void		ChangeSort(JCompareDirEntries* f, const JOrderedSetT::SortOrder order);
+	void		ChangeSort(JCompareDirEntries* f, const JListT::SortOrder order);
 
 	JBoolean	FilesVisible() const;
 	void		ShowFiles(const JBoolean show);

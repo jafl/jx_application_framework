@@ -94,7 +94,7 @@ private:
 		CompareLines(SVNListBase* widget);
 		virtual ~CompareLines();
 
-		virtual JOrderedSetT::CompareResult		Compare(JString* const &, JString* const &) const;
+		virtual JListT::CompareResult		Compare(JString* const &, JString* const &) const;
 		virtual JElementComparison<JString*>*	Copy() const;
 
 	private:

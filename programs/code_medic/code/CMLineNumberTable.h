@@ -38,7 +38,7 @@ protected:
 
 private:
 
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		CompareBreakpointLines(CMBreakpoint* const & bp1, CMBreakpoint* const & bp2);
 
 	// not allowed

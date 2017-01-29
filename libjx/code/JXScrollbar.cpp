@@ -820,7 +820,7 @@ JXScrollbar::ScrolltabCreated
 		itsScrolltabList = jnew JPtrArray<JXScrolltab>(JPtrArrayT::kForgetAll);
 		assert( itsScrolltabList != NULL );
 		itsScrolltabList->SetCompareFunction(CompareScrolltabValues);
-		itsScrolltabList->SetSortOrder(JOrderedSetT::kSortAscending);
+		itsScrolltabList->SetSortOrder(JListT::kSortAscending);
 		}
 
 	itsScrolltabList->InsertSorted(tab);
@@ -1050,7 +1050,7 @@ JXScrollbar::StripsSwapped
 
  ******************************************************************************/
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 JXScrollbar::CompareScrolltabValues
 	(
 	JXScrolltab* const & t1,
@@ -1062,15 +1062,15 @@ JXScrollbar::CompareScrolltabValues
 
 	if (v1 < v2)
 		{
-		return JOrderedSetT::kFirstLessSecond;
+		return JListT::kFirstLessSecond;
 		}
 	else if (v1 == v2)
 		{
-		return JOrderedSetT::kFirstEqualSecond;
+		return JListT::kFirstEqualSecond;
 		}
 	else
 		{
-		return JOrderedSetT::kFirstGreaterSecond;
+		return JListT::kFirstGreaterSecond;
 		}
 }
 

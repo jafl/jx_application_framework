@@ -117,8 +117,8 @@ FitParmsDir::Receive
 	)
 {
 	if (sender == itsFits && 
-		( 	message.Is(JOrderedSetT::kElementsInserted) ||
-			message.Is(JOrderedSetT::kElementsRemoved)))
+		( 	message.Is(JListT::kElementsInserted) ||
+			message.Is(JListT::kElementsRemoved)))
 		{
 		UpdateFitMenu();
 		}

@@ -886,7 +886,7 @@ AddSubTarget
 {
 	JBoolean found;
 	const JIndex index =
-		targetList.SearchSorted1(targetName, JOrderedSetT::kAnyMatch, &found);
+		targetList.SearchSorted1(targetName, JListT::kAnyMatch, &found);
 
 	if (found)
 		{
@@ -1427,7 +1427,7 @@ JBoolean	GetNextIncludedFile(const JString& inputFileName, std::istream& input,
 								JString* fileName);
 void		TruncateMakefile(const JString& fileName);
 
-JOrderedSetT::CompareResult CompareHeaderFiles(const HeaderDep& h1, const HeaderDep& h2);
+JListT::CompareResult CompareHeaderFiles(const HeaderDep& h1, const HeaderDep& h2);
 
 /******************************************************************************
  CalcDepend
@@ -1757,7 +1757,7 @@ AddDependency
 
 			HeaderDep info(const_cast<JString*>(includedFileName), NULL);
 			JIndex j;
-			if (headerList->SearchSorted(info, JOrderedSetT::kAnyMatch, &j))
+			if (headerList->SearchSorted(info, JListT::kAnyMatch, &j))
 				{
 				continue;
 				}
@@ -1793,7 +1793,7 @@ ParseHeaderFile
 	HeaderDep info(const_cast<JString*>(&fileName), (JPtrArray<JString>*) NULL);
 	JBoolean found;
 	const JIndex index =
-		headerList->SearchSorted1(info, JOrderedSetT::kAnyMatch, &found);
+		headerList->SearchSorted1(info, JListT::kAnyMatch, &found);
 	if (found)
 		{
 		return headerList->GetElement(index);
@@ -1979,7 +1979,7 @@ TruncateMakefile
 
  ******************************************************************************/
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 CompareHeaderFiles
 	(
 	const HeaderDep& h1,
@@ -1990,14 +1990,14 @@ CompareHeaderFiles
 
 	if (r > 0)
 		{
-		return JOrderedSetT::kFirstGreaterSecond;
+		return JListT::kFirstGreaterSecond;
 		}
 	else if (r < 0)
 		{
-		return JOrderedSetT::kFirstLessSecond;
+		return JListT::kFirstLessSecond;
 		}
 	else
 		{
-		return JOrderedSetT::kFirstEqualSecond;
+		return JListT::kFirstEqualSecond;
 		}
 }

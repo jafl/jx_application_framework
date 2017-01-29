@@ -119,7 +119,7 @@ SCCircuitDocument::SCCircuitDocument
 	itsPlotList = new JPtrArray<SCPlotDirector>(JPtrArrayT::kForgetAll);
 	assert( itsPlotList != NULL );
 	itsPlotList->SetCompareFunction(ComparePlotDirectorTitles);
-	itsPlotList->SetSortOrder(JOrderedSetT::kSortAscending);
+	itsPlotList->SetSortOrder(JListT::kSortAscending);
 
 	itsIgnoreNewDirectorFlag = kJFalse;
 
@@ -729,7 +729,7 @@ SCCircuitDocument::BuildPlotMenu
 
  ******************************************************************************/
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 SCCircuitDocument::ComparePlotDirectorTitles
 	(
 	SCPlotDirector* const & p1,

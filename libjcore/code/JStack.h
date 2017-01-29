@@ -11,7 +11,7 @@
 #define _H_JStack
 
 #include <JContainer.h>
-#include <JOrderedSetIterator.h>	// template
+#include <JListIterator.h>	// template
 
 template <class T, class S>
 class JStack : public JContainer
@@ -36,8 +36,8 @@ public:
 	void	Clear();
 	void	Unwind(const JSize numToUnwind);
 
-	JOrderedSetIterator<T>*	NewIterator();
-	JOrderedSetIterator<T>*	NewIterator() const;
+	JListIterator<T>*	NewIterator();
+	JListIterator<T>*	NewIterator() const;
 
 protected:
 

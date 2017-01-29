@@ -7,7 +7,7 @@
 	Template for storing values and structs in a table.
 
 	***	It is assumed that the class used to store each column of data
-		is a direct descendant of JOrderedSet, so JPtrArray can't be used.
+		is a direct descendant of JList, so JPtrArray can't be used.
 		In this case, use JObjTableData instead.
 
 	BASE CLASS = JTableData
@@ -179,7 +179,7 @@ void
 JValueTableData<S,T>::GetRow
 	(
 	const JIndex	index,
-	JOrderedSet<T>*	rowData
+	JList<T>*	rowData
 	)
 	const
 {
@@ -203,7 +203,7 @@ void
 JValueTableData<S,T>::SetRow
 	(
 	const JIndex			index,
-	const JOrderedSet<T>&	rowData
+	const JList<T>&	rowData
 	)
 {
 	const JSize colCount = GetColCount();
@@ -221,7 +221,7 @@ JValueTableData<S,T>::SetRow
 /******************************************************************************
  GetCol
 
-	operator= doesn't work because it could be -any- class derived from JOrderedSet.
+	operator= doesn't work because it could be -any- class derived from JList.
 
  ******************************************************************************/
 
@@ -230,7 +230,7 @@ void
 JValueTableData<S,T>::GetCol
 	(
 	const JIndex	index,
-	JOrderedSet<T>*	colData
+	JList<T>*	colData
 	)
 	const
 {
@@ -247,7 +247,7 @@ JValueTableData<S,T>::GetCol
 /******************************************************************************
  SetCol
 
-	operator= doesn't work because it could be -any- class derived from JOrderedSet.
+	operator= doesn't work because it could be -any- class derived from JList.
 
  ******************************************************************************/
 
@@ -256,7 +256,7 @@ void
 JValueTableData<S,T>::SetCol
 	(
 	const JIndex			index,
-	const JOrderedSet<T>&	colData
+	const JList<T>&	colData
 	)
 {
 	const JSize rowCount = GetRowCount();
@@ -282,7 +282,7 @@ JValueTableData<S,T>::InsertRows
 	(
 	const JIndex			index,
 	const JSize				count,
-	const JOrderedSet<T>*	initData
+	const JList<T>*	initData
 	)
 {
 	assert( initData == NULL || initData->GetElementCount() == GetColCount() );
@@ -323,7 +323,7 @@ void
 JValueTableData<S,T>::PrependRows
 	(
 	const JSize				count,
-	const JOrderedSet<T>*	initData
+	const JList<T>*	initData
 	)
 {
 	InsertRows(1, count, initData);
@@ -334,7 +334,7 @@ void
 JValueTableData<S,T>::AppendRows
 	(
 	const JSize				count,
-	const JOrderedSet<T>*	initData
+	const JList<T>*	initData
 	)
 {
 	InsertRows(GetRowCount()+1, count, initData);
@@ -487,7 +487,7 @@ JValueTableData<S,T>::InsertCols
 	(
 	const JIndex			index,
 	const JSize				count,
-	const JOrderedSet<T>*	initData
+	const JList<T>*	initData
 	)
 {
 	assert( initData == NULL || initData->GetElementCount() == GetRowCount() );
@@ -534,7 +534,7 @@ void
 JValueTableData<S,T>::PrependCols
 	(
 	const JSize				count,
-	const JOrderedSet<T>*	initData
+	const JList<T>*	initData
 	)
 {
 	InsertCols(1, count, initData);
@@ -545,7 +545,7 @@ void
 JValueTableData<S,T>::AppendCols
 	(
 	const JSize				count,
-	const JOrderedSet<T>*	initData
+	const JList<T>*	initData
 	)
 {
 	InsertCols(GetColCount()+1, count, initData);

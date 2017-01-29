@@ -11,7 +11,7 @@
 	Since the actual data is stored, this is only good for structs.
 	To store objects, use the JPtrArray template class.
 
-	BASE CLASS = JOrderedSet
+	BASE CLASS = JList
 
 	Copyright (C) 1994 by John Lindal. All rights reserved.
 
@@ -28,7 +28,7 @@
 template <class T>
 JLinkedList<T>::JLinkedList()
 	:
-	JOrderedSet<T>()
+	JList<T>()
 {
 	itsFirstElement = NULL;
 	itsLastElement  = NULL;
@@ -45,7 +45,7 @@ JLinkedList<T>::JLinkedList
 	const JLinkedList<T>& source
 	)
 	:
-	JOrderedSet<T>(source)
+	JList<T>(source)
 {
 	itsFirstElement = NULL;
 	itsLastElement  = NULL;
@@ -82,7 +82,7 @@ JLinkedList<T>::operator=
 
 	DeleteAll();
 
-	JCollection::operator=(source);		// JOrderedSet::operator= is private
+	JCollection::operator=(source);		// JList::operator= is private
 
 	CopyList(source);
 	JLinkedList<T>::OrderedSetAssigned(source);
@@ -161,9 +161,9 @@ JLinkedList<T>::InsertElementAtIndex
 
 	StoreData(listElement, data);
 
-	JOrderedSetT::ElementsInserted message(trueIndex, 1);
+	JListT::ElementsInserted message(trueIndex, 1);
 	JBroadcaster::Broadcast(message);
-	JOrderedSet<T>::NotifyIterators(message);
+	JList<T>::NotifyIterators(message);
 }
 
 /******************************************************************************
@@ -224,9 +224,9 @@ JLinkedList<T>::RemoveNextElements
 		{
 		DeleteNextElements(firstIndex, count);
 
-		JOrderedSetT::ElementsRemoved message(firstIndex, count);
+		JListT::ElementsRemoved message(firstIndex, count);
 		JBroadcaster::Broadcast(message);
-		JOrderedSet<T>::NotifyIterators(message);
+		JList<T>::NotifyIterators(message);
 		}
 }
 
@@ -249,9 +249,9 @@ JLinkedList<T>::IteratorRemoveNextElements
 		{
 		DeleteNextElements(firstIndex, count, origElement);
 
-		JOrderedSetT::ElementsRemoved message(firstIndex, count);
+		JListT::ElementsRemoved message(firstIndex, count);
 		JBroadcaster::Broadcast(message);
-		JOrderedSet<T>::NotifyIterators(message);
+		JList<T>::NotifyIterators(message);
 		}
 }
 
@@ -266,12 +266,12 @@ JLinkedList<T>::RemoveAll()
 {
 	if (!JCollection::IsEmpty())
 		{
-		JOrderedSetT::ElementsRemoved message(1, JCollection::GetElementCount());
+		JListT::ElementsRemoved message(1, JCollection::GetElementCount());
 
 		DeleteAll();
 
 		JBroadcaster::Broadcast(message);
-		JOrderedSet<T>::NotifyIterators(message);
+		JList<T>::NotifyIterators(message);
 		}
 }
 
@@ -390,7 +390,7 @@ JLinkedList<T>::IteratorSetElement
 	)
 {
 	StoreData(listElement, data);
-	JBroadcaster::Broadcast(JOrderedSetT::ElementChanged(index));
+	JBroadcaster::Broadcast(JListT::ElementChanged(index));
 }
 
 /******************************************************************************
@@ -415,7 +415,7 @@ JLinkedList<T>::MoveElementToIndex
 		}
 
 	PrivateMoveElementToIndex(currentIndex, newIndex);
-	JBroadcaster::Broadcast(JOrderedSetT::ElementMoved(currentIndex, newIndex));
+	JBroadcaster::Broadcast(JListT::ElementMoved(currentIndex, newIndex));
 }
 
 /******************************************************************************
@@ -451,7 +451,7 @@ JLinkedList<T>::SwapElements
 		PrivateMoveElementToIndex(index1 - 1, index2);
 		}
 
-	JBroadcaster::Broadcast(JOrderedSetT::ElementsSwapped(index1, index2));
+	JBroadcaster::Broadcast(JListT::ElementsSwapped(index1, index2));
 }
 
 /******************************************************************************
@@ -460,7 +460,7 @@ JLinkedList<T>::SwapElements
  ******************************************************************************/
 
 template <class T>
-JOrderedSetIterator<T>*
+JListIterator<T>*
 JLinkedList<T>::NewIterator
 	(
 	const JIteratorPosition	start,
@@ -473,7 +473,7 @@ JLinkedList<T>::NewIterator
 }
 
 template <class T>
-JOrderedSetIterator<T>*
+JListIterator<T>*
 JLinkedList<T>::NewIterator
 	(
 	const JIteratorPosition	start,

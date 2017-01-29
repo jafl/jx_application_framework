@@ -8,7 +8,7 @@
 #ifndef _H_MDRecord
 #define _H_MDRecord
 
-#include <JOrderedSet.h>
+#include <JList.h>
 #include <JString.h>
 
 class MDRecord : public JBroadcaster
@@ -28,13 +28,13 @@ public:
 	JSize			GetSize() const;
 	const JString&	GetData() const;
 
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		CompareState(MDRecord * const & r1, MDRecord * const & r2);
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		CompareFileName(MDRecord * const & r1, MDRecord * const & r2);
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		CompareSize(MDRecord * const & r1, MDRecord * const & r2);
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		CompareData(MDRecord * const & r1, MDRecord * const & r2);
 
 private:

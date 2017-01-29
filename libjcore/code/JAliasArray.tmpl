@@ -4,8 +4,8 @@
 /******************************************************************************
  JAliasArray.tmpl
 
-	Template for an array of indices into a JOrderedSet.  The indices are
-	sorted by applying a comparison function to the data in the JOrderedSet.
+	Template for an array of indices into a JList.  The indices are
+	sorted by applying a comparison function to the data in the JList.
 	This allows you to sort a list in more than one way without having to
 	duplicate the data itself.
 
@@ -33,9 +33,9 @@
 template <class T>
 JAliasArray<T>::JAliasArray
 	(
-	JOrderedSet<T>*					data,
-	JOrderedSetT::CompareResult		(*compareFn)(const T&, const T&),
-	const JOrderedSetT::SortOrder	order
+	JList<T>*					data,
+	JListT::CompareResult		(*compareFn)(const T&, const T&),
+	const JListT::SortOrder	order
 	)
 	:
 	JCollection(),
@@ -51,9 +51,9 @@ JAliasArray<T>::JAliasArray
 template <class T>
 JAliasArray<T>::JAliasArray
 	(
-	JOrderedSet<T>*					data,
+	JList<T>*					data,
 	const JElementComparison<T>&	compareObj,
-	const JOrderedSetT::SortOrder	order
+	const JListT::SortOrder	order
 	)
 	:
 	JCollection(),
@@ -72,7 +72,7 @@ template <class T>
 void
 JAliasArray<T>::JAliasArrayX1
 	(
-	const JOrderedSetT::SortOrder order
+	const JListT::SortOrder order
 	)
 {
 	assert( itsData != NULL );
@@ -114,7 +114,7 @@ JAliasArray<T>::~JAliasArray()
  ******************************************************************************/
 
 template <class T>
-JOrderedSet<T>*
+JList<T>*
 JAliasArray<T>::GetData()
 {
 	assert( itsData != NULL );
@@ -123,7 +123,7 @@ JAliasArray<T>::GetData()
 }
 
 template <class T>
-const JOrderedSet<T>&
+const JList<T>&
 JAliasArray<T>::GetData()
 	const
 {
@@ -285,7 +285,7 @@ public:
 
 	JCompareAliasWrapper
 		(
-		const JOrderedSet<T>&			data,
+		const JList<T>&			data,
 		const JElementComparison<T>&	compareObj,
 		const T*						searchData = NULL
 		)
@@ -297,7 +297,7 @@ public:
 
 	virtual ~JCompareAliasWrapper() { };
 
-	virtual JOrderedSetT::CompareResult
+	virtual JListT::CompareResult
 	Compare(const JIndex& i1, const JIndex& i2) const
 	{
 		if (itsSearchData == NULL || (i1 > 0 && i2 > 0))
@@ -324,7 +324,7 @@ public:
 
 private:
 
-	const JOrderedSet<T>&			itsData;
+	const JList<T>&			itsData;
 	const JElementComparison<T>&	itsCompareObj;
 	const T*						itsSearchData;
 };
@@ -338,7 +338,7 @@ template <class T>
 JBoolean
 JAliasArray<T>::GetCompareFunction
 	(
-	JOrderedSetT::CompareResult (**compareFn)(const T&, const T&)
+	JListT::CompareResult (**compareFn)(const T&, const T&)
 	)
 	const
 {
@@ -350,7 +350,7 @@ template <class T>
 void
 JAliasArray<T>::SetCompareFunction
 	(
-	JOrderedSetT::CompareResult (*compareFn)(const T&, const T&)
+	JListT::CompareResult (*compareFn)(const T&, const T&)
 	)
 {
 	assert( itsData != NULL );
@@ -403,7 +403,7 @@ JAliasArray<T>::SetCompareObject
  ******************************************************************************/
 
 template <class T>
-JOrderedSetT::SortOrder
+JListT::SortOrder
 JAliasArray<T>::GetSortOrder()
 	const
 {
@@ -414,7 +414,7 @@ template <class T>
 void
 JAliasArray<T>::SetSortOrder
 	(
-	const JOrderedSetT::SortOrder order
+	const JListT::SortOrder order
 	)
 {
 	itsIndexArray->SetSortOrder(order);
@@ -436,7 +436,7 @@ JBoolean
 JAliasArray<T>::SearchSorted
 	(
 	const T&							target,
-	const JOrderedSetT::SearchReturn	which,
+	const JListT::SearchReturn	which,
 	JIndex*								index
 	)
 	const
@@ -467,7 +467,7 @@ JIndex
 JAliasArray<T>::SearchSorted1
 	(
 	const T&							target,
-	const JOrderedSetT::SearchReturn	which,
+	const JListT::SearchReturn	which,
 	JBoolean*							found
 	)
 	const
@@ -503,10 +503,10 @@ JAliasArray<T>::Receive
 	const Message&	message
 	)
 {
-	if (sender == itsData && message.Is(JOrderedSetT::kElementsInserted))
+	if (sender == itsData && message.Is(JListT::kElementsInserted))
 		{
-		const JOrderedSetT::ElementsInserted* m =
-			dynamic_cast<const JOrderedSetT::ElementsInserted*>(&message);
+		const JListT::ElementsInserted* m =
+			dynamic_cast<const JListT::ElementsInserted*>(&message);
 		assert( m != NULL );
 		ADJUST_INDEX(m);
 
@@ -517,10 +517,10 @@ JAliasArray<T>::Receive
 
 		SetElementCount(GetElementCount() + m->GetCount());
 		}
-	else if (sender == itsData && message.Is(JOrderedSetT::kElementsRemoved))
+	else if (sender == itsData && message.Is(JListT::kElementsRemoved))
 		{
-		const JOrderedSetT::ElementsRemoved* m =
-			dynamic_cast<const JOrderedSetT::ElementsRemoved*>(&message);
+		const JListT::ElementsRemoved* m =
+			dynamic_cast<const JListT::ElementsRemoved*>(&message);
 		assert( m != NULL );
 
 		const JSize count = itsIndexArray->GetElementCount();
@@ -539,26 +539,26 @@ JAliasArray<T>::Receive
 
 		SetElementCount(GetElementCount() - m->GetCount());
 		}
-	else if (sender == itsData && message.Is(JOrderedSetT::kElementMoved))
+	else if (sender == itsData && message.Is(JListT::kElementMoved))
 		{
-		const JOrderedSetT::ElementMoved* m =
-			dynamic_cast<const JOrderedSetT::ElementMoved*>(&message);
+		const JListT::ElementMoved* m =
+			dynamic_cast<const JListT::ElementMoved*>(&message);
 		assert( m != NULL );
 		ADJUST_INDEX(m);
 		}
-	else if (sender == itsData && message.Is(JOrderedSetT::kElementsSwapped))
+	else if (sender == itsData && message.Is(JListT::kElementsSwapped))
 		{
-		const JOrderedSetT::ElementsSwapped* m =
-			dynamic_cast<const JOrderedSetT::ElementsSwapped*>(&message);
+		const JListT::ElementsSwapped* m =
+			dynamic_cast<const JListT::ElementsSwapped*>(&message);
 		assert( m != NULL );
 		ADJUST_INDEX(m);
 		}
-	else if (sender == itsData && message.Is(JOrderedSetT::kElementChanged))
+	else if (sender == itsData && message.Is(JListT::kElementChanged))
 		{
 		// Sort() would be O(N log N).  This method is O(N) + O(log N) = O(N).
 
-		const JOrderedSetT::ElementChanged* m =
-			dynamic_cast<const JOrderedSetT::ElementChanged*>(&message);
+		const JListT::ElementChanged* m =
+			dynamic_cast<const JListT::ElementChanged*>(&message);
 		assert( m != NULL );
 
 		const JSize count = itsIndexArray->GetElementCount();
@@ -573,7 +573,7 @@ JAliasArray<T>::Receive
 
 		itsIndexArray->InsertSorted(m->GetFirstIndex());
 		}
-	else if (sender == itsData && message.Is(JOrderedSetT::kSorted))
+	else if (sender == itsData && message.Is(JListT::kSorted))
 		{
 		itsIndexArray->Sort();
 		}

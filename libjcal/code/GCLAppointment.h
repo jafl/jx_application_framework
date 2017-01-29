@@ -63,13 +63,13 @@ public:
 	void			ReadSetup();
 	void			WriteSetup();
 
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		CompareByStartDay(GCLAppointment * const & a1, GCLAppointment * const & a2);
 
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		CompareByEndDay(GCLAppointment * const & a1, GCLAppointment * const & a2);
 
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		CompareByTime(GCLAppointment * const & a1, GCLAppointment * const & a2);
 
 protected:

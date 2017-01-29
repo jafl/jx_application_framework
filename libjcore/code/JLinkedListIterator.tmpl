@@ -30,7 +30,7 @@ JLinkedListIterator<T>::JLinkedListIterator
 	const JIndex			index
 	)
 	:
-	JOrderedSetIterator<T>(theLinkedList, start, index)
+	JListIterator<T>(theLinkedList, start, index)
 {
 	itsLinkedList = const_cast<JLinkedList<T>*>(&theLinkedList);
 
@@ -47,7 +47,7 @@ JLinkedListIterator<T>::JLinkedListIterator
 	const JIndex			index
 	)
 	:
-	JOrderedSetIterator<T>(theLinkedList, start, index)
+	JListIterator<T>(theLinkedList, start, index)
 {
 	itsLinkedList = theLinkedList;
 
@@ -67,7 +67,7 @@ JLinkedListIterator<T>::JLinkedListIterator
 	const JLinkedListIterator<T>& source
 	)
 	:
-	JOrderedSetIterator<T>(source)
+	JListIterator<T>(source)
 {
 	itsLinkedList  = source.itsLinkedList;
 	itsCurrElement = source.itsCurrElement;
@@ -117,7 +117,7 @@ JLinkedListIterator<T>::Prev
 	T* item
 	)
 {
-	const JCursorPosition cursorPos = JOrderedSetIterator<T>::GetCursor();
+	const JCursorPosition cursorPos = JListIterator<T>::GetCursor();
 	if (itsLinkedList == NULL || cursorPos == 0)
 		{
 		return kJFalse;
@@ -130,7 +130,7 @@ JLinkedListIterator<T>::Prev
 		itsCurrElement = itsCurrElement->prevElement;
 		}
 
-	JOrderedSetIterator<T>::SetCursor(cursorPos-1);
+	JListIterator<T>::SetCursor(cursorPos-1);
 	return kJTrue;
 }
 
@@ -150,7 +150,7 @@ JLinkedListIterator<T>::Next
 	T* item
 	)
 {
-	const JCursorPosition cursorPos = JOrderedSetIterator<T>::GetCursor();
+	const JCursorPosition cursorPos = JListIterator<T>::GetCursor();
 	if (itsLinkedList == NULL || cursorPos >= itsLinkedList->GetElementCount())
 		{
 		return kJFalse;
@@ -162,7 +162,7 @@ JLinkedListIterator<T>::Next
 		}
 
 	*item = itsCurrElement->data;
-	JOrderedSetIterator<T>::SetCursor(cursorPos+1);
+	JListIterator<T>::SetCursor(cursorPos+1);
 	return kJTrue;
 }
 
@@ -178,7 +178,7 @@ JLinkedListIterator<T>::SkipPrev
 	const JSize count
 	)
 {
-	JCursorPosition cursorPos = JOrderedSetIterator<T>::GetCursor();
+	JCursorPosition cursorPos = JListIterator<T>::GetCursor();
 	if (itsLinkedList != NULL)
 		{
 		JSize remaining = count;
@@ -192,7 +192,7 @@ JLinkedListIterator<T>::SkipPrev
 			remaining--;
 			}
 
-		JOrderedSetIterator<T>::SetCursor(cursorPos);
+		JListIterator<T>::SetCursor(cursorPos);
 		}
 }
 
@@ -208,7 +208,7 @@ JLinkedListIterator<T>::SkipNext
 	const JSize count
 	)
 {
-	JCursorPosition cursorPos = JOrderedSetIterator<T>::GetCursor();
+	JCursorPosition cursorPos = JListIterator<T>::GetCursor();
 	if (itsLinkedList != NULL)
 		{
 		const JSize maxPos = itsLinkedList->GetElementCount();
@@ -224,7 +224,7 @@ JLinkedListIterator<T>::SkipNext
 			remaining--;
 			}
 
-		JOrderedSetIterator<T>::SetCursor(cursorPos);
+		JListIterator<T>::SetCursor(cursorPos);
 		}
 }
 
@@ -243,13 +243,13 @@ JLinkedListIterator<T>::SetPrev
 	const T& data
 	)
 {
-	JOrderedSet<T>* obj;
-	if (!JLinkedListIterator<T>::GetOrderedSet(&obj) || JOrderedSetIterator<T>::AtBeginning())
+	JList<T>* obj;
+	if (!JLinkedListIterator<T>::GetOrderedSet(&obj) || JListIterator<T>::AtBeginning())
 		{
 		return kJFalse;
 		}
 
-	itsLinkedList->IteratorSetElement(JOrderedSetIterator<T>::GetCursor(), data, itsCurrElement);
+	itsLinkedList->IteratorSetElement(JListIterator<T>::GetCursor(), data, itsCurrElement);
 	return kJTrue;
 }
 
@@ -268,15 +268,15 @@ JLinkedListIterator<T>::SetNext
 	const T& data
 	)
 {
-	JOrderedSet<T>* obj;
-	if (!JLinkedListIterator<T>::GetOrderedSet(&obj) || JOrderedSetIterator<T>::AtEnd())
+	JList<T>* obj;
+	if (!JLinkedListIterator<T>::GetOrderedSet(&obj) || JListIterator<T>::AtEnd())
 		{
 		return kJFalse;
 		}
 
 	assert( itsCurrElement->nextElement != NULL );
 
-	itsLinkedList->IteratorSetElement(JOrderedSetIterator<T>::GetCursor()+1, data, itsCurrElement->nextElement);
+	itsLinkedList->IteratorSetElement(JListIterator<T>::GetCursor()+1, data, itsCurrElement->nextElement);
 	return kJTrue;
 }
 
@@ -292,13 +292,13 @@ template <class T>
 JBoolean
 JLinkedListIterator<T>::RemovePrev()
 {
-	JOrderedSet<T>* obj;
-	if (!JLinkedListIterator<T>::GetOrderedSet(&obj) || JOrderedSetIterator<T>::AtBeginning())
+	JList<T>* obj;
+	if (!JLinkedListIterator<T>::GetOrderedSet(&obj) || JListIterator<T>::AtBeginning())
 		{
 		return kJFalse;
 		}
 
-	itsLinkedList->IteratorRemoveNextElements(JOrderedSetIterator<T>::GetCursor(), 1, itsCurrElement);
+	itsLinkedList->IteratorRemoveNextElements(JListIterator<T>::GetCursor(), 1, itsCurrElement);
 	return kJTrue;
 }
 
@@ -314,13 +314,13 @@ template <class T>
 JBoolean
 JLinkedListIterator<T>::RemoveNext()
 {
-	JOrderedSet<T>* obj;
-	if (!JLinkedListIterator<T>::GetOrderedSet(&obj) || JOrderedSetIterator<T>::AtEnd())
+	JList<T>* obj;
+	if (!JLinkedListIterator<T>::GetOrderedSet(&obj) || JListIterator<T>::AtEnd())
 		{
 		return kJFalse;
 		}
 
-	itsLinkedList->IteratorRemoveNextElements(JOrderedSetIterator<T>::GetCursor()+1, 1,
+	itsLinkedList->IteratorRemoveNextElements(JListIterator<T>::GetCursor()+1, 1,
 											  itsCurrElement->nextElement);
 	return kJTrue;
 }
@@ -342,7 +342,7 @@ JLinkedListIterator<T>::MoveTo
 	const JIndex			index
 	)
 {
-	JOrderedSetIterator<T>::MoveTo(newPosition, index);
+	JListIterator<T>::MoveTo(newPosition, index);
 
 	if (itsLinkedList == NULL)
 		{
@@ -360,7 +360,7 @@ JLinkedListIterator<T>::MoveTo
 		}
 	else
 		{
-		itsCurrElement = itsLinkedList->FindElement(JOrderedSetIterator<T>::GetCursor());
+		itsCurrElement = itsLinkedList->FindElement(JListIterator<T>::GetCursor());
 		}
 }
 
@@ -379,13 +379,13 @@ JLinkedListIterator<T>::OrderedSetChanged
 	const JBroadcaster::Message& message
 	)
 {
-	JOrderedSetIterator<T>::OrderedSetChanged(message);
+	JListIterator<T>::OrderedSetChanged(message);
 
-	if (message.Is(JOrderedSetT::kElementsInserted) ||
-		message.Is(JOrderedSetT::kElementsRemoved) ||
-		message.Is(JOrderedSetT::kCopied))
+	if (message.Is(JListT::kElementsInserted) ||
+		message.Is(JListT::kElementsRemoved) ||
+		message.Is(JListT::kCopied))
 		{
-		const JCursorPosition cursorPos = JOrderedSetIterator<T>::GetCursor();
+		const JCursorPosition cursorPos = JListIterator<T>::GetCursor();
 		if (cursorPos == 0)
 			{
 			itsCurrElement = itsLinkedList->itsFirstElement;
@@ -395,7 +395,7 @@ JLinkedListIterator<T>::OrderedSetChanged
 			itsCurrElement = itsLinkedList->FindElement(cursorPos);
 			}
 		}
-	else if (message.Is(JOrderedSetT::kGoingAway))
+	else if (message.Is(JListT::kGoingAway))
 		{
 		itsLinkedList  = NULL;
 		itsCurrElement = NULL;

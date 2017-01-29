@@ -89,7 +89,7 @@ private:
 
 	void	SetDefaultFontColor(const JColorIndex color);
 
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		CompareWords(const WordStyle& w1, const WordStyle& w2);
 
 	// not allowed

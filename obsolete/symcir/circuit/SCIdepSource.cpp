@@ -286,34 +286,34 @@ SCIdepSource::Receive
 {
 	JBroadcaster* compList = GetCircuit()->GetComponentList();
 
-	if (sender == compList && message.Is(JOrderedSetT::kElementsInserted))
+	if (sender == compList && message.Is(JListT::kElementsInserted))
 		{
-		const JOrderedSetT::ElementsInserted* info =
-			dynamic_cast<const JOrderedSetT::ElementsInserted*>(&message);
+		const JListT::ElementsInserted* info =
+			dynamic_cast<const JListT::ElementsInserted*>(&message);
 		assert( info != NULL );
 		info->AdjustIndex(&itsDepCompIndex);
 		}
 
-	else if (sender == compList && message.Is(JOrderedSetT::kElementsRemoved))
+	else if (sender == compList && message.Is(JListT::kElementsRemoved))
 		{
-		const JOrderedSetT::ElementsRemoved* info =
-			dynamic_cast<const JOrderedSetT::ElementsRemoved*>(&message);
+		const JListT::ElementsRemoved* info =
+			dynamic_cast<const JListT::ElementsRemoved*>(&message);
 		assert( info != NULL );
 		info->AdjustIndex(&itsDepCompIndex);
 		}
 
-	else if (sender == compList && message.Is(JOrderedSetT::kElementMoved))
+	else if (sender == compList && message.Is(JListT::kElementMoved))
 		{
-		const JOrderedSetT::ElementMoved* info =
-			dynamic_cast<const JOrderedSetT::ElementMoved*>(&message);
+		const JListT::ElementMoved* info =
+			dynamic_cast<const JListT::ElementMoved*>(&message);
 		assert( info != NULL );
 		info->AdjustIndex(&itsDepCompIndex);
 		}
 
-	else if (sender == compList && message.Is(JOrderedSetT::kElementsSwapped))
+	else if (sender == compList && message.Is(JListT::kElementsSwapped))
 		{
-		const JOrderedSetT::ElementsSwapped* info =
-			dynamic_cast<const JOrderedSetT::ElementsSwapped*>(&message);
+		const JListT::ElementsSwapped* info =
+			dynamic_cast<const JListT::ElementsSwapped*>(&message);
 		assert( info != NULL );
 		info->AdjustIndex(&itsDepCompIndex);
 		}

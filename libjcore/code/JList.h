@@ -1,7 +1,7 @@
 /******************************************************************************
- JOrderedSet.h
+ JList.h
 
-	Interface for JOrderedSet class
+	Interface for JList class
 
 	Copyright (C) 1994-97 by John Lindal. All rights reserved.
 
@@ -11,11 +11,11 @@
 #define _H_JOrderedSet
 
 #include <JCollection.h>
-#include <JOrderedSetIterator.h>
+#include <JListIterator.h>
 
 // namespace to own JBroadcaster messages, etc (template is unnecessary)
 
-class JOrderedSetT
+class JListT
 {
 public:
 
@@ -250,7 +250,7 @@ public:
 
 	virtual ~JElementComparison();
 
-	virtual JOrderedSetT::CompareResult	Compare(const T&, const T&) const = 0;
+	virtual JListT::CompareResult	Compare(const T&, const T&) const = 0;
 	virtual JElementComparison<T>*		Copy() const = 0;
 };
 
@@ -259,28 +259,28 @@ class JCompareFnWrapper : public JElementComparison<T>
 {
 public:
 
-	JCompareFnWrapper(JOrderedSetT::CompareResult (*compareFn)(const T&, const T&));
+	JCompareFnWrapper(JListT::CompareResult (*compareFn)(const T&, const T&));
 	virtual ~JCompareFnWrapper();
 
-	virtual JOrderedSetT::CompareResult	Compare(const T&, const T&) const;
+	virtual JListT::CompareResult	Compare(const T&, const T&) const;
 	virtual JElementComparison<T>*		Copy() const;
 
 private:
 
-	JOrderedSetT::CompareResult	(*itsCompareFn)(const T&, const T&);
+	JListT::CompareResult	(*itsCompareFn)(const T&, const T&);
 };
 
 template <class T>
-class JOrderedSet : public JCollection
+class JList : public JCollection
 {
-	friend class JOrderedSetIterator<T>;
+	friend class JListIterator<T>;
 
 public:
 
-	JOrderedSet();
-	JOrderedSet(const JOrderedSet<T>& source);
+	JList();
+	JList(const JList<T>& source);
 
-	virtual ~JOrderedSet();
+	virtual ~JList();
 
 	virtual void	InsertElementAtIndex(const JIndex index, const T& data) = 0;
 
@@ -290,7 +290,7 @@ public:
 	void			RemoveElement(const JIndex index);
 	virtual void	RemoveNextElements(const JIndex firstIndex, const JSize count) = 0;
 	void			RemovePrevElements(const JIndex lastIndex, const JSize count);
-	void			RemoveElements(const JOrderedSetT::ElementsRemoved& info);
+	void			RemoveElements(const JListT::ElementsRemoved& info);
 	virtual void	RemoveAll() = 0;	// separate so derived classes can optimize
 
 	virtual T		GetElement(const JIndex index) const = 0;
@@ -306,29 +306,29 @@ public:
 
 	virtual void	MoveElementToIndex(const JIndex currentIndex,
 									   const JIndex newIndex) = 0;
-	void			MoveElementToIndexWithMsg(const JOrderedSetT::ElementMoved& info);
+	void			MoveElementToIndexWithMsg(const JListT::ElementMoved& info);
 
 	virtual void	SwapElements(const JIndex index1, const JIndex index2) = 0;
-	void			SwapElementsWithMsg(const JOrderedSetT::ElementsSwapped& info);
+	void			SwapElementsWithMsg(const JListT::ElementsSwapped& info);
 
-	virtual JOrderedSetIterator<T>*
+	virtual JListIterator<T>*
 		NewIterator(const JIteratorPosition start = kJIteratorStartAtBeginning,
 					const JIndex index = 0);
-	virtual JOrderedSetIterator<T>*
+	virtual JListIterator<T>*
 		NewIterator(const JIteratorPosition start = kJIteratorStartAtBeginning,
 					const JIndex index = 0) const;
 
 	// sorting functions -- virtual so they can be optimized for particular storage methods
 
-	JBoolean	GetCompareFunction(JOrderedSetT::CompareResult (**compareFn)(const T&, const T&)) const;
-	void		SetCompareFunction(JOrderedSetT::CompareResult (*compareFn)(const T&, const T&));
+	JBoolean	GetCompareFunction(JListT::CompareResult (**compareFn)(const T&, const T&)) const;
+	void		SetCompareFunction(JListT::CompareResult (*compareFn)(const T&, const T&));
 
 	JBoolean	GetCompareObject(const JElementComparison<T>** compareObj) const;
 	void		SetCompareObject(const JElementComparison<T>& compareObj);
 	void		ClearCompareObject();
 
-	JOrderedSetT::SortOrder	GetSortOrder() const;
-	void					SetSortOrder(const JOrderedSetT::SortOrder order);
+	JListT::SortOrder	GetSortOrder() const;
+	void				SetSortOrder(const JListT::SortOrder order);
 
 	JBoolean		IsSorted() const;
 	virtual void	Sort();
@@ -337,34 +337,34 @@ public:
 							 JIndex* index = NULL);
 	JIndex		GetInsertionSortIndex(const T& data, JBoolean* isDuplicate = NULL) const;
 
-	JBoolean	SearchSorted(const T& target, const JOrderedSetT::SearchReturn which,
+	JBoolean	SearchSorted(const T& target, const JListT::SearchReturn which,
 							 JIndex* index) const;
 
 	virtual JIndex	SearchSorted1(const T& target,
-								  const JOrderedSetT::SearchReturn which,
+								  const JListT::SearchReturn which,
 								  JBoolean* found) const;
 
 protected:
 
-	void	OrderedSetAssigned(const JOrderedSet<T>& source);
+	void	OrderedSetAssigned(const JList<T>& source);
 	void	NotifyIterators(const JBroadcaster::Message& message);
 
 private:
 
-	JOrderedSetT::CompareResult	(*itsCompareFn)(const T&, const T&);	// can be NULL
-	JElementComparison<T>*		itsCompareObj;							// can be NULL
+	JListT::CompareResult	(*itsCompareFn)(const T&, const T&);	// can be NULL
+	JElementComparison<T>*	itsCompareObj;							// can be NULL
 
-	JOrderedSetT::SortOrder		itsSortOrder;
-	JOrderedSetIterator<T>*		itsFirstIterator;	// linked list of active iterators
+	JListT::SortOrder		itsSortOrder;
+	JListIterator<T>*		itsFirstIterator;	// linked list of active iterators
 
 private:
 
 	// must be overridden
 
-	const JOrderedSet<T>& operator=(const JOrderedSet<T>& source);
+	const JList<T>& operator=(const JList<T>& source);
 };
 
-#include <JOrderedSet.tmpl>
-#include <JOrderedSetIterator.tmpl>
+#include <JList.tmpl>
+#include <JListIterator.tmpl>
 
 #endif

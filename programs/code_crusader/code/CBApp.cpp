@@ -460,7 +460,7 @@ CBApp::CollectSearchPaths
 
 				JBoolean found;
 				const JIndex index =
-					searchPaths->SearchSorted1(newInfo, JOrderedSetT::kAnyMatch, &found);
+					searchPaths->SearchSorted1(newInfo, JListT::kAnyMatch, &found);
 				if (found)
 					{
 					// compute OR of recurse flags

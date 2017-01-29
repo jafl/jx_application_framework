@@ -588,7 +588,7 @@ JFSFileTreeNode::UpdateChildren()
 		{
 		JTreeNode* node = GetChild(i);
 		JIndex j;
-		if (newChildren.SearchSorted(node, JOrderedSetT::kAnyMatch, &j))
+		if (newChildren.SearchSorted(node, JListT::kAnyMatch, &j))
 			{
 			newChildren.DeleteElement(j);
 			}
@@ -616,7 +616,7 @@ JFSFileTreeNode::UpdateChildren()
 
  ******************************************************************************/
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 JFSFileTreeNode::CompareTypeAndName
 	(
 	JTreeNode * const & e1,
@@ -629,11 +629,11 @@ JFSFileTreeNode::CompareTypeAndName
 	const long t = n1->itsDirEntry->GetType() - n2->itsDirEntry->GetType();
 	if (t < 0)
 		{
-		return JOrderedSetT::kFirstLessSecond;
+		return JListT::kFirstLessSecond;
 		}
 	else if (t > 0)
 		{
-		return JOrderedSetT::kFirstGreaterSecond;
+		return JListT::kFirstGreaterSecond;
 		}
 	else
 		{
@@ -646,7 +646,7 @@ JFSFileTreeNode::CompareTypeAndName
 
  ******************************************************************************/
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 JFSFileTreeNode::CompareUserName
 	(
 	JTreeNode * const & e1,
@@ -658,10 +658,10 @@ JFSFileTreeNode::CompareUserName
 
 	JString u1 = n1->itsDirEntry->GetUserName();
 	JString u2 = n2->itsDirEntry->GetUserName();
-	JOrderedSetT::CompareResult result =
+	JListT::CompareResult result =
 		JCompareStringsCaseInsensitive(&(u1), &(u2));
 
-	if (result == JOrderedSetT::kFirstEqualSecond)
+	if (result == JListT::kFirstEqualSecond)
 		{
 		result = JNamedTreeNode::DynamicCastCompareNames(e1, e2);
 		}
@@ -673,7 +673,7 @@ JFSFileTreeNode::CompareUserName
 
  ******************************************************************************/
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 JFSFileTreeNode::CompareGroupName
 	(
 	JTreeNode * const & e1,
@@ -685,10 +685,10 @@ JFSFileTreeNode::CompareGroupName
 
 	JString u1 = n1->itsDirEntry->GetGroupName();
 	JString u2 = n2->itsDirEntry->GetGroupName();
-	JOrderedSetT::CompareResult result =
+	JListT::CompareResult result =
 		JCompareStringsCaseInsensitive(&(u1), &(u2));
 
-	if (result == JOrderedSetT::kFirstEqualSecond)
+	if (result == JListT::kFirstEqualSecond)
 		{
 		result = JNamedTreeNode::DynamicCastCompareNames(e1, e2);
 		}
@@ -700,7 +700,7 @@ JFSFileTreeNode::CompareGroupName
 
  ******************************************************************************/
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 JFSFileTreeNode::CompareSize
 	(
 	JTreeNode * const & e1,
@@ -710,26 +710,26 @@ JFSFileTreeNode::CompareSize
 	JFSFileTreeNode* n1	= dynamic_cast<JFSFileTreeNode*>(e1);
 	JFSFileTreeNode* n2	= dynamic_cast<JFSFileTreeNode*>(e2);
 
-	JOrderedSetT::CompareResult result;
+	JListT::CompareResult result;
 
 	if (n1->IsOpenable() && n2->IsOpenable())
 		{
-		result = JOrderedSetT::kFirstEqualSecond;
+		result = JListT::kFirstEqualSecond;
 		}
 	else if (n1->IsOpenable())
 		{
-		result = JOrderedSetT::kFirstLessSecond;
+		result = JListT::kFirstLessSecond;
 		}
 	else if (n2->IsOpenable())
 		{
-		result = JOrderedSetT::kFirstGreaterSecond;
+		result = JListT::kFirstGreaterSecond;
 		}
 	else
 		{
 		result = JDirEntry::CompareSizes(n1->itsDirEntry, n2->itsDirEntry);
 		}
 
-	if (result == JOrderedSetT::kFirstEqualSecond)
+	if (result == JListT::kFirstEqualSecond)
 		{
 		result = JNamedTreeNode::DynamicCastCompareNames(e1, e2);
 		}
@@ -741,7 +741,7 @@ JFSFileTreeNode::CompareSize
 
  ******************************************************************************/
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 JFSFileTreeNode::CompareDate
 	(
 	JTreeNode * const & e1,
@@ -751,10 +751,10 @@ JFSFileTreeNode::CompareDate
 	JFSFileTreeNode* n1	= dynamic_cast<JFSFileTreeNode*>(e1);
 	JFSFileTreeNode* n2	= dynamic_cast<JFSFileTreeNode*>(e2);
 
-	JOrderedSetT::CompareResult result =
+	JListT::CompareResult result =
 		JDirEntry::CompareModTimes(n1->itsDirEntry, n2->itsDirEntry);
 
-	if (result == JOrderedSetT::kFirstEqualSecond)
+	if (result == JListT::kFirstEqualSecond)
 		{
 		result = JNamedTreeNode::DynamicCastCompareNames(e1, e2);
 		}

@@ -246,7 +246,7 @@ GPMProcessList::GetEntryIndex
 	JIndex*					index
 	)
 {
-	return itsVisibleEntries->SearchSorted(const_cast<GPMProcessEntry*>(entry), JOrderedSetT::kAnyMatch, index);
+	return itsVisibleEntries->SearchSorted(const_cast<GPMProcessEntry*>(entry), JListT::kAnyMatch, index);
 }
 
 /******************************************************************************

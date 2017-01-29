@@ -190,7 +190,7 @@ GFGLink::ParseLine
 
 		JBoolean found;
 		const JIndex i =
-			itsClassList->SearchSorted1(fn, JOrderedSetT::kAnyMatch, &found);
+			itsClassList->SearchSorted1(fn, JListT::kAnyMatch, &found);
 		if (found)
 			{
 			itsClassList->DeleteElement(i);

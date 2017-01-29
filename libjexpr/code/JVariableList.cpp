@@ -45,8 +45,8 @@
 #include <JFunction.h>
 #include <jParseUtil.h>
 #include <JString.h>
-#include <JOrderedSet.h>
-#include <JOrderedSetUtil.h>
+#include <JList.h>
+#include <JListUtil.h>
 #include <jAssert.h>
 
 // JBroadcaster message types
@@ -419,7 +419,7 @@ JVariableList::VariableUserDeleted
 void
 JVariableList::VariablesInserted
 	(
-	const JOrderedSetT::ElementsInserted& info
+	const JListT::ElementsInserted& info
 	)
 	const
 {
@@ -453,7 +453,7 @@ JIndex i;
 void
 JVariableList::VariablesRemoved
 	(
-	const JOrderedSetT::ElementsRemoved& info
+	const JListT::ElementsRemoved& info
 	)
 	const
 {
@@ -493,7 +493,7 @@ JIndex i;
 void
 JVariableList::VariableMoved
 	(
-	const JOrderedSetT::ElementMoved& info
+	const JListT::ElementMoved& info
 	)
 	const
 {
@@ -524,7 +524,7 @@ JIndex i;
 void
 JVariableList::VariablesSwapped
 	(
-	const JOrderedSetT::ElementsSwapped& info
+	const JListT::ElementsSwapped& info
 	)
 	const
 {
@@ -562,15 +562,15 @@ JVariableList::Receive
 	const JCollection* mainList = GetOrderedSet();
 
 	if (sender == const_cast<JCollection*>(mainList) &&
-		message.Is(JOrderedSetT::kElementsInserted))
+		message.Is(JListT::kElementsInserted))
 		{
-		const JOrderedSetT::ElementsInserted* info =
-			dynamic_cast<const JOrderedSetT::ElementsInserted*>(&message);
+		const JListT::ElementsInserted* info =
+			dynamic_cast<const JListT::ElementsInserted*>(&message);
 		assert( info != NULL );
 		VariablesInserted(*info);
 		}
 	else if (sender == const_cast<JCollection*>(mainList) &&
-			 message.Is(JOrderedSetT::kElementsRemoved))
+			 message.Is(JListT::kElementsRemoved))
 		{
 		if (!mainList->IsEmpty())
 			{
@@ -578,30 +578,30 @@ JVariableList::Receive
 			// happens when the object is destructed.  During destruction,
 			// we obviously should not complain.
 
-			const JOrderedSetT::ElementsRemoved* info =
-				dynamic_cast<const JOrderedSetT::ElementsRemoved*>(&message);
+			const JListT::ElementsRemoved* info =
+				dynamic_cast<const JListT::ElementsRemoved*>(&message);
 			assert( info != NULL );
 			VariablesRemoved(*info);
 			}
 		}
 	else if (sender == const_cast<JCollection*>(mainList) &&
-			 message.Is(JOrderedSetT::kElementMoved))
+			 message.Is(JListT::kElementMoved))
 		{
-		const JOrderedSetT::ElementMoved* info =
-			dynamic_cast<const JOrderedSetT::ElementMoved*>(&message);
+		const JListT::ElementMoved* info =
+			dynamic_cast<const JListT::ElementMoved*>(&message);
 		assert( info != NULL );
 		VariableMoved(*info);
 		}
 	else if (sender == const_cast<JCollection*>(mainList) &&
-			 message.Is(JOrderedSetT::kElementsSwapped))
+			 message.Is(JListT::kElementsSwapped))
 		{
-		const JOrderedSetT::ElementsSwapped* info =
-			dynamic_cast<const JOrderedSetT::ElementsSwapped*>(&message);
+		const JListT::ElementsSwapped* info =
+			dynamic_cast<const JListT::ElementsSwapped*>(&message);
 		assert( info != NULL );
 		VariablesSwapped(*info);
 		}
 	else if (sender == const_cast<JCollection*>(mainList) &&
-			 message.Is(JOrderedSetT::kSorted))
+			 message.Is(JListT::kSorted))
 		{
 		assert( 0 /* JVariableList doesn't allow elements to be sorted */ );
 		}

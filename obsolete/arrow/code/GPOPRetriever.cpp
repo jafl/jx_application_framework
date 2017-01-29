@@ -915,7 +915,7 @@ GPOPRetriever::HandleUIDL()
 		{
 		JString id = *(itsUIDList->GetElement(i));
 		JIndex findex;
-		if (itsReadUIDList->SearchSorted(&id, JOrderedSetT::kAnyMatch, &findex))
+		if (itsReadUIDList->SearchSorted(&id, JListT::kAnyMatch, &findex))
 			{
 			stillPresent.SetElement(findex, kJTrue);
 			}

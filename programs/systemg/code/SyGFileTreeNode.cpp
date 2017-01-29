@@ -64,23 +64,23 @@ SyGFileTreeNode::SetChildCompareFunction
 {
 	if (type == kGFMUID)
 		{
-		JFSFileTreeNode::SetChildCompareFunction(JFSFileTreeNode::CompareUserName, JOrderedSetT::kSortAscending, kJTrue);
+		JFSFileTreeNode::SetChildCompareFunction(JFSFileTreeNode::CompareUserName, JListT::kSortAscending, kJTrue);
 		}
 	else if (type == kGFMGID)
 		{
-		JFSFileTreeNode::SetChildCompareFunction(JFSFileTreeNode::CompareGroupName, JOrderedSetT::kSortAscending, kJTrue);
+		JFSFileTreeNode::SetChildCompareFunction(JFSFileTreeNode::CompareGroupName, JListT::kSortAscending, kJTrue);
 		}
 	else if (type == kGFMSize)
 		{
-		JFSFileTreeNode::SetChildCompareFunction(JFSFileTreeNode::CompareSize, JOrderedSetT::kSortDescending, kJTrue);
+		JFSFileTreeNode::SetChildCompareFunction(JFSFileTreeNode::CompareSize, JListT::kSortDescending, kJTrue);
 		}
 	else if (type == kGFMDate)
 		{
-		JFSFileTreeNode::SetChildCompareFunction(JFSFileTreeNode::CompareDate, JOrderedSetT::kSortDescending, kJTrue);
+		JFSFileTreeNode::SetChildCompareFunction(JFSFileTreeNode::CompareDate, JListT::kSortDescending, kJTrue);
 		}
 	else
 		{
-		JFSFileTreeNode::SetChildCompareFunction(JNamedTreeNode::DynamicCastCompareNames, JOrderedSetT::kSortAscending, kJTrue);
+		JFSFileTreeNode::SetChildCompareFunction(JNamedTreeNode::DynamicCastCompareNames, JListT::kSortAscending, kJTrue);
 		}
 }
 

@@ -36,7 +36,7 @@ public:
 	Type	GetType() const;
 	void	FindParent(const JUInt64 id);
 
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		CompareID(JVMThreadNode* const & t1, JVMThreadNode* const & t2);
 
 protected:

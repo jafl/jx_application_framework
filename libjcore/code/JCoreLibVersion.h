@@ -21,6 +21,7 @@
 static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 
 // version 4.0.0:
+//	*** Renamed JOrderedSet to JList to be more accurate.
 //	*** UTF-8 support
 //		Completely redesigned JString API.  Introduced JStringIterator.
 //			Replaced JCharacter with JUtf8Byte & JUtf8Character.
@@ -45,6 +46,7 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //	*** Removed JMessageProtocol::Translate*AndSend
 //	*** Removed FirstElement(), GetElement(), LastElement() from JPtrArray
 //		Use GetFirstElement(), GetElement(), GetLastElement() instead
+//	Added JPtrArray::Join for joining lists of strings.
 
 // version 3.2.0:
 //	jMountUtil:

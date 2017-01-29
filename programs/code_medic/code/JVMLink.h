@@ -452,9 +452,9 @@ private:
 	JBoolean	FindSourceForClass(const JCharacter* signature, JString* fullName);
 	JBoolean	GetFrame(const JUInt64 id, JIndex* index) const;
 
-	static JOrderedSetT::CompareResult	CompareClassIDs(const ClassInfo& c1, const ClassInfo& c2);
-	static JOrderedSetT::CompareResult	CompareClassNames(const ClassInfo& c1, const ClassInfo& c2);
-	static JOrderedSetT::CompareResult	CompareMethodIDs(const MethodInfo& m1, const MethodInfo& m2);
+	static JListT::CompareResult	CompareClassIDs(const ClassInfo& c1, const ClassInfo& c2);
+	static JListT::CompareResult	CompareClassNames(const ClassInfo& c1, const ClassInfo& c2);
+	static JListT::CompareResult	CompareMethodIDs(const MethodInfo& m1, const MethodInfo& m2);
 
 	// not allowed
 

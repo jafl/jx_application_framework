@@ -61,7 +61,7 @@ public:
 
 	virtual void	WriteSetup(std::ostream& os); // must call base class first!
 
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		CompareFits(GLFitDescription * const &, GLFitDescription * const &);
 
 protected:

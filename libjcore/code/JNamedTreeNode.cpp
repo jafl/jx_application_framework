@@ -31,7 +31,7 @@ JNamedTreeNode::JNamedTreeNode
 	JTreeNode(tree, isOpenable),
 	itsName(name)
 {
-	SetChildCompareFunction(DynamicCastCompareNames, JOrderedSetT::kSortAscending, kJFalse);
+	SetChildCompareFunction(DynamicCastCompareNames, JListT::kSortAscending, kJFalse);
 }
 
 /******************************************************************************
@@ -220,7 +220,7 @@ JNamedTreeNode::GetNamedChild
 
  ******************************************************************************/
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 JNamedTreeNode::DynamicCastCompareNames
 	(
 	JTreeNode * const & e1,
@@ -236,16 +236,16 @@ JNamedTreeNode::DynamicCastCompareNames
 
  ******************************************************************************/
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 JNamedTreeNode::CompareNames
 	(
 	JNamedTreeNode * const & e1,
 	JNamedTreeNode * const & e2
 	)
 {
-	JOrderedSetT::CompareResult result =
+	JListT::CompareResult result =
 		JCompareStringsCaseInsensitive(&(e1->itsName), &(e2->itsName));
-	if (result == JOrderedSetT::kFirstEqualSecond)
+	if (result == JListT::kFirstEqualSecond)
 		{
 		result = JCompareStringsCaseSensitive(&(e1->itsName), &(e2->itsName));
 		}
@@ -257,7 +257,7 @@ JNamedTreeNode::CompareNames
 
  ******************************************************************************/
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 JNamedTreeNode::DynamicCastCompareNamesForIncrSearch
 	(
 	JTreeNode * const & e1,
@@ -273,7 +273,7 @@ JNamedTreeNode::DynamicCastCompareNamesForIncrSearch
 
  ******************************************************************************/
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 JNamedTreeNode::CompareNamesForIncrSearch
 	(
 	JNamedTreeNode * const & e1,

@@ -262,7 +262,7 @@ private:
 		{ };
 	};
 
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		CompareXWindows(const WindowInfo& info1, const WindowInfo& info2);
 
 	struct CursorInfo

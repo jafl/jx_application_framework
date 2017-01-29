@@ -43,7 +43,7 @@ private:
 	void	PrependOtherMonospaceFonts(JXXFontMenu* menu);
 	void	UpdateMenus(const JBoolean updateSize);
 
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		CompareFontNames(JString * const &, JString * const &);
 
 	// not allowed

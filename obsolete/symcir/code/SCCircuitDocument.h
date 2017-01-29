@@ -94,7 +94,7 @@ private:
 	void	UpdateAnalysisMenu();
 	void	HandleAnalysisMenu(const JIndex item);
 
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		ComparePlotDirectorTitles(SCPlotDirector* const & p1, SCPlotDirector* const & p2);
 
 	// not allowed

@@ -68,7 +68,7 @@ CBManPageDocument::Create
 		}
 
 	JIndex i;
-	if (theManCmdList.SearchSorted(&cmd, JOrderedSetT::kAnyMatch, &i))
+	if (theManCmdList.SearchSorted(&cmd, JListT::kAnyMatch, &i))
 		{
 		CBManPageDocument* doc =
 			dynamic_cast<CBManPageDocument*>(theManDocList.GetElement(i));
@@ -187,7 +187,7 @@ CBManPageDocument::CBManPageDocument
 		*cmd = GetCmd2(pageName);
 
 		JIndex i;
-		if (theManCmdList.SearchSorted(cmd, JOrderedSetT::kAnyMatch, &i))
+		if (theManCmdList.SearchSorted(cmd, JListT::kAnyMatch, &i))
 			{
 			CBManPageDocument* doc =
 				dynamic_cast<CBManPageDocument*>(theManDocList.GetElement(i));

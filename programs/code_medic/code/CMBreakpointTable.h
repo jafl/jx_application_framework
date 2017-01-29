@@ -71,7 +71,7 @@ private:
 
 	JBoolean	FindBreakpointByDebuggerIndex(const CMBreakpoint* bp, JIndex* index) const;
 
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		CompareBreakpointLocations(CMBreakpoint* const & bp1,
 								   CMBreakpoint* const & bp2);
 

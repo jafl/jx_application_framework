@@ -37,7 +37,7 @@ CBStringCompleter::CBStringCompleter
 {
 	itsStringList = jnew JPtrArray<JString>(JPtrArrayT::kForgetAll, 1000);
 	assert( itsStringList != NULL );
-	itsStringList->SetSortOrder(JOrderedSetT::kSortAscending);
+	itsStringList->SetSortOrder(JListT::kSortAscending);
 
 	if (itsCaseSensitiveFlag)
 		{
@@ -150,7 +150,7 @@ CBStringCompleter::Remove
 {
 	JString target = str;
 	JIndex i;
-	if (itsStringList->SearchSorted(&target, JOrderedSetT::kAnyMatch, &i))
+	if (itsStringList->SearchSorted(&target, JListT::kAnyMatch, &i))
 		{
 		itsStringList->RemoveElement(i);
 		}
@@ -269,7 +269,7 @@ CBStringCompleter::Complete
 	JBoolean found;
 	const JIndex startIndex =
 		itsStringList->SearchSorted1(const_cast<JString*>(&prefix),
-									 JOrderedSetT::kAnyMatch, &found);
+									 JListT::kAnyMatch, &found);
 
 	const JSize stringCount = itsStringList->GetElementCount();
 	if (startIndex > stringCount)
@@ -316,7 +316,7 @@ CBStringCompleter::Complete
 
 	if (itsCaseSensitiveFlag && matchCount > 0)
 		{
-		matchList.SetSortOrder(JOrderedSetT::kSortAscending);
+		matchList.SetSortOrder(JListT::kSortAscending);
 		matchList.SetCompareFunction(JCompareStringsCaseInsensitive);
 		matchList.Sort();
 

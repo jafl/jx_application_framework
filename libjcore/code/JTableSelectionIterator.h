@@ -10,7 +10,7 @@
 #ifndef _H_JTableSelectionIterator
 #define _H_JTableSelectionIterator
 
-#include <JOrderedSetIterator.h>
+#include <JListIterator.h>
 #include <JBroadcaster.h>
 #include <JRect.h>
 

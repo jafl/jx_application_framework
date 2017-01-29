@@ -65,7 +65,7 @@ private:
 
 	void	ReadMacro(std::istream& input, const JFileVersion vers);
 
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		CompareMacros(const MacroInfo& m1, const MacroInfo& m2);
 
 	// not allowed

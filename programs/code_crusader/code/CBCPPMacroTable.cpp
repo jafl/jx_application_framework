@@ -193,7 +193,7 @@ CBCPPMacroTable::UpdateMacros
 			const CBCPreprocessor::MacroInfo info
 				(const_cast<JString*>(&(data->GetString(i, kNameColumn))),
 				 const_cast<JString*>(&(data->GetString(i, kValueColumn))));
-			if (!list.SearchSorted(info, JOrderedSetT::kAnyMatch, &j))
+			if (!list.SearchSorted(info, JListT::kAnyMatch, &j))
 				{
 				changed = kJTrue;
 				break;

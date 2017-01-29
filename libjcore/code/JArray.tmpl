@@ -12,7 +12,7 @@
 		the array elements, this can -only- be used for structs.
 		To store objects, use the JPtrArray template class.
 
-	BASE CLASS = JOrderedSet
+	BASE CLASS = JList
 
 	Copyright (C) 1994-97 by John Lindal. All rights reserved.
 
@@ -34,7 +34,7 @@ JArray<T>::JArray
 	const JSize aBlockSize
 	)
 	:
-	JOrderedSet<T>()
+	JList<T>()
 {
 	assert( aBlockSize > 0 );
 
@@ -56,7 +56,7 @@ JArray<T>::JArray
 	const JArray<T>& source
 	)
 	:
-	JOrderedSet<T>(source)
+	JList<T>(source)
 {
 	itsElements = NULL;		// makes delete [] safe inside CopyArray
 
@@ -91,7 +91,7 @@ JArray<T>::operator=
 		return *this;
 		}
 
-	JCollection::operator=(source);		// JOrderedSet::operator= is private
+	JCollection::operator=(source);		// JList::operator= is private
 
 	CopyArray(source);
 	JArray<T>::OrderedSetAssigned(source);
@@ -189,9 +189,9 @@ JArray<T>::InsertElementAtIndex
 	const JIndex trueIndex = CreateElement(index);
 	StoreElement(trueIndex, data);
 
-	JOrderedSetT::ElementsInserted message(trueIndex, 1);
+	JListT::ElementsInserted message(trueIndex, 1);
 	JBroadcaster::Broadcast(message);
-	JOrderedSet<T>::NotifyIterators(message);
+	JList<T>::NotifyIterators(message);
 }
 
 /******************************************************************************
@@ -273,9 +273,9 @@ JArray<T>::RemoveNextElements
 		RemoveSlots();
 		}
 
-	JOrderedSetT::ElementsRemoved message(firstIndex, count);
+	JListT::ElementsRemoved message(firstIndex, count);
 	JBroadcaster::Broadcast(message);
-	JOrderedSet<T>::NotifyIterators(message);
+	JList<T>::NotifyIterators(message);
 }
 
 /******************************************************************************
@@ -289,13 +289,13 @@ JArray<T>::RemoveAll()
 {
 	if (!JCollection::IsEmpty())
 		{
-		JOrderedSetT::ElementsRemoved message(1, JCollection::GetElementCount());
+		JListT::ElementsRemoved message(1, JCollection::GetElementCount());
 
 		JCollection::SetElementCount(0);
 		ResizeMemoryAllocation(itsBlockSize);
 
 		JBroadcaster::Broadcast(message);
-		JOrderedSet<T>::NotifyIterators(message);
+		JList<T>::NotifyIterators(message);
 		}
 }
 
@@ -350,7 +350,7 @@ JArray<T>::SetElement
 
 	StoreElement(index, data);
 
-	JBroadcaster::Broadcast(JOrderedSetT::ElementChanged(index));
+	JBroadcaster::Broadcast(JListT::ElementChanged(index));
 }
 
 /******************************************************************************
@@ -388,7 +388,7 @@ JArray<T>::MoveElementToIndex
 		}
 
 	StoreElement(newIndex, savedElement);
-	JBroadcaster::Broadcast(JOrderedSetT::ElementMoved(currentIndex, newIndex));
+	JBroadcaster::Broadcast(JListT::ElementMoved(currentIndex, newIndex));
 }
 
 /******************************************************************************
@@ -418,7 +418,7 @@ JArray<T>::SwapElements
 	StoreElement(index1, ProtectedGetElement(index2));
 	StoreElement(index2, savedElement);
 
-	JBroadcaster::Broadcast(JOrderedSetT::ElementsSwapped(index1, index2));
+	JBroadcaster::Broadcast(JListT::ElementsSwapped(index1, index2));
 }
 
 /******************************************************************************
@@ -477,7 +477,7 @@ JIndex
 JArray<T>::SearchSorted1
 	(
 	const T&							target,
-	const JOrderedSetT::SearchReturn	which,
+	const JListT::SearchReturn	which,
 	JBoolean*							found
 	)
 	const
@@ -486,7 +486,7 @@ JArray<T>::SearchSorted1
 	const JBoolean hasCompare = JArray<T>::GetCompareObject(&compareObj);
 	assert( hasCompare );
 
-	const JOrderedSetT::SortOrder sortOrder = JOrderedSet<T>::GetSortOrder();
+	const JListT::SortOrder sortOrder = JList<T>::GetSortOrder();
 	*found = kJFalse;
 
 	const JSize count = JCollection::GetElementCount();
@@ -497,22 +497,22 @@ JArray<T>::SearchSorted1
 
 	// check first element
 
-	JOrderedSetT::CompareResult r1;
+	JListT::CompareResult r1;
 
 	JIndex firstIndex = 1;
 	{
 	const T& element = ProtectedGetElement(firstIndex);
 	r1 = compareObj->Compare(target, element);
-	if (r1 == JOrderedSetT::kFirstEqualSecond &&
-		(count == 1 || which != JOrderedSetT::kLastMatch))
+	if (r1 == JListT::kFirstEqualSecond &&
+		(count == 1 || which != JListT::kLastMatch))
 		{
 		*found = kJTrue;
 		return 1;
 		}
-	else if ((sortOrder == JOrderedSetT::kSortAscending &&
-			  r1 == JOrderedSetT::kFirstLessSecond) ||
-			 (sortOrder == JOrderedSetT::kSortDescending &&
-			  r1 == JOrderedSetT::kFirstGreaterSecond))
+	else if ((sortOrder == JListT::kSortAscending &&
+			  r1 == JListT::kFirstLessSecond) ||
+			 (sortOrder == JListT::kSortDescending &&
+			  r1 == JListT::kFirstGreaterSecond))
 		{
 		return 1;
 		}
@@ -524,22 +524,22 @@ JArray<T>::SearchSorted1
 
 	// check last element
 
-	JOrderedSetT::CompareResult r2;
+	JListT::CompareResult r2;
 
 	JIndex lastIndex = count;
 	{
 	const T& element = ProtectedGetElement(lastIndex);
 	r2 = compareObj->Compare(target, element);
-	if (r2 == JOrderedSetT::kFirstEqualSecond &&
-		(count == 2 || which != JOrderedSetT::kFirstMatch))
+	if (r2 == JListT::kFirstEqualSecond &&
+		(count == 2 || which != JListT::kFirstMatch))
 		{
 		*found = kJTrue;
 		return count;
 		}
-	else if ((sortOrder == JOrderedSetT::kSortAscending &&
-			  r2 == JOrderedSetT::kFirstGreaterSecond) ||
-			 (sortOrder == JOrderedSetT::kSortDescending &&
-			  r2 == JOrderedSetT::kFirstLessSecond))
+	else if ((sortOrder == JListT::kSortAscending &&
+			  r2 == JListT::kFirstGreaterSecond) ||
+			 (sortOrder == JListT::kSortDescending &&
+			  r2 == JListT::kFirstLessSecond))
 		{
 		return count+1;
 		}
@@ -559,29 +559,29 @@ JArray<T>::SearchSorted1
 						   ((firstIndex & (JIndex) 1) + (lastIndex & (JIndex) 1))/2;
 		const T& element = ProtectedGetElement(i);
 
-		const JOrderedSetT::CompareResult r = compareObj->Compare(target, element);
-		if (r == JOrderedSetT::kFirstEqualSecond)
+		const JListT::CompareResult r = compareObj->Compare(target, element);
+		if (r == JListT::kFirstEqualSecond)
 			{
-			if (which == JOrderedSetT::kAnyMatch)
+			if (which == JListT::kAnyMatch)
 				{
 				*found = kJTrue;
 				return i;
 				}
-			else if (which == JOrderedSetT::kFirstMatch)
+			else if (which == JListT::kFirstMatch)
 				{
 				lastIndex = i;
 				r2        = r;
 				}
-			else	// which == JOrderedSetT::kLastMatch
+			else	// which == JListT::kLastMatch
 				{
 				firstIndex = i;
 				r1         = r;
 				}
 			}
-		else if ((sortOrder == JOrderedSetT::kSortAscending &&
-				  r == JOrderedSetT::kFirstLessSecond) ||
-				 (sortOrder == JOrderedSetT::kSortDescending &&
-				  r == JOrderedSetT::kFirstGreaterSecond))
+		else if ((sortOrder == JListT::kSortAscending &&
+				  r == JListT::kFirstLessSecond) ||
+				 (sortOrder == JListT::kSortDescending &&
+				  r == JListT::kFirstGreaterSecond))
 			{
 			lastIndex = i;
 			r2        = r;
@@ -595,9 +595,9 @@ JArray<T>::SearchSorted1
 		assert( lastIndex >= firstIndex+1 );
 		if (lastIndex == firstIndex+1)
 			{
-			if (which == JOrderedSetT::kAnyMatch ||
-				(r1 != JOrderedSetT::kFirstEqualSecond &&
-				 r2 != JOrderedSetT::kFirstEqualSecond))
+			if (which == JListT::kAnyMatch ||
+				(r1 != JListT::kFirstEqualSecond &&
+				 r2 != JListT::kFirstEqualSecond))
 				{
 				// Since we know that target is not equal to either of the
 				// bounding elements, we can give up when there are no elements
@@ -609,15 +609,15 @@ JArray<T>::SearchSorted1
 			// At this point, we know that we found a match.
 
 			*found = kJTrue;
-			if (which == JOrderedSetT::kFirstMatch)
+			if (which == JListT::kFirstMatch)
 				{
-				assert( r2 == JOrderedSetT::kFirstEqualSecond );
+				assert( r2 == JListT::kFirstEqualSecond );
 				return lastIndex;
 				}
-			else	// which == JOrderedSetT::kLastMatch
+			else	// which == JListT::kLastMatch
 				{
-				assert( which == JOrderedSetT::kLastMatch &&
-						r1 == JOrderedSetT::kFirstEqualSecond );
+				assert( which == JListT::kLastMatch &&
+						r1 == JListT::kFirstEqualSecond );
 				return firstIndex;
 				}
 			}
@@ -627,11 +627,11 @@ JArray<T>::SearchSorted1
 /******************************************************************************
  QuickSort
 
-	Calls qsort() and broadcasts JOrderedSetT::Sorted afterwards.
+	Calls qsort() and broadcasts JListT::Sorted afterwards.
 
 	Since qsort() wants the sort order to be encoded in the comparison
 	function, and since the comparison function prototype is different,
-	we do -not- use the sorting information from JOrderedSet.
+	we do -not- use the sorting information from JList.
 
 	Do NOT use this for JPtrArrays:
 
@@ -650,7 +650,7 @@ JArray<T>::QuickSort
 	)
 {
 	::qsort(itsElements, JCollection::GetElementCount(), sizeof(T), compare);
-	JBroadcaster::Broadcast(JOrderedSetT::Sorted());
+	JBroadcaster::Broadcast(JListT::Sorted());
 }
 
 /******************************************************************************

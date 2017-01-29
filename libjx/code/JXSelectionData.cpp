@@ -181,7 +181,7 @@ JXSelectionData::RemoveType
 	)
 {
 	JIndex index;
-	if (itsTypeList->SearchSorted(type, JOrderedSetT::kAnyMatch, &index))
+	if (itsTypeList->SearchSorted(type, JListT::kAnyMatch, &index))
 		{
 		itsTypeList->RemoveElement(index);
 		}
@@ -351,7 +351,7 @@ JXSelectionData::ReceiveGoingAway
 
  ******************************************************************************/
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 JXSelectionData::CompareAtoms
 	(
 	const Atom& atom1,
@@ -360,14 +360,14 @@ JXSelectionData::CompareAtoms
 {
 	if (atom1 < atom2)
 		{
-		return JOrderedSetT::kFirstLessSecond;
+		return JListT::kFirstLessSecond;
 		}
 	else if (atom1 == atom2)
 		{
-		return JOrderedSetT::kFirstEqualSecond;
+		return JListT::kFirstEqualSecond;
 		}
 	else
 		{
-		return JOrderedSetT::kFirstGreaterSecond;
+		return JListT::kFirstGreaterSecond;
 		}
 }

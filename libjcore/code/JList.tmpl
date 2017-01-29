@@ -2,9 +2,9 @@
 #define _T_JOrderedSet
 
 /******************************************************************************
- JOrderedSet.tmpl
+ JList.tmpl
 
-							The JOrderedSet Template Class
+							The JList Template Class
 
 	Abstract template for a dynamically sized ordered set.
 
@@ -18,8 +18,8 @@
 
  ******************************************************************************/
 
-#include <JOrderedSet.h>
-#include <JOrderedSetIterator.h>
+#include <JList.h>
+#include <JListIterator.h>
 #include <jAssert.h>
 
 /******************************************************************************
@@ -28,13 +28,13 @@
  ******************************************************************************/
 
 template <class T>
-JOrderedSet<T>::JOrderedSet()
+JList<T>::JList()
 	:
 	JCollection()
 {
 	itsCompareFn     = NULL;
 	itsCompareObj    = NULL;
-	itsSortOrder     = JOrderedSetT::kSortAscending;
+	itsSortOrder     = JListT::kSortAscending;
 	itsFirstIterator = NULL;
 }
 
@@ -44,9 +44,9 @@ JOrderedSet<T>::JOrderedSet()
  ******************************************************************************/
 
 template <class T>
-JOrderedSet<T>::JOrderedSet
+JList<T>::JList
 	(
-	const JOrderedSet<T>& source
+	const JList<T>& source
 	)
 	:
 	JCollection(source)
@@ -64,9 +64,9 @@ JOrderedSet<T>::JOrderedSet
  ******************************************************************************/
 
 template <class T>
-JOrderedSet<T>::~JOrderedSet()
+JList<T>::~JList()
 {
-	NotifyIterators(JOrderedSetT::GoingAway());
+	NotifyIterators(JListT::GoingAway());
 	jdelete itsCompareObj;
 }
 
@@ -80,10 +80,10 @@ JOrderedSet<T>::~JOrderedSet()
  ******************************************************************************/
 
 template <class T>
-const JOrderedSet<T>&
-JOrderedSet<T>::operator=
+const JList<T>&
+JList<T>::operator=
 	(
-	const JOrderedSet<T>& source
+	const JList<T>& source
 	)
 {
 	assert( 0 );
@@ -97,9 +97,9 @@ JOrderedSet<T>::operator=
 
 template <class T>
 void
-JOrderedSet<T>::OrderedSetAssigned
+JList<T>::OrderedSetAssigned
 	(
-	const JOrderedSet<T>& source
+	const JList<T>& source
 	)
 {
 	itsCompareFn  = source.itsCompareFn;
@@ -107,7 +107,7 @@ JOrderedSet<T>::OrderedSetAssigned
 													(source.itsCompareObj)->Copy());
 	itsSortOrder  = source.itsSortOrder;
 
-	NotifyIterators(JOrderedSetT::Copied());
+	NotifyIterators(JListT::Copied());
 }
 
 /******************************************************************************
@@ -117,7 +117,7 @@ JOrderedSet<T>::OrderedSetAssigned
 
 template <class T>
 void
-JOrderedSet<T>::PrependElement
+JList<T>::PrependElement
 	(
 	const T& data
 	)
@@ -132,7 +132,7 @@ JOrderedSet<T>::PrependElement
 
 template <class T>
 void
-JOrderedSet<T>::AppendElement
+JList<T>::AppendElement
 	(
 	const T& data
 	)
@@ -147,7 +147,7 @@ JOrderedSet<T>::AppendElement
 
 template <class T>
 void
-JOrderedSet<T>::RemoveElement
+JList<T>::RemoveElement
 	(
 	const JIndex index
 	)
@@ -162,7 +162,7 @@ JOrderedSet<T>::RemoveElement
 
 template <class T>
 void
-JOrderedSet<T>::RemovePrevElements
+JList<T>::RemovePrevElements
 	(
 	const JIndex	lastIndex,
 	const JSize		count
@@ -178,9 +178,9 @@ JOrderedSet<T>::RemovePrevElements
 
 template <class T>
 void
-JOrderedSet<T>::RemoveElements
+JList<T>::RemoveElements
 	(
-	const JOrderedSetT::ElementsRemoved& info
+	const JListT::ElementsRemoved& info
 	)
 {
 	RemoveNextElements(info.GetFirstIndex(), info.GetCount());
@@ -193,9 +193,9 @@ JOrderedSet<T>::RemoveElements
 
 template <class T>
 void
-JOrderedSet<T>::MoveElementToIndexWithMsg
+JList<T>::MoveElementToIndexWithMsg
 	(
-	const JOrderedSetT::ElementMoved& info
+	const JListT::ElementMoved& info
 	)
 {
 	MoveElementToIndex(info.GetOrigIndex(), info.GetNewIndex());
@@ -208,9 +208,9 @@ JOrderedSet<T>::MoveElementToIndexWithMsg
 
 template <class T>
 void
-JOrderedSet<T>::SwapElementsWithMsg
+JList<T>::SwapElementsWithMsg
 	(
-	const JOrderedSetT::ElementsSwapped& info
+	const JListT::ElementsSwapped& info
 	)
 {
 	SwapElements(info.GetIndex1(), info.GetIndex2());
@@ -223,7 +223,7 @@ JOrderedSet<T>::SwapElementsWithMsg
 
 template <class T>
 T
-JOrderedSet<T>::GetFirstElement()
+JList<T>::GetFirstElement()
 	const
 {
 	return GetElement(1);
@@ -236,7 +236,7 @@ JOrderedSet<T>::GetFirstElement()
 
 template <class T>
 T
-JOrderedSet<T>::GetLastElement()
+JList<T>::GetLastElement()
 	const
 {
 	return GetElement(GetElementCount());
@@ -249,7 +249,7 @@ JOrderedSet<T>::GetLastElement()
 
 template <class T>
 T
-JOrderedSet<T>::GetElementFromEnd
+JList<T>::GetElementFromEnd
 	(
 	const JIndex index
 	)
@@ -265,7 +265,7 @@ JOrderedSet<T>::GetElementFromEnd
 
 template <class T>
 void
-JOrderedSet<T>::SetElementFromEnd
+JList<T>::SetElementFromEnd
 	(
 	const JIndex	index,
 	const T&		data
@@ -281,7 +281,7 @@ JOrderedSet<T>::SetElementFromEnd
 
 template <class T>
 void
-JOrderedSet<T>::NotifyIterators
+JList<T>::NotifyIterators
 	(
 	const JBroadcaster::Message& message
 	)
@@ -299,9 +299,9 @@ JOrderedSet<T>::NotifyIterators
 
 template <class T>
 JBoolean
-JOrderedSet<T>::GetCompareFunction
+JList<T>::GetCompareFunction
 	(
-	JOrderedSetT::CompareResult (**compareFn)(const T&, const T&)
+	JListT::CompareResult (**compareFn)(const T&, const T&)
 	)
 	const
 {
@@ -311,9 +311,9 @@ JOrderedSet<T>::GetCompareFunction
 
 template <class T>
 void
-JOrderedSet<T>::SetCompareFunction
+JList<T>::SetCompareFunction
 	(
-	JOrderedSetT::CompareResult (*compareFn)(const T&, const T&)
+	JListT::CompareResult (*compareFn)(const T&, const T&)
 	)
 {
 	itsCompareFn = compareFn;
@@ -335,7 +335,7 @@ JOrderedSet<T>::SetCompareFunction
 
 template <class T>
 JBoolean
-JOrderedSet<T>::GetCompareObject
+JList<T>::GetCompareObject
 	(
 	const JElementComparison<T>** compareObj
 	)
@@ -347,7 +347,7 @@ JOrderedSet<T>::GetCompareObject
 
 template <class T>
 void
-JOrderedSet<T>::SetCompareObject
+JList<T>::SetCompareObject
 	(
 	const JElementComparison<T>& compareObj
 	)
@@ -360,7 +360,7 @@ JOrderedSet<T>::SetCompareObject
 
 template <class T>
 void
-JOrderedSet<T>::ClearCompareObject()
+JList<T>::ClearCompareObject()
 {
 	itsCompareFn = NULL;
 
@@ -374,8 +374,8 @@ JOrderedSet<T>::ClearCompareObject()
  ******************************************************************************/
 
 template <class T>
-JOrderedSetT::SortOrder
-JOrderedSet<T>::GetSortOrder()
+JListT::SortOrder
+JList<T>::GetSortOrder()
 	const
 {
 	return itsSortOrder;
@@ -383,9 +383,9 @@ JOrderedSet<T>::GetSortOrder()
 
 template <class T>
 void
-JOrderedSet<T>::SetSortOrder
+JList<T>::SetSortOrder
 	(
-	const JOrderedSetT::SortOrder order
+	const JListT::SortOrder order
 	)
 {
 	itsSortOrder = order;
@@ -401,7 +401,7 @@ JOrderedSet<T>::SetSortOrder
 
 template <class T>
 JBoolean
-JOrderedSet<T>::IsSorted()
+JList<T>::IsSorted()
 	const
 {
 	assert( itsCompareObj != NULL );
@@ -416,7 +416,7 @@ JOrderedSet<T>::IsSorted()
 
 	JBoolean sorted = kJTrue;
 
-	JOrderedSetIterator<T>* iter = NewIterator();	// allows optimized iterator
+	JListIterator<T>* iter = NewIterator();	// allows optimized iterator
 	T obj1, obj2;
 
 	JBoolean ok = iter->Next(&obj1);
@@ -424,11 +424,11 @@ JOrderedSet<T>::IsSorted()
 
 	while (iter->Next(&obj2))
 		{
-		const JOrderedSetT::CompareResult r = itsCompareObj->Compare(obj1, obj2);
-		if ((itsSortOrder == JOrderedSetT::kSortAscending &&
-			 r != JOrderedSetT::kFirstLessSecond) ||
-			(itsSortOrder == JOrderedSetT::kSortDescending &&
-			 r != JOrderedSetT::kFirstGreaterSecond))
+		const JListT::CompareResult r = itsCompareObj->Compare(obj1, obj2);
+		if ((itsSortOrder == JListT::kSortAscending &&
+			 r != JListT::kFirstLessSecond) ||
+			(itsSortOrder == JListT::kSortDescending &&
+			 r != JListT::kFirstGreaterSecond))
 			{
 			sorted = kJFalse;
 			break;
@@ -457,7 +457,7 @@ JOrderedSet<T>::IsSorted()
 
 template <class T>
 void
-JOrderedSet<T>::Sort()
+JList<T>::Sort()
 {
 	assert( itsCompareObj != NULL );
 
@@ -467,7 +467,7 @@ JOrderedSet<T>::Sort()
 		return;		// avoid constructing iterator
 		}
 
-	JOrderedSetIterator<T>* iter = NewIterator();	// allows optimized iterator
+	JListIterator<T>* iter = NewIterator();	// allows optimized iterator
 
 	// sort the elements
 
@@ -485,11 +485,11 @@ JOrderedSet<T>::Sort()
 		while (iter->Next(&obj2))
 			{
 			j++;
-			const JOrderedSetT::CompareResult r = itsCompareObj->Compare(obj2, obj1);
-			if ((itsSortOrder == JOrderedSetT::kSortAscending &&
-				 r == JOrderedSetT::kFirstLessSecond) ||
-				(itsSortOrder == JOrderedSetT::kSortDescending &&
-				 r == JOrderedSetT::kFirstGreaterSecond))
+			const JListT::CompareResult r = itsCompareObj->Compare(obj2, obj1);
+			if ((itsSortOrder == JListT::kSortAscending &&
+				 r == JListT::kFirstLessSecond) ||
+				(itsSortOrder == JListT::kSortDescending &&
+				 r == JListT::kFirstGreaterSecond))
 				{
 				i    = j;
 				obj1 = obj2;
@@ -519,7 +519,7 @@ JOrderedSet<T>::Sort()
 
 template <class T>
 JBoolean
-JOrderedSet<T>::InsertSorted
+JList<T>::InsertSorted
 	(
 	const T&		data,
 	const JBoolean	insertIfDuplicate,
@@ -558,7 +558,7 @@ JOrderedSet<T>::InsertSorted
 
 template <class T>
 JIndex
-JOrderedSet<T>::GetInsertionSortIndex
+JList<T>::GetInsertionSortIndex
 	(
 	const T&	data,
 	JBoolean*	isDuplicate
@@ -566,7 +566,7 @@ JOrderedSet<T>::GetInsertionSortIndex
 	const
 {
 	JBoolean found;
-	JIndex index = SearchSorted1(data, JOrderedSetT::kLastMatch, &found);
+	JIndex index = SearchSorted1(data, JListT::kLastMatch, &found);
 	if (found)
 		{
 		index++;
@@ -591,10 +591,10 @@ JOrderedSet<T>::GetInsertionSortIndex
 
 template <class T>
 JBoolean
-JOrderedSet<T>::SearchSorted
+JList<T>::SearchSorted
 	(
 	const T&							target,
-	const JOrderedSetT::SearchReturn	which,
+	const JListT::SearchReturn	which,
 	JIndex*								index
 	)
 	const
@@ -629,10 +629,10 @@ JOrderedSet<T>::SearchSorted
 
 template <class T>
 JIndex
-JOrderedSet<T>::SearchSorted1
+JList<T>::SearchSorted1
 	(
 	const T&							target,
-	const JOrderedSetT::SearchReturn	which,
+	const JListT::SearchReturn	which,
 	JBoolean*							found
 	)
 	const
@@ -645,27 +645,27 @@ JOrderedSet<T>::SearchSorted1
 		{
 		return 1;
 		}
-	else if (which == JOrderedSetT::kLastMatch)
+	else if (which == JListT::kLastMatch)
 		{
 		// allows optimized iterator
-		JOrderedSetIterator<T>* iter = NewIterator(kJIteratorStartAtEnd, 0);
+		JListIterator<T>* iter = NewIterator(kJIteratorStartAtEnd, 0);
 
 		JIndex i=GetElementCount()+1, index=0;
 		T element;
 		while (iter->Prev(&element))
 			{
 			i--;
-			const JOrderedSetT::CompareResult r = itsCompareObj->Compare(target, element);
-			if (r == JOrderedSetT::kFirstEqualSecond)
+			const JListT::CompareResult r = itsCompareObj->Compare(target, element);
+			if (r == JListT::kFirstEqualSecond)
 				{
 				*found = kJTrue;
 				index = i;
 				break;
 				}
-			else if ((itsSortOrder == JOrderedSetT::kSortAscending &&
-					  r == JOrderedSetT::kFirstGreaterSecond) ||
-					 (itsSortOrder == JOrderedSetT::kSortDescending &&
-					  r == JOrderedSetT::kFirstLessSecond))
+			else if ((itsSortOrder == JListT::kSortAscending &&
+					  r == JListT::kFirstGreaterSecond) ||
+					 (itsSortOrder == JListT::kSortDescending &&
+					  r == JListT::kFirstLessSecond))
 				{
 				index = i+1;
 				break;
@@ -683,24 +683,24 @@ JOrderedSet<T>::SearchSorted1
 	else
 		{
 		// allows optimized iterator
-		JOrderedSetIterator<T>* iter = NewIterator();
+		JListIterator<T>* iter = NewIterator();
 
 		JIndex i=0, index=0;
 		T element;
 		while (iter->Next(&element))
 			{
 			i++;
-			const JOrderedSetT::CompareResult r = itsCompareObj->Compare(target, element);
-			if (r == JOrderedSetT::kFirstEqualSecond)
+			const JListT::CompareResult r = itsCompareObj->Compare(target, element);
+			if (r == JListT::kFirstEqualSecond)
 				{
 				*found = kJTrue;
 				index = i;
 				break;
 				}
-			else if ((itsSortOrder == JOrderedSetT::kSortAscending &&
-					  r == JOrderedSetT::kFirstLessSecond) ||
-					 (itsSortOrder == JOrderedSetT::kSortDescending &&
-					  r == JOrderedSetT::kFirstGreaterSecond))
+			else if ((itsSortOrder == JListT::kSortAscending &&
+					  r == JListT::kFirstLessSecond) ||
+					 (itsSortOrder == JListT::kSortDescending &&
+					  r == JListT::kFirstGreaterSecond))
 				{
 				index = i;
 				break;
@@ -721,33 +721,33 @@ JOrderedSet<T>::SearchSorted1
  NewIterator (virtual)
 
 	Derived classes can override this function to create a derived class
-	of JOrderedSetIterator that is optimized to their data structure.
+	of JListIterator that is optimized to their data structure.
 
  ******************************************************************************/
 
 template <class T>
-JOrderedSetIterator<T>*
-JOrderedSet<T>::NewIterator
+JListIterator<T>*
+JList<T>::NewIterator
 	(
 	const JIteratorPosition	start,
 	const JIndex			index
 	)
 {
-	JOrderedSetIterator<T>* iter = jnew JOrderedSetIterator<T>(this, start, index);
+	JListIterator<T>* iter = jnew JListIterator<T>(this, start, index);
 	assert( iter != NULL );
 	return iter;
 }
 
 template <class T>
-JOrderedSetIterator<T>*
-JOrderedSet<T>::NewIterator
+JListIterator<T>*
+JList<T>::NewIterator
 	(
 	const JIteratorPosition	start,
 	const JIndex			index
 	)
 	const
 {
-	JOrderedSetIterator<T>* iter = jnew JOrderedSetIterator<T>(*this, start, index);
+	JListIterator<T>* iter = jnew JListIterator<T>(*this, start, index);
 	assert( iter != NULL );
 	return iter;
 }
@@ -770,7 +770,7 @@ JElementComparison<T>::~JElementComparison()
 template <class T>
 JCompareFnWrapper<T>::JCompareFnWrapper
 	(
-	JOrderedSetT::CompareResult (*compareFn)(const T&, const T&)
+	JListT::CompareResult (*compareFn)(const T&, const T&)
 	)
 	:
 	itsCompareFn(compareFn)
@@ -783,7 +783,7 @@ JCompareFnWrapper<T>::~JCompareFnWrapper()
 }
 
 template <class T>
-JOrderedSetT::CompareResult
+JListT::CompareResult
 JCompareFnWrapper<T>::Compare
 	(
 	const T& t1,

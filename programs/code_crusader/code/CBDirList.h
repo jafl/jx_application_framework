@@ -27,9 +27,9 @@ struct CBDirInfo
 		path(p), recurse(r), projIndex(0)
 	{ };
 
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		ComparePathNames(const CBDirInfo& i1, const CBDirInfo& i2);
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		CompareProjIndex(const CBDirInfo& i1, const CBDirInfo& i2);
 };
 

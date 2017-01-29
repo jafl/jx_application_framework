@@ -16,7 +16,7 @@
 
 // Superclass Header
 #include <jTypes.h>
-#include <JOrderedSet.h>
+#include <JList.h>
 
 class JString;
 class GMessageHeader;
@@ -29,7 +29,7 @@ public:
 	GMessageFrom(const JString& from, const JIndex position);
 	virtual ~GMessageFrom();
 
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		CompareFromLines(GMessageFrom* const & n1, GMessageFrom* const & n2);
 
 	const JString&	GetFrom();

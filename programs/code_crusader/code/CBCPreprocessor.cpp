@@ -24,7 +24,7 @@ CBCPreprocessor::CBCPreprocessor()
 {
 	itsMacroList = jnew CBPPMacroList;
 	assert( itsMacroList != NULL );
-	itsMacroList->SetSortOrder(JOrderedSetT::kSortAscending);
+	itsMacroList->SetSortOrder(JListT::kSortAscending);
 	itsMacroList->SetCompareFunction(CompareMacros);
 }
 
@@ -186,7 +186,7 @@ CBCPreprocessor::DefineMacro
 
  ******************************************************************************/
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 CBCPreprocessor::CompareMacros
 	(
 	const MacroInfo& m1,

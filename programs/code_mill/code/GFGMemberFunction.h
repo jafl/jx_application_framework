@@ -45,7 +45,7 @@ public:
 	const JString&	GetArgString() const;
 	void			AddArg(const JCharacter* arg);
 
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		CompareFunction(GFGMemberFunction* const & f1, GFGMemberFunction* const & f2);
 
 protected:

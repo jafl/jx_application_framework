@@ -106,7 +106,7 @@ private:
 	void	UpdateMountPointList() const;
 	JString	GetMountPointPrefsPath(const JCharacter* path) const;
 
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		CompareShortcuts(JString* const & s1, JString* const & s2);
 
 	// not allowed

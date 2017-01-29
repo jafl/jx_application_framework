@@ -374,7 +374,7 @@ GMAccount::SplitNameAndAddress
 
  ******************************************************************************/
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 GMAccount::CompareNicknames
 	(
 	GMAccount* const & a1,

@@ -22,7 +22,7 @@
 #include <JXColormap.h>
 #include <jXGlobals.h>
 #include <JPtrArray-JString.h>
-#include <JOrderedSetUtil.h>
+#include <JListUtil.h>
 #include <JStringIterator.h>
 #include <JRegex.h>
 #include <JMinMax.h>
@@ -196,7 +196,7 @@ JXFontManager::GetFontNames
 		{
 		fontNames->CleanOut();
 		fontNames->SetCompareFunction(JCompareStringsCaseInsensitive);
-		fontNames->SetSortOrder(JOrderedSetT::kSortAscending);
+		fontNames->SetSortOrder(JListT::kSortAscending);
 
 		JString name;
 
@@ -301,11 +301,11 @@ JXFontManager::GetMonospaceFontNames
 
 		fontNames->CleanOut();
 		fontNames->SetCompareFunction(JCompareStringsCaseInsensitive);
-		fontNames->SetSortOrder(JOrderedSetT::kSortAscending);
+		fontNames->SetSortOrder(JListT::kSortAscending);
 
 		JPtrArray<JString> allFontNames(JPtrArrayT::kDeleteAll);
 		allFontNames.SetCompareFunction(JCompareStringsCaseInsensitive);
-		allFontNames.SetSortOrder(JOrderedSetT::kSortAscending);
+		allFontNames.SetSortOrder(JListT::kSortAscending);
 
 		JString name;
 
@@ -382,7 +382,7 @@ JXFontManager::GetXFontNames
 	fontNames->CleanOut();
 	fontNames->SetCompareFunction(
 					compare != NULL ? compare : JCompareStringsCaseInsensitive);
-	fontNames->SetSortOrder(JOrderedSetT::kSortAscending);
+	fontNames->SetSortOrder(JListT::kSortAscending);
 
 	int nameCount;
 	char** nameList = XListFonts(*itsDisplay, "*", INT_MAX, &nameCount);

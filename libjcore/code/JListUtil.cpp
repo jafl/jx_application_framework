@@ -1,20 +1,20 @@
 /******************************************************************************
- JOrderedSetUtil.cpp
+ JListUtil.cpp
 
-	Useful code for JOrderedSetT and JTableData message classes.
+	Useful code for JListT and JTableData message classes.
 
 	Copyright (C) 1996-97 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 
-#include <JOrderedSetUtil.h>
+#include <JListUtil.h>
 
 /******************************************************************************
  JCompareIndices
 
  ******************************************************************************/
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 JCompareIndices
 	(
 	const JIndex& i,
@@ -23,15 +23,15 @@ JCompareIndices
 {
 	if (i < j)
 		{
-		return JOrderedSetT::kFirstLessSecond;
+		return JListT::kFirstLessSecond;
 		}
 	else if (i == j)
 		{
-		return JOrderedSetT::kFirstEqualSecond;
+		return JListT::kFirstEqualSecond;
 		}
 	else
 		{
-		return JOrderedSetT::kFirstGreaterSecond;
+		return JListT::kFirstGreaterSecond;
 		}
 }
 
@@ -40,7 +40,7 @@ JCompareIndices
 
  ******************************************************************************/
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 JCompareSizes
 	(
 	const JSize& s1,
@@ -49,15 +49,15 @@ JCompareSizes
 {
 	if (s1 < s2)
 		{
-		return JOrderedSetT::kFirstLessSecond;
+		return JListT::kFirstLessSecond;
 		}
 	else if (s1 == s2)
 		{
-		return JOrderedSetT::kFirstEqualSecond;
+		return JListT::kFirstEqualSecond;
 		}
 	else
 		{
-		return JOrderedSetT::kFirstGreaterSecond;
+		return JListT::kFirstGreaterSecond;
 		}
 }
 
@@ -66,7 +66,7 @@ JCompareSizes
 
  ******************************************************************************/
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 JCompareUInt64
 	(
 	const JUInt64& i1,
@@ -75,15 +75,15 @@ JCompareUInt64
 {
 	if (i1 < i2)
 		{
-		return JOrderedSetT::kFirstLessSecond;
+		return JListT::kFirstLessSecond;
 		}
 	else if (i1 == i2)
 		{
-		return JOrderedSetT::kFirstEqualSecond;
+		return JListT::kFirstEqualSecond;
 		}
 	else
 		{
-		return JOrderedSetT::kFirstGreaterSecond;
+		return JListT::kFirstGreaterSecond;
 		}
 }
 

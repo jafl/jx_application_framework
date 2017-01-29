@@ -110,7 +110,7 @@ private:
 	JBoolean	IDToIndex(const JFAID_t id, JIndex* index) const;
 	JFAID_t		GetUniqueID() const;
 
-	void	FilesAdded(const JOrderedSetT::ElementsInserted& info);
+	void	FilesAdded(const JListT::ElementsInserted& info);
 	void	UpdateFileInfo(const JIndex index);
 
 	// not allowed

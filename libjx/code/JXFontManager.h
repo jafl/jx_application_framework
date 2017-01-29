@@ -19,7 +19,7 @@ class JString;
 class JRegex;
 class JXDisplay;
 
-typedef JOrderedSetT::CompareResult
+typedef JListT::CompareResult
 	(*JSortXFontNamesFn)(JString * const &, JString * const &);
 
 class JXFontManager : public JFontManager

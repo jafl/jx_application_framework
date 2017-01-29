@@ -10,7 +10,7 @@
 #ifndef _H_JLinkedListIterator
 #define _H_JLinkedListIterator
 
-#include <JOrderedSetIterator.h>
+#include <JListIterator.h>
 
 // must forward declare to avoid #include loop
 // (We do it here so JLinkedList includes JLinkedListIterator for convenience.)
@@ -18,7 +18,7 @@ template <class T> class JLinkedList;
 template <class T> class JLinkedListElement;
 
 template <class T>
-class JLinkedListIterator : public JOrderedSetIterator<T>
+class JLinkedListIterator : public JListIterator<T>
 {
 public:
 
@@ -40,7 +40,7 @@ public:
 
 	virtual void		MoveTo(const JIteratorPosition newPosition, const JIndex index);
 
-	// only allowed if constructed from non-const JOrderedSet<T>*
+	// only allowed if constructed from non-const JList<T>*
 
 	virtual JBoolean	SetPrev(const T& data);
 	virtual JBoolean	SetNext(const T& data);

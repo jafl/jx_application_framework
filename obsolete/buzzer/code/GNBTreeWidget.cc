@@ -52,7 +52,7 @@
 
 #include <JError.h>
 #include <JFontManager.h>
-#include <JOrderedSetIterator.h>
+#include <JListIterator.h>
 #include <JString.h>
 #include <JTableSelection.h>
 #include <JTableSelectionIterator.h>

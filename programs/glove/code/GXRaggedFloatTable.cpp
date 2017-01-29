@@ -64,7 +64,7 @@
 #include <JFontManager.h>
 #include <JString.h>
 #include <JPSPrinter.h>
-#include <JOrderedSetUtil.h>
+#include <JListUtil.h>
 
 #include <jXActionDefs.h>
 #include <jXKeysym.h>
@@ -2538,7 +2538,7 @@ GXRaggedFloatTable::EvaluateTransformFunction()
 						nstr.ConvertToFloat(&temp);
 						JIndex ti = (JIndex)temp;
 						JIndex junk;
-						if (!inds->SearchSorted(ti, JOrderedSetT::kAnyMatch, &junk))
+						if (!inds->SearchSorted(ti, JListT::kAnyMatch, &junk))
 							{
 							inds->InsertSorted(ti, kJFalse);
 							}

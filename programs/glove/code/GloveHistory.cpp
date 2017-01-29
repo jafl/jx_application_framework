@@ -244,7 +244,7 @@ GloveHistory::AdjustTabWidth()
 
  ******************************************************************************/
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 GloveHistory::CompareFontNames
 	(
 	JString* const & s1,
@@ -256,11 +256,11 @@ GloveHistory::CompareFontNames
 
 	if (c1 > c2)
 		{
-		return JOrderedSetT::kFirstGreaterSecond;
+		return JListT::kFirstGreaterSecond;
 		}
 	else if (c1 < c2)
 		{
-		return JOrderedSetT::kFirstLessSecond;
+		return JListT::kFirstLessSecond;
 		}
 	else
 		{
@@ -274,15 +274,15 @@ GloveHistory::CompareFontNames
 
 		if (x1 > x2)
 			{
-			return JOrderedSetT::kFirstGreaterSecond;
+			return JListT::kFirstGreaterSecond;
 			}
 		else if (x1 < x2)
 			{
-			return JOrderedSetT::kFirstLessSecond;
+			return JListT::kFirstLessSecond;
 			}
 		else
 			{
-			return JOrderedSetT::kFirstEqualSecond;
+			return JListT::kFirstEqualSecond;
 			}
 		}
 }

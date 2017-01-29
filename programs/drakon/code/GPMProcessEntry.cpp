@@ -426,7 +426,7 @@ GPMProcessEntry::ReadCmdline()
 
  ******************************************************************************/
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 GPMProcessEntry::CompareListPID
 	(
 	GPMProcessEntry * const & e1,
@@ -435,29 +435,29 @@ GPMProcessEntry::CompareListPID
 {
 	if (e1->itsPID > e2->itsPID)
 		{
-		return JOrderedSetT::kFirstGreaterSecond;
+		return JListT::kFirstGreaterSecond;
 		}
 	else if (e1->itsPID < e2->itsPID)
 		{
-		return JOrderedSetT::kFirstLessSecond;
+		return JListT::kFirstLessSecond;
 		}
 	else
 		{
-		return JOrderedSetT::kFirstEqualSecond;
+		return JListT::kFirstEqualSecond;
 		}
 }
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 GPMProcessEntry::CompareListUser
 	(
 	GPMProcessEntry * const & e1,
 	GPMProcessEntry * const & e2
 	)
 {
-	JOrderedSetT::CompareResult	result =
+	JListT::CompareResult	result =
 		JCompareStringsCaseInsensitive(&(e1->itsUser), &(e2->itsUser));
 
-	if (result == JOrderedSetT::kFirstEqualSecond)
+	if (result == JListT::kFirstEqualSecond)
 		{
 		return CompareListPID(e1, e2);
 		}
@@ -467,7 +467,7 @@ GPMProcessEntry::CompareListUser
 		}
 }
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 GPMProcessEntry::CompareListNice
 	(
 	GPMProcessEntry * const & e1,
@@ -476,11 +476,11 @@ GPMProcessEntry::CompareListNice
 {
 	if (e1->itsNice > e2->itsNice)
 		{
-		return JOrderedSetT::kFirstGreaterSecond;
+		return JListT::kFirstGreaterSecond;
 		}
 	else if (e1->itsNice < e2->itsNice)
 		{
-		return JOrderedSetT::kFirstLessSecond;
+		return JListT::kFirstLessSecond;
 		}
 	else
 		{
@@ -488,7 +488,7 @@ GPMProcessEntry::CompareListNice
 		}
 }
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 GPMProcessEntry::CompareListSize
 	(
 	GPMProcessEntry * const & e1,
@@ -497,11 +497,11 @@ GPMProcessEntry::CompareListSize
 {
 	if (e1->itsSize > e2->itsSize)
 		{
-		return JOrderedSetT::kFirstGreaterSecond;
+		return JListT::kFirstGreaterSecond;
 		}
 	else if (e1->itsSize < e2->itsSize)
 		{
-		return JOrderedSetT::kFirstLessSecond;
+		return JListT::kFirstLessSecond;
 		}
 	else
 		{
@@ -509,7 +509,7 @@ GPMProcessEntry::CompareListSize
 		}
 }
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 GPMProcessEntry::CompareListPercentMemory
 	(
 	GPMProcessEntry * const & e1,
@@ -518,11 +518,11 @@ GPMProcessEntry::CompareListPercentMemory
 {
 	if (e1->itsPercentMemory > e2->itsPercentMemory)
 		{
-		return JOrderedSetT::kFirstGreaterSecond;
+		return JListT::kFirstGreaterSecond;
 		}
 	else if (e1->itsPercentMemory < e2->itsPercentMemory)
 		{
-		return JOrderedSetT::kFirstLessSecond;
+		return JListT::kFirstLessSecond;
 		}
 	else
 		{
@@ -530,7 +530,7 @@ GPMProcessEntry::CompareListPercentMemory
 		}
 }
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 GPMProcessEntry::CompareListPercentCPU
 	(
 	GPMProcessEntry * const & e1,
@@ -539,11 +539,11 @@ GPMProcessEntry::CompareListPercentCPU
 {
 	if (e1->itsPercentCPU > e2->itsPercentCPU)
 		{
-		return JOrderedSetT::kFirstGreaterSecond;
+		return JListT::kFirstGreaterSecond;
 		}
 	else if (e1->itsPercentCPU < e2->itsPercentCPU)
 		{
-		return JOrderedSetT::kFirstLessSecond;
+		return JListT::kFirstLessSecond;
 		}
 	else
 		{
@@ -551,7 +551,7 @@ GPMProcessEntry::CompareListPercentCPU
 		}
 }
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 GPMProcessEntry::CompareListTime
 	(
 	GPMProcessEntry * const & e1,
@@ -560,11 +560,11 @@ GPMProcessEntry::CompareListTime
 {
 	if (e1->itsTime > e2->itsTime)
 		{
-		return JOrderedSetT::kFirstGreaterSecond;
+		return JListT::kFirstGreaterSecond;
 		}
 	else if (e1->itsTime < e2->itsTime)
 		{
-		return JOrderedSetT::kFirstLessSecond;
+		return JListT::kFirstLessSecond;
 		}
 	else
 		{
@@ -572,17 +572,17 @@ GPMProcessEntry::CompareListTime
 		}
 }
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 GPMProcessEntry::CompareListCommand
 	(
 	GPMProcessEntry * const & e1,
 	GPMProcessEntry * const & e2
 	)
 {
-	JOrderedSetT::CompareResult	result =
+	JListT::CompareResult	result =
 		JCompareStringsCaseInsensitive(&(e1->itsCommand), &(e2->itsCommand));
 
-	if (result == JOrderedSetT::kFirstEqualSecond)
+	if (result == JListT::kFirstEqualSecond)
 		{
 		return CompareListPID(e1, e2);
 		}
@@ -592,7 +592,7 @@ GPMProcessEntry::CompareListCommand
 		}
 }
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 GPMProcessEntry::CompareListCommandForIncrSearch
 	(
 	GPMProcessEntry * const & e1,
@@ -607,7 +607,7 @@ GPMProcessEntry::CompareListCommandForIncrSearch
 
  ******************************************************************************/
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 GPMProcessEntry::CompareTreePID
 	(
 	JTreeNode * const & n1,
@@ -619,19 +619,19 @@ GPMProcessEntry::CompareTreePID
 
 	if (e1->itsPID > e2->itsPID)
 		{
-		return JOrderedSetT::kFirstGreaterSecond;
+		return JListT::kFirstGreaterSecond;
 		}
 	else if (e1->itsPID < e2->itsPID)
 		{
-		return JOrderedSetT::kFirstLessSecond;
+		return JListT::kFirstLessSecond;
 		}
 	else
 		{
-		return JOrderedSetT::kFirstEqualSecond;
+		return JListT::kFirstEqualSecond;
 		}
 }
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 GPMProcessEntry::CompareTreeUser
 	(
 	JTreeNode * const & n1,
@@ -641,10 +641,10 @@ GPMProcessEntry::CompareTreeUser
 	GPMProcessEntry * const e1 = dynamic_cast<GPMProcessEntry*const>(n1);
 	GPMProcessEntry * const e2 = dynamic_cast<GPMProcessEntry*const>(n2);
 
-	JOrderedSetT::CompareResult	result =
+	JListT::CompareResult	result =
 		JCompareStringsCaseInsensitive(&(e1->itsUser), &(e2->itsUser));
 
-	if (result == JOrderedSetT::kFirstEqualSecond)
+	if (result == JListT::kFirstEqualSecond)
 		{
 		return CompareTreePID(n1, n2);
 		}
@@ -654,7 +654,7 @@ GPMProcessEntry::CompareTreeUser
 		}
 }
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 GPMProcessEntry::CompareTreeNice
 	(
 	JTreeNode * const & n1,
@@ -666,11 +666,11 @@ GPMProcessEntry::CompareTreeNice
 
 	if (e1->itsNice > e2->itsNice)
 		{
-		return JOrderedSetT::kFirstGreaterSecond;
+		return JListT::kFirstGreaterSecond;
 		}
 	else if (e1->itsNice < e2->itsNice)
 		{
-		return JOrderedSetT::kFirstLessSecond;
+		return JListT::kFirstLessSecond;
 		}
 	else
 		{
@@ -678,7 +678,7 @@ GPMProcessEntry::CompareTreeNice
 		}
 }
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 GPMProcessEntry::CompareTreeSize
 	(
 	JTreeNode * const & n1,
@@ -690,11 +690,11 @@ GPMProcessEntry::CompareTreeSize
 
 	if (e1->itsSize > e2->itsSize)
 		{
-		return JOrderedSetT::kFirstGreaterSecond;
+		return JListT::kFirstGreaterSecond;
 		}
 	else if (e1->itsSize < e2->itsSize)
 		{
-		return JOrderedSetT::kFirstLessSecond;
+		return JListT::kFirstLessSecond;
 		}
 	else
 		{
@@ -702,7 +702,7 @@ GPMProcessEntry::CompareTreeSize
 		}
 }
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 GPMProcessEntry::CompareTreePercentMemory
 	(
 	JTreeNode * const & n1,
@@ -714,11 +714,11 @@ GPMProcessEntry::CompareTreePercentMemory
 
 	if (e1->itsPercentMemory > e2->itsPercentMemory)
 		{
-		return JOrderedSetT::kFirstGreaterSecond;
+		return JListT::kFirstGreaterSecond;
 		}
 	else if (e1->itsPercentMemory < e2->itsPercentMemory)
 		{
-		return JOrderedSetT::kFirstLessSecond;
+		return JListT::kFirstLessSecond;
 		}
 	else
 		{
@@ -726,7 +726,7 @@ GPMProcessEntry::CompareTreePercentMemory
 		}
 }
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 GPMProcessEntry::CompareTreePercentCPU
 	(
 	JTreeNode * const & n1,
@@ -738,11 +738,11 @@ GPMProcessEntry::CompareTreePercentCPU
 
 	if (e1->itsPercentCPU > e2->itsPercentCPU)
 		{
-		return JOrderedSetT::kFirstGreaterSecond;
+		return JListT::kFirstGreaterSecond;
 		}
 	else if (e1->itsPercentCPU < e2->itsPercentCPU)
 		{
-		return JOrderedSetT::kFirstLessSecond;
+		return JListT::kFirstLessSecond;
 		}
 	else
 		{
@@ -750,7 +750,7 @@ GPMProcessEntry::CompareTreePercentCPU
 		}
 }
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 GPMProcessEntry::CompareTreeTime
 	(
 	JTreeNode * const & n1,
@@ -762,11 +762,11 @@ GPMProcessEntry::CompareTreeTime
 
 	if (e1->itsTime > e2->itsTime)
 		{
-		return JOrderedSetT::kFirstGreaterSecond;
+		return JListT::kFirstGreaterSecond;
 		}
 	else if (e1->itsTime < e2->itsTime)
 		{
-		return JOrderedSetT::kFirstLessSecond;
+		return JListT::kFirstLessSecond;
 		}
 	else
 		{
@@ -774,7 +774,7 @@ GPMProcessEntry::CompareTreeTime
 		}
 }
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 GPMProcessEntry::CompareTreeCommand
 	(
 	JTreeNode * const & n1,
@@ -784,10 +784,10 @@ GPMProcessEntry::CompareTreeCommand
 	GPMProcessEntry * const e1 = dynamic_cast<GPMProcessEntry*const>(n1);
 	GPMProcessEntry * const e2 = dynamic_cast<GPMProcessEntry*const>(n2);
 
-	JOrderedSetT::CompareResult	result =
+	JListT::CompareResult	result =
 		JCompareStringsCaseInsensitive(&(e1->itsCommand), &(e2->itsCommand));
 
-	if (result == JOrderedSetT::kFirstEqualSecond)
+	if (result == JListT::kFirstEqualSecond)
 		{
 		return CompareTreePID(n1, n2);
 		}

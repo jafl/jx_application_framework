@@ -271,7 +271,7 @@ CBClass::CBClassX
 	itsFunctionInfo = jnew JArray<FunctionInfo>;
 	assert( itsFunctionInfo != NULL );
 	itsFunctionInfo->SetCompareFunction(CompareFunctionNames);
-	itsFunctionInfo->SetSortOrder(JOrderedSetT::kSortAscending);
+	itsFunctionInfo->SetSortOrder(JListT::kSortAscending);
 
 	itsVisibleFlag    = kJTrue;
 	itsCollapsedFlag  = kJFalse;
@@ -791,7 +791,7 @@ CBClass::Implements
 	FunctionInfo fInfo;
 	fInfo.name = &s;
 	JIndex i;
-	if (!itsFunctionInfo->SearchSorted(fInfo, JOrderedSetT::kFirstMatch, &i))
+	if (!itsFunctionInfo->SearchSorted(fInfo, JListT::kFirstMatch, &i))
 		{
 		return kJFalse;
 		}
@@ -1374,7 +1374,7 @@ CBClass::CalcFrame()
 
  ******************************************************************************/
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 CBClass::CompareFunctionNames
 	(
 	const FunctionInfo& i1,

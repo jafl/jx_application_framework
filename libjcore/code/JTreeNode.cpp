@@ -36,7 +36,7 @@ JTreeNode::JTreeNode
 	itsParent    = NULL;
 	itsChildren  = NULL;
 	itsCompareFn = NULL;
-	itsSortOrder = JOrderedSetT::kSortAscending;
+	itsSortOrder = JListT::kSortAscending;
 }
 
 /******************************************************************************
@@ -398,9 +398,9 @@ JTreeNode::InsertSorted
 void
 JTreeNode::SetChildCompareFunction
 	(
-	JOrderedSetT::CompareResult (*compareFn)(JTreeNode * const &,
+	JListT::CompareResult (*compareFn)(JTreeNode * const &,
 											 JTreeNode * const &),
-	const JOrderedSetT::SortOrder	order,
+	const JListT::SortOrder	order,
 	const JBoolean					propagate
 	)
 {
@@ -478,12 +478,12 @@ JTreeNode::Receive
 	const Message&	message
 	)
 {
-	if (sender == itsChildren && message.Is(JOrderedSetT::kElementMoved))
+	if (sender == itsChildren && message.Is(JListT::kElementMoved))
 		{
 		assert( itsTree != NULL );
 
-		const JOrderedSetT::ElementMoved* info =
-			dynamic_cast<const JOrderedSetT::ElementMoved*>(&message);
+		const JListT::ElementMoved* info =
+			dynamic_cast<const JListT::ElementMoved*>(&message);
 		assert( info != NULL );
 
 		const JIndex origIndex = info->GetOrigIndex();

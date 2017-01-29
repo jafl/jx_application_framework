@@ -50,7 +50,7 @@ private:
 	static JString	BuildAddress(const JString& addr);
 	JString			GetLineTextFromAddress(const JString& addr) const;
 
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		CompareBreakpointAddresses(CMBreakpoint* const & bp1, CMBreakpoint* const & bp2);
 
 	// not allowed

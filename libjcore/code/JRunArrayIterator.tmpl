@@ -33,7 +33,7 @@ JRunArrayIterator<T>::JRunArrayIterator
 	const JIndex			index
 	)
 	:
-	JOrderedSetIterator<T>(theRunArray, start, index)
+	JListIterator<T>(theRunArray, start, index)
 {
 	itsRunArray = const_cast<JRunArray<T>*>(&theRunArray);
 
@@ -50,7 +50,7 @@ JRunArrayIterator<T>::JRunArrayIterator
 	const JIndex			index
 	)
 	:
-	JOrderedSetIterator<T>(theRunArray, start, index)
+	JListIterator<T>(theRunArray, start, index)
 {
 	itsRunArray = const_cast<JRunArray<T>*>(theRunArray);
 
@@ -70,7 +70,7 @@ JRunArrayIterator<T>::JRunArrayIterator
 	const JRunArrayIterator<T>& source
 	)
 	:
-	JOrderedSetIterator<T>(source)
+	JListIterator<T>(source)
 {
 	itsRunArray    = source.itsRunArray;
 	itsRunIndex    = source.itsRunIndex;
@@ -137,7 +137,7 @@ JRunArrayIterator<T>::Prev
 		}
 
 	*item = itsRunArray->GetRunData(itsRunIndex);
-	JOrderedSetIterator<T>::SetCursor(JOrderedSetIterator<T>::GetCursor()-1);
+	JListIterator<T>::SetCursor(JListIterator<T>::GetCursor()-1);
 	return kJTrue;
 }
 
@@ -174,7 +174,7 @@ JRunArrayIterator<T>::Next
 		itsOffsetInRun++;
 		}
 
-	JOrderedSetIterator<T>::SetCursor(JOrderedSetIterator<T>::GetCursor()+1);
+	JListIterator<T>::SetCursor(JListIterator<T>::GetCursor()+1);
 	return kJTrue;
 }
 
@@ -190,7 +190,7 @@ JRunArrayIterator<T>::SkipPrev
 	const JSize count
 	)
 {
-	JCursorPosition cursorPos = JOrderedSetIterator<T>::GetCursor();
+	JCursorPosition cursorPos = JListIterator<T>::GetCursor();
 	if (itsRunArray != NULL)
 		{
 		JSize remaining = count;
@@ -216,7 +216,7 @@ JRunArrayIterator<T>::SkipPrev
 				}
 			}
 
-		JOrderedSetIterator<T>::SetCursor(cursorPos);
+		JListIterator<T>::SetCursor(cursorPos);
 		}
 }
 
@@ -232,7 +232,7 @@ JRunArrayIterator<T>::SkipNext
 	const JSize count
 	)
 {
-	JCursorPosition cursorPos = JOrderedSetIterator<T>::GetCursor();
+	JCursorPosition cursorPos = JListIterator<T>::GetCursor();
 	if (itsRunArray != NULL)
 		{
 		const JSize maxPos = itsRunArray->GetElementCount();
@@ -258,7 +258,7 @@ JRunArrayIterator<T>::SkipNext
 				}
 			}
 
-		JOrderedSetIterator<T>::SetCursor(cursorPos);
+		JListIterator<T>::SetCursor(cursorPos);
 		}
 }
 
@@ -277,8 +277,8 @@ JRunArrayIterator<T>::SetPrev
 	const T& data
 	)
 {
-	JOrderedSet<T>* obj;
-	if (!JRunArrayIterator<T>::GetOrderedSet(&obj) || JOrderedSetIterator<T>::AtBeginning())
+	JList<T>* obj;
+	if (!JRunArrayIterator<T>::GetOrderedSet(&obj) || JListIterator<T>::AtBeginning())
 		{
 		return kJFalse;
 		}
@@ -286,7 +286,7 @@ JRunArrayIterator<T>::SetPrev
 	JIndex runIndex, firstInRun;
 	CalcPrevRunInfo(&runIndex, &firstInRun);
 
-	itsRunArray->IteratorSetElement(JOrderedSetIterator<T>::GetCursor(), data, runIndex, firstInRun);
+	itsRunArray->IteratorSetElement(JListIterator<T>::GetCursor(), data, runIndex, firstInRun);
 	return kJTrue;
 }
 
@@ -305,8 +305,8 @@ JRunArrayIterator<T>::SetNext
 	const T& data
 	)
 {
-	JOrderedSet<T>* obj;
-	if (!JRunArrayIterator<T>::GetOrderedSet(&obj) || JOrderedSetIterator<T>::AtEnd())
+	JList<T>* obj;
+	if (!JRunArrayIterator<T>::GetOrderedSet(&obj) || JListIterator<T>::AtEnd())
 		{
 		return kJFalse;
 		}
@@ -314,7 +314,7 @@ JRunArrayIterator<T>::SetNext
 	JIndex runIndex, firstInRun;
 	CalcNextRunInfo(&runIndex, &firstInRun);
 
-	itsRunArray->IteratorSetElement(JOrderedSetIterator<T>::GetCursor()+1, data, runIndex, firstInRun);
+	itsRunArray->IteratorSetElement(JListIterator<T>::GetCursor()+1, data, runIndex, firstInRun);
 	return kJTrue;
 }
 
@@ -330,8 +330,8 @@ template <class T>
 JBoolean
 JRunArrayIterator<T>::RemovePrev()
 {
-	JOrderedSet<T>* obj;
-	if (!JRunArrayIterator<T>::GetOrderedSet(&obj) || JOrderedSetIterator<T>::AtBeginning())
+	JList<T>* obj;
+	if (!JRunArrayIterator<T>::GetOrderedSet(&obj) || JListIterator<T>::AtBeginning())
 		{
 		return kJFalse;
 		}
@@ -339,7 +339,7 @@ JRunArrayIterator<T>::RemovePrev()
 	JIndex runIndex, firstInRun;
 	CalcPrevRunInfo(&runIndex, &firstInRun);
 
-	itsRunArray->IteratorRemoveNextElements(JOrderedSetIterator<T>::GetCursor(), 1, runIndex, firstInRun);
+	itsRunArray->IteratorRemoveNextElements(JListIterator<T>::GetCursor(), 1, runIndex, firstInRun);
 	return kJTrue;
 }
 
@@ -355,8 +355,8 @@ template <class T>
 JBoolean
 JRunArrayIterator<T>::RemoveNext()
 {
-	JOrderedSet<T>* obj;
-	if (!JRunArrayIterator<T>::GetOrderedSet(&obj) || JOrderedSetIterator<T>::AtBeginning())
+	JList<T>* obj;
+	if (!JRunArrayIterator<T>::GetOrderedSet(&obj) || JListIterator<T>::AtBeginning())
 		{
 		return kJFalse;
 		}
@@ -364,7 +364,7 @@ JRunArrayIterator<T>::RemoveNext()
 	JIndex runIndex, firstInRun;
 	CalcNextRunInfo(&runIndex, &firstInRun);
 
-	itsRunArray->IteratorRemoveNextElements(JOrderedSetIterator<T>::GetCursor()+1, 1, runIndex, firstInRun);
+	itsRunArray->IteratorRemoveNextElements(JListIterator<T>::GetCursor()+1, 1, runIndex, firstInRun);
 	return kJTrue;
 }
 
@@ -390,7 +390,7 @@ JRunArrayIterator<T>::CalcPrevRunInfo
 		offsetInRun = itsRunArray->GetRunLength(*runIndex);
 		}
 
-	*firstInRun = JOrderedSetIterator<T>::GetCursor() - offsetInRun + 1;
+	*firstInRun = JListIterator<T>::GetCursor() - offsetInRun + 1;
 }
 
 /******************************************************************************
@@ -408,7 +408,7 @@ JRunArrayIterator<T>::CalcNextRunInfo
 	const
 {
 	*runIndex   = itsRunIndex;
-	*firstInRun = JOrderedSetIterator<T>::GetCursor() - itsOffsetInRun + 1;
+	*firstInRun = JListIterator<T>::GetCursor() - itsOffsetInRun + 1;
 }
 
 /******************************************************************************
@@ -428,7 +428,7 @@ JRunArrayIterator<T>::MoveTo
 	const JIndex			index
 	)
 {
-	JOrderedSetIterator<T>::MoveTo(newPosition, index);
+	JListIterator<T>::MoveTo(newPosition, index);
 
 	if (itsRunArray == NULL)
 		{
@@ -450,7 +450,7 @@ JRunArrayIterator<T>::MoveTo
 		}
 	else
 		{
-		const JCursorPosition cursorPosition = JOrderedSetIterator<T>::GetCursor();
+		const JCursorPosition cursorPosition = JListIterator<T>::GetCursor();
 
 		JIndex firstIndexInRun;
 		const JBoolean found =
@@ -482,9 +482,9 @@ JRunArrayIterator<T>::OrderedSetChanged
 	const JBroadcaster::Message& message
 	)
 {
-	JOrderedSetIterator<T>::OrderedSetChanged(message);
+	JListIterator<T>::OrderedSetChanged(message);
 
-	if (message.Is(JOrderedSetT::kGoingAway))
+	if (message.Is(JListT::kGoingAway))
 		{
 		itsRunArray    = NULL;
 		itsRunIndex    = 0;
@@ -492,7 +492,7 @@ JRunArrayIterator<T>::OrderedSetChanged
 		}
 	else
 		{
-		const JCursorPosition p = JOrderedSetIterator<T>::GetCursor();
+		const JCursorPosition p = JListIterator<T>::GetCursor();
 		if (p == 0)
 			{
 			MoveTo(kJIteratorStartAtBeginning, 0);

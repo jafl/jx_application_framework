@@ -34,7 +34,7 @@ private:
 
 private:
 
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		CompareThreadIndices(JString* const & l1, JString* const & l2);
 
 	// not allowed

@@ -517,13 +517,13 @@ J2DPlotData::Receive
 		sender == itsYPErrorData ||
 		sender == itsYMErrorData)
 		{
-		if (message.Is(JOrderedSetT::kElementChanged) ||
-			message.Is(JOrderedSetT::kElementMoved) )
+		if (message.Is(JListT::kElementChanged) ||
+			message.Is(JListT::kElementMoved) )
 			{
 			BroadcastCurveChanged();
 			}
-		else if (message.Is(JOrderedSetT::kElementsInserted) ||
-				 message.Is(JOrderedSetT::kElementsRemoved) )
+		else if (message.Is(JListT::kElementsInserted) ||
+				 message.Is(JListT::kElementsRemoved) )
 			{
 			ValidateCurve();
 			BroadcastCurveChanged();

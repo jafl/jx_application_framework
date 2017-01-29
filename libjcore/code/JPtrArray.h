@@ -78,6 +78,9 @@ public:
 	JBoolean	Includes(const T* dataPtr) const;
 	JBoolean	Find(const T* dataPtr, JIndex* elementIndex) const;
 
+	T	Join(const JUtf8Byte* separator) const;
+	T	Join(const T& separator) const;
+
 	JPtrArrayT::CleanUpAction	GetCleanUpAction() const;
 	void						SetCleanUpAction(const JPtrArrayT::CleanUpAction action);
 	void						CleanOut();
@@ -123,7 +126,7 @@ private:
 // it needs SetElementAction.
 
 template <class T>
-class JPtrArrayIterator : public JOrderedSetIterator<T*>
+class JPtrArrayIterator : public JListIterator<T*>
 {
 public:
 
@@ -134,7 +137,7 @@ public:
 					  const JIteratorPosition start = kJIteratorStartAtBeginning,
 					  const JIndex index = 0);
 
-	// only allowed if constructed from non-const JOrderedSet<T>*
+	// only allowed if constructed from non-const JList<T>*
 
 	JBoolean	SetPrev(T* dataPtr, const JPtrArrayT::SetElementAction action);
 	JBoolean	SetNext(T* dataPtr, const JPtrArrayT::SetElementAction action);

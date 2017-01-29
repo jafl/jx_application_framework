@@ -180,7 +180,7 @@ GCLAppointment::SetNote
 
  ******************************************************************************/
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 GCLAppointment::CompareByStartDay
 	(
 	GCLAppointment * const & a1,
@@ -195,7 +195,7 @@ GCLAppointment::CompareByStartDay
 
  ******************************************************************************/
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 GCLAppointment::CompareByEndDay
 	(
 	GCLAppointment * const & a1,
@@ -210,7 +210,7 @@ GCLAppointment::CompareByEndDay
 
  ******************************************************************************/
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 GCLAppointment::CompareByTime
 	(
 	GCLAppointment * const & a1,
@@ -221,22 +221,22 @@ GCLAppointment::CompareByTime
 		{
 		if (a1->GetEndTime().minute == a2->GetEndTime().minute)
 			{
-			return JOrderedSetT::kFirstEqualSecond;
+			return JListT::kFirstEqualSecond;
 			}
 		else if (a1->GetEndTime().minute > a2->GetEndTime().minute)
 			{
-			return JOrderedSetT::kFirstGreaterSecond;
+			return JListT::kFirstGreaterSecond;
 			}
 		else
 			{
-			return JOrderedSetT::kFirstLessSecond;
+			return JListT::kFirstLessSecond;
 			}
 		}
 	else if (a1->GetEndTime().hour > a2->GetEndTime().hour)
 		{
-		return JOrderedSetT::kFirstGreaterSecond;
+		return JListT::kFirstGreaterSecond;
 		}
-	return JOrderedSetT::kFirstLessSecond;
+	return JListT::kFirstLessSecond;
 }
 
 /******************************************************************************

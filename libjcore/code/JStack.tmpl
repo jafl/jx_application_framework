@@ -7,7 +7,7 @@
 								The Stack Class
 
 	This class manages a stack.  The first template argument must be
-	a derived class of JOrderedSet.  The second template argument is the
+	a derived class of JList.  The second template argument is the
 	data type of the stack.
 
 	Refer to JArray.tmpl for warning associated with using JArray's.
@@ -19,7 +19,7 @@
  ******************************************************************************/
 
 #include <JStack.h>
-#include <JOrderedSetIterator.h>
+#include <JListIterator.h>
 #include <jAssert.h>
 
 /******************************************************************************
@@ -276,14 +276,14 @@ JStack<T,S>::GetElements()
  ******************************************************************************/
 
 template <class T, class S>
-JOrderedSetIterator<T>*
+JListIterator<T>*
 JStack<T,S>::NewIterator()
 {
 	return itsElements->NewIterator(kJIteratorStartAtEnd);
 }
 
 template <class T, class S>
-JOrderedSetIterator<T>*
+JListIterator<T>*
 JStack<T,S>::NewIterator()
 	const
 {

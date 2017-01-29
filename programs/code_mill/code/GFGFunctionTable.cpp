@@ -122,7 +122,7 @@ GFGFunctionTable::Receive
 	const Message&	message
 	)
 {
-	if (sender == itsList && message.Is(JOrderedSetT::kElementsInserted))
+	if (sender == itsList && message.Is(JListT::kElementsInserted))
 		{
 		const JSize delta = itsList->GetElementCount() - GetRowCount();
 		if (delta != 0)

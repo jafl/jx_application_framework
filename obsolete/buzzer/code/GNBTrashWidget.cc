@@ -42,7 +42,7 @@
 #include <JFontManager.h>
 #include <JTableSelection.h>
 #include <JTableSelectionIterator.h>
-#include <JOrderedSetIterator.h>
+#include <JListIterator.h>
 #include <JDirInfo.h>
 #include <JDirEntry.h>
 #include <JError.h>

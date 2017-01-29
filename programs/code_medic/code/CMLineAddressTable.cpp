@@ -12,7 +12,7 @@
 #include "CMBreakpointManager.h"
 #include "CMLink.h"
 #include <JXColormap.h>
-#include <JOrderedSetUtil.h>
+#include <JListUtil.h>
 #include <jAssert.h>
 
 /******************************************************************************
@@ -42,7 +42,7 @@ CMLineAddressTable::CMLineAddressTable
 	itsLineTextList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 	assert( itsLineTextList != NULL );
 	itsLineTextList->SetCompareFunction(JCompareStringsCaseInsensitive);
-	itsLineTextList->SetSortOrder(JOrderedSetT::kSortAscending);
+	itsLineTextList->SetSortOrder(JListT::kSortAscending);
 }
 
 /******************************************************************************
@@ -127,7 +127,7 @@ CMLineAddressTable::FindAddressLineNumber
 	JString addr = GetLineTextFromAddress(origAddress);
 
 	JBoolean found;
-	*index = itsLineTextList->SearchSorted1(&addr, JOrderedSetT::kAnyMatch, &found);
+	*index = itsLineTextList->SearchSorted1(&addr, JListT::kAnyMatch, &found);
 	return kJTrue;
 }
 
@@ -206,7 +206,7 @@ CMLineAddressTable::GetFirstBreakpointOnLine
 {
 	const JString addr = BuildAddress(*(itsLineTextList->GetElement(lineIndex)));
 	CMBreakpoint bp(addr);
-	return GetBreakpointList()->SearchSorted(&bp, JOrderedSetT::kFirstMatch, bpIndex);
+	return GetBreakpointList()->SearchSorted(&bp, JListT::kFirstMatch, bpIndex);
 }
 
 /******************************************************************************
@@ -259,7 +259,7 @@ CMLineAddressTable::GetBreakpoints
 		target = GetLineTextFromAddress(bp->GetAddress());
 
 		JBoolean found;
-		const JIndex j = itsLineTextList->SearchSorted1(&target, JOrderedSetT::kAnyMatch, &found);
+		const JIndex j = itsLineTextList->SearchSorted1(&target, JListT::kAnyMatch, &found);
 		itsVisualBPIndexList->AppendElement(j);
 		}
 }
@@ -379,7 +379,7 @@ CMLineAddressTable::GetLineTextFromAddress
 
  ******************************************************************************/
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 CMLineAddressTable::CompareBreakpointAddresses
 	(
 	CMBreakpoint* const & bp1,

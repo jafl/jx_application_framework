@@ -10,10 +10,10 @@
 #ifndef _H_JArray
 #define _H_JArray
 
-#include <JOrderedSet.h>
+#include <JList.h>
 
 template <class T>
-class JArray : public JOrderedSet<T>
+class JArray : public JList<T>
 {
 public:
 
@@ -48,7 +48,7 @@ public:
 	virtual void	Sort();
 
 	virtual JIndex	SearchSorted1(const T& target,
-								  const JOrderedSetT::SearchReturn which,
+								  const JListT::SearchReturn which,
 								  JBoolean* found) const;
 
 	// unrelated, fast sort -- broadcasts Sorted

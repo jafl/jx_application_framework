@@ -94,7 +94,7 @@ CBFnListWidget::CBFnListWidgetX
 	itsFnNames = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 	assert( itsFnNames != NULL );
 	itsFnNames->SetCompareFunction(JCompareStringsCaseInsensitive);
-	itsFnNames->SetSortOrder(JOrderedSetT::kSortAscending);
+	itsFnNames->SetSortOrder(JListT::kSortAscending);
 
 	itsShowInheritedFnsFlag = showInheritedFns;
 
@@ -396,7 +396,7 @@ CBFnListWidget::ClosestMatch
 		}
 
 	JBoolean found;
-	*fnIndex = itsFnNames->SearchSorted1(&itsKeyBuffer, JOrderedSetT::kFirstMatch, &found);
+	*fnIndex = itsFnNames->SearchSorted1(&itsKeyBuffer, JListT::kFirstMatch, &found);
 	if (*fnIndex > fnCount)		// insert beyond end of list
 		{
 		*fnIndex = fnCount;

@@ -78,7 +78,7 @@ private:
 
 	JXHelpDirector*	CreateHelpDirector(const JString& text);
 
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		CompareSections(const SectionInfo& s1, const SectionInfo& s2);
 
 	// not allowed

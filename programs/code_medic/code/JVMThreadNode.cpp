@@ -12,7 +12,7 @@
 #include "JVMGetThreadParent.h"
 #include "JVMLink.h"
 #include "cmGlobals.h"
-#include <JOrderedSetUtil.h>
+#include <JListUtil.h>
 #include <jAssert.h>
 
 /******************************************************************************
@@ -127,7 +127,7 @@ JVMThreadNode::FindParent
 
  ******************************************************************************/
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 JVMThreadNode::CompareID
 	(
 	JVMThreadNode* const & t1,

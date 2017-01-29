@@ -97,7 +97,7 @@ private:
 	static JBoolean	ShortcutUsed(const JArray<WindowInfo>& windowList,
 								 const JInteger shortcutIndex);
 
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		CompareWindowNames(const WindowInfo& w1, const WindowInfo& w2);
 
 	// not allowed

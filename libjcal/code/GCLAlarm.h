@@ -42,7 +42,7 @@ public:
 	CLDay				GetApptDay() const;
 	CLTime				GetApptTime() const;
 
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		CompareTimes(GCLAlarm * const & a1, GCLAlarm * const & a2);
 
 private:

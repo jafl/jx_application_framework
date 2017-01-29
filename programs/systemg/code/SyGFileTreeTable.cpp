@@ -383,7 +383,7 @@ SyGFileTreeTable::SyGFileTreeTable
 		JDirInfo* info;
 		if (itsRecentFilesMenu->GetDirInfo(&info))
 			{
-			info->ChangeSort(JDirEntry::CompareModTimes, JOrderedSetT::kSortDescending);
+			info->ChangeSort(JDirEntry::CompareModTimes, JListT::kSortDescending);
 			}
 		}
 	else
