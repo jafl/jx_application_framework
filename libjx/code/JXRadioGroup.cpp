@@ -23,7 +23,7 @@ const JSize kFrameUpWidth      = 1;
 
 // JBroadcaster message types
 
-const JCharacter* JXRadioGroup::kSelectionChanged = "SelectionChanged::JXRadioGroup";
+const JUtf8Byte* JXRadioGroup::kSelectionChanged = "SelectionChanged::JXRadioGroup";
 
 /******************************************************************************
  Constructor

@@ -36,7 +36,7 @@ public:
 
 public:
 
-	JXDockManager(JXDisplay* display, const JCharacter* title,
+	JXDockManager(JXDisplay* display, const JString& title,
 				  JPrefsManager* prefsMgr = NULL,
 				  const JPrefID& id = JFAID::kInvalidID);
 
@@ -53,8 +53,8 @@ public:
 	virtual	JBoolean	CanDockAll() const;
 	virtual void		DockAll();
 
-	JBoolean	GetDefaultDock(const JCharacter* windowType, JXDockWidget** dock);
-	void		SetDefaultDock(const JCharacter* windowType, const JXDockWidget* dock);
+	JBoolean	GetDefaultDock(const JString& windowType, JXDockWidget** dock);
+	void		SetDefaultDock(const JString& windowType, const JXDockWidget* dock);
 
 	JBoolean	IsReadingSetup() const;
 	void		ReadSetup(std::istream& input);
@@ -152,7 +152,7 @@ JXDockManager::IsLastDock
 	const
 {
 	return JI2B( itsDockList->GetElementCount() == 1 &&
-				 itsDockList->FirstElement()    == dock );
+				 itsDockList->GetFirstElement() == dock );
 }
 
 /******************************************************************************

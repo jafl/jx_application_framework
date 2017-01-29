@@ -23,7 +23,7 @@
 
 JXStaticText::JXStaticText
 	(
-	const JCharacter*	text,
+	const JString&		text,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
@@ -43,7 +43,7 @@ JXStaticText::JXStaticText
 
 JXStaticText::JXStaticText
 	(
-	const JCharacter*	text,
+	const JString&		text,
 	const JBoolean		wordWrap,
 	const JBoolean		selectable,
 	JXScrollbarSet*		scrollbarSet,
@@ -70,7 +70,7 @@ JXStaticText::JXStaticText
 void
 JXStaticText::JXStaticTextX
 	(
-	const JCharacter*	text,
+	const JString&		text,
 	const JCoordinate	origW,
 	const JCoordinate	origH
 	)
@@ -79,9 +79,9 @@ JXStaticText::JXStaticTextX
 
 	TESetLeftMarginWidth(kMinLeftMarginWidth);
 
-	if (JCompareMaxN(text, "<html>", 6, kJFalse))
+	if (JString::CompareMaxNBytes(text.GetBytes(), "<html>", 6, kJFalse))
 		{
-		std::istrstream input(text, strlen(text));
+		std::istrstream input(text.GetBytes(), text.GetByteCount());
 		ReadHTML(input);
 		}
 	else

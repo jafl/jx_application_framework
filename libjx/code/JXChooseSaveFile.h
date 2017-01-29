@@ -30,39 +30,39 @@ public:
 
 	virtual ~JXChooseSaveFile();
 
-	virtual JBoolean ChooseFile(const JCharacter* prompt,
-								const JCharacter* instructions,		// can be NULL
+	virtual JBoolean ChooseFile(const JString& prompt,
+								const JString& instructions,
 								JString* fullName);
-	virtual JBoolean ChooseFile(const JCharacter* prompt,
-								const JCharacter* instructions,		// can be NULL
-								const JCharacter* origName,			// can be NULL
+	virtual JBoolean ChooseFile(const JString& prompt,
+								const JString& instructions,
+								const JString& origName,
 								JString* fullName);
-	virtual JBoolean ChooseFiles(const JCharacter* prompt,
-								 const JCharacter* instructions,	// can be NULL
+	virtual JBoolean ChooseFiles(const JString& prompt,
+								 const JString& instructions,
 								 JPtrArray<JString>* fullNameList);
 
-	JBoolean ChooseFile(const JCharacter* prompt,
-						const JCharacter* instructions,		// can be NULL
-						const JCharacter* wildcardFilter,
-						const JCharacter* origName,			// can be NULL
+	JBoolean ChooseFile(const JString& prompt,
+						const JString& instructions,
+						const JString& wildcardFilter,
+						const JString& origName,
 						JString* fullName);
-	JBoolean ChooseFiles(const JCharacter* prompt,
-						 const JCharacter* instructions,	// can be NULL
-						 const JCharacter* wildcardFilter,
+	JBoolean ChooseFiles(const JString& prompt,
+						 const JString& instructions,
+						 const JString& wildcardFilter,
 						 JPtrArray<JString>* fullNameList);
 
-	virtual JBoolean ChooseRPath(const JCharacter* prompt,
-								 const JCharacter* instructions,	// can be NULL
-								 const JCharacter* origPath,		// can be NULL
+	virtual JBoolean ChooseRPath(const JString& prompt,
+								 const JString& instructions,
+								 const JString& origPath,
 								 JString* newPath);
-	virtual JBoolean ChooseRWPath(const JCharacter* prompt,
-								  const JCharacter* instructions,	// can be NULL
-								  const JCharacter* origPath,		// can be NULL
+	virtual JBoolean ChooseRWPath(const JString& prompt,
+								  const JString& instructions,
+								  const JString& origPath,
 								  JString* newPath);
 
-	virtual JBoolean SaveFile(const JCharacter* prompt,
-							  const JCharacter* instructions,		// can be NULL
-							  const JCharacter* originalName,
+	virtual JBoolean SaveFile(const JString& prompt,
+							  const JString& instructions,
+							  const JString& originalName,
 							  JString* newFullName);
 
 	void	ReadSetup(std::istream& input);
@@ -74,21 +74,21 @@ protected:
 
 	virtual JXChooseFileDialog*
 	CreateChooseFileDialog(JXDirector* supervisor, JDirInfo* dirInfo,
-						   const JCharacter* fileFilter,
+						   const JString& fileFilter,
 						   const JBoolean allowSelectMultiple,
-						   const JCharacter* origName, const JCharacter* message);
+						   const JString& origName, const JString& message);
 
 	virtual void	SetChooseFileFilters(JDirInfo* dirInfo);
 
 	virtual JXChoosePathDialog*
 	CreateChoosePathDialog(JXDirector* supervisor, JDirInfo* dirInfo,
-						   const JCharacter* fileFilter,
-						   const JBoolean selectOnlyWritable, const JCharacter* message);
+						   const JString& fileFilter,
+						   const JBoolean selectOnlyWritable, const JString& message);
 
 	virtual JXSaveFileDialog*
 	CreateSaveFileDialog(JXDirector* supervisor, JDirInfo* dirInfo,
-						 const JCharacter* fileFilter, const JCharacter* origName,
-						 const JCharacter* prompt, const JCharacter* message);
+						 const JString& fileFilter, const JString& origName,
+						 const JString& prompt, const JString& message);
 
 	JDirInfo*		GetDirInfo();
 
@@ -114,23 +114,24 @@ private:
 
 private:
 
-	JBoolean	ChooseFile(const JCharacter* prompt,
-						   const JCharacter* instructions,		// can be NULL
-						   const JCharacter* origName,			// can be NULL
+	JBoolean	ChooseFile(const JString& prompt,
+						   const JString& instructions,
+						   const JString& origName,
 						   const JBoolean allowSelectMultiple);
 
 	JBoolean	ChoosePath(const JBoolean selectOnlyWritable,
-						   const JCharacter* instructions,
-						   const JCharacter* origPath,
+						   const JString& instructions,
+						   const JString& origPath,
 						   JString* newPath);
 
 	void	WaitForResponse(JXCSFDialogBase* dlog);
 
 	void	RestoreState(JXCSFDialogBase* dlog,
-						 const JBoolean ignoreScroll) const;
+						 const JBoolean ignoreScroll);
 	void	SaveState(JXCSFDialogBase* dlog);
 
-	JString*	GetDialogState() const;
+	const JString&	GetDialogState() const;
+	JString*		GetDialogState();
 
 	// not allowed
 

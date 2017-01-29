@@ -39,11 +39,11 @@
 JXChoosePathDialog*
 JXChoosePathDialog::Create
 	(
-	JXDirector*			supervisor,
-	JDirInfo*			dirInfo,
-	const JCharacter*	fileFilter,
-	const JBoolean		selectOnlyWritable,
-	const JCharacter*	message
+	JXDirector*		supervisor,
+	JDirInfo*		dirInfo,
+	const JString&	fileFilter,
+	const JBoolean	selectOnlyWritable,
+	const JString&	message
 	)
 {
 	JXChoosePathDialog* dlog =
@@ -60,10 +60,10 @@ JXChoosePathDialog::Create
 
 JXChoosePathDialog::JXChoosePathDialog
 	(
-	JXDirector*			supervisor,
-	JDirInfo*			dirInfo,
-	const JCharacter*	fileFilter,
-	const JBoolean		selectOnlyWritable
+	JXDirector*		supervisor,
+	JDirInfo*		dirInfo,
+	const JString&	fileFilter,
+	const JBoolean	selectOnlyWritable
 	)
 	:
 	JXCSFDialogBase(supervisor, dirInfo, fileFilter),
@@ -88,7 +88,7 @@ JXChoosePathDialog::~JXChoosePathDialog()
 void
 JXChoosePathDialog::BuildWindow
 	(
-	const JCharacter* message
+	const JString& message
 	)
 {
 // begin JXLayout
@@ -176,7 +176,7 @@ JXChoosePathDialog::BuildWindow
 	assert( newDirButton != NULL );
 
 	JXCurrentPathMenu* currPathMenu =
-		jnew JXCurrentPathMenu("/", window,
+		jnew JXCurrentPathMenu(JString("/", 0, kJFalse), window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 20,110, 180,20);
 	assert( currPathMenu != NULL );
 
@@ -218,13 +218,13 @@ JXChoosePathDialog::SetObjects
 	JXNewDirButton*			newDirButton,
 	JXTextCheckbox*			showHiddenCB,
 	JXCurrentPathMenu*		currPathMenu,
-	const JCharacter*		message
+	const JString&			message
 	)
 {
 	itsOpenButton   = openButton;
 	itsSelectButton = selectButton;
 
-	(scrollbarSet->GetWindow())->SetTitle("Choose directory");
+	(scrollbarSet->GetWindow())->SetTitle(JGetString("Title::JXChoosePathDialog"));
 
 	SetButtons(itsSelectButton, cancelButton);
 	JXCSFDialogBase::SetObjects(
@@ -241,8 +241,8 @@ JXChoosePathDialog::SetObjects
 	ListenTo(fileBrowser);
 	ListenTo(&(fileBrowser->GetTableSelection()));
 
-    cancelButton->SetShortcuts("^[");
-    itsSelectButton->SetShortcuts("#E");
+	cancelButton->SetShortcuts(JGetString("CancelShortcut::JXChoosePathDialog"));
+	itsSelectButton->SetShortcuts(JGetString("SelectShortcut::JXChoosePathDialog"));
 }
 
 /******************************************************************************
@@ -320,7 +320,7 @@ JXChoosePathDialog::OKToDeactivate()
 
 	else if (itsSelectOnlyWritableFlag && !JDirectoryWritable(GetPath()))
 		{
-		(JGetUserNotification())->ReportError("You must select a writable directory.");
+		(JGetUserNotification())->ReportError(JGetString("DirMustBeWritable::JXChoosePathDialog"));
 		return kJFalse;
 		}
 	else

@@ -18,7 +18,7 @@ class JXDisplayMenu : public JXTextMenu
 {
 public:
 
-	JXDisplayMenu(const JCharacter* title, JXContainer* enclosure,
+	JXDisplayMenu(const JString& title, JXContainer* enclosure,
 				  const HSizingOption hSizing, const VSizingOption vSizing,
 				  const JCoordinate x, const JCoordinate y,
 				  const JCoordinate w, const JCoordinate h);
@@ -60,8 +60,8 @@ public:
 
 	// JBroadcaster messages
 
-	static const JCharacter* kDisplayNeedsUpdate;
-	static const JCharacter* kDisplayChanged;
+	static const JUtf8Byte* kDisplayNeedsUpdate;
+	static const JUtf8Byte* kDisplayChanged;
 
 	class DisplayNeedsUpdate : public JBroadcaster::Message
 		{

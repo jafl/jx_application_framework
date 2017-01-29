@@ -13,7 +13,7 @@
 
 // JBroadcaster message types
 
-const JCharacter* JXCheckbox::kPushed = "Pushed::JXCheckbox";
+const JUtf8Byte* JXCheckbox::kPushed = "Pushed::JXCheckbox";
 
 /******************************************************************************
  Constructor (protected)
@@ -165,7 +165,7 @@ JXCheckbox::HandleShortcut
 void
 JXCheckbox::SetShortcuts
 	(
-	const JCharacter* list
+	const JString& list
 	)
 {
 	JXWindow* w = GetWindow();

@@ -103,9 +103,9 @@ JXTextMenu::InsertItem
 	const JIndex	index,
 	const JString&	str,
 	const ItemType	type,
-	const JString*	shortcuts,
-	const JString*	nmShortcut,
-	const JString*	id
+	const JString&	shortcuts,
+	const JString&	nmShortcut,
+	const JString&	id
 	)
 {
 	itsTextMenuData->InsertItem(index, str, type, shortcuts, nmShortcut, id);
@@ -116,9 +116,9 @@ JXTextMenu::PrependItem
 	(
 	const JString&	str,
 	const ItemType	type,
-	const JString*	shortcuts,
-	const JString*	nmShortcut,
-	const JString*	id
+	const JString&	shortcuts,
+	const JString&	nmShortcut,
+	const JString&	id
 	)
 {
 	itsTextMenuData->PrependItem(str, type, shortcuts, nmShortcut, id);
@@ -129,9 +129,9 @@ JXTextMenu::AppendItem
 	(
 	const JString&	str,
 	const ItemType	type,
-	const JString*	shortcuts,
-	const JString*	nmShortcut,
-	const JString*	id
+	const JString&	shortcuts,
+	const JString&	nmShortcut,
+	const JString&	id
 	)
 {
 	itsTextMenuData->AppendItem(str, type, shortcuts, nmShortcut, id);

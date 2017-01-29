@@ -9,6 +9,9 @@
 #include <JXDisplay.h>
 #include <JXImageMask.h>
 #include <X11/Xatom.h>
+#include <JStringIterator.h>
+#include <JStringMatch.h>
+#include <JSubstitute.h>
 #include <JRegex.h>
 #include <jFileUtil.h>
 #include <jGlobals.h>
@@ -16,7 +19,7 @@
 
 // string ID's
 
-static const JCharacter* kUnreachableHostsID = "UnreachableHosts::jXUtil";
+static const JUtf8Byte* kUnreachableHostsID = "UnreachableHosts::jXUtil";
 
 /******************************************************************************
  JXJToXRect
@@ -309,7 +312,7 @@ JString
 JXPackStrings
 	(
 	const JPtrArray<JString>&	strList,
-	const JCharacter*			separator,
+	const JUtf8Byte*			separator,
 	const JSize					sepLength
 	)
 {
@@ -322,7 +325,7 @@ JXPackStrings
 			{
 			data.Append(separator, sepLength);
 			}
-		data.Append(*(strList.NthElement(i)));
+		data.Append(*(strList.GetElement(i)));
 		}
 
 	return data;
@@ -331,36 +334,16 @@ JXPackStrings
 void
 JXUnpackStrings
 	(
-	const JCharacter*	origData,
+	const JUtf8Byte*	origData,
 	const JSize			length,
 	JPtrArray<JString>*	strList,
-	const JCharacter*	separator,
+	const JUtf8Byte*	separator,
 	const JSize			sepLength
 	)
 {
-	const JString data(origData, length);
-	JIndex prevIndex = 1, i = 1;
-	while (1)
-		{
-		const JBoolean found = data.LocateNextSubstring(separator, sepLength, &i);
-
-		if (origData[ prevIndex-1 ] != '\0')
-			{
-			JString* str = jnew JString(origData + prevIndex-1, i - prevIndex);
-			assert( str != NULL );
-			strList->Append(str);
-			}
-
-		if (found)
-			{
-			i += sepLength;		// move past the separator
-			prevIndex = i;
-			}
-		else
-			{
-			break;
-			}
-		}
+	JString(origData, length, kJFalse).
+		Split(
+			JString(separator, sepLength, kJFalse), strList);
 }
 
 /******************************************************************************
@@ -374,10 +357,10 @@ JXUnpackStrings
 
  ******************************************************************************/
 
-static const JCharacter* kURISeparator = "\r\n";
-const JSize kURISeparatorLength        = 2;
+static const JUtf8Byte* kURISeparator = "\r\n";
+const JSize kURISeparatorLength       = 2;
 
-const JCharacter kURICommentMarker = '#';
+const JUtf8Byte kURICommentMarker = '#';
 
 JString
 JXPackFileNames
@@ -394,7 +377,7 @@ JXPackFileNames
 			{
 			data.Append(kURISeparator, kURISeparatorLength);
 			}
-		data.Append(JFileNameToURL(*(fileNameList.NthElement(i))));
+		data.Append(JFileNameToURL(*(fileNameList.GetElement(i))));
 		}
 
 	return data;
@@ -403,7 +386,7 @@ JXPackFileNames
 void
 JXUnpackFileNames
 	(
-	const JCharacter*	data,
+	const JUtf8Byte*	data,
 	const JSize			length,
 	JPtrArray<JString>*	fileNameList,
 	JPtrArray<JString>*	urlList
@@ -416,18 +399,18 @@ JXUnpackFileNames
 	JString fileName;
 	for (JIndex i=newCount; i>origCount; i--)
 		{
-		const JString* url = fileNameList->NthElement(i);
+		const JString* url = fileNameList->GetElement(i);
 		if (url->IsEmpty() || url->GetFirstCharacter() == kURICommentMarker)
 			{
 			fileNameList->DeleteElement(i);
 			}
 		else if (JURLToFileName(*url, &fileName))
 			{
-			*(fileNameList->NthElement(i)) = fileName;
+			*(fileNameList->GetElement(i)) = fileName;
 			}
 		else
 			{
-			urlList->Append(fileNameList->NthElement(i));
+			urlList->Append(fileNameList->GetElement(i));
 			fileNameList->RemoveElement(i);
 			}
 		}
@@ -438,7 +421,7 @@ JXUnpackFileNames
 
  ******************************************************************************/
 
-static const JRegex urlPattern = "://([^/]+)/";
+static const JRegex urlPattern = "://(.+?)/";
 
 void
 JXReportUnreachableHosts
@@ -456,14 +439,14 @@ JXReportUnreachableHosts
 	hostList.SetCompareFunction(JCompareStringsCaseInsensitive);
 
 	const JSize urlCount = urlList.GetElementCount();
-	JArray<JIndexRange> matchList;
-	JString host;
 	for (JIndex i=1; i<=urlCount; i++)
 		{
-		const JString* url = urlList.NthElement(i);
-		if (urlPattern.Match(*url, &matchList))
+		const JString* url = urlList.GetElement(i);
+
+		JStringIterator iter(*url);
+		if (iter.Next(urlPattern))
 			{
-			JString* host = jnew JString(url->GetSubstring(matchList.GetElement(2)));
+			JString* host = jnew JString(iter.GetLastMatch().GetSubstring(1));
 			assert( host != NULL );
 			if (!hostList.InsertSorted(host, kJFalse))
 				{
@@ -480,9 +463,9 @@ JXReportUnreachableHosts
 			{
 			if (!hosts.IsEmpty())
 				{
-				hosts.AppendCharacter('\n');
+				hosts.Append("\n");
 				}
-			hosts += *(hostList.NthElement(i));
+			hosts += *(hostList.GetElement(i));
 			}
 
 		(JGetStringManager())->ReportError(kUnreachableHostsID, hosts);
@@ -494,7 +477,8 @@ JXReportUnreachableHosts
 
  ******************************************************************************/
 
-static const JCharacter* kInvalidURLHostMarker = ":///";
+static const JUtf8Byte* kInvalidURLHostMarker = ":///";
+static const JUtf8Byte* kURLHostPattern       = "://$host/";
 
 static JString
 jXGetClientMachineName
@@ -515,7 +499,7 @@ jXGetClientMachineName
 					   &itemCount, &remainingBytes, &xdata);
 	if (actualType == XA_STRING && actualFormat == 8 && itemCount > 0)
 		{
-		machineName.Set((JCharacter*) xdata, itemCount);
+		machineName.Set((JUtf8Byte*) xdata, itemCount);
 		}
 
 	XFree(xdata);
@@ -525,7 +509,7 @@ jXGetClientMachineName
 JBoolean
 JXFixBrokenURLs
 	(
-	const JCharacter*	data,
+	const JUtf8Byte*	data,
 	const JSize			length,
 	JXDisplay*			display,
 	const Window		srcWindow,
@@ -539,12 +523,13 @@ JXFixBrokenURLs
 
 	const JSize count = urlList.GetElementCount();
 	JIndex j;
-	JString srcHost, destHost;
+	JString srcHost, tmp;
 	for (JIndex i=1; i<=count; i++)
 		{
-		JString* url = urlList.NthElement(i);
+		JString* url = urlList.GetElement(i);
+			JStringIterator iter(url);
 		if (!url->IsEmpty() && url->GetFirstCharacter() != kURICommentMarker &&
-			url->LocateSubstring(kInvalidURLHostMarker, &j))
+			iter.Next(kInvalidURLHostMarker))
 			{
 			if (srcHost.IsEmpty())
 				{
@@ -555,7 +540,13 @@ JXFixBrokenURLs
 					}
 				}
 
-			url->InsertSubstring(srcHost, j+3);
+			tmp = kURLHostPattern;
+
+			JSubstitute sub;
+			sub.DefineVariable("host", srcHost);
+			sub.Substitute(&tmp);
+
+			iter.ReplaceLastMatch(tmp);
 			changed = kJTrue;
 			}
 		}

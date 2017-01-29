@@ -9,6 +9,7 @@
 #define _H_JXSearchTextDialog
 
 #include <JXWindowDirector.h>
+#include <JUtf8Character.h>
 #include <X11/X.h>
 
 class JString;
@@ -37,7 +38,7 @@ public:
 
 public:
 
-	static JXSearchTextDialog*	Create(const JCharacter* searchTextHelpName = NULL);
+	static JXSearchTextDialog*	Create(const JUtf8Byte* searchTextHelpName = NULL);
 
 	virtual ~JXSearchTextDialog();
 
@@ -50,11 +51,11 @@ public:
 	void		TEDeactivated(JXTEBase* te);
 
 	JBoolean	HasSearchText() const;
-	void		SetSearchText(const JCharacter* str);
+	void		SetSearchText(const JString& str);
 	void		SetRegexSearch(const JBoolean regex = kJTrue);
 
 	JBoolean	HasReplaceText() const;
-	void		SetReplaceText(const JCharacter* str);
+	void		SetReplaceText(const JString& str);
 	void		SetRegexReplace(const JBoolean regex = kJTrue);
 
 	JBoolean	GetSearchParameters(JString* searchStr, JBoolean* searchIsRegex,
@@ -64,17 +65,17 @@ public:
 									JBoolean* preserveCase,
 									JRegex** regex) const;
 
-	void	SetFont(const JCharacter* name, const JSize size);
+	void	SetFont(const JString& name, const JSize size);
 
 	void	ReadSetup(std::istream& input);
 	void	WriteSetup(std::ostream& output) const;
 
-	void	SetSearchTextHelpName(const JCharacter* name);
-	void	SetRegexQRefName(const JCharacter* name);
+	void	SetSearchTextHelpName(const JUtf8Byte* name);
+	void	SetRegexQRefName(const JUtf8Byte* name);
 
 protected:
 
-	JXSearchTextDialog(const JCharacter* searchTextHelpName = NULL);
+	JXSearchTextDialog(const JUtf8Byte* searchTextHelpName = NULL);
 
 	void	JXSearchTextDialogX();
 
@@ -123,7 +124,7 @@ private:
 	JRegex*				itsRegex;
 	JXTimerTask*		itsUpdateTask;
 
-	const JCharacter*	itsSearchTextHelpName;
+	const JUtf8Byte*	itsSearchTextHelpName;
 	Atom				itsAtoms[ kAtomCount ];
 
 	Window	itsVersionWindow;		// None if init failed
@@ -170,7 +171,7 @@ private:
 	void	SetXSearch(const JBoolean grabServer = kJTrue) const;
 	void	ReadXSearch(std::istream& input, const Atom vers);
 	void	SetStateForXSearch(JXTextCheckbox* cb,
-							   const JCharacter state, const JBoolean negate);
+							   const JUtf8Character state, const JBoolean negate);
 	void	WriteXSearchV1(std::ostream& output) const;
 
 	// not allowed

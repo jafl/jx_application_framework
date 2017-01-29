@@ -18,7 +18,7 @@ class JXPathHistoryMenu : public JXStringHistoryMenu
 public:
 
 	JXPathHistoryMenu(const JSize historyLength,
-					  const JCharacter* title, JXContainer* enclosure,
+					  const JString& title, JXContainer* enclosure,
 					  const HSizingOption hSizing, const VSizingOption vSizing,
 					  const JCoordinate x, const JCoordinate y,
 					  const JCoordinate w, const JCoordinate h);
@@ -29,7 +29,7 @@ public:
 	virtual ~JXPathHistoryMenu();
 
 	const JString&	GetBasePath() const;
-	void			SetBasePath(const JCharacter* path);
+	void			SetBasePath(const JString& path);
 	void			ClearBasePath();
 
 protected:

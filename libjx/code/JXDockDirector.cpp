@@ -23,8 +23,8 @@
 
 JXDockDirector::JXDockDirector
 	(
-	const JCharacter*	title,
-	const JBoolean		splitHoriz
+	const JString&	title,
+	const JBoolean	splitHoriz
 	)
 	:
 	JXWindowDirector(JXGetDockManager()),
@@ -37,9 +37,9 @@ JXDockDirector::JXDockDirector
 
 JXDockDirector::JXDockDirector
 	(
-	std::istream&			input,
+	std::istream&		input,
 	const JFileVersion	vers,
-	const JCharacter*	title
+	const JString&		title
 	)
 	:
 	JXWindowDirector(JXGetDockManager()),
@@ -134,8 +134,8 @@ JXDockDirector::Close()
 void
 JXDockDirector::BuildWindow
 	(
-	const JCharacter*	title,
-	const JBoolean		splitHoriz
+	const JString&	title,
+	const JBoolean	splitHoriz
 	)
 {
 	const JCoordinate kSize = 300;

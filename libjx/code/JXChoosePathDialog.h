@@ -18,16 +18,16 @@ public:
 
 	static JXChoosePathDialog*
 		Create(JXDirector* supervisor, JDirInfo* dirInfo,
-			   const JCharacter* fileFilter,
+			   const JString& fileFilter,
 			   const JBoolean selectOnlyWritable,
-			   const JCharacter* message = NULL);
+			   const JString& message = JString::empty);
 
 	virtual ~JXChoosePathDialog();
 
 protected:
 
 	JXChoosePathDialog(JXDirector* supervisor, JDirInfo* dirInfo,
-					   const JCharacter* fileFilter,
+					   const JString& fileFilter,
 					   const JBoolean selectOnlyWritable);
 
 	void	SetObjects(JXScrollbarSet* scrollbarSet,
@@ -40,7 +40,7 @@ protected:
 					   JXTextButton* upButton, JXTextButton* homeButton,
 					   JXTextButton* desktopButton,
 					   JXNewDirButton* newDirButton, JXTextCheckbox* showHiddenCB,
-					   JXCurrentPathMenu* currPathMenu, const JCharacter* message);
+					   JXCurrentPathMenu* currPathMenu, const JString& message);
 
 	virtual void	UpdateDisplay();	// must call inherited
 
@@ -61,7 +61,7 @@ private:
 
 private:
 
-	void	BuildWindow(const JCharacter* message = NULL);
+	void	BuildWindow(const JString& message);
 
 	// not allowed
 

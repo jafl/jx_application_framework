@@ -131,13 +131,13 @@ public:
 
 	void			SetPSPrinter(JXPSPrinter* p);
 	const JString&	GetPSPrintFileName() const;
-	void			SetPSPrintFileName(const JCharacter* fileName);
+	void			SetPSPrintFileName(const JString& fileName);
 	void			HandlePSPageSetup();
 	void			PrintPS();
 
 	void			SetPTPrinter(JXPTPrinter* p);
 	const JString&	GetPTPrintFileName() const;
-	void			SetPTPrintFileName(const JCharacter* fileName);
+	void			SetPTPrintFileName(const JString& fileName);
 	void			HandlePTPageSetup();
 	void			PrintPT();
 
@@ -201,7 +201,7 @@ protected:
 										 JArray<Atom>* askActionList,
 										 JPtrArray<JString>* askDescriptionList);
 	virtual void		GetSelectionData(JXSelectionData* data,
-										 const JCharacter* id);
+										 const JUtf8Byte* id);
 
 	virtual JBoolean	WillAcceptDrop(const JArray<Atom>& typeList, Atom* action,
 									   const JPoint& pt, const Time time,
@@ -362,8 +362,8 @@ public:
 
 	// JError classes
 
-	static const JCharacter* kNoData;
-	static const JCharacter* kDataNotCompatible;
+	static const JUtf8Byte* kNoData;
+	static const JUtf8Byte* kDataNotCompatible;
 
 	class NoData : public JError
 		{

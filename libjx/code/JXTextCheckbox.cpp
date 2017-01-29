@@ -27,7 +27,7 @@ const JCoordinate kBoxHalfHeight = 5;
 
 JXTextCheckbox::JXTextCheckbox
 	(
-	const JCharacter*	label,
+	const JString&		label,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
@@ -67,7 +67,7 @@ JXTextCheckbox::~JXTextCheckbox()
 void
 JXTextCheckbox::SetLabel
 	(
-	const JCharacter* label
+	const JString& label
 	)
 {
 	itsLabel   = label;
@@ -83,7 +83,7 @@ JXTextCheckbox::SetLabel
 void
 JXTextCheckbox::SetShortcuts
 	(
-	const JCharacter* list
+	const JString& list
 	)
 {
 	JXCheckbox::SetShortcuts(list);

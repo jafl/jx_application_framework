@@ -18,9 +18,9 @@ public:
 
 	static JXChooseFileDialog*
 		Create(JXDirector* supervisor, JDirInfo* dirInfo,
-			   const JCharacter* fileFilter,
+			   const JString& fileFilter,
 			   const JBoolean allowSelectMultiple,
-			   const JCharacter* origName, const JCharacter* message);
+			   const JString& origName, const JString& message);
 
 	virtual ~JXChooseFileDialog();
 
@@ -30,7 +30,7 @@ public:
 protected:
 
 	JXChooseFileDialog(JXDirector* supervisor, JDirInfo* dirInfo,
-					   const JCharacter* fileFilter, const JBoolean allowSelectMultiple);
+					   const JString& fileFilter, const JBoolean allowSelectMultiple);
 
 	void	SetObjects(JXScrollbarSet* scrollbarSet,
 					   JXStaticText* pathLabel, JXPathInput* pathInput,
@@ -42,7 +42,7 @@ protected:
 					   JXTextButton* desktopButton,
 					   JXTextButton* selectAllButton, JXTextCheckbox* showHiddenCB,
 					   JXCurrentPathMenu* currPathMenu,
-					   const JCharacter* origName, const JCharacter* message);
+					   const JString& origName, const JString& message);
 
 	virtual void	AdjustSizings();
 	virtual void	UpdateDisplay();
@@ -64,7 +64,7 @@ private:
 
 private:
 
-	void	BuildWindow(const JCharacter* origName, const JCharacter* message);
+	void	BuildWindow(const JString& origName, const JString& message);
 
 	// not allowed
 

@@ -19,7 +19,7 @@ class JXOKToCloseDialog : public JXUNDialogBase
 {
 public:
 
-	JXOKToCloseDialog(JXDirector* supervisor, const JCharacter* message);
+	JXOKToCloseDialog(JXDirector* supervisor, const JString& message);
 
 	virtual ~JXOKToCloseDialog();
 
@@ -37,7 +37,7 @@ private:
 
 private:
 
-	void	BuildWindow(const JCharacter* message);
+	void	BuildWindow(const JString& message);
 
 	// not allowed
 
@@ -48,7 +48,7 @@ public:
 
 	// JBroadcaster messages
 
-	static const JCharacter* kGotResponse;
+	static const JUtf8Byte* kGotResponse;
 
 	class GotResponse : public JBroadcaster::Message
 	{

@@ -30,7 +30,7 @@
 JXPathHistoryMenu::JXPathHistoryMenu
 	(
 	const JSize			historyLength,
-	const JCharacter*	title,
+	const JString&		title,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
@@ -87,10 +87,10 @@ JXPathHistoryMenu::~JXPathHistoryMenu()
 void
 JXPathHistoryMenu::SetBasePath
 	(
-	const JCharacter* path
+	const JString& path
 	)
 {
-	if (JString::IsEmpty(path))
+	if (path.IsEmpty())
 		{
 		ClearBasePath();
 		}
@@ -161,7 +161,7 @@ JXPathHistoryMenu::RemoveInvalidPaths()
 	for (JIndex i=count; i>=firstIndex; i--)
 		{
 		const JString& dirName = JXTextMenu::GetItemText(i);
-		if (!JConvertToAbsolutePath(dirName, itsBasePath, &fullName))
+		if (!JConvertToAbsolutePath(dirName, &itsBasePath, &fullName))
 			{
 			RemoveItem(i);
 			}

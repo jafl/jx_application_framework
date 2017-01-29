@@ -16,7 +16,7 @@ class JXWarningDialog : public JXUNDialogBase
 {
 public:
 
-	JXWarningDialog(JXDirector* supervisor, const JCharacter* message);
+	JXWarningDialog(JXDirector* supervisor, const JString& message);
 
 	virtual ~JXWarningDialog();
 
@@ -29,7 +29,7 @@ private:
 
 private:
 
-	void	BuildWindow(const JCharacter* message);
+	void	BuildWindow(const JString& message);
 
 	// not allowed
 

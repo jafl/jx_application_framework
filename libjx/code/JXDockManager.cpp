@@ -29,15 +29,11 @@ const JFileVersion kCurrentSetupVersion = 3;
 	// version  2 saves JXTabGroup data
 	// version  1 saves itsWindowTypeMap
 
-static const JCharacter* kAtomNames[ JXDockManager::kAtomCount ] =
+static const JUtf8Byte* kAtomNames[ JXDockManager::kAtomCount ] =
 {
 	"MinSize::JXDockDragData",
 	"Window::JXDockDragData"
 };
-
-// string ID's
-
-static const JCharacter* kWindowTitleSuffixID = "WindowTitleSuffix::JXDockManager";
 
 /******************************************************************************
  Constructor
@@ -46,10 +42,10 @@ static const JCharacter* kWindowTitleSuffixID = "WindowTitleSuffix::JXDockManage
 
 JXDockManager::JXDockManager
 	(
-	JXDisplay*			display,
-	const JCharacter*	title,
-	JPrefsManager*		prefsMgr,
-	const JPrefID&		id
+	JXDisplay*		display,
+	const JString&	title,
+	JPrefsManager*	prefsMgr,
+	const JPrefID&	id
 	)
 	:
 	JXDirector(NULL),
@@ -117,7 +113,7 @@ JString
 JXDockManager::GetNewDockTitle()
 {
 	JString title(itsNextDockIndex, 0);
-	title.Prepend(JGetString(kWindowTitleSuffixID));
+	title.Prepend(JGetString("WindowTitleSuffix::JXDockManager"));
 	title.Prepend(itsTitle);
 
 	itsNextDockIndex++;
@@ -250,8 +246,8 @@ JXDockManager::DockAll()
 JBoolean
 JXDockManager::GetDefaultDock
 	(
-	const JCharacter*	windowType,
-	JXDockWidget**		dock
+	const JString&	windowType,
+	JXDockWidget**	dock
 	)
 {
 	JIndex id;
@@ -284,11 +280,11 @@ JXDockManager::GetDefaultDock
 void
 JXDockManager::SetDefaultDock
 	(
-	const JCharacter*	windowType,
+	const JString&		windowType,
 	const JXDockWidget*	dock
 	)
 {
-	if (dock == NULL || strcmp(windowType, JXGetDockWindowClass()) == 0)
+	if (dock == NULL || windowType == JXGetDockWindowClass())
 		{
 		itsWindowTypeMap->RemoveElement(windowType);
 		}

@@ -18,7 +18,7 @@ class JXTextRadioButton : public JXRadioButton
 {
 public:
 
-	JXTextRadioButton(const JIndex id, const JCharacter* label,
+	JXTextRadioButton(const JIndex id, const JString& label,
 					  JXRadioGroup* enclosure,
 					  const HSizingOption hSizing, const VSizingOption vSizing,
 					  const JCoordinate x, const JCoordinate y,
@@ -27,11 +27,11 @@ public:
 	virtual ~JXTextRadioButton();
 
 	const JString&	GetLabel() const;
-	void			SetLabel(const JCharacter* label);
+	void			SetLabel(const JString& label);
 
 	const JFont&	GetFont() const;
 
-	void	SetFontName(const JCharacter* fontName);
+	void	SetFontName(const JString& fontName);
 	void	SetFontSize(const JSize size);
 	void	SetFontStyle(const JFontStyle& style);
 	void	SetFont(const JFont& f);
@@ -39,7 +39,7 @@ public:
 	void	SetNormalColor(const JColorIndex color);
 	void	SetPushedColor(const JColorIndex color);
 
-	virtual void	SetShortcuts(const JCharacter* list);
+	virtual void	SetShortcuts(const JString& list);
 
 	JCoordinate		GetPreferredWidth() const;
 
@@ -90,7 +90,7 @@ JXTextRadioButton::GetFont()
 inline void
 JXTextRadioButton::SetFontName
 	(
-	const JCharacter* fontName
+	const JString& fontName
 	)
 {
 	itsFont.SetName(fontName);

@@ -11,8 +11,8 @@
 #define _H_JXCSFDialogBase
 
 #include <JXDialogDirector.h>
+#include <JString.h>
 
-class JString;
 class JDirInfo;
 class JXDirTable;
 class JXWidget;
@@ -50,7 +50,7 @@ public:
 protected:
 
 	JXCSFDialogBase(JXDirector* supervisor, JDirInfo* dirInfo,
-					const JCharacter* fileFilter);
+					const JString& fileFilter);
 
 	void	SetObjects(JXScrollbarSet* scrollbarSet,
 					   JXStaticText* pathLabel, JXPathInput* pathInput,
@@ -62,7 +62,7 @@ protected:
 					   JXTextButton* desktopButton,
 					   JXNewDirButton* newDirButton, JXTextCheckbox* showHiddenCB,
 					   JXCurrentPathMenu* currPathMenu,
-					   const JCharacter* message);
+					   const JString& message);
 
 	virtual void	AdjustSizings();	// must call inherited
 	virtual void	UpdateDisplay();	// must call inherited
@@ -102,7 +102,7 @@ private:
 
 private:
 
-	void	DisplayMessage(const JCharacter* message, JXScrollbarSet* scrollbarSet,
+	void	DisplayMessage(const JString& message, JXScrollbarSet* scrollbarSet,
 						   JXStaticText* pathLabel, JXPathHistoryMenu* pathHistory,
 						   JXStaticText* filterLabel, JXStringHistoryMenu* filterHistory);
 

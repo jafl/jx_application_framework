@@ -47,19 +47,19 @@ public:
 
 	void	InsertItem(const JIndex index, const JString& str,
 					   const ItemType type = kPlainType,
-					   const JString* shortcuts = NULL,
-					   const JString* nmShortcut = NULL,
-					   const JString* id = NULL);
+					   const JString& shortcuts = JString::empty,
+					   const JString& nmShortcut = JString::empty,
+					   const JString& id = JString::empty);
 	void	PrependItem(const JString& str,
 					   const ItemType type = kPlainType,
-						const JString* shortcuts = NULL,
-						const JString* nmShortcut = NULL,
-						const JString* id = NULL);
+						const JString& shortcuts = JString::empty,
+						const JString& nmShortcut = JString::empty,
+						const JString& id = JString::empty);
 	void	AppendItem(const JString& str,
 					   const ItemType type = kPlainType,
-					   const JString* shortcuts = NULL,
-					   const JString* nmShortcut = NULL,
-					   const JString* id = NULL);
+					   const JString& shortcuts = JString::empty,
+					   const JString& nmShortcut = JString::empty,
+					   const JString& id = JString::empty);
 
 	const JString&	GetItemText(const JIndex index) const;
 	void			SetItemText(const JIndex index, const JString& str);

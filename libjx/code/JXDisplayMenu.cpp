@@ -23,12 +23,10 @@
 #include <JString.h>
 #include <jAssert.h>
 
-static const JCharacter* kNewDisplayStr = "Open new display...";
-
 // JBroadcaster message types
 
-const JCharacter* JXDisplayMenu::kDisplayNeedsUpdate = "DisplayNeedsUpdate::JXDisplayMenu";
-const JCharacter* JXDisplayMenu::kDisplayChanged     = "DisplayChanged::JXDisplayMenu";
+const JUtf8Byte* JXDisplayMenu::kDisplayNeedsUpdate = "DisplayNeedsUpdate::JXDisplayMenu";
+const JUtf8Byte* JXDisplayMenu::kDisplayChanged     = "DisplayChanged::JXDisplayMenu";
 
 /******************************************************************************
  Constructor
@@ -37,7 +35,7 @@ const JCharacter* JXDisplayMenu::kDisplayChanged     = "DisplayChanged::JXDispla
 
 JXDisplayMenu::JXDisplayMenu
 	(
-	const JCharacter*	title, 
+	const JString&		title, 
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
@@ -118,7 +116,7 @@ JXDisplayMenu::BuildMenu()
 		}
 
 	ShowSeparatorAfter(count);
-	AppendItem(kNewDisplayStr);
+	AppendItem(JGetString("NewDisplay::JXDisplayMenu"));
 	itsNewDisplayIndex = count+1;
 
 	SetUpdateAction(kDisableNone);

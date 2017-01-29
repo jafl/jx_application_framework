@@ -25,8 +25,8 @@
 
 JXErrorDialog::JXErrorDialog
 	(
-	JXDirector*			supervisor,
-	const JCharacter*	message
+	JXDirector*		supervisor,
+	const JString&	message
 	)
 	:
 	JXUNDialogBase(supervisor)
@@ -51,7 +51,7 @@ JXErrorDialog::~JXErrorDialog()
 void
 JXErrorDialog::BuildWindow
 	(
-	const JCharacter* message
+	const JString& message
 	)
 {
 // begin JXLayout
@@ -77,7 +77,7 @@ JXErrorDialog::BuildWindow
 
 // end JXLayout
 
-	window->SetTitle("Error");
+	window->SetTitle(JGetString("WindowTitle::JXErrorDialog"));
 	SetButtons(okButton, NULL);
 
 	Init(window, text, message, icon, jx_un_error);

@@ -16,7 +16,7 @@ class JXErrorDialog : public JXUNDialogBase
 {
 public:
 
-	JXErrorDialog(JXDirector* supervisor, const JCharacter* message);
+	JXErrorDialog(JXDirector* supervisor, const JString& message);
 
 	virtual ~JXErrorDialog();
 
@@ -29,7 +29,7 @@ private:
 
 private:
 
-	void	BuildWindow(const JCharacter* message);
+	void	BuildWindow(const JString& message);
 
 	// not allowed
 

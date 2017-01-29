@@ -16,12 +16,12 @@ class JXStaticText : public JXTEBase
 {
 public:
 
-	JXStaticText(const JCharacter* text, JXContainer* enclosure,
+	JXStaticText(const JString& text, JXContainer* enclosure,
 				 const HSizingOption hSizing, const VSizingOption vSizing,
 				 const JCoordinate x, const JCoordinate y,
 				 const JCoordinate w, const JCoordinate h);
 
-	JXStaticText(const JCharacter* text,
+	JXStaticText(const JString& text,
 				 const JBoolean wordWrap, const JBoolean selectable,
 				 JXScrollbarSet* scrollbarSet, JXContainer* enclosure,
 				 const HSizingOption hSizing, const VSizingOption vSizing,
@@ -30,7 +30,7 @@ public:
 
 	virtual ~JXStaticText();
 
-	void	SetFontName(const JCharacter* name);
+	void	SetFontName(const JString& name);
 	void	SetFontSize(const JSize size);
 	void	SetFontStyle(const JFontStyle& style);
 	void	SetFont(const JFont& f);
@@ -49,7 +49,7 @@ private:
 
 private:
 
-	void	JXStaticTextX(const JCharacter* text,
+	void	JXStaticTextX(const JString& text,
 						  const JCoordinate w, const JCoordinate h);
 
 	void	CenterVertically();
@@ -69,7 +69,7 @@ private:
 inline void
 JXStaticText::SetFontName
 	(
-	const JCharacter* name
+	const JString& name
 	)
 {
 	SelectAll();

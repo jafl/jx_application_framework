@@ -17,6 +17,7 @@
 #include <jXConstants.h>
 #include <jXGlobals.h>
 #include <jXKeysym.h>
+#include <JStringIterator.h>
 #include <jAssert.h>
 
 // Context menu
@@ -24,7 +25,7 @@
 struct MenuItemInfo
 {
 	JTextEditor::CmdIndex	cmd;
-	const JCharacter*		id;
+	const JUtf8Byte*		id;
 };
 
 #define kContextUndoAction		"ContextUndo::JXInputField"
@@ -34,7 +35,7 @@ struct MenuItemInfo
 #define kContextClearAction		"ContextClear::JXInputField"
 #define kContextSelectAllAction	"ContextSelectAll::JXInputField"
 
-static const JCharacter* kMacContextMenuStr =
+static const JUtf8Byte* kMacContextMenuStr =
 	"    Undo       %k Meta-Z. %i" kContextUndoAction
 	"%l| Cut        %k Meta-X. %i" kContextCutAction
 	"  | Copy       %k Meta-C. %i" kContextCopyAction
@@ -42,7 +43,7 @@ static const JCharacter* kMacContextMenuStr =
 	"  | Clear                 %i" kContextClearAction
 	"%l| Select All %k Meta-A. %i" kContextSelectAllAction;
 
-static const JCharacter* kWinContextMenuStr =
+static const JUtf8Byte* kWinContextMenuStr =
 	"    Undo       %k Ctrl-Z. %i" kContextUndoAction
 	"%l| Cut        %k Ctrl-X. %i" kContextCutAction
 	"  | Copy       %k Ctrl-C. %i" kContextCopyAction
@@ -158,7 +159,7 @@ JXInputField::SetTable
 void
 JXInputField::SetFontName
 	(
-	const JCharacter* name
+	const JString& name
 	)
 {
 	if (!IsEmpty())
@@ -416,9 +417,9 @@ JXInputField::InputValid()
 		else
 			{
 			const JString s(itsMinLength, 0);
-			const JCharacter* map[] =
+			const JUtf8Byte* map[] =
 				{
-				"count", s.GetCString()
+				"count", s.GetBytes()
 				};
 			errorStr = JGetString("RequireNChar::JXInputField", map, sizeof(map));
 			}
@@ -427,19 +428,19 @@ JXInputField::InputValid()
 			 (length < itsMinLength || itsMaxLength < length))
 		{
 		const JString n(itsMinLength, 0), m(itsMaxLength, 0);
-		const JCharacter* map[] =
+		const JUtf8Byte* map[] =
 			{
-			"min", n.GetCString(),
-			"max", m.GetCString()
+			"min", n.GetBytes(),
+			"max", m.GetBytes()
 			};
 		errorStr = JGetString("RangeNMChar::JXInputField", map, sizeof(map));
 		}
 	else if (itsMinLength > 0 && length < itsMinLength)
 		{
 		const JString n(itsMinLength, 0);
-		const JCharacter* map[] =
+		const JUtf8Byte* map[] =
 			{
-			"min", n.GetCString()	// itsMinLength > 1, see above
+			"min", n.GetBytes()	// itsMinLength > 1, see above
 			};
 		errorStr = JGetString("MinNChar::JXInputField", map, sizeof(map));
 		}
@@ -452,9 +453,9 @@ JXInputField::InputValid()
 		else
 			{
 			const JString n(itsMaxLength, 0);
-			const JCharacter* map[] =
+			const JUtf8Byte* map[] =
 				{
-				"max", n.GetCString()
+				"max", n.GetBytes()
 				};
 			errorStr = JGetString("MaxNChar::JXInputField", map, sizeof(map));
 			}
@@ -527,12 +528,12 @@ JXInputField::HandleKeyPress
 JBoolean
 JXInputField::NeedsToFilterText
 	(
-	const JCharacter* text
+	const JString& text
 	)
 	const
 {
 	return JI2B(JXTEBase::NeedsToFilterText(text) ||
-				strchr(text, '\n') != NULL);
+				text.Contains("\n"));
 }
 
 /******************************************************************************
@@ -561,13 +562,10 @@ JXInputField::FilterText
 
 	if (!itsAcceptNewlineFlag)
 		{
-		const JSize length = text->GetLength();
-		for (JIndex i=1; i<=length; i++)
+		JStringIterator iter(text);
+		while (iter.Next("\n"))
 			{
-			if (text->GetCharacter(i) == '\n')
-				{
-				text->SetCharacter(i, ' ');
-				}
+			iter.ReplaceLastMatch(" ");
 			}
 		}
 

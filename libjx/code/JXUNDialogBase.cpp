@@ -47,11 +47,11 @@ JXUNDialogBase::~JXUNDialogBase()
 void
 JXUNDialogBase::Init
 	(
-	JXWindow*			window,
-	JXStaticText*		text,
-	const JCharacter*	message,
-	JXImageWidget*		icon,
-	const JXPM&			xpm
+	JXWindow*		window,
+	JXStaticText*	text,
+	const JString&	message,
+	JXImageWidget*	icon,
+	const JXPM&		xpm
 	)
 {
 	if (JUserNotification::GetBreakMessageCROnly())

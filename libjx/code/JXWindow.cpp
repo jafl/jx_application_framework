@@ -4033,8 +4033,8 @@ JXWindow::MenuItemRemoved
 void
 JXWindow::InstallShortcuts
 	(
-	JXWidget*			widget,
-	const JCharacter*	list
+	JXWidget*		widget,
+	const JString*	list
 	)
 {
 	if (JString::IsEmpty(list))

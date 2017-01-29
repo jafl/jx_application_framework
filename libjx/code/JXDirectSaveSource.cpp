@@ -24,10 +24,6 @@
 
 #include <jx_plain_file_small.xpm>
 
-// string ID's
-
-static const JCharacter* kHintID = "Hint::JXDirectSaveSource";
-
 /******************************************************************************
  Constructor
 
@@ -56,7 +52,7 @@ JXDirectSaveSource::JXDirectSaveSource
 	icon->ConvertToRemoteStorage();
 	SetImage(icon, kJTrue);
 
-	SetHint(JGetString(kHintID));
+	SetHint(JGetString("Hint::JXDirectSaveSource"));
 }
 
 /******************************************************************************
@@ -116,8 +112,8 @@ JXDirectSaveSource::DNDInit
 void
 JXDirectSaveSource::Init
 	(
-	JXWindow*			window,
-	const JCharacter*	fileName
+	JXWindow*		window,
+	const JString&	fileName
 	)
 {
 	JXDisplay* d = window->GetDisplay();
@@ -125,7 +121,8 @@ JXDirectSaveSource::Init
 					(d->GetDNDManager())->GetDNDDirectSave0XAtom(),
 					(d->GetSelectionManager())->GetMimePlainTextXAtom(), 8,
 					PropModeReplace,
-					(unsigned char*) fileName, strlen(fileName));
+					(unsigned char*) fileName.GetBytes(),
+					fileName.GetByteCount());
 }
 
 /******************************************************************************

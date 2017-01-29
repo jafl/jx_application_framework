@@ -68,7 +68,7 @@ JXUserNotification::~JXUserNotification()
 void
 JXUserNotification::DisplayMessage
 	(
-	const JCharacter* message
+	const JString& message
 	)
 {
 	assert( itsCurrentDialog == NULL );
@@ -91,7 +91,7 @@ JXUserNotification::DisplayMessage
 void
 JXUserNotification::ReportError
 	(
-	const JCharacter* message
+	const JString& message
 	)
 {
 	assert( itsCurrentDialog == NULL );
@@ -116,7 +116,7 @@ JXUserNotification::ReportError
 JBoolean
 JXUserNotification::AskUserYes
 	(
-	const JCharacter* message
+	const JString& message
 	)
 {
 	assert( itsCurrentDialog == NULL );
@@ -140,7 +140,7 @@ JXUserNotification::AskUserYes
 JBoolean
 JXUserNotification::AskUserNo
 	(
-	const JCharacter* message
+	const JString& message
 	)
 {
 	return AskUserYes(message);
@@ -154,7 +154,7 @@ JXUserNotification::AskUserNo
 JUserNotification::CloseAction
 JXUserNotification::OKToClose
 	(
-	const JCharacter* message
+	const JString& message
 	)
 {
 	assert( itsCurrentDialog == NULL && itsOKToCloseDialog == NULL );

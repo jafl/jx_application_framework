@@ -14,11 +14,6 @@
 #include <jDirUtil.h>
 #include <jAssert.h>
 
-// string ID's
-
-static const JCharacter* kDirectoryExistsID = "DirectoryExists::JXGetNewDirDialog";
-static const JCharacter* kNameUsedID        = "NameUsed::JXGetNewDirDialog";
-
 /******************************************************************************
  Constructor
 
@@ -26,12 +21,12 @@ static const JCharacter* kNameUsedID        = "NameUsed::JXGetNewDirDialog";
 
 JXGetNewDirDialog::JXGetNewDirDialog
 	(
-	JXDirector*			supervisor,
-	const JCharacter*	windowTitle,
-	const JCharacter*	prompt,
-	const JCharacter*	initialName,
-	const JCharacter*	basePath,
-	const JBoolean		modal
+	JXDirector*		supervisor,
+	const JString&	windowTitle,
+	const JString&	prompt,
+	const JString&	initialName,
+	const JString&	basePath,
+	const JBoolean	modal
 	)
 	:
 	JXGetStringDialog(supervisor, windowTitle, prompt, initialName, modal),
@@ -88,12 +83,12 @@ JXGetNewDirDialog::OKToDeactivate()
 	const JString pathName = GetNewDirName();
 	if (JDirectoryExists(pathName))
 		{
-		(JGetUserNotification())->ReportError(JGetString(kDirectoryExistsID));
+		(JGetUserNotification())->ReportError(JGetString("DirectoryExists::JXGetNewDirDialog"));
 		return kJFalse;
 		}
 	else if (JNameUsed(pathName))
 		{
-		(JGetUserNotification())->ReportError(JGetString(kNameUsedID));
+		(JGetUserNotification())->ReportError(JGetString("NameUsed::JXGetNewDirDialog"));
 		return kJFalse;
 		}
 	else

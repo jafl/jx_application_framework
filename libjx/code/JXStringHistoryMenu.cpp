@@ -25,7 +25,7 @@
 JXStringHistoryMenu::JXStringHistoryMenu
 	(
 	const JSize			historyLength,
-	const JCharacter*	title,
+	const JString&		title,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
@@ -71,10 +71,10 @@ JXStringHistoryMenu::~JXStringHistoryMenu()
 void
 JXStringHistoryMenu::AddString
 	(
-	const JCharacter* str
+	const JString& str
 	)
 {
-	if (!JString::IsEmpty(str))
+	if (!str.IsEmpty())
 		{
 		AddItem(str, JString::empty);
 		}

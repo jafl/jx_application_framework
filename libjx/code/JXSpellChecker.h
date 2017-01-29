@@ -34,9 +34,9 @@ public:
 	JBoolean	CheckWord(const JString& word, JPtrArray<JString>* suggestionList,
 						  JBoolean* goodFirstSuggestion);
 
-	void	Learn(const JCharacter* word);
-	void	LearnCaps(const JCharacter* word);
-	void	Ignore(const JCharacter* word);
+	void	Learn(const JString& word);
+	void	LearnCaps(const JString& word);
+	void	Ignore(const JString& word);
 
 	virtual void	ReadPrefs(std::istream& input);
 	virtual void	WritePrefs(std::ostream& output, const JFileVersion vers) const;

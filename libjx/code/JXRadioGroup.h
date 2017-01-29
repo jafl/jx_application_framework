@@ -59,7 +59,7 @@ public:
 
 	// JBroadcaster messages
 
-	static const JCharacter* kSelectionChanged;
+	static const JUtf8Byte* kSelectionChanged;
 
 	class SelectionChanged : public JBroadcaster::Message
 		{

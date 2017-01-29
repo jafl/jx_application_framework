@@ -22,7 +22,6 @@
 #include <JXWebBrowser.h>
 #include <JXDisplay.h>
 #include <JXAssert.h>
-#include <JXComposeRuleList.h>
 #include <JXSharedPrefsManager.h>
 #include <jStreamUtil.h>
 #include <jDirUtil.h>
@@ -48,23 +47,22 @@ static JXSpellChecker*			theSpellChecker           = NULL;
 
 static JXComposeRuleList*		theComposeRuleList        = NULL;	// can be NULL
 
-static const JCharacter* kInvisibleWindowClass = "Do_not_display_in_taskbar";
-static const JCharacter* kDockWindowClass      = "JX_Dock";
+static const JUtf8Byte* kInvisibleWindowClass = "Do_not_display_in_taskbar";
+static const JUtf8Byte* kDockWindowClass      = "JX_Dock";
 
-#ifdef _J_OSX
-static const JCharacter* kX11LocalePath     = "/usr/X11/share/X11/locale/";
-static const JCharacter* kDefaultFontName   = "Arial";
-#else
-static const JCharacter* kX11LocalePath     = "/usr/share/X11/locale/";
-static const JCharacter* kDefaultFontName   = "Helvetica";
-#endif
-static const JCharacter* kMonospaceFontName = "Bitstream Vera Sans Mono";
-static const JCharacter* kGreekFontName     = "Symbol";
+static const JString kDefaultFontName(
+	#ifdef _J_OSX
+	"Arial",
+	#else
+	"Helvetica",
+	#endif
+	0, kJFalse);
+
+static const JString kMonospaceFontName("Bitstream Vera Sans Mono", 0, kJFalse);
 
 // Prototypes
 
-void		JXInitLocale();
-JBoolean	JXOpenLocaleFile(const JCharacter* fileName, std::ifstream& input);
+void	JXInitLocale();
 
 /******************************************************************************
  JXCreateGlobals
@@ -75,8 +73,8 @@ void
 JXCreateGlobals
 	(
 	JXApplication*		app,
-	const JCharacter*	appSignature,
-	const JCharacter**	defaultStringData
+	const JUtf8Byte*	appSignature,
+	const JUtf8Byte**	defaultStringData
 	)
 {
 	assert( defaultStringData != NULL );	// need JX strings
@@ -95,7 +93,7 @@ JXCreateGlobals
 	JInitCore(theAssertHandler, appSignature, defaultStringData,
 			  un, theChooseSaveFile, jnew JXCreatePG,
 			  jnew JXGetCurrFontMgr, jnew JXGetCurrColormap,
-			  kDefaultFontName, kGreekFontName, kMonospaceFontName);
+			  kDefaultFontName, kMonospaceFontName);
 
 	XSetErrorHandler(JXDisplay::JXErrorHandler);
 	XSetIOErrorHandler(JXApplication::JXIOErrorHandler);
@@ -178,9 +176,6 @@ JXDeleteGlobals1()
 void
 JXDeleteGlobals2()
 {
-	jdelete theComposeRuleList;
-	theComposeRuleList = NULL;
-
 	jdelete theSharedPrefsMgr;
 	theSharedPrefsMgr = NULL;
 
@@ -354,9 +349,9 @@ JXGetHelpManager
 void
 JXInitHelp
 	(
-	const JCharacter*	tocSectionName,
+	const JUtf8Byte*	tocSectionName,
 	const JSize			sectionCount,
-	const JCharacter*	sectionName[]
+	const JUtf8Byte*	sectionName[]
 	)
 {
 	assert( theHelpManager == NULL );
@@ -615,9 +610,9 @@ JXGetSpellChecker()
 JBoolean
 JXGetProgramDataDirectories
 	(
-	const JCharacter*	dirName,
-	JString*			sysDir,
-	JString*			userDir
+	const JString&	dirName,
+	JString*		sysDir,
+	JString*		userDir
 	)
 {
 	return JGetDataDirectories((JXGetApplication())->GetSignature(),
@@ -629,7 +624,7 @@ JXGetProgramDataDirectories
 
  ******************************************************************************/
 
-const JCharacter*
+const JUtf8Byte*
 JXGetInvisibleWindowClass()
 {
 	return kInvisibleWindowClass;
@@ -640,7 +635,7 @@ JXGetInvisibleWindowClass()
 
  ******************************************************************************/
 
-const JCharacter*
+const JUtf8Byte*
 JXGetDockWindowClass()
 {
 	return kDockWindowClass;

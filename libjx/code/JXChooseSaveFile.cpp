@@ -36,9 +36,6 @@ JXChooseSaveFile::JXChooseSaveFile
 	JChooseSaveFile(),
 	JPrefObject(prefsMgr, id)
 {
-	itsUserFilter = jnew JString;
-	assert( itsUserFilter != NULL );
-
 	itsDirInfo           = NULL;	// constructed in GetDirInfo()
 	itsCurrentDialog     = NULL;
 	itsChooseFileDialog  = NULL;
@@ -47,9 +44,6 @@ JXChooseSaveFile::JXChooseSaveFile
 
 	itsResultStr  = NULL;
 	itsResultList = NULL;
-
-	itsDialogState = jnew JString;
-	assert( itsDialogState != NULL );
 }
 
 /******************************************************************************
@@ -60,8 +54,6 @@ JXChooseSaveFile::JXChooseSaveFile
 JXChooseSaveFile::~JXChooseSaveFile()
 {
 	jdelete itsDirInfo;
-	jdelete itsUserFilter;
-	jdelete itsDialogState;
 }
 
 /******************************************************************************
@@ -78,9 +70,9 @@ JXChooseSaveFile::~JXChooseSaveFile()
 JBoolean
 JXChooseSaveFile::ChooseFile
 	(
-	const JCharacter*	prompt,
-	const JCharacter*	instructions,
-	JString*			fullName
+	const JString&	prompt,
+	const JString&	instructions,
+	JString*		fullName
 	)
 {
 	itsResultStr = fullName;
@@ -90,10 +82,10 @@ JXChooseSaveFile::ChooseFile
 JBoolean
 JXChooseSaveFile::ChooseFile
 	(
-	const JCharacter*	prompt,
-	const JCharacter*	instructions,
-	const JCharacter*	origName,
-	JString*			fullName
+	const JString&	prompt,
+	const JString&	instructions,
+	const JString&	origName,
+	JString*		fullName
 	)
 {
 	itsResultStr = fullName;
@@ -103,8 +95,8 @@ JXChooseSaveFile::ChooseFile
 JBoolean
 JXChooseSaveFile::ChooseFiles
 	(
-	const JCharacter*	prompt,
-	const JCharacter*	instructions,
+	const JString&		prompt,
+	const JString&		instructions,
 	JPtrArray<JString>*	fullNameList
 	)
 {
@@ -115,39 +107,39 @@ JXChooseSaveFile::ChooseFiles
 JBoolean
 JXChooseSaveFile::ChooseFile
 	(
-	const JCharacter*	prompt,
-	const JCharacter*	instructions,
-	const JCharacter*	wildcardFilter,
-	const JCharacter*	origName,
-	JString*			fullName
+	const JString&	prompt,
+	const JString&	instructions,
+	const JString&	wildcardFilter,
+	const JString&	origName,
+	JString*		fullName
 	)
 {
-	const JString origFilter = *itsUserFilter;
-	*itsUserFilter           = wildcardFilter;
+	const JString origFilter = itsUserFilter;
+	itsUserFilter            = wildcardFilter;
 
 	itsResultStr      = fullName;
 	const JBoolean ok = ChooseFile(prompt, instructions, origName, kJFalse);
 
-	*itsUserFilter = origFilter;
+	itsUserFilter = origFilter;
 	return ok;
 }
 
 JBoolean
 JXChooseSaveFile::ChooseFiles
 	(
-	const JCharacter*	prompt,
-	const JCharacter*	instructions,
-	const JCharacter*	wildcardFilter,
+	const JString&		prompt,
+	const JString&		instructions,
+	const JString&		wildcardFilter,
 	JPtrArray<JString>*	fullNameList
 	)
 {
-	const JString origFilter = *itsUserFilter;
-	*itsUserFilter           = wildcardFilter;
+	const JString origFilter = itsUserFilter;
+	itsUserFilter            = wildcardFilter;
 
 	itsResultList     = fullNameList;
 	const JBoolean ok = ChooseFile(prompt, instructions, NULL, kJTrue);
 
-	*itsUserFilter = origFilter;
+	itsUserFilter = origFilter;
 	return ok;
 }
 
@@ -156,10 +148,10 @@ JXChooseSaveFile::ChooseFiles
 JBoolean
 JXChooseSaveFile::ChooseFile
 	(
-	const JCharacter*	prompt,
-	const JCharacter*	instructions,
-	const JCharacter*	originalName,
-	const JBoolean		allowSelectMultiple
+	const JString&	prompt,
+	const JString&	instructions,
+	const JString&	originalName,
+	const JBoolean	allowSelectMultiple
 	)
 {
 	JDirInfo* dirInfo       = GetDirInfo();
@@ -167,8 +159,7 @@ JXChooseSaveFile::ChooseFile
 	const JString savedPath = dirInfo->GetDirectory();
 
 	JString origName;
-	if (!JString::IsEmpty(originalName) &&
-		strchr(originalName, ACE_DIRECTORY_SEPARATOR_CHAR) != NULL)
+	if (originalName.Contains(ACE_DIRECTORY_SEPARATOR_STR))
 		{
 		JString path;
 		JSplitPathAndName(originalName, &path, &origName);
@@ -186,7 +177,7 @@ JXChooseSaveFile::ChooseFile
 
 	itsChooseFileDialog =
 		CreateChooseFileDialog(JXGetApplication(), dirInfo,
-							   *itsUserFilter, allowSelectMultiple,
+							   itsUserFilter, allowSelectMultiple,
 							   origName, instructions);
 
 	SetChooseFileFilters(dirInfo);
@@ -207,12 +198,12 @@ JXChooseSaveFile::ChooseFile
 JXChooseFileDialog*
 JXChooseSaveFile::CreateChooseFileDialog
 	(
-	JXDirector*			supervisor,
-	JDirInfo*			dirInfo,
-	const JCharacter*	fileFilter,
-	const JBoolean		allowSelectMultiple,
-	const JCharacter*	origName,
-	const JCharacter*	message
+	JXDirector*		supervisor,
+	JDirInfo*		dirInfo,
+	const JString&	fileFilter,
+	const JBoolean	allowSelectMultiple,
+	const JString&	origName,
+	const JString&	message
 	)
 {
 	return JXChooseFileDialog::Create(supervisor, dirInfo, fileFilter, allowSelectMultiple,
@@ -248,10 +239,10 @@ JXChooseSaveFile::SetChooseFileFilters
 JBoolean
 JXChooseSaveFile::ChooseRPath
 	(
-	const JCharacter*	prompt,
-	const JCharacter*	instructions,
-	const JCharacter*	origPath,
-	JString*			newPath
+	const JString&	prompt,
+	const JString&	instructions,
+	const JString&	origPath,
+	JString*		newPath
 	)
 {
 	return ChoosePath(kJFalse, instructions, origPath, newPath);
@@ -269,10 +260,10 @@ JXChooseSaveFile::ChooseRPath
 JBoolean
 JXChooseSaveFile::ChooseRWPath
 	(
-	const JCharacter*	prompt,
-	const JCharacter*	instructions,
-	const JCharacter*	origPath,
-	JString*			newPath
+	const JString&	prompt,
+	const JString&	instructions,
+	const JString&	origPath,
+	JString*		newPath
 	)
 {
 	return ChoosePath(kJTrue, instructions, origPath, newPath);
@@ -288,10 +279,10 @@ JXChooseSaveFile::ChooseRWPath
 JBoolean
 JXChooseSaveFile::ChoosePath
 	(
-	const JBoolean		selectOnlyWritable,
-	const JCharacter*	instructions,
-	const JCharacter*	origPath,
-	JString*			newPath
+	const JBoolean	selectOnlyWritable,
+	const JString&	instructions,
+	const JString&	origPath,
+	JString*		newPath
 	)
 {
 	itsResultStr = newPath;
@@ -300,7 +291,7 @@ JXChooseSaveFile::ChoosePath
 	JBoolean restorePath    = kJFalse;
 	const JString savedPath = dirInfo->GetDirectory();
 
-	if (!JString::IsEmpty(origPath))
+	if (!origPath.IsEmpty())
 		{
 		dirInfo->GoToClosest(origPath);
 		restorePath = kJTrue;
@@ -311,7 +302,7 @@ JXChooseSaveFile::ChoosePath
 	(JXGetApplication())->PrepareForBlockingWindow();
 
 	itsChoosePathDialog =
-		CreateChoosePathDialog(JXGetApplication(), dirInfo, *itsUserFilter,
+		CreateChoosePathDialog(JXGetApplication(), dirInfo, itsUserFilter,
 							   selectOnlyWritable, instructions);
 
 	dirInfo->ResetCSFFilters();
@@ -332,11 +323,11 @@ JXChooseSaveFile::ChoosePath
 JXChoosePathDialog*
 JXChooseSaveFile::CreateChoosePathDialog
 	(
-	JXDirector*			supervisor,
-	JDirInfo*			dirInfo,
-	const JCharacter*	fileFilter,
-	const JBoolean		selectOnlyWritable,
-	const JCharacter*	message
+	JXDirector*		supervisor,
+	JDirInfo*		dirInfo,
+	const JString&	fileFilter,
+	const JBoolean	selectOnlyWritable,
+	const JString&	message
 	)
 {
 	return JXChoosePathDialog::Create(supervisor, dirInfo, fileFilter,
@@ -355,10 +346,10 @@ JXChooseSaveFile::CreateChoosePathDialog
 JBoolean
 JXChooseSaveFile::SaveFile
 	(
-	const JCharacter*	prompt,
-	const JCharacter*	instructions,
-	const JCharacter*	originalName,
-	JString*			newFullName
+	const JString&	prompt,
+	const JString&	instructions,
+	const JString&	originalName,
+	JString*		newFullName
 	)
 {
 	itsResultStr = newFullName;
@@ -381,7 +372,7 @@ JXChooseSaveFile::SaveFile
 	(JXGetApplication())->PrepareForBlockingWindow();
 
 	itsSaveFileDialog =
-		CreateSaveFileDialog(JXGetApplication(), dirInfo, *itsUserFilter,
+		CreateSaveFileDialog(JXGetApplication(), dirInfo, itsUserFilter,
 							 origName, prompt, instructions);
 
 	dirInfo->ResetCSFFilters();
@@ -402,12 +393,12 @@ JXChooseSaveFile::SaveFile
 JXSaveFileDialog*
 JXChooseSaveFile::CreateSaveFileDialog
 	(
-	JXDirector*			supervisor,
-	JDirInfo*			dirInfo,
-	const JCharacter*	fileFilter,
-	const JCharacter*	origName,
-	const JCharacter*	prompt,
-	const JCharacter*	message
+	JXDirector*		supervisor,
+	JDirInfo*		dirInfo,
+	const JString&	fileFilter,
+	const JString&	origName,
+	const JString&	prompt,
+	const JString&	message
 	)
 {
 	return JXSaveFileDialog::Create(supervisor, dirInfo, fileFilter,
@@ -433,8 +424,8 @@ JXChooseSaveFile::Receive
 		const JXDialogDirector::Deactivated* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != NULL );
-		itsResponse    = info->Successful();
-		*itsUserFilter = itsCurrentDialog->GetFilter();
+		itsResponse   = info->Successful();
+		itsUserFilter = itsCurrentDialog->GetFilter();
 		SaveState(itsCurrentDialog);
 
 		if (itsResponse && sender == itsChooseFileDialog && itsResultList != NULL)
@@ -528,15 +519,13 @@ JXChooseSaveFile::RestoreState
 	JXCSFDialogBase*	dlog,
 	const JBoolean		ignoreScroll
 	)
-	const
 {
 	(dlog->GetWindow())->PlaceAsDialogWindow();
 
-	JString* dialogState    = GetDialogState();
-	const JSize stateLength = dialogState->GetLength();
-	if (stateLength > 0)
+	JString* dialogState = GetDialogState();
+	if (!dialogState->IsEmpty())
 		{
-		const std::string s(dialogState->GetCString(), stateLength);
+		const std::string s(dialogState->GetBytes(), dialogState->GetByteCount());
 		std::istringstream input(s);
 		dlog->ReadBaseSetup(input, ignoreScroll);
 		}
@@ -609,7 +598,7 @@ JXChooseSaveFile::WriteSetup
 	const
 {
 	output << ' ' << kCurrentSetupVersion;
-	output << ' ' << *(GetDialogState());
+	output << ' ' << GetDialogState();
 	output << ' ';
 }
 
@@ -695,13 +684,26 @@ JXChooseSaveFile::GetDirInfo()
 
  ******************************************************************************/
 
-JString*
+const JString&
 JXChooseSaveFile::GetDialogState()
 	const
 {
 	if (this == JXGetChooseSaveFile())
 		{
 		return itsDialogState;
+		}
+	else
+		{
+		return ((const JXChooseSaveFile*) JXGetChooseSaveFile())->GetDialogState();
+		}
+}
+
+JString*
+JXChooseSaveFile::GetDialogState()
+{
+	if (this == JXGetChooseSaveFile())
+		{
+		return &itsDialogState;
 		}
 	else
 		{

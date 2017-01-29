@@ -22,12 +22,12 @@
 
 JXGetStringDialog::JXGetStringDialog
 	(
-	JXDirector*			supervisor,
-	const JCharacter*	windowTitle,
-	const JCharacter*	prompt,
-	const JCharacter*	initialValue,
-	const JBoolean		modal,
-	const JBoolean		password
+	JXDirector*		supervisor,
+	const JString&	windowTitle,
+	const JString&	prompt,
+	const JString&	initialValue,
+	const JBoolean	modal,
+	const JBoolean	password
 	)
 	:
 	JXDialogDirector(supervisor, modal)
@@ -64,10 +64,10 @@ JXGetStringDialog::GetString()
 void
 JXGetStringDialog::BuildWindow
 	(
-	const JCharacter*	windowTitle,
-	const JCharacter*	prompt,
-	const JCharacter*	initialValue,
-	const JBoolean		password
+	const JString&	windowTitle,
+	const JString&	prompt,
+	const JString&	initialValue,
+	const JBoolean	password
 	)
 {
 // begin JXLayout
@@ -115,7 +115,7 @@ JXGetStringDialog::BuildWindow
 				r.left, r.top, r.width(), r.height());
 		assert( itsInputField != NULL );
 		}
-	else if (!JString::IsEmpty(initialValue))
+	else if (!initialValue.IsEmpty())
 		{
 		itsInputField->SetText(initialValue);
 		}

@@ -33,11 +33,6 @@
 #include <jDirUtil.h>
 #include <jAssert.h>
 
-// enter button says "Save" while itsFileNameInput has focus
-
-static const JCharacter* kOpenLabel = "Open";
-static const JCharacter* kSaveLabel = "Save";
-
 /******************************************************************************
  Constructor function (static)
 
@@ -46,12 +41,12 @@ static const JCharacter* kSaveLabel = "Save";
 JXSaveFileDialog*
 JXSaveFileDialog::Create
 	(
-	JXDirector*			supervisor,
-	JDirInfo*			dirInfo,
-	const JCharacter*	fileFilter,
-	const JCharacter*	origName,
-	const JCharacter*	prompt,
-	const JCharacter*	message
+	JXDirector*		supervisor,
+	JDirInfo*		dirInfo,
+	const JString&	fileFilter,
+	const JString&	origName,
+	const JString&	prompt,
+	const JString&	message
 	)
 {
 	JXSaveFileDialog* dlog =
@@ -68,15 +63,13 @@ JXSaveFileDialog::Create
 
 JXSaveFileDialog::JXSaveFileDialog
 	(
-	JXDirector*			supervisor,
-	JDirInfo*			dirInfo,
-	const JCharacter*	fileFilter
+	JXDirector*		supervisor,
+	JDirInfo*		dirInfo,
+	const JString&	fileFilter
 	)
 	:
 	JXCSFDialogBase(supervisor, dirInfo, fileFilter)
 {
-	itsFileName = jnew JString;
-	assert( itsFileName != NULL );
 }
 
 /******************************************************************************
@@ -86,7 +79,6 @@ JXSaveFileDialog::JXSaveFileDialog
 
 JXSaveFileDialog::~JXSaveFileDialog()
 {
-	jdelete itsFileName;
 }
 
 /******************************************************************************
@@ -101,7 +93,7 @@ JXSaveFileDialog::GetFileName
 	)
 	const
 {
-	*name = *itsFileName;
+	*name = itsFileName;
 	return !name->IsEmpty();
 }
 
@@ -138,9 +130,9 @@ JXSaveFileDialog::Activate()
 void
 JXSaveFileDialog::BuildWindow
 	(
-	const JCharacter*	origName,
-	const JCharacter*	prompt,
-	const JCharacter*	message
+	const JString&	origName,
+	const JString&	prompt,
+	const JString&	message
 	)
 {
 // begin JXLayout
@@ -228,7 +220,7 @@ JXSaveFileDialog::BuildWindow
 	assert( newDirButton != NULL );
 
 	JXCurrentPathMenu* currPathMenu =
-		jnew JXCurrentPathMenu("/", window,
+		jnew JXCurrentPathMenu(JString("/", 0, kJFalse), window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 20,110, 180,20);
 	assert( currPathMenu != NULL );
 
@@ -257,9 +249,9 @@ JXSaveFileDialog::SetObjects
 	(
 	JXScrollbarSet*			scrollbarSet,
 	JXStaticText*			promptLabel,
-	const JCharacter*		prompt,
+	const JString&			prompt,
 	JXSaveFileInput*		fileNameInput,
-	const JCharacter*		origName,
+	const JString&			origName,
 	JXStaticText*			pathLabel,
 	JXPathInput*			pathInput,
 	JXPathHistoryMenu*		pathHistory,
@@ -274,7 +266,7 @@ JXSaveFileDialog::SetObjects
 	JXNewDirButton*			newDirButton,
 	JXTextCheckbox*			showHiddenCB,
 	JXCurrentPathMenu*		currPathMenu,
-	const JCharacter*		message
+	const JString&			message
 	)
 {
 	itsSaveButton    = saveButton;
@@ -283,7 +275,7 @@ JXSaveFileDialog::SetObjects
 	itsFileNameInput->ShouldBroadcastAllTextChanged(kJTrue);		// want every keypress
 
 	JXWindow* window = scrollbarSet->GetWindow();
-	window->SetTitle("Save file");
+	window->SetTitle(JGetString("Title::JXSaveFileDialog"));
 
 	SetButtons(itsSaveButton, cancelButton);
 	JXCSFDialogBase::SetObjects(
@@ -317,7 +309,7 @@ JXSaveFileDialog::SetObjects
 	ListenTo(&(fileBrowser->GetTableSelection()));
 	ListenTo(itsFileNameInput);
 
-	cancelButton->SetShortcuts("^[");
+	cancelButton->SetShortcuts(JGetString("CancelShortcut::JXSaveFileDialog"));
 }
 
 /******************************************************************************
@@ -338,12 +330,12 @@ JXSaveFileDialog::Receive
 		{
 		if (message.Is(JXWidget::kGotFocus))
 			{
-			itsSaveButton->SetLabel(kSaveLabel);
+			itsSaveButton->SetLabel(JGetString("SaveLabel::JXSaveFileDialog"));
 			UpdateDisplay();
 			}
 		else if (message.Is(JXWidget::kLostFocus))
 			{
-			itsSaveButton->SetLabel(kOpenLabel);
+			itsSaveButton->SetLabel(JGetString("OpenLabel::JXSaveFileDialog"));
 			UpdateDisplay();
 			}
 		else if (message.Is(JTextEditor::kTextChanged) ||
@@ -420,7 +412,7 @@ JXSaveFileDialog::OKToDeactivate()
 	const JString& fileName = itsFileNameInput->GetText();
 	if (fileName.IsEmpty())
 		{
-		(JGetUserNotification())->ReportError("You need to enter a file name.");
+		(JGetUserNotification())->ReportError(JGetString("MustEnterFileName::JXSaveFileDialog"));
 		return kJFalse;
 		}
 
@@ -431,30 +423,27 @@ JXSaveFileDialog::OKToDeactivate()
 
 	if (JDirectoryExists(fullName))
 		{
-		(JGetUserNotification())->ReportError(
-			"This name is already used for a directory.");
+		(JGetUserNotification())->ReportError(JGetString("DirExists::JXSaveFileDialog"));
 		return kJFalse;
 		}
 	else if (!JDirectoryWritable(path) && !fileExists)
 		{
-		(JGetUserNotification())->ReportError(
-			"You are not allowed to write to this directory.");
+		(JGetUserNotification())->ReportError(JGetString("DirNotWritable::JXSaveFileDialog"));
 		return kJFalse;
 		}
 	else if (!fileExists)
 		{
-		*itsFileName = fileName;
+		itsFileName = fileName;
 		return kJTrue;
 		}
 	else if (!JFileWritable(fullName))
 		{
-		(JGetUserNotification())->ReportError(
-			"You are not allowed to write to this file.");
+		(JGetUserNotification())->ReportError(JGetString("FileNotWritable::JXSaveFileDialog"));
 		return kJFalse;
 		}
-	else if ((JGetUserNotification())->AskUserNo("That file already exists.  Replace it?"))
+	else if ((JGetUserNotification())->AskUserNo(JGetString("WarnReplaceFile::JXSaveFileDialog")))
 		{
-		*itsFileName = fileName;
+		itsFileName = fileName;
 		return kJTrue;
 		}
 	else
@@ -480,11 +469,11 @@ JXSaveFileDialog::UpdateDisplay()
 		{
 		if ((table->GetTableSelection()).HasSelection())
 			{
-			itsSaveButton->SetLabel(kOpenLabel);
+			itsSaveButton->SetLabel(JGetString("OpenLabel::JXSaveFileDialog"));
 			}
 		else
 			{
-			itsSaveButton->SetLabel(kSaveLabel);
+			itsSaveButton->SetLabel(JGetString("SaveLabel::JXSaveFileDialog"));
 			saveWoutFocus = kJTrue;
 			}
 		}
@@ -518,7 +507,7 @@ JXSaveFileDialog::UpdateDisplay()
 void
 JXSaveFileDialog::Save
 	(
-	const JCharacter* path
+	const JString& path
 	)
 {
 	JDirInfo* dirInfo = GetDirInfo();

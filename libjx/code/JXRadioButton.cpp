@@ -167,7 +167,7 @@ JXRadioButton::HandleShortcut
 void
 JXRadioButton::SetShortcuts
 	(
-	const JCharacter* list
+	const JString& list
 	)
 {
 	JXWindow* w = GetWindow();

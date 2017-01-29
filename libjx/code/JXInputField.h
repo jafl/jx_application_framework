@@ -32,7 +32,7 @@ public:
 
 	virtual ~JXInputField();
 
-	void	SetFontName(const JCharacter* name);
+	void	SetFontName(const JString& name);
 	void	SetFontSize(const JSize size);
 	void	SetFontStyle(const JFontStyle& style);
 	void	SetFont(const JFont& font);
@@ -74,7 +74,7 @@ protected:
 
 	virtual void	DrawBorder(JXWindowPainter& p, const JRect& frame);
 
-	virtual JBoolean	NeedsToFilterText(const JCharacter* text) const;
+	virtual JBoolean	NeedsToFilterText(const JString& text) const;
 	virtual JBoolean	FilterText(JString* text, JRunArray<JFont>* style);
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message);

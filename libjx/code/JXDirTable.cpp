@@ -46,7 +46,7 @@ const JCoordinate kVMarginWidth = 1;
 
 const Time kDirUpdatePeriod = 1000;		// milliseconds
 
-const JCharacter* JXDirTable::kFileDblClicked = "FileDblClicked::JXDirTable";
+const JUtf8Byte* JXDirTable::kFileDblClicked = "FileDblClicked::JXDirTable";
 
 /******************************************************************************
  Constructor
@@ -85,9 +85,6 @@ JXDirTable::JXDirTable
 	itsSelectWhenChangePathFlag  = kJTrue;
 	itsMaxStringWidth            = 0;
 	itsReselectFlag              = kJFalse;
-
-	itsKeyBuffer = jnew JString;
-	assert( itsKeyBuffer != NULL );
 
 	itsReselectNameList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 	assert( itsReselectNameList != NULL );
@@ -135,7 +132,6 @@ JXDirTable::~JXDirTable()
 {
 	jdelete itsActiveCells;
 	jdelete itsDirUpdateTask;
-	jdelete itsKeyBuffer;
 	jdelete itsReselectNameList;
 	jdelete itsFileIcon;
 	jdelete itsFolderIcon;
@@ -251,7 +247,7 @@ JXDirTable::SelectSingleEntry
 	if (ItemIsActive(index))
 		{
 		SelectSingleCell(JPoint(1, index), scroll);
-		itsKeyBuffer->Clear();
+		itsKeyBuffer.Clear();
 		return kJTrue;
 		}
 	else
@@ -338,7 +334,7 @@ JXDirTable::CleanSelection()
 			}
 		}
 
-	itsKeyBuffer->Clear();
+	itsKeyBuffer.Clear();
 	itsIgnoreSelChangesFlag = kJFalse;
 }
 
@@ -529,7 +525,7 @@ JXDirTable::HandleMouseDown
 	const JXKeyModifiers&	modifiers
 	)
 {
-	itsKeyBuffer->Clear();
+	itsKeyBuffer.Clear();
 	JTableSelection& s = GetTableSelection();
 
 	JPoint cell;
@@ -627,7 +623,7 @@ void
 JXDirTable::HandleFocusEvent()
 {
 	JXTable::HandleFocusEvent();
-	itsKeyBuffer->Clear();
+	itsKeyBuffer.Clear();
 }
 
 /******************************************************************************
@@ -649,7 +645,7 @@ JXDirTable::HandleKeyPress
 
 	if (key == ' ')
 		{
-		itsKeyBuffer->Clear();
+		itsKeyBuffer.Clear();
 		s.ClearSelection();
 		}
 
@@ -664,7 +660,7 @@ JXDirTable::HandleKeyPress
 
 	else if (key == kJUpArrow)
 		{
-		itsKeyBuffer->Clear();
+		itsKeyBuffer.Clear();
 		if (modifiers.meta())
 			{
 			const JError err = itsDirInfo->GoUp();
@@ -682,7 +678,7 @@ JXDirTable::HandleKeyPress
 
 	else if (key == kJDownArrow)
 		{
-		itsKeyBuffer->Clear();
+		itsKeyBuffer.Clear();
 		if (modifiers.meta())
 			{
 			GoToSelectedDirectory();
@@ -716,14 +712,14 @@ JXDirTable::HandleKeyPress
 
 	else if (JXIsPrint(key) && !modifiers.control() && !modifiers.meta())
 		{
-		itsKeyBuffer->AppendCharacter(key);
+		itsKeyBuffer.Append(JUtf8Character(key));
 
 		JIndex index;
-		if (ClosestMatch(*itsKeyBuffer, &index))
+		if (ClosestMatch(itsKeyBuffer, &index))
 			{
-			JString saveBuffer = *itsKeyBuffer;
+			JString saveBuffer = itsKeyBuffer;
 			SelectSingleEntry(index);
-			*itsKeyBuffer = saveBuffer;
+			itsKeyBuffer = saveBuffer;
 			}
 		}
 
@@ -858,7 +854,7 @@ JXDirTable::HandleDNDDrop
 			const JSize fileCount = fileNameList.GetElementCount();
 			if (fileCount > 0)
 				{
-				const JString* entryName = fileNameList.FirstElement();
+				const JString* entryName = fileNameList.GetFirstElement();
 				JString path, name;
 				if (JDirectoryExists(*entryName))
 					{
@@ -920,7 +916,7 @@ JXDirTable::HandleDNDDrop
 void
 JXDirTable::AdjustTableContents()
 {
-	itsKeyBuffer->Clear();
+	itsKeyBuffer.Clear();
 
 	// adjust the number of rows and the width of the text column
 
@@ -988,14 +984,14 @@ JXDirTable::AdjustTableContents()
 			// select the closest item
 
 			JIndex i;
-			if (ClosestMatch(*(itsReselectNameList->FirstElement()), &i))
+			if (ClosestMatch(*(itsReselectNameList->GetFirstElement()), &i))
 				{
 				s.SelectRow(i);
 
 				// If it is not an exact match, deselect it after scrolling to it.
 
 				if ((itsDirInfo->GetEntry(i)).GetName() !=
-					*(itsReselectNameList->FirstElement()))
+					*(itsReselectNameList->GetFirstElement()))
 					{
 					deselect = kJTrue;
 					}
@@ -1116,8 +1112,8 @@ JXDirTable::ItemIsFile
 JBoolean
 JXDirTable::ClosestMatch
 	(
-	const JCharacter*	prefixStr,
-	JIndex*				index
+	const JString&	prefixStr,
+	JIndex*			index
 	)
 	const
 {

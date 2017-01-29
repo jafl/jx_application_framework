@@ -41,7 +41,7 @@ public:
 protected:
 
 	JXHistoryMenuBase(const JSize historyLength,
-					  const JCharacter* title, JXContainer* enclosure,
+					  const JString& title, JXContainer* enclosure,
 					  const HSizingOption hSizing, const VSizingOption vSizing,
 					  const JCoordinate x, const JCoordinate y,
 					  const JCoordinate w, const JCoordinate h);
@@ -49,7 +49,7 @@ protected:
 	JXHistoryMenuBase(const JSize historyLength,
 					  JXMenu* owner, const JIndex itemIndex, JXContainer* enclosure);
 
-	void	AddItem(const JCharacter* text, const JCharacter* nmShortcut);
+	void	AddItem(const JString& text, const JString& nmShortcut);
 	void	AdjustLength();
 
 	virtual void	UpdateMenu();		// must call inherited

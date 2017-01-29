@@ -42,8 +42,8 @@
 #include <jMissingProto.h>
 #include <jAssert.h>
 
-static const JCharacter* kDisplayOptionName = "-display";
-static const JCharacter* kXDebugOptionName  = "--xdebug";
+static const JUtf8Byte* kDisplayOptionName = "-display";
+static const JUtf8Byte* kXDebugOptionName  = "--xdebug";
 
 const time_t kTimerStart = J_TIME_T_MAX/1000U;	// milliseconds before rollover
 const Time kMaxSleepTime = 50;					// 0.05 seconds (in milliseconds)
@@ -59,15 +59,15 @@ JXApplication::JXApplication
 	(
 	int*				argc,
 	char*				argv[],
-	const JCharacter*	appSignature,
-	const JCharacter**	defaultStringData
+	const JUtf8Byte*	appSignature,
+	const JUtf8Byte**	defaultStringData
 	)
 	:
 	JXDirector(NULL),
 	itsIgnoreDisplayDeletedFlag(kJFalse),
 	itsIgnoreTaskDeletedFlag(kJFalse),
-	itsSignature(appSignature),
-	itsRestartCmd(argv[0])
+	itsSignature(appSignature, 0),
+	itsRestartCmd(argv[0], 0)
 {
 	// initialize object
 
@@ -211,11 +211,11 @@ JXApplication::Resume()
 JBoolean
 JXApplication::OpenDisplay
 	(
-	const JCharacter*	displayName,
-	JIndex*				displayIndex
+	const JString&	displayName,
+	JIndex*			displayIndex
 	)
 {
-	assert( displayName != NULL && displayName[0] != '\0' );
+	assert( !displayName.IsEmpty() );
 
 	JXDisplay* display;
 	if (JXDisplay::Create(displayName, &display))
@@ -226,9 +226,11 @@ JXApplication::OpenDisplay
 		}
 	else
 		{
-		JString errorStr = "Unable to connect to ";
-		errorStr += displayName;
-		(JGetUserNotification())->ReportError(errorStr);
+		const JUtf8Byte* map[] =
+			{
+			"name", displayName.GetBytes()
+			};
+		(JGetUserNotification())->ReportError(JGetString("DisplayConnectError", map, sizeof(map)));
 
 		*displayIndex = 0;
 		return kJFalse;
@@ -939,7 +941,7 @@ JXApplication::PopIdleTaskStack()
 	if (!itsIdleTaskStack->IsEmpty())
 		{
 		JPtrArray<JXIdleTask>* list = itsIdleTasks;
-		itsIdleTasks                = itsIdleTaskStack->LastElement();
+		itsIdleTasks                = itsIdleTaskStack->GetLastElement();
 		itsIdleTaskStack->RemoveElement(itsIdleTaskStack->GetElementCount());
 
 		itsIdleTasks->CopyPointers(*list, JPtrArrayT::kDeleteAll, kJTrue);

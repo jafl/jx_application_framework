@@ -28,7 +28,7 @@ const JCoordinate kBoxHalfHeight = 6;
 JXTextRadioButton::JXTextRadioButton
 	(
 	const JIndex		id,
-	const JCharacter*	label,
+	const JString&		label,
 	JXRadioGroup*		enclosure,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
@@ -68,7 +68,7 @@ JXTextRadioButton::~JXTextRadioButton()
 void
 JXTextRadioButton::SetLabel
 	(
-	const JCharacter* label
+	const JString& label
 	)
 {
 	itsLabel   = label;
@@ -84,7 +84,7 @@ JXTextRadioButton::SetLabel
 void
 JXTextRadioButton::SetShortcuts
 	(
-	const JCharacter* list
+	const JString& list
 	)
 {
 	JXRadioButton::SetShortcuts(list);

@@ -25,7 +25,7 @@ public:
 
 	virtual ~JXDirectSaveSource();
 
-	static void	Init(JXWindow* window, const JCharacter* fileName);
+	static void	Init(JXWindow* window, const JString& fileName);
 
 protected:
 

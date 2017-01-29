@@ -27,7 +27,7 @@ public:
 
 protected:
 
-	void	Init(JXWindow* window, JXStaticText* text, const JCharacter* message,
+	void	Init(JXWindow* window, JXStaticText* text, const JString& message,
 				 JXImageWidget* icon, const JXPM& xpm);
 
 private:

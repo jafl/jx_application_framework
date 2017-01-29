@@ -25,8 +25,8 @@
 
 JXMessageDialog::JXMessageDialog
 	(
-	JXDirector*			supervisor,
-	const JCharacter*	message
+	JXDirector*		supervisor,
+	const JString&	message
 	)
 	:
 	JXUNDialogBase(supervisor)
@@ -51,7 +51,7 @@ JXMessageDialog::~JXMessageDialog()
 void
 JXMessageDialog::BuildWindow
 	(
-	const JCharacter* message
+	const JString& message
 	)
 {
 // begin JXLayout
@@ -77,7 +77,7 @@ JXMessageDialog::BuildWindow
 
 // end JXLayout
 
-	window->SetTitle("Message");
+	window->SetTitle(JGetString("WindowTitle::JXMessageDialog"));
 	SetButtons(okButton, NULL);
 
 	Init(window, text, message, icon, jx_un_message);

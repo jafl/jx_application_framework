@@ -15,6 +15,7 @@
 #include <JXFontManager.h>
 #include <JXColormap.h>
 #include <jXGlobals.h>
+#include <JStringIterator.h>
 #include <jAssert.h>
 
 /******************************************************************************
@@ -24,7 +25,7 @@
 
 JXTextButton::JXTextButton
 	(
-	const JCharacter*	label,
+	const JString&		label,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
@@ -62,7 +63,7 @@ JXTextButton::~JXTextButton()
 void
 JXTextButton::SetLabel
 	(
-	const JCharacter* label
+	const JString& label
 	)
 {
 	itsLabel = label;
@@ -78,12 +79,12 @@ JXTextButton::SetLabel
 void
 JXTextButton::SetShortcuts
 	(
-	const JCharacter* list
+	const JString& list
 	)
 {
 	JXButton::SetShortcuts(list);
 
-	if (JString::IsEmpty(list))
+	if (list.IsEmpty())
 		{
 		jdelete itsShortcuts;
 		itsShortcuts = NULL;
@@ -116,9 +117,10 @@ JXTextButton::CalcULIndex()
 	if (itsShortcuts != NULL)
 		{
 		JString s = *itsShortcuts;
-		if (s.BeginsWith("^M") || s.BeginsWith("^m"))	// indicated with black border
+		JStringIterator iter(&s);
+		if (iter.Next("^M") || iter.Prev("^m"))	// indicated with black border
 			{
-			s.RemoveSubstring(1,2);
+			iter.RemoveLastMatch();
 			}
 
 		itsULIndex = JXWindow::GetULShortcutIndex(itsLabel, &s);

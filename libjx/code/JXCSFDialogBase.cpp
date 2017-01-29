@@ -32,6 +32,7 @@
 #include <JXFontManager.h>
 #include <jXGlobals.h>
 
+#include <JStringIterator.h>
 #include <jDirUtil.h>
 #include <jStreamUtil.h>
 #include <jAssert.h>
@@ -39,23 +40,12 @@
 const JSize kHistoryLength       = 20;
 const JCoordinate kMessageMargin = 20;
 
-// enter button says "Set" while itsFilterInput has focus
-
-static const JCharacter* kOpenLabel = "Open";
-static const JCharacter* kGoToLabel = "Go to";
-static const JCharacter* kSetLabel  = "Set";
-
 // setup information
 
 const JFileVersion kCurrentSetupVersion = 1;
-const JCharacter kSetupDataEndDelimiter = '\1';
+const JUtf8Byte kSetupDataEndDelimiter  = '\1';
 
 	// version 1 stores window geometry and file browser scroll position
-
-// string ID's
-
-static const JCharacter* kNewDirWindowTitleID = "NewDirWindowTitle::JXCSFDialogBase";
-static const JCharacter* kNewDirPromptID      = "NewDirPrompt::JXCSFDialogBase";
 
 /******************************************************************************
  Constructor (protected)
@@ -66,12 +56,13 @@ static const JCharacter* kNewDirPromptID      = "NewDirPrompt::JXCSFDialogBase";
 
 JXCSFDialogBase::JXCSFDialogBase
 	(
-	JXDirector*			supervisor,
-	JDirInfo*			dirInfo,
-	const JCharacter*	fileFilter
+	JXDirector*		supervisor,
+	JDirInfo*		dirInfo,
+	const JString&	fileFilter
 	)
 	:
-	JXDialogDirector(supervisor, kJTrue)
+	JXDialogDirector(supervisor, kJTrue),
+	itsPrevFilterString(fileFilter)
 {
 	// We turn the filter on in case the user changed it last time and then
 	// cancelled before setting it.
@@ -83,11 +74,7 @@ JXCSFDialogBase::JXCSFDialogBase
 	itsDirInfo = dirInfo;
 	ListenTo(itsDirInfo);
 
-	itsPrevPath = jnew JString(itsDirInfo->GetDirectory());
-	assert( itsPrevPath != NULL );
-
-	itsPrevFilterString = jnew JString(fileFilter);
-	assert( itsPrevFilterString != NULL );
+	itsPrevPath = itsDirInfo->GetDirectory();
 
 	itsDeactCancelFlag = kJFalse;
 	itsNewDirDialog    = NULL;
@@ -104,8 +91,6 @@ JXCSFDialogBase::JXCSFDialogBase
 
 JXCSFDialogBase::~JXCSFDialogBase()
 {
-	jdelete itsPrevPath;
-	jdelete itsPrevFilterString;
 }
 
 /******************************************************************************
@@ -159,7 +144,7 @@ JXCSFDialogBase::Activate()
 	JXDialogDirector::Activate();
 
 	itsPathHistory->AddString(itsDirInfo->GetDirectory());
-	itsFilterHistory->AddString(*itsPrevFilterString);
+	itsFilterHistory->AddString(itsPrevFilterString);
 
 	itsFileBrowser->Focus();
 }
@@ -295,7 +280,7 @@ JXCSFDialogBase::SetObjects
 	JXNewDirButton*			newDirButton,	// can be NULL
 	JXTextCheckbox*			showHiddenCB,
 	JXCurrentPathMenu*		currPathMenu,
-	const JCharacter*		message
+	const JString&			message
 	)
 {
 	JXContainer* encl = scrollbarSet->GetScrollEnclosure();
@@ -321,7 +306,7 @@ JXCSFDialogBase::SetObjects
 
 	itsPathInput->SetText(itsDirInfo->GetDirectory());
 	itsPathInput->SetBasePath(itsDirInfo->GetDirectory());
-	itsFilterInput->SetText(*itsPrevFilterString);
+	itsFilterInput->SetText(itsPrevFilterString);
 	itsFilterInput->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
 
 	itsPathHistory->SetHistoryLength(kHistoryLength);
@@ -334,14 +319,14 @@ JXCSFDialogBase::SetObjects
 	itsShowHiddenCB->SetState(itsDirInfo->HiddenVisible());
 	itsCurrPathMenu->SetPath(itsDirInfo->GetDirectory());
 
-	itsUpButton->SetShortcuts("#U");
-	itsHomeButton->SetShortcuts("#H");
-	itsDesktopButton->SetShortcuts("#D");
+	itsUpButton->SetShortcuts(JGetString("UpShortcut::JXCSFDialogBase"));
+	itsHomeButton->SetShortcuts(JGetString("HomeShortcut::JXCSFDialogBase"));
+	itsDesktopButton->SetShortcuts(JGetString("DesktopShortcut::JXCSFDialogBase"));
 	if (itsNewDirButton != NULL)
 		{
-		itsNewDirButton->SetShortcuts("#N");
+		itsNewDirButton->SetShortcuts(JGetString("NewDirShortcut::JXCSFDialogBase"));
 		}
-	itsShowHiddenCB->SetShortcuts("#S");
+	itsShowHiddenCB->SetShortcuts(JGetString("ShowHiddenShortcut::JXCSFDialogBase"));
 
 	ListenTo(itsPathInput);
 	ListenTo(itsPathHistory);
@@ -371,7 +356,7 @@ JXCSFDialogBase::SetObjects
 void
 JXCSFDialogBase::DisplayMessage
 	(
-	const JCharacter*		message,
+	const JString&			message,
 	JXScrollbarSet*			scrollbarSet,
 	JXStaticText*			pathLabel,
 	JXPathHistoryMenu*		pathHistory,
@@ -382,7 +367,7 @@ JXCSFDialogBase::DisplayMessage
 	JXWindow* window = GetWindow();
 	assert( window != NULL );
 
-	if (!JString::IsEmpty(message))
+	if (!message.IsEmpty())
 		{
 		JXStaticText* messageObj =
 			jnew JXStaticText(message, window,
@@ -477,23 +462,23 @@ JXCSFDialogBase::Receive
 
 	else if (sender == itsPathInput && message.Is(JXWidget::kGotFocus))
 		{
-		itsEnterButton->SetLabel(kGoToLabel);
+		itsEnterButton->SetLabel(JGetString("GoToLabel::JXCSFDialogBase"));
 		}
 	else if (sender == itsPathInput && message.Is(JXWidget::kLostFocus) &&
 			 !itsDeactCancelFlag)
 		{
-		itsEnterButton->SetLabel(kOpenLabel);
+		itsEnterButton->SetLabel(JGetString("OpenLabel::JXCSFDialogBase"));
 		GoToItsPath();
 		}
 
 	else if (sender == itsFilterInput && message.Is(JXWidget::kGotFocus))
 		{
-		itsEnterButton->SetLabel(kSetLabel);
+		itsEnterButton->SetLabel(JGetString("SetLabel::JXCSFDialogBase"));
 		}
 	else if (sender == itsFilterInput && message.Is(JXWidget::kLostFocus) &&
 			 !itsDeactCancelFlag)
 		{
-		itsEnterButton->SetLabel(kOpenLabel);
+		itsEnterButton->SetLabel(JGetString("OpenLabel::JXCSFDialogBase"));
 		AdjustFilter();
 		}
 
@@ -531,8 +516,7 @@ JXCSFDialogBase::Receive
 			}
 		else
 			{
-			(JGetUserNotification())->ReportError(
-				"You don't have access to the enclosing directory.");
+			(JGetUserNotification())->ReportError(JGetString("NoAccessUp::JXCSFDialogBase"));
 			}
 		}
 
@@ -547,7 +531,7 @@ JXCSFDialogBase::Receive
 			}
 		else if (!found)
 			{
-			(JGetUserNotification())->ReportError("Unable to find your home directory.");
+			(JGetUserNotification())->ReportError(JGetString("NoHomeDir::JXCSFDialogBase"));
 			}
 		}
 
@@ -557,13 +541,13 @@ JXCSFDialogBase::Receive
 		const JBoolean found = JGetHomeDirectory(&desktopDir);
 		if (found)
 			{
-			desktopDir = JCombinePathAndName(desktopDir, "Desktop");
+			desktopDir = JCombinePathAndName(desktopDir, JGetString("DesktopName::JXCSFDialogBase"));
 			itsDirInfo->GoTo(desktopDir);
 			itsFileBrowser->Focus();
 			}
 		else if (!found)
 			{
-			(JGetUserNotification())->ReportError("Unable to find your home directory.");
+			(JGetUserNotification())->ReportError(JGetString("NoHomeDir::JXCSFDialogBase"));
 			}
 		}
 
@@ -651,10 +635,10 @@ void
 JXCSFDialogBase::AdjustFilter()
 {
 	const JString& newFilter = itsFilterInput->GetText();
-	if (newFilter != *itsPrevFilterString)
+	if (newFilter != itsPrevFilterString)
 		{
 		itsDirInfo->SetWildcardFilter(newFilter);
-		*itsPrevFilterString = newFilter;
+		itsPrevFilterString = newFilter;
 		itsFilterHistory->AddString(newFilter);
 		}
 }
@@ -675,8 +659,8 @@ JXCSFDialogBase::GetNewDirectory()
 	app->PrepareForBlockingWindow();
 
 	itsNewDirDialog =
-		jnew JXGetNewDirDialog(JXGetApplication(), JGetString(kNewDirWindowTitleID),
-							  JGetString(kNewDirPromptID), JString::empty,
+		jnew JXGetNewDirDialog(JXGetApplication(), JGetString("NewDirWindowTitle::JXCSFDialogBase"),
+							  JGetString("NewDirPrompt::JXCSFDialogBase"), JString::empty,
 							  itsDirInfo->GetDirectory(), kJFalse);
 	assert( itsNewDirDialog != NULL );
 
@@ -719,16 +703,15 @@ JXCSFDialogBase::CreateNewDirectory()
 		}
 	else if (err == kJDirEntryAlreadyExists)
 		{
-		(JGetUserNotification())->ReportError("That directory already exists.");
+		(JGetUserNotification())->ReportError(JGetString("DirExists::JXCSFDialogBase"));
 		}
 	else if (err == kJAccessDenied)
 		{
-		(JGetUserNotification())->ReportError(
-			"You do not have write access to this directory.");
+		(JGetUserNotification())->ReportError(JGetString("DirNotWritable::JXCSFDialogBase"));
 		}
 	else
 		{
-		(JGetUserNotification())->ReportError("Unable to create the directory.");
+		(JGetUserNotification())->ReportError(JGetString("CannotCreateDir::JXCSFDialogBase"));
 		}
 }
 
@@ -745,30 +728,29 @@ JXCSFDialogBase::SelectPrevDirectory()
 {
 	const JString& newPath = itsDirInfo->GetDirectory();
 
-	JIndex index;
-	if (itsPrevPath->LocateSubstring(newPath, &index) && index == 1)
+	if (itsPrevPath.BeginsWith(newPath))
 		{
 		// remove common base path
 
-		JString dirName = *itsPrevPath;
-		dirName.RemoveSubstring(1, newPath.GetLength());
+		JString dirName = itsPrevPath;
+		JStringIterator iter(&dirName);
+		iter.Next(newPath);
+		iter.RemoveAllPrev();
 
 		// remove leading /
 
-		index = 1;
-		while (index <= dirName.GetLength() &&
-			   dirName.GetCharacter(index) == ACE_DIRECTORY_SEPARATOR_CHAR)
+		JUtf8Character c;
+		while (iter.Next(&c) && c == ACE_DIRECTORY_SEPARATOR_CHAR)
 			{
-			dirName.SetCharacter(index, ' ');
-			index++;
+			iter.RemovePrev();
 			}
-		dirName.TrimWhitespace();
 
 		// keep only first dir name past common base path
 
-		if (dirName.LocateSubstring(ACE_DIRECTORY_SEPARATOR_STR, &index))
+		if (iter.Next(ACE_DIRECTORY_SEPARATOR_STR))
 			{
-			dirName.RemoveSubstring(index, dirName.GetLength());
+			iter.RemovePrev();
+			iter.RemoveAllNext();
 			}
 
 		// create UrgentTask to select this item
@@ -782,5 +764,5 @@ JXCSFDialogBase::SelectPrevDirectory()
 			}
 		}
 
-	*itsPrevPath = newPath;
+	itsPrevPath = newPath;
 }

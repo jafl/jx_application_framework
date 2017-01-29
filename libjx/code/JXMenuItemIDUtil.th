@@ -71,7 +71,7 @@ JIndex i;
 
 	*index = 0;
 
-	const JCharacter* cmdID = NULL;
+	const JUtf8Byte* cmdID = NULL;
 	for (i=0; i<CmdCount; i++)
 		{
 		if (CmdIDList[i].cmd == cmd)
@@ -87,6 +87,6 @@ JIndex i;
 		}
 	else
 		{
-		return MenuVar->ItemIDToIndex(cmdID, index);
+		return MenuVar->ItemIDToIndex(JString(cmdID, 0, kJFalse), index);
 		}
 }

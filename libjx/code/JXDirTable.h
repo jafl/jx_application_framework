@@ -39,7 +39,7 @@ public:
 	void		SelectFirstEntry(const JBoolean scroll = kJTrue);
 	void		SelectLastEntry(const JBoolean scroll = kJTrue);
 	void		SelectAll();
-	JBoolean	ClosestMatch(const JCharacter* prefixStr, JIndex* index) const;
+	JBoolean	ClosestMatch(const JString& prefixStr, JIndex* index) const;
 
 	void	ShowHidden(const JBoolean showHidden);
 	void	AllowSelectFiles(const JBoolean allowSelectFiles, const JBoolean allowMultiple);
@@ -137,7 +137,7 @@ public:
 
 	// JBroadcaster messages
 
-	static const JCharacter* kFileDblClicked;
+	static const JUtf8Byte* kFileDblClicked;
 
 	class FileDblClicked : public JBroadcaster::Message
 		{

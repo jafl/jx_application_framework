@@ -23,18 +23,6 @@
 #include <jFileUtil.h>
 #include <jAssert.h>
 
-// string ID's
-
-static const JCharacter* kHintID         = "Hint::JXPathInput";
-static const JCharacter* kNoRelPathID    = "NoRelPath::JXPathInput";
-static const JCharacter* kInvalidPathID  = "InvalidPath::JXPathInput";
-static const JCharacter* kUnreadableID   = "Unreadable::JXPathInput";
-static const JCharacter* kUnwritableID   = "Unwritable::JXPathInput";
-static const JCharacter* kAccessDeniedID = "AccessDenied::JXPathInput";
-static const JCharacter* kBadPathID      = "BadPath::JXPathInput";
-static const JCharacter* kCompNotDirID   = "CompNotDir::JXPathInput";
-static const JCharacter* kInvalidDirID   = "InvalidDir::JXPathInput";
-
 /******************************************************************************
  Constructor
 
@@ -62,7 +50,7 @@ JXPathInput::JXPathInput
 	SetCharacterInWordFunction(IsCharacterInWord);
 	SetDefaultFont(GetFontManager()->GetDefaultMonospaceFont());
 	ShouldBroadcastCaretLocationChanged(kJTrue);
-	SetHint(JGetString(kHintID));
+	SetHint(JGetString("Hint::JXPathInput"));
 	ListenTo(this);
 }
 
@@ -81,7 +69,7 @@ JXPathInput::~JXPathInput()
 
  ******************************************************************************/
 
-const JCharacter*
+const JString&
 JXPathInput::GetFont
 	(
 	JSize* size
@@ -186,10 +174,10 @@ JXPathInput::Receive
 void
 JXPathInput::SetBasePath
 	(
-	const JCharacter* path
+	const JString& path
 	)
 {
-	if (JString::IsEmpty(path))
+	if (path.IsEmpty())
 		{
 		ClearBasePath();
 		}
@@ -221,7 +209,7 @@ JXPathInput::GetPath
 	const JString& text = GetText();
 	return JI2B(!text.IsEmpty() &&
 				(JIsAbsolutePath(text) || HasBasePath()) &&
-				JConvertToAbsolutePath(text, itsBasePath, path) &&
+				JConvertToAbsolutePath(text, &itsBasePath, path) &&
 				JDirectoryExists(*path) &&
 				JDirectoryReadable(*path) &&
 				JCanEnterDirectory(*path) &&
@@ -254,13 +242,13 @@ JXPathInput::InputValid()
 	JString path;
 	if (JIsRelativePath(text) && !HasBasePath())
 		{
-		(JGetUserNotification())->ReportError(JGetString(kNoRelPathID));
+		(JGetUserNotification())->ReportError(JGetString("NoRelPath::JXPathInput"));
 		RecalcAll(kJTrue);
 		return kJFalse;
 		}
-	if (!JConvertToAbsolutePath(text, itsBasePath, &path))
+	if (!JConvertToAbsolutePath(text, &itsBasePath, &path))
 		{
-		(JGetUserNotification())->ReportError(JGetString(kInvalidPathID));
+		(JGetUserNotification())->ReportError(JGetString("InvalidPath::JXPathInput"));
 		RecalcAll(kJTrue);
 		return kJFalse;
 		}
@@ -273,13 +261,13 @@ JXPathInput::InputValid()
 		{
 		if (!JDirectoryReadable(path))
 			{
-			(JGetUserNotification())->ReportError(JGetString(kUnreadableID));
+			(JGetUserNotification())->ReportError(JGetString("Unreadable::JXPathInput"));
 			RecalcAll(kJTrue);
 			return kJFalse;
 			}
 		else if (itsRequireWriteFlag && !JDirectoryWritable(path))
 			{
-			(JGetUserNotification())->ReportError(JGetString(kUnwritableID));
+			(JGetUserNotification())->ReportError(JGetString("Unwritable::JXPathInput"));
 			RecalcAll(kJTrue);
 			return kJFalse;
 			}
@@ -289,22 +277,22 @@ JXPathInput::InputValid()
 			}
 		}
 
-	const JCharacter* errID;
+	const JUtf8Byte* errID;
 	if (err == kJAccessDenied)
 		{
-		errID = kAccessDeniedID;
+		errID = "AccessDenied::JXPathInput";
 		}
 	else if (err == kJBadPath)
 		{
-		errID = kBadPathID;
+		errID = "BadPath::JXPathInput";
 		}
 	else if (err == kJComponentNotDirectory)
 		{
-		errID = kCompNotDirID;
+		errID = "CompNotDir::JXPathInput";
 		}
 	else
 		{
-		errID = kInvalidDirID;
+		errID = "InvalidDir::JXPathInput";
 		}
 
 	(JGetUserNotification())->ReportError(JGetString(errID));
@@ -320,9 +308,9 @@ JXPathInput::InputValid()
  ******************************************************************************/
 
 #ifdef _J_UNIX
-static const JCharacter* kThisDirSuffix = "/.";
+static const JUtf8Byte* kThisDirSuffix = "/.";
 #elif defined WIN32
-static const JCharacter* kThisDirSuffix = "\\.";
+static const JUtf8Byte* kThisDirSuffix = "\\.";
 #endif
 
 void
@@ -336,7 +324,7 @@ JXPathInput::AdjustStylesBeforeRecalc
 	)
 {
 	const JColormap* colormap = GetColormap();
-	const JSize totalLength   = buffer.GetLength();
+	const JSize totalLength   = buffer.GetCharacterCount();
 
 	JString fullPath = buffer;
 	if ((JIsRelativePath(buffer) && !HasBasePath()) ||
@@ -349,7 +337,7 @@ JXPathInput::AdjustStylesBeforeRecalc
 	// want to further modify fullName.
 
 	else if (JIsRelativePath(buffer) &&
-			 !JConvertToAbsolutePath(buffer, itsBasePath, &fullPath))
+			 !JConvertToAbsolutePath(buffer, &itsBasePath, &fullPath))
 		{
 		if (HasBasePath())
 			{
@@ -371,7 +359,7 @@ JXPathInput::AdjustStylesBeforeRecalc
 		const JString closestDir = JGetClosestDirectory(fullPath, itsRequireWriteFlag);
 		if (fullPath.BeginsWith(closestDir))
 			{
-			errLength = fullPath.GetLength() - closestDir.GetLength();
+			errLength = fullPath.GetCharacterCount() - closestDir.GetCharacterCount();
 			}
 		else
 			{
@@ -421,20 +409,20 @@ JXPathInput::AdjustStylesBeforeRecalc
 JColorIndex
 JXPathInput::GetTextColor
 	(
-	const JCharacter*	path,
-	const JCharacter*	base,
+	const JString&		path,
+	const JString&		base,
 	const JBoolean		requireWrite,
 	const JColormap*	colormap
 	)
 {
-	if (JString::IsEmpty(path))
+	if (path.IsEmpty())
 		{
 		return colormap->GetBlackColor();
 		}
 
 	JString fullPath;
-	if ((JIsAbsolutePath(path) || !JString::IsEmpty(base)) &&
-		JConvertToAbsolutePath(path, base, &fullPath) &&
+	if ((JIsAbsolutePath(path) || !base.IsEmpty()) &&
+		JConvertToAbsolutePath(path, &base, &fullPath) &&
 		JDirectoryReadable(fullPath) &&
 		JCanEnterDirectory(fullPath) &&
 		(!requireWrite || JDirectoryWritable(fullPath)))
@@ -598,17 +586,10 @@ JXPathInput::GetDroppedDirectory
 							   urlList(JPtrArrayT::kDeleteAll);
 			JXUnpackFileNames((char*) data, dataLength, &fileNameList, &urlList);
 			if (fileNameList.GetElementCount() == 1 &&
-				(JDirectoryExists(*(fileNameList.FirstElement())) ||
-				 JFileExists(*(fileNameList.FirstElement()))))
+				(JDirectoryExists(*(fileNameList.GetFirstElement())) ||
+				 JFileExists(*(fileNameList.GetFirstElement()))))
 				{
-				*dirName = *(fileNameList.FirstElement());
-
-				JString homeDir;
-				if (JGetHomeDirectory(&homeDir) &&
-					dirName->BeginsWith(homeDir))
-					{
-					dirName->ReplaceSubstring(1, homeDir.GetLength(), "~" ACE_DIRECTORY_SEPARATOR_STR);
-					}
+				*dirName = JConvertToHomeDirShortcut(*(fileNameList.GetFirstElement()));
 				}
 			JXReportUnreachableHosts(urlList);
 			}
@@ -655,8 +636,8 @@ JXPathInput::GetTextForChoosePath()
 JBoolean
 JXPathInput::ChoosePath
 	(
-	const JCharacter* prompt,
-	const JCharacter* instr
+	const JString& prompt,
+	const JString& instr
 	)
 {
 	JString origPath = GetTextForChoosePath();
@@ -796,7 +777,7 @@ JBoolean
 JXPathInput::Complete
 	(
 	JXInputField*				te,
-	const JCharacter*			basePath,	// can be NULL
+	const JString&				basePath,	// can be empty
 	JDirInfo*					completer,
 	JXStringCompletionMenu**	menu		// constructed if NULL
 	)

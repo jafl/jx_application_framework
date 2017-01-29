@@ -36,12 +36,12 @@
 JXChooseFileDialog*
 JXChooseFileDialog::Create
 	(
-	JXDirector*			supervisor,
-	JDirInfo*			dirInfo,
-	const JCharacter*	fileFilter,
-	const JBoolean		allowSelectMultiple,
-	const JCharacter*	origName,
-	const JCharacter*	message
+	JXDirector*		supervisor,
+	JDirInfo*		dirInfo,
+	const JString&	fileFilter,
+	const JBoolean	allowSelectMultiple,
+	const JString&	origName,
+	const JString&	message
 	)
 {
 	JXChooseFileDialog* dlog =
@@ -58,10 +58,10 @@ JXChooseFileDialog::Create
 
 JXChooseFileDialog::JXChooseFileDialog
 	(
-	JXDirector*			supervisor,
-	JDirInfo*			dirInfo,
-	const JCharacter*	fileFilter,
-	const JBoolean		allowSelectMultiple
+	JXDirector*		supervisor,
+	JDirInfo*		dirInfo,
+	const JString&	fileFilter,
+	const JBoolean	allowSelectMultiple
 	)
 	:
 	JXCSFDialogBase(supervisor, dirInfo, fileFilter),
@@ -142,8 +142,8 @@ JXChooseFileDialog::GetFullNames
 void
 JXChooseFileDialog::BuildWindow
 	(
-	const JCharacter* origName,
-	const JCharacter* message
+	const JString& origName,
+	const JString& message
 	)
 {
 // begin JXLayout
@@ -220,7 +220,7 @@ JXChooseFileDialog::BuildWindow
 	assert( selectAllButton != NULL );
 
 	JXCurrentPathMenu* currPathMenu =
-		jnew JXCurrentPathMenu("/", window,
+		jnew JXCurrentPathMenu(JString("/", 0, kJFalse), window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 20,110, 180,20);
 	assert( currPathMenu != NULL );
 
@@ -261,17 +261,17 @@ JXChooseFileDialog::SetObjects
 	JXTextButton*			selectAllButton,
 	JXTextCheckbox*			showHiddenCB,
 	JXCurrentPathMenu*		currPathMenu,
-	const JCharacter*		origName,
-	const JCharacter*		message
+	const JString&			origName,
+	const JString&			message
 	)
 {
 	if (itsSelectMultipleFlag)
 		{
-		(scrollbarSet->GetWindow())->SetTitle("Choose files");
+		(scrollbarSet->GetWindow())->SetTitle(JGetString("ChooseFilesTitle::JXChooseFileDialog"));
 		}
 	else
 		{
-		(scrollbarSet->GetWindow())->SetTitle("Choose file");
+		(scrollbarSet->GetWindow())->SetTitle(JGetString("ChooseFileTitle::JXChooseFileDialog"));
 		}
 
 	itsOpenButton      = openButton;
@@ -298,12 +298,12 @@ JXChooseFileDialog::SetObjects
 		itsSelectAllButton->Hide();
 		}
 
-    cancelButton->SetShortcuts("^[");
+	cancelButton->SetShortcuts(JGetString("CancelShortcut::JXChooseFileDialog"));
 
 	// select initial file
 
 	JIndex index;
-	if (!JString::IsEmpty(origName) &&
+	if (!origName.IsEmpty() &&
 		fileBrowser->ClosestMatch(origName, &index))
 		{
 		const JDirEntry& entry = GetDirInfo()->GetEntry(index);

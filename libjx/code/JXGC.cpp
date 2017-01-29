@@ -638,28 +638,29 @@ JXGC::DrawString
 
 	const JFontManager* fontMgr = itsDisplay->GetFontManager();
 
-	const JSize length          = strlen(str);
-	const JSize maxStringLength = itsDisplay->GetMaxStringLength();
+	const JSize byteCount      = str.GetByteCount();
+	const JSize chunkByteCount = itsDisplay->GetMaxStringByteCount();
 
 	JCoordinate x = origX;
 	JSize offset  = 0;
-	while (offset < length)
+	while (offset < byteCount)
 		{
-		const JSize count = JMin(length - offset, maxStringLength);
+		const JSize count = JMin(byteCount - offset, chunkByteCount);
 
+		const JUtf8Byte* s = str.GetBytes() + offset;
 		if (xfont.type == JXFontManager::kStdType)
 			{
-			XDrawString(*itsDisplay, drawable, itsXGC, x,y, str + offset, count);
+			XDrawString(*itsDisplay, drawable, itsXGC, x,y, s, count);
 			}
 		else
 			{
 			assert( xfont.type == JXFontManager::kTrueType );
-			XftDrawStringUtf8(fdrawable, &color, xfont.xftt, x,y, (FcChar8*) (str + offset), count);
+			XftDrawStringUtf8(fdrawable, &color, xfont.xftt, x,y, (FcChar8*) s, count);
 			}
 
-		if (offset + count < length)
+		if (offset + count < byteCount)
 			{
-			x += itsDisplay->GetXFontManager()->GetStringWidth(itsLastFontID, str + offset, count);
+			x += itsDisplay->GetXFontManager()->GetStringWidth(itsLastFontID, JString(s, count, kJFalse));
 			}
 		offset += count;
 		}

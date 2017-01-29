@@ -12,8 +12,8 @@
 
 #include <JXUrgentTask.h>
 #include <JBroadcaster.h>
+#include <JString.h>
 
-class JString;
 class JDirInfo;
 class JXDirTable;
 
@@ -22,7 +22,7 @@ class JXCSFSelectPrevDirTask : public JXUrgentTask, virtual public JBroadcaster
 public:
 
 	JXCSFSelectPrevDirTask(JDirInfo* dirInfo, JXDirTable* dirTable,
-						   const JCharacter* dirName);
+						   const JString& dirName);
 
 	virtual ~JXCSFSelectPrevDirTask();
 

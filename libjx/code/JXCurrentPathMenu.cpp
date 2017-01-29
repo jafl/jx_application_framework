@@ -29,7 +29,7 @@
 
 JXCurrentPathMenu::JXCurrentPathMenu
 	(
-	const JCharacter*	path,
+	const JString&		path,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
@@ -46,10 +46,10 @@ JXCurrentPathMenu::JXCurrentPathMenu
 
 JXCurrentPathMenu::JXCurrentPathMenu
 	(
-	const JCharacter*	path,
-	JXMenu*				owner,
-	const JIndex		itemIndex,
-	JXContainer*		enclosure
+	const JString&	path,
+	JXMenu*			owner,
+	const JIndex	itemIndex,
+	JXContainer*	enclosure
 	)
 	:
 	JXTextMenu(owner, itemIndex, enclosure)
@@ -62,7 +62,7 @@ JXCurrentPathMenu::JXCurrentPathMenu
 void
 JXCurrentPathMenu::JXCurrentPathMenuX
 	(
-	const JCharacter* path
+	const JString& path
 	)
 {
 	JXDisplay*  d = GetDisplay();
@@ -135,7 +135,7 @@ JXCurrentPathMenu::GetPath
 void
 JXCurrentPathMenu::SetPath
 	(
-	const JCharacter* path
+	const JString& path
 	)
 {
 	RemoveAllItems();
@@ -170,7 +170,7 @@ JXCurrentPathMenu::SetPath
 JXImage*
 JXCurrentPathMenu::GetIcon
 	(
-	const JCharacter* path
+	const JString& path
 	)
 	const
 {

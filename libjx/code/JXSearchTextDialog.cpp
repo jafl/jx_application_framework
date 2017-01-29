@@ -44,9 +44,9 @@
 #include <sstream>
 #include <jAssert.h>
 
-static const JCharacter* kJXSearchTextHelpName = "JXSearchTextHelp";
-static const JCharacter* kJXRegexHelpName      = "JXRegexHelp";
-static const JCharacter* kJXRegexQRefHelpName  = "JXRegexQRef";
+static const JUtf8Byte* kJXSearchTextHelpName = "JXSearchTextHelp";
+static const JUtf8Byte* kJXRegexHelpName      = "JXRegexHelp";
+static const JUtf8Byte* kJXRegexQRefHelpName  = "JXRegexQRef";
 
 // JTextEditor doesn't broadcast when selection changes (would require optimization)
 const JSize kUpdatePeriod = 200;	// 0.2 second (milliseconds)
@@ -71,7 +71,7 @@ const JFileVersion kCurrentSetupVersion = 7;
 JXSearchTextDialog*
 JXSearchTextDialog::Create
 	(
-	const JCharacter* searchTextHelpName
+	const JUtf8Byte* searchTextHelpName
 	)
 {
 	JXSearchTextDialog* dlog = jnew JXSearchTextDialog(searchTextHelpName);
@@ -88,7 +88,7 @@ JXSearchTextDialog::Create
 
 JXSearchTextDialog::JXSearchTextDialog
 	(
-	const JCharacter* searchTextHelpName
+	const JUtf8Byte* searchTextHelpName
 	)
 	:
 	JXWindowDirector(JXGetPersistentWindowOwner())
@@ -189,7 +189,7 @@ JXSearchTextDialog::Deactivate()
 void
 JXSearchTextDialog::SetSearchText
 	(
-	const JCharacter* str
+	const JString& str
 	)
 {
 	if (strcmp(str, itsSearchInput->GetText()) != 0)	// exact compare, to avoid ignoring diacritical marks
@@ -224,7 +224,7 @@ JXSearchTextDialog::SetRegexSearch
 void
 JXSearchTextDialog::SetReplaceText
 	(
-	const JCharacter* str
+	const JString& str
 	)
 {
 	if (strcmp(str, itsReplaceInput->GetText()) != 0)	// exact compare, to avoid ignoring diacritical marks
@@ -647,7 +647,7 @@ JXSearchTextDialog::SetObjects
 void
 JXSearchTextDialog::SetSearchTextHelpName
 	(
-	const JCharacter* name
+	const JUtf8Byte* name
 	)
 {
 	itsSearchTextHelpName = (JString::IsEmpty(name) ? kJXSearchTextHelpName : name);
@@ -1004,8 +1004,8 @@ JXSearchTextDialog::UpdateDisplay()
 void
 JXSearchTextDialog::SetFont
 	(
-	const JCharacter*	name,
-	const JSize			size
+	const JString&	name,
+	const JSize		size
 	)
 {
 	JFont font = (GetWindow()->GetFontManager())->GetFont(name, size);
@@ -1128,7 +1128,7 @@ JXSearchTextDialog::WriteSetup
 
  ******************************************************************************/
 
-static const JCharacter* kAtomNames[ JXSearchTextDialog::kAtomCount ] =
+static const JUtf8Byte* kAtomNames[ JXSearchTextDialog::kAtomCount ] =
 {
 	"XsearchSelection",
 	"XsearchWindows",
@@ -1136,7 +1136,7 @@ static const JCharacter* kAtomNames[ JXSearchTextDialog::kAtomCount ] =
 	"XsearchDataV1"
 };
 
-static const JCharacter* kXSearchExtraTag = "JX_Application_Framework";
+static const JUtf8Byte* kXSearchExtraTag = "JX_Application_Framework";
 
 class JXSearchSelection : public JXSelectionData
 {

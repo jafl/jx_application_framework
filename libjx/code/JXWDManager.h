@@ -40,8 +40,8 @@ public:
 	// for use by JXWindowDirector
 
 	void	PermanentDirectorCreated(JXWindowDirector* dir,
-									 const JCharacter* shortcut = NULL,
-									 const JCharacter* id = NULL);
+									 const JUtf8Byte* shortcut = NULL,
+									 const JUtf8Byte* id = NULL);
 	void	DirectorCreated(JXWindowDirector* dir);
 	void	DirectorDeleted(JXWindowDirector* dir);
 
@@ -86,7 +86,7 @@ private:
 	void	ActivateDirector(const JIndex index);
 
 	void	DirectorCreated(JArray<WindowInfo>* windowList, JXWindowDirector* dir,
-							const JCharacter* shortcut, const JCharacter* id);
+							const JUtf8Byte* shortcut, const JUtf8Byte* id);
 	JBoolean	DirectorDeleted1(JArray<WindowInfo>* windowList,
 								 JXWindowDirector* dir);
 	void		UpdateWDMenu1(const JArray<WindowInfo>& windowList, JXWDMenu* menu);
@@ -109,7 +109,7 @@ public:
 
 	// JBroadcaster messages
 
-	static const JCharacter* kWDMenuNeedsUpdate;
+	static const JUtf8Byte* kWDMenuNeedsUpdate;
 
 	class WDMenuNeedsUpdate : public JBroadcaster::Message
 		{

@@ -18,7 +18,7 @@
 
 // JBroadcaster message types
 
-const JCharacter* JXButton::kPushed = "Pushed::JXButton";
+const JUtf8Byte* JXButton::kPushed = "Pushed::JXButton";
 
 /******************************************************************************
  Constructor (protected)
@@ -211,22 +211,19 @@ JXButton::HandleShortcut
 void
 JXButton::SetShortcuts
 	(
-	const JCharacter* list
+	const JString& shortcuts
 	)
 {
 	JXWindow* w = GetWindow();
 	w->ClearShortcuts(this);
-	w->InstallShortcuts(this, list);
+	w->InstallShortcuts(this, shortcuts);
 
 	const JBoolean wasReturnButton = itsIsReturnButtonFlag;
 	itsIsReturnButtonFlag = kJFalse;
-	if (list != NULL)
+	if (!shortcuts.IsEmpty() &&
+		(shortcuts.Contains("^M") || shortcuts.Contains("^m")))
 		{
-		JString shortcuts = list;
-		if (shortcuts.Contains("^M") || shortcuts.Contains("^m"))
-			{
-			itsIsReturnButtonFlag = kJTrue;
-			}
+		itsIsReturnButtonFlag = kJTrue;
 		}
 
 	const JSize borderWidth = GetBorderWidth();

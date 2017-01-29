@@ -110,7 +110,7 @@ public:
 
 	// JBroadcaster messages
 
-	static const JCharacter* kRead;
+	static const JUtf8Byte* kRead;
 
 	class Read : public JBroadcaster::Message
 		{

@@ -1300,7 +1300,7 @@ alignment: FL_ALIGN_CENTER
 style: FL_NORMAL_STYLE
 size: FL_NORMAL_SIZE
 lcol: FL_BLACK
-label: JXPathHistoryMenu(1, "",
+label: JXPathHistoryMenu(1, JString::empty,
 shortcut: 
 resize: FL_RESIZE_NONE
 gravity: FL_SouthEast FL_NoGravity
@@ -1318,7 +1318,7 @@ alignment: FL_ALIGN_CENTER
 style: FL_NORMAL_STYLE
 size: FL_NORMAL_SIZE
 lcol: FL_BLACK
-label: JXStringHistoryMenu(1, "",
+label: JXStringHistoryMenu(1, JString::empty,
 shortcut: 
 resize: FL_RESIZE_NONE
 gravity: FL_SouthEast FL_NoGravity
@@ -1378,7 +1378,7 @@ resize: FL_RESIZE_NONE
 gravity: FL_South FL_NoGravity
 name: (currPathMenu)
 callback: 
-argument: "/"
+argument: JString("/", 0, kJFalse)
 
 --------------------
 class: FL_BUTTON
@@ -1630,7 +1630,7 @@ alignment: FL_ALIGN_CENTER
 style: FL_NORMAL_STYLE
 size: FL_NORMAL_SIZE
 lcol: FL_BLACK
-label: JXPathHistoryMenu(1, "",
+label: JXPathHistoryMenu(1, JString::empty,
 shortcut: 
 resize: FL_RESIZE_NONE
 gravity: FL_SouthEast FL_NoGravity
@@ -1648,7 +1648,7 @@ alignment: FL_ALIGN_CENTER
 style: FL_NORMAL_STYLE
 size: FL_NORMAL_SIZE
 lcol: FL_BLACK
-label: JXStringHistoryMenu(1, "",
+label: JXStringHistoryMenu(1, JString::empty,
 shortcut: 
 resize: FL_RESIZE_NONE
 gravity: FL_SouthEast FL_NoGravity
@@ -1708,7 +1708,7 @@ resize: FL_RESIZE_NONE
 gravity: FL_South FL_NoGravity
 name: (currPathMenu)
 callback: 
-argument: "/"
+argument: JString("/", 0, kJFalse)
 
 --------------------
 class: FL_BUTTON
@@ -1960,7 +1960,7 @@ alignment: FL_ALIGN_CENTER
 style: FL_NORMAL_STYLE
 size: FL_NORMAL_SIZE
 lcol: FL_BLACK
-label: JXPathHistoryMenu(1, "",
+label: JXPathHistoryMenu(1, JString::empty,
 shortcut: 
 resize: FL_RESIZE_NONE
 gravity: FL_SouthEast FL_NoGravity
@@ -1978,7 +1978,7 @@ alignment: FL_ALIGN_CENTER
 style: FL_NORMAL_STYLE
 size: FL_NORMAL_SIZE
 lcol: FL_BLACK
-label: JXStringHistoryMenu(1, "",
+label: JXStringHistoryMenu(1, JString::empty,
 shortcut: 
 resize: FL_RESIZE_NONE
 gravity: FL_SouthEast FL_NoGravity
@@ -2038,7 +2038,7 @@ resize: FL_RESIZE_NONE
 gravity: FL_South FL_NoGravity
 name: (currPathMenu)
 callback: 
-argument: "/"
+argument: JString("/", 0, kJFalse)
 
 --------------------
 class: FL_BUTTON
@@ -4009,7 +4009,7 @@ resize: FL_RESIZE_ALL
 gravity: FL_NorthEast FL_NoGravity
 name: itsPrevReplaceMenu
 callback: 
-argument: kHistoryLength, ""
+argument: kHistoryLength, JString::empty
 
 --------------------
 class: FL_BOX
@@ -4027,7 +4027,7 @@ resize: FL_RESIZE_ALL
 gravity: FL_NorthEast FL_NoGravity
 name: itsPrevSearchMenu
 callback: 
-argument: kHistoryLength, ""
+argument: kHistoryLength, JString::empty
 
 --------------------
 class: FL_BUTTON

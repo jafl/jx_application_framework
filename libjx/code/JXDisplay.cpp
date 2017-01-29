@@ -67,7 +67,7 @@
 
 const JSize kMaxSleepTime = 50;		// 0.05 seconds (in milliseconds)
 
-static const JCharacter* kStandardXAtomNames[ JXDisplay::kStandardXAtomCount ] =
+static const JUtf8Byte* kStandardXAtomNames[ JXDisplay::kStandardXAtomCount ] =
 {
 	"WM_STATE",
 	"WM_CLIENT_MACHINE",
@@ -101,8 +101,8 @@ static int JXDebugAfterFunction(Display* xDisplay);
 
 // JBroadcaster message types
 
-const JCharacter* JXDisplay::kXEventMessage = "XEventMessage::JXDisplay";
-const JCharacter* JXDisplay::kXError        = "XError::JXDisplay";
+const JUtf8Byte* JXDisplay::kXEventMessage = "XEventMessage::JXDisplay";
+const JUtf8Byte* JXDisplay::kXError        = "XError::JXDisplay";
 
 /******************************************************************************
  Constructor function (static)
@@ -117,11 +117,11 @@ const JCharacter* JXDisplay::kXError        = "XError::JXDisplay";
 JBoolean
 JXDisplay::Create
 	(
-	const JCharacter*	displayName,
-	JXDisplay**			display
+	const JString&	displayName,
+	JXDisplay**		display
 	)
 {
-	const JCharacter* name = displayName;
+	const JUtf8Byte* name = displayName.GetBytes();
 	if (JString::IsEmpty(name))
 		{
 		name = NULL;
@@ -130,7 +130,7 @@ JXDisplay::Create
 	Display* xDisplay = XOpenDisplay(name);
 	if (xDisplay != NULL)
 		{
-		*display = jnew JXDisplay(XDisplayName(name), xDisplay);
+		*display = jnew JXDisplay(JString(XDisplayName(name), 0, kJFalse), xDisplay);
 		return JConvertToBoolean( *display != NULL );
 		}
 	else
@@ -147,8 +147,8 @@ JXDisplay::Create
 
 JXDisplay::JXDisplay
 	(
-	const JCharacter*	displayName,
-	Display*			xDisplay
+	const JString&	displayName,
+	Display*		xDisplay
 	)
 	:
 	itsName(displayName),
@@ -182,7 +182,7 @@ JXDisplay::JXDisplay
 	itsMouseGrabber    = NULL;
 	itsKeyboardGrabber = NULL;
 
-	assert( kStandardXAtomCount == (sizeof(kStandardXAtomNames) / sizeof(JCharacter*)) );
+	assert( kStandardXAtomCount == (sizeof(kStandardXAtomNames) / sizeof(JUtf8Byte*)) );
 	RegisterXAtoms(kStandardXAtomCount, kStandardXAtomNames, itsStandardXAtoms);
 
 	CreateBuiltInCursor("XC_left_ptr", XC_left_ptr);
@@ -771,7 +771,7 @@ JXDisplay::KeycodeToModifier
 JCursorIndex
 JXDisplay::CreateBuiltInCursor
 	(
-	const JCharacter*	name,
+	const JUtf8Byte*	name,
 	const unsigned int	shape
 	)
 {
@@ -783,7 +783,7 @@ JXDisplay::CreateBuiltInCursor
 
 	CursorInfo info;
 
-	info.name = jnew JString(name);
+	info.name = jnew JString(name, 0);
 	assert( info.name != NULL );
 
 	info.xid = XCreateFontCursor(itsXDisplay, shape);
@@ -800,7 +800,7 @@ JXDisplay::CreateBuiltInCursor
 JCursorIndex
 JXDisplay::CreateCustomCursor
 	(
-	const JCharacter*	name,
+	const JUtf8Byte*	name,
 	const JXCursor&		cursor
 	)
 {
@@ -812,7 +812,7 @@ JXDisplay::CreateCustomCursor
 
 	CursorInfo info;
 
-	info.name = jnew JString(name);
+	info.name = jnew JString(name, 0);
 	assert( info.name != NULL );
 
 	info.xid = CreateCustomXCursor(cursor);
@@ -873,7 +873,7 @@ JXDisplay::CreateCustomXCursor
 JBoolean
 JXDisplay::GetCursor
 	(
-	const JCharacter*	name,
+	const JUtf8Byte*	name,
 	JCursorIndex*		index
 	)
 	const
@@ -1554,8 +1554,8 @@ JXDisplay::CheckForXErrors()
 				XGetErrorText(error.display, error.error_code, str, 80);
 				std::cerr << "Error code: " << str << std::endl;
 
-				JString reqCodeStr(error.request_code, 0);
-				XGetErrorDatabaseText(error.display, "XRequest", reqCodeStr, "unknown", str, 80);
+				JString reqCodeStr(error.request_code, JString::kBase10);
+				XGetErrorDatabaseText(error.display, "XRequest", reqCodeStr.GetBytes(), "unknown", str, 80);
 				std::cerr << "Offending request: " << str << std::endl;
 
 				assert( 0 /* unexpected XError */ );

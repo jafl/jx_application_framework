@@ -14,19 +14,19 @@ class JXCurrentPathMenu : public JXTextMenu
 {
 public:
 
-	JXCurrentPathMenu(const JCharacter* path, JXContainer* enclosure,
+	JXCurrentPathMenu(const JString& path, JXContainer* enclosure,
 					  const HSizingOption hSizing, const VSizingOption vSizing,
 					  const JCoordinate x, const JCoordinate y,
 					  const JCoordinate w, const JCoordinate h);
 
-	JXCurrentPathMenu(const JCharacter* path,
+	JXCurrentPathMenu(const JString& path,
 					  JXMenu* owner, const JIndex itemIndex, JXContainer* enclosure);
 
 	virtual ~JXCurrentPathMenu();
 
 	JString	GetPath(const Message& message) const;
 	JString	GetPath(const JIndex itemIndex) const;
-	void	SetPath(const JCharacter* path);
+	void	SetPath(const JString& path);
 
 private:
 
@@ -35,8 +35,8 @@ private:
 
 private:
 
-	void		JXCurrentPathMenuX(const JCharacter* path);
-	JXImage*	GetIcon(const JCharacter* path) const;
+	void		JXCurrentPathMenuX(const JString& path);
+	JXImage*	GetIcon(const JString& path) const;
 
 	// not allowed
 

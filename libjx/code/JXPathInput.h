@@ -33,7 +33,7 @@ public:
 
 	JBoolean	HasBasePath() const;
 	JBoolean	GetBasePath(JString* path) const;
-	void		SetBasePath(const JCharacter* path);
+	void		SetBasePath(const JString& path);
 	void		ClearBasePath();
 
 	JBoolean	WillAllowInvalidPath() const;
@@ -42,17 +42,17 @@ public:
 	JBoolean	WillRequireWritable() const;
 	void		ShouldRequireWritable(const JBoolean require = kJTrue);
 
-	JBoolean	ChoosePath(const JCharacter* prompt, const JCharacter* instr = NULL);
+	JBoolean	ChoosePath(const JString& prompt, const JString& instr = JString::empty);
 
 	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers);
 
-	static const JCharacter*	GetFont(JSize* size);
+	static const JString&	GetFont(JSize* size);
 
-	static JColorIndex	GetTextColor(const JCharacter* path, const JCharacter* base,
+	static JColorIndex	GetTextColor(const JString& path, const JString& base,
 									 const JBoolean requireWrite, const JColormap* colormap);
 	static JBoolean		IsCharacterInWord(const JString& text, const JIndex charIndex);
 
-	static JBoolean		Complete(JXInputField* te, const JCharacter* basePath,
+	static JBoolean		Complete(JXInputField* te, const JString& basePath,
 								 JDirInfo* completer,
 								 JXStringCompletionMenu** menu);
 

@@ -15,9 +15,9 @@ class JXGetNewDirDialog : public JXGetStringDialog
 {
 public:
 
-	JXGetNewDirDialog(JXDirector* supervisor, const JCharacter* windowTitle,
-					  const JCharacter* prompt, const JCharacter* initialName,
-					  const JCharacter* basePath, const JBoolean modal = kJTrue);
+	JXGetNewDirDialog(JXDirector* supervisor, const JString& windowTitle,
+					  const JString& prompt, const JString& initialName,
+					  const JString& basePath, const JBoolean modal = kJTrue);
 
 	virtual ~JXGetNewDirDialog();
 

@@ -44,7 +44,7 @@ const JFileVersion kCurrentSetupVersion = 10000;
 JXHistoryMenuBase::JXHistoryMenuBase
 	(
 	const JSize			historyLength,
-	const JCharacter*	title,
+	const JString&		title,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
@@ -151,8 +151,8 @@ JXHistoryMenuBase::AdjustLength()
 void
 JXHistoryMenuBase::AddItem
 	(
-	const JCharacter* text,
-	const JCharacter* nmShortcut
+	const JString& text,
+	const JString& nmShortcut
 	)
 {
 	const JSize itemCount = GetItemCount();

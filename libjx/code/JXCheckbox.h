@@ -22,7 +22,7 @@ public:
 	void		SetState(const JBoolean on);
 	void		ToggleState();
 
-	virtual void	SetShortcuts(const JCharacter* list);
+	virtual void	SetShortcuts(const JString& list);
 	virtual void	HandleShortcut(const int key, const JXKeyModifiers& modifiers);
 
 protected:
@@ -60,7 +60,7 @@ public:
 
 	// JBroadcaster messages
 
-	static const JCharacter* kPushed;
+	static const JUtf8Byte* kPushed;
 
 	class Pushed : public JBroadcaster::Message
 		{

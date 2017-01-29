@@ -42,14 +42,14 @@ protected:
 
 	void			InsertItem(const JIndex index,
 							   const JXMenu::ItemType type = JXMenu::kPlainType,
-							   const JString* shortcuts = NULL,
-							   const JString* id = NULL);
+							   const JString& shortcuts = JString::empty,
+							   const JString& id = JString::empty);
 	void			PrependItem(const JXMenu::ItemType type = JXMenu::kPlainType,
-								const JString* shortcuts = NULL,
-								const JString* id = NULL);
+								const JString& shortcuts = JString::empty,
+								const JString& id = JString::empty);
 	void			AppendItem(const JXMenu::ItemType type = JXMenu::kPlainType,
-							   const JString* shortcuts = NULL,
-							   const JString* id = NULL);
+							   const JString& shortcuts = JString::empty,
+							   const JString& id = JString::empty);
 	virtual void	DeleteItem(const JIndex index);		// must call inherited
 	virtual void	DeleteAll();						// must call inherited
 
@@ -126,8 +126,8 @@ inline void
 JXMenuData::PrependItem
 	(
 	const JXMenu::ItemType	type,
-	const JString*			shortcuts,
-	const JString*			id
+	const JString&			shortcuts,
+	const JString&			id
 	)
 {
 	InsertItem(1, type, shortcuts, id);
@@ -137,8 +137,8 @@ inline void
 JXMenuData::AppendItem
 	(
 	const JXMenu::ItemType	type,
-	const JString*			shortcuts,
-	const JString*			id
+	const JString&			shortcuts,
+	const JString&			id
 	)
 {
 	InsertItem(GetElementCount()+1, type, shortcuts, id);

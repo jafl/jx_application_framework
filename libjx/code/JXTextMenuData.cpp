@@ -81,9 +81,9 @@ JXTextMenuData::InsertItem
 	const JIndex			index,
 	const JString&			str,
 	const JXMenu::ItemType	type,
-	const JString*			shortcuts,
-	const JString*			nmShortcut,
-	const JString*			id
+	const JString&			shortcuts,
+	const JString&			nmShortcut,
+	const JString&			id
 	)
 {
 	JString* text = jnew JString(str);
@@ -104,7 +104,7 @@ JXTextMenuData::InsertItem
 
 	if (nmShortcut != NULL)
 		{
-		SetNMShortcut(index, *nmShortcut);	// parse it and register it
+		SetNMShortcut(index, nmShortcut);	// parse it and register it
 		}
 }
 
@@ -292,7 +292,7 @@ JXTextMenuData::InsertMenuItems
 				}
 			}
 
-		InsertItem(i, itemText, type, &shortcuts, &nmShortcut, &id);
+		InsertItem(i, itemText, type, shortcuts, nmShortcut, id);
 		if (!isActive)
 			{
 			DisableItem(i);
@@ -352,7 +352,7 @@ JXTextMenuData::ParseMenuItemStr
 
 	JPtrArray<JString> list(JPtrArrayT::kDeleteAll);
 	text->Split("%", &list);
-	text->Set(*(list.FirstElement()));
+	text->Set(*(list.GetFirstElement()));
 	text->TrimWhitespace();
 
 	const JSize count = list.GetElementCount();

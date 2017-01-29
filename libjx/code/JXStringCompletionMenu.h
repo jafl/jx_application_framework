@@ -22,7 +22,7 @@ public:
 
 	virtual ~JXStringCompletionMenu();
 
-	JBoolean	AddString(const JCharacter* str);
+	JBoolean	AddString(const JString& str);
 
 	void	CompletionRequested(const JSize prefixLength);
 	void	ClearRequestCount();

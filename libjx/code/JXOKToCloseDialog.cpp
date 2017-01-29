@@ -23,7 +23,7 @@
 
 // JBroadcaster message types
 
-const JCharacter* JXOKToCloseDialog::kGotResponse = "GotResponse::JXOKToCloseDialog";
+const JUtf8Byte* JXOKToCloseDialog::kGotResponse = "GotResponse::JXOKToCloseDialog";
 
 /******************************************************************************
  Constructor
@@ -32,8 +32,8 @@ const JCharacter* JXOKToCloseDialog::kGotResponse = "GotResponse::JXOKToCloseDia
 
 JXOKToCloseDialog::JXOKToCloseDialog
 	(
-	JXDirector*			supervisor,
-	const JCharacter*	message
+	JXDirector*		supervisor,
+	const JString&	message
 	)
 	:
 	JXUNDialogBase(supervisor)
@@ -59,7 +59,7 @@ JXOKToCloseDialog::~JXOKToCloseDialog()
 void
 JXOKToCloseDialog::BuildWindow
 	(
-	const JCharacter* message
+	const JString& message
 	)
 {
 // begin JXLayout
@@ -96,7 +96,7 @@ JXOKToCloseDialog::BuildWindow
 
 // end JXLayout
 
-	window->SetTitle("Warning");
+	window->SetTitle(JGetString("WindowTitle::JXOKToCloseDialog"));
 	SetButtons(saveButton, cancelButton);
 	ListenTo(itsDiscardButton);
 

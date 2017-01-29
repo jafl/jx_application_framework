@@ -20,8 +20,8 @@ class JXDockDirector : public JXWindowDirector
 {
 public:
 
-	JXDockDirector(const JCharacter* title, const JBoolean splitHoriz);
-	JXDockDirector(std::istream& input, const JFileVersion vers, const JCharacter* title);
+	JXDockDirector(const JString& title, const JBoolean splitHoriz);
+	JXDockDirector(std::istream& input, const JFileVersion vers, const JString& title);
 
 	virtual ~JXDockDirector();
 
@@ -53,7 +53,7 @@ private:
 
 private:
 
-	void	BuildWindow(const JCharacter* title, const JBoolean splitHoriz);
+	void	BuildWindow(const JString& title, const JBoolean splitHoriz);
 
 	// not allowed
 

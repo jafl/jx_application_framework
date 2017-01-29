@@ -63,12 +63,12 @@ JXIntersection
 
 JString	JXPackStrings(const JPtrArray<JString>& strList,
 					  const JUtf8Byte* separator = "\0", const JSize sepLength = 1);
-void	JXUnpackStrings(const JString& data, const JSize length,
+void	JXUnpackStrings(const JUtf8Byte* data, const JSize length,
 						JPtrArray<JString>* strList,
 						const JUtf8Byte* separator = "\0", const JSize sepLength = 1);
 
 JString	JXPackFileNames(const JPtrArray<JString>& fileNameList);
-void	JXUnpackFileNames(const JString& data, const JSize length,
+void	JXUnpackFileNames(const JUtf8Byte* data, const JSize length,
 						  JPtrArray<JString>* fileNameList,
 						  JPtrArray<JString>* urlList);
 void	JXReportUnreachableHosts(const JPtrArray<JString>& urlList);

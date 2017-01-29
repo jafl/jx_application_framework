@@ -273,6 +273,25 @@ ChooseFileTitle::JXChooseFileDialog		"Choose file"
 ChooseFilesTitle::JXChooseFileDialog	"Choose files"
 CancelShortcut::JXChooseFileDialog		"^["
 
+# JXChoosePathDialog
+
+Title::JXChoosePathDialog				"Choose directory"
+CancelShortcut::JXChoosePathDialog		"^["
+SelectShortcut::JXChoosePathDialog		"#E"
+DirMustBeWritable::JXChoosePathDialog	"You must select a writable directory."
+
+# JXSaveFileDialog
+
+Title::JXSaveFileDialog				"Save file"
+OpenLabel::JXSaveFileDialog			"Open"
+SaveLabel::JXSaveFileDialog			"Save"
+CancelShortcut::JXSaveFileDialog	"^["
+MustEnterFileName::JXSaveFileDialog	"You need to enter a file name."
+DirExists::JXSaveFileDialog			"This name is already used for a directory."
+DirNotWritable::JXSaveFileDialog	"You do not have write access to this directory."
+FileNotWritable::JXSaveFileDialog	"You do not have write access to this file."
+WarnReplaceFile::JXSaveFileDialog	"That file already exists.  Replace it?"
+
 # JXMessageDialog
 
 WindowTitle::JXMessageDialog	"Message"
@@ -295,3 +314,7 @@ WindowTitle::JXOKToCloseDialog	"Warning"
 TruncationMarker::JXStringCompletionMenu	"etc."
 InsertTabText::JXStringCompletionMenu		"` - tab character"
 InsertTabShortcut::JXStringCompletionMenu	"`"
+
+# JXDisplayMenu
+
+NewDisplay::JXDisplayMenu	"Open new display..."

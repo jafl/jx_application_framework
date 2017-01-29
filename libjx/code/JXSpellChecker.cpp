@@ -218,11 +218,12 @@ JXSpellChecker::CheckWord
 void
 JXSpellChecker::Learn
 	(
-	const JCharacter* word
+	const JString& word
 	)
 {
-	*itsOutPipe << '&' << word << std::endl;
-	*itsOutPipe << '#' << std::endl;
+	*itsOutPipe << '&';
+	word.Print(*itsOutPipe);
+	*itsOutPipe << std::endl << '#' << std::endl;
 }
 
 /******************************************************************************
@@ -233,11 +234,12 @@ JXSpellChecker::Learn
 void
 JXSpellChecker::LearnCaps
 	(
-	const JCharacter* word
+	const JString& word
 	)
 {
-	*itsOutPipe << '*' << word << std::endl;
-	*itsOutPipe << '#' << std::endl;
+	*itsOutPipe << '*';
+	word.Print(*itsOutPipe);
+	*itsOutPipe << std::endl << '#' << std::endl;
 }
 
 /******************************************************************************
@@ -248,10 +250,12 @@ JXSpellChecker::LearnCaps
 void
 JXSpellChecker::Ignore
 	(
-	const JCharacter* word
+	const JString& word
 	)
 {
-	*itsOutPipe << '@' << word << std::endl;
+	*itsOutPipe << '@';
+	word.Print(*itsOutPipe);
+	*itsOutPipe << std::endl;
 }
 
 /******************************************************************************

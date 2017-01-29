@@ -14,19 +14,17 @@
 #include <JXTEBase.h>
 #include <JXFontManager.h>
 #include <jXConstants.h>
+#include <JStringIterator.h>
 #include <jGlobals.h>
 #include <jAssert.h>
 
-const JSize kMaxItemCount               = 100;
-static const JCharacter* kTruncationStr = "etc.";
+const JSize kMaxItemCount = 100;
 
-const JSize kSpecialCmdCount                = 1;
-const JIndex kInsertTabCmd                  = 1;
-static const JCharacter* kInsertTabStr      = "` - tab character";
-static const JCharacter* kInsertTabShortcut = "`";
+const JSize kSpecialCmdCount = 1;
+const JIndex kInsertTabCmd   = 1;
 
-static const JCharacter* kItemPrefixStr = "    ";
-const JSize kItemPrefixLength           = strlen(kItemPrefixStr);
+static const JUtf8Byte* kItemPrefixStr        = "    ";
+static const JUtf8Byte* kShortcutSeparatorStr = " - ";
 
 /******************************************************************************
  Constructor
@@ -39,7 +37,7 @@ JXStringCompletionMenu::JXStringCompletionMenu
 	const JBoolean	allowTabChar
 	)
 	:
-	JXTextMenu("*", te, kFixedLeft, kFixedTop, 0,0, 10,10),
+	JXTextMenu(JString("*", 0, kJFalse), te, kFixedLeft, kFixedTop, 0,0, 10,10),
 	itsAllowTabChar(allowTabChar)
 {
 	itsTE           = te;
@@ -72,7 +70,7 @@ JXStringCompletionMenu::~JXStringCompletionMenu()
 JBoolean
 JXStringCompletionMenu::AddString
 	(
-	const JCharacter* str
+	const JString& str
 	)
 {
 	const JIndex i = GetItemCount()+1;
@@ -90,24 +88,28 @@ JXStringCompletionMenu::AddString
 			}
 		else if (i <= 36)
 			{
-			shortcut = " ";
-			shortcut.SetCharacter(1, 'a' + i - 11);
+			const JUtf8Byte s[] = { 'a' + i - 11, 0 };
+			shortcut.Set(s);
 			}
 
-		JString s = kItemPrefixStr;
-		s += str;
+		JString s;
 		if (!shortcut.IsEmpty())
 			{
-			s.SetCharacter(1, shortcut.GetFirstCharacter());
-			s.SetCharacter(3, '-');
+			s.Append(shortcut);
+			s.Append(kShortcutSeparatorStr);
 			}
+		else
+			{
+			s.Append(kItemPrefixStr);
+			}
+		s += str;
 
 		AppendItem(s, kPlainType, shortcut);
 		return kJTrue;
 		}
 	else if (i == kMaxItemCount+1)
 		{
-		AppendItem(kTruncationStr);
+		AppendItem(JGetString("TruncationMarker::JXStringCompletionMenu"));
 
 		JFont font = GetFontManager()->GetDefaultFont();
 		font.SetItalic(kJTrue);
@@ -140,9 +142,12 @@ JXStringCompletionMenu::CompletionRequested
 
 		JString s;
 		if (itsAllowTabChar &&
-			(!GetItemShortcuts(1, &s) || s != kInsertTabShortcut))
+			(!GetItemShortcuts(1, &s) || s != JGetString("InsertTabShortcut::JXStringCompletionMenu")))
 			{
-			PrependItem(kInsertTabStr, kPlainType, kInsertTabShortcut);
+			PrependItem(
+				JGetString("InsertTabText::JXStringCompletionMenu"),
+				kPlainType,
+				JGetString("InsertTabShortcut::JXStringCompletionMenu"));
 			}
 
 		// place it next to the caret (use the character in front of the caret)
@@ -204,7 +209,9 @@ JXStringCompletionMenu::HandleSelection
 	else if (index - (itsAllowTabChar ? kSpecialCmdCount : 0) <= kMaxItemCount)
 		{
 		JString s = GetItemText(index);
-		s.RemoveSubstring(1, kItemPrefixLength + itsPrefixLength);
+		JStringIterator iter(&s);
+		iter.SkipNext(strlen(kItemPrefixStr));
+		iter.RemoveAllPrev();
 		itsTE->Paste(s);
 		}
 }

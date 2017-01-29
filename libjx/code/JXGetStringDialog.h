@@ -9,6 +9,7 @@
 #define _H_JXGetStringDialog
 
 #include <JXDialogDirector.h>
+#include <JString.h>
 
 class JXInputField;
 
@@ -16,9 +17,9 @@ class JXGetStringDialog : public JXDialogDirector
 {
 public:
 
-	JXGetStringDialog(JXDirector* supervisor, const JCharacter* windowTitle,
-					  const JCharacter* prompt,
-					  const JCharacter* initialValue = NULL,
+	JXGetStringDialog(JXDirector* supervisor, const JString& windowTitle,
+					  const JString& prompt,
+					  const JString& initialValue = JString::empty,
 					  const JBoolean modal = kJTrue,
 					  const JBoolean password = kJFalse);
 
@@ -38,8 +39,8 @@ private:
 
 private:
 
-	void	BuildWindow(const JCharacter* windowTitle,
-						const JCharacter* prompt, const JCharacter* initialValue,
+	void	BuildWindow(const JString& windowTitle,
+						const JString& prompt, const JString& initialValue,
 						const JBoolean password);
 
 	// not allowed

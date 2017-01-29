@@ -11,6 +11,7 @@
  ******************************************************************************/
 
 #include <JXSaveFileInput.h>
+#include <JStringIterator.h>
 #include <jFileUtil.h>
 #include <jAssert.h>
 
@@ -69,7 +70,7 @@ JXSaveFileInput::HandleFocusEvent()
 			}
 		else
 			{
-			SetSelection(1, root.GetLength());
+			SetSelection(1, root.GetCharacterCount());
 			}
 		}
 }
@@ -86,13 +87,13 @@ JXSaveFileInput::HandleFocusEvent()
 JBoolean
 JXSaveFileInput::NeedsToFilterText
 	(
-	const JCharacter* text
+	const JString& text
 	)
 	const
 {
 	return JI2B(JXInputField::NeedsToFilterText(text) ||
-				strchr(text, ACE_DIRECTORY_SEPARATOR_CHAR) != NULL ||
-				(!itsAllowSpaceFlag && strchr(text, ' ') != NULL));
+				text.Contains(ACE_DIRECTORY_SEPARATOR_STR) ||
+				(!itsAllowSpaceFlag && text.Contains(" ")));
 }
 
 /******************************************************************************
@@ -119,16 +120,17 @@ JXSaveFileInput::FilterText
 
 	// convert slash to dash, and possibly space to underscore
 
-	const JSize length = text->GetLength();
-	for (JIndex i=1; i<=length; i++)
+	JStringIterator iter(text);
+	JUtf8Character c;
+	while (iter.Next(&c))
 		{
-		if (text->GetCharacter(i) == ACE_DIRECTORY_SEPARATOR_CHAR)
+		if (c == ACE_DIRECTORY_SEPARATOR_CHAR)
 			{
-			text->SetCharacter(i, '-');
+			iter.SetPrev("-", kJFalse);
 			}
-		else if (!itsAllowSpaceFlag && text->GetCharacter(i) == ' ')
+		else if (!itsAllowSpaceFlag && c.IsSpace())
 			{
-			text->SetCharacter(i, '_');
+			iter.SetPrev("_", kJFalse);
 			}
 		}
 

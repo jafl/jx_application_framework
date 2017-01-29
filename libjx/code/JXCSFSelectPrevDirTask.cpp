@@ -19,19 +19,17 @@
 
 JXCSFSelectPrevDirTask::JXCSFSelectPrevDirTask
 	(
-	JDirInfo*			dirInfo,
-	JXDirTable*			dirTable,
-	const JCharacter*	dirName
+	JDirInfo*		dirInfo,
+	JXDirTable*		dirTable,
+	const JString&	dirName
 	)
 	:
-	JXUrgentTask()
+	JXUrgentTask(),
+	itsDirInfo(dirInfo),
+	itsDirTable(dirTable),
+	itsDirName(dirName)
 {
-	itsDirInfo  = dirInfo;
-	itsDirTable = dirTable;
 	ClearWhenGoingAway(itsDirTable, &itsDirTable);
-
-	itsDirName = jnew JString(dirName);
-	assert( itsDirName != NULL );
 }
 
 /******************************************************************************
@@ -41,7 +39,6 @@ JXCSFSelectPrevDirTask::JXCSFSelectPrevDirTask
 
 JXCSFSelectPrevDirTask::~JXCSFSelectPrevDirTask()
 {
-	jdelete itsDirName;
 }
 
 /******************************************************************************
@@ -53,7 +50,7 @@ void
 JXCSFSelectPrevDirTask::Perform()
 {
 	JIndex index;
-	if (itsDirTable != NULL && itsDirInfo->FindEntry(*itsDirName, &index))
+	if (itsDirTable != NULL && itsDirInfo->FindEntry(itsDirName, &index))
 		{
 		itsDirTable->UpdateScrollbars();
 		itsDirTable->SelectSingleEntry(index);

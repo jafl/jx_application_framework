@@ -29,19 +29,19 @@ public:
 
 	void			InsertItem(const JIndex index, const JString& str,
 							   const JXMenu::ItemType type = JXMenu::kPlainType,
-							   const JString* shortcuts = NULL,
-							   const JString* nmShortcut = NULL,
-							   const JString* id = NULL);
+							   const JString& shortcuts = JString::empty,
+							   const JString& nmShortcut = JString::empty,
+							   const JString& id = JString::empty);
 	void			PrependItem(const JString& str,
 							   const JXMenu::ItemType type = JXMenu::kPlainType,
-								const JString* shortcuts = NULL,
-								const JString* nmShortcut = NULL,
-								const JString* id = NULL);
+								const JString& shortcuts = JString::empty,
+								const JString& nmShortcut = JString::empty,
+								const JString& id = JString::empty);
 	void			AppendItem(const JString& str,
 							   const JXMenu::ItemType type = JXMenu::kPlainType,
-							   const JString* shortcuts = NULL,
-							   const JString* nmShortcut = NULL,
-							   const JString* id = NULL);
+							   const JString& shortcuts = JString::empty,
+							   const JString& nmShortcut = JString::empty,
+							   const JString& id = JString::empty);
 	virtual void	DeleteItem(const JIndex index);		// must call inherited
 	virtual void	DeleteAll();						// must call inherited
 
@@ -196,9 +196,9 @@ JXTextMenuData::PrependItem
 	(
 	const JString&			str,
 	const JXMenu::ItemType	type,
-	const JString*			shortcuts,
-	const JString*			nmShortcut,
-	const JString*			id
+	const JString&			shortcuts,
+	const JString&			nmShortcut,
+	const JString&			id
 	)
 {
 	InsertItem(1, str, type, shortcuts, nmShortcut, id);
@@ -209,9 +209,9 @@ JXTextMenuData::AppendItem
 	(
 	const JString&			str,
 	const JXMenu::ItemType	type,
-	const JString*			shortcuts,
-	const JString*			nmShortcut,
-	const JString*			id
+	const JString&			shortcuts,
+	const JString&			nmShortcut,
+	const JString&			id
 	)
 {
 	InsertItem(GetElementCount()+1, str, type, shortcuts, nmShortcut, id);

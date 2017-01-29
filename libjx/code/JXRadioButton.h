@@ -28,7 +28,7 @@ public:
 	JBoolean	IsChecked() const;
 	void		Select();
 
-	virtual void	SetShortcuts(const JCharacter* list);
+	virtual void	SetShortcuts(const JString& list);
 	virtual void	HandleShortcut(const int key, const JXKeyModifiers& modifiers);
 
 protected:

@@ -53,22 +53,22 @@ JXMenuData::InsertItem
 	(
 	const JIndex			index,
 	const JXMenu::ItemType	type,
-	const JString*			shortcuts,
-	const JString*			id
+	const JString&			shortcuts,
+	const JString&			id
 	)
 {
 	BaseItemData itemData;
 	itemData.type = type;
 
-	if (!JString::IsEmpty(shortcuts))
+	if (!shortcuts.IsEmpty())
 		{
-		itemData.shortcuts = jnew JString(*shortcuts);
+		itemData.shortcuts = jnew JString(shortcuts);
 		assert( itemData.shortcuts != NULL );
 		}
 
-	if (!JString::IsEmpty(id))
+	if (!id.IsEmpty())
 		{
-		itemData.id = jnew JString(*id);
+		itemData.id = jnew JString(id);
 		assert( itemData.id != NULL );
 		}
 

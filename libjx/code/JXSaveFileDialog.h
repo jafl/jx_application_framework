@@ -21,25 +21,25 @@ public:
 
 	static JXSaveFileDialog*
 		Create(JXDirector* supervisor, JDirInfo* dirInfo,
-			   const JCharacter* fileFilter,
-			   const JCharacter* origName, const JCharacter* prompt,
-			   const JCharacter* message = NULL);
+			   const JString& fileFilter,
+			   const JString& origName, const JString& prompt,
+			   const JString& message = JString::empty);
 
 	virtual ~JXSaveFileDialog();
 
 	virtual void	Activate();
 
-	void		Save(const JCharacter* path);
+	void		Save(const JString& path);
 	JBoolean	GetFileName(JString* name) const;
 
 protected:
 
 	JXSaveFileDialog(JXDirector* supervisor, JDirInfo* dirInfo,
-					 const JCharacter* fileFilter);
+					 const JString& fileFilter);
 
 	void	SetObjects(JXScrollbarSet* scrollbarSet,
-					   JXStaticText* promptLabel, const JCharacter* prompt,
-					   JXSaveFileInput* fileNameInput, const JCharacter* origName,
+					   JXStaticText* promptLabel, const JString& prompt,
+					   JXSaveFileInput* fileNameInput, const JString& origName,
 					   JXStaticText* pathLabel, JXPathInput* pathInput,
 					   JXPathHistoryMenu* pathHistory,
 					   JXStaticText* filterLabel, JXInputField* filterInput,
@@ -48,7 +48,7 @@ protected:
 					   JXTextButton* upButton, JXTextButton* homeButton,
 					   JXTextButton* desktopButton,
 					   JXNewDirButton* newDirButton, JXTextCheckbox* showHiddenCB,
-					   JXCurrentPathMenu* currPathMenu, const JCharacter* message);
+					   JXCurrentPathMenu* currPathMenu, const JString& message);
 
 	JXInputField*	GetFileNameInput();
 
@@ -72,8 +72,8 @@ private:
 
 private:
 
-	void	BuildWindow(const JCharacter* origName, const JCharacter* prompt,
-						const JCharacter* message = NULL);
+	void	BuildWindow(const JString& origName, const JString& prompt,
+						const JString& message);
 
 	// not allowed
 

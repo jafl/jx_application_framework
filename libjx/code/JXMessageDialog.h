@@ -16,7 +16,7 @@ class JXMessageDialog : public JXUNDialogBase
 {
 public:
 
-	JXMessageDialog(JXDirector* supervisor, const JCharacter* message);
+	JXMessageDialog(JXDirector* supervisor, const JString& message);
 
 	virtual ~JXMessageDialog();
 
@@ -29,7 +29,7 @@ private:
 
 private:
 
-	void	BuildWindow(const JCharacter* message);
+	void	BuildWindow(const JString& message);
 
 	// not allowed
 
