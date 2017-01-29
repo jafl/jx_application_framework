@@ -1735,7 +1735,7 @@ CBTextEditor::SetTabCharCount
 		{
 		PrivateSetTabCharCount(charCount);
 		SetDefaultTabWidth(
-			CalcTabWidth(TEGetFontManager()->GetDefaultFont(), charCount));
+			CalcTabWidth(GetDefaultFont(), charCount));
 		}
 }
 
