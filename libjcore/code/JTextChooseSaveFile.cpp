@@ -56,13 +56,13 @@ JBoolean
 JTextChooseSaveFile::ChooseFile
 	(
 	const JString&	prompt,
-	const JString*	instructions,
+	const JString&	instructions,
 	JString*		fullName
 	)
 {
 	while (1)
 		{
-		if (!JString::IsEmpty(instructions))
+		if (!instructions.IsEmpty())
 			{
 			std::cout << std::endl;
 			std::cout << instructions << std::endl;
@@ -98,8 +98,8 @@ JBoolean
 JTextChooseSaveFile::ChooseFile
 	(
 	const JString&	prompt,
-	const JString*	instructions,
-	const JString*	origName,
+	const JString&	instructions,
+	const JString&	origName,
 	JString*		fullName
 	)
 {
@@ -119,13 +119,13 @@ JBoolean
 JTextChooseSaveFile::ChooseFiles
 	(
 	const JString&		prompt,
-	const JString*		instructions,
+	const JString&		instructions,
 	JPtrArray<JString>*	fullNameList
 	)
 {
 	fullNameList->CleanOut();
 
-	if (!JString::IsEmpty(instructions))
+	if (!instructions.IsEmpty())
 		{
 		std::cout << std::endl;
 		std::cout << instructions << std::endl;
@@ -182,8 +182,8 @@ JBoolean
 JTextChooseSaveFile::ChooseRPath
 	(
 	const JString&	prompt,
-	const JString*	instructions,
-	const JString*	origPath,
+	const JString&	instructions,
+	const JString&	origPath,
 	JString*		newPath
 	)
 {
@@ -218,8 +218,8 @@ JBoolean
 JTextChooseSaveFile::ChooseRWPath
 	(
 	const JString&	prompt,
-	const JString*	instructions,
-	const JString*	origPath,
+	const JString&	instructions,
+	const JString&	origPath,
 	JString*		newPath
 	)
 {
@@ -260,11 +260,11 @@ JBoolean
 JTextChooseSaveFile::GetPath
 	(
 	const JString&	prompt,
-	const JString*	instructions,
+	const JString&	instructions,
 	JString*		newPath
 	)
 {
-	if (!JString::IsEmpty(instructions))
+	if (!instructions.IsEmpty())
 		{
 		std::cout << std::endl;
 		std::cout << instructions << std::endl;
@@ -302,14 +302,14 @@ JBoolean
 JTextChooseSaveFile::SaveFile
 	(
 	const JString&	prompt,
-	const JString*	instructions,
+	const JString&	instructions,
 	const JString&	originalName,
 	JString*		newFullName
 	)
 {
 	while (1)
 		{
-		if (!JString::IsEmpty(instructions))
+		if (!instructions.IsEmpty())
 			{
 			std::cout << std::endl;
 			std::cout << instructions << std::endl;

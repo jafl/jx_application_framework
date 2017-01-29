@@ -36,7 +36,6 @@ static JStringManager*			theStringManager     = NULL;
 static JWebBrowser*				theWebBrowser        = NULL;
 
 static JString					theDefaultFontName  ("Helvetica", 0, kJFalse);
-static JString					theGreekFontName    ("Symbol",    0, kJFalse);
 static JString					theMonospaceFontName("Courier",   0, kJFalse);
 
 /******************************************************************************
@@ -79,11 +78,15 @@ JInitCore
 	JGetCurrentFontManager*	gcfm,
 	JGetCurrentColormap*	gcc,
 
-	const JString*			defaultFontName,
-	const JString*			greekFontName,
-	const JString*			monospaceFontName
+	const JString&			defaultFontName,
+	const JString&			monospaceFontName
 	)
 {
+	if (theStringManager != NULL)
+		{
+		return;		// already initialized
+		}
+
 	// assert handler
 
 	if (ah != NULL)
@@ -164,23 +167,16 @@ JInitCore
 
 	// default font name
 
-	if (!JString::IsEmpty(defaultFontName))
+	if (!defaultFontName.IsEmpty())
 		{
-		theDefaultFontName = *defaultFontName;
-		}
-
-	// greek font name
-
-	if (!JString::IsEmpty(greekFontName))
-		{
-		theGreekFontName = *greekFontName;
+		theDefaultFontName = defaultFontName;
 		}
 
 	// monospace font name
 
-	if (!JString::IsEmpty(monospaceFontName))
+	if (!monospaceFontName.IsEmpty())
 		{
-		theMonospaceFontName = *monospaceFontName;
+		theMonospaceFontName = monospaceFontName;
 		}
 
 	// remember to clean up
@@ -413,17 +409,6 @@ JGetDefaultFontName()
 }
 
 /******************************************************************************
- JGetGreekFontName
-
- ******************************************************************************/
-
-const JString&
-JGetGreekFontName()
-{
-	return theGreekFontName;
-}
-
-/******************************************************************************
  JGetMonospaceFontName
 
  ******************************************************************************/
@@ -456,5 +441,5 @@ JGetJDataDirectories
 	JString*		userDir
 	)
 {
-	return JGetDataDirectories("jx", dirName, sysDir, userDir);
+	return JGetDataDirectories(JString("jx", 0, kJFalse), dirName, sysDir, userDir);
 }

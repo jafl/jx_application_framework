@@ -29,10 +29,10 @@ const JUtf8Byte* kUserDataFileDir   = "~/.";
 JBoolean
 JGetDataDirectories
 	(
-	const JUtf8Byte*	signature,
-	const JString&		dirName,
-	JString*			sysDir,
-	JString*			userDir
+	const JString&	signature,
+	const JString&	dirName,
+	JString*		sysDir,
+	JString*		userDir
 	)
 {
 	*sysDir  = kSystemDataFileDir;

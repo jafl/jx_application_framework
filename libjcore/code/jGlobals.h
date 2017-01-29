@@ -27,9 +27,8 @@ void JInitCore(JAssertBase* ah = NULL, const JUtf8Byte* appSignature = NULL,
 			   JChooseSaveFile* csf = NULL, JCreateProgressDisplay* cpg = NULL,
 			   JGetCurrentFontManager* gcfm = NULL,
 			   JGetCurrentColormap* gcc = NULL,
-			   const JString* defaultFontName = NULL,
-			   const JString* greekFontName = NULL,
-			   const JString* monospaceFontName = NULL);
+			   const JString& defaultFontName = JString::empty,
+			   const JString& monospaceFontName = JString::empty);
 void JSetWebBrowser(JWebBrowser* webBrowser);
 
 void JDeleteGlobals();
@@ -49,12 +48,11 @@ const JString&			JGetString(const JUtf8Byte* id);
 JString					JGetString(const JUtf8Byte* id, const JUtf8Byte* map[], const JSize size);
 
 const JString&	JGetDefaultFontName();
-const JString&	JGetGreekFontName();
 const JString&	JGetMonospaceFontName();
 
 JBoolean	JGetJDataDirectories(const JString& dirName,
 								 JString* sysDir, JString* userDir);
-JBoolean	JGetDataDirectories(const JUtf8Byte* signature, const JString& dirName,
+JBoolean	JGetDataDirectories(const JString& signature, const JString& dirName,
 								JString* sysDir, JString* userDir);
 
 /******************************************************************************

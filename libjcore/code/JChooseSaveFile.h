@@ -21,27 +21,27 @@ public:
 	virtual ~JChooseSaveFile();
 
 	virtual JBoolean ChooseFile(const JString& prompt,
-								const JString* instructions,		// can be NULL
+								const JString& instructions,
 								JString* fullName) = 0;
 	virtual JBoolean ChooseFile(const JString& prompt,
-								const JString* instructions,		// can be NULL
-								const JString* origName,			// can be NULL
+								const JString& instructions,
+								const JString& origName,
 								JString* fullName) = 0;
 	virtual JBoolean ChooseFiles(const JString& prompt,
-								 const JString* instructions,		// can be NULL
+								 const JString& instructions,
 								 JPtrArray<JString>* fullNameList) = 0;
 
 	virtual JBoolean ChooseRPath(const JString& prompt,
-								 const JString* instructions,		// can be NULL
-								 const JString* origPath,			// can be NULL
+								 const JString& instructions,
+								 const JString& origPath,
 								 JString* newPath) = 0;
 	virtual JBoolean ChooseRWPath(const JString& prompt,
-								  const JString* instructions,	// can be NULL
-								  const JString* origPath,		// can be NULL
+								  const JString& instructions,
+								  const JString& origPath,
 								  JString* newPath) = 0;
 
 	virtual JBoolean SaveFile(const JString& prompt,
-							  const JString* instructions,		// can be NULL
+							  const JString& instructions,
 							  const JString& originalName,
 							  JString* newFullName) = 0;
 
