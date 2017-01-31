@@ -38,6 +38,7 @@ AUTO_TESTS := \
       test_JBroadcaster \
       test_JArray test_JLinkedList test_JPtrArray test_JRunArray \
       test_JStack test_JQueue test_JVector test_JMatrix \
+      test_jListUtil test_JPtrArrayJString \
       test_JKLRand test_jHashFunctions \
       test_JHashTable test_JStringMap test_JStringPtrMap \
       test_jFileUtil test_jFStreamUtil test_JDirInfo \

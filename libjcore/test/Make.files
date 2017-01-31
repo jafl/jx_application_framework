@@ -44,6 +44,10 @@ literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
 ${CODEDIR}/test_JLinkedList
 literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
 
+@test_jListUtil
+${CODEDIR}/test_jListUtil
+literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
+
 @test_JMatrix
 ${CODEDIR}/test_JMatrix
 literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
@@ -62,6 +66,10 @@ literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
 
 @test_JPtrArray
 ${CODEDIR}/test_JPtrArray
+literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
+
+@test_JPtrArrayJString
+${CODEDIR}/test_JPtrArrayJString
 literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
 
 @test_JQueue
