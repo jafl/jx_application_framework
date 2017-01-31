@@ -69,6 +69,11 @@ JTEST(Construction)
 
 	std::string ss1("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94");
 
+	JString s14(ss1, JUtf8ByteRange());
+	JAssertEqual(19, s14.GetByteCount());
+	JAssertEqual(14, s14.GetCharacterCount());
+	JAssertStringsEqual("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", s14);
+
 	JString s8(ss1, JUtf8ByteRange(1, 19));
 	JAssertEqual(19, s8.GetByteCount());
 	JAssertEqual(14, s8.GetCharacterCount());
@@ -848,4 +853,23 @@ JTEST(CopyNormalizedBytes)
 		JAssertEqualWithMessage(0, JString::CompareMaxNBytes(string, stringList[testnum], kStringLength-1), stringList[testnum]);
 		JAssertEqualWithMessage(JMin(kStringLength-1, srcLength), strlen(string), string);
 		}
+}
+
+JTEST(Normalization)
+{
+	JString s(kJFalse);
+	s.Set("a\0b", 3);
+	JAssertEqual(3, s.GetByteCount());
+
+	JString s1(kJFalse);
+	s1 = "\xC3\xB6\xE2\x9C\x94";
+	JAssertStringsEqual("\xC3\xB6\xE2\x9C\x94", s1);
+
+	JString s2(kJFalse);
+	s2 = "\x6F\xCC\x88\xE2\x9C\x94";
+	JAssertStringsEqual("\x6F\xCC\x88\xE2\x9C\x94", s2);
+
+	JString s3(kJTrue);
+	s3 = "\x6F\xCC\x88\xE2\x9C\x94";
+	JAssertStringsEqual("\xC3\xB6\xE2\x9C\x94", s3);
 }

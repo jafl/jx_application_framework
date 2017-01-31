@@ -54,7 +54,7 @@ public:
 
 public:
 
-	JString();
+	JString(const JBoolean normalize = kJTrue);
 	JString(const JString& str);
 	JString(const JString& str, const JCharacterRange& range);
 //	JString(const JUtf8Byte* str, const JBoolean copy = kJTrue);	// prevent automatic construction
@@ -275,12 +275,13 @@ protected:
 
 private:
 
-	JBoolean	itsOwnerFlag;		// kJFalse => somebody else owns the byte allocation
-	JUtf8Byte*	itsBytes;			// characters
-	JSize		itsByteCount;		// number of bytes used
-	JSize		itsCharacterCount;	// number of characters
-	JSize		itsAllocCount;		// number of bytes we have space for
-	JSize		itsBlockSize;		// size by which to shrink and grow allocation
+	JBoolean		itsOwnerFlag;		// kJFalse => somebody else owns the byte allocation
+	const JBoolean	itsNormalizeFlag;	// kJFalse => store raw bytes, including null
+	JUtf8Byte*		itsBytes;			// characters
+	JSize			itsByteCount;		// number of bytes used
+	JSize			itsCharacterCount;	// number of characters
+	JSize			itsAllocCount;		// number of bytes we have space for
+	JSize			itsBlockSize;		// size by which to shrink and grow allocation
 
 	UCaseMap*			itsUCaseMap;
 	JStringIterator*	itsIterator;	// only one iterator allowed at a time

@@ -78,6 +78,7 @@ const JString JRegex::theSpecialCharList(".[]\\?*+{}|()^$", 0, kJFalse);
 
 JRegex::JRegex()
 	:
+	itsPattern(kJFalse),
 	itsState(kEmpty),
 	itsRegex(NULL),
 	itsCFlags(defaultCFlags),
@@ -91,6 +92,7 @@ JRegex::JRegex
 	const JString& pattern
 	)
 	:
+	itsPattern(kJFalse),
 	itsState(kEmpty),
 	itsRegex(NULL),
 	itsCFlags(defaultCFlags),
@@ -105,6 +107,7 @@ JRegex::JRegex
 	const JUtf8Byte* pattern
 	)
 	:
+	itsPattern(kJFalse),
 	itsState(kEmpty),
 	itsRegex(NULL),
 	itsCFlags(defaultCFlags),
@@ -220,6 +223,11 @@ JRegex::BackslashForLiteral
 			{
 			iter.Insert(backslash);
 			}
+		else if (c == '\0')
+			{
+			iter.RemoveNext();
+			iter.Insert("\\x0");
+			}
 		}
 
 	return s;
@@ -241,7 +249,19 @@ JRegex::SetPattern
 	const JString& pattern
 	)
 {
-	return SetPattern(pattern.GetBytes());
+	if (itsPattern != pattern)	// may contain NULL, so cannot call other version
+		{
+		itsPattern.Set(pattern);
+		return Compile();
+		}
+	else if (itsState != kReady)
+		{
+		return Compile();
+		}
+	else
+		{
+		return JNoError();
+		}
 }
 
 JError

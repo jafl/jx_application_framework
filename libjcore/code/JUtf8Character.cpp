@@ -160,12 +160,7 @@ JUtf8Character::GetCharacterByteCount
 {
 	unsigned char* c = (unsigned char*) utf8Character;
 	JBoolean ok;
-	if (c[0] == 0)
-		{
-		*byteCount = 0;
-		ok = kJTrue;
-		}
-	else if (c[0] <= (unsigned char) '\x7F')
+	if (c[0] <= (unsigned char) '\x7F')
 		{
 		*byteCount = 1;
 		ok = kJTrue;
@@ -245,11 +240,7 @@ JUtf8Character::Utf32ToUtf8
 	JUInt32 ch = origChar;
 
 	JSize byteCount = 0;
-	if (ch == 0)
-		{
-		byteCount = 0;
-		}
-	else if (ch < (JUInt32) 0x80)
+	if (ch < (JUInt32) 0x80)
 		{
 		byteCount = 1;
 		}
@@ -313,8 +304,6 @@ JUtf8Character::Utf8ToUtf32
 	JSize*				returnByteCount
 	)
 {
-	JUInt32 ch = 0;
-
 	JSize byteCount;
 	const JBoolean ok = GetCharacterByteCount(bytes, &byteCount);
 	if (returnByteCount != NULL)
@@ -326,11 +315,8 @@ JUtf8Character::Utf8ToUtf32
 		{
 		return kUtf32SubstitutionCharacter;
 		}
-	else if (byteCount == 0)
-		{
-		return 0;
-		}
 
+	JUInt32 ch = 0;
 	switch (byteCount)	// note: everything falls through
 		{
 		case 4:

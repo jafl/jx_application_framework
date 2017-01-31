@@ -524,3 +524,32 @@ JTEST(BackslashForLiteral)
 		JString(".[foo]\\?*^${\xE2\x9C\x94}|()83", 0, kJFalse));
 	JAssertStringsEqual("\\.\\[foo\\]\\\\\\?\\*\\^\\$\\{\xE2\x9C\x94\\}\\|\\(\\)83", s);
 }
+
+JTEST(Null)
+{
+	JString s(kJFalse);
+	s.Set("a\0b", 3);
+
+	JRegex r(s);
+	JAssertEqual(3, r.GetPattern().GetByteCount());
+	s.Set("foa\0bar", 7);
+	JAssertEqual(7, s.GetByteCount());
+	JAssertTrue(r.Match(s));
+
+	// test for JMessageProcotol
+
+	JString pattern(kJFalse);
+
+	s.Set("\n", 1);
+	pattern  = JRegex::BackslashForLiteral(s);
+
+	pattern += "|";
+
+	s.Set("\0", 1);
+	pattern += JRegex::BackslashForLiteral(s);
+
+	r.SetPatternOrDie(pattern);
+	JAssertEqual(5, r.GetPattern().GetByteCount());
+	JAssertEqual(0, memcmp("\n|\\x0", r.GetPattern().GetBytes(), 3));
+	JAssertTrue(r.Match(JString("abcd\n", 0, kJFalse)));
+}

@@ -53,9 +53,13 @@ static void	double2str(double doubleVal, int afterDec, int sigDigitCount,
 
  ******************************************************************************/
 
-JString::JString()
+JString::JString
+	(
+	const JBoolean normalize
+	)
 	:
 	itsOwnerFlag(kJTrue),
+	itsNormalizeFlag(normalize),
 	itsByteCount(0),
 	itsCharacterCount(0),
 	itsAllocCount(theDefaultBlockSize),
@@ -75,6 +79,7 @@ JString::JString
 	)
 	:
 	itsOwnerFlag(kJTrue),
+	itsNormalizeFlag(kJTrue),
 	itsBytes(NULL),		// makes delete [] safe inside CopyToPrivateBuffer
 	itsByteCount(0),
 	itsCharacterCount(0),
@@ -95,6 +100,7 @@ JString::JString
 	)
 	:
 	itsOwnerFlag(kJTrue),
+	itsNormalizeFlag(kJTrue),
 	itsBytes(NULL),		// makes delete [] safe inside CopyToPrivateBuffer
 	itsByteCount(0),
 	itsCharacterCount(0),
@@ -130,6 +136,7 @@ JString::JString
 	)
 	:
 	itsOwnerFlag(kJTrue),
+	itsNormalizeFlag(kJTrue),
 	itsBytes(NULL),		// makes delete [] safe inside CopyToPrivateBuffer
 	itsByteCount(0),
 	itsCharacterCount(0),
@@ -158,6 +165,7 @@ JString::JString
 	)
 	:
 	itsOwnerFlag(kJTrue),
+	itsNormalizeFlag(kJTrue),
 	itsBytes(NULL),		// makes delete [] safe inside CopyToPrivateBuffer
 	itsByteCount(0),
 	itsCharacterCount(0),
@@ -166,7 +174,14 @@ JString::JString
 	itsUCaseMap(NULL),
 	itsIterator(NULL)
 {
-	CopyToPrivateBuffer(s.data() + range.first-1, range.GetCount());
+	if (range.IsNothing())
+		{
+		CopyToPrivateBuffer(s.data(), s.length());
+		}
+	else
+		{
+		CopyToPrivateBuffer(s.data() + range.first-1, range.GetCount());
+		}
 }
 
 JString::JString
@@ -177,6 +192,7 @@ JString::JString
 	)
 	:
 	itsOwnerFlag(kJTrue),
+	itsNormalizeFlag(kJTrue),
 	itsBytes(NULL),		// makes delete [] safe inside CopyToPrivateBuffer
 	itsByteCount(0),
 	itsCharacterCount(0),
@@ -243,6 +259,7 @@ JString::JString
 	)
 	:
 	itsOwnerFlag(kJTrue),
+	itsNormalizeFlag(kJTrue),
 	itsByteCount(0),
 	itsCharacterCount(0),
 	itsAllocCount(theDefaultBlockSize),
@@ -273,6 +290,7 @@ JString::JString
 	)
 	:
 	itsOwnerFlag(kJTrue),
+	itsNormalizeFlag(source.itsNormalizeFlag),
 	itsBytes(NULL),		// makes delete [] safe inside CopyToPrivateBuffer
 	itsByteCount(0),
 	itsCharacterCount(0),
@@ -401,7 +419,16 @@ JString::CopyToPrivateBuffer
 
 	if (str != NULL)
 		{
-		itsByteCount      = CopyNormalizedBytes(str, byteCount, itsBytes, itsAllocCount+1);
+		if (itsNormalizeFlag)
+			{
+			itsByteCount = CopyNormalizedBytes(str, byteCount, itsBytes, itsAllocCount+1);
+			}
+		else
+			{
+			memcpy(itsBytes, str, byteCount);
+			itsBytes[ byteCount ] = 0;
+			itsByteCount          = byteCount;
+			}
 		itsCharacterCount = CountCharacters(itsBytes, itsByteCount);
 		}
 	else
@@ -580,10 +607,15 @@ JString::ReplaceBytes
 
 	JUtf8Byte* normalizedInsertBytes = NULL;
 	JSize normalizedInsertByteCount  = insertByteCount;
-	if (insertByteCount > 0)
+	if (insertByteCount > 0 && itsNormalizeFlag)
 		{
 		normalizedInsertByteCount =
 			Normalize(stringToInsert, insertByteCount, &normalizedInsertBytes);
+		}
+	else if (insertByteCount > 0)
+		{
+		normalizedInsertBytes     = const_cast<JUtf8Byte*>(stringToInsert);
+		normalizedInsertByteCount = insertByteCount;
 		}
 
 	const JSize newCount = itsByteCount - replaceCount + normalizedInsertByteCount;
@@ -647,7 +679,10 @@ JString::ReplaceBytes
 		itsCharacterCount += CountCharacters(normalizedInsertBytes, count2);
 		}
 
-	jdelete [] normalizedInsertBytes;
+	if (itsNormalizeFlag)
+		{
+		jdelete [] normalizedInsertBytes;
+		}
 }
 
 /******************************************************************************
@@ -1582,11 +1617,6 @@ JString::CountCharacters
 		{
 		// accept invalid byte sequences as single characters
 		JUtf8Character::GetCharacterByteCount(str + i, &byteCount);
-		if (byteCount == 0)
-			{
-			break;
-			}
-
 		charCount++;
 		i += byteCount;
 		}
@@ -1606,40 +1636,25 @@ JString::CharacterToUtf8ByteRange
 	const JCharacterRange&	range
 	)
 {
-	JSize charCount = 0, startByte = 0;
-
-	JIndex i = 1;
+	JIndex j = 1;
 	JSize byteCount;
-	while (str[ i-1 ] != 0)
+	for (JIndex i=1; i<range.first; i++)
 		{
-		if (charCount >= range.first-1)
-			{
-			startByte = i;
-			break;
-			}
-
 		// accept invalid byte sequences as single characters
-		JUtf8Character::GetCharacterByteCount(str + i-1, &byteCount);
-		charCount++;
-		i += byteCount;
+		JUtf8Character::GetCharacterByteCount(str + j-1, &byteCount);
+		j += byteCount;
 		}
 
-	if (startByte == 0)
-		{
-		return JUtf8ByteRange();
-		}
+	JUtf8ByteRange r(j, j);
 
-	JUtf8ByteRange r(startByte, startByte);
-
-	charCount = range.GetCount();
-	for (JIndex i=1; i<=charCount; i++)
+	for (JIndex i = range.first; i <= range.last; i++)
 		{
 		// accept invalid byte sequences as single characters
 		JUtf8Character::GetCharacterByteCount(str + r.last-1, &byteCount);
 		r.last += byteCount;
 		}
 
-	r.last--;
+	r.last--;	// back up 1 byte - character may be more than 1 byte
 	return r;
 }
 

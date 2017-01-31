@@ -19,7 +19,7 @@ const JSize JMessageProtocolT::kMacintoshSeparatorByteCount = 1;
 const JUtf8Byte* JMessageProtocolT::kDOSSeparatorStr  = "\r\n";
 const JSize JMessageProtocolT::kDOSSeparatorByteCount = 2;
 
-const JUtf8Byte* JMessageProtocolT::kStdDisconnectStr  = "\1";	// NULL character not allowed
+const JUtf8Byte* JMessageProtocolT::kStdDisconnectStr  = "\0";
 const JSize JMessageProtocolT::kStdDisconnectByteCount = 1;
 
 // JBroadcaster message types

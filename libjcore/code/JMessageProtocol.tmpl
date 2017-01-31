@@ -38,7 +38,9 @@ JMessageProtocol<ACE_PEER_STREAM_2>::JMessageProtocol
 	)
 	:
 	JNetworkProtocolBase<ACE_PEER_STREAM_2>(synchSend),
-	itsMessageList(JPtrArrayT::kDeleteAll)
+	itsMessageList(JPtrArrayT::kDeleteAll),
+	itsSeparatorStr(kJFalse),
+	itsDisconnectStr(kJFalse)
 {
 	JMessageProtocolX();
 }
@@ -51,7 +53,9 @@ JMessageProtocol<ACE_PEER_STREAM_2>::JMessageProtocol
 	)
 	:
 	JNetworkProtocolBase<ACE_PEER_STREAM_2>(synchSend),
-	itsMessageList(JPtrArrayT::kDeleteAll)
+	itsMessageList(JPtrArrayT::kDeleteAll),
+	itsSeparatorStr(kJFalse),
+	itsDisconnectStr(kJFalse)
 {
 	JMessageProtocolX();
 
@@ -406,6 +410,7 @@ JMessageProtocol<ACE_PEER_STREAM_2>::handle_input
 	// We flush the system buffer even if we have received a disconnect.
 
 	const ssize_t count = (ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH>::peer()).recv(itsBuffer + itsBufferOffset, itsBufferSize - itsBufferOffset);
+
 	if (itsReceivedDisconnectFlag || count <= 0)
 		{
 		itsInHandleInputFlag = kJFalse;
@@ -496,9 +501,10 @@ template <ACE_PEER_STREAM_1>
 void
 JMessageProtocol<ACE_PEER_STREAM_2>::UpdateTokenPattern()
 {
-	JString pattern = JRegex::BackslashForLiteral(itsSeparatorStr);
-	pattern        += "|";
-	pattern        += JRegex::BackslashForLiteral(itsDisconnectStr);
+	JString pattern(kJFalse);
+	pattern  = JRegex::BackslashForLiteral(itsSeparatorStr);
+	pattern += "|";
+	pattern += JRegex::BackslashForLiteral(itsDisconnectStr);
 	itsTokenPattern.SetPatternOrDie(pattern);
 }
 

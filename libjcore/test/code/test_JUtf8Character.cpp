@@ -117,7 +117,7 @@ JTEST(CharacterByteCount)
 {
 	JSize byteCount;
 	JAssertTrue(JUtf8Character::GetCharacterByteCount("", &byteCount));
-	JAssertEqual(0, byteCount);
+	JAssertEqual(1, byteCount);
 
 	JAssertTrue(JUtf8Character::GetCharacterByteCount("1", &byteCount));
 	JAssertEqual(1, byteCount);
@@ -154,7 +154,7 @@ JTEST(PrevCharacter)
 
 JTEST(Comparison)
 {
-	JAssertFalse(JUtf8Character("") == '\0');
+	JAssertTrue(JUtf8Character("") == '\0');
 	JAssertTrue(JUtf8Character("1") == '1');
 	JAssertTrue(JUtf8Character("1") != '2');
 	JAssertTrue('1' == JUtf8Character("1"));
