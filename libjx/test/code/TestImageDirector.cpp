@@ -101,7 +101,7 @@ TestImageDirector::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 400,330, "");
+	JXWindow* window = jnew JXWindow(this, 400,330, JString::empty);
 	assert( window != NULL );
 
 	JXMenuBar* menuBar =
