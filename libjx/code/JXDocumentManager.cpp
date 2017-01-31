@@ -57,17 +57,17 @@
 #include <JXDisplay.h>
 #include <JXColormap.h>
 #include <jXGlobals.h>
+#include <JStringIterator.h>
 #include <jFileUtil.h>
 #include <jDirUtil.h>
 #include <jAssert.h>
 
 #include <jx_plain_file_small.xpm>
 
-static const JCharacter* kNewDocName = "Untitled ";
-const JInteger kFirstShortcut        = 0;
-const JInteger kLastShortcut         = 9;
+const JInteger kFirstShortcut = 0;
+const JInteger kLastShortcut  = 9;
 
-static const JCharacter kShortcutChar[] =
+static const JUtf8Byte kShortcutChar[] =
 {
 	'1', '2', '3', '4', '5', '6', '7', '8', '9', '0'
 };
@@ -77,7 +77,7 @@ const JSize kSecondsToMilliseconds  = 1000;
 
 // JBroadcaster message types
 
-const JCharacter* JXDocumentManager::kDocMenuNeedsUpdate =
+const JUtf8Byte* JXDocumentManager::kDocMenuNeedsUpdate =
 	"DocMenuNeedsUpdate::JXDocumentManager";
 
 /******************************************************************************
@@ -385,7 +385,7 @@ JXDocumentManager::CloseDocuments()
 JBoolean
 JXDocumentManager::FileDocumentIsOpen
 	(
-	const JCharacter*	fileName,
+	const JString&		fileName,
 	JXFileDocument**	doc
 	)
 	const
@@ -438,10 +438,10 @@ JXDocumentManager::FileDocumentIsOpen
 JBoolean
 JXDocumentManager::FindFile
 	(
-	const JCharacter*	fileName,
-	const JCharacter*	currPath,
-	JString*			newFileName,
-	const JBoolean		askUser
+	const JString&	fileName,
+	const JString&	currPath,
+	JString*		newFileName,
+	const JBoolean	askUser
 	)
 	const
 {
@@ -475,20 +475,24 @@ JXDocumentManager::FindFile
 
 	if (askUser)
 		{
-		JString instrMsg = "Unable to locate ";
-		instrMsg += fileName;
-		instrMsg += "\n\nPlease find it.";
+		const JUtf8Byte* map[] =
+			{
+			"name", fileName.GetBytes()
+			};
+		JString instrMsg = JGetString("PleaseFind::JXDocumentManager", map, sizeof(map));
 
-		while ((JGetChooseSaveFile())->ChooseFile("New name of file:", instrMsg, newFileName))
+		while ((JGetChooseSaveFile())->ChooseFile(JGetString("ChooseFilePrompt::JXDocumentManager"), instrMsg, newFileName))
 			{
 			JString newPath, newName;
 			JSplitPathAndName(*newFileName, &newPath, &newName);
 			if (newName != name)
 				{
-				JString warnMsg = name;
-				warnMsg += " was requested.\n\nYou selected ";
-				warnMsg += newName;
-				warnMsg += ".\n\nAre you sure that this is correct?";
+				const JUtf8Byte* map2[] =
+					{
+					"name1", name.GetBytes(),
+					"name2", newName.GetBytes()
+					};
+				JString warnMsg = JGetString("WarnDifferentName::JXDocumentManager", map2, sizeof(map2));
 				if (!(JGetUserNotification())->AskUserNo(warnMsg))
 					{
 					continue;
@@ -523,8 +527,8 @@ JXDocumentManager::FindFile
 JBoolean
 JXDocumentManager::SearchFileMap
 	(
-	const JCharacter*	fileName,
-	JString*			newFileName
+	const JString&	fileName,
+	JString*		newFileName
 	)
 	const
 {
@@ -557,7 +561,7 @@ JXDocumentManager::SearchFileMap
 
  ******************************************************************************/
 
-const JString&
+JString
 JXDocumentManager::GetNewFileName()
 {
 	itsNewDocCount++;
@@ -566,8 +570,12 @@ JXDocumentManager::GetNewFileName()
 		itsNewDocCount = 1;
 		}
 
-	itsLastNewFileName = kNewDocName + JString(itsNewDocCount, JString::kBase10);
-	return itsLastNewFileName;
+	const JString indexStr = JString(itsNewDocCount, JString::kBase10);
+	const JUtf8Byte* map[] =
+		{
+		"i", indexStr.GetBytes()
+		};
+	return JGetString("NewDocName::JXDocumentManager", map, sizeof(map));
 }
 
 /******************************************************************************
@@ -631,8 +639,9 @@ JXDocumentManager::UpdateDocumentMenu
 				assert( style == JXMenu::kMacintoshStyle );
 				nmShortcut = "Meta-0";
 				}
-			nmShortcut.SetCharacter(nmShortcut.GetLength(),
-									kShortcutChar [ info.shortcut ]);
+
+			JStringIterator iter(&nmShortcut, kJIteratorStartAtEnd);
+			iter.SetPrev(kShortcutChar [ info.shortcut ]);
 			menu->SetItemNMShortcut(i, nmShortcut);
 			}
 		}

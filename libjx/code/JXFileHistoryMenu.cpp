@@ -35,7 +35,7 @@
 JXFileHistoryMenu::JXFileHistoryMenu
 	(
 	const JSize			historyLength,
-	const JCharacter*	title,
+	const JString&		title,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
@@ -129,7 +129,7 @@ JXFileHistoryMenu::GetFile
 void
 JXFileHistoryMenu::AddFile
 	(
-	const JCharacter* fullName
+	const JString& fullName
 	)
 {
 	JString path, name;
@@ -140,18 +140,18 @@ JXFileHistoryMenu::AddFile
 void
 JXFileHistoryMenu::AddFile
 	(
-	const JCharacter* origPath,
-	const JCharacter* name
+	const JString& origPath,
+	const JString& name
 	)
 {
-	if (JString::IsEmpty(origPath) || JString::IsEmpty(name))
+	if (origPath.IsEmpty() || name.IsEmpty())
 		{
 		return;
 		}
 
-	JString path = origPath;
-	path.PrependCharacter(' ');
-	path.AppendCharacter(' ');
+	JString path(" ", 1);
+	path.Append(origPath);
+	path.Append(" ");
 
 	AddItem(name, path);
 }

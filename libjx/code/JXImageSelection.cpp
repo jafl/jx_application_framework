@@ -20,7 +20,7 @@
 #include <stdio.h>
 #include <jAssert.h>
 
-static const JCharacter* kAtomNames[ JXImageSelection::kAtomCount ] =
+static const JUtf8Byte* kAtomNames[ JXImageSelection::kAtomCount ] =
 {
 	"image/xpm",
 	"image/gif",
@@ -58,7 +58,7 @@ JXImageSelection::JXImageSelection
 JXImageSelection::JXImageSelection
 	(
 	JXWidget*			widget,
-	const JCharacter*	id
+	const JUtf8Byte*	id
 	)
 	:
 	JXSelectionData(widget, id)
@@ -200,13 +200,9 @@ JXImageSelection::ConvertData
 		JRemoveFile(fileName);
 
 		*returnType = requestType;
-		*dataLength = imageData.GetLength();
-		*data       = jnew unsigned char[ *dataLength ];
-		if (*data != NULL)
-			{
-			memcpy(*data, imageData.GetCString(), *dataLength);
-			return kJTrue;
-			}
+		*dataLength = imageData.GetByteCount();
+		*data       = (unsigned char*) imageData.AllocateBytes();
+		return kJTrue;
 		}
 
 	JRemoveFile(fileName);
@@ -242,25 +238,25 @@ JXImageSelection::ReceiveGoingAway
 
  ******************************************************************************/
 
-const JCharacter*
+const JUtf8Byte*
 JXImageSelection::GetXPMXAtomName()
 {
 	return kAtomNames[ kXPMAtomIndex ];
 }
 
-const JCharacter*
+const JUtf8Byte*
 JXImageSelection::GetGIFXAtomName()
 {
 	return kAtomNames[ kGIFAtomIndex ];
 }
 
-const JCharacter*
+const JUtf8Byte*
 JXImageSelection::GetPNGXAtomName()
 {
 	return kAtomNames[ kPNGAtomIndex ];
 }
 
-const JCharacter*
+const JUtf8Byte*
 JXImageSelection::GetJPEGXAtomName()
 {
 	return kAtomNames[ kJPEGAtomIndex ];
@@ -346,7 +342,7 @@ JXImageSelection::GetImage
 								&returnType, &data, &dataLength, &delMethod) &&
 				(JCreateTempFile(&fileName)).OK())
 				{
-				std::ofstream output(fileName);
+				std::ofstream output(fileName.GetBytes());
 				output.write((char*) data, dataLength);
 				output.close();
 

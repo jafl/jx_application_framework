@@ -14,41 +14,41 @@
 
 // File menu
 
-const JCharacter* JXGetPageSetupAction();
-const JCharacter* JXGetPrintAction();
-const JCharacter* JXGetCloseWindowAction();
-const JCharacter* JXGetQuitAction();
+const JUtf8Byte* JXGetPageSetupAction();
+const JUtf8Byte* JXGetPrintAction();
+const JUtf8Byte* JXGetCloseWindowAction();
+const JUtf8Byte* JXGetQuitAction();
 
 // Edit menu
 
-const JCharacter* JXGetUndoAction();
-const JCharacter* JXGetRedoAction();
-const JCharacter* JXGetCutAction();
-const JCharacter* JXGetCopyAction();
-const JCharacter* JXGetPasteAction();
-const JCharacter* JXGetClearAction();
-const JCharacter* JXGetSelectAllAction();
+const JUtf8Byte* JXGetUndoAction();
+const JUtf8Byte* JXGetRedoAction();
+const JUtf8Byte* JXGetCutAction();
+const JUtf8Byte* JXGetCopyAction();
+const JUtf8Byte* JXGetPasteAction();
+const JUtf8Byte* JXGetClearAction();
+const JUtf8Byte* JXGetSelectAllAction();
 
 // Help menu
 
-const JCharacter* JXGetHelpTOCAction();
-const JCharacter* JXGetHelpSpecificAction();
+const JUtf8Byte* JXGetHelpTOCAction();
+const JUtf8Byte* JXGetHelpSpecificAction();
 
 // Search menu
 
-const JCharacter* JXGetFindDialogAction();
-const JCharacter* JXGetFindPreviousAction();
-const JCharacter* JXGetFindNextAction();
-const JCharacter* JXGetEnterSearchTextAction();
-const JCharacter* JXGetEnterReplaceTextAction();
-const JCharacter* JXGetFindSelectionBackwardsAction();
-const JCharacter* JXGetFindSelectionForwardAction();
-const JCharacter* JXGetFindClipboardBackwardsAction();
-const JCharacter* JXGetFindClipboardForwardAction();
-const JCharacter* JXGetReplaceSelectionAction();
-const JCharacter* JXGetReplaceFindPrevAction();
-const JCharacter* JXGetReplaceFindNextAction();
-const JCharacter* JXGetReplaceAllForwardAction();
-const JCharacter* JXGetReplaceAllBackwardsAction();
+const JUtf8Byte* JXGetFindDialogAction();
+const JUtf8Byte* JXGetFindPreviousAction();
+const JUtf8Byte* JXGetFindNextAction();
+const JUtf8Byte* JXGetEnterSearchTextAction();
+const JUtf8Byte* JXGetEnterReplaceTextAction();
+const JUtf8Byte* JXGetFindSelectionBackwardsAction();
+const JUtf8Byte* JXGetFindSelectionForwardAction();
+const JUtf8Byte* JXGetFindClipboardBackwardsAction();
+const JUtf8Byte* JXGetFindClipboardForwardAction();
+const JUtf8Byte* JXGetReplaceSelectionAction();
+const JUtf8Byte* JXGetReplaceFindPrevAction();
+const JUtf8Byte* JXGetReplaceFindNextAction();
+const JUtf8Byte* JXGetReplaceAllForwardAction();
+const JUtf8Byte* JXGetReplaceAllBackwardsAction();
 
 #endif

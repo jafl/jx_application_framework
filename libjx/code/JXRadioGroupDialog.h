@@ -20,7 +20,7 @@ class JXRadioGroupDialog : public JXDialogDirector
 public:
 
 	JXRadioGroupDialog(JXDirector* supervisor,
-					   const JCharacter* windowTitle, const JCharacter* prompt,
+					   const JString& windowTitle, const JString& prompt,
 					   const JPtrArray<JString>& choiceList,
 					   const JPtrArray<JString>* shortcutList = NULL);
 
@@ -39,7 +39,7 @@ private:
 
 private:
 
-	void	BuildWindow(const JCharacter* windowTitle, const JCharacter* prompt,
+	void	BuildWindow(const JString& windowTitle, const JString& prompt,
 						const JPtrArray<JString>& choiceList,
 						const JPtrArray<JString>* shortcutList);
 

@@ -298,7 +298,7 @@ JXChooseFileDialog::SetObjects
 		itsSelectAllButton->Hide();
 		}
 
-	cancelButton->SetShortcuts(JGetString("CancelShortcut::JXChooseFileDialog"));
+	cancelButton->SetShortcuts(JGetString("CancelShortcut::JXGlobal"));
 
 	// select initial file
 

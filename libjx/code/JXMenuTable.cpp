@@ -740,7 +740,7 @@ JXMenuTable::HandleKeyPress
 
 	JIndex index;
 	const JBoolean isShortcut = JI2B(
-		JIsPrint(key) && itsBaseMenuData->ShortcutToIndex(key, &index));
+		JXIsPrint(key) && itsBaseMenuData->ShortcutToIndex(key, &index));
 	if (isShortcut && !itsBaseMenuData->HasSubmenu(index))
 		{
 		itsMenu->BroadcastSelection(index, kJFalse);		// destroys us

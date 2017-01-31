@@ -17,12 +17,12 @@ class JXTextSelection : public JXSelectionData
 {
 public:
 
-	JXTextSelection(JXDisplay* display, const JCharacter* text,
+	JXTextSelection(JXDisplay* display, const JString& text,
 					const JRunArray<JFont>* style = NULL);
 	JXTextSelection(JXDisplay* display, JString* text,
 					JRunArray<JFont>* style = NULL);
 	JXTextSelection(JXDisplay* display, const JPtrArray<JString>& list);
-	JXTextSelection(JXWidget* widget, const JCharacter* id);
+	JXTextSelection(JXWidget* widget, const JUtf8Byte* id);
 
 	virtual	~JXTextSelection();
 
@@ -31,7 +31,7 @@ public:
 	JBoolean	GetColormap(const JXColormap** colormap) const;
 	JBoolean	GetTextEditor(JTextEditor** te) const;
 
-	void	SetData(const JCharacter* text,
+	void	SetData(const JString& text,
 					const JXColormap* colormap = NULL,
 					const JRunArray<JFont>* style = NULL);
 	void	SetData(JString* text, const JXColormap* colormap,
@@ -40,7 +40,7 @@ public:
 
 	void	SetTextEditor(JTextEditor* te, const JIndexRange& selection);
 
-	static const JCharacter*	GetStyledText0XAtomName();
+	static const JUtf8Byte*	GetStyledText0XAtomName();
 
 protected:
 

@@ -241,7 +241,7 @@ JXChoosePathDialog::SetObjects
 	ListenTo(fileBrowser);
 	ListenTo(&(fileBrowser->GetTableSelection()));
 
-	cancelButton->SetShortcuts(JGetString("CancelShortcut::JXChoosePathDialog"));
+	cancelButton->SetShortcuts(JGetString("CancelShortcut::JXGlobal"));
 	itsSelectButton->SetShortcuts(JGetString("SelectShortcut::JXChoosePathDialog"));
 }
 

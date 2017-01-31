@@ -39,7 +39,7 @@ const Time kHistoryInterval = 60000;	// 1 minute (milliseconds)
 const clock_t kWaitForSelectionTime = 5 * CLOCKS_PER_SEC;
 const clock_t kUserBoredWaitingTime = 1 * CLOCKS_PER_SEC;
 
-static const JCharacter* kAtomNames[ JXSelectionManager::kAtomCount ] =
+static const JUtf8Byte* kAtomNames[ JXSelectionManager::kAtomCount ] =
 {
 	"JXSelectionWindowProperty",	// for receiving selection data
 	"INCR",							// for sending data incrementally
@@ -292,9 +292,9 @@ JXSelectionManager::GetData
 		if (JXFixBrokenURLs((char*) *data, *dataLength, itsDisplay, srcWindow, &newData))
 			{
 			XFree(*data);
-			*data = (unsigned char*) malloc(newData.GetLength()+1);
-			memcpy(*data, newData.GetCString(), newData.GetLength()+1);
-			*dataLength = newData.GetLength();
+			*data = (unsigned char*) malloc(newData.GetByteCount()+1);	// JString::AllocateBytes uses new[]
+			memcpy(*data, newData.GetBytes(), newData.GetByteCount()+1);
+			*dataLength = newData.GetByteCount();
 			}
 		}
 

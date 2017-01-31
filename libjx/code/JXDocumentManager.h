@@ -58,9 +58,9 @@ public:
 
 	// for use by classes derived from JXDocument
 
-	const JString&		GetNewFileName();
-	void				DocumentMustStayOpen(JXDocument* doc, const JBoolean stayOpen);
-	JBoolean			FileDocumentIsOpen(const JString& fileName,
+	JString		GetNewFileName();
+	void		DocumentMustStayOpen(JXDocument* doc, const JBoolean stayOpen);
+	JBoolean	FileDocumentIsOpen(const JString& fileName,
 										   JXFileDocument** doc) const;
 
 	virtual JBoolean	FindFile(const JString& fileName,
@@ -124,8 +124,6 @@ private:
 private:
 
 	JArray<DocInfo>*		itsDocList;
-
-	JString					itsLastNewFileName;		// so we can return const JString&
 	JIndex					itsNewDocCount;
 
 	JArray<FileMap>*		itsFileMap;

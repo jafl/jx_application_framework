@@ -16,7 +16,7 @@ public:
 
 	JXFileSelection(JXDisplay* display, const JPtrArray<JString>& list);
 	JXFileSelection(JXDisplay* display, JPtrArray<JString>* list);
-	JXFileSelection(JXWidget* widget, const JCharacter* id);
+	JXFileSelection(JXWidget* widget, const JUtf8Byte* id);
 
 	virtual	~JXFileSelection();
 

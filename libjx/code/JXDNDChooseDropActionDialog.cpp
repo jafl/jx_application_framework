@@ -13,9 +13,6 @@
 #include <jXGlobals.h>
 #include <jAssert.h>
 
-static const JCharacter* kWindowTitle = "Choose Drop Action";
-static const JCharacter* kPromptText  = "Choose the action to perform:";
-
 /******************************************************************************
  Constructor
 
@@ -29,7 +26,9 @@ JXDNDChooseDropActionDialog::JXDNDChooseDropActionDialog
 	)
 	:
 	JXRadioGroupDialog(JXGetApplication(),
-					   kWindowTitle, kPromptText, descriptionList),
+					   JGetString("WindowTitle::JXDNDChooseDropActionDialog"),
+					   JGetString("Prompt::JXDNDChooseDropActionDialog"),
+					   descriptionList),
 	itsActionList(actionList)
 {
 	const JSize count = itsActionList.GetElementCount();

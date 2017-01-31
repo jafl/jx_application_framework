@@ -62,7 +62,7 @@ protected:
 		{
 		public:
 
-			DropBase(const JCharacter* type,
+			DropBase(const JUtf8Byte* type,
 					 const JArray<Atom>& typeList, Atom* action,
 					 const JPoint& pt, const Time time, const JXWidget* source)
 				:
@@ -133,10 +133,10 @@ public:
 
 	// JBroadcaster messages
 
-	static const JCharacter* kAcceptDrop;
-	static const JCharacter* kHandleEnter;
-	static const JCharacter* kHandleLeave;
-	static const JCharacter* kHandleDrop;
+	static const JUtf8Byte* kAcceptDrop;
+	static const JUtf8Byte* kHandleEnter;
+	static const JUtf8Byte* kHandleLeave;
+	static const JUtf8Byte* kHandleDrop;
 
 	class AcceptDrop : public DropBase
 		{

@@ -20,8 +20,8 @@
 
 // JBroadcaster message types
 
-const JCharacter* JXFontNameMenu::kNameNeedsUpdate = "NameNeedsUpdate::JXFontNameMenu";
-const JCharacter* JXFontNameMenu::kNameChanged     = "NameChanged::JXFontNameMenu";
+const JUtf8Byte* JXFontNameMenu::kNameNeedsUpdate = "NameNeedsUpdate::JXFontNameMenu";
+const JUtf8Byte* JXFontNameMenu::kNameChanged     = "NameChanged::JXFontNameMenu";
 
 /******************************************************************************
  Constructor (protected)
@@ -30,7 +30,7 @@ const JCharacter* JXFontNameMenu::kNameChanged     = "NameChanged::JXFontNameMen
 
 JXFontNameMenu::JXFontNameMenu
 	(
-	const JCharacter*	title,
+	const JString&		title,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
@@ -76,7 +76,7 @@ JXFontNameMenu::~JXFontNameMenu()
 JBoolean
 JXFontNameMenu::SetFontName
 	(
-	const JCharacter* name
+	const JString& name
 	)
 {
 	const JIndex count = GetItemCount();

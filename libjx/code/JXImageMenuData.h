@@ -25,13 +25,13 @@ public:
 	void			InsertItem(const JIndex index, JXImage* image,
 							   const JBoolean menuOwnsImage,
 							   const JXMenu::ItemType type = JXMenu::kPlainType,
-							   const JCharacter* id = NULL);
+							   const JString& id = JString::empty);
 	void			PrependItem(JXImage* image, const JBoolean menuOwnsImage,
 							   const JXMenu::ItemType type = JXMenu::kPlainType,
-								const JCharacter* id = NULL);
+								const JString& id = JString::empty);
 	void			AppendItem(JXImage* image, const JBoolean menuOwnsImage,
 							   const JXMenu::ItemType type = JXMenu::kPlainType,
-							   const JCharacter* id = NULL);
+							   const JString& id = JString::empty);
 	virtual void	DeleteItem(const JIndex index);		// must call inherited
 	virtual void	DeleteAll();						// must call inherited
 
@@ -87,7 +87,7 @@ public:
 
 	// JBroadcaster messages
 
-	static const JCharacter* kImageChanged;
+	static const JUtf8Byte* kImageChanged;
 
 	class ImageChanged : public JBroadcaster::Message
 		{
@@ -123,7 +123,7 @@ JXImageMenuData::PrependItem
 	JXImage*				image,
 	const JBoolean			menuOwnsImage,
 	const JXMenu::ItemType	type,
-	const JCharacter*		id
+	const JString&			id
 	)
 {
 	InsertItem(1, image, menuOwnsImage, type, id);
@@ -135,7 +135,7 @@ JXImageMenuData::AppendItem
 	JXImage*				image,
 	const JBoolean			menuOwnsImage,
 	const JXMenu::ItemType	type,
-	const JCharacter*		id
+	const JString&			id
 	)
 {
 	InsertItem(GetElementCount()+1, image, menuOwnsImage, type, id);

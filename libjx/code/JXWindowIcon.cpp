@@ -19,10 +19,10 @@
 
 // JBroadcaster message types
 
-const JCharacter* JXWindowIcon::kAcceptDrop  = "AcceptDrop::JXWindowIcon";
-const JCharacter* JXWindowIcon::kHandleEnter = "HandleEnter::JXWindowIcon";
-const JCharacter* JXWindowIcon::kHandleLeave = "HandleLeave::JXWindowIcon";
-const JCharacter* JXWindowIcon::kHandleDrop  = "HandleDrop::JXWindowIcon";
+const JUtf8Byte* JXWindowIcon::kAcceptDrop  = "AcceptDrop::JXWindowIcon";
+const JUtf8Byte* JXWindowIcon::kHandleEnter = "HandleEnter::JXWindowIcon";
+const JUtf8Byte* JXWindowIcon::kHandleLeave = "HandleLeave::JXWindowIcon";
+const JUtf8Byte* JXWindowIcon::kHandleDrop  = "HandleDrop::JXWindowIcon";
 
 /******************************************************************************
  Constructor

@@ -47,7 +47,7 @@ JXFileSelection::JXFileSelection
 JXFileSelection::JXFileSelection
 	(
 	JXWidget*			widget,
-	const JCharacter*	id
+	const JUtf8Byte*	id
 	)
 	:
 	JXSelectionData(widget, id)
@@ -164,13 +164,9 @@ JXFileSelection::ConvertData
 		CreateBuffer();
 
 		*returnType = urlAtom;
-		*dataLength = itsBuffer->GetLength();
-		*data = jnew unsigned char[ *dataLength ];
-		if (*data != NULL)
-			{
-			memcpy(*data, *itsBuffer, *dataLength);
-			return kJTrue;
-			}
+		*dataLength = itsBuffer->GetByteCount();
+		*data       = (unsigned char*) itsBuffer->AllocateBytes();
+		return kJTrue;
 		}
 
 	*data       = NULL;

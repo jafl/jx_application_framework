@@ -16,7 +16,7 @@ class JXFontNameMenu : public JXTextMenu
 {
 public:
 
-	JXFontNameMenu(const JCharacter* title, JXContainer* enclosure,
+	JXFontNameMenu(const JString& title, JXContainer* enclosure,
 				   const HSizingOption hSizing, const VSizingOption vSizing,
 				   const JCoordinate x, const JCoordinate y,
 				   const JCoordinate w, const JCoordinate h);
@@ -26,7 +26,7 @@ public:
 	virtual ~JXFontNameMenu();
 
 	JString		GetFontName() const;
-	JBoolean	SetFontName(const JCharacter* name);
+	JBoolean	SetFontName(const JString& name);
 
 	void	SetToPopupChoice(const JBoolean isPopup = kJTrue);
 
@@ -52,8 +52,8 @@ public:
 
 	// JBroadcaster messages
 
-	static const JCharacter* kNameNeedsUpdate;
-	static const JCharacter* kNameChanged;
+	static const JUtf8Byte* kNameNeedsUpdate;
+	static const JUtf8Byte* kNameChanged;
 
 	class NameNeedsUpdate : public JBroadcaster::Message
 		{

@@ -27,24 +27,25 @@
 #include <JXColormap.h>
 #include <jXGlobals.h>
 #include <jXActionDefs.h>
+#include <JStringIterator.h>
 #include <jAssert.h>
 
 const JInteger kFirstShortcut = 0;
 const JInteger kLastShortcut  = 9;
 
-static const JCharacter kShortcutChar[] =
+static const JUtf8Byte kShortcutChar[] =
 {
 	'1', '2', '3', '4', '5', '6', '7', '8', '9', '0'
 };
 
 // Windows menu
 
-static const JCharacter* kMacWDMenuStr =
+static const JUtf8Byte* kMacWDMenuStr =
 	"    Bring all windows to front                 %i" kJXRaiseAllWindowsAction
 	"  | Close all other windows    %k Meta-Shift-W %i" kJXCloseAllOtherWindowsAction
 	"%l";
 
-static const JCharacter* kWinWDMenuStr =
+static const JUtf8Byte* kWinWDMenuStr =
 	"    Bring all windows to front                 %i" kJXRaiseAllWindowsAction
 	"  | Close all other windows    %k Ctrl-Shift-W %i" kJXCloseAllOtherWindowsAction
 	"%l";
@@ -59,8 +60,7 @@ const JSize kFirstDirectorOffset = kCloseAllCmd;
 
 // JBroadcaster message types
 
-const JCharacter* JXWDManager::kWDMenuNeedsUpdate =
-	"WDMenuNeedsUpdate::JXWDManager";
+const JUtf8Byte* JXWDManager::kWDMenuNeedsUpdate = "WDMenuNeedsUpdate::JXWDManager";
 
 /******************************************************************************
  Constructor
@@ -112,8 +112,8 @@ void
 JXWDManager::PermanentDirectorCreated
 	(
 	JXWindowDirector*	dir,
-	const JCharacter*	shortcut,
-	const JCharacter*	id
+	const JUtf8Byte*	shortcut,
+	const JUtf8Byte*	id
 	)
 {
 	DirectorCreated(itsPermWindowList, dir, shortcut, id);
@@ -146,8 +146,8 @@ JXWDManager::DirectorCreated
 	(
 	JArray<WindowInfo>*	windowList,
 	JXWindowDirector*	dir,
-	const JCharacter*	shortcut,
-	const JCharacter*	id
+	const JUtf8Byte*	shortcut,
+	const JUtf8Byte*	id
 	)
 {
 	WindowInfo info(dir);
@@ -155,7 +155,7 @@ JXWDManager::DirectorCreated
 	JIndex insertionIndex = 0;
 	if (shortcut != NULL)
 		{
-		info.shortcutStr = jnew JString(shortcut);
+		info.shortcutStr = jnew JString(shortcut, 0);
 		assert( info.shortcutStr != NULL );
 		}
 	else
@@ -175,7 +175,7 @@ JXWDManager::DirectorCreated
 
 	if (!JString::IsEmpty(id))
 		{
-		info.itemID = jnew JString(id);
+		info.itemID = jnew JString(id, 0);
 		assert( info.itemID != NULL );
 		}
 
@@ -440,8 +440,9 @@ JXWDManager::UpdateWDMenu1
 				assert( style == JXMenu::kMacintoshStyle );
 				nmShortcut = "Meta-0";
 				}
-			nmShortcut.SetCharacter(nmShortcut.GetLength(),
-									kShortcutChar [ info.shortcutIndex ]);
+
+			JStringIterator iter(&nmShortcut, kJIteratorStartAtEnd);
+			iter.SetPrev(kShortcutChar [ info.shortcutIndex ]);
 			menu->SetItemNMShortcut(menuIndex, nmShortcut);
 			}
 		}

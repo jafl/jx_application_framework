@@ -519,7 +519,7 @@ JXMenuBar::WidthChanged()
 
 	const JRect ap = GetAperture();
 
-	JXMenu* m   = itsMenus->LastElement();
+	JXMenu* m   = itsMenus->GetLastElement();
 	JRect frame = m->GetFrame();
 	if (frame.xcenter() < ap.right)
 		{
@@ -559,7 +559,7 @@ JXMenuBar::WidthChanged()
 			break;
 			}
 
-		m     = itsMenus->LastElement();
+		m     = itsMenus->GetLastElement();
 		frame = m->GetFrame();
 		}
 

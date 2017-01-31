@@ -35,6 +35,7 @@
 #include <jXKeysym.h>
 
 #include <JThisProcess.h>
+#include <JStringIterator.h>
 #include <jASCIIConstants.h>
 #include <jStreamUtil.h>
 #include <jTime.h>
@@ -63,22 +64,22 @@ const unsigned int kPointerGrabMask =
 	PropertyChangeMask;
 
 const JFileVersion kCurrentGeometryDataVersion = 2;
-const JCharacter kGeometryDataEndDelimiter     = '\1';
+const JUtf8Byte kGeometryDataEndDelimiter      = '\1';
 
 	// version  2 saves existence of docks
 	// version  1 saves dock ID
 
 // JBroadcaster message types
 
-const JCharacter* JXWindow::kIconified      = "Iconified::JXWindow";
-const JCharacter* JXWindow::kDeiconified    = "Deiconified::JXWindow";
-const JCharacter* JXWindow::kMapped         = "Mapped::JXWindow";
-const JCharacter* JXWindow::kUnmapped       = "Unmapped::JXWindow";
-const JCharacter* JXWindow::kRaised         = "Raised::JXWindow";
-const JCharacter* JXWindow::kDocked         = "Docked::JXWindow";
-const JCharacter* JXWindow::kUndocked       = "Undocked::JXWindow";
-const JCharacter* JXWindow::kMinSizeChanged = "MinSizeChanged::JXWindow";
-const JCharacter* JXWindow::kTitleChanged   = "TitleChanged::JXWindow";
+const JUtf8Byte* JXWindow::kIconified      = "Iconified::JXWindow";
+const JUtf8Byte* JXWindow::kDeiconified    = "Deiconified::JXWindow";
+const JUtf8Byte* JXWindow::kMapped         = "Mapped::JXWindow";
+const JUtf8Byte* JXWindow::kUnmapped       = "Unmapped::JXWindow";
+const JUtf8Byte* JXWindow::kRaised         = "Raised::JXWindow";
+const JUtf8Byte* JXWindow::kDocked         = "Docked::JXWindow";
+const JUtf8Byte* JXWindow::kUndocked       = "Undocked::JXWindow";
+const JUtf8Byte* JXWindow::kMinSizeChanged = "MinSizeChanged::JXWindow";
+const JUtf8Byte* JXWindow::kTitleChanged   = "TitleChanged::JXWindow";
 
 /******************************************************************************
  Constructor
@@ -90,7 +91,7 @@ JXWindow::JXWindow
 	JXWindowDirector*	director,
 	const JCoordinate	w,
 	const JCoordinate	h,
-	const JCharacter*	title,
+	const JString&		title,
 	const JBoolean		isOverlay
 	)
 	:
@@ -177,7 +178,7 @@ JXWindow::JXWindow
 
 	// set window properties
 
-	const JCharacter* t = itsTitle.GetCString();
+	const JUtf8Byte* t = itsTitle.GetBytes();
 
 	XTextProperty windowName;
 	const int ok = XStringListToTextProperty((char**) &t, 1, &windowName);
@@ -277,13 +278,13 @@ JXWindow::~JXWindow()
 void
 JXWindow::SetTitle
 	(
-	const JCharacter* title
+	const JString& title
 	)
 {
 	itsTitle = title;
 	AdjustTitle();
 
-	const JCharacter* t = itsTitle.GetCString();
+	const JUtf8Byte* t = itsTitle.GetBytes();
 
 	XTextProperty windowName;
 	const int ok = XStringListToTextProperty((char**) &t, 1, &windowName);
@@ -309,7 +310,7 @@ JXWindow::AdjustTitle()
 
 	if (itsTitle.EndsWith("lock"))
 		{
-		itsTitle.AppendCharacter(' ');
+		itsTitle.Append(" ");
 		}
 }
 
@@ -345,8 +346,8 @@ JXWindow::SetTransientFor
 void
 JXWindow::SetWMClass
 	(
-	const JCharacter* c_class,
-	const JCharacter* instance
+	const JUtf8Byte* c_class,
+	const JUtf8Byte* instance
 	)
 {
 	XClassHint hint = { const_cast<char*>(instance), const_cast<char*>(c_class) };
@@ -1335,7 +1336,7 @@ JXWindow::AnalyzeWindowManager
 	JXWindowDirector* dir = jnew JXWindowDirector(JXGetApplication());
 	assert( dir != NULL );
 
-	JXWindow* w = jnew JXWindow(dir, 100, 100, "Testing Window Manager");
+	JXWindow* w = jnew JXWindow(dir, 100, 100, JString("Testing Window Manager", 0, kJFalse));
 	assert( w != NULL );
 
 	// test placing visible window (fvwm2)
@@ -2295,10 +2296,9 @@ JXWindow::ReadGeometry
 	const JBoolean	skipDocking
 	)
 {
-	const JSize dataLength = data.GetLength();
-	if (dataLength > 0)
+	if (!data.IsEmpty())
 		{
-		const std::string s(data.GetCString(), dataLength);
+		const std::string s(data.GetBytes(), data.GetByteCount());
 		std::istringstream input(s);
 		ReadGeometry(input, skipDocking);
 		}
@@ -2594,7 +2594,7 @@ JXWindow::HandleEvent
 	else if (IsSaveYourselfMessage(itsDisplay, xEvent))
 		{
 		const JString& cmd = (JXGetApplication())->GetRestartCommand();
-		char* s            = const_cast<JCharacter*>(cmd.GetCString());
+		char* s            = const_cast<JUtf8Byte*>(cmd.GetBytes());
 		XSetCommand(*itsDisplay, itsXWindow, &s, 1);
 		}
 	else if (xEvent.type == ClientMessage)					// otherwise, send to all widgets
@@ -3273,7 +3273,7 @@ JXWindow::HandleKeyPress
 		return;
 		}
 
-	JCharacter buffer[10];
+	JUtf8Byte buffer[10];
 	KeySym keySym;
 	JSize charCount =
 		XLookupString(const_cast<XKeyEvent*>(&(xEvent.xkey)), buffer, 10, &keySym, NULL);
@@ -4034,68 +4034,66 @@ void
 JXWindow::InstallShortcuts
 	(
 	JXWidget*		widget,
-	const JString*	list
+	const JString&	list
 	)
 {
-	if (JString::IsEmpty(list))
+	if (list.IsEmpty())
 		{
 		return;
 		}
 
 	JXKeyModifiers modifiers(itsDisplay);
 
-	const JSize length = strlen(list);
-	for (JIndex i=0; i<length; i++)
+	JStringIterator iter(list);
+	JUtf8Character c;
+	while (iter.Next(&c))
 		{
-		const int c = (unsigned char) list[i];
 		JSize fnIndex;
 		if (c == '^')
 			{
-			i++;
-			if (i < length)
+			if (!iter.Next(&c) || c.GetByteCount() > 1)
 				{
-				const int c1 = toupper((unsigned char) list[i]);
-				const int c2 = tolower((unsigned char) list[i]);
-				modifiers.SetState(kJXControlKeyIndex, kJTrue);		// e.g. Ctrl-M
-				InstallShortcut(widget, c1, modifiers);
-				if (c2 != c1)
-					{
-					InstallShortcut(widget, c2, modifiers);
-					}
-				modifiers.SetState(kJXControlKeyIndex, kJFalse);	// e.g. return key
-				InstallShortcut(widget, (unsigned char) JXCtrl(c1), modifiers);
+				continue;
 				}
+
+			const JUtf8Character c1 = c.ToUpper();
+			const JUtf8Character c2 = c.ToLower();
+			modifiers.SetState(kJXControlKeyIndex, kJTrue);		// e.g. Ctrl-M
+			InstallShortcut(widget, (unsigned char) c1.GetBytes()[0], modifiers);
+			if (c2 != c1)
+				{
+				InstallShortcut(widget, (unsigned char) c2.GetBytes()[0], modifiers);
+				}
+			modifiers.SetState(kJXControlKeyIndex, kJFalse);	// e.g. return key
+			InstallShortcut(widget, (unsigned char) JXCtrl(c1).GetBytes()[0], modifiers);
 			}
 		else if (c == '#')
 			{
-			i++;
-			if (i < length)
+			if (!iter.Next(&c) || c.GetByteCount() > 1)
 				{
-				const int c1 = toupper((unsigned char) list[i]);
-				const int c2 = tolower((unsigned char) list[i]);
-				modifiers.SetState(kJXMetaKeyIndex, kJTrue);
-				InstallShortcut(widget, c1, modifiers);
-				if (c2 != c1)
-					{
-					InstallShortcut(widget, c2, modifiers);
-					}
-				modifiers.SetState(kJXMetaKeyIndex, kJFalse);
+				continue;
 				}
+
+			const JUtf8Character c1 = c.ToUpper();
+			const JUtf8Character c2 = c.ToLower();
+			modifiers.SetState(kJXMetaKeyIndex, kJTrue);
+			InstallShortcut(widget, (unsigned char) c1.GetBytes()[0], modifiers);
+			if (c2 != c1)
+				{
+				InstallShortcut(widget, (unsigned char) c2.GetBytes()[0], modifiers);
+				}
+			modifiers.SetState(kJXMetaKeyIndex, kJFalse);
 			}
 		else if (c == 'F' &&
-				 (fnIndex = strtoul(list+i+1, NULL, 10)) > 0 &&
+				 (fnIndex = strtoul(list.GetBytes() + iter.GetNextByteIndex(), NULL, 10)) > 0 &&
 				 fnIndex <= 35)
 			{
 			InstallShortcut(widget, XK_F1 + fnIndex-1, modifiers);
-			i++;
-			if (fnIndex >= 10)
-				{
-				i++;
-				}
+			iter.SkipNext(fnIndex >= 10 ? 2 : 1);
 			}
-		else
+		else if (c.GetByteCount() == 1)
 			{
-			InstallShortcut(widget, c, modifiers);
+			InstallShortcut(widget, (unsigned char) c.GetBytes()[0], modifiers);
 			}
 		}
 }
@@ -4127,33 +4125,43 @@ JXWindow::GetULShortcutIndex
 		return 0;
 		}
 
-	JCharacter c = list->GetCharacter(1);
+	JStringIterator listIter(*list);
+	JUtf8Character c;
+
+	listIter.Next(&c);		// list is not empty
 	if (c == '^' || c == '#')
 		{
-		if (list->GetLength() < 2)
+		if (listIter.AtEnd())
 			{
 			return 0;
 			}
-		c = list->GetCharacter(2);
+		listIter.Next(&c);
 		}
-	c = tolower(c);
+	c = c.ToLower();
 
-	if (c == tolower(label.GetFirstCharacter()))
+	JString s = label;
+	s.ToLower();	// may affect multiple characters
+
+	JUtf8Character prev = s.GetFirstCharacter();
+	if (c == prev)
 		{
 		return 1;
 		}
 
 	JIndex bdryIndex = 0, anyIndex = 0;
-	const JSize length = label.GetLength();
-	for (JIndex i=2; i<=length; i++)
+
+	JStringIterator labelIter(s, kJIteratorStartAfter, 1);
+	JUtf8Character c1;
+	while (labelIter.Next(&c1))
 		{
-		if (c == tolower(label.GetCharacter(i)))
+		if (c == c1)
 			{
-			if (isspace(label.GetCharacter(i-1)))
+			const JIndex i = labelIter.GetPrevCharacterIndex();
+			if (prev.IsSpace())
 				{
 				return i;
 				}
-			else if (bdryIndex == 0 && !isalpha(label.GetCharacter(i-1)))
+			else if (bdryIndex == 0 && !c1.IsAlpha())
 				{
 				bdryIndex = i;
 				}
@@ -4297,7 +4305,7 @@ JXWindow::IsShortcut
 
 	Shortcut target(NULL, key, state);
 	JIndex i;
-	const JBoolean found = itsShortcuts->SearchSorted(target, JOrderedSetT::kAnyMatch, &i);
+	const JBoolean found = itsShortcuts->SearchSorted(target, JListT::kAnyMatch, &i);
 
 	if (found)
 		{
@@ -4327,7 +4335,7 @@ JXWindow::IsShortcut
 
  ******************************************************************************/
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 JXWindow::CompareShortcuts
 	(
 	const Shortcut& s1,
@@ -4336,23 +4344,23 @@ JXWindow::CompareShortcuts
 {
 	if (s1.key < s2.key)
 		{
-		return JOrderedSetT::kFirstLessSecond;
+		return JListT::kFirstLessSecond;
 		}
 	else if (s1.key > s2.key)
 		{
-		return JOrderedSetT::kFirstGreaterSecond;
+		return JListT::kFirstGreaterSecond;
 		}
 	else if (s1.state < s2.state)
 		{
-		return JOrderedSetT::kFirstLessSecond;
+		return JListT::kFirstLessSecond;
 		}
 	else if (s1.state > s2.state)
 		{
-		return JOrderedSetT::kFirstGreaterSecond;
+		return JListT::kFirstGreaterSecond;
 		}
 	else
 		{
-		return JOrderedSetT::kFirstEqualSecond;
+		return JListT::kFirstEqualSecond;
 		}
 }
 

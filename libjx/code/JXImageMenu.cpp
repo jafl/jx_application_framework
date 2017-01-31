@@ -22,7 +22,7 @@
 
 JXImageMenu::JXImageMenu
 	(
-	const JCharacter*	title,
+	const JString&		title,
 	const JSize			columnCount,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
@@ -107,7 +107,7 @@ JXImageMenu::InsertItem
 	JXImage*			image,
 	const JBoolean		menuOwnsImage,
 	const ItemType		type,
-	const JCharacter*	id
+	const JString&		id
 	)
 {
 	itsIconMenuData->InsertItem(index, image, menuOwnsImage, type, id);
@@ -119,7 +119,7 @@ JXImageMenu::PrependItem
 	JXImage*			image,
 	const JBoolean		menuOwnsImage,
 	const ItemType		type,
-	const JCharacter*	id
+	const JString&		id
 	)
 {
 	itsIconMenuData->PrependItem(image, menuOwnsImage, type, id);
@@ -131,7 +131,7 @@ JXImageMenu::AppendItem
 	JXImage*			image,
 	const JBoolean		menuOwnsImage,
 	const ItemType		type,
-	const JCharacter*	id
+	const JString&		id
 	)
 {
 	itsIconMenuData->AppendItem(image, menuOwnsImage, type, id);

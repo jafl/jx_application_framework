@@ -18,7 +18,7 @@ class JXImageMenu : public JXMenu
 {
 public:
 
-	JXImageMenu(const JCharacter* title, const JSize columnCount,
+	JXImageMenu(const JString& title, const JSize columnCount,
 				JXContainer* enclosure,
 				const HSizingOption hSizing, const VSizingOption vSizing,
 				const JCoordinate x, const JCoordinate y,
@@ -38,13 +38,13 @@ public:
 	void			InsertItem(const JIndex index, JXImage* image,
 							   const JBoolean menuOwnsImage,
 							   const ItemType type = kPlainType,
-							   const JCharacter* id = NULL);
+							   const JString& id = JString::empty);
 	void			PrependItem(JXImage* image, const JBoolean menuOwnsImage,
 							   const ItemType type = kPlainType,
-								const JCharacter* id = NULL);
+								const JString& id = JString::empty);
 	void			AppendItem(JXImage* image, const JBoolean menuOwnsImage,
 							   const ItemType type = kPlainType,
-							   const JCharacter* id = NULL);
+							   const JString& id = JString::empty);
 
 	const JXImage*	GetItemImage(const JIndex index) const;
 	void			SetItemImage(const JIndex index, JXImage* image,

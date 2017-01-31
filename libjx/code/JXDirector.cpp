@@ -105,13 +105,13 @@ JXDirector::CloseAllSubdirectors()
 {
 	while (itsSubdirectors != NULL && !itsSubdirectors->IsEmpty())
 		{
-		JXDirector* theDirector = itsSubdirectors->FirstElement();
+		JXDirector* theDirector = itsSubdirectors->GetFirstElement();
 		if (!theDirector->Close())
 			{
 			return kJFalse;
 			}
 		else if (itsSubdirectors != NULL && !itsSubdirectors->IsEmpty() &&
-				 theDirector == itsSubdirectors->FirstElement())
+				 theDirector == itsSubdirectors->GetFirstElement())
 			{
 			// Since one JXDocument can keep another one open,
 			// if the owned document is in front, we have to shove it to

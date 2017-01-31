@@ -47,7 +47,7 @@
 
 // JBroadcaster message types
 
-const JCharacter* JXDialogDirector::kDeactivated = "Deactivated::JXDialogDirector";
+const JUtf8Byte* JXDialogDirector::kDeactivated = "Deactivated::JXDialogDirector";
 
 /******************************************************************************
  Constructor
@@ -113,7 +113,7 @@ JXDialogDirector::SetButtons
 	if (itsCancelButton != NULL)
 		{
 		ListenTo(itsCancelButton);
-		window->InstallShortcuts(itsCancelButton, "^[");
+		window->InstallShortcuts(itsCancelButton, JGetString("CancelShortcut::JXGlobal"));
 		}
 }
 

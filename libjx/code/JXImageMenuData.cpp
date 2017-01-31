@@ -19,7 +19,7 @@ const JCoordinate kMinCellSize = 14;	// 10 + 2+2
 
 // JBroadcaster message types
 
-const JCharacter* JXImageMenuData::kImageChanged  = "ImageChanged::JXImageMenuData";
+const JUtf8Byte* JXImageMenuData::kImageChanged  = "ImageChanged::JXImageMenuData";
 
 /******************************************************************************
  Constructor
@@ -66,7 +66,7 @@ JXImageMenuData::InsertItem
 	JXImage*				image,
 	const JBoolean			menuOwnsImage,
 	const JXMenu::ItemType	type,
-	const JCharacter*		id
+	const JString&			id
 	)
 {
 	assert( image != NULL );

@@ -309,7 +309,7 @@ private:
 		{ };
 	};
 
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		CompareShortcuts(const Shortcut& s1, const Shortcut& s2);
 
 	struct ClickInfo

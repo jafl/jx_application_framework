@@ -41,8 +41,8 @@ const JCoordinate kMinButtonHMargin = 10;
 JXRadioGroupDialog::JXRadioGroupDialog
 	(
 	JXDirector*					supervisor,
-	const JCharacter*			windowTitle,
-	const JCharacter*			prompt,
+	const JString&				windowTitle,
+	const JString&				prompt,
 	const JPtrArray<JString>&	choiceList,
 	const JPtrArray<JString>*	shortcutList
 	)
@@ -95,8 +95,8 @@ JXRadioGroupDialog::SelectItem
 void
 JXRadioGroupDialog::BuildWindow
 	(
-	const JCharacter*			windowTitle,
-	const JCharacter*			prompt,
+	const JString&				windowTitle,
+	const JString&				prompt,
 	const JPtrArray<JString>&	choiceList,
 	const JPtrArray<JString>*	shortcutList
 	)
@@ -187,18 +187,18 @@ JIndex i;
 	const JCoordinate buttonX = (wmin - 2*kButtonWidth)/3;
 
 	JXTextButton* cancelButton =
-		jnew JXTextButton("Cancel", window,
+		jnew JXTextButton(JGetString("CancelLabel::JXGlobal"), window,
 						 JXWidget::kFixedLeft, JXWidget::kFixedTop,
 						 buttonX,y, kButtonWidth,kTextHeight);
 	assert( cancelButton != NULL );
 
 	JXTextButton* okButton =
-		jnew JXTextButton("OK", window,
+		jnew JXTextButton(JGetString("OKLabel::JXGlobal"), window,
 						 JXWidget::kFixedLeft, JXWidget::kFixedTop,
 						 wmin - buttonX - (kButtonWidth+2), y-1,
 						 kButtonWidth+2, kTextHeight+2);
 	assert( okButton != NULL );
-	okButton->SetShortcuts("^M");
+	okButton->SetShortcuts(JGetString("OKShortcut::JXGlobal"));
 
 	SetButtons(okButton, cancelButton);
 

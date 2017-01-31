@@ -17,7 +17,7 @@ class JXFileHistoryMenu : public JXHistoryMenuBase
 public:
 
 	JXFileHistoryMenu(const JSize historyLength,
-					  const JCharacter* title, JXContainer* enclosure,
+					  const JString& title, JXContainer* enclosure,
 					  const HSizingOption hSizing, const VSizingOption vSizing,
 					  const JCoordinate x, const JCoordinate y,
 					  const JCoordinate w, const JCoordinate h);
@@ -27,8 +27,8 @@ public:
 
 	virtual ~JXFileHistoryMenu();
 
-	void	AddFile(const JCharacter* fullName);
-	void	AddFile(const JCharacter* path, const JCharacter* name);
+	void	AddFile(const JString& fullName);
+	void	AddFile(const JString& path, const JString& name);
 
 	JString	GetFile(const Message& message) const;
 	JString	GetFile(const JIndex index) const;

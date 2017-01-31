@@ -2,6 +2,16 @@
 
 # Copyright (C) 2000 by John Lindal. All rights reserved.
 
+# Global
+
+OKLabel::JXGlobal			"OK"
+OKShortcut::JXGlobal		"^M"
+CancelLabel::JXGlobal		"Cancel"
+CancelShortcut::JXGlobal	"^["
+
+DirectoryExists::JXGlobal	"This directory already exists."
+DirNotWritable::JXGlobal	"You do not have write access to this directory."
+
 # JXApplication
 
 DisplayConnectError	"Unable to connect to $name"
@@ -42,9 +52,7 @@ AboveMax::JXFloatInput		"This field only accepts numbers less than or equal to $
 
 Hint::JXPathInput			"Either type in a path (tab completion is supported) or Drag-and-Drop a directory."
 NoRelPath::JXPathInput		"You cannot enter a relative path because there is no base path."
-InvalidPath::JXPathInput	"This is not a valid directory."
 Unreadable::JXPathInput		"This directory is unreadable."
-Unwritable::JXPathInput		"You don't have permission to write to this directory."
 AccessDenied::JXPathInput	"You don't have access to this directory."
 BadPath::JXPathInput		"This directory does not exist."
 CompNotDir::JXPathInput		"Some part of this is not a directory."
@@ -61,7 +69,12 @@ CannotExec::JXFileInput		"This file is not executable."
 
 # JXDocumentManager
 
-NewDocName::JXDocumentManager	"Untitled $i"
+NewDocName::JXDocumentManager		"Untitled $i"
+PleaseFind::JXDocumentManager		"Unable to locate $name\n\nPlease find it."
+ChooseFilePrompt::JXDocumentManager	"New name of file:"
+
+WarnDifferentName::JXDocumentManager
+"$name1 was requested.\n\nYou selected $name2.\n\nAre you sure that this is correct?"
 
 # JXFileDocument
 
@@ -244,8 +257,7 @@ Prompt::JXOpenDisplayDialog			"Name of display:"
 
 # JXGetNewDirDialog
 
-DirectoryExists::JXGetNewDirDialog	"This directory already exists."
-NameUsed::JXGetNewDirDialog			"This name is in use."
+NameUsed::JXGetNewDirDialog	"This name is in use."
 
 # JXCSFDialogBase
 
@@ -256,8 +268,6 @@ GoToLabel::JXCSFDialogBase			"Go"
 SetLabel::JXCSFDialogBase			"Set"
 NoAccessUp::JXCSFDialogBase			"You don't have access to the enclosing directory."
 NoHomeDir::JXCSFDialogBase			"Unable to find your home directory."
-DirExists::JXCSFDialogBase			"That directory already exists."
-DirNotWritable::JXCSFDialogBase		"You do not have write access to this directory."
 CannotCreateDir::JXCSFDialogBase	"Unable to create the directory."
 DesktopName::JXCSFDialogBase		"Desktop"
 
@@ -271,12 +281,10 @@ ShowHiddenShortcut::JXCSFDialogBase	"#S"
 
 ChooseFileTitle::JXChooseFileDialog		"Choose file"
 ChooseFilesTitle::JXChooseFileDialog	"Choose files"
-CancelShortcut::JXChooseFileDialog		"^["
 
 # JXChoosePathDialog
 
 Title::JXChoosePathDialog				"Choose directory"
-CancelShortcut::JXChoosePathDialog		"^["
 SelectShortcut::JXChoosePathDialog		"#E"
 DirMustBeWritable::JXChoosePathDialog	"You must select a writable directory."
 
@@ -285,10 +293,8 @@ DirMustBeWritable::JXChoosePathDialog	"You must select a writable directory."
 Title::JXSaveFileDialog				"Save file"
 OpenLabel::JXSaveFileDialog			"Open"
 SaveLabel::JXSaveFileDialog			"Save"
-CancelShortcut::JXSaveFileDialog	"^["
 MustEnterFileName::JXSaveFileDialog	"You need to enter a file name."
 DirExists::JXSaveFileDialog			"This name is already used for a directory."
-DirNotWritable::JXSaveFileDialog	"You do not have write access to this directory."
 FileNotWritable::JXSaveFileDialog	"You do not have write access to this file."
 WarnReplaceFile::JXSaveFileDialog	"That file already exists.  Replace it?"
 
@@ -318,3 +324,14 @@ InsertTabShortcut::JXStringCompletionMenu	"`"
 # JXDisplayMenu
 
 NewDisplay::JXDisplayMenu	"Open new display..."
+
+# JXDNDChooseDropActionDialog
+
+WindowTitle::JXDNDChooseDropActionDialog	"Choose Drop Action"
+Prompt::JXDNDChooseDropActionDialog			"Choose the action to perform:"
+
+# JXStyleMenu
+
+Title::JXStyleMenu		"Style"
+Shortcut::JXStyleMenu	"#y"
+# #S is for Search menu

@@ -49,7 +49,7 @@ const clock_t kWaitForLastStatusTime     = 10 * CLOCKS_PER_SEC;
 
 // atom names
 
-static const JCharacter* kAtomNames[ JXDNDManager::kAtomCount ] =
+static const JUtf8Byte* kAtomNames[ JXDNDManager::kAtomCount ] =
 {
 	"XdndSelection",
 
@@ -717,8 +717,8 @@ JXDNDManager::AnnounceAskActions
 	XChangeProperty(*itsDisplay, itsDraggerWindow,
 					itsAtoms[ kDNDActionDescriptionAtomIndex ], XA_STRING, 8,
 					PropModeReplace,
-					(unsigned char*) descripData.GetCString(),
-					descripData.GetLength());
+					(unsigned char*) descripData.GetBytes(),
+					descripData.GetByteCount());
 }
 
 /******************************************************************************
@@ -784,7 +784,7 @@ JXDNDManager::GetAskActions
 
 		if (actualType == XA_STRING && actualFormat == 8 && itemCount > 0)
 			{
-			JXUnpackStrings(reinterpret_cast<JCharacter*>(rawData), itemCount,
+			JXUnpackStrings(reinterpret_cast<JUtf8Byte*>(rawData), itemCount,
 							descriptionList);
 			}
 
@@ -2031,7 +2031,7 @@ JXDNDManager::UnpackRect
 
  ******************************************************************************/
 
-static const JCharacter* kDefaultDNDCursorName[] =
+static const JUtf8Byte* kDefaultDNDCursorName[] =
 {
 	"JXDNDCopyCursor",
 	"JXDNDMoveCursor",
@@ -2137,7 +2137,7 @@ static const JXCursor kDefaultDNDCursor[] =
 void
 JXDNDManager::InitCursors()
 {
-	assert( sizeof(kDefaultDNDCursorName)/sizeof(JCharacter*) == kDefDNDCursorCount );
+	assert( sizeof(kDefaultDNDCursorName)/sizeof(JUtf8Byte*) == kDefDNDCursorCount );
 
 	for (JIndex i=0; i<kDefDNDCursorCount; i++)
 		{

@@ -19,7 +19,7 @@ public:
 
 	JXImageSelection(const JXImage& image);
 	JXImageSelection(JXImage* image);
-	JXImageSelection(JXWidget* widget, const JCharacter* id);
+	JXImageSelection(JXWidget* widget, const JUtf8Byte* id);
 
 	virtual	~JXImageSelection();
 
@@ -34,10 +34,10 @@ public:
 							 const Atom selectionName, const Time time,
 							 JXColormap* colormap, JXImage** image);
 
-	static const JCharacter*	GetXPMXAtomName();
-	static const JCharacter*	GetGIFXAtomName();
-	static const JCharacter*	GetPNGXAtomName();
-	static const JCharacter*	GetJPEGXAtomName();
+	static const JUtf8Byte*	GetXPMXAtomName();
+	static const JUtf8Byte*	GetGIFXAtomName();
+	static const JUtf8Byte*	GetPNGXAtomName();
+	static const JUtf8Byte*	GetJPEGXAtomName();
 
 protected:
 

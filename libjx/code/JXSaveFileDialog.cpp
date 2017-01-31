@@ -309,7 +309,7 @@ JXSaveFileDialog::SetObjects
 	ListenTo(&(fileBrowser->GetTableSelection()));
 	ListenTo(itsFileNameInput);
 
-	cancelButton->SetShortcuts(JGetString("CancelShortcut::JXSaveFileDialog"));
+	cancelButton->SetShortcuts(JGetString("CancelShortcut::JXGlobal"));
 }
 
 /******************************************************************************
@@ -428,7 +428,7 @@ JXSaveFileDialog::OKToDeactivate()
 		}
 	else if (!JDirectoryWritable(path) && !fileExists)
 		{
-		(JGetUserNotification())->ReportError(JGetString("DirNotWritable::JXSaveFileDialog"));
+		(JGetUserNotification())->ReportError(JGetString("DirNotWritable::JXGlobal"));
 		return kJFalse;
 		}
 	else if (!fileExists)

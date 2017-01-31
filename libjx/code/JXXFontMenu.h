@@ -18,7 +18,7 @@ class JXXFontMenu : public JXFontNameMenu
 public:
 
 	static JBoolean Create(const JRegex& regex, JSortXFontNamesFn compare,
-						   const JCharacter* title, JXContainer* enclosure,
+						   const JString& title, JXContainer* enclosure,
 						   const HSizingOption hSizing, const VSizingOption vSizing,
 						   const JCoordinate x, const JCoordinate y,
 						   const JCoordinate w, const JCoordinate h,
@@ -33,7 +33,7 @@ public:
 protected:
 
 	JXXFontMenu(const JPtrArray<JString>& fontNames,
-				const JCharacter* title, JXContainer* enclosure,
+				const JString& title, JXContainer* enclosure,
 				const HSizingOption hSizing, const VSizingOption vSizing,
 				const JCoordinate x, const JCoordinate y,
 				const JCoordinate w, const JCoordinate h);

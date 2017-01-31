@@ -39,28 +39,28 @@
 
 JBoolean JXFileDocument::itsAskOKToCloseFlag = kJTrue;
 
-static const JCharacter* kBackupFileSuffix = "~";
+static const JUtf8Byte* kBackupFileSuffix = "~";
 
-static const JCharacter* kSafetySavePrefix = "#";
-static const JCharacter* kSafetySaveSuffix = "#";
+static const JUtf8Byte* kSafetySavePrefix = "#";
+static const JUtf8Byte* kSafetySaveSuffix = "#";
 
-static const JCharacter* kAssertSavePrefix = "##";
-static const JCharacter* kAssertSaveSuffix = "##";
+static const JUtf8Byte* kAssertSavePrefix = "##";
+static const JUtf8Byte* kAssertSaveSuffix = "##";
 
 // setup information
 
 const JFileVersion kCurrentSetupVersion = 1;
-const JCharacter kSetupDataEndDelimiter = '\1';
+const JUtf8Byte kSetupDataEndDelimiter  = '\1';
 
 	// version 1 stores itsWantNewBackupEveryOpenFlag
 
 // JBroadcaster message types
 
-const JCharacter* JXFileDocument::kNameChanged = "NameChanged::JXFileDocument";
+const JUtf8Byte* JXFileDocument::kNameChanged = "NameChanged::JXFileDocument";
 
 // JError messages
 
-const JCharacter* JXFileDocument::kWriteFailed = "WriteFailed::JXFileDocument";
+const JUtf8Byte* JXFileDocument::kWriteFailed = "WriteFailed::JXFileDocument";
 
 /******************************************************************************
  Constructor
@@ -75,11 +75,11 @@ const JCharacter* JXFileDocument::kWriteFailed = "WriteFailed::JXFileDocument";
 
 JXFileDocument::JXFileDocument
 	(
-	JXDirector*			supervisor,
-	const JCharacter*	fileName,
-	const JBoolean		onDisk,
-	const JBoolean		wantBackupFile,
-	const JCharacter*	defaultFileNameSuffix
+	JXDirector*		supervisor,
+	const JString&	fileName,
+	const JBoolean	onDisk,
+	const JBoolean	wantBackupFile,
+	const JString&	defaultFileNameSuffix
 	)
 	:
 	JXDocument(supervisor),
@@ -229,8 +229,8 @@ JXFileDocument::NeedsSave()
 void
 JXFileDocument::FileChanged
 	(
-	const JCharacter*	fileName,
-	const JBoolean		onDisk
+	const JString&	fileName,
+	const JBoolean	onDisk
 	)
 {
 	itsSavedFlag          = kJTrue;
@@ -290,9 +290,9 @@ JXFileDocument::OKToClose()
 	Activate();		// show ourselves so user knows what we are asking about
 
 	JString msg = itsSaveBeforeClosePrompt;
-	const JCharacter* map[] =
+	const JUtf8Byte* map[] =
 		{
-		"name", itsFileName
+		"name", itsFileName.GetBytes()
 		};
 	(JGetStringManager())->Replace(&msg, map, sizeof(map));
 
@@ -331,9 +331,9 @@ JXFileDocument::OKToRevert()
 
 	if (FileModifiedByOthers())
 		{
-		const JCharacter* map[] =
+		const JUtf8Byte* map[] =
 			{
-			"name", itsFileName
+			"name", itsFileName.GetBytes()
 			};
 		const JString msg = JGetString(
 			itsSavedFlag? "OKToRevertSavedPrompt::JXFileDocument" : "OKToRevertUnsavedPrompt::JXFileDocument",
@@ -345,9 +345,9 @@ JXFileDocument::OKToRevert()
 	else if (!itsSavedFlag && ExistsOnDisk())
 		{
 		JString msg = itsOKToRevertPrompt;
-		const JCharacter* map[] =
+		const JUtf8Byte* map[] =
 			{
-			"name", itsFileName
+			"name", itsFileName.GetBytes()
 			};
 		(JGetStringManager())->Replace(&msg, map, sizeof(map));
 		return (JGetUserNotification())->AskUserYes(msg);
@@ -530,12 +530,12 @@ JXFileDocument::DataReverted
 JBoolean
 JXFileDocument::SaveCopyInNewFile
 	(
-	const JCharacter*	origUserName,
-	JString*			fullName
+	const JString&	origUserName,
+	JString*		fullName
 	)
 {
 	JString origName;
-	if (!JString::IsEmpty(origUserName))
+	if (!origUserName.IsEmpty())
 		{
 		origName = origUserName;
 		}
@@ -581,11 +581,11 @@ JXFileDocument::SaveCopyInNewFile
 JBoolean
 JXFileDocument::SaveInNewFile
 	(
-	const JCharacter* newFullName
+	const JString& newFullName
 	)
 {
 	JString fullName;
-	if (!JString::IsEmpty(newFullName))		// could be NULL
+	if (!newFullName.IsEmpty())
 		{
 		fullName = newFullName;
 		}
@@ -727,9 +727,9 @@ JXFileDocument::SaveInCurrentFile()
 		{
 		if (itsCheckModTimeFlag && FileModifiedByOthers())
 			{
-			const JCharacter* map[] =
+			const JUtf8Byte* map[] =
 				{
-				"name", itsFileName
+				"name", itsFileName.GetBytes()
 				};
 			const JString msg = JGetString("OverwriteChangedFilePrompt::JXFileDocument",
 										   map, sizeof(map));
@@ -761,9 +761,9 @@ JXFileDocument::SaveInCurrentFile()
 					}
 				else
 					{
-					const JCharacter* map[] =
+					const JUtf8Byte* map[] =
 						{
-						"err", err.GetMessage()
+						"err", err.GetMessage().GetBytes()
 						};
 					const JString msg = JGetString("NoBackupError::JXFileDocument", map, sizeof(map));
 					if (!(JGetUserNotification())->AskUserNo(msg))
@@ -830,12 +830,12 @@ JXFileDocument::SaveInCurrentFile()
 JError
 JXFileDocument::WriteFile
 	(
-	const JCharacter*	fullName,
-	const JBoolean		safetySave
+	const JString&	fullName,
+	const JBoolean	safetySave
 	)
 	const
 {
-	std::ofstream output(fullName);
+	std::ofstream output(fullName.GetBytes());
 	if (output.good())
 		{
 		WriteTextFile(output, safetySave);
@@ -932,11 +932,11 @@ JXFileDocument::SafetySave
 			}
 		else if (reason == JXDocumentManager::kAssertFired)
 			{
-			err = JCreateTempFile(homeDir, JGetString("AssertUnsavedFilePrefix::JXFileDocument"), &fullName);
+			err = JCreateTempFile(&homeDir, &JGetString("AssertUnsavedFilePrefix::JXFileDocument"), &fullName);
 			}
 		else
 			{
-			err = JCreateTempFile(homeDir, JGetString("UnsavedFilePrefix::JXFileDocument"), &fullName);
+			err = JCreateTempFile(&homeDir, &JGetString("UnsavedFilePrefix::JXFileDocument"), &fullName);
 			}
 
 		if (err.OK())
@@ -1023,7 +1023,7 @@ JXFileDocument::GetSafetySaveFileName
 JBoolean
 JXFileDocument::CheckForSafetySaveFiles
 	(
-	const JCharacter*	origFullName,
+	const JString&		origFullName,
 	JPtrArray<JString>*	filesToOpen
 	)
 {
@@ -1050,7 +1050,7 @@ JXFileDocument::CheckForSafetySaveFiles
 			JGetModificationTime(assertName, &assertTime) == kJNoError &&
 			assertTime > modTime);
 
-		const JCharacter* id = NULL;
+		const JUtf8Byte* id = NULL;
 		if (safetyExists && assertExists)
 			{
 			id = "OpenSafetyAssertFilePrompt::JXFileDocument";
@@ -1064,9 +1064,9 @@ JXFileDocument::CheckForSafetySaveFiles
 			id = "OpenAssertFilePrompt::JXFileDocument";
 			}
 
-		const JCharacter* map[] =
+		const JUtf8Byte* map[] =
 			{
-			"name", name
+			"name", name.GetBytes()
 			};
 
 		if (id != NULL &&
@@ -1104,8 +1104,8 @@ JXFileDocument::CheckForSafetySaveFiles
 JXFileDocument::FileStatus
 JXFileDocument::DefaultCanReadASCIIFile
 	(
-	std::istream&			input,
-	const JCharacter*	fileSignature,
+	std::istream&		input,
+	const JUtf8Byte*	fileSignature,
 	const JFileVersion	latestFileVersion,
 	JFileVersion*		actualFileVersion
 	)
@@ -1142,8 +1142,8 @@ JXFileDocument::DefaultCanReadASCIIFile
 
  ******************************************************************************/
 
-static const JCharacter* kNeedsSavePrefixStr      = "*** ";
-static const JCharacter* kNeedsSavePlaceholderStr = "     ";
+static const JUtf8Byte* kNeedsSavePrefixStr      = "*** ";
+static const JUtf8Byte* kNeedsSavePlaceholderStr = "     ";
 
 void
 JXFileDocument::AdjustWindowTitle()
@@ -1169,20 +1169,20 @@ JXFileDocument::AdjustWindowTitle()
 
  ******************************************************************************/
 
-const JCharacter*
+const JUtf8Byte*
 JXFileDocument::SkipNeedsSavePrefix
 	(
-	const JCharacter* s
+	const JUtf8Byte* s
 	)
 {
 	JSize len = strlen(kNeedsSavePrefixStr);
-	if (JCompareMaxN(s, kNeedsSavePrefixStr, len))
+	if (JString::CompareMaxNBytes(s, kNeedsSavePrefixStr, len) == 0)
 		{
 		return s + len;
 		}
 
 	len = strlen(kNeedsSavePlaceholderStr);
-	if (JCompareMaxN(s, kNeedsSavePlaceholderStr, len))
+	if (JString::CompareMaxNBytes(s, kNeedsSavePlaceholderStr, len) == 0)
 		{
 		return s + len;
 		}
@@ -1213,7 +1213,7 @@ JXFileDocument::GetWindowTitle()
 void
 JXFileDocument::SetSaveBeforeClosePrompt
 	(
-	const JCharacter* prompt
+	const JString& prompt
 	)
 {
 	itsSaveBeforeClosePrompt = prompt;
@@ -1222,7 +1222,7 @@ JXFileDocument::SetSaveBeforeClosePrompt
 void
 JXFileDocument::SetSaveNewFilePrompt
 	(
-	const JCharacter* prompt
+	const JString& prompt
 	)
 {
 	itsSaveNewFilePrompt = prompt;
@@ -1231,7 +1231,7 @@ JXFileDocument::SetSaveNewFilePrompt
 void
 JXFileDocument::SetOKToRevertPrompt
 	(
-	const JCharacter* prompt
+	const JString& prompt
 	)
 {
 	itsOKToRevertPrompt = prompt;

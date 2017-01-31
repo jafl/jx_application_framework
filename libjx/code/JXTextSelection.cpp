@@ -16,7 +16,7 @@
 #include <sstream>
 #include <jAssert.h>
 
-static const JCharacter* kStyledText0XAtomName = "text/x-jxstyled0";
+static const JUtf8Byte* kStyledText0XAtomName = "text/x-jxstyled0";
 
 /******************************************************************************
  Constructor
@@ -26,7 +26,7 @@ static const JCharacter* kStyledText0XAtomName = "text/x-jxstyled0";
 JXTextSelection::JXTextSelection
 	(
 	JXDisplay*				display,
-	const JCharacter*		text,
+	const JString&			text,
 	const JRunArray<JFont>*	style
 	)
 	:
@@ -64,7 +64,7 @@ JXTextSelection::JXTextSelection
 JXTextSelection::JXTextSelection
 	(
 	JXWidget*			widget,
-	const JCharacter*	id
+	const JUtf8Byte*	id
 	)
 	:
 	JXSelectionData(widget, id)
@@ -132,7 +132,7 @@ JXTextSelection::AddTypes
 void
 JXTextSelection::SetData
 	(
-	const JCharacter*		text,
+	const JString&			text,
 	const JXColormap*		colormap,
 	const JRunArray<JFont>*	style
 	)
@@ -231,21 +231,10 @@ JXTextSelection::SetData
 
 	SetTextEditor(NULL, JIndexRange());
 
-	const JSize count = list.GetElementCount();
-	JSize selectCount = 0;
-	for (JIndex i=1; i<=count; i++)
+	*itsText = list.Join("\n");
+	if (list.GetElementCount() > 1)
 		{
-		if (selectCount > 0)
-			{
-			itsText->AppendCharacter('\n');
-			}
-		*itsText += *(list.GetElement(i));
-		selectCount++;
-		}
-
-	if (selectCount > 1)
-		{
-		itsText->AppendCharacter('\n');
+		itsText->Append("\n");
 		}
 }
 
@@ -328,11 +317,11 @@ JXTextSelection::ConvertData
 		itsText != NULL)
 		{
 		*returnType = (requestType == mimeText) ? mimeText : XA_STRING;
-		*dataLength = itsText->GetLength();
+		*dataLength = itsText->GetByteCount();
 		*data       = jnew unsigned char[ *dataLength ];
 		if (*data != NULL)
 			{
-			memcpy(*data, itsText->GetCString(), *dataLength);
+			memcpy(*data, itsText->GetBytes(), *dataLength);
 			return kJTrue;
 			}
 		}
@@ -344,7 +333,7 @@ JXTextSelection::ConvertData
 		std::ostringstream dataStream;
 		JTextEditor::WritePrivateFormat(dataStream,
 										itsColormap, vers, *itsText, *itsStyle,
-										1, itsText->GetLength());
+										1, itsText->GetByteCount());
 
 		const std::string s = dataStream.str();
 		*returnType         = itsStyledText0XAtom;
@@ -380,7 +369,7 @@ JXTextSelection::ConvertData
 
  ******************************************************************************/
 
-const JCharacter*
+const JUtf8Byte*
 JXTextSelection::GetStyledText0XAtomName()
 {
 	return kStyledText0XAtomName;

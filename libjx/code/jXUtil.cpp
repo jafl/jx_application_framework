@@ -316,32 +316,21 @@ JXPackStrings
 	const JSize					sepLength
 	)
 {
-	JString data;
-
-	const JSize count = strList.GetElementCount();
-	for (JIndex i=1; i<=count; i++)
-		{
-		if (i > 1)
-			{
-			data.Append(separator, sepLength);
-			}
-		data.Append(*(strList.GetElement(i)));
-		}
-
-	return data;
+	JString s(separator, sepLength, kJFalse);
+	return strList.Join(s);
 }
 
 void
 JXUnpackStrings
 	(
 	const JUtf8Byte*	origData,
-	const JSize			length,
+	const JSize			byteCount,
 	JPtrArray<JString>*	strList,
 	const JUtf8Byte*	separator,
 	const JSize			sepLength
 	)
 {
-	JString(origData, length, kJFalse).
+	JString(origData, byteCount, kJFalse).
 		Split(
 			JString(separator, sepLength, kJFalse), strList);
 }
@@ -387,13 +376,13 @@ void
 JXUnpackFileNames
 	(
 	const JUtf8Byte*	data,
-	const JSize			length,
+	const JSize			byteCount,
 	JPtrArray<JString>*	fileNameList,
 	JPtrArray<JString>*	urlList
 	)
 {
 	const JSize origCount = fileNameList->GetElementCount();
-	JXUnpackStrings(data, length, fileNameList, kURISeparator, kURISeparatorLength);
+	JXUnpackStrings(data, byteCount, fileNameList, kURISeparator, kURISeparatorLength);
 	const JSize newCount = fileNameList->GetElementCount();
 
 	JString fileName;
@@ -435,7 +424,7 @@ JXReportUnreachableHosts
 		}
 
 	JPtrArray<JString> hostList(JPtrArrayT::kDeleteAll);
-	hostList.SetSortOrder(JOrderedSetT::kSortAscending);
+	hostList.SetSortOrder(JListT::kSortAscending);
 	hostList.SetCompareFunction(JCompareStringsCaseInsensitive);
 
 	const JSize urlCount = urlList.GetElementCount();
@@ -510,14 +499,14 @@ JBoolean
 JXFixBrokenURLs
 	(
 	const JUtf8Byte*	data,
-	const JSize			length,
+	const JSize			byteCount,
 	JXDisplay*			display,
 	const Window		srcWindow,
 	JString*			newData
 	)
 {
 	JPtrArray<JString> urlList(JPtrArrayT::kDeleteAll);
-	JXUnpackStrings(data, length, &urlList, kURISeparator, kURISeparatorLength);
+	JXUnpackStrings(data, byteCount, &urlList, kURISeparator, kURISeparatorLength);
 
 	JBoolean changed = kJFalse;
 

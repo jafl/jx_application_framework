@@ -32,12 +32,10 @@
 #include <JXWindow.h>
 #include <JXColormap.h>
 #include <jXActionDefs.h>
+#include <jGlobals.h>
 #include <jAssert.h>
 
-static const JCharacter* kStyleMenuTitleStr    = "Style";
-static const JCharacter* kStyleMenuShortcutStr = "#y";		// #S is for Search menu
-
-static const JCharacter* kMacMenuStr =
+static const JUtf8Byte* kMacMenuStr =
 	"    Plain            %b %k Meta-T %i" kJXPlainStyleAction
 	"%l| Bold             %b %k Meta-B %i" kJXBoldStyleAction
 	"  | Italic           %b %k Meta-I %i" kJXItalicStyleAction
@@ -56,7 +54,7 @@ static const JCharacter* kMacMenuStr =
 	"  | Pink             %r           %i" kJXPinkStyleAction
 	"%l| Other            %r           %i" kJXOtherColorStyleAction;
 
-static const JCharacter* kWinMenuStr =
+static const JUtf8Byte* kWinMenuStr =
 	"    Plain            %b %h p %k Ctrl-T %i" kJXPlainStyleAction
 	"%l| Bold             %b %h b %k Ctrl-B %i" kJXBoldStyleAction
 	"  | Italic           %b %h i %k Ctrl-I %i" kJXItalicStyleAction
@@ -93,7 +91,7 @@ JXStyleMenu::JXStyleMenu
 	const JCoordinate	h
 	)
 	:
-	JXTextMenu(kStyleMenuTitleStr, enclosure, hSizing, vSizing, x,y, w,h)
+	JXTextMenu(JGetString("Title::JXStyleMenu"), enclosure, hSizing, vSizing, x,y, w,h)
 {
 	JXStyleMenuX();
 }
@@ -123,7 +121,7 @@ JXStyleMenu::JXStyleMenuX()
 		}
 	else
 		{
-		SetShortcuts(kStyleMenuShortcutStr);
+		SetShortcuts(JGetString("Shortcut::JXStyleMenu"));
 		SetMenuItems(kWinMenuStr);
 		}
 

@@ -16,7 +16,7 @@ class JXWDMenu : public JXTextMenu
 {
 public:
 
-	JXWDMenu(const JCharacter* title, JXContainer* enclosure,
+	JXWDMenu(const JString& title, JXContainer* enclosure,
 			 const HSizingOption hSizing, const VSizingOption vSizing,
 			 const JCoordinate x, const JCoordinate y,
 			 const JCoordinate w, const JCoordinate h);

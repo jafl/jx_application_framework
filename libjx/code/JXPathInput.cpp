@@ -248,7 +248,7 @@ JXPathInput::InputValid()
 		}
 	if (!JConvertToAbsolutePath(text, &itsBasePath, &path))
 		{
-		(JGetUserNotification())->ReportError(JGetString("InvalidPath::JXPathInput"));
+		(JGetUserNotification())->ReportError(JGetString("InvalidDir::JXPathInput"));
 		RecalcAll(kJTrue);
 		return kJFalse;
 		}
@@ -267,7 +267,7 @@ JXPathInput::InputValid()
 			}
 		else if (itsRequireWriteFlag && !JDirectoryWritable(path))
 			{
-			(JGetUserNotification())->ReportError(JGetString("Unwritable::JXPathInput"));
+			(JGetUserNotification())->ReportError(JGetString("DirNotWritable::JXGlobal"));
 			RecalcAll(kJTrue);
 			return kJFalse;
 			}

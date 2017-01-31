@@ -83,7 +83,7 @@ JXGetNewDirDialog::OKToDeactivate()
 	const JString pathName = GetNewDirName();
 	if (JDirectoryExists(pathName))
 		{
-		(JGetUserNotification())->ReportError(JGetString("DirectoryExists::JXGetNewDirDialog"));
+		(JGetUserNotification())->ReportError(JGetString("DirectoryExists::JXGlobal"));
 		return kJFalse;
 		}
 	else if (JNameUsed(pathName))

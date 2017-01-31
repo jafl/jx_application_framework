@@ -39,8 +39,8 @@ public:
 	void				DataReverted(const JBoolean fromUndo = kJFalse);
 
 	JBoolean	SaveInCurrentFile();
-	JBoolean	SaveInNewFile(const JString* fullName = NULL);
-	JBoolean	SaveCopyInNewFile(const JString* origName = NULL,
+	JBoolean	SaveInNewFile(const JString& fullName = JString::empty);
+	JBoolean	SaveCopyInNewFile(const JString& origName = JString::empty,
 								  JString* fullName = NULL);
 
 	JBoolean				ExistsOnDisk() const;
@@ -79,7 +79,7 @@ public:
 	const JString&		GetSaveNewFilePrompt() const;
 	const JString&		GetOKToRevertPrompt() const;
 
-	static JString	SkipNeedsSavePrefix(const JString& s);
+	static const JUtf8Byte*	SkipNeedsSavePrefix(const JUtf8Byte* s);
 
 	// saving setup information
 

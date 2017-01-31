@@ -703,11 +703,11 @@ JXCSFDialogBase::CreateNewDirectory()
 		}
 	else if (err == kJDirEntryAlreadyExists)
 		{
-		(JGetUserNotification())->ReportError(JGetString("DirExists::JXCSFDialogBase"));
+		(JGetUserNotification())->ReportError(JGetString("DirectoryExists::JXGlobal"));
 		}
 	else if (err == kJAccessDenied)
 		{
-		(JGetUserNotification())->ReportError(JGetString("DirNotWritable::JXCSFDialogBase"));
+		(JGetUserNotification())->ReportError(JGetString("DirNotWritable::JXGlobal"));
 		}
 	else
 		{

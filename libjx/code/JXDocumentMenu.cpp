@@ -24,7 +24,7 @@
 
 JXDocumentMenu::JXDocumentMenu
 	(
-	const JCharacter*	title,
+	const JString&		title,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,

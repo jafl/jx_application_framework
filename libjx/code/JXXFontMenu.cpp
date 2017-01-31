@@ -30,7 +30,7 @@ JXXFontMenu::Create
 	(
 	const JRegex&		regex,
 	JSortXFontNamesFn	compare,
-	const JCharacter*	title,
+	const JString&		title,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
@@ -86,7 +86,7 @@ JXXFontMenu::Create
 JXXFontMenu::JXXFontMenu
 	(
 	const JPtrArray<JString>&	fontNames,
-	const JCharacter*			title,
+	const JString&				title,
 	JXContainer*				enclosure,
 	const HSizingOption			hSizing,
 	const VSizingOption			vSizing,
@@ -145,5 +145,5 @@ JXXFontMenu::BuildMenu
 		SetItemFontName(i, *fontName);
 		}
 
-	SetFontName(*(fontNames.FirstElement()));
+	SetFontName(*(fontNames.GetFirstElement()));
 }
