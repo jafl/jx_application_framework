@@ -229,8 +229,8 @@ JXDockWidget::GetTabInsertionIndex
 	const JSize count = itsWindowList->GetElementCount();
 	assert( count == itsTabGroup->GetTabCount() );
 
-	const JCharacter* title =
-		JXFileDocument::SkipNeedsSavePrefix(w->GetTitle());
+	const JUtf8Byte* title =
+		JXFileDocument::SkipNeedsSavePrefix(w->GetTitle().GetBytes());
 
 	JIndex index = count+1;
 	for (JIndex i=1; i<=count; i++)
@@ -240,8 +240,8 @@ JXDockWidget::GetTabInsertionIndex
 			continue;
 			}
 
-		const JCharacter* t =
-			JXFileDocument::SkipNeedsSavePrefix((itsWindowList->GetElement(i))->GetTitle());
+		const JUtf8Byte* t =
+			JXFileDocument::SkipNeedsSavePrefix((itsWindowList->GetElement(i))->GetTitle().GetBytes());
 		if (JString::Compare(title, t, kJFalse) < 0)
 			{
 			index = i;

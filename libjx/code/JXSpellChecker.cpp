@@ -16,6 +16,8 @@
 #include <jXGlobals.h>
 #include <JProcess.h>
 #include <JOutPipeStream.h>
+#include <JStringIterator.h>
+#include <JStringMatch.h>
 #include <jStreamUtil.h>
 #include <jProcessUtil.h>
 #include <jDirUtil.h>
@@ -56,13 +58,13 @@ JXSpellChecker::JXSpellChecker()
 		}
 
 	int toFD, fromFD;
-	JError err = JProcess::Create(&itsProcess, "aspell -a",
+	JError err = JProcess::Create(&itsProcess, JString("aspell -a", 0, kJFalse),
 								  kJCreatePipe, &toFD,
 								  kJCreatePipe, &fromFD,
 								  kJTossOutput, NULL);
 	if (!err.OK())
 		{
-		err = JProcess::Create(&itsProcess, "ispell -a",
+		err = JProcess::Create(&itsProcess, JString("ispell -a", 0, kJFalse),
 							   kJCreatePipe, &toFD,
 							   kJCreatePipe, &fromFD,
 							   kJTossOutput, NULL);
@@ -130,7 +132,7 @@ JXSpellChecker::CheckSelection
 	JXTEBase* editor
 	)
 {
-	JIndexRange range;
+	JCharacterRange range;
 	if (itsProcess == NULL ||
 		!editor->GetSelection(&range))
 		{
@@ -157,10 +159,11 @@ JXSpellChecker::CheckWord
 {
 	suggestionList->DeleteAll();
 
-	const JSize wordLength = word.GetLength();
-	for (JIndex i=1; i<=wordLength; i++)
+	JStringIterator iter1(word);
+	JUtf8Character c;
+	while (iter1.Next(&c))
 		{
-		if (!JIsAlpha(word.GetCharacter(i)))	// ispell splits on non-alpha characters
+		if (!c.IsAlpha())	// ispell splits on non-alpha characters
 			{
 			return kJTrue;
 			}
@@ -168,8 +171,6 @@ JXSpellChecker::CheckWord
 
 	word.Print(*itsOutPipe);
 	*itsOutPipe << std::endl;
-
-//word.Print(std::cerr); std::cerr << std::endl;
 
 	JString test = JReadUntil(itsInFD, '\n');
 	if (test.IsEmpty())
@@ -181,28 +182,28 @@ JXSpellChecker::CheckWord
 		return kJTrue;
 		}
 
-//test.Print(std::cerr); std::cerr << std::endl;
-
-	JCharacter c = test.GetFirstCharacter();
+	c = test.GetFirstCharacter();
 	if (c == '*' || c == '+' || c == '-')
 		{
 		return kJTrue;
 		}
 
-	JIndex findex;
-	if (test.LocateSubstring(":", &findex))
+	JStringIterator iter2(&test);
+	if (iter2.Next(":"))
 		{
-		test.RemoveSubstring(1, findex);
-		test.TrimWhitespace();
-		test += ",";	// so every suggestion is caught in loop
+		iter2.RemoveAllPrev();
+		test.TrimWhitespace();	// invalidates iter2
+		test += ",";			// so every suggestion is caught in loop
 
-		while (test.LocateSubstring(",", &findex))
+		JStringIterator iter3(&test);
+		iter3.BeginMatch();
+		while (iter3.Next(","))
 			{
-			JString* str = jnew JString(test.GetSubstring(1, findex - 1));
+			JString* str = jnew JString(iter3.FinishMatch().GetString());
 			assert(str != NULL);
 			str->TrimWhitespace();
 			suggestionList->Append(str);
-			test.RemoveSubstring(1, findex);
+			iter3.BeginMatch();
 			}
 		}
 

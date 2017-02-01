@@ -63,32 +63,24 @@ JBoolean JXTEBase::theWindowsHomeEndFlag         = kJTrue;
 JBoolean JXTEBase::theScrollCaretFlag            = kJFalse;
 JBoolean JXTEBase::theMiddleButtonPasteFlag      = kJTrue;
 
-static const JCharacter* kSelectionDataID = "JXTEBase";
+static const JUtf8Byte* kSelectionDataID = "JXTEBase";
 
 struct MenuItemInfo
 {
 	JTextEditor::CmdIndex	cmd;
-	const JCharacter*		id;
+	const JUtf8Byte*		id;
 };
 
 // JError data
 
-const JCharacter* JXTEBase::kNoData            = "NoData::JXTEBase";
-const JCharacter* JXTEBase::kDataNotCompatible = "DataNotCompatible::JXTEBase";
+const JUtf8Byte* JXTEBase::kNoData            = "NoData::JXTEBase";
+const JUtf8Byte* JXTEBase::kDataNotCompatible = "DataNotCompatible::JXTEBase";
 
-static const JCharacter* kDataNotCompatibleExtra = "DataNotCompatibleExtra::JXTEBase";
-
-// string ID's
-
-static const JCharacter* kDNDActionCopyDescriptionID = "CopyDescription::JXTEBase";
-static const JCharacter* kDNDActionMoveDescriptionID = "MoveDescription::JXTEBase";
+static const JUtf8Byte* kDataNotCompatibleExtra = "DataNotCompatibleExtra::JXTEBase";
 
 // Edit menu
 
-static const JCharacter* kEditMenuTitleStr    = "Edit";
-static const JCharacter* kEditMenuShortcutStr = "#E";
-
-static const JCharacter* kMacEditMenuStr =
+static const JUtf8Byte* kMacEditMenuStr =
 	"    Undo       %k Meta-Z       %i" kJXUndoAction
 	"  | Redo       %k Meta-Shift-Z %i" kJXRedoAction
 	"%l| Cut        %k Meta-X       %i" kJXCutAction
@@ -97,7 +89,7 @@ static const JCharacter* kMacEditMenuStr =
 	"  | Clear                      %i" kJXClearAction
 	"%l| Select all %k Meta-A       %i" kJXSelectAllAction;
 
-static const JCharacter* kWinEditMenuStr =
+static const JUtf8Byte* kWinEditMenuStr =
 	"    Undo       %h uz %k Ctrl-Z       %i" kJXUndoAction
 	"  | Redo       %h r  %k Ctrl-Shift-Z %i" kJXRedoAction
 	"%l| Cut        %h tx %k Ctrl-X       %i" kJXCutAction
@@ -118,46 +110,46 @@ static const JCharacter* kWinEditMenuStr =
 #define kCleanWSAlignSelAction		"CleanWSAlignSelCmd::JXTEBase"
 #define kToggleReadOnlyAction		"ToggleReadOnlyCmd::JXTEBase"
 
-static const JCharacter* kMacCheckSpellingMenuStr =
+static const JUtf8Byte* kMacCheckSpellingMenuStr =
 	"  Check spelling  %i" kCheckAllSpellingAction
 	"| Check selection %i" kCheckSpellingSelAction;
 
-static const JCharacter* kWinCheckSpellingMenuStr =
+static const JUtf8Byte* kWinCheckSpellingMenuStr =
 	"  Check spelling  %h s %i" kCheckAllSpellingAction
 	"| Check selection %h k %i" kCheckSpellingSelAction;
 
-static const JCharacter* kMacAdjustMarginsMenuStr =
+static const JUtf8Byte* kMacAdjustMarginsMenuStr =
 	"    Clean right margin  %k Meta-Return       %i" kCleanRightMarginAction
 	"  | Coerce right margin %k Meta-Shift-Return %i" kCoerceRightMarginAction
 	"%l| Shift left          %k Meta-[            %i" kShiftSelLeftAction
 	"  | Shift right         %k Meta-]            %i" kShiftSelRightAction
 	"  | Force shift left    %k Meta-{            %i" kForceShiftSelLeftAction;
 
-static const JCharacter* kWinAdjustMarginsMenuStr =
+static const JUtf8Byte* kWinAdjustMarginsMenuStr =
 	"    Clean right margin  %h m %k Ctrl-Return       %i" kCleanRightMarginAction
 	"  | Coerce right margin %h n %k Ctrl-Shift-Return %i" kCoerceRightMarginAction
 	"%l| Shift left          %h e %k Ctrl-[            %i" kShiftSelLeftAction
 	"  | Shift right         %h i %k Ctrl-]            %i" kShiftSelRightAction
 	"  | Force shift left    %h f %k Ctrl-{            %i" kForceShiftSelLeftAction;
 
-static const JCharacter* kMacCleanWhitespaceMenuStr =
+static const JUtf8Byte* kMacCleanWhitespaceMenuStr =
 	"  Show whitespace        %b %i" kShowWhitespaceAction
 	"| Clean all whitespace      %i" kCleanAllWhitespaceAction
 	"| Clean selected ws         %i" kCleanWhitespaceSelAction
 	"| Clean all ws & alignment  %i" kCleanAllWSAlignAction
 	"| Clean selected ws & align %i" kCleanWSAlignSelAction;
 
-static const JCharacter* kWinCleanWhitespaceMenuStr =
+static const JUtf8Byte* kWinCleanWhitespaceMenuStr =
 	"  Show whitespace   %b      %i" kShowWhitespaceAction
 	"| Clean all whitespace %h w %i" kCleanAllWhitespaceAction
 	"| Clean selected ws         %i" kCleanWhitespaceSelAction
 	"| Clean all ws & alignment  %i" kCleanAllWSAlignAction
 	"| Clean selected ws & align %i" kCleanWSAlignSelAction;
 
-static const JCharacter* kMacReadOnlyMenuStr =
+static const JUtf8Byte* kMacReadOnlyMenuStr =
 	"Read only %b %i" kToggleReadOnlyAction;
 
-static const JCharacter* kWinReadOnlyMenuStr =
+static const JUtf8Byte* kWinReadOnlyMenuStr =
 	"Read only %b %h o %i" kToggleReadOnlyAction;
 
 static const MenuItemInfo kEditMenuItemInfo[] =
@@ -197,10 +189,7 @@ enum
 
 // Search menu
 
-static const JCharacter* kSearchMenuTitleStr    = "Search";
-static const JCharacter* kSearchMenuShortcutStr = "#S";
-
-static const JCharacter* kMacSearchMenuStr =
+static const JUtf8Byte* kMacSearchMenuStr =
 	"    Find...                   %k Meta-F       %i" kJXFindDialogAction
 	"  | Find previous             %k Meta-Shift-G %i" kJXFindPreviousAction
 	"  | Find next                 %k Meta-G       %i" kJXFindNextAction
@@ -211,7 +200,7 @@ static const JCharacter* kMacSearchMenuStr =
 	"%l| Find clipboard backwards  %k Ctrl-Shift-H %i" kJXFindClipboardBackwardsAction
 	"  | Find clipboard forward    %k Ctrl-H       %i" kJXFindClipboardForwardAction;
 
-static const JCharacter* kWinSearchMenuStr =
+static const JUtf8Byte* kWinSearchMenuStr =
 	"    Find...                   %h f %k Ctrl-F       %i" kJXFindDialogAction
 	"  | Find previous             %h p %k Ctrl-Shift-G %i" kJXFindPreviousAction
 	"  | Find next                 %h n %k Ctrl-G       %i" kJXFindNextAction
@@ -249,7 +238,7 @@ enum
 
 // Search & Replace menu
 
-static const JCharacter* kMacReplaceMenuStr =
+static const JUtf8Byte* kMacReplaceMenuStr =
 	"    Find...                   %k Meta-F       %i" kJXFindDialogAction
 	"  | Find previous             %k Meta-Shift-G %i" kJXFindPreviousAction
 	"  | Find next                 %k Meta-G       %i" kJXFindNextAction
@@ -266,7 +255,7 @@ static const JCharacter* kMacReplaceMenuStr =
 	"  | Replace all forward                       %i" kJXReplaceAllForwardAction
 	"  | Replace all in selection                  %i" kJXReplaceAllInSelectionAction;
 
-static const JCharacter* kWinReplaceMenuStr =
+static const JUtf8Byte* kWinReplaceMenuStr =
 	"    Find...                   %h f %k Ctrl-F       %i" kJXFindDialogAction
 	"  | Find previous             %h p %k Ctrl-Shift-G %i" kJXFindPreviousAction
 	"  | Find next                 %h n %k Ctrl-G       %i" kJXFindNextAction
@@ -680,11 +669,11 @@ JXTEBase::GetDNDAskActions
 	askActionList->AppendElement(dndMgr->GetDNDActionCopyXAtom());
 	askActionList->AppendElement(dndMgr->GetDNDActionMoveXAtom());
 
-	JString* s = jnew JString(kDNDActionCopyDescriptionID);
+	JString* s = jnew JString("CopyDescription::JXTEBase", 0, kJFalse);
 	assert( s != NULL );
 	askDescriptionList->Append(s);
 
-	s = jnew JString(kDNDActionMoveDescriptionID);
+	s = jnew JString("MoveDescription::JXTEBase", 0, kJFalse);
 	assert( s != NULL );
 	askDescriptionList->Append(s);
 }
@@ -704,10 +693,10 @@ void
 JXTEBase::GetSelectionData
 	(
 	JXSelectionData*	data,
-	const JCharacter*	id
+	const JString&		id
 	)
 {
-	if (strcmp(id, kSelectionDataID) == 0)
+	if (id == kSelectionDataID)
 		{
 		JXTextSelection* textData = dynamic_cast<JXTextSelection*>(data);
 		assert( textData != NULL );
@@ -724,7 +713,7 @@ JXTEBase::GetSelectionData
 
 		if (GetType() == kFullEditor)
 			{
-			JIndexRange r;
+			JCharacterRange r;
 			const JBoolean ok = GetSelection(&r);
 			assert( ok );
 			textData->SetTextEditor(this, r);
@@ -1683,7 +1672,7 @@ JXTEBase::TEClipboardChanged()
 
 		if (!GetSelectionManager()->SetData(kJXClipboardName, data))
 			{
-			(JGetUserNotification())->ReportError("Unable to copy to the X Clipboard.");
+			(JGetUserNotification())->ReportError(JGetString("UnableToCopy::JXTEBase"));
 			}
 		}
 }
@@ -1869,7 +1858,7 @@ JXTEBase::GetSelectionData
 				textReturnType == selMgr->GetCompoundTextXAtom())
 				{
 				gotData = kJTrue;
-				*text = JString(reinterpret_cast<JCharacter*>(data), dataLength);
+				*text = JString(reinterpret_cast<JUtf8Byte*>(data), dataLength);
 				}
 			selMgr->DeleteData(&data, delMethod);
 			}
@@ -1904,13 +1893,13 @@ JXTEBase::DataNotCompatible::DataNotCompatible
 		{
 		assert( display != NULL );
 
-		const JCharacter* map[] =
+		const JUtf8Byte* map[] =
 			{
 			"atom", XGetAtomName(*display, type)
 			};
 		JString msg = JGetString(kDataNotCompatible);
 		msg += JGetString(kDataNotCompatibleExtra, map, sizeof(map));
-		SetMessage(msg, kJTrue);
+		SetMessage(msg);
 		}
 }
 
@@ -1978,14 +1967,14 @@ JXTEBase::StaticAppendEditMenu
 {
 	// create basic menu
 
-	JXTextMenu* editMenu = menuBar->AppendTextMenu(kEditMenuTitleStr);
+	JXTextMenu* editMenu = menuBar->AppendTextMenu(JGetString("EditMenuTitle::JXTEBase"));
 	if (JXMenu::GetDefaultStyle() == JXMenu::kMacintoshStyle)
 		{
 		editMenu->SetMenuItems(kMacEditMenuStr, "JXTEBase");
 		}
 	else
 		{
-		editMenu->SetShortcuts(kEditMenuShortcutStr);
+		editMenu->SetShortcuts(JGetString("EditMenuShortcut::JXTEBase"));
 		editMenu->SetMenuItems(kWinEditMenuStr, "JXTEBase");
 		}
 
@@ -2153,14 +2142,14 @@ JXTEBase::AppendSearchMenu
 {
 	assert( itsSearchMenu == NULL && itsReplaceMenu == NULL );
 
-	itsSearchMenu = menuBar->AppendTextMenu(kSearchMenuTitleStr);
+	itsSearchMenu = menuBar->AppendTextMenu(JGetString("SearchMenuTitle::JXTEBase"));
 	if (JXMenu::GetDefaultStyle() == JXMenu::kMacintoshStyle)
 		{
 		itsSearchMenu->SetMenuItems(kMacSearchMenuStr, "JXTEBase");
 		}
 	else
 		{
-		itsSearchMenu->SetShortcuts(kSearchMenuShortcutStr);
+		itsSearchMenu->SetShortcuts(JGetString("SearchMenuShortcut::JXTEBase"));
 		itsSearchMenu->SetMenuItems(kWinSearchMenuStr, "JXTEBase");
 		}
 
@@ -2193,14 +2182,14 @@ JXTEBase::AppendSearchReplaceMenu
 {
 	assert( itsSearchMenu == NULL && itsReplaceMenu == NULL );
 
-	itsReplaceMenu = menuBar->AppendTextMenu(kSearchMenuTitleStr);
+	itsReplaceMenu = menuBar->AppendTextMenu(JGetString("SearchMenuTitle::JXTEBase"));
 	if (JXMenu::GetDefaultStyle() == JXMenu::kMacintoshStyle)
 		{
 		itsReplaceMenu->SetMenuItems(kMacReplaceMenuStr, "JXTEBase");
 		}
 	else
 		{
-		itsReplaceMenu->SetShortcuts(kSearchMenuShortcutStr);
+		itsReplaceMenu->SetShortcuts(JGetString("SearchMenuShortcut::JXTEBase"));
 		itsReplaceMenu->SetMenuItems(kWinReplaceMenuStr, "JXTEBase");
 		}
 
@@ -2540,12 +2529,12 @@ JXTEBase::HandleEditMenu
 
 	else if (cmd == kCleanRightMarginCmd)
 		{
-		JIndexRange range;
+		JCharacterRange range;
 		CleanRightMargin(kJFalse, &range);
 		}
 	else if (cmd == kCoerceRightMarginCmd)
 		{
-		JIndexRange range;
+		JCharacterRange range;
 		CleanRightMargin(kJTrue, &range);
 		}
 	else if (cmd == kShiftSelLeftCmd)
@@ -2776,7 +2765,7 @@ JXTEBase::HandleSearchReplaceCmd
 		{
 		if (!HasSelection())
 			{
-			JIndexRange r;
+			JCharacterRange r;
 			TEGetDoubleClickSelection(GetInsertionIndex(), kJFalse, kJFalse, &r);
 			SetSelection(r);
 			}
@@ -2786,7 +2775,7 @@ JXTEBase::HandleSearchReplaceCmd
 		{
 		if (!HasSelection())
 			{
-			JIndexRange r;
+			JCharacterRange r;
 			TEGetDoubleClickSelection(GetInsertionIndex(), kJFalse, kJFalse, &r);
 			SetSelection(r);
 			}
@@ -3260,7 +3249,7 @@ JXTEBase::GetPSPrintFileName()
 void
 JXTEBase::SetPSPrintFileName
 	(
-	const JCharacter* fileName
+	const JString& fileName
 	)
 {
 	GetPSPrintFileName();		// create itsPSPrintName
@@ -3385,7 +3374,7 @@ JXTEBase::GetPTPrintFileName()
 void
 JXTEBase::SetPTPrintFileName
 	(
-	const JCharacter* fileName
+	const JString& fileName
 	)
 {
 	GetPTPrintFileName();		// create itsPTPrintName

@@ -19,6 +19,12 @@
 	to a string, we use the NumConvert and StrUtil modules.  We include them at
 	the end of the file so they are completely hidden and JString is self-contained.
 
+	By default, JString normalizes all text, so comparing strings is sane.
+	In certain cases, however, this behavior is not desirable, e.g., when
+	the string contains NULL.  The default constructor accepts an optional
+	"normalize" flag to disable normalization.  This can only be set in the
+	constructor and cannot be changed afterwards.
+
 	BASE CLASS = none
 
 	Copyright (C) 1994-2016 by John Lindal. All rights reserved.

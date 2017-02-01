@@ -201,7 +201,7 @@ protected:
 										 JArray<Atom>* askActionList,
 										 JPtrArray<JString>* askDescriptionList);
 	virtual void		GetSelectionData(JXSelectionData* data,
-										 const JUtf8Byte* id);
+										 const JString& id);
 
 	virtual JBoolean	WillAcceptDrop(const JArray<Atom>& typeList, Atom* action,
 									   const JPoint& pt, const Time time,

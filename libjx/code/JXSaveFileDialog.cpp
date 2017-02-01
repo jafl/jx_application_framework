@@ -438,7 +438,7 @@ JXSaveFileDialog::OKToDeactivate()
 		}
 	else if (!JFileWritable(fullName))
 		{
-		(JGetUserNotification())->ReportError(JGetString("FileNotWritable::JXSaveFileDialog"));
+		(JGetUserNotification())->ReportError(JGetString("FileNotWritable::JXGlobal"));
 		return kJFalse;
 		}
 	else if ((JGetUserNotification())->AskUserNo(JGetString("WarnReplaceFile::JXSaveFileDialog")))

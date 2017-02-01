@@ -41,14 +41,14 @@ JXIsPrint
 
  ******************************************************************************/
 
-JUtf8Character
+JUtf8Byte
 JXCtrl
 	(
 	const JUtf8Character& c		// must be character @ (0x40) through _ (0x5F)
 	)
 {
 	const JUtf8Byte c0 = c.GetBytes()[0];
-	return ( ('@' <= c0 && c0 <= '_') ? (c0 - '@') : c );
+	return ( ('@' <= c0 && c0 <= '_') ? (c0 - '@') : -1 );
 }
 
 /******************************************************************************

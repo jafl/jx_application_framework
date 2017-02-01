@@ -12,13 +12,13 @@
 
 #include <JXInputField.h>
 
-class JRegex;
+class JInterpolate;
 
 class JXRegexReplaceInput : public JXInputField
 {
 public:
 
-	JXRegexReplaceInput(JRegex* testRegex, const JBoolean widgetOwnsRegex,
+	JXRegexReplaceInput(JInterpolate* testInterpolator, const JBoolean widgetOwnsInterpolator,
 						JXContainer* enclosure,
 						const HSizingOption hSizing, const VSizingOption vSizing,
 						const JCoordinate x, const JCoordinate y,
@@ -30,8 +30,8 @@ public:
 
 private:
 
-	JRegex*		itsTestRegex;
-	JBoolean	itsOwnsRegexFlag;
+	JInterpolate*	itsTestInterpolator;
+	JBoolean		itsOwnsInterpolatorFlag;
 
 private:
 

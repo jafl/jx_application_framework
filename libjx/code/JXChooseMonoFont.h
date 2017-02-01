@@ -27,7 +27,7 @@ public:
 	virtual ~JXChooseMonoFont();
 
 	void	GetFont(JString* name, JSize* size) const;
-	void	SetFont(const JCharacter* name, const JSize size);
+	void	SetFont(const JString& name, const JSize size);
 
 protected:
 
@@ -55,7 +55,7 @@ public:
 
 	// JBroadcaster messages
 
-	static const JCharacter* kFontChanged;
+	static const JUtf8Byte* kFontChanged;
 
 	class FontChanged : public JBroadcaster::Message
 		{

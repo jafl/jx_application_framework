@@ -27,7 +27,7 @@ public:
 
 	static JXPTPrintSetupDialog*
 		Create(const JXPTPrinter::Destination dest,
-			   const JCharacter* printCmd, const JCharacter* fileName,
+			   const JString& printCmd, const JString& fileName,
 			   const JBoolean printLineNumbers);
 
 	virtual ~JXPTPrintSetupDialog();
@@ -41,8 +41,8 @@ protected:
 	void	SetObjects(JXTextButton* okButton, JXTextButton* cancelButton,
 					   JXRadioGroup* destinationRG, const JXPTPrinter::Destination dest,
 					   JXStaticText* printCmdLabel, JXInputField* printCmdInput,
-					   const JCharacter* printCmd, JXTextButton* chooseFileButton,
-					   const JCharacter* fileName, JXIntegerInput* copyCount,
+					   const JString& printCmd, JXTextButton* chooseFileButton,
+					   const JString& fileName, JXIntegerInput* copyCount,
 					   JXTextCheckbox* printAllCheckbox,
 					   JXStaticText* firstPageIndexLabel, JXIntegerInput* firstPageIndex,
 					   JXStaticText* lastPageIndexLabel, JXIntegerInput* lastPageIndex,
@@ -75,7 +75,7 @@ private:
 private:
 
 	void	BuildWindow(const JXPTPrinter::Destination dest,
-						const JCharacter* printCmd, const JCharacter* fileName,
+						const JString& printCmd, const JString& fileName,
 						const JBoolean printLineNumbers);
 	void	UpdateDisplay();
 

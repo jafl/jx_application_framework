@@ -91,7 +91,7 @@ JXGoToLineDialog::BuildWindow
 
 // end JXLayout
 
-	window->SetTitle("Go to line");
+	window->SetTitle(JGetString("WindowTitle::JXGoToLineDialog"));
 	SetButtons(okButton, cancelButton);
 
 	itsLineNumber->SetValue(lineIndex);

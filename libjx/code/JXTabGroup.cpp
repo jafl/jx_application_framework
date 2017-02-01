@@ -47,7 +47,7 @@ const JSize kSelGrayPercentage = 70;
 // setup information
 
 const JFileVersion kCurrentSetupVersion = 0;
-const JCharacter kSetupDataEndDelimiter = '\1';
+const JUtf8Byte kSetupDataEndDelimiter  = '\1';
 
 // Context menu
 
@@ -56,7 +56,7 @@ const JCharacter kSetupDataEndDelimiter = '\1';
 #define kShowLeftAction		"ShowLeft::JXTabGroup"
 #define kShowRightAction	"ShowRight::JXTabGroup"
 
-static const JCharacter* kContextMenuStr =
+static const JUtf8Byte* kContextMenuStr =
 	"    Show on top    %i" kShowTopAction
 	"  | Show on bottom %i" kShowBottomAction
 	"%l| Show at left   %i" kShowLeftAction
@@ -72,7 +72,7 @@ enum
 
 // JBroadcaster message types
 
-const JCharacter* JXTabGroup::kAppearanceChanged = "AppearanceChanged::JXTabGroup";
+const JUtf8Byte* JXTabGroup::kAppearanceChanged = "AppearanceChanged::JXTabGroup";
 
 /******************************************************************************
  Constructor
@@ -356,9 +356,9 @@ JXTabGroup::ScrollTabsIntoView()
 JXWidgetSet*
 JXTabGroup::InsertTab
 	(
-	const JIndex		index,
-	const JCharacter*	title,
-	const JBoolean		closeable
+	const JIndex	index,
+	const JString&	title,
+	const JBoolean	closeable
 	)
 {
 	Refresh();
@@ -370,10 +370,10 @@ JXTabGroup::InsertTab
 void
 JXTabGroup::InsertTab
 	(
-	const JIndex		index,
-	const JCharacter*	title,
-	JXWidgetSet*		card,
-	const JBoolean		closeable
+	const JIndex	index,
+	const JString&	title,
+	JXWidgetSet*	card,
+	const JBoolean	closeable
 	)
 {
 	Refresh();

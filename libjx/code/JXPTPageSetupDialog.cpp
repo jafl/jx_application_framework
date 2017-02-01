@@ -34,11 +34,11 @@
 JXPTPageSetupDialog*
 JXPTPageSetupDialog::Create
 	(
-	const JCharacter*	printCmd,
-	const JSize			pageWidth,
-	const JSize			pageHeight,
-	const JSize			minPageHeight,
-	const JBoolean		printReverseOrder
+	const JString&	printCmd,
+	const JSize		pageWidth,
+	const JSize		pageHeight,
+	const JSize		minPageHeight,
+	const JBoolean	printReverseOrder
 	)
 {
 	JXPTPageSetupDialog* dlog = jnew JXPTPageSetupDialog;
@@ -76,11 +76,11 @@ JXPTPageSetupDialog::~JXPTPageSetupDialog()
 void
 JXPTPageSetupDialog::BuildWindow
 	(
-	const JCharacter*	printCmd,
-	const JSize			pageWidth,
-	const JSize			pageHeight,
-	const JSize			minPageHeight,
-	const JBoolean		printReverseOrder
+	const JString&	printCmd,
+	const JSize		pageWidth,
+	const JSize		pageHeight,
+	const JSize		minPageHeight,
+	const JBoolean	printReverseOrder
 	)
 {
 // begin JXLayout
@@ -170,18 +170,18 @@ JXPTPageSetupDialog::BuildWindow
 void
 JXPTPageSetupDialog::SetObjects
 	(
-	JXTextButton*		okButton,
-	JXTextButton*		cancelButton,
-	JXInputField*		printCmdInput,
-	const JCharacter*	printCmd,
-	JXIntegerInput*		widthInput,
-	const JSize			pageWidth,
-	JXIntegerInput*		heightInput,
-	const JSize			pageHeight,
-	const JSize			minPageHeight,
-	JXTextButton*		printTestButton,
-	JXTextCheckbox*		printReverseOrderCB,
-	const JBoolean		printReverseOrder
+	JXTextButton*	okButton,
+	JXTextButton*	cancelButton,
+	JXInputField*	printCmdInput,
+	const JString&	printCmd,
+	JXIntegerInput*	widthInput,
+	const JSize		pageWidth,
+	JXIntegerInput*	heightInput,
+	const JSize		pageHeight,
+	const JSize		minPageHeight,
+	JXTextButton*	printTestButton,
+	JXTextCheckbox*	printReverseOrderCB,
+	const JBoolean	printReverseOrder
 	)
 {
 	itsPrintCmd            = printCmdInput;
@@ -190,7 +190,7 @@ JXPTPageSetupDialog::SetObjects
 	itsPrintTestButton     = printTestButton;
 	itsPrintReverseOrderCB = printReverseOrderCB;
 
-	(okButton->GetWindow())->SetTitle("Page Setup");
+	(okButton->GetWindow())->SetTitle(JGetString("WindowTitle::JXPTPageSetupDialog"));
 	SetButtons(okButton, cancelButton);
 
 	itsPrintCmd->SetText(printCmd);
@@ -286,10 +286,10 @@ JXPTPageSetupDialog::PrintTestPage()
 			}
 		else
 			{
-			std::ofstream output(fileName);
+			std::ofstream output(fileName.GetBytes());
 			for (i=1; i<=w; i++)
 				{
-				output << JCharacter('0' + i%10);
+				output << JUtf8Byte('0' + i%10);
 				}
 			output << '\n';
 			for (i=2; i<=h; i++)

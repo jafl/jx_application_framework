@@ -76,7 +76,7 @@ JXLinkText::AdjustCursor
 		{
 		const CaretLocation caretLoc = CalcCaretLocation(pt);
 
-		JIndexRange selRange;
+		JCharacterRange selRange;
 		if (!GetSelection(&selRange) || !selRange.Contains(caretLoc.charIndex))
 			{
 			for (JIndex i=1; i<=linkCount; i++)

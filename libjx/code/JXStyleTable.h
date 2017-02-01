@@ -26,7 +26,7 @@ public:
 	virtual ~JXStyleTable();
 
 	const JFont&	GetFont() const;
-	void			SetFont(const JCharacter* name, const JSize size);
+	void			SetFont(const JString& name, const JSize size);
 
 	JFontStyle	GetCellStyle(const JPoint& cell) const;
 	void		SetCellStyle(const JPoint& cell, const JFontStyle& style);

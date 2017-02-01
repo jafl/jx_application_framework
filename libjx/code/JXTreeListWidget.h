@@ -136,7 +136,7 @@ public:
 
 	// JBroadcaster messages
 
-	static const JCharacter* kNodeDblClicked;
+	static const JUtf8Byte* kNodeDblClicked;
 
 	class NodeDblClicked : public JBroadcaster::Message
 		{

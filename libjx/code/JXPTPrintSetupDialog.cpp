@@ -48,8 +48,8 @@ JXPTPrintSetupDialog*
 JXPTPrintSetupDialog::Create
 	(
 	const JXPTPrinter::Destination	dest,
-	const JCharacter*				printCmd,
-	const JCharacter*				fileName,
+	const JString&					printCmd,
+	const JString&					fileName,
 	const JBoolean					printLineNumbers
 	)
 {
@@ -88,8 +88,8 @@ void
 JXPTPrintSetupDialog::BuildWindow
 	(
 	const JXPTPrinter::Destination	dest,
-	const JCharacter*				printCmd,
-	const JCharacter*				fileName,
+	const JString&					printCmd,
+	const JString&					fileName,
 	const JBoolean					printLineNumbers
 	)
 {
@@ -218,9 +218,9 @@ JXPTPrintSetupDialog::SetObjects
 	const JXPTPrinter::Destination	dest,
 	JXStaticText*					printCmdLabel,
 	JXInputField*					printCmdInput,
-	const JCharacter*				printCmd,
+	const JString&					printCmd,
 	JXTextButton*					chooseFileButton,
-	const JCharacter*				fileName,
+	const JString&					fileName,
 	JXIntegerInput*					copyCount,
 	JXTextCheckbox*					printAllCB,
 	JXStaticText*					firstPageIndexLabel,
@@ -245,7 +245,7 @@ JXPTPrintSetupDialog::SetObjects
 	itsPrintLineNumbersCB  = printLineNumbersCB;
 
 	JXWindow* window = itsDestination->GetWindow();
-	window->SetTitle("Print Setup");
+	window->SetTitle(JGetString("WindowTitle::JXPTPrintSetupDialog"));
 	SetButtons(okButton, cancelButton);
 
 	const JRect r = itsPrintCmd->GetFrame();
@@ -291,9 +291,9 @@ JXPTPrintSetupDialog::SetObjects
 
 	itsPrintLineNumbersCB->SetState(printLineNumbers);
 
-    itsChooseFileButton->SetShortcuts("#O");
-    itsPrintAllCB->SetShortcuts("#L");
-    itsPrintLineNumbersCB->SetShortcuts("#N");
+	itsChooseFileButton->SetShortcuts(JGetString("ChooseFileShortcut::JXPTPrintSetupDialog"));
+	itsPrintAllCB->SetShortcuts(JGetString("PrintAllShortcut::JXPTPrintSetupDialog"));
+	itsPrintLineNumbersCB->SetShortcuts(JGetString("PrintLineNumbersShortcut::JXPTPrintSetupDialog"));
 
 	UpdateDisplay();
 }
@@ -465,7 +465,7 @@ JXPTPrintSetupDialog::PrintAllPages
 void
 JXPTPrintSetupDialog::ChooseDestinationFile()
 {
-	if (itsFileInput->SaveFile("Save text file as:"))
+	if (itsFileInput->SaveFile(JGetString("SaveFilePrompt::JXPTPrintSetupDialog")))
 		{
 		itsPrintButton->Activate();
 		}

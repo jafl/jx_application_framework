@@ -30,7 +30,7 @@ public:
 	void	TurnOffRowResizing();
 
 	JBoolean	GetRowTitle(const JIndex index, JString* title) const;
-	void		SetRowTitle(const JIndex index, const JCharacter* title);
+	void		SetRowTitle(const JIndex index, const JString& title);
 	void		ClearRowTitle(const JIndex index);
 
 	JCoordinate	GetMinMarginWidth() const;
@@ -107,7 +107,7 @@ public:
 
 	// JBroadcaster messages
 
-	static const JCharacter* kNeedsToBeWidened;
+	static const JUtf8Byte* kNeedsToBeWidened;
 
 	class NeedsToBeWidened : public JBroadcaster::Message
 		{

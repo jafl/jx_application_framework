@@ -33,7 +33,7 @@ public:
 	void						SetStringList(const JPtrArray<JString>* list);
 
 	const JFont&	GetFont() const;
-	void			SetFont(const JCharacter* name, const JSize size);
+	void			SetFont(const JString& name, const JSize size);
 
 	JFontStyle	GetStyle(const JIndex index) const;
 	void		SetStyle(const JIndex index, const JFontStyle& style);

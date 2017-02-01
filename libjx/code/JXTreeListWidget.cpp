@@ -46,7 +46,7 @@ const JSize kDefaultMaxOpenDepth  = 5;
 
 // JBroadcaster messages
 
-const JCharacter* JXTreeListWidget::kNodeDblClicked = "NodeDblClicked::JXTreeListWidget";
+const JUtf8Byte* JXTreeListWidget::kNodeDblClicked = "NodeDblClicked::JXTreeListWidget";
 
 /******************************************************************************
  Constructor
@@ -743,7 +743,7 @@ JXTreeListWidget::HandlePrepareForNodeMove()
 	WriteScrollSetup(data);
 
 	assert( itsSavedScrollSetup == NULL );
-	itsSavedScrollSetup = jnew JString(data.str());
+	itsSavedScrollSetup = jnew JString(data.str(), JUtf8ByteRange());
 	assert( itsSavedScrollSetup != NULL );
 }
 
@@ -764,7 +764,7 @@ JXTreeListWidget::HandleNodeMoveFinished()
 	// restore scroll position
 
 	assert( itsSavedScrollSetup != NULL );
-	const std::string s(itsSavedScrollSetup->GetCString(), itsSavedScrollSetup->GetLength());
+	const std::string s(itsSavedScrollSetup->GetBytes(), itsSavedScrollSetup->GetByteCount());
 	std::istringstream input(s);
 	ReadScrollSetup(input);
 

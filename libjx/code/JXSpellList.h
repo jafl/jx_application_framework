@@ -42,7 +42,7 @@ private:
 		{
 		public:
 
-			SpellBase(const JCharacter* type, const JString& word)
+			SpellBase(const JUtf8Byte* type, const JString& word)
 				:
 				JBroadcaster::Message(type),
 				itsWord(word)
@@ -63,9 +63,9 @@ public:
 
 	// JBroadcaster messages
 
-	static const JCharacter* kWordSelected;
-	static const JCharacter* kReplaceWord;
-	static const JCharacter* kReplaceWordAll;
+	static const JUtf8Byte* kWordSelected;
+	static const JUtf8Byte* kReplaceWord;
+	static const JUtf8Byte* kReplaceWordAll;
 
 	class WordSelected : public SpellBase
 		{

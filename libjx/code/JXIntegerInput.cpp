@@ -13,13 +13,6 @@
 #include <jXGlobals.h>
 #include <jAssert.h>
 
-// string ID's
-
-static const JCharacter* kNotANumberID   = "NotANumber::JXIntegerInput";
-static const JCharacter* kOutsideRangeID = "OutsideRange::JXIntegerInput";
-static const JCharacter* kBelowMinID     = "BelowMin::JXIntegerInput";
-static const JCharacter* kAboveMaxID     = "AboveMax::JXIntegerInput";
-
 /******************************************************************************
  Constructor
 
@@ -166,7 +159,7 @@ JXIntegerInput::InputValid()
 		JInteger value;
 		if (!text.ConvertToInteger(&value))
 			{
-			(JGetUserNotification())->ReportError(JGetString(kNotANumberID));
+			(JGetUserNotification())->ReportError(JGetString("NotANumber::JXIntegerInput"));
 			return kJFalse;
 			}
 
@@ -175,32 +168,32 @@ JXIntegerInput::InputValid()
 		if (!valid && itsHasLowerLimitFlag && itsHasUpperLimitFlag)
 			{
 			const JString n(itsLowerLimit, 0), m(itsUpperLimit, 0);
-			const JCharacter* map[] =
+			const JUtf8Byte* map[] =
 				{
-				"min", n.GetCString(),
-				"max", m.GetCString()
+				"min", n.GetBytes(),
+				"max", m.GetBytes()
 				};
-			errorStr = JGetString(kOutsideRangeID, map, sizeof(map));
+			errorStr = JGetString("OutsideRange::JXIntegerInput", map, sizeof(map));
 			}
 		else if (!valid && itsHasLowerLimitFlag)
 			{
 			const JString n(itsLowerLimit, 0);
-			const JCharacter* map[] =
+			const JUtf8Byte* map[] =
 				{
-				"min", n.GetCString()
+				"min", n.GetBytes()
 				};
-			errorStr = JGetString(kBelowMinID, map, sizeof(map));
+			errorStr = JGetString("BelowMin::JXIntegerInput", map, sizeof(map));
 			}
 		else if (!valid)
 			{
 			assert( itsHasUpperLimitFlag );
 
 			const JString n(itsUpperLimit, 0);
-			const JCharacter* map[] =
+			const JUtf8Byte* map[] =
 				{
-				"max", n.GetCString()
+				"max", n.GetBytes()
 				};
-			errorStr = JGetString(kAboveMaxID, map, sizeof(map));
+			errorStr = JGetString("AboveMax::JXIntegerInput", map, sizeof(map));
 			}
 
 		if (!valid)

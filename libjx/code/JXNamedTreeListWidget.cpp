@@ -379,7 +379,7 @@ JXNamedTreeListWidget::HandleKeyPress
 
 	else if (JXIsPrint(key) && !modifiers.control() && !modifiers.meta())
 		{
-		itsKeyBuffer.AppendCharacter(key);
+		itsKeyBuffer.Append(JUtf8Character(key).GetBytes());
 
 		JIndex index;
 		if (itsNamedTreeList->ClosestMatch(itsKeyBuffer, &index))

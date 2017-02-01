@@ -122,8 +122,8 @@ JXColHeaderWidget::GetColTitle
 void
 JXColHeaderWidget::SetColTitle
 	(
-	const JIndex		index,
-	const JCharacter*	title
+	const JIndex	index,
+	const JString&	title
 	)
 {
 	if (itsTitles == NULL)

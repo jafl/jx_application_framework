@@ -80,7 +80,7 @@ JXChooseFontSizeDialog::BuildWindow
 
 // end JXLayout
 
-	window->SetTitle("Choose font size");
+	window->SetTitle(JGetString("WindowTitle::JXChooseFontSizeDialog"));
 	SetButtons(okButton, cancelButton);
 
 	itsFontSize->SetValue(fontSize);

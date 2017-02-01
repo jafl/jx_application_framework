@@ -18,6 +18,7 @@
 #include <JXColormap.h>
 #include <jXGlobals.h>
 #include <jXUtil.h>
+#include <JStringIterator.h>
 #include <JDirInfo.h>
 #include <jDirUtil.h>
 #include <jFileUtil.h>
@@ -284,7 +285,7 @@ JXPathInput::InputValid()
 		}
 	else if (err == kJBadPath)
 		{
-		errID = "BadPath::JXPathInput";
+		errID = "DirectoryDoesNotExist::JXGlobal";
 		}
 	else if (err == kJComponentNotDirectory)
 		{
@@ -809,7 +810,7 @@ JXPathInput::Complete
 		}
 	if (JIsRelativePath(fullName))
 		{
-		if (JString::IsEmpty(basePath))
+		if (basePath.IsEmpty())
 			{
 			return kJFalse;
 			}
@@ -835,7 +836,7 @@ JXPathInput::Complete
 	else
 		{
 		JSplitPathAndName(fullName, &path, &name);
-		name.AppendCharacter('*');
+		name.Append("*");
 		}
 
 	// build completion list
@@ -854,31 +855,33 @@ JXPathInput::Complete
 	// check for characters common to all matches
 
 	JString maxPrefix = jGetFullName(completer, 1);
+	JStringIterator iter(&maxPrefix);
 
 	const JSize matchCount = completer->GetEntryCount();
 	JString entryName;
 	for (JIndex i=2; i<=matchCount; i++)
 		{
-		entryName                = jGetFullName(completer, i);
-		const JSize matchLength  = JCalcMatchLength(maxPrefix, entryName);
-		const JSize prefixLength = maxPrefix.GetLength();
-		if (matchLength < prefixLength)
+		entryName               = jGetFullName(completer, i);
+		const JSize matchLength = JString::CalcCharacterMatchLength(maxPrefix, entryName);
+		if (matchLength < maxPrefix.GetCharacterCount())
 			{
-			maxPrefix.RemoveSubstring(matchLength+1, prefixLength);
+			iter.MoveTo(kJIteratorStartAfter, matchLength);
+			iter.RemoveAllNext();
 			}
 		}
 
 	// use the completion list
 
 	if (matchCount > 0 &&
-		maxPrefix.GetLength() > fullName.GetLength())
+		maxPrefix.GetCharacterCount() > fullName.GetCharacterCount())
 		{
-		maxPrefix.RemoveSubstring(1, fullName.GetLength());
+		iter.MoveTo(kJIteratorStartAfter, fullName.GetCharacterCount());
+		iter.RemoveAllPrev();
 		if (matchCount == 1 && (completer->GetEntry(1)).IsDirectory())
 			{
-			JAppendDirSeparator(&maxPrefix);
+			JAppendDirSeparator(&maxPrefix);	// invalidates iter
 			}
-		te->Paste(maxPrefix);		// so Undo removes completion
+		te->Paste(maxPrefix);		// so Undo removes only completion
 
 		if (*menu != NULL)
 			{
@@ -905,7 +908,7 @@ JXPathInput::Complete
 			(**menu).AddString(entryName);
 			}
 
-		(**menu).CompletionRequested(name.GetLength()-1);
+		(**menu).CompletionRequested(name.GetCharacterCount()-1);
 		return kJTrue;
 		}
 	else

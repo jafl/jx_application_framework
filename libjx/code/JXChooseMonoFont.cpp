@@ -20,13 +20,9 @@
 
 static const JRegex fontRegex = "^[1-9][0-9]*x[1-9][0-9]*$";
 
-static const JCharacter* kFontMenuTitleStr = "Font:";
-static const JCharacter* kSizeMenuTitleStr = "Size:";
-static const JCharacter* kCharSetMenuTitleStr = "Character set:";
-
 // JBroadcaster message types
 
-const JCharacter* JXChooseMonoFont::kFontChanged = "FontChanged::JXChooseMonoFont";
+const JUtf8Byte* JXChooseMonoFont::kFontChanged = "FontChanged::JXChooseMonoFont";
 
 /******************************************************************************
  Constructor
@@ -47,7 +43,7 @@ JXChooseMonoFont::JXChooseMonoFont
 	JXWidgetSet(enclosure, hSizing, vSizing, x,y, w,h)
 {
 	const JBoolean ok =
-		JXXFontMenu::Create(fontRegex, CompareFontNames, kFontMenuTitleStr, this,
+		JXXFontMenu::Create(fontRegex, CompareFontNames, JGetString("FontMenuTitle::JXChooseMonoFont"), this,
 							kFixedLeft, kFixedTop, 0,0, w,25, &itsFontMenu);
 	assert( ok );
 	PrependOtherMonospaceFonts(itsFontMenu);
@@ -55,7 +51,7 @@ JXChooseMonoFont::JXChooseMonoFont
 	itsFontMenu->SetToPopupChoice();
 	ListenTo(itsFontMenu);
 
-	itsSizeMenu = jnew JXFontSizeMenu(JGetMonospaceFontName(), kSizeMenuTitleStr, this,
+	itsSizeMenu = jnew JXFontSizeMenu(JGetMonospaceFontName(), JGetString("SizeMenuTitle::JXChooseMonoFont"), this,
 									 kFixedLeft, kFixedTop, 0,30, w,25);
 	assert( itsSizeMenu != NULL );
 	itsSizeMenu->SetFontSize(kJDefaultMonoFontSize);
@@ -99,8 +95,8 @@ JXChooseMonoFont::GetFont
 void
 JXChooseMonoFont::SetFont
 	(
-	const JCharacter*	name,
-	const JSize			size
+	const JString&	name,
+	const JSize		size
 	)
 {
 	itsFontMenu->SetFontName(name);
@@ -208,8 +204,8 @@ JXChooseMonoFont::CompareFontNames
 	// compare the value before the 'x'
 
 	char *endPtr1, *endPtr2;
-	JUInt v1 = strtoul(*s1, &endPtr1, 10);
-	JUInt v2 = strtoul(*s2, &endPtr2, 10);
+	JUInt v1 = strtoul(s1->GetBytes(), &endPtr1, 10);
+	JUInt v2 = strtoul(s2->GetBytes(), &endPtr2, 10);
 
 	if (v1 > v2)
 		{

@@ -49,7 +49,7 @@ JXVIKeyHandler::~JXVIKeyHandler()
 JBoolean
 JXVIKeyHandler::HandleKeyPress
 	(
-	const JCharacter				key,
+	const JUtf8Byte					key,
 	const JBoolean					selectText,
 	const JTextEditor::CaretMotion	motion,
 	const JBoolean					deleteToTabStop

@@ -15,9 +15,9 @@
 
 // JBroadcaster messages
 
-const JCharacter* JXSpellList::kWordSelected   = "WordSelected::JXSpellList";
-const JCharacter* JXSpellList::kReplaceWord    = "ReplaceWord::JXSpellList";
-const JCharacter* JXSpellList::kReplaceWordAll = "ReplaceWordAll::JXSpellList";
+const JUtf8Byte* JXSpellList::kWordSelected   = "WordSelected::JXSpellList";
+const JUtf8Byte* JXSpellList::kReplaceWord    = "ReplaceWord::JXSpellList";
+const JUtf8Byte* JXSpellList::kReplaceWordAll = "ReplaceWordAll::JXSpellList";
 
 /******************************************************************************
  Constructor

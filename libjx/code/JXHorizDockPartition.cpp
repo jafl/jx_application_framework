@@ -22,7 +22,7 @@
 
 // Docking menu
 
-static const JCharacter* kDockMenuStr =
+static const JUtf8Byte* kDockMenuStr =
 	"    Split left compartment horizontally"
 	"  | Split left compartment vertically"
 	"  | Remove left compartment"
@@ -45,11 +45,6 @@ enum
 	kSetRightElasticCmd,
 	kSetAllElasticCmd
 };
-
-// string ID's
-
-static const JCharacter* kNoSpaceHorizID = "NoSpaceHoriz::JXHorizDockPartition";
-static const JCharacter* kNoSpaceVertID  = "NoSpaceVert::JXHorizDockPartition";
 
 /******************************************************************************
  Constructor
@@ -492,7 +487,7 @@ JXHorizDockPartition::InsertCompartment
 		}
 	else if (reportError)
 		{
-		(JGetUserNotification())->ReportError(JGetString(kNoSpaceHorizID));
+		(JGetUserNotification())->ReportError(JGetString("NoSpaceHoriz::JXHorizDockPartition"));
 		}
 }
 
@@ -563,7 +558,7 @@ JXHorizDockPartition::SplitVert
 
 			if (reportError)
 				{
-				(JGetUserNotification())->ReportError(JGetString(kNoSpaceVertID));
+				(JGetUserNotification())->ReportError(JGetString("NoSpaceVert::JXHorizDockPartition"));
 				}
 			}
 		}
@@ -600,7 +595,7 @@ JXHorizDockPartition::DeleteCompartment
 		{
 		assert( itsParentDock != NULL );
 
-		JXDockWidget* child = itsDockList->FirstElement();
+		JXDockWidget* child = itsDockList->GetFirstElement();
 		assert( child != NULL );
 
 		itsParentDock->SetChildPartition(NULL);		// so docking will be allowed

@@ -9,8 +9,10 @@ OKShortcut::JXGlobal		"^M"
 CancelLabel::JXGlobal		"Cancel"
 CancelShortcut::JXGlobal	"^["
 
-DirectoryExists::JXGlobal	"This directory already exists."
-DirNotWritable::JXGlobal	"You do not have write access to this directory."
+DirectoryExists::JXGlobal		"This directory already exists."
+DirectoryDoesNotExist::JXGlobal	"This directory does not exist."
+DirNotWritable::JXGlobal		"You do not have write access to this directory."
+FileNotWritable::JXGlobal		"You do not have write access to this file."
 
 # JXApplication
 
@@ -19,10 +21,16 @@ DisplayConnectError	"Unable to connect to $name"
 # JXTEBase
 
 NoData::JXTEBase					"The X Clipboard is empty."
+UnableToCopy::JXTEBase				"Unable to copy to the X Clipboard."
 DataNotCompatible::JXTEBase			"Unable to paste the current contents of the X Clipboard."
 DataNotCompatibleExtra::JXTEBase	"  (Unknown type:  $atom)"
 CopyDescription::JXTEBase			"copy the text"
 MoveDescription::JXTEBase			"move the text"
+
+EditMenuTitle::JXTEBase			"Edit"
+EditMenuShortcut::JXTEBase		"#E"
+SearchMenuTitle::JXTEBase		"Search"
+SearchMenuShortcut::JXTEBase	"#S"
 
 # JXInputField
 
@@ -54,7 +62,6 @@ Hint::JXPathInput			"Either type in a path (tab completion is supported) or Drag
 NoRelPath::JXPathInput		"You cannot enter a relative path because there is no base path."
 Unreadable::JXPathInput		"This directory is unreadable."
 AccessDenied::JXPathInput	"You don't have access to this directory."
-BadPath::JXPathInput		"This directory does not exist."
 CompNotDir::JXPathInput		"Some part of this is not a directory."
 InvalidDir::JXPathInput		"This is not a valid directory."
 
@@ -248,7 +255,9 @@ NoAutoDockNewWindows::JXDocktab
 
 # JXSpellCheckerDialog
 
-NoErrors::JXSpellCheckerDialog	"No errors were found."
+WindowTitle::JXSpellCheckerDialog			"Spelling"
+DefaultButtonShortcut::JXSpellCheckerDialog	"^M"
+NoErrors::JXSpellCheckerDialog				"No errors were found."
 
 # JXOpenDisplayDialog
 
@@ -295,7 +304,6 @@ OpenLabel::JXSaveFileDialog			"Open"
 SaveLabel::JXSaveFileDialog			"Save"
 MustEnterFileName::JXSaveFileDialog	"You need to enter a file name."
 DirExists::JXSaveFileDialog			"This name is already used for a directory."
-FileNotWritable::JXSaveFileDialog	"You do not have write access to this file."
 WarnReplaceFile::JXSaveFileDialog	"That file already exists.  Replace it?"
 
 # JXMessageDialog
@@ -335,3 +343,90 @@ Prompt::JXDNDChooseDropActionDialog			"Choose the action to perform:"
 Title::JXStyleMenu		"Style"
 Shortcut::JXStyleMenu	"#y"
 # #S is for Search menu
+
+# JXPTPrinter
+
+CannotCreateTempFile::JXPTPrinter	"Unable to create a temporary file.  Please check that the disk is not full."
+CannotCreateFile::JXPTPrinter		"Unable to create the file.  Please check that the directory is writable and that the disk is not full."
+CannotPrint::JXPTPrinter			"An error occurred while trying to print.  Please check that the disk is not full."
+
+# JXPTPageSetupDialog
+
+WindowTitle::JXPTPageSetupDialog	"Page Setup"
+
+# JXPTPrintSetupDialog
+
+WindowTitle::JXPTPrintSetupDialog				"Print Setup"
+ChooseFileShortcut::JXPTPrintSetupDialog		"#O"
+PrintAllShortcut::JXPTPrintSetupDialog			"#L"
+PrintLineNumbersShortcut::JXPTPrintSetupDialog	"#N"
+
+SaveFilePrompt::JXPTPrintSetupDialog	"Save text file as:"
+
+# JXPSPrintSetupDialog
+
+WindowTitle::JXPSPrintSetupDialog			"Print Setup"
+ChooseFileShortcut::JXPSPrintSetupDialog	"#O"
+BWCheckboxShortcut::JXPSPrintSetupDialog	"#B"
+PrintAllShortcut::JXPSPrintSetupDialog		"#L"
+CollateCBShortcut::JXPSPrintSetupDialog		"#E"
+
+MissingFileName::JXPSPrintSetupDialog	"Please specify a destination file."
+DirNotWritable::JXPSPrintSetupDialog	"The file cannot be created because the you do not have write access to the specified directory."
+SaveFilePrompt::JXPSPrintSetupDialog	"Save PostScript file as:"
+
+# JXGoToLineDialog
+
+WindowTitle::JXGoToLineDialog	"Go to line"
+
+# JXChooseFontSizeDialog
+
+WindowTitle::JXChooseFontSizeDialog	"Choose font size"
+
+# JXChooseMonoFont
+
+FontMenuTitle::JXChooseMonoFont	"Font:"
+SizeMenuTitle::JXChooseMonoFont	"Size:"
+
+# JXFontSizeMenu
+
+VariableSizeLabel::JXFontSizeMenu	"Other..."
+
+# JXTextEditor
+
+FontMenuTitle::JXTextEditor	"Font"
+SizeMenuTitle::JXTextEditor	"Size"
+
+# JXSearchTextDialog
+
+WindowTitle::JXSearchTextDialog				"Search text"
+CloseShortcut::JXSearchTextDialog			"#W^["
+IgnoreCaseShortcut::JXSearchTextDialog		"#I"
+WrapSearchShortcut::JXSearchTextDialog		"#S"
+EntireWordShortcut::JXSearchTextDialog		"#E"
+SearchIsRegexShortcut::JXSearchTextDialog	"#X"
+SingleLineShortcut::JXSearchTextDialog		"#T"
+PreserveCaseShortcut::JXSearchTextDialog	"#P"
+
+FindForwardMacShortcut::JXSearchTextDialog			"#G"
+FindForwardMacHint::JXSearchTextDialog				"Return / Meta-G"
+FindBackMacHint::JXSearchTextDialog					"Shift-Return / Meta-Shift-G"
+ReplaceMacShortcut::JXSearchTextDialog				"#R#="
+ReplaceMacHint::JXSearchTextDialog					"Meta-R / Meta-="
+ReplaceFindForwardMacShortcut::JXSearchTextDialog	"#L"
+ReplaceFindForwardMacHint::JXSearchTextDialog		"Meta-L"
+ReplaceFindBackMacHint::JXSearchTextDialog			"Meta-Shift-L"
+
+FindForwardWinShortcut::JXSearchTextDialog			"^G"
+FindForwardWinHint::JXSearchTextDialog				"Return / Ctrl-G"
+FindBackWinHint::JXSearchTextDialog					"Shift-Return / Ctrl-Shift-G"
+ReplaceWinShortcut::JXSearchTextDialog				"#R^="
+ReplaceWinHint::JXSearchTextDialog					"Meta-R / Ctrl-="
+ReplaceFindForwardWinShortcut::JXSearchTextDialog	"^L"
+ReplaceFindForwardWinHint::JXSearchTextDialog		"Ctrl-L"
+ReplaceFindBackWinHint::JXSearchTextDialog			"Ctrl-Shift-L"
+
+# trick to underline x
+ReplaceIsRegexShorcut::JXSearchTextDialog	"#X"
+
+EmptySearchText::JXSearchTextDialog	"You must enter something for which to search."

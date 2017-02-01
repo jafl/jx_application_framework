@@ -23,8 +23,8 @@ public:
 
 	virtual ~JXCharInput();
 
-	JCharacter	GetCharacter() const;
-	void		SetCharacter(const JCharacter c);
+	JUtf8Character	GetCharacter() const;
+	void			SetCharacter(const JUtf8Character c);
 
 	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers);
 
@@ -41,20 +41,5 @@ private:
 	JXCharInput(const JXCharInput& source);
 	const JXCharInput& operator=(const JXCharInput& source);
 };
-
-/******************************************************************************
- SetCharacter
-
- ******************************************************************************/
-
-inline void
-JXCharInput::SetCharacter
-	(
-	const JCharacter c
-	)
-{
-	const JCharacter s[2] = { c, '\0' };
-	SetText(s);
-}
 
 #endif

@@ -21,9 +21,9 @@
 
 // JBroadcaster message types
 
-const JCharacter* JXCardFile::kCardIndexChanged = "CardIndexChanged::JXCardFile";
-const JCharacter* JXCardFile::kCardIndexUpdated = "CardIndexUpdated::JXCardFile";
-const JCharacter* JXCardFile::kCardRemoved      = "CardRemoved::JXCardFile";
+const JUtf8Byte* JXCardFile::kCardIndexChanged = "CardIndexChanged::JXCardFile";
+const JUtf8Byte* JXCardFile::kCardIndexUpdated = "CardIndexUpdated::JXCardFile";
+const JUtf8Byte* JXCardFile::kCardRemoved      = "CardRemoved::JXCardFile";
 
 /******************************************************************************
  Constructor

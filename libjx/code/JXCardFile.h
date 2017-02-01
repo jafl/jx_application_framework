@@ -64,7 +64,7 @@ protected:
 		{
 		public:
 
-			CardIndexBase(const JCharacter* type, const JIndex cardIndex)
+			CardIndexBase(const JUtf8Byte* type, const JIndex cardIndex)
 				:
 				JBroadcaster::Message(type),
 				itsCardIndex(cardIndex)
@@ -97,9 +97,9 @@ public:
 
 	// JBroadcaster messages
 
-	static const JCharacter* kCardIndexChanged;		// ShowCard()
-	static const JCharacter* kCardIndexUpdated;		// adjustment from RemoveCard(), etc.
-	static const JCharacter* kCardRemoved;
+	static const JUtf8Byte* kCardIndexChanged;		// ShowCard()
+	static const JUtf8Byte* kCardIndexUpdated;		// adjustment from RemoveCard(), etc.
+	static const JUtf8Byte* kCardRemoved;
 
 	class CardIndexChanged : public CardIndexBase
 		{

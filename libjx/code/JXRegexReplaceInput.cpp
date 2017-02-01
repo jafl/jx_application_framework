@@ -11,7 +11,7 @@
  ******************************************************************************/
 
 #include <JXRegexReplaceInput.h>
-#include <JRegex.h>
+#include <JInterpolate.h>
 #include <jAssert.h>
 
 /******************************************************************************
@@ -21,8 +21,8 @@
 
 JXRegexReplaceInput::JXRegexReplaceInput
 	(
-	JRegex*				testRegex,
-	const JBoolean		widgetOwnsRegex,
+	JInterpolate*		testInterpolator,
+	const JBoolean		widgetOwnsInterpolator,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
@@ -34,8 +34,8 @@ JXRegexReplaceInput::JXRegexReplaceInput
 	:
 	JXInputField(enclosure, hSizing, vSizing, x,y, w,h)
 {
-	itsTestRegex     = testRegex;
-	itsOwnsRegexFlag = widgetOwnsRegex;
+	itsTestInterpolator     = testInterpolator;
+	itsOwnsInterpolatorFlag = widgetOwnsInterpolator;
 
 	SetIsRequired();
 }
@@ -47,9 +47,9 @@ JXRegexReplaceInput::JXRegexReplaceInput
 
 JXRegexReplaceInput::~JXRegexReplaceInput()
 {
-	if (itsOwnsRegexFlag)
+	if (itsOwnsInterpolatorFlag)
 		{
-		jdelete itsTestRegex;
+		jdelete itsTestInterpolator;
 		}
 }
 
@@ -74,13 +74,15 @@ JXRegexReplaceInput::InputValid()
 			return kJTrue;
 			}
 
-		const JError err = itsTestRegex->SetReplacePattern(text);
+		JCharacterRange errRange;
+		const JError err = itsTestInterpolator->ContainsError(text, &errRange);
 		if (err.OK())
 			{
 			return kJTrue;
 			}
 		else
 			{
+			SetSelection(errRange);
 			err.ReportIfError();
 			return kJFalse;
 			}

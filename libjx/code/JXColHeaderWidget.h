@@ -31,7 +31,7 @@ public:
 	void	TurnOffColResizing();
 
 	JBoolean	GetColTitle(const JIndex index, JString* title) const;
-	void		SetColTitle(const JIndex index, const JCharacter* title);
+	void		SetColTitle(const JIndex index, const JString& title);
 	void		ClearColTitle(const JIndex index);
 
 protected:

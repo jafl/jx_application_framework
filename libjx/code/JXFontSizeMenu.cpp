@@ -19,17 +19,15 @@
 #include <JXWindow.h>
 #include <jXConstants.h>
 #include <jXActionDefs.h>
-#include <JString.h>
 #include <JFontManager.h>
 #include <jMath.h>
+#include <jGlobals.h>
 #include <jAssert.h>
-
-static const JCharacter* kVarSizeStr = "Other...";
 
 // JBroadcaster message types
 
-const JCharacter* JXFontSizeMenu::kSizeNeedsUpdate = "SizeNeedsUpdate::JXFontSizeMenu";
-const JCharacter* JXFontSizeMenu::kSizeChanged     = "SizeChanged::JXFontSizeMenu";
+const JUtf8Byte* JXFontSizeMenu::kSizeNeedsUpdate = "SizeNeedsUpdate::JXFontSizeMenu";
+const JUtf8Byte* JXFontSizeMenu::kSizeChanged     = "SizeChanged::JXFontSizeMenu";
 
 /******************************************************************************
  Constructor
@@ -38,8 +36,8 @@ const JCharacter* JXFontSizeMenu::kSizeChanged     = "SizeChanged::JXFontSizeMen
 
 JXFontSizeMenu::JXFontSizeMenu
 	(
-	const JCharacter*	fontName,
-	const JCharacter*	title,
+	const JString&		fontName,
+	const JString&		title,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
@@ -58,10 +56,10 @@ JXFontSizeMenu::JXFontSizeMenu
 
 JXFontSizeMenu::JXFontSizeMenu
 	(
-	const JCharacter*	fontName,
-	JXMenu*				owner,
-	const JIndex		itemIndex,
-	JXContainer*		enclosure
+	const JString&	fontName,
+	JXMenu*			owner,
+	const JIndex	itemIndex,
+	JXContainer*	enclosure
 	)
 	:
 	JXTextMenu(owner, itemIndex, enclosure)
@@ -74,7 +72,7 @@ JXFontSizeMenu::JXFontSizeMenu
 JXFontSizeMenu::JXFontSizeMenu
 	(
 	JXFontNameMenu*		fontMenu,
-	const JCharacter*	title, 
+	const JString&		title, 
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
@@ -191,7 +189,7 @@ JXFontSizeMenu::SetFontSize
 void
 JXFontSizeMenu::BuildMenu
 	(
-	const JCharacter* fontName
+	const JString& fontName
 	)
 {
 	RemoveAllItems();
@@ -231,7 +229,8 @@ JXFontSizeMenu::BuildMenu
 			AppendItem(itemText, kRadioType, NULL, NULL, id);
 			}
 		ShowSeparatorAfter(GetItemCount());
-		AppendItem(kVarSizeStr, kRadioType, NULL, NULL, kJXOtherFontSizeAction);
+		AppendItem(JGetString("VariableSizeLabel::JXFontSizeMenu"),
+				   kRadioType, NULL, NULL, JString(kJXOtherFontSizeAction, 0, kJFalse));
 		itsVarSizeIndex = GetItemCount();
 		}
 	SetUpdateAction(kDisableNone);
@@ -255,7 +254,7 @@ JXFontSizeMenu::AdjustVarSizeItem
 {
 	if (itsVarSizeIndex > 0 && fontSize > 0)
 		{
-		JString str = kVarSizeStr;
+		JString str = JGetString("VariableSizeLabel::JXFontSizeMenu");
 		str += " (";
 		str += JString(fontSize, 0, JString::kForceNoExponent);
 		str += ")";
@@ -263,7 +262,7 @@ JXFontSizeMenu::AdjustVarSizeItem
 		}
 	else if (itsVarSizeIndex > 0)
 		{
-		SetItemText(itsVarSizeIndex, kVarSizeStr);
+		SetItemText(itsVarSizeIndex, JGetString("VariableSizeLabel::JXFontSizeMenu"));
 		}
 }
 

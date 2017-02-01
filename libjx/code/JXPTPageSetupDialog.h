@@ -23,7 +23,7 @@ class JXPTPageSetupDialog : public JXDialogDirector
 public:
 
 	static JXPTPageSetupDialog*
-		Create(const JCharacter* printCmd,
+		Create(const JString& printCmd,
 			   const JSize pageWidth, const JSize pageHeight,
 			   const JSize minPageHeight,
 			   const JBoolean printReverseOrder);
@@ -37,7 +37,7 @@ protected:
 	JXPTPageSetupDialog();
 
 	void	SetObjects(JXTextButton* okButton, JXTextButton* cancelButton,
-					   JXInputField* printCmdInput, const JCharacter* printCmd,
+					   JXInputField* printCmdInput, const JString& printCmd,
 					   JXIntegerInput* widthInput, const JSize pageWidth,
 					   JXIntegerInput* heightInput, const JSize pageHeight,
 					   const JSize minPageHeight, JXTextButton* printTestButton,
@@ -62,7 +62,7 @@ private:
 
 private:
 
-	void	BuildWindow(const JCharacter* printCmd,
+	void	BuildWindow(const JString& printCmd,
 						const JSize pageWidth, const JSize pageHeight,
 						const JSize minPageHeight,
 						const JBoolean printReverseOrder);

@@ -30,7 +30,7 @@ public:
 
 	JBoolean	HasBasePath() const;
 	JBoolean	GetBasePath(JString* path) const;
-	void		SetBasePath(const JCharacter* path);
+	void		SetBasePath(const JString& path);
 	void		ClearBasePath();
 
 	JBoolean	WillAllowInvalidFile() const;
@@ -45,14 +45,14 @@ public:
 	JBoolean	WillRequireExecutable() const;
 	void		ShouldRequireExecutable(const JBoolean require = kJTrue);
 
-	JBoolean	ChooseFile(const JCharacter* prompt, const JCharacter* instr = NULL);
-	JBoolean	SaveFile(const JCharacter* prompt, const JCharacter* instr = NULL);
+	JBoolean	ChooseFile(const JString& prompt, const JString& instr = JString::empty);
+	JBoolean	SaveFile(const JString& prompt, const JString& instr = JString::empty);
 
 	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers);
 
-	static const JCharacter*	GetFont(JSize* size);
+	static const JString&	GetFont(JSize* size);
 
-	static JColorIndex	GetTextColor(const JCharacter* fileName, const JCharacter* basePath,
+	static JColorIndex	GetTextColor(const JString& fileName, const JString& basePath,
 									 const JBoolean requireRead, const JBoolean requireWrite,
 									 const JBoolean requireExec, const JColormap* colormap);
 	static JBoolean		IsCharacterInWord(const JString& text, const JIndex charIndex);

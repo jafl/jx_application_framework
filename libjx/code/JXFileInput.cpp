@@ -71,7 +71,7 @@ JXFileInput::~JXFileInput()
 
  ******************************************************************************/
 
-const JCharacter*
+const JString&
 JXFileInput::GetFont
 	(
 	JSize* size
@@ -176,10 +176,10 @@ JXFileInput::Receive
 void
 JXFileInput::SetBasePath
 	(
-	const JCharacter* path
+	const JString& path
 	)
 {
-	if (JString::IsEmpty(path))
+	if (path.IsEmpty())
 		{
 		ClearBasePath();
 		}
@@ -211,7 +211,7 @@ JXFileInput::GetFile
 	const JString& text = GetText();
 	return JI2B(!text.IsEmpty() &&
 				(JIsAbsolutePath(text) || HasBasePath()) &&
-				JConvertToAbsolutePath(text, itsBasePath, fullName) &&
+				JConvertToAbsolutePath(text, &itsBasePath, fullName) &&
 				JFileExists(*fullName) &&
 				(!itsRequireReadFlag  || JFileReadable(*fullName)) &&
 				(!itsRequireWriteFlag || JFileWritable(*fullName)) &&
@@ -242,13 +242,13 @@ JXFileInput::InputValid()
 		}
 
 	JString fullName;
-	const JCharacter* errID = NULL;
+	const JUtf8Byte* errID = NULL;
 	if (JIsRelativePath(text) && !HasBasePath())
 		{
 		errID = "NoRelPath::JXFileInput";
 		RecalcAll(kJTrue);
 		}
-	else if (!JConvertToAbsolutePath(text, itsBasePath, &fullName) ||
+	else if (!JConvertToAbsolutePath(text, &itsBasePath, &fullName) ||
 			 !JFileExists(fullName))
 		{
 		errID = "DoesNotExist::JXFileInput";
@@ -285,9 +285,9 @@ JXFileInput::InputValid()
  ******************************************************************************/
 
 #ifdef _J_UNIX
-static const JCharacter* kThisDirSuffix = "/.";
+static const JUtf8Byte* kThisDirSuffix = "/.";
 #elif defined WIN32
-static const JCharacter* kThisDirSuffix = "\\.";
+static const JUtf8Byte* kThisDirSuffix = "\\.";
 #endif
 
 void
@@ -301,7 +301,7 @@ JXFileInput::AdjustStylesBeforeRecalc
 	)
 {
 	const JColormap* colormap = GetColormap();
-	const JSize totalLength   = buffer.GetLength();
+	const JSize totalLength   = buffer.GetCharacterCount();
 
 	JString fullName = buffer;
 	if ((JIsRelativePath(buffer) && !HasBasePath()) ||
@@ -314,7 +314,7 @@ JXFileInput::AdjustStylesBeforeRecalc
 	// want to further modify fullName.
 
 	else if (JIsRelativePath(buffer) &&
-			 !JConvertToAbsolutePath(buffer, itsBasePath, &fullName))
+			 !JConvertToAbsolutePath(buffer, &itsBasePath, &fullName))
 		{
 		if (HasBasePath())
 			{
@@ -339,7 +339,7 @@ JXFileInput::AdjustStylesBeforeRecalc
 		const JString closestDir = JGetClosestDirectory(fullName, kJFalse);
 		if (fullName.BeginsWith(closestDir))
 			{
-			errLength = fullName.GetLength() - closestDir.GetLength();
+			errLength = fullName.GetCharacterCount() - closestDir.GetCharacterCount();
 			}
 		else
 			{
@@ -393,22 +393,22 @@ JXFileInput::AdjustStylesBeforeRecalc
 JColorIndex
 JXFileInput::GetTextColor
 	(
-	const JCharacter*	fileName,
-	const JCharacter*	basePath,
+	const JString&		fileName,
+	const JString&		basePath,
 	const JBoolean		requireRead,
 	const JBoolean		requireWrite,
 	const JBoolean		requireExec,
 	const JColormap*	colormap
 	)
 {
-	if (JString::IsEmpty(fileName))
+	if (fileName.IsEmpty())
 		{
 		return colormap->GetBlackColor();
 		}
 
 	JString fullName;
-	if ((JIsAbsolutePath(fileName) || !JString::IsEmpty(basePath)) &&
-		JConvertToAbsolutePath(fileName, basePath, &fullName) &&
+	if ((JIsAbsolutePath(fileName) || !basePath.IsEmpty()) &&
+		JConvertToAbsolutePath(fileName, &basePath, &fullName) &&
 		(!requireRead  || JFileReadable(fullName)) &&
 		(!requireWrite || JFileWritable(fullName)) &&
 		(!requireExec  || JFileExecutable(fullName)))
@@ -572,17 +572,10 @@ JXFileInput::GetDroppedFileName
 							   urlList(JPtrArrayT::kDeleteAll);
 			JXUnpackFileNames((char*) data, dataLength, &fileNameList, &urlList);
 			if (fileNameList.GetElementCount() == 1 &&
-				(JFileExists(*(fileNameList.FirstElement())) ||
-				 JDirectoryExists(*(fileNameList.FirstElement()))))
+				(JFileExists(*(fileNameList.GetFirstElement())) ||
+				 JDirectoryExists(*(fileNameList.GetFirstElement()))))
 				{
-				*fileName = *(fileNameList.FirstElement());
-
-				JString homeDir;
-				if (JGetHomeDirectory(&homeDir) &&
-					fileName->BeginsWith(homeDir))
-					{
-					fileName->ReplaceSubstring(1, homeDir.GetLength(), "~" ACE_DIRECTORY_SEPARATOR_STR);
-					}
+				*fileName = JConvertToHomeDirShortcut(*(fileNameList.GetFirstElement()));
 				}
 			JXReportUnreachableHosts(urlList);
 			}
@@ -612,7 +605,7 @@ JXFileInput::GetTextForChooseFile()
 		}
 	if (text.EndsWith(ACE_DIRECTORY_SEPARATOR_STR))
 		{
-		text.AppendCharacter('*');
+		text.Append("*");
 		}
 	if (!text.IsEmpty() && JIsRelativePath(text) && HasBasePath())
 		{
@@ -631,8 +624,8 @@ JXFileInput::GetTextForChooseFile()
 JBoolean
 JXFileInput::ChooseFile
 	(
-	const JCharacter* prompt,
-	const JCharacter* instr
+	const JString& prompt,
+	const JString& instr
 	)
 {
 	const JString origName = GetTextForChooseFile();
@@ -658,8 +651,8 @@ JXFileInput::ChooseFile
 JBoolean
 JXFileInput::SaveFile
 	(
-	const JCharacter* prompt,
-	const JCharacter* instr
+	const JString& prompt,
+	const JString& instr
 	)
 {
 	const JString origName = GetTextForChooseFile();

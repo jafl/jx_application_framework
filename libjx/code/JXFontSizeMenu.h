@@ -19,16 +19,16 @@ class JXFontSizeMenu : public JXTextMenu
 {
 public:
 
-	JXFontSizeMenu(const JCharacter* fontName, const JCharacter* title,
+	JXFontSizeMenu(const JString& fontName, const JString& title,
 				   JXContainer* enclosure,
 				   const HSizingOption hSizing, const VSizingOption vSizing,
 				   const JCoordinate x, const JCoordinate y,
 				   const JCoordinate w, const JCoordinate h);
 
-	JXFontSizeMenu(const JCharacter* fontName, JXMenu* owner,
+	JXFontSizeMenu(const JString& fontName, JXMenu* owner,
 				   const JIndex itemIndex, JXContainer* enclosure);
 
-	JXFontSizeMenu(JXFontNameMenu* fontMenu, const JCharacter* title,
+	JXFontSizeMenu(JXFontNameMenu* fontMenu, const JString& title,
 				   JXContainer* enclosure,
 				   const HSizingOption hSizing, const VSizingOption vSizing,
 				   const JCoordinate x, const JCoordinate y,
@@ -39,7 +39,7 @@ public:
 
 	virtual ~JXFontSizeMenu();
 
-	void	SetFontName(const JCharacter* name);
+	void	SetFontName(const JString& name);
 
 	JSize	GetFontSize() const;
 	void	SetFontSize(const JSize size);
@@ -65,7 +65,7 @@ private:
 private:
 
 	void	JXFontSizeMenuX(JXFontNameMenu* fontMenu);
-	void	BuildMenu(const JCharacter* fontName);
+	void	BuildMenu(const JString& fontName);
 	void	AdjustVarSizeItem(const JSize fontSize);
 	void	ChooseFontSize(const JIndex sizeIndex);
 
@@ -78,8 +78,8 @@ public:
 
 	// JBroadcaster messages
 
-	static const JCharacter* kSizeNeedsUpdate;
-	static const JCharacter* kSizeChanged;
+	static const JUtf8Byte* kSizeNeedsUpdate;
+	static const JUtf8Byte* kSizeChanged;
 
 	class SizeNeedsUpdate : public JBroadcaster::Message
 		{
@@ -133,7 +133,7 @@ JXFontSizeMenu::GetFontSize()
 inline void
 JXFontSizeMenu::SetFontName
 	(
-	const JCharacter* name
+	const JString& name
 	)
 {
 	const JSize currSize = GetFontSize();

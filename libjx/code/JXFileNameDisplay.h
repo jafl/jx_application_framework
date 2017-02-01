@@ -16,7 +16,7 @@ class JXFileNameDisplay : public JXStaticText
 {
 public:
 
-	JXFileNameDisplay(const JCharacter* text, JXContainer* enclosure,
+	JXFileNameDisplay(const JString& text, JXContainer* enclosure,
 					  const HSizingOption hSizing, const VSizingOption vSizing,
 					  const JCoordinate x, const JCoordinate y,
 					  const JCoordinate w, const JCoordinate h);

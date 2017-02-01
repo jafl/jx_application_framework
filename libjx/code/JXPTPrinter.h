@@ -9,8 +9,8 @@
 #define _H_JXPTPrinter
 
 #include <JPTPrinter.h>
+#include <JString.h>
 
-class JString;
 class JXPTPrintSetupDialog;
 class JXPTPageSetupDialog;
 
@@ -33,7 +33,7 @@ public:
 
 	virtual ~JXPTPrinter();
 
-	virtual void	Print(const JCharacter* text);
+	virtual void	Print(const JString& text);
 
 	// saving setup information
 
@@ -44,14 +44,14 @@ public:
 
 	Destination		GetDestination() const;
 	void			SetDestination(const Destination dest,
-								   const JCharacter* printCmd,
-								   const JCharacter* fileName);
+								   const JString& printCmd,
+								   const JString& fileName);
 
 	const JString&	GetPrintCmd() const;
-	void			SetPrintCmd(const JCharacter* cmd);
+	void			SetPrintCmd(const JString& cmd);
 
 	const JString&	GetFileName() const;
-	void			SetFileName(const JCharacter* name);
+	void			SetFileName(const JString& name);
 
 	// Page Setup and Print Setup dialogs
 
@@ -61,14 +61,14 @@ public:
 protected:
 
 	virtual JXPTPageSetupDialog*
-		CreatePageSetupDialog(const JCharacter* printCmd,
+		CreatePageSetupDialog(const JString& printCmd,
 							  const JSize pageWidth, const JSize pageHeight,
 							  const JSize minPageHeight,
 							  const JBoolean printReverseOrder);
 
 	virtual JXPTPrintSetupDialog*
 		CreatePrintSetupDialog(const Destination destination,
-							   const JCharacter* printCmd, const JCharacter* fileName,
+							   const JString& printCmd, const JString& fileName,
 							   const JBoolean printLineNumbers);
 
 	virtual JBoolean	EndUserPageSetup(const JBroadcaster::Message& message);
@@ -119,7 +119,7 @@ inline const JString&
 JXPTPrinter::GetPrintCmd()
 	const
 {
-	return *itsPrintCmd;
+	return itsPrintCmd;
 }
 
 /******************************************************************************
@@ -131,7 +131,7 @@ inline const JString&
 JXPTPrinter::GetFileName()
 	const
 {
-	return *itsFileName;
+	return itsFileName;
 }
 
 #endif

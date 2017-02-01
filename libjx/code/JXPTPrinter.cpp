@@ -25,7 +25,7 @@
 // setup information
 
 const JFileVersion kCurrentSetupVersion = 0;
-const JCharacter kSetupDataEndDelimiter = '\1';
+const JUtf8Byte kSetupDataEndDelimiter  = '\1';
 
 /******************************************************************************
  Constructor
@@ -34,18 +34,12 @@ const JCharacter kSetupDataEndDelimiter = '\1';
 
 JXPTPrinter::JXPTPrinter()
 	:
-	JPTPrinter()
+	JPTPrinter(),
+	itsDestination(kPrintToPrinter),
+	itsPrintCmd("lpr", 0, kJFalse),
+	itsPageSetupDialog(NULL),
+	itsPrintSetupDialog(NULL)
 {
-	itsDestination = kPrintToPrinter;
-
-	itsPrintCmd = jnew JString("lpr");
-	assert( itsPrintCmd != NULL );
-
-	itsFileName = jnew JString;
-	assert( itsFileName != NULL );
-
-	itsPageSetupDialog  = NULL;
-	itsPrintSetupDialog = NULL;
 }
 
 /******************************************************************************
@@ -55,8 +49,6 @@ JXPTPrinter::JXPTPrinter()
 
 JXPTPrinter::~JXPTPrinter()
 {
-	jdelete itsPrintCmd;
-	jdelete itsFileName;
 }
 
 /******************************************************************************
@@ -71,20 +63,20 @@ void
 JXPTPrinter::SetDestination
 	(
 	const Destination	dest,
-	const JCharacter*	printCmd,
-	const JCharacter*	fileName
+	const JString&		printCmd,
+	const JString&		fileName
 	)
 {
 	itsDestination = dest;
 
 	if (printCmd != NULL)
 		{
-		*itsPrintCmd = printCmd;
+		itsPrintCmd = printCmd;
 		}
 
 	if (fileName != NULL)
 		{
-		*itsFileName = fileName;
+		itsFileName = fileName;
 		}
 }
 
@@ -96,10 +88,10 @@ JXPTPrinter::SetDestination
 void
 JXPTPrinter::SetPrintCmd
 	(
-	const JCharacter* cmd
+	const JString& cmd
 	)
 {
-	*itsPrintCmd = cmd;
+	itsPrintCmd = cmd;
 }
 
 /******************************************************************************
@@ -110,11 +102,11 @@ JXPTPrinter::SetPrintCmd
 void
 JXPTPrinter::SetFileName
 	(
-	const JCharacter* name
+	const JString& name
 	)
 {
-	*itsFileName = name;
-	if (itsFileName->IsEmpty())
+	itsFileName = name;
+	if (itsFileName.IsEmpty())
 		{
 		itsDestination = kPrintToPrinter;
 		}
@@ -138,8 +130,8 @@ JXPTPrinter::ReadXPTSetup
 
 	if (vers <= kCurrentSetupVersion)
 		{
-		input >> itsDestination >> *itsFileName;
-		input >> *itsPrintCmd;
+		input >> itsDestination >> itsFileName;
+		input >> itsPrintCmd;
 		}
 	JIgnoreUntil(input, kSetupDataEndDelimiter);
 
@@ -162,8 +154,8 @@ JXPTPrinter::WriteXPTSetup
 {
 	output << ' ' << kCurrentSetupVersion;
 	output << ' ' << itsDestination;
-	output << ' ' << *itsFileName;
-	output << ' ' << *itsPrintCmd;
+	output << ' ' << itsFileName;
+	output << ' ' << itsPrintCmd;
 	output << kSetupDataEndDelimiter;
 
 	WritePTSetup(output);
@@ -179,7 +171,7 @@ JXPTPrinter::WriteXPTSetup
 void
 JXPTPrinter::Print
 	(
-	const JCharacter* text
+	const JString& text
 	)
 {
 	JString fileName;
@@ -193,24 +185,20 @@ JXPTPrinter::Print
 	else
 		{
 		assert( itsDestination == kPrintToFile );
-		fileName = *itsFileName;
+		fileName = itsFileName;
 		}
 
-	std::ofstream output(fileName);
+	std::ofstream output(fileName.GetBytes());
 	if (output.fail())
 		{
 		if (itsDestination == kPrintToPrinter)
 			{
-			(JGetUserNotification())->ReportError(
-				"Unable to create a temporary file.  "
-				"Please check that the disk is not full.");
+			(JGetUserNotification())->ReportError(JGetString("CannotCreateTempFile::JXPTPrinter"));
 			}
 		else
 			{
 			assert( itsDestination == kPrintToFile );
-			(JGetUserNotification())->ReportError(
-				"Unable to create the file.  Please check that the directory "
-				"is writable and that the disk is not full.");
+			(JGetUserNotification())->ReportError(JGetString("CannotCreateFile::JXPTPrinter"));
 			}
 		return;
 		}
@@ -219,9 +207,7 @@ JXPTPrinter::Print
 	if (output.fail())
 		{
 		success = kJFalse;
-		(JGetUserNotification())->ReportError(
-			"An error occurred while trying to print.  "
-			"Please check that the disk is not full.");
+		(JGetUserNotification())->ReportError(JGetString("CannotPrint::JXPTPrinter"));
 		}
 
 	output.close();
@@ -229,7 +215,7 @@ JXPTPrinter::Print
 	JBoolean removeFile = kJFalse;
 	if (success && itsDestination == kPrintToPrinter)
 		{
-		const JString sysCmd  = *itsPrintCmd + " " + JPrepArgForExec(fileName);
+		const JString sysCmd  = itsPrintCmd + " " + JPrepArgForExec(fileName);
 		const JSize copyCount = GetCopyCount();
 		for (JIndex i=1; i<=copyCount; i++)
 			{
@@ -274,7 +260,7 @@ JXPTPrinter::BeginUserPageSetup()
 	assert( itsPageSetupDialog == NULL && itsPrintSetupDialog == NULL );
 
 	itsPageSetupDialog =
-		CreatePageSetupDialog(*itsPrintCmd, GetPageWidth(), GetPageHeight(),
+		CreatePageSetupDialog(itsPrintCmd, GetPageWidth(), GetPageHeight(),
 							  GetHeaderLineCount() + GetFooterLineCount() + 1,
 							  WillPrintReverseOrder());
 
@@ -292,11 +278,11 @@ JXPTPrinter::BeginUserPageSetup()
 JXPTPageSetupDialog*
 JXPTPrinter::CreatePageSetupDialog
 	(
-	const JCharacter*	printCmd,
-	const JSize			pageWidth,
-	const JSize			pageHeight,
-	const JSize			minPageHeight,
-	const JBoolean		printReverseOrder
+	const JString&	printCmd,
+	const JSize		pageWidth,
+	const JSize		pageHeight,
+	const JSize		minPageHeight,
+	const JBoolean	printReverseOrder
 	)
 {
 	return JXPTPageSetupDialog::Create(printCmd, pageWidth, pageHeight,
@@ -348,7 +334,7 @@ JXPTPrinter::BeginUserPrintSetup()
 	assert( itsPageSetupDialog == NULL && itsPrintSetupDialog == NULL );
 
 	itsPrintSetupDialog =
-		CreatePrintSetupDialog(itsDestination, *itsPrintCmd, *itsFileName,
+		CreatePrintSetupDialog(itsDestination, itsPrintCmd, itsFileName,
 							   WillPrintLineNumbers());
 
 	itsPrintSetupDialog->BeginDialog();
@@ -366,8 +352,8 @@ JXPTPrintSetupDialog*
 JXPTPrinter::CreatePrintSetupDialog
 	(
 	const Destination	destination,
-	const JCharacter*	printCmd,
-	const JCharacter*	fileName,
+	const JString&		printCmd,
+	const JString&		fileName,
 	const JBoolean		printLineNumbers
 	)
 {

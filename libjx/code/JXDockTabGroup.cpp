@@ -21,7 +21,7 @@
 
 // Context menu -- remember to update JXDocktab
 
-static const JCharacter* kContextMenuStr =
+static const JUtf8Byte* kContextMenuStr =
 	"    Undock this window"
 	"  | Undock all windows in this compartment"
 	"  | Undock all windows in this dock"
@@ -54,11 +54,6 @@ enum
 
 	kShowFirstDockCmd,
 };
-
-// string ID's
-
-static const JCharacter* kShowDockPrefixID     = "ShowDockPrefix::JXDocktab";
-static const JCharacter* kAddToWindowTypeMapID = "AutoDockNewWindows::JXDocktab";
 
 /******************************************************************************
  Constructor
@@ -235,7 +230,7 @@ JXDockTabGroup::UpdateDockContextMenu()
 	for (JIndex i=1; i<=dockCount; i++)
 		{
 		JString itemText = ((dockList->GetElement(i))->GetWindow())->GetTitle();
-		itemText.Prepend(JGetString(kShowDockPrefixID));
+		itemText.Prepend(JGetString("ShowDockPrefix::JXDocktab"));
 		itsDockContextMenu->AppendItem(itemText);
 		}
 
@@ -247,7 +242,7 @@ JXDockTabGroup::UpdateDockContextMenu()
 	assert( found );
 
 	itsDockContextMenu->SetItemEnable(kUpdateWindowTypeMapCmd, w->HasWindowType());
-	itsDockContextMenu->SetItemText(kUpdateWindowTypeMapCmd, JGetString(kAddToWindowTypeMapID));
+	itsDockContextMenu->SetItemText(kUpdateWindowTypeMapCmd, JGetString("AutoDockNewWindows::JXDocktab"));
 }
 
 /******************************************************************************

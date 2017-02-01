@@ -22,7 +22,7 @@
 
 JXFileNameDisplay::JXFileNameDisplay
 	(
-	const JCharacter*	text,
+	const JString&		text,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,

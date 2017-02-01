@@ -48,8 +48,8 @@ JXPSPrintSetupDialog*
 JXPSPrintSetupDialog::Create
 	(
 	const JXPSPrinter::Destination	dest,
-	const JCharacter*				printCmd,
-	const JCharacter*				fileName,
+	const JString&					printCmd,
+	const JString&					fileName,
 	const JBoolean					collate,
 	const JBoolean					bw
 	)
@@ -89,8 +89,8 @@ void
 JXPSPrintSetupDialog::BuildWindow
 	(
 	const JXPSPrinter::Destination	dest,
-	const JCharacter*				printCmd,
-	const JCharacter*				fileName,
+	const JString&					printCmd,
+	const JString&					fileName,
 	const JBoolean					collate,
 	const JBoolean					bw
 	)
@@ -226,9 +226,9 @@ JXPSPrintSetupDialog::SetObjects
 	const JXPSPrinter::Destination	dest,
 	JXStaticText*					printCmdLabel,
 	JXInputField*					printCmdInput,
-	const JCharacter*				printCmd,
+	const JString&					printCmd,
 	JXTextButton*					chooseFileButton,
-	const JCharacter*				fileName,
+	const JString&					fileName,
 	JXIntegerInput*					copyCount,
 	JXTextCheckbox*					collateCheckbox,
 	const JBoolean					collate,
@@ -256,7 +256,7 @@ JXPSPrintSetupDialog::SetObjects
 	itsLastPageIndex       = lastPageIndex;
 
 	JXWindow* window = itsDestination->GetWindow();
-	window->SetTitle("Print Setup");
+	window->SetTitle(JGetString("WindowTitle::JXPSPrintSetupDialog"));
 	SetButtons(okButton, cancelButton);
 
 	const JRect r = itsPrintCmd->GetFrame();
@@ -303,10 +303,10 @@ JXPSPrintSetupDialog::SetObjects
 	itsCollateCB->SetState(collate);
 	itsBWCheckbox->SetState(bw);
 
-    itsChooseFileButton->SetShortcuts("#O");
-    itsBWCheckbox->SetShortcuts("#B");
-    itsPrintAllCB->SetShortcuts("#L");
-    itsCollateCB->SetShortcuts("#E");
+	itsChooseFileButton->SetShortcuts(JGetString("ChooseFileShortcut::JXPSPrintSetupDialog"));
+	itsBWCheckbox->SetShortcuts(JGetString("BWCheckboxShortcut::JXPSPrintSetupDialog"));
+	itsPrintAllCB->SetShortcuts(JGetString("PrintAllShortcut::JXPSPrintSetupDialog"));
+	itsCollateCB->SetShortcuts(JGetString("CollateCBShortcut::JXPSPrintSetupDialog"));
 
 	UpdateDisplay();
 }
@@ -364,8 +364,7 @@ JXPSPrintSetupDialog::OKToDeactivate
 {
 	if (origFullName.IsEmpty())
 		{
-		(JGetUserNotification())->ReportError(
-			"Please specify a destination file.");
+		(JGetUserNotification())->ReportError(JGetString("MissingFileName::JXPSPrintSetupDialog"));
 		return kJFalse;
 		}
 
@@ -373,8 +372,7 @@ JXPSPrintSetupDialog::OKToDeactivate
 	JSplitPathAndName(origFullName, &s, &fileName);
 	if (!JConvertToAbsolutePath(s, NULL, &path) || !JDirectoryExists(path))
 		{
-		(JGetUserNotification())->ReportError(
-			"The specified directory does not exist.");
+		(JGetUserNotification())->ReportError(JGetString("DirectoryDoesNotExist::JXGlobal"));
 		return kJFalse;
 		}
 
@@ -382,15 +380,12 @@ JXPSPrintSetupDialog::OKToDeactivate
 	const JBoolean fileExists = JFileExists(fullName);
 	if (!fileExists && !JDirectoryWritable(path))
 		{
-		(JGetUserNotification())->ReportError(
-			"The file cannot be created because the you do not have write access "
-			"to the specified directory.");
+		(JGetUserNotification())->ReportError(JGetString("DirNotWritable::JXPSPrintSetupDialog"));
 		return kJFalse;
 		}
 	else if (fileExists && !JFileWritable(fullName))
 		{
-		(JGetUserNotification())->ReportError(
-			"You do not have write access to the specified file.");
+		(JGetUserNotification())->ReportError(JGetString("FileNotWritable::JXGlobal"));
 		return kJFalse;
 		}
 
@@ -526,7 +521,7 @@ JXPSPrintSetupDialog::PrintAllPages
 void
 JXPSPrintSetupDialog::ChooseDestinationFile()
 {
-	itsFileInput->SaveFile("Save PostScript file as:");
+	itsFileInput->SaveFile(JGetString("SaveFilePrompt::JXPSPrintSetupDialog"));
 }
 
 /******************************************************************************

@@ -73,8 +73,8 @@ JXStyleTable::GetFont()
 void
 JXStyleTable::SetFont
 	(
-	const JCharacter*	name,
-	const JSize			size
+	const JString&	name,
+	const JSize		size
 	)
 {
 	itsStyleData->SetFont(name, size);

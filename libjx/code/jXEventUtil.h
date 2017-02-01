@@ -27,6 +27,6 @@ JBoolean JXGetButtonAndModifierStates(const XEvent& xEvent, JXDisplay* display,
 
 JBoolean JXIsPrint(const int keysym);
 
-JUtf8Character	JXCtrl(const JUtf8Character& c);
+JUtf8Byte	JXCtrl(const JUtf8Character& c);
 
 #endif

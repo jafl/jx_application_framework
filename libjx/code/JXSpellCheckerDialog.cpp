@@ -20,10 +20,6 @@
 #include <JUserNotification.h>
 #include <jAssert.h>
 
-// string ID's
-
-static const JCharacter* kNoErrorsID = "NoErrors::JXSpellCheckerDialog";
-
 /******************************************************************************
  Constructor
 
@@ -103,7 +99,7 @@ JXSpellCheckerDialog::Close()
 
 		if (!itsFoundErrorsFlag && itsChecker->WillReportNoErrors())
 			{
-			(JGetUserNotification())->DisplayMessage(JGetString(kNoErrorsID));
+			(JGetUserNotification())->DisplayMessage(JGetString("NoErrors::JXSpellCheckerDialog"));
 			}
 
 		return kJTrue;
@@ -196,7 +192,7 @@ JXSpellCheckerDialog::BuildWindow()
 
 // end JXLayout
 
-	window->SetTitle("Spelling");
+	window->SetTitle(JGetString("WindowTitle::JXSpellCheckerDialog"));
 	window->LockCurrentMinSize();
 
 	SetButtons(itsCloseButton, NULL);
@@ -363,7 +359,7 @@ JXSpellCheckerDialog::Receive
 		itsFirstGuess->SetText(choice->GetWord());
 		itsFirstGuess->Focus();
 		itsIgnoreButton->SetShortcuts(JString::empty);
-		itsChangeButton->SetShortcuts("^M");
+		itsChangeButton->SetShortcuts(JGetString("DefaultButtonShortcut::JXSpellCheckerDialog"));
 		}
 	else if (sender == itsSuggestionWidget && message.Is(JXSpellList::kReplaceWord))
 		{
@@ -392,7 +388,7 @@ JXSpellCheckerDialog::Receive
 		{
 		if (itsFirstGuess->IsEmpty())
 			{
-			itsIgnoreButton->SetShortcuts("^M");
+			itsIgnoreButton->SetShortcuts(JGetString("DefaultButtonShortcut::JXSpellCheckerDialog"));
 			itsChangeButton->SetShortcuts(JString::empty);
 			itsChangeButton->Deactivate();
 			itsChangeAllButton->Deactivate();
@@ -400,7 +396,7 @@ JXSpellCheckerDialog::Receive
 		else
 			{
 			itsIgnoreButton->SetShortcuts(JString::empty);
-			itsChangeButton->SetShortcuts("^M");
+			itsChangeButton->SetShortcuts(JGetString("DefaultButtonShortcut::JXSpellCheckerDialog"));
 			itsChangeButton->Activate();
 			itsChangeAllButton->Activate();
 			}
@@ -466,12 +462,12 @@ JXSpellCheckerDialog::ChangeAll()
 	const JString& newWord = itsFirstGuess->GetText();
 
 	JBoolean wrapped;
-	JIndexRange r;
+	JCharacterRange r;
 	while (itsEditor->JTextEditor::SearchForward(oldWord, kJTrue, kJTrue, kJFalse, &wrapped) &&
 		   itsEditor->GetSelection(&r) && r.first <= itsCheckRange.last)
 		{
 		itsEditor->Paste(newWord);
-		itsCheckRange.last -= oldWord.GetLength();
-		itsCheckRange.last += newWord.GetLength();
+		itsCheckRange.last -= oldWord.GetCharacterCount();
+		itsCheckRange.last += newWord.GetCharacterCount();
 		}
 }

@@ -17,13 +17,8 @@
 #include <JXTEStyleMenu.h>
 #include <JXScrollbarSet.h>
 #include <JXScrollbar.h>
-#include <JString.h>
+#include <jGlobals.h>
 #include <jAssert.h>
-
-// Font name and size
-
-static const JCharacter* kFontMenuTitleStr = "Font";
-static const JCharacter* kSizeMenuTitleStr = "Size";
 
 /******************************************************************************
  Constructor
@@ -60,13 +55,13 @@ JXTextEditor::JXTextEditor
 	AppendEditMenu(menuBar, kJTrue, kJTrue, kJTrue, kJTrue, kJTrue, kJTrue, kJTrue, kJTrue);
 	AppendSearchReplaceMenu(menuBar);
 
-	itsFontMenu = jnew JXFontNameMenu(kFontMenuTitleStr, menuBar,
+	itsFontMenu = jnew JXFontNameMenu(JGetString("FontMenuTitle::JXTextEditor"), menuBar,
 									 kFixedLeft, kFixedTop, 0,0, 10,10);
 	assert( itsFontMenu != NULL );
 	menuBar->AppendMenu(itsFontMenu);
 	ListenTo(itsFontMenu);
 
-	itsSizeMenu = jnew JXFontSizeMenu(itsFontMenu, kSizeMenuTitleStr, menuBar,
+	itsSizeMenu = jnew JXFontSizeMenu(itsFontMenu, JGetString("SizeMenuTitle::JXTextEditor"), menuBar,
 									 kFixedLeft, kFixedTop, 0,0, 10,10);
 	assert( itsSizeMenu != NULL );
 	menuBar->AppendMenu(itsSizeMenu);

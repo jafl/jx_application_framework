@@ -27,7 +27,7 @@ public:
 
 	static JXPSPrintSetupDialog*
 		Create(const JXPSPrinter::Destination dest,
-			   const JCharacter* printCmd, const JCharacter* fileName,
+			   const JString& printCmd, const JString& fileName,
 			   const JBoolean collate, const JBoolean bw);
 
 	virtual ~JXPSPrintSetupDialog();
@@ -43,8 +43,8 @@ protected:
 	void	SetObjects(JXTextButton* okButton, JXTextButton* cancelButton,
 					   JXRadioGroup* destinationRG, const JXPSPrinter::Destination dest,
 					   JXStaticText* printCmdLabel, JXInputField* printCmdInput,
-					   const JCharacter* printCmd, JXTextButton* chooseFileButton,
-					   const JCharacter* fileName, JXIntegerInput* copyCount,
+					   const JString& printCmd, JXTextButton* chooseFileButton,
+					   const JString& fileName, JXIntegerInput* copyCount,
 					   JXTextCheckbox* collateCheckbox, const JBoolean collate,
 					   JXTextCheckbox* bwCheckbox, const JBoolean bw,
 					   JXTextCheckbox* printAllCheckbox,
@@ -79,7 +79,7 @@ private:
 private:
 
 	void	BuildWindow(const JXPSPrinter::Destination dest,
-						const JCharacter* printCmd, const JCharacter* fileName,
+						const JString& printCmd, const JString& fileName,
 						const JBoolean collate, const JBoolean bw);
 	void	UpdateDisplay();
 

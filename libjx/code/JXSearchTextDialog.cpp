@@ -99,7 +99,8 @@ JXSearchTextDialog::JXSearchTextDialog
 	assert( itsRegex != NULL );
 	itsRegex->SetLineBegin(kJTrue);				// ^ matches beginning of line, not text
 	itsRegex->SetLineEnd(kJTrue);				// $ matches end of line, not text
-	(itsRegex->GetMatchInterpolator())->SetWhitespaceEscapes();
+
+	itsInterpolator->SetWhitespaceEscapes();
 
 	itsUpdateTask = jnew JXTimerTask(kUpdatePeriod);
 	assert( itsUpdateTask != NULL );
@@ -192,7 +193,7 @@ JXSearchTextDialog::SetSearchText
 	const JString& str
 	)
 {
-	if (strcmp(str, itsSearchInput->GetText()) != 0)	// exact compare, to avoid ignoring diacritical marks
+	if (str != itsSearchInput->GetText())
 		{
 		itsSearchInput->SetText(str);
 		}
@@ -227,7 +228,7 @@ JXSearchTextDialog::SetReplaceText
 	const JString& str
 	)
 {
-	if (strcmp(str, itsReplaceInput->GetText()) != 0)	// exact compare, to avoid ignoring diacritical marks
+	if (str != itsReplaceInput->GetText())
 		{
 		itsReplaceInput->SetText(str);
 		}
@@ -479,7 +480,7 @@ JXSearchTextDialog::SetObjects
 	)
 {
 	JXWindow* window = searchInput->GetWindow();
-	window->SetTitle("Search text");
+	window->SetTitle(JGetString("WindowTitle::JXSearchTextDialog"));
 	window->SetCloseAction(JXWindow::kDeactivateDirector);
 	window->PlaceAsDialogWindow();
 	window->LockCurrentMinSize();
@@ -531,43 +532,43 @@ JXSearchTextDialog::SetObjects
 
 	// shortcuts
 
-	itsCloseButton->SetShortcuts("#W^[");
-	itsIgnoreCaseCB->SetShortcuts("#I");
-	itsWrapSearchCB->SetShortcuts("#S");
-	itsEntireWordCB->SetShortcuts("#E");
-	itsSearchIsRegexCB->SetShortcuts("#X");
-	itsSingleLineCB->SetShortcuts("#T");
-	itsPreserveCaseCB->SetShortcuts("#P");
+	itsCloseButton->SetShortcuts(JGetString("CloseShortcut::JXSearchTextDialog"));
+	itsIgnoreCaseCB->SetShortcuts(JGetString("IgnoreCaseShortcut::JXSearchTextDialog"));
+	itsWrapSearchCB->SetShortcuts(JGetString("WrapSearchShortcut::JXSearchTextDialog"));
+	itsEntireWordCB->SetShortcuts(JGetString("EntireWordShortcut::JXSearchTextDialog"));
+	itsSearchIsRegexCB->SetShortcuts(JGetString("SearchIsRegexShortcut::JXSearchTextDialog"));
+	itsSingleLineCB->SetShortcuts(JGetString("SingleLineShortcut::JXSearchTextDialog"));
+	itsPreserveCaseCB->SetShortcuts(JGetString("PreserveCaseShortcut::JXSearchTextDialog"));
 
 	if (JXMenu::GetDefaultStyle() == JXMenu::kMacintoshStyle)
 		{
-		itsFindFwdButton->SetShortcuts("#G");
-		itsFindFwdButton->SetHint("Return / Meta-G");
+		itsFindFwdButton->SetShortcuts(JGetString("FindForwardMacShortcut::JXSearchTextDialog"));
+		itsFindFwdButton->SetHint(JGetString("FindForwardMacHint::JXSearchTextDialog"));
 
-		itsFindBackButton->SetHint("Shift-Return / Meta-Shift-G");
+		itsFindBackButton->SetHint(JGetString("FindBackMacHint::JXSearchTextDialog"));
 
-		itsReplaceButton->SetShortcuts("#R#=");
-		itsReplaceButton->SetHint("Meta-R / Meta-=");
+		itsReplaceButton->SetShortcuts(JGetString("ReplaceMacShortcut::JXSearchTextDialog"));
+		itsReplaceButton->SetHint(JGetString("ReplaceMacHint::JXSearchTextDialog"));
 
-		itsReplaceFindFwdButton->SetShortcuts("#L");
-		itsReplaceFindFwdButton->SetHint("Meta-L");
+		itsReplaceFindFwdButton->SetShortcuts(JGetString("ReplaceFindForwardMacShortcut::JXSearchTextDialog"));
+		itsReplaceFindFwdButton->SetHint(JGetString("ReplaceFindForwardMacHint::JXSearchTextDialog"));
 
-		itsReplaceFindBackButton->SetHint("Meta-Shift-L");
+		itsReplaceFindBackButton->SetHint(JGetString("ReplaceFindBackMacHint::JXSearchTextDialog"));
 		}
 	else
 		{
-		itsFindFwdButton->SetShortcuts("^G");
-		itsFindFwdButton->SetHint("Return / Ctrl-G");
+		itsFindFwdButton->SetShortcuts(JGetString("FindForwardWinShortcut::JXSearchTextDialog"));
+		itsFindFwdButton->SetHint(JGetString("FindForwardWinHint::JXSearchTextDialog"));
 
-		itsFindBackButton->SetHint("Shift-Return / Ctrl-Shift-G");
+		itsFindBackButton->SetHint(JGetString("FindBackWinHint::JXSearchTextDialog"));
 
-		itsReplaceButton->SetShortcuts("#R^=");
-		itsReplaceButton->SetHint("Meta-R / Ctrl-=");
+		itsReplaceButton->SetShortcuts(JGetString("ReplaceWinShortcut::JXSearchTextDialog"));
+		itsReplaceButton->SetHint(JGetString("ReplaceWinHint::JXSearchTextDialog"));
 
-		itsReplaceFindFwdButton->SetShortcuts("^L");
-		itsReplaceFindFwdButton->SetHint("Ctrl-L");
+		itsReplaceFindFwdButton->SetShortcuts(JGetString("ReplaceFindForwardWinShortcut::JXSearchTextDialog"));
+		itsReplaceFindFwdButton->SetHint(JGetString("ReplaceFindForwardWinHint::JXSearchTextDialog"));
 
-		itsReplaceFindBackButton->SetHint("Ctrl-Shift-L");
+		itsReplaceFindBackButton->SetHint(JGetString("ReplaceFindBackWinHint::JXSearchTextDialog"));
 		}
 
 	JXKeyModifiers modifiers(GetDisplay());
@@ -577,7 +578,7 @@ JXSearchTextDialog::SetObjects
 	window->InstallShortcut(itsFindBackButton, JXCtrl('M'), modifiers);
 
 	modifiers.SetState(kJXMetaKeyIndex, kJTrue);
-	itsReplaceIsRegexCB->SetShortcuts("#X");		// trick to underline x
+	itsReplaceIsRegexCB->SetShortcuts(JGetString("ReplaceIsRegexShorcut::JXSearchTextDialog"));
 	window->ClearShortcuts(itsReplaceIsRegexCB);
 	window->InstallShortcut(itsReplaceIsRegexCB, 'x', modifiers);
 	window->InstallShortcut(itsReplaceIsRegexCB, 'X', modifiers);
@@ -895,7 +896,7 @@ JXSearchTextDialog::GetSearchParameters
 {
 	if (!HasSearchText())
 		{
-		(JGetUserNotification())->ReportError("You must enter something for which to search.");
+		(JGetUserNotification())->ReportError(JGetString("EmptySearchText::JXSearchTextDialog"));
 		itsSearchInput->Focus();
 		return kJFalse;
 		}
@@ -924,8 +925,8 @@ JXSearchTextDialog::GetSearchParameters
 	if (*replaceIsRegex)
 		{
 		itsRegex->SetMatchCase(*preserveCase);
-		JIndexRange errRange;
-		const JError err = itsRegex->SetReplacePattern(*replaceStr, &errRange);
+		JCharacterRange errRange;
+		const JError err = itsInterpolator->ContainsError(*replaceStr, &errRange);
 		if (!err.OK())
 			{
 			itsReplaceInput->Focus();
@@ -1362,12 +1363,12 @@ JXSearchTextDialog::ReadXSearch
 	const JString searchText  = JReadUntil(input, '\0');
 	const JString replaceText = JReadUntil(input, '\0');
 
-	JCharacter wrap, entireWord, entirePartialWord, caseSensitive;
+	JUtf8Byte wrap, entireWord, entirePartialWord, caseSensitive;
 	input >> wrap >> entireWord >> entirePartialWord >> caseSensitive;
 
 	JBoolean foundJX = kJFalse;
-	JCharacter searchIsRegex, singleLine;
-	JCharacter replaceIsRegex, preserveCase;
+	JUtf8Byte searchIsRegex, singleLine;
+	JUtf8Byte replaceIsRegex, preserveCase;
 	if (!input.eof() && input.peek() == '\0')
 		{
 		input.ignore();
@@ -1423,9 +1424,9 @@ JXSearchTextDialog::ReadXSearch
 void
 JXSearchTextDialog::SetStateForXSearch
 	(
-	JXTextCheckbox*		cb,
-	const JCharacter	state,
-	const JBoolean		negate
+	JXTextCheckbox*	cb,
+	const JUtf8Byte	state,
+	const JBoolean	negate
 	)
 {
 	if ((!negate && state == 'T') ||

@@ -185,8 +185,8 @@ JXStringList::GetFont()
 void
 JXStringList::SetFont
 	(
-	const JCharacter*	name,
-	const JSize			size
+	const JString&	name,
+	const JSize		size
 	)
 {
 	itsMinColWidth = 1;
@@ -293,7 +293,7 @@ JXStringList::HandleKeyPress
 
 	else if (JXIsPrint(key) && !modifiers.control() && !modifiers.meta())
 		{
-		itsKeyBuffer.AppendCharacter(key);
+		itsKeyBuffer.Append(JUtf8Character(key));
 
 		JIndex index;
 		if (ClosestMatch(itsKeyBuffer, &index))

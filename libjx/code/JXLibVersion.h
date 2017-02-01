@@ -27,6 +27,7 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //			to edit the file manually after saving it.
 //	Fixed discontiguous selection modifier to be meta on OS X.
 //	*** Removed special help section "JXComposeHelp"
+//	All strings have been extracted to jx_strings.
 
 // version 3.1.0:
 //	JXGetStringDialog:

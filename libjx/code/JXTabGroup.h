@@ -41,16 +41,16 @@ public:
 	JSize		GetTabCount() const;
 	JBoolean	GetCurrentTabIndex(JIndex* index) const;
 
-	JXWidgetSet*	InsertTab(const JIndex index, const JCharacter* title,
+	JXWidgetSet*	InsertTab(const JIndex index, const JString& title,
 							  const JBoolean closeable = kJFalse);
-	JXWidgetSet*	PrependTab(const JCharacter* title, const JBoolean closeable = kJFalse);
-	JXWidgetSet*	AppendTab(const JCharacter* title, const JBoolean closeable = kJFalse);
+	JXWidgetSet*	PrependTab(const JString& title, const JBoolean closeable = kJFalse);
+	JXWidgetSet*	AppendTab(const JString& title, const JBoolean closeable = kJFalse);
 
-	void			InsertTab(const JIndex index, const JCharacter* title,
+	void			InsertTab(const JIndex index, const JString& title,
 							  JXWidgetSet* card, const JBoolean closeable = kJFalse);
-	void			PrependTab(const JCharacter* title, JXWidgetSet* card,
+	void			PrependTab(const JString& title, JXWidgetSet* card,
 							   const JBoolean closeable = kJFalse);
-	void			AppendTab(const JCharacter* title, JXWidgetSet* card,
+	void			AppendTab(const JString& title, JXWidgetSet* card,
 							  const JBoolean closeable = kJFalse);
 
 	JXWidgetSet*	RemoveTab(const JIndex index);
@@ -58,7 +58,7 @@ public:
 	void			KillFocusOnCurrentTab();
 
 	const JString&	GetTabTitle(const JIndex index) const;
-	void			SetTabTitle(const JIndex index, const JCharacter* title);
+	void			SetTabTitle(const JIndex index, const JString& title);
 
 	JBoolean	TabCanClose(const JIndex index) const;
 	void		SetTabCanClose(const JIndex index, const JBoolean closable);
@@ -74,7 +74,7 @@ public:
 
 	const JFont&	GetFont() const;
 
-	void				SetFontName(const JCharacter* name);
+	void				SetFontName(const JString& name);
 	void				SetFontSize(const JSize size);
 	void				SetFontStyle(const JFontStyle& style);
 	void				SetFont(const JFont& font);
@@ -207,7 +207,7 @@ public:
 
 	// JBroadcaster messages
 
-	static const JCharacter* kAppearanceChanged;
+	static const JUtf8Byte* kAppearanceChanged;
 
 	class AppearanceChanged : public JBroadcaster::Message
 		{
@@ -272,8 +272,8 @@ JXTabGroup::GetMouseTabIndex
 inline JXWidgetSet*
 JXTabGroup::PrependTab
 	(
-	const JCharacter*	title,
-	const JBoolean		closeable
+	const JString&	title,
+	const JBoolean	closeable
 	)
 {
 	return InsertTab(1, title, closeable);
@@ -282,9 +282,9 @@ JXTabGroup::PrependTab
 inline void
 JXTabGroup::PrependTab
 	(
-	const JCharacter*	title,
-	JXWidgetSet*		card,
-	const JBoolean		closeable
+	const JString&	title,
+	JXWidgetSet*	card,
+	const JBoolean	closeable
 	)
 {
 	InsertTab(1, title, card, closeable);
@@ -298,8 +298,8 @@ JXTabGroup::PrependTab
 inline JXWidgetSet*
 JXTabGroup::AppendTab
 	(
-	const JCharacter*	title,
-	const JBoolean		closeable
+	const JString&	title,
+	const JBoolean	closeable
 	)
 {
 	return InsertTab(GetTabCount()+1, title, closeable);
@@ -308,9 +308,9 @@ JXTabGroup::AppendTab
 inline void
 JXTabGroup::AppendTab
 	(
-	const JCharacter*	title,
-	JXWidgetSet*		card,
-	const JBoolean		closeable
+	const JString&	title,
+	JXWidgetSet*	card,
+	const JBoolean	closeable
 	)
 {
 	InsertTab(GetTabCount()+1, title, card, closeable);
@@ -388,8 +388,8 @@ JXTabGroup::GetTabTitle
 inline void
 JXTabGroup::SetTabTitle
 	(
-	const JIndex		index,
-	const JCharacter*	title
+	const JIndex	index,
+	const JString&	title
 	)
 {
 	*(itsTitles->GetElement(index)) = title;
@@ -442,7 +442,7 @@ JXTabGroup::GetFont()
 inline void
 JXTabGroup::SetFontName
 	(
-	const JCharacter* name
+	const JString& name
 	)
 {
 	itsFont.SetName(name);

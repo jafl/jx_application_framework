@@ -26,7 +26,7 @@
 
 // Action menu -- remember to update JXDockTabGroup
 
-static const JCharacter* kActionMenuStr =
+static const JUtf8Byte* kActionMenuStr =
 	"    Undock this window"
 	"  | Undock all windows in this compartment"
 	"  | Undock all windows in this dock"
@@ -50,13 +50,6 @@ enum
 	kShowFirstDockCmd
 };
 
-// string ID's
-
-static const JCharacter* kHintID                    = "Hint::JXDocktab";
-static const JCharacter* kShowDockPrefixID          = "ShowDockPrefix::JXDocktab";
-static const JCharacter* kAddToWindowTypeMapID      = "AutoDockNewWindows::JXDocktab";
-static const JCharacter* kRemoveFromWindowTypeMapID = "NoAutoDockNewWindows::JXDocktab";
-
 /******************************************************************************
  Constructor
 
@@ -77,7 +70,7 @@ JXDocktab::JXDocktab
 	itsActionMenu(NULL),
 	itsDockFinder(NULL)
 {
-	SetHint(JGetString(kHintID));
+	SetHint(JGetString("Hint::JXDocktab"));
 
 	itsFocusColor = GetColormap()->GetColor(0, 0, kJMaxRGBValue/2);
 }
@@ -283,7 +276,7 @@ JXDocktab::UpdateActionMenu()
 	for (JIndex i=1; i<=dockCount; i++)
 		{
 		JString itemText = ((dockList->GetElement(i))->GetWindow())->GetTitle();
-		itemText.Prepend(JGetString(kShowDockPrefixID));
+		itemText.Prepend(JGetString("ShowDockPrefix::JXDocktab"));
 		itsActionMenu->AppendItem(itemText);
 		}
 
@@ -297,11 +290,11 @@ JXDocktab::UpdateActionMenu()
 	itsActionMenu->SetItemEnable(kUpdateWindowTypeMapCmd, GetWindow()->HasWindowType());
 	if (isDocked)
 		{
-		itsActionMenu->SetItemText(kUpdateWindowTypeMapCmd, JGetString(kAddToWindowTypeMapID));
+		itsActionMenu->SetItemText(kUpdateWindowTypeMapCmd, JGetString("AutoDockNewWindows::JXDocktab"));
 		}
 	else
 		{
-		itsActionMenu->SetItemText(kUpdateWindowTypeMapCmd, JGetString(kRemoveFromWindowTypeMapID));
+		itsActionMenu->SetItemText(kUpdateWindowTypeMapCmd, JGetString("NoAutoDockNewWindows::JXDocktab"));
 		}
 }
 

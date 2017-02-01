@@ -14,6 +14,7 @@
 
 class JString;
 class JRegex;
+class JInterpolate;
 class JXTEBase;
 class JXTextButton;
 class JXTextMenu;
@@ -122,6 +123,7 @@ private:
 
 	JXTEBase*			itsTE;					// can be NULL; not owned
 	JRegex*				itsRegex;
+	JInterpolate*		itsInterpolator;
 	JXTimerTask*		itsUpdateTask;
 
 	const JUtf8Byte*	itsSearchTextHelpName;
@@ -171,7 +173,7 @@ private:
 	void	SetXSearch(const JBoolean grabServer = kJTrue) const;
 	void	ReadXSearch(std::istream& input, const Atom vers);
 	void	SetStateForXSearch(JXTextCheckbox* cb,
-							   const JUtf8Character state, const JBoolean negate);
+							   const JUtf8Byte state, const JBoolean negate);
 	void	WriteXSearchV1(std::ostream& output) const;
 
 	// not allowed
