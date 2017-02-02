@@ -68,7 +68,7 @@ public:
 
 	// JBroadcaster messages
 
-	static const JCharacter* kColorChanged;
+	static const JUtf8Byte* kColorChanged;
 
 	class ColorChanged : public JBroadcaster::Message
 		{

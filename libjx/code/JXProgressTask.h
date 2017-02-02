@@ -19,7 +19,6 @@ class JXProgressTask : public JXIdleTask, virtual public JBroadcaster
 public:
 
 	JXProgressTask(const JString& message, const JBoolean allowCancel);
-	JXProgressTask(const JCharacter* message, const JBoolean allowCancel);
 	JXProgressTask(JProgressDisplay* pg);
 
 	virtual ~JXProgressTask();
@@ -33,7 +32,7 @@ private:
 
 private:
 
-	void	JXProgressTaskX(const JCharacter* message, const JBoolean allowCancel);
+	void	JXProgressTaskX(const JString& message, const JBoolean allowCancel);
 
 	// not allowed
 
@@ -44,7 +43,7 @@ public:
 
 	// JBroadcaster messages
 
-	static const JCharacter* kCancelled;
+	static const JUtf8Byte* kCancelled;
 
 	class Cancelled : public JBroadcaster::Message
 		{

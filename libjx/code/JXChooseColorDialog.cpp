@@ -174,7 +174,7 @@ JXChooseColorDialog::BuildWindow
 
 // end JXLayout
 
-	window->SetTitle("Choose color");
+	window->SetTitle(JGetString("WindowTitle::JXChooseColorDialog"));
 	SetButtons(okButton, cancelButton);
 
 	const JRGB rgb = GetColormap()->JColormap::GetRGB(colorIndex);

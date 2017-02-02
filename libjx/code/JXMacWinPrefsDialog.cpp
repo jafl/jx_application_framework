@@ -109,7 +109,7 @@ JXMacWinPrefsDialog::BuildWindow()
 
 // end JXLayout
 
-	window->SetTitle("Macintosh / Windows / X Preferences");
+	window->SetTitle(JGetString("WindowTitle::JXMacWinPrefsDialog"));
 	SetButtons(okButton, cancelButton);
 
 	itsMacStyleCB->SetState(JI2B(JXMenu::GetDisplayStyle() == JXMenu::kMacintoshStyle));

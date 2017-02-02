@@ -14,8 +14,6 @@
 #include <jGlobals.h>
 #include <jAssert.h>
 
-static const JCharacter* kWindowTitle = "Progress";
-
 /******************************************************************************
  Constructor
 
@@ -51,12 +49,12 @@ JXPGDirectorBase::~JXPGDirectorBase()
 void
 JXPGDirectorBase::ProcessContinuing
 	(
-	const JCharacter* value
+	const JString& value
 	)
 {
 	JString s = value;
 	s        += " - ";
-	s        += kWindowTitle;
+	s        += JGetString("WindowTitle::JXPGDirectorBase");
 	GetWindow()->SetTitle(s);
 }
 
@@ -114,8 +112,7 @@ JXPGDirectorBase::Close()
 		}
 	else
 		{
-		(JGetUserNotification())->ReportError(
-			"You cannot quit while this process is running.");
+		(JGetUserNotification())->ReportError(JGetString("CannotQuitWhileRunning::JXPGDirectorBase"));
 		return kJFalse;
 		}
 }
@@ -128,14 +125,14 @@ JXPGDirectorBase::Close()
 void
 JXPGDirectorBase::Init
 	(
-	JXWindow*			window,
-	JXStaticText*		text,
-	const JCharacter*	message,
-	const JBoolean		allowCancel,
-	JXButton*			cancelButton
+	JXWindow*		window,
+	JXStaticText*	text,
+	const JString&	message,
+	const JBoolean	allowCancel,
+	JXButton*		cancelButton
 	)
 {
-	window->SetTitle(kWindowTitle);
+	window->SetTitle(JGetString("WindowTitle::JXPGDirectorBase"));
 	window->HideFromTaskbar();
 
 	// instantaneous redraw when Raise()

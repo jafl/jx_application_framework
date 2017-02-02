@@ -19,7 +19,7 @@ const JSize kUpdateInterval = 1000;		// 1 second (milliseconds)
 
 // JBroadcaster message types
 
-const JCharacter* JXProgressTask::kCancelled = "Cancelled::JXProgressTask";
+const JUtf8Byte* JXProgressTask::kCancelled = "Cancelled::JXProgressTask";
 
 /******************************************************************************
  Constructor (protected)
@@ -33,17 +33,6 @@ JXProgressTask::JXProgressTask
 	(
 	const JString&	message,
 	const JBoolean	allowCancel
-	)
-	:
-	JXIdleTask(kUpdateInterval)
-{
-	JXProgressTaskX(message, allowCancel);
-}
-
-JXProgressTask::JXProgressTask
-	(
-	const JCharacter*	message,
-	const JBoolean		allowCancel
 	)
 	:
 	JXIdleTask(kUpdateInterval)
@@ -67,8 +56,8 @@ JXProgressTask::JXProgressTask
 void
 JXProgressTask::JXProgressTaskX
 	(
-	const JCharacter*	message,
-	const JBoolean		allowCancel
+	const JString&	message,
+	const JBoolean	allowCancel
 	)
 {
 	itsPG = jnew JLatentPG;

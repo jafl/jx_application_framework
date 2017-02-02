@@ -83,7 +83,7 @@ JXImageCache::GetImageData
 								 &w, &h, &colorCount, &imageCharSize);
 	assert( readCount == 4 );
 
-	JString s = data.xpm[0];
+	JString s(data.xpm[0], 0);
 
 	const JSize count = colorCount + h;
 	for (JIndex i=1; i<=count; i++)

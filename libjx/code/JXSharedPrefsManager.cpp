@@ -36,14 +36,14 @@
 #include <sstream>
 #include <jAssert.h>
 
-static const JCharacter* kDataFileRoot   = "jx/globals";
-static const JCharacter* kSignalFileName = "~/.jx/globals.signal";
+static const JString kDataFileRoot  ("jx/globals", 0, kJFalse);
+static const JString kSignalFileName("~/.jx/globals.signal", 0, kJFalse);
 
 const JSize kUpdateInterval = 1000;		// milliseconds
 
 // JBroadcaster message types
 
-const JCharacter* JXSharedPrefsManager::kRead = "Read::JXSharedPrefsManager";
+const JUtf8Byte* JXSharedPrefsManager::kRead = "Read::JXSharedPrefsManager";
 
 /******************************************************************************
  Constructor
@@ -633,7 +633,7 @@ JXSharedPrefsManager::NotifyChanged()
 {
 	if (!itsSignalFileName.IsEmpty())
 		{
-		std::ofstream temp(itsSignalFileName);
+		std::ofstream temp(itsSignalFileName.GetBytes());
 		temp << 'x';
 		temp.close();
 

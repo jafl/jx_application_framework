@@ -25,7 +25,7 @@ JXVarLenPGDirector::JXVarLenPGDirector
 	(
 	JXDirector*			supervisor,
 	JXProgressDisplay*	pg,
-	const JCharacter*	message,
+	const JString&		message,
 	const JBoolean		allowCancel
 	)
 	:
@@ -52,7 +52,7 @@ void
 JXVarLenPGDirector::BuildWindow
 	(
 	JXProgressDisplay*	pg,
-	const JCharacter*	message,
+	const JString&		message,
 	const JBoolean		allowCancel
 	)
 {

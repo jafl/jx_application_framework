@@ -12,6 +12,7 @@
 
 #include <JProgressDisplay.h>
 #include <JBroadcaster.h>
+#include <JString.h>
 
 class JXTextButton;
 class JXTEBase;
@@ -31,9 +32,9 @@ public:
 					 JXProgressIndicator* indicator,
 					 JXTEBase* label = NULL);
 
-	virtual JBoolean	IncrementProgress(const JCharacter* message = NULL);
+	virtual JBoolean	IncrementProgress(const JString& message = JString::empty);
 	virtual JBoolean	IncrementProgress(const JSize delta);
-	virtual JBoolean	IncrementProgress(const JCharacter* message,
+	virtual JBoolean	IncrementProgress(const JString& message,
 										  const JSize delta);
 	virtual JBoolean	ProcessContinuing();
 	virtual void		ProcessFinished();
@@ -43,11 +44,11 @@ protected:
 
 	virtual void	ProcessBeginning(const ProcessType processType,
 									 const JSize stepCount,
-									 const JCharacter* message, 
+									 const JString& message, 
 									 const JBoolean allowCancel,
 									 const JBoolean allowBackground);
 
-	virtual void		AppendToMessageWindow(const JCharacter* message);
+	virtual void		AppendToMessageWindow(const JString& message);
 	virtual JBoolean	CheckForCancel();
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message);
@@ -65,7 +66,7 @@ private:
 
 private:
 
-	JBoolean	IncrementProgress1(const JCharacter* message);
+	JBoolean	IncrementProgress1(const JString& message);
 
 	// not allowed
 
@@ -76,7 +77,7 @@ public:
 
 	// JBroadcaster messages
 
-	static const JCharacter* kCancelRequested;
+	static const JUtf8Byte* kCancelRequested;
 
 	class CancelRequested : public JBroadcaster::Message
 		{

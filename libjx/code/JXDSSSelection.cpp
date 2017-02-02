@@ -103,13 +103,12 @@ JXDSSSelection::ConvertData
 
 			if (itsAction != NULL && !fileNameList.IsEmpty())
 				{
-				itsAction->Save(*(fileNameList.FirstElement()));
+				itsAction->Save(*(fileNameList.GetFirstElement()));
 				}
 			else if (itsAction != NULL)
 				{
 				jdelete itsAction;
-				(JGetUserNotification())->ReportError(
-					"You cannot save the file on a different computer.");
+				(JGetUserNotification())->ReportError(JGetString("MustSaveSameOnComputer::JXDSSSelection"));
 				}
 			const_cast<JXDSSSelection*>(this)->itsAction = NULL;
 			}

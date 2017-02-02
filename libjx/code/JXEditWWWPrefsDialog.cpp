@@ -23,11 +23,11 @@
 
 JXEditWWWPrefsDialog::JXEditWWWPrefsDialog
 	(
-	JXDirector*			supervisor,
-	const JCharacter*	showURLCmd,
-	const JCharacter*	showFileContentCmd,
-	const JCharacter*	showFileLocationCmd,
-	const JCharacter*	composeMailCmd
+	JXDirector*		supervisor,
+	const JString&	showURLCmd,
+	const JString&	showFileContentCmd,
+	const JString&	showFileLocationCmd,
+	const JString&	composeMailCmd
 	)
 	:
 	JXDialogDirector(supervisor, kJTrue)
@@ -52,10 +52,10 @@ JXEditWWWPrefsDialog::~JXEditWWWPrefsDialog()
 void
 JXEditWWWPrefsDialog::BuildWindow
 	(
-	const JCharacter* showURLCmd,
-	const JCharacter* showFileContentCmd,
-	const JCharacter* showFileLocationCmd,
-	const JCharacter* composeMailCmd
+	const JString& showURLCmd,
+	const JString& showFileContentCmd,
+	const JString& showFileLocationCmd,
+	const JString& composeMailCmd
 	)
 {
 // begin JXLayout
@@ -144,7 +144,7 @@ JXEditWWWPrefsDialog::BuildWindow
 
 // end JXLayout
 
-	window->SetTitle("Web Browser Preferences");
+	window->SetTitle(JGetString("WindowTitle::JXEditWWWPrefsDialog"));
 	SetButtons(okButton, cancelButton);
 
 	const JFont& font = (window->GetFontManager())->GetDefaultMonospaceFont();

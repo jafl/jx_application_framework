@@ -20,10 +20,10 @@ class JXEditWWWPrefsDialog : public JXDialogDirector
 public:
 
 	JXEditWWWPrefsDialog(JXDirector* supervisor,
-						 const JCharacter* showURLCmd,
-						 const JCharacter* showFileContentCmd,
-						 const JCharacter* showFileLocationCmd,
-						 const JCharacter* composeMailCmd);
+						 const JString& showURLCmd,
+						 const JString& showFileContentCmd,
+						 const JString& showFileLocationCmd,
+						 const JString& composeMailCmd);
 
 	virtual ~JXEditWWWPrefsDialog();
 
@@ -43,10 +43,10 @@ private:
 
 private:
 
-	void	BuildWindow(const JCharacter* showURLCmd,
-						const JCharacter* showFileContentCmd,
-						const JCharacter* showFileLocationCmd,
-						const JCharacter* composeMailCmd);
+	void	BuildWindow(const JString& showURLCmd,
+						const JString& showFileContentCmd,
+						const JString& showFileLocationCmd,
+						const JString& composeMailCmd);
 
 	// not allowed
 

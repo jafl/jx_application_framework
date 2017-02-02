@@ -45,7 +45,7 @@ public:
 
 	JBoolean		IsEmpty() const;
 	void			AppendButton(JXTextMenu* menu, const JIndex index);
-	void			AppendButton(JXTextMenu* menu, const JCharacter* id);
+	void			AppendButton(JXTextMenu* menu, const JString& id);
 	void			NewGroup();
 
 	void			Edit();
@@ -115,7 +115,7 @@ private:
 	void		ExtractChanges();
 	void		ExtractItemNodes(JTreeNode* menuNode);
 	void		BuildTree();
-	void		AddMenuToTree(JXTextMenu* menu, JNamedTreeNode* parent, const JCharacter* name);
+	void		AddMenuToTree(JXTextMenu* menu, JNamedTreeNode* parent, const JString& name);
 
 	void		UpdateButtons();
 
@@ -132,7 +132,7 @@ private:
 		{
 		public:
 
-			DropMsg(const JCharacter* type, const JString& id,
+			DropMsg(const JUtf8Byte* type, const JString& id,
 					const JArray<Atom>& typeList, const Atom action,
 					const Time time, const JXWidget* source)
 				:
@@ -188,8 +188,8 @@ public:
 
 	// JBroadcaster messages
 
-	static const JCharacter* kWantsToDrop;
-	static const JCharacter* kHandleDrop;
+	static const JUtf8Byte* kWantsToDrop;
+	static const JUtf8Byte* kHandleDrop;
 
 	class WantsToDrop : public DropMsg
 		{

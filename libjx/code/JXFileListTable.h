@@ -30,8 +30,8 @@ public:
 
 	virtual ~JXFileListTable();
 
-	JBoolean	AddFile(const JCharacter* fullName, JIndex* fullNameIndex = NULL);
-	void		RemoveFile(const JCharacter* fullName);
+	JBoolean	AddFile(const JString& fullName, JIndex* fullNameIndex = NULL);
+	void		RemoveFile(const JString& fullName);
 	void		RemoveFiles(const JPtrArray<JString>& fileList);
 	void		RemoveSelectedFiles();
 	void		RemoveAllFiles();
@@ -42,7 +42,7 @@ public:
 	JIndex		RowIndexToFileIndex(const JIndex rowIndex) const;
 
 	JBoolean	GetFilterRegex(JString* regexStr) const;
-	JError		SetFilterRegex(const JCharacter* regexStr);
+	JError		SetFilterRegex(const JString& regexStr);
 	void		ClearFilterRegex();
 
 	JBoolean	HasSelection() const;
@@ -87,7 +87,7 @@ protected:
 	virtual void	HandleFocusEvent();
 
 	virtual void	GetSelectionData(JXSelectionData* data,
-									 const JCharacter* id);
+									 const JString& id);
 	virtual Atom	GetDNDAction(const JXContainer* target,
 								 const JXButtonStates& buttonStates,
 								 const JXKeyModifiers& modifiers);
@@ -151,7 +151,7 @@ private:
 //	JBoolean	FileNameToFileIndex(const JString& name, JIndex* index) const;
 	JBoolean	MainResolveFullName(const JIndex rowIndex, const JIndex fileIndex,
 									JString* name);
-	JBoolean	IsInactive(const JCharacter* fullName) const;
+	JBoolean	IsInactive(const JString& fullName) const;
 	JIndex		UpdateDrawIndex(const JIndex firstIndex, const JString& fileName) const;
 
 	void	UpdateEditMenu();
@@ -182,7 +182,7 @@ public:
 
 	// JBroadcaster messages
 
-	static const JCharacter* kProcessSelection;
+	static const JUtf8Byte* kProcessSelection;
 
 	class ProcessSelection : public JBroadcaster::Message
 		{

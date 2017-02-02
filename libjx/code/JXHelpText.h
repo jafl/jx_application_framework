@@ -16,7 +16,7 @@ class JXHelpText : public JXLinkText
 {
 public:
 
-	JXHelpText(const JCharacter* title, const JCharacter* text,
+	JXHelpText(const JString& title, const JString& text,
 			   JXScrollbarSet* scrollbarSet, JXContainer* enclosure,
 			   const HSizingOption hSizing, const VSizingOption vSizing,
 			   const JCoordinate x, const JCoordinate y,
@@ -24,7 +24,7 @@ public:
 
 	virtual ~JXHelpText();
 
-	void	ShowSubsection(const JCharacter* name);
+	void	ShowSubsection(const JUtf8Byte* name);
 
 protected:
 
@@ -45,16 +45,16 @@ private:
 	struct MarkInfo
 	{
 		JString*	name;
-		JIndex		index;
+		JIndex		byteIndex;
 
 		MarkInfo()
 			:
-			name(NULL), index(0)
+			name(NULL), byteIndex(0)
 		{ };
 
 		MarkInfo(JString* s, const JIndex i)
 			:
-			name(s), index(i)
+			name(s), byteIndex(i)
 		{ };
 	};
 

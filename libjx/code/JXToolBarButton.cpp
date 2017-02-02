@@ -34,7 +34,7 @@ JXToolBarButton::JXToolBarButton
 	(
 	JXToolBar*			toolBar,
 	JXTextMenu*			menu,
-	const JCharacter*	itemID,
+	const JString&		itemID,
 	const Type			type,
 	JXContainer*		enclosure,
 	const HSizingOption hSizing,

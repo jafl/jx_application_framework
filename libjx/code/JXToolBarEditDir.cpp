@@ -143,7 +143,7 @@ JXToolBarEditDir::BuildWindow()
 
 // end JXLayout
 
-	window->SetTitle("Configure Toolbar");
+	window->SetTitle(JGetString("WindowTitle::JXToolBarEditDir"));
 	window->PlaceAsDialogWindow();
 	window->LockCurrentMinSize();
 
@@ -153,16 +153,16 @@ JXToolBarEditDir::BuildWindow()
 		jnew JXAtLeastOneCBGroup(2, itsShowImagesCB, itsShowTextCB);
 	assert( group != NULL );
 
-    JNamedTreeList* list = jnew JNamedTreeList(itsTree);
-    assert(list != NULL);
+	JNamedTreeList* list = jnew JNamedTreeList(itsTree);
+	assert(list != NULL);
 
-    itsWidget =
-    	jnew JXToolBarEditWidget(list, scrollbarSet, scrollbarSet->GetScrollEnclosure(),
+	itsWidget =
+		jnew JXToolBarEditWidget(list, scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 								JXWidget::kHElastic, JXWidget::kVElastic,
 								0,0,10,10);
-    assert(itsWidget != NULL);
-    itsWidget->FitToEnclosure();
-    ListenTo(itsWidget);
+	assert(itsWidget != NULL);
+	itsWidget->FitToEnclosure();
+	ListenTo(itsWidget);
 }
 
 /******************************************************************************

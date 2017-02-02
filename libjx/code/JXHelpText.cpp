@@ -18,6 +18,7 @@
 #include <jXGlobals.h>
 #include <jXKeysym.h>
 #include <JPagePrinter.h>
+#include <JStringIterator.h>
 #include <jASCIIConstants.h>
 #include <strstream>
 #include <ctype.h>
@@ -30,8 +31,8 @@
 
 JXHelpText::JXHelpText
 	(
-	const JCharacter*	title,
-	const JCharacter*	text,
+	const JString&		title,
+	const JString&		text,
 	JXScrollbarSet*		scrollbarSet,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
@@ -58,7 +59,7 @@ JXHelpText::JXHelpText
 
 	TESetLeftMarginWidth(kMinLeftMarginWidth);
 
-	std::istrstream input(text, strlen(text));
+	std::istrstream input(text.GetBytes(), text.GetByteCount());
 	ReadHTML(input);
 }
 
@@ -98,7 +99,7 @@ JIndex i;
 void
 JXHelpText::ShowSubsection
 	(
-	const JCharacter* name
+	const JUtf8Byte* name
 	)
 {
 	if (JString::IsEmpty(name))
@@ -107,13 +108,13 @@ JXHelpText::ShowSubsection
 		}
 	else
 		{
-		JString s = name;
+		JString s(name, 0);
 		MarkInfo info(&s, 0);
 		JIndex index;
 		if (itsMarks->SearchSorted(info, JListT::kAnyMatch, &index))
 			{
 			info = itsMarks->GetElement(index);
-			ScrollTo(0, GetLineTop(GetLineForChar(info.index)));
+			ScrollTo(0, GetLineTop(GetLineForByte(info.byteIndex)));
 			}
 		}
 }
@@ -238,17 +239,18 @@ JIndex i,j;
 
 	// shift each mark to nearest non-blank line
 
-	const JString& text    = GetText();
-	const JSize textLength = GetTextLength();
+	const JString& text = GetText();
+	JStringIterator iter(text);
+	JUtf8Character c;
 
 	const JSize markCount = itsMarks->GetElementCount();
 	for (i=1; i<=markCount; i++)
 		{
 		MarkInfo info = itsMarks->GetElement(i);
-		while (info.index < textLength &&
-			   text.GetCharacter(info.index) == '\n')
+		iter.MoveTo(kJIteratorStartBeforeByte, info.byteIndex);
+		while (iter.Next(&c) && c == '\n')
 			{
-			(info.index)++;
+			(info.byteIndex)++;
 			}
 		itsMarks->SetElement(i, info);
 		}
@@ -271,7 +273,9 @@ JIndex i,j;
 			JString url = *(info.url);
 			if (url.BeginsWith("mailto:", kJFalse))
 				{
-				url.RemoveSubstring(1, 7);
+				JStringIterator iter(&url);
+				iter.Next("mailto:");
+				iter.RemoveAllPrev();
 
 				// don't display address if it's already there
 				if (text.GetSubstring(info.range) == url)

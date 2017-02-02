@@ -18,9 +18,9 @@ class JXSplashWindow : public JXWindowDirector
 {
 public:
 
-	JXSplashWindow(const JXPM& imageData, const JCharacter* text,
+	JXSplashWindow(const JXPM& imageData, const JString& text,
 				   const time_t displayInterval);
-	JXSplashWindow(JXImage* image, const JCharacter* text,
+	JXSplashWindow(JXImage* image, const JString& text,
 				   const time_t displayInterval);
 
 	virtual ~JXSplashWindow();
@@ -31,7 +31,7 @@ protected:
 
 private:
 
-	void	BuildWindow(JXImage* image, const JCharacter* text,
+	void	BuildWindow(JXImage* image, const JString& text,
 						const time_t displayInterval);
 
 	// not allowed

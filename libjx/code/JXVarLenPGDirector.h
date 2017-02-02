@@ -20,7 +20,7 @@ class JXVarLenPGDirector : public JXPGDirectorBase
 public:
 
 	JXVarLenPGDirector(JXDirector* supervisor, JXProgressDisplay* pg,
-					   const JCharacter* message, const JBoolean allowCancel);
+					   const JString& message, const JBoolean allowCancel);
 
 	virtual ~JXVarLenPGDirector();
 
@@ -33,7 +33,7 @@ private:
 
 private:
 
-	void	BuildWindow(JXProgressDisplay* pg, const JCharacter* message,
+	void	BuildWindow(JXProgressDisplay* pg, const JString& message,
 						const JBoolean allowCancel);
 
 	// not allowed

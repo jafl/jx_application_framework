@@ -24,10 +24,7 @@
 
 // File menu
 
-static const JCharacter* kFileMenuTitleStr    = "File";
-static const JCharacter* kFileMenuShortcutStr = "#F";
-
-static const JCharacter* kMacFileMenuStr =
+static const JUtf8Byte* kMacFileMenuStr =
 	"    Table of Contents"
 	"%l| Save text...     %k Meta-S"
 	"%l| Page setup..."
@@ -35,7 +32,7 @@ static const JCharacter* kMacFileMenuStr =
 	"%l| Close            %k Meta-W"
 	"  | Close all        %k Meta-Shift-W";
 
-static const JCharacter* kWinFileMenuStr =
+static const JUtf8Byte* kWinFileMenuStr =
 	"    Table of Contents"
 	"%l| Save text...     %h s %k Ctrl-S"
 	"%l| Page setup..."
@@ -53,19 +50,15 @@ enum
 
 // Search menu additions
 
-static const JCharacter* kSearchAllStr    = "Search all sections";
-static const JCharacter* kSearchAllAction = "SearchAllSections::JXHelpDirector";
+static const JString kSearchAllAction("SearchAllSections::JXHelpDirector", 0, kJFalse);
 
 // Preferences menu
 
-static const JCharacter* kPrefsMenuTitleStr    = "Preferences";
-static const JCharacter* kPrefsMenuShortcutStr = "#P";
-
-static const JCharacter* kMacPrefsMenuStr =
+static const JUtf8Byte* kMacPrefsMenuStr =
 	"    Web browser preferences..."
 	"  | Save window size as default";
 
-static const JCharacter* kWinPrefsMenuStr =
+static const JUtf8Byte* kWinPrefsMenuStr =
 	"    Web browser preferences..."
 	"  | Save window size as default";
 
@@ -82,8 +75,8 @@ enum
 
 JXHelpDirector::JXHelpDirector
 	(
-	const JCharacter*	text,
-	JXPSPrinter*		printer
+	const JString&	text,
+	JXPSPrinter*	printer
 	)
 	:
 	JXWindowDirector(JXGetHelpManager())
@@ -108,7 +101,7 @@ JXHelpDirector::~JXHelpDirector()
 void
 JXHelpDirector::ShowSubsection
 	(
-	const JCharacter* name
+	const JUtf8Byte* name
 	)
 {
 	itsText->ShowSubsection(name);
@@ -141,8 +134,8 @@ JXHelpDirector::Search()
 void
 JXHelpDirector::BuildWindow
 	(
-	const JCharacter*	text,
-	JXPSPrinter*		printer
+	const JString&	text,
+	JXPSPrinter*	printer
 	)
 {
 // begin JXLayout
@@ -185,19 +178,19 @@ JXHelpDirector::BuildWindow
 	else
 		{
 		title.Clear();
-		window->SetTitle("Help");
+		window->SetTitle(JGetString("WindowTitle::JXHelpDirector"));
 		}
 
 	ListenTo(itsCloseButton);
 
-	itsFileMenu = menuBar->AppendTextMenu(kFileMenuTitleStr);
+	itsFileMenu = menuBar->AppendTextMenu(JGetString("FileMenuTitle::JXHelpDirector"));
 	if (JXMenu::GetDefaultStyle() == JXMenu::kMacintoshStyle)
 		{
 		itsFileMenu->SetMenuItems(kMacFileMenuStr);
 		}
 	else
 		{
-		itsFileMenu->SetShortcuts(kFileMenuShortcutStr);
+		itsFileMenu->SetShortcuts(JGetString("FileMenuShortcutTitle::JXHelpDirector"));
 		itsFileMenu->SetMenuItems(kWinFileMenuStr);
 		}
 	itsFileMenu->SetUpdateAction(JXMenu::kDisableNone);
@@ -223,18 +216,18 @@ JXHelpDirector::BuildWindow
 	JXTextMenu* searchMenu = itsText->AppendSearchMenu(menuBar);
 	itsSearchAllCmdIndex   = searchMenu->GetItemCount() + 1;
 	searchMenu->ShowSeparatorAfter(itsSearchAllCmdIndex-1);
-	searchMenu->AppendItem(kSearchAllStr, JXMenu::kPlainType,
+	searchMenu->AppendItem(JGetString("SearchAllLabel::JXHelpDirector"), JXMenu::kPlainType,
 						   NULL, NULL, kSearchAllAction);
 	ListenTo(searchMenu);
 
-	itsPrefsMenu = menuBar->AppendTextMenu(kPrefsMenuTitleStr);
+	itsPrefsMenu = menuBar->AppendTextMenu(JGetString("PrefsMenuTitle::JXHelpDirector"));
 	if (JXMenu::GetDefaultStyle() == JXMenu::kMacintoshStyle)
 		{
 		itsPrefsMenu->SetMenuItems(kMacPrefsMenuStr);
 		}
 	else
 		{
-		itsPrefsMenu->SetShortcuts(kPrefsMenuShortcutStr);
+		itsPrefsMenu->SetShortcuts(JGetString("PrefsMenuShortcut::JXHelpDirector"));
 		itsPrefsMenu->SetMenuItems(kWinPrefsMenuStr);
 		}
 	itsPrefsMenu->SetUpdateAction(JXMenu::kDisableNone);
@@ -351,7 +344,7 @@ JXHelpDirector::HandleFileMenu
 		JChooseSaveFile* csf    = JGetChooseSaveFile();
 		const JString& origName = GetWindow()->GetTitle();
 		JString fileName;
-		if (csf->SaveFile("Save text as:", NULL, origName, &fileName))
+		if (csf->SaveFile(JGetString("SavePrompt::JXHelpDirector"), NULL, origName, &fileName))
 			{
 			itsText->WritePlainText(fileName, JTextEditor::kUNIXText);
 			}

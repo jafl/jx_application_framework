@@ -31,7 +31,7 @@ public:
 
 public:
 
-	JXToolBarButton(JXToolBar* toolbar, JXTextMenu* menu, const JCharacter* itemID,
+	JXToolBarButton(JXToolBar* toolbar, JXTextMenu* menu, const JString& itemID,
 					const Type type, JXContainer* enclosure,
 					const HSizingOption hSizing, const VSizingOption vSizing,
 					const JCoordinate x, const JCoordinate y,

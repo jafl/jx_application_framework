@@ -22,8 +22,8 @@ public:
 
 	virtual ~JXPGMessageDirector();
 
-	void	AddMessageLine(const JCharacter* text);
-	void	AddMessageString(const JCharacter* text);
+	void	AddMessageLine(const JString& text);
+	void	AddMessageString(const JString& text);
 	void	ProcessFinished();
 
 protected:

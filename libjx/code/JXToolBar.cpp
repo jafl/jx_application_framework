@@ -62,8 +62,8 @@ const JFileVersion kCurrentPrefsVersion	= 2;
 
 // JBroadcaster message types
 
-const JCharacter* JXToolBar::kWantsToDrop = "WantsToDrop::JXToolBar";
-const JCharacter* JXToolBar::kHandleDrop  = "HandleDrop::JXToolBar";
+const JUtf8Byte* JXToolBar::kWantsToDrop = "WantsToDrop::JXToolBar";
+const JUtf8Byte* JXToolBar::kHandleDrop  = "HandleDrop::JXToolBar";
 
 /******************************************************************************
  Constructor
@@ -207,8 +207,8 @@ JXToolBar::AppendButton
 void
 JXToolBar::AppendButton
 	(
-	JXTextMenu*			menu,
-	const JCharacter*	id
+	JXTextMenu*		menu,
+	const JString&	id
 	)
 {
 	JIndex index;
@@ -362,7 +362,7 @@ JXToolBar::Edit()
 
 	if (!itsDialogPrefs.IsEmpty())
 		{
-		const std::string s(itsDialogPrefs.GetCString(), itsDialogPrefs.GetLength());
+		const std::string s(itsDialogPrefs.GetBytes(), itsDialogPrefs.GetByteCount());
 		std::istringstream is(s);
 		itsEditDialog->ReadSetup(is);
 		}
@@ -451,7 +451,7 @@ void
 JXToolBar::BuildTree()
 {
 	assert(itsMenuTree == NULL);
-	JNamedTreeNode* base = jnew JNamedTreeNode(NULL, "BASE");
+	JNamedTreeNode* base = jnew JNamedTreeNode(NULL, JString("BASE", 0, kJFalse));
 	assert(base != NULL);
 	itsMenuTree = jnew JTree(base);
 	assert(itsMenuTree != NULL);
@@ -476,7 +476,7 @@ JXToolBar::AddMenuToTree
 	(
 	JXTextMenu*		menu,
 	JNamedTreeNode*	parent,
-	const JCharacter*	name
+	const JString&	name
 	)
 {
 	JNamedTreeNode* mnode = jnew JNamedTreeNode(parent->GetTree(), name);

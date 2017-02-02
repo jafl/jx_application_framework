@@ -67,7 +67,7 @@ JXStandAlonePG::ProcessBeginning
 	(
 	const ProcessType	processType,
 	const JSize			stepCount,
-	const JCharacter*	message,
+	const JString&		message,
 	const JBoolean		allowCancel,
 	const JBoolean		allowBackground
 	)

@@ -26,9 +26,6 @@ JXDSSFinishSaveTask::JXDSSFinishSaveTask
 	JXUrgentTask()
 {
 	itsDialog = dialog;
-
-	itsDirName = jnew JString;
-	assert( itsDirName != NULL );
 }
 
 /******************************************************************************
@@ -38,7 +35,6 @@ JXDSSFinishSaveTask::JXDSSFinishSaveTask
 
 JXDSSFinishSaveTask::~JXDSSFinishSaveTask()
 {
-	jdelete itsDirName;
 }
 
 /******************************************************************************
@@ -53,7 +49,7 @@ JXDSSFinishSaveTask::Save
 	)
 {
 	JString name;
-	JSplitPathAndName(fullName, itsDirName, &name);
+	JSplitPathAndName(fullName, &itsDirName, &name);
 	Go();
 }
 
@@ -65,5 +61,5 @@ JXDSSFinishSaveTask::Save
 void
 JXDSSFinishSaveTask::Perform()
 {
-	itsDialog->Save(*itsDirName);
+	itsDialog->Save(itsDirName);
 }

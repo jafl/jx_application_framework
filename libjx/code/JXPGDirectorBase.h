@@ -24,7 +24,7 @@ public:
 
 	virtual ~JXPGDirectorBase();
 
-	void	ProcessContinuing(const JCharacter* value);
+	void	ProcessContinuing(const JString& value);
 	void	ProcessFinished();
 
 	virtual void		Activate();
@@ -32,7 +32,7 @@ public:
 
 protected:
 
-	void	Init(JXWindow* window, JXStaticText* text, const JCharacter* message,
+	void	Init(JXWindow* window, JXStaticText* text, const JString& message,
 				 const JBoolean allowCancel, JXButton* cancelButton);
 
 private:

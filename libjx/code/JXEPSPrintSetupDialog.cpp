@@ -30,9 +30,9 @@
 JXEPSPrintSetupDialog*
 JXEPSPrintSetupDialog::Create
 	(
-	const JCharacter*	fileName,
-	const JBoolean		printPreview,
-	const JBoolean		bw
+	const JString&	fileName,
+	const JBoolean	printPreview,
+	const JBoolean	bw
 	)
 {
 	JXEPSPrintSetupDialog* dlog = jnew JXEPSPrintSetupDialog;
@@ -69,9 +69,9 @@ JXEPSPrintSetupDialog::~JXEPSPrintSetupDialog()
 void
 JXEPSPrintSetupDialog::BuildWindow
 	(
-	const JCharacter*	fileName,
-	const JBoolean		printPreview,
-	const JBoolean		bw
+	const JString&	fileName,
+	const JBoolean	printPreview,
+	const JBoolean	bw
 	)
 {
 // begin JXLayout
@@ -124,15 +124,15 @@ JXEPSPrintSetupDialog::BuildWindow
 void
 JXEPSPrintSetupDialog::SetObjects
 	(
-	JXTextButton*		okButton,
-	JXTextButton*		cancelButton,
-	JXFileInput*		fileInput,
-	const JCharacter*	fileName,
-	JXTextButton*		chooseFileButton,
-	JXTextCheckbox*		previewCheckbox,
-	const JBoolean		printPreview,
-	JXTextCheckbox*		bwCheckbox,
-	const JBoolean		bw
+	JXTextButton*	okButton,
+	JXTextButton*	cancelButton,
+	JXFileInput*	fileInput,
+	const JString&	fileName,
+	JXTextButton*	chooseFileButton,
+	JXTextCheckbox*	previewCheckbox,
+	const JBoolean	printPreview,
+	JXTextCheckbox*	bwCheckbox,
+	const JBoolean	bw
 	)
 {
 	itsPrintButton      = okButton;
@@ -141,7 +141,7 @@ JXEPSPrintSetupDialog::SetObjects
 	itsPreviewCheckbox  = previewCheckbox;
 	itsBWCheckbox       = bwCheckbox;
 
-	(itsChooseFileButton->GetWindow())->SetTitle("Print Setup");
+	(itsChooseFileButton->GetWindow())->SetTitle(JGetString("WindowTitle::JXEPSPrintSetupDialog"));
 	SetButtons(okButton, cancelButton);
 
 	ListenTo(itsChooseFileButton);
@@ -149,9 +149,9 @@ JXEPSPrintSetupDialog::SetObjects
 	itsPreviewCheckbox->SetState(printPreview);
 	itsBWCheckbox->SetState(bw);
 
-    itsChooseFileButton->SetShortcuts("#O");
-    itsBWCheckbox->SetShortcuts("#B");
-    itsPreviewCheckbox->SetShortcuts("#P");
+	itsChooseFileButton->SetShortcuts(JGetString("ChooseFileShortcut::JXEPSPrintSetupDialog"));
+	itsBWCheckbox->SetShortcuts(JGetString("BlackWhiteShortcut::JXEPSPrintSetupDialog"));
+	itsPreviewCheckbox->SetShortcuts(JGetString("PreviewShortcut::JXEPSPrintSetupDialog"));
 
 	itsFileInput->ShouldAllowInvalidFile();
 	itsFileInput->SetText(fileName);
@@ -232,7 +232,7 @@ JXEPSPrintSetupDialog::Receive
 void
 JXEPSPrintSetupDialog::ChooseDestinationFile()
 {
-	itsFileInput->SaveFile("Save EPS file as:");
+	itsFileInput->SaveFile(JGetString("SaveEPSPrompt::JXEPSPrintSetupDialog"));
 }
 
 /******************************************************************************

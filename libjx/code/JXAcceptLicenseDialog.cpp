@@ -69,7 +69,7 @@ JXAcceptLicenseDialog::BuildWindow()
 
 // end JXLayout
 
-	window->SetTitle("License");
+	window->SetTitle(JGetString("WindowTitle::JXAcceptLicenseDialog"));
 	window->LockCurrentMinSize();
 	window->PlaceAsDialogWindow();
 

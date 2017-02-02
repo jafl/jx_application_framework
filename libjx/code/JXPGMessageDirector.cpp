@@ -81,7 +81,7 @@ JXPGMessageDirector::BuildWindow()
 
 // end JXLayout
 
-	window->SetTitle("Message Window");
+	window->SetTitle(JGetString("WindowTitle::JXPGMessageDirector"));
 	window->SetCloseAction(JXWindow::kDeactivateDirector);
 	window->PlaceAsDialogWindow();
 	window->LockCurrentMinSize();
@@ -111,14 +111,14 @@ JXPGMessageDirector::BuildWindow()
 void
 JXPGMessageDirector::AddMessageLine
 	(
-	const JCharacter* text
+	const JString& text
 	)
 {
 	itsMessageText->SetCaretLocation(itsMessageText->GetTextLength() + 1);
 
 	if (!itsMessageText->IsEmpty())
 		{
-		itsMessageText->Paste("\n");
+		itsMessageText->Paste(JString("\n", 0, kJFalse));
 		}
 
 	itsMessageText->Paste(text);
@@ -135,7 +135,7 @@ JXPGMessageDirector::AddMessageLine
 void
 JXPGMessageDirector::AddMessageString
 	(
-	const JCharacter* text
+	const JString& text
 	)
 {
 	itsMessageText->SetCaretLocation(itsMessageText->GetTextLength() + 1);
@@ -208,9 +208,11 @@ void
 JXPGMessageDirector::SaveMessages()
 {
 	JString fileName;
-	if ((JGetChooseSaveFile())->SaveFile("Save messages in:", NULL, "messages", &fileName))
+	if ((JGetChooseSaveFile())->SaveFile(
+			JGetString("SavePrompt::JXPGMessageDirector"), NULL,
+			JGetString("DefaultName::JXPGMessageDirector"), &fileName))
 		{
-		std::ofstream output(fileName);
+		std::ofstream output(fileName.GetBytes());
 		const JString& text = itsMessageText->GetText();
 		text.Print(output);
 		output << std::endl;		// cosmetics

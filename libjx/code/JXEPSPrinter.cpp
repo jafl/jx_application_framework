@@ -23,7 +23,7 @@
 // setup information
 
 const JFileVersion kCurrentSetupVersion = 0;
-const JCharacter kSetupDataEndDelimiter = '\1';
+const JUtf8Byte kSetupDataEndDelimiter  = '\1';
 
 /******************************************************************************
  Constructor
@@ -191,9 +191,9 @@ JXEPSPrinter::BeginUserPrintSetup()
 JXEPSPrintSetupDialog*
 JXEPSPrinter::CreatePrintSetupDialog
 	(
-	const JCharacter*	fileName,
-	const JBoolean		preview,
-	const JBoolean		bw
+	const JString&	fileName,
+	const JBoolean	preview,
+	const JBoolean	bw
 	)
 {
 	return JXEPSPrintSetupDialog::Create(fileName, preview, bw);

@@ -309,7 +309,7 @@ JXTextSelection::ConvertData
 	JXSelectionManager* selMgr = GetSelectionManager();
 	const Atom mimeText        = selMgr->GetMimePlainTextXAtom();
 
-	JIndexRange selection;
+	JCharacterRange selection;
 
 	if ((requestType == XA_STRING ||
 		 requestType == mimeText ||

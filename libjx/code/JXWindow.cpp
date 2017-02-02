@@ -4065,7 +4065,7 @@ JXWindow::InstallShortcuts
 				InstallShortcut(widget, (unsigned char) c2.GetBytes()[0], modifiers);
 				}
 			modifiers.SetState(kJXControlKeyIndex, kJFalse);	// e.g. return key
-			InstallShortcut(widget, (unsigned char) JXCtrl(c1).GetBytes()[0], modifiers);
+			InstallShortcut(widget, (unsigned char) JXCtrl(c1), modifiers);
 			}
 		else if (c == '#')
 			{

@@ -60,7 +60,7 @@ public:
 
 	// JBroadcaster messages
 
-	static const JCharacter* kShowAtStartup;
+	static const JUtf8Byte* kShowAtStartup;
 
 	class ShowAtStartup : public JBroadcaster::Message
 		{

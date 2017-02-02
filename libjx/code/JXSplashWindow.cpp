@@ -27,9 +27,9 @@
 
 JXSplashWindow::JXSplashWindow
 	(
-	const JXPM&			imageData,
-	const JCharacter*	text,
-	const time_t		displayInterval
+	const JXPM&		imageData,
+	const JString&	text,
+	const time_t	displayInterval
 	)
 	:
 	JXWindowDirector(JXGetApplication())
@@ -43,9 +43,9 @@ JXSplashWindow::JXSplashWindow
 
 JXSplashWindow::JXSplashWindow
 	(
-	JXImage*			image,
-	const JCharacter*	text,
-	const time_t		displayInterval
+	JXImage*		image,
+	const JString&	text,
+	const time_t	displayInterval
 	)
 	:
 	JXWindowDirector(JXGetApplication())
@@ -72,9 +72,9 @@ JXSplashWindow::~JXSplashWindow()
 void
 JXSplashWindow::BuildWindow
 	(
-	JXImage*			image,
-	const JCharacter*	text,
-	const time_t		displayInterval
+	JXImage*		image,
+	const JString&	text,
+	const time_t	displayInterval
 	)
 {
 	const JCoordinate borderWidth = 2;
@@ -85,7 +85,7 @@ JXSplashWindow::BuildWindow
 
 	JXWindow* window = jnew JXWindow(this, totalWidth + 3*borderWidth,
 									totalHeight + 3*borderWidth,
-									"Splash", kJTrue);
+									JGetString("WindowTitle::JXSplashWindow"), kJTrue);
 	assert( window != NULL );
 
 	JXEmbossedRect* border =

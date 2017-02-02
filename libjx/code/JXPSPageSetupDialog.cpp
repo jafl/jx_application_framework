@@ -31,7 +31,7 @@ static const JPSPrinter::PaperType kIndexToPaperType[] =
 	JPSPrinter::kA4Letter, JPSPrinter::kB5Letter
 };
 
-static const JCharacter* kPaperMenuStr =
+static const JUtf8Byte* kPaperMenuStr =
 	"US Letter%r|US Legal%r|US Executive%r|A4 Letter%r|B5 Letter%r";
 static const JSize kPaperTypeCount =
 	sizeof(kIndexToPaperType)/sizeof(JPSPrinter::PaperType);
@@ -74,11 +74,6 @@ static unsigned char kLandscapeData[] =
    0x00, 0xfe, 0xff, 0x0f, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 };
 static const JConstBitmap kLandscapeBitmap = { 30,30, kLandscapeData };
-
-// hints
-
-static const JCharacter* kPortraitHint  = "Portrait (tall)";
-static const JCharacter* kLandscapeHint = "Landscape (wide)";
 
 /******************************************************************************
  Constructor function (static)
@@ -201,7 +196,7 @@ JIndex i;
 	itsPaperTypeMenu = paperTypeMenu;
 	itsOrientation   = orientationRG;
 
-	(paperTypeMenu->GetWindow())->SetTitle("Page Setup");
+	(paperTypeMenu->GetWindow())->SetTitle(JGetString("WindowTitle::JXPSPageSetupDialog"));
 	SetButtons(okButton, cancelButton);
 
 	itsPaperTypeMenu->SetMenuItems(kPaperMenuStr);
@@ -234,10 +229,10 @@ JIndex i;
 	assert( foundOrient );
 
 	portraitRB->SetBitmap(kPortraitBitmap);
-	portraitRB->SetHint(kPortraitHint);
+	portraitRB->SetHint(JGetString("PortraitHint::JXPSPageSetupDialog"));
 
 	landscapeRB->SetBitmap(kLandscapeBitmap);
-	landscapeRB->SetHint(kLandscapeHint);
+	landscapeRB->SetHint(JGetString("LandscapeHint::JXPSPageSetupDialog"));
 }
 
 /******************************************************************************

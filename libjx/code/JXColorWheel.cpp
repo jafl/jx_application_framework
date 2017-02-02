@@ -25,7 +25,7 @@ const JCoordinate kWheelMargin  = 2;
 
 // JBroadcaster message types
 
-const JCharacter* JXColorWheel::kColorChanged = "ColorChanged::JXColorWheel";
+const JUtf8Byte* JXColorWheel::kColorChanged = "ColorChanged::JXColorWheel";
 
 /******************************************************************************
  Constructor

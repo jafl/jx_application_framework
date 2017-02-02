@@ -23,7 +23,7 @@ class JXEPSPrintSetupDialog : public JXDialogDirector
 public:
 
 	static JXEPSPrintSetupDialog*
-		Create(const JCharacter* fileName,
+		Create(const JString& fileName,
 			   const JBoolean printPreview, const JBoolean bw);
 
 	virtual ~JXEPSPrintSetupDialog();
@@ -35,7 +35,7 @@ protected:
 	JXEPSPrintSetupDialog();
 
 	void	SetObjects(JXTextButton* okButton, JXTextButton* cancelButton,
-					   JXFileInput* fileInput, const JCharacter* fileName,
+					   JXFileInput* fileInput, const JString& fileName,
 					   JXTextButton* chooseFileButton,
 					   JXTextCheckbox* previewCheckbox, const JBoolean printPreview,
 					   JXTextCheckbox* bwCheckbox, const JBoolean bw);
@@ -45,7 +45,7 @@ protected:
 
 private:
 
-    JXTextButton*	itsPrintButton;
+	JXTextButton*	itsPrintButton;
 
 // begin JXLayout
 
@@ -58,7 +58,7 @@ private:
 
 private:
 
-	void	BuildWindow(const JCharacter* fileName,
+	void	BuildWindow(const JString& fileName,
 						const JBoolean printPreview, const JBoolean bw);
 	void	UpdateDisplay();
 

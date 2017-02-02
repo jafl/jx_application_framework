@@ -17,13 +17,13 @@
 
 JXToolBarNode::JXToolBarNode
 	(
-	JXTextMenu*			menu,
-	const JIndex		index,
-	const JBoolean		hasSeparator,
-	const JBoolean		checked,
-	JTree*				tree,
-	JNamedTreeNode*		parent,
-	const JCharacter*	name
+	JXTextMenu*		menu,
+	const JIndex	index,
+	const JBoolean	hasSeparator,
+	const JBoolean	checked,
+	JTree*			tree,
+	JNamedTreeNode*	parent,
+	const JString&	name
 	)
 	:
 	JNamedTreeNode(tree, name, kJFalse),

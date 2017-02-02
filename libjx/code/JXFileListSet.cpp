@@ -118,19 +118,20 @@ JXFileListSet::JXFileListSetX
 	assert( itsWildcardSet != NULL );
 
 	JXStaticText* filterLabel =
-		jnew JXStaticText("Filter:", itsWildcardSet, kFixedLeft, kFixedTop,
-						 kLabelLeft,kLabelTop,
-						 kLabelWidth-kLabelLeft,kInputHeight-kLabelTop);
+		jnew JXStaticText(JGetString("FilterLabel::JXFileListSet"),
+						  itsWildcardSet, kFixedLeft, kFixedTop,
+						  kLabelLeft,kLabelTop,
+						  kLabelWidth-kLabelLeft,kInputHeight-kLabelTop);
 	assert( filterLabel != NULL );
 
 	itsWildcardMenu =
 		jnew JXStringHistoryMenu(kHistoryLength, JString::empty, itsWildcardSet, kFixedRight, kFixedTop,
-								w - kHistoryMenuWidth,0, kHistoryMenuWidth,kInputHeight);
+								 w - kHistoryMenuWidth,0, kHistoryMenuWidth,kInputHeight);
 	assert( itsWildcardMenu != NULL );
 
 	itsWildcardInput =
 		jnew JXFLWildcardInput(this, itsWildcardMenu, itsWildcardSet, kHElastic, kFixedTop,
-							  kLabelWidth,0, inputWidth,kInputHeight);
+							   kLabelWidth,0, inputWidth,kInputHeight);
 	assert( itsWildcardInput != NULL );
 
 	// regex input
@@ -139,19 +140,20 @@ JXFileListSet::JXFileListSetX
 	assert( itsRegexSet != NULL );
 
 	JXStaticText* regexLabel =
-		jnew JXStaticText("Regex:", itsRegexSet, kFixedLeft, kFixedTop,
-						 kLabelLeft,kLabelTop,
-						 kLabelWidth-kLabelLeft,kInputHeight-kLabelTop);
+		jnew JXStaticText(JGetString("RegexLabel::JXFileListSet"),
+						  itsRegexSet, kFixedLeft, kFixedTop,
+						  kLabelLeft,kLabelTop,
+						  kLabelWidth-kLabelLeft,kInputHeight-kLabelTop);
 	assert( regexLabel != NULL );
 
 	itsRegexMenu =
 		jnew JXStringHistoryMenu(kHistoryLength, JString::empty, itsRegexSet, kFixedRight, kFixedTop,
-								w - kHistoryMenuWidth,0, kHistoryMenuWidth,kInputHeight);
+								 w - kHistoryMenuWidth,0, kHistoryMenuWidth,kInputHeight);
 	assert( itsRegexMenu != NULL );
 
 	itsRegexInput =
 		jnew JXFLRegexInput(this, itsRegexMenu, itsRegexSet, kHElastic, kFixedTop,
-						   kLabelWidth,0, inputWidth,kInputHeight);
+							kLabelWidth,0, inputWidth,kInputHeight);
 	assert( itsRegexInput != NULL );
 
 	// start with no filter

@@ -11,13 +11,11 @@
 #include <JXFontManager.h>
 #include <JXWindowPainter.h>
 #include <JXImage.h>
-#include <JString.h>
 #include <jMath.h>
+#include <jGlobals.h>
 #include <jAssert.h>
 
 #include <jx_folder_small.xpm>
-
-static const JCharacter* kLabel = "New  ";
 
 /******************************************************************************
  Constructor
@@ -43,10 +41,10 @@ JXNewDirButton::JXNewDirButton
 
 	const JSize spaceWidth = GetFont().GetCharWidth(' ');
 	const JSize spaceCount = JRound(itsFolderIcon->GetWidth() / (JFloat) spaceWidth);
-	JString s = kLabel;
+	JString s = JGetString("Label::JXNewDirButton");
 	for (JIndex i=1; i<=spaceCount; i++)
 		{
-		s.AppendCharacter(' ');
+		s.Append(" ");
 		}
 	SetLabel(s);
 	itsLabelWidth = GetFont().GetStringWidth(s);

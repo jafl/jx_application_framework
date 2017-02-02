@@ -167,12 +167,7 @@ $err"
 
 MissingTOC::JXHelpManager		"There is no Table of Contents.  Please notify the programmer."
 MissingSection::JXHelpManager	"Unknown help section \"$name\".  Please notify the programmer."
-
-EmptyComposeRuleList::JXHelpManager
-"<html>
-<head><title> Special key sequences </title></head>
-<body> No special key sequences have been defined. </body>
-</html>"
+SearchingLabel::JXHelpManager	"Searching..."
 
 # JXComposeRuleList
 
@@ -430,3 +425,85 @@ ReplaceFindBackWinHint::JXSearchTextDialog			"Ctrl-Shift-L"
 ReplaceIsRegexShorcut::JXSearchTextDialog	"#X"
 
 EmptySearchText::JXSearchTextDialog	"You must enter something for which to search."
+
+# JXToolBarEditDir
+
+WindowTitle::JXToolBarEditDir	"Configure Toolbar"
+
+# JXFileListSet
+
+FilterLabel::JXFileListSet	"Filter:"
+RegexLabel::JXFileListSet	"Regex:"
+
+# JXSplashWindow
+
+WindowTitle::JXSplashWindow	"Splash"
+
+# JXNewDirButton
+
+Label::JXNewDirButton	"New  "
+
+# JXDSSSelection
+
+MustSaveSameOnComputer::JXDSSSelection	"You cannot save the file on a different computer."
+
+# JXAcceptLicenseDialog
+
+WindowTitle::JXAcceptLicenseDialog	"License"
+
+# JXPGDirectorBase
+
+WindowTitle::JXPGDirectorBase				"Progress"
+CannotQuitWhileRunning::JXPGDirectorBase	"You cannot quit while this process is running."
+
+# JXPGMessageDirector
+
+WindowTitle::JXPGMessageDirector	"Message Window"
+SavePrompt::JXPGMessageDirector		"Save messages in:"
+DefaultName::JXPGMessageDirector	"messages"
+
+# JXEditWWWPrefsDialog
+
+WindowTitle::JXEditWWWPrefsDialog	"Web Browser Preferences"
+
+# JXChooseColorDialog
+
+WindowTitle::JXChooseColorDialog	"Choose color"
+
+# JXPSPrinter
+
+UnableToCreateTempFile::JXPSPrinter	"Unable to create a temporary file.  Please check that the disk is not full."
+UnableToSave::JXPSPrinter			"Unable to create the file.  Please check that the directory is writable and that the disk is not full."
+
+# JXPSPageSetupDialog
+
+WindowTitle::JXPSPageSetupDialog	"Page Setup"
+PortraitHint::JXPSPageSetupDialog	"Portrait (tall)"
+LandscapeHint::JXPSPageSetupDialog	"Landscape (wide)"
+
+# JXEPSPrintSetupDialog
+
+WindowTitle::JXEPSPrintSetupDialog			"Print Setup"
+ChooseFileShortcut::JXEPSPrintSetupDialog	"#O"
+BlackWhiteShortcut::JXEPSPrintSetupDialog	"#B"
+PreviewShortcut::JXEPSPrintSetupDialog		"#P"
+SaveEPSPrompt::JXEPSPrintSetupDialog		"Save EPS file as:"
+
+# JXHelpDirector
+
+WindowTitle::JXHelpDirector				"Help"
+FileMenuTitle::JXHelpDirector			"File"
+FileMenuShortcutTitle::JXHelpDirector	"#F"
+SearchAllLabel::JXHelpDirector			"Search all sections"
+PrefsMenuTitle::JXHelpDirector			"Preferences"
+PrefsMenuShortcut::JXHelpDirector		"#P"
+SavePrompt::JXHelpDirector				"Save text as:"
+
+# JXTipOfTheDayDialog
+
+WindowTitle::JXTipOfTheDayDialog	"Tip of the Day"
+FontName::JXTipOfTheDayDialog		"Times"
+
+# JXMacWinPrefsDialog
+
+WindowTitle::JXMacWinPrefsDialog	"Macintosh / Windows / X Preferences"

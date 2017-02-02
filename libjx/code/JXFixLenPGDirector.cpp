@@ -26,7 +26,7 @@ JXFixLenPGDirector::JXFixLenPGDirector
 	(
 	JXDirector*			supervisor,
 	JXProgressDisplay*	pg,
-	const JCharacter*	message,
+	const JString&		message,
 	const JBoolean		allowCancel
 	)
 	:
@@ -53,7 +53,7 @@ void
 JXFixLenPGDirector::BuildWindow
 	(
 	JXProgressDisplay*	pg,
-	const JCharacter*	message,
+	const JString&		message,
 	const JBoolean		allowCancel
 	)
 {

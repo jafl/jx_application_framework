@@ -33,7 +33,7 @@
 
 // JBroadcaster message types
 
-const JCharacter* JXProgressDisplay::kCancelRequested = "CancelRequested::JXProgressDisplay";
+const JUtf8Byte* JXProgressDisplay::kCancelRequested = "CancelRequested::JXProgressDisplay";
 
 // Private class data
 
@@ -105,7 +105,7 @@ JXProgressDisplay::ProcessBeginning
 	(
 	const ProcessType	processType,
 	const JSize			stepCount,
-	const JCharacter*	message,
+	const JString&		message,
 	const JBoolean		allowCancel,
 	const JBoolean		allowBackground
 	)
@@ -169,7 +169,7 @@ JXProgressDisplay::ProcessBeginning
 JBoolean
 JXProgressDisplay::IncrementProgress
 	(
-	const JCharacter* message
+	const JString& message
 	)
 {
 	assert( ProcessRunning() );
@@ -214,8 +214,8 @@ JXProgressDisplay::IncrementProgress
 JBoolean
 JXProgressDisplay::IncrementProgress
 	(
-	const JCharacter*	message,
-	const JSize			delta
+	const JString&	message,
+	const JSize		delta
 	)
 {
 	assert( ProcessRunning() );
@@ -238,7 +238,7 @@ JXProgressDisplay::IncrementProgress
 JBoolean
 JXProgressDisplay::IncrementProgress1
 	(
-	const JCharacter* message
+	const JString& message
 	)
 {
 	const ProcessType process = GetCurrentProcessType();
@@ -337,7 +337,7 @@ JXProgressDisplay::DisplayBusyCursor()
 void
 JXProgressDisplay::AppendToMessageWindow
 	(
-	const JCharacter* message
+	const JString& message
 	)
 {
 	if (itsMessageDirector == NULL)

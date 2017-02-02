@@ -726,6 +726,6 @@ JXChooseSaveFile::IsCharacterInWord
 	const JIndex	charIndex
 	)
 {
-	const JCharacter c = text.GetCharacter(charIndex);
+	const JUtf8Character c = text.GetCharacter(charIndex);
 	return JI2B( JIsAlnum(c) || c == '_' );
 }

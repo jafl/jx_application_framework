@@ -25,7 +25,7 @@
 // setup information
 
 const JFileVersion kCurrentSetupVersion = 3;
-const JCharacter kSetupDataEndDelimiter = '\1';
+const JUtf8Byte kSetupDataEndDelimiter  = '\1';
 // version  1 split data between JPSPrinter and JXPSPrinter
 // version  2 added collating flag and ending delimiter
 // version  3 added destination and file name
@@ -40,16 +40,11 @@ JXPSPrinter::JXPSPrinter
 	const JXDisplay* display
 	)
 	:
-	JPSPrinter(display->GetFontManager(), display->GetColormap())
+	JPSPrinter(display->GetFontManager(), display->GetColormap()),
+	itsPrintCmd("lpr", 0)
 {
 	itsDestination = kPrintToPrinter;
 	itsCollateFlag = kJFalse;
-
-	itsPrintCmd = jnew JString("lpr");
-	assert( itsPrintCmd != NULL );
-
-	itsFileName = jnew JString;
-	assert( itsFileName != NULL );
 
 	itsPageSetupDialog  = NULL;
 	itsPrintSetupDialog = NULL;
@@ -62,8 +57,6 @@ JXPSPrinter::JXPSPrinter
 
 JXPSPrinter::~JXPSPrinter()
 {
-	jdelete itsPrintCmd;
-	jdelete itsFileName;
 }
 
 /******************************************************************************
@@ -78,20 +71,20 @@ void
 JXPSPrinter::SetDestination
 	(
 	const Destination	dest,
-	const JCharacter*	printCmd,
-	const JCharacter*	fileName
+	const JString&		printCmd,
+	const JString&		fileName
 	)
 {
 	itsDestination = dest;
 
 	if (printCmd != NULL)
 		{
-		*itsPrintCmd = printCmd;
+		itsPrintCmd = printCmd;
 		}
 
 	if (fileName != NULL)
 		{
-		*itsFileName = fileName;
+		itsFileName = fileName;
 		}
 }
 
@@ -103,10 +96,10 @@ JXPSPrinter::SetDestination
 void
 JXPSPrinter::SetPrintCmd
 	(
-	const JCharacter* cmd
+	const JString& cmd
 	)
 {
-	*itsPrintCmd = cmd;
+	itsPrintCmd = cmd;
 }
 
 /******************************************************************************
@@ -117,11 +110,11 @@ JXPSPrinter::SetPrintCmd
 void
 JXPSPrinter::SetFileName
 	(
-	const JCharacter* name
+	const JString& name
 	)
 {
-	*itsFileName = name;
-	if (itsFileName->IsEmpty())
+	itsFileName = name;
+	if (itsFileName.IsEmpty())
 		{
 		itsDestination = kPrintToPrinter;
 		}
@@ -148,7 +141,7 @@ JXPSPrinter::ReadXPSSetup
 		PaperType type;
 		ImageOrientation orient;
 		JBoolean printBW;
-		input >> type >> orient >> *itsPrintCmd >> printBW;
+		input >> type >> orient >> itsPrintCmd >> printBW;
 		SetPaperType(type);
 		SetOrientation(orient);
 		PSPrintBlackWhite(printBW);
@@ -157,7 +150,7 @@ JXPSPrinter::ReadXPSSetup
 		}
 	else if (vers == 1)
 		{
-		input >> *itsPrintCmd;
+		input >> itsPrintCmd;
 		itsCollateFlag = kJFalse;
 		ReadPSSetup(input);
 		}
@@ -167,9 +160,9 @@ JXPSPrinter::ReadXPSSetup
 			{
 			if (vers >= 3)
 				{
-				input >> itsDestination >> *itsFileName;
+				input >> itsDestination >> itsFileName;
 				}
-			input >> *itsPrintCmd >> itsCollateFlag;
+			input >> itsPrintCmd >> itsCollateFlag;
 			}
 		JIgnoreUntil(input, kSetupDataEndDelimiter);
 
@@ -193,8 +186,8 @@ JXPSPrinter::WriteXPSSetup
 {
 	output << ' ' << kCurrentSetupVersion;
 	output << ' ' << itsDestination;
-	output << ' ' << *itsFileName;
-	output << ' ' << *itsPrintCmd;
+	output << ' ' << itsFileName;
+	output << ' ' << itsPrintCmd;
 	output << ' ' << itsCollateFlag;
 	output << kSetupDataEndDelimiter;
 
@@ -230,7 +223,7 @@ JXPSPrinter::OpenDocument()
 	else
 		{
 		assert( itsDestination == kPrintToFile );
-		SetOutputFileName(*itsFileName);
+		SetOutputFileName(itsFileName);
 		}
 
 	const JBoolean success = JPSPrinter::OpenDocument();
@@ -244,16 +237,12 @@ JXPSPrinter::OpenDocument()
 		{
 		if (itsDestination == kPrintToPrinter)
 			{
-			(JGetUserNotification())->ReportError(
-				"Unable to create a temporary file.  "
-				"Please check that the disk is not full.");
+			(JGetUserNotification())->ReportError(JGetString("UnableToCreateTempFile::JXPSPrinter"));
 			}
 		else
 			{
 			assert( itsDestination == kPrintToFile );
-			(JGetUserNotification())->ReportError(
-				"Unable to create the file.  Please check that the directory "
-				"is writable and that the disk is not full.");
+			(JGetUserNotification())->ReportError(JGetString("UnableToSave::JXPSPrinter"));
 			}
 		}
 
@@ -273,7 +262,7 @@ JXPSPrinter::CloseDocument()
 	if (itsDestination == kPrintToPrinter)
 		{
 		const JString& fileName = GetOutputFileName();
-		const JString sysCmd    = *itsPrintCmd + " " + JPrepArgForExec(fileName);
+		const JString sysCmd    = itsPrintCmd + " " + JPrepArgForExec(fileName);
 
 		const JSize copyCount = (itsCollateFlag ? GetCopyCount() : 1);
 
@@ -378,8 +367,8 @@ JXPSPrinter::BeginUserPrintSetup()
 	assert( itsPageSetupDialog == NULL && itsPrintSetupDialog == NULL );
 
 	itsPrintSetupDialog =
-		CreatePrintSetupDialog(itsDestination, *itsPrintCmd,
-							   *itsFileName, itsCollateFlag,
+		CreatePrintSetupDialog(itsDestination, itsPrintCmd,
+							   itsFileName, itsCollateFlag,
 							   PSWillPrintBlackWhite());
 
 	itsPrintSetupDialog->BeginDialog();
@@ -397,8 +386,8 @@ JXPSPrintSetupDialog*
 JXPSPrinter::CreatePrintSetupDialog
 	(
 	const Destination	destination,
-	const JCharacter*	printCmd,
-	const JCharacter*	fileName,
+	const JString&		printCmd,
+	const JString&		fileName,
 	const JBoolean		collate,
 	const JBoolean		bw
 	)

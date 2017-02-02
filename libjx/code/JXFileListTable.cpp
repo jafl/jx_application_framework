@@ -28,8 +28,8 @@
 
 #include <JTableSelection.h>
 #include <JFontManager.h>
+#include <JStringIterator.h>
 #include <JRegex.h>
-#include <JString.h>
 #include <jDirUtil.h>
 #include <jFileUtil.h>
 #include <jMouseUtil.h>
@@ -43,13 +43,14 @@ const JCoordinate kTextPadding  = 5;
 const JCoordinate kHMarginWidth = 3;
 const JCoordinate kVMarginWidth = 1;
 
-const JCharacter kInactiveChar = ' ';	// file names starting with this are gray
+const JUtf8Byte kInactiveChar = ' ';	// file names starting with this are gray
+const JUtf8Byte* kInactiveStr = " ";
 
-static const JCharacter* kSelectionDataID = "JXFileListTable";
+static const JUtf8Byte* kSelectionDataID = "JXFileListTable";
 
 // JBroadcaster messages
 
-const JCharacter* JXFileListTable::kProcessSelection = "ProcessSelection::JXFileListTable";
+const JUtf8Byte* JXFileListTable::kProcessSelection = "ProcessSelection::JXFileListTable";
 
 /******************************************************************************
  Constructor
@@ -126,11 +127,11 @@ JXFileListTable::~JXFileListTable()
 inline JBoolean
 JXFileListTable::IsInactive
 	(
-	const JCharacter* fullName
+	const JString& fullName
 	)
 	const
 {
-	return JI2B(fullName[0] == kInactiveChar);
+	return JI2B(fullName.GetFirstCharacter() == kInactiveChar);
 }
 
 /******************************************************************************
@@ -150,11 +151,11 @@ JXFileListTable::IsInactive
 JBoolean
 JXFileListTable::AddFile
 	(
-	const JCharacter*	fullName,
-	JIndex*				fullNameIndex	// can be NULL
+	const JString&	fullName,
+	JIndex*			fullNameIndex	// can be NULL
 	)
 {
-	assert( !JString::IsEmpty(fullName) );
+	assert( !fullName.IsEmpty() );
 
 	if (fullNameIndex != NULL)
 		{
@@ -195,7 +196,7 @@ JXFileListTable::AddFile
 void
 JXFileListTable::RemoveFile
 	(
-	const JCharacter* fullName
+	const JString& fullName
 	)
 {
 	ClearSelection();
@@ -298,10 +299,10 @@ JXFileListTable::GetFilterRegex
 JError
 JXFileListTable::SetFilterRegex
 	(
-	const JCharacter* regexStr
+	const JString& regexStr
 	)
 {
-	if (JString::IsEmpty(regexStr))
+	if (regexStr.IsEmpty())
 		{
 		ClearFilterRegex();
 		return JNoError();
@@ -410,20 +411,21 @@ JXFileListTable::FilterFile
 	)
 {
 	const JString* fullName = itsFileList->GetElement(fileIndex);
+	JStringIterator iter(*fullName, kJIteratorStartAtEnd);
 
 	VisInfo info;
-	if (fullName->LocateLastSubstring(ACE_DIRECTORY_SEPARATOR_STR, &(info.nameIndex)))
+	if (iter.Prev(ACE_DIRECTORY_SEPARATOR_STR))
 		{
-		info.nameIndex++;
+		info.nameIndex = iter.GetNextCharacterIndex() + 1;
 		}
 	else
 		{
 		info.nameIndex = 1;
 		}
 
-	if (itsRegex == NULL || itsRegex->Match(fullName->GetCString() + info.nameIndex-1))
+	if (itsRegex == NULL || itsRegex->Match(JString(fullName->GetBytes() + info.nameIndex-1, 0, kJFalse)))
 		{
-		const JString fileName(*fullName, JIndexRange(info.nameIndex, fullName->GetLength()));
+		const JString fileName(*fullName, JCharacterRange(info.nameIndex, fullName->GetCharacterCount()));
 		itsVisibleList->SetCompareObject(PrefixMatch(fileName, *itsFileList));
 
 		info.fileIndex = 0;
@@ -447,8 +449,9 @@ JXFileListTable::FilterFile
 		for (JIndex i=rowIndex; i<=endRowIndex; i++)
 			{
 			info = itsVisibleList->GetElement(i);
-			const JCharacter* drawStr =
-				(itsFileList->GetElement(info.fileIndex))->GetCString() + info.drawIndex-1;
+			const JString drawStr = JString(
+				(itsFileList->GetElement(info.fileIndex))->GetBytes() + info.drawIndex-1,
+				0, kJFalse);
 			const JSize w = (GetFontManager()->GetDefaultFont()).GetStringWidth(drawStr);
 			if (w > itsMaxStringWidth)
 				{
@@ -483,8 +486,8 @@ JIndex i;
 	while (lastIndex <= count)
 		{
 		const VisInfo info  = itsVisibleList->GetElement(lastIndex);
-		const JCharacter* n =
-			(itsFileList->GetElement(info.fileIndex))->GetCString() + info.nameIndex-1;
+		const JUtf8Byte* n =
+			(itsFileList->GetElement(info.fileIndex))->GetBytes() + info.nameIndex-1;
 		if (JString::Compare(n, fileName, kJFalse) != 0)
 			{
 			break;
@@ -496,21 +499,24 @@ JIndex i;
 	// calculate the length of the minimum prefix shared by the files
 
 	const JString* firstFile = itsFileList->GetElement(RowIndexToFileIndex(firstIndex));
-	JSize minLength = firstFile->GetLength();
+	JSize minLength = firstFile->GetCharacterCount();
 	for (i=firstIndex; i<lastIndex; i++)
 		{
 		const JString* s1 = itsFileList->GetElement(RowIndexToFileIndex(i));
 		const JString* s2 = itsFileList->GetElement(RowIndexToFileIndex(i+1));
-		minLength         = JMin(minLength, JCalcMatchLength(*s1, *s2));
+		minLength         = JMin(minLength, JString::CalcCharacterMatchLength(*s1, *s2));
 		}
 
 	// back up so drawing starts at the beginning of a directory name
 
-	while (minLength > 0 && firstFile->GetCharacter(minLength) != ACE_DIRECTORY_SEPARATOR_CHAR)
+	JStringIterator iter(*firstFile, kJIteratorStartBefore, minLength);
+	JUtf8Character c;
+	while (iter.Prev(&c) && c != ACE_DIRECTORY_SEPARATOR_CHAR)
 		{
 		minLength--;
 		}
-	if (minLength == 1 && firstFile->GetCharacter(minLength) == ACE_DIRECTORY_SEPARATOR_CHAR)
+
+	if (minLength == 1 && c == ACE_DIRECTORY_SEPARATOR_CHAR)
 		{
 		minLength = 0;		// might as well show full path
 		}
@@ -541,7 +547,7 @@ JXFileListTable::GetFileName
 {
 	const VisInfo info      = itsVisibleList->GetElement(rowIndex);
 	const JString* fullName = itsFileList->GetElement(info.fileIndex);
-	return JString(*fullName, JIndexRange(info.nameIndex, fullName->GetLength()));
+	return JString(*fullName, JCharacterRange(info.nameIndex, fullName->GetCharacterCount()));
 }
 
 /******************************************************************************
@@ -576,7 +582,7 @@ JXFileListTable::GetFullName
 		}
 	else
 		{
-		n->PrependCharacter(kInactiveChar);
+		n->Prepend(kInactiveStr);
 
 		VisInfo info = itsVisibleList->GetElement(rowIndex);
 		info.nameIndex++;
@@ -836,7 +842,7 @@ JXFileListTable::TableDrawCell
 
 	const VisInfo info  = itsVisibleList->GetElement(cell.y);
 	const JString* name = itsFileList->GetElement(info.fileIndex);
-	const JCharacter* s = name->GetCString() + info.drawIndex-1;
+	const JUtf8Byte* s  = name->GetBytes() + info.drawIndex-1;
 
 	if (IsInactive(*name))
 		{
@@ -845,7 +851,7 @@ JXFileListTable::TableDrawCell
 
 	r = rect;
 	r.left += kIconWidth + kHMarginWidth;
-	p.String(r, s, JPainter::kHAlignLeft, JPainter::kVAlignCenter);
+	p.String(r, JString(s, 0, kJFalse), JPainter::kHAlignLeft, JPainter::kVAlignCenter);
 }
 
 /******************************************************************************
@@ -1030,7 +1036,7 @@ JXFileListTable::HandleKeyPress
 
 	else if (JXIsPrint(key) && !modifiers.control() && !modifiers.meta())
 		{
-		itsKeyBuffer.AppendCharacter(key);
+		itsKeyBuffer.Append(JUtf8Character(key));
 
 		JIndex index;
 		if (ClosestMatch(itsKeyBuffer, &index))
@@ -1117,15 +1123,15 @@ JXFileListTable::PrefixMatch::Compare
 {
 	assert( i1.fileIndex == 0 || i2.fileIndex == 0 );
 
-	const JCharacter* s1 =
+	const JUtf8Byte* s1 =
 		(i1.fileIndex == 0 ?
-		 itsPrefix.GetCString() :
-		 (itsFileList.GetElement(i1.fileIndex))->GetCString() + i1.nameIndex-1);
+		 itsPrefix.GetBytes() :
+		 (itsFileList.GetElement(i1.fileIndex))->GetBytes() + i1.nameIndex-1);
 
-	const JCharacter* s2 =
+	const JUtf8Byte* s2 =
 		(i2.fileIndex == 0 ?
-		 itsPrefix.GetCString() :
-		 (itsFileList.GetElement(i2.fileIndex))->GetCString() + i2.nameIndex-1);
+		 itsPrefix.GetBytes() :
+		 (itsFileList.GetElement(i2.fileIndex))->GetBytes() + i2.nameIndex-1);
 
 	const int r = JString::Compare(s1, s2, kJFalse);
 	if (r > 0)
@@ -1360,10 +1366,10 @@ void
 JXFileListTable::GetSelectionData
 	(
 	JXSelectionData*	data,
-	const JCharacter*	id
+	const JString&		id
 	)
 {
-	if (strcmp(id, kSelectionDataID) == 0)
+	if (id == kSelectionDataID)
 		{
 		assert( HasSelection() );
 

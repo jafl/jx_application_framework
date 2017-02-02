@@ -31,12 +31,11 @@
 #include <sstream>
 #include <jAssert.h>
 
-static const JCharacter* kStringID  = "TIP_OF_THE_DAY";
-static const JCharacter* kDelimiter = "<div>";
+static const JUtf8Byte* kDelimiter = "<div>";
 
 // JBroadcaster message types
 
-const JCharacter* JXTipOfTheDayDialog::kShowAtStartup = "ShowAtStartup::JXTipOfTheDayDialog";
+const JUtf8Byte* JXTipOfTheDayDialog::kShowAtStartup = "ShowAtStartup::JXTipOfTheDayDialog";
 
 /******************************************************************************
  Constructor
@@ -128,7 +127,7 @@ JXTipOfTheDayDialog::BuildWindow
 
 // end JXLayout
 
-	window->SetTitle("Tip of the Day");
+	window->SetTitle(JGetString("WindowTitle::JXTipOfTheDayDialog"));
 	window->LockCurrentMinSize();
 	window->PlaceAsDialogWindow();
 
@@ -145,10 +144,11 @@ JXTipOfTheDayDialog::BuildWindow
 	title->SetBackColor(title->GetFocusColor());
 	title->JTextEditor::SetFont(1, title->GetTextLength(),
 		(window->GetFontManager())->GetFont(
-			"Times", 18, JFontStyle(kJTrue, kJFalse, 0, kJFalse)),
+			JGetString("FontName::JXTipOfTheDayDialog"), 18,
+			JFontStyle(kJTrue, kJFalse, 0, kJFalse)),
 		kJTrue);
 	title->SetCaretLocation(1);
-	title->Paste("\n");
+	title->Paste(JString("\n", 0, kJFalse));
 
 	itsText =
 		jnew JXStaticText(JString::empty, kJTrue, kJFalse,
@@ -212,27 +212,21 @@ static JKLRand theRandomGenerator;
 void
 JXTipOfTheDayDialog::ParseTips()
 {
-	const JString& data = JGetString(kStringID);
+	const JString& data = JGetString("TIP_OF_THE_DAY");
 
 	itsTipList->CleanOut();
 
-	const JSize len = strlen(kDelimiter);
+	JPtrArray<JString> list(JPtrArrayT::kDeleteAll);
+	data.Split(kDelimiter, &list);
 
-	JIndex j = 1, i = j;
-	while (data.LocateNextSubstring(kDelimiter, &j))
+	const JSize count = list.GetElementCount();
+	for (JIndex i=1; i<=count; i++)
 		{
-		if (j > i)
+		JString* s = list.GetElement(i);
+		if (!s->IsEmpty())
 			{
-			AddTip(data.GetSubstring(i, j-1));
+			AddTip(*s);
 			}
-
-		j += len;
-		i  = j;
-		}
-
-	if (i <= data.GetLength())
-		{
-		AddTip(data.GetSubstring(i, data.GetLength()));
 		}
 
 	assert( !itsTipList->IsEmpty() );
@@ -272,9 +266,9 @@ void
 JXTipOfTheDayDialog::DisplayTip()
 {
 	const JString* s = itsTipList->GetElement(itsTipIndex);
-	const std::string s1(*s);
+	const std::string s1(s->GetBytes(), s->GetByteCount());
 	std::istringstream input(s1);
 	itsText->ReadHTML(input);
 	itsText->SetCaretLocation(1);
-	itsText->Paste("\n");
+	itsText->Paste(JString("\n", 0, kJFalse));
 }

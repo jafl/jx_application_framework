@@ -2886,7 +2886,7 @@ JXTEBase::SearchForward
 		{
 		(JXGetApplication())->DisplayBusyCursor();
 
-		JArray<JIndexRange> submatchList;
+		JArray<JCharacterRange> submatchList;
 		found = JTextEditor::SearchForward(*regex, entireWord,
 										   wrapSearch, &wrapped, &submatchList);
 		}
@@ -2942,7 +2942,7 @@ JXTEBase::SearchBackward()
 		{
 		(JXGetApplication())->DisplayBusyCursor();
 
-		JArray<JIndexRange> submatchList;
+		JArray<JCharacterRange> submatchList;
 		found = JTextEditor::SearchBackward(*regex, entireWord,
 											wrapSearch, &wrapped, &submatchList);
 		}
@@ -3073,7 +3073,7 @@ JXTEBase::ReplaceSelection()
 		return kJFalse;
 		}
 
-	JArray<JIndexRange> submatchList;
+	JArray<JCharacterRange> submatchList;
 	if (searchIsRegex &&
 		SelectionMatches(*regex, entireWord, &submatchList))
 		{
@@ -3084,7 +3084,7 @@ JXTEBase::ReplaceSelection()
 	else if (!searchIsRegex &&
 			 SelectionMatches(searchStr, caseSensitive, entireWord))
 		{
-		submatchList.AppendElement(JIndexRange(1, searchStr.GetLength()));
+		submatchList.AppendElement(JCharacterRange(1, searchStr.GetCharacterCount()));
 		JTextEditor::ReplaceSelection(replaceStr, preserveCase,
 									  replaceIsRegex, *regex, submatchList);
 		return kJTrue;
@@ -3176,7 +3176,7 @@ JXTEBase::ReplaceAllInSelection()
 	JBoolean searchIsRegex, caseSensitive, entireWord, wrapSearch;
 	JBoolean replaceIsRegex, preserveCase;
 	JRegex* regex;
-	JIndexRange searchRange;
+	JCharacterRange searchRange;
 	if (GetType() == kFullEditor &&
 		GetSelection(&searchRange) &&
 		(JXGetSearchTextDialog())->GetSearchParameters(

@@ -21,9 +21,9 @@
 JError
 JXImage::CreateFromPNG
 	(
-	JXDisplay*			display,
-	const JCharacter*	fileName,
-	JXImage**			image
+	JXDisplay*		display,
+	const JString&	fileName,
+	JXImage**		image
 	)
 {
 	*image = jnew JXImage(display);

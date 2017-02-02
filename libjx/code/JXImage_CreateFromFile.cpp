@@ -21,9 +21,9 @@
 JError
 JXImage::CreateFromFile
 	(
-	JXDisplay*			display,
-	const JCharacter*	fileName,
-	JXImage**			image
+	JXDisplay*		display,
+	const JString&	fileName,
+	JXImage**		image
 	)
 {
 	const FileType type = GetFileType(fileName);

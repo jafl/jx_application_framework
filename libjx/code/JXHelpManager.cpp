@@ -37,13 +37,14 @@
 #include <JXWebBrowser.h>
 #include <JXStandAlonePG.h>
 #include <jXGlobals.h>
+#include <JStringIterator.h>
 #include <jAssert.h>
 
-static const JCharacter* kJXHelpPrefix = "jxhelp:";
-const JSize kJXHelpPrefixLength        = 7;
+static const JUtf8Byte* kJXHelpPrefix = "jxhelp:";
+const JSize kJXHelpPrefixLength       = 7;
 
-static const JCharacter* kSubsectionMarker = "#";
-const JSize kSubsectionMarkerLength        = 1;
+static const JUtf8Byte* kSubsectionMarker = "#";
+const JSize kSubsectionMarkerLength       = 1;
 
 // setup information
 
@@ -61,12 +62,6 @@ static const JXSharedPrefObject::VersionInfo kVersList[] =
 };
 
 const JSize kVersCount = sizeof(kVersList) / sizeof(JXSharedPrefObject::VersionInfo);
-
-// string ID's
-
-static const JCharacter* kMissingTOCID           = "MissingTOC::JXHelpManager";
-static const JCharacter* kMissingSectionID       = "MissingSection::JXHelpManager";
-static const JCharacter* kEmptyComposeRuleListID = "EmptyComposeRuleList::JXHelpManager";
 
 /******************************************************************************
  Constructor
@@ -86,9 +81,6 @@ JXHelpManager::JXHelpManager()
 	assert( itsSections != NULL );
 	itsSections->SetCompareFunction(CompareSections);
 
-	itsDefWindowGeom = jnew JString;
-	assert( itsDefWindowGeom != NULL );
-
 	JXDisplay* display = (JXGetApplication())->GetCurrentDisplay();
 	itsPrinter = jnew JXPSPrinter(display);
 	assert( itsPrinter != NULL );
@@ -106,7 +98,6 @@ JXHelpManager::JXHelpManager()
 JXHelpManager::~JXHelpManager()
 {
 	jdelete itsSections;		// JXHelpDirectors deleted by JXDirector
-	jdelete itsDefWindowGeom;
 	jdelete itsPrinter;
 }
 
@@ -118,7 +109,7 @@ JXHelpManager::~JXHelpManager()
 void
 JXHelpManager::RegisterSection
 	(
-	const JCharacter* name
+	const JUtf8Byte* name
 	)
 {
 	SectionInfo info(name);
@@ -147,7 +138,7 @@ JXHelpManager::ShowTOC()
 		}
 	else
 		{
-		(JGetUserNotification())->ReportError(JGetString(kMissingTOCID));
+		(JGetUserNotification())->ReportError(JGetString("MissingTOC::JXHelpManager"));
 		}
 }
 
@@ -162,30 +153,27 @@ JXHelpManager::ShowTOC()
 void
 JXHelpManager::ShowSection
 	(
-	const JCharacter*	origName,
+	const JUtf8Byte*	origName,
 	JXHelpDirector*		helpDir
 	)
 {
 	// check for subsection name
 
-	JString name = origName;
+	JPtrArray<JString> list(JPtrArrayT::kDeleteAll);
+	JString(origName, 0, kJFalse).Split(kSubsectionMarker, &list, 2);
+
+	const JString name = *(list.GetElement(1));
+
 	JString subsectionName;
-	JIndex subIndex;
-	if (name.LocateSubstring(kSubsectionMarker, &subIndex))
+	if (list.GetElementCount() > 1)
 		{
-		if (subIndex + kSubsectionMarkerLength <= name.GetLength())
-			{
-			subsectionName =
-				name.GetSubstring(subIndex + kSubsectionMarkerLength,
-								  name.GetLength());
-			}
-		name.RemoveSubstring(subIndex, name.GetLength());
+		subsectionName = *(list.GetElement(2));
 		}
 
 	// find section name
 
 	SectionInfo target;
-	target.name = name;
+	target.name = name.GetBytes();
 
 	if (name.IsEmpty())
 		{
@@ -194,22 +182,6 @@ JXHelpManager::ShowSection
 			return;
 			}
 		target.dir = helpDir;
-		}
-	else if (name == kComposeHelpSectionName && itsComposeHelpDir != NULL)
-		{
-		target.dir = itsComposeHelpDir;
-		}
-	else if (name == kComposeHelpSectionName)
-		{
-		JString text = JGetString(kEmptyComposeRuleListID);
-
-		JXComposeRuleList* ruleList;
-		if (JXGetComposeRuleList(&ruleList))
-			{
-			ruleList->BuildHelp(&text);
-			}
-
-		target.dir = itsComposeHelpDir = CreateHelpDirector(text);
 		}
 	else
 		{
@@ -224,7 +196,8 @@ JXHelpManager::ShowSection
 				{
 				found = kJTrue;
 				}
-			else if ((JGetStringManager())->GetElement(target.name, &text))
+			else if ((JGetStringManager())->GetElement(
+						JString(target.name, 0, kJFalse), &text))
 				{
 				target.dir = CreateHelpDirector(*text);
 				itsSections->SetElement(i, target);
@@ -234,17 +207,17 @@ JXHelpManager::ShowSection
 
 		if (!found)
 			{
-			const JCharacter* map[] =
+			const JUtf8Byte* map[] =
 				{
-				"name", name
+				"name", name.GetBytes()
 				};
-			const JString msg = JGetString(kMissingSectionID, map, sizeof(map));
+			const JString msg = JGetString("MissingSection::JXHelpManager", map, sizeof(map));
 			(JGetUserNotification())->ReportError(msg);
 			return;
 			}
 		}
 
-	(target.dir)->ShowSubsection(subsectionName);
+	(target.dir)->ShowSubsection(subsectionName.GetBytes());
 	(target.dir)->Activate();
 }
 
@@ -260,7 +233,7 @@ JXHelpManager::SearchAllSections()
 
 	JXStandAlonePG pg;
 	pg.RaiseWhenUpdate();
-	pg.FixedLengthProcessBeginning(count, "Searching...", kJTrue, kJFalse);
+	pg.FixedLengthProcessBeginning(count, JGetString("SearchingLabel::JXHelpManager"), kJTrue, kJFalse);
 
 	for (JIndex i=1; i<=count; i++)
 		{
@@ -269,7 +242,8 @@ JXHelpManager::SearchAllSections()
 
 		JString* text;
 		if (info.dir == NULL &&
-			(JGetStringManager())->GetElement(info.name, &text))
+			(JGetStringManager())->GetElement(
+				JString(info.name, 0, kJFalse), &text))
 			{
 			hadDir   = kJFalse;
 			info.dir = CreateHelpDirector(*text);
@@ -302,15 +276,15 @@ JXHelpManager::SearchAllSections()
 JXHelpDirector*
 JXHelpManager::CreateHelpDirector
 	(
-	const JCharacter* text
+	const JString& text
 	)
 {
 	JXHelpDirector* dir = jnew JXHelpDirector(text, itsPrinter);
 	assert( dir != NULL );
 
-	if (!itsDefWindowGeom->IsEmpty())
+	if (!itsDefWindowGeom.IsEmpty())
 		{
-		(dir->GetWindow())->ReadGeometry(*itsDefWindowGeom);
+		(dir->GetWindow())->ReadGeometry(itsDefWindowGeom);
 		}
 	else
 		{
@@ -330,8 +304,8 @@ JXHelpManager::CreateHelpDirector
 void
 JXHelpManager::ShowURL
 	(
-	const JCharacter*	url,
-	JXHelpDirector*		helpDir
+	const JString&	url,
+	JXHelpDirector*	helpDir
 	)
 {
 	// check for jxhelp
@@ -339,8 +313,10 @@ JXHelpManager::ShowURL
 	JString s = url;
 	if (IsLocalURL(s))
 		{
-		s.RemoveSubstring(1, kJXHelpPrefixLength);
-		ShowSection(s, helpDir);
+		JStringIterator iter(&s);
+		iter.Next(kJXHelpPrefix);	// already know it starts with this prefix
+		iter.RemoveAllPrev();
+		ShowSection(s.GetBytes(), helpDir);
 		}
 
 	// outsource all other URLs
@@ -407,7 +383,7 @@ JXHelpManager::SaveWindowPrefs
 	JXWindow* window
 	)
 {
-	window->WriteGeometry(itsDefWindowGeom);
+	window->WriteGeometry(&itsDefWindowGeom);
 	JXSharedPrefObject::WritePrefs();
 }
 
@@ -444,7 +420,7 @@ JXHelpManager::ReadPrefs
 
 	if (vers >= 1)
 		{
-		input >> *itsDefWindowGeom;
+		input >> itsDefWindowGeom;
 		}
 
 	if (vers >= 3)
@@ -475,7 +451,7 @@ JXHelpManager::WritePrefs
 
 		output << ' ' << (JXGetWebBrowser())->GetShowURLCmd();
 		output << ' ' << (JXGetWebBrowser())->GetComposeMailCmd();
-		output << ' ' << *itsDefWindowGeom;
+		output << ' ' << itsDefWindowGeom;
 
 		output << ' ';
 		itsPrinter->WriteXPSSetup(output);
@@ -483,7 +459,7 @@ JXHelpManager::WritePrefs
 	else
 		{
 		output << ' ' << 4;		// version
-		output << ' ' << *itsDefWindowGeom;
+		output << ' ' << itsDefWindowGeom;
 
 		output << ' ';
 		itsPrinter->WriteXPSSetup(output);
