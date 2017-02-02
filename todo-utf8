@@ -11,11 +11,6 @@ unit test every function that uses JStringIterator or Split
 	libj2dplot
 	libjfs
 
-add back in:
-	JTextEditor.cpp
-	JTEStyler.cpp
-	JVIKeyHandler.cpp
-
 unit tests
 	JFileArray.cpp
 	JPrefsFile.cpp
