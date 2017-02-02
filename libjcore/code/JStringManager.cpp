@@ -99,8 +99,7 @@ JStringManager::Get
 	const
 {
 	const JString* s;
-	const JBoolean found = GetElement(JString(id, 0, kJFalse), &s);
-	if (found)
+	if (GetElement(JString(id, 0, kJFalse), &s))
 		{
 		assert( s != NULL );
 		}

@@ -21,9 +21,9 @@ public:
 
 	virtual ~JTextProgressDisplay();
 
-	virtual JBoolean	IncrementProgress(const JString* message = NULL);
+	virtual JBoolean	IncrementProgress(const JString& message = JString::empty);
 	virtual JBoolean	IncrementProgress(const JSize delta);
-	virtual JBoolean	IncrementProgress(const JString* message,
+	virtual JBoolean	IncrementProgress(const JString& message,
 										  const JSize delta);
 	virtual void		ProcessFinished();
 	virtual void		DisplayBusyCursor();

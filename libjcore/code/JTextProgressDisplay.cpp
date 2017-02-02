@@ -121,7 +121,7 @@ JTextProgressDisplay::ProcessBeginning
 JBoolean
 JTextProgressDisplay::IncrementProgress
 	(
-	const JString*	message,
+	const JString&	message,
 	const JSize		delta
 	)
 {
@@ -140,9 +140,10 @@ JTextProgressDisplay::IncrementProgress
 		}
 	else if (process == kVariableLengthProcess)
 		{
-		if (message != NULL)
+		if (!message.IsEmpty())
 			{
-			std::cout << message << std::endl;
+			message.Print(std::cout);
+			std::cout << std::endl;
 			}
 		else
 			{
@@ -171,7 +172,7 @@ JTextProgressDisplay::IncrementProgress
 JBoolean
 JTextProgressDisplay::IncrementProgress
 	(
-	const JString* message
+	const JString& message
 	)
 {
 	return IncrementProgress(message, 1);

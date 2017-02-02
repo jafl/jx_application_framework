@@ -33,9 +33,9 @@ public:
 	JSize	GetScaleFactor() const;
 	void	SetScaleFactor(const JSize scaleFactor);
 
-	virtual JBoolean	IncrementProgress(const JString* message = NULL);
+	virtual JBoolean	IncrementProgress(const JString& message = NULL);
 	virtual JBoolean	IncrementProgress(const JSize delta);
-	virtual JBoolean	IncrementProgress(const JString* message,
+	virtual JBoolean	IncrementProgress(const JString& message,
 										  const JSize delta);
 	virtual JBoolean	ProcessContinuing();
 	virtual void		ProcessFinished();

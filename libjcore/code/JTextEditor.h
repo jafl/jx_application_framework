@@ -658,6 +658,7 @@ protected:
 	JBoolean		PointInSelection(const JPoint& pt) const;
 	void			MoveCaretVert(const JInteger deltaLines);
 	JIndex			GetColumnForChar(const CaretLocation& caretLoc) const;
+	JIndex			GetLineForByte(const JIndex byteIndex) const;
 
 	void	SetFont(const JIndex startIndex, const JRunArray<JFont>& f,
 					const JBoolean clearUndo);

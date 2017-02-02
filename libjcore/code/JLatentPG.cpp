@@ -173,10 +173,10 @@ JLatentPG::StartInternalProcess()
 JBoolean
 JLatentPG::IncrementProgress
 	(
-	const JString* message
+	const JString& message
 	)
 {
-	return message == NULL ? IncrementProgress(1) : IncrementProgress(message, 1);
+	return message.IsEmpty() ? IncrementProgress(1) : IncrementProgress(message, 1);
 }
 
 /******************************************************************************
@@ -223,7 +223,7 @@ JLatentPG::IncrementProgress
 JBoolean
 JLatentPG::IncrementProgress
 	(
-	const JString*	message,
+	const JString&	message,
 	const JSize		delta
 	)
 {

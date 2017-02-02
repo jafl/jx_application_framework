@@ -10,9 +10,7 @@
 #ifndef _H_JProgressDisplay
 #define _H_JProgressDisplay
 
-#include <jTypes.h>
-
-class JString;
+#include <JString.h>
 
 class JProgressDisplay
 {
@@ -38,9 +36,9 @@ public:
 										   const JBoolean allowCancel,
 										   const JBoolean allowBackground);
 
-	virtual JBoolean	IncrementProgress(const JString* message = NULL) = 0;
+	virtual JBoolean	IncrementProgress(const JString& message = JString::empty) = 0;
 	virtual JBoolean	IncrementProgress(const JSize delta) = 0;
-	virtual JBoolean	IncrementProgress(const JString* message,
+	virtual JBoolean	IncrementProgress(const JString& message,
 										  const JSize delta) = 0;
 	virtual JBoolean	ProcessContinuing();
 	virtual void		ProcessFinished();
