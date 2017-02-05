@@ -1,7 +1,22 @@
 unit test libjx
-	jXUtil
-	jXEventUtil
-	jXPainterUtil
+	JXCSFDialogBase
+	JXDocumentManager
+	JXFileListTable
+	JXFontManager
+	JXHelpManager
+	JXHelpText
+	JXInputField
+	JXMenu
+	JXPathInput
+	JXSaveFileInput
+	JXSpellChecker
+	JXStringCompletionMenu
+	JXTextButton
+	JXTextMenu
+	JXTextMenuData
+	JXWDManager
+	JXWindow
+	JXWindowPainter
 
 -----
 
@@ -12,26 +27,26 @@ unit test every function that uses JStringIterator or Split
 	libjfs
 
 unit tests
-	JFileArray.cpp
-	JPrefsFile.cpp
+	JFileArray
+	JPrefsFile
 
-	JPTPrinter.cpp
-	JEPSPrinter.cpp
-	JPSPrinter.cpp
-	JPSPrinterBase.cpp
-	JHTMLScanner.cpp
-	JMDIServer.cpp
-	JPrefsManager.cpp
-	JStringManager.cpp
-	JTEHTMLScanner.cpp
-	JTEKeyHandler.cpp
-	JTEUndoBase.cpp
-	JTEUndoStyle.cpp
-	JTEUndoTabShift.cpp
-	JTEUndoTextBase.cpp
-	JVIKeyHandler.cpp
-	JVersionSocket.tmpl
-	JWebBrowser.cpp
+	JPTPrinter
+	JEPSPrinter
+	JPSPrinter
+	JPSPrinterBase
+	JHTMLScanner
+	JMDIServer
+	JPrefsManager
+	JStringManager
+	JTEHTMLScanner
+	JTEKeyHandler
+	JTEUndoBase
+	JTEUndoStyle
+	JTEUndoTabShift
+	JTEUndoTextBase
+	JVIKeyHandler
+	JVersionSocket
+	JWebBrowser
 
 untested JStringIterator usage:
 	JExpandHomeDirShortcut - ~user/foo/bar

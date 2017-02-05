@@ -564,6 +564,10 @@ F
 T
 1 "text editor"
 T
+2 "JTextEditor.cpp"
+F
+"./code/JTextEditor.cpp"
+T
 2 "JTEUndoBase.cpp"
 F
 "./code/JTEUndoBase.cpp"
@@ -592,9 +596,17 @@ T
 F
 "./code/JTEUndoTyping.cpp"
 T
+2 "JTEStyler.cpp"
+F
+"./code/JTEStyler.cpp"
+T
 2 "JTEKeyHandler.cpp"
 F
 "./code/JTEKeyHandler.cpp"
+T
+2 "JVIKeyHandler.cpp"
+F
+"./code/JVIKeyHandler.cpp"
 T
 2 "JTEHTMLScanner.cpp"
 F

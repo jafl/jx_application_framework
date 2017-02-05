@@ -1,0 +1,67 @@
+# To use this file, first run "makemake" and then run "make".
+# (makemake is part of the JX distribution)
+
+# Useful directories
+
+JX_ROOT := ../..
+
+CODEDIR  := ./code
+JCOREDIR := ${JX_ROOT}/include/jcore
+JXDIR    := ${JX_ROOT}/include/jx
+
+JLIBDIR     := ${JX_ROOT}/lib
+JCORELIBDIR := ${JX_ROOT}/libjcore
+JXLIBDIR    := ${JX_ROOT}/libjx
+
+# Directories to search for header files
+
+SEARCHDIRS := -I${CODEDIR} \
+              -I${JCOREDIR} \
+              -I${JXDIR}
+
+# makemake variables
+
+include ${JX_ROOT}/include/make/jx_constants
+include ${JX_ROOT}/include/make/jx_config
+
+DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} \
+               -g ${SEARCHDIRS}
+
+# make variables
+
+LOADLIBES := ${J_IMG_LIBS} ${J_ACE_LIBS} ${J_X11_LIBS} ${J_GCC_LIBS}
+LDFLAGS   := 
+
+# tests
+
+AUTO_TESTS := \
+      test_jXUtil
+
+#####
+
+.PHONY : default
+default: libs all
+
+.PHONY : Makefiles
+Makefiles:
+
+.PHONY : test
+test: libs ${AUTO_TESTS}
+	@echo ==========
+	@${foreach p, ${AUTO_TESTS}, echo; echo $p; if ! ./$p; then e=1; fi;} \
+     echo ==========; \
+     if [[ "$$e" == "1" ]]; then false; fi
+
+#
+# required libraries
+#
+
+.PHONY : libs
+libs:
+ifneq (${FROM_LIB},1)
+	@cd ${JXLIBDIR}; ${MAKE}
+endif
+
+.PHONY : touch
+touch::
+	@cd ${JXLIBDIR}; ${MAKE} TOUCHSTRING=${TOUCHSTRING} touch

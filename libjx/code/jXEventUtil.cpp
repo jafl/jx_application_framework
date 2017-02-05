@@ -26,7 +26,7 @@ JXIsPrint
 	const int keysym
 	)
 {
-	if (keysym <= 0 || 255 < keysym)
+	if (keysym <= 0 || 128 < keysym)
 		{
 		return kJFalse;
 		}

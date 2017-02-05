@@ -18,6 +18,7 @@
 #include <JOutPipeStream.h>
 #include <JStringIterator.h>
 #include <JStringMatch.h>
+#include <JRegex.h>
 #include <jStreamUtil.h>
 #include <jProcessUtil.h>
 #include <jDirUtil.h>
@@ -149,6 +150,8 @@ JXSpellChecker::CheckSelection
 
  *****************************************************************************/
 
+static const JRegex resultSplitPattern = "\\s*,\\s*";
+
 JBoolean
 JXSpellChecker::CheckWord
 	(
@@ -193,18 +196,7 @@ JXSpellChecker::CheckWord
 		{
 		iter2.RemoveAllPrev();
 		test.TrimWhitespace();	// invalidates iter2
-		test += ",";			// so every suggestion is caught in loop
-
-		JStringIterator iter3(&test);
-		iter3.BeginMatch();
-		while (iter3.Next(","))
-			{
-			JString* str = jnew JString(iter3.FinishMatch().GetString());
-			assert(str != NULL);
-			str->TrimWhitespace();
-			suggestionList->Append(str);
-			iter3.BeginMatch();
-			}
+		test.Split(resultSplitPattern, suggestionList);
 		}
 
 	*goodFirstSuggestion = JI2B(c == '&');
