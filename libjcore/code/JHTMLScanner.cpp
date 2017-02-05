@@ -203,7 +203,7 @@ JHTMLScanner::PHPFinished
 	JString* value = jnew JString(itsTagInfo->valueBuffer);
 	assert( value != NULL );
 	value->TrimWhitespace();
-	(itsTagInfo->attr).SetElement(JString("code", 0, kJFalse), value, JPtrArrayT::kDelete);
+	(itsTagInfo->attr).SetElement("code", value, JPtrArrayT::kDelete);
 
 	return TagFinished();
 }
@@ -251,7 +251,7 @@ JHTMLScanner::GetScriptLanguage
 	const
 {
 	JString* lang;
-	if ((itsTagInfo->attr).GetElement(JString("language", 0, kJFalse), &lang) && lang != NULL)
+	if ((itsTagInfo->attr).GetElement("language", &lang) && lang != NULL)
 		{
 		return *lang;
 		}
@@ -310,7 +310,7 @@ JHTMLScanner::HandleGreekChar
 		(itsTagInfo->attr).CleanOut();
 		JString* value = jnew JString();
 		assert( value != NULL );
-		(itsTagInfo->attr).SetNewElement(JString("face", 0, kJFalse), value);
+		(itsTagInfo->attr).SetNewElement("face", value);
 		result = HandleHTMLTag(itsTagInfo->name, itsTagInfo->attr,
 							   JIndexRange(itsMatchRange.first, itsMatchRange.first-1));
 		(itsTagInfo->name).Clear();

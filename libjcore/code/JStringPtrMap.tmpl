@@ -117,6 +117,21 @@ template <class V>
 JBoolean
 JStringPtrMap<V>::SetElement
 	(
+	const JUtf8Byte*                   key,
+	const V&                           data,
+	const JPtrArrayT::SetElementAction action,
+	const JStringMapT::SetType         type // = kAlways
+	)
+{
+	V* ptr = jnew V(data);
+	assert( ptr != NULL );
+	return SetElement(JString(key, 0, kJFalse), ptr, action, type);
+}
+
+template <class V>
+JBoolean
+JStringPtrMap<V>::SetElement
+	(
 	const JString&                     key,
 	const V&                           data,
 	const JPtrArrayT::SetElementAction action,
@@ -126,6 +141,19 @@ JStringPtrMap<V>::SetElement
 	V* ptr = jnew V(data);
 	assert( ptr != NULL );
 	return SetElement(key, ptr, action, type);
+}
+
+template <class V>
+JBoolean
+JStringPtrMap<V>::SetNewElement
+	(
+	const JUtf8Byte* key,
+	const V&         data
+	)
+{
+	V* ptr = jnew V(data);
+	assert( ptr != NULL );
+	return SetNewElement(JString(key, 0, kJFalse), ptr);
 }
 
 template <class V>
@@ -145,6 +173,20 @@ template <class V>
 JBoolean
 JStringPtrMap<V>::SetOldElement
 	(
+	const JUtf8Byte*                   key,
+	const V&                           data,
+	const JPtrArrayT::SetElementAction action
+	)
+{
+	V* ptr = jnew V(data);
+	assert( ptr != NULL );
+	return SetOldElement(JString(key, 0, kJFalse), ptr, action);
+}
+
+template <class V>
+JBoolean
+JStringPtrMap<V>::SetOldElement
+	(
 	const JString&                     key,
 	const V&                           data,
 	const JPtrArrayT::SetElementAction action
@@ -153,6 +195,20 @@ JStringPtrMap<V>::SetOldElement
 	V* ptr = jnew V(data);
 	assert( ptr != NULL );
 	return SetOldElement(key, ptr, action);
+}
+
+template <class V>
+JBoolean
+JStringPtrMap<V>::SetContains
+	(
+	const JUtf8Byte*                   key,
+	const V&                           data,
+	const JPtrArrayT::SetElementAction action
+	)
+{
+	V* ptr = jnew V(data);
+	assert( ptr != NULL );
+	return SetContains(JString(key, 0, kJFalse), ptr, action);
 }
 
 template <class V>

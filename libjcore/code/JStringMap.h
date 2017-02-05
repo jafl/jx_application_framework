@@ -50,6 +50,17 @@ public:
 	JBoolean RemoveElement(const JString& key);
 	void     RemoveAll();
 
+	JBoolean Contains(const JUtf8Byte* key) const;
+	JBoolean GetElement(const JUtf8Byte* key, V* value) const;
+
+	JBoolean SetElement(const JUtf8Byte* key, const V& value,
+						const JStringMapT::SetType type = JStringMapT::kAlways);
+	JBoolean SetNewElement(const JUtf8Byte* key, const V& value);
+	JBoolean SetOldElement(const JUtf8Byte* key, const V& value);
+	JBoolean SetContains(const JUtf8Byte* key, const V& value);
+
+	JBoolean RemoveElement(const JUtf8Byte* key);
+
 protected:
 
 	JBoolean     SetElement(const JString& key, const V& value,
@@ -78,6 +89,39 @@ private:
 
 
 /******************************************************************************
+ Contains
+
+ *****************************************************************************/
+
+template <class V>
+inline JBoolean
+JStringMap<V>::Contains
+	(
+	const JUtf8Byte* key
+	)
+	const
+{
+	return Contains(JString(key, 0, kJFalse));
+}
+
+/******************************************************************************
+ GetElement
+
+ *****************************************************************************/
+
+template <class V>
+inline JBoolean
+JStringMap<V>::GetElement
+	(
+	const JUtf8Byte* key,
+	V*               value
+	)
+	const
+{
+	return GetElement(JString(key, 0, kJFalse), value);
+}
+
+/******************************************************************************
  Set...Element
 
 	The basic idea of setting a map element is simple.  However, it is
@@ -98,6 +142,19 @@ private:
 	Returns kJTrue if the element was set, kJFalse otherwise.
 
  *****************************************************************************/
+
+template <class V>
+inline JBoolean
+JStringMap<V>::SetElement
+	(
+	const JUtf8Byte*           key,
+	const V&                   value,
+	const JStringMapT::SetType type // = kAlways
+	)
+{
+	JBoolean existed;
+	return SetElement(JString(key, 0, kJFalse), value, JPtrArrayT::kForget, type, &existed);
+}
 
 template <class V>
 inline JBoolean
@@ -124,6 +181,17 @@ template <class V>
 inline JBoolean
 JStringMap<V>::SetNewElement
 	(
+	const JUtf8Byte* key,
+	const V&         value
+	)
+{
+	return SetElement(JString(key, 0, kJFalse), value, JStringMapT::kIfNew);
+}
+
+template <class V>
+inline JBoolean
+JStringMap<V>::SetNewElement
+	(
 	const JString& key,
 	const V&       value
 	)
@@ -138,6 +206,17 @@ JStringMap<V>::SetNewElement
 	set.
 
  *****************************************************************************/
+
+template <class V>
+inline JBoolean
+JStringMap<V>::SetOldElement
+	(
+	const JUtf8Byte* key,
+	const V&         value
+	)
+{
+	return SetElement(JString(key, 0, kJFalse), value, JStringMapT::kIfOld);
+}
 
 template <class V>
 inline JBoolean
@@ -162,6 +241,19 @@ template <class V>
 inline JBoolean
 JStringMap<V>::SetContains
 	(
+	const JUtf8Byte* key,
+	const V&         value
+	)
+{
+	JBoolean existed;
+	SetElement(JString(key, 0, kJFalse), value, JPtrArrayT::kForget, JStringMapT::kAlways, &existed);
+	return existed;
+}
+
+template <class V>
+inline JBoolean
+JStringMap<V>::SetContains
+	(
 	const JString& key,
 	const V&       value
 	)
@@ -175,6 +267,16 @@ JStringMap<V>::SetContains
  RemoveElement
 
  *****************************************************************************/
+
+template <class V>
+inline JBoolean
+JStringMap<V>::RemoveElement
+	(
+	const JUtf8Byte* key
+	)
+{
+	return RemoveElement(JString(key, 0, kJFalse), JPtrArrayT::kForget);
+}
 
 template <class V>
 inline JBoolean
