@@ -60,10 +60,6 @@ static const JString kDefaultFontName(
 
 static const JString kMonospaceFontName("Bitstream Vera Sans Mono", 0, kJFalse);
 
-// Prototypes
-
-void	JXInitLocale();
-
 /******************************************************************************
  JXCreateGlobals
 
@@ -97,8 +93,6 @@ JXCreateGlobals
 
 	XSetErrorHandler(JXDisplay::JXErrorHandler);
 	XSetIOErrorHandler(JXApplication::JXIOErrorHandler);
-
-	JXInitLocale();
 
 	// create last so it can access as much as possible
 
@@ -639,29 +633,4 @@ const JUtf8Byte*
 JXGetDockWindowClass()
 {
 	return kDockWindowClass;
-}
-
-/******************************************************************************
- I18NIsCharacterInWord (static private)
-
- ******************************************************************************/
-
-JBoolean
-I18NIsCharacterInWord
-	(
-	const JUtf8Character& c
-	)
-{
-	return c.IsAlnum();
-}
-
-/******************************************************************************
- JXInitLocale (private)
-
- ******************************************************************************/
-
-void
-JXInitLocale()
-{
-	JTextEditor::SetI18NCharacterInWordFunction(I18NIsCharacterInWord);
 }

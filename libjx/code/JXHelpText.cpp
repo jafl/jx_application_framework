@@ -109,12 +109,12 @@ JXHelpText::ShowSubsection
 	else
 		{
 		JString s(name, 0);
-		MarkInfo info(&s, 0);
+		MarkInfo info(&s, 0, 0);
 		JIndex index;
 		if (itsMarks->SearchSorted(info, JListT::kAnyMatch, &index))
 			{
 			info = itsMarks->GetElement(index);
-			ScrollTo(0, GetLineTop(GetLineForByte(info.byteIndex)));
+			ScrollTo(0, GetLineTop(GetLineForChar(info.charIndex)));
 			}
 		}
 }
@@ -166,14 +166,14 @@ JXHelpText::GetLinkCount()
 
  ******************************************************************************/
 
-JIndexRange
+JCharacterRange
 JXHelpText::GetLinkRange
 	(
 	const JIndex index
 	)
 	const
 {
-	return (itsLinks->GetElement(index)).range;
+	return (itsLinks->GetElement(index)).charRange;
 }
 
 /******************************************************************************
@@ -263,8 +263,8 @@ JIndex i,j;
 	for (i=1; i<=linkCount; i++)
 		{
 		const LinkInfo info = itsLinks->GetElement(i);
-		SetFontColor(info.range.first, info.range.last, blueColor, kJFalse);
-		SetFontUnderline(info.range.first, info.range.last, 1, kJFalse);
+		SetFontColor(info.charRange.first, info.charRange.last, blueColor, kJFalse);
+		SetFontUnderline(info.charRange.first, info.charRange.last, 1, kJFalse);
 
 		if (!JXHelpManager::IsLocalURL(*(info.url)))
 			{
@@ -278,7 +278,7 @@ JIndex i,j;
 				iter.RemoveAllPrev();
 
 				// don't display address if it's already there
-				if (text.GetSubstring(info.range) == url)
+				if (JString(text.GetBytes(), info.byteRange, kJFalse).BeginsWith(url))
 					{
 					showURL = kJFalse;
 					}
@@ -286,28 +286,30 @@ JIndex i,j;
 
 			if (showURL)
 				{
-				const JIndex pasteIndex = info.range.last+1;
-				SetCaretLocation(pasteIndex);
+				SetCaretByteLocation(info.byteRange.last+1);
 				const JString s = " (" + url + ")";
 				Paste(s);
-				JIndexRange r(pasteIndex, pasteIndex + s.GetLength()-1);
+				JIndexRange r(info.charRange.last+1, info.charRange.last + s.GetCharacterCount());
 				SetFont(r.first, r.last, GetFontManager()->GetDefaultMonospaceFont(), kJFalse);
 
-				const JSize delta = s.GetLength();
+				const JSize charDelta = s.GetCharacterCount();
+				const JSize byteDelta = s.GetByteCount();
 
 				for (j=i+1; j<=linkCount; j++)
 					{
-					LinkInfo link = itsLinks->GetElement(j);
-					link.range   += delta;
+					LinkInfo link   = itsLinks->GetElement(j);
+					link.charRange += charDelta;
+					link.byteRange += byteDelta;
 					itsLinks->SetElement(j, link);
 					}
 
 				for (j=1; j<=markCount; j++)
 					{
 					MarkInfo mark = itsMarks->GetElement(j);
-					if (mark.index > info.range.last)
+					if (mark.charIndex > info.charRange.last)
 						{
-						mark.index += delta;
+						mark.charIndex += charDelta;
+						mark.byteIndex += byteDelta;
 						itsMarks->SetElement(j, mark);
 						}
 					}
@@ -335,7 +337,7 @@ JXHelpText::HandleHTMLTag
 		{
 		BeginAnchor(attr);
 		}
-	else if (name == "/a" && itsAnchorRange.first > 0)
+	else if (name == "/a" && itsAnchorCharRange.first > 0)
 		{
 		EndAnchor();
 		}
@@ -364,12 +366,13 @@ JXHelpText::BeginAnchor
 			EndAnchor();
 			}
 
-		itsAnchorRange.first = GetHTMLBufferLength()+1;
-		*itsAnchorText       = *valueStr;
+		itsAnchorCharRange.first = GetHTMLBufferCharacterCount()+1;
+		itsAnchorByteRange.first = GetHTMLBufferByteCount()+1;
+		*itsAnchorText           = *valueStr;
 		}
 	else if (attr.GetElement("name", &valueStr) && valueStr != NULL)
 		{
-		MarkInfo info(jnew JString(*valueStr), GetHTMLBufferLength()+1);
+		MarkInfo info(jnew JString(*valueStr), GetHTMLBufferCharacterCount()+1, GetHTMLBufferByteCount()+1);
 		assert( info.name != NULL );
 
 		if (!itsMarks->InsertSorted(info, kJFalse))
@@ -387,25 +390,30 @@ JXHelpText::BeginAnchor
 void
 JXHelpText::EndAnchor()
 {
-	assert( itsAnchorRange.first > 0 );
+	assert( itsAnchorCharRange.first > 0 );
 
-	itsAnchorRange.last = GetHTMLBufferLength();
+	itsAnchorCharRange.last = GetHTMLBufferCharacterCount();
+	itsAnchorByteRange.last = GetHTMLBufferByteCount();
 
-	const JString& text = GetText();
-	while (itsAnchorRange.first <= itsAnchorRange.last &&
-		   isspace(text.GetCharacter(itsAnchorRange.first)))
+	JString s(GetText().GetBytes(), itsAnchorByteRange, kJFalse);
+	JStringIterator iter(s);
+	JUtf8Character c;
+	while (iter.Next(&c) && c.IsSpace())
 		{
-		(itsAnchorRange.first)++;
-		}
-	while (itsAnchorRange.first <= itsAnchorRange.last &&
-		   isspace(text.GetCharacter(itsAnchorRange.last)))
-		{
-		(itsAnchorRange.last)--;
+		itsAnchorCharRange.first++;
+		itsAnchorByteRange.first += c.GetByteCount();
 		}
 
-	if (!itsAnchorRange.IsEmpty() && !itsAnchorText->IsEmpty())
+	iter.MoveTo(kJIteratorStartAtEnd, 0);
+	while (iter.Prev(&c) && c.IsSpace())
 		{
-		LinkInfo info(itsAnchorRange, jnew JString(*itsAnchorText));
+		itsAnchorCharRange.last--;
+		itsAnchorByteRange.last -= c.GetByteCount();
+		}
+
+	if (!itsAnchorCharRange.IsEmpty() && !itsAnchorText->IsEmpty())
+		{
+		LinkInfo info(itsAnchorCharRange, itsAnchorByteRange, jnew JString(*itsAnchorText));
 		assert( info.url != NULL );
 		itsLinks->AppendElement(info);
 		}
@@ -421,7 +429,8 @@ JXHelpText::EndAnchor()
 void
 JXHelpText::ClearAnchorInfo()
 {
-	itsAnchorRange.SetToNothing();
+	itsAnchorCharRange.SetToNothing();
+	itsAnchorByteRange.SetToNothing();
 	itsAnchorText->Clear();
 }
 

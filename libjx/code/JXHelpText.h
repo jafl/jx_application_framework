@@ -33,9 +33,9 @@ protected:
 	virtual void	ReadHTMLFinished();
 	virtual void	HandleHTMLTag(const JString& name, const JStringPtrMap<JString>& attr);
 
-	virtual JSize		GetLinkCount() const;
-	virtual JIndexRange	GetLinkRange(const JIndex index) const;
-	virtual void		LinkClicked(const JIndex index);
+	virtual JSize			GetLinkCount() const;
+	virtual JCharacterRange	GetLinkRange(const JIndex index) const;
+	virtual void			LinkClicked(const JIndex index);
 
 	virtual JCoordinate	GetPrintHeaderHeight(JPagePrinter& p) const;
 	virtual void		DrawPrintHeader(JPagePrinter& p, const JCoordinate footerHeight);
@@ -45,6 +45,7 @@ private:
 	struct MarkInfo
 	{
 		JString*	name;
+		JIndex		charIndex;
 		JIndex		byteIndex;
 
 		MarkInfo()
@@ -52,25 +53,26 @@ private:
 			name(NULL), byteIndex(0)
 		{ };
 
-		MarkInfo(JString* s, const JIndex i)
+		MarkInfo(JString* s, const JIndex ch, const JIndex byte)
 			:
-			name(s), byteIndex(i)
+			name(s), charIndex(ch), byteIndex(byte)
 		{ };
 	};
 
 	struct LinkInfo
 	{
-		JIndexRange	range;
-		JString*	url;
+		JCharacterRange	charRange;
+		JUtf8ByteRange	byteRange;
+		JString*		url;
 
 		LinkInfo()
 			:
-			range(), url(NULL)
+			url(NULL)
 		{ };
 
-		LinkInfo(const JIndexRange& r, JString* s)
+		LinkInfo(const JCharacterRange& cr, const JUtf8ByteRange& br, JString* s)
 			:
-			range(r), url(s)
+			charRange(cr), byteRange(br), url(s)
 		{ };
 	};
 
@@ -88,8 +90,9 @@ private:
 
 	// used while reading HTML
 
-	JIndexRange	itsAnchorRange;
-	JString*	itsAnchorText;		// NULL when not reading HTML
+	JCharacterRange	itsAnchorCharRange;
+	JUtf8ByteRange	itsAnchorByteRange;
+	JString*		itsAnchorText;		// NULL when not reading HTML
 
 private:
 

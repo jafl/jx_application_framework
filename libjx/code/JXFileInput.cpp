@@ -676,11 +676,10 @@ JXFileInput::SaveFile
 JBoolean
 JXFileInput::IsCharacterInWord
 	(
-	const JString&	text,
-	const JIndex	charIndex
+	const JUtf8Character& c
 	)
 {
-	return JI2B( text.GetCharacter(charIndex) != ACE_DIRECTORY_SEPARATOR_CHAR );
+	return JI2B( c != ACE_DIRECTORY_SEPARATOR_CHAR );
 }
 
 /******************************************************************************

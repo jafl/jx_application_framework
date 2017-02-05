@@ -39,7 +39,7 @@ private:
 
 private:
 
-	static JBoolean	IsCharacterInWord(const JString& text, const JIndex charIndex);
+	static JBoolean	IsCharacterInWord(const JUtf8Character& c);
 
 	// not allowed
 

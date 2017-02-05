@@ -29,6 +29,8 @@ class JTEUndoStyle;
 class JTEUndoTabShift;
 class JTEKeyHandler;
 
+typedef JBoolean (*JCharacterInWordFn)(const JUtf8Character&);
+
 class JTextEditor : virtual public JBroadcaster
 {
 	friend class JTEUndoTextBase;
@@ -211,7 +213,6 @@ public:
 
 	void		ReadHTML(std::istream& input);
 	void		PasteHTML(std::istream& input);
-	JSize		GetHTMLBufferLength() const;
 
 	JBoolean	ReadUNIXManOutput(std::istream& input, const JBoolean allowCancel = kJFalse);
 	JSize		PasteUNIXTerminalOutput(const JString& text);
@@ -433,11 +434,8 @@ public:
 							   const JBoolean teOwnsRuleList);
 	void		ClearCRMRuleList();
 
-	JBoolean	(*GetCharacterInWordFunction())(const JString&, const JIndex);
-	void		SetCharacterInWordFunction(JBoolean (*f)(const JString&, const JIndex));
-
-	static JBoolean	(*GetI18NCharacterInWordFunction())(const JUtf8Character&);
-	static void		SetI18NCharacterInWordFunction(JBoolean (*f)(const JUtf8Character&));
+	JCharacterInWordFn	GetCharacterInWordFunction() const;
+	void				SetCharacterInWordFunction(JCharacterInWordFn f);
 
 	JTEKeyHandler*	GetKeyHandler() const;
 	void			SetKeyHandler(JTEKeyHandler* handler);
@@ -479,17 +477,20 @@ public:		// ought to be protected
 
 	struct CaretLocation
 	{
+		JIndex byteIndex;	// caret is in front of this byte in the buffer
 		JIndex charIndex;	// caret is in front of this character in the buffer
 		JIndex lineIndex;	// caret is on this line of text
 
 		CaretLocation()
 			:
+			byteIndex(0),
 			charIndex(0),
 			lineIndex(0)
 		{ };
 
-		CaretLocation(const JIndex ch, const JIndex line)
+		CaretLocation(const JIndex byte, const JIndex ch, const JIndex line)
 			:
+			byteIndex(byte),
 			charIndex(ch),
 			lineIndex(line)
 		{ };
@@ -646,19 +647,14 @@ protected:
 	JBoolean	GetInternalClipboard(const JString** text,
 									 const JRunArray<JFont>** style = NULL) const;
 
-	JBoolean	IsCharacterInWord(const JString& text,
-								  const JIndex charIndex) const;
-
-	// OK to override, but don't call directly
-	virtual JBoolean	VIsCharacterInWord(const JString& text,
-										   const JIndex charIndex) const;
+	JBoolean	IsCharacterInWord(const JUtf8Character& c) const;
 
 	JBoolean		GetCaretLocation(CaretLocation* caretLoc) const;
+	void			SetCaretByteLocation(const JIndex byteIndex);
 	CaretLocation	CalcCaretLocation(const JPoint& pt) const;
 	JBoolean		PointInSelection(const JPoint& pt) const;
 	void			MoveCaretVert(const JInteger deltaLines);
 	JIndex			GetColumnForChar(const CaretLocation& caretLoc) const;
-	JIndex			GetLineForByte(const JIndex byteIndex) const;
 
 	void	SetFont(const JIndex startIndex, const JRunArray<JFont>& f,
 					const JBoolean clearUndo);
@@ -690,6 +686,8 @@ protected:
 	virtual void	HandleHTMLWhitespace(const JUtf8Byte* space);
 	virtual void	HandleHTMLTag(const JString& name, const JStringPtrMap<JString>& attr);
 	virtual void	HandleHTMLError(const JUtf8Byte* errStr);
+	JSize			GetHTMLBufferCharacterCount() const;
+	JSize			GetHTMLBufferByteCount() const;
 
 private:
 
@@ -762,8 +760,7 @@ private:
 	JArray<JIndex>*				itsLineStarts;		// index of first character on each line
 	JRunArray<LineGeometry>*	itsLineGeom;		// geometry of each line
 
-	JBoolean (*itsCharInWordFn)(const JString&, const JIndex);
-	static JBoolean (*theI18NCharInWordFn)(const JUtf8Character&);	// can be NULL
+	JCharacterInWordFn	itsCharInWordFn;
 
 	JTEKeyHandler*	itsKeyHandler;
 
@@ -842,8 +839,7 @@ private:
 							const JCoordinate startVisLineTop);
 	void	TEDrawCaret(JPainter& p, const CaretLocation& caretLoc);
 
-	static JBoolean	DefaultIsCharacterInWord(const JString& text,
-											 const JIndex charIndex);
+	static JBoolean	DefaultIsCharacterInWord(const JUtf8Character& c);
 
 	void	AdjustRangesForReplace(JArray<JCharacterRange>* list);
 

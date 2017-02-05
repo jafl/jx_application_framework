@@ -50,7 +50,7 @@ public:
 
 	static JColorIndex	GetTextColor(const JString& path, const JString& base,
 									 const JBoolean requireWrite, const JColormap* colormap);
-	static JBoolean		IsCharacterInWord(const JString& text, const JIndex charIndex);
+	static JBoolean		IsCharacterInWord(const JUtf8Character& c);
 
 	static JBoolean		Complete(JXInputField* te, const JString& basePath,
 								 JDirInfo* completer,

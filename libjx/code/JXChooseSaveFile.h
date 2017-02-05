@@ -68,7 +68,7 @@ public:
 	void	ReadSetup(std::istream& input);
 	void	WriteSetup(std::ostream& output) const;
 
-	static JBoolean	IsCharacterInWord(const JString& text, const JIndex charIndex);
+	static JBoolean	IsCharacterInWord(const JUtf8Character& c);
 
 protected:
 

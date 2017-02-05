@@ -35,9 +35,9 @@ protected:
 								  const JXButtonStates& buttonStates,
 								  const JXKeyModifiers& modifiers);
 
-	virtual JSize		GetLinkCount() const = 0;
-	virtual JIndexRange	GetLinkRange(const JIndex index) const = 0;
-	virtual void		LinkClicked(const JIndex index) = 0;
+	virtual JSize			GetLinkCount() const = 0;
+	virtual JCharacterRange	GetLinkRange(const JIndex index) const = 0;
+	virtual void			LinkClicked(const JIndex index) = 0;
 
 private:
 

@@ -145,9 +145,8 @@ JXSaveFileInput::FilterText
 JBoolean
 JXSaveFileInput::IsCharacterInWord
 	(
-	const JString&	text,
-	const JIndex	charIndex
+	const JUtf8Character& c
 	)
 {
-	return JI2B( text.GetCharacter(charIndex) != '.' );
+	return JI2B( c != '.' );
 }

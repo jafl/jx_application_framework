@@ -192,8 +192,6 @@ static const JCharacter* kCRM2SelectionActionText = "Coerce margins for selectio
 
 JBoolean JTextEditor::theCopyWhenSelectFlag = kJFalse;
 
-JBoolean (*JTextEditor::theI18NCharInWordFn)(const JCharacter) = NULL;
-
 // JBroadcaster message types
 
 const JCharacter* JTextEditor::kTypeChanged          = "TypeChanged::JTextEditor";
@@ -1404,7 +1402,7 @@ JTextEditor::PasteHTML
 }
 
 /******************************************************************************
- GetHTMLBufferLength
+ GetHTMLBufferCharacterCount (protected)
 
 	Returns the length of the buffer that has been built so far by either
 	ReadHTML() or PasteHTML().
@@ -1414,11 +1412,29 @@ JTextEditor::PasteHTML
  ******************************************************************************/
 
 JSize
-JTextEditor::GetHTMLBufferLength()
+JTextEditor::GetHTMLBufferCharacterCount()
 	const
 {
 	assert( itsHTMLLexerState != NULL );
-	return (itsHTMLLexerState->buffer)->GetLength();
+	return (itsHTMLLexerState->buffer)->GetCharacterCount();
+}
+
+/******************************************************************************
+ GetHTMLBufferByteCount (protected)
+
+	Returns the length of the buffer that has been built so far by either
+	ReadHTML() or PasteHTML().
+
+	*** Only for use inside HandleHTML*()
+
+ ******************************************************************************/
+
+JSize
+JTextEditor::GetHTMLBufferByteCount()
+	const
+{
+	assert( itsHTMLLexerState != NULL );
+	return (itsHTMLLexerState->buffer)->GetByteCount();
 }
 
 /******************************************************************************
@@ -9400,9 +9416,9 @@ JTextEditor::GetWordEnd
 
  ******************************************************************************/
 
-JBoolean (*
+JCharacterInWordFn
 JTextEditor::GetCharacterInWordFunction()
-)(const JString&, const JIndex)
+	const
 {
 	return itsCharInWordFn;
 }
@@ -9418,39 +9434,11 @@ JTextEditor::GetCharacterInWordFunction()
 void
 JTextEditor::SetCharacterInWordFunction
 	(
-	JBoolean (*f)(const JString&, const JIndex)
+	JCharacterInWordFn f
 	)
 {
 	assert( f != NULL );
 	itsCharInWordFn = f;
-}
-
-/******************************************************************************
- GetI18NCharacterInWordFunction (static)
-
- ******************************************************************************/
-
-JBoolean (*
-JTextEditor::GetI18NCharacterInWordFunction()
-)(const JCharacter)
-{
-	return theI18NCharInWordFn;
-}
-
-/******************************************************************************
- SetI18NCharacterInWordFunction (static)
-
-	Set the function that determines if a character is part of a word.
-
- ******************************************************************************/
-
-void
-JTextEditor::SetI18NCharacterInWordFunction
-	(
-	JBoolean (*f)(const JCharacter)
-	)
-{
-	theI18NCharInWordFn = f;
 }
 
 /******************************************************************************
@@ -9463,29 +9451,7 @@ JTextEditor::SetI18NCharacterInWordFunction
 JBoolean
 JTextEditor::IsCharacterInWord
 	(
-	const JString&	text,
-	const JIndex	charIndex
-	)
-	const
-{
-	return JI2B(VIsCharacterInWord(text, charIndex) ||
-				(theI18NCharInWordFn != NULL &&
-				 theI18NCharInWordFn(text.GetCharacter(charIndex))));
-}
-
-/******************************************************************************
- VIsCharacterInWord (virtual protected)
-
-	Allows derived classes to safely override the IsCharacterInWord
-	definition so they can use their instance data.
-
- ******************************************************************************/
-
-JBoolean
-JTextEditor::VIsCharacterInWord
-	(
-	const JString&	text,
-	const JIndex	charIndex
+	const JUtf8Character& c
 	)
 	const
 {
@@ -9506,12 +9472,10 @@ JTextEditor::VIsCharacterInWord
 JBoolean
 JTextEditor::DefaultIsCharacterInWord
 	(
-	const JString&	text,
-	const JIndex	charIndex
+	const JUtf8Character& c
 	)
 {
-	const JCharacter c = text.GetCharacter(charIndex);
-	return JI2B( JIsAlnum(c) || c == '\'' || c == '_' );
+	return JI2B( c.IsAlnum() || c == '\'' || c == '_' );
 }
 
 /******************************************************************************

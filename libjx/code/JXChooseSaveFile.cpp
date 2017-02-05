@@ -722,10 +722,8 @@ JXChooseSaveFile::GetDialogState()
 JBoolean
 JXChooseSaveFile::IsCharacterInWord
 	(
-	const JString&	text,
-	const JIndex	charIndex
+	const JUtf8Character& c
 	)
 {
-	const JUtf8Character c = text.GetCharacter(charIndex);
-	return JI2B( JIsAlnum(c) || c == '_' );
+	return JI2B( c.IsAlnum() || c == '_' );
 }
