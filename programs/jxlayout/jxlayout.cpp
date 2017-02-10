@@ -1471,7 +1471,8 @@ ApplyOptions
 			JString jxColor;
 			if (ConvertXFormsColor(flColor, &jxColor))
 				{
-				output << "    const JFontStyle ";
+				output << indent;
+				output << "const JFontStyle ";
 				varName.Print(output);
 				output << "_style(";
 
