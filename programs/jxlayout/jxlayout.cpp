@@ -1425,9 +1425,19 @@ ApplyOptions
 			}
 		else if (flStyle.Contains("TIMES"))
 			{
+			JString id;
+			id += "TimesFontName::";
+			id += formName;
+			id += "::";
+			id += tagName;		// last since it is almost always the same
+
 			output << indent;
 			varName.Print(output);
-			output << "->SetFontName(\"Times\");" << std::endl;
+			output << "->SetFontName(JGetString(\"";
+			id.Print(output);
+			output << "\"));" << std::endl;
+
+			stringMgr->SetElement(id, JString("Times", 0, kJFalse), JPtrArrayT::kDelete);
 			}
 
 		if (flSize != "FL_NORMAL_SIZE")
