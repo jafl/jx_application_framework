@@ -7,6 +7,10 @@ for makemake to work correctly.
 Changes from previous versions
 *****
 
+3.4.1
+
+Upgraded to UTF-8.
+
 3.4.0
 
 Replaced hardcoded exclusions of "ace/*" and "*StdInc.h" with environment

@@ -1,5 +1,8 @@
 Changes from previous versions
 
+1.1.1
+    Upgraded to UTF-8
+
 1.1.0
     Adds output file to .cvsignore.
 
