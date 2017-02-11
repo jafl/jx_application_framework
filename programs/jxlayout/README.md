@@ -90,6 +90,12 @@ other constructor.
 
 Changes from previous versions
 
+4.1.0
+
+Updated to use JUtf8Byte instead of JCharacter.
+
+Fixed hard-coded string and missed indent fix.
+
 4.0.0
 
 Updated to work with latest `fdesign` file format: 15000
