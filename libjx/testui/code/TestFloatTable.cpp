@@ -28,8 +28,7 @@ const JSize kInitColCount = 3;
 
 // Table menu information
 
-static const JCharacter* kTableMenuTitleStr = "Table";
-static const JCharacter* kTableMenuStr =
+static const JUtf8Byte* kTableMenuStr =
 	"    Insert row %r"
 	"  | Duplicate row %r"
 	"  | Move row %r"
@@ -69,13 +68,13 @@ JIndex i,j;
 
 	GetEditMenuHandler()->AppendEditMenu(menuBar);
 
-	itsTableMenu = menuBar->AppendTextMenu(kTableMenuTitleStr);
+	itsTableMenu = menuBar->AppendTextMenu(JGetString("TableMenuTitle::TestFloatTable"));
 	itsTableMenu->SetMenuItems(kTableMenuStr);
 	itsTableMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsTableMenu);
 
-	itsSizeMenu = jnew JXFontSizeMenu(JGetDefaultFontName(), "Size", menuBar,
-									 kFixedLeft, kFixedTop, 0,0, 10,10);
+	itsSizeMenu = jnew JXFontSizeMenu(JGetDefaultFontName(), JGetString("SizeMenuTitle::TestFloatTable"),
+									  menuBar, kFixedLeft, kFixedTop, 0,0, 10,10);
 	assert( itsSizeMenu != NULL );
 	menuBar->AppendMenu(itsSizeMenu);
 	ListenTo(itsSizeMenu);
@@ -314,7 +313,7 @@ TestFloatTable::DrawPrintHeader
 	)
 {
 	JRect pageRect = p.GetPageRect();
-	p.String(pageRect.left, pageRect.top, "testjx NumberTable");
+	p.String(pageRect.left, pageRect.top, JGetString("PageHeader::TestFloatTable"));
 	const JString dateStr = JGetTimeStamp();
 	p.String(pageRect.left, pageRect.top, dateStr,
 			 pageRect.width(), JPainter::kHAlignRight);
@@ -328,8 +327,14 @@ TestFloatTable::DrawPrintFooter
 	)
 {
 	JRect pageRect = p.GetPageRect();
-	const JString pageNumberStr = "Page " + JString(p.GetPageIndex());
-	p.String(pageRect.left, pageRect.bottom - footerHeight, pageNumberStr,
+	const JString pageNumberStr = JString(p.GetPageIndex());
+
+	const JUtf8Byte* map[] =
+		{
+		"page", pageNumberStr.GetBytes()
+		};
+	p.String(pageRect.left, pageRect.bottom - footerHeight,
+			 JGetString("PageFooter::TestFloatTable", map, sizeof(map)),
 			 pageRect.width(), JPainter::kHAlignCenter,
 			 footerHeight, JPainter::kVAlignBottom);
 }

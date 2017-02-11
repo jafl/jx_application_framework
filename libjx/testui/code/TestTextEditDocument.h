@@ -20,13 +20,13 @@ class TestTextEditDocument : public JXFileDocument
 public:
 
 	TestTextEditDocument(JXDirector* supervisor);
-	TestTextEditDocument(JXDirector* supervisor, const JCharacter* fileName);
+	TestTextEditDocument(JXDirector* supervisor, const JString& fileName);
 
 	virtual ~TestTextEditDocument();
 
 protected:
 
-	void			ReadFile(const JCharacter* fileName);
+	void			ReadFile(const JString& fileName);
 	virtual void	WriteTextFile(std::ostream& output, const JBoolean safetySave) const;
 	virtual void	DiscardChanges();
 	virtual void	Receive(JBroadcaster* sender, const Message& message);

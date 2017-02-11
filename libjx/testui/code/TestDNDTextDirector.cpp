@@ -62,7 +62,7 @@ JIndex i;
 	JXWindow* window = jnew JXWindow(this, kWindowWidth,kWindowHeight, JString::empty);
 	assert( window != NULL );
 
-	window->SetTitle("Test Drag-And-Drop (text)");
+	window->SetTitle(JGetString("WindowTitle::TestDNDTextDirector"));
 
 	JArray<JCoordinate> sizes;
 	JArray<JCoordinate> minSizes;
@@ -81,10 +81,6 @@ JIndex i;
 	window->SetWMClass("testjx", "TestDNDTextDirector");
 	window->SetMinSize(partition->GetMinTotalSize(), kWindowHeight);
 
-	JFont greekFont =
-		GetWindow()->GetFontManager()->
-			GetFont(JGetGreekFontName(), 18, JFontStyle(kJFalse, kJTrue, 0, kJFalse));
-
 	JXTextEditor* te;
 	for (i=1; i<=2; i++)
 		{
@@ -96,8 +92,9 @@ JIndex i;
 
 		// create something to drag around
 
-		te->SetText("plain\n\nbold\n\nitalicunderline\n\ntrplunderline\n\nstrike\n\n"
-					"boldred\n\nsymbol\n");
+		te->SetText(JString(
+			"plain\n\nbold\n\nitalicunderline\n\ntrplunderline\n\nstrike\n\nboldred\n",
+			0, kJFalse));
 
 		te->SetFontStyle(8, 13, JFontStyle(kJTrue, kJFalse, 0, kJFalse), kJTrue);
 		te->SetFontStyle(14, 30, JFontStyle(kJFalse, kJTrue, 1, kJFalse), kJTrue);
@@ -105,6 +102,5 @@ JIndex i;
 		te->SetFontStyle(46, 53, JFontStyle(kJFalse, kJFalse, 0, kJTrue), kJTrue);
 		te->SetFontStyle(54, 62, JFontStyle(kJTrue, kJFalse, 0, kJFalse,
 											GetColormap()->GetRedColor()), kJTrue);
-		te->SetFont(63, 69, greekFont, kJTrue);
 		}
 }

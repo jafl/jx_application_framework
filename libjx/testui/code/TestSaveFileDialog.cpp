@@ -20,6 +20,8 @@
 #include <JXCurrentPathMenu.h>
 #include <JXScrollbarSet.h>
 #include <JXNewDirButton.h>
+#include <JStringIterator.h>
+#include <jDirUtil.h>
 #include <jGlobals.h>
 #include <jAssert.h>
 
@@ -33,11 +35,11 @@ TestSaveFileDialog::Create
 	(
 	JXDirector*								supervisor,
 	JDirInfo*								dirInfo,
-	const JCharacter*						fileFilter,
+	const JString&							fileFilter,
 	const TestChooseSaveFile::SaveFormat	saveFormat,
-	const JCharacter*						origName,
-	const JCharacter*						prompt,
-	const JCharacter*						message
+	const JString&							origName,
+	const JString&							prompt,
+	const JString&							message
 	)
 {
 	TestSaveFileDialog* dlog =
@@ -56,7 +58,7 @@ TestSaveFileDialog::TestSaveFileDialog
 	(
 	JXDirector*								supervisor,
 	JDirInfo*								dirInfo,
-	const JCharacter*						fileFilter,
+	const JString&							fileFilter,
 	const TestChooseSaveFile::SaveFormat	saveFormat
 	)
 	:
@@ -96,9 +98,9 @@ TestSaveFileDialog::GetSaveFormat()
 void
 TestSaveFileDialog::BuildWindow
 	(
-	const JCharacter*	origName,
-	const JCharacter*	prompt,
-	const JCharacter*	message
+	const JString&	origName,
+	const JString&	prompt,
+	const JString&	message
 	)
 {
 // begin JXLayout
@@ -192,12 +194,12 @@ TestSaveFileDialog::BuildWindow
 	assert( obj4_JXLayout != NULL );
 
 	JXPathHistoryMenu* pathHistory =
-		jnew JXPathHistoryMenu(1, "", window,
+		jnew JXPathHistoryMenu(1, JString::empty, window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 260,20, 30,20);
 	assert( pathHistory != NULL );
 
 	JXStringHistoryMenu* filterHistory =
-		jnew JXStringHistoryMenu(1, "", window,
+		jnew JXStringHistoryMenu(1, JString::empty, window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 260,50, 30,20);
 	assert( filterHistory != NULL );
 
@@ -217,7 +219,7 @@ TestSaveFileDialog::BuildWindow
 	assert( newDirButton != NULL );
 
 	JXCurrentPathMenu* currPathMenu =
-		jnew JXCurrentPathMenu("/", window,
+		jnew JXCurrentPathMenu(JGetRootDirectory(), window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 20,110, 180,20);
 	assert( currPathMenu != NULL );
 
@@ -275,22 +277,18 @@ TestSaveFileDialog::HandleFormatChange
 {
 	JXInputField* fileNameInput = GetFileNameInput();
 	JString fileName            = fileNameInput->GetText();
-	const JSize origLength      = fileName.GetLength();
 
-	if (origLength == 0)
+	if (fileName.IsEmpty())
 		{
 		return;
 		}
 
-	JIndex dotIndex;
-	if (fileName.LocateLastSubstring(".", &dotIndex) && dotIndex > 1)
+	JStringIterator iter(&fileName, kJIteratorStartAtEnd);
+	if (iter.Prev("."))
 		{
-		fileName.RemoveSubstring(dotIndex, origLength);
+		iter.RemoveAllNext();
 		}
-	else
-		{
-		dotIndex = origLength + 1;
-		}
+	const JSize nameLength = fileName.GetCharacterCount();
 
 	if (id == TestChooseSaveFile::kGIFFormat)
 		{
@@ -307,5 +305,5 @@ TestSaveFileDialog::HandleFormatChange
 		}
 
 	fileNameInput->SetText(fileName);
-	fileNameInput->SetSelection(1, dotIndex-1);
+	fileNameInput->SetSelection(1, nameLength);
 }

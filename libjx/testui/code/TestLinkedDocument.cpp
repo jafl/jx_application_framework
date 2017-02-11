@@ -21,8 +21,8 @@
 #include <jFileUtil.h>
 #include <jAssert.h>
 
-static const JCharacter* kOurFile      = "about_owner_docs";
-static const JCharacter* kRequiredFile = "about_owned_docs";
+static const JString kOurFile     ("about_owner_docs", 0, kJFalse);
+static const JString kRequiredFile("about_owned_docs", 0, kJFalse);
 
 /******************************************************************************
  Constructor
@@ -45,7 +45,8 @@ TestLinkedDocument::TestLinkedDocument
 		}
 	else
 		{
-		(JGetUserNotification())->ReportError("Unable to find \"about_owner_docs\"");
+		(JGetUserNotification())->ReportError(
+			JGetString("FileNotFound::TestLinkedDocument"));
 		}
 
 	// Normally, currDir would be relative to the directory containing our data file,
@@ -66,7 +67,7 @@ TestLinkedDocument::TestLinkedDocument
 			if (itsDoc == NULL)
 				{
 				(JGetUserNotification())->ReportError(
-					"The file that we require is already open for a different purpose.");
+					JGetString("FileAlreadyOpen::TestLinkedDocument"));
 				}
 			}
 		else
@@ -80,10 +81,12 @@ TestLinkedDocument::TestLinkedDocument
 		}
 	else
 		{
-		JString msg = "Unable to open ";
-		msg += kRequiredFile;
-		msg += ".\n\nI hope you didn't delete it!";
-		(JGetUserNotification())->ReportError(msg);
+		const JUtf8Byte* map[] =
+			{
+			"name", kRequiredFile.GetBytes()
+			};
+		(JGetUserNotification())->ReportError(
+			JGetString("OwnedFileNotFound::TestLinkedDocument", map, sizeof(map)));
 		}
 
 	// Normally, one would only care that the document is open.  In this case,

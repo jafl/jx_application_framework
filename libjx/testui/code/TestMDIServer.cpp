@@ -19,10 +19,6 @@
 #include <jFStreamUtil.h>
 #include <jAssert.h>
 
-// string ID's
-
-static const JCharacter* kCommandLineHelpID = "CommandLineHelp::TestMDIServer";
-
 /******************************************************************************
  Constructor
 
@@ -51,7 +47,7 @@ TestMDIServer::~TestMDIServer()
 void
 TestMDIServer::HandleMDIRequest
 	(
-	const JCharacter*			dir,
+	const JString&				dir,
 	const JPtrArray<JString>&	argList
 	)
 {
@@ -60,10 +56,11 @@ TestMDIServer::HandleMDIRequest
 	const JString origDir = JGetCurrentDirectory();
 	if (JChangeDirectory(dir) != kJNoError)
 		{
-		JString msg = "Unable to access \"";
-		msg += dir;
-		msg += "\".";
-		un->ReportError(msg);
+		const JUtf8Byte* map[] =
+			{
+			"dir", dir.GetBytes()
+			};
+		un->ReportError(JGetString("DirNotReadable::TestMDIServer", map, sizeof(map)));
 		return;
 		}
 
@@ -74,7 +71,7 @@ TestMDIServer::HandleMDIRequest
 	const JSize argCount = argList.GetElementCount();
 	if (argCount == 1)
 		{
-		un->DisplayMessage("testjx received MDI with no arguments.");
+		un->DisplayMessage(JGetString("NoArgs::TestMDIServer"));
 		}
 	else
 		{
@@ -82,7 +79,7 @@ TestMDIServer::HandleMDIRequest
 
 		JXStandAlonePG pg;
 		pg.RaiseWhenUpdate();
-		pg.FixedLengthProcessBeginning(argCount-1, "Opening files...", kJTrue, kJFalse);
+		pg.FixedLengthProcessBeginning(argCount-1, JGetString("OpeningFiles::TestMDIServer"), kJTrue, kJFalse);
 
 		for (JIndex i=2; i<=argCount; i++)
 			{
@@ -97,18 +94,18 @@ TestMDIServer::HandleMDIRequest
 				{
 				if (!JFileExists(fileName))
 					{
-					JString msg = "\"";
-					msg += fileName;
-					msg += "\" does not exist.  Do you want to create it?";
-					if (!un->AskUserYes(msg))
+					const JUtf8Byte* map[] =
+						{
+						"name", fileName.GetBytes()
+						};
+					if (!un->AskUserYes(JGetString("FileNotFound::TestMDIServer", map, sizeof(map))))
 						{
 						continue;
 						}
-					std::ofstream temp(fileName);
+					std::ofstream temp(fileName.GetBytes());
 					if (!temp.good())
 						{
-						un->ReportError("Unable to create it.  "
-							"Please check that the directory is writable.");
+						un->ReportError(JGetString("CannotCreateFile::TestMDIServer"));
 						continue;
 						}
 					}
@@ -137,5 +134,5 @@ TestMDIServer::HandleMDIRequest
 void
 TestMDIServer::PrintCommandLineHelp()
 {
-	std::cout << std::endl << JGetString(kCommandLineHelpID) << std::endl << std::endl;
+	std::cout << std::endl << JGetString("CommandLineHelp::TestMDIServer") << std::endl << std::endl;
 }

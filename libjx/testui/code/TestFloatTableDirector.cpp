@@ -26,9 +26,7 @@
 
 // File menu information
 
-static const JCharacter* kFileMenuTitleStr  = "File";
-static const JCharacter* kFileMenuShortcuts = "#F";
-static const JCharacter* kFileMenuStr =
+static const JUtf8Byte* kFileMenuStr =
 	"Page setup... | Print... %h p" "%l| Close %h c";
 
 enum
@@ -109,14 +107,14 @@ TestFloatTableDirector::BuildWindow()
 
 // end JXLayout
 
-	window->SetTitle("Test Number Table");
+	window->SetTitle(JGetString("WindowTitle::TestFloatTableDirector"));
 	window->SetWMClass("testjx", "TestFloatTableDirector");
 	window->SetMinSize(150,150);
 
 	extraInput->SetLimits(-5.0, 5.0);
 
-	itsFileMenu = menuBar->AppendTextMenu(kFileMenuTitleStr);
-	itsFileMenu->SetShortcuts(kFileMenuShortcuts);
+	itsFileMenu = menuBar->AppendTextMenu(JGetString("FileMenuTitle::TestFloatTableDirector"));
+	itsFileMenu->SetShortcuts(JGetString("FileMenuShorcut::TestFloatTableDirector"));
 	itsFileMenu->SetMenuItems(kFileMenuStr);
 	ListenTo(itsFileMenu);
 

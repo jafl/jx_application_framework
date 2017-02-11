@@ -19,10 +19,10 @@ public:
 
 	static TestSaveFileDialog*
 		Create(JXDirector* supervisor, JDirInfo* dirInfo,
-			   const JCharacter* fileFilter,
+			   const JString& fileFilter,
 			   const TestChooseSaveFile::SaveFormat saveFormat,
-			   const JCharacter* origName, const JCharacter* prompt,
-			   const JCharacter* message = NULL);
+			   const JString& origName, const JString& prompt,
+			   const JString& message = JString::empty);
 
 	virtual ~TestSaveFileDialog();
 
@@ -31,7 +31,7 @@ public:
 protected:
 
 	TestSaveFileDialog(JXDirector* supervisor, JDirInfo* dirInfo,
-					   const JCharacter* fileFilter,
+					   const JString& fileFilter,
 					   const TestChooseSaveFile::SaveFormat saveFormat);
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message);
@@ -48,8 +48,8 @@ private:
 
 private:
 
-	void	BuildWindow(const JCharacter* origName, const JCharacter* prompt,
-						const JCharacter* message = NULL);
+	void	BuildWindow(const JString& origName, const JString& prompt,
+						const JString& message);
 
 	void	HandleFormatChange(const JIndex id);
 

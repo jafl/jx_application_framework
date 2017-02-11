@@ -24,7 +24,7 @@ public:
 
 protected:
 
-	virtual void	HandleMDIRequest(const JCharacter* dir,
+	virtual void	HandleMDIRequest(const JString& dir,
 									 const JPtrArray<JString>& argList);
 
 private:

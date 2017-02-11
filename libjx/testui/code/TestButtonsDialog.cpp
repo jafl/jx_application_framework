@@ -1,11 +1,11 @@
 /******************************************************************************
- TestButtonsDialog.cpp
+TestButtonsDialog.cpp
 
 	BASE CLASS = JXDialogDirector
 
 	Written by John Lindal.
 
- ******************************************************************************/
+******************************************************************************/
 
 #include "TestButtonsDialog.h"
 #include "SmileyBitmaps.h"
@@ -28,33 +28,33 @@
 
 static unsigned char okButtonData[] =
 {
-   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x3e, 0x40, 0x10, 0x03, 0x80, 0xc1,
-   0x40, 0x08, 0x03, 0x60, 0x00, 0x43, 0x08, 0x03, 0x20, 0x00, 0x42, 0x04,
-   0x03, 0x10, 0x00, 0x44, 0x02, 0x03, 0x10, 0x00, 0x44, 0x01, 0x03, 0x08,
-   0x00, 0x48, 0x01, 0x03, 0x08, 0x00, 0xc8, 0x00, 0x03, 0x08, 0x00, 0x48,
-   0x00, 0x03, 0x08, 0x00, 0xc8, 0x00, 0x03, 0x08, 0x00, 0x48, 0x01, 0x03,
-   0x10, 0x00, 0x44, 0x01, 0x03, 0x10, 0x00, 0x44, 0x02, 0x03, 0x20, 0x00,
-   0x42, 0x04, 0x00, 0x60, 0x00, 0x43, 0x08, 0x00, 0x80, 0xc1, 0x40, 0x08,
-   0x03, 0x00, 0x3e, 0x40, 0x10, 0x03, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-   0x00, 0x00, 0x00, 0x00
+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x3e, 0x40, 0x10, 0x03, 0x80, 0xc1,
+	0x40, 0x08, 0x03, 0x60, 0x00, 0x43, 0x08, 0x03, 0x20, 0x00, 0x42, 0x04,
+	0x03, 0x10, 0x00, 0x44, 0x02, 0x03, 0x10, 0x00, 0x44, 0x01, 0x03, 0x08,
+	0x00, 0x48, 0x01, 0x03, 0x08, 0x00, 0xc8, 0x00, 0x03, 0x08, 0x00, 0x48,
+	0x00, 0x03, 0x08, 0x00, 0xc8, 0x00, 0x03, 0x08, 0x00, 0x48, 0x01, 0x03,
+	0x10, 0x00, 0x44, 0x01, 0x03, 0x10, 0x00, 0x44, 0x02, 0x03, 0x20, 0x00,
+	0x42, 0x04, 0x00, 0x60, 0x00, 0x43, 0x08, 0x00, 0x80, 0xc1, 0x40, 0x08,
+	0x03, 0x00, 0x3e, 0x40, 0x10, 0x03, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+	0x00, 0x00, 0x00, 0x00
 };
 static const JConstBitmap okButtonBitmap = { 40,20, okButtonData };
 
 
 static unsigned char checkboxData[] =
 {
-   0x00, 0x00, 0x00, 0x00, 0x80, 0x01, 0x00, 0xe0, 0x03, 0x00, 0xf0, 0x03,
-   0x00, 0xf8, 0x03, 0x00, 0xfc, 0x00, 0x00, 0x3e, 0x00, 0x00, 0x1e, 0x00,
-   0x00, 0x0f, 0x00, 0x00, 0x07, 0x00, 0x8e, 0x03, 0x00, 0x9f, 0x03, 0x00,
-   0xfe, 0x01, 0x00, 0xf8, 0x01, 0x00, 0xf0, 0x01, 0x00, 0xe0, 0x00, 0x00,
-   0xc0, 0x00, 0x00, 0x40, 0x00, 0x00
+	0x00, 0x00, 0x00, 0x00, 0x80, 0x01, 0x00, 0xe0, 0x03, 0x00, 0xf0, 0x03,
+	0x00, 0xf8, 0x03, 0x00, 0xfc, 0x00, 0x00, 0x3e, 0x00, 0x00, 0x1e, 0x00,
+	0x00, 0x0f, 0x00, 0x00, 0x07, 0x00, 0x8e, 0x03, 0x00, 0x9f, 0x03, 0x00,
+	0xfe, 0x01, 0x00, 0xf8, 0x01, 0x00, 0xf0, 0x01, 0x00, 0xe0, 0x00, 0x00,
+	0xc0, 0x00, 0x00, 0x40, 0x00, 0x00
 };
 static const JConstBitmap checkboxBitmap = { 18,18, checkboxData };
 
 /******************************************************************************
- Constructor
+Constructor
 
- ******************************************************************************/
+******************************************************************************/
 
 TestButtonsDialog::TestButtonsDialog
 	(
@@ -67,18 +67,18 @@ TestButtonsDialog::TestButtonsDialog
 }
 
 /******************************************************************************
- Destructor
+Destructor
 
- ******************************************************************************/
+******************************************************************************/
 
 TestButtonsDialog::~TestButtonsDialog()
 {
 }
 
 /******************************************************************************
- BuildWindow (private)
+BuildWindow (private)
 
- ******************************************************************************/
+******************************************************************************/
 
 void
 TestButtonsDialog::BuildWindow()
@@ -108,8 +108,8 @@ TestButtonsDialog::BuildWindow()
 		jnew JXTextButton(JGetString("cancelButton::TestButtonsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 40,290, 70,30);
 	assert( cancelButton != NULL );
-	cancelButton->SetFontName("Times");
-    const JFontStyle cancelButton_style(kJTrue, kJFalse, 0, kJFalse, GetColormap()->GetRedColor());
+	cancelButton->SetFontName(JGetString("TimesFontName::TestButtonsDialog::JXLayout"));
+	const JFontStyle cancelButton_style(kJTrue, kJFalse, 0, kJFalse, GetColormap()->GetRedColor());
 	cancelButton->SetFontStyle(cancelButton_style);
 
 	JXImageButton* okButton =
@@ -180,7 +180,7 @@ TestButtonsDialog::BuildWindow()
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 25,115, 90,20);
 	assert( obj3_JXLayout != NULL );
 	obj3_JXLayout->SetFontSize(8);
-    const JFontStyle obj3_JXLayout_style(kJFalse, kJFalse, 0, kJFalse, GetColormap()->GetGreenColor());
+	const JFontStyle obj3_JXLayout_style(kJFalse, kJFalse, 0, kJFalse, GetColormap()->GetGreenColor());
 	obj3_JXLayout->SetFontStyle(obj3_JXLayout_style);
 	obj3_JXLayout->SetToLabel();
 
@@ -237,7 +237,7 @@ TestButtonsDialog::BuildWindow()
 
 // end JXLayout
 
-	window->SetTitle("Testing Buttons");
+	window->SetTitle(JGetString("WindowTitle::TestButtonsDialog"));
 	SetButtons(okButton, cancelButton);
 
 	dtcb->Deactivate();
@@ -247,7 +247,7 @@ TestButtonsDialog::BuildWindow()
 
 	okButton->SetBitmap(okButtonBitmap, colormap->GetBlueColor());
 	bcb->SetBitmap(checkboxBitmap, colormap->GetGreenColor());
-	bcb->SetHint("Image checkbox hint");
+	bcb->SetHint(JGetString("ImageCBHint::TestButtonsDialog"));
 
 	static const JColorIndex kRadioButtonColor[] =
 	{
@@ -257,15 +257,18 @@ TestButtonsDialog::BuildWindow()
 		colormap->GetBlackColor()
 	};
 
-	static const JCharacter* kRadioButtonHint[] =
+	static const JUtf8Byte* kRadioButtonHintID[] =
 	{
-		"Happy", "Amused", "Neutral", "Sad"
+		"ImageRB1Hint::TestButtonsDialog",
+		"ImageRB2Hint::TestButtonsDialog",
+		"ImageRB3Hint::TestButtonsDialog",
+		"ImageRB4Hint::TestButtonsDialog"
 	};
 
 	for (JIndex i=0; i<kSmileyBitmapCount; i++)
 		{
 		brb[i]->SetBitmap(kSmileyBitmap[i], kRadioButtonColor[i]);
-		brb[i]->SetHint(kRadioButtonHint[i]);
+		brb[i]->SetHint(JGetString(kRadioButtonHintID[i]));
 		}
 
 	ListenTo(itsRG1);
@@ -282,9 +285,9 @@ TestButtonsDialog::BuildWindow()
 }
 
 /******************************************************************************
- Receive (protected)
+Receive (protected)
 
- ******************************************************************************/
+******************************************************************************/
 
 void
 TestButtonsDialog::Receive
@@ -300,7 +303,8 @@ TestButtonsDialog::Receive
 		assert( selection != NULL );
 		if (selection->GetID() == 2)
 			{
-			(JGetUserNotification())->DisplayMessage("Good choice!");
+			(JGetUserNotification())->DisplayMessage(
+				JGetString("GoodChoice::TestButtonsDialog"));
 			}
 		}
 	else if (sender == itsEnable1CB && message.Is(JXCheckbox::kPushed))
@@ -322,9 +326,9 @@ TestButtonsDialog::Receive
 }
 
 /******************************************************************************
- OKToDeactivate (virtual protected)
+OKToDeactivate (virtual protected)
 
- ******************************************************************************/
+******************************************************************************/
 
 JBoolean
 TestButtonsDialog::OKToDeactivate()
@@ -336,7 +340,7 @@ TestButtonsDialog::OKToDeactivate()
 
 	if (!Cancelled() && itsRG2->GetSelectedItem() == kSmileyBitmapCount)
 		{
-		(JGetUserNotification())->DisplayMessage("Hey!  Cheer up!");
+		(JGetUserNotification())->DisplayMessage(JGetString("Encouragement::TestButtonsDialog"));
 		}
 
 	return kJTrue;

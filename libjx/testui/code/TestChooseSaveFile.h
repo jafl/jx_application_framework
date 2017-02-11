@@ -39,8 +39,8 @@ protected:
 
 	virtual JXSaveFileDialog*
 	CreateSaveFileDialog(JXDirector* supervisor, JDirInfo* dirInfo,
-						 const JCharacter* fileFilter, const JCharacter* origName,
-						 const JCharacter* prompt, const JCharacter* message);
+						 const JString& fileFilter, const JString& origName,
+						 const JString& prompt, const JString& message);
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message);
 

@@ -41,9 +41,7 @@
 
 // Actions menu
 
-static const JCharacter* kActionsMenuTitleStr    = "Weird things to do";
-static const JCharacter* kActionsMenuShortcutStr = "#D";
-static const JCharacter* kActionsMenuStr =
+static const JUtf8Byte* kActionsMenuStr =
 	"    Change size"
 	"%l| Fill %b %h f %k Ctrl-Shift-F"
 	"  | Points %h p"
@@ -73,40 +71,25 @@ enum
 	kEmptyMenuCmd
 };
 
-static const JCharacter* kShowStr = "Show";
-static const JCharacter* kHideStr = "Hide";
-
-static const JCharacter* kActivateStr   = "Activate";
-static const JCharacter* kDeactivateStr = "Deactivate";
-
-static const JCharacter* kRedStr   = "Red";
-static const JCharacter* kGreenStr = "Green";
-
-static const JCharacter* kShowQuitStr = "Show quit";
-static const JCharacter* kHideQuitStr = "Hide quit";
-
-static const JCharacter* kActivateQuitStr   = "Activate quit";
-static const JCharacter* kDeactivateQuitStr = "Deactivate quit";
-
 // Points menu
 
-static const JCharacter* kPointMenuStr =
+static const JUtf8Byte* kPointMenuStr =
 	"10 %r %h 1 | 20 %r %h 2 | 30 %r %h 3 | 40 %r %h 4 | 50 %r %h 5 | 60 %r %h 6";
 
 // Advice menus
 
-static const JCharacter* kAdviceMenuStr[] =
+static const JUtf8Byte* kAdviceMenuStr[] =
 {
 	"***|This is %h t", "***|not %h n", "***|a good way %h g",
 	"***|to use %h u", "***|submenus!!! %h s"
 };
 
-const JSize kAdviceMenuCount      = sizeof(kAdviceMenuStr)/sizeof(JCharacter*);
+const JSize kAdviceMenuCount      = sizeof(kAdviceMenuStr)/sizeof(JUtf8Byte*);
 const JIndex kAdviceBoldMenuIndex = 2;
 
 // Secret popup menu
 
-static const JCharacter* kSecretMenuStr =
+static const JUtf8Byte* kSecretMenuStr =
 	"Congratulations! | You found the secret menu."
 	"%l| If you have to use such menus"
 	"%l| Pick me! %k Ctrl-plus"
@@ -115,7 +98,7 @@ static const JCharacter* kSecretMenuStr =
 const JIndex kSecretSubmenuIndex  = 3;
 const JIndex kSecretMenuDialogCmd = 4;
 
-static const JCharacter* kSecretSubmenuStr =
+static const JUtf8Byte* kSecretSubmenuStr =
 	"be sure to advertise them clearly elsewhere!";
 
 // test xpm data
@@ -211,9 +194,9 @@ JIndex i;
 
 	// menus
 
-	itsActionsMenu = menuBar->AppendTextMenu(kActionsMenuTitleStr);
+	itsActionsMenu = menuBar->AppendTextMenu(JGetString("ActionsMenuTitle::TestWidget"));
 	itsActionsMenu->SetTitleFontStyle(GetColormap()->GetWhiteColor());
-	itsActionsMenu->SetShortcuts(kActionsMenuShortcutStr);
+	itsActionsMenu->SetShortcuts(JGetString("ActionsMenuShortcut::TestWidget"));
 	itsActionsMenu->SetMenuItems(kActionsMenuStr);
 	itsActionsMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsActionsMenu);
@@ -298,17 +281,19 @@ JIndex i;
 	// enclosed objects
 
 	itsAnimButton = 
-		jnew JXTextButton("Start", this, JXWidget::kFixedLeft, JXWidget::kFixedTop,
-						 37,175, 50,30);
+		jnew JXTextButton(JGetString("AnimationButtonStartLabel::TestWidget"),
+						  this, JXWidget::kFixedLeft, JXWidget::kFixedTop,
+						  37,175, 50,30);
 	assert( itsAnimButton != NULL );
-	itsAnimButton->SetShortcuts("#A");
+	itsAnimButton->SetShortcuts(JGetString("AnimationButtonStartShortcut::TestWidget"));
 	ListenTo(itsAnimButton);
 
 	if (isMaster)
 		{
 		itsQuitButton = 
-			jnew JXTextButton("Quit", this, JXWidget::kFixedRight, JXWidget::kFixedBottom,
-							 x,y, 50,30);
+			jnew JXTextButton(JGetString("QuitButtonLabel::TestWidget"),
+							  this, JXWidget::kFixedRight, JXWidget::kFixedBottom,
+							  x,y, 50,30);
 		assert( itsQuitButton != NULL );
 
 		JXColormap* colormap = GetColormap();
@@ -378,7 +363,7 @@ TestWidget::Print
 		// draw the header
 
 		JRect pageRect = p.GetPageRect();
-		p.String(pageRect.left, pageRect.top, "testjx TestWidget");
+		p.String(pageRect.left, pageRect.top, JGetString("PageHeader::TestWidget"));
 		p.String(pageRect.left, pageRect.top, dateStr,
 				 pageRect.width(), JPainter::kHAlignRight);
 		p.LockHeader(headerHeight);
@@ -386,8 +371,14 @@ TestWidget::Print
 		// draw the footer
 
 		pageRect = p.GetPageRect();
-		const JString pageNumberStr = "Page " + JString(i);
-		p.String(pageRect.left, pageRect.bottom - footerHeight, pageNumberStr,
+		const JString pageNumberStr(i);
+
+		const JUtf8Byte* map[] =
+			{
+			"page", pageNumberStr.GetBytes()
+			};
+		p.String(pageRect.left, pageRect.bottom - footerHeight,
+				 JGetString("PageFooter::TestWidget", map, sizeof(map)),
 				 pageRect.width(), JPainter::kHAlignCenter,
 				 footerHeight, JPainter::kVAlignBottom);
 		p.LockFooter(footerHeight);
@@ -476,8 +467,10 @@ JIndex i;
 	p.Line(ap.topLeft(), ap.bottomRight());
 	p.Line(ap.topRight(), ap.bottomLeft());
 
+	const JString timesFontName("Times", 0, kJFalse);
+
 	p.SetLineWidth(2);
-	p.SetFontName("Times");
+	p.SetFontName(timesFontName);
 	p.SetFontSize(18);
 
 	p.Image(*itsHomeImage, itsHomeImage->GetBounds(), itsHomeRect);
@@ -486,7 +479,7 @@ JIndex i;
 	p.SetPenColor(colormap->GetRedColor());
 	p.Rect(its2Rect);
 	p.SetFontStyle(colormap->GetRedColor());
-	p.String(its2Rect.topLeft(), "2",
+	p.String(its2Rect.topLeft(), JString("2", 0, kJFalse),
 			 its2Rect.width(),  JPainter::kHAlignCenter,
 			 its2Rect.height(), JPainter::kVAlignCenter);
 
@@ -494,7 +487,7 @@ JIndex i;
 	p.SetPenColor(colormap->GetBlueColor());
 	p.Rect(its3Rect);
 	p.SetFontStyle(colormap->GetBlueColor());
-	p.String(its3Rect.topLeft(), "3",
+	p.String(its3Rect.topLeft(), JGetString("3", 0, kJFalse),
 			 its3Rect.width(),  JPainter::kHAlignCenter,
 			 its3Rect.height(), JPainter::kVAlignCenter);
 
@@ -518,11 +511,13 @@ JIndex i;
 
 	p.ShiftOrigin(2,0);
 
+	const JString helloStr("Hello", 0, kJFalse);
+
 	JPoint textPt(40,30);
-	p.String(  0.0, textPt, "Hello");
-	p.String( 90.0, textPt, "Hello");
-	p.String(180.0, textPt, "Hello");
-	p.String(270.0, textPt, "Hello");
+	p.String(  0.0, textPt, helloStr);
+	p.String( 90.0, textPt, helloStr);
+	p.String(180.0, textPt, helloStr);
+	p.String(270.0, textPt, helloStr);
 
 	p.ShiftOrigin(-2, 0);
 
@@ -558,21 +553,21 @@ JIndex i;
 		}
 	p.SetLineWidth(1);
 */
-	p.String(  0.0, r, "Hello", JPainter::kHAlignCenter, JPainter::kVAlignCenter);
-	p.String( 90.0, r, "Hello", JPainter::kHAlignCenter, JPainter::kVAlignCenter);
-	p.String(180.0, r, "Hello", JPainter::kHAlignCenter, JPainter::kVAlignCenter);
-	p.String(270.0, r, "Hello", JPainter::kHAlignCenter, JPainter::kVAlignCenter);
+	p.String(  0.0, r, helloStr, JPainter::kHAlignCenter, JPainter::kVAlignCenter);
+	p.String( 90.0, r, helloStr, JPainter::kHAlignCenter, JPainter::kVAlignCenter);
+	p.String(180.0, r, helloStr, JPainter::kHAlignCenter, JPainter::kVAlignCenter);
+	p.String(270.0, r, helloStr, JPainter::kHAlignCenter, JPainter::kVAlignCenter);
 
-	p.String(  0.0, r, "Hello", JPainter::kHAlignRight, JPainter::kVAlignBottom);
-	p.String( 90.0, r, "Hello", JPainter::kHAlignRight, JPainter::kVAlignBottom);
-	p.String(180.0, r, "Hello", JPainter::kHAlignRight, JPainter::kVAlignBottom);
-	p.String(270.0, r, "Hello", JPainter::kHAlignRight, JPainter::kVAlignBottom);
+	p.String(  0.0, r, helloStr, JPainter::kHAlignRight, JPainter::kVAlignBottom);
+	p.String( 90.0, r, helloStr, JPainter::kHAlignRight, JPainter::kVAlignBottom);
+	p.String(180.0, r, helloStr, JPainter::kHAlignRight, JPainter::kVAlignBottom);
+	p.String(270.0, r, helloStr, JPainter::kHAlignRight, JPainter::kVAlignBottom);
 
 	p.SetPenColor(colormap->GetBlueColor());
 	p.Rect(200, 10, 100, 50);
-	p.String(200, 10, "Hello", 100, JPainter::kHAlignLeft);
-	p.String(200, 10+p.GetLineHeight(), "Hello", 100, JPainter::kHAlignCenter);
-	p.String(200, 10+2*p.GetLineHeight(), "Hello", 100, JPainter::kHAlignRight);
+	p.String(200, 10, helloStr, 100, JPainter::kHAlignLeft);
+	p.String(200, 10+p.GetLineHeight(), helloStr, 100, JPainter::kHAlignCenter);
+	p.String(200, 10+2*p.GetLineHeight(), helloStr, 100, JPainter::kHAlignRight);
 
 	p.SetPenColor(colormap->GetDarkGreenColor());
 	p.SetFilling(kJTrue);
@@ -608,13 +603,13 @@ JIndex i;
 	p.SetLineWidth(1);
 */
 	textPt.Set(340, 200);
-	p.SetFontName("Times");
+	p.SetFontName(timesFontName);
 	p.SetFontStyle(colormap->GetBlueColor());
-	p.String(  0.0, textPt, "Hello");
-	p.String( 90.0, textPt, "Hello");
+	p.String(  0.0, textPt, helloStr);
+	p.String( 90.0, textPt, helloStr);
 	p.SetFontStyle(colormap->GetYellowColor());
-	p.String(180.0, textPt, "Hello");
-	p.String(270.0, textPt, "Hello");
+	p.String(180.0, textPt, helloStr);
+	p.String(270.0, textPt, helloStr);
 
 	p.SetPenColor(colormap->GetYellowColor());
 	r.Set(0,11,80,91);
@@ -677,7 +672,7 @@ JIndex i;
 	p.Line(100,112, 200,112);
 
 	p.SetFontStyle(JFontStyle(kJFalse, kJFalse, 1, kJFalse));
-	p.String(130,155, "underline without dashes");
+	p.String(130,155, JString("underline without dashes", 0, kJFalse));
 
 	p.SetDashList(dashList, 3);		// test offset
 	p.Line(100,116, 200,116);
@@ -864,7 +859,7 @@ TestWidget::HandleMouseDown
 			}
 		else
 			{
-			(JGetUserNotification())->ReportError("Unable to open secret menu!");
+			(JGetUserNotification())->ReportError(JGetString("SecretMenuError::TestWidget"));
 			}
 		}
 	else if (ScrollForWheel(button, modifiers))
@@ -1377,47 +1372,47 @@ TestWidget::HandleActionsMenu
 	else if (index == kShowHideCmd && IsVisible())
 		{
 		Hide();
-		itsActionsMenu->SetItemText(kShowHideCmd, kShowStr);
+		itsActionsMenu->SetItemText(kShowHideCmd, JGetString("ShowMenuItem::TestWidget"));
 		}
 	else if (index == kShowHideCmd)
 		{
 		Show();
-		itsActionsMenu->SetItemText(kShowHideCmd, kHideStr);
+		itsActionsMenu->SetItemText(kShowHideCmd, JGetString("HideMenuItem::TestWidget"));
 		}
 
 	else if (index == kActDeactCmd && IsActive())
 		{
 		Deactivate();
-		itsActionsMenu->SetItemText(kActDeactCmd, kActivateStr);
+		itsActionsMenu->SetItemText(kActDeactCmd, JGetString("ActivateMenuItem::TestWidget"));
 		}
 	else if (index == kActDeactCmd)
 		{
 		Activate();
-		itsActionsMenu->SetItemText(kActDeactCmd, kDeactivateStr);
+		itsActionsMenu->SetItemText(kActDeactCmd, JGetString("DeactivateMenuItem::TestWidget"));
 		}
 
 	else if (index == kShowHideQuitCmd && itsQuitButton != NULL &&
 			 itsQuitButton->WouldBeVisible())
 		{
 		itsQuitButton->Hide();
-		itsActionsMenu->SetItemText(kShowHideQuitCmd, kShowQuitStr);
+		itsActionsMenu->SetItemText(kShowHideQuitCmd, JGetString("ShowQuitMenuItem::TestWidget"));
 		}
 	else if (index == kShowHideQuitCmd && itsQuitButton != NULL)
 		{
 		itsQuitButton->Show();
-		itsActionsMenu->SetItemText(kShowHideQuitCmd, kHideQuitStr);
+		itsActionsMenu->SetItemText(kShowHideQuitCmd, JGetString("HideQuitMenuItem::TestWidget"));
 		}
 
 	else if (index == kActDeactQuitCmd && itsQuitButton != NULL &&
 			 itsQuitButton->WouldBeActive())
 		{
 		itsQuitButton->Deactivate();
-		itsActionsMenu->SetItemText(kActDeactQuitCmd, kActivateQuitStr);
+		itsActionsMenu->SetItemText(kActDeactQuitCmd, JGetString("ActivateQuitMenuItem::TestWidget"));
 		}
 	else if (index == kActDeactQuitCmd && itsQuitButton != NULL)
 		{
 		itsQuitButton->Activate();
-		itsActionsMenu->SetItemText(kActDeactQuitCmd, kDeactivateQuitStr);
+		itsActionsMenu->SetItemText(kActDeactQuitCmd, JGetString("DeactivateQuitMenuItem::TestWidget"));
 		}
 
 	else if (index == kPrintSelectionTargetsCmd)
@@ -1509,14 +1504,14 @@ TestWidget::Receive
 		if (GetCursorAnimator() == NULL)
 			{
 			CreateCursorAnimator();
-			itsAnimButton->SetShortcuts("^o^m");
-			itsAnimButton->SetLabel("Stop");
+			itsAnimButton->SetShortcuts(JGetString("AnimationButtonStopShorcut::TestWidget"));
+			itsAnimButton->SetLabel(JGetString("AnimationButtonStopLabel::TestWidget"));
 			}
 		else
 			{
 			RemoveCursorAnimator();
-			itsAnimButton->SetLabel("Start");
-			itsAnimButton->SetShortcuts("#a");
+			itsAnimButton->SetLabel(JGetString("AnimationButtonStartLabel::TestWidget"));
+			itsAnimButton->SetShortcuts(JGetString("AnimationButtonStartShortcut::TestWidget"));
 			}
 		}
 	else if (sender == itsQuitButton && message.Is(JXButton::kPushed))
@@ -1566,7 +1561,7 @@ TestWidget::Receive
 		if (selection->GetIndex() == kSecretMenuDialogCmd)
 			{
 			(JGetUserNotification())->DisplayMessage(
-				"This message is generated by an item on the secret popup menu.");
+				JGetString("SecretMenuMessage::TestWidget"));
 			}
 		}
 
@@ -1648,7 +1643,7 @@ TestWidget::BuildXlsfontsMenu
 		menu->AppendItem(*fontName);
 		}
 
-	menu->AppendItem("I wish Netscape's bookmark list would scroll like this!!!");
+	menu->AppendItem(JGetString("XFontMenuLastItem::TestWidget"));
 	const JSize count = menu->GetItemCount();
 	menu->SetItemFontStyle(count, JFontStyle(kJTrue, kJFalse, 0, kJFalse,
 											 GetColormap()->GetBlackColor()));

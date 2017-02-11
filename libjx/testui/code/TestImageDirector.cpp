@@ -25,9 +25,7 @@
 
 // File menu information
 
-static const JCharacter* kFileMenuTitleStr  = "File";
-static const JCharacter* kFileMenuShortcuts = "#F";
-static const JCharacter* kFileMenuStr =
+static const JUtf8Byte* kFileMenuStr =
 	"    Open...             %h o %k Ctrl-O"
 	"  | Save as GIF...      %h g %k Ctrl-G"
 	"  | Save as PNG...      %h n %k Ctrl-N"
@@ -116,12 +114,12 @@ TestImageDirector::BuildWindow()
 
 // end JXLayout
 
-	window->SetTitle("Test Image");
+	window->SetTitle(JGetString("WindowTitle::TestImageDirector"));
 	window->SetWMClass("testjx", "TestImageDirector");
 	window->SetMinSize(100,100);
 
-	itsFileMenu = menuBar->AppendTextMenu(kFileMenuTitleStr);
-	itsFileMenu->SetShortcuts(kFileMenuShortcuts);
+	itsFileMenu = menuBar->AppendTextMenu(JGetString("FileMenuTitle::TestImageDirector"));
+	itsFileMenu->SetShortcuts(JGetString("FileMenuShortcut::TestImageDirector"));
 	itsFileMenu->SetMenuItems(kFileMenuStr);
 	ListenTo(itsFileMenu);
 
@@ -294,7 +292,7 @@ void
 TestImageDirector::LoadImage()
 {
 	JString fullName;
-	if ((JGetChooseSaveFile())->ChooseFile("Image to load:", NULL, &fullName))
+	if ((JGetChooseSaveFile())->ChooseFile(JGetString("ChooseImagePrompt::TestImageDirector"), NULL, &fullName))
 		{
 		itsImageWidget->SetImage(NULL, kJTrue);	// free current colors
 
@@ -330,10 +328,7 @@ TestImageDirector::LoadImage()
 		else
 			{
 			itsFileName.Clear();
-
-			JString msg = "Unable to open the file because\n\n";
-			msg += err.GetMessage();
-			(JGetUserNotification())->ReportError(msg);
+			JGetStringManager()->ReportError("UnableToLoadImage::TestImageDirector", err);
 			}
 		}
 }
@@ -357,7 +352,9 @@ TestImageDirector::SaveImage
 	JString fullName;
 	if (!itsFileName.IsEmpty() &&
 		itsImageWidget->GetImage(&image) &&
-		(JGetChooseSaveFile())->SaveFile("Save image as:", NULL, itsFileName, &fullName))
+		(JGetChooseSaveFile())->SaveFile(
+			JGetString("SaveImagePrompt::TestImageDirector"),
+			NULL, itsFileName, &fullName))
 		{
 		JError err = JNoError();
 		if (type == JImage::kGIFType)
@@ -377,12 +374,7 @@ TestImageDirector::SaveImage
 			err = image->WriteXPM(fullName);
 			}
 
-		if (!err.OK())
-			{
-			JString msg = "Unable to save the image because\n\n";
-			msg += err.GetMessage();
-			(JGetUserNotification())->ReportError(msg);
-			}
+		JGetStringManager()->ReportError("UnableToSaveImage::TestImageDirector", err);
 		}
 }
 
@@ -405,15 +397,12 @@ TestImageDirector::SaveMask()
 	if (!itsFileName.IsEmpty() &&
 		itsImageWidget->GetImage(&image) &&
 		image->GetMask(&mask) &&
-		(JGetChooseSaveFile())->SaveFile("Save mask as:", NULL, fileName, &fullName))
+		(JGetChooseSaveFile())->SaveFile(
+			JGetString("SaveMaskPrompt::TestImageDirector"),
+			NULL, fileName, &fullName))
 		{
 		const JError err = mask->WriteXBM(fullName);
-		if (!err.OK())
-			{
-			JString msg = "Unable to save the mask because\n\n";
-			msg += err.GetMessage();
-			(JGetUserNotification())->ReportError(msg);
-			}
+		JGetStringManager()->ReportError("UnableToSaveMask::TestImageDirector", err);
 		}
 }
 
@@ -455,8 +444,7 @@ TestImageDirector::PasteImage()
 		}
 	else
 		{
-		(JGetUserNotification())->ReportError(
-			"Unable to find a known image format.");
+		(JGetUserNotification())->ReportError(JGetString("UnrecognizedFormat::TestImageDirector"));
 		}
 }
 

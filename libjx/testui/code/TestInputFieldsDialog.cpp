@@ -136,9 +136,9 @@ TestInputFieldsDialog::BuildWindow()
 		jnew JXStaticText(JGetString("obj2_JXLayout::TestInputFieldsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,40, 100,20);
 	assert( obj2_JXLayout != NULL );
-	obj2_JXLayout->SetFontName("Times");
+	obj2_JXLayout->SetFontName(JGetString("TimesFontName::TestInputFieldsDialog::JXLayout"));
 	obj2_JXLayout->SetFontSize(8);
-    const JFontStyle obj2_JXLayout_style(kJTrue, kJFalse, 0, kJFalse, GetColormap()->GetGreenColor());
+	const JFontStyle obj2_JXLayout_style(kJTrue, kJFalse, 0, kJFalse, GetColormap()->GetGreenColor());
 	obj2_JXLayout->SetFontStyle(obj2_JXLayout_style);
 	obj2_JXLayout->SetToLabel();
 
@@ -146,8 +146,8 @@ TestInputFieldsDialog::BuildWindow()
 		jnew JXStaticText(JGetString("obj3_JXLayout::TestInputFieldsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,60, 100,20);
 	assert( obj3_JXLayout != NULL );
-	obj3_JXLayout->SetFontName("Times");
-    const JFontStyle obj3_JXLayout_style(kJTrue, kJTrue, 0, kJFalse, GetColormap()->GetBlackColor());
+	obj3_JXLayout->SetFontName(JGetString("TimesFontName::TestInputFieldsDialog::JXLayout"));
+	const JFontStyle obj3_JXLayout_style(kJTrue, kJTrue, 0, kJFalse, GetColormap()->GetBlackColor());
 	obj3_JXLayout->SetFontStyle(obj3_JXLayout_style);
 	obj3_JXLayout->SetToLabel();
 
@@ -156,7 +156,7 @@ TestInputFieldsDialog::BuildWindow()
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,80, 100,20);
 	assert( obj4_JXLayout != NULL );
 	obj4_JXLayout->SetFontSize(8);
-    const JFontStyle obj4_JXLayout_style(kJFalse, kJTrue, 0, kJFalse, GetColormap()->GetBlackColor());
+	const JFontStyle obj4_JXLayout_style(kJFalse, kJTrue, 0, kJFalse, GetColormap()->GetBlackColor());
 	obj4_JXLayout->SetFontStyle(obj4_JXLayout_style);
 	obj4_JXLayout->SetToLabel();
 
@@ -221,13 +221,13 @@ TestInputFieldsDialog::BuildWindow()
 
 // end JXLayout
 
-	window->SetTitle("Testing Input Fields");
+	window->SetTitle(JGetString("WindowTitle::TestInputFieldsDialog"));
 	SetButtons(okButton, cancelButton);
 
-	text2->SetText("required");
+	text2->SetText(JGetString("Text2::TestInputFieldsDialog"));
 	text2->SetIsRequired();
 	text3->SetMaxLength(5);
-	text4->SetText("max 10");
+	text4->SetText(JGetString("Text4::TestInputFieldsDialog"));
 	text4->SetIsRequired();
 	text4->SetMaxLength(10);
 
@@ -245,8 +245,8 @@ TestInputFieldsDialog::BuildWindow()
 
 	// never store real passwords as plaintext!
 
-	pwInput->SetText("password");
-	pwInput->SetHint("For security, the actual password is not displayed");
+	pwInput->SetText(JGetString("Password::TestInputFieldsDialog"));
+	pwInput->SetHint(JGetString("PasswordHint::TestInputFieldsDialog"));
 }
 
 /******************************************************************************
@@ -274,7 +274,7 @@ JInteger v1,v2;
 			 itsUpperValue->GetValue(&v2) &&
 			 v1 >= v2)
 		{
-		(JGetUserNotification())->ReportError("Low must be less than high.");
+		(JGetUserNotification())->ReportError(JGetString("MinMaxError::TestInputFieldsDialog"));
 		itsLowerValue->Focus();
 		return kJFalse;
 		}

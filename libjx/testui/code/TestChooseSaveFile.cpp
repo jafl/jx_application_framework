@@ -44,12 +44,12 @@ TestChooseSaveFile::~TestChooseSaveFile()
 JXSaveFileDialog*
 TestChooseSaveFile::CreateSaveFileDialog
 	(
-	JXDirector*			supervisor,
-	JDirInfo*			dirInfo,
-	const JCharacter*	fileFilter,
-	const JCharacter*	origName,
-	const JCharacter*	prompt,
-	const JCharacter*	message
+	JXDirector*		supervisor,
+	JDirInfo*		dirInfo,
+	const JString&	fileFilter,
+	const JString&	origName,
+	const JString&	prompt,
+	const JString&	message
 	)
 {
 	itsTestSaveDialog =
@@ -110,5 +110,6 @@ TestChooseSaveFile::SetChooseFileFilters
 	JDirInfo* dirInfo
 	)
 {
-	dirInfo->SetContentFilter("(^[[:space:]]*$)|(^[[:space:]]*From )");
+	dirInfo->SetContentFilter(
+		JString("(^[[:space:]]*$)|(^[[:space:]]*From )", 0, kJFalse));
 }

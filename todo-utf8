@@ -1,3 +1,11 @@
+add back in
+	JTextEditor
+	JTEStyler
+	JVIKeyHandler
+
+sample text in TestTabDirector
+	has \x - correctly interpreted?
+
 unit test libjx
 	JXCSFDialogBase
 	JXDocumentManager

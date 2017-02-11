@@ -59,6 +59,6 @@ AboutDialog::BuildWindow()
 
 // end JXLayout
 
-	window->SetTitle("About this silly program");
+	window->SetTitle(JGetString("WindowTitle::AboutDialog"));
 	SetButtons(okButton, NULL);
 }

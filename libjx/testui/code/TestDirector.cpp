@@ -56,12 +56,11 @@
 #include <stdio.h>
 #include <jAssert.h>
 
-static const JCharacter* kWindowGeomFileName = "testjx_window_geom";
+static const JUtf8Byte* kWindowGeomFileName = "testjx_window_geom";
 
 // About menu
 
-static const JCharacter* kAboutMenuShortcuts = "#?";
-static const JCharacter* kAboutMenuStr =
+static const JUtf8Byte* kAboutMenuStr =
 	"    About            %h a"
 	"  | from string db   %i" kJXHelpSpecificAction		// "Help %h h %k Ctrl-H"
 	"  | Tip of the Day   %h t"
@@ -79,7 +78,7 @@ enum
 
 // PostScript printing menu
 
-static const JCharacter* kPrintPSMenuStr =
+static const JUtf8Byte* kPrintPSMenuStr =
 	"    Page setup..."
 	"  | Print...      %h p %k Ctrl-P";
 
@@ -90,8 +89,7 @@ enum
 
 // Test menu
 
-static const JCharacter* kTestMenuTitleStr = "Test %h #t";
-static const JCharacter* kTestMenuStr =
+static const JUtf8Byte* kTestMenuStr =
 	"    New main window"
 	"%l| User notification"
 	"  | File chooser"
@@ -138,7 +136,7 @@ enum
 
 // UserNotification menu
 
-static const JCharacter* kUserNotificationMenuStr =
+static const JUtf8Byte* kUserNotificationMenuStr =
 	"Message|Warning|Error";
 
 enum
@@ -148,7 +146,7 @@ enum
 
 // ChooseSaveFile menu
 
-static const JCharacter* kChooseSaveFileMenuStr =
+static const JUtf8Byte* kChooseSaveFileMenuStr =
 	"    Choose file..."
 	"  | Choose file... (custom)"
 	"  | Save file..."
@@ -165,7 +163,7 @@ enum
 
 // ProgressDisplay menu
 
-static const JCharacter* kProgressDisplayMenuStr =
+static const JUtf8Byte* kProgressDisplayMenuStr =
 	"    Fixed length"
 	"  | Variable length"
 	"%l| Fixed length (background)"
@@ -175,14 +173,6 @@ enum
 {
 	kFixLenFGCmd = 1, kVarLenFGCmd, kFixLenBGCmd, kVarLenBGCmd
 };
-
-// Display menu
-
-static const JCharacter* kDisplayMenuName = "Display";
-
-// Icon menu
-
-static const JCharacter* kIconMenuTitleStr = "Smileys";
 
 /******************************************************************************
  Constructor
@@ -221,7 +211,7 @@ TestDirector::TestDirector
 		itsWindowSnooper = NULL;
 		}
 
-	if (isMaster && JFileExists(kWindowGeomFileName))
+	if (isMaster && JFileExists(JString(kWindowGeomFileName, 0, kJFalse)))
 		{
 		std::ifstream input(kWindowGeomFileName);
 		window->ReadGeometry(input);
@@ -269,7 +259,7 @@ TestDirector::~TestDirector()
 void
 TestDirector::OpenTextFile
 	(
-	const JCharacter* fileName
+	const JString& fileName
 	)
 {
 	if (JFileReadable(fileName))
@@ -280,10 +270,12 @@ TestDirector::OpenTextFile
 		}
 	else
 		{
-		JString msg = "You do not have permission to read \"";
-		msg += fileName;
-		msg += "\".";
-		(JGetUserNotification())->ReportError(msg);
+		const JUtf8Byte* map[] =
+			{
+			"name", fileName.GetBytes()
+			};
+		(JGetUserNotification())->ReportError(
+			JGetString("FileNotReadable::TestDirector", map, sizeof(map)));
 		}
 }
 
@@ -320,7 +312,7 @@ TestDirector::BuildWindow
 
 // end JXLayout
 
-	window->SetTitle("Test Director");
+	window->SetTitle(JGetString("WindowTitle::TestDirector"));
 	window->SetWMClass("testjx", "TestDirector");
 
 	window->SetMinSize(150,150);
@@ -343,7 +335,7 @@ TestDirector::BuildWindow
 		jnew JXImage(display, kSmileyBitmap[ kHappySmileyIndex ], colormap->GetRedColor());
 	assert( aboutTitleImage != NULL );
 	itsAboutMenu = menuBar->AppendTextMenu(aboutTitleImage, kJTrue);
-	itsAboutMenu->SetShortcuts(kAboutMenuShortcuts);
+	itsAboutMenu->SetShortcuts(JGetString("AboutMenuShortcut::TestDirector"));
 	itsAboutMenu->SetMenuItems(kAboutMenuStr, "TestDirector");
 	itsAboutMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsAboutMenu);
@@ -357,7 +349,7 @@ TestDirector::BuildWindow
 	itsPrintPSMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsPrintPSMenu);
 
-	itsTestMenu = menuBar->AppendTextMenu(kTestMenuTitleStr);
+	itsTestMenu = menuBar->AppendTextMenu(JGetString("TestMenuTitle::TestDirector"));
 	itsTestMenu->SetMenuItems(kTestMenuStr);
 	itsTestMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsTestMenu);
@@ -383,7 +375,7 @@ TestDirector::BuildWindow
 	if (isMaster)
 		{
 		itsDisplayMenu =
-			jnew JXDisplayMenu(kDisplayMenuName, menuBar,
+			jnew JXDisplayMenu(JGetString("DisplayMenuTitle::TestDirector"), menuBar,
 							  JXWidget::kFixedLeft, JXWidget::kFixedTop,
 							  0,0, 10,10);
 		assert( itsDisplayMenu != NULL );
@@ -453,8 +445,8 @@ JIndex i;
 	// create 1x6 menu in menu bar -- this owns the icons
 
 	itsSmileyMenu =
-		jnew JXImageMenu(kIconMenuTitleStr, 6, menuBar,
-						JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
+		jnew JXImageMenu(JGetString("IconMenuTitle::TestDirector"), 6, menuBar,
+						 JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
 	assert( itsSmileyMenu != NULL );
 	itsSmileyMenu->SetUpdateAction(JXMenu::kDisableNone);
 	menuBar->AppendMenu(itsSmileyMenu);
@@ -875,14 +867,12 @@ TestDirector::HandleTestMenu
 		{
 		pid_t pid;
 		std::cout << std::endl;
-		const JError err = JExecute("ls", &pid);
+		const JError err = JExecute(JString("ls", 0, kJFalse), &pid);
 		std::cout << std::endl;
 		if (err.OK())
 			{
 			(JGetUserNotification())->DisplayMessage(
-				"This should not leave a zombie process lying around "
-				"because JXApplication is supposed to automatically "
-				"clean it up.");
+				JGetString("ZombieProcessNotification::TestDirector"));
 			}
 		else
 			{
@@ -986,15 +976,15 @@ TestDirector::HandleUNMenu
 {
 	if (index == kTestMessageCmd)
 		{
-		(JGetUserNotification())->DisplayMessage("This is a test message.");
+		(JGetUserNotification())->DisplayMessage(JGetString("TestMessage::TestDirector"));
 		}
 	else if (index == kTestWarningCmd)
 		{
-		(JGetUserNotification())->AskUserYes("Did you like this warning message?");
+		(JGetUserNotification())->AskUserYes(JGetString("WarningMessage::TestDirector"));
 		}
 	else if (index == kTestErrorCmd)
 		{
-		(JGetUserNotification())->ReportError("This is a fake error.");
+		(JGetUserNotification())->ReportError(JGetString("ErrorMessage::TestDirector"));
 		}
 }
 
@@ -1025,62 +1015,65 @@ TestDirector::HandleCSFMenu
 	JString resultStr;
 	if (index == kChooseFileCmd)
 		{
-		ok = csf->ChooseFile("Name of file:",
-			"This is a test of the dialog window that allows the user to"
-			" choose a file to be opened.\n\n"
-			"0123456789012345678901234567890123456789"
-			"0123456789012345678901234567890123456789",
+		ok = csf->ChooseFile(JGetString("ChooseFilePrompt::TestDirector"),
+			JGetString("ChooseFileInstructions::TestDirector"),
 			&resultStr);
 		}
 	else if (index == kChooseFileCustomCmd)
 		{
 		csf = itsCSF;
-		ok  = csf->ChooseFile("Name of file:",
-			"This dialog only allows you to choose email files.",
+		ok  = csf->ChooseFile(JGetString("ChooseFilePrompt::TestDirector"),
+			JGetString("CustomChooseFileInstructions::TestDirector"),
 			&resultStr);
 		}
 	else if (index == kSaveFileCmd)
 		{
-		ok = csf->SaveFile("Save file as:",
-			"This is a test of the dialog window that allows the user to"
-			" save a file under a new name.", "Untitled", &resultStr);
+		ok = csf->SaveFile(JGetString("SaveFilePrompt::TestDirector"),
+			JGetString("SaveFileInstructions::TestDirector"),
+			JGetString("DefaultFileName::TestDirector"), &resultStr);
 		}
 	else if (index == kSaveFileCustomCmd)
 		{
 		csf = itsCSF;
-		ok  = csf->SaveFile("Save file as:",
-			"This is a test of a custom dialog window that allows the user to"
-			" save a file under a new name.", "Untitled", &resultStr);
+		ok  = csf->SaveFile(JGetString("SaveFilePrompt::TestDirector"),
+			JGetString("CustomSaveFileInstructions::TestDirector"),
+			JGetString("DefaultFileName::TestDirector"), &resultStr);
 
 		if (ok)
 			{
 			TestChooseSaveFile::SaveFormat format = itsCSF->GetSaveFormat();
-			JString msg =
+			const JUtf8Byte* formatStr =
 				(format == TestChooseSaveFile::kGIFFormat  ? "GIF"  :
 				(format == TestChooseSaveFile::kPNGFormat  ? "PNG"  :
 				(format == TestChooseSaveFile::kJPEGFormat ? "JPEG" : "unknown")));
-			msg.Prepend("\n(");
-			msg.Append(" format)");
-			resultStr.Append(msg);
+
+			const JUtf8Byte* map[] =
+				{
+				"format", formatStr
+				};
+			resultStr += JGetString("CustomSaveFileResult::TestDirector", map, sizeof(map));
 			}
 		}
 	else if (index == kChooseRPathCmd)
 		{
 		ok = csf->ChooseRPath(JString::empty,
-			"This is a test of the dialog window that allows the user to"
-			" choose a readable directory.", NULL, &resultStr);
+			JGetString("ChooseReadableDirectory::TestDirector"),
+			JString::empty, &resultStr);
 		}
 	else if (index == kChooseRWPathCmd)
 		{
 		ok = csf->ChooseRWPath(JString::empty,
-			"This is a test of the dialog window that allows the user to"
-			" choose a writable directory.", NULL, &resultStr);
+			JGetString("ChooseWritableDirectory::TestDirector"),
+			JString::empty, &resultStr);
 		}
 
 	if (ok)
 		{
-		const JString msg = "You selected:\n\n" + resultStr;
-		(JGetUserNotification())->DisplayMessage(msg);
+		const JUtf8Byte* map[] =
+			{
+			"result", resultStr.GetBytes()
+			};
+		(JGetUserNotification())->DisplayMessage(JGetString("CSFResult::TestDirector"));
 		}
 }
 
@@ -1141,12 +1134,12 @@ TestDirector::FGProcess
 	if (fixedLength)
 		{
 		pg->FixedLengthProcessBeginning(
-			stepCount, "Crunching a whole lot of very large numbers...", kJTrue, kJFalse);
+			stepCount, JGetString("ProgressMessage::TestDirector"), kJTrue, kJFalse);
 		}
 	else
 		{
 		pg->VariableLengthProcessBeginning(
-			"Crunching a whole lot of very large numbers...", kJTrue, kJFalse);
+			JGetString("ProgressMessage::TestDirector"), kJTrue, kJFalse);
 		}
 
 	for (JIndex i=1; i<=stepCount; i++)

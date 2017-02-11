@@ -38,12 +38,12 @@ TestPGTask::TestPGTask
 
 	if (fixedLength)
 		{
-		itsPG->FixedLengthProcessBeginning(kStepCount, "Crunching numbers...",
+		itsPG->FixedLengthProcessBeginning(kStepCount, JGetString("ProcessText::TestPGTask"),
 										   kJTrue, kJTrue);
 		}
 	else
 		{
-		itsPG->VariableLengthProcessBeginning("Crunching numbers...", kJTrue, kJTrue);
+		itsPG->VariableLengthProcessBeginning(JGetString("ProcessText::TestPGTask"), kJTrue, kJTrue);
 		}
 }
 

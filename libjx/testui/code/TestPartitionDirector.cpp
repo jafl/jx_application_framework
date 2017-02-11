@@ -26,9 +26,7 @@ const JSize kMenuBarHeight        = 30;
 
 // Horiz menu information
 
-static const JCharacter* kHorizMenuTitleStr  = "Horiz";
-static const JCharacter* kHorizMenuShortcuts = "#H";
-static const JCharacter* kHorizMenuStr =
+static const JUtf8Byte* kHorizMenuStr =
 	"Prepend compartment %h p | Append compartment %h a"
 	"%l | Set elastic compartment %h s";
 
@@ -41,9 +39,7 @@ enum
 
 // Vert menu information
 
-static const JCharacter* kVertMenuTitleStr  = "Vert";
-static const JCharacter* kVertMenuShortcuts = "#V";
-static const JCharacter* kVertMenuStr =
+static const JUtf8Byte* kVertMenuStr =
 	"Set elastic compartment %h s";
 
 enum
@@ -122,18 +118,18 @@ JIndex i;
 	assert( itsVertPartition != NULL );
 	itsVertPartition->FitToEnclosure(kJTrue, kJTrue);
 
-	window->SetTitle("Test Partitions");
+	window->SetTitle(JGetString("WindowTitle::TestPartitionDirector"));
 	window->SetWMClass("testjx", "TestPartitionDirector");
 	AdjustMinWindowSize();
 
-	itsHorizMenu = menuBar->AppendTextMenu(kHorizMenuTitleStr);
-	itsHorizMenu->SetShortcuts(kHorizMenuShortcuts);
+	itsHorizMenu = menuBar->AppendTextMenu(JGetString("HorizMenuTitle::TestPartitionDirector"));
+	itsHorizMenu->SetShortcuts(JGetString("HorizMenuShortcut::TestPartitionDirector"));
 	itsHorizMenu->SetMenuItems(kHorizMenuStr);
 	itsHorizMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsHorizMenu);
 
-	itsVertMenu = menuBar->AppendTextMenu(kVertMenuTitleStr);
-	itsVertMenu->SetShortcuts(kVertMenuShortcuts);
+	itsVertMenu = menuBar->AppendTextMenu(JGetString("VertMenuTitle::TestPartitionDirector"));
+	itsVertMenu->SetShortcuts(JGetString("VertMenuShortcut::TestPartitionDirector"));
 	itsVertMenu->SetMenuItems(kVertMenuStr);
 	itsVertMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsVertMenu);
@@ -168,7 +164,7 @@ TestPartitionDirector::InsertHorizCompartment
 		}
 	else
 		{
-		(JGetUserNotification())->ReportError("There is not enough space for another compartment.");
+		(JGetUserNotification())->ReportError(JGetString("OutOfSpace::TestPartitionDirector"));
 		}
 }
 
@@ -206,7 +202,7 @@ TestPartitionDirector::InsertVertCompartment
 		}
 	else
 		{
-		(JGetUserNotification())->ReportError("There is not enough space for another compartment.");
+		(JGetUserNotification())->ReportError(JGetString("OutOfSpace::TestPartitionDirector"));
 		}
 }
 
@@ -227,7 +223,7 @@ TestPartitionDirector::DeleteVertCompartment
 		}
 	else
 		{
-		(JGetUserNotification())->ReportError("You can't remove the last compartment.");
+		(JGetUserNotification())->ReportError(JGetString("CannotRemoveLast::TestPartitionDirector"));
 		}
 }
 

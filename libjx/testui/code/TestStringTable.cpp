@@ -30,8 +30,7 @@ const JSize kInitColCount = 3;
 
 // Table menu information
 
-static const JCharacter* kTableMenuTitleStr = "Table";
-static const JCharacter* kTableMenuStr =
+static const JUtf8Byte* kTableMenuStr =
 	"    Insert row %r"
 	"  | Duplicate row %r"
 	"  | Move row %r"
@@ -53,7 +52,7 @@ static const JCharacter* kTableMenuStr =
 
 // Border width menu information
 
-static const JCharacter* kBorderWidthMenuStr =
+static const JUtf8Byte* kBorderWidthMenuStr =
 	"0%r|1%r|2%r|3%r|4%r|5%r";
 
 /******************************************************************************
@@ -84,7 +83,7 @@ JIndex i,j;
 
 	GetEditMenuHandler()->AppendEditMenu(menuBar);
 
-	itsTableMenu = menuBar->AppendTextMenu(kTableMenuTitleStr);
+	itsTableMenu = menuBar->AppendTextMenu(JGetString("TableMenuTitle::TestStringTable"));
 	itsTableMenu->SetMenuItems(kTableMenuStr);
 	itsTableMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsTableMenu);
@@ -101,13 +100,14 @@ JIndex i,j;
 	itsColBorderMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsColBorderMenu);
 
-	itsFontMenu = jnew JXFontNameMenu("Font", menuBar, kFixedLeft, kFixedTop, 0,0, 10,10);
+	itsFontMenu = jnew JXFontNameMenu(JGetString("FontMenuTitle::TestStringTable"),
+									  menuBar, kFixedLeft, kFixedTop, 0,0, 10,10);
 	assert( itsFontMenu != NULL );
 	menuBar->AppendMenu(itsFontMenu);
 	ListenTo(itsFontMenu);
 
-	itsSizeMenu = jnew JXFontSizeMenu(itsFontMenu, "Size", menuBar,
-									 kFixedLeft, kFixedTop, 0,0, 10,10);
+	itsSizeMenu = jnew JXFontSizeMenu(itsFontMenu, JGetString("SizeMenuTitle::TestStringTable"), 
+									  menuBar, kFixedLeft, kFixedTop, 0,0, 10,10);
 	assert( itsSizeMenu != NULL );
 	menuBar->AppendMenu(itsSizeMenu);
 	ListenTo(itsSizeMenu);
@@ -475,7 +475,7 @@ TestStringTable::HandleTableMenu
 		// SetCol() would be the fastest in this case.  But it's a good stress test.
 
 		JProgressDisplay* pg = JNewPG();
-		pg->FixedLengthProcessBeginning(40, "Appending rows...", kJTrue, kJFalse);
+		pg->FixedLengthProcessBeginning(40, JGetString("Progress::TestStringTable"), kJTrue, kJFalse);
 
 		JStringTableData* data   = GetStringData();
 		const JSize origRowCount = GetRowCount();
@@ -597,7 +597,7 @@ TestStringTable::DrawPrintHeader
 	)
 {
 	JRect pageRect = p.GetPageRect();
-	p.String(pageRect.left, pageRect.top, "testjx StringTable");
+	p.String(pageRect.left, pageRect.top, JGetString("PageHeader::TestStringTable"));
 	const JString dateStr = JGetTimeStamp();
 	p.String(pageRect.left, pageRect.top, dateStr,
 			 pageRect.width(), JPainter::kHAlignRight);
@@ -611,8 +611,14 @@ TestStringTable::DrawPrintFooter
 	)
 {
 	JRect pageRect = p.GetPageRect();
-	const JString pageNumberStr = "Page " + JString(p.GetPageIndex());
-	p.String(pageRect.left, pageRect.bottom - footerHeight, pageNumberStr,
+	const JString pageNumberStr = p.GetPageIndex();
+
+	const JUtf8Byte* map[] =
+		{
+		"page", pageNumberStr.GetBytes()
+		};
+	p.String(pageRect.left, pageRect.bottom - footerHeight,
+			 JGetString("PageFooter::TestStringTable", map, sizeof(map)),
 			 pageRect.width(), JPainter::kHAlignCenter,
 			 footerHeight, JPainter::kVAlignBottom);
 }

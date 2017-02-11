@@ -82,7 +82,7 @@ SetElasticDialog::BuildWindow
 
 // end JXLayout
 
-	window->SetTitle("Set elastic compartment");
+	window->SetTitle(JGetString("WindowTitle::SetElasticDialog"));
 	SetButtons(okButton, cancelButton);
 
 	itsElasticIndex->SetValue(index);

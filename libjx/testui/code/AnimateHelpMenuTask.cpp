@@ -110,5 +110,5 @@ void
 AnimateHelpMenuTask::Reset()
 {
 	itsCurrentImage = 0;
-	itsMenu->SetItemImage(itsMenuItem, itsImageList->LastElement(), kJFalse);
+	itsMenu->SetItemImage(itsMenuItem, itsImageList->GetLastElement(), kJFalse);
 }

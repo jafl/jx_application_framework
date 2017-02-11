@@ -27,8 +27,8 @@ public:
 	JBoolean	GetMainDirector(TestDirector** dir) const;
 	void		SetMainDirector(TestDirector* dir);
 
-	static const JCharacter*	GetAppSignature();
-	static void					InitStrings();
+	static const JUtf8Byte*	GetAppSignature();
+	static void				InitStrings();
 
 protected:
 

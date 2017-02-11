@@ -1426,7 +1426,7 @@ alignment: FL_ALIGN_CENTER
 style: FL_NORMAL_STYLE
 size: FL_NORMAL_SIZE
 lcol: FL_BLACK
-label: JXFontNameMenu("Font",
+label: JXFontNameMenu(JGetString("FontMenuLabel::TestPopupChoiceDialog"),
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
@@ -1444,7 +1444,7 @@ alignment: FL_ALIGN_CENTER
 style: FL_NORMAL_STYLE
 size: FL_NORMAL_SIZE
 lcol: FL_BLACK
-label: JXFontSizeMenu(fontMenu, "Size",
+label: JXFontSizeMenu(fontMenu, JGetString("FontSizeMenuLabel::TestPopupChoiceDialog"),
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
@@ -1462,7 +1462,7 @@ alignment: FL_ALIGN_CENTER
 style: FL_NORMAL_STYLE
 size: FL_NORMAL_SIZE
 lcol: FL_BLACK
-label: JXImageMenu("Icons", 2,
+label: JXImageMenu(JGetString("ImageMenuLabel::TestPopupChoiceDialog"), 2,
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
@@ -2050,7 +2050,7 @@ alignment: FL_ALIGN_CENTER
 style: FL_NORMAL_STYLE
 size: FL_NORMAL_SIZE
 lcol: FL_BLACK
-label: JXPathHistoryMenu(1, "",
+label: JXPathHistoryMenu(1, JString::empty,
 shortcut: 
 resize: FL_RESIZE_NONE
 gravity: FL_SouthEast FL_NoGravity
@@ -2068,7 +2068,7 @@ alignment: FL_ALIGN_CENTER
 style: FL_NORMAL_STYLE
 size: FL_NORMAL_SIZE
 lcol: FL_BLACK
-label: JXStringHistoryMenu(1, "",
+label: JXStringHistoryMenu(1, JString::empty,
 shortcut: 
 resize: FL_RESIZE_NONE
 gravity: FL_SouthEast FL_NoGravity
@@ -2146,7 +2146,7 @@ resize: FL_RESIZE_NONE
 gravity: FL_South FL_NoGravity
 name: (currPathMenu)
 callback: 
-argument: "/"
+argument: JGetRootDirectory()
 
 =============== FORM ===============
 Name: TestStrTableDirector__tablelayout__encl

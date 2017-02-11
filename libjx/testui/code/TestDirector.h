@@ -38,7 +38,7 @@ public:
 
 	virtual ~TestDirector();
 
-	void	OpenTextFile(const JCharacter* fileName);
+	void	OpenTextFile(const JString& fileName);
 
 protected:
 

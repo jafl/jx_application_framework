@@ -19,13 +19,12 @@
 #include <JXPSPrinter.h>
 
 #include <JStringTableData.h>
+#include <jGlobals.h>
 #include <jAssert.h>
 
 // File menu information
 
-static const JCharacter* kFileMenuTitleStr  = "File";
-static const JCharacter* kFileMenuShortcuts = "#F";
-static const JCharacter* kFileMenuStr =
+static const JUtf8Byte* kFileMenuStr =
 	"Page setup... | Print... %h p" "%l| Close %h c";
 
 enum
@@ -95,12 +94,12 @@ TestStrTableDirector::BuildWindow()
 
 // end JXLayout
 
-	window->SetTitle("Test String Table");
+	window->SetTitle(JGetString("WindowTitle::TestStrTableDirector"));
 	window->SetWMClass("testjx", "TestStrTableDirector");
 	window->SetMinSize(150,150);
 
-	itsFileMenu = menuBar->AppendTextMenu(kFileMenuTitleStr);
-	itsFileMenu->SetShortcuts(kFileMenuShortcuts);
+	itsFileMenu = menuBar->AppendTextMenu(JGetString("FileMenuTitle::TestStrTableDirector"));
+	itsFileMenu->SetShortcuts(JGetString("FileMenuShortcut::TestStrTableDirector"));
 	itsFileMenu->SetMenuItems(kFileMenuStr);
 	ListenTo(itsFileMenu);
 

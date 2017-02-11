@@ -12,6 +12,7 @@
 #include <JXTextButton.h>
 #include <JXSlider.h>
 #include <JXLevelControl.h>
+#include <jGlobals.h>
 #include <jAssert.h>
 
 /******************************************************************************
@@ -73,23 +74,23 @@ TestSliderDirector::BuildWindow()
 
 // end JXLayout
 
-	window->SetTitle("Testing Sliders");
+	window->SetTitle(JGetString("WindowTitle::TestSliderDirector"));
 	window->SetWMClass("testjx", "TestSliderDirector");
 
 	itsSlider->SetRange(1,10);
-	itsSlider->SetHint("Horizontal slider");
+	itsSlider->SetHint(JGetString("HorizontalSliderHint::TestSliderDirector"));
 
 	itsMaxSlider->SetRange(1,10);
 	itsMaxSlider->SetValue(itsSlider->GetMaxValue());
-	itsMaxSlider->SetHint("Vertical slider (controls maximum value of horizontal slider)");
+	itsMaxSlider->SetHint(JGetString("VerticalSliderHint::TestSliderDirector"));
 	ListenTo(itsMaxSlider);
 
 	itsLevel->SetRange(1,10);
-	itsLevel->SetHint("Horizontal level control");
+	itsLevel->SetHint(JGetString("HorizontalLevelControlHint::TestSliderDirector"));
 
 	itsMaxLevel->SetRange(1,10);
 	itsMaxLevel->SetValue(itsLevel->GetMaxValue());
-	itsMaxLevel->SetHint("Vertical level control (controls maximum value of horizontal level control)");
+	itsMaxLevel->SetHint(JGetString("VerticalLevelControlHint::TestSliderDirector"));
 	ListenTo(itsMaxLevel);
 }
 

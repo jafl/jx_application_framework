@@ -15,6 +15,7 @@
 #include <JXVertPartition.h>
 #include <JXWindowPainter.h>
 #include <JXColormap.h>
+#include <jGlobals.h>
 #include <jAssert.h>
 
 /******************************************************************************
@@ -114,19 +115,19 @@ TestCompartment::Draw
 		p.SetFontStyle((p.GetColormap())->GetInactiveLabelColor());
 		}
 
-	p.String(ap.left, top, "Left click to insert in front of",
+	p.String(ap.left, top, JGetString("LeftClickInstr::TestCompartment"),
 			 ap.width(), JPainter::kHAlignCenter);
 	top += lineHeight;
-	p.String(ap.left, top, "Middle click to delete",
+	p.String(ap.left, top, JGetString("MiddleClickInstr::TestCompartment"),
 			 ap.width(), JPainter::kHAlignCenter);
 	top += lineHeight;
-	p.String(ap.left, top, "Right click to insert after",
+	p.String(ap.left, top, JGetString("RightClickInstr::TestCompartment"),
 			 ap.width(), JPainter::kHAlignCenter);
 
 	if (isElastic)
 		{
 		top += lineHeight;
-		p.String(ap.left, top, "(elastic)",
+		p.String(ap.left, top, JGetString("ElasticLabel::TestCompartment"),
 				 ap.width(), JPainter::kHAlignCenter);
 		}
 }

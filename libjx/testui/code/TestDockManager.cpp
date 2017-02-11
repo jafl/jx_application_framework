@@ -12,6 +12,7 @@
 #include <JXHorizDockPartition.h>
 #include <JXVertDockPartition.h>
 #include <JXDockWidget.h>
+#include <jGlobals.h>
 #include <jAssert.h>
 
 /******************************************************************************
@@ -24,7 +25,7 @@ TestDockManager::TestDockManager
 	JXDisplay* display
 	)
 	:
-	JXDockManager(display, "testjx")
+	JXDockManager(display, JGetString("DockTitle::TestDockManager"))
 {
 }
 

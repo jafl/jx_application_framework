@@ -26,15 +26,9 @@
 #include <jDirUtil.h>
 #include <jAssert.h>
 
-// File list menu
-
-static const JCharacter* kFileListMenuTitleStr = "Files";
-
 // File menu
 
-static const JCharacter* kFileMenuTitleStr  = "File";
-static const JCharacter* kFileMenuShortcuts = "#F";
-static const JCharacter* kFileMenuStr =
+static const JUtf8Byte* kFileMenuStr =
 	"    New %h n %k Ctrl-N"
 	"  | Open... %h o %k Ctrl-O"
 	"  | Save %h s %k Ctrl-S"
@@ -73,8 +67,8 @@ TestTextEditDocument::TestTextEditDocument
 
 TestTextEditDocument::TestTextEditDocument
 	(
-	JXDirector*			supervisor,
-	const JCharacter*	fileName
+	JXDirector*		supervisor,
+	const JString&	fileName
 	)
 	:
 	JXFileDocument(supervisor, fileName, kJTrue, kJTrue, JString::empty)
@@ -135,14 +129,14 @@ TestTextEditDocument::BuildWindow
 	itsTextEditor->FitToEnclosure();
 	ListenTo(itsTextEditor);
 
-	itsFileMenu = menuBar->PrependTextMenu(kFileMenuTitleStr);
-	itsFileMenu->SetShortcuts(kFileMenuShortcuts);
+	itsFileMenu = menuBar->PrependTextMenu(JGetString("FileMenuTitle::TestTextEditDocument"));
+	itsFileMenu->SetShortcuts(JGetString("FileMenuShortcut::TestTextEditDocument"));
 	itsFileMenu->SetMenuItems(kFileMenuStr);
 	itsFileMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsFileMenu);
 
 	JXDocumentMenu* fileListMenu =
-		jnew JXDocumentMenu(kFileListMenuTitleStr, menuBar,
+		jnew JXDocumentMenu(JGetString("FilesMenuTitle::TestTextEditDocument"), menuBar,
 						   JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
 	assert( fileListMenu != NULL );
 	menuBar->PrependMenu(fileListMenu);
@@ -265,12 +259,12 @@ TestTextEditDocument::OpenFiles()
 {
 	JChooseSaveFile* csf = JGetChooseSaveFile();
 	JPtrArray<JString> fullNameList(JPtrArrayT::kDeleteAll);
-	if (csf->ChooseFiles("Files to open:", NULL, &fullNameList))
+	if (csf->ChooseFiles(JGetString("ChooseFilesPrompt::TestTextEditDocument"), NULL, &fullNameList))
 		{
 		const JSize count = fullNameList.GetElementCount();
 		JXStandAlonePG pg;
 		pg.RaiseWhenUpdate();
-		pg.FixedLengthProcessBeginning(count, "Opening files...", kJTrue, kJFalse);
+		pg.FixedLengthProcessBeginning(count, JGetString("OpenFilesProgress::TestTextEditDocument"), kJTrue, kJFalse);
 
 		for (JIndex i=1; i<=count; i++)
 			{
@@ -338,7 +332,7 @@ TestTextEditDocument::DiscardChanges()
 void
 TestTextEditDocument::ReadFile
 	(
-	const JCharacter* fileName
+	const JString& fileName
 	)
 {
 	JBoolean isHTML = kJFalse;
@@ -348,7 +342,7 @@ TestTextEditDocument::ReadFile
 		}
 	else if (itsDataType == kUnknownType)
 		{
-		std::ifstream input(fileName);
+		std::ifstream input(fileName.GetBytes());
 		input >> std::ws;
 		if (input.peek() == '<')
 			{
@@ -364,14 +358,13 @@ TestTextEditDocument::ReadFile
 		if (isHTML)
 			{
 			isHTML = (JGetUserNotification())->AskUserYes(
-				"This file contains HTML formatting.  Do you want to load it as "
-				"formatted text?  (Some information will be lost when it is translated.)");
+				JGetString("AskParseHTML::TestTextEditDocument"));
 			}
 		}
 
 	if (isHTML)
 		{
-		std::ifstream input(fileName);
+		std::ifstream input(fileName.GetBytes());
 		itsTextEditor->ReadHTML(input);
 		itsDataType = kHTML;
 		}
@@ -405,7 +398,7 @@ TestTextEditDocument::ReadFile
 void
 TestTextEditDocument::WriteTextFile
 	(
-	std::ostream&		output,
+	std::ostream&	output,
 	const JBoolean	safetySave
 	)
 	const

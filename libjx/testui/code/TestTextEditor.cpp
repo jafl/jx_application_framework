@@ -15,7 +15,7 @@
 
 // Edit menu
 
-static const JCharacter* kEditMenuStr =
+static const JUtf8Byte* kEditMenuStr =
 	"    Auto-indent    %b"
 	"%l| Undo depth 1   %r"
 	"  | Undo depth 2   %r"

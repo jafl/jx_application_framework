@@ -91,7 +91,7 @@ ResizeWidgetDialog::BuildWindow
 
 // end JXLayout
 
-	window->SetTitle("Change widget size");
+	window->SetTitle(JGetString("WindowTitle::ResizeWidgetDialog"));
 	SetButtons(okButton, cancelButton);
 
 	const JRect r = widget->GetBoundsGlobal();

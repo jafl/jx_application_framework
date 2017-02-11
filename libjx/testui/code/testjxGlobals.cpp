@@ -18,7 +18,7 @@
 static TestApp*			theApplication = NULL;		// owns itself
 static TestMDIServer*	theMDIServer   = NULL;		// owned by JX, can be NULL
 
-static const JCharacter* kDockSetupFileName = "testjx_dock_data";
+static const JUtf8Byte* kDockSetupFileName = "testjx_dock_data";
 
 /******************************************************************************
  TestjxCreateGlobals
@@ -44,7 +44,7 @@ TestjxCreateGlobals
 		jnew TestDockManager((JXGetApplication())->GetCurrentDisplay());
 	assert( theDockManager != NULL );
 
-	if (JFileExists(kDockSetupFileName))
+	if (JFileExists(JString(kDockSetupFileName, 0, kJFalse)))
 		{
 		std::ifstream input(kDockSetupFileName);
 		theDockManager->ReadSetup(input);

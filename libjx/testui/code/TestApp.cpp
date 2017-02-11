@@ -21,7 +21,7 @@
 
 // Application signature (MDI)
 
-static const JCharacter* kAppSignature = "testjx";
+static const JUtf8Byte* kAppSignature = "testjx";
 
 /******************************************************************************
  Constructor
@@ -86,7 +86,7 @@ TestApp::CleanUpBeforeSuddenDeath
 		{
 		const JString userName = JGetUserName();
 
-		const JCharacter* argv[] = { "sendmail", userName, NULL };
+		const JUtf8Byte* argv[] = { "sendmail", userName.GetBytes(), NULL };
 
 		JProcess* p;
 		int toFD;
@@ -131,7 +131,7 @@ TestApp::ReceiveWithFeedback
 
  ******************************************************************************/
 
-const JCharacter*
+const JUtf8Byte*
 TestApp::GetAppSignature()
 {
 	return kAppSignature;

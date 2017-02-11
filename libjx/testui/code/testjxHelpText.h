@@ -10,15 +10,15 @@
 
 #include <jTypes.h>
 
-static const JCharacter* kMainHelpName  = "testjxMainHelp";
-static const JCharacter* kHyperHelpName = "testjxHyperHelp";
-static const JCharacter* kNoTextName    = "testjxNoTextHelp";
+static const JUtf8Byte* kMainHelpName  = "testjxMainHelp";
+static const JUtf8Byte* kHyperHelpName = "testjxHyperHelp";
+static const JUtf8Byte* kNoTextName    = "testjxNoTextHelp";
 
-static const JCharacter* kHelpSectionName[] =
+static const JUtf8Byte* kHelpSectionName[] =
 	{
 	kMainHelpName, kHyperHelpName, kNoTextName
 	};
 
-const JSize kHelpSectionCount = sizeof(kHelpSectionName) / sizeof(JCharacter*);
+const JSize kHelpSectionCount = sizeof(kHelpSectionName) / sizeof(JUtf8Byte*);
 
 #endif
