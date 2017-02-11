@@ -296,7 +296,7 @@ JXDockTabGroup::HandleDockContextMenu
 			{
 			JXDockWidget* dock;
 			w->GetDockWidget(&dock);
-			(JXGetDockManager())->SetDefaultDock(type, w->IsDocked() ? dock : NULL);
+			(JXGetDockManager())->SetDefaultDock(type.GetBytes(), w->IsDocked() ? dock : NULL);
 			}
 		}
 

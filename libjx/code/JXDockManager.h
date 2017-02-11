@@ -53,8 +53,8 @@ public:
 	virtual	JBoolean	CanDockAll() const;
 	virtual void		DockAll();
 
-	JBoolean	GetDefaultDock(const JString& windowType, JXDockWidget** dock);
-	void		SetDefaultDock(const JString& windowType, const JXDockWidget* dock);
+	JBoolean	GetDefaultDock(const JUtf8Byte* windowType, JXDockWidget** dock);
+	void		SetDefaultDock(const JUtf8Byte* windowType, const JXDockWidget* dock);
 
 	JBoolean	IsReadingSetup() const;
 	void		ReadSetup(std::istream& input);

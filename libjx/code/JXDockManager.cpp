@@ -246,8 +246,8 @@ JXDockManager::DockAll()
 JBoolean
 JXDockManager::GetDefaultDock
 	(
-	const JString&	windowType,
-	JXDockWidget**	dock
+	const JUtf8Byte*	windowType,
+	JXDockWidget**		dock
 	)
 {
 	JIndex id;
@@ -280,7 +280,7 @@ JXDockManager::GetDefaultDock
 void
 JXDockManager::SetDefaultDock
 	(
-	const JString&		windowType,
+	const JUtf8Byte*	windowType,
 	const JXDockWidget*	dock
 	)
 {

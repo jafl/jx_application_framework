@@ -8,9 +8,8 @@
 #ifndef _H_JXWDManager
 #define _H_JXWDManager
 
-#include <JPtrArray.h>
+#include <JPtrArray-JString.h>
 
-class JString;
 class JXDisplay;
 class JXImage;
 class JXWindowDirector;
@@ -40,7 +39,7 @@ public:
 	// for use by JXWindowDirector
 
 	void	PermanentDirectorCreated(JXWindowDirector* dir,
-									 const JUtf8Byte* shortcut = NULL,
+									 const JString& shortcut = JString::empty,
 									 const JUtf8Byte* id = NULL);
 	void	DirectorCreated(JXWindowDirector* dir);
 	void	DirectorDeleted(JXWindowDirector* dir);
@@ -86,7 +85,7 @@ private:
 	void	ActivateDirector(const JIndex index);
 
 	void	DirectorCreated(JArray<WindowInfo>* windowList, JXWindowDirector* dir,
-							const JUtf8Byte* shortcut, const JUtf8Byte* id);
+							const JString& shortcut, const JUtf8Byte* id);
 	JBoolean	DirectorDeleted1(JArray<WindowInfo>* windowList,
 								 JXWindowDirector* dir);
 	void		UpdateWDMenu1(const JArray<WindowInfo>& windowList, JXWDMenu* menu);

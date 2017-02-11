@@ -358,7 +358,7 @@ JXWindow::SetWMClass
 	JXDockManager* mgr;
 	JXDockWidget* dock;
 	if (theAutoDockNewWindowFlag &&
-		JXGetDockManager(&mgr) && mgr->GetDefaultDock(itsWindowType, &dock))
+		JXGetDockManager(&mgr) && mgr->GetDefaultDock(instance, &dock))
 		{
 		dock->Dock(this);
 		}
@@ -2473,12 +2473,10 @@ JXWindow::HandleEvent
 {
 	if (xEvent.type == EnterNotify)
 		{
-		JXClearKeyPressPreprocessor();
 		HandleEnterNotify(xEvent.xcrossing);
 		}
 	else if (xEvent.type == LeaveNotify)
 		{
-		JXClearKeyPressPreprocessor();
 		HandleLeaveNotify(xEvent.xcrossing);
 		}
 	else if (xEvent.type == MotionNotify)
@@ -2487,23 +2485,19 @@ JXWindow::HandleEvent
 		}
 	else if (xEvent.type == ButtonPress)
 		{
-		JXClearKeyPressPreprocessor();
 		HandleButtonPress(xEvent.xbutton);
 		}
 	else if (xEvent.type == ButtonRelease)
 		{
-		JXClearKeyPressPreprocessor();
 		HandleButtonRelease(xEvent.xbutton);
 		}
 
 	else if (xEvent.type == FocusIn)
 		{
-		JXClearKeyPressPreprocessor();
 		HandleFocusIn(xEvent.xfocus);
 		}
 	else if (xEvent.type == FocusOut)
 		{
-		JXClearKeyPressPreprocessor();
 		HandleFocusOut(xEvent.xfocus);
 		}
 	else if (xEvent.type == KeyPress)
@@ -2531,12 +2525,10 @@ JXWindow::HandleEvent
 
 	else if (xEvent.type == MapNotify && xEvent.xmap.window == itsXWindow)
 		{
-		JXClearKeyPressPreprocessor();
 		HandleMapNotify(xEvent.xmap);
 		}
 	else if (xEvent.type == UnmapNotify && xEvent.xunmap.window == itsXWindow)
 		{
-		JXClearKeyPressPreprocessor();
 		HandleUnmapNotify(xEvent.xunmap);
 		}
 	else if (xEvent.type == MapNotify || xEvent.type == UnmapNotify)
@@ -3328,14 +3320,6 @@ JXWindow::HandleKeyPress
 		charCount = 1;
 		buffer[0] = '0' + (keySym - XK_KP_0);
 		buffer[1] = '\0';
-		}
-
-	// handle character modifiers
-	// (may modify buffer, so must be after simple translations)
-
-	if (!JXPreprocessKeyPress(keySym, buffer))
-		{
-		return;
 		}
 
 	// dispatch key

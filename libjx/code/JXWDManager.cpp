@@ -112,7 +112,7 @@ void
 JXWDManager::PermanentDirectorCreated
 	(
 	JXWindowDirector*	dir,
-	const JUtf8Byte*	shortcut,
+	const JString&		shortcut,
 	const JUtf8Byte*	id
 	)
 {
@@ -130,7 +130,7 @@ JXWDManager::DirectorCreated
 	JXWindowDirector* dir
 	)
 {
-	DirectorCreated(itsWindowList, dir, NULL, NULL);
+	DirectorCreated(itsWindowList, dir, JString::empty, NULL);
 }
 
 /******************************************************************************
@@ -146,7 +146,7 @@ JXWDManager::DirectorCreated
 	(
 	JArray<WindowInfo>*	windowList,
 	JXWindowDirector*	dir,
-	const JUtf8Byte*	shortcut,
+	const JString&		shortcut,
 	const JUtf8Byte*	id
 	)
 {
@@ -155,7 +155,7 @@ JXWDManager::DirectorCreated
 	JIndex insertionIndex = 0;
 	if (shortcut != NULL)
 		{
-		info.shortcutStr = jnew JString(shortcut, 0);
+		info.shortcutStr = jnew JString(shortcut);
 		assert( info.shortcutStr != NULL );
 		}
 	else

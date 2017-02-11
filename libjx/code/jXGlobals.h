@@ -81,9 +81,4 @@ JBoolean	JXGetHelpManager(JXHelpManager** helpMgr);
 JBoolean	JXGetSearchTextDialog(JXSearchTextDialog** dlog);
 void		JXSetDockManager(JXDockManager* dockMgr);
 
-	// called by JXWindow
-
-JBoolean	JXPreprocessKeyPress(const KeySym keySym, JUtf8Byte* buffer);
-void		JXClearKeyPressPreprocessor();
-
 #endif

@@ -19,7 +19,7 @@
 
 JXMDIServer::JXMDIServer()
 	:
-	JMDIServer((JXGetApplication())->GetSignature())
+	JMDIServer((JXGetApplication())->GetSignature().GetBytes())
 {
 	JXSetMDIServer(this);
 }

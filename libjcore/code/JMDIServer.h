@@ -24,13 +24,13 @@ public:
 
 public:
 
-	JMDIServer(const JString& signature);
+	JMDIServer(const JUtf8Byte* signature);
 
 	virtual ~JMDIServer();
 
 	// for use by main()
 
-	static JBoolean	WillBeMDIServer(const JString& signature,
+	static JBoolean	WillBeMDIServer(const JUtf8Byte* signature,
 									const int argc, char* argv[]);
 	void			HandleCmdLineOptions(const int argc, char* argv[]);
 
@@ -56,7 +56,7 @@ private:
 private:
 
 	void			ProcessMDIMessage();
-	static JString	GetMDISocketName(const JString& signature);
+	static JString	GetMDISocketName(const JUtf8Byte* signature);
 
 	static void		SendLine(ACE_LSOCK_Stream& socket, const JString& line);
 	static JBoolean	ReceiveLine(ACE_LSOCK_Stream& socket, const JBoolean block,

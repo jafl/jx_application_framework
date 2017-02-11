@@ -60,7 +60,7 @@ static const JString kServerBusyMsg ("JMDIServer busy",  0, kJFalse);
 
 JMDIServer::JMDIServer
 	(
-	const JString& signature
+	const JUtf8Byte* signature
 	)
 	:
 	itsFirstTimeFlag(kJTrue)
@@ -102,9 +102,9 @@ JMDIServer::~JMDIServer()
 JBoolean
 JMDIServer::WillBeMDIServer
 	(
-	const JString&	signature,
-	const int		argc,
-	char*			argv[]
+	const JUtf8Byte*	signature,
+	const int			argc,
+	char*				argv[]
 	)
 {
 	assert( argc >= 1 );
@@ -315,7 +315,7 @@ JMDIServer::PreprocessArgList
 JString
 JMDIServer::GetMDISocketName
 	(
-	const JString& signature
+	const JUtf8Byte* signature
 	)
 {
 	JString path;
