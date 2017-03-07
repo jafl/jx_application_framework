@@ -1060,6 +1060,7 @@ SyGFileTreeTable::HandleMouseDown
 		// after checking for double-click, since this inverts selection
 
 		s.InvertCell(cell.y, GetNodeColIndex());
+		itsWaitingForDragFlag = s.IsSelected(cell.y, GetNodeColIndex());
 		}
 	else
 		{
