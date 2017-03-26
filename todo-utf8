@@ -3,6 +3,10 @@ add back in
 	JTEStyler
 	JVIKeyHandler
 
+	copy JTextEditor -> JTextBuffer
+		need separate JStringIterator in JTE & JTB
+		implement same logic as JListIterator
+
 sample text in TestTabDirector
 	has \x - correctly interpreted?
 
