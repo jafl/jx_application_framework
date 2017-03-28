@@ -115,6 +115,9 @@ WarnRemoveRemote::SyGFileTreeTable		"Are you sure you want to remove the connect
 
 AskRelativeAlias::SyGFileTreeTable	"Do you want the alias for $name to be a relative symlink?"
 
+DeletePrunedBranchesTitle::SyGFileTreeTable		"Prune Local Git Branches"
+DeletePrunedBranchesPrompt::SyGFileTreeTable	"Select the local branches that you would like to prune:"
+
 # SyGNewGitRemoteDialog
 
 WindowTitle::SyGNewGitRemoteDialog "Link to Remote Repo"

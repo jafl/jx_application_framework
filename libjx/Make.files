@@ -64,6 +64,7 @@
 .cpp ./code/JXCheckboxGroup
 .cpp ./code/JXAtLeastOneCBGroup
 .cpp ./code/JXAtMostOneCBGroup
+.cpp ./code/JXCheckboxListDialog
 .cpp ./code/JXRadioGroup
 .cpp ./code/JXRadioButton
 .cpp ./code/JXTextRadioButton

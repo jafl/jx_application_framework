@@ -46,6 +46,7 @@
 #include <JXTextMenu.h>
 #include <JXFSDirMenu.h>
 #include <JXRadioGroupDialog.h>
+#include <JXCheckboxListDialog.h>
 #include <JXGetStringDialog.h>
 #include <JXTimerTask.h>
 #include <JXToolBar.h>
@@ -332,6 +333,8 @@ SyGFileTreeTable::SyGFileTreeTable
 	itsGitStashDialog           = NULL;
 	itsGitProcess				= NULL;
 	itsAddGitRemoteDialog		= NULL;
+	itsPruneBranchesDialog		= NULL;
+	itsPruneBranchList			= NULL;
 	itsIconWidget				= NULL;
 	itsWindowIconType			= 0;
 
@@ -553,6 +556,7 @@ SyGFileTreeTable::~SyGFileTreeTable()
 
 	jdelete itsEditTask;
 	jdelete itsUpdateTask;
+	jdelete itsPruneBranchList;
 }
 
 /******************************************************************************
@@ -2318,6 +2322,22 @@ SyGFileTreeTable::Receive
 						 itsAddGitRemoteDialog->GetLocalName());
 			}
 		itsAddGitRemoteDialog = NULL;
+		}
+
+	else if (sender == itsPruneBranchesDialog &&
+			 message.Is(JXDialogDirector::kDeactivated))
+		{
+		const JXDialogDirector::Deactivated* info =
+			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
+		assert(info != NULL);
+		if (info->Successful())
+			{
+			PruneLocalBranches();
+			}
+		itsPruneBranchesDialog = NULL;
+
+		jdelete itsPruneBranchList;
+		itsPruneBranchList = NULL;
 		}
 
 	else if (sender == itsIconWidget && message.Is(JXWindowIcon::kHandleEnter))
@@ -4532,17 +4552,21 @@ SyGFileTreeTable::PushBranch
 void
 SyGFileTreeTable::RemoveGitBranch
 	(
-	const JString& branch
+	const JString& branch,
+	const JBoolean force
 	)
 {
-	const JCharacter* map[] =
+	if (!force)
 		{
-		"name", branch
-		};
-	const JString msg = JGetString("WarnRemoveBranch::SyGFileTreeTable", map, sizeof(map));
-	if (!(JGetUserNotification())->AskUserNo(msg))
-		{
-		return;
+		const JCharacter* map[] =
+			{
+			"name", branch
+			};
+		const JString msg = JGetString("WarnRemoveBranch::SyGFileTreeTable", map, sizeof(map));
+		if (!(JGetUserNotification())->AskUserNo(msg))
+			{
+			return;
+			}
 		}
 
 	JString cmd = "git branch -D ";
@@ -4709,23 +4733,124 @@ SyGFileTreeTable::RemoveGitRemote
 
  ******************************************************************************/
 
+static const JRegex prunedBranchPattern = "^\\s*\\*\\s*\\[.+?\\]\\s*.+?/(.+)$";
+
 void
 SyGFileTreeTable::PruneRemoteGitBranches
 	(
 	const JString& name
 	)
 {
-	JString cmd =
-		"xterm -T 'Prune $name' "
-			"-e 'git remote prune $name | less'";
-
 	const JString nameArg = JPrepArgForExec(name);
 
 	JSubstitute subst;
 	subst.DefineVariable("name", nameArg);
+
+	// get names of branches that will be pruned
+
+	JString cmd = "git remote prune -n $name";
+	subst.Substitute(&cmd);
+
+	int fromFD;
+	const JError err = JExecute(itsFileTree->GetDirectory(), cmd, NULL,
+								kJIgnoreConnection, NULL,
+								kJCreatePipe, &fromFD,
+								kJAttachToFromFD);
+
+	JString s;
+	JReadAll(fromFD, &s);
+
+	itsPruneBranchList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
+	assert( itsPruneBranchList != NULL );
+
+	JIndexRange r;
+	JArray<JIndexRange> matchList;
+	while (prunedBranchPattern.MatchAfter(s, r, &matchList))
+		{
+		itsPruneBranchList->Append(s.GetSubstring(matchList.GetElement(2)));
+		r = matchList.GetElement(1);
+		}
+
+	// prune the branches
+
+	cmd = "xterm -T 'Prune $name' "
+			"-e 'git remote prune $name | less'";
+
 	subst.Substitute(&cmd);
 
 	JSimpleProcess::Create(itsFileTree->GetDirectory(), cmd, kJTrue);
+
+	// check if we have local versions
+
+	if (!itsPruneBranchList->IsEmpty())
+		{
+		JPtrArray<JString> localList(JPtrArrayT::kDeleteAll);
+		JIndex i;
+		GetGitBranches("git branch", &localList, &i, NULL);
+
+		const JString* currentBranch = localList.NthElement(i);	// before sorting
+
+		localList.SetCompareFunction(JCompareStringsCaseInsensitive);
+		localList.Sort();
+
+		const JSize branchCount = itsPruneBranchList->GetElementCount();
+		for (JIndex i=branchCount; i>=1; i--)
+			{
+			JString* branch = itsPruneBranchList->NthElement(i);
+
+			JIndex j;
+			if (!localList.SearchSorted(branch, JOrderedSetT::kAnyMatch, &j) ||
+				*branch == *currentBranch)
+				{
+				itsPruneBranchList->DeleteElement(i);
+				}
+			}
+		}
+
+	// ask if should delete local versions
+
+	if (!itsPruneBranchList->IsEmpty())
+		{
+		assert( itsPruneBranchesDialog == NULL );
+
+		itsPruneBranchesDialog =
+			jnew JXCheckboxListDialog(GetWindow()->GetDirector(),
+									  JGetString("DeletePrunedBranchesTitle::SyGFileTreeTable"),
+									  JGetString("DeletePrunedBranchesPrompt::SyGFileTreeTable"),
+									  *itsPruneBranchList);
+		assert( itsPruneBranchesDialog != NULL );
+		itsPruneBranchesDialog->SelectAllItems();
+		itsPruneBranchesDialog->Activate();
+		ListenTo(itsPruneBranchesDialog);
+		}
+	else
+		{
+		jdelete itsPruneBranchList;
+		itsPruneBranchList = NULL;
+		}
+}
+
+/******************************************************************************
+ PruneLocalBranches (private)
+
+ ******************************************************************************/
+
+void
+SyGFileTreeTable::PruneLocalBranches()
+{
+	assert( itsPruneBranchesDialog != NULL );
+
+	JArray<JIndex> indexList;
+	if (!itsPruneBranchesDialog->GetSelectedItems(&indexList))
+		{
+		return;
+		}
+
+	const JSize count = indexList.GetElementCount();
+	for (JIndex i=1; i<=count; i++)
+		{
+		RemoveGitBranch(*(itsPruneBranchList->NthElement(indexList.GetElement(i))), kJTrue);
+		}
 }
 
 /******************************************************************************
