@@ -24,6 +24,7 @@
 #include <JXMenuManager.h>
 #include <JXHelpManager.h>
 #include <JXDocumentManager.h>
+#include <JXSharedPrefsManager.h>
 #include <JXMDIServer.h>
 #include <JXAssert.h>
 #include <jXEventUtil.h>
@@ -129,6 +130,11 @@ JXApplication::JXApplication
 			}
 		std::cerr << std::endl;
 		JThisProcess::Exit(1);
+		}
+
+	if (JXGetSharedPrefsManager()->WasNew() && display->IsOSX())
+		{
+		JXMenu::SetDisplayStyle(JXMenu::kMacintoshStyle);
 		}
 
 	// start the timer
