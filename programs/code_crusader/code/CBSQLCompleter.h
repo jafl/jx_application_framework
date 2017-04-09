@@ -25,6 +25,7 @@ protected:
 
 	virtual JBoolean	IsWordCharacter(const JString& s, const JIndex index,
 										const JBoolean includeNS) const;
+	virtual void		MatchCase(const JString& source, JString* target) const;
 
 private:
 

@@ -614,6 +614,18 @@ T
 F
 "./code/CBRubyScannerL.l"
 T
+2 "CBSQLStyler.cpp"
+F
+"./code/CBSQLStyler.cpp"
+T
+2 "CBSQLScanner.cpp"
+F
+"./code/CBSQLScanner.cpp"
+T
+2 "CBSQLScannerL.l"
+F
+"./code/CBSQLScannerL.l"
+T
 2 "CBTCLStyler.cpp"
 F
 "./code/CBTCLStyler.cpp"
@@ -1058,7 +1070,7 @@ T "@" "pwd" "" F F F T T F F "" "" "" F
 F
 # build settings
 1
-F
+T
 "jcc"
 "${LIB_DEPS}"
 "make -k all"

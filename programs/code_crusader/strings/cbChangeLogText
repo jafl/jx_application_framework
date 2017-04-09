@@ -18,6 +18,8 @@ Redesigned multi-file Replace All feature to update files without opening them. 
 <p>
 Added \"Export\" and \"Import\" buttons in the Edit Tasks Menu dialog, to simplify transfering tasks between projects.
 <p>
+Added syntax hilighting for SQL.
+<p>
 Improved parsing of Java source files to detect inner classes and be smarter about finding parent classes.
 <p>
 Added support for Perl operators // and //= and ~~.
