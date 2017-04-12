@@ -593,7 +593,7 @@ JXColHeaderWidget::CreateXInputField
 	const JCoordinate	h
 	)
 {
-	assert( 0 /* The programmer forgot to override JXEditTable::CreateXInputField() */ );
+	assert_msg( 0, "The programmer forgot to override JXEditTable::CreateXInputField()" );
 	return NULL;
 }
 
@@ -605,5 +605,5 @@ JXColHeaderWidget::CreateXInputField
 void
 JXColHeaderWidget::PrepareDeleteXInputField()
 {
-	assert( 0 /* The programmer forgot to override JXEditTable::PrepareDeleteXInputField() */ );
+	assert_msg( 0, "The programmer forgot to override JXEditTable::PrepareDeleteXInputField()" );
 }

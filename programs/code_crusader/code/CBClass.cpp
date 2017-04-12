@@ -614,7 +614,7 @@ CBClass::NewGhost
 	CBTree*				tree
 	)
 {
-	assert( 0 /* The programmer forgot to override CBClass::NewGhost() */ );
+	assert_msg( 0, "The programmer forgot to override CBClass::NewGhost()" );
 	return NULL;
 }
 
@@ -629,7 +629,7 @@ const JCharacter*
 CBClass::GetNamespaceOperator()
 	const
 {
-	assert( 0 /* The programmer forgot to override CBClass::GetNamespaceOperator() */ );
+	assert_msg( 0, "The programmer forgot to override CBClass::GetNamespaceOperator()" );
 	return NULL;
 }
 
@@ -650,7 +650,7 @@ CBClass::IsInherited
 	)
 	const
 {
-	assert( 0 /* The programmer forgot to override CBClass::IsInherited() */ );
+	assert_msg( 0, "The programmer forgot to override CBClass::IsInherited()" );
 	return kJFalse;
 }
 
@@ -834,14 +834,14 @@ void
 CBClass::ViewSource()
 	const
 {
-	assert( 0 /* The programmer forgot to override CBClass::ViewSource() */ );
+	assert_msg( 0, "The programmer forgot to override CBClass::ViewSource()" );
 }
 
 void
 CBClass::ViewHeader()
 	const
 {
-	assert( 0 /* The programmer forgot to override CBClass::ViewHeader() */ );
+	assert_msg( 0, "The programmer forgot to override CBClass::ViewHeader()" );
 }
 
 JBoolean
@@ -853,7 +853,7 @@ CBClass::ViewDefinition
 	)
 	const
 {
-	assert( 0 /* The programmer forgot to override CBClass::ViewDefinition() */ );
+	assert_msg( 0, "The programmer forgot to override CBClass::ViewDefinition()" );
 	return kJFalse;
 }
 
@@ -866,7 +866,7 @@ CBClass::ViewDeclaration
 	)
 	const
 {
-	assert( 0 /* The programmer forgot to override CBClass::ViewDeclaration() */ );
+	assert_msg( 0, "The programmer forgot to override CBClass::ViewDeclaration()" );
 	return kJFalse;
 }
 

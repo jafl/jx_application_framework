@@ -357,7 +357,7 @@ CBStringCompleter::MatchCase
 	)
 	const
 {
-	assert( 0 /* Programmer forgot to override CBStringCompleter::MatchCase() */ );
+	assert_msg( 0, "Programmer forgot to override CBStringCompleter::MatchCase()" );
 }
 
 /******************************************************************************

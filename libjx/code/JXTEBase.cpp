@@ -2252,7 +2252,7 @@ JXTEBase::ShareSearchMenu
 		}
 	else
 		{
-		assert( 0 /* should never happen */ );
+		assert_msg( 0, "should never happen" );
 		return NULL;
 		}
 }

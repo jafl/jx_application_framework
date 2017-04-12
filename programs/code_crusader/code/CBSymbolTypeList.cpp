@@ -222,7 +222,7 @@ CBSymbolTypeList::FindType
 			}
 		}
 
-	assert( 0 /* CBSymbolTypeList::FindType couldn't find type */ );
+	assert_msg( 0, "CBSymbolTypeList::FindType couldn't find type" );
 	return 0;
 }
 

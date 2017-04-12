@@ -30,11 +30,11 @@ public:
 	virtual	~JAssertBase();
 
 	virtual int		Assert(const JCharacter* expr, const JCharacter* file,
-						   const int line) = 0;
+						   const int line, const JCharacter* message) = 0;
 	virtual void	Abort();
 
 	static int	DefaultAssert(const JCharacter* expr, const JCharacter* file,
-							  const int line);
+							  const int line, const JCharacter* message);
 
 	static Action	GetAction();
 	static void		SetAction(const Action action);

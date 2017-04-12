@@ -1558,7 +1558,7 @@ JXDisplay::CheckForXErrors()
 				XGetErrorDatabaseText(error.display, "XRequest", reqCodeStr, "unknown", str, 80);
 				std::cerr << "Offending request: " << str << std::endl;
 
-				assert( 0 /* unexpected XError */ );
+				assert_msg( 0, "unexpected XError" );
 				}
 			}
 

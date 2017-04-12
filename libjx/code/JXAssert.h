@@ -27,7 +27,7 @@ public:
 	virtual	~JXAssert();
 
 	virtual int		Assert(const JCharacter* expr, const JCharacter* file,
-						   const int line);
+						   const int line, const JCharacter* message);
 	virtual void	Abort();
 
 	void	UnlockDisplays();

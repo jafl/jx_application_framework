@@ -597,7 +597,7 @@ J2DPlotWidget::ArrayIsInCurve
 	JArray<JFloat>* testArray
 	)
 {
-	assert( 0 /* unimplemented */ );
+	assert_msg( 0, "unimplemented" );
 /*
 	for (JSize i = 1; i <= itsCurves->GetElementCount(); i++)
 		{
@@ -621,7 +621,7 @@ J2DPlotWidget::RemoveCurvesContainingArray
 	JArray<JFloat>* testArray
 	)
 {
-	assert( 0 /* unimplemented */ );
+	assert_msg( 0, "unimplemented" );
 /*
 	for (JSize i = 1; i<= itsCurves->GetElementCount(); i++)
 		{

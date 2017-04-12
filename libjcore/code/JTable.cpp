@@ -2177,7 +2177,7 @@ JTable::CreateInputField
 	const JRect&	cellRect
 	)
 {
-	assert( 0 /* The programmer forgot to override JTable::CreateInputField() */ );
+	assert_msg( 0, "The programmer forgot to override JTable::CreateInputField()" );
 	return kJFalse;
 }
 
@@ -2197,7 +2197,7 @@ JTable::ExtractInputData
 	const JPoint& cell
 	)
 {
-	assert( 0 /* The programmer forgot to override JTable::ExtractInputData() */ );
+	assert_msg( 0, "The programmer forgot to override JTable::ExtractInputData()" );
 	return kJFalse;
 }
 
@@ -2212,7 +2212,7 @@ JTable::ExtractInputData
 void
 JTable::DeleteInputField()
 {
-	assert( 0 /* The programmer forgot to override JTable::DeleteInputField() */ );
+	assert_msg( 0, "The programmer forgot to override JTable::DeleteInputField()" );
 }
 
 /******************************************************************************
@@ -2230,7 +2230,7 @@ JTable::PlaceInputField
 	const JCoordinate y
 	)
 {
-	assert( 0 /* The programmer forgot to override JTable::PlaceInputField() */ );
+	assert_msg( 0, "The programmer forgot to override JTable::PlaceInputField()" );
 }
 
 void
@@ -2240,7 +2240,7 @@ JTable::MoveInputField
 	const JCoordinate dy
 	)
 {
-	assert( 0 /* The programmer forgot to override JTable::MoveInputField() */ );
+	assert_msg( 0, "The programmer forgot to override JTable::MoveInputField()" );
 }
 
 void
@@ -2250,7 +2250,7 @@ JTable::SetInputFieldSize
 	const JCoordinate h
 	)
 {
-	assert( 0 /* The programmer forgot to override JTable::SetInputFieldSize() */ );
+	assert_msg( 0, "The programmer forgot to override JTable::SetInputFieldSize()" );
 }
 
 void
@@ -2260,7 +2260,7 @@ JTable::ResizeInputField
 	const JCoordinate dh
 	)
 {
-	assert( 0 /* The programmer forgot to override JTable::ResizeInputField() */ );
+	assert_msg( 0, "The programmer forgot to override JTable::ResizeInputField()" );
 }
 
 /******************************************************************************

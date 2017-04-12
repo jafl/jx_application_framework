@@ -1,7 +1,7 @@
 /******************************************************************************
  jAssert.cpp
 
-	Copyright (C) 1996-98 by John Lindal. All rights reserved.
+	Copyright (C) 1996-2017 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 
@@ -13,16 +13,17 @@ JAssert
 	(
 	const char*	expr,
 	const char*	file,
-	const int	line
+	const int	line,
+	const char*	message
 	)
 {
 	JAssertBase* ah;
 	if (JGetAssertHandler(&ah))
 		{
-		return ah->Assert(expr, file, line);
+		return ah->Assert(expr, file, line, message);
 		}
 	else
 		{
-		return JAssertBase::DefaultAssert(expr, file, line);
+		return JAssertBase::DefaultAssert(expr, file, line, message);
 		}
 }
