@@ -14,7 +14,7 @@ Please send all bug reports and suggestions for features to
 
 <h3> 4.1 </h3>
 
-Enabled core file debugging for lldb.  To support this, \"Choose core...\" is only available after first choosing a binary.
+Enabled core file debugging for lldb.
 <p>
 Fixed display of variables to exclude class names displayed in the hierarchy.
 <p>

@@ -90,6 +90,14 @@ public:
 	static void				Shutdown();
 };
 
+class CBSQLStyler
+{
+public:
+
+	static CBStylerBase*	Instance();
+	static void				Shutdown();
+};
+
 class CBTCLStyler
 {
 public:
