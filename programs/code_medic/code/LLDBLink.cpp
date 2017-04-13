@@ -736,7 +736,7 @@ LLDBLink::RunProgram
 		t.Launch(*this, (const char**) lldbArgs, (const char**) environ,
 				 NULL, NULL, NULL, ".", 0, false, error);
 
-		jdelete lldbArgs;
+		jdelete [] lldbArgs;
 		}
 }
 
