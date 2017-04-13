@@ -59,19 +59,19 @@ public:
 									const JPtrArrayT::CleanUpAction action,
 									const JBoolean append);
 
-	void	InsertAtIndex(const JIndex index, const T& data);
-	void	Prepend(const T& data);
-	void	Append(const T& data);
-	void	InsertBefore(const T* beforePtr, const T& data);
-	void	InsertAfter(const T* afterPtr, const T& data);
-	void	SetElement(const JIndex index, const T& data,
-					   const JPtrArrayT::SetElementAction action);
+	void		InsertAtIndex(const JIndex index, const T& data);
+	void		Prepend(const T& data);
+	void		Append(const T& data);
+	void		InsertBefore(const T* beforePtr, const T& data);
+	void		InsertAfter(const T* afterPtr, const T& data);
+	void		SetElement(const JIndex index, const T& data,
+						   const JPtrArrayT::SetElementAction action);
 
-	void	Remove(const T* dataPtr);
-	void	DeleteElement(const JIndex index);
-	void	DeleteAll();
-	void	DeleteElementAsArray(const JIndex index);
-	void	DeleteAllAsArrays();
+	JBoolean	Remove(const T* dataPtr);
+	void		DeleteElement(const JIndex index);
+	void		DeleteAll();
+	void		DeleteElementAsArray(const JIndex index);
+	void		DeleteAllAsArrays();
 
 	T*		NthElement(const JIndex index);
 	T*		FirstElement();

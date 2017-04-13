@@ -527,7 +527,7 @@ JPtrArray<T>::SetToNull
  ******************************************************************************/
 
 template <class T>
-void
+JBoolean
 JPtrArray<T>::Remove
 	(
 	const T* dataPtr
@@ -540,6 +540,7 @@ JPtrArray<T>::Remove
 		{
 		JOrderedSet<T*>::RemoveElement(index);
 		}
+	return found;
 }
 
 /******************************************************************************
