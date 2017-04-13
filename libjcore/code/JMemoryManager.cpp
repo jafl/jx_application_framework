@@ -1302,9 +1302,9 @@ JMemoryManager::ReadValue
 	const JCharacter* string
 	)
 {
-	*hasValue = JConvertToBoolean(string != NULL);
+	*hasValue = JI2B( string != NULL && JStringCompare(string, "no", kJFalse) != 0 );
 
-	if (*hasValue && JStringCompare(string, "no", kJFalse) != 0)
+	if (*hasValue)
 		{
 		const JCharacter* start = string;
 		while ( isspace(*start) )
