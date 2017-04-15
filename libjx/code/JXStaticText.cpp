@@ -7,7 +7,7 @@
 
 	BASE CLASS = JXTEBase
 
-	Copyright (C) 1996 by John Lindal. All rights reserved.
+	Copyright (C) 1996-2017 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 
@@ -75,7 +75,8 @@ JXStaticText::JXStaticTextX
 	const JCoordinate	origH
 	)
 {
-	itsIsLabelFlag = kJFalse;
+	itsCenterHorizFlag = kJFalse;
+	itsCenterVertFlag  = kJFalse;
 
 	TESetLeftMarginWidth(kMinLeftMarginWidth);
 
@@ -113,22 +114,38 @@ JXStaticText::~JXStaticText()
 }
 
 /******************************************************************************
+ ToString (virtual)
+
+ ******************************************************************************/
+
+JString
+JXStaticText::ToString()
+	const
+{
+	return JXTEBase::ToString() + ": " + GetText();
+}
+
+/******************************************************************************
  SetToLabel
 
-	Don't wrap text.  Center vertically in frame.  Useful for field labels
-	in dialogs.
+	Don't wrap text.  Center vertically (and optionally horizontally) in
+	frame.  Useful for field labels in dialogs.
 
  ******************************************************************************/
 
 void
-JXStaticText::SetToLabel()
+JXStaticText::SetToLabel
+	(
+	const JBoolean centerHorizontally
+	)
 {
-	if (!itsIsLabelFlag)
+	if (!itsCenterVertFlag)
 		{
-		itsIsLabelFlag = kJTrue;
+		itsCenterHorizFlag = centerHorizontally;
+		itsCenterVertFlag  = kJTrue;
 		SetBreakCROnly(kJTrue);
 		ShouldAllowUnboundedScrolling(kJTrue);
-		CenterVertically();
+		Center();
 		}
 }
 
@@ -146,24 +163,41 @@ JXStaticText::BoundsResized
 {
 	JXTEBase::BoundsResized(dw,dh);
 
-	if (itsIsLabelFlag)
+	if (itsCenterHorizFlag || itsCenterVertFlag)
 		{
-		CenterVertically();
+		Center();
 		}
 }
 
 /******************************************************************************
- CenterVertically (private)
+ Center (private)
 
  ******************************************************************************/
 
 void
-JXStaticText::CenterVertically()
+JXStaticText::Center()
 {
-	const JCoordinate f = GetFrameHeight();
-	const JCoordinate b = GetMinBoundsHeight();
-	if (f > b)
+	JCoordinate x = 0, y = 0;
+
+	if (itsCenterHorizFlag)
 		{
-		ScrollTo(0, - (f - b)/2);
+		const JCoordinate f = GetFrameWidth();
+		const JCoordinate b = GetMinBoundsWidth();
+		if (f > b)
+			{
+			x = - (f - b)/2;
+			}
 		}
+
+	if (itsCenterVertFlag)
+		{
+		const JCoordinate f = GetFrameHeight();
+		const JCoordinate b = GetMinBoundsHeight();
+		if (f > b)
+			{
+			y = - (f - b)/2;
+			}
+		}
+
+	ScrollTo(x, y);
 }

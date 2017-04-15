@@ -90,6 +90,11 @@ other constructor.
 
 Changes from previous versions
 
+4.1.0
+
+Updated to support horizontal centering in JXStaticText.  Select the
+"CENTER" option in fdesign.
+
 4.0.0
 
 Updated to work with latest `fdesign` file format: 15000

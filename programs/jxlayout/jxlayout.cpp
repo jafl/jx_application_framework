@@ -29,9 +29,9 @@
 
 static const JCharacter* kVersionStr =
 
-	"jxlayout 4.0.0\n"
+	"jxlayout 4.1.0\n"
 	"\n"
-	"Copyright (C) 1996-2016 John Lindal.  All rights reserved.";
+	"Copyright (C) 1996-2017 John Lindal.  All rights reserved.";
 
 static const JCharacter* kBackupSuffix = "~";
 
@@ -911,8 +911,18 @@ JIndex i;
 		ApplyOptions(output, *className, formName, tagName, *varName, optionValues,
 					 lSize, lStyle, lColor, indent, &stringMgr);
 
-		if (*className == "JXStaticText" && cbArg.IsEmpty() &&
-			!lAlign.Contains("FL_ALIGN_TOP") && localFrame.height() <= 20)
+		const JBoolean isLabel = JI2B(
+			*className == "JXStaticText" &&
+			cbArg.IsEmpty() &&
+			localFrame.height() <= 20);
+
+		if (isLabel && lAlign.Contains("FL_ALIGN_CENTER"))
+			{
+			output << indent;
+			varName->Print(output);
+			output << "->SetToLabel(kJTrue);" << std::endl;
+			}
+		else if (isLabel && !lAlign.Contains("FL_ALIGN_TOP"))
 			{
 			output << indent;
 			varName->Print(output);

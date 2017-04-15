@@ -3,7 +3,7 @@
 
 	Interface for the JXStaticText class
 
-	Copyright (C) 1996 by John Lindal. All rights reserved.
+	Copyright (C) 1996-2017 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 
@@ -37,7 +37,9 @@ public:
 
 	void	SetBackgroundColor(const JColorIndex color);
 
-	void	SetToLabel();
+	void	SetToLabel(const JBoolean centerHorizontally = kJFalse);
+
+	virtual JString	ToString() const;
 
 protected:
 
@@ -45,14 +47,15 @@ protected:
 
 private:
 
-	JBoolean	itsIsLabelFlag;
+	JBoolean	itsCenterHorizFlag;
+	JBoolean	itsCenterVertFlag;
 
 private:
 
 	void	JXStaticTextX(const JCharacter* text,
 						  const JCoordinate w, const JCoordinate h);
 
-	void	CenterVertically();
+	void	Center();
 
 	// not allowed
 
