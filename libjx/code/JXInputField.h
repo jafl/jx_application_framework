@@ -58,6 +58,8 @@ public:
 
 	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers);
 
+	virtual JString	ToString() const;
+
 protected:
 
 	virtual void		HandleFocusEvent();

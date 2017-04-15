@@ -27,8 +27,10 @@
  ******************************************************************************/
 
 #include <JBroadcaster.h>
-#include <JPtrArray.h>
+#include <JPtrArray-JString.h>
 #include <JTaskIterator.h>
+#include <sstream>
+#include <typeinfo>
 #include <jAssert.h>
 
 // A derived class is needed because of cross-dependencies between JBroadcaster
@@ -146,6 +148,20 @@ JBroadcaster::operator=
 	// kill the existing ones, so we do nothing.
 
 	return *this;
+}
+
+/******************************************************************************
+ ToString (virtual)
+
+ ******************************************************************************/
+
+JString
+JBroadcaster::ToString()
+	const
+{
+	std::ostringstream s;
+	s << typeid(*this).name() << " (" << this << ")";
+	return JString(s.str());
 }
 
 /******************************************************************************

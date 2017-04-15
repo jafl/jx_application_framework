@@ -40,6 +40,8 @@ public:
 
 	virtual void	SetShortcuts(const JCharacter* list);
 
+	virtual JString	ToString() const;
+
 protected:
 
 	virtual void	Draw(JXWindowPainter& p, const JRect& rect);

@@ -131,6 +131,18 @@ JXInputField::~JXInputField()
 }
 
 /******************************************************************************
+ ToString (virtual)
+
+ ******************************************************************************/
+
+JString
+JXInputField::ToString()
+	const
+{
+	return JXTEBase::ToString() + ": " + GetText();
+}
+
+/******************************************************************************
  SetTable
 
 	This can only be called once.

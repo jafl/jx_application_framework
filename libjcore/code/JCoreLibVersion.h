@@ -32,6 +32,8 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //		Removed j_prep_ace.h because it is no longer needed.
 //	*** Removed using statements from jTypes.h & jFStreamUtil.h
 //		You should use the std:: prefix explicitly.
+//	JBroadcaster:
+//		Added ToString(), which can be overridden by derived classes.
 
 // version 3.2.0:
 //	jMountUtil:
