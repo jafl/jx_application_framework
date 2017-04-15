@@ -37,6 +37,7 @@ class JXContainer : virtual public JBroadcaster
 {
 	friend class JXWindow;
 	friend class JXDNDManager;
+	friend class JXFTCCell;
 
 public:
 
@@ -115,6 +116,12 @@ public:
 	JBoolean	GetVisibleRectGlobal(const JRect& origRectG,
 									 JRect* visRectG) const;
 
+	// primarily invoked (automagically) after BuildWindow() finishes
+
+	void	ExpandToFitContent();
+
+	static void	DebugExpandToFitContent(const JBoolean on = kJTrue);
+
 	// called by JXDisplay
 
 	JBoolean	FindContainer(const JPoint& ptG,
@@ -179,6 +186,8 @@ protected:
 	virtual void	BoundsResized(const JCoordinate dw, const JCoordinate dh) = 0;
 	virtual void	EnclosingBoundsResized(const JCoordinate dw, const JCoordinate dh) = 0;
 
+	virtual JRect	GetFrameForExpandToFitContent() const;
+
 	void			DeleteEnclosedObjects();
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message);
@@ -240,6 +249,8 @@ private:
 
 	JXHintManager*	itsHintMgr;		// NULL if no hint
 
+	static JBoolean	theDebugFTCFlag;
+
 private:
 
 	void	JXContainerX(JXDisplay* display, JXWindow* window,
@@ -247,6 +258,28 @@ private:
 
 	void	AddEnclosedObject(JXContainer* theObject);
 	void	RemoveEnclosedObject(JXContainer* theObject);
+
+JXContainer*
+FTCMatchObjects
+	(
+	JXContainer*					target,
+	JPtrArray<JXContainer>*			objList,
+	const JPtrArray<JXContainer>&	fullObjList,
+	const JBoolean					horizontal,
+	const JBoolean					exact
+	);
+static JOrderedSetT::CompareResult
+FTCCompareWidths
+	(
+	JXContainer* const & w1,
+	JXContainer* const & w2
+	);
+static JOrderedSetT::CompareResult
+FTCCompareHeights
+	(
+	JXContainer* const & w1,
+	JXContainer* const & w2
+	);
 
 	// called by JXWindow
 

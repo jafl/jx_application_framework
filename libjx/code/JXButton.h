@@ -44,6 +44,8 @@ protected:
 								  const JXButtonStates& buttonStates,
 								  const JXKeyModifiers& modifiers);
 
+	virtual JRect	GetFrameForExpandToFitContent() const;
+
 private:
 
 	JBoolean	itsIsReturnButtonFlag;

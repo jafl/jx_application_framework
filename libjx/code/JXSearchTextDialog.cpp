@@ -272,13 +272,13 @@ JXSearchTextDialog::BuildWindow()
 
 	JXStaticText* obj1_JXLayout =
 		jnew JXStaticText(JGetString("obj1_JXLayout::JXSearchTextDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,30, 80,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 220,20);
 	assert( obj1_JXLayout != NULL );
 	obj1_JXLayout->SetToLabel();
 
 	JXStaticText* obj2_JXLayout =
 		jnew JXStaticText(JGetString("obj2_JXLayout::JXSearchTextDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,100, 90,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,95, 220,20);
 	assert( obj2_JXLayout != NULL );
 	obj2_JXLayout->SetToLabel();
 
@@ -308,12 +308,12 @@ JXSearchTextDialog::BuildWindow()
 
 	itsPrevReplaceMenu =
 		jnew JXStringHistoryMenu(kHistoryLength, "", window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 250,130, 30,20);
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 250,125, 30,20);
 	assert( itsPrevReplaceMenu != NULL );
 
 	itsPrevSearchMenu =
 		jnew JXStringHistoryMenu(kHistoryLength, "", window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 250,60, 30,20);
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 250,50, 30,20);
 	assert( itsPrevSearchMenu != NULL );
 
 	itsHelpButton =
@@ -353,9 +353,9 @@ JXSearchTextDialog::BuildWindow()
 
 	JXStaticText* obj3_JXLayout =
 		jnew JXStaticText(JGetString("obj3_JXLayout::JXSearchTextDialog::JXLayout"), window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 355,20, 40,20);
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 320,20, 100,20);
 	assert( obj3_JXLayout != NULL );
-	obj3_JXLayout->SetToLabel();
+	obj3_JXLayout->SetToLabel(kJTrue);
 
 	itsFindBackButton =
 		jnew JXSearchTextButton(kJFalse, window,
@@ -369,9 +369,9 @@ JXSearchTextDialog::BuildWindow()
 
 	JXStaticText* obj4_JXLayout =
 		jnew JXStaticText(JGetString("obj4_JXLayout::JXSearchTextDialog::JXLayout"), window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 323,80, 100,20);
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 320,80, 100,20);
 	assert( obj4_JXLayout != NULL );
-	obj4_JXLayout->SetToLabel();
+	obj4_JXLayout->SetToLabel(kJTrue);
 
 	itsReplaceFindBackButton =
 		jnew JXSearchTextButton(kJFalse, window,
@@ -385,9 +385,9 @@ JXSearchTextDialog::BuildWindow()
 
 	JXStaticText* obj5_JXLayout =
 		jnew JXStaticText(JGetString("obj5_JXLayout::JXSearchTextDialog::JXLayout"), window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 335,110, 80,20);
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 320,110, 100,20);
 	assert( obj5_JXLayout != NULL );
-	obj5_JXLayout->SetToLabel();
+	obj5_JXLayout->SetToLabel(kJTrue);
 
 	itsReplaceAllBackButton =
 		jnew JXSearchTextButton(kJFalse, window,
@@ -416,12 +416,12 @@ JXSearchTextDialog::BuildWindow()
 
 	itsSearchInput =
 		jnew JXInputField(kJTrue, kJFalse, window,
-					JXWidget::kHElastic, JXWidget::kFixedTop, 20,50, 220,40);
+					JXWidget::kHElastic, JXWidget::kFixedTop, 20,40, 220,45);
 	assert( itsSearchInput != NULL );
 
 	itsReplaceInput =
 		jnew JXInputField(kJTrue, kJFalse, window,
-					JXWidget::kHElastic, JXWidget::kFixedTop, 20,120, 220,40);
+					JXWidget::kHElastic, JXWidget::kFixedTop, 20,115, 220,45);
 	assert( itsReplaceInput != NULL );
 
 // end JXLayout
@@ -519,13 +519,14 @@ JXSearchTextDialog::SetObjects
 
 	// decor
 
-	const JRect wFrame  = window->GetFrame();
-	const JRect soFrame = itsStayOpenCB->GetFrame();
+	const JRect wFrame  = window->GetFrameGlobal();
+	const JRect soFrame = itsStayOpenCB->GetFrameGlobal();
+	const JRect rfFrame = itsRetainFocusCB->GetFrameGlobal();
 
 	JXDownRect* line =
 		jnew JXDownRect(window, JXWidget::kFixedLeft, JXWidget::kFixedTop,
-					   soFrame.left, soFrame.top-6,
-					   wFrame.right-10-soFrame.left, 2);
+						soFrame.left, soFrame.top-6,
+						rfFrame.right-soFrame.left, 2);
 	assert( line != NULL );
 	line->SetBorderWidth(1);
 

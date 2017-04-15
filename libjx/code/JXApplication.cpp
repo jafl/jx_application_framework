@@ -42,8 +42,9 @@
 #include <jMissingProto.h>
 #include <jAssert.h>
 
-static const JCharacter* kDisplayOptionName = "-display";
-static const JCharacter* kXDebugOptionName  = "--xdebug";
+static const JCharacter* kDisplayOptionName  = "-display";
+static const JCharacter* kXDebugOptionName   = "--xdebug";
+static const JCharacter* kFTCDebugOptionName = "--debug-ftc";
 
 const time_t kTimerStart = J_TIME_T_MAX/1000U;	// milliseconds before rollover
 const Time kMaxSleepTime = 50;					// 0.05 seconds (in milliseconds)
@@ -1159,6 +1160,10 @@ JXApplication::ParseBaseOptions
 			RemoveCmdLineOption(argc, argv, i, 1);
 			i--;
 			}
+		else if (strcmp(argv[i], kFTCDebugOptionName) == 0)
+			{
+			JXContainer::DebugExpandToFitContent();
+			}
 		}
 }
 
@@ -1177,7 +1182,7 @@ JXApplication::StripBaseOptions
 	for (JIndex i=2; i<=count; i++)
 		{
 		JString* arg = argList->NthElement(i);
-		if (*arg == kXDebugOptionName)
+		if (*arg == kXDebugOptionName || *arg == kFTCDebugOptionName)
 			{
 			argList->DeleteElement(i);
 			count--;

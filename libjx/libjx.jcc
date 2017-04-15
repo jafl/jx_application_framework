@@ -78,6 +78,10 @@ T
 2 "JXRaiseWindowTask.cpp"
 F
 "./code/JXRaiseWindowTask.cpp"
+T
+2 "JXExpandWindowToFitContentTask.cpp"
+F
+"./code/JXExpandWindowToFitContentTask.cpp"
 F
 T
 1 "Selection"
@@ -173,6 +177,10 @@ T
 2 "JXContainer.cpp"
 F
 "./code/JXContainer.cpp"
+T
+2 "JXFTCCell.cpp"
+F
+"./code/JXFTCCell.cpp"
 T
 2 "JXWidget.cpp"
 F

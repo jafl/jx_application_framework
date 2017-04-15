@@ -1,3 +1,11 @@
+don't let proposed container overlap non-included objects
+
+when exact=false, expand smaller cells to fit
+
+-----
+
+SBAddress:  https://reviews.llvm.org/D22831
+
 https://reviews.llvm.org/differential/
 
 document SB*.h

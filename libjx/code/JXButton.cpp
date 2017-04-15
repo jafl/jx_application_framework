@@ -245,3 +245,24 @@ JXButton::SetShortcuts
 
 	Refresh();
 }
+
+/******************************************************************************
+ GetFrameForExpandToFitContent
+
+	Assumes that widgets are laid out in nested tables and do not overlap.
+	Builds the implicit tables and expands the cells and their contents so
+	text is not cut off.
+
+ ******************************************************************************/
+
+JRect
+JXButton::GetFrameForExpandToFitContent()
+	const
+{
+	JRect r = JXWidget::GetFrameForExpandToFitContent();
+	if (itsIsReturnButtonFlag)
+		{
+		r.Shrink(1, 1);
+		}
+	return r;
+}

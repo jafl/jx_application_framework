@@ -23,6 +23,7 @@
 .cpp ./code/jXEventUtil
 .cpp ./code/JXOpenDisplayDialog
 .cpp ./code/JXRaiseWindowTask
+.cpp ./code/JXExpandWindowToFitContentTask
 .cpp ./code/JXSelectionManager
 .cpp ./code/JXSelectionData
 .cpp ./code/JXTextSelection
@@ -43,6 +44,7 @@
 .cpp ./code/JXDocumentMenu
 .cpp ./code/JXUpdateDocMenuTask
 .cpp ./code/JXContainer
+.cpp ./code/JXFTCCell
 .cpp ./code/JXWidget
 .cpp ./code/JXWidgetSet
 .cpp ./code/JXScrollableWidget

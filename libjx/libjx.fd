@@ -5,6 +5,7 @@ Internal Form Definition File
 
 Number of forms: 27
 Unit of measure: FL_COORD_PIXEL
+SnapGrid: 5
 
 =============== FORM ===============
 Name: JXPSPrintSetupDialog
@@ -3888,7 +3889,7 @@ argument:
 --------------------
 class: FL_TEXT
 type: FL_NORMAL_TEXT
-box: 20 30 80 20
+box: 20 20 220 20
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_MCOL
 alignment: FL_ALIGN_LEFT|FL_ALIGN_INSIDE
@@ -3906,7 +3907,7 @@ argument:
 --------------------
 class: FL_TEXT
 type: FL_NORMAL_TEXT
-box: 20 100 90 20
+box: 20 95 220 20
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_MCOL
 alignment: FL_ALIGN_LEFT|FL_ALIGN_INSIDE
@@ -3996,7 +3997,7 @@ argument:
 --------------------
 class: FL_BOX
 type: FL_NO_BOX
-box: 250 130 30 20
+box: 250 125 30 20
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -4014,7 +4015,7 @@ argument: kHistoryLength, ""
 --------------------
 class: FL_BOX
 type: FL_NO_BOX
-box: 250 60 30 20
+box: 250 50 30 20
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -4140,10 +4141,10 @@ argument:
 --------------------
 class: FL_TEXT
 type: FL_NORMAL_TEXT
-box: 355 20 40 20
+box: 320 20 100 20
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_MCOL
-alignment: FL_ALIGN_LEFT|FL_ALIGN_INSIDE
+alignment: FL_ALIGN_CENTER
 style: FL_NORMAL_STYLE
 size: FL_NORMAL_SIZE
 lcol: FL_BLACK
@@ -4194,10 +4195,10 @@ argument: kJTrue
 --------------------
 class: FL_TEXT
 type: FL_NORMAL_TEXT
-box: 323 80 100 20
+box: 320 80 100 20
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_MCOL
-alignment: FL_ALIGN_LEFT|FL_ALIGN_INSIDE
+alignment: FL_ALIGN_CENTER
 style: FL_NORMAL_STYLE
 size: FL_NORMAL_SIZE
 lcol: FL_BLACK
@@ -4248,10 +4249,10 @@ argument: kJTrue
 --------------------
 class: FL_TEXT
 type: FL_NORMAL_TEXT
-box: 335 110 80 20
+box: 320 110 100 20
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_MCOL
-alignment: FL_ALIGN_LEFT|FL_ALIGN_INSIDE
+alignment: FL_ALIGN_CENTER
 style: FL_NORMAL_STYLE
 size: FL_NORMAL_SIZE
 lcol: FL_BLACK
@@ -4356,7 +4357,7 @@ argument:
 --------------------
 class: FL_INPUT
 type: FL_NORMAL_INPUT
-box: 20 50 220 40
+box: 20 40 220 45
 boxtype: FL_DOWN_BOX
 colors: FL_COL1 FL_MCOL
 alignment: FL_ALIGN_LEFT
@@ -4374,7 +4375,7 @@ argument: kJTrue, kJFalse
 --------------------
 class: FL_INPUT
 type: FL_NORMAL_INPUT
-box: 20 120 220 40
+box: 20 115 220 45
 boxtype: FL_DOWN_BOX
 colors: FL_COL1 FL_MCOL
 alignment: FL_ALIGN_LEFT

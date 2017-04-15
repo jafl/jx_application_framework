@@ -16,6 +16,7 @@
 #include <JXDNDManager.h>
 #include <JXHintManager.h>
 #include <JXRaiseWindowTask.h>
+#include <JXExpandWindowToFitContentTask.h>
 #include <JXTextMenu.h>
 #include <JXDisplay.h>
 #include <JXGC.h>
@@ -228,6 +229,15 @@ JXWindow::JXWindow
 
 	itsDisplay->WindowCreated(this, itsXWindow);
 	itsDirector->SetWindow(this);
+
+	// expand window after creator's BuildWindow() finishes
+
+	if (!isOverlay)
+		{
+		JXUrgentTask* expandTask = jnew JXExpandWindowToFitContentTask(this);
+		assert( expandTask != NULL );
+		(JXGetApplication())->InstallUrgentTask(expandTask);
+		}
 }
 
 /******************************************************************************

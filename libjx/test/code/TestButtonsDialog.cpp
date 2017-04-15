@@ -92,17 +92,10 @@ TestButtonsDialog::BuildWindow()
 
 	JXStaticText* obj1_JXLayout =
 		jnew JXStaticText(JGetString("obj1_JXLayout::TestButtonsDialog::JXLayout"), window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 150,20, 85,20);
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 150,20, 104,20);
 	assert( obj1_JXLayout != NULL );
 	obj1_JXLayout->SetFontSize(8);
 	obj1_JXLayout->SetToLabel();
-
-	JXStaticText* obj2_JXLayout =
-		jnew JXStaticText(JGetString("obj2_JXLayout::TestButtonsDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 25,135, 85,20);
-	assert( obj2_JXLayout != NULL );
-	obj2_JXLayout->SetFontSize(8);
-	obj2_JXLayout->SetToLabel();
 
 	JXTextButton* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::TestButtonsDialog::JXLayout"), window,
@@ -127,7 +120,7 @@ TestButtonsDialog::BuildWindow()
 
 	JXImageCheckbox* bcb =
 		jnew JXImageCheckbox(window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 60,90, 22,22);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 60,85, 22,22);
 	assert( bcb != NULL );
 
 	itsRG1 =
@@ -175,14 +168,14 @@ TestButtonsDialog::BuildWindow()
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,70, 80,20);
 	assert( trb3 != NULL );
 
-	JXStaticText* obj3_JXLayout =
-		jnew JXStaticText(JGetString("obj3_JXLayout::TestButtonsDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 25,115, 90,20);
-	assert( obj3_JXLayout != NULL );
-	obj3_JXLayout->SetFontSize(8);
-    const JFontStyle obj3_JXLayout_style(kJFalse, kJFalse, 0, kJFalse, GetColormap()->GetGreenColor());
-	obj3_JXLayout->SetFontStyle(obj3_JXLayout_style);
-	obj3_JXLayout->SetToLabel();
+	JXStaticText* obj2_JXLayout =
+		jnew JXStaticText(JGetString("obj2_JXLayout::TestButtonsDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 25,110, 90,20);
+	assert( obj2_JXLayout != NULL );
+	obj2_JXLayout->SetFontSize(8);
+    const JFontStyle obj2_JXLayout_style(kJFalse, kJFalse, 0, kJFalse, GetColormap()->GetGreenColor());
+	obj2_JXLayout->SetFontStyle(obj2_JXLayout_style);
+	obj2_JXLayout->SetToLabel();
 
 	JXTextCheckbox* dtcb =
 		jnew JXTextCheckbox(JGetString("dtcb::TestButtonsDialog::JXLayout"), window,
@@ -202,11 +195,11 @@ TestButtonsDialog::BuildWindow()
 	assert( itsEnable1CB != NULL );
 	itsEnable1CB->SetFontSize(8);
 
-	JXStaticText* obj4_JXLayout =
-		jnew JXStaticText(JGetString("obj4_JXLayout::TestButtonsDialog::JXLayout"), window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 20,210, 110,20);
-	assert( obj4_JXLayout != NULL );
-	obj4_JXLayout->SetToLabel();
+	JXStaticText* obj3_JXLayout =
+		jnew JXStaticText(JGetString("obj3_JXLayout::TestButtonsDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 20,210, 240,20);
+	assert( obj3_JXLayout != NULL );
+	obj3_JXLayout->SetToLabel();
 
 	its1CB =
 		jnew JXTextCheckbox(JGetString("its1CB::TestButtonsDialog::JXLayout"), window,
@@ -234,6 +227,13 @@ TestButtonsDialog::BuildWindow()
 		jnew JXTextCheckbox(JGetString("its3CB::TestButtonsDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 180,250, 80,20);
 	assert( its3CB != NULL );
+
+	JXStaticText* obj4_JXLayout =
+		jnew JXStaticText(JGetString("obj4_JXLayout::TestButtonsDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 25,134, 102,20);
+	assert( obj4_JXLayout != NULL );
+	obj4_JXLayout->SetFontSize(8);
+	obj4_JXLayout->SetToLabel();
 
 // end JXLayout
 
