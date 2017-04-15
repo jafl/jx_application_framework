@@ -164,7 +164,7 @@ JBoolean
 JNetworkProtocolBase<ACE_PEER_STREAM_2>::DataPending()
 	const
 {
-	return JNegate(itsSendData.IsEmpty());
+	return ! itsSendData.IsEmpty();
 }
 
 /******************************************************************************

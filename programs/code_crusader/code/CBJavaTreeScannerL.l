@@ -113,7 +113,7 @@ implements{WS} {
 .|\n	/* ignore */
 
 <*><<EOF>> {
-	return JNegate( classList->IsEmpty() );
+	return ! classList->IsEmpty();
 	}
 
 

@@ -329,7 +329,7 @@ JMessageProtocol<ACE_PEER_STREAM_2>::PeekPartialMessage
 	)
 {
 	*message = *(itsMessageList->LastElement());
-	return JNegate( message->IsEmpty() );
+	return ! message->IsEmpty();
 }
 
 /******************************************************************************
@@ -791,7 +791,7 @@ JMessageProtocol<ACE_PEER_STREAM_2>::LocateNextSequence
 			{
 			*index = i+1;
 			*endsWithPartial = JI2B(remLength < sLength);
-			return JNegate(*endsWithPartial);
+			return ! *endsWithPartial;
 			}
 		}
 
