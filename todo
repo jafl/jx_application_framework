@@ -1,5 +1,3 @@
-don't let proposed container overlap non-included objects
-
 when exact=false, expand smaller cells to fit
 
 -----

@@ -49,7 +49,7 @@
 #include <JXHintManager.h>
 #include <jXUtil.h>
 #include <jXGlobals.h>
-#include <JString.h>
+#include <JOrderedSetUtil.h>
 #include <jAssert.h>
 
 JBoolean JXContainer::theDebugFTCFlag = kJFalse;
@@ -1933,9 +1933,9 @@ JXContainer::GetFrameForExpandToFitContent()
 /******************************************************************************
  ExpandToFitContent
 
-	Assumes that widgets are laid out in nested tables and do not overlap.
-	Builds the implicit tables and expands the cells and their contents so
-	text is not cut off.
+	Assumes that widgets are laid out in implicit, nested tables and do not
+	overlap.  Discovers and constructs these implicit tables and expands
+	the cells and their contents so text is not cut off.
 
  ******************************************************************************/
 
@@ -1948,6 +1948,52 @@ JXContainer::ExpandToFitContent()
 		std::cout << "ExpandToFitContent: " << GetFrameForExpandToFitContent() << ' ' << GetWindow()->GetTitle() << std::endl;
 		}
 
+	JXContainer* root = FTCBuildLayout();
+
+	if (root != NULL)
+		{
+		// expand to fit content
+		}
+
+	if (!theDebugFTCFlag)
+		{
+		jdelete root;
+		}
+}
+
+/******************************************************************************
+ FTCBuildLayout
+
+	Assumes that widgets are laid out in implicit, nested tables and do not
+	overlap.  Discovers and constructs these implicit tables:
+
+	Each widget is enclosed in a JXFTCCell.  JXFTCCell's nest.
+
+	1) Iterates to find cells that match exactly, alternating between
+	   horizontal and vertical.  Cells are sorted by relevant dimension
+	   from smallest to largest.
+
+	2) When this can no longer merge any cells, turns off exact match.
+
+	3) Iterates to find cells that merely have some kind of alignment,
+	   alternating between horizontal and vertical.  Cells are sorted
+	   by relevant position from smallest to largest.
+
+	4) When this can no longer merge cells, returns the single root cell
+	   or null, if it was not possible to collapse everything.
+
+ ******************************************************************************/
+
+JXContainer*
+JXContainer::FTCBuildLayout()
+	const
+{
+	if (theDebugFTCFlag)
+		{
+		std::cout << "----------" << std::endl;
+		std::cout << "BuildLayout: " << std::endl;
+		}
+
 	JPtrArray<JXContainer> objList(*itsEnclosedObjs, JPtrArrayT::kForgetAll),
 						   fullObjList(JPtrArrayT::kForgetAll),
 						   cellList(JPtrArrayT::kForgetAll);
@@ -1956,17 +2002,22 @@ JXContainer::ExpandToFitContent()
 	JBoolean horizontal = kJFalse, exact = kJTrue;
 	JSize count = 0, noChangeCount = 0;
 	do {
-		if (theDebugFTCFlag)
+		if (!exact)
 			{
-			std::cout << "+++ " << (horizontal ? "Horizontal" : "Vertical") << " (count: " << count << ")" << std::endl;
+			objList.SetCompareFunction(horizontal ? FTCCompareHorizontally : FTCCompareVertically);
+			objList.Sort();
 			}
-
-		objList.SetCompareFunction(horizontal ? FTCCompareHeights : FTCCompareWidths);
-		objList.SetSortOrder(exact ? JOrderedSetT::kSortAscending : JOrderedSetT::kSortDescending);
-		objList.Sort();
 
 		const JSize objCount = objList.GetElementCount();
 		fullObjList.CopyPointers(objList, JPtrArrayT::kForgetAll, kJFalse);
+
+		if (theDebugFTCFlag)
+			{
+			std::cout << "+++ " << (horizontal ? "Horizontal" : "Vertical")
+				<< " (iter: " << count
+				<< "; cells: " << objCount
+				<< "; exact: " << exact << ")" << std::endl;
+			}
 
 		JXContainer* obj;
 		while (iter.Next(&obj))
@@ -1977,7 +2028,7 @@ JXContainer::ExpandToFitContent()
 				}
 
 			iter.RemovePrev();	// do not process it
-			JXContainer* cell = FTCMatchObjects(obj, &objList, fullObjList, horizontal, exact);
+			JXContainer* cell = FTCGroupAlignedObjects(obj, &objList, fullObjList, horizontal, exact);
 			cellList.AppendElement(cell);
 
 			if (theDebugFTCFlag)
@@ -1992,14 +2043,15 @@ JXContainer::ExpandToFitContent()
 		horizontal = ! horizontal;
 
 		const JBoolean noChange = JI2B( objCount == objList.GetElementCount() );
-		if (exact && noChange && count % 2 == 0)
-			{
-			exact = kJFalse;
-			}
-		else if (!exact && noChange)
+		if (noChange)
 			{
 			noChangeCount++;
-			if (noChangeCount >= 2)
+			if (exact && noChangeCount >= 2)
+				{
+				exact = kJFalse;
+				noChangeCount = 0;
+				}
+			else if (noChangeCount >= 2)
 				{
 				break;
 				}
@@ -2009,28 +2061,51 @@ JXContainer::ExpandToFitContent()
 			noChangeCount = 0;
 			}
 		}
-		while (objList.GetElementCount() > 1 || count >= 100);
+		while (objList.GetElementCount() > 1 || count >= 100);	// checking count is paranoia
 
-	if (!theDebugFTCFlag)
+	if (objList.GetElementCount() == 1)
 		{
-		objList.DeleteAll();
+		return objList.GetFirstElement();
+		}
+	else
+		{
+		if (!theDebugFTCFlag)
+			{
+			objList.DeleteAll();
+			}
+
+		return NULL;	// unable to enclose everything in a single table
 		}
 }
 
 /******************************************************************************
- FTCMatchObjects (private)
+ FTCGroupAlignedObjects (private)
 
 	Finds all other objects that align horizontally or vertically with the
-	given object and are "close".  Create a cell for each one (if
-	necesssary) and return a cell containing these cells.
+	given object.  Creates a cell for each one (if necesssary) and returns
+	a container cell for the created cells.
+
+	1) Iterates over unprocessed objects to find matches.
+
+		a) If exact, relevant position & dimension must match.
+
+		b) Otherwise, there must be some overlap and the containing
+		   rectangle must not overlap other, unmatched objects.
+		   Objects must be sorted by position from smallest to largest
+		   to ensure that the closest objects are processed first.
+		   Otherwise, one could get an incorrect "overlaps unmatched"
+		   result.
+
+	2) For exact match, iterates over all unmatched objects to find
+	   "blocking" objects that break up the expanse of matched objects.
 
  ******************************************************************************/
 
 inline JIntRange
 jxFTCGetInterval
 	(
-	const JRect& r,
-	const JBoolean horizontal
+	const JRect&	r,
+	const JBoolean	horizontal
 	)
 {
 	return JIntRange(
@@ -2045,7 +2120,7 @@ jxFTCGetInterval
 	cell->itsEnclosure->itsEnclosedObjs->AppendElement(cell);
 
 JXContainer*
-JXContainer::FTCMatchObjects
+JXContainer::FTCGroupAlignedObjects
 	(
 	JXContainer*					target,
 	JPtrArray<JXContainer>*			objList,
@@ -2053,6 +2128,7 @@ JXContainer::FTCMatchObjects
 	const JBoolean					horizontal,
 	const JBoolean					exact
 	)
+	const
 {
 	const JBoolean vertical = ! horizontal;
 
@@ -2081,10 +2157,10 @@ JXContainer::FTCMatchObjects
 		rect     = obj->GetFrameForExpandToFitContent();
 		interval = jxFTCGetInterval(rect, horizontal);
 
-		if (( exact && targetInterval != interval) ||
+		if ((exact && targetInterval != interval) ||
 			(!exact &&
-			 (!targetInterval.Contains(interval) ||
-			  WillOverlapNonincludedWidget(target, matchedList, ))))
+			 (!JIntersection(targetInterval, interval, &intersection) ||
+			  FTCWillOverlapNonincludedWidget(target, obj, fullObjList, matchedList))))
 			{
 			continue;
 			}
@@ -2108,18 +2184,155 @@ JXContainer::FTCMatchObjects
 			}
 		}
 
-	JXContainer *minBlocker = NULL, *maxBlocker = NULL;
+	// exact matches must only count if there are no intervening, unmatched objects
+
+	if (exact)
+		{
+		FTCTrimBlockedMatches(target, fullObjList, matchedList, horizontal, &cellList);
+		}
+
+	// short-circuit if no additional cells found
+
+	JXFTCCell* targetCell = dynamic_cast<JXFTCCell*>(target);
+	if (cellList.GetElementCount() == 1 && targetCell != NULL)
+		{
+		jdelete container;	// deletes targetCell
+		return target;
+		}
+	else if (cellList.GetElementCount() == 1)
+		{
+		jdelete container;	// deletes targetCell
+
+		targetCell = jnew JXFTCCell(target, target->GetEnclosure());
+		assert( targetCell != NULL );
+		return targetCell;
+		}
+	else if (targetCell != NULL)
+		{
+		jxFTCReparentCell(targetCell, container);
+		}
+
+	// compute coverage and reparent cells to container
+
+	JPtrArrayIterator<JXFTCCell> cellIter(&cellList);
+	while (cellIter.Next(&cell))
+		{
+		covering = JCovering(covering, cell->GetFrameForExpandToFitContent());
+
+		jxFTCReparentCell(cell, container);
+
+		// try to remove both, in case cell containing widget was matched
+		objList->Remove(cell);
+		objList->Remove(cell->GetWidget());
+		}
+
+	// return cell containing remaining cells
+
+	container->Place(covering.left, covering.top);
+	container->SetSize(covering.width(), covering.height());
+
+	return container;
+}
+
+/******************************************************************************
+ FTCWillOverlapNonincludedWidget
+
+	Computes the covering for obj1 & obj2 and checks if any unmatched obj
+	intersects this covering.
+
+ ******************************************************************************/
+
+JBoolean
+JXContainer::FTCWillOverlapNonincludedWidget
+	(
+	const JXContainer*				obj1,
+	const JXContainer*				obj2,
+	const JPtrArray<JXContainer>&	fullObjList,
+	const JPtrArray<JXContainer>&	matchedList
+	)
+	const
+{
+	const JRect covering = JCovering(
+		obj1->GetFrameForExpandToFitContent(),
+		obj2->GetFrameForExpandToFitContent());
+
+	if (theDebugFTCFlag)
+		{
+		std::cout << "-----" << std::endl;
+		std::cout << "covering: " << covering << std::endl;
+		}
+
+	JPtrArrayIterator<JXContainer> iter(fullObjList);
+	JXContainer* obj;
+	JRect r;
+	while (iter.Next(&obj))
+		{
+		const JBoolean check = JI2B(
+			obj != obj1 && obj != obj2 && !matchedList.Includes(obj));
+
+		if (theDebugFTCFlag && check)
+			{
+			std::cout << "check: " << obj->GetFrameForExpandToFitContent() << ' ' << obj->ToString() << std::endl;
+			}
+
+		if (check && JIntersection(covering, obj->GetFrameForExpandToFitContent(), &r))
+			{
+			if (theDebugFTCFlag)
+				{
+				std::cout << "----- " << kJTrue << std::endl;
+				}
+
+			return kJTrue;
+			}
+		}
+
+	if (theDebugFTCFlag)
+		{
+		std::cout << "----- " << kJTrue << std::endl;
+		}
+	return kJFalse;
+}
+
+/******************************************************************************
+ FTCTrimBlockedMatches
+
+	1) Find objects that break up the expanse of matched objects.
+
+	2) Remove objects beyond the narrowest, contiguous range
+
+ ******************************************************************************/
+
+void
+JXContainer::FTCTrimBlockedMatches
+	(
+	const JXContainer*				target,
+	const JPtrArray<JXContainer>&	fullObjList,
+	const JPtrArray<JXContainer>&	matchedList,
+	const JBoolean					horizontal,
+	JPtrArray<JXFTCCell>*			cellList
+	)
+	const
+{
+	const JBoolean vertical = ! horizontal;
+
+	const JRect targetRect         = target->GetFrameForExpandToFitContent();
+	const JIntRange targetInterval = jxFTCGetInterval(targetRect, horizontal);
+
+	JXContainer *obj, *minBlocker = NULL, *maxBlocker = NULL;
+
+	// find blockers
 
 	JPtrArrayIterator<JXContainer> allObjIter(fullObjList);
+	JIntRange intersection;
 	while (allObjIter.Next(&obj))
 		{
-		if (matchedList.Includes(obj))
+		if (obj == target || matchedList.Includes(obj))
 			{
 			continue;
 			}
 
-		rect     = obj->GetFrameForExpandToFitContent();
-		interval = jxFTCGetInterval(rect, horizontal);
+		const JRect rect         = obj->GetFrameForExpandToFitContent();
+		const JIntRange interval = jxFTCGetInterval(rect, horizontal);
 
 		const JBoolean overlaps = JI2B(
 			JIntersection(targetInterval, interval, &intersection) &&
@@ -2163,10 +2376,11 @@ JXContainer::FTCMatchObjects
 							 horizontal ? maxBlocker->GetFrameForExpandToFitContent().left :
 										  maxBlocker->GetFrameForExpandToFitContent().top);
 
-	JPtrArrayIterator<JXFTCCell> cellIter(&cellList);
+	JPtrArrayIterator<JXFTCCell> cellIter(cellList);
+	JXFTCCell* cell;
 	while (cellIter.Next(&cell))
 		{
-		rect = cell->GetFrameForExpandToFitContent();
+		const JRect rect = cell->GetFrameForExpandToFitContent();
 		if ((horizontal && (rect.right  < min || max < rect.left)) ||
 			(vertical   && (rect.bottom < min || max < rect.top )))
 			{
@@ -2178,105 +2392,37 @@ JXContainer::FTCMatchObjects
 			cellIter.RemovePrev();
 			if (cell->GetWidget() != NULL)
 				{
-				jdelete cell;
+				jdelete cell;	// FTCGroupAlignedObjects only constructs cells to box widgets
 				}
 			}
 		}
-
-	// short-circuit if no additional cells found
-
-	JXFTCCell* targetCell = dynamic_cast<JXFTCCell*>(target);
-	if (cellList.GetElementCount() == 1 && targetCell != NULL)
-		{
-		jdelete container;	// deletes targetCell
-		return target;
-		}
-	else if (cellList.GetElementCount() == 1)
-		{
-		jdelete container;	// deletes targetCell
-
-		targetCell = jnew JXFTCCell(target, target->GetEnclosure());
-		assert( targetCell != NULL );
-		return targetCell;
-		}
-	else if (targetCell != NULL)
-		{
-		jxFTCReparentCell(targetCell, container);
-		}
-
-	// compute coverage and reparent cells to container
-
-	cellIter.MoveTo(kJIteratorStartAtBeginning, 0);
-	while (cellIter.Next(&cell))
-		{
-		covering = JCovering(covering, cell->GetFrameForExpandToFitContent());
-
-		jxFTCReparentCell(cell, container);
-
-		// try to remove both, in case cell containing widget was matched
-		objList->Remove(cell);
-		objList->Remove(cell->GetWidget());
-		}
-
-	// return cell containing remaining cells
-
-	container->Place(covering.left, covering.top);
-	container->SetSize(covering.width(), covering.height());
-
-	return container;
 }
 
 /******************************************************************************
- Comparison functions (static)
+ FTC comparison functions (static)
 
  ******************************************************************************/
 
 JOrderedSetT::CompareResult
-JXContainer::FTCCompareWidths
+JXContainer::FTCCompareHorizontally
 	(
 	JXContainer* const & w1,
 	JXContainer* const & w2
 	)
 {
-	const JCoordinate delta =
-		w1->GetFrameForExpandToFitContent().width() -
-		w2->GetFrameForExpandToFitContent().width();
-
-	if (delta < 0)
-		{
-		return JOrderedSetT::kFirstLessSecond;
-		}
-	else if (delta > 0)
-		{
-		return JOrderedSetT::kFirstGreaterSecond;
-		}
-	else
-		{
-		return JOrderedSetT::kFirstEqualSecond;
-		}
+	return JCompareCoordinates(
+		w1->GetFrameForExpandToFitContent().left,
+		w2->GetFrameForExpandToFitContent().left);
 }
 
 JOrderedSetT::CompareResult
-JXContainer::FTCCompareHeights
+JXContainer::FTCCompareVertically
 	(
 	JXContainer* const & w1,
 	JXContainer* const & w2
 	)
 {
-	const JCoordinate delta =
-		w1->GetFrameForExpandToFitContent().height() -
-		w2->GetFrameForExpandToFitContent().height();
-
-	if (delta < 0)
-		{
-		return JOrderedSetT::kFirstLessSecond;
-		}
-	else if (delta > 0)
-		{
-		return JOrderedSetT::kFirstGreaterSecond;
-		}
-	else
-		{
-		return JOrderedSetT::kFirstEqualSecond;
-		}
+	return JCompareCoordinates(
+		w1->GetFrameForExpandToFitContent().top,
+		w2->GetFrameForExpandToFitContent().top);
 }

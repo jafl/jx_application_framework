@@ -32,6 +32,7 @@ class JXSelectionManager;
 class JXDNDManager;
 class JXMenuManager;
 class JXHintManager;
+class JXFTCCell;
 
 class JXContainer : virtual public JBroadcaster
 {
@@ -260,22 +261,45 @@ private:
 	void	RemoveEnclosedObject(JXContainer* theObject);
 
 JXContainer*
-FTCMatchObjects
+FTCBuildLayout()
+	const;
+JXContainer*
+FTCGroupAlignedObjects
 	(
 	JXContainer*					target,
 	JPtrArray<JXContainer>*			objList,
 	const JPtrArray<JXContainer>&	fullObjList,
 	const JBoolean					horizontal,
 	const JBoolean					exact
-	);
+	)
+	const;
+JBoolean
+FTCWillOverlapNonincludedWidget
+	(
+	const JXContainer*				obj1,
+	const JXContainer*				obj2,
+	const JPtrArray<JXContainer>&	fullObjList,
+	const JPtrArray<JXContainer>&	matchedList
+	)
+	const;
+void
+FTCTrimBlockedMatches
+	(
+	const JXContainer*				target,
+	const JPtrArray<JXContainer>&	fullObjList,
+	const JPtrArray<JXContainer>&	matchedList,
+	const JBoolean					horizontal,
+	JPtrArray<JXFTCCell>*			cellList
+	)
+	const;
 static JOrderedSetT::CompareResult
-FTCCompareWidths
+FTCCompareHorizontally
 	(
 	JXContainer* const & w1,
 	JXContainer* const & w2
 	);
 static JOrderedSetT::CompareResult
-FTCCompareHeights
+FTCCompareVertically
 	(
 	JXContainer* const & w1,
 	JXContainer* const & w2
