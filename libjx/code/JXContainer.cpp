@@ -2170,7 +2170,7 @@ JXContainer::FTCGroupAlignedObjects
 			{
 			cell = cellObj;
 			}
-		else
+		else	// only create new cell to wrap real widget
 			{
 			cell = jnew JXFTCCell(obj, container);
 			assert( cell != NULL );
@@ -2242,6 +2242,8 @@ JXContainer::FTCGroupAlignedObjects
 
  ******************************************************************************/
 
+const JBoolean kDebugWillOverlapNonincludedWidget = kJFalse;
+
 JBoolean
 JXContainer::FTCWillOverlapNonincludedWidget
 	(
@@ -2256,7 +2258,7 @@ JXContainer::FTCWillOverlapNonincludedWidget
 		obj1->GetFrameForExpandToFitContent(),
 		obj2->GetFrameForExpandToFitContent());
 
-	if (theDebugFTCFlag)
+	if (kDebugWillOverlapNonincludedWidget && theDebugFTCFlag)
 		{
 		std::cout << "-----" << std::endl;
 		std::cout << "covering: " << covering << std::endl;
@@ -2270,14 +2272,14 @@ JXContainer::FTCWillOverlapNonincludedWidget
 		const JBoolean check = JI2B(
 			obj != obj1 && obj != obj2 && !matchedList.Includes(obj));
 
-		if (theDebugFTCFlag && check)
+		if (kDebugWillOverlapNonincludedWidget && theDebugFTCFlag && check)
 			{
 			std::cout << "check: " << obj->GetFrameForExpandToFitContent() << ' ' << obj->ToString() << std::endl;
 			}
 
 		if (check && JIntersection(covering, obj->GetFrameForExpandToFitContent(), &r))
 			{
-			if (theDebugFTCFlag)
+			if (kDebugWillOverlapNonincludedWidget && theDebugFTCFlag)
 				{
 				std::cout << "----- " << kJTrue << std::endl;
 				}
@@ -2286,7 +2288,7 @@ JXContainer::FTCWillOverlapNonincludedWidget
 			}
 		}
 
-	if (theDebugFTCFlag)
+	if (kDebugWillOverlapNonincludedWidget && theDebugFTCFlag)
 		{
 		std::cout << "----- " << kJTrue << std::endl;
 		}
@@ -2392,7 +2394,7 @@ JXContainer::FTCTrimBlockedMatches
 			cellIter.RemovePrev();
 			if (cell->GetWidget() != NULL)
 				{
-				jdelete cell;	// FTCGroupAlignedObjects only constructs cells to box widgets
+				jdelete cell;	// delete cell for widget that needs to be re-processed
 				}
 			}
 		}
