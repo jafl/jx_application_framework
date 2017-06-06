@@ -13,6 +13,7 @@
 #include <JRect.h>
 #include <JRunArray.h>
 #include <JPtrArray-JString.h>
+#include <JInterpolate.h>
 
 class JRegex;
 class JStringMatch;
@@ -610,8 +611,7 @@ protected:
 	void	ReplaceSelection(const JString& replaceStr,
 							 const JBoolean preserveCase,
 							 const JBoolean replaceIsRegex,
-							 const JRegex& regex,
-							 const JArray<JCharacterRange>& submatchList);
+							 const JStringMatch& match);
 
 	static JBoolean	ReadPrivateFormat(std::istream& input, const JTextEditor* te,
 									  JString* text, JRunArray<JFont>* style);
@@ -695,6 +695,7 @@ private:
 
 	JCharacterInWordFn	itsCharInWordFn;
 
+	JInterpolate	itsInterpolator;
 	JTEKeyHandler*	itsKeyHandler;
 
 	// information for Recalc
@@ -792,8 +793,9 @@ private:
 	JSize	InsertText(const JIndex charIndex, const JString& text,
 					   const JRunArray<JFont>* style = NULL);
 	JSize	InsertText(JString* targetText, JRunArray<JFont>* targetStyle,
-					   const JIndex charIndex, const JString& text,
-					   const JRunArray<JFont>* style, const JFont* defaultStyle);
+					   const JIndex charIndex, const JIndex byteIndex,
+					   const JString& text, const JRunArray<JFont>* style,
+					   const JFont* defaultStyle);
 	void	DeleteText(const JIndex startIndex, const JIndex endIndex);
 	void	DeleteText(const JCharacterRange& range);
 
@@ -894,9 +896,10 @@ private:
 							 const JString& replaceStr,
 							 const JBoolean preserveCase,
 							 const JBoolean replaceIsRegex,
-							 const JRegex& regex, const JStringMatch& match);
+							 const JStringMatch& match);
 	JBoolean	IsEntireWord(const JString& buffer,
-							 const JUtf8ByteRange& range) const;
+							 const JCharacterRange& charRange,
+							 const JUtf8ByteRange& byteRange) const;
 
 	void		BroadcastCaretMessages(const CaretLocation& caretLoc,
 									   const JBoolean lineChanged);
@@ -1325,7 +1328,9 @@ inline JBoolean
 JTextEditor::IsEntireWord()
 	const
 {
-	return IsEntireWord(itsBuffer, JUtf8ByteRange(1, itsBuffer.GetByteCount()));
+	return IsEntireWord(itsBuffer,
+						JCharacterRange(1, itsBuffer.GetCharacterCount()),
+						JUtf8ByteRange(1, itsBuffer.GetByteCount()));
 }
 
 /******************************************************************************

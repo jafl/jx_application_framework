@@ -1133,7 +1133,9 @@ JTextEditor::SearchForward
 		found = iter.Next(searchStr, caseSensitive);
 		if (found && entireWord)
 			{
-			found = IsEntireWord(buffer, JUtf8ByteRange(*byteIndex, *byteIndex + searchStr.GetByteCount() - 1));
+			found = IsEntireWord(buffer,
+						 JCharacterRange(*charIndex, *charIndex + searchStr.GetCharacterCount() - 1),
+						 JUtf8ByteRange(*byteIndex, *byteIndex + searchStr.GetByteCount() - 1));
 			}
 
 		if (found)
@@ -1261,7 +1263,9 @@ JTextEditor::SearchBackward
 		found = iter.Prev(searchStr, caseSensitive);
 		if (found && entireWord)
 			{
-			found = IsEntireWord(buffer, JUtf8ByteRange(*byteIndex, *byteIndex + searchStr.GetByteCount() - 1));
+			found = IsEntireWord(buffer,
+						 JCharacterRange(*charIndex, *charIndex + searchStr.GetCharacterCount() - 1),
+						 JUtf8ByteRange(*byteIndex, *byteIndex + searchStr.GetByteCount() - 1));
 			}
 
 		if (found)
@@ -1305,7 +1309,7 @@ JTextEditor::SelectionMatches
 {
 	if (itsCharSelection.IsEmpty() ||
 		itsCharSelection.GetCount() != searchStr.GetCharacterCount() ||
-		(entireWord && !IsEntireWord(itsBuffer, itsByteSelection)))
+		(entireWord && !IsEntireWord(itsBuffer, itsCharSelection, itsByteSelection)))
 		{
 		return kJFalse;
 		}
@@ -1390,7 +1394,7 @@ JTextEditor::SearchForward
 		if (iter.Next(regex))
 			{
 			const JStringMatch m = iter.GetLastMatch();
-			if (!entireWord || IsEntireWord(buffer, m.GetUtf8ByteRange()))
+			if (!entireWord || IsEntireWord(buffer, m.GetCharacterRange(), m.GetUtf8ByteRange()))
 				{
 				return m;
 				}
@@ -1487,7 +1491,7 @@ JTextEditor::SearchBackward
 		if (iter.Prev(regex))
 			{
 			const JStringMatch m = iter.GetLastMatch();
-			if (!entireWord || IsEntireWord(buffer, m.GetUtf8ByteRange()))
+			if (!entireWord || IsEntireWord(buffer, m.GetCharacterRange(), m.GetUtf8ByteRange()))
 				{
 				return m;
 				}
@@ -1525,7 +1529,7 @@ JTextEditor::SelectionMatches
 	)
 {
 	if (itsCharSelection.IsEmpty() ||
-		(entireWord && !IsEntireWord(itsBuffer, itsByteSelection)))
+		(entireWord && !IsEntireWord(itsBuffer, itsCharSelection, itsByteSelection)))
 		{
 		return JStringMatch(itsBuffer);
 		}
@@ -1558,22 +1562,43 @@ JBoolean
 JTextEditor::IsEntireWord
 	(
 	const JString&			buffer,
-	const JUtf8ByteRange&	range
+	const JCharacterRange&	charRange,
+	const JUtf8ByteRange&	byteRange
 	)
 	const
 {
-	if ((range.first > 1 && IsCharacterInWord(buffer, startIndex-1)) ||
-		(range.last < buffer.GetByteCount() &&
-		 IsCharacterInWord(buffer, endIndex+1)))
-		{
-		return kJFalse;
-		}
+	JStringIterator iter(buffer);
+	JUtf8Character c;
 
-	for (JIndex i=startIndex; i<=endIndex; i++)
+	if (charRange.first > 1)
 		{
-		if (!IsCharacterInWord(buffer, i))
+		iter.UnsafeMoveTo(kJIteratorStartBefore, charRange.first, byteRange.first);
+		if (iter.Prev(&c) && IsCharacterInWord(c))
 			{
 			return kJFalse;
+			}
+		}
+
+	if (charRange.last < buffer.GetCharacterCount())
+		{
+		iter.UnsafeMoveTo(kJIteratorStartAfter, charRange.last, byteRange.last);
+		if (iter.Next(&c) && IsCharacterInWord(c))
+			{
+			return kJFalse;
+			}
+		}
+
+	iter.UnsafeMoveTo(kJIteratorStartBefore, charRange.first, byteRange.first);
+	while (iter.Next(&c))
+		{
+		if (!IsCharacterInWord(c))
+			{
+			return kJFalse;
+			}
+
+		if (iter.GetNextCharacterIndex() > charRange.last)
+			{
+			break;
 			}
 		}
 
@@ -1593,11 +1618,10 @@ JTextEditor::IsEntireWord
 void
 JTextEditor::ReplaceSelection
 	(
-	const JCharacter*			replaceStr,
-	const JBoolean				preserveCase,
-	const JBoolean				replaceIsRegex,
-	const JRegex&				regex,
-	const JArray<JIndexRange>&	submatchList
+	const JString&		replaceStr,
+	const JBoolean		preserveCase,
+	const JBoolean		replaceIsRegex,
+	const JStringMatch&	match
 	)
 {
 	assert( HasSelection() );
@@ -1605,27 +1629,35 @@ JTextEditor::ReplaceSelection
 	JString replaceText;
 	if (replaceIsRegex)
 		{
-		const JBoolean ok = GetSelection(&replaceText);
-		assert( ok );
-		replaceText = regex.InterpolateMatches(replaceText, submatchList);
+		replaceText = itsInterpolator.Interpolate(replaceStr, match);
 		}
 	else
 		{
 		replaceText = replaceStr;
-		if (preserveCase)
-			{
-			JString sourceText;
-			const JBoolean ok = GetSelection(&sourceText);
-			assert( ok );
-			replaceText.MatchCase(sourceText, submatchList.GetElement(1));
-			}
 		}
 
-	const JIndex selStart = GetInsertionIndex();
+	if (preserveCase)
+		{
+		replaceText.MatchCase(itsBuffer.GetBytes(), match.GetUtf8ByteRange());
+		}
+
+	JIndex charIndex, byteIndex;
+	if (!itsCharSelection.IsEmpty())
+		{
+		charIndex = itsCharSelection.first;
+		byteIndex = itsByteSelection.first;
+		}
+	else
+		{
+		charIndex = itsCaretLoc.charIndex;
+		byteIndex = itsCaretLoc.byteIndex;
+		}
+
 	Paste(replaceText);
 	if (!replaceText.IsEmpty())
 		{
-		SetSelection(selStart, selStart + replaceText.GetLength()-1);
+		SetSelection(JCharacterRange(charIndex, charIndex + replaceText.GetCharacterCount()-1),
+					 JUtf8ByteRange(byteIndex,  byteIndex + replaceText.GetByteCount()-1));
 		}
 }
 
@@ -1639,36 +1671,41 @@ JTextEditor::ReplaceSelection
 JSize
 JTextEditor::ReplaceRange
 	(
-	JString*					buffer,
-	JRunArray<JFont>*			styles,
-	const JIndexRange&			range,
-	const JCharacter*			replaceStr,
-	const JBoolean				preserveCase,
-	const JBoolean				replaceIsRegex,
-	const JRegex&				regex,
-	const JArray<JIndexRange>&	submatchList
+	JString*				buffer,
+	JRunArray<JFont>*		styles,
+	const JCharacterRange&	charRange,
+	const JUtf8ByteRange&	byteRange,
+	const JString&			replaceStr,
+	const JBoolean			preserveCase,
+	const JBoolean			replaceIsRegex,
+	const JStringMatch&		match
 	)
 {
 	JString replaceText;
 	if (replaceIsRegex)
 		{
-		replaceText = buffer->GetSubstring(range);
-		replaceText = regex.InterpolateMatches(replaceText, submatchList);
+		replaceText = itsInterpolator.Interpolate(replaceStr, match);
 		}
 	else
 		{
 		replaceText = replaceStr;
-		if (preserveCase)
-			{
-			const JString sourceText = buffer->GetSubstring(range);
-			replaceText.MatchCase(sourceText, submatchList.GetElement(1));
-			}
 		}
 
-	buffer->RemoveSubstring(range);
-	styles->RemoveNextElements(range.first, range.GetLength());
+	if (preserveCase)
+		{
+		replaceText.MatchCase(buffer->GetBytes(), match.GetUtf8ByteRange());
+		}
 
-	return InsertText(buffer, styles, range.first, replaceText, NULL, NULL);
+	JStringIterator iter(buffer);
+	iter.UnsafeMoveTo(kJIteratorStartBefore, charRange.first, byteRange.first);
+	iter.BeginMatch();
+	iter.UnsafeMoveTo(kJIteratorStartAfter, charRange.last, byteRange.last);
+	iter.FinishMatch();
+	iter.RemoveLastMatch();
+
+	styles->RemoveNextElements(charRange.first, charRange.GetCount());
+
+	return InsertText(buffer, styles, charRange.first, byteRange.first, replaceText, NULL, NULL);
 }
 
 /******************************************************************************
@@ -7976,7 +8013,7 @@ JTextEditor::IsCharacterInWord
 	)
 	const
 {
-	return itsCharInWordFn(text, charIndex);
+	return itsCharInWordFn(c);
 }
 
 /******************************************************************************
