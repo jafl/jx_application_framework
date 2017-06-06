@@ -936,15 +936,8 @@ JXSearchTextDialog::GetSearchParameters
 			}
 		}
 
-	if (*searchIsRegex ||
-		itsSearchInput->IsEntireWord(1, itsSearchInput->GetTextLength()))
-		{
-		*entireWord = itsEntireWordCB->IsChecked();
-		}
-	else
-		{
-		*entireWord = kJFalse;
-		}
+	*entireWord = (*searchIsRegex || itsSearchInput->IsEntireWord()) ?
+					itsEntireWordCB->IsChecked() : kJFalse;
 
 	*regex = itsRegex;
 

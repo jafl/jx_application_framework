@@ -179,4 +179,8 @@ Would you like to go there now to download it?"
 
 # JTextEditor
 
-ConvertFromDOS::JTextEditor	"Converting from DOS format..."
+ConvertFromDOS::JTextEditor			"Converting from DOS format..."
+CRMCaretAction::JTextEditor			"Clean paragraph margins"
+CRMSelectionAction::JTextEditor		"Clean margins for selection"
+CRM2CaretAction::JTextEditor		"Coerce paragraph margins"
+CRM2SelectionAction::JTextEditor	"Coerce margins for selection"

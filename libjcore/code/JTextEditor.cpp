@@ -159,6 +159,8 @@
 #include <JListUtil.h>
 #include <JRunArrayIterator.h>
 #include <JRegex.h>
+#include <JStringIterator.h>
+#include <JStringMatch.h>
 #include <JLatentPG.h>
 #include <JMinMax.h>
 #include <jTextUtil.h>
@@ -166,6 +168,7 @@
 #include <jFStreamUtil.h>
 #include <jStreamUtil.h>
 #include <jMouseUtil.h>
+#include <jFileUtil.h>
 #include <jTime.h>
 #include <ctype.h>
 #include <jGlobals.h>
@@ -184,21 +187,15 @@ const JSize kDefaultMaxUndoCount = 100;
 const JSize kUNIXLineWidth    = 75;
 const JSize kUNIXTabCharCount = 8;
 
-static const JCharacter* kCRMCaretActionText     = "Clean paragraph margins";
-static const JCharacter* kCRMSelectionActionText = "Clean margins for selection";
-
-static const JCharacter* kCRM2CaretActionText     = "Coerce paragraph margins";
-static const JCharacter* kCRM2SelectionActionText = "Coerce margins for selection";
-
 JBoolean JTextEditor::theCopyWhenSelectFlag = kJFalse;
 
 // JBroadcaster message types
 
-const JCharacter* JTextEditor::kTypeChanged          = "TypeChanged::JTextEditor";
-const JCharacter* JTextEditor::kTextSet              = "TextSet::JTextEditor";
-const JCharacter* JTextEditor::kTextChanged          = "TextChanged::JTextEditor";
-const JCharacter* JTextEditor::kCaretLineChanged     = "CaretLineChanged::JTextEditor";
-const JCharacter* JTextEditor::kCaretLocationChanged = "CaretLocationChanged::JTextEditor";
+const JUtf8Byte* JTextEditor::kTypeChanged          = "TypeChanged::JTextEditor";
+const JUtf8Byte* JTextEditor::kTextSet              = "TextSet::JTextEditor";
+const JUtf8Byte* JTextEditor::kTextChanged          = "TextChanged::JTextEditor";
+const JUtf8Byte* JTextEditor::kCaretLineChanged     = "CaretLineChanged::JTextEditor";
+const JUtf8Byte* JTextEditor::kCaretLocationChanged = "CaretLocationChanged::JTextEditor";
 
 /******************************************************************************
  Constructor
@@ -283,7 +280,7 @@ JTextEditor::JTextEditor
 	itsLineGeom = jnew JRunArray<LineGeometry>;
 	assert( itsLineGeom != NULL );
 
-	itsCaretLoc         = CaretLocation(1,1);
+	itsCaretLoc         = CaretLocation(1,1,1);
 	itsCaretX           = 0;
 	itsInsertionFont    = CalcInsertionFont(1);
 
@@ -375,7 +372,7 @@ JTextEditor::JTextEditor
 
 	itsPrevBufLength = source.itsPrevBufLength;
 
-	itsCaretLoc         = CaretLocation(1,1);
+	itsCaretLoc         = CaretLocation(1,1,1);
 	itsCaretX           = 0;
 	itsInsertionFont    = CalcInsertionFont(1);
 
@@ -565,7 +562,7 @@ JTextEditor::ReadPlainText
 		JUtf8Byte* buffer = jnew JUtf8Byte[ byteCount ];
 		assert( buffer != NULL );
 
-		std::ifstream input(fileName);
+		std::ifstream input(fileName.GetBytes());
 		JIndex i = 0;
 		while (1)
 			{
@@ -631,7 +628,7 @@ JTextEditor::WritePlainText
 	)
 	const
 {
-	std::ofstream output(fileName);
+	std::ofstream output(fileName.GetBytes());
 	WritePlainText(output, format);
 }
 
@@ -649,7 +646,7 @@ JTextEditor::WritePlainText
 		return;
 		}
 
-	const JCharacter* newlineStr = NULL;
+	const JUtf8Byte* newlineStr = NULL;
 	if (format == kDOSText)
 		{
 		newlineStr = kDOSNewline;
@@ -1087,8 +1084,8 @@ JTextEditor::SearchForward
 	if (SearchForward(itsBuffer, &charIndex, &byteIndex, searchStr,
 					  caseSensitive, entireWord, wrapSearch, wrapped))
 		{
-		SetSelection(charIndex, charIndex + searchStr.GetCharacterCount() - 1,
-					 byteIndex, byteIndex + searchStr.GetByteCount() - 1);
+		SetSelection(JCharacterRange(charIndex, charIndex + searchStr.GetCharacterCount() - 1),
+					 JUtf8ByteRange(byteIndex, byteIndex + searchStr.GetByteCount() - 1));
 		return kJTrue;
 		}
 	else
@@ -1136,7 +1133,7 @@ JTextEditor::SearchForward
 		found = iter.Next(searchStr, caseSensitive);
 		if (found && entireWord)
 			{
-			found = IsEntireWord(buffer, *byteIndex, *byteIndex + searchStr.GetByteCount() - 1);
+			found = IsEntireWord(buffer, JUtf8ByteRange(*byteIndex, *byteIndex + searchStr.GetByteCount() - 1));
 			}
 
 		if (found)
@@ -1184,7 +1181,7 @@ JTextEditor::SearchBackward
 		}
 
 	JIndex charIndex, byteIndex;
-	if (itsSelection.IsEmpty())
+	if (itsCharSelection.IsEmpty())
 		{
 		charIndex = itsCaretLoc.charIndex - 1;
 		byteIndex = itsCaretLoc.byteIndex - 1;
@@ -1193,7 +1190,7 @@ JTextEditor::SearchBackward
 		{
 		const JBoolean selectedMatch = JI2B(
 			JString::CompareMaxNBytes(
-				itsBuffer.GetCString() + itsByteSelection.first-1,
+				itsBuffer.GetBytes() + itsByteSelection.first-1,
 				searchStr.GetBytes(), searchStr.GetByteCount(), caseSensitive) == 0);
 
 		if (selectedMatch && itsCharSelection.first > searchStr.GetCharacterCount())
@@ -1213,11 +1210,11 @@ JTextEditor::SearchBackward
 			}
 		}
 
-	if (SearchBackward(*itsBuffer, &charIndex, &byteIndex, searchStr,
+	if (SearchBackward(itsBuffer, &charIndex, &byteIndex, searchStr,
 					   caseSensitive, entireWord, wrapSearch, wrapped))
 		{
-		SetSelection(charIndex, charIndex + searchStr.GetCharacterCount() - 1,
-					 byteIndex, byteIndex + searchStr.GetByteCount() - 1);
+		SetSelection(JCharacterRange(charIndex, charIndex + searchStr.GetCharacterCount() - 1),
+					 JUtf8ByteRange(byteIndex, byteIndex + searchStr.GetByteCount() - 1));
 		return kJTrue;
 		}
 	else
@@ -1250,7 +1247,7 @@ JTextEditor::SearchBackward
 		*byteIndex = buffer.GetByteCount();
 		*wrapped   = kJTrue;
 		}
-	else if (*startIndex == 0)
+	else if (*charIndex == 0)
 		{
 		return kJFalse;
 		}
@@ -1264,7 +1261,7 @@ JTextEditor::SearchBackward
 		found = iter.Prev(searchStr, caseSensitive);
 		if (found && entireWord)
 			{
-			found = IsEntireWord(buffer, *byteIndex, *byteIndex + searchStr.GetByteCount() - 1);
+			found = IsEntireWord(buffer, JUtf8ByteRange(*byteIndex, *byteIndex + searchStr.GetByteCount() - 1));
 			}
 
 		if (found)
@@ -1308,7 +1305,7 @@ JTextEditor::SelectionMatches
 {
 	if (itsCharSelection.IsEmpty() ||
 		itsCharSelection.GetCount() != searchStr.GetCharacterCount() ||
-		(entireWord && !IsEntireWord(itsByteSelection)))
+		(entireWord && !IsEntireWord(itsBuffer, itsByteSelection)))
 		{
 		return kJFalse;
 		}
@@ -1328,102 +1325,89 @@ JTextEditor::SelectionMatches
 
  ******************************************************************************/
 
-JBoolean
+JStringMatch
 JTextEditor::SearchForward
 	(
-	const JRegex&			regex,
-	const JBoolean			entireWord,
-	const JBoolean			wrapSearch,
-	JBoolean*				wrapped,
-	JArray<JIndexRange>*	submatchList
+	const JRegex&	regex,
+	const JBoolean	entireWord,
+	const JBoolean	wrapSearch,
+	JBoolean*		wrapped
 	)
 {
-	JIndex startIndex;
-	if (!itsSelection.IsEmpty())
+	const JIndex charIndex =
+		!itsCharSelection.IsEmpty() ? itsCharSelection.last + 1 :
+		itsCaretLoc.charIndex;
+
+	const JIndex byteIndex =
+		!itsByteSelection.IsEmpty() ? itsByteSelection.last + 1 :
+		itsCaretLoc.byteIndex;
+
+	const JStringMatch m =
+		SearchForward(itsBuffer, charIndex, byteIndex, regex,
+					  entireWord, wrapSearch, wrapped);
+	if (!m.IsEmpty())
 		{
-		startIndex = itsSelection.last + 1;
-		}
-	else
-		{
-		startIndex = itsCaretLoc.charIndex;
+		SetSelection(m.GetCharacterRange(), m.GetUtf8ByteRange());
 		}
 
-	if (SearchForward(*itsBuffer, &startIndex, regex,
-					  entireWord, wrapSearch, wrapped, submatchList))
-		{
-		SetSelection(submatchList->GetElement(1));
-		return kJTrue;
-		}
-	else
-		{
-		return kJFalse;
-		}
+	return m;
 }
 
 // private
 
-JBoolean
+JStringMatch
 JTextEditor::SearchForward
 	(
-	const JString&			buffer,
-	JIndex*					startIndex,
-	const JRegex&			regex,
-	const JBoolean			entireWord,
-	const JBoolean			wrapSearch,
-	JBoolean*				wrapped,
-	JArray<JIndexRange>*	submatchList
+	const JString&	buffer,
+	const JIndex	startCharIndex,
+	const JIndex	startByteIndex,
+	const JRegex&	regex,
+	const JBoolean	entireWord,
+	const JBoolean	wrapSearch,
+	JBoolean*		wrapped
 	)
 {
-	const JIndex origStartIndex = *startIndex;
+	JIndex charIndex = startCharIndex,
+		   byteIndex = startByteIndex;
 
 	*wrapped = kJFalse;
-	const JSize bufLength = buffer.GetLength();
-	if (*startIndex > bufLength && wrapSearch)
+	if (charIndex > buffer.GetCharacterCount() && wrapSearch)
 		{
-		*startIndex = 1;
-		*wrapped    = kJTrue;
+		charIndex = 1;
+		byteIndex = 1;
+		*wrapped  = kJTrue;
 		}
-	else if (*startIndex > bufLength)
+	else if (charIndex > buffer.GetCharacterCount())
 		{
-		return kJFalse;
+		return JStringMatch(buffer);
 		}
 
-	JBoolean found = kJFalse;
+	JStringIterator iter(buffer);
+	iter.UnsafeMoveTo(kJIteratorStartBefore, charIndex, byteIndex);
+
 	while (1)
 		{
-		found = regex.MatchFrom(buffer, *startIndex, submatchList);
-		if (found)
+		if (iter.Next(regex))
 			{
-			JIndexRange all = submatchList->GetElement(1);
-			*startIndex     = all.first;
-			found           = !all.IsEmpty();
-			if (found && (!entireWord || IsEntireWord(buffer, all.first, all.last)))
+			const JStringMatch m = iter.GetLastMatch();
+			if (!entireWord || IsEntireWord(buffer, m.GetUtf8ByteRange()))
 				{
-				break;
+				return m;
 				}
-			found = kJFalse;
-			}
-		else
-			{
-			*startIndex = bufLength+1;
 			}
 
-		(*startIndex)++;
-		if (!found && *startIndex > bufLength && wrapSearch && !(*wrapped) &&
-			origStartIndex > 1)
+		if (iter.AtEnd() && wrapSearch && !(*wrapped) && startCharIndex > 1)
 			{
-			*startIndex = 1;
-			*wrapped    = kJTrue;
+			iter.MoveTo(kJIteratorStartAtBeginning, 0);
+			*wrapped  = kJTrue;
 			}
-		else if (!found &&
-				 (*startIndex > bufLength ||
-				  (*wrapped && *startIndex >= origStartIndex)))
+		else if (iter.AtEnd() || (*wrapped && iter.GetNextCharacterIndex() >= startCharIndex))
 			{
 			break;
 			}
 		}
 
-	return found;
+	return JStringMatch(buffer);
 }
 
 /******************************************************************************
@@ -1434,145 +1418,137 @@ JTextEditor::SearchForward
 
  ******************************************************************************/
 
-JBoolean
+JStringMatch
 JTextEditor::SearchBackward
 	(
-	const JRegex&			regex,
-	const JBoolean			entireWord,
-	const JBoolean			wrapSearch,
-	JBoolean*				wrapped,
-	JArray<JIndexRange>*	submatchList
+	const JRegex&	regex,
+	const JBoolean	entireWord,
+	const JBoolean	wrapSearch,
+	JBoolean*		wrapped
 	)
 {
-	JIndex startIndex = GetInsertionIndex() - 1;
-	if (SearchBackward(*itsBuffer, &startIndex, regex,
-					   entireWord, wrapSearch, wrapped, submatchList))
+	JIndex charIndex, byteIndex;
+	if (itsCharSelection.IsEmpty())
 		{
-		SetSelection(submatchList->GetElement(1));
-		return kJTrue;
+		charIndex = itsCaretLoc.charIndex;
+		byteIndex = itsCaretLoc.byteIndex;
 		}
 	else
 		{
-		return kJFalse;
+		charIndex = itsCharSelection.first;
+		byteIndex = itsByteSelection.first;
 		}
+
+	const JStringMatch m =
+		SearchBackward(itsBuffer, charIndex, byteIndex, regex,
+					   entireWord, wrapSearch, wrapped);
+	if (!m.IsEmpty())
+		{
+		SetSelection(m.GetCharacterRange(), m.GetUtf8ByteRange());
+		}
+
+	return m;
 }
 
 // private
 
-JBoolean
+JStringMatch
 JTextEditor::SearchBackward
 	(
-	const JString&			buffer,
-	JIndex*					startIndex,
-	const JRegex&			regex,
-	const JBoolean			entireWord,
-	const JBoolean			wrapSearch,
-	JBoolean*				wrapped,
-	JArray<JIndexRange>*	submatchList
+	const JString&	buffer,
+	const JIndex	startCharIndex,
+	const JIndex	startByteIndex,
+	const JRegex&	regex,
+	const JBoolean	entireWord,
+	const JBoolean	wrapSearch,
+	JBoolean*		wrapped
 	)
 {
-	const JIndex origStartIndex = *startIndex;
+	JIndex charIndex = startCharIndex,
+		   byteIndex = startByteIndex;
 
 	*wrapped = kJFalse;
-	const JSize bufLength = buffer.GetLength();
-	if (*startIndex == 0 && wrapSearch)
+	if (charIndex == 1 && wrapSearch)
 		{
-		*startIndex = bufLength;
-		*wrapped    = kJTrue;
+		charIndex = buffer.GetCharacterCount();
+		byteIndex = buffer.GetByteCount();
+		*wrapped  = kJTrue;
 		}
-	else if (*startIndex == 0)
+	else if (charIndex == 1)
 		{
-		return kJFalse;
+		return JStringMatch(buffer);
 		}
 
-	JBoolean found = kJFalse;
+	JStringIterator iter(buffer);
+	iter.UnsafeMoveTo(kJIteratorStartBefore, charIndex, byteIndex);
+
 	while (1)
 		{
-		found = JConvertToBoolean(
-			regex.MatchLastWithin(buffer, JIndexRange(1, *startIndex), submatchList) > 0);
-		if (found)
+		if (iter.Prev(regex))
 			{
-			JIndexRange all = submatchList->GetElement(1);
-			*startIndex     = all.first;
-			found           = !all.IsEmpty();
-			if (found && (!entireWord || IsEntireWord(buffer, all.first, all.last)))
+			const JStringMatch m = iter.GetLastMatch();
+			if (!entireWord || IsEntireWord(buffer, m.GetUtf8ByteRange()))
 				{
-				break;
+				return m;
 				}
-			found = kJFalse;
-			}
-		else
-			{
-			*startIndex = 0;
 			}
 
-		if (*startIndex > 0)
+		if (iter.AtBeginning() && wrapSearch && !(*wrapped) &&
+			startCharIndex < buffer.GetCharacterCount())
 			{
-			(*startIndex)--;
+			iter.MoveTo(kJIteratorStartAtEnd, 0);
+			*wrapped = kJTrue;
 			}
-		if (!found && *startIndex == 0 && wrapSearch && !(*wrapped) &&
-			origStartIndex < bufLength)
-			{
-			*startIndex = bufLength;
-			*wrapped    = kJTrue;
-			}
-		else if (!found &&
-				 (*startIndex == 0 ||
-				  (*wrapped && *startIndex <= origStartIndex)))
+		else if (iter.AtBeginning() ||
+				  (*wrapped && iter.GetPrevCharacterIndex() <= startCharIndex))
 			{
 			break;
 			}
 		}
 
-	return found;
+	return JStringMatch(buffer);
 }
 
 /******************************************************************************
  SelectionMatches
 
 	Returns kJTrue if the current selection matches the given search criteria.
-	This should always be checked before doing a replace.
-
-	*** submatchList is relative to the start of the selected text.
+	This returns the JStringMatch required for a replace.
 
  ******************************************************************************/
 
-JBoolean
+JStringMatch
 JTextEditor::SelectionMatches
 	(
-	const JRegex&			regex,
-	const JBoolean			entireWord,
-	JArray<JIndexRange>*	submatchList
+	const JRegex&	regex,
+	const JBoolean	entireWord
 	)
 {
-	if (itsSelection.IsEmpty() ||
-		(entireWord && !IsEntireWord(itsSelection)))
+	if (itsCharSelection.IsEmpty() ||
+		(entireWord && !IsEntireWord(itsBuffer, itsByteSelection)))
 		{
-		return kJFalse;
+		return JStringMatch(itsBuffer);
 		}
 
 	// We cannot match only the selected text, because that will fail if
 	// there are look-behind or look-ahead assertions.
 
-	const JBoolean matches = regex.MatchFrom(*itsBuffer, itsSelection.first, submatchList);
-	if (matches && submatchList->GetFirstElement() == itsSelection)
+	JStringIterator iter(itsBuffer);
+	iter.UnsafeMoveTo(kJIteratorStartBefore, itsCharSelection.first, itsByteSelection.first);
+	if (iter.Next(regex))
 		{
-		const JSize count = submatchList->GetElementCount();
-		for (JIndex i=1; i<=count; i++)
+		const JStringMatch m = iter.GetLastMatch();
+		if (m.GetCharacterRange() == itsCharSelection)
 			{
-			submatchList->SetElement(i, submatchList->GetElement(i) - itsSelection.first + 1);
+			return m;
 			}
+		}
 
-		return kJTrue;
-		}
-	else
-		{
-		return kJFalse;
-		}
+	return JStringMatch(itsBuffer);
 }
 
 /******************************************************************************
- IsEntireWord
+ IsEntireWord (private)
 
 	Return kJTrue if the given character range is a single, complete word.
 
@@ -1581,14 +1557,13 @@ JTextEditor::SelectionMatches
 JBoolean
 JTextEditor::IsEntireWord
 	(
-	const JString&	buffer,
-	const JIndex	startIndex,
-	const JIndex	endIndex
+	const JString&			buffer,
+	const JUtf8ByteRange&	range
 	)
 	const
 {
-	if ((startIndex > 1 && IsCharacterInWord(buffer, startIndex-1)) ||
-		(endIndex < buffer.GetLength() &&
+	if ((range.first > 1 && IsCharacterInWord(buffer, startIndex-1)) ||
+		(range.last < buffer.GetByteCount() &&
 		 IsCharacterInWord(buffer, endIndex+1)))
 		{
 		return kJFalse;
@@ -3153,16 +3128,19 @@ JTextEditor::GetSelection
 }
 
 /******************************************************************************
- SetSelection
+ SetSelection (private)
+
+	*** Requires, but does not validate, that charRange and byteRange
+		correspond to the same bytes.
 
  ******************************************************************************/
 
 void
 JTextEditor::SetSelection
 	(
-	const JIndex	startIndex,
-	const JIndex	endIndex,
-	const JBoolean	needCaretBcast
+	const JCharacterRange&	charRange,
+	const JUtf8ByteRange&	byteRange,
+	const JBoolean			needCaretBcast
 	)
 {
 	if (itsIsDragSourceFlag)
@@ -3173,28 +3151,33 @@ JTextEditor::SetSelection
 	DeactivateCurrentUndo();
 	itsPrevDragType = kInvalidDrag;		// avoid wordSel and lineSel pivots
 
-	if (itsBuffer->IsEmpty() || itsSelection.Is(startIndex, endIndex))
+	if (itsBuffer->IsEmpty() || itsCharSelection == charRange)
 		{
 		return;
 		}
 
-	assert( IndexValid(startIndex) );
-	assert( IndexValid(endIndex) );
-	assert( startIndex <= endIndex );
+	assert( itsBuffer.CharacterIndexValid(charRange.first) );
+	assert( itsBuffer.CharacterIndexValid(charRange.last) );
+	assert( !charRange.IsEmpty() );
 
-	const JBoolean hadSelection      = !itsSelection.IsEmpty();
-	const CaretLocation origCaretLoc = itsCaretLoc;
-	const JIndexRange origSelection  = itsSelection;
+	assert( itsBuffer.ByteIndexValid(byteRange.first) );
+	assert( itsBuffer.ByteIndexValid(byteRange.last) );
+	assert( !byteRange.IsEmpty() );
 
-	itsCaretLoc = CaretLocation(0,0);
-	itsSelection.Set(startIndex, endIndex);
+	const JBoolean hadSelection             = !itsCharSelection.IsEmpty();
+	const CaretLocation origCaretLoc        = itsCaretLoc;
+	const JCharacterRange origByteSelection = itsByteSelection;
 
-	const JIndex newStartLine = GetLineForChar(itsSelection.first);
-	const JIndex newEndLine   = GetLineForChar(itsSelection.last);
+	itsCaretLoc      = CaretLocation(0,0,0);
+	itsCharSelection = charRange;
+	itsByteSelection = byteRange;
+
+	const JIndex newStartLine = GetLineForByte(itsByteSelection.first);
+	const JIndex newEndLine   = GetLineForByte(itsByteSelection.last);
 
 	if (needCaretBcast)
 		{
-		BroadcastCaretMessages(CaretLocation(itsSelection.first, newStartLine), kJTrue);
+		BroadcastCaretMessages(CaretLocation(itsCharSelection.first, newStartLine), kJTrue);
 		}
 
 	TECaretShouldBlink(kJFalse);
@@ -3207,22 +3190,22 @@ JTextEditor::SetSelection
 	// We only optimize heavily for the case when one end of the
 	// selection remains fixed because this is the case during mouse drags.
 
-	if (hadSelection && origSelection.first == itsSelection.first)
+	if (hadSelection && origByteSelection.first == itsByteSelection.first)
 		{
-		const JIndex origEndLine = GetLineForChar(origSelection.last);
+		const JIndex origEndLine = GetLineForByte(origByteSelection.last);
 		TERefreshLines(JMin(origEndLine, newEndLine),
 					   JMax(origEndLine, newEndLine));
 		}
-	else if (hadSelection && origSelection.last == itsSelection.last)
+	else if (hadSelection && origByteSelection.last == itsByteSelection.last)
 		{
-		const JIndex origStartLine = GetLineForChar(origSelection.first);
+		const JIndex origStartLine = GetLineForByte(origByteSelection.first);
 		TERefreshLines(JMin(origStartLine, newStartLine),
 					   JMax(origStartLine, newStartLine));
 		}
 	else if (hadSelection)
 		{
-		const JIndex origStartLine = GetLineForChar(origSelection.first);
-		const JIndex origEndLine   = GetLineForChar(origSelection.last);
+		const JIndex origStartLine = GetLineForByte(origByteSelection.first);
+		const JIndex origEndLine   = GetLineForByte(origByteSelection.last);
 		TERefreshLines(origStartLine, origEndLine);
 		TERefreshLines(newStartLine, newEndLine);
 		}
@@ -5828,14 +5811,14 @@ JTextEditor::GetCmdStatus
 
 	if (itsSelection.IsEmpty())
 		{
-		*crmActionText  = kCRMCaretActionText;
-		*crm2ActionText = kCRM2CaretActionText;
+		*crmActionText  = JGetString("CRMCaretAction::JTextEditor");
+		*crm2ActionText = JGetString("CRM2CaretAction::JTextEditor");
 		}
 	else
 		{
 		flags.SetElement(kCopyCmd, kJTrue);
-		*crmActionText  = kCRMSelectionActionText;
-		*crm2ActionText = kCRM2SelectionActionText;
+		*crmActionText  = JGetString("CRMSelectionAction::JTextEditor");
+		*crm2ActionText = JGetString("CRM2SelectionAction::JTextEditor");
 		}
 
 	flags.SetElement(kSelectAllCmd,      kJTrue);

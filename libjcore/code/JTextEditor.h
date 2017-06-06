@@ -15,6 +15,7 @@
 #include <JPtrArray-JString.h>
 
 class JRegex;
+class JStringMatch;
 class JPainter;
 class JPagePrinter;
 class JFontManager;
@@ -217,14 +218,11 @@ public:
 	JBoolean	SelectionMatches(const JString& searchStr,
 								 const JBoolean caseSensitive, const JBoolean entireWord);
 
-	JBoolean	SearchForward(const JRegex& regex, const JBoolean entireWord,
-							  const JBoolean wrapSearch, JBoolean* wrapped,
-							  JArray<JCharacterRange>* submatchList);
-	JBoolean	SearchBackward(const JRegex& regex, const JBoolean entireWord,
-							   const JBoolean wrapSearch, JBoolean* wrapped,
-							   JArray<JCharacterRange>* submatchList);
-	JBoolean	SelectionMatches(const JRegex& regex, const JBoolean entireWord,
-								 JArray<JCharacterRange>* submatchList);
+	JStringMatch	SearchForward(const JRegex& regex, const JBoolean entireWord,
+								  const JBoolean wrapSearch, JBoolean* wrapped);
+	JStringMatch	SearchBackward(const JRegex& regex, const JBoolean entireWord,
+								   const JBoolean wrapSearch, JBoolean* wrapped);
+	JStringMatch	SelectionMatches(const JRegex& regex, const JBoolean entireWord);
 
 	JBoolean	ReplaceAllForward(const JString& searchStr,
 								  const JBoolean searchIsRegex, const JBoolean caseSensitive,
@@ -289,8 +287,7 @@ public:
 										  const JBoolean dragging, JCharacterRange* range);
 
 	JIndex		GetInsertionIndex() const;
-	JBoolean	IsEntireWord(const JIndex startIndex, const JIndex endIndex) const;
-	JBoolean	IsEntireWord(const JCharacterRange& range) const;
+	JBoolean	IsEntireWord() const;
 	JIndex		GetWordStart(const JIndex charIndex) const;
 	JIndex		GetWordEnd(const JIndex charIndex) const;
 	JIndex		GetPartialWordStart(const JIndex charIndex) const;
@@ -456,7 +453,7 @@ public:
 	CaretMode	GetCaretMode() const;
 	void		SetCaretMode(const CaretMode mode);
 
-	JBoolean	IndexValid(const JIndex charIndex) const;
+	JBoolean	CharacterIndexValid(const JIndex charIndex) const;
 
 public:		// ought to be protected
 
@@ -809,6 +806,10 @@ private:
 	JRect			CalcCaretRect(const CaretLocation& caretLoc) const;
 	void			TERefreshCaret(const CaretLocation& caretLoc);
 
+	void	SetSelection(const JCharacterRange& charRange,
+						 const JUtf8ByteRange& byteRange,
+						 const JBoolean needCaretBcast = kJTrue);
+
 	JCoordinate	GetCharLeft(const CaretLocation& charLoc) const;
 	JCoordinate	GetCharRight(const CaretLocation& charLoc) const;
 	JCoordinate	GetCharWidth(const CaretLocation& charLoc) const;
@@ -867,28 +868,35 @@ private:
 	JBoolean	LocateTab(const JIndex startIndex, const JIndex endIndex,
 						  JIndex* tabIndex) const;
 
-	JBoolean	SearchForward(const JString& buffer, JIndex* charIndex, JIndex* byteIndex,
+	JBoolean	SearchForward(const JString& buffer,
+							  JIndex* charIndex, JIndex* byteIndex,
 							  const JString& searchStr,
 							  const JBoolean caseSensitive, const JBoolean entireWord,
 							  const JBoolean wrapSearch, JBoolean* wrapped);
-	JBoolean	SearchBackward(const JString& buffer, JIndex* charIndex, JIndex* byteIndex,
+	JBoolean	SearchBackward(const JString& buffer,
+							   JIndex* charIndex, JIndex* byteIndex,
 							   const JString& searchStr,
 							   const JBoolean caseSensitive, const JBoolean entireWord,
 							   const JBoolean wrapSearch, JBoolean* wrapped);
-	JBoolean	SearchForward(const JString& buffer, JIndex* startIndex,
-							  const JRegex& regex, const JBoolean entireWord,
-							  const JBoolean wrapSearch, JBoolean* wrapped,
-							  JArray<JCharacterRange>* submatchList);
-	JBoolean	SearchBackward(const JString& buffer, JIndex* startIndex,
-							   const JRegex& regex, const JBoolean entireWord,
-							   const JBoolean wrapSearch, JBoolean* wrapped,
-							   JArray<JCharacterRange>* submatchList);
+
+	JStringMatch	SearchForward(const JString& buffer,
+								  const JIndex charIndex, const JIndex byteIndex,
+								  const JRegex& regex, const JBoolean entireWord,
+								  const JBoolean wrapSearch, JBoolean* wrapped);
+	JStringMatch	SearchBackward(const JString& buffer,
+								   const JIndex charIndex, const JIndex byteIndex,
+								   const JRegex& regex, const JBoolean entireWord,
+								   const JBoolean wrapSearch, JBoolean* wrapped);
+
 	JSize		ReplaceRange(JString* buffer, JRunArray<JFont>* styles,
-							 const JCharacterRange& range, const JString& replaceStr,
-							 const JBoolean preserveCase, const JBoolean replaceIsRegex,
-							 const JRegex& regex, const JArray<JCharacterRange>& submatchList);
+							 const JCharacterRange& charRange,
+							 const JUtf8ByteRange& byteRange,
+							 const JString& replaceStr,
+							 const JBoolean preserveCase,
+							 const JBoolean replaceIsRegex,
+							 const JRegex& regex, const JStringMatch& match);
 	JBoolean	IsEntireWord(const JString& buffer,
-							 const JIndex startIndex, const JIndex endIndex) const;
+							 const JUtf8ByteRange& range) const;
 
 	void		BroadcastCaretMessages(const CaretLocation& caretLoc,
 									   const JBoolean lineChanged);
@@ -1189,12 +1197,12 @@ JTextEditor::GetTextLength()
 }
 
 /******************************************************************************
- IndexValid
+ CharacterIndexValid
 
  ******************************************************************************/
 
 inline JBoolean
-JTextEditor::IndexValid
+JTextEditor::CharacterIndexValid
 	(
 	const JIndex charIndex
 	)
@@ -1309,29 +1317,15 @@ JTextEditor::ClearLastSaveLocation()
 /******************************************************************************
  IsEntireWord
 
-	Return kJTrue if the given character range is a single, complete word.
+	Return kJTrue if the text is a single, complete word.
 
  ******************************************************************************/
 
 inline JBoolean
-JTextEditor::IsEntireWord
-	(
-	const JIndex startIndex,
-	const JIndex endIndex
-	)
+JTextEditor::IsEntireWord()
 	const
 {
-	return IsEntireWord(itsBuffer, startIndex, endIndex);
-}
-
-inline JBoolean
-JTextEditor::IsEntireWord
-	(
-	const JCharacterRange& range
-	)
-	const
-{
-	return IsEntireWord(itsBuffer, range.first, range.last);
+	return IsEntireWord(itsBuffer, JUtf8ByteRange(1, itsBuffer.GetByteCount()));
 }
 
 /******************************************************************************

@@ -16,6 +16,8 @@ test
 	man pages
 	styled unix terminal output - yui build output
 	search forward & backward starting w/ & w/out selection
+		search forward for "foo" in "xyz|foo"
+		search backward for "xyz" in "xyz|foo"
 
 move "online" help to sourceforge wiki
 

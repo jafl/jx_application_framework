@@ -20,6 +20,8 @@ class JStringMatch
 
 public:
 
+	JStringMatch(const JString& target);
+
 	~JStringMatch();
 
 	JBoolean	IsEmpty() const;

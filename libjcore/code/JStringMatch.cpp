@@ -16,14 +16,27 @@
 #include <jAssert.h>
 
 /******************************************************************************
- Constructor (protected)
+ Constructor
 
 	If a list of submatches is provided, we take ownership of the list.
 
-	The creator may also call one if Set(First|Last)CharacterIndex or
-	SetCharacterRange.
+	Privileged creators may also call one of Set(First|Last)CharacterIndex
+	or SetCharacterRange.
 
  ******************************************************************************/
+
+JStringMatch::JStringMatch
+	(
+	const JString& target
+	)
+	:
+	itsTarget(target),
+	itsRegex(NULL),
+	itsSubmatchList(NULL)
+{
+}
+
+// protected
 
 JStringMatch::JStringMatch
 	(
