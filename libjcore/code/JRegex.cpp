@@ -341,24 +341,6 @@ JRegex::GetSubexpressionCount()
 }
 
 /******************************************************************************
- Match
-
-	Returns kJTrue if our pattern matches the given string.
-
- *****************************************************************************/
-
-JBoolean
-JRegex::Match
-	(
-	const JString& str
-	)
-	const
-{
-	JUtf8ByteRange r;
-	return JNegate( Match(str, 0, str.GetByteCount(), kJFalse).IsEmpty() );
-}
-
-/******************************************************************************
  MatchBackward (protected)
 
 	The MatchBackward function attempts to provide an efficient algorithm

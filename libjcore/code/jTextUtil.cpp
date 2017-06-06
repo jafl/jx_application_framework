@@ -1,18 +1,92 @@
 /******************************************************************************
  jTextUtils.cc
 
-	Utilities built on top of libxml2.
+	Utilities for text & JTextEditor.
 
-	Copyright (C) 2016 by John Lindal. All rights reserved.
+	Copyright (C) 2016-17 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 
 #include "jTextUtil.h"
+#include "JTextEditor.h"
 #include "JStringIterator.h"
-#include <jAssert.h>
+#include "JRegex.h"
+#include "jStreamUtil.h"
+#include "JRunArray.h"
+#include "JColormap.h"
+#include "jAssert.h"
 
 /******************************************************************************
- AnalyzeWhitespace
+ JCalcWSFont
+
+	Calculates the appropriate style for whitespace between two styled words.
+	We don't recalculate the font id because we only change underline and strike.
+
+ ******************************************************************************/
+
+JFont
+JCalcWSFont
+	(
+	const JFont& prevFont,
+	const JFont& nextFont
+	)
+{
+	const JFontStyle& prevStyle = prevFont.GetStyle();
+	const JFontStyle& nextStyle = nextFont.GetStyle();
+
+	const JBoolean ulMatch =
+		JI2B( prevStyle.underlineCount == nextStyle.underlineCount );
+
+	const JBoolean sMatch =
+		JI2B( prevStyle.strike == nextStyle.strike );
+
+	if (!ulMatch && !sMatch &&
+		prevStyle.underlineCount == 0 && !prevStyle.strike)
+		{
+		return prevFont;
+		}
+	else if (!ulMatch && !sMatch &&
+			 nextStyle.underlineCount == 0 && !nextStyle.strike)
+		{
+		return nextFont;
+		}
+	else if (!ulMatch && !sMatch)
+		{
+		JFont f = nextFont;
+		f.SetUnderlineCount(0);
+		f.SetStrike(kJFalse);
+		return f;
+		}
+	else if (!ulMatch && prevStyle.underlineCount == 0)
+		{
+		return prevFont;
+		}
+	else if (!ulMatch && nextStyle.underlineCount == 0)
+		{
+		return nextFont;
+		}
+	else if (!ulMatch)
+		{
+		JFont f = nextFont;
+		f.SetUnderlineCount(0);
+		return f;
+		}
+	else if (!sMatch && !prevStyle.strike)
+		{
+		return prevFont;
+		}
+	else if (!sMatch && !nextStyle.strike)
+		{
+		return nextFont;
+		}
+	else
+		{
+		return nextFont;
+		}
+}
+
+/******************************************************************************
+ JAnalyzeWhitespace
 
  *****************************************************************************/
 
@@ -104,4 +178,207 @@ JAnalyzeWhitespace
 	*useSpaces = JI2B(spaceLines > tabLines || (spaceLines == tabLines && defaultUseSpaces));
 
 //	std::cout << "space: " << spaceLines << ", tab: " << tabLines << std::endl;
+}
+
+/******************************************************************************
+ JReadUNIXManOutput
+
+	Replaces the contents of the given JTextEditor.
+
+	"_\b_" => underscore
+	"_\bc" => underlined c
+	"c\bc" => bold c
+
+ ******************************************************************************/
+
+static const JRegex theExtraLinesPattern = "\n{3,}";
+
+void
+JReadUNIXManOutput
+	(
+	std::istream&	input,
+	JTextEditor*	te
+	)
+{
+	JString buffer;
+	JReadAll(input, &buffer);
+	buffer.TrimWhitespace();
+
+	JRunArray<JFont> styles;
+
+	const JFont& defFont = te->GetDefaultFont();
+
+	JFont boldFont = defFont;
+	boldFont.SetBold(kJTrue);
+
+	JFont ulFont = defFont;
+	ulFont.SetUnderlineCount(1);
+
+	JStringIterator iter(&buffer);
+	JUtf8Character c, prev;
+	while (iter.Next(&c))
+		{
+		if (!iter.AtEnd() && prev == '_' && c == '\b')
+			{
+			iter.RemovePrev(2);	// toss marker
+			iter.Next(&c);		// leave character
+
+			const JSize count = styles.GetElementCount();
+			if (c == '_' &&
+				(count == 1 ||
+				 styles.GetElement(count-1) != ulFont))
+				{
+				styles.SetElement(count, defFont);
+				}
+			else
+				{
+				styles.SetElement(count, ulFont);
+				}
+			}
+		else if (!iter.AtEnd() && c == '\b' && iter.GetPrevCharacterIndex() > 1)
+			{
+			iter.RemovePrev();	// toss backspace
+			iter.Next(&c);
+			if (c == prev)
+				{
+				iter.RemovePrev();	// toss duplicate
+				styles.SetElement(styles.GetElementCount(), boldFont);
+				}
+			else
+				{
+				iter.SkipPrev();	// reprocess
+				}
+			}
+		else
+			{
+			styles.AppendElement(defFont);
+			}
+		}
+
+	iter.MoveTo(kJIteratorStartAtBeginning, 0);
+	while (iter.Next(theExtraLinesPattern))
+		{
+		iter.ReplaceLastMatch("\n\n");
+		}
+
+	te->SetText(buffer, &styles);
+}
+
+/******************************************************************************
+ PasteUNIXTerminalOutput
+
+	Parses text and approximates the formatting.
+	Pastes the result into the existing text.
+	Returns the number of characters inserted.
+
+ ******************************************************************************/
+
+static const JRegex theUNIXTerminalFormatPattern = "^\\[([0-9]+(?:;[0-9]+)*)m$";
+
+JSize
+JPasteUNIXTerminalOutput
+	(
+	const JString&	text,
+	JTextEditor*	te
+	)
+{
+	JString buffer;
+	JRunArray<JFont> styles;
+
+	JFont f        = te->GetCurrentFont();
+	const JFont f0 = f;
+
+	JPtrArray<JString> chunkList(JPtrArrayT::kDeleteAll);
+	text.Split(theUNIXTerminalFormatPattern, &chunkList, 0, kJTrue);
+
+	JPtrArray<JString> cmdList(JPtrArrayT::kDeleteAll);
+	JColormap* cmap = te->TEGetColormap();
+
+	const JSize chunkCount = chunkList.GetElementCount();
+	for (JIndex i=1; i<=chunkCount; i++)
+		{
+		JString* chunk = chunkList.GetElement(i);
+		JStringMatch m = theUNIXTerminalFormatPattern.Match(*chunk, kJTrue);
+		if (m.IsEmpty())
+			{
+			buffer += *chunk;
+			styles.AppendElements(f, chunk->GetCharacterCount());
+			}
+
+		m.GetSubstring(1).Split(';', &cmdList);
+
+		const JSize cmdCcount = cmdList.GetElementCount();
+		for (JIndex i=1; i<=cmdCcount; i++)
+			{
+			JUInt cmdID;
+			if (!cmdList.GetElement(i)->ConvertToUInt(&cmdID))
+				{
+				continue;
+				}
+
+			switch (cmdID)
+				{
+				case 0:
+					f = f0;
+					break;
+
+				case 1:
+					f.SetBold(kJTrue);
+					break;
+				case 22:
+					f.SetBold(kJFalse);
+					break;
+
+				case 3:
+					f.SetItalic(kJTrue);
+					break;
+				case 23:
+					f.SetItalic(kJFalse);
+					break;
+
+				case 4:
+					f.SetUnderlineCount(1);
+					break;
+				case 24:
+					f.SetUnderlineCount(0);
+					break;
+
+				case 30:
+				case 39:
+					f.SetColor(cmap->GetBlackColor());
+					break;
+				case 37:
+					f.SetColor(cmap->GetGrayColor(80));
+					break;
+				case 90:
+					f.SetColor(cmap->GetGrayColor(50));
+					break;
+				case 31:
+					f.SetColor(cmap->GetRedColor());
+					break;
+				case 32:
+					f.SetColor(cmap->GetDarkGreenColor());	// green-on-white is impossible to read
+					break;
+				case 33:
+					f.SetColor(cmap->GetBrownColor());		// yellow-on-white is impossible to read
+					break;
+				case 34:
+					f.SetColor(cmap->GetBlueColor());
+					break;
+				case 35:
+					f.SetColor(cmap->GetMagentaColor());
+					break;
+				case 36:
+					f.SetColor(cmap->GetLightBlueColor());	// cyan-on-white is impossible to read
+					break;
+				}
+			}
+		}
+
+	const JBoolean saved = te->WillPasteStyledText();
+	te->ShouldPasteStyledText(kJTrue);
+	te->Paste(buffer, &styles);
+	te->ShouldPasteStyledText(saved);
+
+	return buffer.GetCharacterCount();
 }

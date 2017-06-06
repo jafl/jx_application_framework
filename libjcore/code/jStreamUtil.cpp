@@ -30,7 +30,7 @@ JCopyBinaryData
 	(
 	std::istream&	input,
 	std::ostream&	output,
-	const JSize	byteCount
+	const JSize		byteCount
 	)
 {
 	JSize chunkSize = 65536;
@@ -79,7 +79,7 @@ JString
 JRead
 	(
 	std::istream&	input,
-	const JSize	count
+	const JSize		count
 	)
 {
 	JString str;
@@ -103,7 +103,7 @@ void
 JReadAll
 	(
 	std::istream&	input,
-	JString*	str
+	JString*		str
 	)
 {
 	JUtf8Byte c;
@@ -125,7 +125,7 @@ JString
 JReadLine
 	(
 	std::istream&	input,
-	JBoolean*	foundNewLine
+	JBoolean*		foundNewLine
 	)
 {
 	JString line;
@@ -190,7 +190,7 @@ JReadUntil
 JBoolean
 JReadUntil
 	(
-	std::istream&			input,
+	std::istream&		input,
 	const JSize			delimiterCount,
 	const JUtf8Byte*	delimiters,
 	JString*			str,
@@ -202,12 +202,12 @@ JReadUntil
 
 	const JSize bufSize = 1024;
 	JUtf8Byte buf[ bufSize ];
+	JUtf8Byte* p = buf;
 
-	JIndex i = 0;
+	JUtf8Character c;
 	while (1)
 		{
-		JUtf8Byte c;
-		input.get(c);
+		input >> c;
 		if (input.fail())
 			{
 			break;
@@ -230,19 +230,22 @@ JReadUntil
 			{
 			break;
 			}
-		else
+
+		const JSize byteCount = c.GetByteCount();
+		if (p + byteCount - buf >= bufSize)
 			{
-			buf[i] = c;
-			i++;
-			if (i == bufSize)
-				{
-				str->Append(buf, bufSize);
-				i=0;
-				}
+			str->Append(buf, p - buf);
+			p = buf;
 			}
+
+		memcpy(p, c.GetBytes(), byteCount);
+		p += c.GetByteCount();
 		}
 
-	str->Append(buf, i);
+	if (p > buf)
+		{
+		str->Append(buf, p - buf);
+		}
 	return isDelimiter;
 }
 
@@ -261,7 +264,7 @@ JString
 JReadUntilws
 	(
 	std::istream&	input,
-	JBoolean*	foundws
+	JBoolean*		foundws
 	)
 {
 	JUtf8Byte delimiters[] = { ' ', '\t', '\n' };
@@ -293,7 +296,7 @@ void
 JIgnoreLine
 	(
 	std::istream&	input,
-	JBoolean*	foundNewLine
+	JBoolean*		foundNewLine
 	)
 {
 	JUtf8Byte c;
@@ -400,7 +403,7 @@ JIgnoreUntil
 JBoolean
 JIgnoreUntil
 	(
-	std::istream&			input,
+	std::istream&		input,
 	const JSize			delimiterCount,
 	const JUtf8Byte*	delimiters,
 	JUtf8Byte*			delimiter
@@ -796,7 +799,7 @@ JReadAll
 
 		if (dataLength > 0)
 			{
-			str->Append(buf, dataLength);
+			str->Append(buf, dataLength);	// TODO: append only complete characters
 			}
 
 		if (result == -1)
@@ -918,7 +921,7 @@ JReadUntil
 			i++;
 			if (i == bufSize)
 				{
-				str->Append(buf, bufSize);
+				str->Append(buf, bufSize);	// TODO: append only complete characters
 				i=0;
 				}
 			}

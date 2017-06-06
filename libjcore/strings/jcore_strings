@@ -176,3 +176,7 @@ JRemindNewVersion
 "An improved version of this program ($vers) is available for download from $site.
 
 Would you like to go there now to download it?"
+
+# JTextEditor
+
+ConvertFromDOS::JTextEditor	"Converting from DOS format..."

@@ -418,28 +418,3 @@ JGetMonospaceFontName()
 {
 	return theMonospaceFontName;
 }
-
-/******************************************************************************
- JGetJDataDirectories
-
-	Returns the full paths of the system and user directories in which
-	JX objects should create their private directories.  dirName is
-	appended to each one for convenience.
-
-	Returns kJFalse if the user doesn't have a home directory, in which
-	case userDir is empty.
-
-	*** Does not check if either directory exists.
-
- ******************************************************************************/
-
-JBoolean
-JGetJDataDirectories
-	(
-	const JString&	dirName,
-	JString*		sysDir,
-	JString*		userDir
-	)
-{
-	return JGetDataDirectories(JString("jx", 0, kJFalse), dirName, sysDir, userDir);
-}

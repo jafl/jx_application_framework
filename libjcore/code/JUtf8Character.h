@@ -10,13 +10,17 @@
 
 #include <jTypes.h>
 
-const JSize kJMaxUtf8CharacterLength = 4;
-
 class JUtf8Character
 {
+	friend std::istream& operator>>(std::istream&, JUtf8Character&);
 	friend std::ostream& operator<<(std::ostream&, const JUtf8Character&);
 
 public:
+
+	enum
+	{
+		kMaxByteCount = 4
+	};
 
 	static const JUInt32 kUtf32SubstitutionCharacter;
 	static const JUtf8Character kUtf8SubstitutionCharacter;
@@ -65,7 +69,7 @@ public:
 private:
 
 	unsigned char	itsByteCount;
-	JUtf8Byte		itsBytes[ kJMaxUtf8CharacterLength+1 ];
+	JUtf8Byte		itsBytes[ kMaxByteCount+1 ];
 };
 
 

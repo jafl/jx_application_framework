@@ -109,7 +109,6 @@
 .cpp ./code/JTEStyler
 .cpp ./code/JTEKeyHandler
 .cpp ./code/JVIKeyHandler
-.cpp ./code/JTEHTMLScanner
 .cpp ./code/JPartition
 .cpp ./code/JSliderBase
 .cpp ./code/JUserNotification
@@ -121,9 +120,6 @@
 .cpp ./code/JCreateTextPG
 .cpp ./code/JChooseSaveFile
 .cpp ./code/JTextChooseSaveFile
-.cpp ./code/JHTMLScanner
-.l ./code/JHTMLScannerL
-.cpp ./code/JExtractHTMLTitle
 .cpp ./code/jNew
 .cpp ./code/JMemoryManager
 .cpp ./code/JMMArrayTable

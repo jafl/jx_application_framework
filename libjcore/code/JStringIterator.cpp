@@ -36,7 +36,7 @@
 
 	Refer to the docs for JListIterator for more details.
 
-	Copyright (C) 2016 by John Lindal. All rights reserved.
+	Copyright (C) 2016-17 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 
@@ -255,6 +255,47 @@ JStringIterator::MoveTo
 		JUtf8ByteRange r   = itsConstString->CharacterToUtf8ByteRange(JCharacterRange(1, index));
 		itsByteOffset      = r.last;
 		itsCharacterOffset = index;
+		}
+}
+
+/******************************************************************************
+ UnsafeMoveTo
+
+	Intended for highly optimized code working with huge strings.  Only
+	accepts kJIteratorStartBefore/After, since others can be passed to
+	MoveTo().
+
+	*** Assumes, but does not verify, that character index and byte index
+		point to the same location!
+
+ ******************************************************************************/
+
+void
+JStringIterator::UnsafeMoveTo
+	(
+	const JIteratorPosition	newPosition,
+	const JIndex			characterIndex,
+	const JIndex			byteIndex
+	)
+{
+	if (itsConstString == NULL)
+		{
+		return;
+		}
+
+	if (newPosition == kJIteratorStartBefore)
+		{
+		assert( itsConstString->CharacterIndexValid(characterIndex) );
+		assert( itsConstString->ByteIndexValid(byteIndex) );
+		itsByteOffset      = byteIndex-1;
+		itsCharacterOffset = characterIndex-1;
+		}
+	else
+		{
+		assert( itsConstString->CharacterIndexValid(characterIndex) );
+		assert( itsConstString->ByteIndexValid(byteIndex) );
+		itsByteOffset      = byteIndex;
+		itsCharacterOffset = characterIndex;
 		}
 }
 

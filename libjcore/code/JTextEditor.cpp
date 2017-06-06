@@ -245,9 +245,6 @@ JTextEditor::JTextEditor
 
 	itsStoreClipFlag(useInternalClipboard)
 {
-	itsBuffer = jnew JString;
-	assert( itsBuffer != NULL );
-
 	itsStyles = jnew JRunArray<JFont>;
 	assert( itsStyles != NULL );
 
@@ -303,11 +300,10 @@ JTextEditor::JTextEditor
 	itsOwnsCRMRulesFlag = kJFalse;
 
 	itsCharInWordFn     = DefaultIsCharacterInWord;
-	itsHTMLLexerState   = NULL;
 
 	if (type == kFullEditor)
 		{
-		itsBuffer->SetBlockSize(4096);
+		itsBuffer.SetBlockSize(4096);
 		itsStyles->SetBlockSize(128);
 		itsLineStarts->SetBlockSize(128);
 		itsLineGeom->SetBlockSize(128);
@@ -327,6 +323,7 @@ JTextEditor::JTextEditor
 	JBroadcaster(source),
 
 	itsType( source.itsType ),
+	itsBuffer( source.itsBuffer ),
 	itsPasteStyledTextFlag( source.itsPasteStyledTextFlag ),
 
 	itsFontMgr( source.itsFontMgr ),
@@ -342,9 +339,6 @@ JTextEditor::JTextEditor
 
 	itsStoreClipFlag( source.itsStoreClipFlag )
 {
-	itsBuffer = jnew JString(*(source.itsBuffer));
-	assert( itsBuffer != NULL );
-
 	itsStyles = jnew JRunArray<JFont>(*(source.itsStyles));
 	assert( itsStyles != NULL );
 
@@ -402,7 +396,6 @@ JTextEditor::JTextEditor
 		}
 
 	itsCharInWordFn   = source.itsCharInWordFn;
-	itsHTMLLexerState = NULL;
 	itsKeyHandler     = NULL;
 }
 
@@ -413,7 +406,6 @@ JTextEditor::JTextEditor
 
 JTextEditor::~JTextEditor()
 {
-	jdelete itsBuffer;
 	jdelete itsStyles;
 	jdelete itsUndo;
 	jdelete itsLineStarts;
@@ -453,7 +445,9 @@ JTextEditor::SetType
 
 	Returns kJFalse if illegal characters had to be removed.
 
-	This is not accessible to the user, so we don't provide Undo.
+	This should not be accessible to the user, so we don't provide Undo.
+
+	style can safely be NULL or itsStyles.
 
  ******************************************************************************/
 
@@ -464,59 +458,29 @@ JTextEditor::SetText
 	const JRunArray<JFont>*	style
 	)
 {
-	*itsBuffer = text;
-	return SetText1(style);
-}
-
-JBoolean
-JTextEditor::SetText
-	(
-	const JCharacter*		text,
-	const JRunArray<JFont>*	style
-	)
-{
-	*itsBuffer = text;
-	return SetText1(style);
-}
-
-/******************************************************************************
- SetText1 (private)
-
-	Returns kJFalse if illegal characters had to be removed.
-
-	style can be NULL or itsStyles.
-
- ******************************************************************************/
-
-JBoolean
-JTextEditor::SetText1
-	(
-	const JRunArray<JFont>* style
-	)
-{
 	if (TEIsDragging())
 		{
 		return kJTrue;
 		}
 
 	ClearUndo();
+	itsBuffer = text;
 
 	JBoolean cleaned = kJFalse;
-
 	if (style != NULL)
 		{
-		assert( itsBuffer->GetLength() == style->GetElementCount() );
+		assert( itsBuffer.GetCharacterCount() == style->GetElementCount() );
 		*itsStyles = *style;
-		cleaned    = RemoveIllegalChars(itsBuffer, itsStyles);
+		cleaned    = RemoveIllegalChars(&itsBuffer, itsStyles);
 		}
 	else
 		{
-		cleaned = RemoveIllegalChars(itsBuffer);
+		cleaned = RemoveIllegalChars(&itsBuffer);
 
 		itsStyles->RemoveAll();
-		if (!itsBuffer->IsEmpty())
+		if (!itsBuffer.IsEmpty())
 			{
-			itsStyles->AppendElements(itsDefFont, itsBuffer->GetLength());
+			itsStyles->AppendElements(itsDefFont, itsBuffer.GetCharacterCount());
 			}
 		else
 			{
@@ -524,12 +488,12 @@ JTextEditor::SetText1
 			}
 		}
 
-	if (NeedsToFilterText(*itsBuffer))
+	if (NeedsToFilterText(itsBuffer))
 		{
 		cleaned = kJTrue;
-		if (!FilterText(itsBuffer, itsStyles))
+		if (!FilterText(&itsBuffer, itsStyles))
 			{
-			itsBuffer->Clear();
+			itsBuffer.Clear();
 			itsStyles->RemoveAll();
 			}
 		}
@@ -547,36 +511,29 @@ JTextEditor::SetText1
 	be removed.  If acceptBinaryFile == kJFalse, returns kJFalse without loading
 	the file if the file contains illegal characters.
 
-	We don't call SetText to avoid making two copies of the file's data.
-	(The file could be very large.)
+	We read directly into itsBuffer to avoid making two copies of the
+	file's data.  (The file could be very large.)
 
  ******************************************************************************/
 
-#define CONVERT_DOS_MEMORY	0
-#define CONVERT_DOS_FILE	1
-
-static const JCharacter* kUNIXNewline          = "\n";
-static const JCharacter  kUNIXNewlineChar      = '\n';
-static const JCharacter* kMacintoshNewline     = "\r";
-static const JCharacter  kMacintoshNewlineChar = '\r';
-static const JCharacter* kDOSNewline           = "\r\n";
-static const JCharacter  k1stDOSNewlineChar    = '\r';
-static const JCharacter  k2ndDOSNewlineChar    = '\n';
+static const JUtf8Byte  kUNIXNewlineChar      = '\n';
+static const JUtf8Byte* kMacintoshNewline     = "\r";
+static const JUtf8Byte  kMacintoshNewlineChar = '\r';
+static const JUtf8Byte* kDOSNewline           = "\r\n";
+static const JUtf8Byte  k1stDOSNewlineChar    = '\r';
 
 JBoolean
 JTextEditor::ReadPlainText
 	(
-	const JCharacter*	fileName,
+	const JString&		fileName,
 	PlainTextFormat*	format,
 	const JBoolean		acceptBinaryFile
 	)
 {
-	TEDisplayBusyCursor();
-
-	JReadFile(fileName, itsBuffer);
+	JReadFile(fileName, &itsBuffer);
 
 	JIndex i;
-	if (ContainsIllegalChars(*itsBuffer))
+	if (ContainsIllegalChars(itsBuffer))
 		{
 		if (!acceptBinaryFile)
 			{
@@ -588,75 +545,68 @@ JTextEditor::ReadPlainText
 		*format = kUNIXText;
 		}
 
-	else if (itsBuffer->LocateLastSubstring(kMacintoshNewline, &i))
+	else if (itsBuffer.Contains(kDOSNewline))
 		{
-		// We work from the end since DOS strings will shrink.
+		*format = kDOSText;
 
-		if (i < itsBuffer->GetLength() &&
-			itsBuffer->GetCharacter(i+1) == k2ndDOSNewlineChar)
+		TEDisplayBusyCursor();
+
+		JSize byteCount;
+		JGetFileLength(fileName, &byteCount);
+
+		JLatentPG pg(100);
+		pg.FixedLengthProcessBeginning(byteCount,
+				JGetString("ConvertFromDOS::JTextEditor"), kJFalse, kJFalse);
+
+		// Converting itsBuffer in memory is more than 100 times slower,
+		// but we have to normalize the bytes after reading, so we have to
+		// allocate a new block.
+
+		JUtf8Byte* buffer = jnew JUtf8Byte[ byteCount ];
+		assert( buffer != NULL );
+
+		std::ifstream input(fileName);
+		JIndex i = 0;
+		while (1)
 			{
-			*format = kDOSText;
-
-			const JSize origLength = itsBuffer->GetLength();
-			JLatentPG pg(100);
-			pg.FixedLengthProcessBeginning(origLength,
-					"Converting from DOS format...", kJFalse, kJFalse);
-
-			#if CONVERT_DOS_MEMORY
-
-			do		// this is more than 100 times slower!
+			const JUtf8Byte c = input.get();
+			if (input.eof() || input.fail())
 				{
-				itsBuffer->ReplaceSubstring(i,i+1, kUNIXNewline);
-				pg.IncrementProgress(origLength - i - pg.GetCurrentStepCount());
+				break;
 				}
-				while (itsBuffer->LocatePrevSubstring(kDOSNewline, &i));
 
-			#elif CONVERT_DOS_FILE
-
-			const JSize saveSize = itsBuffer->GetBlockSize();
-			itsBuffer->SetBlockSize(origLength);
-
-			itsBuffer->Clear();
-			std::ifstream input(fileName);
-			while (1)
+			if (c != k1stDOSNewlineChar)
 				{
-				const JCharacter c = input.get();
-				if (input.eof() || input.fail())
-					{
-					break;
-					}
-
-				if (c != k1stDOSNewlineChar)
-					{
-					itsBuffer->AppendCharacter(c);
-					}
-				else
-					{
-					pg.IncrementProgress(itsBuffer->GetLength() - pg.GetCurrentStepCount());
-					}
+				buffer[i] = c;
+				i++;
 				}
-			input.close();
-
-			itsBuffer->SetBlockSize(saveSize);
-
-			#endif
-
-			pg.ProcessFinished();
+			else
+				{
+				pg.IncrementProgress(i - pg.GetCurrentStepCount());
+				}
 			}
+		input.close();
 
-		else
+		itsBuffer.Set(buffer, byteCount);
+		jdelete [] buffer;
+
+		pg.ProcessFinished();
+		}
+
+	else if (itsBuffer.Contains(kMacintoshNewline))
+		{
+		*format = kMacintoshText;
+
+		// hack, since we are simply replacing bytes
+
+		JUtf8Byte* s = const_cast<JUtf8Byte*>(itsBuffer.GetBytes());
+		while (*s > 0)
 			{
-			*format = kMacintoshText;
-
-			const JCharacter* s = itsBuffer->GetCString();
-			while (i > 0)
+			if (*s == kMacintoshNewlineChar)
 				{
-				i--;
-				if (s[i] == kMacintoshNewlineChar)
-					{
-					itsBuffer->SetCharacter(i+1, kUNIXNewlineChar);
-					}
+				*s = kUNIXNewlineChar;
 				}
+			*s++;
 			}
 		}
 
@@ -665,7 +615,7 @@ JTextEditor::ReadPlainText
 		*format = kUNIXText;
 		}
 
-	return SetText1(NULL);
+	return SetText(itsBuffer, NULL);
 }
 
 /******************************************************************************
@@ -676,7 +626,7 @@ JTextEditor::ReadPlainText
 void
 JTextEditor::WritePlainText
 	(
-	const JCharacter*		fileName,
+	const JString&			fileName,
 	const PlainTextFormat	format
 	)
 	const
@@ -688,14 +638,14 @@ JTextEditor::WritePlainText
 void
 JTextEditor::WritePlainText
 	(
-	std::ostream&				output,
+	std::ostream&			output,
 	const PlainTextFormat	format
 	)
 	const
 {
 	if (format == kUNIXText)
 		{
-		itsBuffer->Print(output);
+		itsBuffer.Print(output);
 		return;
 		}
 
@@ -710,12 +660,12 @@ JTextEditor::WritePlainText
 		}
 	assert( newlineStr != NULL );
 
-	const JCharacter* buffer = itsBuffer->GetCString();
-	const JSize bufLength    = itsBuffer->GetLength();
-	JIndex start             = 0;
-	for (JIndex i=0; i<bufLength; i++)
+	const JUtf8Byte* buffer = itsBuffer.GetBytes();
+	const JSize byteCount   = itsBuffer.GetByteCount();
+	JIndex start            = 0;
+	for (JIndex i=0; i<byteCount; i++)
 		{
-		if (buffer[i] == '\n')
+		if (buffer[i] == kUNIXNewlineChar)
 			{
 			if (start < i)
 				{
@@ -726,178 +676,10 @@ JTextEditor::WritePlainText
 			}
 		}
 
-	if (start < bufLength)
+	if (start < byteCount)
 		{
-		output.write(buffer + start, bufLength - start);
+		output.write(buffer + start, byteCount - start);
 		}
-}
-
-/******************************************************************************
- ReadUNIXManOutput
-
-	Returns kJFalse if cancelled.
-
-	"_\b_" => underscore
-	"_\bc" => underlined c
-	"c\bc" => bold c
-	"âxx"  => unicode
-
- ******************************************************************************/
-
-inline JCharacter
-jReadUNIXManUnicodeCharacter
-	(
-	std::istream& input
-	)
-{
-	JCharacter c = input.get();
-	if (c == '\xC2')
-		{
-		c = input.get();
-		if (c != '\xB7')
-			{
-			std::cout << "libjx: jReadUNIXManUnicodeCharacter: " << (unsigned int) (unsigned char) c << std::endl;
-			}
-		}
-
-	if (c != '\xE2')
-		{
-		return c;
-		}
-
-	const JCharacter c1 = input.get();
-	const JCharacter c2 = input.get();
-	const JIndex u = (((unsigned int) (unsigned char) c1) << 8) |
-					 ((unsigned int) (unsigned char) c2);
-
-	if (u == 32924 || u == 32925)
-		{
-		return '"';
-		}
-	else if (u == 32921)
-		{
-		return '\'';
-		}
-	else if (u == 32920)
-		{
-		return '`';
-		}
-	else if (u == 38018)
-		{
-		return '|';
-		}
-	else if (u == 32916)
-		{
-		return '-';
-		}
-	else
-		{
-		std::cout << "libjx: jReadUNIXManUnicodeCharacter: unicode: " << u << std::endl;
-		return '\x80';
-		}
-}
-
-JBoolean
-JTextEditor::ReadUNIXManOutput
-	(
-	std::istream&		input,
-	const JBoolean	allowCancel
-	)
-{
-	TEDisplayBusyCursor();
-
-	itsBuffer->Clear();
-	itsStyles->RemoveAll();
-
-	JFont boldFont = itsDefFont;
-	boldFont.SetBold(kJTrue);
-
-	JFont ulFont = itsDefFont;
-	ulFont.SetUnderlineCount(1);
-
-	JBoolean cancelled = kJFalse;
-	JLatentPG pg(100);
-	pg.VariableLengthProcessBeginning("Reading man page...",
-									  allowCancel, kJFalse);
-
-	input >> std::ws;
-	while (!cancelled)
-		{
-		JCharacter c = jReadUNIXManUnicodeCharacter(input);
-		if (input.eof() || input.fail())
-			{
-			break;
-			}
-
-		if (c == '_' && input.peek() == '\b')
-			{
-			input.ignore();
-			c = jReadUNIXManUnicodeCharacter(input);
-			if (input.eof() || input.fail())
-				{
-				break;
-				}
-
-			itsBuffer->AppendCharacter(c);
-			if (c == '_' &&
-				(itsStyles->IsEmpty() ||
-				 itsStyles->GetLastElement() != ulFont))
-				{
-				itsStyles->AppendElement(itsDefFont);
-				}
-			else
-				{
-				itsStyles->AppendElement(ulFont);
-				}
-			}
-		else if (c == '\b' && !itsBuffer->IsEmpty())
-			{
-			c = jReadUNIXManUnicodeCharacter(input);
-			if (input.eof() || input.fail())
-				{
-				break;
-				}
-
-			if (c == itsBuffer->GetLastCharacter())
-				{
-				itsStyles->SetElement(itsStyles->GetElementCount(), boldFont);
-				}
-			else
-				{
-				input.putback(c);
-				continue;
-				}
-			}
-		else if (c == '\n' && itsBuffer->EndsWith("\n\n"))
-			{
-			// toss extra blank lines
-			continue;
-			}
-		else
-			{
-			itsBuffer->AppendCharacter(c);
-			itsStyles->AppendElement(itsDefFont);
-
-			if (c == '\n')
-				{
-				cancelled = !pg.IncrementProgress();
-				}
-			}
-		}
-
-	pg.ProcessFinished();
-
-	// trim trailing whitespace
-
-	while (!itsBuffer->IsEmpty() && isspace(itsBuffer->GetLastCharacter()))
-		{
-		const JSize length = itsBuffer->GetLength();
-		itsBuffer->RemoveSubstring(length,length);
-		itsStyles->RemoveElement(length);
-		}
-
-	SetText1(itsStyles);
-	return !cancelled;
 }
 
 /******************************************************************************
@@ -919,8 +701,7 @@ JTextEditor::ReadPrivateFormat
 	JRunArray<JFont> style;
 	if (ReadPrivateFormat(input, this, &text, &style))
 		{
-		*itsBuffer = text;
-		SetText1(&style);
+		SetText(text, &style);
 		return kJTrue;
 		}
 	else
@@ -939,14 +720,12 @@ JTextEditor::ReadPrivateFormat
 JBoolean
 JTextEditor::ReadPrivateFormat
 	(
-	std::istream&			input,
+	std::istream&		input,
 	const JTextEditor*	te,
 	JString*			text,
 	JRunArray<JFont>*	style
 	)
 {
-JIndex i;
-
 	text->Clear();
 	style->RemoveAll();
 
@@ -976,7 +755,7 @@ JIndex i;
 	input >> fontCount;
 
 	JPtrArray<JString> fontList(JPtrArrayT::kDeleteAll);
-	for (i=1; i<=fontCount; i++)
+	for (JIndex i=1; i<=fontCount; i++)
 		{
 		JString* name = jnew JString;
 		assert( name != NULL );
@@ -992,10 +771,10 @@ JIndex i;
 	JArray<JColorIndex> colorList;
 
 	JRGB color;
-	for (i=1; i<=colorCount; i++)
+	for (JIndex i=1; i<=colorCount; i++)
 		{
 		input >> color;
-		colorList.AppendElement(te->RGBToColorIndex(color));
+		colorList.AppendElement(te->itsColormap->GetColor(color));
 		}
 
 	// styles
@@ -1007,7 +786,7 @@ JIndex i;
 
 	JSize size;
 	JFontStyle fStyle;
-	for (i=1; i<=runCount; i++)
+	for (JIndex i=1; i<=runCount; i++)
 		{
 		JSize charCount;
 		input >> charCount;
@@ -1046,7 +825,7 @@ JTextEditor::WritePrivateFormat
 	if (!IsEmpty())
 		{
 		WritePrivateFormat(output, kCurrentPrivateFormatVersion,
-						   1, itsBuffer->GetLength());
+						   1, itsBuffer.GetCharacterCount());
 		}
 	else
 		{
@@ -1063,7 +842,7 @@ JTextEditor::WritePrivateFormat
 void
 JTextEditor::WritePrivateFormat
 	(
-	std::ostream&			output,
+	std::ostream&		output,
 	const JFileVersion	vers,
 	const JIndex		startIndex,
 	const JIndex		endIndex
@@ -1071,23 +850,23 @@ JTextEditor::WritePrivateFormat
 	const
 {
 	WritePrivateFormat(output, itsColormap, vers,
-					   *itsBuffer, *itsStyles, startIndex, endIndex);
+					   itsBuffer, *itsStyles, startIndex, endIndex);
 }
 
 void
 JTextEditor::WritePrivateFormat
 	(
-	std::ostream&				output,
+	std::ostream&			output,
 	const JFileVersion		vers,
 	const JString&			text,
 	const JRunArray<JFont>&	style
 	)
 	const
 {
-	if (!text.IsEmpty() && text.GetLength() == style.GetElementCount())
+	if (!text.IsEmpty() && text.GetCharacterCount() == style.GetElementCount())
 		{
 		WritePrivateFormat(output, itsColormap, vers,
-						   text, style, 1, text.GetLength());
+						   text, style, 1, text.GetCharacterCount());
 		}
 }
 
@@ -1110,7 +889,7 @@ JTextEditor::WriteClipboardPrivateFormat
 		!itsClipText->IsEmpty())
 		{
 		WritePrivateFormat(output, itsColormap, vers, *itsClipText,
-						   *itsClipStyle, 1, itsClipText->GetLength());
+						   *itsClipStyle, 1, itsClipText->GetCharacterCount());
 		return kJTrue;
 		}
 	else
@@ -1132,7 +911,7 @@ JTextEditor::WriteClipboardPrivateFormat
 void
 JTextEditor::WritePrivateFormat
 	(
-	std::ostream&				output,
+	std::ostream&			output,
 	const JColormap*		colormap,
 	const JFileVersion		vers,
 	const JString&			text,
@@ -1141,8 +920,8 @@ JTextEditor::WritePrivateFormat
 	const JIndex			endIndex
 	)
 {
-	assert( text.IndexValid(startIndex) );
-	assert( text.IndexValid(endIndex) );
+	assert( text.CharacterIndexValid(startIndex) );
+	assert( text.CharacterIndexValid(endIndex) );
 	assert( startIndex <= endIndex );
 	assert( vers <= kCurrentPrivateFormatVersion );
 
@@ -1152,9 +931,24 @@ JTextEditor::WritePrivateFormat
 
 	// write text efficiently
 
-	const JSize textLength = endIndex-startIndex+1;
-	output << ' ' << textLength << ' ';
-	output.write(text.GetCString() + startIndex-1, textLength);
+	JSize textLength;
+	if (startIndex == 1 && endIndex == text.GetCharacterCount())
+		{
+		output << ' ' << text.GetCharacterCount() << ' ';
+		output.write(text.GetBytes(), text.GetByteCount());
+		}
+	else
+		{
+		JStringIterator iter(text, kJIteratorStartBefore, startIndex);
+		const JIndex i1 = iter.GetPrevByteIndex();
+		iter.MoveTo(kJIteratorStartAfter, endIndex);
+		const JIndex i2 = iter.GetPrevByteIndex();
+
+		textLength = JString::CountCharacters(text.GetBytes(), JUtf8ByteRange(i1+1, i2));
+
+		output << ' ' << textLength << ' ';
+		output.write(text.GetBytes() + i1, i2 - i1);
+		}
 
 	// build lists of font names and colors
 
@@ -1260,1268 +1054,6 @@ JTextEditor::WritePrivateFormat
 }
 
 /******************************************************************************
- ColorNameToColorIndex (private)
-
- ******************************************************************************/
-
-JColorIndex
-JTextEditor::ColorNameToColorIndex
-	(
-	const JCharacter* name
-	)
-	const
-{
-	JColorIndex color;
-	if (!itsColormap->GetColor(name, &color))
-		{
-		color = itsColormap->GetBlackColor();
-		}
-	return color;
-}
-
-/******************************************************************************
- RGBToColorIndex (private)
-
- ******************************************************************************/
-
-JColorIndex
-JTextEditor::RGBToColorIndex
-	(
-	const JRGB& color
-	)
-	const
-{
-	return itsColormap->GetColor(color);
-}
-
-/******************************************************************************
- HTML
-
- ******************************************************************************/
-
-static const JSize kHTMLPointSize[]      = { 8, 8, 10, 12, 14, 18, 18 };
-static const JSize kHTMLHeaderFontSize[] = { 18, 18, 14, 12, 10, 8 };
-
-const JSize kBigHTMLPointSize     = 12;
-const JSize kDefaultHTMLPointSize = kJDefaultFontSize;
-const JSize kSmallHTMLPointSize   = 8;
-
-/******************************************************************************
- AppendCharsForHTML (private)
-
- ******************************************************************************/
-
-inline void
-JTextEditor::AppendCharsForHTML
-	(
-	const JCharacter*	text,
-	const JFont&		f
-	)
-{
-	(itsHTMLLexerState->buffer)->Append(text);
-	(itsHTMLLexerState->styles)->AppendElements(f, strlen(text));
-}
-
-inline void
-JTextEditor::AppendCharsForHTML
-	(
-	const JString&	text,
-	const JFont&	f
-	)
-{
-	(itsHTMLLexerState->buffer)->Append(text);
-	(itsHTMLLexerState->styles)->AppendElements(f, text.GetLength());
-}
-
-/******************************************************************************
- ReadHTML
-
-	Parses HTML text and approximates the formatting.
-	Replaces the existing text.
-
- ******************************************************************************/
-
-void
-JTextEditor::ReadHTML
-	(
-	std::istream& input
-	)
-{
-	assert( itsHTMLLexerState == NULL );
-
-	TEDisplayBusyCursor();
-	PrepareToReadHTML();
-
-	HTMLLexerState state(this, itsBuffer, itsStyles);
-	itsHTMLLexerState = &state;
-
-	JTEHTMLScanner scanner(this);
-	scanner.LexHTML(input);
-
-	itsHTMLLexerState = NULL;
-
-	ClearUndo();
-	RecalcAll(kJTrue);
-	SetCaretLocation(1);
-	Broadcast(TextSet());
-
-	ReadHTMLFinished();
-}
-
-/******************************************************************************
- PasteHTML
-
-	Parses HTML text and approximates the formatting.
-	Pastes the result into the existing text.
-
- ******************************************************************************/
-
-void
-JTextEditor::PasteHTML
-	(
-	std::istream& input
-	)
-{
-	assert( itsHTMLLexerState == NULL );
-
-	TEDisplayBusyCursor();
-	PrepareToPasteHTML();
-
-	JString buffer;
-	JRunArray<JFont> styles;
-	HTMLLexerState state(this, &buffer, &styles);
-	itsHTMLLexerState = &state;
-
-	JTEHTMLScanner scanner(this);
-	scanner.LexHTML(input);
-
-	itsHTMLLexerState = NULL;
-
-	Paste(buffer, &styles);
-	PasteHTMLFinished();
-}
-
-/******************************************************************************
- GetHTMLBufferCharacterCount (protected)
-
-	Returns the length of the buffer that has been built so far by either
-	ReadHTML() or PasteHTML().
-
-	*** Only for use inside HandleHTML*()
-
- ******************************************************************************/
-
-JSize
-JTextEditor::GetHTMLBufferCharacterCount()
-	const
-{
-	assert( itsHTMLLexerState != NULL );
-	return (itsHTMLLexerState->buffer)->GetCharacterCount();
-}
-
-/******************************************************************************
- GetHTMLBufferByteCount (protected)
-
-	Returns the length of the buffer that has been built so far by either
-	ReadHTML() or PasteHTML().
-
-	*** Only for use inside HandleHTML*()
-
- ******************************************************************************/
-
-JSize
-JTextEditor::GetHTMLBufferByteCount()
-	const
-{
-	assert( itsHTMLLexerState != NULL );
-	return (itsHTMLLexerState->buffer)->GetByteCount();
-}
-
-/******************************************************************************
- Handle HTML objects (virtual protected)
-
-	Even though these are not overrides of JHTMLScanner functions, they
-	need to be virtual so derived classes can augment them.
-
- ******************************************************************************/
-
-void
-JTextEditor::PrepareToReadHTML()
-{
-}
-
-void
-JTextEditor::ReadHTMLFinished()
-{
-}
-
-void
-JTextEditor::PrepareToPasteHTML()
-{
-}
-
-void
-JTextEditor::PasteHTMLFinished()
-{
-}
-
-void
-JTextEditor::HandleHTMLWord
-	(
-	const JCharacter* word
-	)
-{
-	if (!itsHTMLLexerState->inDocHeader &&
-		!itsHTMLLexerState->inStyleBlock)
-		{
-		AppendTextForHTML(word);
-		}
-}
-
-void
-JTextEditor::HandleHTMLWhitespace
-	(
-	const JCharacter* space
-	)
-{
-	if (itsHTMLLexerState->inPreformatBlock)
-		{
-		AppendTextForHTML(space);
-		}
-	else if (!itsHTMLLexerState->inDocHeader &&
-			 !itsHTMLLexerState->inStyleBlock)
-		{
-		itsHTMLLexerState->appendWS = kJTrue;
-		}
-}
-
-void
-JTextEditor::HandleHTMLTag
-	(
-	const JString&					name,
-	const JStringPtrMap<JString>&	attr
-	)
-{
-	if (name.GetFirstCharacter() == '/')
-		{
-		JString s = name;
-		s.RemoveSubstring(1,1);
-		HandleHTMLOffCmd(s, attr);
-		}
-	else
-		{
-		HandleHTMLOnCmd(name, attr);
-
-		const JString* s;
-		if (attr.GetElement("/", &s))
-			{
-			HandleHTMLOffCmd(name, attr);
-			}
-		}
-}
-
-void
-JTextEditor::HandleHTMLError
-	(
-	const JCharacter* errStr
-	)
-{
-	itsHTMLLexerState->ReportError(errStr);
-}
-
-/******************************************************************************
- HandleHTMLOnCmd (private)
-
- ******************************************************************************/
-
-void
-JTextEditor::HandleHTMLOnCmd
-	(
-	const JString&					cmd,
-	const JStringPtrMap<JString>&	attr
-	)
-{
-	// new paragraph
-
-	if (cmd == "p")
-		{
-		AppendNewlinesForHTML(2);
-		}
-
-	// line break
-
-	else if (cmd == "br")
-		{
-		AppendCharsForHTML("\n", itsHTMLLexerState->font);
-		(itsHTMLLexerState->newlineCount)++;
-		}
-
-	// header (h1 - h6)
-
-	else if (cmd.GetLength() == 2 && cmd.GetCharacter(1) == 'h' &&
-			 ('1' <= cmd.GetCharacter(2) && cmd.GetCharacter(2) <= '6'))
-		{
-		AppendNewlinesForHTML(2);
-
-		JFont f = itsHTMLLexerState->PushCurrentFont();
-		f.SetSize(kHTMLHeaderFontSize[ cmd.GetCharacter(2) - '1' ]);
-		f.SetBold(kJTrue);
-		itsHTMLLexerState->font = f;
-		}
-
-	// quote
-
-	else if (cmd == "q")
-		{
-		AppendCharsForHTML("\"", itsHTMLLexerState->font);
-		(itsHTMLLexerState->newlineCount)++;
-		}
-
-	// bold
-
-	else if (cmd == "b" || cmd == "strong")
-		{
-		JFont f = itsHTMLLexerState->PushCurrentFont();
-		f.SetBold(kJTrue);
-		itsHTMLLexerState->font = f;
-		}
-
-	// italic
-
-	else if (cmd == "i" || cmd == "em" ||
-			 cmd == "cite" || cmd == "var" || cmd == "ins")
-		{
-		JFont f = itsHTMLLexerState->PushCurrentFont();
-		f.SetItalic(kJTrue);
-		itsHTMLLexerState->font = f;
-		}
-
-	// underline
-
-	else if (cmd == "u")
-		{
-		JFont f = itsHTMLLexerState->PushCurrentFont();
-		f.SetUnderlineCount(1);
-		itsHTMLLexerState->font = f;
-		}
-
-	// strike
-
-	else if (cmd == "strike" || cmd == "s" || cmd == "del")
-		{
-		JFont f = itsHTMLLexerState->PushCurrentFont();
-		f.SetStrike(kJTrue);
-		itsHTMLLexerState->font = f;
-		}
-
-	// arbitrary font
-
-	else if (cmd == "font")
-		{
-		itsHTMLLexerState->PushCurrentFont();
-		SetFontForHTML(attr);
-		}
-
-	// monospace / preformatted
-
-	else if (cmd == "tt" || cmd == "samp" || cmd == "kbd" || cmd == "code" ||
-			 cmd == "pre")
-		{
-		if (cmd == "pre")
-			{
-			AppendNewlinesForHTML(2);
-			itsHTMLLexerState->inPreformatBlock = kJTrue;
-			}
-
-		JFont f = itsHTMLLexerState->PushCurrentFont();
-
-		JFontStyle style = f.GetStyle();
-		style.color      = itsColormap->GetBlackColor();
-
-		itsHTMLLexerState->font.Set(JGetMonospaceFontName(), kJDefaultMonoFontSize, style);
-		}
-
-	// unordered list
-
-	else if (cmd == "dir" || cmd == "menu" || cmd == "ul")
-		{
-		itsHTMLLexerState->NewList(kHTMLUnordList);
-		}
-
-	// ordered list
-
-	else if (cmd == "ol")
-		{
-		itsHTMLLexerState->NewList(kHTMLOrdList);
-
-		const JString* valueStr;
-		JIndex startIndex;
-		if (attr.GetElement("start", &valueStr) &&
-			valueStr != NULL &&
-			valueStr->ConvertToUInt(&startIndex) &&
-			startIndex > 0)
-			{
-			itsHTMLLexerState->listIndex = startIndex - 1;
-			}
-		}
-
-	// list item
-
-	else if (cmd == "li")
-		{
-		if (itsHTMLLexerState->listType == kHTMLUnordList)
-			{
-			itsHTMLLexerState->NewListItem();
-			AppendCharsForHTML("* ", itsHTMLLexerState->GetWSFont());
-			}
-		else if (itsHTMLLexerState->listType == kHTMLOrdList)
-			{
-			itsHTMLLexerState->NewListItem();
-
-			const JString* valueStr;
-			JInteger newIndex;
-			if (attr.GetElement("value", &valueStr) &&
-				valueStr != NULL &&
-				valueStr->ConvertToInteger(&newIndex))
-				{
-				itsHTMLLexerState->listIndex = newIndex;
-				}
-
-			JString str(itsHTMLLexerState->listIndex, 0);
-			str += ". ";
-			AppendCharsForHTML(str, itsHTMLLexerState->GetWSFont());
-			}
-		else
-			{
-			HandleHTMLError("*** list element found outside list ***");
-			}
-		}
-
-	// definition list
-
-	else if (cmd == "dl")
-		{
-		itsHTMLLexerState->NewList(kHTMLDefTermList);
-		}
-
-	// term / definition
-
-	else if (cmd == "dt" &&
-			 (itsHTMLLexerState->listType == kHTMLDefTermList ||
-			  itsHTMLLexerState->listType == kHTMLDefDataList))
-		{
-		itsHTMLLexerState->listType = kHTMLDefTermList;
-		itsHTMLLexerState->NewListItem();
-		}
-	else if (cmd == "dd" &&
-			 (itsHTMLLexerState->listType == kHTMLDefTermList ||
-			  itsHTMLLexerState->listType == kHTMLDefDataList))
-		{
-		itsHTMLLexerState->listType = kHTMLDefDataList;
-		itsHTMLLexerState->NewListItem();
-		}
-	else if (cmd == "dt" || cmd == "dd")
-		{
-		HandleHTMLError("*** list element found outside list ***");
-		}
-
-	// horizontal rule
-
-	else if (cmd == "hr")
-		{
-		AppendNewlinesForHTML(1);
-		AppendTextForHTML("----------");
-		AppendNewlinesForHTML(1);
-		}
-
-	// blockquote
-
-	else if (cmd == "blockquote")
-		{
-		AppendNewlinesForHTML(2);
-		(itsHTMLLexerState->indentCount)++;
-		}
-
-	// new table
-
-	else if (cmd == "table")
-		{
-		AppendNewlinesForHTML(2);
-		}
-
-	// table element
-
-	else if (cmd == "td")
-		{
-		itsHTMLLexerState->appendWS = kJFalse;
-		AppendTextForHTML("\t");
-		}
-
-	// address
-
-	else if (cmd == "address")
-		{
-		AppendNewlinesForHTML(1);
-
-		JFont f = itsHTMLLexerState->PushCurrentFont();
-		f.SetItalic(kJTrue);
-		itsHTMLLexerState->font = f;
-		}
-
-	// image
-
-	else if (cmd == "img")
-		{
-		const JFont saveFont    = itsHTMLLexerState->font;
-		itsHTMLLexerState->font = itsHTMLLexerState->blankLineFont;
-
-		const JString* valueStr;
-		if ((attr.GetElement("alt", &valueStr) &&
-			 valueStr != NULL && !valueStr->IsEmpty()) ||
-			(attr.GetElement("src", &valueStr) &&
-			 valueStr != NULL && !valueStr->IsEmpty()))
-			{
-			JString s = *valueStr;
-			s.PrependCharacter('[');
-			s.AppendCharacter(']');
-			AppendTextForHTML(s);
-			}
-		else
-			{
-			AppendTextForHTML("[image]");
-			}
-
-		itsHTMLLexerState->font = saveFont;
-		}
-
-	// big font size
-
-	else if (cmd == "big")
-		{
-		JFont f = itsHTMLLexerState->PushCurrentFont();
-		f.SetSize(kBigHTMLPointSize);
-		itsHTMLLexerState->font = f;
-		}
-
-	// small font size
-
-	else if (cmd == "small")
-		{
-		JFont f = itsHTMLLexerState->PushCurrentFont();
-		f.SetSize(kSmallHTMLPointSize);
-		itsHTMLLexerState->font = f;
-		}
-
-	// document header
-
-	else if (cmd == "head")
-		{
-		itsHTMLLexerState->inDocHeader = kJTrue;
-		}
-
-	// style block
-
-	else if (cmd == "style")
-		{
-		itsHTMLLexerState->inStyleBlock = kJTrue;
-		}
-
-	// division inside document
-
-	else if (cmd == "div")
-		{
-		AppendNewlinesForHTML(1);
-		}
-}
-
-/******************************************************************************
- SetFontForHTML (private)
-
- ******************************************************************************/
-
-void
-JTextEditor::SetFontForHTML
-	(
-	const JStringPtrMap<JString>& attr
-	)
-{
-	// name
-
-	const JString* valueStr;
-	if (attr.GetElement("face", &valueStr))
-		{
-		if (valueStr != NULL && !valueStr->IsEmpty())
-			{
-			itsHTMLLexerState->font.SetName(*valueStr);
-			}
-		else
-			{
-			HandleHTMLError("*** empty font face ***");
-			}
-		}
-
-	// size
-
-	if (attr.GetElement("size", &valueStr))
-		{
-		if (valueStr != NULL && !valueStr->IsEmpty())
-			{
-			JString s         = *valueStr;
-			JBoolean relPlus  = kJFalse;
-			JBoolean relMinus = kJFalse;
-			if (s.GetFirstCharacter() == '+')
-				{
-				s.RemoveSubstring(1,1);
-				relPlus = kJTrue;
-				}
-			else if (s.GetFirstCharacter() == '-')
-				{
-				s.RemoveSubstring(1,1);
-				relMinus = kJTrue;
-				}
-
-			JInteger value;
-			if (s.ConvertToInteger(&value))
-				{
-				if (relPlus)
-					{
-					value += 3;
-					}
-				else if (relMinus)
-					{
-					value = 3 - value;
-					}
-
-				if (value < 1)
-					{
-					value = 1;
-					}
-				else if (value > 7)
-					{
-					value = 7;
-					}
-
-				itsHTMLLexerState->font.SetSize(kHTMLPointSize[value-1]);
-				}
-			}
-		else
-			{
-			HandleHTMLError("*** empty font size ***");
-			}
-		}
-
-	// color
-
-	if (attr.GetElement("color", &valueStr))
-		{
-		if (valueStr != NULL && !valueStr->IsEmpty())
-			{
-			itsHTMLLexerState->font.SetColor(ColorNameToColorIndex(*valueStr));
-			}
-		else
-			{
-			HandleHTMLError("*** empty font color ***");
-			}
-		}
-}
-
-/******************************************************************************
- HandleHTMLOffCmd (private)
-
-	The leading slash is assumed to have been removed.
-
- ******************************************************************************/
-
-void
-JTextEditor::HandleHTMLOffCmd
-	(
-	const JString&					cmd,
-	const JStringPtrMap<JString>&	attr
-	)
-{
-	// header (h1 - h6)
-
-	if (cmd.GetLength() == 2 && cmd.GetCharacter(1) == 'h' &&
-		('1' <= cmd.GetCharacter(2) && cmd.GetCharacter(2) <= '6'))
-		{
-		AppendNewlinesForHTML(2);
-		itsHTMLLexerState->PopFont();
-		}
-
-	// quote
-
-	else if (cmd == "q")
-		{
-		AppendCharsForHTML("\"", itsHTMLLexerState->font);
-		(itsHTMLLexerState->newlineCount)++;
-		}
-
-	// close style
-
-	else if (cmd == "b" || cmd == "strong" ||
-			 cmd == "i" || cmd == "em" ||
-			 cmd == "cite" || cmd == "var" || cmd == "ins" ||
-			 cmd == "u" ||
-			 cmd == "strike" || cmd == "s" || cmd == "del" ||
-			 cmd == "tt" || cmd == "samp" || cmd == "kbd" || cmd == "code" ||
-			 cmd == "font" ||
-			 cmd == "big" || cmd == "small")
-		{
-		itsHTMLLexerState->PopFont();
-		}
-
-	// preformatted
-
-	else if (cmd == "pre")
-		{
-		if (itsHTMLLexerState->newlineCount == 0 &&
-			!(itsHTMLLexerState->buffer)->IsEmpty() &&
-			(itsHTMLLexerState->buffer)->GetLastCharacter() == '\n')
-			{
-			itsHTMLLexerState->newlineCount = 1;
-			}
-		AppendNewlinesForHTML(2);
-
-		itsHTMLLexerState->inPreformatBlock = kJFalse;
-		itsHTMLLexerState->PopFont();
-		}
-
-	// list
-
-	else if (cmd == "dir" || cmd == "menu" || cmd == "ul" ||
-			 cmd == "ol" || cmd == "dl")
-		{
-		itsHTMLLexerState->EndList();
-		}
-
-	// blockquote
-
-	else if (cmd == "blockquote")
-		{
-		if (itsHTMLLexerState->indentCount == 0)
-			{
-			HandleHTMLError("*** unbalanced closing blockquote ***");
-			}
-		else
-			{
-			AppendNewlinesForHTML(2);
-			(itsHTMLLexerState->indentCount)--;
-			}
-		}
-
-	// address
-
-	else if (cmd == "address")
-		{
-		AppendNewlinesForHTML(1);
-		itsHTMLLexerState->PopFont();
-		}
-
-	// end table
-
-	else if (cmd == "table")
-		{
-		AppendNewlinesForHTML(2);
-		}
-
-	// table row
-
-	else if (cmd == "tr")
-		{
-		AppendNewlinesForHTML(1);
-		}
-
-	// document header
-
-	else if (cmd == "head")
-		{
-		itsHTMLLexerState->inDocHeader = kJFalse;
-		}
-
-	// style block
-
-	else if (cmd == "style")
-		{
-		itsHTMLLexerState->inStyleBlock = kJFalse;
-		}
-
-	// division inside document
-
-	else if (cmd == "div")
-		{
-		AppendNewlinesForHTML(1);
-		}
-}
-
-/******************************************************************************
- AppendTextForHTML (private)
-
-	Appends the given text to the buffer, accounting for the need for
-	indenting and whitespace.
-
- ******************************************************************************/
-
-void
-JTextEditor::AppendTextForHTML
-	(
-	const JString& text
-	)
-{
-	if (!text.Contains("\n"))
-		{
-		AppendTextForHTML1(text);
-		return;
-		}
-
-	JString s = text;
-
-	JIndex newlineIndex;
-	while (s.LocateSubstring("\n", &newlineIndex) &&
-		   newlineIndex < s.GetLength())
-		{
-		AppendTextForHTML1(s.GetSubstring(1, newlineIndex));
-		s.RemoveSubstring(1, newlineIndex);
-		}
-
-	AppendTextForHTML1(s);
-}
-
-void
-JTextEditor::AppendTextForHTML1
-	(
-	const JString& text
-	)
-{
-	if (text.IsEmpty())
-		{
-		return;
-		}
-
-	const JFont wsFont = itsHTMLLexerState->GetWSFont();
-
-	JCharacter lastChar = '\0';
-	if (!(itsHTMLLexerState->buffer)->IsEmpty())
-		{
-		lastChar = (itsHTMLLexerState->buffer)->GetLastCharacter();
-		}
-
-	if (lastChar == '\n')
-		{
-		itsHTMLLexerState->IndentForListItem(wsFont);
-
-		if (itsHTMLLexerState->listType == JTextEditor::kHTMLUnordList)
-			{
-			AppendCharsForHTML("  ", wsFont);
-			}
-		else if (itsHTMLLexerState->listType == JTextEditor::kHTMLOrdList)
-			{
-			JString str(itsHTMLLexerState->listIndex, 0);
-			for (JIndex i=1; i<=str.GetLength(); i++)
-				{
-				str.SetCharacter(i, ' ');
-				}
-			str += "  ";
-			AppendCharsForHTML(str, wsFont);
-			}
-		}
-	else if (lastChar != '\0' && !isspace(lastChar) && itsHTMLLexerState->appendWS)
-		{
-		AppendCharsForHTML(" ",
-			CalcWSFont((itsHTMLLexerState->styles)->GetLastElement(),
-					   itsHTMLLexerState->font));
-		}
-	itsHTMLLexerState->appendWS = kJFalse;
-
-	AppendCharsForHTML(text, itsHTMLLexerState->font);
-	itsHTMLLexerState->newlineCount = 0;
-}
-
-/******************************************************************************
- AppendNewlinesForHTML (private)
-
-	Appends newlines to the buffer up to the requested number.
-
- ******************************************************************************/
-
-void
-JTextEditor::AppendNewlinesForHTML
-	(
-	const JSize count
-	)
-{
-	if (!(itsHTMLLexerState->buffer)->IsEmpty())
-		{
-		const JFont* f = &(itsHTMLLexerState->font);
-		while (itsHTMLLexerState->newlineCount < count)
-			{
-			AppendCharsForHTML("\n", *f);
-			(itsHTMLLexerState->newlineCount)++;
-			f = &(itsHTMLLexerState->blankLineFont);
-			}
-		}
-}
-
-/******************************************************************************
- CalcWSFont (private)
-
-	Calculates the appropriate style for whitespace between two styled words.
-	We don't recalculate the font id because we only change underline and strike.
-
- ******************************************************************************/
-
-JFont
-JTextEditor::CalcWSFont
-	(
-	const JFont& prevFont,
-	const JFont& nextFont
-	)
-	const
-{
-	JFont f = nextFont;
-
-	const JFontStyle& prevStyle = prevFont.GetStyle();
-	const JFontStyle& nextStyle = nextFont.GetStyle();
-
-	const JBoolean ulMatch =
-		JI2B( prevStyle.underlineCount == nextStyle.underlineCount );
-
-	const JBoolean sMatch =
-		JI2B( prevStyle.strike == nextStyle.strike );
-
-	if (!ulMatch && !sMatch &&
-		prevStyle.underlineCount == 0 && !prevStyle.strike)
-		{
-		f = prevFont;
-		}
-	else if (!ulMatch && !sMatch &&
-			 nextStyle.underlineCount == 0 && !nextStyle.strike)
-		{
-		// f = nextFont;
-		}
-	else if (!ulMatch && !sMatch)
-		{
-		JFontStyle style     = f.GetStyle();
-		style.underlineCount = 0;
-		style.strike         = kJFalse;
-		f.SetStyle(style);
-		}
-	else if (!ulMatch && prevStyle.underlineCount == 0)
-		{
-		f = prevFont;
-		}
-	else if (!ulMatch && nextStyle.underlineCount == 0)
-		{
-		// f = nextFont;
-		}
-	else if (!ulMatch)
-		{
-		f.SetUnderlineCount(0);
-		}
-	else if (!sMatch && !prevStyle.strike)
-		{
-		f = prevFont;
-		}
-	else if (!sMatch && !nextStyle.strike)
-		{
-		// f = nextFont;
-		}
-
-	return f;
-}
-
-/******************************************************************************
- HTMLLexerState functions
-
- ******************************************************************************/
-
-JTextEditor::HTMLLexerState::HTMLLexerState
-	(
-	JTextEditor*		editor,
-	JString*			b,
-	JRunArray<JFont>*	s
-	)
-	:
-	buffer(b),
-	styles(s),
-	te(editor),
-	font(editor->itsFontMgr->GetDefaultFont()),
-	blankLineFont(font),
-	listType(kHTMLNoList),
-	listIndex(0),
-	indentCount(0),
-	newlineCount(0),
-	appendWS(kJFalse),
-	inPreformatBlock(kJFalse),
-	inDocHeader(kJFalse),
-	inStyleBlock(kJFalse)
-{
-	buffer->Clear();
-	styles->RemoveAll();
-}
-
-JFont
-JTextEditor::HTMLLexerState::PushCurrentFont()
-{
-	fontStack.Push(font);
-	return font;
-}
-
-JBoolean
-JTextEditor::HTMLLexerState::PopFont()
-{
-	if (fontStack.IsEmpty())
-		{
-		te->HandleHTMLError("*** unbalanced closing style tag ***");
-		return kJFalse;
-		}
-	else
-		{
-		font = fontStack.Pop();
-		return kJTrue;
-		}
-}
-
-JFont
-JTextEditor::HTMLLexerState::GetWSFont()
-{
-	JFont wsFont = font;
-	wsFont.ClearStyle();
-	return wsFont;
-}
-
-void
-JTextEditor::HTMLLexerState::NewList
-	(
-	const HTMLListType type
-	)
-{
-	assert( type != kHTMLNoList );
-
-	if (listType == kHTMLNoList)
-		{
-		te->AppendNewlinesForHTML(2);
-		}
-	else
-		{
-		te->AppendNewlinesForHTML(1);
-		}
-
-	listTypeStack.Push(listType);
-	listIndexStack.Push(listIndex);
-
-	listType  = type;
-	listIndex = 0;
-}
-
-void
-JTextEditor::HTMLLexerState::NewListItem()
-{
-	te->AppendNewlinesForHTML(1);
-	IndentForListItem(GetWSFont());
-	listIndex++;
-	appendWS = kJFalse;
-}
-
-void
-JTextEditor::HTMLLexerState::IndentForListItem
-	(
-	const JFont& wsFont
-	)
-{
-JIndex i;
-
-	for (i=1; i<=indentCount; i++)
-		{
-		te->AppendCharsForHTML("\t", wsFont);
-		}
-
-	const JSize listIndentDepth = listTypeStack.GetElementCount();
-	for (i=1; i<listIndentDepth; i++)
-		{
-		if (listTypeStack.Peek(i) != kHTMLDefTermList)
-			{
-			te->AppendCharsForHTML("\t", wsFont);
-			}
-		}
-	if (listType != kHTMLNoList && listType != kHTMLDefTermList)
-		{
-		te->AppendCharsForHTML("\t", wsFont);
-		}
-
-	newlineCount = 0;
-}
-
-JBoolean
-JTextEditor::HTMLLexerState::EndList()
-{
-	if (listTypeStack.IsEmpty())
-		{
-		te->HandleHTMLError("*** unbalanced closing list tag ***");
-		return kJFalse;
-		}
-	else
-		{
-		listType  = listTypeStack.Pop();
-		listIndex = listIndexStack.Pop();
-
-		if (listType == kHTMLNoList)
-			{
-			te->AppendNewlinesForHTML(2);
-			}
-
-		return kJTrue;
-		}
-}
-
-void
-JTextEditor::HTMLLexerState::ReportError
-	(
-	const JCharacter* errStr
-	)
-{
-	const JFont wsFont = GetWSFont();
-	te->AppendCharsForHTML("\n",   wsFont);
-	te->AppendCharsForHTML(errStr, wsFont);
-	te->AppendCharsForHTML("\n",   wsFont);
-	newlineCount = 1;
-}
-
-/******************************************************************************
- PasteUNIXTerminalOutput
-
-	Parses text and approximates the formatting.
-	Pastes the result into the existing text.
-	Returns the number of characters inserted.
-
- ******************************************************************************/
-
-static const JRegex theUNIXTerminalFormatPattern = "^\\[([0-9]+(?:;[0-9]+)*)m";
-
-JSize
-JTextEditor::PasteUNIXTerminalOutput
-	(
-	const JCharacter* text
-	)
-{
-	JString buffer;
-	JRunArray<JFont> styles;
-
-	const std::string s(text);
-	std::istringstream input(s);
-
-	buffer.SetBlockSize(s.length());
-	JString cmd, cmdIDStr;
-	JFont f        = GetCurrentFont();
-	const JFont f0 = f;
-	while (!input.eof() && !input.fail())
-		{
-		const JCharacter c = jReadUNIXManUnicodeCharacter(input);
-		if (c == -1)
-			{
-			break;
-			}
-		else if (c == '\033')
-			{
-			const JIndex i = JTellg(input);
-			cmd.Clear();
-			JArray<JIndexRange> matchList;
-			if (theUNIXTerminalFormatPattern.Match(text+i, &matchList))
-				{
-				cmd.Set(text+i, matchList.GetElement(2));
-				JSeekg(input, i + matchList.GetElement(1).GetLength());
-				while (!cmd.IsEmpty())
-					{
-					JIndex semiIndex;
-					if (cmd.LocateSubstring(";", &semiIndex))
-						{
-						cmdIDStr = cmd.GetSubstring(1, semiIndex-1);
-						cmd.RemoveSubstring(1, semiIndex);
-						}
-					else
-						{
-						cmdIDStr = cmd;
-						cmd.Clear();
-						}
-
-					JUInt cmdID;
-					if (cmdIDStr.ConvertToUInt(&cmdID))
-						{
-						switch (cmdID)
-							{
-							case 0:
-								f = f0;
-								break;
-
-							case 1:
-								f.SetBold(kJTrue);
-								break;
-							case 22:
-								f.SetBold(kJFalse);
-								break;
-
-							case 3:
-								f.SetItalic(kJTrue);
-								break;
-							case 23:
-								f.SetItalic(kJFalse);
-								break;
-
-							case 4:
-								f.SetUnderlineCount(1);
-								break;
-							case 24:
-								f.SetUnderlineCount(0);
-								break;
-
-							case 30:
-							case 39:
-								f.SetColor(itsColormap->GetBlackColor());
-								break;
-							case 37:
-								f.SetColor(itsColormap->GetGrayColor(80));
-								break;
-							case 90:
-								f.SetColor(itsColormap->GetGrayColor(50));
-								break;
-							case 31:
-								f.SetColor(itsColormap->GetRedColor());
-								break;
-							case 32:
-								f.SetColor(itsColormap->GetDarkGreenColor());	// green-on-white is impossible to read
-								break;
-							case 33:
-								f.SetColor(itsColormap->GetBrownColor());		// yellow-on-white is impossible to read
-								break;
-							case 34:
-								f.SetColor(itsColormap->GetBlueColor());
-								break;
-							case 35:
-								f.SetColor(itsColormap->GetMagentaColor());
-								break;
-							case 36:
-								f.SetColor(itsColormap->GetLightBlueColor());	// cyan-on-white is impossible to read
-								break;
-							}
-						}
-					}
-				}
-			}
-		else
-			{
-			buffer.AppendCharacter(c);
-			styles.AppendElement(f);
-			}
-		}
-
-	const JBoolean saved   = itsPasteStyledTextFlag;
-	itsPasteStyledTextFlag = kJTrue;
-	Paste(buffer, &styles);
-	itsPasteStyledTextFlag = saved;
-
-	return buffer.GetLength();
-}
-
-/******************************************************************************
  Search and replace
 
  ******************************************************************************/
@@ -2537,28 +1069,26 @@ JTextEditor::PasteUNIXTerminalOutput
 JBoolean
 JTextEditor::SearchForward
 	(
-	const JCharacter*	searchStr,
-	const JBoolean		caseSensitive,
-	const JBoolean		entireWord,
-	const JBoolean		wrapSearch,
-	JBoolean*			wrapped
+	const JString&	searchStr,
+	const JBoolean	caseSensitive,
+	const JBoolean	entireWord,
+	const JBoolean	wrapSearch,
+	JBoolean*		wrapped
 	)
 {
-	JIndex startIndex;
-	if (!itsSelection.IsEmpty())
-		{
-		startIndex = itsSelection.last + 1;
-		}
-	else
-		{
-		startIndex = itsCaretLoc.charIndex;
-		}
+	JIndex charIndex =
+		!itsCharSelection.IsEmpty() ? itsCharSelection.last + 1 :
+		itsCaretLoc.charIndex;
 
-	const JSize searchLength = strlen(searchStr);
-	if (SearchForward(*itsBuffer, &startIndex, searchStr, searchLength,
+	JIndex byteIndex =
+		!itsByteSelection.IsEmpty() ? itsByteSelection.last + 1 :
+		itsCaretLoc.byteIndex;
+
+	if (SearchForward(itsBuffer, &charIndex, &byteIndex, searchStr,
 					  caseSensitive, entireWord, wrapSearch, wrapped))
 		{
-		SetSelection(startIndex, startIndex + searchLength - 1);
+		SetSelection(charIndex, charIndex + searchStr.GetCharacterCount() - 1,
+					 byteIndex, byteIndex + searchStr.GetByteCount() - 1);
 		return kJTrue;
 		}
 	else
@@ -2572,54 +1102,56 @@ JTextEditor::SearchForward
 JBoolean
 JTextEditor::SearchForward
 	(
-	const JString&		buffer,
-	JIndex*				startIndex,
-	const JCharacter*	searchStr,
-	const JSize			searchLength,
-	const JBoolean		caseSensitive,
-	const JBoolean		entireWord,
-	const JBoolean		wrapSearch,
-	JBoolean*			wrapped
+	const JString&	buffer,
+	JIndex*			charIndex,
+	JIndex*			byteIndex,
+	const JString&	searchStr,
+	const JBoolean	caseSensitive,
+	const JBoolean	entireWord,
+	const JBoolean	wrapSearch,
+	JBoolean*		wrapped
 	)
 {
-	const JIndex origStartIndex = *startIndex;
+	const JIndex origCharIndex = *charIndex;
 
 	*wrapped = kJFalse;
-	const JSize bufLength = buffer.GetLength();
-	if (*startIndex > bufLength && wrapSearch)
+	const JSize maxChar = buffer.GetCharacterCount() - searchStr.GetCharacterCount() + 1;
+	if (*charIndex > maxChar && wrapSearch)
 		{
-		*startIndex = 1;
-		*wrapped    = kJTrue;
+		*charIndex = 1;
+		*byteIndex = 1;
+		*wrapped   = kJTrue;
 		}
-	else if (*startIndex > bufLength)
+	else if (*charIndex > maxChar)
 		{
 		return kJFalse;
 		}
 
+	JStringIterator iter(buffer);
+	iter.UnsafeMoveTo(kJIteratorStartBefore, *charIndex, *byteIndex);
+
 	JBoolean found = kJFalse;
 	while (1)
 		{
-		found = buffer.LocateNextSubstring(searchStr, searchLength,
-										   caseSensitive, startIndex);
+		found = iter.Next(searchStr, caseSensitive);
 		if (found && entireWord)
 			{
-			found = IsEntireWord(buffer, *startIndex, *startIndex + searchLength - 1);
+			found = IsEntireWord(buffer, *byteIndex, *byteIndex + searchStr.GetByteCount() - 1);
 			}
 
 		if (found)
 			{
+			*charIndex = iter.GetNextCharacterIndex();
+			*byteIndex = iter.GetNextByteIndex();
 			break;
 			}
 
-		(*startIndex)++;
-		if (!found && *startIndex > bufLength && wrapSearch && !(*wrapped) &&
-			origStartIndex > 1)
+		if (iter.AtEnd() && wrapSearch && !(*wrapped) && origCharIndex > 1)
 			{
-			*startIndex = 1;
-			*wrapped    = kJTrue;
+			iter.MoveTo(kJIteratorStartAtBeginning, 0);
+			*wrapped = kJTrue;
 			}
-		else if ((!found && *startIndex > bufLength) ||
-				 (!found && *wrapped && *startIndex >= origStartIndex))
+		else if (iter.AtEnd() || (*wrapped && iter.GetNextCharacterIndex() >= origCharIndex))
 			{
 			break;
 			}
@@ -2639,46 +1171,53 @@ JTextEditor::SearchForward
 JBoolean
 JTextEditor::SearchBackward
 	(
-	const JCharacter*	searchStr,
-	const JBoolean		caseSensitive,
-	const JBoolean		entireWord,
-	const JBoolean		wrapSearch,
-	JBoolean*			wrapped
+	const JString&	searchStr,
+	const JBoolean	caseSensitive,
+	const JBoolean	entireWord,
+	const JBoolean	wrapSearch,
+	JBoolean*		wrapped
 	)
 {
-	const JSize searchLength = strlen(searchStr);
-	if (searchLength == 0)
+	if (searchStr.IsEmpty())
 		{
 		return kJFalse;
 		}
 
-	JIndex startIndex;
+	JIndex charIndex, byteIndex;
 	if (itsSelection.IsEmpty())
 		{
-		startIndex = itsCaretLoc.charIndex - 1;
+		charIndex = itsCaretLoc.charIndex - 1;
+		byteIndex = itsCaretLoc.byteIndex - 1;
 		}
 	else
 		{
-		const JBoolean selectedMatch =
-			JCompareMaxN(itsBuffer->GetCString() + itsSelection.first-1, searchStr, searchLength);
-		if (selectedMatch && itsSelection.first > searchLength)
+		const JBoolean selectedMatch = JI2B(
+			JString::CompareMaxNBytes(
+				itsBuffer.GetCString() + itsByteSelection.first-1,
+				searchStr.GetBytes(), searchStr.GetByteCount(), caseSensitive) == 0);
+
+		if (selectedMatch && itsCharSelection.first > searchStr.GetCharacterCount())
 			{
-			startIndex = itsSelection.first - searchLength;
+			charIndex = itsCharSelection.first - searchStr.GetCharacterCount();
+			byteIndex = itsByteSelection.first - searchStr.GetByteCount();
 			}
 		else if (selectedMatch)
 			{
-			startIndex = 0;
+			charIndex = 0;
+			byteIndex = 0;
 			}
 		else
 			{
-			startIndex = itsSelection.first - 1;
+			charIndex = itsCharSelection.first - 1;
+			byteIndex = itsByteSelection.first - 1;
 			}
 		}
 
-	if (SearchBackward(*itsBuffer, &startIndex, searchStr, searchLength,
+	if (SearchBackward(*itsBuffer, &charIndex, &byteIndex, searchStr,
 					   caseSensitive, entireWord, wrapSearch, wrapped))
 		{
-		SetSelection(startIndex, startIndex + searchLength - 1);
+		SetSelection(charIndex, charIndex + searchStr.GetCharacterCount() - 1,
+					 byteIndex, byteIndex + searchStr.GetByteCount() - 1);
 		return kJTrue;
 		}
 	else
@@ -2692,57 +1231,57 @@ JTextEditor::SearchBackward
 JBoolean
 JTextEditor::SearchBackward
 	(
-	const JString&		buffer,
-	JIndex*				startIndex,
-	const JCharacter*	searchStr,
-	const JSize			searchLength,
-	const JBoolean		caseSensitive,
-	const JBoolean		entireWord,
-	const JBoolean		wrapSearch,
-	JBoolean*			wrapped
+	const JString&	buffer,
+	JIndex*			charIndex,
+	JIndex*			byteIndex,
+	const JString&	searchStr,
+	const JBoolean	caseSensitive,
+	const JBoolean	entireWord,
+	const JBoolean	wrapSearch,
+	JBoolean*		wrapped
 	)
 {
-	const JIndex origStartIndex = *startIndex;
+	const JIndex origCharIndex = *charIndex;
 
 	*wrapped = kJFalse;
-	const JSize bufLength = buffer.GetLength();
-	if (*startIndex == 0 && wrapSearch)
+	if (*charIndex == 0 && wrapSearch)
 		{
-		*startIndex = bufLength;
-		*wrapped    = kJTrue;
+		*charIndex = buffer.GetCharacterCount();
+		*byteIndex = buffer.GetByteCount();
+		*wrapped   = kJTrue;
 		}
 	else if (*startIndex == 0)
 		{
 		return kJFalse;
 		}
 
+	JStringIterator iter(buffer);
+	iter.UnsafeMoveTo(kJIteratorStartAfter, *charIndex, *byteIndex);
+
 	JBoolean found = kJFalse;
 	while (1)
 		{
-		found = buffer.LocatePrevSubstring(searchStr, searchLength,
-										   caseSensitive, startIndex);
+		found = iter.Prev(searchStr, caseSensitive);
 		if (found && entireWord)
 			{
-			found = IsEntireWord(buffer, *startIndex, *startIndex + searchLength - 1);
+			found = IsEntireWord(buffer, *byteIndex, *byteIndex + searchStr.GetByteCount() - 1);
 			}
 
 		if (found)
 			{
+			*charIndex = iter.GetNextCharacterIndex();
+			*byteIndex = iter.GetNextByteIndex();
 			break;
 			}
 
-		if (*startIndex > 0)
+		if (iter.AtBeginning() && wrapSearch && !(*wrapped) &&
+			origCharIndex < buffer.GetCharacterCount())
 			{
-			(*startIndex)--;
+			iter.MoveTo(kJIteratorStartAtEnd, 0);
+			*wrapped = kJTrue;
 			}
-		if (!found && *startIndex == 0 && wrapSearch && !(*wrapped) &&
-			origStartIndex < bufLength)
-			{
-			*startIndex = bufLength;
-			*wrapped    = kJTrue;
-			}
-		else if ((!found && *startIndex == 0) ||
-				 (!found && *wrapped && *startIndex <= origStartIndex))
+		else if (iter.AtBeginning() ||
+				 (*wrapped && iter.GetPrevCharacterIndex() <= origCharIndex))
 			{
 			break;
 			}
@@ -2762,24 +1301,23 @@ JTextEditor::SearchBackward
 JBoolean
 JTextEditor::SelectionMatches
 	(
-	const JCharacter*	searchStr,
-	const JBoolean		caseSensitive,
-	const JBoolean		entireWord
+	const JString&	searchStr,
+	const JBoolean	caseSensitive,
+	const JBoolean	entireWord
 	)
 {
-	const JSize searchLength = strlen(searchStr);
-	if (itsSelection.IsEmpty() ||
-		itsSelection.GetLength() != searchLength ||
-		(entireWord && !IsEntireWord(itsSelection)))
+	if (itsCharSelection.IsEmpty() ||
+		itsCharSelection.GetCount() != searchStr.GetCharacterCount() ||
+		(entireWord && !IsEntireWord(itsByteSelection)))
 		{
 		return kJFalse;
 		}
 
-	JString s;
-	const JBoolean hasSelection = GetSelection(&s);
-	assert( hasSelection );
-
-	return JI2B(JString::Compare(searchStr, s, caseSensitive) == 0);
+	return JI2B( JString::CompareMaxNBytes(
+		itsBuffer.GetBytes() + itsByteSelection.first - 1,
+		searchStr.GetBytes(),
+		searchStr.GetByteCount(),
+		caseSensitive) == 0);
 }
 
 /******************************************************************************
@@ -6114,8 +4652,8 @@ JTextEditor::CRMAppendWord
 			}
 
 		*newText += spaceBuffer;
-		newStyles->AppendElements(CalcWSFont(newStyles->GetLastElement(),
-											 wordStyles.GetFirstElement()),
+		newStyles->AppendElements(JCalcWSFont(newStyles->GetLastElement(),
+											  wordStyles.GetFirstElement()),
 								  spaceBuffer.GetLength());
 		*newText += wordBuffer;
 		newStyles->InsertElementsAtIndex(newStyles->GetElementCount()+1,

@@ -1,7 +1,7 @@
 /******************************************************************************
  JStringIterator.h
 
-	Copyright (C) 2016 by John Lindal. All rights reserved.
+	Copyright (C) 2016-17 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 
@@ -42,6 +42,9 @@ public:
 	void		MoveTo(const JIteratorPosition newPosition, const JIndex characterIndex);
 	JBoolean	SkipPrev(const JSize characterCount = 1);
 	JBoolean	SkipNext(const JSize characterCount = 1);
+
+	void	UnsafeMoveTo(const JIteratorPosition newPosition,
+						 const JIndex characterIndex, const JIndex byteIndex);
 
 	// retrieve & move
 

@@ -607,10 +607,6 @@ T
 2 "JVIKeyHandler.cpp"
 F
 "./code/JVIKeyHandler.cpp"
-T
-2 "JTEHTMLScanner.cpp"
-F
-"./code/JTEHTMLScanner.cpp"
 F
 T
 1 "widgets"
@@ -667,21 +663,6 @@ T
 2 "JTextChooseSaveFile.cpp"
 F
 "./code/JTextChooseSaveFile.cpp"
-F
-T
-1 "HTML"
-T
-2 "JHTMLScanner.cpp"
-F
-"./code/JHTMLScanner.cpp"
-T
-2 "JHTMLScannerL.l"
-F
-"./code/JHTMLScannerL.l"
-T
-2 "JExtractHTMLTitle.cpp"
-F
-"./code/JExtractHTMLTitle.cpp"
 F
 T
 1 "memory manager"

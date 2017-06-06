@@ -406,7 +406,7 @@ JString::CopyToPrivateBuffer
 
 	// ensure sufficient space
 
-	if (!itsOwnerFlag || itsAllocCount < byteCount || itsAllocCount == 0)
+	if (!itsOwnerFlag || itsAllocCount <= byteCount || itsAllocCount == 0)
 		{
 		itsAllocCount = byteCount + itsBlockSize;
 
@@ -637,7 +637,7 @@ JString::ReplaceBytes
 
 	// If we don't have space, or would use too much space, reallocate.
 
-	if (!itsOwnerFlag || itsAllocCount < newCount || itsAllocCount > newCount + itsBlockSize)
+	if (!itsOwnerFlag || itsAllocCount <= newCount || itsAllocCount > newCount + itsBlockSize)
 		{
 		itsAllocCount = newCount + itsBlockSize;
 
@@ -1420,21 +1420,19 @@ JString::DecodeBase64
 	Read the specified number of characters from the stream.
 	This replaces the current contents of the string.
 
-	// TODO: read characters instead of bytes
-	// TODO: read only complete characters
-
  ******************************************************************************/
 
 void
 JString::Read
 	(
 	std::istream&	input,
-	const JSize	count
+	const JSize		count
 	)
 {
-	if (!itsOwnerFlag || itsAllocCount < count || itsAllocCount == 0)
+	const JSize maxByteCount = JUtf8Character::kMaxByteCount * count;
+	if (!itsOwnerFlag || itsAllocCount <= maxByteCount || itsAllocCount == 0)
 		{
-		itsAllocCount = count + itsBlockSize;
+		itsAllocCount = maxByteCount + itsBlockSize;
 
 		// We allocate the new memory first.
 		// If new fails, we still have the old string data.
@@ -1452,10 +1450,24 @@ JString::Read
 		itsOwnerFlag = kJTrue;
 		}
 
-	input.read(itsBytes, count);
-	itsByteCount             = input.gcount();
-	itsBytes[ itsByteCount ] = '\0';
-	itsCharacterCount        = CountCharacters(itsBytes, itsByteCount);
+	JUtf8Byte* p = itsBytes;
+
+	JUtf8Character c;
+	for (JIndex i=1; i<=count; i++)
+		{
+		input >> c;
+		if (input.fail() || input.eof())
+			{
+			break;
+			}
+
+		memcpy(p, c.GetBytes(), c.GetByteCount());
+		p += c.GetByteCount();
+		}
+	*p = 0;
+
+	itsByteCount      = p - itsBytes;
+	itsCharacterCount = CountCharacters(itsBytes, itsByteCount);
 
 	if (itsIterator != NULL)
 		{
@@ -1485,11 +1497,11 @@ JString::ReadDelimited
 
 	// the string must start with a double quote
 
-	JUtf8Byte c;
-	input.get(c);
-	if (c != '"')
+	JUtf8Byte b;
+	input.get(b);
+	if (b != '"')
 		{
-		input.putback(c);
+		input.putback(b);
 		JSetState(input, std::ios::failbit);
 		return;
 		}
@@ -1498,13 +1510,14 @@ JString::ReadDelimited
 
 	Clear();
 
-	const JSize bufSize = 100;
+	const JSize bufSize = 1024;
 	JUtf8Byte buf[ bufSize ];
+	JUtf8Byte* p = buf;
 
-	JIndex i = 0;
+	JUtf8Character c;
 	while (1)
 		{
-		input.get(c);
+		input >> c;
 		if (input.fail())
 			{
 			break;
@@ -1516,7 +1529,7 @@ JString::ReadDelimited
 			}
 		else if (c == '\\')
 			{
-			input.get(c);
+			input >> c;
 			if (input.fail())
 				{
 				break;
@@ -1527,16 +1540,21 @@ JString::ReadDelimited
 			break;
 			}
 
-		buf[i] = c;
-		i++;
-		if (i == bufSize)
+		const JSize byteCount = c.GetByteCount();
+		if (p + byteCount - buf >= bufSize)
 			{
-			Append(buf, bufSize);	// TODO: append only complete characters
-			i = 0;
+			Append(buf, p - buf);
+			p = buf;
 			}
+
+		memcpy(p, c.GetBytes(), byteCount);
+		p += c.GetByteCount();
 		}
 
-	Append(buf, i);
+	if (p > buf)
+		{
+		Append(buf, p - buf);
+		}
 }
 
 /******************************************************************************

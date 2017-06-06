@@ -60,11 +60,11 @@ public:
 	void				SetStyle(const JFontStyle& style);
 	void				ClearStyle();
 
-	void				SetBold(const JBoolean bold);
-	void				SetItalic(const JBoolean italic);
-	void				SetUnderlineCount(const JSize count);
-	void				SetStrike(const JBoolean strike);
-	void				SetColor(const JColorIndex color);
+	void	SetBold(const JBoolean bold);
+	void	SetItalic(const JBoolean italic);
+	void	SetUnderlineCount(const JSize count);
+	void	SetStrike(const JBoolean strike);
+	void	SetColor(const JColorIndex color);
 
 	JSize	GetLineHeight() const;
 	JSize	GetLineHeight(JCoordinate* ascent, JCoordinate* descent) const;

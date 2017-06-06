@@ -13,8 +13,6 @@
 #include <JRect.h>
 #include <JRunArray.h>
 #include <JPtrArray-JString.h>
-#include <JTEHTMLScanner.h>	// for HTMLError
-#include <JPtrStack.h>		// for HTMLLexerState
 
 class JRegex;
 class JPainter;
@@ -39,7 +37,7 @@ class JTextEditor : virtual public JBroadcaster
 
 	friend class JTEKeyHandler;
 
-	friend class JTEHTMLScanner;
+	friend JSize JPasteUNIXTerminalOutput(const JString& text, JTextEditor* te);
 
 public:
 
@@ -118,15 +116,6 @@ public:
 	enum
 	{
 		kMinLeftMarginWidth = 2
-	};
-
-	enum HTMLListType
-	{
-		kHTMLNoList,
-		kHTMLUnordList,
-		kHTMLOrdList,
-		kHTMLDefTermList,
-		kHTMLDefDataList	// same as kHTMLDefTermList, but extra tab indenting
 	};
 
 	struct CRMRule
@@ -211,12 +200,6 @@ public:
 	void		WritePlainText(const JString& fileName, const PlainTextFormat format) const;
 	void		WritePlainText(std::ostream& output, const PlainTextFormat format) const;
 
-	void		ReadHTML(std::istream& input);
-	void		PasteHTML(std::istream& input);
-
-	JBoolean	ReadUNIXManOutput(std::istream& input, const JBoolean allowCancel = kJFalse);
-	JSize		PasteUNIXTerminalOutput(const JString& text);
-
 	JBoolean	ReadPrivateFormat(std::istream& input);
 	void		WritePrivateFormat(std::ostream& output) const;
 
@@ -294,10 +277,12 @@ public:
 	JBoolean	GetSelection(JCharacterRange* range) const;
 	JBoolean	GetSelection(JString* text) const;
 	JBoolean	GetSelection(JString* text, JRunArray<JFont>* style) const;
+/* don't call internally
 	void		SetSelection(const JIndex startIndex, const JIndex endIndex,
 							 const JBoolean needCaretBcast = kJTrue);
 	void		SetSelection(const JCharacterRange& range,
 							 const JBoolean needCaretBcast = kJTrue);
+*/
 	JBoolean	TEScrollToSelection(const JBoolean centerInDisplay);
 	void		TEGetDoubleClickSelection(const JIndex charIndex,
 										  const JBoolean partialWord,
@@ -496,44 +481,6 @@ public:		// ought to be protected
 		{ };
 	};
 
-	struct HTMLLexerState
-	{
-		JString*			buffer;
-		JRunArray<JFont>*	styles;
-
-		JTextEditor*					te;
-		JFont							font;
-		JStack<JFont, JArray<JFont> >	fontStack;
-		const JFont						blankLineFont;
-
-		HTMLListType								listType;
-		JIndex										listIndex;
-		JStack<HTMLListType, JArray<HTMLListType> >	listTypeStack;
-		JStack<JIndex, JArray<JIndex> >				listIndexStack;
-
-		JSize		indentCount;		// # of blockquote cmds
-		JSize		newlineCount;		// number of trailing newlines
-		JBoolean	appendWS;			// kJTrue if need whitespace in front of next word
-		JBoolean	inPreformatBlock;	// kJTrue if inside <pre>
-		JBoolean	inDocHeader;		// kJTrue if inside <head>
-		JBoolean	inStyleBlock;		// kJTrue if inside <style>
-
-		HTMLLexerState(JTextEditor* editor, JString* b, JRunArray<JFont>* s);
-
-		JFont		PushCurrentFont();
-		JBoolean	PopFont();
-		JFont		GetWSFont();
-
-		void		NewList(const HTMLListType type);
-		void		NewListItem();
-		void		IndentForListItem(const JFont& wsFont);
-		JBoolean	EndList();
-
-		void		ReportError(const JString& errStr);
-	};
-
-	friend struct HTMLLexerState;
-
 public:		// ought to be protected
 
 	struct LineGeometry
@@ -678,17 +625,6 @@ protected:
 								   const JString& text, const JRunArray<JFont>& style) const;
 	JBoolean	WriteClipboardPrivateFormat(std::ostream& output, const JFileVersion vers) const;
 
-	virtual void	PrepareToReadHTML();
-	virtual void	ReadHTMLFinished();
-	virtual void	PrepareToPasteHTML();
-	virtual void	PasteHTMLFinished();
-	virtual void	HandleHTMLWord(const JUtf8Byte* word);
-	virtual void	HandleHTMLWhitespace(const JUtf8Byte* space);
-	virtual void	HandleHTMLTag(const JString& name, const JStringPtrMap<JString>& attr);
-	virtual void	HandleHTMLError(const JUtf8Byte* errStr);
-	JSize			GetHTMLBufferCharacterCount() const;
-	JSize			GetHTMLBufferByteCount() const;
-
 private:
 
 	enum DragType
@@ -776,7 +712,8 @@ private:
 	CaretLocation	itsCaretLoc;			// insertion point is -at- this character
 	JCoordinate		itsCaretX;				// horizontal location used by MoveCaretVert()
 	JFont			itsInsertionFont;		// style for characters that user types
-	JCharacterRange	itsSelection;			// caret is visible if this is empty
+	JCharacterRange	itsCharSelection;		// caret is visible if this is empty
+	JUtf8ByteRange	itsByteSelection;		// matches itsCharSelection
 
 	// clipboard
 
@@ -803,10 +740,6 @@ private:
 
 	CRMRuleList*	itsCRMRuleList;		// can be NULL
 	JBoolean		itsOwnsCRMRulesFlag;
-
-	// used while reading HTML
-
-	HTMLLexerState*	itsHTMLLexerState;	// NULL when not reading HTML
 
 private:
 
@@ -888,8 +821,7 @@ private:
 
 	JCoordinate	GetEWNHeight() const;
 
-	JBoolean	SetText1(const JRunArray<JFont>* style);
-	JRect		CalcLocalDNDRect(const JPoint& pt) const;
+	JRect	CalcLocalDNDRect(const JPoint& pt) const;
 
 	void	InsertKeyPress(const JUtf8Character& key);
 	void	BackwardDelete(const JBoolean deleteToTabStop,
@@ -935,12 +867,12 @@ private:
 	JBoolean	LocateTab(const JIndex startIndex, const JIndex endIndex,
 						  JIndex* tabIndex) const;
 
-	JBoolean	SearchForward(const JString& buffer, JIndex* startIndex,
-							  const JString& searchStr, const JSize searchLength,
+	JBoolean	SearchForward(const JString& buffer, JIndex* charIndex, JIndex* byteIndex,
+							  const JString& searchStr,
 							  const JBoolean caseSensitive, const JBoolean entireWord,
 							  const JBoolean wrapSearch, JBoolean* wrapped);
-	JBoolean	SearchBackward(const JString& buffer, JIndex* startIndex,
-							   const JString& searchStr, const JSize searchLength,
+	JBoolean	SearchBackward(const JString& buffer, JIndex* charIndex, JIndex* byteIndex,
+							   const JString& searchStr,
 							   const JBoolean caseSensitive, const JBoolean entireWord,
 							   const JBoolean wrapSearch, JBoolean* wrapped);
 	JBoolean	SearchForward(const JString& buffer, JIndex* startIndex,
@@ -957,20 +889,6 @@ private:
 							 const JRegex& regex, const JArray<JCharacterRange>& submatchList);
 	JBoolean	IsEntireWord(const JString& buffer,
 							 const JIndex startIndex, const JIndex endIndex) const;
-
-	void	HandleHTMLOnCmd(const JString& cmd, const JStringPtrMap<JString>& attr);
-	void	HandleHTMLOffCmd(const JString& cmd, const JStringPtrMap<JString>& attr);
-	void	SetFontForHTML(const JStringPtrMap<JString>& attr);
-
-	void	AppendTextForHTML(const JString& text);
-	void	AppendTextForHTML1(const JString& text);
-	void 	AppendCharsForHTML(const JString& text, const JFont& f);
-	void 	AppendNewlinesForHTML(const JSize count);
-
-	JFont	CalcWSFont(const JFont& prevFont, const JFont& nextFont) const;
-
-	JColorIndex	ColorNameToColorIndex(const JString& name) const;
-	JColorIndex	RGBToColorIndex(const JRGB& color) const;
 
 	void		BroadcastCaretMessages(const CaretLocation& caretLoc,
 									   const JBoolean lineChanged);
@@ -1306,7 +1224,7 @@ inline JBoolean
 JTextEditor::HasSelection()
 	const
 {
-	return !itsSelection.IsEmpty();
+	return !itsCharSelection.IsEmpty();
 }
 
 inline JBoolean
@@ -1317,9 +1235,9 @@ JTextEditor::GetSelection
 	)
 	const
 {
-	*startIndex = itsSelection.first;
-	*endIndex   = itsSelection.last;
-	return !itsSelection.IsEmpty();
+	*startIndex = itsCharSelection.first;
+	*endIndex   = itsCharSelection.last;
+	return !itsCharSelection.IsEmpty();
 }
 
 inline JBoolean
@@ -1329,10 +1247,10 @@ JTextEditor::GetSelection
 	)
 	const
 {
-	*range = itsSelection;
-	return !itsSelection.IsEmpty();
+	*range = itsCharSelection;
+	return !itsCharSelection.IsEmpty();
 }
-
+/*
 inline void
 JTextEditor::SetSelection
 	(
@@ -1342,7 +1260,7 @@ JTextEditor::SetSelection
 {
 	SetSelection(range.first, range.last, needCaretBcast);
 }
-
+*/
 /******************************************************************************
  Multiple undo
 
@@ -1727,7 +1645,7 @@ JTextEditor::GetCaretLocation
 	const
 {
 	*charIndex = itsCaretLoc.charIndex;
-	return itsSelection.IsEmpty();
+	return itsCharSelection.IsEmpty();
 }
 
 // protected
@@ -1740,7 +1658,7 @@ JTextEditor::GetCaretLocation
 	const
 {
 	*caretLoc = itsCaretLoc;
-	return itsSelection.IsEmpty();
+	return itsCharSelection.IsEmpty();
 }
 
 /******************************************************************************
@@ -2031,7 +1949,7 @@ JTextEditor::SetSelectionColor
 	if (color != itsSelectionColor)
 		{
 		itsSelectionColor = color;
-		if (!itsSelection.IsEmpty())
+		if (!itsCharSelection.IsEmpty())
 			{
 			TERefresh();
 			}
@@ -2054,7 +1972,7 @@ JTextEditor::SetSelectionOutlineColor
 	if (color != itsSelectionOutlineColor)
 		{
 		itsSelectionOutlineColor = color;
-		if (!itsSelection.IsEmpty())
+		if (!itsCharSelection.IsEmpty())
 			{
 			TERefresh();
 			}

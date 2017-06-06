@@ -1,14 +1,23 @@
-add back in
-	JTextEditor
-	JTEStyler
-	JVIKeyHandler
+test translation files
+	/usr/lib/testjx/string_data
+	~/.testjx/string_data
 
+add back in
 	copy JTextEditor -> JTextBuffer
 		need separate JStringIterator in JTE & JTB
 		implement same logic as JListIterator
 
+fix TODO's
+
 sample text in TestTabDirector
 	has \x - correctly interpreted?
+
+test
+	man pages
+	styled unix terminal output - yui build output
+	search forward & backward starting w/ & w/out selection
+
+move "online" help to sourceforge wiki
 
 unit test libjx
 	JXCSFDialogBase

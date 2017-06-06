@@ -47,6 +47,9 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //	*** Removed FirstElement(), GetElement(), LastElement() from JPtrArray
 //		Use GetFirstElement(), GetElement(), GetLastElement() instead
 //	Added JPtrArray::Join for joining lists of strings.
+//	*** Removed JGetJDataDirectories() because it is no longer used
+//	*** Removed HTML parsing from JTextEditor.  HTML belongs on the web.
+//		Removed JHTMLScanner, JTEHTMLScanner, JExtractHTMLTitle.
 
 // version 3.2.0:
 //	jMountUtil:

@@ -813,13 +813,13 @@ JTEST(MemoryStreaming)
 
 JTEST(FileStreaming)
 {
-	std::ifstream input("test_JString.dat");
+	std::ifstream input("data/test_JString.txt");
 	JAssertTrue(input.good());
 
 	JString s;
 	s.ReadDelimited(input);
 	JAssertTrue(input.good());
-	JAssertStringsEqual("This is a test", s);
+	JAssertStringsEqual("This is \xE2\x9C\x94 test", s);
 
 	s.ReadDelimited(input);
 	JAssertTrue(input.good());
@@ -832,6 +832,10 @@ JTEST(FileStreaming)
 	s.ReadDelimited(input);
 	JAssertTrue(input.good());
 	JAssertStringsEqual("Jane said, \"Hello!\" didn't she?", s);
+
+	s.ReadDelimited(input);
+	JAssertTrue(input.good());
+	JAssertEqual(1100, s.GetCharacterCount());
 }
 
 JTEST(CopyNormalizedBytes)

@@ -22,6 +22,7 @@ JUtf8Character::JUtf8Character()
 	:
 	itsByteCount(0)
 {
+	itsBytes[0] = 0;
 }
 
 JUtf8Character::JUtf8Character
@@ -476,6 +477,61 @@ JUtf8Character::PrintHex
 
  ******************************************************************************/
 
+std::istream&
+operator>>
+	(
+	std::istream&	input,
+	JUtf8Character&	c
+	)
+{
+	JUtf8Byte b;
+	input.read(&b, 1);
+
+	JSize byteCount;
+	JBoolean ok = kJTrue;
+	if (b <= (unsigned char) '\x7F')
+		{
+		byteCount = 1;
+		}
+	else if (((unsigned char) '\xC2') <= b && b <= (unsigned char) '\xDF')
+		{
+		byteCount = 2;
+		}
+	else if (((unsigned char) '\xE0') <= b && b <= (unsigned char) '\xEF')
+		{
+		byteCount = 3;
+		}
+	else if (((unsigned char) '\xF0') <= b && b <= (unsigned char) '\xF4')
+		{
+		byteCount = 4;
+		}
+	else
+		{
+		ok = kJFalse;
+		c  = JUtf8Character::kUtf8SubstitutionCharacter;
+		}
+
+	if (ok)
+		{
+		c.itsByteCount          = byteCount;
+		c.itsBytes[0]           = b;
+		c.itsBytes[ byteCount ] = 0;
+		if (byteCount > 1)
+			{
+			input.read(c.itsBytes + 1, byteCount - 1);
+
+			if (!JUtf8Character::IsValid(c.itsBytes))
+				{
+				c = JUtf8Character::kUtf8SubstitutionCharacter;
+				}
+			}
+		}
+
+	// allow chaining
+
+	return input;
+}
+
 std::ostream&
 operator<<
 	(
@@ -483,10 +539,7 @@ operator<<
 	const JUtf8Character&	c
 	)
 {
-	for (JIndex i=1; i<=c.itsByteCount; i++)
-		{
-		output << std::hex << c.itsBytes[i-1];
-		}
+	output.write(c.itsBytes, c.itsByteCount);
 
 	// allow chaining
 

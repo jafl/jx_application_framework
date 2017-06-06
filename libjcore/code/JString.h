@@ -139,7 +139,7 @@ public:
 	JString		EncodeBase64() const;
 	JBoolean	DecodeBase64(JString* str) const;
 
-	void		Read(std::istream& input, const JSize count);
+	void		Read(std::istream& input, const JSize byteCount);
 	void		ReadDelimited(std::istream& input);
 	void		Print(std::ostream& output) const;
 	void		PrintHex(std::ostream& output) const;
@@ -175,15 +175,15 @@ public:
 	JBoolean	MatchCase(const std::string& source, const JUtf8ByteRange& sourceRange,
 						  const JCharacterRange& destRange);
 
-	void		Split(const JUtf8Byte* separator, JPtrArray<JString>* partList,
-					  const JSize limit = 0,
-					  const JBoolean includeSeparators = kJFalse) const;
-	void		Split(const JString& separator, JPtrArray<JString>* partList,
-					  const JSize limit = 0,
-					  const JBoolean includeSeparators = kJFalse) const;
-	void		Split(const JRegex& separator, JPtrArray<JString>* partList,
-					  const JSize limit = 0,
-					  const JBoolean includeSeparators = kJFalse) const;
+	void	Split(const JUtf8Byte* separator, JPtrArray<JString>* partList,
+				  const JSize limit = 0,
+				  const JBoolean includeSeparators = kJFalse) const;
+	void	Split(const JString& separator, JPtrArray<JString>* partList,
+				  const JSize limit = 0,
+				  const JBoolean includeSeparators = kJFalse) const;
+	void	Split(const JRegex& separator, JPtrArray<JString>* partList,
+				  const JSize limit = 0,
+				  const JBoolean includeSeparators = kJFalse) const;
 
 	// number <-> string
 
@@ -1423,6 +1423,11 @@ JString::operator=
 	const JString& source
 	)
 {
+	if (this == &source)
+		{
+		return *this;
+		}
+
 	Set(source);
 	return *this;
 }

@@ -50,8 +50,6 @@ JString					JGetString(const JUtf8Byte* id, const JUtf8Byte* map[], const JSize 
 const JString&	JGetDefaultFontName();
 const JString&	JGetMonospaceFontName();
 
-JBoolean	JGetJDataDirectories(const JString& dirName,
-								 JString* sysDir, JString* userDir);
 JBoolean	JGetDataDirectories(const JString& signature, const JString& dirName,
 								JString* sysDir, JString* userDir);
 

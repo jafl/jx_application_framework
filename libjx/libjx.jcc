@@ -691,14 +691,6 @@ T
 F
 "./code/JXHelpManager.cpp"
 T
-2 "JXHelpDirector.cpp"
-F
-"./code/JXHelpDirector.cpp"
-T
-2 "JXHelpText.cpp"
-F
-"./code/JXHelpText.cpp"
-T
 2 "JXTipOfTheDayDialog.cpp"
 F
 "./code/JXTipOfTheDayDialog.cpp"

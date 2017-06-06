@@ -161,8 +161,6 @@
 .cpp ./code/JXSlider
 .cpp ./code/JXLevelControl
 .cpp ./code/JXHelpManager
-.cpp ./code/JXHelpDirector
-.cpp ./code/JXHelpText
 .cpp ./code/JXTipOfTheDayDialog
 .cpp ./code/JXPrefsManager
 .cpp ./code/JXSharedPrefsManager

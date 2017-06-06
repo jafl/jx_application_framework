@@ -57,7 +57,8 @@ public:
 
 // Matching
 
-	JBoolean	Match(const JString& str) const;
+	JBoolean		Match(const JString& str) const;
+	JStringMatch	Match(const JString& str, const JBoolean includeSubmatches) const;
 
 // Setting and testing options
 
@@ -302,6 +303,39 @@ inline JBoolean
 JRegex::IsLineEnd() const
 {
 	return !RawGetOption(itsEFlags, PCRE_NOTEOL);
+}
+
+/******************************************************************************
+ Match
+
+	Returns kJTrue if our pattern matches the given string.
+
+ *****************************************************************************/
+
+inline JBoolean
+JRegex::Match
+	(
+	const JString& str
+	)
+	const
+{
+	return JNegate( Match(str, 0, str.GetByteCount(), kJFalse).IsEmpty() );
+}
+
+/******************************************************************************
+ Match
+
+ *****************************************************************************/
+
+inline JStringMatch
+JRegex::Match
+	(
+	const JString& str,
+	const JBoolean includeSubmatches
+	)
+	const
+{
+	return Match(str, 0, str.GetByteCount(), includeSubmatches);
 }
 
 /******************************************************************************
