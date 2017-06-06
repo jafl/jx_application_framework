@@ -36,7 +36,7 @@
 #include <JStringManager.h>
 #include <JStringPtrMapCursor.h>
 #include <JSubstitute.h>
-#include <JString.h>
+#include <JStringIterator.h>
 #include <jDirUtil.h>
 #include <jStreamUtil.h>
 #include <jGlobals.h>
@@ -257,35 +257,44 @@ JStringManager::Register
 
 	if (!JString::IsEmpty(signature))
 		{
-		const JUtf8Byte* lang = getenv("LANG");
+		JString locale(getenv("LANG"), 0);
+
+		// remove character set
+
+		JStringIterator iter(&locale);
+		if (iter.Next("."))
+			{
+			iter.SkipPrev();
+			iter.RemoveAllNext();
+			}
+
+		// split locale into language & country
+
+		JPtrArray<JString> localeParts(JPtrArrayT::kDeleteAll);
+		locale.Split("_", &localeParts);
+
+		const JString* language = localeParts.GetElement(1);
 
 		JString path[2];
-		JGetJDataDirectories(theDataDirName, path, path+1);
+		JGetDataDirectories(JString(signature, 0, kJFalse), theDataDirName, path, path+1);
 
-		JString name1, name2;
+		// merge system first, then user
+
+		JString name;
 		for (JIndex i=0; i<2; i++)
 			{
-			if (!path[i].IsEmpty() &&
-				(JDirectoryReadable(path[i]) ||
-				 JCreateDirectory(path[i]) == kJNoError))
+			if (!path[i].IsEmpty() && JDirectoryReadable(path[i]))
 				{
-				name1 = JCombinePathAndName(path[i], JString(signature, 0, kJFalse));
-
-				if (lang != NULL)
+				name = JCombinePathAndName(path[i], locale);
+				if (MergeFile(name))
 					{
-					name2 = name1;
-					name2.Append("_");
-					name2.Append(lang);
-
-					if (MergeFile(name2))
-						{
-						break;
-						}
+					continue;
 					}
 
-				if (MergeFile(name1))
+				name = JCombinePathAndName(path[i], *language);
+				if (MergeFile(name))
 					{
-					break;
+					continue;
 					}
 				}
 			}
