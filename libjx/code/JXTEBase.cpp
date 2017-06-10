@@ -330,11 +330,11 @@ JXTEBase::JXTEBase
 	JXScrollableWidget(scrollbarSet, enclosure, hSizing, vSizing, x,y, w,h),
 	JTextEditor(type, breakCROnly, pasteStyledText, kJFalse,
 				GetFontManager(), GetColormap(),
-				GetColormap()->GetRedColor(),					// caret
+				GetColormap()->GetRedColor(),				// caret
 				GetColormap()->GetDefaultSelectionColor(),	// selection filled
 				GetColormap()->GetBlueColor(),				// selection outline
 				GetColormap()->GetBlackColor(),				// drag
-				GetColormap()->GetGrayColor(70),				// whitespace
+				GetColormap()->GetGrayColor(70),			// whitespace
 				GetApertureWidth()),
 
 	itsWillPasteCustomFlag( kJFalse )

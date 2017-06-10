@@ -208,7 +208,7 @@ public:
 	static void	WritePrivateFormat(std::ostream& output,
 								   const JColormap* colormap, const JFileVersion vers,
 								   const JString& text, const JRunArray<JFont>& style,
-								   const JIndex startIndex, const JIndex endIndex);
+								   const JCharacterRange& charRange);
 
 	JBoolean	SearchForward(const JString& searchStr,
 							  const JBoolean caseSensitive, const JBoolean entireWord,
@@ -479,7 +479,29 @@ public:		// ought to be protected
 		{ };
 	};
 
-public:		// ought to be protected
+	struct StringIndex
+	{
+		JIndex byteIndex;
+		JIndex charIndex;
+
+		StringIndex()
+			:
+			byteIndex(0),
+			charIndex(0)
+		{ };
+
+		StringIndex(const JIndex byte, const JIndex ch)
+			:
+			byteIndex(byte),
+			charIndex(ch)
+		{ };
+
+		StringIndex(const CaretLocation& loc)
+			:
+			byteIndex(loc.byteIndex),
+			charIndex(loc.charIndex)
+		{ };
+	};
 
 	struct LineGeometry
 	{
@@ -600,6 +622,7 @@ protected:
 	JBoolean		PointInSelection(const JPoint& pt) const;
 	void			MoveCaretVert(const JInteger deltaLines);
 	JIndex			GetColumnForChar(const CaretLocation& caretLoc) const;
+	JUtf8ByteRange	CharToByteRange(const JCharacterRange& charRange) const;
 
 	void	SetFont(const JIndex startIndex, const JRunArray<JFont>& f,
 					const JBoolean clearUndo);
@@ -616,10 +639,6 @@ protected:
 	static JBoolean	ReadPrivateFormat(std::istream& input, const JTextEditor* te,
 									  JString* text, JRunArray<JFont>* style);
 
-	void		WritePrivateFormat(std::ostream& output, const JFileVersion vers,
-								   const JIndex startIndex, const JIndex endIndex) const;
-	void		WritePrivateFormat(std::ostream& output, const JFileVersion vers,
-								   const JString& text, const JRunArray<JFont>& style) const;
 	JBoolean	WriteClipboardPrivateFormat(std::ostream& output, const JFileVersion vers) const;
 
 private:
@@ -793,7 +812,7 @@ private:
 	JSize	InsertText(const JIndex charIndex, const JString& text,
 					   const JRunArray<JFont>* style = NULL);
 	JSize	InsertText(JString* targetText, JRunArray<JFont>* targetStyle,
-					   const JIndex charIndex, const JIndex byteIndex,
+					   const StringIndex& index,
 					   const JString& text, const JRunArray<JFont>* style,
 					   const JFont* defaultStyle);
 	void	DeleteText(const JIndex startIndex, const JIndex endIndex);
@@ -870,23 +889,19 @@ private:
 	JBoolean	LocateTab(const JIndex startIndex, const JIndex endIndex,
 						  JIndex* tabIndex) const;
 
-	JBoolean	SearchForward(const JString& buffer,
-							  JIndex* charIndex, JIndex* byteIndex,
+	JBoolean	SearchForward(const JString& buffer, StringIndex* index,
 							  const JString& searchStr,
 							  const JBoolean caseSensitive, const JBoolean entireWord,
 							  const JBoolean wrapSearch, JBoolean* wrapped);
-	JBoolean	SearchBackward(const JString& buffer,
-							   JIndex* charIndex, JIndex* byteIndex,
+	JBoolean	SearchBackward(const JString& buffer, StringIndex* index,
 							   const JString& searchStr,
 							   const JBoolean caseSensitive, const JBoolean entireWord,
 							   const JBoolean wrapSearch, JBoolean* wrapped);
 
-	JStringMatch	SearchForward(const JString& buffer,
-								  const JIndex charIndex, const JIndex byteIndex,
+	JStringMatch	SearchForward(const JString& buffer, const StringIndex& startIndex,
 								  const JRegex& regex, const JBoolean entireWord,
 								  const JBoolean wrapSearch, JBoolean* wrapped);
-	JStringMatch	SearchBackward(const JString& buffer,
-								   const JIndex charIndex, const JIndex byteIndex,
+	JStringMatch	SearchBackward(const JString& buffer, const StringIndex& startIndex,
 								   const JRegex& regex, const JBoolean entireWord,
 								   const JBoolean wrapSearch, JBoolean* wrapped);
 
@@ -900,6 +915,12 @@ private:
 	JBoolean	IsEntireWord(const JString& buffer,
 							 const JCharacterRange& charRange,
 							 const JUtf8ByteRange& byteRange) const;
+
+	static void	WritePrivateFormat(std::ostream& output,
+								   const JColormap* colormap, const JFileVersion vers,
+								   const JString& text, const JRunArray<JFont>& style,
+								   const JCharacterRange& charRange,
+								   const JUtf8ByteRange& byteRange);
 
 	void		BroadcastCaretMessages(const CaretLocation& caretLoc,
 									   const JBoolean lineChanged);

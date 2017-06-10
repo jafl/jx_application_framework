@@ -821,49 +821,15 @@ JTextEditor::WritePrivateFormat
 {
 	if (!IsEmpty())
 		{
-		WritePrivateFormat(output, kCurrentPrivateFormatVersion,
-						   1, itsBuffer.GetCharacterCount());
+		WritePrivateFormat(output, itsColormap, kCurrentPrivateFormatVersion,
+						   itsBuffer, *itsStyles,
+						   JCharacterRange(1, itsBuffer.GetCharacterCount()),
+						   JUtf8ByteRange(1, itsBuffer.GetByteCount()));
 		}
 	else
 		{
 		output << kCurrentPrivateFormatVersion;
 		output << " 0 0 0 0";
-		}
-}
-
-/******************************************************************************
- WritePrivateFormat (protected)
-
- ******************************************************************************/
-
-void
-JTextEditor::WritePrivateFormat
-	(
-	std::ostream&		output,
-	const JFileVersion	vers,
-	const JIndex		startIndex,
-	const JIndex		endIndex
-	)
-	const
-{
-	WritePrivateFormat(output, itsColormap, vers,
-					   itsBuffer, *itsStyles, startIndex, endIndex);
-}
-
-void
-JTextEditor::WritePrivateFormat
-	(
-	std::ostream&			output,
-	const JFileVersion		vers,
-	const JString&			text,
-	const JRunArray<JFont>&	style
-	)
-	const
-{
-	if (!text.IsEmpty() && text.GetCharacterCount() == style.GetElementCount())
-		{
-		WritePrivateFormat(output, itsColormap, vers,
-						   text, style, 1, text.GetCharacterCount());
 		}
 }
 
@@ -877,7 +843,7 @@ JTextEditor::WritePrivateFormat
 JBoolean
 JTextEditor::WriteClipboardPrivateFormat
 	(
-	std::ostream&			output,
+	std::ostream&		output,
 	const JFileVersion	vers
 	)
 	const
@@ -885,8 +851,9 @@ JTextEditor::WriteClipboardPrivateFormat
 	if (itsClipText != NULL && itsClipStyle != NULL &&
 		!itsClipText->IsEmpty())
 		{
-		WritePrivateFormat(output, itsColormap, vers, *itsClipText,
-						   *itsClipStyle, 1, itsClipText->GetCharacterCount());
+		WritePrivateFormat(output, itsColormap, vers, *itsClipText, *itsClipStyle,
+						   JCharacterRange(1, itsClipText->GetCharacterCount()),
+						   JUtf8ByteRange(1, itsClipText->GetByteCount()));
 		return kJTrue;
 		}
 	else
@@ -913,13 +880,44 @@ JTextEditor::WritePrivateFormat
 	const JFileVersion		vers,
 	const JString&			text,
 	const JRunArray<JFont>&	style,
-	const JIndex			startIndex,
-	const JIndex			endIndex
+	const JCharacterRange&	charRange
 	)
 {
-	assert( text.CharacterIndexValid(startIndex) );
-	assert( text.CharacterIndexValid(endIndex) );
-	assert( startIndex <= endIndex );
+	assert( !charRange.IsEmpty() );
+	assert( text.RangeValid(charRange) );
+
+	JUtf8ByteRange byteRange;
+	if (charRange.first == 1 && charRange.last == text.GetCharacterCount())
+		{
+		byteRange.Set(1, text.GetCharacterCount());
+		}
+	else
+		{
+		JStringIterator iter(text, kJIteratorStartBefore, charRange.first);
+		const JIndex i1 = iter.GetNextByteIndex();
+		iter.MoveTo(kJIteratorStartAfter, charRange.last);
+		const JIndex i2 = iter.GetPrevByteIndex();
+
+		byteRange.Set(i1, i2);
+		}
+
+	WritePrivateFormat(output, colormap, vers, text, style, charRange, byteRange);
+}
+
+// static private
+
+void
+JTextEditor::WritePrivateFormat
+	(
+	std::ostream&			output,
+	const JColormap*		colormap,
+	const JFileVersion		vers,
+	const JString&			text,
+	const JRunArray<JFont>&	style,
+	const JCharacterRange&	charRange,
+	const JUtf8ByteRange&	byteRange
+	)
+{
 	assert( vers <= kCurrentPrivateFormatVersion );
 
 	// write version
@@ -928,23 +926,15 @@ JTextEditor::WritePrivateFormat
 
 	// write text efficiently
 
-	JSize textLength;
-	if (startIndex == 1 && endIndex == text.GetCharacterCount())
+	if (charRange.first == 1 && charRange.last == text.GetCharacterCount())
 		{
 		output << ' ' << text.GetCharacterCount() << ' ';
 		output.write(text.GetBytes(), text.GetByteCount());
 		}
 	else
 		{
-		JStringIterator iter(text, kJIteratorStartBefore, startIndex);
-		const JIndex i1 = iter.GetPrevByteIndex();
-		iter.MoveTo(kJIteratorStartAfter, endIndex);
-		const JIndex i2 = iter.GetPrevByteIndex();
-
-		textLength = JString::CountCharacters(text.GetBytes(), JUtf8ByteRange(i1+1, i2));
-
-		output << ' ' << textLength << ' ';
-		output.write(text.GetBytes() + i1, i2 - i1);
+		output << ' ' << JString::CountCharacters(text.GetBytes(), byteRange) << ' ';
+		output.write(text.GetBytes() + byteRange.first - 1, byteRange.GetCount());
 		}
 
 	// build lists of font names and colors
@@ -956,10 +946,10 @@ JTextEditor::WritePrivateFormat
 	colorList.SetCompareFunction(JCompareIndices);
 
 	JIndex startRunIndex, startFirstInRun;
-	JBoolean found = style.FindRun(startIndex, &startRunIndex, &startFirstInRun);
+	JBoolean found = style.FindRun(charRange.first, &startRunIndex, &startFirstInRun);
 	assert( found );
 
-	JIndex i          = startIndex;
+	JIndex i          = charRange.first;
 	JIndex runIndex   = startRunIndex;
 	JIndex firstInRun = startFirstInRun;
 	do
@@ -986,7 +976,7 @@ JTextEditor::WritePrivateFormat
 		firstInRun = i;
 		styleRunCount++;
 		}
-		while (i <= endIndex);
+		while (i <= charRange.last);
 
 	// write list of font names
 
@@ -1012,15 +1002,15 @@ JTextEditor::WritePrivateFormat
 
 	output << ' ' << styleRunCount;
 
-	i          = startIndex;
+	i          = charRange.first;
 	runIndex   = startRunIndex;
 	firstInRun = startFirstInRun;
 	do
 		{
 		JSize charCount = style.GetRunLength(runIndex) - (i - firstInRun);
-		if (endIndex < i + charCount - 1)
+		if (charRange.last < i + charCount - 1)
 			{
-			charCount = endIndex - i + 1;
+			charCount = charRange.last - i + 1;
 			}
 
 		const JFont& f   = style.GetRunDataRef(runIndex);
@@ -1047,7 +1037,7 @@ JTextEditor::WritePrivateFormat
 		runIndex++;
 		firstInRun = i;
 		}
-		while (i <= endIndex);
+		while (i <= charRange.last);
 }
 
 /******************************************************************************
@@ -1073,19 +1063,18 @@ JTextEditor::SearchForward
 	JBoolean*		wrapped
 	)
 {
-	JIndex charIndex =
+	StringIndex i(
 		!itsCharSelection.IsEmpty() ? itsCharSelection.last + 1 :
-		itsCaretLoc.charIndex;
+		itsCaretLoc.charIndex,
 
-	JIndex byteIndex =
 		!itsByteSelection.IsEmpty() ? itsByteSelection.last + 1 :
-		itsCaretLoc.byteIndex;
+		itsCaretLoc.byteIndex);
 
-	if (SearchForward(itsBuffer, &charIndex, &byteIndex, searchStr,
+	if (SearchForward(itsBuffer, &i, searchStr,
 					  caseSensitive, entireWord, wrapSearch, wrapped))
 		{
-		SetSelection(JCharacterRange(charIndex, charIndex + searchStr.GetCharacterCount() - 1),
-					 JUtf8ByteRange(byteIndex, byteIndex + searchStr.GetByteCount() - 1));
+		SetSelection(JCharacterRange(i.charIndex, i.charIndex + searchStr.GetCharacterCount() - 1),
+					 JUtf8ByteRange(i.byteIndex, i.byteIndex + searchStr.GetByteCount() - 1));
 		return kJTrue;
 		}
 	else
@@ -1100,8 +1089,7 @@ JBoolean
 JTextEditor::SearchForward
 	(
 	const JString&	buffer,
-	JIndex*			charIndex,
-	JIndex*			byteIndex,
+	StringIndex*	i,
 	const JString&	searchStr,
 	const JBoolean	caseSensitive,
 	const JBoolean	entireWord,
@@ -1109,23 +1097,23 @@ JTextEditor::SearchForward
 	JBoolean*		wrapped
 	)
 {
-	const JIndex origCharIndex = *charIndex;
+	const StringIndex origIndex = *i;
 
 	*wrapped = kJFalse;
 	const JSize maxChar = buffer.GetCharacterCount() - searchStr.GetCharacterCount() + 1;
-	if (*charIndex > maxChar && wrapSearch)
+	if (i->charIndex > maxChar && wrapSearch)
 		{
-		*charIndex = 1;
-		*byteIndex = 1;
-		*wrapped   = kJTrue;
+		i->charIndex = 1;
+		i->byteIndex = 1;
+		*wrapped     = kJTrue;
 		}
-	else if (*charIndex > maxChar)
+	else if (i->charIndex > maxChar)
 		{
 		return kJFalse;
 		}
 
 	JStringIterator iter(buffer);
-	iter.UnsafeMoveTo(kJIteratorStartBefore, *charIndex, *byteIndex);
+	iter.UnsafeMoveTo(kJIteratorStartBefore, i->charIndex, i->byteIndex);
 
 	JBoolean found = kJFalse;
 	while (1)
@@ -1134,23 +1122,23 @@ JTextEditor::SearchForward
 		if (found && entireWord)
 			{
 			found = IsEntireWord(buffer,
-						 JCharacterRange(*charIndex, *charIndex + searchStr.GetCharacterCount() - 1),
-						 JUtf8ByteRange(*byteIndex, *byteIndex + searchStr.GetByteCount() - 1));
+						 JCharacterRange(i->charIndex, i->charIndex + searchStr.GetCharacterCount() - 1),
+						 JUtf8ByteRange(i->byteIndex, i->byteIndex + searchStr.GetByteCount() - 1));
 			}
 
 		if (found)
 			{
-			*charIndex = iter.GetNextCharacterIndex();
-			*byteIndex = iter.GetNextByteIndex();
+			i->charIndex = iter.GetNextCharacterIndex();
+			i->byteIndex = iter.GetNextByteIndex();
 			break;
 			}
 
-		if (iter.AtEnd() && wrapSearch && !(*wrapped) && origCharIndex > 1)
+		if (iter.AtEnd() && wrapSearch && !(*wrapped) && origIndex.charIndex > 1)
 			{
 			iter.MoveTo(kJIteratorStartAtBeginning, 0);
 			*wrapped = kJTrue;
 			}
-		else if (iter.AtEnd() || (*wrapped && iter.GetNextCharacterIndex() >= origCharIndex))
+		else if (iter.AtEnd() || (*wrapped && iter.GetNextCharacterIndex() >= origIndex.charIndex))
 			{
 			break;
 			}
@@ -1182,11 +1170,11 @@ JTextEditor::SearchBackward
 		return kJFalse;
 		}
 
-	JIndex charIndex, byteIndex;
+	StringIndex i;
 	if (itsCharSelection.IsEmpty())
 		{
-		charIndex = itsCaretLoc.charIndex - 1;
-		byteIndex = itsCaretLoc.byteIndex - 1;
+		i.charIndex = itsCaretLoc.charIndex - 1;
+		i.byteIndex = itsCaretLoc.byteIndex - 1;
 		}
 	else
 		{
@@ -1197,26 +1185,21 @@ JTextEditor::SearchBackward
 
 		if (selectedMatch && itsCharSelection.first > searchStr.GetCharacterCount())
 			{
-			charIndex = itsCharSelection.first - searchStr.GetCharacterCount();
-			byteIndex = itsByteSelection.first - searchStr.GetByteCount();
+			i.charIndex = itsCharSelection.first - searchStr.GetCharacterCount();
+			i.byteIndex = itsByteSelection.first - searchStr.GetByteCount();
 			}
-		else if (selectedMatch)
+		else if (!selectedMatch)
 			{
-			charIndex = 0;
-			byteIndex = 0;
-			}
-		else
-			{
-			charIndex = itsCharSelection.first - 1;
-			byteIndex = itsByteSelection.first - 1;
+			i.charIndex = itsCharSelection.first - 1;
+			i.byteIndex = itsByteSelection.first - 1;
 			}
 		}
 
-	if (SearchBackward(itsBuffer, &charIndex, &byteIndex, searchStr,
+	if (SearchBackward(itsBuffer, &i, searchStr,
 					   caseSensitive, entireWord, wrapSearch, wrapped))
 		{
-		SetSelection(JCharacterRange(charIndex, charIndex + searchStr.GetCharacterCount() - 1),
-					 JUtf8ByteRange(byteIndex, byteIndex + searchStr.GetByteCount() - 1));
+		SetSelection(JCharacterRange(i.charIndex, i.charIndex + searchStr.GetCharacterCount() - 1),
+					 JUtf8ByteRange(i.byteIndex, i.byteIndex + searchStr.GetByteCount() - 1));
 		return kJTrue;
 		}
 	else
@@ -1231,8 +1214,7 @@ JBoolean
 JTextEditor::SearchBackward
 	(
 	const JString&	buffer,
-	JIndex*			charIndex,
-	JIndex*			byteIndex,
+	StringIndex*	i,
 	const JString&	searchStr,
 	const JBoolean	caseSensitive,
 	const JBoolean	entireWord,
@@ -1240,22 +1222,22 @@ JTextEditor::SearchBackward
 	JBoolean*		wrapped
 	)
 {
-	const JIndex origCharIndex = *charIndex;
+	const StringIndex origIndex = *i;
 
 	*wrapped = kJFalse;
-	if (*charIndex == 0 && wrapSearch)
+	if (i->charIndex == 0 && wrapSearch)
 		{
-		*charIndex = buffer.GetCharacterCount();
-		*byteIndex = buffer.GetByteCount();
-		*wrapped   = kJTrue;
+		i->charIndex = buffer.GetCharacterCount();
+		i->byteIndex = buffer.GetByteCount();
+		*wrapped     = kJTrue;
 		}
-	else if (*charIndex == 0)
+	else if (i->charIndex == 0)
 		{
 		return kJFalse;
 		}
 
 	JStringIterator iter(buffer);
-	iter.UnsafeMoveTo(kJIteratorStartAfter, *charIndex, *byteIndex);
+	iter.UnsafeMoveTo(kJIteratorStartAfter, i->charIndex, i->byteIndex);
 
 	JBoolean found = kJFalse;
 	while (1)
@@ -1264,25 +1246,25 @@ JTextEditor::SearchBackward
 		if (found && entireWord)
 			{
 			found = IsEntireWord(buffer,
-						 JCharacterRange(*charIndex, *charIndex + searchStr.GetCharacterCount() - 1),
-						 JUtf8ByteRange(*byteIndex, *byteIndex + searchStr.GetByteCount() - 1));
+						 JCharacterRange(i->charIndex, i->charIndex + searchStr.GetCharacterCount() - 1),
+						 JUtf8ByteRange(i->byteIndex, i->byteIndex + searchStr.GetByteCount() - 1));
 			}
 
 		if (found)
 			{
-			*charIndex = iter.GetNextCharacterIndex();
-			*byteIndex = iter.GetNextByteIndex();
+			i->charIndex = iter.GetNextCharacterIndex();
+			i->byteIndex = iter.GetNextByteIndex();
 			break;
 			}
 
 		if (iter.AtBeginning() && wrapSearch && !(*wrapped) &&
-			origCharIndex < buffer.GetCharacterCount())
+			origIndex.charIndex < buffer.GetCharacterCount())
 			{
 			iter.MoveTo(kJIteratorStartAtEnd, 0);
 			*wrapped = kJTrue;
 			}
 		else if (iter.AtBeginning() ||
-				 (*wrapped && iter.GetPrevCharacterIndex() <= origCharIndex))
+				 (*wrapped && iter.GetPrevCharacterIndex() <= origIndex.charIndex))
 			{
 			break;
 			}
@@ -1338,16 +1320,15 @@ JTextEditor::SearchForward
 	JBoolean*		wrapped
 	)
 {
-	const JIndex charIndex =
+	const StringIndex i(
 		!itsCharSelection.IsEmpty() ? itsCharSelection.last + 1 :
-		itsCaretLoc.charIndex;
+		itsCaretLoc.charIndex,
 
-	const JIndex byteIndex =
 		!itsByteSelection.IsEmpty() ? itsByteSelection.last + 1 :
-		itsCaretLoc.byteIndex;
+		itsCaretLoc.byteIndex);
 
 	const JStringMatch m =
-		SearchForward(itsBuffer, charIndex, byteIndex, regex,
+		SearchForward(itsBuffer, i, regex,
 					  entireWord, wrapSearch, wrapped);
 	if (!m.IsEmpty())
 		{
@@ -1362,32 +1343,30 @@ JTextEditor::SearchForward
 JStringMatch
 JTextEditor::SearchForward
 	(
-	const JString&	buffer,
-	const JIndex	startCharIndex,
-	const JIndex	startByteIndex,
-	const JRegex&	regex,
-	const JBoolean	entireWord,
-	const JBoolean	wrapSearch,
-	JBoolean*		wrapped
+	const JString&		buffer,
+	const StringIndex&	startIndex,
+	const JRegex&		regex,
+	const JBoolean		entireWord,
+	const JBoolean		wrapSearch,
+	JBoolean*			wrapped
 	)
 {
-	JIndex charIndex = startCharIndex,
-		   byteIndex = startByteIndex;
+	StringIndex i = startIndex;
 
 	*wrapped = kJFalse;
-	if (charIndex > buffer.GetCharacterCount() && wrapSearch)
+	if (i.charIndex > buffer.GetCharacterCount() && wrapSearch)
 		{
-		charIndex = 1;
-		byteIndex = 1;
-		*wrapped  = kJTrue;
+		i.charIndex = 1;
+		i.byteIndex = 1;
+		*wrapped    = kJTrue;
 		}
-	else if (charIndex > buffer.GetCharacterCount())
+	else if (i.charIndex > buffer.GetCharacterCount())
 		{
 		return JStringMatch(buffer);
 		}
 
 	JStringIterator iter(buffer);
-	iter.UnsafeMoveTo(kJIteratorStartBefore, charIndex, byteIndex);
+	iter.UnsafeMoveTo(kJIteratorStartBefore, i.charIndex, i.byteIndex);
 
 	while (1)
 		{
@@ -1400,12 +1379,12 @@ JTextEditor::SearchForward
 				}
 			}
 
-		if (iter.AtEnd() && wrapSearch && !(*wrapped) && startCharIndex > 1)
+		if (iter.AtEnd() && wrapSearch && !(*wrapped) && startIndex.charIndex > 1)
 			{
 			iter.MoveTo(kJIteratorStartAtBeginning, 0);
 			*wrapped  = kJTrue;
 			}
-		else if (iter.AtEnd() || (*wrapped && iter.GetNextCharacterIndex() >= startCharIndex))
+		else if (iter.AtEnd() || (*wrapped && iter.GetNextCharacterIndex() >= startIndex.charIndex))
 			{
 			break;
 			}
@@ -1431,20 +1410,20 @@ JTextEditor::SearchBackward
 	JBoolean*		wrapped
 	)
 {
-	JIndex charIndex, byteIndex;
+	StringIndex i;
 	if (itsCharSelection.IsEmpty())
 		{
-		charIndex = itsCaretLoc.charIndex;
-		byteIndex = itsCaretLoc.byteIndex;
+		i.charIndex = itsCaretLoc.charIndex;
+		i.byteIndex = itsCaretLoc.byteIndex;
 		}
 	else
 		{
-		charIndex = itsCharSelection.first;
-		byteIndex = itsByteSelection.first;
+		i.charIndex = itsCharSelection.first;
+		i.byteIndex = itsByteSelection.first;
 		}
 
 	const JStringMatch m =
-		SearchBackward(itsBuffer, charIndex, byteIndex, regex,
+		SearchBackward(itsBuffer, i, regex,
 					   entireWord, wrapSearch, wrapped);
 	if (!m.IsEmpty())
 		{
@@ -1459,32 +1438,30 @@ JTextEditor::SearchBackward
 JStringMatch
 JTextEditor::SearchBackward
 	(
-	const JString&	buffer,
-	const JIndex	startCharIndex,
-	const JIndex	startByteIndex,
-	const JRegex&	regex,
-	const JBoolean	entireWord,
-	const JBoolean	wrapSearch,
-	JBoolean*		wrapped
+	const JString&		buffer,
+	const StringIndex&	startIndex,
+	const JRegex&		regex,
+	const JBoolean		entireWord,
+	const JBoolean		wrapSearch,
+	JBoolean*			wrapped
 	)
 {
-	JIndex charIndex = startCharIndex,
-		   byteIndex = startByteIndex;
+	StringIndex i = startIndex;
 
 	*wrapped = kJFalse;
-	if (charIndex == 1 && wrapSearch)
+	if (i.charIndex == 1 && wrapSearch)
 		{
-		charIndex = buffer.GetCharacterCount();
-		byteIndex = buffer.GetByteCount();
+		i.charIndex = buffer.GetCharacterCount();
+		i.byteIndex = buffer.GetByteCount();
 		*wrapped  = kJTrue;
 		}
-	else if (charIndex == 1)
+	else if (i.charIndex == 1)
 		{
 		return JStringMatch(buffer);
 		}
 
 	JStringIterator iter(buffer);
-	iter.UnsafeMoveTo(kJIteratorStartBefore, charIndex, byteIndex);
+	iter.UnsafeMoveTo(kJIteratorStartBefore, i.charIndex, i.byteIndex);
 
 	while (1)
 		{
@@ -1498,13 +1475,13 @@ JTextEditor::SearchBackward
 			}
 
 		if (iter.AtBeginning() && wrapSearch && !(*wrapped) &&
-			startCharIndex < buffer.GetCharacterCount())
+			startIndex.charIndex < buffer.GetCharacterCount())
 			{
 			iter.MoveTo(kJIteratorStartAtEnd, 0);
 			*wrapped = kJTrue;
 			}
 		else if (iter.AtBeginning() ||
-				  (*wrapped && iter.GetPrevCharacterIndex() <= startCharIndex))
+				  (*wrapped && iter.GetPrevCharacterIndex() <= startIndex.charIndex))
 			{
 			break;
 			}
@@ -1705,7 +1682,8 @@ JTextEditor::ReplaceRange
 
 	styles->RemoveNextElements(charRange.first, charRange.GetCount());
 
-	return InsertText(buffer, styles, charRange.first, byteRange.first, replaceText, NULL, NULL);
+	return InsertText(buffer, styles, StringIndex(charRange.first, byteRange.first),
+					  replaceText, NULL, NULL);
 }
 
 /******************************************************************************
@@ -1721,20 +1699,18 @@ JTextEditor::ReplaceRange
 JBoolean
 JTextEditor::ReplaceAllForward
 	(
-	const JCharacter*	searchStr,
+	const JString&		searchStr,
 	const JBoolean		searchIsRegex,
 	const JBoolean		caseSensitive,
 	const JBoolean		entireWord,
 	const JBoolean		wrapSearch,
-	const JCharacter*	replaceStr,
+	const JString&		replaceStr,
 	const JBoolean		replaceIsRegex,
 	const JBoolean		preserveCase,
 	const JRegex&		regex,
 	const JIndexRange&	searchRange
 	)
 {
-	const JSize searchLength = strlen(searchStr);
-
 	JArray<JIndexRange> submatchList;
 	if (!searchIsRegex)
 		{
@@ -3005,11 +2981,11 @@ JTextEditor::PrivatePaste
 	JSize pasteLength;
 	if (itsPasteStyledTextFlag)
 		{
-		pasteLength = InsertText(itsCaretLoc.charIndex, text, style);
+		pasteLength = InsertText(itsCaretLoc, text, style);
 		}
 	else
 		{
-		pasteLength = InsertText(itsCaretLoc.charIndex, text);
+		pasteLength = InsertText(itsCaretLoc, text);
 		}
 
 	const JSize textLen = strlen(text);
@@ -5363,14 +5339,14 @@ JTextEditor::GetTabShiftUndo
 JSize
 JTextEditor::InsertText
 	(
-	const JIndex			charIndex,
+	const StringIndex&		index,
 	const JCharacter*		text,
 	const JRunArray<JFont>*	style	// can be NULL
 	)
 {
 	assert( itsSelection.IsEmpty() );
 
-	return InsertText(itsBuffer, itsStyles, charIndex, text, style, &itsInsertionFont);
+	return InsertText(itsBuffer, itsStyles, index, text, style, &itsInsertionFont);
 }
 
 #define COPY_FOR_INSERT_TEXT \
@@ -5390,7 +5366,7 @@ JTextEditor::InsertText
 	(
 	JString*				targetText,
 	JRunArray<JFont>*		targetStyle,
-	const JIndex			charIndex,
+	const StringIndex&		index,
 	const JCharacter*		text,
 	const JRunArray<JFont>*	style,			// can be NULL
 	const JFont*			defaultFont		// can be NULL
@@ -7464,7 +7440,7 @@ JTextEditor::InsertKeyPress
 		itsSelection.SetToNothing();
 		}
 	const JCharacter s[2]   = { key, '\0' };
-	const JSize pasteLength = InsertText(itsCaretLoc.charIndex, s);
+	const JSize pasteLength = InsertText(itsCaretLoc, s);
 	assert( pasteLength == 1 );
 	Recalc(itsCaretLoc, 1, hadSelection, kJFalse);
 	SetCaretLocation(itsCaretLoc.charIndex+1);
@@ -7726,7 +7702,7 @@ JTextEditor::AutoIndent
 
 		typingUndo->HandleCharacters(prefixLength);
 
-		const JSize pasteLength = InsertText(itsCaretLoc.charIndex, linePrefix);
+		const JSize pasteLength = InsertText(itsCaretLoc, linePrefix);
 		assert( pasteLength == prefixLength );
 		Recalc(itsCaretLoc, prefixLength, kJFalse, kJFalse);
 
@@ -8388,6 +8364,36 @@ JTextEditor::GetColumnForChar
 
 		return col;
 		}
+}
+
+/******************************************************************************
+ CharToByteRange (protected)
+
+	Optimized by starting JStringIterator at start of line, computed by
+	using binary search.
+
+ ******************************************************************************/
+
+JUtf8ByteRange
+JTextEditor::CharToByteRange
+	(
+	const JCharacterRange& charRange
+	)
+	const
+{
+	assert( !charRange.IsEmpty() );
+	assert( text.RangeValid(charRange) );
+
+	const StringIndex i = GetLineStart(GetLineForChar(charRange.first));
+
+	JStringIterator iter(itsBuffer);
+	iter.UnsafeMoveTo(kJIteratorStartBefore, i.charIndex, i.byteIndex);
+	iter.MoveTo(kJIteratorStartBefore, charRange.first);
+	const JIndex i1 = iter.GetNextByteIndex();
+	iter.MoveTo(kJIteratorStartAfter, charRange.last);
+	const JIndex i2 = iter.GetPrevByteIndex();
+
+	return JUtf8ByteRange(i1, i2);
 }
 
 /******************************************************************************

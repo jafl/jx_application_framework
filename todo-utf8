@@ -2,12 +2,10 @@ test translation files
 	/usr/lib/testjx/string_data
 	~/.testjx/string_data
 
-add back in
-	copy JTextEditor -> JTextBuffer
-		need separate JStringIterator in JTE & JTB
-		implement same logic as JListIterator
-
 fix TODO's
+
+JTextEditor
+	never use JIndex for range - ambiguous
 
 sample text in TestTabDirector
 	has \x - correctly interpreted?
@@ -40,6 +38,10 @@ unit test libjx
 	JXWDManager
 	JXWindow
 	JXWindowPainter
+
+copy JTextEditor -> JTextBuffer
+	need separate JStringIterator in JTE & JTB
+	implement same logic as JListIterator
 
 -----
 
