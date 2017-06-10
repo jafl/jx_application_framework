@@ -709,7 +709,7 @@ private:
 	JCoordinate					itsLeftMarginWidth;	// pixels
 	JCoordinate					itsDefTabWidth;		// pixels
 	JCoordinate					itsMaxWordWidth;	// pixels -- widest single word; only if word wrap
-	JArray<JIndex>*				itsLineStarts;		// index of first character on each line
+	JArray<StringIndex>*		itsLineStarts;		// index of first character on each line
 	JRunArray<LineGeometry>*	itsLineGeom;		// geometry of each line
 
 	JCharacterInWordFn	itsCharInWordFn;
@@ -837,6 +837,9 @@ private:
 	JCoordinate	GetStringWidth(const JIndex startIndex, const JIndex endIndex) const;
 	JCoordinate	GetStringWidth(const JIndex startIndex, const JIndex endIndex,
 							   JIndex* runIndex, JIndex* firstInRun) const;
+
+	static JUtf8ByteRange	CharToByteRange(const JCharacterRange& charRange,
+											JStringIterator* iter);
 
 	void	PrivateSetBreakCROnly(const JBoolean breakCROnly);
 	void	TEGUIWidthChanged();

@@ -893,12 +893,8 @@ JTextEditor::WritePrivateFormat
 		}
 	else
 		{
-		JStringIterator iter(text, kJIteratorStartBefore, charRange.first);
-		const JIndex i1 = iter.GetNextByteIndex();
-		iter.MoveTo(kJIteratorStartAfter, charRange.last);
-		const JIndex i2 = iter.GetPrevByteIndex();
-
-		byteRange.Set(i1, i2);
+		JStringIterator iter(text);
+		byteRange = CharToByteRange(charRange, &iter);
 		}
 
 	WritePrivateFormat(output, colormap, vers, text, style, charRange, byteRange);
@@ -8388,10 +8384,53 @@ JTextEditor::CharToByteRange
 
 	JStringIterator iter(itsBuffer);
 	iter.UnsafeMoveTo(kJIteratorStartBefore, i.charIndex, i.byteIndex);
-	iter.MoveTo(kJIteratorStartBefore, charRange.first);
-	const JIndex i1 = iter.GetNextByteIndex();
-	iter.MoveTo(kJIteratorStartAfter, charRange.last);
-	const JIndex i2 = iter.GetPrevByteIndex();
+
+	return CharToByteRange(charRange, &iter);
+}
+
+/******************************************************************************
+ CharToByteRange (static private)
+
+	If JStringIterator is not AtBeginning(), assumes position is optimized.
+	Otherwise, optimizes by starting JStringIterator at end closest to
+	range.
+
+ ******************************************************************************/
+
+JUtf8ByteRange
+JTextEditor::CharToByteRange
+	(
+	const JCharacterRange&	charRange,
+	JStringIterator*		iter
+	)
+{
+	
+	if (iter->AtBeginning())
+		{
+		const JString& s = iter->GetString();
+		const JSize d1   = charRange.first;
+		const JSize d2   = s.GetCharacterCount() - charRange.last;
+		if (d2 < d1)
+			{
+			iter->MoveTo(kJIteratorStartAtEnd, 0);
+			}
+		}
+
+	JIndex i1, i2;
+	if (iter->AtEnd())
+		{
+		iter.MoveTo(kJIteratorStartAfter, charRange.last);
+		i2 = iter.GetPrevByteIndex();
+		iter.MoveTo(kJIteratorStartBefore, charRange.first);
+		i1 = iter.GetNextByteIndex();
+		}
+	else
+		{
+		iter.MoveTo(kJIteratorStartBefore, charRange.first);
+		i1 = iter.GetNextByteIndex();
+		iter.MoveTo(kJIteratorStartAfter, charRange.last);
+		i2 = iter.GetPrevByteIndex();
+		}
 
 	return JUtf8ByteRange(i1, i2);
 }
