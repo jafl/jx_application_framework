@@ -349,8 +349,6 @@ public:
 	void		GoToLine(const JIndex lineIndex);
 	void		SelectLine(const JIndex lineIndex);
 	JIndex		GetLineLength(const JIndex lineIndex) const;
-	JIndex		GetLineStart(const JIndex lineIndex) const;
-	JIndex		GetLineEnd(const JIndex lineIndex) const;
 	JCoordinate	GetLineTop(const JIndex lineIndex) const;
 	JCoordinate	GetLineBottom(const JIndex lineIndex) const;
 	JSize		GetLineHeight(const JIndex lineIndex) const;
@@ -618,6 +616,9 @@ protected:
 	void			MoveCaretVert(const JInteger deltaLines);
 	JIndex			GetColumnForChar(const CaretLocation& caretLoc) const;
 	JUtf8ByteRange	CharToByteRange(const JCharacterRange& charRange) const;
+
+	StringIndex	GetLineStart(const JIndex lineIndex) const;
+	StringIndex	GetLineEnd(const JIndex lineIndex) const;
 
 	void	SetFont(const JIndex startIndex, const JRunArray<JFont>& f,
 					const JBoolean clearUndo);
@@ -915,6 +916,9 @@ private:
 	JBoolean	BroadcastCaretPosChanged(const CaretLocation& caretLoc);
 
 	static JInteger	GetLineHeight(const LineGeometry& data);
+
+	static JListT::CompareResult
+		CompareStringIndices(const StringIndex& i, const StringIndex& j);
 
 	// not allowed
 
@@ -1718,13 +1722,13 @@ JTextEditor::GetLineCount()
 }
 
 /******************************************************************************
- GetLineStart
+ GetLineStart (protected)
 
 	Returns the first character on the specified line.
 
  ******************************************************************************/
 
-inline JIndex
+inline JTextEditor::StringIndex
 JTextEditor::GetLineStart
 	(
 	const JIndex lineIndex
@@ -1737,7 +1741,7 @@ JTextEditor::GetLineStart
 /******************************************************************************
  GetLineLength
 
-	Returns the length of the specified line.
+	Returns the number of characters on the specified line.
 
  ******************************************************************************/
 
@@ -1748,7 +1752,7 @@ JTextEditor::GetLineLength
 	)
 	const
 {
-	return (GetLineEnd(lineIndex) - GetLineStart(lineIndex) + 1);
+	return (GetLineEnd(lineIndex).charIndex - GetLineStart(lineIndex).charIndex + 1);
 }
 
 /******************************************************************************

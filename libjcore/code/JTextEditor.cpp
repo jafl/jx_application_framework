@@ -266,9 +266,9 @@ JTextEditor::JTextEditor
 	itsDefTabWidth     = 36;	// 1/2 inch
 	itsMaxWordWidth    = 0;
 
-	itsLineStarts = jnew JArray<JIndex>;
+	itsLineStarts = jnew JArray<StringIndex>;
 	assert( itsLineStarts != NULL );
-	itsLineStarts->SetCompareFunction(JCompareIndices);
+	itsLineStarts->SetCompareFunction(CompareStringIndices);
 	itsLineStarts->SetSortOrder(JListT::kSortAscending);
 
 	itsLineGeom = jnew JRunArray<LineGeometry>;
@@ -353,7 +353,7 @@ JTextEditor::JTextEditor
 	itsDefTabWidth     = source.itsDefTabWidth;
 	itsMaxWordWidth    = source.itsMaxWordWidth;
 
-	itsLineStarts = jnew JArray<JIndex>(*(source.itsLineStarts));
+	itsLineStarts = jnew JArray<StringIndex>(*(source.itsLineStarts));
 	assert( itsLineStarts != NULL );
 
 	itsLineGeom = jnew JRunArray<LineGeometry>(*(source.itsLineGeom));
@@ -8836,7 +8836,7 @@ JTextEditor::CalcInsertionFont
 
  ******************************************************************************/
 
-JIndex
+JTextEditor::StringIndex
 JTextEditor::GetLineEnd
 	(
 	const JIndex lineIndex
@@ -9980,4 +9980,19 @@ JTextEditor::GetEWNHeight()
 {
 	const JFont f = CalcInsertionFont(itsBuffer->GetLength() + 1);
 	return f.GetLineHeight();
+}
+
+/******************************************************************************
+ CompareStringIndices (static private)
+
+ ******************************************************************************/
+
+JListT::CompareResult
+JTextEditor::CompareStringIndices
+	(
+	const StringIndex& i,
+	const StringIndex& j
+	)
+{
+	return JCompareIndices(i.charIndex, j.charIndex);
 }
