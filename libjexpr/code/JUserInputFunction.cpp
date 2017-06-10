@@ -54,7 +54,7 @@ JUserInputFunction::JUserInputFunction
 	)
 	:
 	JFunction(kJUserInputType),
-	JTextEditor(kFullEditor, kJTrue, kJFalse, kJTrue, fontManager, colormap,
+	JTextEditor(kFullEditor, kJTrue, kJFalse, fontManager, colormap,
 				colormap->GetBlackColor(),				// caret
 				colormap->GetDefaultSelectionColor(),	// selection
 				colormap->GetBlueColor(),				// outline

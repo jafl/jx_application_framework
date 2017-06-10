@@ -173,7 +173,7 @@ public:
 public:
 
 	JTextEditor(const Type type, const JBoolean breakCROnly,
-				const JBoolean pasteStyledText, const JBoolean useInternalClipboard,
+				const JBoolean pasteStyledText,
 				const JFontManager* fontManager, JColormap* colormap,
 				const JColorIndex caretColor, const JColorIndex selectionColor,
 				const JColorIndex outlineColor, const JColorIndex dragColor,
@@ -591,8 +591,6 @@ protected:
 	virtual JBoolean	TEGetExternalClipboard(JString* text, JRunArray<JFont>* style) const = 0;
 	virtual void		TECaretShouldBlink(const JBoolean blink) = 0;
 
-	void				TEClearClipboard();
-
 	virtual JCoordinate	GetTabWidth(const JIndex charIndex, const JCoordinate x) const;
 
 	virtual JCoordinate	GetPrintHeaderHeight(JPagePrinter& p) const;
@@ -610,9 +608,6 @@ protected:
 	virtual void	AdjustStylesBeforeRecalc(const JString& buffer, JRunArray<JFont>* styles,
 											 JCharacterRange* recalcRange, JCharacterRange* redrawRange,
 											 const JBoolean deletion);
-
-	JBoolean	GetInternalClipboard(const JString** text,
-									 const JRunArray<JFont>** style = NULL) const;
 
 	JBoolean	IsCharacterInWord(const JUtf8Character& c) const;
 
@@ -638,8 +633,6 @@ protected:
 
 	static JBoolean	ReadPrivateFormat(std::istream& input, const JTextEditor* te,
 									  JString* text, JRunArray<JFont>* style);
-
-	JBoolean	WriteClipboardPrivateFormat(std::ostream& output, const JFileVersion vers) const;
 
 private:
 
@@ -732,12 +725,6 @@ private:
 	JCharacterRange	itsCharSelection;		// caret is visible if this is empty
 	JUtf8ByteRange	itsByteSelection;		// matches itsCharSelection
 
-	// clipboard
-
-	const JBoolean		itsStoreClipFlag;	// kJTrue => use itsClipText and itsClipStyle
-	JString*			itsClipText;		// can be NULL
-	JRunArray<JFont>*	itsClipStyle;		// can be NULL
-
 	// used during drag
 
 	DragType		itsDragType;
@@ -817,8 +804,6 @@ private:
 					   const JFont* defaultStyle);
 	void	DeleteText(const JIndex startIndex, const JIndex endIndex);
 	void	DeleteText(const JCharacterRange& range);
-
-	void	TECreateClipboard();
 
 	void			SetCaretLocation(const CaretLocation& caretLoc);
 	CaretLocation	CalcCaretLocation(const JIndex charIndex) const;

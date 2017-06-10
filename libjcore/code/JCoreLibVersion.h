@@ -53,6 +53,9 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //	*** JTextEditor:
 //		To avoid potentially scanning large amounts of UTF-8:
 //			Modified IsEntireWord() to only check entire buffer.
+//		Removed pointless useInternalClipboard option and
+//			TEOwnsClipboard(), WriteClipboardPrivateFormat(),
+//			GetInternalClipboard(), TEClearClipboard().
 
 // version 3.2.0:
 //	jMountUtil:

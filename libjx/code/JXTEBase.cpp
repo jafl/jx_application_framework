@@ -328,7 +328,7 @@ JXTEBase::JXTEBase
 	)
 	:
 	JXScrollableWidget(scrollbarSet, enclosure, hSizing, vSizing, x,y, w,h),
-	JTextEditor(type, breakCROnly, pasteStyledText, kJFalse,
+	JTextEditor(type, breakCROnly, pasteStyledText,
 				GetFontManager(), GetColormap(),
 				GetColormap()->GetRedColor(),				// caret
 				GetColormap()->GetDefaultSelectionColor(),	// selection filled

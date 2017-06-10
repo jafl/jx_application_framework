@@ -86,14 +86,11 @@
 
 		TEClipboardChanged
 			Do whatever is appropriate to update the system clipboard
-			after a Copy or Cut operation.  If ! itsStoreClipFlag, this
-			should call GetSelection() and store the resulting text.
-
-		TEOwnsClipboard
-			Returns kJTrue if the internal clipboard should be used.
+			after a Copy or Cut operation.
 
 		TEGetExternalClipboard
-			Returns kJTrue if there is something pasteable on the system clipboard.
+			Returns kJTrue if there is something pasteable on the system
+			clipboard.
 
 		TEBeginDND
 			Returns kJTrue if it is able to start a Drag-And-Drop session
@@ -212,7 +209,6 @@ JTextEditor::JTextEditor
 	const Type			type,
 	const JBoolean		breakCROnly,
 	const JBoolean		pasteStyledText,
-	const JBoolean		useInternalClipboard,
 	const JFontManager*	fontManager,
 	JColormap*			colormap,
 	const JColorIndex	caretColor,
@@ -238,9 +234,7 @@ JTextEditor::JTextEditor
 
 	itsKeyHandler(NULL),
 
-	itsInsertionFont(itsDefFont),
-
-	itsStoreClipFlag(useInternalClipboard)
+	itsInsertionFont(itsDefFont)
 {
 	itsStyles = jnew JRunArray<JFont>;
 	assert( itsStyles != NULL );
@@ -283,9 +277,6 @@ JTextEditor::JTextEditor
 	itsCaretLoc         = CaretLocation(1,1,1);
 	itsCaretX           = 0;
 	itsInsertionFont    = CalcInsertionFont(1);
-
-	itsClipText         = NULL;
-	itsClipStyle        = NULL;
 
 	itsPrevDragType     = itsDragType = kInvalidDrag;
 	itsIsDragSourceFlag = kJFalse;
@@ -332,9 +323,7 @@ JTextEditor::JTextEditor
 	itsSelectionOutlineColor( source.itsSelectionOutlineColor ),
 	itsDragColor( source.itsDragColor ),
 
-	itsInsertionFont( source.itsInsertionFont ),
-
-	itsStoreClipFlag( source.itsStoreClipFlag )
+	itsInsertionFont( source.itsInsertionFont )
 {
 	itsStyles = jnew JRunArray<JFont>(*(source.itsStyles));
 	assert( itsStyles != NULL );
@@ -376,9 +365,6 @@ JTextEditor::JTextEditor
 	itsCaretX           = 0;
 	itsInsertionFont    = CalcInsertionFont(1);
 
-	itsClipText         = NULL;
-	itsClipStyle        = NULL;
-
 	itsPrevDragType     = itsDragType = kInvalidDrag;
 	itsIsDragSourceFlag = kJFalse;
 
@@ -409,9 +395,6 @@ JTextEditor::~JTextEditor()
 	jdelete itsLineGeom;
 	jdelete itsUndoList;
 	jdelete itsKeyHandler;
-
-	jdelete itsClipText;
-	jdelete itsClipStyle;
 
 	ClearCRMRuleList();
 }
@@ -830,35 +813,6 @@ JTextEditor::WritePrivateFormat
 		{
 		output << kCurrentPrivateFormatVersion;
 		output << " 0 0 0 0";
-		}
-}
-
-/******************************************************************************
- WriteClipboardPrivateFormat (protected)
-
-	Returns kJFalse if the clipboard is empty.
-
- ******************************************************************************/
-
-JBoolean
-JTextEditor::WriteClipboardPrivateFormat
-	(
-	std::ostream&		output,
-	const JFileVersion	vers
-	)
-	const
-{
-	if (itsClipText != NULL && itsClipStyle != NULL &&
-		!itsClipText->IsEmpty())
-		{
-		WritePrivateFormat(output, itsColormap, vers, *itsClipText, *itsClipStyle,
-						   JCharacterRange(1, itsClipText->GetCharacterCount()),
-						   JUtf8ByteRange(1, itsClipText->GetByteCount()));
-		return kJTrue;
-		}
-	else
-		{
-		return kJFalse;
 		}
 }
 
@@ -2762,16 +2716,7 @@ JTextEditor::SetDefaultFont
 void
 JTextEditor::Cut()
 {
-	if (itsStoreClipFlag)
-		{
-		TECreateClipboard();
-
-		if (Cut(itsClipText, itsClipStyle))
-			{
-			TEClipboardChanged();
-			}
-		}
-	else if (!TEIsDragging())
+	if (!TEIsDragging())
 		{
 		TEClipboardChanged();
 		DeleteSelection();
@@ -2814,19 +2759,7 @@ JTextEditor::Cut
 void
 JTextEditor::Copy()
 {
-	if (itsStoreClipFlag)
-		{
-		TECreateClipboard();
-
-		if (Copy(itsClipText, itsClipStyle))
-			{
-			TEClipboardChanged();
-			}
-		}
-	else
-		{
-		TEClipboardChanged();
-		}
+	TEClipboardChanged();
 }
 
 /******************************************************************************
@@ -2877,24 +2810,8 @@ JTextEditor::GetClipboard
 	)
 	const
 {
-	if (TEOwnsClipboard() && itsClipText != NULL)
-		{
-		*text = *itsClipText;
-		if (style != NULL)
-			{
-			*style = *itsClipStyle;
-			}
-		return kJTrue;
-		}
-	else if (style != NULL)
-		{
-		return TEGetExternalClipboard(text, style);
-		}
-	else
-		{
-		JRunArray<JFont> tempStyle;
-		return TEGetExternalClipboard(text, &tempStyle);
-		}
+	JRunArray<JFont> tempStyle;
+	return TEGetExternalClipboard(text, &tempStyle);
 }
 
 /******************************************************************************
@@ -2907,11 +2824,7 @@ JTextEditor::Paste()
 {
 	JString text;
 	JRunArray<JFont> style;
-	if (TEOwnsClipboard() && itsClipText != NULL)
-		{
-		Paste(*itsClipText, itsClipStyle);
-		}
-	else if (TEGetExternalClipboard(&text, &style))
+	if (TEGetExternalClipboard(&text, &style))
 		{
 		JRunArray<JFont>* s = (style.IsEmpty() ? NULL : &style);
 		Paste(text, s);
@@ -2988,83 +2901,6 @@ JTextEditor::PrivatePaste
 	Recalc(itsCaretLoc, textLen, hadSelection, kJFalse);
 	SetCaretLocation(itsCaretLoc.charIndex + textLen);
 	return pasteLength;
-}
-
-/******************************************************************************
- GetInternalClipboard (protected)
-
-	Returns kJTrue if our internal clipboard contains something.
-
-	style can be NULL.
-
- ******************************************************************************/
-
-JBoolean
-JTextEditor::GetInternalClipboard
-	(
-	const JString**				text,
-	const JRunArray<JFont>**	style
-	)
-	const
-{
-	if (itsClipText != NULL && itsClipStyle != NULL)
-		{
-		*text = itsClipText;
-		if (style != NULL)
-			{
-			*style = itsClipStyle;
-			}
-		return kJTrue;
-		}
-	else
-		{
-		*text = NULL;
-		if (style != NULL)
-			{
-			*style = NULL;
-			}
-		return kJFalse;
-		}
-}
-
-/******************************************************************************
- TECreateClipboard (private)
-
-	Allocate itsClipText and itsClipStyle.
-
- ******************************************************************************/
-
-void
-JTextEditor::TECreateClipboard()
-{
-	assert( (itsClipText == NULL && itsClipStyle == NULL) ||
-			(itsClipText != NULL && itsClipStyle != NULL) );
-
-	if (itsClipText == NULL)
-		{
-		itsClipText = jnew JString;
-		assert( itsClipText != NULL );
-
-		itsClipStyle = jnew JRunArray<JFont>;
-		assert( itsClipStyle != NULL );
-		}
-}
-
-/******************************************************************************
- TEClearClipboard (protected)
-
-	Delete itsClipText and itsClipStyle.
-
- ******************************************************************************/
-
-void
-JTextEditor::TEClearClipboard()
-{
-	jdelete itsClipText;
-	itsClipText = NULL;
-
-	jdelete itsClipStyle;
-	itsClipStyle = NULL;
 }
 
 /******************************************************************************
