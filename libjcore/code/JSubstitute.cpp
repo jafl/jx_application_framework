@@ -808,7 +808,7 @@ JSubstitute::Evaluate
 	JSize matchByteCount = 0;
 	JIndex varIndex      = 0;
 
-	JString s(iter.GetString().GetBytes(),
+	JString s(iter.GetString().GetRawBytes(),
 			  JUtf8ByteRange(iter.GetNextByteIndex(),
 							 iter.GetString().GetByteCount()),
 			  kJFalse);
@@ -848,7 +848,7 @@ JSubstitute::Evaluate
 		JUtf8ByteRange r;
 		r.SetFirstAndCount(iter.GetNextByteIndex(), matchByteCount);
 
-		JString name(iter.GetString().GetBytes(), r, kJFalse);
+		JString name(iter.GetString().GetRawBytes(), r, kJFalse);
 		const JBoolean ok = GetValue(name, value);
 		if (ok)
 			{

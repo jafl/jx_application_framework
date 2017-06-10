@@ -380,9 +380,8 @@ JTEST(MatchBackward)
 	}
 }
 
-JTEST(Features)
+JTEST(BackReferences)
 {
-// Who can use backreferences?
 	JTestRegex regex;
 	JAssertOK(regex.SetPattern("([bc])\\1"));
 	{
@@ -390,8 +389,7 @@ JTEST(Features)
 		JAssertFalse(m.IsEmpty());
 		JAssertStringsEqual("bb", m.GetString());
 	}
-// These tests are not needed to show that ERE's don't have backref's, but can
-// be added back in if Spencer ever fixes this.
+
 	{
 		const JStringMatch m = regex.MatchForward("cc");
 		JAssertFalse(m.IsEmpty());

@@ -108,6 +108,7 @@ public:
 	const JUtf8Byte*	GetBytes() const;
 	JUtf8Byte*			AllocateBytes() const;	// client must call delete [] when finished with it
 	JBoolean			IsOwner() const;		// primarily for debugging
+	const JUtf8Byte*	GetRawBytes() const;	// NOT guaranteed to be NULL terminated
 
 	JBoolean	BeginsWith(const JString& str, const JBoolean caseSensitive = kJTrue) const;
 	JBoolean	BeginsWith(const JString& str, const JCharacterRange& range, const JBoolean caseSensitive = kJTrue) const;
@@ -309,6 +310,20 @@ JString::IsOwner()
 	const
 {
 	return itsOwnerFlag;
+}
+
+/******************************************************************************
+ GetRawBytes
+
+	*** NOT guaranteed to be NULL terminated
+
+ ******************************************************************************/
+
+inline const JUtf8Byte*
+JString::GetRawBytes()
+	const
+{
+	return itsBytes;
 }
 
 /******************************************************************************

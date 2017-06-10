@@ -258,7 +258,7 @@ JStringIterator::Prev
 	const JBoolean	caseSensitive
 	)
 {
-	return Prev(str.GetBytes(), str.GetByteCount(), caseSensitive);
+	return Prev(str.GetRawBytes(), str.GetByteCount(), caseSensitive);
 }
 
 inline JBoolean
@@ -303,7 +303,7 @@ JStringIterator::Next
 	const JBoolean	caseSensitive
 	)
 {
-	return Next(str.GetBytes(), str.GetByteCount(), caseSensitive);
+	return Next(str.GetRawBytes(), str.GetByteCount(), caseSensitive);
 }
 
 inline JBoolean
@@ -378,7 +378,7 @@ JStringIterator::ReplaceLastMatch
 	const JBoolean matchCase
 	)
 {
-	ReplaceLastMatch(str.GetBytes(), JUtf8ByteRange(1, str.GetByteCount()), matchCase);
+	ReplaceLastMatch(str.GetRawBytes(), JUtf8ByteRange(1, str.GetByteCount()), matchCase);
 }
 
 inline void
@@ -389,7 +389,7 @@ JStringIterator::ReplaceLastMatch
 	const JBoolean			matchCase
 	)
 {
-	ReplaceLastMatch(str.GetBytes(), str.CharacterToUtf8ByteRange(range), matchCase);
+	ReplaceLastMatch(str.GetRawBytes(), str.CharacterToUtf8ByteRange(range), matchCase);
 }
 
 inline void
@@ -455,7 +455,7 @@ JStringIterator::Insert
 	const JString& str
 	)
 {
-	Insert(str.GetBytes(), JUtf8ByteRange(1, str.GetByteCount()));
+	Insert(str.GetRawBytes(), JUtf8ByteRange(1, str.GetByteCount()));
 }
 
 inline void
@@ -465,7 +465,7 @@ JStringIterator::Insert
 	const JCharacterRange&	range
 	)
 {
-	Insert(str.GetBytes(), str.CharacterToUtf8ByteRange(range));
+	Insert(str.GetRawBytes(), str.CharacterToUtf8ByteRange(range));
 }
 
 inline void

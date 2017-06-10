@@ -151,7 +151,7 @@ JStringMatch::SetLastCharacterIndex
 	assert( itsCharacterRange.IsNothing() );
 	assert( index > 0 );
 
-	const JSize count = JString::CountCharacters(itsTarget.GetBytes(), itsByteRange);
+	const JSize count = JString::CountCharacters(itsTarget.GetRawBytes(), itsByteRange);
 	assert( count <= index );
 
 	itsCharacterRange.Set(index - count + 1, index);
@@ -211,9 +211,9 @@ JStringMatch::GetCharacterRange
 		JCharacterRange cr;
 		cr.SetFirstAndCount(
 			itsCharacterRange.first +
-				JString::CountCharacters(itsTarget.GetBytes() + itsByteRange.first - 1,
+				JString::CountCharacters(itsTarget.GetRawBytes() + itsByteRange.first - 1,
 										 ur.first - itsByteRange.first),
-			JString::CountCharacters(itsTarget.GetBytes() + ur.first - 1, ur.GetCount()));
+			JString::CountCharacters(itsTarget.GetRawBytes() + ur.first - 1, ur.GetCount()));
 
 		return cr;
 		}
@@ -232,7 +232,7 @@ JString
 JStringMatch::GetString()
 	const
 {
-	return JString(itsTarget.GetBytes(), itsByteRange, kJFalse);
+	return JString(itsTarget.GetRawBytes(), itsByteRange, kJFalse);
 }
 
 /******************************************************************************
@@ -252,7 +252,7 @@ JStringMatch::GetSubstring
 		const JUtf8ByteRange r = itsSubmatchList->GetElement(index);
 		if (!r.IsEmpty())
 			{
-			return JString(itsTarget.GetBytes(), r, kJFalse);
+			return JString(itsTarget.GetRawBytes(), r, kJFalse);
 			}
 		}
 
@@ -297,13 +297,13 @@ JStringMatch::ComputeCharacterRange()
 	if (itsCharacterRange.IsNothing())	// compute start index
 		{
 		const_cast<JCharacterRange*>(&itsCharacterRange)->first =
-			JString::CountCharacters(itsTarget.GetBytes(), itsByteRange.first-1) + 1;
+			JString::CountCharacters(itsTarget.GetRawBytes(), itsByteRange.first-1) + 1;
 		}
 
 	if (itsCharacterRange.IsEmpty())	// compute end index
 		{
 		const_cast<JCharacterRange*>(&itsCharacterRange)->last =
 			itsCharacterRange.first +
-			JString::CountCharacters(itsTarget.GetBytes(), itsByteRange) - 1;
+			JString::CountCharacters(itsTarget.GetRawBytes(), itsByteRange) - 1;
 		}
 }

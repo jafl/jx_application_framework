@@ -20,9 +20,8 @@ int main()
 	return JUnitTestManager::Execute();
 }
 
-JTEST(Iteration)
+void TestIteration(const JString& s)
 {
-	JString s("123\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", 0);
 	JStringIterator i(s);
 	JUtf8Character c;
 	JIndex j;
@@ -163,9 +162,15 @@ JTEST(Iteration)
 	JAssertEqual(1, j);
 }
 
-JTEST(Move)
+JTEST(Iteration)
 {
-	JString s("123\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", 0);
+	TestIteration(JString("123\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", 0));
+	TestIteration(JString("  123\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94  ",
+						  JUtf8ByteRange(3, 14), kJFalse));
+}
+
+void TestMove(const JString& s)
+{
 	JStringIterator i(s);
 	JUtf8Character c;
 	JIndex j;
@@ -275,9 +280,15 @@ JTEST(Move)
 	JAssertStringsEqual("\xE2\x9C\x94", c.GetBytes());
 }
 
-JTEST(Skip)
+JTEST(Move)
 {
-	JString s("123\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", 0);
+	TestMove(JString("123\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", 0));
+	TestMove(JString("  123\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94  ",
+					 JUtf8ByteRange(3, 14), kJFalse));
+}
+
+void TestSkip(const JString& s)
+{
 	JStringIterator i(s);
 	JUtf8Character c;
 	JIndex j;
@@ -301,9 +312,15 @@ JTEST(Skip)
 	JAssertStringsEqual("\xC3\x85", c.GetBytes());
 }
 
-JTEST(Search)
+JTEST(Skip)
 {
-	JString s("123\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", 0);
+	TestSkip(JString("123\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", 0));
+	TestSkip(JString("  123\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94  ",
+					 JUtf8ByteRange(3, 14), kJFalse));
+}
+
+void TestSearch(const JString& s)
+{
 	JStringIterator i(s);
 	JUtf8Character c;
 	JIndex j;
@@ -336,9 +353,15 @@ JTEST(Search)
 	JAssertEqual('2', c);
 }
 
-JTEST(Regex)
+JTEST(Search)
 {
-	JString s("123\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", 0);
+	TestSearch(JString("123\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", 0));
+	TestSearch(JString("  123\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94  ",
+					   JUtf8ByteRange(3, 14), kJFalse));
+}
+
+void TestRegex(const JString& s)
+{
 	JStringIterator i(s);
 	JUtf8Character c;
 	JIndex j;
@@ -388,9 +411,15 @@ JTEST(Regex)
 	JAssertStringsEqual("\xC3\xA5", m3.GetSubstring(2));
 }
 
-JTEST(Accumulate)
+JTEST(Regex)
 {
-	JString s("123\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", 0);
+	TestRegex(JString("123\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", 0));
+	TestRegex(JString("  123\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94  ",
+					  JUtf8ByteRange(3, 14), kJFalse));
+}
+
+void TestAccumulate(const JString& s)
+{
 	JStringIterator i(s);
 	JUtf8Character c;
 
@@ -435,9 +464,15 @@ JTEST(Accumulate)
 	JAssertStringsEqual("\xC3\x85\xC3\xA5\xE2\x9C\x94", m5.GetString());
 }
 
-JTEST(Set)
+JTEST(Accumulate)
 {
-	JString s("123\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", 0);
+	TestAccumulate(JString("123\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", 0));
+	TestAccumulate(JString("  123\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94  ",
+						   JUtf8ByteRange(3, 14), kJFalse));
+}
+
+void TestSet(JString& s);
+{
 	JStringIterator i(&s);
 	JUtf8Character c;
 	JIndex j;
@@ -470,9 +505,15 @@ JTEST(Set)
 	JAssertEqual(4, j);
 }
 
-JTEST(Remove)
+JTEST(Set)
 {
-	JString s("123\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", 0);
+	TestSet(JString("123\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", 0));
+	TestSet(JString("  123\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94  ",
+					JUtf8ByteRange(3, 14), kJFalse));
+}
+
+void TestRemove(JString& s)
+{
 	JStringIterator i(&s);
 	JUtf8Character c;
 	JIndex j;
@@ -512,9 +553,15 @@ JTEST(Remove)
 	JAssertEqual(0, s.GetByteCount());
 }
 
-JTEST(RemoveLastMatch)
+JTEST(Remove)
 {
-	JString s("123\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", 0);
+	TestRemove(JString("123\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", 0));
+	TestRemove(JString("  123\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94  ",
+					   JUtf8ByteRange(3, 14), kJFalse));
+}
+
+void TestRemoveLastMatch(JString& s)
+{
 	JStringIterator i(&s);
 	JUtf8Character c;
 	JIndex j;
@@ -539,9 +586,15 @@ JTEST(RemoveLastMatch)
 	JAssertEqual(3, j);
 }
 
-JTEST(RemoveAll)
+JTEST(RemoveLastMatch)
 {
-	JString s("123\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", 0);
+	TestRemoveLastMatch(JString("123\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", 0));
+	TestRemoveLastMatch(JString("  123\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94  ",
+								JUtf8ByteRange(3, 14), kJFalse));
+}
+
+void TestRemoveAll(JString& s)
+{
 	JStringIterator i(&s);
 	JUtf8Character c;
 	JIndex j;
@@ -555,9 +608,15 @@ JTEST(RemoveAll)
 	JAssertFalse(i.GetPrevCharacterIndex(&j));
 }
 
-JTEST(ReplaceLastMatch)
+JTEST(RemoveAll)
 {
-	JString s("123\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", 0);
+	TestRemoveAll(JString("123\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", 0));
+	TestRemoveAll(JString("  123\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94  ",
+						  JUtf8ByteRange(3, 14), kJFalse));
+}
+
+void TestReplaceLastMatch(JString& s)
+{
 	JStringIterator i(&s);
 	JUtf8Character c;
 	JIndex j;
@@ -586,9 +645,15 @@ JTEST(ReplaceLastMatch)
 	JAssertEqual(10, s.GetByteCount());
 }
 
-JTEST(ReplaceLastMatchPositionedInside)
+JTEST(ReplaceLastMatch)
 {
-	JString s("123\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", 0);
+	TestReplaceLastMatch(JString("123\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", 0));
+	TestReplaceLastMatch(JString("  123\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94  ",
+								 JUtf8ByteRange(3, 14), kJFalse));
+}
+
+void TestReplaceLastMatchPositionedInside(JString& s)
+{
 	JStringIterator i(&s);
 	JUtf8Character c;
 	JIndex j;
@@ -604,9 +669,15 @@ JTEST(ReplaceLastMatchPositionedInside)
 	JAssertEqual(10, s.GetByteCount());
 }
 
-JTEST(ReplaceLastMatchPositionedAfter)
+JTEST(ReplaceLastMatchPositionedInside)
 {
-	JString s("123\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", 0);
+	TestReplaceLastMatchPositionedInside(JString("123\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", 0));
+	TestReplaceLastMatchPositionedInside(JString("  123\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94  ",
+												 JUtf8ByteRange(3, 14), kJFalse));
+}
+
+void TestReplaceLastMatchPositionedAfter(JString& s)
+{
 	JStringIterator i(&s);
 	JUtf8Character c;
 	JIndex j;
@@ -622,9 +693,15 @@ JTEST(ReplaceLastMatchPositionedAfter)
 	JAssertEqual(11, s.GetByteCount());
 }
 
-JTEST(Insert)
+JTEST(ReplaceLastMatchPositionedAfter)
 {
-	JString s("123\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", 0);
+	TestReplaceLastMatchPositionedAfter(JString("123\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", 0));
+	TestReplaceLastMatchPositionedAfter(JString("  123\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94  ",
+												JUtf8ByteRange(3, 14), kJFalse));
+}
+
+void TestInsert(JString& s)
+{
 	JStringIterator i(&s);
 	JUtf8Character c;
 	JIndex j;
@@ -641,10 +718,15 @@ JTEST(Insert)
 	JAssertEqual(7, j);
 }
 
-JTEST(SwitchIterators)
+JTEST(Insert)
 {
-	JString s("123\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", 0);
+	TestInsert(JString("123\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", 0));
+	TestInsert(JString("  123\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94  ",
+					   JUtf8ByteRange(3, 14), kJFalse));
+}
 
+void TestSwitchIterators(const JString& s)
+{
 	{
 	JStringIterator i(s);
 	JAssertTrue(i.AtBeginning());
@@ -654,6 +736,13 @@ JTEST(SwitchIterators)
 	JStringIterator i(s, kJIteratorStartAtEnd);
 	JAssertTrue(i.AtEnd());
 	}
+}
+
+JTEST(SwitchIterators)
+{
+	TestSwitchIterators(JString("123\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", 0));
+	TestSwitchIterators(JString("  123\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94  ",
+								JUtf8ByteRange(3, 14), kJFalse));
 }
 
 JTEST(Empty)

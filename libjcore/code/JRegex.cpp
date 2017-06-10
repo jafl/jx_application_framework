@@ -630,7 +630,7 @@ JRegex::Match
 	pmatch = jnew regmatch_t[ nmatch ];
 	assert( pmatch != NULL );
 
-	nmatch = pcre_exec(itsRegex, NULL, str.GetBytes(), byteCount, byteOffset,
+	nmatch = pcre_exec(itsRegex, NULL, str.GetRawBytes(), byteCount, byteOffset,
 					   itsEFlags, (int*) pmatch, nmatch);
 	if (nmatch > 0)
 		{
