@@ -1,0 +1,12 @@
+#!/bin/sh
+
+cd ../..;
+rm -rf doc/lib*/html;
+
+for d in libj*; do
+	if [[ -f $d/Doxyfile ]]; then
+		pushd $d;
+		doxygen Doxyfile;
+		popd;
+	fi
+done

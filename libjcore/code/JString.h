@@ -946,9 +946,10 @@ operator+
 /******************************************************************************
  Equality (case-sensitive)
 
+<!--
 	*** We have to use the version of JString::Compare() that takes byte counts
 		because JStrings can contain NULLs.
-
+-->
  ******************************************************************************/
 
 // operator==
@@ -1058,9 +1059,10 @@ operator!=
 /******************************************************************************
  Comparison (case-insensitive)
 
+<!--
 	*** We have to use the version of JString::Compare() that takes byte counts
 		because JStrings can contain NULLs.
-
+-->
  ******************************************************************************/
 
 // operator<
@@ -1277,9 +1279,10 @@ operator>=
 
 	Replaces strcmp(): + if s1>s2, 0 if s1==s2, - if s1<s2
 
-	*** We have to use the version of Compare() that takes byte counts
+<!--
+	*** We have to use the version of JString::Compare() that takes byte counts
 		because JStrings can contain NULLs.
-
+-->
  ******************************************************************************/
 
 inline int
