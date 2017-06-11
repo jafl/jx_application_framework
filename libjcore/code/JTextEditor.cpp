@@ -879,12 +879,12 @@ JTextEditor::WritePrivateFormat
 	if (charRange.first == 1 && charRange.last == text.GetCharacterCount())
 		{
 		output << ' ' << text.GetCharacterCount() << ' ';
-		output.write(text.GetBytes(), text.GetByteCount());
+		output.write(text.GetRawBytes(), text.GetByteCount());
 		}
 	else
 		{
-		output << ' ' << JString::CountCharacters(text.GetBytes(), byteRange) << ' ';
-		output.write(text.GetBytes() + byteRange.first - 1, byteRange.GetCount());
+		output << ' ' << JString::CountCharacters(text.GetRawBytes(), byteRange) << ' ';
+		output.write(text.GetRawBytes() + byteRange.first - 1, byteRange.GetCount());
 		}
 
 	// build lists of font names and colors
@@ -1620,7 +1620,7 @@ JTextEditor::ReplaceRange
 
 	if (preserveCase)
 		{
-		replaceText.MatchCase(buffer->GetBytes(), match.GetUtf8ByteRange());
+		replaceText.MatchCase(buffer->GetRawBytes(), match.GetUtf8ByteRange());
 		}
 
 	JStringIterator iter(buffer);
