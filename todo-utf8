@@ -7,6 +7,8 @@ fix TODO's
 JTextEditor
 	never use JIndex for range - ambiguous
 
+	unit test with copy of CBSearchTE
+
 sample text in TestTabDirector
 	has \x - correctly interpreted?
 
@@ -38,10 +40,6 @@ unit test libjx
 	JXWDManager
 	JXWindow
 	JXWindowPainter
-
-copy JTextEditor -> JTextBuffer
-	need separate JStringIterator in JTE & JTB
-	implement same logic as JListIterator
 
 -----
 

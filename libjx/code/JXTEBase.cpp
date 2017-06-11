@@ -1678,20 +1678,6 @@ JXTEBase::TEClipboardChanged()
 }
 
 /******************************************************************************
- TEOwnsClipboard (virtual protected)
-
-	We told JTextEditor not to store the clipboard data.
-
- ******************************************************************************/
-
-JBoolean
-JXTEBase::TEOwnsClipboard()
-	const
-{
-	return kJFalse;
-}
-
-/******************************************************************************
  TEGetExternalClipboard (virtual protected)
 
 	Returns kJTrue if there is something pasteable on the system clipboard.

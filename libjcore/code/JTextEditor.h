@@ -585,7 +585,6 @@ protected:
 	virtual JBoolean	TEScrollForDND(const JPoint& pt) = 0;
 	virtual void		TESetVertScrollStep(const JCoordinate vStep) = 0;
 	virtual void		TEClipboardChanged() = 0;
-	virtual JBoolean	TEOwnsClipboard() const = 0;
 	virtual JBoolean	TEGetExternalClipboard(JString* text, JRunArray<JFont>* style) const = 0;
 	virtual void		TECaretShouldBlink(const JBoolean blink) = 0;
 

@@ -865,18 +865,6 @@ JUserInputFunction::TEClipboardChanged()
 }
 
 /******************************************************************************
- TEOwnsClipboard (virtual protected)
-
- ******************************************************************************/
-
-JBoolean
-JUserInputFunction::TEOwnsClipboard()
-	const
-{
-	return kJTrue;
-}
-
-/******************************************************************************
  TEGetExternalClipboard (virtual protected)
 
 	We don't deal with the system clipboard.

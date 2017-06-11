@@ -246,7 +246,6 @@ protected:
 	virtual void		TECaretShouldBlink(const JBoolean blink);
 
 	virtual void		TEClipboardChanged();
-	virtual JBoolean	TEOwnsClipboard() const;
 	virtual JBoolean	TEGetExternalClipboard(JString* text, JRunArray<JFont>* style) const;
 
 	virtual JCoordinate	GetPrintFooterHeight(JPagePrinter& p) const;

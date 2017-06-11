@@ -39,7 +39,7 @@ const JCharacter CBSearchTE::kError             = '\5';
 
 CBSearchTE::CBSearchTE()
 	:
-	JTextEditor(kFullEditor, kJTrue, kJFalse, kJTrue,
+	JTextEditor(kFullEditor, kJTrue, kJFalse,
 				jnew CBSearchFontManager,
 				jnew CBSearchColormap,
 				1,1,1,1,1, 1000000)
@@ -460,18 +460,6 @@ CBSearchTE::TESetVertScrollStep
 void
 CBSearchTE::TEClipboardChanged()
 {
-}
-
-/******************************************************************************
- TEOwnsClipboard (virtual protected)
-
- ******************************************************************************/
-
-JBoolean
-CBSearchTE::TEOwnsClipboard()
-	const
-{
-	return kJTrue;
 }
 
 /******************************************************************************
