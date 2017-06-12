@@ -1,5 +1,7 @@
 move "online" help to sourceforge site
 	merge to single page for each app
+move program FAQ's to sourceforge site
+	link from README.md
 
 test translation files
 	/usr/lib/testjx/string_data
