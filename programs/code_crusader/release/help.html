@@ -1,0 +1,413 @@
+<html>
+<head>
+
+<title> Code Crusader Help </title>
+
+<style>
+body { color:black; background-color:#F8F8F8; font-family:verdana,arial,helvetica; }
+li { margin-bottom:5px; }
+.sublist { margin-bottom:20px; }
+dl { margin-left:1em; }
+dd { margin-bottom:10px; }
+</style>
+
+</head>
+<body>
+
+<h1> Code Crusader Help </h1>
+
+<p>Please submit all suggestions and bugs via <a href="https://github.com/jafl/jx_application_framework/issues">github</a>.</p>
+<hr>
+
+<h2>Table of Contents</h2>
+
+<ul>
+<li><a href="#CBOverviewHelp">Overview</a></li>
+
+<li><a href="#CBProjectHelp">Project</a></li>
+	 <ul class="sublist">
+	 <li> <a href="#CBProjectTutorialHelp">Tutorial</a></li>
+	 <li> <a href="jxhelp:CBFileTemplateHelp">Templates</a></li>
+	 <li> <a href="jxhelp:CBCompileHelp">Compiling</a></li>
+	 <li> <a href="jxhelp:CBRunProgramHelp">Running & Debugging</a></li>
+	 <li> <a href="http://sourceforge.net/p/codemedic/">Code Medic debugger</a></li>
+	 <li> <a href="jxhelp:CBSymbolHelp">Symbol browser</a></li>
+	 <li> <a href="jxhelp:CBFileListHelp">File list</a></li>
+	 <li> <a href="jxhelp:CBCTreeHelp">C++ class inheritance tree</a></li>
+	 <li> <a href="jxhelp:CBJavaTreeHelp">Java class inheritance tree</a></li>
+	 <li> <a href="jxhelp:CBTasksHelp">Defining custom tasks for version control, etc.</a></li>
+	 <li> <a href="jxhelp:CBShellHelp">Running a shell</a></li>
+	 <li> <a href="jxhelp:CBMakemakeHelp">makemake</a></li>
+	 </ul>
+
+<li><a href="jxhelp:CBManPageHelp">UNIX man pages</a></li>
+
+<li><a href="jxhelp:CBFileTypeHelp">Specifying file types</a></li>
+
+<li><a href="jxhelp:CBEditorHelp">Text editor</a></li>
+	 <ul class="sublist">
+	 <li> <a href="jxhelp:CBSearchTextHelp">Search & Replace</a> / <a href="jxhelp:JXRegexHelp">Regular Expressions</a></li>
+	 <li> <a href="jxhelp:CBCompleterHelp">Keyword completion</a></li>
+	 <li> <a href="jxhelp:CBMacroHelp">Macros</a></li>
+	 <li> <a href="jxhelp:CBStylerHelp">Context sensitive highlighting</a></li>
+	 <li> <a href="jxhelp:CBFileTemplateHelp">Templates</a></li>
+	 <li> <a href="jxhelp:CBEditorHelp#DND">Drag-And-Drop</a></li>
+	 <li> <a href="jxhelp:CBEditorHelp#MouseShortcuts">Mouse shortcuts</a></li>
+	 <li> <a href="jxhelp:CBEditorHelp#KeyShortcuts">Keyboard shortcuts</a></li>
+	 <li> <a href="jxhelp:CBCRMHelp">Automatic indentation & cleaning paragraph margins</a></li>
+	 <li> <a href="jxhelp:CBEditorHelp#Prefs">Preferences</a></li>
+	 <li> <a href="jxhelp:CBEditorHelp#Emulators">Emulating other editors</a></li>
+	 </ul>
+
+<li><a href="jxhelp:CBDiffHelp">Viewing differences between files</a></li>
+
+<li><a href="jxhelp:CBMiscHelp">Miscellaneous</a></li>
+	 <ul class="sublist">
+	 <li> <a href="jxhelp:CBMiscHelp#FileChooser">File chooser</a></li>
+	 <li> <a href="jxhelp:CBMiscHelp#Scrolling">Scrollbars</a></li>
+	 <li> <a href="jxhelp:CBMiscHelp#WindowManagement">Window management</a></li>
+	 <li> <a href="jxhelp:JXDockHelp">Docking</a></li>
+	 <li> <a href="jxhelp:CBMiscHelp#Shortcuts">Useful shortcuts</a></li>
+	 <li> <a href="jxhelp:CBMiscHelp#MultiSelect">Selecting multiple items from a list</a></li>
+	 </ul>
+
+<li><a href="https://github.com/jafl/jx_application_framework/blob/master/programs/code_crusader/README.md">Frequently Asked Questions</a></li>
+
+<li> <a href="ChangeLog.html">Changes from previous versions</a></li>
+
+<li> <a href="jxhelp:CBCredits">Credits</a></li>
+
+<li> <a href="jxhelp:LICENSE">License</a></li>
+</ul>
+
+
+<hr>
+<h2><a name="CBOverviewHelp">Overview</a></h2>
+
+<p>Code Crusader provides a complete UNIX development environment. Its major features are:</p>
+
+<ul>
+	<li><a href=jxhelp:CBEditorHelp>Text editor</a> with <a href=jxhelp:CBCompleterHelp>keyword completion</a>, <a href=jxhelp:CBMacroHelp>macros</a>, and <a href=jxhelp:CBStylerHelp>context sensitive highlighting</a> for C/C++ and HTML</li>
+	<li><a href=jxhelp:CBProjectHelp>Project interface to UNIX <code>make</code></a></li>
+	<li>Ability to <a href=jxhelp:CBTasksHelp>run the finished program</a> from within Code Crusader</li>
+	<li><a href=jxhelp:CBTasksHelp>Interface</a> to <a href=http://sourceforge.net/p/codemedic/>Code Medic</a> for debugging</li>
+	<li><a href=jxhelp:CBCTreeHelp>C++ class inheritance tree</a></li>
+	<li><a href=jxhelp:CBJavaTreeHelp>Java class inheritance tree</a></li>
+	<li><a href=jxhelp:CBManPageHelp>Interface to UNIX man pages</a> for information about system functions</li>
+	<li><a href=jxhelp:CBDiffHelp>Interface to UNIX diff</a> for displaying the differences between files</li>
+</ul>
+
+<p>For more information about a particular feature, simply click on the underlined text. To search for a word or phrase, select "Find..." from the Search menu, enter the text, and then select "Search all sections" from the Search menu.</p>
+
+<p>If you are new to Code Crusader, note that it faithfully implements the Macintosh paradigm of allowing you to safely explore features by always providing the ability to undo the result.</p>
+
+
+<hr>
+<h2><a name="CBProjectHelp">Project Window</a></h2>
+
+<p>The Project window is a convenient place to store all the files associated with a project and provides a foundation for the interface to <a href=http://www.gnu.org/manual/make/>GNU <code>make</code></a>.  The <a href=jxhelp:CBProjectTutorialHelp>tutorial</a> provides an introduction to this interface.</p>
+
+<p>Any file can be added to the project, not only a source file.  To do this, use "Add files..." on the Source menu.  You can also add a file that is open in a <a href=jxhelp:CBEditorHelp>Text Editor</a> window to a project by using the "Add to project" menu on the Tasks menu in the <a href=jxhelp:CBEditorHelp>Text Editor</a> window.  If you select a file in the project before using "Add files..." or "Add to project", the new files will be inserted after the selection.  If you select a group, the new files will be appended to the group.</p>
+
+<p>When you select the files, you can also choose the type of path information to store.  The default is relative to the project file's path, which makes it easy to transfer the project's directory structure to a different location or even a different machine.  Once a file has been added to the project, its path can be changed by holding down the Meta key and double clicking on the file with the left mouse button.  You can then either change the name directly or click on the button to use the Choose File dialog.</p>
+
+<p>To open a file from the Project window, double click with the left button.  To open the complement file of a C/C++ source or header file, double click with the middle button.  If you have <a href=jxhelp:CBMiscHelp#MultiSelect>selected multiple files</a>, you can either use the items on the Source menu or the shortcuts Return and Meta-Tab if you are using Macintosh style menu shortcuts or Ctrl-Tab if you are using Windows style menu shortcuts.  These are the same bindings as in the inheritance trees.</p>
+
+<p>If you add a library to the project and then try to open it, you will be asked to find the project file corresponding to the library.  This makes it easy to open sub-projects from the main project window.  These sub-projects are automatically built before building the main project.  You can change the project file for the library and other options via the "Edit sub-project configuration" item on the Source menu.  Each sub-project will be built using the command specified in its own Project Configuration dialog.</p>
+
+<p>As with all lists in Code Crusader, to find a group or a file that is visible, simply type the first few letters of its name.</p>
+
+<p>Groups are used to collect related files and hide them when you are not working on them.  To rearrange files or groups, simply <a href=jxhelp:CBMiscHelp#MultiSelect>select them</a> and drag them to where you want them to be.  You can also drag them to other windows that support the <a href=http://johnlindal.wix.com/xdnd>XDND protocol</a>, like the multi-file search list in the Search Text dialog.  If you drag a group, it is like dragging all the files in that group.</p>
+
+<p>To change the name of a group, simply double click on it.</p>
+
+<p>To open or close a group, click on the triangle to the left of the name.  You can also use the following key shortcuts:</p>
+
+<dl>
+	<dt>Left arrow</dt>
+	<dd>Close selected groups</dd>
+
+	<dt>Right arrow</dt>
+	<dd>Open selected groups</dd>
+
+	<dt>Shift-left arrow</dt>
+	<dd>Close all groups</dd>
+
+	<dt>Shift-right arrow</dt>
+	<dd>Open all groups</dd>
+</dl>
+
+<p>The Shift modifier also works when clicking on the triangle.</p>
+
+<h3> The interface to <a href=http://www.gnu.org/manual/make/>GNU <code>make</code></a> </h3>
+
+<p>Code Crusader allows you to maintain and use your own Makefile if you wish to do so.  However, it is usually preferable to let Code Crusader build the Makefile for you.  You have the choice of using either <a href=jxhelp:CBMakemakeHelp>makemake</a>, CMake, or qmake.  The basic steps are the same for either one:</p>
+
+<ol>
+	<li>Add the source files to the Project window.</li>
+	<li><a href=jxhelp:#Config>Configure</a> the project.</li>
+	<li>Configure the compiler and linker by editing Make.header (for makemake), CMake.header (for CMake), or QMake.header (for qmake).  (Simply click on the Config button in the Project window.)</li>
+	<li>Ask Code Crusader to build the project by selecting the "Build (via make)" item on the Tasks menu.  This first writes Make.files (for makemake), CMakeLists.txt (for CMake), or a .pro file (for qmake), then invokes the command to update the project's Makefile, then builds the project associated with each library in the project, and finally invokes the actual "Build (via make)" task.</li>
+</ol>
+
+<p>The <a href=jxhelp:CBProjectTutorialHelp>tutorial</a> provides a step-by-step introduction to this procedure when using makemake.  Once you understand this, you should study the help section on <a href=jxhelp:CBCompileHelp>compiling</a>.</p>
+
+<p>The Config button in the upper right corner of the Project window opens the Make.header file (for makemake), the CMake.header (for CMake), the QMake.header file (for qmake), or the Makefile (for the manual option).  The shortcut for this button is Ctrl-Tab if you are using Macintosh style menu shortcuts or Meta-Tab if you are using Windows style menu shortcuts.  (This is the opposite of the shortcut for opening a header file.)</p>
+
+<p>As mentioned above, you can add libraries to the project. (static or shared, as specified in the <a href=jxhelp:CBFileTypeHelp>Edit File Types</a> dialog) When using makemake, these will be included in Make.files as dependencies.  Unfortunately, <code>make</code> is not powerful enough to recognize .so.&lt;vers&gt;, so Code Crusader doesn't recognize it either.  To get a pure .so file, either create a symbolic link or place the version number in front of the .so suffix.  (The latter is preferred because then there is never any confusion at link time.)</p>
+
+<ul>
+	<li>If you use CMake, the libraries cannot be included as dependencies.  You have to edit CMake.header to change the LINK_LIBRARIES() command.</li>
+	<li>If you use qmake, the libraries cannot be included as dependencies.  You have to edit QMake.header to change the LIBS variable.</li>
+</ul>
+
+<p>Note that the directories that you specify in the Search Paths dialog are not passed to the compiler because every compiler has a different way of handling this.  If you are using makemake, you have to edit Make.header to modify SEARCHDIRS.  If you are using CMake, you have to edit CMake.header to modify the INCLUDE_DIRECTORIES() command.  If you are using qmake, you have to edit QMake.header to modify INCLUDEPATH.</p>
+
+<p><b>Notes on CMake</b></p>
+
+<p>If you want to use the platform specification features of CMake, then you must invoke them by hand in CMake.header.  Define a variable (e.g., <code>MY_OS_FILES</code>) within an IF ... ELSE ... ENDIF block and add this variable (e.g., <code>${MY_OS_FILES}</code>) in the "Expression to append to list of dependencies" in the Project Configuration dialog.</p>
+
+<p><b>Notes on qmake</b></p>
+
+<p>Since qmake requires a list of both source and header files, Code Crusader attempts to build the list of header files automatically.  However, only header files that directly correspond to source files in the project will be included.  If you have additional header files, or if you place your header files in a different directory than your source files, you will have to explicitly add these header files to the project if you want them to be included in the .pro file.</p>
+
+<p>If you want to use the platform specification features of qmake, then you must invoke them by hand in QMake.header.  Use -= to remove files from the list and += to add files to the list.</p>
+
+<p>Since qmake is a generic utility, the default configuration in QMake.header does not include anything specific to Qt.  If you want to use qmake to build Qt programs, you need to add <code>qt</code> to the line that begins with <code>CONFIG</code>.</p>
+
+<h3><a name="CBProjectHelp-Config">Configuring the project</a></h3>
+
+<p>The following options can be changed in the Project Configuration dialog:</p>
+
+<dl>
+	<dt>Maintain Makefile by hand</dt>
+	<dt>Generate Make.files from files in Project window</dt>
+	<dt>Generate CMake input file from files in Project window</dt>
+	<dt>Generate qmake input file from files in Project window</dt>
+	<dd>These options control whether Code Crusader lets you maintain your own Makefile or uses makemake, CMake, or qmake.</dd>
+
+	<dt>Target name</dt>
+	<dd>This is the name of the program or library to be built.  If you are using makemake, it can also be a list of names separated by commas.  All names will be built using the same set of source files, so this is mainly useful for generating both static and shared versions of a library.</dd>
+
+	<dt>Expression to append to list of dependencies in Make.files</dt>
+	<dd>This expression can do anything that <code>make</code> allows: evaluate variables, invoke functions, etc.  This is useful for conditional or variable dependencies.</dd>
+
+	<dt>Command to update this project's Makefile</dt>
+	<dd>This command is used to re-build the Makefile when files are added to or removed from project.  It can also be invoked directly by using the "Update Makefile" item on the Project menu in the Project window.</dd>
+
+	<dt>Command to build this project when used by other projects</dt>
+	<dd>If project A depends on project B, this command is used to automatically build project B when you ask Code Crusader to build project A.</dd>
+</dl>
+
+<h3><a name="CBProjectHelp-Prefs">Preferences</a></h3>
+
+<p>The following options can be changed in the Project Preferences dialog:</p>
+
+<dl>
+	<dt>Reopen text files when project is opened</dt>
+	<dd>If this is checked, the files that were open when the project was closed will be reopened the next time you open the project.</dd>
+
+	<dt>Update symbol database while compiling</dt>
+	<dd>If this is checked, Code Crusader will update all affected inheritance trees and symbol browsers while you build a project or compile a source file.</dd>
+
+	<dt>Double space compiler output</dt>
+	<dd>If this is checked, Code Crusader separates each line of compiler output with a blank line.  This often makes it much easier to read.</dd>
+
+	<dt>Rebuild Makefile daily to update dependencies</dt>
+	<dd>If this is checked, Code Crusader will re-build the Makefile once a day, even if you have not added files to or removed files from the project.  This is very useful because it updates the list of header files on which each source file depends.</dd>
+
+	<dt>Path type to use when adding files via Drag-And-Drop</dt>
+	<dd>If "Ask when files are dropped" is selected, the other options will be presented in a dialog when you drop files on a project.  Otherwise, the selected path type will be used.</dd>
+</dl>
+
+<h3><a name="CBProjectHelp-ExtEditor">Choosing your text and binary editors</a></h3>
+
+<p>You can use the "External editors..." item on the Preferences menu to set which text and binary editors to use when displaying files.  For the text editor, the common choices are:</p>
+
+<ol>
+	<li>built-in editor
+	<li>emacs: <br>
+		<code>emacsclient $f</code> <br>
+		<code>emacsclient +$l $f</code> <br>
+		(you must also run <code>M-x server-start</code> from within emacs)</li>
+	<li>vi:<br>
+		<code>xterm -title "$f" -e vi $f</code> <br>
+		<code>xterm -title "$f" -e vi +$l $f</code></li>
+</ol>
+
+For the binary editor, the choices are:
+
+<ol>
+	<li>emacs: <br>
+		If you install the full remote control package (not just emacsclient), you can tell emacs to open a file via the <code>hexl-find-file</code> command.</li>
+	<li>vi: <br>
+		<code>xterm -title "$f" -e vi $f</code></li>
+</ol>
+
+<p>If a character is preceded by a backslash, the backslash is removed and any special meaning is ignored.  Thus, use <code>\$</code> to get a dollar character and <code>\\</code> to get a backslash character.</p>
+
+<p>The advantages of using the built-in text editor are explained in the <a href=jxhelp:CBEditorHelp>Text Editor</a> help section.</p>
+
+
+<hr>
+<h2><a name="CBProjectTutorialHelp">Project Tutorial</a></h2>
+
+<p>This tutorial will walk you through the steps required to create and run the famous Hello World program in C++ using the GNU C++ compiler.  The basic steps are the same for other compilers and languages.  Refer to the end of this tutorial for notes on other languages.</p>
+
+<h3>Creating the project</h3>
+
+<ol>
+	<li>Select "New project..." from the File menu.</li>
+	<li>In the Save File dialog, go to the directory where you want to save the project files. (usually a new, empty directory)</li>
+	<li>Specify the name of the project as <code>hello_world.jcc</code></li>
+	<li>Select "None" from the Project Template menu.</li>
+	<li>Set the method of generating the Makefile to "via makemake"</li>
+	<li>Click the Save button.</li>
+</ol>
+
+<p>This creates the project file hello_world.jcc along with the text files Make.header and Make.files.  You will learn how to edit Make.header later in this tutorial.  Make.files will be automatically rewritten for you based on the contents of the Project window.  These two files will be used by <a href=jxhelp:CBMakemakeHelp><code>makemake</code></a> to create Makefile which will in turn be used to <a href=jxhelp:CBCompileHelp>compile your program</a>.</p>
+
+<h3>Configuring the project</h3>
+
+<ol>
+	<li>Select "Edit project configuration..." from the Project menu in the Project window.</li>
+	<li>Change the target name to <code>hello_world</code>.</li>
+	<li>Click the OK button.</li>
+</ol>
+
+<p>Since this is a C++ project, you need to link the standard C++ library to your program:</p>
+
+<ol>
+	<li>Click the Config button in the upper right corner of the Project window to open Make.header.</li>
+	<li>Add <code>-lstdc++</code> in front of <code>-lm</code> on the line that begins with <code>LOADLIBES</code>.</li>
+</ol>
+
+<p>You need to learn at least the basics of <a href=http://www.gnu.org/manual/make/>GNU make</a> in order to fully understand the contents of Make.header.  You do not have to do this in order to complete this tutorial, however.</p>
+
+<h3>Creating your program</h3>
+
+<ol>
+	<li>Select "New text file" from the File menu to get a Text Editor window.</li>
+	<li>Drag, paste, or type the following text into the Text Editor window:</li>
+
+<pre>
+#include &lt;iostream&gt;
+using namespace std;
+
+int main(int argc, char* argv[])
+{
+    cout &lt;&lt; "Hello world!" &lt;&lt; endl;
+    return 0;
+}
+</pre>
+
+	<li>Select "Save" from the File menu and save the file as <code>hello_world.cc</code></li>
+</ol>
+
+<p><code>argc</code> is the number of command line arguments.  <code>argv</code> contains the command line arguments, starting with <code>argv[0]</code> which is the name of the program.  The return value is used by shell scripts to determine success or failure.  Returning zero indicates success.</p>
+
+<p>Notice that once you saved file, <a href=jxhelp:CBStylerHelp>context-sensitive highlighting</a> became active and the Functions menu appeared in the menu bar.  This is because the suffix "<code>.cc</code>" tagged it as a <a href=jxhelp:CBFileTypeHelp>C++ source file</a>.</p>
+
+<h3>Building the project</h3>
+
+<ol>
+	<li>Select "Relative to project file" from the "Add to project: hello_world" menu on the Tasks menu in the Text Editor window.</li>
+	<li>Select "Build & Run" from the Tasks menu in the Text Editor window.</li>
+</ol>
+
+<p>The first window shows the result of compiling and linking your program.  The second window shows the result of running your program.</p>
+
+<h3>Using the Symbol Browser</h3>
+
+<p>Now that the project has been built, the <a href=jxhelp:CBSymbolHelp>Symbol Browser</a> window will display the reference to your function, <code>main()</code>.  If you double-click on the function name, Code Crusader will open the source file to display the function.</p>
+
+<p>When you add functions, classes, static variables, preprocessor defintions, etc. to your program, these will all show up in the Symbol Browser window once you either build the project or use the "Update" item on the Symbol menu.  Note that function declarations (prototypes) are displayed in italics to distinguish them from function definitions.</p>
+
+<h3> Where to go from here </h3>
+
+<p>Now that you have successfully compiled and run a simple project, the possibilities are endless.  This can be both a blessing and a curse.</p>
+
+<p>The following sub-sections discuss how to create libraries and projects for other languages.  Once you have read this information, we suggest that you study the full on-line documentation for <a href=jxhelp:CBProjectHelp>working with Code Crusader projects</a>.</p>
+
+<p><a href=http://www.oreilly.com/>O'Reilly</a> publishes books on a wide variety of programming languages.  These cover both general programming practices and philosophy and specific issues for C/C++ programmers.</p.
+
+<p>You can learn more about <code>make</code> either by reading books published by <a href=http://www.oreilly.com/>O'Reilly</a>, such as <cite>Programming with GNU software</cite> and <cite>Managing projects with make</cite>, or by studying the <a href=http://www.gnu.org/manual/make/>on-line documentation for GNU make</a>.</p>
+
+<p>The documentation for <a href=jxhelp:CBMakemakeHelp><code>makemake</code></a> is included in this on-line help.</p>
+
+<h3>Organizing your projects and source code</h3>
+
+<p>Each project must be placed in a separate directory to prevent the Makefiles from interfering with each other.</p>
+
+<p>The simplest way to manage the source code for a project is to put all the files in a subdirectory of the project directory and then use groups in the Project window to organize the files. However, since organization is largely a personal preference, Code Crusader does not place any restrictions on the arrangement of the source files in a project.</p>
+
+<h3>Creating libraries</h3>
+
+<p>To build a library instead of a program, all the steps are the same except:</p>
+
+<ul>
+	<li>Specify the target name in the Project Configuration dialog to be either <code>libMyProject.a</code> for a static library or <code>libMyProject.so</code> for a shared library.  You could build both at the same time by entering <code>libMyProject.a,libMyProject.so</code>.  ("MyProject" should be replaced with the name of your project.  The "lib" prefix is a standard which allows others to link to your library by specifying <code>-lMyProject</code> in the link command.)</li>
+	<li>To build a shared library with gcc, you must add <code>-fPIC</code> to the line that begins with <code>CPPFLAGS</code>.  This tells the compiler to generate "position independent code."  For other compilers, please consult the relevant documentation to determine the name of the appropriate option.</li>
+</ul>
+
+<p>Any language that compiles to <code>.o</code> files can be used when writing a library:  C, C++, FORTRAN, Assembly, etc.  You can even mix them together, i.e., write one source file in C, another in Assembly, etc.</p>
+
+<h3>Java</h3>
+
+<p>If you use Java, all the steps are the same except:</p>
+
+<ul>
+	<li>Change the target name to <code>HelloWorld</code>.</li>
+	<li>Modify the Java section of Make.header instead.  (e.g. add flags to JFLAGS, if necessary)</li>
+	<li>The source code is obviously different:</li>
+
+<pre>
+public class HelloWorld
+{
+    public static void main(String[] args)
+        {
+        System.out.println("Hello world!");
+        }
+}
+</pre>
+
+	<p>In addition, you should save the file as <code>HelloWorld.java</code></p>
+
+	<li>For this example, you need to use the "Build (via make)" and "Run (java)" items on the Tasks menu.</li>
+</ul>
+
+<p>In general, you need to change the Run task to either <code>appletviewer my_java_applet.html</code> or <code>java my_java_program</code>, depending on whether you are writing an applet or a program.</p>
+
+<h3>FORTRAN</h3>
+
+<p>If you use FORTRAN, all the steps are the same except:</p>
+
+<ul>
+	<li>Modify the FORTRAN section of Make.header instead.  (e.g. add flags to FFLAGS, if necessary, and change FC to the name of your particular compiler)</li>
+	<li>Change the value of LINKER in Make.header to the name of your FORTRAN compiler.</li>
+	<li>The source code is obviously different:</li>
+
+<pre>
+    program helloworld
+    write(6,*) "Hello world!"
+    end
+</pre>
+
+	<p>In addition, you should save the file as <code>hello_world.f</code></p>
+</ul>
+
+<h3>Building multiple versions of a program</h3>
+
+<p>Often, one requires multiple versions of a single program.  The most common example is Debug and Release versions.  The easiest way to do this is to let Code Crusader build the Debug version and then create a separate Release build target in the Makefile that builds the Debug version and then runs <code>strip</code>:</p>
+
+<pre>
+.PHONY: release
+release: my_program
+    @cp my_program my_program_release
+    @strip my_program_release
+</pre>
+
+<p>A more sophisticated method is described <a href=https://github.com/jafl/jx_application_framework/blob/master/programs/code_crusader/multi_version.md>here</a>.  This method is useful if one must build the release version with a higher compiler optimization level than the debug version, or if one wants only the shared version of a library to be compiled with position independent code.</p>
+
+</body>
+</html>
