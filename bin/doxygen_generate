@@ -1,6 +1,10 @@
 #!/bin/sh
 
-cd ../..;
+if [[ ! -d libjcore ]]; then
+	echo "must be run in JX root";
+	exit 1;
+fi
+
 rm -rf doc/lib*/html;
 
 for d in libj*; do
