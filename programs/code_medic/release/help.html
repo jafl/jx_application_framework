@@ -1,0 +1,145 @@
+<html>
+<head>
+
+<title> Code Medic Help </title>
+
+<style>
+body { font-family:verdana,arial,helvetica; font-size:12px; }
+li { margin-bottom:5px; }
+.sublist { margin-bottom:20px; }
+dl { margin-left:1em; }
+dd { margin-bottom:10px; }
+</style>
+
+</head>
+<body>
+
+<h1> Code Medic Help </h1>
+
+<p>Please submit all suggestions and bugs via <a href="https://github.com/jafl/jx_application_framework/issues">github</a>.</p>
+<hr>
+
+<h2>Table of Contents</h2>
+
+<ul>
+<li><a href="#CMOverviewHelp">Overview</a></li>
+
+<li><a href="#CMGettingStartedHelp">Getting started</a></li>
+
+<li><a href="jxhelp:CMSourceWindowHelp">Viewing source files</a></li>
+
+<li><a href="jxhelp:CMBreakpointsHelp">Setting breakpoints, watchpoints, catchpoints</a></li>
+
+<li><a href="jxhelp:CMVarTreeHelp">Examining variables</a></li>
+
+<li><a href="jxhelp:CM2DPlotHelp">Plotting variables</a></li>
+
+<li><a href="jxhelp:CMThreadsHelp">Examining the threads that are executing</a></li>
+
+<li><a href="jxhelp:CMStackHelp">Examining the execution stack</a></li>
+
+<li><a href="jxhelp:CMCommandDirHelp">Command line interface</a></li>
+
+<li><a href="jxhelp:CMMiscHelp">Miscellaneous</a></li>
+	<ul>
+	<li><a href="jxhelp:CMMiscHelp#FileChooser">File chooser</a></li>
+	<li><a href="jxhelp:CMMiscHelp#Scrolling">Scrollbars</a></li>
+	<li><a href="jxhelp:CMMiscHelp#WindowManagement">Window management</a></li>
+	<li><a href="jxhelp:JXDockHelp">Docking</a></li>
+	<li><a href="jxhelp:CMMiscHelp#Shortcuts">Useful shortcuts</a></li>
+	<li><a href="jxhelp:CMMiscHelp#MultiSelect">Selecting multiple items from a list</a></li>
+	</ul>
+
+<li><a href="http://www.gnu.org/software/gdb/documentation/">gdb manual</a></li>
+
+<li><a href="https://github.com/jafl/jx_application_framework/blob/master/programs/code_medic/README.md">Frequently Asked Questions</a></li>
+
+<li><a href="ChangeLog.html">Changes from previous versions</a></li>
+
+<li><a href="jxhelp:CBCredits">Credits</a></li>
+
+<li><a href="jxhelp:LICENSE">License</a></li>
+</ul>
+
+
+<hr>
+<h2><a name="CMOverviewHelp">Overview</a></h2>
+
+<p>Code Medic is a graphical front-end for various debuggers:  gdb, xdebug, Java.  It was designed to work with <a href="http://sourceforge.net/p/codecrusader/">Code Crusader</a> but can also be used alone.</p>
+
+<p>See the <a href="#CMGettingStartedHelp">getting started</a> page for a quick guide to using Code Medic.</p>
+
+<p>Code Medic currently provides the following features:</p>
+
+<ul>
+	<li><a href="jxhelp:CMSourceWindowHelp">Source view</a> for setting breakpoints and stepping through code</li>
+
+	<li><a href="jxhelp:CMSourceWindowHelp#FileList">Files window</a> provides access to all source files used by the program being debugged.</li>
+
+	<li><a href="jxhelp:CMVarTreeHelp">Variables window</a> for examining the values of variables, the contents of structures and objects, and the elements of <a href="jxhelp:CMVarTreeHelp#Array1D">arrays</a>.</li>
+
+	<li><a href="jxhelp:CMThreadsHelp">Threads window</a> for switching between threads</li>
+
+	<li><a href="jxhelp:CMStackHelp">Stack Trace window</a> for examining the execution stack and switching between frames</li>
+
+	<li><a href="jxhelp:CMCommandDirHelp">Command line interface</a> to provide access to all the other features provided by <a href="http://www.gnu.org/software/gdb/documentation/">gdb</a></li>
+</ul>
+
+
+<hr>
+<h2><a name="CMGettingStartedHelp">Getting Started with Code Medic</a></h2>
+
+<p>When invoking Code Medic, you can include as arguments the program to be debugged, the core file (if any) to debug, and any source files that you want to display, in that order.  The formats for specifying source files are the following:</p>
+
+<ul>
+	<li><code>-f file_name</code></li>
+	<li><code>-f +line_number file_name</code></li>
+	<li><code>-f file_name<b>:</b>line_number</code></li>
+</ul>
+
+<h3>Selecting the underlying debugger</h3>
+
+<p>To set which underlying debugger to use, select from the first group of menu items on the Preferences menu.</p>
+
+<h3>Selecting the program to debug</h3>
+
+<h4>gdb</h4>
+
+<p>If you did not specify a program to debug as an argument to Code Medic, you must select one by using the "Choose program..." item on the Debug menu in either the <a href="jxhelp:CMCommandDirHelp">Command Line</a> window or any <a href="jxhelp:CMSourceWindowHelp">Source View</a> window.  After loading the program into gdb, Code Medic will fill the <a href="jxhelp:CMSourceWindowHelp#FileList">Files</a> window with all the source files used by the program.  It will then display the function <code>main()</code> in the <a href="jxhelp:CMSourceWindowHelp">Current Source View</a> window.</p>
+
+<p>By default, Code Medic uses the version of gdb that is on your execution path.  You can run a different version of gdb by using the "Preferences..." item on the Preferences menu.</p>
+
+<h4>Java</h4>
+
+<p>In Java, the program to run is specified as a command line argument to the JVM, and the JVM does not know where the source files are.  Choosing a program therefore means selecting a <a href="jxhelp:CMJavaConfigFileHelp">configuration file</a> that defines everything needed for debugging.</p>
+
+<p>If you did not specify a configuration file as an argument to Code Medic, you must select one by using the "Choose program..." item on the Debug menu in either the <a href="jxhelp:CMCommandDirHelp">Command Line</a> window or any <a href="jxhelp:CMSourceWindowHelp">Source View</a> window.</p>
+
+<p>After you choose a program, you can either run it from within Code Medic or you can start it yourself with the <code>-agentlib:jdwp</code> option.  More information on this is available <a href="http://java.sun.com/javase/6/docs/technotes/guides/jpda/conninv.html#Invocation">here</a>.</p>
+
+<p>After you start the program, Code Medic will fill the <a href="jxhelp:CMSourceWindowHelp#FileList">Files</a> window with all the source files used by the program.  It will then display the class that defines <code>main()</code> in the <a href="jxhelp:CMSourceWindowHelp">Current Source View</a> window, if the source is available.</p>
+
+<p>By default, Code Medic uses the version of the JVM that is on your execution path.  You can run a different version by using the "Preferences..." item on the Preferences menu.  If you include either <code>-agentlib:jdwp</code> or <code>-Xrunjdwp</code> as part of the command, this will override the default.  If you configure it yourself, you must include <code>transport=dt_socket,address=localhost:9001</code> in order to connect to Code Medic.</p>
+
+<h4>Xdebug</h4>
+
+<p>Xdebug uses a remote debugging protocol, so you cannot run the program from within Code Medic.  Instead, you must start your program with instructions to connect to port 9000 of the computer on which Code Medic is running.  More information on this is available <a href="http://www.xdebug.org/docs/remote">here</a>.</p>
+
+<p>Choosing a program means selecting a <a href="jxhelp:CMXdebugConfigFileHelp">configuration file</a> that defines everything needed for debugging.  You do not have to load a configuration file, but it makes it easier to open the program's source files.</p>
+
+<h3>Examining the state of the program</h3>
+
+<p>To display the value of a variable or expression when your program is paused at a <a href="jxhelp:CMBreakpointsHelp">breakpoint</a>, select the variable name or expression in a <a href="jxhelp:CMSourceWindowHelp">Source View</a> window and then use the "Display variable" item on the Debug menu.  This will open the <a href="jxhelp:CMVarTreeHelp">Variables</a> window and display the result.</p>
+
+<p>To display the current execution stack when your program is paused at a <a href="jxhelp:CMBreakpointsHelp">breakpoint</a>, open the <a href="jxhelp:CMStackHelp">Stack Trace</a> window.  (You can also pause your program by using the "Pause execution" item on the Debug menu.)</p>
+
+<h3>Debugging a core file</h3>
+
+<p>Once a program is loaded when using gdb, you may load a core file by using the "Choose core..." item on the Debug menu in either the <a href="jxhelp:CMCommandDirHelp">Command Line</a> window or any <a href="jxhelp:CMSourceWindowHelp">Source View</a> window.  Once the core file has been loaded, the <a href="jxhelp:CMStackHelp">Stack Trace</a> window will automatically be opened to show you the state of the program when it crashed and to allow you to navigate through the execution stack to perform the post mortem.</p>
+
+<h3>Debugging a running program</h3>
+
+<p>Once a program is loaded when using gdb, you may debug a running copy of the program by using the "Choose process..." item on the Debug menu in either the <a href="jxhelp:CMCommandDirHelp">Command Line</a> window or any <a href="jxhelp:CMSourceWindowHelp">Source View</a> window.  Code Medic will pause the process and display the <a href="jxhelp:CMStackHelp">Stack Trace</a> window to show you the current state of the program.</p>
+
+</body>
+</html>
