@@ -1,7 +1,11 @@
 move "online" help to sourceforge site
+	create css file for styles
 	merge to single page for each app
-move program FAQ's to sourceforge site
-	link from README.md
+	\" -> "
+	href= -> href=""
+	jxhelp: -> #
+	<tt> -> <code>
+	page -> section
 
 test translation files
 	/usr/lib/testjx/string_data
