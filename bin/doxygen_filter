@@ -1,0 +1,29 @@
+#!/usr/bin/perl
+
+$line = 0;
+while (<>)
+	{
+	if (m#^/\*{3,}#)
+		{
+		chomp;
+		print "/**\n";
+		$next = <>;
+		if ($line == 0 && $next =~ m/^\s*([^.]+)\.cpp$/)
+			{
+			print "\\class $1\n";
+			}
+		else
+			{
+			print "\n";
+			}
+		}
+	elsif (m/^\s*(Copyright|BASE CLASS)/)
+		{
+		print "\n";
+		}
+	else
+		{
+		print;
+		}
+	$line++;
+	}

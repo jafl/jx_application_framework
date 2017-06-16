@@ -1,0 +1,9 @@
+#!/bin/sh
+
+if [[ ! -d libjcore ]]; then
+	echo "must be run in JX root";
+	exit 1;
+fi
+
+rm -rf doc/api/*;
+doxygen doc/Doxyfile;
