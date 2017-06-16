@@ -492,7 +492,7 @@ THXVarList::SetNumericValue
 		}
 	else
 		{
-		assert( 0 /* THXVarList::SetNumericValue() called for a function */ );
+		assert_msg( 0, "THXVarList::SetNumericValue() called for a function" );
 		}
 }
 
@@ -504,7 +504,7 @@ THXVarList::SetNumericValue
 	const JComplex&	value
 	)
 {
-	assert( 0 /* THXVarList does not store complex values */ );
+	assert_msg( 0, "THXVarList does not store complex values" );
 }
 
 /******************************************************************************
@@ -567,7 +567,7 @@ THXVarList::SetDiscreteValue
 	const JIndex valueIndex
 	)
 {
-	assert( 0 /* THXVarList has no discrete values */ );
+	assert_msg( 0, "THXVarList has no discrete values" );
 }
 
 /******************************************************************************

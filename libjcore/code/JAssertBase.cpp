@@ -77,14 +77,15 @@ JAssertBase::DefaultAssert
 	(
 	const JUtf8Byte*	expr,
 	const JUtf8Byte*	file,
-	const int			line
+	const int			line,
+	const JUtf8Byte*	message
 	)
 {
 	const Action action = GetAction();
 	if (action != kIgnoreFailure)
 		{
-		fprintf(stderr, "\a\nAssertion failed: %s\n    %s:%d\n",
-				expr, file, line);
+		fprintf(stderr, "\a\nAssertion failed: %s\n    %s:%d\n    %s\n'",
+				expr, file, line, message);
 
 		if (action == kAskUser)
 			{

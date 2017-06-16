@@ -1249,11 +1249,11 @@ JXFileListTable::Receive
 		}
 	else if (sender == itsFileList && message.Is(JListT::kElementChanged))
 		{
-		assert( 0 /* makes no sense since it's a JPtrArray */ );
+		assert_msg( 0, "makes no sense since it's a JPtrArray" );
 		}
 	else if (sender == itsFileList && message.Is(JListT::kSorted))
 		{
-		assert( 0 /* not allowed */ );
+		assert_msg( 0, "not allowed" );
 		}
 
 	else if (sender == itsEditMenu && message.Is(JXMenu::kNeedsUpdate))

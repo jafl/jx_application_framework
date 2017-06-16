@@ -1965,7 +1965,7 @@ CBDocumentManager::Receive
 		}
 	else if (sender == itsProjectDocuments && message.Is(JListT::kSorted))
 		{
-		assert( 0 /* not allowed */ );
+		assert_msg( 0, "not allowed" );
 		}
 
 	else if (sender == CBGetPrefsManager() &&

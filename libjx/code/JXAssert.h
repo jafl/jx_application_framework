@@ -27,7 +27,7 @@ public:
 	virtual	~JXAssert();
 
 	virtual int		Assert(const JUtf8Byte* expr, const JUtf8Byte* file,
-						   const int line);
+						   const int line, const JUtf8Byte* message);
 	virtual void	Abort();
 
 	void	UnlockDisplays();

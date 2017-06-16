@@ -170,144 +170,142 @@ JXSharedPrefsManager::GetAll
 	JBoolean* isNew
 	)
 {
-	if (Open())
-		{
-		*isNew = itsFile->IsEmpty();
-
-		JBoolean changed = kJFalse;
-		std::string data;
-
-		if (itsFile->IDValid(kFocusFollowsCursorInDockID))
-			{
-			itsFile->GetData(kFocusFollowsCursorInDockID, &data);
-			std::istringstream input(data);
-			input >> itsOrigFocusInDockFlag;
-			JXWindow::ShouldFocusFollowCursorInDock(itsOrigFocusInDockFlag);
-			}
-		else
-			{
-			PrivateSetFocusFollowsCursorInDock();
-			changed = kJTrue;
-			}
-
-		if (itsFile->IDValid(kCopyWhenSelectID))
-			{
-			itsFile->GetData(kCopyWhenSelectID, &data);
-			std::istringstream input(data);
-			input >> itsOrigCopyWhenSelectFlag;
-			JTextEditor::ShouldCopyWhenSelect(itsOrigCopyWhenSelectFlag);
-			}
-		else
-			{
-			PrivateSetCopyWhenSelectFlag();
-			changed = kJTrue;
-			}
-
-		if (itsFile->IDValid(kMiddleClickWillPasteID))
-			{
-			itsFile->GetData(kMiddleClickWillPasteID, &data);
-			std::istringstream input(data);
-			input >> itsOrigMiddleClickWillPasteFlag;
-			JXTEBase::MiddleButtonShouldPaste(itsOrigMiddleClickWillPasteFlag);
-			}
-		else
-			{
-			PrivateSetMiddleClickWillPasteFlag();
-			changed = kJTrue;
-			}
-
-		if (itsFile->IDValid(kPWModifierID))
-			{
-			itsFile->GetData(kPWModifierID, &data);
-			std::istringstream input(data);
-			input >> itsOrigPWMod;
-			JXTEBase::SetPartialWordModifier(itsOrigPWMod);
-			}
-		else
-			{
-			PrivateSetPartialWordModifier();
-			changed = kJTrue;
-			}
-
-		if (itsFile->IDValid(kCaretFollowsScrollID))
-			{
-			itsFile->GetData(kCaretFollowsScrollID, &data);
-			std::istringstream input(data);
-			input >> itsOrigCaretScrollFlag;
-			JXTEBase::CaretShouldFollowScroll(itsOrigCaretScrollFlag);
-			}
-		else
-			{
-			PrivateSetCaretFollowsScroll();
-			changed = kJTrue;
-			}
-
-		if (itsFile->IDValid(kWindowsHomeEndID))
-			{
-			itsFile->GetData(kWindowsHomeEndID, &data);
-			std::istringstream input(data);
-			input >> itsOrigWindowsHomeEndFlag;
-			JXTEBase::ShouldUseWindowsHomeEnd(itsOrigWindowsHomeEndFlag);
-			}
-		else
-			{
-			if (!(*isNew))
-				{
-				JXTEBase::ShouldUseWindowsHomeEnd(kJFalse);
-				}
-
-			PrivateSetWindowsHomeEnd();
-			changed = kJTrue;
-			}
-
-		if (itsFile->IDValid(kAllowSpaceID))
-			{
-			itsFile->GetData(kAllowSpaceID, &data);
-			std::istringstream input(data);
-			input >> itsOrigAllowSpaceFlag;
-			JXSaveFileInput::ShouldAllowSpace(itsOrigAllowSpaceFlag);
-			}
-		else
-			{
-			PrivateSetAllowSpaceFlag();
-			changed = kJTrue;
-			}
-
-		if (itsFile->IDValid(kMenuDisplayStyleID))
-			{
-			itsFile->GetData(kMenuDisplayStyleID, &data);
-			std::istringstream input(data);
-			long temp;
-			input >> temp;
-			itsOrigMenuDisplayStyle = (JXMenu::Style) temp;
-			if (itsOrigMenuDisplayStyle > JXMenu::kStyleMax)
-				{
-				itsOrigMenuDisplayStyle = JXMenu::kWindowsStyle;
-				}
-			JXMenu::SetDisplayStyle(itsOrigMenuDisplayStyle);
-			}
-		else
-			{
-			if (!(*isNew))
-				{
-				JXMenu::SetDisplayStyle(JXMenu::kMacintoshStyle);
-				}
-
-			PrivateSetMenuDisplayStyle();
-			changed = kJTrue;
-			}
-
-		Broadcast(Read());
-
-		Close(changed);
-		SaveSignalModTime();
-		return kJTrue;
-		}
-	else
+	if (!Open())
 		{
 		*isNew = kJTrue;
 		return kJFalse;
 		}
+
+	*isNew = itsFile->IsEmpty();
+
+	JBoolean changed = kJFalse;
+	std::string data;
+
+	if (itsFile->IDValid(kFocusFollowsCursorInDockID))
+		{
+		itsFile->GetData(kFocusFollowsCursorInDockID, &data);
+		std::istringstream input(data);
+		input >> itsOrigFocusInDockFlag;
+		JXWindow::ShouldFocusFollowCursorInDock(itsOrigFocusInDockFlag);
+		}
+	else
+		{
+		PrivateSetFocusFollowsCursorInDock();
+		changed = kJTrue;
+		}
+
+	if (itsFile->IDValid(kCopyWhenSelectID))
+		{
+		itsFile->GetData(kCopyWhenSelectID, &data);
+		std::istringstream input(data);
+		input >> itsOrigCopyWhenSelectFlag;
+		JTextEditor::ShouldCopyWhenSelect(itsOrigCopyWhenSelectFlag);
+		}
+	else
+		{
+		PrivateSetCopyWhenSelectFlag();
+		changed = kJTrue;
+		}
+
+	if (itsFile->IDValid(kMiddleClickWillPasteID))
+		{
+		itsFile->GetData(kMiddleClickWillPasteID, &data);
+		std::istringstream input(data);
+		input >> itsOrigMiddleClickWillPasteFlag;
+		JXTEBase::MiddleButtonShouldPaste(itsOrigMiddleClickWillPasteFlag);
+		}
+	else
+		{
+		PrivateSetMiddleClickWillPasteFlag();
+		changed = kJTrue;
+		}
+
+	if (itsFile->IDValid(kPWModifierID))
+		{
+		itsFile->GetData(kPWModifierID, &data);
+		std::istringstream input(data);
+		input >> itsOrigPWMod;
+		JXTEBase::SetPartialWordModifier(itsOrigPWMod);
+		}
+	else
+		{
+		PrivateSetPartialWordModifier();
+		changed = kJTrue;
+		}
+
+	if (itsFile->IDValid(kCaretFollowsScrollID))
+		{
+		itsFile->GetData(kCaretFollowsScrollID, &data);
+		std::istringstream input(data);
+		input >> itsOrigCaretScrollFlag;
+		JXTEBase::CaretShouldFollowScroll(itsOrigCaretScrollFlag);
+		}
+	else
+		{
+		PrivateSetCaretFollowsScroll();
+		changed = kJTrue;
+		}
+
+	if (itsFile->IDValid(kWindowsHomeEndID))
+		{
+		itsFile->GetData(kWindowsHomeEndID, &data);
+		std::istringstream input(data);
+		input >> itsOrigWindowsHomeEndFlag;
+		JXTEBase::ShouldUseWindowsHomeEnd(itsOrigWindowsHomeEndFlag);
+		}
+	else
+		{
+		if (!(*isNew))
+			{
+			JXTEBase::ShouldUseWindowsHomeEnd(kJFalse);
+			}
+
+		PrivateSetWindowsHomeEnd();
+		changed = kJTrue;
+		}
+
+	if (itsFile->IDValid(kAllowSpaceID))
+		{
+		itsFile->GetData(kAllowSpaceID, &data);
+		std::istringstream input(data);
+		input >> itsOrigAllowSpaceFlag;
+		JXSaveFileInput::ShouldAllowSpace(itsOrigAllowSpaceFlag);
+		}
+	else
+		{
+		PrivateSetAllowSpaceFlag();
+		changed = kJTrue;
+		}
+
+	if (itsFile->IDValid(kMenuDisplayStyleID))
+		{
+		itsFile->GetData(kMenuDisplayStyleID, &data);
+		std::istringstream input(data);
+		long temp;
+		input >> temp;
+		itsOrigMenuDisplayStyle = (JXMenu::Style) temp;
+		if (itsOrigMenuDisplayStyle > JXMenu::kStyleMax)
+			{
+			itsOrigMenuDisplayStyle = JXMenu::kWindowsStyle;
+			}
+		JXMenu::SetDisplayStyle(itsOrigMenuDisplayStyle);
+		}
+	else
+		{
+		if (!(*isNew))
+			{
+			JXMenu::SetDisplayStyle(JXMenu::kMacintoshStyle);
+			}
+
+		PrivateSetMenuDisplayStyle();
+		changed = kJTrue;
+		}
+
+	Broadcast(Read());
+
+	Close(changed);
+	SaveSignalModTime();
+	return kJTrue;
 }
 
 /******************************************************************************

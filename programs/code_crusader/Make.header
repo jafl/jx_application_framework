@@ -164,9 +164,12 @@ release: pre_build_pkgs static ctags menu_strings
 	@ln -s ../project_templates ${JCC}/project_templates
 	@ln -s ../text_templates    ${JCC}/text_templates
 	@cp ${JX_ROOT}/misc/ctags/${call EXE,ctags} \
-        ${JX_ROOT}/misc/ctags/COPYING ${JX_ROOT}/misc/ctags/FAQ \
-        ${JX_ROOT}/misc/ctags/NEWS ${JX_ROOT}/misc/ctags/README \
-        ${JX_ROOT}/misc/ctags/ctags.1 ${JCC}/ctags/
+        ${JX_ROOT}/misc/ctags/COPYING \
+        ${JX_ROOT}/misc/ctags/FAQ \
+        ${JX_ROOT}/misc/ctags/NEWS \
+        ${JX_ROOT}/misc/ctags/README \
+        ${JX_ROOT}/misc/ctags/ctags.1 \
+        ${JCC}/ctags/
 	@cp -r ${JX_ROOT}/misc/dirdiff ${JCC}/
 	@cd ${MKMKDIR}; ${MAKE} JCC_TAR_DIR=${JCC_TAR_DIR}/${JCC} jcc
 	@${MAKE} PKG_PATH=${JCC} SOURCE_TAR_NAME=${JCC_RELEASE_TAR_NAME} build_pkgs

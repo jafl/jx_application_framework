@@ -601,7 +601,7 @@ CBFileListTable::Receive
 		}
 	else if (sender == GetFullNameDataList() && message.Is(JListT::kSorted))
 		{
-		assert( 0 /* CBFileListTable can't handle full sort of file list */ );
+		assert_msg( 0, "CBFileListTable can't handle full sort of file list" );
 		}
 
 	else if (sender == GetFullNameDataList() && message.Is(JListT::kElementChanged))

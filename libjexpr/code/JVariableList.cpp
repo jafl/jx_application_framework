@@ -603,7 +603,7 @@ JVariableList::Receive
 	else if (sender == const_cast<JCollection*>(mainList) &&
 			 message.Is(JListT::kSorted))
 		{
-		assert( 0 /* JVariableList doesn't allow elements to be sorted */ );
+		assert_msg( 0, "JVariableList doesn't allow elements to be sorted" );
 		}
 
 	JContainer::Receive(sender, message);

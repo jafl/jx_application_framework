@@ -976,7 +976,8 @@ CBPrefsManager::UpgradeData
 
 		CBNewSuffixInfo kSQLSuffix[] =
 		{
-			{ ".sql",  kJFalse }
+			{ ".sql",  kJFalse },
+			{ ".ddl",  kJFalse }
 		};
 		cbAddNewSuffixes("SQL", "SQL", kCBSQLFT, kSQLSuffix, sizeof(kSQLSuffix), itsFileTypeList, itsMacroList, *itsCRMList);
 
@@ -2215,10 +2216,10 @@ static const InitCRMInfo kInitCRM[] =
 	  { "$1 *",                                 "$0",                                "$0"                        , "$0"                            }
 	},
 
-	{ "SQL", 3,
-	  { "([[:space:]]*)/((\\*+[[:space:]]*)+)", "[[:space:]]*(\\*+[[:space:]]*)+",   "[[:space:]]*--[[:space:]]*" },
-	  { "[[:space:]]*(\\*+/?[[:space:]]*)+",    "[[:space:]]*(\\*+/?[[:space:]]*)+", "[[:space:]]*--[[:space:]]*" },
-	  { "$1 *",                                 "$0",                                "$0"                         }
+	{ "SQL", 4,
+	  { "([[:space:]]*)/((\\*+[[:space:]]*)+)", "[[:space:]]*(\\*+[[:space:]]*)+",   "[[:space:]]*--[[:space:]]*", "[[:space:]]*(#+[[:space:]]*)+" },
+	  { "[[:space:]]*(\\*+/?[[:space:]]*)+",    "[[:space:]]*(\\*+/?[[:space:]]*)+", "[[:space:]]*--[[:space:]]*", "[[:space:]]*(#+[[:space:]]*)+" },
+	  { "$1 *",                                 "$0",                                "$0",                         "$0"                            }
 	},
 
 	{ "UNIX script", 1,

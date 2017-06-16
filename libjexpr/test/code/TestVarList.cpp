@@ -384,7 +384,7 @@ TestVarList::SetNumericValue
 	const JFloat	value
 	)
 {
-	assert( 0 /* TestVarList::SetNumericValue() is not supported */ );
+	assert_msg( 0, "TestVarList::SetNumericValue() is not supported" );
 }
 
 void
@@ -395,7 +395,7 @@ TestVarList::SetNumericValue
 	const JComplex&	value
 	)
 {
-	assert( 0 /* TestVarList::SetNumericValue() is not supported */ );
+	assert_msg( 0, "TestVarList::SetNumericValue() is not supported" );
 }
 
 /******************************************************************************
@@ -458,5 +458,5 @@ TestVarList::SetDiscreteValue
 	const JIndex valueIndex
 	)
 {
-	assert( 0 /* TestVarList::SetDiscreteValue() is not supported */ );
+	assert_msg( 0, "TestVarList::SetDiscreteValue() is not supported" );
 }

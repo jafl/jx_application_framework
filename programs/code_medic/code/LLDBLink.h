@@ -151,7 +151,7 @@ public:
 
 	void	HandleLLDBEvent();
 
-	// only when user types input for program being debugged
+	// mostly when user types input for program being debugged
 
 	virtual void	SendRaw(const JCharacter* text);
 

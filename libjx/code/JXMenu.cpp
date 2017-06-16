@@ -54,8 +54,8 @@
 #include <jFStreamUtil.h>
 #include <jAssert.h>
 
-JXMenu::Style JXMenu::itsDefaultStyle = JXMenu::kMacintoshStyle;
-JXMenu::Style JXMenu::itsDisplayStyle = JXMenu::kWindowsStyle;
+JXMenu::Style JXMenu::theDefaultStyle = JXMenu::kMacintoshStyle;
+JXMenu::Style JXMenu::theDisplayStyle = JXMenu::kWindowsStyle;
 
 static const JString kMenuFontFileName("~/.jx/menu_font", 0, kJFalse);
 JBoolean JXMenu::theDefaultMenuFontInitFlag = kJFalse;
@@ -1538,8 +1538,8 @@ JXMenu::AdjustNMShortcutModifier
 	const JXModifierKey key
 	)
 {
-	if ((itsDisplayStyle == kMacintoshStyle && itsDefaultStyle == kWindowsStyle) ||
-		(itsDisplayStyle == kWindowsStyle   && itsDefaultStyle == kMacintoshStyle))
+	if ((theDisplayStyle == kMacintoshStyle && theDefaultStyle == kWindowsStyle) ||
+		(theDisplayStyle == kWindowsStyle   && theDefaultStyle == kMacintoshStyle))
 		{
 		if (key == kJXControlKeyIndex)
 			{

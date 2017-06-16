@@ -1385,7 +1385,7 @@ JXWidget::GetDNDAskActions
 	JPtrArray<JString>*		askDescriptionList
 	)
 {
-	assert( 0 /* The programmer forgot to override JXWidget::GetDNDAskActions() */ );
+	assert_msg( 0, "The programmer forgot to override JXWidget::GetDNDAskActions()" );
 }
 
 /******************************************************************************

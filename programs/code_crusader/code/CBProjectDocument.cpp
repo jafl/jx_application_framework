@@ -216,9 +216,9 @@ enum
 
 class ChildAssertHandler : public JAssertBase
 {
-	virtual int Assert(const JCharacter* expr, const JCharacter* file, const int line)
+	virtual int Assert(const JCharacter* expr, const JCharacter* file, const int line, const JCharacter* message)
 	{
-		return JAssertBase::DefaultAssert(expr, file, line);
+		return JAssertBase::DefaultAssert(expr, file, line, message);
 	}
 
 	virtual void Abort()

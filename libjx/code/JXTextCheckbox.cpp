@@ -94,6 +94,20 @@ JXTextCheckbox::SetShortcuts
 }
 
 /******************************************************************************
+ GetPreferredWidth
+
+	Returns the minimum width required to show all the text.
+
+ ******************************************************************************/
+
+JCoordinate
+JXTextCheckbox::GetPreferredWidth()
+	const
+{
+	return 2*kMarginWidth + kBoxHeight + itsFont.GetStringWidth(itsLabel);
+}
+
+/******************************************************************************
  Draw (virtual protected)
 
  ******************************************************************************/

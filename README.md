@@ -129,7 +129,9 @@ General problems
 
 ### Can I get a pre-compiled version of JX?
 
-No.  We gave up trying to distribute binaries a long time ago.  Everybody has a different version of the compiler and/or the required system libraries, so it causes more problems than it solves.
+No.  We gave up trying to distribute binaries a long time ago.  Everybody
+has a different version of the compiler and/or the required system
+libraries, so it causes more problems than it solves.
 
 
 ### How do I set environment variables?
@@ -144,47 +146,61 @@ If you are using `/bin/tcsh`:
 
     setenv VARIABLE VALUE
 
-If you append this to the file `~/.cshrc`, the variable will be set automatically every time you log in.
+If you append this to the file `~/.cshrc`, the variable will be set
+automatically every time you log in.
 
 If you are using `/bin/bash`:
 
     export VARIABLE=VALUE
 
-If you append this to the file `~/.bashrc`, the variable will be set automatically every time you log in.
+If you append this to the file `~/.bashrc`, the variable will be set
+automatically every time you log in.
 
 
 ### `makemake` hangs.  How do I fix this?
 
 Run it from the shell, not from another program (e.g. Midnight Commander).
 
-Or you can patch it by appending the following arguments to the call to `JProcess::Create()`: `kJIgnoreConnection, NULL, kJTossOutput, NULL, kJAttachToFromFD, NULL`
+Or you can patch it by appending the following arguments to the call to
+`JProcess::Create()`: `kJIgnoreConnection, NULL, kJTossOutput, NULL,
+kJAttachToFromFD, NULL`
 
 
-### It gives me the error:  "'touch' has both : and :: entries."  How do I fix this?
+### It gives me the error:  "'touch' has both : and :: entries."  How do I
+fix this?
 
 Remove all old copies of `makemake` from your system.
 
 
 ### Why does it complain that it can't find the **ACE** header files?
 
-You need to set the environment variable `ACE_ROOT`, as explained in the instructions printed when you run `make` in the top level directory.
+You need to set the environment variable `ACE_ROOT`, as explained in the
+instructions printed when you run `make` in the top level directory.
 
 
 ### Why does it complain that it can't find `Xlib.h`?
 
-You need to create a symbolic link `/usr/include/X1`1 that points to the directory containing the X11 header files on your system.  This is often `/usr/X11R6/include`.
+You need to create a symbolic link `/usr/include/X1`1 that points to the
+directory containing the X11 header files on your system.  This is often
+`/usr/X11R6/include`.
 
-If you do not have root access and your system administrator doesn't want to create the link, then uncomment `J_X11_INCLUDE_DIR` and set it to point to the directory containing the X11 header files.
+If you do not have root access and your system administrator doesn't want
+to create the link, then uncomment `J_X11_INCLUDE_DIR` and set it to point
+to the directory containing the X11 header files.
 
 
-### When I compile, I get warnings about implicit declarations of functions in **ACE** header files.  How do I fix this?
+### When I compile, I get warnings about implicit declarations of functions
+in **ACE** header files.  How do I fix this?
 
 Comment out `J_DIE_ON_WARNING` in `include/make/jx_config`.
 
 
-### When I compile, I get an error "undefined reference to 'CMSG_DATA'".  How do I get around this?
+### When I compile, I get an error "undefined reference to 'CMSG_DATA'".
+How do I get around this?
 
-Uncomment `J_FORCE_ACE_STATIC` in `include/make/jx_config`.  Then delete `ACE/ACE_wrappers/ace/libACE.so` and run make again.  Please notify us so we can update the configuration for your system.
+Uncomment `J_FORCE_ACE_STATIC` in `include/make/jx_config`.  Then delete
+`ACE/ACE_wrappers/ace/libACE.so` and run make again.  Please notify us so
+we can update the configuration for your system.
 
 
 ### When I link, it complains that it can't find `libXpm`.  How do I fix this?
@@ -204,4 +220,5 @@ Run `make J_WANT_INSTALL=0 *target*`
 
 ### Do I have to use the version of **ACE** included with **JX**?
 
-No.  **JX** uses only the elementary functionality provided by **ACE**, and since this is very unlikely to change, you can safely use newer versions.
+No.  **JX** uses only the elementary functionality provided by **ACE**, and
+since this is very unlikely to change, you can safely use newer versions.

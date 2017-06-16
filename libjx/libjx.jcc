@@ -261,6 +261,10 @@ T
 F
 "./code/JXAtMostOneCBGroup.cpp"
 T
+2 "JXCheckboxListDialog.cpp"
+F
+"./code/JXCheckboxListDialog.cpp"
+T
 2 "JXRadioGroup.cpp"
 F
 "./code/JXRadioGroup.cpp"

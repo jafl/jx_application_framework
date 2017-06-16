@@ -56,7 +56,7 @@ static const JCharacter* kCtagsArgs =
 	"--scheme-kinds=f "
 	"--sh-kinds=f "
 	"--slang-kinds=f "
-	"--sql-kinds=fp "
+	"--sql-kinds=fptvT "
 	"--tcl-kinds=p "
 	"--vera-kinds=f "
 	"--verilog-kinds=f "
@@ -161,7 +161,7 @@ cbIsQualified
 void
 CBFnMenuUpdater::ReadFunctionList
 	(
-	std::istream&		input,
+	std::istream&	input,
 	CBLanguage		lang,
 	const JBoolean	sort,
 	const JBoolean	includeNS,

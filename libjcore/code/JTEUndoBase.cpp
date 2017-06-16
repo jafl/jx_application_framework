@@ -92,5 +92,5 @@ JTEUndoBase::SetPasteLength
 	const JSize length
 	)
 {
-	assert( 0 /* programmer forgot to override JTEUndoBase::SetPasteLength */ );
+	assert_msg( 0, "programmer forgot to override JTEUndoBase::SetPasteLength" );
 }

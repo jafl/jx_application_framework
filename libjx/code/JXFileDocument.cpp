@@ -883,7 +883,7 @@ JXFileDocument::WriteTextFile
 	)
 	const
 {
-	assert( 0 /* The programmer forgot to override JXFileDocument::WriteTextFile() */ );
+	assert_msg( 0, "The programmer forgot to override JXFileDocument::WriteTextFile()" );
 }
 
 /******************************************************************************

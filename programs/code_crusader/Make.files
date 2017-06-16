@@ -149,6 +149,9 @@
 .cpp ./code/CBRubyStyler
 .cpp ./code/CBRubyScanner
 .l ./code/CBRubyScannerL
+.cpp ./code/CBSQLStyler
+.cpp ./code/CBSQLScanner
+.l ./code/CBSQLScannerL
 .cpp ./code/CBTCLStyler
 .cpp ./code/CBTCLScanner
 .l ./code/CBTCLScannerL

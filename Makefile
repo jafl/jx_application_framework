@@ -223,9 +223,7 @@ CC := ${shell if { which gcc > /dev/null; } \
 .PHONY : get_ace
 get_ace:
   ifdef ACE_ROOT
-	@if { test ! -d ACE/ACE_wrappers || \
-          { ${CC} ${CHECK_ACE}.c -o ${CHECK_ACE}; \
-            ${CHECK_ACE} ${ACE_ROOT} ACE/ACE_wrappers; } ; } then \
+	@if { test ! -d ACE/ACE_wrappers; } then \
          ${RM} -r ACE/ACE_wrappers; \
          ln -sf ${ACE_ROOT} ACE/ACE_wrappers; \
      fi;

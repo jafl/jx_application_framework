@@ -353,7 +353,7 @@ JThisProcess::CheckForSignals()
 					{
 					const JString sigName = JGetSignalName(signalList[i]);
 					std::cerr << "An unexpected signal (" << sigName << ") was received!" << std::endl;
-					assert( 0 /* unexpected signal */ );
+					assert_msg( 0, "unexpected signal" );
 					}
 				else if (signalList[i] == SIGPIPE)
 					{

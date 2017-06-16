@@ -30,11 +30,11 @@ public:
 	virtual	~JAssertBase();
 
 	virtual int		Assert(const JUtf8Byte* expr, const JUtf8Byte* file,
-						   const int line) = 0;
+						   const int line, const JUtf8Byte* message) = 0;
 	virtual void	Abort();
 
 	static int	DefaultAssert(const JUtf8Byte* expr, const JUtf8Byte* file,
-							  const int line);
+							  const int line, const JUtf8Byte* message);
 
 	static Action	GetAction();
 	static void		SetAction(const Action action);

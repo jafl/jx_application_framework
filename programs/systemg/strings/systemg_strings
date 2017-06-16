@@ -4,9 +4,9 @@
 
 # main
 
-VERSION		"2.5.0"
+VERSION		"2.6.0"
 COPYRIGHT
-"Copyright (C) 1997-2015 John Lindal.  All rights reserved.
+"Copyright (C) 1997-2017 John Lindal.  All rights reserved.
 
 This software is subject to the license agreement set forth in the license (refer to the on-line help).
 
@@ -114,6 +114,9 @@ StashPrompt::SyGFileTreeTable			"Stash name:"
 WarnRemoveRemote::SyGFileTreeTable		"Are you sure you want to remove the connection to $name?"
 
 AskRelativeAlias::SyGFileTreeTable	"Do you want the alias for $name to be a relative symlink?"
+
+DeletePrunedBranchesTitle::SyGFileTreeTable		"Prune Local Git Branches"
+DeletePrunedBranchesPrompt::SyGFileTreeTable	"Select the local branches that you would like to prune:"
 
 # SyGNewGitRemoteDialog
 

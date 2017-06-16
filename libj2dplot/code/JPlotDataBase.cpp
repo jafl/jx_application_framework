@@ -50,7 +50,7 @@ JPlotDataBase::GetElement
 	)
 	const
 {
-	assert( 0 /* The programmer forgot to override JPlotDataBase::GetElement(J2DDataPoint) */ );
+	assert_msg( 0, "The programmer forgot to override JPlotDataBase::GetElement(J2DDataPoint)" );
 }
 
 /*********************************************************************************
@@ -66,7 +66,7 @@ JPlotDataBase::GetElement
 	)
 	const
 {
-	assert( 0 /* The programmer forgot to override JPlotDataBase::GetElement(J2DVectorPoint) */ );
+	assert_msg( 0, "The programmer forgot to override JPlotDataBase::GetElement(J2DVectorPoint)" );
 }
 
 /*********************************************************************************

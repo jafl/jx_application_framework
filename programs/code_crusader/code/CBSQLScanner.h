@@ -1,58 +1,61 @@
-#ifndef _H_CBEiffelScanner
-#define _H_CBEiffelScanner
+#ifndef _H_CBSQLScanner
+#define _H_CBSQLScanner
 
 /******************************************************************************
- CBEiffelScanner.h
+ CBSQLScanner.h
 
-	Copyright (C) 1997 by Dustin Laurence.
-	Copyright (C) 2004 by John Lindal.  All rights reserved.
+	Copyright (C) 2017 by John Lindal.  All rights reserved.
 
  *****************************************************************************/
 
-#ifndef _H_CBEiffelScannerL
+#ifndef _H_CBSQLScannerL
 #undef yyFlexLexer
-#define yyFlexLexer CBEiffelFlexLexer
+#define yyFlexLexer CBSQLFlexLexer
 #include <FlexLexer.h>
 #endif
 
 #include <JIndexRange.h>
 
-class JString;
-
-class CBEiffelScanner : public CBEiffelFlexLexer
+class CBSQLScanner : public CBSQLFlexLexer
 {
 public:
 
-	// these types are ordered to correspond to the type table in CBEiffelStyler
+	// these types are ordered to correspond to the type table in CBSQLStyler
 
 	enum TokenType
 	{
 		kEOF = 258,
 
-		kBadDecimalInt,
 		kUnterminatedString,
+		kUnterminatedComment,
 		kIllegalChar,
-		kNonPrintChar,
 
 		kWhitespace,	// must be the one before the first item in type table
 
 		kID,
-		kReservedKeyword,
-		kBuiltInDataType,
+		kVariable,
+		kKeyword,
+		kReservedWord,
+		kBuiltInFunction,
+		kExtensionMySQL,
+		kExtensionPostgreSQL,
+		kExtensionOracle,
 
 		kOperator,
-		kFreeOperator,
 		kDelimiter,
+		kMySQLOperator,
 
-		kString,
+		kSingleQuoteString,
+		kDoubleQuoteString,
+		kBackQuoteString,
 
 		kFloat,
-		kDecimalInt,
-		kBinary,
+		kDecimalInteger,
+		kHexInteger,
 
 		kComment,
-
-		kError			// place holder for CBEiffelStyler
+		kMySQLComment,
+		kError			// place holder for CBSQLStyler
 	};
 
 	struct Token
@@ -73,16 +76,12 @@ public:
 
 public:
 
-	CBEiffelScanner();
+	CBSQLScanner();
 
-	virtual ~CBEiffelScanner();
+	virtual ~CBSQLScanner();
 
 	void	BeginScan(std::istream& input);
 	Token	NextToken();		// written by flex
-
-protected:
-
-	void	Undo(const JIndexRange& range, const JString& text);
 
 private:
 
@@ -97,8 +96,8 @@ private:
 
 	// not allowed
 
-	CBEiffelScanner(const CBEiffelScanner& source);
-	const CBEiffelScanner& operator=(const CBEiffelScanner& source);
+	CBSQLScanner(const CBSQLScanner& source);
+	const CBSQLScanner& operator=(const CBSQLScanner& source);
 };
 
 
@@ -108,7 +107,7 @@ private:
  *****************************************************************************/
 
 inline void
-CBEiffelScanner::StartToken()
+CBSQLScanner::StartToken()
 {
 	const JIndex prevEnd = itsCurrentRange.last;
 	itsCurrentRange.Set(prevEnd+1, prevEnd+yyleng);
@@ -120,7 +119,7 @@ CBEiffelScanner::StartToken()
  *****************************************************************************/
 
 inline void
-CBEiffelScanner::ContinueToken()
+CBSQLScanner::ContinueToken()
 {
 	itsCurrentRange.last += yyleng;
 }
@@ -130,8 +129,8 @@ CBEiffelScanner::ContinueToken()
 
  *****************************************************************************/
 
-inline CBEiffelScanner::Token
-CBEiffelScanner::ThisToken
+inline CBSQLScanner::Token
+CBSQLScanner::ThisToken
 	(
 	const TokenType type
 	)
@@ -151,14 +150,14 @@ CBEiffelScanner::ThisToken
 inline int
 operator==
 	(
-	const CBEiffelScanner::Token& t1,
-	const CBEiffelScanner::Token& t2
+	const CBSQLScanner::Token& t1,
+	const CBSQLScanner::Token& t2
 	)
 {
 	return ( t1.type == t2.type
 			 &&
 				(
-					t1.range == t2.range || t1.type == CBEiffelScanner::kEOF
+					t1.range == t2.range || t1.type == CBSQLScanner::kEOF
 				)
 		   );
 }
@@ -166,8 +165,8 @@ operator==
 inline int
 operator!=
 	(
-	const CBEiffelScanner::Token& t1,
-	const CBEiffelScanner::Token& t2
+	const CBSQLScanner::Token& t1,
+	const CBSQLScanner::Token& t2
 	)
 {
 	return !(t1 == t2);
