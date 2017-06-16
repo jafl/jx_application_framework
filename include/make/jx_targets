@@ -29,7 +29,7 @@ pre_build_pkgs:
 	@sudo echo sudo access authorized...
   endif
 
-# init_tarball (PKG_PATH, DOC_NAME, DOC_HEADER, const MENU_STRINGS_FILE)
+# init_tarball (PKG_PATH, const MENU_STRINGS_FILE)
 
 .PHONY : init_tarball
 init_tarball:
@@ -43,13 +43,6 @@ init_tarball:
 	@ln -s ../pkg/desktop          ${PKG_PATH}/desktop
 ifdef MENU_STRINGS_FILE
 	@ln -s ../${MENU_STRINGS_FILE} ${PKG_PATH}/menu_strings
-endif
-
-ifdef DOC_NAME
-	@${JX_ROOT}/bin/jxhelp2html \
-         "${DOC_NAME}" strings ${DOC_HEADER} ${PKG_PATH}/docs_HTML; \
-     cp ${PKG_PATH}/docs_HTML/ChangeLog.html ./; \
-     ${JX_ROOT}/lib/util/fix_change_log ChangeLog.html
 endif
 
 ifdef J_RPM_GZ_LIBS

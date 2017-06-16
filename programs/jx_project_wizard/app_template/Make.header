@@ -152,7 +152,7 @@ release: pre_build_pkgs static
 
 .PHONY : distr_sub
 distr_sub: menu_strings
-	@${MAKE} PKG_PATH=${PROG} DOC_NAME="${PROG_NAME}" DOC_HEADER=code/<pre>HelpText.h init_tarball
+	@${MAKE} PKG_PATH=${PROG} init_tarball
 	@ln -s ../${call EXE,${PROG_NAME}} ${PROG}/${call EXE,${PROG_NAME}}
 	@${MAKE} PKG_PATH=${PROG} SOURCE_TAR_NAME=${PROG_DISTR_TAR_FILE} build_pkgs
 
