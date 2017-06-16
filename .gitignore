@@ -11,6 +11,7 @@
 *.bak
 libj*/Makefile
 */test/Makefile
+*/testui/Makefile
 programs/*/code/*StringData.h
 programs/*/Makefile
 programs/*/strings/*_menu_strings
@@ -22,7 +23,7 @@ obsolete/*/ChangeLog.html
 Mesa
 misc/Mesa.tgz
 misc/aspell*
-doc/libjcore
+doc/api
 
 !lib/*.a
 !lib/*.so

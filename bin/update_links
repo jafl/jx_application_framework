@@ -1,5 +1,10 @@
 #!/bin/sh
 
+if [[ ! -d libjcore ]]; then
+	echo "must be run in JX root";
+	exit 1;
+fi
+
 # usage:  updatelinks lib_name vers
 
 if { test $# -ne 2; } then
@@ -7,6 +12,7 @@ if { test $# -ne 2; } then
 	exit 1;
 fi;
 
+cd lib;
 rm -f lib$1*
 ln -s ../lib$1/lib$1-$2.a  lib$1-$2.a
 ln -s ../lib$1/lib$1-$2.so lib$1-$2.so

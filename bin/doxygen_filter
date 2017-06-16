@@ -6,8 +6,7 @@ while (<>)
 	if (m#^/\*{3,}#)
 		{
 		chomp;
-		print;
-		print "//**\n";
+		print "/**\n";
 		$next = <>;
 		if ($line == 0 && $next =~ m/^\s*([^.]+)\.cpp$/)
 			{

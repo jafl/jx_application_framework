@@ -1,5 +1,10 @@
 #!/bin/sh
 
+if [[ ! -d libjcore ]]; then
+	echo "must be run in JX root";
+	exit 1;
+fi
+
 if [[ $# < 1 ]]; then
 	echo "usage: $0 program_name ...";
 	exit 1;
