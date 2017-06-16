@@ -220,7 +220,7 @@ JReadUntil
 				isDelimiter = kJTrue;
 				if (delimiter != NULL)
 					{
-					*delimiter = c;
+					*delimiter = delimiters[j];
 					}
 				break;
 				}
