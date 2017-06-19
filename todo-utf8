@@ -1,5 +1,3 @@
-remove cmd-click to extend selection - interferes with cmd-dbl-click
-
 check makemake README.md formatting
 jcc:
 	link CBMakemakeHelp to makemake README.md
