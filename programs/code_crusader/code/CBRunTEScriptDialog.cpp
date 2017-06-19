@@ -10,7 +10,6 @@
 #include "CBRunTEScriptDialog.h"
 #include "CBTextDocument.h"
 #include "CBTextEditor.h"
-#include "cbHelpText.h"
 #include "cbGlobals.h"
 #include <JXWindow.h>
 #include <JXTextButton.h>
@@ -207,7 +206,7 @@ CBRunTEScriptDialog::Receive
 
 	else if (sender == itsHelpButton && message.Is(JXButton::kPushed))
 		{
-		(JXGetHelpManager())->ShowSection(kCBEditorExtScriptHelpName);
+		(JXGetHelpManager())->ShowSection("CBEditorHelp-ExtScript");
 		}
 
 	else if (sender == itsHistoryMenu && message.Is(JXMenu::kItemSelected))

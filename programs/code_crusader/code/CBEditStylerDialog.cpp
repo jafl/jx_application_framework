@@ -9,11 +9,6 @@
 
 #include "CBEditStylerDialog.h"
 #include "CBStylerTable.h"
-
-#if defined CODE_CRUSADER
-#include "cbHelpText.h"
-#endif
-
 #include <JXWindow.h>
 #include <JXTextButton.h>
 #include <JXTextCheckbox.h>
@@ -216,7 +211,7 @@ CBEditStylerDialog::Receive
 	if (sender == itsHelpButton && message.Is(JXButton::kPushed))
 		{
 		#if defined CODE_CRUSADER
-		(JXGetHelpManager())->ShowSection(kCBStylerHelpName);
+		(JXGetHelpManager())->ShowSection("CBStylerHelp");
 		#endif
 		}
 	else

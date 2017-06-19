@@ -1,0 +1,8 @@
+body { font-family:verdana,arial,helvetica; font-size:12px; }
+li { margin-bottom:5px; }
+.sublist { margin-bottom:20px; }
+dl { margin-left:1em; }
+dd { margin-bottom:10px; }
+ul.code-terms li,
+ol.code-terms li,
+dl.code-terms dt { font-family:monospace; }

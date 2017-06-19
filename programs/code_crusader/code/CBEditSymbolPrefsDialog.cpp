@@ -11,7 +11,6 @@
 #include "CBProjectDocument.h"
 #include "CBSymbolDirector.h"
 #include "cbGlobals.h"
-#include "cbHelpText.h"
 #include <JXWindow.h>
 #include <JXTextButton.h>
 #include <JXTextCheckbox.h>
@@ -117,7 +116,7 @@ CBEditSymbolPrefsDialog::Receive
 
 	else if (sender == itsHelpButton && message.Is(JXButton::kPushed))
 		{
-		(JXGetHelpManager())->ShowSection(kCBSymbolPrefsHelpName);
+		(JXGetHelpManager())->ShowSection("CBSymbolHelp-Prefs");
 		}
 
 	else

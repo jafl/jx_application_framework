@@ -10,7 +10,6 @@
 #include "CBDiffDocument.h"
 #include "CBTextEditor.h"
 #include "cbGlobals.h"
-#include "cbHelpText.h"
 #include <JXDisplay.h>
 #include <JXWindow.h>
 #include <JXMenuBar.h>
@@ -828,7 +827,7 @@ CBDiffDocument::CBDiffDocument
 	const JFontStyle&	insertStyle
 	)
 	:
-	CBTextDocument(kCBDiffOutputFT, kCBDiffHelpName),
+	CBTextDocument(kCBDiffOutputFT, "CBDiffHelp"),
 	itsType(type),
 	itsFullName(fullName),
 	itsGetCmd(getCmd),

@@ -15,7 +15,6 @@
 #include "cbGlobals.h"
 #include "cbStringData.h"
 #include "cbmUtil.h"
-#include "cbHelpText.h"
 #include <JXHelpManager.h>
 #include <JXMenuBar.h>
 #include <JXTextMenu.h>
@@ -282,15 +281,15 @@ CBApp::HandleHelpMenu
 
 	else if (index == kHelpTOCCmd)
 		{
-		(JXGetHelpManager())->ShowSection(kCBTOCHelpName);
+		(JXGetHelpManager())->ShowSection("");
 		}
 	else if (index == kHelpOverviewCmd)
 		{
-		(JXGetHelpManager())->ShowSection(kCBOverviewHelpName);
+		(JXGetHelpManager())->ShowSection("CBOverviewHelp");
 		}
 	else if (index == kHelpTutorialCmd)
 		{
-		(JXGetHelpManager())->ShowSection(kCBProjectTutorialHelpName);
+		(JXGetHelpManager())->ShowSection("CBProjectTutorialHelp");
 		}
 	else if (index == kHelpWindowCmd)
 		{
@@ -306,11 +305,11 @@ CBApp::HandleHelpMenu
 
 	else if (index == kHelpChangeLogCmd)
 		{
-		(JXGetHelpManager())->ShowSection(kCBChangeLogName);
+		(JXGetHelpManager())->ShowSection("CBEditorHelp");
 		}
 	else if (index == kHelpCreditsCmd)
 		{
-		(JXGetHelpManager())->ShowSection(kCBCreditsName);
+		(JXGetHelpManager())->ShowSection("CBEditorhElp");
 		}
 }
 

@@ -10,7 +10,6 @@
 #include "CBEditProjPrefsDialog.h"
 #include "CBProjectDocument.h"
 #include "cbGlobals.h"
-#include "cbHelpText.h"
 #include <JXWindow.h>
 #include <JXTextButton.h>
 #include <JXTextCheckbox.h>
@@ -169,7 +168,7 @@ CBEditProjPrefsDialog::Receive
 
 	else if (sender == itsHelpButton && message.Is(JXButton::kPushed))
 		{
-		(JXGetHelpManager())->ShowSection(kCBProjectPrefsHelpName);
+		(JXGetHelpManager())->ShowSection("CBProjectHelp-Prefs");
 		}
 
 	else

@@ -1052,18 +1052,6 @@ T
 2 "jx_strings"
 F
 "./strings/jx_strings"
-T
-2 "jxSearchTextHelpText"
-F
-"./strings/jxSearchTextHelpText"
-T
-2 "jxRegexHelpText"
-F
-"./strings/jxRegexHelpText"
-T
-2 "jxRegexQRefText"
-F
-"./strings/jxRegexQRefText"
 F
 T
 1 "layout"

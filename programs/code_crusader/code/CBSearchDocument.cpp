@@ -226,7 +226,7 @@ CBSearchDocument::CBSearchDocument
 	const JCharacter*	windowTitle
 	)
 	:
-	CBExecOutputDocument(kCBSearchOutputFT, kCBSearchFilesHelpName, kJFalse, kJFalse),
+	CBExecOutputDocument(kCBSearchOutputFT, "CBSearchTextHelp-Multifile", kJFalse, kJFalse),
 	itsIsReplaceFlag(isReplace),
 	itsOnlyListFilesFlag(onlyListFiles),
 	itsReplaceTE(NULL)

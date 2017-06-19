@@ -71,7 +71,7 @@ CBShellDocument::CBShellDocument
 	const int	outFD
 	)
 	:
-	CBTextDocument(kCBShellOutputFT, kCBShellHelpName, kJFalse, ConstructShellEditor)
+	CBTextDocument(kCBShellOutputFT, "CBShellHelp", kJFalse, ConstructShellEditor)
 {
 	itsShellEditor = (CBShellEditor*) GetTextEditor();
 	itsProcess     = NULL;

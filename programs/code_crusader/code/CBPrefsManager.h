@@ -59,7 +59,7 @@ enum
 	kCBDocMgrStateID,
 	kCBTreeSetupID,
 	kCBEditSearchPathsDialogID,
-	kCBHelpID,					// unused, but can't reuse
+	kCBUnused1ID,				// unused
 	kCBFileListWindSizeID,
 	kCBCRMRuleSetListID,
 	kCBFileTypeListID,
@@ -157,8 +157,6 @@ public:
 	JBoolean	RestoreProgramState();
 	void		SaveProgramState();
 	void		ForgetProgramState();
-
-	void		UpgradeHelpPrefs();
 
 	// text editor
 

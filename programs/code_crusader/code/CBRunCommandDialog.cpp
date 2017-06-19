@@ -11,7 +11,6 @@
 #include "CBProjectDocument.h"
 #include "CBCommandManager.h"
 #include "CBCommandPathInput.h"
-#include "cbHelpText.h"
 #include "cbGlobals.h"
 #include <JXHelpManager.h>
 #include <JXWindow.h>
@@ -363,7 +362,7 @@ CBRunCommandDialog::Receive
 
 	else if (sender == itsHelpButton && message.Is(JXButton::kPushed))
 		{
-		(JXGetHelpManager())->ShowSection(kCBTasksHelpName);
+		(JXGetHelpManager())->ShowSection("CBTasksHelp");
 		}
 
 	else if (sender == itsSaveCmdMenu && message.Is(JXMenu::kNeedsUpdate))

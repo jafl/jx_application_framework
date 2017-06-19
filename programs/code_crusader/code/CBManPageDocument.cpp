@@ -129,7 +129,7 @@ CBManPageDocument::CBManPageDocument
 	CBManPageDocument**	trueDoc
 	)
 	:
-	CBTextDocument(kCBManPageFT, kCBManPageHelpName)
+	CBTextDocument(kCBManPageFT, "CBManPageHelp")
 {
 	theManCmdList.SetCompareFunction(JCompareStringsCaseSensitive);
 

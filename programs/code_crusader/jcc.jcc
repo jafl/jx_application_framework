@@ -932,133 +932,13 @@ F
 T
 1 "help"
 T
-2 "cbHelpText.h"
+2 "help.html"
 F
-"./code/cbHelpText.h"
+"./release/help.html"
 T
-2 "cbChangeLogText"
+2 "ChangeLog.html"
 F
-"./strings/cbChangeLogText"
-T
-2 "cbTOCHelpText"
-F
-"./strings/cbTOCHelpText"
-T
-2 "cbOverviewHelpText"
-F
-"./strings/cbOverviewHelpText"
-T
-2 "cbProjectHelpText"
-F
-"./strings/cbProjectHelpText"
-T
-2 "cbProjectTutorialHelpText"
-F
-"./strings/cbProjectTutorialHelpText"
-T
-2 "cbCTreeHelpText"
-F
-"./strings/cbCTreeHelpText"
-T
-2 "cbJavaTreeHelpText"
-F
-"./strings/cbJavaTreeHelpText"
-T
-2 "cbPHPTreeHelpText"
-F
-"./strings/cbPHPTreeHelpText"
-T
-2 "cbTreePrefsHelpText"
-F
-"./strings/cbTreePrefsHelpText"
-T
-2 "cbSymbolHelpText"
-F
-"./strings/cbSymbolHelpText"
-T
-2 "cbFileListHelpText"
-F
-"./strings/cbFileListHelpText"
-T
-2 "cbTasksHelpText"
-F
-"./strings/cbTasksHelpText"
-T
-2 "cbCompileHelpText"
-F
-"./strings/cbCompileHelpText"
-T
-2 "cbRunProgramHelpText"
-F
-"./strings/cbRunProgramHelpText"
-T
-2 "cbMakemakeHelpText"
-F
-"./strings/cbMakemakeHelpText"
-T
-2 "cbShellHelpText"
-F
-"./strings/cbShellHelpText"
-T
-2 "cbEditorHelpText"
-F
-"./strings/cbEditorHelpText"
-T
-2 "cbRegexHelpText"
-F
-"./strings/cbRegexHelpText"
-T
-2 "cbRegexQRefText"
-F
-"./strings/cbRegexQRefText"
-T
-2 "cbFileTypeHelpText"
-F
-"./strings/cbFileTypeHelpText"
-T
-2 "cbStylerHelpText"
-F
-"./strings/cbStylerHelpText"
-T
-2 "cbCompleterHelpText"
-F
-"./strings/cbCompleterHelpText"
-T
-2 "cbMacroHelpText"
-F
-"./strings/cbMacroHelpText"
-T
-2 "cbCRMHelpText"
-F
-"./strings/cbCRMHelpText"
-T
-2 "cbFileTemplateHelpText"
-F
-"./strings/cbFileTemplateHelpText"
-T
-2 "cbSearchTextHelpText"
-F
-"./strings/cbSearchTextHelpText"
-T
-2 "cbManPageHelpText"
-F
-"./strings/cbManPageHelpText"
-T
-2 "cbDiffHelpText"
-F
-"./strings/cbDiffHelpText"
-T
-2 "cbMiscHelpText"
-F
-"./strings/cbMiscHelpText"
-T
-2 "cbDockHelpText"
-F
-"./strings/cbDockHelpText"
-T
-2 "cbCreditsText"
-F
-"./strings/cbCreditsText"
+"./release/ChangeLog.html"
 F
 F
 # tasks

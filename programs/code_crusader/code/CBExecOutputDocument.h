@@ -31,7 +31,7 @@ public:
 public:
 
 	CBExecOutputDocument(const CBTextFileType fileType = kCBExecOutputFT,
-						 const JCharacter* helpSectionName = kCBRunProgramHelpName,
+						 const JCharacter* helpSectionName = "CBRunProgramHelp",
 						 const JBoolean focusToCmd = kJTrue,
 						 const JBoolean allowStop = kJTrue);
 

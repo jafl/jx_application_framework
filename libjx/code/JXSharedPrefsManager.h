@@ -46,8 +46,8 @@ public:
 		kCaretFollowsScrollID,
 		kWindowsHomeEndID,
 		kLatestHelpMgrVersionID,
-		kHelpMgrV3,
-		kHelpMgrV4,
+		kHelpMgrV3,					// unused
+		kHelpMgrV4,					// unused
 		kLatestWebBrowserVersionID,
 		kWebBrowserV0,
 		kAllowSpaceID,

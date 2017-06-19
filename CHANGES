@@ -1,12 +1,7 @@
-
-This is version 3.0.0 of the JX distribution.
+This is version 4.0.0 of the JX distribution.
 
 Changes from previous versions are described in the *LibVersion.h files in
 the include file directories.
-
-John Lindal
-http://www.newplanetsoftware.com/
-
 
 Changes to the build system:
 
@@ -153,4 +148,3 @@ Changes to the build system:
 
 	Merged libjxparser into libjparser.
 	Merged libjx3d into libj3d.
-

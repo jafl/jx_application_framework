@@ -1,0 +1,139 @@
+<html>
+<head>
+
+<title>Regex Quick Reference</title>
+<link rel="stylesheet" type="text/css" href="base.css" />
+
+</head>
+<body>
+
+<h1>Regular Expressions Quick Reference</h1>
+
+<p><a href="regex-help.html">Complete explanation</a></p>
+
+<h2>Matching</h2>
+
+<h3>Characters and classes</h3>
+<pre>
+  .             Any single character
+  []            Character class (see below)
+
+  \t            Horizontal tab
+  \n            Newline
+
+  \w            Word character:     [a-zA-Z0-9_]
+  \W            Non-word character: [^a-zA-Z0-9_]
+
+  \s            Whitespace character:     [ \t\n\r\f]
+  \S            Non-whitespace character: [^ \t\n\r\f]
+
+  \d            Decimal digit: [0-9]
+  \D            Non-digit:     [^0-9]
+</pre>
+
+<h3>Quantifiers</h3>
+<pre>
+  ?             Zero or one occurrence
+  *             Zero or more occurrences
+  +             One or more occurrences
+  {min,max}     At least min and at most max occurrences
+  {n}           Exactly n occurrences
+  {min,}        At least min occurrences
+
+  min, max, n must be between 0 and 255.
+
+  You can append ? to any quantifier (except ?) to make it non-greedy.
+</pre>
+
+<h3>Assertions</h3>
+<pre>
+  ^             The beginning of a line
+  $             The end of a line
+
+  \b            Word boundary
+  \B            Not a word boundary
+
+  (?&lt;=y)x       The pattern x must be preceded by the pattern y.
+  (?&lt;!y)x       The pattern x must not be preceded by the pattern y.
+  x(?=y)        The pattern x must be followed by the pattern y.
+  x(?!y)        The pattern x must not be followed by the pattern y.
+                For all the above assertions, the result of matching
+                or not matching y is not included as part of the match,
+                i.e., $0 in the replacement pattern will not include y.
+
+Other
+
+  x|y           Alternation: either x or y
+  (...)         Grouping and subexpression capturing
+                (?P&lt;<i>name</i>&gt;...) defines a named subexpression
+                (?:...) turns off capturing of the subexpression
+</pre>
+
+<h3>Backreferences</h3>
+<pre>
+  A backslash followed by a number is a backreference if the number
+  is 1 to 9 or is not explicitly octal, i.e., does not start with
+  the digit zero, and there have been at least that many capturing
+  subpatterns.
+
+  (?P=<i>name</i>) is a backreference to a named subexpression.
+</pre>
+
+<h3>Options</h3>
+<pre>
+  (?i)          Turn on case insensitive matching for the
+                duration of the subexpression.
+  (?-i)         Turn off case insensitive matching for the
+                duration of the subexpression.
+</pre>
+
+<h3>Oddities</h3>
+<pre>
+  {             If not part of a valid quantifier expression,
+                matches itself.
+</pre>
+
+<h3>Character Classes</h3>
+<pre>
+  -             Between two characters, indicates a range.
+                As the first character after any '^', the last
+                character, or the second endpoint of a range,
+                matches itself. ([.-.] can be used as the first
+                endpoint of a range.)
+
+  ^             As the first character, complements the set.
+                Otherwise, matches itself.
+
+  [             Matches itself, since classes don't nest.
+
+  ]             As the first character after any ^, matches itself.
+                Otherwise, ends the character class.
+
+  [:alnum:]     [A-Za-z0-9]
+  [:alpha:]     [A-Za-z]
+  [:blank:]     Space or tab
+  [:cntrl:]     Any control character
+  [:digit:]     [0-9]
+  [:graph:]     Any printable character except space
+  [:lower:]     [a-z]
+  [:print:]     Any printable character including space
+  [:punct:]     Any printable character except [^ A-Za-z0-9]
+  [:space:]     Space, tab, newline, carriage return, form feed,
+                vertical tab
+  [:upper:]     [A-Z]
+  [:word:]		Any word character, i.e., same as \w
+  [:xdigit:]    Any hexadecimal digit: [0-9A-Fa-f]
+</pre>
+
+<h2>Replacement</h2>
+<pre>
+  $0            The overall match
+  $N            The Nth subexpression counting '('s from the left
+  $-N           The Nth subexpression counting '('s from the right
+  ${x}          The subexpression named "x"
+  \$            Literal dollar character
+  \\            Literal backslash
+</pre>
+
+</body>
+</html>

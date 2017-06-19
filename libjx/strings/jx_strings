@@ -163,12 +163,6 @@ UnreachableHosts::jXUtil
 
 $err"
 
-# JXHelpManager
-
-MissingTOC::JXHelpManager		"There is no Table of Contents.  Please notify the programmer."
-MissingSection::JXHelpManager	"Unknown help section \"$name\".  Please notify the programmer."
-SearchingLabel::JXHelpManager	"Searching..."
-
 # JXComposeRuleList
 
 ComposeHelpPrefix::JXComposeRuleList
@@ -425,6 +419,9 @@ ReplaceFindBackWinHint::JXSearchTextDialog			"Ctrl-Shift-L"
 ReplaceIsRegexShorcut::JXSearchTextDialog	"#X"
 
 EmptySearchText::JXSearchTextDialog	"You must enter something for which to search."
+
+HelpURL::JXSearchTextDialog		"http://libjx.sourceforge.net/help/regex.html"
+QuickRefURL::JXSearchTextDialog	"http://libjx.sourceforge.net/help/regex-qref.html"
 
 # JXToolBarEditDir
 

@@ -488,7 +488,7 @@ CBFileListDirector::Receive
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
-		(CBGetApplication())->HandleHelpMenu(itsHelpMenu, kCBFileListHelpName,
+		(CBGetApplication())->HandleHelpMenu(itsHelpMenu, "CBFileListHelp",
 											 selection->GetIndex());
 		}
 

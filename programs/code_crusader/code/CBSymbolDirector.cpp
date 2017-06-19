@@ -778,7 +778,7 @@ CBSymbolDirector::Receive
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
-		(CBGetApplication())->HandleHelpMenu(itsHelpMenu, kCBSymbolHelpName,
+		(CBGetApplication())->HandleHelpMenu(itsHelpMenu, "CBSymbolHelp",
 											 selection->GetIndex());
 		}
 

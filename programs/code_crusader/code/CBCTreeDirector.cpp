@@ -11,7 +11,6 @@
 #include "CBCTree.h"
 #include "CBEditCPPMacroDialog.h"
 #include "CBProjectDocument.h"
-#include "cbHelpText.h"
 #include "cbActionDefs.h"
 #include "cbGlobals.h"
 #include <JXTextMenu.h>
@@ -68,7 +67,7 @@ CBCTreeDirector::CBCTreeDirector
 	CBProjectDocument* supervisor
 	)
 	:
-	CBTreeDirector(supervisor, NewCTree, kWindowTitleSuffix, kCBCTreeHelpName,
+	CBTreeDirector(supervisor, NewCTree, kWindowTitleSuffix, "CBCTreeHelp",
 				   jcc_c_tree_window, kTreeMenuTitleStr, kTreeMenuStr,
 				   "CBCTreeDirector",
 				   kCBCTreeToolBarID, InitCTreeToolBar)
@@ -91,7 +90,7 @@ CBCTreeDirector::CBCTreeDirector
 	:
 	CBTreeDirector(projInput, projVers, setInput, setVers, symInput, symVers,
 				   supervisor, subProject, StreamInCTree,
-				   kWindowTitleSuffix, kCBCTreeHelpName, jcc_c_tree_window,
+				   kWindowTitleSuffix, "CBCTreeHelp", jcc_c_tree_window,
 				   kTreeMenuTitleStr, kTreeMenuStr, "CBCTreeDirector",
 				   kCBCTreeToolBarID, InitCTreeToolBar,
 				   dirList, kJTrue)

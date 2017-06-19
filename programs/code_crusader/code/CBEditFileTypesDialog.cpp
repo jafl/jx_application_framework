@@ -10,7 +10,6 @@
 #include "CBEditFileTypesDialog.h"
 #include "CBFileTypeTable.h"
 #include "cbGlobals.h"
-#include "cbHelpText.h"
 #include <JXWindow.h>
 #include <JXTextButton.h>
 #include <JXTextCheckbox.h>
@@ -195,7 +194,7 @@ CBEditFileTypesDialog::Receive
 {
 	if (sender == itsHelpButton && message.Is(JXButton::kPushed))
 		{
-		(JXGetHelpManager())->ShowSection(kCBFileTypeHelpName);
+		(JXGetHelpManager())->ShowSection("CBFileTypeHelp");
 		}
 	else
 		{

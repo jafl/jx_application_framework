@@ -744,11 +744,11 @@ JXSearchTextDialog::Receive
 
 	else if (sender == itsHelpButton && message.Is(JXButton::kPushed))
 		{
-		(JXGetHelpManager())->ShowSection(itsSearchTextHelpName);
+		(JXGetHelpManager())->ShowSection(JGetString("HelpURL::JXSearchTextDialog"));
 		}
 	else if (sender == itsQRefButton && message.Is(JXButton::kPushed))
 		{
-		(JXGetHelpManager())->ShowSection(kJXRegexQRefHelpName);
+		(JXGetHelpManager())->ShowSection(JGetString("QuickRefURL::JXSearchTextDialog"));
 		}
 
 	else if (sender == itsCloseButton && message.Is(JXButton::kPushed))

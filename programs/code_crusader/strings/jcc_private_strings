@@ -16,6 +16,7 @@ CBName	"Code Crusader"
 CBURL	"http://www.newplanetsoftware.com/jcc/"
 CBEmail	""
 
+HELP_URL		"http://codecrusader.sourceforge.net/help.html"
 VERSION_URL		"http://codecrusader.sourceforge.net/VERSION"
 DOWNLOAD_URL	"https://sourceforge.net/projects/codecrusader/"
 

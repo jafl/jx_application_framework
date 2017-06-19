@@ -1692,7 +1692,7 @@ CBProjectDocument::Receive
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
-		(CBGetApplication())->HandleHelpMenu(itsHelpMenu, kCBProjectHelpName,
+		(CBGetApplication())->HandleHelpMenu(itsHelpMenu, "CBProjectHelp",
 											 selection->GetIndex());
 		}
 

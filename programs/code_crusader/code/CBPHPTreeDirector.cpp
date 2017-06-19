@@ -10,7 +10,6 @@
 #include "CBPHPTreeDirector.h"
 #include "CBPHPTree.h"
 #include "CBProjectDocument.h"
-#include "cbHelpText.h"
 #include "cbActionDefs.h"
 #include "cbGlobals.h"
 #include <JXTextMenu.h>
@@ -59,7 +58,7 @@ CBPHPTreeDirector::CBPHPTreeDirector
 	CBProjectDocument* supervisor
 	)
 	:
-	CBTreeDirector(supervisor, NewPHPTree, kWindowTitleSuffix, kCBPHPTreeHelpName,
+	CBTreeDirector(supervisor, NewPHPTree, kWindowTitleSuffix, "CBPHPTreeHelp",
 				   jcc_php_tree_window, kTreeMenuTitleStr, kTreeMenuStr,
 				   "CBPHPTreeDirector",
 				   kCBPHPTreeToolBarID, InitPHPTreeToolBar)
@@ -81,7 +80,7 @@ CBPHPTreeDirector::CBPHPTreeDirector
 	:
 	CBTreeDirector(projInput, projVers, setInput, setVers, symInput, symVers,
 				   supervisor, subProject, StreamInPHPTree,
-				   kWindowTitleSuffix, kCBPHPTreeHelpName, jcc_php_tree_window,
+				   kWindowTitleSuffix, "CBPHPTreeHelp", jcc_php_tree_window,
 				   kTreeMenuTitleStr, kTreeMenuStr, "CBPHPTreeDirector",
 				   kCBPHPTreeToolBarID, InitPHPTreeToolBar,
 				   NULL, kJFalse)

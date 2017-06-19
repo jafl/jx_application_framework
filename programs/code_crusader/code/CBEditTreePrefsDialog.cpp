@@ -10,7 +10,6 @@
 #include "CBEditTreePrefsDialog.h"
 #include "CBProjectDocument.h"
 #include "cbGlobals.h"
-#include "cbHelpText.h"
 #include <JXWindow.h>
 #include <JXTextButton.h>
 #include <JXTextCheckbox.h>
@@ -178,7 +177,7 @@ CBEditTreePrefsDialog::Receive
 
 	else if (sender == itsHelpButton && message.Is(JXButton::kPushed))
 		{
-		(JXGetHelpManager())->ShowSection(kCBTreePrefsHelpName);
+		(JXGetHelpManager())->ShowSection("CBTreePrefsHelp");
 		}
 
 	else

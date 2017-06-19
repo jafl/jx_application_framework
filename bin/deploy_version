@@ -33,3 +33,6 @@ for NAME in $*; do
 
 	scp programs/$NAME/release/* jafl,$PROJ@web.sourceforge.net:htdocs/;
 done
+
+# css
+scp -r doc/html/* jafl,libjx@web.sourceforge.net:htdocs/;

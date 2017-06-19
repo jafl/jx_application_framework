@@ -10,7 +10,6 @@
 #include "CBJavaTreeDirector.h"
 #include "CBJavaTree.h"
 #include "CBProjectDocument.h"
-#include "cbHelpText.h"
 #include "cbActionDefs.h"
 #include "cbGlobals.h"
 #include <JXTextMenu.h>
@@ -61,7 +60,7 @@ CBJavaTreeDirector::CBJavaTreeDirector
 	CBProjectDocument* supervisor
 	)
 	:
-	CBTreeDirector(supervisor, NewJavaTree, kWindowTitleSuffix, kCBJavaTreeHelpName,
+	CBTreeDirector(supervisor, NewJavaTree, kWindowTitleSuffix, "CBJavaTreeHelp",
 				   jcc_java_tree_window, kTreeMenuTitleStr, kTreeMenuStr,
 				   "CBJavaTreeDirector",
 				   kCBJavaTreeToolBarID, InitJavaTreeToolBar)
@@ -83,7 +82,7 @@ CBJavaTreeDirector::CBJavaTreeDirector
 	:
 	CBTreeDirector(projInput, projVers, setInput, setVers, symInput, symVers,
 				   supervisor, subProject, StreamInJavaTree,
-				   kWindowTitleSuffix, kCBJavaTreeHelpName, jcc_java_tree_window,
+				   kWindowTitleSuffix, "CBJavaTreeHelp", jcc_java_tree_window,
 				   kTreeMenuTitleStr, kTreeMenuStr, "CBJavaTreeDirector",
 				   kCBJavaTreeToolBarID, InitJavaTreeToolBar,
 				   NULL, kJFalse)

@@ -259,7 +259,7 @@ CBTextDocument::CBTextDocument
 	:
 	JXFileDocument(CBGetApplication(), fileName, !tmpl, kJTrue, ""),
 	JPrefObject(CBGetPrefsManager(), kCBTextDocID),
-	itsHelpSectionName(kCBEditorHelpName)
+	itsHelpSectionName("CBOverviewHelp")
 {
 	CBTextDocumentX1(type);
 	BuildWindow(kJTrue, ConstructTextEditor);
@@ -277,14 +277,14 @@ CBTextDocument::CBTextDocument
 
 CBTextDocument::CBTextDocument
 	(
-	std::istream&			input,
+	std::istream&		input,
 	const JFileVersion	vers,
 	JBoolean*			keep
 	)
 	:
 	JXFileDocument(CBGetApplication(), "", kJFalse, kJTrue, ""),
 	JPrefObject(CBGetPrefsManager(), kCBTextDocID),
-	itsHelpSectionName(kCBEditorHelpName)
+	itsHelpSectionName("CBOverviewHelp")
 {
 	CBTextDocumentX1(kCBUnknownFT);
 	BuildWindow(kJTrue, ConstructTextEditor);

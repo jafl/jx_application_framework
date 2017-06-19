@@ -1,0 +1,291 @@
+<html>
+<head>
+
+<title>Regex Search &amp; Replace</title>
+<link rel="stylesheet" type="text/css" href="base.css" />
+
+</head>
+<body>
+
+<h1>Regular Expressions</h1>
+
+<p><a href="regex-qref.html">Quick Reference</a></p>
+
+<h2>Regular Expression Searching</h3>
+
+<p>When you turn on the "Regex search (egrep)" option in the Search Text window, you turn on the full power of Perl Regular Expressions. Most strings that you enter will work just as before, matching exactly what you typed in, but some characters have special meaning, as described below.</p>
+
+<p>To guarantee that a non-alphabetic character does not have a special meaning, precede it with a backslash (\).  This also works for backslash itself, so \\ matches a single backslash.</p>
+
+<p>Note that since Perl regular expressions are incredibly powerful, this section only provides a summary of the most useful options.</p>
+
+<h3>Matching characters</h3>
+
+<dl class="code-terms">
+	<dt>. (period)</dt>
+	<dd>Matches any single character.</dd>
+	<dd><code>a.c</code> can match <code>abc</code> or <code>axc</code> but not <code>axyc</code>.</dd>
+
+	<dt>[ ] (square brackets)</dt>
+	<dd>This defines a "character class" and matches any single character out of the characters listed between the brackets (e.g. <code>[abc]</code> can match any one of <code>a</code>, <code>b</code>, or <code>c</code>), with the exception of the following:
+		<dl class="code-terms">
+			<dt>- (dash)</dt>
+			<dd>The most common use of character classes is to specify ranges of characters <em>in the ASCII table</em> by using a dash, as in <code>[0-9]</code>, which can match any character between 0 and 9.  Note that, since it is based on the ASCII table, <code>[A-z]</code> will match A through Z, [, \, ], ^, _, `, and a through z.  To match any alphabetic character, regardless of case, use <code>[A-Za-z]</code> or turn on the "Ignore case" checkbox in the Search window.</dd>
+			<dd>To include a dash as a regular character to be matched, place it first (but after any leading caret), last, or as the <em>second</em> endpoint of a range.  (<code>[.-.]</code> allows a dash to be the first character in a range.)</dd>
+
+			<dt>^ (caret)</dt>
+			<dd>This is only special when it is the first character after the open bracket. It then means "match any single character <em>other</em> than what follows." As an example, <code>[^abc]</code> can match <code>d</code>. Note that, since it is based on the ASCII table, <code>[^0-9]</code> will match any ASCII character other than 0 through 9, including newlines and weird binary noise!</dd>
+		</dl>
+
+		<p>Character classes cannot be nested, so <code>[</code> is not a special character.</p>
+
+		<p>Since <code>]</code> normally ends the list, it must be listed first (but after any leading caret) in order to include it as a regular character.</p>
+	</dd>
+</dl>
+
+<h4>Types of characters</h4>
+
+<dl class="code-terms">
+	<dt>\t</dt>
+	<dd>Matches a horizontal tab character.</dd>
+	<dt>\n</dt>
+	<dd>Matches a newline character.</dd>
+
+	<dt>\w</dt>
+	<dd>Matches any single character that can legally be used in a variable name in the C programming language.  Equivalent to <code>[a-zA-Z0-9_]</code>.</dd>
+	<dt>\W</dt>
+	<dd>The opposite of <code>\w</code>.  Equivalent to <code>[^a-zA-Z0-9_]</code>.</dd>
+
+	<dt>\s</dt>
+	<dd>Matches a single whitespace character.  Equivalent to <code>[ \t\n\r\f\v]</code>. (Note the space at the front.)</dd>
+	<dt>\S</dt>
+	<dd>The opposite of <code>\s</code>.  Equivalent to <code>[^ \t\n\r\f\v]</code>. (Note the space at the front.)</dd>
+
+	<dt>\d</dt>
+	<dd>Matches a single decimal digit.  Equivalent to <code>[0-9]</code>.</dd>
+	<dt>\D</dt>
+	<dd>The opposite of <code>\d</code>. Matches any single character other than a decimal digit.  Equivalent to <code>[^0-9]</code>.</dd>
+</dl>
+
+<h3>Suffixes that specify the number of matches</h3>
+
+<p>These suffixes are called "quantifiers" and act on the sub-expression that they follow.</p>
+
+<dl class="code-terms">
+	<dt>? (question mark)</dt>
+	<dd>Matches zero or one occurrence. <br>
+		<code>ab?</code> can match both <code>a</code> and <code>ab</code></dd>
+
+	<dt>* (asterisk)</dt>
+	<dd>Matches zero or more occurrences. <br>
+		<code>ab*</code> can match <code>a</code>, <code>ab</code>, <code>abb</code>, <code>abbb</code>, etc.</dd>
+
+	<dt>+ (plus)</dt>
+	<dd>Matches one or more occurrences. <br>
+		<code>ab+</code> can match <code>ab</code>, <code>abb</code>, <code>abbb</code>, etc.</dd>
+
+	<dt>{min,max}</dt>
+	<dd>Matches at least <code>min</code> occurrences and at most <code>max</code> occurrences. <br>
+		<code>ab{2,4}</code> can match <code>abb</code>, <code>abbb</code>, and <code>abbbb</code></dd>
+
+	<dt>{n}</dt>
+	<dd>Matches exactly <code>n</code> occurrences.</dd>
+
+	<dt>{min,}</dt>
+	<dd>Matches at least <code>min</code> occurrences.</dd>
+</dl>
+
+<p>Note:  A single open brace (<code>{</code>) that is <em>not</em> part of one of the above expressions is treated as an ordinary character.</p>
+
+<h3>Combining expressions</h3>
+
+<dl class="code-terms">
+	<dt>| (vertical bar)</dt>
+	<dd>Either one expression or the other <br>
+		<code>a[xy]|b[xy]</code> can match <code>ax</code>, <code>ay</code>, <code>bx</code>, and <code>by</code></dd>
+</dl>
+
+<h3>Grouping</h3>
+
+<dl>
+	<dt>Parentheses define a subexpression.  They act as grouping symbols, so that quantifiers and the vertical bar act on the complete expression rather than on a single character or character class.</dt>
+	<dd><code>(ab){1,2}</code> can match <code>ab</code> and <code>abab</code>, while <code>ab{1,2}</code> can match <code>ab</code> and <code>abb</code>.</dd>
+
+	<dt>Parentheses also "capture" what they match so that it can later be used in backreferences (see below) and the replacement pattern (see Regex Replacement, below).</dt>
+	<dd><code>([ab])([cd])</code> matches exactly the same strings as <code>[ab][cd]</code>, except that what each character class matched can be extracted individually and used in a backreference or the replacement pattern.</dd>
+
+	<dt>Parentheses can also be named, so that it is easier to refer to what they captured.  The syntax is <code>(?P&lt;<i>name</i>&gt;...)</code>, where <i>name</i> can contain only letters, numbers, and underscores.  Obviously, each name can only be used once inside the regex.</dt>
+	<dd><code>(?P&lt;first&gt;[ab])(?P&lt;second&gt;[cd])</code> matches exactly the same strings as <code>[ab][cd]</code>, except that what each character class matched can be extracted individually by name and used in a backreference or the replacement pattern.</dd>
+</dl>
+
+<h3>Backreferences</h3>
+
+<dl>
+	<dt>Backreferences allow you to construct an expression which says, in effect, "Match something, and then match what was previously matched."  The syntax is <code>\N</code>, where N is an integer that does not start with a zero and is the index of a previously encountered subexpression.</dt>
+	<dd><code>([ab])\1</code> can match <code>aa</code> and <code>bb</code>.</dd>
+
+	<dt>Named backreferences allow easier access to a previously encountered subexpression.  The syntax is <code>(?P=<i>name</i>)</code>.</dt>
+	<dd><code>(?P<x>[ab])(?P=x)</code> can match <code>aa</code> and <code>bb</code>.</dd>
+</dl>
+
+<h3>Matching special positions (anchors)</h3>
+
+<dl class="code-terms">
+	<dt>^ (caret)</dt>
+	<dd>Forces the following expression to match only at the beginning of a line. <br>
+		<code>^a</code> can match the <code>a</code> at the beginning of a line</dd>
+
+	<dt>$ (dollar sign)</dt>
+	<dd>Forces the preceding expression to match only at the end of a line. <br>
+		<code>a$</code> can match the <code>a</code> at the end of a line</dd>
+
+	<dt>\b</dt>
+	<dd>Forces the following expression to match only at the beginning or end of a word, between a character matching <code>\W</code> and a character matching <code>\w</code>. <br>
+		<code>\ba</code> can match the <code>a</code> in <code>bad <u>a</u>rt</code>.</dd>
+
+	<dt>\B</dt>
+	<dd>Forces the following expression to match only when <em>not</em> at the beginning or end of a word. <br>
+		<code>\Ba</code> can match the <code>a</code> in <code>b<u>a</u>d art</code>.</dd>
+</dl>
+
+<h3>Look-behind and look-ahead assertions</h3>
+
+<dl class="code-terms">
+	<dt>(?&lt;=y)x</dt>
+	<dd>Forces the expression x to match only if preceded by the expression y. <br>
+		<code>(?&lt;=a)b</code> can match only the second occurrence of <code>b</code> in the string <code>cbabc</code></dd>
+
+	<dt>(?&lt;!y)x</dt>
+	<dd>Forces the expression x to match only if not preceded by the expression y. <br>
+		<code>(?&lt;!a)b</code> can match only the first occurrence of <code>b</code> in the string <code>cbabc</code></dd>
+
+	<dt>x(?=y)</dt>
+	<dd>Forces the expression x to match only if followed by the expression y. <br>
+		<code>b(?=a)</code> can match only the first occurrence of <code>b</code> in the string <code>cbabc</code></dd>
+
+	<dt>x(?!y)</dt>
+	<dd>Forces the expression x to match only if not followed by the expression y. <br>
+		<code>b(?!a)</code> can match only the second occurrence of <code>b</code> in the string <code>cbabc</code></dd>
+</dl>
+
+<h3>Modifying options inside an expression</h3>
+
+<dl class="code-terms">
+	<dt>(?i)</dt>
+	<dd>The rest of the expression, up to the first closing parenthesis, will ignore case, even if the option is not set in the Search Text dialog.</dd>
+
+	<dt>(?-i)</dt>
+	<dd>The rest of the expression, up to the first closing parenthesis, will <em>not</em> ignore case, even if the option is set in the Search Text dialog.</dd>
+</dl>
+
+<h3>Special expressions</h3>
+
+<p>There are several "shorthands" that can be used inside character classes:</p>
+
+<blockquote>
+<pre>
+[:alnum:]    [A-Za-z0-9]
+[:alpha:]    [A-Za-z]
+[:blank:]    space or tab
+[:cntrl:]    any control character
+[:digit:]    [0-9] or \d
+[:graph:]    any printable character except space
+[:lower:]    [a-z]
+[:print:]    any printable character including space
+[:punct:]    any printable character except [ A-Za-z0-9]
+[:space:]    space, tab, newline, carriage return, form feed, vertical tab
+[:upper:]    [A-Z]
+[:word:]     any word character, i.e., same as \w
+[:xdigit:]   any hexadecimal digit: [0-9A-Fa-f]
+</pre>
+</blockquote>
+
+<p>As an example, <code>[^abc[:digit:]]</code> can match any character other than a, b, c, and 0 through 9.  You can also place a caret after the first colon to negate the class, e.g., <code>[:^digit:]</code>.</p>
+
+<p><cite>Paraphrased from the <a href="http://pcre.sourceforge.net/">PCRE</a> man page and <cite><a href="http://www.oreilly.com/catalog/regex/desc.html"> Mastering Regular Expressions</a></cite>, by <a href="http://enterprise.ic.gc.ca/~jfriedl/regex/">Jeffrey Friedl</a>, O'Reilly, 1997</cite></p>
+
+<h2><a name="Replace">Regular Expression Replacement</a></h2>
+
+<p>When you check the "Regex replace" checkbox in the Search Text window, you get more flexibility for specifying how to perform replacement after a successful search.  The syntax is much simpler than for searching.  Every character other than backslash (\) and dollar ($) acts the same as before.</p>
+
+<p>When a backslash is followed by one of the following characters, it is translated just like in the search pattern:</p>
+
+<dl class="code-terms">
+	<dt>\\</dt>
+	<dd>backslash</dd>
+
+	<dt>\$</dt>
+	<dd>dollar</dd>
+
+	<dt>\t</dt>
+	<dd>horizontal tab</dd>
+
+	<dt>\n</dt>
+	<dd>newline</dd>
+</dl>
+
+<p>When a dollar is followed by a positive integer N, this is converted into the string that the Nth pair of parentheses in the search string matched. $0 represents the entire match, even if it was not enclosed in parentheses. As an example:</p>
+
+<dl class="code-terms">
+	<dt>ab(c[ef])gh</dt>
+	<dd>This can match <code>abcegh</code> and <code>abcfgh</code>.</dd>
+
+	<dt>wx$1yz</dt>
+	<dd>This converts the above matches as follows: <br>
+		<code>abcegh</code> -> <code>wxceyz</code> <br>
+		<code>abcfgh</code> -> <code>wxcfyz</code></dd>
+</dl>
+
+<p>When a dollar is followed by a name in curly braces, this is converted into the string that the named pair of parentheses in the search string matched. As an example:</p>
+
+<dl class="code-terms">
+	<dt>ab(?P&lt;x&gt;c[ef])gh</dt>
+	<dd>This can match <code>abcegh</code> and <code>abcfgh</code>.</dd>
+
+	<dt>wx${x}yz</dt>
+	<dd>This converts the above matches as follows: <br>
+		<code>abcegh</code> -> <code>wxceyz</code> <br>
+		<code>abcfgh</code> -> <code>wxcfyz</code></dd>
+</dl>
+
+<p>Without named parentheses, complicated regex's with nested parentheses can make it very difficult to determine the correct value of N.  There are two features that alleviate this problem.</p>
+
+<p>If the opening parenthesis is followed by <code>?:</code>, then the contents are not counted when determining N.  As an example, if the regex is <code>((?:red|white) (king|queen))</code>, then the replacement pattern <code>$2</code> will produce "king" or "queen" rather than "red" or "white."</p>
+
+<p>For the hackers out there, you can also use negative integers after a dollar.  $-1 is converted into the string that the <em>last</em> pair of parentheses in the search string matched, $-2 is converted into the string that the next to last pair of parentheses in the search string matched, etc. This can be useful if you want to count from the end of the string.</p>
+
+<h3>For the experts...</h3>
+
+The best book on the subject is:
+
+<blockquote>
+<cite><a href="http://www.oreilly.com/catalog/regex/desc.html">Mastering Regular Expressions</a></cite>, by <a href="http://enterprise.ic.gc.ca/~jfriedl/regex/">Jeffrey Friedl</a>, O'Reilly, 1997.
+</blockquote>
+
+<p>The PCRE man pages are the final authority on how regular expressions behave.  Therein are described many features which are too complicated and/or obscure to be included here, e.g., lookahead and lookbehind assertions, conditional subpatterns, and subpattern recursion.</p>
+
+<h4>Matching ambiguities (the longest of the leftmost)</h4>
+
+<p>It is easy to write a regular expression that can match a given string in many ways at many positions.  The rule that avoids such ambiguities is that the match that starts closest to the beginning of the string wins.  If more than one match is possible at this position, the longest possible match wins, unless you explicitly use the <code>?</code> modifier to make a quantifier non-greedy.</p>
+
+<h4>Operator precedence</h4>
+
+<p>When more than one operator can apply to a subexpression, they are applied in the following order of precedence:</p>
+
+<blockquote>
+<pre>
+(highest precedence, applied first)
+
+() [] ^ $ \
+* + ? {,}
+catenation
+|
+
+(lowest precedence, applied last)
+</pre>
+</blockquote>
+
+<p>As an example, <code>a|b*</code> is equivalent to <code>(a)|(b*)</code> and matches a single <code>a</code> or any number of <code>b</code>'s rather than being equivalent to <code>(a|b)*</code> and matching any number of consecutive <code>a</code>'s and <code>b</code>'s.</p>
+
+</body>
+</html>

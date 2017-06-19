@@ -10,7 +10,6 @@
 #include "CBEditCPPMacroDialog.h"
 #include "CBCPPMacroTable.h"
 #include "cbGlobals.h"
-#include "cbHelpText.h"
 #include <JXWindow.h>
 #include <JXTextButton.h>
 #include <JXStaticText.h>
@@ -175,7 +174,7 @@ CBEditCPPMacroDialog::Receive
 {
 	if (sender == itsHelpButton && message.Is(JXButton::kPushed))
 		{
-		(JXGetHelpManager())->ShowSection(kCBCTreeCPPHelpName);
+		(JXGetHelpManager())->ShowSection("CBCTreeHelp#CPP");
 		}
 	else
 		{

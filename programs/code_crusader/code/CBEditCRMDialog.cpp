@@ -11,7 +11,6 @@
 #include "CBCRMRuleListTable.h"
 #include "CBCRMRuleTable.h"
 #include "cbGlobals.h"
-#include "cbHelpText.h"
 #include <JXWindow.h>
 #include <JXTextButton.h>
 #include <JXVertPartition.h>
@@ -268,7 +267,7 @@ CBEditCRMDialog::Receive
 {
 	if (sender == itsHelpButton && message.Is(JXButton::kPushed))
 		{
-		(JXGetHelpManager())->ShowSection(kCBCRMHelpName);
+		(JXGetHelpManager())->ShowSection("CBCRMHelp");
 		}
 	else
 		{

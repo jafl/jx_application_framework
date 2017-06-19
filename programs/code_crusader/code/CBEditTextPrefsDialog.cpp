@@ -16,7 +16,6 @@
 #include "CBEmulator.h"
 #include "cbmUtil.h"
 #include "cbGlobals.h"
-#include "cbHelpText.h"
 #include <JXWindow.h>
 #include <JXTextMenu.h>
 #include <JXTextButton.h>
@@ -475,7 +474,7 @@ CBEditTextPrefsDialog::Receive
 
 	else if (sender == itsHelpButton && message.Is(JXButton::kPushed))
 		{
-		(JXGetHelpManager())->ShowSection(kCBEditorPrefsHelpName);
+		(JXGetHelpManager())->ShowSection("CBEditorHelp-Prefs");
 		}
 
 	else if ((sender == itsCreateBackupCB || sender == itsBalanceWhileTypingCB) &&

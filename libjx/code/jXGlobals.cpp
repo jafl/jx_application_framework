@@ -101,7 +101,7 @@ JXCreateGlobals
 
 	theWebBrowser = jnew JXWebBrowser;
 	assert( theWebBrowser != NULL );
-	JSetWebBrowser(theWebBrowser);
+	JSetWebBrowser(theWebBrowser);		// so JGetWebBrowser() will work
 }
 
 /******************************************************************************
@@ -332,34 +332,17 @@ JXGetHelpManager
 /******************************************************************************
  JXInitHelp
 
-	Creates JXHelpManager.  Refer to the JXHelpManager documentation
-	for RegisterSection() for information about the arguments to this
-	function.
-
-	tocSectionName can be NULL.
+	Creates JXHelpManager.
 
  ******************************************************************************/
 
 void
-JXInitHelp
-	(
-	const JUtf8Byte*	tocSectionName,
-	const JSize			sectionCount,
-	const JUtf8Byte*	sectionName[]
-	)
+JXInitHelp()
 {
 	assert( theHelpManager == NULL );
-	assert( sectionCount > 0 );
 
 	theHelpManager = jnew JXHelpManager;
 	assert( theHelpManager != NULL );
-
-	theHelpManager->SetTOCSectionName(tocSectionName);
-
-	for (JIndex i=0; i<sectionCount; i++)
-		{
-		theHelpManager->RegisterSection(sectionName[i]);
-		}
 }
 
 /******************************************************************************
@@ -450,8 +433,6 @@ JXSetMDIServer
 
 /******************************************************************************
  JXGetWebBrowser
-
-	This version creates the object if it doesn't already exist.
 
  ******************************************************************************/
 

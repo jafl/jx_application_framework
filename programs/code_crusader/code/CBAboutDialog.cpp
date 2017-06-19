@@ -9,7 +9,6 @@
 
 #include "CBAboutDialog.h"
 #include "CBAboutDialogIconTask.h"
-#include "cbHelpText.h"
 #include "cbGlobals.h"
 #include <JXWindow.h>
 #include <JXTextButton.h>
@@ -162,18 +161,18 @@ CBAboutDialog::Receive
 		{
 		if (itsIsUpgradeFlag)
 			{
-			(JXGetHelpManager())->ShowSection(kCBChangeLogName);
+			(JXGetHelpManager())->ShowSection("CBEditorHelp");
 			}
 		else
 			{
-			(JXGetHelpManager())->ShowSection(kCBOverviewHelpName);
+			(JXGetHelpManager())->ShowSection("CBOverviewHelp");
 			}
 		EndDialog(kJTrue);
 		}
 
 	else if (sender == itsCreditsButton && message.Is(JXButton::kPushed))
 		{
-		(JXGetHelpManager())->ShowSection(kCBCreditsName);
+		(JXGetHelpManager())->ShowSection("CBEditorhElp");
 		EndDialog(kJTrue);
 		}
 

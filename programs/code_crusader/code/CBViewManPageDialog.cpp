@@ -10,7 +10,6 @@
 #include "CBViewManPageDialog.h"
 #include "CBManPageDocument.h"
 #include "cbGlobals.h"
-#include "cbHelpText.h"
 #include <JXWindow.h>
 #include <JXHelpManager.h>
 #include <JXTextButton.h>
@@ -218,7 +217,7 @@ CBViewManPageDialog::Receive
 		}
 	else if (sender == itsHelpButton && message.Is(JXButton::kPushed))
 		{
-		(JXGetHelpManager())->ShowSection(kCBManPageHelpName);
+		(JXGetHelpManager())->ShowSection("CBManPageHelp");
 		}
 
 	else if (sender == itsFnHistoryMenu && message.Is(JXMenu::kItemSelected))

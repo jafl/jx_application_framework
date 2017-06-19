@@ -20,7 +20,6 @@
 #include "CBSymbolTypeList.h"
 #include "CBPTPrinter.h"
 #include "CBPSPrinter.h"
-#include "cbHelpText.h"
 #include <JXDisplay.h>
 #include <JXWindow.h>
 #include <JXImageCache.h>
@@ -105,8 +104,7 @@ CBCreateGlobals
 	thePrefsManager = jnew CBPrefsManager(&isNew);
 	assert( thePrefsManager != NULL );
 
-	JXInitHelp(kCBTOCHelpName, kCBHelpSectionCount, kCBHelpSectionName);
-	thePrefsManager->UpgradeHelpPrefs();
+	JXInitHelp();
 
 	theDocManager = jnew CBDocumentManager;
 	assert( theDocManager != NULL );

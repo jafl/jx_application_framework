@@ -10,7 +10,6 @@
 #include "CBMDIServer.h"
 #include "CBTextDocument.h"
 #include "cbGlobals.h"
-#include "cbHelpText.h"
 #include <JXDockManager.h>
 #include <JXSplashWindow.h>
 #include <JXWindow.h>

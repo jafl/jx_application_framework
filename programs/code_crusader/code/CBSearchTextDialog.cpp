@@ -14,7 +14,6 @@
 #include "CBSearchFilterHistoryMenu.h"
 #include "CBListCSF.h"
 #include "CBProjectDocument.h"
-#include "cbHelpText.h"
 #include "cbmUtil.h"
 #include "cbGlobals.h"
 #include <JXDisplay.h>
@@ -101,7 +100,7 @@ CBSearchTextDialog::Create()
 
 CBSearchTextDialog::CBSearchTextDialog()
 	:
-	JXSearchTextDialog(kCBSearchTextHelpName),
+	JXSearchTextDialog("CBSearchTextHelp"),
 	JPrefObject(CBGetPrefsManager(), kCBSearchTextID),
 	itsFileSetName("Untitled")
 {

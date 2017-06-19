@@ -9,7 +9,6 @@
 
 #include "CBProjectConfigDialog.h"
 #include "cbmUtil.h"
-#include "cbHelpText.h"
 #include <JXWindow.h>
 #include <JXTextButton.h>
 #include <JXStaticText.h>
@@ -233,7 +232,7 @@ CBProjectConfigDialog::Receive
 		}
 	else if (sender == itsHelpButton && message.Is(JXButton::kPushed))
 		{
-		(JXGetHelpManager())->ShowSection(kCBProjectConfigHelpName);
+		(JXGetHelpManager())->ShowSection("CBProjectHelp-Config");
 		}
 	else
 		{

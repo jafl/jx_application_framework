@@ -1220,26 +1220,6 @@ CBPrefsManager::UpgradeData
 }
 
 /******************************************************************************
- UpgradeHelpPrefs
-
-	Call this after creating JXHelpManager.
-
- ******************************************************************************/
-
-void
-CBPrefsManager::UpgradeHelpPrefs()
-{
-	std::string data;
-	if ((JXGetSharedPrefsManager())->WasNew() && GetData(kCBHelpID, &data))
-		{
-		std::istringstream dataStream(data);
-		(JXGetHelpManager())->ReadPrefs(dataStream);
-		(JXGetHelpManager())->JXSharedPrefObject::WritePrefs();
-		}
-	RemoveData(kCBHelpID);
-}
-
-/******************************************************************************
  ConvertFromSuffixLists (private)
 
 	[10000,10004], [30000,30004], 39998, 39999 -> kCBFileTypeListID

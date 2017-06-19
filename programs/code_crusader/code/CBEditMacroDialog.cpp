@@ -12,7 +12,6 @@
 #include "CBCharActionTable.h"
 #include "CBMacroTable.h"
 #include "cbGlobals.h"
-#include "cbHelpText.h"
 #include <JXWindow.h>
 #include <JXTextButton.h>
 #include <JXVertPartition.h>
@@ -361,7 +360,7 @@ CBEditMacroDialog::Receive
 {
 	if (sender == itsHelpButton && message.Is(JXButton::kPushed))
 		{
-		(JXGetHelpManager())->ShowSection(kCBMacroHelpName);
+		(JXGetHelpManager())->ShowSection("CBMacroHelp");
 		}
 	else
 		{

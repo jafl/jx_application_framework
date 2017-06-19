@@ -15,7 +15,6 @@
 #include "CBTextFileType.h"
 #include <JXWidget.h>		// need defn of H/VSizing
 #include <JTextEditor.h>	// need defn of PlainTextFormat, CRMRuleList
-#include "cbHelpText.h"
 
 class JTEStyler;
 class CBTextEditor;
@@ -51,7 +50,7 @@ class CBTextDocument : public JXFileDocument, public JPrefObject
 public:
 
 	CBTextDocument(const CBTextFileType type = kCBUnknownFT,
-				   const JCharacter* helpSectionName = kCBEditorHelpName,
+				   const JCharacter* helpSectionName = "CBEditorHelp",
 				   const JBoolean setWMClass = kJTrue,
 				   CBTextEditorCtorFn* teCtorFn = ConstructTextEditor);
 	CBTextDocument(const JCharacter* fileName,

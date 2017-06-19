@@ -57,7 +57,7 @@ CBCompileDocument::CBCompileDocument
 	CBProjectDocument* projDoc
 	)
 	:
-	CBExecOutputDocument(kCBExecOutputFT, kCBCompileHelpName, kJFalse),
+	CBExecOutputDocument(kCBExecOutputFT, "CBCompileHelp", kJFalse),
 	itsProjDoc(projDoc),
 	itsHasErrorsFlag(kJFalse)
 {

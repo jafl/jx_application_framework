@@ -53,8 +53,7 @@ const JUtf8Byte*		JXGetDockWindowClass();
 
 void	JXCreateDefaultDocumentManager(const JBoolean wantShortcuts = kJTrue);
 
-void	JXInitHelp(const JUtf8Byte* tocSectionName,
-				   const JSize sectionCount, const JUtf8Byte* sectionName[]);
+void	JXInitHelp();
 
 	// called by object constructors
 
