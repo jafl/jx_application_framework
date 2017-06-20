@@ -11,6 +11,8 @@ Changes to the build system:
 	available) pre-compiled libraries, installed by the native package
 	manager.  The new ./configure script handles this for known systems.
 
+	Upgraded all applications to GPL v3.  Libraries are still under the LGPL.
+
 2.6.0:
 
 	Removed obsolete build targets and build config.

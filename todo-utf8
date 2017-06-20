@@ -1,7 +1,11 @@
-fix makemake README.md formatting
-
 move "online" help to sourceforge site
 	merge to single page for each app
+		code medic
+		code mill
+		drakon
+		glove
+		leibnitz
+		systemg
 
 	\" -> "
 	\\ => \
