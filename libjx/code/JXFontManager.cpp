@@ -140,7 +140,6 @@ JXFontManager::IsPostscript
 	return JI2B(name == "Arial"                     ||	// Helvetica sucks on OS X
 				name.BeginsWith("Courier")          ||
 				name.BeginsWith("Helvetica")        ||
-				name == "Symbol"                    ||
 				name == "Times"                     ||
 				name.Contains("Bookman")            ||
 				name.Contains("Century Schoolbook") ||
@@ -169,6 +168,7 @@ JXFontManager::IsUseless
 	const
 {
 	return JI2B(name.Contains("Dingbats")         ||
+				name == "Symbol"                  ||
 				name.Contains("Standard Symbols") ||
 				name.Contains("Cursor")           ||
 				name.EndsWith(" Ti"));
@@ -706,10 +706,9 @@ JXFontManager::BuildTrueTypeFontName
 {
 	xFontStr->Clear();
 
-	// NxM is not TrueType.  Symbol is strange.
+	// NxM is not TrueType.
 
-	if (nxmRegex.Match(xName) ||
-		JString::Compare(xName, "Symbol", kJFalse) == 0)
+	if (nxmRegex.Match(xName))
 		{
 		return kJFalse;
 		}
