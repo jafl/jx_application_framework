@@ -79,15 +79,7 @@ JXStaticText::JXStaticTextX
 
 	TESetLeftMarginWidth(kMinLeftMarginWidth);
 
-	if (JString::CompareMaxNBytes(text.GetBytes(), "<html>", 6, kJFalse))
-		{
-		std::istrstream input(text.GetBytes(), text.GetByteCount());
-		ReadHTML(input);
-		}
-	else
-		{
-		SetText(text);
-		}
+	SetText(text);
 
 	JCoordinate w = origW;
 	JCoordinate h = origH;
