@@ -112,7 +112,7 @@ convenient for building several different versions of the same library.
 (e.g. static .a and shared .so versions)
 
 The command line options for makemake are as follows:
-
+```
   -h                prints help
   -hf               <header file name>  - default Make.header
   -if               <project file name> - default Make.files
@@ -123,14 +123,14 @@ The command line options for makemake are as follows:
   --check           only rebuild output file if input files are newer
   --choose          interactively choose the targets
   --make-name       <make binary> - name of GNU make binary
-
+```
 The following options can be used multiple times:
-
+```
   --define      <code> - make code to prepend to Make.header
   --search-path <path> - add to paths to search after . for input files
   --suffix-map  .x.y   - file.y results from compiling file.x
   --no-parse    .x.y.z - specifies suffixes of files which should not be parsed
-
+```
 The --choose option prints a list of the targets found in Make.files, and
 lets you choose which ones to include in the final Makefile.  Another way
 to specify a particular subset of targets is to include their names after

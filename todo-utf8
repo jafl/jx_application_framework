@@ -1,11 +1,4 @@
-check makemake README.md formatting
-jcc:
-	link CBMakemakeHelp to makemake README.md
-	link "cmake" to website
-	link for C#, lua, flex, INI file types
-	dock, regex, qref links
-	link to GPL v2 for license
-	fix links to https://github.com/jafl/jx_application_framework/blob/*
+fix makemake README.md formatting
 
 move "online" help to sourceforge site
 	merge to single page for each app
