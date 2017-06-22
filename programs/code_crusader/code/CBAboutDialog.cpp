@@ -172,7 +172,7 @@ CBAboutDialog::Receive
 
 	else if (sender == itsCreditsButton && message.Is(JXButton::kPushed))
 		{
-		(JXGetHelpManager())->ShowSection("CBEditorhElp");
+		(JXGetHelpManager())->ShowCredits();
 		EndDialog(kJTrue);
 		}
 

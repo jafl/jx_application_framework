@@ -281,7 +281,7 @@ CBApp::HandleHelpMenu
 
 	else if (index == kHelpTOCCmd)
 		{
-		(JXGetHelpManager())->ShowSection("");
+		(JXGetHelpManager())->ShowTOC();
 		}
 	else if (index == kHelpOverviewCmd)
 		{
@@ -305,11 +305,11 @@ CBApp::HandleHelpMenu
 
 	else if (index == kHelpChangeLogCmd)
 		{
-		(JXGetHelpManager())->ShowSection("CBEditorHelp");
+		(JXGetHelpManager())->ShowChangeLog();
 		}
 	else if (index == kHelpCreditsCmd)
 		{
-		(JXGetHelpManager())->ShowSection("CBEditorhElp");
+		(JXGetHelpManager())->ShowCredits();
 		}
 }
 
