@@ -1,16 +1,21 @@
+code medic
+	check "gdb manual" & "xdebug" links
+	update java6 links
+
+systemg
+	check sshfs link
+
 move "online" help to sourceforge site
 	merge to single page for each app
-		code medic
-		code mill
 		drakon
 		glove
 		leibnitz
-		systemg
 
 	\" -> "
 	\\ => \
 	href=jxhelp:([^#>]+)#([^>]+) -> href="#$1-$2"
 	href=jxhelp:([^#>]+) -> href="#$1"
+	jxhelp
 	href=([^">]+) -> href="$1"
 	<(/?)tt> -> <$1code>
 	page -> section

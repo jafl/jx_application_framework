@@ -1,0 +1,337 @@
+<html>
+<head>
+
+<title>System G: Changes from previous versions</title>
+<link rel="stylesheet" type="text/css" href="http://libjx.sourceforge.net/help/base.css" />
+<link rel="stylesheet" type="text/css" href="../../../doc/html/help/base.css" />	<!-- dev -->
+
+</head>
+<body>
+
+<h1>System G: Changes from previous versions</h1>
+
+<p>Please submit all suggestions and bugs via <a href="https://github.com/jafl/jx_application_framework/issues">github</a>.</p>
+<hr>
+
+<h2>2.6</h2>
+
+<ul>
+	<li>Added remote tracking branches to "Merge from branch" on Git menu.</li>
+
+	<li>Added menu items for stashing and unstashing changes.</li>
+
+	<li>Automatically stashes changes when switching to another branch.</li>
+
+	<li>Added option to delete local versions of git branches when remote versions are pruned.</li>
+
+	<li>Fixed file descriptor leak from various git commands.</li>
+
+	<li>Fixed discontiguous selection modifier to be meta on OS X.</li>
+</ul>
+
+
+<h2>2.5</h2>
+
+<ul>
+	<li>Added "Add remote...", "Remove remote", and "Clean list of remote branches" to help manage connections to remote git repositories.</li>
+
+	<li>Fixed bug on OSX so it recognizes mounted volumes.</li>
+</ul>
+
+
+<h2>2.4.7</h2>
+
+<ul>
+	<li>Now asks for local name when fetching a remote git branch.</li>
+</ul>
+
+
+<h2>2.4.6</h2>
+
+<ul>
+	<li>Fixed bug so you can move unmanaged directories within a Subversion directory tree.</li>
+</ul>
+
+
+<h2>2.4.5</h2>
+
+<ul>
+	<li>"Find files" dialog is now much faster when there is a large number of matches.</li>
+
+	<li>Fixed bug preventing duplication of unmanaged file inside directory managed by Subversion.</li>
+
+	<li>Fixed bug so when you open a directory that was previously iconified, the window will automatically be de-iconified.</li>
+</ul>
+
+
+<h2>2.4.4</h2>
+
+<ul>
+	<li>Deleted items are removed immediately after asynchronous delete process finishes.</li>
+</ul>
+
+
+<h2>2.4.3</h2>
+
+<ul>
+	<li><code>systemg --run</code> now works even if System G is not already running.</li>
+
+	<li>Preserves ownership of preferences file if you run as root.</li>
+</ul>
+
+
+<h2>2.4.2</h2>
+
+<ul>
+	<li>Duplicating now works correctly with Subversion.  (What took me so long?)</li>
+
+	<li>Fixed bug in incremental search in directories containing broken symlinks.</li>
+
+	<li>Work around for strange X11 behavior that could cause Code Crusader to hang when run for the first time.</li>
+</ul>
+
+
+<h2>2.4.1</h2>
+
+<ul>
+	<li>Added Up button at the right of the path display (at the bottom of every window).</li>
+
+	<li>Added preference to open folders either in the same window or in new windows.</li>
+
+	<li>Added preference to not save per-folder preferences in <code>.systemg_folder_prefs_*</code>.</li>
+
+	<li>Fixed "Getting Started" help section and updated help on Git integration.</li>
+</ul>
+
+
+<h2>2.4</h2>
+
+<ul>
+	<li>Renamed Branch menu to Git.  Add more functions and restructured contents based on the frequency of use of each item.  Git menu is now always visible, to allow items to be added to the toolbar, but the menu is only enabled in top level directories managed by git, not sub-directories.</li>
+
+	<li>No longer blocks when deleting a large directory.</li>
+
+	<li>No longer blocks when opening a directory mananged by git.</li>
+
+	<li>No longer complains when renaming or deleting unmanaged items in a directory mananged by git.</li>
+
+	<li>Anti-alised text.</li>
+</ul>
+
+
+<h2>2.3</h2>
+
+<ul>
+	<li>Added "Find..." option on File menu.</li>
+
+	<li>Finally added context menu.</li>
+
+	<li>If directory is managed by Subversion or Git, attempts to use that when moving, renaming, and deleting files.</li>
+
+	<li>If the directory is managed by Git, the Branch menu displays the list of available branches, lets you switch between them, and provides other common functions.</li>
+
+	<li>If you hold down the Meta key while selecting an item from the "Open recent" menu, it will treat it like "Alternate open".</li>
+
+	<li>Added <code>--force-new</code> and <code>--no-force-new</code> command line options.  The latter asks System G to display the file in an existing window, if possible.</li>
+
+	<li>Enhanced drag-and-drop to allow dropping on writable folder inside non-writable window.</li>
+
+	<li>Fixed creation of symbolic links to only append "_alias" if the original name is already used in the destination directory.</li>
+
+	<li>Fixed displaying of files so it does <em>not</em> dereference symlinks before it decides what to select.</li>
+
+	<li>Fixed bug so state of opened subdirectories is restored correctly even after the directory is renamed.</li>
+
+	<li>Supports the latest updates to the <a href="http://johnlindal.wix.com/xdnd">XDND protocol</a>.</li>
+
+	<li>Fixed crash on OSX 10.4 due to missing <code>/etc/fstab</code>.</li>
+
+	<li>Mouse wheel now scrolls smaller increments on OS X.</li>
+
+	<li>Added support for horizontal scrolling.  This is especially useful on Macintosh trackpads that support gestures.</li>
+</ul>
+
+
+<h2>2.2</h2>
+
+<ul>
+	<li>Added "Open recent" menu.</li>
+
+	<li>Added "Convert to file" and "Convert to program" items to File menu.</li>
+
+	<li>Added "New text file" to the File menu.</li>
+
+	<li>Fixed "Alternate open" so it only asks for one command, and then runs that command on all selected files.</li>
+
+	<li>Updating is now much faster, and it works well with slow network file systems like <a href="http://fuse.sourceforge.net/sshfs.html"><code>sshfs</code></a>.</li>
+
+	<li>No longer opens CVS and SCCS directories when Shift-click or Meta-click.</li>
+
+	<li>Fixed bug so default drop action is Copy when dragging from partition A to partition B displayed inside a window displaying partition A.</li>
+
+	<li>Updated to recognize latest options in <code>/etc/fstab</code> when searching for shortcuts.</li>
+</ul>
+
+
+<h2>2.1.2</h2>
+
+<ul>
+	<li>Fixed bug so no longer crashes when a directory that is open loses write permissions.</li>
+</ul>
+
+
+<h2>2.1.1</h2>
+
+<ul>
+	<li>Execute permissions are ignored for files on VFAT partitions.</li>
+
+	<li>Added "Rename" item to File menu and "Refresh" item to the View menu.</li>
+
+	<li>Added F2 shortcut for renaming and F5 shortcut for refreshing the display.</li>
+
+	<li>Holding down Control now selects multiple items, just like Shift always has done.</li>
+
+	<li>When using Windows menu shortcuts, file dragging modifiers also adjust so Control toggles copy/move, Meta creates a symbolic link, and Shift asks what action to take.</li>
+
+	<li>Now installs correctly into the Start Menu in Gnome 2.</li>
+
+	<li>Fixed bug that occasionally caused a window to remain blank after switching to its desktop in Gnome 2.</li>
+
+	<li>Changed default terminal from xterm to gnome-terminal.</li>
+
+	<li>Changed default image viewer from xv to Eye Of Gnome (eog).</li>
+
+	<li>Fixed crash at startup on RedHat 9.</li>
+</ul>
+
+
+<h2>2.1</h2>
+
+<ul>
+	<li>Added new command line option <code>--open</code>.</li>
+
+	<li>Tab completion works in all path and file name input fields.</li>
+
+	<li><a href="http://libjx.sourceforge.net/help/jfs.html#RunCommand">Run dialog</a> accepts partially quoted arguments, e.g., newplanetsoftware.com:'*.tgz'</li>
+
+	<li>Drag source in lower left corner of window now supports Copy, Move, Link, and Ask actions.</li>
+
+	<li>Windows menu is alphabetized to make it useful.</li>
+
+	<li>File no longer disappears out from under the cursor when you click to start dragging immediately after renaming the file.</li>
+
+	<li>When a file is renamed, the window scrolls to show the file after the list is resorted.</li>
+
+	<li>Dragging a selection rectangle so the top is outside the window now correctly selects files.</li>
+
+	<li>A period followed by only digits is no longer considered a file suffix.</li>
+
+	<li>You can change the menu font by creating <code>~/.jx/menu_font</code>.  The first line in the file must be the font name.  The second line in the file must be the font size.</li>
+
+	<li>Increased indent of folder contents to make it easier to read.</li>
+
+	<li>When window is opened to display a file, and the display has to be scrolled, the file no longer ends up hidden under the horizontal scrollbar.</li>
+
+	<li>When you open a folder by clicking on the arrow to the left of the icon, the display scrolls to show the contents of the folder.</li>
+
+	<li>Added "Mac/Win/X emulation..." item to Preferences menu to provide option to choose between Macintosh and Windows style menu shortcuts.  (This assumes that you have not changed Meta to Ctrl in the menu_strings file.)</li>
+
+	<li>Fixed bug that displayed wrong size for gigabyte sized files.</li>
+
+	<li>Fixed bug so "Alternate open" on File menu no longer causes crash if more than one executable file is selected.</li>
+
+	<li>Fixed bug so "Save window setup as default" on Preferences menu no longer causes crash.</li>
+
+	<li>Fixed bug to avoid crash when Return is pressed and the input field for editing a file name is empty.</li>
+
+	<li>Fixed bug so Meta key works correctly on Mandrake Linux.</li>
+</ul>
+
+
+<h2>2.0.1</h2>
+
+<ul>
+	<li>Fixed bug so copying a folder no longer resets the source to point to the copy.</li>
+
+	<li>Fixed bug so dragging NFS mounted folder to trash no longer causes crash.</li>
+
+	<li>Fixed path display at bottom of window to use ~ notation for NFS mounted folders.</li>
+</ul>
+
+
+<h2>2.0.0</h2>
+
+<ul>
+	<li>Redesigned <a href="help.html#SyGFileHelp-Deleting">trash can interface</a>.</li>
+
+	<li>Redesigned <a href="http://libjx.sourceforge.net/help/jfs.html">file binding interface</a>.  Added several new "Open" items to File menu.  Added "Run command..." item to File menu to allow running commands that do not involve a particular file.  Changed location of system-wide binding list to <code>/usr/lib/jx/jfs/file_bindings</code>.</li>
+
+	<li>If you open a mount point and nothing is mounted there, System G automatically tries to mount it.  When you close the window, it will be automatically unmounted again.  (We are working on the problem of automatically detecting that a disk has been inserted.)</li>
+
+	<li><a href="help.html#SyGFolderHelp-Shortcuts">Shortcuts menu</a> includes mount points and has Ctrl-# keyboard shortcuts.  All shortcuts can be placed on the toolbar.  Unfortunately, all the shortcuts that you add will have the same icon, but the hint for each button displays the path.</li>
+
+	<li>Added "Mount"/"Unmount" menu item to View menu.  This is enabled if the directory is a mount point that you have permission to mount.</li>
+
+	<li>Holding down Shift while dragging files creates aliases.</li>
+
+	<li>You can now drop on iconified windows, including the trash can.  (assuming that your window manager supports iconified windows instead of only displaying them in a task bar)</li>
+
+	<li>If the drop target is not the window's folder, then it is indicated by highlighting the arrow at the left of the folder icon.  This avoids confusion in the case when the folder is selected, and the icon is consequently already highlighted.</li>
+
+	<li>If the mouse is not over the icon or the name, then the drop target is the window's folder.  This allows dropping on the window's folder in the case when it contains only folders and there is no blank space at the bottom.</li>
+
+	<li>Implemented "Copy" and added "Copy with path" to Edit menu.</li>
+
+	<li>Added <code>--choose</code> and <code>--run</code> command line options.</li>
+
+	<li>When you create a new directory, it will automatically start editing the name.</li>
+
+	<li>Path input at bottom of window uses and accepts ~ notation.</li>
+
+	<li>Copying, moving, and duplicating files is now done in the background.</li>
+
+	<li>No longer displays size or permissions for aliases since these values are meaningless.</li>
+
+	<li>Removed Home button from bottom of window since there is a menu item that does this.</li>
+
+	<li>Replaced Up button at bottom of window with folder icon.  Dragging from this icon drags the URL of the directory displayed in the window.  Click and hold for a moment on this icon to get a menu allowing you to move up the directory hierarchy.  Hold down the Meta key while selecting from this menu to avoid opening a new window.</li>
+
+	<li>When you stay in the same window and go up to the enclosing folder, the folder from which you came is selected.</li>
+
+	<li>Closed sub-directories are now properly updated.</li>
+
+	<li>Folder prefs file name now includes user name so multiple users can open the same folder without stepping on each other's preferences.</li>
+
+	<li>Folder prefs file now includes scroll position.</li>
+
+	<li>Fixed bug so when a folder is renamed, the items that it contains do not become invalid.</li>
+
+	<li>Fixed bug so folders containing a backslash in their names can be deleted.</li>
+
+	<li>Fixed bug so when you open a directory, the window will never be iconified.</li>
+
+	<li>Fixed bug so leaving path input without changing it won't close open sub-folders.</li>
+
+	<li>Improved updating of directory contents over NFS.</li>
+
+	<li>Improved Drag-And-Drop cursors.</li>
+</ul>
+
+
+<h2>1.0.1</h2>
+
+<ul>
+	<li>Fixed a bug that caused a crash in certain circumstances when double-clicking.</li>
+
+	<li>Fixed some updating problems.</li>
+</ul>
+
+
+<h2>1.0.0</h2>
+
+<ul>
+	<li>Initial release</li>
+</ul>
+
+</body>
+</html>

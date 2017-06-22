@@ -8,7 +8,6 @@
  ******************************************************************************/
 
 #include "SyGAboutDialog.h"
-#include "SyGHelpText.h"
 #include "SyGGlobals.h"
 #include <JXWindow.h>
 #include <JXTextButton.h>
@@ -168,18 +167,18 @@ SyGAboutDialog::Receive
 		{
 		if (itsIsUpgradeFlag)
 			{
-			(JXGetHelpManager())->ShowSection(kSyGChangeLogName);
+			(JXGetHelpManager())->ShowChanges();
 			}
 		else
 			{
-			(JXGetHelpManager())->ShowSection(kSyGTOCHelpName);
+			(JXGetHelpManager())->ShowTOC();
 			}
 		EndDialog(kJTrue);
 		}
 
 	else if (sender == itsCreditsButton && message.Is(JXButton::kPushed))
 		{
-		(JXGetHelpManager())->ShowSection(kSyGCreditsName);
+		(JXGetHelpManager())->ShowCredits();
 		EndDialog(kJTrue);
 		}
 

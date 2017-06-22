@@ -10,7 +10,6 @@
 #include "SyGViewManPageDialog.h"
 #include "SyGPrefsMgr.h"
 #include "SyGGlobals.h"
-#include "SyGHelpText.h"
 
 #include <JXWindow.h>
 #include <JXHelpManager.h>

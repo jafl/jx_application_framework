@@ -150,66 +150,6 @@ T
 2 "SyGHelpText.h"
 F
 "./code/SyGHelpText.h"
-T
-2 "SyGChangeLogText"
-F
-"./strings/SyGChangeLogText"
-T
-2 "SyGTOCHelpText"
-F
-"./strings/SyGTOCHelpText"
-T
-2 "SyGGettingStartedHelpText"
-F
-"./strings/SyGGettingStartedHelpText"
-T
-2 "SyGFileHelpText"
-F
-"./strings/SyGFileHelpText"
-T
-2 "SyGFolderHelpText"
-F
-"./strings/SyGFolderHelpText"
-T
-2 "SyGExecHelpText"
-F
-"./strings/SyGExecHelpText"
-T
-2 "SyGGitHelpText"
-F
-"./strings/SyGGitHelpText"
-T
-2 "SyGBindingEditorHelpText"
-F
-"./strings/SyGBindingEditorHelpText"
-T
-2 "SyGRunCommandHelpText"
-F
-"./strings/SyGRunCommandHelpText"
-T
-2 "SyGRunFileHelpText"
-F
-"./strings/SyGRunFileHelpText"
-T
-2 "SyGSearchTextHelpText"
-F
-"./strings/SyGSearchTextHelpText"
-T
-2 "SyGRegexHelpText"
-F
-"./strings/SyGRegexHelpText"
-T
-2 "SyGRegexQRefText"
-F
-"./strings/SyGRegexQRefText"
-T
-2 "SyGMiscHelpText"
-F
-"./strings/SyGMiscHelpText"
-T
-2 "SyGCreditsText"
-F
-"./strings/SyGCreditsText"
 F
 F
 # tasks

@@ -18,7 +18,6 @@
 #include "SyGGlobals.h"
 #include "SyGFileVersions.h"
 #include "SyGActionDefs.h"
-#include "SyGHelpText.h"
 #include <JXFSBindingManager.h>
 #include <JXDisplay.h>
 #include <JXWindow.h>
@@ -528,22 +527,22 @@ SyGTreeDir::HandleHelpMenu
 		}
 	else if (index == kTOCCmd)
 		{
-		(JXGetHelpManager())->ShowSection(kSyGTOCHelpName);
+		(JXGetHelpManager())->ShowTOC();
 		}
 	else if (index == kOverviewCmd)
 		{
-		(JXGetHelpManager())->ShowSection(kSyGGettingStartedHelpName);
+		(JXGetHelpManager())->ShowSection("SyGGettingStartedHelp");
 		}
 //	else if (index == kThisWindowCmd)
 //		{
-//		(JXGetHelpManager())->ShowSection(kSyGMainHelpName);
+//		(JXGetHelpManager())->ShowSection("...");
 //		}
 	else if (index == kChangesCmd)
 		{
-		(JXGetHelpManager())->ShowSection(kSyGChangeLogName);
+		(JXGetHelpManager())->ShowChanges();
 		}
 	else if (index == kCreditsCmd)
 		{
-		(JXGetHelpManager())->ShowSection(kSyGCreditsName);
+		(JXGetHelpManager())->ShowCredits();
 		}
 }

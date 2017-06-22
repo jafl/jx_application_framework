@@ -10,7 +10,6 @@
 #include "SyGGlobals.h"
 #include "SyGPrefsMgr.h"
 #include "SyGMDIServer.h"
-#include "SyGHelpText.h"
 #include "SyGViewManPageDialog.h"
 #include "SyGFindFileDialog.h"
 #include "SyGChooseSaveFile.h"
@@ -113,7 +112,7 @@ SyGCreateGlobals
 	thePrefsMgr = jnew SyGPrefsMgr(&isNew);
 	assert(thePrefsMgr != NULL);
 
-	JXInitHelp(kSyGTOCHelpName, kSyGHelpSectionCount, kSyGHelpSectionName);
+	JXInitHelp();
 
 	JXWDManager* wdMgr = jnew JXWDManager(app->GetCurrentDisplay(), kJTrue);
 	assert( wdMgr != NULL );
