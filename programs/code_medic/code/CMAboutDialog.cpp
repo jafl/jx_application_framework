@@ -8,7 +8,6 @@
  ******************************************************************************/
 
 #include "CMAboutDialog.h"
-#include "cmHelpText.h"
 #include "cmGlobals.h"
 #include <JXApplication.h>
 #include <JXWindow.h>
@@ -168,18 +167,18 @@ CMAboutDialog::Receive
 		{
 		if (itsIsUpgradeFlag)
 			{
-			(JXGetHelpManager())->ShowSection(kCMChangeLogName);
+			(JXGetHelpManager())->ShowChangeLog();
 			}
 		else
 			{
-			(JXGetHelpManager())->ShowSection(kCMOverviewHelpName);
+			(JXGetHelpManager())->ShowSection("CMOverviewHelp");
 			}
 		EndDialog(kJTrue);
 		}
 
 	else if (sender == itsCreditsButton && message.Is(JXButton::kPushed))
 		{
-		(JXGetHelpManager())->ShowSection(kCMCreditsName);
+		(JXGetHelpManager())->ShowCredits();
 		EndDialog(kJTrue);
 		}
 

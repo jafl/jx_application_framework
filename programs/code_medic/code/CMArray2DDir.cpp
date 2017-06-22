@@ -15,7 +15,6 @@
 #include "CMCommandDirector.h"
 #include "CMVarNode.h"
 #include "cmGlobals.h"
-#include "cmHelpText.h"
 #include "cmActionDefs.h"
 
 #include <JXDisplay.h>
@@ -1244,23 +1243,23 @@ CMArray2DDir::HandleHelpMenu
 
 	else if (index == kTOCCmd)
 		{
-		(JXGetHelpManager())->ShowSection(kCMTOCHelpName);
+		(JXGetHelpManager())->ShowTOC();
 		}
 	else if (index == kOverviewCmd)
 		{
-		(JXGetHelpManager())->ShowSection(kCMOverviewHelpName);
+		(JXGetHelpManager())->ShowSection("CMOverviewHelp");
 		}
 	else if (index == kThisWindowCmd)
 		{
-		(JXGetHelpManager())->ShowSection(kCMArray2DHelpName);
+		(JXGetHelpManager())->ShowSection("CMVarTreeHelp-Array2D");
 		}
 
 	else if (index == kChangesCmd)
 		{
-		(JXGetHelpManager())->ShowSection(kCMChangeLogName);
+		(JXGetHelpManager())->ShowChangeLog();
 		}
 	else if (index == kCreditsCmd)
 		{
-		(JXGetHelpManager())->ShowSection(kCMCreditsName);
+		(JXGetHelpManager())->ShowCredits();
 		}
 }

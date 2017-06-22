@@ -6,7 +6,6 @@
  ******************************************************************************/
 
 #include "cmGlobals.h"
-#include "cmHelpText.h"
 #include "CMDockManager.h"
 #include "CBFnMenuUpdater.h"
 #include "GDBLink.h"
@@ -54,22 +53,23 @@ static JXImage* thePlot2DIcon        = NULL;
 static JXImage* theMemoryIcon        = NULL;
 static JXImage* theRegistersIcon     = NULL;
 
-static const JCharacter* kCommandWindowClass    = "Code_Medic_Command_Line";
-static const JCharacter* kSourceWindowClass     = "Code_Medic_Source";
-static const JCharacter* kAsmWindowClass        = "Code_Medic_Disassembly";
-static const JCharacter* kMainSourceWindowClass = "Code_Medic_Source_Main";
-static const JCharacter* kMainAsmWindowClass    = "Code_Medic_Disassembly_Main";
-static const JCharacter* kThreadWindowClass     = "Code_Medic_Threads";
-static const JCharacter* kStackWindowClass      = "Code_Medic_Stack";
-static const JCharacter* kVariableWindowClass   = "Code_Medic_Variables";
-static const JCharacter* kLocalVarsWindowClass  = "Code_Medic_Variables_Local";
-static const JCharacter* kArray1DWindowClass    = "Code_Medic_Variables_Array_1D";
-static const JCharacter* kArray2DWindowClass    = "Code_Medic_Variables_Array_2D";
-static const JCharacter* kPlot2DWindowClass     = "Code_Medic_Variables_Plot_2D";
-static const JCharacter* kFileListWindowClass   = "Code_Medic_File_List";
-static const JCharacter* kMemoryWindowClass     = "Code_Medic_Memory";
-static const JCharacter* kRegistersWindowClass  = "Code_Medic_Registers";
-static const JCharacter* kDebugWindowClass      = "Code_Medic_Debug";
+static const JCharacter* kCommandWindowClass     = "Code_Medic_Command_Line";
+static const JCharacter* kSourceWindowClass      = "Code_Medic_Source";
+static const JCharacter* kAsmWindowClass         = "Code_Medic_Disassembly";
+static const JCharacter* kMainSourceWindowClass  = "Code_Medic_Source_Main";
+static const JCharacter* kMainAsmWindowClass     = "Code_Medic_Disassembly_Main";
+static const JCharacter* kThreadWindowClass      = "Code_Medic_Threads";
+static const JCharacter* kStackWindowClass       = "Code_Medic_Stack";
+static const JCharacter* kBreakpointsWindowClass = "Code_Medic_Breakpoints";
+static const JCharacter* kVariableWindowClass    = "Code_Medic_Variables";
+static const JCharacter* kLocalVarsWindowClass   = "Code_Medic_Variables_Local";
+static const JCharacter* kArray1DWindowClass     = "Code_Medic_Variables_Array_1D";
+static const JCharacter* kArray2DWindowClass     = "Code_Medic_Variables_Array_2D";
+static const JCharacter* kPlot2DWindowClass      = "Code_Medic_Variables_Plot_2D";
+static const JCharacter* kFileListWindowClass    = "Code_Medic_File_List";
+static const JCharacter* kMemoryWindowClass      = "Code_Medic_Memory";
+static const JCharacter* kRegistersWindowClass   = "Code_Medic_Registers";
+static const JCharacter* kDebugWindowClass       = "Code_Medic_Debug";
 
 // private functions
 
@@ -109,7 +109,7 @@ CMCreateGlobals
 	thePrefsManager = jnew CMPrefsManager(&isNew);
 	assert(thePrefsManager != NULL);
 
-	JXInitHelp(kCMTOCHelpName, kCMHelpSectionCount, kCMHelpSectionName);
+	JXInitHelp();
 
 	JXWDManager* wdMgr = jnew JXWDManager(display, kJTrue);
 	assert( wdMgr != NULL );
@@ -421,6 +421,12 @@ const JCharacter*
 CMGetStackWindowClass()
 {
 	return kStackWindowClass;
+}
+
+const JCharacter*
+CMGetBreakpointsWindowClass()
+{
+	return kBreakpointsWindowClass;
 }
 
 const JCharacter*

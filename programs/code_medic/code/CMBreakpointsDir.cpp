@@ -12,7 +12,6 @@
 #include "CMBreakpointManager.h"
 #include "CMCommandDirector.h"
 #include "cmGlobals.h"
-#include "cmHelpText.h"
 #include "cmActionDefs.h"
 #include <JXDisplay.h>
 #include <JXWindow.h>
@@ -145,7 +144,7 @@ CMBreakpointsDir::BuildWindow
 	window->SetCloseAction(JXWindow::kDeactivateDirector);
 	window->SetMinSize(150, 150);
 	window->ShouldFocusWhenShow(kJTrue);
-	window->SetWMClass(CMGetWMClassInstance(), CMGetStackWindowClass());
+	window->SetWMClass(CMGetWMClassInstance(), CMGetBreakpointsWindowClass());
 	CMGetPrefsManager()->GetWindowSize(kBreakpointsWindowSizeID, window);
 
 	JXDisplay* display = GetDisplay();
@@ -423,22 +422,22 @@ CMBreakpointsDir::HandleHelpMenu
 		}
 	else if (index == kTOCCmd)
 		{
-		(JXGetHelpManager())->ShowSection(kCMTOCHelpName);
+		(JXGetHelpManager())->ShowTOC();
 		}
 	else if (index == kOverviewCmd)
 		{
-		(JXGetHelpManager())->ShowSection(kCMOverviewHelpName);
+		(JXGetHelpManager())->ShowSection("CMOverviewHelp");
 		}
 	else if (index == kThisWindowCmd)
 		{
-		(JXGetHelpManager())->ShowSection(kCMBreakpointsHelpName);
+		(JXGetHelpManager())->ShowSection("CMBreakpointsHelp");
 		}
 	else if (index == kChangesCmd)
 		{
-		(JXGetHelpManager())->ShowSection(kCMChangeLogName);
+		(JXGetHelpManager())->ShowChangeLog();
 		}
 	else if (index == kCreditsCmd)
 		{
-		(JXGetHelpManager())->ShowSection(kCMCreditsName);
+		(JXGetHelpManager())->ShowCredits();
 		}
 }

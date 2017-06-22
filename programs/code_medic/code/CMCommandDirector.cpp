@@ -36,7 +36,6 @@
 #include "CMBreakpointManager.h"
 #include "cmGlobals.h"
 #include "cmFileVersions.h"
-#include "cmHelpText.h"
 #include "cmActionDefs.h"
 
 #include <JXDisplay.h>
@@ -2232,22 +2231,22 @@ CMCommandDirector::HandleHelpMenu
 		}
 	else if (index == kTOCCmd)
 		{
-		(JXGetHelpManager())->ShowSection(kCMTOCHelpName);
+		(JXGetHelpManager())->ShowTOC();
 		}
 	else if (index == kOverviewCmd)
 		{
-		(JXGetHelpManager())->ShowSection(kCMOverviewHelpName);
+		(JXGetHelpManager())->ShowSection("CMOverviewHelp");
 		}
 	else if (index == kThisWindowCmd)
 		{
-		(JXGetHelpManager())->ShowSection(kCMCommandDirHelpName);
+		(JXGetHelpManager())->ShowSection("CMCommandDirHelp");
 		}
 	else if (index == kChangesCmd)
 		{
-		(JXGetHelpManager())->ShowSection(kCMChangeLogName);
+		(JXGetHelpManager())->ShowChangeLog();
 		}
 	else if (index == kCreditsCmd)
 		{
-		(JXGetHelpManager())->ShowSection(kCMCreditsName);
+		(JXGetHelpManager())->ShowCredits();
 		}
 }

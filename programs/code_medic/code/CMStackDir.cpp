@@ -11,7 +11,6 @@
 #include "CMStackWidget.h"
 #include "CMCommandDirector.h"
 #include "cmGlobals.h"
-#include "cmHelpText.h"
 #include "cmActionDefs.h"
 #include <JXDisplay.h>
 #include <JXWindow.h>
@@ -353,22 +352,22 @@ CMStackDir::HandleHelpMenu
 		}
 	else if (index == kTOCCmd)
 		{
-		(JXGetHelpManager())->ShowSection(kCMTOCHelpName);
+		(JXGetHelpManager())->ShowTOC();
 		}
 	else if (index == kOverviewCmd)
 		{
-		(JXGetHelpManager())->ShowSection(kCMOverviewHelpName);
+		(JXGetHelpManager())->ShowSection("CMOverviewHelp");
 		}
 	else if (index == kThisWindowCmd)
 		{
-		(JXGetHelpManager())->ShowSection(kCMStackHelpName);
+		(JXGetHelpManager())->ShowSection("CMStackHelp");
 		}
 	else if (index == kChangesCmd)
 		{
-		(JXGetHelpManager())->ShowSection(kCMChangeLogName);
+		(JXGetHelpManager())->ShowChangeLog();
 		}
 	else if (index == kCreditsCmd)
 		{
-		(JXGetHelpManager())->ShowSection(kCMCreditsName);
+		(JXGetHelpManager())->ShowCredits();
 		}
 }

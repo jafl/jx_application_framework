@@ -71,6 +71,7 @@ const JCharacter*	CMGetMainSourceWindowClass();
 const JCharacter*	CMGetMainAsmWindowClass();
 const JCharacter*	CMGetThreadWindowClass();
 const JCharacter*	CMGetStackWindowClass();
+const JCharacter*	CMGetBreakpointsWindowClass();
 const JCharacter*	CMGetVariableWindowClass();
 const JCharacter*	CMGetLocalVariableWindowClass();
 const JCharacter*	CMGetArray1DWindowClass();

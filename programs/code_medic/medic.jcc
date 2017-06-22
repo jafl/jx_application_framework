@@ -909,81 +909,13 @@ F
 T
 1 "help"
 T
-2 "cmHelpText.h"
+2 "help.html"
 F
-"./code/cmHelpText.h"
+"../code_mill/release/help.html"
 T
-2 "cmChangeLogText"
+2 "ChangeLog.html"
 F
-"./strings/cmChangeLogText"
-T
-2 "cmTOCHelpText"
-F
-"./strings/cmTOCHelpText"
-T
-2 "cmOverviewHelpText"
-F
-"./strings/cmOverviewHelpText"
-T
-2 "cmGettingStartedHelpText"
-F
-"./strings/cmGettingStartedHelpText"
-T
-2 "cmCommandDirHelpText"
-F
-"./strings/cmCommandDirHelpText"
-T
-2 "cmJavaConfigFileHelpText"
-F
-"./strings/cmJavaConfigFileHelpText"
-T
-2 "cmXdebugConfigFileHelpText"
-F
-"./strings/cmXdebugConfigFileHelpText"
-T
-2 "cmSourceWindowHelpText"
-F
-"./strings/cmSourceWindowHelpText"
-T
-2 "cmVarTreeHelpText"
-F
-"./strings/cmVarTreeHelpText"
-T
-2 "cm2DPlotHelpText"
-F
-"./strings/cm2DPlotHelpText"
-T
-2 "cmStackHelpText"
-F
-"./strings/cmStackHelpText"
-T
-2 "cmBreakpointsHelpText"
-F
-"./strings/cmBreakpointsHelpText"
-T
-2 "cmSearchTextHelpText"
-F
-"./strings/cmSearchTextHelpText"
-T
-2 "cmRegexHelpText"
-F
-"./strings/cmRegexHelpText"
-T
-2 "cmRegexQRefText"
-F
-"./strings/cmRegexQRefText"
-T
-2 "cmMiscHelpText"
-F
-"./strings/cmMiscHelpText"
-T
-2 "cmDockHelpText"
-F
-"./strings/cmDockHelpText"
-T
-2 "cmCreditsText"
-F
-"./strings/cmCreditsText"
+"../code_mill/release/ChangeLog.html"
 F
 F
 # tasks
