@@ -61,29 +61,13 @@ F
 T
 1 "help"
 T
-2 "gfgHelpText.h"
+2 "help.html"
 F
-"./code/gfgHelpText.h"
+"./release/help.html"
 T
-2 "gfgTOCHelpText"
+2 "ChangeLog.html"
 F
-"./strings/gfgTOCHelpText"
-T
-2 "gfgOverviewHelpText"
-F
-"./strings/gfgOverviewHelpText"
-T
-2 "gfgMainHelpText"
-F
-"./strings/gfgMainHelpText"
-T
-2 "gfgChangeLogText"
-F
-"./strings/gfgChangeLogText"
-T
-2 "gfgCreditsText"
-F
-"./strings/gfgCreditsText"
+"./release/ChangeLog.html"
 F
 T
 1 "images"

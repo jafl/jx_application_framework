@@ -15,7 +15,6 @@
 #include "GFGClass.h"
 #include "GFGFunctionTable.h"
 
-#include "gfgHelpText.h"
 #include "gfgGlobals.h"
 #include "gfgActionDefs.h"
 
@@ -248,7 +247,7 @@ GFGMainDirector::BuildWindow
 		jnew JXStaticText(JGetString("itsBaseClassTxt::GFGMainDirector::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 100,45, 530,20);
 	assert( itsBaseClassTxt != NULL );
-    const JFontStyle itsBaseClassTxt_style(kJTrue, kJFalse, 0, kJFalse, GetColormap()->GetBlackColor());
+	const JFontStyle itsBaseClassTxt_style(kJTrue, kJFalse, 0, kJFalse, GetColormap()->GetBlackColor());
 	itsBaseClassTxt->SetFontStyle(itsBaseClassTxt_style);
 	itsBaseClassTxt->SetToLabel();
 
@@ -303,15 +302,15 @@ GFGMainDirector::BuildWindow
 			}
 		bases += cname;
 		}
-	
+
 	itsBaseClassTxt->SetText(bases);
 
 	JXImage* image = jnew JXImage(GetDisplay(), gfg_main_window_icon);
 	assert( image != NULL );
 	window->SetIcon(image);
 
-	itsTable	= 
-		GFGFunctionTable::Create(itsClass, 
+	itsTable	=
+		GFGFunctionTable::Create(itsClass,
 			scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 			JXWidget::kHElastic, JXWidget::kVElastic,
 			0,kColHeaderHeight, 100,
@@ -321,7 +320,7 @@ GFGMainDirector::BuildWindow
 	itsTable->FitToEnclosure(kJTrue, kJFalse);
 
 	JXColHeaderWidget* widget =
-		jnew JXColHeaderWidget(itsTable, 
+		jnew JXColHeaderWidget(itsTable,
 							  scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 							  JXWidget::kHElastic, JXWidget::kFixedTop,
 							  0,0, 100,kColHeaderHeight);
@@ -365,7 +364,7 @@ GFGMainDirector::Receive
 		}
 	else if (sender == itsHelpButton && message.Is(JXButton::kPushed))
 		{
-		(JXGetHelpManager())->ShowSection(kGFGTOCHelpName);
+		(JXGetHelpManager())->ShowTOC();
 		}
 	else if (sender == itsCancelButton && message.Is(JXButton::kPushed))
 		{
@@ -375,7 +374,7 @@ GFGMainDirector::Receive
 		{
 		GFGGetPrefsManager()->SetAuthor(itsAuthorInput->GetText());
 		GFGGetPrefsManager()->SetCopyright(itsCopyrightInput->GetText());
-		
+
 		if (Write())
 			{
 			//Close();
@@ -578,7 +577,7 @@ GFGMainDirector::Write()
 		"class", cname,
 		"constructs", baseconstructors
 		};
-		
+
 	s = JGetString("CLASS_CONSTRUCTOR_DATA", map2, sizeof(map2));
 
 	s.Print(os);
@@ -591,7 +590,7 @@ GFGMainDirector::Write()
 		"class", cname,
 		"constructs", baseconstructors
 		};
-		
+
 	s = JGetString("CLASS_DESTRUCTOR_DATA", map3, sizeof(map3));
 
 	s.Print(os);
@@ -605,6 +604,6 @@ GFGMainDirector::Write()
 
 	JString errStr;
 	JRunProgram(cmd, &errStr);
-	
+
 	return kJTrue;
 }

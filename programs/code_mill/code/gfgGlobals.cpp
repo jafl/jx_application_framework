@@ -11,7 +11,6 @@
 #include "GFGApp.h"
 #include "GFGPrefsManager.h"
 #include "GFGMDIServer.h"
-#include "gfgHelpText.h"
 #include <jAssert.h>
 
 static GFGApp*			theApplication  = NULL;		// owns itself
@@ -41,7 +40,7 @@ GFGCreateGlobals
 	thePrefsManager	= jnew GFGPrefsManager(&isNew);
 	assert( thePrefsManager != NULL );
 
-	JXInitHelp(kGFGTOCHelpName, kGFGHelpSectionCount, kGFGHelpSectionName);
+	JXInitHelp();
 
 	theMDIServer = jnew GFGMDIServer;
 	assert( theMDIServer != NULL );

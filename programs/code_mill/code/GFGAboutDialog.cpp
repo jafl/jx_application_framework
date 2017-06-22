@@ -9,7 +9,6 @@
 
 #include "GFGAboutDialog.h"
 #include "gfgGlobals.h"
-#include "gfgHelpText.h"
 #include <JXWindow.h>
 #include <JXTextButton.h>
 #include <JXStaticText.h>
@@ -149,18 +148,18 @@ GFGAboutDialog::Receive
 		{
 		if (itsIsUpgradeFlag)
 			{
-			(JXGetHelpManager())->ShowSection(kGFGChangeLogName);
+			(JXGetHelpManager())->ShowChangeLog();
 			}
 		else
 			{
-			(JXGetHelpManager())->ShowSection(kGFGOverviewHelpName);
+			(JXGetHelpManager())->ShowSection("GFGOverviewHelp");
 			}
 		EndDialog(kJTrue);
 		}
 
 	else if (sender == itsCreditsButton && message.Is(JXButton::kPushed))
 		{
-		(JXGetHelpManager())->ShowSection(kGFGCreditsName);
+		(JXGetHelpManager())->ShowCredits();
 		EndDialog(kJTrue);
 		}
 
