@@ -19,7 +19,7 @@ public:
 	virtual ~JXHelpManager();
 
 	void	ShowTOC();
-	void	ShowSection(const JUtf8Byte* name, JXHelpDirector* helpDir = NULL);
+	void	ShowSection(const JUtf8Byte* name);
 
 private:
 
