@@ -191,7 +191,6 @@ public:
 
 	JBoolean				IsEmpty() const;
 	JBoolean				EndsWithNewline() const;
-	JSize					GetTextLength() const;
 	const JString&			GetText() const;
 	const JRunArray<JFont>&	GetStyles() const;
 	JBoolean				SetText(const JString& text,
@@ -210,32 +209,21 @@ public:
 								   const JString& text, const JRunArray<JFont>& style,
 								   const JCharacterRange& charRange);
 
-	JBoolean	SearchForward(const JString& searchStr,
-							  const JBoolean caseSensitive, const JBoolean entireWord,
-							  const JBoolean wrapSearch, JBoolean* wrapped);
-	JBoolean	SearchBackward(const JString& searchStr,
-							   const JBoolean caseSensitive, const JBoolean entireWord,
-							   const JBoolean wrapSearch, JBoolean* wrapped);
-	JBoolean	SelectionMatches(const JString& searchStr,
-								 const JBoolean caseSensitive, const JBoolean entireWord);
-
 	JStringMatch	SearchForward(const JRegex& regex, const JBoolean entireWord,
 								  const JBoolean wrapSearch, JBoolean* wrapped);
 	JStringMatch	SearchBackward(const JRegex& regex, const JBoolean entireWord,
 								   const JBoolean wrapSearch, JBoolean* wrapped);
 	JStringMatch	SelectionMatches(const JRegex& regex, const JBoolean entireWord);
 
-	JBoolean	ReplaceAllForward(const JString& searchStr,
-								  const JBoolean searchIsRegex, const JBoolean caseSensitive,
+	JBoolean	ReplaceAllForward(const JRegex& regex,
 								  const JBoolean entireWord, const JBoolean wrapSearch,
 								  const JString& replaceStr, const JBoolean replaceIsRegex,
-								  const JBoolean preserveCase, const JRegex& regex,
-								  const JCharacterRange& searchRange = JCharacterRange());
-	JBoolean	ReplaceAllBackward(const JString& searchStr,
-								   const JBoolean searchIsRegex, const JBoolean caseSensitive,
+								  const JBoolean preserveCase,
+								  const JBoolean restrictToSelection = kJFalse);
+	JBoolean	ReplaceAllBackward(const JRegex& regex,
 								   const JBoolean entireWord, const JBoolean wrapSearch,
 								   const JString& replaceStr, const JBoolean replaceIsRegex,
-								   const JBoolean preserveCase, const JRegex& regex);
+								   const JBoolean preserveCase);
 
 	JBoolean	SearchForward(const FontMatch& match,
 							  const JBoolean wrapSearch, JBoolean* wrapped);
@@ -287,7 +275,6 @@ public:
 										  const JBoolean partialWord,
 										  const JBoolean dragging, JCharacterRange* range);
 
-	JIndex		GetInsertionIndex() const;
 	JBoolean	IsEntireWord() const;
 	JIndex		GetWordStart(const JIndex charIndex) const;
 	JIndex		GetWordEnd(const JIndex charIndex) const;
@@ -458,46 +445,64 @@ public:		// ought to be protected
 
 	struct CaretLocation
 	{
-		JIndex byteIndex;	// caret is in front of this byte in the buffer
 		JIndex charIndex;	// caret is in front of this character in the buffer
+		JIndex byteIndex;	// caret is in front of this byte in the buffer
 		JIndex lineIndex;	// caret is on this line of text
 
 		CaretLocation()
 			:
-			byteIndex(0),
 			charIndex(0),
+			byteIndex(0),
 			lineIndex(0)
 		{ };
 
-		CaretLocation(const JIndex byte, const JIndex ch, const JIndex line)
+		CaretLocation(const JIndex ch, const JIndex byte, const JIndex line)
 			:
-			byteIndex(byte),
 			charIndex(ch),
+			byteIndex(byte),
 			lineIndex(line)
 		{ };
 	};
 
-	struct StringIndex
+	struct TextIndex
 	{
-		JIndex byteIndex;
 		JIndex charIndex;
+		JIndex byteIndex;
 
-		StringIndex()
+		TextIndex()
 			:
-			byteIndex(0),
-			charIndex(0)
+			charIndex(0),
+			byteIndex(0)
 		{ };
 
-		StringIndex(const JIndex byte, const JIndex ch)
+		TextIndex(const JIndex ch, const JIndex byte)
 			:
-			byteIndex(byte),
-			charIndex(ch)
+			charIndex(ch),
+			byteIndex(byte)
 		{ };
 
-		StringIndex(const CaretLocation& loc)
+		TextIndex(const CaretLocation& loc)
 			:
-			byteIndex(loc.byteIndex),
-			charIndex(loc.charIndex)
+			charIndex(loc.charIndex),
+			byteIndex(loc.byteIndex)
+		{ };
+	};
+
+	struct TextCount
+	{
+		JIndex charCount;
+		JIndex byteCount;
+
+		TextCount()
+			:
+			charCount(0),
+			byteCount(0)
+		{ };
+
+		TextCount(const JIndex ch, const JIndex byte)
+			:
+			charCount(ch),
+			byteCount(byte)
 		{ };
 	};
 
@@ -616,8 +621,9 @@ protected:
 	JIndex			GetColumnForChar(const CaretLocation& caretLoc) const;
 	JUtf8ByteRange	CharToByteRange(const JCharacterRange& charRange) const;
 
-	StringIndex	GetLineStart(const JIndex lineIndex) const;
-	StringIndex	GetLineEnd(const JIndex lineIndex) const;
+	TextIndex	GetInsertionIndex() const;
+	TextIndex	GetLineStart(const JIndex lineIndex) const;
+	TextIndex	GetLineEnd(const JIndex lineIndex) const;
 
 	void	SetFont(const JIndex startIndex, const JRunArray<JFont>& f,
 					const JBoolean clearUndo);
@@ -626,10 +632,10 @@ protected:
 								  const JBoolean breakCROnly,
 								  const JBoolean clearUndo);
 
-	void	ReplaceSelection(const JString& replaceStr,
-							 const JBoolean preserveCase,
+	void	ReplaceSelection(const JStringMatch& match,
+							 const JString& replaceStr,
 							 const JBoolean replaceIsRegex,
-							 const JStringMatch& match);
+							 const JBoolean preserveCase);
 
 	static JBoolean	ReadPrivateFormat(std::istream& input, const JTextEditor* te,
 									  JString* text, JRunArray<JFont>* style);
@@ -702,7 +708,7 @@ private:
 	JCoordinate					itsLeftMarginWidth;	// pixels
 	JCoordinate					itsDefTabWidth;		// pixels
 	JCoordinate					itsMaxWordWidth;	// pixels -- widest single word; only if word wrap
-	JArray<StringIndex>*		itsLineStarts;		// index of first character on each line
+	JArray<TextIndex>*			itsLineStarts;		// index of first character on each line
 	JRunArray<LineGeometry>*	itsLineGeom;		// geometry of each line
 
 	JCharacterInWordFn	itsCharInWordFn;
@@ -778,11 +784,9 @@ private:
 
 	static JBoolean	DefaultIsCharacterInWord(const JUtf8Character& c);
 
-	void	AdjustRangesForReplace(JArray<JCharacterRange>* list);
-
-	JFont	CalcInsertionFont(const JIndex charIndex) const;
+	JFont	CalcInsertionFont(const TextIndex index) const;
 	JFont	CalcInsertionFont(const JString& buffer, const JRunArray<JFont>& styles,
-							  const JIndex charIndex) const;
+							  const TextIndex index) const;
 	void	DropSelection(const JIndex dropLoc, const JBoolean dropCopy);
 
 	JBoolean			GetCurrentUndo(JTEUndoBase** undo) const;
@@ -795,15 +799,17 @@ private:
 	JTEUndoStyle*		GetStyleUndo(JBoolean* isNew);
 	JTEUndoTabShift*	GetTabShiftUndo(JBoolean* isNew);
 
-	JSize	PrivatePaste(const JString& text, const JRunArray<JFont>* style);
-	JSize	InsertText(const JIndex charIndex, const JString& text,
-					   const JRunArray<JFont>* style = NULL);
-	JSize	InsertText(JString* targetText, JRunArray<JFont>* targetStyle,
-					   const StringIndex& index,
-					   const JString& text, const JRunArray<JFont>* style,
-					   const JFont* defaultStyle);
-	void	DeleteText(const JIndex startIndex, const JIndex endIndex);
-	void	DeleteText(const JCharacterRange& range);
+	TextCount	PrivatePaste(const JString& text, const JRunArray<JFont>* style);
+	TextCount	InsertText(const JIndex charIndex, const JString& text,
+						   const JRunArray<JFont>* style = NULL);
+	TextCount	InsertText(JStringIterator* targetText, JRunArray<JFont>* targetStyle,
+						   const JString& text, const JRunArray<JFont>* style,
+						   const JFont* defaultStyle);
+	void		DeleteText(const JCharacterRange& charRange,
+						   const JUtf8ByteRange& byteRange);
+	JBoolean	CleanText(const JString& text, const JRunArray<JFont>* style,
+						  JString** cleanText, JRunArray<JFont>** cleanStyle,
+						  JBoolean* okToInsert);
 
 	void			SetCaretLocation(const CaretLocation& caretLoc);
 	CaretLocation	CalcCaretLocation(const JIndex charIndex) const;
@@ -877,29 +883,18 @@ private:
 	JBoolean	LocateTab(const JIndex startIndex, const JIndex endIndex,
 						  JIndex* tabIndex) const;
 
-	JBoolean	SearchForward(const JString& buffer, StringIndex* index,
-							  const JString& searchStr,
-							  const JBoolean caseSensitive, const JBoolean entireWord,
-							  const JBoolean wrapSearch, JBoolean* wrapped);
-	JBoolean	SearchBackward(const JString& buffer, StringIndex* index,
-							   const JString& searchStr,
-							   const JBoolean caseSensitive, const JBoolean entireWord,
-							   const JBoolean wrapSearch, JBoolean* wrapped);
-
-	JStringMatch	SearchForward(const JString& buffer, const StringIndex& startIndex,
+	JStringMatch	SearchForward(const JString& buffer, const TextIndex& startIndex,
 								  const JRegex& regex, const JBoolean entireWord,
 								  const JBoolean wrapSearch, JBoolean* wrapped);
-	JStringMatch	SearchBackward(const JString& buffer, const StringIndex& startIndex,
+	JStringMatch	SearchBackward(const JString& buffer, const TextIndex& startIndex,
 								   const JRegex& regex, const JBoolean entireWord,
 								   const JBoolean wrapSearch, JBoolean* wrapped);
 
-	JSize		ReplaceRange(JString* buffer, JRunArray<JFont>* styles,
-							 const JCharacterRange& charRange,
-							 const JUtf8ByteRange& byteRange,
+	void		ReplaceRange(JStringIterator* buffer, JRunArray<JFont>* styles,
+							 const JStringMatch& match,
 							 const JString& replaceStr,
-							 const JBoolean preserveCase,
 							 const JBoolean replaceIsRegex,
-							 const JStringMatch& match);
+							 const JBoolean preserveCase);
 	JBoolean	IsEntireWord(const JString& buffer,
 							 const JCharacterRange& charRange,
 							 const JUtf8ByteRange& byteRange) const;
@@ -916,8 +911,10 @@ private:
 
 	static JInteger	GetLineHeight(const LineGeometry& data);
 
+	static void	ConvertFromMacintoshNewlinetoUNIXNewline(JString* buffer);
+
 	static JListT::CompareResult
-		CompareStringIndices(const StringIndex& i, const StringIndex& j);
+		CompareStringIndices(const TextIndex& i, const TextIndex& j);
 
 	// not allowed
 
@@ -1200,18 +1197,6 @@ JTextEditor::GetText()
 }
 
 /******************************************************************************
- GetTextLength
-
- ******************************************************************************/
-
-inline JSize
-JTextEditor::GetTextLength()
-	const
-{
-	return itsBuffer.GetCharacterCount();
-}
-
-/******************************************************************************
  CharacterIndexValid
 
  ******************************************************************************/
@@ -1487,7 +1472,7 @@ JTextEditor::CleanAllWhitespace
 	const JBoolean align
 	)
 {
-	CleanWhitespace(JCharacterRange(1, GetTextLength()), align);
+	CleanWhitespace(JCharacterRange(1, itsBuffer.GetCharacterCount()), align);
 }
 
 /******************************************************************************
@@ -1727,7 +1712,7 @@ JTextEditor::GetLineCount()
 
  ******************************************************************************/
 
-inline JTextEditor::StringIndex
+inline JTextEditor::TextIndex
 JTextEditor::GetLineStart
 	(
 	const JIndex lineIndex

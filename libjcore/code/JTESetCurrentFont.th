@@ -17,15 +17,15 @@
 
  ******************************************************************************/
 
-if (!itsSelection.IsEmpty())
+if (!itsCharSelection.IsEmpty())
 	{
 	JBoolean isNew;
 	JTEUndoStyle* undo = GetStyleUndo(&isNew);
 
 	JFont f = itsFontMgr->GetDefaultFont();
 	JBoolean changed = kJFalse;
-	JRunArrayIterator<JFont> iter(itsStyles, kJIteratorStartBefore, itsSelection.first);
-	for (JIndex i=itsSelection.first; i<=itsSelection.last; i++)
+	JRunArrayIterator<JFont> iter(itsStyles, kJIteratorStartBefore, itsCharSelection.first);
+	for (JIndex i=itsCharSelection.first; i<=itsCharSelection.last; i++)
 		{
 		const JBoolean ok = iter.Next(&f);
 		assert( ok );
@@ -40,7 +40,7 @@ if (!itsSelection.IsEmpty())
 
 	if (changed)
 		{
-		Recalc(itsSelection.first, itsSelection.GetLength(), kJFalse);
+		Recalc(itsCharSelection.first, itsCharSelection.GetCount(), kJFalse);
 		}
 
 	if (changed)

@@ -21,6 +21,7 @@ class JStringMatch
 public:
 
 	JStringMatch(const JString& target);
+	JStringMatch(const JStringMatch& source);
 
 	~JStringMatch();
 
@@ -49,12 +50,6 @@ protected:
 	// for JRegex
 
 	const JStringMatch& operator=(const JStringMatch& source);
-
-public:
-
-	// for testing
-
-	JStringMatch(const JStringMatch& source);
 
 private:
 

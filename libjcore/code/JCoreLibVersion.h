@@ -56,6 +56,7 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //		Removed pointless useInternalClipboard option and
 //			TEOwnsClipboard(), WriteClipboardPrivateFormat(),
 //			GetInternalClipboard(), TEClearClipboard().
+//		Removed search/replace for literal string.  JRegex is fast enough.
 
 // version 3.2.0:
 //	jMountUtil:
