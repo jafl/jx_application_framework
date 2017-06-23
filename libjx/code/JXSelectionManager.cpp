@@ -45,8 +45,7 @@ static const JUtf8Byte* kAtomNames[ JXSelectionManager::kAtomCount ] =
 	"INCR",							// for sending data incrementally
 	"TARGETS",						// returns type XA_ATOM
 	"TIMESTAMP",					// returns type XA_INTEGER
-	"TEXT",							//  8-bit characters
-	"COMPOUND_TEXT",				// 16-bit characters
+	"UTF8_STRING",
 	"MULTIPLE",						// several formats at once
 	"text/plain;charset=utf-8",
 	"text/uri-list;charset=utf-8",
@@ -145,8 +144,10 @@ JXSelectionManager::GetAvailableTypes
 						   &actualType, &actualFormat,
 						   &itemCount, &remainingBytes, &data);
 
+		// XXXATOM: use 32 instead of sizeof(Atom)*8 -- otherwise, fails on 64-bit systems
+
 		if (actualType == XA_ATOM &&
-			actualFormat/8 == sizeof(Atom) && remainingBytes == 0)
+			actualFormat == 32 && remainingBytes == 0)
 			{
 			Atom* atomData = reinterpret_cast<Atom*>(data);
 			for (JIndex i=1; i<=itemCount; i++)
@@ -276,7 +277,7 @@ JXSelectionManager::GetData
 		else if (*returnType != None && remainingBytes == 0)
 			{
 			*dataLength = itemCount * actualFormat/8;
-			success = kJTrue;
+			success     = kJTrue;
 			}
 		else
 			{
@@ -690,9 +691,12 @@ JXSelectionManager::SendData1
 	const JSize		bitsPerBlock
 	)
 {
+	const JSize itemCount =
+		type == XA_ATOM ? dataLength/sizeof(Atom) :		// XXXATOM
+		dataLength/(bitsPerBlock/8);
+
 	XChangeProperty(*itsDisplay, requestor, property, type,
-					bitsPerBlock, PropModeReplace, data,
-					dataLength/(bitsPerBlock/8));
+					bitsPerBlock, PropModeReplace, data, itemCount);
 
 	itsReceivedAllocErrorFlag  = kJFalse;
 	itsTargetWindow            = requestor;

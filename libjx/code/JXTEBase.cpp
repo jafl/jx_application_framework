@@ -1734,9 +1734,14 @@ JXTEBase::GetAvailDataTypes
 	for (JIndex i=1; i<=typeCount; i++)
 		{
 		const Atom type = typeList.GetElement(i);
-		if (type == XA_STRING ||
-			type == selMgr->GetMimePlainTextXAtom() ||
-			(!(*canGetText) && type == selMgr->GetTextXAtom()))
+		if (type == selMgr->GetUtf8StringXAtom())
+			{
+			*canGetText = kJTrue;
+			*textType   = type;
+			break;
+			}
+		else if (type == XA_STRING ||
+				 type == selMgr->GetMimePlainTextXAtom())
 			{
 			*canGetText = kJTrue;
 			*textType   = type;
@@ -1839,12 +1844,12 @@ JXTEBase::GetSelectionData
 			selMgr->GetData(selectionName, time, textType,
 							&textReturnType, &data, &dataLength, &delMethod))
 			{
-			if (textReturnType == XA_STRING ||
-				textReturnType == selMgr->GetMimePlainTextXAtom() ||
-				textReturnType == selMgr->GetCompoundTextXAtom())
+			if (textReturnType == selMgr->GetUtf8StringXAtom() ||
+				textReturnType == XA_STRING ||
+				textReturnType == selMgr->GetMimePlainTextXAtom())
 				{
 				gotData = kJTrue;
-				*text = JString(reinterpret_cast<JUtf8Byte*>(data), dataLength);
+				text->Set(reinterpret_cast<JUtf8Byte*>(data), dataLength);
 				}
 			selMgr->DeleteData(&data, delMethod);
 			}

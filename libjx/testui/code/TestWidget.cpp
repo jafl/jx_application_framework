@@ -1128,22 +1128,23 @@ TestWidget::PrintSelectionTargets
 		std::cout << "Data types available from the clipboard:" << std::endl;
 		std::cout << std::endl;
 
-		Atom textType = None;
 		const JSize typeCount = typeList.GetElementCount();
 		for (JIndex i=1; i<=typeCount; i++)
 			{
 			const Atom type = typeList.GetElement(i);
 			std::cout << XGetAtomName(*display, type) << std::endl;
-			if (type == XA_STRING)
-				{
-				textType = type;
-				}
 			}
-		std::cout << std::endl;
 
-		if (textType != None)
+		for (JIndex i=1; i<=typeCount; i++)
 			{
-			PrintSelectionText(kJXClipboardName, time, textType);
+			const Atom type = typeList.GetElement(i);
+			if (type == XA_STRING ||
+				type == selMgr->GetUtf8StringXAtom() ||
+				type == selMgr->GetMimePlainTextXAtom())
+				{
+				std::cout << std::endl;
+				PrintSelectionText(kJXClipboardName, time, type);
+				}
 			}
 		}
 	else
@@ -1168,6 +1169,7 @@ TestWidget::PrintSelectionText
 	)
 	const
 {
+	JXDisplay* display         = GetDisplay();
 	JXSelectionManager* selMgr = GetSelectionManager();
 
 	Atom returnType;
@@ -1178,28 +1180,29 @@ TestWidget::PrintSelectionText
 						&returnType, &data, &dataLength, &delMethod))
 		{
 		if (returnType == XA_STRING ||
-			returnType == selMgr->GetCompoundTextXAtom())
+			returnType == selMgr->GetUtf8StringXAtom() ||
+			returnType == selMgr->GetMimePlainTextXAtom())
 			{
-			std::cout << "Data is available as text:" << std::endl << std::endl;
-
+			std::cout << "Data is available as " << XGetAtomName(*display, type) << ":" << std::endl << std::endl;
+			std::cout << "====================" << std::endl;
 			std::cout.write((char*) data, dataLength);
-			std::cout << std::endl << std::endl;
+			std::cout << std::endl << "====================" << std::endl << std::endl;
 			}
 		else
 			{
 			std::cout << "Data has unrecognized return type:  ";
 			std::cout << XGetAtomName(*(GetDisplay()), returnType) << std::endl;
 			std::cout << "Trying to print it anyway:" << std::endl << std::endl;
-
+			std::cout << "=========================" << std::endl;
 			std::cout.write((char*) data, dataLength);
-			std::cout << std::endl << std::endl;
+			std::cout << std::endl << "=========================" << std::endl << std::endl;
 			}
 
 		selMgr->DeleteData(&data, delMethod);
 		}
 	else
 		{
-		std::cout << "Data could not be retrieved." << std::endl << std::endl;
+		std::cout << "Data could not be retrieved as " << XGetAtomName(*display, type) << "." << std::endl << std::endl;
 		}
 }
 

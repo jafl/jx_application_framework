@@ -101,6 +101,7 @@ public:
 	JBoolean	ByteIndexValid(const JIndex index) const;
 	JBoolean	RangeValid(const JCharacterRange& range) const;
 	JBoolean	RangeValid(const JUtf8ByteRange& range) const;
+	JBoolean	IsAscii() const;
 
 	JUtf8Character	GetFirstCharacter() const;
 	JUtf8Character	GetLastCharacter() const;
@@ -310,6 +311,18 @@ JString::IsOwner()
 	const
 {
 	return itsOwnerFlag;
+}
+
+/******************************************************************************
+ IsAscii
+
+ ******************************************************************************/
+
+inline JBoolean
+JString::IsAscii()
+	const
+{
+	return JI2B( itsByteCount == itsCharacterCount );
 }
 
 /******************************************************************************

@@ -114,8 +114,11 @@ JXTextSelection::AddTypes
 
 	if (selectionName != GetDNDSelectionName())
 		{
-		AddType(XA_STRING);
-		AddType(selMgr->GetTextXAtom());
+		AddType(selMgr->GetUtf8StringXAtom());
+		if (itsText == NULL || itsText->IsAscii())
+			{
+			AddType(XA_STRING);
+			}
 		}
 }
 
@@ -307,16 +310,14 @@ JXTextSelection::ConvertData
 	*bitsPerBlock = 8;
 
 	JXSelectionManager* selMgr = GetSelectionManager();
-	const Atom mimeText        = selMgr->GetMimePlainTextXAtom();
-
-	JCharacterRange selection;
+	JIndexRange selection;
 
 	if ((requestType == XA_STRING ||
-		 requestType == mimeText ||
-		 requestType == selMgr->GetTextXAtom()) &&
+		 requestType == selMgr->GetUtf8StringXAtom() ||
+		 requestType == selMgr->GetMimePlainTextXAtom()) &&
 		itsText != NULL)
 		{
-		*returnType = (requestType == mimeText) ? mimeText : XA_STRING;
+		*returnType = requestType;
 		*dataLength = itsText->GetByteCount();
 		*data       = jnew unsigned char[ *dataLength ];
 		if (*data != NULL)
