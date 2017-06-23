@@ -246,7 +246,7 @@ JXSelectionData::Convert
 		assert( atomCount > 0 );
 
 		*returnType   = XA_ATOM;
-		*bitsPerBlock = 32;	// sizeof(Atom)*8; -- fails on 64-bit systems
+		*bitsPerBlock = 32;		// XXXATOM: sizeof(Atom)*8; -- fails on 64-bit systems
 		*dataLength   = sizeof(Atom)*atomCount;
 
 		*data = jnew unsigned char [ *dataLength ];

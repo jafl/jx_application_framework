@@ -26,6 +26,9 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //		Bug in fdesign makes it impossible to set FL_NO_BOX, so you have
 //			to edit the file manually after saving it.
 //	Fixed discontiguous selection modifier to be meta on OS X.
+//	Fixed JXSelectionManager to send required (broken) data for XA_ATOM (XXXATOM).
+//		*** Replaced GetTextXAtom() with GetUtf8StringXAtom().
+//		*** Removed GetCompoundTextXAtom().
 
 // version 3.1.0:
 //	JXGetStringDialog:
