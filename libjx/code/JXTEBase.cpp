@@ -2829,9 +2829,6 @@ JXTEBase::HandleSearchReplaceCmd
 /******************************************************************************
  TEHasSearchText (virtual)
 
-	Call this to provide a JXPSPrinter object for this text.  This object
-	does *not* take ownership of the printer object.
-
  ******************************************************************************/
 
 JBoolean

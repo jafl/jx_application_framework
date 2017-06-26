@@ -1,13 +1,13 @@
 /******************************************************************************
- CBSearchFontManager.cpp
+ TEFontManager.cpp
 
 	BASE CLASS = JFontManager
 
-	Copyright (C) 1998 by John Lindal. All rights reserved.
+	Written by John Lindal.
 
  ******************************************************************************/
 
-#include "CBSearchFontManager.h"
+#include "TEFontManager.h"
 #include <jAssert.h>
 
 /******************************************************************************
@@ -15,10 +15,12 @@
 
  ******************************************************************************/
 
-CBSearchFontManager::CBSearchFontManager()
+TEFontManager::TEFontManager()
 	:
 	JFontManager()
 {
+	itsFontNames = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
+	assert( itsFontNames != NULL );
 }
 
 /******************************************************************************
@@ -26,8 +28,9 @@ CBSearchFontManager::CBSearchFontManager()
 
  ******************************************************************************/
 
-CBSearchFontManager::~CBSearchFontManager()
+TEFontManager::~TEFontManager()
 {
+	jdelete itsFontNames;
 }
 
 /******************************************************************************
@@ -36,13 +39,13 @@ CBSearchFontManager::~CBSearchFontManager()
  ******************************************************************************/
 
 void
-CBSearchFontManager::GetFontNames
+TEFontManager::GetFontNames
 	(
 	JPtrArray<JString>* fontNames
 	)
 	const
 {
-	fontNames->CleanOut();
+	fontNames->CopyObjects(*itsFontNames, JPtrArrayT::kDeleteAll, kJFalse);
 }
 
 /******************************************************************************
@@ -51,13 +54,13 @@ CBSearchFontManager::GetFontNames
  ******************************************************************************/
 
 void
-CBSearchFontManager::GetMonospaceFontNames
+TEFontManager::GetMonospaceFontNames
 	(
 	JPtrArray<JString>* fontNames
 	)
 	const
 {
-	fontNames->CleanOut();
+	fontNames->CopyObjects(*itsFontNames, JPtrArrayT::kDeleteAll, kJFalse);
 }
 
 /******************************************************************************
@@ -66,12 +69,12 @@ CBSearchFontManager::GetMonospaceFontNames
  ******************************************************************************/
 
 JBoolean
-CBSearchFontManager::GetFontSizes
+TEFontManager::GetFontSizes
 	(
-	const JCharacter*	name,
-	JSize*				minSize,
-	JSize*				maxSize,
-	JArray<JSize>*		sizeList
+	const JString&	name,
+	JSize*			minSize,
+	JSize*			maxSize,
+	JArray<JSize>*	sizeList
 	)
 	const
 {
@@ -86,15 +89,28 @@ CBSearchFontManager::GetFontSizes
  ******************************************************************************/
 
 JFontID
-CBSearchFontManager::GetFontID
+TEFontManager::GetFontID
 	(
-	const JCharacter*	name,
+	const JString&		name,
 	const JSize			size,
 	const JFontStyle&	style
 	)
 	const
 {
-	return 0;
+	const JSize count = itsFontNames->GetElementCount();
+	for (JIndex i=1; i<=count; i++)
+		{
+		const JString* n = itsFontNames->GetElement(i);
+		if (*n == name)
+			{
+			return i;
+			}
+		}
+
+	// falling through means we need to create a new entry
+
+	itsFontNames->Append(name);
+	return itsFontNames->GetElementCount();
 }
 
 /******************************************************************************
@@ -102,14 +118,14 @@ CBSearchFontManager::GetFontID
 
  ******************************************************************************/
 
-const JCharacter*
-CBSearchFontManager::GetFontName
+const JString&
+TEFontManager::GetFontName
 	(
 	const JFontID id
 	)
 	const
 {
-	return "font";
+	return *(itsFontNames->GetElement(id));
 }
 
 /******************************************************************************
@@ -118,7 +134,7 @@ CBSearchFontManager::GetFontName
  ******************************************************************************/
 
 JBoolean
-CBSearchFontManager::IsExact
+TEFontManager::IsExact
 	(
 	const JFontID id
 	)
@@ -133,7 +149,7 @@ CBSearchFontManager::IsExact
  ******************************************************************************/
 
 JSize
-CBSearchFontManager::GetLineHeight
+TEFontManager::GetLineHeight
 	(
 	const JFontID		fontID,
 	const JSize			size,
@@ -144,8 +160,8 @@ CBSearchFontManager::GetLineHeight
 	)
 	const
 {
-	*ascent  = 1;
-	*descent = 1;
+	*ascent  = 5;
+	*descent = 2;
 	return (*ascent + *descent);
 }
 
@@ -155,14 +171,14 @@ CBSearchFontManager::GetLineHeight
  ******************************************************************************/
 
 JSize
-CBSearchFontManager::GetCharWidth
+TEFontManager::GetCharWidth
 	(
-	const JFontID		fontID,
-	const JCharacter	c
+	const JFontID			fontID,
+	const JUtf8Character&	c
 	)
 	const
 {
-	return 1;
+	return 10;
 }
 
 /******************************************************************************
@@ -171,13 +187,12 @@ CBSearchFontManager::GetCharWidth
  ******************************************************************************/
 
 JSize
-CBSearchFontManager::GetStringWidth
+TEFontManager::GetStringWidth
 	(
-	const JFontID		fontID,
-	const JCharacter*	str,
-	const JSize			charCount
+	const JFontID	fontID,
+	const JString&	str
 	)
 	const
 {
-	return charCount;
+	return 10*str.GetCharacterCount();
 }

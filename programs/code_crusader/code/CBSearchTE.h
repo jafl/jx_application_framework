@@ -11,9 +11,6 @@
 #include <JTextEditor.h>
 #include "CBSearchDocument.h"	// need definition of RecordLink
 
-class JFontManager;
-class JColormap;
-
 class CBSearchTE : public JTextEditor
 {
 public:

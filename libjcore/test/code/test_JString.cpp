@@ -511,6 +511,18 @@ JTEST(Whitespace)
 	JAssertStringsEqual("foo", s);
 }
 
+JTEST(IsAscii)
+{
+	JString s;
+	JAssertTrue(s.IsAscii());
+
+	s = "AbcD";
+	JAssertTrue(s.IsAscii());
+
+	s = "\xC3\x86\xCE\xA6\xCE\xA3";
+	JAssertFalse(s.IsAscii());
+}
+
 JTEST(ToLower)
 {
 	JString s;

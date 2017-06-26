@@ -786,6 +786,7 @@ F
 # search paths
 T "../ACE/ACE_wrappers/ace" T
 T "./code" T
+T "./test/code" T
 T "/usr/local/Cellar/pcre/8.39/include" T
 T "/usr/local/opt/icu4c/include" T
 F
