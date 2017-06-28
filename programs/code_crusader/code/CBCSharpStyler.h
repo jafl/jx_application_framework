@@ -25,11 +25,6 @@ protected:
 	CBCSharpStyler();
 
 	virtual void	Scan(std::istream& input, const TokenExtra& initData);
-	virtual void	PreexpandCheckRange(const JString& text,
-										const JRunArray<JFont>& styles,
-										const JIndexRange& modifiedRange,
-										const JBoolean deletion,
-										JIndexRange* checkRange);
 
 	virtual void	UpgradeTypeList(const JFileVersion vers,
 									JArray<JFontStyle>* typeStyles);

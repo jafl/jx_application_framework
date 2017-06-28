@@ -301,7 +301,7 @@ CBHTMLStyler::InitJavaScriptTypeStyles()
 void
 CBHTMLStyler::Scan
 	(
-	std::istream&			input,
+	std::istream&		input,
 	const TokenExtra&	initData
 	)
 {
