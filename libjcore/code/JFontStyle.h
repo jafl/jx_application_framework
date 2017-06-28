@@ -64,6 +64,14 @@ public:
 		color(c)
 	{ };
 
+	JBoolean
+	IsBlank()
+		const
+	{
+		return JI2B(!bold && !italic && underlineCount == 0 && !strike &&
+					color == itsDefaultColorIndex);
+	};
+
 	static void
 	SetDefaultColorIndex
 		(

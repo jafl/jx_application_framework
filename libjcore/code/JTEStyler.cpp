@@ -360,8 +360,13 @@ JTEStyler::SetStyle
 		fontRange.SetFirstAndLength(itsTokenFirstInRun, itsStyles->GetRunLength(itsTokenRunIndex));
 		const JBoolean beyondCurrentRun = !fontRange.Contains(range);
 
-		JFont f = itsStyles->GetRunData(itsTokenRunIndex);
-		if (beyondCurrentRun || style != f.GetStyle())
+		JFont f                     = itsStyles->GetRunData(itsTokenRunIndex);
+		const JFontStyle& origStyle = f.GetStyle();
+
+		const JBoolean styleExtendsBeyondToken =
+			JI2B( !origStyle.IsBlank() && range.last < fontRange.last );
+
+		if (beyondCurrentRun || styleExtendsBeyondToken || style != origStyle)
 			{
 			// extend the check range if we slop over into another style run
 			// (HTML: type '<' after 'x' in "x<!--<br><h3>text</h3>-->")
@@ -369,7 +374,7 @@ JTEStyler::SetStyle
 			// extend past end of run to insure that we keep going until we
 			// find a correctly styled token
 
-			if (beyondCurrentRun)
+			if (beyondCurrentRun || styleExtendsBeyondToken)
 				{
 				JIndex runIndex   = itsTokenRunIndex;
 				JIndex firstInRun = itsTokenFirstInRun;
@@ -389,7 +394,7 @@ JTEStyler::SetStyle
 
 			// update the styles
 
-			if (!beyondCurrentRun && OnlyColorChanged(style, f.GetStyle()))
+			if (!beyondCurrentRun && OnlyColorChanged(style, origStyle))
 				{
 				*itsRedrawRange += range;
 				}
