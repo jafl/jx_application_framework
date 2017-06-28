@@ -17,6 +17,7 @@
 .cpp ./code/GXRaggedFloatTable
 .cpp ./code/GXRowHeaderWidget
 .cpp ./code/GloveCursorMonitor
+.cpp ./code/JXExprWidget
 .cpp ./code/GXDataDocument
 .cpp ./code/ExprDirector
 .cpp ./code/FitModuleDialog
@@ -67,7 +68,6 @@
 .cpp ./code/GLNonLinearFitDescription
 .cpp ./code/GLModuleFitDescription
 .cpp ./code/JPlotFitModule
-.cpp ./code/JXExprWidget
 .cpp ./code/GLNonLinearFitDialog
 .cpp ./code/GLVarTable
 .cpp ./code/GLPolyFitDialog

@@ -62,6 +62,10 @@ T
 2 "GloveCursorMonitor.cpp"
 F
 "./code/GloveCursorMonitor.cpp"
+T
+2 "JXExprWidget.cpp"
+F
+"./code/JXExprWidget.cpp"
 F
 T
 1 "directors"
@@ -275,10 +279,6 @@ T
 F
 "./code/JPlotFitModule.cpp"
 T
-2 "JXExprWidget.cpp"
-F
-"./code/JXExprWidget.cpp"
-T
 2 "GLNonLinearFitDialog.cpp"
 F
 "./code/GLNonLinearFitDialog.cpp"
@@ -352,10 +352,6 @@ T
 F
 "./strings/glove_strings"
 T
-2 "glove_beta_strings"
-F
-"./strings/glove_beta_strings"
-T
 2 "GLChangeLogText"
 F
 "./strings/GLChangeLogText"
@@ -387,42 +383,6 @@ F
 T
 1 "other"
 T
-2 "ToDo"
-F
-"../cupstest/ToDo"
-T
-2 "nps_constants"
-F
-"../../include/make/nps_constants"
-T
-2 "glove-1.0.1.announce"
-F
-"./glove-1.0.1.announce"
-T
-2 "glove-1.0.1.spec"
-F
-"./glove-1.0.1.spec"
-T
-2 "LICENSE"
-F
-"./LICENSE"
-T
-2 "Make.files"
-F
-"./Make.files"
-T
-2 "Make.header"
-F
-"./Make.header"
-T
-2 "README.binary"
-F
-"./README.binary"
-T
-2 "README.source"
-F
-"./README.source"
-T
 2 "glove.fd"
 F
 "./glove.fd"
@@ -449,21 +409,6 @@ T
 2 "modules.html"
 F
 "../../../../../../t2/glenn/public_html/glove/modules.html"
-F
-T
-1 "updates"
-T
-2 "JXLibVersion.h"
-F
-"../../libjx/code/JXLibVersion.h"
-T
-2 "JCoreLibVersion.h"
-F
-"../../libjcore/code/JCoreLibVersion.h"
-T
-2 "J2DPlotLibVersion.h"
-F
-"../../libj2dplot/code/J2DPlotLibVersion.h"
 F
 F
 # tasks
