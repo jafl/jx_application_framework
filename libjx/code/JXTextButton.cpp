@@ -17,6 +17,8 @@
 #include <jXGlobals.h>
 #include <jAssert.h>
 
+const JCoordinate kMinTextBorder = 2;	// pixels
+
 /******************************************************************************
  Constructor
 
@@ -195,4 +197,21 @@ JXTextButton::DrawBackground
 		{
 		JXButton::DrawBackground(p, frame);
 		}
+}
+
+/******************************************************************************
+ GetFTCMinContentSize (virtual protected)
+
+ ******************************************************************************/
+
+JCoordinate
+JXTextButton::GetFTCMinContentSize
+	(
+	const JBoolean horizontal
+	)
+	const
+{
+	return (horizontal ?
+			itsFont.GetStringWidth(itsLabel) + 2*kMinTextBorder :
+			itsFont.GetLineHeight() + 2*kMinTextBorder);
 }

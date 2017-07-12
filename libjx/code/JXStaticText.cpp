@@ -201,3 +201,19 @@ JXStaticText::Center()
 
 	ScrollTo(x, y);
 }
+
+/******************************************************************************
+ GetFTCMinContentSize (virtual protected)
+
+ ******************************************************************************/
+
+JCoordinate
+JXStaticText::GetFTCMinContentSize
+	(
+	const JBoolean horizontal
+	)
+	const
+{
+	const JRect r = GetBounds();
+	return (horizontal ? r.width() : r.height());
+}

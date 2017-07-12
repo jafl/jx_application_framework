@@ -44,8 +44,9 @@ public:
 
 protected:
 
-	virtual void	Draw(JXWindowPainter& p, const JRect& rect);
-	virtual void	DrawBackground(JXWindowPainter& p, const JRect& frame);
+	virtual void		Draw(JXWindowPainter& p, const JRect& rect);
+	virtual void		DrawBackground(JXWindowPainter& p, const JRect& frame);
+	virtual JCoordinate	GetFTCMinContentSize(const JBoolean horizontal) const;
 
 private:
 

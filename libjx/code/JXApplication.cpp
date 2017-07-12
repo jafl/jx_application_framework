@@ -42,9 +42,10 @@
 #include <jMissingProto.h>
 #include <jAssert.h>
 
-static const JCharacter* kDisplayOptionName  = "-display";
-static const JCharacter* kXDebugOptionName   = "--xdebug";
-static const JCharacter* kFTCDebugOptionName = "--debug-ftc";
+static const JCharacter* kDisplayOptionName       = "-display";
+static const JCharacter* kXDebugOptionName        = "--xdebug";
+static const JCharacter* kFTCHorizDebugOptionName = "--debug-ftc-horiz";
+static const JCharacter* kFTCVertDebugOptionName  = "--debug-ftc-vert";
 
 const time_t kTimerStart = J_TIME_T_MAX/1000U;	// milliseconds before rollover
 const Time kMaxSleepTime = 50;					// 0.05 seconds (in milliseconds)
@@ -1160,9 +1161,13 @@ JXApplication::ParseBaseOptions
 			RemoveCmdLineOption(argc, argv, i, 1);
 			i--;
 			}
-		else if (strcmp(argv[i], kFTCDebugOptionName) == 0)
+		else if (strcmp(argv[i], kFTCHorizDebugOptionName) == 0)
 			{
-			JXContainer::DebugExpandToFitContent();
+			JXContainer::DebugExpandToFitContent(kJTrue);
+			}
+		else if (strcmp(argv[i], kFTCVertDebugOptionName) == 0)
+			{
+			JXContainer::DebugExpandToFitContent(kJFalse);
 			}
 		}
 }
@@ -1182,7 +1187,9 @@ JXApplication::StripBaseOptions
 	for (JIndex i=2; i<=count; i++)
 		{
 		JString* arg = argList->NthElement(i);
-		if (*arg == kXDebugOptionName || *arg == kFTCDebugOptionName)
+		if (*arg == kXDebugOptionName        ||
+			*arg == kFTCHorizDebugOptionName ||
+			*arg == kFTCVertDebugOptionName)
 			{
 			argList->DeleteElement(i);
 			count--;

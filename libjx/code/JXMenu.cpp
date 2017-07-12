@@ -55,11 +55,6 @@
 JXMenu::Style JXMenu::itsDefaultStyle = JXMenu::kMacintoshStyle;
 JXMenu::Style JXMenu::itsDisplayStyle = JXMenu::kWindowsStyle;
 
-static const JCharacter* kMenuFontFileName  = "~/.jx/menu_font";
-JBoolean JXMenu::theDefaultMenuFontInitFlag = kJFalse;
-JString JXMenu::theDefaultFontName;
-JSize JXMenu::theDefaultFontSize;
-
 const JCoordinate kTitleExtraWidth      = 16;
 const JCoordinate kImageTextBufferWidth = 4;
 
@@ -212,44 +207,6 @@ JXMenu::~JXMenu()
 		{
 		jdelete itsTitleImage;
 		}
-}
-
-/******************************************************************************
- Default menu font (static)
-
- ******************************************************************************/
-
-const JCharacter*
-JXMenu::GetDefaultFont
-	(
-	JSize* size
-	)
-{
-	if (!theDefaultMenuFontInitFlag)
-		{
-		theDefaultMenuFontInitFlag = kJTrue;
-		theDefaultFontName         = JGetDefaultFontName();
-		theDefaultFontSize         = kJDefaultFontSize;
-
-		JString fileName;
-		if (JExpandHomeDirShortcut(kMenuFontFileName, &fileName))
-			{
-			std::ifstream input(fileName);
-			input >> std::ws;
-			JString name = JReadLine(input);
-			name.TrimWhitespace();
-			JSize size;
-			input >> size;
-			if (input.good())
-				{
-				theDefaultFontName = name;
-				theDefaultFontSize = size;
-				}
-			}
-		}
-
-	*size = theDefaultFontSize;
-	return theDefaultFontName;
 }
 
 /******************************************************************************
@@ -1557,4 +1514,49 @@ JXMenu::IsMenu()
 	const
 {
 	return kJTrue;
+}
+
+/******************************************************************************
+ GetFTCMinContentSize (virtual protected)
+
+ ******************************************************************************/
+
+JCoordinate
+JXMenu::GetFTCMinContentSize
+	(
+	const JBoolean horizontal
+	)
+	const
+{
+	if (IsPopupChoice() || IsHiddenPopupMenu())
+		{
+		return 0;
+		}
+
+	JCoordinate borderWidth = GetBorderWidth(),
+				arrowWidth  = 0;
+	if (itsMenuDirector != NULL && borderWidth == 0)
+		{
+		borderWidth = kJXDefaultBorderWidth;
+		}
+	else if (borderWidth > 0)
+		{
+		arrowWidth = kTotalArrowWidth;
+		}
+
+	if (horizontal)
+		{
+		return ((itsTitleImage != NULL ? itsTitleImage->GetHeight() + kImageTextBufferWidth : 0) +
+				itsTitleFont.GetStringWidth(itsTitle) +
+				arrowWidth +
+				2*borderWidth +
+				2*kImageTextBufferWidth);
+		}
+	else
+		{
+		return (JMax(itsTitleImage != NULL ? itsTitleImage->GetHeight() : 0,
+					 (JCoordinate) itsTitleFont.GetLineHeight()) +
+				2*borderWidth +
+				2*kImageTextBufferWidth);
+		}
 }

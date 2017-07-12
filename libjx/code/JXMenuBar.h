@@ -64,6 +64,8 @@ protected:
 
 	virtual void	ApertureResized(const JCoordinate dw, const JCoordinate dh);
 
+	virtual JCoordinate	GetFTCMinContentSize(const JBoolean horizontal) const;
+
 private:
 
 	JPtrArray<JXMenu>*	itsMenus;

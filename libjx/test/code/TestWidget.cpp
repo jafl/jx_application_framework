@@ -307,7 +307,7 @@ JIndex i;
 	if (isMaster)
 		{
 		itsQuitButton = 
-			jnew JXTextButton("Quit", this, JXWidget::kFixedRight, JXWidget::kFixedBottom,
+			jnew JXTextButton(JGetString("Quit::TestWidget"), this, JXWidget::kFixedRight, JXWidget::kFixedBottom,
 							 x,y, 50,30);
 		assert( itsQuitButton != NULL );
 

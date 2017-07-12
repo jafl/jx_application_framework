@@ -43,7 +43,8 @@ public:
 
 protected:
 
-	virtual void	BoundsResized(const JCoordinate dw, const JCoordinate dh);
+	virtual void		BoundsResized(const JCoordinate dw, const JCoordinate dh);
+	virtual JCoordinate	GetFTCMinContentSize(const JBoolean horizontal) const;
 
 private:
 

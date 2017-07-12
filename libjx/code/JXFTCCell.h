@@ -14,12 +14,24 @@ class JXFTCCell : public JXContainer
 {
 public:
 
-	JXFTCCell(JXContainer* matchObj, JXContainer* enc);
+	enum Direction
+	{
+		kNoDirection,
+		kHorizontal,
+		kVertical
+	};
+
+public:
+
+	JXFTCCell(JXContainer* matchObj, JXContainer* enc, const Direction direction);
 
 	virtual ~JXFTCCell();
 
 	JXContainer*	GetWidget();
 	JSize			GetDepth() const;
+	Direction		GetDirection() const;
+
+	JCoordinate		Expand(const JBoolean horizontal);
 
 	virtual void	Refresh() const;
 	virtual void	Redraw() const;
@@ -40,6 +52,9 @@ public:
 
 protected:
 
+	virtual JCoordinate	ExpandToFTCMinContentSize(const JBoolean horizontal);
+	virtual void		ExpandForFTC(const JCoordinate delta, const JBoolean horizontal);
+
 	virtual void	Draw(JXWindowPainter& p, const JRect& rect);
 	virtual void	DrawBorder(JXWindowPainter& p, const JRect& frame);
 	virtual void	DrawBackground(JXWindowPainter& p, const JRect& frame);
@@ -55,6 +70,7 @@ private:
 
 	JXContainer*	itsWidget;		// can be NULL
 	JRect			itsFrameG;		// global coords
+	Direction		itsDirection;	// direction of contained cell stack
 
 private:
 
@@ -74,6 +90,18 @@ inline JXContainer*
 JXFTCCell::GetWidget()
 {
 	return itsWidget;
+}
+
+/******************************************************************************
+ GetDirection
+
+ ******************************************************************************/
+
+inline JXFTCCell::Direction
+JXFTCCell::GetDirection()
+	const
+{
+	return itsDirection;
 }
 
 #endif

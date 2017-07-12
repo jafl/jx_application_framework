@@ -121,7 +121,7 @@ public:
 
 	void	ExpandToFitContent();
 
-	static void	DebugExpandToFitContent(const JBoolean on = kJTrue);
+	static void	DebugExpandToFitContent(const JBoolean horiz);
 
 	// called by JXDisplay
 
@@ -187,7 +187,8 @@ protected:
 	virtual void	BoundsResized(const JCoordinate dw, const JCoordinate dh) = 0;
 	virtual void	EnclosingBoundsResized(const JCoordinate dw, const JCoordinate dh) = 0;
 
-	virtual JRect	GetFrameForExpandToFitContent() const;
+	virtual JCoordinate	GetFTCMinContentSize(const JBoolean horizontal) const;
+	virtual JRect		GetFrameForExpandToFitContent() const;
 
 	void			DeleteEnclosedObjects();
 
@@ -213,6 +214,11 @@ protected:
 
 	void	ActivateCursor(const JPoint& ptG, const JXKeyModifiers& modifiers);
 	void	DeactivateCursor();
+
+	// called by JXFTCCell
+
+	virtual JCoordinate	ExpandToFTCMinContentSize(const JBoolean horizontal);
+	virtual void		ExpandForFTC(const JCoordinate delta, const JBoolean horizontal);
 
 private:
 
@@ -250,7 +256,9 @@ private:
 
 	JXHintManager*	itsHintMgr;		// NULL if no hint
 
-	static JBoolean	theDebugFTCFlag;
+	static JBoolean theDebugFTCFlag;
+	static JBoolean	theDebugHorizFTCFlag;
+	static JBoolean	theDebugVertFTCFlag;
 
 private:
 
@@ -260,50 +268,26 @@ private:
 	void	AddEnclosedObject(JXContainer* theObject);
 	void	RemoveEnclosedObject(JXContainer* theObject);
 
-JXContainer*
-FTCBuildLayout()
-	const;
-JXContainer*
-FTCGroupAlignedObjects
-	(
-	JXContainer*					target,
-	JPtrArray<JXContainer>*			objList,
-	const JPtrArray<JXContainer>&	fullObjList,
-	const JBoolean					horizontal,
-	const JBoolean					exact
-	)
-	const;
-JBoolean
-FTCWillOverlapNonincludedWidget
-	(
-	const JXContainer*				obj1,
-	const JXContainer*				obj2,
-	const JPtrArray<JXContainer>&	fullObjList,
-	const JPtrArray<JXContainer>&	matchedList
-	)
-	const;
-void
-FTCTrimBlockedMatches
-	(
-	const JXContainer*				target,
-	const JPtrArray<JXContainer>&	fullObjList,
-	const JPtrArray<JXContainer>&	matchedList,
-	const JBoolean					horizontal,
-	JPtrArray<JXFTCCell>*			cellList
-	)
-	const;
-static JOrderedSetT::CompareResult
-FTCCompareHorizontally
-	(
-	JXContainer* const & w1,
-	JXContainer* const & w2
-	);
-static JOrderedSetT::CompareResult
-FTCCompareVertically
-	(
-	JXContainer* const & w1,
-	JXContainer* const & w2
-	);
+	JXFTCCell*	FTCBuildLayout(const JBoolean expandHorizontally) const;
+	JXFTCCell*	FTCGroupAlignedObjects(JXContainer* target,
+									   JPtrArray<JXContainer>* objList,
+									   JPtrArray<JXContainer>* fullObjList,
+									   const JBoolean horizontal,
+									   const JBoolean exact) const;
+	JBoolean	FTCWillOverlapNonincludedWidget(const JXContainer* obj1,
+												const JXContainer* obj2,
+												const JPtrArray<JXContainer>& fullObjList,
+												const JPtrArray<JXContainer>& matchedList) const;
+	void		FTCTrimBlockedMatches(const JXContainer* target,
+									  const JPtrArray<JXContainer>& fullObjList,
+									  const JPtrArray<JXContainer>& matchedList,
+									  const JBoolean horizontal,
+									  JPtrArray<JXFTCCell>* cellList) const;
+
+	static JOrderedSetT::CompareResult
+		FTCCompareHorizontally(JXContainer* const & w1, JXContainer* const & w2);
+	static JOrderedSetT::CompareResult
+		FTCCompareVertically(JXContainer* const & w1, JXContainer* const & w2);
 
 	// called by JXWindow
 

@@ -193,3 +193,19 @@ JXTextRadioButton::DrawBorder
 	)
 {
 }
+
+/******************************************************************************
+ GetFTCMinContentSize (virtual protected)
+
+ ******************************************************************************/
+
+JCoordinate
+JXTextRadioButton::GetFTCMinContentSize
+	(
+	const JBoolean horizontal
+	)
+	const
+{
+	return (horizontal ? GetPreferredWidth() :
+			JMax((JSize) kBoxHeight, itsFont.GetLineHeight()));
+}

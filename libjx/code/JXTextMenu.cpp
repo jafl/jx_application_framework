@@ -537,26 +537,28 @@ JXTextMenu::AdjustPopupChoiceTitle
 	)
 {
 	const JString& origTitle = GetTitleText();
-	if (!origTitle.IsEmpty())
+	if (origTitle.IsEmpty())
 		{
-		JString newTitle;
-		JIndex colonIndex;
-		const JBoolean foundColon = origTitle.LocateSubstring(":", &colonIndex);
-		if (foundColon && colonIndex > 1)
-			{
-			newTitle = origTitle.GetSubstring(1, colonIndex-1);
-			}
-		// not empty but no colon => title was empty originally, so replace it
-
-		if (!newTitle.IsEmpty())
-			{
-			newTitle += ":  ";
-			}
-		newTitle += GetItemText(index);
-
-		const JXImage* image = NULL;
-		GetItemImage(index, &image);
-
-		SetTitle(newTitle, const_cast<JXImage*>(image), kJFalse);
+		return;
 		}
+
+	JString newTitle;
+	JIndex colonIndex;
+	const JBoolean foundColon = origTitle.LocateSubstring(":", &colonIndex);
+	if (foundColon && colonIndex > 1)
+		{
+		newTitle = origTitle.GetSubstring(1, colonIndex-1);
+		}
+	// not empty but no colon => title was empty originally, so replace it
+
+	if (!newTitle.IsEmpty())
+		{
+		newTitle += ":  ";
+		}
+	newTitle += GetItemText(index);
+
+	const JXImage* image = NULL;
+	GetItemImage(index, &image);
+
+	SetTitle(newTitle, const_cast<JXImage*>(image), kJFalse);
 }

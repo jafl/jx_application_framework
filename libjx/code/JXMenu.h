@@ -178,8 +178,6 @@ public:
 
 	static JXModifierKey	AdjustNMShortcutModifier(const JXModifierKey key);
 
-	static const JCharacter*	GetDefaultFont(JSize* size);
-
 protected:
 
 	void		SetBaseItemData(JXMenuData* baseItemData);
@@ -196,6 +194,8 @@ protected:
 									const JSize clickCount,
 									const JXButtonStates& buttonStates,
 									const JXKeyModifiers& modifiers);
+
+	virtual JCoordinate	GetFTCMinContentSize(const JBoolean horizontal) const;
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message);
 
@@ -228,10 +228,6 @@ private:
 
 	static Style	itsDefaultStyle;
 	static Style	itsDisplayStyle;
-
-	static JBoolean	theDefaultMenuFontInitFlag;
-	static JString	theDefaultFontName;
-	static JSize	theDefaultFontSize;
 
 	// used when menu is pulled down
 

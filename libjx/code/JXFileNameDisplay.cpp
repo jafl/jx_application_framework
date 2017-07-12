@@ -112,3 +112,20 @@ JXFileNameDisplay::BoundsMoved
 		ClearHint();
 		}
 }
+
+/******************************************************************************
+ GetFTCMinContentSize (virtual protected)
+
+	We do not need to expand to show the entire text.
+
+ ******************************************************************************/
+
+JCoordinate
+JXFileNameDisplay::GetFTCMinContentSize
+	(
+	const JBoolean horizontal
+	)
+	const
+{
+	return (horizontal ? 0 : JXStaticText::GetFTCMinContentSize(kJFalse));
+}

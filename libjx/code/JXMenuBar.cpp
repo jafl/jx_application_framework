@@ -577,3 +577,36 @@ JXMenuBar::WidthChanged()
 	assert( itsIgnoreWidthChangedCount > 0 );
 	itsIgnoreWidthChangedCount--;
 }
+
+/******************************************************************************
+ GetFTCMinContentSize (virtual protected)
+
+ ******************************************************************************/
+
+JCoordinate
+JXMenuBar::GetFTCMinContentSize
+	(
+	const JBoolean horizontal
+	)
+	const
+{
+	const JRect r = GetBounds();
+
+	if (horizontal)
+		{
+		return r.width();
+		}
+	else
+		{
+		JCoordinate h = r.height();
+
+		JPtrArrayIterator<JXMenu> iter(itsMenus);
+		JXMenu* menu;
+		while (iter.Next(&menu))
+			{
+			h = JMax(h, menu->GetFTCMinContentSize(horizontal) + JCoordinate(2*menu->GetBorderWidth()));
+			}
+
+		return h;
+		}
+}

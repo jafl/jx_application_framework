@@ -4,6 +4,10 @@
 
 HelpSpecific::JX::TestDirector	"Help %h h %k Ctrl-H %b %d"
 
+# TestWidget
+
+Quit::TestWidget    "Quit"
+
 # Help text
 
 testjxMainHelp

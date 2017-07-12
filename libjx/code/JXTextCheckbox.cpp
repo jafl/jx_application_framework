@@ -186,3 +186,20 @@ JXTextCheckbox::DrawBorder
 	)
 {
 }
+
+/******************************************************************************
+ GetFTCMinContentSize (virtual protected)
+
+ ******************************************************************************/
+
+JCoordinate
+JXTextCheckbox::GetFTCMinContentSize
+	(
+	const JBoolean horizontal
+	)
+	const
+{
+	return (horizontal ?
+			2*kMarginWidth + kBoxHeight + itsFont.GetStringWidth(itsLabel) :
+			JMax((JSize) kBoxHeight, itsFont.GetLineHeight()));
+}

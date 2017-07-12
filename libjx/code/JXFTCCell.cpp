@@ -26,12 +26,14 @@
 
 JXFTCCell::JXFTCCell
 	(
-	JXContainer* matchObj,
-	JXContainer* enc
+	JXContainer*	matchObj,
+	JXContainer*	enc,
+	const Direction	direction
 	)
 	:
 	JXContainer(enc->GetWindow(), enc),
-	itsWidget(matchObj)
+	itsWidget(matchObj),
+	itsDirection(direction)
 {
 	if (itsWidget != NULL)
 		{
@@ -66,7 +68,9 @@ JXFTCCell::ToString()
 {
 	std::ostringstream s;
 	JXContainer::ToString().Print(s);
-	s << " (" << GetDepth() << ")";
+	s << " (" << GetDepth();
+	s << (itsDirection == kHorizontal ? ";horiz" : itsDirection == kVertical ? ";vert" : "");
+	s << ")";
 	if (itsWidget != NULL)
 		{
 		s << " (" << itsWidget->ToString() << ")";
@@ -93,6 +97,72 @@ JXFTCCell::GetDepth()
 		}
 
 	return depth - 1;
+}
+
+/******************************************************************************
+ Expand
+
+	Returns the amount by which it expanded.
+
+ ******************************************************************************/
+
+JCoordinate
+JXFTCCell::Expand
+	(
+	const JBoolean horizontal
+	)
+{
+	if (itsWidget != NULL)
+		{
+		return itsWidget->ExpandToFTCMinContentSize(horizontal);
+		}
+
+	return 0;
+}
+
+/******************************************************************************
+ ExpandToFTCMinContentSize (private)
+
+	Returns the amount by which it expanded.
+
+ ******************************************************************************/
+
+JCoordinate
+JXFTCCell::ExpandToFTCMinContentSize
+	(
+	const JBoolean horizontal
+	)
+{
+	if (itsWidget != NULL)
+		{
+		const JCoordinate v = itsWidget->GetFTCMinContentSize(horizontal);
+		if (v == 0)
+			{
+			return 0;
+			}
+
+		const JRect r = itsWidget->GetFrameGlobal();
+
+		const JSize b = horizontal ?
+			r.width()  - itsWidget->GetApertureGlobal().width() :
+			r.height() - itsWidget->GetApertureGlobal().height();
+
+		return v + b - (horizontal ? r.width() : r.height());
+		}
+}
+
+/******************************************************************************
+ ExpandForFTC (virtual protected)
+
+ ******************************************************************************/
+
+void
+JXFTCCell::ExpandForFTC
+	(
+	const JCoordinate	delta,
+	const JBoolean		horizontal
+	)
+{
 }
 
 /******************************************************************************

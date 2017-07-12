@@ -429,7 +429,7 @@ label: Any string:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (label1)
 callback: 
 argument: 
 
@@ -447,7 +447,7 @@ label: Req'd string:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (label2)
 callback: 
 argument: 
 
@@ -465,7 +465,7 @@ label: max 5 chars:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (label3)
 callback: 
 argument: 
 
@@ -483,7 +483,7 @@ label: req'd max 10 chars:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (label4)
 callback: 
 argument: 
 
@@ -501,7 +501,7 @@ label: Any number:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthEast FL_NoGravity
-name: 
+name: (labelf1)
 callback: 
 argument: 
 
@@ -519,7 +519,7 @@ label: >-3.2 :
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthEast FL_NoGravity
-name: 
+name: (labelf2)
 callback: 
 argument: 
 
@@ -537,7 +537,7 @@ label: <-3.2 :
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthEast FL_NoGravity
-name: 
+name: (labelf3)
 callback: 
 argument: 
 
@@ -555,7 +555,7 @@ label: 2.1 - 10.3:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthEast FL_NoGravity
-name: 
+name: (labelf4)
 callback: 
 argument: 
 
@@ -573,7 +573,7 @@ label: Low (>-3):
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthEast FL_NoGravity
-name: 
+name: (labeli2)
 callback: 
 argument: 
 
@@ -591,7 +591,7 @@ label: High (<8):
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthEast FL_NoGravity
-name: 
+name: (labeli3)
 callback: 
 argument: 
 
@@ -609,7 +609,7 @@ label: -2 - 24:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthEast FL_NoGravity
-name: 
+name: (labeli4)
 callback: 
 argument: 
 
@@ -627,7 +627,7 @@ label: Any int:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthEast FL_NoGravity
-name: 
+name: (labeli1)
 callback: 
 argument: 
 
@@ -663,7 +663,7 @@ label: Password:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (pwLabel)
 callback: 
 argument: 
 
