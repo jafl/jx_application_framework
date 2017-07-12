@@ -22,10 +22,6 @@ template <class T> class JRunArrayElement;
 
 typedef unsigned long JFontID;
 
-const JSize kJDefaultFontSize             = 10;
-const JSize kJDefaultRowColHeaderFontSize = 9;
-const JSize kJDefaultMonoFontSize         = 9;
-
 class JFont
 {
 	friend int operator==(const JFont& f1, const JFont& f2);
@@ -44,8 +40,8 @@ public:
 
 	const JFontManager*	GetFontManager() const;
 
-	void	Set(const JCharacter* name, const JSize size = kJDefaultFontSize, const JFontStyle style = JFontStyle());
-	void	Set(const JString& name, const JSize size = kJDefaultFontSize, const JFontStyle style = JFontStyle());
+	void	Set(const JCharacter* name, const JSize size = 0, const JFontStyle style = JFontStyle());
+	void	Set(const JString& name, const JSize size = 0, const JFontStyle style = JFontStyle());
 	void	Set(const JFont& f);
 
 	JFontID	GetID() const;

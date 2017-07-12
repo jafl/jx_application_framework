@@ -7,8 +7,6 @@
 
  ******************************************************************************/
 
-#include <jXGlobals.h>
-#include <JXLibVersion.h>
 #include <JPtrArray-JString.h>
 #include <JRegex.h>
 #include <JTextEditor.h>
@@ -19,6 +17,7 @@
 #include <jProcessUtil.h>
 #include <jCommandLine.h>
 #include <jVCSUtil.h>
+#include <jGlobals.h>
 #include <JRect.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -107,7 +106,7 @@ static const FontSizeConversion kFontSizeTable[] =
 	{"FL_DEFAULT_SIZE", "8"},
 	{"FL_TINY_SIZE",    "6"},
 	{"FL_SMALL_SIZE",   "8"},
-	{"FL_NORMAL_SIZE",  "kJDefaultFontSize"},
+	{"FL_NORMAL_SIZE",  "JGetDefaultFontSize()"},
 	{"FL_MEDIUM_SIZE",  "12"},
 	{"FL_LARGE_SIZE",   "14"},
 	{"FL_HUGE_SIZE",    "18"}
@@ -1298,7 +1297,7 @@ SplitClassNameAndArgs
 void
 ApplyOptions
 	(
-	std::ostream&					output,
+	std::ostream&				output,
 	const JString&				className,
 	const JString&				formName,
 	const JString&				tagName,
@@ -1421,7 +1420,7 @@ ApplyOptions
 			{
 			output << indent;
 			varName.Print(output);
-			output << "->SetFont(JGetMonospaceFontName(), kJDefaultMonoFontSize, JFontStyle());" << std::endl;
+			output << "->SetFont(JGetMonospaceFontName(), JGetDefaultMonoFontSize(), JFontStyle());" << std::endl;
 			}
 		else if (flStyle.Contains("TIMES"))
 			{
@@ -1461,7 +1460,7 @@ ApplyOptions
 			JString jxColor;
 			if (ConvertXFormsColor(flColor, &jxColor))
 				{
-				output << "    const JFontStyle ";
+				output << indent << "const JFontStyle ";
 				varName.Print(output);
 				output << "_style(";
 

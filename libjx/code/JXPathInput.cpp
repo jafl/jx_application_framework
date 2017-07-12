@@ -87,7 +87,7 @@ JXPathInput::GetFont
 	JSize* size
 	)
 {
-	*size = kJDefaultMonoFontSize;
+	*size = JGetDefaultMonoFontSize();
 	return JGetMonospaceFontName();
 }
 

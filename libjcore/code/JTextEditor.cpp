@@ -1304,7 +1304,7 @@ static const JSize kHTMLPointSize[]      = { 8, 8, 10, 12, 14, 18, 18 };
 static const JSize kHTMLHeaderFontSize[] = { 18, 18, 14, 12, 10, 8 };
 
 const JSize kBigHTMLPointSize     = 12;
-const JSize kDefaultHTMLPointSize = kJDefaultFontSize;
+const JSize kDefaultHTMLPointSize = 10;
 const JSize kSmallHTMLPointSize   = 8;
 
 /******************************************************************************
@@ -1621,7 +1621,7 @@ JTextEditor::HandleHTMLOnCmd
 		JFontStyle style = f.GetStyle();
 		style.color      = itsColormap->GetBlackColor();
 
-		itsHTMLLexerState->font.Set(JGetMonospaceFontName(), kJDefaultMonoFontSize, style);
+		itsHTMLLexerState->font.Set(JGetMonospaceFontName(), JGetDefaultMonoFontSize(), style);
 		}
 
 	// unordered list

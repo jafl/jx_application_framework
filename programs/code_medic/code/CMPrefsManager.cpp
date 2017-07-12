@@ -305,7 +305,7 @@ CMPrefsManager::UpgradeData
 	JXDisplay* display = (JXGetApplication())->GetDisplay(1);
 	if (currentVersion < 2)
 		{
-		SetDefaultFont(JGetMonospaceFontName(), kJDefaultMonoFontSize);
+		SetDefaultFont(JGetMonospaceFontName(), JGetDefaultMonoFontSize());
 		}
 	else
 		{
@@ -314,7 +314,7 @@ CMPrefsManager::UpgradeData
 		GetDefaultFont(&name, &size);
 		if (name == "6x13")
 			{
-			SetDefaultFont(JGetMonospaceFontName(), kJDefaultMonoFontSize);
+			SetDefaultFont(JGetMonospaceFontName(), JGetDefaultMonoFontSize());
 			}
 		}
 

@@ -57,11 +57,18 @@ static const JCharacter* kDockWindowClass      = "JX_Dock";
 #ifdef _J_OSX
 static const JCharacter* kX11LocalePath     = "/usr/X11/share/X11/locale/";
 static const JCharacter* kDefaultFontName   = "Arial";
+const JSize kDefaultFontSize                = 10;
+const JSize kDefaultRowColHeaderFontSize    = 9;
+static const JCharacter* kMonospaceFontName = "Consolas";
+const JSize kDefaultMonoFontSize            = 10;
 #else
 static const JCharacter* kX11LocalePath     = "/usr/share/X11/locale/";
 static const JCharacter* kDefaultFontName   = "Helvetica";
-#endif
+const JSize kDefaultFontSize                = 10;
+const JSize kDefaultRowColHeaderFontSize    = 9;
 static const JCharacter* kMonospaceFontName = "Bitstream Vera Sans Mono";
+const JSize kDefaultMonoFontSize            = 9;
+#endif
 static const JCharacter* kGreekFontName     = "Symbol";
 
 // Prototypes
@@ -98,7 +105,9 @@ JXCreateGlobals
 	JInitCore(theAssertHandler, appSignature, defaultStringData,
 			  un, theChooseSaveFile, jnew JXCreatePG,
 			  jnew JXGetCurrFontMgr, jnew JXGetCurrColormap,
-			  kDefaultFontName, kGreekFontName, kMonospaceFontName);
+			  kDefaultFontName, kGreekFontName,
+			  kDefaultFontSize, kDefaultRowColHeaderFontSize,
+			  kMonospaceFontName, kDefaultMonoFontSize);
 
 	XSetErrorHandler(JXDisplay::JXErrorHandler);
 	XSetIOErrorHandler(JXApplication::JXIOErrorHandler);

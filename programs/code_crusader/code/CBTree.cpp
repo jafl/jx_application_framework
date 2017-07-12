@@ -289,7 +289,7 @@ CBTree::CBTreeX
 	)
 {
 	itsDirector = director;
-	itsFontSize = kJDefaultFontSize;
+	itsFontSize = JGetDefaultFontSize();
 
 	itsClassesByFull = jnew JPtrArray<CBClass>(JPtrArrayT::kDeleteAll, kBlockSize);
 	assert( itsClassesByFull != NULL );

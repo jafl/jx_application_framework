@@ -29,7 +29,10 @@ void JInitCore(JAssertBase* ah = NULL, const JCharacter* appSignature = NULL,
 			   JGetCurrentColormap* gcc = NULL,
 			   const JCharacter* defaultFontName = NULL,
 			   const JCharacter* greekFontName = NULL,
-			   const JCharacter* monospaceFontName = NULL);
+			   const JSize defaultFontSize = 0,
+			   const JSize defaultRowColHeaderFontSize = 0,
+			   const JCharacter* monospaceFontName = NULL,
+			   const JSize defaultMonoFontSize = 0);
 void JSetWebBrowser(JWebBrowser* webBrowser);
 
 void JDeleteGlobals();
@@ -47,7 +50,10 @@ JColormap*				JGetCurrColormap();
 
 const JCharacter*		JGetDefaultFontName();
 const JCharacter*		JGetGreekFontName();
+JSize					JGetDefaultFontSize();
+JSize					JGetDefaultRowColHeaderFontSize();
 const JCharacter*		JGetMonospaceFontName();
+JSize					JGetDefaultMonoFontSize();
 
 JBoolean	JGetJDataDirectories(const JCharacter* dirName,
 								 JString* sysDir, JString* userDir);

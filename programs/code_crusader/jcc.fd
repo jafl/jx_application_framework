@@ -1083,7 +1083,7 @@ argument: JXTEBase::kMod5PWMod
 --------------------
 class: FL_TEXT
 type: FL_NORMAL_TEXT
-box: 330 360 120 40
+box: 330 360 120 60
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_MCOL
 alignment: FL_ALIGN_LEFT|FL_ALIGN_INSIDE

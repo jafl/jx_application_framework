@@ -2469,7 +2469,7 @@ JSize
 JExprEditor::GetInitialFontSize()
 	const
 {
-	return kJDefaultFontSize;
+	return JGetDefaultFontSize();
 }
 
 JSize
@@ -2479,7 +2479,7 @@ JExprEditor::GetSuperSubFontSize
 	)
 	const
 {
-	if (baseFontSize == kJDefaultFontSize)
+	if (baseFontSize == JGetDefaultFontSize())
 		{
 		return 10;
 		}

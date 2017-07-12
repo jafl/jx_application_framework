@@ -272,13 +272,13 @@ JXSearchTextDialog::BuildWindow()
 
 	JXStaticText* obj1_JXLayout =
 		jnew JXStaticText(JGetString("obj1_JXLayout::JXSearchTextDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 220,20);
+					JXWidget::kHElastic, JXWidget::kFixedTop, 20,19, 220,20);
 	assert( obj1_JXLayout != NULL );
 	obj1_JXLayout->SetToLabel();
 
 	JXStaticText* obj2_JXLayout =
 		jnew JXStaticText(JGetString("obj2_JXLayout::JXSearchTextDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,95, 220,20);
+					JXWidget::kHElastic, JXWidget::kFixedTop, 20,95, 220,20);
 	assert( obj2_JXLayout != NULL );
 	obj2_JXLayout->SetToLabel();
 
@@ -313,7 +313,7 @@ JXSearchTextDialog::BuildWindow()
 
 	itsPrevSearchMenu =
 		jnew JXStringHistoryMenu(kHistoryLength, "", window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 250,50, 30,20);
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 250,51, 30,20);
 	assert( itsPrevSearchMenu != NULL );
 
 	itsHelpButton =
@@ -416,7 +416,7 @@ JXSearchTextDialog::BuildWindow()
 
 	itsSearchInput =
 		jnew JXInputField(kJTrue, kJFalse, window,
-					JXWidget::kHElastic, JXWidget::kFixedTop, 20,40, 220,45);
+					JXWidget::kHElastic, JXWidget::kFixedTop, 20,39, 220,45);
 	assert( itsSearchInput != NULL );
 
 	itsReplaceInput =
@@ -515,7 +515,7 @@ JXSearchTextDialog::SetObjects
 	itsHelpButton  = helpButton;
 	itsQRefButton  = qRefButton;
 
-	SetFont(JGetMonospaceFontName(), kJDefaultMonoFontSize);
+	SetFont(JGetMonospaceFontName(), JGetDefaultMonoFontSize());
 
 	// decor
 

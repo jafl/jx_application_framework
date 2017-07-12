@@ -5,7 +5,7 @@ Internal Form Definition File
 
 Number of forms: 27
 Unit of measure: FL_COORD_PIXEL
-SnapGrid: 5
+SnapGrid: 1
 
 =============== FORM ===============
 Name: JXPSPrintSetupDialog
@@ -3889,7 +3889,7 @@ argument:
 --------------------
 class: FL_TEXT
 type: FL_NORMAL_TEXT
-box: 20 20 220 20
+box: 20 19 220 20
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_MCOL
 alignment: FL_ALIGN_LEFT|FL_ALIGN_INSIDE
@@ -3899,7 +3899,7 @@ lcol: FL_BLACK
 label: Search for:
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NorthWest FL_NoGravity
+gravity: FL_North FL_NoGravity
 name: 
 callback: 
 argument: 
@@ -3917,7 +3917,7 @@ lcol: FL_BLACK
 label: Replace with:
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NorthWest FL_NoGravity
+gravity: FL_North FL_NoGravity
 name: 
 callback: 
 argument: 
@@ -4015,7 +4015,7 @@ argument: kHistoryLength, ""
 --------------------
 class: FL_BOX
 type: FL_NO_BOX
-box: 250 50 30 20
+box: 250 51 30 20
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -4357,7 +4357,7 @@ argument:
 --------------------
 class: FL_INPUT
 type: FL_NORMAL_INPUT
-box: 20 40 220 45
+box: 20 39 220 45
 boxtype: FL_DOWN_BOX
 colors: FL_COL1 FL_MCOL
 alignment: FL_ALIGN_LEFT

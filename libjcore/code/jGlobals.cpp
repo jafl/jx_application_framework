@@ -22,21 +22,24 @@
 #include <ace/OS_NS_sys_socket.h>
 #include <jAssert.h>
 
-static JAssertBase*				theAssertHandler     = NULL;
+static JAssertBase*				theAssertHandler      = NULL;
 
-static JUserNotification*		theUserNotification  = NULL;
-static JChooseSaveFile*			theChooseSaveFile    = NULL;
-static JCreateProgressDisplay*	theCreatePG          = NULL;
+static JUserNotification*		theUserNotification    = NULL;
+static JChooseSaveFile*			theChooseSaveFile      = NULL;
+static JCreateProgressDisplay*	theCreatePG            = NULL;
 
-static JGetCurrentFontManager*	theGetCurrFontMgr    = NULL;
-static JGetCurrentColormap*		theGetCurrColormap   = NULL;
+static JGetCurrentFontManager*	theGetCurrFontMgr      = NULL;
+static JGetCurrentColormap*		theGetCurrColormap     = NULL;
 
-static JStringManager*			theStringManager     = NULL;
-static JWebBrowser*				theWebBrowser        = NULL;
+static JStringManager*			theStringManager       = NULL;
+static JWebBrowser*				theWebBrowser          = NULL;
 
-static JString*					theDefaultFontName   = NULL;
-static JString*					theGreekFontName     = NULL;
-static JString*					theMonospaceFontName = NULL;
+static JString*					theDefaultFontName     = NULL;
+static JString*					theGreekFontName       = NULL;
+static JSize					theDefaultFontSize     = 10;
+static JSize					theDefaultRCHFontSize  = 9;
+static JString*					theMonospaceFontName   = NULL;
+static JSize					theDefaultMonoFontSize = 10;
 
 static const JCharacter* kDefaultFontName   = "Helvetica";
 static const JCharacter* kGreekFontName     = "Symbol";
@@ -84,7 +87,10 @@ JInitCore
 
 	const JCharacter*		defaultFontName,
 	const JCharacter*		greekFontName,
-	const JCharacter*		monospaceFontName
+	const JSize				defaultFontSize,
+	const JSize				defaultRowColHeaderFontSize,
+	const JCharacter*		monospaceFontName,
+	const JSize				defaultMonoFontSize
 	)
 {
 	// assert handler
@@ -166,12 +172,49 @@ JInitCore
 		theGetCurrColormap = gcc;
 		}
 
-	// default font name
+	// default font
 
-	if (!JStringEmpty(defaultFontName))
+	if (stringMgr->Contains("NAME::FONT"))
+		{
+		const JString& fontName = JGetString("NAME::FONT");
+
+		theDefaultFontName = jnew JString(fontName);
+		assert( theDefaultFontName != NULL );
+		}
+	else if (!JStringEmpty(defaultFontName))
 		{
 		theDefaultFontName = jnew JString(defaultFontName);
 		assert( theDefaultFontName != NULL );
+		}
+
+	if (stringMgr->Contains("SIZE::FONT"))
+		{
+		const JString& fontSize = JGetString("SIZE::FONT");
+
+		JSize size;
+		if (fontSize.ConvertToUInt(&size))
+			{
+			theDefaultFontSize = size;
+			}
+		}
+	else if (defaultFontSize > 0)
+		{
+		theDefaultFontSize = defaultFontSize;
+		}
+
+	if (stringMgr->Contains("SIZE::ROWCOLHDR::FONT"))
+		{
+		const JString& fontSize = JGetString("SIZE::ROWCOLHDR::FONT");
+
+		JSize size;
+		if (fontSize.ConvertToUInt(&size))
+			{
+			theDefaultRCHFontSize = size;
+			}
+		}
+	else if (defaultRowColHeaderFontSize > 0)
+		{
+		theDefaultRCHFontSize = defaultRowColHeaderFontSize;
 		}
 
 	// greek font name
@@ -182,12 +225,34 @@ JInitCore
 		assert( theGreekFontName != NULL );
 		}
 
-	// monospace font name
+	// monospace font
 
-	if (!JStringEmpty(monospaceFontName))
+	if (stringMgr->Contains("NAME::MONO::FONT"))
+		{
+		const JString& fontName = JGetString("NAME::MONO::FONT");
+
+		theDefaultFontName = jnew JString(fontName);
+		assert( theDefaultFontName != NULL );
+		}
+	else if (!JStringEmpty(monospaceFontName))
 		{
 		theMonospaceFontName = jnew JString(monospaceFontName);
 		assert( theMonospaceFontName != NULL );
+		}
+
+	if (stringMgr->Contains("SIZE::MONO::FONT"))
+		{
+		const JString& fontSize = JGetString("SIZE::MONO::FONT");
+
+		JSize size;
+		if (fontSize.ConvertToUInt(&size))
+			{
+			theDefaultMonoFontSize = size;
+			}
+		}
+	else if (defaultMonoFontSize > 0)
+		{
+		theDefaultMonoFontSize = defaultMonoFontSize;
 		}
 
 	// remember to clean up
@@ -400,6 +465,28 @@ JGetDefaultFontName()
 }
 
 /******************************************************************************
+ JGetDefaultFontSize
+
+ ******************************************************************************/
+
+JSize
+JGetDefaultFontSize()
+{
+	return theDefaultFontSize;
+}
+
+/******************************************************************************
+ JGetDefaultRowColHeaderFontSize
+
+ ******************************************************************************/
+
+JSize
+JGetDefaultRowColHeaderFontSize()
+{
+	return theDefaultRCHFontSize;
+}
+
+/******************************************************************************
  JGetGreekFontName
 
  ******************************************************************************/
@@ -419,6 +506,17 @@ const JCharacter*
 JGetMonospaceFontName()
 {
 	return (theMonospaceFontName == NULL ? kMonospaceFontName : theMonospaceFontName->GetCString());
+}
+
+/******************************************************************************
+ JGetDefaultMonoFontSize
+
+ ******************************************************************************/
+
+JSize
+JGetDefaultMonoFontSize()
+{
+	return theDefaultMonoFontSize;
 }
 
 /******************************************************************************

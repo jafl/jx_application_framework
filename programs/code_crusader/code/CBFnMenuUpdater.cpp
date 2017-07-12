@@ -129,7 +129,7 @@ CBFnMenuUpdater::UpdateMenu
 		}
 	else
 		{
-		menu->SetDefaultFontSize(kJDefaultFontSize, kJFalse);
+		menu->SetDefaultFontSize(JGetDefaultFontSize(), kJFalse);
 		menu->CompressHeight(kJFalse);
 		}
 

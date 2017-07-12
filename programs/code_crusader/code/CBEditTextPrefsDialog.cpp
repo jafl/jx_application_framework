@@ -253,7 +253,7 @@ CBEditTextPrefsDialog::BuildWindow
 
 	JXStaticText* obj9_JXLayout =
 		jnew JXStaticText(JGetString("obj9_JXLayout::CBEditTextPrefsDialog::JXLayout"), window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 330,360, 120,40);
+					JXWidget::kHElastic, JXWidget::kVElastic, 330,360, 120,60);
 	assert( obj9_JXLayout != NULL );
 
 	itsCopyWhenSelectCB =

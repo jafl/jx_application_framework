@@ -31,7 +31,7 @@ THXTapeText::THXTapeText
 	JXTEBase(kFullEditor, kJFalse, kJFalse, scrollbarSet,
 			 enclosure, hSizing, vSizing, x,y, w,h)
 {
-	SetDefaultFontSize(kJDefaultFontSize);
+	SetDefaultFontSize(JGetDefaultFontSize());
 }
 
 /******************************************************************************

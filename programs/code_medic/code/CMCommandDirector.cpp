@@ -538,7 +538,7 @@ CMCommandDirector::BuildWindow()
 	ListenTo(itsHistoryMenu);
 
 	itsProgramButton->SetFontName(JGetMonospaceFontName());
-	itsProgramButton->SetFontSize(kJDefaultMonoFontSize);
+	itsProgramButton->SetFontSize(JGetDefaultMonoFontSize());
 	itsProgramButton->SetActive(itsLink->GetFeature(CMLink::kSetProgram));
 	ListenTo(itsProgramButton);
 

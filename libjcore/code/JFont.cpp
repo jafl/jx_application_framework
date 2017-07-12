@@ -9,7 +9,7 @@
 
 #include <JFont.h>
 #include <JFontManager.h>
-#include <JString.h>
+#include <jGlobals.h>
 #include <jAssert.h>
 
 /******************************************************************************
@@ -25,7 +25,7 @@ JFont::Set
 	const JFontStyle	style
 	)
 {
-	itsSize  = size;
+	itsSize  = size > 0 ? size : JGetDefaultFontSize();
 	itsStyle = style;
 	SetName(name);
 }
@@ -38,7 +38,7 @@ JFont::Set
 	const JFontStyle	style
 	)
 {
-	itsSize  = size;
+	itsSize  = size > 0 ? size : JGetDefaultFontSize();
 	itsStyle = style;
 	SetName(name);
 }

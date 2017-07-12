@@ -96,7 +96,7 @@ J2DPlotWidget::J2DPlotWidget
 		}
 
 	itsFontName					= JGetDefaultFontName();
-	itsFontSize					= kJDefaultFontSize;
+	itsFontSize					= JGetDefaultFontSize();
 
 	itsLegendWidth				= 0;
 

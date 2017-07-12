@@ -84,9 +84,6 @@ JStringManager::~JStringManager()
 /******************************************************************************
  Get
 
-	We assert that the id exists because it's a programmer error otherwise.
-	If you don't want this behavior, use GetElement().
-
  *****************************************************************************/
 
 static const JString theMissingString = "<string not found>";

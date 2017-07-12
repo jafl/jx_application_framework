@@ -19,9 +19,9 @@
 #include <JXWindow.h>
 #include <jXConstants.h>
 #include <jXActionDefs.h>
-#include <JString.h>
 #include <JFontManager.h>
 #include <jMath.h>
+#include <jGlobals.h>
 #include <jAssert.h>
 
 static const JCharacter* kVarSizeStr = "Other...";
@@ -53,7 +53,7 @@ JXFontSizeMenu::JXFontSizeMenu
 {
 	JXFontSizeMenuX(NULL);
 	BuildMenu(fontName);
-	SetFontSize(kJDefaultFontSize);
+	SetFontSize(JGetDefaultFontSize());
 }
 
 JXFontSizeMenu::JXFontSizeMenu
@@ -68,7 +68,7 @@ JXFontSizeMenu::JXFontSizeMenu
 {
 	JXFontSizeMenuX(NULL);
 	BuildMenu(fontName);
-	SetFontSize(kJDefaultFontSize);
+	SetFontSize(JGetDefaultFontSize());
 }
 
 JXFontSizeMenu::JXFontSizeMenu
@@ -89,7 +89,7 @@ JXFontSizeMenu::JXFontSizeMenu
 	JXFontSizeMenuX(fontMenu);
 	const JString fontName = itsFontNameMenu->GetFontName();
 	BuildMenu(fontName);
-	SetFontSize(kJDefaultFontSize);
+	SetFontSize(JGetDefaultFontSize());
 }
 
 JXFontSizeMenu::JXFontSizeMenu
@@ -105,7 +105,7 @@ JXFontSizeMenu::JXFontSizeMenu
 	JXFontSizeMenuX(fontMenu);
 	const JString fontName = itsFontNameMenu->GetFontName();
 	BuildMenu(fontName);
-	SetFontSize(kJDefaultFontSize);
+	SetFontSize(JGetDefaultFontSize());
 }
 
 // private

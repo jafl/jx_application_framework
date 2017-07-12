@@ -109,7 +109,7 @@ GloveHistory::GloveHistory
 										 kFixedLeft, kFixedTop, 0,0, 10,10);
 		assert( itsSizeMenu != NULL );
 		menuBar->AppendMenu(itsSizeMenu);
-		itsSizeMenu->SetFontSize(kJDefaultFontSize);
+		itsSizeMenu->SetFontSize(JGetDefaultFontSize());
 		ListenTo(itsSizeMenu);
 		}
 

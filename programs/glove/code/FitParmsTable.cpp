@@ -16,8 +16,6 @@
 #include <jGlobals.h>
 #include <jAssert.h>
 
-const JSize kDefaultSize = kJDefaultFontSize;
-
 const JCoordinate kDefColWidth  = 50;
 const JCoordinate kHMarginWidth = 5;
 const JCoordinate kVMarginWidth = 1;

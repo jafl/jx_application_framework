@@ -34,6 +34,12 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //		You should use the std:: prefix explicitly.
 //	JBroadcaster:
 //		Added ToString(), which can be overridden by derived classes.
+//	*** Moved kJDefaultFontSize, kJDefaultRowColHeaderFontSize, kJDefaultMonoFontSize
+//		to functions in jGlobals.
+//	To support translation into Asian languages, the default fonts & sizes
+//		can be overridden in translation files by specifying any of
+//		NAME::FONT, SIZE::FONT, SIZE::ROWCOLHDR::FONT, NAME::MONO::FONT,
+//		SIZE::MONO::FONT.
 
 // version 3.2.0:
 //	jMountUtil:

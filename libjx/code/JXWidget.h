@@ -87,11 +87,11 @@ public:
 	JBoolean	ScrollToRect(const JRect& r);
 	JBoolean	ScrollToRectCentered(const JRect& r, const JBoolean forceScroll);
 
-	virtual JRect		GetBoundsGlobal() const;
-	virtual JRect		GetFrameGlobal() const;
-	virtual JRect		GetApertureGlobal() const;
-	JSize				GetBorderWidth() const;
-	void				SetBorderWidth(const JSize width);
+	virtual JRect	GetBoundsGlobal() const;
+	virtual JRect	GetFrameGlobal() const;
+	virtual JRect	GetApertureGlobal() const;
+	JSize			GetBorderWidth() const;
+	void			SetBorderWidth(const JSize width);
 
 	// background color
 

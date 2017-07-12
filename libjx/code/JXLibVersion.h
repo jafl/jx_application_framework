@@ -29,6 +29,8 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //	Implemented ToString() for various widgets.
 //	JXStaticText:
 //		Added option to horizontally center labels.
+//	JXTextMenu:
+//		Menu font is no longer independently adjustable via ~/.jx/menu_font.
 
 // version 3.1.0:
 //	JXGetStringDialog:
