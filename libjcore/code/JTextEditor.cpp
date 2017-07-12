@@ -268,7 +268,7 @@ JTextEditor::JTextEditor
 
 	itsLineStarts = jnew JArray<TextIndex>;
 	assert( itsLineStarts != NULL );
-	itsLineStarts->SetCompareFunction(CompareStringIndices);
+	itsLineStarts->SetCompareFunction(CompareCharacterIndices);
 	itsLineStarts->SetSortOrder(JListT::kSortAscending);
 
 	itsLineGeom = jnew JRunArray<LineGeometry>;
@@ -1371,7 +1371,11 @@ JTextEditor::ReplaceAllForward
 
 	JString buffer;
 	JRunArray<JFont> styles;
-	if (restrictToSelection)
+	if (restrictToSelection && !HasSelection())
+		{
+		return kJFalse;
+		}
+	else if (restrictToSelection)
 		{
 		Copy(&buffer, &styles);
 		}
@@ -1576,9 +1580,8 @@ JTextEditor::SearchForward
 	JBoolean*			wrapped
 	)
 {
-	JIndex startIndex = HasSelection() ?
-							itsCharSelection.last + 1 :
-							itsCaretLoc.charIndex;
+	JIndex startIndex =
+		HasSelection() ? itsCharSelection.last + 1 : itsCaretLoc.charIndex;
 
 	const JSize runCount = itsStyles->GetRunCount();
 	JIndex endRun        = runCount;
@@ -1612,14 +1615,14 @@ JTextEditor::SearchForward
 						}
 					else	// optimize from where we started
 						{
-						JCharacterRange r = charRange;
-						r -= startIndex - 1;
+						const JSize byteOffset =
+							HasSelection() ? itsByteSelection.last : itsCaretLoc.byteIndex - 1;
 
-						byteRange =
-							JString::CharacterToUtf8ByteRange(
-								itsBuffer.GetRawBytes() +
-									(HasSelection() ? itsByteSelection.last : itsCaretLoc.byteIndex-1),
-								r);
+						byteRange.SetFirstAndCount(
+							byteOffset + 1,
+							JString::CountBytes(
+								itsBuffer.GetRawBytes() + byteOffset,
+								charRange.GetCount()));
 						}
 
 					SetSelection(charRange, byteRange);
@@ -1671,9 +1674,8 @@ JTextEditor::SearchBackward
 	JBoolean*			wrapped
 	)
 {
-	JIndex startIndex = HasSelection() ?
-							itsCharSelection.first - 1 :
-							itsCaretLoc.charIndex - 1;
+	JIndex startIndex =
+		HasSelection() ? itsCharSelection.first - 1 : itsCaretLoc.charIndex - 1;
 
 	JIndex endRun = 1;
 
@@ -1700,7 +1702,27 @@ JTextEditor::SearchBackward
 				if (match.Match(f))
 					{
 					const JCharacterRange charRange(firstIndexInRun, firstIndexInRun + itsStyles->GetRunLength(i)-1);
-					SetSelection(charRange, JString::CharacterToUtf8ByteRange(itsBuffer.GetRawBytes(), charRange));
+
+					JUtf8ByteRange byteRange;
+					if (wrapped)
+						{
+						byteRange = JString::CharacterToUtf8ByteRange(itsBuffer.GetRawBytes(), charRange);
+						}
+					else	// optimize from where we started
+						{
+						const JSize byteIndex =
+							HasSelection() ? itsByteSelection.first : itsCaretLoc.byteIndex;
+
+						JSize byteCount;
+						const JBoolean ok =
+							JString::CountBytesBackward(itsBuffer.GetRawBytes(), byteIndex - 1,
+														charRange.GetCount(), &byteCount);
+						assert(ok);
+
+						byteRange.Set(byteIndex - byteCount, byteIndex - 1);
+						}
+
+					SetSelection(charRange, byteRange);
 					return kJTrue;
 					}
 
@@ -2524,18 +2546,17 @@ JTextEditor::Paste
 	const JRunArray<JFont>*	style
 	)
 {
+	assert( style == NULL || style->GetElementCount() == text.GetCharacterCount() );
+
 	if (itsIsDragSourceFlag)
 		{
 		return;
 		}
 
-	JSize pasteLength =
-		(style != NULL ? style->GetElementCount() : strlen(text));
-
-	JTEUndoPaste* newUndo = jnew JTEUndoPaste(this, pasteLength);
+	JTEUndoPaste* newUndo = jnew JTEUndoPaste(this, TextCount(text.GetCharacterCount(), text.GetByteCount()));
 	assert( newUndo != NULL );
 
-	pasteLength = PrivatePaste(text, style);
+	const TextCount pasteLength = PrivatePaste(text, style);
 	newUndo->SetPasteLength(pasteLength);
 
 	NewUndo(newUndo, kJTrue);
@@ -2550,23 +2571,25 @@ JTextEditor::Paste
 
  ******************************************************************************/
 
-JSize
+JTextEditor::TextCount
 JTextEditor::PrivatePaste
 	(
-	const JCharacter*		text,
+	const JString&			text,
 	const JRunArray<JFont>*	style
 	)
 {
 	const JBoolean hadSelection = HasSelection();
 	if (hadSelection)
 		{
-		itsInsertionFont = itsStyles->GetElement(itsSelection.first);
-		DeleteText(itsSelection);
-		itsCaretLoc = CalcCaretLocation(itsSelection.first);
-		itsSelection.SetToNothing();
+		itsInsertionFont = itsStyles->GetElement(itsCharSelection.first);
+		DeleteText(itsCharSelection, itsByteSelection);
+		SetCaretLocation(CalcCaretLocation(
+			TextIndex(itsCharSelection.first, itsByteSelection.first)));
+		itsCharSelection.SetToNothing();
+		itsByteSelection.SetToNothing();
 		}
 
-	JSize pasteLength;
+	TextCount pasteLength;
 	if (itsPasteStyledTextFlag)
 		{
 		pasteLength = InsertText(itsCaretLoc, text, style);
@@ -2576,9 +2599,10 @@ JTextEditor::PrivatePaste
 		pasteLength = InsertText(itsCaretLoc, text);
 		}
 
-	const JSize textLen = strlen(text);
-	Recalc(itsCaretLoc, textLen, hadSelection, kJFalse);
-	SetCaretLocation(itsCaretLoc.charIndex + textLen);
+	Recalc(itsCaretLoc, pasteLength.charCount, hadSelection, kJFalse);
+	SetCaretLocation(CalcCaretLocation(
+		TextIndex(itsCharSelection.first + pasteLength.charCount,
+				  itsByteSelection.first + pasteLength.byteCount)));
 	return pasteLength;
 }
 
@@ -2593,7 +2617,7 @@ JTextEditor::TextIndex
 JTextEditor::GetInsertionIndex()
 	const
 {
-	if (!itsSelection.IsEmpty())
+	if (!itsCharSelection.IsEmpty())
 		{
 		return TextIndex(itsCharSelection.first, itsByteSelection.first);
 		}
@@ -2615,16 +2639,18 @@ JTextEditor::GetSelection
 	)
 	const
 {
-	if (!itsSelection.IsEmpty())
-		{
-		*text = itsBuffer->GetSubstring(itsSelection);
-		return kJTrue;
-		}
-	else
+	if (itsCharSelection.IsEmpty())
 		{
 		text->Clear();
 		return kJFalse;
 		}
+
+	JStringIterator iter(itsBuffer);
+	iter.UnsafeMoveTo(kJIteratorStartBefore, itsCharSelection.first, itsByteSelection.first);
+	iter.BeginMatch();
+	iter.UnsafeMoveTo(kJIteratorStartAfter, itsCharSelection.last, itsByteSelection.last);
+	*text = iter.FinishMatch().GetString();
+	return kJTrue;
 }
 
 JBoolean
@@ -2637,11 +2663,11 @@ JTextEditor::GetSelection
 {
 	style->RemoveAll();
 
-	if (!itsSelection.IsEmpty())
+	if (!itsCharSelection.IsEmpty())
 		{
-		*text = itsBuffer->GetSubstring(itsSelection);
-		style->InsertElementsAtIndex(1, *itsStyles, itsSelection.first,
-									 itsSelection.GetLength());
+		GetSelection(text);
+		style->InsertElementsAtIndex(1, *itsStyles, itsCharSelection.first,
+									 itsCharSelection.GetCount());
 		return kJTrue;
 		}
 	else
@@ -2675,7 +2701,7 @@ JTextEditor::SetSelection
 	DeactivateCurrentUndo();
 	itsPrevDragType = kInvalidDrag;		// avoid wordSel and lineSel pivots
 
-	if (itsBuffer->IsEmpty() || itsCharSelection == charRange)
+	if (itsBuffer.IsEmpty() || itsCharSelection == charRange)
 		{
 		return;
 		}
@@ -2688,9 +2714,9 @@ JTextEditor::SetSelection
 	assert( itsBuffer.ByteIndexValid(byteRange.last) );
 	assert( !byteRange.IsEmpty() );
 
-	const JBoolean hadSelection             = !itsCharSelection.IsEmpty();
-	const CaretLocation origCaretLoc        = itsCaretLoc;
-	const JCharacterRange origByteSelection = itsByteSelection;
+	const JBoolean hadSelection            = !itsCharSelection.IsEmpty();
+	const CaretLocation origCaretLoc       = itsCaretLoc;
+	const JUtf8ByteRange origByteSelection = itsByteSelection;
 
 	itsCaretLoc      = CaretLocation(0,0,0);
 	itsCharSelection = charRange;
@@ -2701,7 +2727,7 @@ JTextEditor::SetSelection
 
 	if (needCaretBcast)
 		{
-		BroadcastCaretMessages(CaretLocation(itsCharSelection.first, newStartLine), kJTrue);
+		BroadcastCaretMessages(CaretLocation(itsCharSelection.first, itsByteSelection.first, newStartLine), kJTrue);
 		}
 
 	TECaretShouldBlink(kJFalse);
@@ -2748,9 +2774,10 @@ JTextEditor::SetSelection
 void
 JTextEditor::SelectAll()
 {
-	if (!itsBuffer->IsEmpty())
+	if (!itsBuffer.IsEmpty())
 		{
-		SetSelection(1, itsBuffer->GetLength());
+		SetSelection(JCharacterRange(1, itsBuffer.GetCharacterCount()),
+					 JUtf8ByteRange( 1, itsBuffer.GetByteCount()));
 		}
 }
 
@@ -2765,60 +2792,17 @@ JTextEditor::SelectAll()
 void
 JTextEditor::DeleteSelection()
 {
-	if (!itsIsDragSourceFlag && !itsSelection.IsEmpty())
+	if (!itsIsDragSourceFlag && !itsCharSelection.IsEmpty())
 		{
 		JTEUndoTyping* newUndo = jnew JTEUndoTyping(this);
 		assert( newUndo != NULL );
 
-		DeleteText(itsSelection);
-		Recalc(itsSelection.first, 1, kJTrue, kJFalse);
-		SetCaretLocation(itsSelection.first);
+		DeleteText(itsCharSelection, itsByteSelection);
+		Recalc(itsCharSelection.first, 1, kJTrue, kJFalse);
+		SetCaretLocation(CalcCaretLocation(
+			TextIndex(itsCharSelection.first, itsByteSelection.first)));
 
 		NewUndo(newUndo, kJTrue);
-		}
-}
-
-/******************************************************************************
- DeleteToStartOfWord
-
-	Delete characters until start-of-word is reached.
-
- ******************************************************************************/
-
-void
-JTextEditor::DeleteToStartOfWord()
-{
-	if (itsCaretLoc.charIndex > 1)
-		{
-		if (itsSelection.IsEmpty())
-			{
-			const JIndex startIndex = GetWordStart(itsCaretLoc.charIndex-1);
-			SetSelection(startIndex, itsCaretLoc.charIndex-1);
-			}
-
-		DeleteSelection();
-		}
-}
-
-/******************************************************************************
- DeleteToEndOfWord
-
-	Delete characters until end-of-word is reached.
-
- ******************************************************************************/
-
-void
-JTextEditor::DeleteToEndOfWord()
-{
-	if (itsCaretLoc.charIndex <= itsBuffer->GetLength())
-		{
-		if (itsSelection.IsEmpty())
-			{
-			const JIndex endIndex = GetWordEnd(itsCaretLoc.charIndex);
-			SetSelection(itsCaretLoc.charIndex, endIndex);
-			}
-
-		DeleteSelection();
 		}
 }
 
@@ -2842,25 +2826,29 @@ JTextEditor::TabSelectionLeft
 		return;
 		}
 
-JIndex i,j;
+	// for undo
 
-	if (!itsSelection.IsEmpty())
+	if (!itsCharSelection.IsEmpty())
 		{
-		SetSelection(GetParagraphStart(itsSelection.first),			// for undo
-					 GetParagraphEnd(itsSelection.last));
+		const TextIndex start = GetParagraphStart(TextIndex(itsCharSelection.first, itsByteSelection.first)),
+						end   = GetParagraphEnd(TextIndex(itsCharSelection.last, itsByteSelection.last));
+		SetSelection(JCharacterRange(start.charIndex, end.charIndex),
+					 JUtf8ByteRange(start.byteIndex, end.byteIndex));
 		}
-	else if (!itsBuffer->IsEmpty())
+	else if (!itsBuffer.IsEmpty())
 		{
-		SetSelection(GetParagraphStart(itsCaretLoc.charIndex),		// for undo
-					 GetParagraphEnd(itsCaretLoc.charIndex));
+		const TextIndex start = GetParagraphStart(TextIndex(itsCaretLoc.charIndex, itsCaretLoc.byteIndex)),
+						end   = GetParagraphEnd(TextIndex(itsCaretLoc.charIndex, itsCaretLoc.byteIndex));
+		SetSelection(JCharacterRange(start.charIndex, end.charIndex),
+					 JUtf8ByteRange(start.byteIndex, end.byteIndex));
 		}
 	else
 		{
 		return;
 		}
 
-	const JIndex firstLine = GetLineForChar(itsSelection.first);
-	const JIndex lastLine  = GetLineForChar(itsSelection.last);
+	const JIndex firstLine = GetLineForChar(itsCharSelection.first);
+	const JIndex lastLine  = GetLineForChar(itsCharSelection.last);
 
 	// check that there are enough tabs at the start of every selected line,
 	// ignoring lines created by wrapping
@@ -2869,13 +2857,13 @@ JIndex i,j;
 	JSize prefixSpaceCount     = 0;		// min # of spaces at start of line
 	JBoolean firstNonemptyLine = kJTrue;
 
-	for (i=firstLine; i<=lastLine; i++)
+	for (JIndex i=firstLine; i<=lastLine; i++)
 		{
 		JIndex firstChar = GetLineStart(i);
 		if ((firstChar == 1 || itsBuffer->GetCharacter(firstChar-1) == '\n') &&
 			itsBuffer->GetCharacter(firstChar) != '\n')
 			{
-			for (j=1; j<=tabCount; j++)
+			for (JIndex j=1; j<=tabCount; j++)
 				{
 				// accept itsCRMTabCharCount spaces instead of tab
 				// accept fewer spaces in front of tab
@@ -2938,13 +2926,13 @@ JIndex i,j;
 
 	itsSelection.SetToNothing();
 	JSize deleteCount = 0;
-	for (i=firstLine; i<=lastLine; i++)
+	for (JIndex i=firstLine; i<=lastLine; i++)
 		{
 		const JIndex charIndex = GetLineStart(i) - deleteCount;
 		if ((charIndex == 1 || itsBuffer->GetCharacter(charIndex-1) == '\n') &&
 			itsBuffer->GetCharacter(charIndex) != '\n')
 			{
-			for (j=1; j<=tabCount; j++)
+			for (JIndex j=1; j<=tabCount; j++)
 				{
 				// The deletion point stays in same place (charIndex) and
 				// simply eats characters.
@@ -4894,12 +4882,12 @@ JTextEditor::InsertText
 
 	if (!allocated)
 		{
-		cleanText  = const_cast<JString*>(&text);
-		cleanStyle = const_cast<JRunArray<JFont>*>(&style);
+		cleanText = const_cast<JString*>(&text);
 		}
 
 	// insert the text
 
+	const JIndex charIndex = targetText->GetNextCharacterIndex();
 	if (cleanStyle != NULL)
 		{
 		targetStyle->InsertElementsAtIndex(charIndex, *cleanStyle, 1, cleanStyle->GetElementCount());
@@ -4907,8 +4895,8 @@ JTextEditor::InsertText
 	else
 		{
 		targetStyle->InsertElementsAtIndex(
-			index.charIndex,
-			defaultFont != NULL ? *defaultFont : CalcInsertionFont(targetText->GetString(), *targetStyle, index),
+			charIndex,
+			defaultFont != NULL ? *defaultFont : CalcInsertionFont(*targetText, *targetStyle),
 			cleanText->GetCharacterCount());
 		}
 
@@ -4921,7 +4909,6 @@ JTextEditor::InsertText
 	if (allocated)
 		{
 		jdelete cleanText;
-		jdelete cleanStyle;
 		}
 
 	return result;
@@ -7409,40 +7396,46 @@ JTextEditor::RemoveIllegalChars
 }
 
 /******************************************************************************
- GetWordStart
+ GetWordStart (protected)
 
 	Return the index of the first character of the word at the given location.
 	This function is required to work for charIndex == 0.
 
  ******************************************************************************/
 
-JIndex
+JTextEditor::TextIndex
 JTextEditor::GetWordStart
 	(
-	const JIndex charIndex
+	const TextIndex& index
 	)
 	const
 {
-	if (itsBuffer->IsEmpty() || charIndex <= 1)
+	if (itsBuffer.IsEmpty() || index.charIndex <= 1)
 		{
-		return 1;
+		return TextIndex(1,1);
 		}
 
-	JIndex i = JMin(charIndex, itsBuffer->GetLength());
-	if (!IsCharacterInWord(*itsBuffer, i))
+	const JIndex charIndex = JMin(index.charIndex, itsBuffer.GetCharacterCount()),
+				 byteIndex = JMin(index.byteIndex, itsBuffer.GetByteCount());
+
+	JStringIterator iter(itsBuffer);
+	iter.UnsafeMoveTo(kJIteratorStartAfter, charIndex, byteIndex);
+
+	JUtf8Character c;
+	if (iter.Prev(&c, kJFalse) && !IsCharacterInWord(c))
 		{
-		i--;
-		while (i >= 1 && !IsCharacterInWord(*itsBuffer, i))
+		while (iter.Prev(&c) && !IsCharacterInWord(c))
 			{
-			i--;
+			// find end of word
 			}
 		}
 
-	while (i >= 1 && IsCharacterInWord(*itsBuffer, i))
+	while (iter.Prev(&c) && IsCharacterInWord(c))
 		{
-		i--;
+		// find start of word
 		}
-	return i+1;
+
+	return TextIndex(iter.GetNextCharacterIndex(), iter.GetNextByteIndex());
 }
 
 /******************************************************************************
@@ -7453,39 +7446,43 @@ JTextEditor::GetWordStart
 
  ******************************************************************************/
 
-JIndex
+JTextEditor::TextIndex
 JTextEditor::GetWordEnd
 	(
-	const JIndex charIndex
+	const TextIndex& index
 	)
 	const
 {
-	if (itsBuffer->IsEmpty())
+	if (itsBuffer.IsEmpty())
 		{
-		return 1;
+		return TextIndex(1,1);
 		}
 
-	const JSize bufLen = itsBuffer->GetLength();
-	if (charIndex >= bufLen)
+	const JSize bufLen = itsBuffer.GetCharacterCount();
+	if (index.charIndex >= bufLen)
 		{
-		return bufLen;
+		return TextIndex(bufLen, itsBuffer.GetByteCount());
 		}
 
-	JIndex i = charIndex;
-	if (!IsCharacterInWord(*itsBuffer, i))
+	JStringIterator iter(itsBuffer);
+	iter.UnsafeMoveTo(kJIteratorStartBefore, index.charIndex, index.byteIndex);
+
+	JUtf8Character c;
+	if (iter.Next(&c, kJFalse) && !IsCharacterInWord(c))
 		{
-		i++;
-		while (i <= bufLen && !IsCharacterInWord(*itsBuffer, i))
+		while (iter.Next(&c) && !IsCharacterInWord(c))
 			{
-			i++;
+			// find start of word
 			}
 		}
 
-	while (i <= bufLen && IsCharacterInWord(*itsBuffer, i))
+	while (iter.Next(&c) && IsCharacterInWord(c))
 		{
-		i++;
+		// find end of word
 		}
-	return i-1;
+
+	iter.SkipPrev();	// get first byte of last character
+	return TextIndex(iter.GetNextCharacterIndex(), iter.GetNextByteIndex());
 }
 
 /******************************************************************************
@@ -7565,53 +7562,56 @@ JTextEditor::DefaultIsCharacterInWord
 			  ^   ^    ^  ^  ^  ^   ^  ^    ^  ^
  ******************************************************************************/
 
-JIndex
+JTextEditor::TextIndex
 JTextEditor::GetPartialWordStart
 	(
-	const JIndex charIndex
+	const TextIndex& index
 	)
 	const
 {
-	if (itsBuffer->IsEmpty() || charIndex <= 1)
+	if (itsBuffer.IsEmpty() || charIndex <= 1)
 		{
-		return 1;
+		return TextIndex(1,1);
 		}
 
-	JIndex i = JMin(charIndex, itsBuffer->GetLength());
-	if (!JIsAlnum(itsBuffer->GetCharacter(i)))
+	const JIndex charIndex = JMin(index.charIndex, itsBuffer.GetCharacterCount()),
+				 byteIndex = JMin(index.byteIndex, itsBuffer.GetByteCount());
+
+	JStringIterator iter(itsBuffer);
+	iter.UnsafeMoveTo(kJIteratorStartAfter, charIndex, byteIndex);
+
+	JUtf8Character c;
+	if (iter.Prev(&c, kJFalse) && !c.IsAlnum())
 		{
-		i--;
-		while (i >= 1 && !JIsAlnum(itsBuffer->GetCharacter(i)))
+		while (iter.Prev(&c) && !c.IsAlnum())
 			{
-			i--;
+			// find end of word
 			}
 		}
-
-	if (i < 2)
+	else if (!iter.Prev(&c))
 		{
-		return 1;
+		return TextIndex(1,1);
 		}
 
-	JCharacter prev     = itsBuffer->GetCharacter(i);
-	JBoolean foundLower = JI2B(JIsLower(prev));
-	while (i > 1)
+	JUtf8Character prev = c;
+	JBoolean foundLower = prev.IsLower();
+	while (iter.Prev(&c))
 		{
-		const JCharacter c = itsBuffer->GetCharacter(i-1);
-		foundLower         = JI2B(foundLower || JIsLower(c));
-		if (!JIsAlnum(c) ||
-			(JIsUpper(prev) && JIsLower(c)) ||
-			(JIsUpper(prev) && JIsUpper(c) && foundLower) ||
-			(JIsAlpha(prev) && isdigit(c)) ||
-			(isdigit(prev)  && JIsAlpha(c)))
+		foundLower = JI2B(foundLower || c.IsLower());
+		if (!c.IsAlnum() ||
+			(prev.IsUpper() && c.IsLower()) ||
+			(prev.IsUpper() && c.IsUpper() && foundLower) ||
+			(prev.IsAlpha() && c.IsDigit()) ||
+			(prev.IsDigit() && c.IsAlpha()))
 			{
+			iter.SkipNext();
 			break;
 			}
 
 		prev = c;
-		i--;
 		}
 
-	return i;
+	return TextIndex(iter.GetNextCharacterIndex(), iter.GetNextByteIndex());
 }
 
 /******************************************************************************
@@ -7624,58 +7624,58 @@ JTextEditor::GetPartialWordStart
 				^    ^   ^  ^  ^   ^  ^   ^
  ******************************************************************************/
 
-JIndex
+JTextEditor::TextIndex
 JTextEditor::GetPartialWordEnd
 	(
-	const JIndex charIndex
+	const TextIndex& index
 	)
 	const
 {
-	if (itsBuffer->IsEmpty())
+	if (itsBuffer.IsEmpty())
 		{
-		return 1;
+		return TextIndex(1,1);
 		}
 
-	const JSize bufLen = itsBuffer->GetLength();
-	if (charIndex >= bufLen)
+	const JSize bufLen = itsBuffer.GetCharacterCount();
+	if (index.charIndex >= bufLen)
 		{
-		return bufLen;
+		return TextIndex(bufLen, itsBuffer.GetByteCount());
 		}
 
-	JIndex i = charIndex;
-	if (!JIsAlnum(itsBuffer->GetCharacter(i)))
+	JStringIterator iter(itsBuffer);
+	iter.UnsafeMoveTo(kJIteratorStartBefore, index.charIndex, index.byteIndex);
+
+	JUtf8Character c;
+	if (iter.Next(&c, kJFalse) && !c.IsAlnum())
 		{
-		i++;
-		while (i <= bufLen && !JIsAlnum(itsBuffer->GetCharacter(i)))
+		while (iter.Next(&c) && !c.IsAlnum())
 			{
-			i++;
+			// find start of word
 			}
 		}
-
-	if (i >= bufLen)
+	else if (!iter.Next(&c))
 		{
-		return bufLen;
+		return TextIndex(1,1);
 		}
 
-	JCharacter prev = itsBuffer->GetCharacter(i);
-	while (i < bufLen)
+	JUtf8Character prev = c, c2;
+	while (iter.Next(&c))
 		{
-		const JCharacter c = itsBuffer->GetCharacter(i+1);
-		if (!JIsAlnum(c) ||
-			(JIsLower(prev) && JIsUpper(c)) ||
-			(JIsAlpha(prev) && isdigit(c)) ||
-			(isdigit(prev)  && JIsAlpha(c)) ||
-			(i < bufLen-1 && JIsUpper(prev) && JIsUpper(c) &&
-			 JIsLower(itsBuffer->GetCharacter(i+2))))
+		if (!c.IsAlnum() ||
+			(prev.IsLower() && c.IsUpper()) ||
+			(prev.IsAlpha() && c.IsDigit()) ||
+			(prev.IsDigit() && c.IsAlpha()) ||
+			(iter.Next(&c2, kJFalse) &&
+			 prev.IsUpper() && c.IsUpper() && c2.IsLower()))
 			{
 			break;
 			}
 
 		prev = c;
-		i++;
 		}
 
-	return i;
+	iter.SkipPrev();	// get first byte of last character
+	return TextIndex(iter.GetNextCharacterIndex(), iter.GetNextByteIndex());
 }
 
 /******************************************************************************
@@ -7687,25 +7687,28 @@ JTextEditor::GetPartialWordEnd
 
  ******************************************************************************/
 
-JIndex
+JTextEditor::TextIndex
 JTextEditor::GetParagraphStart
 	(
-	const JIndex charIndex
+	const TextIndex& index
 	)
 	const
 {
-	if (itsBuffer->IsEmpty() || charIndex <= 1)
+	if (itsBuffer.IsEmpty() || index.charIndex <= 1)
 		{
-		return 1;
+		return TextIndex(1,1);
 		}
 
-	JIndex i = JMin(charIndex, itsBuffer->GetLength());
-	while (i > 1 && itsBuffer->GetCharacter(i-1) != '\n')
+	JStringIterator iter(itsBuffer);
+	iter.UnsafeMoveTo(kJIteratorStartBefore, index.charIndex, index.byteIndex);
+
+	JUtf8Character c;
+	while (iter.Prev(&c) && c != '\n')
 		{
-		i--;
+		// find start of paragraph
 		}
 
-	return i;
+	return TextIndex(iter.GetNextCharacterIndex(), iter.GetNextByteIndex());
 }
 
 /******************************************************************************
@@ -7724,24 +7727,25 @@ JTextEditor::GetParagraphEnd
 	)
 	const
 {
-	if (itsBuffer->IsEmpty())
+	if (itsBuffer.IsEmpty())
 		{
-		return 1;
+		return TextIndex(1,1);
 		}
 
-	const JSize bufLen = itsBuffer->GetLength();
-	if (charIndex >= bufLen)
+	const JSize bufLen = itsBuffer.GetCharacterCount();
+	if (index.charIndex >= bufLen)
 		{
-		return bufLen;
+		return TextIndex(bufLen, itsBuffer.GetByteCount());
 		}
 
-	JIndex i = charIndex;
-	while (i < bufLen && itsBuffer->GetCharacter(i) != '\n')
+	JUtf8Character c;
+	while (iter.Next(&c) && c != '\n')
 		{
-		i++;
+		// find end of paragraph
 		}
 
-	return i;
+	iter.SkipPrev();	// get first byte of last character
+	return TextIndex(iter.GetNextCharacterIndex(), iter.GetNextByteIndex());
 }
 
 /******************************************************************************
@@ -7758,7 +7762,7 @@ JTextEditor::SetCaretLocation
 	)
 {
 	JIndex charIndex = JMax(origCharIndex, JIndex(1));
-	charIndex        = JMin(charIndex, itsBuffer->GetLength()+1);
+	charIndex        = JMin(charIndex, itsBuffer.GetCharacterCount()+1);
 
 	SetCaretLocation( CalcCaretLocation(charIndex) );
 }
@@ -7793,7 +7797,7 @@ JTextEditor::SetCaretLocation
 
 	if (hadSelection || origCaretLoc != itsCaretLoc || !itsPasteStyledTextFlag)
 		{
-		itsInsertionFont = CalcInsertionFont(itsCaretLoc.charIndex);
+		itsInsertionFont = CalcInsertionFont(itsCaretLoc);
 		}
 
 	if (!TEScrollTo(itsCaretLoc))
@@ -7910,7 +7914,7 @@ JTextEditor::GetColumnForChar
 }
 
 /******************************************************************************
- CharToByteRange (protected)
+ CharToByteRange (private)
 
 	Optimized by starting JStringIterator at start of line, computed by
 	using binary search.
@@ -8467,7 +8471,7 @@ JTextEditor::MoveCaretVert
 /******************************************************************************
  GetLineForChar
 
-	Returns the line that the specified character is on.  Since the
+	Returns the line that contains the specified character.  Since the
 	array is sorted, we can use a binary search.  We can use kAnyMatch
 	because we know the values are unique.
 
@@ -8485,9 +8489,45 @@ JTextEditor::GetLineForChar
 		return 1;
 		}
 
+	itsLineStarts->SetCompareFunction(CompareCharacterIndices);
+
 	JBoolean found;
 	JIndex lineIndex =
-		itsLineStarts->SearchSorted1(charIndex, JListT::kAnyMatch, &found);
+		itsLineStarts->SearchSorted1(TextIndex(charIndex, 0), JListT::kAnyMatch, &found);
+	if (!found)
+		{
+		lineIndex--;	// wants to insert -after- the value
+		}
+	return lineIndex;
+}
+
+/******************************************************************************
+ GetLineForByte
+
+	Returns the line that contains the specified byte.  Since the
+	array is sorted, we can use a binary search.  We can use kAnyMatch
+	because we know the values are unique.
+
+ ******************************************************************************/
+
+JIndex
+JTextEditor::GetLineForByte
+	(
+	const JIndex byteIndex
+	)
+	const
+{
+	if (byteIndex == 0)
+		{
+		return 1;
+		}
+
+	// do not need to reset it, because both result in the same ordering
+	itsLineStarts->SetCompareFunction(CompareByteIndices);
+
+	JBoolean found;
+	JIndex lineIndex =
+		itsLineStarts->SearchSorted1(TextIndex(0, byteIndex), JListT::kAnyMatch, &found);
 	if (!found)
 		{
 		lineIndex--;	// wants to insert -after- the value
@@ -8505,30 +8545,32 @@ JTextEditor::GetLineForChar
 JFont
 JTextEditor::CalcInsertionFont
 	(
-	const JIndex charIndex
+	const TextIndex& index
 	)
 	const
 {
-	return CalcInsertionFont(*itsBuffer, *itsStyles, charIndex);
+	JStringIterator iter(itsBuffer);
+	iter.UnsafeMoveTo(kJIteratorStartBefore, index.charIndex, index.byteIndex);
+
+	return CalcInsertionFont(iter, *itsStyles);
 }
 
 JFont
 JTextEditor::CalcInsertionFont
 	(
-	const JString&			buffer,
-	const JRunArray<JFont>&	styles,
-	const JIndex			charIndex
+	const JStringIterator&	buffer,
+	const JRunArray<JFont>&	styles
 	)
 	const
 {
-	if (1 < charIndex && charIndex <= buffer.GetLength() &&
-		buffer.GetCharacter(charIndex-1) == '\n')
+	JUtf8Character c;
+	if (buffer.Prev(&c, kJFalse) && c == '\n')
 		{
-		return styles.GetElement(charIndex);
+		return styles.GetElement(buffer.GetNextCharacterIndex());
 		}
 	else if (charIndex > 1)
 		{
-		return styles.GetElement(charIndex-1);
+		return styles.GetElement(buffer.GetPrevCharacterIndex());
 		}
 	else if (!styles.IsEmpty())
 		{
@@ -8822,11 +8864,11 @@ JTextEditor::RecalcAll
 	itsMaxWordWidth = 0;
 
 	itsLineStarts->RemoveAll();
-	itsLineStarts->AppendElement(1);
+	itsLineStarts->AppendElement(TextIndex(1,1));
 
 	itsLineGeom->RemoveAll();
 
-	Recalc(CaretLocation(1,1), itsBuffer->GetLength(), kJFalse,
+	Recalc(CaretLocation(1,1,1), itsBuffer.GetCharacterCount(), kJFalse,
 		   kJTrue, needAdjustStyles);
 }
 
@@ -9624,16 +9666,29 @@ JTextEditor::CalcCaretLocation
 /******************************************************************************
  CalcCaretLocation (private)
 
+	byteIndex can be zero.
+
  ******************************************************************************/
 
 inline JTextEditor::CaretLocation
 JTextEditor::CalcCaretLocation
 	(
-	const JIndex charIndex
+	const TextIndex& index
 	)
 	const
 {
-	return CaretLocation(charIndex, GetLineForChar(charIndex));
+	const JIndex lineIndex = GetLineForChar(index.charIndex);
+
+	JIndex byteIndex = index.byteIndex;
+	if (byteIndex == 0)
+		{
+		const TextIndex& i = itsLineStarts->GetElement(lineIndex);
+
+		byteIndex += JString::CountBytes(itsBuffer.GetBytes() + i.byteIndex - 1,
+										 charIndex - i.charIndex);
+		}
+
+	return CaretLocation(index.charIndex, byteIndex, lineIndex);
 }
 
 /******************************************************************************
@@ -9689,21 +9744,38 @@ JCoordinate
 JTextEditor::GetEWNHeight()
 	const
 {
-	const JFont f = CalcInsertionFont(itsBuffer->GetLength() + 1);
+	const JFont f = CalcInsertionFont(
+						TextIndex(itsBuffer.GetCharacterCount() + 1,
+								  itsBuffer.GetByteCount() + 1));
 	return f.GetLineHeight();
 }
 
 /******************************************************************************
- CompareStringIndices (static private)
+ CompareCharacterIndices (static private)
 
  ******************************************************************************/
 
 JListT::CompareResult
-JTextEditor::CompareStringIndices
+JTextEditor::CompareCharacterIndices
 	(
 	const TextIndex& i,
 	const TextIndex& j
 	)
 {
 	return JCompareIndices(i.charIndex, j.charIndex);
+}
+
+/******************************************************************************
+ CompareByteIndices (static private)
+
+ ******************************************************************************/
+
+JListT::CompareResult
+JTextEditor::CompareByteIndices
+	(
+	const TextIndex& i,
+	const TextIndex& j
+	)
+{
+	return JCompareIndices(i.byteIndex, j.byteIndex);
 }

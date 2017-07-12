@@ -23,6 +23,42 @@ int main()
 	return JUnitTestManager::Execute();
 }
 
+JTEST(Counting)
+{
+	JAssertEqual( 5, JString::CountCharacters("12345"));
+	JAssertEqual(14, JString::CountCharacters("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94"));
+	JAssertEqual(11, JString::CountCharacters("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", 12));
+	JAssertEqual( 2, JString::CountCharacters("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", JUtf8ByteRange(13, 16)));
+
+	JAssertEqual( 4, JString::CountBytes("12345", 4));
+	JAssertEqual(14, JString::CountBytes("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", 12));
+
+	JSize byteCount;
+	JBoolean ok = JString::CountBytesBackward("12345", 5, 4, &byteCount);
+	JAssertTrue(ok);
+	JAssertEqual(4, byteCount);
+
+	ok = JString::CountBytesBackward("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", 19, 7, &byteCount);
+	JAssertTrue(ok);
+	JAssertEqual(11, byteCount);
+
+	ok = JString::CountBytesBackward("12345", 2, 4, &byteCount);
+	JAssertFalse(ok);
+	JAssertEqual(2, byteCount);
+
+	ok = JString::CountBytesBackward("12345", 0, 4, &byteCount);
+	JAssertFalse(ok);
+	JAssertEqual(0, byteCount);
+
+	JAssertEqual(JUtf8ByteRange(2, 5),
+		JString::CharacterToUtf8ByteRange("12345",
+			JCharacterRange(2, 5)));
+
+	JAssertEqual(JUtf8ByteRange(8, 14),
+		JString::CharacterToUtf8ByteRange("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94",
+			JCharacterRange(8, 12)));
+}
+
 JTEST(Construction)
 {
 	JString s1;

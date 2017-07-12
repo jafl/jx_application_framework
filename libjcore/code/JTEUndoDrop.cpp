@@ -20,17 +20,17 @@
 
 JTEUndoDrop::JTEUndoDrop
 	(
-	JTextEditor*	te,
-	const JIndex	origIndex,
-	const JIndex	newIndex,
-	const JSize		length
+	JTextEditor*					te,
+	const JTextEditor::TextIndex&	origIndex,
+	const JTextEditor::TextIndex&	newIndex,
+	const JTextEditor::TextCount&	length
 	)
 	:
 	JTEUndoBase(te)
 {
 	itsOrigCaretLoc = origIndex;
 	itsNewSelStart  = newIndex;
-	itsNewSelEnd    = itsNewSelStart + length - 1;
+	SetPasteLength(length);
 }
 
 /******************************************************************************
@@ -50,10 +50,11 @@ JTEUndoDrop::~JTEUndoDrop()
 void
 JTEUndoDrop::SetPasteLength
 	(
-	const JSize length
+	const JTextEditor::TextCount& length
 	)
 {
-	itsNewSelEnd = itsNewSelStart + length - 1;
+	itsNewSelEnd.charIndex = itsNewSelStart.charIndex + length.charCount - 1;
+	itsNewSelEnd.byteIndex = itsNewSelStart.byteIndex + length.byteCount - 1;
 }
 
 /******************************************************************************
@@ -65,6 +66,7 @@ void
 JTEUndoDrop::Undo()
 {
 	JTextEditor* te = GetTE();
-	te->SetSelection(itsNewSelStart, itsNewSelEnd);
+	te->SetSelection(JCharacterRange(itsNewSelStart.charIndex, itsNewSelEnd.charIndex),
+					 JUtf8ByteRange(itsNewSelStart.byteIndex,  itsNewSelEnd.byteIndex));
 	te->DropSelection(itsOrigCaretLoc, kJFalse);			// deletes us
 }

@@ -231,6 +231,8 @@ public:
 	static JSize			CountCharacters(const JUtf8Byte* str);
 	static JSize			CountCharacters(const JUtf8Byte* str, const JSize byteCount);
 	static JSize			CountCharacters(const JUtf8Byte* str, const JUtf8ByteRange& range);
+	static JSize			CountBytes(const JUtf8Byte* str, const JSize characterCount);
+	static JBoolean			CountBytesBackward(const JUtf8Byte* str, const JSize byteOffset, const JSize characterCount, JSize* byteCount);
 	static JUtf8ByteRange	CharacterToUtf8ByteRange(const JUtf8Byte* str, const JCharacterRange& range);
 
 	static int Compare(const JString& s1, const JString& s2, const JBoolean caseSensitive = kJTrue);

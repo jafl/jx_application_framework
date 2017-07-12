@@ -19,8 +19,8 @@
 
 JTEUndoPaste::JTEUndoPaste
 	(
-	JTextEditor*	te,
-	const JSize		pasteLength
+	JTextEditor*					te,
+	const JTextEditor::TextCount&	pasteLength
 	)
 	:
 	JTEUndoTextBase(te)
@@ -46,7 +46,7 @@ JTEUndoPaste::~JTEUndoPaste()
 void
 JTEUndoPaste::SetPasteLength
 	(
-	const JSize length
+	const JTextEditor::TextCount& length
 	)
 {
 	itsLength = length;

@@ -287,6 +287,22 @@ JTEST(Move)
 					 JUtf8ByteRange(3, 14), kJFalse));
 }
 
+JTEST(UnsafeMove)
+{
+	JStringIterator i(JString("123\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", 0));
+
+	JUtf8Character c;
+	i.UnsafeMoveTo(kJIteratorStartBefore, 4, 4);
+	JBoolean ok = i.Next(&c);
+	JAssertTrue(ok);
+	JAssertStringsEqual("\xC2\xA9", c.GetBytes());
+
+	i.UnsafeMoveTo(kJIteratorStartAfter, 5, 6);
+	ok = i.Prev(&c);
+	JAssertTrue(ok);
+	JAssertStringsEqual("xC3\x85", c.GetBytes());
+}
+
 void TestSkip(const JString& s)
 {
 	JStringIterator i(s);

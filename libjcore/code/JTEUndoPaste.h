@@ -14,21 +14,21 @@ class JTEUndoPaste : public JTEUndoTextBase
 {
 public:
 
-	JTEUndoPaste(JTextEditor* te, const JSize pasteLength);
+	JTEUndoPaste(JTextEditor* te, const JTextEditor::TextCount& pasteLength);
 
 	virtual ~JTEUndoPaste();
 
-	virtual void	SetPasteLength(const JSize length);
+	virtual void	SetPasteLength(const JTextEditor::TextCount& length);
 	virtual void	Undo();
 
 protected:
 
-	void	SetCurrentLength(const JSize length);
+	void	SetCurrentLength(const JTextEditor::TextCount& length);
 
 private:
 
-	JIndex	itsOrigSelStart;
-	JSize	itsLength;
+	JTextEditor::TextIndex	itsOrigSelStart;
+	JTextEditor::TextCount	itsLength;
 
 private:
 
@@ -47,7 +47,7 @@ private:
 inline void
 JTEUndoPaste::SetCurrentLength
 	(
-	const JSize length
+	const JTextEditor::TextCount& length
 	)
 {
 	itsLength = length;

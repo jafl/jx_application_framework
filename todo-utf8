@@ -25,17 +25,12 @@ fix TODO's
 JTextEditor
 	never use JIndex for range - ambiguous
 
-	unit test with copy of CBSearchTE
-
 sample text in TestTabDirector
 	has \x - correctly interpreted?
 
 test
 	man pages
 	styled unix terminal output - yui build output
-	search forward & backward starting w/ & w/out selection
-		search forward for "foo" in "xyz|foo"
-		search backward for "xyz" in "xyz|foo"
 
 unit test libjx
 	JXCSFDialogBase

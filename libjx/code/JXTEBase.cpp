@@ -3413,8 +3413,7 @@ JXTEBase::AskForLine()
 {
 	assert( itsGoToLineDialog == NULL );
 
-	const JIndex charIndex = GetInsertionIndex();
-	const JIndex lineIndex = GetLineForChar(charIndex);
+	const JIndex lineIndex = GetLineForChar(GetInsertionIndex());
 	const JSize lineCount  = GetLineCount();
 
 	JXDirector* sup = GetWindow()->GetDirector();

@@ -995,15 +995,22 @@ JString::SearchForward
 		ucol_setStrength(coll, UCOL_PRIMARY);
 		}
 
-	for (JIndex i=*byteIndex; i<=itsByteCount - byteCount + 1; i++)
+	for (JIndex i=*byteIndex; i<=itsByteCount - byteCount + 1; )
 		{
-		const UCollationResult r = ucol_strcollUTF8(coll, itsBytes + i-1, byteCount, str, byteCount, &err);
+		const JUtf8Byte* s       = itsBytes + i-1;
+		const UCollationResult r = ucol_strcollUTF8(coll, s, byteCount, str, byteCount, &err);
 		if (r == 0)
 			{
 			*byteIndex = i;
 			ucol_close(coll);
 			return kJTrue;
 			}
+
+		// accept invalid byte sequences as single characters
+
+		JSize count;
+		JUtf8Character::GetCharacterByteCount(s, &count);
+		i += count;
 		}
 
 	ucol_close(coll);
@@ -1071,15 +1078,22 @@ JString::SearchBackward
 		ucol_setStrength(coll, UCOL_PRIMARY);
 		}
 
-	for (JIndex i=*byteIndex; i>=1; i--)
+	for (JIndex i=*byteIndex; i>=1; )
 		{
-		const UCollationResult r = ucol_strcollUTF8(coll, itsBytes + i-1, byteCount, str, byteCount, &err);
+		const JUtf8Byte* s       = itsBytes + i-1;
+		const UCollationResult r = ucol_strcollUTF8(coll, s, byteCount, str, byteCount, &err);
 		if (r == 0)
 			{
 			*byteIndex = i;
 			ucol_close(coll);
 			return kJTrue;
 			}
+
+		// accept invalid byte sequences as single characters
+
+		JSize count;
+		JUtf8Character::GetPrevCharacterByteCount(s-1, &count);
+		i -= count;
 		}
 
 	ucol_close(coll);
@@ -1649,6 +1663,66 @@ JString::CountCharacters
 }
 
 /******************************************************************************
+ CountBytes (static)
+
+ ******************************************************************************/
+
+JSize
+JString::CountBytes
+	(
+	const JUtf8Byte*	str,
+	const JSize			characterCount
+	)
+{
+	JIndex j = 0;
+	JSize count;
+	for (JIndex i=1; i<=characterCount; i++)
+		{
+		// accept invalid byte sequences as single characters
+		JUtf8Character::GetCharacterByteCount(str + j, &count);
+		j += count;
+		}
+
+	return j;
+}
+
+/******************************************************************************
+ CountBytesBackward (static)
+
+	Works backwards from the given offset.  Returns kJFalse if it prematurely
+	hits the start of the string.
+
+ ******************************************************************************/
+
+JBoolean
+JString::CountBytesBackward
+	(
+	const JUtf8Byte*	str,
+	const JSize			byteOffset,
+	const JSize			characterCount,
+	JSize*				byteCount
+	)
+{
+	*byteCount = 0;
+	JSize count;
+	for (JIndex i=1; i<=characterCount; i++)
+		{
+		// check first to catch byteOffset==0 and to allow valid stop at start of string
+
+		if (*byteCount >= byteOffset)
+			{
+			return kJFalse;
+			}
+
+		// accept invalid byte sequences as single characters
+		JUtf8Character::GetPrevCharacterByteCount(str + byteOffset - *byteCount - 1, &count);
+		*byteCount += count;
+		}
+
+	return kJTrue;
+}
+
+/******************************************************************************
  CharacterToUtf8ByteRange (static)
 
  ******************************************************************************/
@@ -1660,25 +1734,11 @@ JString::CharacterToUtf8ByteRange
 	const JCharacterRange&	range
 	)
 {
-	JIndex j = 1;
-	JSize byteCount;
-	for (JIndex i=1; i<range.first; i++)
-		{
-		// accept invalid byte sequences as single characters
-		JUtf8Character::GetCharacterByteCount(str + j-1, &byteCount);
-		j += byteCount;
-		}
+	const JSize first = CountBytes(str, range.first-1);
+	const JSize count = CountBytes(str + first, range.GetCount());
 
-	JUtf8ByteRange r(j, j);
-
-	for (JIndex i = range.first; i <= range.last; i++)
-		{
-		// accept invalid byte sequences as single characters
-		JUtf8Character::GetCharacterByteCount(str + r.last-1, &byteCount);
-		r.last += byteCount;
-		}
-
-	r.last--;	// back up 1 byte - character may be more than 1 byte
+	JUtf8ByteRange r;
+	r.SetFirstAndCount(first, count);
 	return r;
 }
 

@@ -242,3 +242,99 @@ TextEditor::TEHasSearchText()
 {
 	return kJFalse;
 }
+
+/******************************************************************************
+ GetWordStart
+
+ ******************************************************************************/
+
+JIndex
+TextEditor::GetWordStart
+	(
+	const JIndex charIndex,
+	const JIndex byteIndex
+	)
+	const
+{
+	return JTextEditor::GetWordStart(TextIndex(charIndex, byteIndex)).charIndex;
+}
+
+/******************************************************************************
+ GetWordEnd
+
+ ******************************************************************************/
+
+JIndex
+TextEditor::GetWordEnd
+	(
+	const JIndex charIndex,
+	const JIndex byteIndex
+	)
+	const
+{
+	return JTextEditor::GetWordEnd(TextIndex(charIndex, byteIndex)).charIndex;
+}
+
+/******************************************************************************
+ GetPartialWordStart
+
+ ******************************************************************************/
+
+JIndex
+TextEditor::GetPartialWordStart
+	(
+	const JIndex charIndex,
+	const JIndex byteIndex
+	)
+	const
+{
+	return JTextEditor::GetPartialWordStart(TextIndex(charIndex, byteIndex)).charIndex;
+}
+
+/******************************************************************************
+ GetPartialWordEnd
+
+ ******************************************************************************/
+
+JIndex
+TextEditor::GetPartialWordEnd
+	(
+	const JIndex charIndex,
+	const JIndex byteIndex
+	)
+	const
+{
+	return JTextEditor::GetPartialWordEnd(TextIndex(charIndex, byteIndex)).charIndex;
+}
+
+/******************************************************************************
+ GetParagraphStart
+
+ ******************************************************************************/
+
+JIndex
+TextEditor::GetParagraphStart
+	(
+	const JIndex charIndex,
+	const JIndex byteIndex
+	)
+	const
+{
+	return JTextEditor::GetParagraphStart(TextIndex(charIndex, byteIndex)).charIndex;
+}
+
+/******************************************************************************
+ GetParagraphEnd
+
+ ******************************************************************************/
+
+JIndex
+TextEditor::GetParagraphEnd
+	(
+	const JIndex charIndex,
+	const JIndex byteIndex
+	)
+	const
+{
+	return JTextEditor::GetParagraphEnd(TextIndex(charIndex, byteIndex)).charIndex;
+}

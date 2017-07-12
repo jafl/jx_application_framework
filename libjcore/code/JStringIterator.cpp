@@ -294,7 +294,11 @@ JStringIterator::UnsafeMoveTo
 		{
 		assert( itsConstString->CharacterIndexValid(characterIndex) );
 		assert( itsConstString->ByteIndexValid(byteIndex) );
-		itsByteOffset      = byteIndex;
+
+		JSize byteCount;
+		JUtf8Character::GetCharacterByteCount(itsConstString->GetBytes() + byteIndex-1, &byteCount);
+
+		itsByteOffset      = byteIndex-1 + byteCount;
 		itsCharacterOffset = characterIndex;
 		}
 }
@@ -319,25 +323,22 @@ JStringIterator::SkipPrev
 		return kJFalse;
 		}
 
-	const JUtf8Byte* bytes = itsConstString->GetRawBytes() + itsByteOffset - 1;
-	for (JIndex i=1; i<=characterCount; i++)
+	JSize byteCount;
+	const JBoolean ok =
+		JString::CountBytesBackward(itsConstString->GetRawBytes(), itsByteOffset,
+									characterCount, &byteCount);
+	if (ok)
 		{
-		JSize byteCount;
-		JUtf8Character::GetPrevCharacterByteCount(bytes, &byteCount);	// accept invalid characters
-
-		if (itsByteOffset <= byteCount)
-			{
-			itsByteOffset      = 0;
-			itsCharacterOffset = 0;
-			return kJFalse;
-			}
-
-		itsByteOffset -= byteCount;
-		bytes         -= byteCount;
-		itsCharacterOffset--;
+		itsByteOffset      -= byteCount;
+		itsCharacterOffset -= characterCount;
+		}
+	else
+		{
+		itsByteOffset      = 0;
+		itsCharacterOffset = 0;
 		}
 
-	return kJTrue;
+	return ok;
 }
 
 /******************************************************************************

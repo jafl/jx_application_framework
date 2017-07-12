@@ -34,6 +34,7 @@ typedef JBoolean (*JCharacterInWordFn)(const JUtf8Character&);
 class JTextEditor : virtual public JBroadcaster
 {
 	friend class JTEUndoTextBase;
+	friend class JTEUndoPaste;
 	friend class JTEUndoDrop;
 	friend class JTEUndoStyle;
 
@@ -260,7 +261,6 @@ public:
 	void		SetCaretLocation(const JIndex charIndex);
 
 	JBoolean	HasSelection() const;
-	JBoolean	GetSelection(JIndex* startIndex, JIndex* endIndex) const;
 	JBoolean	GetSelection(JCharacterRange* range) const;
 	JBoolean	GetSelection(JString* text) const;
 	JBoolean	GetSelection(JString* text, JRunArray<JFont>* style) const;
@@ -276,12 +276,6 @@ public:
 										  const JBoolean dragging, JCharacterRange* range);
 
 	JBoolean	IsEntireWord() const;
-	JIndex		GetWordStart(const JIndex charIndex) const;
-	JIndex		GetWordEnd(const JIndex charIndex) const;
-	JIndex		GetPartialWordStart(const JIndex charIndex) const;
-	JIndex		GetPartialWordEnd(const JIndex charIndex) const;
-	JIndex		GetParagraphStart(const JIndex charIndex) const;
-	JIndex		GetParagraphEnd(const JIndex charIndex) const;
 	void		GoToBeginningOfLine();
 	void		GoToEndOfLine();
 
@@ -364,11 +358,9 @@ public:
 	void		ClearLastSaveLocation();
 
 	void	DeleteSelection();
-	void	DeleteToStartOfWord();
-	void	DeleteToEndOfWord();
 	void	SelectAll();
 
-	// internal clipboard
+	// clipboard
 
 	void	Cut();
 	void	Copy();
@@ -613,13 +605,19 @@ protected:
 
 	JBoolean	IsCharacterInWord(const JUtf8Character& c) const;
 
+	TextIndex	GetWordStart(const TextIndex& index) const;
+	TextIndex	GetWordEnd(const TextIndex& index) const;
+	TextIndex	GetPartialWordStart(const TextIndex& index) const;
+	TextIndex	GetPartialWordEnd(const TextIndex& index) const;
+	TextIndex	GetParagraphStart(const TextIndex& index) const;
+	TextIndex	GetParagraphEnd(const TextIndex& index) const;
+
 	JBoolean		GetCaretLocation(CaretLocation* caretLoc) const;
 	void			SetCaretByteLocation(const JIndex byteIndex);
 	CaretLocation	CalcCaretLocation(const JPoint& pt) const;
 	JBoolean		PointInSelection(const JPoint& pt) const;
 	void			MoveCaretVert(const JInteger deltaLines);
 	JIndex			GetColumnForChar(const CaretLocation& caretLoc) const;
-	JUtf8ByteRange	CharToByteRange(const JCharacterRange& charRange) const;
 
 	TextIndex	GetInsertionIndex() const;
 	TextIndex	GetLineStart(const JIndex lineIndex) const;
@@ -725,7 +723,7 @@ private:
 
 	JBoolean		itsSelActiveFlag;		// kJTrue => draw solid selection
 	JBoolean		itsCaretVisibleFlag;	// kJTrue => draw caret
-	CaretLocation	itsCaretLoc;			// insertion point is -at- this character
+	CaretLocation	itsCaretLoc;			// insertion point is -at- this character; do not set directly - call SetCaretLocation()
 	JCoordinate		itsCaretX;				// horizontal location used by MoveCaretVert()
 	JFont			itsInsertionFont;		// style for characters that user types
 	JCharacterRange	itsCharSelection;		// caret is visible if this is empty
@@ -784,9 +782,9 @@ private:
 
 	static JBoolean	DefaultIsCharacterInWord(const JUtf8Character& c);
 
-	JFont	CalcInsertionFont(const TextIndex index) const;
-	JFont	CalcInsertionFont(const JString& buffer, const JRunArray<JFont>& styles,
-							  const TextIndex index) const;
+	JFont	CalcInsertionFont(const TextIndex& index) const;
+	JFont	CalcInsertionFont(const JStringIterator& buffer,
+							  const JRunArray<JFont>& styles) const;
 	void	DropSelection(const JIndex dropLoc, const JBoolean dropCopy);
 
 	JBoolean			GetCurrentUndo(JTEUndoBase** undo) const;
@@ -800,7 +798,7 @@ private:
 	JTEUndoTabShift*	GetTabShiftUndo(JBoolean* isNew);
 
 	TextCount	PrivatePaste(const JString& text, const JRunArray<JFont>* style);
-	TextCount	InsertText(const JIndex charIndex, const JString& text,
+	TextCount	InsertText(const TextIndex& index, const JString& text,
 						   const JRunArray<JFont>* style = NULL);
 	TextCount	InsertText(JStringIterator* targetText, JRunArray<JFont>* targetStyle,
 						   const JString& text, const JRunArray<JFont>* style,
@@ -812,7 +810,7 @@ private:
 						  JBoolean* okToInsert);
 
 	void			SetCaretLocation(const CaretLocation& caretLoc);
-	CaretLocation	CalcCaretLocation(const JIndex charIndex) const;
+	CaretLocation	CalcCaretLocation(const TextIndex& index) const;
 	JIndex			CalcLineIndex(const JCoordinate y, JCoordinate* lineTop) const;
 	JBoolean		TEScrollTo(const CaretLocation& caretLoc);
 	JRect			CalcCaretRect(const CaretLocation& caretLoc) const;
@@ -828,6 +826,9 @@ private:
 	JCoordinate	GetStringWidth(const JIndex startIndex, const JIndex endIndex) const;
 	JCoordinate	GetStringWidth(const JIndex startIndex, const JIndex endIndex,
 							   JIndex* runIndex, JIndex* firstInRun) const;
+
+	JIndex			GetLineForByte(const JIndex byteIndex) const;
+	JUtf8ByteRange	CharToByteRange(const JCharacterRange& charRange) const;
 
 	static JUtf8ByteRange	CharToByteRange(const JCharacterRange& charRange,
 											JStringIterator* iter);
@@ -914,7 +915,9 @@ private:
 	static void	ConvertFromMacintoshNewlinetoUNIXNewline(JString* buffer);
 
 	static JListT::CompareResult
-		CompareStringIndices(const TextIndex& i, const TextIndex& j);
+		CompareCharacterIndices(const TextIndex& i, const TextIndex& j);
+	static JListT::CompareResult
+		CompareByteIndices(const TextIndex& i, const TextIndex& j);
 
 	// not allowed
 
@@ -1232,19 +1235,6 @@ inline JBoolean
 JTextEditor::HasSelection()
 	const
 {
-	return !itsCharSelection.IsEmpty();
-}
-
-inline JBoolean
-JTextEditor::GetSelection
-	(
-	JIndex* startIndex,
-	JIndex* endIndex
-	)
-	const
-{
-	*startIndex = itsCharSelection.first;
-	*endIndex   = itsCharSelection.last;
 	return !itsCharSelection.IsEmpty();
 }
 
@@ -1786,7 +1776,7 @@ JTextEditor::GetCharLeft
 	)
 	const
 {
-	return itsLeftMarginWidth + GetCharLeft(CalcCaretLocation(charIndex));
+	return itsLeftMarginWidth + GetCharLeft(CalcCaretLocation(TextIndex(charIndex, 0)));
 }
 
 /******************************************************************************
@@ -1804,7 +1794,7 @@ JTextEditor::GetCharRight
 	)
 	const
 {
-	return itsLeftMarginWidth + GetCharRight(CalcCaretLocation(charIndex));
+	return itsLeftMarginWidth + GetCharRight(CalcCaretLocation(TextIndex(charIndex, 0)));
 }
 
 /******************************************************************************

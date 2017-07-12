@@ -20,6 +20,15 @@ public:
 
 	virtual JBoolean	TEHasSearchText() const;
 
+	// expose protected functionality for testing
+
+	JIndex	GetWordStart(const JIndex charIndex, const JIndex byteIndex) const;
+	JIndex	GetWordEnd(const JIndex charIndex, const JIndex byteIndex) const;
+	JIndex	GetPartialWordStart(const JIndex charIndex, const JIndex byteIndex) const;
+	JIndex	GetPartialWordEnd(const JIndex charIndex, const JIndex byteIndex) const;
+	JIndex	GetParagraphStart(const JIndex charIndex, const JIndex byteIndex) const;
+	JIndex	GetParagraphEnd(const JIndex charIndex, const JIndex byteIndex) const;
+
 protected:
 
 	virtual void		TERefresh();
