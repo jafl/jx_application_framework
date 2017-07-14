@@ -4547,11 +4547,13 @@ SyGFileTreeTable::PushBranch
 
  ******************************************************************************/
 
-void
+JBoolean
 SyGFileTreeTable::RemoveGitBranch
 	(
-	const JString& branch,
-	const JBoolean force
+	const JString&	branch,
+	const JBoolean	force,
+	const JBoolean	detach,
+	JProcess**		process
 	)
 {
 	if (!force)
@@ -4563,14 +4565,30 @@ SyGFileTreeTable::RemoveGitBranch
 		const JString msg = JGetString("WarnRemoveBranch::SyGFileTreeTable", map, sizeof(map));
 		if (!(JGetUserNotification())->AskUserNo(msg))
 			{
-			return;
+			return kJFalse;
 			}
 		}
 
 	JString cmd = "git branch -D ";
 	cmd        += JPrepArgForExec(branch);
 
-	JSimpleProcess::Create(itsFileTree->GetDirectory(), cmd, kJTrue);
+	if (detach)
+		{
+		JSimpleProcess::Create(itsFileTree->GetDirectory(), cmd, kJTrue);
+		}
+	else
+		{
+		JSimpleProcess* p;
+		if (!JSimpleProcess::Create(&p, itsFileTree->GetDirectory(), cmd, kJFalse).OK())
+			{
+			*process = NULL;
+			return kJFalse;
+			}
+
+		*process = p;
+		}
+
+	return kJTrue;
 }
 
 /******************************************************************************
@@ -4845,9 +4863,14 @@ SyGFileTreeTable::PruneLocalBranches()
 		}
 
 	const JSize count = indexList.GetElementCount();
+	JProcess* p;
 	for (JIndex i=1; i<=count; i++)
 		{
-		RemoveGitBranch(*(itsPruneBranchList->NthElement(indexList.GetElement(i))), kJTrue);
+		if (RemoveGitBranch(*(itsPruneBranchList->NthElement(indexList.GetElement(i))), kJTrue, kJFalse, &p))
+			{
+			p->WaitUntilFinished();
+			jdelete p;
+			}
 		}
 }
 
