@@ -1164,10 +1164,14 @@ JXApplication::ParseBaseOptions
 		else if (strcmp(argv[i], kFTCHorizDebugOptionName) == 0)
 			{
 			JXContainer::DebugExpandToFitContent(kJTrue);
+			RemoveCmdLineOption(argc, argv, i, 1);
+			i--;
 			}
 		else if (strcmp(argv[i], kFTCVertDebugOptionName) == 0)
 			{
 			JXContainer::DebugExpandToFitContent(kJFalse);
+			RemoveCmdLineOption(argc, argv, i, 1);
+			i--;
 			}
 		}
 }
