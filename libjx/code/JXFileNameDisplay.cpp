@@ -127,5 +127,6 @@ JXFileNameDisplay::GetFTCMinContentSize
 	)
 	const
 {
-	return (horizontal ? 0 : JXStaticText::GetFTCMinContentSize(kJFalse));
+	return (horizontal ? JXContainer::GetFTCMinContentSize(kJTrue) :
+						 JXStaticText::GetFTCMinContentSize(kJFalse));
 }

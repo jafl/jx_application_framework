@@ -247,7 +247,7 @@ JXButton::SetShortcuts
 }
 
 /******************************************************************************
- GetFrameForExpandToFitContent
+ GetFrameForFTC
 
 	Assumes that widgets are laid out in nested tables and do not overlap.
 	Builds the implicit tables and expands the cells and their contents so
@@ -256,10 +256,10 @@ JXButton::SetShortcuts
  ******************************************************************************/
 
 JRect
-JXButton::GetFrameForExpandToFitContent()
+JXButton::GetFrameForFTC()
 	const
 {
-	JRect r = JXWidget::GetFrameForExpandToFitContent();
+	JRect r = JXWidget::GetFrameForFTC();
 	if (itsIsReturnButtonFlag)
 		{
 		r.Shrink(1, 1);

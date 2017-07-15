@@ -212,6 +212,6 @@ JXTextButton::GetFTCMinContentSize
 	const
 {
 	return (horizontal ?
-			itsFont.GetStringWidth(itsLabel) + 2*kMinTextBorder :
-			itsFont.GetLineHeight() + 2*kMinTextBorder);
+			JMax((JSize) GetApertureWidth(), itsFont.GetStringWidth(itsLabel) + 2*kMinTextBorder) :
+			JMax((JSize) GetApertureHeight(), itsFont.GetLineHeight() + 2*kMinTextBorder));
 }

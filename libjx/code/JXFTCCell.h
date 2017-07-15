@@ -52,9 +52,6 @@ public:
 
 protected:
 
-	virtual JCoordinate	ExpandToFTCMinContentSize(const JBoolean horizontal);
-	virtual void		ExpandForFTC(const JCoordinate delta, const JBoolean horizontal);
-
 	virtual void	Draw(JXWindowPainter& p, const JRect& rect);
 	virtual void	DrawBorder(JXWindowPainter& p, const JRect& frame);
 	virtual void	DrawBackground(JXWindowPainter& p, const JRect& frame);
@@ -71,8 +68,21 @@ private:
 	JXContainer*	itsWidget;		// can be NULL
 	JRect			itsFrameG;		// global coords
 	Direction		itsDirection;	// direction of contained cell stack
+	JBoolean		itsSyncChildrenFlag;
 
 private:
+
+	void		CoverChildren(const JPtrArray<JXFTCCell>& cellList);
+	JCoordinate	ExpandWidget(const JBoolean horizontal);
+	void		SyncWidgetPosition();
+	void		SyncWidgetSize();
+
+	JString	Indent(const JSize extra = 0) const;
+
+	static JOrderedSetT::CompareResult
+		CompareHorizontally(JXFTCCell* const & c1, JXFTCCell* const & c2);
+	static JOrderedSetT::CompareResult
+		CompareVertically(JXFTCCell* const & c1, JXFTCCell* const & c2);
 
 	// not allowed
 

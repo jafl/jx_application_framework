@@ -590,7 +590,7 @@ JXMenuBar::GetFTCMinContentSize
 	)
 	const
 {
-	const JRect r = GetBounds();
+	const JRect r = GetBoundsGlobal();
 
 	if (horizontal)
 		{

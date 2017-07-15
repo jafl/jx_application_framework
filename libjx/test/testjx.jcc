@@ -184,8 +184,8 @@ F
 4
 "makemake"
 T "@" "jxlayout --choose --post-cmd 'jcc --reload-open' $file_name" "" F F T T T T F "Compile layouts" "F10" "" T
-T "./" "&make_default ; testjx --debug-ftc-horiz" "" F F F T T F F "Debug FTC Horiz" "F11" "" F
-T "./" "&make_default ; testjx --debug-ftc-vert" "" F F F T T F F "Debug FTC Vert" "Shift-F11" "" T
+T "./" "&make_default ; /bin/sh -c 'JMM_INITIALIZE=yes JMM_SHRED=yes JMM_RECORD_ALLOCATED=yes JMM_PRINT_EXIT_STATS=yes ./$program --debug-ftc-horiz'" "" F F F T T F F "Debug FTC Horiz" "F11" "" F
+T "./" "&make_default ; /bin/sh -c 'JMM_INITIALIZE=yes JMM_SHRED=yes JMM_RECORD_ALLOCATED=yes JMM_PRINT_EXIT_STATS=yes ./$program --debug-ftc-vert'" "" F F F T T F F "Debug FTC Vert" "Shift-F11" "" T
 T "./" "make -k static" "" T F T F T F T "" "" "#T.ngk|tIkt+JqQ$lEuc::CBCommandManager" F
 T "./" "make -k debug" "" T F T F T F T "" "" "eP+)*%.Pk:|-8H8gMBra::CBCommandManager" T
 T "./" "testjx -MDI" "" F F F F T T F "" "" "$svHlVFP`<D)#Cpy3gRi::CBCommandManager" F

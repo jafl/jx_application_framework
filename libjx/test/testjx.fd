@@ -429,7 +429,7 @@ label: Any string:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: (label1)
+name: (s1Label)
 callback: 
 argument: 
 
@@ -447,7 +447,7 @@ label: Req'd string:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: (label2)
+name: (s2Label)
 callback: 
 argument: 
 
@@ -465,7 +465,7 @@ label: max 5 chars:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: (label3)
+name: (s3Label)
 callback: 
 argument: 
 
@@ -483,7 +483,7 @@ label: req'd max 10 chars:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: (label4)
+name: (s4Label)
 callback: 
 argument: 
 
@@ -501,7 +501,7 @@ label: Any number:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthEast FL_NoGravity
-name: (labelf1)
+name: (f1Label)
 callback: 
 argument: 
 
@@ -519,7 +519,7 @@ label: >-3.2 :
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthEast FL_NoGravity
-name: (labelf2)
+name: (f2Label)
 callback: 
 argument: 
 
@@ -537,7 +537,7 @@ label: <-3.2 :
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthEast FL_NoGravity
-name: (labelf3)
+name: (f3Label)
 callback: 
 argument: 
 
@@ -555,7 +555,7 @@ label: 2.1 - 10.3:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthEast FL_NoGravity
-name: (labelf4)
+name: (f4Label)
 callback: 
 argument: 
 
@@ -573,7 +573,7 @@ label: Low (>-3):
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthEast FL_NoGravity
-name: (labeli2)
+name: (i2Label)
 callback: 
 argument: 
 
@@ -591,7 +591,7 @@ label: High (<8):
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthEast FL_NoGravity
-name: (labeli3)
+name: (i3Label)
 callback: 
 argument: 
 
@@ -609,7 +609,7 @@ label: -2 - 24:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthEast FL_NoGravity
-name: (labeli4)
+name: (i4Label)
 callback: 
 argument: 
 
@@ -627,7 +627,7 @@ label: Any int:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthEast FL_NoGravity
-name: (labeli1)
+name: (i1Label)
 callback: 
 argument: 
 

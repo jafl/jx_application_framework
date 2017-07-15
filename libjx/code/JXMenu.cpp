@@ -1533,21 +1533,28 @@ JXMenu::GetFTCMinContentSize
 		return 0;
 		}
 
-	JCoordinate borderWidth = GetBorderWidth(),
+	JCoordinate widgetBorderWidth = GetBorderWidth(),
+				borderWidth = 0,
 				arrowWidth  = 0;
-	if (itsMenuDirector != NULL && borderWidth == 0)
+	if (itsMenuDirector != NULL && widgetBorderWidth == 0)
 		{
 		borderWidth = kJXDefaultBorderWidth;
 		}
-	else if (borderWidth > 0)
+	else if (widgetBorderWidth > 0)
 		{
 		arrowWidth = kTotalArrowWidth;
 		}
 
-	if (horizontal)
+	if (horizontal && itsTitle.IsEmpty())
 		{
-		return ((itsTitleImage != NULL ? itsTitleImage->GetHeight() + kImageTextBufferWidth : 0) +
-				itsTitleFont.GetStringWidth(itsTitle) +
+		return GetApertureGlobal().width();
+		}
+	else if (horizontal)
+		{
+		const JSize sw = itsTitleFont.GetStringWidth(itsTitle);
+		return ((itsTitleImage != NULL ? itsTitleImage->GetHeight() : 0) +
+				(itsTitleImage != NULL && sw > 0 ? kImageTextBufferWidth : 0) +
+				sw +
 				arrowWidth +
 				2*borderWidth +
 				2*kImageTextBufferWidth);

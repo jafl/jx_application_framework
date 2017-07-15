@@ -219,22 +219,22 @@ CBSearchTextDialog::BuildWindow()
 
 	JXTextCheckbox* searchIsRegexCB =
 		jnew JXTextCheckbox(JGetString("searchIsRegexCB::CBSearchTextDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 160,180, 150,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 165,180, 150,20);
 	assert( searchIsRegexCB != NULL );
 
 	JXTextCheckbox* replaceIsRegexCB =
 		jnew JXTextCheckbox(JGetString("replaceIsRegexCB::CBSearchTextDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 320,180, 110,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 330,180, 110,20);
 	assert( replaceIsRegexCB != NULL );
 
 	JXTextCheckbox* singleLineCB =
 		jnew JXTextCheckbox(JGetString("singleLineCB::CBSearchTextDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 160,210, 150,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 165,210, 150,20);
 	assert( singleLineCB != NULL );
 
 	JXTextCheckbox* preserveCaseCB =
 		jnew JXTextCheckbox(JGetString("preserveCaseCB::CBSearchTextDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 320,210, 110,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 330,210, 110,20);
 	assert( preserveCaseCB != NULL );
 
 	JXTextButton* qRefButton =
@@ -308,12 +308,12 @@ CBSearchTextDialog::BuildWindow()
 
 	JXTextCheckbox* stayOpenCB =
 		jnew JXTextCheckbox(JGetString("stayOpenCB::CBSearchTextDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 160,240, 150,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 165,240, 150,20);
 	assert( stayOpenCB != NULL );
 
 	JXTextCheckbox* retainFocusCB =
 		jnew JXTextCheckbox(JGetString("retainFocusCB::CBSearchTextDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 320,240, 110,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 330,240, 110,20);
 	assert( retainFocusCB != NULL );
 
 	itsFileListMenu =

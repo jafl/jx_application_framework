@@ -187,10 +187,12 @@ protected:
 	virtual void	BoundsResized(const JCoordinate dw, const JCoordinate dh) = 0;
 	virtual void	EnclosingBoundsResized(const JCoordinate dw, const JCoordinate dh) = 0;
 
+	virtual JBoolean	NeedsInternalFTC() const;
 	virtual JCoordinate	GetFTCMinContentSize(const JBoolean horizontal) const;
-	virtual JRect		GetFrameForExpandToFitContent() const;
+	virtual JRect		GetFrameForFTC() const;
 
-	void			DeleteEnclosedObjects();
+	JBoolean	GetEnclosedObjects(JPtrArrayIterator<JXContainer>** iter) const;
+	void		DeleteEnclosedObjects();
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message);
 
@@ -215,16 +217,11 @@ protected:
 	void	ActivateCursor(const JPoint& ptG, const JXKeyModifiers& modifiers);
 	void	DeactivateCursor();
 
-	// called by JXFTCCell
-
-	virtual JCoordinate	ExpandToFTCMinContentSize(const JBoolean horizontal);
-	virtual void		ExpandForFTC(const JCoordinate delta, const JBoolean horizontal);
-
 private:
 
 	JXWindow*				itsWindow;
 	JXContainer*			itsEnclosure;
-	JPtrArray<JXContainer>*	itsEnclosedObjs;
+	JPtrArray<JXContainer>*	itsEnclosedObjs;	// NULL if empty
 	JBoolean				itsGoingAwayFlag;
 
 	JBoolean	itsActiveFlag;
@@ -255,6 +252,10 @@ private:
 	// hint
 
 	JXHintManager*	itsHintMgr;		// NULL if no hint
+
+	// FTC
+
+	JBoolean itsSkipBoundsNotifyFlag;
 
 	static JBoolean theDebugFTCFlag;
 	static JBoolean	theDebugHorizFTCFlag;

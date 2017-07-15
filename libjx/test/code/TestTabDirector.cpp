@@ -123,7 +123,7 @@ TestTabDirector::BuildWindow()
 	// card 2
 
 	itsAddTabButton =
-		jnew JXTextButton("Add jnew tab", card2,
+		jnew JXTextButton("Add new tab", card2,
 						 JXWidget::kFixedLeft, JXWidget::kFixedBottom,
 						 20, 20, 200, 30);
 	assert( itsAddTabButton != NULL );

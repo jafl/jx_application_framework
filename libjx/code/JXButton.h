@@ -44,7 +44,7 @@ protected:
 								  const JXButtonStates& buttonStates,
 								  const JXKeyModifiers& modifiers);
 
-	virtual JRect	GetFrameForExpandToFitContent() const;
+	virtual JRect	GetFrameForFTC() const;
 
 private:
 
