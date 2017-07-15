@@ -15,6 +15,10 @@
 
 	Retrieving an element from the actual array gives a *pointer*.
 
+	We do not override ToString():  Since this function is virtual, it is
+	always instantiated.  Thus, we cannot print the objects, because they
+	might not have ToString() or operator<<
+
 	BASE CLASS = JArray
 
 	Copyright (C) 1994 by John Lindal. All rights reserved.

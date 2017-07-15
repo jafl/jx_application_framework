@@ -12,6 +12,10 @@
 		the array elements, this can -only- be used for structs.
 		To store objects, use the JPtrArray template class.
 
+	We do not override ToString():  Since this function is virtual, it is
+	always instantiated.  Thus, we cannot print the values, because they
+	might not have operator<<
+
 	BASE CLASS = JOrderedSet
 
 	Copyright (C) 1994-97 by John Lindal. All rights reserved.

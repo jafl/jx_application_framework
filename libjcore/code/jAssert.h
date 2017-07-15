@@ -3,7 +3,7 @@
 
 	Interface for jAssert.cc
 
-	Copyright (C) 1996-98 by John Lindal. All rights reserved.
+	Copyright (C) 1996-2017 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 
@@ -13,35 +13,27 @@
 // regular assert macro
 
 #undef assert
-
-int JAssert(const char*, const char*, const int);
-
-#ifdef NDEBUG
-
-	#define assert(x)	((void) 0)
-
-#else
-
-	#define assert(x)	((void) ((x) || JAssert(#x, __FILE__, __LINE__)))
-
-#endif
-
-// JError assert macro
-
+#undef assert_msg
 #undef assert_ok
 
+int JAssert(const char*, const char*, const int, const char* message);
+
 #ifdef NDEBUG
 
-	#define assert_ok(x)	((void) 0)
+	#define assert(x)			((void) 0)
+	#define assert_msg(x, s)	((void) 0)
+	#define assert_ok(x)		((void) 0)
 
 #else
 
-	#define assert_ok(x)	((void) ((x).OK() || JAssert((x).GetMessage(), __FILE__, __LINE__)))
+	#define assert(x)			((void) ((x) || JAssert(#x, __FILE__, __LINE__, "")))
+	#define assert_msg(x, msg)	((void) ((x) || JAssert(#x, __FILE__, __LINE__, msg)))
+	#define assert_ok(x)		((void) ((x).OK() || JAssert((x).GetMessage(), __FILE__, __LINE__, "")))
 
 #endif
 
 #endif
 
-// memory manager
+// memory manager - outside include fence
 
 #include <jNew.h>
