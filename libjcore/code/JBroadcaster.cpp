@@ -553,7 +553,7 @@ JBroadcaster::ClearWhenGoingAway
 /******************************************************************************
  ClearGone (private)
 
-	Register an object that needs to be forgotten when it is deleted.
+	Remove an object from itsClearPointers.
 
  ******************************************************************************/
 

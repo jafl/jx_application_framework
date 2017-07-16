@@ -44,6 +44,8 @@ protected:
 	virtual void	Receive(JBroadcaster* sender, const Message& message);
 	virtual void	EnforceConstraints(const JIndex cbIndex) = 0;
 
+	virtual void	ReceiveGoingAway(JBroadcaster* sender);
+
 private:
 
 	JPtrArray<JXCheckbox>*	itsCBList;		// contents are not owned
