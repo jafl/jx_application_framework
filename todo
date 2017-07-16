@@ -4,8 +4,6 @@ JXWindow
 	preserve size, if loaded, e.g., test director window, jcc editor windows
 UserNotification
 	message shrinks to very narrow
-Search Text
-	buttons & radio buttons resized incorrectly
 Choose/Save File
 	core dump
 Test Popup menus

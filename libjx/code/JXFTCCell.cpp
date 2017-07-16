@@ -35,7 +35,10 @@ JXFTCCell::JXFTCCell
 	JXContainer(enc->GetWindow(), enc),
 	itsWidget(matchObj),
 	itsDirection(direction),
-	itsSyncChildrenFlag(kJFalse)
+	itsSyncChildrenFlag(kJFalse),
+	itsChildren(NULL),
+	itsChildSpacing(NULL),
+	itsChildPositions(NULL)
 {
 	if (itsWidget != NULL)
 		{
@@ -57,6 +60,10 @@ JXFTCCell::~JXFTCCell()
 		{
 		window->RefreshRect(itsFrameG);
 		}
+
+	jdelete itsChildren;
+	jdelete itsChildSpacing;
+	jdelete itsChildPositions;
 }
 
 /******************************************************************************
@@ -156,51 +163,95 @@ JXFTCCell::Expand
 		std::cout << Indent() << "Checking cell " << ToString() << std::endl;
 		}
 
-	// get list of contained JXFTCCell's
+	BuildChildList(horizontal);
+	ComputeInvariants(horizontal);
 
+	const JSize cellCount = itsChildren->GetElementCount();
+	JCoordinate max       = 0;
+	for (JIndex i=1; i<=cellCount; i++)
+		{
+		max = JMax(max, itsChildren->GetElement(i)->Expand(horizontal));
+		}
+
+	EnforceInvariants(horizontal);
+
+	return (horizontal ? itsFrameG.width() : itsFrameG.height());
+}
+
+/******************************************************************************
+ BuildChildList (private)
+
+ ******************************************************************************/
+
+void
+JXFTCCell::BuildChildList
+	(
+	const JBoolean horizontal
+	)
+{
 	JPtrArrayIterator<JXContainer>* iter;
 	const JBoolean hasObjs = GetEnclosedObjects(&iter);
 	assert( hasObjs );
 
-	JPtrArray<JXFTCCell> cellList(JPtrArrayT::kForgetAll);
+	assert( itsChildren == NULL );
+	itsChildren = jnew JPtrArray<JXFTCCell>(JPtrArrayT::kForgetAll);
+	assert( itsChildren != NULL );
+
 	JXContainer* obj;
 	while (iter->Next(&obj))
 		{
 		JXFTCCell* cell = dynamic_cast<JXFTCCell*>(obj);
 		assert( cell != NULL );
-		cellList.AppendElement(cell);
+		itsChildren->AppendElement(cell);
 		}
 
+	itsChildren->SetCompareFunction(horizontal ? CompareHorizontally : CompareVertically);
+	itsChildren->Sort();
+
 	jdelete iter;
-	iter = NULL;
+}
 
-	cellList.SetCompareFunction(horizontal ? CompareHorizontally : CompareVertically);
-	cellList.Sort();
+/******************************************************************************
+ ComputeInvariants (private)
 
-	// compute invariants: spacing or positioning
+	spacing, elastic item, or positioning
 
-	const JSize cellCount = cellList.GetElementCount();
+ ******************************************************************************/
+
+void
+JXFTCCell::ComputeInvariants
+	(
+	const JBoolean horizontal
+	)
+{
+	const JSize cellCount = itsChildren->GetElementCount();
 	assert( cellCount > 1 );
 
-	JArray<JCoordinate> spacing;
-	JArray<JFloat> position;	// -1: left, +1:right, 0:both, else:center-line
 	if (( horizontal && itsDirection == kHorizontal) ||
 		(!horizontal && itsDirection == kVertical))
 		{
-		JRect prev = cellList.GetFirstElement()->GetFrameGlobal();
+		itsChildSpacing = jnew JArray<JCoordinate>;
+		assert( itsChildSpacing != NULL );
+
+		JRect prev = itsChildren->GetFirstElement()->GetFrameGlobal();
 		for (JIndex i=2; i<=cellCount; i++)
 			{
-			const JRect r = cellList.GetElement(i)->GetFrameGlobal();
-			spacing.AppendElement(horizontal ? r.left - prev.right : r.top - prev.bottom);
+			const JRect r = itsChildren->GetElement(i)->GetFrameGlobal();
+			itsChildSpacing->AppendElement(
+				horizontal ? r.left - prev.right : r.top - prev.bottom);
+
 			prev = r;
 			}
 		}
 	else if (( horizontal && itsDirection == kVertical) ||
 			 (!horizontal && itsDirection == kHorizontal))
 		{
+		itsChildPositions = jnew JArray<JFloat>;
+		assert( itsChildPositions != NULL );
+
 		for (JIndex i=1; i<=cellCount; i++)
 			{
-			const JRect r = cellList.GetElement(i)->GetFrameGlobal();
+			const JRect r = itsChildren->GetElement(i)->GetFrameGlobal();
 
 			const JCoordinate objMin  = (horizontal ? r.left : r.top),
 							  thisMin = (horizontal ? itsFrameG.left : itsFrameG.top),
@@ -208,73 +259,78 @@ JXFTCCell::Expand
 							  thisMax = (horizontal ? itsFrameG.right : itsFrameG.bottom);
 			if (objMin == thisMin && objMax == thisMax)
 				{
-				position.AppendElement(0);
+				itsChildPositions->AppendElement(0);
 				}
 			else if (objMin == thisMin)
 				{
-				position.AppendElement(-1);
+				itsChildPositions->AppendElement(-1);
 				}
 			else if (objMax == thisMax)
 				{
-				position.AppendElement(+1);
+				itsChildPositions->AppendElement(+1);
 				}
 			else if (horizontal)
 				{
-				position.AppendElement((r.xcenter() - thisMin) / JFloat(itsFrameG.width()));
+				itsChildPositions->AppendElement((r.xcenter() - thisMin) / JFloat(itsFrameG.width()));
 				}
 			else
 				{
-				position.AppendElement((r.ycenter() - thisMin) / JFloat(itsFrameG.height()));
+				itsChildPositions->AppendElement((r.ycenter() - thisMin) / JFloat(itsFrameG.height()));
 				}
 			}
 		}
 	else
 		{
-		assert_msg( 0, "fatal logic error in JXFTCCell" );
+		assert_msg( 0, "fatal logic error in JXFTCCell::ComputeInvariants()" );
 		}
+}
 
-	// let each widget expand
+/******************************************************************************
+ EnforceInvariants (private)
 
-	JCoordinate max = 0;
-	for (JIndex i=1; i<=cellCount; i++)
-		{
-		max = JMax(max, cellList.GetElement(i)->Expand(horizontal));
-		}
+ ******************************************************************************/
 
-	// enforce invariants
-
+void
+JXFTCCell::EnforceInvariants
+	(
+	const JBoolean horizontal
+	)
+{
 	if (theDebugFTCFlag)
 		{
 		std::cout << Indent(+1) << "--- Enforcing invariants: ";
 
-		if (!spacing.IsEmpty())
+		if (itsChildSpacing != NULL)
 			{
 			std::cout << "spacing:";
-			for (JIndex i=1; i<=spacing.GetElementCount(); i++)
+			for (JIndex i=1; i<=itsChildSpacing->GetElementCount(); i++)
 				{
-				std::cout << ' ' << spacing.GetElement(i);
+				std::cout << ' ' << itsChildSpacing->GetElement(i);
 				}
 			}
-		else if (!position.IsEmpty())
+		else if (itsChildPositions != NULL)
 			{
 			std::cout << "position:";
-			for (JIndex i=1; i<=position.GetElementCount(); i++)
+			for (JIndex i=1; i<=itsChildPositions->GetElementCount(); i++)
 				{
-				std::cout << ' ' << position.GetElement(i);
+				std::cout << ' ' << itsChildPositions->GetElement(i);
 				}
 			}
 		std::cout << std::endl;
 		}
+
+	const JSize cellCount = itsChildren->GetElementCount();
+	assert( cellCount > 1 );
 
 	if (( horizontal && itsDirection == kHorizontal) ||
 		(!horizontal && itsDirection == kVertical))
 		{
 		for (JIndex i=2; i<=cellCount; i++)
 			{
-			const JRect prev       = cellList.GetElement(i-1)->GetFrameGlobal();
-			const JRect r          = cellList.GetElement(i)->GetFrameGlobal();
+			const JRect prev       = itsChildren->GetElement(i-1)->GetFrameGlobal();
+			const JRect r          = itsChildren->GetElement(i)->GetFrameGlobal();
 			const JCoordinate gap  = (horizontal ? r.left - prev.right : r.top - prev.bottom),
-							  orig = spacing.GetElement(i-1);
+							  orig = itsChildSpacing->GetElement(i-1);
 			if (gap == orig)
 				{
 				continue;
@@ -288,23 +344,23 @@ JXFTCCell::Expand
 
 			for (JIndex j=i; j<=cellCount; j++)
 				{
-				JXFTCCell* cell = cellList.GetElement(j);
+				JXFTCCell* cell = itsChildren->GetElement(j);
 				cell->Move(horizontal ? delta : 0, horizontal ? 0 : delta);
 				}
 			}
 
-		CoverChildren(cellList);
+		CoverChildren();
 		}
 	else if (( horizontal && itsDirection == kVertical) ||
 			 (!horizontal && itsDirection == kHorizontal))
 		{
-		CoverChildren(cellList);
+		CoverChildren();
 
 		for (JIndex i=1; i<=cellCount; i++)
 			{
-			JXFTCCell* cell = cellList.GetElement(i);
+			JXFTCCell* cell = itsChildren->GetElement(i);
 			const JRect r   = cell->GetFrameGlobal();
-			const JFloat p  = position.GetElement(i);
+			const JFloat p  = itsChildPositions->GetElement(i);
 
 			if (p == 0)				// full width
 				{
@@ -336,10 +392,8 @@ JXFTCCell::Expand
 		}
 	else
 		{
-		assert_msg( 0, "fatal logic error in JXFTCCell" );
+		assert_msg( 0, "fatal logic error in JXFTCCell::EnforceInvariants()" );
 		}
-
-	return (horizontal ? itsFrameG.width() : itsFrameG.height());
 }
 
 /******************************************************************************
@@ -350,17 +404,14 @@ JXFTCCell::Expand
  ******************************************************************************/
 
 void
-JXFTCCell::CoverChildren
-	(
-	const JPtrArray<JXFTCCell>& cellList
-	)
+JXFTCCell::CoverChildren()
 {
-	const JSize cellCount = cellList.GetElementCount();
+	const JSize cellCount = itsChildren->GetElementCount();
 
-	JRect r = cellList.GetFirstElement()->GetFrameForFTC();
+	JRect r = itsChildren->GetFirstElement()->GetFrameForFTC();
 	for (JIndex i=2; i<=cellCount; i++)
 		{
-		r = JCovering(r, cellList.GetElement(i)->GetFrameForFTC());
+		r = JCovering(r, itsChildren->GetElement(i)->GetFrameForFTC());
 		}
 
 	itsSyncChildrenFlag = kJFalse;
@@ -430,25 +481,23 @@ JXFTCCell::ExpandWidget
 void
 JXFTCCell::SyncWidgetPosition()
 {
-	if (itsWidget == NULL)
+	if (itsWidget != NULL)
 		{
-		return;
+		const JRect r        = itsWidget->GetFrameForFTC();
+		const JCoordinate dx = itsFrameG.left - r.left,
+						  dy = itsFrameG.top - r.top;
+
+		if (theDebugFTCFlag && (dx != 0 || dy != 0))
+			{
+			std::cout << Indent() << "Moving widget: " << itsWidget->ToString() << std::endl;
+			std::cout << Indent(+1);
+			if (dx != 0) std::cout << "dx=" << dx;
+			if (dy != 0) std::cout << "dy=" << dy;
+			std::cout << std::endl;
+			}
+
+		itsWidget->Move(dx, dy);
 		}
-
-	const JRect r        = itsWidget->GetFrameForFTC();
-	const JCoordinate dx = itsFrameG.left - r.left,
-					  dy = itsFrameG.top - r.top;
-
-	if (theDebugFTCFlag && (dx != 0 || dy != 0))
-		{
-		std::cout << Indent() << "Moving widget: " << itsWidget->ToString() << std::endl;
-		std::cout << Indent(+1);
-		if (dx != 0) std::cout << "dx=" << dx;
-		if (dy != 0) std::cout << "dy=" << dy;
-		std::cout << std::endl;
-		}
-
-	itsWidget->Move(dx, dy);
 }
 
 /******************************************************************************
@@ -461,25 +510,25 @@ JXFTCCell::SyncWidgetPosition()
 void
 JXFTCCell::SyncWidgetSize()
 {
-	if (itsWidget == NULL)
+	if (itsWidget != NULL)
 		{
-		return;
+		const JRect r = itsWidget->GetFrameForFTC();
+		const JCoordinate dw = itsFrameG.width() - r.width(),
+						  dh = itsFrameG.height() - r.height();
+
+		if (theDebugFTCFlag && (dw != 0 || dh != 0))
+			{
+			std::cout << Indent() << "Resizing widget: " << itsWidget->ToString() << std::endl;
+			std::cout << Indent(+1);
+			if (dw != 0) std::cout << "dw=" << dw;
+			if (dh != 0) std::cout << "dh=" << dh;
+			std::cout << std::endl;
+			}
+
+		itsWidget->AdjustSize(dw, dh);
 		}
 
-	const JRect r = itsWidget->GetFrameForFTC();
-	const JCoordinate dw = itsFrameG.width() - r.width(),
-					  dh = itsFrameG.height() - r.height();
-
-	if (theDebugFTCFlag && (dw != 0 || dh != 0))
-		{
-		std::cout << Indent() << "Resizing widget: " << itsWidget->ToString() << std::endl;
-		std::cout << Indent(+1);
-		if (dw != 0) std::cout << "dw=" << dw;
-		if (dh != 0) std::cout << "dh=" << dh;
-		std::cout << std::endl;
-		}
-
-	itsWidget->AdjustSize(dw, dh);
+	// TODO:  check for sizing options
 }
 
 /******************************************************************************
@@ -693,9 +742,6 @@ JXFTCCell::AdjustSize
 
 		if (itsSyncChildrenFlag)
 			{
-			// TODO:  check for sizing options
-
-			NotifyBoundsResized(dw,dh);
 			SyncWidgetSize();
 			}
 
@@ -763,7 +809,6 @@ JXFTCCell::EnclosingBoundsResized
 	const JCoordinate dh
 	)
 {
-	AdjustSize(dw,dh);
 }
 
 /******************************************************************************

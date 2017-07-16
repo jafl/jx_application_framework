@@ -65,14 +65,20 @@ protected:
 
 private:
 
-	JXContainer*	itsWidget;		// can be NULL
-	JRect			itsFrameG;		// global coords
-	Direction		itsDirection;	// direction of contained cell stack
-	JBoolean		itsSyncChildrenFlag;
+	JXContainer*			itsWidget;			// can be NULL
+	JRect					itsFrameG;			// global coords
+	Direction				itsDirection;		// direction of contained cell stack
+	JBoolean				itsSyncChildrenFlag;
+	JPtrArray<JXFTCCell>*	itsChildren;
+	JArray<JCoordinate>*	itsChildSpacing;
+	JArray<JFloat>*			itsChildPositions;	// -1: left, +1:right, 0:both, else:center-line:0<v<1
 
 private:
 
-	void		CoverChildren(const JPtrArray<JXFTCCell>& cellList);
+	void		BuildChildList(const JBoolean horizontal);
+	void		ComputeInvariants(const JBoolean horizontal);
+	void		EnforceInvariants(const JBoolean horizontal);
+	void		CoverChildren();
 	JCoordinate	ExpandWidget(const JBoolean horizontal);
 	void		SyncWidgetPosition();
 	void		SyncWidgetSize();
