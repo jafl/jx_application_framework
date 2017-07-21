@@ -270,7 +270,8 @@ public:
 	void	UndockedPlace(const JCoordinate enclX, const JCoordinate enclY);
 	void	UndockedMove(const JCoordinate dx, const JCoordinate dy);
 
-	void	UndockedSetSize(const JCoordinate w, const JCoordinate h);
+	void	UndockedSetSize(const JCoordinate w, const JCoordinate h,
+							const JBoolean ftc = kJFalse);
 
 protected:
 
@@ -282,6 +283,8 @@ protected:
 	virtual void	EnclosingBoundsMoved(const JCoordinate dx, const JCoordinate dy);
 	virtual void	BoundsResized(const JCoordinate dw, const JCoordinate dh);
 	virtual void	EnclosingBoundsResized(const JCoordinate dw, const JCoordinate dh);
+
+	virtual void	FTCAdjustSize(const JCoordinate dw, const JCoordinate dh);
 
 private:
 
@@ -375,6 +378,7 @@ private:
 	JPoint		itsMinSize;
 	JBoolean	itsHasMaxSizeFlag;
 	JPoint		itsMaxSize;
+	JPoint		itsFTCDelta;				// prevent size creep
 
 	JArray<Shortcut>*	itsShortcuts;
 
@@ -446,7 +450,7 @@ private:
 	JBoolean	InstallShortcut(const Shortcut& s);
 
 	void	UpdateFrame();
-	void	UpdateBounds(const JCoordinate w, const JCoordinate h);
+	void	UpdateBounds(const JCoordinate w, const JCoordinate h, const JBoolean ftc);
 	JPoint	CalcDesktopLocation(const JCoordinate x, const JCoordinate y,
 								const JCoordinate direction) const;
 

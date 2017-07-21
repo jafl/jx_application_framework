@@ -63,6 +63,8 @@ JXChooseMonoFont::JXChooseMonoFont
 	ListenTo(itsSizeMenu);
 
 	UpdateMenus(kJTrue);
+
+	SetNeedsInternalFTC();
 }
 
 /******************************************************************************

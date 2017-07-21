@@ -195,6 +195,7 @@ protected:
 									const JXButtonStates& buttonStates,
 									const JXKeyModifiers& modifiers);
 
+	virtual JBoolean	IncludeInFTC() const;
 	virtual JCoordinate	GetFTCMinContentSize(const JBoolean horizontal) const;
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message);

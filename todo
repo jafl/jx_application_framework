@@ -1,15 +1,13 @@
-JXWindow
-	adjust min/max when FTC changes window size
-	save expansion delta, and subtract before writing out window geom
-	preserve size, if loaded, e.g., test director window, jcc editor windows
-UserNotification
-	message shrinks to very narrow
-Choose/Save File
+Save File dialog
 	core dump
-Test Popup menus
-	menus have zero width
+
 Search Text with large font
 	core dump
+
+Variable Length PG (not background)
+	counter ends up right-justified
+
+JXFileListSet - does internal FTC work correctly?
 
 jxlayout:  --require-obj-names
 

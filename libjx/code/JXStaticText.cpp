@@ -214,5 +214,8 @@ JXStaticText::GetFTCMinContentSize
 	)
 	const
 {
-	return (horizontal ? TEGetMinPreferredGUIWidth() : GetBoundsHeight());
+	return (horizontal ?
+			(WillBreakCROnly() && !GetText().IsEmpty() ?
+				TEGetMinPreferredGUIWidth() : GetBoundsWidth()) :
+			GetBoundsHeight());
 }

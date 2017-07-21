@@ -132,8 +132,6 @@ JXContainer::JXContainerX
 
 	itsHintMgr = NULL;
 
-	itsSkipBoundsNotifyFlag = kJFalse;
-
 	if (itsEnclosure != NULL)
 		{
 		itsEnclosure->AddEnclosedObject(this);
@@ -1774,7 +1772,7 @@ JXContainer::NotifyBoundsMoved
 		{
 		BoundsMoved(dx,dy);
 
-		if (itsEnclosedObjs != NULL && !itsSkipBoundsNotifyFlag)
+		if (itsEnclosedObjs != NULL)
 			{
 			const JSize objCount = itsEnclosedObjs->GetElementCount();
 			for (JIndex i=1; i<=objCount; i++)
@@ -1803,7 +1801,7 @@ JXContainer::NotifyBoundsResized
 		{
 		BoundsResized(dw,dh);
 
-		if (itsEnclosedObjs != NULL && !itsSkipBoundsNotifyFlag)
+		if (itsEnclosedObjs != NULL)
 			{
 			const JSize objCount = itsEnclosedObjs->GetElementCount();
 			for (JIndex i=1; i<=objCount; i++)
@@ -1982,13 +1980,13 @@ JXContainer::DebugExpandToFitContent
 void
 JXContainer::ExpandToFitContent()
 {
-	assert( this == GetWindow() );
-
 	if (theDebugFTCFlag)
 		{
 		std::cout << "==========" << std::endl;
 		std::cout << "ExpandToFitContent: " << GetFrameForFTC() << ' ' << GetWindow()->GetTitle() << std::endl;
 		}
+
+	JCoordinate dw=0, dh=0;
 
 	// expand horizontally - translations
 
@@ -2004,17 +2002,16 @@ JXContainer::ExpandToFitContent()
 			{
 			if (theDebugFTCFlag)
 				{
-				std::cout << "Resizing window width: " << w << " -> " << v << std::endl;
+				std::cout << "Will resize window width: " << w << " -> " << v << std::endl;
 				}
 
-			itsSkipBoundsNotifyFlag = kJTrue;
-			AdjustSize(v - w, 0);
-			itsSkipBoundsNotifyFlag = kJFalse;
+			dw = v - w;
 			}
 		}
 
 	if (theDebugHorizFTCFlag)
 		{
+		FTCAdjustSize(dw, 0);
 		return;
 		}
 	jdelete root;
@@ -2033,20 +2030,21 @@ JXContainer::ExpandToFitContent()
 			{
 			if (theDebugFTCFlag)
 				{
-				std::cout << "Resizing window height: " << h << " -> " << v << std::endl;
+				std::cout << "Will resize window height: " << h << " -> " << v << std::endl;
 				}
 
-			itsSkipBoundsNotifyFlag = kJTrue;
-			AdjustSize(0, v - h);
-			itsSkipBoundsNotifyFlag = kJFalse;
+			dh = v - h;
 			}
 		}
 
 	if (theDebugVertFTCFlag)
 		{
+		FTCAdjustSize(dw, dh);
 		return;
 		}
 	jdelete root;
+
+	FTCAdjustSize(dw, dh);
 }
 
 /******************************************************************************
@@ -2120,6 +2118,15 @@ JXContainer::FTCBuildLayout
 				}
 
 			iter.RemovePrev();	// do not process it
+			if (!obj->IncludeInFTC())
+				{
+				if (theDebugFTCFlag)
+					{
+					std::cout << "\tIGNORED" << std::endl << std::endl;
+					}
+				continue;
+				}
+
 			JXContainer* cell = FTCGroupAlignedObjects(obj, &objList, &fullObjList, horizontal, exact);
 			cellList.AppendElement(cell);
 
@@ -2161,7 +2168,11 @@ JXContainer::FTCBuildLayout
 		}
 	else
 		{
-		if (!theDebugFTCFlag)
+		if (theDebugFTCFlag)
+			{
+			std::cout << "FTCBuildLayout failed with " << objList.GetElementCount() << " roots" << std::endl;
+			}
+		else
 			{
 			objList.DeleteAll();
 			}
@@ -2349,7 +2360,8 @@ JXContainer::FTCGroupAlignedObjects
 
 	// return cell containing remaining cells
 
-	container->Place(covering.left, covering.top);
+	const JPoint topLeft = container->GetEnclosure()->GlobalToLocal(covering.left, covering.top);
+	container->Place(topLeft.x, topLeft.y);
 	container->SetSize(covering.width(), covering.height());
 
 	return container;
@@ -2522,6 +2534,20 @@ JXContainer::FTCTrimBlockedMatches
 }
 
 /******************************************************************************
+ IncludeInFTC (virtual protected)
+
+	Return kJFalse to be ignored.
+
+ ******************************************************************************/
+
+JBoolean
+JXContainer::IncludeInFTC()
+	const
+{
+	return kJTrue;
+}
+
+/******************************************************************************
  NeedsInternalFTC (virtual protected)
 
 	Return kJTrue if the contents are a set of widgets that need to expand.
@@ -2563,6 +2589,20 @@ JXContainer::GetFrameForFTC()
 	const
 {
 	return GetFrameGlobal();
+}
+
+/******************************************************************************
+ FTCAdjustSize (virtual protected)
+
+ ******************************************************************************/
+
+void
+JXContainer::FTCAdjustSize
+	(
+	const JCoordinate dw,
+	const JCoordinate dh
+	)
+{
 }
 
 /******************************************************************************

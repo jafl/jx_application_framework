@@ -1517,6 +1517,18 @@ JXMenu::IsMenu()
 }
 
 /******************************************************************************
+ IncludeInFTC (virtual protected)
+
+ ******************************************************************************/
+
+JBoolean
+JXMenu::IncludeInFTC()
+	const
+{
+	return JNegate( itsIsHiddenPopupMenuFlag || itsOwner != NULL );
+}
+
+/******************************************************************************
  GetFTCMinContentSize (virtual protected)
 
  ******************************************************************************/
@@ -1528,9 +1540,9 @@ JXMenu::GetFTCMinContentSize
 	)
 	const
 {
-	if (IsPopupChoice() || IsHiddenPopupMenu())
+	if (horizontal && (IsPopupChoice() || IsHiddenPopupMenu()))
 		{
-		return 0;
+		return GetApertureWidth();
 		}
 
 	JCoordinate widgetBorderWidth = GetBorderWidth(),
@@ -1545,9 +1557,10 @@ JXMenu::GetFTCMinContentSize
 		arrowWidth = kTotalArrowWidth;
 		}
 
-	if (horizontal && itsTitle.IsEmpty())
+	if (itsTitle.IsEmpty())
 		{
-		return GetApertureGlobal().width();
+		const JRect apG = GetApertureGlobal();
+		return horizontal ? apG.width() : apG.height();
 		}
 	else if (horizontal)
 		{

@@ -50,6 +50,8 @@ JXTextEditorSet::JXTextEditorSet
 	assert( *textEditor != NULL );
 
 	(**textEditor).FitToEnclosure();
+
+	SetNeedsInternalFTC();
 }
 
 JXTextEditorSet::JXTextEditorSet

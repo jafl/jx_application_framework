@@ -23,10 +23,17 @@ public:
 
 	virtual ~JXWidgetSet();
 
+	void	SetNeedsInternalFTC();
+
 protected:
 
-	virtual void	Draw(JXWindowPainter& p, const JRect& rect);
-	virtual void	DrawBorder(JXWindowPainter& p, const JRect& frame);
+	virtual void		Draw(JXWindowPainter& p, const JRect& rect);
+	virtual void		DrawBorder(JXWindowPainter& p, const JRect& frame);
+	virtual JBoolean	NeedsInternalFTC() const;
+
+private:
+
+	JBoolean	itsNeedsInternalFTCFlag;
 
 private:
 
@@ -35,5 +42,17 @@ private:
 	JXWidgetSet(const JXWidgetSet& source);
 	const JXWidgetSet& operator=(const JXWidgetSet& source);
 };
+
+
+/******************************************************************************
+ SetNeedsInternalFTC
+
+ ******************************************************************************/
+
+inline void
+JXWidgetSet::SetNeedsInternalFTC()
+{
+	itsNeedsInternalFTCFlag = kJTrue;
+}
 
 #endif

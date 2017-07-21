@@ -324,6 +324,8 @@ JIndex i;
 		itsQuitButton = NULL;
 		}
 
+	ExpandToFitContent();
+
 	// drops on iconfied window
 
 	JXWindowIcon* windowIcon;

@@ -187,9 +187,11 @@ protected:
 	virtual void	BoundsResized(const JCoordinate dw, const JCoordinate dh) = 0;
 	virtual void	EnclosingBoundsResized(const JCoordinate dw, const JCoordinate dh) = 0;
 
+	virtual JBoolean	IncludeInFTC() const;
 	virtual JBoolean	NeedsInternalFTC() const;
 	virtual JCoordinate	GetFTCMinContentSize(const JBoolean horizontal) const;
 	virtual JRect		GetFrameForFTC() const;
+	virtual void		FTCAdjustSize(const JCoordinate dw, const JCoordinate dh);
 
 	JBoolean	GetEnclosedObjects(JPtrArrayIterator<JXContainer>** iter) const;
 	void		DeleteEnclosedObjects();
@@ -254,8 +256,6 @@ private:
 	JXHintManager*	itsHintMgr;		// NULL if no hint
 
 	// FTC
-
-	JBoolean itsSkipBoundsNotifyFlag;
 
 	static JBoolean theDebugFTCFlag;
 	static JBoolean	theDebugHorizFTCFlag;

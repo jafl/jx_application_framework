@@ -31,7 +31,7 @@ public:
 	JSize			GetDepth() const;
 	Direction		GetDirection() const;
 
-	JCoordinate		Expand(const JBoolean horizontal);
+	JCoordinate		Expand(const JBoolean horizontal, const JBoolean subLayout = kJFalse);
 
 	virtual void	Refresh() const;
 	virtual void	Redraw() const;
@@ -69,17 +69,20 @@ private:
 	JRect					itsFrameG;			// global coords
 	Direction				itsDirection;		// direction of contained cell stack
 	JBoolean				itsSyncChildrenFlag;
+	JBoolean				itsSyncHorizontalFlag;
 	JPtrArray<JXFTCCell>*	itsChildren;
 	JArray<JCoordinate>*	itsChildSpacing;
 	JArray<JFloat>*			itsChildPositions;	// -1: left, +1:right, 0:both, else:center-line:0<v<1
+	JRect					itsPadding;			// for sub-layouts
 
 private:
 
-	void		BuildChildList(const JBoolean horizontal);
-	void		ComputeInvariants(const JBoolean horizontal);
-	void		EnforceInvariants(const JBoolean horizontal);
+	void		BuildChildList();
+	void		ComputeInvariants(const JBoolean subLayout);
+	void		EnforceSpacing();
+	void		EnforcePositions();
 	void		CoverChildren();
-	JCoordinate	ExpandWidget(const JBoolean horizontal);
+	JCoordinate	ExpandWidget();
 	void		SyncWidgetPosition();
 	void		SyncWidgetSize();
 

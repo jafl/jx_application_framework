@@ -1510,8 +1510,8 @@ JXWindow::GetRootChild
 /******************************************************************************
  Place (virtual)
 
-	We can't optimize to do nothing if the size won't change because
-	there might be geometry events waiting in the queue.
+	We can't short-circuit if the size won't change because there might be
+	geometry events waiting in the queue.
 
  ******************************************************************************/
 
@@ -1655,8 +1655,8 @@ JXWindow::UndockedMove
 /******************************************************************************
  SetSize (virtual)
 
-	We can't optimize to do nothing if the size won't change because
-	there might be geometry events waiting in the queue.
+	We can't short-circuit if the size won't change because there might be
+	geometry events waiting in the queue.
 
  ******************************************************************************/
 
@@ -1680,8 +1680,9 @@ JXWindow::SetSize
 void
 JXWindow::UndockedSetSize
 	(
-	const JCoordinate origW,
-	const JCoordinate origH
+	const JCoordinate	origW,
+	const JCoordinate	origH,
+	const JBoolean		ftc
 	)
 {
 	JCoordinate w = origW;
@@ -1714,7 +1715,7 @@ JXWindow::UndockedSetSize
 		XSetWMNormalHints(*itsDisplay, itsXWindow, &sizeHints);
 		}
 
-	UpdateBounds(w, h);
+	UpdateBounds(w, h, ftc);
 }
 
 /******************************************************************************
@@ -1730,6 +1731,68 @@ JXWindow::AdjustSize
 	)
 {
 	SetSize(itsBounds.width() + dw, itsBounds.height() + dh);
+}
+
+/******************************************************************************
+ FTCAdjustSize (virtual protected)
+
+	Adjust our size without affecting enclosed widgets, because they have
+	already been resized.  To avoid size drift when storing prefs, save the
+	delta so we can subtract it before saving our geometry.
+
+ ******************************************************************************/
+
+void
+JXWindow::FTCAdjustSize
+	(
+	const JCoordinate dw,
+	const JCoordinate dh
+	)
+{
+	itsFTCDelta.Set(dw, dh);
+
+	if (itsHasMinSizeFlag || itsHasMaxSizeFlag)
+		{
+		long supplied;
+		XSizeHints sizeHints;
+		if (!XGetWMNormalHints(*itsDisplay, itsXWindow, &sizeHints, &supplied))
+			{
+			sizeHints.flags = 0;
+			}
+
+		if (itsHasMinSizeFlag)
+			{
+			itsMinSize.x += dw;
+			itsMinSize.y += dh;
+
+			sizeHints.min_width  = itsMinSize.x;
+			sizeHints.min_height = itsMinSize.y;
+			}
+
+		if (itsHasMaxSizeFlag)
+			{
+			itsMaxSize.x += dw;
+			itsMaxSize.y += dh;
+
+			sizeHints.max_width  = itsMaxSize.x;
+			sizeHints.max_height = itsMaxSize.y;
+			}
+
+		XSetWMNormalHints(*itsDisplay, itsXWindow, &sizeHints);
+		itsDisplay->Flush();
+		}
+
+	const JCoordinate w = itsBounds.width() + dw,
+					  h = itsBounds.height() + dh;
+
+	if (itsIsDockedFlag)
+		{
+		itsUndockedGeom.SetSize(w, h);
+		}
+	else
+		{
+		UndockedSetSize(w, h, kJTrue);
+		}
 }
 
 /******************************************************************************
@@ -1760,9 +1823,10 @@ JXWindow::UpdateFrame()
 	itsDesktopLoc.Set(x,y);		// also at end of Place()
 	itsWMFrameLoc =
 		itsIsDockedFlag ? JPoint(origX, origY) : CalcDesktopLocation(x,y, -1);
-	if (itsIsMappedFlag)
+	if (itsIsMappedFlag &&
+		!(itsHasMinSizeFlag && (w < itsMinSize.x || h < itsMinSize.y)))
 		{
-		UpdateBounds(w, h);
+		UpdateBounds(w, h, kJFalse);
 		}
 }
 
@@ -1774,8 +1838,9 @@ JXWindow::UpdateFrame()
 void
 JXWindow::UpdateBounds
 	(
-	const JCoordinate w,
-	const JCoordinate h
+	const JCoordinate	w,
+	const JCoordinate	h,
+	const JBoolean		ftc
 	)
 {
 	const JCoordinate dw = w - itsBounds.width();
@@ -1787,7 +1852,10 @@ JXWindow::UpdateBounds
 
 	if (dw != 0 || dh != 0)
 		{
-		NotifyBoundsResized(dw,dh);
+		if (!ftc)
+			{
+			NotifyBoundsResized(dw,dh);
+			}
 
 		if (itsBufferPixmap != None)
 			{
@@ -2317,7 +2385,7 @@ JXWindow::ReadGeometry
 void
 JXWindow::ReadGeometry
 	(
-	std::istream&		input,
+	std::istream&	input,
 	const JBoolean	skipDocking
 	)
 {
@@ -2442,8 +2510,8 @@ JXWindow::WriteGeometry
 	if (itsIsDockedFlag)
 		{
 		output << ' ' << itsUndockedWMFrameLoc;
-		output << ' ' << itsUndockedGeom.width();
-		output << ' ' << itsUndockedGeom.height();
+		output << ' ' << itsUndockedGeom.width() - itsFTCDelta.x;
+		output << ' ' << itsUndockedGeom.height() - itsFTCDelta.y;
 		output << ' ' << kJFalse;
 		}
 	else
@@ -2456,8 +2524,8 @@ JXWindow::WriteGeometry
 			}
 
 		output << ' ' << loc;
-		output << ' ' << GetFrameWidth();
-		output << ' ' << GetFrameHeight();
+		output << ' ' << GetFrameWidth() - itsFTCDelta.x;
+		output << ' ' << GetFrameHeight() - itsFTCDelta.y;
 		output << ' ' << itsIsIconifiedFlag;
 		}
 

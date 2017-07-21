@@ -324,25 +324,25 @@ JXSearchTextDialog::BuildWindow()
 
 	itsSearchIsRegexCB =
 		jnew JXTextCheckbox(JGetString("itsSearchIsRegexCB::JXSearchTextDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 165,180, 150,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 160,180, 150,20);
 	assert( itsSearchIsRegexCB != NULL );
 	itsSearchIsRegexCB->SetShortcuts(JGetString("itsSearchIsRegexCB::JXSearchTextDialog::shortcuts::JXLayout"));
 
 	itsReplaceIsRegexCB =
 		jnew JXTextCheckbox(JGetString("itsReplaceIsRegexCB::JXSearchTextDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 330,180, 110,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 320,180, 110,20);
 	assert( itsReplaceIsRegexCB != NULL );
 	itsReplaceIsRegexCB->SetShortcuts(JGetString("itsReplaceIsRegexCB::JXSearchTextDialog::shortcuts::JXLayout"));
 
 	itsSingleLineCB =
 		jnew JXTextCheckbox(JGetString("itsSingleLineCB::JXSearchTextDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 165,210, 150,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 160,210, 150,20);
 	assert( itsSingleLineCB != NULL );
 	itsSingleLineCB->SetShortcuts(JGetString("itsSingleLineCB::JXSearchTextDialog::shortcuts::JXLayout"));
 
 	itsPreserveCaseCB =
 		jnew JXTextCheckbox(JGetString("itsPreserveCaseCB::JXSearchTextDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 330,210, 110,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 320,210, 110,20);
 	assert( itsPreserveCaseCB != NULL );
 	itsPreserveCaseCB->SetShortcuts(JGetString("itsPreserveCaseCB::JXSearchTextDialog::shortcuts::JXLayout"));
 
@@ -406,12 +406,12 @@ JXSearchTextDialog::BuildWindow()
 
 	itsStayOpenCB =
 		jnew JXTextCheckbox(JGetString("itsStayOpenCB::JXSearchTextDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 165,240, 150,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 160,240, 150,20);
 	assert( itsStayOpenCB != NULL );
 
 	itsRetainFocusCB =
 		jnew JXTextCheckbox(JGetString("itsRetainFocusCB::JXSearchTextDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 330,240, 110,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 320,240, 110,20);
 	assert( itsRetainFocusCB != NULL );
 
 	itsSearchInput =
