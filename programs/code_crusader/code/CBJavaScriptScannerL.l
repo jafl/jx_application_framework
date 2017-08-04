@@ -29,7 +29,7 @@ WS           ([ \v\t\f\r\n]+)
 
 
 
-KEYWORD      (as|break|case|catch|class|const|continue|default|delete|do|else|export|extends|false|finally|for|function|if|import|in|instanceof|is|namespace|new|null|package|private|public|return|super|switch|this|throw|true|try|typeof|use|var|void|while|with|abstract|debugger|enum|goto|implements|interface|native|protected|synchronized|throws|transient|volatile)
+KEYWORD      (abstract|arguments|await|boolean|break|byte|case|catch|char|class|const|continue|debugger|default|delete|do|double|else|enum|eval|export|extends|false|final|finally|float|for|function|goto|if|implements|import|in|instanceof|int|interface|let|long|native|new|null|package|private|protected|public|return|short|static|super|switch|synchronized|this|throw|throws|transient|true|try|typeof|var|void|volatile|while|with|yield)
 
 DOCTAG       (async|attribute|author|beta|broadcast|bubbles|category|class|chainable|config|constructor|default|deprecated|event|example|extends|extension|extensionfor|extension_for|final|for|main|method|module|namespace|optional|param|private|property|protected|readonly|readOnly|required|requires|return|since|static|submodule|type|uses|writeonce|writeOnce)
 
@@ -117,6 +117,19 @@ FLOAT        ({DIGITSEQ}{EXPONENT}|{DOTDIGITS}{EXPONENT}?)
 "."    |
 "..."  |
 "::"   {
+	StartToken();
+	itsProbableOperatorFlag = kJFalse;
+	return ThisToken(kOperator);
+	}
+
+
+
+	/* Avoid styling JSX tags as regexp */
+
+
+
+"</" |
+"/>" {
 	StartToken();
 	itsProbableOperatorFlag = kJFalse;
 	return ThisToken(kOperator);

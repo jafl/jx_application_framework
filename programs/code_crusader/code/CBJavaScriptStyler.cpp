@@ -50,8 +50,7 @@ const JSize kTypeCount = sizeof(kTypeNames)/sizeof(JCharacter*);
 
 static const JCharacter* kUnusedKeyword[] =
 {
-	"abstract", "debugger", "enum", "goto", "implements", "interface",
-	"native", "protected", "synchronized", "throws", "transient", "volatile"
+	"debugger", "goto"
 };
 
 const JSize kUnusedKeywordCount = sizeof(kUnusedKeyword)/sizeof(JCharacter*);

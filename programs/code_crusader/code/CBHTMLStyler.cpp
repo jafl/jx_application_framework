@@ -121,8 +121,7 @@ const JSize kUnusedJavaKeywordCount = sizeof(kUnusedJavaKeyword)/sizeof(JCharact
 
 static const JCharacter* kUnusedJSKeyword[] =
 {
-	"abstract", "debugger", "enum", "goto", "implements", "interface",
-	"native", "synchronized", "throws", "transient", "volatile"
+	"debugger", "goto"
 };
 
 const JSize kUnusedJSKeywordCount = sizeof(kUnusedJSKeyword)/sizeof(JCharacter*);

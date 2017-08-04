@@ -110,7 +110,7 @@ JAVA_CCONST      (\'{JAVA_CHAR}\')
 JAVA_BADCCONST   (\'(\\|{JAVA_BADESCCHAR}|({JAVA_BADESCCHAR}|{JAVA_CHAR}){2,})\')
 
 
-JS_KEYWORD    (as|break|case|catch|class|const|continue|default|delete|do|else|export|extends|false|finally|for|function|if|import|in|instanceof|is|namespace|new|null|package|private|public|return|super|switch|this|throw|true|try|typeof|use|var|void|while|with|abstract|debugger|enum|goto|implements|interface|native|protected|synchronized|throws|transient|volatile)
+JS_KEYWORD    (abstract|arguments|await|boolean|break|byte|case|catch|char|class|const|continue|debugger|default|delete|do|double|else|enum|eval|export|extends|false|final|finally|float|for|function|goto|if|implements|import|in|instanceof|int|interface|let|long|native|new|null|package|private|protected|public|return|short|static|super|switch|synchronized|this|throw|throws|transient|true|try|typeof|var|void|volatile|while|with|yield)
 
 
 JS_IDCAR      ([_[:alpha:]])
@@ -1715,6 +1715,19 @@ euro;?     {
 "."    |
 "..."  |
 "::"   {
+	StartToken();
+	itsProbableJSOperatorFlag = kJFalse;
+	return ThisToken(kJSOperator);
+	}
+
+
+
+	/* Avoid styling JSX tags as regexp */
+
+
+
+"</" |
+"/>" {
 	StartToken();
 	itsProbableJSOperatorFlag = kJFalse;
 	return ThisToken(kJSOperator);

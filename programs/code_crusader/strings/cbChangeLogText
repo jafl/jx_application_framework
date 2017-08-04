@@ -22,6 +22,8 @@ Added syntax hilighting for SQL.
 <p>
 Improved parsing of Java source files to detect inner classes and be smarter about finding parent classes.
 <p>
+Updated JavaScript reserved keywords for ECMAScript 5 and 6.  Updated styling to not interpret JSX tags as regular expressions.
+<p>
 Added support for Perl operators // and //= and ~~.
 <p>
 Added enum keyword to Java syntax highlighting.
