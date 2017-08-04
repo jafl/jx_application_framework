@@ -25,6 +25,10 @@ OSX window placement
 
 -----
 
+medic - OSX
+	JMemoryManager executes in multiple threads when run target program
+	because lldb picks up JCore operator new
+
 replace rendering engine inside JXWindowPainter with UTF-8 version
 	http://cairographics.org/
 	is YUI yogi output correct with check mark?
