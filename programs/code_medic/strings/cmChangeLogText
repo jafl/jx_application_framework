@@ -19,6 +19,8 @@ Enabled core file debugging for lldb.
 Fixed display of variables to exclude class names displayed in the hierarchy.
 <p>
 Added \"Display as C string\" option because lldb does not automatically display contents of strings.
+<p>
+Enabled display of negative integers in different bases.
 
 <h3> 4.0 </h3>
 
