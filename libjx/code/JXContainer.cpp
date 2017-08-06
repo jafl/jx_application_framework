@@ -2089,7 +2089,7 @@ JXContainer::FTCBuildLayout
 						   cellList(JPtrArrayT::kForgetAll);
 
 	JPtrArrayIterator<JXContainer> iter(&objList);
-	JBoolean horizontal = !expandHorizontally, exact = kJTrue;
+	JBoolean horizontal = !expandHorizontally, exact = kJTrue, first = kJTrue;
 	JSize count = 0, noChangeCount = 0;
 	do {
 		if (!exact)
@@ -2114,7 +2114,7 @@ JXContainer::FTCBuildLayout
 			{
 			if (theDebugFTCFlag)
 				{
-				std::cout << "widget: " << obj->GetFrameForFTC() << ' ' << obj->ToString() << std::endl;
+				std::cout << "examine: " << obj->GetFrameForFTC() << ' ' << obj->ToString() << std::endl;
 				}
 
 			iter.RemovePrev();	// do not process it
@@ -2127,7 +2127,7 @@ JXContainer::FTCBuildLayout
 				continue;
 				}
 
-			JXContainer* cell = FTCGroupAlignedObjects(obj, &objList, &fullObjList, horizontal, exact);
+			JXContainer* cell = FTCGroupAlignedObjects(obj, &objList, &fullObjList, horizontal, exact, first);
 			cellList.AppendElement(cell);
 
 			if (theDebugFTCFlag)
@@ -2140,6 +2140,7 @@ JXContainer::FTCBuildLayout
 
 		count++;
 		horizontal = ! horizontal;
+		first      = kJFalse;
 
 		const JBoolean noChange = JI2B( objCount == objList.GetElementCount() );
 		if (noChange)
@@ -2218,9 +2219,9 @@ ftcGetInterval
 
 // must be macro, because function cannot access member data
 #define ftcReparentCell(cell,newParent) \
-	cell->itsEnclosure->itsEnclosedObjs->Remove(cell); \
+	cell->itsEnclosure->RemoveEnclosedObject(cell); \
 	cell->itsEnclosure = newParent; \
-	cell->itsEnclosure->itsEnclosedObjs->AppendElement(cell);
+	cell->itsEnclosure->AddEnclosedObject(cell);
 
 JXFTCCell*
 JXContainer::FTCGroupAlignedObjects
@@ -2229,7 +2230,8 @@ JXContainer::FTCGroupAlignedObjects
 	JPtrArray<JXContainer>*	objList,
 	JPtrArray<JXContainer>*	fullObjList,
 	const JBoolean			horizontal,
-	const JBoolean			exact
+	const JBoolean			exact,
+	const JBoolean			first
 	)
 	const
 {
@@ -2245,8 +2247,16 @@ JXContainer::FTCGroupAlignedObjects
 
 	JPtrArray<JXFTCCell> cellList(JPtrArrayT::kForgetAll);
 
-	JXFTCCell* cell = jnew JXFTCCell(target, container, JXFTCCell::kNoDirection);
-	assert( cell != NULL );
+	JXFTCCell* cell = dynamic_cast<JXFTCCell*>(target);
+	if (cell != NULL)
+		{
+		ftcReparentCell(cell, container);
+		}
+	else
+		{
+		cell = jnew JXFTCCell(target, container, JXFTCCell::kNoDirection);
+		assert( cell != NULL );
+		}
 	cellList.AppendElement(cell);
 
 	JRect covering = cell->GetFrameForFTC();
@@ -2293,31 +2303,21 @@ JXContainer::FTCGroupAlignedObjects
 
 	if (exact)
 		{
-		FTCTrimBlockedMatches(target, *fullObjList, matchedList, horizontal, &cellList);
+		FTCTrimBlockedMatches(target, *fullObjList, matchedList, horizontal, first, &cellList);
 		}
 
 	// short-circuit if no additional cells found
 
-	JXFTCCell* targetCell = dynamic_cast<JXFTCCell*>(target);
-	if (cellList.GetElementCount() == 1 && targetCell != NULL)
+	if (cellList.GetElementCount() == 1)
 		{
-		jdelete container;	// deletes cellList element
-		return targetCell;
-		}
-	else if (cellList.GetElementCount() == 1)
-		{
-		targetCell = cellList.GetFirstElement();
-		ftcReparentCell(targetCell, target->GetEnclosure());	// before deleting container
+		JXFTCCell* targetCell = dynamic_cast<JXFTCCell*>(target);
+		if (targetCell == NULL)
+			{
+			targetCell = cellList.GetFirstElement();
+			}
+		ftcReparentCell(targetCell, container->GetEnclosure());		// before deleting container
 		jdelete container;
 		return targetCell;
-		}
-	else if (targetCell != NULL)
-		{
-		ftcReparentCell(targetCell, container);
-
-		// replace unnecessary cell
-		cellList.DeleteElement(1);
-		cellList.Prepend(targetCell);
 		}
 
 	// unwrap contained cells if same direction
@@ -2444,6 +2444,7 @@ JXContainer::FTCTrimBlockedMatches
 	const JPtrArray<JXContainer>&	fullObjList,
 	const JPtrArray<JXContainer>&	matchedList,
 	const JBoolean					horizontal,
+	const JBoolean					deleteBlockedWidgetCells,
 	JPtrArray<JXFTCCell>*			cellList
 	)
 	const
@@ -2525,7 +2526,7 @@ JXContainer::FTCTrimBlockedMatches
 				}
 
 			cellIter.RemovePrev();
-			if (cell->GetWidget() != NULL)
+			if (cell->GetWidget() != NULL && deleteBlockedWidgetCells)
 				{
 				jdelete cell;	// delete cell for widget that needs to be re-processed
 				}

@@ -50,6 +50,11 @@ JXFTCCell::JXFTCCell
 		}
 
 	Refresh();
+
+	if (theDebugFTCFlag)
+		{
+		std::cout << "Creating " << ToString() << std::endl;
+		}
 }
 
 /******************************************************************************
@@ -59,6 +64,11 @@ JXFTCCell::JXFTCCell
 
 JXFTCCell::~JXFTCCell()
 {
+	if (theDebugFTCFlag)
+		{
+		std::cout << "Deleting " << ToString() << std::endl;
+		}
+
 	JXWindow* window = GetWindow();
 	if (IsVisible())
 		{

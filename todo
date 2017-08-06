@@ -1,11 +1,12 @@
-Save File dialog
-	core dump
+detect elastic column or row
+	maintain spacing instead of positions
 
-Search Text with large font
-	core dump
+"Save before closing" dialog
+	text box shifted right
 
 Variable Length PG (not background)
 	counter ends up right-justified
+	progress output window:  Print button off the left window edge
 
 JXFileListSet - does internal FTC work correctly?
 

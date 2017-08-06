@@ -274,7 +274,8 @@ private:
 									   JPtrArray<JXContainer>* objList,
 									   JPtrArray<JXContainer>* fullObjList,
 									   const JBoolean horizontal,
-									   const JBoolean exact) const;
+									   const JBoolean exact,
+									   const JBoolean first) const;
 	JBoolean	FTCWillOverlapNonincludedWidget(const JXContainer* obj1,
 												const JXContainer* obj2,
 												const JPtrArray<JXContainer>& fullObjList,
@@ -283,6 +284,7 @@ private:
 									  const JPtrArray<JXContainer>& fullObjList,
 									  const JPtrArray<JXContainer>& matchedList,
 									  const JBoolean horizontal,
+									  const JBoolean deleteBlockedWidgetCells,
 									  JPtrArray<JXFTCCell>* cellList) const;
 
 	static JOrderedSetT::CompareResult
