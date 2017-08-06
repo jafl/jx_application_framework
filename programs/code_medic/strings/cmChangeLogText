@@ -16,6 +16,8 @@ Please send all bug reports and suggestions for features to
 
 Enabled core file debugging for lldb.
 <p>
+File List window is now populated when using lldb.
+<p>
 Fixed display of variables to exclude class names displayed in the hierarchy.
 <p>
 Added \"Display as C string\" option because lldb does not automatically display contents of strings.
