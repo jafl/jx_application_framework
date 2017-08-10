@@ -48,8 +48,8 @@ endif
 ifdef DOC_NAME
 	@${JX_ROOT}/bin/jxhelp2html \
          "${DOC_NAME}" strings ${DOC_HEADER} ${PKG_PATH}/docs_HTML; \
-     cp ${PKG_PATH}/docs_HTML/ChangeLog.html ./; \
-     ${JX_ROOT}/bin/fix_change_log ChangeLog.html
+         cp ${PKG_PATH}/docs_HTML/ChangeLog.html ./; \
+         ${JX_ROOT}/bin/fix_change_log ChangeLog.html
 endif
 
 ifdef J_RPM_GZ_LIBS
