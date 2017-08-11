@@ -22,7 +22,7 @@ Added syntax hilighting for SQL.
 <p>
 Improved parsing of Java source files to detect inner classes and be smarter about finding parent classes.
 <p>
-Updated JavaScript reserved keywords for ECMAScript 5 and 6.  Updated styling to not interpret JSX tags as regular expressions.
+Updated JavaScript reserved keywords for ECMAScript 5 and 6.  Added styling for Template Strings.  Updated styling to not interpret JSX closing tags as regular expressions.
 <p>
 Added support for Perl operators // and //= and ~~.
 <p>
@@ -31,8 +31,6 @@ Added enum keyword to Java syntax highlighting.
 Updated to not open class inheritance trees for every new project.
 <p>
 Fixed empty error message when try to close Program Output window while compile is running.
-<p>
-Fixed discontiguous selection modifier to be meta on OS X.
 
 <h3> 6.6 </h3>
 
