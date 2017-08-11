@@ -23,8 +23,6 @@ Automatically stashes changes when switching to another branch.
 Added option to delete local versions of git branches when remote versions are pruned.
 <p>
 Fixed file descriptor leak from various git commands.
-<p>
-Fixed discontiguous selection modifier to be meta on OS X.
 
 <h3> 2.5 </h3>
 
