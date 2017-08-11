@@ -20,10 +20,10 @@ JAssert
 	JAssertBase* ah;
 	if (JGetAssertHandler(&ah))
 		{
-		return ah->Assert(expr, file, line);
+		return ah->Assert(expr, file, line, message);
 		}
 	else
 		{
-		return JAssertBase::DefaultAssert(expr, file, line);
+		return JAssertBase::DefaultAssert(expr, file, line, message);
 		}
 }

@@ -45,6 +45,10 @@ OSX window placement
 
 -----
 
+medic - OSX
+	JMemoryManager executes in multiple threads when run target program
+	because lldb picks up JCore operator new
+
 replace rendering engine inside JXWindowPainter with UTF-8 version
 	http://cairographics.org/
 	is YUI yogi output correct with check mark?
@@ -317,14 +321,6 @@ jcc
 		bold current argument, based on number of commas after opening paren
 	Tooltip for scrolltabs: which function it is in
 	Tooltip while scrolling: which function it is in
-	PHP styler:
-		falls out of PHP mode when it sees ?>
-		while editing string, it may find ?> that should be inside string
-
-	perl:  = 2 ?
-		Delete 2, type 2 => styles are wrong to next ?
-		Same with /, because both are regex constructs
-		Need to restyle further?
 
 	CBTreeDirector:
 		ReceiveWithFeedback:  include src file for C++

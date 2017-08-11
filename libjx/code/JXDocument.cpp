@@ -190,7 +190,7 @@ JBoolean
 JXDocument::NeedsSave()
 	const
 {
-	assert( 0 /* programmer forgot to override JXDocument::NeedsSave() */ );
+	assert_msg( 0, "programmer forgot to override JXDocument::NeedsSave()" );
 	return kJFalse;
 }
 

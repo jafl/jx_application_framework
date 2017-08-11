@@ -448,7 +448,7 @@ void value_f(Test* test, Pt3<double>& pt, aircraft& arg)
 
 int main(int argc, char** argv)
 {
-	std::std::cout << "Hello World!" << std::std::endl;
+	std::cout << "Hello World!" << std::endl;
 
 	if (argc > 1 && strcmp(argv[1], "divzero") == 0)
 		{

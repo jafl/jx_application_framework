@@ -52,11 +52,7 @@ public:
 
 		kComment,
 
-		kError,			// place holder for CBEiffelStyler
-
-		// special cases
-
-		kContinuation
+		kError			// place holder for CBEiffelStyler
 	};
 
 	struct Token

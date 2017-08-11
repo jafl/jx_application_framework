@@ -271,14 +271,26 @@ CBPerlStyler::PreexpandCheckRange
 	JIndexRange*			checkRange
 	)
 {
-	JIndex i = checkRange->first - 1;
-	while (i > 1 && isspace(text.GetCharacter(i)))
+	// We have to extend past any whitespace to include the next
+	// real token.  This fixes:
+	//		= 2 ? ... ?
+	//		Delete 2 and then undo.  Forces restyling of range to not be regex.
+
+	JIndex i = checkRange->last;
+	if (!isspace(text.GetCharacter(i)))
 		{
-		i--;
+		i++;
 		}
-	if (i > 0 && text.GetCharacter(i) == '#')
+	const JIndex saved = i;
+
+	while (i < text.GetLength() && isspace(text.GetCharacter(i)))
 		{
-		checkRange->first = i;
+		i++;
+		}
+
+	if (i > saved)
+		{
+		checkRange->last = i;
 		}
 }
 

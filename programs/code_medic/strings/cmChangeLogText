@@ -14,11 +14,15 @@ Please send all bug reports and suggestions for features to
 
 <h3> 4.1 </h3>
 
-Enabled core file debugging for lldb.  To support this, \"Choose core...\" is only available after first choosing a binary.
+Enabled core file debugging for lldb.
+<p>
+File List window is now populated when using lldb.
 <p>
 Fixed display of variables to exclude class names displayed in the hierarchy.
 <p>
 Added \"Display as C string\" option because lldb does not automatically display contents of strings.
+<p>
+Enabled display of negative integers in different bases.
 
 <h3> 4.0 </h3>
 

@@ -1,0 +1,8 @@
+#!/bin/sh
+
+if [[ ! -d libjcore ]]; then
+	echo "must be run in JX root";
+	exit 1;
+fi
+
+rsync -rzv --delete doc/api/html/ jafl,libjx@web.sourceforge.net:htdocs/api/;

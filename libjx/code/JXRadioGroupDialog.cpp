@@ -101,8 +101,6 @@ JXRadioGroupDialog::BuildWindow
 	const JPtrArray<JString>*	shortcutList
 	)
 {
-JIndex i;
-
 	const JSize actionCount = choiceList.GetElementCount();
 
 	JXWindow* window = jnew JXWindow(this, 10,10, windowTitle);
@@ -134,7 +132,7 @@ JIndex i;
 
 	JCoordinate wmin = 0;
 	JPtrArray<JXRadioButton> buttonList(JPtrArrayT::kForgetAll, actionCount);
-	for (i=1; i<=actionCount; i++)
+	for (JIndex i=1; i<=actionCount; i++)
 		{
 		JXTextRadioButton* button =
 			jnew JXTextRadioButton(i, *(choiceList.NthElement(i)), itsRG,
@@ -154,7 +152,7 @@ JIndex i;
 
 	// all choices should be the same width
 
-	for (i=1; i<=actionCount; i++)
+	for (JIndex i=1; i<=actionCount; i++)
 		{
 		(buttonList.NthElement(i))->SetSize(wmin, kTextHeight);
 		}

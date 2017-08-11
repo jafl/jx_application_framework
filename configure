@@ -2,7 +2,7 @@
 
 if [[ `uname` == Darwin ]]; then
 
-	# MacOS - must be first, becase apt exists
+	# MacOS - must be first, because apt exists
 
 	if ! which brew; then
 		/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)";

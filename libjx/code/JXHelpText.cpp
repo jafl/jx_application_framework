@@ -202,7 +202,7 @@ JXHelpText::LinkClicked
 void
 JXHelpText::PrepareToPasteHTML()
 {
-	assert( 0 /* JXHelpText doesn't support PasteHTML() */ );
+	assert_msg( 0, "JXHelpText doesn't support PasteHTML()" );
 }
 
 /******************************************************************************

@@ -1177,7 +1177,7 @@ PlotDir::NewFit
 	)
 {
 	JPlotDataBase* data = &(itsPlot->GetCurve(plotindex));
-	JPlotFitFunction* df;
+	JPlotFitFunction* df = NULL;
 	if (type == kGLinearFit)
 		{
 		JPlotLinearFit* lf;

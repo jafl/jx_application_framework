@@ -46,7 +46,7 @@ CBHTMLScanner::GetCurrentLexerState()
 
 %x JAVA_SCRIPT_STATE
 %x JS_C_COMMENT_STATE JS_DOC_COMMENT_STATE JS_CPP_COMMENT_STATE
-%x JS_SINGLE_STRING_STATE JS_DOUBLE_STRING_STATE
+%x JS_SINGLE_STRING_STATE JS_DOUBLE_STRING_STATE JS_TEMPLATE_STRING_STATE
 %x JS_REGEX_SEARCH_STATE JS_REGEX_CHAR_CLASS_STATE
 
 WS            [[:space:]]+
@@ -110,7 +110,7 @@ JAVA_CCONST      (\'{JAVA_CHAR}\')
 JAVA_BADCCONST   (\'(\\|{JAVA_BADESCCHAR}|({JAVA_BADESCCHAR}|{JAVA_CHAR}){2,})\')
 
 
-JS_KEYWORD    (as|break|case|catch|class|const|continue|default|delete|do|else|export|extends|false|finally|for|function|if|import|in|instanceof|is|namespace|new|null|package|private|public|return|super|switch|this|throw|true|try|typeof|use|var|void|while|with|abstract|debugger|enum|goto|implements|interface|native|protected|synchronized|throws|transient|volatile)
+JS_KEYWORD    (abstract|arguments|await|boolean|break|byte|case|catch|char|class|const|constructor|continue|debugger|default|delete|do|double|else|enum|eval|export|extends|false|final|finally|float|for|function|goto|if|implements|import|in|instanceof|int|interface|let|long|native|new|null|package|private|protected|public|return|short|static|super|switch|synchronized|this|throw|throws|transient|true|try|typeof|var|void|volatile|while|with|yield)
 
 
 JS_IDCAR      ([_[:alpha:]])
@@ -1722,6 +1722,19 @@ euro;?     {
 
 
 
+	/* Avoid styling JSX tags as regexp */
+
+
+
+"</" |
+"/>" {
+	StartToken();
+	itsProbableJSOperatorFlag = kJFalse;
+	return ThisToken(kJSOperator);
+	}
+
+
+
 	/* Match grouping symbols and other delimiters */
 
 
@@ -1802,6 +1815,12 @@ euro;?     {
 	StartToken();
 	itsProbableJSOperatorFlag = kJTrue;
 	BEGIN(JS_DOUBLE_STRING_STATE);
+	}
+
+\` {
+	StartToken();
+	itsProbableJSOperatorFlag = kJTrue;
+	BEGIN(JS_TEMPLATE_STRING_STATE);
 	}
 
 
@@ -1966,6 +1985,54 @@ euro;?     {
 	if (!itsCurrentRange.IsEmpty())	/* may come directly from JSP */
 		{
 		return ThisToken(kJSString);
+		}
+	}
+
+<<EOF>> {
+	BEGIN(INITIAL);
+	return ThisToken(kUnterminatedString);
+	}
+
+}
+
+<JS_TEMPLATE_STRING_STATE>{
+
+\` {
+	ContinueToken();
+	BEGIN(JAVA_SCRIPT_STATE);
+	return ThisToken(kJSTemplateString);
+	}
+
+\\.?      |
+"<"       |
+[^\\\`<]+ {
+	ContinueToken();
+	}
+
+{PHPSTART} {
+	yyless(0);
+	yy_push_state(PHP_STATE);
+	if (!itsCurrentRange.IsEmpty())	/* may come directly from PHP */
+		{
+		return ThisToken(kJSTemplateString);
+		}
+	}
+
+{JSPSTART} {
+	yyless(0);
+	yy_push_state(JSP_STATE);
+	if (!itsCurrentRange.IsEmpty())	/* may come directly from JSP */
+		{
+		return ThisToken(kJSTemplateString);
+		}
+	}
+
+{JSP_COMMENT} {
+	yyless(0);
+	yy_push_state(JSP_HTML_COMMENT_STATE);
+	if (!itsCurrentRange.IsEmpty())	/* may come directly from JSP */
+		{
+		return ThisToken(kJSTemplateString);
 		}
 	}
 

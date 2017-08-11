@@ -352,10 +352,9 @@ CBIsCaseSensitive
 	const CBLanguage lang
 	)
 {
-	return JNegate( lang == kCBEiffelLang     ||
-					lang == kCBFortranLang    ||
-					lang == kCBJavaScriptLang ||
-					lang == kCBSQLLang );
+	return JNegate( lang == kCBEiffelLang  ||
+					lang == kCBFortranLang ||
+					lang == kCBJavaScriptLang );
 }
 
 inline JBoolean
@@ -367,7 +366,8 @@ CBHasNamespace
 	return JI2B( lang == kCBCLang          ||	// C++, actually
 				 lang == kCBJavaLang       ||
 				 lang == kCBJavaScriptLang ||
-				 lang == kCBPerlLang );
+				 lang == kCBPerlLang       ||
+				 lang == kCBSQLLang );
 }
 
 inline JBoolean

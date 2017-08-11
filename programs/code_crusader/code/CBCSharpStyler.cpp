@@ -210,39 +210,6 @@ CBCSharpStyler::Scan
 }
 
 /******************************************************************************
- PreexpandCheckRange (virtual protected)
-
-	Expand checkRange if the preceding text is #[[:space:]]*
-	This catches "#defin" when typing 'e' and the token start happens
-	to be after the #.
-
-	modifiedRange is the range of text that was changed.
-	deletion is kJTrue if the modification was that text was deleted.
-
- ******************************************************************************/
-
-void
-CBCSharpStyler::PreexpandCheckRange
-	(
-	const JString&			text,
-	const JRunArray<JFont>&	styles,
-	const JIndexRange&		modifiedRange,
-	const JBoolean			deletion,
-	JIndexRange*			checkRange
-	)
-{
-	JIndex i = checkRange->first - 1;
-	while (i > 1 && isspace(text.GetCharacter(i)))
-		{
-		i--;
-		}
-	if (i > 0 && text.GetCharacter(i) == '#')
-		{
-		checkRange->first = i;
-		}
-}
-
-/******************************************************************************
  SlurpPPComment (private)
 
 	Treat "#if false ... #(elif|else|endif)" as a comment.

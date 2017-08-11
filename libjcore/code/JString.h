@@ -75,6 +75,7 @@ public:
 	void	Set(const std::string& str);
 	void	Set(const std::string& str, const JIndexRange& range);
 
+	JBoolean			IsAscii() const;
 	JBoolean			ContainsNULL() const;
 	const JCharacter*	GetCString() const;
 	JCharacter*			AllocateCString() const;	// client must call delete [] when finished with it
@@ -340,6 +341,18 @@ JString::operator const JCharacter*()
 }
 
 /******************************************************************************
+ IsAscii
+
+ ******************************************************************************/
+
+inline JBoolean
+JString::IsAscii()
+	const
+{
+	return kJTrue;
+}
+
+/******************************************************************************
  ContainsNULL
 
  ******************************************************************************/
@@ -348,7 +361,7 @@ inline JBoolean
 JString::ContainsNULL()
 	const
 {
-	return JConvertToBoolean( itsStringLength != strlen(itsString) );
+	return JI2B( itsStringLength != strlen(itsString) );
 }
 
 /******************************************************************************

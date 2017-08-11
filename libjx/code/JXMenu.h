@@ -227,8 +227,8 @@ private:
 	ArrowPosition	itsArrowPosition;	// location of arrow when menu is free-standing
 	ArrowDirection	itsArrowDirection;	// direction of arrow when menu is free-standing
 
-	static Style	itsDefaultStyle;
-	static Style	itsDisplayStyle;
+	static Style	theDefaultStyle;
+	static Style	theDisplayStyle;
 
 	// used when menu is pulled down
 
@@ -500,7 +500,7 @@ JXMenu::SetPopupArrowDirection
 inline JXMenu::Style
 JXMenu::GetDefaultStyle()
 {
-	return itsDefaultStyle;
+	return theDefaultStyle;
 }
 
 inline void
@@ -509,7 +509,7 @@ JXMenu::SetDefaultStyle
 	const Style style
 	)
 {
-	itsDefaultStyle = style;
+	theDefaultStyle = style;
 }
 
 /******************************************************************************
@@ -522,7 +522,7 @@ JXMenu::SetDefaultStyle
 inline JXMenu::Style
 JXMenu::GetDisplayStyle()
 {
-	return itsDisplayStyle;
+	return theDisplayStyle;
 }
 
 inline void
@@ -531,7 +531,7 @@ JXMenu::SetDisplayStyle
 	const Style style
 	)
 {
-	itsDisplayStyle = style;
+	theDisplayStyle = style;
 }
 
 #endif

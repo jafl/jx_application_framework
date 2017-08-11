@@ -645,6 +645,14 @@ LLDBLink::SetCore
 		itsCoreName = fullName;
 		Broadcast(CoreLoaded());
 		}
+	else
+		{
+		JString cmdStr = "target create --core ";
+		cmdStr        += fullName;
+		SendRaw(cmdStr);
+		SendRaw("frame select 1");
+		SendRaw("frame select 0");
+		}
 }
 
 /******************************************************************************
@@ -728,7 +736,7 @@ LLDBLink::RunProgram
 		t.Launch(*this, (const char**) lldbArgs, (const char**) environ,
 				 NULL, NULL, NULL, ".", 0, false, error);
 
-		jdelete lldbArgs;
+		jdelete [] lldbArgs;
 		}
 }
 

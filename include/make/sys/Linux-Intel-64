@@ -102,7 +102,7 @@ J_POST_LINK_LLDB_CMD := :
 
 # gzipped libraries to include in RPM
 
-J_RPM_GZ_LIBS := /usr/lib64/libstdc++.so.6 /usr/lib64/llvm/liblldb.so
+J_RPM_GZ_LIBS := /usr/lib64/libstdc++.so.6 /usr/lib64/liblldb.so
 
 # modify settings based on OS, compiler, etc.
 

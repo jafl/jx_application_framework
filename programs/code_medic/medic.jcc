@@ -680,7 +680,7 @@ F
 "./code/JVMVarNode.cpp"
 F
 T
-1 "todo"
+1 "JVM - todo"
 T
 2 "JVMArray2DCommand.cpp"
 F
@@ -989,13 +989,10 @@ F
 # tasks
 4
 "makemake"
-T "./test/java" "&make_default ; ../../$program" "" F F F F T F F "Build & Run test-java" "F11" "buisq_rB]DwU{C$m7*o-::CBCommandManager" T
-T "./" "make -k personal" "" T F T F T F T "Build personal (static)" "" " =(l,*afwISdTYg6?EW,::CBCommandManager" F
-T "./" "./run_medic test/threads/threads" "" F F F F T F F "" "" "l~[{OM:ACL C>=hPa+46::CBCommandManager" F
-T "./" "&make_default ; $program test/var_tree/vartree" "" F F F F T F F "Build & Run var_tree" "F10" "B+)Aw+h5(i~v5.aEj(K}::CBCommandManager" F
-T "./" "./run_medic test/printf-scanf/scanftest" "" F F F F T F F "" "" "K1Bf|sH=F97^5wq&}I)g::CBCommandManager" F
-T "./" "./run_medic test/var_local/varlocal" "" F F F F T F F "" "" "c&Cm>M2#_L, AVGdp )p::CBCommandManager" F
-T "./" "./run_medic test/fortran/ftest" "" F F F F T F F "" "" "<`E>^_U-F+ei{7h1p/(m::CBCommandManager" F
+T "@" "jxlayout --choose --post-cmd 'jcc --reload-open' $file_name" "" F F T T T T F "Compile layouts" "F10" "" F
+T "./" "make -k personal" "" T F T F T F T "Build personal (static)" "" " =(l,*afwISdTYg6?EW,::CBCommandManager" T
+T "./" "&make_default ; $program test/var_tree/vartree" "" F F F F T F F "Build & Run var_tree" "F9" "B+)Aw+h5(i~v5.aEj(K}::CBCommandManager" F
+T "./test/java" "&make_default ; ../../$program" "" F F F F T F F "Build & Run test-java" "F11" "buisq_rB]DwU{C$m7*o-::CBCommandManager" F
 F
 # build settings
 1

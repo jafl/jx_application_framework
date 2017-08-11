@@ -24,6 +24,7 @@
 #include "CBRubyStyler.h"
 #include "CBINIStyler.h"
 #include "CBPropertiesStyler.h"
+#include "CBSQLStyler.h"
 
 #include "CBBisonCompleter.h"
 #include "CBCCompleter.h"
@@ -83,12 +84,12 @@ CBIsCharacterInWord
 			 type == kCBPythonFT      ||
 			 type == kCBBourneShellFT ||
 			 type == kCBCShellFT      ||
-			 type == kCBSQLFT         ||
 			 type == kCBTCLFT)
 		{
 		return JI2B(c == '$');
 		}
-	else if (type == kCBJavaSourceFT)
+	else if (type == kCBJavaSourceFT ||
+			 type == kCBSQLFT)
 		{
 		return JI2B(c == '@');
 		}
@@ -313,7 +314,7 @@ static const CBLang2Styler kLang2Styler[] =
 	{ kCBBetaLang,        NULL, NULL },
 	{ kCBLuaLang,         NULL, NULL },
 	{ kCBSLangLang,       NULL, NULL },
-	{ kCBSQLLang,         NULL, NULL },
+	{ kCBSQLLang,         &CBSQLStyler::Instance,         &CBSQLStyler::Shutdown },
 	{ kCBVeraLang,        NULL, NULL },
 	{ kCBVerilogLang,     NULL, NULL },
 	{ kCBCSharpLang,      &CBCSharpStyler::Instance,      &CBCSharpStyler::Shutdown },

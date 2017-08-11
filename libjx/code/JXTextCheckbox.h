@@ -40,6 +40,8 @@ public:
 
 	virtual void	SetShortcuts(const JCharacter* list);
 
+	JCoordinate		GetPreferredWidth() const;
+
 	virtual JString	ToString() const;
 
 protected:

@@ -1175,7 +1175,7 @@ JXExprEditor::EIPGetExternalClipboard
 			{
 			Atom type = typeList.GetElement(i);
 			if (type == XA_STRING ||
-				(!canGetText && type == selManager->GetTextXAtom()))
+				(!canGetText && type == selManager->GetUtf8StringXAtom()))
 				{
 				canGetText = kJTrue;
 				textType   = type;

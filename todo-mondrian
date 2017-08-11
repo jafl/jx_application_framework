@@ -13,6 +13,8 @@ layout model
 	existing layout parameters still apply
 		allows resizing for translation/font sizing
 
+assign fixed name for *every* widget to ensure stable translations
+
 -----
 
 build

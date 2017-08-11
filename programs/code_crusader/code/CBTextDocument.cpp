@@ -174,6 +174,7 @@ static const JCharacter* kPrefsStylesMenuStr =
 	"| Perl"
 	"| Python"
 	"| Ruby"
+	"| SQL"
 	"| TCL";
 
 static const CBLanguage kMenuItemToLang[] =
@@ -191,6 +192,7 @@ static const CBLanguage kMenuItemToLang[] =
 	kCBPerlLang,
 	kCBPythonLang,
 	kCBRubyLang,
+	kCBSQLLang,
 	kCBTCLLang
 };
 

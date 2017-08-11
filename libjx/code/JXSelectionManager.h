@@ -50,8 +50,7 @@ public:
 
 	Atom	GetTargetsXAtom() const;
 	Atom	GetTimeStampXAtom() const;
-	Atom	GetTextXAtom() const;
-	Atom	GetCompoundTextXAtom() const;
+	Atom	GetUtf8StringXAtom() const;
 	Atom	GetMultipleXAtom() const;
 	Atom	GetMimePlainTextXAtom() const;
 	Atom	GetURLXAtom() const;
@@ -75,8 +74,7 @@ public:		// kAtomCount required at global scope
 		kIncrementalSendAtomIndex,
 		kTargetsAtomIndex,
 		kTimeStampAtomIndex,
-		kTextAtomIndex,
-		kCompoundTextAtomIndex,
+		kUtf8StringAtomIndex,
 		kMultipleAtomIndex,
 		kMimePlainTextAtomIndex,
 		kURLAtomIndex,
@@ -156,17 +154,10 @@ JXSelectionManager::GetTimeStampXAtom()
 }
 
 inline Atom
-JXSelectionManager::GetTextXAtom()
+JXSelectionManager::GetUtf8StringXAtom()
 	const
 {
-	return itsAtoms [kTextAtomIndex ];
-}
-
-inline Atom
-JXSelectionManager::GetCompoundTextXAtom()
-	const
-{
-	return itsAtoms[ kCompoundTextAtomIndex ];
+	return itsAtoms [ kUtf8StringAtomIndex ];
 }
 
 inline Atom

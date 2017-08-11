@@ -59,7 +59,8 @@ JXAssert::Assert
 	(
 	const JCharacter*	expr,
 	const JCharacter*	file,
-	const int			line
+	const int			line,
+	const JCharacter*	message
 	)
 {
 	const JBoolean wasOperating = itsIsOperatingFlag;
@@ -74,7 +75,7 @@ JXAssert::Assert
 		UnlockDisplays();
 		}
 
-	const int result = JAssertBase::DefaultAssert(expr, file, line);
+	const int result = JAssertBase::DefaultAssert(expr, file, line, message);
 
 	itsIsOperatingFlag = wasOperating;
 	return result;
