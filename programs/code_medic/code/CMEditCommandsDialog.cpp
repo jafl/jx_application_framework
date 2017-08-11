@@ -78,24 +78,24 @@ CMEditCommandsDialog::BuildWindow()
 
 	JXTextButton* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::CMEditCommandsDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kVElastic, 80,340, 60,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 80,340, 60,20);
 	assert( cancelButton != NULL );
 
 	JXTextButton* okButton =
 		jnew JXTextButton(JGetString("okButton::CMEditCommandsDialog::JXLayout"), window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 210,340, 60,20);
+					JXWidget::kFixedRight, JXWidget::kFixedBottom, 210,340, 60,20);
 	assert( okButton != NULL );
 	okButton->SetShortcuts(JGetString("okButton::CMEditCommandsDialog::shortcuts::JXLayout"));
 
 	itsNewButton =
 		jnew JXTextButton(JGetString("itsNewButton::CMEditCommandsDialog::JXLayout"), window,
-					JXWidget::kHElastic, JXWidget::kFixedTop, 260,70, 70,20);
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 260,70, 70,20);
 	assert( itsNewButton != NULL );
 	itsNewButton->SetShortcuts(JGetString("itsNewButton::CMEditCommandsDialog::shortcuts::JXLayout"));
 
 	itsRemoveButton =
 		jnew JXTextButton(JGetString("itsRemoveButton::CMEditCommandsDialog::JXLayout"), window,
-					JXWidget::kHElastic, JXWidget::kFixedTop, 260,110, 70,20);
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 260,110, 70,20);
 	assert( itsRemoveButton != NULL );
 
 	JXStaticText* obj2_JXLayout =

@@ -1,0 +1,25 @@
+#!/bin/sh
+
+if [[ $# < 2 ]]; then
+	echo "usage: $0 program_name new_version";
+	exit 1;
+fi
+
+if ! pushd programs/$1; then
+	exit 1;
+fi
+
+# VERSION
+echo $2 >| ./release/VERSION;
+
+# strings
+f=`find . -path './strings/*_strings' -a ! -path './strings/*_shared_strings'`;
+perl -pi -e "s/^(VERSION\s+)\"[0-9.]+\"/\$1\"$2\"/" $f;
+
+# spec
+f=`find . -path './pkg/*.spec'`;
+perl -pi -e "s/^(%define\s+[a-z_]+_version\s*) [0-9.]+/\$1 $2/ unless \$replaced; \$replaced=1;" $f;
+
+# debctrl
+f=`find . -path './pkg/*.debctrl'`;
+perl -pi -e "s/^(Version:\s*) [0-9.]+/\$1 $2/" $f;

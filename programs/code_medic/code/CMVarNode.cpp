@@ -129,7 +129,7 @@ CMVarNode::SetValue
 
  ******************************************************************************/
 
-static const JRegex valuePattern = "^([[:digit:]]+)([[:space:]]+'.*)?$";
+static const JRegex valuePattern = "^(-?[[:digit:]]+)([[:space:]]+'.*)?$";
 
 struct CMSpecialCharInfo
 {
@@ -179,9 +179,24 @@ CMVarNode::ConvertToBase()
 		JString vStr = itsValue.GetSubstring(matchList.GetElement(2));
 
 		JUInt v;
-		itsCanConvertBaseFlag = JI2B(
-			vStr.ConvertToUInt(&v, vStr.GetFirstCharacter() == '0' ? 8 : 10) &&
-			(itsBase != 1 || v <= 255));
+		if (vStr.GetFirstCharacter() == '-')
+			{
+			JInteger v1;
+			itsCanConvertBaseFlag = JI2B(
+				itsBase != 1 &&
+				vStr.ConvertToInteger(&v1, 10));
+			if (itsCanConvertBaseFlag)
+				{
+				v = (JUInt) v1;
+				}
+			}
+		else
+			{
+			itsCanConvertBaseFlag = JI2B(
+				vStr.ConvertToUInt(&v, vStr.GetFirstCharacter() == '0' ? 8 : 10) &&
+				(itsBase != 1 || v <= 255));
+			}
+
 		if (itsCanConvertBaseFlag)
 			{
 			// save value for when base reset to "default"

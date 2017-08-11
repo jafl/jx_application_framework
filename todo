@@ -27,6 +27,10 @@ OSX window placement
 
 -----
 
+medic - OSX
+	JMemoryManager executes in multiple threads when run target program
+	because lldb picks up JCore operator new
+
 java
 	selected stack frame
 		select source line

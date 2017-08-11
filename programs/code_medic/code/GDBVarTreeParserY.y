@@ -32,7 +32,7 @@ cmIsOpenablePointer
 #define yyparse GDBVarTreeParser::yyparse
 %}
 
-%pure_parser
+%pure-parser
 
 %token<pString>	P_NAME P_NAME_EQ
 %token<pString>	P_EMPTY_BRACKET P_EMPTY_BRACKET_EQ

@@ -8,7 +8,11 @@
  ******************************************************************************/
 
 #include "LLDBGetSourceFileList.h"
+#include "lldb/API/SBTarget.h"
+#include "lldb/API/SBModule.h"
+#include "lldb/API/SBCompileUnit.h"
 #include "CMFileListDir.h"
+#include "LLDBLink.h"
 #include "cmGlobals.h"
 #include <JXFileListTable.h>
 #include <jFileUtil.h>
@@ -26,7 +30,7 @@ LLDBGetSourceFileList::LLDBGetSourceFileList
 	CMFileListDir* fileList
 	)
 	:
-	CMGetSourceFileList("NOP", fileList)
+	CMGetSourceFileList("", fileList)
 {
 }
 
@@ -50,4 +54,35 @@ LLDBGetSourceFileList::HandleSuccess
 	const JString& origData
 	)
 {
+	LLDBLink* link = dynamic_cast<LLDBLink*>(CMGetLink());
+	if (link == NULL)
+		{
+		return;
+		}
+
+	lldb::SBTarget t = link->GetDebugger()->GetSelectedTarget();
+	if (t.IsValid())
+		{
+		(JXGetApplication())->DisplayBusyCursor();
+
+		JXFileListTable* table = GetFileList()->GetTable();
+		table->RemoveAllFiles();
+
+		JString fullName;
+
+		const JSize mCount = t.GetNumModules();
+		for (JIndex i=0; i<mCount; i++)
+			{
+			lldb::SBModule m   = t.GetModuleAtIndex(i);
+			const JSize uCount = m.GetNumCompileUnits();
+			for (JIndex j=0; j<uCount; j++)
+				{
+				lldb::SBCompileUnit u = m.GetCompileUnitAtIndex(j);
+				lldb::SBFileSpec f    = u.GetFileSpec();
+
+				fullName = JCombinePathAndName(f.GetDirectory(), f.GetFilename());
+				table->AddFile(fullName);
+				}
+			}
+		}
 }

@@ -271,14 +271,15 @@ private:
 	void		CommitGitBranch(const JCharacter* msg);
 	void		RevertGitBranch();
 
-	void	SwitchToGitBranch(const JString& branch);
-	void	MergeFromGitBranch(const JString& branch);
-	void	FetchRemoteGitBranch1(const JString& branch);
-	void	FetchRemoteGitBranch2(const JString& name);
-	void	PullBranch(const JString& repo);
-	void	PushBranch(const JString& repo);
-	void	RemoveGitBranch(const JString& branch, const JBoolean force = kJFalse);
-	void	PruneLocalBranches();
+	void		SwitchToGitBranch(const JString& branch);
+	void		MergeFromGitBranch(const JString& branch);
+	void		FetchRemoteGitBranch1(const JString& branch);
+	void		FetchRemoteGitBranch2(const JString& name);
+	void		PullBranch(const JString& repo);
+	void		PushBranch(const JString& repo);
+	JBoolean	RemoveGitBranch(const JString& branch, const JBoolean force = kJFalse,
+								const JBoolean detach = kJTrue, JProcess** p = NULL);
+	void		PruneLocalBranches();
 
 	JBoolean	GetGitStashList(JPtrArray<JString>* stashList, JPtrArray<JString>* nameList);
 	void		Stash(const JString& name);

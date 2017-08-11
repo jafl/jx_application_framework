@@ -48,7 +48,8 @@ private:
 	void		ExtendCheckRangeForJSPStartEnd(const JIndexRange& tokenRange);
 	JFontStyle	GetTagStyle(const JIndexRange& tokenRange, const JIndex typeIndex);
 	JBoolean	GetXMLStyle(const JString& tagName, JFontStyle* style);
-	void		StyleEmbeddedVariables(const Token& token);
+	void		StyleEmbeddedPHPVariables(const Token& token);
+	void		StyleEmbeddedJSVariables(const Token& token);
 
 	// not allowed
 

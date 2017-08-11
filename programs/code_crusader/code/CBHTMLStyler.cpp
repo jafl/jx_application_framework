@@ -19,8 +19,9 @@
 
 CBHTMLStyler* CBHTMLStyler::itsSelf = NULL;
 
-const JFileVersion kCurrentTypeListVersion = 7;
+const JFileVersion kCurrentTypeListVersion = 8;
 
+	// version 8 inserts kJSTemplateString after kJSString (32)
 	// version 7 inserts kCDATABlock after kHTMLComment (5)
 	// version 6 inserts kMustacheCommand after kHTMLComment (5)
 	// version 5 inserts kJSPStartEnd, kJSPComment, kJavaID,
@@ -93,6 +94,7 @@ static const JCharacter* kTypeNames[] =
 	"JavaScript delimiter",
 
 	"JavaScript string",
+	"JavaScript template string",
 	"JavaScript regular expression",
 
 	// shared
@@ -121,8 +123,7 @@ const JSize kUnusedJavaKeywordCount = sizeof(kUnusedJavaKeyword)/sizeof(JCharact
 
 static const JCharacter* kUnusedJSKeyword[] =
 {
-	"abstract", "debugger", "enum", "goto", "implements", "interface",
-	"native", "synchronized", "throws", "transient", "volatile"
+	"debugger", "goto"
 };
 
 const JSize kUnusedJSKeywordCount = sizeof(kUnusedJSKeyword)/sizeof(JCharacter*);
@@ -288,6 +289,7 @@ CBHTMLStyler::InitJavaScriptTypeStyles()
 
 	SetTypeStyle(kJSReservedKeyword    - kWhitespace, JFontStyle(colormap->GetDarkGreenColor()));
 	SetTypeStyle(kJSString             - kWhitespace, JFontStyle(colormap->GetDarkRedColor()));
+	SetTypeStyle(kJSTemplateString     - kWhitespace, JFontStyle(colormap->GetPinkColor()));
 	SetTypeStyle(kJSRegexSearch        - kWhitespace, JFontStyle(colormap->GetDarkGreenColor()));
 	SetTypeStyle(kDocCommentHTMLTag    - kWhitespace, JFontStyle(colormap->GetBlueColor()));
 	SetTypeStyle(kDocCommentSpecialTag - kWhitespace, JFontStyle(kJFalse, kJFalse, 1, kJFalse));
@@ -452,7 +454,11 @@ CBHTMLStyler::Scan
 			token.type == kPHPHereDocString     ||
 			token.type == kPHPExecString)
 			{
-			StyleEmbeddedVariables(token);
+			StyleEmbeddedPHPVariables(token);
+			}
+		else if (token.type == kJSTemplateString)
+			{
+			StyleEmbeddedJSVariables(token);
 			}
 		}
 		while (keepGoing);
@@ -646,7 +652,7 @@ CBHTMLStyler::GetXMLStyle
 }
 
 /******************************************************************************
- StyleEmbeddedVariables (private)
+ StyleEmbeddedPHPVariables (private)
 
 	Called after lexing a string to mark variables that will be expanded.
 
@@ -655,21 +661,21 @@ CBHTMLStyler::GetXMLStyle
 #define CBPHPStringID    "[[:alpha:]_][[:alnum:]_]*"
 #define CBPHPStringNotID "[^[:alpha:]_]"
 
-static JRegex emptyVariablePattern =
+static JRegex emptyPHPVariablePattern =
 	"^\\$+(\\{\\}|" CBPHPStringID "(->" CBPHPStringNotID "|\\[\\]))";	// update special conditions in code below
-static JRegex variablePattern =
+static JRegex phpVariablePattern =
 	"^\\$+(\\{[^}]+\\}|" CBPHPStringID "(\\[[^]]+\\]|->" CBPHPStringID ")?)";
 
 #undef CBPHPStringID
 
 void
-CBHTMLStyler::StyleEmbeddedVariables
+CBHTMLStyler::StyleEmbeddedPHPVariables
 	(
 	const Token& token
 	)
 {
-	emptyVariablePattern.SetSingleLine();
-	variablePattern.SetSingleLine();
+	emptyPHPVariablePattern.SetSingleLine();
+	phpVariablePattern.SetSingleLine();
 
 	const JString& text = GetText();
 
@@ -698,7 +704,7 @@ CBHTMLStyler::StyleEmbeddedVariables
 		else if (c == '$')
 			{
 			r1 = r - (r.first-1);
-			if (emptyVariablePattern.MatchWithin(text.GetCString() + r.first-1, r1, &r2))
+			if (emptyPHPVariablePattern.MatchWithin(text.GetCString() + r.first-1, r1, &r2))
 				{
 				r2 += r.first-1;
 				const JCharacter c1 = text.GetCharacter(r2.last);
@@ -709,7 +715,7 @@ CBHTMLStyler::StyleEmbeddedVariables
 				AdjustStyle(r2, errStyle);
 				r.first = r2.last;
 				}
-			else if (variablePattern.MatchWithin(text.GetCString() + r.first-1, r1, &r2))
+			else if (phpVariablePattern.MatchWithin(text.GetCString() + r.first-1, r1, &r2))
 				{
 				r2 += r.first-1;
 				if (r2.first > 1 && text.GetCharacter(r2.first-1) == '{')
@@ -727,6 +733,62 @@ CBHTMLStyler::StyleEmbeddedVariables
 			r1.SetFirstAndLength(r.first, 3);
 			AdjustStyle(r1, errStyle);
 			r.first = r1.last;
+			}
+
+		r.first++;
+		}
+}
+
+/******************************************************************************
+ StyleEmbeddedJSVariables (private)
+
+	Called after lexing a string to mark variables that will be expanded.
+
+ ******************************************************************************/
+
+static JRegex jsVariablePattern =      "^\\$\\{.+?\\}";
+static JRegex emptyJSVariablePattern = "^\\$\\{\\}?";
+
+void
+CBHTMLStyler::StyleEmbeddedJSVariables
+	(
+	const Token& token
+	)
+{
+	jsVariablePattern.SetSingleLine();
+	emptyJSVariablePattern.SetSingleLine();
+
+	const JString& text = GetText();
+
+	JFontStyle varStyle = GetTypeStyle(token.type - kWhitespace);
+	varStyle.underlineCount++;
+
+	JFontStyle errStyle = GetTypeStyle(kError - kWhitespace);
+	errStyle.underlineCount++;
+
+	JIndexRange r = token.range, r1, r2;
+	while (!r.IsEmpty())
+		{
+		const JCharacter c = text.GetCharacter(r.first);
+		if (c == '\\')
+			{
+			r.first++;
+			}
+		else if (c == '$')
+			{
+			r1 = r - (r.first-1);
+			if (jsVariablePattern.MatchWithin(text.GetCString() + r.first-1, r1, &r2))
+				{
+				r2 += r.first-1;
+				AdjustStyle(r2, varStyle);
+				r.first = r2.last;
+				}
+			else if (emptyJSVariablePattern.MatchWithin(text.GetCString() + r.first-1, r1, &r2))
+				{
+				r2 += r.first-1;
+				AdjustStyle(r2, errStyle);
+				r.first = r2.last;
+				}
 			}
 
 		r.first++;
@@ -795,6 +857,11 @@ CBHTMLStyler::UpgradeTypeList
 	if (vers < 7)
 		{
 		typeStyles->InsertElementAtIndex(6, JFontStyle());
+		}
+
+	if (vers < 8)
+		{
+		typeStyles->InsertElementAtIndex(33, JFontStyle(cmap->GetPinkColor()));
 		}
 
 	// set new values after all new slots have been created
