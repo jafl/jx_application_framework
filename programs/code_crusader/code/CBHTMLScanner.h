@@ -94,6 +94,7 @@ public:
 		kJSDelimiter,
 
 		kJSString,
+		kJSTemplateString,
 		kJSRegexSearch,
 
 		// shared

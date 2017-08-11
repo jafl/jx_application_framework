@@ -22,14 +22,14 @@ Remember to upgrade CBHTMLScanner, too!
 %option full ecs align
 
 %x DOC_COMMENT_STATE C_COMMENT_STATE
-%x SINGLE_STRING_STATE DOUBLE_STRING_STATE
+%x SINGLE_STRING_STATE DOUBLE_STRING_STATE TEMPLATE_STRING_STATE
 %x REGEX_SEARCH_STATE REGEX_CHAR_CLASS_STATE
 
 WS           ([ \v\t\f\r\n]+)
 
 
 
-KEYWORD      (abstract|arguments|await|boolean|break|byte|case|catch|char|class|const|continue|debugger|default|delete|do|double|else|enum|eval|export|extends|false|final|finally|float|for|function|goto|if|implements|import|in|instanceof|int|interface|let|long|native|new|null|package|private|protected|public|return|short|static|super|switch|synchronized|this|throw|throws|transient|true|try|typeof|var|void|volatile|while|with|yield)
+KEYWORD      (abstract|arguments|await|boolean|break|byte|case|catch|char|class|const|constructor|continue|debugger|default|delete|do|double|else|enum|eval|export|extends|false|final|finally|float|for|function|goto|if|implements|import|in|instanceof|int|interface|let|long|native|new|null|package|private|protected|public|return|short|static|super|switch|synchronized|this|throw|throws|transient|true|try|typeof|var|void|volatile|while|with|yield)
 
 DOCTAG       (async|attribute|author|beta|broadcast|bubbles|category|class|chainable|config|constructor|default|deprecated|event|example|extends|extension|extensionfor|extension_for|final|for|main|method|module|namespace|optional|param|private|property|protected|readonly|readOnly|required|requires|return|since|static|submodule|type|uses|writeonce|writeOnce)
 
@@ -338,6 +338,32 @@ FLOAT        ({DIGITSEQ}{EXPONENT}|{DOTDIGITS}{EXPONENT}?)
 
 \\.?     |
 [^\\\"]+ {
+	ContinueToken();
+	}
+
+<<EOF>> {
+	BEGIN(INITIAL);
+	return ThisToken(kUnterminatedString);
+	}
+
+}
+
+\` {
+	StartToken();
+	itsProbableOperatorFlag = kJTrue;
+	BEGIN(TEMPLATE_STRING_STATE);
+	}
+
+<TEMPLATE_STRING_STATE>{
+
+\` {
+	ContinueToken();
+	BEGIN(INITIAL);
+	return ThisToken(kTemplateString);
+	}
+
+\\.?     |
+[^\\\`]+ {
 	ContinueToken();
 	}
 

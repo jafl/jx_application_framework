@@ -44,6 +44,7 @@ public:
 		kDelimiter,
 
 		kString,
+		kTemplateString,
 
 		kFloat,
 		kDecimalInt,

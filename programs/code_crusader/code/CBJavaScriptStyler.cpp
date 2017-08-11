@@ -14,13 +14,15 @@
 #include "cbmUtil.h"
 #include <JXDialogDirector.h>
 #include <JColormap.h>
+#include <JRegex.h>
 #include <ctype.h>
 #include <jAssert.h>
 
 CBJavaScriptStyler* CBJavaScriptStyler::itsSelf = NULL;
 
-const JFileVersion kCurrentTypeListVersion = 1;
+const JFileVersion kCurrentTypeListVersion = 2;
 
+	// version 2 adds kTemplateString after kString (5)
 	// version 1 adds kRegexSearch after kHexInt (8)
 
 static const JCharacter* kTypeNames[] =
@@ -32,6 +34,7 @@ static const JCharacter* kTypeNames[] =
 	"Delimiter",
 
 	"String",
+	"Template String",
 
 	"Floating point constant",
 	"Decimal constant",
@@ -114,6 +117,7 @@ CBJavaScriptStyler::CBJavaScriptStyler()
 	SetTypeStyle(kReservedKeyword      - kWhitespace, JFontStyle(colormap->GetDarkGreenColor()));
 
 	SetTypeStyle(kString               - kWhitespace, JFontStyle(colormap->GetDarkRedColor()));
+	SetTypeStyle(kTemplateString       - kWhitespace, JFontStyle(colormap->GetPinkColor()));
 	SetTypeStyle(kRegexSearch          - kWhitespace, JFontStyle(colormap->GetDarkGreenColor()));
 
 	SetTypeStyle(kComment              - kWhitespace, JFontStyle(colormap->GetGrayColor(50)));
@@ -157,6 +161,7 @@ CBJavaScriptStyler::Scan
 
 	const JString& text = GetText();
 
+	JBoolean keepGoing;
 	Token token;
 	JFontStyle style;
 	do
@@ -207,8 +212,71 @@ CBJavaScriptStyler::Scan
 
 			style = GetStyle(typeIndex, text.GetSubstring(token.range));
 			}
+
+		keepGoing = SetStyle(token.range, style);
+
+		if (token.type == kTemplateString)
+			{
+			StyleEmbeddedVariables(token);
+			}
 		}
-		while (SetStyle(token.range, style));
+		while (keepGoing);
+}
+
+/******************************************************************************
+ StyleEmbeddedVariables (private)
+
+	Called after lexing a string to mark variables that will be expanded.
+
+ ******************************************************************************/
+
+static JRegex variablePattern =      "^\\$\\{.+?\\}";
+static JRegex emptyVariablePattern = "^\\$\\{\\}?";
+
+void
+CBJavaScriptStyler::StyleEmbeddedVariables
+	(
+	const Token& token
+	)
+{
+	variablePattern.SetSingleLine();
+	emptyVariablePattern.SetSingleLine();
+
+	const JString& text = GetText();
+
+	JFontStyle varStyle = GetTypeStyle(token.type - kWhitespace);
+	varStyle.underlineCount++;
+
+	JFontStyle errStyle = GetTypeStyle(kError - kWhitespace);
+	errStyle.underlineCount++;
+
+	JIndexRange r = token.range, r1, r2;
+	while (!r.IsEmpty())
+		{
+		const JCharacter c = text.GetCharacter(r.first);
+		if (c == '\\')
+			{
+			r.first++;
+			}
+		else if (c == '$')
+			{
+			r1 = r - (r.first-1);
+			if (variablePattern.MatchWithin(text.GetCString() + r.first-1, r1, &r2))
+				{
+				r2 += r.first-1;
+				AdjustStyle(r2, varStyle);
+				r.first = r2.last;
+				}
+			else if (emptyVariablePattern.MatchWithin(text.GetCString() + r.first-1, r1, &r2))
+				{
+				r2 += r.first-1;
+				AdjustStyle(r2, errStyle);
+				r.first = r2.last;
+				}
+			}
+
+		r.first++;
+		}
 }
 
 /******************************************************************************
@@ -228,6 +296,11 @@ CBJavaScriptStyler::UpgradeTypeList
 	if (vers < 1)
 		{
 		typeStyles->InsertElementAtIndex(9, JFontStyle(colormap->GetDarkGreenColor()));
+		}
+
+	if (vers < 2)
+		{
+		typeStyles->InsertElementAtIndex(6, JFontStyle(colormap->GetPinkColor()));
 		}
 
 	// set new values after all new slots have been created
