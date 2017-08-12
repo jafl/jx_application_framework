@@ -1907,9 +1907,15 @@ euro;?     {
 	return ThisToken(kJSString);
 	}
 
-\\.?      |
-"<"       |
-[^\\\'<]+ {
+\n {
+	ContinueToken();
+	BEGIN(INITIAL);
+	return ThisToken(kUnterminatedString);
+	}
+
+\\(.|\n)?   |
+"<"         |
+[^\\\n\'<]+ {
 	ContinueToken();
 	}
 
@@ -1955,9 +1961,15 @@ euro;?     {
 	return ThisToken(kJSString);
 	}
 
-\\.?      |
-"<"       |
-[^\\\"<]+ {
+\n {
+	ContinueToken();
+	BEGIN(INITIAL);
+	return ThisToken(kUnterminatedString);
+	}
+
+\\(.|\n)?   |
+"<"         |
+[^\\\n\"<]+ {
 	ContinueToken();
 	}
 
