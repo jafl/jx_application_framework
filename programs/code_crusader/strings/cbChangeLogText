@@ -22,7 +22,7 @@ Added syntax hilighting for SQL.
 <p>
 Improved parsing of Java source files to detect inner classes and be smarter about finding parent classes.
 <p>
-Updated JavaScript reserved keywords for ECMAScript 5 and 6.  Added styling for Template Strings.  Updated styling to not interpret JSX closing tags as regular expressions.
+Updated JavaScript reserved keywords for ECMAScript 5 and 6.  Fixed styling of strings to flag multi-line without continuation backslash.  Added styling for Template Strings.  Updated styling to not interpret JSX closing tags as regular expressions.
 <p>
 Added support for Perl operators // and //= and ~~.
 <p>

@@ -310,8 +310,14 @@ FLOAT        ({DIGITSEQ}{EXPONENT}|{DOTDIGITS}{EXPONENT}?)
 	return ThisToken(kString);
 	}
 
-\\.?     |
-[^\\\']+ {
+\n {
+	ContinueToken();
+	BEGIN(INITIAL);
+	return ThisToken(kUnterminatedString);
+	}
+
+\\(.|\n)? |
+[^\\\n\']+  {
 	ContinueToken();
 	}
 
@@ -336,8 +342,14 @@ FLOAT        ({DIGITSEQ}{EXPONENT}|{DOTDIGITS}{EXPONENT}?)
 	return ThisToken(kString);
 	}
 
-\\.?     |
-[^\\\"]+ {
+\n {
+	ContinueToken();
+	BEGIN(INITIAL);
+	return ThisToken(kUnterminatedString);
+	}
+
+\\(.|\n)?  |
+[^\\\n\"]+ {
 	ContinueToken();
 	}
 
