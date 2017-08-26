@@ -231,6 +231,8 @@ enum
 	kGitPruneRemoteItemIndex
 };
 
+static const JCharacter* kStashDisplaySuffix = ": systemg-temp";
+
 // Shortcuts menu
 
 static const JCharacter* kShortcutMenuTitleStr = "Shortcuts";
@@ -4009,28 +4011,27 @@ SyGFileTreeTable::UpdateGitMenus
 		itsGitRemoteBranchMenu->DisableItem(1);
 		}
 
-	JPtrArray<JString> stashList(JPtrArrayT::kDeleteAll);
+	JPtrArray<JString> idList(JPtrArrayT::kDeleteAll);
 	JPtrArray<JString> nameList(JPtrArrayT::kDeleteAll);
-
-	GetGitStashList(&stashList, &nameList);
+	GetGitStashList(&idList, &nameList);
 
 	itsGitStashPopMenu->RemoveAllItems();
 	itsGitStashApplyMenu->RemoveAllItems();
 	itsGitStashDropMenu->RemoveAllItems();
 
-	const JSize stashCount = stashList.GetElementCount();
+	const JSize stashCount = idList.GetElementCount();
 	for (JIndex i=1; i<=stashCount; i++)
 		{
 		itsGitStashPopMenu->AppendItem(
-			*(stashList.NthElement(i)), JXMenu::kPlainType, NULL,
+			*(idList.NthElement(i)), JXMenu::kPlainType, NULL,
 			*(nameList.NthElement(i)));
 
 		itsGitStashApplyMenu->AppendItem(
-			*(stashList.NthElement(i)), JXMenu::kPlainType, NULL,
+			*(idList.NthElement(i)), JXMenu::kPlainType, NULL,
 			*(nameList.NthElement(i)));
 
 		itsGitStashDropMenu->AppendItem(
-			*(stashList.NthElement(i)), JXMenu::kPlainType, NULL,
+			*(idList.NthElement(i)), JXMenu::kPlainType, NULL,
 			*(nameList.NthElement(i)));
 		}
 
@@ -4349,18 +4350,18 @@ SyGFileTreeTable::SwitchToGitBranch
 
 		// check for stashed changes
 
-		JPtrArray<JString> stashList(JPtrArrayT::kDeleteAll);
+		JPtrArray<JString> idList(JPtrArrayT::kDeleteAll);
 		JPtrArray<JString> nameList(JPtrArrayT::kDeleteAll);
-		if (GetGitStashList(&stashList, &nameList))
+		if (GetGitStashList(&idList, &nameList))
 			{
-			const JString name = "On " + branch + ": systemg-temp";
+			const JString name = "On " + branch + kStashDisplaySuffix;
 
 			const JSize count = nameList.GetElementCount();
 			for (JIndex i=1; i<=count; i++)
 				{
 				if (name == *(nameList.NthElement(i)))
 					{
-					Unstash("pop", *(stashList.NthElement(i)));
+					Unstash("pop", *(idList.NthElement(i)));
 					break;
 					}
 				}
@@ -4550,10 +4551,10 @@ SyGFileTreeTable::PushBranch
 JBoolean
 SyGFileTreeTable::RemoveGitBranch
 	(
-	const JString&	branch,
-	const JBoolean	force,
-	const JBoolean	detach,
-	JProcess**		process
+	const JString&				branch,
+	const JBoolean				force,
+	const JPtrArray<JString>*	stashIdList,
+	const JPtrArray<JString>*	stashNameList
 	)
 {
 	if (!force)
@@ -4572,23 +4573,75 @@ SyGFileTreeTable::RemoveGitBranch
 	JString cmd = "git branch -D ";
 	cmd        += JPrepArgForExec(branch);
 
-	if (detach)
+	JSimpleProcess* p;
+	if (!JSimpleProcess::Create(&p, itsFileTree->GetDirectory(), cmd, kJFalse).OK())
 		{
-		JSimpleProcess::Create(itsFileTree->GetDirectory(), cmd, kJTrue);
+		return kJFalse;
+		}
+
+	p->WaitUntilFinished();
+	jdelete p;
+	p = NULL;
+
+	// drop systemg-temp stash
+
+	JBoolean found = kJFalse;
+	JString stashId;
+	if (stashIdList != NULL && stashNameList != NULL)
+		{
+		found = FindGitStash(branch, *stashIdList, *stashNameList, &stashId);
 		}
 	else
 		{
-		JSimpleProcess* p;
-		if (!JSimpleProcess::Create(&p, itsFileTree->GetDirectory(), cmd, kJFalse).OK())
-			{
-			*process = NULL;
-			return kJFalse;
-			}
+		JPtrArray<JString> idList(JPtrArrayT::kDeleteAll);
+		JPtrArray<JString> nameList(JPtrArrayT::kDeleteAll);
+		GetGitStashList(&idList, &nameList);
+		found = FindGitStash(branch, idList, nameList, &stashId);
+		}
 
-		*process = p;
+	if (found)
+		{
+		cmd  = "git stash drop ";
+		cmd += JPrepArgForExec(stashId);
+
+		if (JSimpleProcess::Create(&p, itsFileTree->GetDirectory(), cmd, kJFalse).OK())
+			{
+			p->WaitUntilFinished();
+			jdelete p;
+			}
 		}
 
 	return kJTrue;
+}
+
+/******************************************************************************
+ FindGitStash (static private)
+
+ ******************************************************************************/
+
+JBoolean
+SyGFileTreeTable::FindGitStash
+	(
+	const JString&				branchName,
+	const JPtrArray<JString>&	idList,
+	const JPtrArray<JString>&	nameList,
+	JString*					id
+	)
+{
+	const JString s = branchName + kStashDisplaySuffix;
+
+	const JSize count = idList.GetElementCount();
+	for (JIndex i=1; i<=count; i++)
+		{
+		if (nameList.GetElement(i)->EndsWith(s))
+			{
+			*id = *idList.GetElement(i);
+			return kJTrue;
+			}
+		}
+
+	id->Clear();
+	return kJFalse;
 }
 
 /******************************************************************************
@@ -4599,7 +4652,7 @@ SyGFileTreeTable::RemoveGitBranch
 JBoolean
 SyGFileTreeTable::GetGitStashList
 	(
-	JPtrArray<JString>* stashList,
+	JPtrArray<JString>* idList,
 	JPtrArray<JString>* nameList
 	)
 {
@@ -4611,7 +4664,7 @@ SyGFileTreeTable::GetGitStashList
 	if (!err.OK())
 		{
 		nameList->Append(JGetString("NoStashes::SyGFileTreeTable"));
-		stashList->Append("");
+		idList->Append("");
 		return kJFalse;
 		}
 
@@ -4627,13 +4680,13 @@ SyGFileTreeTable::GetGitStashList
 
 		if (line.LocateSubstring(";", &i) && 1 < i && i < line.GetLength())
 			{
-			stashList->Append(line.GetSubstring(1, i-1));
+			idList->Append(line.GetSubstring(1, i-1));
 			nameList->Append(line.GetSubstring(i+1, line.GetLength()));
 			}
 		}
 
 	::close(fromFD);
-	return !stashList->IsEmpty();
+	return !idList->IsEmpty();
 }
 
 /******************************************************************************
@@ -4674,8 +4727,8 @@ SyGFileTreeTable::Unstash
 	const JString&		stashId
 	)
 {
-	JString cmd = "xterm -T 'Pop stashed changes' "
-				  "-e '( git stash $action \\\\'$ref\\\\' ) | less'";
+	JString cmd = "xterm -T '$action stashed changes' "
+						"-e '( git stash $action \\\\'$ref\\\\' ) | less'";
 
 	const JString refArg = JPrepArgForExec(stashId);
 
@@ -4862,15 +4915,16 @@ SyGFileTreeTable::PruneLocalBranches()
 		return;
 		}
 
+	JPtrArray<JString> idList(JPtrArrayT::kDeleteAll);
+	JPtrArray<JString> nameList(JPtrArrayT::kDeleteAll);
+	GetGitStashList(&idList, &nameList);
+
 	const JSize count = indexList.GetElementCount();
 	JProcess* p;
 	for (JIndex i=1; i<=count; i++)
 		{
-		if (RemoveGitBranch(*(itsPruneBranchList->NthElement(indexList.GetElement(i))), kJTrue, kJFalse, &p))
-			{
-			p->WaitUntilFinished();
-			jdelete p;
-			}
+		RemoveGitBranch(*(itsPruneBranchList->NthElement(indexList.GetElement(i))),
+						kJTrue, &idList, &nameList);
 		}
 }
 
