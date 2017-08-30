@@ -3,7 +3,7 @@
 
 	Base class for menus that maintains a fixed-length history.  New items
 	should be prepended to the menu so the oldest ones automatically fall off
-	the bottom.
+	the bottom (or visa versa, based on history direction).
 
 	The default icon is empty.  To change the icon for all items, call
 	SetDefaultIcon().  Otherwise, you can create a derived class and
@@ -82,8 +82,9 @@ JXHistoryMenuBase::JXHistoryMenuBaseX
 {
 	assert( historyLength > 0 );
 
-	itsFirstIndex    = 1;
-	itsHistoryLength = historyLength;
+	itsFirstIndex       = 1;
+	itsHistoryLength    = historyLength;
+	itsHistoryDirection = kNewestItemAtTop;
 	SetUpdateAction(kDisableNone);
 
 	itsDefaultIcon     = NULL;
@@ -125,7 +126,7 @@ JXHistoryMenuBase::SetHistoryLength
 /******************************************************************************
  AdjustLength (protected)
 
-	Remove extra items from the bottom of the menu.
+	Remove extra items from the bottom (or top) of the menu.
 
  ******************************************************************************/
 
@@ -135,7 +136,7 @@ JXHistoryMenuBase::AdjustLength()
 	JSize itemCount = GetItemCount();
 	while (itemCount > itsHistoryLength + itsFirstIndex - 1)
 		{
-		RemoveItem(itemCount);
+		RemoveItem(itsHistoryDirection == kNewestItemAtTop ? itemCount : itsFirstIndex);
 		itemCount--;
 		}
 }
@@ -143,8 +144,7 @@ JXHistoryMenuBase::AdjustLength()
 /******************************************************************************
  AddItem (protected)
 
-	Prepend the given item to the menu and remove outdated entries
-	at the bottom.
+	Add the given item to the menu and remove outdated entries at the other end.
 
  ******************************************************************************/
 
@@ -155,7 +155,7 @@ JXHistoryMenuBase::AddItem
 	const JString& nmShortcut
 	)
 {
-	const JSize itemCount = GetItemCount();
+	JSize itemCount = GetItemCount();
 	JString itemNMShortcut;
 	for (JIndex i=itsFirstIndex; i<=itemCount; i++)
 		{
@@ -164,18 +164,22 @@ JXHistoryMenuBase::AddItem
 		const JBoolean matches = JI2B(
 			text == JXTextMenu::GetItemText(i) &&
 			nmShortcut == itemNMShortcut );
-		if (matches && i == itsFirstIndex)
+		if (matches &&
+			((itsHistoryDirection == kNewestItemAtTop    && i == itsFirstIndex) ||
+			 (itsHistoryDirection == kNewestItemAtBottom && i == itemCount)))
 			{
 			return;		// already at top of list
 			}
 		else if (matches)
 			{
 			RemoveItem(i);
+			itemCount--;
 			break;
 			}
 		}
 
-	InsertItem(itsFirstIndex, text, kPlainType, NULL, nmShortcut);
+	InsertItem(itsHistoryDirection == kNewestItemAtTop ? itsFirstIndex : itemCount+1,
+			   text, kPlainType, NULL, nmShortcut);
 	AdjustLength();
 }
 
@@ -211,7 +215,7 @@ JXHistoryMenuBase::ReadSetup
 void
 JXHistoryMenuBase::ReadSetup
 	(
-	std::istream&			input,
+	std::istream&		input,
 	JPtrArray<JString>*	itemList,
 	JPtrArray<JString>*	nmShortcutList
 	)
@@ -230,7 +234,7 @@ JXHistoryMenuBase::ReadSetup
 void
 JXHistoryMenuBase::ReadSetup
 	(
-	std::istream&			input,
+	std::istream&		input,
 	JXHistoryMenuBase*	menu,
 	JPtrArray<JString>*	itemList,
 	JPtrArray<JString>*	nmShortcutList
@@ -267,6 +271,9 @@ JXHistoryMenuBase::ReadSetup
 			}
 		}
 
+	const HistoryDirection direction = menu->GetHistoryDirection();
+	const JIndex firstIndex          = menu->GetFirstIndex();
+
 	JString text, nmShortcut;
 	for (JIndex i=1; i<=count; i++)
 		{
@@ -280,10 +287,15 @@ JXHistoryMenuBase::ReadSetup
 			break;
 			}
 
-		if (menu != NULL)
+		if (menu != NULL && direction == kNewestItemAtTop)
 			{
 			menu->AppendItem(text, kPlainType, NULL, nmShortcut);
 			}
+		else if (menu != NULL)
+			{
+			menu->InsertItem(firstIndex, text, kPlainType, NULL, nmShortcut);
+			}
+
 		if (itemList != NULL)
 			{
 			itemList->Append(text);
@@ -320,10 +332,21 @@ JXHistoryMenuBase::WriteSetup
 	output << ' ' << count - itsFirstIndex + 1;
 
 	JString nmShortcut;
-	for (JIndex i=itsFirstIndex; i<=count; i++)
+	if (itsHistoryDirection == kNewestItemAtTop)
 		{
-		GetItemNMShortcut(i, &nmShortcut);
-		output << ' ' << JXTextMenu::GetItemText(i) << ' ' << nmShortcut;
+		for (JIndex i=itsFirstIndex; i<=count; i++)
+			{
+			GetItemNMShortcut(i, &nmShortcut);
+			output << ' ' << JXTextMenu::GetItemText(i) << ' ' << nmShortcut;
+			}
+		}
+	else
+		{
+		for (JIndex i=count; i>=itsFirstIndex; i--)
+			{
+			GetItemNMShortcut(i, &nmShortcut);
+			output << ' ' << JXTextMenu::GetItemText(i) << ' ' << nmShortcut;
+			}
 		}
 
 	output << ' ';

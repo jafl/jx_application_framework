@@ -18,11 +18,22 @@ class JXHistoryMenuBase : public JXTextMenu
 {
 public:
 
+	enum HistoryDirection
+	{
+		kNewestItemAtTop,
+		kNewestItemAtBottom
+	};
+
+public:
+
 	virtual ~JXHistoryMenuBase();
 
 	JSize	GetHistoryLength() const;
 	void	SetHistoryLength(const JSize historyLength);
 	void	ClearHistory();
+
+	HistoryDirection	GetHistoryDirection() const;
+	void				SetHistoryDirection(const HistoryDirection direction);
 
 	void	SetDefaultIcon(JXImage* icon, const JBoolean menuOwnsIcon);
 
@@ -59,10 +70,11 @@ protected:
 
 private:
 
-	JIndex		itsFirstIndex;
-	JSize		itsHistoryLength;
-	JXImage*	itsDefaultIcon;
-	JBoolean	itsOwnsDefIconFlag;
+	JIndex				itsFirstIndex;
+	JSize				itsHistoryLength;
+	HistoryDirection	itsHistoryDirection;
+	JXImage*			itsDefaultIcon;
+	JBoolean			itsOwnsDefIconFlag;
 
 private:
 
@@ -103,6 +115,27 @@ JXHistoryMenuBase::ClearHistory()
 		{
 		RemoveItem(GetItemCount());
 		}
+}
+
+/******************************************************************************
+ History direction
+
+ ******************************************************************************/
+
+inline JXHistoryMenuBase::HistoryDirection
+JXHistoryMenuBase::GetHistoryDirection()
+	const
+{
+	return itsHistoryDirection;
+}
+
+inline void
+JXHistoryMenuBase::SetHistoryDirection
+	(
+	const HistoryDirection direction
+	)
+{
+	itsHistoryDirection = direction;
 }
 
 /******************************************************************************
