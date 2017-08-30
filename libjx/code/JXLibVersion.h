@@ -29,6 +29,8 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //	Fixed JXSelectionManager to send required (broken) data for XA_ATOM (XXXATOM).
 //		*** Replaced GetTextXAtom() with GetUtf8StringXAtom().
 //		*** Removed GetCompoundTextXAtom().
+//	Added HistoryDirection to JXHistoryMenuBase to support menus that are
+//		anchored near the bottom of the screen.
 
 // version 3.1.0:
 //	JXGetStringDialog:

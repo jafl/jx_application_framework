@@ -534,6 +534,8 @@ CMCommandDirector::BuildWindow()
 	CMTextDisplayBase::AdjustFont(itsFakePrompt);
 	ListenTo(itsCommandInput);
 
+	itsHistoryMenu->SetPopupArrowDirection(JXMenu::kArrowPointsUp);
+	itsHistoryMenu->SetHistoryDirection(JXStringHistoryMenu::kNewestItemAtBottom);
 	CMGetPrefsManager()->ReadHistoryMenuSetup(itsHistoryMenu);
 	ListenTo(itsHistoryMenu);
 
@@ -1238,14 +1240,16 @@ CMCommandDirector::ShowHistoryCommand
 		itsCurrentCommand = itsCommandInput->GetText();
 		}
 
-	const JInteger i = JInteger(itsHistoryIndex) + delta;
+	const JIndex menuIndex = itsHistoryMenu->GetItemCount() - itsHistoryIndex + 1;
+
+	const JInteger i = JInteger(menuIndex) - delta;
 	if (0 < i && i <= (JInteger) itsHistoryMenu->GetItemCount())
 		{
-		itsHistoryIndex      = i;
-		const JString& input = itsHistoryMenu->JXTextMenu::GetItemText(itsHistoryIndex);
+		itsHistoryIndex     += delta;
+		const JString& input = itsHistoryMenu->JXTextMenu::GetItemText(i);
 		itsCommandInput->SetText(input);
 		}
-	else if (i <= 0)
+	else if (i > (JInteger) itsHistoryMenu->GetItemCount())
 		{
 		itsHistoryIndex = 0;
 		itsCommandInput->SetText(itsCurrentCommand);
