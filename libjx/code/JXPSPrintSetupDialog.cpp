@@ -117,28 +117,28 @@ JXPSPrintSetupDialog::BuildWindow
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 70,220, 70,20);
 	assert( cancelButton != NULL );
 
-	JXStaticText* obj1_JXLayout =
-		jnew JXStaticText(JGetString("obj1_JXLayout::JXPSPrintSetupDialog::JXLayout"), window,
+	JXStaticText* destinationLabel =
+		jnew JXStaticText(JGetString("destinationLabel::JXPSPrintSetupDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 50,30, 80,20);
-	assert( obj1_JXLayout != NULL );
-	obj1_JXLayout->SetToLabel();
+	assert( destinationLabel != NULL );
+	destinationLabel->SetToLabel();
 
 	itsDestination =
 		jnew JXRadioGroup(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 135,20, 139,39);
 	assert( itsDestination != NULL );
 
-	JXTextRadioButton* obj2_JXLayout =
-		jnew JXTextRadioButton(1, JGetString("obj2_JXLayout::JXPSPrintSetupDialog::JXLayout"), itsDestination,
+	JXTextRadioButton* printerLabel =
+		jnew JXTextRadioButton(1, JGetString("printerLabel::JXPSPrintSetupDialog::JXLayout"), itsDestination,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 5,8, 70,20);
-	assert( obj2_JXLayout != NULL );
-	obj2_JXLayout->SetShortcuts(JGetString("obj2_JXLayout::JXPSPrintSetupDialog::shortcuts::JXLayout"));
+	assert( printerLabel != NULL );
+	printerLabel->SetShortcuts(JGetString("printerLabel::JXPSPrintSetupDialog::shortcuts::JXLayout"));
 
-	JXTextRadioButton* obj3_JXLayout =
-		jnew JXTextRadioButton(2, JGetString("obj3_JXLayout::JXPSPrintSetupDialog::JXLayout"), itsDestination,
+	JXTextRadioButton* fileLabel =
+		jnew JXTextRadioButton(2, JGetString("fileLabel::JXPSPrintSetupDialog::JXLayout"), itsDestination,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 75,8, 50,20);
-	assert( obj3_JXLayout != NULL );
-	obj3_JXLayout->SetShortcuts(JGetString("obj3_JXLayout::JXPSPrintSetupDialog::shortcuts::JXLayout"));
+	assert( fileLabel != NULL );
+	fileLabel->SetShortcuts(JGetString("fileLabel::JXPSPrintSetupDialog::shortcuts::JXLayout"));
 
 	itsPrintCmd =
 		jnew JXInputField(window,
@@ -190,11 +190,11 @@ JXPSPrintSetupDialog::BuildWindow
 	assert( itsLastPageIndexLabel != NULL );
 	itsLastPageIndexLabel->SetToLabel();
 
-	JXStaticText* obj4_JXLayout =
-		jnew JXStaticText(JGetString("obj4_JXLayout::JXPSPrintSetupDialog::JXLayout"), window,
+	JXStaticText* countLabel =
+		jnew JXStaticText(JGetString("countLabel::JXPSPrintSetupDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 55,110, 115,20);
-	assert( obj4_JXLayout != NULL );
-	obj4_JXLayout->SetToLabel();
+	assert( countLabel != NULL );
+	countLabel->SetToLabel();
 
 	itsCollateCB =
 		jnew JXTextCheckbox(JGetString("itsCollateCB::JXPSPrintSetupDialog::JXLayout"), window,

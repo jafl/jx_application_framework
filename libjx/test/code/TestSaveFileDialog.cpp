@@ -165,31 +165,31 @@ TestSaveFileDialog::BuildWindow
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 60,50, 200,20);
 	assert( filterInput != NULL );
 
-	JXStaticText* obj1_JXLayout =
-		jnew JXStaticText(JGetString("obj1_JXLayout::TestSaveFileDialog::JXLayout"), window,
+	JXStaticText* saveAsLabel =
+		jnew JXStaticText(JGetString("saveAsLabel::TestSaveFileDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 20,350, 60,20);
-	assert( obj1_JXLayout != NULL );
-	obj1_JXLayout->SetToLabel();
+	assert( saveAsLabel != NULL );
+	saveAsLabel->SetToLabel();
 
 	itsFormatRG =
 		jnew JXRadioGroup(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 90,340, 192,36);
 	assert( itsFormatRG != NULL );
 
-	JXTextRadioButton* obj2_JXLayout =
-		jnew JXTextRadioButton(TestChooseSaveFile::kGIFFormat, JGetString("obj2_JXLayout::TestSaveFileDialog::JXLayout"), itsFormatRG,
+	JXTextRadioButton* gifRB =
+		jnew JXTextRadioButton(TestChooseSaveFile::kGIFFormat, JGetString("gifRB::TestSaveFileDialog::JXLayout"), itsFormatRG,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,5, 50,20);
-	assert( obj2_JXLayout != NULL );
+	assert( gifRB != NULL );
 
-	JXTextRadioButton* obj3_JXLayout =
-		jnew JXTextRadioButton(TestChooseSaveFile::kJPEGFormat, JGetString("obj3_JXLayout::TestSaveFileDialog::JXLayout"), itsFormatRG,
+	JXTextRadioButton* jpegRB =
+		jnew JXTextRadioButton(TestChooseSaveFile::kJPEGFormat, JGetString("jpegRB::TestSaveFileDialog::JXLayout"), itsFormatRG,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 120,5, 60,20);
-	assert( obj3_JXLayout != NULL );
+	assert( jpegRB != NULL );
 
-	JXTextRadioButton* obj4_JXLayout =
-		jnew JXTextRadioButton(TestChooseSaveFile::kPNGFormat, JGetString("obj4_JXLayout::TestSaveFileDialog::JXLayout"), itsFormatRG,
+	JXTextRadioButton* pngRB =
+		jnew JXTextRadioButton(TestChooseSaveFile::kPNGFormat, JGetString("pngRB::TestSaveFileDialog::JXLayout"), itsFormatRG,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 60,5, 50,20);
-	assert( obj4_JXLayout != NULL );
+	assert( pngRB != NULL );
 
 	JXPathHistoryMenu* pathHistory =
 		jnew JXPathHistoryMenu(1, "", window,

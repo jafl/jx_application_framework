@@ -77,17 +77,17 @@ ResizeWidgetDialog::BuildWindow
 					JXWidget::kHElastic, JXWidget::kFixedTop, 70,50, 70,20);
 	assert( itsHeight != NULL );
 
-	JXStaticText* obj1_JXLayout =
-		jnew JXStaticText(JGetString("obj1_JXLayout::ResizeWidgetDialog::JXLayout"), window,
+	JXStaticText* widthLabel =
+		jnew JXStaticText(JGetString("widthLabel::ResizeWidgetDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 50,20);
-	assert( obj1_JXLayout != NULL );
-	obj1_JXLayout->SetToLabel();
+	assert( widthLabel != NULL );
+	widthLabel->SetToLabel();
 
-	JXStaticText* obj2_JXLayout =
-		jnew JXStaticText(JGetString("obj2_JXLayout::ResizeWidgetDialog::JXLayout"), window,
+	JXStaticText* heightLabel =
+		jnew JXStaticText(JGetString("heightLabel::ResizeWidgetDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,50, 50,20);
-	assert( obj2_JXLayout != NULL );
-	obj2_JXLayout->SetToLabel();
+	assert( heightLabel != NULL );
+	heightLabel->SetToLabel();
 
 // end JXLayout
 

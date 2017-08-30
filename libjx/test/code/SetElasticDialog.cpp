@@ -74,11 +74,11 @@ SetElasticDialog::BuildWindow
 					JXWidget::kHElastic, JXWidget::kFixedTop, 140,20, 40,20);
 	assert( itsElasticIndex != NULL );
 
-	JXStaticText* obj1_JXLayout =
-		jnew JXStaticText(JGetString("obj1_JXLayout::SetElasticDialog::JXLayout"), window,
+	JXStaticText* elasticLabel =
+		jnew JXStaticText(JGetString("elasticLabel::SetElasticDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,20, 130,20);
-	assert( obj1_JXLayout != NULL );
-	obj1_JXLayout->SetToLabel();
+	assert( elasticLabel != NULL );
+	elasticLabel->SetToLabel();
 
 // end JXLayout
 

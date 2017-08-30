@@ -77,11 +77,11 @@ JXGoToLineDialog::BuildWindow
 					JXWidget::kHElastic, JXWidget::kFixedTop, 110,20, 40,20);
 	assert( itsLineNumber != NULL );
 
-	JXStaticText* obj1_JXLayout =
-		jnew JXStaticText(JGetString("obj1_JXLayout::JXGoToLineDialog::JXLayout"), window,
+	JXStaticText* gotoLineLabel =
+		jnew JXStaticText(JGetString("gotoLineLabel::JXGoToLineDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 40,20, 70,20);
-	assert( obj1_JXLayout != NULL );
-	obj1_JXLayout->SetToLabel();
+	assert( gotoLineLabel != NULL );
+	gotoLineLabel->SetToLabel();
 
 	itsPhysicalLineIndexCB =
 		jnew JXTextCheckbox(JGetString("itsPhysicalLineIndexCB::JXGoToLineDialog::JXLayout"), window,

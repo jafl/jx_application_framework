@@ -1,9 +1,9 @@
 0
 itsCopyWhenSelectCB::JXMacWinPrefsDialog::JXLayout "Automatically copy text when it is selected"
 itsScrollCaretCB::JXMacWinPrefsDialog::JXLayout "Caret follows when you scroll"
+restartHint::JXMacWinPrefsDialog::JXLayout "(You must restart the program after changing this setting.)"
 cancelButton::JXMacWinPrefsDialog::JXLayout "Cancel"
 itsFocusInDockCB::JXMacWinPrefsDialog::JXLayout "Window focus follows cursor in dock"
-obj1_JXLayout::JXMacWinPrefsDialog::JXLayout "(You must restart the program after changing this setting.)"
 itsHomeEndCB::JXMacWinPrefsDialog::JXLayout "Home/End keys move caret to beginning/end of line"
 okButton::JXMacWinPrefsDialog::JXLayout "OK"
 itsMacStyleCB::JXMacWinPrefsDialog::JXLayout "Use Macintosh-style menu shortcuts (Meta)"

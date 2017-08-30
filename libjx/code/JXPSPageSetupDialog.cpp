@@ -135,11 +135,11 @@ JXPSPageSetupDialog::BuildWindow
 	JXWindow* window = jnew JXWindow(this, 240,160, "");
 	assert( window != NULL );
 
-	JXStaticText* obj1_JXLayout =
-		jnew JXStaticText(JGetString("obj1_JXLayout::JXPSPageSetupDialog::JXLayout"), window,
+	JXStaticText* orientationLabel =
+		jnew JXStaticText(JGetString("orientationLabel::JXPSPageSetupDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 15,85, 75,20);
-	assert( obj1_JXLayout != NULL );
-	obj1_JXLayout->SetToLabel();
+	assert( orientationLabel != NULL );
+	orientationLabel->SetToLabel();
 
 	JXTextButton* okButton =
 		jnew JXTextButton(JGetString("okButton::JXPSPageSetupDialog::JXLayout"), window,

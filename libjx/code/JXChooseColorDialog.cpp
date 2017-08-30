@@ -72,29 +72,29 @@ JXChooseColorDialog::BuildWindow
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 310,220, 60,20);
 	assert( cancelButton != NULL );
 
-	JXStaticText* obj1_JXLayout =
-		jnew JXStaticText(JGetString("obj1_JXLayout::JXChooseColorDialog::JXLayout"), window,
+	JXStaticText* sampleLabel =
+		jnew JXStaticText(JGetString("sampleLabel::JXChooseColorDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 340,25, 60,20);
-	assert( obj1_JXLayout != NULL );
-	obj1_JXLayout->SetToLabel();
+	assert( sampleLabel != NULL );
+	sampleLabel->SetToLabel();
 
-	JXStaticText* obj2_JXLayout =
-		jnew JXStaticText(JGetString("obj2_JXLayout::JXChooseColorDialog::JXLayout"), window,
+	JXStaticText* hueLabel =
+		jnew JXStaticText(JGetString("hueLabel::JXChooseColorDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 290,70, 50,20);
-	assert( obj2_JXLayout != NULL );
-	obj2_JXLayout->SetToLabel();
+	assert( hueLabel != NULL );
+	hueLabel->SetToLabel();
 
-	JXStaticText* obj3_JXLayout =
-		jnew JXStaticText(JGetString("obj3_JXLayout::JXChooseColorDialog::JXLayout"), window,
+	JXStaticText* saturationLabel =
+		jnew JXStaticText(JGetString("saturationLabel::JXChooseColorDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 290,90, 50,20);
-	assert( obj3_JXLayout != NULL );
-	obj3_JXLayout->SetToLabel();
+	assert( saturationLabel != NULL );
+	saturationLabel->SetToLabel();
 
-	JXStaticText* obj4_JXLayout =
-		jnew JXStaticText(JGetString("obj4_JXLayout::JXChooseColorDialog::JXLayout"), window,
+	JXStaticText* brightnessLabel =
+		jnew JXStaticText(JGetString("brightnessLabel::JXChooseColorDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 290,110, 50,20);
-	assert( obj4_JXLayout != NULL );
-	obj4_JXLayout->SetToLabel();
+	assert( brightnessLabel != NULL );
+	brightnessLabel->SetToLabel();
 
 	itsHSlider =
 		jnew JXSlider(window,
@@ -116,23 +116,23 @@ JXChooseColorDialog::BuildWindow
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 400,20, 30,30);
 	assert( itsColorSample != NULL );
 
-	JXStaticText* obj5_JXLayout =
-		jnew JXStaticText(JGetString("obj5_JXLayout::JXChooseColorDialog::JXLayout"), window,
+	JXStaticText* redLabel =
+		jnew JXStaticText(JGetString("redLabel::JXChooseColorDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 290,140, 50,20);
-	assert( obj5_JXLayout != NULL );
-	obj5_JXLayout->SetToLabel();
+	assert( redLabel != NULL );
+	redLabel->SetToLabel();
 
-	JXStaticText* obj6_JXLayout =
-		jnew JXStaticText(JGetString("obj6_JXLayout::JXChooseColorDialog::JXLayout"), window,
+	JXStaticText* greenLabel =
+		jnew JXStaticText(JGetString("greenLabel::JXChooseColorDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 290,160, 50,20);
-	assert( obj6_JXLayout != NULL );
-	obj6_JXLayout->SetToLabel();
+	assert( greenLabel != NULL );
+	greenLabel->SetToLabel();
 
-	JXStaticText* obj7_JXLayout =
-		jnew JXStaticText(JGetString("obj7_JXLayout::JXChooseColorDialog::JXLayout"), window,
+	JXStaticText* blueLabel =
+		jnew JXStaticText(JGetString("blueLabel::JXChooseColorDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 290,180, 50,20);
-	assert( obj7_JXLayout != NULL );
-	obj7_JXLayout->SetToLabel();
+	assert( blueLabel != NULL );
+	blueLabel->SetToLabel();
 
 	itsRInput =
 		jnew JXIntegerInput(window,
@@ -149,23 +149,23 @@ JXChooseColorDialog::BuildWindow
 					JXWidget::kHElastic, JXWidget::kFixedTop, 420,180, 70,20);
 	assert( itsBInput != NULL );
 
-	JXStaticText* obj8_JXLayout =
-		jnew JXStaticText(JGetString("obj8_JXLayout::JXChooseColorDialog::JXLayout"), window,
+	JXStaticText* red2Label =
+		jnew JXStaticText(JGetString("red2Label::JXChooseColorDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 340,140, 80,20);
-	assert( obj8_JXLayout != NULL );
-	obj8_JXLayout->SetToLabel();
+	assert( red2Label != NULL );
+	red2Label->SetToLabel();
 
-	JXStaticText* obj9_JXLayout =
-		jnew JXStaticText(JGetString("obj9_JXLayout::JXChooseColorDialog::JXLayout"), window,
+	JXStaticText* green2Label =
+		jnew JXStaticText(JGetString("green2Label::JXChooseColorDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 340,160, 80,20);
-	assert( obj9_JXLayout != NULL );
-	obj9_JXLayout->SetToLabel();
+	assert( green2Label != NULL );
+	green2Label->SetToLabel();
 
-	JXStaticText* obj10_JXLayout =
-		jnew JXStaticText(JGetString("obj10_JXLayout::JXChooseColorDialog::JXLayout"), window,
+	JXStaticText* blue2Label =
+		jnew JXStaticText(JGetString("blue2Label::JXChooseColorDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 340,180, 80,20);
-	assert( obj10_JXLayout != NULL );
-	obj10_JXLayout->SetToLabel();
+	assert( blue2Label != NULL );
+	blue2Label->SetToLabel();
 
 	itsColorWheel =
 		jnew JXColorWheel(window,

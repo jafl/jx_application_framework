@@ -1,12 +1,17 @@
-detect elastic column or row
-	maintain spacing instead of positions
+input fields
+	require minimum one line height
+
+Print Setup dialog
+	"Print command" label cut off - multiple overlapping show/hide items
 
 "Save before closing" dialog
 	text box shifted right
 
+PG windows
+	garbage in background
+
 Variable Length PG (not background)
 	counter ends up right-justified
-	progress output window:  Print button off the left window edge
 
 JXFileListSet - does internal FTC work correctly?
 

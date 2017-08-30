@@ -85,12 +85,12 @@ JXMacWinPrefsDialog::BuildWindow()
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,70, 320,20);
 	assert( itsHomeEndCB != NULL );
 
-	JXStaticText* obj1_JXLayout =
-		jnew JXStaticText(JGetString("obj1_JXLayout::JXMacWinPrefsDialog::JXLayout"), window,
+	JXStaticText* restartHint =
+		jnew JXStaticText(JGetString("restartHint::JXMacWinPrefsDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 40,40, 300,20);
-	assert( obj1_JXLayout != NULL );
-	obj1_JXLayout->SetFontSize(8);
-	obj1_JXLayout->SetToLabel();
+	assert( restartHint != NULL );
+	restartHint->SetFontSize(8);
+	restartHint->SetToLabel();
 
 	itsScrollCaretCB =
 		jnew JXTextCheckbox(JGetString("itsScrollCaretCB::JXMacWinPrefsDialog::JXLayout"), window,

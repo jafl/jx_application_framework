@@ -117,7 +117,7 @@ label: Width:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (widthLabel)
 callback: 
 argument: 
 
@@ -135,7 +135,7 @@ label: Height:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (heightLabel)
 callback: 
 argument: 
 
@@ -765,7 +765,7 @@ label: Radio group #1:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthEast FL_NoGravity
-name: 
+name: (rg1Label)
 callback: 
 argument: 
 
@@ -1017,7 +1017,7 @@ label: Image checkbox
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (icbLabel)
 callback: 
 argument: 
 
@@ -1070,7 +1070,7 @@ lcol: FL_BLACK
 label: enable
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_NorthWest FL_NoGravity
 name: itsEnable1CB
 callback: 
 argument: 
@@ -1088,8 +1088,8 @@ lcol: FL_BLACK
 label: Checkbox group:
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
-name: 
+gravity: FL_NorthWest FL_NoGravity
+name: (cbLabel)
 callback: 
 argument: 
 
@@ -1106,7 +1106,7 @@ lcol: FL_BLACK
 label: Option 1
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_NorthWest FL_NoGravity
 name: its1CB
 callback: 
 argument: 
@@ -1124,7 +1124,7 @@ lcol: FL_BLACK
 label: enable
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_NorthWest FL_NoGravity
 name: itsEnable2CB
 callback: 
 argument: 
@@ -1142,7 +1142,7 @@ lcol: FL_BLACK
 label: Option 2
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_NorthWest FL_NoGravity
 name: its2CB
 callback: 
 argument: 
@@ -1160,7 +1160,7 @@ lcol: FL_BLACK
 label: enable
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_NorthWest FL_NoGravity
 name: itsEnable3CB
 callback: 
 argument: 
@@ -1178,7 +1178,7 @@ lcol: FL_BLACK
 label: Option 3
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_NorthWest FL_NoGravity
 name: its3CB
 callback: 
 argument: 
@@ -1197,7 +1197,7 @@ label: Radio group #2:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (rg2Label)
 callback: 
 argument: 
 
@@ -1353,7 +1353,7 @@ label: -5 to 5:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthEast FL_NoGravity
-name: 
+name: (label)
 callback: 
 argument: 
 
@@ -1683,7 +1683,7 @@ label: Elastic compartment:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (elasticLabel)
 callback: 
 argument: 
 
@@ -1965,7 +1965,7 @@ label: Save as:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_SouthWest FL_NoGravity
-name: 
+name: (saveAsLabel)
 callback: 
 argument: 
 
@@ -2001,7 +2001,7 @@ label: GIF
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (gifRB)
 callback: 
 argument: TestChooseSaveFile::kGIFFormat
 
@@ -2019,7 +2019,7 @@ label: JPEG
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (jpegRB)
 callback: 
 argument: TestChooseSaveFile::kJPEGFormat
 
@@ -2037,7 +2037,7 @@ label: PNG
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (pngRB)
 callback: 
 argument: TestChooseSaveFile::kPNGFormat
 
@@ -2247,7 +2247,7 @@ label:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
-name: ]
+name: 
 callback: 
 argument: 
 

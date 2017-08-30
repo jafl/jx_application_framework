@@ -101,11 +101,11 @@ TestFloatTableDirector::BuildWindow()
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 370,10, 30,20);
 	assert( extraInput != NULL );
 
-	JXStaticText* obj1_JXLayout =
-		jnew JXStaticText(JGetString("obj1_JXLayout::TestFloatTableDirector::JXLayout"), window,
+	JXStaticText* label =
+		jnew JXStaticText(JGetString("label::TestFloatTableDirector::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 320,10, 50,20);
-	assert( obj1_JXLayout != NULL );
-	obj1_JXLayout->SetToLabel();
+	assert( label != NULL );
+	label->SetToLabel();
 
 // end JXLayout
 

@@ -94,53 +94,53 @@ JXEditWWWPrefsDialog::BuildWindow
 	assert( okButton != NULL );
 	okButton->SetShortcuts(JGetString("okButton::JXEditWWWPrefsDialog::shortcuts::JXLayout"));
 
-	JXStaticText* obj1_JXLayout =
-		jnew JXStaticText(JGetString("obj1_JXLayout::JXEditWWWPrefsDialog::JXLayout"), window,
+	JXStaticText* urlVarHint =
+		jnew JXStaticText(JGetString("urlVarHint::JXEditWWWPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 250,40, 252,20);
-	assert( obj1_JXLayout != NULL );
-	obj1_JXLayout->SetToLabel();
+	assert( urlVarHint != NULL );
+	urlVarHint->SetToLabel();
 
-	JXStaticText* obj2_JXLayout =
-		jnew JXStaticText(JGetString("obj2_JXLayout::JXEditWWWPrefsDialog::JXLayout"), window,
+	JXStaticText* urlLabel =
+		jnew JXStaticText(JGetString("urlLabel::JXEditWWWPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 230,20);
-	assert( obj2_JXLayout != NULL );
-	obj2_JXLayout->SetToLabel();
+	assert( urlLabel != NULL );
+	urlLabel->SetToLabel();
 
-	JXStaticText* obj3_JXLayout =
-		jnew JXStaticText(JGetString("obj3_JXLayout::JXEditWWWPrefsDialog::JXLayout"), window,
+	JXStaticText* mailLabel =
+		jnew JXStaticText(JGetString("mailLabel::JXEditWWWPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,200, 230,20);
-	assert( obj3_JXLayout != NULL );
-	obj3_JXLayout->SetToLabel();
+	assert( mailLabel != NULL );
+	mailLabel->SetToLabel();
 
-	JXStaticText* obj4_JXLayout =
-		jnew JXStaticText(JGetString("obj4_JXLayout::JXEditWWWPrefsDialog::JXLayout"), window,
+	JXStaticText* mailVarHint =
+		jnew JXStaticText(JGetString("mailVarHint::JXEditWWWPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 250,220, 250,20);
-	assert( obj4_JXLayout != NULL );
-	obj4_JXLayout->SetToLabel();
+	assert( mailVarHint != NULL );
+	mailVarHint->SetToLabel();
 
-	JXStaticText* obj5_JXLayout =
-		jnew JXStaticText(JGetString("obj5_JXLayout::JXEditWWWPrefsDialog::JXLayout"), window,
+	JXStaticText* file1VarHint =
+		jnew JXStaticText(JGetString("file1VarHint::JXEditWWWPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 250,100, 251,20);
-	assert( obj5_JXLayout != NULL );
-	obj5_JXLayout->SetToLabel();
+	assert( file1VarHint != NULL );
+	file1VarHint->SetToLabel();
 
-	JXStaticText* obj6_JXLayout =
-		jnew JXStaticText(JGetString("obj6_JXLayout::JXEditWWWPrefsDialog::JXLayout"), window,
+	JXStaticText* file1Label =
+		jnew JXStaticText(JGetString("file1Label::JXEditWWWPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,80, 230,20);
-	assert( obj6_JXLayout != NULL );
-	obj6_JXLayout->SetToLabel();
+	assert( file1Label != NULL );
+	file1Label->SetToLabel();
 
-	JXStaticText* obj7_JXLayout =
-		jnew JXStaticText(JGetString("obj7_JXLayout::JXEditWWWPrefsDialog::JXLayout"), window,
+	JXStaticText* file2VarHint =
+		jnew JXStaticText(JGetString("file2VarHint::JXEditWWWPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 250,160, 260,20);
-	assert( obj7_JXLayout != NULL );
-	obj7_JXLayout->SetToLabel();
+	assert( file2VarHint != NULL );
+	file2VarHint->SetToLabel();
 
-	JXStaticText* obj8_JXLayout =
-		jnew JXStaticText(JGetString("obj8_JXLayout::JXEditWWWPrefsDialog::JXLayout"), window,
+	JXStaticText* file2Label =
+		jnew JXStaticText(JGetString("file2Label::JXEditWWWPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,140, 230,20);
-	assert( obj8_JXLayout != NULL );
-	obj8_JXLayout->SetToLabel();
+	assert( file2Label != NULL );
+	file2Label->SetToLabel();
 
 // end JXLayout
 

@@ -128,11 +128,11 @@ JXSpellCheckerDialog::BuildWindow()
 	JXWindow* window = jnew JXWindow(this, 530,270, "");
 	assert( window != NULL );
 
-	JXStaticText* obj1_JXLayout =
-		jnew JXStaticText(JGetString("obj1_JXLayout::JXSpellCheckerDialog::JXLayout"), window,
+	JXStaticText* notFoundLabel =
+		jnew JXStaticText(JGetString("notFoundLabel::JXSpellCheckerDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 15,15, 110,20);
-	assert( obj1_JXLayout != NULL );
-	obj1_JXLayout->SetToLabel();
+	assert( notFoundLabel != NULL );
+	notFoundLabel->SetToLabel();
 
 	itsCheckText =
 		jnew JXStaticText(JGetString("itsCheckText::JXSpellCheckerDialog::JXLayout"), window,
@@ -140,17 +140,17 @@ JXSpellCheckerDialog::BuildWindow()
 	assert( itsCheckText != NULL );
 	itsCheckText->SetToLabel();
 
-	JXStaticText* obj2_JXLayout =
-		jnew JXStaticText(JGetString("obj2_JXLayout::JXSpellCheckerDialog::JXLayout"), window,
+	JXStaticText* changeToLabel =
+		jnew JXStaticText(JGetString("changeToLabel::JXSpellCheckerDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 15,48, 90,20);
-	assert( obj2_JXLayout != NULL );
-	obj2_JXLayout->SetToLabel();
+	assert( changeToLabel != NULL );
+	changeToLabel->SetToLabel();
 
-	JXStaticText* obj3_JXLayout =
-		jnew JXStaticText(JGetString("obj3_JXLayout::JXSpellCheckerDialog::JXLayout"), window,
+	JXStaticText* suggestionsLabel =
+		jnew JXStaticText(JGetString("suggestionsLabel::JXSpellCheckerDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 15,78, 90,20);
-	assert( obj3_JXLayout != NULL );
-	obj3_JXLayout->SetToLabel();
+	assert( suggestionsLabel != NULL );
+	suggestionsLabel->SetToLabel();
 
 	itsFirstGuess =
 		jnew JXInputField(window,
