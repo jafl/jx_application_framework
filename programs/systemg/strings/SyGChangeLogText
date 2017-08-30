@@ -12,6 +12,10 @@ Please send all bug reports and suggestions for features to
 <p>
 <hr>
 
+<h3> 2.6.1 </h3>
+
+Automatically removes auto-generated stash when a branch is deleted.
+
 <h3> 2.6 </h3>
 
 Added remote tracking branches to \"Merge from branch\" on Git menu.

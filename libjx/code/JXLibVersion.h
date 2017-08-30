@@ -28,6 +28,11 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //	Fixed JXSelectionManager to send required (broken) data for XA_ATOM (XXXATOM).
 //		*** Replaced GetTextXAtom() with GetUtf8StringXAtom().
 //		*** Removed GetCompoundTextXAtom().
+//	Added HistoryDirection to JXHistoryMenuBase to support menus that are
+//		anchored near the bottom of the screen.
+//	JXContainer:
+//		Added ExpandToFitContent() to adjust layouts to fit translated/resized text.
+//			This is automagically called by JXWindow after it has been constructed.
 //	Implemented ToString() for various widgets.
 //	JXStaticText:
 //		Added option to horizontally center labels.

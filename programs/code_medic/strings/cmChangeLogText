@@ -12,6 +12,10 @@ Please send all bug reports and suggestions for features to
 <p>
 <hr>
 
+<h3> 4.1.1 </h3>
+
+Inverted order of items on Command Line history menu, since the menu is normally at the bottom of the screen.
+
 <h3> 4.1 </h3>
 
 Enabled core file debugging for lldb.

@@ -87,7 +87,7 @@ JXCheckboxListDialog::GetSelectedItems
 			}
 		}
 
-	return JNegate( indexList->IsEmpty() );
+	return ! indexList->IsEmpty();
 }
 
 /******************************************************************************
