@@ -65,9 +65,19 @@ protected:
 
 private:
 
+	enum Elastic
+	{
+		kUnknown,
+		kTrue,
+		kFalse
+	};
+
+private:
+
 	JXContainer*			itsWidget;			// can be NULL
 	JRect					itsFrameG;			// global coords
 	Direction				itsDirection;		// direction of contained cell stack
+	Elastic					itsElasticFlag;
 	JBoolean				itsSyncChildrenFlag;
 	JBoolean				itsSyncHorizontalFlag;
 	JPtrArray<JXFTCCell>*	itsChildren;
@@ -84,7 +94,8 @@ private:
 	void		CoverChildren();
 	JCoordinate	ExpandWidget();
 	void		SyncWidgetPosition();
-	void		SyncWidgetSize();
+	void		SyncSize(const JCoordinate dw, const JCoordinate dh);
+	Elastic		IsElastic();
 
 	JString	Indent(const JSize extra = 0) const;
 

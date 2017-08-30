@@ -11,8 +11,9 @@
  ******************************************************************************/
 
 #include <JXFTCCell.h>
-#include <JXWindow.h>
 #include <JXDisplay.h>
+#include <JXWindow.h>
+#include <JXWidget.h>
 #include <JXDragPainter.h>
 #include <JXDNDManager.h>
 #include <JXColormap.h>
@@ -35,11 +36,14 @@ JXFTCCell::JXFTCCell
 	JXContainer(enc->GetWindow(), enc),
 	itsWidget(matchObj),
 	itsDirection(direction),
+	itsElasticFlag(kUnknown),
 	itsSyncChildrenFlag(kJFalse),
 	itsChildren(NULL),
 	itsChildSpacing(NULL),
 	itsChildPositions(NULL)
 {
+	assert( itsWidget == NULL || itsDirection == kNoDirection );
+
 	if (itsWidget != NULL)
 		{
 		itsFrameG = itsWidget->GetFrameForFTC();
@@ -255,8 +259,6 @@ JXFTCCell::ComputeInvariants
 	const JSize cellCount = itsChildren->GetElementCount();
 	assert( cellCount > 1 );
 
-	// TODO:  check for sizing options, to find elastic column or row
-
 	if (( itsSyncHorizontalFlag && itsDirection == kHorizontal) ||
 		(!itsSyncHorizontalFlag && itsDirection == kVertical))
 		{
@@ -348,11 +350,11 @@ JXFTCCell::EnforceSpacing()
 {
 	if (theDebugFTCFlag)
 		{
-		std::cout << Indent(+1) << "--- Enforcing spacing:";
+		std::cout << Indent(+1) << "--- Enforcing spacing:" << std::endl;
 
 		for (JIndex i=1; i<=itsChildSpacing->GetElementCount(); i++)
 			{
-			std::cout << ' ' << itsChildSpacing->GetElement(i);
+			std::cout << Indent(+2) << itsChildSpacing->GetElement(i) << ' ' << itsChildren->NthElement(i)->ToString() << std::endl;
 			}
 		std::cout << std::endl;
 		}
@@ -374,7 +376,7 @@ JXFTCCell::EnforceSpacing()
 
 		if (theDebugFTCFlag)
 			{
-			std::cout << Indent() << "--- Adjusting gap from " << gap << " -> " << orig << std::endl;
+			std::cout << Indent(+1) << "--- Adjusting gap from " << gap << " -> " << orig << std::endl;
 			}
 
 		for (JIndex j=i; j<=cellCount; j++)
@@ -395,11 +397,11 @@ JXFTCCell::EnforcePositions()
 {
 	if (theDebugFTCFlag)
 		{
-		std::cout << Indent(+1) << "--- Enforcing positions:";
+		std::cout << Indent(+1) << "--- Enforcing positions:" << std::endl;
 
 		for (JIndex i=1; i<=itsChildPositions->GetElementCount(); i++)
 			{
-			std::cout << ' ' << itsChildPositions->GetElement(i);
+			std::cout << Indent(+2) << itsChildPositions->GetElement(i) << ' ' << itsChildren->NthElement(i)->ToString() << std::endl;
 			}
 		std::cout << std::endl;
 		}
@@ -522,68 +524,6 @@ JXFTCCell::ExpandWidget()
 		}
 
 	return (itsSyncHorizontalFlag ? itsFrameG.width() : itsFrameG.height());
-}
-
-/******************************************************************************
- SyncWidgetPosition (private)
-
-	Synchronize widgets to new cell positions.
-
- ******************************************************************************/
-
-void
-JXFTCCell::SyncWidgetPosition()
-{
-	if (itsWidget != NULL)
-		{
-		const JRect r        = itsWidget->GetFrameForFTC();
-		const JCoordinate dx = itsFrameG.left - r.left,
-						  dy = itsFrameG.top - r.top;
-
-		if (theDebugFTCFlag && (dx != 0 || dy != 0))
-			{
-			std::cout << Indent() << "Moving widget: " << itsWidget->ToString() << std::endl;
-			std::cout << Indent(+1);
-			if (dx != 0) std::cout << "dx=" << dx;
-			if (dy != 0) std::cout << "dy=" << dy;
-			std::cout << std::endl;
-			}
-
-		itsWidget->Move(dx, dy);
-		}
-}
-
-/******************************************************************************
- SyncWidgetSize (private)
-
-	Synchronize sizes of contained objects.
-
- ******************************************************************************/
-
-void
-JXFTCCell::SyncWidgetSize()
-{
-	if (itsWidget != NULL)
-		{
-		const JRect r = itsWidget->GetFrameForFTC();
-		const JCoordinate dw = itsFrameG.width() - r.width(),
-						  dh = itsFrameG.height() - r.height();
-
-		if (theDebugFTCFlag && (dw != 0 || dh != 0))
-			{
-			std::cout << Indent() << "Resizing widget: " << itsWidget->ToString() << std::endl;
-			std::cout << Indent(+1);
-			if (dw != 0) std::cout << "dw=" << dw;
-			if (dh != 0) std::cout << "dh=" << dh;
-			std::cout << std::endl;
-			}
-
-		itsWidget->AdjustSize(dw, dh);
-		}
-	else
-		{
-		EnforcePositions();
-		}
 }
 
 /******************************************************************************
@@ -760,6 +700,35 @@ JXFTCCell::Move
 }
 
 /******************************************************************************
+ SyncWidgetPosition (private)
+
+	Synchronize widget to new cell position.
+
+ ******************************************************************************/
+
+void
+JXFTCCell::SyncWidgetPosition()
+{
+	if (itsWidget != NULL)
+		{
+		const JRect r        = itsWidget->GetFrameForFTC();
+		const JCoordinate dx = itsFrameG.left - r.left,
+						  dy = itsFrameG.top - r.top;
+
+		if (theDebugFTCFlag && (dx != 0 || dy != 0))
+			{
+			std::cout << Indent() << "Moving widget: " << itsWidget->ToString() << std::endl;
+			std::cout << Indent(+1);
+			if (dx != 0) std::cout << "dx=" << dx;
+			if (dy != 0) std::cout << "dy=" << dy;
+			std::cout << std::endl;
+			}
+
+		itsWidget->Move(dx, dy);
+		}
+}
+
+/******************************************************************************
  SetSize (virtual)
 
  ******************************************************************************/
@@ -797,11 +766,113 @@ JXFTCCell::AdjustSize
 
 		if (itsSyncChildrenFlag)
 			{
-			SyncWidgetSize();
+			SyncSize(dw, dh);
 			}
 
 		Refresh();		// refresh new size
 		}
+}
+
+/******************************************************************************
+ SyncSize (private)
+
+	Synchronize sizes of contained objects.
+
+ ******************************************************************************/
+
+void
+JXFTCCell::SyncSize
+	(
+	const JCoordinate dw,
+	const JCoordinate dh
+	)
+{
+	if (itsWidget != NULL)
+		{
+		const JRect r = itsWidget->GetFrameForFTC();
+		const JCoordinate dw = itsFrameG.width() - r.width(),
+						  dh = itsFrameG.height() - r.height();
+
+		if (theDebugFTCFlag && (dw != 0 || dh != 0))
+			{
+			std::cout << Indent() << "Resizing widget: " << itsWidget->ToString() << std::endl;
+			std::cout << Indent(+1);
+			if (dw != 0) std::cout << "dw=" << dw;
+			if (dh != 0) std::cout << "dh=" << dh;
+			std::cout << std::endl;
+			}
+
+		itsWidget->AdjustSize(dw, dh);
+		return;
+		}
+
+	// if expanding in the same direction as the cell stack, check for elastic cell
+
+	if ((dw != 0 && itsDirection == kHorizontal) ||
+		(dh != 0 && itsDirection == kVertical))
+		{
+		const JSize cellCount = itsChildren->GetElementCount();
+		for (JIndex i=1; i<=cellCount; i++)
+			{
+			JXFTCCell* child = itsChildren->GetElement(i);
+			if (child->IsElastic() == kTrue)
+				{
+				if (theDebugFTCFlag)
+					{
+					std::cout << Indent(+1) << "Found elastic widget: " << child->ToString() << std::endl;
+					}
+
+				child->AdjustSize(dw, dh);
+				EnforceSpacing();
+				return;
+				}
+			}
+		}
+
+	EnforcePositions();
+}
+
+/******************************************************************************
+ IsElastic (private)
+
+ ******************************************************************************/
+
+JXFTCCell::Elastic
+JXFTCCell::IsElastic()
+{
+	if (itsElasticFlag != kUnknown)
+		{
+		return itsElasticFlag;
+		}
+
+	itsElasticFlag = kFalse;
+
+	if (itsWidget != NULL)
+		{
+		// check for sizing option
+
+		JXWidget* widget = dynamic_cast<JXWidget*>(itsWidget);
+		if (widget != NULL &&
+			(( itsSyncHorizontalFlag && widget->GetHSizing() == JXWidget::kHElastic) ||
+			 (!itsSyncHorizontalFlag && widget->GetVSizing() == JXWidget::kVElastic)))
+			{
+			itsElasticFlag = kTrue;
+			}
+		}
+	else
+		{
+		const JSize cellCount = itsChildren->GetElementCount();
+		for (JIndex i=1; i<=cellCount; i++)
+			{
+			if (itsChildren->GetElement(i)->IsElastic() == kTrue)
+				{
+				itsElasticFlag = kTrue;
+				break;
+				}
+			}
+		}
+
+	return itsElasticFlag;
 }
 
 /******************************************************************************
