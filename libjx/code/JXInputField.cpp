@@ -742,3 +742,27 @@ JXInputField::HandleContextMenu
 #undef MenuVar
 #undef CmdCount
 #undef CmdIDList
+
+/******************************************************************************
+ GetFTCMinContentSize (virtual protected)
+
+ ******************************************************************************/
+
+JCoordinate
+JXInputField::GetFTCMinContentSize
+	(
+	const JBoolean horizontal
+	)
+	const
+{
+	if (!horizontal)
+		{
+		const JSize lineHeight = GetLineHeight(1);
+		if (GetApertureHeight() < lineHeight)
+			{
+			return lineHeight;
+			}
+		}
+
+	return JXTEBase::GetFTCMinContentSize(horizontal);
+}

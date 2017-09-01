@@ -79,6 +79,8 @@ protected:
 	virtual JBoolean	NeedsToFilterText(const JCharacter* text) const;
 	virtual JBoolean	FilterText(JString* text, JRunArray<JFont>* style);
 
+	virtual JCoordinate	GetFTCMinContentSize(const JBoolean horizontal) const;
+
 	virtual void	Receive(JBroadcaster* sender, const Message& message);
 
 private:
