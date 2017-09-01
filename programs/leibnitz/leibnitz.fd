@@ -200,7 +200,7 @@ label: JXExprEditorSet(varList, &itsExprWidget,
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
-name: 
+name: (exprEditorSet)
 callback: 
 argument: 
 
@@ -254,7 +254,7 @@ label: Curve name:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_SouthWest FL_NoGravity
-name: 
+name: (curveLabel)
 callback: 
 argument: 
 
@@ -290,7 +290,7 @@ label: Initial range:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_SouthWest FL_NoGravity
-name: 
+name: (rangeLabel)
 callback: 
 argument: 
 
@@ -326,7 +326,7 @@ label: to
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_SouthWest FL_NoGravity
-name: 
+name: (toLabel)
 callback: 
 argument: 
 
@@ -998,7 +998,7 @@ label: Base 10:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (base10Label)
 callback: 
 argument: 
 
@@ -1052,7 +1052,7 @@ label: Base 2:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (base2Label)
 callback: 
 argument: 
 
@@ -1088,7 +1088,7 @@ label: Base 8:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (base8Label)
 callback: 
 argument: 
 
@@ -1124,7 +1124,7 @@ label: Base 16:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (base16Label)
 callback: 
 argument: 
 

@@ -423,7 +423,7 @@ label:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_SouthWest FL_NoGravity
-name: 
+name: (lineBorder)
 callback: 
 argument: 
 
@@ -477,7 +477,7 @@ label:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_SouthWest FL_NoGravity
-name: 
+name: (colBorder)
 callback: 
 argument: 
 
@@ -717,7 +717,7 @@ label: Spaces per tab:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
-name: 
+name: (spacesPerTabLabel)
 callback: 
 argument: 
 
@@ -807,7 +807,7 @@ label: Undo depth:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
-name: 
+name: (undoDepthLabel)
 callback: 
 argument: 
 
@@ -951,7 +951,7 @@ label: Clean paragraph margins line width:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
-name: 
+name: (cpmLabel)
 callback: 
 argument: 
 
@@ -1005,7 +1005,7 @@ label: Ctrl + Meta
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
-name: 
+name: (ctrlMetaLabel)
 callback: 
 argument: JXTEBase::kCtrlMetaPWMod
 
@@ -1023,7 +1023,7 @@ label: Mod2
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
-name: 
+name: (mod2Label)
 callback: 
 argument: JXTEBase::kMod2PWMod
 
@@ -1041,7 +1041,7 @@ label: Mod3
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
-name: 
+name: (mod3Label)
 callback: 
 argument: JXTEBase::kMod3PWMod
 
@@ -1059,7 +1059,7 @@ label: Mod4
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
-name: 
+name: (mod4Label)
 callback: 
 argument: JXTEBase::kMod4PWMod
 
@@ -1077,7 +1077,7 @@ label: Mod5
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
-name: 
+name: (mod5Label)
 callback: 
 argument: JXTEBase::kMod5PWMod
 
@@ -1095,7 +1095,7 @@ label: Modifier to move by partial word:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
-name: 
+name: (partialWordTitle)
 callback: 
 argument: 
 
@@ -1167,7 +1167,7 @@ label: Change color:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
-name: 
+name: (changeColorLabel)
 callback: 
 argument: 
 
@@ -1275,7 +1275,7 @@ label: Color sets:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
-name: 
+name: (colorSetsLabel)
 callback: 
 argument: 
 
@@ -1473,7 +1473,7 @@ label: Word wrapping is controlled in the File Types dialog.
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
-name: 
+name: (wordWrapHint)
 callback: 
 argument: 
 
@@ -1533,7 +1533,7 @@ label: Replace with:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (replaceLabel)
 callback: 
 argument: 
 
@@ -1551,7 +1551,7 @@ label: Search for:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (searchLabel)
 callback: 
 argument: 
 
@@ -1875,7 +1875,7 @@ label: Find
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthEast FL_NoGravity
-name: 
+name: (findLabel)
 callback: 
 argument: 
 
@@ -1929,7 +1929,7 @@ label: Replace & Find
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthEast FL_NoGravity
-name: 
+name: (replaceFindLabel)
 callback: 
 argument: 
 
@@ -1983,7 +1983,7 @@ label: Replace all
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthEast FL_NoGravity
-name: 
+name: (replaceAllLabel)
 callback: 
 argument: 
 
@@ -2145,7 +2145,7 @@ label: Wildcard filter:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (filterLabel)
 callback: 
 argument: 
 
@@ -2517,7 +2517,7 @@ label: Name of file:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (nameLabel)
 callback: 
 argument: 
 
@@ -2667,7 +2667,7 @@ label: Function name:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (nameLabel)
 callback: 
 argument: 
 
@@ -2685,7 +2685,7 @@ label: Section index:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (sectionLabel)
 callback: 
 argument: 
 
@@ -2817,7 +2817,7 @@ label: Warn before:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (warnTitle)
 callback: 
 argument: 
 
@@ -2925,7 +2925,7 @@ label: When run with no arguments:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (noArgsTitle)
 callback: 
 argument: 
 
@@ -3015,7 +3015,7 @@ label: (first time only)
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (firstTimeHint)
 callback: 
 argument: 
 
@@ -3087,7 +3087,7 @@ label: (You must restart the program after changing this setting.)
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
-name: 
+name: (restartHint)
 callback: 
 argument: 
 
@@ -3255,7 +3255,7 @@ label: (use $f in place of file name, $l in place of line number)
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
-name: 
+name: (editTextHint)
 callback: 
 argument: 
 
@@ -3273,7 +3273,7 @@ label: Shell cmd to edit text file:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
-name: 
+name: (editTextLabel)
 callback: 
 argument: 
 
@@ -3291,7 +3291,7 @@ label: Shell cmd to edit line of file:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
-name: 
+name: (editLineLabel)
 callback: 
 argument: 
 
@@ -3345,7 +3345,7 @@ label: (use $f in place of file name)
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
-name: 
+name: (editBinaryHint)
 callback: 
 argument: 
 
@@ -3363,7 +3363,7 @@ label: Shell cmd to edit binary file:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
-name: 
+name: (editBinaryLabel)
 callback: 
 argument: 
 
@@ -3531,7 +3531,7 @@ label: Draw MI links:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (miLinksLabel)
 callback: 
 argument: 
 
@@ -3549,7 +3549,7 @@ label: Above classes
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (aboveLabel)
 callback: 
 argument: 1
 
@@ -3567,7 +3567,7 @@ label: Below classes
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (belowLabel)
 callback: 
 argument: 2
 
@@ -4899,7 +4899,7 @@ label: Enter the command to process the selected text (if any):
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_North FL_NoGravity
-name: 
+name: (cmdLabel)
 callback: 
 argument: 
 
@@ -5541,7 +5541,7 @@ label: Destination:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
-name: 
+name: (destinationLabel)
 callback: 
 argument: 
 
@@ -5577,7 +5577,7 @@ label: Printer
 shortcut: #P
 resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
-name: 
+name: (printerRB)
 callback: 
 argument: 1
 
@@ -5595,7 +5595,7 @@ label: File
 shortcut: #F
 resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
-name: 
+name: (fileRB)
 callback: 
 argument: 2
 
@@ -5757,7 +5757,7 @@ label: Number of copies:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
-name: 
+name: (copiesLabel)
 callback: 
 argument: 
 
@@ -5889,7 +5889,7 @@ label: Destination:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
-name: 
+name: (destinationLabel)
 callback: 
 argument: 
 
@@ -5925,7 +5925,7 @@ label: Printer
 shortcut: #P
 resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
-name: 
+name: (printerRB)
 callback: 
 argument: 1
 
@@ -5943,7 +5943,7 @@ label: File
 shortcut: #F
 resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
-name: 
+name: (fileRB)
 callback: 
 argument: 2
 
@@ -6123,7 +6123,7 @@ label: Number of copies:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
-name: 
+name: (copiesLabel)
 callback: 
 argument: 
 
@@ -6621,7 +6621,7 @@ label: Absolute path
 shortcut: 
 resize: FL_RESIZE_NONE
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (absolutePathRB)
 callback: 
 argument: CBRelPathCSF::kAbsolutePath
 
@@ -6639,7 +6639,7 @@ label: Relative to project file
 shortcut: 
 resize: FL_RESIZE_NONE
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (projectRelativeRB)
 callback: 
 argument: CBRelPathCSF::kProjectRelative
 
@@ -7023,7 +7023,7 @@ label: Absolute path
 shortcut: 
 resize: FL_RESIZE_NONE
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (absolutePathRB)
 callback: 
 argument: CBRelPathCSF::kAbsolutePath
 
@@ -7041,7 +7041,7 @@ label: Relative to project file
 shortcut: 
 resize: FL_RESIZE_NONE
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (projectRelativeRB)
 callback: 
 argument: CBRelPathCSF::kProjectRelative
 
@@ -7209,7 +7209,7 @@ label: Target name:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (targetNameLabel)
 callback: 
 argument: 
 
@@ -7227,7 +7227,7 @@ label: Use makemake to build the Makefile
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (makemakeLabel)
 callback: 
 argument: CBBuildManager::kMakemake
 
@@ -7263,7 +7263,7 @@ label: Expression to append to list of dependencies:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (dependenciesLabel)
 callback: 
 argument: 
 
@@ -7281,7 +7281,7 @@ label: Use qmake to build the Makefile
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (gmakeLabel)
 callback: 
 argument: CBBuildManager::kQMake
 
@@ -7299,7 +7299,7 @@ label: Maintain the build file(s) manually
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (manualLabel)
 callback: 
 argument: CBBuildManager::kManual
 
@@ -7335,7 +7335,7 @@ label: Command to update this project's Makefile:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (updateMakefileLabel)
 callback: 
 argument: 
 
@@ -7371,7 +7371,7 @@ label: Command to build this project when used by other projects:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (subprojLabel)
 callback: 
 argument: 
 
@@ -7425,7 +7425,7 @@ label: Use CMake to build the Makefile
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (cmakeLabel)
 callback: 
 argument: CBBuildManager::kCMake
 
@@ -7557,7 +7557,7 @@ label: Absolute path
 shortcut: 
 resize: FL_RESIZE_NONE
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (absolutePathRB)
 callback: 
 argument: CBProjectTable::kAbsolutePath
 
@@ -7575,7 +7575,7 @@ label: Relative to project file
 shortcut: 
 resize: FL_RESIZE_NONE
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (projectRelativeLabel)
 callback: 
 argument: CBProjectTable::kProjectRelative
 
@@ -7593,7 +7593,7 @@ label: Relative to home directory
 shortcut: 
 resize: FL_RESIZE_NONE
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (homeDirLabel)
 callback: 
 argument: CBProjectTable::kHomeRelative
 
@@ -7611,7 +7611,7 @@ label: Path type to use when adding files via Drag-And-Drop:
 shortcut: 
 resize: FL_RESIZE_NONE
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (dndPathLabel)
 callback: 
 argument: 
 
@@ -7629,7 +7629,7 @@ label: Ask when files are dropped
 shortcut: 
 resize: FL_RESIZE_NONE
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (dndAskLabel)
 callback: 
 argument: CBProjectTable::kAskPathType
 
@@ -7743,7 +7743,7 @@ label: Project file:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
-name: 
+name: (fileLabel)
 callback: 
 argument: 
 
@@ -8343,7 +8343,7 @@ label: Generate the Makefile:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_SouthWest FL_NoGravity
-name: 
+name: (makefileTitle)
 callback: 
 argument: 
 
@@ -8379,7 +8379,7 @@ label: manually
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (manualRB)
 callback: 
 argument: CBBuildManager::kManual
 
@@ -8415,7 +8415,7 @@ label: via makemake
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (makemakeRB)
 callback: 
 argument: CBBuildManager::kMakemake
 
@@ -8865,7 +8865,7 @@ label: Tasks that can be used with any project:
 shortcut: 
 resize: FL_RESIZE_NONE
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (anyProjectTitle)
 callback: 
 argument: 
 
@@ -9015,7 +9015,7 @@ label: Command to update this project's Makefile:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (updateMakefileLabel)
 callback: 
 argument: 
 
@@ -9291,7 +9291,7 @@ label: Command to execute:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (cmdLabel)
 callback: 
 argument: 
 
@@ -9309,7 +9309,7 @@ label: Directory in which to perform task:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (pathLabel)
 callback: 
 argument: 
 
@@ -9531,7 +9531,7 @@ label: Spaces per tab:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
-name: 
+name: (tabWidthLabel)
 callback: 
 argument: 
 
@@ -9573,7 +9573,7 @@ label: 1:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (file1Label)
 callback: 
 argument: 
 
@@ -9663,7 +9663,7 @@ label: 2:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (file2Label)
 callback: 
 argument: 
 

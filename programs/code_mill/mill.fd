@@ -44,7 +44,7 @@ label: Header comment ( allowed variables are $class and $copyright ):
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (headerCommentLabel)
 callback: 
 argument: 
 
@@ -80,7 +80,7 @@ label: Source comment ( allowed variables are $class, $base  and $copyright ):
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (sourceCommentLabel)
 callback: 
 argument: 
 
@@ -116,7 +116,7 @@ label: Constructor comment:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (ctorCommentLabel)
 callback: 
 argument: 
 
@@ -152,7 +152,7 @@ label: Destructor comment:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (dtorCommentLabel)
 callback: 
 argument: 
 
@@ -188,7 +188,7 @@ label: Function comment ( allowed variables are $function and $access ):
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (fnCommentLabel)
 callback: 
 argument: 
 
@@ -434,7 +434,7 @@ label: Class name:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (classNameLabel)
 callback: 
 argument: 
 
@@ -452,7 +452,7 @@ label: Output directory:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (directoryLabel)
 callback: 
 argument: 
 
@@ -578,7 +578,7 @@ label: Derived from:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (derivedLabel)
 callback: 
 argument: 
 
@@ -614,7 +614,7 @@ label: Author:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_SouthWest FL_NoGravity
-name: 
+name: (authorLabel)
 callback: 
 argument: 
 
@@ -668,7 +668,7 @@ label: Copyright:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_SouthWest FL_NoGravity
-name: 
+name: (copyrightLabel)
 callback: 
 argument: 
 

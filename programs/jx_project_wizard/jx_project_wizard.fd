@@ -98,7 +98,7 @@ label: Program name:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (nameLabel)
 callback: 
 argument: 
 
@@ -116,7 +116,7 @@ label: Program version:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (versionLabel)
 callback: 
 argument: 
 
@@ -170,7 +170,7 @@ label: Author name:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (authorLabel)
 callback: 
 argument: 
 
@@ -206,7 +206,7 @@ label: Email address:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (emailLabel)
 callback: 
 argument: 
 
@@ -242,7 +242,7 @@ label: Web site URL:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (urlLabel)
 callback: 
 argument: 
 
@@ -260,7 +260,7 @@ label: Source file prefix:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (srcPrefixLabel)
 callback: 
 argument: 
 
@@ -296,7 +296,7 @@ label: Project directory:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (directoryLabel)
 callback: 
 argument: 
 
@@ -332,7 +332,7 @@ label: Template directory:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (templateLabel)
 callback: 
 argument: 
 
@@ -368,7 +368,7 @@ label: Binary name:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (programNameLabel)
 callback: 
 argument: 
 
@@ -386,7 +386,7 @@ label: Company name:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (companyLabel)
 callback: 
 argument: 
 
@@ -530,7 +530,7 @@ label: Open command:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (openCmdLabel)
 callback: 
 argument: 
 

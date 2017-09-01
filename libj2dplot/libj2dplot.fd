@@ -188,7 +188,7 @@ label: Width:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (widthLabel)
 callback: 
 argument: 
 
@@ -206,7 +206,7 @@ label: Height:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (heightLabel)
 callback: 
 argument: 
 
@@ -338,7 +338,7 @@ label: X Range:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (xRangeLabel)
 callback: 
 argument: 
 
@@ -356,7 +356,7 @@ label: to
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (xToLabel)
 callback: 
 argument: 
 
@@ -446,7 +446,7 @@ label: Y Range:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (yRangeLabel)
 callback: 
 argument: 
 
@@ -464,7 +464,7 @@ label: to
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (yToLabel)
 callback: 
 argument: 
 
@@ -554,7 +554,7 @@ label: Linear
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (xLinearRB)
 callback: 
 argument: kLinear
 
@@ -572,7 +572,7 @@ label: Logarithmic
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (xLogRB)
 callback: 
 argument: kLog
 
@@ -608,7 +608,7 @@ label: Linear
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (yLinearRB)
 callback: 
 argument: kLinear
 
@@ -626,7 +626,7 @@ label: Logarithmic
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (yLogRB)
 callback: 
 argument: kLog
 
@@ -722,7 +722,7 @@ label: X Range:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (xRangeLabel)
 callback: 
 argument: 
 
@@ -740,7 +740,7 @@ label: to
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (xToLabel)
 callback: 
 argument: 
 
@@ -794,7 +794,7 @@ label: Y Range:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (yRangeLabel)
 callback: 
 argument: 
 
@@ -812,7 +812,7 @@ label: to
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (yToLabel)
 callback: 
 argument: 
 
@@ -944,7 +944,7 @@ label: Plot Title:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (titleLabel)
 callback: 
 argument: 
 
@@ -980,7 +980,7 @@ label: X Axis Label:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (xAxisLabel)
 callback: 
 argument: 
 
@@ -1016,7 +1016,7 @@ label: Y Axis Label:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (yAxisLabel)
 callback: 
 argument: 
 
