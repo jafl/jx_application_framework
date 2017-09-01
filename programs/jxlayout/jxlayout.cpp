@@ -2083,6 +2083,8 @@ PrintHelp
 	std::cout << "--choose    interactively choose the forms to generate" << std::endl;
 	std::cout << "--post-cmd  <cmd> - command to exec after all files have been modified" << std::endl;
 	std::cout << std::endl;
+	std::cout << "--require-obj-names  Fail if any object is missing a name" << std::endl;
+	std::cout << std::endl;
 }
 
 /******************************************************************************

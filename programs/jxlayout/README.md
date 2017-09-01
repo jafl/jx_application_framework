@@ -52,6 +52,10 @@ instead of at class scope in the header file.  If one needs to use a local
 variable that has already been declared, one can enclose the name in
 brackets.  This is primarily useful for arrays (e.g. `<radioButton[2]>`).
 
+Note that unnamed objects can prevent stable translation, since the keys
+may change when the layout changes.  Use `--require-obj-names` to disallow
+unnamed objects.
+
 `class_map` defines how objects that `fdesign` understands map to JX
 classes.  Classes that are not listed in this file and custom classes
 derived directly from `JXWidget` can be included in the `.fd` file by
@@ -89,6 +93,10 @@ RadioButtons, but it can also be used to pass initial arguments to any
 other constructor.
 
 Changes from previous versions
+
+4.2.0
+
+Added --require-obj-names to support translation.
 
 4.1.0
 
