@@ -30,12 +30,14 @@ JXFTCCell::JXFTCCell
 	(
 	JXContainer*	matchObj,
 	JXContainer*	enc,
-	const Direction	direction
+	const Direction	direction,
+	const JBoolean	exact
 	)
 	:
 	JXContainer(enc->GetWindow(), enc),
 	itsWidget(matchObj),
 	itsDirection(direction),
+	itsIsExactFlag(exact),
 	itsElasticFlag(kUnknown),
 	itsSyncChildrenFlag(kJFalse),
 	itsChildren(NULL),
@@ -57,7 +59,7 @@ JXFTCCell::JXFTCCell
 
 	if (theDebugFTCFlag)
 		{
-		std::cout << "Creating " << ToString() << std::endl;
+		GetFTCLog() << "Creating " << ToString() << std::endl;
 		}
 }
 
@@ -70,7 +72,7 @@ JXFTCCell::~JXFTCCell()
 {
 	if (theDebugFTCFlag)
 		{
-		std::cout << "Deleting " << ToString() << std::endl;
+		GetFTCLog() << "Deleting " << ToString() << std::endl;
 		}
 
 	JXWindow* window = GetWindow();
@@ -98,7 +100,9 @@ JXFTCCell::ToString()
 	s << (itsDirection == kHorizontal ? " (horiz)" : itsDirection == kVertical ? " (vert)" : "");
 	if (itsWidget != NULL)
 		{
-		s << " (" << itsWidget->ToString() << ")";
+		s << " (";
+		itsWidget->ToString().Print(s);
+		s << ")";
 		}
 	return JString(s.str());
 }
@@ -175,12 +179,12 @@ JXFTCCell::Expand
 
 	if (theDebugFTCFlag && GetEnclosure() == GetWindow())
 		{
-		std::cout << "----------" << std::endl;
-		std::cout << "ExpandLayout (" << (horizontal ? "horiz" : "vert") << "):" << std::endl;
+		GetFTCLog() << "----------" << std::endl;
+		GetFTCLog() << "ExpandLayout (" << (horizontal ? "horiz" : "vert") << "):" << std::endl;
 		}
 	else if (theDebugFTCFlag)
 		{
-		std::cout << Indent() << "Checking cell " << ToString() << std::endl;
+		GetFTCLog() << Indent() << "Checking cell " << ToString() << std::endl;
 		}
 
 	BuildChildList();
@@ -332,7 +336,7 @@ JXFTCCell::ComputeInvariants
 
 			if (theDebugFTCFlag)
 				{
-				std::cout << Indent() << "padding: " << itsPadding << std::endl;
+				GetFTCLog() << Indent() << "padding: " << itsPadding << std::endl;
 				}
 			}
 
@@ -350,13 +354,13 @@ JXFTCCell::EnforceSpacing()
 {
 	if (theDebugFTCFlag)
 		{
-		std::cout << Indent(+1) << "--- Enforcing spacing:" << std::endl;
+		GetFTCLog() << Indent(+1) << "--- Enforcing spacing:" << std::endl;
 
 		for (JIndex i=1; i<=itsChildSpacing->GetElementCount(); i++)
 			{
-			std::cout << Indent(+2) << itsChildSpacing->GetElement(i) << ' ' << itsChildren->NthElement(i)->ToString() << std::endl;
+			GetFTCLog() << Indent(+2) << itsChildSpacing->GetElement(i) << ' ' << itsChildren->NthElement(i)->ToString() << std::endl;
 			}
-		std::cout << std::endl;
+		GetFTCLog() << std::endl;
 		}
 
 	const JSize cellCount = itsChildren->GetElementCount();
@@ -376,7 +380,7 @@ JXFTCCell::EnforceSpacing()
 
 		if (theDebugFTCFlag)
 			{
-			std::cout << Indent(+1) << "--- Adjusting gap from " << gap << " -> " << orig << std::endl;
+			GetFTCLog() << Indent(+1) << "--- Adjusting gap from " << gap << " -> " << orig << std::endl;
 			}
 
 		for (JIndex j=i; j<=cellCount; j++)
@@ -397,13 +401,13 @@ JXFTCCell::EnforcePositions()
 {
 	if (theDebugFTCFlag)
 		{
-		std::cout << Indent(+1) << "--- Enforcing positions:" << std::endl;
+		GetFTCLog() << Indent(+1) << "--- Enforcing positions:" << std::endl;
 
 		for (JIndex i=1; i<=itsChildPositions->GetElementCount(); i++)
 			{
-			std::cout << Indent(+2) << itsChildPositions->GetElement(i) << ' ' << itsChildren->NthElement(i)->ToString() << std::endl;
+			GetFTCLog() << Indent(+2) << itsChildPositions->GetElement(i) << ' ' << itsChildren->NthElement(i)->ToString() << std::endl;
 			}
-		std::cout << std::endl;
+		GetFTCLog() << std::endl;
 		}
 
 	const JSize cellCount = itsChildren->GetElementCount();
@@ -485,7 +489,7 @@ JXFTCCell::ExpandWidget()
 		{
 		if (theDebugFTCFlag)
 			{
-			std::cout << "=== Processing internal structure for " << itsWidget->ToString() << std::endl;
+			GetFTCLog() << "=== Processing internal structure for " << itsWidget->ToString() << std::endl;
 			}
 
 		JXFTCCell* root = itsWidget->FTCBuildLayout(itsSyncHorizontalFlag);
@@ -504,7 +508,7 @@ JXFTCCell::ExpandWidget()
 
 			if (theDebugFTCFlag)
 				{
-				std::cout << "=== Finished processing internal structure" << std::endl;
+				GetFTCLog() << "=== Finished processing internal structure" << std::endl;
 				}
 
 			jdelete root;
@@ -717,11 +721,11 @@ JXFTCCell::SyncWidgetPosition()
 
 		if (theDebugFTCFlag && (dx != 0 || dy != 0))
 			{
-			std::cout << Indent() << "Moving widget: " << itsWidget->ToString() << std::endl;
-			std::cout << Indent(+1);
-			if (dx != 0) std::cout << "dx=" << dx;
-			if (dy != 0) std::cout << "dy=" << dy;
-			std::cout << std::endl;
+			GetFTCLog() << Indent() << "Moving widget: " << itsWidget->ToString() << std::endl;
+			GetFTCLog() << Indent(+1);
+			if (dx != 0) GetFTCLog() << "dx=" << dx;
+			if (dy != 0) GetFTCLog() << "dy=" << dy;
+			GetFTCLog() << std::endl;
 			}
 
 		itsWidget->Move(dx, dy);
@@ -795,11 +799,11 @@ JXFTCCell::SyncSize
 
 		if (theDebugFTCFlag && (dw != 0 || dh != 0))
 			{
-			std::cout << Indent() << "Resizing widget: " << itsWidget->ToString() << std::endl;
-			std::cout << Indent(+1);
-			if (dw != 0) std::cout << "dw=" << dw;
-			if (dh != 0) std::cout << "dh=" << dh;
-			std::cout << std::endl;
+			GetFTCLog() << Indent() << "Resizing widget: " << itsWidget->ToString() << std::endl;
+			GetFTCLog() << Indent(+1);
+			if (dw != 0) GetFTCLog() << "dw=" << dw;
+			if (dh != 0) GetFTCLog() << "dh=" << dh;
+			GetFTCLog() << std::endl;
 			}
 
 		itsWidget->AdjustSize(dw, dh);
@@ -819,7 +823,7 @@ JXFTCCell::SyncSize
 				{
 				if (theDebugFTCFlag)
 					{
-					std::cout << Indent(+1) << "Found elastic widget: " << child->ToString() << std::endl;
+					GetFTCLog() << Indent(+1) << "Found elastic widget: " << child->ToString() << std::endl;
 					}
 
 				child->AdjustSize(dw, dh);

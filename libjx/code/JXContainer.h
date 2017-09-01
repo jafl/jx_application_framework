@@ -219,6 +219,10 @@ protected:
 	void	ActivateCursor(const JPoint& ptG, const JXKeyModifiers& modifiers);
 	void	DeactivateCursor();
 
+	// FTC
+
+	std::ostream&	GetFTCLog() const;
+
 private:
 
 	JXWindow*				itsWindow;
@@ -257,9 +261,10 @@ private:
 
 	// FTC
 
-	static JBoolean theDebugFTCFlag;
-	static JBoolean	theDebugHorizFTCFlag;
-	static JBoolean	theDebugVertFTCFlag;
+	static JBoolean			theDebugFTCFlag;
+	static JBoolean			theDebugHorizFTCFlag;
+	static JBoolean			theDebugVertFTCFlag;
+	static std::ostream*	theDebugFTCLogBuffer;
 
 private:
 
@@ -605,6 +610,18 @@ JXContainer::GetCursorAnimator()
 	const
 {
 	return itsCursorAnim;
+}
+
+/******************************************************************************
+ GetFTCLog (protected)
+
+ ******************************************************************************/
+
+inline std::ostream&
+JXContainer::GetFTCLog()
+	const
+{
+	return (theDebugFTCLogBuffer != NULL ? *theDebugFTCLogBuffer : std::cout);
 }
 
 #endif
