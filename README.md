@@ -129,9 +129,9 @@ General problems
 
 ### Can I get a pre-compiled version of JX?
 
-No.  We gave up trying to distribute binaries a long time ago.  Everybody
-has a different version of the compiler and/or the required system
-libraries, so it causes more problems than it solves.
+Sorry, no.  We gave up trying to distribute binaries a long time ago.
+Everybody has a different version of the compiler and/or the required
+system libraries, so it causes more problems than it solves.
 
 
 ### How do I set environment variables?
@@ -222,3 +222,10 @@ Run `make J_WANT_INSTALL=0 *target*`
 
 No.  **JX** uses only the elementary functionality provided by **ACE**, and
 since this is very unlikely to change, you can safely use newer versions.
+
+
+### How do I debug window layouts that adjust to translated text?
+
+Hold down the Control, Meta, and Hyper keys while the window is being
+created.  Debugging horizontal expansion is the default.  Hold down shift
+to debug vertical expansion.

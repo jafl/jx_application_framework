@@ -237,6 +237,12 @@ JXWindow::JXWindow
 		JXUrgentTask* expandTask = jnew JXExpandWindowToFitContentTask(this);
 		assert( expandTask != NULL );
 		expandTask->Go();
+
+		const JXKeyModifiers& mod = itsDisplay->GetLatestKeyModifiers();
+		if (mod.meta() && mod.control() && mod.hyper())
+			{
+			JXContainer::DebugExpandToFitContent(!mod.shift());
+			}
 		}
 }
 
