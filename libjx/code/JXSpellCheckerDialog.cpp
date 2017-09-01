@@ -92,26 +92,22 @@ JXSpellCheckerDialog::Deactivate()
 /******************************************************************************
  Close (virtual)
 
+	We will close successfully, and we cannot access our member variables
+	after calling inherited, because it deletes us, so we do the clean up first.
+
  ******************************************************************************/
 
 JBoolean
 JXSpellCheckerDialog::Close()
 {
-	if (JXDialogDirector::Close())
-		{
-		itsEditor->SetCaretLocation(itsCheckRange.first);
+	itsEditor->SetCaretLocation(itsCheckRange.first);
 
-		if (!itsFoundErrorsFlag && itsChecker->WillReportNoErrors())
-			{
-			(JGetUserNotification())->DisplayMessage(JGetString(kNoErrorsID));
-			}
-
-		return kJTrue;
-		}
-	else
+	if (!itsFoundErrorsFlag && itsChecker->WillReportNoErrors())
 		{
-		return kJFalse;
+		(JGetUserNotification())->DisplayMessage(JGetString(kNoErrorsID));
 		}
+
+	return JXDialogDirector::Close();
 }
 
 /******************************************************************************
@@ -142,13 +138,13 @@ JXSpellCheckerDialog::BuildWindow()
 
 	JXStaticText* changeToLabel =
 		jnew JXStaticText(JGetString("changeToLabel::JXSpellCheckerDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 15,48, 90,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 15,45, 90,20);
 	assert( changeToLabel != NULL );
 	changeToLabel->SetToLabel();
 
 	JXStaticText* suggestionsLabel =
 		jnew JXStaticText(JGetString("suggestionsLabel::JXSpellCheckerDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 15,78, 90,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 15,75, 90,20);
 	assert( suggestionsLabel != NULL );
 	suggestionsLabel->SetToLabel();
 
