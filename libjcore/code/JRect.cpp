@@ -43,7 +43,7 @@ JIntersection
 		}
 	else
 		{
-		*result = JRect(0,0,0,0);
+		result->Set(0,0,0,0);
 		return kJFalse;
 		}
 }
