@@ -388,6 +388,37 @@ F
 "./code/JXXFontMenu.cpp"
 F
 T
+1 "InputField"
+T
+2 "JXInputField.cpp"
+F
+"./code/JXInputField.cpp"
+T
+2 "JXIntegerInput.cpp"
+F
+"./code/JXIntegerInput.cpp"
+T
+2 "JXFloatInput.cpp"
+F
+"./code/JXFloatInput.cpp"
+T
+2 "JXPasswordInput.cpp"
+F
+"./code/JXPasswordInput.cpp"
+T
+2 "JXCharInput.cpp"
+F
+"./code/JXCharInput.cpp"
+T
+2 "JXPathInput.cpp"
+F
+"./code/JXPathInput.cpp"
+T
+2 "JXFileInput.cpp"
+F
+"./code/JXFileInput.cpp"
+F
+T
 1 "Text"
 T
 2 "JXTEBase.cpp"
@@ -468,37 +499,6 @@ T
 2 "JXSpellList.cpp"
 F
 "./code/JXSpellList.cpp"
-F
-T
-1 "InputField"
-T
-2 "JXInputField.cpp"
-F
-"./code/JXInputField.cpp"
-T
-2 "JXIntegerInput.cpp"
-F
-"./code/JXIntegerInput.cpp"
-T
-2 "JXFloatInput.cpp"
-F
-"./code/JXFloatInput.cpp"
-T
-2 "JXPasswordInput.cpp"
-F
-"./code/JXPasswordInput.cpp"
-T
-2 "JXCharInput.cpp"
-F
-"./code/JXCharInput.cpp"
-T
-2 "JXPathInput.cpp"
-F
-"./code/JXPathInput.cpp"
-T
-2 "JXFileInput.cpp"
-F
-"./code/JXFileInput.cpp"
 F
 T
 1 "Table"
@@ -1022,6 +1022,10 @@ T
 2 "JXPSPageSetupDialog.cpp"
 F
 "./code/JXPSPageSetupDialog.cpp"
+T
+2 "JXAdjustPSPrintSetupLayoutTask.cpp"
+F
+"./code/JXAdjustPSPrintSetupLayoutTask.cpp"
 T
 2 "JXEPSPrinter.cpp"
 F

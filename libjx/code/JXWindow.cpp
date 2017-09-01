@@ -236,7 +236,7 @@ JXWindow::JXWindow
 		{
 		JXUrgentTask* expandTask = jnew JXExpandWindowToFitContentTask(this);
 		assert( expandTask != NULL );
-		(JXGetApplication())->InstallUrgentTask(expandTask);
+		expandTask->Go();
 		}
 }
 

@@ -1,23 +1,19 @@
-input fields
-	require minimum one line height
+JXWindow:  modifier key combo to trigger FTC debug
 
-Print Setup dialog
-	"Print command" label cut off - multiple overlapping show/hide items
+Web browser prefs
+	input fields overlap hints
 
 "Save before closing" dialog
 	text box shifted right
 
 PG windows
-	garbage in background
+	garbage in background - because event loop not running?
 
 Variable Length PG (not background)
 	counter ends up right-justified
 
 JXFileListSet - does internal FTC work correctly?
-
-jxlayout:  --require-obj-names
-
-JXApplication:  --debug-ftc-horiz=wm_class
+	need container to wrap each set of widgets?
 
 -----
 

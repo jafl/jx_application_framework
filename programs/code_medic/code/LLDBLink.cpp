@@ -1715,7 +1715,7 @@ LLDBLink::SendMedicCommand
 
 	JXUrgentTask* task = jnew LLDBRunBackgroundCommandTask(command);
 	assert( task != NULL );
-	(JXGetApplication())->InstallUrgentTask(task);
+	task->Go();
 }
 
 /******************************************************************************

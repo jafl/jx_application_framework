@@ -169,21 +169,16 @@ F
 "./strings/testjx_strings"
 F
 T
-1 "Window layouts"
+1 "layout"
 T
 2 "testjx.fd"
 F
 "./testjx.fd"
-T
-2 "libjx.fd"
-F
-"../libjx.fd"
 F
 F
 # tasks
 4
 "makemake"
-T "@" "jxlayout --choose --require-obj-names --post-cmd 'jcc --reload-open' $file_name" "" F F T T T T F "Compile JX layouts" "F10" "" T
 T "./" "&make_default ; /bin/sh -c 'JMM_INITIALIZE=yes JMM_SHRED=yes JMM_RECORD_ALLOCATED=yes JMM_PRINT_EXIT_STATS=yes ./$program --debug-ftc-horiz' ; echo \"Remaining memory should be 1008 bytes\"" "" F F F T T F F "Debug FTC Horiz" "F11" "" F
 T "./" "&make_default ; /bin/sh -c 'JMM_INITIALIZE=yes JMM_SHRED=yes JMM_RECORD_ALLOCATED=yes JMM_PRINT_EXIT_STATS=yes ./$program --debug-ftc-vert' ; echo \"Remaining memory should be 1008 bytes\"" "" F F F T T F F "Debug FTC Vert" "Shift-F11" "" T
 T "./" "make -k static" "" T F T F T F T "" "" "#T.ngk|tIkt+JqQ$lEuc::CBCommandManager" F
