@@ -228,4 +228,10 @@ since this is very unlikely to change, you can safely use newer versions.
 
 Hold down the Control, Meta, and Hyper keys while the window is being
 created.  Debugging horizontal expansion is the default.  Hold down shift
-to debug vertical expansion.
+to debug vertical expansion.  The color progression is:
+* blue
+* red
+* yellow
+* light blue
+* white
+* cyan
