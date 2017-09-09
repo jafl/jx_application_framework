@@ -43,10 +43,12 @@
 #include <jMissingProto.h>
 #include <jAssert.h>
 
-static const JCharacter* kDisplayOptionName       = "-display";
-static const JCharacter* kXDebugOptionName        = "--xdebug";
-static const JCharacter* kFTCHorizDebugOptionName = "--debug-ftc-horiz";
-static const JCharacter* kFTCVertDebugOptionName  = "--debug-ftc-vert";
+static const JCharacter* kDisplayOptionName         = "-display";
+static const JCharacter* kXDebugOptionName          = "--xdebug";
+static const JCharacter* kFTCHorizDebugOptionName   = "--debug-ftc-horiz";
+static const JCharacter* kFTCVertDebugOptionName    = "--debug-ftc-vert";
+static const JCharacter* kFTCDebugNoopOptionName    = "--debug-ftc-noop";
+static const JCharacter* kFTCDebugOverlapOptionName = "--debug-ftc-overlap";
 
 const time_t kTimerStart = J_TIME_T_MAX/1000U;	// milliseconds before rollover
 const Time kMaxSleepTime = 50;					// 0.05 seconds (in milliseconds)
@@ -1147,6 +1149,8 @@ JXApplication::ParseBaseOptions
 {
 	displayName->Clear();
 
+	JBoolean ftcNoop = kJFalse, ftcOverlap = kJFalse;
+
 	for (long i=1; i<*argc; i++)
 		{
 		if (strcmp(argv[i], kDisplayOptionName) == 0)
@@ -1179,7 +1183,21 @@ JXApplication::ParseBaseOptions
 			RemoveCmdLineOption(argc, argv, i, 1);
 			i--;
 			}
+		else if (strcmp(argv[i], kFTCDebugNoopOptionName) == 0)
+			{
+			ftcNoop = kJTrue;
+			RemoveCmdLineOption(argc, argv, i, 1);
+			i--;
+			}
+		else if (strcmp(argv[i], kFTCDebugOverlapOptionName) == 0)
+			{
+			ftcOverlap = kJTrue;
+			RemoveCmdLineOption(argc, argv, i, 1);
+			i--;
+			}
 		}
+
+	JXContainer::DebugExpandToFitContentExtras(ftcNoop, ftcOverlap);
 }
 
 /******************************************************************************

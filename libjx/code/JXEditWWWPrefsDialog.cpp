@@ -96,7 +96,7 @@ JXEditWWWPrefsDialog::BuildWindow
 
 	JXStaticText* urlVarHint =
 		jnew JXStaticText(JGetString("urlVarHint::JXEditWWWPrefsDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 250,40, 252,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 250,40, 250,20);
 	assert( urlVarHint != NULL );
 	urlVarHint->SetToLabel();
 
@@ -120,7 +120,7 @@ JXEditWWWPrefsDialog::BuildWindow
 
 	JXStaticText* file1VarHint =
 		jnew JXStaticText(JGetString("file1VarHint::JXEditWWWPrefsDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 250,100, 251,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 250,100, 250,20);
 	assert( file1VarHint != NULL );
 	file1VarHint->SetToLabel();
 
@@ -132,7 +132,7 @@ JXEditWWWPrefsDialog::BuildWindow
 
 	JXStaticText* file2VarHint =
 		jnew JXStaticText(JGetString("file2VarHint::JXEditWWWPrefsDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 250,160, 260,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 250,160, 250,20);
 	assert( file2VarHint != NULL );
 	file2VarHint->SetToLabel();
 

@@ -54,10 +54,12 @@
 #include <sstream>
 #include <jAssert.h>
 
-JBoolean JXContainer::theDebugFTCFlag           = kJFalse;
-JBoolean JXContainer::theDebugHorizFTCFlag      = kJFalse;
-JBoolean JXContainer::theDebugVertFTCFlag       = kJFalse;
-std::ostream* JXContainer::theDebugFTCLogBuffer = NULL;
+JBoolean JXContainer::theDebugFTCFlag                         = kJFalse;
+JBoolean JXContainer::theDebugHorizFTCFlag                    = kJFalse;
+JBoolean JXContainer::theDebugVertFTCFlag                     = kJFalse;
+JBoolean JXContainer::theDebugFTCNoopExaminations             = kJFalse;
+JBoolean JXContainer::theDebugFTCWillOverlapNonincludedWidget = kJFalse;
+std::ostream* JXContainer::theDebugFTCLogBuffer               = NULL;
 
 /******************************************************************************
  Constructor (protected)
@@ -1971,6 +1973,22 @@ JXContainer::DebugExpandToFitContent
 }
 
 /******************************************************************************
+ DebugExpandToFitContentExtras (static)
+
+ ******************************************************************************/
+
+void
+JXContainer::DebugExpandToFitContentExtras
+	(
+	const JBoolean noop,
+	const JBoolean overlap
+	)
+{
+	theDebugFTCNoopExaminations             = noop;
+	theDebugFTCWillOverlapNonincludedWidget = overlap;
+}
+
+/******************************************************************************
  ExpandToFitContent
 
 	Assumes that widgets are laid out in implicit, nested tables and do not
@@ -2072,8 +2090,6 @@ JXContainer::ExpandToFitContent()
 
  ******************************************************************************/
 
-const JBoolean kDebugNoopExaminations = kJFalse;
-
 JXFTCCell*
 JXContainer::FTCBuildLayout
 	(
@@ -2118,7 +2134,7 @@ JXContainer::FTCBuildLayout
 			{
 			if (theDebugFTCFlag)
 				{
-				if (!kDebugNoopExaminations)
+				if (!theDebugFTCNoopExaminations)
 					{
 					theDebugFTCLogBuffer = jnew std::ostringstream;
 					assert( theDebugFTCLogBuffer != NULL );
@@ -2350,8 +2366,13 @@ JXContainer::FTCGroupAlignedObjects
 		{
 		while (cellIter.Next(&cell))
 			{
-			if (cell->GetDirection() == container->GetDirection() && !cell->IsExact())
+			if (!cell->IsExact() && cell->GetDirection() == container->GetDirection())
 				{
+				if (theDebugFTCFlag)
+					{
+					GetFTCLog() << "unwrapping: " << cell->ToString() << std::endl;
+					}
+
 				JPtrArrayIterator<JXContainer> i2(cell->itsEnclosedObjs);
 				while (i2.Next(&obj))
 					{
@@ -2398,8 +2419,6 @@ JXContainer::FTCGroupAlignedObjects
 
  ******************************************************************************/
 
-const JBoolean kDebugWillOverlapNonincludedWidget = kJFalse;
-
 JBoolean
 JXContainer::FTCWillOverlapNonincludedWidget
 	(
@@ -2421,7 +2440,7 @@ JXContainer::FTCWillOverlapNonincludedWidget
 		covering = JCovering(covering, obj->GetFrameForFTC());
 		}
 
-	if (kDebugWillOverlapNonincludedWidget && theDebugFTCFlag)
+	if (theDebugFTCWillOverlapNonincludedWidget && theDebugFTCFlag)
 		{
 		GetFTCLog() << "-----" << std::endl;
 		GetFTCLog() << "covering: " << covering << std::endl;
@@ -2434,14 +2453,14 @@ JXContainer::FTCWillOverlapNonincludedWidget
 		const JBoolean check = JI2B(
 			obj != obj1 && obj != obj2 && !matchedList.Includes(obj));
 
-		if (kDebugWillOverlapNonincludedWidget && theDebugFTCFlag && check)
+		if (theDebugFTCWillOverlapNonincludedWidget && theDebugFTCFlag && check)
 			{
 			GetFTCLog() << "check: " << obj->GetFrameForFTC() << ' ' << obj->ToString() << std::endl;
 			}
 
 		if (check && JIntersection(covering, obj->GetFrameForFTC(), &r))
 			{
-			if (kDebugWillOverlapNonincludedWidget && theDebugFTCFlag)
+			if (theDebugFTCWillOverlapNonincludedWidget && theDebugFTCFlag)
 				{
 				GetFTCLog() << "----- " << kJTrue << std::endl;
 				}
@@ -2450,7 +2469,7 @@ JXContainer::FTCWillOverlapNonincludedWidget
 			}
 		}
 
-	if (kDebugWillOverlapNonincludedWidget && theDebugFTCFlag)
+	if (theDebugFTCWillOverlapNonincludedWidget && theDebugFTCFlag)
 		{
 		GetFTCLog() << "----- " << kJFalse << std::endl;
 		}
@@ -2502,9 +2521,10 @@ JXContainer::FTCTrimBlockedMatches
 		const JBoolean overlaps = JI2B(
 			JIntersection(targetInterval, interval, &intersection) &&
 			intersection.GetLength() > 1);
+
 		if (overlaps &&
-			((horizontal && rect.right  < targetRect.left) ||
-			 (vertical   && rect.bottom < targetRect.top )) &&
+			((horizontal && rect.right  <= targetRect.left) ||
+			 (vertical   && rect.bottom <= targetRect.top )) &&
 			(minBlocker == NULL ||
 			 (horizontal && minBlocker->GetFrameForFTC().right  < rect.right ) ||
 			 (vertical   && minBlocker->GetFrameForFTC().bottom < rect.bottom)))
@@ -2513,12 +2533,12 @@ JXContainer::FTCTrimBlockedMatches
 
 			if (theDebugFTCFlag)
 				{
-				GetFTCLog() << "min block: " << obj->GetFrameForFTC() << ' ' << obj->ToString() << std::endl;
+				GetFTCLog() << "min block: " << rect << ' ' << obj->ToString() << std::endl;
 				}
 			}
 		else if (overlaps &&
-				 ((horizontal && targetRect.right  < rect.left) ||
-				  (vertical   && targetRect.bottom < rect.top )) &&
+				 ((horizontal && targetRect.right  <= rect.left) ||
+				  (vertical   && targetRect.bottom <= rect.top )) &&
 				 (maxBlocker == NULL ||
 				  (horizontal && rect.left < maxBlocker->GetFrameForFTC().left) ||
 				  (vertical   && rect.top  < maxBlocker->GetFrameForFTC().top )))
@@ -2527,7 +2547,7 @@ JXContainer::FTCTrimBlockedMatches
 
 			if (theDebugFTCFlag)
 				{
-				GetFTCLog() << "max block: " << obj->GetFrameForFTC() << ' ' << obj->ToString() << std::endl;
+				GetFTCLog() << "max block: " << rect << ' ' << obj->ToString() << std::endl;
 				}
 			}
 		}

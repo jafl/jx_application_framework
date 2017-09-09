@@ -122,6 +122,7 @@ public:
 	void	ExpandToFitContent();
 
 	static void	DebugExpandToFitContent(const JBoolean horiz);
+	static void	DebugExpandToFitContentExtras(const JBoolean noop, const JBoolean overlap);
 
 	// called by JXDisplay
 
@@ -264,6 +265,8 @@ private:
 	static JBoolean			theDebugFTCFlag;
 	static JBoolean			theDebugHorizFTCFlag;
 	static JBoolean			theDebugVertFTCFlag;
+	static JBoolean			theDebugFTCNoopExaminations;
+	static JBoolean			theDebugFTCWillOverlapNonincludedWidget;
 	static std::ostream*	theDebugFTCLogBuffer;
 
 private:
