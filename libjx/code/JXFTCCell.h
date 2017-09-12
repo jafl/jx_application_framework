@@ -101,6 +101,7 @@ private:
 	Elastic		IsElastic();
 
 	JString	Indent(const JSize extra = 0) const;
+	JString	GetDirectionName() const;
 
 	static JOrderedSetT::CompareResult
 		CompareHorizontally(JXFTCCell* const & c1, JXFTCCell* const & c2);

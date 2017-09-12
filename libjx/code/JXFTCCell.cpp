@@ -97,7 +97,7 @@ JXFTCCell::ToString()
 {
 	std::ostringstream s;
 	JXContainer::ToString().Print(s);
-	s << (itsDirection == kHorizontal ? " (horiz)" : itsDirection == kVertical ? " (vert)" : "");
+	GetDirectionName().Print(s);
 	if (itsWidget != NULL)
 		{
 		s << " (";
@@ -105,6 +105,20 @@ JXFTCCell::ToString()
 		s << ")";
 		}
 	return JString(s.str());
+}
+
+/******************************************************************************
+ GetDirectionName (private)
+
+ ******************************************************************************/
+
+JString
+JXFTCCell::GetDirectionName()
+	const
+{
+	return (itsDirection == kHorizontal ? " (horiz)" :
+			itsDirection == kVertical   ? " (vert)"  :
+			"");
 }
 
 /******************************************************************************
@@ -354,7 +368,9 @@ JXFTCCell::EnforceSpacing()
 {
 	if (theDebugFTCFlag)
 		{
-		GetFTCLog() << Indent(+1) << "--- Enforcing spacing:" << std::endl;
+		GetFTCLog() << Indent(+1) << "--- Enforcing spacing";
+		GetDirectionName().Print(GetFTCLog());
+		GetFTCLog() << ":" << std::endl;
 
 		for (JIndex i=1; i<=itsChildSpacing->GetElementCount(); i++)
 			{
@@ -401,11 +417,13 @@ JXFTCCell::EnforcePositions()
 {
 	if (theDebugFTCFlag)
 		{
-		GetFTCLog() << Indent(+1) << "--- Enforcing positions:" << std::endl;
+		GetFTCLog() << Indent(+1) << "--- Enforcing positions";
+		GetDirectionName().Print(GetFTCLog());
+		GetFTCLog() << ":" << std::endl;
 
 		for (JIndex i=1; i<=itsChildPositions->GetElementCount(); i++)
 			{
-			GetFTCLog() << Indent(+2) << itsChildPositions->GetElement(i) << ' ' << itsChildren->NthElement(i)->ToString() << std::endl;
+			GetFTCLog() << Indent(+2) << "position: " << itsChildPositions->GetElement(i) << ' ' << itsChildren->NthElement(i)->ToString() << std::endl;
 			}
 		GetFTCLog() << std::endl;
 		}
