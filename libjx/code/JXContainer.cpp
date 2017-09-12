@@ -2185,7 +2185,8 @@ JXContainer::FTCBuildLayout
 			noChangeCount++;
 			if (exact && noChangeCount >= 2)
 				{
-				exact = kJFalse;
+				exact         = kJFalse;
+				horizontal    = !expandHorizontally;	// reset to original direction
 				noChangeCount = 0;
 				}
 			else if (noChangeCount >= 2)
