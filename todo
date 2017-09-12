@@ -1,11 +1,5 @@
-"Save before closing" dialog
-	text box shifted right
-
 PG windows
-	garbage in background - because event loop not running?
-
-Variable Length PG (not background)
-	counter ends up right-justified
+	garbage in background
 
 JXFileListSet - does internal FTC work correctly?
 	need container to wrap each set of widgets?

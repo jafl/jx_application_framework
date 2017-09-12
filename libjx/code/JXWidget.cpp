@@ -118,6 +118,25 @@ JXWidget::~JXWidget()
 }
 
 /******************************************************************************
+ ToString (virtual)
+
+ ******************************************************************************/
+
+JString
+JXWidget::ToString()
+	const
+{
+	return JXContainer::ToString() +
+			"(" +
+			(itsHSizing == kFixedLeft  ? "left"  :
+			 itsHSizing == kFixedRight ? "right" : "h-elastic") +
+			"," +
+			(itsVSizing == kFixedTop    ? "top"    :
+			 itsVSizing == kFixedBottom ? "bottom" : "v-elastic") +
+			")";
+}
+
+/******************************************************************************
  Refresh (virtual)
 
  ******************************************************************************/

@@ -101,6 +101,8 @@ public:
 	JColorIndex	GetFocusColor() const;
 	void		SetFocusColor(const JColorIndex color);
 
+	virtual JString	ToString() const;
+
 protected:
 
 	JXWidget(JXContainer* enclosure,
