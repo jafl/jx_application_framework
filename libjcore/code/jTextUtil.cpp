@@ -90,7 +90,7 @@ JCalcWSFont
 
  *****************************************************************************/
 
-void
+JSize
 JAnalyzeWhitespace
 	(
 	const JString&	buffer,
@@ -104,7 +104,10 @@ JAnalyzeWhitespace
 
 	*isMixed = kJFalse;
 
-	JSize spaceLines = 0, tinySpaceLines = 0, tabLines = 0;
+	const JSize maxSpaceCount = 100;
+	JSize spaceLines = 0, tinySpaceLines = 0, tabLines = 0,
+		  spaceHisto[maxSpaceCount], spaceHistoCount = 0;
+	memset(spaceHisto, 0, sizeof(spaceHisto));
 
 	JStringIterator iter(buffer);
 	JUtf8Character c;
@@ -128,6 +131,12 @@ JAnalyzeWhitespace
 				{
 				break;
 				}
+			}
+
+		if (!tabs && spaceCount <= maxSpaceCount)
+			{
+			spaceHisto[ spaceCount-1 ]++;
+			spaceHistoCount++;
 			}
 
 		if (spaceCount == tailSpaceCount && tailSpaceCount < tabWidth)
@@ -177,7 +186,32 @@ JAnalyzeWhitespace
 
 	*useSpaces = JI2B(spaceLines > tabLines || (spaceLines == tabLines && defaultUseSpaces));
 
-//	std::cout << "space: " << spaceLines << ", tab: " << tabLines << std::endl;
+	if (!*useSpaces || spaceHistoCount == 0)
+		{
+		return tabWidth;
+		}
+
+	// determine tab width - [2,10]
+
+	JSize bestWidth = 0, maxCount = 0;
+	for (JIndex w=10; w>=2; w--)
+		{
+		JIndex i = w, lineCount = 0;
+		do
+			{
+			lineCount += spaceHisto[i-1];
+			i         += w;
+			}
+			while (i <= maxSpaceCount);
+
+		if (lineCount > JRound(1.1 * maxCount))
+			{
+			maxCount  = lineCount;
+			bestWidth = w;
+			}
+		}
+
+	return bestWidth;
 }
 
 /******************************************************************************

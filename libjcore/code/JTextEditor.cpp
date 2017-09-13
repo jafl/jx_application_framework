@@ -3076,6 +3076,9 @@ JIndex i;
 	If mixed indentation, show whitespace.  Set mode based on majority of
 	indentation.
 
+	Updates tabWidth value if it decides that spaces should be used for
+	indentation.
+
  ******************************************************************************/
 
 inline JBoolean
@@ -3090,12 +3093,12 @@ isWhitespace
 void
 JTextEditor::AnalyzeWhitespace
 	(
-	const JSize tabWidth
+	JSize* tabWidth
 	)
 {
 	JBoolean useSpaces, isMixed;
-	JAnalyzeWhitespace(*itsBuffer, tabWidth, itsTabToSpacesFlag,
-					   &useSpaces, &isMixed);
+	*tabWidth = AnalyzeWhitespace(*itsBuffer, *tabWidth, itsTabToSpacesFlag,
+								  &useSpaces, &isMixed);
 
 	TabShouldInsertSpaces(useSpaces);
 	ShouldShowWhitespace(isMixed);
