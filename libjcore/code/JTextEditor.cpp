@@ -5026,6 +5026,9 @@ JIndex i;
 	If mixed indentation, show whitespace.  Set mode based on majority of
 	indentation.
 
+	Updates tabWidth value if it decides that spaces should be used for
+	indentation.
+
  ******************************************************************************/
 
 inline JBoolean
@@ -5040,12 +5043,12 @@ isWhitespace
 void
 JTextEditor::AnalyzeWhitespace
 	(
-	const JSize tabWidth
+	JSize* tabWidth
 	)
 {
 	JBoolean useSpaces, showWhitespace;
-	AnalyzeWhitespace(*itsBuffer, tabWidth, itsTabToSpacesFlag,
-					  &useSpaces, &showWhitespace);
+	*tabWidth = AnalyzeWhitespace(*itsBuffer, *tabWidth, itsTabToSpacesFlag,
+								  &useSpaces, &showWhitespace);
 
 	TabShouldInsertSpaces(useSpaces);
 	ShouldShowWhitespace(showWhitespace);
@@ -5053,7 +5056,7 @@ JTextEditor::AnalyzeWhitespace
 
 // static
 
-void
+JSize
 JTextEditor::AnalyzeWhitespace
 	(
 	const JString&	buffer,
@@ -5067,7 +5070,10 @@ JTextEditor::AnalyzeWhitespace
 
 	*showWhitespace = kJFalse;
 
-	JSize spaceLines = 0, tinySpaceLines = 0, tabLines = 0;
+	const JSize maxSpaceCount = 100;
+	JSize spaceLines = 0, tinySpaceLines = 0, tabLines = 0,
+		  spaceHisto[maxSpaceCount], spaceHistoCount = 0;
+	memset(spaceHisto, 0, sizeof(spaceHisto));
 
 	JIndex i = 0;
 	do
@@ -5095,6 +5101,12 @@ JTextEditor::AnalyzeWhitespace
 				}
 
 			i++;
+			}
+
+		if (!tabs && spaceCount <= maxSpaceCount)
+			{
+			spaceHisto[ spaceCount-1 ]++;
+			spaceHistoCount++;
 			}
 
 		if (spaceCount == tailSpaceCount && tailSpaceCount < tabWidth)
@@ -5144,7 +5156,32 @@ JTextEditor::AnalyzeWhitespace
 
 	*useSpaces = JI2B(spaceLines > tabLines);
 
-//	std::cout << "space: " << spaceLines << ", tab: " << tabLines << std::endl;
+	if (!*useSpaces || spaceHistoCount == 0)
+		{
+		return tabWidth;
+		}
+
+	// determine tab width - [2,10]
+
+	JSize bestWidth = 0, maxCount = 0;
+	for (JIndex w=10; w>=2; w--)
+		{
+		JIndex i = w, lineCount = 0;
+		do
+			{
+			lineCount += spaceHisto[i-1];
+			i         += w;
+			}
+			while (i <= maxSpaceCount);
+
+		if (lineCount > JRound(1.1 * maxCount))
+			{
+			maxCount  = lineCount;
+			bestWidth = w;
+			}
+		}
+
+	return bestWidth;
 }
 
 /******************************************************************************

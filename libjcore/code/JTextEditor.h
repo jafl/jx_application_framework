@@ -344,11 +344,11 @@ public:
 	void	CleanAllWhitespace(const JBoolean align);
 	void	CleanSelectedWhitespace(const JBoolean align);
 	void	CleanWhitespace(const JIndexRange& range, const JBoolean align);
-	void	AnalyzeWhitespace(const JSize tabWidth);
+	void	AnalyzeWhitespace(JSize* tabWidth);
 
-	static void	AnalyzeWhitespace(const JString& buffer, const JSize tabWidth,
-								  const JBoolean defaultUseSpaces,
-								  JBoolean* useSpaces, JBoolean* showWhitespace);
+	static JSize	AnalyzeWhitespace(const JString& buffer, const JSize tabWidth,
+									  const JBoolean defaultUseSpaces,
+									  JBoolean* useSpaces, JBoolean* showWhitespace);
 
 	JBoolean	WillAutoIndent() const;
 	void		ShouldAutoIndent(const JBoolean indent);
