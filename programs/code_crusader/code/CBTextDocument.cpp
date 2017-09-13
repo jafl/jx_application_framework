@@ -1353,8 +1353,9 @@ CBTextDocument::ReadFile
 
 	if (firstTime)
 		{
-//		std::cout << fileName << std::endl;
-		itsTextEditor->AnalyzeWhitespace(itsTextEditor->GetTabCharCount());
+		JSize tabWidth = itsTextEditor->GetTabCharCount();
+		itsTextEditor->AnalyzeWhitespace(&tabWidth);
+		itsTextEditor->SetTabCharCount(tabWidth);
 
 		JPtrArray<JString> safetyFilesToOpen(JPtrArrayT::kDeleteAll);
 		if (CheckForSafetySaveFiles(fileName, &safetyFilesToOpen))
