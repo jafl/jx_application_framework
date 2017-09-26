@@ -2097,6 +2097,11 @@ JXContainer::FTCBuildLayout
 	)
 	const
 {
+	if (itsEnclosedObjs == NULL)
+		{
+		return NULL;
+		}
+
 	if (theDebugFTCFlag)
 		{
 		GetFTCLog() << "----------" << std::endl;
