@@ -219,6 +219,7 @@ private:
 	JBoolean	itsShouldBeActiveFlag;	// kJTrue  => last client call was Activate()
 	JBoolean	itsUpdateSBAFlag;		// kJFalse => don't change itsShouldBeActiveFlag
 	JSize		itsMinWidth;
+	JBoolean	itsWaitingForFTCFlag;
 
 	UpdateAction	itsUpdateAction;
 	JBoolean		itsIsPopupChoiceFlag;
@@ -243,6 +244,7 @@ private:
 	void	UpdateTitleGeometry();
 	void	AdjustAppearance();
 	void	AdjustAppearance(const JCoordinate minWidth);
+	JSize	GetMaxPopupChoiceTitleWidth() const;
 
 	JBoolean	Open(const JPoint& leftPtR = JPoint(),
 					 const JPoint& rightPtR = JPoint());
