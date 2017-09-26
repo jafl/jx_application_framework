@@ -27,6 +27,8 @@ public:
 
 	virtual ~SyGHeaderWidget();
 
+	static JCoordinate	GetPreferredHeight(const JFontManager* fontMgr);
+
 protected:
 
 	virtual void	TableDrawCell(JPainter& p, const JPoint& cell, const JRect& rect);

@@ -136,6 +136,9 @@ JXToolBar::JXToolBar
 
 	ListenTo(prefsMgr);
 	ListenTo(GetWindow());
+
+	SetNeedsInternalFTC();
+	itsToolBarEnclosure->SetNeedsInternalFTC();
 }
 
 /******************************************************************************

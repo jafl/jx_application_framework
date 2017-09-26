@@ -17,8 +17,7 @@
 #include <jGlobals.h>
 #include <jAssert.h>
 
-const JCoordinate kMarginWidth    = 5;
-const JCoordinate kNumberColWidth = 70;
+const JCoordinate kMarginWidth = 5;
 
 /******************************************************************************
  Constructor
@@ -83,7 +82,9 @@ MDSizeHistogram::Draw
 {
 	const JSize lineHeight = p.GetLineHeight();
 	SetBounds(GetBoundsWidth(),
-			  JMemoryManager::kHistogramSlotCount * lineHeight + 2*kMarginWidth);
+			  (JMemoryManager::kHistogramSlotCount + 1) * lineHeight + 2*kMarginWidth);
+
+	const JSize numberColWidth = p.GetStringWidth(JGetString("Size::MDSizeHistogram"));
 
 	JRect r  = GetBounds();
 	r.Shrink(kMarginWidth, kMarginWidth);
@@ -94,10 +95,10 @@ MDSizeHistogram::Draw
 	p.SetFontStyle(JFontStyle(kJFalse, kJFalse, 1, kJFalse));
 
 	JRect r1 = r;
-	r1.right = r1.left + kNumberColWidth;
+	r1.right = r1.left + numberColWidth;
 	p.JPainter::String(r1, JGetString("Size::MDSizeHistogram"));
 
-	r1.Shift(kNumberColWidth, 0);
+	r1.Shift(numberColWidth + 2*kMarginWidth, 0);
 	p.JPainter::String(r1, JGetString("Count::MDSizeHistogram"));
 
 	r.Shift(0, lineHeight);
@@ -115,19 +116,19 @@ MDSizeHistogram::Draw
 		r1 = r;
 
 		JRect r2         = r1;
-		r2.right         = r2.left + kNumberColWidth - kMarginWidth;
+		r2.right         = r2.left + numberColWidth - kMarginWidth;
 		const JString s1 = JPrintFileSize(pow(2, exp));
 		p.JPainter::String(r2, s1, JPainter::kHAlignRight);
 
-		r1.left += kNumberColWidth;
+		r1.left += numberColWidth;
 
-		r2.Shift(kNumberColWidth, 0);
+		r2.Shift(numberColWidth, 0);
 		const JString s2(itsHisto[i], JString::kBase10);
 		p.JPainter::String(r2, s2, JPainter::kHAlignRight);
 
 		if (total > 0 && itsHisto[i] > 0)
 			{
-			r1.left += kNumberColWidth;
+			r1.left += numberColWidth;
 
 			r2 = r1;
 			r2.Shrink(0, 2);

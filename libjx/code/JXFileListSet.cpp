@@ -19,12 +19,10 @@
 #include <jGlobals.h>
 #include <jAssert.h>
 
-const JCoordinate kInputHeight      = 20;
-const JCoordinate kHistoryMenuWidth = 30;
-const JCoordinate kLabelWidth       = 45;
-const JCoordinate kLabelTop         = 3;
-const JCoordinate kLabelLeft        = 3;
-const JSize kHistoryLength          = 10;
+const JCoordinate kDefaultInputHeight = 20;		// FTC may change
+const JCoordinate kDefaultLabelWidth  = 45;		// FTC may change
+const JCoordinate kHistoryMenuWidth   = 30;
+const JSize kHistoryLength            = 10;
 
 // setup information
 
@@ -99,7 +97,7 @@ JXFileListSet::JXFileListSetX
 	const JCoordinate h
 	)
 {
-	const JCoordinate inputWidth = w - kLabelWidth - kHistoryMenuWidth;
+	const JCoordinate inputWidth = w - kDefaultLabelWidth - kHistoryMenuWidth;
 
 	// table
 
@@ -114,44 +112,44 @@ JXFileListSet::JXFileListSetX
 
 	// wildcard input
 
-	itsWildcardSet = jnew JXWidgetSet(this, kHElastic, kFixedTop, 0,0, w,kInputHeight);
+	itsWildcardSet = jnew JXWidgetSet(this, kHElastic, kFixedTop, 0,0, w,kDefaultInputHeight);
 	assert( itsWildcardSet != NULL );
 
 	JXStaticText* filterLabel =
 		jnew JXStaticText("Filter:", itsWildcardSet, kFixedLeft, kFixedTop,
-						 kLabelLeft,kLabelTop,
-						 kLabelWidth-kLabelLeft,kInputHeight-kLabelTop);
+						 0, 0, kDefaultLabelWidth, kDefaultInputHeight);
 	assert( filterLabel != NULL );
+	filterLabel->SetToLabel();
 
 	itsWildcardMenu =
 		jnew JXStringHistoryMenu(kHistoryLength, "", itsWildcardSet, kFixedRight, kFixedTop,
-								w - kHistoryMenuWidth,0, kHistoryMenuWidth,kInputHeight);
+								w - kHistoryMenuWidth,0, kHistoryMenuWidth,kDefaultInputHeight);
 	assert( itsWildcardMenu != NULL );
 
 	itsWildcardInput =
 		jnew JXFLWildcardInput(this, itsWildcardMenu, itsWildcardSet, kHElastic, kFixedTop,
-							  kLabelWidth,0, inputWidth,kInputHeight);
+							  kDefaultLabelWidth,0, inputWidth,kDefaultInputHeight);
 	assert( itsWildcardInput != NULL );
 
 	// regex input
 
-	itsRegexSet = jnew JXWidgetSet(this, kHElastic, kFixedTop, 0,0, w,kInputHeight);
+	itsRegexSet = jnew JXWidgetSet(this, kHElastic, kFixedTop, 0,0, w,kDefaultInputHeight);
 	assert( itsRegexSet != NULL );
 
 	JXStaticText* regexLabel =
 		jnew JXStaticText("Regex:", itsRegexSet, kFixedLeft, kFixedTop,
-						 kLabelLeft,kLabelTop,
-						 kLabelWidth-kLabelLeft,kInputHeight-kLabelTop);
+						 0, 0, kDefaultLabelWidth, kDefaultInputHeight);
 	assert( regexLabel != NULL );
+	regexLabel->SetToLabel();
 
 	itsRegexMenu =
 		jnew JXStringHistoryMenu(kHistoryLength, "", itsRegexSet, kFixedRight, kFixedTop,
-								w - kHistoryMenuWidth,0, kHistoryMenuWidth,kInputHeight);
+								w - kHistoryMenuWidth,0, kHistoryMenuWidth,kDefaultInputHeight);
 	assert( itsRegexMenu != NULL );
 
 	itsRegexInput =
 		jnew JXFLRegexInput(this, itsRegexMenu, itsRegexSet, kHElastic, kFixedTop,
-						   kLabelWidth,0, inputWidth,kInputHeight);
+						   kDefaultLabelWidth,0, inputWidth,kDefaultInputHeight);
 	assert( itsRegexInput != NULL );
 
 	// start with no filter
@@ -161,6 +159,8 @@ JXFileListSet::JXFileListSetX
 	itsWildcardSet->Hide();
 
 	SetNeedsInternalFTC();
+	itsWildcardSet->SetNeedsInternalFTC();
+	itsRegexSet->SetNeedsInternalFTC();
 }
 
 /******************************************************************************
@@ -248,10 +248,12 @@ JXFileListSet::SetFilterType
 			}
 		itsTable->ClearFilterRegex();
 
+		const JCoordinate h = itsWildcardInput->GetFrameHeight();	// FTC
+
 		itsWildcardSet->Hide();
 		itsRegexSet->Hide();
-		itsTableScroll->Move(0,-kInputHeight);
-		itsTableScroll->AdjustSize(0,kInputHeight);
+		itsTableScroll->Move(0,-h);
+		itsTableScroll->AdjustSize(0,h);
 		}
 
 	itsFilterType = type;
@@ -282,8 +284,10 @@ JXFileListSet::ShowFilter
 		}
 	else
 		{
-		itsTableScroll->AdjustSize(0,-kInputHeight);
-		itsTableScroll->Move(0,kInputHeight);
+		const JCoordinate h = itsWildcardInput->GetFrameHeight();	// FTC
+
+		itsTableScroll->AdjustSize(0,-h);
+		itsTableScroll->Move(0,h);
 		}
 
 	filterSet->Show();
@@ -385,8 +389,10 @@ JXFileListSet::ReadSetup
 
 	if (itsFilterType != kNoFilter)
 		{
-		itsTableScroll->AdjustSize(0,-kInputHeight);
-		itsTableScroll->Move(0,kInputHeight);
+		const JCoordinate h = itsWildcardInput->GetFrameHeight();	// FTC
+
+		itsTableScroll->AdjustSize(0,-h);
+		itsTableScroll->Move(0,h);
 
 		if (itsFilterType == kWildcardFilter)
 			{

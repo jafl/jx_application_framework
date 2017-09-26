@@ -38,7 +38,6 @@
 #include <jDirUtil.h>
 #include <jAssert.h>
 
-const JCoordinate kHeaderHeight     = 20;
 const JCoordinate kEmptyButtonWidth = 50;
 
 // string ID's
@@ -76,7 +75,7 @@ SyGTreeSet::SyGTreeSet
 
 SyGTreeSet::SyGTreeSet
 	(
-	std::istream&			input,
+	std::istream&		input,
 	const JFileVersion	vers,
 	JXMenuBar*			menuBar,
 	const JCharacter*	pathName,
@@ -141,11 +140,13 @@ void SyGTreeSet::SyGTreeSetX
 	itsMenuBar     = menuBar;
 	itsEmptyButton = NULL;
 
+	const JCoordinate headerHeight = SyGHeaderWidget::GetPreferredHeight(GetFontManager());
+
 	// file list -- created first so it gets focus by default
 
 	itsScrollbarSet =
 		jnew JXScrollbarSet(this, kHElastic, kVElastic,
-						   0, kHeaderHeight, w, h - kHeaderHeight);
+							0, headerHeight, w, h - headerHeight);
 	assert( itsScrollbarSet != NULL );
 
 	JString path = pathName;
@@ -168,18 +169,18 @@ void SyGTreeSet::SyGTreeSetX
 	JRect enclApG     = encl->GetApertureGlobal();
 
 	itsTable = jnew SyGFileTreeTable(itsMenuBar, itsFileTree, treeList,
-									this, trashButton,
-									itsScrollbarSet, encl, kHElastic, kVElastic,
-									0, kHeaderHeight,
-									enclApG.width(), enclApG.height()-kHeaderHeight);
+									 this, trashButton,
+									 itsScrollbarSet, encl, kHElastic, kVElastic,
+									 0, headerHeight,
+									 enclApG.width(), enclApG.height()-headerHeight);
 	assert( itsTable != NULL );
 	ListenTo(itsFileTree->GetRootDirInfo());
 
 	SyGHeaderWidget* colHeader =
 		jnew SyGHeaderWidget(itsTable, itsScrollbarSet, encl,
-							kHElastic, kFixedTop,
-							0,0, enclApG.width(),
-							kHeaderHeight);
+							 kHElastic, kFixedTop,
+							 0,0, enclApG.width(),
+							 headerHeight);
 	assert(colHeader != NULL);
 
 	// header:  filter
@@ -188,12 +189,13 @@ void SyGTreeSet::SyGTreeSetX
 
 	itsFilterLabel =
 		jnew JXStaticText("Filter:", this, kFixedLeft, kFixedTop,
-						 5,3, 40, kHeaderHeight-3);
+						  5,0, 40, headerHeight);
 	assert( itsFilterLabel != NULL );
+	itsFilterLabel->SetToLabel();
 
 	itsFilterHistory =
 		jnew JXStringHistoryMenu(10, "", this, kFixedRight, kFixedTop,
-								0,0, 30,20);
+								 0,0, 30, headerHeight);
 	assert( itsFilterHistory != NULL );
 	ListenTo(itsFilterHistory);
 	itsFilterHistory->Place(w - itsFilterHistory->GetFrameWidth(), 0);
@@ -201,7 +203,7 @@ void SyGTreeSet::SyGTreeSetX
 
 	itsFilterInput =
 		jnew SyGFilterInput(itsTable, this, kHElastic, kFixedTop,
-						   45,0, w - 45 - itsFilterHistory->GetFrameWidth(), kHeaderHeight);
+							45,0, w - 45 - itsFilterHistory->GetFrameWidth(), headerHeight);
 	assert( itsFilterInput != NULL );
 	ListenTo(itsFilterInput);
 	itsFilterInput->SetFont(font);
@@ -231,9 +233,9 @@ void SyGTreeSet::SyGTreeSetX
 	ShowFilter(kJFalse);
 	UpdateDisplay(path);
 
-	// must be called before ReadScrollSetup()
+	FitToEnclosure();	// must be called before ReadScrollSetup()
 
-	FitToEnclosure();
+	SetNeedsInternalFTC();
 }
 
 /******************************************************************************
@@ -443,14 +445,16 @@ SyGTreeSet::ShowFilter
 	const JBoolean show
 	)
 {
+	const JCoordinate headerHeight = SyGHeaderWidget::GetPreferredHeight(GetFontManager());
+
 	if (show && !itsFilterInput->WouldBeVisible())
 		{
 		itsFilterInput->Show();
 		itsFilterInput->Focus();
 		itsFilterLabel->Show();
 		itsFilterHistory->Show();
-		itsScrollbarSet->Place(0, kHeaderHeight);
-		itsScrollbarSet->AdjustSize(0, -kHeaderHeight);
+		itsScrollbarSet->Place(0, headerHeight);
+		itsScrollbarSet->AdjustSize(0, -headerHeight);
 		SetWildcardFilter(itsFilterInput->GetText());
 		}
 	else if (!show && itsFilterInput->WouldBeVisible())
@@ -464,7 +468,7 @@ SyGTreeSet::ShowFilter
 		itsFilterLabel->Hide();
 		itsFilterHistory->Hide();
 		itsScrollbarSet->Place(0, 0);
-		itsScrollbarSet->AdjustSize(0,kHeaderHeight);
+		itsScrollbarSet->AdjustSize(0,headerHeight);
 		itsFileTree->ClearWildcardFilter();
 		}
 }
