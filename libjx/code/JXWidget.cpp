@@ -570,6 +570,37 @@ JXWidget::AdjustSize
 }
 
 /******************************************************************************
+ FTCAdjustSize (virtual protected)
+
+ ******************************************************************************/
+
+void
+JXWidget::FTCAdjustSize
+	(
+	const JCoordinate dw,
+	const JCoordinate dh
+	)
+{
+	if (dw != 0 || dh != 0)
+		{
+		assert( itsFrameG.width() + dw > 0 && itsFrameG.height() + dh > 0 );
+
+		Refresh();		// refresh orig size
+
+		itsFrameG.bottom += dh;
+		itsFrameG.right  += dw;
+
+		if (itsApertureBoundedFlag)
+			{
+			itsBoundsG.bottom += dh;
+			itsBoundsG.right  += dw;
+			}
+
+		Refresh();		// refresh new size
+		}
+}
+
+/******************************************************************************
  CenterWithinEnclosure
 
  ******************************************************************************/

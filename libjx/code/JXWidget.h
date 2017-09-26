@@ -145,6 +145,8 @@ protected:
 	virtual void	ApertureMoved(const JCoordinate dx, const JCoordinate dy);
 	virtual void	ApertureResized(const JCoordinate dw, const JCoordinate dh);
 
+	virtual void	FTCAdjustSize(const JCoordinate dw, const JCoordinate dh);
+
 	// Drag-And-Drop routines
 
 	JBoolean		BeginDND(const JPoint& pt, const JXButtonStates& buttonStates,
