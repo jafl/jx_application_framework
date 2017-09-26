@@ -140,7 +140,7 @@ JXFSRunFileDialog::BuildWindow
 
 	JXStaticText* prompt =
 		jnew JXStaticText(JGetString("prompt::JXFSRunFileDialog::JXLayout"), window,
-					JXWidget::kHElastic, JXWidget::kFixedTop, 20,20, 430,20);
+					JXWidget::kHElastic, JXWidget::kFixedTop, 20,20, 110,20);
 	assert( prompt != NULL );
 	prompt->SetToLabel();
 
@@ -190,12 +190,12 @@ JXFSRunFileDialog::BuildWindow
 	assert( itsUseWindowCB != NULL );
 	itsUseWindowCB->SetShortcuts(JGetString("itsUseWindowCB::JXFSRunFileDialog::shortcuts::JXLayout"));
 
-	JXStaticText* obj1_JXLayout =
-		jnew JXStaticText(JGetString("obj1_JXLayout::JXFSRunFileDialog::JXLayout"), window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 20,60, 350,20);
-	assert( obj1_JXLayout != NULL );
-	obj1_JXLayout->SetFontSize(8);
-	obj1_JXLayout->SetToLabel();
+	JXStaticText* cmdHint =
+		jnew JXStaticText(JGetString("cmdHint::JXFSRunFileDialog::JXLayout"), window,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 20,60, 340,20);
+	assert( cmdHint != NULL );
+	cmdHint->SetFontSize(8);
+	cmdHint->SetToLabel();
 
 	itsSingleFileCB =
 		jnew JXTextCheckbox(JGetString("itsSingleFileCB::JXFSRunFileDialog::JXLayout"), window,
