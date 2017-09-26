@@ -102,9 +102,7 @@ CMBreakpointTable::CMBreakpointTable
 	CMGetPrefsManager()->GetDefaultFont(&fontName, &fontSize);
 	itsFont = GetFontManager()->GetFont(fontName, fontSize);
 
-	const JSize rowHeight = 2*kVMarginWidth + JMax(
-		GetFontManager()->GetDefaultFont().GetLineHeight(),
-		itsFont.GetLineHeight());
+	const JSize rowHeight = 2*kVMarginWidth + itsFont.GetLineHeight();
 	SetDefaultRowHeight(rowHeight);
 
 	// data

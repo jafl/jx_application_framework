@@ -121,11 +121,11 @@ SyGFindFileDialog::BuildWindow()
 					JXWidget::kHElastic, JXWidget::kFixedTop, 35,30, 295,20);
 	assert( itsFileInput != NULL );
 
-	JXTextRadioButton* obj1_JXLayout =
-		jnew JXTextRadioButton(kFindFileAction, JGetString("obj1_JXLayout::SyGFindFileDialog::JXLayout"), itsActionRG,
-					JXWidget::kHElastic, JXWidget::kFixedTop, 10,10, 320,20);
-	assert( obj1_JXLayout != NULL );
-	obj1_JXLayout->SetShortcuts(JGetString("obj1_JXLayout::SyGFindFileDialog::shortcuts::JXLayout"));
+	JXTextRadioButton* fileLabel =
+		jnew JXTextRadioButton(kFindFileAction, JGetString("fileLabel::SyGFindFileDialog::JXLayout"), itsActionRG,
+					JXWidget::kHElastic, JXWidget::kFixedTop, 10,10, 270,20);
+	assert( fileLabel != NULL );
+	fileLabel->SetShortcuts(JGetString("fileLabel::SyGFindFileDialog::shortcuts::JXLayout"));
 
 	itsHelpButton =
 		jnew JXTextButton(JGetString("itsHelpButton::SyGFindFileDialog::JXLayout"), window,
@@ -143,17 +143,17 @@ SyGFindFileDialog::BuildWindow()
 					JXWidget::kHElastic, JXWidget::kFixedTop, 35,90, 295,20);
 	assert( itsExprInput != NULL );
 
-	JXTextRadioButton* obj2_JXLayout =
-		jnew JXTextRadioButton(kFindExprAction, JGetString("obj2_JXLayout::SyGFindFileDialog::JXLayout"), itsActionRG,
-					JXWidget::kHElastic, JXWidget::kFixedTop, 10,70, 320,20);
-	assert( obj2_JXLayout != NULL );
-	obj2_JXLayout->SetShortcuts(JGetString("obj2_JXLayout::SyGFindFileDialog::shortcuts::JXLayout"));
+	JXTextRadioButton* findLabel =
+		jnew JXTextRadioButton(kFindExprAction, JGetString("findLabel::SyGFindFileDialog::JXLayout"), itsActionRG,
+					JXWidget::kHElastic, JXWidget::kFixedTop, 10,70, 270,20);
+	assert( findLabel != NULL );
+	findLabel->SetShortcuts(JGetString("findLabel::SyGFindFileDialog::shortcuts::JXLayout"));
 
-	JXStaticText* obj3_JXLayout =
-		jnew JXStaticText(JGetString("obj3_JXLayout::SyGFindFileDialog::JXLayout"), window,
+	JXStaticText* startLabel =
+		jnew JXStaticText(JGetString("startLabel::SyGFindFileDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 50,20);
-	assert( obj3_JXLayout != NULL );
-	obj3_JXLayout->SetToLabel();
+	assert( startLabel != NULL );
+	startLabel->SetToLabel();
 
 	itsPathInput =
 		jnew JXPathInput(window,

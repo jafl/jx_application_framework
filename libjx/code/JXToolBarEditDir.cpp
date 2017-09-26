@@ -114,7 +114,7 @@ JXToolBarEditDir::BuildWindow()
 
 	JXStaticText* prompt =
 		jnew JXStaticText(JGetString("prompt::JXToolBarEditDir::JXLayout"), window,
-					JXWidget::kHElastic, JXWidget::kFixedTop, 20,10, 270,40);
+					JXWidget::kHElastic, JXWidget::kFixedTop, 20,10, 270,30);
 	assert( prompt != NULL );
 
 	itsShowToolBarCB =

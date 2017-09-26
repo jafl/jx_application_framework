@@ -2493,7 +2493,7 @@ CBProjectDocument::StopSymbolLoadTimer
 		itsLastSymbolLoadTime = kSymbolLoadTimerStart - (t.it_value.tv_sec + (t.it_value.tv_usec / 1.0e6));
 		}
 
-	memset(&t, 0, sizeof(t));
+	bzero(&t, sizeof(t));
 	setitimer(ITIMER_PROF, &t, NULL);
 }
 

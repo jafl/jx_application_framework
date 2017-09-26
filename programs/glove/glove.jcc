@@ -381,34 +381,11 @@ F
 "./strings/GLTOCHelpText"
 F
 T
-1 "other"
+1 "layouts"
 T
 2 "glove.fd"
 F
 "./glove.fd"
-F
-T
-1 "html"
-T
-2 "changes.html"
-F
-"../../../../../../t2/glenn/public_html/glove/changes.html"
-T
-2 "compare.html"
-F
-"../../../../../../t2/glenn/public_html/glove/compare.html"
-T
-2 "faq.html"
-F
-"../../../../../../t2/glenn/public_html/glove/faq.html"
-T
-2 "glove.html"
-F
-"../../../../../../t2/glenn/public_html/glove/glove.html"
-T
-2 "modules.html"
-F
-"../../../../../../t2/glenn/public_html/glove/modules.html"
 F
 F
 # tasks

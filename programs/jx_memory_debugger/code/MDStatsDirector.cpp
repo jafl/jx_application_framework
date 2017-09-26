@@ -319,11 +319,11 @@ MDStatsDirector::BuildWindow()
 	const JRect statsLayout_Aperture = statsEncl->GetAperture();
 	statsEncl->AdjustSize(500 - statsLayout_Aperture.width(), 90 - statsLayout_Aperture.height());
 
-	JXStaticText* obj1_statsLayout =
-		jnew JXStaticText(JGetString("obj1_statsLayout::MDStatsDirector::statsLayout"), statsEncl,
+	JXStaticText* binaryLabel =
+		jnew JXStaticText(JGetString("binaryLabel::MDStatsDirector::statsLayout"), statsEncl,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,10, 50,20);
-	assert( obj1_statsLayout != NULL );
-	obj1_statsLayout->SetToLabel();
+	assert( binaryLabel != NULL );
+	binaryLabel->SetToLabel();
 
 	itsProgramInput =
 		jnew JXFileInput(statsEncl,
@@ -336,11 +336,11 @@ MDStatsDirector::BuildWindow()
 	assert( itsChooseProgramButton != NULL );
 	itsChooseProgramButton->SetShortcuts(JGetString("itsChooseProgramButton::MDStatsDirector::shortcuts::statsLayout"));
 
-	JXStaticText* obj2_statsLayout =
-		jnew JXStaticText(JGetString("obj2_statsLayout::MDStatsDirector::statsLayout"), statsEncl,
+	JXStaticText* argsLabel =
+		jnew JXStaticText(JGetString("argsLabel::MDStatsDirector::statsLayout"), statsEncl,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,30, 50,20);
-	assert( obj2_statsLayout != NULL );
-	obj2_statsLayout->SetToLabel();
+	assert( argsLabel != NULL );
+	argsLabel->SetToLabel();
 
 	itsArgsInput =
 		jnew JXInputField(statsEncl,
@@ -353,37 +353,37 @@ MDStatsDirector::BuildWindow()
 	assert( itsRunProgramButton != NULL );
 	itsRunProgramButton->SetShortcuts(JGetString("itsRunProgramButton::MDStatsDirector::shortcuts::statsLayout"));
 
-	JXStaticText* obj3_statsLayout =
-		jnew JXStaticText(JGetString("obj3_statsLayout::MDStatsDirector::statsLayout"), statsEncl,
+	JXStaticText* blocksLabel =
+		jnew JXStaticText(JGetString("blocksLabel::MDStatsDirector::statsLayout"), statsEncl,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,60, 50,20);
-	assert( obj3_statsLayout != NULL );
-	obj3_statsLayout->SetToLabel();
+	assert( blocksLabel != NULL );
+	blocksLabel->SetToLabel();
 
 	itsAllocatedBlocksDisplay =
 		jnew JXStaticText("", kJFalse, kJTrue, NULL, statsEncl,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 60,60, 90,20);
 	assert( itsAllocatedBlocksDisplay != NULL );
 
-	JXStaticText* obj4_statsLayout =
-		jnew JXStaticText(JGetString("obj4_statsLayout::MDStatsDirector::statsLayout"), statsEncl,
+	JXStaticText* bytesLabel =
+		jnew JXStaticText(JGetString("bytesLabel::MDStatsDirector::statsLayout"), statsEncl,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 160,60, 50,20);
-	assert( obj4_statsLayout != NULL );
-	obj4_statsLayout->SetToLabel();
+	assert( bytesLabel != NULL );
+	bytesLabel->SetToLabel();
 
 	itsAllocatedBytesDisplay =
 		jnew JXStaticText("", kJFalse, kJTrue, NULL, statsEncl,
-					JXWidget::kHElastic, JXWidget::kFixedTop, 210,60, 90,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 210,60, 90,20);
 	assert( itsAllocatedBytesDisplay != NULL );
 
-	JXStaticText* obj5_statsLayout =
-		jnew JXStaticText(JGetString("obj5_statsLayout::MDStatsDirector::statsLayout"), statsEncl,
+	JXStaticText* deallocLabel =
+		jnew JXStaticText(JGetString("deallocLabel::MDStatsDirector::statsLayout"), statsEncl,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 310,60, 80,20);
-	assert( obj5_statsLayout != NULL );
-	obj5_statsLayout->SetToLabel();
+	assert( deallocLabel != NULL );
+	deallocLabel->SetToLabel();
 
 	itsDeallocatedBlocksDisplay =
 		jnew JXStaticText("", kJFalse, kJTrue, NULL, statsEncl,
-					JXWidget::kHElastic, JXWidget::kFixedTop, 390,60, 90,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 390,60, 90,20);
 	assert( itsDeallocatedBlocksDisplay != NULL );
 
 	statsEncl->SetSize(statsLayout_Frame.width(), statsLayout_Frame.height());

@@ -493,7 +493,7 @@ lcol: FL_BLACK
 label: 0
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_North FL_NoGravity
+gravity: FL_NorthWest FL_NoGravity
 name: itsAllocatedBytesDisplay
 callback: 
 argument: "", kJFalse, kJTrue, NULL,
@@ -529,7 +529,7 @@ lcol: FL_BLACK
 label: 0
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_North FL_NoGravity
+gravity: FL_NorthWest FL_NoGravity
 name: itsDeallocatedBlocksDisplay
 callback: 
 argument: "", kJFalse, kJTrue, NULL,

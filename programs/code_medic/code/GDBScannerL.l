@@ -48,7 +48,7 @@ PROMPT "(gdb) "\n
 		itsResetFlag = kJFalse;
 		}
 
-	memset(&itsData, 0, sizeof(itsData));
+	bzero(&itsData, sizeof(itsData));
 
 %}
 

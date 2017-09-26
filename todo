@@ -1,8 +1,11 @@
 PG windows
 	garbage in background
 
-JXFileListSet - does internal FTC work correctly?
-	need container to wrap each set of widgets?
+systemg
+	edit prefs dialog - wonky
+	find files - input fields right aligned
+	run command - failed horizontal
+	main - scrollbarset expands beyond right window edge
 
 -----
 

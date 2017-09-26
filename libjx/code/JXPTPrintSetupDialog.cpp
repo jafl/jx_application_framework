@@ -166,7 +166,7 @@ JXPTPrintSetupDialog::BuildWindow
 
 	itsPrintAllCB =
 		jnew JXTextCheckbox(JGetString("itsPrintAllCB::JXPTPrintSetupDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 40,150, 120,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 40,150, 110,20);
 	assert( itsPrintAllCB != NULL );
 	itsPrintAllCB->SetShortcuts(JGetString("itsPrintAllCB::JXPTPrintSetupDialog::shortcuts::JXLayout"));
 

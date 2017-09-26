@@ -5073,7 +5073,7 @@ JTextEditor::AnalyzeWhitespace
 	const JSize maxSpaceCount = 100;
 	JSize spaceLines = 0, tinySpaceLines = 0, tabLines = 0,
 		  spaceHisto[maxSpaceCount], spaceHistoCount = 0;
-	memset(spaceHisto, 0, sizeof(spaceHisto));
+	bzero(spaceHisto, sizeof(spaceHisto));
 
 	JIndex i = 0;
 	do

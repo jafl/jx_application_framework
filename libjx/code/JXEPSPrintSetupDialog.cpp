@@ -149,9 +149,9 @@ JXEPSPrintSetupDialog::SetObjects
 	itsPreviewCheckbox->SetState(printPreview);
 	itsBWCheckbox->SetState(bw);
 
-    itsChooseFileButton->SetShortcuts("#O");
-    itsBWCheckbox->SetShortcuts("#B");
-    itsPreviewCheckbox->SetShortcuts("#P");
+	itsChooseFileButton->SetShortcuts("#O");
+	itsBWCheckbox->SetShortcuts("#B");
+	itsPreviewCheckbox->SetShortcuts("#P");
 
 	itsFileInput->ShouldAllowInvalidFile();
 	itsFileInput->SetText(fileName);

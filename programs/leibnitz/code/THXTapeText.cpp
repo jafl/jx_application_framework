@@ -9,6 +9,7 @@
 
 #include "THXTapeText.h"
 #include <jXConstants.h>
+#include <jGlobals.h>
 #include <jAssert.h>
 
 /******************************************************************************

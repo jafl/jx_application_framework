@@ -18,6 +18,7 @@
 #include <JPtrArray-JString.h>
 #include <JOrderedSetUtil.h>
 #include <jStreamUtil.h>
+#include <jGlobals.h>
 #include <strstream>
 #include <jAssert.h>
 

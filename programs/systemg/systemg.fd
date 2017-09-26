@@ -177,7 +177,7 @@ argument:
 --------------------
 class: FL_CHECKBUTTON
 type: FL_PUSH_BUTTON
-box: 20 70 210 20
+box: 20 70 220 20
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_YELLOW
 alignment: FL_ALIGN_CENTER
@@ -195,7 +195,7 @@ argument:
 --------------------
 class: FL_CHECKBUTTON
 type: FL_PUSH_BUTTON
-box: 20 120 210 20
+box: 20 120 220 20
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_YELLOW
 alignment: FL_ALIGN_CENTER
@@ -339,7 +339,7 @@ argument:
 --------------------
 class: FL_CHECKBUTTON
 type: FL_PUSH_BUTTON
-box: 20 20 210 20
+box: 20 20 220 20
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_YELLOW
 alignment: FL_ALIGN_CENTER
@@ -1305,7 +1305,7 @@ argument:
 --------------------
 class: FL_CHECKBUTTON
 type: FL_RADIO_BUTTON
-box: 20 60 320 20
+box: 20 60 270 20
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_YELLOW
 alignment: FL_ALIGN_CENTER
@@ -1377,7 +1377,7 @@ argument:
 --------------------
 class: FL_CHECKBUTTON
 type: FL_RADIO_BUTTON
-box: 20 120 320 20
+box: 20 120 270 20
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_YELLOW
 alignment: FL_ALIGN_CENTER

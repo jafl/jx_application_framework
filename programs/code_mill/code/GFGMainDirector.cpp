@@ -108,7 +108,7 @@ GFGMainDirector::GFGMainDirector
 
 	JString outputPath;
 
-	const JSize count	= files.GetElementCount();
+	const JSize count = files.GetElementCount();
 	JString classname, filename;
 	for (JIndex i = 1; i <= count; i++)
 		{
@@ -189,20 +189,20 @@ GFGMainDirector::BuildWindow
 
 	itsClassInput =
 		jnew JXInputField(window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 95,10, 140,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 105,10, 130,20);
 	assert( itsClassInput != NULL );
 
-	JXStaticText* obj1_JXLayout =
-		jnew JXStaticText(JGetString("obj1_JXLayout::GFGMainDirector::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 15,10, 80,20);
-	assert( obj1_JXLayout != NULL );
-	obj1_JXLayout->SetToLabel();
+	JXStaticText* classNameLabel =
+		jnew JXStaticText(JGetString("classNameLabel::GFGMainDirector::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 15,10, 90,20);
+	assert( classNameLabel != NULL );
+	classNameLabel->SetToLabel();
 
-	JXStaticText* obj2_JXLayout =
-		jnew JXStaticText(JGetString("obj2_JXLayout::GFGMainDirector::JXLayout"), window,
+	JXStaticText* directoryLabel =
+		jnew JXStaticText(JGetString("directoryLabel::GFGMainDirector::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 240,10, 110,20);
-	assert( obj2_JXLayout != NULL );
-	obj2_JXLayout->SetToLabel();
+	assert( directoryLabel != NULL );
+	directoryLabel->SetToLabel();
 
 	itsChooseButton =
 		jnew JXTextButton(JGetString("itsChooseButton::GFGMainDirector::JXLayout"), window,
@@ -238,25 +238,25 @@ GFGMainDirector::BuildWindow
 					JXWidget::kHElastic, JXWidget::kFixedTop, 350,10, 200,20);
 	assert( itsDirInput != NULL );
 
-	JXStaticText* obj3_JXLayout =
-		jnew JXStaticText(JGetString("obj3_JXLayout::GFGMainDirector::JXLayout"), window,
+	JXStaticText* derivedLabel =
+		jnew JXStaticText(JGetString("derivedLabel::GFGMainDirector::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 15,45, 90,20);
-	assert( obj3_JXLayout != NULL );
-	obj3_JXLayout->SetToLabel();
+	assert( derivedLabel != NULL );
+	derivedLabel->SetToLabel();
 
 	itsBaseClassTxt =
 		jnew JXStaticText(JGetString("itsBaseClassTxt::GFGMainDirector::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 100,45, 530,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 105,45, 110,20);
 	assert( itsBaseClassTxt != NULL );
-    const JFontStyle itsBaseClassTxt_style(kJTrue, kJFalse, 0, kJFalse, GetColormap()->GetBlackColor());
+	const JFontStyle itsBaseClassTxt_style(kJTrue, kJFalse, 0, kJFalse, GetColormap()->GetBlackColor());
 	itsBaseClassTxt->SetFontStyle(itsBaseClassTxt_style);
 	itsBaseClassTxt->SetToLabel();
 
-	JXStaticText* obj4_JXLayout =
-		jnew JXStaticText(JGetString("obj4_JXLayout::GFGMainDirector::JXLayout"), window,
+	JXStaticText* authorLabel =
+		jnew JXStaticText(JGetString("authorLabel::GFGMainDirector::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 15,390, 60,20);
-	assert( obj4_JXLayout != NULL );
-	obj4_JXLayout->SetToLabel();
+	assert( authorLabel != NULL );
+	authorLabel->SetToLabel();
 
 	itsAuthorInput =
 		jnew JXInputField(window,
@@ -269,11 +269,11 @@ GFGMainDirector::BuildWindow
 	assert( itsStringsButton != NULL );
 	itsStringsButton->SetShortcuts(JGetString("itsStringsButton::GFGMainDirector::shortcuts::JXLayout"));
 
-	JXStaticText* obj5_JXLayout =
-		jnew JXStaticText(JGetString("obj5_JXLayout::GFGMainDirector::JXLayout"), window,
+	JXStaticText* copyrightLabel =
+		jnew JXStaticText(JGetString("copyrightLabel::GFGMainDirector::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 250,390, 70,20);
-	assert( obj5_JXLayout != NULL );
-	obj5_JXLayout->SetToLabel();
+	assert( copyrightLabel != NULL );
+	copyrightLabel->SetToLabel();
 
 	itsCopyrightInput =
 		jnew JXInputField(window,
@@ -303,15 +303,15 @@ GFGMainDirector::BuildWindow
 			}
 		bases += cname;
 		}
-	
+
 	itsBaseClassTxt->SetText(bases);
 
 	JXImage* image = jnew JXImage(GetDisplay(), gfg_main_window_icon);
 	assert( image != NULL );
 	window->SetIcon(image);
 
-	itsTable	= 
-		GFGFunctionTable::Create(itsClass, 
+	itsTable	=
+		GFGFunctionTable::Create(itsClass,
 			scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 			JXWidget::kHElastic, JXWidget::kVElastic,
 			0,kColHeaderHeight, 100,
@@ -321,7 +321,7 @@ GFGMainDirector::BuildWindow
 	itsTable->FitToEnclosure(kJTrue, kJFalse);
 
 	JXColHeaderWidget* widget =
-		jnew JXColHeaderWidget(itsTable, 
+		jnew JXColHeaderWidget(itsTable,
 							  scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 							  JXWidget::kHElastic, JXWidget::kFixedTop,
 							  0,0, 100,kColHeaderHeight);
@@ -375,7 +375,7 @@ GFGMainDirector::Receive
 		{
 		GFGGetPrefsManager()->SetAuthor(itsAuthorInput->GetText());
 		GFGGetPrefsManager()->SetCopyright(itsCopyrightInput->GetText());
-		
+
 		if (Write())
 			{
 			//Close();
@@ -457,7 +457,7 @@ GFGMainDirector::Write()
 		return kJFalse;
 		}
 	JString headername	= cname + ".h";
-	JString sourcename	= cname + ".cc";
+	JString sourcename	= cname + ".cpp";
 
 	JString headerfile	= JCombinePathAndName(dir, headername);
 	JString sourcefile	= JCombinePathAndName(dir, sourcename);
@@ -470,7 +470,7 @@ GFGMainDirector::Write()
 		exists		= kJTrue;
 
 		headername	= cname + "_tmp.h";
-		sourcename	= cname + "_tmp.cc";
+		sourcename	= cname + "_tmp.cpp";
 
 		headerfile	= JCombinePathAndName(dir, headername);
 		sourcefile	= JCombinePathAndName(dir, sourcename);
@@ -578,7 +578,7 @@ GFGMainDirector::Write()
 		"class", cname,
 		"constructs", baseconstructors
 		};
-		
+
 	s = JGetString("CLASS_CONSTRUCTOR_DATA", map2, sizeof(map2));
 
 	s.Print(os);
@@ -591,7 +591,7 @@ GFGMainDirector::Write()
 		"class", cname,
 		"constructs", baseconstructors
 		};
-		
+
 	s = JGetString("CLASS_DESTRUCTOR_DATA", map3, sizeof(map3));
 
 	s.Print(os);
@@ -605,6 +605,6 @@ GFGMainDirector::Write()
 
 	JString errStr;
 	JRunProgram(cmd, &errStr);
-	
+
 	return kJTrue;
 }

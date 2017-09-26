@@ -85,7 +85,7 @@ CLASS_HEADER_COMMENT
 CLASS_SOURCE_COMMENT
 
 "/******************************************************************************
- $class.cc
+ $class.cpp
 
 	<Description>
 

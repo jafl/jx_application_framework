@@ -707,7 +707,7 @@ JXWindow::Raise
 			const JUInt32 desktop = *reinterpret_cast<JUInt32*>(xdata);
 
 			XEvent e;
-			memset(&e, 0, sizeof(e));
+			bzero(&e, sizeof(e));
 			e.type                 = ClientMessage;
 			e.xclient.display      = *itsDisplay;
 			e.xclient.window       = itsXWindow;
@@ -731,7 +731,7 @@ JXWindow::Raise
 	if (grabKeyboardFocus)
 		{
 		XEvent e;
-		memset(&e, 0, sizeof(e));
+		bzero(&e, sizeof(e));
 		e.type                 = ClientMessage;
 		e.xclient.display      = *itsDisplay;
 		e.xclient.window       = itsXWindow;

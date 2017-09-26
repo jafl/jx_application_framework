@@ -277,6 +277,10 @@ JXHelpManager::SearchAllSections()
 			hadDir   = kJFalse;
 			info.dir = CreateHelpDirector(*text);
 			}
+		else if (info.dir == NULL)
+			{
+			continue;
+			}
 
 		if ((info.dir)->Search())
 			{
