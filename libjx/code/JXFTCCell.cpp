@@ -529,7 +529,15 @@ JXFTCCell::ExpandWidget()
 				GetFTCLog() << "=== Finished processing internal structure" << std::endl;
 				}
 
-			jdelete root;
+			if ((theDebugHorizFTCFlag &&  itsSyncHorizontalFlag) ||
+				(theDebugVertFTCFlag  && !itsSyncHorizontalFlag))
+				{
+				// leave it in place for debugging
+				}
+			else
+				{
+				jdelete root;
+				}
 			}
 		}
 
@@ -540,7 +548,11 @@ JXFTCCell::ExpandWidget()
 
 	const JRect apG         = itsWidget->GetApertureGlobal();
 	const JCoordinate delta = v - (itsSyncHorizontalFlag ? apG.width() : apG.height());
-	if (delta != 0)
+	if (itsWidget->NeedsInternalFTC() && delta != 0)
+		{
+		itsWidget->FTCAdjustSize(itsSyncHorizontalFlag ? delta : 0, itsSyncHorizontalFlag ? 0 : delta);
+		}
+	else if (delta != 0)
 		{
 		AdjustSize(itsSyncHorizontalFlag ? delta : 0, itsSyncHorizontalFlag ? 0 : delta);
 		}
