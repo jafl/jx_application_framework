@@ -123,12 +123,12 @@ SyGEditPrefsDialog::BuildWindow
 
 	itsDelCB =
 		jnew JXTextCheckbox(JGetString("itsDelCB::SyGEditPrefsDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,70, 220,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,70, 220,20);
 	assert( itsDelCB != NULL );
 
 	itsAllowSpaceCB =
 		jnew JXTextCheckbox(JGetString("itsAllowSpaceCB::SyGEditPrefsDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,120, 220,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,120, 220,20);
 	assert( itsAllowSpaceCB != NULL );
 
 	JXStaticText* warnLabel =
@@ -175,7 +175,7 @@ SyGEditPrefsDialog::BuildWindow
 
 	itsOpenNewWindowsCB =
 		jnew JXTextCheckbox(JGetString("itsOpenNewWindowsCB::SyGEditPrefsDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 220,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,20, 220,20);
 	assert( itsOpenNewWindowsCB != NULL );
 
 	JXStaticText* openHint =
@@ -187,7 +187,7 @@ SyGEditPrefsDialog::BuildWindow
 
 	itsFolderPrefsCB =
 		jnew JXTextCheckbox(JGetString("itsFolderPrefsCB::SyGEditPrefsDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,150, 220,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,150, 220,20);
 	assert( itsFolderPrefsCB != NULL );
 
 // end JXLayout

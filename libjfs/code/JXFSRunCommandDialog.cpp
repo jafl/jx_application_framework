@@ -125,11 +125,11 @@ JXFSRunCommandDialog::BuildWindow()
 					JXWidget::kHElastic, JXWidget::kFixedTop, 20,90, 290,20);
 	assert( itsCmdInput != NULL );
 
-	JXStaticText* obj1_JXLayout =
-		jnew JXStaticText(JGetString("obj1_JXLayout::JXFSRunCommandDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,70, 110,20);
-	assert( obj1_JXLayout != NULL );
-	obj1_JXLayout->SetToLabel();
+	JXStaticText* cmdLabel =
+		jnew JXStaticText(JGetString("cmdLabel::JXFSRunCommandDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,70, 290,20);
+	assert( cmdLabel != NULL );
+	cmdLabel->SetToLabel();
 
 	itsCloseButton =
 		jnew JXTextButton(JGetString("itsCloseButton::JXFSRunCommandDialog::JXLayout"), window,
@@ -173,14 +173,14 @@ JXFSRunCommandDialog::BuildWindow()
 
 	itsStayOpenCB =
 		jnew JXTextCheckbox(JGetString("itsStayOpenCB::JXFSRunCommandDialog::JXLayout"), window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 340,120, 90,20);
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 200,120, 90,20);
 	assert( itsStayOpenCB != NULL );
 
-	JXStaticText* obj2_JXLayout =
-		jnew JXStaticText(JGetString("obj2_JXLayout::JXFSRunCommandDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 210,20);
-	assert( obj2_JXLayout != NULL );
-	obj2_JXLayout->SetToLabel();
+	JXStaticText* directoryLabel =
+		jnew JXStaticText(JGetString("directoryLabel::JXFSRunCommandDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 290,20);
+	assert( directoryLabel != NULL );
+	directoryLabel->SetToLabel();
 
 	itsChoosePathButton =
 		jnew JXTextButton(JGetString("itsChoosePathButton::JXFSRunCommandDialog::JXLayout"), window,
