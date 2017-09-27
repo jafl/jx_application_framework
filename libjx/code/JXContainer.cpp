@@ -264,8 +264,8 @@ JXContainer::DrawAll
 
 	// draw enclosed objects first, if visible
 
-	Region visRegion       = NULL;
-	JXFTCCell* ftcRootCell = NULL;
+	Region visRegion                      = NULL;
+	JPtrArray<JXFTCCell>* ftcRootCellList = NULL;
 	if (apVisible && itsEnclosedObjs != NULL)
 		{
 		XRectangle xClipRect = JXJToXRect(apClipRectG);
@@ -282,7 +282,13 @@ JXContainer::DrawAll
 				dynamic_cast<JXWindow*>(this) != NULL &&
 				dynamic_cast<JXFTCCell*>(obj) != NULL)
 				{
-				ftcRootCell = dynamic_cast<JXFTCCell*>(obj);
+				if (ftcRootCellList == NULL)
+					{
+					ftcRootCellList = jnew JPtrArray<JXFTCCell>(JPtrArrayT::kForgetAll);
+					assert( ftcRootCellList != NULL );
+					}
+
+				ftcRootCellList->AppendElement(dynamic_cast<JXFTCCell*>(obj));
 				continue;	// let JXWindow draw the background around real widgets
 				}
 
@@ -369,9 +375,17 @@ JXContainer::DrawAll
 			}
 		}
 
-	if (ftcRootCell != NULL)	// overlay FTC on top of window contents
+	if (ftcRootCellList != NULL)	// overlay FTC on top of window contents
 		{
-		ftcRootCell->DrawAll(p, apClipRectG);
+		JPtrArrayIterator<JXFTCCell> iter(ftcRootCellList);
+		JXFTCCell* root;
+		while (iter.Next(&root))
+			{
+			root->DrawAll(p, apClipRectG);
+			}
+
+		jdelete ftcRootCellList;
+		ftcRootCellList = NULL;
 		}
 
 	// clean up
@@ -2215,6 +2229,13 @@ JXContainer::FTCBuildLayout
 		if (theDebugFTCFlag)
 			{
 			GetFTCLog() << "FTCBuildLayout failed with " << objList.GetElementCount() << " roots" << std::endl;
+
+			JPtrArrayIterator<JXContainer> iter(objList);
+			JXContainer* obj;
+			while (iter.Next(&obj))
+				{
+				GetFTCLog() << obj->ToString() << " -- " << obj->GetEnclosure() << std::endl;
+				}
 			}
 		else
 			{
