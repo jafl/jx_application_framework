@@ -277,9 +277,7 @@ private:
 	void		FetchRemoteGitBranch2(const JString& name);
 	void		PullBranch(const JString& repo);
 	void		PushBranch(const JString& repo);
-	JBoolean	RemoveGitBranch(const JString& branch, const JBoolean force = kJFalse,
-								const JPtrArray<JString>* stashIdList = NULL,
-								const JPtrArray<JString>* stashNameList = NULL);
+	JBoolean	RemoveGitBranch(const JString& branch, const JBoolean force = kJFalse);
 	void		PruneLocalBranches();
 
 	JBoolean	GetGitStashList(JPtrArray<JString>* idList, JPtrArray<JString>* nameList);
