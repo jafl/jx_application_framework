@@ -279,7 +279,6 @@ JXContainer::DrawAll
 			{
 			JXContainer* obj = itsEnclosedObjs->NthElement(i);
 			if (theDebugFTCFlag &&
-				dynamic_cast<JXWindow*>(this) != NULL &&
 				dynamic_cast<JXFTCCell*>(obj) != NULL)
 				{
 				if (ftcRootCellList == NULL)

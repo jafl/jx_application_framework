@@ -183,10 +183,7 @@ JXFTCCell::Expand
 
 	if (itsWidget != NULL)
 		{
-		const JCoordinate size = ExpandWidget();
-		const JRect r = itsWidget->GetFrameForFTC();
-		SetSize(r.width(), r.height());
-		return size;
+		return ExpandWidget();
 		}
 
 	assert( itsDirection != kNoDirection );
@@ -350,7 +347,7 @@ JXFTCCell::ComputeInvariants
 
 			if (theDebugFTCFlag)
 				{
-				GetFTCLog() << Indent() << "padding: " << itsPadding << std::endl;
+				GetFTCLog() << Indent(+1) << encl->ToString() << " - padding: " << itsPadding << std::endl;
 				}
 			}
 
@@ -529,8 +526,9 @@ JXFTCCell::ExpandWidget()
 				GetFTCLog() << "=== Finished processing internal structure" << std::endl;
 				}
 
-			if ((theDebugHorizFTCFlag &&  itsSyncHorizontalFlag) ||
-				(theDebugVertFTCFlag  && !itsSyncHorizontalFlag))
+			if (0 &&
+				((theDebugHorizFTCFlag &&  itsSyncHorizontalFlag) ||
+				 (theDebugVertFTCFlag  && !itsSyncHorizontalFlag)))
 				{
 				// leave it in place for debugging
 				}
@@ -547,14 +545,24 @@ JXFTCCell::ExpandWidget()
 		}
 
 	const JRect apG         = itsWidget->GetApertureGlobal();
-	const JCoordinate delta = v - (itsSyncHorizontalFlag ? apG.width() : apG.height());
+	const JCoordinate delta = v - (itsSyncHorizontalFlag ? apG.width() : apG.height()),
+					  dw    = itsSyncHorizontalFlag ? delta : 0,
+					  dh    = itsSyncHorizontalFlag ? 0 : delta;
 	if (itsWidget->NeedsInternalFTC() && delta != 0)
 		{
-		itsWidget->FTCAdjustSize(itsSyncHorizontalFlag ? delta : 0, itsSyncHorizontalFlag ? 0 : delta);
+		if (theDebugFTCFlag)
+			{
+			GetFTCLog() << "Will adjust widget: dw=" << dw << ", dh=" << dh << std::endl;
+			}
+		itsWidget->FTCAdjustSize(dw, dh);
+
+		itsSyncChildrenFlag = kJFalse;
+		AdjustSize(dw, dh);
+		itsSyncChildrenFlag = kJTrue;
 		}
 	else if (delta != 0)
 		{
-		AdjustSize(itsSyncHorizontalFlag ? delta : 0, itsSyncHorizontalFlag ? 0 : delta);
+		AdjustSize(dw, dh);
 		}
 
 	return (itsSyncHorizontalFlag ? itsFrameG.width() : itsFrameG.height());
