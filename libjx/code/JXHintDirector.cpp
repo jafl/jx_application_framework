@@ -92,7 +92,7 @@ JXHintDirector::BuildWindow
 	border->FitToEnclosure();
 
 	JXStaticText* textWidget =
-		jnew JXStaticText(text, window,
+		jnew JXStaticText(text, border,
 						 JXWidget::kFixedLeft, JXWidget::kFixedTop,
 						 kHMargin, kVMargin, 0,0);
 	assert( textWidget != NULL );
@@ -104,7 +104,7 @@ JXHintDirector::BuildWindow
 		}
 
 	const JCoordinate w = 2*kHMargin + textWidget->GetFrameWidth();
-	const JCoordinate h = 2*kVMargin + textWidget->GetFrameHeight() - descent;
+	const JCoordinate h = 2*kVMargin + ascent + descent;
 	window->SetSize(w,h);
 
 	// place window
