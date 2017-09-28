@@ -88,6 +88,11 @@ LLDBArray2DCommand::HandleSuccess
 			}
 
 		const JCharacter* value = v.GetValue();
+		if (value == NULL)
+			{
+			HandleFailure(i, v.GetError().GetCString());
+			continue;
+			}
 
 		const JString& origValue = GetData()->GetString(cell);
 		const JBoolean isNew     = JI2B(!origValue.IsEmpty() && origValue != value);
