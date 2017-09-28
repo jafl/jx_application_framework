@@ -690,6 +690,13 @@ JIndex i;
 		JString boxType = JReadLine(input);
 		RemoveIdentifier(kObjBoxTypeMarker, &boxType);
 
+		// for actual boxes, use boxType instead of type
+
+		if (flClass == "FL_BOX")
+			{
+			flType = boxType;
+			}
+
 		// colors
 
 		input >> std::ws;
