@@ -4173,6 +4173,7 @@ JTextEditor::SetDefaultFontName
 	if (itsBuffer->IsEmpty())
 		{
 		itsInsertionFont = CalcInsertionFont(1);
+		RecalcAll(kJFalse);
 		}
 }
 
@@ -4186,6 +4187,7 @@ JTextEditor::SetDefaultFontSize
 	if (itsBuffer->IsEmpty())
 		{
 		itsInsertionFont = CalcInsertionFont(1);
+		RecalcAll(kJFalse);
 		}
 }
 
@@ -4199,6 +4201,7 @@ JTextEditor::SetDefaultFontStyle
 	if (itsBuffer->IsEmpty())
 		{
 		itsInsertionFont = CalcInsertionFont(1);
+		RecalcAll(kJFalse);
 		}
 }
 
@@ -4212,6 +4215,7 @@ JTextEditor::SetDefaultFont
 	if (itsBuffer->IsEmpty())
 		{
 		itsInsertionFont = CalcInsertionFont(1);
+		RecalcAll(kJFalse);
 		}
 }
 
