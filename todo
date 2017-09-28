@@ -1,9 +1,6 @@
 PG windows
 	garbage in background
 
-systemg
-	main - scrollbarset expands beyond right window edge
-
 -----
 
 SBAddress:  https://reviews.llvm.org/D22831

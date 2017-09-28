@@ -140,13 +140,15 @@ void SyGTreeSet::SyGTreeSetX
 	itsMenuBar     = menuBar;
 	itsEmptyButton = NULL;
 
+	const JFont& font              = GetFontManager()->GetDefaultMonospaceFont();
+	const JCoordinate filterHeight = font.GetLineHeight();
 	const JCoordinate headerHeight = SyGHeaderWidget::GetPreferredHeight(GetFontManager());
 
 	// file list -- created first so it gets focus by default
 
 	itsScrollbarSet =
 		jnew JXScrollbarSet(this, kHElastic, kVElastic,
-							0, headerHeight, w, h - headerHeight);
+							0, filterHeight, w, h - filterHeight);
 	assert( itsScrollbarSet != NULL );
 
 	JString path = pathName;
@@ -185,17 +187,15 @@ void SyGTreeSet::SyGTreeSetX
 
 	// header:  filter
 
-	const JFont& font = GetFontManager()->GetDefaultMonospaceFont();
-
 	itsFilterLabel =
 		jnew JXStaticText("Filter:", this, kFixedLeft, kFixedTop,
-						  5,0, 40, headerHeight);
+						  5,0, 40, filterHeight);
 	assert( itsFilterLabel != NULL );
 	itsFilterLabel->SetToLabel();
 
 	itsFilterHistory =
 		jnew JXStringHistoryMenu(10, "", this, kFixedRight, kFixedTop,
-								 0,0, 30, headerHeight);
+								 0,0, 30, filterHeight);
 	assert( itsFilterHistory != NULL );
 	ListenTo(itsFilterHistory);
 	itsFilterHistory->Place(w - itsFilterHistory->GetFrameWidth(), 0);
@@ -203,7 +203,7 @@ void SyGTreeSet::SyGTreeSetX
 
 	itsFilterInput =
 		jnew SyGFilterInput(itsTable, this, kHElastic, kFixedTop,
-							45,0, w - 45 - itsFilterHistory->GetFrameWidth(), headerHeight);
+							45,0, w - 45 - itsFilterHistory->GetFrameWidth(), filterHeight);
 	assert( itsFilterInput != NULL );
 	ListenTo(itsFilterInput);
 	itsFilterInput->SetFont(font);
@@ -445,7 +445,7 @@ SyGTreeSet::ShowFilter
 	const JBoolean show
 	)
 {
-	const JCoordinate headerHeight = SyGHeaderWidget::GetPreferredHeight(GetFontManager());
+	const JCoordinate filterHeight = itsFilterInput->GetFrameHeight();
 
 	if (show && !itsFilterInput->WouldBeVisible())
 		{
@@ -453,8 +453,8 @@ SyGTreeSet::ShowFilter
 		itsFilterInput->Focus();
 		itsFilterLabel->Show();
 		itsFilterHistory->Show();
-		itsScrollbarSet->Place(0, headerHeight);
-		itsScrollbarSet->AdjustSize(0, -headerHeight);
+		itsScrollbarSet->Place(0, filterHeight);
+		itsScrollbarSet->AdjustSize(0, -filterHeight);
 		SetWildcardFilter(itsFilterInput->GetText());
 		}
 	else if (!show && itsFilterInput->WouldBeVisible())
@@ -468,7 +468,7 @@ SyGTreeSet::ShowFilter
 		itsFilterLabel->Hide();
 		itsFilterHistory->Hide();
 		itsScrollbarSet->Place(0, 0);
-		itsScrollbarSet->AdjustSize(0,headerHeight);
+		itsScrollbarSet->AdjustSize(0,filterHeight);
 		itsFileTree->ClearWildcardFilter();
 		}
 }
