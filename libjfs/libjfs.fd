@@ -5,6 +5,7 @@ Internal Form Definition File
 
 Number of forms: 4
 Unit of measure: FL_COORD_PIXEL
+SnapGrid: 1
 
 =============== FORM ===============
 Name: JXFSEditBindingsDialog
@@ -394,7 +395,7 @@ argument:
 Name: JXFSRunFileDialog
 Width: 450
 Height: 170
-Number of Objects: 13
+Number of Objects: 14
 
 --------------------
 class: FL_BOX
@@ -411,6 +412,24 @@ shortcut:
 resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
 name: 
+callback: 
+argument: 
+
+--------------------
+class: FL_BOX
+type: FL_UP_BOX
+box: 180 90 250 40
+boxtype: FL_FLAT_BOX
+colors: FL_COL1 FL_COL1
+alignment: FL_ALIGN_CENTER
+style: FL_NORMAL_STYLE
+size: FL_DEFAULT_SIZE
+lcol: FL_BLACK
+label: 
+shortcut: 
+resize: FL_RESIZE_ALL
+gravity: FL_NorthEast FL_NoGravity
+name: (ftcEnclosure)
 callback: 
 argument: 
 
@@ -435,7 +454,7 @@ argument:
 --------------------
 class: FL_TEXT
 type: FL_NORMAL_TEXT
-box: 20 20 110 20
+box: 20 20 300 20
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_MCOL
 alignment: FL_ALIGN_LEFT|FL_ALIGN_INSIDE
@@ -463,7 +482,7 @@ lcol: FL_BLACK
 label: Cancel
 shortcut: ^[
 resize: FL_RESIZE_ALL
-gravity: FL_NorthEast FL_NoGravity
+gravity: FL_NorthWest FL_NoGravity
 name: (cancelButton)
 callback: 
 argument: 
@@ -481,7 +500,7 @@ lcol: FL_BLACK
 label: Help
 shortcut: F1
 resize: FL_RESIZE_ALL
-gravity: FL_NorthEast FL_NoGravity
+gravity: FL_NorthWest FL_NoGravity
 name: itsHelpButton
 callback: 
 argument: 
@@ -489,7 +508,7 @@ argument:
 --------------------
 class: FL_BUTTON
 type: FL_RETURN_BUTTON
-box: 370 100 60 20
+box: 369 100 60 20
 boxtype: FL_UP_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -499,7 +518,7 @@ lcol: FL_BLACK
 label: OK
 shortcut: ^M
 resize: FL_RESIZE_ALL
-gravity: FL_NorthEast FL_NoGravity
+gravity: FL_NorthWest FL_NoGravity
 name: itsOKButton
 callback: 
 argument: 
@@ -543,7 +562,7 @@ argument:
 --------------------
 class: FL_CHECKBUTTON
 type: FL_PUSH_BUTTON
-box: 160 140 280 20
+box: 160 140 270 20
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_YELLOW
 alignment: FL_ALIGN_CENTER
@@ -607,7 +626,7 @@ lcol: FL_BLACK
 label: (use $q in place of quoted file name, $u in place of unquoted file name)
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NorthEast FL_NoGravity
+gravity: FL_North FL_NoGravity
 name: (cmdHint)
 callback: 
 argument: 
@@ -634,7 +653,7 @@ argument:
 Name: JXFSRunCommandDialog
 Width: 440
 Height: 180
-Number of Objects: 15
+Number of Objects: 16
 
 --------------------
 class: FL_BOX
@@ -651,6 +670,24 @@ shortcut:
 resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
 name: 
+callback: 
+argument: 
+
+--------------------
+class: FL_BOX
+type: FL_UP_BOX
+box: 150 120 280 60
+boxtype: FL_FLAT_BOX
+colors: FL_COL1 FL_COL1
+alignment: FL_ALIGN_CENTER
+style: FL_NORMAL_STYLE
+size: FL_DEFAULT_SIZE
+lcol: FL_BLACK
+label: 
+shortcut: 
+resize: FL_RESIZE_ALL
+gravity: FL_NorthEast FL_NoGravity
+name: (ftcContainer)
 callback: 
 argument: 
 
@@ -819,7 +856,7 @@ argument:
 --------------------
 class: FL_CHECKBUTTON
 type: FL_PUSH_BUTTON
-box: 200 120 90 20
+box: 340 120 90 20
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_YELLOW
 alignment: FL_ALIGN_CENTER
