@@ -15,7 +15,7 @@
 #include <JXStaticText.h>
 #include <JXTextButton.h>
 #include <JXTextCheckbox.h>
-#include <JXFlatRect.h>
+#include <JXWidgetSet.h>
 #include <JXChooseSaveFile.h>
 #include <JXFontManager.h>
 #include <jXGlobals.h>
@@ -134,8 +134,8 @@ JXFSRunFileDialog::BuildWindow
 	JXWindow* window = jnew JXWindow(this, 450,170, "");
 	assert( window != NULL );
 
-	JXFlatRect* ftcEnclosure =
-		jnew JXFlatRect(window,
+	JXWidgetSet* ftcEnclosure =
+		jnew JXWidgetSet(window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 180,90, 250,40);
 	assert( ftcEnclosure != NULL );
 

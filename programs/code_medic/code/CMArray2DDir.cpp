@@ -27,7 +27,6 @@
 #include <JXScrollbarSet.h>
 #include <JXRowHeaderWidget.h>
 #include <JXColHeaderWidget.h>
-#include <JXFlatRect.h>
 #include <JXHelpManager.h>
 #include <JXWDManager.h>
 #include <JXWDMenu.h>
@@ -260,13 +259,13 @@ CMArray2DDir::BuildWindow()
 	JXWindow* window = jnew JXWindow(this, 370,500, "");
 	assert( window != NULL );
 
-	JXFlatRect* rowFTCContainer =
-		jnew JXFlatRect(window,
+	JXWidgetSet* rowFTCContainer =
+		jnew JXWidgetSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 20,60, 120,90);
 	assert( rowFTCContainer != NULL );
 
-	JXFlatRect* colFTCContainer =
-		jnew JXFlatRect(window,
+	JXWidgetSet* colFTCContainer =
+		jnew JXWidgetSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 150,60, 200,90);
 	assert( colFTCContainer != NULL );
 

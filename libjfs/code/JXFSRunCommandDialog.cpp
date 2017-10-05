@@ -18,7 +18,7 @@
 #include <JXTextButton.h>
 #include <JXTextCheckbox.h>
 #include <JXPathHistoryMenu.h>
-#include <JXFlatRect.h>
+#include <JXWidgetSet.h>
 #include <JXChooseSaveFile.h>
 #include <JXCheckModTimeTask.h>
 #include <JXFontManager.h>
@@ -121,8 +121,8 @@ JXFSRunCommandDialog::BuildWindow()
 	JXWindow* window = jnew JXWindow(this, 440,180, "");
 	assert( window != NULL );
 
-	JXFlatRect* ftcContainer =
-		jnew JXFlatRect(window,
+	JXWidgetSet* ftcContainer =
+		jnew JXWidgetSet(window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 150,120, 280,60);
 	assert( ftcContainer != NULL );
 

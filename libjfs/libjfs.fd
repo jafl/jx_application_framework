@@ -419,7 +419,7 @@ argument:
 class: FL_BOX
 type: FL_UP_BOX
 box: 180 90 250 40
-boxtype: FL_FLAT_BOX
+boxtype: FL_SHADOW_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
 style: FL_NORMAL_STYLE
@@ -677,7 +677,7 @@ argument:
 class: FL_BOX
 type: FL_UP_BOX
 box: 150 120 280 60
-boxtype: FL_FLAT_BOX
+boxtype: FL_SHADOW_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
 style: FL_NORMAL_STYLE

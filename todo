@@ -1,5 +1,22 @@
-PG windows
-	garbage in background
+jcc
+	open complement file - wider than original window
+
+	editor prefs:  fails
+	exec output - layout fails - too many widgets in bottom bar
+
+	run ftc inside each partition
+		CBEditCommandsDialog
+		macros
+		cpm
+	run ftc inside each tab
+		compare files
+
+	CBTree - recompute if font size has changed
+
+medic
+	search dialog always has "stay open" checked
+
+CSF dialogs migrate upward - incorrect window geom saved
 
 -----
 
