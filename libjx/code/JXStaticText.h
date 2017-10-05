@@ -43,6 +43,7 @@ public:
 
 protected:
 
+	virtual void		BoundsMoved(const JCoordinate dx, const JCoordinate dy);
 	virtual void		BoundsResized(const JCoordinate dw, const JCoordinate dh);
 	virtual JCoordinate	GetFTCMinContentSize(const JBoolean horizontal) const;
 

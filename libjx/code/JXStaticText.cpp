@@ -150,6 +150,26 @@ JXStaticText::SetToLabel
 }
 
 /******************************************************************************
+ BoundsMoved (virtual protected)
+
+ ******************************************************************************/
+
+void
+JXStaticText::BoundsMoved
+	(
+	const JCoordinate dx,
+	const JCoordinate dy
+	)
+{
+	JXTEBase::BoundsMoved(dx,dy);
+
+	if (itsCenterHorizFlag || itsCenterVertFlag)
+		{
+		Center();
+		}
+}
+
+/******************************************************************************
  BoundsResized (virtual protected)
 
  ******************************************************************************/
