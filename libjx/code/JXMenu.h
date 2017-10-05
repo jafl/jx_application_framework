@@ -108,6 +108,9 @@ public:
 	void	SetTitleFontStyle(const JFontStyle& style);
 	void	SetTitleFont(const JFont& font);
 
+	const JPoint&	GetTitlePadding() const;
+	void			SetTitlePadding(const JPoint& p);
+
 	void	SetShortcuts(const JCharacter* list);
 
 	JBoolean	IsEmpty() const;
@@ -209,6 +212,7 @@ private:
 	JString		itsTitle;
 	JXImage*	itsTitleImage;			// can be NULL
 	JBoolean	itsOwnsTitleImageFlag;	// kJTrue => we delete it
+	JPoint		itsTitlePadding;
 	JString*	itsShortcuts;			// can be NULL
 	JIndex		itsULIndex;
 	JXMenuData*	itsBaseItemData;		// derived class owns this
@@ -369,6 +373,28 @@ JXMenu::GetTitleImage
 {
 	*image = itsTitleImage;
 	return JI2B(itsTitleImage != NULL);
+}
+
+/******************************************************************************
+ Title padding
+
+ ******************************************************************************/
+
+inline const JPoint&
+JXMenu::GetTitlePadding()
+	const
+{
+	return itsTitlePadding;
+}
+
+inline void
+JXMenu::SetTitlePadding
+	(
+	const JPoint& p
+	)
+{
+	itsTitlePadding = p;
+	AdjustAppearance();
 }
 
 /******************************************************************************

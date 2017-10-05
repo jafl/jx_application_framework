@@ -215,5 +215,5 @@ JXTextCheckbox::GetFTCMinContentSize
 {
 	return (horizontal ?
 			JMax((JSize) GetApertureWidth(), 2*kMarginWidth + kBoxHeight + itsFont.GetStringWidth(itsLabel)) :
-			JMax((JSize) GetApertureHeight(), (JSize) kBoxHeight, itsFont.GetLineHeight()));
+			JMax(GetApertureHeight(), kBoxHeight, JRound(itsFont.GetLineHeight() * 1.25)));
 }

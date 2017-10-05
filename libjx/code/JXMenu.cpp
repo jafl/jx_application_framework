@@ -55,7 +55,6 @@
 JXMenu::Style JXMenu::theDefaultStyle = JXMenu::kMacintoshStyle;
 JXMenu::Style JXMenu::theDisplayStyle = JXMenu::kWindowsStyle;
 
-const JCoordinate kTitleExtraWidth      = 16;
 const JCoordinate kImageTextBufferWidth = 4;
 
 // information for drawing arrow when used as popup menu
@@ -157,6 +156,9 @@ JXMenu::JXMenuX
 	const JBoolean		menuOwnsImage
 	)
 {
+	const JSize lineHeight = itsTitleFont.GetLineHeight();
+	itsTitlePadding.Set(lineHeight/2, lineHeight/4);
+
 	itsTitleImage         = NULL;
 	itsOwnsTitleImageFlag = kJFalse;
 	itsShortcuts          = NULL;
@@ -355,7 +357,7 @@ JXMenu::UpdateTitleGeometry()
 		}
 	if (w > 0)
 		{
-		w += kTitleExtraWidth;
+		w += 2*itsTitlePadding.x;
 		}
 	AdjustAppearance(w);
 	Refresh();
@@ -954,7 +956,7 @@ JXMenu::AdjustAppearance
 
 	if (w <= 0)
 		{
-		w = kTitleExtraWidth;
+		w = 2*itsTitlePadding.x;
 		}
 
 	const JCoordinate dw = w - GetFrameWidth();
@@ -1192,7 +1194,7 @@ JXMenu::Draw
 
 	p.SetClipRect(r);
 
-	r.left += kTitleExtraWidth/2;
+	r.left += itsTitlePadding.x;
 	if (itsTitleImage != NULL)
 		{
 		JRect ir = r;
@@ -1534,7 +1536,8 @@ JBoolean
 JXMenu::IncludeInFTC()
 	const
 {
-	return JNegate( itsIsHiddenPopupMenuFlag || itsOwner != NULL );
+	return JI2B(!itsIsHiddenPopupMenuFlag && itsOwner == NULL &&
+				JXContainer::IncludeInFTC());
 }
 
 /******************************************************************************
@@ -1559,7 +1562,7 @@ JXMenu::GetFTCMinContentSize
 	JCoordinate widgetBorderWidth = GetBorderWidth(),
 				borderWidth = 0,
 				arrowWidth  = 0;
-	if (itsMenuDirector != NULL && widgetBorderWidth == 0)
+	if (widgetBorderWidth == 0)
 		{
 		borderWidth = kJXDefaultBorderWidth;
 		}
@@ -1583,7 +1586,7 @@ JXMenu::GetFTCMinContentSize
 
 		return ((itsTitleImage != NULL ? itsTitleImage->GetWidth() : 0) +
 				(itsTitleImage != NULL && tw > 0 ? kImageTextBufferWidth : 0) +
-				(itsTitleImage != NULL || tw > 0 ? kTitleExtraWidth : 0) +
+				(itsTitleImage != NULL || tw > 0 ? 2*itsTitlePadding.x : 0) +
 				tw +
 				arrowWidth +
 				2*borderWidth);
@@ -1593,7 +1596,7 @@ JXMenu::GetFTCMinContentSize
 		return (JMax(itsTitleImage != NULL ? itsTitleImage->GetHeight() : 0,
 					 (JCoordinate) itsTitleFont.GetLineHeight()) +
 				2*borderWidth +
-				2*kImageTextBufferWidth);
+				2*itsTitlePadding.y);
 		}
 }
 

@@ -604,7 +604,7 @@ JXMenuBar::GetFTCMinContentSize
 		JXMenu* menu;
 		while (iter.Next(&menu))
 			{
-			h = JMax(h, menu->GetFTCMinContentSize(horizontal) + JCoordinate(2*menu->GetBorderWidth()));
+			h = JMax(h, menu->GetFTCMinContentSize(kJFalse));
 			}
 
 		return h;

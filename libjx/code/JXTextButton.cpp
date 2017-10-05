@@ -17,8 +17,6 @@
 #include <jXGlobals.h>
 #include <jAssert.h>
 
-const JCoordinate kMinTextBorder = 2;	// pixels
-
 /******************************************************************************
  Constructor
 
@@ -44,6 +42,9 @@ JXTextButton::JXTextButton
 	itsULIndex   = 0;
 
 	itsPushedColor = GetColormap()->GetDefaultBackColor();
+
+	const JSize lineHeight = itsFont.GetLineHeight();
+	itsPadding.Set(lineHeight/4, lineHeight/8);
 }
 
 /******************************************************************************
@@ -211,7 +212,9 @@ JXTextButton::GetFTCMinContentSize
 	)
 	const
 {
+	const JSize lineHeight = itsFont.GetLineHeight();
+
 	return (horizontal ?
-			JMax((JSize) GetApertureWidth(), itsFont.GetStringWidth(itsLabel) + 2*kMinTextBorder) :
-			JMax((JSize) GetApertureHeight(), itsFont.GetLineHeight() + 2*kMinTextBorder));
+			JMax((JSize) GetApertureWidth(), itsFont.GetStringWidth(itsLabel) + 2*itsPadding.x) :
+			JMax((JSize) GetApertureHeight(), lineHeight + 2*itsPadding.y));
 }

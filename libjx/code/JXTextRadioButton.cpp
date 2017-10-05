@@ -208,5 +208,5 @@ JXTextRadioButton::GetFTCMinContentSize
 {
 	return (horizontal ?
 			JMax(GetApertureWidth(), GetPreferredWidth()) :
-			JMax((JSize) GetApertureHeight(), (JSize) kBoxHeight, itsFont.GetLineHeight()));
+			JMax(GetApertureHeight(), kBoxHeight, JRound(itsFont.GetLineHeight() * 1.25)));
 }
