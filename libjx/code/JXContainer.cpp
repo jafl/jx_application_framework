@@ -2042,9 +2042,9 @@ JXContainer::ExpandToFitContent()
 			}
 		}
 
+	FTCAdjustSize(dw, 0);
 	if (theDebugHorizFTCFlag)
 		{
-		FTCAdjustSize(dw, 0);
 		return;
 		}
 	jdelete root;
@@ -2070,14 +2070,12 @@ JXContainer::ExpandToFitContent()
 			}
 		}
 
+	FTCAdjustSize(0, dh);
 	if (theDebugVertFTCFlag)
 		{
-		FTCAdjustSize(dw, dh);
 		return;
 		}
 	jdelete root;
-
-	FTCAdjustSize(dw, dh);
 }
 
 /******************************************************************************
@@ -2127,6 +2125,19 @@ JXContainer::FTCBuildLayout
 						   cellList(JPtrArrayT::kForgetAll);
 
 	JPtrArrayIterator<JXContainer> iter(&objList);
+	JXContainer* obj;
+	while (iter.Next(&obj))
+		{
+		if (!obj->IncludeInFTC())
+			{
+			if (theDebugFTCFlag)
+				{
+				GetFTCLog() << "IGNORED " << obj->ToString() << std::endl << std::endl;
+				}
+			iter.RemovePrev();
+			}
+		}
+
 	JBoolean horizontal = !expandHorizontally, exact = kJTrue, first = kJTrue;
 	JSize count = 0, noChangeCount = 0;
 	do {
@@ -2147,7 +2158,7 @@ JXContainer::FTCBuildLayout
 				<< "; exact: " << exact << ")" << std::endl;
 			}
 
-		JXContainer* obj;
+		iter.MoveTo(kJIteratorStartAtBeginning, 0);
 		while (iter.Next(&obj))
 			{
 			if (theDebugFTCFlag)
@@ -2162,17 +2173,6 @@ JXContainer::FTCBuildLayout
 				}
 
 			iter.RemovePrev();	// do not process it
-			if (!obj->IncludeInFTC())
-				{
-				if (theDebugFTCFlag)
-					{
-					jdelete theDebugFTCLogBuffer;
-					theDebugFTCLogBuffer = NULL;
-
-					GetFTCLog() << "IGNORED " << obj->ToString() << std::endl << std::endl;
-					}
-				continue;
-				}
 
 			JXContainer* cell = FTCGroupAlignedObjects(obj, &objList, &fullObjList, horizontal, exact, first);
 			cellList.AppendElement(cell);
@@ -2227,7 +2227,7 @@ JXContainer::FTCBuildLayout
 		{
 		if (theDebugFTCFlag)
 			{
-			GetFTCLog() << "FTCBuildLayout failed with " << objList.GetElementCount() << " roots" << std::endl;
+			GetFTCLog() << "FTCBuildLayout failed with " << objList.GetElementCount() << " roots:" << std::endl;
 
 			JPtrArrayIterator<JXContainer> iter(objList);
 			JXContainer* obj;
@@ -2620,7 +2620,8 @@ JBoolean
 JXContainer::IncludeInFTC()
 	const
 {
-	return kJTrue;
+	JRect r;
+	return JIntersection(itsWindow->GetFrameGlobal(), GetFrameGlobal(), &r);
 }
 
 /******************************************************************************
