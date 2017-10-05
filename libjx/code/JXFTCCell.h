@@ -98,7 +98,7 @@ private:
 	JCoordinate	ExpandWidget();
 	void		SyncWidgetPosition();
 	void		SyncSize(const JCoordinate dw, const JCoordinate dh);
-	Elastic		IsElastic();
+	JBoolean	IsElastic();
 
 	JString	Indent(const JSize extra = 0) const;
 	JString	GetDirectionName() const;

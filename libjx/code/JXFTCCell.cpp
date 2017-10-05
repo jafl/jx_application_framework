@@ -450,15 +450,23 @@ JXFTCCell::EnforcePositions()
 			}
 		else if (itsSyncHorizontalFlag)	// center-line
 			{
-			const JCoordinate curr = r.xcenter(),
-							  want = itsFrameG.left + JRound(itsFrameG.width() * p);
-			cell->Move(want - curr, 0);
+			const JCoordinate curr  = r.xcenter(),
+							  want  = itsFrameG.left + JRound(itsFrameG.width() * p),
+							  delta = want - curr;
+			if (delta > 0)
+				{
+				cell->Move(delta, 0);
+				}
 			}
 		else
 			{
-			const JCoordinate curr = r.ycenter(),
-							  want = itsFrameG.top + JRound(itsFrameG.height() * p);
-			cell->Move(0, want - curr);
+			const JCoordinate curr  = r.ycenter(),
+							  want  = itsFrameG.top + JRound(itsFrameG.height() * p),
+							  delta = want - curr;
+			if (delta > 0)
+				{
+				cell->Move(0, delta);
+				}
 			}
 		}
 }
@@ -523,7 +531,7 @@ JXFTCCell::ExpandWidget()
 
 			if (theDebugFTCFlag)
 				{
-				GetFTCLog() << "=== Finished processing internal structure" << std::endl;
+				GetFTCLog() << "=== Finished processing internal structure for " << itsWidget->ToString() << std::endl;
 				}
 
 			if (0 &&
@@ -829,49 +837,76 @@ JXFTCCell::SyncSize
 	const JCoordinate dh
 	)
 {
+	if (theDebugFTCFlag)
+		{
+		GetFTCLog() << Indent() << "Sync " << ToString() << std::endl;
+		}
+
 	if (itsWidget != NULL)
 		{
 		const JRect r = itsWidget->GetFrameForFTC();
+
 		const JCoordinate dw = itsFrameG.width() - r.width(),
 						  dh = itsFrameG.height() - r.height();
 
 		if (theDebugFTCFlag && (dw != 0 || dh != 0))
 			{
-			GetFTCLog() << Indent() << "Resizing widget: " << itsWidget->ToString() << std::endl;
-			GetFTCLog() << Indent(+1);
+			GetFTCLog() << Indent(+1) << "Resizing widget: " << itsWidget->ToString() << std::endl;
+			GetFTCLog() << Indent(+2);
 			if (dw != 0) GetFTCLog() << "dw=" << dw;
 			if (dh != 0) GetFTCLog() << "dh=" << dh;
 			GetFTCLog() << std::endl;
 			}
 
 		itsWidget->AdjustSize(dw, dh);
-		return;
-		}
-
-	// if expanding in the same direction as the cell stack, check for elastic cell
-
-	if ((dw != 0 && itsDirection == kHorizontal) ||
-		(dh != 0 && itsDirection == kVertical))
-		{
-		const JSize cellCount = itsChildren->GetElementCount();
-		for (JIndex i=1; i<=cellCount; i++)
+		if (itsWidget->NeedsInternalFTC() && !IsElastic())
 			{
-			JXFTCCell* child = itsChildren->GetElement(i);
-			if (child->IsElastic() == kTrue)
+			if (theDebugFTCFlag)
 				{
-				if (theDebugFTCFlag)
-					{
-					GetFTCLog() << Indent(+1) << "Found elastic widget: " << child->ToString() << std::endl;
-					}
+				GetFTCLog() << "=== Processing internal structure for " << itsWidget->ToString() << std::endl;
+				}
 
-				child->AdjustSize(dw, dh);
-				EnforceSpacing();
-				return;
+			JXFTCCell* root = itsWidget->FTCBuildLayout(itsSyncHorizontalFlag);
+			if (root != NULL)
+				{
+				root->Expand(itsSyncHorizontalFlag, kJTrue);	// NOOP - just sets up state
+				root->AdjustSize(dw, dh);
+				jdelete root;
+				}
+
+			if (theDebugFTCFlag)
+				{
+				GetFTCLog() << "=== Finished processing internal structure for " << itsWidget->ToString() << std::endl;
 				}
 			}
 		}
+	else
+		{
+		// if expanding in the same direction as the cell stack, check for elastic cell
 
-	EnforcePositions();
+		if ((dw != 0 && itsDirection == kHorizontal) ||
+			(dh != 0 && itsDirection == kVertical))
+			{
+			const JSize cellCount = itsChildren->GetElementCount();
+			for (JIndex i=1; i<=cellCount; i++)
+				{
+				JXFTCCell* child = itsChildren->GetElement(i);
+				if (child->IsElastic())
+					{
+					if (theDebugFTCFlag)
+						{
+						GetFTCLog() << Indent(+1) << "Found elastic widget: " << child->ToString() << std::endl;
+						}
+
+					child->AdjustSize(dw, dh);
+					EnforceSpacing();
+					return;
+					}
+				}
+			}
+
+		EnforcePositions();
+	}
 }
 
 /******************************************************************************
@@ -879,12 +914,12 @@ JXFTCCell::SyncSize
 
  ******************************************************************************/
 
-JXFTCCell::Elastic
+JBoolean
 JXFTCCell::IsElastic()
 {
 	if (itsElasticFlag != kUnknown)
 		{
-		return itsElasticFlag;
+		return JI2B( itsElasticFlag == kTrue );
 		}
 
 	itsElasticFlag = kFalse;
@@ -906,7 +941,7 @@ JXFTCCell::IsElastic()
 		const JSize cellCount = itsChildren->GetElementCount();
 		for (JIndex i=1; i<=cellCount; i++)
 			{
-			if (itsChildren->GetElement(i)->IsElastic() == kTrue)
+			if (itsChildren->GetElement(i)->IsElastic())
 				{
 				itsElasticFlag = kTrue;
 				break;
@@ -914,7 +949,7 @@ JXFTCCell::IsElastic()
 			}
 		}
 
-	return itsElasticFlag;
+	return JI2B( itsElasticFlag == kTrue );
 }
 
 /******************************************************************************
