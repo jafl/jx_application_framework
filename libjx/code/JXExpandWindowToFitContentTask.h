@@ -12,6 +12,7 @@
 #include <JBroadcaster.h>
 
 class JXWindow;
+class JXWidget;
 
 class JXExpandWindowToFitContentTask : public JXUrgentTask, virtual public JBroadcaster
 {
@@ -21,11 +22,16 @@ public:
 
 	virtual ~JXExpandWindowToFitContentTask();
 
+	void	ShowAfterFTC();
+	void	FocusAfterFTC(JXWidget* widget);
+
 	virtual void	Perform();
 
 private:
 
 	JXWindow*	itsWindow;	// not owned
+	JBoolean	itShowWindowAfterFTCFlag;
+	JXWidget*	itsFocusWidget;
 
 private:
 
@@ -34,5 +40,31 @@ private:
 	JXExpandWindowToFitContentTask(const JXExpandWindowToFitContentTask& source);
 	const JXExpandWindowToFitContentTask& operator=(const JXExpandWindowToFitContentTask& source);
 };
+
+
+/******************************************************************************
+ ShowAfterFTC
+
+ ******************************************************************************/
+
+inline void
+JXExpandWindowToFitContentTask::ShowAfterFTC()
+{
+	itShowWindowAfterFTCFlag = kJTrue;
+}
+
+/******************************************************************************
+ FocusAfterFTC
+
+ ******************************************************************************/
+
+inline void
+JXExpandWindowToFitContentTask::FocusAfterFTC
+	(
+	JXWidget* widget
+	)
+{
+	itsFocusWidget = widget;
+}
 
 #endif

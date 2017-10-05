@@ -28,10 +28,12 @@ class JXWindowIcon;
 class JXHintManager;
 class JXDockWidget;
 class JXDockWindowTask;
+class JXExpandWindowToFitContentTask;
 
 class JXWindow : public JXContainer
 {
 	friend class JXDockWindowTask;
+	friend class JXExpandWindowToFitContentTask;
 
 public:
 
@@ -421,6 +423,10 @@ private:
 
 	static JBoolean	theAutoDockNewWindowFlag;			// kJTrue => check auto-docking settings
 	static JBoolean	theFocusFollowsCursorInDockFlag;	// kJTrue => automatically set input focus to docked window containing cursor
+
+	// FTC
+
+	JXExpandWindowToFitContentTask*	itsExpandTask;		// NULL unless waiting for it
 
 private:
 

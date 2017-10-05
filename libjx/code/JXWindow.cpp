@@ -137,7 +137,8 @@ JXWindow::JXWindow
 	itsDockXWindow(None),
 	itsDockWidget(NULL),
 	itsDockingTask(NULL),
-	itsChildWindowList(NULL)
+	itsChildWindowList(NULL),
+	itsExpandTask(NULL)
 {
 	assert( director != NULL );
 
@@ -234,9 +235,9 @@ JXWindow::JXWindow
 
 	if (!isOverlay)
 		{
-		JXUrgentTask* expandTask = jnew JXExpandWindowToFitContentTask(this);
-		assert( expandTask != NULL );
-		expandTask->Go();
+		itsExpandTask = jnew JXExpandWindowToFitContentTask(this);
+		assert( itsExpandTask != NULL );
+		itsExpandTask->Go();
 
 		const JXKeyModifiers& mod = itsDisplay->GetLatestKeyModifiers();
 		if (mod.meta() && mod.control() && mod.hyper())
@@ -557,6 +558,12 @@ JXWindow::Resume()
 void
 JXWindow::Show()
 {
+	if (itsExpandTask != NULL)
+		{
+		itsExpandTask->ShowAfterFTC();
+		return;
+		}
+
 	if (!IsVisible() && (itsDockingTask == NULL || itsDockingTask->IsDone()))
 		{
 		JXContainer::Show();
@@ -1755,7 +1762,15 @@ JXWindow::FTCAdjustSize
 	const JCoordinate dh
 	)
 {
-	itsFTCDelta.Set(dw, dh);
+	if (dw != 0)
+		{
+		itsFTCDelta.x = dw;
+		}
+
+	if (dh != 0)
+		{
+		itsFTCDelta.y = dh;
+		}
 
 	if (itsHasMinSizeFlag || itsHasMaxSizeFlag)
 		{
@@ -2512,7 +2527,6 @@ JXWindow::WriteGeometry
 	const
 {
 	output << ' ' << kCurrentGeometryDataVersion;
-
 	if (itsIsDockedFlag)
 		{
 		output << ' ' << itsUndockedWMFrameLoc;
@@ -3766,7 +3780,12 @@ JXWindow::SwitchFocusToWidget
 	JXWidget* widget
 	)
 {
-	if (itsFocusWidget == widget)
+	if (itsExpandTask != NULL)
+		{
+		itsExpandTask->FocusAfterFTC(widget);
+		return kJTrue;
+		}
+	else if (itsFocusWidget == widget)
 		{
 		return kJTrue;
 		}
