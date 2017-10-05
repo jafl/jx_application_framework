@@ -13,7 +13,7 @@
 
 	BASE CLASS = JXIntegerInput
 
-	Copyright (C) 1999 by John Lindal. All rights reserved.
+	Copyright (C) 1999-2017 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 
@@ -53,6 +53,9 @@ CBTECaretInputBase::CBTECaretInputBase
 
 	SetBorderWidth(0);
 	itsLabel->SetBorderWidth(0);
+
+	ShouldAllowUnboundedScrolling(kJTrue);
+	Center();
 }
 
 /******************************************************************************
@@ -221,4 +224,57 @@ CBTECaretInputBase::HandleKeyPress
 		{
 		JXIntegerInput::HandleKeyPress(key, modifiers);
 		}
+}
+
+/******************************************************************************
+ BoundsResized (virtual protected)
+
+ ******************************************************************************/
+
+void
+CBTECaretInputBase::BoundsResized
+	(
+	const JCoordinate dw,
+	const JCoordinate dh
+	)
+{
+	JXIntegerInput::BoundsResized(dw,dh);
+	Center();
+}
+
+/******************************************************************************
+ Center (private)
+
+ ******************************************************************************/
+
+void
+CBTECaretInputBase::Center()
+{
+	JCoordinate y = 0;
+
+	const JCoordinate f = GetFrameHeight();
+	const JCoordinate b = GetMinBoundsHeight();
+	if (f > b)
+		{
+		y = - (f - b)/2;
+		}
+
+	ScrollTo(0, y);
+}
+
+/******************************************************************************
+ GetFTCMinContentSize (virtual protected)
+
+ ******************************************************************************/
+
+JCoordinate
+CBTECaretInputBase::GetFTCMinContentSize
+	(
+	const JBoolean horizontal
+	)
+	const
+{
+	return (horizontal ?
+			TEGetLeftMarginWidth() + GetDefaultFont().GetStringWidth("00000") :
+			JXIntegerInput::GetFTCMinContentSize(horizontal));
 }

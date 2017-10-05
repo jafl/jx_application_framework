@@ -277,7 +277,7 @@ CBTextDocument::CBTextDocument
 
 CBTextDocument::CBTextDocument
 	(
-	std::istream&			input,
+	std::istream&		input,
 	const JFileVersion	vers,
 	JBoolean*			keep
 	)
@@ -515,33 +515,35 @@ CBTextDocument::BuildWindow
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 550,500);
 	assert( itsToolBar != NULL );
 
-	JXDownRect* obj1_JXLayout =
+	JXDownRect* lineBorder =
 		jnew JXDownRect(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 0,530, 80,20);
-	assert( obj1_JXLayout != NULL );
+	assert( lineBorder != NULL );
 
 	JXStaticText* lineLabel =
-		jnew JXStaticText(JGetString("lineLabel::CBTextDocument::JXLayout"), obj1_JXLayout,
+		jnew JXStaticText(JGetString("lineLabel::CBTextDocument::JXLayout"), lineBorder,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,0, 28,16);
 	assert( lineLabel != NULL );
+	lineLabel->SetToLabel();
 
 	CBTELineIndexInput* lineInput =
-		jnew CBTELineIndexInput(lineLabel, obj1_JXLayout,
+		jnew CBTELineIndexInput(lineLabel, lineBorder,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 28,0, 48,16);
 	assert( lineInput != NULL );
 
-	JXDownRect* obj2_JXLayout =
+	JXDownRect* colBorder =
 		jnew JXDownRect(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 80,530, 70,20);
-	assert( obj2_JXLayout != NULL );
+	assert( colBorder != NULL );
 
 	JXStaticText* colLabel =
-		jnew JXStaticText(JGetString("colLabel::CBTextDocument::JXLayout"), obj2_JXLayout,
+		jnew JXStaticText(JGetString("colLabel::CBTextDocument::JXLayout"), colBorder,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,0, 28,16);
 	assert( colLabel != NULL );
+	colLabel->SetToLabel();
 
 	CBTEColIndexInput* colInput =
-		jnew CBTEColIndexInput(lineInput, colLabel, obj2_JXLayout,
+		jnew CBTEColIndexInput(lineInput, colLabel, colBorder,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 28,0, 38,16);
 	assert( colInput != NULL );
 
@@ -563,6 +565,10 @@ CBTextDocument::BuildWindow
 		window->SetWMClass(CBGetWMClassInstance(), CBGetEditorWindowClass());
 		}
 	window->ShouldFocusWhenShow(kJTrue);	// necessary for click-to-focus
+
+	JPoint p = itsSettingsMenu->GetTitlePadding();
+	p.y      = 0;
+	itsSettingsMenu->SetTitlePadding(p);
 
 	JXScrollbarSet* scrollbarSet =
 		jnew JXScrollbarSet(itsToolBar->GetWidgetEnclosure(),

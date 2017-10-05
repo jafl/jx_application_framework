@@ -73,12 +73,12 @@ CBEditTreePrefsDialog::BuildWindow
 
 	JXTextButton* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::CBEditTreePrefsDialog::JXLayout"), window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 20,260, 70,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 30,260, 70,20);
 	assert( cancelButton != NULL );
 
 	JXTextButton* okButton =
 		jnew JXTextButton(JGetString("okButton::CBEditTreePrefsDialog::JXLayout"), window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 230,260, 70,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 220,260, 70,20);
 	assert( okButton != NULL );
 	okButton->SetShortcuts(JGetString("okButton::CBEditTreePrefsDialog::shortcuts::JXLayout"));
 
@@ -102,25 +102,25 @@ CBEditTreePrefsDialog::BuildWindow
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 140,160, 134,74);
 	assert( itsMILinkStyleRG != NULL );
 
-	JXStaticText* obj1_JXLayout =
-		jnew JXStaticText(JGetString("obj1_JXLayout::CBEditTreePrefsDialog::JXLayout"), window,
+	JXStaticText* miLinksLabel =
+		jnew JXStaticText(JGetString("miLinksLabel::CBEditTreePrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 45,190, 90,20);
-	assert( obj1_JXLayout != NULL );
-	obj1_JXLayout->SetToLabel();
+	assert( miLinksLabel != NULL );
+	miLinksLabel->SetToLabel();
 
-	JXTextRadioButton* obj2_JXLayout =
-		jnew JXTextRadioButton(1, JGetString("obj2_JXLayout::CBEditTreePrefsDialog::JXLayout"), itsMILinkStyleRG,
+	JXTextRadioButton* aboveLabel =
+		jnew JXTextRadioButton(1, JGetString("aboveLabel::CBEditTreePrefsDialog::JXLayout"), itsMILinkStyleRG,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,10, 110,20);
-	assert( obj2_JXLayout != NULL );
+	assert( aboveLabel != NULL );
 
-	JXTextRadioButton* obj3_JXLayout =
-		jnew JXTextRadioButton(2, JGetString("obj3_JXLayout::CBEditTreePrefsDialog::JXLayout"), itsMILinkStyleRG,
+	JXTextRadioButton* belowLabel =
+		jnew JXTextRadioButton(2, JGetString("belowLabel::CBEditTreePrefsDialog::JXLayout"), itsMILinkStyleRG,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,40, 110,20);
-	assert( obj3_JXLayout != NULL );
+	assert( belowLabel != NULL );
 
 	itsHelpButton =
 		jnew JXTextButton(JGetString("itsHelpButton::CBEditTreePrefsDialog::JXLayout"), window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 125,260, 70,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 125,260, 70,20);
 	assert( itsHelpButton != NULL );
 	itsHelpButton->SetShortcuts(JGetString("itsHelpButton::CBEditTreePrefsDialog::shortcuts::JXLayout"));
 

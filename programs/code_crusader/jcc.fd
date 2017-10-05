@@ -5,7 +5,6 @@ Internal Form Definition File
 
 Number of forms: 47
 Unit of measure: FL_COORD_PIXEL
-SnapGrid: 5
 
 =============== FORM ===============
 Name: CBTreeDirector
@@ -154,7 +153,7 @@ argument:
 --------------------
 class: FL_BUTTON
 type: FL_NORMAL_BUTTON
-box: 120 370 70 20
+box: 130 370 70 20
 boxtype: FL_UP_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -433,7 +432,7 @@ type: FL_NORMAL_TEXT
 box: 0 530 28 16
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_MCOL
-alignment: FL_ALIGN_TOP|FL_ALIGN_INSIDE
+alignment: FL_ALIGN_LEFT|FL_ALIGN_INSIDE
 style: FL_NORMAL_STYLE
 size: FL_NORMAL_SIZE
 lcol: FL_BLACK
@@ -487,7 +486,7 @@ type: FL_NORMAL_TEXT
 box: 80 530 28 16
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_MCOL
-alignment: FL_ALIGN_TOP|FL_ALIGN_INSIDE
+alignment: FL_ALIGN_LEFT|FL_ALIGN_INSIDE
 style: FL_NORMAL_STYLE
 size: FL_NORMAL_SIZE
 lcol: FL_BLACK
@@ -1522,7 +1521,7 @@ argument:
 --------------------
 class: FL_TEXT
 type: FL_NORMAL_TEXT
-box: 20 101 90 20
+box: 20 101 220 20
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_MCOL
 alignment: FL_ALIGN_LEFT|FL_ALIGN_INSIDE
@@ -1532,7 +1531,7 @@ lcol: FL_BLACK
 label: Replace with:
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NorthWest FL_NoGravity
+gravity: FL_North FL_NoGravity
 name: (replaceLabel)
 callback: 
 argument: 
@@ -1540,7 +1539,7 @@ argument:
 --------------------
 class: FL_TEXT
 type: FL_NORMAL_TEXT
-box: 20 31 80 20
+box: 20 31 220 20
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_MCOL
 alignment: FL_ALIGN_LEFT|FL_ALIGN_INSIDE
@@ -1550,7 +1549,7 @@ lcol: FL_BLACK
 label: Search for:
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NorthWest FL_NoGravity
+gravity: FL_North FL_NoGravity
 name: (searchLabel)
 callback: 
 argument: 
@@ -1864,10 +1863,10 @@ argument:
 --------------------
 class: FL_TEXT
 type: FL_NORMAL_TEXT
-box: 355 20 40 20
+box: 320 20 100 20
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_MCOL
-alignment: FL_ALIGN_LEFT|FL_ALIGN_INSIDE
+alignment: FL_ALIGN_CENTER
 style: FL_NORMAL_STYLE
 size: FL_NORMAL_SIZE
 lcol: FL_BLACK
@@ -1918,10 +1917,10 @@ argument: kJTrue
 --------------------
 class: FL_TEXT
 type: FL_NORMAL_TEXT
-box: 323 80 100 20
+box: 320 80 100 20
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_MCOL
-alignment: FL_ALIGN_LEFT|FL_ALIGN_INSIDE
+alignment: FL_ALIGN_CENTER
 style: FL_NORMAL_STYLE
 size: FL_NORMAL_SIZE
 lcol: FL_BLACK
@@ -1972,10 +1971,10 @@ argument: kJTrue
 --------------------
 class: FL_TEXT
 type: FL_NORMAL_TEXT
-box: 335 110 80 20
+box: 320 110 100 20
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_MCOL
-alignment: FL_ALIGN_LEFT|FL_ALIGN_INSIDE
+alignment: FL_ALIGN_CENTER
 style: FL_NORMAL_STYLE
 size: FL_NORMAL_SIZE
 lcol: FL_BLACK
@@ -3412,7 +3411,7 @@ argument:
 --------------------
 class: FL_BUTTON
 type: FL_NORMAL_BUTTON
-box: 20 260 70 20
+box: 30 260 70 20
 boxtype: FL_UP_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -3422,7 +3421,7 @@ lcol: FL_BLACK
 label: Cancel
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_NorthWest FL_NoGravity
 name: (cancelButton)
 callback: 
 argument: 
@@ -3430,7 +3429,7 @@ argument:
 --------------------
 class: FL_BUTTON
 type: FL_RETURN_BUTTON
-box: 230 260 70 20
+box: 220 260 70 20
 boxtype: FL_UP_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -3440,7 +3439,7 @@ lcol: FL_BLACK
 label: OK
 shortcut: ^M
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_NorthWest FL_NoGravity
 name: (okButton)
 callback: 
 argument: 
@@ -3584,7 +3583,7 @@ lcol: FL_BLACK
 label: Help
 shortcut: F1
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_NorthWest FL_NoGravity
 name: itsHelpButton
 callback: 
 argument: 
@@ -7154,7 +7153,7 @@ lcol: FL_BLACK
 label: 
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NorthWest FL_NoGravity
+gravity: FL_North FL_NoGravity
 name: itsTargetName
 callback: 
 argument: 
@@ -7244,7 +7243,7 @@ lcol: FL_BLACK
 label: 
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NorthWest FL_NoGravity
+gravity: FL_North FL_NoGravity
 name: itsDepListExpr
 callback: 
 argument: 
@@ -7262,7 +7261,7 @@ lcol: FL_BLACK
 label: Expression to append to list of dependencies:
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NorthWest FL_NoGravity
+gravity: FL_North FL_NoGravity
 name: (dependenciesLabel)
 callback: 
 argument: 
@@ -7316,7 +7315,7 @@ lcol: FL_BLACK
 label: 
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NorthWest FL_NoGravity
+gravity: FL_North FL_NoGravity
 name: itsUpdateMakefileCmd
 callback: 
 argument: 
@@ -7334,7 +7333,7 @@ lcol: FL_BLACK
 label: Command to update this project's Makefile:
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NorthWest FL_NoGravity
+gravity: FL_North FL_NoGravity
 name: (updateMakefileLabel)
 callback: 
 argument: 
@@ -7352,7 +7351,7 @@ lcol: FL_BLACK
 label: 
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NorthWest FL_NoGravity
+gravity: FL_North FL_NoGravity
 name: itsSubProjectBuildCmd
 callback: 
 argument: 
@@ -7370,7 +7369,7 @@ lcol: FL_BLACK
 label: Command to build this project when used by other projects:
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NorthWest FL_NoGravity
+gravity: FL_North FL_NoGravity
 name: (subprojLabel)
 callback: 
 argument: 

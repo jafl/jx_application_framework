@@ -544,6 +544,10 @@ CMCommandDirector::BuildWindow()
 	itsProgramButton->SetActive(itsLink->GetFeature(CMLink::kSetProgram));
 	ListenTo(itsProgramButton);
 
+	JPoint p = itsProgramButton->GetPadding();
+	p.y      = 0;
+	itsProgramButton->SetPaddingBeforeFTC(p);
+
 	CMTextDisplayBase::AdjustFont(itsArgInput);
 	itsArgInput->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
 

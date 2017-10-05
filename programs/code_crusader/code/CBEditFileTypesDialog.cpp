@@ -79,7 +79,7 @@ CBEditFileTypesDialog::BuildWindow
 
 	JXTextButton* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::CBEditFileTypesDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 120,370, 70,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 130,370, 70,20);
 	assert( cancelButton != NULL );
 
 	JXTextButton* okButton =

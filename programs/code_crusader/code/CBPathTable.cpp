@@ -64,7 +64,7 @@ CBPathTable::CBPathTable
 	itsBasePath(pathList.GetBasePath())
 {
 	const JSize rowHeight = 2*kVMarginWidth +
-		GetFontManager()->GetDefaultFont().GetLineHeight();
+		GetFontManager()->GetDefaultMonospaceFont().GetLineHeight();
 	SetDefaultRowHeight(rowHeight);
 
 	itsFolderIcon = jnew JXImage(GetDisplay(), jx_folder_small);

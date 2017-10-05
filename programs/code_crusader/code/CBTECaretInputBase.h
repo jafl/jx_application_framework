@@ -38,6 +38,9 @@ protected:
 	virtual JIndex	GetValue(JXTEBase* te) const = 0;
 	virtual JIndex	GetValue(const JTextEditor::CaretLocationChanged& info) const = 0;
 
+	virtual void		BoundsResized(const JCoordinate dw, const JCoordinate dh);
+	virtual JCoordinate	GetFTCMinContentSize(const JBoolean horizontal) const;
+
 	virtual void		HandleFocusEvent();
 	virtual void		HandleUnfocusEvent();
 	virtual JBoolean	OKToUnfocus();
@@ -54,6 +57,8 @@ private:
 	JXStaticText*	itsLabel;		// not owned
 
 private:
+
+	void	Center();
 
 	// not allowed
 
