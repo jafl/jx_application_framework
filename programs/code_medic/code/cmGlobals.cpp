@@ -134,6 +134,7 @@ CMCreateGlobals
 	assert( theFnMenuUpdater != NULL );
 
 	thePrefsManager->SyncWithCodeCrusader();
+	thePrefsManager->LoadSearchPrefs();		// requires JXHelpManager
 
 	lldb::SBDebugger::Initialize();
 	CMStartDebugger();

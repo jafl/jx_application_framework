@@ -15,6 +15,8 @@ Please send all bug reports and suggestions for features to
 <h3> 4.1.1 </h3>
 
 Inverted order of items on Command Line history menu, since the menu is normally at the bottom of the screen.
+<p>
+Finally saves Search Text Dialog configuration, so it preserves \"Stay open\" and \"Retain focus\" settings.
 
 <h3> 4.1 </h3>
 

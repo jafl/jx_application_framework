@@ -1,8 +1,8 @@
-jcc
-	open complement file - wider than original window
+scale non-default font sizes proportionately
 
-	editor prefs:  fails
-	exec output - layout fails - too many widgets in bottom bar
+jcc
+	exec output
+		create command line input after FTC
 
 	run ftc inside each partition
 		CBEditCommandsDialog
@@ -11,12 +11,11 @@ jcc
 	run ftc inside each tab
 		compare files
 
-	CBTree - recompute if font size has changed
+	CBTree
+		place trees at top surrounded by mi-linked classes
+			don't need "Show ..." options, because singles are at bottom
 
-medic
-	search dialog always has "stay open" checked
-
-CSF dialogs migrate upward - incorrect window geom saved
+CSF dialogs migrate upward - incorrect window geom saved?
 
 -----
 

@@ -84,7 +84,8 @@ enum
 	kMainAsmToolBarID,
 	kOtherAsmToolBarID,
 	kAsmWindSizeID,
-	kRegistersWindowSizeID
+	kRegistersWindowSizeID,
+	kSearchTextDialogPrefsID
 };
 
 class CMPrefsManager : public JXPrefsManager
@@ -171,6 +172,9 @@ public:
 
 	JColorIndex		GetColor(const JIndex index) const;
 	static JBoolean	ColorIndexValid(const JIndex index);
+
+	void	LoadSearchPrefs();
+	void	SaveSearchPrefs();
 
 	void	SyncWithCodeCrusader();
 
