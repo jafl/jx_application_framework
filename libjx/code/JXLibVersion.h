@@ -38,6 +38,12 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //		Added option to horizontally center labels.
 //	JXTextMenu:
 //		Menu font is no longer independently adjustable via ~/.jx/menu_font.
+//	JXApplication:
+//		--debug-ftc-horiz		debugging info for horizontal FTC
+//		--debug-ftc-vert		debugging info for vertical FTC
+//		--debug-ftc-noop		extra debugging for noop cycles in FTC
+//		--debug-ftc-overlap		extra debugging for FTC overlap calculations
+//		--pseudotranslate		fake translation to test layout
 
 // version 3.1.0:
 //	JXGetStringDialog:

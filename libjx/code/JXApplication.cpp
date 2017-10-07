@@ -49,6 +49,7 @@ static const JCharacter* kFTCHorizDebugOptionName   = "--debug-ftc-horiz";
 static const JCharacter* kFTCVertDebugOptionName    = "--debug-ftc-vert";
 static const JCharacter* kFTCDebugNoopOptionName    = "--debug-ftc-noop";
 static const JCharacter* kFTCDebugOverlapOptionName = "--debug-ftc-overlap";
+static const JCharacter* kPseudotranslateOptionName = "--pseudotranslate";
 
 const time_t kTimerStart = J_TIME_T_MAX/1000U;	// milliseconds before rollover
 const Time kMaxSleepTime = 50;					// 0.05 seconds (in milliseconds)
@@ -75,6 +76,9 @@ JXApplication::JXApplication
 	itsSignature(appSignature),
 	itsRestartCmd(argv[0])
 {
+	JString displayName;
+	ParseBaseOptions(argc, argv, &displayName);
+
 	// initialize object
 
 	itsDisplayList = jnew JPtrArray<JXDisplay>(JPtrArrayT::kDeleteAll);
@@ -116,9 +120,6 @@ JXApplication::JXApplication
 	ListenTo(JThisProcess::Instance());		// for SIGTERM
 
 	// create display -- requires JXGetApplication() to work
-
-	JString displayName;
-	ParseBaseOptions(argc, argv, &displayName);
 
 	JXDisplay* display;
 	if (!JXDisplay::Create(displayName, &display))
@@ -1192,6 +1193,12 @@ JXApplication::ParseBaseOptions
 		else if (strcmp(argv[i], kFTCDebugOverlapOptionName) == 0)
 			{
 			ftcOverlap = kJTrue;
+			RemoveCmdLineOption(argc, argv, i, 1);
+			i--;
+			}
+		else if (strcmp(argv[i], kPseudotranslateOptionName) == 0)
+			{
+			JStringManager::EnablePseudotranslation();
 			RemoveCmdLineOption(argc, argv, i, 1);
 			i--;
 			}
