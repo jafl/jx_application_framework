@@ -1762,16 +1762,6 @@ JXWindow::FTCAdjustSize
 	const JCoordinate dh
 	)
 {
-	if (dw != 0)
-		{
-		itsFTCDelta.x = dw;
-		}
-
-	if (dh != 0)
-		{
-		itsFTCDelta.y = dh;
-		}
-
 	if (itsHasMinSizeFlag || itsHasMaxSizeFlag)
 		{
 		long supplied;
@@ -1803,8 +1793,30 @@ JXWindow::FTCAdjustSize
 		itsDisplay->Flush();
 		}
 
-	const JCoordinate w = itsBounds.width() + dw,
-					  h = itsBounds.height() + dh;
+	// adjust layout to fit original size
+
+	const JCoordinate origW = itsBounds.width(),
+					  origH = itsBounds.height();
+
+	JCoordinate w = origW,
+				h = origH;
+
+	if (itsHasMinSizeFlag)
+		{
+		w = JMax(w, itsMinSize.x);
+		h = JMax(h, itsMinSize.y);
+		}
+
+	if (itsHasMaxSizeFlag)
+		{
+		w = JMin(w, itsMaxSize.x);
+		h = JMin(h, itsMaxSize.y);
+		}
+
+	NotifyBoundsResized(w - (origW  + dw), h - (origH + dh));
+
+	itsFTCDelta.x += w - origW;		// save difference created by min/max
+	itsFTCDelta.y += h - origH;
 
 	if (itsIsDockedFlag)
 		{
