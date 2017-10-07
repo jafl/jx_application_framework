@@ -176,7 +176,7 @@ private:
 
 	JProcess*							itsUpdateProcess;
 	CBExecOutputDocument::RecordLink*	itsUpdateLink;
-	std::ostream*							itsUpdateStream;
+	std::ostream*						itsUpdateStream;
 	JXProgressDisplay*					itsUpdatePG;
 	CBWaitForSymbolUpdateTask*			itsWaitForUpdateTask;
 	CBDelaySymbolUpdateTask*			itsDelaySymbolUpdateTask;
@@ -245,10 +245,10 @@ private:
 	void	HandlePrefsMenu(const JIndex index);
 	void	EditProjectPrefs();
 
-	void	SetTreePrefs1(CBTreeDirector* director,
-						  const JSize fontSize, const JBoolean showInheritedFns,
-						  const JBoolean autoMinMILinks, const JBoolean drawMILinksOnTop,
-						  const JBoolean raiseWhenSingleMatch, const JBoolean writePrefs);
+	void	SetTreePrefs(CBTreeDirector* director,
+						 const JSize fontSize, const JBoolean showInheritedFns,
+						 const JBoolean autoMinMILinks, const JBoolean drawMILinksOnTop,
+						 const JBoolean raiseWhenSingleMatch, const JBoolean writePrefs);
 
 	void	SymbolUpdateProgress();
 	void	SymbolUpdateFinished();

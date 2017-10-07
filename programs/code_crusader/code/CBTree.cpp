@@ -355,7 +355,7 @@ CBTree::~CBTree()
 void
 CBTree::ReloadSetup
 	(
-	std::istream&			input,
+	std::istream&		input,
 	const JFileVersion	vers
 	)
 {
@@ -771,8 +771,7 @@ CBTree::AddClass
 /******************************************************************************
  RebuildTree (private)
 
-	Recalculates all parents and then places all classes.  Returns the
-	resulting width and height.
+	Recalculates all parents and then places all classes.
 
 	Because one is not required to fully qualify every parent
 	(e.g. JBroadcaster::Message), some classes can not find their parents
@@ -966,7 +965,7 @@ CBTree::RecalcVisible
 
 	if (rebuildVisible || forcePlaceAll)
 		{
-		PlaceAll(NULL);
+		PlaceAll();
 		}
 }
 

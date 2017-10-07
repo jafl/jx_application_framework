@@ -869,7 +869,7 @@ cbWriteSpace
 void
 CBProjectDocument::WriteTextFile
 	(
-	std::ostream&		projOutput,
+	std::ostream&	projOutput,
 	const JBoolean	safetySave
 	)
 	const
@@ -1314,26 +1314,26 @@ CBProjectDocument::SetTreePrefs
 	const JBoolean	writePrefs
 	)
 {
-	SetTreePrefs1(itsCTreeDirector,
-				  fontSize, showInheritedFns,
-				  autoMinMILinks, drawMILinksOnTop,
-				  raiseWhenSingleMatch, writePrefs);
+	SetTreePrefs(itsCTreeDirector,
+				 fontSize, showInheritedFns,
+				 autoMinMILinks, drawMILinksOnTop,
+				 raiseWhenSingleMatch, writePrefs);
 
-	SetTreePrefs1(itsJavaTreeDirector,
-				  fontSize, showInheritedFns,
-				  autoMinMILinks, drawMILinksOnTop,
-				  raiseWhenSingleMatch, writePrefs);
+	SetTreePrefs(itsJavaTreeDirector,
+				 fontSize, showInheritedFns,
+				 autoMinMILinks, drawMILinksOnTop,
+				 raiseWhenSingleMatch, writePrefs);
 
-	SetTreePrefs1(itsPHPTreeDirector,
-				  fontSize, showInheritedFns,
-				  autoMinMILinks, drawMILinksOnTop,
-				  raiseWhenSingleMatch, writePrefs);
+	SetTreePrefs(itsPHPTreeDirector,
+				 fontSize, showInheritedFns,
+				 autoMinMILinks, drawMILinksOnTop,
+				 raiseWhenSingleMatch, writePrefs);
 }
 
 // private
 
 void
-CBProjectDocument::SetTreePrefs1
+CBProjectDocument::SetTreePrefs
 	(
 	CBTreeDirector*	director,
 	const JSize		fontSize,
@@ -1513,6 +1513,8 @@ CBProjectDocument::BuildWindow
 
 	ListenTo(itsConfigButton);
 	itsConfigButton->SetHint(JGetString("ConfigButtonHint::CBProjectDocument"));
+
+	itsUpdateContainer->SetNeedsInternalFTC();
 
 	// file list
 
@@ -1805,6 +1807,9 @@ CBProjectDocument::Receive
 	else if (sender == itsUpdateLink && message.Is(JMessageProtocolT::kReceivedDisconnect))
 		{
 		SymbolUpdateFinished();
+		itsCTreeDirector->GetTree()->RebuildLayout();
+		itsJavaTreeDirector->GetTree()->RebuildLayout();
+		itsPHPTreeDirector->GetTree()->RebuildLayout();
 		}
 
 	else if (sender == itsUpdateProcess && message.Is(JProcess::kFinished))
@@ -2528,6 +2533,7 @@ CBProjectDocument::SymbolUpdateProgress()
 		JString msg;
 		input >> msg;
 
+		itsUpdateLabel->Show();
 		itsUpdatePG->FixedLengthProcessBeginning(count, msg, kJFalse, kJTrue);
 		}
 	else if (type == kVariableLengthStart)
@@ -2540,6 +2546,7 @@ CBProjectDocument::SymbolUpdateProgress()
 		JString msg;
 		input >> msg;
 
+		itsUpdateLabel->Show();
 		itsUpdatePG->VariableLengthProcessBeginning(msg, kJFalse, kJTrue);
 		}
 	else if (type == kProgressIncrement)
@@ -2559,6 +2566,7 @@ CBProjectDocument::SymbolUpdateProgress()
 
 		itsUpdateCounter->Hide();
 		itsUpdateCleanUpIndicator->Hide();
+		itsUpdateLabel->Show();
 		itsUpdateLabel->SetText(JGetString("ReloadingSymbols::CBProjectDocument"));
 		GetWindow()->Redraw();
 
@@ -2581,6 +2589,7 @@ CBProjectDocument::SymbolUpdateProgress()
 
 		itsUpdateCounter->Hide();
 		itsUpdateCleanUpIndicator->Hide();
+		itsUpdateLabel->Show();
 		itsUpdateLabel->SetText(JGetString("ReloadingSymbols::CBProjectDocument"));
 		GetWindow()->Redraw();
 
@@ -2675,7 +2684,7 @@ CBProjectDocument::ShowUpdatePG
 		itsUpdateContainer->Hide();
 		itsToolBar->AdjustSize(0, itsUpdateContainer->GetFrameHeight());
 
-		itsUpdateLabel->SetText("");
+		itsUpdateLabel->Hide();
 		itsUpdateCounter->Hide();
 		itsUpdateCleanUpIndicator->Hide();
 		}
@@ -2777,6 +2786,10 @@ CBProjectDocument::UpdateSymbolDatabase()
 				output, itsFileTree, *itsDirList, itsSymbolDirector,
 				itsCTreeDirector, itsJavaTreeDirector, itsPHPTreeDirector))
 			{
+			output.write(JMessageProtocolT::kStdDisconnectStr, JMessageProtocolT::kStdDisconnectLength);
+			output.close();
+
+			JWait(15);	// give last message a chance to be received
 			exit(0);
 			}
 

@@ -50,6 +50,7 @@ public:
 
 	void		NextUpdateMustReparseAll();
 	JBoolean	NeedsReparseAll() const;
+	void		RebuildLayout();
 
 	JBoolean	FindClass(const JCharacter* fullName, CBClass** theClass) const;
 	JBoolean	FindClass(const JCharacter* fullName, const CBClass** theClass) const;
@@ -715,6 +716,19 @@ CBTree::NeedsReparseAll()
 	const
 {
 	return itsReparseAllFlag;
+}
+
+/******************************************************************************
+ RebuildLayout
+
+ ******************************************************************************/
+
+inline void
+CBTree::RebuildLayout()
+{
+	const JSize size = itsFontSize;
+	itsFontSize      = 0;
+	SetFontSize(size);
 }
 
 #endif
