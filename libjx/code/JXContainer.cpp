@@ -2225,15 +2225,14 @@ JXContainer::FTCBuildLayout
 		}
 	else
 		{
+		GetFTCLog() << "FTCBuildLayout failed with " << objList.GetElementCount() << " roots" << std::endl;
 		if (theDebugFTCFlag)
 			{
-			GetFTCLog() << "FTCBuildLayout failed with " << objList.GetElementCount() << " roots:" << std::endl;
-
 			JPtrArrayIterator<JXContainer> iter(objList);
 			JXContainer* obj;
 			while (iter.Next(&obj))
 				{
-				GetFTCLog() << obj->ToString() << " -- " << obj->GetEnclosure() << std::endl;
+				GetFTCLog() << "  " << obj->ToString() << " -- " << obj->GetEnclosure() << std::endl;
 				}
 			}
 		else
