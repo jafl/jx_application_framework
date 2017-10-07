@@ -115,8 +115,9 @@ CBExecOutputDocument::CBExecOutputDocument
 	itsCmdPrompt =
 		jnew JXStaticText(JGetString("CmdPrompt::CBExecOutputDocument"), window,
 						 JXWidget::kFixedLeft, vSizing,
-						 fileRect.left, fileRect.top+3, 0, fileRect.height()-3);
+						 fileRect.left, fileRect.top, 0, fileRect.height());
 	assert( itsCmdPrompt != NULL );
+	itsCmdPrompt->SetToLabel();
 	itsCmdPrompt->Hide();
 
 	const JCoordinate promptWidth = itsCmdPrompt->GetFrameWidth();
