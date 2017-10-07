@@ -12,6 +12,10 @@ Please send all bug reports and suggestions for features to
 <p>
 <hr>
 
+<h3> 6.7.1 </h3>
+
+Class tree popup menus use the same font size as Text Editor Functions menus.
+
 <h3> 6.7 </h3>
 
 Redesigned multi-file Replace All feature to update files without opening them.  The operation is now <em>much</em> faster.  The modified files are listed in the \"Search Output\" window for reference.
