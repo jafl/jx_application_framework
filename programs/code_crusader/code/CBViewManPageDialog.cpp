@@ -105,17 +105,17 @@ CBViewManPageDialog::BuildWindow()
 					JXWidget::kHElastic, JXWidget::kFixedTop, 20,40, 290,20);
 	assert( itsFnName != NULL );
 
-	JXStaticText* obj1_JXLayout =
-		jnew JXStaticText(JGetString("obj1_JXLayout::CBViewManPageDialog::JXLayout"), window,
+	JXStaticText* nameLabel =
+		jnew JXStaticText(JGetString("nameLabel::CBViewManPageDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 100,20);
-	assert( obj1_JXLayout != NULL );
-	obj1_JXLayout->SetToLabel();
+	assert( nameLabel != NULL );
+	nameLabel->SetToLabel();
 
-	JXStaticText* obj2_JXLayout =
-		jnew JXStaticText(JGetString("obj2_JXLayout::CBViewManPageDialog::JXLayout"), window,
+	JXStaticText* sectionLabel =
+		jnew JXStaticText(JGetString("sectionLabel::CBViewManPageDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,80, 90,20);
-	assert( obj2_JXLayout != NULL );
-	obj2_JXLayout->SetToLabel();
+	assert( sectionLabel != NULL );
+	sectionLabel->SetToLabel();
 
 	itsAproposCheckbox =
 		jnew JXTextCheckbox(JGetString("itsAproposCheckbox::CBViewManPageDialog::JXLayout"), window,

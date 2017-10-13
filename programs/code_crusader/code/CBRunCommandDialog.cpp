@@ -192,17 +192,17 @@ CBRunCommandDialog::BuildWindow()
 					JXWidget::kHElastic, JXWidget::kFixedTop, 20,90, 370,20);
 	assert( itsCmdInput != NULL );
 
-	JXStaticText* obj1_JXLayout =
-		jnew JXStaticText(JGetString("obj1_JXLayout::CBRunCommandDialog::JXLayout"), window,
+	JXStaticText* cmdLabel =
+		jnew JXStaticText(JGetString("cmdLabel::CBRunCommandDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,70, 130,20);
-	assert( obj1_JXLayout != NULL );
-	obj1_JXLayout->SetToLabel();
+	assert( cmdLabel != NULL );
+	cmdLabel->SetToLabel();
 
-	JXStaticText* obj2_JXLayout =
-		jnew JXStaticText(JGetString("obj2_JXLayout::CBRunCommandDialog::JXLayout"), window,
+	JXStaticText* pathLabel =
+		jnew JXStaticText(JGetString("pathLabel::CBRunCommandDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 200,20);
-	assert( obj2_JXLayout != NULL );
-	obj2_JXLayout->SetToLabel();
+	assert( pathLabel != NULL );
+	pathLabel->SetToLabel();
 
 	itsPathHistoryMenu =
 		jnew JXPathHistoryMenu(kHistoryLength, "", window,

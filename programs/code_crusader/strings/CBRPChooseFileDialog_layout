@@ -1,7 +1,7 @@
 0
-obj2_JXLayout::CBRPChooseFileDialog::JXLayout "Relative to project file"
+projectRelativeRB::CBRPChooseFileDialog::JXLayout "Relative to project file"
+absolutePathRB::CBRPChooseFileDialog::JXLayout "Absolute path"
 desktopButton::CBRPChooseFileDialog::JXLayout "Desktop"
-obj1_JXLayout::CBRPChooseFileDialog::JXLayout "Absolute path"
 filterLabel::CBRPChooseFileDialog::JXLayout "Filter:"
 cancelButton::CBRPChooseFileDialog::JXLayout "Cancel"
 homeButton::CBRPChooseFileDialog::JXLayout "Home"

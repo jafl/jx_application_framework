@@ -122,95 +122,95 @@ CMEditPrefsDialog::BuildWindow
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 100,390, 60,20);
 	assert( cancelButton != NULL );
 
-	JXStaticText* obj1_JXLayout =
-		jnew JXStaticText(JGetString("obj1_JXLayout::CMEditPrefsDialog::JXLayout"), window,
+	JXStaticText* cSourceFileLabel =
+		jnew JXStaticText(JGetString("cSourceFileLabel::CMEditPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,240, 170,20);
-	assert( obj1_JXLayout != NULL );
-	obj1_JXLayout->SetToLabel();
+	assert( cSourceFileLabel != NULL );
+	cSourceFileLabel->SetToLabel();
 
-	JXStaticText* obj2_JXLayout =
-		jnew JXStaticText(JGetString("obj2_JXLayout::CMEditPrefsDialog::JXLayout"), window,
+	JXStaticText* cHeaderFileLabel =
+		jnew JXStaticText(JGetString("cHeaderFileLabel::CMEditPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,260, 170,20);
-	assert( obj2_JXLayout != NULL );
-	obj2_JXLayout->SetToLabel();
+	assert( cHeaderFileLabel != NULL );
+	cHeaderFileLabel->SetToLabel();
 
-	JXStaticText* obj3_JXLayout =
-		jnew JXStaticText(JGetString("obj3_JXLayout::CMEditPrefsDialog::JXLayout"), window,
+	JXStaticText* cmdHint =
+		jnew JXStaticText(JGetString("cmdHint::CMEditPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 160,200, 270,20);
-	assert( obj3_JXLayout != NULL );
-	obj3_JXLayout->SetFontSize(8);
-	obj3_JXLayout->SetToLabel();
+	assert( cmdHint != NULL );
+	cmdHint->SetFontSize(JGetDefaultFontSize()-2);
+	cmdHint->SetToLabel();
 
-	JXStaticText* obj4_JXLayout =
-		jnew JXStaticText(JGetString("obj4_JXLayout::CMEditPrefsDialog::JXLayout"), window,
+	JXStaticText* editFileLabel =
+		jnew JXStaticText(JGetString("editFileLabel::CMEditPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,160, 170,20);
-	assert( obj4_JXLayout != NULL );
-	obj4_JXLayout->SetToLabel();
+	assert( editFileLabel != NULL );
+	editFileLabel->SetToLabel();
 
-	JXStaticText* obj5_JXLayout =
-		jnew JXStaticText(JGetString("obj5_JXLayout::CMEditPrefsDialog::JXLayout"), window,
+	JXStaticText* editLineLabel =
+		jnew JXStaticText(JGetString("editLineLabel::CMEditPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,180, 170,20);
-	assert( obj5_JXLayout != NULL );
-	obj5_JXLayout->SetToLabel();
+	assert( editLineLabel != NULL );
+	editLineLabel->SetToLabel();
 
-	JXStaticText* obj6_JXLayout =
-		jnew JXStaticText(JGetString("obj6_JXLayout::CMEditPrefsDialog::JXLayout"), window,
+	JXStaticText* javaSourceLabel =
+		jnew JXStaticText(JGetString("javaSourceLabel::CMEditPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 31,290, 159,20);
-	assert( obj6_JXLayout != NULL );
-	obj6_JXLayout->SetToLabel();
+	assert( javaSourceLabel != NULL );
+	javaSourceLabel->SetToLabel();
 
-	JXStaticText* obj7_JXLayout =
-		jnew JXStaticText(JGetString("obj7_JXLayout::CMEditPrefsDialog::JXLayout"), window,
+	JXStaticText* fortranSourceLabel =
+		jnew JXStaticText(JGetString("fortranSourceLabel::CMEditPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,350, 170,20);
-	assert( obj7_JXLayout != NULL );
-	obj7_JXLayout->SetToLabel();
+	assert( fortranSourceLabel != NULL );
+	fortranSourceLabel->SetToLabel();
 
-	JXStaticText* obj8_JXLayout =
-		jnew JXStaticText(JGetString("obj8_JXLayout::CMEditPrefsDialog::JXLayout"), window,
+	JXStaticText* gdbCmdLabel =
+		jnew JXStaticText(JGetString("gdbCmdLabel::CMEditPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 340,20);
-	assert( obj8_JXLayout != NULL );
-	obj8_JXLayout->SetToLabel();
+	assert( gdbCmdLabel != NULL );
+	gdbCmdLabel->SetToLabel();
 
 	itsChooseGDBButton =
 		jnew JXTextButton(JGetString("itsChooseGDBButton::CMEditPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 370,40, 60,20);
 	assert( itsChooseGDBButton != NULL );
 
-	JXStaticText* obj9_JXLayout =
-		jnew JXStaticText(JGetString("obj9_JXLayout::CMEditPrefsDialog::JXLayout"), window,
+	JXStaticText* gdbScriptHint =
+		jnew JXStaticText(JGetString("gdbScriptHint::CMEditPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,60, 410,20);
-	assert( obj9_JXLayout != NULL );
-	obj9_JXLayout->SetFontSize(8);
-	obj9_JXLayout->SetToLabel();
+	assert( gdbScriptHint != NULL );
+	gdbScriptHint->SetFontSize(JGetDefaultFontSize()-2);
+	gdbScriptHint->SetToLabel();
 
-	JXStaticText* obj10_JXLayout =
-		jnew JXStaticText(JGetString("obj10_JXLayout::CMEditPrefsDialog::JXLayout"), window,
+	JXStaticText* jvmCmdLabel =
+		jnew JXStaticText(JGetString("jvmCmdLabel::CMEditPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,90, 340,20);
-	assert( obj10_JXLayout != NULL );
-	obj10_JXLayout->SetToLabel();
+	assert( jvmCmdLabel != NULL );
+	jvmCmdLabel->SetToLabel();
 
 	itsChooseJDBButton =
 		jnew JXTextButton(JGetString("itsChooseJDBButton::CMEditPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 370,110, 60,20);
 	assert( itsChooseJDBButton != NULL );
 
-	JXStaticText* obj11_JXLayout =
-		jnew JXStaticText(JGetString("obj11_JXLayout::CMEditPrefsDialog::JXLayout"), window,
+	JXStaticText* jvmScriptHint =
+		jnew JXStaticText(JGetString("jvmScriptHint::CMEditPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,130, 410,20);
-	assert( obj11_JXLayout != NULL );
-	obj11_JXLayout->SetFontSize(8);
-	obj11_JXLayout->SetToLabel();
+	assert( jvmScriptHint != NULL );
+	jvmScriptHint->SetFontSize(JGetDefaultFontSize()-2);
+	jvmScriptHint->SetToLabel();
 
 	itsPHPSuffixInput =
 		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 190,320, 240,20);
 	assert( itsPHPSuffixInput != NULL );
 
-	JXStaticText* obj12_JXLayout =
-		jnew JXStaticText(JGetString("obj12_JXLayout::CMEditPrefsDialog::JXLayout"), window,
+	JXStaticText* phpSourceLabel =
+		jnew JXStaticText(JGetString("phpSourceLabel::CMEditPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 31,320, 159,20);
-	assert( obj12_JXLayout != NULL );
-	obj12_JXLayout->SetToLabel();
+	assert( phpSourceLabel != NULL );
+	phpSourceLabel->SetToLabel();
 
 	itsFortranSuffixInput =
 		jnew JXInputField(window,

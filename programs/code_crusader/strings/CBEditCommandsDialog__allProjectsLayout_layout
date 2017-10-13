@@ -2,6 +2,6 @@
 allNewButton::CBEditCommandsDialog::allProjectsLayout "New"
 allExportButton::CBEditCommandsDialog::allProjectsLayout "Export"
 allImportButton::CBEditCommandsDialog::allProjectsLayout "Import"
+anyProjectTitle::CBEditCommandsDialog::allProjectsLayout "Tasks that can be used with any project:"
 allDuplicateButton::CBEditCommandsDialog::allProjectsLayout "Duplicate"
 allRemoveButton::CBEditCommandsDialog::allProjectsLayout "Remove"
-obj1_allProjectsLayout::CBEditCommandsDialog::allProjectsLayout "Tasks that can be used with any project:"

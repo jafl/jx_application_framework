@@ -72,11 +72,11 @@ GXPlotFunctionDialog::BuildWindow()
 					JXWidget::kHElastic, JXWidget::kVElastic, 80,10, 220,20);
 	assert( itsFunctionString != NULL );
 
-	JXStaticText* obj1_JXLayout =
-		jnew JXStaticText(JGetString("obj1_JXLayout::GXPlotFunctionDialog::JXLayout"), window,
+	JXStaticText* fnLabel =
+		jnew JXStaticText(JGetString("fnLabel::GXPlotFunctionDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 10,10, 70,20);
-	assert( obj1_JXLayout != NULL );
-	obj1_JXLayout->SetToLabel();
+	assert( fnLabel != NULL );
+	fnLabel->SetToLabel();
 
 	itsEditButton =
 		jnew JXTextButton(JGetString("itsEditButton::GXPlotFunctionDialog::JXLayout"), window,

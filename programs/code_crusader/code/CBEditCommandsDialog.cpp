@@ -167,11 +167,11 @@ CBEditCommandsDialog::BuildWindow
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 520,90, 60,20);
 	assert( allDuplicateButton != NULL );
 
-	JXStaticText* obj1_allProjectsLayout =
-		jnew JXStaticText(JGetString("obj1_allProjectsLayout::CBEditCommandsDialog::allProjectsLayout"), compartment,
+	JXStaticText* anyProjectTitle =
+		jnew JXStaticText(JGetString("anyProjectTitle::CBEditCommandsDialog::allProjectsLayout"), compartment,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,3, 580,20);
-	assert( obj1_allProjectsLayout != NULL );
-	obj1_allProjectsLayout->SetToLabel();
+	assert( anyProjectTitle != NULL );
+	anyProjectTitle->SetToLabel();
 
 	JXTextButton* allExportButton =
 		jnew JXTextButton(JGetString("allExportButton::CBEditCommandsDialog::allProjectsLayout"), compartment,
@@ -251,11 +251,11 @@ CBEditCommandsDialog::BuildWindow
 					JXWidget::kHElastic, JXWidget::kFixedTop, 260,40, 250,20);
 	assert( itsMakeDependCmd != NULL );
 
-	JXStaticText* obj1_thisProjectLayout =
-		jnew JXStaticText(JGetString("obj1_thisProjectLayout::CBEditCommandsDialog::thisProjectLayout"), compartment,
+	JXStaticText* updateMakefileLabel =
+		jnew JXStaticText(JGetString("updateMakefileLabel::CBEditCommandsDialog::thisProjectLayout"), compartment,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,40, 260,20);
-	assert( obj1_thisProjectLayout != NULL );
-	obj1_thisProjectLayout->SetToLabel();
+	assert( updateMakefileLabel != NULL );
+	updateMakefileLabel->SetToLabel();
 
 	JXTextButton* thisDuplicateButton =
 		jnew JXTextButton(JGetString("thisDuplicateButton::CBEditCommandsDialog::thisProjectLayout"), compartment,

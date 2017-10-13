@@ -239,17 +239,17 @@ CMArray1DDir::BuildWindow()
 					JXWidget::kHElastic, JXWidget::kFixedTop, 110,40, 170,20);
 	assert( itsExprInput != NULL );
 
-	JXStaticText* obj1_JXLayout =
-		jnew JXStaticText(JGetString("obj1_JXLayout::CMArray1DDir::JXLayout"), window,
+	JXStaticText* startLabel =
+		jnew JXStaticText(JGetString("startLabel::CMArray1DDir::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,70, 90,20);
-	assert( obj1_JXLayout != NULL );
-	obj1_JXLayout->SetToLabel();
+	assert( startLabel != NULL );
+	startLabel->SetToLabel();
 
-	JXStaticText* obj2_JXLayout =
-		jnew JXStaticText(JGetString("obj2_JXLayout::CMArray1DDir::JXLayout"), window,
+	JXStaticText* endLabel =
+		jnew JXStaticText(JGetString("endLabel::CMArray1DDir::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,100, 90,20);
-	assert( obj2_JXLayout != NULL );
-	obj2_JXLayout->SetToLabel();
+	assert( endLabel != NULL );
+	endLabel->SetToLabel();
 
 	itsStopButton =
 		jnew JXTextButton(JGetString("itsStopButton::CMArray1DDir::JXLayout"), window,
@@ -277,11 +277,11 @@ CMArray1DDir::BuildWindow()
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 110,100, 60,20);
 	assert( itsEndIndex != NULL );
 
-	JXStaticText* obj3_JXLayout =
-		jnew JXStaticText(JGetString("obj3_JXLayout::CMArray1DDir::JXLayout"), window,
+	JXStaticText* exprLabel =
+		jnew JXStaticText(JGetString("exprLabel::CMArray1DDir::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,40, 90,20);
-	assert( obj3_JXLayout != NULL );
-	obj3_JXLayout->SetToLabel();
+	assert( exprLabel != NULL );
+	exprLabel->SetToLabel();
 
 // end JXLayout
 

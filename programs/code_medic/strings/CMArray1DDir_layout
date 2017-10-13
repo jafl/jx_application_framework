@@ -1,6 +1,6 @@
 0
-obj1_JXLayout::CMArray1DDir::JXLayout "Starting index:"
 itsStopButton::CMArray1DDir::shortcuts::JXLayout "^["
+endLabel::CMArray1DDir::JXLayout "Ending index:"
+startLabel::CMArray1DDir::JXLayout "Starting index:"
 itsStopButton::CMArray1DDir::JXLayout "Stop"
-obj3_JXLayout::CMArray1DDir::JXLayout "Expression:"
-obj2_JXLayout::CMArray1DDir::JXLayout "Ending index:"
+exprLabel::CMArray1DDir::JXLayout "Expression:"

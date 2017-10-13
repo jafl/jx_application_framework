@@ -94,28 +94,28 @@ GXColByIncDialog::BuildWindow()
 					JXWidget::kHElastic, JXWidget::kVElastic, 95,90, 100,20);
 	assert( itsInc != NULL );
 
-	JXStaticText* obj1_JXLayout =
-		jnew JXStaticText(JGetString("obj1_JXLayout::GXColByIncDialog::JXLayout"), window,
+	JXStaticText* incrLabel =
+		jnew JXStaticText(JGetString("incrLabel::GXColByIncDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 15,90, 70,20);
-	assert( obj1_JXLayout != NULL );
-	obj1_JXLayout->SetToLabel();
+	assert( incrLabel != NULL );
+	incrLabel->SetToLabel();
 
-	JXStaticText* obj2_JXLayout =
-		jnew JXStaticText(JGetString("obj2_JXLayout::GXColByIncDialog::JXLayout"), window,
+	JXStaticText* minLabel =
+		jnew JXStaticText(JGetString("minLabel::GXColByIncDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 15,55, 70,20);
-	assert( obj2_JXLayout != NULL );
-	obj2_JXLayout->SetToLabel();
+	assert( minLabel != NULL );
+	minLabel->SetToLabel();
 
 	itsCount =
 		jnew JXIntegerInput(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 95,125, 100,20);
 	assert( itsCount != NULL );
 
-	JXStaticText* obj3_JXLayout =
-		jnew JXStaticText(JGetString("obj3_JXLayout::GXColByIncDialog::JXLayout"), window,
+	JXStaticText* countLabel =
+		jnew JXStaticText(JGetString("countLabel::GXColByIncDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 15,125, 70,20);
-	assert( obj3_JXLayout != NULL );
-	obj3_JXLayout->SetToLabel();
+	assert( countLabel != NULL );
+	countLabel->SetToLabel();
 
 	itsDestMenu =
 		jnew JXTextMenu(JGetString("itsDestMenu::GXColByIncDialog::JXLayout"), window,

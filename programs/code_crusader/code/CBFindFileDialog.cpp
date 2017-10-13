@@ -103,11 +103,11 @@ CBFindFileDialog::BuildWindow()
 					JXWidget::kHElastic, JXWidget::kFixedTop, 20,40, 220,20);
 	assert( itsFileName != NULL );
 
-	JXStaticText* obj1_JXLayout =
-		jnew JXStaticText(JGetString("obj1_JXLayout::CBFindFileDialog::JXLayout"), window,
+	JXStaticText* nameLabel =
+		jnew JXStaticText(JGetString("nameLabel::CBFindFileDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 80,20);
-	assert( obj1_JXLayout != NULL );
-	obj1_JXLayout->SetToLabel();
+	assert( nameLabel != NULL );
+	nameLabel->SetToLabel();
 
 	itsFileHistoryMenu =
 		jnew JXStringHistoryMenu(kHistoryLength, "", window,

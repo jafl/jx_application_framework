@@ -295,10 +295,10 @@ CMSourceDirector::BuildWindow()
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 20,530, 580,20);
 	assert( itsFileDisplay != NULL );
 
-	CMFileDragSource* obj1_JXLayout =
+	CMFileDragSource* dragSource =
 		jnew CMFileDragSource(this, window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 0,530, 20,20);
-	assert( obj1_JXLayout != NULL );
+	assert( dragSource != NULL );
 
 // end JXLayout
 

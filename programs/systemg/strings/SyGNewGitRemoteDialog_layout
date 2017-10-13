@@ -1,7 +1,7 @@
 0
 cancelButton::SyGNewGitRemoteDialog::JXLayout "Cancel"
 okButton::SyGNewGitRemoteDialog::shortcuts::JXLayout "^M"
-obj1_JXLayout::SyGNewGitRemoteDialog::JXLayout "Remote URL:"
 okButton::SyGNewGitRemoteDialog::JXLayout "OK"
 cancelButton::SyGNewGitRemoteDialog::shortcuts::JXLayout "^["
-obj2_JXLayout::SyGNewGitRemoteDialog::JXLayout "Local Name:"
+remoteLabel::SyGNewGitRemoteDialog::JXLayout "Remote URL:"
+localLabel::SyGNewGitRemoteDialog::JXLayout "Local Name:"

@@ -149,7 +149,7 @@ CBProjectConfigDialog::BuildWindow
 		jnew JXStaticText(JGetString("configInstrText::CBProjectConfigDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kVElastic, 20,315, 370,25);
 	assert( configInstrText != NULL );
-	configInstrText->SetFontSize(8);
+	configInstrText->SetFontSize(JGetDefaultFontSize()-2);
 
 	itsHelpButton =
 		jnew JXTextButton(JGetString("itsHelpButton::CBProjectConfigDialog::JXLayout"), window,

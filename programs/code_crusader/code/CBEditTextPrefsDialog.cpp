@@ -362,7 +362,7 @@ CBEditTextPrefsDialog::BuildWindow
 		jnew JXStaticText(JGetString("wordWrapHint::CBEditTextPrefsDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 40,460, 250,20);
 	assert( wordWrapHint != NULL );
-	wordWrapHint->SetFontSize(8);
+	wordWrapHint->SetFontSize(JGetDefaultFontSize()-2);
 	wordWrapHint->SetToLabel();
 
 	itsMiddleButtonPasteCB =

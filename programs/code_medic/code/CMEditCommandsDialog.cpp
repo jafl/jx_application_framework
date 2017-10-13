@@ -65,11 +65,11 @@ CMEditCommandsDialog::BuildWindow()
 	JXWindow* window = jnew JXWindow(this, 350,370, "");
 	assert( window != NULL );
 
-	JXStaticText* obj1_JXLayout =
-		jnew JXStaticText(JGetString("obj1_JXLayout::CMEditCommandsDialog::JXLayout"), window,
+	JXStaticText* gdbCmdTitle =
+		jnew JXStaticText(JGetString("gdbCmdTitle::CMEditCommandsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,10, 150,20);
-	assert( obj1_JXLayout != NULL );
-	obj1_JXLayout->SetToLabel();
+	assert( gdbCmdTitle != NULL );
+	gdbCmdTitle->SetToLabel();
 
 	JXScrollbarSet* scrollbarSet =
 		jnew JXScrollbarSet(window,
@@ -98,12 +98,12 @@ CMEditCommandsDialog::BuildWindow()
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 260,110, 70,20);
 	assert( itsRemoveButton != NULL );
 
-	JXStaticText* obj2_JXLayout =
-		jnew JXStaticText(JGetString("obj2_JXLayout::CMEditCommandsDialog::JXLayout"), window,
+	JXStaticText* hint =
+		jnew JXStaticText(JGetString("hint::CMEditCommandsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,30, 270,20);
-	assert( obj2_JXLayout != NULL );
-	obj2_JXLayout->SetFontSize(8);
-	obj2_JXLayout->SetToLabel();
+	assert( hint != NULL );
+	hint->SetFontSize(JGetDefaultFontSize()-2);
+	hint->SetToLabel();
 
 // end JXLayout
 

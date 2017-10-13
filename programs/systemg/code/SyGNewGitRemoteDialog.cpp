@@ -93,22 +93,22 @@ SyGNewGitRemoteDialog::BuildWindow()
 					JXWidget::kHElastic, JXWidget::kFixedTop, 20,40, 270,20);
 	assert( itsRemoteURLInputField != NULL );
 
-	JXStaticText* obj1_JXLayout =
-		jnew JXStaticText(JGetString("obj1_JXLayout::SyGNewGitRemoteDialog::JXLayout"), window,
+	JXStaticText* remoteLabel =
+		jnew JXStaticText(JGetString("remoteLabel::SyGNewGitRemoteDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 20,20, 270,20);
-	assert( obj1_JXLayout != NULL );
-	obj1_JXLayout->SetToLabel();
+	assert( remoteLabel != NULL );
+	remoteLabel->SetToLabel();
 
 	itsLocalNameInputField =
 		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 20,90, 270,20);
 	assert( itsLocalNameInputField != NULL );
 
-	JXStaticText* obj2_JXLayout =
-		jnew JXStaticText(JGetString("obj2_JXLayout::SyGNewGitRemoteDialog::JXLayout"), window,
+	JXStaticText* localLabel =
+		jnew JXStaticText(JGetString("localLabel::SyGNewGitRemoteDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 20,70, 270,20);
-	assert( obj2_JXLayout != NULL );
-	obj2_JXLayout->SetToLabel();
+	assert( localLabel != NULL );
+	localLabel->SetToLabel();
 
 // end JXLayout
 

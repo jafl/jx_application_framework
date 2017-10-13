@@ -111,11 +111,11 @@ CBRunTEScriptDialog::BuildWindow()
 					JXWidget::kHElastic, JXWidget::kFixedTop, 20,40, 320,20);
 	assert( itsCmdInput != NULL );
 
-	JXStaticText* obj1_JXLayout =
-		jnew JXStaticText(JGetString("obj1_JXLayout::CBRunTEScriptDialog::JXLayout"), window,
+	JXStaticText* cmdLabel =
+		jnew JXStaticText(JGetString("cmdLabel::CBRunTEScriptDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 20,20, 350,20);
-	assert( obj1_JXLayout != NULL );
-	obj1_JXLayout->SetToLabel();
+	assert( cmdLabel != NULL );
+	cmdLabel->SetToLabel();
 
 	itsHistoryMenu =
 		jnew JXStringHistoryMenu(kHistoryLength, "", window,

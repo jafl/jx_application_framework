@@ -1,5 +1,5 @@
 0
 okButton::CBTabWidthDialog::JXLayout "OK"
-obj1_JXLayout::CBTabWidthDialog::JXLayout "Spaces per tab:"
 cancelButton::CBTabWidthDialog::JXLayout "Cancel"
 okButton::CBTabWidthDialog::shortcuts::JXLayout "^M"
+tabWidthLabel::CBTabWidthDialog::JXLayout "Spaces per tab:"

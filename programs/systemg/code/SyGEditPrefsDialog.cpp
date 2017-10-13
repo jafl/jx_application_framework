@@ -118,7 +118,7 @@ SyGEditPrefsDialog::BuildWindow
 		jnew JXStaticText(JGetString("cmdHint::SyGEditPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 155,230, 300,20);
 	assert( cmdHint != NULL );
-	cmdHint->SetFontSize(8);
+	cmdHint->SetFontSize(JGetDefaultFontSize()-2);
 	cmdHint->SetToLabel();
 
 	itsDelCB =
@@ -135,7 +135,7 @@ SyGEditPrefsDialog::BuildWindow
 		jnew JXStaticText(JGetString("warnLabel::SyGEditPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 40,90, 310,20);
 	assert( warnLabel != NULL );
-	warnLabel->SetFontSize(8);
+	warnLabel->SetFontSize(JGetDefaultFontSize()-2);
 	warnLabel->SetToLabel();
 
 	JXStaticText* branchLabel =
@@ -148,7 +148,7 @@ SyGEditPrefsDialog::BuildWindow
 		jnew JXStaticText(JGetString("branchHint::SyGEditPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 215,320, 240,20);
 	assert( branchHint != NULL );
-	branchHint->SetFontSize(8);
+	branchHint->SetFontSize(JGetDefaultFontSize()-2);
 	branchHint->SetToLabel();
 
 	JXStaticText* statusLabel =
@@ -182,7 +182,7 @@ SyGEditPrefsDialog::BuildWindow
 		jnew JXStaticText(JGetString("openHint::SyGEditPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 40,40, 410,20);
 	assert( openHint != NULL );
-	openHint->SetFontSize(8);
+	openHint->SetFontSize(JGetDefaultFontSize()-2);
 	openHint->SetToLabel();
 
 	itsFolderPrefsCB =
