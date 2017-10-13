@@ -2479,13 +2479,14 @@ JExprEditor::GetSuperSubFontSize
 	)
 	const
 {
-	if (baseFontSize == JGetDefaultFontSize())
+	const JSize size = JGetDefaultFontSize();
+	if (baseFontSize == size)
 		{
-		return 10;
+		return size-2;
 		}
 	else
 		{
-		return 8;
+		return size-4;
 		}
 }
 

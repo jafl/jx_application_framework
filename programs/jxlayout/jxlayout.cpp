@@ -103,13 +103,13 @@ struct FontSizeConversion
 
 static const FontSizeConversion kFontSizeTable[] =
 {
-	{"FL_DEFAULT_SIZE", "8"},
-	{"FL_TINY_SIZE",    "6"},
-	{"FL_SMALL_SIZE",   "8"},
+	{"FL_DEFAULT_SIZE", "JGetDefaultFontSize()-2"},
+	{"FL_TINY_SIZE",    "JGetDefaultFontSize()-4"},
+	{"FL_SMALL_SIZE",   "JGetDefaultFontSize()-2"},
 	{"FL_NORMAL_SIZE",  "JGetDefaultFontSize()"},
-	{"FL_MEDIUM_SIZE",  "12"},
-	{"FL_LARGE_SIZE",   "14"},
-	{"FL_HUGE_SIZE",    "18"}
+	{"FL_MEDIUM_SIZE",  "JGetDefaultFontSize()+2"},
+	{"FL_LARGE_SIZE",   "JGetDefaultFontSize()+4"},
+	{"FL_HUGE_SIZE",    "JGetDefaultFontSize()+8"}
 };
 
 const JSize kFontSizeTableSize = sizeof(kFontSizeTable)/sizeof(FontSizeConversion);

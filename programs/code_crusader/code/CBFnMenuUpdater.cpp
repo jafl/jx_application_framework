@@ -22,8 +22,6 @@
 #include <strstream>
 #include <jAssert.h>
 
-const JSize kSmallFontSize = 8;
-
 // sort=no requires so qualified tag comes after unqualified version
 
 static const JCharacter* kCtagsArgs =
@@ -125,7 +123,7 @@ CBFnMenuUpdater::UpdateMenu
 
 	if (pack)
 		{
-		menu->SetDefaultFontSize(kSmallFontSize, kJFalse);
+		menu->SetDefaultFontSize(JGetDefaultFontSize()-2, kJFalse);
 		menu->CompressHeight(kJTrue);
 		}
 	else

@@ -1,5 +1,3 @@
-scale non-default font sizes proportionately
-
 jcc
 	exec output
 		create command line input after FTC
