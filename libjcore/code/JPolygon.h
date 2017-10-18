@@ -12,6 +12,7 @@
 #define _H_JPolygon
 
 #include <JArray.h>
+#include <JPoint.h>
 
 typedef JArray<JPoint>	JPolygon;
 

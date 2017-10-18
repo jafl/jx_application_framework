@@ -387,19 +387,19 @@ JXTreeListWidget::TableDrawCell
 	const JTreeNode* node = itsTreeList->GetNode(cell.y);
 	if (JIndex(cell.x) == itsToggleOpenColIndex && node->IsOpenable())
 		{
-		p.ShiftOrigin(rect.topLeft());
+		p.ShiftOrigin(rect.center());
 
 		const JPolygon* triangle = (itsTreeList->IsOpen(cell.y) ?
 									&kOpenTriangle : &kClosedTriangle);
 		if (kOpenTriangle.IsEmpty())
 			{
-			kOpenTriangle.AppendElement(JPoint(5,  6));
-			kOpenTriangle.AppendElement(JPoint(15, 6));
-			kOpenTriangle.AppendElement(JPoint(10, 11));
+			kOpenTriangle.AppendElement(JPoint(-5,  -2));
+			kOpenTriangle.AppendElement(JPoint(5, -2));
+			kOpenTriangle.AppendElement(JPoint(0, 3));
 
-			kClosedTriangle.AppendElement(JPoint(10, 3));
-			kClosedTriangle.AppendElement(JPoint(15, 8));
-			kClosedTriangle.AppendElement(JPoint(10, 13));
+			kClosedTriangle.AppendElement(JPoint(0, -5));
+			kClosedTriangle.AppendElement(JPoint(5, 0));
+			kClosedTriangle.AppendElement(JPoint(0, 5));
 			}
 
 		const JColormap* colormap = p.GetColormap();
@@ -422,7 +422,7 @@ JXTreeListWidget::TableDrawCell
 			p.Polygon(*triangle);
 			}
 
-		p.ShiftOrigin(-(rect.topLeft()));
+		p.ShiftOrigin(-(rect.center()));
 		}
 
 	else if (JIndex(cell.x) == itsNodeColIndex)
