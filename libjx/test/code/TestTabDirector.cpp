@@ -129,7 +129,6 @@ TestTabDirector::BuildWindow()
 	assert( itsAddTabButton != NULL );
 	ListenTo(itsAddTabButton);
 
-
 	JXIntegerInput* input =
 		jnew JXIntegerInput(card2, JXWidget::kHElastic, JXWidget::kFixedTop,
 						   20, 60, 250, 20);

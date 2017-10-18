@@ -1,5 +1,5 @@
-
-*** Step 1:  Preparation
+Preparation
+===========
 
 Decide where you want the JX directory to reside.  Absolute paths are
 compiled into some of the utility programs, so you will have to rebuild
@@ -27,7 +27,8 @@ environment variable:
     export J_MAKEMAKE_IGNORE_PATTERN='^ace/$'
 
 
-*** Step 2:  Compiling
+Compiling
+=========
 
 If you want the binaries installed somewhere other than ~/bin (or JX/bin,
 if ~/bin doesn't exist), set the environment variable JX_INSTALL_ROOT to
@@ -77,7 +78,8 @@ Makefile by copying one of the existing ones and modifying it as follows:
   your patches to the distribution so you won't have to do it again.
 
 
-*** Step 3:  Additional configuration
+Additional configuration
+========================
 
 It is a good idea to set the following environment variables:
 
@@ -87,15 +89,14 @@ It is a good idea to set the following environment variables:
 Check libjcore/code/JMemoryManager.cc for more information.
 
 
-*** Step 4:  Compiling the other sample programs
+Compiling the other sample programs
+===================================
 
 To compile the tutorials or test suites, go to the directory and run first
 makemake and then make.
 
 
-*** Step 5:  Creating your own programs
+Creating your own programs
+==========================
 
-If you are using Code Crusader, create a new project using the
-JX_application project template.  Otherwise run jx_project_wizard directly.
-This will give you a skeleton program to get you started.
-
+Run jx_project_wizard to get a skeleton program.
