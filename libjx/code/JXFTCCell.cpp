@@ -174,8 +174,7 @@ JXFTCCell::GetDepth()
 JCoordinate
 JXFTCCell::Expand
 	(
-	const JBoolean horizontal,
-	const JBoolean subLayout
+	const JBoolean horizontal
 	)
 {
 	itsSyncChildrenFlag   = kJTrue;
@@ -199,7 +198,7 @@ JXFTCCell::Expand
 		}
 
 	BuildChildList();
-	ComputeInvariants(subLayout);
+	ComputeInvariants();
 
 	const JSize cellCount = itsChildren->GetElementCount();
 	JCoordinate max       = 0;
@@ -266,10 +265,7 @@ JXFTCCell::BuildChildList()
  ******************************************************************************/
 
 void
-JXFTCCell::ComputeInvariants
-	(
-	const JBoolean subLayout
-	)
+JXFTCCell::ComputeInvariants()
 {
 	const JSize cellCount = itsChildren->GetElementCount();
 	assert( cellCount > 1 );
@@ -322,36 +318,6 @@ JXFTCCell::ComputeInvariants
 			{
 			itsChildPositions->AppendElement((r.ycenter() - thisMin) / JFloat(itsFrameG.height()));
 			}
-		}
-
-	if (subLayout)
-		{
-		JXContainer* encl = GetEnclosure();
-		JPtrArrayIterator<JXContainer>* iter;
-		if (encl->GetEnclosedObjects(&iter))
-			{
-			JXContainer* obj;
-			iter->Next(&obj);
-			JRect covering = obj->GetFrameForFTC();
-
-			while (iter->Next(&obj))
-				{
-				covering = JCovering(covering, obj->GetFrameForFTC());
-				}
-
-			const JRect r     = encl->GetApertureGlobal();
-			itsPadding.top    = covering.top - r.top;
-			itsPadding.left   = covering.left - r.left;
-			itsPadding.bottom = r.bottom - covering.bottom;
-			itsPadding.right  = r.right - covering.right;
-
-			if (theDebugFTCFlag)
-				{
-				GetFTCLog() << Indent(+1) << encl->ToString() << " - padding: " << itsPadding << std::endl;
-				}
-			}
-
-		jdelete iter;
 		}
 }
 
@@ -518,16 +484,12 @@ JXFTCCell::ExpandWidget()
 		JXFTCCell* root = itsWidget->FTCBuildLayout(itsSyncHorizontalFlag);
 		if (root != NULL)
 			{
-			v = root->Expand(itsSyncHorizontalFlag, kJTrue);
+			ComputePadding();
+			v = root->Expand(itsSyncHorizontalFlag);
 
-			if (itsSyncHorizontalFlag)
-				{
-				v += root->itsPadding.left + root->itsPadding.right;
-				}
-			else
-				{
-				v += root->itsPadding.top + root->itsPadding.bottom;
-				}
+			v += itsSyncHorizontalFlag ?
+					itsPadding.left + itsPadding.right :
+					itsPadding.top + itsPadding.bottom;
 
 			if (theDebugFTCFlag)
 				{
@@ -574,6 +536,43 @@ JXFTCCell::ExpandWidget()
 		}
 
 	return (itsSyncHorizontalFlag ? itsFrameG.width() : itsFrameG.height());
+}
+
+/******************************************************************************
+ ComputePadding (private)
+
+ ******************************************************************************/
+
+void
+JXFTCCell::ComputePadding()
+{
+	JPtrArrayIterator<JXContainer>* iter;
+	if (itsWidget == NULL || !itsWidget->GetEnclosedObjects(&iter))
+		{
+		return;
+		}
+
+	JXContainer* obj;
+	iter->Next(&obj);
+	JRect covering = obj->GetFrameForFTC();
+
+	while (iter->Next(&obj))
+		{
+		covering = JCovering(covering, obj->GetFrameForFTC());
+		}
+
+	const JRect r     = itsWidget->GetApertureGlobal();
+	itsPadding.top    = covering.top - r.top;
+	itsPadding.left   = covering.left - r.left;
+	itsPadding.bottom = r.bottom - covering.bottom;
+	itsPadding.right  = r.right - covering.right;
+
+	if (theDebugFTCFlag)
+		{
+		GetFTCLog() << Indent(+1) << itsWidget->ToString() << " - padding: " << itsPadding << std::endl;
+		}
+
+	jdelete iter;
 }
 
 /******************************************************************************
@@ -869,7 +868,7 @@ JXFTCCell::SyncSize
 			JXFTCCell* root = itsWidget->FTCBuildLayout(itsSyncHorizontalFlag);
 			if (root != NULL)
 				{
-				root->Expand(itsSyncHorizontalFlag, kJTrue);	// NOOP - just sets up state
+				root->Expand(itsSyncHorizontalFlag);	// NOOP - just sets up state
 				root->AdjustSize(dw, dh);
 				jdelete root;
 				}

@@ -6,12 +6,13 @@ jcc
 		CBEditCommandsDialog
 		macros
 		cpm
-	run ftc inside each tab
-		compare files
 
 	CBTree
 		place trees at top surrounded by mi-linked classes
 			don't need "Show ..." options, because singles are at bottom
+
+FTC in docked windows
+	how to cope if min size expands?
 
 CSF dialogs migrate upward - incorrect window geom saved?
 

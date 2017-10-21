@@ -1821,3 +1821,17 @@ JXTabGroup::WriteSetup
 	output << ' ' << (long) itsEdge;
 	output << kSetupDataEndDelimiter;
 }
+
+/******************************************************************************
+ NeedsInternalFTC (virtual protected)
+
+	Return kJTrue if the contents are a set of widgets that need to expand.
+
+ ******************************************************************************/
+
+JBoolean
+JXTabGroup::NeedsInternalFTC()
+	const
+{
+	return kJTrue;
+}

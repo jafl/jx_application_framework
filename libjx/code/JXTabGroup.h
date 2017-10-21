@@ -125,6 +125,8 @@ protected:
 	virtual void		HandleDNDScroll(const JPoint& pt, const JXMouseButton scrollButton,
 										const JXKeyModifiers& modifiers);
 
+	virtual JBoolean	NeedsInternalFTC() const;
+
 	virtual void	Receive(JBroadcaster* sender, const Message& message);
 
 private:

@@ -33,7 +33,7 @@ public:
 	Direction		GetDirection() const;
 	JBoolean		IsExact() const;
 
-	JCoordinate		Expand(const JBoolean horizontal, const JBoolean subLayout = kJFalse);
+	JCoordinate		Expand(const JBoolean horizontal);
 
 	virtual void	Refresh() const;
 	virtual void	Redraw() const;
@@ -91,11 +91,12 @@ private:
 private:
 
 	void		BuildChildList();
-	void		ComputeInvariants(const JBoolean subLayout);
+	void		ComputeInvariants();
 	void		EnforceSpacing();
 	void		EnforcePositions();
 	void		CoverChildren();
 	JCoordinate	ExpandWidget();
+	void		ComputePadding();
 	void		SyncWidgetPosition();
 	void		SyncSize(const JCoordinate dw, const JCoordinate dh);
 	JBoolean	IsElastic();

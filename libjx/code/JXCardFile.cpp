@@ -47,6 +47,8 @@ JXCardFile::JXCardFile
 	assert( itsCards != NULL );
 
 	itsCurrCardIndex = 0;
+
+	SetNeedsInternalFTC();
 }
 
 /******************************************************************************
@@ -95,6 +97,7 @@ JXCardFile::InsertCard
 	card->SetSizing(kHElastic, kVElastic);
 	card->FitToEnclosure();
 	card->Hide();
+	card->SetNeedsInternalFTC();
 
 	itsCards->InsertAtIndex(index, card);
 	if (index <= itsCurrCardIndex)
