@@ -105,6 +105,7 @@
 .cpp ./code/JXTEBlinkCaretTask
 .cpp ./code/JXSearchTextDialog
 .cpp ./code/JXSearchTextButton
+.cpp ./code/JXSearchTextDecorTask
 .cpp ./code/JXRegexInput
 .cpp ./code/JXRegexReplaceInput
 .cpp ./code/JXTextEditorSet

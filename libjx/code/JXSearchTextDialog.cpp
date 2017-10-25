@@ -34,7 +34,7 @@
 #include <JXHelpManager.h>
 #include <JXTimerTask.h>
 #include <JXMenu.h>
-#include <JXDownRect.h>
+#include <JXSearchTextDecorTask.h>
 #include <JXFontManager.h>
 #include <JXColormap.h>
 #include <jXGlobals.h>
@@ -519,16 +519,9 @@ JXSearchTextDialog::SetObjects
 
 	// decor
 
-	const JRect wFrame  = window->GetFrameGlobal();
-	const JRect soFrame = itsStayOpenCB->GetFrameGlobal();
-	const JRect rfFrame = itsRetainFocusCB->GetFrameGlobal();
-
-	JXDownRect* line =
-		jnew JXDownRect(window, JXWidget::kFixedLeft, JXWidget::kFixedTop,
-						soFrame.left, soFrame.top-6,
-						rfFrame.right-soFrame.left, 2);
-	assert( line != NULL );
-	line->SetBorderWidth(1);
+	JXUrgentTask* decorTask = jnew JXSearchTextDecorTask(window, itsStayOpenCB, itsRetainFocusCB);
+	assert( decorTask != NULL );
+	decorTask->Go();
 
 	// shortcuts
 
