@@ -117,7 +117,6 @@ JXDockWidget::~JXDockWidget()
 		jdelete itsWindowList;
 		}
 
-	jdelete itsHintDirector;
 	jdelete itsDeleteHintTask;
 }
 

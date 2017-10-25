@@ -93,7 +93,7 @@ private:
 	JPtrArray<JXWindow>*	itsWindowList;		// NULL if contains partition
 	JPoint					itsMinSize;
 	JXPartition*			itsChildPartition;	// NULL if contains docked windows
-	JXHintDirector*			itsHintDirector;	// NULL unless showing hint
+	JXHintDirector*			itsHintDirector;	// NULL unless showing hint; not owned
 	JXTimerTask*			itsDeleteHintTask;	// NULL unless showing hint
 
 private:
