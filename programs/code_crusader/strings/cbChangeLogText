@@ -14,6 +14,8 @@ Please send all bug reports and suggestions for features to
 
 <h3> 6.7.1 </h3>
 
+The class inheritance display puts the trees at the top, so the \"Show lone ...\" options are no longer necessary
+<p>
 Class tree popup menus use the same font size as Text Editor Functions menus.
 
 <h3> 6.7 </h3>

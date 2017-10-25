@@ -37,9 +37,6 @@ static const JCharacter* kTreeMenuStr =
 	"%l| Collapse               %k Meta-<                       %i" kCBCollapseClassesAction
 	"  | Expand                 %k Meta->                       %i" kCBExpandClassesAction
 	"  | Expand all                                             %i" kCBExpandAllClassesAction
-	"  | Show lone classes   %b                                 %i" kCBShowLoneClassAction
-	"  | Show lone structs   %b                                 %i" kCBShowLoneCStructAction
-	"  | Show enums          %b                                 %i" kCBShowCEnumAction
 	"%l| Select parents                                         %i" kCBSelectParentClassAction
 	"  | Select descendants                                     %i" kCBSelectDescendantClassAction
 	"  | Copy selected names    %k Meta-C                       %i" kCBCopyClassNameAction
@@ -53,7 +50,6 @@ enum
 	kTreeOpenSourceCmd, kTreeOpenHeaderCmd, kTreeOpenFnListCmd,
 	kCreateDerivedClassCmd,
 	kTreeCollapseCmd, kTreeExpandCmd, kTreeExpandAllCmd,
-	kTreeShowLoneClassesCmd, kTreeShowLoneStructsCmd, kTreeShowEnumsCmd,
 	kTreeSelParentsCmd, kTreeSelDescendantsCmd, kCopySelNamesCmd,
 	kFindFnCmd, kCloseFnWindCmd
 };
@@ -165,10 +161,6 @@ CBCTreeDirector::UpdateTreeMenu()
 	treeMenu->EnableItem(kEditSearchPathsCmd);
 	treeMenu->EnableItem(kUpdateCurrentCmd);
 
-	treeMenu->EnableItem(kTreeShowLoneClassesCmd);
-	treeMenu->EnableItem(kTreeShowLoneStructsCmd);
-	treeMenu->EnableItem(kTreeShowEnumsCmd);
-
 	if (!itsCTree->IsEmpty())
 		{
 		treeMenu->EnableItem(kFindFnCmd);
@@ -178,19 +170,6 @@ CBCTreeDirector::UpdateTreeMenu()
 			{
 			treeMenu->EnableItem(kForceMinMILinksCmd);
 			}
-		}
-
-	if (itsCTree->WillShowLoneClasses())
-		{
-		treeMenu->CheckItem(kTreeShowLoneClassesCmd);
-		}
-	if (itsCTree->WillShowLoneStructs())
-		{
-		treeMenu->CheckItem(kTreeShowLoneStructsCmd);
-		}
-	if (itsCTree->WillShowEnums())
-		{
-		treeMenu->CheckItem(kTreeShowEnumsCmd);
 		}
 
 	JBoolean hasSelection, canCollapse, canExpand;
@@ -284,18 +263,6 @@ CBCTreeDirector::HandleTreeMenu
 	else if (index == kTreeExpandAllCmd)
 		{
 		itsCTree->ExpandAllClasses();
-		}
-	else if (index == kTreeShowLoneClassesCmd)
-		{
-		itsCTree->ToggleShowLoneClasses();
-		}
-	else if (index == kTreeShowLoneStructsCmd)
-		{
-		itsCTree->ToggleShowLoneStructs();
-		}
-	else if (index == kTreeShowEnumsCmd)
-		{
-		itsCTree->ToggleShowEnums();
 		}
 
 	else if (index == kTreeSelParentsCmd)

@@ -91,11 +91,11 @@ CBTree::CBTree
 
 CBTree::CBTree
 	(
-	std::istream&				projInput,
+	std::istream&			projInput,
 	const JFileVersion		projVers,
-	std::istream*				setInput,
+	std::istream*			setInput,
 	const JFileVersion		setVers,
-	std::istream*				symStream,
+	std::istream*			symStream,
 	const JFileVersion		origSymVers,
 	CBClassStreamInFn*		streamInFn,
 	CBTreeDirector*			director,
@@ -112,8 +112,8 @@ JIndex i;
 
 	CBTreeX(director, streamInFn);
 
-	std::istream* symInput          = (projVers <= 41 ? &projInput : symStream);
-	const JFileVersion symVers = (projVers <= 41 ? projVers   : origSymVers);
+	std::istream* symInput        = (projVers <= 41 ? &projInput : symStream);
+	const JFileVersion symVers    = (projVers <= 41 ? projVers   : origSymVers);
 	const JBoolean useSetProjData = JI2B( setInput == NULL || setVers < 71 );
 	const JBoolean useSymProjData = JI2B( symInput == NULL || symVers < 71 );
 
@@ -132,21 +132,18 @@ JIndex i;
 
 	if (projVers < 71)
 		{
+		JBoolean showLoneClasses, showLoneStructs, showEnums;
 		if (projVers >= 12)
 			{
-			projInput >> itsShowLoneClassesFlag;
+			projInput >> showLoneClasses;
 			if (projVers >= 13)
 				{
-				projInput >> itsShowLoneStructsFlag;
-				}
-			else
-				{
-				itsShowLoneStructsFlag = itsShowLoneClassesFlag;
+				projInput >> showLoneStructs;
 				}
 			}
 		if (projVers >= 10)
 			{
-			projInput >> itsShowEnumsFlag;
+			projInput >> showEnums;
 			}
 
 		if (projVers >= 19)
@@ -160,9 +157,13 @@ JIndex i;
 		}
 	if (!useSetProjData)	// overwrite
 		{
-		*setInput >> itsShowLoneClassesFlag;
-		*setInput >> itsShowLoneStructsFlag;
-		*setInput >> itsShowEnumsFlag;
+		if (setVers < 87)
+			{
+			JBoolean showLoneClasses, showLoneStructs, showEnums;
+			*setInput >> showLoneClasses;
+			*setInput >> showLoneStructs;
+			*setInput >> showEnums;
+			}
 		*setInput >> itsNeedsMinimizeMILinksFlag;
 		}
 
@@ -315,9 +316,6 @@ CBTree::CBTreeX
 	itsWidth = itsHeight = 0;
 	itsBroadcastClassSelFlag = kJTrue;
 
-	itsShowLoneClassesFlag  = kJTrue;
-	itsShowLoneStructsFlag  = kJTrue;
-	itsShowEnumsFlag        = kJTrue;
 	itsDrawMILinksOnTopFlag = kJTrue;
 
 	itsMinimizeMILinksFlag      = kJFalse;
@@ -440,9 +438,9 @@ JIndex i;
 void
 CBTree::StreamOut
 	(
-	std::ostream&			projOutput,
-	std::ostream*			setOutput,
-	std::ostream*			symOutput,
+	std::ostream&		projOutput,
+	std::ostream*		setOutput,
+	std::ostream*		symOutput,
 	const CBDirList*	dirList
 	)
 	const
@@ -468,9 +466,6 @@ JIndex i;
 
 	if (setOutput != NULL)
 		{
-		*setOutput << ' ' << itsShowLoneClassesFlag;
-		*setOutput << ' ' << itsShowLoneStructsFlag;
-		*setOutput << ' ' << itsShowEnumsFlag;
 		*setOutput << ' ' << itsNeedsMinimizeMILinksFlag;
 		}
 
@@ -864,50 +859,6 @@ CBTree::RecalcVisible
 	const JSize classCount  = itsClassesByFull->GetElementCount();
 	JBoolean rebuildVisible = forceRebuildVisible;
 
-	// set visibility of lone classes and enums
-
-	for (JIndex i=1; i<=classCount; i++)
-		{
-		CBClass* theClass       = itsClassesByFull->NthElement(i);
-		const JBoolean isStruct = theClass->IsStruct();
-		const JBoolean isEnum   = theClass->IsEnum();
-
-		// enums are controlled by one flag
-
-		if (isEnum && theClass->IsVisible() != itsShowEnumsFlag)
-			{
-			rebuildVisible = kJTrue;
-			theClass->SetVisible(itsShowEnumsFlag);
-			}
-
-		// classes and structs with no parents or children are "lone"
-
-		else if (!isEnum && !theClass->HasParents() && !theClass->HasChildren() &&
-				 ((!isStruct && theClass->IsVisible() != itsShowLoneClassesFlag) ||
-				  ( isStruct && theClass->IsVisible() != itsShowLoneStructsFlag)))
-			{
-			rebuildVisible = kJTrue;
-			if (isStruct)
-				{
-				theClass->SetVisible(itsShowLoneStructsFlag);
-				}
-			else
-				{
-				theClass->SetVisible(itsShowLoneClassesFlag);
-				}
-			}
-
-		// the following loop of code will only work if the
-		// root classes are visible
-
-		else if (!isEnum && !theClass->HasParents() && theClass->HasChildren() &&
-				 !theClass->IsVisible())
-			{
-			rebuildVisible = kJTrue;
-			theClass->SetVisible(kJTrue);
-			}
-		}
-
 	// hide classes whose parents are hidden or collapsed
 
 	JBoolean changed;
@@ -958,6 +909,25 @@ CBTree::RecalcVisible
 		{
 		itsVisibleByGeom->CopyPointers(*itsVisibleByName,
 									   itsVisibleByGeom->GetCleanUpAction(), kJFalse);
+
+		// move class trees to top, to simplify visual searching
+
+		const JSize classCount = itsVisibleByGeom->GetElementCount();
+
+		JIndex min = 1;
+		for (JIndex i = classCount; i >= min; i--)
+			{
+			CBClass* theClass = itsVisibleByGeom->NthElement(i);
+			if (!theClass->HasParents() && theClass->HasChildren())
+				{
+				itsVisibleByGeom->MoveElementToIndex(i, 1);
+				i++;		// recheck new element at this index
+				min++;		// ignore newly moved element
+				}
+			}
+
+		// truly minimize, if required
+
 		MinimizeMILinks();
 		}
 
@@ -1895,14 +1865,14 @@ CBTree::SelectClasses
 			if (!theClass->IsVisible())
 				{
 				changed = kJTrue;
-				ForceVisible(theClass);
+				theClass->ForceVisible();
 				}
 			}
 		}
 
 	if (changed)
 		{
-		RecalcVisible(kJTrue);		// ForceVisible() can uncollapse -or- simply show
+		RecalcVisible(kJTrue);		// ForceVisible() can uncollapse
 		Broadcast(Changed());
 		}
 }
@@ -1938,14 +1908,14 @@ CBTree::SelectImplementors
 			if (!theClass->IsVisible())
 				{
 				changed = kJTrue;
-				ForceVisible(theClass);
+				theClass->ForceVisible();
 				}
 			}
 		}
 
 	if (changed)
 		{
-		RecalcVisible(kJTrue);		// ForceVisible() can uncollapse -or- simply show
+		RecalcVisible(kJTrue);		// ForceVisible() can uncollapse
 		Broadcast(Changed());
 		}
 }
@@ -1978,14 +1948,14 @@ CBTree::SelectParents()
 				if (!p->IsVisible())
 					{
 					changed = kJTrue;
-					ForceVisible(p);
+					p->ForceVisible();
 					}
 				}
 			}
 
 		if (changed)
 			{
-			RecalcVisible(kJTrue);		// ForceVisible() can uncollapse -or- simply show
+			RecalcVisible(kJTrue);		// ForceVisible() can uncollapse
 			Broadcast(Changed());
 			}
 		}
@@ -2019,7 +1989,7 @@ CBTree::SelectDescendants()
 					if (!c1->IsVisible())
 						{
 						changed = kJTrue;
-						ForceVisible(c1);
+						c1->ForceVisible();
 						}
 					}
 				}
@@ -2027,7 +1997,7 @@ CBTree::SelectDescendants()
 
 		if (changed)
 			{
-			RecalcVisible(kJTrue);		// ForceVisible() can uncollapse -or- simply show
+			RecalcVisible(kJTrue);		// ForceVisible() can uncollapse
 			Broadcast(Changed());
 			}
 		}
@@ -2266,102 +2236,6 @@ CBTree::CollectAncestors
 				CollectAncestors(parent, list);
 				}
 			}
-		}
-}
-
-/******************************************************************************
- ForceVisible (private)
-
- ******************************************************************************/
-
-void
-CBTree::ForceVisible
-	(
-	CBClass* theClass
-	)
-{
-	const CBClass::ForceVisibleAction action = theClass->ForceVisible();
-	if (action == CBClass::kShowLoneClasses)
-		{
-		itsShowLoneClassesFlag = kJTrue;
-		Broadcast(Changed());
-		}
-	else if (action == CBClass::kShowLoneStructs)
-		{
-		itsShowLoneStructsFlag = kJTrue;
-		Broadcast(Changed());
-		}
-	else if (action == CBClass::kShowEnums)
-		{
-		itsShowEnumsFlag = kJTrue;
-		Broadcast(Changed());
-		}
-	else
-		{
-		assert( action == CBClass::kDoNothing );
-		}
-}
-
-/******************************************************************************
- ShowLoneClasses
-
-	Set whether or not lone classes should be visible.
-
- ******************************************************************************/
-
-void
-CBTree::ShowLoneClasses
-	(
-	const JBoolean visible
-	)
-{
-	if (visible != itsShowLoneClassesFlag)
-		{
-		itsShowLoneClassesFlag = visible;
-		RecalcVisible();
-		Broadcast(Changed());
-		}
-}
-
-/******************************************************************************
- ShowLoneStructs
-
-	Set whether or not lone classes should be visible.
-
- ******************************************************************************/
-
-void
-CBTree::ShowLoneStructs
-	(
-	const JBoolean visible
-	)
-{
-	if (visible != itsShowLoneStructsFlag)
-		{
-		itsShowLoneStructsFlag = visible;
-		RecalcVisible();
-		Broadcast(Changed());
-		}
-}
-
-/******************************************************************************
- ShowEnums
-
-	Set whether or not enums should be visible.
-
- ******************************************************************************/
-
-void
-CBTree::ShowEnums
-	(
-	const JBoolean visible
-	)
-{
-	if (visible != itsShowEnumsFlag)
-		{
-		itsShowEnumsFlag = visible;
-		RecalcVisible();
-		Broadcast(Changed());
 		}
 }
 
