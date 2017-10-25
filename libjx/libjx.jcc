@@ -1,4 +1,4 @@
-jx_browser_data 86
+jx_browser_data 87
 # project tree
 0 "root"
 T
@@ -436,6 +436,10 @@ T
 2 "JXSearchTextButton.cpp"
 F
 "./code/JXSearchTextButton.cpp"
+T
+2 "JXSearchTextDecorTask.cpp"
+F
+"./code/JXSearchTextDecorTask.cpp"
 T
 2 "JXRegexInput.cpp"
 F
