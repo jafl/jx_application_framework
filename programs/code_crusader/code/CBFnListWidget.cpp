@@ -795,7 +795,7 @@ CBFnListWidget::PrepareFunctionMenu
 	menu->SetDefaultFont(GetFont(), kJFalse);
 	if (CBMGetFnMenuUpdater()->WillPackFnNames())
 		{
-		menu->SetDefaultFontSize(8, kJFalse);
+		menu->SetDefaultFontSize(GetFont().GetSize()-2, kJFalse);
 		}
 
 	const JSize count = GetRowCount();
