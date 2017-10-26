@@ -23,6 +23,8 @@ class CBCmdLineInput;
 
 class CBExecOutputDocument : public CBTextDocument
 {
+	friend class CBExecOutputPostFTCTask;
+
 public:
 
 	typedef JMessageProtocol<ACE_LSOCK_STREAM>		RecordLink;
@@ -100,6 +102,7 @@ private:
 
 private:
 
+	void	PlaceCmdLineWidgets();
 	void	ReceiveRecord();
 	void	ReceiveData(const Message& message);
 	void	UpdateButtons();
