@@ -236,13 +236,13 @@ CBSearchDocument::CBSearchDocument
 
 	JXWidget::HSizingOption hSizing;
 	JXWidget::VSizingOption vSizing;
-	const JRect frame = GetFileDisplayInfo(&hSizing, &vSizing);
+	GetFileDisplayInfo(&hSizing, &vSizing);
 	SetFileDisplayVisible(kJFalse);
 
 	itsIndicator =
 		jnew JXProgressIndicator(GetWindow(), hSizing, vSizing,
-								frame.left, frame.ycenter() - kIndicatorHeight/2,
-								frame.width(), kIndicatorHeight);
+								-1000, -1000,
+								500, kIndicatorHeight);
 	assert( itsIndicator != NULL );
 	itsIndicator->SetMaxValue(fileCount);
 
@@ -282,6 +282,24 @@ CBSearchDocument::CBSearchDocument
 CBSearchDocument::~CBSearchDocument()
 {
 	jdelete itsReplaceTE;
+}
+
+/******************************************************************************
+ PlaceCmdLineWidgets (virtual protected)
+
+ ******************************************************************************/
+
+void
+CBSearchDocument::PlaceCmdLineWidgets()
+{
+	JXWindow* window = GetWindow();
+
+	JXWidget::HSizingOption hSizing;
+	JXWidget::VSizingOption vSizing;
+	const JRect frame = GetFileDisplayInfo(&hSizing, &vSizing);
+
+	itsIndicator->Place(frame.left, frame.ycenter() - kIndicatorHeight/2);
+	itsIndicator->SetSize(frame.width(), kIndicatorHeight);
 }
 
 /******************************************************************************

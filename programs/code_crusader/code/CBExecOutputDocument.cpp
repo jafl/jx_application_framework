@@ -165,7 +165,7 @@ CBExecOutputDocument::~CBExecOutputDocument()
 }
 
 /******************************************************************************
- PlaceCmdLineWidgets (private)
+ PlaceCmdLineWidgets (virtual protected)
 
  ******************************************************************************/
 
@@ -195,7 +195,8 @@ CBExecOutputDocument::PlaceCmdLineWidgets()
 		2 * itsEOFButton->GetBorderWidth();
 
 	itsCmdInput->Place(fileRect.left + promptWidth, fileRect.top);
-	itsCmdInput->SetSize(fileRect.width() - promptWidth - eofWidth, fileRect.height());
+	// Since we are doing this after FTC, we have to ensure width > 0
+	itsCmdInput->SetSize(JMax(10L, fileRect.width() - promptWidth - eofWidth), fileRect.height());
 
 	itsEOFButton->Place(fileRect.right - eofWidth, fileRect.top);
 	itsEOFButton->SetSize(eofWidth, fileRect.height());

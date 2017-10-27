@@ -67,6 +67,7 @@ protected:
 	void	StopProcess();
 	void	KillProcess();
 
+	virtual void		PlaceCmdLineWidgets();
 	virtual void		AppendText(const JString& text);
 	virtual JBoolean	ProcessFinished(const JProcess::Finished& info);
 	virtual JBoolean	NeedsFormattedData() const;
@@ -102,7 +103,6 @@ private:
 
 private:
 
-	void	PlaceCmdLineWidgets();
 	void	ReceiveRecord();
 	void	ReceiveData(const Message& message);
 	void	UpdateButtons();
