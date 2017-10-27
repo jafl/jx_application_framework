@@ -2638,6 +2638,31 @@ JXContainer::NeedsInternalFTC()
 }
 
 /******************************************************************************
+ RunInternalFTC (virtual protected)
+
+	Expand and return new size.
+
+ ******************************************************************************/
+
+JCoordinate
+JXContainer::RunInternalFTC
+	(
+	const JBoolean horizontal
+	)
+{
+	JCoordinate v = 0;
+
+	JXFTCCell* root = FTCBuildLayout(horizontal);
+	if (root != NULL)
+		{
+		v = root->Expand(horizontal);
+		}
+	jdelete root;
+
+	return v;
+}
+
+/******************************************************************************
  GetFTCMinContentSize (virtual protected)
 
  ******************************************************************************/

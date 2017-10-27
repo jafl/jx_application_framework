@@ -190,6 +190,7 @@ protected:
 
 	virtual JBoolean	IncludeInFTC() const;
 	virtual JBoolean	NeedsInternalFTC() const;
+	virtual JCoordinate	RunInternalFTC(const JBoolean horizontal);
 	virtual JCoordinate	GetFTCMinContentSize(const JBoolean horizontal) const;
 	virtual JRect		GetFrameForFTC() const;
 	virtual void		FTCAdjustSize(const JCoordinate dw, const JCoordinate dh);

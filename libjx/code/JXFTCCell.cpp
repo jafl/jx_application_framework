@@ -481,31 +481,19 @@ JXFTCCell::ExpandWidget()
 			GetFTCLog() << "=== Processing internal structure for " << itsWidget->ToString() << std::endl;
 			}
 
-		JXFTCCell* root = itsWidget->FTCBuildLayout(itsSyncHorizontalFlag);
-		if (root != NULL)
-			{
-			ComputePadding();
-			v = root->Expand(itsSyncHorizontalFlag);
+		ComputePadding();
 
+		v = itsWidget->RunInternalFTC(itsSyncHorizontalFlag);
+		if (v != 0)
+			{
 			v += itsSyncHorizontalFlag ?
 					itsPadding.left + itsPadding.right :
 					itsPadding.top + itsPadding.bottom;
+			}
 
-			if (theDebugFTCFlag)
-				{
-				GetFTCLog() << "=== Finished processing internal structure for " << itsWidget->ToString() << std::endl;
-				}
-
-			if (0 &&
-				((theDebugHorizFTCFlag &&  itsSyncHorizontalFlag) ||
-				 (theDebugVertFTCFlag  && !itsSyncHorizontalFlag)))
-				{
-				// leave it in place for debugging
-				}
-			else
-				{
-				jdelete root;
-				}
+		if (theDebugFTCFlag)
+			{
+			GetFTCLog() << "=== Finished processing internal structure for " << itsWidget->ToString() << std::endl;
 			}
 		}
 
