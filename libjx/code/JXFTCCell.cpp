@@ -201,10 +201,9 @@ JXFTCCell::Expand
 	ComputeInvariants();
 
 	const JSize cellCount = itsChildren->GetElementCount();
-	JCoordinate max       = 0;
 	for (JIndex i=1; i<=cellCount; i++)
 		{
-		max = JMax(max, itsChildren->GetElement(i)->Expand(horizontal));
+		itsChildren->GetElement(i)->Expand(horizontal);
 		}
 
 	if (( itsSyncHorizontalFlag && itsDirection == kHorizontal) ||
