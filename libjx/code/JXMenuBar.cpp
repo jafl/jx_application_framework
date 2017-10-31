@@ -160,6 +160,41 @@ JXMenuBar::GetMenu
 }
 
 /******************************************************************************
+ FindMenu
+
+ ******************************************************************************/
+
+JBoolean
+JXMenuBar::FindMenu
+	(
+	const JXMenu*	menu,
+	JIndex*			index
+	)
+	const
+{
+	JBoolean found = itsMenus->Find(menu, index);
+	if (!found && itsOverflowMenu != NULL)
+		{
+		const JSize count = itsOverflowMenu->GetItemCount();
+		for (JIndex i=1; i<=count; i++)
+			{
+			const JXMenu* m;
+			const JBoolean ok = itsOverflowMenu->GetSubmenu(i, &m);
+			assert( ok );
+
+			if (m == menu)
+				{
+				*index = itsMenus->GetElementCount() - 1 + i;
+				found  = kJTrue;
+				break;
+				}
+			}
+		}
+
+	return found;
+}
+
+/******************************************************************************
  InsertMenu
 
  ******************************************************************************/
