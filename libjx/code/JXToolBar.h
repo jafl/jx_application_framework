@@ -32,7 +32,6 @@ public:
 public:
 
 	JXToolBar(JPrefsManager* prefsMgr, const JPrefID& id, JXMenuBar* menuBar,
-				const JCoordinate minWidth, const JCoordinate minHeight,
 				JXContainer* enclosure,
 				const HSizingOption hSizing, const VSizingOption vSizing,
 				const JCoordinate x, const JCoordinate y,
@@ -55,9 +54,6 @@ public:
 
 	JBoolean		ToolBarVisible() const;
 	void			ShowToolBar(const JBoolean show);
-
-	void			GetWindowMinSize(JCoordinate* w, JCoordinate* h);
-	void			SetWindowMinSize(const JCoordinate w, const JCoordinate h);
 
 	JXToolBarButton::Type	GetButtonType() const;
 	void					SetButtonType(const JXToolBarButton::Type type);
@@ -88,11 +84,10 @@ private:
 	JArray<JBoolean>*				itsGroupStarts;
 	JCoordinate						itsCurrentLineY;
 	JBoolean						itsIsShowingButtons;
+	JBoolean						itsWasShowingButtons;
 	JString							itsDialogPrefs;
 	JXToolBarButton::Type			itsButtonType;
 	JBoolean						itsLoadedPrefs;
-	JCoordinate						itsWindowMinWidth;
-	JCoordinate						itsWindowMinHeight;
 
 private:
 
@@ -278,35 +273,6 @@ JXToolBar::ToolBarVisible()
 	const
 {
 	return itsIsShowingButtons;
-}
-
-/******************************************************************************
- WindowMinSize (public)
-
- ******************************************************************************/
-
-inline void
-JXToolBar::GetWindowMinSize
-	(
-	JCoordinate* w,
-	JCoordinate* h
-	)
-{
-	*w = itsWindowMinWidth;
-	*h = itsWindowMinHeight;
-}
-
-inline void
-JXToolBar::SetWindowMinSize
-	(
-	const JCoordinate w,
-	const JCoordinate h
-	)
-{
-	itsWindowMinWidth	= w;
-	itsWindowMinHeight	= h;
-
-	AdjustWindowMinSize();
 }
 
 #endif

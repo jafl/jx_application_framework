@@ -75,8 +75,6 @@ JXToolBar::JXToolBar
 	JPrefsManager*		prefsMgr,
 	const JPrefID&		id,
 	JXMenuBar*			menuBar,
-	const JCoordinate	minWidth,
-	const JCoordinate	minHeight,
 	JXContainer*		enclosure,
 	const HSizingOption hSizing,
 	const VSizingOption vSizing,
@@ -95,10 +93,9 @@ JXToolBar::JXToolBar
 	itsMenuBar(menuBar),
 	itsCurrentButtonHeight(kSmallButtonHeight),
 	itsIsShowingButtons(kJTrue),
+	itsWasShowingButtons(kJFalse),
 	itsButtonType(JXToolBarButton::kImage),
-	itsLoadedPrefs(kJFalse),
-	itsWindowMinWidth(minWidth),
-	itsWindowMinHeight(minHeight)
+	itsLoadedPrefs(kJFalse)
 {
 	assert(h >= 40);
 
@@ -108,18 +105,18 @@ JXToolBar::JXToolBar
 	itsMenus = jnew JPtrArray<JXMenu>(JPtrArrayT::kForgetAll);
 	assert(itsMenus != NULL);
 
-	JCoordinate barHeight = itsCurrentButtonHeight + 2* kButConBuffer;
+	const JCoordinate barHeight = itsCurrentButtonHeight + 2* kButConBuffer;
 
 	itsToolBarSet =
 		jnew JXWidgetSet(this,
 			JXWidget::kHElastic, JXWidget::kFixedTop,
-			0,0,w, barHeight);
+			0,0, w,barHeight);
 	assert(itsToolBarSet != NULL);
 
 	itsToolBarEnclosure =
 		jnew JXWidgetSet(this,
 			JXWidget::kHElastic, JXWidget::kVElastic,
-			0,barHeight,w,h - barHeight);
+			0,barHeight, w,h-barHeight);
 	assert(itsToolBarEnclosure != NULL);
 
 	itsGroupStarts = jnew JArray<JBoolean>;
@@ -1076,10 +1073,24 @@ JXToolBar::UpdateButtons()
 void
 JXToolBar::AdjustWindowMinSize()
 {
-	JCoordinate minHeight = itsWindowMinHeight;
-	if (itsIsShowingButtons)
+	JXWindow* w = GetWindow();
+	JPoint p    = w->GetMinSize();
+
+	JBoolean changed = kJFalse;
+	if (itsIsShowingButtons && !itsWasShowingButtons)
 		{
-		minHeight += itsToolBarSet->GetFrameHeight();
+		p.y    += itsToolBarSet->GetFrameHeight();
+		changed = kJTrue;
 		}
-	GetWindow()->SetMinSize(itsWindowMinWidth, minHeight);
+	else if (!itsIsShowingButtons && itsWasShowingButtons)
+		{
+		p.y    -= itsToolBarSet->GetFrameHeight();
+		changed = kJTrue;
+		}
+
+	if (changed)
+		{
+		w->SetMinSize(p.x, p.y);
+		}
+	itsWasShowingButtons = itsIsShowingButtons;
 }
