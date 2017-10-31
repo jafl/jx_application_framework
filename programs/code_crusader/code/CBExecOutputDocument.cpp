@@ -14,7 +14,6 @@
 #include "cbGlobals.h"
 #include <JXWindow.h>
 #include <JXMenuBar.h>
-#include <JXToolBar.h>
 #include <JXTextButton.h>
 #include <JXStaticText.h>
 #include <JOutPipeStream.h>
@@ -68,8 +67,8 @@ CBExecOutputDocument::CBExecOutputDocument
 
 	itsPauseButton =
 		jnew JXTextButton(JGetString("PauseLabel::CBExecOutputDocument"), window,
-						 JXWidget::kFixedRight, JXWidget::kFixedTop,
-						 rect.right - x,0, kMenuButtonWidth,h);
+						  JXWidget::kFixedRight, JXWidget::kFixedTop,
+						  rect.right - x,0, kMenuButtonWidth,h);
 	assert( itsPauseButton != NULL );
 	ListenTo(itsPauseButton);
 	itsPauseButton->SetShortcuts("^Z");
@@ -79,8 +78,8 @@ CBExecOutputDocument::CBExecOutputDocument
 		{
 		itsStopButton =
 			jnew JXTextButton(JGetString("StopLabel::CBExecOutputDocument"), window,
-							 JXWidget::kFixedRight, JXWidget::kFixedTop,
-							 rect.right - 2*kMenuButtonWidth,0, kMenuButtonWidth,h);
+							  JXWidget::kFixedRight, JXWidget::kFixedTop,
+							  rect.right - 2*kMenuButtonWidth,0, kMenuButtonWidth,h);
 		assert( itsStopButton != NULL );
 		ListenTo(itsStopButton);
 		itsStopButton->SetShortcuts("^C#.");
@@ -93,8 +92,8 @@ CBExecOutputDocument::CBExecOutputDocument
 
 	itsKillButton =
 		jnew JXTextButton(JGetString("KillLabel::CBExecOutputDocument"), window,
-						 JXWidget::kFixedRight, JXWidget::kFixedTop,
-						 rect.right - kMenuButtonWidth,0, kMenuButtonWidth,h);
+						  JXWidget::kFixedRight, JXWidget::kFixedTop,
+						  rect.right - kMenuButtonWidth,0, kMenuButtonWidth,h);
 	assert( itsKillButton != NULL );
 	ListenTo(itsKillButton);
 
@@ -114,23 +113,23 @@ CBExecOutputDocument::CBExecOutputDocument
 
 	itsCmdPrompt =
 		jnew JXStaticText(JGetString("CmdPrompt::CBExecOutputDocument"), window,
-						 JXWidget::kFixedLeft, vSizing,
-						 -1000, -1000, 0, 500);
+						  JXWidget::kFixedLeft, vSizing,
+						  -1000, -1000, 0, 500);
 	assert( itsCmdPrompt != NULL );
 	itsCmdPrompt->SetToLabel();
 	itsCmdPrompt->Hide();
 
 	itsCmdInput =
 		jnew CBCmdLineInput(this, window, hSizing, vSizing,
-						   -1000, -1000, 500, 500);
+							-1000, -1000, 500, 500);
 	assert( itsCmdInput != NULL );
 	itsCmdInput->ShareEditMenu(GetTextEditor());
 	itsCmdInput->Hide();
 
 	itsEOFButton =
 		jnew JXTextButton(JGetString("EOFButtonTitle::CBExecOutputDocument"), window,
-						 JXWidget::kFixedRight, vSizing,
-						 -1000, -1000, 500, 500);
+						  JXWidget::kFixedRight, vSizing,
+						  -1000, -1000, 500, 500);
 	assert( itsEOFButton != NULL );
 	itsEOFButton->SetShortcuts("^D");
 	itsEOFButton->Hide();
@@ -169,6 +168,8 @@ CBExecOutputDocument::~CBExecOutputDocument()
 
  ******************************************************************************/
 
+const JCoordinate kMinCmdInputWidth = 20;
+
 void
 CBExecOutputDocument::PlaceCmdLineWidgets()
 {
@@ -183,20 +184,23 @@ CBExecOutputDocument::PlaceCmdLineWidgets()
 
 	const JCoordinate promptWidth = itsCmdPrompt->GetFrameWidth();
 
-	JXToolBar* toolBar = GetToolBar();
-	JCoordinate minWidth, minHeight;
-	toolBar->GetWindowMinSize(&minWidth, &minHeight);
-	minWidth += promptWidth;
-	toolBar->SetWindowMinSize(minWidth, minHeight);
-
 	const JCoordinate eofWidth =
 		itsEOFButton->GetFont().GetStringWidth(itsEOFButton->GetLabel()) +
 		2 * itsEOFButton->GetPadding().x +
 		2 * itsEOFButton->GetBorderWidth();
 
 	itsCmdInput->Place(fileRect.left + promptWidth, fileRect.top);
-	// Since we are doing this after FTC, we have to ensure width > 0
-	itsCmdInput->SetSize(JMax(10L, fileRect.width() - promptWidth - eofWidth), fileRect.height());
+
+	JCoordinate cmdInputWidth = fileRect.width() - promptWidth - eofWidth;
+	if (cmdInputWidth < kMinCmdInputWidth)
+		{
+		window->AdjustSize(kMinCmdInputWidth - cmdInputWidth, 0);
+		cmdInputWidth = kMinCmdInputWidth;
+		}
+	itsCmdInput->SetSize(cmdInputWidth, fileRect.height());
+
+	const JPoint p = window->GetMinSize();
+	window->SetMinSize(window->GetFrameWidth() - (cmdInputWidth - kMinCmdInputWidth), p.y);
 
 	itsEOFButton->Place(fileRect.right - eofWidth, fileRect.top);
 	itsEOFButton->SetSize(eofWidth, fileRect.height());

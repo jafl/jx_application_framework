@@ -237,12 +237,10 @@ CBSearchDocument::CBSearchDocument
 	JXWidget::HSizingOption hSizing;
 	JXWidget::VSizingOption vSizing;
 	GetFileDisplayInfo(&hSizing, &vSizing);
-	SetFileDisplayVisible(kJFalse);
 
 	itsIndicator =
 		jnew JXProgressIndicator(GetWindow(), hSizing, vSizing,
-								-1000, -1000,
-								500, kIndicatorHeight);
+								 -1000, -1000, 500, kIndicatorHeight);
 	assert( itsIndicator != NULL );
 	itsIndicator->SetMaxValue(fileCount);
 
@@ -292,6 +290,8 @@ CBSearchDocument::~CBSearchDocument()
 void
 CBSearchDocument::PlaceCmdLineWidgets()
 {
+	CBExecOutputDocument::PlaceCmdLineWidgets();
+
 	JXWindow* window = GetWindow();
 
 	JXWidget::HSizingOption hSizing;
