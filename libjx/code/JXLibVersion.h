@@ -44,6 +44,11 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //		--debug-ftc-noop		extra debugging for noop cycles in FTC
 //		--debug-ftc-overlap		extra debugging for FTC overlap calculations
 //		--pseudotranslate		fake translation to test layout
+//	JXToolBar:
+//		*** Removed minWidth & minHeight ctor arguments, because FTC can
+//			change the values.
+//	JXMenuBar:
+//		Fixed bug in FindMenu() so it searches overflow.  (What took me so long?)
 
 // version 3.1.0:
 //	JXGetStringDialog:

@@ -1,5 +1,7 @@
 jcc
 	padding not maintained in Compare Files dialog TabGroup
+		layout is forced to fit inside space allocated by .fd file
+		JXTabGroup needs to expand frame based on extra space required by tabs
 
 	run ftc inside each partition
 		CBEditCommandsDialog

@@ -1462,7 +1462,7 @@ CBProjectDocument::BuildWindow
 	assert( menuBar != NULL );
 
 	itsToolBar =
-		jnew JXToolBar(CBGetPrefsManager(), kCBProjectToolBarID, menuBar, 150,150, window,
+		jnew JXToolBar(CBGetPrefsManager(), kCBProjectToolBarID, menuBar, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 510,380);
 	assert( itsToolBar != NULL );
 
@@ -1496,6 +1496,7 @@ CBProjectDocument::BuildWindow
 // end JXLayout
 
 	AdjustWindowTitle();
+	window->SetMinSize(150, 150);
 	window->SetWMClass(CBGetWMClassInstance(), CBGetProjectWindowClass());
 
 	JXDisplay* display = GetDisplay();

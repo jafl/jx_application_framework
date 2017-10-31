@@ -511,7 +511,7 @@ CBTextDocument::BuildWindow
 	assert( itsActionButton != NULL );
 
 	itsToolBar =
-		jnew JXToolBar(CBGetPrefsManager(), kCBTEToolBarID, itsMenuBar, 300,100, window,
+		jnew JXToolBar(CBGetPrefsManager(), kCBTEToolBarID, itsMenuBar, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 550,500);
 	assert( itsToolBar != NULL );
 
@@ -560,6 +560,7 @@ CBTextDocument::BuildWindow
 // end JXLayout
 
 	AdjustWindowTitle();
+	window->SetMinSize(300, 100);
 	if (setWMClass)
 		{
 		window->SetWMClass(CBGetWMClassInstance(), CBGetEditorWindowClass());
@@ -728,7 +729,7 @@ CBTextDocument::BuildWindow
 }
 
 /******************************************************************************
- GetFileDisplayInfo
+ InsertTextMenu
 
  ******************************************************************************/
 

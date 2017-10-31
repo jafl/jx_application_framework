@@ -64,7 +64,7 @@ resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
 name: itsToolBar
 callback: 
-argument: CBGetPrefsManager(), toolBarPrefID, menuBar, 150,150,
+argument: CBGetPrefsManager(), toolBarPrefID, menuBar,
 
 =============== FORM ===============
 Name: CBFnListDirector
@@ -406,7 +406,7 @@ resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
 name: itsToolBar
 callback: 
-argument: CBGetPrefsManager(), kCBTEToolBarID, itsMenuBar, 300,100,
+argument: CBGetPrefsManager(), kCBTEToolBarID, itsMenuBar,
 
 --------------------
 class: FL_BOX
@@ -4000,7 +4000,7 @@ resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
 name: itsToolBar
 callback: 
-argument: CBGetPrefsManager(), kCBFileListToolBarID, menuBar, 150,150
+argument: CBGetPrefsManager(), kCBFileListToolBarID, menuBar,
 
 =============== FORM ===============
 Name: CBEditMacroDialog
@@ -6238,7 +6238,7 @@ resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
 name: itsToolBar
 callback: 
-argument: CBGetPrefsManager(), kCBProjectToolBarID, menuBar, 150,150
+argument: CBGetPrefsManager(), kCBProjectToolBarID, menuBar,
 
 --------------------
 class: FL_BUTTON
@@ -8044,7 +8044,7 @@ resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
 name: itsToolBar
 callback: 
-argument: CBGetPrefsManager(), kCBSymbolToolBarID, menuBar, 150,150
+argument: CBGetPrefsManager(), kCBSymbolToolBarID, menuBar,
 
 =============== FORM ===============
 Name: CBSymbolSRDirector
