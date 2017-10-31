@@ -1360,6 +1360,8 @@ JXWindow::AnalyzeWindowManager
 
 	JXWindow* w = jnew JXWindow(dir, 100, 100, "Testing Window Manager");
 	assert( w != NULL );
+	jdelete w->itsExpandTask;
+	w->itsExpandTask = NULL;
 
 	// test placing visible window (fvwm2)
 
