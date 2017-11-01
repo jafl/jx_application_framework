@@ -1088,9 +1088,9 @@ JXToolBar::AdjustWindowMinSize()
 		changed = kJTrue;
 		}
 
+	itsWasShowingButtons = itsIsShowingButtons;
 	if (changed)
 		{
-		w->SetMinSize(p.x, p.y);
+		w->SetMinSize(p.x, p.y);	// causes recursion
 		}
-	itsWasShowingButtons = itsIsShowingButtons;
 }
