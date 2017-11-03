@@ -28,7 +28,7 @@
 
 static const JCharacter* kVersionStr =
 
-	"jxlayout 4.2.1\n"
+	"jxlayout 4.1.0\n"
 	"\n"
 	"Copyright (C) 1996-2017 John Lindal.  All rights reserved.";
 
@@ -628,6 +628,14 @@ JIndex i;
 		output << indent;
 		topEnclVarName.Print(output);
 		output << "->AdjustSize(" << formWidth << " - ";
+		topEnclApName.Print(output);
+		output << ".width(), " << formHeight << " - ";
+		topEnclApName.Print(output);
+		output << ".height());" << std::endl;
+
+		output << indent;
+		topEnclVarName.Print(output);
+		output << "->SetExtraNeededSpace(" << formWidth << " - ";
 		topEnclApName.Print(output);
 		output << ".width(), " << formHeight << " - ";
 		topEnclApName.Print(output);

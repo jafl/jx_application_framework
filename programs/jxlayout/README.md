@@ -94,19 +94,15 @@ other constructor.
 
 Changes from previous versions
 
-4.2.1
-
-Fixes for fit-to-content.  Widgets can be grouped by enclosing in a shadow
-box.
-
-4.2.0
-
-Added --require-obj-names to support translation.
-
 4.1.0
 
 Updated to support horizontal centering in JXStaticText.  Select the
 "CENTER" option in fdesign.
+
+Added --require-obj-names to support translation.
+
+Fixes for fit-to-content.  Widgets can be grouped by enclosing in a shadow
+box.
 
 4.0.0
 

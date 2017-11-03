@@ -1,14 +1,11 @@
 jcc
-	padding not maintained in Compare Files dialog TabGroup
-		layout is forced to fit inside space allocated by .fd file
-		JXTabGroup needs to expand frame based on extra space required by tabs
-
 	run ftc inside each partition
 		CBEditCommandsDialog
 		macros
 		cpm
 
-CSF dialogs migrate upward - incorrect window geom saved?
+systemg
+	run command on file - buttons not sized
 
 -----
 
@@ -35,9 +32,6 @@ multi-pane editing
 		double appropriate window dimension, if screen has space
 	each partition needs small [x] to close
 	small [+] buttons to split either horiz or vert
-
-OSX window placement
-	wmReshowOffset pushes window up instead of maintaining vertical position
 
 -----
 

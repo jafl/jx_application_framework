@@ -24,16 +24,19 @@ public:
 	virtual ~JXWidgetSet();
 
 	void	SetNeedsInternalFTC();
+	void	SetExtraNeededSpace(const JCoordinate dw, const JCoordinate dh);
 
 protected:
 
 	virtual void		Draw(JXWindowPainter& p, const JRect& rect);
 	virtual void		DrawBorder(JXWindowPainter& p, const JRect& frame);
 	virtual JBoolean	NeedsInternalFTC() const;
+	virtual JCoordinate	RunInternalFTC(const JBoolean horizontal);
 
 private:
 
 	JBoolean	itsNeedsInternalFTCFlag;
+	JPoint		itsExtraNeededSpace;	// space required to fit original size
 
 private:
 
@@ -53,6 +56,21 @@ inline void
 JXWidgetSet::SetNeedsInternalFTC()
 {
 	itsNeedsInternalFTCFlag = kJTrue;
+}
+
+/******************************************************************************
+ SetNeedsInternalFTC
+
+ ******************************************************************************/
+
+inline void
+JXWidgetSet::SetExtraNeededSpace
+	(
+	const JCoordinate dw,
+	const JCoordinate dh
+	)
+{
+	itsExtraNeededSpace.Set(dw, dh);
 }
 
 #endif
