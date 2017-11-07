@@ -23,6 +23,7 @@ public:
 	virtual ~JXExpandWindowToFitContentTask();
 
 	void	ShowAfterFTC();
+	void	PlaceAsDialogAfterFTC();
 	void	FocusAfterFTC(JXWidget* widget);
 
 	virtual void	Perform();
@@ -31,6 +32,7 @@ private:
 
 	JXWindow*	itsWindow;	// not owned
 	JBoolean	itShowWindowAfterFTCFlag;
+	JBoolean	itsPlaceAsDialogAfterFTCFlag;
 	JXWidget*	itsFocusWidget;
 
 private:
@@ -51,6 +53,17 @@ inline void
 JXExpandWindowToFitContentTask::ShowAfterFTC()
 {
 	itShowWindowAfterFTCFlag = kJTrue;
+}
+
+/******************************************************************************
+ PlaceAsDialogAfterFTC
+
+ ******************************************************************************/
+
+inline void
+JXExpandWindowToFitContentTask::PlaceAsDialogAfterFTC()
+{
+	itsPlaceAsDialogAfterFTCFlag = kJTrue;
 }
 
 /******************************************************************************

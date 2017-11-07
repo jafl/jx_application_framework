@@ -24,6 +24,7 @@ JXExpandWindowToFitContentTask::JXExpandWindowToFitContentTask
 	:
 	itsWindow(window),
 	itShowWindowAfterFTCFlag(kJFalse),
+	itsPlaceAsDialogAfterFTCFlag(kJFalse),
 	itsFocusWidget(NULL)
 {
 	ClearWhenGoingAway(itsWindow, &itsWindow);
@@ -50,6 +51,11 @@ JXExpandWindowToFitContentTask::Perform()
 		{
 		itsWindow->itsExpandTask = NULL;
 		itsWindow->ExpandToFitContent();
+
+		if (itsPlaceAsDialogAfterFTCFlag)
+			{
+			itsWindow->PlaceAsDialogWindow();
+			}
 
 		if (itShowWindowAfterFTCFlag)
 			{

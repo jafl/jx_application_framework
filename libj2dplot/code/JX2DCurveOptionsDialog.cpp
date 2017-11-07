@@ -168,9 +168,6 @@ JX2DCurveOptionsDialog::BuildWindow()
 
 	window->SetTitle("Curve Options");
 	SetButtons(okButton, NULL);
-	UseModalPlacement(kJFalse);
-	window->PlaceAsDialogWindow();
-	window->LockCurrentMinSize();
 
 	ListenTo(itsCancelButton);
 
