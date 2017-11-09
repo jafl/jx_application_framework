@@ -238,7 +238,7 @@ resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
 name: itsToolBar
 callback: 
-argument: <PRE>GetPrefsManager(), k<PRE>MainToolBarID, menuBar, minWidth, minHeight,
+argument: <PRE>GetPrefsManager(), k<PRE>MainToolBarID, menuBar,
 
 ==============================
 create_the_forms

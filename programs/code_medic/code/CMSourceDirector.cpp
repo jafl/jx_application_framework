@@ -286,7 +286,7 @@ CMSourceDirector::BuildWindow()
 	assert( itsMenuBar != NULL );
 
 	itsToolBar =
-		jnew JXToolBar(CMGetPrefsManager(), prefID, itsMenuBar, 300, 200, window,
+		jnew JXToolBar(CMGetPrefsManager(), prefID, itsMenuBar, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 600,500);
 	assert( itsToolBar != NULL );
 
@@ -305,6 +305,8 @@ CMSourceDirector::BuildWindow()
 	window->SetTitle(JGetString(
 		itsType == kMainAsmType ? "InitAsmWindowTitle::CMSourceDirector" :
 								  "InitSourceWindowTitle::CMSourceDirector"));
+
+	window->SetMinSize(300, 200);
 
 	if (itsType == kMainSourceType)
 		{

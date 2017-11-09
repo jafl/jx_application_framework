@@ -292,7 +292,7 @@ resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
 name: itsToolBar
 callback: 
-argument: MDGetPrefsManager(), kMDStatsToolBarID, menuBar, minWidth, minHeight,
+argument: MDGetPrefsManager(), kMDStatsToolBarID, menuBar,
 
 =============== FORM ===============
 Name: MDStatsDirector__statsLayout__statsEncl
@@ -592,7 +592,7 @@ resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
 name: itsToolBar
 callback: 
-argument: MDGetPrefsManager(), kMDRecordToolBarID, menuBar, minWidth, minHeight,
+argument: MDGetPrefsManager(), kMDRecordToolBarID, menuBar,
 
 =============== FORM ===============
 Name: MDFilterRecordsDialog

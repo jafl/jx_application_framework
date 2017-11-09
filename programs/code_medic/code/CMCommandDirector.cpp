@@ -481,7 +481,7 @@ CMCommandDirector::BuildWindow()
 	assert( menuBar != NULL );
 
 	itsToolBar =
-		jnew JXToolBar(CMGetPrefsManager(), kCmdWindowToolBarID, menuBar, 300, 200, window,
+		jnew JXToolBar(CMGetPrefsManager(), kCmdWindowToolBarID, menuBar, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 500,440);
 	assert( itsToolBar != NULL );
 
@@ -522,6 +522,7 @@ CMCommandDirector::BuildWindow()
 	window->SetCloseAction(JXWindow::kDeactivateDirector);
 	window->ShouldFocusWhenShow(kJTrue);
 	window->SetWMClass(CMGetWMClassInstance(), CMGetCommandWindowClass());
+	window->SetMinSize(300, 200);
 	CMGetPrefsManager()->GetWindowSize(kCmdWindSizeID, window);
 
 	JXDisplay* display = GetDisplay();

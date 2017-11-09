@@ -284,9 +284,6 @@ MDStatsDirector::DeleteDebugAcceptor()
 void
 MDStatsDirector::BuildWindow()
 {
-	const JCoordinate minWidth  = 200;
-	const JCoordinate minHeight = 200;
-
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 500,300, "");
@@ -298,7 +295,7 @@ MDStatsDirector::BuildWindow()
 	assert( menuBar != NULL );
 
 	itsToolBar =
-		jnew JXToolBar(MDGetPrefsManager(), kMDStatsToolBarID, menuBar, minWidth, minHeight, window,
+		jnew JXToolBar(MDGetPrefsManager(), kMDStatsToolBarID, menuBar, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 500,270);
 	assert( itsToolBar != NULL );
 
@@ -306,18 +303,20 @@ MDStatsDirector::BuildWindow()
 
 	window->SetTitle(JGetString("WindowTitle::MDStatsDirector"));
 	window->SetWMClass(MDGetWMClassInstance(), MDGetMainWindowClass());
+	window->SetMinSize(200, 200);
 
 	JXImage* image = jnew JXImage(GetDisplay(), md_main_window_icon);
 	assert( image != NULL );
 	window->SetIcon(image);
 
-	JXContainer* statsEncl = itsToolBar->GetWidgetEnclosure();
+	JXWidgetSet* statsEncl = itsToolBar->GetWidgetEnclosure();
 
 // begin statsLayout
 
 	const JRect statsLayout_Frame    = statsEncl->GetFrame();
 	const JRect statsLayout_Aperture = statsEncl->GetAperture();
 	statsEncl->AdjustSize(500 - statsLayout_Aperture.width(), 90 - statsLayout_Aperture.height());
+	statsEncl->SetExtraNeededSpace(500 - statsLayout_Aperture.width(), 90 - statsLayout_Aperture.height());
 
 	JXStaticText* binaryLabel =
 		jnew JXStaticText(JGetString("binaryLabel::MDStatsDirector::statsLayout"), statsEncl,

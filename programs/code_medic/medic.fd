@@ -478,7 +478,7 @@ resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
 name: itsToolBar
 callback: 
-argument: CMGetPrefsManager(), prefID, itsMenuBar, 300, 200
+argument: CMGetPrefsManager(), prefID, itsMenuBar,
 
 --------------------
 class: FL_BOX
@@ -574,7 +574,7 @@ resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
 name: itsToolBar
 callback: 
-argument: CMGetPrefsManager(), kCmdWindowToolBarID, menuBar, 300, 200
+argument: CMGetPrefsManager(), kCmdWindowToolBarID, menuBar,
 
 --------------------
 class: FL_BUTTON

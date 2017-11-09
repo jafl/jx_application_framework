@@ -1132,7 +1132,7 @@ resize: FL_RESIZE_NONE
 gravity: FL_NoGravity FL_NoGravity
 name: itsToolBar
 callback: 
-argument: SyGGetPrefsMgr(), kSMainToolBarID, menuBar, 200,200
+argument: SyGGetPrefsMgr(), kSMainToolBarID, menuBar,
 
 --------------------
 class: FL_BOX
