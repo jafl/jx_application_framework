@@ -9,6 +9,7 @@
 
 #include <JXExpandWindowToFitContentTask.h>
 #include <JXWindow.h>
+#include <JXDialogDirector.h>
 #include <JXWidget.h>
 #include <jAssert.h>
 
@@ -24,7 +25,6 @@ JXExpandWindowToFitContentTask::JXExpandWindowToFitContentTask
 	:
 	itsWindow(window),
 	itShowWindowAfterFTCFlag(kJFalse),
-	itsPlaceAsDialogAfterFTCFlag(kJFalse),
 	itsFocusWidget(NULL)
 {
 	ClearWhenGoingAway(itsWindow, &itsWindow);
@@ -52,7 +52,11 @@ JXExpandWindowToFitContentTask::Perform()
 		itsWindow->itsExpandTask = NULL;
 		itsWindow->ExpandToFitContent();
 
-		if (itsPlaceAsDialogAfterFTCFlag)
+		// modal dialogs must be realigned after FTC
+
+		JXWindowDirector* dir = itsWindow->GetDirector();
+		JXDialogDirector* dlog = dynamic_cast<JXDialogDirector*>(dir);
+		if (dlog != NULL && dlog->IsModal())
 			{
 			itsWindow->PlaceAsDialogWindow();
 			}

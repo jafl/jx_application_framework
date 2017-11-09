@@ -203,7 +203,6 @@ ASIO
 	requires exceptions - only worth switching when ACE no longer works without
 
 OSX window placement
-	modal windows, e.g., File Chooser, still migrate upward
 	System G windows in dirs with no prefs open downward
 	jcc man page window and "find file" result window appear under active window
 

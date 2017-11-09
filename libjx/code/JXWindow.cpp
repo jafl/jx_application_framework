@@ -346,11 +346,6 @@ JXWindow::SetTransientFor
 {
 	XSetTransientForHint(*itsDisplay, itsXWindow,
 						 (director->GetWindow())->itsXWindow);
-
-	if (itsExpandTask != NULL)
-		{
-		itsExpandTask->PlaceAsDialogAfterFTC();
-		}
 }
 
 /******************************************************************************
