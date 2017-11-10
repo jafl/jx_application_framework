@@ -4,9 +4,6 @@ jcc
 		macros
 		cpm
 
-systemg
-	run command on file - buttons not sized
-
 -----
 
 SBAddress:  https://reviews.llvm.org/D22831

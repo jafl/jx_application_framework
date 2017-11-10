@@ -209,6 +209,7 @@ JXFSRunCommandDialog::BuildWindow()
 	window->SetCloseAction(JXWindow::kDeactivateDirector);
 	window->LockCurrentMinSize();
 	window->ShouldFocusWhenShow(kJTrue);
+	ftcContainer->SetNeedsInternalFTC();
 
 	ListenTo(itsRunButton);
 	ListenTo(itsCloseButton);

@@ -429,7 +429,7 @@ label:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthEast FL_NoGravity
-name: (ftcEnclosure)
+name: (ftcContainer)
 callback: 
 argument: 
 

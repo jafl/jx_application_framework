@@ -134,10 +134,10 @@ JXFSRunFileDialog::BuildWindow
 	JXWindow* window = jnew JXWindow(this, 450,170, "");
 	assert( window != NULL );
 
-	JXWidgetSet* ftcEnclosure =
+	JXWidgetSet* ftcContainer =
 		jnew JXWidgetSet(window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 180,90, 250,40);
-	assert( ftcEnclosure != NULL );
+	assert( ftcContainer != NULL );
 
 	itsCmdInput =
 		jnew JXInputField(window,
@@ -151,19 +151,19 @@ JXFSRunFileDialog::BuildWindow
 	prompt->SetToLabel();
 
 	JXTextButton* cancelButton =
-		jnew JXTextButton(JGetString("cancelButton::JXFSRunFileDialog::JXLayout"), ftcEnclosure,
+		jnew JXTextButton(JGetString("cancelButton::JXFSRunFileDialog::JXLayout"), ftcContainer,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 110,10, 60,20);
 	assert( cancelButton != NULL );
 	cancelButton->SetShortcuts(JGetString("cancelButton::JXFSRunFileDialog::shortcuts::JXLayout"));
 
 	itsHelpButton =
-		jnew JXTextButton(JGetString("itsHelpButton::JXFSRunFileDialog::JXLayout"), ftcEnclosure,
+		jnew JXTextButton(JGetString("itsHelpButton::JXFSRunFileDialog::JXLayout"), ftcContainer,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,10, 60,20);
 	assert( itsHelpButton != NULL );
 	itsHelpButton->SetShortcuts(JGetString("itsHelpButton::JXFSRunFileDialog::shortcuts::JXLayout"));
 
 	itsOKButton =
-		jnew JXTextButton(JGetString("itsOKButton::JXFSRunFileDialog::JXLayout"), ftcEnclosure,
+		jnew JXTextButton(JGetString("itsOKButton::JXFSRunFileDialog::JXLayout"), ftcContainer,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 189,10, 60,20);
 	assert( itsOKButton != NULL );
 	itsOKButton->SetShortcuts(JGetString("itsOKButton::JXFSRunFileDialog::shortcuts::JXLayout"));
@@ -200,7 +200,7 @@ JXFSRunFileDialog::BuildWindow
 		jnew JXStaticText(JGetString("cmdHint::JXFSRunFileDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 20,60, 340,20);
 	assert( cmdHint != NULL );
-	cmdHint->SetFontSize(8);
+	cmdHint->SetFontSize(JGetDefaultFontSize()-2);
 	cmdHint->SetToLabel();
 
 	itsSingleFileCB =
@@ -216,6 +216,7 @@ JXFSRunFileDialog::BuildWindow
 	window->SetTitle("Run command with file");
 	window->LockCurrentMinSize();
 	UseModalPlacement(kJFalse);
+	ftcContainer->SetNeedsInternalFTC();
 
 	ListenTo(itsChooseCmdButton);
 	ListenTo(itsHelpButton);
