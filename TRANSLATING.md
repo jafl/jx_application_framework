@@ -36,3 +36,9 @@ following configuration values embedded in the string data:
 These control the default fonts and sizes displayed by the program.  Users
 can also override these values if they need bigger fonts for easier
 reading.
+
+Refer to DYNAMIC_LAYOUT.md for information on how layouts are adjusted to
+fit content and font size.
+
+You can test your layouts by running your application with
+the `--pseudotranslate` option.
