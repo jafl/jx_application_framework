@@ -2638,7 +2638,7 @@ JXContainer::NeedsInternalFTC()
 }
 
 /******************************************************************************
- RunInternalFTC (virtual protected)
+ RunInternalFTC (virtual)
 
 	Expand and return new size.
 
@@ -2693,7 +2693,7 @@ JXContainer::GetFrameForFTC()
 }
 
 /******************************************************************************
- FTCAdjustSize (virtual protected)
+ FTCAdjustSize (virtual)
 
  ******************************************************************************/
 

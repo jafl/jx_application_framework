@@ -23,7 +23,7 @@
 		GetTotalSize
 			Return the total size of the partition.
 
-		SetCompartmentSizes
+		UpdateCompartmentSizes
 			Adjust the size of each compartment object to match our values.
 
 		CreateCompartmentObject
@@ -123,7 +123,7 @@ JPartition::SetCompartmentSize
 		newSizes.SetElement(index, reqSize);
 
 		*itsSizes = newSizes;
-		SetCompartmentSizes();
+		UpdateCompartmentSizes();
 		return kJTrue;
 		}
 	else if (reqSize < origSize)
@@ -131,7 +131,7 @@ JPartition::SetCompartmentSize
 		itsSizes->SetElement(index, reqSize);
 		FillSpace(*itsSizes, itsElasticIndex, origSize - reqSize, &newSizes);
 		*itsSizes = newSizes;
-		SetCompartmentSizes();
+		UpdateCompartmentSizes();
 		return kJTrue;
 		}
 	else
@@ -157,7 +157,7 @@ JPartition::SetCompartmentSizes
 
 	*itsSizes = sizes;
 	SetElasticSize();
-	SetCompartmentSizes();
+	UpdateCompartmentSizes();
 }
 
 /******************************************************************************
@@ -253,7 +253,7 @@ JPartition::InsertCompartment
 			}
 
 		*itsSizes = newSizes;
-		SetCompartmentSizes();
+		UpdateCompartmentSizes();
 		return kJTrue;
 		}
 	else
@@ -299,7 +299,7 @@ JPartition::DeleteCompartment
 	JArray<JCoordinate> newSizes;
 	FillSpace(*itsSizes, itsElasticIndex, fillSize, &newSizes);
 	*itsSizes = newSizes;
-	SetCompartmentSizes();
+	UpdateCompartmentSizes();
 }
 
 /******************************************************************************
@@ -522,7 +522,7 @@ JPartition::AdjustCompartmentsAfterDrag
 	itsSizes->SetElement(itsDragIndex + 1,
 						 itsDragMax - coord - kDragRegionHalfSize - 1);
 
-	SetCompartmentSizes();
+	UpdateCompartmentSizes();
 }
 
 /******************************************************************************
@@ -618,7 +618,7 @@ JIndex i;
 		itsSizes->SetElement(itsDragIndex+1,
 							 itsSizes->GetElement(itsDragIndex+1) + reqSize);
 
-		SetCompartmentSizes();
+		UpdateCompartmentSizes();
 		}
 
 	// compress compartments after itsDragIndex
@@ -649,7 +649,7 @@ JIndex i;
 			itsSizes->SetElement(i, newSizes.GetElement(i-itsDragIndex));
 			}
 
-		SetCompartmentSizes();
+		UpdateCompartmentSizes();
 		}
 }
 
@@ -685,7 +685,7 @@ JPartition::PTBoundsChanged()
 			assert( ok );
 			}
 		*itsSizes = newSizes;
-		SetCompartmentSizes();
+		UpdateCompartmentSizes();
 		}
 }
 

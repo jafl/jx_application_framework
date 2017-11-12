@@ -11,6 +11,7 @@
  ******************************************************************************/
 
 #include <JXVertPartition.h>
+#include <JXAdjustCompartmentsTask.h>
 #include <JXDragPainter.h>
 #include <JXColormap.h>
 #include <JXCursor.h>
@@ -122,14 +123,14 @@ JXVertPartition::CreateCompartment
 }
 
 /******************************************************************************
- SetCompartmentSizes (virtual protected)
+ UpdateCompartmentSizes (virtual protected)
 
 	Adjust the width of each compartment.
 
  ******************************************************************************/
 
 void
-JXVertPartition::SetCompartmentSizes()
+JXVertPartition::UpdateCompartmentSizes()
 {
 	const JCoordinate w = GetApertureWidth();
 
@@ -328,5 +329,58 @@ JXVertPartition::AdjustCursor
 	else
 		{
 		JXPartition::AdjustCursor(pt, modifiers);
+		}
+}
+
+/******************************************************************************
+ RunInternalFTC (virtual protected)
+
+	Expand and return new size.
+
+ ******************************************************************************/
+
+JCoordinate
+JXVertPartition::RunInternalFTC
+	(
+	const JBoolean horizontal
+	)
+{
+	JPtrArrayIterator<JXContainer> iter(GetCompartments());
+	JXContainer* obj;
+
+	if (horizontal)
+		{
+		JCoordinate w = 0;
+		while (iter.Next(&obj))
+			{
+			w = JMax(w, obj->RunInternalFTC(horizontal));
+			}
+
+		iter.MoveTo(kJIteratorStartAtBeginning, 0);
+		while (iter.Next(&obj))
+			{
+			obj->FTCAdjustSize(w - obj->GetApertureWidth(), 0);
+			}
+
+		return (w + 2 * GetBorderWidth());
+		}
+	else	// vertical
+		{
+		JArray<JCoordinate>* sizes = jnew JArray<JCoordinate>;
+		assert( sizes != NULL );
+
+		JCoordinate sum = 0;
+		while (iter.Next(&obj))
+			{
+			const JCoordinate h = obj->RunInternalFTC(horizontal);
+			sizes->AppendElement(h);
+			sum += h;
+			}
+
+		JXUrgentTask* task = jnew JXAdjustCompartmentsTask(this, sizes);	// deletes object
+		assert( task != NULL );
+		task->Go();
+
+		return (sum + (sizes->GetElementCount() - 1) * kDragRegionSize);
 		}
 }

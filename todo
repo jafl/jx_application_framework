@@ -1,11 +1,3 @@
-jcc
-	run ftc inside each partition
-		CBEditCommandsDialog
-		macros
-		cpm
-
------
-
 SBAddress:  https://reviews.llvm.org/D22831
 
 https://reviews.llvm.org/differential/

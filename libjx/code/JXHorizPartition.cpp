@@ -11,6 +11,7 @@
  ******************************************************************************/
 
 #include <JXHorizPartition.h>
+#include <JXAdjustCompartmentsTask.h>
 #include <JXDragPainter.h>
 #include <JXColormap.h>
 #include <JXCursor.h>
@@ -122,14 +123,14 @@ JXHorizPartition::CreateCompartment
 }
 
 /******************************************************************************
- SetCompartmentSizes (virtual protected)
+ UpdateCompartmentSizes (virtual protected)
 
 	Adjust the width of each compartment.
 
  ******************************************************************************/
 
 void
-JXHorizPartition::SetCompartmentSizes()
+JXHorizPartition::UpdateCompartmentSizes()
 {
 	const JCoordinate h = GetApertureHeight();
 
@@ -328,5 +329,58 @@ JXHorizPartition::AdjustCursor
 	else
 		{
 		JXPartition::AdjustCursor(pt, modifiers);
+		}
+}
+
+/******************************************************************************
+ RunInternalFTC (virtual protected)
+
+	Expand and return new size.
+
+ ******************************************************************************/
+
+JCoordinate
+JXHorizPartition::RunInternalFTC
+	(
+	const JBoolean horizontal
+	)
+{
+	JPtrArrayIterator<JXContainer> iter(GetCompartments());
+	JXContainer* obj;
+
+	if (horizontal)
+		{
+		JArray<JCoordinate>* sizes = jnew JArray<JCoordinate>;
+		assert( sizes != NULL );
+
+		JCoordinate sum = 0;
+		while (iter.Next(&obj))
+			{
+			const JCoordinate w = obj->RunInternalFTC(horizontal);
+			sizes->AppendElement(w);
+			sum += w;
+			}
+
+		JXUrgentTask* task = jnew JXAdjustCompartmentsTask(this, sizes);	// deletes object
+		assert( task != NULL );
+		task->Go();
+
+		return (sum + (sizes->GetElementCount() - 1) * kDragRegionSize);
+		}
+	else	// vertical
+		{
+		JCoordinate h = 0;
+		while (iter.Next(&obj))
+			{
+			h = JMax(h, obj->RunInternalFTC(horizontal));
+			}
+
+		iter.MoveTo(kJIteratorStartAtBeginning, 0);
+		while (iter.Next(&obj))
+			{
+			obj->FTCAdjustSize(0, h - obj->GetApertureHeight());
+			}
+
+		return (h + 2 * GetBorderWidth());
 		}
 }

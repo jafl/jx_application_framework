@@ -124,6 +124,10 @@ public:
 	static void	DebugExpandToFitContent(const JBoolean horiz);
 	static void	DebugExpandToFitContentExtras(const JBoolean noop, const JBoolean overlap);
 
+	// public only because it has to be called in special cases
+	virtual JCoordinate	RunInternalFTC(const JBoolean horizontal);
+	virtual void		FTCAdjustSize(const JCoordinate dw, const JCoordinate dh);
+
 	// called by JXDisplay
 
 	JBoolean	FindContainer(const JPoint& ptG,
@@ -190,10 +194,8 @@ protected:
 
 	virtual JBoolean	IncludeInFTC() const;
 	virtual JBoolean	NeedsInternalFTC() const;
-	virtual JCoordinate	RunInternalFTC(const JBoolean horizontal);
 	virtual JCoordinate	GetFTCMinContentSize(const JBoolean horizontal) const;
 	virtual JRect		GetFrameForFTC() const;
-	virtual void		FTCAdjustSize(const JCoordinate dw, const JCoordinate dh);
 
 	JBoolean	GetEnclosedObjects(JPtrArrayIterator<JXContainer>** iter) const;
 	void		DeleteEnclosedObjects();

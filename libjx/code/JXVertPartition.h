@@ -49,7 +49,9 @@ protected:
 	virtual JXWidgetSet*	CreateCompartment(const JIndex index,
 											  const JCoordinate position,
 											  const JCoordinate size);
-	virtual void			SetCompartmentSizes();
+	virtual void			UpdateCompartmentSizes();
+
+	virtual JCoordinate	RunInternalFTC(const JBoolean horizontal);
 
 private:
 

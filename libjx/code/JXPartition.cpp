@@ -8,7 +8,7 @@
 	a limited amount of space available.
 
 	This class implements CreateCompartmentObject() and DeleteCompartmentObject().
-	Derived classes must implement GetTotalSize(), SetCompartmentSizes(),
+	Derived classes must implement GetTotalSize(), UpdateCompartmentSizes(),
 	and the following routines:
 
 		CreateCompartment
@@ -49,6 +49,8 @@ JXPartition::JXPartition
 {
 	itsCompartments = jnew JPtrArray<JXContainer>(JPtrArrayT::kForgetAll);
 	assert( itsCompartments != NULL );
+
+	SetNeedsInternalFTC();
 }
 
 /******************************************************************************

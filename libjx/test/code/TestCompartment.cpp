@@ -15,6 +15,7 @@
 #include <JXVertPartition.h>
 #include <JXWindowPainter.h>
 #include <JXColormap.h>
+#include <JFontManager.h>
 #include <jAssert.h>
 
 /******************************************************************************
@@ -50,21 +51,14 @@ TestCompartment::~TestCompartment()
 }
 
 /******************************************************************************
- Draw (virtual protected)
-
-	Center the message in the aperture.
+ IsElastic (private)
 
  ******************************************************************************/
 
-void
-TestCompartment::Draw
-	(
-	JXWindowPainter&	p,
-	const JRect&		rect
-	)
+JBoolean
+TestCompartment::IsElastic()
+	const
 {
-	// figure out if we are elastic
-
 	JBoolean isElastic = kJFalse;
 
 	JXContainer* enclosure           = GetEnclosure();
@@ -95,7 +89,24 @@ TestCompartment::Draw
 		isElastic = JConvertToBoolean( ourIndex == elasticIndex || elasticIndex == 0 );
 		}
 
-	// draw text
+	return isElastic;
+}
+
+/******************************************************************************
+ Draw (virtual protected)
+
+	Center the message in the aperture.
+
+ ******************************************************************************/
+
+void
+TestCompartment::Draw
+	(
+	JXWindowPainter&	p,
+	const JRect&		rect
+	)
+{
+	const JBoolean isElastic = IsElastic();
 
 	const JRect ap         = GetAperture();
 	const JSize lineHeight = p.GetLineHeight();
@@ -192,4 +203,23 @@ TestCompartment::HandleMouseUp
 			itsDirector->InsertVertCompartment(ourIndex+1);
 			}
 		}
+}
+
+/******************************************************************************
+ GetFTCMinContentSize (virtual protected)
+
+ ******************************************************************************/
+
+JCoordinate
+TestCompartment::GetFTCMinContentSize
+	(
+	const JBoolean horizontal
+	)
+	const
+{
+	const JFont& f = GetFontManager()->GetDefaultFont();
+
+	return (horizontal ?
+			f.GetStringWidth("Left click to insert in front of") :
+			f.GetLineHeight() * (IsElastic() ? 4 : 3));
 }

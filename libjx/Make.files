@@ -133,6 +133,7 @@
 .cpp ./code/JXPartition
 .cpp ./code/JXHorizPartition
 .cpp ./code/JXVertPartition
+.cpp ./code/JXAdjustCompartmentsTask
 .cpp ./code/JXTabGroup
 .cpp ./code/JXScrollTabsTask
 .cpp ./code/JXCardFile

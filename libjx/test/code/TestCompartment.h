@@ -33,11 +33,15 @@ protected:
 								  const JXButtonStates& buttonStates,
 								  const JXKeyModifiers& modifiers);
 
+	virtual JCoordinate	GetFTCMinContentSize(const JBoolean horizontal) const;
+
 private:
 
 	TestPartitionDirector*	itsDirector;
 
 private:
+
+	JBoolean	IsElastic() const;
 
 	// not allowed
 
