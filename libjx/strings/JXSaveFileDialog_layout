@@ -1,4 +1,4 @@
-0
+1
 pathLabel::JXSaveFileDialog::JXLayout "Path:"
 upButton::JXSaveFileDialog::JXLayout "Up"
 filterLabel::JXSaveFileDialog::JXLayout "Filter:"

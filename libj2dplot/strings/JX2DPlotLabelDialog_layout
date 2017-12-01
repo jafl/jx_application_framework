@@ -1,8 +1,8 @@
-0
+1
 okButton::JX2DPlotLabelDialog::JXLayout "OK"
-obj2_JXLayout::JX2DPlotLabelDialog::JXLayout "X Axis Label:"
-obj1_JXLayout::JX2DPlotLabelDialog::JXLayout "Plot Title:"
+yLabel::JX2DPlotLabelDialog::JXLayout "Y Axis Label:"
+titleLabel::JX2DPlotLabelDialog::JXLayout "Plot Title:"
+xLabel::JX2DPlotLabelDialog::JXLayout "X Axis Label:"
 okButton::JX2DPlotLabelDialog::shortcuts::JXLayout "^M"
 cancelButton::JX2DPlotLabelDialog::JXLayout "Cancel"
 cancelButton::JX2DPlotLabelDialog::shortcuts::JXLayout "^["
-obj3_JXLayout::JX2DPlotLabelDialog::JXLayout "Y Axis Label:"

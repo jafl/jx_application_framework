@@ -271,17 +271,17 @@ JXSearchTextDialog::BuildWindow()
 	assert( itsCloseButton != NULL );
 	itsCloseButton->SetShortcuts(JGetString("itsCloseButton::JXSearchTextDialog::shortcuts::JXLayout"));
 
-	JXStaticText* obj1_JXLayout =
-		jnew JXStaticText(JGetString("obj1_JXLayout::JXSearchTextDialog::JXLayout"), window,
+	JXStaticText* searchLabel =
+		jnew JXStaticText(JGetString("searchLabel::JXSearchTextDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,30, 80,20);
-	assert( obj1_JXLayout != NULL );
-	obj1_JXLayout->SetToLabel();
+	assert( searchLabel != NULL );
+	searchLabel->SetToLabel();
 
-	JXStaticText* obj2_JXLayout =
-		jnew JXStaticText(JGetString("obj2_JXLayout::JXSearchTextDialog::JXLayout"), window,
+	JXStaticText* replaceLabel =
+		jnew JXStaticText(JGetString("replaceLabel::JXSearchTextDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,100, 90,20);
-	assert( obj2_JXLayout != NULL );
-	obj2_JXLayout->SetToLabel();
+	assert( replaceLabel != NULL );
+	replaceLabel->SetToLabel();
 
 	itsIgnoreCaseCB =
 		jnew JXTextCheckbox(JGetString("itsIgnoreCaseCB::JXSearchTextDialog::JXLayout"), window,
@@ -352,11 +352,11 @@ JXSearchTextDialog::BuildWindow()
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 190,280, 80,20);
 	assert( itsQRefButton != NULL );
 
-	JXStaticText* obj3_JXLayout =
-		jnew JXStaticText(JGetString("obj3_JXLayout::JXSearchTextDialog::JXLayout"), window,
+	JXStaticText* findLabel =
+		jnew JXStaticText(JGetString("findLabel::JXSearchTextDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 355,20, 40,20);
-	assert( obj3_JXLayout != NULL );
-	obj3_JXLayout->SetToLabel();
+	assert( findLabel != NULL );
+	findLabel->SetToLabel();
 
 	itsFindBackButton =
 		jnew JXSearchTextButton(kJFalse, window,
@@ -368,11 +368,11 @@ JXSearchTextDialog::BuildWindow()
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 420,20, 20,20);
 	assert( itsFindFwdButton != NULL );
 
-	JXStaticText* obj4_JXLayout =
-		jnew JXStaticText(JGetString("obj4_JXLayout::JXSearchTextDialog::JXLayout"), window,
+	JXStaticText* replaceFindLabel =
+		jnew JXStaticText(JGetString("replaceFindLabel::JXSearchTextDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 323,80, 100,20);
-	assert( obj4_JXLayout != NULL );
-	obj4_JXLayout->SetToLabel();
+	assert( replaceFindLabel != NULL );
+	replaceFindLabel->SetToLabel();
 
 	itsReplaceFindBackButton =
 		jnew JXSearchTextButton(kJFalse, window,
@@ -384,11 +384,11 @@ JXSearchTextDialog::BuildWindow()
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 420,80, 20,20);
 	assert( itsReplaceFindFwdButton != NULL );
 
-	JXStaticText* obj5_JXLayout =
-		jnew JXStaticText(JGetString("obj5_JXLayout::JXSearchTextDialog::JXLayout"), window,
+	JXStaticText* replaceAllLabel =
+		jnew JXStaticText(JGetString("replaceAllLabel::JXSearchTextDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 335,110, 80,20);
-	assert( obj5_JXLayout != NULL );
-	obj5_JXLayout->SetToLabel();
+	assert( replaceAllLabel != NULL );
+	replaceAllLabel->SetToLabel();
 
 	itsReplaceAllBackButton =
 		jnew JXSearchTextButton(kJFalse, window,

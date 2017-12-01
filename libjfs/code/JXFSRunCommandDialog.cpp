@@ -117,7 +117,7 @@ JXFSRunCommandDialog::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 440,180, "");
+	JXWindow* window = jnew JXWindow(this, 440,180, JString::empty);
 	assert( window != NULL );
 
 	itsCmdInput =
@@ -125,11 +125,11 @@ JXFSRunCommandDialog::BuildWindow()
 					JXWidget::kHElastic, JXWidget::kFixedTop, 20,90, 290,20);
 	assert( itsCmdInput != NULL );
 
-	JXStaticText* obj1_JXLayout =
-		jnew JXStaticText(JGetString("obj1_JXLayout::JXFSRunCommandDialog::JXLayout"), window,
+	JXStaticText* cmdLabel =
+		jnew JXStaticText(JGetString("cmdLabel::JXFSRunCommandDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,70, 110,20);
-	assert( obj1_JXLayout != NULL );
-	obj1_JXLayout->SetToLabel();
+	assert( cmdLabel != NULL );
+	cmdLabel->SetToLabel();
 
 	itsCloseButton =
 		jnew JXTextButton(JGetString("itsCloseButton::JXFSRunCommandDialog::JXLayout"), window,
@@ -176,11 +176,11 @@ JXFSRunCommandDialog::BuildWindow()
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 340,120, 90,20);
 	assert( itsStayOpenCB != NULL );
 
-	JXStaticText* obj2_JXLayout =
-		jnew JXStaticText(JGetString("obj2_JXLayout::JXFSRunCommandDialog::JXLayout"), window,
+	JXStaticText* dirLabel =
+		jnew JXStaticText(JGetString("dirLabel::JXFSRunCommandDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 210,20);
-	assert( obj2_JXLayout != NULL );
-	obj2_JXLayout->SetToLabel();
+	assert( dirLabel != NULL );
+	dirLabel->SetToLabel();
 
 	itsChoosePathButton =
 		jnew JXTextButton(JGetString("itsChoosePathButton::JXFSRunCommandDialog::JXLayout"), window,

@@ -3,7 +3,7 @@ Magic: 15000
 Internal Form Definition File
     (do not change)
 
-Number of forms: 27
+Number of forms: 26
 Unit of measure: FL_COORD_PIXEL
 
 =============== FORM ===============
@@ -98,7 +98,7 @@ label: Destination:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (destinationLabel)
 callback: 
 argument: 
 
@@ -134,7 +134,7 @@ label: Printer
 shortcut: #P
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (printerLabel)
 callback: 
 argument: 1
 
@@ -152,7 +152,7 @@ label: File
 shortcut: #F
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (fileLabel)
 callback: 
 argument: 2
 
@@ -332,7 +332,7 @@ label: Number of copies:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (countLabel)
 callback: 
 argument: 
 
@@ -392,7 +392,7 @@ label: Orientation:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (orientationLabel)
 callback: 
 argument: 
 
@@ -596,7 +596,7 @@ label: Font size (points):
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (sizeLabel)
 callback: 
 argument: 
 
@@ -2155,102 +2155,6 @@ callback:
 argument: 
 
 =============== FORM ===============
-Name: JXHelpDirector
-Width: 600
-Height: 550
-Number of Objects: 5
-
---------------------
-class: FL_BOX
-type: FL_FLAT_BOX
-box: 0 0 600 550
-boxtype: FL_FLAT_BOX
-colors: FL_COL1 FL_COL1
-alignment: FL_ALIGN_CENTER
-style: FL_NORMAL_STYLE
-size: FL_NORMAL_SIZE
-lcol: FL_BLACK
-label: 
-shortcut: 
-resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
-name: 
-callback: 
-argument: 
-
---------------------
-class: FL_BOX
-type: FL_NO_BOX
-box: 0 30 600 520
-boxtype: FL_NO_BOX
-colors: FL_COL1 FL_COL1
-alignment: FL_ALIGN_CENTER
-style: FL_NORMAL_STYLE
-size: FL_NORMAL_SIZE
-lcol: FL_BLACK
-label: JXScrollbarSet
-shortcut: 
-resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
-name: (scrollbarSet)
-callback: 
-argument: 
-
---------------------
-class: FL_BOX
-type: FL_NO_BOX
-box: 0 0 500 30
-boxtype: FL_NO_BOX
-colors: FL_COL1 FL_COL1
-alignment: FL_ALIGN_CENTER
-style: FL_NORMAL_STYLE
-size: FL_NORMAL_SIZE
-lcol: FL_BLACK
-label: JXMenuBar
-shortcut: 
-resize: FL_RESIZE_ALL
-gravity: FL_North FL_NoGravity
-name: (menuBar)
-callback: 
-argument: 
-
---------------------
-class: FL_BUTTON
-type: FL_NORMAL_BUTTON
-box: 550 0 50 30
-boxtype: FL_UP_BOX
-colors: FL_COL1 FL_COL1
-alignment: FL_ALIGN_CENTER
-style: FL_NORMAL_STYLE
-size: FL_NORMAL_SIZE
-lcol: FL_BLACK
-label: Close
-shortcut: ^[
-resize: FL_RESIZE_ALL
-gravity: FL_NorthEast FL_NoGravity
-name: itsCloseButton
-callback: 
-argument: 
-
---------------------
-class: FL_BITMAPBUTTON
-type: FL_NORMAL_BUTTON
-box: 500 0 50 30
-boxtype: FL_UP_BOX
-colors: FL_COL1 FL_BLUE
-alignment: FL_ALIGN_BOTTOM
-style: FL_NORMAL_STYLE
-size: FL_NORMAL_SIZE
-lcol: FL_BLACK
-label: 
-shortcut: 
-resize: FL_RESIZE_ALL
-gravity: FL_NorthEast FL_NoGravity
-name: itsTOCButton
-callback: 
-argument: 
-
-=============== FORM ===============
 Name: JXGoToLineDialog
 Width: 190
 Height: 120
@@ -2342,7 +2246,7 @@ label: Goto line:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (lineLabel)
 callback: 
 argument: 
 
@@ -2756,7 +2660,7 @@ label: (use $u in place of URL)
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (urlHint)
 callback: 
 argument: 
 
@@ -2774,7 +2678,7 @@ label: Shell cmd to view URL:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (urlLabel)
 callback: 
 argument: 
 
@@ -2792,7 +2696,7 @@ label: Shell cmd to compose mail:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (mailLabel)
 callback: 
 argument: 
 
@@ -2810,7 +2714,7 @@ label: (use $a in place of address)
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (mailHint)
 callback: 
 argument: 
 
@@ -2828,7 +2732,7 @@ label: (use $f in place of file)
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (fileContentHint)
 callback: 
 argument: 
 
@@ -2846,7 +2750,7 @@ label: Shell cmd to view file content:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (fileContentLabel)
 callback: 
 argument: 
 
@@ -2864,7 +2768,7 @@ label: (use $f in place of file, $p in place of path)
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (fsHint)
 callback: 
 argument: 
 
@@ -2882,7 +2786,7 @@ label: Shell cmd to view file in file manager:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (fsLabel)
 callback: 
 argument: 
 
@@ -2960,7 +2864,7 @@ label: Sample:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (sampleLabel)
 callback: 
 argument: 
 
@@ -2978,7 +2882,7 @@ label: Hue:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (hueLabel)
 callback: 
 argument: 
 
@@ -2996,7 +2900,7 @@ label: Sat:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (saturationLabel)
 callback: 
 argument: 
 
@@ -3014,7 +2918,7 @@ label: Bright:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (brightnessLabel)
 callback: 
 argument: 
 
@@ -3107,7 +3011,7 @@ label: Red
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (redLabel)
 callback: 
 argument: 
 
@@ -3125,7 +3029,7 @@ label: Green
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (greenLabel)
 callback: 
 argument: 
 
@@ -3143,7 +3047,7 @@ label: Blue
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (blueLabel)
 callback: 
 argument: 
 
@@ -3215,7 +3119,7 @@ label: (0-65535):
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (redRangeLabel) 
 callback: 
 argument: 
 
@@ -3233,7 +3137,7 @@ label: (0-65535):
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (greenRangeLabel)
 callback: 
 argument: 
 
@@ -3251,7 +3155,7 @@ label: (0-65535):
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (blueRangeLabel)
 callback: 
 argument: 
 
@@ -3365,7 +3269,7 @@ label: Destination:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (destinationLabel)
 callback: 
 argument: 
 
@@ -3401,7 +3305,7 @@ label: Printer
 shortcut: #P
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (printerLabel)
 callback: 
 argument: 1
 
@@ -3419,7 +3323,7 @@ label: File
 shortcut: #F
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (fileLabel)
 callback: 
 argument: 2
 
@@ -3581,7 +3485,7 @@ label: Number of copies:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (countLabel)
 callback: 
 argument: 
 
@@ -3641,7 +3545,7 @@ label: Print command:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (printCmdLabel)
 callback: 
 argument: 
 
@@ -3731,7 +3635,7 @@ label: Page width:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (widthLabel)
 callback: 
 argument: 
 
@@ -3749,7 +3653,7 @@ label: Page height:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (heightLabel)
 callback: 
 argument: 
 
@@ -3785,7 +3689,7 @@ label: characters
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthEast FL_NoGravity
-name: 
+name: (charsLabel)
 callback: 
 argument: 
 
@@ -3803,7 +3707,7 @@ label: lines
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthEast FL_NoGravity
-name: 
+name: (linesLabel)
 callback: 
 argument: 
 
@@ -3899,7 +3803,7 @@ label: Search for:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (searchLabel)
 callback: 
 argument: 
 
@@ -3917,7 +3821,7 @@ label: Replace with:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (replaceLabel)
 callback: 
 argument: 
 
@@ -4151,7 +4055,7 @@ label: Find
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthEast FL_NoGravity
-name: 
+name: (findLabel)
 callback: 
 argument: 
 
@@ -4205,7 +4109,7 @@ label: Replace & Find
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthEast FL_NoGravity
-name: 
+name: (replaceFindLabel)
 callback: 
 argument: 
 
@@ -4259,7 +4163,7 @@ label: Replace all
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthEast FL_NoGravity
-name: 
+name: (replaceAllLabel)
 callback: 
 argument: 
 
@@ -4577,7 +4481,7 @@ label: (You must restart the program after changing this setting.)
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
-name: 
+name: (restartHint)
 callback: 
 argument: 
 
@@ -4877,7 +4781,7 @@ label: Check off the menu items below that you want to appear on the toolbar.
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_North FL_NoGravity
-name: 
+name: (hint)
 callback: 
 argument: 
 
@@ -4991,7 +4895,7 @@ label: Not in Dictionary:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (notFoundLabel)
 callback: 
 argument: 
 
@@ -5027,7 +4931,7 @@ label: Change To:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (changeLabel)
 callback: 
 argument: 
 
@@ -5045,7 +4949,7 @@ label: Suggestions:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (suggestionsLabel)
 callback: 
 argument: 
 

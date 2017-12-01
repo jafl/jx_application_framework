@@ -88,11 +88,11 @@ JXPTPageSetupDialog::BuildWindow
 	JXWindow* window = jnew JXWindow(this, 370,190, JString::empty);
 	assert( window != NULL );
 
-	JXStaticText* obj1_JXLayout =
-		jnew JXStaticText(JGetString("obj1_JXLayout::JXPTPageSetupDialog::JXLayout"), window,
+	JXStaticText* printCmdLabel =
+		jnew JXStaticText(JGetString("printCmdLabel::JXPTPageSetupDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,20, 100,19);
-	assert( obj1_JXLayout != NULL );
-	obj1_JXLayout->SetToLabel();
+	assert( printCmdLabel != NULL );
+	printCmdLabel->SetToLabel();
 
 	JXTextButton* okButton =
 		jnew JXTextButton(JGetString("okButton::JXPTPageSetupDialog::JXLayout"), window,
@@ -115,34 +115,34 @@ JXPTPageSetupDialog::BuildWindow
 					JXWidget::kHElastic, JXWidget::kFixedTop, 90,60, 40,20);
 	assert( itsWidth != NULL );
 
-	JXStaticText* obj2_JXLayout =
-		jnew JXStaticText(JGetString("obj2_JXLayout::JXPTPageSetupDialog::JXLayout"), window,
+	JXStaticText* widthLabel =
+		jnew JXStaticText(JGetString("widthLabel::JXPTPageSetupDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,60, 80,20);
-	assert( obj2_JXLayout != NULL );
-	obj2_JXLayout->SetToLabel();
+	assert( widthLabel != NULL );
+	widthLabel->SetToLabel();
 
-	JXStaticText* obj3_JXLayout =
-		jnew JXStaticText(JGetString("obj3_JXLayout::JXPTPageSetupDialog::JXLayout"), window,
+	JXStaticText* heightLabel =
+		jnew JXStaticText(JGetString("heightLabel::JXPTPageSetupDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,80, 80,20);
-	assert( obj3_JXLayout != NULL );
-	obj3_JXLayout->SetToLabel();
+	assert( heightLabel != NULL );
+	heightLabel->SetToLabel();
 
 	itsHeight =
 		jnew JXIntegerInput(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 90,80, 40,20);
 	assert( itsHeight != NULL );
 
-	JXStaticText* obj4_JXLayout =
-		jnew JXStaticText(JGetString("obj4_JXLayout::JXPTPageSetupDialog::JXLayout"), window,
+	JXStaticText* charsLabel =
+		jnew JXStaticText(JGetString("charsLabel::JXPTPageSetupDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 130,60, 70,20);
-	assert( obj4_JXLayout != NULL );
-	obj4_JXLayout->SetToLabel();
+	assert( charsLabel != NULL );
+	charsLabel->SetToLabel();
 
-	JXStaticText* obj5_JXLayout =
-		jnew JXStaticText(JGetString("obj5_JXLayout::JXPTPageSetupDialog::JXLayout"), window,
+	JXStaticText* linesLabel =
+		jnew JXStaticText(JGetString("linesLabel::JXPTPageSetupDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 130,80, 70,20);
-	assert( obj5_JXLayout != NULL );
-	obj5_JXLayout->SetToLabel();
+	assert( linesLabel != NULL );
+	linesLabel->SetToLabel();
 
 	itsPrintTestButton =
 		jnew JXTextButton(JGetString("itsPrintTestButton::JXPTPageSetupDialog::JXLayout"), window,

@@ -87,7 +87,7 @@ JXFSRunScriptDialog::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 330,130, "");
+	JXWindow* window = jnew JXWindow(this, 330,130, JString::empty);
 	assert( window != NULL );
 
 	itsCmdInput =
@@ -95,11 +95,11 @@ JXFSRunScriptDialog::BuildWindow
 					JXWidget::kHElastic, JXWidget::kFixedTop, 20,40, 290,20);
 	assert( itsCmdInput != NULL );
 
-	JXStaticText* obj1_JXLayout =
-		jnew JXStaticText(JGetString("obj1_JXLayout::JXFSRunScriptDialog::JXLayout"), window,
+	JXStaticText* cmdLabel =
+		jnew JXStaticText(JGetString("cmdLabel::JXFSRunScriptDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 110,20);
-	assert( obj1_JXLayout != NULL );
-	obj1_JXLayout->SetToLabel();
+	assert( cmdLabel != NULL );
+	cmdLabel->SetToLabel();
 
 	JXTextButton* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::JXFSRunScriptDialog::JXLayout"), window,

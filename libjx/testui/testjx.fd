@@ -116,7 +116,7 @@ label: Width:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (widthLabel)
 callback: 
 argument: 
 
@@ -134,7 +134,7 @@ label: Height:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (heightLabel)
 callback: 
 argument: 
 
@@ -428,7 +428,7 @@ label: Any string:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (stringLabel)
 callback: 
 argument: 
 
@@ -446,7 +446,7 @@ label: Req'd string:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (reqStringLabel)
 callback: 
 argument: 
 
@@ -464,7 +464,7 @@ label: max 5 chars:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (max5Label)
 callback: 
 argument: 
 
@@ -482,7 +482,7 @@ label: req'd max 10 chars:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (max10Label)
 callback: 
 argument: 
 
@@ -500,7 +500,7 @@ label: Any number:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthEast FL_NoGravity
-name: 
+name: (numberLabel)
 callback: 
 argument: 
 
@@ -518,7 +518,7 @@ label: >-3.2 :
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthEast FL_NoGravity
-name: 
+name: (positiveLabel)
 callback: 
 argument: 
 
@@ -536,7 +536,7 @@ label: <-3.2 :
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthEast FL_NoGravity
-name: 
+name: (negativeLabel)
 callback: 
 argument: 
 
@@ -554,7 +554,7 @@ label: 2.1 - 10.3:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthEast FL_NoGravity
-name: 
+name: (rangeLabel)
 callback: 
 argument: 
 
@@ -572,7 +572,7 @@ label: Low (>-3):
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthEast FL_NoGravity
-name: 
+name: (lowIntLabel)
 callback: 
 argument: 
 
@@ -590,7 +590,7 @@ label: High (<8):
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthEast FL_NoGravity
-name: 
+name: (highIntLabel)
 callback: 
 argument: 
 
@@ -608,7 +608,7 @@ label: -2 - 24:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthEast FL_NoGravity
-name: 
+name: (intRangeLabel)
 callback: 
 argument: 
 
@@ -626,7 +626,7 @@ label: Any int:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthEast FL_NoGravity
-name: 
+name: (intLabel)
 callback: 
 argument: 
 
@@ -662,7 +662,7 @@ label: Password:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (pwLabel)
 callback: 
 argument: 
 
@@ -764,7 +764,7 @@ label: Radio group #1:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthEast FL_NoGravity
-name: 
+name: (rg1Label)
 callback: 
 argument: 
 
@@ -782,7 +782,7 @@ label: Radio group #2:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (rg2Label)
 callback: 
 argument: 
 
@@ -1034,7 +1034,7 @@ label: Image checkbox
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (imageLabel)
 callback: 
 argument: 
 
@@ -1106,7 +1106,7 @@ label: Checkbox group:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
-name: 
+name: (cbGroupLabel)
 callback: 
 argument: 
 
@@ -1352,7 +1352,7 @@ label: -5 to 5:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthEast FL_NoGravity
-name: 
+name: (rangeLabel)
 callback: 
 argument: 
 
@@ -1682,7 +1682,7 @@ label: Elastic compartment:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (elasticLabel)
 callback: 
 argument: 
 
@@ -1964,7 +1964,7 @@ label: Save as:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_SouthWest FL_NoGravity
-name: 
+name: (saveLabel)
 callback: 
 argument: 
 
@@ -2000,7 +2000,7 @@ label: GIF
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (gifRB)
 callback: 
 argument: TestChooseSaveFile::kGIFFormat
 
@@ -2018,7 +2018,7 @@ label: JPEG
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (jpegRB)
 callback: 
 argument: TestChooseSaveFile::kJPEGFormat
 
@@ -2036,7 +2036,7 @@ label: PNG
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (pngRB)
 callback: 
 argument: TestChooseSaveFile::kPNGFormat
 
@@ -2246,7 +2246,7 @@ label:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
-name: ]
+name: 
 callback: 
 argument: 
 

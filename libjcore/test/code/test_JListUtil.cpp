@@ -8,7 +8,7 @@
  *****************************************************************************/
 
 #include <JUnitTestManager.h>
-#include <jListUtil.h>
+#include <JListUtil.h>
 #include <jAssert.h>
 
 int main()

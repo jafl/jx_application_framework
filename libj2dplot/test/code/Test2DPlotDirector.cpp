@@ -70,7 +70,7 @@ Test2DPlotDirector::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 600,400, "");
+	JXWindow* window = jnew JXWindow(this, 600,400, JString::empty);
 	assert( window != NULL );
 
 	JXMenuBar* menuBar =

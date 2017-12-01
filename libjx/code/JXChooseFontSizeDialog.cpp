@@ -72,11 +72,11 @@ JXChooseFontSizeDialog::BuildWindow
 					JXWidget::kHElastic, JXWidget::kFixedTop, 120,20, 40,20);
 	assert( itsFontSize != NULL );
 
-	JXStaticText* obj1_JXLayout =
-		jnew JXStaticText(JGetString("obj1_JXLayout::JXChooseFontSizeDialog::JXLayout"), window,
+	JXStaticText* sizeLabel =
+		jnew JXStaticText(JGetString("sizeLabel::JXChooseFontSizeDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,20, 110,20);
-	assert( obj1_JXLayout != NULL );
-	obj1_JXLayout->SetToLabel();
+	assert( sizeLabel != NULL );
+	sizeLabel->SetToLabel();
 
 // end JXLayout
 

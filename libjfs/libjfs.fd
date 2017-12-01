@@ -170,7 +170,7 @@ label: (use $q in place of quoted command, $u in place of unquoted command)
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_SouthEast FL_NoGravity
-name: 
+name: (cmdHint1)
 callback: 
 argument: 
 
@@ -206,7 +206,7 @@ label: Shell command:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_SouthWest FL_NoGravity
-name: 
+name: (shellCmdLabel)
 callback: 
 argument: 
 
@@ -242,7 +242,7 @@ label: (use $q in place of quoted file name, $u in place of unquoted file name)
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_SouthEast FL_NoGravity
-name: 
+name: (cmdHint2)
 callback: 
 argument: 
 
@@ -260,7 +260,7 @@ label: Window command:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_SouthWest FL_NoGravity
-name: 
+name: (windowCmdLabel)
 callback: 
 argument: 
 
@@ -608,7 +608,7 @@ label: (use $q in place of quoted file name, $u in place of unquoted file name)
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthEast FL_NoGravity
-name: 
+name: (cmdHint)
 callback: 
 argument: 
 
@@ -686,7 +686,7 @@ label: Command to run:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (cmdLabel)
 callback: 
 argument: 
 
@@ -848,7 +848,7 @@ label: Directory in which to run command:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (dirLabel)
 callback: 
 argument: 
 
@@ -962,7 +962,7 @@ label: Command to run:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (cmdLabel)
 callback: 
 argument: 
 

@@ -97,7 +97,7 @@ JX2DCurveOptionsDialog::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 370,260, "");
+	JXWindow* window = jnew JXWindow(this, 370,260, JString::empty);
 	assert( window != NULL );
 
 	JXScrollbarSet* scrollbarSet =

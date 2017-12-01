@@ -74,13 +74,13 @@ TestFEditDirector::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 500,290, "");
+	JXWindow* window = jnew JXWindow(this, 500,290, JString::empty);
 	assert( window != NULL );
 
-	JXExprEditorSet* obj1_JXLayout =
+	JXExprEditorSet* exprSet =
 		jnew JXExprEditorSet(varList, &itsExprWidget, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 500,260);
-	assert( obj1_JXLayout != NULL );
+	assert( exprSet != NULL );
 
 	itsDoneButton =
 		jnew JXTextButton(JGetString("itsDoneButton::TestFEditDirector::JXLayout"), window,
@@ -97,10 +97,10 @@ TestFEditDirector::BuildWindow
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 120,0, 70,30);
 	assert( itsEvalButton != NULL );
 
-	JXInputField* obj2_JXLayout =
+	JXInputField* downBox =
 		jnew JXInputField(window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 240,0, 260,20);
-	assert( obj2_JXLayout != NULL );
+	assert( downBox != NULL );
 
 // end JXLayout
 

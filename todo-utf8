@@ -1,3 +1,12 @@
+JXTextMenu
+	on OSX, replace Meta- Shift- Ctrl- and invert ordering
+
+	cmd   - E2 8C 98
+	shift - E2 87 A7
+	ctrl  - E2 8C 83
+
+-----
+
 move "online" help to sourceforge site
 	merge to single page for each app
 		drakon

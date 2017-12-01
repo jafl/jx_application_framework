@@ -90,11 +90,11 @@ other constructor.
 
 Changes from previous versions
 
-4.1.0
+5.0.0
 
 Updated to use JUtf8Byte instead of JCharacter.
 
-Fixed hard-coded string and missed indent fix.
+Fixed hard-coded strings and missed indents.
 
 4.0.0
 

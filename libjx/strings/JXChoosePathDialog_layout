@@ -1,4 +1,4 @@
-0
+1
 homeButton::JXChoosePathDialog::JXLayout "Home"
 pathLabel::JXChoosePathDialog::JXLayout "Path:"
 openButton::JXChoosePathDialog::shortcuts::JXLayout "^M"

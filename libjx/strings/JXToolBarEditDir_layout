@@ -1,4 +1,4 @@
-0
+1
 itsShowImagesCB::JXToolBarEditDir::JXLayout "Show images"
 itsShowTextCB::JXToolBarEditDir::shortcuts::JXLayout "#T"
 cancelButton::JXToolBarEditDir::shortcuts::JXLayout "^["
@@ -7,7 +7,7 @@ itsUseSmallButtonsCB::JXToolBarEditDir::shortcuts::JXLayout "#B"
 okButton::JXToolBarEditDir::JXLayout "OK"
 okButton::JXToolBarEditDir::shortcuts::JXLayout "^M"
 itsUseSmallButtonsCB::JXToolBarEditDir::JXLayout "Use small buttons"
-obj1_JXLayout::JXToolBarEditDir::JXLayout "Check off the menu items below that you want to appear on the toolbar."
+hint::JXToolBarEditDir::JXLayout "Check off the menu items below that you want to appear on the toolbar."
 cancelButton::JXToolBarEditDir::JXLayout "Cancel"
 itsShowTextCB::JXToolBarEditDir::JXLayout "Show text"
 itsShowToolBarCB::JXToolBarEditDir::JXLayout "Show toolbar"

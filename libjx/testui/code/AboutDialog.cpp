@@ -55,7 +55,7 @@ AboutDialog::BuildWindow()
 					JXWidget::kHElastic, JXWidget::kVElastic, 10,35, 80,30);
 	assert( okButton != NULL );
 	okButton->SetShortcuts(JGetString("okButton::AboutDialog::shortcuts::JXLayout"));
-	okButton->SetFontSize(8);
+	okButton->SetFontSize(JGetDefaultFontSize()-2);
 
 // end JXLayout
 

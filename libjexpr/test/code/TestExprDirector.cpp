@@ -58,7 +58,7 @@ TestExprDirector::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 150,150, "");
+	JXWindow* window = jnew JXWindow(this, 150,150, JString::empty);
 	assert( window != NULL );
 
 	itsTestFEditButton =

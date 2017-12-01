@@ -1,4 +1,4 @@
-0
+1
 text::JXErrorDialog::JXLayout ""
 okButton::JXErrorDialog::JXLayout "Dismiss"
 okButton::JXErrorDialog::shortcuts::JXLayout "^M"

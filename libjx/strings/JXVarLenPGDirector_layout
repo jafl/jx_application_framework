@@ -1,4 +1,4 @@
-0
+1
 cancelButton::JXVarLenPGDirector::JXLayout "Cancel"
 cancelButton::JXVarLenPGDirector::shortcuts::JXLayout "^[^C"
 text::JXVarLenPGDirector::JXLayout ""

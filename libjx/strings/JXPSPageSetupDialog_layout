@@ -1,6 +1,6 @@
-0
+1
 itsPaperTypeMenu::JXPSPageSetupDialog::JXLayout "Paper size:"
-obj1_JXLayout::JXPSPageSetupDialog::JXLayout "Orientation:"
 okButton::JXPSPageSetupDialog::JXLayout "OK"
+orientationLabel::JXPSPageSetupDialog::JXLayout "Orientation:"
 okButton::JXPSPageSetupDialog::shortcuts::JXLayout "^M"
 cancelButton::JXPSPageSetupDialog::JXLayout "Cancel"

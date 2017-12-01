@@ -1,4 +1,4 @@
-0
+1
 itsNextTipButton::JXTipOfTheDayDialog::shortcuts::JXLayout "#N"
 itsCloseButton::JXTipOfTheDayDialog::JXLayout "Close"
 title::JXTipOfTheDayDialog::JXLayout "Did you know..."

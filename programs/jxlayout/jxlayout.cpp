@@ -32,7 +32,7 @@
 
 static const JUtf8Byte* kVersionStr =
 
-	"jxlayout 4.1.0\n"
+	"jxlayout 5.0.0\n"
 	"\n"
 	"Copyright (C) 1996-2017 John Lindal.  All rights reserved.";
 

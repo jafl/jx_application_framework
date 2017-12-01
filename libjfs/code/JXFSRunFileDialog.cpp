@@ -130,7 +130,7 @@ JXFSRunFileDialog::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 450,170, "");
+	JXWindow* window = jnew JXWindow(this, 450,170, JString::empty);
 	assert( window != NULL );
 
 	itsCmdInput =
@@ -190,12 +190,12 @@ JXFSRunFileDialog::BuildWindow
 	assert( itsUseWindowCB != NULL );
 	itsUseWindowCB->SetShortcuts(JGetString("itsUseWindowCB::JXFSRunFileDialog::shortcuts::JXLayout"));
 
-	JXStaticText* obj1_JXLayout =
-		jnew JXStaticText(JGetString("obj1_JXLayout::JXFSRunFileDialog::JXLayout"), window,
+	JXStaticText* cmdHint =
+		jnew JXStaticText(JGetString("cmdHint::JXFSRunFileDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 20,60, 350,20);
-	assert( obj1_JXLayout != NULL );
-	obj1_JXLayout->SetFontSize(8);
-	obj1_JXLayout->SetToLabel();
+	assert( cmdHint != NULL );
+	cmdHint->SetFontSize(JGetDefaultFontSize()-2);
+	cmdHint->SetToLabel();
 
 	itsSingleFileCB =
 		jnew JXTextCheckbox(JGetString("itsSingleFileCB::JXFSRunFileDialog::JXLayout"), window,
