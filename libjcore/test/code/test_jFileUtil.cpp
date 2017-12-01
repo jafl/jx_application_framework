@@ -61,9 +61,14 @@ JTEST(File)
 
 JTEST(Symlink)
 {
-	JString f1("test_JString.dat", 0, kJFalse);
-	JString f2("test_JFileUtil.dat", 0, kJFalse);
+	JString f1("data/test_JString.txt", 0, kJFalse);
+	JString f2("test_jFileUtil.dat", 0, kJFalse);
 
+	JAssertTrue(JFileExists(f1));
+	if (JFileExists(f2))
+		{
+		JAssertOK(JRemoveFile(f2));
+		}
 	JAssertOK(JCreateSymbolicLink(f1, f2));
 	JAssertTrue(JSameDirEntry(f1, f2));
 
