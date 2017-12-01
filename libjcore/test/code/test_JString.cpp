@@ -40,7 +40,7 @@ JTEST(Counting)
 
 	ok = JString::CountBytesBackward("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", 19, 7, &byteCount);
 	JAssertTrue(ok);
-	JAssertEqual(11, byteCount);
+	JAssertEqual(12, byteCount);
 
 	ok = JString::CountBytesBackward("12345", 2, 4, &byteCount);
 	JAssertFalse(ok);
@@ -867,7 +867,7 @@ JTEST(FileStreaming)
 	JString s;
 	s.ReadDelimited(input);
 	JAssertTrue(input.good());
-	JAssertStringsEqual("This is \xE2\x9C\x94 test", s);
+	JAssertStringsEqual("This is \xC3\xA2 test", s);
 
 	s.ReadDelimited(input);
 	JAssertTrue(input.good());

@@ -289,7 +289,8 @@ JTEST(Move)
 
 JTEST(UnsafeMove)
 {
-	JStringIterator i(JString("123\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", 0));
+	JString s("123\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", 0);
+	JStringIterator i(s);
 
 	JUtf8Character c;
 	i.UnsafeMoveTo(kJIteratorStartBefore, 4, 4);
@@ -300,7 +301,7 @@ JTEST(UnsafeMove)
 	i.UnsafeMoveTo(kJIteratorStartAfter, 5, 6);
 	ok = i.Prev(&c);
 	JAssertTrue(ok);
-	JAssertStringsEqual("xC3\x85", c.GetBytes());
+	JAssertStringsEqual("\xC3\x85", c.GetBytes());
 }
 
 void TestSkip(const JString& s)
@@ -487,9 +488,9 @@ JTEST(Accumulate)
 						   JUtf8ByteRange(3, 14), kJFalse));
 }
 
-void TestSet(JString& s);
+void TestSet(const JString& s)
 {
-	JStringIterator i(&s);
+	JStringIterator i(const_cast<JString*>(&s));
 	JUtf8Character c;
 	JIndex j;
 
@@ -528,9 +529,9 @@ JTEST(Set)
 					JUtf8ByteRange(3, 14), kJFalse));
 }
 
-void TestRemove(JString& s)
+void TestRemove(const JString& s)
 {
-	JStringIterator i(&s);
+	JStringIterator i(const_cast<JString*>(&s));
 	JUtf8Character c;
 	JIndex j;
 
@@ -576,9 +577,9 @@ JTEST(Remove)
 					   JUtf8ByteRange(3, 14), kJFalse));
 }
 
-void TestRemoveLastMatch(JString& s)
+void TestRemoveLastMatch(const JString& s)
 {
-	JStringIterator i(&s);
+	JStringIterator i(const_cast<JString*>(&s));
 	JUtf8Character c;
 	JIndex j;
 
@@ -609,9 +610,9 @@ JTEST(RemoveLastMatch)
 								JUtf8ByteRange(3, 14), kJFalse));
 }
 
-void TestRemoveAll(JString& s)
+void TestRemoveAll(const JString& s)
 {
-	JStringIterator i(&s);
+	JStringIterator i(const_cast<JString*>(&s));
 	JUtf8Character c;
 	JIndex j;
 
@@ -631,9 +632,9 @@ JTEST(RemoveAll)
 						  JUtf8ByteRange(3, 14), kJFalse));
 }
 
-void TestReplaceLastMatch(JString& s)
+void TestReplaceLastMatch(const JString& s)
 {
-	JStringIterator i(&s);
+	JStringIterator i(const_cast<JString*>(&s));
 	JUtf8Character c;
 	JIndex j;
 
@@ -668,9 +669,9 @@ JTEST(ReplaceLastMatch)
 								 JUtf8ByteRange(3, 14), kJFalse));
 }
 
-void TestReplaceLastMatchPositionedInside(JString& s)
+void TestReplaceLastMatchPositionedInside(const JString& s)
 {
-	JStringIterator i(&s);
+	JStringIterator i(const_cast<JString*>(&s));
 	JUtf8Character c;
 	JIndex j;
 
@@ -692,9 +693,9 @@ JTEST(ReplaceLastMatchPositionedInside)
 												 JUtf8ByteRange(3, 14), kJFalse));
 }
 
-void TestReplaceLastMatchPositionedAfter(JString& s)
+void TestReplaceLastMatchPositionedAfter(const JString& s)
 {
-	JStringIterator i(&s);
+	JStringIterator i(const_cast<JString*>(&s));
 	JUtf8Character c;
 	JIndex j;
 
@@ -716,9 +717,9 @@ JTEST(ReplaceLastMatchPositionedAfter)
 												JUtf8ByteRange(3, 14), kJFalse));
 }
 
-void TestInsert(JString& s)
+void TestInsert(const JString& s)
 {
-	JStringIterator i(&s);
+	JStringIterator i(const_cast<JString*>(&s));
 	JUtf8Character c;
 	JIndex j;
 

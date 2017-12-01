@@ -1091,9 +1091,17 @@ JString::SearchBackward
 
 		// accept invalid byte sequences as single characters
 
-		JSize count;
-		JUtf8Character::GetPrevCharacterByteCount(s-1, &count);
-		i -= count;
+		if (i >= 1)
+			{
+			JSize count;
+			JUtf8Character::GetPrevCharacterByteCount(s-1, &count);
+			if (count >= i)
+				{
+				break;
+				}
+
+			i -= count;
+			}
 		}
 
 	ucol_close(coll);
@@ -1734,11 +1742,16 @@ JString::CharacterToUtf8ByteRange
 	const JCharacterRange&	range
 	)
 {
+	if (range.IsNothing())
+		{
+		return JUtf8ByteRange();
+		}
+
 	const JSize first = CountBytes(str, range.first-1);
 	const JSize count = CountBytes(str + first, range.GetCount());
 
 	JUtf8ByteRange r;
-	r.SetFirstAndCount(first, count);
+	r.SetFirstAndCount(first+1, count);
 	return r;
 }
 

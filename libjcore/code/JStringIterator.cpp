@@ -298,7 +298,7 @@ JStringIterator::UnsafeMoveTo
 		JSize byteCount;
 		JUtf8Character::GetCharacterByteCount(itsConstString->GetBytes() + byteIndex-1, &byteCount);
 
-		itsByteOffset      = byteIndex-1 + byteCount;
+		itsByteOffset      = byteIndex + byteCount-1;
 		itsCharacterOffset = characterIndex;
 		}
 }
