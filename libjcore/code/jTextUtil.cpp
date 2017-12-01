@@ -133,7 +133,7 @@ JAnalyzeWhitespace
 				}
 			}
 
-		if (!tabs && spaceCount <= maxSpaceCount)
+		if (!tabs && 0 < spaceCount && spaceCount <= maxSpaceCount)
 			{
 			spaceHisto[ spaceCount-1 ]++;
 			spaceHistoCount++;
@@ -193,7 +193,7 @@ JAnalyzeWhitespace
 
 	// determine tab width - [2,10]
 
-	JSize bestWidth = 0, maxCount = 0;
+	JSize bestWidth = tabWidth, maxCount = 0;
 	for (JIndex w=10; w>=2; w--)
 		{
 		JIndex i = w, lineCount = 0;

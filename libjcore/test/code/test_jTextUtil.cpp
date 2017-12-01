@@ -21,72 +21,122 @@ JTEST(AnalyzeWhitespace)
 	JString buffer;
 	JBoolean useSpaces, isMixed;
 
-	JAnalyzeWhitespace(buffer, 4, kJTrue, &useSpaces, &isMixed);
+	JSize tabWidth = JAnalyzeWhitespace(buffer, 4, kJTrue, &useSpaces, &isMixed);
 	JAssertTrue(useSpaces);
 	JAssertFalse(isMixed);
+	JAssertEqual(4, tabWidth);
 
-	buffer = "    abcd";
-	JAnalyzeWhitespace(buffer, 4, kJTrue, &useSpaces, &isMixed);
+	buffer   = "    abcd";
+	tabWidth = JAnalyzeWhitespace(buffer, 4, kJTrue, &useSpaces, &isMixed);
 	JAssertTrue(useSpaces);
 	JAssertFalse(isMixed);
+	JAssertEqual(4, tabWidth);
 
-	buffer = "    abcd";
-	JAnalyzeWhitespace(buffer, 4, kJFalse, &useSpaces, &isMixed);
+	buffer   = "    abcd";
+	tabWidth = JAnalyzeWhitespace(buffer, 4, kJFalse, &useSpaces, &isMixed);
 	JAssertTrue(useSpaces);
 	JAssertFalse(isMixed);
+	JAssertEqual(4, tabWidth);
 
-	buffer = "    abcd";
-	JAnalyzeWhitespace(buffer, 2, kJTrue, &useSpaces, &isMixed);
+	buffer   = "    abcd";
+	tabWidth = JAnalyzeWhitespace(buffer, 2, kJTrue, &useSpaces, &isMixed);
 	JAssertTrue(useSpaces);
 	JAssertFalse(isMixed);
+	JAssertEqual(4, tabWidth);
 
-	buffer = "   abcd";
-	JAnalyzeWhitespace(buffer, 4, kJFalse, &useSpaces, &isMixed);
+	buffer   = "   abcd";
+	tabWidth = JAnalyzeWhitespace(buffer, 4, kJFalse, &useSpaces, &isMixed);
 	JAssertTrue(useSpaces);
 	JAssertFalse(isMixed);
+	JAssertEqual(3, tabWidth);
 
-	buffer = "\tabcd";
-	JAnalyzeWhitespace(buffer, 4, kJTrue, &useSpaces, &isMixed);
+	buffer   = "\tabcd";
+	tabWidth = JAnalyzeWhitespace(buffer, 4, kJTrue, &useSpaces, &isMixed);
 	JAssertFalse(useSpaces);
 	JAssertFalse(isMixed);
+	JAssertEqual(4, tabWidth);
 
-	buffer = "    abcd\n\tabcd";
-	JAnalyzeWhitespace(buffer, 4, kJTrue, &useSpaces, &isMixed);
-	JAssertTrue(useSpaces);
-	JAssertTrue(isMixed);
-
-	buffer = "    abcd\n\tabcd";
-	JAnalyzeWhitespace(buffer, 4, kJFalse, &useSpaces, &isMixed);
-	JAssertFalse(useSpaces);
-	JAssertTrue(isMixed);
-
-	buffer = "   abcd\n\tabcd";
-	JAnalyzeWhitespace(buffer, 4, kJTrue, &useSpaces, &isMixed);
-	JAssertFalse(useSpaces);
-	JAssertFalse(isMixed);
-
-	buffer = "   abcd\n\tabcd";
-	JAnalyzeWhitespace(buffer, 4, kJFalse, &useSpaces, &isMixed);
-	JAssertFalse(useSpaces);
-	JAssertFalse(isMixed);
-
-	buffer = "   abcd\n\tabcd";
-	JAnalyzeWhitespace(buffer, 2, kJTrue, &useSpaces, &isMixed);
+	buffer   = "    abcd\n\tabcd";
+	tabWidth = JAnalyzeWhitespace(buffer, 4, kJTrue, &useSpaces, &isMixed);
 	JAssertTrue(useSpaces);
 	JAssertTrue(isMixed);
+	JAssertEqual(4, tabWidth);
 
-	buffer = "   abcd\n\tabcd";
-	JAnalyzeWhitespace(buffer, 2, kJFalse, &useSpaces, &isMixed);
+	buffer   = "    abcd\n\tabcd";
+	tabWidth = JAnalyzeWhitespace(buffer, 4, kJFalse, &useSpaces, &isMixed);
 	JAssertFalse(useSpaces);
 	JAssertTrue(isMixed);
+	JAssertEqual(4, tabWidth);
 
-	buffer = "    abcd\n\tabcd\n\tabcd";
-	JAnalyzeWhitespace(buffer, 4, kJTrue, &useSpaces, &isMixed);
-	JAssertFalse(useSpaces);
-	JAssertTrue(isMixed);
-
-	buffer = "abc\n foobar\n\n\txyz\n\nxyz\n";
-	JAnalyzeWhitespace(buffer, 4, kJFalse, &useSpaces, &isMixed);
+	buffer   = "   abcd\n\tabcd";
+	tabWidth = JAnalyzeWhitespace(buffer, 4, kJTrue, &useSpaces, &isMixed);
 	JAssertFalse(useSpaces);
 	JAssertFalse(isMixed);
+	JAssertEqual(4, tabWidth);
+
+	buffer   = "   abcd\n\tabcd";
+	tabWidth = JAnalyzeWhitespace(buffer, 4, kJFalse, &useSpaces, &isMixed);
+	JAssertFalse(useSpaces);
+	JAssertFalse(isMixed);
+	JAssertEqual(4, tabWidth);
+
+	buffer   = "   abcd\n\tabcd";
+	tabWidth = JAnalyzeWhitespace(buffer, 2, kJTrue, &useSpaces, &isMixed);
+	JAssertTrue(useSpaces);
+	JAssertTrue(isMixed);
+	JAssertEqual(3, tabWidth);
+
+	buffer   = "   abcd\n\tabcd";
+	tabWidth = JAnalyzeWhitespace(buffer, 2, kJFalse, &useSpaces, &isMixed);
+	JAssertFalse(useSpaces);
+	JAssertTrue(isMixed);
+	JAssertEqual(2, tabWidth);
+
+	buffer   = "    abcd\n\tabcd\n\tabcd";
+	tabWidth = JAnalyzeWhitespace(buffer, 4, kJTrue, &useSpaces, &isMixed);
+	JAssertFalse(useSpaces);
+	JAssertTrue(isMixed);
+	JAssertEqual(4, tabWidth);
+
+	buffer   = "abc\n foobar\n\n\txyz\n\nxyz\n";
+	tabWidth = JAnalyzeWhitespace(buffer, 4, kJFalse, &useSpaces, &isMixed);
+	JAssertFalse(useSpaces);
+	JAssertFalse(isMixed);
+	JAssertEqual(4, tabWidth);
+
+	buffer   = "   abcd\nabcd";
+	tabWidth = JAnalyzeWhitespace(buffer, 4, kJTrue, &useSpaces, &isMixed);
+	JAssertTrue(useSpaces);
+	JAssertFalse(isMixed);
+	JAssertEqual(3, tabWidth);
+
+	buffer   = "   abcd\nabcd";
+	tabWidth = JAnalyzeWhitespace(buffer, 4, kJFalse, &useSpaces, &isMixed);
+	JAssertTrue(useSpaces);
+	JAssertFalse(isMixed);
+	JAssertEqual(3, tabWidth);
+
+	buffer   = "abcd\n \nabcd\n\nabcd";
+	tabWidth = JAnalyzeWhitespace(buffer, 4, kJTrue, &useSpaces, &isMixed);
+	JAssertTrue(useSpaces);
+	JAssertFalse(isMixed);
+	JAssertEqual(4, tabWidth);
+
+	buffer   = "abcd\n \nabcd\n\nabcd";
+	tabWidth = JAnalyzeWhitespace(buffer, 4, kJFalse, &useSpaces, &isMixed);
+	JAssertTrue(useSpaces);
+	JAssertFalse(isMixed);
+	JAssertEqual(4, tabWidth);
+
+	buffer   = "abcd\n  \nabcd\n\nabcd";
+	tabWidth = JAnalyzeWhitespace(buffer, 4, kJTrue, &useSpaces, &isMixed);
+	JAssertTrue(useSpaces);
+	JAssertFalse(isMixed);
+	JAssertEqual(2, tabWidth);
+
+	buffer   = "abcd\n  \nabcd\n\nabcd";
+	tabWidth = JAnalyzeWhitespace(buffer, 4, kJFalse, &useSpaces, &isMixed);
+	JAssertTrue(useSpaces);
+	JAssertFalse(isMixed);
+	JAssertEqual(2, tabWidth);
 }
