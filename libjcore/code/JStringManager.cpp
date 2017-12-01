@@ -330,13 +330,13 @@ JStringManager::MergeFile
 void
 JStringManager::MergeFile
 	(
-	std::istream&		input,
+	std::istream&	input,
 	const JBoolean	debug
 	)
 {
 	JUInt format;
 	input >> format;
-	if (format != kASCIIFormat)
+	if (format != kASCIIFormat && format != kUTF8Format)
 		{
 		return;
 		}
@@ -420,7 +420,7 @@ JStringManager::WriteFile
 	)
 	const
 {
-	output << (long) kASCIIFormat << std::endl;
+	output << (long) kUTF8Format << std::endl;
 
 	JStringPtrMapCursor<JString> cursor(const_cast<JStringManager*>(this));
 	while (cursor.Next())

@@ -20,7 +20,8 @@ public:
 
 	enum
 	{
-		kASCIIFormat = 0
+		kASCIIFormat = 0,
+		kUTF8Format  = 1
 	};
 
 public:
