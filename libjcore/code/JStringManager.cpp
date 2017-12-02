@@ -332,6 +332,7 @@ JStringManager::MergeFile
 	input >> format;
 	if (format != kASCIIFormat)
 		{
+		std::cerr << "Invalid string file format: " << format << std::endl;
 		return;
 		}
 
