@@ -11,7 +11,6 @@
  ******************************************************************************/
 
 #include <JXVertPartition.h>
-#include <JXAdjustCompartmentsTask.h>
 #include <JXDragPainter.h>
 #include <JXColormap.h>
 #include <JXCursor.h>
@@ -357,7 +356,9 @@ JXVertPartition::RunInternalFTC
 		JCoordinate w = 0;
 		while (iter.Next(&obj))
 			{
-			w = JMax(w, obj->RunInternalFTC(kJTrue));
+			const JCoordinate w1 = obj->RunInternalFTC(kJTrue);
+			obj->FTCAdjustSize(w1 - obj->GetApertureWidth(), 0);
+			w = JMax(w, w1);
 			}
 
 		iter.MoveTo(kJIteratorStartAtBeginning, 0);

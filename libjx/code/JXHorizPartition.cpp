@@ -11,7 +11,6 @@
  ******************************************************************************/
 
 #include <JXHorizPartition.h>
-#include <JXAdjustCompartmentsTask.h>
 #include <JXDragPainter.h>
 #include <JXColormap.h>
 #include <JXCursor.h>
@@ -373,7 +372,9 @@ JXHorizPartition::RunInternalFTC
 		JCoordinate h = 0;
 		while (iter.Next(&obj))
 			{
-			h = JMax(h, obj->RunInternalFTC(kJFalse));
+			const JCoordinate h1 = obj->RunInternalFTC(kJFalse);
+			obj->FTCAdjustSize(0, h1 - obj->GetApertureHeight());
+			h = JMax(h, h1);
 			}
 
 		iter.MoveTo(kJIteratorStartAtBeginning, 0);

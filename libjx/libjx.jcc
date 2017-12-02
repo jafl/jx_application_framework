@@ -557,10 +557,6 @@ T
 2 "JXVertPartition.cpp"
 F
 "./code/JXVertPartition.cpp"
-T
-2 "JXAdjustCompartmentsTask.cpp"
-F
-"./code/JXAdjustCompartmentsTask.cpp"
 F
 T
 1 "CardFile"

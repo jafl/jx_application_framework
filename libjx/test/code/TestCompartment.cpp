@@ -220,6 +220,6 @@ TestCompartment::GetFTCMinContentSize
 	const JFont& f = GetFontManager()->GetDefaultFont();
 
 	return (horizontal ?
-			f.GetStringWidth("Left click to insert in front of") :
-			f.GetLineHeight() * (IsElastic() ? 4 : 3));
+			f.GetStringWidth("Left click to insert before") + 10 :
+			f.GetLineHeight() * (IsElastic() ? 4 : 3) + 10);
 }
