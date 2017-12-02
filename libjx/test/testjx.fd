@@ -5,7 +5,7 @@ Internal Form Definition File
 
 Number of forms: 16
 Unit of measure: FL_COORD_PIXEL
-SnapGrid: 1
+SnapGrid: 5
 
 =============== FORM ===============
 Name: ResizeWidgetDialog
@@ -1558,7 +1558,7 @@ argument:
 --------------------
 class: FL_BOX
 type: FL_NO_BOX
-box: 0 0 315 30
+box: 0 0 310 30
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -1576,7 +1576,7 @@ argument:
 --------------------
 class: FL_BOX
 type: FL_NO_BOX
-box: 0 30 315 315
+box: 0 30 310 310
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER

@@ -125,7 +125,7 @@ TestCompartment::Draw
 		p.SetFontStyle((p.GetColormap())->GetInactiveLabelColor());
 		}
 
-	p.String(ap.left, top, "Left click to insert in front of",
+	p.String(ap.left, top, "Left click to insert before",
 			 ap.width(), JPainter::kHAlignCenter);
 	top += lineHeight;
 	p.String(ap.left, top, "Middle click to delete",

@@ -1815,7 +1815,7 @@ JXWindow::FTCAdjustSize
 		h = JMin(h, itsMaxSize.y);
 		}
 
-	NotifyBoundsResized(w - (origW  + dw), h - (origH + dh));
+	NotifyBoundsResized(w - (origW + dw), h - (origH + dh));
 
 	itsFTCDelta.x += w - origW;		// save difference created by min/max
 	itsFTCDelta.y += h - origH;
