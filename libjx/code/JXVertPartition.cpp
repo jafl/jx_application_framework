@@ -78,6 +78,8 @@ JXVertPartition::JXVertPartitionX()
 	SetDefaultCursor(JXGetDragHorizLineCursor(GetDisplay()));
 	itsDragAllLineCursor = JXGetDragAllHorizLineCursor(GetDisplay());
 
+	itsFTCSizes = NULL;
+
 	SetElasticSize();
 }
 
@@ -88,6 +90,7 @@ JXVertPartition::JXVertPartitionX()
 
 JXVertPartition::~JXVertPartition()
 {
+	jdelete itsFTCSizes;
 }
 
 /******************************************************************************
@@ -119,6 +122,7 @@ JXVertPartition::CreateCompartment
 		jnew JXWidgetSet(this, kHElastic, kFixedTop,
 						0,position, GetApertureWidth(), size);
 	assert( compartment != NULL );
+	compartment->SetNeedsInternalFTC();
 	return compartment;
 }
 
@@ -353,34 +357,54 @@ JXVertPartition::RunInternalFTC
 		JCoordinate w = 0;
 		while (iter.Next(&obj))
 			{
-			w = JMax(w, obj->RunInternalFTC(horizontal));
+			w = JMax(w, obj->RunInternalFTC(kJTrue));
 			}
 
 		iter.MoveTo(kJIteratorStartAtBeginning, 0);
 		while (iter.Next(&obj))
 			{
-			obj->FTCAdjustSize(w - obj->GetApertureWidth(), 0);
+			obj->AdjustSize(w - obj->GetApertureWidth(), 0);
 			}
 
 		return (w + 2 * GetBorderWidth());
 		}
 	else	// vertical
 		{
-		JArray<JCoordinate>* sizes = jnew JArray<JCoordinate>;
-		assert( sizes != NULL );
+		itsFTCSizes = jnew JArray<JCoordinate>;
+		assert( itsFTCSizes != NULL );
 
 		JCoordinate sum = 0;
 		while (iter.Next(&obj))
 			{
-			const JCoordinate h = obj->RunInternalFTC(horizontal);
-			sizes->AppendElement(h);
+			const JCoordinate h = obj->RunInternalFTC(kJFalse);
+			obj->FTCAdjustSize(0, h - obj->GetApertureHeight());
+			itsFTCSizes->AppendElement(h);
 			sum += h;
 			}
 
-		JXUrgentTask* task = jnew JXAdjustCompartmentsTask(this, sizes);	// deletes object
-		assert( task != NULL );
-		task->Go();
+		return (sum + (itsFTCSizes->GetElementCount() - 1) * kDragRegionSize);
+		}
+}
 
-		return (sum + (sizes->GetElementCount() - 1) * kDragRegionSize);
+/******************************************************************************
+ FTCAdjustSize (virtual protected)
+
+ ******************************************************************************/
+
+void
+JXVertPartition::FTCAdjustSize
+	(
+	const JCoordinate dw,
+	const JCoordinate dh
+	)
+{
+	JXPartition::FTCAdjustSize(dw, dh);
+
+	if (itsFTCSizes != NULL)
+		{
+		SetCompartmentSizes(*itsFTCSizes);
+
+		jdelete itsFTCSizes;
+		itsFTCSizes = NULL;
 		}
 }

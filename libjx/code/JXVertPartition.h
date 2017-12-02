@@ -52,6 +52,7 @@ protected:
 	virtual void			UpdateCompartmentSizes();
 
 	virtual JCoordinate	RunInternalFTC(const JBoolean horizontal);
+	virtual void		FTCAdjustSize(const JCoordinate dw, const JCoordinate dh);
 
 private:
 
@@ -71,6 +72,10 @@ private:
 	DragType	itsDragType;
 	JPoint		itsPrevPt;
 	JCoordinate	itsMinDragY, itsMaxDragY;
+
+	// used during FTC
+
+	JArray<JCoordinate>*	itsFTCSizes;	// NULL unless in FTC
 
 private:
 

@@ -78,6 +78,8 @@ JXHorizPartition::JXHorizPartitionX()
 	SetDefaultCursor(JXGetDragVertLineCursor(GetDisplay()));
 	itsDragAllLineCursor = JXGetDragAllVertLineCursor(GetDisplay());
 
+	itsFTCSizes = NULL;
+
 	SetElasticSize();
 }
 
@@ -88,6 +90,7 @@ JXHorizPartition::JXHorizPartitionX()
 
 JXHorizPartition::~JXHorizPartition()
 {
+	jdelete itsFTCSizes;
 }
 
 /******************************************************************************
@@ -119,6 +122,7 @@ JXHorizPartition::CreateCompartment
 		jnew JXWidgetSet(this, kFixedLeft, kVElastic,
 						position,0, size, GetApertureHeight());
 	assert( compartment != NULL );
+	compartment->SetNeedsInternalFTC();
 	return compartment;
 }
 
@@ -350,37 +354,57 @@ JXHorizPartition::RunInternalFTC
 
 	if (horizontal)
 		{
-		JArray<JCoordinate>* sizes = jnew JArray<JCoordinate>;
-		assert( sizes != NULL );
+		itsFTCSizes = jnew JArray<JCoordinate>;
+		assert( itsFTCSizes != NULL );
 
 		JCoordinate sum = 0;
 		while (iter.Next(&obj))
 			{
-			const JCoordinate w = obj->RunInternalFTC(horizontal);
-			sizes->AppendElement(w);
+			const JCoordinate w = obj->RunInternalFTC(kJTrue);
+			obj->FTCAdjustSize(w - obj->GetApertureWidth(), 0);
+			itsFTCSizes->AppendElement(w);
 			sum += w;
 			}
 
-		JXUrgentTask* task = jnew JXAdjustCompartmentsTask(this, sizes);	// deletes object
-		assert( task != NULL );
-		task->Go();
-
-		return (sum + (sizes->GetElementCount() - 1) * kDragRegionSize);
+		return (sum + (itsFTCSizes->GetElementCount() - 1) * kDragRegionSize);
 		}
 	else	// vertical
 		{
 		JCoordinate h = 0;
 		while (iter.Next(&obj))
 			{
-			h = JMax(h, obj->RunInternalFTC(horizontal));
+			h = JMax(h, obj->RunInternalFTC(kJFalse));
 			}
 
 		iter.MoveTo(kJIteratorStartAtBeginning, 0);
 		while (iter.Next(&obj))
 			{
-			obj->FTCAdjustSize(0, h - obj->GetApertureHeight());
+			obj->AdjustSize(0, h - obj->GetApertureHeight());
 			}
 
 		return (h + 2 * GetBorderWidth());
+		}
+}
+
+/******************************************************************************
+ FTCAdjustSize (virtual protected)
+
+ ******************************************************************************/
+
+void
+JXHorizPartition::FTCAdjustSize
+	(
+	const JCoordinate dw,
+	const JCoordinate dh
+	)
+{
+	JXPartition::FTCAdjustSize(dw, dh);
+
+	if (itsFTCSizes != NULL)
+		{
+		SetCompartmentSizes(*itsFTCSizes);
+
+		jdelete itsFTCSizes;
+		itsFTCSizes = NULL;
 		}
 }
