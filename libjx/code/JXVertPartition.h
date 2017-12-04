@@ -51,7 +51,7 @@ protected:
 											  const JCoordinate size);
 	virtual void			UpdateCompartmentSizes();
 
-	virtual JCoordinate	RunInternalFTC(const JBoolean horizontal);
+	virtual JBoolean	RunInternalFTC(const JBoolean horizontal, JCoordinate* newSize);
 	virtual void		FTCAdjustSize(const JCoordinate dw, const JCoordinate dh);
 
 private:
@@ -76,6 +76,7 @@ private:
 	// used during FTC
 
 	JArray<JCoordinate>*	itsFTCSizes;	// NULL unless in FTC
+	JArray<JCoordinate>*	itsFTCMinSizes;	// NULL unless in FTC
 
 private:
 

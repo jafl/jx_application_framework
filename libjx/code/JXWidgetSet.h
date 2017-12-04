@@ -31,7 +31,7 @@ protected:
 	virtual void		Draw(JXWindowPainter& p, const JRect& rect);
 	virtual void		DrawBorder(JXWindowPainter& p, const JRect& frame);
 	virtual JBoolean	NeedsInternalFTC() const;
-	virtual JCoordinate	RunInternalFTC(const JBoolean horizontal);
+	virtual JBoolean	RunInternalFTC(const JBoolean horizontal, JCoordinate* newSize);
 
 private:
 

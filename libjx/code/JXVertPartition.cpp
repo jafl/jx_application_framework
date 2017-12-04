@@ -77,7 +77,8 @@ JXVertPartition::JXVertPartitionX()
 	SetDefaultCursor(JXGetDragHorizLineCursor(GetDisplay()));
 	itsDragAllLineCursor = JXGetDragAllHorizLineCursor(GetDisplay());
 
-	itsFTCSizes = NULL;
+	itsFTCSizes    = NULL;
+	itsFTCMinSizes = NULL;
 
 	SetElasticSize();
 }
@@ -90,6 +91,7 @@ JXVertPartition::JXVertPartitionX()
 JXVertPartition::~JXVertPartition()
 {
 	jdelete itsFTCSizes;
+	jdelete itsFTCMinSizes;
 }
 
 /******************************************************************************
@@ -342,10 +344,11 @@ JXVertPartition::AdjustCursor
 
  ******************************************************************************/
 
-JCoordinate
+JBoolean
 JXVertPartition::RunInternalFTC
 	(
-	const JBoolean horizontal
+	const JBoolean	horizontal,
+	JCoordinate*	newSize
 	)
 {
 	JPtrArrayIterator<JXContainer> iter(GetCompartments());
@@ -356,8 +359,16 @@ JXVertPartition::RunInternalFTC
 		JCoordinate w = 0;
 		while (iter.Next(&obj))
 			{
-			const JCoordinate w1 = obj->RunInternalFTC(kJTrue);
-			obj->FTCAdjustSize(w1 - obj->GetApertureWidth(), 0);
+			JCoordinate w1;
+			if (obj->RunInternalFTC(kJTrue, &w1))
+				{
+				obj->FTCAdjustSize(w1 - obj->GetApertureWidth(), 0);
+				}
+			else
+				{
+				w1 = obj->GetApertureWidth();
+				}
+
 			w = JMax(w, w1);
 			}
 
@@ -367,24 +378,42 @@ JXVertPartition::RunInternalFTC
 			obj->AdjustSize(w - obj->GetApertureWidth(), 0);
 			}
 
-		return (w + 2 * GetBorderWidth());
+		*newSize = w + 2 * GetBorderWidth();
 		}
 	else	// vertical
 		{
 		itsFTCSizes = jnew JArray<JCoordinate>;
 		assert( itsFTCSizes != NULL );
 
+		itsFTCMinSizes = jnew JArray<JCoordinate>;
+		assert( itsFTCMinSizes != NULL );
+
 		JCoordinate sum = 0;
+		JIndex i        = 1;
 		while (iter.Next(&obj))
 			{
-			const JCoordinate h = obj->RunInternalFTC(kJFalse);
-			obj->FTCAdjustSize(0, h - obj->GetApertureHeight());
+			JCoordinate h, delta;
+			if (obj->RunInternalFTC(kJFalse, &h))
+				{
+				delta = h - obj->GetApertureHeight();
+				obj->FTCAdjustSize(0, delta);
+				}
+			else
+				{
+				h     = GetCompartmentSize(i);
+				delta = 0;
+				}
+
 			itsFTCSizes->AppendElement(h);
+			itsFTCMinSizes->AppendElement(JPartition::GetMinCompartmentSize(i) + delta);
 			sum += h;
+			i++;
 			}
 
-		return (sum + (itsFTCSizes->GetElementCount() - 1) * kDragRegionSize);
+		*newSize = sum + (itsFTCSizes->GetElementCount() - 1) * kDragRegionSize;
 		}
+
+	return kJTrue;
 }
 
 /******************************************************************************
@@ -404,8 +433,11 @@ JXVertPartition::FTCAdjustSize
 	if (itsFTCSizes != NULL)
 		{
 		SetCompartmentSizes(*itsFTCSizes);
-
 		jdelete itsFTCSizes;
 		itsFTCSizes = NULL;
+
+		SetMinCompartmentSizes(*itsFTCMinSizes);
+		jdelete itsFTCMinSizes;
+		itsFTCMinSizes = NULL;
 		}
 }

@@ -77,7 +77,8 @@ JXHorizPartition::JXHorizPartitionX()
 	SetDefaultCursor(JXGetDragVertLineCursor(GetDisplay()));
 	itsDragAllLineCursor = JXGetDragAllVertLineCursor(GetDisplay());
 
-	itsFTCSizes = NULL;
+	itsFTCSizes    = NULL;
+	itsFTCMinSizes = NULL;
 
 	SetElasticSize();
 }
@@ -90,6 +91,7 @@ JXHorizPartition::JXHorizPartitionX()
 JXHorizPartition::~JXHorizPartition()
 {
 	jdelete itsFTCSizes;
+	jdelete itsFTCMinSizes;
 }
 
 /******************************************************************************
@@ -342,10 +344,11 @@ JXHorizPartition::AdjustCursor
 
  ******************************************************************************/
 
-JCoordinate
+JBoolean
 JXHorizPartition::RunInternalFTC
 	(
-	const JBoolean horizontal
+	const JBoolean	horizontal,
+	JCoordinate*	newSize
 	)
 {
 	JPtrArrayIterator<JXContainer> iter(GetCompartments());
@@ -356,24 +359,48 @@ JXHorizPartition::RunInternalFTC
 		itsFTCSizes = jnew JArray<JCoordinate>;
 		assert( itsFTCSizes != NULL );
 
+		itsFTCMinSizes = jnew JArray<JCoordinate>;
+		assert( itsFTCMinSizes != NULL );
+
 		JCoordinate sum = 0;
+		JIndex i        = 1;
 		while (iter.Next(&obj))
 			{
-			const JCoordinate w = obj->RunInternalFTC(kJTrue);
-			obj->FTCAdjustSize(w - obj->GetApertureWidth(), 0);
+			JCoordinate w, delta;
+			if (obj->RunInternalFTC(kJTrue, &w))
+				{
+				delta = w - obj->GetApertureWidth();
+				obj->FTCAdjustSize(delta, 0);
+				}
+			else
+				{
+				w     = GetCompartmentSize(i);
+				delta = 0;
+				}
+
 			itsFTCSizes->AppendElement(w);
+			itsFTCMinSizes->AppendElement(JPartition::GetMinCompartmentSize(i) + delta);
 			sum += w;
+			i++;
 			}
 
-		return (sum + (itsFTCSizes->GetElementCount() - 1) * kDragRegionSize);
+		*newSize = sum + (itsFTCSizes->GetElementCount() - 1) * kDragRegionSize;
 		}
 	else	// vertical
 		{
 		JCoordinate h = 0;
 		while (iter.Next(&obj))
 			{
-			const JCoordinate h1 = obj->RunInternalFTC(kJFalse);
-			obj->FTCAdjustSize(0, h1 - obj->GetApertureHeight());
+			JCoordinate h1;
+			if (obj->RunInternalFTC(kJFalse, &h1))
+				{
+				obj->FTCAdjustSize(0, h1 - obj->GetApertureHeight());
+				}
+			else
+				{
+				h1 = obj->GetApertureHeight();
+				}
+
 			h = JMax(h, h1);
 			}
 
@@ -383,8 +410,10 @@ JXHorizPartition::RunInternalFTC
 			obj->AdjustSize(0, h - obj->GetApertureHeight());
 			}
 
-		return (h + 2 * GetBorderWidth());
+		*newSize = h + 2 * GetBorderWidth();
 		}
+
+	return kJTrue;
 }
 
 /******************************************************************************
@@ -404,8 +433,11 @@ JXHorizPartition::FTCAdjustSize
 	if (itsFTCSizes != NULL)
 		{
 		SetCompartmentSizes(*itsFTCSizes);
-
 		jdelete itsFTCSizes;
 		itsFTCSizes = NULL;
+
+		SetMinCompartmentSizes(*itsFTCMinSizes);
+		jdelete itsFTCMinSizes;
+		itsFTCMinSizes = NULL;
 		}
 }

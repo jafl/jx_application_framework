@@ -1,3 +1,8 @@
+jcc
+	EditCommandsDialog - partition not expanded correctly for FTC
+
+-----
+
 SBAddress:  https://reviews.llvm.org/D22831
 
 https://reviews.llvm.org/differential/

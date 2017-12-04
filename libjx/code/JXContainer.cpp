@@ -2023,9 +2023,8 @@ JXContainer::ExpandToFitContent()
 
 	// expand horizontally - translations
 
-	JXFTCCell* root = FTCBuildLayout(kJTrue);
-
-	if (root != NULL)
+	JXFTCCell* root;
+	if (FTCBuildLayout(kJTrue, &root))
 		{
 		const JCoordinate w = GetBoundsWidth(),
 						  b = w - root->GetBoundsWidth(),
@@ -2051,9 +2050,7 @@ JXContainer::ExpandToFitContent()
 
 	// expand vertically - translation font size
 
-	root = FTCBuildLayout(kJFalse);
-
-	if (root != NULL)
+	if (FTCBuildLayout(kJFalse, &root))
 		{
 		const JCoordinate h = GetBoundsHeight(),
 						  b = h - root->GetBoundsHeight(),
@@ -2101,16 +2098,18 @@ JXContainer::ExpandToFitContent()
 
  ******************************************************************************/
 
-JXFTCCell*
+JBoolean
 JXContainer::FTCBuildLayout
 	(
-	const JBoolean expandHorizontally
+	const JBoolean	expandHorizontally,
+	JXFTCCell**		root
 	)
 	const
 {
 	if (itsEnclosedObjs == NULL)
 		{
-		return NULL;
+		*root = NULL;
+		return kJFalse;
 		}
 
 	if (theDebugFTCFlag)
@@ -2221,7 +2220,8 @@ JXContainer::FTCBuildLayout
 
 	if (objList.GetElementCount() == 1)
 		{
-		return dynamic_cast<JXFTCCell*>(objList.GetFirstElement());
+		*root = dynamic_cast<JXFTCCell*>(objList.GetFirstElement());
+		return kJTrue;
 		}
 	else
 		{
@@ -2240,7 +2240,8 @@ JXContainer::FTCBuildLayout
 			objList.DeleteAll();
 			}
 
-		return NULL;	// unable to enclose everything in a single table
+		*root = NULL;	// unable to enclose everything in a single table
+		return kJFalse;
 		}
 }
 
@@ -2644,22 +2645,25 @@ JXContainer::NeedsInternalFTC()
 
  ******************************************************************************/
 
-JCoordinate
+JBoolean
 JXContainer::RunInternalFTC
 	(
-	const JBoolean horizontal
+	const JBoolean	horizontal,
+	JCoordinate*	newSize
 	)
 {
-	JCoordinate v = 0;
-
-	JXFTCCell* root = FTCBuildLayout(horizontal);
-	if (root != NULL)
+	JXFTCCell* root;
+	if (FTCBuildLayout(horizontal, &root))
 		{
-		v = root->Expand(horizontal);
+		*newSize = root->Expand(horizontal);
+		jdelete root;
+		return kJTrue;
 		}
-	jdelete root;
-
-	return v;
+	else
+		{
+		*newSize = 0;
+		return kJFalse;
+		}
 }
 
 /******************************************************************************

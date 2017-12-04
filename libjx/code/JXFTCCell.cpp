@@ -482,8 +482,7 @@ JXFTCCell::ExpandWidget()
 
 		ComputePadding();
 
-		v = itsWidget->RunInternalFTC(itsSyncHorizontalFlag);
-		if (v != 0)
+		if (itsWidget->RunInternalFTC(itsSyncHorizontalFlag, &v))
 			{
 			v += itsSyncHorizontalFlag ?
 					itsPadding.left + itsPadding.right :
@@ -852,8 +851,8 @@ JXFTCCell::SyncSize
 				GetFTCLog() << "=== Processing internal structure for " << itsWidget->ToString() << std::endl;
 				}
 
-			JXFTCCell* root = itsWidget->FTCBuildLayout(itsSyncHorizontalFlag);
-			if (root != NULL)
+			JXFTCCell* root;
+			if (itsWidget->FTCBuildLayout(itsSyncHorizontalFlag, &root))
 				{
 				root->Expand(itsSyncHorizontalFlag);	// NOOP - just sets up state
 				root->AdjustSize(dw, dh);

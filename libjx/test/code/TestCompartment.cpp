@@ -3,7 +3,7 @@
 
 	Class for testing JXHorizPartition and JXVertPartition.
 
-	BASE CLASS = JXDownRect
+	BASE CLASS = JXWidget
 
 	Written by John Lindal.
 
@@ -15,6 +15,7 @@
 #include <JXVertPartition.h>
 #include <JXWindowPainter.h>
 #include <JXColormap.h>
+#include <jXPainterUtil.h>
 #include <JFontManager.h>
 #include <jAssert.h>
 
@@ -35,7 +36,7 @@ TestCompartment::TestCompartment
 	const JCoordinate		h
 	)
 	:
-	JXDownRect(enclosure, hSizing, vSizing, x,y, w,h)
+	JXWidget(enclosure, hSizing, vSizing, x,y, w,h)
 {
 	itsDirector = director;
 	SetBorderWidth(kJXDefaultBorderWidth);
@@ -90,6 +91,21 @@ TestCompartment::IsElastic()
 		}
 
 	return isElastic;
+}
+
+/******************************************************************************
+ DrawBorder (virtual protected)
+
+ ******************************************************************************/
+
+void
+TestCompartment::DrawBorder
+	(
+	JXWindowPainter&	p,
+	const JRect&		frame
+	)
+{
+	JXDrawDownFrame(p, frame, GetBorderWidth());
 }
 
 /******************************************************************************
@@ -220,6 +236,6 @@ TestCompartment::GetFTCMinContentSize
 	const JFont& f = GetFontManager()->GetDefaultFont();
 
 	return (horizontal ?
-			f.GetStringWidth("Left click to insert before") + 10 :
-			f.GetLineHeight() * (IsElastic() ? 4 : 3) + 10);
+			(f.GetStringWidth("Left click to insert before") + 10) :
+			(f.GetLineHeight() * (IsElastic() ? 4 : 3) + 10));
 }

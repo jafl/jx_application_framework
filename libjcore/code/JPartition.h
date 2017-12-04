@@ -37,6 +37,9 @@ public:
 	JCoordinate	GetMinCompartmentSize(const JIndex index) const;
 	void		SetMinCompartmentSize(const JIndex index, const JCoordinate minSize);
 
+	const JArray<JCoordinate>&	GetMinCompartmentSizes() const;
+	void						SetMinCompartmentSizes(const JArray<JCoordinate>& sizes);
+
 	JBoolean	GetElasticIndex(JIndex* index) const;
 	void		SetElasticIndex(const JIndex index);
 
@@ -194,6 +197,22 @@ JPartition::SetMinCompartmentSize
 	)
 {
 	itsMinSizes->SetElement(index, minSize);
+}
+
+inline const JArray<JCoordinate>&
+JPartition::GetMinCompartmentSizes()
+	const
+{
+	return *itsMinSizes;
+}
+
+inline void
+JPartition::SetMinCompartmentSizes
+	(
+	const JArray<JCoordinate>& sizes
+	)
+{
+	*itsMinSizes = sizes;
 }
 
 #endif

@@ -95,12 +95,22 @@ JXWidgetSet::NeedsInternalFTC()
 
  ******************************************************************************/
 
-JCoordinate
+JBoolean
 JXWidgetSet::RunInternalFTC
 	(
-	const JBoolean horizontal
+	const JBoolean	horizontal,
+	JCoordinate*	newSize
 	)
 {
-	return (JXWidget::RunInternalFTC(horizontal) +
-			(horizontal ? itsExtraNeededSpace.x : itsExtraNeededSpace.y));
+	JCoordinate v;
+	if (JXWidget::RunInternalFTC(horizontal, &v))
+		{
+		*newSize = v + (horizontal ? itsExtraNeededSpace.x : itsExtraNeededSpace.y);
+		return kJTrue;
+		}
+	else
+		{
+		*newSize = 0;
+		return kJFalse;
+		}
 }

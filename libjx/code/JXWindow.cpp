@@ -1815,6 +1815,11 @@ JXWindow::FTCAdjustSize
 		h = JMin(h, itsMaxSize.y);
 		}
 
+	if (theDebugFTCFlag)
+		{
+		GetFTCLog() << "Resizing window contents by dw=" << w - (origW + dw)
+					<< " dh=" << h - (origH + dh) << std::endl;
+		}
 	NotifyBoundsResized(w - (origW + dw), h - (origH + dh));
 
 	itsFTCDelta.x += w - origW;		// save difference created by min/max

@@ -14,7 +14,7 @@
 
 class TestPartitionDirector;
 
-class TestCompartment : public JXDownRect
+class TestCompartment : public JXWidget
 {
 public:
 
@@ -27,6 +27,7 @@ public:
 
 protected:
 
+	virtual void	DrawBorder(JXWindowPainter& p, const JRect& frame);
 	virtual void	Draw(JXWindowPainter& p, const JRect& rect);
 
 	virtual void	HandleMouseUp(const JPoint& pt, const JXMouseButton button,

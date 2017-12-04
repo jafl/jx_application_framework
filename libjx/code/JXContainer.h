@@ -125,7 +125,7 @@ public:
 	static void	DebugExpandToFitContentExtras(const JBoolean noop, const JBoolean overlap);
 
 	// public only because it has to be called in special cases
-	virtual JCoordinate	RunInternalFTC(const JBoolean horizontal);
+	virtual JBoolean	RunInternalFTC(const JBoolean horizontal, JCoordinate* newSize);
 	virtual void		FTCAdjustSize(const JCoordinate dw, const JCoordinate dh);
 
 	// called by JXDisplay
@@ -280,7 +280,7 @@ private:
 	void	AddEnclosedObject(JXContainer* theObject);
 	void	RemoveEnclosedObject(JXContainer* theObject);
 
-	JXFTCCell*	FTCBuildLayout(const JBoolean expandHorizontally) const;
+	JBoolean	FTCBuildLayout(const JBoolean expandHorizontally, JXFTCCell** root) const;
 	JXFTCCell*	FTCGroupAlignedObjects(JXContainer* target,
 									   JPtrArray<JXContainer>* objList,
 									   JPtrArray<JXContainer>* fullObjList,
