@@ -44,7 +44,7 @@ JXTextButton::JXTextButton
 	itsPushedColor = GetColormap()->GetDefaultBackColor();
 
 	const JSize lineHeight = itsFont.GetLineHeight();
-	itsPadding.Set(lineHeight/4, lineHeight/8);
+	itsPadding.Set(lineHeight/4, lineHeight/16);
 }
 
 /******************************************************************************
@@ -215,6 +215,6 @@ JXTextButton::GetFTCMinContentSize
 	const JSize lineHeight = itsFont.GetLineHeight();
 
 	return (horizontal ?
-			JMax((JSize) GetApertureWidth(), itsFont.GetStringWidth(itsLabel) + 2*itsPadding.x) :
-			JMax((JSize) GetApertureHeight(), lineHeight + 2*itsPadding.y));
+			JMax((JSize) GetApertureWidth(), itsFont.GetStringWidth(itsLabel) + 2*itsPadding.x + 2*GetBorderWidth()) :
+			JMax((JSize) GetApertureHeight(), lineHeight + 2*itsPadding.y + 2*GetBorderWidth()));
 }

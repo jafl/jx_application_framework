@@ -1,3 +1,17 @@
+GetFTCMinContentSize
+	include border
+
+testjx
+	why doesn't horiz partition increase min width of vert partition?
+
+multi-line unit tests for analyze whitespace
+	2,4
+	2,3,4
+	2,4,5
+	3,4,6
+	3,4,6,7
+	3,4,6,8
+
 jcc
 	EditCommandsDialog - partition not expanded correctly for FTC
 
