@@ -8,7 +8,7 @@ JX_VERSION     := 4.0.0
 JX_LIB_VERSION := 4_0_0
 JX             := JX-${JX_VERSION}
 
-ACE_VERSION := 6.3.0
+ACE_VERSION := 6.4.6
 
 #
 # useful directories

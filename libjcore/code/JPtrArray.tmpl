@@ -572,7 +572,7 @@ template <class T>
 void
 JPtrArray<T>::DeleteAll()
 {
-	const JSize elementCount = JCollection::GetElementCount();
+	const JSize elementCount = this->JCollection::GetElementCount();
 	for (JIndex i=1; i<=elementCount; i++)
 		{
 		jdelete (NthElement(i));
@@ -605,7 +605,7 @@ template <class T>
 void
 JPtrArray<T>::DeleteAllAsArrays()
 {
-	const JSize elementCount = JCollection::GetElementCount();
+	const JSize elementCount = this->JCollection::GetElementCount();
 	for (JIndex i=1; i<=elementCount; i++)
 		{
 		jdelete [] (NthElement(i));
@@ -654,7 +654,7 @@ JPtrArray<T>::Find
 
 	// search for the first match
 
-	const JSize elementCount = JCollection::GetElementCount();
+	const JSize elementCount = this->JCollection::GetElementCount();
 	for (JIndex i=1; i<=elementCount; i++)
 		{
 		if (dataPtr == JArray<T*>::ProtectedGetElement(i))

@@ -321,7 +321,7 @@ JRunArray<T>::PrivateInsertElementsAtIndex
 		{
 		// We need to append the data to the end of the array.
 
-		const JSize elementCount = JCollection::GetElementCount();
+		const JSize elementCount = this->JCollection::GetElementCount();
 		const JSize runCount     = GetRunCount();
 
 		if (runCount > 0 && data == GetRunDataRef(runCount))
@@ -1377,7 +1377,7 @@ JRunArray<T>::FindRun
 	)
 	const
 {
-	const JSize count = JCollection::GetElementCount();
+	const JSize count = this->JCollection::GetElementCount();
 	if (elementIndex <= 1 + count/2)	// automatically catches count==0
 		{
 		*runIndex        = 1;
