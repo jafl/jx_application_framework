@@ -5174,7 +5174,7 @@ JTextEditor::AnalyzeWhitespace
 			}
 			while (i <= maxSpaceCount);
 
-		if (lineCount > JRound(1.1 * maxCount))
+		if (lineCount > (JIndex) JRound(1.1 * maxCount))
 			{
 			maxCount  = lineCount;
 			bestWidth = w;
