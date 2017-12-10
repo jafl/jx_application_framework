@@ -731,7 +731,7 @@ JXDockWidget::Receive
 				JIndex currIndex;
 				const JBoolean hadSelection = itsTabGroup->GetCurrentTabIndex(&currIndex);
 
-				JXWidgetSet* card = itsTabGroup->RemoveTab(i);
+				JXWidgetSet* card = dynamic_cast<JXWidgetSet*>(itsTabGroup->RemoveTab(i));
 				itsTabGroup->InsertTab(index, w->GetTitle(), card);
 
 				itsWindowList->MoveElementToIndex(i, index);

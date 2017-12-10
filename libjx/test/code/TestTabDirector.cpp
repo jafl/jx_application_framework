@@ -66,9 +66,9 @@ TestTabDirector::BuildWindow()
 								 5, 5, 290, 290);
 	assert( itsTabGroup != NULL );
 
-	JXWidgetSet* card3 = itsTabGroup->AppendTab("Testing");
-	JXWidgetSet* card1 = itsTabGroup->PrependTab("First tab");
-	JXWidgetSet* card2 = itsTabGroup->InsertTab(2, "Tab #2");
+	JXContainer* card3 = itsTabGroup->AppendTab("Testing");
+	JXContainer* card1 = itsTabGroup->PrependTab("First tab");
+	JXContainer* card2 = itsTabGroup->InsertTab(2, "Tab #2");
 
 	// card 1
 
@@ -169,7 +169,7 @@ TestTabDirector::Receive
 		{
 		JString s(itsNextTabIndex);
 		s.Prepend("Tab #");
-		JXWidgetSet* card = itsTabGroup->AppendTab(s, kJTrue);
+		JXContainer* card = itsTabGroup->AppendTab(s, kJTrue);
 		itsNextTabIndex++;
 
 		JXTextButton* removeButton =

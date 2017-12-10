@@ -138,6 +138,7 @@ CBEditCRMDialog::BuildWindow
 	const JRect ruleLayout_Frame    = compartment->GetFrame();
 	const JRect ruleLayout_Aperture = compartment->GetAperture();
 	compartment->AdjustSize(500 - ruleLayout_Aperture.width(), 150 - ruleLayout_Aperture.height());
+	dynamic_cast<JXWidgetSet*>(compartment)->SetExtraNeededSpace(500 - ruleLayout_Aperture.width(), 150 - ruleLayout_Aperture.height());
 
 	JXTextButton* newRuleButton =
 		jnew JXTextButton(JGetString("newRuleButton::CBEditCRMDialog::ruleLayout"), compartment,
@@ -198,6 +199,7 @@ CBEditCRMDialog::BuildWindow
 	const JRect crmLayout_Frame    = compartment->GetFrame();
 	const JRect crmLayout_Aperture = compartment->GetAperture();
 	compartment->AdjustSize(500 - crmLayout_Aperture.width(), 150 - crmLayout_Aperture.height());
+	dynamic_cast<JXWidgetSet*>(compartment)->SetExtraNeededSpace(500 - crmLayout_Aperture.width(), 150 - crmLayout_Aperture.height());
 
 	JXTextButton* newCRMButton =
 		jnew JXTextButton(JGetString("newCRMButton::CBEditCRMDialog::crmLayout"), compartment,

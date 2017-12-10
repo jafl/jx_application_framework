@@ -73,7 +73,7 @@ JXCardFile::~JXCardFile()
 
  ******************************************************************************/
 
-JXWidgetSet*
+JXContainer*
 JXCardFile::InsertCard
 	(
 	const JIndex index
@@ -115,7 +115,7 @@ JXCardFile::InsertCard
 
  ******************************************************************************/
 
-JXWidgetSet*
+JXContainer*
 JXCardFile::RemoveCard
 	(
 	const JIndex index
@@ -178,7 +178,7 @@ JXCardFile::KillFocusOnCurrentCard()
 JBoolean
 JXCardFile::ShowCard
 	(
-	JXWidgetSet* card
+	JXContainer* card
 	)
 {
 	JIndex index;

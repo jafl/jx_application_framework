@@ -217,7 +217,7 @@ JXTabGroup::TabInfo::TabInfo
 JBoolean
 JXTabGroup::ShowTab
 	(
-	JXWidgetSet* card
+	JXContainer* card
 	)
 {
 	JIndex index;
@@ -353,7 +353,7 @@ JXTabGroup::ScrollTabsIntoView()
 
  ******************************************************************************/
 
-JXWidgetSet*
+JXContainer*
 JXTabGroup::InsertTab
 	(
 	const JIndex		index,
@@ -390,7 +390,7 @@ JXTabGroup::InsertTab
 
  ******************************************************************************/
 
-JXWidgetSet*
+JXContainer*
 JXTabGroup::RemoveTab
 	(
 	const JIndex index

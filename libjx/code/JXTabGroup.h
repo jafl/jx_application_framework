@@ -41,10 +41,10 @@ public:
 	JSize		GetTabCount() const;
 	JBoolean	GetCurrentTabIndex(JIndex* index) const;
 
-	JXWidgetSet*	InsertTab(const JIndex index, const JCharacter* title,
+	JXContainer*	InsertTab(const JIndex index, const JCharacter* title,
 							  const JBoolean closeable = kJFalse);
-	JXWidgetSet*	PrependTab(const JCharacter* title, const JBoolean closeable = kJFalse);
-	JXWidgetSet*	AppendTab(const JCharacter* title, const JBoolean closeable = kJFalse);
+	JXContainer*	PrependTab(const JCharacter* title, const JBoolean closeable = kJFalse);
+	JXContainer*	AppendTab(const JCharacter* title, const JBoolean closeable = kJFalse);
 
 	void			InsertTab(const JIndex index, const JCharacter* title,
 							  JXWidgetSet* card, const JBoolean closeable = kJFalse);
@@ -53,7 +53,7 @@ public:
 	void			AppendTab(const JCharacter* title, JXWidgetSet* card,
 							  const JBoolean closeable = kJFalse);
 
-	JXWidgetSet*	RemoveTab(const JIndex index);
+	JXContainer*	RemoveTab(const JIndex index);
 	void			DeleteTab(const JIndex index);
 	void			KillFocusOnCurrentTab();
 
@@ -64,7 +64,7 @@ public:
 	void		SetTabCanClose(const JIndex index, const JBoolean closable);
 
 	JBoolean		ShowTab(const JIndex index);
-	JBoolean		ShowTab(JXWidgetSet* card);
+	JBoolean		ShowTab(JXContainer* card);
 	void			ShowPreviousTab();
 	void			ShowNextTab();
 	void			ScrollTabsIntoView();
@@ -271,7 +271,7 @@ JXTabGroup::GetMouseTabIndex
 
  ******************************************************************************/
 
-inline JXWidgetSet*
+inline JXContainer*
 JXTabGroup::PrependTab
 	(
 	const JCharacter*	title,
@@ -297,7 +297,7 @@ JXTabGroup::PrependTab
 
  ******************************************************************************/
 
-inline JXWidgetSet*
+inline JXContainer*
 JXTabGroup::AppendTab
 	(
 	const JCharacter*	title,
@@ -331,7 +331,7 @@ JXTabGroup::DeleteTab
 	const JIndex index
 	)
 {
-	JXWidgetSet* card = RemoveTab(index);
+	JXContainer* card = RemoveTab(index);
 	jdelete card;
 }
 

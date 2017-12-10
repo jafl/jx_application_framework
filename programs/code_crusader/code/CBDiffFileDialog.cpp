@@ -286,17 +286,17 @@ CBDiffFileDialog::BuildWindow()
 
 // end JXLayout
 
-	JXWidgetSet* plainCard = itsTabGroup->AppendTab("Normal");
-	JXWidgetSet* cvsCard   = itsTabGroup->AppendTab("  CVS  ");
-	JXWidgetSet* svnCard   = itsTabGroup->AppendTab("Subversion");
-	JXWidgetSet* gitCard   = itsTabGroup->AppendTab("    Git    ");
+	JXContainer* plainCard = itsTabGroup->AppendTab("Normal");
+	JXContainer* cvsCard   = itsTabGroup->AppendTab("  CVS  ");
+	JXContainer* svnCard   = itsTabGroup->AppendTab("Subversion");
+	JXContainer* gitCard   = itsTabGroup->AppendTab("    Git    ");
 
 // begin plainLayout
 
 	const JRect plainLayout_Frame    = plainCard->GetFrame();
 	const JRect plainLayout_Aperture = plainCard->GetAperture();
 	plainCard->AdjustSize(530 - plainLayout_Aperture.width(), 70 - plainLayout_Aperture.height());
-	plainCard->SetExtraNeededSpace(530 - plainLayout_Aperture.width(), 70 - plainLayout_Aperture.height());
+	dynamic_cast<JXWidgetSet*>(plainCard)->SetExtraNeededSpace(530 - plainLayout_Aperture.width(), 70 - plainLayout_Aperture.height());
 
 	JXStaticText* file1Label =
 		jnew JXStaticText(JGetString("file1Label::CBDiffFileDialog::plainLayout"), plainCard,
@@ -349,7 +349,7 @@ CBDiffFileDialog::BuildWindow()
 	const JRect cvsLayout_Frame    = cvsCard->GetFrame();
 	const JRect cvsLayout_Aperture = cvsCard->GetAperture();
 	cvsCard->AdjustSize(510 - cvsLayout_Aperture.width(), 90 - cvsLayout_Aperture.height());
-	cvsCard->SetExtraNeededSpace(510 - cvsLayout_Aperture.width(), 90 - cvsLayout_Aperture.height());
+	dynamic_cast<JXWidgetSet*>(cvsCard)->SetExtraNeededSpace(510 - cvsLayout_Aperture.width(), 90 - cvsLayout_Aperture.height());
 
 	itsCVSFileInput =
 		jnew JXFileInput(cvsCard,
@@ -405,7 +405,7 @@ CBDiffFileDialog::BuildWindow()
 	const JRect svnLayout_Frame    = svnCard->GetFrame();
 	const JRect svnLayout_Aperture = svnCard->GetAperture();
 	svnCard->AdjustSize(510 - svnLayout_Aperture.width(), 90 - svnLayout_Aperture.height());
-	svnCard->SetExtraNeededSpace(510 - svnLayout_Aperture.width(), 90 - svnLayout_Aperture.height());
+	dynamic_cast<JXWidgetSet*>(svnCard)->SetExtraNeededSpace(510 - svnLayout_Aperture.width(), 90 - svnLayout_Aperture.height());
 
 	itsSVNFileInput =
 		jnew CBSVNFileInput(svnCard,
@@ -461,7 +461,7 @@ CBDiffFileDialog::BuildWindow()
 	const JRect gitLayout_Frame    = gitCard->GetFrame();
 	const JRect gitLayout_Aperture = gitCard->GetAperture();
 	gitCard->AdjustSize(510 - gitLayout_Aperture.width(), 90 - gitLayout_Aperture.height());
-	gitCard->SetExtraNeededSpace(510 - gitLayout_Aperture.width(), 90 - gitLayout_Aperture.height());
+	dynamic_cast<JXWidgetSet*>(gitCard)->SetExtraNeededSpace(510 - gitLayout_Aperture.width(), 90 - gitLayout_Aperture.height());
 
 	itsGitFileInput =
 		jnew JXFileInput(gitCard,

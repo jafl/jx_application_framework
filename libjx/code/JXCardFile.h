@@ -25,22 +25,22 @@ public:
 
 	JSize		GetCardCount() const;
 	JBoolean	GetCurrentCardIndex(JIndex* index) const;
-	JBoolean	GetCardIndex(JXWidgetSet* card, JIndex* index) const;
+	JBoolean	GetCardIndex(JXContainer* card, JIndex* index) const;
 
-	JXWidgetSet*	InsertCard(const JIndex index);
-	JXWidgetSet*	PrependCard();
-	JXWidgetSet*	AppendCard();
+	JXContainer*	InsertCard(const JIndex index);
+	JXContainer*	PrependCard();
+	JXContainer*	AppendCard();
 
 	void			InsertCard(const JIndex index, JXWidgetSet* card);
 	void			PrependCard(JXWidgetSet* card);
 	void			AppendCard(JXWidgetSet* card);
 
-	JXWidgetSet*	RemoveCard(const JIndex index);
+	JXContainer*	RemoveCard(const JIndex index);
 	void			DeleteCard(const JIndex index);
 	void			KillFocusOnCurrentCard();
 
 	JBoolean		ShowCard(const JIndex index);
-	JBoolean		ShowCard(JXWidgetSet* card);
+	JBoolean		ShowCard(JXContainer* card);
 
 protected:
 
@@ -169,7 +169,7 @@ JXCardFile::GetCurrentCardIndex
 inline JBoolean
 JXCardFile::GetCardIndex
 	(
-	JXWidgetSet*	card,
+	JXContainer*	card,
 	JIndex*			index
 	)
 	const
@@ -182,7 +182,7 @@ JXCardFile::GetCardIndex
 
  ******************************************************************************/
 
-inline JXWidgetSet*
+inline JXContainer*
 JXCardFile::PrependCard()
 {
 	return InsertCard(1);
@@ -202,7 +202,7 @@ JXCardFile::PrependCard
 
  ******************************************************************************/
 
-inline JXWidgetSet*
+inline JXContainer*
 JXCardFile::AppendCard()
 {
 	return InsertCard(GetCardCount()+1);
@@ -230,7 +230,7 @@ JXCardFile::DeleteCard
 	const JIndex index
 	)
 {
-	JXWidgetSet* card = RemoveCard(index);
+	JXContainer* card = RemoveCard(index);
 	jdelete card;
 }
 

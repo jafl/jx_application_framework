@@ -146,6 +146,7 @@ CBEditCommandsDialog::BuildWindow
 	const JRect allProjectsLayout_Frame    = compartment->GetFrame();
 	const JRect allProjectsLayout_Aperture = compartment->GetAperture();
 	compartment->AdjustSize(580 - allProjectsLayout_Aperture.width(), 140 - allProjectsLayout_Aperture.height());
+	dynamic_cast<JXWidgetSet*>(compartment)->SetExtraNeededSpace(580 - allProjectsLayout_Aperture.width(), 140 - allProjectsLayout_Aperture.height());
 
 	JXTextButton* allNewButton =
 		jnew JXTextButton(JGetString("allNewButton::CBEditCommandsDialog::allProjectsLayout"), compartment,
@@ -230,6 +231,7 @@ CBEditCommandsDialog::BuildWindow
 	const JRect thisProjectLayout_Frame    = compartment->GetFrame();
 	const JRect thisProjectLayout_Aperture = compartment->GetAperture();
 	compartment->AdjustSize(580 - thisProjectLayout_Aperture.width(), 170 - thisProjectLayout_Aperture.height());
+	dynamic_cast<JXWidgetSet*>(compartment)->SetExtraNeededSpace(580 - thisProjectLayout_Aperture.width(), 170 - thisProjectLayout_Aperture.height());
 
 	JXTextButton* thisNewButton =
 		jnew JXTextButton(JGetString("thisNewButton::CBEditCommandsDialog::thisProjectLayout"), compartment,
