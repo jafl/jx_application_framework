@@ -8,7 +8,7 @@ if [[ `uname` == Darwin ]]; then
 		/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)";
 	fi
 
-	brew install coreutils ace icu4c pcre;
+	brew install coreutils ace icu4c pcre pkg-config;
 
 	if test ! -L ACE/ACE_wrappers; then
 		ln -s /usr/local/include ACE/ACE_wrappers;

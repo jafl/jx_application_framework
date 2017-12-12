@@ -1,3 +1,12 @@
+multi-line unit tests for analyze whitespace
+	2,4
+	2,3,4
+	2,4,5
+	3,4,6
+	3,4,6,7
+	3,4,6,8
+
+
 JXTextMenu
 	on OSX, replace Meta- Shift- Ctrl- and invert ordering
 
