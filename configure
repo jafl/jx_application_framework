@@ -1,8 +1,104 @@
 #!/bin/bash
 
-if [[ `uname` == Darwin ]]; then
+#
+# sanity checks
+#
 
-	# MacOS - must be first, because apt exists
+if [[ -n $JX_INSTALL_ROOT && ! ( -d $JX_INSTALL_ROOT && -w $JX_INSTALL_ROOT ) ]]; then
+	echo "$JX_INSTALL_ROOT either does not exist or is not writable.";
+	echo "Please set JX_INSTALL_ROOT to a valid directory";
+	echo "and make sure that it is on your execution path.";
+	exit 1;
+fi
+
+ACE_VERSION=`make print-ace-version`;
+
+#
+# functions
+#
+
+function get_ace
+{
+	if [[ -n $ACE_ROOT && ! -d ACE/ACE_wrappers ]]; then
+		ln -sf $ACE_ROOT ACE/ACE_wrappers;
+		return;
+	fi
+
+	if [[ -e ACE/ACE_wrappers ]]; then
+		return;
+	fi
+
+	pushd ACE;
+
+	if [[ ! -f ACE.tgz ]]; then
+		if which wget; then
+			wget -O ACE.tgz http://libjx.sourceforge.net/data/ACE-$ACE_VERSION.tar.gz;
+		elif which curl; then
+			curl -o ACE.tgz http://libjx.sourceforge.net/data/ACE-$ACE_VERSION.tar.gz;
+		else
+			echo "Please install either curl or wget";
+			exit 1;
+		fi
+	fi
+
+	tar -xzf ACE.tgz;
+	touch ACE_wrappers/$ACE_VERSION;
+	./patch_ace;
+	popd;
+}
+
+function configure_ace
+{
+	ACE_CONFIG=$1;
+	MAKE_CONFIG=$2;
+
+	if [[ ! -f ACE/ACE_wrappers/ace/config.h ]]; then
+		ln -sf $ACE_CONFIG ACE/ACE_wrappers/ace/config.h;
+	fi
+
+	if [[ -d ACE/ACE_wrappers/include/makeinclude && ! -f ACE/ACE_wrappers/include/makeinclude/platform_macros.GNU ]]; then
+		ln -sf $MAKE_CONFIG ACE/ACE_wrappers/include/makeinclude/platform_macros.GNU;
+	fi
+}
+
+function clean_links
+{
+	rm -f include/make/jx_config
+	rm -f include/jcore/jMissingProto.h
+
+	if [[ ! -L ACE/ACE_wrappers ]]; then
+		rm -f ACE/ACE_wrappers/ace/config.h;
+		rm -f ACE/ACE_wrappers/include/makeinclude/platform_macros.GNU;
+	fi
+}
+
+function configure_linux
+{
+	get_ace;
+	clean_links;
+
+	ln -sf ../../include/missing_proto/jMissingProto_empty.h include/jcore/jMissingProto.h;
+
+	ARCH=`uname -i`;
+	if [[ $ARCH == x86_64 ]]; then
+		ln -sf sys/Linux-Intel-64  include/make/jx_config;
+	elif [[ ${ARCH:0:1} == i ]]; then
+		ln -sf sys/Linux-Intel-32  include/make/jx_config;
+	else
+		echo "Unknown architecture $ARCH.  Please file an issue on github.";
+		exit 1;
+	fi
+
+	configure_ace config-linux.h platform_linux.GNU;
+}
+
+#
+# main script
+#
+
+SYS=`uname -o`;
+
+if [[ $SYS == Darwin ]]; then
 
 	if ! which brew; then
 		/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)";
@@ -10,11 +106,16 @@ if [[ `uname` == Darwin ]]; then
 
 	brew install coreutils ace icu4c pcre;
 
-	if test ! -L ACE/ACE_wrappers; then
+	if [[ ! -L ACE/ACE_wrappers ]]; then
+		rm -rf ACE/ACE_wrappers;
 		ln -s /usr/local/include ACE/ACE_wrappers;
 	fi
 
-else if which apt; then
+	clean_links;
+	ln -sf sys/OSX_g++ include/make/jx_config;
+	ln -sf ../../include/missing_proto/jMissingProto_empty.h include/jcore/jMissingProto.h;
+
+elif which apt-get; then
 
 	# debian
 
@@ -32,12 +133,14 @@ else if which apt; then
 
 # libace-dev : https://bugs.launchpad.net/ubuntu/+source/ace/+bug/1631521
 #
-#	if test ! -L ACE/ACE_wrappers; then
+#	if [[ ! -L ACE/ACE_wrappers ]]; then
 #		ln -s /usr/include ACE/ACE_wrappers;
 #	fi
 #	./bin/patch_ace.pl ACE/ACE_wrappers/ace;
 
-else if which dnf; then
+	configure_linux;
+
+elif which dnf; then
 
 	# redhat
 
@@ -47,11 +150,13 @@ else if which dnf; then
 			libXmu-devel libXi-devel \
 		libxml2-devel gd-devel libjpeg-devel libpng-devel \
 		libicu-devel pcre-devel \
-		llvm-devel imake libtool  xorg-x11-proto-devel libdrm-devel \
+		llvm-devel imake libtool xorg-x11-proto-devel libdrm-devel \
 		xorg-x11-server-devel libXdamage-devel expat-devel \
 		aspell aspell-en xforms-devel;
 
-else if which yum; then
+	configure_linux;
+
+elif which yum; then
 
 	# redhat
 
@@ -61,11 +166,13 @@ else if which yum; then
 			libXmu-devel libXi-devel \
 		libxml2-devel gd-devel libjpeg-devel libpng-devel \
 		libicu-devel pcre-devel \
-		llvm-devel imake libtool  xorg-x11-proto-devel libdrm-devel \
+		llvm-devel imake libtool xorg-x11-proto-devel libdrm-devel \
 		xorg-x11-server-devel libXdamage-devel expat-devel \
 		aspell aspell-en xforms-devel;
 
-else if which zypper; then
+	configure_linux;
+
+elif which zypper; then
 
 	# openSUSE
 
@@ -75,17 +182,55 @@ else if which zypper; then
 			libXmu-devel libXi-devel \
 		libxml2-devel gd-devel libjpeg-devel libpng-devel \
 		libicu-devel pcre-devel \
-		llvm-devel imake libtool  xorg-x11-proto-devel libdrm-devel \
+		llvm-devel imake libtool xorg-x11-proto-devel libdrm-devel \
 		xorg-x11-server-devel libXdamage-devel expat-devel \
 		aspell aspell-en xforms-devel;
 
+	configure_linux;
+
+elif [[ $SYS == Cygwin ]]; then
+
+	ARCH=`uname -i`;
+	if [[ $ARCH == x86_64 ]]; then
+		SETUP=setup-x86_64.exe;
+		echo "Unsupported architecture $ARCH.  Please file an issue on github.";
+		exit 1;
+	elif [[ ${ARCH:0:1} == i ]]; then
+		SETUP=setup-x86.exe;
+		SYS_CONFIG=sys/Linux-Intel-cygwin32;
+		ACE_CONFIG=config-cygwin32.h;
+		ACE_MAKE_CONFIG=platform_cygwin32.GNU;
+	else
+		echo "Unknown architecture $ARCH.  Please file an issue on github.";
+		exit 1;
+	fi
+
+	$SETUP -q -P which,curl,perl,python2-libxml2;
+	$SETUP -q -P gcc-g++,flex,bison,make,gdb;
+	$SETUP -q -P libX11-devel,libXinerama-devel,libXpm-devel,libXft-devel,libXmu-devel,libXi-devel;
+	$SETUP -q -P libxml2-devel,libgd-devel,libjpeg-devel,libpng-devel,libicu-devel,libpcre-devel;
+	$SETUP -q -P imake,libtool,xorg-server-devel,libXdamage-devel,libexpat-devel;
+	$SETUP -q -P aspell,aspell-en;
+
+	get_ace;
+	clean_links;
+
+	ln -sf $SYS_CONFIG include/make/jx_config;	
+	ln -sf ../../include/missing_proto/jMissingProto_CygWin.h include/jcore/jMissingProto.h;
+	configure_ace $ACE_CONFIG $ACE_MAKE_CONFIG;
+
 else
 
-	echo "Unrecognized system!  Please refer to the INSTALL file";
+	echo "Unrecognized system!  Please file an issue on github.";
 	exit 1;
 
 fi
-fi
-fi
-fi
+
+#
+# final setup
+#
+
+if [[ ! -e libjcore/code/jStringData.h ]]; then
+	cp -f libjcore/jStringData_init.h libjcore/code/jStringData.h;
+	chmod u+w libjcore/code/jStringData.h;
 fi
