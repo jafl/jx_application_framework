@@ -110,7 +110,7 @@ if [[ $SYS == Darwin ]]; then
 
 	if [[ ! -L ACE/ACE_wrappers ]]; then
 		rm -rf ACE/ACE_wrappers;
-		ln -s /usr/local/include ACE/ACE_wrappers;
+		ln -sf /usr/local/include ACE/ACE_wrappers;
 	fi
 
 	clean_links;
@@ -142,8 +142,8 @@ elif which apt-get; then
 #	./bin/patch_ace.pl ACE/ACE_wrappers/ace;
 
 	configure_linux;
-	ln -s /usr/lib/llvm-3.9/include programs/code_medic/lldb-include;
-	ln -s /usr/lib/llvm-3.9/lib/liblldb.so lib;
+	ln -sf /usr/lib/llvm-3.9/include programs/code_medic/lldb-include;
+	ln -sf /usr/lib/llvm-3.9/lib/liblldb.so.1 lib/liblldb.so;
 
 elif which dnf; then
 
