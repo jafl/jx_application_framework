@@ -13,8 +13,6 @@ if [[ -n $JX_INSTALL_ROOT && ! ( -d $JX_INSTALL_ROOT && -w $JX_INSTALL_ROOT ) ]]
 	exit 1;
 fi
 
-ACE_VERSION=`make print-ace-version`;
-
 #
 # functions
 #
@@ -29,6 +27,8 @@ function get_ace
 	if [[ -e ACE/ACE_wrappers ]]; then
 		return;
 	fi
+
+	ACE_VERSION=`make print-ace-version`;
 
 	pushd ACE;
 
