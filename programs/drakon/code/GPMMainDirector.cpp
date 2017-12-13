@@ -235,8 +235,8 @@ GPMMainDirector::BuildWindow()
 	itsTabGroup->AdjustSize(0, -statusHeight);
 	itsTabGroup->Move(0, statusHeight);
 
-	JXWidgetSet* listTab = itsTabGroup->AppendTab("List");
-	JXWidgetSet* treeTab = itsTabGroup->AppendTab("Tree");
+	JXContainer* listTab = itsTabGroup->AppendTab("List");
+	JXContainer* treeTab = itsTabGroup->AppendTab("Tree");
 
 	// list view
 
