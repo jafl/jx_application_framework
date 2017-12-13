@@ -188,11 +188,11 @@ GPMMainDirector::BuildWindow()
 
 	JXMenuBar* menuBar =
 		jnew JXMenuBar(window,
-					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 540,30);
+					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 530,30);
 	assert( menuBar != NULL );
 
 	itsToolBar =
-		jnew JXToolBar(GPMGetPrefsManager(), kGPMMainToolBarID, menuBar, 540, 250, window,
+		jnew JXToolBar(GPMGetPrefsManager(), kGPMMainToolBarID, menuBar, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 530,300);
 	assert( itsToolBar != NULL );
 
@@ -205,6 +205,7 @@ GPMMainDirector::BuildWindow()
 
 	window->SetTitle("Drakon Process Manager");
 	window->SetCloseAction(JXWindow::kQuitApp);
+	window->SetMinSize(530, 250);
 	window->SetWMClass(GPMGetWMClassInstance(), GPMGetMainWindowClass());
 
 	JXImage* image = jnew JXImage(GetDisplay(), gpm_main_window_icon);

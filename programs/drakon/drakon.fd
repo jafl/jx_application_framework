@@ -147,7 +147,7 @@ Number of Objects: 4
 --------------------
 class: FL_BOX
 type: FL_FLAT_BOX
-box: 0 0 540 350
+box: 0 0 530 350
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -165,7 +165,7 @@ argument:
 --------------------
 class: FL_BOX
 type: FL_NO_BOX
-box: 0 0 540 30
+box: 0 0 530 30
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -196,7 +196,7 @@ resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
 name: itsToolBar
 callback: 
-argument: GPMGetPrefsManager(), kGPMMainToolBarID, menuBar, 540, 250,
+argument: GPMGetPrefsManager(), kGPMMainToolBarID, menuBar,
 
 --------------------
 class: FL_BOX
