@@ -146,7 +146,7 @@ elif which dnf; then
 
 	# redhat
 
-	sudo dnf -y install sudo findutils perl python-libxml2 \
+	sudo dnf -y install findutils perl python-libxml2 \
 		gcc-c++ flex bison make lldb rpm-build \
 		libX11-devel libXinerama-devel libXpm-devel libXft-devel \
 			libXmu-devel libXi-devel \
@@ -162,7 +162,7 @@ elif which yum; then
 
 	# redhat
 
-	sudo yum -y install sudo findutils perl python-libxml2 \
+	sudo yum -y install findutils perl python-libxml2 \
 		gcc-c++ flex bison make lldb rpm-build \
 		libX11-devel libXinerama-devel libXpm-devel libXft-devel \
 			libXmu-devel libXi-devel \
@@ -178,7 +178,7 @@ elif which zypper; then
 
 	# openSUSE
 
-	sudo zypper -in install sudo curl perl python-libxml2 \
+	sudo zypper -in install curl perl python-libxml2 \
 		gcc-c++ flex bison make lldb rpm-build \
 		libX11-devel libXinerama-devel libXpm-devel libXft-devel \
 			libXmu-devel libXi-devel \
