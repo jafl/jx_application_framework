@@ -143,6 +143,7 @@ elif which apt-get; then
 
 	configure_linux;
 	ln -s /usr/lib/llvm-3.9/include programs/code_medic/lldb-include;
+	ln -s /usr/lib/llvm-3.9/lib/liblldb.so lib;
 
 elif which dnf; then
 
