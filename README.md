@@ -98,6 +98,7 @@ ACE
 
 misc
   ctags              Patched version of Exuberant ctags
+  lldb-include       lldb includes for systems that do not have them
   win32              Unfinished port to Windows
 ```
 
