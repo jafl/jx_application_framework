@@ -9,7 +9,6 @@
 
  *****************************************************************************/
 
-
 #include "LLDBLink.h"
 #include "LLDBBreakpointManager.h"
 #include "LLDBWelcomeTask.h"

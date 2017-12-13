@@ -116,6 +116,7 @@ if [[ $SYS == Darwin ]]; then
 	clean_links;
 	ln -sf sys/OSX_g++ include/make/jx_config;
 	ln -sf ../../include/missing_proto/jMissingProto_empty.h include/jcore/jMissingProto.h;
+	ln -sf ../../misc/lldb-include programs/code_medic;
 
 elif which apt-get; then
 
@@ -123,7 +124,7 @@ elif which apt-get; then
 
 	sudo apt update;
 	sudo apt -y install curl \
-		g++ flex bison make lldb \
+		g++ flex bison make lldb-devel \
 		libx11-dev libxinerama-dev libxpm-dev libxft-dev \
 			libxmu-dev libxi-dev \
 		libxml2-dev libgd-dev libjpeg-dev libpng-dev \
@@ -147,7 +148,7 @@ elif which dnf; then
 	# redhat
 
 	sudo dnf -y install findutils perl python-libxml2 \
-		gcc-c++ flex bison make lldb rpm-build \
+		gcc-c++ flex bison make lldb-devel rpm-build \
 		libX11-devel libXinerama-devel libXpm-devel libXft-devel \
 			libXmu-devel libXi-devel \
 		libxml2-devel gd-devel libjpeg-devel libpng-devel \
@@ -163,7 +164,7 @@ elif which yum; then
 	# redhat
 
 	sudo yum -y install findutils perl python-libxml2 \
-		gcc-c++ flex bison make lldb rpm-build \
+		gcc-c++ flex bison make lldb-devel rpm-build \
 		libX11-devel libXinerama-devel libXpm-devel libXft-devel \
 			libXmu-devel libXi-devel \
 		libxml2-devel gd-devel libjpeg-devel libpng-devel \
@@ -179,7 +180,7 @@ elif which zypper; then
 	# openSUSE
 
 	sudo zypper -in install curl perl python-libxml2 \
-		gcc-c++ flex bison make lldb rpm-build \
+		gcc-c++ flex bison make lldb-devel rpm-build \
 		libX11-devel libXinerama-devel libXpm-devel libXft-devel \
 			libXmu-devel libXi-devel \
 		libxml2-devel gd-devel libjpeg-devel libpng-devel \
