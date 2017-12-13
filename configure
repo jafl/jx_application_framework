@@ -81,13 +81,13 @@ function configure_linux
 
 	ln -sf ../../include/missing_proto/jMissingProto_empty.h include/jcore/jMissingProto.h;
 
-	ARCH=`uname -i`;
+	ARCH=`uname -m`;
 	if [[ $ARCH == x86_64 ]]; then
 		ln -sf sys/Linux-Intel-64  include/make/jx_config;
 	elif [[ ${ARCH:0:1} == i ]]; then
 		ln -sf sys/Linux-Intel-32  include/make/jx_config;
 	else
-		echo "Unknown architecture $ARCH.  Please file an issue on github.";
+		echo "Unknown architecture '$ARCH'.  Please file an issue on github.";
 		exit 1;
 	fi
 
@@ -197,7 +197,7 @@ elif [[ $SYS == Cygwin ]]; then
 	ARCH=`uname -i`;
 	if [[ $ARCH == x86_64 ]]; then
 		SETUP=setup-x86_64.exe;
-		echo "Unsupported architecture $ARCH.  Please file an issue on github.";
+		echo "Unsupported architecture '$ARCH'.  Please file an issue on github.";
 		exit 1;
 	elif [[ ${ARCH:0:1} == i ]]; then
 		SETUP=setup-x86.exe;
@@ -205,7 +205,7 @@ elif [[ $SYS == Cygwin ]]; then
 		ACE_CONFIG=config-cygwin32.h;
 		ACE_MAKE_CONFIG=platform_cygwin32.GNU;
 	else
-		echo "Unknown architecture $ARCH.  Please file an issue on github.";
+		echo "Unknown architecture '$ARCH'.  Please file an issue on github.";
 		exit 1;
 	fi
 
