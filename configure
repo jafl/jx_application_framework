@@ -124,7 +124,7 @@ elif which apt-get; then
 
 	sudo apt update;
 	sudo apt -y install curl \
-		g++ flex bison make lldb-devel \
+		g++ flex bison make liblldb-3.9-dev \
 		libx11-dev libxinerama-dev libxpm-dev libxft-dev \
 			libxmu-dev libxi-dev \
 		libxml2-dev libgd-dev libjpeg-dev libpng-dev \
