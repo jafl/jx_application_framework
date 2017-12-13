@@ -142,6 +142,7 @@ elif which apt-get; then
 #	./bin/patch_ace.pl ACE/ACE_wrappers/ace;
 
 	configure_linux;
+	ln -s /usr/lib/llvm-3.9/include programs/code_medic/lldb-include;
 
 elif which dnf; then
 
