@@ -33,9 +33,9 @@ function get_ace
 	pushd ACE;
 
 	if [[ ! -f ACE.tgz ]]; then
-		if which wget; then
+		if command -v wget; then
 			wget -O ACE.tgz http://libjx.sourceforge.net/data/ACE-$ACE_VERSION.tar.gz;
-		elif which curl; then
+		elif command -v curl; then
 			curl -o ACE.tgz http://libjx.sourceforge.net/data/ACE-$ACE_VERSION.tar.gz;
 		else
 			echo "Please install either curl or wget";
@@ -102,7 +102,7 @@ SYS=`uname -o`;
 
 if [[ $SYS == Darwin ]]; then
 
-	if ! which brew; then
+	if ! command -v brew; then
 		/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)";
 	fi
 
@@ -118,7 +118,7 @@ if [[ $SYS == Darwin ]]; then
 	ln -sf ../../include/missing_proto/jMissingProto_empty.h include/jcore/jMissingProto.h;
 	ln -sf ../../misc/lldb-include programs/code_medic;
 
-elif which apt-get; then
+elif command -v apt-get; then
 
 	# debian
 
@@ -145,7 +145,7 @@ elif which apt-get; then
 	ln -sf /usr/lib/llvm-3.9/include programs/code_medic/lldb-include;
 	ln -sf /usr/lib/llvm-3.9/lib/liblldb.so.1 lib/liblldb.so;
 
-elif which dnf; then
+elif command -v dnf; then
 
 	# redhat
 
@@ -161,7 +161,7 @@ elif which dnf; then
 
 	configure_linux;
 
-elif which yum; then
+elif command -v yum; then
 
 	# redhat
 
@@ -177,7 +177,7 @@ elif which yum; then
 
 	configure_linux;
 
-elif which zypper; then
+elif command -v zypper; then
 
 	# openSUSE
 
