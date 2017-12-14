@@ -100,6 +100,10 @@ function configure_linux
 
 SYS=`uname -o`;
 
+if [[ $UID != 0 ]]; then
+	SUDO="sudo";
+fi
+
 if [[ $SYS == Darwin ]]; then
 
 	if ! command -v brew; then
@@ -122,8 +126,8 @@ elif command -v apt-get; then
 
 	# debian
 
-	sudo apt update;
-	sudo apt -y install curl \
+	$SUDO apt update;
+	$SUDO apt -y install curl \
 		g++ flex bison make liblldb-3.9-dev \
 		libx11-dev libxinerama-dev libxpm-dev libxft-dev \
 			libxmu-dev libxi-dev \
@@ -149,7 +153,7 @@ elif command -v dnf; then
 
 	# redhat
 
-	sudo dnf -y install findutils perl python-libxml2 \
+	$SUDO dnf -y install findutils perl python-libxml2 \
 		gcc-c++ flex bison make lldb-devel rpm-build \
 		libX11-devel libXinerama-devel libXpm-devel libXft-devel \
 			libXmu-devel libXi-devel \
@@ -165,7 +169,7 @@ elif command -v yum; then
 
 	# redhat
 
-	sudo yum -y install findutils perl python-libxml2 \
+	$SUDO yum -y install findutils perl python-libxml2 \
 		gcc-c++ flex bison make lldb-devel rpm-build \
 		libX11-devel libXinerama-devel libXpm-devel libXft-devel \
 			libXmu-devel libXi-devel \
@@ -181,7 +185,7 @@ elif command -v zypper; then
 
 	# openSUSE
 
-	sudo zypper -in install curl perl python-libxml2 \
+	$SUDO zypper -in install curl perl python-libxml2 \
 		gcc-c++ flex bison make lldb rpm-build \
 		libX11-devel libXinerama-devel libXpm-devel libXft-devel \
 			libXmu-devel libXi-devel \
