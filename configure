@@ -197,6 +197,8 @@ elif command -v zypper; then
 
 	configure_linux;
 
+	# lldb-devel is missing
+
 elif [[ $SYS == Cygwin ]]; then
 
 	ARCH=`uname -i`;
