@@ -182,7 +182,7 @@ elif which zypper; then
 	# openSUSE
 
 	sudo zypper -in install curl perl python-libxml2 \
-		gcc-c++ flex bison make lldb-devel rpm-build \
+		gcc-c++ flex bison make lldb rpm-build \
 		libX11-devel libXinerama-devel libXpm-devel libXft-devel \
 			libXmu-devel libXi-devel \
 		libxml2-devel gd-devel libjpeg-devel libpng-devel \
