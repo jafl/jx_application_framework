@@ -718,7 +718,7 @@ JIndex i;
 	JSize count;
 	JCoordinate totalSize;
 	input >> count >> totalSize;
-	if (count != GetCompartmentCount() || totalSize != GetTotalSize())
+	if (count != GetCompartmentCount())
 		{
 		JIgnoreUntil(input, kGeometryDataEndDelimiter);
 		return;
@@ -741,9 +741,14 @@ JIndex i;
 		{
 		JCoordinate size;
 		input >> size;
-		sizes.AppendElement(size);;
+		sizes.AppendElement(size);
 		}
-	SetCompartmentSizes(sizes);
+
+	if (!SaveGeometryForLater(sizes) &&
+		!(itsElasticIndex == 0 && totalSize != GetTotalSize()))
+		{
+		SetCompartmentSizes(sizes);
+		}
 
 	JIgnoreUntil(input, kGeometryDataEndDelimiter);
 }

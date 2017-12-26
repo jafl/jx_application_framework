@@ -71,6 +71,7 @@ protected:
 
 	virtual JCoordinate	GetTotalSize() const = 0;
 	virtual void		UpdateCompartmentSizes() = 0;
+	virtual JBoolean	SaveGeometryForLater(const JArray<JCoordinate>& sizes) = 0;
 
 	virtual void		CreateCompartmentObject(const JIndex index,
 												const JCoordinate position,

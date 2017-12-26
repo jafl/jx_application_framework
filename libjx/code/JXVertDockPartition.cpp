@@ -632,3 +632,17 @@ JXVertDockPartition::UpdateMinSize()
 
 	return JPoint(minWidth, minHeight);
 }
+
+/******************************************************************************
+ SaveGeometryForLater (virtual protected)
+
+ ******************************************************************************/
+
+JBoolean
+JXVertDockPartition::SaveGeometryForLater
+	(
+	const JArray<JCoordinate>& sizes
+	)
+{
+	return kJFalse;
+}

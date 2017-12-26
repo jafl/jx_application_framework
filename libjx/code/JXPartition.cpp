@@ -276,3 +276,56 @@ JXPartition::ApertureResized
 	JXWidgetSet::ApertureResized(dw,dh);
 	PTBoundsChanged();
 }
+
+/******************************************************************************
+ RestoreGeometry (protected)
+
+ ******************************************************************************/
+
+void
+JXPartition::RestoreGeometry
+	(
+	const JArray<JCoordinate>& sizes
+	)
+{
+	const JSize count = sizes.GetElementCount();
+	if (count != GetCompartmentCount())
+		{
+		return;
+		}
+
+	JSize origTotalSize = 0;
+	for (JIndex i=1; i<=count; i++)
+		{
+		const JSize size = sizes.GetElement(i);
+		if (size < JPartition::GetMinCompartmentSize(i))
+			{
+			return;
+			}
+		origTotalSize += size;
+		}
+
+	origTotalSize += (count-1) * kDragRegionSize;
+
+	const JSize currTotalSize = GetTotalSize();
+	const JSize totalDelta    = currTotalSize - origTotalSize;
+	if (totalDelta > 0)
+		{
+		JArray<JCoordinate> newSizes(sizes);
+		const JSize delta = totalDelta/count;
+		JSize sum         = 0;
+		for (JIndex i=1; i<count; i++)
+			{
+			const JSize size = newSizes.GetElement(i) + delta;
+			newSizes.SetElement(i, size);
+			sum += size;
+			}
+
+		newSizes.SetElement(count, currTotalSize - sum);	// takes care of rounding error
+		SetCompartmentSizes(newSizes);
+		}
+	else
+		{
+		SetCompartmentSizes(sizes);
+		}
+}

@@ -1,8 +1,5 @@
 jcc
-	Compare Files dialog: tab group not expanded to show "Summary" CB
-
-JPartition
-	ReadGeometry is overwritten by FTC
+	ExecCommands dialog: table heights wrong
 
 -----
 

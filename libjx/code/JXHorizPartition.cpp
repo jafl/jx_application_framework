@@ -11,6 +11,7 @@
  ******************************************************************************/
 
 #include <JXHorizPartition.h>
+#include <JXRestorePartitionGeometry.h>
 #include <JXDragPainter.h>
 #include <JXColormap.h>
 #include <JXCursor.h>
@@ -79,6 +80,7 @@ JXHorizPartition::JXHorizPartitionX()
 
 	itsFTCSizes    = NULL;
 	itsFTCMinSizes = NULL;
+	itsSavedGeom   = NULL;
 
 	SetElasticSize();
 }
@@ -92,6 +94,7 @@ JXHorizPartition::~JXHorizPartition()
 {
 	jdelete itsFTCSizes;
 	jdelete itsFTCMinSizes;
+	jdelete itsSavedGeom;
 }
 
 /******************************************************************************
@@ -439,5 +442,40 @@ JXHorizPartition::FTCAdjustSize
 		SetMinCompartmentSizes(*itsFTCMinSizes);
 		jdelete itsFTCMinSizes;
 		itsFTCMinSizes = NULL;
+
+		if (itsSavedGeom != NULL)
+			{
+			RestoreGeometry(*itsSavedGeom);
+			jdelete itsSavedGeom;
+			itsSavedGeom = NULL;
+			}
 		}
+}
+
+/******************************************************************************
+ SaveGeometryForLater (virtual protected)
+
+ ******************************************************************************/
+
+JBoolean
+JXHorizPartition::SaveGeometryForLater
+	(
+	const JArray<JCoordinate>& sizes
+	)
+{
+	if (itsSavedGeom == NULL)
+		{
+		itsSavedGeom = jnew JArray<JCoordinate>(sizes);
+		assert( itsSavedGeom != NULL );
+
+		JXUrgentTask* geomTask = jnew JXRestorePartitionGeometry(this);
+		assert( geomTask != NULL );
+		geomTask->Go();
+		}
+	else
+		{
+		*itsSavedGeom = sizes;
+		}
+
+	return kJTrue;
 }
