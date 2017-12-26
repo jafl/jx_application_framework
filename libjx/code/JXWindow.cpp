@@ -1800,8 +1800,8 @@ JXWindow::FTCAdjustSize
 	const JCoordinate origW = itsBounds.width(),
 					  origH = itsBounds.height();
 
-	JCoordinate w = origW,
-				h = origH;
+	JCoordinate w = origW + dw,
+				h = origH + dh;
 
 	if (itsHasMinSizeFlag)
 		{

@@ -141,7 +141,6 @@ CBEditMacroDialog::BuildWindow
 	const JRect actionLayout_Frame    = compartment->GetFrame();
 	const JRect actionLayout_Aperture = compartment->GetAperture();
 	compartment->AdjustSize(310 - actionLayout_Aperture.width(), 150 - actionLayout_Aperture.height());
-	dynamic_cast<JXWidgetSet*>(compartment)->SetExtraNeededSpace(310 - actionLayout_Aperture.width(), 150 - actionLayout_Aperture.height());
 
 	JXTextButton* newActionButton =
 		jnew JXTextButton(JGetString("newActionButton::CBEditMacroDialog::actionLayout"), compartment,
@@ -202,7 +201,6 @@ CBEditMacroDialog::BuildWindow
 	const JRect macroLayout_Frame    = compartment->GetFrame();
 	const JRect macroLayout_Aperture = compartment->GetAperture();
 	compartment->AdjustSize(310 - macroLayout_Aperture.width(), 150 - macroLayout_Aperture.height());
-	dynamic_cast<JXWidgetSet*>(compartment)->SetExtraNeededSpace(310 - macroLayout_Aperture.width(), 150 - macroLayout_Aperture.height());
 
 	JXTextButton* newMacroButton =
 		jnew JXTextButton(JGetString("newMacroButton::CBEditMacroDialog::macroLayout"), compartment,
@@ -263,7 +261,6 @@ CBEditMacroDialog::BuildWindow
 	const JRect macroSetLayout_Frame    = compartment->GetFrame();
 	const JRect macroSetLayout_Aperture = compartment->GetAperture();
 	compartment->AdjustSize(310 - macroSetLayout_Aperture.width(), 150 - macroSetLayout_Aperture.height());
-	dynamic_cast<JXWidgetSet*>(compartment)->SetExtraNeededSpace(310 - macroSetLayout_Aperture.width(), 150 - macroSetLayout_Aperture.height());
 
 	JXTextButton* newMacroSetButton =
 		jnew JXTextButton(JGetString("newMacroSetButton::CBEditMacroDialog::macroSetLayout"), compartment,

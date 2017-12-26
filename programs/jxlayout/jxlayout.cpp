@@ -633,14 +633,6 @@ JIndex i;
 		topEnclApName.Print(output);
 		output << ".height());" << std::endl;
 
-		output << indent << "dynamic_cast<JXWidgetSet*>(";
-		topEnclVarName.Print(output);
-		output << ")->SetExtraNeededSpace(" << formWidth << " - ";
-		topEnclApName.Print(output);
-		output << ".width(), " << formHeight << " - ";
-		topEnclApName.Print(output);
-		output << ".height());" << std::endl;
-
 		output << std::endl;
 		}
 
