@@ -75,7 +75,7 @@ SVNRepoDragData::ConvertData
 		*returnType   = XA_STRING;
 		*bitsPerBlock = 8;
 		*dataLength   = itsURI.GetLength();
-		*data         = new unsigned char[ *dataLength ];
+		*data         = jnew unsigned char[ *dataLength ];
 		if (*data != NULL)
 			{
 			memcpy(*data, itsURI.GetCString(), *dataLength);

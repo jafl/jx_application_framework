@@ -95,7 +95,7 @@ SVNApp::DisplayAbout
 	const JCharacter* prevVersStr
 	)
 {
-	SVNAboutDialog* dlog = new SVNAboutDialog(this, prevVersStr);
+	SVNAboutDialog* dlog = jnew SVNAboutDialog(this, prevVersStr);
 	assert( dlog != NULL );
 	dlog->BeginDialog();
 }

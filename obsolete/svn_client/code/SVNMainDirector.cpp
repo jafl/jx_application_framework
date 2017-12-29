@@ -236,7 +236,7 @@ SVNMainDirector::SVNMainDirectorX()
 	itsCheckOutRepoDialog       = NULL;
 	itsRefreshStatusTask        = NULL;
 
-	itsTabList = new JPtrArray<SVNTabBase>(JPtrArrayT::kForgetAll);
+	itsTabList = jnew JPtrArray<SVNTabBase>(JPtrArrayT::kForgetAll);
 	assert( itsTabList != NULL );
 
 	BuildWindow();
@@ -251,7 +251,7 @@ SVNMainDirector::SVNMainDirectorX()
 
 SVNMainDirector::~SVNMainDirector()
 {
-	delete itsTabList;
+	jdelete itsTabList;
 }
 
 /******************************************************************************
@@ -318,21 +318,18 @@ SVNMainDirector::StreamOut
 void
 SVNMainDirector::BuildWindow()
 {
-	const JCoordinate minWidth  = 200;
-	const JCoordinate minHeight = 200;
-
 // begin JXLayout
 
-	JXWindow* window = new JXWindow(this, 500,300, "");
+	JXWindow* window = jnew JXWindow(this, 500,300, "");
 	assert( window != NULL );
 
 	JXMenuBar* menuBar =
-		new JXMenuBar(window,
+		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 500,30);
 	assert( menuBar != NULL );
 
 	itsToolBar =
-		new JXToolBar(SVNGetPrefsManager(), kSVNMainToolBarID, menuBar, minWidth, minHeight, window,
+		jnew JXToolBar(SVNGetPrefsManager(), kSVNMainToolBarID, menuBar, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 500,270);
 	assert( itsToolBar != NULL );
 
@@ -350,10 +347,10 @@ SVNMainDirector::BuildWindow()
 		displayPath = JConvertToHomeDirShortcut(itsPath);
 		}
 	UpdateWindowTitle(displayPath);
-	window->LockCurrentMinSize();
+	window->SetMinSize(200, 200);
 	window->SetWMClass(SVNGetWMClassInstance(), SVNGetMainWindowClass());
 
-	JXImage* image = new JXImage(GetDisplay(), svn_main_window_icon);
+	JXImage* image = jnew JXImage(GetDisplay(), svn_main_window_icon);
 	assert( image != NULL );
 	window->SetIcon(image);
 	ListenTo(window);
@@ -399,7 +396,7 @@ SVNMainDirector::BuildWindow()
 	itsInfoMenu->SetItemImage(kInfoLogSelectedFilesCmd, svn_info_log);
 
 	JXWDMenu* wdMenu =
-		new JXWDMenu(kWindowsMenuTitleStr, menuBar,
+		jnew JXWDMenu(kWindowsMenuTitleStr, menuBar,
 					 JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
 	assert( wdMenu != NULL );
 	menuBar->AppendMenu(wdMenu);
@@ -420,7 +417,7 @@ SVNMainDirector::BuildWindow()
 	// tab group
 
 	itsTabGroup =
-		new SVNTabGroup(itsToolBar->GetWidgetEnclosure(),
+		jnew SVNTabGroup(itsToolBar->GetWidgetEnclosure(),
 						JXWidget::kHElastic, JXWidget::kVElastic,
 						0,0, 100,100);
 	assert( itsTabGroup != NULL );
@@ -432,11 +429,11 @@ SVNMainDirector::BuildWindow()
 	JString repoPath = itsPath;
 	if (isURL || JGetVCSRepositoryPath(itsPath, &repoPath))
 		{
-		JXWidgetSet* card            = itsTabGroup->AppendTab(JGetString("RepoTab::SVNMainDirector"));
+		JXContainer* card            = itsTabGroup->AppendTab(JGetString("RepoTab::SVNMainDirector"));
 		JXScrollbarSet* scrollbarSet = BuildScrollbarSet(card);
 
 		itsRepoWidget =
-			new SVNRepoView(this, repoPath, 0, itsEditMenu,
+			jnew SVNRepoView(this, repoPath, 0, itsEditMenu,
 							scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 							JXWidget::kHElastic, JXWidget::kVElastic,
 							0,0, 100,100);
@@ -449,11 +446,11 @@ SVNMainDirector::BuildWindow()
 
 	if (!isURL)
 		{
-		JXWidgetSet* card            = itsTabGroup->AppendTab(JGetString("StatusTab::SVNMainDirector"));
+		JXContainer* card            = itsTabGroup->AppendTab(JGetString("StatusTab::SVNMainDirector"));
 		JXScrollbarSet* scrollbarSet = BuildScrollbarSet(card);
 
 		itsStatusWidget =
-			new SVNStatusList(this, itsEditMenu,
+			jnew SVNStatusList(this, itsEditMenu,
 							  scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 							  JXWidget::kHElastic, JXWidget::kVElastic,
 							  0,0, 100,100);
@@ -508,7 +505,7 @@ SVNMainDirector::BuildScrollbarSet
 	)
 {
 	JXScrollbarSet* scrollbarSet =
-		new JXScrollbarSet(widget, JXWidget::kHElastic,JXWidget::kVElastic,
+		jnew JXScrollbarSet(widget, JXWidget::kHElastic,JXWidget::kVElastic,
 						   0,0, 100,100);
 	assert( scrollbarSet != NULL );
 	scrollbarSet->FitToEnclosure();
@@ -613,7 +610,7 @@ SVNMainDirector::ScheduleStatusRefresh()
 {
 	if (itsRefreshStatusTask == NULL)
 		{
-		itsRefreshStatusTask = new SVNRefreshStatusTask(this);
+		itsRefreshStatusTask = jnew SVNRefreshStatusTask(this);
 		assert( itsRefreshStatusTask != NULL );
 		itsRefreshStatusTask->Start();
 		}
@@ -893,7 +890,7 @@ SVNMainDirector::HandleFileMenu
 		assert( itsBrowseRepoDialog == NULL );
 
 		itsBrowseRepoDialog =
-			new SVNGetRepoDialog(
+			jnew SVNGetRepoDialog(
 				JXGetPersistentWindowOwner(), JGetString("BrowseRepoWindowTitle::SVNMainDirector"));
 		assert( itsBrowseRepoDialog != NULL );
 		ListenTo(itsBrowseRepoDialog);
@@ -905,7 +902,7 @@ SVNMainDirector::HandleFileMenu
 		assert( itsCheckOutRepoDialog == NULL );
 
 		itsCheckOutRepoDialog =
-			new SVNGetRepoDialog(
+			jnew SVNGetRepoDialog(
 				JXGetPersistentWindowOwner(), JGetString("CheckOutRepoWindowTitle::SVNMainDirector"));
 		assert( itsCheckOutRepoDialog != NULL );
 		ListenTo(itsCheckOutRepoDialog);
@@ -968,7 +965,7 @@ SVNMainDirector::CheckOut
 	SVNMainDirector* dir;
 	if (!(SVNGetWDManager())->GetBrowserForExactURL(url, &dir))
 		{
-		dir = new SVNMainDirector(JXGetApplication(), url);
+		dir = jnew SVNMainDirector(JXGetApplication(), url);
 		assert( dir != NULL );
 		dir->Activate();
 		}
@@ -1036,11 +1033,11 @@ SVNMainDirector::CreateStatusTab()
 	assert( found );
 	index++;
 
-	JXWidgetSet* card            = itsTabGroup->InsertTab(index, JGetString("StatusTab::SVNMainDirector"));
+	JXContainer* card            = itsTabGroup->InsertTab(index, JGetString("StatusTab::SVNMainDirector"));
 	JXScrollbarSet* scrollbarSet = BuildScrollbarSet(card);
 
 	itsStatusWidget =
-		new SVNStatusList(this, itsEditMenu,
+		jnew SVNStatusList(this, itsEditMenu,
 						  scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 						  JXWidget::kHElastic, JXWidget::kVElastic,
 						  0,0, 100,100);
@@ -1258,11 +1255,11 @@ SVNMainDirector::BrowseRepo
 		};
 	const JString title = JGetString("RepoRevTab::SVNMainDirector", map, sizeof(map));
 
-	JXWidgetSet* card            = itsTabGroup->AppendTab(title, kJTrue);
+	JXContainer* card            = itsTabGroup->AppendTab(title, kJTrue);
 	JXScrollbarSet* scrollbarSet = BuildScrollbarSet(card);
 
 	SVNRepoView* widget =
-		new SVNRepoView(this, repoPath, rev, itsEditMenu,
+		jnew SVNRepoView(this, repoPath, rev, itsEditMenu,
 						scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 						JXWidget::kHElastic, JXWidget::kVElastic,
 						0,0, 100,100);
@@ -1282,7 +1279,7 @@ SVNMainDirector::BrowseRepo
 void
 SVNMainDirector::RefreshStatus()
 {
-	delete itsRefreshStatusTask;
+	jdelete itsRefreshStatusTask;
 	itsRefreshStatusTask = NULL;
 
 	if (itsStatusWidget != NULL)
@@ -1304,11 +1301,11 @@ SVNMainDirector::UpdateWorkingCopy()
 		return;
 		}
 
-	JXWidgetSet* card            = itsTabGroup->AppendTab(JGetString("UpdateTab::SVNMainDirector"), kJTrue);
+	JXContainer* card            = itsTabGroup->AppendTab(JGetString("UpdateTab::SVNMainDirector"), kJTrue);
 	JXScrollbarSet* scrollbarSet = BuildScrollbarSet(card);
 
 	SVNUpdateList* updateWidget =
-		new SVNUpdateList(this, itsEditMenu,
+		jnew SVNUpdateList(this, itsEditMenu,
 						  scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 						  JXWidget::kHElastic, JXWidget::kVElastic,
 						  0,0, 100,100);
@@ -1395,11 +1392,11 @@ SVNMainDirector::Execute
 	const JBoolean		reloadOpenFiles
 	)
 {
-	JXWidgetSet* card            = itsTabGroup->AppendTab(JGetString(tabStringID), kJTrue);
+	JXContainer* card            = itsTabGroup->AppendTab(JGetString(tabStringID), kJTrue);
 	JXScrollbarSet* scrollbarSet = BuildScrollbarSet(card);
 
 	SVNCommandLog* widget =
-		new SVNCommandLog(this, itsEditMenu, cmd, refreshRepo, refreshStatus, reloadOpenFiles,
+		jnew SVNCommandLog(this, itsEditMenu, cmd, refreshRepo, refreshStatus, reloadOpenFiles,
 						  scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 						  JXWidget::kHElastic, JXWidget::kVElastic,
 						  0,0, 100,100);
@@ -1497,7 +1494,7 @@ SVNMainDirector::HandleInfoMenu
 		assert( itsBrowseRepoRevisionDialog == NULL );
 
 		itsBrowseRepoRevisionDialog =
-			new JXGetStringDialog(
+			jnew JXGetStringDialog(
 				this, JGetString("BrowseRepoRevWindowTitle::SVNMainDirector"),
 				JGetString("BrowseRepoRevPrompt::SVNMainDirector"), "");
 		assert( itsBrowseRepoRevisionDialog != NULL );
@@ -1559,11 +1556,11 @@ SVNMainDirector::ShowInfoLog
 	JSplitPathAndName(fullName, &path, &name);
 
 	const JString tabTitle       = JGetString("LogInfoTab::SVNMainDirector") + name;
-	JXWidgetSet* card            = itsTabGroup->AppendTab(tabTitle, kJTrue);
+	JXContainer* card            = itsTabGroup->AppendTab(tabTitle, kJTrue);
 	JXScrollbarSet* scrollbarSet = BuildScrollbarSet(card);
 
 	SVNInfoLog* widget =
-		new SVNInfoLog(this, itsEditMenu, fullName, rev,
+		jnew SVNInfoLog(this, itsEditMenu, fullName, rev,
 					   scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 					   JXWidget::kHElastic, JXWidget::kVElastic,
 					   0,0, 100,100);
@@ -1614,11 +1611,11 @@ SVNMainDirector::ShowProperties
 	JSplitPathAndName(fullName, &path, &name);
 
 	const JString tabTitle       = JGetString("PropTab::SVNMainDirector") + name;
-	JXWidgetSet* card            = itsTabGroup->AppendTab(tabTitle, kJTrue);
+	JXContainer* card            = itsTabGroup->AppendTab(tabTitle, kJTrue);
 	JXScrollbarSet* scrollbarSet = BuildScrollbarSet(card);
 
 	SVNPropertiesList* widget =
-		new SVNPropertiesList(this, itsEditMenu, fullName,
+		jnew SVNPropertiesList(this, itsEditMenu, fullName,
 							  scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 							  JXWidget::kHElastic, JXWidget::kVElastic,
 							  0,0, 100,100);

@@ -61,7 +61,7 @@ SVNBeginEditingTask::Perform()
 		itsView->TableScrollToCell(JPoint(itsView->GetToggleOpenColIndex(), cell.y));
 		}
 
-	delete this;
+	jdelete this;
 }
 
 /******************************************************************************

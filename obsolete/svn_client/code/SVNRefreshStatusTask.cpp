@@ -55,7 +55,7 @@ SVNRefreshStatusTask::Perform
 {
 	if (itsDirector == NULL)
 		{
-		delete this;
+		jdelete this;
 		}
 
 	if (TimeToPerform(delta, maxSleepTime) &&

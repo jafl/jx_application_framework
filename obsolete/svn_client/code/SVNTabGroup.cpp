@@ -55,19 +55,19 @@ SVNTabGroup::SVNTabGroup
 	JXTabGroup(enclosure, hSizing, vSizing, x,y, w,h),
 	itsBusyIndex(0)
 {
-	itsImageList = new JPtrArray<JXImage>(JPtrArrayT::kDeleteAll, kBusyIconCount);
+	itsImageList = jnew JPtrArray<JXImage>(JPtrArrayT::kDeleteAll, kBusyIconCount);
 	assert( itsImageList != NULL );
 
 	JXDisplay* display   = enclosure->GetDisplay();
 	JXColormap* colormap = enclosure->GetColormap();
 	for (JIndex i=1; i<=kBusyIconCount; i++)
 		{
-		JXImage* icon = new JXImage(display, kBusyIcon[i-1]);
+		JXImage* icon = jnew JXImage(display, kBusyIcon[i-1]);
 		assert( icon != NULL );
 		itsImageList->Append(icon);
 		}
 
-	itsAnimationTask = new SVNBusyTabTask(this);
+	itsAnimationTask = jnew SVNBusyTabTask(this);
 	assert( itsAnimationTask != NULL );
 
 	ListenTo(GetCardEnclosure());
@@ -80,8 +80,8 @@ SVNTabGroup::SVNTabGroup
 
 SVNTabGroup::~SVNTabGroup()
 {
-	delete itsAnimationTask;
-	delete itsImageList;
+	jdelete itsAnimationTask;
+	jdelete itsImageList;
 }
 
 /******************************************************************************

@@ -40,7 +40,7 @@ main
 
 	JBoolean displayAbout;
 	JString prevVersStr;
-	SVNApp* app = new SVNApp(&argc, argv, &displayAbout, &prevVersStr);
+	SVNApp* app = jnew SVNApp(&argc, argv, &displayAbout, &prevVersStr);
 	assert( app != NULL );
 
 	if (displayAbout &&

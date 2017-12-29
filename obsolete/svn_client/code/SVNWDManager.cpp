@@ -190,7 +190,7 @@ SVNWDManager::OpenDirectory
 
 	if (!open)
 		{
-		dir = new SVNMainDirector(JXGetApplication(), path);
+		dir = jnew SVNMainDirector(JXGetApplication(), path);
 		assert( dir != NULL );
 		}
 
@@ -225,7 +225,7 @@ SVNWDManager::RestoreState
 	JString fileName;
 	for (JIndex i=1; i<=windowCount; i++)
 		{
-		SVNMainDirector* dir = new SVNMainDirector(JXGetApplication(), input, vers);
+		SVNMainDirector* dir = jnew SVNMainDirector(JXGetApplication(), input, vers);
 		assert( dir != NULL );
 		dir->Activate();
 		}

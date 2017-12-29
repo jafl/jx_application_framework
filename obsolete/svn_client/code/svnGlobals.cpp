@@ -43,15 +43,15 @@ SVNCreateGlobals
 	JXDisplay* display = app->GetCurrentDisplay();
 
 	JBoolean isNew;
-	thePrefsManager	= new SVNPrefsManager(&isNew);
+	thePrefsManager	= jnew SVNPrefsManager(&isNew);
 	assert( thePrefsManager != NULL );
 
 	JXInitHelp(kSVNTOCHelpName, kSVNHelpSectionCount, kSVNHelpSectionName);
 
-	theWDManager = new SVNWDManager(display, kJTrue);
+	theWDManager = jnew SVNWDManager(display, kJTrue);
 	assert( theWDManager != NULL );
 
-	theMDIServer = new SVNMDIServer;
+	theMDIServer = jnew SVNMDIServer;
 	assert( theMDIServer != NULL );
 
 	return isNew;
@@ -73,7 +73,7 @@ SVNDeleteGlobals()
 
 	// this must be last so everybody else can use it to save their setup
 
-	delete thePrefsManager;
+	jdelete thePrefsManager;
 	thePrefsManager = NULL;
 }
 

@@ -77,18 +77,18 @@ SVNListBase::SVNListBase
 	itsMessageLink(NULL),
 	itsErrorLink(NULL)
 {
-	SetFont(JGetMonospaceFontName(), kJDefaultMonoFontSize);
+	SetFont(JGetMonospaceFontName(), JGetDefaultMonoFontSize());
 	SetSelectionBehavior(kJTrue, kJTrue);
 
-	itsLineList = new JPtrArray<JString>(JPtrArrayT::kDeleteAll);
+	itsLineList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 	assert( itsLineList != NULL );
 	itsLineList->SetCompareObject(CompareLines(this));
 	SetStringList(itsLineList);
 
-	itsErrorList = new JPtrArray<JString>(JPtrArrayT::kDeleteAll);
+	itsErrorList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 	assert( itsErrorList != NULL );
 
-	itsSavedSelection = new JPtrArray<JString>(JPtrArrayT::kDeleteAll);
+	itsSavedSelection = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 	assert( itsSavedSelection != NULL );
 	itsSavedSelection->SetCompareFunction(JCompareStringsCaseSensitive);
 
@@ -109,13 +109,13 @@ SVNListBase::~SVNListBase()
 		StopListening(itsProcess);
 		itsProcess->Kill();
 		}
-	delete itsProcess;
+	jdelete itsProcess;
 
 	DeleteLinks();
 
 	JXDeleteObjectTask<JBroadcaster>::Delete(itsLineList);
-	delete itsErrorList;
-	delete itsSavedSelection;
+	jdelete itsErrorList;
+	jdelete itsSavedSelection;
 }
 
 /******************************************************************************
@@ -132,7 +132,7 @@ SVNListBase::RefreshContent()
 		itsProcess  = NULL;
 
 		p->Kill();
-		delete p;
+		jdelete p;
 
 		DeleteLinks();
 		}
@@ -145,7 +145,7 @@ SVNListBase::RefreshContent()
 		while (iter.Next(&cell))
 			{
 			const JString* line = itsLineList->NthElement(cell.y);
-			itsSavedSelection->InsertSorted(new JString(ExtractRelativePath(*line)));
+			itsSavedSelection->InsertSorted(jnew JString(ExtractRelativePath(*line)));
 			}
 		}
 
@@ -292,7 +292,7 @@ SVNListBase::ReceiveMessageLine()
 	const JFontStyle blue = GetColormap()->GetBlueColor();
 	const JFontStyle strike(kJFalse, kJFalse, 0, kJTrue);
 
-	JString* temp = new JString(line);
+	JString* temp = jnew JString(line);
 	assert( temp != NULL );
 
 	JIndex i;
@@ -444,7 +444,7 @@ SVNListBase::CopySelectedItems
 			}
 		}
 
-	JXTextSelection* data = new JXTextSelection(GetDisplay(), list);
+	JXTextSelection* data = jnew JXTextSelection(GetDisplay(), list);
 	assert( data != NULL );
 
 	GetSelectionManager()->SetData(kJXClipboardName, data);
@@ -626,7 +626,7 @@ SVNListBase::CreateContextMenu()
 {
 	if (itsContextMenu == NULL && itsEnableContextMenuFlag)
 		{
-		itsContextMenu = new JXTextMenu("", this, kFixedLeft, kFixedTop, 0,0, 10,10);
+		itsContextMenu = jnew JXTextMenu("", this, kFixedLeft, kFixedTop, 0,0, 10,10);
 		assert( itsContextMenu != NULL );
 		itsContextMenu->SetMenuItems(kContextMenuStr, "SVNListBase");
 		itsContextMenu->SetUpdateAction(JXMenu::kDisableNone);
@@ -857,7 +857,7 @@ JElementComparison<JString*>*
 SVNListBase::CompareLines::Copy()
 	const
 {
-	CompareLines* copy = new CompareLines(itsWidget);
+	CompareLines* copy = jnew CompareLines(itsWidget);
 	assert( copy != NULL );
 	return copy;
 }
@@ -866,10 +866,6 @@ SVNListBase::CompareLines::Copy()
  SetConnection (private)
 
  ******************************************************************************/
-
-// This function has to be last so JCore::new works for everything else.
-
-#undef new
 
 void
 SVNListBase::SetConnection
@@ -891,10 +887,6 @@ SVNListBase::SetConnection
  DeleteLinks (private)
 
  ******************************************************************************/
-
-// This function has to be last so JCore::delete works for everything else.
-
-#undef delete
 
 void
 SVNListBase::DeleteLinks()

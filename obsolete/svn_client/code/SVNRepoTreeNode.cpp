@@ -51,7 +51,7 @@ SVNRepoTreeNode::SVNRepoTreeNode
 	itsProcess(NULL),
 	itsErrorLink(NULL)
 {
-	itsErrorList = new JPtrArray<JString>(JPtrArrayT::kDeleteAll);
+	itsErrorList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 	assert( itsErrorList != NULL );
 }
 
@@ -69,14 +69,14 @@ SVNRepoTreeNode::~SVNRepoTreeNode()
 		StopListening(itsProcess);
 		itsProcess->Kill();
 		}
-	delete itsProcess;
+	jdelete itsProcess;
 
 	if (!itsResponseFullName.IsEmpty())
 		{
 		JRemoveFile(itsResponseFullName);
 		}
 
-	delete itsErrorList;
+	jdelete itsErrorList;
 }
 
 /******************************************************************************
@@ -145,7 +145,7 @@ SVNRepoTreeNode::Rename
 			}
 		}
 
-	delete p;
+	jdelete p;
 	return JNoError();
 }
 
@@ -187,7 +187,7 @@ SVNRepoTreeNode::Update()
 		itsProcess  = NULL;
 
 		p->Kill();
-		delete p;
+		jdelete p;
 
 		DeleteLinks();
 		}
@@ -230,7 +230,7 @@ SVNRepoTreeNode::Update()
 		DeleteAllChildren();
 
 		SVNRepoTreeNode* node =
-			new SVNRepoTreeNode(GetTree(), "", 0, JGetString(kBusyLabel),
+			jnew SVNRepoTreeNode(GetTree(), "", 0, JGetString(kBusyLabel),
 								kBusy, 0, 0, "", 0);
 		assert( node != NULL );
 		this->Append(node);
@@ -381,7 +381,7 @@ SVNRepoTreeNode::ParseResponse()
 					repoPath1 = JCombinePathAndName(repoPath, name);
 
 					SVNRepoTreeNode* node =
-						new SVNRepoTreeNode(GetTree(), repoPath1, itsRepoRevision,
+						jnew SVNRepoTreeNode(GetTree(), repoPath1, itsRepoRevision,
 											name, type == "dir" ? kDirectory : kFile,
 											rev, modTime, author, size);
 					assert( node != NULL );
@@ -420,7 +420,7 @@ SVNRepoTreeNode::DisplayErrors()
 	for (JIndex i=1; i<=count; i++)
 		{
 		SVNRepoTreeNode* node =
-			new SVNRepoTreeNode(GetTree(), "", 0, *(itsErrorList->NthElement(i)),
+			jnew SVNRepoTreeNode(GetTree(), "", 0, *(itsErrorList->NthElement(i)),
 								kError, 0, 0, "", 0);
 		assert( node != NULL );
 		this->InsertAtIndex(i, node);
@@ -549,10 +549,6 @@ SVNRepoTreeNode::GetRepoChild
 
  ******************************************************************************/
 
-// This function has to be last so JCore::new works for everything else.
-
-#undef new
-
 void
 SVNRepoTreeNode::SetConnection
 	(
@@ -568,10 +564,6 @@ SVNRepoTreeNode::SetConnection
  DeleteLinks (private)
 
  ******************************************************************************/
-
-// This function has to be last so JCore::delete works for everything else.
-
-#undef delete
 
 void
 SVNRepoTreeNode::DeleteLinks()

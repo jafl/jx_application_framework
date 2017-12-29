@@ -126,7 +126,7 @@ SVNRepoView::SVNRepoView
 
 	itsRepoTree = itsRepoTreeList->GetRepoTree();
 
-	itsRefreshTask = new JXTimerTask(kRefreshInterval);
+	itsRefreshTask = jnew JXTimerTask(kRefreshInterval);
 	assert( itsRefreshTask != NULL );
 	itsRefreshTask->Start();
 	ListenTo(itsRefreshTask);
@@ -151,9 +151,9 @@ SVNRepoView::SVNRepoView
 
 SVNRepoView::~SVNRepoView()
 {
-	delete itsRepoTree;
-	delete itsRefreshTask;
-	delete itsEditTask;
+	jdelete itsRepoTree;
+	jdelete itsRefreshTask;
+	jdelete itsEditTask;
 }
 
 /******************************************************************************
@@ -169,14 +169,14 @@ SVNRepoView::BuildTreeList
 	)
 {
 	SVNRepoTreeNode* root =
-		new SVNRepoTreeNode(NULL, repoPath, repoRevision, "",
+		jnew SVNRepoTreeNode(NULL, repoPath, repoRevision, "",
 							SVNRepoTreeNode::kDirectory, 0, 0, "", 0);
 	assert( root != NULL );
 
-	SVNRepoTree* tree = new SVNRepoTree(root);
+	SVNRepoTree* tree = jnew SVNRepoTree(root);
 	assert( tree != NULL );
 
-	SVNRepoTreeList* list = new SVNRepoTreeList(tree);
+	SVNRepoTreeList* list = jnew SVNRepoTreeList(tree);
 	assert( list != NULL );
 
 	return list;
@@ -232,9 +232,7 @@ SVNRepoView::TableDrawCell
 	const JString str = GetCellString(cell);
 	if (!str.IsEmpty())
 		{
-		JSize fontSize;
-		const JString& fontName = GetFont(&fontSize);
-		p.SetFont(fontName, fontSize, JFontStyle());
+		p.SetFont(GetFont());
 
 		JRect r = rect;
 		if (cell.x == kRevColIndex)
@@ -363,13 +361,7 @@ SVNRepoView::GetMinCellWidth
 {
 	if (JIndex(cell.x) > GetNodeColIndex())
 		{
-		const JString str = GetCellString(cell);
-
-		JSize fontSize;
-		const JString& fontName = GetFont(&fontSize);
-
-		return 2 * kMarginWidth +
-			GetFontManager()->GetStringWidth(fontName, fontSize, JFontStyle(), str);
+		return 2 * kMarginWidth + GetFont().GetStringWidth(GetCellString(cell));
 		}
 	else
 		{
@@ -587,7 +579,7 @@ SVNRepoView::CopySelectedFiles
 			}
 		}
 
-	JXTextSelection* data = new JXTextSelection(GetDisplay(), list);
+	JXTextSelection* data = jnew JXTextSelection(GetDisplay(), list);
 	assert( data != NULL );
 
 	GetSelectionManager()->SetData(kJXClipboardName, data);
@@ -727,7 +719,7 @@ SVNRepoView::HandleMouseDown
 	itsClearIfNotDNDFlag   = kJFalse;
 	itsWaitingToEditFlag   = kJFalse;
 
-	delete itsEditTask;
+	jdelete itsEditTask;
 	itsEditTask	= NULL;
 
 	JPoint cell;
@@ -878,7 +870,7 @@ SVNRepoView::HandleMouseDrag
 					uri += rev;
 					}
 
-				SVNRepoDragData* data = new SVNRepoDragData(GetDisplay(), itsDNDDataType, uri);
+				SVNRepoDragData* data = jnew SVNRepoDragData(GetDisplay(), itsDNDDataType, uri);
 				assert(data != NULL);
 
 				itsDNDCursorType = (type == SVNRepoTreeNode::kDirectory ? kDNDDirCursor : kDNDFileCursor);
@@ -959,7 +951,7 @@ SVNRepoView::HandleMouseUp
 			s.SelectCell(itsEditCell);
 
 			assert( itsEditTask == NULL );
-			itsEditTask = new SVNBeginEditingTask(this, itsEditCell);
+			itsEditTask = jnew SVNBeginEditingTask(this, itsEditCell);
 			assert( itsEditTask != NULL );
 			itsEditTask->Start();
 			}
@@ -1136,7 +1128,7 @@ SVNRepoView::HandleDNDDrop
 			assert( itsCopyItemDialog == NULL );
 
 			itsCopyItemDialog =
-				new JXGetStringDialog(
+				jnew JXGetStringDialog(
 					GetDirector(), JGetString("CopyItemWindowTitle::SVNRepoView"),
 					JGetString("CopyItemPrompt::SVNRepoView"), initialName);
 			assert( itsCopyItemDialog != NULL );
@@ -1270,7 +1262,7 @@ SVNRepoView::CreateContextMenu()
 {
 	if (itsContextMenu == NULL)
 		{
-		itsContextMenu = new JXTextMenu("", this, kFixedLeft, kFixedTop, 0,0, 10,10);
+		itsContextMenu = jnew JXTextMenu("", this, kFixedLeft, kFixedTop, 0,0, 10,10);
 		assert( itsContextMenu != NULL );
 		itsContextMenu->SetMenuItems(kContextMenuStr, "SVNRepoView");
 		itsContextMenu->SetUpdateAction(JXMenu::kDisableNone);
@@ -1599,7 +1591,7 @@ SVNRepoView::CreateDirectory()
 	assert( itsCreateDirectoryDialog == NULL );
 
 	itsCreateDirectoryDialog =
-		new SVNCreateRepoDirectoryDialog(
+		jnew SVNCreateRepoDirectoryDialog(
 			GetDirector(), JGetString("CreateDirectoryWindowTitle::SVNRepoView"),
 			JGetString("CreateDirectoryPrompt::SVNRepoView"), "", parentNode);
 	assert( itsCreateDirectoryDialog != NULL );
@@ -1667,7 +1659,7 @@ SVNRepoView::DuplicateItem()
 	assert( itsDuplicateItemDialog == NULL );
 
 	itsDuplicateItemDialog =
-		new SVNDuplicateRepoItemDialog(
+		jnew SVNDuplicateRepoItemDialog(
 			GetDirector(), JGetString("DuplicateItemWindowTitle::SVNRepoView"),
 			JGetString("DuplicateItemPrompt::SVNRepoView"), initialName, srcNode);
 	assert( itsDuplicateItemDialog != NULL );

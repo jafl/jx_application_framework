@@ -66,10 +66,10 @@ SVNPropertiesList::SVNPropertiesList
 	itsFullName(fullName),
 	itsCreatePropertyDialog(NULL)
 {
-	itsRemovePropertyCmdList = new JPtrArray<JString>(JPtrArrayT::kDeleteAll);
+	itsRemovePropertyCmdList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 	assert( itsRemovePropertyCmdList != NULL );
 
-	itsProcessList = new JPtrArray<JProcess>(JPtrArrayT::kForgetAll);
+	itsProcessList = jnew JPtrArray<JProcess>(JPtrArrayT::kForgetAll);
 	assert( itsProcessList != NULL );
 }
 
@@ -80,8 +80,8 @@ SVNPropertiesList::SVNPropertiesList
 
 SVNPropertiesList::~SVNPropertiesList()
 {
-	delete itsRemovePropertyCmdList;
-	delete itsProcessList;
+	jdelete itsRemovePropertyCmdList;
+	jdelete itsProcessList;
 }
 
 /******************************************************************************
@@ -204,7 +204,7 @@ SVNPropertiesList::CopySelectedItems
 		list.Append(*((GetStringList()).NthElement(cell.y)));
 		}
 
-	JXTextSelection* data = new JXTextSelection(GetDisplay(), list);
+	JXTextSelection* data = jnew JXTextSelection(GetDisplay(), list);
 	assert( data != NULL );
 
 	GetSelectionManager()->SetData(kJXClipboardName, data);
@@ -318,7 +318,7 @@ SVNPropertiesList::CreateProperty()
 	assert( itsCreatePropertyDialog == NULL );
 
 	itsCreatePropertyDialog =
-		new JXGetStringDialog(
+		jnew JXGetStringDialog(
 			GetDirector(), JGetString(kCreatePropertyWindowTitleID),
 			JGetString(kCreatePropertyPromptID), "");
 	assert( itsCreatePropertyDialog != NULL );

@@ -13,6 +13,7 @@
 #include <JXTextMenu.h>
 #include <JXColormap.h>
 #include <jXGlobals.h>
+#include <JFontManager.h>
 #include <JProcess.h>
 #include <jAssert.h>
 
@@ -42,7 +43,7 @@ SVNTextBase::SVNTextBase
 	itsProcess(NULL),
 	itsLink(NULL)
 {
-	SetDefaultFont(JGetMonospaceFontName(), kJDefaultMonoFontSize);
+	SetDefaultFont(GetFontManager()->GetDefaultMonospaceFont());
 
 	FitToEnclosure();
 
@@ -61,7 +62,7 @@ SVNTextBase::~SVNTextBase()
 		StopListening(itsProcess);
 		itsProcess->Kill();
 		}
-	delete itsProcess;
+	jdelete itsProcess;
 	itsProcess = NULL;	// avoid crash in ReceiveGoingAway()
 
 	DeleteLink();
@@ -81,7 +82,7 @@ SVNTextBase::RefreshContent()
 		itsProcess  = NULL;
 
 		p->Kill();
-		delete p;
+		jdelete p;
 
 		DeleteLink();
 		}
@@ -223,10 +224,6 @@ SVNTextBase::UpdateInfoMenu
 
  ******************************************************************************/
 
-// This function has to be last so JCore::new works for everything else.
-
-#undef new
-
 void
 SVNTextBase::SetConnection
 	(
@@ -247,10 +244,6 @@ SVNTextBase::SetConnection
  DeleteLink (private)
 
  ******************************************************************************/
-
-// This function has to be last so JCore::delete works for everything else.
-
-#undef delete
 
 void
 SVNTextBase::DeleteLink()

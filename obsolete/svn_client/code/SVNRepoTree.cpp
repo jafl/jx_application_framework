@@ -26,7 +26,7 @@ SVNRepoTree::SVNRepoTree
 	JTree(root),
 	itsView(NULL)
 {
-	itsSavedOpenNodes = new JPtrArray<JString>(JPtrArrayT::kDeleteAll);
+	itsSavedOpenNodes = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 	assert( itsSavedOpenNodes != NULL );
 	itsSavedOpenNodes->SetCompareFunction(JCompareStringsCaseSensitive);
 }
@@ -38,7 +38,7 @@ SVNRepoTree::SVNRepoTree
 
 SVNRepoTree::~SVNRepoTree()
 {
-	delete itsSavedOpenNodes;
+	jdelete itsSavedOpenNodes;
 }
 
 /******************************************************************************
@@ -93,7 +93,7 @@ SVNRepoTree::SaveOpenNodes()
 			{
 			if (itsView->IsOpen(i))
 				{
-				JString* s = new JString((itsView->GetRepoNode(i))->GetRepoPath());
+				JString* s = jnew JString((itsView->GetRepoNode(i))->GetRepoPath());
 				assert( s != NULL );
 
 				itsSavedOpenNodes->InsertSorted(s);
@@ -127,7 +127,7 @@ SVNRepoTree::SavePathToOpen
 	JString path, name;
 	while (url.GetLength() > baseUrl.GetLength())
 		{
-		JString* s = new JString(url);
+		JString* s = jnew JString(url);
 		assert( s != NULL );
 		itsSavedOpenNodes->InsertSorted(s);
 

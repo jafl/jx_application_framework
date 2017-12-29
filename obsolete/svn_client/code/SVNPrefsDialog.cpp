@@ -15,6 +15,7 @@
 #include <JXTextRadioButton.h>
 #include <JXInputField.h>
 #include <JXStaticText.h>
+#include <JFontManager.h>
 #include <jProcessUtil.h>
 #include <jAssert.h>
 
@@ -84,82 +85,82 @@ SVNPrefsDialog::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = new JXWindow(this, 400,250, "");
+	JXWindow* window = jnew JXWindow(this, 400,250, "");
 	assert( window != NULL );
 
 	itsCommitEditor =
-		new JXInputField(window,
+		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 160,140, 220,20);
 	assert( itsCommitEditor != NULL );
 
 	itsDiffCmd =
-		new JXInputField(window,
+		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 160,160, 220,20);
 	assert( itsDiffCmd != NULL );
 
 	JXTextButton* cancelButton =
-		new JXTextButton(JGetString("cancelButton::SVNPrefsDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("cancelButton::SVNPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 90,220, 70,20);
 	assert( cancelButton != NULL );
 	cancelButton->SetShortcuts(JGetString("cancelButton::SVNPrefsDialog::shortcuts::JXLayout"));
 
 	JXTextButton* okButton =
-		new JXTextButton(JGetString("okButton::SVNPrefsDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("okButton::SVNPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 240,220, 70,20);
 	assert( okButton != NULL );
 	okButton->SetShortcuts(JGetString("okButton::SVNPrefsDialog::shortcuts::JXLayout"));
 
 	itsIntegrationRG =
-		new JXRadioGroup(window,
+		jnew JXRadioGroup(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 160,10, 140,90);
 	assert( itsIntegrationRG != NULL );
 
 	itsJCCIntegrationRB =
-		new JXTextRadioButton(SVNPrefsManager::kCodeCrusader, JGetString("itsJCCIntegrationRB::SVNPrefsDialog::JXLayout"), itsIntegrationRG,
+		jnew JXTextRadioButton(SVNPrefsManager::kCodeCrusader, JGetString("itsJCCIntegrationRB::SVNPrefsDialog::JXLayout"), itsIntegrationRG,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 10,10, 120,20);
 	assert( itsJCCIntegrationRB != NULL );
 
 	itsCustomIntegrationRB =
-		new JXTextRadioButton(SVNPrefsManager::kCustom, JGetString("itsCustomIntegrationRB::SVNPrefsDialog::JXLayout"), itsIntegrationRG,
+		jnew JXTextRadioButton(SVNPrefsManager::kCustom, JGetString("itsCustomIntegrationRB::SVNPrefsDialog::JXLayout"), itsIntegrationRG,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 10,60, 120,20);
 	assert( itsCustomIntegrationRB != NULL );
 
 	JXStaticText* obj1_JXLayout =
-		new JXStaticText(JGetString("obj1_JXLayout::SVNPrefsDialog::JXLayout"), window,
+		jnew JXStaticText(JGetString("obj1_JXLayout::SVNPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 60,45, 95,20);
 	assert( obj1_JXLayout != NULL );
 	obj1_JXLayout->SetToLabel();
 
 	JXStaticText* obj2_JXLayout =
-		new JXStaticText(JGetString("obj2_JXLayout::SVNPrefsDialog::JXLayout"), window,
+		jnew JXStaticText(JGetString("obj2_JXLayout::SVNPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,120, 120,20);
 	assert( obj2_JXLayout != NULL );
 	obj2_JXLayout->SetToLabel();
 
 	JXStaticText* obj3_JXLayout =
-		new JXStaticText(JGetString("obj3_JXLayout::SVNPrefsDialog::JXLayout"), window,
+		jnew JXStaticText(JGetString("obj3_JXLayout::SVNPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,180, 140,20);
 	assert( obj3_JXLayout != NULL );
 	obj3_JXLayout->SetToLabel();
 
 	JXStaticText* obj4_JXLayout =
-		new JXStaticText(JGetString("obj4_JXLayout::SVNPrefsDialog::JXLayout"), window,
+		jnew JXStaticText(JGetString("obj4_JXLayout::SVNPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,160, 140,20);
 	assert( obj4_JXLayout != NULL );
 	obj4_JXLayout->SetToLabel();
 
 	itsCmdLineIntegrationRB =
-		new JXTextRadioButton(SVNPrefsManager::kCmdLine, JGetString("itsCmdLineIntegrationRB::SVNPrefsDialog::JXLayout"), itsIntegrationRG,
+		jnew JXTextRadioButton(SVNPrefsManager::kCmdLine, JGetString("itsCmdLineIntegrationRB::SVNPrefsDialog::JXLayout"), itsIntegrationRG,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 10,35, 120,20);
 	assert( itsCmdLineIntegrationRB != NULL );
 
 	itsReloadChangedCmd =
-		new JXInputField(window,
+		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 160,180, 220,20);
 	assert( itsReloadChangedCmd != NULL );
 
 	JXStaticText* obj5_JXLayout =
-		new JXStaticText(JGetString("obj5_JXLayout::SVNPrefsDialog::JXLayout"), window,
+		jnew JXStaticText(JGetString("obj5_JXLayout::SVNPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,140, 140,20);
 	assert( obj5_JXLayout != NULL );
 	obj5_JXLayout->SetToLabel();
@@ -169,18 +170,20 @@ SVNPrefsDialog::BuildWindow
 	window->SetTitle(JGetString("WindowTitle::SVNPrefsDialog"));
 	SetButtons(okButton, cancelButton);
 
+	const JFontManager* fontMgr = window->GetFontManager();
+
 	itsIntegrationRG->SelectItem(type);
 
 	itsCommitEditor->SetText(commitEditor);
 	itsCommitEditor->SetIsRequired();
-	itsCommitEditor->SetFont(JGetMonospaceFontName(), kJDefaultMonoFontSize, JFontStyle());
+	itsCommitEditor->SetFont(fontMgr->GetDefaultMonospaceFont());
 
 	itsDiffCmd->SetText(diffCmd);
 	itsDiffCmd->SetIsRequired();
-	itsDiffCmd->SetFont(JGetMonospaceFontName(), kJDefaultMonoFontSize, JFontStyle());
+	itsDiffCmd->SetFont(fontMgr->GetDefaultMonospaceFont());
 
 	itsReloadChangedCmd->SetText(reloadChangedCmd);
-	itsReloadChangedCmd->SetFont(JGetMonospaceFontName(), kJDefaultMonoFontSize, JFontStyle());
+	itsReloadChangedCmd->SetFont(fontMgr->GetDefaultMonospaceFont());
 
 	UpdateDisplay();
 
