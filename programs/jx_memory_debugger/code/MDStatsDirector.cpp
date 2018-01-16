@@ -316,7 +316,6 @@ MDStatsDirector::BuildWindow()
 	const JRect statsLayout_Frame    = statsEncl->GetFrame();
 	const JRect statsLayout_Aperture = statsEncl->GetAperture();
 	statsEncl->AdjustSize(500 - statsLayout_Aperture.width(), 90 - statsLayout_Aperture.height());
-	statsEncl->SetExtraNeededSpace(500 - statsLayout_Aperture.width(), 90 - statsLayout_Aperture.height());
 
 	JXStaticText* binaryLabel =
 		jnew JXStaticText(JGetString("binaryLabel::MDStatsDirector::statsLayout"), statsEncl,
