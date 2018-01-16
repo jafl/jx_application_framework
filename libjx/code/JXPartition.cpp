@@ -307,13 +307,13 @@ JXPartition::RestoreGeometry
 
 	origTotalSize += (count-1) * kDragRegionSize;
 
-	const JSize currTotalSize = GetTotalSize();
-	const JSize totalDelta    = currTotalSize - origTotalSize;
-	if (totalDelta > 0)
+	const JSize currTotalSize    = GetTotalSize();
+	const JCoordinate totalDelta = JCoordinate(currTotalSize) - origTotalSize;
+	if (totalDelta != 0)
 		{
 		JArray<JCoordinate> newSizes(sizes);
-		const JSize delta = totalDelta/count;
-		JSize sum         = 0;
+		const JCoordinate delta = totalDelta/JCoordinate(count);
+		JSize sum               = 0;
 		for (JIndex i=1; i<count; i++)
 			{
 			const JSize size = newSizes.GetElement(i) + delta;

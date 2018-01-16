@@ -127,6 +127,7 @@ public:
 	// public only because it has to be called in special cases
 	virtual JBoolean	RunInternalFTC(const JBoolean horizontal, JCoordinate* newSize);
 	virtual void		FTCAdjustSize(const JCoordinate dw, const JCoordinate dh);
+	JRect				ComputePaddingForInternalFTC() const;
 
 	// called by JXDisplay
 

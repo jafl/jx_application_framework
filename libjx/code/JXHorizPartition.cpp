@@ -370,8 +370,10 @@ JXHorizPartition::RunInternalFTC
 		while (iter.Next(&obj))
 			{
 			JCoordinate w, delta;
+			const JRect padding = obj->ComputePaddingForInternalFTC();
 			if (obj->RunInternalFTC(kJTrue, &w))
 				{
+				w    += padding.left + padding.right;
 				delta = w - obj->GetApertureWidth();
 				obj->FTCAdjustSize(delta, 0);
 				}

@@ -86,7 +86,6 @@ private:
 	JPtrArray<JXFTCCell>*	itsChildren;
 	JArray<JCoordinate>*	itsChildSpacing;
 	JArray<JFloat>*			itsChildPositions;	// -1: left, +1:right, 0:both, else:center-line:0<v<1
-	JRect					itsPadding;			// for sub-layouts
 
 private:
 
@@ -96,7 +95,6 @@ private:
 	void		EnforcePositions();
 	void		CoverChildren();
 	JCoordinate	ExpandWidget();
-	void		ComputePadding();
 	void		SyncWidgetPosition();
 	void		SyncSize(const JCoordinate dw, const JCoordinate dh);
 	JBoolean	IsElastic();

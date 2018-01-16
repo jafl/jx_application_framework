@@ -480,13 +480,13 @@ JXFTCCell::ExpandWidget()
 			GetFTCLog() << "=== Processing internal structure for " << itsWidget->ToString() << std::endl;
 			}
 
-		ComputePadding();
+		const JRect padding = itsWidget->ComputePaddingForInternalFTC();
 
 		if (itsWidget->RunInternalFTC(itsSyncHorizontalFlag, &v))
 			{
 			v += itsSyncHorizontalFlag ?
-					itsPadding.left + itsPadding.right :
-					itsPadding.top + itsPadding.bottom;
+					padding.left + padding.right :
+					padding.top + padding.bottom;
 			}
 
 		if (theDebugFTCFlag)
@@ -522,43 +522,6 @@ JXFTCCell::ExpandWidget()
 		}
 
 	return (itsSyncHorizontalFlag ? itsFrameG.width() : itsFrameG.height());
-}
-
-/******************************************************************************
- ComputePadding (private)
-
- ******************************************************************************/
-
-void
-JXFTCCell::ComputePadding()
-{
-	JPtrArrayIterator<JXContainer>* iter;
-	if (itsWidget == NULL || !itsWidget->GetEnclosedObjects(&iter))
-		{
-		return;
-		}
-
-	JXContainer* obj;
-	iter->Next(&obj);
-	JRect covering = obj->GetFrameForFTC();
-
-	while (iter->Next(&obj))
-		{
-		covering = JCovering(covering, obj->GetFrameForFTC());
-		}
-
-	const JRect r     = itsWidget->GetApertureGlobal();
-	itsPadding.top    = covering.top - r.top;
-	itsPadding.left   = covering.left - r.left;
-	itsPadding.bottom = r.bottom - covering.bottom;
-	itsPadding.right  = r.right - covering.right;
-
-	if (theDebugFTCFlag)
-		{
-		GetFTCLog() << Indent(+1) << itsWidget->ToString() << " - padding: " << itsPadding << std::endl;
-		}
-
-	jdelete iter;
 }
 
 /******************************************************************************

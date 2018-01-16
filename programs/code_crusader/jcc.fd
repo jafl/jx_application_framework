@@ -8661,13 +8661,13 @@ argument:
 =============== FORM ===============
 Name: CBEditCommandsDialog
 Width: 620
-Height: 470
+Height: 530
 Number of Objects: 5
 
 --------------------
 class: FL_BOX
 type: FL_FLAT_BOX
-box: 0 0 620 470
+box: 0 0 620 530
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -8685,7 +8685,7 @@ argument:
 --------------------
 class: FL_BOX
 type: FL_NO_BOX
-box: 20 20 580 395
+box: 20 20 580 455
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -8703,7 +8703,7 @@ argument: heights, elasticIndex, minHeights
 --------------------
 class: FL_BUTTON
 type: FL_NORMAL_BUTTON
-box: 100 440 70 20
+box: 100 500 70 20
 boxtype: FL_UP_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -8721,7 +8721,7 @@ argument:
 --------------------
 class: FL_BUTTON
 type: FL_NORMAL_BUTTON
-box: 440 440 70 20
+box: 440 500 70 20
 boxtype: FL_UP_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -8739,7 +8739,7 @@ argument:
 --------------------
 class: FL_BUTTON
 type: FL_NORMAL_BUTTON
-box: 270 440 70 20
+box: 270 500 70 20
 boxtype: FL_UP_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -8757,13 +8757,13 @@ argument:
 =============== FORM ===============
 Name: CBEditCommandsDialog__allProjectsLayout__compartment
 Width: 580
-Height: 140
+Height: 210
 Number of Objects: 8
 
 --------------------
 class: FL_BOX
 type: FL_FLAT_BOX
-box: 0 0 580 140
+box: 0 0 580 210
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -8817,7 +8817,7 @@ argument:
 --------------------
 class: FL_BOX
 type: FL_NO_BOX
-box: 0 30 510 110
+box: 0 30 510 180
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -8853,7 +8853,7 @@ argument:
 --------------------
 class: FL_TEXT
 type: FL_NORMAL_TEXT
-box: 0 3 580 20
+box: 0 0 580 20
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_MCOL
 alignment: FL_ALIGN_LEFT|FL_ALIGN_INSIDE
@@ -8907,13 +8907,13 @@ argument:
 =============== FORM ===============
 Name: CBEditCommandsDialog__thisProjectLayout__compartment
 Width: 580
-Height: 170
+Height: 240
 Number of Objects: 10
 
 --------------------
 class: FL_BOX
 type: FL_FLAT_BOX
-box: 0 0 580 170
+box: 0 0 580 240
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -8967,7 +8967,7 @@ argument:
 --------------------
 class: FL_BOX
 type: FL_NO_BOX
-box: 0 70 510 100
+box: 0 70 510 170
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER

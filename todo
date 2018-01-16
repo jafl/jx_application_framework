@@ -1,5 +1,5 @@
-jcc
-	ExecCommands dialog: table heights wrong
+medic-lldb
+	does not display new execution ptr location after "set execution point"
 
 -----
 

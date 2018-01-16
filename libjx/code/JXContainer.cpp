@@ -2667,6 +2667,38 @@ JXContainer::RunInternalFTC
 }
 
 /******************************************************************************
+ ComputePaddingForInternalFTC
+
+ ******************************************************************************/
+
+JRect
+JXContainer::ComputePaddingForInternalFTC()
+	const
+{
+	if (itsEnclosedObjs == NULL || itsEnclosedObjs->IsEmpty())
+		{
+		return JRect();
+		}
+
+	JXContainer* obj = itsEnclosedObjs->FirstElement();
+	JRect covering   = obj->GetFrameForFTC();
+
+	const JSize count = itsEnclosedObjs->GetElementCount();
+	for (JIndex i=2; i<=count; i++)
+		{
+		covering = JCovering(covering, itsEnclosedObjs->NthElement(i)->GetFrameForFTC());
+		}
+
+	const JRect r = GetApertureGlobal();
+
+	return JRect(
+		covering.top - r.top,
+		covering.left - r.left,
+		r.bottom - covering.bottom,
+		r.right - covering.right);
+}
+
+/******************************************************************************
  GetFTCMinContentSize (virtual protected)
 
  ******************************************************************************/

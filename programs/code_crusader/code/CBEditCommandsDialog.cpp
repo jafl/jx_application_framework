@@ -77,8 +77,8 @@ CBEditCommandsDialog::BuildWindow
 	)
 {
 	JArray<JCoordinate> heights(2);
-	heights.AppendElement(180);
 	heights.AppendElement(210);
+	heights.AppendElement(240);
 
 	const JIndex elasticIndex = 2;
 
@@ -90,27 +90,27 @@ CBEditCommandsDialog::BuildWindow
 
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 620,470, "");
+	JXWindow* window = jnew JXWindow(this, 620,530, "");
 	assert( window != NULL );
 
 	itsPartition =
 		jnew JXVertPartition(heights, elasticIndex, minHeights, window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 20,20, 580,395);
+					JXWidget::kHElastic, JXWidget::kVElastic, 20,20, 580,455);
 	assert( itsPartition != NULL );
 
 	JXTextButton* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::CBEditCommandsDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 100,440, 70,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 100,500, 70,20);
 	assert( cancelButton != NULL );
 
 	JXTextButton* okButton =
 		jnew JXTextButton(JGetString("okButton::CBEditCommandsDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 440,440, 70,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 440,500, 70,20);
 	assert( okButton != NULL );
 
 	itsHelpButton =
 		jnew JXTextButton(JGetString("itsHelpButton::CBEditCommandsDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 270,440, 70,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 270,500, 70,20);
 	assert( itsHelpButton != NULL );
 	itsHelpButton->SetShortcuts(JGetString("itsHelpButton::CBEditCommandsDialog::shortcuts::JXLayout"));
 
@@ -145,7 +145,7 @@ CBEditCommandsDialog::BuildWindow
 
 	const JRect allProjectsLayout_Frame    = compartment->GetFrame();
 	const JRect allProjectsLayout_Aperture = compartment->GetAperture();
-	compartment->AdjustSize(580 - allProjectsLayout_Aperture.width(), 140 - allProjectsLayout_Aperture.height());
+	compartment->AdjustSize(580 - allProjectsLayout_Aperture.width(), 210 - allProjectsLayout_Aperture.height());
 
 	JXTextButton* allNewButton =
 		jnew JXTextButton(JGetString("allNewButton::CBEditCommandsDialog::allProjectsLayout"), compartment,
@@ -159,7 +159,7 @@ CBEditCommandsDialog::BuildWindow
 
 	JXScrollbarSet* allScrollbarSet =
 		jnew JXScrollbarSet(compartment,
-					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 510,110);
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 510,180);
 	assert( allScrollbarSet != NULL );
 
 	JXTextButton* allDuplicateButton =
@@ -169,7 +169,7 @@ CBEditCommandsDialog::BuildWindow
 
 	JXStaticText* anyProjectTitle =
 		jnew JXStaticText(JGetString("anyProjectTitle::CBEditCommandsDialog::allProjectsLayout"), compartment,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,3, 580,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,0, 580,20);
 	assert( anyProjectTitle != NULL );
 	anyProjectTitle->SetToLabel();
 
@@ -229,7 +229,7 @@ CBEditCommandsDialog::BuildWindow
 
 	const JRect thisProjectLayout_Frame    = compartment->GetFrame();
 	const JRect thisProjectLayout_Aperture = compartment->GetAperture();
-	compartment->AdjustSize(580 - thisProjectLayout_Aperture.width(), 170 - thisProjectLayout_Aperture.height());
+	compartment->AdjustSize(580 - thisProjectLayout_Aperture.width(), 240 - thisProjectLayout_Aperture.height());
 
 	JXTextButton* thisNewButton =
 		jnew JXTextButton(JGetString("thisNewButton::CBEditCommandsDialog::thisProjectLayout"), compartment,
@@ -243,7 +243,7 @@ CBEditCommandsDialog::BuildWindow
 
 	JXScrollbarSet* thisScrollbarSet =
 		jnew JXScrollbarSet(compartment,
-					JXWidget::kHElastic, JXWidget::kVElastic, 0,70, 510,100);
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,70, 510,170);
 	assert( thisScrollbarSet != NULL );
 
 	itsMakeDependCmd =

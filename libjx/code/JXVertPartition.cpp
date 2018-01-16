@@ -396,8 +396,10 @@ JXVertPartition::RunInternalFTC
 		while (iter.Next(&obj))
 			{
 			JCoordinate h, delta;
+			const JRect padding = obj->ComputePaddingForInternalFTC();
 			if (obj->RunInternalFTC(kJFalse, &h))
 				{
+				h    += padding.top + padding.bottom;
 				delta = h - obj->GetApertureHeight();
 				obj->FTCAdjustSize(0, delta);
 				}
