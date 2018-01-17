@@ -160,7 +160,7 @@ JUtf8Character::GetCharacterByteCount
 	)
 {
 	unsigned char* c = (unsigned char*) utf8Character;
-	JBoolean ok;
+	JBoolean ok      = kJFalse;
 	if (c[0] <= (unsigned char) '\x7F')
 		{
 		*byteCount = 1;
@@ -184,10 +184,10 @@ JUtf8Character::GetCharacterByteCount
 				  ((unsigned char) '\x80') <= c[2] && c[2] <= (unsigned char) '\xBF' &&
 				  ((unsigned char) '\x80') <= c[3] && c[3] <= (unsigned char) '\xBF');
 		}
-	else
+
+	if (!ok)
 		{
 		*byteCount = 1;
-		ok         = kJFalse;
 		}
 
 	if (!ok)
