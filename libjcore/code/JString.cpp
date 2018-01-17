@@ -1091,7 +1091,11 @@ JString::SearchBackward
 
 		// accept invalid byte sequences as single characters
 
-		if (i >= 1)
+		if (i == 1)
+			{
+			break;
+			}
+		else if (i > 1)
 			{
 			JSize count;
 			JUtf8Character::GetPrevCharacterByteCount(s-1, &count);
