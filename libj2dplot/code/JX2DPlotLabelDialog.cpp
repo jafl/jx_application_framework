@@ -95,22 +95,22 @@ JX2DPlotLabelDialog::BuildWindow()
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 110,50, 220,20);
 	assert( itsXAxisLabel != NULL );
 
-	JXStaticText* xLabel =
-		jnew JXStaticText(JGetString("xLabel::JX2DPlotLabelDialog::JXLayout"), window,
+	JXStaticText* xAxisLabel =
+		jnew JXStaticText(JGetString("xAxisLabel::JX2DPlotLabelDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,50, 90,20);
-	assert( xLabel != NULL );
-	xLabel->SetToLabel();
+	assert( xAxisLabel != NULL );
+	xAxisLabel->SetToLabel();
 
 	itsYAxisLabel =
 		jnew JXInputField(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 110,80, 220,20);
 	assert( itsYAxisLabel != NULL );
 
-	JXStaticText* yLabel =
-		jnew JXStaticText(JGetString("yLabel::JX2DPlotLabelDialog::JXLayout"), window,
+	JXStaticText* yAxisLabel =
+		jnew JXStaticText(JGetString("yAxisLabel::JX2DPlotLabelDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,80, 90,20);
-	assert( yLabel != NULL );
-	yLabel->SetToLabel();
+	assert( yAxisLabel != NULL );
+	yAxisLabel->SetToLabel();
 
 	itsFontMenu =
 		jnew JXFontNameMenu("Font:", window,

@@ -1,4 +1,4 @@
-jx_browser_data 86
+jx_browser_data 87
 # project tree
 0 "root"
 T
@@ -78,6 +78,10 @@ T
 2 "JXRaiseWindowTask.cpp"
 F
 "./code/JXRaiseWindowTask.cpp"
+T
+2 "JXExpandWindowToFitContentTask.cpp"
+F
+"./code/JXExpandWindowToFitContentTask.cpp"
 F
 T
 1 "Selection"
@@ -173,6 +177,10 @@ T
 2 "JXContainer.cpp"
 F
 "./code/JXContainer.cpp"
+T
+2 "JXFTCCell.cpp"
+F
+"./code/JXFTCCell.cpp"
 T
 2 "JXWidget.cpp"
 F
@@ -380,6 +388,37 @@ F
 "./code/JXXFontMenu.cpp"
 F
 T
+1 "InputField"
+T
+2 "JXInputField.cpp"
+F
+"./code/JXInputField.cpp"
+T
+2 "JXIntegerInput.cpp"
+F
+"./code/JXIntegerInput.cpp"
+T
+2 "JXFloatInput.cpp"
+F
+"./code/JXFloatInput.cpp"
+T
+2 "JXPasswordInput.cpp"
+F
+"./code/JXPasswordInput.cpp"
+T
+2 "JXCharInput.cpp"
+F
+"./code/JXCharInput.cpp"
+T
+2 "JXPathInput.cpp"
+F
+"./code/JXPathInput.cpp"
+T
+2 "JXFileInput.cpp"
+F
+"./code/JXFileInput.cpp"
+F
+T
 1 "Text"
 T
 2 "JXTEBase.cpp"
@@ -397,6 +436,10 @@ T
 2 "JXSearchTextButton.cpp"
 F
 "./code/JXSearchTextButton.cpp"
+T
+2 "JXSearchTextDecorTask.cpp"
+F
+"./code/JXSearchTextDecorTask.cpp"
 T
 2 "JXRegexInput.cpp"
 F
@@ -462,37 +505,6 @@ F
 "./code/JXSpellList.cpp"
 F
 T
-1 "InputField"
-T
-2 "JXInputField.cpp"
-F
-"./code/JXInputField.cpp"
-T
-2 "JXIntegerInput.cpp"
-F
-"./code/JXIntegerInput.cpp"
-T
-2 "JXFloatInput.cpp"
-F
-"./code/JXFloatInput.cpp"
-T
-2 "JXPasswordInput.cpp"
-F
-"./code/JXPasswordInput.cpp"
-T
-2 "JXCharInput.cpp"
-F
-"./code/JXCharInput.cpp"
-T
-2 "JXPathInput.cpp"
-F
-"./code/JXPathInput.cpp"
-T
-2 "JXFileInput.cpp"
-F
-"./code/JXFileInput.cpp"
-F
-T
 1 "Table"
 T
 2 "JXTable.cpp"
@@ -545,6 +557,10 @@ T
 2 "JXVertPartition.cpp"
 F
 "./code/JXVertPartition.cpp"
+T
+2 "JXRestorePartitionGeometry.cpp"
+F
+"./code/JXRestorePartitionGeometry.cpp"
 F
 T
 1 "CardFile"
@@ -1006,6 +1022,10 @@ T
 2 "JXPSPageSetupDialog.cpp"
 F
 "./code/JXPSPageSetupDialog.cpp"
+T
+2 "JXAdjustPSPrintSetupLayoutTask.cpp"
+F
+"./code/JXAdjustPSPrintSetupLayoutTask.cpp"
 T
 2 "JXEPSPrinter.cpp"
 F

@@ -38,20 +38,20 @@ GXTransformFunctionDialog::GXTransformFunctionDialog
 	itsEditor = NULL;
 	BuildWindow();
 	itsList = list;
-	
+
 	for (JSize i = 1; i <= colCount; i++)
 		{
-		JString str("Col ");
+		JString str("Column ");
 		JString num(i);
 		str += num;
 		itsDestMenu->AppendItem(str);
 		}
-		
+
 	for (JSize i = 1; i <= list->GetElementCount(); i++)
 		{
 		itsVarMenu->AppendItem(list->GetVariableName(i));
 		}
-	
+
 	itsDestCol = colCount;
 	JString num(itsDestCol);
 	JString str = "col[" + num + "] = ";
@@ -77,57 +77,59 @@ GXTransformFunctionDialog::BuildWindow()
 {
 // begin JXLayout
 
-    JXWindow* window = jnew JXWindow(this, 580,90, "");
-    assert( window != NULL );
+	JXWindow* window = jnew JXWindow(this, 580,90, "");
+	assert( window != NULL );
 
-    itsTransformButton =
-        jnew JXTextButton("Transform", window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 130,55, 80,20);
-    assert( itsTransformButton != NULL );
-    itsTransformButton->SetShortcuts("^M");
+	itsTransformButton =
+		jnew JXTextButton("Transform", window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 130,55, 80,20);
+	assert( itsTransformButton != NULL );
+	itsTransformButton->SetShortcuts("^M");
 
-    itsCloseButton =
-        jnew JXTextButton("Close", window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 370,55, 80,20);
-    assert( itsCloseButton != NULL );
-    itsCloseButton->SetShortcuts("^[");
+	itsCloseButton =
+		jnew JXTextButton("Close", window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 370,55, 80,20);
+	assert( itsCloseButton != NULL );
+	itsCloseButton->SetShortcuts("^[");
 
-    itsClearButton =
-        jnew JXTextButton("Clear", window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 250,55, 80,20);
-    assert( itsClearButton != NULL );
+	itsClearButton =
+		jnew JXTextButton("Clear", window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 250,55, 80,20);
+	assert( itsClearButton != NULL );
 
-    itsFunctionString =
-        jnew JXInputField(window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 200,20, 200,20);
-    assert( itsFunctionString != NULL );
+	itsFunctionString =
+		jnew JXInputField(window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 200,20, 200,20);
+	assert( itsFunctionString != NULL );
 
-    itsEditButton =
-        jnew JXTextButton("Edit", window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 410,20, 50,20);
-    assert( itsEditButton != NULL );
-    itsEditButton->SetShortcuts("#E");
+	itsEditButton =
+		jnew JXTextButton("Edit", window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 410,20, 50,20);
+	assert( itsEditButton != NULL );
+	itsEditButton->SetShortcuts("#E");
 
-    itsDestMenu =
-        jnew JXTextMenu("Destination:", window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 10,20, 115,20);
-    assert( itsDestMenu != NULL );
+	itsDestMenu =
+		jnew JXTextMenu("Destination:", window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 10,20, 115,20);
+	assert( itsDestMenu != NULL );
 
-    itsVarMenu =
-        jnew JXTextMenu("Constants", window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 470,20, 90,20);
-    assert( itsVarMenu != NULL );
+	itsVarMenu =
+		jnew JXTextMenu("Constants", window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 470,20, 90,20);
+	assert( itsVarMenu != NULL );
 
-    itsColNumber =
-        jnew JXStaticText("", window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 135,23, 55,20);
-    assert( itsColNumber != NULL );
+	itsColNumber =
+		jnew JXStaticText("", window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 135,20, 65,20);
+	assert( itsColNumber != NULL );
+	itsColNumber->SetToLabel();
 
 // end JXLayout
 
 	window->SetTitle("Transformation Window");
 	SetButtons(itsTransformButton, itsCloseButton);
 	itsDestMenu->SetUpdateAction(JXMenu::kDisableNone);
+	itsDestMenu->SetPopupArrowPosition(JXMenu::kArrowAtLeft);
 	itsVarMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsClearButton);
 	ListenTo(itsEditButton);
@@ -143,7 +145,7 @@ GXTransformFunctionDialog::BuildWindow()
 void
 GXTransformFunctionDialog::Receive
 	(
-	JBroadcaster* sender, 
+	JBroadcaster* sender,
 	const Message& message
 	)
 {
@@ -229,9 +231,10 @@ GXTransformFunctionDialog::OKToDeactivate()
 		{
 		return kJTrue;
 		}
-	JFunction* f;
-	if (JParseFunction(itsFunctionString->GetText(),itsList,&f))
+	JFunction* f = NULL;
+	if (JParseFunction(itsFunctionString->GetText(), itsList, &f))
 		{
+		jdelete f;
 		return kJTrue;
 		}
 	return kJFalse;

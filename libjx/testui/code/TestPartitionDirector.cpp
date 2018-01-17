@@ -100,12 +100,12 @@ JIndex i;
 
 	JXMenuBar* menuBar =
 		jnew JXMenuBar(window,
-					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 315,30);
+					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 310,30);
 	assert( menuBar != NULL );
 
 	itsHorizPartition =
 		jnew JXHorizPartition(sizes, kInitElasticIndex, minSizes, window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 315,315);
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 310,310);
 	assert( itsHorizPartition != NULL );
 
 // end JXLayout

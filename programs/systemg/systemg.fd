@@ -98,7 +98,7 @@ label: Cmd to open terminal:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (terminalLabel)
 callback: 
 argument: 
 
@@ -116,7 +116,7 @@ label: Cmd to view man page:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (manPageLabel)
 callback: 
 argument: 
 
@@ -170,14 +170,14 @@ label: (use $n in place of folder name, $p in place of path to folder)
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (cmdHint)
 callback: 
 argument: 
 
 --------------------
 class: FL_CHECKBUTTON
 type: FL_PUSH_BUTTON
-box: 20 70 210 20
+box: 10 70 220 20
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_YELLOW
 alignment: FL_ALIGN_CENTER
@@ -195,7 +195,7 @@ argument:
 --------------------
 class: FL_CHECKBUTTON
 type: FL_PUSH_BUTTON
-box: 20 120 210 20
+box: 10 120 220 20
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_YELLOW
 alignment: FL_ALIGN_CENTER
@@ -224,7 +224,7 @@ label: (Read the on-line help to understand why this is dangerous!)
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (warnLabel)
 callback: 
 argument: 
 
@@ -242,7 +242,7 @@ label: Cmd to run after changing branch:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (branchLabel)
 callback: 
 argument: 
 
@@ -260,7 +260,7 @@ label: (automatically run in checkout directory)
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (branchHint)
 callback: 
 argument: 
 
@@ -278,7 +278,7 @@ label: Cmd to display git status:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (statusLabel)
 callback: 
 argument: 
 
@@ -314,7 +314,7 @@ label: Cmd to display git history:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (historyLabel)
 callback: 
 argument: 
 
@@ -339,7 +339,7 @@ argument:
 --------------------
 class: FL_CHECKBUTTON
 type: FL_PUSH_BUTTON
-box: 20 20 210 20
+box: 10 20 220 20
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_YELLOW
 alignment: FL_ALIGN_CENTER
@@ -368,14 +368,14 @@ label: (Hold down Meta key (clicks) or Shift key (shortcuts) to toggle this temp
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (openHint)
 callback: 
 argument: 
 
 --------------------
 class: FL_CHECKBUTTON
 type: FL_PUSH_BUTTON
-box: 20 150 220 20
+box: 10 150 220 20
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_YELLOW
 alignment: FL_ALIGN_CENTER
@@ -482,7 +482,7 @@ label: Function name:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (fnNameLabel)
 callback: 
 argument: 
 
@@ -500,7 +500,7 @@ label: Section index:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (sectionLabel)
 callback: 
 argument: 
 
@@ -1132,7 +1132,7 @@ resize: FL_RESIZE_NONE
 gravity: FL_NoGravity FL_NoGravity
 name: itsToolBar
 callback: 
-argument: SyGGetPrefsMgr(), kSMainToolBarID, menuBar, 200,200
+argument: SyGGetPrefsMgr(), kSMainToolBarID, menuBar,
 
 --------------------
 class: FL_BOX
@@ -1305,7 +1305,7 @@ argument:
 --------------------
 class: FL_CHECKBUTTON
 type: FL_RADIO_BUTTON
-box: 20 60 320 20
+box: 20 60 270 20
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_YELLOW
 alignment: FL_ALIGN_CENTER
@@ -1316,7 +1316,7 @@ label: Search for file name (wildcards allowed):
 shortcut: #N
 resize: FL_RESIZE_ALL
 gravity: FL_North FL_NoGravity
-name: 
+name: (fileLabel)
 callback: 
 argument: kFindFileAction
 
@@ -1377,7 +1377,7 @@ argument:
 --------------------
 class: FL_CHECKBUTTON
 type: FL_RADIO_BUTTON
-box: 20 120 320 20
+box: 20 120 270 20
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_YELLOW
 alignment: FL_ALIGN_CENTER
@@ -1388,7 +1388,7 @@ label: Search expression (find syntax):
 shortcut: #E
 resize: FL_RESIZE_ALL
 gravity: FL_North FL_NoGravity
-name: 
+name: (findLabel)
 callback: 
 argument: kFindExprAction
 
@@ -1406,7 +1406,7 @@ label: Start in:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (startLabel)
 callback: 
 argument: 
 
@@ -1538,7 +1538,7 @@ label: Remote URL:
 shortcut: 
 resize: FL_RESIZE_NONE
 gravity: FL_North FL_NoGravity
-name: 
+name: (remoteLabel)
 callback: 
 argument: 
 
@@ -1574,7 +1574,7 @@ label: Local Name:
 shortcut: 
 resize: FL_RESIZE_NONE
 gravity: FL_North FL_NoGravity
-name: 
+name: (localLabel)
 callback: 
 argument: 
 

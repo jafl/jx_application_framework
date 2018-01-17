@@ -11,6 +11,7 @@
  ******************************************************************************/
 
 #include <JXPSPrintSetupDialog.h>
+#include <JXAdjustPSPrintSetupLayoutTask.h>
 #include <JXWindow.h>
 #include <JXTextButton.h>
 #include <JXStaticText.h>
@@ -102,7 +103,7 @@ JXPSPrintSetupDialog::BuildWindow
 
 	itsPrintCmdLabel =
 		jnew JXStaticText(JGetString("itsPrintCmdLabel::JXPSPrintSetupDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,70, 100,19);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,70, 90,20);
 	assert( itsPrintCmdLabel != NULL );
 	itsPrintCmdLabel->SetToLabel();
 
@@ -142,12 +143,12 @@ JXPSPrintSetupDialog::BuildWindow
 
 	itsPrintCmd =
 		jnew JXInputField(window,
-					JXWidget::kHElastic, JXWidget::kFixedTop, 110,70, 240,20);
+					JXWidget::kHElastic, JXWidget::kFixedTop, 100,70, 250,20);
 	assert( itsPrintCmd != NULL );
 
 	itsChooseFileButton =
 		jnew JXTextButton(JGetString("itsChooseFileButton::JXPSPrintSetupDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 30,70, 80,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,90, 90,20);
 	assert( itsChooseFileButton != NULL );
 	itsChooseFileButton->SetShortcuts(JGetString("itsChooseFileButton::JXPSPrintSetupDialog::shortcuts::JXLayout"));
 
@@ -174,7 +175,7 @@ JXPSPrintSetupDialog::BuildWindow
 
 	itsPrintAllCB =
 		jnew JXTextCheckbox(JGetString("itsPrintAllCB::JXPSPrintSetupDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 40,150, 120,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 40,150, 110,20);
 	assert( itsPrintAllCB != NULL );
 	itsPrintAllCB->SetShortcuts(JGetString("itsPrintAllCB::JXPSPrintSetupDialog::shortcuts::JXLayout"));
 
@@ -259,16 +260,22 @@ JXPSPrintSetupDialog::SetObjects
 	window->SetTitle(JGetString("WindowTitle::JXPSPrintSetupDialog"));
 	SetButtons(okButton, cancelButton);
 
-	const JRect r = itsPrintCmd->GetFrame();
+	const JRect r1 = itsPrintCmd->GetFrame(),
+				r2 = itsChooseFileButton->GetFrame();
 	itsFileInput =
 		jnew JXFileInput(window,
 						JXWidget::kHElastic, JXWidget::kVElastic,
-						r.left, r.top, r.width(), r.height());
+						r1.left, r2.top, r1.width(), r2.height());
 	assert( itsFileInput != NULL );
 	itsFileInput->ShouldAllowInvalidFile();
 	itsFileInput->SetText(fileName);
 	itsFileInput->ShouldBroadcastAllTextChanged(kJTrue);
 	ListenTo(itsFileInput);
+
+	JXAdjustPSPrintSetupLayoutTask* task =
+		jnew JXAdjustPSPrintSetupLayoutTask(this, r1.top - r2.top, itsChooseFileButton, itsFileInput);
+	assert( task != NULL );
+	task->Go();
 
 	itsPrintCmd->SetText(printCmd);
 	itsPrintCmd->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);

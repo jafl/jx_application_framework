@@ -8,7 +8,7 @@
 	a limited amount of space available.
 
 	This class implements CreateCompartmentObject() and DeleteCompartmentObject().
-	Derived classes must implement GetTotalSize(), SetCompartmentSizes(),
+	Derived classes must implement GetTotalSize(), UpdateCompartmentSizes(),
 	and the following routines:
 
 		CreateCompartment
@@ -49,6 +49,8 @@ JXPartition::JXPartition
 {
 	itsCompartments = jnew JPtrArray<JXContainer>(JPtrArrayT::kForgetAll);
 	assert( itsCompartments != NULL );
+
+	SetNeedsInternalFTC();
 }
 
 /******************************************************************************
@@ -273,4 +275,57 @@ JXPartition::ApertureResized
 {
 	JXWidgetSet::ApertureResized(dw,dh);
 	PTBoundsChanged();
+}
+
+/******************************************************************************
+ RestoreGeometry (protected)
+
+ ******************************************************************************/
+
+void
+JXPartition::RestoreGeometry
+	(
+	const JArray<JCoordinate>& sizes
+	)
+{
+	const JSize count = sizes.GetElementCount();
+	if (count != GetCompartmentCount())
+		{
+		return;
+		}
+
+	JSize origTotalSize = 0;
+	for (JIndex i=1; i<=count; i++)
+		{
+		const JSize size = sizes.GetElement(i);
+		if (size < JPartition::GetMinCompartmentSize(i))
+			{
+			return;
+			}
+		origTotalSize += size;
+		}
+
+	origTotalSize += (count-1) * kDragRegionSize;
+
+	const JSize currTotalSize    = GetTotalSize();
+	const JCoordinate totalDelta = JCoordinate(currTotalSize) - origTotalSize;
+	if (totalDelta != 0)
+		{
+		JArray<JCoordinate> newSizes(sizes);
+		const JCoordinate delta = totalDelta/JCoordinate(count);
+		JSize sum               = 0;
+		for (JIndex i=1; i<count; i++)
+			{
+			const JSize size = newSizes.GetElement(i) + delta;
+			newSizes.SetElement(i, size);
+			sum += size;
+			}
+
+		newSizes.SetElement(count, currTotalSize - sum);	// takes care of rounding error
+		SetCompartmentSizes(newSizes);
+		}
+	else
+		{
+		SetCompartmentSizes(sizes);
+		}
 }

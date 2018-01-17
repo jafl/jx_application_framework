@@ -23,6 +23,8 @@ class CBCmdLineInput;
 
 class CBExecOutputDocument : public CBTextDocument
 {
+	friend class CBExecOutputPostFTCTask;
+
 public:
 
 	typedef JMessageProtocol<ACE_LSOCK_STREAM>		RecordLink;
@@ -65,6 +67,7 @@ protected:
 	void	StopProcess();
 	void	KillProcess();
 
+	virtual void		PlaceCmdLineWidgets();
 	virtual void		AppendText(const JString& text);
 	virtual JBoolean	ProcessFinished(const JProcess::Finished& info);
 	virtual JBoolean	NeedsFormattedData() const;

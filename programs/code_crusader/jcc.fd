@@ -64,7 +64,7 @@ resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
 name: itsToolBar
 callback: 
-argument: CBGetPrefsManager(), toolBarPrefID, menuBar, 150,150,
+argument: CBGetPrefsManager(), toolBarPrefID, menuBar,
 
 =============== FORM ===============
 Name: CBFnListDirector
@@ -153,7 +153,7 @@ argument:
 --------------------
 class: FL_BUTTON
 type: FL_NORMAL_BUTTON
-box: 120 370 70 20
+box: 130 370 70 20
 boxtype: FL_UP_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -406,7 +406,7 @@ resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
 name: itsToolBar
 callback: 
-argument: CBGetPrefsManager(), kCBTEToolBarID, itsMenuBar, 300,100,
+argument: CBGetPrefsManager(), kCBTEToolBarID, itsMenuBar,
 
 --------------------
 class: FL_BOX
@@ -422,7 +422,7 @@ label:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_SouthWest FL_NoGravity
-name: 
+name: (lineBorder)
 callback: 
 argument: 
 
@@ -432,7 +432,7 @@ type: FL_NORMAL_TEXT
 box: 0 530 28 16
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_MCOL
-alignment: FL_ALIGN_TOP|FL_ALIGN_INSIDE
+alignment: FL_ALIGN_LEFT|FL_ALIGN_INSIDE
 style: FL_NORMAL_STYLE
 size: FL_NORMAL_SIZE
 lcol: FL_BLACK
@@ -476,7 +476,7 @@ label:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_SouthWest FL_NoGravity
-name: 
+name: (colBorder)
 callback: 
 argument: 
 
@@ -486,7 +486,7 @@ type: FL_NORMAL_TEXT
 box: 80 530 28 16
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_MCOL
-alignment: FL_ALIGN_TOP|FL_ALIGN_INSIDE
+alignment: FL_ALIGN_LEFT|FL_ALIGN_INSIDE
 style: FL_NORMAL_STYLE
 size: FL_NORMAL_SIZE
 lcol: FL_BLACK
@@ -716,7 +716,7 @@ label: Spaces per tab:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
-name: 
+name: (spacesPerTabLabel)
 callback: 
 argument: 
 
@@ -806,7 +806,7 @@ label: Undo depth:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
-name: 
+name: (undoDepthLabel)
 callback: 
 argument: 
 
@@ -950,7 +950,7 @@ label: Clean paragraph margins line width:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
-name: 
+name: (cpmLabel)
 callback: 
 argument: 
 
@@ -1004,7 +1004,7 @@ label: Ctrl + Meta
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
-name: 
+name: (ctrlMetaLabel)
 callback: 
 argument: JXTEBase::kCtrlMetaPWMod
 
@@ -1022,7 +1022,7 @@ label: Mod2
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
-name: 
+name: (mod2Label)
 callback: 
 argument: JXTEBase::kMod2PWMod
 
@@ -1040,7 +1040,7 @@ label: Mod3
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
-name: 
+name: (mod3Label)
 callback: 
 argument: JXTEBase::kMod3PWMod
 
@@ -1058,7 +1058,7 @@ label: Mod4
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
-name: 
+name: (mod4Label)
 callback: 
 argument: JXTEBase::kMod4PWMod
 
@@ -1076,14 +1076,14 @@ label: Mod5
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
-name: 
+name: (mod5Label)
 callback: 
 argument: JXTEBase::kMod5PWMod
 
 --------------------
 class: FL_TEXT
 type: FL_NORMAL_TEXT
-box: 330 360 120 40
+box: 330 360 120 60
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_MCOL
 alignment: FL_ALIGN_LEFT|FL_ALIGN_INSIDE
@@ -1094,7 +1094,7 @@ label: Modifier to move by partial word:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
-name: 
+name: (partialWordTitle)
 callback: 
 argument: 
 
@@ -1166,7 +1166,7 @@ label: Change color:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
-name: 
+name: (changeColorLabel)
 callback: 
 argument: 
 
@@ -1274,7 +1274,7 @@ label: Color sets:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
-name: 
+name: (colorSetsLabel)
 callback: 
 argument: 
 
@@ -1335,7 +1335,7 @@ argument:
 --------------------
 class: FL_CHECKBUTTON
 type: FL_PUSH_BUTTON
-box: 20 390 300 20
+box: 20 390 280 20
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_YELLOW
 alignment: FL_ALIGN_CENTER
@@ -1353,7 +1353,7 @@ argument:
 --------------------
 class: FL_CHECKBUTTON
 type: FL_PUSH_BUTTON
-box: 20 430 290 20
+box: 20 430 280 20
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_YELLOW
 alignment: FL_ALIGN_CENTER
@@ -1443,7 +1443,7 @@ argument:
 --------------------
 class: FL_CHECKBUTTON
 type: FL_PUSH_BUTTON
-box: 20 410 290 20
+box: 20 410 280 20
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_YELLOW
 alignment: FL_ALIGN_CENTER
@@ -1472,7 +1472,7 @@ label: Word wrapping is controlled in the File Types dialog.
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
-name: 
+name: (wordWrapHint)
 callback: 
 argument: 
 
@@ -1521,7 +1521,7 @@ argument:
 --------------------
 class: FL_TEXT
 type: FL_NORMAL_TEXT
-box: 20 101 90 20
+box: 20 101 220 20
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_MCOL
 alignment: FL_ALIGN_LEFT|FL_ALIGN_INSIDE
@@ -1531,15 +1531,15 @@ lcol: FL_BLACK
 label: Replace with:
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NorthWest FL_NoGravity
-name: 
+gravity: FL_North FL_NoGravity
+name: (replaceLabel)
 callback: 
 argument: 
 
 --------------------
 class: FL_TEXT
 type: FL_NORMAL_TEXT
-box: 20 31 80 20
+box: 20 31 220 20
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_MCOL
 alignment: FL_ALIGN_LEFT|FL_ALIGN_INSIDE
@@ -1549,8 +1549,8 @@ lcol: FL_BLACK
 label: Search for:
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NorthWest FL_NoGravity
-name: 
+gravity: FL_North FL_NoGravity
+name: (searchLabel)
 callback: 
 argument: 
 
@@ -1863,10 +1863,10 @@ argument:
 --------------------
 class: FL_TEXT
 type: FL_NORMAL_TEXT
-box: 355 20 40 20
+box: 320 20 100 20
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_MCOL
-alignment: FL_ALIGN_LEFT|FL_ALIGN_INSIDE
+alignment: FL_ALIGN_CENTER
 style: FL_NORMAL_STYLE
 size: FL_NORMAL_SIZE
 lcol: FL_BLACK
@@ -1874,7 +1874,7 @@ label: Find
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthEast FL_NoGravity
-name: 
+name: (findLabel)
 callback: 
 argument: 
 
@@ -1917,10 +1917,10 @@ argument: kJTrue
 --------------------
 class: FL_TEXT
 type: FL_NORMAL_TEXT
-box: 323 80 100 20
+box: 320 80 100 20
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_MCOL
-alignment: FL_ALIGN_LEFT|FL_ALIGN_INSIDE
+alignment: FL_ALIGN_CENTER
 style: FL_NORMAL_STYLE
 size: FL_NORMAL_SIZE
 lcol: FL_BLACK
@@ -1928,7 +1928,7 @@ label: Replace & Find
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthEast FL_NoGravity
-name: 
+name: (replaceFindLabel)
 callback: 
 argument: 
 
@@ -1971,10 +1971,10 @@ argument: kJTrue
 --------------------
 class: FL_TEXT
 type: FL_NORMAL_TEXT
-box: 335 110 80 20
+box: 320 110 100 20
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_MCOL
-alignment: FL_ALIGN_LEFT|FL_ALIGN_INSIDE
+alignment: FL_ALIGN_CENTER
 style: FL_NORMAL_STYLE
 size: FL_NORMAL_SIZE
 lcol: FL_BLACK
@@ -1982,7 +1982,7 @@ label: Replace all
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthEast FL_NoGravity
-name: 
+name: (replaceAllLabel)
 callback: 
 argument: 
 
@@ -2144,7 +2144,7 @@ label: Wildcard filter:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (filterLabel)
 callback: 
 argument: 
 
@@ -2205,7 +2205,7 @@ argument: kHistoryLength, ""
 --------------------
 class: FL_CHECKBUTTON
 type: FL_PUSH_BUTTON
-box: 40 330 230 20
+box: 40 330 215 20
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_YELLOW
 alignment: FL_ALIGN_CENTER
@@ -2259,7 +2259,7 @@ argument:
 --------------------
 class: FL_INPUT
 type: FL_NORMAL_INPUT
-box: 270 330 140 20
+box: 255 330 155 20
 boxtype: FL_DOWN_BOX
 colors: FL_COL1 FL_MCOL
 alignment: FL_ALIGN_LEFT
@@ -2516,7 +2516,7 @@ label: Name of file:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (nameLabel)
 callback: 
 argument: 
 
@@ -2666,7 +2666,7 @@ label: Function name:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (nameLabel)
 callback: 
 argument: 
 
@@ -2684,7 +2684,7 @@ label: Section index:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (sectionLabel)
 callback: 
 argument: 
 
@@ -2816,7 +2816,7 @@ label: Warn before:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (warnTitle)
 callback: 
 argument: 
 
@@ -2924,7 +2924,7 @@ label: When run with no arguments:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (noArgsTitle)
 callback: 
 argument: 
 
@@ -3014,7 +3014,7 @@ label: (first time only)
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (firstTimeHint)
 callback: 
 argument: 
 
@@ -3086,7 +3086,7 @@ label: (You must restart the program after changing this setting.)
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
-name: 
+name: (restartHint)
 callback: 
 argument: 
 
@@ -3254,7 +3254,7 @@ label: (use $f in place of file name, $l in place of line number)
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
-name: 
+name: (editTextHint)
 callback: 
 argument: 
 
@@ -3272,7 +3272,7 @@ label: Shell cmd to edit text file:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
-name: 
+name: (editTextLabel)
 callback: 
 argument: 
 
@@ -3290,7 +3290,7 @@ label: Shell cmd to edit line of file:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
-name: 
+name: (editLineLabel)
 callback: 
 argument: 
 
@@ -3344,7 +3344,7 @@ label: (use $f in place of file name)
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
-name: 
+name: (editBinaryHint)
 callback: 
 argument: 
 
@@ -3362,7 +3362,7 @@ label: Shell cmd to edit binary file:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
-name: 
+name: (editBinaryLabel)
 callback: 
 argument: 
 
@@ -3411,7 +3411,7 @@ argument:
 --------------------
 class: FL_BUTTON
 type: FL_NORMAL_BUTTON
-box: 20 260 70 20
+box: 30 260 70 20
 boxtype: FL_UP_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -3421,7 +3421,7 @@ lcol: FL_BLACK
 label: Cancel
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_NorthWest FL_NoGravity
 name: (cancelButton)
 callback: 
 argument: 
@@ -3429,7 +3429,7 @@ argument:
 --------------------
 class: FL_BUTTON
 type: FL_RETURN_BUTTON
-box: 230 260 70 20
+box: 220 260 70 20
 boxtype: FL_UP_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -3439,7 +3439,7 @@ lcol: FL_BLACK
 label: OK
 shortcut: ^M
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_NorthWest FL_NoGravity
 name: (okButton)
 callback: 
 argument: 
@@ -3530,7 +3530,7 @@ label: Draw MI links:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (miLinksLabel)
 callback: 
 argument: 
 
@@ -3548,7 +3548,7 @@ label: Above classes
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (aboveLabel)
 callback: 
 argument: 1
 
@@ -3566,7 +3566,7 @@ label: Below classes
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (belowLabel)
 callback: 
 argument: 2
 
@@ -3583,7 +3583,7 @@ lcol: FL_BLACK
 label: Help
 shortcut: F1
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_NorthWest FL_NoGravity
 name: itsHelpButton
 callback: 
 argument: 
@@ -4000,7 +4000,7 @@ resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
 name: itsToolBar
 callback: 
-argument: CBGetPrefsManager(), kCBFileListToolBarID, menuBar, 150,150
+argument: CBGetPrefsManager(), kCBFileListToolBarID, menuBar,
 
 =============== FORM ===============
 Name: CBEditMacroDialog
@@ -4898,7 +4898,7 @@ label: Enter the command to process the selected text (if any):
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_North FL_NoGravity
-name: 
+name: (cmdLabel)
 callback: 
 argument: 
 
@@ -5540,7 +5540,7 @@ label: Destination:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
-name: 
+name: (destinationLabel)
 callback: 
 argument: 
 
@@ -5576,7 +5576,7 @@ label: Printer
 shortcut: #P
 resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
-name: 
+name: (printerRB)
 callback: 
 argument: 1
 
@@ -5594,7 +5594,7 @@ label: File
 shortcut: #F
 resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
-name: 
+name: (fileRB)
 callback: 
 argument: 2
 
@@ -5756,7 +5756,7 @@ label: Number of copies:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
-name: 
+name: (copiesLabel)
 callback: 
 argument: 
 
@@ -5888,7 +5888,7 @@ label: Destination:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
-name: 
+name: (destinationLabel)
 callback: 
 argument: 
 
@@ -5924,7 +5924,7 @@ label: Printer
 shortcut: #P
 resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
-name: 
+name: (printerRB)
 callback: 
 argument: 1
 
@@ -5942,7 +5942,7 @@ label: File
 shortcut: #F
 resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
-name: 
+name: (fileRB)
 callback: 
 argument: 2
 
@@ -6122,7 +6122,7 @@ label: Number of copies:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
-name: 
+name: (copiesLabel)
 callback: 
 argument: 
 
@@ -6238,7 +6238,7 @@ resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
 name: itsToolBar
 callback: 
-argument: CBGetPrefsManager(), kCBProjectToolBarID, menuBar, 150,150
+argument: CBGetPrefsManager(), kCBProjectToolBarID, menuBar,
 
 --------------------
 class: FL_BUTTON
@@ -6620,7 +6620,7 @@ label: Absolute path
 shortcut: 
 resize: FL_RESIZE_NONE
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (absolutePathRB)
 callback: 
 argument: CBRelPathCSF::kAbsolutePath
 
@@ -6638,7 +6638,7 @@ label: Relative to project file
 shortcut: 
 resize: FL_RESIZE_NONE
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (projectRelativeRB)
 callback: 
 argument: CBRelPathCSF::kProjectRelative
 
@@ -7022,7 +7022,7 @@ label: Absolute path
 shortcut: 
 resize: FL_RESIZE_NONE
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (absolutePathRB)
 callback: 
 argument: CBRelPathCSF::kAbsolutePath
 
@@ -7040,7 +7040,7 @@ label: Relative to project file
 shortcut: 
 resize: FL_RESIZE_NONE
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (projectRelativeRB)
 callback: 
 argument: CBRelPathCSF::kProjectRelative
 
@@ -7153,7 +7153,7 @@ lcol: FL_BLACK
 label: 
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NorthWest FL_NoGravity
+gravity: FL_North FL_NoGravity
 name: itsTargetName
 callback: 
 argument: 
@@ -7208,7 +7208,7 @@ label: Target name:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (targetNameLabel)
 callback: 
 argument: 
 
@@ -7226,7 +7226,7 @@ label: Use makemake to build the Makefile
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (makemakeLabel)
 callback: 
 argument: CBBuildManager::kMakemake
 
@@ -7243,7 +7243,7 @@ lcol: FL_BLACK
 label: 
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NorthWest FL_NoGravity
+gravity: FL_North FL_NoGravity
 name: itsDepListExpr
 callback: 
 argument: 
@@ -7261,8 +7261,8 @@ lcol: FL_BLACK
 label: Expression to append to list of dependencies:
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NorthWest FL_NoGravity
-name: 
+gravity: FL_North FL_NoGravity
+name: (dependenciesLabel)
 callback: 
 argument: 
 
@@ -7280,7 +7280,7 @@ label: Use qmake to build the Makefile
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (gmakeLabel)
 callback: 
 argument: CBBuildManager::kQMake
 
@@ -7298,7 +7298,7 @@ label: Maintain the build file(s) manually
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (manualLabel)
 callback: 
 argument: CBBuildManager::kManual
 
@@ -7315,7 +7315,7 @@ lcol: FL_BLACK
 label: 
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NorthWest FL_NoGravity
+gravity: FL_North FL_NoGravity
 name: itsUpdateMakefileCmd
 callback: 
 argument: 
@@ -7333,8 +7333,8 @@ lcol: FL_BLACK
 label: Command to update this project's Makefile:
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NorthWest FL_NoGravity
-name: 
+gravity: FL_North FL_NoGravity
+name: (updateMakefileLabel)
 callback: 
 argument: 
 
@@ -7351,7 +7351,7 @@ lcol: FL_BLACK
 label: 
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NorthWest FL_NoGravity
+gravity: FL_North FL_NoGravity
 name: itsSubProjectBuildCmd
 callback: 
 argument: 
@@ -7369,8 +7369,8 @@ lcol: FL_BLACK
 label: Command to build this project when used by other projects:
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NorthWest FL_NoGravity
-name: 
+gravity: FL_North FL_NoGravity
+name: (subprojLabel)
 callback: 
 argument: 
 
@@ -7424,7 +7424,7 @@ label: Use CMake to build the Makefile
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (cmakeLabel)
 callback: 
 argument: CBBuildManager::kCMake
 
@@ -7556,7 +7556,7 @@ label: Absolute path
 shortcut: 
 resize: FL_RESIZE_NONE
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (absolutePathRB)
 callback: 
 argument: CBProjectTable::kAbsolutePath
 
@@ -7574,7 +7574,7 @@ label: Relative to project file
 shortcut: 
 resize: FL_RESIZE_NONE
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (projectRelativeLabel)
 callback: 
 argument: CBProjectTable::kProjectRelative
 
@@ -7592,7 +7592,7 @@ label: Relative to home directory
 shortcut: 
 resize: FL_RESIZE_NONE
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (homeDirLabel)
 callback: 
 argument: CBProjectTable::kHomeRelative
 
@@ -7610,7 +7610,7 @@ label: Path type to use when adding files via Drag-And-Drop:
 shortcut: 
 resize: FL_RESIZE_NONE
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (dndPathLabel)
 callback: 
 argument: 
 
@@ -7628,7 +7628,7 @@ label: Ask when files are dropped
 shortcut: 
 resize: FL_RESIZE_NONE
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (dndAskLabel)
 callback: 
 argument: CBProjectTable::kAskPathType
 
@@ -7742,7 +7742,7 @@ label: Project file:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
-name: 
+name: (fileLabel)
 callback: 
 argument: 
 
@@ -8044,7 +8044,7 @@ resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
 name: itsToolBar
 callback: 
-argument: CBGetPrefsManager(), kCBSymbolToolBarID, menuBar, 150,150
+argument: CBGetPrefsManager(), kCBSymbolToolBarID, menuBar,
 
 =============== FORM ===============
 Name: CBSymbolSRDirector
@@ -8342,7 +8342,7 @@ label: Generate the Makefile:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_SouthWest FL_NoGravity
-name: 
+name: (makefileTitle)
 callback: 
 argument: 
 
@@ -8378,7 +8378,7 @@ label: manually
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (manualRB)
 callback: 
 argument: CBBuildManager::kManual
 
@@ -8414,7 +8414,7 @@ label: via makemake
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (makemakeRB)
 callback: 
 argument: CBBuildManager::kMakemake
 
@@ -8661,13 +8661,13 @@ argument:
 =============== FORM ===============
 Name: CBEditCommandsDialog
 Width: 620
-Height: 470
+Height: 530
 Number of Objects: 5
 
 --------------------
 class: FL_BOX
 type: FL_FLAT_BOX
-box: 0 0 620 470
+box: 0 0 620 530
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -8685,7 +8685,7 @@ argument:
 --------------------
 class: FL_BOX
 type: FL_NO_BOX
-box: 20 20 580 395
+box: 20 20 580 455
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -8703,7 +8703,7 @@ argument: heights, elasticIndex, minHeights
 --------------------
 class: FL_BUTTON
 type: FL_NORMAL_BUTTON
-box: 100 440 70 20
+box: 100 500 70 20
 boxtype: FL_UP_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -8721,7 +8721,7 @@ argument:
 --------------------
 class: FL_BUTTON
 type: FL_NORMAL_BUTTON
-box: 440 440 70 20
+box: 440 500 70 20
 boxtype: FL_UP_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -8739,7 +8739,7 @@ argument:
 --------------------
 class: FL_BUTTON
 type: FL_NORMAL_BUTTON
-box: 270 440 70 20
+box: 270 500 70 20
 boxtype: FL_UP_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -8757,13 +8757,13 @@ argument:
 =============== FORM ===============
 Name: CBEditCommandsDialog__allProjectsLayout__compartment
 Width: 580
-Height: 140
+Height: 210
 Number of Objects: 8
 
 --------------------
 class: FL_BOX
 type: FL_FLAT_BOX
-box: 0 0 580 140
+box: 0 0 580 210
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -8817,7 +8817,7 @@ argument:
 --------------------
 class: FL_BOX
 type: FL_NO_BOX
-box: 0 30 510 110
+box: 0 30 510 180
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -8853,7 +8853,7 @@ argument:
 --------------------
 class: FL_TEXT
 type: FL_NORMAL_TEXT
-box: 0 3 580 20
+box: 0 0 580 20
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_MCOL
 alignment: FL_ALIGN_LEFT|FL_ALIGN_INSIDE
@@ -8864,7 +8864,7 @@ label: Tasks that can be used with any project:
 shortcut: 
 resize: FL_RESIZE_NONE
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (anyProjectTitle)
 callback: 
 argument: 
 
@@ -8907,13 +8907,13 @@ argument:
 =============== FORM ===============
 Name: CBEditCommandsDialog__thisProjectLayout__compartment
 Width: 580
-Height: 170
+Height: 240
 Number of Objects: 10
 
 --------------------
 class: FL_BOX
 type: FL_FLAT_BOX
-box: 0 0 580 170
+box: 0 0 580 240
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -8967,7 +8967,7 @@ argument:
 --------------------
 class: FL_BOX
 type: FL_NO_BOX
-box: 0 70 510 100
+box: 0 70 510 170
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -9014,7 +9014,7 @@ label: Command to update this project's Makefile:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (updateMakefileLabel)
 callback: 
 argument: 
 
@@ -9290,7 +9290,7 @@ label: Command to execute:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (cmdLabel)
 callback: 
 argument: 
 
@@ -9308,7 +9308,7 @@ label: Directory in which to perform task:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (pathLabel)
 callback: 
 argument: 
 
@@ -9530,7 +9530,7 @@ label: Spaces per tab:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
-name: 
+name: (tabWidthLabel)
 callback: 
 argument: 
 
@@ -9572,7 +9572,7 @@ label: 1:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (file1Label)
 callback: 
 argument: 
 
@@ -9662,7 +9662,7 @@ label: 2:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (file2Label)
 callback: 
 argument: 
 

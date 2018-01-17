@@ -237,11 +237,11 @@ CMMemoryDir::BuildWindow()
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 500,30);
 	assert( menuBar != NULL );
 
-	JXStaticText* obj1_JXLayout =
-		jnew JXStaticText(JGetString("obj1_JXLayout::CMMemoryDir::JXLayout"), window,
+	JXStaticText* exprLabel =
+		jnew JXStaticText(JGetString("exprLabel::CMMemoryDir::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,40, 80,20);
-	assert( obj1_JXLayout != NULL );
-	obj1_JXLayout->SetToLabel();
+	assert( exprLabel != NULL );
+	exprLabel->SetToLabel();
 
 	itsExprInput =
 		jnew CMArrayExprInput(window,
@@ -253,11 +253,11 @@ CMMemoryDir::BuildWindow()
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,70, 400,25);
 	assert( itsDisplayTypeMenu != NULL );
 
-	JXStaticText* obj2_JXLayout =
-		jnew JXStaticText(JGetString("obj2_JXLayout::CMMemoryDir::JXLayout"), window,
+	JXStaticText* countLabel =
+		jnew JXStaticText(JGetString("countLabel::CMMemoryDir::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,105, 80,20);
-	assert( obj2_JXLayout != NULL );
-	obj2_JXLayout->SetToLabel();
+	assert( countLabel != NULL );
+	countLabel->SetToLabel();
 
 	itsItemCountInput =
 		jnew CMArrayIndexInput(window,

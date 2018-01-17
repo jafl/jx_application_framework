@@ -13,6 +13,8 @@
 #include "CBTree.h"
 #include "CBClass.h"
 #include "CBTreeWidget.h"
+#include "CBFnMenuUpdater.h"
+#include "cbmUtil.h"
 #include <JXSelectionManager.h>
 #include <JXTextSelection.h>
 #include <JXWindow.h>
@@ -791,6 +793,10 @@ CBFnListWidget::PrepareFunctionMenu
 	menu->SetUpdateAction(JXMenu::kDisableNone);
 
 	menu->SetDefaultFont(GetFont(), kJFalse);
+	if (CBMGetFnMenuUpdater()->WillPackFnNames())
+		{
+		menu->SetDefaultFontSize(GetFont().GetSize()-2, kJFalse);
+		}
 
 	const JSize count = GetRowCount();
 	for (JIndex i=1; i<=count; i++)

@@ -33,7 +33,7 @@ public:
 	const JFont&	GetDefaultFont() const;
 	const JFont&	GetDefaultMonospaceFont() const;
 	JFont			GetFont(const JString& name,
-							const JSize size = kJDefaultFontSize,
+							const JSize size = 0,
 							const JFontStyle style = JFontStyle()) const;
 
 protected:
@@ -66,23 +66,6 @@ private:
 	const JFontManager& operator=(const JFontManager& source);
 };
 
-
-/******************************************************************************
- GetFont
-
- ******************************************************************************/
-
-inline JFont
-JFontManager::GetFont
-	(
-	const JString&		name,
-	const JSize			size,
-	const JFontStyle	style
-	)
-	const
-{
-	return JFont(this, GetFontID(name, size, style), size, style);
-}
 
 /******************************************************************************
  Get line thicknesses

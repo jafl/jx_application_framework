@@ -149,17 +149,17 @@ GLNonLinearFitDialog::BuildWindow()
 					JXWidget::kHElastic, JXWidget::kVElastic, 120,20, 260,100);
 	assert( scrollbarSet != NULL );
 
-	JXStaticText* obj1_functionLayout =
-		jnew JXStaticText(JGetString("obj1_functionLayout::GLNonLinearFitDialog::functionLayout"), container,
+	JXStaticText* fitNameLabel =
+		jnew JXStaticText(JGetString("fitNameLabel::GLNonLinearFitDialog::functionLayout"), container,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,0, 110,20);
-	assert( obj1_functionLayout != NULL );
-	obj1_functionLayout->SetToLabel();
+	assert( fitNameLabel != NULL );
+	fitNameLabel->SetToLabel();
 
-	JXStaticText* obj2_functionLayout =
-		jnew JXStaticText(JGetString("obj2_functionLayout::GLNonLinearFitDialog::functionLayout"), container,
+	JXStaticText* fitFnLabel =
+		jnew JXStaticText(JGetString("fitFnLabel::GLNonLinearFitDialog::functionLayout"), container,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,20, 110,20);
-	assert( obj2_functionLayout != NULL );
-	obj2_functionLayout->SetToLabel();
+	assert( fitFnLabel != NULL );
+	fitFnLabel->SetToLabel();
 
 	container->SetSize(functionLayout_Frame.width(), functionLayout_Frame.height());
 
@@ -196,7 +196,7 @@ GLNonLinearFitDialog::BuildWindow()
 		jnew JXStaticText(JGetString("warningText::GLNonLinearFitDialog::derivativeLayout"), container,
 					JXWidget::kHElastic, JXWidget::kVElastic, 20,20, 90,60);
 	assert( warningText != NULL );
-	warningText->SetFontSize(8);
+	warningText->SetFontSize(JGetDefaultFontSize()-2);
 
 	container->SetSize(derivativeLayout_Frame.width(), derivativeLayout_Frame.height());
 

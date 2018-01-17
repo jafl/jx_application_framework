@@ -87,11 +87,11 @@ public:
 	JBoolean	ScrollToRect(const JRect& r);
 	JBoolean	ScrollToRectCentered(const JRect& r, const JBoolean forceScroll);
 
-	virtual JRect		GetBoundsGlobal() const;
-	virtual JRect		GetFrameGlobal() const;
-	virtual JRect		GetApertureGlobal() const;
-	JSize				GetBorderWidth() const;
-	void				SetBorderWidth(const JSize width);
+	virtual JRect	GetBoundsGlobal() const;
+	virtual JRect	GetFrameGlobal() const;
+	virtual JRect	GetApertureGlobal() const;
+	JSize			GetBorderWidth() const;
+	void			SetBorderWidth(const JSize width);
 
 	// background color
 
@@ -100,6 +100,8 @@ public:
 	void		SetBackColor(const JColorIndex color);
 	JColorIndex	GetFocusColor() const;
 	void		SetFocusColor(const JColorIndex color);
+
+	virtual JString	ToString() const;
 
 protected:
 
@@ -142,6 +144,8 @@ protected:
 	virtual void	EnclosingBoundsResized(const JCoordinate dw, const JCoordinate dh);
 	virtual void	ApertureMoved(const JCoordinate dx, const JCoordinate dy);
 	virtual void	ApertureResized(const JCoordinate dw, const JCoordinate dh);
+
+	virtual void	FTCAdjustSize(const JCoordinate dw, const JCoordinate dh);
 
 	// Drag-And-Drop routines
 

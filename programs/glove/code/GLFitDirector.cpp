@@ -225,10 +225,12 @@ GLFitDirector::BuildWindow()
 
 	itsToolBar =
 		jnew JXToolBar(GetPrefsMgr(), kFitToolBarID,
-			menuBar, w, h,
+			menuBar,
 			window, JXWidget::kHElastic, JXWidget::kVElastic,
 			0,kJXDefaultMenuBarHeight, w,h - kJXDefaultMenuBarHeight);
 	assert( itsToolBar != NULL );
+
+	window->SetMinSize(w, h);
 
 	JSize newHeight = itsToolBar->GetWidgetEnclosure()->GetBoundsHeight();
 

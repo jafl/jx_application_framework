@@ -170,8 +170,10 @@ const JFileVersion kCurrentPrefsFileVersion = 67;
 // version 1:
 //	Stores "local text editing" flag in kViewFileCmdID
 
-const JFileVersion kCurrentProjectFileVersion = 86;
+const JFileVersion kCurrentProjectFileVersion = 87;
 
+// version 87:
+//	Removed show flags from CBTree, because all loners moved to the bottom.
 // version 86:
 //	CBJavaTreeScanner:
 //		* If parent not found in import list, assume package.

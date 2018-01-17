@@ -94,11 +94,11 @@ GXCreatePlotDialog::BuildWindow
 					JXWidget::kHElastic, JXWidget::kVElastic, 115,10, 200,20);
 	assert( itsLabelInput != NULL );
 
-	JXStaticText* obj1_JXLayout =
-		jnew JXStaticText(JGetString("obj1_JXLayout::GXCreatePlotDialog::JXLayout"), window,
+	JXStaticText* labelLabel =
+		jnew JXStaticText(JGetString("labelLabel::GXCreatePlotDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 65,10, 50,20);
-	assert( obj1_JXLayout != NULL );
-	obj1_JXLayout->SetToLabel();
+	assert( labelLabel != NULL );
+	labelLabel->SetToLabel();
 
 	itsXMenu =
 		jnew JXTextMenu(JGetString("itsXMenu::GXCreatePlotDialog::JXLayout"), window,

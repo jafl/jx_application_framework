@@ -72,55 +72,55 @@ GFGPrefsDialog::BuildWindow
 	JXWindow* window = jnew JXWindow(this, 510,530, "");
 	assert( window != NULL );
 
-	JXStaticText* obj1_JXLayout =
-		jnew JXStaticText(JGetString("obj1_JXLayout::GFGPrefsDialog::JXLayout"), window,
+	JXStaticText* headerCommentLabel =
+		jnew JXStaticText(JGetString("headerCommentLabel::GFGPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 470,20);
-	assert( obj1_JXLayout != NULL );
-	obj1_JXLayout->SetToLabel();
+	assert( headerCommentLabel != NULL );
+	headerCommentLabel->SetToLabel();
 
 	itsHeaderInput =
 		jnew JXInputField(kJFalse, kJTrue, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 20,40, 470,60);
 	assert( itsHeaderInput != NULL );
 
-	JXStaticText* obj2_JXLayout =
-		jnew JXStaticText(JGetString("obj2_JXLayout::GFGPrefsDialog::JXLayout"), window,
+	JXStaticText* sourceCommentLabel =
+		jnew JXStaticText(JGetString("sourceCommentLabel::GFGPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,115, 470,20);
-	assert( obj2_JXLayout != NULL );
-	obj2_JXLayout->SetToLabel();
+	assert( sourceCommentLabel != NULL );
+	sourceCommentLabel->SetToLabel();
 
 	itsSourceInput =
 		jnew JXInputField(kJFalse, kJTrue, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 20,135, 470,60);
 	assert( itsSourceInput != NULL );
 
-	JXStaticText* obj3_JXLayout =
-		jnew JXStaticText(JGetString("obj3_JXLayout::GFGPrefsDialog::JXLayout"), window,
+	JXStaticText* ctorCommentLabel =
+		jnew JXStaticText(JGetString("ctorCommentLabel::GFGPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,210, 470,20);
-	assert( obj3_JXLayout != NULL );
-	obj3_JXLayout->SetToLabel();
+	assert( ctorCommentLabel != NULL );
+	ctorCommentLabel->SetToLabel();
 
 	itsConstructorInput =
 		jnew JXInputField(kJFalse, kJTrue, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 20,230, 470,60);
 	assert( itsConstructorInput != NULL );
 
-	JXStaticText* obj4_JXLayout =
-		jnew JXStaticText(JGetString("obj4_JXLayout::GFGPrefsDialog::JXLayout"), window,
+	JXStaticText* dtorCommentLabel =
+		jnew JXStaticText(JGetString("dtorCommentLabel::GFGPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,305, 470,20);
-	assert( obj4_JXLayout != NULL );
-	obj4_JXLayout->SetToLabel();
+	assert( dtorCommentLabel != NULL );
+	dtorCommentLabel->SetToLabel();
 
 	itsDestructorInput =
 		jnew JXInputField(kJFalse, kJTrue, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 20,325, 470,60);
 	assert( itsDestructorInput != NULL );
 
-	JXStaticText* obj5_JXLayout =
-		jnew JXStaticText(JGetString("obj5_JXLayout::GFGPrefsDialog::JXLayout"), window,
+	JXStaticText* fnCommentLabel =
+		jnew JXStaticText(JGetString("fnCommentLabel::GFGPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,400, 470,20);
-	assert( obj5_JXLayout != NULL );
-	obj5_JXLayout->SetToLabel();
+	assert( fnCommentLabel != NULL );
+	fnCommentLabel->SetToLabel();
 
 	itsFunctionInput =
 		jnew JXInputField(kJFalse, kJTrue, window,

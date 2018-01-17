@@ -89,7 +89,8 @@ JXCreateGlobals
 	JInitCore(theAssertHandler, appSignature, defaultStringData,
 			  un, theChooseSaveFile, jnew JXCreatePG,
 			  jnew JXGetCurrFontMgr, jnew JXGetCurrColormap,
-			  kDefaultFontName, kMonospaceFontName);
+			  kDefaultFontName, kDefaultFontSize, kDefaultRowColHeaderFontSize,
+			  kMonospaceFontName, kDefaultMonoFontSize);
 
 	XSetErrorHandler(JXDisplay::JXErrorHandler);
 	XSetIOErrorHandler(JXApplication::JXIOErrorHandler);

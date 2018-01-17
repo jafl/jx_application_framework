@@ -15,6 +15,7 @@
 #include <JXStaticText.h>
 #include <JXTextButton.h>
 #include <JXTextCheckbox.h>
+#include <JXWidgetSet.h>
 #include <JXChooseSaveFile.h>
 #include <JXFontManager.h>
 #include <jXGlobals.h>
@@ -133,6 +134,11 @@ JXFSRunFileDialog::BuildWindow
 	JXWindow* window = jnew JXWindow(this, 450,170, JString::empty);
 	assert( window != NULL );
 
+	JXWidgetSet* ftcContainer =
+		jnew JXWidgetSet(window,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 180,90, 250,40);
+	assert( ftcContainer != NULL );
+
 	itsCmdInput =
 		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 20,40, 300,20);
@@ -140,25 +146,25 @@ JXFSRunFileDialog::BuildWindow
 
 	JXStaticText* prompt =
 		jnew JXStaticText(JGetString("prompt::JXFSRunFileDialog::JXLayout"), window,
-					JXWidget::kHElastic, JXWidget::kFixedTop, 20,20, 430,20);
+					JXWidget::kHElastic, JXWidget::kFixedTop, 20,20, 300,20);
 	assert( prompt != NULL );
 	prompt->SetToLabel();
 
 	JXTextButton* cancelButton =
-		jnew JXTextButton(JGetString("cancelButton::JXFSRunFileDialog::JXLayout"), window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 290,100, 60,20);
+		jnew JXTextButton(JGetString("cancelButton::JXFSRunFileDialog::JXLayout"), ftcContainer,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 110,10, 60,20);
 	assert( cancelButton != NULL );
 	cancelButton->SetShortcuts(JGetString("cancelButton::JXFSRunFileDialog::shortcuts::JXLayout"));
 
 	itsHelpButton =
-		jnew JXTextButton(JGetString("itsHelpButton::JXFSRunFileDialog::JXLayout"), window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 190,100, 60,20);
+		jnew JXTextButton(JGetString("itsHelpButton::JXFSRunFileDialog::JXLayout"), ftcContainer,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,10, 60,20);
 	assert( itsHelpButton != NULL );
 	itsHelpButton->SetShortcuts(JGetString("itsHelpButton::JXFSRunFileDialog::shortcuts::JXLayout"));
 
 	itsOKButton =
-		jnew JXTextButton(JGetString("itsOKButton::JXFSRunFileDialog::JXLayout"), window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 370,100, 60,20);
+		jnew JXTextButton(JGetString("itsOKButton::JXFSRunFileDialog::JXLayout"), ftcContainer,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 189,10, 60,20);
 	assert( itsOKButton != NULL );
 	itsOKButton->SetShortcuts(JGetString("itsOKButton::JXFSRunFileDialog::shortcuts::JXLayout"));
 
@@ -174,7 +180,7 @@ JXFSRunFileDialog::BuildWindow
 
 	itsSaveBindingCB =
 		jnew JXTextCheckbox(JGetString("itsSaveBindingCB::JXFSRunFileDialog::JXLayout"), window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 160,140, 280,20);
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 160,140, 270,20);
 	assert( itsSaveBindingCB != NULL );
 	itsSaveBindingCB->SetShortcuts(JGetString("itsSaveBindingCB::JXFSRunFileDialog::shortcuts::JXLayout"));
 
@@ -192,7 +198,7 @@ JXFSRunFileDialog::BuildWindow
 
 	JXStaticText* cmdHint =
 		jnew JXStaticText(JGetString("cmdHint::JXFSRunFileDialog::JXLayout"), window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 20,60, 350,20);
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 20,60, 340,20);
 	assert( cmdHint != NULL );
 	cmdHint->SetFontSize(JGetDefaultFontSize()-2);
 	cmdHint->SetToLabel();
@@ -210,6 +216,7 @@ JXFSRunFileDialog::BuildWindow
 	window->SetTitle("Run command with file");
 	window->LockCurrentMinSize();
 	UseModalPlacement(kJFalse);
+	ftcContainer->SetNeedsInternalFTC();
 
 	ListenTo(itsChooseCmdButton);
 	ListenTo(itsHelpButton);

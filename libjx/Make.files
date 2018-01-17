@@ -23,6 +23,7 @@
 .cpp ./code/jXEventUtil
 .cpp ./code/JXOpenDisplayDialog
 .cpp ./code/JXRaiseWindowTask
+.cpp ./code/JXExpandWindowToFitContentTask
 .cpp ./code/JXSelectionManager
 .cpp ./code/JXSelectionData
 .cpp ./code/JXTextSelection
@@ -43,6 +44,7 @@
 .cpp ./code/JXDocumentMenu
 .cpp ./code/JXUpdateDocMenuTask
 .cpp ./code/JXContainer
+.cpp ./code/JXFTCCell
 .cpp ./code/JXWidget
 .cpp ./code/JXWidgetSet
 .cpp ./code/JXScrollableWidget
@@ -92,10 +94,18 @@
 .cpp ./code/JXPathHistoryMenu
 .cpp ./code/JXFileHistoryMenu
 .cpp ./code/JXXFontMenu
+.cpp ./code/JXInputField
+.cpp ./code/JXIntegerInput
+.cpp ./code/JXFloatInput
+.cpp ./code/JXPasswordInput
+.cpp ./code/JXCharInput
+.cpp ./code/JXPathInput
+.cpp ./code/JXFileInput
 .cpp ./code/JXTEBase
 .cpp ./code/JXTEBlinkCaretTask
 .cpp ./code/JXSearchTextDialog
 .cpp ./code/JXSearchTextButton
+.cpp ./code/JXSearchTextDecorTask
 .cpp ./code/JXRegexInput
 .cpp ./code/JXRegexReplaceInput
 .cpp ./code/JXTextEditorSet
@@ -111,13 +121,6 @@
 .cpp ./code/JXSpellChecker
 .cpp ./code/JXSpellCheckerDialog
 .cpp ./code/JXSpellList
-.cpp ./code/JXInputField
-.cpp ./code/JXIntegerInput
-.cpp ./code/JXFloatInput
-.cpp ./code/JXPasswordInput
-.cpp ./code/JXCharInput
-.cpp ./code/JXPathInput
-.cpp ./code/JXFileInput
 .cpp ./code/JXTable
 .cpp ./code/JXStyleTable
 .cpp ./code/JXStyleTableMenu
@@ -130,6 +133,7 @@
 .cpp ./code/JXPartition
 .cpp ./code/JXHorizPartition
 .cpp ./code/JXVertPartition
+.cpp ./code/JXRestorePartitionGeometry
 .cpp ./code/JXTabGroup
 .cpp ./code/JXScrollTabsTask
 .cpp ./code/JXCardFile
@@ -234,6 +238,7 @@
 .cpp ./code/JXPSPrinter
 .cpp ./code/JXPSPrintSetupDialog
 .cpp ./code/JXPSPageSetupDialog
+.cpp ./code/JXAdjustPSPrintSetupLayoutTask
 .cpp ./code/JXEPSPrinter
 .cpp ./code/JXEPSPrintSetupDialog
 .cpp ./code/JXWebBrowser

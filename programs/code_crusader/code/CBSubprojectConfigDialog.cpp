@@ -82,11 +82,11 @@ CBSubprojectConfigDialog::BuildWindow
 	assert( okButton != NULL );
 	okButton->SetShortcuts(JGetString("okButton::CBSubprojectConfigDialog::shortcuts::JXLayout"));
 
-	JXStaticText* obj1_JXLayout =
-		jnew JXStaticText(JGetString("obj1_JXLayout::CBSubprojectConfigDialog::JXLayout"), window,
+	JXStaticText* fileLabel =
+		jnew JXStaticText(JGetString("fileLabel::CBSubprojectConfigDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 20,60, 70,20);
-	assert( obj1_JXLayout != NULL );
-	obj1_JXLayout->SetToLabel();
+	assert( fileLabel != NULL );
+	fileLabel->SetToLabel();
 
 	itsShouldBuildCB =
 		jnew JXTextCheckbox(JGetString("itsShouldBuildCB::CBSubprojectConfigDialog::JXLayout"), window,

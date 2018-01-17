@@ -41,10 +41,10 @@ public:
 	JSize		GetTabCount() const;
 	JBoolean	GetCurrentTabIndex(JIndex* index) const;
 
-	JXWidgetSet*	InsertTab(const JIndex index, const JString& title,
+	JXContainer*	InsertTab(const JIndex index, const JString& title,
 							  const JBoolean closeable = kJFalse);
-	JXWidgetSet*	PrependTab(const JString& title, const JBoolean closeable = kJFalse);
-	JXWidgetSet*	AppendTab(const JString& title, const JBoolean closeable = kJFalse);
+	JXContainer*	PrependTab(const JString& title, const JBoolean closeable = kJFalse);
+	JXContainer*	AppendTab(const JString& title, const JBoolean closeable = kJFalse);
 
 	void			InsertTab(const JIndex index, const JString& title,
 							  JXWidgetSet* card, const JBoolean closeable = kJFalse);
@@ -53,7 +53,7 @@ public:
 	void			AppendTab(const JString& title, JXWidgetSet* card,
 							  const JBoolean closeable = kJFalse);
 
-	JXWidgetSet*	RemoveTab(const JIndex index);
+	JXContainer*	RemoveTab(const JIndex index);
 	void			DeleteTab(const JIndex index);
 	void			KillFocusOnCurrentTab();
 
@@ -64,7 +64,7 @@ public:
 	void		SetTabCanClose(const JIndex index, const JBoolean closable);
 
 	JBoolean		ShowTab(const JIndex index);
-	JBoolean		ShowTab(JXWidgetSet* card);
+	JBoolean		ShowTab(JXContainer* card);
 	void			ShowPreviousTab();
 	void			ShowNextTab();
 	void			ScrollTabsIntoView();
@@ -124,6 +124,8 @@ protected:
 	virtual void		HandleDNDHere(const JPoint& pt, const JXWidget* source);
 	virtual void		HandleDNDScroll(const JPoint& pt, const JXMouseButton scrollButton,
 										const JXKeyModifiers& modifiers);
+
+	virtual JBoolean	NeedsInternalFTC() const;
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message);
 
@@ -269,7 +271,7 @@ JXTabGroup::GetMouseTabIndex
 
  ******************************************************************************/
 
-inline JXWidgetSet*
+inline JXContainer*
 JXTabGroup::PrependTab
 	(
 	const JString&	title,
@@ -295,7 +297,7 @@ JXTabGroup::PrependTab
 
  ******************************************************************************/
 
-inline JXWidgetSet*
+inline JXContainer*
 JXTabGroup::AppendTab
 	(
 	const JString&	title,
@@ -329,7 +331,7 @@ JXTabGroup::DeleteTab
 	const JIndex index
 	)
 {
-	JXWidgetSet* card = RemoveTab(index);
+	JXContainer* card = RemoveTab(index);
 	jdelete card;
 }
 

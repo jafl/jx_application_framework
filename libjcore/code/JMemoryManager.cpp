@@ -241,7 +241,7 @@ const JSize kDisconnectStrLength       = strlen(kDisconnectStr);
 
 // Constants
 
-	const unsigned char defaultAllocateGarbage = 0xA7;   // A for Allocate :-)
+	const unsigned char defaultAllocateGarbage   = 0xA7; // A for Allocate :-)
 	const unsigned char defaultDeallocateGarbage = 0xD7; // D for Delete   :-)
 
 // Static member data
@@ -254,9 +254,9 @@ const JSize kDisconnectStrLength       = strlen(kDisconnectStr);
 	JBoolean JMemoryManager::theInternalFlag = kJFalse;
 
 	JMemoryManager::DeleteRequest JMemoryManager::theDeallocStack[theStackMax];
-	JSize        JMemoryManager::theDeallocStackSize = 0;
+	JSize                         JMemoryManager::theDeallocStackSize = 0;
 
-	JBoolean      JMemoryManager::theInitializeFlag = kJFalse;
+	JBoolean      JMemoryManager::theInitializeFlag  = kJFalse;
 	unsigned char JMemoryManager::theAllocateGarbage = defaultAllocateGarbage;
 
 	JBoolean      JMemoryManager::theAbortUnknownAllocFlag = kJFalse;
@@ -1303,9 +1303,9 @@ JMemoryManager::ReadValue
 	const JUtf8Byte* string
 	)
 {
-	*hasValue = JConvertToBoolean(string != NULL);
+	*hasValue = JI2B( string != NULL && JString::Compare(string, "no", kJFalse) != 0 );
 
-	if (*hasValue && JString::Compare(string, "no", kJFalse) != 0)
+	if (*hasValue)
 		{
 		const JUtf8Byte* start = string;
 		while ( isspace(*start) )

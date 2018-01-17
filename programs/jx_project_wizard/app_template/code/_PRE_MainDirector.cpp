@@ -127,9 +127,6 @@ const JFileVersion kCurrentPrefsVersion	= 0;
 void
 <PRE>MainDirector::BuildWindow()
 {
-	const JCoordinate minWidth  = 200;
-	const JCoordinate minHeight = 200;
-
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 500,300, "");
@@ -141,7 +138,7 @@ void
 	assert( menuBar != NULL );
 
 	itsToolBar =
-		jnew JXToolBar(<PRE>GetPrefsManager(), k<PRE>MainToolBarID, menuBar, minWidth, minHeight, window,
+		jnew JXToolBar(<PRE>GetPrefsManager(), k<PRE>MainToolBarID, menuBar, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 500,270);
 	assert( itsToolBar != NULL );
 
@@ -149,6 +146,7 @@ void
 
 	window->SetTitle(JGetString("WindowTitle::<PRE>MainDirector"));
 	window->SetWMClass(<PRE>GetWMClassInstance(), <PRE>GetMainWindowClass());
+	window->SetMinSize(200, 200);
 
 	JXImage* image = jnew JXImage(GetDisplay(), <pre>_main_window_icon);
 	assert( image != NULL );

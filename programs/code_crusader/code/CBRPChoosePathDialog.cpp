@@ -185,15 +185,15 @@ CBRPChoosePathDialog::BuildWindow
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 20,370, 204,84);
 	assert( itsPathTypeRG != NULL );
 
-	JXTextRadioButton* obj1_JXLayout =
-		jnew JXTextRadioButton(CBRelPathCSF::kAbsolutePath, JGetString("obj1_JXLayout::CBRPChoosePathDialog::JXLayout"), itsPathTypeRG,
+	JXTextRadioButton* absolutePathRB =
+		jnew JXTextRadioButton(CBRelPathCSF::kAbsolutePath, JGetString("absolutePathRB::CBRPChoosePathDialog::JXLayout"), itsPathTypeRG,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,10, 180,20);
-	assert( obj1_JXLayout != NULL );
+	assert( absolutePathRB != NULL );
 
-	JXTextRadioButton* obj2_JXLayout =
-		jnew JXTextRadioButton(CBRelPathCSF::kProjectRelative, JGetString("obj2_JXLayout::CBRPChoosePathDialog::JXLayout"), itsPathTypeRG,
+	JXTextRadioButton* projectRelativeRB =
+		jnew JXTextRadioButton(CBRelPathCSF::kProjectRelative, JGetString("projectRelativeRB::CBRPChoosePathDialog::JXLayout"), itsPathTypeRG,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,30, 180,20);
-	assert( obj2_JXLayout != NULL );
+	assert( projectRelativeRB != NULL );
 
 	JXTextRadioButton* homeDirRB =
 		jnew JXTextRadioButton(CBRelPathCSF::kHomeRelative, JGetString("homeDirRB::CBRPChoosePathDialog::JXLayout"), itsPathTypeRG,

@@ -176,7 +176,7 @@ CBIncludeInCMakeSource
 	const CBTextFileType type
 	)
 {
-	return JI2B( type == kCBCSourceFT || type == kCBLexFT || kCBBisonFT );
+	return JI2B( type == kCBCSourceFT || type == kCBLexFT || type == kCBBisonFT );
 }
 
 inline JBoolean
@@ -194,7 +194,7 @@ CBIncludeInQMakeSource
 	const CBTextFileType type
 	)
 {
-	return JI2B( type == kCBCSourceFT || type == kCBLexFT || kCBBisonFT );
+	return JI2B( type == kCBCSourceFT || type == kCBLexFT || type == kCBBisonFT );
 }
 
 inline JBoolean

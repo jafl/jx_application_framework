@@ -7,7 +7,6 @@ JX_ROOT := ../..
 
 CODEDIR  := .
 JCOREDIR := ${JX_ROOT}/include/jcore
-JXDIR    := ${JX_ROOT}/include/jx
 
 JLIBDIR     := ${JX_ROOT}/lib
 JCORELIBDIR := ${JX_ROOT}/libjcore
@@ -15,8 +14,7 @@ JCORELIBDIR := ${JX_ROOT}/libjcore
 # Directories to search for header files
 
 SEARCHDIRS := -I${CODEDIR} \
-              -I${JCOREDIR} \
-              -I${JXDIR}
+              -I${JCOREDIR}
 
 # other constants
 

@@ -14,6 +14,7 @@
 
 JListT::CompareResult JCompareIndices(const JIndex& i, const JIndex& j);
 JListT::CompareResult JCompareSizes(const JSize& s1, const JSize& s2);
+JListT::CompareResult JCompareCoordinates(const JCoordinate& x1, const JCoordinate& x2);
 JListT::CompareResult JCompareUInt64(const JUInt64& i1, const JUInt64& i2);
 
 void		JAdjustIndexAfterInsert(const JIndex firstInsertedIndex, const JSize count,

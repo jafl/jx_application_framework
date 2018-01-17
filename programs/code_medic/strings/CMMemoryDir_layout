@@ -1,4 +1,4 @@
 0
-obj2_JXLayout::CMMemoryDir::JXLayout "# of items:"
-obj1_JXLayout::CMMemoryDir::JXLayout "Expression:"
+exprLabel::CMMemoryDir::JXLayout "Expression:"
+countLabel::CMMemoryDir::JXLayout "# of items:"
 itsDisplayTypeMenu::CMMemoryDir::JXLayout "Display as:"

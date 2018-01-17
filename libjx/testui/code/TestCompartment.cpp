@@ -3,7 +3,7 @@
 
 	Class for testing JXHorizPartition and JXVertPartition.
 
-	BASE CLASS = JXDownRect
+	BASE CLASS = JXWidget
 
 	Written by John Lindal.
 
@@ -35,7 +35,7 @@ TestCompartment::TestCompartment
 	const JCoordinate		h
 	)
 	:
-	JXDownRect(enclosure, hSizing, vSizing, x,y, w,h)
+	JXWidget(enclosure, hSizing, vSizing, x,y, w,h)
 {
 	itsDirector = director;
 	SetBorderWidth(kJXDefaultBorderWidth);
@@ -51,21 +51,14 @@ TestCompartment::~TestCompartment()
 }
 
 /******************************************************************************
- Draw (virtual protected)
-
-	Center the message in the aperture.
+ IsElastic (private)
 
  ******************************************************************************/
 
-void
-TestCompartment::Draw
-	(
-	JXWindowPainter&	p,
-	const JRect&		rect
-	)
+JBoolean
+TestCompartment::IsElastic()
+	const
 {
-	// figure out if we are elastic
-
 	JBoolean isElastic = kJFalse;
 
 	JXContainer* enclosure           = GetEnclosure();
@@ -96,7 +89,39 @@ TestCompartment::Draw
 		isElastic = JConvertToBoolean( ourIndex == elasticIndex || elasticIndex == 0 );
 		}
 
-	// draw text
+	return isElastic;
+}
+
+/******************************************************************************
+ DrawBorder (virtual protected)
+
+ ******************************************************************************/
+
+void
+TestCompartment::DrawBorder
+	(
+	JXWindowPainter&	p,
+	const JRect&		frame
+	)
+{
+	JXDrawDownFrame(p, frame, GetBorderWidth());
+}
+
+/******************************************************************************
+ Draw (virtual protected)
+
+	Center the message in the aperture.
+
+ ******************************************************************************/
+
+void
+TestCompartment::Draw
+	(
+	JXWindowPainter&	p,
+	const JRect&		rect
+	)
+{
+	const JBoolean isElastic = IsElastic();
 
 	const JRect ap         = GetAperture();
 	const JSize lineHeight = p.GetLineHeight();
@@ -193,4 +218,23 @@ TestCompartment::HandleMouseUp
 			itsDirector->InsertVertCompartment(ourIndex+1);
 			}
 		}
+}
+
+/******************************************************************************
+ GetFTCMinContentSize (virtual protected)
+
+ ******************************************************************************/
+
+JCoordinate
+TestCompartment::GetFTCMinContentSize
+	(
+	const JBoolean horizontal
+	)
+	const
+{
+	const JFont& f = GetFontManager()->GetDefaultFont();
+
+	return (horizontal ?
+			(f.GetStringWidth("Left click to insert before") + 10) :
+			(f.GetLineHeight() * (IsElastic() ? 4 : 3) + 10));
 }

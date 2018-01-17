@@ -16,9 +16,9 @@ class SyGFilterInput : public JXInputField
 public:
 
 	SyGFilterInput(JXWidget* widget, JXContainer* enclosure,
-				const HSizingOption hSizing, const VSizingOption vSizing,
-				const JCoordinate x, const JCoordinate y,
-				const JCoordinate w, const JCoordinate h);
+					const HSizingOption hSizing, const VSizingOption vSizing,
+					const JCoordinate x, const JCoordinate y,
+					const JCoordinate w, const JCoordinate h);
 
 	virtual ~SyGFilterInput();
 

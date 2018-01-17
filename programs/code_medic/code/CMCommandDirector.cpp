@@ -480,7 +480,7 @@ CMCommandDirector::BuildWindow()
 	assert( menuBar != NULL );
 
 	itsToolBar =
-		jnew JXToolBar(CMGetPrefsManager(), kCmdWindowToolBarID, menuBar, 300, 200, window,
+		jnew JXToolBar(CMGetPrefsManager(), kCmdWindowToolBarID, menuBar, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 500,440);
 	assert( itsToolBar != NULL );
 
@@ -521,6 +521,7 @@ CMCommandDirector::BuildWindow()
 	window->SetCloseAction(JXWindow::kDeactivateDirector);
 	window->ShouldFocusWhenShow(kJTrue);
 	window->SetWMClass(CMGetWMClassInstance(), CMGetCommandWindowClass());
+	window->SetMinSize(300, 200);
 	CMGetPrefsManager()->GetWindowSize(kCmdWindSizeID, window);
 
 	JXDisplay* display = GetDisplay();
@@ -539,9 +540,13 @@ CMCommandDirector::BuildWindow()
 	ListenTo(itsHistoryMenu);
 
 	itsProgramButton->SetFontName(JGetMonospaceFontName());
-	itsProgramButton->SetFontSize(kJDefaultMonoFontSize);
+	itsProgramButton->SetFontSize(JGetDefaultMonoFontSize());
 	itsProgramButton->SetActive(itsLink->GetFeature(CMLink::kSetProgram));
 	ListenTo(itsProgramButton);
+
+	JPoint p = itsProgramButton->GetPadding();
+	p.y      = 0;
+	itsProgramButton->SetPaddingBeforeFTC(p);
 
 	CMTextDisplayBase::AdjustFont(itsArgInput);
 	itsArgInput->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);

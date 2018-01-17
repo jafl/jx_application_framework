@@ -40,7 +40,7 @@ jxinstall: makemake
 	@strip ${call EXE, makemake}
 	@cp makemake ${JX_INSTALL_ROOT}/
 
-	@if { which makemake > /dev/null; } then \
+	@if { command -v makemake > /dev/null; } then \
          { \
          echo "makemake successfully installed"; \
          } \

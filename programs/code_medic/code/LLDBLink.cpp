@@ -9,7 +9,6 @@
 
  *****************************************************************************/
 
-
 #include "LLDBLink.h"
 #include "LLDBBreakpointManager.h"
 #include "LLDBWelcomeTask.h"
@@ -1715,7 +1714,7 @@ LLDBLink::SendMedicCommand
 
 	JXUrgentTask* task = jnew LLDBRunBackgroundCommandTask(command);
 	assert( task != NULL );
-	(JXGetApplication())->InstallUrgentTask(task);
+	task->Go();
 }
 
 /******************************************************************************

@@ -60,7 +60,7 @@ JXUNDialogBase::Init
 		}
 	text->SetText(message);
 
-	// adjust window size to fit text
+	// adjust window size to fit text - more sophisticated than ftc
 
 	const JRect apG = text->GetApertureGlobal();
 	const JRect dB  = GetDisplay()->GetBounds();
@@ -112,6 +112,8 @@ JXUNDialogBase::Init
 	window->LockCurrentSize();
 	window->PlaceAsDialogWindow();
 	window->HideFromTaskbar();
+
+	text->SetSizing(JXWidget::kHElastic, JXWidget::kFixedTop);		// allow ftc expansion
 
 	// display the icon
 

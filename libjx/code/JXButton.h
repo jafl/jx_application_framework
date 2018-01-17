@@ -44,6 +44,8 @@ protected:
 								  const JXButtonStates& buttonStates,
 								  const JXKeyModifiers& modifiers);
 
+	virtual JRect	GetFrameForFTC() const;
+
 private:
 
 	JBoolean	itsIsReturnButtonFlag;

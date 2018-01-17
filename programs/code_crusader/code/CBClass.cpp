@@ -396,22 +396,9 @@ CBClass::SetSelected
 
  ******************************************************************************/
 
-CBClass::ForceVisibleAction
+void
 CBClass::ForceVisible()
 {
-	if (IsVisible())
-		{
-		return kDoNothing;
-		}
-	else if (IsEnum())
-		{
-		return kShowEnums;
-		}
-	else if (!HasParents() && !HasChildren())
-		{
-		return (itsDeclType == kClassType ? kShowLoneClasses : kShowLoneStructs);
-		}
-
 	CBClass* c = this;
 	CBClass* parent;
 	while (c->GetParent(1, &parent) &&
@@ -420,8 +407,6 @@ CBClass::ForceVisible()
 		parent->SetCollapsed(kJFalse);
 		c = parent;
 		}
-
-	return kDoNothing;
 }
 
 /******************************************************************************
@@ -1287,6 +1272,7 @@ CBClass::CalcFrameHeight
 	)
 {
 	JFont font = fontManager->GetDefaultFont();
+	font.SetSize(fontSize);
 	font.SetStyle(kConcreteLabelStyle);
 	return 2*kVMarginWidth + font.GetLineHeight();
 }

@@ -14,6 +14,7 @@
 
 class JBroadcasterList;
 class JPointerClearList;
+class JString;
 
 class JBroadcaster
 {
@@ -46,6 +47,8 @@ public:
 	JSize		GetSenderCount() const;
 	JBoolean	HasRecipients() const;
 	JSize		GetRecipientCount() const;
+
+	virtual JString	ToString() const;
 
 protected:
 

@@ -1,3 +1,16 @@
+medic-lldb
+	does not display new execution ptr location after "set execution point"
+
+jcc:
+	move VCS detail code from CBDiffFileDialog to jVCSUtil?
+
+	fix SVN diff to use svn cat -r BASE or PREV
+	re-enable "compare with subversion" and detect .svn just like .git
+
+-----
+
+SBAddress:  https://reviews.llvm.org/D22831
+
 https://reviews.llvm.org/differential/
 
 document SB*.h
@@ -21,9 +34,6 @@ multi-pane editing
 		double appropriate window dimension, if screen has space
 	each partition needs small [x] to close
 	small [+] buttons to split either horiz or vert
-
-OSX window placement
-	wmReshowOffset pushes window up instead of maintaining vertical position
 
 -----
 
@@ -148,7 +158,6 @@ ASIO
 	requires exceptions - only worth switching when ACE no longer works without
 
 OSX window placement
-	modal windows, e.g., File Chooser, still migrate upward
 	System G windows in dirs with no prefs open downward
 	jcc man page window and "find file" result window appear under active window
 

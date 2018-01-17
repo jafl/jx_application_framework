@@ -41,6 +41,8 @@ THXKeyPad::THXKeyPad
 {
 	itsExpr = NULL;
 	CreateButtons();
+
+	SetNeedsInternalFTC();
 }
 
 /******************************************************************************

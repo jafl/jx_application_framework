@@ -146,11 +146,11 @@ THXBaseConvDirector::BuildWindow()
 					JXWidget::kHElastic, JXWidget::kFixedTop, 80,20, 80,20);
 	assert( its10Input != NULL );
 
-	JXStaticText* obj1_JXLayout =
-		jnew JXStaticText(JGetString("obj1_JXLayout::THXBaseConvDirector::JXLayout"), window,
+	JXStaticText* base10Label =
+		jnew JXStaticText(JGetString("base10Label::THXBaseConvDirector::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 60,20);
-	assert( obj1_JXLayout != NULL );
-	obj1_JXLayout->SetToLabel();
+	assert( base10Label != NULL );
+	base10Label->SetToLabel();
 
 	itsHelpButton =
 		jnew JXTextButton(JGetString("itsHelpButton::THXBaseConvDirector::JXLayout"), window,
@@ -163,33 +163,33 @@ THXBaseConvDirector::BuildWindow()
 					JXWidget::kHElastic, JXWidget::kFixedTop, 80,50, 80,20);
 	assert( its2Input != NULL );
 
-	JXStaticText* obj2_JXLayout =
-		jnew JXStaticText(JGetString("obj2_JXLayout::THXBaseConvDirector::JXLayout"), window,
+	JXStaticText* base2Label =
+		jnew JXStaticText(JGetString("base2Label::THXBaseConvDirector::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,50, 60,20);
-	assert( obj2_JXLayout != NULL );
-	obj2_JXLayout->SetToLabel();
+	assert( base2Label != NULL );
+	base2Label->SetToLabel();
 
 	its8Input =
 		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 80,70, 80,20);
 	assert( its8Input != NULL );
 
-	JXStaticText* obj3_JXLayout =
-		jnew JXStaticText(JGetString("obj3_JXLayout::THXBaseConvDirector::JXLayout"), window,
+	JXStaticText* base8Label =
+		jnew JXStaticText(JGetString("base8Label::THXBaseConvDirector::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,70, 60,20);
-	assert( obj3_JXLayout != NULL );
-	obj3_JXLayout->SetToLabel();
+	assert( base8Label != NULL );
+	base8Label->SetToLabel();
 
 	its16Input =
 		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 80,90, 80,20);
 	assert( its16Input != NULL );
 
-	JXStaticText* obj4_JXLayout =
-		jnew JXStaticText(JGetString("obj4_JXLayout::THXBaseConvDirector::JXLayout"), window,
+	JXStaticText* base16Label =
+		jnew JXStaticText(JGetString("base16Label::THXBaseConvDirector::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,90, 60,20);
-	assert( obj4_JXLayout != NULL );
-	obj4_JXLayout->SetToLabel();
+	assert( base16Label != NULL );
+	base16Label->SetToLabel();
 
 // end JXLayout
 

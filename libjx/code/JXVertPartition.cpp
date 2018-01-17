@@ -11,6 +11,7 @@
  ******************************************************************************/
 
 #include <JXVertPartition.h>
+#include <JXRestorePartitionGeometry.h>
 #include <JXDragPainter.h>
 #include <JXColormap.h>
 #include <JXCursor.h>
@@ -77,6 +78,10 @@ JXVertPartition::JXVertPartitionX()
 	SetDefaultCursor(JXGetDragHorizLineCursor(GetDisplay()));
 	itsDragAllLineCursor = JXGetDragAllHorizLineCursor(GetDisplay());
 
+	itsFTCSizes    = NULL;
+	itsFTCMinSizes = NULL;
+	itsSavedGeom   = NULL;
+
 	SetElasticSize();
 }
 
@@ -87,6 +92,9 @@ JXVertPartition::JXVertPartitionX()
 
 JXVertPartition::~JXVertPartition()
 {
+	jdelete itsFTCSizes;
+	jdelete itsFTCMinSizes;
+	jdelete itsSavedGeom;
 }
 
 /******************************************************************************
@@ -118,18 +126,19 @@ JXVertPartition::CreateCompartment
 		jnew JXWidgetSet(this, kHElastic, kFixedTop,
 						0,position, GetApertureWidth(), size);
 	assert( compartment != NULL );
+	compartment->SetNeedsInternalFTC();
 	return compartment;
 }
 
 /******************************************************************************
- SetCompartmentSizes (virtual protected)
+ UpdateCompartmentSizes (virtual protected)
 
 	Adjust the width of each compartment.
 
  ******************************************************************************/
 
 void
-JXVertPartition::SetCompartmentSizes()
+JXVertPartition::UpdateCompartmentSizes()
 {
 	const JCoordinate w = GetApertureWidth();
 
@@ -329,4 +338,146 @@ JXVertPartition::AdjustCursor
 		{
 		JXPartition::AdjustCursor(pt, modifiers);
 		}
+}
+
+/******************************************************************************
+ RunInternalFTC (virtual protected)
+
+	Expand and return new size.
+
+ ******************************************************************************/
+
+JBoolean
+JXVertPartition::RunInternalFTC
+	(
+	const JBoolean	horizontal,
+	JCoordinate*	newSize
+	)
+{
+	JPtrArrayIterator<JXContainer> iter(GetCompartments());
+	JXContainer* obj;
+
+	if (horizontal)
+		{
+		JCoordinate w = 0;
+		while (iter.Next(&obj))
+			{
+			JCoordinate w1;
+			if (obj->RunInternalFTC(kJTrue, &w1))
+				{
+				obj->FTCAdjustSize(w1 - obj->GetApertureWidth(), 0);
+				}
+			else
+				{
+				w1 = obj->GetApertureWidth();
+				}
+
+			w = JMax(w, w1);
+			}
+
+		iter.MoveTo(kJIteratorStartAtBeginning, 0);
+		while (iter.Next(&obj))
+			{
+			obj->AdjustSize(w - obj->GetApertureWidth(), 0);
+			}
+
+		*newSize = w + 2 * GetBorderWidth();
+		}
+	else	// vertical
+		{
+		itsFTCSizes = jnew JArray<JCoordinate>;
+		assert( itsFTCSizes != NULL );
+
+		itsFTCMinSizes = jnew JArray<JCoordinate>;
+		assert( itsFTCMinSizes != NULL );
+
+		JCoordinate sum = 0;
+		JIndex i        = 1;
+		while (iter.Next(&obj))
+			{
+			JCoordinate h, delta;
+			const JRect padding = obj->ComputePaddingForInternalFTC();
+			if (obj->RunInternalFTC(kJFalse, &h))
+				{
+				h    += padding.top + padding.bottom;
+				delta = h - obj->GetApertureHeight();
+				obj->FTCAdjustSize(0, delta);
+				}
+			else
+				{
+				h     = GetCompartmentSize(i);
+				delta = 0;
+				}
+
+			itsFTCSizes->AppendElement(h);
+			itsFTCMinSizes->AppendElement(JPartition::GetMinCompartmentSize(i) + delta);
+			sum += h;
+			i++;
+			}
+
+		*newSize = sum + (itsFTCSizes->GetElementCount() - 1) * kDragRegionSize;
+		}
+
+	return kJTrue;
+}
+
+/******************************************************************************
+ FTCAdjustSize (virtual protected)
+
+ ******************************************************************************/
+
+void
+JXVertPartition::FTCAdjustSize
+	(
+	const JCoordinate dw,
+	const JCoordinate dh
+	)
+{
+	JXPartition::FTCAdjustSize(dw, dh);
+
+	if (itsFTCSizes != NULL)
+		{
+		SetCompartmentSizes(*itsFTCSizes);
+		jdelete itsFTCSizes;
+		itsFTCSizes = NULL;
+
+		SetMinCompartmentSizes(*itsFTCMinSizes);
+		jdelete itsFTCMinSizes;
+		itsFTCMinSizes = NULL;
+
+		if (itsSavedGeom != NULL)
+			{
+			RestoreGeometry(*itsSavedGeom);
+			jdelete itsSavedGeom;
+			itsSavedGeom = NULL;
+			}
+		}
+}
+
+/******************************************************************************
+ SaveGeometryForLater (virtual protected)
+
+ ******************************************************************************/
+
+JBoolean
+JXVertPartition::SaveGeometryForLater
+	(
+	const JArray<JCoordinate>& sizes
+	)
+{
+	if (itsSavedGeom == NULL)
+		{
+		itsSavedGeom = jnew JArray<JCoordinate>(sizes);
+		assert( itsSavedGeom != NULL );
+
+		JXUrgentTask* geomTask = jnew JXRestorePartitionGeometry(this);
+		assert( geomTask != NULL );
+		geomTask->Go();
+		}
+	else
+		{
+		*itsSavedGeom = sizes;
+		}
+
+	return kJTrue;
 }

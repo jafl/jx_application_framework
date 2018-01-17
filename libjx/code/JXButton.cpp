@@ -242,3 +242,24 @@ JXButton::SetShortcuts
 
 	Refresh();
 }
+
+/******************************************************************************
+ GetFrameForFTC
+
+	Assumes that widgets are laid out in nested tables and do not overlap.
+	Builds the implicit tables and expands the cells and their contents so
+	text is not cut off.
+
+ ******************************************************************************/
+
+JRect
+JXButton::GetFrameForFTC()
+	const
+{
+	JRect r = JXWidget::GetFrameForFTC();
+	if (itsIsReturnButtonFlag)
+		{
+		r.Shrink(1, 1);
+		}
+	return r;
+}

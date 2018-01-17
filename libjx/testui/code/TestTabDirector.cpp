@@ -66,9 +66,9 @@ TestTabDirector::BuildWindow()
 								 5, 5, 290, 290);
 	assert( itsTabGroup != NULL );
 
-	JXWidgetSet* card3 = itsTabGroup->AppendTab(JGetString("Tab3Label::TestTabDirector"));
-	JXWidgetSet* card1 = itsTabGroup->PrependTab(JGetString("Tab1Label::TestTabDirector"));
-	JXWidgetSet* card2 = itsTabGroup->InsertTab(2, JGetString("Tab2Label::TestTabDirector"));
+	JXContainer* card3 = itsTabGroup->AppendTab(JGetString("Tab3Label::TestTabDirector"));
+	JXContainer* card1 = itsTabGroup->PrependTab(JGetString("Tab1Label::TestTabDirector"));
+	JXContainer* card2 = itsTabGroup->InsertTab(2, JGetString("Tab2Label::TestTabDirector"));
 
 	// card 1
 
@@ -129,7 +129,6 @@ TestTabDirector::BuildWindow()
 	assert( itsAddTabButton != NULL );
 	ListenTo(itsAddTabButton);
 
-
 	JXIntegerInput* input =
 		jnew JXIntegerInput(card2, JXWidget::kHElastic, JXWidget::kFixedTop,
 						   20, 60, 250, 20);
@@ -170,7 +169,7 @@ TestTabDirector::Receive
 		{
 		JString s(itsNextTabIndex);
 		s.Prepend(JGetString("TabLabelPrefix::TestTabDirector"));
-		JXWidgetSet* card = itsTabGroup->AppendTab(s, kJTrue);
+		JXContainer* card = itsTabGroup->AppendTab(s, kJTrue);
 		itsNextTabIndex++;
 
 		JXTextButton* removeButton =

@@ -61,6 +61,18 @@ JXTextRadioButton::~JXTextRadioButton()
 }
 
 /******************************************************************************
+ ToString (virtual)
+
+ ******************************************************************************/
+
+JString
+JXTextRadioButton::ToString()
+	const
+{
+	return JXRadioButton::ToString() + ": " + itsLabel;
+}
+
+/******************************************************************************
  Set label
 
  ******************************************************************************/
@@ -180,4 +192,21 @@ JXTextRadioButton::DrawBorder
 	const JRect&		frame
 	)
 {
+}
+
+/******************************************************************************
+ GetFTCMinContentSize (virtual protected)
+
+ ******************************************************************************/
+
+JCoordinate
+JXTextRadioButton::GetFTCMinContentSize
+	(
+	const JBoolean horizontal
+	)
+	const
+{
+	return (horizontal ?
+			JMax(GetApertureWidth(), GetPreferredWidth()) :
+			JMax(GetApertureHeight(), kBoxHeight, JRound(itsFont.GetLineHeight() * 1.25)));
 }

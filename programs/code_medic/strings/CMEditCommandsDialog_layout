@@ -1,9 +1,9 @@
 0
 okButton::CMEditCommandsDialog::JXLayout "OK"
-obj1_JXLayout::CMEditCommandsDialog::JXLayout "Custom gdb commands:"
+hint::CMEditCommandsDialog::JXLayout "(Note:  ## will be replaced by the text that you select.)"
 cancelButton::CMEditCommandsDialog::JXLayout "Cancel"
 itsNewButton::CMEditCommandsDialog::shortcuts::JXLayout "#N"
 itsNewButton::CMEditCommandsDialog::JXLayout "New"
 itsRemoveButton::CMEditCommandsDialog::JXLayout "Remove"
+gdbCmdTitle::CMEditCommandsDialog::JXLayout "Custom gdb commands:"
 okButton::CMEditCommandsDialog::shortcuts::JXLayout "^M"
-obj2_JXLayout::CMEditCommandsDialog::JXLayout "(Note:  ## will be replaced by the text that you select.)"

@@ -16,6 +16,7 @@
 #include <JXDNDManager.h>
 #include <JXHintManager.h>
 #include <JXRaiseWindowTask.h>
+#include <JXExpandWindowToFitContentTask.h>
 #include <JXTextMenu.h>
 #include <JXDisplay.h>
 #include <JXGC.h>
@@ -137,7 +138,8 @@ JXWindow::JXWindow
 	itsDockXWindow(None),
 	itsDockWidget(NULL),
 	itsDockingTask(NULL),
-	itsChildWindowList(NULL)
+	itsChildWindowList(NULL),
+	itsExpandTask(NULL)
 {
 	assert( director != NULL );
 
@@ -229,6 +231,21 @@ JXWindow::JXWindow
 
 	itsDisplay->WindowCreated(this, itsXWindow);
 	itsDirector->SetWindow(this);
+
+	// expand window after creator's BuildWindow() finishes
+
+	if (!isOverlay)
+		{
+		itsExpandTask = jnew JXExpandWindowToFitContentTask(this);
+		assert( itsExpandTask != NULL );
+		itsExpandTask->Go();
+
+		const JXKeyModifiers& mod = itsDisplay->GetLatestKeyModifiers();
+		if (mod.meta() && mod.control() && mod.hyper())
+			{
+			JXContainer::DebugExpandToFitContent(!mod.shift());
+			}
+		}
 }
 
 /******************************************************************************
@@ -542,6 +559,12 @@ JXWindow::Resume()
 void
 JXWindow::Show()
 {
+	if (itsExpandTask != NULL)
+		{
+		itsExpandTask->ShowAfterFTC();
+		return;
+		}
+
 	if (!IsVisible() && (itsDockingTask == NULL || itsDockingTask->IsDone()))
 		{
 		JXContainer::Show();
@@ -692,7 +715,7 @@ JXWindow::Raise
 			const JUInt32 desktop = *reinterpret_cast<JUInt32*>(xdata);
 
 			XEvent e;
-			memset(&e, 0, sizeof(e));
+			bzero(&e, sizeof(e));
 			e.type                 = ClientMessage;
 			e.xclient.display      = *itsDisplay;
 			e.xclient.window       = itsXWindow;
@@ -716,7 +739,7 @@ JXWindow::Raise
 	if (grabKeyboardFocus)
 		{
 		XEvent e;
-		memset(&e, 0, sizeof(e));
+		bzero(&e, sizeof(e));
 		e.type                 = ClientMessage;
 		e.xclient.display      = *itsDisplay;
 		e.xclient.window       = itsXWindow;
@@ -1338,6 +1361,8 @@ JXWindow::AnalyzeWindowManager
 
 	JXWindow* w = jnew JXWindow(dir, 100, 100, JString("Testing Window Manager", 0, kJFalse));
 	assert( w != NULL );
+	jdelete w->itsExpandTask;
+	w->itsExpandTask = NULL;
 
 	// test placing visible window (fvwm2)
 
@@ -1501,8 +1526,8 @@ JXWindow::GetRootChild
 /******************************************************************************
  Place (virtual)
 
-	We can't optimize to do nothing if the size won't change because
-	there might be geometry events waiting in the queue.
+	We can't short-circuit if the size won't change because there might be
+	geometry events waiting in the queue.
 
  ******************************************************************************/
 
@@ -1646,8 +1671,8 @@ JXWindow::UndockedMove
 /******************************************************************************
  SetSize (virtual)
 
-	We can't optimize to do nothing if the size won't change because
-	there might be geometry events waiting in the queue.
+	We can't short-circuit if the size won't change because there might be
+	geometry events waiting in the queue.
 
  ******************************************************************************/
 
@@ -1671,8 +1696,9 @@ JXWindow::SetSize
 void
 JXWindow::UndockedSetSize
 	(
-	const JCoordinate origW,
-	const JCoordinate origH
+	const JCoordinate	origW,
+	const JCoordinate	origH,
+	const JBoolean		ftc
 	)
 {
 	JCoordinate w = origW;
@@ -1705,7 +1731,7 @@ JXWindow::UndockedSetSize
 		XSetWMNormalHints(*itsDisplay, itsXWindow, &sizeHints);
 		}
 
-	UpdateBounds(w, h);
+	UpdateBounds(w, h, ftc);
 }
 
 /******************************************************************************
@@ -1721,6 +1747,93 @@ JXWindow::AdjustSize
 	)
 {
 	SetSize(itsBounds.width() + dw, itsBounds.height() + dh);
+}
+
+/******************************************************************************
+ FTCAdjustSize (virtual protected)
+
+	Adjust our size without affecting enclosed widgets, because they have
+	already been resized.  To avoid size drift when storing prefs, save the
+	delta so we can subtract it before saving our geometry.
+
+ ******************************************************************************/
+
+void
+JXWindow::FTCAdjustSize
+	(
+	const JCoordinate dw,
+	const JCoordinate dh
+	)
+{
+	if (itsHasMinSizeFlag || itsHasMaxSizeFlag)
+		{
+		long supplied;
+		XSizeHints sizeHints;
+		if (!XGetWMNormalHints(*itsDisplay, itsXWindow, &sizeHints, &supplied))
+			{
+			sizeHints.flags = 0;
+			}
+
+		if (itsHasMinSizeFlag)
+			{
+			itsMinSize.x += dw;
+			itsMinSize.y += dh;
+
+			sizeHints.min_width  = itsMinSize.x;
+			sizeHints.min_height = itsMinSize.y;
+			}
+
+		if (itsHasMaxSizeFlag)
+			{
+			itsMaxSize.x += dw;
+			itsMaxSize.y += dh;
+
+			sizeHints.max_width  = itsMaxSize.x;
+			sizeHints.max_height = itsMaxSize.y;
+			}
+
+		XSetWMNormalHints(*itsDisplay, itsXWindow, &sizeHints);
+		itsDisplay->Flush();
+		}
+
+	// adjust layout to fit original size
+
+	const JCoordinate origW = itsBounds.width(),
+					  origH = itsBounds.height();
+
+	JCoordinate w = origW + dw,
+				h = origH + dh;
+
+	if (itsHasMinSizeFlag)
+		{
+		w = JMax(w, itsMinSize.x);
+		h = JMax(h, itsMinSize.y);
+		}
+
+	if (itsHasMaxSizeFlag)
+		{
+		w = JMin(w, itsMaxSize.x);
+		h = JMin(h, itsMaxSize.y);
+		}
+
+	if (theDebugFTCFlag)
+		{
+		GetFTCLog() << "Resizing window contents by dw=" << w - (origW + dw)
+					<< " dh=" << h - (origH + dh) << std::endl;
+		}
+	NotifyBoundsResized(w - (origW + dw), h - (origH + dh));
+
+	itsFTCDelta.x += w - origW;		// save difference created by min/max
+	itsFTCDelta.y += h - origH;
+
+	if (itsIsDockedFlag)
+		{
+		itsUndockedGeom.SetSize(w, h);
+		}
+	else
+		{
+		UndockedSetSize(w, h, kJTrue);
+		}
 }
 
 /******************************************************************************
@@ -1751,9 +1864,10 @@ JXWindow::UpdateFrame()
 	itsDesktopLoc.Set(x,y);		// also at end of Place()
 	itsWMFrameLoc =
 		itsIsDockedFlag ? JPoint(origX, origY) : CalcDesktopLocation(x,y, -1);
-	if (itsIsMappedFlag)
+	if (itsIsMappedFlag &&
+		!(itsHasMinSizeFlag && (w < itsMinSize.x || h < itsMinSize.y)))
 		{
-		UpdateBounds(w, h);
+		UpdateBounds(w, h, kJFalse);
 		}
 }
 
@@ -1765,8 +1879,9 @@ JXWindow::UpdateFrame()
 void
 JXWindow::UpdateBounds
 	(
-	const JCoordinate w,
-	const JCoordinate h
+	const JCoordinate	w,
+	const JCoordinate	h,
+	const JBoolean		ftc
 	)
 {
 	const JCoordinate dw = w - itsBounds.width();
@@ -1778,7 +1893,10 @@ JXWindow::UpdateBounds
 
 	if (dw != 0 || dh != 0)
 		{
-		NotifyBoundsResized(dw,dh);
+		if (!ftc)
+			{
+			NotifyBoundsResized(dw,dh);
+			}
 
 		if (itsBufferPixmap != None)
 			{
@@ -2307,7 +2425,7 @@ JXWindow::ReadGeometry
 void
 JXWindow::ReadGeometry
 	(
-	std::istream&		input,
+	std::istream&	input,
 	const JBoolean	skipDocking
 	)
 {
@@ -2428,12 +2546,11 @@ JXWindow::WriteGeometry
 	const
 {
 	output << ' ' << kCurrentGeometryDataVersion;
-
 	if (itsIsDockedFlag)
 		{
 		output << ' ' << itsUndockedWMFrameLoc;
-		output << ' ' << itsUndockedGeom.width();
-		output << ' ' << itsUndockedGeom.height();
+		output << ' ' << itsUndockedGeom.width() - itsFTCDelta.x;
+		output << ' ' << itsUndockedGeom.height() - itsFTCDelta.y;
 		output << ' ' << kJFalse;
 		}
 	else
@@ -2446,8 +2563,8 @@ JXWindow::WriteGeometry
 			}
 
 		output << ' ' << loc;
-		output << ' ' << GetFrameWidth();
-		output << ' ' << GetFrameHeight();
+		output << ' ' << GetFrameWidth() - itsFTCDelta.x;
+		output << ' ' << GetFrameHeight() - itsFTCDelta.y;
 		output << ' ' << itsIsIconifiedFlag;
 		}
 
@@ -3666,7 +3783,12 @@ JXWindow::SwitchFocusToWidget
 	JXWidget* widget
 	)
 {
-	if (itsFocusWidget == widget)
+	if (itsExpandTask != NULL)
+		{
+		itsExpandTask->FocusAfterFTC(widget);
+		return kJTrue;
+		}
+	else if (itsFocusWidget == widget)
 		{
 		return kJTrue;
 		}

@@ -224,7 +224,7 @@ SyGTreeDir::BuildWindow
 	assert( menuBar != NULL );
 
 	itsToolBar =
-		jnew JXToolBar(SyGGetPrefsMgr(), kSMainToolBarID, menuBar, 200,200, window,
+		jnew JXToolBar(SyGGetPrefsMgr(), kSMainToolBarID, menuBar, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 420,450);
 	assert( itsToolBar != NULL );
 

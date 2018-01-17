@@ -19,6 +19,7 @@
 
 #include <JXCheckboxGroup.h>
 #include <JXCheckbox.h>
+#include <JXDeleteObjectTask.h>
 #include <jAssert.h>
 
 /******************************************************************************
@@ -224,6 +225,37 @@ JXCheckboxGroup::Receive
 		{
 		JContainer::Receive(sender, message);
 		}
+}
+
+/******************************************************************************
+ ReceiveGoingAway (virtual protected)
+
+	The given sender has been deleted.
+
+ ******************************************************************************/
+
+void
+JXCheckboxGroup::ReceiveGoingAway
+	(
+	JBroadcaster* sender
+	)
+{
+	const JSize cbCount = itsCBList->GetElementCount();
+	for (JIndex i=1; i<=cbCount; i++)
+		{
+		if (itsCBList->NthElement(i) == sender)
+			{
+			itsCBList->RemoveElement(i);
+			break;
+			}
+		}
+
+	if (itsCBList->IsEmpty())
+		{
+		JXDeleteObjectTask<JXCheckboxGroup>::Delete(this);
+		}
+
+	JContainer::ReceiveGoingAway(sender);
 }
 
 /******************************************************************************

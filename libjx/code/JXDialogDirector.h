@@ -22,6 +22,7 @@ public:
 
 	virtual ~JXDialogDirector();
 
+	JBoolean	IsModal() const;
 	JXButton*	GetOKButton() const;
 	JXButton*	GetCancelButton() const;
 	void		SetButtons(JXButton* okButton, JXButton* cancelButton);
@@ -84,6 +85,18 @@ public:
 		};
 };
 
+
+/******************************************************************************
+ IsModal
+
+ ******************************************************************************/
+
+inline JBoolean
+JXDialogDirector::IsModal()
+	const
+{
+	return itsModalFlag;
+}
 
 /******************************************************************************
  BeginDialog

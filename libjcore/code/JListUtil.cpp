@@ -62,6 +62,32 @@ JCompareSizes
 }
 
 /******************************************************************************
+ JCompareCoordinates
+
+ ******************************************************************************/
+
+JListT::CompareResult
+JCompareCoordinates
+	(
+	const JCoordinate& x1,
+	const JCoordinate& x2
+	)
+{
+	if (x1 < x2)
+		{
+		return JListT::kFirstLessSecond;
+		}
+	else if (x1 == x2)
+		{
+		return JListT::kFirstEqualSecond;
+		}
+	else
+		{
+		return JListT::kFirstGreaterSecond;
+		}
+}
+
+/******************************************************************************
  JCompareUInt64
 
  ******************************************************************************/

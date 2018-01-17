@@ -261,9 +261,6 @@ JX2DPlotPrintEPSDialog::BuildWindow
 
 // end JXLayout
 
-	SetObjects(okButton, cancelButton, fileInput, fileName, chooseFileButton,
-			   previewCB, printPreview, bwCB, bw);
-
 	// size
 
 	itsWidthInput->SetValue(w);
@@ -287,6 +284,11 @@ JX2DPlotPrintEPSDialog::BuildWindow
 	itsPredefSizeMenu->SetMenuItems(kPredefSizeMenuStr);
 	itsPredefSizeMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsPredefSizeMenu);
+
+	// last, because file chooser may open, and that runs FTC
+
+	SetObjects(okButton, cancelButton, fileInput, fileName, chooseFileButton,
+			   previewCB, printPreview, bwCB, bw);
 }
 
 /******************************************************************************

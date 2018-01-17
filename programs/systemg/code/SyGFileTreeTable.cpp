@@ -4551,10 +4551,8 @@ SyGFileTreeTable::PushBranch
 JBoolean
 SyGFileTreeTable::RemoveGitBranch
 	(
-	const JString&				branch,
-	const JBoolean				force,
-	const JPtrArray<JString>*	stashIdList,
-	const JPtrArray<JString>*	stashNameList
+	const JString&	branch,
+	const JBoolean	force
 	)
 {
 	if (!force)
@@ -4585,21 +4583,12 @@ SyGFileTreeTable::RemoveGitBranch
 
 	// drop systemg-temp stash
 
-	JBoolean found = kJFalse;
-	JString stashId;
-	if (stashIdList != NULL && stashNameList != NULL)
-		{
-		found = FindGitStash(branch, *stashIdList, *stashNameList, &stashId);
-		}
-	else
-		{
-		JPtrArray<JString> idList(JPtrArrayT::kDeleteAll);
-		JPtrArray<JString> nameList(JPtrArrayT::kDeleteAll);
-		GetGitStashList(&idList, &nameList);
-		found = FindGitStash(branch, idList, nameList, &stashId);
-		}
+	JPtrArray<JString> idList(JPtrArrayT::kDeleteAll);
+	JPtrArray<JString> nameList(JPtrArrayT::kDeleteAll);
+	GetGitStashList(&idList, &nameList);
 
-	if (found)
+	JString stashId;
+	if (FindGitStash(branch, idList, nameList, &stashId))
 		{
 		cmd  = "git stash drop ";
 		cmd += JPrepArgForExec(stashId);
@@ -4915,16 +4904,11 @@ SyGFileTreeTable::PruneLocalBranches()
 		return;
 		}
 
-	JPtrArray<JString> idList(JPtrArrayT::kDeleteAll);
-	JPtrArray<JString> nameList(JPtrArrayT::kDeleteAll);
-	GetGitStashList(&idList, &nameList);
-
 	const JSize count = indexList.GetElementCount();
 	JProcess* p;
 	for (JIndex i=1; i<=count; i++)
 		{
-		RemoveGitBranch(*(itsPruneBranchList->NthElement(indexList.GetElement(i))),
-						kJTrue, &idList, &nameList);
+		RemoveGitBranch(*(itsPruneBranchList->NthElement(indexList.GetElement(i))), kJTrue);
 		}
 }
 

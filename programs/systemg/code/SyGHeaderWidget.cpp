@@ -18,6 +18,8 @@
 #include <jXGlobals.h>
 #include <jAssert.h>
 
+const JCoordinate kBorderWidth = 3;
+
 /******************************************************************************
  Constructor
 
@@ -53,6 +55,20 @@ SyGHeaderWidget::SyGHeaderWidget
 
 SyGHeaderWidget::~SyGHeaderWidget()
 {
+}
+
+/******************************************************************************
+ GetPreferredHeight (static)
+
+ ******************************************************************************/
+
+JCoordinate
+SyGHeaderWidget::GetPreferredHeight
+	(
+	const JFontManager* fontMgr
+	)
+{
+	return fontMgr->GetDefaultFont().GetLineHeight() + 2*kBorderWidth;
 }
 
 /******************************************************************************

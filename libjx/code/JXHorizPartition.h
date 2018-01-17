@@ -14,6 +14,8 @@
 
 class JXHorizPartition : public JXPartition
 {
+	friend class JXRestorePartitionGeometry;
+
 public:
 
 	JXHorizPartition(const JArray<JCoordinate>& widths, const JIndex elasticIndex,
@@ -49,7 +51,11 @@ protected:
 	virtual JXWidgetSet*	CreateCompartment(const JIndex index,
 											  const JCoordinate position,
 											  const JCoordinate size);
-	virtual void			SetCompartmentSizes();
+	virtual void			UpdateCompartmentSizes();
+	virtual JBoolean		SaveGeometryForLater(const JArray<JCoordinate>& sizes);
+
+	virtual JBoolean	RunInternalFTC(const JBoolean horizontal, JCoordinate* newSize);
+	virtual void		FTCAdjustSize(const JCoordinate dw, const JCoordinate dh);
 
 private:
 
@@ -69,6 +75,12 @@ private:
 	DragType	itsDragType;
 	JPoint		itsPrevPt;
 	JCoordinate	itsMinDragX, itsMaxDragX;
+
+	// used during FTC
+
+	JArray<JCoordinate>*	itsFTCSizes;	// NULL unless in FTC
+	JArray<JCoordinate>*	itsFTCMinSizes;	// NULL unless in FTC
+	JArray<JCoordinate>*	itsSavedGeom;	// NULL unless in FTC w/ geometry loaded
 
 private:
 

@@ -43,8 +43,13 @@
 #include <jMissingProto.h>
 #include <jAssert.h>
 
-static const JUtf8Byte* kDisplayOptionName = "-display";
-static const JUtf8Byte* kXDebugOptionName  = "--xdebug";
+static const JUtf8Byte* kDisplayOptionName         = "-display";
+static const JUtf8Byte* kXDebugOptionName          = "--xdebug";
+static const JUtf8Byte* kFTCHorizDebugOptionName   = "--debug-ftc-horiz";
+static const JUtf8Byte* kFTCVertDebugOptionName    = "--debug-ftc-vert";
+static const JUtf8Byte* kFTCDebugNoopOptionName    = "--debug-ftc-noop";
+static const JUtf8Byte* kFTCDebugOverlapOptionName = "--debug-ftc-overlap";
+static const JUtf8Byte* kPseudotranslateOptionName = "--pseudotranslate";
 
 const time_t kTimerStart = J_TIME_T_MAX/1000U;	// milliseconds before rollover
 const Time kMaxSleepTime = 50;					// 0.05 seconds (in milliseconds)
@@ -71,6 +76,9 @@ JXApplication::JXApplication
 	itsSignature(appSignature, 0),
 	itsRestartCmd(argv[0], 0)
 {
+	JString displayName;
+	ParseBaseOptions(argc, argv, &displayName);
+
 	// initialize object
 
 	itsDisplayList = jnew JPtrArray<JXDisplay>(JPtrArrayT::kDeleteAll);
@@ -112,9 +120,6 @@ JXApplication::JXApplication
 	ListenTo(JThisProcess::Instance());		// for SIGTERM
 
 	// create display -- requires JXGetApplication() to work
-
-	JString displayName;
-	ParseBaseOptions(argc, argv, &displayName);
 
 	JXDisplay* display;
 	if (!JXDisplay::Create(displayName, &display))
@@ -1147,6 +1152,8 @@ JXApplication::ParseBaseOptions
 {
 	displayName->Clear();
 
+	JBoolean ftcNoop = kJFalse, ftcOverlap = kJFalse;
+
 	for (long i=1; i<*argc; i++)
 		{
 		if (strcmp(argv[i], kDisplayOptionName) == 0)
@@ -1167,7 +1174,39 @@ JXApplication::ParseBaseOptions
 			RemoveCmdLineOption(argc, argv, i, 1);
 			i--;
 			}
+		else if (strcmp(argv[i], kFTCHorizDebugOptionName) == 0)
+			{
+			JXContainer::DebugExpandToFitContent(kJTrue);
+			RemoveCmdLineOption(argc, argv, i, 1);
+			i--;
+			}
+		else if (strcmp(argv[i], kFTCVertDebugOptionName) == 0)
+			{
+			JXContainer::DebugExpandToFitContent(kJFalse);
+			RemoveCmdLineOption(argc, argv, i, 1);
+			i--;
+			}
+		else if (strcmp(argv[i], kFTCDebugNoopOptionName) == 0)
+			{
+			ftcNoop = kJTrue;
+			RemoveCmdLineOption(argc, argv, i, 1);
+			i--;
+			}
+		else if (strcmp(argv[i], kFTCDebugOverlapOptionName) == 0)
+			{
+			ftcOverlap = kJTrue;
+			RemoveCmdLineOption(argc, argv, i, 1);
+			i--;
+			}
+		else if (strcmp(argv[i], kPseudotranslateOptionName) == 0)
+			{
+			JStringManager::EnablePseudotranslation();
+			RemoveCmdLineOption(argc, argv, i, 1);
+			i--;
+			}
 		}
+
+	JXContainer::DebugExpandToFitContentExtras(ftcNoop, ftcOverlap);
 }
 
 /******************************************************************************
@@ -1185,7 +1224,9 @@ JXApplication::StripBaseOptions
 	for (JIndex i=2; i<=count; i++)
 		{
 		JString* arg = argList->GetElement(i);
-		if (*arg == kXDebugOptionName)
+		if (*arg == kXDebugOptionName        ||
+			*arg == kFTCHorizDebugOptionName ||
+			*arg == kFTCVertDebugOptionName)
 			{
 			argList->DeleteElement(i);
 			count--;

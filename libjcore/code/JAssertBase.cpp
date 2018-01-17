@@ -84,7 +84,7 @@ JAssertBase::DefaultAssert
 	const Action action = GetAction();
 	if (action != kIgnoreFailure)
 		{
-		fprintf(stderr, "\a\nAssertion failed: %s\n    %s:%d\n    %s\n'",
+		fprintf(stderr, "\a\nAssertion failed: %s\n    %s:%d\n    %s\n",
 				expr, file, line, message);
 
 		if (action == kAskUser)

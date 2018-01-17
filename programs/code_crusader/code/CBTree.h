@@ -50,6 +50,7 @@ public:
 
 	void		NextUpdateMustReparseAll();
 	JBoolean	NeedsReparseAll() const;
+	void		RebuildLayout();
 
 	JBoolean	FindClass(const JCharacter* fullName, CBClass** theClass) const;
 	JBoolean	FindClass(const JCharacter* fullName, const CBClass** theClass) const;
@@ -78,18 +79,6 @@ public:
 	void		ViewSelectedFunctionLists() const;
 	void		CopySelectedClassNames() const;
 	void		DeriveFromSelected() const;
-
-	JBoolean	WillShowLoneClasses() const;
-	void		ShowLoneClasses(const JBoolean visible);
-	void		ToggleShowLoneClasses();
-
-	JBoolean	WillShowLoneStructs() const;
-	void		ShowLoneStructs(const JBoolean visible);
-	void		ToggleShowLoneStructs();
-
-	JBoolean	WillShowEnums() const;
-	void		ShowEnums(const JBoolean visible);
-	void		ToggleShowEnums();
 
 	JBoolean	WillAutoMinimizeMILinks() const;
 	void		ShouldAutoMinimizeMILinks(const JBoolean autoMinimize);
@@ -237,9 +226,6 @@ private:
 	const JSize	itsMarginWidth;
 	JBoolean	itsBroadcastClassSelFlag;
 
-	JBoolean	itsShowLoneClassesFlag;
-	JBoolean	itsShowLoneStructsFlag;
-	JBoolean	itsShowEnumsFlag;
 	JBoolean	itsDrawMILinksOnTopFlag;
 
 	JBoolean	itsMinimizeMILinksFlag;
@@ -258,8 +244,6 @@ private:
 						  const JBoolean forcePlaceAll = kJFalse);
 	void	PlaceClass(CBClass* theClass, const JCoordinate x, JCoordinate* y,
 					   JCoordinate* maxWidth);
-
-	void	ForceVisible(CBClass* theClass);
 
 	void		SaveCollapsedClasses(JPtrArray<JString>* list) const;
 	JBoolean	RestoreCollapsedClasses(const JPtrArray<JString>& list);
@@ -569,60 +553,6 @@ CBTree::GetBounds
 }
 
 /******************************************************************************
- Show lone classes
-
- ******************************************************************************/
-
-inline JBoolean
-CBTree::WillShowLoneClasses()
-	const
-{
-	return itsShowLoneClassesFlag;
-}
-
-inline void
-CBTree::ToggleShowLoneClasses()
-{
-	ShowLoneClasses(!itsShowLoneClassesFlag);
-}
-
-/******************************************************************************
- Show lone structs
-
- ******************************************************************************/
-
-inline JBoolean
-CBTree::WillShowLoneStructs()
-	const
-{
-	return itsShowLoneStructsFlag;
-}
-
-inline void
-CBTree::ToggleShowLoneStructs()
-{
-	ShowLoneStructs(!itsShowLoneStructsFlag);
-}
-
-/******************************************************************************
- Show enums
-
- ******************************************************************************/
-
-inline JBoolean
-CBTree::WillShowEnums()
-	const
-{
-	return itsShowEnumsFlag;
-}
-
-inline void
-CBTree::ToggleShowEnums()
-{
-	ShowEnums(!itsShowEnumsFlag);
-}
-
-/******************************************************************************
  Show enums
 
  ******************************************************************************/
@@ -715,6 +645,19 @@ CBTree::NeedsReparseAll()
 	const
 {
 	return itsReparseAllFlag;
+}
+
+/******************************************************************************
+ RebuildLayout
+
+ ******************************************************************************/
+
+inline void
+CBTree::RebuildLayout()
+{
+	const JSize size = itsFontSize;
+	itsFontSize      = 0;
+	SetFontSize(size);
 }
 
 #endif

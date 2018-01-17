@@ -27,6 +27,7 @@
 #include <JXColormap.h>
 #include <JXFontManager.h>
 #include <JXChooseSaveFile.h>
+#include <JXSearchTextDialog.h>
 #include <JXWebBrowser.h>
 
 #include <jDirUtil.h>
@@ -85,6 +86,7 @@ void
 CMPrefsManager::SaveAllBeforeDestruct()
 {
 	WriteColors();
+	SaveSearchPrefs();
 
 	SetData(kCMProgramVersionID, CMGetVersionNumberStr());
 
@@ -305,7 +307,7 @@ CMPrefsManager::UpgradeData
 	JXDisplay* display = (JXGetApplication())->GetDisplay(1);
 	if (currentVersion < 2)
 		{
-		SetDefaultFont(JGetMonospaceFontName(), kJDefaultMonoFontSize);
+		SetDefaultFont(JGetMonospaceFontName(), JGetDefaultMonoFontSize());
 		}
 	else
 		{
@@ -314,7 +316,7 @@ CMPrefsManager::UpgradeData
 		GetDefaultFont(&name, &size);
 		if (name == "6x13")
 			{
-			SetDefaultFont(JGetMonospaceFontName(), kJDefaultMonoFontSize);
+			SetDefaultFont(JGetMonospaceFontName(), JGetDefaultMonoFontSize());
 			}
 		}
 
@@ -1007,6 +1009,31 @@ CMPrefsManager::WriteColors()
 		}
 
 	SetData(kCBTextColorID, data);
+}
+
+/******************************************************************************
+ Search dialog
+
+ ******************************************************************************/
+
+void
+CMPrefsManager::LoadSearchPrefs()
+{
+	std::string data;
+	if (GetData(kSearchTextDialogPrefsID, &data))
+		{
+		std::istringstream dataStream(data);
+		JXGetSearchTextDialog()->ReadSetup(dataStream);
+		}
+}
+
+void
+CMPrefsManager::SaveSearchPrefs()
+{
+	std::ostringstream data;
+	JXGetSearchTextDialog()->WriteSetup(data);
+
+	SetData(kSearchTextDialogPrefsID, data);
 }
 
 /******************************************************************************

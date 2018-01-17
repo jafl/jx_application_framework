@@ -43,6 +43,7 @@ protected:
 					 JProcess* p, const int fd,
 					 const JCharacter* windowTitle);
 
+	virtual void		PlaceCmdLineWidgets();
 	virtual void		AppendText(const JString& text);
 	virtual JBoolean	ProcessFinished(const JProcess::Finished& info);
 	virtual JBoolean	NeedsFormattedData() const;

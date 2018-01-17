@@ -5,6 +5,7 @@ Internal Form Definition File
 
 Number of forms: 16
 Unit of measure: FL_COORD_PIXEL
+SnapGrid: 5
 
 =============== FORM ===============
 Name: ResizeWidgetDialog
@@ -753,7 +754,7 @@ argument:
 --------------------
 class: FL_TEXT
 type: FL_NORMAL_TEXT
-box: 150 20 85 20
+box: 150 20 104 20
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_MCOL
 alignment: FL_ALIGN_LEFT|FL_ALIGN_INSIDE
@@ -765,24 +766,6 @@ shortcut:
 resize: FL_RESIZE_ALL
 gravity: FL_NorthEast FL_NoGravity
 name: (rg1Label)
-callback: 
-argument: 
-
---------------------
-class: FL_TEXT
-type: FL_NORMAL_TEXT
-box: 25 135 85 20
-boxtype: FL_FLAT_BOX
-colors: FL_COL1 FL_MCOL
-alignment: FL_ALIGN_LEFT|FL_ALIGN_INSIDE
-style: FL_NORMAL_STYLE
-size: FL_DEFAULT_SIZE
-lcol: FL_BLACK
-label: Radio group #2:
-shortcut: 
-resize: FL_RESIZE_ALL
-gravity: FL_NorthWest FL_NoGravity
-name: (rg2Label)
 callback: 
 argument: 
 
@@ -843,7 +826,7 @@ argument:
 --------------------
 class: FL_BITMAPBUTTON
 type: FL_PUSH_BUTTON
-box: 60 90 22 22
+box: 60 85 22 22
 boxtype: FL_UP_BOX
 colors: FL_COL1 FL_BLUE
 alignment: FL_ALIGN_BOTTOM
@@ -1023,7 +1006,7 @@ argument: 3
 --------------------
 class: FL_TEXT
 type: FL_NORMAL_TEXT
-box: 25 115 90 20
+box: 25 110 90 20
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_MCOL
 alignment: FL_ALIGN_LEFT|FL_ALIGN_INSIDE
@@ -1087,7 +1070,7 @@ lcol: FL_BLACK
 label: enable
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_NorthWest FL_NoGravity
 name: itsEnable1CB
 callback: 
 argument: 
@@ -1095,7 +1078,7 @@ argument:
 --------------------
 class: FL_TEXT
 type: FL_NORMAL_TEXT
-box: 20 210 110 20
+box: 20 210 240 20
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_MCOL
 alignment: FL_ALIGN_LEFT|FL_ALIGN_INSIDE
@@ -1123,7 +1106,7 @@ lcol: FL_BLACK
 label: Option 1
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_NorthWest FL_NoGravity
 name: its1CB
 callback: 
 argument: 
@@ -1141,7 +1124,7 @@ lcol: FL_BLACK
 label: enable
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_NorthWest FL_NoGravity
 name: itsEnable2CB
 callback: 
 argument: 
@@ -1159,7 +1142,7 @@ lcol: FL_BLACK
 label: Option 2
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_NorthWest FL_NoGravity
 name: its2CB
 callback: 
 argument: 
@@ -1177,7 +1160,7 @@ lcol: FL_BLACK
 label: enable
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_NorthWest FL_NoGravity
 name: itsEnable3CB
 callback: 
 argument: 
@@ -1195,8 +1178,26 @@ lcol: FL_BLACK
 label: Option 3
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_NorthWest FL_NoGravity
 name: its3CB
+callback: 
+argument: 
+
+--------------------
+class: FL_TEXT
+type: FL_NORMAL_TEXT
+box: 25 134 102 20
+boxtype: FL_FLAT_BOX
+colors: FL_COL1 FL_MCOL
+alignment: FL_ALIGN_LEFT|FL_ALIGN_INSIDE
+style: FL_NORMAL_STYLE
+size: FL_DEFAULT_SIZE
+lcol: FL_BLACK
+label: Radio group #2:
+shortcut: 
+resize: FL_RESIZE_ALL
+gravity: FL_NorthWest FL_NoGravity
+name: (rg2Label)
 callback: 
 argument: 
 
@@ -1557,7 +1558,7 @@ argument:
 --------------------
 class: FL_BOX
 type: FL_NO_BOX
-box: 0 0 315 30
+box: 0 0 310 30
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -1575,7 +1576,7 @@ argument:
 --------------------
 class: FL_BOX
 type: FL_NO_BOX
-box: 0 30 315 315
+box: 0 30 310 310
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER

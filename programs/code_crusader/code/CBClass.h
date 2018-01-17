@@ -61,14 +61,6 @@ public:
 		kQtPrivateSlotAccess
 	};
 
-	enum ForceVisibleAction
-	{
-		kDoNothing,
-		kShowLoneClasses,
-		kShowLoneStructs,
-		kShowEnums
-	};
-
 public:
 
 	virtual ~CBClass();
@@ -140,9 +132,9 @@ public:
 	void				GetCoords(JCoordinate* x, JCoordinate* y) const;
 	void				SetCoords(const JCoordinate x, const JCoordinate y);
 
-	JBoolean			IsVisible() const;
-	void				SetVisible(const JBoolean visible);
-	ForceVisibleAction	ForceVisible();
+	JBoolean	IsVisible() const;
+	void		SetVisible(const JBoolean visible);
+	void		ForceVisible();
 
 	JBoolean	IsSelected() const;
 	void		SetSelected(const JBoolean selected);

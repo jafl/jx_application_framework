@@ -3,16 +3,13 @@
 
 	Program to generate JX code from an fdesign .fd file.
 
-	Copyright (C) 1996-2017 by John Lindal. All rights reserved.
+	Copyright (C) 1996-2018 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 
-#include <JXLibVersion.h>
-#include <jGlobals.h>
 #include <JStringManager.h>
 #include <JStringIterator.h>
 #include <JRegex.h>
-#include <JTextEditor.h>
 #include <JPtrArray-JString.h>
 #include <jTextUtil.h>
 #include <jFStreamUtil.h>
@@ -22,6 +19,7 @@
 #include <jProcessUtil.h>
 #include <jCommandLine.h>
 #include <jVCSUtil.h>
+#include <jGlobals.h>
 #include <JRect.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -34,7 +32,7 @@ static const JUtf8Byte* kVersionStr =
 
 	"jxlayout 5.0.0\n"
 	"\n"
-	"Copyright (C) 1996-2017 John Lindal.  All rights reserved.";
+	"Copyright (C) 1996-2018 John Lindal.  All rights reserved.";
 
 static const JUtf8Byte* kBackupSuffix = "~";
 
@@ -106,13 +104,13 @@ struct FontSizeConversion
 
 static const FontSizeConversion kFontSizeTable[] =
 {
-	{"FL_DEFAULT_SIZE", "8"},
-	{"FL_TINY_SIZE",    "6"},
-	{"FL_SMALL_SIZE",   "8"},
-	{"FL_NORMAL_SIZE",  "kJDefaultFontSize"},
-	{"FL_MEDIUM_SIZE",  "12"},
-	{"FL_LARGE_SIZE",   "14"},
-	{"FL_HUGE_SIZE",    "18"}
+	{"FL_DEFAULT_SIZE", "JGetDefaultFontSize()-2"},
+	{"FL_TINY_SIZE",    "JGetDefaultFontSize()-4"},
+	{"FL_SMALL_SIZE",   "JGetDefaultFontSize()-2"},
+	{"FL_NORMAL_SIZE",  "JGetDefaultFontSize()"},
+	{"FL_MEDIUM_SIZE",  "JGetDefaultFontSize()+2"},
+	{"FL_LARGE_SIZE",   "JGetDefaultFontSize()+4"},
+	{"FL_HUGE_SIZE",    "JGetDefaultFontSize()+8"}
 };
 
 const JSize kFontSizeTableSize = sizeof(kFontSizeTable)/sizeof(FontSizeConversion);
@@ -154,13 +152,15 @@ void GenerateForm(std::istream& input, const JString& formName,
 				  const JString& tagName, const JString& enclName,
 				  const JString& codePath, const JString& stringPath,
 				  const JString& codeSuffix, const JString& headerSuffix,
+				  const JBoolean requireObjectNames,
 				  JPtrArray<JString>* backupList);
 JBoolean ShouldGenerateForm(const JString& form, const JPtrArray<JString>& list);
 JBoolean ShouldBackupForm(const JString& form, JPtrArray<JString>* list);
-void GenerateCode(std::istream& input, std::ostream& output, const JString& stringPath,
-				  const JString& formName, const JString& tagName,
-				  const JString& userTopEnclVarName, const JUtf8Byte* indent,
-				  JPtrArray<JString>* objTypes, JPtrArray<JString>* objNames);
+JBoolean GenerateCode(std::istream& input, std::ostream& output, const JString& stringPath,
+					  const JString& formName, const JString& tagName,
+					  const JString& userTopEnclVarName, const JUtf8Byte* indent,
+					  const JBoolean requireObjectNames,
+					  JPtrArray<JString>* objTypes, JPtrArray<JString>* objNames);
 void GenerateHeader(std::ostream& output, const JPtrArray<JString>& objTypes,
 					const JPtrArray<JString>& objNames, const JUtf8Byte* indent);
 
@@ -191,7 +191,7 @@ void RemoveIdentifier(const JString& id, JString* line);
 void GetOptions(const JSize argc, char* argv[], JString* inputName,
 				JString* codePath, JString* stringPath,
 				JString* codeSuffix, JString* headerSuffix,
-				JString* postCmd,
+				JBoolean* requireObjectNames, JString* postCmd,
 				JPtrArray<JString>* userFormList);
 void PickForms(const JString& fileName, JPtrArray<JString>* list);
 JBoolean FindConfigFile(JString* configFileName);
@@ -226,12 +226,13 @@ main
 
 	// parse the command line options
 
-	JString inputName, codePath, stringPath, codeSuffix, headerSuffix;
-	JString postCmd;
+	JString inputName, codePath, stringPath, codeSuffix, headerSuffix, postCmd;
+	JBoolean requireObjectNames;
 	JPtrArray<JString> userFormList(JPtrArrayT::kDeleteAll);	// empty => generate all forms
 	JPtrArray<JString> backupList(JPtrArrayT::kDeleteAll);		// forms that have been backed up
 	GetOptions(argc, argv, &inputName, &codePath, &stringPath,
-			   &codeSuffix, &headerSuffix, &postCmd, &userFormList);
+			   &codeSuffix, &headerSuffix, &requireObjectNames,
+			   &postCmd, &userFormList);
 
 	// generate each requested form
 
@@ -299,7 +300,8 @@ main
 		if (ShouldGenerateForm(formName, userFormList))
 			{
 			GenerateForm(input, formName, tagName, enclName,
-						 codePath, stringPath, codeSuffix, headerSuffix, &backupList);
+						 codePath, stringPath, codeSuffix, headerSuffix,
+						 requireObjectNames, &backupList);
 			changed = kJTrue;
 			}
 		}
@@ -360,6 +362,7 @@ GenerateForm
 	const JString&		stringPath,
 	const JString&		codeSuffix,
 	const JString&		headerSuffix,
+	const JBoolean		requireObjectNames,
 	JPtrArray<JString>*	backupList
 	)
 {
@@ -417,8 +420,13 @@ GenerateForm
 
 	JPtrArray<JString> objTypes(JPtrArrayT::kDeleteAll),
 					   objNames(JPtrArrayT::kDeleteAll);
-	GenerateCode(input, outputCode, stringPath, formName, tagName, enclName,
-				 indent.GetBytes(), &objTypes, &objNames);
+	if (!GenerateCode(input, outputCode, stringPath, formName, tagName, enclName,
+					  indent.GetBytes(), requireObjectNames, &objTypes, &objNames))
+		{
+		outputCode.close();
+		JRemoveFile(tempCodeFileName);
+		return;
+		}
 
 	// copy code file contents after end delimiter
 
@@ -546,7 +554,7 @@ ShouldBackupForm
 
  ******************************************************************************/
 
-void
+JBoolean
 GenerateCode
 	(
 	std::istream&		input,
@@ -556,6 +564,7 @@ GenerateCode
 	const JString&		tagName,
 	const JString&		userTopEnclVarName,
 	const JUtf8Byte*	indent,
+	const JBoolean		requireObjectNames,
 	JPtrArray<JString>*	objTypes,
 	JPtrArray<JString>*	objNames
 	)
@@ -684,6 +693,13 @@ JIndex i;
 		JString boxType = JReadLine(input);
 		RemoveIdentifier(kObjBoxTypeMarker, &boxType);
 
+		// for actual boxes, use boxType instead of type
+
+		if (flClass == "FL_BOX")
+			{
+			flType = boxType;
+			}
+
 		// colors
 
 		input >> std::ws;
@@ -731,32 +747,6 @@ JIndex i;
 		JString* varName = jnew JString(JReadLine(input));
 		assert( varName != NULL );
 		RemoveIdentifier(kObjNameMarker, varName);
-		if (varName->IsEmpty())
-			{
-			isInstanceVar.AppendElement(kJFalse);
-			GetTempVarName(tagName, varName, *objNames);
-			isLocal = kJTrue;
-			}
-		else if ((varName->GetFirstCharacter() == '(' &&
-				  varName->GetLastCharacter()  == ')') ||
-				 (varName->GetFirstCharacter() == '<' &&
-				  varName->GetLastCharacter()  == '>'))
-			{
-			isInstanceVar.AppendElement(kJFalse);
-			isLocal = JI2B( varName->GetFirstCharacter() == '(' );
-
-			JStringIterator iter(varName);
-			iter.SkipNext();
-			iter.RemoveAllPrev();
-			iter.MoveTo(kJIteratorStartAtEnd, 0);
-			iter.SkipPrev();
-			iter.RemoveAllNext();
-			}
-		else
-			{
-			isInstanceVar.AppendElement(kJTrue);
-			}
-		objNames->Append(varName);
 
 		// callback (ignored)
 
@@ -781,10 +771,42 @@ JIndex i;
 		if (i==1 && flClass == "FL_BOX" && flType == "FL_FLAT_BOX" && col1 == "FL_COL1")
 			{
 			rectList.RemoveElement(objCount);
-			isInstanceVar.RemoveElement(objCount);
-			objNames->DeleteElement(objCount);
 			continue;
 			}
+
+		// variable name
+
+		if (varName->IsEmpty() && requireObjectNames)
+			{
+			std::cerr << "FAILED - Names are required for all objects" << std::endl;
+			return kJFalse;
+			}
+		else if (varName->IsEmpty())
+			{
+			isInstanceVar.AppendElement(kJFalse);
+			GetTempVarName(tagName, varName, *objNames);
+			isLocal = kJTrue;
+			}
+		else if ((varName->GetFirstCharacter() == '(' &&
+				  varName->GetLastCharacter()  == ')') ||
+				 (varName->GetFirstCharacter() == '<' &&
+				  varName->GetLastCharacter()  == '>'))
+			{
+			isInstanceVar.AppendElement(kJFalse);
+			isLocal  = JI2B( varName->GetFirstCharacter() == '(' );
+
+			JStringIterator iter(varName);
+			iter.SkipNext();
+			iter.RemoveAllPrev();
+			iter.MoveTo(kJIteratorStartAtEnd, 0);
+			iter.SkipPrev();
+			iter.RemoveAllNext();
+			}
+		else
+			{
+			isInstanceVar.AppendElement(kJTrue);
+			}
+		objNames->Append(varName);
 
 		// check for errors -- safe since we have read in entire object
 
@@ -917,8 +939,18 @@ JIndex i;
 		ApplyOptions(output, *className, formName, tagName, *varName, optionValues,
 					 lSize, lStyle, lColor, indent, &stringMgr);
 
-		if (*className == "JXStaticText" && cbArg.IsEmpty() &&
-			!lAlign.Contains("FL_ALIGN_TOP") && localFrame.height() <= 20)
+		const JBoolean isLabel = JI2B(
+			*className == "JXStaticText" &&
+			cbArg.IsEmpty() &&
+			localFrame.height() <= 20);
+
+		if (isLabel && lAlign.Contains("FL_ALIGN_CENTER"))
+			{
+			output << indent;
+			varName->Print(output);
+			output << "->SetToLabel(kJTrue);" << std::endl;
+			}
+		else if (isLabel && !lAlign.Contains("FL_ALIGN_TOP"))
 			{
 			output << indent;
 			varName->Print(output);
@@ -981,6 +1013,8 @@ JIndex i;
 			objNames->DeleteElement(i);
 			}
 		}
+
+	return kJTrue;
 }
 
 /******************************************************************************
@@ -1421,7 +1455,7 @@ ApplyOptions
 			{
 			output << indent;
 			varName.Print(output);
-			output << "->SetFont(JGetMonospaceFontName(), kJDefaultMonoFontSize, JFontStyle());" << std::endl;
+			output << "->SetFont(JGetMonospaceFontName(), JGetDefaultMonoFontSize(), JFontStyle());" << std::endl;
 			}
 		else if (flStyle.Contains("TIMES"))
 			{
@@ -1471,8 +1505,7 @@ ApplyOptions
 			JString jxColor;
 			if (ConvertXFormsColor(flColor, &jxColor))
 				{
-				output << indent;
-				output << "const JFontStyle ";
+				output << indent << "const JFontStyle ";
 				varName.Print(output);
 				output << "_style(";
 
@@ -1779,6 +1812,7 @@ GetOptions
 	JString*			stringPath,
 	JString*			codeSuffix,
 	JString*			headerSuffix,
+	JBoolean*			requireObjectNames,
 	JString*			postCmd,
 	JPtrArray<JString>*	userFormList
 	)
@@ -1786,10 +1820,11 @@ GetOptions
 	inputName->Clear();
 	postCmd->Clear();
 
-	*codePath     = "./code/";
-	*stringPath   = "./strings/";
-	*codeSuffix   = ".cpp";
-	*headerSuffix = ".h";
+	*codePath           = "./code/";
+	*stringPath         = "./strings/";
+	*codeSuffix         = ".cpp";
+	*headerSuffix       = ".h";
+	*requireObjectNames = kJFalse;
 
 	JBoolean pickForms = kJFalse;
 	JIndex index = 1;
@@ -1838,6 +1873,11 @@ GetOptions
 				std::cerr << argv[0] << ": specified string database path does not exist" << std::endl;
 				exit(1);
 				}
+			}
+
+		else if (strcmp(argv[index], "--require-obj-names") == 0)
+			{
+			*requireObjectNames = kJTrue;
 			}
 
 		else if (strcmp(argv[index], "--choose") == 0)
@@ -2067,6 +2107,8 @@ PrintHelp
 	std::cout << "-sp         <string path>   - default: " << stringPath << std::endl;
 	std::cout << "--choose    interactively choose the forms to generate" << std::endl;
 	std::cout << "--post-cmd  <cmd> - command to exec after all files have been modified" << std::endl;
+	std::cout << std::endl;
+	std::cout << "--require-obj-names  Fail if any object is missing a name" << std::endl;
 	std::cout << std::endl;
 }
 

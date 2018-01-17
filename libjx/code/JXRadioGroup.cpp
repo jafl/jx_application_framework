@@ -211,3 +211,17 @@ JXRadioGroup::DrawBorder
 {
 	JXDrawEngravedFrame(p, frame, kFrameDownWidth, kFrameBetweenWidth, kFrameUpWidth);
 }
+
+/******************************************************************************
+ NeedsInternalFTC (virtual protected)
+
+	Return kJTrue if the contents are a set of widgets that need to expand.
+
+ ******************************************************************************/
+
+JBoolean
+JXRadioGroup::NeedsInternalFTC()
+	const
+{
+	return kJTrue;
+}

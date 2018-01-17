@@ -627,3 +627,17 @@ JXHorizDockPartition::UpdateMinSize()
 
 	return JPoint(minWidth, minHeight);
 }
+
+/******************************************************************************
+ SaveGeometryForLater (virtual protected)
+
+ ******************************************************************************/
+
+JBoolean
+JXHorizDockPartition::SaveGeometryForLater
+	(
+	const JArray<JCoordinate>& sizes
+	)
+{
+	return kJFalse;
+}

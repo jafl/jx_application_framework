@@ -64,6 +64,8 @@ protected:
 
 	virtual void	ApertureResized(const JCoordinate dw, const JCoordinate dh);
 
+	virtual JCoordinate	GetFTCMinContentSize(const JBoolean horizontal) const;
+
 private:
 
 	JPtrArray<JXMenu>*	itsMenus;
@@ -151,22 +153,6 @@ JXMenuBar::AppendMenu
 	)
 {
 	InsertMenu(GetMenuCount()+1, menu);
-}
-
-/******************************************************************************
- FindMenu
-
- ******************************************************************************/
-
-inline JBoolean
-JXMenuBar::FindMenu
-	(
-	const JXMenu*	menu,
-	JIndex*			index
-	)
-	const
-{
-	return itsMenus->Find(menu, index);
 }
 
 #endif

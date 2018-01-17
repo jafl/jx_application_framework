@@ -15,6 +15,10 @@
 
 	Retrieving an element from the actual array gives a *pointer*.
 
+	We do not override ToString():  Since this function is virtual, it is
+	always instantiated.  Thus, we cannot print the objects, because they
+	might not have ToString() or operator<<
+
 	BASE CLASS = JArray
 
 	Copyright (C) 1994 by John Lindal. All rights reserved.
@@ -457,7 +461,7 @@ JPtrArray<T>::SetToNull
  ******************************************************************************/
 
 template <class T>
-void
+JBoolean
 JPtrArray<T>::Remove
 	(
 	const T* dataPtr
@@ -470,6 +474,7 @@ JPtrArray<T>::Remove
 		{
 		JList<T*>::RemoveElement(index);
 		}
+	return found;
 }
 
 /******************************************************************************
@@ -497,7 +502,7 @@ template <class T>
 void
 JPtrArray<T>::DeleteAll()
 {
-	const JSize elementCount = JCollection::GetElementCount();
+	const JSize elementCount = this->JCollection::GetElementCount();
 	for (JIndex i=1; i<=elementCount; i++)
 		{
 		jdelete JArray<T*>::GetElement(i);
@@ -530,7 +535,7 @@ template <class T>
 void
 JPtrArray<T>::DeleteAllAsArrays()
 {
-	const JSize elementCount = JCollection::GetElementCount();
+	const JSize elementCount = this->JCollection::GetElementCount();
 	for (JIndex i=1; i<=elementCount; i++)
 		{
 		jdelete [] JArray<T*>::GetElement(i);
@@ -579,7 +584,7 @@ JPtrArray<T>::Find
 
 	// search for the first match
 
-	const JSize elementCount = JCollection::GetElementCount();
+	const JSize elementCount = this->JCollection::GetElementCount();
 	for (JIndex i=1; i<=elementCount; i++)
 		{
 		if (dataPtr == JArray<T*>::ProtectedGetElement(i))

@@ -112,10 +112,10 @@ JXToolBarEditDir::BuildWindow()
 	assert( okButton != NULL );
 	okButton->SetShortcuts(JGetString("okButton::JXToolBarEditDir::shortcuts::JXLayout"));
 
-	JXStaticText* hint =
-		jnew JXStaticText(JGetString("hint::JXToolBarEditDir::JXLayout"), window,
-					JXWidget::kHElastic, JXWidget::kFixedTop, 20,10, 270,40);
-	assert( hint != NULL );
+	JXStaticText* prompt =
+		jnew JXStaticText(JGetString("prompt::JXToolBarEditDir::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kFixedTop, 20,10, 270,30);
+	assert( prompt != NULL );
 
 	itsShowToolBarCB =
 		jnew JXTextCheckbox(JGetString("itsShowToolBarCB::JXToolBarEditDir::JXLayout"), window,

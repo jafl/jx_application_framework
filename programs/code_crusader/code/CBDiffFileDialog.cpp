@@ -285,10 +285,10 @@ CBDiffFileDialog::BuildWindow()
 
 // end JXLayout
 
-	JXWidgetSet* plainCard = itsTabGroup->AppendTab("Normal");
-	JXWidgetSet* cvsCard   = itsTabGroup->AppendTab("  CVS  ");
-	JXWidgetSet* svnCard   = itsTabGroup->AppendTab("Subversion");
-	JXWidgetSet* gitCard   = itsTabGroup->AppendTab("    Git    ");
+	JXContainer* plainCard = itsTabGroup->AppendTab("Normal");
+	JXContainer* cvsCard   = itsTabGroup->AppendTab("  CVS  ");
+	JXContainer* svnCard   = itsTabGroup->AppendTab("Subversion");
+	JXContainer* gitCard   = itsTabGroup->AppendTab("    Git    ");
 
 // begin plainLayout
 
@@ -296,11 +296,11 @@ CBDiffFileDialog::BuildWindow()
 	const JRect plainLayout_Aperture = plainCard->GetAperture();
 	plainCard->AdjustSize(530 - plainLayout_Aperture.width(), 70 - plainLayout_Aperture.height());
 
-	JXStaticText* obj1_plainLayout =
-		jnew JXStaticText(JGetString("obj1_plainLayout::CBDiffFileDialog::plainLayout"), plainCard,
+	JXStaticText* file1Label =
+		jnew JXStaticText(JGetString("file1Label::CBDiffFileDialog::plainLayout"), plainCard,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,10, 20,20);
-	assert( obj1_plainLayout != NULL );
-	obj1_plainLayout->SetToLabel();
+	assert( file1Label != NULL );
+	file1Label->SetToLabel();
 
 	itsPlainOnly1StyleMenu =
 		jnew CBDiffStyleMenu("Style", plainCard,
@@ -322,11 +322,11 @@ CBDiffFileDialog::BuildWindow()
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 350,10, 60,20);
 	assert( itsPlainChoose1Button != NULL );
 
-	JXStaticText* obj2_plainLayout =
-		jnew JXStaticText(JGetString("obj2_plainLayout::CBDiffFileDialog::plainLayout"), plainCard,
+	JXStaticText* file2Label =
+		jnew JXStaticText(JGetString("file2Label::CBDiffFileDialog::plainLayout"), plainCard,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,40, 20,20);
-	assert( obj2_plainLayout != NULL );
-	obj2_plainLayout->SetToLabel();
+	assert( file2Label != NULL );
+	file2Label->SetToLabel();
 
 	itsPlainFile2Input =
 		jnew JXFileInput(plainCard,

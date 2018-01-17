@@ -133,9 +133,6 @@ MDMainDirector::~MDMainDirector()
 void
 MDMainDirector::BuildWindow()
 {
-	const JCoordinate minWidth  = 200;
-	const JCoordinate minHeight = 200;
-
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 500,300, "");
@@ -147,7 +144,7 @@ MDMainDirector::BuildWindow()
 	assert( menuBar != NULL );
 
 	itsToolBar =
-		jnew JXToolBar(MDGetPrefsManager(), kMDMainToolBarID, menuBar, minWidth, minHeight, window,
+		jnew JXToolBar(MDGetPrefsManager(), kMDMainToolBarID, menuBar, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 500,270);
 	assert( itsToolBar != NULL );
 
@@ -155,6 +152,7 @@ MDMainDirector::BuildWindow()
 
 	window->SetTitle("Mondrian");
 	window->SetWMClass(MDGetWMClassInstance(), MDGetMainWindowClass());
+	window->SetMinSize(200, 200);
 
 	JXImage* image = jnew JXImage(GetDisplay(), md_main_window_icon);
 	assert( image != NULL );
@@ -167,15 +165,15 @@ MDMainDirector::BuildWindow()
 	assert( scrollbarSet != NULL );
 	scrollbarSet->FitToEnclosure();
 
-    JXStaticText* widget =
+	JXStaticText* widget =
 		jnew JXStaticText("This should be replaced by your widget.",
 						 scrollbarSet->GetScrollEnclosure(),
 						 JXWidget::kHElastic, JXWidget::kVElastic,
 						 0,0, 100,100);
-    assert( widget != NULL );
+	assert( widget != NULL );
 	widget->FitToEnclosure();
-    widget->SetBackColor(GetColormap()->GetWhiteColor());
-    widget->SetBorderWidth(2);
+	widget->SetBackColor(GetColormap()->GetWhiteColor());
+	widget->SetBorderWidth(2);
 
 	// menus
 

@@ -620,13 +620,14 @@ CBTreeDirector::BuildWindow
 	assert( menuBar != NULL );
 
 	itsToolBar =
-		jnew JXToolBar(CBGetPrefsManager(), toolBarPrefID, menuBar, 150,150, window,
+		jnew JXToolBar(CBGetPrefsManager(), toolBarPrefID, menuBar, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 400,400);
 	assert( itsToolBar != NULL );
 
 // end JXLayout
 
 	AdjustWindowTitle();
+	window->SetMinSize(150, 150);
 	window->SetCloseAction(JXWindow::kDeactivateDirector);
 	window->SetWMClass(CBGetWMClassInstance(), CBGetTreeWindowClass());
 

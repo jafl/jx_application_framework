@@ -30,7 +30,7 @@ enum JXModifierKey
 	kJXMod5KeyIndex,
 
 	// these are dynamically mapped to the above indices
-	// (same order as kModifierKeySymList in JXDisplay.cc)
+	// (same order as kModifierKeySymList in JXDisplay.cpp)
 
 	kJXNumLockKeyIndex,
 	kJXScrollLockKeyIndex,

@@ -210,8 +210,10 @@ DNDWidget::HandleMouseDrag
 
 	// Get the drag painter that we created in mouse down
 	JPainter* p = NULL;
-	const JBoolean ok = GetDragPainter(&p);
-	assert( ok );
+	if (!GetDragPainter(&p))
+		{
+		return;
+		}
 	
 	// Make sure that the left button is pressed, 
 	// that we have moved,

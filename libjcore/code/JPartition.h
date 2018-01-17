@@ -37,6 +37,9 @@ public:
 	JCoordinate	GetMinCompartmentSize(const JIndex index) const;
 	void		SetMinCompartmentSize(const JIndex index, const JCoordinate minSize);
 
+	const JArray<JCoordinate>&	GetMinCompartmentSizes() const;
+	void						SetMinCompartmentSizes(const JArray<JCoordinate>& sizes);
+
 	JBoolean	GetElasticIndex(JIndex* index) const;
 	void		SetElasticIndex(const JIndex index);
 
@@ -67,7 +70,8 @@ protected:
 	virtual void	PTBoundsChanged();	// derived classes can override
 
 	virtual JCoordinate	GetTotalSize() const = 0;
-	virtual void		SetCompartmentSizes() = 0;
+	virtual void		UpdateCompartmentSizes() = 0;
+	virtual JBoolean	SaveGeometryForLater(const JArray<JCoordinate>& sizes) = 0;
 
 	virtual void		CreateCompartmentObject(const JIndex index,
 												const JCoordinate position,
@@ -194,6 +198,22 @@ JPartition::SetMinCompartmentSize
 	)
 {
 	itsMinSizes->SetElement(index, minSize);
+}
+
+inline const JArray<JCoordinate>&
+JPartition::GetMinCompartmentSizes()
+	const
+{
+	return *itsMinSizes;
+}
+
+inline void
+JPartition::SetMinCompartmentSizes
+	(
+	const JArray<JCoordinate>& sizes
+	)
+{
+	*itsMinSizes = sizes;
 }
 
 #endif

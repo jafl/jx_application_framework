@@ -151,14 +151,14 @@ CBDocumentManager::CreateFileHistoryMenus
 	itsRecentProjectMenu =
 		jnew CBFileHistoryMenu(kProjectFileHistory, "", window,
 							  JXWidget::kFixedLeft, JXWidget::kFixedTop,
-							  0,0, 10,10);
+							  -20,0, 10,10);
 	assert( itsRecentProjectMenu != NULL );
 	itsRecentProjectMenu->Hide();
 
 	itsRecentTextMenu =
 		jnew CBFileHistoryMenu(kTextFileHistory, "", window,
 							  JXWidget::kFixedLeft, JXWidget::kFixedTop,
-							  0,0, 10,10);
+							  -20,0, 10,10);
 	assert( itsRecentTextMenu != NULL );
 	itsRecentTextMenu->Hide();
 

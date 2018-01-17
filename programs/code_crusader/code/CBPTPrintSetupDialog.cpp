@@ -108,28 +108,28 @@ CBPTPrintSetupDialog::BuildWindow
 					JXWidget::kHElastic, JXWidget::kVElastic, 70,210, 70,20);
 	assert( cancelButton != NULL );
 
-	JXStaticText* obj1_JXLayout =
-		jnew JXStaticText(JGetString("obj1_JXLayout::CBPTPrintSetupDialog::JXLayout"), window,
+	JXStaticText* destinationLabel =
+		jnew JXStaticText(JGetString("destinationLabel::CBPTPrintSetupDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 50,30, 80,20);
-	assert( obj1_JXLayout != NULL );
-	obj1_JXLayout->SetToLabel();
+	assert( destinationLabel != NULL );
+	destinationLabel->SetToLabel();
 
 	JXRadioGroup* destination =
 		jnew JXRadioGroup(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 135,20, 139,39);
 	assert( destination != NULL );
 
-	JXTextRadioButton* obj2_JXLayout =
-		jnew JXTextRadioButton(1, JGetString("obj2_JXLayout::CBPTPrintSetupDialog::JXLayout"), destination,
+	JXTextRadioButton* printerRB =
+		jnew JXTextRadioButton(1, JGetString("printerRB::CBPTPrintSetupDialog::JXLayout"), destination,
 					JXWidget::kHElastic, JXWidget::kVElastic, 5,8, 70,20);
-	assert( obj2_JXLayout != NULL );
-	obj2_JXLayout->SetShortcuts(JGetString("obj2_JXLayout::CBPTPrintSetupDialog::shortcuts::JXLayout"));
+	assert( printerRB != NULL );
+	printerRB->SetShortcuts(JGetString("printerRB::CBPTPrintSetupDialog::shortcuts::JXLayout"));
 
-	JXTextRadioButton* obj3_JXLayout =
-		jnew JXTextRadioButton(2, JGetString("obj3_JXLayout::CBPTPrintSetupDialog::JXLayout"), destination,
+	JXTextRadioButton* fileRB =
+		jnew JXTextRadioButton(2, JGetString("fileRB::CBPTPrintSetupDialog::JXLayout"), destination,
 					JXWidget::kHElastic, JXWidget::kVElastic, 75,8, 50,20);
-	assert( obj3_JXLayout != NULL );
-	obj3_JXLayout->SetShortcuts(JGetString("obj3_JXLayout::CBPTPrintSetupDialog::shortcuts::JXLayout"));
+	assert( fileRB != NULL );
+	fileRB->SetShortcuts(JGetString("fileRB::CBPTPrintSetupDialog::shortcuts::JXLayout"));
 
 	JXInputField* printCmdInput =
 		jnew JXInputField(window,
@@ -173,11 +173,11 @@ CBPTPrintSetupDialog::BuildWindow
 	assert( lastPageIndexLabel != NULL );
 	lastPageIndexLabel->SetToLabel();
 
-	JXStaticText* obj4_JXLayout =
-		jnew JXStaticText(JGetString("obj4_JXLayout::CBPTPrintSetupDialog::JXLayout"), window,
+	JXStaticText* copiesLabel =
+		jnew JXStaticText(JGetString("copiesLabel::CBPTPrintSetupDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 25,120, 115,20);
-	assert( obj4_JXLayout != NULL );
-	obj4_JXLayout->SetToLabel();
+	assert( copiesLabel != NULL );
+	copiesLabel->SetToLabel();
 
 	itsPrintHeaderCB =
 		jnew JXTextCheckbox(JGetString("itsPrintHeaderCB::CBPTPrintSetupDialog::JXLayout"), window,

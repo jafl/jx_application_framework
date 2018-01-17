@@ -98,7 +98,7 @@ label: Label:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
-name: 
+name: (labelLabel)
 callback: 
 argument: 
 
@@ -230,7 +230,7 @@ label: This is not a Glove data file.  Please select the appropriate filter.
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
-name: 
+name: (errorMessage)
 callback: 
 argument: 
 
@@ -524,7 +524,7 @@ label: Constant:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
-name: 
+name: (constantLabel)
 callback: 
 argument: 
 
@@ -1040,7 +1040,7 @@ label: Maximum:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
-name: 
+name: (maxLabel)
 callback: 
 argument: 
 
@@ -1058,7 +1058,7 @@ label: Minimum:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
-name: 
+name: (minLabel)
 callback: 
 argument: 
 
@@ -1094,7 +1094,7 @@ label: Count:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
-name: 
+name: (countLabel)
 callback: 
 argument: 
 
@@ -1226,7 +1226,7 @@ label: Increment:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
-name: 
+name: (incrLabel)
 callback: 
 argument: 
 
@@ -1244,7 +1244,7 @@ label: Minimum:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
-name: 
+name: (minLabel)
 callback: 
 argument: 
 
@@ -1280,7 +1280,7 @@ label: Count:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
-name: 
+name: (countLabel)
 callback: 
 argument: 
 
@@ -1358,7 +1358,7 @@ label: Function:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
-name: 
+name: (fnLabel)
 callback: 
 argument: 
 
@@ -1640,7 +1640,7 @@ label: Fit Name:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (fitNameLabel)
 callback: 
 argument: 
 
@@ -1658,7 +1658,7 @@ label: Fit function:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (fitFnLabel)
 callback: 
 argument: 
 
@@ -2072,7 +2072,7 @@ label: Powers:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_West FL_South
-name: 
+name: (powersLabel)
 callback: 
 argument: 
 
@@ -2162,7 +2162,7 @@ label: Fit name:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
-name: 
+name: (fitNameLabel)
 callback: 
 argument: 
 

@@ -38,12 +38,18 @@ public:
 	void	SetNormalColor(const JColorIndex color);
 	void	SetPushedColor(const JColorIndex color);
 
+	const JPoint&	GetPadding() const;
+	void			SetPaddingBeforeFTC(const JPoint& p);
+
 	virtual void	SetShortcuts(const JString& list);
+
+	virtual JString	ToString() const;
 
 protected:
 
-	virtual void	Draw(JXWindowPainter& p, const JRect& rect);
-	virtual void	DrawBackground(JXWindowPainter& p, const JRect& frame);
+	virtual void		Draw(JXWindowPainter& p, const JRect& rect);
+	virtual void		DrawBackground(JXWindowPainter& p, const JRect& frame);
+	virtual JCoordinate	GetFTCMinContentSize(const JBoolean horizontal) const;
 
 private:
 
@@ -52,6 +58,7 @@ private:
 	JIndex		itsULIndex;
 	JFont		itsFont;
 	JColorIndex	itsPushedColor;
+	JPoint		itsPadding;
 
 private:
 
@@ -148,6 +155,27 @@ JXTextButton::SetPushedColor
 		{
 		Refresh();
 		}
+}
+
+/******************************************************************************
+ Padding
+
+ ******************************************************************************/
+
+inline const JPoint&
+JXTextButton::GetPadding()
+	const
+{
+	return itsPadding;
+}
+
+inline void
+JXTextButton::SetPaddingBeforeFTC
+	(
+	const JPoint& p
+	)
+{
+	itsPadding = p;
 }
 
 #endif

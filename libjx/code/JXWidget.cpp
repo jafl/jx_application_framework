@@ -118,6 +118,25 @@ JXWidget::~JXWidget()
 }
 
 /******************************************************************************
+ ToString (virtual)
+
+ ******************************************************************************/
+
+JString
+JXWidget::ToString()
+	const
+{
+	return JXContainer::ToString() +
+			"(" +
+			(itsHSizing == kFixedLeft  ? "left"  :
+			 itsHSizing == kFixedRight ? "right" : "h-elastic") +
+			"," +
+			(itsVSizing == kFixedTop    ? "top"    :
+			 itsVSizing == kFixedBottom ? "bottom" : "v-elastic") +
+			")";
+}
+
+/******************************************************************************
  Refresh (virtual)
 
  ******************************************************************************/
@@ -545,6 +564,37 @@ JXWidget::AdjustSize
 		itsFrameG.bottom += dh;
 		itsFrameG.right  += dw;
 		ApertureResized(dw,dh);
+
+		Refresh();		// refresh new size
+		}
+}
+
+/******************************************************************************
+ FTCAdjustSize (virtual protected)
+
+ ******************************************************************************/
+
+void
+JXWidget::FTCAdjustSize
+	(
+	const JCoordinate dw,
+	const JCoordinate dh
+	)
+{
+	if (dw != 0 || dh != 0)
+		{
+		assert( itsFrameG.width() + dw > 0 && itsFrameG.height() + dh > 0 );
+
+		Refresh();		// refresh orig size
+
+		itsFrameG.bottom += dh;
+		itsFrameG.right  += dw;
+
+		if (itsApertureBoundedFlag)
+			{
+			itsBoundsG.bottom += dh;
+			itsBoundsG.right  += dw;
+			}
 
 		Refresh();		// refresh new size
 		}

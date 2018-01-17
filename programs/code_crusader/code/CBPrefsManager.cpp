@@ -493,7 +493,7 @@ CBPrefsManager::UpgradeData
 
 	if (currentVersion < 5)
 		{
-		SetDefaultFont(JGetMonospaceFontName(), kJDefaultMonoFontSize);
+		SetDefaultFont(JGetMonospaceFontName(), JGetDefaultMonoFontSize());
 		}
 
 	// collect file suffixes
@@ -1154,7 +1154,7 @@ CBPrefsManager::UpgradeData
 		GetDefaultFont(&name, &size);
 		if (name != "Courier")
 			{
-			SetDefaultFont(JGetMonospaceFontName(), kJDefaultMonoFontSize);
+			SetDefaultFont(JGetMonospaceFontName(), JGetDefaultMonoFontSize());
 			}
 		}
 

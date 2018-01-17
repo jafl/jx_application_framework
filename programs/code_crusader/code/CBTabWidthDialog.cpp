@@ -86,11 +86,11 @@ CBTabWidthDialog::BuildWindow
 					JXWidget::kHElastic, JXWidget::kVElastic, 120,20, 40,20);
 	assert( itsTabWidthInput != NULL );
 
-	JXStaticText* obj1_JXLayout =
-		jnew JXStaticText(JGetString("obj1_JXLayout::CBTabWidthDialog::JXLayout"), window,
+	JXStaticText* tabWidthLabel =
+		jnew JXStaticText(JGetString("tabWidthLabel::CBTabWidthDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 20,20, 100,20);
-	assert( obj1_JXLayout != NULL );
-	obj1_JXLayout->SetToLabel();
+	assert( tabWidthLabel != NULL );
+	tabWidthLabel->SetToLabel();
 
 // end JXLayout
 

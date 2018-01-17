@@ -58,6 +58,8 @@ public:
 
 	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers);
 
+	virtual JString	ToString() const;
+
 protected:
 
 	virtual void		HandleFocusEvent();
@@ -76,6 +78,8 @@ protected:
 
 	virtual JBoolean	NeedsToFilterText(const JString& text) const;
 	virtual JBoolean	FilterText(JString* text, JRunArray<JFont>* style);
+
+	virtual JCoordinate	GetFTCMinContentSize(const JBoolean horizontal) const;
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message);
 

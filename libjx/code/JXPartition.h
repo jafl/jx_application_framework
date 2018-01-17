@@ -64,6 +64,8 @@ protected:
 
 	virtual void	ApertureResized(const JCoordinate dw, const JCoordinate dh);
 
+	void	RestoreGeometry(const JArray<JCoordinate>& sizes);
+
 private:
 
 	JPtrArray<JXContainer>*	itsCompartments;

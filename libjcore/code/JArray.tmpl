@@ -12,6 +12,10 @@
 		the array elements, this can -only- be used for structs.
 		To store objects, use the JPtrArray template class.
 
+	We do not override ToString():  Since this function is virtual, it is
+	always instantiated.  Thus, we cannot print the values, because they
+	might not have operator<<
+
 	BASE CLASS = JList
 
 	Copyright (C) 1994-97 by John Lindal. All rights reserved.
@@ -158,7 +162,7 @@ T*
 JArray<T>::AllocateCArray()
 	const
 {
-	const JSize count = JCollection::GetElementCount();
+	const JSize count = this->JCollection::GetElementCount();
 
 	T* data = jnew T [ count ];
 	assert( data != NULL );
@@ -215,7 +219,7 @@ JArray<T>::CreateElement
 {
 	assert( index > 0 );
 
-	const JSize elementCount = JCollection::GetElementCount();
+	const JSize elementCount = this->JCollection::GetElementCount();
 	if (elementCount >= itsSlotCount)
 		{
 		AddSlots();
@@ -259,7 +263,7 @@ JArray<T>::RemoveNextElements
 	const JSize lastIndex = firstIndex + count-1;
 	assert( JCollection::IndexValid(firstIndex) && JCollection::IndexValid(lastIndex) );
 
-	const JSize elementCount = JCollection::GetElementCount();
+	const JSize elementCount = this->JCollection::GetElementCount();
 	JCollection::SetElementCount(elementCount - count);
 
 	if (lastIndex < elementCount)
@@ -438,7 +442,7 @@ template <class T>
 void
 JArray<T>::Sort()
 {
-	const JSize count = JCollection::GetElementCount();
+	const JSize count = this->JCollection::GetElementCount();
 	if (count < 2)
 		{
 		return;
@@ -489,7 +493,7 @@ JArray<T>::SearchSorted1
 	const JListT::SortOrder sortOrder = JList<T>::GetSortOrder();
 	*found = kJFalse;
 
-	const JSize count = JCollection::GetElementCount();
+	const JSize count = this->JCollection::GetElementCount();
 	if (count == 0)
 		{
 		return 1;

@@ -980,7 +980,7 @@ label: X Axis Label:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: (xLabel)
+name: (xAxisLabel)
 callback: 
 argument: 
 
@@ -1016,7 +1016,7 @@ label: Y Axis Label:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: (yLabel)
+name: (yAxisLabel)
 callback: 
 argument: 
 

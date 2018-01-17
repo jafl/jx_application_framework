@@ -90,7 +90,7 @@ GPMTreeHeaderWidget::TableDrawCell
 		}
 
 	const JFont font = GetFontManager()->GetFont(
-		JGetDefaultFontName(), kJDefaultRowColHeaderFontSize,
+		JGetDefaultFontName(), JGetDefaultRowColHeaderFontSize(),
 		JFontStyle(kJTrue, kJFalse, underLines, kJFalse, (p.GetColormap())->GetBlackColor()));
 	p.SetFont(font);
 	p.String(rect, str, JPainter::kHAlignCenter, JPainter::kVAlignCenter);

@@ -224,11 +224,13 @@ GXDataDocument::BuildWindow()
 
 	JXToolBar* toolBar =
 		jnew JXToolBar(GetPrefsMgr(), kDataToolBarID, menuBar,
-					150, 150, window,
+					window,
 					JXWidget::kHElastic, JXWidget::kVElastic,
 					0,kJXDefaultMenuBarHeight,
 					w,h - kJXDefaultMenuBarHeight);
 	assert( toolBar != NULL );
+
+	window->SetMinSize(150, 150);
 
 	itsFileMenu = menuBar->AppendTextMenu(kFileMenuTitleStr);
 	itsFileMenu->SetMenuItems(kFileMenuStr);

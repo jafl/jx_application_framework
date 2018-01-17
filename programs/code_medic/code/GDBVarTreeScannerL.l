@@ -45,7 +45,7 @@ STDWRAP		({STDCLASS}" wrapping: ")
 %{
 /************************************************************************/
 
-	memset(lvalp, 0, sizeof(YYSTYPE));
+	bzero(lvalp, sizeof(YYSTYPE));
 %}
 
 [+-]?{INT} {

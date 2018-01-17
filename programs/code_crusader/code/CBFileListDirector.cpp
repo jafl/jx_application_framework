@@ -284,13 +284,14 @@ CBFileListDirector::BuildWindow()
 	assert( menuBar != NULL );
 
 	itsToolBar =
-		jnew JXToolBar(CBGetPrefsManager(), kCBFileListToolBarID, menuBar, 150,150, window,
+		jnew JXToolBar(CBGetPrefsManager(), kCBFileListToolBarID, menuBar, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 340,420);
 	assert( itsToolBar != NULL );
 
 // end JXLayout
 
 	AdjustWindowTitle();
+	window->SetMinSize(150, 150);
 	window->ShouldFocusWhenShow(kJTrue);
 	window->SetCloseAction(JXWindow::kDeactivateDirector);
 	window->SetWMClass(CBGetWMClassInstance(), CBGetFileListWindowClass());

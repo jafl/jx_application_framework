@@ -60,6 +60,18 @@ JXTextCheckbox::~JXTextCheckbox()
 }
 
 /******************************************************************************
+ ToString (virtual)
+
+ ******************************************************************************/
+
+JString
+JXTextCheckbox::ToString()
+	const
+{
+	return JXCheckbox::ToString() + ": " + itsLabel;
+}
+
+/******************************************************************************
  Set label
 
  ******************************************************************************/
@@ -187,4 +199,21 @@ JXTextCheckbox::DrawBorder
 	const JRect&		frame
 	)
 {
+}
+
+/******************************************************************************
+ GetFTCMinContentSize (virtual protected)
+
+ ******************************************************************************/
+
+JCoordinate
+JXTextCheckbox::GetFTCMinContentSize
+	(
+	const JBoolean horizontal
+	)
+	const
+{
+	return (horizontal ?
+			JMax((JSize) GetApertureWidth(), 2*kMarginWidth + kBoxHeight + itsFont.GetStringWidth(itsLabel)) :
+			JMax(GetApertureHeight(), kBoxHeight, JRound(itsFont.GetLineHeight() * 1.25)));
 }

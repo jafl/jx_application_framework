@@ -52,10 +52,10 @@ JX Application Framework  | MFC             |  PowerPlant
 In this directory, you will find:
 
 ```
-README               This file
-INSTALL              Instructions for compiling and installing this package
+README.md            This file
+INSTALL.md           Instructions for compiling and installing this package
 LICENSE              License information
-CHANGES              Describes changes from previous versions
+CHANGES.md           Describes changes from previous versions
 
 tutorial             Tutorial source code demonstrating JX library
 doc                  Documentation for JX library
@@ -68,11 +68,12 @@ include
 
 libjcore
   code               JCore source
-  test               Sample source for using JCore classes
+  test               Unit tests
 
 libjx
   code               JX source
-  test               Sample application demonstrating JX library
+  test               Unit tests
+  testui             Sample application demonstrating JX library
 
 programs
   code_crusader      IDE
@@ -96,10 +97,9 @@ ACE
   test               Sample source for using ACE library
 
 misc
-  pcre-*             PCRE regular expression package
-  png                PNG library (new libgd)
-  xpm                XPM library (libXpm)
-  win32              Partial port to Windows
+  ctags              Patched version of Exuberant ctags
+  lldb-include       lldb includes for systems that do not have them
+  win32              Unfinished port to Windows
 ```
 
 Please read the LICENSE file for the conditions under which the source is
@@ -129,9 +129,9 @@ General problems
 
 ### Can I get a pre-compiled version of JX?
 
-No.  We gave up trying to distribute binaries a long time ago.  Everybody
-has a different version of the compiler and/or the required system
-libraries, so it causes more problems than it solves.
+Sorry, no.  We gave up trying to distribute binaries a long time ago.
+Everybody has a different version of the compiler and/or the required
+system libraries, so it causes more problems than it solves.
 
 
 ### How do I set environment variables?
@@ -222,3 +222,16 @@ Run `make J_WANT_INSTALL=0 *target*`
 
 No.  **JX** uses only the elementary functionality provided by **ACE**, and
 since this is very unlikely to change, you can safely use newer versions.
+
+
+### How do I debug window layouts that adjust to translated text?
+
+Hold down the Control, Meta, and Hyper keys while the window is being
+created.  Debugging horizontal expansion is the default.  Hold down shift
+to debug vertical expansion.  The color progression is:
+* blue
+* red
+* yellow
+* light blue
+* white
+* cyan

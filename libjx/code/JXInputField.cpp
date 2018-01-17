@@ -118,7 +118,7 @@ JXInputField::JXInputFieldX
 	itsContextMenu = NULL;
 	itsTable       = NULL;
 
-	SetDefaultFontSize(kJDefaultFontSize);
+	SetDefaultFontSize(JGetDefaultFontSize());
 	TESetLeftMarginWidth(kMinLeftMarginWidth);
 }
 
@@ -129,6 +129,18 @@ JXInputField::JXInputFieldX
 
 JXInputField::~JXInputField()
 {
+}
+
+/******************************************************************************
+ ToString (virtual)
+
+ ******************************************************************************/
+
+JString
+JXInputField::ToString()
+	const
+{
+	return JXTEBase::ToString() + ": " + GetText();
 }
 
 /******************************************************************************
@@ -728,3 +740,27 @@ JXInputField::HandleContextMenu
 #undef MenuVar
 #undef CmdCount
 #undef CmdIDList
+
+/******************************************************************************
+ GetFTCMinContentSize (virtual protected)
+
+ ******************************************************************************/
+
+JCoordinate
+JXInputField::GetFTCMinContentSize
+	(
+	const JBoolean horizontal
+	)
+	const
+{
+	if (!horizontal)
+		{
+		const JSize lineHeight = GetLineHeight(1);
+		if (GetApertureHeight() < lineHeight)
+			{
+			return lineHeight;
+			}
+		}
+
+	return JXTEBase::GetFTCMinContentSize(horizontal);
+}

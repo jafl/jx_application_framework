@@ -47,6 +47,7 @@
 .cpp ./code/CBRunCommandDialog
 .cpp ./code/CBExecOutputDocument
 .cpp ./code/CBCmdLineInput
+.cpp ./code/CBExecOutputPostFTCTask
 .cpp ./code/CBBuildManager
 .cpp ./code/CBCompileDocument
 .cpp ./code/CBProjectConfigDialog

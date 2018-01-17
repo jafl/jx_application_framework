@@ -36,13 +36,13 @@ END_ACE_MAKE = \
 
 .PHONY : jxinstall
 ifdef J_FORCE_ACE_STATIC
-  jxinstall: static
+  jxinstall: prep static
 	@${RM} -r ACE_wrappers/ace/libACE.so ACE_wrappers/ace/.shobj/
 else
 ifdef J_BUILD_SHARED_LIB
-  jxinstall: shared
+  jxinstall: prep shared
 else
-  jxinstall: static
+  jxinstall: prep static
 endif
 endif
   ifeq ($(shell whoami),root)
@@ -57,6 +57,14 @@ endif
          } \
      fi
   endif
+
+.PHONY : prep
+prep:
+	@if { test -x ACE_wrappers/bin/mwc.pl -a ! -f ${ACE_ROOT}/ace/Makefile -a ! -f ${ACE_ROOT}/ace/GNUmakefile; } then \
+         { \
+         cd ACE_wrappers; ./bin/mwc.pl -type gnuace ACE.mwc; \
+         } \
+     fi
 
 .PHONY : shared
 shared:

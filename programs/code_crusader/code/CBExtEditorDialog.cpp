@@ -88,24 +88,24 @@ CBExtEditorDialog::BuildWindow
 	assert( okButton != NULL );
 	okButton->SetShortcuts(JGetString("okButton::CBExtEditorDialog::shortcuts::JXLayout"));
 
-	JXStaticText* obj1_JXLayout =
-		jnew JXStaticText(JGetString("obj1_JXLayout::CBExtEditorDialog::JXLayout"), window,
+	JXStaticText* editTextHint =
+		jnew JXStaticText(JGetString("editTextHint::CBExtEditorDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 160,80, 270,20);
-	assert( obj1_JXLayout != NULL );
-	obj1_JXLayout->SetFontSize(8);
-	obj1_JXLayout->SetToLabel();
+	assert( editTextHint != NULL );
+	editTextHint->SetFontSize(JGetDefaultFontSize()-2);
+	editTextHint->SetToLabel();
 
-	JXStaticText* obj2_JXLayout =
-		jnew JXStaticText(JGetString("obj2_JXLayout::CBExtEditorDialog::JXLayout"), window,
+	JXStaticText* editTextLabel =
+		jnew JXStaticText(JGetString("editTextLabel::CBExtEditorDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 30,40, 170,20);
-	assert( obj2_JXLayout != NULL );
-	obj2_JXLayout->SetToLabel();
+	assert( editTextLabel != NULL );
+	editTextLabel->SetToLabel();
 
-	JXStaticText* obj3_JXLayout =
-		jnew JXStaticText(JGetString("obj3_JXLayout::CBExtEditorDialog::JXLayout"), window,
+	JXStaticText* editLineLabel =
+		jnew JXStaticText(JGetString("editLineLabel::CBExtEditorDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 30,60, 170,20);
-	assert( obj3_JXLayout != NULL );
-	obj3_JXLayout->SetToLabel();
+	assert( editLineLabel != NULL );
+	editLineLabel->SetToLabel();
 
 	itsExtTextEditorCB =
 		jnew JXTextCheckbox(JGetString("itsExtTextEditorCB::CBExtEditorDialog::JXLayout"), window,
@@ -117,18 +117,18 @@ CBExtEditorDialog::BuildWindow
 					JXWidget::kHElastic, JXWidget::kVElastic, 200,130, 230,20);
 	assert( itsEditBinaryFileCmdInput != NULL );
 
-	JXStaticText* obj4_JXLayout =
-		jnew JXStaticText(JGetString("obj4_JXLayout::CBExtEditorDialog::JXLayout"), window,
+	JXStaticText* editBinaryHint =
+		jnew JXStaticText(JGetString("editBinaryHint::CBExtEditorDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 200,150, 230,20);
-	assert( obj4_JXLayout != NULL );
-	obj4_JXLayout->SetFontSize(8);
-	obj4_JXLayout->SetToLabel();
+	assert( editBinaryHint != NULL );
+	editBinaryHint->SetFontSize(JGetDefaultFontSize()-2);
+	editBinaryHint->SetToLabel();
 
-	JXStaticText* obj5_JXLayout =
-		jnew JXStaticText(JGetString("obj5_JXLayout::CBExtEditorDialog::JXLayout"), window,
+	JXStaticText* editBinaryLabel =
+		jnew JXStaticText(JGetString("editBinaryLabel::CBExtEditorDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 30,130, 170,20);
-	assert( obj5_JXLayout != NULL );
-	obj5_JXLayout->SetToLabel();
+	assert( editBinaryLabel != NULL );
+	editBinaryLabel->SetToLabel();
 
 	itsExtBinaryEditorCB =
 		jnew JXTextCheckbox(JGetString("itsExtBinaryEditorCB::CBExtEditorDialog::JXLayout"), window,

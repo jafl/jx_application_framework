@@ -258,22 +258,32 @@ CMArray2DDir::BuildWindow()
 	JXWindow* window = jnew JXWindow(this, 370,500, "");
 	assert( window != NULL );
 
+	JXWidgetSet* rowFTCContainer =
+		jnew JXWidgetSet(window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 20,60, 120,90);
+	assert( rowFTCContainer != NULL );
+
+	JXWidgetSet* colFTCContainer =
+		jnew JXWidgetSet(window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 150,60, 200,90);
+	assert( colFTCContainer != NULL );
+
 	itsExprInput =
 		jnew CMArrayExprInput(window,
-					JXWidget::kHElastic, JXWidget::kFixedTop, 110,40, 240,20);
+					JXWidget::kHElastic, JXWidget::kFixedTop, 90,40, 260,20);
 	assert( itsExprInput != NULL );
 
-	JXStaticText* obj1_JXLayout =
-		jnew JXStaticText(JGetString("obj1_JXLayout::CMArray2DDir::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,95, 40,20);
-	assert( obj1_JXLayout != NULL );
-	obj1_JXLayout->SetToLabel();
+	JXStaticText* rowStartLabel =
+		jnew JXStaticText(JGetString("rowStartLabel::CMArray2DDir::JXLayout"), rowFTCContainer,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,35, 40,20);
+	assert( rowStartLabel != NULL );
+	rowStartLabel->SetToLabel();
 
-	JXStaticText* obj2_JXLayout =
-		jnew JXStaticText(JGetString("obj2_JXLayout::CMArray2DDir::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,125, 40,20);
-	assert( obj2_JXLayout != NULL );
-	obj2_JXLayout->SetToLabel();
+	JXStaticText* rowEndLabel =
+		jnew JXStaticText(JGetString("rowEndLabel::CMArray2DDir::JXLayout"), rowFTCContainer,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,65, 40,20);
+	assert( rowEndLabel != NULL );
+	rowEndLabel->SetToLabel();
 
 	JXMenuBar* menuBar =
 		jnew JXMenuBar(window,
@@ -286,52 +296,52 @@ CMArray2DDir::BuildWindow()
 	assert( scrollbarSet != NULL );
 
 	itsRowStartIndex =
-		jnew CMArrayIndexInput(window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 60,95, 60,20);
+		jnew CMArrayIndexInput(rowFTCContainer,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 40,35, 60,20);
 	assert( itsRowStartIndex != NULL );
 
 	itsRowEndIndex =
-		jnew CMArrayIndexInput(window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 60,125, 60,20);
+		jnew CMArrayIndexInput(rowFTCContainer,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 40,65, 60,20);
 	assert( itsRowEndIndex != NULL );
 
-	JXStaticText* obj3_JXLayout =
-		jnew JXStaticText(JGetString("obj3_JXLayout::CMArray2DDir::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,40, 90,20);
-	assert( obj3_JXLayout != NULL );
-	obj3_JXLayout->SetToLabel();
+	JXStaticText* exprLabel =
+		jnew JXStaticText(JGetString("exprLabel::CMArray2DDir::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,40, 70,20);
+	assert( exprLabel != NULL );
+	exprLabel->SetToLabel();
 
 	JXStaticText* rowIndexLabel =
-		jnew JXStaticText(JGetString("rowIndexLabel::CMArray2DDir::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,70, 100,20);
+		jnew JXStaticText(JGetString("rowIndexLabel::CMArray2DDir::JXLayout"), rowFTCContainer,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,10, 110,20);
 	assert( rowIndexLabel != NULL );
 	rowIndexLabel->SetToLabel();
 
-	JXStaticText* obj4_JXLayout =
-		jnew JXStaticText(JGetString("obj4_JXLayout::CMArray2DDir::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 160,95, 40,20);
-	assert( obj4_JXLayout != NULL );
-	obj4_JXLayout->SetToLabel();
+	JXStaticText* colStartLabel =
+		jnew JXStaticText(JGetString("colStartLabel::CMArray2DDir::JXLayout"), colFTCContainer,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,35, 40,20);
+	assert( colStartLabel != NULL );
+	colStartLabel->SetToLabel();
 
-	JXStaticText* obj5_JXLayout =
-		jnew JXStaticText(JGetString("obj5_JXLayout::CMArray2DDir::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 160,125, 40,20);
-	assert( obj5_JXLayout != NULL );
-	obj5_JXLayout->SetToLabel();
+	JXStaticText* colEndLabel =
+		jnew JXStaticText(JGetString("colEndLabel::CMArray2DDir::JXLayout"), colFTCContainer,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,65, 40,20);
+	assert( colEndLabel != NULL );
+	colEndLabel->SetToLabel();
 
 	itsColStartIndex =
-		jnew CMArrayIndexInput(window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 200,95, 60,20);
+		jnew CMArrayIndexInput(colFTCContainer,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 50,35, 60,20);
 	assert( itsColStartIndex != NULL );
 
 	itsColEndIndex =
-		jnew CMArrayIndexInput(window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 200,125, 60,20);
+		jnew CMArrayIndexInput(colFTCContainer,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 50,65, 60,20);
 	assert( itsColEndIndex != NULL );
 
 	JXStaticText* colIndexLabel =
-		jnew JXStaticText(JGetString("colIndexLabel::CMArray2DDir::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 160,70, 120,20);
+		jnew JXStaticText(JGetString("colIndexLabel::CMArray2DDir::JXLayout"), colFTCContainer,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,10, 110,20);
 	assert( colIndexLabel != NULL );
 	colIndexLabel->SetToLabel();
 

@@ -18,6 +18,7 @@
 #include <JXTextButton.h>
 #include <JXTextCheckbox.h>
 #include <JXPathHistoryMenu.h>
+#include <JXWidgetSet.h>
 #include <JXChooseSaveFile.h>
 #include <JXCheckModTimeTask.h>
 #include <JXFontManager.h>
@@ -120,6 +121,11 @@ JXFSRunCommandDialog::BuildWindow()
 	JXWindow* window = jnew JXWindow(this, 440,180, JString::empty);
 	assert( window != NULL );
 
+	JXWidgetSet* ftcContainer =
+		jnew JXWidgetSet(window,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 150,120, 280,60);
+	assert( ftcContainer != NULL );
+
 	itsCmdInput =
 		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 20,90, 290,20);
@@ -127,25 +133,25 @@ JXFSRunCommandDialog::BuildWindow()
 
 	JXStaticText* cmdLabel =
 		jnew JXStaticText(JGetString("cmdLabel::JXFSRunCommandDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,70, 110,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,70, 290,20);
 	assert( cmdLabel != NULL );
 	cmdLabel->SetToLabel();
 
 	itsCloseButton =
-		jnew JXTextButton(JGetString("itsCloseButton::JXFSRunCommandDialog::JXLayout"), window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 160,150, 60,20);
+		jnew JXTextButton(JGetString("itsCloseButton::JXFSRunCommandDialog::JXLayout"), ftcContainer,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 10,30, 60,20);
 	assert( itsCloseButton != NULL );
 	itsCloseButton->SetShortcuts(JGetString("itsCloseButton::JXFSRunCommandDialog::shortcuts::JXLayout"));
 
 	itsHelpButton =
-		jnew JXTextButton(JGetString("itsHelpButton::JXFSRunCommandDialog::JXLayout"), window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 260,150, 60,20);
+		jnew JXTextButton(JGetString("itsHelpButton::JXFSRunCommandDialog::JXLayout"), ftcContainer,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 110,30, 60,20);
 	assert( itsHelpButton != NULL );
 	itsHelpButton->SetShortcuts(JGetString("itsHelpButton::JXFSRunCommandDialog::shortcuts::JXLayout"));
 
 	itsRunButton =
-		jnew JXTextButton(JGetString("itsRunButton::JXFSRunCommandDialog::JXLayout"), window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 360,150, 60,20);
+		jnew JXTextButton(JGetString("itsRunButton::JXFSRunCommandDialog::JXLayout"), ftcContainer,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 210,30, 60,20);
 	assert( itsRunButton != NULL );
 	itsRunButton->SetShortcuts(JGetString("itsRunButton::JXFSRunCommandDialog::shortcuts::JXLayout"));
 
@@ -172,15 +178,15 @@ JXFSRunCommandDialog::BuildWindow()
 	itsUseWindowCB->SetShortcuts(JGetString("itsUseWindowCB::JXFSRunCommandDialog::shortcuts::JXLayout"));
 
 	itsStayOpenCB =
-		jnew JXTextCheckbox(JGetString("itsStayOpenCB::JXFSRunCommandDialog::JXLayout"), window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 340,120, 90,20);
+		jnew JXTextCheckbox(JGetString("itsStayOpenCB::JXFSRunCommandDialog::JXLayout"), ftcContainer,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 190,0, 90,20);
 	assert( itsStayOpenCB != NULL );
 
-	JXStaticText* dirLabel =
-		jnew JXStaticText(JGetString("dirLabel::JXFSRunCommandDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 210,20);
-	assert( dirLabel != NULL );
-	dirLabel->SetToLabel();
+	JXStaticText* directoryLabel =
+		jnew JXStaticText(JGetString("directoryLabel::JXFSRunCommandDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 290,20);
+	assert( directoryLabel != NULL );
+	directoryLabel->SetToLabel();
 
 	itsChoosePathButton =
 		jnew JXTextButton(JGetString("itsChoosePathButton::JXFSRunCommandDialog::JXLayout"), window,
@@ -203,6 +209,7 @@ JXFSRunCommandDialog::BuildWindow()
 	window->SetCloseAction(JXWindow::kDeactivateDirector);
 	window->LockCurrentMinSize();
 	window->ShouldFocusWhenShow(kJTrue);
+	ftcContainer->SetNeedsInternalFTC();
 
 	ListenTo(itsRunButton);
 	ListenTo(itsCloseButton);

@@ -27,6 +27,10 @@
 	have the wrong number of menu items.  The safe solution is to store
 	each item's text as a separate string, keyed to the ID of the menu item.
 
+	Pseudotranslation is useful for testing layout expansion and for
+	catching string concatenation (which should instead be done via
+	parameter insertion).
+
 	BASE CLASS = public JStringPtrMap<JString>
 
 	Copyright (C) 2000 by John Lindal.  All rights reserved.
@@ -45,6 +49,7 @@
 #include <jAssert.h>
 
 static const JString theDataDirName("string_data", 0, kJFalse);
+JBoolean JStringManager::thePseudotranslationFlag = kJFalse;
 
 // non-overridable strings
 
@@ -64,7 +69,7 @@ const JSize kNoOverrideIDCount = sizeof(kNoOverrideID) / sizeof(JUtf8Byte*);
 
 JStringManager::JStringManager()
 	:
-	// does kDeleteAll make quitting too slow?
+	// does kDeleteAll make quitting too slow? -- apparently not
 	JStringPtrMap<JString>(JPtrArrayT::kDeleteAll)
 {
 	itsReplaceEngine = jnew JSubstitute;
@@ -83,9 +88,6 @@ JStringManager::~JStringManager()
 
 /******************************************************************************
  Get
-
-	We assert that the id exists because it's a programmer error otherwise.
-	If you don't want this behavior, use GetElement().
 
  *****************************************************************************/
 
@@ -338,6 +340,7 @@ JStringManager::MergeFile
 	input >> format;
 	if (format != kASCIIFormat && format != kUTF8Format)
 		{
+		std::cerr << "Invalid string file format: " << format << std::endl;
 		return;
 		}
 
@@ -377,6 +380,10 @@ JStringManager::MergeFile
 
 		if (CanOverride(id))
 			{
+			if (thePseudotranslationFlag)
+				{
+				Pseudotranslate(s);
+				}
 			SetElement(id, s, JPtrArrayT::kDelete);
 			}
 		else if (!SetNewElement(id, s))
@@ -428,4 +435,77 @@ JStringManager::WriteFile
 		cursor.GetKey().Print(output);
 		output << ' ' << *(cursor.GetValue()) << std::endl;
 		}
+}
+
+/******************************************************************************
+ Pseudotranslate (static private)
+
+ *****************************************************************************/
+
+static const JUtf8Byte* kPseudotranslatePrefix = "[\xE6\x96\x87\xE5\xAD\x97";
+static const JUtf8Byte* kPseudotranslateSuffix = "??]";
+
+struct Pseudotranslation
+{
+	const JUtf8Byte  c;
+	const JUtf8Byte* s;
+};
+
+static const Pseudotranslation kPseudotranslateList[] =
+{
+	{ 'A', "\xC3\x85" },
+	{ 'a', "\xC3\xA5" },
+	{ 'E', "\xC3\x89" },
+	{ 'e', "\xC3\xA9" },
+	{ 'I', "\xC3\x8E" },
+	{ 'i', "\xC3\xAE" },
+	{ 'O', "\xC3\x98" },
+	{ 'o', "\xC3\xB8" },
+	{ 'U', "\xC3\x9C" },
+	{ 'u', "\xC3\xBC" },
+	{ 'C', "\xC3\x87" },
+	{ 'c', "\xC3\xA7" },
+	{ 'G', "\xC4\x9C" },
+	{ 'g', "\xC4\x9D" },
+	{ 'K', "\xC6\x98" },
+	{ 'k', "\xC6\x99" },
+	{ 'N', "\xC3\x91" },
+	{ 'n', "\xC3\xB1" },
+	{ 'R', "\xD0\xAF" },
+	{ 'r', "\xD1\x8F" },
+	{ 'S', "\xC5\xA0" },
+	{ 's', "\xC5\xA1" },
+	{ 'U', "\xC3\x9C" },
+	{ 'u', "\xC3\xBC" },
+	{ 'W', "\xE1\xBA\x80" },
+	{ 'w', "\xE1\xBA\x81" },
+	{ '$', "\xC2\xA4" },
+	{ '.', "\xEF\xBD\xA1" },
+	{ '?', "\xC2\xBF" }
+};
+
+const JSize kPseudotranslateCount = sizeof(kPseudotranslateList)/sizeof(Pseudotranslation);
+
+void
+JStringManager::Pseudotranslate
+	(
+	JString* s
+	)
+{
+	JStringIterator iter(s);
+	JUtf8Character c;
+	while (iter.Next(&c))
+		{
+		for (JIndex j=0; j<kPseudotranslateCount; j++)
+			{
+			if (c == kPseudotranslateList[j].c)
+				{
+				iter.Insert(kPseudotranslateList[j].s);
+				iter.SkipNext();
+				}
+			}
+		}
+
+	s->Prepend(kPseudotranslatePrefix);
+	s->Append(kPseudotranslateSuffix);
 }

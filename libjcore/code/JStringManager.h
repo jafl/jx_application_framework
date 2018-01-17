@@ -48,16 +48,35 @@ public:
 
 	static JBoolean	CanOverride(const JString& id);
 
+	static void	EnablePseudotranslation();
+
 private:
 
 	JSubstitute*	itsReplaceEngine;
+	static JBoolean	thePseudotranslationFlag;
 
 private:
+
+	static void	Pseudotranslate(JString* s);
 
 	// not allowed
 
 	JStringManager(const JStringManager& source);
 	const JStringManager& operator=(const JStringManager& source);
 };
+
+
+/******************************************************************************
+ EnablePseudotranslation
+
+	This must be called before initialization.
+
+ *****************************************************************************/
+
+inline void
+JStringManager::EnablePseudotranslation()
+{
+	thePseudotranslationFlag = kJTrue;
+}
 
 #endif

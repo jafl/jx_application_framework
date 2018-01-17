@@ -310,6 +310,15 @@ JXSaveFileDialog::SetObjects
 	ListenTo(itsFileNameInput);
 
 	cancelButton->SetShortcuts(JGetString("CancelShortcut::JXGlobal"));
+
+	// layout hack for FTC
+
+	const JRect r1 = itsFileNameInput->GetFrameGlobal(),
+				r2 = cancelButton->GetFrameGlobal();
+	if (r1.top == r2.top)
+		{
+		cancelButton->Move(0, -1);
+		}
 }
 
 /******************************************************************************

@@ -134,11 +134,11 @@ GLPolyFitDialog::BuildWindow()
 					JXWidget::kFixedLeft, JXWidget::kVElastic, 185,380, 110,20);
 	assert( itsCB[9] != NULL );
 
-	JXStaticText* obj1_JXLayout =
-		jnew JXStaticText(JGetString("obj1_JXLayout::GLPolyFitDialog::JXLayout"), window,
+	JXStaticText* powersLabel =
+		jnew JXStaticText(JGetString("powersLabel::GLPolyFitDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kVElastic, 90,158, 65,20);
-	assert( obj1_JXLayout != NULL );
-	obj1_JXLayout->SetToLabel();
+	assert( powersLabel != NULL );
+	powersLabel->SetToLabel();
 
 	JXTextButton* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::GLPolyFitDialog::JXLayout"), window,
@@ -162,11 +162,11 @@ GLPolyFitDialog::BuildWindow()
 					JXWidget::kHElastic, JXWidget::kFixedTop, 90,15, 270,20);
 	assert( itsNameInput != NULL );
 
-	JXStaticText* obj2_JXLayout =
-		jnew JXStaticText(JGetString("obj2_JXLayout::GLPolyFitDialog::JXLayout"), window,
+	JXStaticText* fitNameLabel =
+		jnew JXStaticText(JGetString("fitNameLabel::GLPolyFitDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 20,15, 65,20);
-	assert( obj2_JXLayout != NULL );
-	obj2_JXLayout->SetToLabel();
+	assert( fitNameLabel != NULL );
+	fitNameLabel->SetToLabel();
 
 // end JXLayout
 

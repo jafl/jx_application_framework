@@ -188,31 +188,31 @@ CBNewProjectSaveFileDialog::BuildWindow
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 60,50, 200,20);
 	assert( filterInput != NULL );
 
-	JXStaticText* obj1_JXLayout =
-		jnew JXStaticText(JGetString("obj1_JXLayout::CBNewProjectSaveFileDialog::JXLayout"), window,
+	JXStaticText* makefileTitle =
+		jnew JXStaticText(JGetString("makefileTitle::CBNewProjectSaveFileDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 20,420, 140,20);
-	assert( obj1_JXLayout != NULL );
-	obj1_JXLayout->SetToLabel();
+	assert( makefileTitle != NULL );
+	makefileTitle->SetToLabel();
 
 	itsMethodRG =
 		jnew JXRadioGroup(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 160,390, 132,106);
 	assert( itsMethodRG != NULL );
 
-	JXTextRadioButton* obj2_JXLayout =
-		jnew JXTextRadioButton(CBBuildManager::kManual, JGetString("obj2_JXLayout::CBNewProjectSaveFileDialog::JXLayout"), itsMethodRG,
+	JXTextRadioButton* manualRB =
+		jnew JXTextRadioButton(CBBuildManager::kManual, JGetString("manualRB::CBNewProjectSaveFileDialog::JXLayout"), itsMethodRG,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,10, 110,20);
-	assert( obj2_JXLayout != NULL );
+	assert( manualRB != NULL );
 
 	JXTextRadioButton* qmakeRB =
 		jnew JXTextRadioButton(CBBuildManager::kQMake, JGetString("qmakeRB::CBNewProjectSaveFileDialog::JXLayout"), itsMethodRG,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,70, 110,20);
 	assert( qmakeRB != NULL );
 
-	JXTextRadioButton* obj3_JXLayout =
-		jnew JXTextRadioButton(CBBuildManager::kMakemake, JGetString("obj3_JXLayout::CBNewProjectSaveFileDialog::JXLayout"), itsMethodRG,
+	JXTextRadioButton* makemakeRB =
+		jnew JXTextRadioButton(CBBuildManager::kMakemake, JGetString("makemakeRB::CBNewProjectSaveFileDialog::JXLayout"), itsMethodRG,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,30, 110,20);
-	assert( obj3_JXLayout != NULL );
+	assert( makemakeRB != NULL );
 
 	JXPathHistoryMenu* pathHistory =
 		jnew JXPathHistoryMenu(1, "", window,

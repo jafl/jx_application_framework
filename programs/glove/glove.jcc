@@ -1,4 +1,4 @@
-jx_browser_data 86
+jx_browser_data 87
 # project tree
 0 "root"
 T
@@ -381,34 +381,11 @@ F
 "./strings/GLTOCHelpText"
 F
 T
-1 "other"
+1 "layouts"
 T
 2 "glove.fd"
 F
 "./glove.fd"
-F
-T
-1 "html"
-T
-2 "changes.html"
-F
-"../../../../../../t2/glenn/public_html/glove/changes.html"
-T
-2 "compare.html"
-F
-"../../../../../../t2/glenn/public_html/glove/compare.html"
-T
-2 "faq.html"
-F
-"../../../../../../t2/glenn/public_html/glove/faq.html"
-T
-2 "glove.html"
-F
-"../../../../../../t2/glenn/public_html/glove/glove.html"
-T
-2 "modules.html"
-F
-"../../../../../../t2/glenn/public_html/glove/modules.html"
 F
 F
 # tasks
@@ -444,7 +421,6 @@ T "./" "./glove ../../../data/piersons.dat" "" F F F F T T F "" "" "s8Yl\\0 uyF2
 T "./" "./glove ../../../data/maxwell1.glv" "" F F F F T T F "" "" ":FhcOH;YD-G+d9FLE\"3p::CBCommandManager" T
 T "./" "medic glove -f +$line $full_name" "" F F F T F F F "" "" "CRHgAs.r+2B0Z_o'gy^`::CBCommandManager" F
 T "./" "medic -f +$line $full_name" "" F F F T F F F "" "" "sA*%gwZY)nGi&ns`{!`y::CBCommandManager" T
-T "@" "jxlayout --choose --post-cmd 'jcc --reload-open' $file_name" "" F F T T T T F "Compile layouts" "F10" "" T
 F
 # build settings
 1

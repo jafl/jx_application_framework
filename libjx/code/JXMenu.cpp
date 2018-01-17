@@ -57,12 +57,6 @@
 JXMenu::Style JXMenu::theDefaultStyle = JXMenu::kMacintoshStyle;
 JXMenu::Style JXMenu::theDisplayStyle = JXMenu::kWindowsStyle;
 
-static const JString kMenuFontFileName("~/.jx/menu_font", 0, kJFalse);
-JBoolean JXMenu::theDefaultMenuFontInitFlag = kJFalse;
-JString JXMenu::theDefaultFontName;
-JSize JXMenu::theDefaultFontSize;
-
-const JCoordinate kTitleExtraWidth      = 16;
 const JCoordinate kImageTextBufferWidth = 4;
 
 // information for drawing arrow when used as popup menu
@@ -164,6 +158,9 @@ JXMenu::JXMenuX
 	const JBoolean		menuOwnsImage
 	)
 {
+	const JSize lineHeight = itsTitleFont.GetLineHeight();
+	itsTitlePadding.Set(lineHeight/2, lineHeight/4);
+
 	itsTitleImage         = NULL;
 	itsOwnsTitleImageFlag = kJFalse;
 	itsShortcuts          = NULL;
@@ -179,6 +176,8 @@ JXMenu::JXMenuX
 	itsIsPopupChoiceFlag     = kJFalse;
 	itsIsHiddenPopupMenuFlag = kJFalse;
 	itsMenuDirector          = NULL;
+
+	itsWaitingForFTCFlag = kJTrue;
 
 	SetTitle(title, image, menuOwnsImage);
 
@@ -214,44 +213,6 @@ JXMenu::~JXMenu()
 		{
 		jdelete itsTitleImage;
 		}
-}
-
-/******************************************************************************
- Default menu font (static)
-
- ******************************************************************************/
-
-const JString&
-JXMenu::GetDefaultFont
-	(
-	JSize* size
-	)
-{
-	if (!theDefaultMenuFontInitFlag)
-		{
-		theDefaultMenuFontInitFlag = kJTrue;
-		theDefaultFontName         = JGetDefaultFontName();
-		theDefaultFontSize         = kJDefaultFontSize;
-
-		JString fileName;
-		if (JExpandHomeDirShortcut(kMenuFontFileName, &fileName))
-			{
-			std::ifstream input(fileName.GetBytes());
-			input >> std::ws;
-			JString name = JReadLine(input);
-			name.TrimWhitespace();
-			JSize size;
-			input >> size;
-			if (input.good())
-				{
-				theDefaultFontName = name;
-				theDefaultFontSize = size;
-				}
-			}
-		}
-
-	*size = theDefaultFontSize;
-	return theDefaultFontName;
 }
 
 /******************************************************************************
@@ -403,7 +364,7 @@ JXMenu::UpdateTitleGeometry()
 		}
 	if (w > 0)
 		{
-		w += kTitleExtraWidth;
+		w += 2*itsTitlePadding.x;
 		}
 	AdjustAppearance(w);
 	Refresh();
@@ -969,12 +930,30 @@ JXMenu::AdjustAppearance
 	const JCoordinate minWidth
 	)
 {
+	// use the same cursor for consistency
+
+	if (itsOwner != NULL)
+		{
+		SetDefaultCursor(itsOwner->GetDefaultCursor());
+		}
+	else if (itsMenuBar != NULL)
+		{
+		SetDefaultCursor(itsMenuBar->GetDefaultCursor());
+		}
+
+	// adjust width
+
 	itsMinWidth = minWidth;
 
 	JCoordinate w = minWidth;
 	if (itsOwner == NULL && itsMenuBar == NULL)
 		{
 		SetBorderWidth(kJXDefaultBorderWidth);
+		if (itsWaitingForFTCFlag)
+			{
+			return;
+			}
+
 		w += kTotalArrowWidth + 2*kJXDefaultBorderWidth;
 		}
 	else
@@ -984,7 +963,7 @@ JXMenu::AdjustAppearance
 
 	if (w <= 0)
 		{
-		w = kTitleExtraWidth;
+		w = 2*itsTitlePadding.x;
 		}
 
 	const JCoordinate dw = w - GetFrameWidth();
@@ -995,17 +974,6 @@ JXMenu::AdjustAppearance
 			{
 			itsMenuBar->MenuWidthChanged(this, dw);
 			}
-		}
-
-	// use the same cursor for consistency
-
-	if (itsOwner != NULL)
-		{
-		SetDefaultCursor(itsOwner->GetDefaultCursor());
-		}
-	else if (itsMenuBar != NULL)
-		{
-		SetDefaultCursor(itsMenuBar->GetDefaultCursor());
 		}
 }
 
@@ -1233,7 +1201,7 @@ JXMenu::Draw
 
 	p.SetClipRect(r);
 
-	r.left += kTitleExtraWidth/2;
+	r.left += itsTitlePadding.x;
 	if (itsTitleImage != NULL)
 		{
 		JRect ir = r;
@@ -1564,4 +1532,106 @@ JXMenu::IsMenu()
 	const
 {
 	return kJTrue;
+}
+
+/******************************************************************************
+ IncludeInFTC (virtual protected)
+
+ ******************************************************************************/
+
+JBoolean
+JXMenu::IncludeInFTC()
+	const
+{
+	return JI2B(!itsIsHiddenPopupMenuFlag && itsOwner == NULL &&
+				JXContainer::IncludeInFTC());
+}
+
+/******************************************************************************
+ GetFTCMinContentSize (virtual protected)
+
+ ******************************************************************************/
+
+JCoordinate
+JXMenu::GetFTCMinContentSize
+	(
+	const JBoolean horizontal
+	)
+	const
+{
+	const_cast<JXMenu*>(this)->itsWaitingForFTCFlag = kJFalse;
+
+	if (horizontal && IsHiddenPopupMenu())
+		{
+		return GetApertureWidth();
+		}
+
+	JCoordinate widgetBorderWidth = GetBorderWidth(),
+				borderWidth = 0,
+				arrowWidth  = 0;
+	if (widgetBorderWidth == 0)
+		{
+		borderWidth = kJXDefaultBorderWidth;
+		}
+	else if (widgetBorderWidth > 0)
+		{
+		arrowWidth = kTotalArrowWidth;
+		}
+
+	if (itsTitle.IsEmpty())
+		{
+		const JRect apG = GetApertureGlobal();
+		return horizontal ? apG.width() : apG.height();
+		}
+	else if (horizontal)
+		{
+		const_cast<JXMenu*>(this)->itsWaitingForFTCFlag = kJTrue;
+		const JSize tw = IsPopupChoice() ?
+			GetMaxPopupChoiceTitleWidth() :
+			itsTitleFont.GetStringWidth(itsTitle);
+		const_cast<JXMenu*>(this)->itsWaitingForFTCFlag = kJFalse;
+
+		return ((itsTitleImage != NULL ? itsTitleImage->GetWidth() : 0) +
+				(itsTitleImage != NULL && tw > 0 ? kImageTextBufferWidth : 0) +
+				(itsTitleImage != NULL || tw > 0 ? 2*itsTitlePadding.x : 0) +
+				tw +
+				arrowWidth +
+				2*borderWidth);
+		}
+	else
+		{
+		return (JMax(itsTitleImage != NULL ? itsTitleImage->GetHeight() : 0,
+					 (JCoordinate) itsTitleFont.GetLineHeight()) +
+				2*borderWidth +
+				2*itsTitlePadding.y);
+		}
+}
+
+/******************************************************************************
+ GetMaxPopupChoiceTitleWidth (private)
+
+ ******************************************************************************/
+
+JSize
+JXMenu::GetMaxPopupChoiceTitleWidth()
+	const
+{
+	JXMenu* self = const_cast<JXMenu*>(this);	// conceptually const
+
+	const JString origTitle      = itsTitle;
+	JXImage* origTitleImage      = itsTitleImage;
+	const JBoolean origOwnsImage = itsOwnsTitleImageFlag;
+
+	self->itsOwnsTitleImageFlag = kJFalse;		// don't delete the image, so we can restore it
+
+	JSize max         = 0;
+	const JSize count = GetItemCount();
+	for (JIndex i=1; i<=count; i++)
+		{
+		self->AdjustPopupChoiceTitle(i);
+		max = JMax(max, itsTitleFont.GetStringWidth(itsTitle));
+		}
+
+	self->SetTitle(origTitle, origTitleImage, origOwnsImage);
+	return max;
 }

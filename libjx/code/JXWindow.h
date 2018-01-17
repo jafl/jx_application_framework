@@ -28,10 +28,12 @@ class JXWindowIcon;
 class JXHintManager;
 class JXDockWidget;
 class JXDockWindowTask;
+class JXExpandWindowToFitContentTask;
 
 class JXWindow : public JXContainer
 {
 	friend class JXDockWindowTask;
+	friend class JXExpandWindowToFitContentTask;
 
 public:
 
@@ -270,7 +272,8 @@ public:
 	void	UndockedPlace(const JCoordinate enclX, const JCoordinate enclY);
 	void	UndockedMove(const JCoordinate dx, const JCoordinate dy);
 
-	void	UndockedSetSize(const JCoordinate w, const JCoordinate h);
+	void	UndockedSetSize(const JCoordinate w, const JCoordinate h,
+							const JBoolean ftc = kJFalse);
 
 protected:
 
@@ -282,6 +285,8 @@ protected:
 	virtual void	EnclosingBoundsMoved(const JCoordinate dx, const JCoordinate dy);
 	virtual void	BoundsResized(const JCoordinate dw, const JCoordinate dh);
 	virtual void	EnclosingBoundsResized(const JCoordinate dw, const JCoordinate dh);
+
+	virtual void	FTCAdjustSize(const JCoordinate dw, const JCoordinate dh);
 
 private:
 
@@ -375,6 +380,7 @@ private:
 	JPoint		itsMinSize;
 	JBoolean	itsHasMaxSizeFlag;
 	JPoint		itsMaxSize;
+	JPoint		itsFTCDelta;				// prevent size creep
 
 	JArray<Shortcut>*	itsShortcuts;
 
@@ -418,6 +424,10 @@ private:
 	static JBoolean	theAutoDockNewWindowFlag;			// kJTrue => check auto-docking settings
 	static JBoolean	theFocusFollowsCursorInDockFlag;	// kJTrue => automatically set input focus to docked window containing cursor
 
+	// FTC
+
+	JXExpandWindowToFitContentTask*	itsExpandTask;		// NULL unless waiting for it
+
 private:
 
 	Drawable	PrepareForUpdate();
@@ -446,7 +456,7 @@ private:
 	JBoolean	InstallShortcut(const Shortcut& s);
 
 	void	UpdateFrame();
-	void	UpdateBounds(const JCoordinate w, const JCoordinate h);
+	void	UpdateBounds(const JCoordinate w, const JCoordinate h, const JBoolean ftc);
 	JPoint	CalcDesktopLocation(const JCoordinate x, const JCoordinate y,
 								const JCoordinate direction) const;
 

@@ -32,7 +32,6 @@ static const JCharacter* kTreeMenuStr =
 	"%l| Collapse               %k Meta-<                       %i" kCBCollapseClassesAction
 	"  | Expand                 %k Meta->                       %i" kCBExpandClassesAction
 	"  | Expand all                                             %i" kCBExpandAllClassesAction
-	"  | Show lone classes   %b                                 %i" kCBShowLoneClassAction
 	"%l| Select parents                                         %i" kCBSelectParentClassAction
 	"  | Select descendants                                     %i" kCBSelectDescendantClassAction
 	"  | Copy selected names    %k Meta-C                       %i" kCBCopyClassNameAction
@@ -45,7 +44,6 @@ enum
 	kForceMinMILinksCmd,
 	kTreeOpenSourceCmd, kTreeOpenFnListCmd,
 	kTreeCollapseCmd, kTreeExpandCmd, kTreeExpandAllCmd,
-	kTreeShowLoneClassesCmd,
 	kTreeSelParentsCmd, kTreeSelDescendantsCmd, kCopySelNamesCmd,
 	kFindFnCmd, kCloseFnWindCmd
 };
@@ -121,8 +119,6 @@ CBJavaTreeDirector::UpdateTreeMenu()
 	treeMenu->EnableItem(kEditSearchPathsCmd);
 	treeMenu->EnableItem(kUpdateCurrentCmd);
 
-	treeMenu->EnableItem(kTreeShowLoneClassesCmd);
-
 	if (!itsJavaTree->IsEmpty())
 		{
 		treeMenu->EnableItem(kFindFnCmd);
@@ -132,11 +128,6 @@ CBJavaTreeDirector::UpdateTreeMenu()
 			{
 			treeMenu->EnableItem(kForceMinMILinksCmd);
 			}
-		}
-
-	if (itsJavaTree->WillShowLoneClasses())
-		{
-		treeMenu->CheckItem(kTreeShowLoneClassesCmd);
 		}
 
 	JBoolean hasSelection, canCollapse, canExpand;
@@ -210,10 +201,6 @@ CBJavaTreeDirector::HandleTreeMenu
 	else if (index == kTreeExpandAllCmd)
 		{
 		itsJavaTree->ExpandAllClasses();
-		}
-	else if (index == kTreeShowLoneClassesCmd)
-		{
-		itsJavaTree->ToggleShowLoneClasses();
 		}
 
 	else if (index == kTreeSelParentsCmd)

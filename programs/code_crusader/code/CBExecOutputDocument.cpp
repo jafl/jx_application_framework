@@ -10,10 +10,10 @@
 #include "CBExecOutputDocument.h"
 #include "CBTextEditor.h"
 #include "CBCmdLineInput.h"
+#include "CBExecOutputPostFTCTask.h"
 #include "cbGlobals.h"
 #include <JXWindow.h>
 #include <JXMenuBar.h>
-#include <JXToolBar.h>
 #include <JXTextButton.h>
 #include <JXStaticText.h>
 #include <JOutPipeStream.h>
@@ -24,7 +24,6 @@
 #include <jAssert.h>
 
 const JSize kMenuButtonWidth = 60;
-const JSize kEOFButtonWidth  = 40;
 
 // JBroadcaster message types
 
@@ -68,8 +67,8 @@ CBExecOutputDocument::CBExecOutputDocument
 
 	itsPauseButton =
 		jnew JXTextButton(JGetString("PauseLabel::CBExecOutputDocument"), window,
-						 JXWidget::kFixedRight, JXWidget::kFixedTop,
-						 rect.right - x,0, kMenuButtonWidth,h);
+						  JXWidget::kFixedRight, JXWidget::kFixedTop,
+						  rect.right - x,0, kMenuButtonWidth,h);
 	assert( itsPauseButton != NULL );
 	ListenTo(itsPauseButton);
 	itsPauseButton->SetShortcuts("^Z");
@@ -79,8 +78,8 @@ CBExecOutputDocument::CBExecOutputDocument
 		{
 		itsStopButton =
 			jnew JXTextButton(JGetString("StopLabel::CBExecOutputDocument"), window,
-							 JXWidget::kFixedRight, JXWidget::kFixedTop,
-							 rect.right - 2*kMenuButtonWidth,0, kMenuButtonWidth,h);
+							  JXWidget::kFixedRight, JXWidget::kFixedTop,
+							  rect.right - 2*kMenuButtonWidth,0, kMenuButtonWidth,h);
 		assert( itsStopButton != NULL );
 		ListenTo(itsStopButton);
 		itsStopButton->SetShortcuts("^C#.");
@@ -93,8 +92,8 @@ CBExecOutputDocument::CBExecOutputDocument
 
 	itsKillButton =
 		jnew JXTextButton(JGetString("KillLabel::CBExecOutputDocument"), window,
-						 JXWidget::kFixedRight, JXWidget::kFixedTop,
-						 rect.right - kMenuButtonWidth,0, kMenuButtonWidth,h);
+						  JXWidget::kFixedRight, JXWidget::kFixedTop,
+						  rect.right - kMenuButtonWidth,0, kMenuButtonWidth,h);
 	assert( itsKillButton != NULL );
 	ListenTo(itsKillButton);
 
@@ -110,43 +109,36 @@ CBExecOutputDocument::CBExecOutputDocument
 
 	JXWidget::HSizingOption hSizing;
 	JXWidget::VSizingOption vSizing;
-	const JRect fileRect = GetFileDisplayInfo(&hSizing, &vSizing);
+	GetFileDisplayInfo(&hSizing, &vSizing);
 
 	itsCmdPrompt =
 		jnew JXStaticText(JGetString("CmdPrompt::CBExecOutputDocument"), window,
-						 JXWidget::kFixedLeft, vSizing,
-						 fileRect.left, fileRect.top+3, 0, fileRect.height()-3);
+						  JXWidget::kFixedLeft, vSizing,
+						  -1000, -1000, 0, 500);
 	assert( itsCmdPrompt != NULL );
+	itsCmdPrompt->SetToLabel();
 	itsCmdPrompt->Hide();
-
-	const JCoordinate promptWidth = itsCmdPrompt->GetFrameWidth();
-
-	JXToolBar* toolBar = GetToolBar();
-	JCoordinate minWidth, minHeight;
-	toolBar->GetWindowMinSize(&minWidth, &minHeight);
-	minWidth += promptWidth;
-	toolBar->SetWindowMinSize(minWidth, minHeight);
 
 	itsCmdInput =
 		jnew CBCmdLineInput(this, window, hSizing, vSizing,
-						   fileRect.left + promptWidth, fileRect.top,
-						   fileRect.width() - promptWidth - kEOFButtonWidth,
-						   fileRect.height());
+							-1000, -1000, 500, 500);
 	assert( itsCmdInput != NULL );
 	itsCmdInput->ShareEditMenu(GetTextEditor());
 	itsCmdInput->Hide();
 
 	itsEOFButton =
 		jnew JXTextButton(JGetString("EOFButtonTitle::CBExecOutputDocument"), window,
-						 JXWidget::kFixedRight, vSizing,
-						 fileRect.right - kEOFButtonWidth, fileRect.top,
-						 kEOFButtonWidth, fileRect.height());
+						  JXWidget::kFixedRight, vSizing,
+						  -1000, -1000, 500, 500);
 	assert( itsEOFButton != NULL );
 	itsEOFButton->SetShortcuts("^D");
 	itsEOFButton->Hide();
 	ListenTo(itsEOFButton);
 
-	UpdateButtons();
+	JXUrgentTask* task = jnew CBExecOutputPostFTCTask(this);
+	assert( task != NULL );
+	task->Go();
+
 	GetTextEditor()->SetWritable(kJFalse);
 	(JXGetDocumentManager())->DocumentMustStayOpen(this, kJTrue);
 
@@ -169,6 +161,51 @@ CBExecOutputDocument::~CBExecOutputDocument()
 	CloseOutFD();
 
 	jdelete itsProcess;
+}
+
+/******************************************************************************
+ PlaceCmdLineWidgets (virtual protected)
+
+ ******************************************************************************/
+
+const JCoordinate kMinCmdInputWidth = 20;
+
+void
+CBExecOutputDocument::PlaceCmdLineWidgets()
+{
+	JXWindow* window = GetWindow();
+
+	JXWidget::HSizingOption hSizing;
+	JXWidget::VSizingOption vSizing;
+	const JRect fileRect = GetFileDisplayInfo(&hSizing, &vSizing);
+
+	itsCmdPrompt->Place(fileRect.left, fileRect.top);
+	itsCmdPrompt->AdjustSize(0, fileRect.height() - itsCmdPrompt->GetFrameHeight());
+
+	const JCoordinate promptWidth = itsCmdPrompt->GetFrameWidth();
+
+	const JCoordinate eofWidth =
+		itsEOFButton->GetFont().GetStringWidth(itsEOFButton->GetLabel()) +
+		2 * itsEOFButton->GetPadding().x +
+		2 * itsEOFButton->GetBorderWidth();
+
+	itsCmdInput->Place(fileRect.left + promptWidth, fileRect.top);
+
+	JCoordinate cmdInputWidth = fileRect.width() - promptWidth - eofWidth;
+	if (cmdInputWidth < kMinCmdInputWidth)
+		{
+		window->AdjustSize(kMinCmdInputWidth - cmdInputWidth, 0);
+		cmdInputWidth = kMinCmdInputWidth;
+		}
+	itsCmdInput->SetSize(cmdInputWidth, fileRect.height());
+
+	const JPoint p = window->GetMinSize();
+	window->SetMinSize(window->GetFrameWidth() - (cmdInputWidth - kMinCmdInputWidth), p.y);
+
+	itsEOFButton->Place(fileRect.right - eofWidth, fileRect.top);
+	itsEOFButton->SetSize(eofWidth, fileRect.height());
+
+	UpdateButtons();
 }
 
 /******************************************************************************

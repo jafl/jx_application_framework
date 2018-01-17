@@ -5,6 +5,7 @@ Internal Form Definition File
 
 Number of forms: 3
 Unit of measure: FL_COORD_PIXEL
+SnapGrid: 5
 
 =============== FORM ===============
 Name: GFGPrefsDialog
@@ -44,7 +45,7 @@ label: Header comment ( allowed variables are $class and $copyright ):
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (headerCommentLabel)
 callback: 
 argument: 
 
@@ -80,7 +81,7 @@ label: Source comment ( allowed variables are $class, $base  and $copyright ):
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (sourceCommentLabel)
 callback: 
 argument: 
 
@@ -116,7 +117,7 @@ label: Constructor comment:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (ctorCommentLabel)
 callback: 
 argument: 
 
@@ -152,7 +153,7 @@ label: Destructor comment:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (dtorCommentLabel)
 callback: 
 argument: 
 
@@ -188,7 +189,7 @@ label: Function comment ( allowed variables are $function and $access ):
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (fnCommentLabel)
 callback: 
 argument: 
 
@@ -405,7 +406,7 @@ argument:
 --------------------
 class: FL_INPUT
 type: FL_NORMAL_INPUT
-box: 95 10 140 20
+box: 105 10 130 20
 boxtype: FL_DOWN_BOX
 colors: FL_COL1 FL_MCOL
 alignment: FL_ALIGN_LEFT
@@ -423,7 +424,7 @@ argument:
 --------------------
 class: FL_TEXT
 type: FL_NORMAL_TEXT
-box: 15 10 80 20
+box: 15 10 90 20
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_MCOL
 alignment: FL_ALIGN_LEFT|FL_ALIGN_INSIDE
@@ -434,7 +435,7 @@ label: Class name:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (classNameLabel)
 callback: 
 argument: 
 
@@ -452,7 +453,7 @@ label: Output directory:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (directoryLabel)
 callback: 
 argument: 
 
@@ -578,14 +579,14 @@ label: Derived from:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (derivedLabel)
 callback: 
 argument: 
 
 --------------------
 class: FL_TEXT
 type: FL_NORMAL_TEXT
-box: 100 45 530 20
+box: 105 45 110 20
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_MCOL
 alignment: FL_ALIGN_LEFT|FL_ALIGN_INSIDE
@@ -614,7 +615,7 @@ label: Author:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_SouthWest FL_NoGravity
-name: 
+name: (authorLabel)
 callback: 
 argument: 
 
@@ -668,7 +669,7 @@ label: Copyright:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_SouthWest FL_NoGravity
-name: 
+name: (copyrightLabel)
 callback: 
 argument: 
 

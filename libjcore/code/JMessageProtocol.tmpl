@@ -335,7 +335,7 @@ JMessageProtocol<ACE_PEER_STREAM_2>::PeekPartialMessage
 	)
 {
 	*message = itsRecvData;
-	return JNegate( message->IsEmpty() );
+	return ! message->IsEmpty();
 }
 
 /******************************************************************************

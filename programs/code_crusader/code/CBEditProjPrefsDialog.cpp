@@ -94,31 +94,31 @@ CBEditProjPrefsDialog::BuildWindow
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 70,150, 204,114);
 	assert( itsDropFileActionRG != NULL );
 
-	JXTextRadioButton* obj1_JXLayout =
-		jnew JXTextRadioButton(CBProjectTable::kAbsolutePath, JGetString("obj1_JXLayout::CBEditProjPrefsDialog::JXLayout"), itsDropFileActionRG,
+	JXTextRadioButton* absolutePathRB =
+		jnew JXTextRadioButton(CBProjectTable::kAbsolutePath, JGetString("absolutePathRB::CBEditProjPrefsDialog::JXLayout"), itsDropFileActionRG,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,10, 180,20);
-	assert( obj1_JXLayout != NULL );
+	assert( absolutePathRB != NULL );
 
-	JXTextRadioButton* obj2_JXLayout =
-		jnew JXTextRadioButton(CBProjectTable::kProjectRelative, JGetString("obj2_JXLayout::CBEditProjPrefsDialog::JXLayout"), itsDropFileActionRG,
+	JXTextRadioButton* projectRelativeLabel =
+		jnew JXTextRadioButton(CBProjectTable::kProjectRelative, JGetString("projectRelativeLabel::CBEditProjPrefsDialog::JXLayout"), itsDropFileActionRG,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,30, 180,20);
-	assert( obj2_JXLayout != NULL );
+	assert( projectRelativeLabel != NULL );
 
-	JXTextRadioButton* obj3_JXLayout =
-		jnew JXTextRadioButton(CBProjectTable::kHomeRelative, JGetString("obj3_JXLayout::CBEditProjPrefsDialog::JXLayout"), itsDropFileActionRG,
+	JXTextRadioButton* homeDirLabel =
+		jnew JXTextRadioButton(CBProjectTable::kHomeRelative, JGetString("homeDirLabel::CBEditProjPrefsDialog::JXLayout"), itsDropFileActionRG,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,50, 180,20);
-	assert( obj3_JXLayout != NULL );
+	assert( homeDirLabel != NULL );
 
-	JXStaticText* obj4_JXLayout =
-		jnew JXStaticText(JGetString("obj4_JXLayout::CBEditProjPrefsDialog::JXLayout"), window,
+	JXStaticText* dndPathLabel =
+		jnew JXStaticText(JGetString("dndPathLabel::CBEditProjPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,120, 330,20);
-	assert( obj4_JXLayout != NULL );
-	obj4_JXLayout->SetToLabel();
+	assert( dndPathLabel != NULL );
+	dndPathLabel->SetToLabel();
 
-	JXTextRadioButton* obj5_JXLayout =
-		jnew JXTextRadioButton(CBProjectTable::kAskPathType, JGetString("obj5_JXLayout::CBEditProjPrefsDialog::JXLayout"), itsDropFileActionRG,
+	JXTextRadioButton* dndAskLabel =
+		jnew JXTextRadioButton(CBProjectTable::kAskPathType, JGetString("dndAskLabel::CBEditProjPrefsDialog::JXLayout"), itsDropFileActionRG,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,80, 180,20);
-	assert( obj5_JXLayout != NULL );
+	assert( dndAskLabel != NULL );
 
 	itsDoubleSpaceCB =
 		jnew JXTextCheckbox(JGetString("itsDoubleSpaceCB::CBEditProjPrefsDialog::JXLayout"), window,

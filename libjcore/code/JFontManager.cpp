@@ -109,9 +109,27 @@ JFontManager::GetDefaultMonospaceFont()
 	if (itsDefaultMonospaceFont == NULL)
 		{
 		const_cast<JFontManager*>(this)->itsDefaultMonospaceFont =
-			jnew JFont(GetFont(JGetMonospaceFontName(), kJDefaultMonoFontSize));
+			jnew JFont(GetFont(JGetMonospaceFontName(), JGetDefaultMonoFontSize()));
 		assert( itsDefaultMonospaceFont != NULL );
 		}
 
 	return *itsDefaultMonospaceFont;
+}
+
+/******************************************************************************
+ GetFont
+
+ ******************************************************************************/
+
+JFont
+JFontManager::GetFont
+	(
+	const JString&		name,
+	const JSize			origSize,
+	const JFontStyle	style
+	)
+	const
+{
+	const JSize size = origSize > 0 ? origSize : JGetDefaultFontSize();
+	return JFont(this, GetFontID(name, size, style), size, style);
 }

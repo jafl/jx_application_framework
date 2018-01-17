@@ -43,6 +43,9 @@ JXTextButton::JXTextButton
 	itsULIndex   = 0;
 
 	itsPushedColor = GetColormap()->GetDefaultBackColor();
+
+	const JSize lineHeight = itsFont.GetLineHeight();
+	itsPadding.Set(lineHeight/4, lineHeight/8);
 }
 
 /******************************************************************************
@@ -53,6 +56,18 @@ JXTextButton::JXTextButton
 JXTextButton::~JXTextButton()
 {
 	jdelete itsShortcuts;
+}
+
+/******************************************************************************
+ ToString (virtual)
+
+ ******************************************************************************/
+
+JString
+JXTextButton::ToString()
+	const
+{
+	return JXButton::ToString() + ": " + itsLabel;
 }
 
 /******************************************************************************
@@ -185,4 +200,23 @@ JXTextButton::DrawBackground
 		{
 		JXButton::DrawBackground(p, frame);
 		}
+}
+
+/******************************************************************************
+ GetFTCMinContentSize (virtual protected)
+
+ ******************************************************************************/
+
+JCoordinate
+JXTextButton::GetFTCMinContentSize
+	(
+	const JBoolean horizontal
+	)
+	const
+{
+	const JSize lineHeight = itsFont.GetLineHeight();
+
+	return (horizontal ?
+			JMax((JSize) GetApertureWidth(), itsFont.GetStringWidth(itsLabel) + 2*itsPadding.x) :
+			JMax((JSize) GetApertureHeight(), lineHeight + 2*itsPadding.y));
 }

@@ -32,11 +32,13 @@ class JXSelectionManager;
 class JXDNDManager;
 class JXMenuManager;
 class JXHintManager;
+class JXFTCCell;
 
 class JXContainer : virtual public JBroadcaster
 {
 	friend class JXWindow;
 	friend class JXDNDManager;
+	friend class JXFTCCell;
 
 public:
 
@@ -115,6 +117,18 @@ public:
 	JBoolean	GetVisibleRectGlobal(const JRect& origRectG,
 									 JRect* visRectG) const;
 
+	// primarily invoked (automagically) after BuildWindow() finishes
+
+	void	ExpandToFitContent();
+
+	static void	DebugExpandToFitContent(const JBoolean horiz);
+	static void	DebugExpandToFitContentExtras(const JBoolean noop, const JBoolean overlap);
+
+	// public only because it has to be called in special cases
+	virtual JBoolean	RunInternalFTC(const JBoolean horizontal, JCoordinate* newSize);
+	virtual void		FTCAdjustSize(const JCoordinate dw, const JCoordinate dh);
+	JRect				ComputePaddingForInternalFTC() const;
+
 	// called by JXDisplay
 
 	JBoolean	FindContainer(const JPoint& ptG,
@@ -179,7 +193,13 @@ protected:
 	virtual void	BoundsResized(const JCoordinate dw, const JCoordinate dh) = 0;
 	virtual void	EnclosingBoundsResized(const JCoordinate dw, const JCoordinate dh) = 0;
 
-	void			DeleteEnclosedObjects();
+	virtual JBoolean	IncludeInFTC() const;
+	virtual JBoolean	NeedsInternalFTC() const;
+	virtual JCoordinate	GetFTCMinContentSize(const JBoolean horizontal) const;
+	virtual JRect		GetFrameForFTC() const;
+
+	JBoolean	GetEnclosedObjects(JPtrArrayIterator<JXContainer>** iter) const;
+	void		DeleteEnclosedObjects();
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message);
 
@@ -204,11 +224,15 @@ protected:
 	void	ActivateCursor(const JPoint& ptG, const JXKeyModifiers& modifiers);
 	void	DeactivateCursor();
 
+	// FTC
+
+	std::ostream&	GetFTCLog() const;
+
 private:
 
 	JXWindow*				itsWindow;
 	JXContainer*			itsEnclosure;
-	JPtrArray<JXContainer>*	itsEnclosedObjs;
+	JPtrArray<JXContainer>*	itsEnclosedObjs;	// NULL if empty
 	JBoolean				itsGoingAwayFlag;
 
 	JBoolean	itsActiveFlag;
@@ -240,6 +264,15 @@ private:
 
 	JXHintManager*	itsHintMgr;		// NULL if no hint
 
+	// FTC
+
+	static JBoolean			theDebugFTCFlag;
+	static JBoolean			theDebugHorizFTCFlag;
+	static JBoolean			theDebugVertFTCFlag;
+	static JBoolean			theDebugFTCNoopExaminations;
+	static JBoolean			theDebugFTCWillOverlapNonincludedWidget;
+	static std::ostream*	theDebugFTCLogBuffer;
+
 private:
 
 	void	JXContainerX(JXDisplay* display, JXWindow* window,
@@ -247,6 +280,29 @@ private:
 
 	void	AddEnclosedObject(JXContainer* theObject);
 	void	RemoveEnclosedObject(JXContainer* theObject);
+
+	JBoolean	FTCBuildLayout(const JBoolean expandHorizontally, JXFTCCell** root) const;
+	JXFTCCell*	FTCGroupAlignedObjects(JXContainer* target,
+									   JPtrArray<JXContainer>* objList,
+									   JPtrArray<JXContainer>* fullObjList,
+									   const JBoolean horizontal,
+									   const JBoolean exact,
+									   const JBoolean first) const;
+	JBoolean	FTCWillOverlapNonincludedWidget(const JXContainer* obj1,
+												const JXContainer* obj2,
+												const JPtrArray<JXContainer>& fullObjList,
+												const JPtrArray<JXContainer>& matchedList) const;
+	void		FTCTrimBlockedMatches(const JXContainer* target,
+									  const JPtrArray<JXContainer>& fullObjList,
+									  const JPtrArray<JXContainer>& matchedList,
+									  const JBoolean horizontal,
+									  const JBoolean deleteBlockedWidgetCells,
+									  JPtrArray<JXFTCCell>* cellList) const;
+
+	static JOrderedSetT::CompareResult
+		FTCCompareHorizontally(JXContainer* const & w1, JXContainer* const & w2);
+	static JOrderedSetT::CompareResult
+		FTCCompareVertically(JXContainer* const & w1, JXContainer* const & w2);
 
 	// called by JXWindow
 
@@ -561,6 +617,18 @@ JXContainer::GetCursorAnimator()
 	const
 {
 	return itsCursorAnim;
+}
+
+/******************************************************************************
+ GetFTCLog (protected)
+
+ ******************************************************************************/
+
+inline std::ostream&
+JXContainer::GetFTCLog()
+	const
+{
+	return (theDebugFTCLogBuffer != NULL ? *theDebugFTCLogBuffer : std::cout);
 }
 
 #endif

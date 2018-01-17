@@ -25,8 +25,8 @@ echo "patching version $VERS";
 
 DIR="./patch-$VERS";
 if [[ ! -d $DIR ]]; then
-	echo "$DIR does not exist";
-	exit 1;
+	echo "$DIR does not exist - assuming no patches are necessary";
+	exit;
 fi
 
 for SRC in $DIR/*; do

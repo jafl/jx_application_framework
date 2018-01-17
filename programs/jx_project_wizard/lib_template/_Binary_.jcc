@@ -1,4 +1,4 @@
-jx_browser_data 84
+jx_browser_data 86
 # project tree
 0 "root"
 T
@@ -16,6 +16,13 @@ F
 "./<Binary>_constants"
 F
 T
+1 "layouts"
+T
+2 "<Binary>.fd"
+F
+"./<Binary>.fd"
+F
+T
 1 "strings"
 T
 2 "<Binary>_strings"
@@ -26,7 +33,7 @@ F
 # tasks
 4
 "makemake"
-T "./" "jxlayout --choose --post-cmd \"jcc --force-reload-open\" -cp code $project_name.fd" "" F F T T T T F "Compile layouts" "Meta-'" "&|3Ss+=IL_ywwy[Pm}cG::CBCommandManager" F
+T "./" "jxlayout --choose --require-obj-names --post-cmd \"jcc --force-reload-open\" -cp code $project_name.fd" "" F F T T T T F "Compile layouts" "Meta-'" "&|3Ss+=IL_ywwy[Pm}cG::CBCommandManager" F
 F
 # build settings
 1

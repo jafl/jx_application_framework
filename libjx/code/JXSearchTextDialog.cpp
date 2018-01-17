@@ -34,7 +34,7 @@
 #include <JXHelpManager.h>
 #include <JXTimerTask.h>
 #include <JXMenu.h>
-#include <JXDownRect.h>
+#include <JXSearchTextDecorTask.h>
 #include <JXFontManager.h>
 #include <JXColormap.h>
 #include <jXGlobals.h>
@@ -271,17 +271,17 @@ JXSearchTextDialog::BuildWindow()
 	assert( itsCloseButton != NULL );
 	itsCloseButton->SetShortcuts(JGetString("itsCloseButton::JXSearchTextDialog::shortcuts::JXLayout"));
 
-	JXStaticText* searchLabel =
-		jnew JXStaticText(JGetString("searchLabel::JXSearchTextDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,30, 80,20);
-	assert( searchLabel != NULL );
-	searchLabel->SetToLabel();
+	JXStaticText* searchInputLabel =
+		jnew JXStaticText(JGetString("searchInputLabel::JXSearchTextDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,19, 220,20);
+	assert( searchInputLabel != NULL );
+	searchInputLabel->SetToLabel();
 
-	JXStaticText* replaceLabel =
-		jnew JXStaticText(JGetString("replaceLabel::JXSearchTextDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,100, 90,20);
-	assert( replaceLabel != NULL );
-	replaceLabel->SetToLabel();
+	JXStaticText* replaceInputLabel =
+		jnew JXStaticText(JGetString("replaceInputLabel::JXSearchTextDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,95, 220,20);
+	assert( replaceInputLabel != NULL );
+	replaceInputLabel->SetToLabel();
 
 	itsIgnoreCaseCB =
 		jnew JXTextCheckbox(JGetString("itsIgnoreCaseCB::JXSearchTextDialog::JXLayout"), window,
@@ -309,12 +309,12 @@ JXSearchTextDialog::BuildWindow()
 
 	itsPrevReplaceMenu =
 		jnew JXStringHistoryMenu(kHistoryLength, JString::empty, window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 250,130, 30,20);
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 250,125, 30,20);
 	assert( itsPrevReplaceMenu != NULL );
 
 	itsPrevSearchMenu =
 		jnew JXStringHistoryMenu(kHistoryLength, JString::empty, window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 250,60, 30,20);
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 250,51, 30,20);
 	assert( itsPrevSearchMenu != NULL );
 
 	itsHelpButton =
@@ -354,9 +354,9 @@ JXSearchTextDialog::BuildWindow()
 
 	JXStaticText* findLabel =
 		jnew JXStaticText(JGetString("findLabel::JXSearchTextDialog::JXLayout"), window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 355,20, 40,20);
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 320,20, 100,20);
 	assert( findLabel != NULL );
-	findLabel->SetToLabel();
+	findLabel->SetToLabel(kJTrue);
 
 	itsFindBackButton =
 		jnew JXSearchTextButton(kJFalse, window,
@@ -370,9 +370,9 @@ JXSearchTextDialog::BuildWindow()
 
 	JXStaticText* replaceFindLabel =
 		jnew JXStaticText(JGetString("replaceFindLabel::JXSearchTextDialog::JXLayout"), window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 323,80, 100,20);
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 320,80, 100,20);
 	assert( replaceFindLabel != NULL );
-	replaceFindLabel->SetToLabel();
+	replaceFindLabel->SetToLabel(kJTrue);
 
 	itsReplaceFindBackButton =
 		jnew JXSearchTextButton(kJFalse, window,
@@ -386,9 +386,9 @@ JXSearchTextDialog::BuildWindow()
 
 	JXStaticText* replaceAllLabel =
 		jnew JXStaticText(JGetString("replaceAllLabel::JXSearchTextDialog::JXLayout"), window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 335,110, 80,20);
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 320,110, 100,20);
 	assert( replaceAllLabel != NULL );
-	replaceAllLabel->SetToLabel();
+	replaceAllLabel->SetToLabel(kJTrue);
 
 	itsReplaceAllBackButton =
 		jnew JXSearchTextButton(kJFalse, window,
@@ -417,12 +417,12 @@ JXSearchTextDialog::BuildWindow()
 
 	itsSearchInput =
 		jnew JXInputField(kJTrue, kJFalse, window,
-					JXWidget::kHElastic, JXWidget::kFixedTop, 20,50, 220,40);
+					JXWidget::kHElastic, JXWidget::kFixedTop, 20,39, 220,45);
 	assert( itsSearchInput != NULL );
 
 	itsReplaceInput =
 		jnew JXInputField(kJTrue, kJFalse, window,
-					JXWidget::kHElastic, JXWidget::kFixedTop, 20,120, 220,40);
+					JXWidget::kHElastic, JXWidget::kFixedTop, 20,115, 220,45);
 	assert( itsReplaceInput != NULL );
 
 // end JXLayout
@@ -516,19 +516,13 @@ JXSearchTextDialog::SetObjects
 	itsHelpButton  = helpButton;
 	itsQRefButton  = qRefButton;
 
-	SetFont(JGetMonospaceFontName(), kJDefaultMonoFontSize);
+	SetFont(JGetMonospaceFontName(), JGetDefaultMonoFontSize());
 
 	// decor
 
-	const JRect wFrame  = window->GetFrame();
-	const JRect soFrame = itsStayOpenCB->GetFrame();
-
-	JXDownRect* line =
-		jnew JXDownRect(window, JXWidget::kFixedLeft, JXWidget::kFixedTop,
-					   soFrame.left, soFrame.top-6,
-					   wFrame.right-10-soFrame.left, 2);
-	assert( line != NULL );
-	line->SetBorderWidth(1);
+	JXUrgentTask* decorTask = jnew JXSearchTextDecorTask(window, itsStayOpenCB, itsRetainFocusCB);
+	assert( decorTask != NULL );
+	decorTask->Go();
 
 	// shortcuts
 

@@ -285,7 +285,7 @@ CMSourceDirector::BuildWindow()
 	assert( itsMenuBar != NULL );
 
 	itsToolBar =
-		jnew JXToolBar(CMGetPrefsManager(), prefID, itsMenuBar, 300, 200, window,
+		jnew JXToolBar(CMGetPrefsManager(), prefID, itsMenuBar, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 600,500);
 	assert( itsToolBar != NULL );
 
@@ -294,16 +294,18 @@ CMSourceDirector::BuildWindow()
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 20,530, 580,20);
 	assert( itsFileDisplay != NULL );
 
-	CMFileDragSource* obj1_JXLayout =
+	CMFileDragSource* dragSource =
 		jnew CMFileDragSource(this, window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 0,530, 20,20);
-	assert( obj1_JXLayout != NULL );
+	assert( dragSource != NULL );
 
 // end JXLayout
 
 	window->SetTitle(JGetString(
 		itsType == kMainAsmType ? "InitAsmWindowTitle::CMSourceDirector" :
 								  "InitSourceWindowTitle::CMSourceDirector"));
+
+	window->SetMinSize(300, 200);
 
 	if (itsType == kMainSourceType)
 		{

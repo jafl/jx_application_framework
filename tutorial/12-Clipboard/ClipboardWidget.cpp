@@ -273,7 +273,7 @@ ClipboardWidget::Paste()
 			const Atom atom = typeList.GetElement(i);
 
 			// Check if the i-th type is one we can use.
-			if (atom == XA_STRING || atom == selMgr->GetTextXAtom())
+			if (atom == XA_STRING || atom == selMgr->GetUtf8StringXAtom())
 				{
 				// Get the data of the appropriate type.
 				unsigned char* data = NULL;

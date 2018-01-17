@@ -47,6 +47,8 @@ JXCardFile::JXCardFile
 	assert( itsCards != NULL );
 
 	itsCurrCardIndex = 0;
+
+	SetNeedsInternalFTC();
 }
 
 /******************************************************************************
@@ -71,7 +73,7 @@ JXCardFile::~JXCardFile()
 
  ******************************************************************************/
 
-JXWidgetSet*
+JXContainer*
 JXCardFile::InsertCard
 	(
 	const JIndex index
@@ -95,6 +97,7 @@ JXCardFile::InsertCard
 	card->SetSizing(kHElastic, kVElastic);
 	card->FitToEnclosure();
 	card->Hide();
+	card->SetNeedsInternalFTC();
 
 	itsCards->InsertAtIndex(index, card);
 	if (index <= itsCurrCardIndex)
@@ -112,7 +115,7 @@ JXCardFile::InsertCard
 
  ******************************************************************************/
 
-JXWidgetSet*
+JXContainer*
 JXCardFile::RemoveCard
 	(
 	const JIndex index
@@ -175,7 +178,7 @@ JXCardFile::KillFocusOnCurrentCard()
 JBoolean
 JXCardFile::ShowCard
 	(
-	JXWidgetSet* card
+	JXContainer* card
 	)
 {
 	JIndex index;

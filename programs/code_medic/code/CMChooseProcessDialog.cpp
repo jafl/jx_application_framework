@@ -109,11 +109,11 @@ CMChooseProcessDialog::BuildWindow()
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 90,470, 80,20);
 	assert( itsProcessIDInput != NULL );
 
-	JXStaticText* obj1_JXLayout =
-		jnew JXStaticText(JGetString("obj1_JXLayout::CMChooseProcessDialog::JXLayout"), window,
+	JXStaticText* pidLabel =
+		jnew JXStaticText(JGetString("pidLabel::CMChooseProcessDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 20,470, 70,20);
-	assert( obj1_JXLayout != NULL );
-	obj1_JXLayout->SetToLabel();
+	assert( pidLabel != NULL );
+	pidLabel->SetToLabel();
 
 	JXTextButton* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::CMChooseProcessDialog::JXLayout"), window,
@@ -126,11 +126,11 @@ CMChooseProcessDialog::BuildWindow()
 	assert( okButton != NULL );
 	okButton->SetShortcuts(JGetString("okButton::CMChooseProcessDialog::shortcuts::JXLayout"));
 
-	JXStaticText* obj2_JXLayout =
-		jnew JXStaticText(JGetString("obj2_JXLayout::CMChooseProcessDialog::JXLayout"), window,
+	JXStaticText* hint =
+		jnew JXStaticText(JGetString("hint::CMChooseProcessDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 360,20);
-	assert( obj2_JXLayout != NULL );
-	obj2_JXLayout->SetToLabel();
+	assert( hint != NULL );
+	hint->SetToLabel();
 
 // end JXLayout
 

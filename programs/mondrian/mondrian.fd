@@ -256,7 +256,7 @@ resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
 name: itsToolBar
 callback: 
-argument: MDGetPrefsManager(), kMDMainToolBarID, menuBar, minWidth, minHeight,
+argument: MDGetPrefsManager(), kMDMainToolBarID, menuBar,
 
 ==============================
 create_the_forms

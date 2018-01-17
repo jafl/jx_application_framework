@@ -158,7 +158,7 @@ label: JXExprEditorSet(varList, &itsExprWidget,
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
-name: (exprSet)
+name: (exprEditorSet)
 callback: 
 argument: 
 
@@ -230,7 +230,7 @@ label:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthEast FL_NoGravity
-name: (downBox)
+name: (inputField)
 callback: 
 argument: 
 

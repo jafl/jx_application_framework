@@ -108,6 +108,9 @@ public:
 	void	SetTitleFontStyle(const JFontStyle& style);
 	void	SetTitleFont(const JFont& font);
 
+	const JPoint&	GetTitlePadding() const;
+	void			SetTitlePadding(const JPoint& p);
+
 	void	SetShortcuts(const JString& list);
 
 	JBoolean	IsEmpty() const;
@@ -178,8 +181,6 @@ public:
 
 	static JXModifierKey	AdjustNMShortcutModifier(const JXModifierKey key);
 
-	static const JString&	GetDefaultFont(JSize* size);
-
 protected:
 
 	void		SetBaseItemData(JXMenuData* baseItemData);
@@ -197,6 +198,9 @@ protected:
 									const JXButtonStates& buttonStates,
 									const JXKeyModifiers& modifiers);
 
+	virtual JBoolean	IncludeInFTC() const;
+	virtual JCoordinate	GetFTCMinContentSize(const JBoolean horizontal) const;
+
 	virtual void	Receive(JBroadcaster* sender, const Message& message);
 
 	// called by JXMenuTable
@@ -208,6 +212,7 @@ private:
 	JString		itsTitle;
 	JXImage*	itsTitleImage;			// can be NULL
 	JBoolean	itsOwnsTitleImageFlag;	// kJTrue => we delete it
+	JPoint		itsTitlePadding;
 	JString*	itsShortcuts;			// can be NULL
 	JIndex		itsULIndex;
 	JXMenuData*	itsBaseItemData;		// derived class owns this
@@ -218,6 +223,7 @@ private:
 	JBoolean	itsShouldBeActiveFlag;	// kJTrue  => last client call was Activate()
 	JBoolean	itsUpdateSBAFlag;		// kJFalse => don't change itsShouldBeActiveFlag
 	JSize		itsMinWidth;
+	JBoolean	itsWaitingForFTCFlag;
 
 	UpdateAction	itsUpdateAction;
 	JBoolean		itsIsPopupChoiceFlag;
@@ -228,10 +234,6 @@ private:
 
 	static Style	theDefaultStyle;
 	static Style	theDisplayStyle;
-
-	static JBoolean	theDefaultMenuFontInitFlag;
-	static JString	theDefaultFontName;
-	static JSize	theDefaultFontSize;
 
 	// used when menu is pulled down
 
@@ -246,6 +248,7 @@ private:
 	void	UpdateTitleGeometry();
 	void	AdjustAppearance();
 	void	AdjustAppearance(const JCoordinate minWidth);
+	JSize	GetMaxPopupChoiceTitleWidth() const;
 
 	JBoolean	Open(const JPoint& leftPtR = JPoint(),
 					 const JPoint& rightPtR = JPoint());
@@ -370,6 +373,28 @@ JXMenu::GetTitleImage
 {
 	*image = itsTitleImage;
 	return JI2B(itsTitleImage != NULL);
+}
+
+/******************************************************************************
+ Title padding
+
+ ******************************************************************************/
+
+inline const JPoint&
+JXMenu::GetTitlePadding()
+	const
+{
+	return itsTitlePadding;
+}
+
+inline void
+JXMenu::SetTitlePadding
+	(
+	const JPoint& p
+	)
+{
+	itsTitlePadding = p;
+	AdjustAppearance();
 }
 
 /******************************************************************************

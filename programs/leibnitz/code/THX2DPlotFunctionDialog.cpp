@@ -86,10 +86,10 @@ THX2DPlotFunctionDialog::BuildWindow
 	JXWindow* window = jnew JXWindow(this, 330,320, "");
 	assert( window != NULL );
 
-	JXExprEditorSet* obj1_JXLayout =
+	JXExprEditorSet* exprEditorSet =
 		jnew JXExprEditorSet(varList, &itsExprWidget, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 330,150);
-	assert( obj1_JXLayout != NULL );
+	assert( exprEditorSet != NULL );
 
 	JXTextButton* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::THX2DPlotFunctionDialog::JXLayout"), window,
@@ -102,33 +102,33 @@ THX2DPlotFunctionDialog::BuildWindow
 	assert( okButton != NULL );
 	okButton->SetShortcuts(JGetString("okButton::THX2DPlotFunctionDialog::shortcuts::JXLayout"));
 
-	JXStaticText* obj2_JXLayout =
-		jnew JXStaticText(JGetString("obj2_JXLayout::THX2DPlotFunctionDialog::JXLayout"), window,
+	JXStaticText* curveLabel =
+		jnew JXStaticText(JGetString("curveLabel::THX2DPlotFunctionDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 30,220, 80,20);
-	assert( obj2_JXLayout != NULL );
-	obj2_JXLayout->SetToLabel();
+	assert( curveLabel != NULL );
+	curveLabel->SetToLabel();
 
 	itsCurveName =
 		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 110,220, 180,20);
 	assert( itsCurveName != NULL );
 
-	JXStaticText* obj3_JXLayout =
-		jnew JXStaticText(JGetString("obj3_JXLayout::THX2DPlotFunctionDialog::JXLayout"), window,
+	JXStaticText* rangeLabel =
+		jnew JXStaticText(JGetString("rangeLabel::THX2DPlotFunctionDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 30,250, 80,20);
-	assert( obj3_JXLayout != NULL );
-	obj3_JXLayout->SetToLabel();
+	assert( rangeLabel != NULL );
+	rangeLabel->SetToLabel();
 
 	itsMinInput =
 		jnew JXFloatInput(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 110,250, 80,20);
 	assert( itsMinInput != NULL );
 
-	JXStaticText* obj4_JXLayout =
-		jnew JXStaticText(JGetString("obj4_JXLayout::THX2DPlotFunctionDialog::JXLayout"), window,
+	JXStaticText* toLabel =
+		jnew JXStaticText(JGetString("toLabel::THX2DPlotFunctionDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 190,250, 20,20);
-	assert( obj4_JXLayout != NULL );
-	obj4_JXLayout->SetToLabel();
+	assert( toLabel != NULL );
+	toLabel->SetToLabel();
 
 	itsMaxInput =
 		jnew JXFloatInput(window,

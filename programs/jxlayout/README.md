@@ -52,6 +52,10 @@ instead of at class scope in the header file.  If one needs to use a local
 variable that has already been declared, one can enclose the name in
 brackets.  This is primarily useful for arrays (e.g. `<radioButton[2]>`).
 
+Note that unnamed objects can prevent stable translation, since the keys
+may change when the layout changes.  Use `--require-obj-names` to disallow
+unnamed objects.
+
 `class_map` defines how objects that `fdesign` understands map to JX
 classes.  Classes that are not listed in this file and custom classes
 derived directly from `JXWidget` can be included in the `.fd` file by
@@ -95,6 +99,16 @@ Changes from previous versions
 Updated to use JUtf8Byte instead of JCharacter.
 
 Fixed hard-coded strings and missed indents.
+
+4.1.0
+
+Updated to support horizontal centering in JXStaticText.  Select the
+"CENTER" option in fdesign.
+
+Added --require-obj-names to support translation.
+
+Fixes for fit-to-content.  Widgets can be grouped by enclosing in a shadow
+box.
 
 4.0.0
 

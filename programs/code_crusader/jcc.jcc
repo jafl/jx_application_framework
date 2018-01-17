@@ -1,4 +1,4 @@
-jx_browser_data 86
+jx_browser_data 87
 # project tree
 0 "root"
 T
@@ -181,6 +181,10 @@ T
 2 "CBCmdLineInput.cpp"
 F
 "./code/CBCmdLineInput.cpp"
+T
+2 "CBExecOutputPostFTCTask.cpp"
+F
+"./code/CBExecOutputPostFTCTask.cpp"
 F
 T
 1 "build"
@@ -236,7 +240,7 @@ F
 "./code/CBEditSymbolPrefsDialog.cpp"
 F
 T
-1 "inheritance tree"
+1 "class tree"
 T
 2 "CBTreeDirector.cpp"
 F
@@ -944,7 +948,6 @@ F
 # tasks
 4
 "makemake"
-T "@" "jxlayout --choose --post-cmd 'jcc --reload-open' $file_name" "" F F T T T T F "Compile layouts" "F10" "" F
 T "./" "make -k personal" "" T F T F T F T "" "" "" T
 T "@" "pwd" "" F F F T T F F "" "" "" F
 F

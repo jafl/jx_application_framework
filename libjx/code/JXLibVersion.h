@@ -25,13 +25,32 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //	*** Upgraded jxlayout to work with latest version of fdesign
 //		Bug in fdesign makes it impossible to set FL_NO_BOX, so you have
 //			to edit the file manually after saving it.
-//	Fixed discontiguous selection modifier to be meta on OS X.
 //	Fixed JXSelectionManager to send required (broken) data for XA_ATOM (XXXATOM).
 //		*** Replaced GetTextXAtom() with GetUtf8StringXAtom().
 //		*** Removed GetCompoundTextXAtom().
 //	Added HistoryDirection to JXHistoryMenuBase to support menus that are
 //		anchored near the bottom of the screen.
-//	*** Removed special help section "JXComposeHelp"
+//	JXContainer:
+//		Added ExpandToFitContent() to adjust layouts to fit translated/resized text.
+//			This is automagically called by JXWindow after it has been constructed.
+//	Implemented ToString() for various widgets.
+//	JXStaticText:
+//		Added option to horizontally center labels.
+//	JXTextMenu:
+//		Menu font is no longer independently adjustable via ~/.jx/menu_font.
+//	JXApplication:
+//		--debug-ftc-horiz		debugging info for horizontal FTC
+//		--debug-ftc-vert		debugging info for vertical FTC
+//		--debug-ftc-noop		extra debugging for noop cycles in FTC
+//		--debug-ftc-overlap		extra debugging for FTC overlap calculations
+//		--pseudotranslate		fake translation to test layout
+//	JXToolBar:
+//		*** Removed minWidth & minHeight ctor arguments, because FTC can
+//			change the values.
+//	JXMenuBar:
+//		Fixed bug in FindMenu() so it searches overflow.  (What took me so long?)
+//	*** Replaced in-app help with web-based help.
+//	*** Removed JXHelpDirector, etc.
 //	All strings have been extracted to jx_strings.
 
 // version 3.1.0:

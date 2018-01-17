@@ -103,12 +103,6 @@ untested JStringIterator usage:
 	JTranslateLocalToRemote
 	JTranslateRemoteToLocal
 
-jcc:
-	move VCS detail code from CBDiffFileDialog to jVCSUtil?
-
-	fix SVN diff to use svn cat -r BASE or PREV
-	re-enable "compare with subversion" and detect .svn just like .git
-
 JAsynchDataReceiver::handle_input
 	we cannot assume received complete utf-8 characters
 

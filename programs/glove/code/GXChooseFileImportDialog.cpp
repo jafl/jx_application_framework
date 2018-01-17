@@ -74,10 +74,10 @@ GXChooseFileImportDialog::BuildWindow
 	JXWindow* window = jnew JXWindow(this, 330,230, "");
 	assert( window != NULL );
 
-	JXStaticText* obj1_JXLayout =
-		jnew JXStaticText(JGetString("obj1_JXLayout::GXChooseFileImportDialog::JXLayout"), window,
+	JXStaticText* errorMessage =
+		jnew JXStaticText(JGetString("errorMessage::GXChooseFileImportDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 10,10, 250,40);
-	assert( obj1_JXLayout != NULL );
+	assert( errorMessage != NULL );
 
 	JXTextButton* okButton =
 		jnew JXTextButton(JGetString("okButton::GXChooseFileImportDialog::JXLayout"), window,
