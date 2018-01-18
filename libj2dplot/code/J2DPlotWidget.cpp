@@ -3149,7 +3149,7 @@ J2DPlotWidget::DrawVector
  ******************************************************************************/
 
 const JCoordinate kVectorHeadLength = 6;
-const JFloat deltaTheta             = kJPi/6.0;		// 30°
+const JFloat deltaTheta             = kJPi/6.0;		// 30 degrees
 
 void
 J2DPlotWidget::DrawVectorHead
