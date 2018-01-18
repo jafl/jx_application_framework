@@ -28,19 +28,19 @@ public:
 
 	void	PlotData(const JSize xCount, const JSize yCount, JMatrix* data);
 
-	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers);
+	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers) override;
 
 protected:
 
 	virtual void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
 									const JSize clickCount,
 									const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers);
+									const JXKeyModifiers& modifiers) override;
 	virtual void	HandleMouseDrag(const JPoint& pt, const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers);
+									const JXKeyModifiers& modifiers) override;
 	virtual void	HandleMouseUp(const JPoint& pt, const JXMouseButton button,
 								  const JXButtonStates& buttonStates,
-								  const JXKeyModifiers& modifiers);
+								  const JXKeyModifiers& modifiers) override;
 
 private:
 

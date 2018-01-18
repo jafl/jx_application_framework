@@ -27,7 +27,7 @@ public:
 
 	virtual ~JXSaveFileDialog();
 
-	virtual void	Activate();
+	virtual void	Activate() override;
 
 	void		Save(const JString& path);
 	JBoolean	GetFileName(JString* name) const;
@@ -55,7 +55,7 @@ protected:
 	virtual void	UpdateDisplay();	// must call inherited
 
 	virtual JBoolean	OKToDeactivate();
-	virtual void		Receive(JBroadcaster* sender, const Message& message);
+	virtual void		Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

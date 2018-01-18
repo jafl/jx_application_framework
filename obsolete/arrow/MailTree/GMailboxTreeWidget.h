@@ -70,19 +70,19 @@ protected:
 								const JXKeyModifiers&   modifiers);
 
 	virtual void	HandleDNDResponse(const JXContainer* target,
-									  const JBoolean dropAccepted, const Atom action);
-	virtual void	HandleDNDHere(const JPoint& pt, const JXWidget* source);
-	virtual void	HandleDNDLeave();
+									  const JBoolean dropAccepted, const Atom action) override;
+	virtual void	HandleDNDHere(const JPoint& pt, const JXWidget* source) override;
+	virtual void	HandleDNDLeave() override;
 	virtual void	HandleDNDDrop(	const JPoint& pt, const JArray<Atom>& typeList,
 									const Atom	action, const Time time,
-									const JXWidget* source);
+									const JXWidget* source) override;
 	virtual JBoolean ConvertSelection(	const Atom name, const Atom requestType,
 										Atom* returnType, unsigned char** data,
 										JSize* dataLength, JSize* bitsPerBlock);
 	virtual JBoolean GetImage(const JIndex index, const JXImage** image) const;
 	virtual JBoolean	WillAcceptDrop(const JArray<Atom>& typeList, Atom* action,
 									   const JPoint& pt, const Time time,
-									   const JXWidget* source);
+									   const JXWidget* source) override;
 	virtual JBoolean ExtractInputData(const JPoint& cell);
 
 private:

@@ -25,8 +25,8 @@ public:
 
 protected:
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message);
-	virtual void	ReceiveGoingAway(JBroadcaster* sender);
+	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
+	virtual void	ReceiveGoingAway(JBroadcaster* sender) override;
 
 private:
 

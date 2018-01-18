@@ -14,6 +14,8 @@
  ******************************************************************************/
 
 #include <JCollection.h>
+#include <JString.h>
+#include <sstream>
 #include <jAssert.h>
 
 /******************************************************************************
@@ -33,6 +35,21 @@ JCollection::JCollection()
 
 JCollection::~JCollection()
 {
+}
+
+/******************************************************************************
+ ToString (virtual)
+
+ ******************************************************************************/
+
+JString
+JCollection::ToString()
+	const
+{
+	std::ostringstream s;
+	JBroadcaster::ToString().Print(s);
+	s << " (" << itsElementCount << " elements)";
+	return JString(s.str().c_str(), 0);
 }
 
 /******************************************************************************

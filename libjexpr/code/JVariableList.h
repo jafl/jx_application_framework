@@ -103,7 +103,7 @@ protected:
 	void		PopOffEvalStack(const JIndex variableIndex) const;
 	JBoolean	IsOnEvalStack(const JIndex variableIndex) const;
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message);
+	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

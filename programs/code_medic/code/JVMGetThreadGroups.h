@@ -27,7 +27,7 @@ public:
 protected:
 
 	virtual void	HandleSuccess(const JString& data);
-	virtual void	ReceiveGoingAway(JBroadcaster* sender);
+	virtual void	ReceiveGoingAway(JBroadcaster* sender) override;
 
 private:
 

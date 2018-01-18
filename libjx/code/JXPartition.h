@@ -62,7 +62,7 @@ protected:
 											  const JCoordinate position,
 											  const JCoordinate size) = 0;
 
-	virtual void	ApertureResized(const JCoordinate dw, const JCoordinate dh);
+	virtual void	ApertureResized(const JCoordinate dw, const JCoordinate dh) override;
 
 	void	RestoreGeometry(const JArray<JCoordinate>& sizes);
 

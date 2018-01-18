@@ -31,7 +31,7 @@ public:
 
 	virtual ~THXExprDirector();
 
-	virtual void	Activate();
+	virtual void	Activate() override;
 
 	void	UpdateDisplay();
 	void	WriteState(std::ostream& output) const;
@@ -41,7 +41,7 @@ public:
 
 protected:
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message);
+	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

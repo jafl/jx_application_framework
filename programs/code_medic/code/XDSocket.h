@@ -22,7 +22,7 @@ public:
 	void	StartTimer();
 	void	StopTimer();
 
-	virtual int	open(void*);
+	virtual int	open(void*) override;
 	virtual int	handle_timeout(const ACE_Time_Value& time, const void*);
 	virtual int handle_close(ACE_HANDLE h, ACE_Reactor_Mask m);
 

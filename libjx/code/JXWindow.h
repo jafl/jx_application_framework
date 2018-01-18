@@ -75,13 +75,13 @@ public:
 	void	SetWMClass(const JUtf8Byte* c_class, const JUtf8Byte* instance);
 	void	HideFromTaskbar();
 
-	virtual void	Show();
-	virtual void	Hide();
+	virtual void	Show() override;
+	virtual void	Hide() override;
 	void			Raise(const JBoolean grabKeyboardFocus = kJTrue);
 	void			Lower();
-	virtual void	Refresh() const;
+	virtual void	Refresh() const override;
 	void			RefreshRect(const JRect& rect) const;
-	virtual void	Redraw() const;
+	virtual void	Redraw() const override;
 	void			RedrawRect(const JRect& rect) const;
 	void			CheckForMapOrExpose();
 
@@ -96,15 +96,15 @@ public:
 	JBoolean	UnfocusCurrentWidget();
 	void		KillFocus();
 
-	virtual void	Activate();
-	virtual void	Resume();
+	virtual void	Activate() override;
+	virtual void	Resume() override;
 	JBoolean		WillFocusWhenShown() const;
 	void			ShouldFocusWhenShow(const JBoolean focusWhenShow);
 	void			RequestFocus();
 	JBoolean		HasFocus() const;
 
-	virtual JPoint	GlobalToLocal(const JCoordinate x, const JCoordinate y) const;
-	virtual JPoint	LocalToGlobal(const JCoordinate x, const JCoordinate y) const;
+	virtual JPoint	GlobalToLocal(const JCoordinate x, const JCoordinate y) const override;
+	virtual JPoint	LocalToGlobal(const JCoordinate x, const JCoordinate y) const override;
 
 	JPoint	GlobalToRoot(const JCoordinate x, const JCoordinate y) const;
 	JPoint	GlobalToRoot(const JPoint& pt) const;
@@ -113,10 +113,10 @@ public:
 	JPoint	RootToGlobal(const JPoint& pt) const;
 	JRect	RootToGlobal(const JRect& r) const;
 
-	virtual void	Place(const JCoordinate enclX, const JCoordinate enclY);
-	virtual void	Move(const JCoordinate dx, const JCoordinate dy);
-	virtual void	SetSize(const JCoordinate w, const JCoordinate h);
-	virtual void	AdjustSize(const JCoordinate dw, const JCoordinate dh);
+	virtual void	Place(const JCoordinate enclX, const JCoordinate enclY) override;
+	virtual void	Move(const JCoordinate dx, const JCoordinate dy) override;
+	virtual void	SetSize(const JCoordinate w, const JCoordinate h) override;
+	virtual void	AdjustSize(const JCoordinate dw, const JCoordinate dh) override;
 	void			CenterOnScreen();
 	void			PlaceAsDialogWindow();
 
@@ -134,9 +134,9 @@ public:
 	void	SetStepSize(const JCoordinate dw, const JCoordinate dh);
 	void	ClearStepSize();
 
-	virtual JRect	GetBoundsGlobal() const;
-	virtual JRect	GetFrameGlobal() const;
-	virtual JRect	GetApertureGlobal() const;
+	virtual JRect	GetBoundsGlobal() const override;
+	virtual JRect	GetFrameGlobal() const override;
+	virtual JRect	GetApertureGlobal() const override;
 	JPoint			GetDesktopLocation() const;
 
 	void		ReadGeometry(std::istream& input, const JBoolean skipDocking = kJFalse);
@@ -277,16 +277,16 @@ public:
 
 protected:
 
-	virtual void	Draw(JXWindowPainter& p, const JRect& rect);
-	virtual void	DrawBorder(JXWindowPainter& p, const JRect& frame);
-	virtual void	DrawBackground(JXWindowPainter& p, const JRect& frame);
+	virtual void	Draw(JXWindowPainter& p, const JRect& rect) override;
+	virtual void	DrawBorder(JXWindowPainter& p, const JRect& frame) override;
+	virtual void	DrawBackground(JXWindowPainter& p, const JRect& frame) override;
 
-	virtual void	BoundsMoved(const JCoordinate dx, const JCoordinate dy);
-	virtual void	EnclosingBoundsMoved(const JCoordinate dx, const JCoordinate dy);
-	virtual void	BoundsResized(const JCoordinate dw, const JCoordinate dh);
-	virtual void	EnclosingBoundsResized(const JCoordinate dw, const JCoordinate dh);
+	virtual void	BoundsMoved(const JCoordinate dx, const JCoordinate dy) override;
+	virtual void	EnclosingBoundsMoved(const JCoordinate dx, const JCoordinate dy) override;
+	virtual void	BoundsResized(const JCoordinate dw, const JCoordinate dh) override;
+	virtual void	EnclosingBoundsResized(const JCoordinate dw, const JCoordinate dh) override;
 
-	virtual void	FTCAdjustSize(const JCoordinate dw, const JCoordinate dh);
+	virtual void	FTCAdjustSize(const JCoordinate dw, const JCoordinate dh) override;
 
 private:
 

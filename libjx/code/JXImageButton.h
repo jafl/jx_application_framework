@@ -40,7 +40,7 @@ public:
 
 protected:
 
-	virtual void	Draw(JXWindowPainter& p, const JRect& rect);
+	virtual void	Draw(JXWindowPainter& p, const JRect& rect) override;
 
 private:
 

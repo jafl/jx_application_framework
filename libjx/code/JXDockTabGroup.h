@@ -35,9 +35,9 @@ protected:
 	virtual void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
 									const JSize clickCount,
 									const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers);
+									const JXKeyModifiers& modifiers) override;
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message);
+	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

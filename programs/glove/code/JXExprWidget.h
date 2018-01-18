@@ -29,7 +29,7 @@ public:
 
 	virtual ~JXExprWidget();
 
-	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers);
+	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers) override;
 	void			Print(JPagePrinter& p, const JRect& rect);
 
 protected:
@@ -47,15 +47,15 @@ protected:
 	virtual JBoolean	EIPOwnsClipboard();
 	virtual JBoolean	EIPGetExternalClipboard(JString* text);
 
-	virtual void	ApertureResized(const JCoordinate dw, const JCoordinate dh);
+	virtual void	ApertureResized(const JCoordinate dw, const JCoordinate dh) override;
 
-	virtual void	Draw(JXWindowPainter& p, const JRect& rect);
+	virtual void	Draw(JXWindowPainter& p, const JRect& rect) override;
 
-	virtual void	HandleFocusEvent();
-	virtual void	HandleUnfocusEvent();
+	virtual void	HandleFocusEvent() override;
+	virtual void	HandleUnfocusEvent() override;
 
-	virtual JBoolean	OKToUnfocus();
-	virtual void		Receive(JBroadcaster* sender, const Message& message);
+	virtual JBoolean	OKToUnfocus() override;
+	virtual void		Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

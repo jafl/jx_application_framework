@@ -28,7 +28,7 @@ public:
 
 protected:
 
-	virtual void	HandleFocusEvent();			// must call inherited
+	virtual void	HandleFocusEvent() override;			// must call inherited
 
 private:
 

@@ -69,7 +69,7 @@ protected:
 				   const JCharacter* name1, const JFontStyle& removeStyle,
 				   const JCharacter* name2, const JFontStyle& insertStyle);
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message);
+	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

@@ -39,7 +39,7 @@ public:
 
 	const JArray<JFloat>&	GetStartValues() const;
 
-	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers);
+	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers) override;
 
 	JBoolean		BeginEditingStartValues();
 	void			PrintOnPage(JPagePrinter& p, JCoordinate* height);
@@ -50,7 +50,7 @@ protected:
 	virtual void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
 									const JSize clickCount,
 									const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers);
+									const JXKeyModifiers& modifiers) override;
 
 	virtual JXInputField*	CreateXInputField(const JPoint& cell,
 											  const JCoordinate x, const JCoordinate y,
@@ -58,7 +58,7 @@ protected:
 	virtual void			PrepareDeleteXInputField();
 	virtual JBoolean		ExtractInputData(const JPoint& cell);
 
-	virtual void	ApertureResized(const JCoordinate dw, const JCoordinate dh);
+	virtual void	ApertureResized(const JCoordinate dw, const JCoordinate dh) override;
 
 private:
 

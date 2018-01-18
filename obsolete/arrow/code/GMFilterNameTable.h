@@ -49,30 +49,30 @@ protected:
 				const JCoordinate x, const JCoordinate y,
 				const JCoordinate w, const JCoordinate h);
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message);
-	virtual void	Draw(JXWindowPainter& p, const JRect& rect);
+	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
+	virtual void	Draw(JXWindowPainter& p, const JRect& rect) override;
 	virtual void	TableDrawCell(JPainter& p, const JPoint& cell, const JRect& rect);
-	virtual void	ApertureResized(const JCoordinate dw, const JCoordinate dh);
+	virtual void	ApertureResized(const JCoordinate dw, const JCoordinate dh) override;
 	virtual void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
 									const JSize clickCount,
 									const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers);
+									const JXKeyModifiers& modifiers) override;
 	virtual void	HandleMouseDrag(const JPoint& pt, const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers);
+									const JXKeyModifiers& modifiers) override;
 	virtual void	HandleMouseUp(const JPoint& pt, const JXMouseButton button,
 								  const JXButtonStates& buttonStates,
-								  const JXKeyModifiers& modifiers);
+								  const JXKeyModifiers& modifiers) override;
 	virtual Atom	GetDNDAction(const JXContainer* target,
 								 const JXButtonStates& buttonStates,
-								 const JXKeyModifiers& modifiers);
+								 const JXKeyModifiers& modifiers) override;
 	virtual JBoolean	WillAcceptDrop(const JArray<Atom>& typeList, Atom* action,
 									   const JPoint& pt, const Time time,
-									   const JXWidget* source);
-	virtual void	HandleDNDHere(const JPoint& pt, const JXWidget* source);
-	virtual void	HandleDNDLeave();
+									   const JXWidget* source) override;
+	virtual void	HandleDNDHere(const JPoint& pt, const JXWidget* source) override;
+	virtual void	HandleDNDLeave() override;
 	virtual void	HandleDNDDrop(	const JPoint& pt, const JArray<Atom>& typeList,
 									const Atom	action, const Time time,
-									const JXWidget* source);
+									const JXWidget* source) override;
 
 	virtual JXInputField*	CreateXInputField(const JPoint& cell,
 											  const JCoordinate x, const JCoordinate y,

@@ -42,7 +42,7 @@ protected:
 	virtual void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
 									const JSize clickCount,
 									const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers);
+									const JXKeyModifiers& modifiers) override;
 
 	virtual void			TableDrawCell(JPainter& p, const JPoint& cell, const JRect& rect);
 	virtual JXInputField*	CreateXInputField(const JPoint& cell,
@@ -53,13 +53,13 @@ protected:
 
 	virtual JBoolean	WillAcceptDrop(const JArray<Atom>& typeList, Atom* action,
 									   const JPoint& pt, const Time time,
-									   const JXWidget* source);
+									   const JXWidget* source) override;
 	virtual void		HandleDNDDrop(const JPoint& pt, const JArray<Atom>& typeList,
 									  const Atom action, const Time time,
-									  const JXWidget* source);
+									  const JXWidget* source) override;
 
-	virtual void	ApertureResized(const JCoordinate dw, const JCoordinate dh);
-	virtual void	Receive(JBroadcaster* sender, const Message& message);
+	virtual void	ApertureResized(const JCoordinate dw, const JCoordinate dh) override;
+	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

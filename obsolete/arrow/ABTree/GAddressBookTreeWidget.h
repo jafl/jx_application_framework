@@ -43,7 +43,7 @@ public:
 
 	void			Update();
 	virtual void	HandleKeyPress(const int key,
-									const JXKeyModifiers&   modifiers);
+									const JXKeyModifiers&   modifiers) override;
 	void			Save();
 	void			AddDefaultButtcons(JXToolBar* toolbar);
 
@@ -65,12 +65,12 @@ protected:
 								const JXKeyModifiers& modifiers);
 
 	virtual void	HandleDNDResponse(const JXContainer* target,
-									  const JBoolean dropAccepted, const Atom action);
-	virtual void	HandleDNDHere(const JPoint& pt, const JXWidget* source);
-	virtual void	HandleDNDLeave();
+									  const JBoolean dropAccepted, const Atom action) override;
+	virtual void	HandleDNDHere(const JPoint& pt, const JXWidget* source) override;
+	virtual void	HandleDNDLeave() override;
 	virtual void	HandleDNDDrop(	const JPoint& pt, const JArray<Atom>& typeList,
 									const Atom	action, const Time time,
-									const JXWidget* source);
+									const JXWidget* source) override;
 	virtual Atom	 GetDNDAction(const JXContainer* target,
 								  const JXButtonStates& buttonStates,
 								  const JXKeyModifiers& modifiers);
@@ -84,7 +84,7 @@ protected:
 	virtual JBoolean GetImage(const JIndex index, const JXImage** image) const;
 	virtual JBoolean	WillAcceptDrop(const JArray<Atom>& typeList, Atom* action,
 									   const JPoint& pt, const Time time,
-									   const JXWidget* source);
+									   const JXWidget* source) override;
 	virtual JSize	GetMinCellWidth(const JPoint& cell) const;
 
 	virtual JXInputField*	CreateXInputField(const JPoint& cell,

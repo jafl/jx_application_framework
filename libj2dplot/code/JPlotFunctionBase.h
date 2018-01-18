@@ -28,10 +28,10 @@ public:
 	virtual JBoolean	IsFunction() const;
 	virtual void		GetElement(const JIndex index, J2DDataPoint* data) const;
 
-	virtual void		GetXRange(JFloat* min, JFloat* max) const;
+	virtual void		GetXRange(JFloat* min, JFloat* max) const override;
 	virtual JBoolean	GetYRange(const JFloat xMin, const JFloat xMax,
 								  const JBoolean xLinear,
-								  JFloat* yMin, JFloat* yMax) const;
+								  JFloat* yMin, JFloat* yMax) const override;
 
 	virtual JString		GetFunctionString() const = 0;
 	virtual JBoolean	GetYValue(const JFloat x, JFloat* y) const = 0;
@@ -44,7 +44,7 @@ protected:
 	void	UpdateFunction(const JFloat xmin, const JFloat xmax,
 						   const JSize stepCount);
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message);
+	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

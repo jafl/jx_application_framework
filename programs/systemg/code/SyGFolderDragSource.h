@@ -30,19 +30,19 @@ protected:
 	virtual void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
 									const JSize clickCount,
 									const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers);
+									const JXKeyModifiers& modifiers) override;
 	virtual void	HandleMouseDrag(const JPoint& pt, const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers);
+									const JXKeyModifiers& modifiers) override;
 
 	virtual Atom	GetDNDAction(const JXContainer* target,
 								 const JXButtonStates& buttonStates,
-								 const JXKeyModifiers& modifiers);
+								 const JXKeyModifiers& modifiers) override;
 	virtual void	GetDNDAskActions(const JXButtonStates& buttonStates,
 								  const JXKeyModifiers& modifiers,
 								  JArray<Atom>* askActionList,
-								  JPtrArray<JString>* askDescriptionList);
+								  JPtrArray<JString>* askDescriptionList) override;
 	virtual void	HandleDNDResponse(const JXContainer* target,
-									  const JBoolean dropAccepted, const Atom action);
+									  const JBoolean dropAccepted, const Atom action) override;
 
 private:
 

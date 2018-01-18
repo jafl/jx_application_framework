@@ -26,7 +26,7 @@ protected:
 	virtual JBoolean	IsWordCharacter(const JString& s, const JIndex index,
 										const JBoolean includeNS) const;
 	virtual void		UpdateWordList();
-	virtual void		Receive(JBroadcaster* sender, const Message& message);
+	virtual void		Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

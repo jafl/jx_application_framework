@@ -30,13 +30,13 @@ public:
 	JBoolean		TimeToCheck() const;
 	JBoolean		TimeToRemind();
 
-	virtual int	open(void*);
-	virtual int	handle_input(ACE_HANDLE);
+	virtual int	open(void*) override;
+	virtual int	handle_input(ACE_HANDLE) override;
 
 protected:
 
-	virtual void	ReadPrefs(std::istream& input);
-	virtual void	WritePrefs(std::ostream& output) const;
+	virtual void	ReadPrefs(std::istream& input) override;
+	virtual void	WritePrefs(std::ostream& output) const override;
 
 private:
 

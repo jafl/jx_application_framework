@@ -33,7 +33,7 @@ public:
 
 protected:
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message);
+	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
 	virtual void	ReadPrefs(std::istream& input);
 	virtual void	WritePrefs(std::ostream& output) const;

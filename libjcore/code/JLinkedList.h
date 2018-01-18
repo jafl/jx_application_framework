@@ -43,23 +43,23 @@ public:
 
 	const JLinkedList<T>& operator=(const JLinkedList<T>& source);
 
-	virtual void	InsertElementAtIndex(const JIndex index, const T& data);
+	virtual void	InsertElementAtIndex(const JIndex index, const T& data) override;
 
-	virtual void	RemoveNextElements(const JIndex firstIndex, const JSize count);
-	virtual void	RemoveAll();
+	virtual void	RemoveNextElements(const JIndex firstIndex, const JSize count) override;
+	virtual void	RemoveAll() override;
 
-	virtual T		GetElement(const JIndex index) const;
-	virtual void	SetElement(const JIndex index, const T& data);
+	virtual T		GetElement(const JIndex index) const override;
+	virtual void	SetElement(const JIndex index, const T& data) override;
 
-	virtual void	MoveElementToIndex(const JIndex currentIndex, const JIndex newIndex);
-	virtual void	SwapElements(const JIndex index1, const JIndex index2);
+	virtual void	MoveElementToIndex(const JIndex currentIndex, const JIndex newIndex) override;
+	virtual void	SwapElements(const JIndex index1, const JIndex index2) override;
 
 	virtual JListIterator<T>*
 		NewIterator(const JIteratorPosition start = kJIteratorStartAtBeginning,
-					const JIndex index = 0);
+					const JIndex index = 0) override;
 	virtual JListIterator<T>*
 		NewIterator(const JIteratorPosition start = kJIteratorStartAtBeginning,
-					const JIndex index = 0) const;
+					const JIndex index = 0) const override;
 
 protected:
 

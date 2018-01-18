@@ -43,7 +43,7 @@ protected:
 	JColorIndex	IndexToColor(const JIndex menuIndex) const;
 	JIndex		ColorToIndex(const JColorIndex color) const;
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message);
+	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
 protected:
 

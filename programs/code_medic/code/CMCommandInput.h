@@ -21,12 +21,12 @@ public:
 
 	virtual	~CMCommandInput();
 
-	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers);
+	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers) override;
 
 protected:
 
-	virtual void	HandleFocusEvent();
-	virtual void	HandleUnfocusEvent();
+	virtual void	HandleFocusEvent() override;
+	virtual void	HandleUnfocusEvent() override;
 
 private:
 

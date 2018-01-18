@@ -30,7 +30,7 @@ public:
 
 	virtual void	EvaluateSelection() const;
 
-	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers);
+	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers) override;
 
 private:
 

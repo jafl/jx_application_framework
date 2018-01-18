@@ -35,14 +35,14 @@ protected:
 	virtual void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
 									const JSize clickCount,
 									const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers);
+									const JXKeyModifiers& modifiers) override;
 
 	virtual JCoordinate	GetPrintHeaderHeight(JPagePrinter& p) const;
 	virtual JCoordinate	GetPrintFooterHeight(JPagePrinter& p) const;
 	virtual void		DrawPrintHeader(JPagePrinter& p, const JCoordinate headerHeight);
 	virtual void		DrawPrintFooter(JPagePrinter& p, const JCoordinate footerHeight);
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message);
+	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

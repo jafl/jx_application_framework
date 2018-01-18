@@ -34,8 +34,8 @@ public:
 
 protected:
 
-	virtual JBoolean	OKToUnfocus();
-	virtual void		Receive(JBroadcaster* sender, const Message& message);
+	virtual JBoolean	OKToUnfocus() override;
+	virtual void		Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

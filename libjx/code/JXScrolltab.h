@@ -39,18 +39,18 @@ protected:
 
 	void	UpdatePosition();
 
-	virtual void	Draw(JXWindowPainter& p, const JRect& rect);
-	virtual void	DrawBorder(JXWindowPainter& p, const JRect& frame);
+	virtual void	Draw(JXWindowPainter& p, const JRect& rect) override;
+	virtual void	DrawBorder(JXWindowPainter& p, const JRect& frame) override;
 
-	virtual void	HandleMouseEnter();
-	virtual void	HandleMouseLeave();
+	virtual void	HandleMouseEnter() override;
+	virtual void	HandleMouseLeave() override;
 
 	virtual void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
 									const JSize clickCount,
 									const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers);
+									const JXKeyModifiers& modifiers) override;
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message);
+	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

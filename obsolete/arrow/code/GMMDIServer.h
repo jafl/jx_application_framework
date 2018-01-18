@@ -30,7 +30,7 @@ protected:
 	virtual void	HandleMDIRequest(const JCharacter* dir,
 									 const JPtrArray<JString>& argList);
 
-//	virtual void	Receive(JBroadcaster* sender, const Message& message);
+//	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

@@ -74,7 +74,7 @@ protected:
 
 	virtual void	InitCtags(std::ostream& output);
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message);
+	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
 public:		// ought to be private
 

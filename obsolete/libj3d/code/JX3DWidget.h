@@ -44,15 +44,15 @@ protected:
 
 protected:
 
-	virtual void	Draw(JXWindowPainter& p, const JRect& rect);
-	virtual void	DrawBorder(JXWindowPainter& p, const JRect& frame);
-	virtual void	DrawBackground(JXWindowPainter& p, const JRect& frame);
+	virtual void	Draw(JXWindowPainter& p, const JRect& rect) override;
+	virtual void	DrawBorder(JXWindowPainter& p, const JRect& frame) override;
+	virtual void	DrawBackground(JXWindowPainter& p, const JRect& frame) override;
 
-	virtual void	HandleFocusEvent();
-	virtual void	HandleUnfocusEvent();
+	virtual void	HandleFocusEvent() override;
+	virtual void	HandleUnfocusEvent() override;
 
-	virtual void	BoundsMoved(const JCoordinate dx, const JCoordinate dy);
-	virtual void	BoundsResized(const JCoordinate dw, const JCoordinate dh);
+	virtual void	BoundsMoved(const JCoordinate dx, const JCoordinate dy) override;
+	virtual void	BoundsResized(const JCoordinate dw, const JCoordinate dh) override;
 
 	void	BeginDrag(const DragType type, const JPoint& pt);
 	void	ContinueDrag(const JPoint& pt);

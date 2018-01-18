@@ -40,10 +40,10 @@ protected:
 
 	virtual JError	StartProcess(JProcess** p, int* outFD) = 0;
 
-	virtual void	AdjustCursor(const JPoint& pt, const JXKeyModifiers& modifiers);
+	virtual void	AdjustCursor(const JPoint& pt, const JXKeyModifiers& modifiers) override;
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message);
-	virtual void	ReceiveGoingAway(JBroadcaster* sender);
+	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
+	virtual void	ReceiveGoingAway(JBroadcaster* sender) override;
 
 private:
 

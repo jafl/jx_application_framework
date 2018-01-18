@@ -42,13 +42,13 @@ public:
 
 	JCoordinate		GetPreferredWidth() const;
 
-	virtual JString	ToString() const;
+	virtual JString	ToString() const override;
 
 protected:
 
-	virtual void		Draw(JXWindowPainter& p, const JRect& rect);
-	virtual void		DrawBorder(JXWindowPainter& p, const JRect& frame);
-	virtual JCoordinate	GetFTCMinContentSize(const JBoolean horizontal) const;
+	virtual void		Draw(JXWindowPainter& p, const JRect& rect) override;
+	virtual void		DrawBorder(JXWindowPainter& p, const JRect& frame) override;
+	virtual JCoordinate$1GetFTCMinContentSize(const JBoolean horizontal) const override;
 
 private:
 

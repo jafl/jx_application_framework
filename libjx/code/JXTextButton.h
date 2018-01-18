@@ -43,13 +43,13 @@ public:
 
 	virtual void	SetShortcuts(const JString& list);
 
-	virtual JString	ToString() const;
+	virtual JString	ToString() const override;
 
 protected:
 
-	virtual void		Draw(JXWindowPainter& p, const JRect& rect);
-	virtual void		DrawBackground(JXWindowPainter& p, const JRect& frame);
-	virtual JCoordinate	GetFTCMinContentSize(const JBoolean horizontal) const;
+	virtual void		Draw(JXWindowPainter& p, const JRect& rect) override;
+	virtual void		DrawBackground(JXWindowPainter& p, const JRect& frame) override;
+	virtual JCoordinate$1GetFTCMinContentSize(const JBoolean horizontal) const override;
 
 private:
 

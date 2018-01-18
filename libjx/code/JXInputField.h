@@ -56,32 +56,32 @@ public:
 	JBoolean	GetTable(JXEditTable** table) const;
 	void		SetTable(JXEditTable* table);
 
-	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers);
+	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers) override;
 
-	virtual JString	ToString() const;
+	virtual JString	ToString() const override;
 
 protected:
 
-	virtual void		HandleFocusEvent();
-	virtual void		HandleUnfocusEvent();
-	virtual JBoolean	OKToUnfocus();
+	virtual void		HandleFocusEvent() override;
+	virtual void		HandleUnfocusEvent() override;
+	virtual JBoolean	OKToUnfocus() override;
 
 	virtual void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
 									const JSize clickCount,
 									const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers);
+									const JXKeyModifiers& modifiers) override;
 	virtual void	HandleDNDDrop(const JPoint& pt, const JArray<Atom>& typeList,
 								  const Atom action, const Time time,
-								  const JXWidget* source);
+								  const JXWidget* source) override;
 
-	virtual void	DrawBorder(JXWindowPainter& p, const JRect& frame);
+	virtual void	DrawBorder(JXWindowPainter& p, const JRect& frame) override;
 
 	virtual JBoolean	NeedsToFilterText(const JString& text) const;
 	virtual JBoolean	FilterText(JString* text, JRunArray<JFont>* style);
 
-	virtual JCoordinate	GetFTCMinContentSize(const JBoolean horizontal) const;
+	virtual JCoordinate$1GetFTCMinContentSize(const JBoolean horizontal) const override;
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message);
+	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

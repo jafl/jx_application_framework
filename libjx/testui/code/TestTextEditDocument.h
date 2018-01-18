@@ -29,7 +29,7 @@ protected:
 	void			ReadFile(const JString& fileName);
 	virtual void	WriteTextFile(std::ostream& output, const JBoolean safetySave) const;
 	virtual void	DiscardChanges();
-	virtual void	Receive(JBroadcaster* sender, const Message& message);
+	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

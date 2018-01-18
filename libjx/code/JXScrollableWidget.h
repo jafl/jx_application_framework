@@ -48,7 +48,7 @@ public:
 	static void	SkipScrollSetup(std::istream& input);
 	void		WriteScrollSetup(std::ostream& output) const;
 
-	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers);
+	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers) override;
 
 	DisplayState	SaveDisplayState() const;
 	void			RestoreDisplayState(const DisplayState& state);
@@ -70,22 +70,22 @@ protected:
 	void	SetHorizJumpToScrolltabModifiers(const JBoolean ctrl, const JBoolean meta);
 	void	SetVertJumpToScrolltabModifiers(const JBoolean ctrl, const JBoolean meta);
 
-	virtual void	DrawBorder(JXWindowPainter& p, const JRect& frame);
+	virtual void	DrawBorder(JXWindowPainter& p, const JRect& frame) override;
 
 	virtual void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
 									const JSize clickCount,
 									const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers);
+									const JXKeyModifiers& modifiers) override;
 
-	virtual void	BoundsMoved(const JCoordinate dx, const JCoordinate dy);
-	virtual void	BoundsResized(const JCoordinate dw, const JCoordinate dh);
-	virtual void	ApertureMoved(const JCoordinate dx, const JCoordinate dy);
-	virtual void	ApertureResized(const JCoordinate dw, const JCoordinate dh);
+	virtual void	BoundsMoved(const JCoordinate dx, const JCoordinate dy) override;
+	virtual void	BoundsResized(const JCoordinate dw, const JCoordinate dh) override;
+	virtual void	ApertureMoved(const JCoordinate dx, const JCoordinate dy) override;
+	virtual void	ApertureResized(const JCoordinate dw, const JCoordinate dh) override;
 
 	virtual void	HandleDNDScroll(const JPoint& pt, const JXMouseButton scrollButton,
-									const JXKeyModifiers& modifiers);
+									const JXKeyModifiers& modifiers) override;
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message);
+	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

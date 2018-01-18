@@ -31,7 +31,7 @@ public:
 	void	RemoveLinks();
 
 	virtual void	HandleShortcut(const int key,					// must call inherited
-								   const JXKeyModifiers& modifiers);
+								   const JXKeyModifiers& modifiers) override;
 
 protected:
 
@@ -42,7 +42,7 @@ protected:
 	virtual void	HandleHTMLTag(const JString& name, const JStringPtrMap<JString>& attr);
 	virtual void	HandleHTMLError(const JCharacter* errStr);
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message);
+	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
 public:
 

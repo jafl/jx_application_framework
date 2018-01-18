@@ -42,7 +42,7 @@ protected:
 	virtual void		GetSubmenuPoints(const JIndex itemIndex,
 										 JPoint* leftPt, JPoint* rightPt);
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message);
+	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

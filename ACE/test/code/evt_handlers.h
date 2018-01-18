@@ -19,7 +19,7 @@ class ClientHandler : public ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH>
 {
 public:
 
-	virtual int	open(void*);
+	virtual int	open(void*) override;
 };
 
 template <ACE_PEER_STREAM_1>
@@ -27,9 +27,9 @@ class ServerHandler : public ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH>
 {
 public:
 
-	virtual int	open(void*);
-	virtual int	handle_input(ACE_HANDLE);
-	virtual int	handle_output(ACE_HANDLE);
+	virtual int	open(void*) override;
+	virtual int	handle_input(ACE_HANDLE) override;
+	virtual int	handle_output(ACE_HANDLE) override;
 };
 
 #include "evt_handlers.tmpl"

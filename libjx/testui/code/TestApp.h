@@ -34,7 +34,7 @@ protected:
 
 	virtual void	CleanUpBeforeSuddenDeath(const JXDocumentManager::SafetySaveReason reason);
 
-	virtual void	ReceiveWithFeedback(JBroadcaster* sender, Message* message);
+	virtual void	ReceiveWithFeedback(JBroadcaster* sender, Message* message) override;
 
 private:
 

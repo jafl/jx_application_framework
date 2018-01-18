@@ -23,7 +23,7 @@ public:
 
 	virtual ~CMArrayIndexInput();
 
-	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers);
+	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers) override;
 
 private:
 

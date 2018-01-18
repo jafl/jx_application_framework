@@ -25,7 +25,7 @@ public:
 
 	void	SetTE(JXTEBase* te, CBTECaretInputBase* colInput);
 
-	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers);
+	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers) override;
 
 protected:
 

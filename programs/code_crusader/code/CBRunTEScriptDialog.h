@@ -25,7 +25,7 @@ public:
 
 	virtual ~CBRunTEScriptDialog();
 
-	virtual void	Activate();
+	virtual void	Activate() override;
 
 	JBoolean	RunScript();
 	JBoolean	RunSimpleScript(const JCharacter* scriptName, JTextEditor* te,
@@ -36,7 +36,7 @@ protected:
 	virtual void	ReadPrefs(std::istream& input);
 	virtual void	WritePrefs(std::ostream& output) const;
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message);
+	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

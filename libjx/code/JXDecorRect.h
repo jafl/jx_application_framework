@@ -27,8 +27,8 @@ public:
 
 protected:
 
-	virtual void		Draw(JXWindowPainter& p, const JRect& rect);
-	virtual JBoolean	NeedsInternalFTC() const;
+	virtual void		Draw(JXWindowPainter& p, const JRect& rect) override;
+	virtual JBoolean	NeedsInternalFTC() const override;
 
 private:
 

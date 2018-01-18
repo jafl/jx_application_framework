@@ -196,7 +196,7 @@ protected:
 
 	JBoolean	GetClipboard(const JFunction** f) const;
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message);
+	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

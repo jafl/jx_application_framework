@@ -32,10 +32,10 @@ public:
 	virtual void		GetElement(const JIndex index, J2DDataPoint* data) const;
 	virtual void		GetElement(const JIndex index, J2DVectorPoint* data) const;
 
-	virtual void		GetXRange(JFloat* min, JFloat* max) const;
+	virtual void		GetXRange(JFloat* min, JFloat* max) const override;
 	virtual JBoolean	GetYRange(const JFloat xMin, const JFloat xMax,
 								  const JBoolean xLinear,
-								  JFloat* yMin, JFloat* yMax) const;
+								  JFloat* yMin, JFloat* yMax) const override;
 
 	void	AddElement(const JFloat x,  const JFloat y,
 					   const JFloat vx, const JFloat vy);
@@ -60,8 +60,8 @@ protected:
 				  const JArray<JFloat>& vx, const JArray<JFloat>& vy,
 				  const JBoolean listen);
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message);
-	virtual void	ReceiveGoingAway(JBroadcaster* sender);
+	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
+	virtual void	ReceiveGoingAway(JBroadcaster* sender) override;
 
 private:
 

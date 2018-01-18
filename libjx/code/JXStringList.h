@@ -40,7 +40,7 @@ public:
 	void		SetStyles(const JRunArray<JFontStyle>& styleList);
 	void		SetAllStyles(const JFontStyle& style);
 
-	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers);
+	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers) override;
 	void			ClearIncrementalSearchBuffer();
 
 	// called by urgent task
@@ -50,10 +50,10 @@ public:
 protected:
 
 	virtual void	TableDrawCell(JPainter& p, const JPoint& cell, const JRect& rect);
-	virtual void	ApertureResized(const JCoordinate dw, const JCoordinate dh);
-	virtual void	HandleFocusEvent();
-	virtual void	Receive(JBroadcaster* sender, const Message& message);
-	virtual void	ReceiveGoingAway(JBroadcaster* sender);
+	virtual void	ApertureResized(const JCoordinate dw, const JCoordinate dh) override;
+	virtual void	HandleFocusEvent() override;
+	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
+	virtual void	ReceiveGoingAway(JBroadcaster* sender) override;
 
 private:
 

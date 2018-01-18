@@ -39,41 +39,41 @@ public:
 	void	Print(JPagePrinter& p);
 	void	Print(JEPSPrinter& p);
 
-	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers);
+	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers) override;
 
 protected:
 
-	virtual void	Draw(JXWindowPainter& p, const JRect& rect);
+	virtual void	Draw(JXWindowPainter& p, const JRect& rect) override;
 
-	virtual void	AdjustCursor(const JPoint& pt, const JXKeyModifiers& modifiers);
+	virtual void	AdjustCursor(const JPoint& pt, const JXKeyModifiers& modifiers) override;
 	virtual void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
 									const JSize clickCount,
 									const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers);
+									const JXKeyModifiers& modifiers) override;
 	virtual void	HandleMouseDrag(const JPoint& pt, const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers);
+									const JXKeyModifiers& modifiers) override;
 	virtual void	HandleMouseUp(const JPoint& pt, const JXMouseButton button,
 								  const JXButtonStates& buttonStates,
-								  const JXKeyModifiers& modifiers);
+								  const JXKeyModifiers& modifiers) override;
 
-	virtual JBoolean	HitSamePart(const JPoint& pt1, const JPoint& pt2) const;
+	virtual JBoolean	HitSamePart(const JPoint& pt1, const JPoint& pt2) const override;
 
 	virtual Atom	GetDNDAction(const JXContainer* target,
 								 const JXButtonStates& buttonStates,
-								 const JXKeyModifiers& modifiers);
+								 const JXKeyModifiers& modifiers) override;
 
 	virtual JBoolean	WillAcceptDrop(const JArray<Atom>& typeList, Atom* action,
 									   const JPoint& pt, const Time time,
-									   const JXWidget* source);
+									   const JXWidget* source) override;
 	virtual void		HandleDNDDrop(const JPoint& pt, const JArray<Atom>& typeList,
 									  const Atom action, const Time time,
-									  const JXWidget* source);
+									  const JXWidget* source) override;
 
-	virtual JBoolean	HandleClientMessage(const XClientMessageEvent& clientMessage);
+	virtual JBoolean	HandleClientMessage(const XClientMessageEvent& clientMessage) override;
 
-	virtual void	BoundsResized(const JCoordinate dw, const JCoordinate dh);
-	virtual void	Receive(JBroadcaster* sender, const Message& message);
-	virtual void	ReceiveWithFeedback(JBroadcaster* sender, Message* message);
+	virtual void	BoundsResized(const JCoordinate dw, const JCoordinate dh) override;
+	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
+	virtual void	ReceiveWithFeedback(JBroadcaster* sender, Message* message) override;
 
 private:
 

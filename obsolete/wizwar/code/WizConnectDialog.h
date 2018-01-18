@@ -25,13 +25,13 @@ public:
 
 	virtual ~WizConnectDialog();
 
-	virtual void	Activate();
+	virtual void	Activate() override;
 
 	void	GetConnectInfo(JString* serverAddr, JString* playerName) const;
 
 protected:
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message);
+	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

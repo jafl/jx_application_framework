@@ -31,7 +31,7 @@ public:
 	JString	GetFontName() const;
 	JSize	GetFontSize() const;
 
-	virtual void	Activate();
+	virtual void	Activate() override;
 
 private:
 

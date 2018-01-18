@@ -38,7 +38,7 @@ public:
 
 	virtual ~GFGFunctionTable();
 
-	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers);
+	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers) override;
 
 protected:
 
@@ -48,11 +48,11 @@ protected:
 			const JCoordinate x, const JCoordinate y,
 			const JCoordinate w, const JCoordinate h);
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message);
+	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 	virtual void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
 									const JSize clickCount,
 									const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers);
+									const JXKeyModifiers& modifiers) override;
 	virtual void	TableDrawCell(JPainter& p, const JPoint& cell, const JRect& rect);
 
 private:

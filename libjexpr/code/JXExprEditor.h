@@ -50,7 +50,7 @@ public:
 
 	virtual void	EvaluateSelection() const;
 
-	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers);
+	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers) override;
 
 protected:
 
@@ -67,27 +67,27 @@ protected:
 	virtual JBoolean	EIPOwnsClipboard();
 	virtual JBoolean	EIPGetExternalClipboard(JString* text);
 
-	virtual void	ApertureResized(const JCoordinate dw, const JCoordinate dh);
+	virtual void	ApertureResized(const JCoordinate dw, const JCoordinate dh) override;
 
-	virtual void	Draw(JXWindowPainter& p, const JRect& rect);
+	virtual void	Draw(JXWindowPainter& p, const JRect& rect) override;
 
 	virtual void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
 									const JSize clickCount,
 									const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers);
+									const JXKeyModifiers& modifiers) override;
 	virtual void	HandleMouseDrag(const JPoint& pt, const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers);
+									const JXKeyModifiers& modifiers) override;
 	virtual void	HandleMouseUp(const JPoint& pt, const JXMouseButton button,
 								  const JXButtonStates& buttonStates,
-								  const JXKeyModifiers& modifiers);
+								  const JXKeyModifiers& modifiers) override;
 
-	virtual void	HandleFocusEvent();
-	virtual void	HandleUnfocusEvent();
+	virtual void	HandleFocusEvent() override;
+	virtual void	HandleUnfocusEvent() override;
 
-	virtual JBoolean	OKToUnfocus();
-	virtual void		AdjustCursor(const JPoint& pt, const JXKeyModifiers& modifiers);
+	virtual JBoolean	OKToUnfocus() override;
+	virtual void		AdjustCursor(const JPoint& pt, const JXKeyModifiers& modifiers) override;
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message);
+	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
 	JXEPSPrinter&		GetEPSPrinter();
 	const JXEPSPrinter&	GetEPSPrinter() const;

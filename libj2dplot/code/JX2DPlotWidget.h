@@ -60,16 +60,16 @@ public:
 	void			SetEPSMarksFileName(const JCharacter* fileName);
 	void			PrintMarksEPS();
 
-	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers);
+	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers) override;
 
 	void	PWXReadSetup(std::istream& input);
 	void	PWXWriteSetup(std::ostream& output) const;
 
 protected:
 
-	virtual void	Draw(JXWindowPainter& p, const JRect& rect);
-	virtual void	DrawBorder(JXWindowPainter& p, const JRect& frame);
-	virtual void	BoundsResized(const JCoordinate dw, const JCoordinate dh);
+	virtual void	Draw(JXWindowPainter& p, const JRect& rect) override;
+	virtual void	DrawBorder(JXWindowPainter& p, const JRect& frame) override;
+	virtual void	BoundsResized(const JCoordinate dw, const JCoordinate dh) override;
 
 	virtual JCoordinate	GetMarksHeight() const;
 	virtual JBoolean	PrintMarks(JPagePrinter& p, const JBoolean putOnSamePage,
@@ -78,13 +78,13 @@ protected:
 	virtual void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
 									const JSize clickCount,
 									const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers);
+									const JXKeyModifiers& modifiers) override;
 	virtual void	HandleMouseDrag(const JPoint& pt, const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers);
+									const JXKeyModifiers& modifiers) override;
 	virtual void	HandleMouseUp(const JPoint& pt, const JXMouseButton button,
 								  const JXButtonStates& buttonStates,
-								  const JXKeyModifiers& modifiers);
-	virtual void	AdjustCursor(const JPoint& pt, const JXKeyModifiers& modifiers);
+								  const JXKeyModifiers& modifiers) override;
+	virtual void	AdjustCursor(const JPoint& pt, const JXKeyModifiers& modifiers) override;
 
 	virtual JSize	PWGetGUIWidth() const;
 	virtual JSize	PWGetGUIHeight() const;
@@ -104,7 +104,7 @@ protected:
 	virtual void	ChangeLabels(const LabelSelection selection);
 	virtual void	ChangeScale(const JBoolean xAxis);
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message);
+	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

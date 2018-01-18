@@ -48,7 +48,7 @@ public:
 	JBoolean	ChooseFile(const JString& prompt, const JString& instr = JString::empty);
 	JBoolean	SaveFile(const JString& prompt, const JString& instr = JString::empty);
 
-	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers);
+	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers) override;
 
 	static const JString&	GetFont(JSize* size);
 
@@ -59,25 +59,25 @@ public:
 
 protected:
 
-	virtual void	HandleUnfocusEvent();
-	virtual void	ApertureResized(const JCoordinate dw, const JCoordinate dh);
-	virtual void	BoundsMoved(const JCoordinate dx, const JCoordinate dy);
-	virtual void	Receive(JBroadcaster* sender, const Message& message);
+	virtual void	HandleUnfocusEvent() override;
+	virtual void	ApertureResized(const JCoordinate dw, const JCoordinate dh) override;
+	virtual void	BoundsMoved(const JCoordinate dx, const JCoordinate dy) override;
+	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
 	virtual void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
 									const JSize clickCount,
 									const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers);
+									const JXKeyModifiers& modifiers) override;
 
 	virtual JBoolean	WillAcceptDrop(const JArray<Atom>& typeList, Atom* action,
 									   const JPoint& pt, const Time time,
-									   const JXWidget* source);
-	virtual void		HandleDNDEnter();
-	virtual void		HandleDNDHere(const JPoint& pt, const JXWidget* source);
-	virtual void		HandleDNDLeave();
+									   const JXWidget* source) override;
+	virtual void		HandleDNDEnter() override;
+	virtual void		HandleDNDHere(const JPoint& pt, const JXWidget* source) override;
+	virtual void		HandleDNDLeave() override;
 	virtual void		HandleDNDDrop(const JPoint& pt, const JArray<Atom>& typeList,
 									  const Atom action, const Time time,
-									  const JXWidget* source);
+									  const JXWidget* source) override;
 
 	virtual void	AdjustStylesBeforeRecalc(const JString& buffer, JRunArray<JFont>* styles,
 											 JIndexRange* recalcRange, JIndexRange* redrawRange,

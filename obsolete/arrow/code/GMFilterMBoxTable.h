@@ -43,7 +43,7 @@ protected:
 				const JCoordinate w, const JCoordinate h);
 
 	virtual void	TableDrawCell(JPainter& p, const JPoint& cell, const JRect& rect);
-	virtual void	ApertureResized(const JCoordinate dw, const JCoordinate dh);
+	virtual void	ApertureResized(const JCoordinate dw, const JCoordinate dh) override;
 
 	virtual JXInputField*	CreateXInputField(const JPoint& cell,
 											  const JCoordinate x, const JCoordinate y,

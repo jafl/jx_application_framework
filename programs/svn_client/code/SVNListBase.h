@@ -41,7 +41,7 @@ public:
 	virtual void	RefreshContent();
 	virtual void	GetSelectedFiles(JPtrArray<JString>* fullNameList,
 									 const JBoolean includeDeleted = kJFalse);
-	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers);
+	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers) override;
 
 	virtual void	OpenSelectedItems();
 
@@ -62,14 +62,14 @@ protected:
 
 	JPtrArray<JString>*	GetLineList();
 
-	virtual void	AdjustCursor(const JPoint& pt, const JXKeyModifiers& modifiers);
+	virtual void	AdjustCursor(const JPoint& pt, const JXKeyModifiers& modifiers) override;
 
 	virtual void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
 									const JSize clickCount,
 									const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers);
+									const JXKeyModifiers& modifiers) override;
 	virtual void	HandleMouseDrag(const JPoint& pt, const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers);
+									const JXKeyModifiers& modifiers) override;
 
 	virtual JBoolean	ShouldDisplayLine(JString* line) const;
 	virtual void		StyleLine(const JIndex index, const JString& line,
@@ -81,8 +81,8 @@ protected:
 	virtual void	UpdateContextMenu(JXTextMenu* menu);
 	virtual void	CopySelectedItems(const JBoolean fullPath);
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message);
-	virtual void	ReceiveGoingAway(JBroadcaster* sender);
+	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
+	virtual void	ReceiveGoingAway(JBroadcaster* sender) override;
 
 private:
 

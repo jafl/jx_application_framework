@@ -30,18 +30,18 @@ public:
 
 protected:
 
-	virtual void	Draw(JXWindowPainter& p, const JRect& rect);
-	virtual void	DrawBorder(JXWindowPainter& p, const JRect& frame);
-	virtual void	HandleMouseEnter();
+	virtual void	Draw(JXWindowPainter& p, const JRect& rect) override;
+	virtual void	DrawBorder(JXWindowPainter& p, const JRect& frame) override;
+	virtual void	HandleMouseEnter() override;
 
 	virtual JBoolean	WillAcceptDrop(const JArray<Atom>& typeList, Atom* action,
 									   const JPoint& pt, const Time time,
-									   const JXWidget* source);
-	virtual void		HandleDNDEnter();
-	virtual void		HandleDNDLeave();
+									   const JXWidget* source) override;
+	virtual void		HandleDNDEnter() override;
+	virtual void		HandleDNDLeave() override;
 	virtual void		HandleDNDDrop(const JPoint& pt, const JArray<Atom>& typeList,
 									  const Atom action, const Time time,
-									  const JXWidget* source);
+									  const JXWidget* source) override;
 
 private:
 

@@ -25,7 +25,7 @@ public:
 
 	virtual ~J2DPlotData();
 
-	virtual void GetElement(const JIndex index, J2DDataPoint* data) const;
+	virtual void GetElement(const JIndex index, J2DDataPoint* data) const override;
 
 	JBoolean SetXErrors(const JArray<JFloat>& xErr);
 	JBoolean SetXErrors(const JArray<JFloat>& xPErr, const JArray<JFloat>& xMErr);
@@ -33,15 +33,15 @@ public:
 	JBoolean SetYErrors(const JArray<JFloat>& yErr);
 	JBoolean SetYErrors(const JArray<JFloat>& yPErr, const JArray<JFloat>& yMErr);
 
-	virtual void		GetXRange(JFloat* min, JFloat* max) const;
+	virtual void		GetXRange(JFloat* min, JFloat* max) const override;
 	virtual JBoolean	GetYRange(const JFloat xMin, const JFloat xMax,
 								  const JBoolean xLinear,
-								  JFloat* yMin, JFloat* yMax) const;
+								  JFloat* yMin, JFloat* yMax) const override;
 
-	virtual JBoolean HasXErrors() const;
-	virtual JBoolean HasYErrors() const;
-	virtual JBoolean HasSymmetricXErrors() const;
-	virtual JBoolean HasSymmetricYErrors() const;
+	virtual JBoolean HasXErrors() const override;
+	virtual JBoolean HasYErrors() const override;
+	virtual JBoolean HasSymmetricXErrors() const override;
+	virtual JBoolean HasSymmetricYErrors() const override;
 
 	JBoolean	IsValid() const;
 
@@ -62,8 +62,8 @@ protected:
 	J2DPlotData(const JArray<JFloat>& x, const JArray<JFloat>& y,
 				const JBoolean listen = kJFalse);
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message);
-	virtual void	ReceiveGoingAway(JBroadcaster* sender);
+	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
+	virtual void	ReceiveGoingAway(JBroadcaster* sender) override;
 
 private:
 

@@ -27,7 +27,7 @@ public:
 
 	virtual ~CBSearchTextDialog();
 
-	virtual void	Activate();
+	virtual void	Activate() override;
 
 	void	ShouldSearchFiles(const JBoolean search);
 	void	AddFileToSearch(const JCharacter* fileName) const;
@@ -42,7 +42,7 @@ protected:
 	virtual void	ReadPrefs(std::istream& input);
 	virtual void	WritePrefs(std::ostream& output) const;
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message);
+	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

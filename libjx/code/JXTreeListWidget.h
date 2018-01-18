@@ -53,7 +53,7 @@ public:
 	JSize	GetMaxOpenDepth() const;
 	void	SetMaxOpenDepth(const JSize maxDepth);
 
-	virtual void		HandleKeyPress(const int key, const JXKeyModifiers& modifiers);
+	virtual void		HandleKeyPress(const int key, const JXKeyModifiers& modifiers) override;
 	virtual JBoolean	IsSelectable(const JPoint& cell,
 									 const JBoolean forExtend) const;
 	virtual JBoolean	IsEditable(const JPoint& cell) const;
@@ -80,19 +80,19 @@ protected:
 	virtual void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
 									const JSize clickCount,
 									const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers);
+									const JXKeyModifiers& modifiers) override;
 	virtual void	HandleMouseDrag(const JPoint& pt, const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers);
+									const JXKeyModifiers& modifiers) override;
 	virtual void	HandleMouseUp(const JPoint& pt, const JXMouseButton button,
 								  const JXButtonStates& buttonStates,
-								  const JXKeyModifiers& modifiers);
+								  const JXKeyModifiers& modifiers) override;
 
 	JBoolean	GetDNDTargetIndex(JIndex* index) const;
 	void		SetDNDTargetIndex(const JIndex index);
 	void		ClearDNDTargetIndex();
 
-	virtual void	ApertureResized(const JCoordinate dw, const JCoordinate dh);
-	virtual void	Receive(JBroadcaster* sender, const Message& message);
+	virtual void	ApertureResized(const JCoordinate dw, const JCoordinate dh) override;
+	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

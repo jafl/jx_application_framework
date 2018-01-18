@@ -69,7 +69,7 @@ protected:
 	virtual JBoolean	OKToRevert();
 	virtual JBoolean	CanRevert();
 	virtual void		DiscardChanges();
-	virtual void		Receive(JBroadcaster* sender, const Message& message);
+	virtual void		Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

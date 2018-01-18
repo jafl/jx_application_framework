@@ -27,8 +27,8 @@ public:
 
 	virtual ~CBMacroTable();
 
-	virtual void	Activate();
-	virtual void	Deactivate();
+	virtual void	Activate() override;
+	virtual void	Deactivate() override;
 
 	void	GetData(CBMacroManager* mgr) const;
 	void	SetData(const CBMacroManager& mgr);
@@ -36,7 +36,7 @@ public:
 
 protected:
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message);
+	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

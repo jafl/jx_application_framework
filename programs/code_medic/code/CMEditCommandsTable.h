@@ -42,8 +42,8 @@ protected:
 	virtual void			HandleMouseDown(const JPoint& pt, const JXMouseButton button,
 											const JSize clickCount,
 											const JXButtonStates& buttonStates,
-											const JXKeyModifiers& modifiers);
-	virtual void			ApertureResized(const JCoordinate dw, const JCoordinate dh);
+											const JXKeyModifiers& modifiers) override;
+	virtual void			ApertureResized(const JCoordinate dw, const JCoordinate dh) override;
 
 private:
 

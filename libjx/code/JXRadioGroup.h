@@ -35,9 +35,9 @@ public:
 
 protected:
 
-	virtual void		Draw(JXWindowPainter& p, const JRect& rect);
-	virtual void		DrawBorder(JXWindowPainter& p, const JRect& frame);
-	virtual JBoolean	NeedsInternalFTC() const;
+	virtual void		Draw(JXWindowPainter& p, const JRect& rect) override;
+	virtual void		DrawBorder(JXWindowPainter& p, const JRect& frame) override;
+	virtual JBoolean	NeedsInternalFTC() const override;
 
 private:
 

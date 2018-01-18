@@ -52,14 +52,14 @@ public:
 
 	virtual ~JXTEBase();
 
-	virtual void	Activate();
-	virtual void	Deactivate();
+	virtual void	Activate() override;
+	virtual void	Deactivate() override;
 
-	virtual void	Suspend();
-	virtual void	Resume();
+	virtual void	Suspend() override;
+	virtual void	Resume() override;
 
-	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers);
-	virtual void	HandleShortcut(const int key, const JXKeyModifiers& modifiers);
+	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers) override;
+	virtual void	HandleShortcut(const int key, const JXKeyModifiers& modifiers) override;
 
 	JXTextMenu*		AppendEditMenu(JXMenuBar* menuBar);	// no extras
 	JXTextMenu*		AppendEditMenu(JXMenuBar* menuBar,
@@ -171,47 +171,47 @@ protected:
 			 const JCoordinate x, const JCoordinate y,
 			 const JCoordinate w, const JCoordinate h);
 
-	virtual void	Draw(JXWindowPainter& p, const JRect& rect);
+	virtual void	Draw(JXWindowPainter& p, const JRect& rect) override;
 
-	virtual void	HandleMouseEnter();
-	virtual void	HandleMouseHere(const JPoint& pt, const JXKeyModifiers& modifiers);
-	virtual void	HandleMouseLeave();
+	virtual void	HandleMouseEnter() override;
+	virtual void	HandleMouseHere(const JPoint& pt, const JXKeyModifiers& modifiers) override;
+	virtual void	HandleMouseLeave() override;
 
 	virtual void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
 									const JSize clickCount,
 									const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers);
+									const JXKeyModifiers& modifiers) override;
 	virtual void	HandleMouseDrag(const JPoint& pt, const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers);
+									const JXKeyModifiers& modifiers) override;
 	virtual void	HandleMouseUp(const JPoint& pt, const JXMouseButton button,
 								  const JXButtonStates& buttonStates,
-								  const JXKeyModifiers& modifiers);
+								  const JXKeyModifiers& modifiers) override;
 
-	virtual JBoolean	HitSamePart(const JPoint& pt1, const JPoint& pt2) const;
+	virtual JBoolean	HitSamePart(const JPoint& pt1, const JPoint& pt2) const override;
 
 	virtual void		TEDisplayBusyCursor() const;
 
 	virtual JBoolean	TEBeginDND();
-	virtual void		DNDFinish(const JBoolean isDrop, const JXContainer* target);
+	virtual void		DNDFinish(const JBoolean isDrop, const JXContainer* target) override;
 	virtual Atom		GetDNDAction(const JXContainer* target,
 									 const JXButtonStates& buttonStates,
-									 const JXKeyModifiers& modifiers);
+									 const JXKeyModifiers& modifiers) override;
 	virtual void		GetDNDAskActions(const JXButtonStates& buttonStates,
 										 const JXKeyModifiers& modifiers,
 										 JArray<Atom>* askActionList,
-										 JPtrArray<JString>* askDescriptionList);
+										 JPtrArray<JString>* askDescriptionList) override;
 	virtual void		GetSelectionData(JXSelectionData* data,
-										 const JString& id);
+										 const JString& id) override;
 
 	virtual JBoolean	WillAcceptDrop(const JArray<Atom>& typeList, Atom* action,
 									   const JPoint& pt, const Time time,
-									   const JXWidget* source);
-	virtual void		HandleDNDEnter();
-	virtual void		HandleDNDHere(const JPoint& pt, const JXWidget* source);
-	virtual void		HandleDNDLeave();
+									   const JXWidget* source) override;
+	virtual void		HandleDNDEnter() override;
+	virtual void		HandleDNDHere(const JPoint& pt, const JXWidget* source) override;
+	virtual void		HandleDNDLeave() override;
 	virtual void		HandleDNDDrop(const JPoint& pt, const JArray<Atom>& typeList,
 									  const Atom action, const Time time,
-									  const JXWidget* source);
+									  const JXWidget* source) override;
 	virtual void		TEPasteDropData();
 
 	virtual JBoolean	TEXWillAcceptDrop(const JArray<Atom>& typeList,
@@ -221,15 +221,15 @@ protected:
 										   const Atom action, const Time time,
 										   JString* text, JRunArray<JFont>* style);
 
-	virtual void	HandleFocusEvent();
-	virtual void	HandleUnfocusEvent();
-	virtual void	AdjustCursor(const JPoint& pt, const JXKeyModifiers& modifiers);
+	virtual void	HandleFocusEvent() override;
+	virtual void	HandleUnfocusEvent() override;
+	virtual void	AdjustCursor(const JPoint& pt, const JXKeyModifiers& modifiers) override;
 
-	virtual void	HandleWindowFocusEvent();
-	virtual void	HandleWindowUnfocusEvent();
+	virtual void	HandleWindowFocusEvent() override;
+	virtual void	HandleWindowUnfocusEvent() override;
 
-	virtual void	BoundsMoved(const JCoordinate dx, const JCoordinate dy);
-	virtual void	ApertureResized(const JCoordinate dw, const JCoordinate dh);
+	virtual void	BoundsMoved(const JCoordinate dx, const JCoordinate dy) override;
+	virtual void	ApertureResized(const JCoordinate dw, const JCoordinate dh) override;
 
 	virtual void		TERefresh();
 	virtual void		TERefreshRect(const JRect& rect);
@@ -251,7 +251,7 @@ protected:
 	virtual JCoordinate	GetPrintFooterHeight(JPagePrinter& p) const;
 	virtual void		DrawPrintFooter(JPagePrinter& p, const JCoordinate footerHeight);
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message);
+	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

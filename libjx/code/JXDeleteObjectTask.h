@@ -26,7 +26,7 @@ protected:
 
 	JXDeleteObjectTask(T* obj);
 
-	virtual void	ReceiveGoingAway(JBroadcaster* sender);
+	virtual void	ReceiveGoingAway(JBroadcaster* sender) override;
 
 private:
 

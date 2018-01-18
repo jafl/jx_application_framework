@@ -41,7 +41,7 @@ protected:
 					   JXImageRadioButton* landscapeRB,
 					   const JPSPrinter::ImageOrientation orient);
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message);
+	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

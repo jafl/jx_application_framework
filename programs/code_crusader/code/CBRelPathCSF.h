@@ -74,7 +74,7 @@ protected:
 						   const JCharacter* fileFilter,
 						   const JBoolean selectOnlyWritable, const JCharacter* message);
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message);
+	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

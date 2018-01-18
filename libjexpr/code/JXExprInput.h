@@ -31,11 +31,11 @@ public:
 	static JXTextMenu*	CreateFontMenu(JXContainer* enclosure);
 	void				SetFontMenu(JXTextMenu* menu);
 
-	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers);
+	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers) override;
 
 protected:
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message);
+	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

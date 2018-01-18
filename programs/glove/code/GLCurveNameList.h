@@ -29,16 +29,16 @@ public:
 	JBoolean		GetCurrentCurveIndex(JIndex* index);
 	void			SetCurrentCurveIndex(const JIndex index);
 
-	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers);
+	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers) override;
 
 protected:
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message);
+	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 	virtual void	TableDrawCell(JPainter& p, const JPoint& cell, const JRect& rect);
 	virtual void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
 									const JSize clickCount,
 									const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers);
+									const JXKeyModifiers& modifiers) override;
 
 	virtual JXInputField*	CreateXInputField(const JPoint& cell,
 											  const JCoordinate x, const JCoordinate y,
@@ -46,7 +46,7 @@ protected:
 	virtual void			PrepareDeleteXInputField();
 	virtual JBoolean		ExtractInputData(const JPoint& cell);
 
-	virtual void	ApertureResized(const JCoordinate dw, const JCoordinate dh);
+	virtual void	ApertureResized(const JCoordinate dw, const JCoordinate dh) override;
 
 private:
 

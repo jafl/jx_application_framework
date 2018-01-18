@@ -41,10 +41,10 @@ protected:
 	JXCheckbox*				GetCheckbox(const JIndex index) const;
 	JPtrArray<JXCheckbox>*	GetCheckboxList() const;
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message);
+	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 	virtual void	EnforceConstraints(const JIndex cbIndex) = 0;
 
-	virtual void	ReceiveGoingAway(JBroadcaster* sender);
+	virtual void	ReceiveGoingAway(JBroadcaster* sender) override;
 
 private:
 

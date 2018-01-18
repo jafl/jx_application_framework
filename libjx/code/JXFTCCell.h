@@ -35,35 +35,35 @@ public:
 
 	JCoordinate		Expand(const JBoolean horizontal);
 
-	virtual void	Refresh() const;
-	virtual void	Redraw() const;
+	virtual void	Refresh() const override;
+	virtual void	Redraw() const override;
 
-	virtual JPoint	GlobalToLocal(const JCoordinate x, const JCoordinate y) const;
-	virtual JPoint	LocalToGlobal(const JCoordinate x, const JCoordinate y) const;
+	virtual JPoint	GlobalToLocal(const JCoordinate x, const JCoordinate y) const override;
+	virtual JPoint	LocalToGlobal(const JCoordinate x, const JCoordinate y) const override;
 
-	virtual void	Place(const JCoordinate enclX, const JCoordinate enclY);
-	virtual void	Move(const JCoordinate dx, const JCoordinate dy);
-	virtual void	SetSize(const JCoordinate w, const JCoordinate h);
-	virtual void	AdjustSize(const JCoordinate dw, const JCoordinate dh);
+	virtual void	Place(const JCoordinate enclX, const JCoordinate enclY) override;
+	virtual void	Move(const JCoordinate dx, const JCoordinate dy) override;
+	virtual void	SetSize(const JCoordinate w, const JCoordinate h) override;
+	virtual void	AdjustSize(const JCoordinate dw, const JCoordinate dh) override;
 
-	virtual JRect	GetBoundsGlobal() const;
-	virtual JRect	GetFrameGlobal() const;
-	virtual JRect	GetApertureGlobal() const;
+	virtual JRect	GetBoundsGlobal() const override;
+	virtual JRect	GetFrameGlobal() const override;
+	virtual JRect	GetApertureGlobal() const override;
 
-	virtual JString	ToString() const;
+	virtual JString	ToString() const override;
 
 protected:
 
-	virtual void	Draw(JXWindowPainter& p, const JRect& rect);
-	virtual void	DrawBorder(JXWindowPainter& p, const JRect& frame);
-	virtual void	DrawBackground(JXWindowPainter& p, const JRect& frame);
+	virtual void	Draw(JXWindowPainter& p, const JRect& rect) override;
+	virtual void	DrawBorder(JXWindowPainter& p, const JRect& frame) override;
+	virtual void	DrawBackground(JXWindowPainter& p, const JRect& frame) override;
 
 	// position and size adjustments -- must call inherited
 
-	virtual void	BoundsMoved(const JCoordinate dx, const JCoordinate dy);
-	virtual void	EnclosingBoundsMoved(const JCoordinate dx, const JCoordinate dy);
-	virtual void	BoundsResized(const JCoordinate dw, const JCoordinate dh);
-	virtual void	EnclosingBoundsResized(const JCoordinate dw, const JCoordinate dh);
+	virtual void	BoundsMoved(const JCoordinate dx, const JCoordinate dy) override;
+	virtual void	EnclosingBoundsMoved(const JCoordinate dx, const JCoordinate dy) override;
+	virtual void	BoundsResized(const JCoordinate dw, const JCoordinate dh) override;
+	virtual void	EnclosingBoundsResized(const JCoordinate dw, const JCoordinate dh) override;
 
 private:
 

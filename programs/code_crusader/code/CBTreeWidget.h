@@ -65,40 +65,40 @@ public:
 	static JBoolean	WillRaiseWindowWhenSingleMatch();
 	static void		ShouldRaiseWindowWhenSingleMatch(const JBoolean raise);
 
-	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers);
+	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers) override;
 
 	JXImage*	GetQtSignalImage() const;
 	JXImage*	GetQtSlotImage() const;
 
 protected:
 
-	virtual void	Draw(JXWindowPainter& p, const JRect& rect);
+	virtual void	Draw(JXWindowPainter& p, const JRect& rect) override;
 	virtual void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
 									const JSize clickCount,
 									const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers);
+									const JXKeyModifiers& modifiers) override;
 	virtual void	HandleMouseDrag(const JPoint& pt, const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers);
+									const JXKeyModifiers& modifiers) override;
 
-	virtual JBoolean	HitSamePart(const JPoint& pt1, const JPoint& pt2) const;
+	virtual JBoolean	HitSamePart(const JPoint& pt1, const JPoint& pt2) const override;
 
 	virtual void	GetSelectionData(JXSelectionData* data,
-									 const JCharacter* id);
+									 const JCharacter* id) override;
 	virtual Atom	GetDNDAction(const JXContainer* target,
 								 const JXButtonStates& buttonStates,
-								 const JXKeyModifiers& modifiers);
+								 const JXKeyModifiers& modifiers) override;
 	virtual void	HandleDNDResponse(const JXContainer* target,
-									  const JBoolean dropAccepted, const Atom action);
+									  const JBoolean dropAccepted, const Atom action) override;
 
 	virtual JBoolean	WillAcceptDrop(const JArray<Atom>& typeList, Atom* action,
 									   const JPoint& pt, const Time time,
-									   const JXWidget* source);
+									   const JXWidget* source) override;
 	virtual void		HandleDNDDrop(const JPoint& pt, const JArray<Atom>& typeList,
 									  const Atom action, const Time time,
-									  const JXWidget* source);
+									  const JXWidget* source) override;
 
-	virtual void	HandleFocusEvent();
-	virtual void	Receive(JBroadcaster* sender, const Message& message);
+	virtual void	HandleFocusEvent() override;
+	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

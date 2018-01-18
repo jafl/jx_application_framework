@@ -27,8 +27,8 @@ public:
 
 	virtual ~CBCharActionTable();
 
-	virtual void	Activate();
-	virtual void	Deactivate();
+	virtual void	Activate() override;
+	virtual void	Deactivate() override;
 
 	void	GetData(CBCharActionManager* mgr) const;
 	void	SetData(const CBCharActionManager& mgr);
@@ -42,7 +42,7 @@ protected:
 							   const JCoordinate x, const JCoordinate y,
 							   const JCoordinate w, const JCoordinate h);
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message);
+	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

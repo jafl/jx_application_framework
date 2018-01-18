@@ -104,8 +104,8 @@ protected:
 	JXTextButton*		GetReplaceAllInSelButton() const;
 
 	virtual void	UpdateDisplay();
-	virtual void	Receive(JBroadcaster* sender, const Message& message);
-	virtual void	ReceiveWithFeedback(JBroadcaster* sender, Message* message);
+	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
+	virtual void	ReceiveWithFeedback(JBroadcaster* sender, Message* message) override;
 
 public:		// kAtomCount required at global scope
 

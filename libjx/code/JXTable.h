@@ -25,9 +25,9 @@ public:
 
 protected:
 
-	virtual void	Draw(JXWindowPainter& p, const JRect& rect);
+	virtual void	Draw(JXWindowPainter& p, const JRect& rect) override;
 
-	virtual JBoolean	HitSamePart(const JPoint& pt1, const JPoint& pt2) const;
+	virtual JBoolean	HitSamePart(const JPoint& pt1, const JPoint& pt2) const override;
 
 	virtual void		TableRefresh();
 	virtual void		TableRefreshRect(const JRect& rect);
@@ -52,7 +52,7 @@ protected:
 	JBoolean	HandleSelectionKeyPress(const int key,
 										const JXKeyModifiers& modifiers);
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message);
+	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

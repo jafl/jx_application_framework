@@ -50,7 +50,7 @@ protected:
 	virtual JBoolean	EndUserPrintSetup(const JBroadcaster::Message& message,
 										  JBoolean* changed);
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message);
+	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

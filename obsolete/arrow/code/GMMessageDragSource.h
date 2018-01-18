@@ -31,18 +31,18 @@ protected:
 	virtual void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
 									const JSize clickCount,
 									const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers);
+									const JXKeyModifiers& modifiers) override;
 
 	virtual Atom	GetDNDAction(const JXContainer* target,
 								 const JXButtonStates& buttonStates,
-								 const JXKeyModifiers& modifiers);
+								 const JXKeyModifiers& modifiers) override;
 	virtual void	GetDNDAskActions(const JXButtonStates& buttonStates,
 									 const JXKeyModifiers& modifiers,
 									 JArray<Atom>* askActionList,
-									 JPtrArray<JString>* askDescriptionList);
+									 JPtrArray<JString>* askDescriptionList) override;
 
 	virtual void	GetSelectionData(JXSelectionData* data,
-									 const JCharacter* id);
+									 const JCharacter* id) override;
 
 private:
 

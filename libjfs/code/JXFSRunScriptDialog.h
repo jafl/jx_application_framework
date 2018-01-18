@@ -23,7 +23,7 @@ public:
 
 	virtual ~JXFSRunScriptDialog();
 
-	virtual void	Activate();
+	virtual void	Activate() override;
 
 	const JString&	GetCommand(JFSBinding::CommandType* type) const;
 

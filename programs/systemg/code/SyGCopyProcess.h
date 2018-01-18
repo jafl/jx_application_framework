@@ -32,7 +32,7 @@ protected:
 				   SyGFileTreeTable* destTable, SyGFileTreeNode* destNode,
 				   const JBoolean isCopy);
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message);
+	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

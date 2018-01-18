@@ -37,7 +37,7 @@ protected:
 	virtual JBoolean	UpdateFinished(const JArray<JFAID_t>& deadFileList);
 	virtual void		ParseFile(const JCharacter* fileName, const JFAID_t id);
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message);
+	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

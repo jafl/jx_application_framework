@@ -31,7 +31,7 @@ protected:
 						   const JBoolean allowSelectMultiple,
 						   const JCharacter* origName, const JCharacter* message);
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message);
+	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

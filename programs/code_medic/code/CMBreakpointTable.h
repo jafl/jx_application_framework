@@ -37,14 +37,14 @@ public:
 	void	EditCondition(const CMBreakpoint* bp);
 
 	virtual JBoolean	IsEditable(const JPoint& cell) const;
-	virtual void		HandleKeyPress(const int key, const JXKeyModifiers& modifiers);
+	virtual void		HandleKeyPress(const int key, const JXKeyModifiers& modifiers) override;
 
 protected:
 
 	virtual void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
 									const JSize clickCount,
 									const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers);
+									const JXKeyModifiers& modifiers) override;
 
 	virtual void			TableDrawCell(JPainter& p, const JPoint& cell, const JRect& rect);
 	virtual JXInputField*	CreateXInputField(const JPoint& cell,
@@ -56,7 +56,7 @@ protected:
 	virtual void	ReadPrefs(std::istream& input);
 	virtual void	WritePrefs(std::ostream& output) const;
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message);
+	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

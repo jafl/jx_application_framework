@@ -42,7 +42,7 @@ protected:
 						 const JString& fileFilter, const JString& origName,
 						 const JString& prompt, const JString& message);
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message);
+	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

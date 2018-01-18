@@ -27,7 +27,7 @@ public:
 
 	virtual ~JXEditTable();
 
-	virtual void		HandleKeyPress(const int key, const JXKeyModifiers& modifiers);
+	virtual void		HandleKeyPress(const int key, const JXKeyModifiers& modifiers) override;
 	virtual JBoolean	WantsInputFieldKey(const int key, const JXKeyModifiers& modifiers) const;
 
 	JXTEBase*	GetEditMenuHandler() const;

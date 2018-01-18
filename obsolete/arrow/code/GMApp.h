@@ -30,8 +30,8 @@ public:
 	GMApp(int* argc, char* argv[], JBoolean* displayAbout, JString* prevVersStr);
 	virtual ~GMApp();
 
-	virtual void	Suspend();
-	virtual void	Resume();
+	virtual void	Suspend() override;
+	virtual void	Resume() override;
 
 	void	OpenMailbox();
 	void	OpenMailbox(const JCharacter* filename, const JBoolean beep = kJFalse, const JBoolean iconify = kJFalse);

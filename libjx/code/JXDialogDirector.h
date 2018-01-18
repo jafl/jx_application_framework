@@ -40,7 +40,7 @@ protected:
 	virtual JBoolean	OKToDeactivate();
 	JBoolean			Cancelled() const;		// for use in OKToDeactivate()
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message);
+	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

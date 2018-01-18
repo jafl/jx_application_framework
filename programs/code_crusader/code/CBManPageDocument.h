@@ -29,7 +29,7 @@ protected:
 	static JString	GetCmd1(const JCharacter* pageName, const JCharacter pageIndex);
 	static JString	GetCmd2(const JCharacter* pageName);
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message);
+	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

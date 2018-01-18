@@ -25,15 +25,15 @@ public:
 
 protected:
 
-	virtual void	AdjustCursor(const JPoint& pt, const JXKeyModifiers& modifiers);
+	virtual void	AdjustCursor(const JPoint& pt, const JXKeyModifiers& modifiers) override;
 
 	virtual void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
 									const JSize clickCount,
 									const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers);
+									const JXKeyModifiers& modifiers) override;
 	virtual void	HandleMouseUp(const JPoint& pt, const JXMouseButton button,
 								  const JXButtonStates& buttonStates,
-								  const JXKeyModifiers& modifiers);
+								  const JXKeyModifiers& modifiers) override;
 
 	virtual JSize			GetLinkCount() const = 0;
 	virtual JCharacterRange	GetLinkRange(const JIndex index) const = 0;

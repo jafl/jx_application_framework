@@ -75,9 +75,9 @@ protected:
 								const JXKeyModifiers& modifiers);
 
 	virtual void	HandleDNDResponse(const JXContainer* target,
-									  const JBoolean dropAccepted, const Atom action);
+									  const JBoolean dropAccepted, const Atom action) override;
 	virtual void 	HandleDNDHere(const JPoint& pt, const JXWidget* source);
-	virtual void 	HandleDNDLeave();
+	virtual void 	HandleDNDLeave() override;
 	virtual void 	HandleDNDDrop(	const JPoint& pt, const JArray<Atom>& typeList,
 									const Atom 	action, const Time time,
 									const JXWidget* source);

@@ -58,7 +58,7 @@ protected:
 	virtual JBoolean	Close();
 	virtual void		CleanUpBeforeSuddenDeath(const JXDocumentManager::SafetySaveReason reason);
 	virtual void		DirectorClosed(JXDirector* theDirector);
-	virtual void		Receive(JBroadcaster* sender, const Message& message);
+	virtual void		Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

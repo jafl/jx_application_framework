@@ -28,13 +28,13 @@ public:
 	void	SetTE(JXTEBase* te);
 	void	DiskCopyIsModified(const JBoolean mod);
 
-	virtual void		HandleKeyPress(const int key, const JXKeyModifiers& modifiers);
+	virtual void		HandleKeyPress(const int key, const JXKeyModifiers& modifiers) override;
 	virtual JBoolean	InputValid();
 
 protected:
 
-	virtual void	HandleFocusEvent();
-	virtual void	HandleUnfocusEvent();
+	virtual void	HandleFocusEvent() override;
+	virtual void	HandleUnfocusEvent() override;
 
 	virtual void	AdjustStylesBeforeRecalc(const JString& buffer, JRunArray<JFont>* styles,
 											 JIndexRange* recalcRange, JIndexRange* redrawRange,

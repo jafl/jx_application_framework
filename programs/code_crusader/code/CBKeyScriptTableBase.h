@@ -36,8 +36,8 @@ public:
 
 	virtual ~CBKeyScriptTableBase();
 
-	virtual void	Activate();
-	virtual void	Deactivate();
+	virtual void	Activate() override;
+	virtual void	Deactivate() override;
 
 	JBoolean	ContentsValid() const;
 
@@ -48,7 +48,7 @@ protected:
 	virtual void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
 									const JSize clickCount,
 									const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers);
+									const JXKeyModifiers& modifiers) override;
 
 	virtual JXInputField*
 		CreateStringTableInput(const JPoint& cell, JXContainer* enclosure,
@@ -57,8 +57,8 @@ protected:
 							   const JCoordinate w, const JCoordinate h);
 
 	virtual void	PrepareDeleteXInputField();
-	virtual void	ApertureResized(const JCoordinate dw, const JCoordinate dh);
-	virtual void	Receive(JBroadcaster* sender, const Message& message);
+	virtual void	ApertureResized(const JCoordinate dw, const JCoordinate dh) override;
+	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

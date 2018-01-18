@@ -33,11 +33,11 @@ public:
 protected:
 	
 	virtual void	TableDrawCell(JPainter& p, const JPoint& cell, const JRect& rect);
-	virtual void	Receive(JBroadcaster* sender, const Message& message);
+	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 	virtual void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
 									const JSize clickCount,
 									const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers);
+									const JXKeyModifiers& modifiers) override;
 
 	virtual JBoolean		ExtractInputData(const JPoint& cell);
 	virtual JXInputField*	CreateXInputField(const JPoint& cell,

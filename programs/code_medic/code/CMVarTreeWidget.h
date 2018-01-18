@@ -48,7 +48,7 @@ public:
 	void	ExamineMemory(const CMMemoryDir::DisplayType type);
 	void	ShouldUpdate(const JBoolean update);
 
-	virtual void		HandleKeyPress(const int key, const JXKeyModifiers& modifiers);
+	virtual void		HandleKeyPress(const int key, const JXKeyModifiers& modifiers) override;
 	virtual JBoolean	IsEditable(const JPoint& cell) const;
 
 	void	ReadSetup(std::istream& input, const JFileVersion vers);
@@ -62,20 +62,20 @@ protected:
 	virtual void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
 									const JSize clickCount,
 									const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers);
+									const JXKeyModifiers& modifiers) override;
 	virtual void	HandleMouseDrag(const JPoint& pt, const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers);
+									const JXKeyModifiers& modifiers) override;
 	virtual void	HandleMouseUp(const JPoint& pt, const JXMouseButton button,
 								  const JXButtonStates& buttonStates,
-								  const JXKeyModifiers& modifiers);
+								  const JXKeyModifiers& modifiers) override;
 
 	virtual JXInputField*	CreateXInputField(const JPoint& cell,
 											  const JCoordinate x, const JCoordinate y,
 											  const JCoordinate w, const JCoordinate h);
 	virtual JBoolean		ExtractInputData(const JPoint& cell);
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message);
-	virtual void	ReceiveGoingAway(JBroadcaster* sender);
+	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
+	virtual void	ReceiveGoingAway(JBroadcaster* sender) override;
 
 private:
 

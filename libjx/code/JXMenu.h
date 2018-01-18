@@ -148,11 +148,11 @@ public:
 									 const JIndex initialChoice);
 	void			SetPopupChoice(const JIndex index);
 
-	virtual void	Activate();
-	virtual void	Deactivate();
+	virtual void	Activate() override;
+	virtual void	Deactivate() override;
 
-	virtual void	Suspend();
-	virtual void	Resume();
+	virtual void	Suspend() override;
+	virtual void	Resume() override;
 
 	JBoolean	IsHiddenPopupMenu() const;
 	void		SetToHiddenPopupMenu(const JBoolean isHiddenPopup = kJTrue);
@@ -169,9 +169,9 @@ public:
 	ArrowDirection	GetPopupArrowDirection() const;
 	void			SetPopupArrowDirection(const ArrowDirection direction);
 
-	virtual JBoolean	IsMenu() const;
+	virtual JBoolean	IsMenu() const override;
 
-	virtual void	HandleShortcut(const int key, const JXKeyModifiers& modifiers);
+	virtual void	HandleShortcut(const int key, const JXKeyModifiers& modifiers) override;
 
 	static Style	GetDefaultStyle();
 	static void		SetDefaultStyle(const Style style);
@@ -190,18 +190,18 @@ protected:
 	virtual JXMenuDirector*	CreateMenuWindow(JXWindowDirector* supervisor) = 0;
 	virtual void			AdjustPopupChoiceTitle(const JIndex index) = 0;
 
-	virtual void	Draw(JXWindowPainter& p, const JRect& rect);
-	virtual void	DrawBorder(JXWindowPainter& p, const JRect& frame);
+	virtual void	Draw(JXWindowPainter& p, const JRect& rect) override;
+	virtual void	DrawBorder(JXWindowPainter& p, const JRect& frame) override;
 
 	virtual void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
 									const JSize clickCount,
 									const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers);
+									const JXKeyModifiers& modifiers) override;
 
-	virtual JBoolean	IncludeInFTC() const;
-	virtual JCoordinate	GetFTCMinContentSize(const JBoolean horizontal) const;
+	virtual JBoolean	IncludeInFTC() const override;
+	virtual JCoordinate	GetFTCMinContentSize(const JBoolean horizontal) const override;
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message);
+	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
 	// called by JXMenuTable
 

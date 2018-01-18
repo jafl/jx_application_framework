@@ -28,8 +28,8 @@ public:
 	virtual JBoolean	Deactivate();
 	JBoolean			IsActive() const;
 
-	virtual void	Suspend();
-	virtual void	Resume();
+	virtual void	Suspend() override;
+	virtual void	Resume() override;
 	JBoolean		IsSuspended() const;
 
 	JBoolean	HasSubdirectors() const;

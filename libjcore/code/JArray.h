@@ -29,27 +29,27 @@ public:
 	const T*	GetCArray() const;
 	T*			AllocateCArray() const;		// client must call delete [] when finished with it
 
-	virtual void	InsertElementAtIndex(const JIndex index, const T& data);
+	virtual void	InsertElementAtIndex(const JIndex index, const T& data) override;
 
-	virtual void	RemoveNextElements(const JIndex firstIndex, const JSize count);
-	virtual void	RemoveAll();
+	virtual void	RemoveNextElements(const JIndex firstIndex, const JSize count) override;
+	virtual void	RemoveAll() override;
 
-	virtual T		GetElement(const JIndex index) const;
-	virtual void	SetElement(const JIndex index, const T& data);
+	virtual T		GetElement(const JIndex index) const override;
+	virtual void	SetElement(const JIndex index, const T& data) override;
 
-	virtual void	MoveElementToIndex(const JIndex currentIndex, const JIndex newIndex);
-	virtual void	SwapElements(const JIndex index1, const JIndex index2);
+	virtual void	MoveElementToIndex(const JIndex currentIndex, const JIndex newIndex) override;
+	virtual void	SwapElements(const JIndex index1, const JIndex index2) override;
 
 	JSize	GetBlockSize() const;
 	void	SetBlockSize(const JSize newBlockSize);
 
 	// optimized for O(1) lookup time
 
-	virtual void	Sort();
+	virtual void	Sort() override;
 
 	virtual JIndex	SearchSorted1(const T& target,
 								  const JListT::SearchReturn which,
-								  JBoolean* found) const;
+								  JBoolean* found) const override;
 
 	// unrelated, fast sort -- broadcasts Sorted
 	// (Do NOT use on JPtrArray!)

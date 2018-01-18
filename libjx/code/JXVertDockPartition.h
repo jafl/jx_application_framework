@@ -53,14 +53,14 @@ protected:
 	virtual void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
 									const JSize clickCount,
 									const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers);
+									const JXKeyModifiers& modifiers) override;
 
 	virtual JXWidgetSet*	CreateCompartment(const JIndex index,
 											  const JCoordinate position,
 											  const JCoordinate size);
 	virtual JBoolean		SaveGeometryForLater(const JArray<JCoordinate>& sizes);
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message);
+	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

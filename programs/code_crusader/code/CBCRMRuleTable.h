@@ -41,8 +41,8 @@ public:
 
 	virtual ~CBCRMRuleTable();
 
-	virtual void	Activate();
-	virtual void	Deactivate();
+	virtual void	Activate() override;
+	virtual void	Deactivate() override;
 
 	void	GetData(JTextEditor::CRMRuleList* list) const;
 	void	SetData(const JTextEditor::CRMRuleList& list);
@@ -57,7 +57,7 @@ protected:
 	virtual void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
 									const JSize clickCount,
 									const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers);
+									const JXKeyModifiers& modifiers) override;
 
 	virtual JXInputField*
 		CreateStringTableInput(const JPoint& cell, JXContainer* enclosure,
@@ -66,7 +66,7 @@ protected:
 							   const JCoordinate w, const JCoordinate h);
 
 	virtual void	PrepareDeleteXInputField();
-	virtual void	Receive(JBroadcaster* sender, const Message& message);
+	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

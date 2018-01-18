@@ -172,7 +172,7 @@ protected:
 
 	virtual void	SendMedicCommand(CMCommand* command);
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message);
+	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

@@ -25,10 +25,10 @@ public:
 
 protected:
 
-	virtual void		ApertureResized(const JCoordinate dw, const JCoordinate dh);
-	virtual void		BoundsMoved(const JCoordinate dx, const JCoordinate dy);
-	virtual JCoordinate	GetFTCMinContentSize(const JBoolean horizontal) const;
-	virtual void		Receive(JBroadcaster* sender, const Message& message);
+	virtual void		ApertureResized(const JCoordinate dw, const JCoordinate dh) override;
+	virtual void		BoundsMoved(const JCoordinate dx, const JCoordinate dy) override;
+	virtual JCoordinate$1GetFTCMinContentSize(const JBoolean horizontal) const override;
+	virtual void		Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

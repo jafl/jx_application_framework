@@ -18,7 +18,7 @@ public:
 
 	virtual	~WarSocket();
 
-	virtual int	open(void*);
+	virtual int	open(void*) override;
 
 	virtual int	handle_timeout(const ACE_Time_Value& time, const void*);
 	void		ResetTimer();

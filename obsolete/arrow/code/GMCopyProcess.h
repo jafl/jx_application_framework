@@ -26,7 +26,7 @@ protected:
 	GMCopyProcess(JPtrArray<JString>* srcNameList, const JCharacter* dest,
 				   const JBoolean isCopy);
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message);
+	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

@@ -43,7 +43,7 @@ protected:
 	virtual JBoolean	IsWordCharacter(const JString& s, const JIndex index,
 										const JBoolean includeNS) const = 0;
 	virtual void		MatchCase(const JString& source, JString* target) const;
-	virtual void		Receive(JBroadcaster* sender, const Message& message);
+	virtual void		Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

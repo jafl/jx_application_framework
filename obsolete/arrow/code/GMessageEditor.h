@@ -41,13 +41,13 @@ protected:
 
 	virtual JBoolean	WillAcceptDrop(const JArray<Atom>& typeList, Atom* action,
 									   const JPoint& pt, const Time time,
-									   const JXWidget* source);
-	virtual void		HandleDNDEnter();
-	virtual void		HandleDNDHere(const JPoint& pt, const JXWidget* source);
-	virtual void		HandleDNDLeave();
+									   const JXWidget* source) override;
+	virtual void		HandleDNDEnter() override;
+	virtual void		HandleDNDHere(const JPoint& pt, const JXWidget* source) override;
+	virtual void		HandleDNDLeave() override;
 	virtual void		HandleDNDDrop(const JPoint& pt, const JArray<Atom>& typeList,
 									  const Atom action, const Time time,
-									  const JXWidget* source);
+									  const JXWidget* source) override;
 private:
 
 	JIndex				itsStartEditCmd;

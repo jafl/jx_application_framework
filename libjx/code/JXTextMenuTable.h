@@ -43,7 +43,7 @@ public:
 
 protected:
 
-	virtual void	Draw(JXWindowPainter& p, const JRect& rect);
+	virtual void	Draw(JXWindowPainter& p, const JRect& rect) override;
 	virtual void	TableDrawCell(JPainter& p, const JPoint& cell, const JRect& rect);
 
 	virtual JBoolean	CellToItemIndex(const JPoint& pt, const JPoint& cell,
@@ -55,7 +55,7 @@ protected:
 
 	JRect	AdjustRectForSeparator(const JIndex rowIndex, const JRect& rect);
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message);
+	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

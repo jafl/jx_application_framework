@@ -46,7 +46,7 @@ protected:
 									unsigned char** data, JSize* dataLength,
 									JSize* bitsPerBlock) const;
 
-	virtual void	ReceiveGoingAway(JBroadcaster* sender);
+	virtual void	ReceiveGoingAway(JBroadcaster* sender) override;
 
 public:		// kAtomCount required at global scope
 

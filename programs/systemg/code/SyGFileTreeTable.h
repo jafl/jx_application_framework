@@ -92,8 +92,8 @@ public:
 	void		SetCurrentColType(const GFMColType type);
 
 	virtual JBoolean	IsEditable(const JPoint& cell) const;
-	virtual void		HandleKeyPress(const int key, const JXKeyModifiers& modifiers);
-	virtual void		HandleShortcut(const int key, const JXKeyModifiers& modifiers);
+	virtual void		HandleKeyPress(const int key, const JXKeyModifiers& modifiers) override;
+	virtual void		HandleShortcut(const int key, const JXKeyModifiers& modifiers) override;
 
 	static Atom	GetDNDAction(const JXWidget* source, const JCharacter* sourcePath,
 							 const JXContainer* target, const JXKeyModifiers& modifiers);
@@ -105,38 +105,38 @@ protected:
 	virtual void		TableDrawCell(JPainter &p, const JPoint& cell, const JRect& rect);
 	virtual JBoolean	GetImage(const JIndex index, const JXImage** image) const;
 
-	virtual void	HandleMouseHere(const JPoint& pt, const JXKeyModifiers& modifiers);
+	virtual void	HandleMouseHere(const JPoint& pt, const JXKeyModifiers& modifiers) override;
 	virtual void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
 									const JSize clickCount,
 									const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers);
+									const JXKeyModifiers& modifiers) override;
 	virtual void	HandleMouseDrag(const JPoint& pt, const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers);
+									const JXKeyModifiers& modifiers) override;
 	virtual void	HandleMouseUp(const JPoint& pt, const JXMouseButton button,
 								  const JXButtonStates& buttonStates,
-								  const JXKeyModifiers& modifiers);
+								  const JXKeyModifiers& modifiers) override;
 
 	virtual JBoolean	WillAcceptDrop(const JArray<Atom>& typeList, Atom* action,
 									   const JPoint& pt, const Time time,
-									   const JXWidget* source);
-	virtual void		HandleDNDEnter();
-	virtual void		HandleDNDHere(const JPoint& pt, const JXWidget* source);
-	virtual void		HandleDNDLeave();
+									   const JXWidget* source) override;
+	virtual void		HandleDNDEnter() override;
+	virtual void		HandleDNDHere(const JPoint& pt, const JXWidget* source) override;
+	virtual void		HandleDNDLeave() override;
 	virtual void		HandleDNDDrop(const JPoint& pt, const JArray<Atom>& typeList,
 									  const Atom action, const Time time,
-									  const JXWidget* source);
+									  const JXWidget* source) override;
 
 	virtual void		GetSelectionData(JXSelectionData* data,
-										 const JCharacter* id);
+										 const JCharacter* id) override;
 	virtual Atom		GetDNDAction(const JXContainer* target,
 									  const JXButtonStates& buttonStates,
-									  const JXKeyModifiers& modifiers);
+									  const JXKeyModifiers& modifiers) override;
 	virtual void		GetDNDAskActions(const JXButtonStates& buttonStates,
 									  const JXKeyModifiers& modifiers,
 									  JArray<Atom>* askActionList,
-									  JPtrArray<JString>* askDescriptionList);
+									  JPtrArray<JString>* askDescriptionList) override;
 	virtual void		HandleDNDResponse(const JXContainer* target,
-									  const JBoolean dropAccepted, const Atom action);
+									  const JBoolean dropAccepted, const Atom action) override;
 
 	virtual JXInputField*
 		CreateTreeListInput(const JPoint& cell, JXContainer* enclosure,
@@ -146,8 +146,8 @@ protected:
 
 	virtual JBoolean	ExtractInputData(const JPoint& cell);
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message);
-	virtual void	ReceiveWithFeedback(JBroadcaster* sender, Message* message);
+	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
+	virtual void	ReceiveWithFeedback(JBroadcaster* sender, Message* message) override;
 
 private:
 

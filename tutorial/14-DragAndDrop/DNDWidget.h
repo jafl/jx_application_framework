@@ -27,30 +27,30 @@ public:
 	virtual ~DNDWidget();
 
 	virtual void	HandleKeyPress(const int key,				
-								   const JXKeyModifiers& modifiers);
+								   const JXKeyModifiers& modifiers) override;
 	
 protected:
 	
-	virtual void	Draw(JXWindowPainter& p, const JRect& rect);
+	virtual void	Draw(JXWindowPainter& p, const JRect& rect) override;
 	virtual void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
 									const JSize clickCount,
 									const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers);
+									const JXKeyModifiers& modifiers) override;
 	virtual void	HandleMouseDrag(const JPoint& pt, const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers);
+									const JXKeyModifiers& modifiers) override;
 	virtual void	HandleMouseUp(const JPoint& pt, const JXMouseButton button,
 								  const JXButtonStates& buttonStates,
-								  const JXKeyModifiers& modifiers);
+								  const JXKeyModifiers& modifiers) override;
 
 	virtual void	GetSelectionData(JXSelectionData* data,
-									 const JCharacter* id);
+									 const JCharacter* id) override;
 
 	virtual JBoolean	WillAcceptDrop(const JArray<Atom>& typeList, Atom* action,
 									   const JPoint& pt, const Time time,
-									   const JXWidget* source);
+									   const JXWidget* source) override;
 
 	virtual void 	HandleDNDHere(const JPoint& pt, const JXWidget* source);
-	virtual void 	HandleDNDLeave();
+	virtual void 	HandleDNDLeave() override;
 	virtual void 	HandleDNDDrop(	const JPoint& pt, const JArray<Atom>& typeList,
 									const Atom 	action, const Time time, 
 									const JXWidget* source);

@@ -43,7 +43,7 @@ public:
 	JPlotModuleFit(J2DPlotWidget* plot, JPlotDataBase* fitData, std::istream& is);
 	virtual ~JPlotModuleFit();	
 
-	virtual void GetElement(const JIndex index, J2DDataPoint* data) const;
+	virtual void GetElement(const JIndex index, J2DDataPoint* data) const override;
 	virtual JBoolean GetYRange(	JFloat* min, JFloat* max,
 								JFloat  xMin, JFloat  xMax);
 

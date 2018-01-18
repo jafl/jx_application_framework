@@ -50,7 +50,7 @@ public:
 
 protected:
 
-	virtual void		Receive(JBroadcaster* sender, const Message& message);
+	virtual void		Receive(JBroadcaster* sender, const Message& message) override;
 	virtual JBoolean	OKToClose();
 	virtual JBoolean	OKToRevert();
 	virtual JBoolean	CanRevert();

@@ -44,7 +44,7 @@ public:
 	JError	SetNameFilter(const JCharacter* filterStr, const JBoolean isRegex);
 	void	SetDisplayList(const JArray<JIndex>& list);
 
-	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers);
+	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers) override;
 
 protected:
 
@@ -53,17 +53,17 @@ protected:
 	virtual void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
 									const JSize clickCount,
 									const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers);
+									const JXKeyModifiers& modifiers) override;
 	virtual void	HandleMouseDrag(const JPoint& pt, const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers);
+									const JXKeyModifiers& modifiers) override;
 	virtual void	HandleMouseUp(const JPoint& pt, const JXMouseButton button,
 								  const JXButtonStates& buttonStates,
-								  const JXKeyModifiers& modifiers);
+								  const JXKeyModifiers& modifiers) override;
 
-	virtual void	HandleFocusEvent();
+	virtual void	HandleFocusEvent() override;
 
-	virtual void	ApertureResized(const JCoordinate dw, const JCoordinate dh);
-	virtual void	Receive(JBroadcaster* sender, const Message& message);
+	virtual void	ApertureResized(const JCoordinate dw, const JCoordinate dh) override;
+	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

@@ -48,7 +48,7 @@ protected:
 	virtual JBoolean	ProcessFinished(const JProcess::Finished& info);
 	virtual JBoolean	NeedsFormattedData() const;
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message);
+	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

@@ -39,8 +39,8 @@ public:
 	void	OpenSelection();
 	void	ScrollForDefinition(const CBLanguage lang);
 
-	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers);
-	virtual void	HandleShortcut(const int key, const JXKeyModifiers& modifiers);
+	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers) override;
+	virtual void	HandleShortcut(const int key, const JXKeyModifiers& modifiers) override;
 
 	JSize			GetTabCharCount() const;
 	void			SetTabCharCount(const JSize charCount);
@@ -98,16 +98,16 @@ public:
 
 protected:
 
-	virtual void	Draw(JXWindowPainter& p, const JRect& rect);
+	virtual void	Draw(JXWindowPainter& p, const JRect& rect) override;
 
-	virtual void	AdjustCursor(const JPoint& pt, const JXKeyModifiers& modifiers);
+	virtual void	AdjustCursor(const JPoint& pt, const JXKeyModifiers& modifiers) override;
 	virtual void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
 									const JSize clickCount,
 									const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers);
+									const JXKeyModifiers& modifiers) override;
 	virtual void	HandleMouseUp(const JPoint& pt, const JXMouseButton button,
 								  const JXButtonStates& buttonStates,
-								  const JXKeyModifiers& modifiers);
+								  const JXKeyModifiers& modifiers) override;
 
 	virtual void	AdjustStylesBeforeRecalc(const JString& buffer, JRunArray<JFont>* styles,
 											 JIndexRange* recalcRange, JIndexRange* redrawRange,
@@ -119,7 +119,7 @@ protected:
 	virtual JBoolean	VIsCharacterInWord(const JString& text,
 										   const JIndex charIndex) const;
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message);
+	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

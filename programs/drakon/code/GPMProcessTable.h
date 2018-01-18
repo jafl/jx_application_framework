@@ -33,7 +33,7 @@ public:
 	JBoolean	GetSelectedProcess(const GPMProcessEntry** entry) const;
 	void		SelectProcess(const GPMProcessEntry& entry);
 
-	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers);
+	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers) override;
 
 	static void	DrawRowBackground(JPainter& p, const JPoint& cell, const JRect& rect,
 								  const JColorIndex color);
@@ -49,16 +49,16 @@ public:
 
 protected:
 
-	virtual void	ApertureResized(const JCoordinate dw, const JCoordinate dh);
+	virtual void	ApertureResized(const JCoordinate dw, const JCoordinate dh) override;
 	virtual void	TableDrawCell(JPainter& p, const JPoint& cell, const JRect& rect);
 
-	virtual void	HandleFocusEvent();
+	virtual void	HandleFocusEvent() override;
 	virtual void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
 									const JSize clickCount,
 									const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers);
+									const JXKeyModifiers& modifiers) override;
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message);
+	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

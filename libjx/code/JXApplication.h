@@ -33,8 +33,8 @@ public:
 	const JString&	GetSignature() const;
 
 	void			Run();
-	virtual void	Suspend();
-	virtual void	Resume();
+	virtual void	Suspend() override;
+	virtual void	Resume() override;
 	virtual void	Quit();
 	JBoolean		IsQuitting() const;
 
@@ -110,7 +110,7 @@ protected:
 
 	virtual JBoolean	Close();	// use Quit() instead
 
-	virtual void	ReceiveWithFeedback(JBroadcaster* sender, Message* message);
+	virtual void	ReceiveWithFeedback(JBroadcaster* sender, Message* message) override;
 	virtual void	CleanUpBeforeSuddenDeath(const JXDocumentManager::SafetySaveReason reason);
 
 private:

@@ -31,8 +31,8 @@ public:
 	virtual void		Activate();
 	virtual JBoolean	Deactivate();
 
-	virtual void	Suspend();
-	virtual void	Resume();
+	virtual void	Suspend() override;
+	virtual void	Resume() override;
 
 	JXWindow*	GetWindow() const;
 	JXDisplay*	GetDisplay() const;

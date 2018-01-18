@@ -27,7 +27,7 @@ public:
 
 	void	SetShortcutMenu(WizChatShortcutMenu* menu);
 
-	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers);
+	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers) override;
 
 private:
 

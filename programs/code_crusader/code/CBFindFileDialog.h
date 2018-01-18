@@ -26,14 +26,14 @@ public:
 
 	virtual ~CBFindFileDialog();
 
-	virtual void	Activate();
+	virtual void	Activate() override;
 
 protected:
 
 	virtual void	ReadPrefs(std::istream& input);
 	virtual void	WritePrefs(std::ostream& output) const;
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message);
+	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

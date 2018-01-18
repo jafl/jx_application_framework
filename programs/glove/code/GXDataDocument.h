@@ -50,7 +50,7 @@ public:
 
 protected:
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message);
+	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 	virtual void	DirectorClosed(JXDirector* theDirector);
 	virtual void	WriteTextFile(std::ostream& output, const JBoolean safetySave) const;
 	virtual void	DiscardChanges();

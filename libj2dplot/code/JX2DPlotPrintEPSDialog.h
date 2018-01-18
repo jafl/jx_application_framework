@@ -41,7 +41,7 @@ protected:
 	JX2DPlotPrintEPSDialog();
 
 	virtual JBoolean	OKToDeactivate();
-	virtual void		Receive(JBroadcaster* sender, const Message& message);
+	virtual void		Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

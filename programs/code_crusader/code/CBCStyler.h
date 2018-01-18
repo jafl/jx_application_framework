@@ -34,7 +34,7 @@ protected:
 	virtual void	UpgradeTypeList(const JFileVersion vers,
 									JArray<JFontStyle>* typeStyles);
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message);
+	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

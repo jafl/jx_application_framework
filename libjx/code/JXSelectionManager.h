@@ -64,7 +64,7 @@ public:
 
 protected:
 
-	virtual void	ReceiveWithFeedback(JBroadcaster* sender, Message* message);
+	virtual void	ReceiveWithFeedback(JBroadcaster* sender, Message* message) override;
 
 public:		// kAtomCount required at global scope
 

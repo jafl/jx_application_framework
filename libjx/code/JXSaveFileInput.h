@@ -28,7 +28,7 @@ public:
 
 protected:
 
-	virtual void	HandleFocusEvent();
+	virtual void	HandleFocusEvent() override;
 
 	virtual JBoolean	NeedsToFilterText(const JString& text) const;
 	virtual JBoolean	FilterText(JString* text, JRunArray<JFont>* style);

@@ -46,7 +46,7 @@ protected:
 	virtual void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
 									const JSize clickCount,
 									const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers);
+									const JXKeyModifiers& modifiers) override;
 
 	virtual void			TableDrawCell(JPainter& p, const JPoint& cell, const JRect& rect);
 	virtual JXInputField*	CreateXInputField(const JPoint& cell,
@@ -55,7 +55,7 @@ protected:
 	virtual JBoolean		ExtractInputData(const JPoint& cell);
 	virtual void			PrepareDeleteXInputField();
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message);
+	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

@@ -49,7 +49,7 @@ protected:
 	virtual JBoolean			OKToOpen() const;
 	virtual JFSFileTreeNode*	CreateChild(JDirEntry* entry);
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message);
+	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
 	static JListT::CompareResult
 		CompareUserName(JTreeNode * const & e1, JTreeNode * const & e2);

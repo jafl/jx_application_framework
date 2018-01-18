@@ -35,7 +35,7 @@ public:
 	JBoolean	WillHilightTextOnly() const;
 	void		ShouldHilightTextOnly(const JBoolean textOnly);
 
-	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers);
+	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers) override;
 	void			ClearIncrementalSearchBuffer();
 
 protected:
@@ -53,7 +53,7 @@ protected:
 protected:
 
 	JBoolean			GetNode(const JPoint& pt, JPoint* cell, NodePart* part) const;
-	virtual JBoolean	HitSamePart(const JPoint& pt1, const JPoint& pt2) const;
+	virtual JBoolean	HitSamePart(const JPoint& pt1, const JPoint& pt2) const override;
 
 	virtual void		AdjustToTree();
 	virtual JSize		GetMinCellWidth(const JPoint& cell) const;
@@ -82,8 +82,8 @@ protected:
 							const JCoordinate x, const JCoordinate y,
 							const JCoordinate w, const JCoordinate h);
 
-	virtual void	HandleFocusEvent();
-	virtual void	Receive(JBroadcaster* sender, const Message& message);
+	virtual void	HandleFocusEvent() override;
+	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

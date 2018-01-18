@@ -39,7 +39,7 @@ public:
 
 	virtual ~CBExecOutputDocument();
 
-	virtual void	Activate();
+	virtual void	Activate() override;
 
 	void	IncrementUseCount();
 	void	DecrementUseCount();
@@ -76,7 +76,7 @@ protected:
 	JBoolean	GetDataLink(DataLink** link) const;
 
 	virtual JBoolean	OKToClose();
-	virtual void		Receive(JBroadcaster* sender, const Message& message);
+	virtual void		Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

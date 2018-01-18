@@ -33,7 +33,7 @@ protected:
 	virtual void	UpdateTreeMenu();
 	virtual void	HandleTreeMenu(const JIndex index);
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message);
+	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

@@ -1,3 +1,7 @@
+libj2dplot:  makemake:  Invalid UTF-8 byte sequence: b0
+
+-----
+
 medic-lldb
 	does not display new execution ptr location after "set execution point"
 

@@ -274,7 +274,7 @@ protected:
 	virtual JBoolean	PrintMarks(JPagePrinter& p, const JBoolean putOnSamePage,
 									const JRect& partialPageRect) = 0;
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message);
+	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 	void			GetFrameGeometry(JCoordinate* xmin, JCoordinate* xmax,
 									 JCoordinate* ymin, JCoordinate* ymax) const;
 	JRect			GetFrameGeometry() const;

@@ -21,7 +21,7 @@ public:
 	void	Push();
 
 	virtual void	SetShortcuts(const JString& list);
-	virtual void	HandleShortcut(const int key, const JXKeyModifiers& modifiers);
+	virtual void	HandleShortcut(const int key, const JXKeyModifiers& modifiers) override;
 
 protected:
 
@@ -32,19 +32,19 @@ protected:
 
 	JBoolean	IsPushed() const;
 
-	virtual void	DrawBorder(JXWindowPainter& p, const JRect& frame);
+	virtual void	DrawBorder(JXWindowPainter& p, const JRect& frame) override;
 
 	virtual void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
 									const JSize clickCount,
 									const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers);
+									const JXKeyModifiers& modifiers) override;
 	virtual void	HandleMouseDrag(const JPoint& pt, const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers);
+									const JXKeyModifiers& modifiers) override;
 	virtual void	HandleMouseUp(const JPoint& pt, const JXMouseButton button,
 								  const JXButtonStates& buttonStates,
-								  const JXKeyModifiers& modifiers);
+								  const JXKeyModifiers& modifiers) override;
 
-	virtual JRect	GetFrameForFTC() const;
+	virtual JRect	GetFrameForFTC() const override;
 
 private:
 

@@ -284,7 +284,7 @@ protected:
 	virtual void	InitCtags(std::ostream& output);
 	void			DeleteProcess();
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message);
+	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

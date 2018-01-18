@@ -57,7 +57,7 @@ protected:
 									unsigned char** data, JSize* dataLength,
 									JSize* bitsPerBlock) const = 0;
 
-	virtual void	ReceiveGoingAway(JBroadcaster* sender);
+	virtual void	ReceiveGoingAway(JBroadcaster* sender) override;
 
 private:
 

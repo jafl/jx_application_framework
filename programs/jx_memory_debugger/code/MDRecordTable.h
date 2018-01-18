@@ -30,17 +30,17 @@ public:
 
 	virtual JBoolean	IsEditable(const JPoint& cell) const;
 
-	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers);
+	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers) override;
 
 protected:
 
 	virtual void	TableDrawCell(JPainter& p, const JPoint& cell, const JRect& rect);
 
-	virtual void	HandleFocusEvent();
+	virtual void	HandleFocusEvent() override;
 	virtual void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
 									const JSize clickCount,
 									const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers);
+									const JXKeyModifiers& modifiers) override;
 
 	virtual JXInputField*	CreateXInputField(const JPoint& cell,
 											  const JCoordinate x, const JCoordinate y,
@@ -53,7 +53,7 @@ protected:
 	virtual void		DrawPrintHeader(JPagePrinter& p, const JCoordinate headerHeight);
 	virtual void		DrawPrintFooter(JPagePrinter& p, const JCoordinate footerHeight);
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message);
+	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

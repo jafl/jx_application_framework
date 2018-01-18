@@ -43,7 +43,7 @@ protected:
 	virtual JString		ExtractRelativePath(const JString& line) const;
 	virtual void		CopySelectedItems(const JBoolean fullPath);
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message);
+	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 
