@@ -805,6 +805,7 @@ private:
 						   const JFont* defaultStyle);
 	void		DeleteText(const JCharacterRange& charRange,
 						   const JUtf8ByteRange& byteRange);
+	void		DeleteText(JStringIterator* iter, const JSize charCount);
 	JBoolean	CleanText(const JString& text, const JRunArray<JFont>* style,
 						  JString** cleanText, JRunArray<JFont>** cleanStyle,
 						  JBoolean* okToInsert);

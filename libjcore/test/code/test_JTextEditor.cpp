@@ -636,3 +636,87 @@ JTEST(ItemStartEnd)
 		"a new nation, conceived in Liberty,\n"
 		"and dedicated to the PRoP\xC3\xB8" "s1tion that all men are created equal.\n");
 }
+
+JTEST(Selection)
+{
+	TextEditor te;
+	te.SetText(JString("abcd\n1234\nwxzy", 0, kJFalse));
+
+	te.SetSelection(1, 5);
+	te.Cut();
+
+	JAssertStringsEqual("1234\nwxzy", te.GetText());
+
+	te.SetCaretLocation(10);
+	te.Paste(JString("\n", 0, kJFalse));
+	te.Paste();
+
+	JAssertStringsEqual("1234\nwxzy\nabcd\n", te.GetText());
+
+	te.SetSelection(6, 10);
+	te.DeleteSelection();
+
+	JAssertStringsEqual("1234\nabcd\n", te.GetText());
+
+	te.SelectAll();
+	te.DeleteSelection();
+
+	JAssertEqual(0, te.GetText().GetCharacterCount());
+}
+
+JTEST(TabSelection)
+{
+	TextEditor te;
+	te.SetText(JString("abcd\n1234\nwxzy", 0, kJFalse));
+
+	te.TabSelectionRight(2);
+
+	JAssertStringsEqual("\t\tabcd\n1234\nwxzy", te.GetText());
+
+	te.SetSelection(10, 13);
+	te.TabSelectionLeft(3);
+
+	JAssertStringsEqual("\t\tabcd\n1234\nwxzy", te.GetText());
+
+	te.TabSelectionRight(3);
+
+	JAssertStringsEqual("\t\tabcd\n\t\t\t1234\n\t\t\twxzy", te.GetText());
+
+	te.SelectAll();
+	te.TabSelectionLeft(1);
+
+	JAssertStringsEqual("\tabcd\n\t\t1234\n\t\twxzy", te.GetText());
+
+	te.TabSelectionLeft(2);
+
+	JAssertStringsEqual("\tabcd\n\t\t1234\n\t\twxzy", te.GetText());
+
+	te.TabSelectionLeft(2, kJTrue);
+
+	JAssertStringsEqual("abcd\n1234\nwxzy", te.GetText());
+}
+
+JTEST(TabSelectionMixed)
+{
+	TextEditor te;
+	te.SetText(JString("\tabcd\n  \t1234\n\twxzy", 0, kJFalse));
+
+	te.TabSelectionLeft(1);
+
+	JAssertStringsEqual("abcd\n1234\nwxzy", te.GetText());
+
+	te.Undo();
+
+	JAssertStringsEqual("\tabcd\n  \t1234\n\twxzy", te.GetText());
+
+	te.Redo();
+
+	JAssertStringsEqual("abcd\n1234\nwxzy", te.GetText());
+
+
+	te.SetText(JString("  abcd\n   1234\n    wxzy", 0, kJFalse));
+
+	te.TabSelectionLeft(1);
+
+	JAssertStringsEqual("abcd\n 1234\n  wxzy", te.GetText());
+}

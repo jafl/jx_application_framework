@@ -2841,8 +2841,9 @@ JTextEditor::TabSelectionLeft
 		}
 	else if (!itsBuffer.IsEmpty())
 		{
-		const TextIndex start = GetParagraphStart(TextIndex(itsCaretLoc.charIndex, itsCaretLoc.byteIndex)),
-						end   = GetParagraphEnd(TextIndex(itsCaretLoc.charIndex, itsCaretLoc.byteIndex));
+		const TextIndex i     = TextIndex(itsCaretLoc.charIndex, itsCaretLoc.byteIndex),
+						start = GetParagraphStart(i),
+						end   = GetParagraphEnd(i);
 		SetSelection(JCharacterRange(start.charIndex, end.charIndex),
 					 JUtf8ByteRange(start.byteIndex, end.byteIndex));
 		}
@@ -2861,11 +2862,15 @@ JTextEditor::TabSelectionLeft
 	JSize prefixSpaceCount     = 0;		// min # of spaces at start of line
 	JBoolean firstNonemptyLine = kJTrue;
 
+	JStringIterator iter(itsBuffer);
 	for (JIndex i=firstLine; i<=lastLine; i++)
 		{
-		JIndex firstChar = GetLineStart(i);
-		if ((firstChar == 1 || itsBuffer->GetCharacter(firstChar-1) == '\n') &&
-			itsBuffer->GetCharacter(firstChar) != '\n')
+		const TextIndex firstChar = GetLineStart(i);
+		iter.UnsafeMoveTo(kJIteratorStartBeforeByte, firstChar.charIndex, firstChar.byteIndex);
+
+		JUtf8Character c;
+		if ((!iter.Prev(&c, kJFalse) || c == '\n') &&
+			iter.Next(&c, kJFalse) && c != '\n')
 			{
 			for (JIndex j=1; j<=tabCount; j++)
 				{
@@ -2873,14 +2878,13 @@ JTextEditor::TabSelectionLeft
 				// accept fewer spaces in front of tab
 
 				JSize spaceCount = 0;
-				while (firstChar <= itsBuffer->GetLength() &&
-					   itsBuffer->GetCharacter(firstChar) == ' ' &&
+				while (iter.Next(&c) && c == ' ' &&
 					   spaceCount < itsCRMTabCharCount)
 					{
 					spaceCount++;
-					firstChar++;
 					}
-				if (firstChar > itsBuffer->GetLength())
+
+				if (iter.AtEnd())
 					{
 					break;	// last line contains only whitespace
 					}
@@ -2894,7 +2898,6 @@ JTextEditor::TabSelectionLeft
 					continue;
 					}
 
-				const JCharacter c = itsBuffer->GetCharacter(firstChar);
 				if (c != '\t' && c != '\n')
 					{
 					sufficientWS = kJFalse;
@@ -2928,13 +2931,18 @@ JTextEditor::TabSelectionLeft
 	JBoolean isNew;
 	JTEUndoTabShift* undo = GetTabShiftUndo(&isNew);
 
-	itsSelection.SetToNothing();
-	JSize deleteCount = 0;
+	itsCharSelection.SetToNothing();
+	itsByteSelection.SetToNothing();
+	JSize deleteCount = 0;	// only deleting single-byte characters
 	for (JIndex i=firstLine; i<=lastLine; i++)
 		{
-		const JIndex charIndex = GetLineStart(i) - deleteCount;
-		if ((charIndex == 1 || itsBuffer->GetCharacter(charIndex-1) == '\n') &&
-			itsBuffer->GetCharacter(charIndex) != '\n')
+		const TextIndex firstChar = GetLineStart(i);
+		iter.UnsafeMoveTo(kJIteratorStartBeforeByte, firstChar.charIndex, firstChar.byteIndex);
+		iter.SkipPrev(deleteCount);
+
+		JUtf8Character c;
+		if ((!iter.Prev(&c, kJFalse) || c == '\n') &&
+			iter.Next(&c, kJFalse) && c != '\n')
 			{
 			for (JIndex j=1; j<=tabCount; j++)
 				{
@@ -2945,15 +2953,15 @@ JTextEditor::TabSelectionLeft
 				// accept fewer spaces in front of tab
 
 				JSize spaceCount = 0;
-				while (charIndex <= itsBuffer->GetLength() &&
-					   itsBuffer->GetCharacter(charIndex) == ' ' &&
+				while (iter.Next(&c) && c == ' ' &&
 					   spaceCount < tabCharCount)
 					{
 					spaceCount++;
-					DeleteText(charIndex, charIndex);
+					DeleteText(&iter, 1);
 					deleteCount++;
 					}
-				if (charIndex > itsBuffer->GetLength())
+
+				if (iter.AtEnd())
 					{
 					break;	// last line contains only whitespace
 					}
@@ -2966,21 +2974,22 @@ JTextEditor::TabSelectionLeft
 					continue;	// removed equivalent of one tab
 					}
 
-				if (itsBuffer->GetCharacter(charIndex) != '\t')
+				if (c != '\t')
 					{
 					break;
 					}
-				DeleteText(charIndex, charIndex);
+				DeleteText(&iter, 1);
 				deleteCount++;
 				}
 			}
 		}
 
-	const JIndex startIndex = GetLineStart(firstLine);
-	const JIndex endIndex   = GetLineEnd(lastLine);
+	const TextIndex startIndex = GetLineStart(firstLine);
+	const TextIndex endIndex   = GetLineEnd(lastLine);
 	Recalc(startIndex, endIndex - startIndex + 1, kJTrue, kJFalse);
 
-	SetSelection(startIndex, endIndex - deleteCount);
+	SetSelection(JCharacterRange(startIndex.charIndex, endIndex.charIndex - deleteCount),
+				 JUtf8ByteRange(startIndex.byteIndex, endIndex.byteIndex - deleteCount));
 	undo->UpdateEndChar();
 
 	NewUndo(undo, isNew);
@@ -5093,22 +5102,24 @@ JTextEditor::FilterText
 void
 JTextEditor::DeleteText
 	(
-	const JIndexRange& range
+	const JCharacterRange&	charRange,
+	const JUtf8ByteRange&	byteRange
 	)
 {
-	itsBuffer->RemoveSubstring(range);
-	itsStyles->RemoveNextElements(range.first, range.GetLength());
+	JStringIterator iter(itsBuffer);
+	iter.UnsafeMoveTo(kJIteratorStartBefore, charRange.first, byteRange.first);
+	DeleteText(&iter, charRange.GetLength());
 }
 
 void
 JTextEditor::DeleteText
 	(
-	const JIndex startIndex,
-	const JIndex endIndex
+	JStringIterator*	iter,
+	const JSize			charCount
 	)
 {
-	itsBuffer->RemoveSubstring(startIndex, endIndex);
-	itsStyles->RemoveNextElements(startIndex, endIndex - startIndex + 1);
+	itsStyles->RemoveNextElements(iter->GetNextCharacterIndex(), charCount);
+	iter->RemoveNext(charCount);
 }
 
 /******************************************************************************
