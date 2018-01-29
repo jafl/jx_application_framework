@@ -751,7 +751,7 @@ private:
 
 private:
 
-	void		Recalc(const JIndex startChar, const JSize minCharCount,
+	void		Recalc(const TextIndex& startIndex, const JSize minCharCount,
 					   const JBoolean deletion,
 					   const JBoolean needCaretBcast = kJTrue,
 					   const JBoolean needAdjustStyles = kJTrue);

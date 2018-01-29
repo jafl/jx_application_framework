@@ -40,7 +40,8 @@ if (!itsCharSelection.IsEmpty())
 
 	if (changed)
 		{
-		Recalc(itsCharSelection.first, itsCharSelection.GetCount(), kJFalse);
+		Recalc(TextIndex(itsCharSelection.first, itsByteSelection.first),
+			   itsCharSelection.GetCount(), kJFalse);
 		}
 
 	if (changed)

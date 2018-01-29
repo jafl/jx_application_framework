@@ -40,7 +40,13 @@ for (JIndex i=startIndex; i<=endIndex; i++)
 
 if (changed)
 	{
-	Recalc(startIndex, endIndex - startIndex + 1, kJFalse);
+	const JUtf8ByteRange r =
+		JString::CharacterToUtf8ByteRange(
+			itsBuffer.GetBytes(),
+			JCharacterRange(startIndex, startIndex));
+
+	Recalc(TextIndex(startIndex, r.first),
+		   endIndex - startIndex + 1, kJFalse);
 	}
 
 return changed;

@@ -2098,7 +2098,13 @@ JTextEditor::SetFontName
 
 	if (changed)
 		{
-		Recalc(startIndex, endIndex - startIndex + 1, kJFalse);
+		const JUtf8ByteRange r =
+			JString::CharacterToUtf8ByteRange(
+				itsBuffer.GetBytes(),
+				JCharacterRange(startIndex, startIndex));
+
+		Recalc(TextIndex(startIndex, r.first),
+			   endIndex - startIndex + 1, kJFalse);
 		}
 
 	return changed;
@@ -2250,18 +2256,23 @@ JTextEditor::SetFont
 		ClearUndo();
 		}
 
+	const JUtf8ByteRange r =
+		JString::CharacterToUtf8ByteRange(
+			itsBuffer.GetBytes(),
+			JCharacterRange(startIndex, startIndex));
+
 	if (endIndex > startIndex)
 		{
 		const JSize charCount = endIndex - startIndex + 1;
 		itsStyles->SetNextElements(startIndex, charCount, f);
-		Recalc(startIndex, charCount, kJFalse);
+		Recalc(TextIndex(startIndex, r.first), charCount, kJFalse);
 		}
 	else
 		{
 		assert( startIndex == endIndex );
 
 		itsStyles->SetElement(startIndex, f);
-		Recalc(startIndex, 1, kJFalse);
+		Recalc(TextIndex(startIndex, r.first), 1, kJFalse);
 		}
 }
 
@@ -2289,7 +2300,12 @@ JTextEditor::SetFont
 		sIter.SkipNext();
 		}
 
-	Recalc(startIndex, fontList.GetElementCount(), kJFalse);
+	const JUtf8ByteRange r =
+		JString::CharacterToUtf8ByteRange(
+			itsBuffer.GetBytes(),
+			JCharacterRange(startIndex, startIndex));
+
+	Recalc(TextIndex(startIndex, r.first), fontList.GetElementCount(), kJFalse);
 }
 
 /******************************************************************************
@@ -2802,7 +2818,7 @@ JTextEditor::DeleteSelection()
 		assert( newUndo != NULL );
 
 		DeleteText(itsCharSelection, itsByteSelection);
-		Recalc(itsCharSelection.first, 1, kJTrue, kJFalse);
+		Recalc(TextIndex(itsCharSelection.first, itsByteSelection.first), 1, kJTrue, kJFalse);
 		SetCaretLocation(CalcCaretLocation(
 			TextIndex(itsCharSelection.first, itsByteSelection.first)));
 
@@ -2862,7 +2878,7 @@ JTextEditor::TabSelectionLeft
 	JSize prefixSpaceCount     = 0;		// min # of spaces at start of line
 	JBoolean firstNonemptyLine = kJTrue;
 
-	JStringIterator iter(itsBuffer);
+	JStringIterator iter(&itsBuffer);
 	for (JIndex i=firstLine; i<=lastLine; i++)
 		{
 		const TextIndex firstChar = GetLineStart(i);
@@ -2986,7 +3002,7 @@ JTextEditor::TabSelectionLeft
 
 	const TextIndex startIndex = GetLineStart(firstLine);
 	const TextIndex endIndex   = GetLineEnd(lastLine);
-	Recalc(startIndex, endIndex - startIndex + 1, kJTrue, kJFalse);
+	Recalc(startIndex, endIndex.charIndex - startIndex.charIndex + 1, kJTrue, kJFalse);
 
 	SetSelection(JCharacterRange(startIndex.charIndex, endIndex.charIndex - deleteCount),
 				 JUtf8ByteRange(startIndex.byteIndex, endIndex.byteIndex - deleteCount));
