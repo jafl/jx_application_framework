@@ -51,6 +51,11 @@ protected:
 
 private:
 
+	JString*			itsClipText;
+	JRunArray<JFont>*	itsClipStyle;
+
+private:
+
 	// not allowed
 
 	TextEditor(const TextEditor& source);

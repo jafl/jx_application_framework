@@ -24,7 +24,9 @@ TextEditor::TextEditor()
 	JTextEditor(kFullEditor, kJTrue, kJFalse,
 				jnew TEFontManager,
 				jnew TEColormap,
-				1,1,1,1,1, 500)
+				1,1,1,1,1, 500),
+	itsClipText(NULL),
+	itsClipStyle(NULL)
 {
 	assert( TEGetFontManager() != NULL );
 	assert( TEGetColormap() != NULL );
@@ -39,6 +41,8 @@ TextEditor::TextEditor()
 
 TextEditor::~TextEditor()
 {
+	jdelete itsClipText;
+	jdelete itsClipStyle;
 }
 
 /******************************************************************************
@@ -168,6 +172,20 @@ TextEditor::TESetVertScrollStep
 void
 TextEditor::TEClipboardChanged()
 {
+	if (HasSelection())
+		{
+		if (itsClipText == NULL)
+			{
+			itsClipText = jnew JString;
+			assert( itsClipText != NULL );
+
+			itsClipStyle = jnew JRunArray<JFont>;
+			assert( itsClipStyle != NULL );
+			}
+
+		const JBoolean ok = GetSelection(itsClipText, itsClipStyle);
+		assert( ok );
+		}
 }
 
 /******************************************************************************
@@ -183,7 +201,14 @@ TextEditor::TEGetExternalClipboard
 	)
 	const
 {
-	return kJFalse;
+	if (itsClipText == NULL)
+		{
+		return kJFalse;
+		}
+
+	text->Set(*itsClipText);
+	*style = *itsClipStyle;
+	return kJTrue;
 }
 
 /******************************************************************************
