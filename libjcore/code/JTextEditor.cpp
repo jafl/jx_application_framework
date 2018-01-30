@@ -2098,12 +2098,7 @@ JTextEditor::SetFontName
 
 	if (changed)
 		{
-		const JUtf8ByteRange r =
-			JString::CharacterToUtf8ByteRange(
-				itsBuffer.GetBytes(),
-				JCharacterRange(startIndex, startIndex));
-
-		Recalc(TextIndex(startIndex, r.first),
+		Recalc(CharIndexToTextIndex(startIndex),
 			   endIndex - startIndex + 1, kJFalse);
 		}
 
@@ -2256,23 +2251,18 @@ JTextEditor::SetFont
 		ClearUndo();
 		}
 
-	const JUtf8ByteRange r =
-		JString::CharacterToUtf8ByteRange(
-			itsBuffer.GetBytes(),
-			JCharacterRange(startIndex, startIndex));
-
 	if (endIndex > startIndex)
 		{
 		const JSize charCount = endIndex - startIndex + 1;
 		itsStyles->SetNextElements(startIndex, charCount, f);
-		Recalc(TextIndex(startIndex, r.first), charCount, kJFalse);
+		Recalc(CharIndexToTextIndex(startIndex), charCount, kJFalse);
 		}
 	else
 		{
 		assert( startIndex == endIndex );
 
 		itsStyles->SetElement(startIndex, f);
-		Recalc(TextIndex(startIndex, r.first), 1, kJFalse);
+		Recalc(CharIndexToTextIndex(startIndex), 1, kJFalse);
 		}
 }
 
@@ -2300,12 +2290,7 @@ JTextEditor::SetFont
 		sIter.SkipNext();
 		}
 
-	const JUtf8ByteRange r =
-		JString::CharacterToUtf8ByteRange(
-			itsBuffer.GetBytes(),
-			JCharacterRange(startIndex, startIndex));
-
-	Recalc(TextIndex(startIndex, r.first), fontList.GetElementCount(), kJFalse);
+	Recalc(CharIndexToTextIndex(startIndex), fontList.GetElementCount(), kJFalse);
 }
 
 /******************************************************************************
@@ -2953,8 +2938,14 @@ JTextEditor::TabSelectionLeft
 	for (JIndex i=firstLine; i<=lastLine; i++)
 		{
 		const TextIndex firstChar = GetLineStart(i);
-		iter.UnsafeMoveTo(kJIteratorStartBeforeByte, firstChar.charIndex, firstChar.byteIndex);
-		iter.SkipPrev(deleteCount);
+		if (i == firstLine)
+		{
+			iter.UnsafeMoveTo(kJIteratorStartBeforeByte, firstChar.charIndex, firstChar.byteIndex);
+		}
+		else
+		{
+			iter.MoveTo(kJIteratorStartBefore, firstChar.charIndex - deleteCount);
+		}
 
 		JUtf8Character c;
 		if ((!iter.Prev(&c, kJFalse) || c == '\n') &&
@@ -3030,25 +3021,28 @@ JTextEditor::TabSelectionRight
 		return;
 		}
 
-JIndex i;
-
-	if (!itsSelection.IsEmpty())
+	if (!itsCharSelection.IsEmpty())
 		{
-		SetSelection(GetParagraphStart(itsSelection.first),
-					 GetParagraphEnd(itsSelection.last));
+		const TextIndex start = GetParagraphStart(TextIndex(itsCharSelection.first, itsByteSelection.first)),
+						end   = GetParagraphEnd(TextIndex(itsCharSelection.last, itsByteSelection.last));
+		SetSelection(JCharacterRange(start.charIndex, end.charIndex),
+					 JUtf8ByteRange(start.byteIndex, end.byteIndex));
 		}
-	else if (!itsBuffer->IsEmpty())
+	else if (!itsBuffer.IsEmpty())
 		{
-		SetSelection(GetParagraphStart(itsCaretLoc.charIndex),
-					 GetParagraphEnd(itsCaretLoc.charIndex));
+		const TextIndex i     = TextIndex(itsCaretLoc.charIndex, itsCaretLoc.byteIndex),
+						start = GetParagraphStart(i),
+						end   = GetParagraphEnd(i);
+		SetSelection(JCharacterRange(start.charIndex, end.charIndex),
+					 JUtf8ByteRange(start.byteIndex, end.byteIndex));
 		}
 	else
 		{
 		return;
 		}
 
-	const JIndex firstLine = GetLineForChar(itsSelection.first);
-	const JIndex lastLine  = GetLineForChar(itsSelection.last);
+	const JIndex firstLine = GetLineForChar(itsCharSelection.first);
+	const JIndex lastLine  = GetLineForChar(itsCharSelection.last);
 
 	JBoolean isNew;
 	JTEUndoTabShift* undo = GetTabShiftUndo(&isNew);
@@ -3057,36 +3051,49 @@ JIndex i;
 	if (itsTabToSpacesFlag)
 		{
 		const JSize spaceCount = tabCount*itsCRMTabCharCount;
-		for (i=1; i<=spaceCount; i++)
+		for (JIndex i=1; i<=spaceCount; i++)
 			{
-			tabs.AppendCharacter(' ');
+			tabs.Append(" ");
 			}
 		}
 	else
 		{
-		for (i=1; i<=tabCount; i++)
+		for (JIndex i=1; i<=tabCount; i++)
 			{
-			tabs.AppendCharacter('\t');
+			tabs.Append("\t");
 			}
 		}
 
-	itsSelection.SetToNothing();
-	JSize insertCount = 0;
-	for (i=firstLine; i<=lastLine; i++)
+	JStringIterator iter(&itsBuffer);
+	itsCharSelection.SetToNothing();
+	itsByteSelection.SetToNothing();
+	JSize insertCount = 0;	// only inserting single-byte characters
+	for (JIndex i=firstLine; i<=lastLine; i++)
 		{
-		const JIndex charIndex = GetLineStart(i) + insertCount;
-		if ((charIndex == 1 || itsBuffer->GetCharacter(charIndex-1) == '\n') &&
-			itsBuffer->GetCharacter(charIndex) != '\n')
+		const TextIndex firstChar = GetLineStart(i);
+		if (i == firstLine)
+		{
+			iter.UnsafeMoveTo(kJIteratorStartBeforeByte, firstChar.charIndex, firstChar.byteIndex);
+		}
+		else
+		{
+			iter.MoveTo(kJIteratorStartBefore, firstChar.charIndex + insertCount);
+		}
+
+		JUtf8Character c;
+		if ((!iter.Prev(&c, kJFalse) || c == '\n') &&
+			iter.Next(&c, kJFalse) && c != '\n')
 			{
-			insertCount += InsertText(charIndex, tabs);
+			insertCount += InsertText(&iter, itsStyles, tabs, NULL, NULL).charCount;
 			}
 		}
 
-	const JIndex startIndex = GetLineStart(firstLine);
-	const JIndex endIndex   = GetLineEnd(lastLine) + insertCount;
-	Recalc(startIndex, endIndex - startIndex + 1, kJFalse, kJFalse);
+	const TextIndex startIndex = GetLineStart(firstLine);
+	const TextIndex endIndex   = GetLineEnd(lastLine);
+	Recalc(startIndex, endIndex.charIndex + insertCount - startIndex.charIndex + 1, kJFalse, kJFalse);
 
-	SetSelection(startIndex, endIndex);
+	SetSelection(JCharacterRange(startIndex.charIndex, endIndex.charIndex + insertCount),
+				 JUtf8ByteRange(startIndex.byteIndex, endIndex.byteIndex + insertCount));
 	undo->UpdateEndChar();
 
 	NewUndo(undo, isNew);
@@ -3113,7 +3120,7 @@ JIndex i;
 inline JBoolean
 isWhitespace
 	(
-	const JCharacter c
+	const JUtf8Character& c
 	)
 {
 	return JI2B( c == ' ' || c == '\t' );
@@ -3126,8 +3133,8 @@ JTextEditor::AnalyzeWhitespace
 	)
 {
 	JBoolean useSpaces, isMixed;
-	*tabWidth = AnalyzeWhitespace(*itsBuffer, *tabWidth, itsTabToSpacesFlag,
-								  &useSpaces, &isMixed);
+	*tabWidth = JAnalyzeWhitespace(itsBuffer, *tabWidth, itsTabToSpacesFlag,
+								   &useSpaces, &isMixed);
 
 	TabShouldInsertSpaces(useSpaces);
 	ShouldShowWhitespace(isMixed);
@@ -3144,8 +3151,8 @@ JTextEditor::AnalyzeWhitespace
 void
 JTextEditor::CleanWhitespace
 	(
-	const JIndexRange&	range,
-	const JBoolean		align
+	const JCharacterRange&	range,
+	const JBoolean			align
 	)
 {
 	JIndexRange r;
@@ -7948,6 +7955,30 @@ JTextEditor::GetColumnForChar
 }
 
 /******************************************************************************
+ CharIndexToTextIndex (private)
+
+	Optimized by starting JStringIterator at start of line, computed by
+	using binary search.
+
+	This cannot be in JString, because there, it would always be the worst
+	case: one wrapped line of characters with no breaks.  All following
+	marks would always have to be recomputed, not merely shifted, to avoid
+	an uneven distribution.
+
+ ******************************************************************************/
+
+JTextEditor::TextIndex
+JTextEditor::CharIndexToTextIndex
+	(
+	const JIndex charIndex
+	)
+	const
+{
+	const JUtf8ByteRange r = CharToByteRange(JCharacterRange(charIndex, charIndex));
+	return TextIndex(charIndex, r.first);
+}
+
+/******************************************************************************
  CharToByteRange (private)
 
 	Optimized by starting JStringIterator at start of line, computed by
@@ -7989,7 +8020,6 @@ JTextEditor::CharToByteRange
 	JStringIterator*		iter
 	)
 {
-	
 	if (iter->AtBeginning())
 		{
 		const JString& s = iter->GetString();
@@ -8556,7 +8586,6 @@ JTextEditor::GetLineForByte
 		return 1;
 		}
 
-	// do not need to reset it, because both result in the same ordering
 	itsLineStarts->SetCompareFunction(CompareByteIndices);
 
 	JBoolean found;
@@ -8632,7 +8661,10 @@ JTextEditor::GetLineEnd
 {
 	if (lineIndex < GetLineCount())
 		{
-		return GetLineStart(lineIndex+1) - 1;
+		TextIndex i = GetLineStart(lineIndex+1);
+		i.charIndex--;
+		i.byteIndex--;	// newline is single byte
+		return i;
 		}
 	else
 		{

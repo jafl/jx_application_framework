@@ -50,7 +50,7 @@ if (!itsCharSelection.IsEmpty())
 		}
 	else if (isNew)
 		{
-		delete undo;
+		jdelete undo;
 		}
 	}
 else if (LocalVarName != itsInsertionFont.GetElementName)

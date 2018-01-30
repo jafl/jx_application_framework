@@ -309,10 +309,6 @@ public:
 	void	CleanWhitespace(const JCharacterRange& range, const JBoolean align);
 	void	AnalyzeWhitespace(JSize* tabWidth);
 
-	static JSize	AnalyzeWhitespace(const JString& buffer, const JSize tabWidth,
-									  const JBoolean defaultUseSpaces,
-									  JBoolean* useSpaces, JBoolean* showWhitespace);
-
 	JBoolean	WillAutoIndent() const;
 	void		ShouldAutoIndent(const JBoolean indent);
 
@@ -828,6 +824,7 @@ private:
 	JCoordinate	GetStringWidth(const JIndex startIndex, const JIndex endIndex,
 							   JIndex* runIndex, JIndex* firstInRun) const;
 
+	TextIndex		CharIndexToTextIndex(const JIndex charIndex) const;
 	JIndex			GetLineForByte(const JIndex byteIndex) const;
 	JUtf8ByteRange	CharToByteRange(const JCharacterRange& charRange) const;
 
