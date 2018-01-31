@@ -104,11 +104,11 @@ SVNGetRepoDialog::BuildWindow
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 260,40, 30,20);
 	assert( itsRepoHistoryMenu != NULL );
 
-	JXStaticText* obj1_JXLayout =
-		jnew JXStaticText(JGetString("obj1_JXLayout::SVNGetRepoDialog::JXLayout"), window,
+	JXStaticText* repoUrlLabel =
+		jnew JXStaticText(JGetString("repoUrlLabel::SVNGetRepoDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 20,20, 270,20);
-	assert( obj1_JXLayout != NULL );
-	obj1_JXLayout->SetToLabel();
+	assert( repoUrlLabel != NULL );
+	repoUrlLabel->SetToLabel();
 
 // end JXLayout
 

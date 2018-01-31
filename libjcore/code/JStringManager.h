@@ -32,7 +32,7 @@ public:
 
 	void		Register(const JUtf8Byte* signature, const JUtf8Byte** defaultData);
 	JBoolean	MergeFile(const JString& fileName, const JBoolean debug = kJFalse);
-	void		MergeFile(std::istream& input, const JBoolean debug = kJFalse);
+	JBoolean	MergeFile(std::istream& input, const JBoolean debug = kJFalse);
 	void		WriteFile(std::ostream& output) const;
 
 	const JString&	Get(const JUtf8Byte* id) const;

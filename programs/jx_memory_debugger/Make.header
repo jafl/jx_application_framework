@@ -22,7 +22,6 @@ SEARCHDIRS := -I${CODEDIR} \
 # other constants
 
 PROG_NAME         := jx_memory_debugger
-PROG_VERSION      := 1.0.0
 SIGNATURE         := jx_memory_debugger
 PROG_STRING_FILES := ${filter-out %/${PROG_NAME}_menu_strings, \
                       ${shell echo strings/*}}

@@ -78,25 +78,21 @@ static:
 # remove object files
 #
 
-ACE_TIDY      := ${BEGIN_ACE_MAKE} clean shared_libs=1 static_libs=1 ${END_ACE_MAKE}
-ACE_CLEAN     := ${BEGIN_ACE_MAKE} realclean shared_libs=1 static_libs=1 ${END_ACE_MAKE}
-ACE_UNINSTALL := ${RM} ${JX_LIB_ROOT}/libACE.*
-
 .PHONY : tidy
 tidy::
 	@if { ! test -L ACE_wrappers; } \
-     then { ${ACE_TIDY}; } fi
+     then { ${BEGIN_ACE_MAKE} clean shared_libs=1 static_libs=1 ${END_ACE_MAKE}; } fi
 	@cd test; ${MAKE} tidy
 
 .PHONY : clean
 clean::
 	@if { ! test -L ACE_wrappers; } \
-     then { ${ACE_CLEAN}; } fi
+     then { ${BEGIN_ACE_MAKE} realclean shared_libs=1 static_libs=1 ${END_ACE_MAKE}; } fi
 	@cd test; ${MAKE} clean
 
 .PHONY : jxuninstall
 jxuninstall:
   ifeq ($(shell whoami),root)
 	@if { ! test -L ACE_wrappers; } \
-     then { ${ACE_UNINSTALL}; } fi
+     then { ${RM} ${JX_LIB_ROOT}/libACE.*; } fi
   endif

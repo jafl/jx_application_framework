@@ -316,7 +316,7 @@ JXPartition::RestoreGeometry
 		JSize sum               = 0;
 		for (JIndex i=1; i<count; i++)
 			{
-			const JSize size = newSizes.GetElement(i) + delta;
+			const JSize size = JMax(newSizes.GetElement(i) + delta, JPartition::GetMinCompartmentSize(i));
 			newSizes.SetElement(i, size);
 			sum += size;
 			}

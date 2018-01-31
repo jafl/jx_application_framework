@@ -41,6 +41,20 @@ Makefiles:
 	@cd ../misc; ${MAKE} Makefiles
 
 #
+# build all layouts
+#
+
+.PHONY : layouts
+layouts:
+	@${foreach dir, \
+          ${wildcard ../lib?*/. ../programs/*/.}, \
+       ${BEGIN_DIR}; \
+           if compgen -G "*.fd" > /dev/null; then \
+               jxlayout --require-obj-names *.fd; \
+           fi; \
+       ${END_DIR};}
+
+#
 # install binaries
 #
 
@@ -115,11 +129,10 @@ personal:
 
 RELEASE_PROGS := ${addprefix ../programs/, \
                    code_crusader code_medic code_mill \
-                   drakon glove ssh_askpass systemg leibnitz }
+                   drakon glove ssh_askpass svn_client systemg leibnitz }
 
 .PHONY : release
 release:
-	@if ! test -e ../ACE/ACE_wrappers/${ACE_VERSION}; then echo 'Wrong ACE version!'; false; fi
 	@${foreach dir, ${RELEASE_PROGS}, \
        ${BEGIN_DIR}; ${MAKE} release; ${END_DIR}; }
 

@@ -22,7 +22,7 @@ SEARCHDIRS := -I${CODEDIR} \
 # other constants
 
 PROG_NAME         := <Binary>
-PROG_VERSION      := <Version>
+PROG_VERSION      := ${shell cat VERSION}
 SIGNATURE         := <Binary>
 PROG_STRING_FILES := ${filter-out %/${PROG_NAME}_menu_strings, \
                       ${shell echo strings/*}}

@@ -125,29 +125,29 @@ SVNPrefsDialog::BuildWindow
 					JXWidget::kHElastic, JXWidget::kFixedTop, 10,60, 120,20);
 	assert( itsCustomIntegrationRB != NULL );
 
-	JXStaticText* obj1_JXLayout =
-		jnew JXStaticText(JGetString("obj1_JXLayout::SVNPrefsDialog::JXLayout"), window,
+	JXStaticText* integrateWithLabel =
+		jnew JXStaticText(JGetString("integrateWithLabel::SVNPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 60,45, 95,20);
-	assert( obj1_JXLayout != NULL );
-	obj1_JXLayout->SetToLabel();
+	assert( integrateWithLabel != NULL );
+	integrateWithLabel->SetToLabel();
 
-	JXStaticText* obj2_JXLayout =
-		jnew JXStaticText(JGetString("obj2_JXLayout::SVNPrefsDialog::JXLayout"), window,
+	JXStaticText* customIntegrationLabel =
+		jnew JXStaticText(JGetString("customIntegrationLabel::SVNPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,120, 120,20);
-	assert( obj2_JXLayout != NULL );
-	obj2_JXLayout->SetToLabel();
+	assert( customIntegrationLabel != NULL );
+	customIntegrationLabel->SetToLabel();
 
-	JXStaticText* obj3_JXLayout =
-		jnew JXStaticText(JGetString("obj3_JXLayout::SVNPrefsDialog::JXLayout"), window,
+	JXStaticText* reloadChangedFilesLabel =
+		jnew JXStaticText(JGetString("reloadChangedFilesLabel::SVNPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,180, 140,20);
-	assert( obj3_JXLayout != NULL );
-	obj3_JXLayout->SetToLabel();
+	assert( reloadChangedFilesLabel != NULL );
+	reloadChangedFilesLabel->SetToLabel();
 
-	JXStaticText* obj4_JXLayout =
-		jnew JXStaticText(JGetString("obj4_JXLayout::SVNPrefsDialog::JXLayout"), window,
+	JXStaticText* compareRevisionsLabel =
+		jnew JXStaticText(JGetString("compareRevisionsLabel::SVNPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,160, 140,20);
-	assert( obj4_JXLayout != NULL );
-	obj4_JXLayout->SetToLabel();
+	assert( compareRevisionsLabel != NULL );
+	compareRevisionsLabel->SetToLabel();
 
 	itsCmdLineIntegrationRB =
 		jnew JXTextRadioButton(SVNPrefsManager::kCmdLine, JGetString("itsCmdLineIntegrationRB::SVNPrefsDialog::JXLayout"), itsIntegrationRG,
@@ -159,11 +159,11 @@ SVNPrefsDialog::BuildWindow
 					JXWidget::kHElastic, JXWidget::kFixedTop, 160,180, 220,20);
 	assert( itsReloadChangedCmd != NULL );
 
-	JXStaticText* obj5_JXLayout =
-		jnew JXStaticText(JGetString("obj5_JXLayout::SVNPrefsDialog::JXLayout"), window,
+	JXStaticText* commitEditorLabel =
+		jnew JXStaticText(JGetString("commitEditorLabel::SVNPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,140, 140,20);
-	assert( obj5_JXLayout != NULL );
-	obj5_JXLayout->SetToLabel();
+	assert( commitEditorLabel != NULL );
+	commitEditorLabel->SetToLabel();
 
 // end JXLayout
 

@@ -15,19 +15,25 @@ Please send all bug reports and suggestions for features to
 <hr>
 <p>
 
-<b>3.0.0</b>
+<b>4.0</b>
+
+<p>
+Window layouts adapt to translated text widths and font size differences.
+<p>
+
+<b>3.0</b>
 
 <p>
 Anti-alised text.
 <p>
 
-<b>2.5.0</b>
+<b>2.5</b>
 
 <p>
 No longer copies version control directories when building a project from a template.
 <p>
 
-<b>2.1.0</b>
+<b>2.1</b>
 
 <p>
 Projects can be placed anywhere, not merely in <tt>JX-2.1.0/programs/</tt>.
@@ -41,7 +47,7 @@ Added library template in <tt>lib_template</tt>.
 Project path and name can now contain spaces.
 <p>
 
-<b>2.0.0</b>
+<b>2.0</b>
 
 <p>
 Initial release."

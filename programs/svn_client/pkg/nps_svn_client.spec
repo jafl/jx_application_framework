@@ -1,4 +1,4 @@
-%define svn_client_version 1.2.0
+%define svn_client_version 1.3.0
 
 Summary: NPS Subversion Client provides a simple, graphical Subversion client.
 Name: nps_svn_client

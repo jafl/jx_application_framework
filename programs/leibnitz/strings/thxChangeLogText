@@ -16,6 +16,8 @@ Please send all bug reports and suggestions for features to
 <h3> 2.1 </h3>
 
 Removed 3D plotting, since I have no time to support it.
+<p>
+Window layouts adapt to translated text widths and font size differences.
 
 <h3> 2.0.2 </h3>
 
