@@ -310,18 +310,21 @@ JStringManager::MergeFile
 	)
 {
 	std::ifstream input(fileName);
-	if (input.good())
-		{
-		MergeFile(input, debug);
-		return kJTrue;
-		}
-	else
+	if (!input.good())
 		{
 		return kJFalse;
 		}
+
+	if (!MergeFile(input, debug))
+		{
+		std::cerr << "Unable to load " << fileName << std::endl;
+		return kJFalse;
+		}
+
+	return kJTrue;
 }
 
-void
+JBoolean
 JStringManager::MergeFile
 	(
 	std::istream&	input,
@@ -333,7 +336,7 @@ JStringManager::MergeFile
 	if (format != kASCIIFormat)
 		{
 		std::cerr << "Invalid string file format: " << format << std::endl;
-		return;
+		return kJFalse;
 		}
 
 	JString id;
@@ -383,6 +386,8 @@ JStringManager::MergeFile
 			jdelete s;
 			}
 		}
+
+	return kJTrue;
 }
 
 /******************************************************************************
