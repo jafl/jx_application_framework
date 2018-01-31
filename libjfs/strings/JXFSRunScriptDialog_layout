@@ -1,9 +1,9 @@
 0
 cancelButton::JXFSRunScriptDialog::JXLayout "Cancel"
-obj1_JXLayout::JXFSRunScriptDialog::JXLayout "Command to run:"
 runButton::JXFSRunScriptDialog::JXLayout "Run"
+itsUseWindowCB::JXFSRunScriptDialog::JXLayout "Run in window"
 itsUseShellCB::JXFSRunScriptDialog::shortcuts::JXLayout "#S"
+cmdLabel::JXFSRunScriptDialog::JXLayout "Command to run:"
 itsUseShellCB::JXFSRunScriptDialog::JXLayout "Run in shell"
 itsUseWindowCB::JXFSRunScriptDialog::shortcuts::JXLayout "#W"
 runButton::JXFSRunScriptDialog::shortcuts::JXLayout "^M"
-itsUseWindowCB::JXFSRunScriptDialog::JXLayout "Run in window"

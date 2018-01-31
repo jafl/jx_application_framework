@@ -170,7 +170,7 @@ label: Integrate with:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (integrateWithLabel)
 callback: 
 argument: 
 
@@ -188,7 +188,7 @@ label: Custom integration:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (customIntegrationLabel)
 callback: 
 argument: 
 
@@ -206,7 +206,7 @@ label: Reload changed files:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (reloadChangedFilesLabel)
 callback: 
 argument: 
 
@@ -224,7 +224,7 @@ label: Compare revisions:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (compareRevisionsLabel)
 callback: 
 argument: 
 
@@ -278,7 +278,7 @@ label: Commit editor:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: 
+name: (commitEditorLabel)
 callback: 
 argument: 
 
@@ -584,7 +584,7 @@ label: URL of repository:
 shortcut: 
 resize: FL_RESIZE_NONE
 gravity: FL_North FL_NoGravity
-name: 
+name: (repoUrlLabel)
 callback: 
 argument: 
 

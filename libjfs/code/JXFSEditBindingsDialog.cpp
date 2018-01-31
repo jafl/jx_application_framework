@@ -191,41 +191,41 @@ JXFSEditBindingsDialog::BuildWindow()
 	assert( itsHelpButton != NULL );
 	itsHelpButton->SetShortcuts(JGetString("itsHelpButton::JXFSEditBindingsDialog::shortcuts::JXLayout"));
 
-	JXStaticText* obj1_JXLayout =
-		jnew JXStaticText(JGetString("obj1_JXLayout::JXFSEditBindingsDialog::JXLayout"), window,
+	JXStaticText* cmdHint1 =
+		jnew JXStaticText(JGetString("cmdHint1::JXFSEditBindingsDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 130,370, 360,20);
-	assert( obj1_JXLayout != NULL );
-	obj1_JXLayout->SetFontSize(8);
-	obj1_JXLayout->SetToLabel();
+	assert( cmdHint1 != NULL );
+	cmdHint1->SetFontSize(JGetDefaultFontSize()-2);
+	cmdHint1->SetToLabel();
 
 	itsDefCmd =
 		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 200,250, 290,20);
 	assert( itsDefCmd != NULL );
 
-	JXStaticText* obj2_JXLayout =
-		jnew JXStaticText(JGetString("obj2_JXLayout::JXFSEditBindingsDialog::JXLayout"), window,
+	JXStaticText* shellLabel =
+		jnew JXStaticText(JGetString("shellLabel::JXFSEditBindingsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 70,330, 120,20);
-	assert( obj2_JXLayout != NULL );
-	obj2_JXLayout->SetToLabel();
+	assert( shellLabel != NULL );
+	shellLabel->SetToLabel();
 
 	itsUseDefaultCB =
 		jnew JXTextCheckbox(JGetString("itsUseDefaultCB::JXFSEditBindingsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 10,250, 190,20);
 	assert( itsUseDefaultCB != NULL );
 
-	JXStaticText* obj3_JXLayout =
-		jnew JXStaticText(JGetString("obj3_JXLayout::JXFSEditBindingsDialog::JXLayout"), window,
+	JXStaticText* cmdHint2 =
+		jnew JXStaticText(JGetString("cmdHint2::JXFSEditBindingsDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 140,270, 350,20);
-	assert( obj3_JXLayout != NULL );
-	obj3_JXLayout->SetFontSize(8);
-	obj3_JXLayout->SetToLabel();
+	assert( cmdHint2 != NULL );
+	cmdHint2->SetFontSize(JGetDefaultFontSize()-2);
+	cmdHint2->SetToLabel();
 
-	JXStaticText* obj4_JXLayout =
-		jnew JXStaticText(JGetString("obj4_JXLayout::JXFSEditBindingsDialog::JXLayout"), window,
+	JXStaticText* windowLabel =
+		jnew JXStaticText(JGetString("windowLabel::JXFSEditBindingsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 70,350, 120,20);
-	assert( obj4_JXLayout != NULL );
-	obj4_JXLayout->SetToLabel();
+	assert( windowLabel != NULL );
+	windowLabel->SetToLabel();
 
 	itsShellCmd =
 		jnew JXInputField(window,

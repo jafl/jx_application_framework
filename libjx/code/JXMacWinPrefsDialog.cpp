@@ -89,7 +89,7 @@ JXMacWinPrefsDialog::BuildWindow()
 		jnew JXStaticText(JGetString("restartHint::JXMacWinPrefsDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 40,40, 300,20);
 	assert( restartHint != NULL );
-	restartHint->SetFontSize(8);
+	restartHint->SetFontSize(JGetDefaultFontSize()-2);
 	restartHint->SetToLabel();
 
 	itsScrollCaretCB =
