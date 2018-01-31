@@ -12,6 +12,7 @@
 #include "MDPrefsManager.h"
 #include "mdHelpText.h"
 #include <JXWDManager.h>
+#include <JXLibVersion.h>
 #include <jAssert.h>
 
 static MDApp*			theApplication  = NULL;		// owns itself
@@ -122,7 +123,7 @@ MDGetPrefsManager()
 const JCharacter*
 MDGetVersionNumberStr()
 {
-	return JGetString("VERSION");
+	return kCurrentJXLibVersionStr;
 }
 
 /******************************************************************************
@@ -135,7 +136,7 @@ MDGetVersionStr()
 {
 	const JCharacter* map[] =
 		{
-		"version",   JGetString("VERSION"),
+		"version",   MDGetVersionNumberStr(),
 		"copyright", JGetString("COPYRIGHT")
 		};
 	return JGetString(kDescriptionID, map, sizeof(map));
