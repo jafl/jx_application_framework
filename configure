@@ -80,6 +80,7 @@ function configure_linux
 	clean_links;
 
 	ln -sf ../../include/missing_proto/jMissingProto_empty.h include/jcore/jMissingProto.h;
+	ln -sf ../../misc/lldb-include programs/code_medic;
 
 	ARCH=`uname -m`;
 	if [[ $ARCH == x86_64 ]]; then

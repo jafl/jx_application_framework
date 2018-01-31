@@ -24,7 +24,7 @@ ifneq (${shell which dpkg-deb 2> /dev/null},)
   HAS_DEB := 1
 endif
 
-ifneq (${shell echo $UID},0)
+ifneq (${shell echo $$UID},0)
   SUDO := sudo
 endif
 
