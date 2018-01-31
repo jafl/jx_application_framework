@@ -13,6 +13,10 @@ Please send all bug reports and suggestions for features to
 <p>
 <hr>
 
+<h3>1.3</h3>
+
+Window layouts adapt to translated text widths and font size differences.
+
 <h3>1.2.5</h3>
 
 Updated URL for version check.

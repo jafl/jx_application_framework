@@ -12,8 +12,10 @@ Please send all bug reports and suggestions for features to
 <p>
 <hr>
 
-<h3> 4.1.1 </h3>
+<h3> 4.2 </h3>
 
+Window layouts adapt to translated text widths and font size differences.
+<p>
 Inverted order of items on Command Line history menu, since the menu is normally at the bottom of the screen.
 <p>
 Finally saves Search Text Dialog configuration, so it preserves \"Stay open\" and \"Retain focus\" settings.

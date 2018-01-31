@@ -12,6 +12,10 @@ Please send all bug reports and suggestions for features to
 <p>
 <hr>
 
+<h3> 2.7 </h3>
+
+Window layouts adapt to translated text widths and font size differences.
+
 <h3> 2.6.1 </h3>
 
 Automatically removes auto-generated stash when a branch is deleted.
