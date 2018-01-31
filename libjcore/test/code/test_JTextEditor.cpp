@@ -25,15 +25,15 @@ JTEST(SetText)
 	TextEditor te;
 	JAssertTrue(te.IsEmpty());
 
-	JBoolean cleaned = te.SetText(JString("abcd", 0, kJFalse));
+	JBoolean cleaned = te.SetText(JString("abcd" "\xC3\x86", 0, kJFalse));
 	JAssertFalse(cleaned);
-	JAssertStringsEqual("abcd", te.GetText());
-	JAssertEqual(4, te.GetStyles().GetElementCount());
+	JAssertStringsEqual("abcd" "\xC3\x86", te.GetText());
+	JAssertEqual(5, te.GetStyles().GetElementCount());
 	JAssertEqual(1, te.GetStyles().GetRunCount());
 
-	cleaned = te.SetText(JString("a\vb\ac\bd", 0, kJFalse));
+	cleaned = te.SetText(JString("a\vb\ac\bd" "\xC3\x86", 0, kJFalse));
 	JAssertTrue(cleaned);
-	JAssertStringsEqual("abcd", te.GetText());
+	JAssertStringsEqual("abcd" "\xC3\x86", te.GetText());
 }
 
 JTEST(ReadPlainText)
@@ -41,37 +41,37 @@ JTEST(ReadPlainText)
 	TextEditor te;
 
 	JTextEditor::PlainTextFormat format;
-	JBoolean ok = te.ReadPlainText(JString("test_ReadPlainUNIXText.txt", 0, kJFalse), &format);
+	JBoolean ok = te.ReadPlainText(JString("data/test_ReadPlainUNIXText.txt", 0, kJFalse), &format);
 	JAssertTrue(ok);
 	JAssertEqual(JTextEditor::kUNIXText, format);
 	JAssertTrue(te.EndsWithNewline());
-	JAssertEqual(45, te.GetStyles().GetElementCount());
+	JAssertEqual(47, te.GetStyles().GetElementCount());
 	JAssertEqual(1, te.GetStyles().GetRunCount());
 
 	const JString s = te.GetText();
 
-	ok = te.ReadPlainText(JString("test_ReadPlainDOSText.txt", 0, kJFalse), &format);
+	ok = te.ReadPlainText(JString("data/test_ReadPlainDOSText.txt", 0, kJFalse), &format);
 	JAssertTrue(ok);
 	JAssertEqual(JTextEditor::kDOSText, format);
 	JAssertStringsEqual(s, te.GetText());
-	JAssertEqual(45, te.GetStyles().GetElementCount());
+	JAssertEqual(47, te.GetStyles().GetElementCount());
 	JAssertEqual(1, te.GetStyles().GetRunCount());
 
-	ok = te.ReadPlainText(JString("test_ReadPlainMacText.txt", 0, kJFalse), &format);
+	ok = te.ReadPlainText(JString("data/test_ReadPlainMacText.txt", 0, kJFalse), &format);
 	JAssertTrue(ok);
 	JAssertEqual(JTextEditor::kMacintoshText, format);
 	JAssertStringsEqual(s, te.GetText());
-	JAssertEqual(45, te.GetStyles().GetElementCount());
+	JAssertEqual(47, te.GetStyles().GetElementCount());
 	JAssertEqual(1, te.GetStyles().GetRunCount());
 
-	ok = te.ReadPlainText(JString("test_ReadPlainBinaryText.txt", 0, kJFalse), &format);
+	ok = te.ReadPlainText(JString("data/test_ReadPlainBinaryText.txt", 0, kJFalse), &format);
 	JAssertTrue(ok);
 	JAssertEqual(JTextEditor::kUNIXText, format);
 	JAssertStringsEqual(s, te.GetText());
-	JAssertEqual(45, te.GetStyles().GetElementCount());
+	JAssertEqual(47, te.GetStyles().GetElementCount());
 	JAssertEqual(1, te.GetStyles().GetRunCount());
 
-	ok = te.ReadPlainText(JString("test_ReadPlainBinaryText.txt", 0, kJFalse), &format, kJFalse);
+	ok = te.ReadPlainText(JString("data/test_ReadPlainBinaryText.txt", 0, kJFalse), &format, kJFalse);
 	JAssertFalse(ok);
 }
 
@@ -80,7 +80,7 @@ JTEST(WritePlainText)
 	TextEditor te;
 
 	JTextEditor::PlainTextFormat format;
-	JBoolean ok = te.ReadPlainText(JString("test_ReadPlainUNIXText.txt", 0, kJFalse), &format);
+	JBoolean ok = te.ReadPlainText(JString("data/test_ReadPlainUNIXText.txt", 0, kJFalse), &format);
 	JAssertTrue(ok);
 	JAssertEqual(JTextEditor::kUNIXText, format);
 
@@ -173,12 +173,12 @@ JTEST(ReadWritePrivateFormat)
 JTEST(SearchTextForward)
 {
 	TextEditor te;
-	te.SetText(JString("Fourscore and seven years ago...", 0, kJFalse));
+	te.SetText(JString("Foursc" "\xC3\xB8" "re and seven years ago...", 0, kJFalse));
 
 	// entire word, no wrapping
 
 	JBoolean wrapped;
-	const JStringMatch m1 = te.SearchForward(JRegex("score"), kJTrue, kJFalse, &wrapped);
+	const JStringMatch m1 = te.SearchForward(JRegex("sc" "\xC3\xB8" "re"), kJTrue, kJFalse, &wrapped);
 	JAssertTrue(m1.IsEmpty());
 	JAssertFalse(te.HasSelection());	// caret still at beginning
 	JAssertFalse(wrapped);
@@ -187,7 +187,7 @@ JTEST(SearchTextForward)
 
 	JString s;
 	JCharacterRange r;
-	const JStringMatch m2 = te.SearchForward(JRegex("score"), kJFalse, kJFalse, &wrapped);
+	const JStringMatch m2 = te.SearchForward(JRegex("sc" "\xC3\xB8" "re"), kJFalse, kJFalse, &wrapped);
 	JAssertStringsEqual("score", m2.GetString());
 	JAssertTrue(te.HasSelection());
 	JAssertTrue(te.GetSelection(&r));
@@ -198,7 +198,7 @@ JTEST(SearchTextForward)
 
 	// partial word, no wrapping
 
-	const JStringMatch m3 = te.SearchForward(JRegex("ore and"), kJFalse, kJFalse, &wrapped);
+	const JStringMatch m3 = te.SearchForward(JRegex("\xC3\xB8" "re and"), kJFalse, kJFalse, &wrapped);
 	JAssertTrue(m3.IsEmpty());
 	JAssertTrue(te.GetSelection(&r));		// selection maintained
 	JAssertEqual(JCharacterRange(5, 9), r);
@@ -208,7 +208,7 @@ JTEST(SearchTextForward)
 
 	// partial word, wrapping
 
-	const JStringMatch m4 = te.SearchForward(JRegex("ore and"), kJFalse, kJTrue, &wrapped);
+	const JStringMatch m4 = te.SearchForward(JRegex("\xC3\xB8" "re and"), kJFalse, kJTrue, &wrapped);
 	JAssertStringsEqual("ore and", m4.GetString());
 	JAssertTrue(te.GetSelection(&r));
 	JAssertEqual(JCharacterRange(7, 13), r);
@@ -246,7 +246,7 @@ JTEST(SearchTextForward)
 JTEST(SearchTextBackward)
 {
 	TextEditor te;
-	te.SetText(JString("Fourscore and seven years ago...", 0, kJFalse));
+	te.SetText(JString("Fourscore and seve" "\xC3\xB1" " years ago...", 0, kJFalse));
 	te.SetCaretLocation(te.GetText().GetCharacterCount() + 1);
 
 	// entire word, no wrapping
@@ -270,7 +270,7 @@ JTEST(SearchTextBackward)
 
 	// partial word, no wrapping
 
-	const JStringMatch m3 = te.SearchBackward(JRegex("en ye"), kJFalse, kJFalse, &wrapped);
+	const JStringMatch m3 = te.SearchBackward(JRegex("e" "\xC3\xB1" " ye"), kJFalse, kJFalse, &wrapped);
 	JAssertTrue(m3.IsEmpty());
 	JAssertTrue(te.GetSelection(&r));		// selection maintained
 	JAssertEqual(JCharacterRange(21, 25), r);
@@ -280,7 +280,7 @@ JTEST(SearchTextBackward)
 
 	// partial word, wrapping
 
-	const JStringMatch m4 = te.SearchBackward(JRegex("en ye"), kJFalse, kJTrue, &wrapped);
+	const JStringMatch m4 = te.SearchBackward(JRegex("e" "\xC3\xB1" " ye"), kJFalse, kJTrue, &wrapped);
 	JAssertStringsEqual("en ye", m4.GetString());
 	JAssertTrue(te.GetSelection(&s));
 	JAssertStringsEqual("en ye", s);
@@ -449,10 +449,10 @@ JTEST(SearchStyle)
 {
 	TextEditor te;
 	te.SetCurrentFontSize(20);
-	te.Paste(JString("big", 0, kJFalse));
+	te.Paste(JString("b" "\xC3\xAE" "g", 0, kJFalse));
 	te.SetCurrentFontSize(kJDefaultFontSize);
 	te.SetCurrentFontBold(kJTrue);
-	te.Paste(JString("bold", 0, kJFalse));
+	te.Paste(JString("b" "\xC3\xB8" "ld", 0, kJFalse));
 	te.SetCurrentFontBold(kJFalse);
 	te.Paste(JString("normal", 0, kJFalse));
 	te.SetCurrentFontUnderline(2);
@@ -475,7 +475,7 @@ JTEST(SearchStyle)
 	JAssertTrue(te.GetSelection(&r));
 	JAssertEqual(JCharacterRange(4, 7), r);
 	JAssertTrue(te.GetSelection(&s));
-	JAssertStringsEqual("bold", s);
+	JAssertStringsEqual("b" "\xC3\xB8" "ld", s);
 	JAssertFalse(wrapped);
 
 	found = te.SearchForward(UnderlineFontMatch(), kJTrue, &wrapped);
@@ -495,7 +495,7 @@ JTEST(SearchStyle)
 	JAssertTrue(te.GetSelection(&r));
 	JAssertEqual(JCharacterRange(1, 3), r);
 	JAssertTrue(te.GetSelection(&s));
-	JAssertStringsEqual("big", s);
+	JAssertStringsEqual("b" "\xC3\xAE" "g", s);
 	JAssertTrue(wrapped);
 
 	te.SetCaretLocation(te.GetText().GetCharacterCount() - 5);
@@ -518,7 +518,7 @@ JTEST(SearchStyle)
 	JAssertTrue(te.GetSelection(&r));
 	JAssertEqual(JCharacterRange(1, 3), r);
 	JAssertTrue(te.GetSelection(&s));
-	JAssertStringsEqual("big", s);
+	JAssertStringsEqual("b" "\xC3\xAE" "g", s);
 	JAssertFalse(wrapped);
 
 	found = te.SearchBackward(BoldFontMatch(), kJFalse, &wrapped);
@@ -526,7 +526,7 @@ JTEST(SearchStyle)
 	JAssertTrue(te.GetSelection(&r));		// selection maintained
 	JAssertEqual(JCharacterRange(1, 3), r);
 	JAssertTrue(te.GetSelection(&s));
-	JAssertStringsEqual("big", s);
+	JAssertStringsEqual("b" "\xC3\xAE" "g", s);
 	JAssertFalse(wrapped);
 
 	found = te.SearchBackward(BoldFontMatch(), kJTrue, &wrapped);
@@ -534,7 +534,7 @@ JTEST(SearchStyle)
 	JAssertTrue(te.GetSelection(&r));
 	JAssertEqual(JCharacterRange(4, 7), r);
 	JAssertTrue(te.GetSelection(&s));
-	JAssertStringsEqual("bold", s);
+	JAssertStringsEqual("b" "\xC3\xB8" "ld", s);
 	JAssertTrue(wrapped);
 
 	te.SearchBackward(BigFontMatch(), kJTrue, &wrapped);
@@ -542,7 +542,7 @@ JTEST(SearchStyle)
 	JAssertTrue(te.GetSelection(&r));
 	JAssertEqual(JCharacterRange(1, 3), r);
 	JAssertTrue(te.GetSelection(&s));
-	JAssertStringsEqual("big", s);
+	JAssertStringsEqual("b" "\xC3\xAE" "g", s);
 	JAssertFalse(wrapped);
 
 	te.SetCaretLocation(4);
@@ -551,7 +551,7 @@ JTEST(SearchStyle)
 	JAssertTrue(te.GetSelection(&r));
 	JAssertEqual(JCharacterRange(1, 3), r);
 	JAssertTrue(te.GetSelection(&s));
-	JAssertStringsEqual("big", s);
+	JAssertStringsEqual("b" "\xC3\xAE" "g", s);
 	JAssertFalse(wrapped);
 }
 
@@ -640,7 +640,7 @@ JTEST(ItemStartEnd)
 JTEST(Selection)
 {
 	TextEditor te;
-	te.SetText(JString("abcd\n1234\nwxzy", 0, kJFalse));
+	te.SetText(JString("\xC3\xA1" "bcd\n1234\nwxzy", 0, kJFalse));
 
 	te.SetSelection(1, 5);
 	te.Cut();
@@ -651,12 +651,12 @@ JTEST(Selection)
 	te.Paste(JString("\n", 0, kJFalse));
 	te.Paste();
 
-	JAssertStringsEqual("1234\nwxzy\nabcd\n", te.GetText());
+	JAssertStringsEqual("1234\nwxzy\n" "\xC3\xA1" "bcd\n", te.GetText());
 
 	te.SetSelection(6, 10);
 	te.DeleteSelection();
 
-	JAssertStringsEqual("1234\nabcd\n", te.GetText());
+	JAssertStringsEqual("1234\n" "\xC3\xA1" "bcd\n", te.GetText());
 
 	te.SelectAll();
 	te.DeleteSelection();
@@ -667,56 +667,56 @@ JTEST(Selection)
 JTEST(TabSelection)
 {
 	TextEditor te;
-	te.SetText(JString("abcd\n1234\nwxzy", 0, kJFalse));
+	te.SetText(JString("\xC3\xA1" "bcd\n1234\nwxzy", 0, kJFalse));
 
 	te.TabSelectionRight(2);
 
-	JAssertStringsEqual("\t\tabcd\n1234\nwxzy", te.GetText());
+	JAssertStringsEqual("\t\t" "\xC3\xA1" "bcd\n1234\nwxzy", te.GetText());
 
 	te.SetSelection(10, 13);
 	te.TabSelectionLeft(3);
 
-	JAssertStringsEqual("\t\tabcd\n1234\nwxzy", te.GetText());
+	JAssertStringsEqual("\t\t" "\xC3\xA1" "bcd\n1234\nwxzy", te.GetText());
 
 	te.TabSelectionRight(3);
 
-	JAssertStringsEqual("\t\tabcd\n\t\t\t1234\n\t\t\twxzy", te.GetText());
+	JAssertStringsEqual("\t\t" "\xC3\xA1" "bcd\n\t\t\t1234\n\t\t\twxzy", te.GetText());
 
 	te.SelectAll();
 	te.TabSelectionLeft(1);
 
-	JAssertStringsEqual("\tabcd\n\t\t1234\n\t\twxzy", te.GetText());
+	JAssertStringsEqual("\t" "\xC3\xA1" "bcd\n\t\t1234\n\t\twxzy", te.GetText());
 
 	te.TabSelectionLeft(2);
 
-	JAssertStringsEqual("\tabcd\n\t\t1234\n\t\twxzy", te.GetText());
+	JAssertStringsEqual("\t" "\xC3\xA1" "bcd\n\t\t1234\n\t\twxzy", te.GetText());
 
 	te.TabSelectionLeft(2, kJTrue);
 
-	JAssertStringsEqual("abcd\n1234\nwxzy", te.GetText());
+	JAssertStringsEqual("\xC3\xA1" "bcd\n1234\nwxzy", te.GetText());
 }
 
 JTEST(TabSelectionMixed)
 {
 	TextEditor te;
-	te.SetText(JString("\tabcd\n  \t1234\n\twxzy", 0, kJFalse));
+	te.SetText(JString("\t" "\xC3\xA1" "bcd\n  \t1234\n\twxzy", 0, kJFalse));
 
 	te.TabSelectionLeft(1);
 
-	JAssertStringsEqual("abcd\n1234\nwxzy", te.GetText());
+	JAssertStringsEqual("\xC3\xA1" "bcd\n1234\nwxzy", te.GetText());
 
 	te.Undo();
 
-	JAssertStringsEqual("\tabcd\n  \t1234\n\twxzy", te.GetText());
+	JAssertStringsEqual("\t" "\xC3\xA1" "bcd\n  \t1234\n\twxzy", te.GetText());
 
 	te.Redo();
 
-	JAssertStringsEqual("abcd\n1234\nwxzy", te.GetText());
+	JAssertStringsEqual("\xC3\xA1" "bcd\n1234\nwxzy", te.GetText());
 
 
-	te.SetText(JString("  abcd\n   1234\n    wxzy", 0, kJFalse));
+	te.SetText(JString("  " "\xC3\xA1" "bcd\n   1234\n    wxzy", 0, kJFalse));
 
 	te.TabSelectionLeft(1);
 
-	JAssertStringsEqual("abcd\n 1234\n  wxzy", te.GetText());
+	JAssertStringsEqual("\xC3\xA1" "bcd\n 1234\n  wxzy", te.GetText());
 }
