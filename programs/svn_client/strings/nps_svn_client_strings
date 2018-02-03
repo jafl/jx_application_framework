@@ -25,6 +25,7 @@ SVNName		"NPS Subversion Client"
 SVNURL		"https://sourceforge.net/projects/nps-svnclient/"
 SVNEmail	""
 
+HELP_URL		"http://nps-svnclient.sourceforge.net/help.html"
 VERSION_URL		"http://nps-svnclient.sourceforge.net/VERSION"
 DOWNLOAD_URL	"https://sourceforge.net/projects/nps-svnclient/"
 

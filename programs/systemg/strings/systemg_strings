@@ -27,6 +27,7 @@ https://sourceforge.net/projects/nps-systemg/"
 
 SyGName		"System G"
 
+HELP_URL		"http://nps-systemg.sourceforge.net/help.html"
 VERSION_URL		"http://nps-systemg.sourceforge.net/VERSION"
 DOWNLOAD_URL	"https://sourceforge.net/projects/nps-systemg/"
 

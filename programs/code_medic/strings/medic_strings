@@ -28,6 +28,7 @@ CMName	"Code Medic"
 CMURL	"https://sourceforge.net/projects/codemedic/"
 CMEmail	""
 
+HELP_URL		"http://codemedic.sourceforge.net/help.html"
 VERSION_URL		"http://codemedic.sourceforge.net/VERSION"
 DOWNLOAD_URL	"https://sourceforge.net/projects/codemedic/"
 
