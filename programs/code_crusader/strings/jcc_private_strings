@@ -1,19 +1,30 @@
 0
 
-# Copyright (C) 2000-14 by John Lindal. All rights reserved.
+# Copyright (C) 2000-14 by John Lindal.
 
 VERSION		"6.8.0"
 COPYRIGHT
-"Copyright (C) 1996-2018 John Lindal.  All rights reserved.
+"Copyright (C) 1996-2018 John Lindal.
 
-This software is subject to the license agreement set forth in the license (refer to the on-line help).
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-Code Crusader and New Planet Software are trademarks of John Lindal.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
-http://www.newplanetsoftware.com/"
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+Code Crusader is a trademark of John Lindal.
+
+https://sourceforge.net/projects/codecrusader/"
 
 CBName	"Code Crusader"
-CBURL	"http://www.newplanetsoftware.com/jcc/"
+CBURL	"https://sourceforge.net/projects/codecrusader/"
 CBEmail	""
 
 HELP_URL		"http://codecrusader.sourceforge.net/help.html"
@@ -182,7 +193,7 @@ MakeHeaderInitText::CBBuildManager
 # Please refer to the makemake documentation for more information.
 #
 # To compile multiple versions of a program or library, please study
-#     http://www.newplanetsoftware.com/jcc/multi_version.php
+#     https://github.com/jafl/jx_application_framework/blob/master/programs/code_crusader/multi_version.md
 
 # Useful directories
 

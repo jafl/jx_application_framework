@@ -2,9 +2,22 @@
 
 VERSION		"1.1.0"
 COPYRIGHT
-"Copyright (C) 2006-18 by New Planet Software, Inc.
+"Copyright (C) 2006-18 John Lindal.
 
-http://www.newplanetsoftware.com/"
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+https://sourceforge.net/projects/nps-ssh-askpass/"
 
 # ASKDialog
 
@@ -26,7 +39,7 @@ $copyright"
 CommandLineHelp::main
 "nps-ssh-askpass $vers
 
-http://www.newplanetsoftware.com/
+https://sourceforge.net/projects/nps-ssh-askpass/
 
 This program requires the X Window System.
 

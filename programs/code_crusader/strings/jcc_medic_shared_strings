@@ -1,6 +1,6 @@
 0
 
-# Copyright (C) 2000 by John Lindal. All rights reserved.
+# Copyright (C) 2000 by John Lindal.
 
 # CBFunctionMenu
 
@@ -365,8 +365,7 @@ FindFunctionPrompt::CBTreeDirector	"Name of function:"
 RequiresCodeMill::CBTree
 "This feature requires that the Code Mill plug-in be installed in one of the directories on your execution path.
 
-Code Mill is available from New Planet Software.
-http://www.newplanetsoftware.com/code_mill/"
+Code Mill is available from https://sourceforge.net/projects/nps-codemill/"
 
 # CBSymbolTable
 

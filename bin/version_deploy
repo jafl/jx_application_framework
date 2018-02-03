@@ -11,6 +11,17 @@ if [[ $# < 1 ]]; then
 fi
 
 for NAME in $*; do
+
+	if [[ ! -d $NAME ]]; then
+		echo "$NAME is not a directory";
+		continue;
+	fi
+
+	if [[ ! -d $NAME/release ]]; then
+		echo "$NAME is not ready for release";
+		continue;
+	fi
+
 	case $NAME in
 		code_crusader)
 			PROJ="codecrusader";;
@@ -24,6 +35,10 @@ for NAME in $*; do
 			PROJ="glove";;
 		leibnitz)
 			PROJ="leibnitz";;
+		ssh_askpass)
+			PROJ="nps-ssh-askpass";;
+		svn_client)
+			PROJ="nps-svnclient";;
 		systemg)
 			PROJ="nps-systemg";;
 		*)
