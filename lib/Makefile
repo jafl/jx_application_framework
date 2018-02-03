@@ -7,14 +7,6 @@ JX_CORE_LIBS := ../libjcore/. \
                 ../libjtree/. \
                 ../libjtoolbar/.
 
-DISTR_PROGS := ../programs/makemake/. \
-               ../programs/compile_jstrings/. \
-               ../programs/mondrian/. \
-               ../programs/jxlayout/. \
-               ../programs/jx_project_wizard/. \
-               ../programs/jx_memory_debugger/. \
-               ../programs/ssh_askpass/.
-
 include ${JX_ROOT}/include/make/jx_constants
 include ${JX_ROOT}/include/make/jx_config
 
@@ -35,7 +27,7 @@ Makefiles:
          ${MAKE} -f Make.header update_jcc; \
      fi
 	@${foreach dir, \
-          ${wildcard ../lib?*/. ../programs/*/.} \
+          ${wildcard ../lib?*/. ../tools/*/. ../programs/*/.} \
           ../ACE/test/ ../tutorial/, \
        ${BEGIN_DIR}; makemake; ${MAKE} Makefiles; ${END_DIR};}
 	@cd ../misc; ${MAKE} Makefiles
@@ -47,7 +39,7 @@ Makefiles:
 .PHONY : layouts
 layouts:
 	@${foreach dir, \
-          ${wildcard ../lib?*/. ../programs/*/.}, \
+          ${wildcard ../lib?*/. ../tools/*/. ../programs/*/.}, \
        ${BEGIN_DIR}; \
            if compgen -G "*.fd" > /dev/null; then \
                jxlayout --require-obj-names *.fd; \
@@ -66,8 +58,8 @@ install1:
 	@if { ! test -e ./libACE-*.so -o -e ./libACE-*.a; } then \
          cd ../ACE; ${MAKE} jxinstall; \
      fi
-	@if { ! test -x ../programs/makemake/makemake; } then \
-         cd ../programs/makemake; \
+	@if { ! test -x ../tools/makemake/makemake; } then \
+         cd ../tools/makemake; \
          ${MAKE} -f Makefile.port jxinstall; \
      fi
 	@if { ! test -f ../libjcore/Makefile; } then \
@@ -77,12 +69,12 @@ install1:
 .PHONY: install2
 install2:
 	@cd ../libjcore; ${MAKE} COMPILE_STRINGS=0 default
-	@cd ../programs/compile_jstrings; ${MAKE} jxinstall
+	@cd ../tools/compile_jstrings; ${MAKE} jxinstall
 	@-${foreach dir, \
           ${wildcard ../lib?*/.}, \
        ${BEGIN_DIR}; ${MAKE} default; ${END_DIR};}
 	@${foreach dir, \
-          ${wildcard ../programs/*/.}, \
+          ${wildcard ../tools/*/. ../programs/*/.}, \
        ${BEGIN_DIR}; ${MAKE} jxinstall; ${END_DIR};}
 
 #
@@ -109,27 +101,29 @@ test:
 # build all for ~/bin
 #
 
-PERSONAL_PROGS := \
+PERSONAL_TOOLS := \
     makemake compile_jstrings jxlayout webgif \
-    code_crusader code_medic code_mill \
-    drakon leibnitz systemg ssh_askpass \
     jx_project_wizard jx_memory_debugger
+
+PERSONAL_PROGS := \
+    code_crusader code_medic code_mill \
+    drakon leibnitz systemg ssh_askpass
 
 .PHONY : personal
 personal:
 	@${foreach dir, \
+          ${addprefix ../tools/,    ${PERSONAL_TOOLS}}
           ${addprefix ../programs/, ${PERSONAL_PROGS}}, \
        ${BEGIN_DIR}; ${MAKE} personal; ${END_DIR};}
 
 #
 # Release
 #
-# leibnitz is last so it can fail silently
-#
 
 RELEASE_PROGS := ${addprefix ../programs/, \
                    code_crusader code_medic code_mill \
-                   drakon glove ssh_askpass svn_client systemg leibnitz }
+                   systemg ssh_askpass svn_client \
+                   drakon leibnitz glove }
 
 .PHONY : release
 release:
@@ -143,20 +137,20 @@ release:
 .PHONY : tidy
 tidy:
 	@${foreach dir, \
-          ${wildcard ../lib?*/. ../programs/*/.} \
+          ${wildcard ../lib?*/. ../tools/*/. ../programs/*/.} \
           ../ACE/ ../misc/ ../tutorial/, \
        ${BEGIN_DIR}; ${MAKE} tidy; ${END_DIR};}
 
 .PHONY : clean
 clean:
 	@${foreach dir, \
-          ${wildcard ../lib?*/. ../programs/*/.} \
+          ${wildcard ../lib?*/. ../tools/*/. ../programs/*/.} \
           ../ACE/ ../misc/ ../tutorial/, \
        ${BEGIN_DIR}; ${MAKE} clean; ${END_DIR};}
 
 .PHONY : uninstall
 uninstall:
 	@${foreach dir, \
-          ${wildcard ../lib?*/. ../programs/*/.} \
+          ${wildcard ../lib?*/. ../tools/*/. ../programs/*/.} \
           ../ACE/, \
        ${BEGIN_DIR}; ${MAKE} jxuninstall; ${END_DIR};}

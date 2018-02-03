@@ -143,7 +143,7 @@ jxuninstall:
 JCC := Code_Crusader-${JCC_VERSION}
 
 JCC_TAR_DIR := ${shell pwd}
-MKMKDIR     := ${JX_ROOT}/programs/makemake
+MKMKDIR     := ${JX_ROOT}/tools/makemake
 
 JCC_RELEASE_TAR_NAME := Code_Crusader_${JCC_VERSION}.tar
 
