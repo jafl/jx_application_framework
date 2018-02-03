@@ -10,15 +10,17 @@ if [[ $# < 1 ]]; then
 	exit 1;
 fi
 
-for NAME in $*; do
+for P in $*; do
 
-	if [[ ! -d $NAME ]]; then
-		echo "$NAME is not a directory";
+	NAME=${P##*/};
+
+	if [[ ! -d programs/$NAME ]]; then
+		echo "=== $NAME is not a directory";
 		continue;
 	fi
 
-	if [[ ! -d $NAME/release ]]; then
-		echo "$NAME is not ready for release";
+	if [[ ! -d programs/$NAME/release ]]; then
+		echo "=== $NAME is not ready for release";
 		continue;
 	fi
 
@@ -46,8 +48,10 @@ for NAME in $*; do
 			exit 1;;
 	esac;
 
+	echo === $NAME;
 	scp programs/$NAME/release/* jafl,$PROJ@web.sourceforge.net:htdocs/;
 done
 
 # css
+echo === common files
 scp -r doc/html/* jafl,libjx@web.sourceforge.net:htdocs/;
