@@ -5,7 +5,7 @@
 
 	BASE CLASS = public JXMDIServer
 
-	Copyright (C) <Year> by <Company>. All rights reserved.
+	Copyright (C) <Year> by <Company>.
 
  *****************************************************************************/
 

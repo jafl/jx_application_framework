@@ -3,7 +3,7 @@
 
 	Interface for the GMAccountMenu class
 
-	Copyright (C) 1999 by Glenn W. Bach.  All rights reserved.
+	Copyright (C) 1999 by Glenn W. Bach.
 
  *****************************************************************************/
 

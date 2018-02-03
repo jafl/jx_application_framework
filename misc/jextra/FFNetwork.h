@@ -3,7 +3,7 @@
 
 	Interface for the FFNetwork class.
 
-	Copyright (C) 1996 by John Lindal. All rights reserved.
+	Copyright (C) 1996 by John Lindal.
 
  ******************************************************************************/
 

@@ -36,7 +36,7 @@
 
 	Refer to the docs for JListIterator for more details.
 
-	Copyright (C) 2016-17 by John Lindal. All rights reserved.
+	Copyright (C) 2016-17 by John Lindal.
 
  ******************************************************************************/
 

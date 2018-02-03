@@ -3,7 +3,7 @@
 
 	Routines to help with Version Control Systems.
 
-	Copyright (C) 2005 John Lindal. All rights reserved.
+	Copyright (C) 2005 John Lindal.
 
  ******************************************************************************/
 

@@ -3,7 +3,7 @@
 
 	Test random number code.
 
-	Copyright (C) 1997 by Dustin Laurence.  All rights reserved.
+	Copyright (C) 1997 by Dustin Laurence.
 
  *****************************************************************************/
 

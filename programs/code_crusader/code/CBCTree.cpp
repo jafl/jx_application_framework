@@ -5,7 +5,7 @@
 
 	BASE CLASS = CBTree
 
-	Copyright (C) 1995-99 John Lindal. All rights reserved.
+	Copyright (C) 1995-99 John Lindal.
 
  ******************************************************************************/
 

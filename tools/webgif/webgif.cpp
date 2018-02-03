@@ -12,7 +12,7 @@
 		Pad the colormap to get 17 colors.  This forces Netscape to dither
 		it instead of performing color substitution.
 
-	Copyright (C) 1998 by John Lindal. All rights reserved.
+	Copyright (C) 1998 by John Lindal.
 
  ******************************************************************************/
 

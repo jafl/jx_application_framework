@@ -3,7 +3,7 @@
 
 	Useful functions for dealing with the mouse cursor.
 
-	Copyright (C) 2003 by John Lindal. All rights reserved.
+	Copyright (C) 2003 by John Lindal.
 
  ******************************************************************************/
 

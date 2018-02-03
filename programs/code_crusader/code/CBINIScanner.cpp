@@ -5,7 +5,7 @@
 
 	BASE CLASS = public CBINIFlexLexer
 
-	Copyright (C) 2013 by John Lindal.  All rights reserved.
+	Copyright (C) 2013 by John Lindal.
 
  *****************************************************************************/
 

@@ -3,7 +3,7 @@
 
 	Interface for the JX2DCursorMarkTable class
 
-	Copyright (C) 1997 by Glenn W. Bach. All rights reserved.
+	Copyright (C) 1997 by Glenn W. Bach.
 
  ******************************************************************************/
 

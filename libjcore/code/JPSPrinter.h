@@ -3,7 +3,7 @@
 
 	Interface for the JPSPrinter class
 
-	Copyright (C) 1996-97 by John Lindal & Glenn Bach. All rights reserved.
+	Copyright (C) 1996-97 by John Lindal & Glenn Bach.
 
  ******************************************************************************/
 

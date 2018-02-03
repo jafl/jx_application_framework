@@ -3,7 +3,7 @@
 
 	BASE CLASS = JBroadcaster
 
-	Copyright @ 2008-09 by John Lindal.  All rights reserved.
+	Copyright @ 2008-09 by John Lindal.
 
  ******************************************************************************/
 

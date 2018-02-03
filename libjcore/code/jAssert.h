@@ -3,7 +3,7 @@
 
 	Interface for jAssert.cc
 
-	Copyright (C) 1996-2017 by John Lindal. All rights reserved.
+	Copyright (C) 1996-2017 by John Lindal.
 
  ******************************************************************************/
 

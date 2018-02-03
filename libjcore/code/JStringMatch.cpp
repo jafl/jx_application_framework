@@ -7,7 +7,7 @@
 	with JStringIterator, this object is automatically updated when the
 	underlying JString changes.
 
-	Copyright (C) 2016 by John Lindal. All rights reserved.
+	Copyright (C) 2016 by John Lindal.
 
  ******************************************************************************/
 

@@ -4,7 +4,7 @@
 	System init code should call SetDefaultColorIndex so default constructor
 	for JFontStyle will work correctly.
 
-	Copyright (C) 1996 by John Lindal. All rights reserved.
+	Copyright (C) 1996 by John Lindal.
 
  ******************************************************************************/
 

@@ -3,7 +3,7 @@
 
 	Interface for GAddressBaseTreeNode class.
 
-	Copyright (C) 1998 by Glenn W. Bach. All rights reserved.
+	Copyright (C) 1998 by Glenn W. Bach.
 
  ******************************************************************************/
 

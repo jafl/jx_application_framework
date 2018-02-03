@@ -3,7 +3,7 @@
 
 	Interface for the JXMacWinPrefsDialog class
 
-	Copyright (C) 2002 by Glenn W. Bach. All rights reserved.
+	Copyright (C) 2002 by Glenn W. Bach.
 
  ******************************************************************************/
 

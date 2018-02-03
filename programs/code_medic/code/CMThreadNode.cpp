@@ -3,7 +3,7 @@
 
 	BASE CLASS = public JNamedTreeNode
 
-	Copyright (C) 2011 by John Lindal.  All rights reserved.
+	Copyright (C) 2011 by John Lindal.
 
  *****************************************************************************/
 

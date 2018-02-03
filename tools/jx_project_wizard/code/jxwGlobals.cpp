@@ -3,7 +3,7 @@
 
 	Access to global objects and factories.
 
-	Copyright (C) 2000 by John Lindal. All rights reserved.
+	Copyright (C) 2000 by John Lindal.
 
  ******************************************************************************/
 

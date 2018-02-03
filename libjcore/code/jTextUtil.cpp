@@ -3,7 +3,7 @@
 
 	Utilities for text & JTextEditor.
 
-	Copyright (C) 2016-17 by John Lindal. All rights reserved.
+	Copyright (C) 2016-17 by John Lindal.
 
  ******************************************************************************/
 

@@ -7,7 +7,7 @@
 
 	BASE CLASS = JXTable
 
-	Copyright (C) 1998-99 by John Lindal.  All rights reserved.
+	Copyright (C) 1998-99 by John Lindal.
 
  ******************************************************************************/
 

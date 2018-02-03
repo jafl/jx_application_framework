@@ -3,7 +3,7 @@
 
 	Interface for the JXDockDirector class
 
-	Copyright (C) 2002-03 by John Lindal. All rights reserved.
+	Copyright (C) 2002-03 by John Lindal.
 
  ******************************************************************************/
 

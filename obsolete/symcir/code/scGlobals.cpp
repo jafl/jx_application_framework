@@ -3,7 +3,7 @@
 
 	Access to xsymcir global objects and factories.
 
-	Copyright (C) 1998 John Lindal. All rights reserved.
+	Copyright (C) 1998 John Lindal.
 
  ******************************************************************************/
 

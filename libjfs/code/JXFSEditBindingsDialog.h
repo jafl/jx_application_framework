@@ -1,7 +1,7 @@
 /******************************************************************************
  JXFSEditBindingsDialog.h
 
-	Copyright (C) 1997 by Glenn Bach.  All rights reserved.
+	Copyright (C) 1997 by Glenn Bach.
 
  ******************************************************************************/
 

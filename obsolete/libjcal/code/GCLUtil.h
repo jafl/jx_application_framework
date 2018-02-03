@@ -3,7 +3,7 @@
 
 	Utilities and definitions for calendar
 
-	Copyright (C) 1999 by Glenn W. Bach.  All rights reserved.
+	Copyright (C) 1999 by Glenn W. Bach.
 
  ******************************************************************************/
 

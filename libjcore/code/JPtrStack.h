@@ -3,7 +3,7 @@
 
 	Interface for JPtrStack class
 
-	Copyright (C) 1996-97 John Lindal. All rights reserved.
+	Copyright (C) 1996-97 John Lindal.
 
  ******************************************************************************/
 

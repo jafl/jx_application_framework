@@ -7,7 +7,7 @@
 
 	BASE CLASS = SCDepSource
 
-	Copyright (C) 1995 by John Lindal. All rights reserved.
+	Copyright (C) 1995 by John Lindal.
 
  ******************************************************************************/
 

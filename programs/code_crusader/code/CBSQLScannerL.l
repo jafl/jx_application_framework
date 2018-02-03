@@ -1,6 +1,6 @@
 %{
 /*
-Copyright (C) 2017 by John Lindal. All rights reserved.
+Copyright (C) 2017 by John Lindal.
 
 This scanner reads a SQL file and returns CBSQLScanner::Tokens.
 */

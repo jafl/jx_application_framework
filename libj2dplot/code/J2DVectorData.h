@@ -3,7 +3,7 @@
 
 	Interface for the J2DVectorData class.
 
-	Copyright @ 1998 by Glenn W. Bach. All rights reserved.
+	Copyright @ 1998 by Glenn W. Bach.
 
  ********************************************************************************/
 

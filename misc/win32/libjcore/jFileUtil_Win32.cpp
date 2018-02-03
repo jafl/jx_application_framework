@@ -3,7 +3,7 @@
 
 	File utilities implemented for the Windows System.
 
-	Copyright (C) 2005 by John Lindal. All rights reserved.
+	Copyright (C) 2005 by John Lindal.
 
  ******************************************************************************/
 

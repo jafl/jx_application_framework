@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 1989, 1993, 1994
- *	The Regents of the University of California.  All rights reserved.
+ *	The Regents of the University of California.
  *
  * This code is derived from software contributed to Berkeley by
  * Kim Letkeman.
@@ -36,7 +36,7 @@
 
 static char copyright[] =
 "@(#) Copyright (c) 1989, 1993, 1994\n\
-	The Regents of the University of California.  All rights reserved.\n";
+	The Regents of the University of California.\n";
 static char sccsid[] = "@(#)cal.c	8.4 (Berkeley) 4/2/94";
 
 

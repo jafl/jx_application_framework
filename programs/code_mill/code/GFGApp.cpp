@@ -5,7 +5,7 @@
 
 	BASE CLASS = public JXApplication
 
-	Copyright (C) 2002 by New Planet Software. All rights reserved.
+	Copyright (C) 2002 by New Planet Software.
 
  *****************************************************************************/
 

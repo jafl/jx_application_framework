@@ -3,7 +3,7 @@
 
 	Useful functions usable with JPainter objects but specific to X.
 
-	Copyright (C) 1996 by John Lindal. All rights reserved.
+	Copyright (C) 1996 by John Lindal.
 
  ******************************************************************************/
 

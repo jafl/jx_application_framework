@@ -3,7 +3,7 @@
 
 	System independent URL utilities.
 
-	Copyright (C) 2008-10 by John Lindal. All rights reserved.
+	Copyright (C) 2008-10 by John Lindal.
 
  ******************************************************************************/
 

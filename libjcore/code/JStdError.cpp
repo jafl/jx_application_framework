@@ -5,7 +5,7 @@
 	errors from libc functions should guarantee that the error returned
 	reflects only that call.
 
-	Copyright (C) 1997-2000 by John Lindal. All rights reserved.
+	Copyright (C) 1997-2000 by John Lindal.
 
  *****************************************************************************/
 

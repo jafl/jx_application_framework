@@ -1,6 +1,6 @@
 %{
 /*
-Copyright (C) 2007 by John Lindal. All rights reserved.
+Copyright (C) 2007 by John Lindal.
 
 This scanner reads output from gdb --interpreter=mi2.
 */

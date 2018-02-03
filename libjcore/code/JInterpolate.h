@@ -1,8 +1,8 @@
 /******************************************************************************
  JInterpolate.h
 
-	Copyright (C) 1998 by Dustin Laurence.  All rights reserved.
-	Copyright (C) 2005-17 by John Lindal.  All rights reserved.
+	Copyright (C) 1998 by Dustin Laurence.
+	Copyright (C) 2005-17 by John Lindal.
 
  *****************************************************************************/
 

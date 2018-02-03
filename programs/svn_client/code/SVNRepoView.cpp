@@ -3,7 +3,7 @@
 
 	BASE CLASS = JXNamedTreeListWidget, SVNTabBase
 
-	Copyright @ 2008 by John Lindal.  All rights reserved.
+	Copyright @ 2008 by John Lindal.
 
  ******************************************************************************/
 

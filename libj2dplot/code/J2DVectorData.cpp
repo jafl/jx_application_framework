@@ -3,7 +3,7 @@
 
 	BASE CLASS = JPlotDataBase
 
-	Copyright @ 1998 by Glenn W. Bach. All rights reserved.
+	Copyright @ 1998 by Glenn W. Bach.
 
  ********************************************************************************/
 

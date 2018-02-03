@@ -58,7 +58,7 @@
 
 	BASE CLASS = none
 
-	Copyright (C) 1994-98 by John Lindal. All rights reserved.
+	Copyright (C) 1994-98 by John Lindal.
 
  ******************************************************************************/
 

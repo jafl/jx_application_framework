@@ -3,7 +3,7 @@
 
 	Interface for the JXStaticText class
 
-	Copyright (C) 1996-2017 by John Lindal. All rights reserved.
+	Copyright (C) 1996-2017 by John Lindal.
 
  ******************************************************************************/
 

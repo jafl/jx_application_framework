@@ -8,7 +8,7 @@
 	with string keys.  JHashTable< JStrValue<V> > is a hash table with a string
 	key and an arbitrary value.
 
-	Copyright (C) 1997 by Dustin Laurence.  All rights reserved.
+	Copyright (C) 1997 by Dustin Laurence.
 
  *****************************************************************************/
 

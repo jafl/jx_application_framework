@@ -3,7 +3,7 @@
 
 	Routines specific to Windows.
 
-	Copyright (C) 2005 John Lindal. All rights reserved.
+	Copyright (C) 2005 John Lindal.
 
  ******************************************************************************/
 

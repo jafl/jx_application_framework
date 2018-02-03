@@ -4,7 +4,7 @@
 	Class representing a feed forward neural network that uses tanh
 	activation functions.
 
-	Copyright (C) 1996 by John Lindal. All rights reserved.
+	Copyright (C) 1996 by John Lindal.
 
  ******************************************************************************/
 

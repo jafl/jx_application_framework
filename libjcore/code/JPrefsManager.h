@@ -3,7 +3,7 @@
 
 	Interface for the JPrefsManager class
 
-	Copyright (C) 1997 John Lindal. All rights reserved.
+	Copyright (C) 1997 John Lindal.
 
  ******************************************************************************/
 

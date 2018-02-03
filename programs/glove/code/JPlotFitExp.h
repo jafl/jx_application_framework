@@ -3,7 +3,7 @@
  
 	Interface for the JPlotFitExp class.
  
-	Copyright @ 2000 by Glenn W. Bach. All rights reserved.
+	Copyright @ 2000 by Glenn W. Bach.
 
  ********************************************************************************/
  

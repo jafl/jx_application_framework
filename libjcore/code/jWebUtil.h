@@ -3,7 +3,7 @@
 
 	Utility functions for dealing with URLs.
 
-	Copyright (C) 2008-10 by John Lindal. All rights reserved.
+	Copyright (C) 2008-10 by John Lindal.
 
  ******************************************************************************/
 

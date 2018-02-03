@@ -3,7 +3,7 @@
 
 	Interface for the JXAtMostOneCBGroup class
 
-	Copyright (C) 2006 by John Lindal. All rights reserved.
+	Copyright (C) 2006 by John Lindal.
 
  ******************************************************************************/
 

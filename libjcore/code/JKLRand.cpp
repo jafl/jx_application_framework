@@ -31,7 +31,7 @@
 	linear congruential generators.  See the notes in jRand.cc, and make sure you
 	understand how to use it properly.
 
-	Copyright (C) 1997 Dustin Laurence.  All rights reserved.
+	Copyright (C) 1997 Dustin Laurence.
 
 	Notes:
 

@@ -3,7 +3,7 @@
 
 	Interface for JFileArrayIndex class (used by JFileArray class)
 
-	Copyright (C) 1998 John Lindal. All rights reserved.
+	Copyright (C) 1998 John Lindal.
 
  ******************************************************************************/
 

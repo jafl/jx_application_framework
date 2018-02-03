@@ -3,7 +3,7 @@
 
 	Test code for the JStringMap class and related code.
 
-	Copyright (C) 1997 by Dustin Laurence.  All rights reserved.
+	Copyright (C) 1997 by Dustin Laurence.
 
  *****************************************************************************/
 

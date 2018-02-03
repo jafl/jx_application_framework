@@ -9,7 +9,7 @@
 	This file can expand to support other ways of specifying colors.
 	Conversions between the formats are handled via cross-constructors.
 
-	Copyright (C) 1997-98 by John Lindal. All rights reserved.
+	Copyright (C) 1997-98 by John Lindal.
 
  ******************************************************************************/
 

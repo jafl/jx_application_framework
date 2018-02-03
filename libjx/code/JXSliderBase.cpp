@@ -5,7 +5,7 @@
 
 	BASE CLASS = JXWidget, JSliderBase
 
-	Copyright (C) 1996 by John Lindal. All rights reserved.
+	Copyright (C) 1996 by John Lindal.
 
  ******************************************************************************/
 

@@ -5,7 +5,7 @@
 	display URL's and files should be passed to this object.  It contacts
 	the appropriate program (e.g. Firefox) to display the data.
 
-	Copyright (C) 2000-10 by John Lindal. All rights reserved.
+	Copyright (C) 2000-10 by John Lindal.
 
  ******************************************************************************/
 

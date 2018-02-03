@@ -6,7 +6,7 @@
 
 	BASE CLASS = JXVertPartition
 
-	Copyright (C) 2002-08 by John Lindal. All rights reserved.
+	Copyright (C) 2002-08 by John Lindal.
 
  ******************************************************************************/
 

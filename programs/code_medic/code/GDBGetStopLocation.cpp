@@ -3,7 +3,7 @@
 
 	BASE CLASS = CMCommand
 
-	Copyright (C) 2009-11 by John Lindal. All rights reserved.
+	Copyright (C) 2009-11 by John Lindal.
 
  ******************************************************************************/
 

@@ -5,7 +5,7 @@
 
 	BASE CLASS = JUnaryFunction
 
-	Copyright (C) 1997 by John Lindal. All rights reserved.
+	Copyright (C) 1997 by John Lindal.
 
  ******************************************************************************/
 

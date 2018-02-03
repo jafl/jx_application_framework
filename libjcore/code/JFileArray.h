@@ -3,7 +3,7 @@
 
 	Interface for the Array-in-a-File Class
 
-	Copyright (C) 1993-98 John Lindal. All rights reserved.
+	Copyright (C) 1993-98 John Lindal.
 
  ******************************************************************************/
 

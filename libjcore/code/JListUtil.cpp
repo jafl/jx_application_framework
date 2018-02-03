@@ -3,7 +3,7 @@
 
 	Useful code for JListT and JTableData message classes.
 
-	Copyright (C) 1996-97 by John Lindal. All rights reserved.
+	Copyright (C) 1996-97 by John Lindal.
 
  ******************************************************************************/
 

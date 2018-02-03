@@ -4,7 +4,7 @@
 	Interface for the JXPathInput class
 
 	Copyright (C) 1996 by Glenn W. Bach.
-	Copyright (C) 1998 by John Lindal. All rights reserved.
+	Copyright (C) 1998 by John Lindal.
 
  ******************************************************************************/
 

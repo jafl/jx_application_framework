@@ -3,7 +3,7 @@
 
 	Interface for the JString class
 
-	Copyright (C) 1994-2016 by John Lindal. All rights reserved.
+	Copyright (C) 1994-2016 by John Lindal.
 
  ******************************************************************************/
 

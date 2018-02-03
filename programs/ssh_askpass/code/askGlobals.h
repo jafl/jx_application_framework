@@ -1,7 +1,7 @@
 /******************************************************************************
  askGlobals.h
 
-   Copyright (C) 2006 by New Planet Software, Inc.. All rights reserved.
+   Copyright (C) 2006 by New Planet Software, Inc..
 
  *****************************************************************************/
 

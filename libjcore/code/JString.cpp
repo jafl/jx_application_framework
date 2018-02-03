@@ -27,7 +27,7 @@
 
 	BASE CLASS = none
 
-	Copyright (C) 1994-2016 by John Lindal. All rights reserved.
+	Copyright (C) 1994-2016 by John Lindal.
 
  ******************************************************************************/
 
@@ -2371,7 +2371,7 @@ JAppendChar(char s1[], char c)
 
 	Assembled routines for dealing with string<->number conversion.
 
-	Copyright (C) 1992 John Lindal. All rights reserved.
+	Copyright (C) 1992 John Lindal.
 
  -----------------------------------------------------------------------------*/
 
@@ -2767,7 +2767,7 @@ int i;
 	Assembled routines for dealing with string conversion.
 	These routines only require vanilla C.
 
-	Copyright (C) 1992 John Lindal. All rights reserved.
+	Copyright (C) 1992 John Lindal.
 
  -----------------------------------------------------------------------------*/
 

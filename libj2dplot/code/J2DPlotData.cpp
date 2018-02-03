@@ -3,7 +3,7 @@
 
 	J2DPlotData class.
 
-	Copyright @ 1997 by Glenn W. Bach. All rights reserved.
+	Copyright @ 1997 by Glenn W. Bach.
 
  ********************************************************************************/
 

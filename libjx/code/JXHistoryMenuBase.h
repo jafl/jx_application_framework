@@ -3,7 +3,7 @@
 
 	Interface for the JXHistoryMenuBase class
 
-	Copyright (C) 1998-05 by John Lindal. All rights reserved.
+	Copyright (C) 1998-05 by John Lindal.
 
  ******************************************************************************/
 

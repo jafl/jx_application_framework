@@ -3,7 +3,7 @@
 
 	Class to represent the states of the mouse buttons that X defines.
 
-	Copyright (C) 1996 John Lindal. All rights reserved.
+	Copyright (C) 1996 John Lindal.
 
  ******************************************************************************/
 

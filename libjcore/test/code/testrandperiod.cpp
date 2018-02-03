@@ -5,7 +5,7 @@
 	Because this takes so long it won't be run very often, it is a program of
 	its own rather than part of testrand.
 
-	Copyright (C) 1997 by Dustin Laurence.  All rights reserved.
+	Copyright (C) 1997 by Dustin Laurence.
 
  *****************************************************************************/
 

@@ -3,7 +3,7 @@
 
 	Interface for JListIterator class template
 
-	Copyright (C) 1994-97 by John Lindal. All rights reserved.
+	Copyright (C) 1994-97 by John Lindal.
 
  ******************************************************************************/
 

@@ -3,7 +3,7 @@
 
 	Stores complete font information required to render.
 
-	Copyright (C) 2016 by John Lindal. All rights reserved.
+	Copyright (C) 2016 by John Lindal.
 
  ******************************************************************************/
 

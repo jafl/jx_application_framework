@@ -3,7 +3,7 @@
 
 	Interface for the JXFileListTable class
 
-	Copyright (C) 1998-99 by John Lindal.  All rights reserved.
+	Copyright (C) 1998-99 by John Lindal.
 
  ******************************************************************************/
 

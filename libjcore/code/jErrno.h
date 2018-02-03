@@ -4,7 +4,7 @@
 	Augments errno.h to hide the fact that multi-threaded applications
 	must call a function to obtain the correct value of errno.
 
-	Copyright (C) 1995-99 by John Lindal. All rights reserved.
+	Copyright (C) 1995-99 by John Lindal.
 
  ******************************************************************************/
 

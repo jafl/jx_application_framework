@@ -3,7 +3,7 @@
 
 	Routines specific to UNIX.
 
-	Copyright (C) 1997-98 John Lindal. All rights reserved.
+	Copyright (C) 1997-98 John Lindal.
 
  ******************************************************************************/
 

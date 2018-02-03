@@ -1,6 +1,6 @@
 %{
 /*
-Copyright (C) 2004 by John Lindal. All rights reserved.
+Copyright (C) 2004 by John Lindal.
 
 This scanner reads a C# file and returns CBCSharpScanner::Tokens.
 */

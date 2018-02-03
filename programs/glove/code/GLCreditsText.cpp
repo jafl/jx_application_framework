@@ -1,7 +1,7 @@
 /******************************************************************************
 GLCreditsText.cc
 
-	Copyright (C) 1997 by John Lindal. All rights reserved.
+	Copyright (C) 1997 by John Lindal.
 
  ******************************************************************************/
 
@@ -42,7 +42,7 @@ const JCharacter* kCreditsText =
 "     ACE networking library </a>"
 "<p>"
 "     ACE is copyrighted by Douglas C. Schmidt and his research group at Washington "
-"     University, Copyright (c) 1993-1997, all rights reserved."
+"     University, Copyright (c) 1993-1997,"
 "</ul>"
 
 "</html>"

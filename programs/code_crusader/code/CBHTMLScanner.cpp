@@ -5,7 +5,7 @@
 
 	BASE CLASS = public CBPHPFlexLexer
 
-	Copyright (C) 2001 by John Lindal.  All rights reserved.
+	Copyright (C) 2001 by John Lindal.
 
  *****************************************************************************/
 

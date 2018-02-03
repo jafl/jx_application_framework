@@ -8,7 +8,7 @@
 			to allow XGrabServer(), XSetCloseDownMode(RetainPermanent),
 			XKillClient(non-local XID).
 
-	Copyright (C) 2005 by John Lindal. All rights reserved.
+	Copyright (C) 2005 by John Lindal.
 
  ******************************************************************************/
 

@@ -3,7 +3,7 @@
 
 	Header for jMath.cc
 
-	Copyright (C) 1992-99 John Lindal. All rights reserved.
+	Copyright (C) 1992-99 John Lindal.
 
  ******************************************************************************/
 

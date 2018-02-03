@@ -1,6 +1,6 @@
 %{
 /*
-Copyright (C) 2014 by John Lindal. All rights reserved.
+Copyright (C) 2014 by John Lindal.
 
 This scanner reads a PHP file and builds a CBPHPClass.
 */

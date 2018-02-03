@@ -3,7 +3,7 @@
 
 	Interface for JArray class
 
-	Copyright (C) 1994-97 by John Lindal. All rights reserved.
+	Copyright (C) 1994-97 by John Lindal.
 
  ******************************************************************************/
 

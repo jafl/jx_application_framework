@@ -3,8 +3,8 @@
 
 	A test program for JInterpolate.
 
-	Copyright (C) 1997 by Dustin Laurence.  All rights reserved.
-	Copyright (C) 2017 by John Lindal.  All rights reserved.
+	Copyright (C) 1997 by Dustin Laurence.
+	Copyright (C) 2017 by John Lindal.
 
  *****************************************************************************/
 

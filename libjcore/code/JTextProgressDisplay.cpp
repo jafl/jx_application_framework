@@ -3,7 +3,7 @@
 
 	Class for displaying the progress of a long process on the console.
 
-	Copyright (C) 1994 by John Lindal. All rights reserved.
+	Copyright (C) 1994 by John Lindal.
 
  ******************************************************************************/
 

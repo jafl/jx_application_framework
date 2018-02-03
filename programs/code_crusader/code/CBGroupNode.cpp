@@ -3,7 +3,7 @@
 
 	BASE CLASS = CBProjectNode
 
-	Copyright (C) 1999 John Lindal. All rights reserved.
+	Copyright (C) 1999 John Lindal.
 
  ******************************************************************************/
 

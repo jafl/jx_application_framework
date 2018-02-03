@@ -3,7 +3,7 @@
 
 	Interface for the J2DVectorPoint struct.
 
-	Copyright @ 1998 by Glenn W. Bach. All rights reserved.
+	Copyright @ 1998 by Glenn W. Bach.
 
  ********************************************************************************/
 

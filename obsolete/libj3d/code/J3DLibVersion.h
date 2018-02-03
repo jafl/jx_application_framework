@@ -3,7 +3,7 @@
 
 	Defines current version of J3D library
 
-	Copyright (C) 1998-2010 by John Lindal. All rights reserved.
+	Copyright (C) 1998-2010 by John Lindal.
 
  ******************************************************************************/
 

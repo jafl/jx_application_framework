@@ -3,7 +3,7 @@
 
 	Version information for unstructured data files
 
-	Copyright (C) 2000-04 by John Lindal. All rights reserved.
+	Copyright (C) 2000-04 by John Lindal.
 
  ******************************************************************************/
 

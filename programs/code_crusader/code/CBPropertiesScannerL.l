@@ -1,6 +1,6 @@
 %{
 /*
-Copyright (C) 2015 by John Lindal. All rights reserved.
+Copyright (C) 2015 by John Lindal.
 
 This scanner reads a PHP .ini file and returns CBPropertiesScanner::Tokens.
 */

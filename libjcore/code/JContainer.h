@@ -3,7 +3,7 @@
 
 	Interface for the JContainer class
 
-	Copyright (C) 1994 John Lindal. All rights reserved.
+	Copyright (C) 1994 John Lindal.
 
  ******************************************************************************/
 

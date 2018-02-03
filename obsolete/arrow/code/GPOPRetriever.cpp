@@ -5,7 +5,7 @@
 
 	BASE CLASS = virtual public JBroadcaster
 
-	Copyright (C) 1998 by Glenn W. Bach.  All rights reserved.
+	Copyright (C) 1998 by Glenn W. Bach.
 
 	Need to use JAsynchDataReceiver, to get chunks of data rather than
 	lines.

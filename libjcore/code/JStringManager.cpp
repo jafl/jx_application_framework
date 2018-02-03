@@ -33,7 +33,7 @@
 
 	BASE CLASS = public JStringPtrMap<JString>
 
-	Copyright (C) 2000 by John Lindal.  All rights reserved.
+	Copyright (C) 2000 by John Lindal.
 
  *****************************************************************************/
 

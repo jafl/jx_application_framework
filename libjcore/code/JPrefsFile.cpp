@@ -31,7 +31,7 @@
 
 	BASE CLASS = JFileArray
 
-	Copyright (C) 1995-2001 John Lindal. All rights reserved.
+	Copyright (C) 1995-2001 John Lindal.
 
  ******************************************************************************/
 

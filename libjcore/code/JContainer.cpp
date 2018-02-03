@@ -18,7 +18,7 @@
 
 	BASE CLASS = JCollection
 
-	Copyright (C) 1994 John Lindal. All rights reserved.
+	Copyright (C) 1994 John Lindal.
 
  ******************************************************************************/
 

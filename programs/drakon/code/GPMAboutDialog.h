@@ -1,7 +1,7 @@
 /******************************************************************************
  GPMAboutDialog.h
 
-	Copyright (C) 2001 by New Planet Software. All rights reserved.
+	Copyright (C) 2001 by New Planet Software.
 
  ******************************************************************************/
 

@@ -3,7 +3,7 @@
 
 	Interface for the CBProjectDocument class
 
-	Copyright (C) 1996-2001 by John Lindal. All rights reserved.
+	Copyright (C) 1996-2001 by John Lindal.
 
  ******************************************************************************/
 

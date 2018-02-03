@@ -3,7 +3,7 @@
 
 	flex uses a different argument type on OSX and Linux :(
 
-	Copyright (C) 2014 by John Lindal. All rights reserved.
+	Copyright (C) 2014 by John Lindal.
 
  ******************************************************************************/
 

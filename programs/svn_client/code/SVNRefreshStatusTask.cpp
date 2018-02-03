@@ -6,7 +6,7 @@
 
 	BASE CLASS = JXIdleTask, virtual JBroadcaster
 
-	Copyright (C) 2008 by John Lindal. All rights reserved.
+	Copyright (C) 2008 by John Lindal.
 
  ******************************************************************************/
 

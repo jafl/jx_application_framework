@@ -3,7 +3,7 @@
 
 	Interface for the JTextProgressDisplay class.
 
-	Copyright (C) 1994 by John Lindal. All rights reserved.
+	Copyright (C) 1994 by John Lindal.
 
  ******************************************************************************/
 

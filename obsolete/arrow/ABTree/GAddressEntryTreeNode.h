@@ -3,7 +3,7 @@
 
 	Interface for GAddressEntryTreeNode class.
 
-	Copyright <A9> 1997 by Glenn W. Bach. All rights reserved.
+	Copyright <A9> 1997 by Glenn W. Bach.
 
  ******************************************************************************/
 

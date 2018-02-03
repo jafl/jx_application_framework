@@ -3,7 +3,7 @@
 
 	These routines help when parsing Spice netlist files.
 
-	Copyright (C) 1995 John Lindal. All rights reserved.
+	Copyright (C) 1995 John Lindal.
 
  ******************************************************************************/
 

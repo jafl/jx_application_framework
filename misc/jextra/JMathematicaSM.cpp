@@ -5,7 +5,7 @@
 
 	BASE CLASS = JSymbolicMath
 
-	Copyright (C) 1995-96 John Lindal. All rights reserved.
+	Copyright (C) 1995-96 John Lindal.
 
  ******************************************************************************/
 

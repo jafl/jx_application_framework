@@ -3,7 +3,7 @@
 
 	Program to generate JX code from an fdesign .fd file.
 
-	Copyright (C) 1996-2018 by John Lindal. All rights reserved.
+	Copyright (C) 1996-2018 by John Lindal.
 
  ******************************************************************************/
 
@@ -32,7 +32,7 @@ static const JUtf8Byte* kVersionStr =
 
 	"jxlayout 5.0.0\n"
 	"\n"
-	"Copyright (C) 1996-2018 John Lindal.  All rights reserved.";
+	"Copyright (C) 1996-2018 John Lindal.";
 
 static const JUtf8Byte* kBackupSuffix = "~";
 

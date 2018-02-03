@@ -3,7 +3,7 @@
 
 	Access to JX global objects and factories.
 
-	Copyright (C) 1997-99 John Lindal. All rights reserved.
+	Copyright (C) 1997-99 John Lindal.
 
  ******************************************************************************/
 

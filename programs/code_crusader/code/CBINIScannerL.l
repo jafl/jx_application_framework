@@ -1,6 +1,6 @@
 %{
 /*
-Copyright (C) 2013 by John Lindal. All rights reserved.
+Copyright (C) 2013 by John Lindal.
 
 This scanner reads a PHP .ini file and returns CBINIScanner::Tokens.
 */

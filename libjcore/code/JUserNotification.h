@@ -3,7 +3,7 @@
 
 	Interface for the JUserNotification class.
 
-	Copyright (C) 1994-96 by John Lindal. All rights reserved.
+	Copyright (C) 1994-96 by John Lindal.
 
  ******************************************************************************/
 

@@ -5,7 +5,7 @@
  CBEiffelScanner.h
 
 	Copyright (C) 1997 by Dustin Laurence.
-	Copyright (C) 2004 by John Lindal.  All rights reserved.
+	Copyright (C) 2004 by John Lindal.
 
  *****************************************************************************/
 

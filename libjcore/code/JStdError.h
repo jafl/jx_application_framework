@@ -3,7 +3,7 @@
 
 	Defines the most common errors.
 
-	Copyright (C) 1997-2000 by John Lindal. All rights reserved.
+	Copyright (C) 1997-2000 by John Lindal.
 
  ******************************************************************************/
 

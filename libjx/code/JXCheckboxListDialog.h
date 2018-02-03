@@ -3,7 +3,7 @@
 
 	Interface for the JXCheckboxListDialog class
 
-	Copyright (C) 2017 by John Lindal. All rights reserved.
+	Copyright (C) 2017 by John Lindal.
 
  ******************************************************************************/
 
