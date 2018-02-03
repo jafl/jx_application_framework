@@ -1,0 +1,204 @@
+<html>
+<head>
+
+<title>Leibnitz Help</title>
+<link rel="stylesheet" type="text/css" href="http://libjx.sourceforge.net/help/base.css" />
+<link rel="stylesheet" type="text/css" href="../../../doc/html/help/base.css" />	<!-- dev -->
+
+</head>
+<body>
+
+<h1>Leibnitz Help</h1>
+
+<p>Please submit all suggestions and bugs via <a href="https://github.com/jafl/jx_application_framework/issues">github</a>.</p>
+<hr>
+
+<h2>Table of Contents</h2>
+
+<ul>
+	<li><a href="#THXOverviewHelp">Overview</a></li>
+
+	<li><a href="#THXExprHelp">Evaluating expressions</a></li>
+
+	<li><a href="#THX2DPlotHelp">Plotting 2D functions</a></li>
+
+	<li><a href="#THXConstantsHelp">Defining named constants</a></li>
+
+	<li><a href="#THXBaseConvHelp">Base conversions</a></li>
+
+	<li><a href="ChangeLog.html">Changes from previous versions</a></li>
+
+	<li><a href="http://libjx.sourceforge.net/help/credits.html">Credits</a></li>
+
+	<li><a href="https://www.gnu.org/licenses/gpl-3.0.en.html">License</a></li>
+</ul>
+
+
+<hr>
+<h2><a name="THXOverviewHelp">Overview of Leibnitz</a></h2>
+
+<p>Leibnitz provides the calculator you've always wanted, short of handwriting
+recognition.  The major features that it provides are:</p>
+
+<ul>
+	<li>evaluate expressions</li>
+
+	<li>plot 2D functions</li>
+
+	<li>convert between different bases, e.g., hex &#x27F7; decimal
+</ul>
+
+
+<hr>
+<h2><a name="THXExprHelp">Evaluating Expressions</a></h2>
+
+<p>The Expression window provides a simple, yet powerful interface for entering and evaluating algebraic expressions.  The top half of the window displays the expression, while the bottom half displays a history of the expressions that have been evaluated, called the tape.</p>
+
+<p>At the right is the keypad that you can use to enter simple expressions. This works just like a hand held calculator.  "Clear" clears the value that you are entering, while "Clear all" clears the entire expression. Once you have mastered the keyboard interface described below, you will probably want to hide the keypad by turning off the "Show keypad" option on the Preferences menu.</p>
+
+<p>The Close button in the upper right corner closes the window and discards the expression and the contents of the tape.  When you quit, all the existing windows are saved, so you can start right where you left off when you run the program again later.</p>
+
+<p>Expression windows have their <code>WM_CLASS</code> set to <code>Leibnitz_Expression</code>.  This can be used to filter these windows out of a window manager's taskbar.</p>
+
+<h3>Entering Expressions</h3>
+
+<p>The simplest way to explain the interface is that you just type as if you were entering a text expression.  The expression will be built graphically as you type.</p>
+
+<p>New expressions are initally empty.  This is drawn as a single question mark (?), which represents an empty input field.  When you click on the input field, it becomes active, and you are ready to start typing.</p>
+
+<p>Input fields accept numbers and the named constants defined in the <a href="#THXConstantsHelp">Constants</a> window.  When you type an operator, the input field is parsed and becomes part of the expression, and a new input field is created based on which operator you typed.  The operators are as follows:</p>
+
+<pre>
+   +  addition
+   -  subtraction
+   *  multiplication
+   /  division
+   ^  exponentiation
+   |  parallel combination:  x||y = x*y/(x+y)
+</pre>
+
+<p>You actually only need to type a unique prefix of a named constant because the editor will complete it for you automatically when parsing it.</p>
+
+<p>While entering a number, typing "e" lets you enter the exponent.</p>
+
+<p>Input fields also accept certain pre-defined constants:</p>
+
+<pre>
+   pi = 3.141592654...
+   e  = 2.718281828...
+   i  = sqrt(-1)
+   j  = sqrt(-1) (for Electrical Engineers)
+</pre>
+
+<p>You can also enter the names of pre-defined functions.  The function name is parsed when you type a left parenthesis "(".  You can also use the "Apply function" submenu on the Math menu if you don't remember the name of the function that you need.</p>
+
+<pre>
+   sqrt       square root
+   abs        absolute value
+   sign       algebraic sign (+1, -1)
+   round      nearest integer
+   truncate   toss fractional part
+
+   log        logarithm to an arbitrary base
+   log10      logarithm base 10
+   ln         natural logarithm
+   log2       logarithm base 2
+
+   sin        sine
+   cos        cosine
+   tan        tangent
+   arcsin     inverse sine
+   arccos     inverse cosine
+   arctan     inverse tangent(x) (-&pi;/2 to +&pi;/2)
+   arctan2    inverse tangent(y,x) (-&pi; to +&pi;)
+
+   sinh       hyperbolic sine
+   cosh       hyperbolic cosine
+   tanh       hyperbolic tangent
+   arcsinh    inverse hyperbolic sine
+   arccosh    inverse hyperbolic cosine
+   arctanh    inverse hyperbolic tangent
+
+   re         real part
+   im         imaginary part
+   arg        phase angle
+   conjugate  complex conjugate
+   rotate     rotate(complex number, angle to rotate in degrees)
+
+   max        maximum of its arguments
+   min        minimum of its arguments
+   parallel   parallel combination: x||y = x*y/(x+y)
+</pre>
+
+<p>The last three functions can take an arbitrary number of arguments.  Typing a comma ( , ) adds another argument.</p>
+
+<p>While entering an expression, the return key, the space bar, and the right parenthesis ")" all parse the current input field and then select it.  The spacebar and the right parenthesis will extend the selection "upwards" when pressed again.  This allows you to enter an expression like <code>x^2+1</code> without using the mouse by typing <code>x ^ 2 space space + 1</code></p>
+
+<p>Selecting a piece of the expression lets you manipulate it using the Math menu.  The "Apply function" submenu transfers the selection to the first argument of the function that you select from the menu.</p>
+
+<p>The Backspace key replaces the selection with an input field.  Typing Backspace again deletes the input field.  Typing an operator applies it to the selection.  Typing other text replaces the selection with an input field.</p>
+
+<p>Double clicking on a number or a named constant lets you edit it.</p>
+
+<p>There can be more than one empty input field in an expression.  A question mark is used to represent each one.  The Tab key moves you from one input field to another.</p>
+
+<h3>Using the clipboard</h3>
+
+<p>When you copy an expression to the clipboard, you can paste it into any other program to obtain a textual version of the expression.  You can also copy an expression in this form from another program and paste it into any Expression window.</p>
+
+
+<hr>
+<h2><a name="THX2DPlotHelp">Plotting 2D Functions</a></h2>
+
+<p>When you select "Plot 2D function..." from a menu, you will first get a dialog asking you to enter the function to plot.  The independent variable is called x, so for example, to plot the sine function, you would enter sin(x).</p>
+
+<p>The menu lets you specify whether to create a new graph or to add the curve to an existing graph.  The existing graphs are listed by displaying their titles.</p>
+
+<p>The curve name is the initial name that will be associated with the curve in the graph's legend.  If you leave this empty, it will be set to the function itself.</p>
+
+<p>The initial range is the range to use when first displaying the curve.  Once the graph is created, you can zoom in or out.</p>
+
+<h3>Changing the appearance of a graph</h3>
+
+<p>You can change the scale of the graph in several ways.  The "Change scale..." item on the Options menu opens a dialog for changing the axes ranges and switching between linear and logarithmic scales.  Double-clicking on either axis also opens this dialog.  Clicking and dragging inside the graph's frame zooms in to show the selected region.  If you hold down the Meta key, a nice looking scale will be chosen around the area of interest.  To return the scale to the initial setting, select "Reset scale" from the Options menu.</p>
+
+<p>To change the other settings for a curve, either select "Change curve options..." from the Options menu or double-click on the appropriate curve label in the legend.</p>
+
+<p>You can edit the graph's title and axis labels by either selecting "Change labels..." from the Options menu or double-clicking on the text.</p>
+
+<p>The range specifies what portion of the curves will be drawn.  This is useful if you need to use a particular scale, but only want to show the function over a part of the scale.  "Copy scale to range" sets the range to the current scale, so when you zoom out, the portion of the curve that is drawn remains the same.  "Change range..." opens a dialog so you can set the range directly.  "Clear range" clears the range so the curves are always drawn to fill the window.</p>
+
+<p>Cursors help you estimate the position of various features on a curve.  To move a cursor, simply click on it and then either drag it around or use the arrow keys for finer adjustments.  Holding down the Meta key while using the arrow keys makes the cursor move faster.  If you turn on "Dual cursors," the values of both cursors will be displayed, along with the distance between them.  "Mark cursor" saves the position of the selected cursor in the Cursor Mark Values window and also draws a gray line at the position so you can find it on the graph.</p>
+
+<h3>Miscellaneous</h3>
+
+<p>Plot windows have their <code>WM_CLASS</code> set to <code>Leibnitz_Plot</code>.  This can be used to filter these windows out of a window manager's taskbar.</p>
+
+
+<hr>
+<h2><a name="THXConstantsHelp">Defining Constants</a></h2>
+
+<p>The Constants window lets you define named constants for use in <a href="#THXExprHelp">expressions</a> and <a href="#THX2DPlotHelp">plots</a>.  The names x and y are reserved as the independent variables when plotting <a href="#THX2DPlotHelp">2D</a> functions.  The name t is reserved as the independent variable for the future, when parametric plots are implemented.  pi, Pi, &pi;, e, E, i, <code>I</code>, and j are also reserved to represent the standard mathematical constants 3.14..., 2.718..., and sqrt(-1).</p>
+
+<p>To include a Greek character in a name, either use the Font menu or type a back quote ( ` ).  The back quote toggles between Normal and Greek fonts.</p>
+
+<p>Following standard mathematical convention, all letters in the name beyond the first one are displayed as a subscript when the constant is used in an <a href="#THXExprHelp">Expression</a> window.</p>
+
+<p>The value of a named constant can be any valid expression such as 3 or -1+0.5*i. You can even include other named constants.  This allows you to reuse a value in several other constants and to store functions of x for plotting.</p>
+
+<p>The "New constant" item on the Actions menu creates a new constant with the initial value of zero.</p>
+
+<p>The "Remove constant" item on the Actions menu removes the selected constant, if it is not being used in any expressions or plots.  (Note that even if a constant is not visible in any Expression windows, it may still be used in an undo buffer.  If you quit and restart, all undo buffers will be cleared.)</p>
+
+<p>You can change the name and value of a constant even when it is in use.  All expressions will automatically be redrawn to display the new name, and all plots will be redrawn to use the new value.  Among other uses, this can help you visualize how a function changes as its parameters vary.</p>
+
+
+<hr>
+<h2><a name="THXBaseConvHelp">Base Conversion</a></h2>
+
+<p>The Base Conversion window lets you convert between base 2, 8, 10, and 16.  Simply enter the starting value in the text field corresponding to the original base and the values in all the other bases will be displayed automatically.  You can copy the text in any text field with the keyboard shortcut Meta-C.</p>
+
+<p>The <a href="#THXExprHelp">Expression</a> window also accepts hexadecimal values prefixed by <code>0x</code>, so you can convert from hex to decimal by simply typing the number and pressing return.</p>
+
+</body>
+</html>

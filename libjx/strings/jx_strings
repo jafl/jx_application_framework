@@ -163,39 +163,6 @@ UnreachableHosts::jXUtil
 
 $err"
 
-# JXComposeRuleList
-
-ComposeHelpPrefix::JXComposeRuleList
-
-"<html>
-<head>
-<title> Special key sequences </title>
-</head>
-<body>
-
-<h3> Special key sequences </h3>
-
-You can choose which keys on your keyboard should map to the Multi_key and
-the character modifier keys by using <tt>xmodmap</tt> in your <tt>~/.xinitrc</tt>
-file.  As an example, if you have a PC keyboard with the new Windows Menu key
-near the lower right corner, you can make it the Multi_key:
-
-<blockquote><tt>
-xmodmap -e \"keycode 117 = Multi_key\" <br>
-</tt></blockquote>
-
-To check what each key does, use \"<tt>xmodmap -pke</tt>\".
-<p>
-You can use <tt>xev</tt> to get the keycode for a particular key on your
-keyboard.  Run it from an <tt>xterm</tt>, move the cursor into the resulting
-window, press the key, and check the keycode value that is printed.
-<p>
-The following characters can be entered by typing the corresponding
-sequence of keys on the keyboard.  These sequences are defined in a
-Compose file in /usr/X11R6/lib/X11/locale/.
-<p>
-<table>"
-
 # JXDockManager
 
 WindowTitleSuffix::JXDockManager	" Dock #"
