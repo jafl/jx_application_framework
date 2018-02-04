@@ -18,7 +18,6 @@
 #include "thxGlobals.h"
 #include "thxStringData.h"
 #include "thxFileVersions.h"
-#include "thxHelpText.h"
 #include <JXHelpManager.h>
 #include <JXWindow.h>
 #include <JXMenuBar.h>
@@ -697,11 +696,11 @@ THXApp::HandleHelpMenu
 
 	else if (index == kHelpTOCCmd)
 		{
-		(JXGetHelpManager())->ShowSection(kTHXTOCHelpName);
+		(JXGetHelpManager())->ShowTOC();
 		}
 	else if (index == kHelpOverviewCmd)
 		{
-		(JXGetHelpManager())->ShowSection(kTHXOverviewHelpName);
+		(JXGetHelpManager())->ShowSection("THXOverviewHelp");
 		}
 	else if (index == kHelpWindowCmd)
 		{
@@ -710,11 +709,11 @@ THXApp::HandleHelpMenu
 
 	else if (index == kHelpChangeLogCmd)
 		{
-		(JXGetHelpManager())->ShowSection(kTHXChangeLogName);
+		(JXGetHelpManager())->ShowChangeLog();
 		}
 	else if (index == kHelpCreditsCmd)
 		{
-		(JXGetHelpManager())->ShowSection(kTHXCreditsName);
+		(JXGetHelpManager())->ShowCredits();
 		}
 }
 

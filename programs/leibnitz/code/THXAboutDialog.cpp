@@ -8,7 +8,6 @@
  ******************************************************************************/
 
 #include "THXAboutDialog.h"
-#include "thxHelpText.h"
 #include "thxGlobals.h"
 #include <JXApplication.h>
 #include <JXHelpManager.h>
@@ -168,18 +167,18 @@ THXAboutDialog::Receive
 		{
 		if (itsIsUpgradeFlag)
 			{
-			(JXGetHelpManager())->ShowSection(kTHXChangeLogName);
+			(JXGetHelpManager())->ShowChangeLog();
 			}
 		else
 			{
-			(JXGetHelpManager())->ShowSection(kTHXOverviewHelpName);
+			(JXGetHelpManager())->ShowTOC();
 			}
 		EndDialog(kJTrue);
 		}
 
 	else if (sender == itsCreditsButton && message.Is(JXButton::kPushed))
 		{
-		(JXGetHelpManager())->ShowSection(kTHXCreditsName);
+		(JXGetHelpManager())->ShowCredits();
 		EndDialog(kJTrue);
 		}
 

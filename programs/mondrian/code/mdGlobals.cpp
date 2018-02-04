@@ -41,7 +41,7 @@ MDCreateGlobals
 	thePrefsManager	= jnew MDPrefsManager(&isNew);
 	assert( thePrefsManager != NULL );
 
-	JXInitHelp(kMDTOCHelpName, kMDHelpSectionCount, kMDHelpSectionName);
+	JXInitHelp();
 
 	theMDIServer = jnew MDMDIServer;
 	assert( theMDIServer != NULL );

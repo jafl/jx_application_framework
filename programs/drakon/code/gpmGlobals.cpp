@@ -11,7 +11,6 @@
 #include "GPMApp.h"
 #include "GPMPrefsManager.h"
 #include "GPMMDIServer.h"
-#include "gpmHelpText.h"
 #include <JRegex.h>
 #include <jStreamUtil.h>
 
@@ -49,7 +48,7 @@ GPMCreateGlobals
 	thePrefsManager	= jnew GPMPrefsManager(&isNew);
 	assert( thePrefsManager != NULL );
 
-	JXInitHelp(kGPMTOCHelpName, kGPMHelpSectionCount, kGPMHelpSectionName);
+	JXInitHelp();
 
 	theMDIServer = jnew GPMMDIServer;
 	assert( theMDIServer != NULL );

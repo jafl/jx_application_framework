@@ -8,7 +8,6 @@
  ******************************************************************************/
 
 #include "testjxGlobals.h"
-#include "testjxHelpText.h"
 #include "TestDockManager.h"
 #include <JXMenu.h>
 #include <jFileUtil.h>
@@ -56,7 +55,7 @@ TestjxCreateGlobals
 		assert( theMDIServer != NULL );
 		}
 
-	JXInitHelp(NULL, kHelpSectionCount, kHelpSectionName);
+	JXInitHelp();
 }
 
 /******************************************************************************

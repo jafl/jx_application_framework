@@ -11,7 +11,6 @@
 #include "THX2DPlotFunctionDialog.h"
 #include "THXVarList.h"
 #include "thxGlobals.h"
-#include "thxHelpText.h"
 #include <JXDisplay.h>
 #include <JXWindow.h>
 #include <JXTextButton.h>
@@ -359,7 +358,7 @@ THX2DPlotDirector::Receive
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
-		(THXGetApplication())->HandleHelpMenu(itsHelpMenu, kTHX2DPlotHelpName,
+		(THXGetApplication())->HandleHelpMenu(itsHelpMenu, "THX2DPlotHelp",
 											  selection->GetIndex());
 		}
 

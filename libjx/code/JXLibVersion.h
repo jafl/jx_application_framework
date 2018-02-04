@@ -50,7 +50,10 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //	JXMenuBar:
 //		Fixed bug in FindMenu() so it searches overflow.  (What took me so long?)
 //	*** Replaced in-app help with web-based help.
+//	JXHelpManager:
 //	*** Removed JXHelpDirector, etc.
+//		Added methods ShowChangeLog() and ShowCredits().
+//	*** App must define HELP_URL and CHANGE_LOG_URL.
 //	All strings have been extracted to jx_strings.
 
 // version 3.1.0:

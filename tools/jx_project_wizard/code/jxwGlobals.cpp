@@ -11,7 +11,6 @@
 #include "JXWApp.h"
 #include "JXWPrefsManager.h"
 #include "JXWMainDialog.h"
-#include "jxwHelpText.h"
 #include <JXLibVersion.h>
 #include <jAssert.h>
 
@@ -42,7 +41,7 @@ JXWCreateGlobals
 	thePrefsManager	= jnew JXWPrefsManager(&isNew);
 	assert(thePrefsManager != NULL);
 
-	JXInitHelp(kJXWTOCHelpName, kJXWHelpSectionCount, kJXWHelpSectionName);
+	JXInitHelp();
 
 	return isNew;
 }

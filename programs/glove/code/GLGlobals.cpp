@@ -9,7 +9,6 @@
 #include "GLFitManager.h"
 #include "GLPrefsMgr.h"
 #include "GLMDIServer.h"
-#include "GLHelpText.h"
 
 #include <JXPTPrinter.h>
 
@@ -47,7 +46,7 @@ InitGLGlobals
 	itsPrefsMgr = jnew GLPrefsMgr(&isNew);
 	assert(itsPrefsMgr != NULL);
 	
-	JXInitHelp(kGLTOCHelpName, kHelpSectionCount, kHelpSectionName);
+	JXInitHelp();
 
 	itsPrinter = jnew JXPTPrinter();
 	assert(itsPrinter != NULL);

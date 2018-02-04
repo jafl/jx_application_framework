@@ -9,6 +9,8 @@ This software is subject to the license agreement set forth in the license (refe
 <URL>
 <EMail>"
 
+HELP_URL		"http://.../help.html"
+CHANGE_LOG_URL	"http://.../ChangeLog.html"
 VERSION_URL		"http://.../VERSION"
 DOWNLOAD_URL	"http://..."
 

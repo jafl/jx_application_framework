@@ -12,7 +12,6 @@
 
 #include "THXBaseConvDirector.h"
 #include "thxGlobals.h"
-#include "thxHelpText.h"
 #include <JXHelpManager.h>
 #include <JXDisplay.h>
 #include <JXWindow.h>
@@ -246,7 +245,7 @@ THXBaseConvDirector::Receive
 		}
 	else if (sender == itsHelpButton && message.Is(JXButton::kPushed))
 		{
-		(JXGetHelpManager())->ShowSection(kTHXBaseConvHelpName);
+		(JXGetHelpManager())->ShowSection("THXBaseConvHelp");
 		}
 
 	else

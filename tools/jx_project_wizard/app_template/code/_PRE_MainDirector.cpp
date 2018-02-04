@@ -8,7 +8,6 @@
  *****************************************************************************/
 
 #include "<PRE>MainDirector.h"
-#include "<pre>HelpText.h"
 #include "<pre>Globals.h"
 #include "<pre>ActionDefs.h"
 #include <JXWebBrowser.h>
@@ -356,24 +355,24 @@ void
 
 	else if (index == kTOCCmd)
 		{
-		(JXGetHelpManager())->ShowSection(k<PRE>TOCHelpName);
+		(JXGetHelpManager())->ShowTOC();
 		}
 	else if (index == kOverviewCmd)
 		{
-		(JXGetHelpManager())->ShowSection(k<PRE>OverviewHelpName);
+		(JXGetHelpManager())->ShowSection("OverviewHelp");
 		}
 	else if (index == kThisWindowCmd)
 		{
-		(JXGetHelpManager())->ShowSection(k<PRE>MainHelpName);
+		(JXGetHelpManager())->ShowSection("MainHelp");
 		}
 
 	else if (index == kChangesCmd)
 		{
-		(JXGetHelpManager())->ShowSection(k<PRE>ChangeLogName);
+		(JXGetHelpManager())->ShowChangeLog();
 		}
 	else if (index == kCreditsCmd)
 		{
-		(JXGetHelpManager())->ShowSection(k<PRE>CreditsName);
+		(JXGetHelpManager())->ShowCredits();
 		}
 }
 

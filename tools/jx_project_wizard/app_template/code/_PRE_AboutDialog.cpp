@@ -9,7 +9,6 @@
 
 #include "<PRE>AboutDialog.h"
 #include "<pre>Globals.h"
-#include "<pre>HelpText.h"
 #include <JXWindow.h>
 #include <JXTextButton.h>
 #include <JXStaticText.h>
@@ -148,18 +147,18 @@ void
 		{
 		if (itsIsUpgradeFlag)
 			{
-			(JXGetHelpManager())->ShowSection(k<PRE>ChangeLogName);
+			(JXGetHelpManager())->ShowChangeLog();
 			}
 		else
 			{
-			(JXGetHelpManager())->ShowSection(k<PRE>OverviewHelpName);
+			(JXGetHelpManager())->ShowTOC();
 			}
 		EndDialog(kJTrue);
 		}
 
 	else if (sender == itsCreditsButton && message.Is(JXButton::kPushed))
 		{
-		(JXGetHelpManager())->ShowSection(k<PRE>CreditsName);
+		(JXGetHelpManager())->ShowCredits();
 		EndDialog(kJTrue);
 		}
 

@@ -12,7 +12,6 @@
 #include "SVNPrefsManager.h"
 #include "SVNWDManager.h"
 #include "SVNMDIServer.h"
-#include "svnHelpText.h"
 #include <JXFSBindingManager.h>
 #include <jAssert.h>
 
@@ -46,7 +45,7 @@ SVNCreateGlobals
 	thePrefsManager	= jnew SVNPrefsManager(&isNew);
 	assert( thePrefsManager != NULL );
 
-	JXInitHelp(kSVNTOCHelpName, kSVNHelpSectionCount, kSVNHelpSectionName);
+	JXInitHelp();
 
 	theWDManager = jnew SVNWDManager(display, kJTrue);
 	assert( theWDManager != NULL );

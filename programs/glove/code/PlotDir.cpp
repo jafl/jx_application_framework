@@ -28,7 +28,6 @@
 #include "GlovePlotter.h"
 //#include "gloveplotdoc.h"
 #include "GLGlobals.h"
-#include "GLHelpText.h"
 #include "GLClosePlotDirTask.h"
 #include "GLFitDirector.h"
 #include "JPlotFitProxy.h"
@@ -1385,15 +1384,15 @@ PlotDir::HandleHelpMenu
 		}
 	else if (index == kThisWindowCmd)
 		{
-		(JXGetHelpManager())->ShowSection(kGLPlotHelpName);
+		(JXGetHelpManager())->ShowSection("GLPlotHelp");
 		}
 	else if (index == kChangesCmd)
 		{
-		(JXGetHelpManager())->ShowSection(kGLChangeLogName);
+		(JXGetHelpManager())->ShowChangeLog();
 		}
 	else if (index == kCreditsCmd)
 		{
-		(JXGetHelpManager())->ShowSection(kGLCreditsName);
+		(JXGetHelpManager())->ShowCredits();
 		}
 }
 

@@ -10,7 +10,6 @@
 #include "thxGlobals.h"
 #include "THXMDIServer.h"
 #include "THXPrefsManager.h"
-#include "thxHelpText.h"
 #include <JXDisplay.h>
 #include <JXWindow.h>
 #include <JXPTPrinter.h>
@@ -52,7 +51,7 @@ THXCreateGlobals
 	thePrefsManager	= jnew THXPrefsManager(&isNew);
 	assert( thePrefsManager != NULL );
 
-	JXInitHelp(kTHXTOCHelpName, kTHXHelpSectionCount, kTHXHelpSectionName);
+	JXInitHelp();
 
 	theMDIServer = jnew THXMDIServer;
 	assert( theMDIServer != NULL );

@@ -133,46 +133,29 @@ F
 "./code/SVNInfoLog.cpp"
 F
 T
-1 "misc"
+1 "strings"
 T
 2 "nps_svn_client_strings"
 F
 "./strings/nps_svn_client_strings"
-T
-2 "license"
-F
-"./strings/license"
-T
-2 "nps_svn_client.fd"
-F
-"./nps_svn_client.fd"
 F
 T
 1 "help"
 T
-2 "svnHelpText.h"
+2 "help.html"
 F
-"./code/svnHelpText.h"
+"./release/help.html"
 T
-2 "svnChangeLogText"
+2 "ChangeLog.html"
 F
-"./strings/svnChangeLogText"
+"./release/ChangeLog.html"
+F
 T
-2 "svnTOCHelpText"
-F
-"./strings/svnTOCHelpText"
+1 "layouts"
 T
-2 "svnOverviewHelpText"
+2 "nps_svn_client.fd"
 F
-"./strings/svnOverviewHelpText"
-T
-2 "svnMainHelpText"
-F
-"./strings/svnMainHelpText"
-T
-2 "svnCreditsText"
-F
-"./strings/svnCreditsText"
+"./nps_svn_client.fd"
 F
 T
 1 "images"

@@ -161,11 +161,11 @@ CBAboutDialog::Receive
 		{
 		if (itsIsUpgradeFlag)
 			{
-			(JXGetHelpManager())->ShowSection("CBEditorHelp");
+			(JXGetHelpManager())->ShowChangeLog();
 			}
 		else
 			{
-			(JXGetHelpManager())->ShowSection("CBOverviewHelp");
+			(JXGetHelpManager())->ShowTOC();
 			}
 		EndDialog(kJTrue);
 		}

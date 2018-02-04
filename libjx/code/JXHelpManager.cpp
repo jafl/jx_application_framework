@@ -64,3 +64,25 @@ JXHelpManager::ShowSection
 
 	(JXGetWebBrowser())->ShowURL(url);
 }
+
+/******************************************************************************
+ ShowChangeLog
+
+ ******************************************************************************/
+
+void
+JXHelpManager::ShowChangeLog()
+{
+	(JXGetWebBrowser())->ShowURL(JGetString("CHANGE_LOG_URL"));
+}
+
+/******************************************************************************
+ ShowCredits
+
+ ******************************************************************************/
+
+void
+JXHelpManager::ShowCredits()
+{
+	(JXGetWebBrowser())->ShowURL(JGetString("CREDITS_URL"));
+}

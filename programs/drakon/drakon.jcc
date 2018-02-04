@@ -86,29 +86,13 @@ F
 T
 1 "help"
 T
-2 "gpmHelpText.h"
+2 "help.html"
 F
-"./code/gpmHelpText.h"
+"./release/help.html"
 T
-2 "gpmChangeLogText"
+2 "ChangeLog.html"
 F
-"./strings/gpmChangeLogText"
-T
-2 "gpmTOCHelpText"
-F
-"./strings/gpmTOCHelpText"
-T
-2 "gpmOverviewHelpText"
-F
-"./strings/gpmOverviewHelpText"
-T
-2 "gpmMainHelpText"
-F
-"./strings/gpmMainHelpText"
-T
-2 "gpmCreditsText"
-F
-"./strings/gpmCreditsText"
+"./release/ChangeLog.html"
 F
 T
 1 "images"

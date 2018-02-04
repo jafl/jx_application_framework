@@ -11,7 +11,6 @@
 #include "<PRE>App.h"
 #include "<PRE>PrefsManager.h"
 #include "<PRE>MDIServer.h"
-#include "<pre>HelpText.h"
 #include <jAssert.h>
 
 static <PRE>App*			theApplication  = NULL;		// owns itself
@@ -41,7 +40,7 @@ JBoolean
 	thePrefsManager	= jnew <PRE>PrefsManager(&isNew);
 	assert( thePrefsManager != NULL );
 
-	JXInitHelp(k<PRE>TOCHelpName, k<PRE>HelpSectionCount, k<PRE>HelpSectionName);
+	JXInitHelp();
 
 	theMDIServer = jnew <PRE>MDIServer;
 	assert( theMDIServer != NULL );

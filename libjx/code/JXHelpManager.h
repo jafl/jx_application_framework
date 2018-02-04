@@ -20,6 +20,8 @@ public:
 
 	void	ShowTOC();
 	void	ShowSection(const JUtf8Byte* name);
+	void	ShowChangeLog();
+	void	ShowCredits();
 
 private:
 

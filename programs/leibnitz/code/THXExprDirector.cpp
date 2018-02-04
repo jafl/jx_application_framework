@@ -15,7 +15,6 @@
 #include "THXKeyPad.h"
 #include "THXVarList.h"
 #include "thxGlobals.h"
-#include "thxHelpText.h"
 #include "thxFileVersions.h"
 #include <JXDisplay.h>
 #include <JXWindow.h>
@@ -435,7 +434,7 @@ THXExprDirector::Receive
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
-		(THXGetApplication())->HandleHelpMenu(itsHelpMenu, kTHXExprHelpName,
+		(THXGetApplication())->HandleHelpMenu(itsHelpMenu, "THXExprHelp",
 											  selection->GetIndex());
 		}
 

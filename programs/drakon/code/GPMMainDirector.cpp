@@ -19,7 +19,6 @@
 
 #include "gpmGlobals.h"
 #include "gpmActionDefs.h"
-#include "gpmHelpText.h"
 
 #include <JXApplication.h>
 #include <JXHelpManager.h>
@@ -635,24 +634,24 @@ GPMMainDirector::HandleHelpMenu
 
 	else if (index == kTOCCmd)
 		{
-		(JXGetHelpManager())->ShowSection(kGPMTOCHelpName);
+		(JXGetHelpManager())->ShowTOC();
 		}
 	else if (index == kOverviewCmd)
 		{
-		(JXGetHelpManager())->ShowSection(kGPMOverviewHelpName);
+		(JXGetHelpManager())->ShowSection("GPMOverviewHelp");
 		}
 	else if (index == kThisWindowCmd)
 		{
-		(JXGetHelpManager())->ShowSection(kGPMMainHelpName);
+		(JXGetHelpManager())->ShowSection("GPMMainHelp");
 		}
 
 	else if (index == kChangesCmd)
 		{
-		(JXGetHelpManager())->ShowSection(kGPMChangeLogName);
+		(JXGetHelpManager())->ShowChangeLog();
 		}
 	else if (index == kCreditsCmd)
 		{
-		(JXGetHelpManager())->ShowSection(kGPMCreditsName);
+		(JXGetHelpManager())->ShowCredits();
 		}
 }
 

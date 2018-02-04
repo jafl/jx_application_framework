@@ -12,7 +12,6 @@
 #include "THXBaseConvDirector.h"
 #include "THXBaseConvMenu.h"
 #include "thxGlobals.h"
-#include "thxHelpText.h"
 #include <JXHelpManager.h>
 #include <JXDisplay.h>
 #include <JXWindow.h>
@@ -114,50 +113,50 @@ THXBaseConvDirector::BuildWindow()
 {
 // begin JXLayout
 
-    JXWindow* window = jnew JXWindow(this, 300,130, "");
-    assert( window != NULL );
-    SetWindow(window);
+	JXWindow* window = jnew JXWindow(this, 300,130, "");
+	assert( window != NULL );
+	SetWindow(window);
 
-    itsCloseButton =
-        jnew JXTextButton("Close", window,
-                    JXWidget::kFixedRight, JXWidget::kFixedTop, 180,100, 60,20);
-    assert( itsCloseButton != NULL );
-    itsCloseButton->SetShortcuts("#W^[");
+	itsCloseButton =
+		jnew JXTextButton("Close", window,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 180,100, 60,20);
+	assert( itsCloseButton != NULL );
+	itsCloseButton->SetShortcuts("#W^[");
 
-    itsFromValue =
-        jnew JXInputField(window,
-                    JXWidget::kHElastic, JXWidget::kFixedTop, 110,20, 70,20);
-    assert( itsFromValue != NULL );
+	itsFromValue =
+		jnew JXInputField(window,
+					JXWidget::kHElastic, JXWidget::kFixedTop, 110,20, 70,20);
+	assert( itsFromValue != NULL );
 
-    JXStaticText* obj1 =
-        jnew JXStaticText("Convert from:", window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 90,20);
-    assert( obj1 != NULL );
+	JXStaticText* obj1 =
+		jnew JXStaticText("Convert from:", window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 90,20);
+	assert( obj1 != NULL );
 
-    itsHelpButton =
-        jnew JXTextButton("Help", window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 60,100, 60,20);
-    assert( itsHelpButton != NULL );
+	itsHelpButton =
+		jnew JXTextButton("Help", window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 60,100, 60,20);
+	assert( itsHelpButton != NULL );
 
-    itsFromBase =
-        jnew THXBaseConvMenu(window,
-                    JXWidget::kFixedRight, JXWidget::kFixedTop, 190,15, 90,30);
-    assert( itsFromBase != NULL );
+	itsFromBase =
+		jnew THXBaseConvMenu(window,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 190,15, 90,30);
+	assert( itsFromBase != NULL );
 
-    JXStaticText* obj2 =
-        jnew JXStaticText("Result:", window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,60, 90,20);
-    assert( obj2 != NULL );
+	JXStaticText* obj2 =
+		jnew JXStaticText("Result:", window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,60, 90,20);
+	assert( obj2 != NULL );
 
-    itsToBase =
-        jnew THXBaseConvMenu(window,
-                    JXWidget::kFixedRight, JXWidget::kFixedTop, 190,55, 90,30);
-    assert( itsToBase != NULL );
+	itsToBase =
+		jnew THXBaseConvMenu(window,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 190,55, 90,30);
+	assert( itsToBase != NULL );
 
-    itsToValue =
-        jnew JXStaticText("", kJFalse, kJTrue, NULL, window,
-                    JXWidget::kHElastic, JXWidget::kFixedTop, 110,60, 70,20);
-    assert( itsToValue != NULL );
+	itsToValue =
+		jnew JXStaticText("", kJFalse, kJTrue, NULL, window,
+					JXWidget::kHElastic, JXWidget::kFixedTop, 110,60, 70,20);
+	assert( itsToValue != NULL );
 
 // end JXLayout
 

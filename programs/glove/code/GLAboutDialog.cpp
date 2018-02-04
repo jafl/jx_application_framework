@@ -8,7 +8,6 @@
  ******************************************************************************/
 
 #include "GLAboutDialog.h"
-#include <GLHelpText.h>
 
 #include "glove_icon.xpm"
 #include "nps.xpm"
@@ -173,19 +172,17 @@ GLAboutDialog::Receive
 		{
 		if (itsIsUpgradeFlag)
 			{
-			(JXGetHelpManager())->ShowSection(kGLChangeLogName);
+			(JXGetHelpManager())->ShowChangeLog();
 			}
 		else
 			{
-			// should really be table of contents
-
-			(JXGetHelpManager())->ShowSection(kGLTOCHelpName);
+			(JXGetHelpManager())->ShowTOC();
 			}
 		EndDialog(kJFalse);
 		}
 	else if (sender == itsCreditsButton && message.Is(JXButton::kPushed))
 		{
-		(JXGetHelpManager())->ShowSection(kGLCreditsName);
+		(JXGetHelpManager())->ShowCredits();
 		EndDialog(kJTrue);
 		}
 

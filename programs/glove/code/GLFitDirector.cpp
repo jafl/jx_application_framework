@@ -37,7 +37,6 @@
 
 #include "GLPrefsMgr.h"
 #include "GLGlobals.h"
-#include "GLHelpText.h"
 #include "GLPlotApp.h"
 
 #include "jx_help_specific.xpm"
@@ -842,19 +841,19 @@ GLFitDirector::HandleHelpMenu
 		}
 	else if (index == kTOCCmd)
 		{
-		(JXGetHelpManager())->ShowSection(kGLTOCHelpName);
+		(JXGetHelpManager())->ShowTOC();
 		}
 	else if (index == kThisWindowCmd)
 		{
-		(JXGetHelpManager())->ShowSection(kGLFitHelpName);
+		(JXGetHelpManager())->ShowSection("GLFitHelp");
 		}
 	else if (index == kChangesCmd)
 		{
-		(JXGetHelpManager())->ShowSection(kGLChangeLogName);
+		(JXGetHelpManager())->ShowChangeLog();
 		}
 	else if (index == kCreditsCmd)
 		{
-		(JXGetHelpManager())->ShowSection(kGLCreditsName);
+		(JXGetHelpManager())->ShowCredits();
 		}
 }
 

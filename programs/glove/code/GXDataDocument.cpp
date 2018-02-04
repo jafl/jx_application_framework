@@ -22,7 +22,6 @@
 #include "GXColHeaderWidget.h"
 #include "GRaggedFloatTableData.h"
 #include "GLGlobals.h"
-#include "GLHelpText.h"
 #include "GLPrefsMgr.h"
 
 #include "filenew.xpm"
@@ -1044,15 +1043,15 @@ GXDataDocument::HandleHelpMenu
 		}
 	else if (index == kThisWindowCmd)
 		{
-		JXGetHelpManager()->ShowSection(kGLTableHelpName);
+		JXGetHelpManager()->ShowSection("GLTableHelp");
 		}
 	else if (index == kChangesCmd)
 		{
-		JXGetHelpManager()->ShowSection(kGLChangeLogName);
+		(JXGetHelpManager())->ShowChangeLog();
 		}
 	else if (index == kCreditsCmd)
 		{
-		JXGetHelpManager()->ShowSection(kGLCreditsName);
+		(JXGetHelpManager())->ShowCredits();
 		}
 }
 

@@ -13,7 +13,6 @@
 #include "THXVarList.h"
 #include "THXVarTable.h"
 #include "thxGlobals.h"
-#include "thxHelpText.h"
 #include <JXHelpManager.h>
 #include <JXWindow.h>
 #include <JXTextButton.h>
@@ -226,7 +225,7 @@ THXVarDirector::Receive
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
-		(THXGetApplication())->HandleHelpMenu(itsHelpMenu, kTHXConstantsHelpName,
+		(THXGetApplication())->HandleHelpMenu(itsHelpMenu, "THXConstantsHelp",
 											  selection->GetIndex());
 		}
 

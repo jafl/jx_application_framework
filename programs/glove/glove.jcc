@@ -351,34 +351,17 @@ T
 2 "glove_strings"
 F
 "./strings/glove_strings"
-T
-2 "GLChangeLogText"
 F
-"./strings/GLChangeLogText"
 T
-2 "GLCreditsText"
-F
-"./strings/GLCreditsText"
+1 "help"
 T
-2 "GLModuleHelpText"
+2 "help.html"
 F
-"./strings/GLModuleHelpText"
+"./release/help.html"
 T
-2 "GLPlotHelpText"
+2 "ChangeLog.html"
 F
-"./strings/GLPlotHelpText"
-T
-2 "GLFitHelpText"
-F
-"./strings/GLFitHelpText"
-T
-2 "GLTableHelpText"
-F
-"./strings/GLTableHelpText"
-T
-2 "GLTOCHelpText"
-F
-"./strings/GLTOCHelpText"
+"./release/ChangeLog.html"
 F
 T
 1 "layouts"

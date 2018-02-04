@@ -19,7 +19,6 @@
 #include "SVNCommandLog.h"
 #include "SVNRefreshStatusTask.h"
 #include "SVNMDIServer.h"
-#include "svnHelpText.h"
 #include "svnMenus.h"
 #include "svnGlobals.h"
 #include <JXHelpManager.h>
@@ -1703,23 +1702,23 @@ SVNMainDirector::HandleHelpMenu
 
 	else if (index == kTOCCmd)
 		{
-		(JXGetHelpManager())->ShowSection(kSVNTOCHelpName);
+		(JXGetHelpManager())->ShowTOC();
 		}
 	else if (index == kOverviewCmd)
 		{
-		(JXGetHelpManager())->ShowSection(kSVNOverviewHelpName);
+		(JXGetHelpManager())->ShowSection("SVNOverviewHelp");
 		}
 	else if (index == kThisWindowCmd)
 		{
-		(JXGetHelpManager())->ShowSection(kSVNMainHelpName);
+		(JXGetHelpManager())->ShowSection("SVNMainHelp");
 		}
 
 	else if (index == kChangesCmd)
 		{
-		(JXGetHelpManager())->ShowSection(kSVNChangeLogName);
+		(JXGetHelpManager())->ShowChangeLog();
 		}
 	else if (index == kCreditsCmd)
 		{
-		(JXGetHelpManager())->ShowSection(kSVNCreditsName);
+		(JXGetHelpManager())->ShowCredits();
 		}
 }

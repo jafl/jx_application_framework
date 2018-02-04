@@ -25,7 +25,6 @@
 #include "TestDNDTextDirector.h"
 #include "TestImageDirector.h"
 #include "TestChooseSaveFile.h"
-#include "testjxHelpText.h"
 #include "testjxGlobals.h"
 
 #include "SmileyBitmaps.h"
@@ -659,7 +658,7 @@ TestDirector::HandleAboutMenu
 		}
 	else if (index == kHelpCmd)
 		{
-		(JXGetHelpManager())->ShowSection(kMainHelpName);
+		(JXGetHelpManager())->ShowCredits();
 		}
 	else if (index == kTipCmd)
 		{
