@@ -7,22 +7,6 @@ JXTextMenu
 
 -----
 
-move "online" help to sourceforge site
-	merge to single page for each app
-		glove
-
-	\" -> "
-	\\ => \
-	href=jxhelp:([^#>]+)#([^>]+) -> href="#$1-$2"
-	href=jxhelp:([^#>]+) -> href="#$1"
-	jxhelp
-	href=([^">]+) -> href="$1"
-	<(/?)tt> -> <$1code>
-	page -> section
-	&\s -> &amp;
-
------
-
 test translation files
 	/usr/lib/testjx/string_data
 	~/.testjx/string_data

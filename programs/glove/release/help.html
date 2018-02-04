@@ -1,0 +1,401 @@
+<html>
+<head>
+
+<title>Glove Help</title>
+<link rel="stylesheet" type="text/css" href="http://libjx.sourceforge.net/help/base.css" />
+<link rel="stylesheet" type="text/css" href="../../../doc/html/help/base.css" />	<!-- dev -->
+
+</head>
+<body>
+
+<h1>Glove Help</h1>
+
+<p>Please submit all suggestions and bugs via <a href="https://github.com/jafl/jx_application_framework/issues">github</a>.</p>
+<hr>
+
+<p>A data acquisition, manipulation, and analysis program for the X Window System.</p>
+
+<h2>Table of Contents</h2>
+
+<ul>
+	<li><a href="#GLTableHelp">Data window</a></li>
+		<ul>
+		<li><a href="#GLTableHelp-Data">Manipulating data</a></li>
+		<li><a href="#GLTableHelp-Files">Working with files</a></li>
+		<li><a href="#GLTableHelp-Print">Printing and plotting data</a></li>
+		</ul>
+
+	<li><a href="#GLPlotHelp">Plot window</a></li>
+		<ul>
+		<li><a href="#GLPlotHelp-Settings">Curve settings</a></li>
+		<li><a href="#GLPlotHelp-Cursors">Cursors</a></li>
+		<li><a href="#GLPlotHelp-Marks">Marks</a></li>
+		<li><a href="#GLPlotHelp-Analysis">Analysis</a></li>
+		</ul>
+
+	<li><a href="#GLFitHelp">Fit window</a></li>
+		<ul>
+		<li><a href="#GLFitHelp-AddingFits">Adding fits</a></li>
+		</ul>
+
+	<li><a href="#GLModuleHelp">Modules</a></li>
+
+	<li><a href="ChangeLog.html">Changes from previous versions</a></li>
+
+	<li><a href="http://libjx.sourceforge.net/help/credits.html">Credits</a></li>
+
+	<li><a href="https://www.gnu.org/licenses/gpl-3.0.en.html">License</a></li>
+</ul>
+
+
+<hr>
+<h2><a name="GLTableHelp">Data Window</a></h2>
+
+<p>The main window in Glove is a table which contains columns of numbers.
+From this table, you can manipulate the data in many ways.</p>
+
+<h3><a name="GLTableHelp-Data">Manipulating data</a></h3>
+
+<h4>Editing a cell</h4>
+
+<p>To edit a cell, double-click on it with the mouse. If it is already 
+selected you can edit it by hitting the return key. To accept the 
+changes to the cell, you can either hit return, shift-return, tab, 
+or shift-tab, or click the "Ok" button in the top 
+left corner of the table. If you hit the return key, the changes will be 
+accepted and the cell below the current one will then be in edit mode. 
+Shift-return will accept the changes and begin editing on the cell above 
+the current one. Tab and shift-tab will accept the changes and shift 
+editing to the cell the the right/left of the current one. 
+To cancel the changes you made, hit the escape key. 
+All changes made can be undone/redone by selecting "Undo/Redo"
+from the "Edit" menu.</p>
+
+<h4>Inserting, deleting, and duplicating</h4>
+
+<p>You can insert, delete or duplicate rows, columns, or ranges of cells 
+by selecting the appropriate cells by click-dragging the mouse and 
+choosing "Insert", "Delete", or "Duplicate" from the 
+"Edit" menu. Rows or columns can be selected by clicking on the 
+row or column header number corresonding the the desired row or column. 
+To extend the selection, you can either shift-left-click or right-click. 
+The selection can be cleared by hitting the Escape key. 
+All changes made can be undone/redone by selecting "Undo/Redo" 
+from the "Edit" menu.</p>
+
+<h4>Cutting, copying, and pasting</h4>
+
+<p>After selecting a group of cells, you can cut or copy them by selecting 
+"Cut" or "Copy" from the "Edit" menu. 
+After cutting or copying the desired cells, you can paste them in 
+in a few ways. If you have no cells selected when you paste, the pasted 
+cells will be placed in a new column appended to the table. 
+If you have a group of columns selected, the pasted cells will be placed 
+in columns inserted before the selected columns. 
+If you copied a single cell, you can select the destination cell and paste 
+over it, thereby changing its value. If you copied a range of cells 
+all contained within a single column, you can replace the same sized range 
+of cells elsewhere, or insert them into a column by selecting the cell 
+before which the pasted cells will be inserted. 
+All changes made can be undone/redone by selecting "Undo/Redo" 
+from the "Edit" menu.</p>
+
+<h4>Generating and transforming data</h4>
+
+<p>Glove can generate a sequence of numbers for you with the 
+"Generate column by range" and "Generate column by increment" 
+menu items in the "Data" menu. The resultant column of numbers can 
+either be appended to the table, or can replace a current column. 
+This or any other column of numbers can then be transformed with 
+the transform dialog which is found in the "Data" menu.</p>
+
+<h3><a name="GLTableHelp-Files">Working with files</a></h3>
+
+<h4>Loading files</h4>
+
+<p>To start a new file, select "New" from the "File" menu. 
+To open an existing file, select "Open" from the "File" menu. 
+If the file is a Glove file, it will open immediately. If not, a dialog 
+box will pop up asking which <a href=jxhelp:GLModuleHelp>module</a> to use 
+to open it. If the file is a delimited text file, select 
+"Text (delimited)" from the menu. You will then be presented 
+with a delimiter dialog box in which you can specify how the file is 
+delimited.</p>
+
+<h4>Saving files</h4>
+
+<p>To save a file, select "Save" from the "File" menu. To save a file 
+under a different name, select "Save as..." from the "File" menu. 
+If you wish to save the file in a non-Glove format, use the desired 
+<a href=jxhelp:GLModuleHelp>module</a> from the "Export modules..." 
+menu.</p>
+
+<h3><a name="GLTableHelp-Print">Printing and plotting data</a></h3>
+
+<h4>Printing</h4>
+
+<p>To print, select "Print..." from the "File" menu. 
+Select "Print setup" from the "File" menu to specify whether 
+to print in landscape or portrait mode. In the print dialog box, you 
+can choose whether to print to a file or to a printer.</p>
+
+<h4>Plotting data</h4>
+
+<p>To plot columns of data, select "Plot data..." from the 
+"Data" menu. The plot dialog will ask which columns 
+represent x, y and the errors in x and y if desired. Use the 
+"Plot" menu in the dialog to specify which plot to add this 
+curve to. By default, a new plot is created. If you have columns selected, 
+they will by default specify the x and y axis and the errors in the y and x 
+axis respectively. </p>
+
+<p>To plot a vector field, select "Plot vector field..." from the 
+"Data" menu. If you have columns selected, they will by default 
+specify the x and y axis and dx and dy.</p>
+
+
+<hr>
+<h2><a name="GLPlotHelp">Plot Window</a></h2>
+
+<h3><a name="GLPlotHelp-Settings">Curve settings</a></h3>
+
+<p>To change the settings of a curve, either select "Change curve
+options..." from the Options menu, double-click on the appropriate curve
+label in the legend, or right-click on the curve name in the legend.</p>
+
+<h4>Scale</h4>
+
+<p>You can change the scale of the plot in several ways. To view the scale
+dialog box, which allows you to change the scale in both axes, you can
+select "Change scale..." from the "Options" menu, or double-click
+on the appropriate axis. To scale without the dialog, click and drag the
+mouse, which will create a zoom rectangle. If the Meta key is pressed, the
+scale will be changed to show exactly the region contained by the zoom
+rectangle. If the Meta key is not pressed, a reasonable scale will be
+chosen around the area of interest. To return the scale to the default,
+select "Reset scale" from the "Options" menu.</p>
+
+<h4>Range</h4>
+
+<p>The range specifies what portion of the curves will be drawn, and what
+portion of the curves will by used in the analysis. To set the range, zoom
+in to the desired range and select "Copy scale to range" from the
+"Options" menu. Alternately, you can specify a range in the "Edit
+Plot Range" dialog by selecting "Change range..." from the
+"Options" menu. You can then reset the scale by selecting "Reset scale"
+from the "Options" menu.</p>
+
+<h4>Labels</h4>
+
+<p>You can edit the plot labels either by selecting "Change labels..." from the
+"Options" menu or by double-clicking on the appropriate label.</p>
+
+<h3><a name="GLPlotHelp-Cursors">Cursors</a></h3>
+
+<p>Cursors are a useful way of determining the position of various features 
+on a curve. If you view Dual cursors, the values of both cursors will be 
+displayed along with the distance between them. To move a cursor, click and drag it.
+For fine adjustments, click and then use appropriate the arrow keys.</p>
+
+<p>The values of the cursors can be used by an external module, for example to
+look up a value in an external table, by selected the appropriate module in
+the "Cursor module" sub-menu of the "Cursor" menu.</p>
+
+<h3><a name="GLPlotHelp-Marks">Marks</a></h3>
+
+<p>You can mark a particular value with a line, either vertical or horizontal,
+by selecting "Mark cursor" from the "Cursor" menu. If you select
+"Show mark window", a table of the current marks will be displayed at
+the bottom of the plot. This table can be printed to an encapsulated
+postscript (EPS) file by selecting "Print marks as EPS..." from the
+"Plot" menu.</p>
+
+<h3><a name="GLPlotHelp-Analysis">Curve fitting</a></h3>
+
+<p>To open the <a href=jxhelp:GLFitHelp>Fit window</a>, in order to fit a
+curve, select "Open fit window" from the Analysis menu. Once fits have
+been calculated from the fit window, the fit parameters and residual plots
+can be viewed by selecting the appropriate entry in the "Fit
+parameters" and "Residual plots" sub-menus.</p>
+
+
+<hr>
+<h2><a name="GLFitHelp">Fit Window</a></h2>
+
+<p>The fit window consists of a number of subwindows. On the left side, the
+available curves and fits are listed. After a fit is selected, its
+functional form is displayed in the bottom left corner of the window, and
+its parameters are listed in the upper right of the window. For some
+functional forms, like polynomial, the fit can be done with no input from
+the user. To fit this type of curve, either double click on the fit name
+itself (in the fit list), or select "Fit" from the "Fit" menu.</p>
+
+<p>Other functional forms require a first guess to be supplied by the user.
+These guesses are typed into the "Fit values" input fields beside the
+appropriate "Parameter name". When a value for each paramter has been
+input, the values of the parameters can be tested by selecting "Test
+start values" from the "Fit" menu. A curve corresponding to the
+current parameters will then be drawn in the plot. Further changes made to
+the "Fit values" will automatically be reflected in the test curve.
+Once a reasonable approximation to the data is attained, select "Fit"
+from the "Fit" menu.</p>
+
+<p>Once a good fit has been obtained, it can be plotted on the original plot
+by selecting "Plot" from the "Fit" menu.</p>
+
+<h3><a name="GLFitHelp-AddingFits">Adding fits</a></h3>
+
+<p>There are a number of ways to add new fit functions. A polynomial fit can
+be added by selecting "New polynomial fit" from the "Fit" menu. A
+non-linear fit can be added by selecting "New non-linear fit" from the
+"Fit" menu. </p>
+
+<p>For increased performance, a new fit function can be added by creating a
+new fit module. An example of such a module can be found in the
+"fitmodule" directory of the distribution. Once a module is created,
+it should be placed in the user's home directory, in the
+<code>~/.glove/fitdfmodule/</code> directory. It will then be displayed (after
+restarting Glove), in the "Fit" list.</p>
+
+
+<hr>
+<h2><a name="GLModuleHelp">Modules</a></h2>
+
+<p>Modules are intended to provide extended functionality to Glove at the 
+user's control. The protocols are very simple, and involve reading and 
+writing to standard in/out. Since Glove handles this through pipes, the 
+modules may be written in any language.</p>
+
+<p>Below is an enum containing relevant values for the modules:</p>
+
+<pre>
+enum 
+{
+// File import/export module values
+	kGloveDataError = 0,
+	kGloveMatrixDataFormat = 1,
+	kGloveRaggedDataFormat = 2,
+
+// General module values
+	kGloveOK = 3,
+	kGloveFail = 4,
+	kGloveFinished = 5,
+
+// Data module values
+	kGloveRequiresData = 6,
+	kGloveRequiresNoData = 7,
+	kGloveDataDump = 8,
+	kGloveDataControl = 9,
+
+// Fit module values
+	kGloveXY = 10,
+	kGloveXYdY = 11,
+	kGloveXYdX = 12,
+	kGloveXYdYdX = 13
+};
+</pre>
+
+<h3>Import modules</h3>
+
+<p>Import modules should be placed in the importmodule directory of one of 
+your module directories (by default <code>/usr/local/lib/glove</code>
+and <code>~/.glove</code>).</p>
+
+<p>The module is called with the name of the file to be imported as the argument. 
+The module then verifies that the file is in the appropriate format. If it 
+is not, the module prints the value <code>kGloveDataError</code>. If the file is in the 
+proper format for the module, it prints <code>kGloveMatrixDataFormat</code> if the file 
+is in a matrix format, i.e., all columns have the same number of rows. It 
+prints <code>kGloveRaggedDataFormat</code> for ragged format. For matrix format, the 
+module then prints the column count, followed by the data given row by row,
+i.e., c1r1, c2r1, c3r1, c4r1, c1r2, &hellip;. For ragged format, the module then 
+prints the column count, followed by the data column by column. Before 
+each column, the number of rows in that column are printed.</p>
+
+<h3>Export modules</h3>
+
+<p>Export modules should be placed in the exportmodule directory of one of 
+your module directories (by default <code>/usr/local/lib/glove</code>
+and <code>~/.glove</code>).</p>
+
+<p>The module is called with the name of the file to be exported as the argument. 
+The module then prints the format that it desires, either matrix 
+(<code>kGloveMatrixDataFormat</code>) or ragged (<code>kGloveRaggedDataFormat</code>).
+For matrix format, Glove will then write the column count, the row count, and the data 
+given row by row, i.e., c1r1, c2r1, c3r1, c4r1, c1r2, &hellip;. For ragged 
+format, Glove will write out the column count data column by column. Before 
+each column, the number of rows in that column are written.</p>
+
+<h3>Data modules</h3>
+
+<p>Data modules should be placed in the datamodule directory of one of 
+your module directories (by default <code>/usr/local/lib/glove</code>
+and <code>~/.glove</code>).</p>
+
+<p>Data modules serve two purposes. For transformations that require more than 
+a basic equation, a data module can be used to transform an arbitrary number 
+of columns in an arbitrary way. A data module can also act as an acquisition 
+module, serving as an interface to data acquisition hardware.</p>
+
+<p>The module should begin by indicating whether or not it requires data. This 
+is done by printing either <code>kGloveRequiresData</code> or
+<code>kGloveRequiresNoData</code>. If 
+the module requires data, it will then print the number of columns that it 
+requires. Glove will then write out the number of rows, and the values 
+given row by row. </p>
+
+<p>The module now prints whether it will just be printing all of the data 
+row by row with <code>kGloveDataDump</code>, or printing individual values, specified 
+by row, column, and value, with <code>kGloveDataControl</code>. The module then prints 
+the number of columns of data it will be printing.</p>
+
+<p>The module is now ready to print the data. Each line of data is preceded 
+by either <code>kGloveFinished</code>, <code>kGloveOK</code>,
+or <code>kGloveFail</code>. If the module is using 
+<code>kGloveDataDump</code>, then the module should then print all of the current row's 
+values. If the module is using <code>kGloveDataControl</code>, it should print the row, 
+column, and value of its data. When the module is finished, it should 
+print <code>kGloveFinished</code>.</p>
+
+<h3>Cursor modules</h3>
+
+<p>Cursor modules should be placed in the cursormodule directory of one of 
+your module directories (by default <code>/usr/local/lib/glove</code>
+and <code>~/.glove</code>).</p>
+
+<p>After the module process is started, Glove passes three booleans (T/F), 
+<code>XCursorVisible()</code>, <code>YCursorVisible()</code>,
+and <code>DualCursorsVisible()</code>. It will then 
+write the valid values in the order x1, x2, y1, y2. If dual cursors are not 
+on, for example, neither x2 or y2 will be written.</p>
+
+<p>The module must now indicate if there was an error. It prints a line 
+containing either <code>kGloveOK</code>, or <code>kGloveFail</code> followed
+immediately by an error 
+string. Once this line is printed, the cursor module simply prints whatever 
+information it wants to print, which will be appended to the session.</p>
+
+<h3>Fit modules</h3>
+
+<p>Fit modules should be placed in the fitmodule directory of one of 
+your module directories (by default <code>/usr/local/lib/glove</code>
+and <code>~/.glove</code>).</p>
+
+<p>After starting the module process, Glove must send the data to be fit to 
+the module. Before the data is sent, Glove writes the type from, 
+<code>kGloveXYdYdX</code>, <code>kGloveXYdX</code>, <code>kGloveXYdY</code>,
+and <code>kGloveXY</code>. This is followed by the 
+number of data points in the data set to be fit. Then Glove send the data 
+in order x, y, dy, dx, but only if it is appropriate. For example, if there 
+are no x errors, the data will be sent x, y, dy only.</p>
+
+<p>The module must now indicate if there was an error. It prints a line 
+containing either <code>kGloveOK</code>, or <code>kGloveFail</code>
+followed immediately by an error 
+string. Once this line is printed, the module prints the number of 
+parameters, whether or not it has errors (T/F) and whether or not it has a 
+goodness of fit value, all in one line. The module then prints the 
+individual parameter's name and value, each on a single line.</p>
+
+</body>
+</html>
