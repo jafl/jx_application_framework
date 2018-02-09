@@ -108,6 +108,7 @@
 .cpp ./code/JTEUndoTyping
 .cpp ./code/JTEStyler
 .cpp ./code/JTEKeyHandler
+.cpp ./code/JTEDefaultKeyHandler
 .cpp ./code/JVIKeyHandler
 .cpp ./code/JPartition
 .cpp ./code/JSliderBase

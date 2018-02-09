@@ -604,6 +604,10 @@ T
 F
 "./code/JTEKeyHandler.cpp"
 T
+2 "JTEDefaultKeyHandler.cpp"
+F
+"./code/JTEDefaultKeyHandler.cpp"
+T
 2 "JVIKeyHandler.cpp"
 F
 "./code/JVIKeyHandler.cpp"

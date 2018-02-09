@@ -10,6 +10,8 @@
 
 #include <JTEKeyHandler.h>
 
+class JTEDefaultKeyHandler;
+
 class JVIKeyHandler : public JTEKeyHandler
 {
 public:
@@ -36,7 +38,7 @@ public:
 
 	virtual JBoolean	HandleKeyPress(const JUtf8Character& key, const JBoolean selectText,
 									   const JTextEditor::CaretMotion motion,
-									   const JBoolean deleteToTabStop);
+									   const JBoolean deleteToTabStop) override;
 
 public:
 
@@ -60,7 +62,7 @@ public:
 
 protected:
 
-	virtual void	Initialize();
+	virtual void	Initialize() override;
 
 	Mode	GetMode() const;
 	void	SetMode(const Mode mode);
@@ -84,6 +86,8 @@ private:
 	Mode	itsMode;
 	JString	itsKeyBuffer;
 	JString	itsCmdLineBuffer;
+
+	JTEDefaultKeyHandler*	itsDefKeyHandler;
 
 	static CutBuffer theCutBuffer;
 	static CutBuffer theNamedCutBuffer[ kNamedCutBufferCount ];

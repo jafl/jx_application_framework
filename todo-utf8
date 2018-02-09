@@ -22,6 +22,7 @@ sample text in TestTabDirector
 test
 	man pages
 	styled unix terminal output - yui build output
+	default & vi key handlers
 
 unit test libjx
 	JXCSFDialogBase

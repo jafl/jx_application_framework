@@ -39,6 +39,7 @@ class JTextEditor : virtual public JBroadcaster
 	friend class JTEUndoStyle;
 
 	friend class JTEKeyHandler;
+	friend class JTEDefaultKeyHandler;
 
 	friend JSize JPasteUNIXTerminalOutput(const JString& text, JTextEditor* te);
 
@@ -474,6 +475,13 @@ public:		// ought to be protected
 			charIndex(loc.charIndex),
 			byteIndex(loc.byteIndex)
 		{ };
+
+		void
+		Set(const JIndex ch, const JIndex byte)
+		{
+			charIndex = ch;
+			byteIndex = byte;
+		};
 	};
 
 	struct TextCount
@@ -731,7 +739,7 @@ private:
 	DragType		itsPrevDragType;	// so extend selection will maintain drag type
 	JPoint			itsStartPt;
 	JPoint			itsPrevPt;
-	JIndex			itsSelectionPivot;	// insertion point about which to pivot selection
+	TextIndex		itsSelectionPivot;	// insertion point about which to pivot selection
 	JCharacterRange	itsWordSelPivot;	// range of characters to keep selected
 	JIndex			itsLineSelPivot;	// line about which to pivot selection
 	CaretLocation	itsDropLoc;			// insertion point at which to drop the dragged text
@@ -806,6 +814,7 @@ private:
 						  JString** cleanText, JRunArray<JFont>** cleanStyle,
 						  JBoolean* okToInsert);
 
+	void			SetCaretLocation(const TextIndex& caretLoc);
 	void			SetCaretLocation(const CaretLocation& caretLoc);
 	CaretLocation	CalcCaretLocation(const TextIndex& index) const;
 	JIndex			CalcLineIndex(const JCoordinate y, JCoordinate* lineTop) const;
@@ -824,6 +833,7 @@ private:
 	JCoordinate	GetStringWidth(const JIndex startIndex, const JIndex endIndex,
 							   JIndex* runIndex, JIndex* firstInRun) const;
 
+	TextIndex		AdjustTextIndex(const TextIndex& index, const JInteger charDelta) const;
 	TextIndex		CharIndexToTextIndex(const JIndex charIndex) const;
 	JIndex			GetLineForByte(const JIndex byteIndex) const;
 	JUtf8ByteRange	CharToByteRange(const JCharacterRange& charRange) const;
@@ -1643,6 +1653,17 @@ JTextEditor::GetCaretLocation
 {
 	*caretLoc = itsCaretLoc;
 	return itsCharSelection.IsEmpty();
+}
+
+// private
+
+void
+JTextEditor::SetCaretLocation
+	(
+	const TextIndex& index
+	)
+{
+	SetCaretLocation(CalcCaretLocation(index));
 }
 
 /******************************************************************************

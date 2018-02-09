@@ -1,7 +1,7 @@
 /******************************************************************************
  JVIKeyHandler.cpp
 
-	Base class to implement vi keybindings.
+	Implements vi keybindings.
 
 	BASE CLASS = JTEKeyHandler
 
@@ -10,6 +10,7 @@
  ******************************************************************************/
 
 #include <JVIKeyHandler.h>
+#include <JTEDefaultKeyHandler.h>
 #include <JRegex.h>
 #include <jASCIIConstants.h>
 #include <jAssert.h>
@@ -35,6 +36,9 @@ JVIKeyHandler::JVIKeyHandler
 	:
 	JTEKeyHandler(te)
 {
+	itsDefKeyHandler = jnew JTEDefaultKeyHandler(te);
+	assert( itsDefKeyHandler != NULL );
+	itsDefKeyHandler->Initialize();
 }
 
 /******************************************************************************
@@ -44,6 +48,8 @@ JVIKeyHandler::JVIKeyHandler
 
 JVIKeyHandler::~JVIKeyHandler()
 {
+	jdelete itsDefKeyHandler;
+
 	GetTE()->SetCaretMode(JTextEditor::kLineCaret);
 }
 
@@ -116,7 +122,7 @@ JVIKeyHandler::PrehandleKeyPress
 	if (itsMode == kBufferNameMode)
 		{
 		itsMode = kCommandMode;		// don't use SetMode()
-		itsKeyBuffer.AppendCharacter(key);
+		itsKeyBuffer.Append(key);
 		*result = kJTrue;
 		return kJTrue;
 		}
@@ -138,7 +144,7 @@ JVIKeyHandler::PrehandleKeyPress
 JBoolean
 JVIKeyHandler::HandleKeyPress
 	(
-	const JCharacter				key,
+	const JUtf8Character&			key,
 	const JBoolean					selectText,
 	const JTextEditor::CaretMotion	motion,
 	const JBoolean					deleteToTabStop
@@ -154,14 +160,14 @@ JVIKeyHandler::HandleKeyPress
 		key == kJUpArrow || key == kJDownArrow)
 		{
 		ClearKeyBuffers();
-		return kJFalse;
+		return itsDefKeyHandler->HandleKeyPress(key, selectText, motion, deleteToTabStop);
 		}
 
 	JTextEditor* te = GetTE();
 
 	JBoolean clearKeyBuffer = kJTrue;
 	JArray<JIndexRange> matchList;
-	JCharacter prevChar;
+	JUtf8Character prevChar;
 	if (key == 'i')
 		{
 		SetMode(kTextEntryMode);
