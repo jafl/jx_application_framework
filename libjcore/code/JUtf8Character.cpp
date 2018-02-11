@@ -374,6 +374,14 @@ JUtf8Character::IsAlnum()
 }
 
 JBoolean
+JUtf8Character::IsDigit()
+	const
+{
+	const JUInt32 c = GetUtf32();
+	return JI2B( u_isdigit(c) );
+}
+
+JBoolean
 JUtf8Character::IsAlpha()
 	const
 {

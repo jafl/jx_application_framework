@@ -25,13 +25,14 @@ JTEUndoStyle::JTEUndoStyle
 	:
 	JTEUndoBase(te)
 {
-	itsStartIndex = te->GetInsertionIndex();
-
 	itsOrigStyles = jnew JRunArray<JFont>;
 	assert( itsOrigStyles != NULL );
 
+	JBoolean hasSelection = te->GetSelection(&itsCharRange, &itsByteRange);
+	assert( hasSelection );
+
 	JString selText;
-	const JBoolean hasSelection = te->GetSelection(&selText, itsOrigStyles);
+	hasSelection = te->GetSelection(&selText, itsOrigStyles);
 	assert( hasSelection );
 }
 
@@ -54,12 +55,12 @@ void
 JTEUndoStyle::Undo()
 {
 	JTextEditor* te = GetTE();
-	te->SetSelection(itsStartIndex, itsStartIndex + itsOrigStyles->GetElementCount() - 1);
+	te->SetSelection(itsCharRange, itsByteRange);
 
 	JTEUndoStyle* newUndo = jnew JTEUndoStyle(te);
 	assert( newUndo != NULL );
 
-	te->SetFont(itsStartIndex, *itsOrigStyles, kJFalse);
+	te->SetFont(itsCharRange.first, *itsOrigStyles, kJFalse);
 
 	te->ReplaceUndo(this, newUndo);		// deletes us
 }

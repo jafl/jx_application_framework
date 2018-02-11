@@ -10,6 +10,7 @@
  ******************************************************************************/
 
 #include <JTEUndoTyping.h>
+#include <JStringIterator.h>
 #include <jAssert.h>
 
 /******************************************************************************
@@ -25,7 +26,6 @@ JTEUndoTyping::JTEUndoTyping
 	JTEUndoTextBase(te)
 {
 	itsOrigStartIndex = te->GetInsertionIndex();
-	itsLength         = 0;
 }
 
 /******************************************************************************
@@ -45,7 +45,7 @@ JTEUndoTyping::~JTEUndoTyping()
 void
 JTEUndoTyping::Undo()
 {
-	PrepareForUndo(itsOrigStartIndex, itsLength);
+	PrepareForUndo(itsOrigStartIndex, itsCount);
 	JTEUndoTextBase::Undo();
 }
 
@@ -57,12 +57,12 @@ JTEUndoTyping::Undo()
 void
 JTEUndoTyping::HandleCharacters
 	(
-	const JSize count
+	const JTextEditor::TextCount& count
 	)
 {
 	assert( IsActive() );
 
-	itsLength += count;
+	itsCount += count;
 }
 
 /******************************************************************************
@@ -70,27 +70,43 @@ JTEUndoTyping::HandleCharacters
 
 	Call this -before- deleting the characters.
 
+	Iterator is modified.
+
  ******************************************************************************/
 
 void
 JTEUndoTyping::HandleDelete
 	(
-	const JIndex firstChar,
-	const JIndex lastChar
+	JStringIterator*	iter,
+	const JSize			charCount
 	)
 {
 	assert( IsActive() );
 
-	for (JIndex i=lastChar; i>=firstChar; i--)
+	JUtf8Character c;
+	for (JIndex i=1; i<=charCount; i++)
 		{
-		if (itsLength > 0)
+		const JIndex startByte = iter->GetPrevByteIndex();
+
+		const JBoolean ok = iter->Prev(&c);
+		assert( ok );
+
+		JIndex endByte = 0;
+		if (!iter->AtBeginning())
 			{
-			itsLength--;
+			endByte = iter->GetPrevByteIndex();
+			}
+
+		if (itsCount.charCount > 0)
+			{
+			itsCount.charCount--;
+			itsCount.byteCount -= startByte - endByte;
 			}
 		else
 			{
-			PrependToSave(itsOrigStartIndex);
-			itsOrigStartIndex--;
+			PrependToSave(c, iter->GetNextCharacterIndex());
+			itsOrigStartIndex.charIndex--;
+			itsOrigStartIndex.byteIndex -= startByte - endByte;
 			}
 		}
 }
@@ -100,51 +116,25 @@ JTEUndoTyping::HandleDelete
 
 	Call this -before- deleting the characters.
 
+	Iterator is modified.
+
  ******************************************************************************/
 
 void
 JTEUndoTyping::HandleFwdDelete
 	(
-	const JIndex firstChar,
-	const JIndex lastChar
+	JStringIterator*	iter,
+	const JSize			charCount
 	)
 {
 	assert( IsActive() );
 
-	for (JIndex i=firstChar; i<=lastChar; i++)
+	JUtf8Character c;
+	for (JIndex i=1; i<=charCount; i++)
 		{
-		AppendToSave(i);
-		}
-}
+		const JBoolean ok = iter->Next(&c);
+		assert( ok );
 
-/******************************************************************************
- HandleAutoIndentDelete
-
-	Call this -before- deleting the characters.
-
- ******************************************************************************/
-
-void
-JTEUndoTyping::HandleAutoIndentDelete
-	(
-	const JIndex firstChar,
-	const JIndex lastChar
-	)
-{
-	assert( IsActive() &&
-			firstChar <= lastChar &&
-			lastChar  <= itsOrigStartIndex + itsLength - 1 );
-
-	for (JIndex i=lastChar; i>=firstChar; i--)
-		{
-		if (i >= itsOrigStartIndex)
-			{
-			itsLength--;
-			}
-		else
-			{
-			PrependToSave(i+1);		// saves the character before given index
-			itsOrigStartIndex--;
-			}
+		AppendToSave(c, iter->GetPrevCharacterIndex());
 		}
 }

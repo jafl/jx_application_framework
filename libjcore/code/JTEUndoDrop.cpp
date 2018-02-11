@@ -23,14 +23,14 @@ JTEUndoDrop::JTEUndoDrop
 	JTextEditor*					te,
 	const JTextEditor::TextIndex&	origIndex,
 	const JTextEditor::TextIndex&	newIndex,
-	const JTextEditor::TextCount&	length
+	const JTextEditor::TextCount&	count
 	)
 	:
 	JTEUndoBase(te)
 {
 	itsOrigCaretLoc = origIndex;
 	itsNewSelStart  = newIndex;
-	SetPasteLength(length);
+	SetPasteCount(count);
 }
 
 /******************************************************************************
@@ -43,18 +43,18 @@ JTEUndoDrop::~JTEUndoDrop()
 }
 
 /******************************************************************************
- SetPasteLength (virtual)
+ SetPasteCount
 
  ******************************************************************************/
 
 void
-JTEUndoDrop::SetPasteLength
+JTEUndoDrop::SetPasteCount
 	(
-	const JTextEditor::TextCount& length
+	const JTextEditor::TextCount& count
 	)
 {
-	itsNewSelEnd.charIndex = itsNewSelStart.charIndex + length.charCount - 1;
-	itsNewSelEnd.byteIndex = itsNewSelStart.byteIndex + length.byteCount - 1;
+	itsNewSelEnd.charIndex = itsNewSelStart.charIndex + count.charCount - 1;
+	itsNewSelEnd.byteIndex = itsNewSelStart.byteIndex + count.byteCount - 1;
 }
 
 /******************************************************************************

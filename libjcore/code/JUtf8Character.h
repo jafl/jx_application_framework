@@ -47,6 +47,7 @@ public:
 
 	JBoolean	IsPrint() const;
 	JBoolean	IsAlnum() const;
+	JBoolean	IsDigit() const;
 	JBoolean	IsAlpha() const;
 	JBoolean	IsLower() const;
 	JBoolean	IsUpper() const;

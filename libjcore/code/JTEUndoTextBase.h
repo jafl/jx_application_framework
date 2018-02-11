@@ -20,16 +20,17 @@ public:
 
 	virtual ~JTEUndoTextBase();
 
-	virtual void	Undo();
+	virtual void	Undo() override;
 
-	virtual void	SetFont(const JString& name, const JSize size);
+	virtual void	SetFont(const JString& name, const JSize size) override;
 
 protected:
 
-	void	PrepareForUndo(const JIndex start, const JSize length);
+	void	PrepareForUndo(const JTextEditor::TextIndex& start,
+						   const JTextEditor::TextCount& count);
 
-	void	PrependToSave(const JIndex index);
-	void	AppendToSave(const JIndex index);
+	void	PrependToSave(const JUtf8Character& c, const JIndex charIndex);
+	void	AppendToSave(const JUtf8Character& c, const JIndex charIndex);
 
 private:
 

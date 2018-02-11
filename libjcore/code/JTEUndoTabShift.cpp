@@ -24,7 +24,7 @@ JTEUndoTabShift::JTEUndoTabShift
 	JTextEditor* te
 	)
 	:
-	JTEUndoPaste(te, 0)
+	JTEUndoPaste(te, JTextEditor::TextCount(0,0))
 {
 }
 
@@ -51,8 +51,9 @@ JTEUndoTabShift::UpdateEndChar()
 {
 	Activate();		// cancel SetSelection()
 
-	JCharacterRange r;
-	const JBoolean ok = GetTE()->GetSelection(&r);
+	JCharacterRange cr;
+	JUtf8ByteRange  br;
+	const JBoolean ok = GetTE()->GetSelection(&cr, &br);
 	assert( ok );
-	SetCurrentLength(r.GetCount());
+	SetCurrentCount(JTextEditor::TextCount(cr.GetCount(), br.GetCount()));
 }

@@ -80,17 +80,17 @@ JTEUndoBase::SetFont
 }
 
 /******************************************************************************
- SetPasteLength (virtual)
+ SetPasteCount (virtual)
 
 	Required by some derived classes.
 
  ******************************************************************************/
 
 void
-JTEUndoBase::SetPasteLength
+JTEUndoBase::SetPasteCount
 	(
-	const JSize length
+	const JTextEditor::TextCount& count
 	)
 {
-	assert_msg( 0, "programmer forgot to override JTEUndoBase::SetPasteLength" );
+	assert_msg( 0, "programmer forgot to override JTEUndoBase::SetPasteCount" );
 }

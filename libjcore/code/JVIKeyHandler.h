@@ -36,6 +36,7 @@ public:
 
 	virtual ~JVIKeyHandler();
 
+	virtual void		Initialize() override;
 	virtual JBoolean	HandleKeyPress(const JUtf8Character& key, const JBoolean selectText,
 									   const JTextEditor::CaretMotion motion,
 									   const JBoolean deleteToTabStop) override;
@@ -62,8 +63,6 @@ public:
 
 protected:
 
-	virtual void	Initialize() override;
-
 	Mode	GetMode() const;
 	void	SetMode(const Mode mode);
 
@@ -75,11 +74,11 @@ protected:
 	void			ClearKeyBuffers();
 
 	JBoolean	PrehandleKeyPress(const JUtf8Character& key, JBoolean* result);
-	void		YankLines(const JArray<JIndexRange>& matchList, const JBoolean del);
+	void		YankLines(const JStringMatch& match, const JBoolean del);
 	void		YankToEndOfLine(const JBoolean del, const JBoolean ins);
 
 	CutBuffer*	GetCutBuffer(const JRegex& r) const;
-	CutBuffer*	GetCutBuffer(const JRegex& r, const JArray<JIndexRange>& matchList) const;
+	CutBuffer*	GetCutBuffer(const JRegex& r, const JStringMatch& match) const;
 
 private:
 

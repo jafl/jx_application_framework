@@ -11,11 +11,6 @@
 #include <JUndo.h>
 #include <JTextEditor.h>	// need defintion of JTextEditor::Font
 
-class JTextEditor;
-class JTEUndoTyping;
-class JTEUndoStyle;
-class JTEUndoTabShift;
-
 class JTEUndoBase : public JUndo
 {
 public:
@@ -30,7 +25,7 @@ public:
 
 	// required by some derived classes
 
-	virtual void	SetPasteLength(const JSize length);
+	virtual void	SetPasteCount(const JTextEditor::TextCount& count);
 
 protected:
 

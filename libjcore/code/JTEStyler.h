@@ -9,6 +9,7 @@
 #define _H_JTEStyler
 
 #include <JTextEditor.h>	// need def of Font
+#include <FlexLexer.h>
 
 class JTEStyler
 {

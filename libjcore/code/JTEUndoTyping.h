@@ -20,19 +20,17 @@ public:
 
 	virtual ~JTEUndoTyping();
 
-	virtual void	Undo();
+	virtual void	Undo() override;
 
-	void	HandleCharacter();
-	void	HandleDelete(const JIndex firstChar, const JIndex lastChar);
-	void	HandleFwdDelete(const JIndex firstChar, const JIndex lastChar);
+	void	HandleDelete(JStringIterator* iter, const JSize charCount);
+	void	HandleFwdDelete(JStringIterator* iter, const JSize charCount);
 
-	void	HandleCharacters(const JSize count);
-	void	HandleAutoIndentDelete(const JIndex firstChar, const JIndex lastChar);
+	void	HandleCharacters(const JTextEditor::TextCount& count);
 
 private:
 
-	JIndex	itsOrigStartIndex;
-	JSize	itsLength;
+	JTextEditor::TextIndex	itsOrigStartIndex;
+	JTextEditor::TextCount	itsCount;
 
 private:
 
@@ -41,17 +39,5 @@ private:
 	JTEUndoTyping(const JTEUndoTyping& source);
 	const JTEUndoTyping& operator=(const JTEUndoTyping& source);
 };
-
-
-/******************************************************************************
- HandleCharacter
-
- ******************************************************************************/
-
-inline void
-JTEUndoTyping::HandleCharacter()
-{
-	HandleCharacters(1);
-}
 
 #endif

@@ -12,7 +12,6 @@
 
 #include <JTEUndoTextBase.h>
 #include <JTEUndoPaste.h>
-#include <JStringIterator.h>
 #include <jAssert.h>
 
 /******************************************************************************
@@ -53,18 +52,20 @@ JTEUndoTextBase::~JTEUndoTextBase()
 void
 JTEUndoTextBase::PrepareForUndo
 	(
-	const JIndex	start,
-	const JSize		length
+	const JTextEditor::TextIndex& start,
+	const JTextEditor::TextCount& count
 	)
 {
 	JTextEditor* te = GetTE();
-	if (length == 0)
+	if (count.charCount == 0)
 		{
 		te->SetCaretLocation(start);
 		}
 	else
 		{
-		te->SetSelection(start, start + length - 1);
+		te->SetSelection(
+			JCharacterRange(start.charIndex, start.charIndex + count.charCount - 1),
+			JUtf8ByteRange (start.byteIndex, start.byteIndex + count.byteCount - 1));
 		}
 }
 
@@ -80,16 +81,19 @@ JTEUndoTextBase::Undo()
 {
 	JTextEditor* te = GetTE();
 
-	JTEUndoPaste* newUndo = jnew JTEUndoPaste(te, itsOrigBuffer.GetCharacterCount());
+	JTEUndoPaste* newUndo = jnew JTEUndoPaste(te,
+		JTextEditor::TextCount(itsOrigBuffer.GetCharacterCount(), itsOrigBuffer.GetByteCount()));
 	assert( newUndo != NULL );
 
-	const JIndex selStart   = te->GetInsertionIndex();
-	const JSize pasteLength = te->PrivatePaste(itsOrigBuffer, itsOrigStyles);
-	assert( pasteLength == itsOrigBuffer.GetCharacterCount() );
+	const JTextEditor::TextIndex selStart   = te->GetInsertionIndex();
+	const JTextEditor::TextCount pasteCount = te->PrivatePaste(itsOrigBuffer, itsOrigStyles);
+	assert( pasteCount.charCount == itsOrigBuffer.GetCharacterCount() );
 
 	if (!itsOrigBuffer.IsEmpty())
 		{
-		te->SetSelection(selStart, selStart + itsOrigBuffer.GetCharacterCount() - 1);
+		te->SetSelection(
+			JCharacterRange(selStart.charIndex, selStart.charIndex + itsOrigBuffer.GetCharacterCount() - 1),
+			JUtf8ByteRange (selStart.byteIndex, selStart.byteIndex + itsOrigBuffer.GetByteCount() - 1));
 		}
 	else
 		{
@@ -102,29 +106,19 @@ JTEUndoTextBase::Undo()
 /******************************************************************************
  PrependToSave (protected)
 
-	Prepend the character in front of index to the save buffer.
+	Prepend the character to the save buffer.
 
  ******************************************************************************/
 
 void
 JTEUndoTextBase::PrependToSave
 	(
-	const JIndex index
+	const JUtf8Character&	c,
+	const JIndex			charIndex
 	)
 {
-	assert( index > 1 );
-
-	JTextEditor* te = GetTE();
-
-	JStringIterator iter(te->GetText(), kJIteratorStartBefore, index);
-	JUtf8Character c;
-	const JBoolean ok = iter.Prev(&c);
-	assert( ok );
-
-	const JFont f = te->GetFont(index-1);
-
 	itsOrigBuffer.Prepend(c);
-	itsOrigStyles->PrependElement(f);
+	itsOrigStyles->PrependElement(GetTE()->GetFont(charIndex));
 }
 
 /******************************************************************************
@@ -137,20 +131,12 @@ JTEUndoTextBase::PrependToSave
 void
 JTEUndoTextBase::AppendToSave
 	(
-	const JIndex index
+	const JUtf8Character&	c,
+	const JIndex			charIndex
 	)
 {
-	JTextEditor* te = GetTE();
-
-	JStringIterator iter(te->GetText(), kJIteratorStartBefore, index);
-	JUtf8Character c;
-	const JBoolean ok = iter.Next(&c);
-	assert( ok );
-
-	const JFont f = te->GetFont(index);
-
 	itsOrigBuffer.Append(c);
-	itsOrigStyles->AppendElement(f);
+	itsOrigStyles->AppendElement(GetTE()->GetFont(charIndex));
 }
 
 /******************************************************************************

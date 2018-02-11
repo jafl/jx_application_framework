@@ -19,12 +19,13 @@ public:
 	JTEUndoDrop(JTextEditor* te,
 				const JTextEditor::TextIndex& origIndex,
 				const JTextEditor::TextIndex& newIndex,
-				const JTextEditor::TextCount& length);
+				const JTextEditor::TextCount& count);
 
 	virtual ~JTEUndoDrop();
 
-	virtual void	SetPasteLength(const JTextEditor::TextCount& length);
-	virtual void	Undo();
+	virtual void	Undo() override;
+
+	virtual void	SetPasteCount(const JTextEditor::TextCount& count) override;
 
 private:
 

@@ -198,6 +198,12 @@ JTEST(IsAlnum)
 	JAssertTrue(JUtf8Character("\xF0\xAF\xA7\x97").IsAlnum());
 }
 
+JTEST(IsDigit)
+{
+	JAssertFalse(JUtf8Character('{').IsDigit());
+	JAssertTrue(JUtf8Character('5').IsDigit());
+}
+
 JTEST(IsAlpha)
 {
 	JAssertFalse(JUtf8Character('{').IsAlpha());

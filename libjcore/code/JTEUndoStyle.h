@@ -20,13 +20,14 @@ public:
 
 	virtual ~JTEUndoStyle();
 
-	virtual void	Undo();
+	virtual void	Undo() override;
 
-	virtual void	SetFont(const JString& name, const JSize size);
+	virtual void	SetFont(const JString& name, const JSize size) override;
 
 private:
 
-	JIndex				itsStartIndex;
+	JCharacterRange		itsCharRange;
+	JUtf8ByteRange		itsByteRange;
 	JRunArray<JFont>*	itsOrigStyles;
 
 private:

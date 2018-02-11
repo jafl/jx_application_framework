@@ -20,13 +20,13 @@
 JTEUndoPaste::JTEUndoPaste
 	(
 	JTextEditor*					te,
-	const JTextEditor::TextCount&	pasteLength
+	const JTextEditor::TextCount&	pasteCount
 	)
 	:
 	JTEUndoTextBase(te)
 {
 	itsOrigSelStart = te->GetInsertionIndex();
-	itsLength       = pasteLength;
+	itsCount        = pasteCount;
 }
 
 /******************************************************************************
@@ -39,17 +39,17 @@ JTEUndoPaste::~JTEUndoPaste()
 }
 
 /******************************************************************************
- SetPasteLength (virtual)
+ SetPasteCount (virtual)
 
  ******************************************************************************/
 
 void
-JTEUndoPaste::SetPasteLength
+JTEUndoPaste::SetPasteCount
 	(
-	const JTextEditor::TextCount& length
+	const JTextEditor::TextCount& count
 	)
 {
-	itsLength = length;
+	itsCount = count;
 }
 
 /******************************************************************************
@@ -60,6 +60,6 @@ JTEUndoPaste::SetPasteLength
 void
 JTEUndoPaste::Undo()
 {
-	PrepareForUndo(itsOrigSelStart, itsLength);
+	PrepareForUndo(itsOrigSelStart, itsCount);
 	JTEUndoTextBase::Undo();
 }
