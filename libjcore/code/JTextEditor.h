@@ -34,12 +34,15 @@ typedef JBoolean (*JCharacterInWordFn)(const JUtf8Character&);
 class JTextEditor : virtual public JBroadcaster
 {
 	friend class JTEUndoTextBase;
-	friend class JTEUndoPaste;
 	friend class JTEUndoDrop;
+	friend class JTEUndoPaste;
 	friend class JTEUndoStyle;
+	friend class JTEUndoTabShift;
+	friend class JTEUndoTyping;
 
 	friend class JTEKeyHandler;
 	friend class JTEDefaultKeyHandler;
+	friend class JVIKeyHandler;
 
 	friend JSize JPasteUNIXTerminalOutput(const JString& text, JTextEditor* te);
 
@@ -500,6 +503,8 @@ public:		// ought to be protected
 			charCount(ch),
 			byteCount(byte)
 		{ };
+
+		JTextEditor::TextCount& operator+=(const JTextEditor::TextCount& c);
 	};
 
 	struct LineGeometry
@@ -822,9 +827,10 @@ private:
 	JRect			CalcCaretRect(const CaretLocation& caretLoc) const;
 	void			TERefreshCaret(const CaretLocation& caretLoc);
 
-	void	SetSelection(const JCharacterRange& charRange,
-						 const JUtf8ByteRange& byteRange,
-						 const JBoolean needCaretBcast = kJTrue);
+	JBoolean	GetSelection(JCharacterRange* charRange, JUtf8ByteRange* byteRange) const;
+	void		SetSelection(const JCharacterRange& charRange,
+							 const JUtf8ByteRange& byteRange,
+							 const JBoolean needCaretBcast = kJTrue);
 
 	JCoordinate	GetCharLeft(const CaretLocation& charLoc) const;
 	JCoordinate	GetCharRight(const CaretLocation& charLoc) const;
@@ -1267,6 +1273,22 @@ JTextEditor::SetSelection
 	SetSelection(range.first, range.last, needCaretBcast);
 }
 */
+
+// protected
+
+inline JBoolean
+JTextEditor::GetSelection
+	(
+	JCharacterRange*	charRange,
+	JUtf8ByteRange*		byteRange
+	)
+	const
+{
+	*charRange = itsCharSelection;
+	*byteRange = itsByteSelection;
+	return !itsCharSelection.IsEmpty();
+}
+
 /******************************************************************************
  Multiple undo
 
@@ -2086,6 +2108,32 @@ operator!=
 	)
 {
 	return !(g1 == g2);
+}
+
+/******************************************************************************
+ TextCount operators
+
+ ******************************************************************************/
+
+inline JTextEditor::TextCount
+operator+
+	(
+	const JTextEditor::TextCount& c1,
+	const JTextEditor::TextCount& c2
+	)
+{
+	return JTextEditor::TextCount(c1.charCount + c2.charCount, c1.byteCount + c2.byteCount);
+}
+
+inline JTextEditor::TextCount&
+JTextEditor::TextCount::operator+=
+	(
+	const JTextEditor::TextCount& c
+	)
+{
+	charCount += c.charCount;
+	byteCount += c.byteCount;
+	return *this;
 }
 
 #endif
