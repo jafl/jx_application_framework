@@ -568,6 +568,10 @@ T
 F
 "./code/JTextEditor.cpp"
 T
+2 "JStyledTextBuffer.cpp"
+F
+"./code/JStyledTextBuffer.cpp"
+T
 2 "JTEUndoBase.cpp"
 F
 "./code/JTEUndoBase.cpp"
@@ -595,10 +599,6 @@ T
 2 "JTEUndoTyping.cpp"
 F
 "./code/JTEUndoTyping.cpp"
-T
-2 "JTEStyler.cpp"
-F
-"./code/JTEStyler.cpp"
 T
 2 "JTEKeyHandler.cpp"
 F

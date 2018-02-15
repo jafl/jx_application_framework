@@ -16,7 +16,7 @@ class JTEUndoTextBase : public JTEUndoBase
 {
 public:
 
-	JTEUndoTextBase(JTextEditor* te);
+	JTEUndoTextBase(JStyledTextBuffer* te);
 
 	virtual ~JTEUndoTextBase();
 
@@ -26,8 +26,8 @@ public:
 
 protected:
 
-	void	PrepareForUndo(const JTextEditor::TextIndex& start,
-						   const JTextEditor::TextCount& count);
+	void	PrepareForUndo(const JStyledTextBuffer::TextIndex& start,
+						   const JStyledTextBuffer::TextCount& count);
 
 	void	PrependToSave(const JUtf8Character& c, const JIndex charIndex);
 	void	AppendToSave(const JUtf8Character& c, const JIndex charIndex);

@@ -1,7 +1,7 @@
 /******************************************************************************
  JTEUndoBase.cpp
 
-	Base class to support undoing any operation on a JTextEditor object.
+	Base class to support undoing any operation on a JStyledTextBuffer object.
 
 	BASE CLASS = JUndo
 
@@ -20,11 +20,11 @@
 
 JTEUndoBase::JTEUndoBase
 	(
-	JTextEditor* te
+	JStyledTextBuffer* buffer
 	)
 	:
 	JUndo(),
-	itsTE(te)
+	itsBuffer(buffer)
 {
 }
 
@@ -40,7 +40,7 @@ JTEUndoBase::~JTEUndoBase()
 /******************************************************************************
  SetFont (virtual)
 
-	Called by JTextEditor::SetAllFontNameAndSize().
+	Called by JStyledTextBuffer::SetAllFontNameAndSize().
 
  ******************************************************************************/
 
@@ -68,7 +68,7 @@ JTEUndoBase::SetFont
 	const JSize			size
 	)
 {
-	const JFontManager* fontMgr = itsTE->TEGetFontManager();
+	const JFontManager* fontMgr = itsBuffer->GetFontManager();
 
 	const JSize runCount = styles->GetRunCount();
 	for (JIndex i=1; i<=runCount; i++)
@@ -77,20 +77,4 @@ JTEUndoBase::SetFont
 		f.Set(name, size, f.GetStyle());
 		styles->SetRunData(i, f);
 		}
-}
-
-/******************************************************************************
- SetPasteCount (virtual)
-
-	Required by some derived classes.
-
- ******************************************************************************/
-
-void
-JTEUndoBase::SetPasteCount
-	(
-	const JTextEditor::TextCount& count
-	)
-{
-	assert_msg( 0, "programmer forgot to override JTEUndoBase::SetPasteCount" );
 }

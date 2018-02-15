@@ -1,7 +1,7 @@
 /******************************************************************************
  JTEUndoStyle.cpp
 
-	Class to undo style change in a JTextEditor object.
+	Class to undo style change in a JStyledTextBuffer object.
 
 	BASE CLASS = JTEUndoBase
 
@@ -20,7 +20,7 @@
 
 JTEUndoStyle::JTEUndoStyle
 	(
-	JTextEditor* te
+	JStyledTextBuffer* te
 	)
 	:
 	JTEUndoBase(te)
@@ -54,13 +54,14 @@ JTEUndoStyle::~JTEUndoStyle()
 void
 JTEUndoStyle::Undo()
 {
-	JTextEditor* te = GetTE();
+	JStyledTextBuffer* te = GetSTB();
 	te->SetSelection(itsCharRange, itsByteRange);
 
 	JTEUndoStyle* newUndo = jnew JTEUndoStyle(te);
 	assert( newUndo != NULL );
 
-	te->SetFont(itsCharRange.first, *itsOrigStyles, kJFalse);
+	te->SetFont(JStyledTextBuffer::TextIndex(itsCharRange.first, itsByteRange.first),
+				*itsOrigStyles, kJFalse);
 
 	te->ReplaceUndo(this, newUndo);		// deletes us
 }
@@ -68,7 +69,7 @@ JTEUndoStyle::Undo()
 /******************************************************************************
  SetFont (virtual)
 
-	Called by JTextEditor::SetAllFontNameAndSize().
+	Called by JStyledTextBuffer::SetAllFontNameAndSize().
 
  ******************************************************************************/
 

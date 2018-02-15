@@ -16,7 +16,7 @@ class JTEUndoTyping : public JTEUndoTextBase
 {
 public:
 
-	JTEUndoTyping(JTextEditor* te);
+	JTEUndoTyping(JStyledTextBuffer* te, const JStyledTextBuffer::TextIndex& start);
 
 	virtual ~JTEUndoTyping();
 
@@ -25,12 +25,12 @@ public:
 	void	HandleDelete(JStringIterator* iter, const JSize charCount);
 	void	HandleFwdDelete(JStringIterator* iter, const JSize charCount);
 
-	void	HandleCharacters(const JTextEditor::TextCount& count);
+	void	HandleCharacters(const JStyledTextBuffer::TextCount& count);
 
 private:
 
-	JTextEditor::TextIndex	itsOrigStartIndex;
-	JTextEditor::TextCount	itsCount;
+	JStyledTextBuffer::TextIndex	itsOrigStartIndex;
+	JStyledTextBuffer::TextCount	itsCount;
 
 private:
 

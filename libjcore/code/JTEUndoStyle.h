@@ -16,7 +16,7 @@ class JTEUndoStyle : public JTEUndoBase
 {
 public:
 
-	JTEUndoStyle(JTextEditor* te);
+	JTEUndoStyle(JStyledTextBuffer* te);
 
 	virtual ~JTEUndoStyle();
 

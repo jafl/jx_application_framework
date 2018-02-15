@@ -1,7 +1,7 @@
 /******************************************************************************
  JTEUndoPaste.cpp
 
-	Class to undo paste into a JTextEditor object.
+	Class to undo paste into a JStyledTextBuffer object.
 
 	BASE CLASS = JTEUndoTextBase
 
@@ -19,14 +19,15 @@
 
 JTEUndoPaste::JTEUndoPaste
 	(
-	JTextEditor*					te,
-	const JTextEditor::TextCount&	pasteCount
+	JStyledTextBuffer*					te,
+	const JStyledTextBuffer::TextIndex&	start,
+	const JStyledTextBuffer::TextCount&	pasteCount
 	)
 	:
-	JTEUndoTextBase(te)
+	JTEUndoTextBase(te),
+	itsStart(start),
+	itsCount(pasteCount)
 {
-	itsOrigSelStart = te->GetInsertionIndex();
-	itsCount        = pasteCount;
 }
 
 /******************************************************************************
@@ -39,20 +40,6 @@ JTEUndoPaste::~JTEUndoPaste()
 }
 
 /******************************************************************************
- SetPasteCount (virtual)
-
- ******************************************************************************/
-
-void
-JTEUndoPaste::SetPasteCount
-	(
-	const JTextEditor::TextCount& count
-	)
-{
-	itsCount = count;
-}
-
-/******************************************************************************
  Undo (virtual)
 
  ******************************************************************************/
@@ -60,6 +47,6 @@ JTEUndoPaste::SetPasteCount
 void
 JTEUndoPaste::Undo()
 {
-	PrepareForUndo(itsOrigSelStart, itsCount);
+	PrepareForUndo(itsStart, itsCount);
 	JTEUndoTextBase::Undo();
 }

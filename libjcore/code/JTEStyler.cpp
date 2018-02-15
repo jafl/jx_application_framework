@@ -114,7 +114,7 @@ JTEStyler::~JTEStyler()
 /******************************************************************************
  UpdateStyles
 
-	*range is inside [1, text.GetLength()+1]
+	*range is inside [1, text.GetCharacterCount()+1]
 
  ******************************************************************************/
 
@@ -136,12 +136,13 @@ JTEStyler::UpdateStyles
 		return;
 		}
 
-	const JSize textLength = text.GetLength();
-	if (textLength == 0)
+	if (text.IsEmpty())
 		{
 		tokenStartList->RemoveAll();
 		return;
 		}
+
+	const JSize charCount = text.GetCharacterCount();
 
 	TokenData tokenData;
 	if (recalcRange->first == 1 && recalcRange->last >= text.GetLength())

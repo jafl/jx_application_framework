@@ -16,22 +16,22 @@ class JTEUndoDrop : public JTEUndoBase
 {
 public:
 
-	JTEUndoDrop(JTextEditor* te,
-				const JTextEditor::TextIndex& origIndex,
-				const JTextEditor::TextIndex& newIndex,
-				const JTextEditor::TextCount& count);
+	JTEUndoDrop(JStyledTextBuffer* te,
+				const JStyledTextBuffer::TextIndex& origIndex,
+				const JStyledTextBuffer::TextIndex& newIndex,
+				const JStyledTextBuffer::TextCount& count);
 
 	virtual ~JTEUndoDrop();
 
 	virtual void	Undo() override;
 
-	virtual void	SetPasteCount(const JTextEditor::TextCount& count) override;
+	void	SetCount(const JStyledTextBuffer::TextCount& count);
 
 private:
 
-	JTextEditor::TextIndex	itsOrigCaretLoc;
-	JTextEditor::TextIndex	itsNewSelStart;
-	JTextEditor::TextIndex	itsNewSelEnd;
+	JStyledTextBuffer::TextIndex	itsOrigCaretLoc;
+	JStyledTextBuffer::TextIndex	itsNewSelStart;
+	JStyledTextBuffer::TextIndex	itsNewSelEnd;
 
 private:
 

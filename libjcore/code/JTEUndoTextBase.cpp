@@ -1,7 +1,7 @@
 /******************************************************************************
  JTEUndoTextBase.cpp
 
-	Base class to support undoing any operation on a JTextEditor object
+	Base class to support undoing any operation on a JStyledTextBuffer object
 	that starts by deleting some text.
 
 	BASE CLASS = JTEUndoBase
@@ -21,10 +21,10 @@
 
 JTEUndoTextBase::JTEUndoTextBase
 	(
-	JTextEditor* te
+	JStyledTextBuffer* buffer
 	)
 	:
-	JTEUndoBase(te)
+	JTEUndoBase(buffer)
 {
 	itsOrigStyles = jnew JRunArray<JFont>;
 	assert( itsOrigStyles != NULL );
@@ -52,11 +52,11 @@ JTEUndoTextBase::~JTEUndoTextBase()
 void
 JTEUndoTextBase::PrepareForUndo
 	(
-	const JTextEditor::TextIndex& start,
-	const JTextEditor::TextCount& count
+	const JStyledTextBuffer::TextIndex& start,
+	const JStyledTextBuffer::TextCount& count
 	)
 {
-	JTextEditor* te = GetTE();
+	JStyledTextBuffer* buffer = GetBuffer();
 	if (count.charCount == 0)
 		{
 		te->SetCaretLocation(start);
@@ -79,14 +79,14 @@ JTEUndoTextBase::PrepareForUndo
 void
 JTEUndoTextBase::Undo()
 {
-	JTextEditor* te = GetTE();
+	JStyledTextBuffer* buffer = GetBuffer();
 
-	JTEUndoPaste* newUndo = jnew JTEUndoPaste(te,
-		JTextEditor::TextCount(itsOrigBuffer.GetCharacterCount(), itsOrigBuffer.GetByteCount()));
+	JTEUndoPaste* newUndo = jnew JTEUndoPaste(buffer,
+		JStyledTextBuffer::TextCount(itsOrigBuffer.GetCharacterCount(), itsOrigBuffer.GetByteCount()));
 	assert( newUndo != NULL );
 
-	const JTextEditor::TextIndex selStart   = te->GetInsertionIndex();
-	const JTextEditor::TextCount pasteCount = te->PrivatePaste(itsOrigBuffer, itsOrigStyles);
+	const JStyledTextBuffer::TextIndex selStart   = te->GetInsertionIndex();
+	const JStyledTextBuffer::TextCount pasteCount = buffer->PrivatePaste(itsOrigBuffer, itsOrigStyles);
 	assert( pasteCount.charCount == itsOrigBuffer.GetCharacterCount() );
 
 	if (!itsOrigBuffer.IsEmpty())
@@ -100,7 +100,7 @@ JTEUndoTextBase::Undo()
 		te->SetCaretLocation(selStart);
 		}
 
-	te->ReplaceUndo(this, newUndo);		// deletes us
+	buffer->ReplaceUndo(this, newUndo);		// deletes us
 }
 
 /******************************************************************************
@@ -118,7 +118,7 @@ JTEUndoTextBase::PrependToSave
 	)
 {
 	itsOrigBuffer.Prepend(c);
-	itsOrigStyles->PrependElement(GetTE()->GetFont(charIndex));
+	itsOrigStyles->PrependElement(GetBuffer()->GetFont(charIndex));
 }
 
 /******************************************************************************
@@ -136,13 +136,13 @@ JTEUndoTextBase::AppendToSave
 	)
 {
 	itsOrigBuffer.Append(c);
-	itsOrigStyles->AppendElement(GetTE()->GetFont(charIndex));
+	itsOrigStyles->AppendElement(GetBuffer()->GetFont(charIndex));
 }
 
 /******************************************************************************
  SetFont (virtual)
 
-	Called by JTextEditor::SetAllFontNameAndSize().
+	Called by JStyledTextBuffer::SetAllFontNameAndSize().
 
  ******************************************************************************/
 

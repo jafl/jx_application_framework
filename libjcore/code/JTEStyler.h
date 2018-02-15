@@ -16,28 +16,26 @@ class JTEStyler
 public:
 
 	// Feel free to request other items in this union.  It is only here
-	// because certain exceptional languages like TCL and PHP require
-	// additional state.  We don't provide a void* because then we would
-	// have to keep track of whether or not it needs to be deleted.
+	// because certain exceptional languages like PHP require additional
+	// state.  We don't provide a void* because then we would have to keep
+	// track of whether or not it needs to be deleted.
 
 	union TokenExtra
 	{
-		JIndex			indexValue;
-		JSize			sizeValue;
-		yy_state_type	lexerState;
+		yy_state_type lexerState;
 	};
 
 	struct TokenData
 	{
-		JIndex		startIndex;
-		TokenExtra	data;
+		JTextEditor::TextIndex	startIndex;
+		TokenExtra				data;
 
 		TokenData()
 			:
-			startIndex(0), data()
+			data()
 		{ };
 
-		TokenData(const JIndex i, const TokenExtra& d)
+		TokenData(const JTextEditor::TextIndex& i, const TokenExtra& d)
 			:
 			startIndex(i), data(d)
 		{ };

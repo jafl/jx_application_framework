@@ -11,7 +11,7 @@
  ******************************************************************************/
 
 #include <JTEUndoTabShift.h>
-#include <JTextEditor.h>
+#include <JStyledTextBuffer.h>
 #include <jAssert.h>
 
 /******************************************************************************
@@ -21,10 +21,10 @@
 
 JTEUndoTabShift::JTEUndoTabShift
 	(
-	JTextEditor* te
+	JStyledTextBuffer* te
 	)
 	:
-	JTEUndoPaste(te, JTextEditor::TextCount(0,0))
+	JTEUndoPaste(te, JStyledTextBuffer::TextCount(0,0))
 {
 }
 
@@ -35,25 +35,4 @@ JTEUndoTabShift::JTEUndoTabShift
 
 JTEUndoTabShift::~JTEUndoTabShift()
 {
-}
-
-/******************************************************************************
- UpdateEndChar
-
-	Call this after SetSelection() to update the end of the affected text.
-	(We can't store a line number, because this may change when word
-	 wrapping is on.)
-
- ******************************************************************************/
-
-void
-JTEUndoTabShift::UpdateEndChar()
-{
-	Activate();		// cancel SetSelection()
-
-	JCharacterRange cr;
-	JUtf8ByteRange  br;
-	const JBoolean ok = GetTE()->GetSelection(&cr, &br);
-	assert( ok );
-	SetCurrentCount(JTextEditor::TextCount(cr.GetCount(), br.GetCount()));
 }

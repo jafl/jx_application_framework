@@ -10,7 +10,7 @@
  ******************************************************************************/
 
 #include <JTEUndoDrop.h>
-#include <JTextEditor.h>
+#include <JStyledTextBuffer.h>
 #include <jAssert.h>
 
 /******************************************************************************
@@ -20,17 +20,17 @@
 
 JTEUndoDrop::JTEUndoDrop
 	(
-	JTextEditor*					te,
-	const JTextEditor::TextIndex&	origIndex,
-	const JTextEditor::TextIndex&	newIndex,
-	const JTextEditor::TextCount&	count
+	JStyledTextBuffer*					te,
+	const JStyledTextBuffer::TextIndex&	origIndex,
+	const JStyledTextBuffer::TextIndex&	newIndex,
+	const JStyledTextBuffer::TextCount&	count
 	)
 	:
 	JTEUndoBase(te)
 {
 	itsOrigCaretLoc = origIndex;
 	itsNewSelStart  = newIndex;
-	SetPasteCount(count);
+	SetCount(count);
 }
 
 /******************************************************************************
@@ -43,14 +43,14 @@ JTEUndoDrop::~JTEUndoDrop()
 }
 
 /******************************************************************************
- SetPasteCount
+ SetCount
 
  ******************************************************************************/
 
 void
-JTEUndoDrop::SetPasteCount
+JTEUndoDrop::SetCount
 	(
-	const JTextEditor::TextCount& count
+	const JStyledTextBuffer::TextCount& count
 	)
 {
 	itsNewSelEnd.charIndex = itsNewSelStart.charIndex + count.charCount - 1;
@@ -65,7 +65,7 @@ JTEUndoDrop::SetPasteCount
 void
 JTEUndoDrop::Undo()
 {
-	JTextEditor* te = GetTE();
+	JStyledTextBuffer* te = GetSTB();
 	te->SetSelection(JCharacterRange(itsNewSelStart.charIndex, itsNewSelEnd.charIndex),
 					 JUtf8ByteRange(itsNewSelStart.byteIndex,  itsNewSelEnd.byteIndex));
 	te->DropSelection(itsOrigCaretLoc, kJFalse);			// deletes us

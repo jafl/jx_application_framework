@@ -38,10 +38,4 @@ for (JIndex i=startIndex; i<=endIndex; i++)
 		}
 	}
 
-if (changed)
-	{
-	Recalc(CharIndexToTextIndex(startIndex),
-		   endIndex - startIndex + 1, kJFalse);
-	}
-
 return changed;

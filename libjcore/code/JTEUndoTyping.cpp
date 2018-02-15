@@ -1,7 +1,7 @@
 /******************************************************************************
  JTEUndoTyping.cpp
 
-	Class to undo typing into a JTextEditor object.
+	Class to undo typing into a JStyledTextBuffer object.
 
 	BASE CLASS = JTEUndoTextBase
 
@@ -20,12 +20,13 @@
 
 JTEUndoTyping::JTEUndoTyping
 	(
-	JTextEditor* te
+	JStyledTextBuffer*					te,
+	const JStyledTextBuffer::TextIndex&	start
 	)
 	:
-	JTEUndoTextBase(te)
+	JTEUndoTextBase(te),
+	itsOrigStartIndex(start)
 {
-	itsOrigStartIndex = te->GetInsertionIndex();
 }
 
 /******************************************************************************
@@ -57,7 +58,7 @@ JTEUndoTyping::Undo()
 void
 JTEUndoTyping::HandleCharacters
 	(
-	const JTextEditor::TextCount& count
+	const JStyledTextBuffer::TextCount& count
 	)
 {
 	assert( IsActive() );

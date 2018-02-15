@@ -99,6 +99,7 @@
 .cpp ./code/JNamedTreeList
 .cpp ./code/JNamedTreeNode
 .cpp ./code/JTextEditor
+.cpp ./code/JStyledTextBuffer
 .cpp ./code/JTEUndoBase
 .cpp ./code/JTEUndoTextBase
 .cpp ./code/JTEUndoDrop
@@ -106,7 +107,6 @@
 .cpp ./code/JTEUndoStyle
 .cpp ./code/JTEUndoTabShift
 .cpp ./code/JTEUndoTyping
-.cpp ./code/JTEStyler
 .cpp ./code/JTEKeyHandler
 .cpp ./code/JTEDefaultKeyHandler
 .cpp ./code/JVIKeyHandler

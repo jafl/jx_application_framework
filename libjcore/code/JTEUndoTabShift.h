@@ -14,11 +14,9 @@ class JTEUndoTabShift : public JTEUndoPaste
 {
 public:
 
-	JTEUndoTabShift(JTextEditor* te);
+	JTEUndoTabShift(JStyledTextBuffer* te);
 
 	virtual ~JTEUndoTabShift();
-
-	void	UpdateEndChar();
 
 private:
 

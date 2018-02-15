@@ -9,34 +9,30 @@
 #define _H_JTEUndoBase
 
 #include <JUndo.h>
-#include <JTextEditor.h>	// need defintion of JTextEditor::Font
+#include <JStyledTextBuffer.h>	// need struct definitions
 
 class JTEUndoBase : public JUndo
 {
 public:
 
-	JTEUndoBase(JTextEditor* te);
+	JTEUndoBase(JStyledTextBuffer* buffer);
 
 	virtual ~JTEUndoBase();
 
-	// called by JTextEditor::SetAllFontNameAndSize()
+	// called by JStyledTextBuffer::SetAllFontNameAndSize()
 
 	virtual void	SetFont(const JString& name, const JSize size);
 
-	// required by some derived classes
-
-	virtual void	SetPasteCount(const JTextEditor::TextCount& count);
-
 protected:
 
-	JTextEditor*	GetTE() const;
+	JStyledTextBuffer*	GetBuffer() const;
 
 	void	SetFont(JRunArray<JFont>* styles,
 					const JString& name, const JSize size);
 
 private:
 
-	JTextEditor*	itsTE;		// we don't own this
+	JStyledTextBuffer*	itsBuffer;		// we don't own this
 
 private:
 
@@ -52,11 +48,11 @@ private:
 
  ******************************************************************************/
 
-inline JTextEditor*
-JTEUndoBase::GetTE()
+inline JStyledTextBuffer*
+JTEUndoBase::GetBuffer()
 	const
 {
-	return itsTE;
+	return itsBuffer;
 }
 
 #endif
