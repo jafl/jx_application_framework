@@ -14,7 +14,6 @@
 
 #include <JXMenuData.h>
 #include <JString.h>
-#include <ctype.h>
 #include <jAssert.h>
 
 /******************************************************************************

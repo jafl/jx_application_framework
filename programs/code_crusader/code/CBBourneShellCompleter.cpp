@@ -8,7 +8,6 @@
  ******************************************************************************/
 
 #include "CBBourneShellCompleter.h"
-#include <ctype.h>
 #include <jAssert.h>
 
 CBBourneShellCompleter* CBBourneShellCompleter::itsSelf = NULL;

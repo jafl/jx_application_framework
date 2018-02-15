@@ -38,7 +38,6 @@
 #include <jMath.h>
 #include <JMinMax.h>
 #include <stdlib.h>
-#include <ctype.h>
 #include <sstream>
 #include <strstream>
 #include <iomanip>

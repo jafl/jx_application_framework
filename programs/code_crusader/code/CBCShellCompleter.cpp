@@ -8,7 +8,6 @@
  ******************************************************************************/
 
 #include "CBCShellCompleter.h"
-#include <ctype.h>
 #include <jAssert.h>
 
 CBCShellCompleter* CBCShellCompleter::itsSelf = NULL;

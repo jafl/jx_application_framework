@@ -8,7 +8,6 @@ This scanner reads a Python file and returns CBPythonScanner::Tokens.
 #define _H_CBPythonScannerL
 
 #include "CBPythonScanner.h"
-#include <ctype.h>
 #include <jAssert.h>
 
 #undef YY_DECL

@@ -15,7 +15,6 @@
 #include <JXDialogDirector.h>
 #include <JRegex.h>
 #include <JColormap.h>
-#include <ctype.h>
 #include <jAssert.h>
 
 CBPerlStyler* CBPerlStyler::itsSelf = NULL;
@@ -170,7 +169,7 @@ CBPerlStyler::~CBPerlStyler()
 void
 CBPerlStyler::Scan
 	(
-	std::istream&			input,
+	std::istream&		input,
 	const TokenExtra&	initData
 	)
 {

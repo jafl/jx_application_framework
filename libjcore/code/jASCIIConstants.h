@@ -11,7 +11,6 @@
 #define _H_jASCIIConstants
 
 #include <jTypes.h>
-#include <ctype.h>	// for convenience
 
 const int kJMinASCIICharacter = 0;
 const int kJMaxASCIICharacter = 127;

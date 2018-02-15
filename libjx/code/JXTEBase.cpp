@@ -55,7 +55,6 @@
 #include <sstream>
 #include <stdlib.h>
 #include <stdio.h>
-#include <ctype.h>
 #include <jAssert.h>
 
 JXTEBase::PartialWordModifier JXTEBase::thePWMod = JXTEBase::kCtrlMetaPWMod;

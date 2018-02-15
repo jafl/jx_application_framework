@@ -8,7 +8,6 @@ This scanner reads a TCL file and returns CBTCLScanner::Tokens.
 #define _H_CBTCLScannerL
 
 #include "CBTCLScanner.h"
-#include <ctype.h>
 #include <jAssert.h>
 
 #undef YY_DECL

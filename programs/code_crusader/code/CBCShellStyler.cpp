@@ -14,7 +14,6 @@
 #include "cbmUtil.h"
 #include <JRegex.h>
 #include <JColormap.h>
-#include <ctype.h>
 #include <jAssert.h>
 
 CBCShellStyler* CBCShellStyler::itsSelf = NULL;
@@ -130,7 +129,7 @@ CBCShellStyler::~CBCShellStyler()
 void
 CBCShellStyler::Scan
 	(
-	std::istream&			input,
+	std::istream&		input,
 	const TokenExtra&	initData
 	)
 {

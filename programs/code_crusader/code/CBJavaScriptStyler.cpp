@@ -15,7 +15,6 @@
 #include <JXDialogDirector.h>
 #include <JColormap.h>
 #include <JRegex.h>
-#include <ctype.h>
 #include <jAssert.h>
 
 CBJavaScriptStyler* CBJavaScriptStyler::itsSelf = NULL;
@@ -153,7 +152,7 @@ CBJavaScriptStyler::~CBJavaScriptStyler()
 void
 CBJavaScriptStyler::Scan
 	(
-	std::istream&			input,
+	std::istream&		input,
 	const TokenExtra&	initData
 	)
 {

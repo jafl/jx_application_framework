@@ -66,6 +66,7 @@ JApplyFunction
 			break;
 			}
 		}
+
 	if (found)
 		{
 		for (JIndex i=1; i<argCount; i++)

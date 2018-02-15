@@ -12,7 +12,6 @@
 #include "CBRubyScanner.h"
 #include <JString.h>
 #include <jStreamUtil.h>
-#include <ctype.h>
 #include <stdio.h>
 #include <jAssert.h>
 

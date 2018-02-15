@@ -35,7 +35,6 @@
 #include <jDirUtil.h>
 #include <jMouseUtil.h>
 #include <jMath.h>
-#include <ctype.h>
 #include <jAssert.h>
 
 #include "jcc_qt_signal.xpm"

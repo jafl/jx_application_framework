@@ -13,7 +13,6 @@
 #include "CBPythonStyler.h"
 #include "CBPrefsManager.h"
 #include <JColormap.h>
-#include <ctype.h>
 #include <jAssert.h>
 
 CBPythonStyler* CBPythonStyler::itsSelf = NULL;
@@ -126,7 +125,7 @@ CBPythonStyler::~CBPythonStyler()
 void
 CBPythonStyler::Scan
 	(
-	std::istream&			input,
+	std::istream&		input,
 	const TokenExtra&	initData
 	)
 {

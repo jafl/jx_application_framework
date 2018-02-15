@@ -203,7 +203,6 @@
 //Class Header
 #include <JMemoryManager.h>
 
-#include <ctype.h>
 #include <stdlib.h>
 #include <new>
 

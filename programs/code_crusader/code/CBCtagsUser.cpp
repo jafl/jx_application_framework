@@ -22,7 +22,6 @@
 #include <JRegex.h>
 #include <JString.h>
 #include <jStreamUtil.h>
-#include <ctype.h>
 #include <jAssert.h>
 
 CBCtagsUser::CtagsStatus CBCtagsUser::itsHasExuberantCtagsFlag =

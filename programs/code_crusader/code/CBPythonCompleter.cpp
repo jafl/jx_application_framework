@@ -8,7 +8,6 @@
  ******************************************************************************/
 
 #include "CBPythonCompleter.h"
-#include <ctype.h>
 #include <jAssert.h>
 
 CBPythonCompleter* CBPythonCompleter::itsSelf = NULL;

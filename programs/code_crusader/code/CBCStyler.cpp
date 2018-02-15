@@ -15,7 +15,6 @@
 #include <JXDialogDirector.h>
 #include <JRegex.h>
 #include <JColormap.h>
-#include <ctype.h>
 #include <jAssert.h>
 
 CBCStyler* CBCStyler::itsSelf = NULL;
@@ -154,7 +153,7 @@ CBCStyler::~CBCStyler()
 void
 CBCStyler::Scan
 	(
-	std::istream&			input,
+	std::istream&		input,
 	const TokenExtra&	initData
 	)
 {

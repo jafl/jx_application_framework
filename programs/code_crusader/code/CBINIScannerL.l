@@ -8,7 +8,6 @@ This scanner reads a PHP .ini file and returns CBINIScanner::Tokens.
 #define _H_CBINIScannerL
 
 #include "CBINIScanner.h"
-#include <ctype.h>
 #include <jAssert.h>
 
 #undef YY_DECL

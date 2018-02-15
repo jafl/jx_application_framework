@@ -10,7 +10,6 @@ Remember to upgrade CBHTMLScanner, too!
 #define _H_CBJavaScannerL
 
 #include "CBJavaScanner.h"
-#include <ctype.h>
 #include <jAssert.h>
 
 #undef YY_DECL

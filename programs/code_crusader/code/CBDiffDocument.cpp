@@ -23,7 +23,6 @@
 #include <strstream>
 #include <fcntl.h>
 #include <stdio.h>
-#include <ctype.h>
 #include <jAssert.h>
 
 const JSize kMenuButtonWidth = 70;

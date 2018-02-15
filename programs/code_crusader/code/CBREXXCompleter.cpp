@@ -10,7 +10,6 @@
  ******************************************************************************/
 
 #include "CBREXXCompleter.h"
-#include <ctype.h>
 #include <jAssert.h>
 
 CBREXXCompleter* CBREXXCompleter::itsSelf = NULL;

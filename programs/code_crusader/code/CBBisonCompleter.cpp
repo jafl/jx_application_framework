@@ -10,7 +10,6 @@
 #include "CBBisonCompleter.h"
 #include "CBCCompleter.h"
 #include "CBCStyler.h"
-#include <ctype.h>
 #include <jAssert.h>
 
 CBBisonCompleter* CBBisonCompleter::itsSelf = NULL;

@@ -8,7 +8,6 @@
  ******************************************************************************/
 
 #include "CBSQLCompleter.h"
-#include <ctype.h>
 #include <jAssert.h>
 
 CBSQLCompleter* CBSQLCompleter::itsSelf = NULL;

@@ -14,7 +14,6 @@
 #include "cbmUtil.h"
 #include <JXDialogDirector.h>
 #include <JColormap.h>
-#include <ctype.h>
 #include <jAssert.h>
 
 CBJavaStyler* CBJavaStyler::itsSelf = NULL;
@@ -154,7 +153,7 @@ CBJavaStyler::~CBJavaStyler()
 void
 CBJavaStyler::Scan
 	(
-	std::istream&			input,
+	std::istream&		input,
 	const TokenExtra&	initData
 	)
 {

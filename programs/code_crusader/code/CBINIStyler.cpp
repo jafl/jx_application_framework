@@ -15,7 +15,6 @@
 #include <JXDialogDirector.h>
 #include <JRegex.h>
 #include <JColormap.h>
-#include <ctype.h>
 #include <jAssert.h>
 
 CBINIStyler* CBINIStyler::itsSelf = NULL;
@@ -128,7 +127,7 @@ CBINIStyler::~CBINIStyler()
 void
 CBINIStyler::Scan
 	(
-	std::istream&			input,
+	std::istream&		input,
 	const TokenExtra&	initData
 	)
 {

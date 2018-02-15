@@ -8,7 +8,6 @@
  ******************************************************************************/
 
 #include "CBJavaCompleter.h"
-#include <ctype.h>
 #include <jAssert.h>
 
 CBJavaCompleter* CBJavaCompleter::itsSelf = NULL;

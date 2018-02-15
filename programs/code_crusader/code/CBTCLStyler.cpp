@@ -14,7 +14,6 @@
 #include "cbmUtil.h"
 #include <JRegex.h>
 #include <JColormap.h>
-#include <ctype.h>
 #include <jAssert.h>
 
 CBTCLStyler* CBTCLStyler::itsSelf = NULL;
@@ -124,7 +123,7 @@ CBTCLStyler::~CBTCLStyler()
 void
 CBTCLStyler::Scan
 	(
-	std::istream&			input,
+	std::istream&		input,
 	const TokenExtra&	initData
 	)
 {

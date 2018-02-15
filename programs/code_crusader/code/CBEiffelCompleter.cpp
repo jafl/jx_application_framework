@@ -8,7 +8,6 @@
  ******************************************************************************/
 
 #include "CBEiffelCompleter.h"
-#include <ctype.h>
 #include <jAssert.h>
 
 CBEiffelCompleter* CBEiffelCompleter::itsSelf = NULL;

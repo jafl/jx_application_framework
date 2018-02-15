@@ -8,7 +8,6 @@ This scanner reads a PHP .ini file and returns CBPropertiesScanner::Tokens.
 #define _H_CBPropertiesScannerL
 
 #include "CBPropertiesScanner.h"
-#include <ctype.h>
 #include <jAssert.h>
 
 #undef YY_DECL

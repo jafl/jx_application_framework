@@ -18,7 +18,6 @@
 #include <jStreamUtil.h>
 #include <jFStreamUtil.h>
 #include <sstream>
-#include <ctype.h>
 #include <jAssert.h>
 
 /******************************************************************************

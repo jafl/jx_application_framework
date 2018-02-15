@@ -9,7 +9,6 @@
 #define _H_CBCPreprocessor
 
 #include <JArray.h>
-#include <ctype.h>		// need isalnum()
 
 class JString;
 class CBPPMacroList;

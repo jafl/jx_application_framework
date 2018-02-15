@@ -8,7 +8,6 @@ This scanner reads a C/C++ file and returns CBCScanner::Tokens.
 #define _H_CBCScannerL
 
 #include "CBCScanner.h"
-#include <ctype.h>
 #include <jAssert.h>
 
 #undef YY_DECL

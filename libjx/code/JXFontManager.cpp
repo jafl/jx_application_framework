@@ -30,7 +30,6 @@
 #include <jMath.h>
 #include <sstream>
 #include <string.h>
-#include <ctype.h>
 #include <jAssert.h>
 
 #define ONLY_STD_PS_FONTS	1

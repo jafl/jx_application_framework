@@ -8,7 +8,6 @@
  ******************************************************************************/
 
 #include "CBLuaCompleter.h"
-#include <ctype.h>
 #include <jAssert.h>
 
 CBLuaCompleter* CBLuaCompleter::itsSelf = NULL;

@@ -17,7 +17,6 @@
 #include <jGlobals.h>
 #include <jMath.h>
 #include <jASCIIConstants.h>
-#include <ctype.h>
 #include <jAssert.h>
 
 const JSize kLabelBuffer			= 10;

@@ -8,7 +8,6 @@
  ******************************************************************************/
 
 #include "CBCCompleter.h"
-#include <ctype.h>
 #include <jAssert.h>
 
 CBCCompleter* CBCCompleter::itsSelf = NULL;

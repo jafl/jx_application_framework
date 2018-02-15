@@ -12,7 +12,6 @@
 #include "CBJavaScriptCompleter.h"
 #include "CBJavaScriptStyler.h"
 #include "CBHTMLStyler.h"
-#include <ctype.h>
 #include <jAssert.h>
 
 CBJSPCompleter* CBJSPCompleter::itsSelf = NULL;

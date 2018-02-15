@@ -10,7 +10,6 @@
  ******************************************************************************/
 
 #include "CBRubyCompleter.h"
-#include <ctype.h>
 #include <jAssert.h>
 
 CBRubyCompleter* CBRubyCompleter::itsSelf = NULL;

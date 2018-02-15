@@ -8,7 +8,6 @@
  ******************************************************************************/
 
 #include "CBMakeCompleter.h"
-#include <ctype.h>
 #include <jAssert.h>
 
 CBMakeCompleter* CBMakeCompleter::itsSelf = NULL;

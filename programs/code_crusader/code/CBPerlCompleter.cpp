@@ -8,7 +8,6 @@
  ******************************************************************************/
 
 #include "CBPerlCompleter.h"
-#include <ctype.h>
 #include <jAssert.h>
 
 CBPerlCompleter* CBPerlCompleter::itsSelf = NULL;

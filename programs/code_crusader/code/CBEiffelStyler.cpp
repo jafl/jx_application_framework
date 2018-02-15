@@ -15,7 +15,6 @@
 #include <JXDialogDirector.h>
 #include <JRegex.h>
 #include <JColormap.h>
-#include <ctype.h>
 #include <jAssert.h>
 
 CBEiffelStyler* CBEiffelStyler::itsSelf = NULL;
@@ -135,7 +134,7 @@ CBEiffelStyler::~CBEiffelStyler()
 void
 CBEiffelStyler::Scan
 	(
-	std::istream&			input,
+	std::istream&		input,
 	const TokenExtra&	initData
 	)
 {

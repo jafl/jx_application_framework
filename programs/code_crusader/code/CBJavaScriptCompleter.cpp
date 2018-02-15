@@ -8,7 +8,6 @@
  ******************************************************************************/
 
 #include "CBJavaScriptCompleter.h"
-#include <ctype.h>
 #include <jAssert.h>
 
 CBJavaScriptCompleter* CBJavaScriptCompleter::itsSelf = NULL;

@@ -1,4 +1,4 @@
-jx_browser_data 84
+jx_browser_data 87
 # project tree
 0 "root"
 T
@@ -46,22 +46,6 @@ F
 F
 T
 1 "parser"
-T
-2 "jParseDecision.cpp"
-F
-"./code/jParseDecision.cpp"
-T
-2 "jParseFunction.cpp"
-F
-"./code/jParseFunction.cpp"
-T
-2 "jParserData.cpp"
-F
-"./code/jParserData.cpp"
-T
-2 "jParseUtil.cpp"
-F
-"./code/jParseUtil.cpp"
 T
 2 "JVariableList.cpp"
 F
@@ -129,6 +113,14 @@ T
 2 "JCosine.cpp"
 F
 "./code/JCosine.cpp"
+T
+2 "JDivision.cpp"
+F
+"./code/JDivision.cpp"
+T
+2 "JExponent.cpp"
+F
+"./code/JExponent.cpp"
 T
 2 "JFunctionData.cpp"
 F
@@ -247,93 +239,6 @@ F
 "./code/JVariableValue.cpp"
 F
 T
-1 "decision"
-T
-2 "JDecision.cpp"
-F
-"./code/JDecision.cpp"
-T
-2 "JBooleanAND.cpp"
-F
-"./code/JBooleanAND.cpp"
-T
-2 "JBooleanConstant.cpp"
-F
-"./code/JBooleanConstant.cpp"
-T
-2 "JBooleanDecision.cpp"
-F
-"./code/JBooleanDecision.cpp"
-T
-2 "JBooleanNOT.cpp"
-F
-"./code/JBooleanNOT.cpp"
-T
-2 "JBooleanOR.cpp"
-F
-"./code/JBooleanOR.cpp"
-T
-2 "JBooleanXOR.cpp"
-F
-"./code/JBooleanXOR.cpp"
-T
-2 "JDecisionWithVar.cpp"
-F
-"./code/JDecisionWithVar.cpp"
-T
-2 "JDiscreteEquality.cpp"
-F
-"./code/JDiscreteEquality.cpp"
-T
-2 "JDiscreteVarEquality.cpp"
-F
-"./code/JDiscreteVarEquality.cpp"
-T
-2 "JDiscVarValue.cpp"
-F
-"./code/JDiscVarValue.cpp"
-T
-2 "JDiscVarValueIndex.cpp"
-F
-"./code/JDiscVarValueIndex.cpp"
-T
-2 "JDivision.cpp"
-F
-"./code/JDivision.cpp"
-T
-2 "JExponent.cpp"
-F
-"./code/JExponent.cpp"
-T
-2 "JFunctionComparison.cpp"
-F
-"./code/JFunctionComparison.cpp"
-T
-2 "JFunctionEquality.cpp"
-F
-"./code/JFunctionEquality.cpp"
-T
-2 "JGreaterEqualThan.cpp"
-F
-"./code/JGreaterEqualThan.cpp"
-T
-2 "JGreaterThan.cpp"
-F
-"./code/JGreaterThan.cpp"
-T
-2 "JLessEqualThan.cpp"
-F
-"./code/JLessEqualThan.cpp"
-T
-2 "JLessThan.cpp"
-F
-"./code/JLessThan.cpp"
-T
-2 "JValueUnknown.cpp"
-F
-"./code/JValueUnknown.cpp"
-F
-T
 1 "strings"
 F
 F
@@ -348,7 +253,7 @@ T "./" "medic -f +$line $full_name" "" F F F T F F F "" "" "" T
 F
 # build settings
 1
-F
+T
 "libjexpr-${JEXPR_LIB_VERSION}.a,libjexpr-${JEXPR_LIB_VERSION}.so"
 ""
 "make -k all"

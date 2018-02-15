@@ -14,7 +14,6 @@
 #include "cbmUtil.h"
 #include <JRegex.h>
 #include <JColormap.h>
-#include <ctype.h>
 #include <jAssert.h>
 
 CBHTMLStyler* CBHTMLStyler::itsSelf = NULL;

@@ -8,7 +8,6 @@ This scanner reads a Ruby file and returns CBRubyScanner::Tokens.
 #define _H_CBRubyScannerL
 
 #include "CBRubyScanner.h"
-#include <ctype.h>
 #include <jAssert.h>
 
 #undef YY_DECL

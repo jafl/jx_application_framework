@@ -8,7 +8,6 @@ This scanner reads an Eiffle file and returns CBEiffelScanner::Tokens.
 #define _H_CBEiffelScannerL
 
 #include "CBEiffelScanner.h"
-#include <ctype.h>
 #include <jAssert.h>
 
 #undef YY_DECL

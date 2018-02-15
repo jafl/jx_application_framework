@@ -15,7 +15,6 @@
 #include <JXDialogDirector.h>
 #include <JRegex.h>
 #include <JColormap.h>
-#include <ctype.h>
 #include <jAssert.h>
 
 CBPropertiesStyler* CBPropertiesStyler::itsSelf = NULL;
@@ -115,7 +114,7 @@ CBPropertiesStyler::~CBPropertiesStyler()
 void
 CBPropertiesStyler::Scan
 	(
-	std::istream&			input,
+	std::istream&		input,
 	const TokenExtra&	initData
 	)
 {

@@ -10,7 +10,6 @@ This scanner reads output from gdb --interpreter=mi2.
 #include "GDBScanner.h"
 #include "CMBreakpoint.h"
 #include <JRegex.h>
-#include <ctype.h>
 #include <jAssert.h>
 
 #undef YY_DECL

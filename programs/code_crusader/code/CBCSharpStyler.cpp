@@ -14,7 +14,6 @@
 #include "CBPrefsManager.h"
 #include <JRegex.h>
 #include <JColormap.h>
-#include <ctype.h>
 #include <jAssert.h>
 
 CBCSharpStyler* CBCSharpStyler::itsSelf = NULL;
@@ -138,7 +137,7 @@ CBCSharpStyler::~CBCSharpStyler()
 void
 CBCSharpStyler::Scan
 	(
-	std::istream&			input,
+	std::istream&		input,
 	const TokenExtra&	initData
 	)
 {

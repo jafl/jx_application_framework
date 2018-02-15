@@ -8,7 +8,6 @@ This scanner reads a C# file and returns CBCSharpScanner::Tokens.
 #define _H_CBCSharpScannerL
 
 #include "CBCSharpScanner.h"
-#include <ctype.h>
 #include <jAssert.h>
 
 #undef YY_DECL

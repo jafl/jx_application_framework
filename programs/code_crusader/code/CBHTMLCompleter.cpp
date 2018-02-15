@@ -8,7 +8,6 @@
  ******************************************************************************/
 
 #include "CBHTMLCompleter.h"
-#include <ctype.h>
 #include <jAssert.h>
 
 CBHTMLCompleter* CBHTMLCompleter::itsSelf = NULL;

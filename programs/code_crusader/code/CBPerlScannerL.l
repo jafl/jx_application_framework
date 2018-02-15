@@ -8,7 +8,6 @@ This scanner reads a Perl file and returns CBPerlScanner::Tokens.
 #define _H_CBPerlScannerL
 
 #include "CBPerlScanner.h"
-#include <ctype.h>
 #include <jAssert.h>
 
 #undef YY_DECL

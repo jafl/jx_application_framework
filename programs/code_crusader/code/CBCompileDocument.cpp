@@ -20,7 +20,6 @@
 #include <JStack.h>
 #include <jFileUtil.h>
 #include <jDirUtil.h>
-#include <ctype.h>
 #include <jAssert.h>
 
 static const JCharacter* kDirMarkerStr    = "Entering directory `";

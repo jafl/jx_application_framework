@@ -8,7 +8,6 @@ This scanner reads a bash file and returns CBBourneShellScanner::Tokens.
 #define _H_CBBourneShellScannerL
 
 #include "CBBourneShellScanner.h"
-#include <ctype.h>
 #include <jAssert.h>
 
 #undef YY_DECL

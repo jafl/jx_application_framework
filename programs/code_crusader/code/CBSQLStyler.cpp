@@ -14,7 +14,6 @@
 #include "cbmUtil.h"
 #include <JRegex.h>
 #include <JColormap.h>
-#include <ctype.h>
 #include <jAssert.h>
 
 CBSQLStyler* CBSQLStyler::itsSelf = NULL;
@@ -145,7 +144,7 @@ CBSQLStyler::~CBSQLStyler()
 void
 CBSQLStyler::Scan
 	(
-	std::istream&			input,
+	std::istream&		input,
 	const TokenExtra&	initData
 	)
 {

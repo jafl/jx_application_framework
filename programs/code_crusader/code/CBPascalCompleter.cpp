@@ -8,7 +8,6 @@
  ******************************************************************************/
 
 #include "CBPascalCompleter.h"
-#include <ctype.h>
 #include <jAssert.h>
 
 CBPascalCompleter* CBPascalCompleter::itsSelf = NULL;

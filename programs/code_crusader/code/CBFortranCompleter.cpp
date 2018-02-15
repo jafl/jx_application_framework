@@ -8,7 +8,6 @@
  ******************************************************************************/
 
 #include "CBFortranCompleter.h"
-#include <ctype.h>
 #include <jAssert.h>
 
 CBFortranCompleter* CBFortranCompleter::itsSelf = NULL;

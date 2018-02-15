@@ -15,7 +15,6 @@
 #include <JXDialogDirector.h>
 #include <JRegex.h>
 #include <JColormap.h>
-#include <ctype.h>
 #include <jAssert.h>
 
 CBRubyStyler* CBRubyStyler::itsSelf = NULL;
@@ -149,7 +148,7 @@ CBRubyStyler::~CBRubyStyler()
 void
 CBRubyStyler::Scan
 	(
-	std::istream&			input,
+	std::istream&		input,
 	const TokenExtra&	initData
 	)
 {

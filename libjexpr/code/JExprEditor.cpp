@@ -92,7 +92,6 @@
 #include <JMinMax.h>
 #include <jASCIIConstants.h>
 #include <jMath.h>
-#include <ctype.h>
 #include <jGlobals.h>
 #include <jAssert.h>
 

@@ -29,7 +29,6 @@
 #include <JColormap.h>
 #include <JString.h>
 #include <string.h>
-#include <ctype.h>
 #include <jGlobals.h>
 #include <jAssert.h>
 

@@ -8,7 +8,6 @@ This scanner reads a SQL file and returns CBSQLScanner::Tokens.
 #define _H_CBSQLScannerL
 
 #include "CBSQLScanner.h"
-#include <ctype.h>
 #include <jAssert.h>
 
 #undef YY_DECL

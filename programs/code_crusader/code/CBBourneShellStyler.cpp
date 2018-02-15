@@ -14,7 +14,6 @@
 #include "cbmUtil.h"
 #include <JRegex.h>
 #include <JColormap.h>
-#include <ctype.h>
 #include <jAssert.h>
 
 CBBourneShellStyler* CBBourneShellStyler::itsSelf = NULL;
@@ -129,7 +128,7 @@ CBBourneShellStyler::~CBBourneShellStyler()
 void
 CBBourneShellStyler::Scan
 	(
-	std::istream&			input,
+	std::istream&		input,
 	const TokenExtra&	initData
 	)
 {
