@@ -1,4 +1,46 @@
 
+	enum CRMStatus
+	{
+		kFoundWord,
+		kFoundNewLine,
+		kFinished
+	};
+
+	void	CRMConvertTab(JString* charBuffer, JSize* charCount,
+						  const JSize currentLineWidth) const;
+
+	JBoolean	PrivateCleanRightMargin(const JBoolean coerce,
+										JCharacterRange* textRange,
+										JString* newText, JRunArray<JFont>* newStyles,
+										TextIndex* newCaretIndex) const;
+	JBoolean	CRMGetRange(const TextIndex& caretChar, const JBoolean coerce,
+							JCharacterRange* range, TextIndex* textStartIndex,
+							JString* firstLinePrefix, JSize* firstPrefixLength,
+							JString* restLinePrefix, JSize* restPrefixLength,
+							JIndex* returnRuleIndex) const;
+	JBoolean	CRMGetPrefix(TextIndex* startChar, const TextIndex& endChar,
+							 JString* linePrefix, JSize* prefixLength,
+							 JIndex* ruleIndex) const;
+	JCharacterRange	CRMMatchPrefix(const JCharacterRange& textRange, JIndex* ruleIndex) const;
+	JBoolean		CRMLineMatchesRest(const JCharacterRange& range) const;
+	JSize			CRMCalcPrefixLength(JString* linePrefix) const;
+	JString			CRMBuildRestPrefix(const JString& firstLinePrefix,
+									   const JIndex ruleIndex, JSize* prefixLength) const;
+	void			CRMTossLinePrefix(TextIndex* charIndex, const TextIndex& endChar,
+									  const JIndex ruleIndex) const;
+	CRMStatus		CRMReadNextWord(TextIndex* charIndex, const TextIndex& endIndex,
+									JString* spaceBuffer, JSize* spaceCount,
+									JString* wordBuffer, JRunArray<JFont>* wordStyles,
+									const JSize currentLineWidth,
+									const TextIndex& origCaretIndex, TextIndex* newCaretIndex,
+									const JString& newText, const JBoolean requireSpace) const;
+	int				CRMIsEOS(const JUtf8Character& c) const;
+	void			CRMAppendWord(JString* newText, JRunArray<JFont>* newStyles,
+								  JSize* currentLineWidth, TextIndex* newCaretIndex,
+								  const JString& spaceBuffer, const JSize spaceCount,
+								  const JString& wordBuffer, const JRunArray<JFont>& wordStyles,
+								  const JString& linePrefix, const JSize prefixLength) const;
+
 /******************************************************************************
  PrivateCleanRightMargin (private)
 
@@ -503,27 +545,6 @@ JTextEditor::CRMConvertTab
 {
 	charBuffer->AppendCharacter('\t');
 	*charCount += CRMGetTabWidth(currentLineWidth + *charCount);
-}
-
-/*******************************************************************************
- CRMGetTabWidth (virtual protected)
-
-	Returns the number of spaces to which the tab is equivalent.
-	The default is to round up to the nearest multiple of GetCRMTabCharCount().
-	The default value for this is 8 since this is what all UNIX programs use.
-
-	textColumn starts at zero at the left margin.
-
- ******************************************************************************/
-
-JSize
-JTextEditor::CRMGetTabWidth
-	(
-	const JIndex textColumn
-	)
-	const
-{
-	return itsCRMTabCharCount - (textColumn % itsCRMTabCharCount);
 }
 
 /*******************************************************************************

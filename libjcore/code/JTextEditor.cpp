@@ -167,9 +167,7 @@
 #include <jMouseUtil.h>
 #include <jFileUtil.h>
 #include <jTime.h>
-#include <ctype.h>
 #include <jGlobals.h>
-#include <sstream>
 #include <jAssert.h>
 
 const JCoordinate kDefLeftMarginWidth = 10;
@@ -2275,7 +2273,7 @@ JTextEditor::SetFont
 void
 JTextEditor::SetFont
 	(
-	const JIndex			startIndex,
+	const TextIndex&		start,
 	const JRunArray<JFont>&	fontList,
 	const JBoolean			clearUndo
 	)
@@ -2287,14 +2285,14 @@ JTextEditor::SetFont
 
 	JFont f = itsFontMgr->GetDefaultFont();
 	JRunArrayIterator<JFont> fIter(fontList);
-	JRunArrayIterator<JFont> sIter(itsStyles, kJIteratorStartBefore, startIndex);
+	JRunArrayIterator<JFont> sIter(itsStyles, kJIteratorStartBefore, start.charIndex);
 
 	while (fIter.Next(&f) && sIter.SetNext(f))
 		{
 		sIter.SkipNext();
 		}
 
-	Recalc(CharIndexToTextIndex(startIndex), fontList.GetElementCount(), kJFalse);
+	Recalc(CalcCaretLocation(start), fontList.GetElementCount(), kJFalse);
 }
 
 /******************************************************************************
@@ -3197,6 +3195,8 @@ JTextEditor::CleanWhitespace
 		while (keepGoing);
 
 	// clean indenting whitespace
+
+	iter.MoveTo(kJIteratorStartAtBeginning, 0);
 
 	i = 0;
 	do

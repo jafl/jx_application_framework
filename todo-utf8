@@ -1,3 +1,7 @@
+put JTEStyler back in libjcore
+
+implement flex/bison parser for libjexpr
+
 JXTextMenu
 	on OSX, replace Meta- Shift- Ctrl- and invert ordering
 

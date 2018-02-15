@@ -594,7 +594,7 @@ protected:
 	virtual JBoolean	TEGetExternalClipboard(JString* text, JRunArray<JFont>* style) const = 0;
 	virtual void		TECaretShouldBlink(const JBoolean blink) = 0;
 
-	virtual JCoordinate	GetTabWidth(const JIndex charIndex, const JCoordinate x) const;
+	virtual JCoordinate	GetTabWidth(const TextIndex& charIndex, const JCoordinate x) const;
 
 	virtual JCoordinate	GetPrintHeaderHeight(JPagePrinter& p) const;
 	virtual JCoordinate	GetPrintFooterHeight(JPagePrinter& p) const;
@@ -622,7 +622,6 @@ protected:
 	TextIndex	GetParagraphEnd(const TextIndex& index) const;
 
 	JBoolean		GetCaretLocation(CaretLocation* caretLoc) const;
-	void			SetCaretByteLocation(const JIndex byteIndex);
 	CaretLocation	CalcCaretLocation(const JPoint& pt) const;
 	JBoolean		PointInSelection(const JPoint& pt) const;
 	void			MoveCaretVert(const JInteger deltaLines);
@@ -632,7 +631,7 @@ protected:
 	TextIndex	GetLineStart(const JIndex lineIndex) const;
 	TextIndex	GetLineEnd(const JIndex lineIndex) const;
 
-	void	SetFont(const JIndex startIndex, const JRunArray<JFont>& f,
+	void	SetFont(const TextIndex& startIndex, const JRunArray<JFont>& f,
 					const JBoolean clearUndo);
 	void	SetAllFontNameAndSize(const JString& name, const JSize size,
 								  const JCoordinate tabWidth,
@@ -771,13 +770,13 @@ private:
 	void		Recalc1(const JSize bufLength, const CaretLocation& caretLoc,
 						const JSize minCharCount, JCoordinate* maxLineWidth,
 						JIndex* firstLineIndex, JIndex* lastLineIndex);
-	JSize		RecalcLine(const JSize bufLength, const JIndex firstCharIndex,
+	JSize		RecalcLine(const JSize bufLength, const TextIndex& firstIndex,
 						   const JIndex lineIndex, JCoordinate* lineWidth,
 						   JIndex* runIndex, JIndex* firstInRun);
-	JBoolean	LocateNextWhitespace(const JSize bufLength, JIndex* startIndex) const;
+	JBoolean	LocateNextWhitespace(const JSize bufLength, TextIndex* startIndex) const;
 	JSize		GetSubwordForLine(const JSize bufLength, const JIndex lineIndex,
-								  const JIndex startIndex, JCoordinate* lineWidth) const;
-	JSize		IncludeWhitespaceOnLine(const JSize bufLength, const JIndex startIndex,
+								  const TextIndex& startIndex, JCoordinate* lineWidth) const;
+	JSize		IncludeWhitespaceOnLine(const JSize bufLength, const TextIndex& startIndex,
 										JCoordinate* lineWidth, JBoolean* endOfLine,
 										JIndex* runIndex, JIndex* firstInRun) const;
 	JBoolean	NoPrevWhitespaceOnLine(const JString& str, const CaretLocation& startLoc) const;
@@ -794,7 +793,7 @@ private:
 	JFont	CalcInsertionFont(const TextIndex& index) const;
 	JFont	CalcInsertionFont(const JStringIterator& buffer,
 							  const JRunArray<JFont>& styles) const;
-	void	DropSelection(const JIndex dropLoc, const JBoolean dropCopy);
+	void	DropSelection(const TextIndex& dropLoc, const JBoolean dropCopy);
 
 	JBoolean			GetCurrentUndo(JTEUndoBase** undo) const;
 	JBoolean			GetCurrentRedo(JTEUndoBase** redo) const;
@@ -835,8 +834,8 @@ private:
 	JCoordinate	GetCharLeft(const CaretLocation& charLoc) const;
 	JCoordinate	GetCharRight(const CaretLocation& charLoc) const;
 	JCoordinate	GetCharWidth(const CaretLocation& charLoc) const;
-	JCoordinate	GetStringWidth(const JIndex startIndex, const JIndex endIndex) const;
-	JCoordinate	GetStringWidth(const JIndex startIndex, const JIndex endIndex,
+	JCoordinate	GetStringWidth(const TextIndex& startIndex, const TextIndex& endIndex) const;
+	JCoordinate	GetStringWidth(const TextIndex& startIndex, const TextIndex& endIndex,
 							   JIndex* runIndex, JIndex* firstInRun) const;
 
 	TextIndex		AdjustTextIndex(const TextIndex& index, const JInteger charDelta) const;
@@ -863,40 +862,8 @@ private:
 	void	AutoIndent(JTEUndoTyping* typingUndo);
 	void	InsertSpacesForTab();
 
-	JBoolean	PrivateCleanRightMargin(const JBoolean coerce,
-										JCharacterRange* textRange,
-										JString* newText, JRunArray<JFont>* newStyles,
-										JIndex* newCaretIndex) const;
-	JBoolean	CRMGetRange(const JIndex caretChar, const JBoolean coerce,
-							JCharacterRange* range, JIndex* textStartIndex,
-							JString* firstLinePrefix, JSize* firstPrefixLength,
-							JString* restLinePrefix, JSize* restPrefixLength,
-							JIndex* returnRuleIndex) const;
-	JBoolean	CRMGetPrefix(JIndex* startChar, const JIndex endChar,
-							 JString* linePrefix, JSize* prefixLength,
-							 JIndex* ruleIndex) const;
-	JCharacterRange	CRMMatchPrefix(const JCharacterRange& textRange, JIndex* ruleIndex) const;
-	JBoolean		CRMLineMatchesRest(const JCharacterRange& range) const;
-	JSize			CRMCalcPrefixLength(JString* linePrefix) const;
-	JString			CRMBuildRestPrefix(const JString& firstLinePrefix,
-									   const JIndex ruleIndex, JSize* prefixLength) const;
-	void			CRMTossLinePrefix(JIndex* charIndex, const JIndex endChar,
-									  const JIndex ruleIndex) const;
-	CRMStatus		CRMReadNextWord(JIndex* charIndex, const JIndex endIndex,
-									JString* spaceBuffer, JSize* spaceCount,
-									JString* wordBuffer, JRunArray<JFont>* wordStyles,
-									const JSize currentLineWidth,
-									const JIndex origCaretIndex, JIndex* newCaretIndex,
-									const JString& newText, const JBoolean requireSpace) const;
-	int				CRMIsEOS(const JUtf8Character& c) const;
-	void			CRMAppendWord(JString* newText, JRunArray<JFont>* newStyles,
-								  JSize* currentLineWidth, JIndex* newCaretIndex,
-								  const JString& spaceBuffer, const JSize spaceCount,
-								  const JString& wordBuffer, const JRunArray<JFont>& wordStyles,
-								  const JString& linePrefix, const JSize prefixLength) const;
-
-	JBoolean	LocateTab(const JIndex startIndex, const JIndex endIndex,
-						  JIndex* tabIndex) const;
+	JBoolean	LocateTab(const TextIndex& startIndex, const TextIndex& endIndex,
+						  TextIndex* tabIndex) const;
 
 	JStringMatch	SearchForward(const JString& buffer, const TextIndex& startIndex,
 								  const JRegex& regex, const JBoolean entireWord,
