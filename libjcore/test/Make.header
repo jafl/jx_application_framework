@@ -31,34 +31,59 @@ LDFLAGS   :=
 
 # tests
 
-AUTO_TESTS := \
-      test_JBoolean test_JUtf8Character test_JString \
-      test_JStringMatch test_JStringIterator test_JRegex \
-      test_JSubstitute test_JInterpolate test_jTextUtil \
-      test_JBroadcaster \
-      test_JArray test_JLinkedList test_JPtrArray test_JRunArray \
-      test_JStack test_JQueue test_JVector test_JMatrix \
-      test_JListUtil test_JPtrArrayJString \
-      test_JKLRand test_jHashFunctions \
-      test_JHashTable test_JStringMap test_JStringPtrMap \
-      test_jFileUtil test_jFStreamUtil test_JDirInfo \
-      test_jProcessUtil test_jVCSUtil test_jWebUtil test_jTime \
-      test_JPipe test_JMessageProtocol
+FAST_TESTS := \
+  test_JBoolean test_JUtf8Character test_JString \
+  test_JStringMatch test_JStringIterator test_JRegex \
+  test_JSubstitute test_JInterpolate \
+  test_jTextUtil test_JStyledTextBuffer \
+  test_JBroadcaster \
+  test_JArray test_JLinkedList test_JPtrArray test_JRunArray \
+  test_JStack test_JQueue test_JVector test_JMatrix \
+  test_JListUtil test_JPtrArrayJString \
+  test_JKLRand test_jHashFunctions \
+  test_JHashTable test_JStringMap test_JStringPtrMap \
+  test_jFileUtil test_jFStreamUtil test_JDirInfo \
+  test_jProcessUtil test_jVCSUtil test_jWebUtil test_jTime \
+  test_JPipe
+
+SLOW_TESTS := \
+  test_JMessageProtocol
+
+define run_tests
+    @echo ==========
+    @${foreach p, $(1), echo; echo $p; if ! ./$p; then e=1; fi;} \
+     echo ==========; \
+     if [[ "$$e" == "1" ]]; then false; fi
+endef
 
 #####
 
 .PHONY : default
-default: libs all
+default: libs all-tests
 
 .PHONY : Makefiles
 Makefiles:
 
-.PHONY : test
-test: libs ${AUTO_TESTS}
-	@echo ==========
-	@${foreach p, ${AUTO_TESTS}, echo; echo $p; if ! ./$p; then e=1; fi;} \
-     echo ==========; \
-     if [[ "$$e" == "1" ]]; then false; fi
+.PHONY : all-tests
+all-tests: fast-tests slow-tests
+
+.PHONY : fast-tests
+fast-tests: libs ${FAST_TESTS}
+	$(call run_tests,${FAST_TESTS})
+#	@echo ==========
+#	@${foreach p, ${FAST_TESTS}, echo; echo $p; if ! ./$p; then e=1; fi;} \
+#     echo ==========; \
+#     if [[ "$$e" == "1" ]]; then false; fi
+
+.PHONY : slow-tests
+slow-tests: libs ${SLOW_TESTS}
+  ifeq (${FROM_LIB},1)
+	$(call run_tests,${SLOW_TESTS})
+#	@echo ==========
+#	@${foreach p, ${SLOW_TESTS}, echo; echo $p; if ! ./$p; then e=1; fi;} \
+#     echo ==========; \
+#     if [[ "$$e" == "1" ]]; then false; fi
+  endif
 
 #
 # required libraries
