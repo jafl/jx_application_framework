@@ -210,6 +210,9 @@ JXSelectionManager::GetAvailableTypes
 
  ******************************************************************************/
 
+#include <JProcess.h>
+#include <jStreamUtil.h>
+
 JBoolean
 JXSelectionManager::GetData
 	(
@@ -222,6 +225,26 @@ JXSelectionManager::GetData
 	DeleteMethod*	delMethod
 	)
 {
+	// until XQuartz fixes https://bugs.freedesktop.org/show_bug.cgi?id=92650
+
+	if (itsDisplay->IsOSX() && requestType == GetUtf8StringXAtom())
+		{
+		JProcess* p;
+		int fd;
+		if (JProcess::Create(&p, "pbpaste", kJIgnoreConnection, NULL, kJCreatePipe, &fd).OK())
+			{
+			JString clipdata;
+			JReadAll(fd, &clipdata);
+			jdelete p;
+
+			*returnType = GetUtf8StringXAtom();
+			*data       = (unsigned char*) clipdata.AllocateCString();
+			*dataLength = clipdata.GetLength();
+			*delMethod  = kArrayDelete;
+			return kJTrue;
+			}
+		}
+
 	// Check if this application owns the selection.
 
 	JXSelectionData* localData = NULL;
@@ -1095,6 +1118,9 @@ JXSelectionManager::ReceiveWithFeedback
 
  ******************************************************************************/
 
+#include <JProcess.h>
+#include <unistd.h>
+
 JBoolean
 JXSelectionManager::SetData
 	(
@@ -1135,6 +1161,27 @@ JXSelectionManager::SetData
 		if (selectionName == kJXClipboardName)
 			{
 			XSetSelectionOwner(*itsDisplay, itsAtoms[ kGnomeClipboardAtomIndex ], itsDataWindow, lastEventTime);
+			}
+
+		if (itsDisplay->IsOSX())	// until XQuartz fixes https://bugs.freedesktop.org/show_bug.cgi?id=92650
+			{
+			Atom returnType;
+			unsigned char* clipdata;
+			JSize dataLength, bitsPerBlock;
+			if (data->Convert(GetUtf8StringXAtom(), &returnType, &clipdata, &dataLength, &bitsPerBlock) &&
+				returnType == GetUtf8StringXAtom())
+				{
+				JProcess* p;
+				int fd;
+				if (JProcess::Create(&p, "pbcopy", kJCreatePipe, &fd).OK())
+					{
+					write(fd, clipdata, dataLength);
+					close(fd);
+					p->WaitUntilFinished();
+					jdelete p;
+					}
+				jdelete [] clipdata;
+				}
 			}
 
 		data->SetSelectionInfo(selectionName, lastEventTime);

@@ -144,7 +144,7 @@ F
 1
 F
 "leibnitz"
-""
+"${LIB_DEPS}"
 "make -k all"
 # search paths
 T "../../include/make" T
