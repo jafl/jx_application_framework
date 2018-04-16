@@ -447,6 +447,7 @@ void TestAccumulate(const JString& s)
 	JAssertEqual(2, m1.GetCharacterCount());
 	JAssertEqual(4, m1.GetByteCount());
 	JAssertStringsEqual("\xC3\x85\xC3\xA5", m1.GetString());
+	JAssertEqual(JCharacterRange(5,6), m1.GetCharacterRange());
 
 	i.MoveTo(kJIteratorStartAtBeginning, 0);
 	i.BeginMatch();
@@ -455,6 +456,7 @@ void TestAccumulate(const JString& s)
 	JAssertEqual(5, m2.GetCharacterCount());
 	JAssertEqual(7, m2.GetByteCount());
 	JAssertStringsEqual("123\xC2\xA9\xC3\x85", m2.GetString());
+	JAssertEqual(JCharacterRange(1,5), m2.GetCharacterRange());
 
 	i.MoveTo(kJIteratorStartAtBeginning, 0);
 	i.BeginMatch();
@@ -463,22 +465,62 @@ void TestAccumulate(const JString& s)
 	JAssertEqual(4, m3.GetCharacterCount());
 	JAssertEqual(5, m3.GetByteCount());
 	JAssertStringsEqual("123\xC2\xA9", m3.GetString());
+	JAssertEqual(JCharacterRange(1,4), m3.GetCharacterRange());
+
+	i.MoveTo(kJIteratorStartAtBeginning, 0);
+	i.BeginMatch();
+	JAssertTrue(i.Next("\xC3\x85"));
+	const JStringMatch& m4 = i.FinishMatch(kJFalse);
+	JAssertEqual(5, m4.GetCharacterCount());
+	JAssertEqual(7, m4.GetByteCount());
+	JAssertStringsEqual("123\xC2\xA9\xC3\x85", m4.GetString());
+	JAssertEqual(JCharacterRange(1,5), m4.GetCharacterRange());
 
 	i.MoveTo(kJIteratorStartAtEnd, 0);
 	i.BeginMatch();
 	JAssertTrue(i.Prev("\xC3\x85"));
-	const JStringMatch& m4 = i.FinishMatch();
-	JAssertEqual(2, m4.GetCharacterCount());
-	JAssertEqual(5, m4.GetByteCount());
-	JAssertStringsEqual("\xC3\xA5\xE2\x9C\x94", m4.GetString());
+	const JStringMatch& m5 = i.FinishMatch();
+	JAssertEqual(2, m5.GetCharacterCount());
+	JAssertEqual(5, m5.GetByteCount());
+	JAssertStringsEqual("\xC3\xA5\xE2\x9C\x94", m5.GetString());
+	JAssertEqual(JCharacterRange(6,7), m5.GetCharacterRange());
 
 	i.MoveTo(kJIteratorStartAtEnd, 0);
 	i.BeginMatch();
 	JAssertTrue(i.Prev("\xC3\x85"));
-	const JStringMatch& m5 = i.FinishMatch(kJFalse);
-	JAssertEqual(3, m5.GetCharacterCount());
-	JAssertEqual(7, m5.GetByteCount());
-	JAssertStringsEqual("\xC3\x85\xC3\xA5\xE2\x9C\x94", m5.GetString());
+	const JStringMatch& m6 = i.FinishMatch(kJFalse);
+	JAssertEqual(3, m6.GetCharacterCount());
+	JAssertEqual(7, m6.GetByteCount());
+	JAssertStringsEqual("\xC3\x85\xC3\xA5\xE2\x9C\x94", m6.GetString());
+	JAssertEqual(JCharacterRange(5,7), m6.GetCharacterRange());
+
+	i.MoveTo(kJIteratorStartAtEnd, 0);
+	i.SkipPrev();
+	i.BeginMatch();
+	JAssertTrue(i.Prev("\xC3\x85"));
+	const JStringMatch& m7 = i.FinishMatch();
+	JAssertEqual(1, m7.GetCharacterCount());
+	JAssertEqual(2, m7.GetByteCount());
+	JAssertStringsEqual("\xC3\xA5", m7.GetString());
+	JAssertEqual(JCharacterRange(6,6), m7.GetCharacterRange());
+
+	i.MoveTo(kJIteratorStartBefore, 4);
+	i.BeginMatch();
+	const JStringMatch& m8 = i.FinishMatch();
+	JAssertEqual(0, m8.GetCharacterCount());
+	JAssertEqual(0, m8.GetByteCount());
+	JAssertStringsEqual("", m8.GetString());
+	JAssertEqual(JCharacterRange(4,3), m8.GetCharacterRange());
+
+	i.MoveTo(kJIteratorStartAtEnd, 0);
+	i.SkipPrev();
+	i.BeginMatch();
+	JAssertTrue(i.Prev(JRegex("\xC3\x85")));
+	const JStringMatch& m9 = i.FinishMatch();
+	JAssertEqual(1, m9.GetCharacterCount());
+	JAssertEqual(2, m9.GetByteCount());
+	JAssertStringsEqual("\xC3\xA5", m9.GetString());
+	JAssertEqual(JCharacterRange(6,6), m9.GetCharacterRange());
 }
 
 JTEST(Accumulate)

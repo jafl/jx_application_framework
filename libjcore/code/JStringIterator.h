@@ -123,7 +123,8 @@ private:
 	JCursorPosition	itsByteOffset;
 	JCursorPosition	itsCharacterOffset;
 	JStringMatch*	itsLastMatch;			// can be NULL
-	JCursorPosition	itsMatchStart;			// set by BeginMatch()
+	JCursorPosition	itsMatchStartByte;		// set by BeginMatch()
+	JCursorPosition	itsMatchStartChar;		// set by BeginMatch()
 
 private:
 
@@ -347,7 +348,8 @@ inline void
 JStringIterator::BeginMatch()
 {
 	ClearLastMatch();
-	itsMatchStart = itsByteOffset;
+	itsMatchStartByte = itsByteOffset;
+	itsMatchStartChar = itsCharacterOffset;
 }
 
 /******************************************************************************

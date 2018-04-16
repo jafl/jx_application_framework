@@ -467,6 +467,12 @@ JStringIterator::Prev
 		}
 
 	JIndex i = itsByteOffset;
+
+	JSize count;
+	JUtf8Character::GetPrevCharacterByteCount(itsConstString->GetBytes() + i-1, &count);
+
+	i -= count-1;
+
 	if (itsConstString->SearchBackward(str, byteCount, caseSensitive, &i))
 		{
 		itsCharacterOffset -=	// before updating itsByteOffset
@@ -658,30 +664,40 @@ JStringIterator::FinishMatch
 	if (ignoreLastMatch && itsLastMatch != NULL)
 		{
 		const JSize ignoreCount = itsLastMatch->GetByteCount();
-		if (pos < itsMatchStart)
+		if (pos < itsMatchStartByte)
 			{
 			pos += ignoreCount;
-			pos  = JMin(pos, itsMatchStart);
+			pos  = JMin(pos, itsMatchStartByte);
 			}
-		else if (itsMatchStart < pos && ignoreCount <= pos)
+		else if (itsMatchStartByte < pos && ignoreCount <= pos)
 			{
 			pos -= ignoreCount;
-			pos  = JMax(pos, itsMatchStart);
+			pos  = JMax(pos, itsMatchStartByte);
 			}
-		else if (itsMatchStart < pos)
+		else if (itsMatchStartByte < pos)
 			{
-			pos = itsMatchStart;
+			pos = itsMatchStartByte;
 			}
 		}
 
 	ClearLastMatch();
 
 	JUtf8ByteRange r;
-	r.first = JMin(itsMatchStart, pos) + 1;
-	r.last  = JMax(itsMatchStart, pos);
+	r.first = JMin(itsMatchStartByte, pos) + 1;
+	r.last  = JMax(itsMatchStartByte, pos);
 
 	itsLastMatch = jnew JStringMatch(*itsConstString, r);
 	assert( itsLastMatch != NULL );
+
+	if (itsMatchStartByte <= pos)
+		{
+		itsLastMatch->SetFirstCharacterIndex(itsMatchStartChar + 1);
+		}
+	else	// pos < itsMatchStartByte
+		{
+		itsLastMatch->SetLastCharacterIndex(itsMatchStartChar);
+		}
+
 	return *itsLastMatch;
 }
 
