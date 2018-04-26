@@ -564,10 +564,6 @@ F
 T
 1 "text editor"
 T
-2 "JTextEditor.cpp"
-F
-"./code/JTextEditor.cpp"
-T
 2 "JStyledTextBuffer.cpp"
 F
 "./code/JStyledTextBuffer.cpp"
@@ -580,9 +576,9 @@ T
 F
 "./code/JTEUndoTextBase.cpp"
 T
-2 "JTEUndoDrop.cpp"
+2 "JTEUndoMove.cpp"
 F
-"./code/JTEUndoDrop.cpp"
+"./code/JTEUndoMove.cpp"
 T
 2 "JTEUndoPaste.cpp"
 F
@@ -599,18 +595,6 @@ T
 2 "JTEUndoTyping.cpp"
 F
 "./code/JTEUndoTyping.cpp"
-T
-2 "JTEKeyHandler.cpp"
-F
-"./code/JTEKeyHandler.cpp"
-T
-2 "JTEDefaultKeyHandler.cpp"
-F
-"./code/JTEDefaultKeyHandler.cpp"
-T
-2 "JVIKeyHandler.cpp"
-F
-"./code/JVIKeyHandler.cpp"
 F
 T
 1 "widgets"

@@ -16,18 +16,15 @@ class JTEUndoTextBase : public JTEUndoBase
 {
 public:
 
-	JTEUndoTextBase(JStyledTextBuffer* te);
+	JTEUndoTextBase(JStyledTextBuffer* buffer, const JStyledTextBuffer::TextRange& range);
 
 	virtual ~JTEUndoTextBase();
-
-	virtual void	Undo() override;
 
 	virtual void	SetFont(const JString& name, const JSize size) override;
 
 protected:
 
-	void	PrepareForUndo(const JStyledTextBuffer::TextIndex& start,
-						   const JStyledTextBuffer::TextCount& count);
+	void	UndoText(const JStyledTextBuffer::TextRange& range);
 
 	void	PrependToSave(const JUtf8Character& c, const JIndex charIndex);
 	void	AppendToSave(const JUtf8Character& c, const JIndex charIndex);

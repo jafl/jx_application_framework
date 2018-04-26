@@ -12,29 +12,26 @@
 #include <JFont.h>
 #include <JRunArray.h>
 #include <JPtrArray-JString.h>
+#include <JStringMatch.h>
 
 class JRegex;
-class JStringMatch;
 class JInterpolate;
 class JFontManager;
 class JColormap;
 class JTEUndoBase;
 class JTEUndoTextBase;
 class JTEUndoTyping;
-class JTEUndoDrop;
 class JTEUndoStyle;
+class JTEUndoPaste;
 class JTEUndoTabShift;
+class JTEUndoMove;
 
 typedef JBoolean (*JCharacterInWordFn)(const JUtf8Character&);
 
 class JStyledTextBuffer : virtual public JBroadcaster
 {
 	friend class JTEUndoTextBase;
-	friend class JTEUndoDrop;
-	friend class JTEUndoPaste;
 	friend class JTEUndoStyle;
-	friend class JTEUndoTabShift;
-	friend class JTEUndoTyping;
 
 public:
 
@@ -61,13 +58,6 @@ public:
 			charIndex(ch),
 			byteIndex(byte)
 		{ };
-
-		void
-		Set(const JIndex ch, const JIndex byte)
-		{
-			charIndex = ch;
-			byteIndex = byte;
-		};
 	};
 
 	struct TextCount
@@ -90,31 +80,81 @@ public:
 		JStyledTextBuffer::TextCount& operator+=(const JStyledTextBuffer::TextCount& c);
 	};
 
+	struct TextRange
+	{
+		JCharacterRange	charRange;
+		JUtf8ByteRange	byteRange;
+
+		TextRange()
+		{ };
+
+		TextRange(const JCharacterRange& cr, const JUtf8ByteRange& br)
+			:
+			charRange(cr),
+			byteRange(br)
+		{ };
+
+		TextRange(const JStringMatch& m)
+			:
+			charRange(m.GetCharacterRange()),
+			byteRange(m.GetUtf8ByteRange())
+		{ };
+
+		TextRange(const TextIndex& i, const TextCount& c)
+		{
+			charRange.SetFirstAndCount(i.charIndex, c.charCount);
+			byteRange.SetFirstAndCount(i.byteIndex, c.byteCount);
+		};
+
+		JBoolean
+		IsEmpty() const
+		{
+			return charRange.IsEmpty();
+		};
+
+		void
+		SetToNothing()
+		{
+			charRange.SetToNothing();
+			byteRange.SetToNothing();
+		};
+
+		TextCount
+		GetCount() const
+		{
+			return TextCount(charRange.GetCount(), byteRange.GetCount());
+		};
+
+		void
+		SetCount(const TextCount& c)
+		{
+			charRange.SetFirstAndCount(charRange.first, c.charCount);
+			byteRange.SetFirstAndCount(byteRange.first, c.byteCount);
+		};
+	};
+
 	struct CRMRule
 	{
-		JRegex*	first;		// match and replace
-		JRegex* rest;		// match
+		friend JStyledTextBuffer;
 
 		CRMRule()
 			:
-			first(NULL), rest(NULL)
+			first(NULL), rest(NULL), replace(NULL)
 		{ };
 
-		CRMRule(JRegex* f, JRegex* r)
+		CRMRule(JRegex* f, JRegex* r, JString* repl)
 			:
-			first(f), rest(r)
+			first(f), rest(r), replace(repl)
 		{ };
 
 		CRMRule(const JString& firstPattern, const JString& restPattern,
-				const JString& replacePattern)
-			:
-			first(CreateFirst(firstPattern, replacePattern)),
-			rest(CreateRest(restPattern))
-		{ };
+				const JString& replacePattern);
 
-		static JRegex*	CreateFirst(const JString& pattern,
-									const JString& replacePattern);
-		static JRegex*	CreateRest(const JString& pattern);
+		private:
+
+		JRegex*		first;
+		JRegex*		rest;
+		JString*	replace;
 	};
 
 	class CRMRuleList : public JArray<CRMRule>
@@ -165,6 +205,11 @@ public:
 	TextIndex	GetWordEnd(const TextIndex& index) const;
 	TextIndex	GetPartialWordStart(const TextIndex& index) const;
 	TextIndex	GetPartialWordEnd(const TextIndex& index) const;
+	TextIndex	GetParagraphStart(const TextIndex& index) const;
+	TextIndex	GetParagraphEnd(const TextIndex& index) const;
+	TextIndex	AdjustTextIndex(const TextIndex& index, const JInteger charDelta) const;
+
+	JIndex		GetColumnForChar(const TextIndex& lineStart, const TextIndex& location) const;
 
 	JBoolean	ReadPlainText(const JString& fileName, PlainTextFormat* format,
 							  const JBoolean acceptBinaryFile = kJTrue);
@@ -181,8 +226,6 @@ public:
 								   const JString& text, const JRunArray<JFont>& style,
 								   const JCharacterRange& charRange);
 
-	virtual JBoolean	HasSearchText() const = 0;
-
 	JStringMatch	SearchForward(const TextIndex& startIndex,
 								  const JRegex& regex, const JBoolean entireWord,
 								  const JBoolean wrapSearch, JBoolean* wrapped);
@@ -196,16 +239,14 @@ public:
 							 const JBoolean replaceIsRegex,
 							 JInterpolate& interpolator,
 							 const JBoolean preserveCase);
-	JBoolean	IsEntireWord(const JString& buffer,
-							 const JCharacterRange& charRange,
-							 const JUtf8ByteRange& byteRange) const;
+	JBoolean	IsEntireWord(const JString& buffer, const TextRange& range) const;
 
 	JBoolean	SearchForward(const FontMatch& match, const TextIndex& startIndex,
-							  const JBoolean wrapSearch, JBoolean* wrapped,
-							  JCharacterRange* charRange, JUtf8ByteRange* byteRange);
+							  const JBoolean wrapSearch,
+							  JBoolean* wrapped, TextRange* range);
 	JBoolean	SearchBackward(const FontMatch& match, const TextIndex& startIndex,
-							   const JBoolean wrapSearch, JBoolean* wrapped,
-							   JCharacterRange* charRange, JUtf8ByteRange* byteRange);
+							   const JBoolean wrapSearch,
+							   JBoolean* wrapped, TextRange* range);
 
 	const JFontManager*	GetFontManager() const;
 	JColormap*			GetColormap() const;
@@ -230,6 +271,8 @@ public:
 							 const JFontStyle& style, const JBoolean clearUndo);
 	void		SetFont(const JIndex startIndex, const JIndex endIndex,
 						const JFont& font, const JBoolean clearUndo);
+	void		SetFont(const JIndex startIndex, const JRunArray<JFont>& f,
+						const JBoolean clearUndo);
 
 	void	SetAllFontNameAndSize(const JString& name, const JSize size,
 								  const JBoolean clearUndo);
@@ -241,15 +284,13 @@ public:
 	void	SetDefaultFontStyle(const JFontStyle& style);
 	void	SetDefaultFont(const JFont& f);
 
-	void		Outdent(const JCharacterRange& charRange,
-						const JUtf8ByteRange& byteRange,
-						const JSize tabCount = 1,
-						const JBoolean force = kJFalse);
-	void		Indent(const JCharacterRange& charRange,
-					   const JUtf8ByteRange& byteRange,
-					   const JSize tabCount = 1);
+	JFont	CalcInsertionFont(const TextIndex& index) const;
 
-	void		CleanWhitespace(const JCharacterRange& range, const JBoolean align);
+	void		Outdent(const TextRange& range, const JSize tabCount = 1,
+						const JBoolean force = kJFalse);
+	void		Indent(const TextRange& range, const JSize tabCount = 1);
+
+	TextRange	CleanWhitespace(const TextRange& range, const JBoolean align);
 
 	JBoolean	TabInsertsSpaces() const;
 	void		TabShouldInsertSpaces(const JBoolean spaces);
@@ -275,10 +316,20 @@ public:
 	void		SetLastSaveLocation();
 	void		ClearLastSaveLocation();
 
-	JBoolean	Copy(const JCharacterRange& charRange, const JUtf8ByteRange& byteRange,
+	JBoolean	Copy(const TextRange& range,
 					 JString* text, JRunArray<JFont>* style = NULL) const;
-	void		Paste(const JCharacterRange& charRange, const JUtf8ByteRange& byteRange,
+	void		Paste(const TextRange& range,
 					  const JString& text, const JRunArray<JFont>* style = NULL);
+
+	void	MoveText(const TextRange& srcRange, const TextIndex& origDestIndex,
+					 const JBoolean copy);
+
+	TextIndex	BackwardDelete(const TextIndex&	lineStart, const TextIndex&	caretIndex,
+							   const JBoolean deleteToTabStop,
+							   JString* returnText = NULL, JRunArray<JFont>* returnStyle = NULL);
+	void		ForwardDelete(const TextIndex&	lineStart, const TextIndex&	caretIndex,
+							  const JBoolean deleteToTabStop,
+							  JString* returnText = NULL, JRunArray<JFont>* returnStyle = NULL);
 
 	static JBoolean	ContainsIllegalChars(const JString& text);
 	static JBoolean	RemoveIllegalChars(JString* text, JRunArray<JFont>* style = NULL);
@@ -304,6 +355,55 @@ public:
 	void		ShouldBroadcastAllTextChanged(const JBoolean broadcast);
 
 	JBoolean	CharacterIndexValid(const JIndex charIndex) const;
+
+	static JListT::CompareResult
+		CompareCharacterIndices(const TextIndex& i, const TextIndex& j);
+	static JListT::CompareResult
+		CompareByteIndices(const TextIndex& i, const TextIndex& j);
+
+protected:
+
+	JFont	CalcInsertionFont(JStringIterator& buffer,
+							  const JRunArray<JFont>& styles) const;
+
+	JBoolean			GetCurrentUndo(JTEUndoBase** undo) const;
+	JBoolean			GetCurrentRedo(JTEUndoBase** redo) const;
+	void				NewUndo(JTEUndoBase* undo, const JBoolean isNew);
+	void				ReplaceUndo(JTEUndoBase* oldUndo, JTEUndoBase* newUndo);
+	void				ClearOutdatedUndo();
+	JTEUndoTyping*		GetTypingUndo(const JStyledTextBuffer::TextIndex& start, JBoolean* isNew);
+	JTEUndoStyle*		GetStyleUndo(const JCharacterRange& range, JBoolean* isNew);
+	JTEUndoPaste*		GetPasteUndo(const JStyledTextBuffer::TextRange& range, JBoolean* isNew);
+	JTEUndoTabShift*	GetTabShiftUndo(const JStyledTextBuffer::TextRange& range, JBoolean* isNew);
+	JTEUndoMove*		GetMoveUndo(const JStyledTextBuffer::TextIndex& srcIndex,
+									const JStyledTextBuffer::TextIndex& destIndex,
+									const JStyledTextBuffer::TextCount& count,
+									JBoolean* isNew);
+
+	TextCount	PrivatePaste(const TextRange& range,
+							 const JString& text, const JRunArray<JFont>* style);
+	TextCount	InsertText(const TextIndex& index, const JString& text,
+						   const JRunArray<JFont>* style = NULL,
+						   const JFont* defaultStyle = NULL);
+	TextCount	InsertText(JStringIterator* targetText, JRunArray<JFont>* targetStyle,
+						   const JString& text, const JRunArray<JFont>* style,
+						   const JFont* defaultStyle);
+	void		DeleteText(const TextRange& range);
+	void		DeleteText(JStringIterator* iter, const JSize charCount);
+	JBoolean	CleanText(const JString& text, const JRunArray<JFont>* style,
+						  JString** cleanText, JRunArray<JFont>** cleanStyle,
+						  JBoolean* okToInsert);
+
+	JUtf8ByteRange	CharToByteRange(const TextIndex* lineStart, const JCharacterRange& charRange) const;
+
+	static JUtf8ByteRange	CharToByteRange(const JCharacterRange& charRange,
+											JStringIterator* iter);
+
+	void	AutoIndent(JTEUndoTyping* typingUndo);
+	void	InsertSpacesForTab(const TextIndex& lineStart, const TextIndex& caretIndex);
+
+	virtual JBoolean	NeedsToFilterText(const JString& text) const;
+	virtual JBoolean	FilterText(JString* text, JRunArray<JFont>* style);
 
 private:
 
@@ -346,49 +446,6 @@ private:
 
 	static JBoolean	DefaultIsCharacterInWord(const JUtf8Character& c);
 
-	JFont	CalcInsertionFont(const TextIndex& index) const;
-	JFont	CalcInsertionFont(const JStringIterator& buffer,
-							  const JRunArray<JFont>& styles) const;
-
-	JBoolean			GetCurrentUndo(JTEUndoBase** undo) const;
-	JBoolean			GetCurrentRedo(JTEUndoBase** redo) const;
-	void				NewUndo(JTEUndoBase* undo, const JBoolean isNew);
-	void				SameUndo(JTEUndoBase* undo);
-	void				ReplaceUndo(JTEUndoBase* oldUndo, JTEUndoBase* newUndo);
-	void				ClearOutdatedUndo();
-	JTEUndoTyping*		GetTypingUndo(JBoolean* isNew);
-	JTEUndoStyle*		GetStyleUndo(JBoolean* isNew);
-	JTEUndoTabShift*	GetTabShiftUndo(JBoolean* isNew);
-
-	TextCount	PrivatePaste(const JCharacterRange& charRange, const JUtf8ByteRange& byteRange,
-							 const JString& text, const JRunArray<JFont>* style);
-	TextCount	InsertText(const TextIndex& index, const JString& text,
-						   const JRunArray<JFont>* style = NULL);
-	TextCount	InsertText(JStringIterator* targetText, JRunArray<JFont>* targetStyle,
-						   const JString& text, const JRunArray<JFont>* style,
-						   const JFont* defaultStyle);
-	void		DeleteText(const JCharacterRange& charRange,
-						   const JUtf8ByteRange& byteRange);
-	void		DeleteText(JStringIterator* iter, const JSize charCount);
-	JBoolean	CleanText(const JString& text, const JRunArray<JFont>* style,
-						  JString** cleanText, JRunArray<JFont>** cleanStyle,
-						  JBoolean* okToInsert);
-
-	TextIndex		AdjustTextIndex(const TextIndex& index, const JInteger charDelta) const;
-	TextIndex		CharIndexToTextIndex(const JIndex charIndex) const;
-	JUtf8ByteRange	CharToByteRange(const JCharacterRange& charRange) const;
-
-	static JUtf8ByteRange	CharToByteRange(const JCharacterRange& charRange,
-											JStringIterator* iter);
-
-	void	BackwardDelete(const JBoolean deleteToTabStop,
-						   JString* returnText = NULL, JRunArray<JFont>* returnStyle = NULL);
-	void	ForwardDelete(const JBoolean deleteToTabStop,
-						  JString* returnText = NULL, JRunArray<JFont>* returnStyle = NULL);
-
-	void	AutoIndent(JTEUndoTyping* typingUndo);
-	void	InsertSpacesForTab();
-
 	static void	WritePrivateFormat(std::ostream& output,
 								   const JColormap* colormap, const JFileVersion vers,
 								   const JString& text, const JRunArray<JFont>& style,
@@ -396,11 +453,6 @@ private:
 								   const JUtf8ByteRange& byteRange);
 
 	static void	ConvertFromMacintoshNewlinetoUNIXNewline(JString* buffer);
-
-	static JListT::CompareResult
-		CompareCharacterIndices(const TextIndex& i, const TextIndex& j);
-	static JListT::CompareResult
-		CompareByteIndices(const TextIndex& i, const TextIndex& j);
 
 	// not allowed
 
@@ -469,9 +521,9 @@ inline JBoolean
 JStyledTextBuffer::IsEntireWord()
 	const
 {
-	return IsEntireWord(itsBuffer,
+	return IsEntireWord(itsBuffer, TextRange(
 						JCharacterRange(1, itsBuffer.GetCharacterCount()),
-						JUtf8ByteRange(1, itsBuffer.GetByteCount()));
+						JUtf8ByteRange(1, itsBuffer.GetByteCount())));
 }
 
 /******************************************************************************
@@ -753,8 +805,7 @@ inline JBoolean
 JStyledTextBuffer::EndsWithNewline()
 	const
 {
-	return JConvertToBoolean(
-				!itsBuffer.IsEmpty() &&
+	return JI2B(!itsBuffer.IsEmpty() &&
 				itsBuffer.GetLastCharacter() == '\n' );
 }
 

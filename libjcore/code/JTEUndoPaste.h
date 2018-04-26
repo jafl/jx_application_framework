@@ -1,7 +1,7 @@
 /******************************************************************************
  JTEUndoPaste.h
 
-	Copyright (C) 1996 by John Lindal.
+	Copyright (C) 1996-2018 by John Lindal.
 
  ******************************************************************************/
 
@@ -14,22 +14,19 @@ class JTEUndoPaste : public JTEUndoTextBase
 {
 public:
 
-	JTEUndoPaste(JStyledTextBuffer* te, const JStyledTextBuffer::TextIndex& start,
-				 const JStyledTextBuffer::TextCount& pasteCount);
+	JTEUndoPaste(JStyledTextBuffer* buffer, const JStyledTextBuffer::TextRange& range);
 
 	virtual ~JTEUndoPaste();
 
 	virtual void	Undo() override;
 
-	void	SetCount(const JStyledTextBuffer::TextCount& count);
+	virtual void	SetCount(const JStyledTextBuffer::TextCount& count) override;
 
-protected:
-
+	JBoolean	SameStartIndex(const JStyledTextBuffer::TextRange& range) const;
 
 private:
 
-	JStyledTextBuffer::TextIndex	itsStart;
-	JStyledTextBuffer::TextCount	itsCount;
+	JStyledTextBuffer::TextRange itsRange;
 
 private:
 
@@ -38,20 +35,5 @@ private:
 	JTEUndoPaste(const JTEUndoPaste& source);
 	const JTEUndoPaste& operator=(const JTEUndoPaste& source);
 };
-
-
-/******************************************************************************
- SetCount
-
- ******************************************************************************/
-
-inline void
-JTEUndoPaste::SetCount
-	(
-	const JStyledTextBuffer::TextCount& count
-	)
-{
-	itsCount = count;
-}
 
 #endif

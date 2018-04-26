@@ -3,7 +3,7 @@
 
 	Interface for the JTEUndoStyle class.
 
-	Copyright (C) 1996 by John Lindal.
+	Copyright (C) 1996-2018 by John Lindal.
 
  ******************************************************************************/
 
@@ -16,7 +16,7 @@ class JTEUndoStyle : public JTEUndoBase
 {
 public:
 
-	JTEUndoStyle(JStyledTextBuffer* te);
+	JTEUndoStyle(JStyledTextBuffer* buffer, const JCharacterRange& range);
 
 	virtual ~JTEUndoStyle();
 
@@ -24,10 +24,11 @@ public:
 
 	virtual void	SetFont(const JString& name, const JSize size) override;
 
+	JBoolean	SameRange(const JCharacterRange& range) const;
+
 private:
 
-	JCharacterRange		itsCharRange;
-	JUtf8ByteRange		itsByteRange;
+	JCharacterRange		itsRange;
 	JRunArray<JFont>*	itsOrigStyles;
 
 private:

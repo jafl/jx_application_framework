@@ -21,12 +21,7 @@
 
 StyledTextBuffer::StyledTextBuffer()
 	:
-	JStyledTextBuffer(kFullEditor, kJTrue, kJFalse,
-				jnew TEFontManager,
-				jnew TEColormap,
-				1,1,1,1,1, 500),
-	itsClipText(NULL),
-	itsClipStyle(NULL)
+	JStyledTextBuffer(jnew TEFontManager, jnew TEColormap, kJTrue)
 {
 }
 

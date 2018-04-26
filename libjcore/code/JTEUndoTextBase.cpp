@@ -6,7 +6,7 @@
 
 	BASE CLASS = JTEUndoBase
 
-	Copyright (C) 1996 by John Lindal.
+	Copyright (C) 1996-2018 by John Lindal.
 
  ******************************************************************************/
 
@@ -17,11 +17,14 @@
 /******************************************************************************
  Constructor
 
+	Saves a snapshot of the specified range, to allow undo.
+
  ******************************************************************************/
 
 JTEUndoTextBase::JTEUndoTextBase
 	(
-	JStyledTextBuffer* buffer
+	JStyledTextBuffer*					buffer,
+	const JStyledTextBuffer::TextRange&	range
 	)
 	:
 	JTEUndoBase(buffer)
@@ -29,7 +32,7 @@ JTEUndoTextBase::JTEUndoTextBase
 	itsOrigStyles = jnew JRunArray<JFont>;
 	assert( itsOrigStyles != NULL );
 
-	te->GetSelection(&itsOrigBuffer, itsOrigStyles);
+	buffer->Copy(range, &itsOrigBuffer, itsOrigStyles);
 }
 
 /******************************************************************************
@@ -43,62 +46,27 @@ JTEUndoTextBase::~JTEUndoTextBase()
 }
 
 /******************************************************************************
- PrepareForUndo (protected)
+ UndoText (protected)
 
-	Call this to select the text to remove before calling Undo().
+	Call this to put back the original text.
 
  ******************************************************************************/
 
 void
-JTEUndoTextBase::PrepareForUndo
+JTEUndoTextBase::UndoText
 	(
-	const JStyledTextBuffer::TextIndex& start,
-	const JStyledTextBuffer::TextCount& count
+	const JStyledTextBuffer::TextRange& range
 	)
 {
 	JStyledTextBuffer* buffer = GetBuffer();
-	if (count.charCount == 0)
-		{
-		te->SetCaretLocation(start);
-		}
-	else
-		{
-		te->SetSelection(
-			JCharacterRange(start.charIndex, start.charIndex + count.charCount - 1),
-			JUtf8ByteRange (start.byteIndex, start.byteIndex + count.byteCount - 1));
-		}
-}
 
-/******************************************************************************
- Undo (virtual)
-
-	Call this to put back the original text after selecting the new text.
-
- ******************************************************************************/
-
-void
-JTEUndoTextBase::Undo()
-{
-	JStyledTextBuffer* buffer = GetBuffer();
-
-	JTEUndoPaste* newUndo = jnew JTEUndoPaste(buffer,
-		JStyledTextBuffer::TextCount(itsOrigBuffer.GetCharacterCount(), itsOrigBuffer.GetByteCount()));
+	JTEUndoPaste* newUndo = jnew JTEUndoPaste(buffer, range);
 	assert( newUndo != NULL );
 
-	const JStyledTextBuffer::TextIndex selStart   = te->GetInsertionIndex();
-	const JStyledTextBuffer::TextCount pasteCount = buffer->PrivatePaste(itsOrigBuffer, itsOrigStyles);
+	const JStyledTextBuffer::TextCount pasteCount = buffer->PrivatePaste(range, itsOrigBuffer, itsOrigStyles);
 	assert( pasteCount.charCount == itsOrigBuffer.GetCharacterCount() );
 
-	if (!itsOrigBuffer.IsEmpty())
-		{
-		te->SetSelection(
-			JCharacterRange(selStart.charIndex, selStart.charIndex + itsOrigBuffer.GetCharacterCount() - 1),
-			JUtf8ByteRange (selStart.byteIndex, selStart.byteIndex + itsOrigBuffer.GetByteCount() - 1));
-		}
-	else
-		{
-		te->SetCaretLocation(selStart);
-		}
+	newUndo->SetCount(pasteCount);
 
 	buffer->ReplaceUndo(this, newUndo);		// deletes us
 }

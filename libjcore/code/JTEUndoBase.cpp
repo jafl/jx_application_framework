@@ -38,6 +38,21 @@ JTEUndoBase::~JTEUndoBase()
 }
 
 /******************************************************************************
+ SetCount (virtual)
+
+	Supports JStyledTextBuffer::MoveText()
+
+ ******************************************************************************/
+
+void
+JTEUndoBase::SetCount
+	(
+	const JStyledTextBuffer::TextCount& count
+	)
+{
+}
+
+/******************************************************************************
  SetFont (virtual)
 
 	Called by JStyledTextBuffer::SetAllFontNameAndSize().

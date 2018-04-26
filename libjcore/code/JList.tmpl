@@ -180,6 +180,21 @@ template <class T>
 void
 JList<T>::RemoveElements
 	(
+	const JIndexRange& range
+	)
+{
+	RemoveNextElements(range.first, range.GetCount());
+}
+
+/******************************************************************************
+ RemoveElements
+
+ ******************************************************************************/
+
+template <class T>
+void
+JList<T>::RemoveElements
+	(
 	const JListT::ElementsRemoved& info
 	)
 {

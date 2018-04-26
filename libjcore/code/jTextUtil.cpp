@@ -8,7 +8,7 @@
  ******************************************************************************/
 
 #include "jTextUtil.h"
-#include "JTextEditor.h"
+#include "JStyledTextBuffer.h"
 #include "JStringIterator.h"
 #include "JRegex.h"
 #include "jStreamUtil.h"
@@ -217,7 +217,7 @@ JAnalyzeWhitespace
 /******************************************************************************
  JReadUNIXManOutput
 
-	Replaces the contents of the given JTextEditor.
+	Replaces the contents of the given JStyledTextBuffer.
 
 	"_\b_" => underscore
 	"_\bc" => underlined c
@@ -230,8 +230,8 @@ static const JRegex theExtraLinesPattern = "\n{3,}";
 void
 JReadUNIXManOutput
 	(
-	std::istream&	input,
-	JTextEditor*	te
+	std::istream&		input,
+	JStyledTextBuffer*	tb
 	)
 {
 	JString buffer;
@@ -240,7 +240,7 @@ JReadUNIXManOutput
 
 	JRunArray<JFont> styles;
 
-	const JFont& defFont = te->GetDefaultFont();
+	const JFont& defFont = tb->GetDefaultFont();
 
 	JFont boldFont = defFont;
 	boldFont.SetBold(kJTrue);
@@ -295,11 +295,11 @@ JReadUNIXManOutput
 		iter.ReplaceLastMatch("\n\n");
 		}
 
-	te->SetText(buffer, &styles);
+	tb->SetText(buffer, &styles);
 }
 
 /******************************************************************************
- PasteUNIXTerminalOutput
+ JPasteUNIXTerminalOutput
 
 	Parses text and approximates the formatting.
 	Pastes the result into the existing text.
@@ -312,21 +312,22 @@ static const JRegex theUNIXTerminalFormatPattern = "^\\[([0-9]+(?:;[0-9]+)*)m$";
 JSize
 JPasteUNIXTerminalOutput
 	(
-	const JString&	text,
-	JTextEditor*	te
+	const JString&						text,
+	const JStyledTextBuffer::TextIndex&	pasteIndex,
+	JStyledTextBuffer*					tb
 	)
 {
 	JString buffer;
 	JRunArray<JFont> styles;
 
-	JFont f        = te->GetCurrentFont();
+	JFont f        = tb->GetDefaultFont();
 	const JFont f0 = f;
 
 	JPtrArray<JString> chunkList(JPtrArrayT::kDeleteAll);
 	text.Split(theUNIXTerminalFormatPattern, &chunkList, 0, kJTrue);
 
 	JPtrArray<JString> cmdList(JPtrArrayT::kDeleteAll);
-	JColormap* cmap = te->TEGetColormap();
+	JColormap* cmap = tb->GetColormap();
 
 	const JSize chunkCount = chunkList.GetElementCount();
 	for (JIndex i=1; i<=chunkCount; i++)
@@ -409,10 +410,10 @@ JPasteUNIXTerminalOutput
 			}
 		}
 
-	const JBoolean saved = te->WillPasteStyledText();
-	te->ShouldPasteStyledText(kJTrue);
-	te->Paste(buffer, &styles);
-	te->ShouldPasteStyledText(saved);
+	const JBoolean saved = tb->WillPasteStyledText();
+	tb->ShouldPasteStyledText(kJTrue);
+	tb->Paste(JStyledTextBuffer::TextRange(pasteIndex, JStyledTextBuffer::TextCount()), buffer, &styles);
+	tb->ShouldPasteStyledText(saved);
 
 	return buffer.GetCharacterCount();
 }

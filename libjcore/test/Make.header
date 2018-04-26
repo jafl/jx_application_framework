@@ -59,13 +59,13 @@ endef
 #####
 
 .PHONY : default
-default: libs all-tests
+default: libs test
 
 .PHONY : Makefiles
 Makefiles:
 
-.PHONY : all-tests
-all-tests: fast-tests slow-tests
+.PHONY : test
+test: fast-tests slow-tests
 
 .PHONY : fast-tests
 fast-tests: libs ${FAST_TESTS}

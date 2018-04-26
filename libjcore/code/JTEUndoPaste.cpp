@@ -5,7 +5,7 @@
 
 	BASE CLASS = JTEUndoTextBase
 
-	Copyright (C) 1996 by John Lindal.
+	Copyright (C) 1996-2018 by John Lindal.
 
  ******************************************************************************/
 
@@ -15,18 +15,18 @@
 /******************************************************************************
  Constructor
 
+	Saves a snapshot of the specified range, to allow undo.
+
  ******************************************************************************/
 
 JTEUndoPaste::JTEUndoPaste
 	(
-	JStyledTextBuffer*					te,
-	const JStyledTextBuffer::TextIndex&	start,
-	const JStyledTextBuffer::TextCount&	pasteCount
+	JStyledTextBuffer*					buffer,
+	const JStyledTextBuffer::TextRange&	range
 	)
 	:
-	JTEUndoTextBase(te),
-	itsStart(start),
-	itsCount(pasteCount)
+	JTEUndoTextBase(buffer, range),
+	itsRange(range)
 {
 }
 
@@ -40,6 +40,22 @@ JTEUndoPaste::~JTEUndoPaste()
 }
 
 /******************************************************************************
+ SetCount (virtual)
+
+	Saves the number of characters that need to be replaced when we undo.
+
+ ******************************************************************************/
+
+void
+JTEUndoPaste::SetCount
+	(
+	const JStyledTextBuffer::TextCount& count
+	)
+{
+	itsRange.SetCount(count);
+}
+
+/******************************************************************************
  Undo (virtual)
 
  ******************************************************************************/
@@ -47,6 +63,21 @@ JTEUndoPaste::~JTEUndoPaste()
 void
 JTEUndoPaste::Undo()
 {
-	PrepareForUndo(itsStart, itsCount);
-	JTEUndoTextBase::Undo();
+	UndoText(itsRange);
+}
+
+/******************************************************************************
+ SameStartIndex
+
+ ******************************************************************************/
+
+JBoolean
+JTEUndoPaste::SameStartIndex
+	(
+	const JStyledTextBuffer::TextRange& range
+	)
+	const
+{
+	return JI2B( range.charRange.first == itsRange.charRange.first &&
+				 range.byteRange.first == itsRange.byteRange.first );
 }

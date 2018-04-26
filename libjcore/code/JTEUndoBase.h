@@ -19,6 +19,8 @@ public:
 
 	virtual ~JTEUndoBase();
 
+	virtual void	SetCount(const JStyledTextBuffer::TextCount& count);
+
 	// called by JStyledTextBuffer::SetAllFontNameAndSize()
 
 	virtual void	SetFont(const JString& name, const JSize size);

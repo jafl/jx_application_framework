@@ -8,10 +8,10 @@
 #ifndef _H_jTextUtil
 #define _H_jTextUtil
 
-#include "JFont.h"
+#include "JStyledTextBuffer.h"
 
 class JString;
-class JTextEditor;
+class JStyledTextBuffer;
 
 JFont	CalcWSFont(const JFont& prevFont, const JFont& nextFont);
 
@@ -19,7 +19,9 @@ JSize JAnalyzeWhitespace(const JString& buffer, const JSize tabWidth,
 						 const JBoolean defaultUseSpaces,
 						 JBoolean* useSpaces, JBoolean* isMixed);
 
-void	JReadUNIXManOutput(std::istream& input, JTextEditor* te);
-JSize	JPasteUNIXTerminalOutput(const JString& text, JTextEditor* te);
+void	JReadUNIXManOutput(std::istream& input, JStyledTextBuffer* tb);
+JSize	JPasteUNIXTerminalOutput(const JString& text,
+								 const JStyledTextBuffer::TextIndex& pasteIndex,
+								 JStyledTextBuffer* tb);
 
 #endif

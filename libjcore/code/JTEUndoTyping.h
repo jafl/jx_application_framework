@@ -1,9 +1,7 @@
 /******************************************************************************
  JTEUndoTyping.h
 
-	Interface for the JTEUndoTyping class.
-
-	Copyright (C) 1996 by John Lindal.
+	Copyright (C) 1996-2018 by John Lindal.
 
  ******************************************************************************/
 
@@ -12,20 +10,24 @@
 
 #include <JTEUndoTextBase.h>
 
+class JStringMatch;
+
 class JTEUndoTyping : public JTEUndoTextBase
 {
 public:
 
-	JTEUndoTyping(JStyledTextBuffer* te, const JStyledTextBuffer::TextIndex& start);
+	JTEUndoTyping(JStyledTextBuffer* buffer, const JStyledTextBuffer::TextIndex& start);
 
 	virtual ~JTEUndoTyping();
 
 	virtual void	Undo() override;
 
-	void	HandleDelete(JStringIterator* iter, const JSize charCount);
-	void	HandleFwdDelete(JStringIterator* iter, const JSize charCount);
+	void	HandleDelete(const JStringMatch& match);
+	void	HandleFwdDelete(const JStringMatch& match);
 
 	void	HandleCharacters(const JStyledTextBuffer::TextCount& count);
+
+	JBoolean	SameStartIndex(const JStyledTextBuffer::TextIndex& index) const;
 
 private:
 

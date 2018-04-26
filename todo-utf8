@@ -1,6 +1,15 @@
+JStyledTextBuffer
+	AutoIndent
+	broadcast useful messages for JTextEditor, e.g., adjust caret/selection
+put back JTextEditor, *KeyHandler
+
+JTextEditor
+	set selection/caret after undo
+
 put JTEStyler back in libjcore
 
-implement flex/bison parser for libjexpr
+JXTEBase
+	show busy cursor when get WillBeBusy from JStyledTextBuffer
 
 JXTextMenu
 	on OSX, replace Meta- Shift- Ctrl- and invert ordering
@@ -8,6 +17,8 @@ JXTextMenu
 	cmd   - E2 8C 98
 	shift - E2 87 A7
 	ctrl  - E2 8C 83
+
+implement flex/bison parser for libjexpr
 
 -----
 

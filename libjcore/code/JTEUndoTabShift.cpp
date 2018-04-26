@@ -6,7 +6,7 @@
 
 	BASE CLASS = JTEUndoPaste
 
-	Copyright (C) 1996-2000 by John Lindal.
+	Copyright (C) 1996-2018 by John Lindal.
 
  ******************************************************************************/
 
@@ -17,14 +17,17 @@
 /******************************************************************************
  Constructor
 
+	Saves a snapshot of the specified range, to allow undo.
+
  ******************************************************************************/
 
 JTEUndoTabShift::JTEUndoTabShift
 	(
-	JStyledTextBuffer* te
+	JStyledTextBuffer*					buffer,
+	const JStyledTextBuffer::TextRange&	range
 	)
 	:
-	JTEUndoPaste(te, JStyledTextBuffer::TextCount(0,0))
+	JTEUndoPaste(buffer, range)
 {
 }
 

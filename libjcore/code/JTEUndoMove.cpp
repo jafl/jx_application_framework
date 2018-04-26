@@ -1,15 +1,16 @@
 /******************************************************************************
- JTEUndoDrop.cpp
+ JTEUndoMove.cpp
 
-	Class to undo dragging text from one place to another.
+	Class to undo moving text from one place to another, typically via
+	drag-and-drop.
 
 	BASE CLASS = JTEUndoBase
 
-	Copyright (C) 1996 by John Lindal.
+	Copyright (C) 1996-2018 by John Lindal.
 
  ******************************************************************************/
 
-#include <JTEUndoDrop.h>
+#include <JTEUndoMove.h>
 #include <JStyledTextBuffer.h>
 #include <jAssert.h>
 
@@ -18,19 +19,19 @@
 
  ******************************************************************************/
 
-JTEUndoDrop::JTEUndoDrop
+JTEUndoMove::JTEUndoMove
 	(
-	JStyledTextBuffer*					te,
-	const JStyledTextBuffer::TextIndex&	origIndex,
-	const JStyledTextBuffer::TextIndex&	newIndex,
+	JStyledTextBuffer*					buffer,
+	const JStyledTextBuffer::TextIndex&	srcIndex,
+	const JStyledTextBuffer::TextIndex&	destIndex,
 	const JStyledTextBuffer::TextCount&	count
 	)
 	:
-	JTEUndoBase(te)
+	JTEUndoBase(buffer),
+	itsSrcIndex(srcIndex),
+	itsDestIndex(destIndex),
+	itsCount(count)
 {
-	itsOrigCaretLoc = origIndex;
-	itsNewSelStart  = newIndex;
-	SetCount(count);
 }
 
 /******************************************************************************
@@ -38,23 +39,22 @@ JTEUndoDrop::JTEUndoDrop
 
  ******************************************************************************/
 
-JTEUndoDrop::~JTEUndoDrop()
+JTEUndoMove::~JTEUndoMove()
 {
 }
 
 /******************************************************************************
- SetCount
+ SetCount (virtual)
 
  ******************************************************************************/
 
 void
-JTEUndoDrop::SetCount
+JTEUndoMove::SetCount
 	(
 	const JStyledTextBuffer::TextCount& count
 	)
 {
-	itsNewSelEnd.charIndex = itsNewSelStart.charIndex + count.charCount - 1;
-	itsNewSelEnd.byteIndex = itsNewSelStart.byteIndex + count.byteCount - 1;
+	itsCount = count;
 }
 
 /******************************************************************************
@@ -63,10 +63,9 @@ JTEUndoDrop::SetCount
  ******************************************************************************/
 
 void
-JTEUndoDrop::Undo()
+JTEUndoMove::Undo()
 {
-	JStyledTextBuffer* te = GetSTB();
-	te->SetSelection(JCharacterRange(itsNewSelStart.charIndex, itsNewSelEnd.charIndex),
-					 JUtf8ByteRange(itsNewSelStart.byteIndex,  itsNewSelEnd.byteIndex));
-	te->DropSelection(itsOrigCaretLoc, kJFalse);			// deletes us
+	GetBuffer()->MoveText(		// deletes us
+		JStyledTextBuffer::TextRange(itsDestIndex, itsCount), itsSrcIndex,
+		kJFalse);
 }

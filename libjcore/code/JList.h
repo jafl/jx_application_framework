@@ -12,6 +12,7 @@
 
 #include <JCollection.h>
 #include <JListIterator.h>
+#include <JIndexRange.h>
 
 // namespace to own JBroadcaster messages, etc (template is unnecessary)
 
@@ -290,6 +291,7 @@ public:
 	void			RemoveElement(const JIndex index);
 	virtual void	RemoveNextElements(const JIndex firstIndex, const JSize count) = 0;
 	void			RemovePrevElements(const JIndex lastIndex, const JSize count);
+	void			RemoveElements(const JIndexRange& range);
 	void			RemoveElements(const JListT::ElementsRemoved& info);
 	virtual void	RemoveAll() = 0;	// separate so derived classes can optimize
 

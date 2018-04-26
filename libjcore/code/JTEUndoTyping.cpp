@@ -5,12 +5,13 @@
 
 	BASE CLASS = JTEUndoTextBase
 
-	Copyright (C) 1996 by John Lindal.
+	Copyright (C) 1996-2018 by John Lindal.
 
  ******************************************************************************/
 
 #include <JTEUndoTyping.h>
 #include <JStringIterator.h>
+#include <JStringMatch.h>
 #include <jAssert.h>
 
 /******************************************************************************
@@ -20,11 +21,11 @@
 
 JTEUndoTyping::JTEUndoTyping
 	(
-	JStyledTextBuffer*					te,
+	JStyledTextBuffer*					buffer,
 	const JStyledTextBuffer::TextIndex&	start
 	)
 	:
-	JTEUndoTextBase(te),
+	JTEUndoTextBase(buffer, JStyledTextBuffer::TextRange(start, JStyledTextBuffer::TextCount())),
 	itsOrigStartIndex(start)
 {
 }
@@ -46,8 +47,7 @@ JTEUndoTyping::~JTEUndoTyping()
 void
 JTEUndoTyping::Undo()
 {
-	PrepareForUndo(itsOrigStartIndex, itsCount);
-	JTEUndoTextBase::Undo();
+	UndoText(JStyledTextBuffer::TextRange(itsOrigStartIndex, itsCount));
 }
 
 /******************************************************************************
@@ -78,36 +78,40 @@ JTEUndoTyping::HandleCharacters
 void
 JTEUndoTyping::HandleDelete
 	(
-	JStringIterator*	iter,
-	const JSize			charCount
+	const JStringMatch& match
 	)
 {
 	assert( IsActive() );
 
-	JUtf8Character c;
-	for (JIndex i=1; i<=charCount; i++)
-		{
-		const JIndex startByte = iter->GetPrevByteIndex();
+	const JString s(GetBuffer()->GetText().GetBytes(), match.GetUtf8ByteRange(), kJFalse);
+	JStringIterator iter(kJIteratorStartAtEnd);
 
-		const JBoolean ok = iter->Prev(&c);
+	const JIndex firstCharIndex = match.GetCharacterRange().first;
+
+	JUtf8Character c;
+	while (!iter.AtBeginning())
+		{
+		const JIndex startByte = iter.GetPrevByteIndex();
+
+		const JBoolean ok = iter.Prev(&c);
 		assert( ok );
 
-		JIndex endByte = 0;
-		if (!iter->AtBeginning())
+		JIndex byteCount = startByte;
+		if (!iter.AtBeginning())
 			{
-			endByte = iter->GetPrevByteIndex();
+			byteCount -= iter.GetPrevByteIndex();
 			}
 
 		if (itsCount.charCount > 0)
 			{
 			itsCount.charCount--;
-			itsCount.byteCount -= startByte - endByte;
+			itsCount.byteCount -= byteCount;
 			}
 		else
 			{
-			PrependToSave(c, iter->GetNextCharacterIndex());
+			PrependToSave(c, iter.GetNextCharacterIndex() + firstCharIndex - 1);
 			itsOrigStartIndex.charIndex--;
-			itsOrigStartIndex.byteIndex -= startByte - endByte;
+			itsOrigStartIndex.byteIndex -= byteCount;
 			}
 		}
 }
@@ -124,18 +128,38 @@ JTEUndoTyping::HandleDelete
 void
 JTEUndoTyping::HandleFwdDelete
 	(
-	JStringIterator*	iter,
-	const JSize			charCount
+	const JStringMatch& match
 	)
 {
 	assert( IsActive() );
 
+	const JString s(GetBuffer()->GetText().GetBytes(), match.GetUtf8ByteRange(), kJFalse);
+	JStringIterator iter(kJIteratorStartAtEnd);
+
+	const JIndex firstCharIndex = match.GetCharacterRange().first;
+
 	JUtf8Character c;
-	for (JIndex i=1; i<=charCount; i++)
+	while (!iter.AtEnd())
 		{
-		const JBoolean ok = iter->Next(&c);
+		const JBoolean ok = iter.Next(&c);
 		assert( ok );
 
-		AppendToSave(c, iter->GetPrevCharacterIndex());
+		AppendToSave(c, iter.GetPrevCharacterIndex() + firstCharIndex - 1);
 		}
+}
+
+/******************************************************************************
+ SameStartIndex
+
+ ******************************************************************************/
+
+JBoolean
+JTEUndoTyping::SameStartIndex
+	(
+	const JStyledTextBuffer::TextIndex& index
+	)
+	const
+{
+	return JI2B( index.charIndex == itsOrigStartIndex.charIndex &&
+				 index.byteIndex == itsOrigStartIndex.byteIndex );
 }

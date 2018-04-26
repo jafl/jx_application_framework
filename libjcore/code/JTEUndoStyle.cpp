@@ -5,7 +5,7 @@
 
 	BASE CLASS = JTEUndoBase
 
-	Copyright (C) 1996 by John Lindal.
+	Copyright (C) 1996-2018 by John Lindal.
 
  ******************************************************************************/
 
@@ -20,20 +20,19 @@
 
 JTEUndoStyle::JTEUndoStyle
 	(
-	JStyledTextBuffer* te
+	JStyledTextBuffer*		buffer,
+	const JCharacterRange&	range
 	)
 	:
-	JTEUndoBase(te)
+	JTEUndoBase(buffer),
+	itsRange(range)
 {
+	assert( !itsRange.IsEmpty() );
+
 	itsOrigStyles = jnew JRunArray<JFont>;
 	assert( itsOrigStyles != NULL );
 
-	JBoolean hasSelection = te->GetSelection(&itsCharRange, &itsByteRange);
-	assert( hasSelection );
-
-	JString selText;
-	hasSelection = te->GetSelection(&selText, itsOrigStyles);
-	assert( hasSelection );
+	itsOrigStyles->AppendSlice(buffer->GetStyles(), itsRange);
 }
 
 /******************************************************************************
@@ -54,16 +53,14 @@ JTEUndoStyle::~JTEUndoStyle()
 void
 JTEUndoStyle::Undo()
 {
-	JStyledTextBuffer* te = GetSTB();
-	te->SetSelection(itsCharRange, itsByteRange);
+	JStyledTextBuffer* buffer = GetBuffer();
 
-	JTEUndoStyle* newUndo = jnew JTEUndoStyle(te);
+	JTEUndoStyle* newUndo = jnew JTEUndoStyle(buffer, itsRange);
 	assert( newUndo != NULL );
 
-	te->SetFont(JStyledTextBuffer::TextIndex(itsCharRange.first, itsByteRange.first),
-				*itsOrigStyles, kJFalse);
+	buffer->SetFont(itsRange.first, *itsOrigStyles, kJFalse);
 
-	te->ReplaceUndo(this, newUndo);		// deletes us
+	buffer->ReplaceUndo(this, newUndo);		// deletes us
 }
 
 /******************************************************************************
@@ -81,4 +78,19 @@ JTEUndoStyle::SetFont
 	)
 {
 	JTEUndoBase::SetFont(itsOrigStyles, name, size);
+}
+
+/******************************************************************************
+ SameRange
+
+ ******************************************************************************/
+
+JBoolean
+JTEUndoStyle::SameRange
+	(
+	const JCharacterRange& range
+	)
+	const
+{
+	return JI2B( range == itsRange );
 }
