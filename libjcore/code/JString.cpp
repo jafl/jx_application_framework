@@ -99,6 +99,35 @@ JString::JString
 
 JString::JString
 	(
+	const JString& source,
+	const JBoolean copy
+	)
+	:
+	itsOwnerFlag(kJTrue),
+	itsNormalizeFlag(source.itsNormalizeFlag),
+	itsBytes(NULL),		// makes delete [] safe inside CopyToPrivateBuffer
+	itsByteCount(0),
+	itsCharacterCount(0),
+	itsAllocCount(0),
+	itsBlockSize(source.itsBlockSize),
+	itsUCaseMap(NULL),
+	itsIterator(NULL)
+{
+	if (copy)
+		{
+		CopyToPrivateBuffer(source.itsBytes, source.itsByteCount);
+		}
+	else
+		{
+		itsOwnerFlag      = kJFalse;
+		itsBytes          = const_cast<JUtf8Byte*>(source.GetBytes());	// we promise not to modify it
+		itsByteCount      = source.itsByteCount;
+		itsCharacterCount = source.itsCharacterCount;
+		}
+}
+
+JString::JString
+	(
 	const JUtf8Byte*	str,
 	const JSize			origByteCount,
 	const JBoolean		copy

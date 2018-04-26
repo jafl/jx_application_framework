@@ -56,6 +56,7 @@ public:
 
 	JString(const JBoolean normalize = kJTrue);
 	JString(const JString& str);
+	JString(const JString& str, const JBoolean copy);
 	JString(const JString& str, const JCharacterRange& range);
 //	JString(const JUtf8Byte* str, const JBoolean copy = kJTrue);	// prevent automatic construction
 	JString(const JUtf8Byte* str, const JSize byteCount, const JBoolean copy = kJTrue);
