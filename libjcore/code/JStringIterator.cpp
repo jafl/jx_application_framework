@@ -290,9 +290,11 @@ JStringIterator::UnsafeMoveTo
 	if (newPosition == kJIteratorStartBefore)
 		{
 		assert( (itsConstString->IsEmpty() && characterIndex == 1) ||
+				characterIndex == itsConstString->GetCharacterCount()+1 ||
 				itsConstString->CharacterIndexValid(characterIndex) );
 
 		assert( (itsConstString->IsEmpty() && byteIndex == 1) ||
+				byteIndex == itsConstString->GetByteCount()+1 ||
 				itsConstString->ByteIndexValid(byteIndex) );
 
 		itsByteOffset      = byteIndex-1;
