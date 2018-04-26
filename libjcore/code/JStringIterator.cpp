@@ -231,7 +231,9 @@ JStringIterator::MoveTo
 		}
 	else if (newPosition == kJIteratorStartBeforeByte)
 		{
-		assert( itsConstString->ByteIndexValid(index) );
+		assert( (itsConstString->IsEmpty() && index == 1) ||
+				itsConstString->ByteIndexValid(index) );
+
 		itsByteOffset      = index-1;
 		itsCharacterOffset = JString::CountCharacters(itsConstString->GetRawBytes(), itsByteOffset);
 		}
@@ -243,7 +245,9 @@ JStringIterator::MoveTo
 		}
 	else if (newPosition == kJIteratorStartBefore)
 		{
-		assert( itsConstString->CharacterIndexValid(index) );
+		assert( (itsConstString->IsEmpty() && index == 1) ||
+				itsConstString->CharacterIndexValid(index) );
+
 		JUtf8ByteRange r   = itsConstString->CharacterToUtf8ByteRange(JCharacterRange(1, index-1));
 		itsByteOffset      = r.last;
 		itsCharacterOffset = index-1;
@@ -285,8 +289,12 @@ JStringIterator::UnsafeMoveTo
 
 	if (newPosition == kJIteratorStartBefore)
 		{
-		assert( itsConstString->CharacterIndexValid(characterIndex) );
-		assert( itsConstString->ByteIndexValid(byteIndex) );
+		assert( (itsConstString->IsEmpty() && characterIndex == 1) ||
+				itsConstString->CharacterIndexValid(characterIndex) );
+
+		assert( (itsConstString->IsEmpty() && byteIndex == 1) ||
+				itsConstString->ByteIndexValid(byteIndex) );
+
 		itsByteOffset      = byteIndex-1;
 		itsCharacterOffset = characterIndex-1;
 		}

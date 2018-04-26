@@ -164,6 +164,12 @@ void TestIteration(const JString& s)
 
 JTEST(Iteration)
 {
+	JString s;
+	JStringIterator iter(s);
+	iter.MoveTo(kJIteratorStartBefore, 1);
+	iter.MoveTo(kJIteratorStartBeforeByte, 1);
+	iter.UnsafeMoveTo(kJIteratorStartBefore, 1, 1);
+
 	TestIteration(JString("123\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", 0));
 	TestIteration(JString("  123\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94  ",
 						  JUtf8ByteRange(3, 14), kJFalse));
