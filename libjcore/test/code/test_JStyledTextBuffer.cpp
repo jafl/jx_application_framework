@@ -38,6 +38,127 @@ JTEST(SetText)
 	JAssertStringsEqual("abcd" "\xC3\x86", buf.GetText());
 }
 
+void TestItemStartEnd(const JUtf8Byte* s)
+{
+	StyledTextBuffer buf;
+	buf.SetText(JString(s, 0, kJFalse));
+
+	JAssertEqual(1, buf.GetWordStart(0, 0));
+	JAssertEqual(1, buf.GetWordStart(1, 1));
+	JAssertEqual(1, buf.GetWordStart(3, 3));
+	JAssertEqual(1, buf.GetWordStart(5, 5));
+	JAssertEqual(6, buf.GetWordStart(6, 6));
+	JAssertEqual(6, buf.GetWordStart(8, 8));
+	JAssertEqual(6, buf.GetWordStart(10, 11));
+
+	JAssertEqual(4, buf.GetWordEnd(1, 1));
+	JAssertEqual(4, buf.GetWordEnd(3, 3));
+	JAssertEqual(4, buf.GetWordEnd(4, 4));
+	JAssertEqual(10, buf.GetWordEnd(5, 5));
+	JAssertEqual(10, buf.GetWordEnd(8, 8));
+	JAssertEqual(10, buf.GetWordEnd(9, 10));
+	JAssertEqual(buf.GetText().GetCharacterCount(), buf.GetWordEnd(buf.GetText().GetCharacterCount()+1, buf.GetText().GetByteCount()+1));
+
+	JAssertEqual(6, buf.GetWordStart(11, 12));
+	JAssertEqual(6, buf.GetWordStart(12, 13));
+	JAssertEqual(6, buf.GetWordStart(13, 14));
+
+	JAssertEqual(16, buf.GetWordEnd(11, 12));
+	JAssertEqual(16, buf.GetWordEnd(12, 13));
+	JAssertEqual(16, buf.GetWordEnd(13, 14));
+
+	const JStyledTextBuffer::TextIndex first(1,1);
+
+	JBoolean wrapped;
+	const JStringMatch m1 = buf.SearchForward(first, JRegex("PRoP\xC3\xB8s1tion"), kJFalse, kJFalse, &wrapped);
+	JAssertFalse(m1.IsEmpty());
+	JAssertEqual(11, m1.GetCharacterCount());
+
+	const JCharacterRange charRange = m1.GetCharacterRange();
+	const JUtf8ByteRange  byteRange = m1.GetUtf8ByteRange();
+	JAssertEqual(charRange.first, buf.GetWordStart(charRange.first+3, byteRange.first+3));
+	JAssertEqual(charRange.last, buf.GetWordEnd(charRange.first+3, byteRange.first+3));
+
+	JAssertEqual(1, buf.GetPartialWordStart(0, 0));
+	JAssertEqual(charRange.last-3, buf.GetPartialWordStart(charRange.last, byteRange.last));
+	JAssertEqual(charRange.last-3, buf.GetPartialWordStart(charRange.last-3, byteRange.last-3));
+	JAssertEqual(charRange.last-4, buf.GetPartialWordStart(charRange.last-4, byteRange.last-4));
+	JAssertEqual(charRange.last-7, buf.GetPartialWordStart(charRange.last-5, byteRange.last-5));
+	JAssertEqual(charRange.last-9, buf.GetPartialWordStart(charRange.last-8, byteRange.last-9));
+	JAssertEqual(charRange.last-10, buf.GetPartialWordStart(charRange.last-9, byteRange.last-10));
+
+	JAssertEqual(charRange.first, buf.GetPartialWordEnd(charRange.first, byteRange.first));
+	JAssertEqual(charRange.first+2, buf.GetPartialWordEnd(charRange.first+1, byteRange.first+1));
+	JAssertEqual(charRange.first+5, buf.GetPartialWordEnd(charRange.first+3, byteRange.first+3));
+	JAssertEqual(charRange.first+5, buf.GetPartialWordEnd(charRange.first+4, byteRange.first+4));
+	JAssertEqual(charRange.first+6, buf.GetPartialWordEnd(charRange.first+6, byteRange.first+7));
+	JAssertEqual(charRange.first+10, buf.GetPartialWordEnd(charRange.first+7, byteRange.first+8));
+	JAssertEqual(buf.GetText().GetCharacterCount(), buf.GetPartialWordEnd(buf.GetText().GetCharacterCount()+1, buf.GetText().GetByteCount()+1));
+
+	const JStringMatch m2 = buf.SearchForward(first, JRegex("and dedicated"), kJFalse, kJFalse, &wrapped);
+	JAssertFalse(m1.IsEmpty());
+
+	JAssertEqual(1, buf.GetParagraphStart(0, 0));
+	JAssertEqual(1, buf.GetParagraphStart(13, 14));
+	JAssertEqual(m2.GetCharacterRange().first, buf.GetParagraphStart(m1.GetCharacterRange().first, m1.GetUtf8ByteRange().first));
+
+	JAssertEqual(37, buf.GetParagraphEnd(1, 1));
+	JAssertEqual(37, buf.GetParagraphEnd(13, 14));
+	JAssertEqual(buf.GetText().GetCharacterCount(), buf.GetParagraphEnd(m1.GetCharacterRange().first, m1.GetUtf8ByteRange().first));
+	JAssertEqual(buf.GetText().GetCharacterCount(), buf.GetParagraphEnd(buf.GetText().GetCharacterCount()+1, buf.GetText().GetByteCount()+1));
+}
+
+JTEST(ItemStartEnd)
+{
+	TestItemStartEnd(
+		"Four sc\xC3\xB8" "re - and seven years ago our\n"
+		"fathers brought forth on this continent,\n"
+		"a new nation, conceived in Liberty,\n"
+		"and dedicated to the PRoP\xC3\xB8" "s1tion that all men are created equal.");
+
+	TestItemStartEnd(
+		"Four sc\xC3\xB8" "re - and seven years ago our\n"
+		"fathers brought forth on this continent,\n"
+		"a new nation, conceived in Liberty,\n"
+		"and dedicated to the PRoP\xC3\xB8" "s1tion that all men are created equal.\n");
+}
+
+JTEST(ColumnForChar)
+{
+	StyledTextBuffer buf;
+	buf.SetText(JString("\xC3\xA1" "bcd\n\t1234\n  \twxzy", 0, kJFalse));
+
+	JIndex col = buf.GetColumnForChar(
+		JStyledTextBuffer::TextIndex(1,1),
+		JStyledTextBuffer::TextIndex(1,1));
+	JAssertEqual(1, col);
+
+	col = buf.GetColumnForChar(
+		JStyledTextBuffer::TextIndex(1,1),
+		JStyledTextBuffer::TextIndex(2,3));
+	JAssertEqual(2, col);
+
+	col = buf.GetColumnForChar(
+		JStyledTextBuffer::TextIndex(6,7),
+		JStyledTextBuffer::TextIndex(6,7));
+	JAssertEqual(1, col);
+
+	col = buf.GetColumnForChar(
+		JStyledTextBuffer::TextIndex(6,7),
+		JStyledTextBuffer::TextIndex(8,9));
+	JAssertEqual(10, col);
+
+	col = buf.GetColumnForChar(
+		JStyledTextBuffer::TextIndex(12,13),
+		JStyledTextBuffer::TextIndex(12,13));
+	JAssertEqual(1, col);
+
+	col = buf.GetColumnForChar(
+		JStyledTextBuffer::TextIndex(12,13),
+		JStyledTextBuffer::TextIndex(16,17));
+	JAssertEqual(10, col);
+}
+
 JTEST(ReadPlainText)
 {
 	StyledTextBuffer buf;
@@ -307,6 +428,32 @@ JTEST(ReplaceRange)
 	JAssertStringsEqual("Fourfl" "\xC3\xB8" "ur and seven years ago...", buf.GetText());
 }
 
+JTEST(IsEntireWord)
+{
+	StyledTextBuffer buf;
+	const JString s("Foursc" "\xC3\xB8" "re and seven years ago...", 0, kJFalse);
+
+	JBoolean is = buf.IsEntireWord(s, JStyledTextBuffer::TextRange(
+		JCharacterRange(1,9),
+		JUtf8ByteRange(1,10)));
+	JAssertTrue(is);
+
+	is = buf.IsEntireWord(s, JStyledTextBuffer::TextRange(
+		JCharacterRange(3,9),
+		JUtf8ByteRange(3,10)));
+	JAssertFalse(is);
+
+	is = buf.IsEntireWord(s, JStyledTextBuffer::TextRange(
+		JCharacterRange(11,13),
+		JUtf8ByteRange(12,14)));
+	JAssertTrue(is);
+
+	is = buf.IsEntireWord(s, JStyledTextBuffer::TextRange(
+		JCharacterRange(11,16),
+		JUtf8ByteRange(12,17)));
+	JAssertFalse(is);
+}
+
 class BigFontMatch : public JStyledTextBuffer::FontMatch
 {
 	virtual JBoolean Match(const JFont& f) const
@@ -409,95 +556,74 @@ JTEST(SearchStyle)
 	JAssertFalse(wrapped);
 }
 
-void TestItemStartEnd(const JUtf8Byte* s)
+JTEST(SetAllFontNameAndSize)
 {
 	StyledTextBuffer buf;
-	buf.SetText(JString(s, 0, kJFalse));
+	buf.SetText(JString("b" "\xC3\xAE" "g" "b" "\xC3\xB8" "ld" "normal" "double underline", 0, kJFalse));
+	buf.SetFontSize(1, 3, 20, kJFalse);
+	buf.SetFontBold(4, 7, kJTrue, kJFalse);
+	buf.SetFontUnderline(14, 29, 2, kJFalse);
 
-	JAssertEqual(1, buf.GetWordStart(0, 0));
-	JAssertEqual(1, buf.GetWordStart(1, 1));
-	JAssertEqual(1, buf.GetWordStart(3, 3));
-	JAssertEqual(1, buf.GetWordStart(5, 5));
-	JAssertEqual(6, buf.GetWordStart(6, 6));
-	JAssertEqual(6, buf.GetWordStart(8, 8));
-	JAssertEqual(6, buf.GetWordStart(10, 11));
+	buf.SetAllFontNameAndSize(JString("foo", 0, kJFalse), 24, kJFalse);
 
-	JAssertEqual(4, buf.GetWordEnd(1, 1));
-	JAssertEqual(4, buf.GetWordEnd(3, 3));
-	JAssertEqual(4, buf.GetWordEnd(4, 4));
-	JAssertEqual(10, buf.GetWordEnd(5, 5));
-	JAssertEqual(10, buf.GetWordEnd(8, 8));
-	JAssertEqual(10, buf.GetWordEnd(9, 10));
-	JAssertEqual(buf.GetText().GetCharacterCount(), buf.GetWordEnd(buf.GetText().GetCharacterCount()+1, buf.GetText().GetByteCount()+1));
-
-	JAssertEqual(6, buf.GetWordStart(11, 12));
-	JAssertEqual(6, buf.GetWordStart(12, 13));
-	JAssertEqual(6, buf.GetWordStart(13, 14));
-
-	JAssertEqual(16, buf.GetWordEnd(11, 12));
-	JAssertEqual(16, buf.GetWordEnd(12, 13));
-	JAssertEqual(16, buf.GetWordEnd(13, 14));
-
-	const JStyledTextBuffer::TextIndex first(1,1);
-
-	JBoolean wrapped;
-	const JStringMatch m1 = buf.SearchForward(first, JRegex("PRoP\xC3\xB8s1tion"), kJFalse, kJFalse, &wrapped);
-	JAssertFalse(m1.IsEmpty());
-	JAssertEqual(11, m1.GetCharacterCount());
-
-	const JCharacterRange charRange = m1.GetCharacterRange();
-	const JUtf8ByteRange  byteRange = m1.GetUtf8ByteRange();
-	JAssertEqual(charRange.first, buf.GetWordStart(charRange.first+3, byteRange.first+3));
-	JAssertEqual(charRange.last, buf.GetWordEnd(charRange.first+3, byteRange.first+3));
-
-	JAssertEqual(1, buf.GetPartialWordStart(0, 0));
-	JAssertEqual(charRange.last-3, buf.GetPartialWordStart(charRange.last, byteRange.last));
-	JAssertEqual(charRange.last-3, buf.GetPartialWordStart(charRange.last-3, byteRange.last-3));
-	JAssertEqual(charRange.last-4, buf.GetPartialWordStart(charRange.last-4, byteRange.last-4));
-	JAssertEqual(charRange.last-7, buf.GetPartialWordStart(charRange.last-5, byteRange.last-5));
-	JAssertEqual(charRange.last-9, buf.GetPartialWordStart(charRange.last-8, byteRange.last-9));
-	JAssertEqual(charRange.last-10, buf.GetPartialWordStart(charRange.last-9, byteRange.last-10));
-
-	JAssertEqual(charRange.first, buf.GetPartialWordEnd(charRange.first, byteRange.first));
-	JAssertEqual(charRange.first+2, buf.GetPartialWordEnd(charRange.first+1, byteRange.first+1));
-	JAssertEqual(charRange.first+5, buf.GetPartialWordEnd(charRange.first+3, byteRange.first+3));
-	JAssertEqual(charRange.first+5, buf.GetPartialWordEnd(charRange.first+4, byteRange.first+4));
-	JAssertEqual(charRange.first+6, buf.GetPartialWordEnd(charRange.first+6, byteRange.first+7));
-	JAssertEqual(charRange.first+10, buf.GetPartialWordEnd(charRange.first+7, byteRange.first+8));
-	JAssertEqual(buf.GetText().GetCharacterCount(), buf.GetPartialWordEnd(buf.GetText().GetCharacterCount()+1, buf.GetText().GetByteCount()+1));
-
-	const JStringMatch m2 = buf.SearchForward(first, JRegex("and dedicated"), kJFalse, kJFalse, &wrapped);
-	JAssertFalse(m1.IsEmpty());
-
-	JAssertEqual(1, buf.GetParagraphStart(0, 0));
-	JAssertEqual(1, buf.GetParagraphStart(13, 14));
-	JAssertEqual(m2.GetCharacterRange().first, buf.GetParagraphStart(m1.GetCharacterRange().first, m1.GetUtf8ByteRange().first));
-
-	JAssertEqual(37, buf.GetParagraphEnd(1, 1));
-	JAssertEqual(37, buf.GetParagraphEnd(13, 14));
-	JAssertEqual(buf.GetText().GetCharacterCount(), buf.GetParagraphEnd(m1.GetCharacterRange().first, m1.GetUtf8ByteRange().first));
-	JAssertEqual(buf.GetText().GetCharacterCount(), buf.GetParagraphEnd(buf.GetText().GetCharacterCount()+1, buf.GetText().GetByteCount()+1));
+	JAssertEqual(4, buf.GetStyles().GetRunCount());
+	JAssertEqual(24, buf.GetFont(2).GetSize());
+	JAssertTrue(buf.GetFont(5).GetStyle().bold);
+	JAssertFalse(buf.GetFont(10).GetStyle().bold);
+	JAssertEqual(2, buf.GetFont(16).GetStyle().underlineCount);
 }
 
-JTEST(ItemStartEnd)
+JTEST(CalcInsertionFont)
 {
-	TestItemStartEnd(
-		"Four sc\xC3\xB8" "re - and seven years ago our\n"
-		"fathers brought forth on this continent,\n"
-		"a new nation, conceived in Liberty,\n"
-		"and dedicated to the PRoP\xC3\xB8" "s1tion that all men are created equal.");
+	StyledTextBuffer buf;
+	buf.SetText(JString("b" "\xC3\xAE" "g" "b" "\xC3\xB8" "ld" "normal" "double underline", 0, kJFalse));
+	buf.SetFontSize(1, 3, 20, kJFalse);
+	buf.SetFontBold(4, 7, kJTrue, kJFalse);
+	buf.SetFontUnderline(14, 29, 2, kJFalse);
 
-	TestItemStartEnd(
-		"Four sc\xC3\xB8" "re - and seven years ago our\n"
-		"fathers brought forth on this continent,\n"
-		"a new nation, conceived in Liberty,\n"
-		"and dedicated to the PRoP\xC3\xB8" "s1tion that all men are created equal.\n");
+	JAssertEqual(20, buf.CalcInsertionFont(JStyledTextBuffer::TextIndex(2,2)).GetSize());
+	JAssertTrue(buf.CalcInsertionFont(JStyledTextBuffer::TextIndex(5,6)).GetStyle().bold);
+	JAssertEqual(0, buf.CalcInsertionFont(JStyledTextBuffer::TextIndex(11,13)).GetStyle().underlineCount);
+	JAssertEqual(2, buf.CalcInsertionFont(JStyledTextBuffer::TextIndex(16,18)).GetStyle().underlineCount);
 }
+
+JTEST(CopyPaste)
+{
+	StyledTextBuffer buf;
+	buf.SetText(JString("b" "\xC3\xAE" "g" "b" "\xC3\xB8" "ld" "normal" "double underline", 0, kJFalse));
+	buf.SetFontSize(1, 3, 20, kJFalse);
+	buf.SetFontBold(4, 7, kJTrue, kJFalse);
+	buf.SetFontUnderline(14, 29, 2, kJFalse);
+
+	JString s;
+	JRunArray<JFont> style;
+
+	JBoolean ok = buf.Copy(JStyledTextBuffer::TextRange(
+		JCharacterRange(2,6), JUtf8ByteRange(2,8)), &s, &style);
+
+	JAssertTrue(ok);
+	JAssertStringsEqual("\xC3\xAE" "g" "b" "\xC3\xB8" "l", s);
+	JAssertEqual(2, style.GetRunCount());
+
+	buf.Paste(JStyledTextBuffer::TextRange(
+		JCharacterRange(10,11), JUtf8ByteRange(12,13)), s, &style);
+
+	JAssertStringsEqual("b" "\xC3\xAE" "g" "b" "\xC3\xB8" "ld" "no" "\xC3\xAE" "g" "b" "\xC3\xB8" "l" "al" "double underline", buf.GetText());
+	JAssertEqual(7, buf.GetStyles().GetRunCount());
+	JAssertTrue(buf.GetFont(13).GetStyle().bold);
+}
+
+JTEST(ForwardBackwardDelete)
+{}
+
+JTEST(Move)
+{}
 
 JTEST(TabSelection)
 {
 	StyledTextBuffer buf;
 	buf.SetText(JString("\xC3\xA1" "bcd\n1234\nwxzy", 0, kJFalse));
+	buf.UseMultipleUndo();
 
 	buf.Indent(JStyledTextBuffer::TextRange(JCharacterRange(1,1), JUtf8ByteRange(1,1)), 2);
 	JAssertStringsEqual("\t\t" "\xC3\xA1" "bcd\n1234\nwxzy", buf.GetText());
@@ -508,8 +634,18 @@ JTEST(TabSelection)
 	buf.Indent(JStyledTextBuffer::TextRange(JCharacterRange(8,13), JUtf8ByteRange(9,14)), 3);
 	JAssertStringsEqual("\t\t" "\xC3\xA1" "bcd\n\t\t\t1234\n\t\t\twxzy", buf.GetText());
 
+	buf.Undo();
+	buf.Undo();
+	JAssertStringsEqual("\xC3\xA1" "bcd\n1234\nwxzy", buf.GetText());
+	buf.Redo();
+	buf.Redo();
+
 	buf.Outdent(JStyledTextBuffer::TextRange(JCharacterRange(1,22), JUtf8ByteRange(1,23)), 1);
 	JAssertStringsEqual("\t" "\xC3\xA1" "bcd\n\t\t1234\n\t\twxzy", buf.GetText());
+
+	buf.Undo();
+	JAssertStringsEqual("\t\t" "\xC3\xA1" "bcd\n\t\t\t1234\n\t\t\twxzy", buf.GetText());
+	buf.Redo();
 
 	buf.Outdent(JStyledTextBuffer::TextRange(JCharacterRange(1,19), JUtf8ByteRange(1,20)), 2);
 	JAssertStringsEqual("\t" "\xC3\xA1" "bcd\n\t\t1234\n\t\twxzy", buf.GetText());
@@ -529,7 +665,7 @@ JTEST(TabSelectionMixed)
 	buf.Undo();
 	JAssertStringsEqual("\t" "\xC3\xA1" "bcd\n  \t1234\n\twxzy", buf.GetText());
 
-	buf.Redo();
+	buf.Undo();
 	JAssertStringsEqual("\xC3\xA1" "bcd\n1234\nwxzy", buf.GetText());
 
 
@@ -564,6 +700,8 @@ JTEST(CleanWhitespaceTabs)
 	r = buf.CleanWhitespace(JStyledTextBuffer::TextRange(
 							JCharacterRange(9,12),
 							JUtf8ByteRange(10,13)), kJTrue);
+	buf.Undo();
+	buf.Undo();
 	JAssertStringsEqual("\t " "\xC3\xA1" "bcd\n\t1234\n\twxzy", buf.GetText());
 	JAssertEqual(JCharacterRange(8,13), r.charRange);
 
@@ -600,6 +738,23 @@ JTEST(CleanWhitespaceSpaces)
 	r = buf.CleanWhitespace(JStyledTextBuffer::TextRange(
 							JCharacterRange(9,12),
 							JUtf8ByteRange(10,13)), kJTrue);
+	buf.Undo();
+	buf.Redo();
 	JAssertStringsEqual("\t " "\xC3\xA1" "bcd\n    1234\n\twxzy", buf.GetText());
 	JAssertEqual(JCharacterRange(8,16), r.charRange);
+}
+
+JTEST(AdjustTextIndex)
+{
+	StyledTextBuffer buf;
+	buf.SetText(JString("Foursc" "\xC3\xB8" "re and seven years ago...", 0, kJFalse));
+
+	JStyledTextBuffer::TextIndex index(5,5);
+	index = buf.AdjustTextIndex(index, 6);
+	JAssertEqual(11, index.charIndex);
+	JAssertEqual(12, index.byteIndex);
+
+	index = buf.AdjustTextIndex(index, -7);
+	JAssertEqual(4, index.charIndex);
+	JAssertEqual(4, index.byteIndex);
 }

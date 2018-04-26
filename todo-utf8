@@ -1,5 +1,6 @@
 JStyledTextBuffer
 	AutoIndent
+	CleanRightMargin
 	broadcast useful messages for JTextEditor, e.g., adjust caret/selection
 put back JTextEditor, *KeyHandler
 
@@ -27,9 +28,6 @@ test translation files
 	~/.testjx/string_data
 
 fix TODO's
-
-JTextEditor
-	never use JIndex for range - ambiguous
 
 sample text in TestTabDirector
 	has \x - correctly interpreted?

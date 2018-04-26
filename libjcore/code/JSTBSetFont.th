@@ -1,14 +1,14 @@
 /******************************************************************************
- JTESetFont.th
+ JSTBSetFont.th
 
-	Use this file to instantiate code for JTextEditor::SetFont*()
+	Use this file to instantiate code for JStyledTextBuffer::SetFont*()
 
 	To use this file:
 
 		#define LocalVarName   ____
 		#define GetElementName ____
 		#define SetElementName ____
-		#include <JTESetFont.th>
+		#include <JSTBSetFont.th>
 		#undef LocalVarName
 		#undef GetElementName
 		#undef SetElementName

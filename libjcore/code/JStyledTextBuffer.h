@@ -810,6 +810,18 @@ JStyledTextBuffer::EndsWithNewline()
 }
 
 /******************************************************************************
+ GetCharacterInWordFunction
+
+ ******************************************************************************/
+
+inline JCharacterInWordFn
+JStyledTextBuffer::GetCharacterInWordFunction()
+	const
+{
+	return itsCharInWordFn;
+}
+
+/******************************************************************************
  TextCount operators
 
  ******************************************************************************/
