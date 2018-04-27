@@ -613,11 +613,154 @@ JTEST(CopyPaste)
 	JAssertTrue(buf.GetFont(13).GetStyle().bold);
 }
 
-JTEST(ForwardBackwardDelete)
-{}
+JTEST(BackwardDelete)
+{
+	StyledTextBuffer buf;
+	buf.UseMultipleUndo();
+	buf.SetText(JString("b" "\xC3\xAE" "g\n" "b" "\xC3\xB8" "ld\n" "\t   normal\n" "double underline", 0, kJFalse));
+	buf.SetFontSize(1, 3, 20, kJFalse);
+	buf.SetFontBold(5, 8, kJTrue, kJFalse);
+	buf.SetFontUnderline(16, 31, 2, kJFalse);
+
+	JStyledTextBuffer::TextIndex caretIndex = buf.BackwardDelete(
+		JStyledTextBuffer::TextIndex(5,6),
+		JStyledTextBuffer::TextIndex(8,10),
+		kJFalse);
+	JAssertStringsEqual("b" "\xC3\xAE" "g\n" "b" "\xC3\xB8" "d\n" "\t   normal\n" "double underline", buf.GetText());
+	JAssertEqual(7, caretIndex.charIndex);
+	JAssertEqual(9, caretIndex.byteIndex);
+
+	JString returnText;
+	JRunArray<JFont> returnStyle;
+	buf.BackwardDelete(
+		JStyledTextBuffer::TextIndex(5,6),
+		JStyledTextBuffer::TextIndex(7,9),
+		kJFalse, &returnText, &returnStyle);
+	JAssertStringsEqual("b" "\xC3\xAE" "g\n" "b" "d\n" "\t   normal\n" "double underline", buf.GetText());
+	JAssertStringsEqual("\xC3\xB8", returnText);
+	JAssertEqual(1, returnStyle.GetElementCount());
+	JAssertTrue(returnStyle.GetFirstElement().GetStyle().bold);
+
+	buf.BackwardDelete(
+		JStyledTextBuffer::TextIndex(8,9),
+		JStyledTextBuffer::TextIndex(11,12),
+		kJFalse);
+	JAssertStringsEqual("b" "\xC3\xAE" "g\n" "b" "d\n" "\t  normal\n" "double underline", buf.GetText());
+
+	buf.Undo();
+
+	buf.BackwardDelete(
+		JStyledTextBuffer::TextIndex(8,9),
+		JStyledTextBuffer::TextIndex(11,12),
+		kJTrue);
+	JAssertStringsEqual("b" "\xC3\xAE" "g\n" "b" "d\n" "\t  normal\n" "double underline", buf.GetText());
+
+	buf.Paste(JStyledTextBuffer::TextRange(
+		JCharacterRange(9,8), JUtf8ByteRange(10,9)),
+		JString("      ", 0, kJFalse));
+	JAssertStringsEqual("b" "\xC3\xAE" "g\n" "b" "d\n" "\t        normal\n" "double underline", buf.GetText());
+
+	buf.BackwardDelete(
+		JStyledTextBuffer::TextIndex(8,9),
+		JStyledTextBuffer::TextIndex(17,18),
+		kJTrue);
+	JAssertStringsEqual("b" "\xC3\xAE" "g\n" "b" "d\n" "\tnormal\n" "double underline", buf.GetText());
+}
+
+JTEST(ForwardDelete)
+{
+	StyledTextBuffer buf;
+	buf.UseMultipleUndo();
+	buf.SetText(JString("b" "\xC3\xAE" "g\n" "b" "\xC3\xB8" "ld\n" "\t   normal\n" "double underline", 0, kJFalse));
+	buf.SetFontSize(1, 3, 20, kJFalse);
+	buf.SetFontBold(5, 8, kJTrue, kJFalse);
+	buf.SetFontUnderline(16, 31, 2, kJFalse);
+
+	buf.ForwardDelete(
+		JStyledTextBuffer::TextIndex(5,6),
+		JStyledTextBuffer::TextIndex(5,6),
+		kJFalse);
+	JAssertStringsEqual("b" "\xC3\xAE" "g\n" "\xC3\xB8" "ld\n" "\t   normal\n" "double underline", buf.GetText());
+
+	JString returnText;
+	JRunArray<JFont> returnStyle;
+	buf.ForwardDelete(
+		JStyledTextBuffer::TextIndex(5,6),
+		JStyledTextBuffer::TextIndex(5,6),
+		kJFalse, &returnText, &returnStyle);
+	JAssertStringsEqual("b" "\xC3\xAE" "g\n" "ld\n" "\t   normal\n" "double underline", buf.GetText());
+	JAssertStringsEqual("\xC3\xB8", returnText);
+	JAssertEqual(1, returnStyle.GetElementCount());
+	JAssertTrue(returnStyle.GetFirstElement().GetStyle().bold);
+
+	buf.ForwardDelete(
+		JStyledTextBuffer::TextIndex(8,9),
+		JStyledTextBuffer::TextIndex(9,10),
+		kJFalse);
+	JAssertStringsEqual("b" "\xC3\xAE" "g\n" "ld\n" "\t  normal\n" "double underline", buf.GetText());
+
+	buf.Undo();
+
+	buf.ForwardDelete(
+		JStyledTextBuffer::TextIndex(8,9),
+		JStyledTextBuffer::TextIndex(9,10),
+		kJTrue);
+	JAssertStringsEqual("b" "\xC3\xAE" "g\n" "ld\n" "\t  normal\n" "double underline", buf.GetText());
+
+	buf.Paste(JStyledTextBuffer::TextRange(
+		JCharacterRange(9,8), JUtf8ByteRange(10,9)),
+		JString("      ", 0, kJFalse));
+	JAssertStringsEqual("b" "\xC3\xAE" "g\n" "ld\n" "\t        normal\n" "double underline", buf.GetText());
+
+	buf.ForwardDelete(
+		JStyledTextBuffer::TextIndex(8,9),
+		JStyledTextBuffer::TextIndex(9,10),
+		kJTrue);
+	JAssertStringsEqual("b" "\xC3\xAE" "g\n" "ld\n" "\tnormal\n" "double underline", buf.GetText());
+}
 
 JTEST(Move)
-{}
+{
+	StyledTextBuffer buf;
+	buf.UseMultipleUndo();
+	buf.SetText(JString("b" "\xC3\xAE" "g" "b" "\xC3\xB8" "ld" "normal" "double underline", 0, kJFalse));
+	buf.SetFontSize(1, 3, 20, kJFalse);
+	buf.SetFontBold(4, 7, kJTrue, kJFalse);
+	buf.SetFontUnderline(14, 29, 2, kJFalse);
+
+	JBoolean ok = buf.MoveText(
+		JStyledTextBuffer::TextRange(
+			JCharacterRange(5,7),
+			JUtf8ByteRange(6,9)),
+		JStyledTextBuffer::TextIndex(11,13),
+		kJFalse);
+
+	JAssertTrue(ok);
+	JAssertStringsEqual("b" "\xC3\xAE" "g" "b" "nor" "\xC3\xB8" "ld" "mal" "double underline", buf.GetText());
+	JAssertTrue(buf.GetFont(4).GetStyle().bold);
+	JAssertFalse(buf.GetFont(7).GetStyle().bold);
+	JAssertTrue(buf.GetFont(8).GetStyle().bold);
+
+	ok = buf.MoveText(
+		JStyledTextBuffer::TextRange(
+			JCharacterRange(14,19),
+			JUtf8ByteRange(16,21)),
+		JStyledTextBuffer::TextIndex(1,1),
+		kJTrue);
+
+	JAssertTrue(ok);
+	JAssertStringsEqual("double" "b" "\xC3\xAE" "g" "b" "nor" "\xC3\xB8" "ld" "mal" "double underline", buf.GetText());
+	JAssertEqual(2, buf.GetFont(2).GetStyle().underlineCount);
+
+	buf.Undo();
+	buf.Undo();
+
+	JAssertStringsEqual("b" "\xC3\xAE" "g" "b" "\xC3\xB8" "ld" "normal" "double underline", buf.GetText());
+	JAssertEqual(0, buf.GetFont(1).GetStyle().underlineCount);
+	JAssertTrue(buf.GetFont(5).GetStyle().bold);
+	JAssertFalse(buf.GetFont(10).GetStyle().bold);
+	JAssertFalse(buf.GetFont(11).GetStyle().bold);
+}
 
 JTEST(TabSelection)
 {

@@ -32,7 +32,7 @@ JTEUndoTextBase::JTEUndoTextBase
 	itsOrigStyles = jnew JRunArray<JFont>;
 	assert( itsOrigStyles != NULL );
 
-	buffer->Copy(range, &itsOrigBuffer, itsOrigStyles);
+	buffer->Copy(range, &itsOrigText, itsOrigStyles);
 }
 
 /******************************************************************************
@@ -63,8 +63,8 @@ JTEUndoTextBase::UndoText
 	JTEUndoPaste* newUndo = jnew JTEUndoPaste(buffer, range);
 	assert( newUndo != NULL );
 
-	const JStyledTextBuffer::TextCount pasteCount = buffer->PrivatePaste(range, itsOrigBuffer, itsOrigStyles);
-	assert( pasteCount.charCount == itsOrigBuffer.GetCharacterCount() );
+	const JStyledTextBuffer::TextCount pasteCount = buffer->PrivatePaste(range, itsOrigText, itsOrigStyles);
+	assert( pasteCount.charCount == itsOrigText.GetCharacterCount() );
 
 	newUndo->SetCount(pasteCount);
 
@@ -85,7 +85,7 @@ JTEUndoTextBase::PrependToSave
 	const JIndex			charIndex
 	)
 {
-	itsOrigBuffer.Prepend(c);
+	itsOrigText.Prepend(c);
 	itsOrigStyles->PrependElement(GetBuffer()->GetFont(charIndex));
 }
 
@@ -103,7 +103,7 @@ JTEUndoTextBase::AppendToSave
 	const JIndex			charIndex
 	)
 {
-	itsOrigBuffer.Append(c);
+	itsOrigText.Append(c);
 	itsOrigStyles->AppendElement(GetBuffer()->GetFont(charIndex));
 }
 

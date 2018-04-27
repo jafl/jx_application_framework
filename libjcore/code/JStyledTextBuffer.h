@@ -321,8 +321,8 @@ public:
 	void		Paste(const TextRange& range,
 					  const JString& text, const JRunArray<JFont>* style = NULL);
 
-	void	MoveText(const TextRange& srcRange, const TextIndex& origDestIndex,
-					 const JBoolean copy);
+	JBoolean	MoveText(const TextRange& srcRange, const TextIndex& origDestIndex,
+						 const JBoolean copy);
 
 	TextIndex	BackwardDelete(const TextIndex&	lineStart, const TextIndex&	caretIndex,
 							   const JBoolean deleteToTabStop,

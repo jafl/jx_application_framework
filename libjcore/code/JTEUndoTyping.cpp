@@ -84,7 +84,7 @@ JTEUndoTyping::HandleDelete
 	assert( IsActive() );
 
 	const JString s(GetBuffer()->GetText().GetBytes(), match.GetUtf8ByteRange(), kJFalse);
-	JStringIterator iter(kJIteratorStartAtEnd);
+	JStringIterator iter(s, kJIteratorStartAtEnd);
 
 	const JIndex firstCharIndex = match.GetCharacterRange().first;
 
@@ -134,7 +134,7 @@ JTEUndoTyping::HandleFwdDelete
 	assert( IsActive() );
 
 	const JString s(GetBuffer()->GetText().GetBytes(), match.GetUtf8ByteRange(), kJFalse);
-	JStringIterator iter(kJIteratorStartAtEnd);
+	JStringIterator iter(s, kJIteratorStartAtBeginning);
 
 	const JIndex firstCharIndex = match.GetCharacterRange().first;
 

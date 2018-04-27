@@ -2301,7 +2301,7 @@ JStyledTextBuffer::Indent
 
  ******************************************************************************/
 
-void
+JBoolean
 JStyledTextBuffer::MoveText
 	(
 	const TextRange&	srcRange,
@@ -2310,10 +2310,10 @@ JStyledTextBuffer::MoveText
 	)
 {
 	if (!copy &&
-		(srcRange.charRange.first <= origDestIndex.charIndex ||
+		(srcRange.charRange.first <= origDestIndex.charIndex &&
 		 origDestIndex.charIndex <= srcRange.charRange.last + 1))
 		{
-		return;
+		return kJFalse;
 		}
 
 	JString text;
@@ -2357,6 +2357,7 @@ JStyledTextBuffer::MoveText
 	undo->SetCount(insertCount);
 
 	NewUndo(undo, isNew);
+	return kJTrue;
 }
 
 /******************************************************************************

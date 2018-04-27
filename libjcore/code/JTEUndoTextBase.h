@@ -31,7 +31,7 @@ protected:
 
 private:
 
-	JString				itsOrigBuffer;
+	JString				itsOrigText;
 	JRunArray<JFont>*	itsOrigStyles;
 
 private:
