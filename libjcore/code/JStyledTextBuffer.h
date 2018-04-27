@@ -389,7 +389,7 @@ protected:
 						   const JString& text, const JRunArray<JFont>* style,
 						   const JFont* defaultStyle);
 	void		DeleteText(const TextRange& range);
-	void		DeleteText(JStringIterator* iter, const JSize charCount);
+	void		DeleteText(JStringIterator* iter, const TextCount& count);
 	JBoolean	CleanText(const JString& text, const JRunArray<JFont>* style,
 						  JString** cleanText, JRunArray<JFont>** cleanStyle,
 						  JBoolean* okToInsert);

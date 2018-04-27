@@ -187,7 +187,7 @@ JStyledTextBuffer::~JStyledTextBuffer()
 
 	Returns kJFalse if illegal characters had to be removed.
 
-	This should not be accessible to the user, so we don't provide Undo.
+	Clears undo history.
 
 	style can safely be NULL or itsStyles.
 
@@ -234,6 +234,8 @@ JStyledTextBuffer::SetText
 
 	We read directly into itsBuffer to avoid making two copies of the
 	file's data.  (The file could be very large.)
+
+	Clears undo history.
 
  ******************************************************************************/
 
@@ -422,6 +424,8 @@ JStyledTextBuffer::WritePlainText
  ReadPrivateFormat
 
 	See WritePrivateFormat() for version information.
+
+	Clears undo history.
 
  ******************************************************************************/
 
@@ -879,6 +883,8 @@ JStyledTextBuffer::SearchBackward
 
 	Replace the specified range with the given replace text.
 
+	Does not handle undo.
+
  ******************************************************************************/
 
 void
@@ -908,17 +914,7 @@ JStyledTextBuffer::ReplaceRange
 		replaceText.MatchCase(buffer->GetString().GetRawBytes(), match.GetUtf8ByteRange());
 		}
 
-	const JCharacterRange charRange = match.GetCharacterRange();
-	const JUtf8ByteRange byteRange  = match.GetUtf8ByteRange();
-
-	buffer->UnsafeMoveTo(kJIteratorStartBefore, charRange.first, byteRange.first);
-	buffer->BeginMatch();
-	buffer->UnsafeMoveTo(kJIteratorStartAfter, charRange.last, byteRange.last);
-	buffer->FinishMatch();
-	buffer->RemoveLastMatch();
-
-	styles->RemoveElements(charRange);
-
+	DeleteText(buffer, TextCount(match.GetCharacterCount(), match.GetByteCount()));
 	InsertText(buffer, styles, replaceText, NULL, NULL);
 }
 
@@ -1178,6 +1174,8 @@ JStyledTextBuffer::FontMatch::~FontMatch()
  Set font
 
 	Returns kJTrue if anything actually changed
+
+	Does not handle undo
 
  ******************************************************************************/
 
@@ -1491,6 +1489,8 @@ JStyledTextBuffer::Copy
  Paste
 
 	style can be NULL
+
+	Handles undo
 
  ******************************************************************************/
 
@@ -1876,25 +1876,35 @@ JStyledTextBuffer::DeleteText
 	)
 {
 	JStringIterator iter(&itsBuffer);
+
 	iter.UnsafeMoveTo(kJIteratorStartBefore, range.charRange.first, range.byteRange.first);
-	DeleteText(&iter, range.charRange.GetCount());
+	DeleteText(&iter, range.GetCount());
 }
 
 void
 JStyledTextBuffer::DeleteText
 	(
 	JStringIterator*	iter,
-	const JSize			charCount
+	const TextCount&	count
 	)
 {
-	itsStyles->RemoveNextElements(iter->GetNextCharacterIndex(), charCount);
-	iter->RemoveNext(charCount);
+	itsStyles->RemoveNextElements(iter->GetNextCharacterIndex(), count.charCount);
+
+	iter->BeginMatch();
+	iter->UnsafeMoveTo(
+		kJIteratorStartAfter,
+		iter->GetNextCharacterIndex() + count.charCount - 1,
+		iter->GetNextByteIndex()      + count.byteCount - 1);
+	iter->FinishMatch();
+	iter->RemoveLastMatch();
 }
 
 /******************************************************************************
  BackwardDelete
 
 	Delete characters preceding the insertion caret.
+
+	Handles undo
 
  ******************************************************************************/
 
@@ -2000,6 +2010,8 @@ JStyledTextBuffer::BackwardDelete
 
 	Delete characters following the insertion caret.
 
+	Handles undo
+
  ******************************************************************************/
 
 void
@@ -2083,6 +2095,8 @@ JStyledTextBuffer::ForwardDelete
 
 	Remove tabs from the beginning of every line within the given range.
 	The first line is assumed to start at the beginning of the range.
+
+	Handles undo
 
  ******************************************************************************/
 
@@ -2198,7 +2212,7 @@ JStyledTextBuffer::Outdent
 					   spaceCount < tabCharCount)
 					{
 					spaceCount++;
-					DeleteText(&iter, 1);
+					DeleteText(&iter, TextCount(1,1));
 					deleteCount++;
 					cr.last--;
 					}
@@ -2218,7 +2232,7 @@ JStyledTextBuffer::Outdent
 					{
 					break;
 					}
-				DeleteText(&iter, 1);
+				DeleteText(&iter, TextCount(1,1));
 				deleteCount++;
 				cr.last--;
 				}
@@ -2236,6 +2250,8 @@ JStyledTextBuffer::Outdent
 
 	Insert tabs at the beginning of every line within the given range.
 	The first line is assumed to start at the beginning of the range.
+
+	Handles undo
 
  ******************************************************************************/
 
@@ -2298,6 +2314,8 @@ JStyledTextBuffer::Indent
 
 /******************************************************************************
  MoveText
+
+	Handles undo
 
  ******************************************************************************/
 
@@ -2367,6 +2385,8 @@ JStyledTextBuffer::MoveText
 	the specified range.
 
 	Returns the range of the resulting text.
+
+	Handles undo
 
  ******************************************************************************/
 
@@ -2564,6 +2584,8 @@ JStyledTextBuffer::CleanWhitespace
 
 	The work done by this function can be changed by calling SetCRMRuleList()
 	and overriding the virtual CRM*() functions.
+
+	Handles undo
 
  ******************************************************************************/
 

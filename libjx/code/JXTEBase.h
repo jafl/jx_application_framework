@@ -189,9 +189,9 @@ protected:
 
 	virtual JBoolean	HitSamePart(const JPoint& pt1, const JPoint& pt2) const override;
 
-	virtual void		TEDisplayBusyCursor() const;
+	virtual void		TEDisplayBusyCursor() const override;
 
-	virtual JBoolean	TEBeginDND();
+	virtual JBoolean	TEBeginDND() override;
 	virtual void		DNDFinish(const JBoolean isDrop, const JXContainer* target) override;
 	virtual Atom		GetDNDAction(const JXContainer* target,
 									 const JXButtonStates& buttonStates,
@@ -212,7 +212,7 @@ protected:
 	virtual void		HandleDNDDrop(const JPoint& pt, const JArray<Atom>& typeList,
 									  const Atom action, const Time time,
 									  const JXWidget* source) override;
-	virtual void		TEPasteDropData();
+	virtual void		TEPasteDropData() override;
 
 	virtual JBoolean	TEXWillAcceptDrop(const JArray<Atom>& typeList,
 										  const Atom action, const Time time,
@@ -231,25 +231,25 @@ protected:
 	virtual void	BoundsMoved(const JCoordinate dx, const JCoordinate dy) override;
 	virtual void	ApertureResized(const JCoordinate dw, const JCoordinate dh) override;
 
-	virtual void		TERefresh();
-	virtual void		TERefreshRect(const JRect& rect);
-	virtual void		TERedraw();
+	virtual void		TERefresh() override;
+	virtual void		TERefreshRect(const JRect& rect) override;
+	virtual void		TERedraw() override;
 	virtual void		TESetGUIBounds(const JCoordinate w, const JCoordinate h,
-									   const JCoordinate changeY);
-	virtual JBoolean	TEWidthIsBeyondDisplayCapacity(const JSize width) const;
+									   const JCoordinate changeY) override;
+	virtual JBoolean	TEWidthIsBeyondDisplayCapacity(const JSize width) const override;
 	virtual JBoolean	TEScrollToRect(const JRect& rect,
-									   const JBoolean centerInDisplay);
-	virtual JBoolean	TEScrollForDrag(const JPoint& pt);
-	virtual JBoolean	TEScrollForDND(const JPoint& pt);
-	virtual void		TESetVertScrollStep(const JCoordinate vStep);
+									   const JBoolean centerInDisplay) override;
+	virtual JBoolean	TEScrollForDrag(const JPoint& pt) override;
+	virtual JBoolean	TEScrollForDND(const JPoint& pt) override;
+	virtual void		TESetVertScrollStep(const JCoordinate vStep) override;
 
-	virtual void		TECaretShouldBlink(const JBoolean blink);
+	virtual void		TECaretShouldBlink(const JBoolean blink) override;
 
-	virtual void		TEClipboardChanged();
-	virtual JBoolean	TEGetExternalClipboard(JString* text, JRunArray<JFont>* style) const;
+	virtual void		TEClipboardChanged() override;
+	virtual JBoolean	TEGetExternalClipboard(JString* text, JRunArray<JFont>* style) const override;
 
-	virtual JCoordinate	GetPrintFooterHeight(JPagePrinter& p) const;
-	virtual void		DrawPrintFooter(JPagePrinter& p, const JCoordinate footerHeight);
+	virtual JCoordinate	GetPrintFooterHeight(JPagePrinter& p) const override;
+	virtual void		DrawPrintFooter(JPagePrinter& p, const JCoordinate footerHeight) override;
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 

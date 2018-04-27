@@ -2,12 +2,14 @@ JStyledTextBuffer
 	AutoIndent
 	CleanRightMargin
 	broadcast useful messages for JTextEditor, e.g., adjust caret/selection
-put back JTextEditor, *KeyHandler
 
 JTextEditor
 	set selection/caret after undo
+	*** all overrides that do recalc, etc:  handle via messages
 
-put JTEStyler back in libjcore
+put back
+	*KeyHandler
+	JTEStyler
 
 JXTEBase
 	show busy cursor when get WillBeBusy from JStyledTextBuffer
