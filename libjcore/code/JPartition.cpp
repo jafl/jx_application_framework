@@ -18,7 +18,7 @@
 	  * If a single compartment is designated as elastic, only this
 		one changes size.
 
-	Derived classes must implement the following routines:
+	Derived classes must implement the following functions:
 
 		GetTotalSize
 			Return the total size of the partition.

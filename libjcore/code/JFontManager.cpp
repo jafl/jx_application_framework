@@ -15,7 +15,7 @@
 	to separate the name and char set.  CombineNameAndCharacterSet()
 	provides the inverse operation.
 
-	Derived classes must implement the following routines:
+	Derived classes must implement the following functions:
 
 		GetFontNames
 			Return an alphabetical list of all the available font names.

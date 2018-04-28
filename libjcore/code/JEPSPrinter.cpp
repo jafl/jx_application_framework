@@ -9,7 +9,7 @@
 	GetPreviewPainter() and draw to the resulting JPainter.
 	OpenDocument() then prints the preview automatically.
 
-	Derived classes must implement the following routines:
+	Derived classes must implement the following functions:
 
 		GetPreviewPainter
 			Create an image, create a painter for it, set the coordinates

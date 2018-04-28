@@ -2,7 +2,7 @@
  JPainter.cpp
 
 	This class abstracts the functions required to draw to the screen and
-	to a printer.  Derived classes must implement the following routines:
+	to a printer.  Derived classes must implement the following functions:
 
 	SetClipRect
 		Set the rectangle that drawing will be clipped to.

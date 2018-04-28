@@ -7,7 +7,7 @@
 	The borders between rows are not counted in the width of the rows,
 	and likewise for columns.
 
-	Derived classes must implement the following routines:
+	Derived classes must implement the following functions:
 
 		TableDrawCell
 			Draw the contents of the given cell.  All drawing is automatically

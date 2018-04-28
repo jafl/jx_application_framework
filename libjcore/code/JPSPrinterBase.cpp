@@ -10,7 +10,7 @@
 	You *must* our functions whenever possible, because otherwise, you will
 	destroy our buffered values, and the results will be unpredictable.
 
-	Derived classes must implement the following routines:
+	Derived classes must implement the following functions:
 
 		PSGetOrigin
 			Return the current JPainter origin.
