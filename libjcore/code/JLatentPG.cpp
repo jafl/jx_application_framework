@@ -235,7 +235,7 @@ JLatentPG::IncrementProgress
 	JBoolean result          = kJTrue;
 
 	itsCounter++;
-	if (!pgRunning && (TimeToStart() || message != NULL))
+	if (!pgRunning && (TimeToStart() || !message.IsEmpty()))
 		{
 		StartInternalProcess();
 
