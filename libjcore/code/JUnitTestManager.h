@@ -19,7 +19,8 @@ typedef void	(*JUnitTest)();
 
 #define MAX_TEST_COUNT 1000
 
-#define JTEST(f)	void f(); static int unused_##f = JUnitTestManager::Instance()->RegisterTest(f); void f()
+// must assign to unused int in order to call at load time
+#define JTEST(f)	void f(); static int unused_##f = JUnitTestManager::Instance()->RegisterTest(f, #f); void f()
 
 #define JAssertNull(ptr)	JUnitTestManager::Instance()->IsNull(ptr, __FILE__, __LINE__)
 #define JAssertNotNull(ptr)	JUnitTestManager::Instance()->IsNotNull(ptr, __FILE__, __LINE__)
@@ -62,7 +63,7 @@ public:
 	static void	ReportFailure(JUtf8Byte const* message, JUtf8Byte const* file, const JIndex line);
 	static void	ReportFatal(JUtf8Byte const* message, JUtf8Byte const* file, const JIndex line);
 
-	int	RegisterTest(JUnitTest name);
+	int	RegisterTest(JUnitTest test, const JUtf8Byte* name);
 
 	JBoolean	IsNull(const void* ptr, JUtf8Byte const* file, const JIndex line, const JUtf8Byte* msg = NULL);
 	JBoolean	IsNotNull(const void* ptr, JUtf8Byte const* file, const JIndex line, const JUtf8Byte* msg = NULL);
@@ -83,9 +84,11 @@ public:
 
 private:
 
-	JUnitTest	itsTests[ MAX_TEST_COUNT ];
-	JSize		itsTestCount;
-	JSize		itsFailureCount;
+	JUnitTest			itsTests[ MAX_TEST_COUNT ];
+	const JUtf8Byte*	itsNames[ MAX_TEST_COUNT ];
+	const JUtf8Byte*	itsCurrentTestName;
+	JSize				itsTestCount;
+	JSize				itsFailureCount;
 
 private:
 

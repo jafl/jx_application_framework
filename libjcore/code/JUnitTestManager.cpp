@@ -39,6 +39,7 @@ JUnitTestManager::Instance()
 
 JUnitTestManager::JUnitTestManager()
 	:
+	itsCurrentTestName(NULL),
 	itsTestCount(0),
 	itsFailureCount(0)
 {
@@ -61,11 +62,14 @@ JUnitTestManager::~JUnitTestManager()
 int
 JUnitTestManager::RegisterTest
 	(
-	JUnitTest test
+	JUnitTest			test,
+	const JUtf8Byte*	name
 	)
 {
 	assert( itsTestCount < MAX_TEST_COUNT-1 );
-	itsTests[ itsTestCount++ ] = test;
+	itsTests[ itsTestCount ] = test;
+	itsNames[ itsTestCount ] = name;
+	itsTestCount++;
 	return 0;
 }
 
@@ -93,6 +97,7 @@ JUnitTestManager::ExecuteTests()
 {
 	for (JIndex i=0; i<itsTestCount; i++)
 		{
+		itsCurrentTestName = itsNames[i];
 		itsTests[i]();
 		}
 }
@@ -112,7 +117,8 @@ JUnitTestManager::ReportFailure
 {
 	Instance()->itsFailureCount++;
 
-	std::cout << file << ':' << line << ": error: " << message << std::endl;
+	std::cout << file << ':' << line << ": error in "
+			  << Instance()->itsCurrentTestName << ": " << message << std::endl;
 }
 
 /******************************************************************************

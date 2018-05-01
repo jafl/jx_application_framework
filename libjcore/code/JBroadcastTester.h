@@ -20,6 +20,8 @@ public:
 
 	JBroadcastTester(const JBroadcaster* obj);
 
+	virtual ~JBroadcastTester();
+
 	void	Expect(const JUtf8Byte* type);
 	void	ExpectGoingAway();
 

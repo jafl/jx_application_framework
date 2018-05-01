@@ -28,6 +28,17 @@ JBroadcastTester::JBroadcastTester
 }
 
 /******************************************************************************
+ Destructor
+
+ ******************************************************************************/
+
+JBroadcastTester::~JBroadcastTester()
+{
+	JAssertEqualWithMessage(0, itsExpectedMessageTypes.GetElementCount(),
+							"expected more JBroadcaster messages");
+}
+
+/******************************************************************************
  Expect
 
  ******************************************************************************/
