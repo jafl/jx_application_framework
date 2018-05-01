@@ -8,14 +8,10 @@
 #ifndef _H_JTextEditor
 #define _H_JTextEditor
 
-#include <JBroadcaster.h>
-#include <JFont.h>
+#include <JStyledTextBuffer.h>
 #include <JRect.h>
-#include <JRunArray.h>
-#include <JPtrArray-JString.h>
 #include <JInterpolate.h>
 
-class JStyledTextBuffer;
 class JTEKeyHandler;
 class JStringMatch;
 class JPainter;
@@ -69,8 +65,7 @@ public:
 		kReplaceSelectionCmd,
 		kReplaceFindPrevCmd,
 		kReplaceFindNextCmd,
-		kReplaceAllBackwardCmd,
-		kReplaceAllForwardCmd,
+		kReplaceAllCmd,
 		kReplaceAllInSelectionCmd,	// = kCmdCount
 
 		kCmdCount = kReplaceAllInSelectionCmd
@@ -111,9 +106,8 @@ public:
 	JBoolean	WillBreakCROnly() const;
 	void		SetBreakCROnly(const JBoolean breakCROnly);
 
+	JStyledTextBuffer*			GetBuffer();
 	const JStyledTextBuffer&	GetBuffer() const;
-	JBoolean					SetText(const JString& text,
-										const JRunArray<JFont>* style = NULL);
 
 	JStringMatch	SearchForward(const JRegex& regex, const JBoolean entireWord,
 								  const JBoolean wrapSearch, JBoolean* wrapped);
@@ -121,41 +115,17 @@ public:
 								   const JBoolean wrapSearch, JBoolean* wrapped);
 	JStringMatch	SelectionMatches(const JRegex& regex, const JBoolean entireWord);
 
-	JBoolean	ReplaceAllForward(const JRegex& regex,
-								  const JBoolean entireWord, const JBoolean wrapSearch,
-								  const JString& replaceStr, const JBoolean replaceIsRegex,
-								  const JBoolean preserveCase,
-								  const JBoolean restrictToSelection = kJFalse);
-	JBoolean	ReplaceAllBackward(const JRegex& regex,
-								   const JBoolean entireWord, const JBoolean wrapSearch,
-								   const JString& replaceStr, const JBoolean replaceIsRegex,
-								   const JBoolean preserveCase);
+	JBoolean	ReplaceAll(const JRegex& regex, const JBoolean entireWord,
+						   const JString& replaceStr, const JBoolean replaceIsRegex,
+						   const JBoolean preserveCase,
+						   const JBoolean restrictToSelection = kJFalse);
 
-	JBoolean	SearchForward(const FontMatch& match,
+	JBoolean	SearchForward(const JStyledTextBuffer::FontMatch& match,
 							  const JBoolean wrapSearch, JBoolean* wrapped);
-	JBoolean	SearchBackward(const FontMatch& match,
+	JBoolean	SearchBackward(const JStyledTextBuffer::FontMatch& match,
 							   const JBoolean wrapSearch, JBoolean* wrapped);
 
 	virtual JBoolean	TEHasSearchText() const = 0;
-
-	JBoolean	SetFontName(const JIndex startIndex, const JIndex endIndex,
-							const JString& name, const JBoolean clearUndo);
-	JBoolean	SetFontSize(const JIndex startIndex, const JIndex endIndex,
-							const JSize size, const JBoolean clearUndo);
-	JBoolean	SetFontBold(const JIndex startIndex, const JIndex endIndex,
-							const JBoolean bold, const JBoolean clearUndo);
-	JBoolean	SetFontItalic(const JIndex startIndex, const JIndex endIndex,
-							  const JBoolean italic, const JBoolean clearUndo);
-	JBoolean	SetFontUnderline(const JIndex startIndex, const JIndex endIndex,
-								 const JSize count, const JBoolean clearUndo);
-	JBoolean	SetFontStrike(const JIndex startIndex, const JIndex endIndex,
-							  const JBoolean strike, const JBoolean clearUndo);
-	JBoolean	SetFontColor(const JIndex startIndex, const JIndex endIndex,
-							 const JColorIndex color, const JBoolean clearUndo);
-	JBoolean	SetFontStyle(const JIndex startIndex, const JIndex endIndex,
-							 const JFontStyle& style, const JBoolean clearUndo);
-	void		SetFont(const JIndex startIndex, const JIndex endIndex,
-						const JFont& font, const JBoolean clearUndo);
 
 	JBoolean	GetCaretLocation(JIndex* charIndex) const;
 	void		SetCaretLocation(const JIndex charIndex);
@@ -189,11 +159,6 @@ public:
 	void	SetCurrentFontColor(const JColorIndex color);
 	void	SetCurrentFontStyle(const JFontStyle& style);
 	void	SetCurrentFont(const JFont& font);
-
-	void	SetDefaultFontName(const JString& name);
-	void	SetDefaultFontSize(const JSize size);
-	void	SetDefaultFontStyle(const JFontStyle& style);
-	void	SetDefaultFont(const JFont& f);
 
 	JCoordinate	GetDefaultTabWidth() const;
 	void		SetDefaultTabWidth(const JCoordinate width);
@@ -235,17 +200,10 @@ public:
 	void	DeleteSelection();
 	void	SelectAll();
 
-	// clipboard
-
 	void	Cut();
 	void	Copy();
-	void	Paste();
-
-	// other source
-
-	JBoolean	Cut(JString* text, JRunArray<JFont>* style = NULL);
-	JBoolean	Copy(JString* text, JRunArray<JFont>* style = NULL) const;
-	void		Paste(const JString& text, const JRunArray<JFont>* style = NULL);
+	void	Paste();															// clipboard
+	void	Paste(const JString& text, const JRunArray<JFont>* style = NULL);	// other source
 
 	JBoolean	GetClipboard(JString* text, JRunArray<JFont>* style = NULL) const;
 
@@ -290,21 +248,18 @@ public:		// ought to be protected
 	struct CaretLocation
 	{
 		JStyledTextBuffer::TextIndex location;	// caret is in front of this location in the buffer
-		JIndex lineIndex;	// caret is on this line of text
+		JIndex lineIndex;						// caret is on this line of text
 
 		CaretLocation()
 			:
-			charIndex(0),
-			byteIndex(0),
 			lineIndex(0)
-		{ };
+			{ };
 
-		CaretLocation(const JIndex ch, const JIndex byte, const JIndex line)
+		CaretLocation(const JStyledTextBuffer::TextIndex& loc, const JIndex line)
 			:
-			charIndex(ch),
-			byteIndex(byte),
+			location(loc),
 			lineIndex(line)
-		{ };
+			{ };
 	};
 
 	struct LineGeometry
@@ -316,13 +271,13 @@ public:		// ought to be protected
 			:
 			height(0),
 			ascent(0)
-		{ };
+			{ };
 
 		LineGeometry(const JCoordinate aHeight, const JCoordinate anAscent)
 			:
 			height(aHeight),
 			ascent(anAscent)
-		{ };
+			{ };
 	};
 
 protected:
@@ -391,7 +346,7 @@ protected:
 	virtual JBoolean	TEGetClipboard(JString* text, JRunArray<JFont>* style) const = 0;
 	virtual void		TECaretShouldBlink(const JBoolean blink) = 0;
 
-	virtual JCoordinate	GetTabWidth(const TextIndex& charIndex, const JCoordinate x) const;
+	virtual JCoordinate	GetTabWidth(const JStyledTextBuffer::TextIndex& charIndex, const JCoordinate x) const;
 
 	virtual JCoordinate	GetPrintHeaderHeight(JPagePrinter& p) const;
 	virtual JCoordinate	GetPrintFooterHeight(JPagePrinter& p) const;
@@ -411,12 +366,10 @@ protected:
 	void			MoveCaretVert(const JInteger deltaLines);
 	JIndex			GetColumnForChar(const CaretLocation& caretLoc) const;
 
-	TextIndex	GetInsertionIndex() const;
-	TextIndex	GetLineStart(const JIndex lineIndex) const;
-	TextIndex	GetLineEnd(const JIndex lineIndex) const;
+	JStyledTextBuffer::TextIndex	GetInsertionIndex() const;
+	JStyledTextBuffer::TextIndex	GetLineStart(const JIndex lineIndex) const;
+	JStyledTextBuffer::TextIndex	GetLineEnd(const JIndex lineIndex) const;
 
-	void	SetFont(const TextIndex& startIndex, const JRunArray<JFont>& f,
-					const JBoolean clearUndo);
 	void	SetAllFontNameAndSize(const JString& name, const JSize size,
 								  const JCoordinate tabWidth,
 								  const JBoolean breakCROnly,
@@ -426,6 +379,9 @@ protected:
 							 const JString& replaceStr,
 							 const JBoolean replaceIsRegex,
 							 const JBoolean preserveCase);
+
+	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
+	virtual void	ReceiveGoingAway(JBroadcaster* sender) override;
 
 private:
 
@@ -459,14 +415,14 @@ private:
 	JColorIndex			itsSelectionOutlineColor;
 	JColorIndex			itsWhitespaceColor;
 
-	JCoordinate					itsWidth;			// pixels -- width of widest line
-	JCoordinate					itsHeight;			// pixels
-	JCoordinate					itsGUIWidth;		// pixels -- available width of widget aperture
-	JCoordinate					itsLeftMarginWidth;	// pixels
-	JCoordinate					itsDefTabWidth;		// pixels
-	JCoordinate					itsMaxWordWidth;	// pixels -- widest single word; only if word wrap
-	JArray<TextIndex>*			itsLineStarts;		// index of first character on each line
-	JRunArray<LineGeometry>*	itsLineGeom;		// geometry of each line
+	JCoordinate								itsWidth;			// pixels -- width of widest line
+	JCoordinate								itsHeight;			// pixels
+	JCoordinate								itsGUIWidth;		// pixels -- available width of widget aperture
+	JCoordinate								itsLeftMarginWidth;	// pixels
+	JCoordinate								itsDefTabWidth;		// pixels
+	JCoordinate								itsMaxWordWidth;	// pixels -- widest single word; only if word wrap
+	JArray<JStyledTextBuffer::TextIndex>*	itsLineStarts;		// index of first character on each line
+	JRunArray<LineGeometry>*				itsLineGeom;		// geometry of each line
 
 	JInterpolate	itsInterpolator;
 	JTEKeyHandler*	itsKeyHandler;
@@ -488,19 +444,20 @@ private:
 
 	// used during drag
 
-	DragType		itsDragType;
-	DragType		itsPrevDragType;	// so extend selection will maintain drag type
-	JPoint			itsStartPt;
-	JPoint			itsPrevPt;
-	TextIndex		itsSelectionPivot;	// insertion point about which to pivot selection
-	JCharacterRange	itsWordSelPivot;	// range of characters to keep selected
-	JIndex			itsLineSelPivot;	// line about which to pivot selection
-	CaretLocation	itsDropLoc;			// insertion point at which to drop the dragged text
-	JBoolean		itsIsDragSourceFlag;// kJTrue => is dragging even if itsDragType == kInvalidDrag
+	DragType						itsDragType;
+	DragType						itsPrevDragType;	// so extend selection will maintain drag type
+	JPoint							itsStartPt;
+	JPoint							itsPrevPt;
+	JStyledTextBuffer::TextIndex	itsSelectionPivot;	// insertion point about which to pivot selection
+	JCharacterRange					itsWordSelPivot;	// range of characters to keep selected
+	JIndex							itsLineSelPivot;	// line about which to pivot selection
+	CaretLocation					itsDropLoc;			// insertion point at which to drop the dragged text
+	JBoolean						itsIsDragSourceFlag;// kJTrue => is dragging even if itsDragType == kInvalidDrag
 
 private:
 
-	void		Recalc(const TextIndex& startIndex, const JSize minCharCount,
+	void		Recalc(const JStyledTextBuffer::TextIndex& startIndex,
+					   const JSize minCharCount,
 					   const JBoolean deletion,
 					   const JBoolean needCaretBcast = kJTrue,
 					   const JBoolean needAdjustStyles = kJTrue);
@@ -511,13 +468,17 @@ private:
 	void		Recalc1(const JSize bufLength, const CaretLocation& caretLoc,
 						const JSize minCharCount, JCoordinate* maxLineWidth,
 						JIndex* firstLineIndex, JIndex* lastLineIndex);
-	JSize		RecalcLine(const JSize bufLength, const TextIndex& firstIndex,
+	JSize		RecalcLine(const JSize bufLength,
+						   const JStyledTextBuffer::TextIndex& firstIndex,
 						   const JIndex lineIndex, JCoordinate* lineWidth,
 						   JIndex* runIndex, JIndex* firstInRun);
-	JBoolean	LocateNextWhitespace(const JSize bufLength, TextIndex* startIndex) const;
+	JBoolean	LocateNextWhitespace(const JSize bufLength,
+									 JStyledTextBuffer::TextIndex* startIndex) const;
 	JSize		GetSubwordForLine(const JSize bufLength, const JIndex lineIndex,
-								  const TextIndex& startIndex, JCoordinate* lineWidth) const;
-	JSize		IncludeWhitespaceOnLine(const JSize bufLength, const TextIndex& startIndex,
+								  const JStyledTextBuffer::TextIndex& startIndex,
+								  JCoordinate* lineWidth) const;
+	JSize		IncludeWhitespaceOnLine(const JSize bufLength,
+										const JStyledTextBuffer::TextIndex& startIndex,
 										JCoordinate* lineWidth, JBoolean* endOfLine,
 										JIndex* runIndex, JIndex* firstInRun) const;
 	JBoolean	NoPrevWhitespaceOnLine(const JString& str, const CaretLocation& startLoc) const;
@@ -529,18 +490,18 @@ private:
 							const JCoordinate startVisLineTop);
 	void	TEDrawCaret(JPainter& p, const CaretLocation& caretLoc);
 
-	JFont	CalcInsertionFont(const TextIndex& index) const;
+	JFont	CalcInsertionFont(const JStyledTextBuffer::TextIndex& index) const;
 	JFont	CalcInsertionFont(const JStringIterator& buffer,
 							  const JRunArray<JFont>& styles) const;
-	void	DropSelection(const TextIndex& dropLoc, const JBoolean dropCopy);
+	void	DropSelection(const JStyledTextBuffer::TextIndex& dropLoc, const JBoolean dropCopy);
 
-	TextCount	PrivatePaste(const JString& text, const JRunArray<JFont>* style);
-	TextCount	InsertText(const TextIndex& index, const JString& text,
-						   const JRunArray<JFont>* style = NULL);
+	JStyledTextBuffer::TextCount	PrivatePaste(const JString& text, const JRunArray<JFont>* style);
+	JStyledTextBuffer::TextCount	InsertText(const JStyledTextBuffer::TextIndex& index, const JString& text,
+											   const JRunArray<JFont>* style = NULL);
 
-	void			SetCaretLocation(const TextIndex& caretLoc);
+	void			SetCaretLocation(const JStyledTextBuffer::TextIndex& caretLoc);
 	void			SetCaretLocation(const CaretLocation& caretLoc);
-	CaretLocation	CalcCaretLocation(const TextIndex& index) const;
+	CaretLocation	CalcCaretLocation(const JStyledTextBuffer::TextIndex& index) const;
 	JIndex			CalcLineIndex(const JCoordinate y, JCoordinate* lineTop) const;
 	JBoolean		TEScrollTo(const CaretLocation& caretLoc);
 	JRect			CalcCaretRect(const CaretLocation& caretLoc) const;
@@ -553,13 +514,15 @@ private:
 	JCoordinate	GetCharLeft(const CaretLocation& charLoc) const;
 	JCoordinate	GetCharRight(const CaretLocation& charLoc) const;
 	JCoordinate	GetCharWidth(const CaretLocation& charLoc) const;
-	JCoordinate	GetStringWidth(const TextIndex& startIndex, const TextIndex& endIndex) const;
-	JCoordinate	GetStringWidth(const TextIndex& startIndex, const TextIndex& endIndex,
+	JCoordinate	GetStringWidth(const JStyledTextBuffer::TextIndex& startIndex,
+							   const JStyledTextBuffer::TextIndex& endIndex) const;
+	JCoordinate	GetStringWidth(const JStyledTextBuffer::TextIndex& startIndex,
+							   const JStyledTextBuffer::TextIndex& endIndex,
 							   JIndex* runIndex, JIndex* firstInRun) const;
 
-	TextIndex		CharIndexToTextIndex(const JIndex charIndex) const;
-	JIndex			GetLineForByte(const JIndex byteIndex) const;
-	JUtf8ByteRange	CharToByteRange(const JCharacterRange& charRange) const;
+	JStyledTextBuffer::TextIndex	CharToTextIndex(const JIndex charIndex) const;
+	JStyledTextBuffer::TextRange	CharToTextRange(const JCharacterRange& charRange) const;
+	JIndex							GetLineForByte(const JIndex byteIndex) const;
 
 	void	PrivateSetBreakCROnly(const JBoolean breakCROnly);
 	void	TEGUIWidthChanged();
@@ -577,8 +540,9 @@ private:
 	void	AutoIndent(JTEUndoTyping* typingUndo);
 	void	InsertSpacesForTab();
 
-	JBoolean	LocateTab(const TextIndex& startIndex, const TextIndex& endIndex,
-						  TextIndex* tabIndex) const;
+	JBoolean	LocateTab(const JStyledTextBuffer::TextIndex& startIndex,
+						  const JStyledTextBuffer::TextIndex& endIndex,
+						  JStyledTextBuffer::TextIndex* tabIndex) const;
 
 	void		ReplaceRange(JStringIterator* buffer, JRunArray<JFont>* styles,
 							 const JStringMatch& match,
@@ -606,74 +570,74 @@ public:
 	static const JUtf8Byte* kCaretLocationChanged;
 
 	class TypeChanged : public JBroadcaster::Message
+	{
+	public:
+
+		TypeChanged(const Type type)
+			:
+			JBroadcaster::Message(kTypeChanged),
+			itsType(type)
+			{ };
+
+		Type
+		GetNewType() const
 		{
-		public:
-
-			TypeChanged(const Type type)
-				:
-				JBroadcaster::Message(kTypeChanged),
-				itsType(type)
-				{ };
-
-			Type
-			GetNewType() const
-			{
-				return itsType;
-			};
-
-		private:
-
-			Type	itsType;
+			return itsType;
 		};
+
+	private:
+
+		Type	itsType;
+	};
 
 	class CaretLineChanged : public JBroadcaster::Message
+	{
+	public:
+
+		CaretLineChanged(const JIndex lineIndex)
+			:
+			JBroadcaster::Message(kCaretLineChanged),
+			itsLineIndex(lineIndex)
+			{ };
+
+		JIndex
+		GetLineIndex() const
 		{
-		public:
-
-			CaretLineChanged(const JIndex lineIndex)
-				:
-				JBroadcaster::Message(kCaretLineChanged),
-				itsLineIndex(lineIndex)
-				{ };
-
-			JIndex
-			GetLineIndex() const
-			{
-				return itsLineIndex;
-			};
-
-		private:
-
-			JIndex itsLineIndex;
+			return itsLineIndex;
 		};
+
+	private:
+
+		JIndex itsLineIndex;
+	};
 
 	class CaretLocationChanged : public JBroadcaster::Message
+	{
+	public:
+
+		CaretLocationChanged(const JIndex lineIndex, const JIndex columnIndex)
+			:
+			JBroadcaster::Message(kCaretLocationChanged),
+			itsLineIndex(lineIndex),
+			itsColumnIndex(columnIndex)
+			{ };
+
+		JIndex
+		GetLineIndex() const
 		{
-		public:
-
-			CaretLocationChanged(const JIndex lineIndex, const JIndex columnIndex)
-				:
-				JBroadcaster::Message(kCaretLocationChanged),
-				itsLineIndex(lineIndex),
-				itsColumnIndex(columnIndex)
-				{ };
-
-			JIndex
-			GetLineIndex() const
-			{
-				return itsLineIndex;
-			};
-
-			JIndex
-			GetColumnIndex() const
-			{
-				return itsColumnIndex;
-			};
-
-		private:
-
-			JIndex itsLineIndex, itsColumnIndex;
+			return itsLineIndex;
 		};
+
+		JIndex
+		GetColumnIndex() const
+		{
+			return itsColumnIndex;
+		};
+
+	private:
+
+		JIndex itsLineIndex, itsColumnIndex;
+	};
 };
 
 
@@ -828,9 +792,15 @@ JTextEditor::TEHideCaret()
 }
 
 /******************************************************************************
- GetText
+ GetBuffer
 
  ******************************************************************************/
+
+inline JStyledTextBuffer*
+JTextEditor::GetBuffer()
+{
+	return itsBuffer;
+}
 
 inline const JStyledTextBuffer&
 JTextEditor::GetBuffer()
@@ -884,32 +854,6 @@ JTextEditor::GetSelection
 {
 	*range = itsSelection;
 	return !itsSelection.IsEmpty();
-}
-
-/******************************************************************************
- Last save location
-
- ******************************************************************************/
-
-inline JBoolean
-JTextEditor::IsAtLastSaveLocation()
-	const
-{
-	return JI2B( itsUndoList != NULL &&
-				 itsLastSaveRedoIndex > 0 &&
-				 JIndex(itsLastSaveRedoIndex) == itsFirstRedoIndex );
-}
-
-inline void
-JTextEditor::SetLastSaveLocation()
-{
-	itsLastSaveRedoIndex = itsFirstRedoIndex;
-}
-
-inline void
-JTextEditor::ClearLastSaveLocation()
-{
-	itsLastSaveRedoIndex = 0;
 }
 
 /******************************************************************************
@@ -971,7 +915,7 @@ JTextEditor::CleanAllWhitespace
 	const JBoolean align
 	)
 {
-	CleanWhitespace(JCharacterRange(1, itsBuffer.GetCharacterCount()), align);
+	CleanWhitespace(JCharacterRange(1, itsBuffer->GetText().GetCharacterCount()), align);
 }
 
 /******************************************************************************
@@ -1109,8 +1053,8 @@ JTextEditor::GetCaretLocation
 	)
 	const
 {
-	*charIndex = itsCaretLoc.charIndex;
-	return itsCharSelection.IsEmpty();
+	*charIndex = itsCaretLoc.location.charIndex;
+	return itsSelection.IsEmpty();
 }
 
 // protected
@@ -1123,7 +1067,7 @@ JTextEditor::GetCaretLocation
 	const
 {
 	*caretLoc = itsCaretLoc;
-	return itsCharSelection.IsEmpty();
+	return itsSelection.IsEmpty();
 }
 
 // private
@@ -1131,7 +1075,7 @@ JTextEditor::GetCaretLocation
 void
 JTextEditor::SetCaretLocation
 	(
-	const TextIndex& index
+	const JStyledTextBuffer::TextIndex& index
 	)
 {
 	SetCaretLocation(CalcCaretLocation(index));
@@ -1192,7 +1136,7 @@ JTextEditor::GetLineCount()
 
  ******************************************************************************/
 
-inline JTextEditor::TextIndex
+inline JStyledTextBuffer::TextIndex
 JTextEditor::GetLineStart
 	(
 	const JIndex lineIndex
@@ -1266,7 +1210,8 @@ JTextEditor::GetCharLeft
 	)
 	const
 {
-	return itsLeftMarginWidth + GetCharLeft(CalcCaretLocation(TextIndex(charIndex, 0)));
+	return itsLeftMarginWidth +
+			GetCharLeft(CalcCaretLocation(JStyledTextBuffer::TextIndex(charIndex, 0)));
 }
 
 /******************************************************************************
@@ -1284,7 +1229,8 @@ JTextEditor::GetCharRight
 	)
 	const
 {
-	return itsLeftMarginWidth + GetCharRight(CalcCaretLocation(TextIndex(charIndex, 0)));
+	return itsLeftMarginWidth +
+		GetCharRight(CalcCaretLocation(JStyledTextBuffer::TextIndex(charIndex, 0)));
 }
 
 /******************************************************************************
@@ -1372,7 +1318,7 @@ JTextEditor::SetSelectionColor
 	if (color != itsSelectionColor)
 		{
 		itsSelectionColor = color;
-		if (!itsCharSelection.IsEmpty())
+		if (!itsSelection.IsEmpty())
 			{
 			TERefresh();
 			}
@@ -1395,7 +1341,7 @@ JTextEditor::SetSelectionOutlineColor
 	if (color != itsSelectionOutlineColor)
 		{
 		itsSelectionOutlineColor = color;
-		if (!itsCharSelection.IsEmpty())
+		if (!itsSelection.IsEmpty())
 			{
 			TERefresh();
 			}
@@ -1452,7 +1398,8 @@ operator==
 	const JTextEditor::CaretLocation& l2
 	)
 {
-	return (l1.charIndex == l2.charIndex);
+	return (l1.location.charIndex == l2.location.charIndex &&
+			l1.location.byteIndex == l2.location.byteIndex);
 }
 
 inline int
@@ -1462,7 +1409,8 @@ operator!=
 	const JTextEditor::CaretLocation& l2
 	)
 {
-	return (l1.charIndex != l2.charIndex);
+	return (l1.location.charIndex != l2.location.charIndex ||
+			l1.location.byteIndex != l2.location.byteIndex);
 }
 
 /******************************************************************************

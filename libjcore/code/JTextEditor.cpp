@@ -149,6 +149,10 @@
 #include <jGlobals.h>
 #include <jAssert.h>
 
+typedef JStyledTextBuffer::TextIndex TextIndex;
+typedef JStyledTextBuffer::TextCount TextCount;
+typedef JStyledTextBuffer::TextRange TextRange;
+
 const JCoordinate kDefLeftMarginWidth = 10;
 const JCoordinate kRightMarginWidth   = 2;
 
@@ -225,19 +229,20 @@ JTextEditor::JTextEditor
 	itsLineGeom = jnew JRunArray<LineGeometry>;
 	assert( itsLineGeom != NULL );
 
-	itsCaretLoc      = CaretLocation(1,1,1);
+	itsCaretLoc      = CaretLocation(TextIndex(1,1),1);
 	itsCaretX        = 0;
 	itsInsertionFont = CalcInsertionFont(TextIndex(1,1));
 
 	if (type == kFullEditor)
 		{
-		itsBuffer.SetBlockSize(4096);
-		itsStyles->SetBlockSize(128);
+		itsBuffer->SetBlockSizes(4096, 128);
 		itsLineStarts->SetBlockSize(128);
 		itsLineGeom->SetBlockSize(128);
 		}
 
 	SetKeyHandler(NULL);
+
+	ListenTo(itsBuffer);
 }
 
 /******************************************************************************
@@ -279,67 +284,80 @@ JTextEditor::SetType
 }
 
 /******************************************************************************
- SetText
-
-	Returns kJFalse if illegal characters had to be removed.
-
-	This should not be accessible to the user, so we don't provide Undo.
-
-	style can safely be NULL or itsStyles.
+ Receive (virtual protected)
 
  ******************************************************************************/
 
-JBoolean
-JTextEditor::SetText
+void
+JTextEditor::Receive
 	(
-	const JString&			text,
-	const JRunArray<JFont>*	style
+	JBroadcaster*	sender,
+	const Message&	message
 	)
 {
-	if (TEIsDragging())
+	if (sender == itsBuffer &&
+		message.Is(JStyledTextBuffer::kTextSet))
 		{
-		return kJTrue;
-		}
+		assert( !TEIsDragging() );
 
-	ClearUndo();
-	itsBuffer = text;
-
-	JBoolean cleaned = kJFalse;
-	if (style != NULL)
-		{
-		assert( itsBuffer.GetCharacterCount() == style->GetElementCount() );
-		*itsStyles = *style;
-		cleaned    = RemoveIllegalChars(&itsBuffer, itsStyles);
-		}
-	else
-		{
-		cleaned = RemoveIllegalChars(&itsBuffer);
-
-		itsStyles->RemoveAll();
-		if (!itsBuffer.IsEmpty())
+		if (itsBuffer->IsEmpty())
 			{
-			itsStyles->AppendElements(itsDefFont, itsBuffer.GetCharacterCount());
+			itsInsertionFont = itsBuffer->GetDefaultFont();
+			}
+
+		RecalcAll(kJTrue);
+		SetCaretLocation(CaretLocation(TextIndex(1,1),1));
+		}
+
+	else if (sender == itsBuffer &&
+			 message.Is(JStyledTextBuffer::kTextChanged))
+		{
+		const JStyledTextBuffer::TextChanged* info =
+			dynamic_cast<const JStyledTextBuffer::TextChanged*>(&message);
+		assert( info != NULL );
+		const TextRange& r = info->GetRange();
+		if (r.charRange.GetCount() == itsBuffer->GetText().GetCharacterCount())
+			{
+			RecalcAll(kJFalse);
 			}
 		else
 			{
-			itsInsertionFont = itsDefFont;
+			Recalc(TextIndex(r.charRange.first, r.byteRange.first),
+				   JMax(1ul, r.GetCount().charCount), kJFalse);
 			}
 		}
 
-	if (NeedsToFilterText(itsBuffer))
+	else if (sender == itsBuffer &&
+			 message.Is(JStyledTextBuffer::kDefaultFontChanged))
 		{
-		cleaned = kJTrue;
-		if (!FilterText(&itsBuffer, itsStyles))
+		if (itsBuffer->IsEmpty())
 			{
-			itsBuffer.Clear();
-			itsStyles->RemoveAll();
+			itsInsertionFont = CalcInsertionFont(TextIndex(1,1));
+			RecalcAll(kJFalse);
 			}
 		}
 
-	RecalcAll(kJTrue);
-	SetCaretLocation(CaretLocation(1,1,1));
-	Broadcast(TextSet());
-	return !cleaned;
+	// something else
+
+	else
+		{
+		JBroadcaster::Receive(sender, message);
+		}
+}
+
+/******************************************************************************
+ ReceiveGoingAway (virtual protected)
+
+ ******************************************************************************/
+
+void
+JTextEditor::ReceiveGoingAway
+	(
+	JBroadcaster* sender
+	)
+{
+	assert( sender != itsBuffer );
+	JBroadcaster::ReceiveGoingAway(sender);
 }
 
 /******************************************************************************
@@ -368,18 +386,17 @@ JTextEditor::SearchForward
 	)
 {
 	const TextIndex i(
-		!itsCharSelection.IsEmpty() ? itsCharSelection.last + 1 :
-		itsCaretLoc.charIndex,
+		itsSelection.IsEmpty() ? itsCaretLoc.location.charIndex :
+		itsSelection.charRange.last + 1,
 
-		!itsByteSelection.IsEmpty() ? itsByteSelection.last + 1 :
-		itsCaretLoc.byteIndex);
+		itsSelection.IsEmpty() ? itsCaretLoc.location.byteIndex :
+		itsSelection.byteRange.last + 1);
 
 	const JStringMatch m =
-		SearchForward(itsBuffer, i, regex,
-					  entireWord, wrapSearch, wrapped);
+		itsBuffer->SearchForward(i, regex, entireWord, wrapSearch, wrapped);
 	if (!m.IsEmpty())
 		{
-		SetSelection(m.GetCharacterRange(), m.GetUtf8ByteRange());
+		SetSelection(TextRange(m.GetCharacterRange(), m.GetUtf8ByteRange()));
 		}
 
 	return m;
@@ -402,24 +419,18 @@ JTextEditor::SearchBackward
 	JBoolean*		wrapped
 	)
 {
-	TextIndex i;
-	if (itsCharSelection.IsEmpty())
-		{
-		i.charIndex = itsCaretLoc.charIndex;
-		i.byteIndex = itsCaretLoc.byteIndex;
-		}
-	else
-		{
-		i.charIndex = itsCharSelection.first;
-		i.byteIndex = itsByteSelection.first;
-		}
+	const TextIndex i(
+		itsSelection.IsEmpty() ? itsCaretLoc.location.charIndex :
+		itsSelection.charRange.first,
+
+		itsSelection.IsEmpty() ? itsCaretLoc.location.byteIndex: 
+		itsSelection.byteRange.first);
 
 	const JStringMatch m =
-		SearchBackward(itsBuffer, i, regex,
-					   entireWord, wrapSearch, wrapped);
+		itsBuffer->SearchBackward(i, regex, entireWord, wrapSearch, wrapped);
 	if (!m.IsEmpty())
 		{
-		SetSelection(m.GetCharacterRange(), m.GetUtf8ByteRange());
+		SetSelection(TextRange(m.GetCharacterRange(), m.GetUtf8ByteRange()));
 		}
 
 	return m;
@@ -440,27 +451,27 @@ JTextEditor::SelectionMatches
 	const JBoolean	entireWord
 	)
 {
-	if (itsCharSelection.IsEmpty() ||
-		(entireWord && !IsEntireWord(itsBuffer, itsCharSelection, itsByteSelection)))
+	if (itsSelection.IsEmpty() ||
+		(entireWord && !itsBuffer->IsEntireWord(itsSelection)))
 		{
-		return JStringMatch(itsBuffer);
+		return JStringMatch(itsBuffer->GetText());
 		}
 
 	// We cannot match only the selected text, because that will fail if
 	// there are look-behind or look-ahead assertions.
 
-	JStringIterator iter(itsBuffer);
-	iter.UnsafeMoveTo(kJIteratorStartBefore, itsCharSelection.first, itsByteSelection.first);
+	JStringIterator iter(itsBuffer->GetText());
+	iter.UnsafeMoveTo(kJIteratorStartBefore, itsSelection.charRange.first, itsSelection.byteRange.first);
 	if (iter.Next(regex))
 		{
-		const JStringMatch m = iter.GetLastMatch();
-		if (m.GetCharacterRange() == itsCharSelection)
+		const JStringMatch& m = iter.GetLastMatch();
+		if (m.GetCharacterRange() == itsSelection.charRange)
 			{
 			return m;
 			}
 		}
 
-	return JStringMatch(itsBuffer);
+	return JStringMatch(itsBuffer->GetText());
 }
 
 /******************************************************************************
@@ -485,194 +496,76 @@ JTextEditor::ReplaceSelection
 	assert( HasSelection() );
 
 	JIndex charIndex, byteIndex;
-	if (!itsCharSelection.IsEmpty())
+	if (!itsSelection.IsEmpty())
 		{
-		charIndex = itsCharSelection.first;
-		byteIndex = itsByteSelection.first;
+		charIndex = itsSelection.charRange.first;
+		byteIndex = itsSelection.byteRange.first;
 		}
 	else
 		{
-		charIndex = itsCaretLoc.charIndex;
-		byteIndex = itsCaretLoc.byteIndex;
+		charIndex = itsCaretLoc.location.charIndex;
+		byteIndex = itsCaretLoc.location.byteIndex;
 		}
 
-	JStyledTextBuffer::ReplaceRange + undo
+	const TextCount count =
+		itsBuffer->ReplaceMatch(match, replaceStr, replaceIsRegex, itsInterpolator, preserveCase);
 
-	if (!replaceText.IsEmpty())
+	if (count.charCount > 0)
 		{
-		SetSelection(JCharacterRange(charIndex, charIndex + replaceText.GetCharacterCount()-1),
-					 JUtf8ByteRange(byteIndex,  byteIndex + replaceText.GetByteCount()-1));
+		JCharacterRange charRange;
+		charRange.SetFirstAndCount(charIndex, count.charCount);
+
+		JUtf8ByteRange byteRange;
+		byteRange.SetFirstAndCount(byteIndex, count.byteCount);
+
+		SetSelection(TextRange(charRange, byteRange));
 		}
 }
 
 /******************************************************************************
- ReplaceAllForward
+ ReplaceAll
 
-	Replace every occurrence of the search pattern with the replace string,
-	starting from the current location.  Returns kJTrue if it replaced anything.
+	Replace every occurrence of the search pattern with the replace string.
+	Returns kJTrue if it modified the text.
 
  ******************************************************************************/
 
 JBoolean
-JTextEditor::ReplaceAllForward
+JTextEditor::ReplaceAll
 	(
 	const JRegex&	regex,
 	const JBoolean	entireWord,
-	const JBoolean	wrapSearch,
 	const JString&	replaceStr,
 	const JBoolean	replaceIsRegex,
 	const JBoolean	preserveCase,
 	const JBoolean	restrictToSelection
 	)
 {
-	const TextIndex i = GetInsertionIndex();
-
-	JString buffer;
-	JRunArray<JFont> styles;
 	if (restrictToSelection && !HasSelection())
 		{
 		return kJFalse;
 		}
-	else if (restrictToSelection)
+
+	TextRange r(
+		!itsSelection.IsEmpty() ? itsSelection.charRange :
+		JCharacterRange(1, itsBuffer->GetText().GetCharacterCount()),
+
+		!itsSelection.IsEmpty() ? itsSelection.byteRange :
+		JUtf8ByteRange(1, itsBuffer->GetText().GetByteCount()));
+
+	r = itsBuffer->ReplaceAllInRange(r, regex, entireWord,
+									 replaceStr, replaceIsRegex,
+									 itsInterpolator, preserveCase);
+
+	if (!r.IsEmpty())
 		{
-		Copy(&buffer, &styles);
-		}
-	else if (wrapSearch)
-		{
-		SelectAll();
-		buffer = itsBuffer;
-		styles = *itsStyles;
-		}
-	else if (i.charIndex <= itsBuffer.GetCharacterCount())
-		{
-		SetSelection(JCharacterRange(i.charIndex, itsBuffer.GetCharacterCount()),
-					 JUtf8ByteRange(i.byteIndex, itsBuffer.GetByteCount()));
-		Copy(&buffer, &styles);
-		}
-	else
-		{
-		return kJFalse;
-		}
-
-	JLatentPG pg(100);
-	pg.VariableLengthProcessBeginning(JGetString("ReplacingText::JTextEditor"), kJTrue, kJFalse);
-
-	JBoolean foundAny = kJFalse;
-
-	JStringIterator iter(&buffer);
-	while (iter.Next(regex))
-		{
-		const JStringMatch m = iter.GetLastMatch();
-		if (!entireWord || IsEntireWord(buffer, m.GetCharacterRange(), m.GetUtf8ByteRange()))
-			{
-			ReplaceRange(&iter, &styles, m, replaceStr, replaceIsRegex, preserveCase);
-			foundAny = kJTrue;
-
-			if (!pg.IncrementProgress())
-				{
-				break;
-				}
-			}
-		}
-
-	pg.ProcessFinished();
-
-	if (foundAny)
-	{
-		const JIndex charIndex = itsCharSelection.first,
-					 byteIndex = itsByteSelection.first;
-
-		Paste(buffer, &styles);
-
-		if (restrictToSelection)
-			{
-			SetSelection(JCharacterRange(charIndex, charIndex + buffer.GetCharacterCount()-1),
-						 JUtf8ByteRange(byteIndex, byteIndex + buffer.GetByteCount()-1));
-			}
-	}
-
-	return foundAny;
-}
-
-/******************************************************************************
- ReplaceAllBackward
-
-	Replace every occurrence of the search string with the replace string,
-	starting from the current location.  Returns kJTrue if it replaced anything.
-
- ******************************************************************************/
-
-JBoolean
-JTextEditor::ReplaceAllBackward
-	(
-	const JRegex&	regex,
-	const JBoolean	entireWord,
-	const JBoolean	wrapSearch,
-	const JString&	replaceStr,
-	const JBoolean	replaceIsRegex,
-	const JBoolean	preserveCase
-	)
-{
-	const TextIndex i = GetInsertionIndex();
-
-	JString buffer;
-	JRunArray<JFont> styles;
-
-	JString selText;
-	JIndexRange matchRange;
-	if (wrapSearch)
-		{
-		SelectAll();
-		buffer = itsBuffer;
-		styles = *itsStyles;
-		}
-	else if (!SelectionMatches(regex, entireWord).IsEmpty())
-		{
-		SetSelection(JCharacterRange(1, itsCharSelection.last),
-					 JUtf8ByteRange(1, itsByteSelection.last));
-		Copy(&buffer, &styles);
-		}
-	else if (i.charIndex > 1)
-		{
-		SetSelection(JCharacterRange(1, i.charIndex-1),
-					 JUtf8ByteRange(1, i.byteIndex-1));
-		Copy(&buffer, &styles);
+		SetSelection(r);
+		return kJTrue;
 		}
 	else
 		{
 		return kJFalse;
 		}
-
-	JLatentPG pg(10);	// MatchBackward() can be slow
-	pg.VariableLengthProcessBeginning(JGetString("ReplacingText::JTextEditor"), kJTrue, kJFalse);
-
-	JBoolean foundAny = kJFalse;
-
-	JStringIterator iter(&buffer, kJIteratorStartAtEnd);
-	while (iter.Prev(regex))
-		{
-		const JStringMatch m = iter.GetLastMatch();
-		if (!entireWord || IsEntireWord(buffer, m.GetCharacterRange(), m.GetUtf8ByteRange()))
-			{
-			ReplaceRange(&iter, &styles, m, replaceStr, replaceIsRegex, preserveCase);
-			foundAny = kJTrue;
-
-			if (!pg.IncrementProgress())
-				{
-				break;
-				}
-			}
-		}
-
-	pg.ProcessFinished();
-
-	if (foundAny)
-		{
-		Paste(buffer, &styles);
-		SetCaretLocation(CaretLocation(1,1,1));
-		}
-
-	return foundAny;
 }
 
 /******************************************************************************
@@ -686,20 +579,20 @@ JTextEditor::ReplaceAllBackward
 JBoolean
 JTextEditor::SearchForward
 	(
-	const FontMatch&	match,
-	const JBoolean		wrapSearch,
-	JBoolean*			wrapped
+	const JStyledTextBuffer::FontMatch&	match,
+	const JBoolean						wrapSearch,
+	JBoolean*							wrapped
 	)
 {
-	const JStyledTextBuffer::TextIndex startIndex =
-		HasSelection() ?
-			JStyledTextBuffer::TextIndex(
-				itsSelection.charRange.last + 1,
-				itsSelection.byteRange.last + 1) :
-			itsCaretLoc.location;
+	const TextIndex i(
+		itsSelection.IsEmpty() ? itsCaretLoc.location.charIndex :
+		itsSelection.charRange.last + 1,
+
+		itsSelection.IsEmpty() ? itsCaretLoc.location.byteIndex :
+		itsSelection.byteRange.last + 1);
 
 	JStyledTextBuffer::TextRange range;
-	const JBoolean found = itsBuffer->SearchForward(match, startIndex, wrapSearch, wrapped, &range);
+	const JBoolean found = itsBuffer->SearchForward(match, i, wrapSearch, wrapped, &range);
 	if (found)
 		{
 		SetSelection(range);
@@ -719,31 +612,20 @@ JTextEditor::SearchForward
 JBoolean
 JTextEditor::SearchBackward
 	(
-	const FontMatch&	match,
-	const JBoolean		wrapSearch,
-	JBoolean*			wrapped
+	const JStyledTextBuffer::FontMatch&	match,
+	const JBoolean						wrapSearch,
+	JBoolean*							wrapped
 	)
 {
-	const JBoolean hasSelection = HasSelection();
-	JSize byteCount = 0;
-	if (hasSelection)
-		{
-		const JBoolean ok =
-			JUtf8Character::GetPrevCharacterByteCount(
-				itsBuffer->GetText().GetBytes() + itsSelection.byteRange.first - 2,
-				&byteCount);
-		assert( ok );
-		}
+	const TextIndex i(
+		itsSelection.IsEmpty() ? itsCaretLoc.location.charIndex :
+		itsSelection.charRange.first,
 
-	const JStyledTextBuffer::TextIndex startIndex =
-		hasSelection ?
-			JStyledTextBuffer::TextIndex(
-				itsSelection.charRange.first - 1,
-				itsSelection.byteRange.first - byteCount) :
-			itsCaretLoc.location;
+		itsSelection.IsEmpty() ? itsCaretLoc.location.byteIndex: 
+		itsSelection.byteRange.first);
 
 	JStyledTextBuffer::TextRange range;
-	const JBoolean found = itsBuffer->SearchBackward(match, startIndex, wrapSearch, wrapped, &range);
+	const JBoolean found = itsBuffer->SearchBackward(match, i, wrapSearch, wrapped, &range);
 	if (found)
 		{
 		SetSelection(range);
@@ -875,9 +757,9 @@ JFont
 JTextEditor::GetCurrentFont()
 	const
 {
-	if (!itsCharSelection.IsEmpty())
+	if (!itsSelection.IsEmpty())
 		{
-		return itsStyles->GetElement(itsCharSelection.first);
+		return itsBuffer->GetStyles().GetElement(itsSelection.charRange.first);
 		}
 	else
 		{
@@ -896,22 +778,9 @@ JTextEditor::SetCurrentFontName
 	const JString& name
 	)
 {
-	if (!itsCharSelection.IsEmpty())
+	if (!itsSelection.IsEmpty())
 		{
-		JBoolean isNew;
-		JTEUndoStyle* undo = GetStyleUndo(&isNew);
-
-		const JBoolean changed =
-			SetFontName(itsCharSelection.first, itsCharSelection.last, name, kJFalse);
-
-		if (changed)
-			{
-			NewUndo(undo, isNew);
-			}
-		else if (isNew)
-			{
-			jdelete undo;
-			}
+		itsBuffer->SetFontName(itsSelection, name, kJFalse);
 		}
 	else
 		{
@@ -925,13 +794,14 @@ JTextEditor::SetCurrentFontSize
 	const JSize size
 	)
 {
-	#define LocalVarName   size
-	#define GetElementName GetSize()
-	#define SetElementName SetSize
-	#include <JTESetCurrentFont.th>
-	#undef LocalVarName
-	#undef GetElementName
-	#undef SetElementName
+	if (!itsSelection.IsEmpty())
+		{
+		itsBuffer->SetFontSize(itsSelection, size, kJFalse);
+		}
+	else
+		{
+		itsInsertionFont.SetSize(size);
+		}
 }
 
 void
@@ -940,13 +810,14 @@ JTextEditor::SetCurrentFontBold
 	const JBoolean bold
 	)
 {
-	#define LocalVarName   bold
-	#define GetElementName GetStyle().bold
-	#define SetElementName SetBold
-	#include <JTESetCurrentFont.th>
-	#undef LocalVarName
-	#undef GetElementName
-	#undef SetElementName
+	if (!itsSelection.IsEmpty())
+		{
+		itsBuffer->SetFontBold(itsSelection, bold, kJFalse);
+		}
+	else
+		{
+		itsInsertionFont.SetBold(bold);
+		}
 }
 
 void
@@ -955,13 +826,14 @@ JTextEditor::SetCurrentFontItalic
 	const JBoolean italic
 	)
 {
-	#define LocalVarName   italic
-	#define GetElementName GetStyle().italic
-	#define SetElementName SetItalic
-	#include <JTESetCurrentFont.th>
-	#undef LocalVarName
-	#undef GetElementName
-	#undef SetElementName
+	if (!itsSelection.IsEmpty())
+		{
+		itsBuffer->SetFontItalic(itsSelection, italic, kJFalse);
+		}
+	else
+		{
+		itsInsertionFont.SetItalic(italic);
+		}
 }
 
 void
@@ -970,13 +842,14 @@ JTextEditor::SetCurrentFontUnderline
 	const JSize count
 	)
 {
-	#define LocalVarName   count
-	#define GetElementName GetStyle().underlineCount
-	#define SetElementName SetUnderlineCount
-	#include <JTESetCurrentFont.th>
-	#undef LocalVarName
-	#undef GetElementName
-	#undef SetElementName
+	if (!itsSelection.IsEmpty())
+		{
+		itsBuffer->SetFontUnderline(itsSelection, count, kJFalse);
+		}
+	else
+		{
+		itsInsertionFont.SetUnderlineCount(count);
+		}
 }
 
 void
@@ -985,13 +858,14 @@ JTextEditor::SetCurrentFontStrike
 	const JBoolean strike
 	)
 {
-	#define LocalVarName   strike
-	#define GetElementName GetStyle().strike
-	#define SetElementName SetStrike
-	#include <JTESetCurrentFont.th>
-	#undef LocalVarName
-	#undef GetElementName
-	#undef SetElementName
+	if (!itsSelection.IsEmpty())
+		{
+		itsBuffer->SetFontStrike(itsSelection, strike, kJFalse);
+		}
+	else
+		{
+		itsInsertionFont.SetStrike(strike);
+		}
 }
 
 void
@@ -1000,13 +874,14 @@ JTextEditor::SetCurrentFontColor
 	const JColorIndex color
 	)
 {
-	#define LocalVarName   color
-	#define GetElementName GetStyle().color
-	#define SetElementName SetColor
-	#include <JTESetCurrentFont.th>
-	#undef LocalVarName
-	#undef GetElementName
-	#undef SetElementName
+	if (!itsSelection.IsEmpty())
+		{
+		itsBuffer->SetFontColor(itsSelection, color, kJFalse);
+		}
+	else
+		{
+		itsInsertionFont.SetColor(color);
+		}
 }
 
 void
@@ -1015,13 +890,14 @@ JTextEditor::SetCurrentFontStyle
 	const JFontStyle& style
 	)
 {
-	#define LocalVarName   style
-	#define GetElementName GetStyle()
-	#define SetElementName SetStyle
-	#include <JTESetCurrentFont.th>
-	#undef LocalVarName
-	#undef GetElementName
-	#undef SetElementName
+	if (!itsSelection.IsEmpty())
+		{
+		itsBuffer->SetFontStyle(itsSelection, style, kJFalse);
+		}
+	else
+		{
+		itsInsertionFont.SetStyle(style);
+		}
 }
 
 void
@@ -1030,209 +906,14 @@ JTextEditor::SetCurrentFont
 	const JFont& f
 	)
 {
-	if (!itsCharSelection.IsEmpty())
+	if (!itsSelection.IsEmpty())
 		{
-		JBoolean isNew;
-		JTEUndoStyle* undo = GetStyleUndo(&isNew);
-		SetFont(itsCharSelection.first, itsCharSelection.last, f, kJFalse);
-		NewUndo(undo, isNew);
+		itsBuffer->SetFont(itsSelection, f, kJFalse);
 		}
 	else
 		{
 		itsInsertionFont = f;
 		}
-}
-
-/******************************************************************************
- Set font
-
-	Returns kJTrue if anything actually changed
-
- ******************************************************************************/
-
-JBoolean
-JTextEditor::SetFontName
-	(
-	const JIndex	startIndex,
-	const JIndex	endIndex,
-	const JString&	name,
-	const JBoolean	clearUndo
-	)
-{
-	const JBoolean changed = itsBuffer->SetFontName(startIndex, endIndex, name, clearUndo);
-	if (changed)
-		{
-		Recalc(CharIndexToTextIndex(startIndex),
-			   endIndex - startIndex + 1, kJFalse);
-		}
-
-	return changed;
-}
-
-JBoolean
-JTextEditor::SetFontSize
-	(
-	const JIndex	startIndex,
-	const JIndex	endIndex,
-	const JSize		size,
-	const JBoolean	clearUndo
-
-	)
-{
-	const JBoolean changed = itsBuffer->SetFontSize(startIndex, endIndex, size, clearUndo);
-	if (changed)
-		{
-		Recalc(CharIndexToTextIndex(startIndex),
-			   endIndex - startIndex + 1, kJFalse);
-		}
-
-	return changed;
-}
-
-JBoolean
-JTextEditor::SetFontBold
-	(
-	const JIndex	startIndex,
-	const JIndex	endIndex,
-	const JBoolean	bold,
-	const JBoolean	clearUndo
-
-	)
-{
-	const JBoolean changed = itsBuffer->SetFontBold(startIndex, endIndex, bold, clearUndo);
-	if (changed)
-		{
-		Recalc(CharIndexToTextIndex(startIndex),
-			   endIndex - startIndex + 1, kJFalse);
-		}
-
-	return changed;
-}
-
-JBoolean
-JTextEditor::SetFontItalic
-	(
-	const JIndex	startIndex,
-	const JIndex	endIndex,
-	const JBoolean	italic,
-	const JBoolean	clearUndo
-
-	)
-{
-	const JBoolean changed = itsBuffer->SetFontItalic(startIndex, endIndex, italic, clearUndo);
-	if (changed)
-		{
-		Recalc(CharIndexToTextIndex(startIndex),
-			   endIndex - startIndex + 1, kJFalse);
-		}
-
-	return changed;
-}
-
-JBoolean
-JTextEditor::SetFontUnderline
-	(
-	const JIndex	startIndex,
-	const JIndex	endIndex,
-	const JSize		count,
-	const JBoolean	clearUndo
-
-	)
-{
-	const JBoolean changed = itsBuffer->SetFontUnderline(startIndex, endIndex, count, clearUndo);
-	if (changed)
-		{
-		Recalc(CharIndexToTextIndex(startIndex),
-			   endIndex - startIndex + 1, kJFalse);
-		}
-
-	return changed;
-}
-
-JBoolean
-JTextEditor::SetFontStrike
-	(
-	const JIndex	startIndex,
-	const JIndex	endIndex,
-	const JBoolean	strike,
-	const JBoolean	clearUndo
-
-	)
-{
-	const JBoolean changed = itsBuffer->SetFontStrike(startIndex, endIndex, strike, clearUndo);
-	if (changed)
-		{
-		Recalc(CharIndexToTextIndex(startIndex),
-			   endIndex - startIndex + 1, kJFalse);
-		}
-
-	return changed;
-}
-
-JBoolean
-JTextEditor::SetFontColor
-	(
-	const JIndex		startIndex,
-	const JIndex		endIndex,
-	const JColorIndex	color,
-	const JBoolean		clearUndo
-
-	)
-{
-	const JBoolean changed = itsBuffer->SetFontColor(startIndex, endIndex, color, clearUndo);
-	if (changed)
-		{
-		Recalc(CharIndexToTextIndex(startIndex),
-			   endIndex - startIndex + 1, kJFalse);
-		}
-
-	return changed;
-}
-
-JBoolean
-JTextEditor::SetFontStyle
-	(
-	const JIndex		startIndex,
-	const JIndex		endIndex,
-	const JFontStyle&	style,
-	const JBoolean		clearUndo
-	)
-{
-	const JBoolean changed = itsBuffer->SetFontStyle(startIndex, endIndex, style, clearUndo);
-	if (changed)
-		{
-		Recalc(CharIndexToTextIndex(startIndex),
-			   endIndex - startIndex + 1, kJFalse);
-		}
-
-	return changed;
-}
-
-void
-JTextEditor::SetFont
-	(
-	const JIndex		startIndex,
-	const JIndex		endIndex,
-	const JFont&		f,
-	const JBoolean		clearUndo
-	)
-{
-	itsBuffer->SetFont(startIndex, endIndex, f, clearUndo);
-	Recalc(CharIndexToTextIndex(startIndex), endIndex - startIndex + 1, kJFalse);
-}
-
-// protected
-
-void
-JTextEditor::SetFont
-	(
-	const TextIndex&		start,
-	const JRunArray<JFont>&	fontList,
-	const JBoolean			clearUndo
-	)
-{
-	itsBuffer->SetFont(start, fontList, clearUndo);
-	Recalc(CalcCaretLocation(start), fontList.GetElementCount(), kJFalse);
 }
 
 /******************************************************************************
@@ -1261,74 +942,12 @@ JTextEditor::SetAllFontNameAndSize
 	const JBoolean		clearUndo
 	)
 {
-	itsBuffer->SetAllFontNameAndSize(name, size, clearUndo);
+	itsDefTabWidth = tabWidth;
+	PrivateSetBreakCROnly(breakCROnly);
 
 	itsInsertionFont.Set(name, size, itsInsertionFont.GetStyle());
 
-	itsDefTabWidth = tabWidth;
-	PrivateSetBreakCROnly(breakCROnly);
-	RecalcAll(kJFalse);
-}
-
-/******************************************************************************
- Set default font
-
- ******************************************************************************/
-
-void
-JTextEditor::SetDefaultFontName
-	(
-	const JString& name
-	)
-{
-	itsBuffer->SetDefaultFontName(name);
-	if (itsBuffer.IsEmpty())
-		{
-		itsInsertionFont = CalcInsertionFont(TextIndex(1,1));
-		RecalcAll(kJFalse);
-		}
-}
-
-void
-JTextEditor::SetDefaultFontSize
-	(
-	const JSize size
-	)
-{
-	itsBuffer->SetDefaultFontSize(size);
-	if (itsBuffer.IsEmpty())
-		{
-		itsInsertionFont = CalcInsertionFont(TextIndex(1,1));
-		RecalcAll(kJFalse);
-		}
-}
-
-void
-JTextEditor::SetDefaultFontStyle
-	(
-	const JFontStyle& style
-	)
-{
-	itsBuffer->SetDefaultFontStyle(style);
-	if (itsBuffer.IsEmpty())
-		{
-		itsInsertionFont = CalcInsertionFont(TextIndex(1,1));
-		RecalcAll(kJFalse);
-		}
-}
-
-void
-JTextEditor::SetDefaultFont
-	(
-	const JFont& font
-	)
-{
-	itsBuffer->SetDefaultFont(font);
-	if (itsBuffer.IsEmpty())
-		{
-		itsInsertionFont = CalcInsertionFont(TextIndex(1,1));
-		RecalcAll(kJFalse);
-		}
+	itsBuffer->SetAllFontNameAndSize(name, size, clearUndo);	// initiates RecalcAll()
 }
 
 /******************************************************************************
@@ -1348,33 +967,6 @@ JTextEditor::Cut()
 }
 
 /******************************************************************************
- Cut
-
-	Returns kJTrue if there was anything to cut.  style can be NULL.
-	If function returns kJFalse, text and style are not modified.
-
- ******************************************************************************/
-
-JBoolean
-JTextEditor::Cut
-	(
-	JString*			text,
-	JRunArray<JFont>*	style
-	)
-{
-	if (!TEIsDragging() && Copy(text, style))
-		{
-		DeleteSelection();
-		DeactivateCurrentUndo();
-		return kJTrue;
-		}
-	else
-		{
-		return kJFalse;
-		}
-}
-
-/******************************************************************************
  Copy
 
  ******************************************************************************/
@@ -1383,36 +975,6 @@ void
 JTextEditor::Copy()
 {
 	TEUpdateClipboard();
-}
-
-/******************************************************************************
- Copy
-
-	Returns kJTrue if there was anything to copy.  style can be NULL.
-	If function returns kJFalse, text and style are not modified, so
-	we cannot call GetSelection().
-
- ******************************************************************************/
-
-JBoolean
-JTextEditor::Copy
-	(
-	JString*			text,
-	JRunArray<JFont>*	style
-	)
-	const
-{
-	if (!itsCharSelection.IsEmpty())
-		{
-		text->Set(itsBuffer.GetRawBytes(), itsByteSelection);
-		style->RemoveAll();
-		style->AppendSlice(*itsStyles, itsCharSelection);
-		return kJTrue;
-		}
-	else
-		{
-		return kJFalse;
-		}
 }
 
 /******************************************************************************
@@ -1527,18 +1089,16 @@ JTextEditor::GetSelection
 	)
 	const
 {
-	if (itsCharSelection.IsEmpty())
+	if (!itsCharSelection.IsEmpty())
+		{
+		text->Set(itsBuffer.GetRawBytes(), itsSelection.byteRange);
+		return kJTrue;
+		}
+	else
 		{
 		text->Clear();
 		return kJFalse;
 		}
-
-	JStringIterator iter(itsBuffer);
-	iter.UnsafeMoveTo(kJIteratorStartBefore, itsCharSelection.first, itsByteSelection.first);
-	iter.BeginMatch();
-	iter.UnsafeMoveTo(kJIteratorStartAfter, itsCharSelection.last, itsByteSelection.last);
-	*text = iter.FinishMatch().GetString();
-	return kJTrue;
 }
 
 JBoolean
@@ -1551,16 +1111,14 @@ JTextEditor::GetSelection
 {
 	style->RemoveAll();
 
-	if (!itsCharSelection.IsEmpty())
+	if (GetSelection(text))
 		{
-		GetSelection(text);
-		style->InsertElementsAtIndex(1, *itsStyles, itsCharSelection.first,
-									 itsCharSelection.GetCount());
+		style->InsertElementsAtIndex(1, *itsStyles, itsSelection.charRange.first,
+									 itsSelection.charRange.GetCount());
 		return kJTrue;
 		}
 	else
 		{
-		text->Clear();
 		return kJFalse;
 		}
 }
@@ -3647,7 +3205,7 @@ JTextEditor::GetColumnForChar
 }
 
 /******************************************************************************
- CharIndexToTextIndex (private)
+ CharToTextIndex (private)
 
 	This cannot be in JString, because there, it would always be the worst
 	case: one wrapped line of characters with no breaks.  All following
@@ -3657,33 +3215,33 @@ JTextEditor::GetColumnForChar
  ******************************************************************************/
 
 JTextEditor::TextIndex
-JTextEditor::CharIndexToTextIndex
+JTextEditor::CharToTextIndex
 	(
 	const JIndex charIndex
 	)
 	const
 {
-	const JUtf8ByteRange r = CharToByteRange(JCharacterRange(charIndex, charIndex));
-	return TextIndex(charIndex, r.first);
+	const TextRange r = CharToTextRange(JCharacterRange(charIndex, charIndex));
+	return TextIndex(r.charRange.first, r.byteRange.first);
 }
 
 /******************************************************************************
- CharToByteRange (private)
+ CharToTextRange (private)
 
 	Optimized by starting JStringIterator at start of line, computed by
 	using binary search.
 
  ******************************************************************************/
 
-JUtf8ByteRange
-JTextEditor::CharToByteRange
+TextRange
+JTextEditor::CharToTextRange
 	(
 	const JCharacterRange& charRange
 	)
 	const
 {
 	const TextIndex i = GetLineStart(GetLineForChar(charRange.first));
-	return itsBuffer->CharToByteRange(&i, charRange);
+	return itsBuffer->CharToTextRange(&i, charRange);
 }
 
 /******************************************************************************
@@ -4570,8 +4128,8 @@ JTextEditor::RecalcAll
 
 	itsLineGeom->RemoveAll();
 
-	Recalc(CaretLocation(1,1,1), itsBuffer.GetCharacterCount(), kJFalse,
-		   kJTrue, needAdjustStyles);
+	Recalc(CaretLocation(TextIndex(1,1),1), itsBuffer.GetCharacterCount(),
+		   kJFalse, kJTrue, needAdjustStyles);
 }
 
 /******************************************************************************
@@ -5295,7 +4853,7 @@ JTextEditor::CalcCaretLocation
 	const JSize bufLength = itsBuffer->GetLength();
 	if (bufLength == 0)
 		{
-		return CaretLocation(1,1);
+		return CaretLocation(TextIndex(1,1),1);
 		}
 	else if (pt.y >= itsHeight)
 		{

@@ -59,8 +59,7 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //	*** Removed HTML parsing from JTextEditor.  HTML belongs on the web.
 //		Removed JHTMLScanner, JTEHTMLScanner, JExtractHTMLTitle.
 //	*** JTextEditor:
-//		To avoid potentially scanning large amounts of UTF-8:
-//			Modified IsEntireWord() to only check entire buffer.
+//		Refactored into JStyledTextBuffer & JTextEditor.
 //		Removed pointless useInternalClipboard option and
 //			TEOwnsClipboard(), WriteClipboardPrivateFormat(),
 //			GetInternalClipboard(), TEClearClipboard().

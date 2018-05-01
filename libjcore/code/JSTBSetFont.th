@@ -13,19 +13,26 @@
 		#undef GetElementName
 		#undef SetElementName
 
-	Copyright (C) 2000-16 by John Lindal.
+	Copyright (C) 2000-18 by John Lindal.
 
  ******************************************************************************/
+
+JBoolean isNew;
+JTEUndoStyle* undo = NULL;
 
 if (clearUndo)
 	{
 	ClearUndo();
 	}
+else
+	{
+	undo = GetStyleUndo(range, &isNew);
+	}
 
 JFont f = itsFontMgr->GetDefaultFont();
 JBoolean changed = kJFalse;
-JRunArrayIterator<JFont> iter(itsStyles, kJIteratorStartBefore, startIndex);
-for (JIndex i=startIndex; i<=endIndex; i++)
+JRunArrayIterator<JFont> iter(itsStyles, kJIteratorStartBefore, range.charRange.first);
+for (JIndex i=range.charRange.first; i<=range.charRange.last; i++)
 	{
 	const JBoolean ok = iter.Next(&f);
 	assert( ok );
@@ -36,6 +43,19 @@ for (JIndex i=startIndex; i<=endIndex; i++)
 		iter.SetPrev(f);
 		changed = kJTrue;
 		}
+	}
+
+if (changed)
+	{
+	if (undo != NULL)
+		{
+		NewUndo(undo, isNew);
+		}
+	Broadcast(TextChanged(range));
+	}
+else
+	{
+	jdelete undo;
 	}
 
 return changed;

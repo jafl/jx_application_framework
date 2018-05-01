@@ -4,11 +4,10 @@
 	Class to manage styled text.
 
 	Only public functions are required to call NewUndo(), and only if the
-	action to be performed changes the text or styles.  Protected and
-	private functions must *not* call NewUndo(), because several
-	manipulations may be required to perform one user command, and only the
-	user command as a whole is undoable.  (Otherwise, the user may get
-	confused.)
+	action to be performed changes the text or styles.  Private functions
+	must *not* call NewUndo(), because several manipulations may be
+	required to perform one user command, and only the user command as a
+	whole is undoable.  (Otherwise, the user may get confused.)
 
 	Because of this convention, public functions that affect undo should
 	only be a public interface to a private function.  The public function
@@ -107,21 +106,20 @@ JStyledTextBuffer::JStyledTextBuffer
 	itsStyles = jnew JRunArray<JFont>;
 	assert( itsStyles != NULL );
 
-	itsUndo                    = NULL;
-	itsUndoList                = NULL;
-	itsFirstRedoIndex          = 1;
-	itsLastSaveRedoIndex       = itsFirstRedoIndex;
-	itsUndoState               = kIdle;
-	itsMaxUndoCount            = kDefaultMaxUndoCount;
-	itsTabToSpacesFlag         = kJFalse;
-	itsBcastAllTextChangedFlag = kJFalse;
+	itsUndo              = NULL;
+	itsUndoList          = NULL;
+	itsFirstRedoIndex    = 1;
+	itsLastSaveRedoIndex = itsFirstRedoIndex;
+	itsUndoState         = kIdle;
+	itsMaxUndoCount      = kDefaultMaxUndoCount;
+	itsTabToSpacesFlag   = kJFalse;
 
-	itsCRMLineWidth     = kUNIXLineWidth;
-	itsCRMTabCharCount  = kUNIXTabCharCount;
-	itsCRMRuleList      = NULL;
-	itsOwnsCRMRulesFlag = kJFalse;
+	itsCRMLineWidth      = kUNIXLineWidth;
+	itsCRMTabCharCount   = kUNIXTabCharCount;
+	itsCRMRuleList       = NULL;
+	itsOwnsCRMRulesFlag  = kJFalse;
 
-	itsCharInWordFn = DefaultIsCharacterInWord;
+	itsCharInWordFn      = DefaultIsCharacterInWord;
 }
 
 /******************************************************************************
@@ -146,20 +144,19 @@ JStyledTextBuffer::JStyledTextBuffer
 	itsStyles = jnew JRunArray<JFont>(*(source.itsStyles));
 	assert( itsStyles != NULL );
 
-	itsUndo                    = NULL;
-	itsUndoList                = NULL;
-	itsFirstRedoIndex          = 1;
-	itsLastSaveRedoIndex       = itsFirstRedoIndex;
-	itsUndoState               = kIdle;
-	itsMaxUndoCount            = source.itsMaxUndoCount;
-	itsTabToSpacesFlag         = source.itsTabToSpacesFlag;
-	itsBcastAllTextChangedFlag = source.itsBcastAllTextChangedFlag;
+	itsUndo              = NULL;
+	itsUndoList          = NULL;
+	itsFirstRedoIndex    = 1;
+	itsLastSaveRedoIndex = itsFirstRedoIndex;
+	itsUndoState         = kIdle;
+	itsMaxUndoCount      = source.itsMaxUndoCount;
+	itsTabToSpacesFlag   = source.itsTabToSpacesFlag;
 
-	itsCRMLineWidth     = source.itsCRMLineWidth;
-	itsCRMTabCharCount  = source.itsCRMTabCharCount;
+	itsCRMLineWidth      = source.itsCRMLineWidth;
+	itsCRMTabCharCount   = source.itsCRMTabCharCount;
 
-	itsCRMRuleList      = NULL;
-	itsOwnsCRMRulesFlag = kJFalse;
+	itsCRMRuleList       = NULL;
+	itsOwnsCRMRulesFlag  = kJFalse;
 	if (source.itsCRMRuleList != NULL)
 		{
 		SetCRMRuleList(source.itsCRMRuleList, source.itsOwnsCRMRulesFlag);
@@ -218,6 +215,16 @@ JStyledTextBuffer::SetText
 		if (!itsBuffer.IsEmpty())
 			{
 			itsStyles->AppendElements(itsDefFont, itsBuffer.GetCharacterCount());
+			}
+		}
+
+	if (NeedsToFilterText(itsBuffer))
+		{
+		cleaned = kJTrue;
+		if (!FilterText(&itsBuffer, itsStyles))
+			{
+			itsBuffer.Clear();
+			itsStyles->RemoveAll();
 			}
 		}
 
@@ -565,9 +572,9 @@ JStyledTextBuffer::WritePrivateFormat
 	if (!IsEmpty())
 		{
 		WritePrivateFormat(output, itsColormap, kCurrentPrivateFormatVersion,
-						   itsBuffer, *itsStyles,
+						   itsBuffer, *itsStyles, TextRange(
 						   JCharacterRange(1, itsBuffer.GetCharacterCount()),
-						   JUtf8ByteRange(1, itsBuffer.GetByteCount()));
+						   JUtf8ByteRange(1, itsBuffer.GetByteCount())));
 		}
 	else
 		{
@@ -600,18 +607,20 @@ JStyledTextBuffer::WritePrivateFormat
 	assert( !charRange.IsEmpty() );
 	assert( text.RangeValid(charRange) );
 
-	JUtf8ByteRange byteRange;
+	TextRange range;
+	range.charRange = charRange;
+
 	if (charRange.first == 1 && charRange.last == text.GetCharacterCount())
 		{
-		byteRange.Set(1, text.GetCharacterCount());
+		range.byteRange.Set(1, text.GetCharacterCount());
 		}
 	else
 		{
 		JStringIterator iter(text);
-		byteRange = CharToByteRange(charRange, &iter);
+		range = CharToTextRange(charRange, &iter);
 		}
 
-	WritePrivateFormat(output, colormap, vers, text, style, charRange, byteRange);
+	WritePrivateFormat(output, colormap, vers, text, style, range);
 }
 
 // static private
@@ -624,8 +633,7 @@ JStyledTextBuffer::WritePrivateFormat
 	const JFileVersion		vers,
 	const JString&			text,
 	const JRunArray<JFont>&	style,
-	const JCharacterRange&	charRange,
-	const JUtf8ByteRange&	byteRange
+	const TextRange&		range
 	)
 {
 	assert( vers <= kCurrentPrivateFormatVersion );
@@ -636,8 +644,8 @@ JStyledTextBuffer::WritePrivateFormat
 
 	// write text efficiently
 
-	output << ' ' << byteRange.GetCount() << ' ';
-	output.write(text.GetRawBytes() + byteRange.first - 1, byteRange.GetCount());
+	output << ' ' << range.byteRange.GetCount() << ' ';
+	output.write(text.GetRawBytes() + range.byteRange.first - 1, range.byteRange.GetCount());
 
 	// build lists of font names and colors
 
@@ -648,10 +656,10 @@ JStyledTextBuffer::WritePrivateFormat
 	colorList.SetCompareFunction(JCompareIndices);
 
 	JIndex startRunIndex, startFirstInRun;
-	JBoolean found = style.FindRun(charRange.first, &startRunIndex, &startFirstInRun);
+	JBoolean found = style.FindRun(range.charRange.first, &startRunIndex, &startFirstInRun);
 	assert( found );
 
-	JIndex i          = charRange.first;
+	JIndex i          = range.charRange.first;
 	JIndex runIndex   = startRunIndex;
 	JIndex firstInRun = startFirstInRun;
 	do
@@ -678,7 +686,7 @@ JStyledTextBuffer::WritePrivateFormat
 		firstInRun = i;
 		styleRunCount++;
 		}
-		while (i <= charRange.last);
+		while (i <= range.charRange.last);
 
 	// write list of font names
 
@@ -704,15 +712,15 @@ JStyledTextBuffer::WritePrivateFormat
 
 	output << ' ' << styleRunCount;
 
-	i          = charRange.first;
+	i          = range.charRange.first;
 	runIndex   = startRunIndex;
 	firstInRun = startFirstInRun;
 	do
 		{
 		JSize charCount = style.GetRunLength(runIndex) - (i - firstInRun);
-		if (charRange.last < i + charCount - 1)
+		if (range.charRange.last < i + charCount - 1)
 			{
-			charCount = charRange.last - i + 1;
+			charCount = range.charRange.last - i + 1;
 			}
 
 		const JFont& f   = style.GetRunDataRef(runIndex);
@@ -739,7 +747,7 @@ JStyledTextBuffer::WritePrivateFormat
 		runIndex++;
 		firstInRun = i;
 		}
-		while (i <= charRange.last);
+		while (i <= range.charRange.last);
 }
 
 /******************************************************************************
@@ -788,8 +796,8 @@ JStyledTextBuffer::SearchForward
 		{
 		if (iter.Next(regex))
 			{
-			const JStringMatch m = iter.GetLastMatch();
-			if (!entireWord || IsEntireWord(itsBuffer, m))
+			const JStringMatch& m = iter.GetLastMatch();
+			if (!entireWord || IsEntireWord(m))
 				{
 				return m;
 				}
@@ -855,8 +863,8 @@ JStyledTextBuffer::SearchBackward
 		{
 		if (iter.Prev(regex))
 			{
-			const JStringMatch m = iter.GetLastMatch();
-			if (!entireWord || IsEntireWord(itsBuffer, m))
+			const JStringMatch& m = iter.GetLastMatch();
+			if (!entireWord || IsEntireWord(m))
 				{
 				return m;
 				}
@@ -879,19 +887,50 @@ JStyledTextBuffer::SearchBackward
 }
 
 /******************************************************************************
- ReplaceRange
+ ReplaceMatch
 
 	Replace the specified range with the given replace text.
 
-	Does not handle undo.
+ ******************************************************************************/
+
+JStyledTextBuffer::TextCount
+JStyledTextBuffer::ReplaceMatch
+	(
+	const JStringMatch&	match,
+	const JString&		replaceStr,
+	const JBoolean		replaceIsRegex,
+	JInterpolate&		interpolator,
+	const JBoolean		preserveCase,
+	const JBoolean		createUndo
+	)
+{
+	const JString replaceText =
+		PrepareReplaceMatch(match, replaceStr, replaceIsRegex,
+							interpolator, preserveCase);
+
+	const TextRange r(match.GetCharacterRange(), match.GetUtf8ByteRange());
+	if (createUndo)
+		{
+		Paste(r, replaceText);	// handles undo
+		}
+	else
+		{
+		PrivatePaste(r, replaceText, NULL);
+		}
+
+	return TextCount(replaceText.GetCharacterCount(), replaceText.GetByteCount());
+}
+
+/******************************************************************************
+ PrepareReplaceMatch (private)
+
+	Construct the replace text.
 
  ******************************************************************************/
 
-void
-JStyledTextBuffer::ReplaceRange
+JString
+JStyledTextBuffer::PrepareReplaceMatch
 	(
-	JStringIterator*	buffer,
-	JRunArray<JFont>*	styles,
 	const JStringMatch&	match,
 	const JString&		replaceStr,
 	const JBoolean		replaceIsRegex,
@@ -911,15 +950,97 @@ JStyledTextBuffer::ReplaceRange
 
 	if (preserveCase)
 		{
-		replaceText.MatchCase(buffer->GetString().GetRawBytes(), match.GetUtf8ByteRange());
+		replaceText.MatchCase(match.GetString().GetRawBytes(), match.GetUtf8ByteRange());
 		}
 
-	DeleteText(buffer, TextCount(match.GetCharacterCount(), match.GetByteCount()));
-	InsertText(buffer, styles, replaceText, NULL, NULL);
+	return replaceText;
 }
 
 /******************************************************************************
- IsEntireWord
+ ReplaceAllInRange
+
+	Replace every occurrence of the search pattern with the replace string.
+	Returns the resulting text range.
+
+ ******************************************************************************/
+
+JStyledTextBuffer::TextRange
+JStyledTextBuffer::ReplaceAllInRange
+	(
+	const TextRange&	range,
+	const JRegex&		regex,
+	const JBoolean		entireWord,
+	const JString&		replaceStr,
+	const JBoolean		replaceIsRegex,
+	JInterpolate&		interpolator,
+	const JBoolean		preserveCase
+	)
+{
+	JString buffer;
+	JRunArray<JFont> styles;
+
+	if (range.charRange.GetCount() == itsBuffer.GetCharacterCount())	// avoid counting characters
+		{
+		buffer = itsBuffer;
+		styles = *itsStyles;
+		}
+	else
+		{
+		buffer.Set(itsBuffer.GetRawBytes(), range.byteRange);
+		styles.AppendSlice(*itsStyles, range.charRange);
+		}
+
+	JLatentPG pg(100);
+	pg.VariableLengthProcessBeginning(JGetString("ReplacingText::JStyledTextBuffer"), kJTrue, kJFalse);
+
+	JBoolean changed = kJFalse;
+
+	JStringIterator iter(&buffer);
+	while (iter.Next(regex))
+		{
+		const JStringMatch& match = iter.GetLastMatch();
+		if (!entireWord || IsEntireWord(buffer, match))
+			{
+			iter.RemoveLastMatch();
+			styles.RemoveElements(match.GetCharacterRange());
+
+			const JString replaceText =
+				PrepareReplaceMatch(match, replaceStr, replaceIsRegex,
+									interpolator, preserveCase);
+
+			const TextCount count = InsertText(&iter, &styles, replaceText, NULL, NULL);
+			iter.SkipNext(count.charCount);
+
+			changed = kJTrue;
+			if (!pg.IncrementProgress())
+				{
+				break;
+				}
+			}
+		}
+
+	pg.ProcessFinished();
+
+	if (changed)
+	{
+		Paste(range, buffer, &styles);	// handles undo
+
+		JCharacterRange charRange;
+		charRange.SetFirstAndCount(range.charRange.first, buffer.GetCharacterCount());
+
+		JUtf8ByteRange byteRange;
+		byteRange.SetFirstAndCount(range.byteRange.first, buffer.GetByteCount());
+
+		return TextRange(charRange, byteRange);
+	}
+	else
+	{
+		return TextRange();
+	}
+}
+
+/******************************************************************************
+ IsEntireWord (protected)
 
 	Return kJTrue if the given character range is a single, complete word.
 
@@ -928,12 +1049,12 @@ JStyledTextBuffer::ReplaceRange
 JBoolean
 JStyledTextBuffer::IsEntireWord
 	(
-	const JString&		buffer,
+	const JString&		text,
 	const TextRange&	range
 	)
 	const
 {
-	const JString s(buffer, kJFalse);
+	const JString s(text, kJFalse);	// avoid potential double iterator
 
 	JStringIterator iter(s);
 	JUtf8Character c;
@@ -947,7 +1068,7 @@ JStyledTextBuffer::IsEntireWord
 			}
 		}
 
-	if (range.charRange.last < buffer.GetCharacterCount())
+	if (range.charRange.last < text.GetCharacterCount())
 		{
 		iter.UnsafeMoveTo(kJIteratorStartAfter, range.charRange.last, range.byteRange.last);
 		if (iter.Next(&c) && IsCharacterInWord(c))
@@ -1175,28 +1296,34 @@ JStyledTextBuffer::FontMatch::~FontMatch()
 
 	Returns kJTrue if anything actually changed
 
-	Does not handle undo
+	Handles undo if !clearUndo
 
  ******************************************************************************/
 
 JBoolean
 JStyledTextBuffer::SetFontName
 	(
-	const JIndex	startIndex,
-	const JIndex	endIndex,
-	const JString&	name,
-	const JBoolean	clearUndo
+	const TextRange&	range,
+	const JString&		name,
+	const JBoolean		clearUndo
 	)
 {
+	JBoolean isNew;
+	JTEUndoStyle* undo = NULL;
+
 	if (clearUndo)
 		{
 		ClearUndo();
 		}
+	else
+		{
+		undo = GetStyleUndo(range, &isNew);
+		}
 
 	JFont f1 = itsFontMgr->GetDefaultFont(), f2 = itsFontMgr->GetDefaultFont();
 	JBoolean changed = kJFalse;
-	JRunArrayIterator<JFont> iter(itsStyles, kJIteratorStartBefore, startIndex);
-	for (JIndex i=startIndex; i<=endIndex; i++)
+	JRunArrayIterator<JFont> iter(itsStyles, kJIteratorStartBefore, range.charRange.first);
+	for (JIndex i=range.charRange.first; i<=range.charRange.last; i++)
 		{
 		const JBoolean ok = iter.Next(&f1);
 		assert( ok );
@@ -1210,17 +1337,28 @@ JStyledTextBuffer::SetFontName
 			}
 		}
 
+	if (changed)
+		{
+		if (undo != NULL)
+			{
+			NewUndo(undo, isNew);
+			}
+		Broadcast(TextChanged(range));
+		}
+	else
+		{
+		jdelete undo;
+		}
+
 	return changed;
 }
 
 JBoolean
 JStyledTextBuffer::SetFontSize
 	(
-	const JIndex	startIndex,
-	const JIndex	endIndex,
-	const JSize		size,
-	const JBoolean	clearUndo
-
+	const TextRange&	range,
+	const JSize			size,
+	const JBoolean		clearUndo
 	)
 {
 	#define LocalVarName   size
@@ -1235,11 +1373,9 @@ JStyledTextBuffer::SetFontSize
 JBoolean
 JStyledTextBuffer::SetFontBold
 	(
-	const JIndex	startIndex,
-	const JIndex	endIndex,
-	const JBoolean	bold,
-	const JBoolean	clearUndo
-
+	const TextRange&	range,
+	const JBoolean		bold,
+	const JBoolean		clearUndo
 	)
 {
 	#define LocalVarName   bold
@@ -1254,11 +1390,9 @@ JStyledTextBuffer::SetFontBold
 JBoolean
 JStyledTextBuffer::SetFontItalic
 	(
-	const JIndex	startIndex,
-	const JIndex	endIndex,
-	const JBoolean	italic,
-	const JBoolean	clearUndo
-
+	const TextRange&	range,
+	const JBoolean		italic,
+	const JBoolean		clearUndo
 	)
 {
 	#define LocalVarName   italic
@@ -1273,11 +1407,9 @@ JStyledTextBuffer::SetFontItalic
 JBoolean
 JStyledTextBuffer::SetFontUnderline
 	(
-	const JIndex	startIndex,
-	const JIndex	endIndex,
-	const JSize		count,
-	const JBoolean	clearUndo
-
+	const TextRange&	range,
+	const JSize			count,
+	const JBoolean		clearUndo
 	)
 {
 	#define LocalVarName   count
@@ -1292,11 +1424,9 @@ JStyledTextBuffer::SetFontUnderline
 JBoolean
 JStyledTextBuffer::SetFontStrike
 	(
-	const JIndex	startIndex,
-	const JIndex	endIndex,
-	const JBoolean	strike,
-	const JBoolean	clearUndo
-
+	const TextRange&	range,
+	const JBoolean		strike,
+	const JBoolean		clearUndo
 	)
 {
 	#define LocalVarName   strike
@@ -1311,11 +1441,9 @@ JStyledTextBuffer::SetFontStrike
 JBoolean
 JStyledTextBuffer::SetFontColor
 	(
-	const JIndex		startIndex,
-	const JIndex		endIndex,
+	const TextRange&	range,
 	const JColorIndex	color,
 	const JBoolean		clearUndo
-
 	)
 {
 	#define LocalVarName   color
@@ -1330,8 +1458,7 @@ JStyledTextBuffer::SetFontColor
 JBoolean
 JStyledTextBuffer::SetFontStyle
 	(
-	const JIndex		startIndex,
-	const JIndex		endIndex,
+	const TextRange&	range,
 	const JFontStyle&	style,
 	const JBoolean		clearUndo
 	)
@@ -1348,51 +1475,62 @@ JStyledTextBuffer::SetFontStyle
 void
 JStyledTextBuffer::SetFont
 	(
-	const JIndex		startIndex,
-	const JIndex		endIndex,
+	const TextRange&	range,
 	const JFont&		f,
 	const JBoolean		clearUndo
 	)
 {
+	JBoolean isNew;
+	JTEUndoStyle* undo = NULL;
+
 	if (clearUndo)
 		{
 		ClearUndo();
 		}
-
-	if (endIndex > startIndex)
+	else
 		{
-		const JSize charCount = endIndex - startIndex + 1;
-		itsStyles->SetNextElements(startIndex, charCount, f);
+		undo = GetStyleUndo(range, &isNew);
+		}
+
+	if (range.charRange.last > range.charRange.first)
+		{
+		itsStyles->SetNextElements(range.charRange.first, range.charRange.GetCount(), f);
 		}
 	else
 		{
-		assert( startIndex == endIndex );
+		assert( range.charRange.first == range.charRange.last );
 
-		itsStyles->SetElement(startIndex, f);
+		itsStyles->SetElement(range.charRange.first, f);
 		}
+
+	if (undo != NULL)
+		{
+		NewUndo(undo, isNew);
+		}
+	Broadcast(TextChanged(range));
 }
+
+// protected - for JTEUndoStyle
 
 void
 JStyledTextBuffer::SetFont
 	(
-	const JIndex			startIndex,
-	const JRunArray<JFont>&	fontList,
-	const JBoolean			clearUndo
+	const TextRange&		range,
+	const JRunArray<JFont>&	fontList
 	)
 {
-	if (clearUndo)
-		{
-		ClearUndo();
-		}
+	assert( range.GetCount().charCount == fontList.GetElementCount() );
 
 	JFont f = itsFontMgr->GetDefaultFont();
 	JRunArrayIterator<JFont> fIter(fontList);
-	JRunArrayIterator<JFont> sIter(itsStyles, kJIteratorStartBefore, startIndex);
+	JRunArrayIterator<JFont> sIter(itsStyles, kJIteratorStartBefore, range.charRange.first);
 
 	while (fIter.Next(&f) && sIter.SetNext(f))
 		{
 		sIter.SkipNext();
 		}
+
+	Broadcast(TextChanged(range));
 }
 
 /******************************************************************************
@@ -1408,6 +1546,8 @@ JStyledTextBuffer::SetFont
 	Unstyled text editors can usually preserve Undo, since they will not
 	allow the user to modify styles.  (We explicitly ask for this because
 	it is too easy to forget about the issue.)
+
+	Modifies existing undo's.  Does not create a new undo.
 
  ******************************************************************************/
 
@@ -1446,6 +1586,10 @@ JStyledTextBuffer::SetAllFontNameAndSize
 		}
 
 	itsDefFont.Set(name, size, itsDefFont.GetStyle());
+
+	Broadcast(TextChanged(TextRange(
+		JCharacterRange(1, itsBuffer.GetCharacterCount()),
+		JUtf8ByteRange(1, itsBuffer.GetByteCount()))));
 }
 
 /******************************************************************************
@@ -1490,8 +1634,6 @@ JStyledTextBuffer::Copy
 
 	style can be NULL
 
-	Handles undo
-
  ******************************************************************************/
 
 void
@@ -1512,10 +1654,18 @@ JStyledTextBuffer::Paste
 	newUndo->SetCount(pasteCount);
 
 	NewUndo(newUndo, isNew);
+
+	JCharacterRange charRange;
+	charRange.SetFirstAndCount(range.charRange.first, pasteCount.charCount);
+
+	JUtf8ByteRange byteRange;
+	byteRange.SetFirstAndCount(range.byteRange.first, pasteCount.byteCount);
+
+	Broadcast(TextChanged(TextRange(charRange, byteRange)));
 }
 
 /******************************************************************************
- PrivatePaste (protected)
+ PrivatePaste (private)
 
 	Returns number of characters that were actually inserted.
 
@@ -1548,7 +1698,7 @@ JStyledTextBuffer::PrivatePaste
 }
 
 /******************************************************************************
- InsertText (protected)
+ InsertText (private)
 
 	Returns number of characters / bytes that were actually inserted.
 
@@ -1641,7 +1791,7 @@ JStyledTextBuffer::InsertText
 }
 
 /******************************************************************************
- CleanText (protected)
+ CleanText (private)
 
 	Removes illegal characters, converts to UNIX newline format, lets
 	derived class perform additional filtering.  Returns true if the text
@@ -1865,7 +2015,7 @@ JStyledTextBuffer::FilterText
 }
 
 /******************************************************************************
- DeleteText (protected)
+ DeleteText (private)
 
  ******************************************************************************/
 
@@ -1903,8 +2053,6 @@ JStyledTextBuffer::DeleteText
  BackwardDelete
 
 	Delete characters preceding the insertion caret.
-
-	Handles undo
 
  ******************************************************************************/
 
@@ -2002,6 +2150,10 @@ JStyledTextBuffer::BackwardDelete
 	typingUndo->Activate();
 	NewUndo(typingUndo, isNew);
 
+	Broadcast(TextChanged(TextRange(
+		JCharacterRange(iter.GetNextCharacterIndex(), 0),
+		JUtf8ByteRange(iter.GetNextByteIndex(), 0))));
+
 	return TextIndex(iter.GetNextCharacterIndex(), iter.GetNextByteIndex());
 }
 
@@ -2009,8 +2161,6 @@ JStyledTextBuffer::BackwardDelete
  ForwardDelete
 
 	Delete characters following the insertion caret.
-
-	Handles undo
 
  ******************************************************************************/
 
@@ -2088,6 +2238,10 @@ JStyledTextBuffer::ForwardDelete
 
 	typingUndo->Activate();
 	NewUndo(typingUndo, isNew);
+
+	Broadcast(TextChanged(TextRange(
+		JCharacterRange(caretIndex.charIndex, 0),
+		JUtf8ByteRange(caretIndex.byteIndex, 0))));
 }
 
 /******************************************************************************
@@ -2095,8 +2249,6 @@ JStyledTextBuffer::ForwardDelete
 
 	Remove tabs from the beginning of every line within the given range.
 	The first line is assumed to start at the beginning of the range.
-
-	Handles undo
 
  ******************************************************************************/
 
@@ -2243,6 +2395,8 @@ JStyledTextBuffer::Outdent
 	undo->SetCount(TextCount(cr.GetCount(), range.byteRange.GetCount() - deleteCount));
 
 	NewUndo(undo, isNew);
+
+	Broadcast(TextChanged(range));
 }
 
 /******************************************************************************
@@ -2250,8 +2404,6 @@ JStyledTextBuffer::Outdent
 
 	Insert tabs at the beginning of every line within the given range.
 	The first line is assumed to start at the beginning of the range.
-
-	Handles undo
 
  ******************************************************************************/
 
@@ -2310,12 +2462,14 @@ JStyledTextBuffer::Indent
 	undo->SetCount(TextCount(cr.GetCount(), range.byteRange.GetCount() + insertCount));
 
 	NewUndo(undo, isNew);
+
+	Broadcast(TextChanged(TextRange(
+		JCharacterRange(range.charRange.first, range.charRange.last + insertCount),
+		JUtf8ByteRange(range.byteRange.first, range.byteRange.last + insertCount))));
 }
 
 /******************************************************************************
  MoveText
-
-	Handles undo
 
  ******************************************************************************/
 
@@ -2367,7 +2521,9 @@ JStyledTextBuffer::MoveText
 		undo = GetMoveUndo(srcIndex, destIndex, srcRange.GetCount(), &isNew);
 
 		DeleteText(srcRange);
-//****		Recalc(srcRange.charRange.first, 1, kJTrue, kJFalse);
+		Broadcast(TextChanged(TextRange(
+			JCharacterRange(srcRange.charRange.first, 0),
+			JUtf8ByteRange(srcRange.byteRange.first, 0))));
 		}
 	assert( undo != NULL );
 
@@ -2375,6 +2531,14 @@ JStyledTextBuffer::MoveText
 	undo->SetCount(insertCount);
 
 	NewUndo(undo, isNew);
+
+	JCharacterRange charRange;
+	charRange.SetFirstAndCount(destIndex.charIndex, insertCount.charCount);
+
+	JUtf8ByteRange byteRange;
+	byteRange.SetFirstAndCount(destIndex.byteIndex, insertCount.byteCount);
+
+	Broadcast(TextChanged(TextRange(charRange, byteRange)));
 	return kJTrue;
 }
 
@@ -2385,8 +2549,6 @@ JStyledTextBuffer::MoveText
 	the specified range.
 
 	Returns the range of the resulting text.
-
-	Handles undo
 
  ******************************************************************************/
 
@@ -2585,8 +2747,6 @@ JStyledTextBuffer::CleanWhitespace
 	The work done by this function can be changed by calling SetCRMRuleList()
 	and overriding the virtual CRM*() functions.
 
-	Handles undo
-
  ******************************************************************************/
 
 JBoolean
@@ -2676,7 +2836,7 @@ JStyledTextBuffer::CleanRightMargin
 	if (changed)
 		{
 		SetSelection(origTextRange, kJFalse);
-		Paste(newText, &newStyles);
+		Paste(newText, &newStyles);		// handles undo
 		SetCaretLocation(newCaretIndex);
 
 		reformatRange->SetFirstAndLength(origTextRange.first, newText.GetLength());
@@ -2980,7 +3140,7 @@ JStyledTextBuffer::SetUndoDepth
 }
 
 /******************************************************************************
- GetCurrentUndo (protected)
+ GetCurrentUndo (private)
 
  ******************************************************************************/
 
@@ -3008,7 +3168,7 @@ JStyledTextBuffer::GetCurrentUndo
 }
 
 /******************************************************************************
- GetCurrentRedo (protected)
+ GetCurrentRedo (private)
 
  ******************************************************************************/
 
@@ -3036,7 +3196,7 @@ JStyledTextBuffer::GetCurrentRedo
 }
 
 /******************************************************************************
- NewUndo (protected)
+ NewUndo (private)
 
 	Register a jnew Undo object.
 
@@ -3056,10 +3216,6 @@ JStyledTextBuffer::NewUndo
 {
 	if (!isNew)
 		{
-		if (itsBcastAllTextChangedFlag)
-			{
-			Broadcast(TextChanged());
-			}
 		return;
 		}
 
@@ -3115,12 +3271,10 @@ JStyledTextBuffer::NewUndo
 		jdelete itsUndo;
 		itsUndo = undo;
 		}
-
-	Broadcast(TextChanged());
 }
 
 /******************************************************************************
- ReplaceUndo (protected)
+ ReplaceUndo (private)
 
  ******************************************************************************/
 
@@ -3156,36 +3310,50 @@ JStyledTextBuffer::ReplaceUndo
 }
 
 /******************************************************************************
- ClearOutdatedUndo (protected)
+ ClearOutdatedUndo (private)
 
  ******************************************************************************/
 
 void
 JStyledTextBuffer::ClearOutdatedUndo()
 {
-	if (itsUndoList != NULL)
+	if (itsUndoList == NULL)
 		{
-		JSize undoCount = itsUndoList->GetElementCount();
-		while (undoCount > itsMaxUndoCount)
+		return;
+		}
+
+	while (itsUndoList->GetElementCount() > itsMaxUndoCount)
+		{
+		itsUndoList->DeleteElement(1);
+		itsFirstRedoIndex--;
+		itsLastSaveRedoIndex--;
+
+		// If we have to throw out redo's, we have to toss everything.
+
+		if (itsFirstRedoIndex == 0)
 			{
-			itsUndoList->DeleteElement(1);
-			undoCount--;
-			itsFirstRedoIndex--;
-			itsLastSaveRedoIndex--;
-
-			// If we have to throw out redo's, we have to toss everything.
-
-			if (itsFirstRedoIndex == 0)
-				{
-				ClearUndo();
-				break;
-				}
+			ClearUndo();
+			break;
 			}
 		}
 }
 
 /******************************************************************************
- GetTypingUndo (protected)
+ BroadcastForUndo (protected)
+
+ ******************************************************************************/
+
+void
+JStyledTextBuffer::BroadcastForUndo
+	(
+	const TextRange& range
+	)
+{
+	Broadcast(TextChanged(range));
+}
+
+/******************************************************************************
+ GetTypingUndo (private)
 
 	Return the active JTEUndoTyping object.  If the current undo object is
 	not an active JTEUndoTyping object, we create a new one that is active.
@@ -3224,7 +3392,7 @@ JStyledTextBuffer::GetTypingUndo
 }
 
 /******************************************************************************
- GetStyleUndo (protected)
+ GetStyleUndo (private)
 
 	Return the active JTEUndoStyle object.  If the current undo object is
 	not an active JTEUndoStyle object, we create a new one that is active.
@@ -3237,8 +3405,8 @@ JStyledTextBuffer::GetTypingUndo
 JTEUndoStyle*
 JStyledTextBuffer::GetStyleUndo
 	(
-	const JCharacterRange&	range,
-	JBoolean*				isNew
+	const TextRange&	range,
+	JBoolean*			isNew
 	)
 {
 	JTEUndoStyle* styleUndo = NULL;
@@ -3263,7 +3431,7 @@ JStyledTextBuffer::GetStyleUndo
 }
 
 /******************************************************************************
- GetPasteUndo (protected)
+ GetPasteUndo (private)
 
 	Return a new JTEUndoPaste object, since they can never be reused.
 
@@ -3287,7 +3455,7 @@ JStyledTextBuffer::GetPasteUndo
 }
 
 /******************************************************************************
- GetTabShiftUndo (protected)
+ GetTabShiftUndo (private)
 
 	Return the active JTEUndoTabShift object.  If the current undo object is
 	not an active JTEUndoTabShift object, we create a new one that is active.
@@ -3326,7 +3494,7 @@ JStyledTextBuffer::GetTabShiftUndo
 }
 
 /******************************************************************************
- GetMoveUndo (protected)
+ GetMoveUndo (private)
 
 	Return a new JTEUndoMove object, since they can never be reused.
 
@@ -3352,7 +3520,7 @@ JStyledTextBuffer::GetMoveUndo
 }
 
 /******************************************************************************
- AutoIndent (protected)
+ AutoIndent (private)
 
 	Insert the "rest" prefix based on the previous line.  If the previous
 	line is nothing but whitespace, clear it.
@@ -3472,7 +3640,7 @@ JStyledTextBuffer::AutoIndent
 }
 
 /******************************************************************************
- InsertSpacesForTab (protected)
+ InsertSpacesForTab (private)
 
 	Insert spaces to use up the same amount of space that a tab would use.
 
@@ -3625,7 +3793,7 @@ JStyledTextBuffer::SetCharacterInWordFunction
 }
 
 /******************************************************************************
- IsCharacterInWord (protected)
+ IsCharacterInWord (private)
 
 	Returns kJTrue if the given character should be considered part of a word.
 
@@ -3936,7 +4104,7 @@ JStyledTextBuffer::AdjustTextIndex
 }
 
 /******************************************************************************
- CharToByteRange (protected)
+ CharToTextRange (private)
 
 	Optimized by starting JStringIterator at start of line, computed by
 	using binary search.
@@ -3945,8 +4113,8 @@ JStyledTextBuffer::AdjustTextIndex
 
  ******************************************************************************/
 
-JUtf8ByteRange
-JStyledTextBuffer::CharToByteRange
+JStyledTextBuffer::TextRange
+JStyledTextBuffer::CharToTextRange
 	(
 	const TextIndex*		lineStart,
 	const JCharacterRange&	charRange
@@ -3962,11 +4130,11 @@ JStyledTextBuffer::CharToByteRange
 		iter.UnsafeMoveTo(kJIteratorStartBefore, lineStart->charIndex, lineStart->byteIndex);
 		}
 
-	return CharToByteRange(charRange, &iter);
+	return CharToTextRange(charRange, &iter);
 }
 
 /******************************************************************************
- CharToByteRange (static private)
+ CharToTextRange (static private)
 
 	If JStringIterator is not AtBeginning(), assumes position is optimized.
 	Otherwise, optimizes by starting JStringIterator at end closest to
@@ -3974,8 +4142,8 @@ JStyledTextBuffer::CharToByteRange
 
  ******************************************************************************/
 
-JUtf8ByteRange
-JStyledTextBuffer::CharToByteRange
+JStyledTextBuffer::TextRange
+JStyledTextBuffer::CharToTextRange
 	(
 	const JCharacterRange&	charRange,
 	JStringIterator*		iter
@@ -4008,7 +4176,7 @@ JStyledTextBuffer::CharToByteRange
 		i2 = iter->GetPrevByteIndex();
 		}
 
-	return JUtf8ByteRange(i1, i2);
+	return TextRange(charRange, JUtf8ByteRange(i1, i2));
 }
 
 /******************************************************************************
@@ -4031,7 +4199,7 @@ JStyledTextBuffer::CalcInsertionFont
 	return CalcInsertionFont(iter, *itsStyles);
 }
 
-// protected
+// private
 
 JFont
 JStyledTextBuffer::CalcInsertionFont
