@@ -20,8 +20,8 @@
 
 JTEUndoStyle::JTEUndoStyle
 	(
-	JStyledTextBuffer*		buffer,
-	const JCharacterRange&	range
+	JStyledTextBuffer*					buffer,
+	const JStyledTextBuffer::TextRange&	range
 	)
 	:
 	JTEUndoBase(buffer),
@@ -32,7 +32,7 @@ JTEUndoStyle::JTEUndoStyle
 	itsOrigStyles = jnew JRunArray<JFont>;
 	assert( itsOrigStyles != NULL );
 
-	itsOrigStyles->AppendSlice(buffer->GetStyles(), itsRange);
+	itsOrigStyles->AppendSlice(buffer->GetStyles(), itsRange.charRange);
 }
 
 /******************************************************************************
@@ -58,9 +58,11 @@ JTEUndoStyle::Undo()
 	JTEUndoStyle* newUndo = jnew JTEUndoStyle(buffer, itsRange);
 	assert( newUndo != NULL );
 
-	buffer->SetFont(itsRange.first, *itsOrigStyles, kJFalse);
+	buffer->SetFont(itsRange, *itsOrigStyles);
 
 	buffer->ReplaceUndo(this, newUndo);		// deletes us
+
+	buffer->BroadcastForUndo(itsRange);
 }
 
 /******************************************************************************
@@ -88,9 +90,10 @@ JTEUndoStyle::SetFont
 JBoolean
 JTEUndoStyle::SameRange
 	(
-	const JCharacterRange& range
+	const JStyledTextBuffer::TextRange& range
 	)
 	const
 {
-	return JI2B( range == itsRange );
+	return JI2B( range.charRange == itsRange.charRange &&
+				 range.byteRange == itsRange.byteRange );
 }

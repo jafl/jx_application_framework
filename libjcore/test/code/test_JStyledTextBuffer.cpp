@@ -8,6 +8,7 @@
  ******************************************************************************/
 
 #include <JUnitTestManager.h>
+#include <JBroadcastTester.h>
 #include <StyledTextBuffer.h>
 #include <JStringIterator.h>
 #include <JInterpolate.h>
@@ -16,6 +17,10 @@
 #include <jFileUtil.h>
 #include <jGlobals.h>
 #include <jAssert.h>
+
+typedef JStyledTextBuffer::TextIndex TextIndex;
+typedef JStyledTextBuffer::TextCount TextCount;
+typedef JStyledTextBuffer::TextRange TextRange;
 
 int main()
 {
@@ -27,11 +32,16 @@ JTEST(SetText)
 	StyledTextBuffer buf;
 	JAssertTrue(buf.IsEmpty());
 
+	JBroadcastTester bcastTest(&buf);
+	bcastTest.Expect(JStyledTextBuffer::kTextSet);
+
 	JBoolean ok = buf.SetText(JString("abcd" "\xC3\x86", 0, kJFalse));
 	JAssertTrue(ok);
 	JAssertStringsEqual("abcd" "\xC3\x86", buf.GetText());
 	JAssertEqual(5, buf.GetStyles().GetElementCount());
 	JAssertEqual(1, buf.GetStyles().GetRunCount());
+
+	bcastTest.Expect(JStyledTextBuffer::kTextSet);
 
 	ok = buf.SetText(JString("a\vb\ac\bd" "\xC3\x86", 0, kJFalse));
 	JAssertFalse(ok);
@@ -67,7 +77,7 @@ void TestItemStartEnd(const JUtf8Byte* s)
 	JAssertEqual(16, buf.GetWordEnd(12, 13));
 	JAssertEqual(16, buf.GetWordEnd(13, 14));
 
-	const JStyledTextBuffer::TextIndex first(1,1);
+	const TextIndex first(1,1);
 
 	JBoolean wrapped;
 	const JStringMatch m1 = buf.SearchForward(first, JRegex("PRoP\xC3\xB8s1tion"), kJFalse, kJFalse, &wrapped);
@@ -128,40 +138,31 @@ JTEST(ColumnForChar)
 	StyledTextBuffer buf;
 	buf.SetText(JString("\xC3\xA1" "bcd\n\t1234\n  \twxzy", 0, kJFalse));
 
-	JIndex col = buf.GetColumnForChar(
-		JStyledTextBuffer::TextIndex(1,1),
-		JStyledTextBuffer::TextIndex(1,1));
+	JIndex col = buf.GetColumnForChar(TextIndex(1,1), TextIndex(1,1));
 	JAssertEqual(1, col);
 
-	col = buf.GetColumnForChar(
-		JStyledTextBuffer::TextIndex(1,1),
-		JStyledTextBuffer::TextIndex(2,3));
+	col = buf.GetColumnForChar(TextIndex(1,1), TextIndex(2,3));
 	JAssertEqual(2, col);
 
-	col = buf.GetColumnForChar(
-		JStyledTextBuffer::TextIndex(6,7),
-		JStyledTextBuffer::TextIndex(6,7));
+	col = buf.GetColumnForChar(TextIndex(6,7), TextIndex(6,7));
 	JAssertEqual(1, col);
 
-	col = buf.GetColumnForChar(
-		JStyledTextBuffer::TextIndex(6,7),
-		JStyledTextBuffer::TextIndex(8,9));
+	col = buf.GetColumnForChar(TextIndex(6,7), TextIndex(8,9));
 	JAssertEqual(10, col);
 
-	col = buf.GetColumnForChar(
-		JStyledTextBuffer::TextIndex(12,13),
-		JStyledTextBuffer::TextIndex(12,13));
+	col = buf.GetColumnForChar(TextIndex(12,13), TextIndex(12,13));
 	JAssertEqual(1, col);
 
-	col = buf.GetColumnForChar(
-		JStyledTextBuffer::TextIndex(12,13),
-		JStyledTextBuffer::TextIndex(16,17));
+	col = buf.GetColumnForChar(TextIndex(12,13), TextIndex(16,17));
 	JAssertEqual(10, col);
 }
 
 JTEST(ReadPlainText)
 {
 	StyledTextBuffer buf;
+
+	JBroadcastTester bcastTest(&buf);
+	bcastTest.Expect(JStyledTextBuffer::kTextSet);
 
 	JStyledTextBuffer::PlainTextFormat format;
 	JBoolean ok = buf.ReadPlainText(JString("data/test_ReadPlainUNIXText.txt", 0, kJFalse), &format);
@@ -173,6 +174,9 @@ JTEST(ReadPlainText)
 
 	const JString s = buf.GetText();
 
+	bcastTest.Expect(JStyledTextBuffer::kWillBeBusy);
+	bcastTest.Expect(JStyledTextBuffer::kTextSet);
+
 	ok = buf.ReadPlainText(JString("data/test_ReadPlainDOSText.txt", 0, kJFalse), &format);
 	JAssertTrue(ok);
 	JAssertEqual(JStyledTextBuffer::kDOSText, format);
@@ -180,12 +184,16 @@ JTEST(ReadPlainText)
 	JAssertEqual(47, buf.GetStyles().GetElementCount());
 	JAssertEqual(1, buf.GetStyles().GetRunCount());
 
+	bcastTest.Expect(JStyledTextBuffer::kTextSet);
+
 	ok = buf.ReadPlainText(JString("data/test_ReadPlainMacText.txt", 0, kJFalse), &format);
 	JAssertTrue(ok);
 	JAssertEqual(JStyledTextBuffer::kMacintoshText, format);
 	JAssertStringsEqual(s, buf.GetText());
 	JAssertEqual(47, buf.GetStyles().GetElementCount());
 	JAssertEqual(1, buf.GetStyles().GetRunCount());
+
+	bcastTest.Expect(JStyledTextBuffer::kTextSet);
 
 	ok = buf.ReadPlainText(JString("data/test_ReadPlainBinaryText.txt", 0, kJFalse), &format);
 	JAssertFalse(ok);
@@ -242,9 +250,9 @@ JTEST(ReadWritePrivateFormat)
 {
 	StyledTextBuffer buf;
 	buf.SetText(JString("\xC3\x86" "bcd", 0, kJFalse));
-	buf.SetFontName(2, 2, JString("foo", 0, kJFalse), kJTrue);
-	buf.SetFontSize(2, 3, 2*JGetDefaultFontSize(), kJTrue);
-	buf.SetFontBold(1, 2, kJTrue, kJTrue);
+	buf.SetFontName(TextRange(JCharacterRange(2,2), JUtf8ByteRange(3,3)), JString("foo", 0, kJFalse), kJTrue);
+	buf.SetFontSize(TextRange(JCharacterRange(2,3), JUtf8ByteRange(3,4)), 2*JGetDefaultFontSize(), kJTrue);
+	buf.SetFontBold(TextRange(JCharacterRange(1,2), JUtf8ByteRange(1,3)), kJTrue, kJTrue);
 	JAssertEqual(4, buf.GetStyles().GetRunCount());
 
 	JString fileName;
@@ -257,6 +265,10 @@ JTEST(ReadWritePrivateFormat)
 
 	StyledTextBuffer buf2;
 	{
+	JBroadcastTester bcastTest(&buf2);
+	bcastTest.Expect(JStyledTextBuffer::kWillBeBusy);
+	bcastTest.Expect(JStyledTextBuffer::kTextSet);
+
 	std::ifstream input(fileName.GetBytes());
 	buf2.ReadPrivateFormat(input);
 	}
@@ -298,7 +310,7 @@ JTEST(SearchTextForward)
 	StyledTextBuffer buf;
 	buf.SetText(JString("Foursc" "\xC3\xB8" "re and seven years ago...", 0, kJFalse));
 
-	const JStyledTextBuffer::TextIndex first(1,1);
+	const TextIndex first(1,1);
 
 	// entire word, no wrapping
 
@@ -316,7 +328,7 @@ JTEST(SearchTextForward)
 
 	// partial word, no wrapping
 
-	JStyledTextBuffer::TextIndex start(m2.GetCharacterRange().last, m2.GetUtf8ByteRange().last);
+	TextIndex start(m2.GetCharacterRange().last, m2.GetUtf8ByteRange().last);
 
 	const JStringMatch m3 = buf.SearchForward(start, JRegex("\xC3\xB8" "re and"), kJFalse, kJFalse, &wrapped);
 	JAssertTrue(m3.IsEmpty());
@@ -355,7 +367,7 @@ JTEST(SearchTextBackward)
 	StyledTextBuffer buf;
 	buf.SetText(JString("Fourscore and seve" "\xC3\xB1" " years ago...", 0, kJFalse));
 
-	const JStyledTextBuffer::TextIndex last(buf.GetText().GetCharacterCount() + 1, buf.GetText().GetByteCount() + 1);
+	const TextIndex last(buf.GetText().GetCharacterCount() + 1, buf.GetText().GetByteCount() + 1);
 
 	// entire word, no wrapping
 
@@ -371,7 +383,7 @@ JTEST(SearchTextBackward)
 
 	// partial word, no wrapping
 
-	JStyledTextBuffer::TextIndex start(17,17);
+	TextIndex start(17,17);
 
 	const JStringMatch m3 = buf.SearchBackward(start, JRegex("e" "\xC3\xB1" " ye"), kJFalse, kJFalse, &wrapped);
 	JAssertTrue(m3.IsEmpty());
@@ -404,12 +416,15 @@ JTEST(SearchTextBackward)
 	JAssertFalse(wrapped);
 }
 
-JTEST(ReplaceRange)
+JTEST(ReplaceMatch)
 {
 	StyledTextBuffer buf;
 	buf.SetText(JString("Foursc" "\xC3\xB8" "re and seven years ago...", 0, kJFalse));
 
-	const JStyledTextBuffer::TextIndex first(1,1);
+	JBroadcastTester bcastTest(&buf);
+	bcastTest.Expect(JStyledTextBuffer::kTextChanged);
+
+	const TextIndex first(1,1);
 
 	JBoolean wrapped;
 	const JStringMatch m1 = buf.SearchForward(first, JRegex("sc" "(\xC3\xB8)" "re"), kJFalse, kJFalse, &wrapped);
@@ -417,38 +432,68 @@ JTEST(ReplaceRange)
 	JAssertEqual(JCharacterRange(5, 9), m1.GetCharacterRange());
 	JAssertFalse(wrapped);
 
-	JStringIterator iter(const_cast<JString*>(&(buf.GetText())));
-	iter.UnsafeMoveTo(kJIteratorStartBefore, m1.GetCharacterRange().first, m1.GetUtf8ByteRange().first);
-
-	JRunArray<JFont> styles(buf.GetStyles());
 	JInterpolate interp;
 
-	buf.ReplaceRange(&iter, &styles, m1, JString("FL$1UR", 0, kJFalse), kJTrue, interp, kJTrue);
+	const TextCount count =
+		buf.ReplaceMatch(m1, JString("FL$1UR", 0, kJFalse), kJTrue, interp, kJTrue);
 
+	JAssertEqual(5, count.charCount);
+	JAssertEqual(6, count.byteCount);
 	JAssertStringsEqual("Fourfl" "\xC3\xB8" "ur and seven years ago...", buf.GetText());
+}
+
+JTEST(ReplaceAllInRange)
+{
+	StyledTextBuffer buf;
+	buf.SetText(JString("Foursc" "\xC3\xB8" "re and seven years ago...", 0, kJFalse));
+
+	JBroadcastTester bcastTest(&buf);
+	bcastTest.Expect(JStyledTextBuffer::kTextChanged);
+
+	JInterpolate interp;
+
+	buf.ReplaceAllInRange(TextRange(
+		JCharacterRange(1, buf.GetText().GetCharacterCount()),
+		JUtf8ByteRange(1, buf.GetText().GetByteCount())),
+		JRegex("e"), kJFalse, JString("\xC3\xA9", 0, kJFalse), kJFalse, interp, kJFalse);
+
+	JAssertStringsEqual("Foursc" "\xC3\xB8" "r" "\xC3\xA9" " and s" "\xC3\xA9" "v" "\xC3\xA9" "n y" "\xC3\xA9" "ars ago...", buf.GetText());
+
+	bcastTest.Expect(JStyledTextBuffer::kTextChanged);
+
+	buf.Undo();
+
+	bcastTest.Expect(JStyledTextBuffer::kTextChanged);
+
+	buf.ReplaceAllInRange(TextRange(
+		JCharacterRange(11, 21),
+		JUtf8ByteRange(12, 22)),
+		JRegex("e"), kJFalse, JString("\xC3\xA9", 0, kJFalse), kJFalse, interp, kJFalse);
+
+	JAssertStringsEqual("Foursc" "\xC3\xB8" "re and s" "\xC3\xA9" "v" "\xC3\xA9" "n years ago...", buf.GetText());
 }
 
 JTEST(IsEntireWord)
 {
 	StyledTextBuffer buf;
-	const JString s("Foursc" "\xC3\xB8" "re and seven years ago...", 0, kJFalse);
+	buf.SetText(JString("Foursc" "\xC3\xB8" "re and seven years ago...", 0, kJFalse));
 
-	JBoolean is = buf.IsEntireWord(s, JStyledTextBuffer::TextRange(
+	JBoolean is = buf.IsEntireWord(JStyledTextBuffer::TextRange(
 		JCharacterRange(1,9),
 		JUtf8ByteRange(1,10)));
 	JAssertTrue(is);
 
-	is = buf.IsEntireWord(s, JStyledTextBuffer::TextRange(
+	is = buf.IsEntireWord(TextRange(
 		JCharacterRange(3,9),
 		JUtf8ByteRange(3,10)));
 	JAssertFalse(is);
 
-	is = buf.IsEntireWord(s, JStyledTextBuffer::TextRange(
+	is = buf.IsEntireWord(TextRange(
 		JCharacterRange(11,13),
 		JUtf8ByteRange(12,14)));
 	JAssertTrue(is);
 
-	is = buf.IsEntireWord(s, JStyledTextBuffer::TextRange(
+	is = buf.IsEntireWord(TextRange(
 		JCharacterRange(11,16),
 		JUtf8ByteRange(12,17)));
 	JAssertFalse(is);
@@ -490,12 +535,12 @@ JTEST(SearchStyle)
 {
 	StyledTextBuffer buf;
 	buf.SetText(JString("b" "\xC3\xAE" "g" "b" "\xC3\xB8" "ld" "normal" "double underline", 0, kJFalse));
-	buf.SetFontSize(1, 3, 20, kJFalse);
-	buf.SetFontBold(4, 7, kJTrue, kJFalse);
-	buf.SetFontUnderline(14, 29, 2, kJFalse);
+	buf.SetFontSize(TextRange(JCharacterRange(1,3), JUtf8ByteRange(1,4)), 20, kJFalse);
+	buf.SetFontBold(TextRange(JCharacterRange(4,7), JUtf8ByteRange(5,9)), kJTrue, kJFalse);
+	buf.SetFontUnderline(TextRange(JCharacterRange(14,29), JUtf8ByteRange(16,31)), 2, kJFalse);
 
-	const JStyledTextBuffer::TextIndex first(1,1);
-	JStyledTextBuffer::TextRange r;
+	const TextIndex first(1,1);
+	TextRange r;
 
 	// forward
 
@@ -514,7 +559,7 @@ JTEST(SearchStyle)
 	JAssertEqual(JCharacterRange(14, 29), r.charRange);
 	JAssertFalse(wrapped);
 
-	JStyledTextBuffer::TextIndex start(29, 31);
+	TextIndex start(29, 31);
 
 	found = buf.SearchForward(BoldFontMatch(), start, kJFalse, &wrapped, &r);
 	JAssertFalse(found);
@@ -560,9 +605,12 @@ JTEST(SetAllFontNameAndSize)
 {
 	StyledTextBuffer buf;
 	buf.SetText(JString("b" "\xC3\xAE" "g" "b" "\xC3\xB8" "ld" "normal" "double underline", 0, kJFalse));
-	buf.SetFontSize(1, 3, 20, kJFalse);
-	buf.SetFontBold(4, 7, kJTrue, kJFalse);
-	buf.SetFontUnderline(14, 29, 2, kJFalse);
+	buf.SetFontSize(TextRange(JCharacterRange(1,3), JUtf8ByteRange(1,4)), 20, kJFalse);
+	buf.SetFontBold(TextRange(JCharacterRange(4,7), JUtf8ByteRange(5,9)), kJTrue, kJFalse);
+	buf.SetFontUnderline(TextRange(JCharacterRange(14,29), JUtf8ByteRange(16,31)), 2, kJFalse);
+
+	JBroadcastTester bcastTest(&buf);
+	bcastTest.Expect(JStyledTextBuffer::kTextChanged);
 
 	buf.SetAllFontNameAndSize(JString("foo", 0, kJFalse), 24, kJFalse);
 
@@ -577,35 +625,38 @@ JTEST(CalcInsertionFont)
 {
 	StyledTextBuffer buf;
 	buf.SetText(JString("b" "\xC3\xAE" "g" "b" "\xC3\xB8" "ld" "normal" "double underline", 0, kJFalse));
-	buf.SetFontSize(1, 3, 20, kJFalse);
-	buf.SetFontBold(4, 7, kJTrue, kJFalse);
-	buf.SetFontUnderline(14, 29, 2, kJFalse);
+	buf.SetFontSize(TextRange(JCharacterRange(1,3), JUtf8ByteRange(1,4)), 20, kJFalse);
+	buf.SetFontBold(TextRange(JCharacterRange(4,7), JUtf8ByteRange(5,9)), kJTrue, kJFalse);
+	buf.SetFontUnderline(TextRange(JCharacterRange(14,29), JUtf8ByteRange(16,31)), 2, kJFalse);
 
-	JAssertEqual(20, buf.CalcInsertionFont(JStyledTextBuffer::TextIndex(2,2)).GetSize());
-	JAssertTrue(buf.CalcInsertionFont(JStyledTextBuffer::TextIndex(5,6)).GetStyle().bold);
-	JAssertEqual(0, buf.CalcInsertionFont(JStyledTextBuffer::TextIndex(11,13)).GetStyle().underlineCount);
-	JAssertEqual(2, buf.CalcInsertionFont(JStyledTextBuffer::TextIndex(16,18)).GetStyle().underlineCount);
+	JAssertEqual(20, buf.CalcInsertionFont(TextIndex(2,2)).GetSize());
+	JAssertTrue(buf.CalcInsertionFont(TextIndex(5,6)).GetStyle().bold);
+	JAssertEqual(0, buf.CalcInsertionFont(TextIndex(11,13)).GetStyle().underlineCount);
+	JAssertEqual(2, buf.CalcInsertionFont(TextIndex(16,18)).GetStyle().underlineCount);
 }
 
 JTEST(CopyPaste)
 {
 	StyledTextBuffer buf;
 	buf.SetText(JString("b" "\xC3\xAE" "g" "b" "\xC3\xB8" "ld" "normal" "double underline", 0, kJFalse));
-	buf.SetFontSize(1, 3, 20, kJFalse);
-	buf.SetFontBold(4, 7, kJTrue, kJFalse);
-	buf.SetFontUnderline(14, 29, 2, kJFalse);
+	buf.SetFontSize(TextRange(JCharacterRange(1,3), JUtf8ByteRange(1,4)), 20, kJFalse);
+	buf.SetFontBold(TextRange(JCharacterRange(4,7), JUtf8ByteRange(5,9)), kJTrue, kJFalse);
+	buf.SetFontUnderline(TextRange(JCharacterRange(14,29), JUtf8ByteRange(16,31)), 2, kJFalse);
+
+	JBroadcastTester bcastTest(&buf);
+	bcastTest.Expect(JStyledTextBuffer::kTextChanged);
 
 	JString s;
 	JRunArray<JFont> style;
 
-	JBoolean ok = buf.Copy(JStyledTextBuffer::TextRange(
+	JBoolean ok = buf.Copy(TextRange(
 		JCharacterRange(2,6), JUtf8ByteRange(2,8)), &s, &style);
 
 	JAssertTrue(ok);
 	JAssertStringsEqual("\xC3\xAE" "g" "b" "\xC3\xB8" "l", s);
 	JAssertEqual(2, style.GetRunCount());
 
-	buf.Paste(JStyledTextBuffer::TextRange(
+	buf.Paste(TextRange(
 		JCharacterRange(10,11), JUtf8ByteRange(12,13)), s, &style);
 
 	JAssertStringsEqual("b" "\xC3\xAE" "g" "b" "\xC3\xB8" "ld" "no" "\xC3\xAE" "g" "b" "\xC3\xB8" "l" "al" "double underline", buf.GetText());
@@ -618,52 +669,52 @@ JTEST(BackwardDelete)
 	StyledTextBuffer buf;
 	buf.UseMultipleUndo();
 	buf.SetText(JString("b" "\xC3\xAE" "g\n" "b" "\xC3\xB8" "ld\n" "\t   normal\n" "double underline", 0, kJFalse));
-	buf.SetFontSize(1, 3, 20, kJFalse);
-	buf.SetFontBold(5, 8, kJTrue, kJFalse);
-	buf.SetFontUnderline(16, 31, 2, kJFalse);
+	buf.SetFontSize(TextRange(JCharacterRange(1,3), JUtf8ByteRange(1,4)), 20, kJFalse);
+	buf.SetFontBold(TextRange(JCharacterRange(5,8), JUtf8ByteRange(6,10)), kJTrue, kJFalse);
+	buf.SetFontUnderline(TextRange(JCharacterRange(16,31), JUtf8ByteRange(18,33)), 2, kJFalse);
 
-	JStyledTextBuffer::TextIndex caretIndex = buf.BackwardDelete(
-		JStyledTextBuffer::TextIndex(5,6),
-		JStyledTextBuffer::TextIndex(8,10),
-		kJFalse);
+	JBroadcastTester bcastTest(&buf);
+	bcastTest.Expect(JStyledTextBuffer::kTextChanged);
+
+	TextIndex caretIndex = buf.BackwardDelete(TextIndex(5,6), TextIndex(8,10), kJFalse);
 	JAssertStringsEqual("b" "\xC3\xAE" "g\n" "b" "\xC3\xB8" "d\n" "\t   normal\n" "double underline", buf.GetText());
 	JAssertEqual(7, caretIndex.charIndex);
 	JAssertEqual(9, caretIndex.byteIndex);
 
+	bcastTest.Expect(JStyledTextBuffer::kTextChanged);
+
 	JString returnText;
 	JRunArray<JFont> returnStyle;
-	buf.BackwardDelete(
-		JStyledTextBuffer::TextIndex(5,6),
-		JStyledTextBuffer::TextIndex(7,9),
-		kJFalse, &returnText, &returnStyle);
+	buf.BackwardDelete(TextIndex(5,6), TextIndex(7,9), kJFalse, &returnText, &returnStyle);
 	JAssertStringsEqual("b" "\xC3\xAE" "g\n" "b" "d\n" "\t   normal\n" "double underline", buf.GetText());
 	JAssertStringsEqual("\xC3\xB8", returnText);
 	JAssertEqual(1, returnStyle.GetElementCount());
 	JAssertTrue(returnStyle.GetFirstElement().GetStyle().bold);
 
-	buf.BackwardDelete(
-		JStyledTextBuffer::TextIndex(8,9),
-		JStyledTextBuffer::TextIndex(11,12),
-		kJFalse);
+	bcastTest.Expect(JStyledTextBuffer::kTextChanged);
+
+	buf.BackwardDelete(TextIndex(8,9), TextIndex(11,12), kJFalse);
 	JAssertStringsEqual("b" "\xC3\xAE" "g\n" "b" "d\n" "\t  normal\n" "double underline", buf.GetText());
+
+	bcastTest.Expect(JStyledTextBuffer::kTextChanged);
 
 	buf.Undo();
 
-	buf.BackwardDelete(
-		JStyledTextBuffer::TextIndex(8,9),
-		JStyledTextBuffer::TextIndex(11,12),
-		kJTrue);
+	bcastTest.Expect(JStyledTextBuffer::kTextChanged);
+
+	buf.BackwardDelete(TextIndex(8,9), TextIndex(11,12), kJTrue);
 	JAssertStringsEqual("b" "\xC3\xAE" "g\n" "b" "d\n" "\t  normal\n" "double underline", buf.GetText());
 
-	buf.Paste(JStyledTextBuffer::TextRange(
+	bcastTest.Expect(JStyledTextBuffer::kTextChanged);
+
+	buf.Paste(TextRange(
 		JCharacterRange(9,8), JUtf8ByteRange(10,9)),
 		JString("      ", 0, kJFalse));
 	JAssertStringsEqual("b" "\xC3\xAE" "g\n" "b" "d\n" "\t        normal\n" "double underline", buf.GetText());
 
-	buf.BackwardDelete(
-		JStyledTextBuffer::TextIndex(8,9),
-		JStyledTextBuffer::TextIndex(17,18),
-		kJTrue);
+	bcastTest.Expect(JStyledTextBuffer::kTextChanged);
+
+	buf.BackwardDelete(TextIndex(8,9), TextIndex(17,18), kJTrue);
 	JAssertStringsEqual("b" "\xC3\xAE" "g\n" "b" "d\n" "\tnormal\n" "double underline", buf.GetText());
 }
 
@@ -672,50 +723,50 @@ JTEST(ForwardDelete)
 	StyledTextBuffer buf;
 	buf.UseMultipleUndo();
 	buf.SetText(JString("b" "\xC3\xAE" "g\n" "b" "\xC3\xB8" "ld\n" "\t   normal\n" "double underline", 0, kJFalse));
-	buf.SetFontSize(1, 3, 20, kJFalse);
-	buf.SetFontBold(5, 8, kJTrue, kJFalse);
-	buf.SetFontUnderline(16, 31, 2, kJFalse);
+	buf.SetFontSize(TextRange(JCharacterRange(1,3), JUtf8ByteRange(1,4)), 20, kJFalse);
+	buf.SetFontBold(TextRange(JCharacterRange(5,8), JUtf8ByteRange(6,10)), kJTrue, kJFalse);
+	buf.SetFontUnderline(TextRange(JCharacterRange(16,31), JUtf8ByteRange(18,33)), 2, kJFalse);
 
-	buf.ForwardDelete(
-		JStyledTextBuffer::TextIndex(5,6),
-		JStyledTextBuffer::TextIndex(5,6),
-		kJFalse);
+	JBroadcastTester bcastTest(&buf);
+	bcastTest.Expect(JStyledTextBuffer::kTextChanged);
+
+	buf.ForwardDelete(TextIndex(5,6), TextIndex(5,6), kJFalse);
 	JAssertStringsEqual("b" "\xC3\xAE" "g\n" "\xC3\xB8" "ld\n" "\t   normal\n" "double underline", buf.GetText());
+
+	bcastTest.Expect(JStyledTextBuffer::kTextChanged);
 
 	JString returnText;
 	JRunArray<JFont> returnStyle;
-	buf.ForwardDelete(
-		JStyledTextBuffer::TextIndex(5,6),
-		JStyledTextBuffer::TextIndex(5,6),
-		kJFalse, &returnText, &returnStyle);
+	buf.ForwardDelete(TextIndex(5,6), TextIndex(5,6), kJFalse, &returnText, &returnStyle);
 	JAssertStringsEqual("b" "\xC3\xAE" "g\n" "ld\n" "\t   normal\n" "double underline", buf.GetText());
 	JAssertStringsEqual("\xC3\xB8", returnText);
 	JAssertEqual(1, returnStyle.GetElementCount());
 	JAssertTrue(returnStyle.GetFirstElement().GetStyle().bold);
 
-	buf.ForwardDelete(
-		JStyledTextBuffer::TextIndex(8,9),
-		JStyledTextBuffer::TextIndex(9,10),
-		kJFalse);
+	bcastTest.Expect(JStyledTextBuffer::kTextChanged);
+
+	buf.ForwardDelete(TextIndex(8,9), TextIndex(9,10), kJFalse);
 	JAssertStringsEqual("b" "\xC3\xAE" "g\n" "ld\n" "\t  normal\n" "double underline", buf.GetText());
+
+	bcastTest.Expect(JStyledTextBuffer::kTextChanged);
 
 	buf.Undo();
 
-	buf.ForwardDelete(
-		JStyledTextBuffer::TextIndex(8,9),
-		JStyledTextBuffer::TextIndex(9,10),
-		kJTrue);
+	bcastTest.Expect(JStyledTextBuffer::kTextChanged);
+
+	buf.ForwardDelete(TextIndex(8,9), TextIndex(9,10), kJTrue);
 	JAssertStringsEqual("b" "\xC3\xAE" "g\n" "ld\n" "\t  normal\n" "double underline", buf.GetText());
 
-	buf.Paste(JStyledTextBuffer::TextRange(
+	bcastTest.Expect(JStyledTextBuffer::kTextChanged);
+
+	buf.Paste(TextRange(
 		JCharacterRange(9,8), JUtf8ByteRange(10,9)),
 		JString("      ", 0, kJFalse));
 	JAssertStringsEqual("b" "\xC3\xAE" "g\n" "ld\n" "\t        normal\n" "double underline", buf.GetText());
 
-	buf.ForwardDelete(
-		JStyledTextBuffer::TextIndex(8,9),
-		JStyledTextBuffer::TextIndex(9,10),
-		kJTrue);
+	bcastTest.Expect(JStyledTextBuffer::kTextChanged);
+
+	buf.ForwardDelete(TextIndex(8,9), TextIndex(9,10), kJTrue);
 	JAssertStringsEqual("b" "\xC3\xAE" "g\n" "ld\n" "\tnormal\n" "double underline", buf.GetText());
 }
 
@@ -724,15 +775,19 @@ JTEST(Move)
 	StyledTextBuffer buf;
 	buf.UseMultipleUndo();
 	buf.SetText(JString("b" "\xC3\xAE" "g" "b" "\xC3\xB8" "ld" "normal" "double underline", 0, kJFalse));
-	buf.SetFontSize(1, 3, 20, kJFalse);
-	buf.SetFontBold(4, 7, kJTrue, kJFalse);
-	buf.SetFontUnderline(14, 29, 2, kJFalse);
+	buf.SetFontSize(TextRange(JCharacterRange(1,3), JUtf8ByteRange(1,4)), 20, kJFalse);
+	buf.SetFontBold(TextRange(JCharacterRange(4,7), JUtf8ByteRange(5,9)), kJTrue, kJFalse);
+	buf.SetFontUnderline(TextRange(JCharacterRange(14,29), JUtf8ByteRange(16,31)), 2, kJFalse);
+
+	JBroadcastTester bcastTest(&buf);
+	bcastTest.Expect(JStyledTextBuffer::kTextChanged);
+	bcastTest.Expect(JStyledTextBuffer::kTextChanged);
 
 	JBoolean ok = buf.MoveText(
-		JStyledTextBuffer::TextRange(
+		TextRange(
 			JCharacterRange(5,7),
 			JUtf8ByteRange(6,9)),
-		JStyledTextBuffer::TextIndex(11,13),
+		TextIndex(11,13),
 		kJFalse);
 
 	JAssertTrue(ok);
@@ -741,16 +796,22 @@ JTEST(Move)
 	JAssertFalse(buf.GetFont(7).GetStyle().bold);
 	JAssertTrue(buf.GetFont(8).GetStyle().bold);
 
+	bcastTest.Expect(JStyledTextBuffer::kTextChanged);
+
 	ok = buf.MoveText(
-		JStyledTextBuffer::TextRange(
+		TextRange(
 			JCharacterRange(14,19),
 			JUtf8ByteRange(16,21)),
-		JStyledTextBuffer::TextIndex(1,1),
+		TextIndex(1,1),
 		kJTrue);
 
 	JAssertTrue(ok);
 	JAssertStringsEqual("double" "b" "\xC3\xAE" "g" "b" "nor" "\xC3\xB8" "ld" "mal" "double underline", buf.GetText());
 	JAssertEqual(2, buf.GetFont(2).GetStyle().underlineCount);
+
+	bcastTest.Expect(JStyledTextBuffer::kTextChanged);
+	bcastTest.Expect(JStyledTextBuffer::kTextChanged);
+	bcastTest.Expect(JStyledTextBuffer::kTextChanged);
 
 	buf.Undo();
 	buf.Undo();
@@ -768,14 +829,24 @@ JTEST(TabSelection)
 	buf.SetText(JString("\xC3\xA1" "bcd\n1234\nwxzy", 0, kJFalse));
 	buf.UseMultipleUndo();
 
-	buf.Indent(JStyledTextBuffer::TextRange(JCharacterRange(1,1), JUtf8ByteRange(1,1)), 2);
+	JBroadcastTester bcastTest(&buf);
+	bcastTest.Expect(JStyledTextBuffer::kTextChanged);
+
+	buf.Indent(TextRange(JCharacterRange(1,1), JUtf8ByteRange(1,1)), 2);
 	JAssertStringsEqual("\t\t" "\xC3\xA1" "bcd\n1234\nwxzy", buf.GetText());
 
-	buf.Outdent(JStyledTextBuffer::TextRange(JCharacterRange(8,13), JUtf8ByteRange(9,14)), 3);
+	buf.Outdent(TextRange(JCharacterRange(8,13), JUtf8ByteRange(9,14)), 3);
 	JAssertStringsEqual("\t\t" "\xC3\xA1" "bcd\n1234\nwxzy", buf.GetText());
 
-	buf.Indent(JStyledTextBuffer::TextRange(JCharacterRange(8,13), JUtf8ByteRange(9,14)), 3);
+	bcastTest.Expect(JStyledTextBuffer::kTextChanged);
+
+	buf.Indent(TextRange(JCharacterRange(8,13), JUtf8ByteRange(9,14)), 3);
 	JAssertStringsEqual("\t\t" "\xC3\xA1" "bcd\n\t\t\t1234\n\t\t\twxzy", buf.GetText());
+
+	bcastTest.Expect(JStyledTextBuffer::kTextChanged);
+	bcastTest.Expect(JStyledTextBuffer::kTextChanged);
+	bcastTest.Expect(JStyledTextBuffer::kTextChanged);
+	bcastTest.Expect(JStyledTextBuffer::kTextChanged);
 
 	buf.Undo();
 	buf.Undo();
@@ -783,17 +854,24 @@ JTEST(TabSelection)
 	buf.Redo();
 	buf.Redo();
 
-	buf.Outdent(JStyledTextBuffer::TextRange(JCharacterRange(1,22), JUtf8ByteRange(1,23)), 1);
+	bcastTest.Expect(JStyledTextBuffer::kTextChanged);
+
+	buf.Outdent(TextRange(JCharacterRange(1,22), JUtf8ByteRange(1,23)), 1);
 	JAssertStringsEqual("\t" "\xC3\xA1" "bcd\n\t\t1234\n\t\twxzy", buf.GetText());
+
+	bcastTest.Expect(JStyledTextBuffer::kTextChanged);
+	bcastTest.Expect(JStyledTextBuffer::kTextChanged);
 
 	buf.Undo();
 	JAssertStringsEqual("\t\t" "\xC3\xA1" "bcd\n\t\t\t1234\n\t\t\twxzy", buf.GetText());
 	buf.Redo();
 
-	buf.Outdent(JStyledTextBuffer::TextRange(JCharacterRange(1,19), JUtf8ByteRange(1,20)), 2);
+	buf.Outdent(TextRange(JCharacterRange(1,19), JUtf8ByteRange(1,20)), 2);
 	JAssertStringsEqual("\t" "\xC3\xA1" "bcd\n\t\t1234\n\t\twxzy", buf.GetText());
 
-	buf.Outdent(JStyledTextBuffer::TextRange(JCharacterRange(1,19), JUtf8ByteRange(1,20)), 2, kJTrue);
+	bcastTest.Expect(JStyledTextBuffer::kTextChanged);
+
+	buf.Outdent(TextRange(JCharacterRange(1,19), JUtf8ByteRange(1,20)), 2, kJTrue);
 	JAssertStringsEqual("\xC3\xA1" "bcd\n1234\nwxzy", buf.GetText());
 }
 
@@ -802,19 +880,30 @@ JTEST(TabSelectionMixed)
 	StyledTextBuffer buf;
 	buf.SetText(JString("\t" "\xC3\xA1" "bcd\n  \t1234\n\twxzy", 0, kJFalse));
 
-	buf.Outdent(JStyledTextBuffer::TextRange(JCharacterRange(1,19), JUtf8ByteRange(1,20)), 1);
+	JBroadcastTester bcastTest(&buf);
+	bcastTest.Expect(JStyledTextBuffer::kTextChanged);
+
+	buf.Outdent(TextRange(JCharacterRange(1,19), JUtf8ByteRange(1,20)), 1);
 	JAssertStringsEqual("\xC3\xA1" "bcd\n1234\nwxzy", buf.GetText());
+
+	bcastTest.Expect(JStyledTextBuffer::kTextChanged);
 
 	buf.Undo();
 	JAssertStringsEqual("\t" "\xC3\xA1" "bcd\n  \t1234\n\twxzy", buf.GetText());
 
+	bcastTest.Expect(JStyledTextBuffer::kTextChanged);
+
 	buf.Undo();
 	JAssertStringsEqual("\xC3\xA1" "bcd\n1234\nwxzy", buf.GetText());
 
 
+	bcastTest.Expect(JStyledTextBuffer::kTextSet);
+
 	buf.SetText(JString("  " "\xC3\xA1" "bcd\n   1234\n    wxzy", 0, kJFalse));
 
-	buf.Outdent(JStyledTextBuffer::TextRange(JCharacterRange(1,23), JUtf8ByteRange(1,24)), 1);
+	bcastTest.Expect(JStyledTextBuffer::kTextChanged);
+
+	buf.Outdent(TextRange(JCharacterRange(1,23), JUtf8ByteRange(1,24)), 1);
 	JAssertStringsEqual("\xC3\xA1" "bcd\n 1234\n  wxzy", buf.GetText());
 }
 
@@ -824,23 +913,35 @@ JTEST(CleanWhitespaceTabs)
 	buf.TabShouldInsertSpaces(kJFalse);
 	buf.SetCRMTabCharCount(4);
 
+	JBroadcastTester bcastTest(&buf);
+	bcastTest.Expect(JStyledTextBuffer::kTextSet);
+	bcastTest.Expect(JStyledTextBuffer::kTextChanged);
+
 	buf.SetText(JString("\t " "\xC3\xA1" "bcd\n  \t1234\n\twxzy", 0, kJFalse));
-	JStyledTextBuffer::TextRange r =
-		buf.CleanWhitespace(JStyledTextBuffer::TextRange(
+	TextRange r =
+		buf.CleanWhitespace(TextRange(
 							JCharacterRange(1,20),
 							JUtf8ByteRange(1,21)), kJFalse);
 	JAssertStringsEqual("\t " "\xC3\xA1" "bcd\n\t1234\n\twxzy", buf.GetText());
 	JAssertEqual(JCharacterRange(1,18), r.charRange);
 
+	bcastTest.Expect(JStyledTextBuffer::kTextSet);
+	bcastTest.Expect(JStyledTextBuffer::kTextChanged);
+
 	buf.SetText(JString("\t " "\xC3\xA1" "bcd\n  \t1234\n\twxzy", 0, kJFalse));
-	r = buf.CleanWhitespace(JStyledTextBuffer::TextRange(
+	r = buf.CleanWhitespace(TextRange(
 							JCharacterRange(1,20),
 							JUtf8ByteRange(1,21)), kJTrue);
 	JAssertStringsEqual("\t" "\xC3\xA1" "bcd\n\t1234\n\twxzy", buf.GetText());
 	JAssertEqual(JCharacterRange(1,17), r.charRange);
 
+	bcastTest.Expect(JStyledTextBuffer::kTextSet);
+	bcastTest.Expect(JStyledTextBuffer::kTextChanged);
+	bcastTest.Expect(JStyledTextBuffer::kTextChanged);
+	bcastTest.Expect(JStyledTextBuffer::kTextChanged);
+
 	buf.SetText(JString("\t " "\xC3\xA1" "bcd\n  \t1234\n\twxzy", 0, kJFalse));
-	r = buf.CleanWhitespace(JStyledTextBuffer::TextRange(
+	r = buf.CleanWhitespace(TextRange(
 							JCharacterRange(9,12),
 							JUtf8ByteRange(10,13)), kJTrue);
 	buf.Undo();
@@ -848,8 +949,11 @@ JTEST(CleanWhitespaceTabs)
 	JAssertStringsEqual("\t " "\xC3\xA1" "bcd\n\t1234\n\twxzy", buf.GetText());
 	JAssertEqual(JCharacterRange(8,13), r.charRange);
 
+	bcastTest.Expect(JStyledTextBuffer::kTextSet);
+	bcastTest.Expect(JStyledTextBuffer::kTextChanged);
+
 	buf.SetText(JString("\t " "\xC3\xA1" "bcd\n   1234\n\twxzy", 0, kJFalse));
-	r = buf.CleanWhitespace(JStyledTextBuffer::TextRange(
+	r = buf.CleanWhitespace(TextRange(
 							JCharacterRange(1,20),
 							JUtf8ByteRange(1,21)), kJTrue);
 	JAssertStringsEqual("\t" "\xC3\xA1" "bcd\n\t1234\n\twxzy", buf.GetText());
@@ -862,23 +966,35 @@ JTEST(CleanWhitespaceSpaces)
 	buf.TabShouldInsertSpaces(kJTrue);
 	buf.SetCRMTabCharCount(4);
 
+	JBroadcastTester bcastTest(&buf);
+	bcastTest.Expect(JStyledTextBuffer::kTextSet);
+	bcastTest.Expect(JStyledTextBuffer::kTextChanged);
+
 	buf.SetText(JString("\t " "\xC3\xA1" "bcd\n  \t1234\n\twxzy", 0, kJFalse));
-	JStyledTextBuffer::TextRange r =
-		buf.CleanWhitespace(JStyledTextBuffer::TextRange(
+	TextRange r =
+		buf.CleanWhitespace(TextRange(
 							JCharacterRange(1,20),
 							JUtf8ByteRange(1,21)), kJFalse);
 	JAssertStringsEqual("     " "\xC3\xA1" "bcd\n    1234\n    wxzy", buf.GetText());
 	JAssertEqual(JCharacterRange(1,27), r.charRange);
 
+	bcastTest.Expect(JStyledTextBuffer::kTextSet);
+	bcastTest.Expect(JStyledTextBuffer::kTextChanged);
+
 	buf.SetText(JString("\t " "\xC3\xA1" "bcd\n  \t1234\n\twxzy", 0, kJFalse));
-	r = buf.CleanWhitespace(JStyledTextBuffer::TextRange(
+	r = buf.CleanWhitespace(TextRange(
 							JCharacterRange(1,20),
 							JUtf8ByteRange(1,21)), kJTrue);
 	JAssertStringsEqual("    " "\xC3\xA1" "bcd\n    1234\n    wxzy", buf.GetText());
 	JAssertEqual(JCharacterRange(1,26), r.charRange);
 
+	bcastTest.Expect(JStyledTextBuffer::kTextSet);
+	bcastTest.Expect(JStyledTextBuffer::kTextChanged);
+	bcastTest.Expect(JStyledTextBuffer::kTextChanged);
+	bcastTest.Expect(JStyledTextBuffer::kTextChanged);
+
 	buf.SetText(JString("\t " "\xC3\xA1" "bcd\n  \t1234\n\twxzy", 0, kJFalse));
-	r = buf.CleanWhitespace(JStyledTextBuffer::TextRange(
+	r = buf.CleanWhitespace(TextRange(
 							JCharacterRange(9,12),
 							JUtf8ByteRange(10,13)), kJTrue);
 	buf.Undo();
@@ -892,7 +1008,7 @@ JTEST(AdjustTextIndex)
 	StyledTextBuffer buf;
 	buf.SetText(JString("Foursc" "\xC3\xB8" "re and seven years ago...", 0, kJFalse));
 
-	JStyledTextBuffer::TextIndex index(5,5);
+	TextIndex index(5,5);
 	index = buf.AdjustTextIndex(index, 6);
 	JAssertEqual(11, index.charIndex);
 	JAssertEqual(12, index.byteIndex);

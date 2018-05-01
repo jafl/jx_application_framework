@@ -69,6 +69,14 @@ JTEUndoTextBase::UndoText
 	newUndo->SetCount(pasteCount);
 
 	buffer->ReplaceUndo(this, newUndo);		// deletes us
+
+	JCharacterRange charRange;
+	charRange.SetFirstAndCount(range.charRange.first, pasteCount.charCount);
+
+	JUtf8ByteRange byteRange;
+	byteRange.SetFirstAndCount(range.byteRange.first, pasteCount.byteCount);
+
+	buffer->BroadcastForUndo(JStyledTextBuffer::TextRange(charRange, byteRange));
 }
 
 /******************************************************************************
