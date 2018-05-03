@@ -104,7 +104,7 @@ CBPSPrintSetupDialog::BuildWindow
 
 	JXStaticText* printCmdLabel =
 		jnew JXStaticText(JGetString("printCmdLabel::CBPSPrintSetupDialog::JXLayout"), window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 10,70, 100,19);
+					JXWidget::kHElastic, JXWidget::kVElastic, 10,70, 90,19);
 	assert( printCmdLabel != NULL );
 	printCmdLabel->SetToLabel();
 
@@ -144,12 +144,12 @@ CBPSPrintSetupDialog::BuildWindow
 
 	JXInputField* printCmdInput =
 		jnew JXInputField(window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 110,70, 240,20);
+					JXWidget::kHElastic, JXWidget::kVElastic, 100,70, 250,20);
 	assert( printCmdInput != NULL );
 
 	JXTextButton* chooseFileButton =
 		jnew JXTextButton(JGetString("chooseFileButton::CBPSPrintSetupDialog::JXLayout"), window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 30,70, 80,20);
+					JXWidget::kHElastic, JXWidget::kVElastic, 20,90, 80,20);
 	assert( chooseFileButton != NULL );
 
 	JXIntegerInput* copyCount =

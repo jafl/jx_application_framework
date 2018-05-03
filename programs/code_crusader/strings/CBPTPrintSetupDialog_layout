@@ -1,6 +1,7 @@
 0
 printLineNumbersCB::CBPTPrintSetupDialog::JXLayout "Print line numbers"
 printerRB::CBPTPrintSetupDialog::shortcuts::JXLayout "#P"
+chooseFileButton::CBPTPrintSetupDialog::shortcuts::JXLayout "#O"
 copiesLabel::CBPTPrintSetupDialog::JXLayout "Number of copies:"
 chooseFileButton::CBPTPrintSetupDialog::JXLayout "Choose file"
 firstPageIndexLabel::CBPTPrintSetupDialog::JXLayout "Print page"
