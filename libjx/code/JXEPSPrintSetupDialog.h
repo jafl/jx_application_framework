@@ -30,6 +30,8 @@ public:
 
 	JBoolean	SetParameters(JXEPSPrinter* p) const;
 
+	void	ChooseDestinationFile();
+
 protected:
 
 	JXEPSPrintSetupDialog();
@@ -45,7 +47,7 @@ protected:
 
 private:
 
-    JXTextButton*	itsPrintButton;
+	JXTextButton*	itsPrintButton;
 
 // begin JXLayout
 
@@ -61,8 +63,6 @@ private:
 	void	BuildWindow(const JCharacter* fileName,
 						const JBoolean printPreview, const JBoolean bw);
 	void	UpdateDisplay();
-
-	void	ChooseDestinationFile();
 
 	// not allowed
 
