@@ -11,7 +11,7 @@
  ******************************************************************************/
 
 #include <JXPSPrintSetupDialog.h>
-#include <JXAdjustPSPrintSetupLayoutTask.h>
+#include <JXAdjustPrintSetupLayoutTask.h>
 #include <JXWindow.h>
 #include <JXTextButton.h>
 #include <JXStaticText.h>
@@ -148,7 +148,7 @@ JXPSPrintSetupDialog::BuildWindow
 
 	itsChooseFileButton =
 		jnew JXTextButton(JGetString("itsChooseFileButton::JXPSPrintSetupDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,90, 90,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,90, 80,20);
 	assert( itsChooseFileButton != NULL );
 	itsChooseFileButton->SetShortcuts(JGetString("itsChooseFileButton::JXPSPrintSetupDialog::shortcuts::JXLayout"));
 
@@ -264,16 +264,16 @@ JXPSPrintSetupDialog::SetObjects
 				r2 = itsChooseFileButton->GetFrame();
 	itsFileInput =
 		jnew JXFileInput(window,
-						JXWidget::kHElastic, JXWidget::kVElastic,
-						r1.left, r2.top, r1.width(), r2.height());
+						 JXWidget::kHElastic, JXWidget::kVElastic,
+						 r1.left, r2.top, r1.width(), r2.height());
 	assert( itsFileInput != NULL );
 	itsFileInput->ShouldAllowInvalidFile();
 	itsFileInput->SetText(fileName);
 	itsFileInput->ShouldBroadcastAllTextChanged(kJTrue);
 	ListenTo(itsFileInput);
 
-	JXAdjustPSPrintSetupLayoutTask* task =
-		jnew JXAdjustPSPrintSetupLayoutTask(this, r1.top - r2.top, itsChooseFileButton, itsFileInput);
+	JXAdjustPrintSetupLayoutTask* task =
+		jnew JXAdjustPrintSetupLayoutTask(this, itsPrintCmd, itsChooseFileButton, itsFileInput);
 	assert( task != NULL );
 	task->Go();
 

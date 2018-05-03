@@ -1,15 +1,15 @@
 /******************************************************************************
- JXAdjustPSPrintSetupLayoutTask.cpp
+ JXAdjustPrintSetupLayoutTask.cpp
 
 	Adjusts location of widgets after fit-to-content.
 
 	BASE CLASS = JXUrgentTask, virtual JBroadcaster
 
-	Copyright (C) 2017 by John Lindal. All rights reserved.
+	Copyright (C) 2017-2018 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 
-#include <JXAdjustPSPrintSetupLayoutTask.h>
+#include <JXAdjustPrintSetupLayoutTask.h>
 #include <JXDirector.h>
 #include <JXWidget.h>
 
@@ -18,16 +18,16 @@
 
  ******************************************************************************/
 
-JXAdjustPSPrintSetupLayoutTask::JXAdjustPSPrintSetupLayoutTask
+JXAdjustPrintSetupLayoutTask::JXAdjustPrintSetupLayoutTask
 	(
-	JXDirector*			director,
-	const JCoordinate	delta,
-	JXWidget*			chooseFileButton,
-	JXWidget*			fileInput
+	JXDirector*	director,
+	JXWidget*	printCmd,
+	JXWidget*	chooseFileButton,
+	JXWidget*	fileInput
 	)
 	:
 	itsDirector(director),
-	itsDelta(delta),
+	itsPrintCmd(printCmd),
 	itsChooseFileButton(chooseFileButton),
 	itsFileInput(fileInput)
 {
@@ -39,7 +39,7 @@ JXAdjustPSPrintSetupLayoutTask::JXAdjustPSPrintSetupLayoutTask
 
  ******************************************************************************/
 
-JXAdjustPSPrintSetupLayoutTask::~JXAdjustPSPrintSetupLayoutTask()
+JXAdjustPrintSetupLayoutTask::~JXAdjustPrintSetupLayoutTask()
 {
 }
 
@@ -49,11 +49,14 @@ JXAdjustPSPrintSetupLayoutTask::~JXAdjustPSPrintSetupLayoutTask()
  ******************************************************************************/
 
 void
-JXAdjustPSPrintSetupLayoutTask::Perform()
+JXAdjustPrintSetupLayoutTask::Perform()
 {
 	if (itsDirector != NULL)
 		{
-		itsChooseFileButton->Move(0, itsDelta);
-		itsFileInput->Move(0, itsDelta);
+		const JCoordinate delta =
+			itsPrintCmd->GetFrameGlobal().top - itsFileInput->GetFrameGlobal().top;
+
+		itsChooseFileButton->Move(0, delta);
+		itsFileInput->Move(0, delta);
 		}
 }
