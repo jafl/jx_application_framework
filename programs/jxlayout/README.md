@@ -104,6 +104,9 @@ Added --require-obj-names to support translation.
 Fixes for fit-to-content.  Widgets can be grouped by enclosing in a shadow
 box.
 
+Removed --choose option.  Files are overwritten only if necessary, so you
+can generate all forms, and only the changed ones will be recompiled.
+
 4.0.0
 
 Updated to work with latest `fdesign` file format: 15000

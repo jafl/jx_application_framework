@@ -147,14 +147,12 @@ const JSize kColorTableSize = sizeof(kColorTable)/sizeof(ColorConversion);
 
 // Prototypes
 
-void GenerateForm(std::istream& input, const JString& formName,
-				  const JString& tagName, const JString& enclName,
-				  const JString& codePath, const JString& stringPath,
-				  const JString& codeSuffix, const JString& headerSuffix,
-				  const JBoolean requireObjectNames,
-				  JPtrArray<JString>* backupList);
-JBoolean ShouldGenerateForm(const JString& form, const JPtrArray<JString>& list);
-JBoolean ShouldBackupForm(const JString& form, JPtrArray<JString>* list);
+JBoolean GenerateForm(std::istream& input, const JString& formName,
+					  const JString& tagName, const JString& enclName,
+					  const JString& codePath, const JString& stringPath,
+					  const JString& codeSuffix, const JString& headerSuffix,
+					  const JBoolean requireObjectNames,
+					  JPtrArray<JString>* backupList);
 JBoolean GenerateCode(std::istream& input, std::ostream& output, const JString& stringPath,
 					  const JString& formName, const JString& tagName,
 					  const JString& userTopEnclVarName, const JCharacter* indent,
@@ -190,9 +188,7 @@ void RemoveIdentifier(const JCharacter* id, JString* line);
 void GetOptions(const JSize argc, char* argv[], JString* inputName,
 				JString* codePath, JString* stringPath,
 				JString* codeSuffix, JString* headerSuffix,
-				JBoolean* requireObjectNames, JString* postCmd,
-				JPtrArray<JString>* userFormList);
-void PickForms(const JString& fileName, JPtrArray<JString>* list);
+				JBoolean* requireObjectNames, JString* postCmd);
 JBoolean FindConfigFile(JString* configFileName);
 
 void PrintHelp(const JString& codePath,
@@ -227,11 +223,9 @@ main
 
 	JString inputName, codePath, stringPath, codeSuffix, headerSuffix, postCmd;
 	JBoolean requireObjectNames;
-	JPtrArray<JString> userFormList(JPtrArrayT::kDeleteAll);	// empty => generate all forms
 	JPtrArray<JString> backupList(JPtrArrayT::kDeleteAll);		// forms that have been backed up
 	GetOptions(argc, argv, &inputName, &codePath, &stringPath,
-			   &codeSuffix, &headerSuffix, &requireObjectNames,
-			   &postCmd, &userFormList);
+			   &codeSuffix, &headerSuffix, &requireObjectNames, &postCmd);
 
 	// generate each requested form
 
@@ -294,11 +288,10 @@ main
 				}
 			}
 
-		if (ShouldGenerateForm(formName, userFormList))
-			{
-			GenerateForm(input, formName, tagName, enclName,
+		if (GenerateForm(input, formName, tagName, enclName,
 						 codePath, stringPath, codeSuffix, headerSuffix,
-						 requireObjectNames, &backupList);
+						 requireObjectNames, &backupList))
+			{
 			changed = kJTrue;
 			}
 		}
@@ -313,42 +306,11 @@ main
 }
 
 /******************************************************************************
- ShouldGenerateForm
-
-	Returns kJTrue if form is in the list.  If the list is empty, it means
-	"make all forms" so we just return kJTrue.
-
- ******************************************************************************/
-
-JBoolean
-ShouldGenerateForm
-	(
-	const JString&				form,
-	const JPtrArray<JString>&	list
-	)
-{
-	if (list.IsEmpty())
-		{
-		return kJTrue;
-		}
-
-	const JSize count = list.GetElementCount();
-	for (JIndex i=1; i<=count; i++)
-		{
-		if (form == *(list.NthElement(i)))
-			{
-			return kJTrue;
-			}
-		}
-	return kJFalse;
-}
-
-/******************************************************************************
  GenerateForm
 
  ******************************************************************************/
 
-void
+JBoolean
 GenerateForm
 	(
 	std::istream&		input,
@@ -372,19 +334,19 @@ GenerateForm
 	if (!JFileExists(codeFileName))
 		{
 		std::cerr << codeFileName << " not found" << std::endl;
-		return;
+		return kJFalse;
 		}
 	if (!JFileExists(headerFileName))
 		{
 		std::cerr << headerFileName << " not found" << std::endl;
-		return;
+		return kJFalse;
 		}
 
 	std::cout << "Generating: " << formName << ", " << tagName << std::endl;
 
-	const JBoolean shouldBackup = ShouldBackupForm(formName, backupList);
+	JBoolean changed = kJFalse;
 
-	// copy code file contents before start delimiter
+	// copy source file contents before start delimiter
 
 	JString tempCodeFileName;
 	JError err = JCreateTempFile(codePath, NULL, &tempCodeFileName);
@@ -392,7 +354,7 @@ GenerateForm
 		{
 		std::cerr << "Unable to create temporary file in " << codePath << std::endl;
 		std::cerr << "  (" << err.GetMessage() << ')' << std::endl;
-		return;
+		return kJFalse;
 		}
 
 	JString indent;
@@ -403,14 +365,14 @@ GenerateForm
 		{
 		std::cerr << "Unable to open temporary file in " << codePath << std::endl;
 		remove(tempCodeFileName);
-		return;
+		return kJFalse;
 		}
 	if (!CopyBeforeCodeDelimiter(tagName, origCode, outputCode, &indent))
 		{
 		std::cerr << "No starting delimiter in " << codeFileName << std::endl;
 		outputCode.close();
 		remove(tempCodeFileName);
-		return;
+		return kJFalse;
 		}
 
 	// generate code for each object in the form
@@ -422,10 +384,10 @@ GenerateForm
 		{
 		outputCode.close();
 		remove(tempCodeFileName);
-		return;
+		return kJFalse;
 		}
 
-	// copy code file contents after end delimiter
+	// copy source file contents after end delimiter
 
 	JBoolean done = CopyAfterCodeDelimiter(tagName, origCode, outputCode);
 	origCode.close();
@@ -435,16 +397,24 @@ GenerateForm
 		{
 		std::cerr << "No ending delimiter in " << codeFileName << std::endl;
 		remove(tempCodeFileName);
-		return;
+		return kJFalse;
 		}
-	else if (shouldBackup && rename(codeFileName, codeFileBakName) != 0)
+
+	// check if source file actually changed
+
+	JString origCodeText, newCodeText;
+	JReadFile(codeFileName, &origCodeText);
+	JReadFile(tempCodeFileName, &newCodeText);
+	if (newCodeText != origCodeText)
 		{
-		std::cerr << "Unable to rename original " << codeFileName << std::endl;
-		remove(tempCodeFileName);
-		return;
+		JEditVCS(codeFileName);
+		rename(tempCodeFileName, codeFileName);
+		changed = kJTrue;
 		}
-	JEditVCS(codeFileName);
-	rename(tempCodeFileName, codeFileName);
+	else
+		{
+		remove(tempCodeFileName);
+		}
 
 	// copy header file contents before start delimiter
 
@@ -454,7 +424,7 @@ GenerateForm
 		{
 		std::cerr << "Unable to create temporary file in " << codePath << std::endl;
 		std::cerr << "  (" << err.GetMessage() << ')' << std::endl;
-		return;
+		return kJFalse;
 		}
 
 	std::ifstream origHeader(headerFileName);
@@ -463,14 +433,14 @@ GenerateForm
 		{
 		std::cerr << "Unable to open temporary file in " << codePath << std::endl;
 		remove(tempHeaderFileName);
-		return;
+		return kJFalse;
 		}
 	if (!CopyBeforeCodeDelimiter(tagName, origHeader, outputHeader, &indent))
 		{
 		std::cerr << "No starting delimiter in " << headerFileName << std::endl;
 		outputHeader.close();
 		remove(tempHeaderFileName);
-		return;
+		return kJFalse;
 		}
 
 	// generate instance variable for each object in the form
@@ -487,7 +457,7 @@ GenerateForm
 		{
 		std::cerr << "No ending delimiter in " << headerFileName << std::endl;
 		remove(tempHeaderFileName);
-		return;
+		return kJFalse;
 		}
 
 	// check if header file actually changed
@@ -497,53 +467,16 @@ GenerateForm
 	JReadFile(tempHeaderFileName, &newHeaderText);
 	if (newHeaderText != origHeaderText)
 		{
-		if (shouldBackup && rename(headerFileName, headerFileBakName) != 0)
-			{
-			std::cerr << "Unable to rename original " << headerFileName << std::endl;
-			remove(tempHeaderFileName);
-			return;
-			}
 		JEditVCS(headerFileName);
 		rename(tempHeaderFileName, headerFileName);
+		changed = kJTrue;
 		}
 	else
 		{
 		remove(tempHeaderFileName);
 		}
-}
 
-/******************************************************************************
- ShouldBackupForm
-
-	If form is not in the list, adds it and returns kJTrue.
-
- ******************************************************************************/
-
-JBoolean
-ShouldBackupForm
-	(
-	const JString&		form,
-	JPtrArray<JString>*	list
-	)
-{
-	return kJFalse;		// version control makes this unnecessary
-/*
-	const JSize count = list->GetElementCount();
-	for (JIndex i=1; i<=count; i++)
-		{
-		if (form == *(list->NthElement(i)))
-			{
-			return kJFalse;
-			}
-		}
-
-	// falling through means that the form hasn't been backed up yet
-
-	JString* newForm = jnew JString(form);
-	assert( newForm != NULL );
-	list->Append(newForm);
-	return kJTrue;
-*/
+	return changed;
 }
 
 /******************************************************************************
@@ -1020,7 +953,7 @@ JIndex i;
 void
 GenerateHeader
 	(
-	std::ostream&					output,
+	std::ostream&				output,
 	const JPtrArray<JString>&	objTypes,
 	const JPtrArray<JString>&	objNames,
 	const JCharacter*			indent
@@ -1795,8 +1728,7 @@ GetOptions
 	JString*			codeSuffix,
 	JString*			headerSuffix,
 	JBoolean*			requireObjectNames,
-	JString*			postCmd,
-	JPtrArray<JString>*	userFormList
+	JString*			postCmd
 	)
 {
 	inputName->Clear();
@@ -1808,7 +1740,6 @@ GetOptions
 	*headerSuffix       = ".h";
 	*requireObjectNames = kJFalse;
 
-	JBoolean pickForms = kJFalse;
 	JIndex index = 1;
 	while (index < argc)
 		{
@@ -1862,11 +1793,6 @@ GetOptions
 			*requireObjectNames = kJTrue;
 			}
 
-		else if (strcmp(argv[index], "--choose") == 0)
-			{
-			pickForms = kJTrue;
-			}
-
 		else if (strcmp(argv[index], "--post-cmd") == 0)
 			{
 			JCheckForValues(1, &index, argc, argv);
@@ -1891,9 +1817,7 @@ GetOptions
 
 		else
 			{
-			JString* userForm = jnew JString(argv[index]);
-			assert( userForm != NULL );
-			userFormList->Append(userForm);
+			std::cerr << argv[0] << ": unknown command line argument: " << argv[index] << std::endl;
 			}
 
 		index++;
@@ -1918,86 +1842,6 @@ GetOptions
 		{
 		std::cerr << argv[0] << ": directory for string data files does not exist" << std::endl;
 		exit(1);
-		}
-
-	// let the user pick forms to include
-
-	if (pickForms)
-		{
-		PickForms(*inputName, userFormList);
-		}
-}
-
-/******************************************************************************
- PickForms
-
-	Show the user a list of the forms in the input file and let them
-	choose which ones to generate.  "All" is not an option because that
-	is the default from the command line.
-
- ******************************************************************************/
-
-void
-PickForms
-	(
-	const JString&		fileName,
-	JPtrArray<JString>*	list
-	)
-{
-	JPtrArray<JString> all(JPtrArrayT::kDeleteAll);
-	JSize count = 0;
-	std::cout << std::endl;
-
-	std::ifstream input(fileName);
-	while (!input.eof() && !input.fail())
-		{
-		const JString line = JReadLine(input);
-		if (line == kBeginFormLine)
-			{
-			JString* formName = jnew JString(JReadLine(input));
-			assert( formName != NULL );
-			RemoveIdentifier(kFormNameMarker, formName);
-			all.Append(formName);
-			count++;
-			std::cout << count << ") " << *formName << std::endl;
-			}
-		}
-	input.close();
-
-	std::cout << std::endl;
-
-	while (1)
-		{
-		JIndex choice;
-		std::cout << "Form to include (0 to end): ";
-		std::cin >> choice;
-		JInputFinished();
-
-		if (choice == 0 && list->IsEmpty())
-			{
-			exit(0);
-			}
-		else if (choice == 0)
-			{
-			break;
-			}
-		else if (choice > count)
-			{
-			std::cout << "That is not a valid choice" << std::endl;
-			}
-		else
-			{
-			JString* formName = jnew JString(*(all.NthElement(choice)));
-			assert( formName != NULL );
-
-			JIndex tagIndex;
-			if (formName->LocateSubstring(kCustomTagMarker, &tagIndex))
-				{
-				formName->RemoveSubstring(tagIndex, formName->GetLength());
-				}
-
-			list->Append(formName);
-			}
 		}
 }
 
@@ -2079,17 +1923,16 @@ PrintHelp
 	std::cout << "To designate it as a variable that is defined elsewhere in" << std::endl;
 	std::cout << "the function, put <> around it." << std::endl;
 	std::cout << std::endl;
-	std::cout << "Usage:  <options> <fdesign file> <forms to generate>" << std::endl;
+	std::cout << "Usage:  <options> <fdesign file>" << std::endl;
 	std::cout << std::endl;
-	std::cout << "-h          prints help" << std::endl;
-	std::cout << "-v          prints version information" << std::endl;
-	std::cout << "-cp         <code path>     - default: " << codePath << std::endl;
-	std::cout << "-cs         <code suffix>   - default: " << codeSuffix << std::endl;
-	std::cout << "-hs         <header suffix> - default: " << headerSuffix << std::endl;
-	std::cout << "-sp         <string path>   - default: " << stringPath << std::endl;
-	std::cout << "--choose    interactively choose the forms to generate" << std::endl;
-	std::cout << "--post-cmd  <cmd> - command to exec after all files have been modified" << std::endl;
+	std::cout << "-h   prints help" << std::endl;
+	std::cout << "-v   prints version information" << std::endl;
+	std::cout << "-cp  <code path>     - default: " << codePath << std::endl;
+	std::cout << "-cs  <code suffix>   - default: " << codeSuffix << std::endl;
+	std::cout << "-hs  <header suffix> - default: " << headerSuffix << std::endl;
+	std::cout << "-sp  <string path>   - default: " << stringPath << std::endl;
 	std::cout << std::endl;
+	std::cout << "--post-cmd           <cmd> - command to exec after all files have been modified" << std::endl;
 	std::cout << "--require-obj-names  Fail if any object is missing a name" << std::endl;
 	std::cout << std::endl;
 }
