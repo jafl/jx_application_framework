@@ -10,8 +10,7 @@
  ******************************************************************************/
 
 #include "StyledTextBuffer.h"
-#include "TEFontManager.h"
-#include "TEColormap.h"
+#include "JFontManager.h"
 #include <jAssert.h>
 
 /******************************************************************************
@@ -21,7 +20,7 @@
 
 StyledTextBuffer::StyledTextBuffer()
 	:
-	JStyledTextBuffer(jnew TEFontManager, jnew TEColormap, kJTrue)
+	JStyledTextBuffer(kJTrue)
 {
 }
 

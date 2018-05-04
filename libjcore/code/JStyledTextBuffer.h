@@ -16,8 +16,6 @@
 
 class JRegex;
 class JInterpolate;
-class JFontManager;
-class JColormap;
 class JTEUndoBase;
 class JTEUndoTextBase;
 class JTEUndoTyping;
@@ -182,8 +180,7 @@ public:
 
 public:
 
-	JStyledTextBuffer(const JFontManager* fontManager, JColormap* colormap,
-					  const JBoolean pasteStyledText);
+	JStyledTextBuffer(const JBoolean pasteStyledText);
 	JStyledTextBuffer(const JStyledTextBuffer& source);
 
 	virtual ~JStyledTextBuffer();
@@ -218,10 +215,9 @@ public:
 	JBoolean	ReadPrivateFormat(std::istream& input);
 	void		WritePrivateFormat(std::ostream& output) const;
 
-	static JBoolean	ReadPrivateFormat(std::istream& input, const JStyledTextBuffer* te,
+	static JBoolean	ReadPrivateFormat(std::istream& input,
 									  JString* text, JRunArray<JFont>* style);
-	static void	WritePrivateFormat(std::ostream& output,
-								   const JColormap* colormap, const JFileVersion vers,
+	static void	WritePrivateFormat(std::ostream& output, const JFileVersion vers,
 								   const JString& text, const JRunArray<JFont>& style,
 								   const JCharacterRange& charRange);
 
@@ -249,9 +245,6 @@ public:
 							   const JBoolean wrapSearch,
 							   JBoolean* wrapped, TextRange* range);
 
-	const JFontManager*	GetFontManager() const;
-	JColormap*			GetColormap() const;
-
 	JFont		GetFont(const JIndex charIndex) const;
 
 	JBoolean	SetFontName(const TextRange& range,
@@ -267,7 +260,7 @@ public:
 	JBoolean	SetFontStrike(const TextRange& range,
 							  const JBoolean strike, const JBoolean clearUndo);
 	JBoolean	SetFontColor(const TextRange& range,
-							 const JColorIndex color, const JBoolean clearUndo);
+							 const JColorID color, const JBoolean clearUndo);
 	JBoolean	SetFontStyle(const TextRange& range,
 							 const JFontStyle& style, const JBoolean clearUndo);
 	void		SetFont(const TextRange& range,
@@ -317,7 +310,7 @@ public:
 
 	JBoolean	Copy(const TextRange& range,
 					 JString* text, JRunArray<JFont>* style = NULL) const;
-	void		Paste(const TextRange& range,
+	TextRange	Paste(const TextRange& range,
 					  const JString& text, const JRunArray<JFont>* style = NULL);
 
 	JBoolean	MoveText(const TextRange& srcRange, const TextIndex& origDestIndex,
@@ -369,10 +362,16 @@ protected:
 
 	void	SetFont(const TextRange& range, const JRunArray<JFont>& f);
 
-	void	BroadcastForUndo(const TextRange& range);
+	void	BroadcastTextChanged(const TextRange& range, const JBoolean deletion);
 
 	virtual JBoolean	NeedsToFilterText(const JString& text) const;
 	virtual JBoolean	FilterText(JString* text, JRunArray<JFont>* style);
+
+	virtual void	AdjustStylesBeforeBroadcast(const JString& buffer,
+												JRunArray<JFont>* styles,
+												TextRange* recalcRange,
+												TextRange* redrawRange,
+												const JBoolean deletion);
 
 private:
 
@@ -390,10 +389,7 @@ private:
 	JBoolean			itsPasteStyledTextFlag;		// kJTrue => paste styled text
 	JBoolean			itsTabToSpacesFlag;			// kJTrue => 1 tab -> itsCRMTabCharCount spaces
 
-	const JFontManager*	itsFontMgr;
-	JFont				itsDefFont;
-
-	JColormap*			itsColormap;			// not owned
+	JFont	itsDefaultFont;
 
 	JTEUndoBase*			itsUndo;				// can be NULL
 	JPtrArray<JTEUndoBase>*	itsUndoList;			// NULL if not multiple undo
@@ -455,8 +451,7 @@ private:
 
 	static JBoolean	DefaultIsCharacterInWord(const JUtf8Character& c);
 
-	static void	WritePrivateFormat(std::ostream& output,
-								   const JColormap* colormap, const JFileVersion vers,
+	static void	WritePrivateFormat(std::ostream& output, const JFileVersion vers,
 								   const JString& text, const JRunArray<JFont>& style,
 								   const TextRange& range);
 
@@ -489,10 +484,12 @@ public:
 	{
 	public:
 
-		TextChanged(const TextRange& r)
+		TextChanged(const TextRange& r, const TextRange& rr, const JBoolean del)
 			:
 			JBroadcaster::Message(kTextChanged),
-			itsRange(r)
+			itsRange(r),
+			itsRedrawRange(rr),
+			itsDeletionFlag(del)
 			{ };
 
 		const TextRange&
@@ -501,9 +498,23 @@ public:
 			return itsRange;
 		}
 
+		const TextRange&
+		GetRedrawRange() const
+		{
+			return itsRedrawRange;
+		}
+
+		const JBoolean
+		IsDeletion() const
+		{
+			return itsDeletionFlag;
+		}
+
 	private:
 
-		const TextRange itsRange;
+		const TextRange	itsRange;
+		const TextRange	itsRedrawRange;		// may be larger than itsRange
+		const JBoolean	itsDeletionFlag;
 	};
 
 	class DefaultFontChanged : public JBroadcaster::Message
@@ -642,30 +653,6 @@ JStyledTextBuffer::ClearLastSaveLocation()
 }
 
 /******************************************************************************
- GetFontManager
-
- ******************************************************************************/
-
-inline const JFontManager*
-JStyledTextBuffer::GetFontManager()
-	const
-{
-	return itsFontMgr;
-}
-
-/******************************************************************************
- GetColormap
-
- ******************************************************************************/
-
-inline JColormap*
-JStyledTextBuffer::GetColormap()
-	const
-{
-	return itsColormap;
-}
-
-/******************************************************************************
  Allow paste styled text
 
 	ShouldPasteStyled() is protected because most derived classes won't
@@ -698,7 +685,7 @@ inline const JFont&
 JStyledTextBuffer::GetDefaultFont()
 	const
 {
-	return itsDefFont;
+	return itsDefaultFont;
 }
 
 /******************************************************************************
@@ -773,7 +760,7 @@ JStyledTextBuffer::SetDefaultFontName
 	const JString& name
 	)
 {
-	itsDefFont.SetName(name);
+	itsDefaultFont.SetName(name);
 	Broadcast(DefaultFontChanged());
 }
 
@@ -783,7 +770,7 @@ JStyledTextBuffer::SetDefaultFontSize
 	const JSize size
 	)
 {
-	itsDefFont.SetSize(size);
+	itsDefaultFont.SetSize(size);
 	Broadcast(DefaultFontChanged());
 }
 
@@ -793,7 +780,7 @@ JStyledTextBuffer::SetDefaultFontStyle
 	const JFontStyle& style
 	)
 {
-	itsDefFont.SetStyle(style);
+	itsDefaultFont.SetStyle(style);
 	Broadcast(DefaultFontChanged());
 }
 
@@ -803,7 +790,7 @@ JStyledTextBuffer::SetDefaultFont
 	const JFont& font
 	)
 {
-	itsDefFont = font;
+	itsDefaultFont = font;
 	Broadcast(DefaultFontChanged());
 }
 

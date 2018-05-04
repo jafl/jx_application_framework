@@ -29,7 +29,7 @@ else
 	undo = GetStyleUndo(range, &isNew);
 	}
 
-JFont f = itsFontMgr->GetDefaultFont();
+JFont f = itsDefaultFont;
 JBoolean changed = kJFalse;
 JRunArrayIterator<JFont> iter(itsStyles, kJIteratorStartBefore, range.charRange.first);
 for (JIndex i=range.charRange.first; i<=range.charRange.last; i++)
@@ -51,7 +51,7 @@ if (changed)
 		{
 		NewUndo(undo, isNew);
 		}
-	Broadcast(TextChanged(range));
+	BroadcastTextChanged(range, kJFalse);
 	}
 else
 	{

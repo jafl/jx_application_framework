@@ -76,7 +76,8 @@ JTEUndoTextBase::UndoText
 	JUtf8ByteRange byteRange;
 	byteRange.SetFirstAndCount(range.byteRange.first, pasteCount.byteCount);
 
-	buffer->BroadcastForUndo(JStyledTextBuffer::TextRange(charRange, byteRange));
+	buffer->BroadcastTextChanged(
+		JStyledTextBuffer::TextRange(charRange, byteRange), !range.IsEmpty());
 }
 
 /******************************************************************************

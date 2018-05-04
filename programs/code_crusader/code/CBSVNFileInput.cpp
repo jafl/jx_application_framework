@@ -66,6 +66,7 @@ CBSVNFileInput::AdjustStylesBeforeRecalc
 		styles->RemoveAll();
 		f.SetColor(GetColormap()->GetBlackColor());
 		styles->AppendElements(f, buffer.GetLength());
+		*redrawRange += JIndexRange(1, totalLength);
 		}
 	else
 		{

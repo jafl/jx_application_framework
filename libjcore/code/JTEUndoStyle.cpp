@@ -62,7 +62,7 @@ JTEUndoStyle::Undo()
 
 	buffer->ReplaceUndo(this, newUndo);		// deletes us
 
-	buffer->BroadcastForUndo(itsRange);
+	buffer->BroadcastTextChanged(itsRange, kJFalse);
 }
 
 /******************************************************************************
