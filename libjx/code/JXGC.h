@@ -19,7 +19,7 @@
 #include <X11/Xft/Xft.h>
 
 class JXDisplay;
-class JXColormap;
+class JXColorManager;
 class JXImageMask;
 
 class JXGC
@@ -31,7 +31,6 @@ public:
 	~JXGC();
 
 	JXDisplay*	GetDisplay() const;
-	JXColormap*	GetColormap() const;
 
 	JBoolean	GetClipping(JPoint* offset, Region* region, JXImageMask** pixmap);
 	void		SetClipRect(const JRect& clipRect);
@@ -40,7 +39,7 @@ public:
 	void		SetClipPixmap(const JPoint& offset, const JXImageMask& mask);
 	void		ClearClipping();
 
-	void	SetDrawingColor(const JColorIndex color);
+	void	SetDrawingColor(const JColorID color);
 	void	SetDrawingFunction(const int function);
 	void	SetLineWidth(const JSize width);
 	void	DrawDashedLines(const JBoolean on);
@@ -90,7 +89,6 @@ public:
 private:
 
 	JXDisplay*	itsDisplay;		// we don't own this
-	JXColormap*	itsColormap;	// we don't own this
 	GC			itsXGC;
 	JSize		itsDepth;
 
@@ -103,7 +101,7 @@ private:
 	// buffered values
 
 	JBoolean	itsLastColorInit;
-	JColorIndex itsLastColor;
+	JColorID 	itsLastColor;
 	int			itsLastFunction;
 	JSize		itsLastLineWidth;
 	JBoolean	itsDashedLinesFlag;
@@ -132,18 +130,6 @@ JXGC::GetDisplay()
 	const
 {
 	return itsDisplay;
-}
-
-/******************************************************************************
- GetColormap
-
- ******************************************************************************/
-
-inline JXColormap*
-JXGC::GetColormap()
-	const
-{
-	return itsColormap;
 }
 
 #endif

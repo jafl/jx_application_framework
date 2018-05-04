@@ -108,7 +108,7 @@ protected:
 	virtual JBoolean	HandleCustomEvent();
 	virtual JBoolean	HandleCustomEventWhileBlocking();
 
-	virtual JBoolean	Close();	// use Quit() instead
+	virtual JBoolean	Close() override;	// use Quit() instead
 
 	virtual void	ReceiveWithFeedback(JBroadcaster* sender, Message* message) override;
 	virtual void	CleanUpBeforeSuddenDeath(const JXDocumentManager::SafetySaveReason reason);

@@ -30,7 +30,7 @@ public:
 
 protected:
 
-	void	CalcMask(const JImage& image, const JColorIndex color);
+	void	CalcMask(const JImage& image, const JColorID color);
 
 private:
 

@@ -14,7 +14,7 @@
 #include <JStyleTableData.h>
 #include <JTable.h>
 #include <JFontManager.h>
-#include <JColormap.h>
+#include <JColorManager.h>
 #include <jGlobals.h>
 #include <jAssert.h>
 
@@ -33,12 +33,12 @@ JStyleTableData::JStyleTableData
 	(
 	JTable*				table,
 	const JFontManager*	fontManager,
-	JColormap*			colormap
+	JColorManager*			colorManager
 	)
 	:
 	JAuxTableData<JFontStyle>(table, JFontStyle()),
 	itsFontManager(fontManager),
-	itsColormap(colormap),
+	itsColorManager(colorManager),
 	itsFont(fontManager->GetDefaultFont())
 {
 	AdjustToFont();
@@ -87,7 +87,7 @@ JStyleTableData::SetFont
 void
 JStyleTableData::AdjustToFont()
 {
-	const JSize rowHeight = 2*kVMarginWidth + itsFont.GetLineHeight();
+	const JSize rowHeight = 2*kVMarginWidth + itsFont.GetLineHeight(itsFontManager);
 	GetTable()->SetDefaultRowHeight(rowHeight);
 	GetTable()->SetAllRowHeights(rowHeight);
 }

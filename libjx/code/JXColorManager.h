@@ -1,14 +1,14 @@
 /******************************************************************************
- JXColormap.h
+ JXColorManager.h
 
-	Copyright (C) 1996-2010 by John Lindal.
+	Copyright (C) 1996-2018 by John Lindal.
 
  ******************************************************************************/
 
-#ifndef _H_JXColormap
-#define _H_JXColormap
+#ifndef _H_JXColorManager
+#define _H_JXColorManager
 
-#include <JColormap.h>
+#include <JColorManager.h>
 #include <JBroadcaster.h>
 #include <jXConstants.h>
 #include <X11/Xlib.h>
@@ -16,13 +16,13 @@
 
 class JXDisplay;
 
-class JXColormap : public JColormap, public virtual JBroadcaster
+class JXColorManager : public JColorManager, public virtual JBroadcaster
 {
 	friend class JXDisplay;
 
 public:
 
-	virtual ~JXColormap();
+	virtual ~JXColorManager();
 
 	operator Colormap() const;
 
@@ -32,42 +32,8 @@ public:
 	Visual*		GetVisual() const;
 	int			GetVisualClass() const;
 
-	virtual JBoolean	GetColor(const JString& name, JColorIndex* colorIndex) const;
-	virtual JColorIndex	GetColor(const JSize red, const JSize green, const JSize blue) const;
-	virtual void		GetRGB(const JColorIndex colorIndex, JSize* red,
-							   JSize* green, JSize* blue) const;
-
-	// useful colors
-
-	virtual JColorIndex	GetBlackColor() const;
-	virtual JColorIndex	GetRedColor() const;
-	virtual JColorIndex	GetGreenColor() const;
-	virtual JColorIndex	GetYellowColor() const;
-	virtual JColorIndex	GetBlueColor() const;
-	virtual JColorIndex	GetMagentaColor() const;
-	virtual JColorIndex	GetCyanColor() const;
-	virtual JColorIndex	GetWhiteColor() const;
-
-	virtual JColorIndex	GetGrayColor(const JSize percentage) const;
-
-	virtual JColorIndex	GetDarkRedColor() const;
-	virtual JColorIndex	GetOrangeColor() const;
-	virtual JColorIndex	GetDarkGreenColor() const;
-	virtual JColorIndex	GetLightBlueColor() const;
-	virtual JColorIndex	GetBrownColor() const;
-	virtual JColorIndex	GetPinkColor() const;
-
-	virtual JColorIndex	GetDefaultSelectionColor() const;
-
-	virtual JColorIndex	GetDefaultBackColor() const;
-	virtual JColorIndex	GetDefaultFocusColor() const;
-	virtual JColorIndex	GetDefaultSliderBackColor() const;
-	virtual JColorIndex	GetInactiveLabelColor() const;
-	virtual JColorIndex	GetDefaultSelButtonColor() const;
-	virtual JColorIndex	GetDefaultDNDBorderColor() const;
-
-	virtual JColorIndex	Get3DLightColor() const;
-	virtual JColorIndex	Get3DShadeColor() const;
+	virtual JBoolean	GetColorID(const JString& name, JColorID* id) const;
+	unsigned long		GetXColor(const JColorID id) const;
 
 private:
 
@@ -84,7 +50,7 @@ private:
 
 private:
 
-	JXColormap(JXDisplay* display, Visual* visual, Colormap xColormap);
+	JXColorManager(JXDisplay* display, Visual* visual, Colormap xColormap);
 
 	void	InitMasks(const unsigned long redMask,
 					  const unsigned long greenMask,
@@ -92,12 +58,12 @@ private:
 
 	// called by JXDisplay
 
-	static JXColormap*	Create(JXDisplay* display);
+	static JXColorManager*	Create(JXDisplay* display);
 
 	// not allowed
 
-	JXColormap(const JXColormap& source);
-	const JXColormap& operator=(const JXColormap& source);
+	JXColorManager(const JXColorManager& source);
+	const JXColorManager& operator=(const JXColorManager& source);
 };
 
 
@@ -107,7 +73,7 @@ private:
  ******************************************************************************/
 
 inline JXDisplay*
-JXColormap::GetDisplay()
+JXColorManager::GetDisplay()
 	const
 {
 	return itsDisplay;
@@ -119,7 +85,7 @@ JXColormap::GetDisplay()
  ******************************************************************************/
 
 inline
-JXColormap::operator Colormap()
+JXColorManager::operator Colormap()
 	const
 {
 	return itsXColormap;
@@ -131,7 +97,7 @@ JXColormap::operator Colormap()
  ******************************************************************************/
 
 inline Colormap
-JXColormap::GetXColormap()
+JXColorManager::GetXColormap()
 	const
 {
 	return itsXColormap;
@@ -146,7 +112,7 @@ JXColormap::GetXColormap()
  ******************************************************************************/
 
 inline XVisualInfo
-JXColormap::GetXVisualInfo()
+JXColorManager::GetXVisualInfo()
 	const
 {
 	return itsXVisualInfo;
@@ -158,7 +124,7 @@ JXColormap::GetXVisualInfo()
  ******************************************************************************/
 
 inline Visual*
-JXColormap::GetVisual()
+JXColorManager::GetVisual()
 	const
 {
 	return itsVisual;
@@ -170,7 +136,7 @@ JXColormap::GetVisual()
  ******************************************************************************/
 
 inline int
-JXColormap::GetVisualClass()
+JXColorManager::GetVisualClass()
 	const
 {
 	return itsXVisualInfo.c_class;

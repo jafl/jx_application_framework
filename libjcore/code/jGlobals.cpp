@@ -12,8 +12,6 @@
 #include <JTextUserNotification.h>
 #include <JTextChooseSaveFile.h>
 #include <JCreateTextPG.h>
-#include <JGetCurrentFontManager.h>
-#include <JGetCurrentColormap.h>
 #include <JThisProcess.h>
 #include <JWebBrowser.h>
 #include <jDirUtil.h>
@@ -29,9 +27,6 @@ static JUserNotification*		theUserNotification    = NULL;
 static JChooseSaveFile*			theChooseSaveFile      = NULL;
 static JCreateProgressDisplay*	theCreatePG            = NULL;
 
-static JGetCurrentFontManager*	theGetCurrFontMgr      = NULL;
-static JGetCurrentColormap*		theGetCurrColormap     = NULL;
-
 static JStringManager*			theStringManager       = NULL;
 static JWebBrowser*				theWebBrowser          = NULL;
 
@@ -39,8 +34,8 @@ static JString					theDefaultFontName("Helvetica", 0, kJFalse);
 static JSize					theDefaultFontSize    = 10;
 static JSize					theDefaultRCHFontSize = 9;
 
-static JString					theMonospaceFontName("Courier", 0, kJFalse);
-static JSize					theDefaultMonoFontSize = 10;
+static JString					theDefaultMonospaceFontName("Courier", 0, kJFalse);
+static JSize					theDefaultMonospaceFontSize = 10;
 
 /******************************************************************************
  JInitCore
@@ -79,14 +74,11 @@ JInitCore
 	JChooseSaveFile*		csf,
 	JCreateProgressDisplay*	cpg,
 
-	JGetCurrentFontManager*	gcfm,
-	JGetCurrentColormap*	gcc,
-
 	const JString&			defaultFontName,
 	const JSize				defaultFontSize,
 	const JSize				defaultRowColHeaderFontSize,
-	const JString&			monospaceFontName,
-	const JSize				defaultMonoFontSize
+	const JString&			defaultMonospaceFontName,
+	const JSize				defaultMonospaceFontSize
 	)
 {
 	if (theStringManager != NULL)
@@ -158,20 +150,6 @@ JInitCore
 		assert( theCreatePG != NULL );
 		}
 
-	// font manager
-
-	if (gcfm != NULL)
-		{
-		theGetCurrFontMgr = gcfm;
-		}
-
-	// colormap
-
-	if (gcc != NULL)
-		{
-		theGetCurrColormap = gcc;
-		}
-
 	// default font
 
 	if (stringMgr->Contains("NAME::FONT"))
@@ -219,9 +197,9 @@ JInitCore
 		{
 		theDefaultFontName = JGetString("NAME::MONO::FONT");
 		}
-	else if (!monospaceFontName.IsEmpty())
+	else if (!defaultMonospaceFontName.IsEmpty())
 		{
-		theMonospaceFontName = monospaceFontName;
+		theDefaultMonospaceFontName = defaultMonospaceFontName;
 		}
 
 	if (stringMgr->Contains("SIZE::MONO::FONT"))
@@ -231,12 +209,12 @@ JInitCore
 		JSize size;
 		if (fontSize.ConvertToUInt(&size))
 			{
-			theDefaultMonoFontSize = size;
+			theDefaultMonospaceFontSize = size;
 			}
 		}
-	else if (defaultMonoFontSize > 0)
+	else if (defaultMonospaceFontSize > 0)
 		{
-		theDefaultMonoFontSize = defaultMonoFontSize;
+		theDefaultMonospaceFontSize = defaultMonospaceFontSize;
 		}
 
 	// remember to clean up
@@ -254,12 +232,6 @@ JInitCore
 void
 JDeleteGlobals()
 {
-	jdelete theGetCurrColormap;
-	theGetCurrColormap = NULL;
-
-	jdelete theGetCurrFontMgr;
-	theGetCurrFontMgr = NULL;
-
 	jdelete theCreatePG;
 	theCreatePG = NULL;
 
@@ -434,30 +406,6 @@ JGetCreatePG()
 }
 
 /******************************************************************************
- JGetCurrFontManager
-
- ******************************************************************************/
-
-const JFontManager*
-JGetCurrFontManager()
-{
-	assert( theGetCurrFontMgr != NULL );
-	return theGetCurrFontMgr->GetCurrFontManager();
-}
-
-/******************************************************************************
- JGetCurrColormap
-
- ******************************************************************************/
-
-JColormap*
-JGetCurrColormap()
-{
-	assert( theGetCurrColormap != NULL );
-	return theGetCurrColormap->GetCurrColormap();
-}
-
-/******************************************************************************
  JGetDefaultFontName
 
  ******************************************************************************/
@@ -491,14 +439,14 @@ JGetDefaultRowColHeaderFontSize()
 }
 
 /******************************************************************************
- JGetMonospaceFontName
+ JGetDefaultMonospaceFontName
 
  ******************************************************************************/
 
 const JString&
-JGetMonospaceFontName()
+JGetDefaultMonospaceFontName()
 {
-	return theMonospaceFontName;
+	return theDefaultMonospaceFontName;
 }
 
 /******************************************************************************
@@ -507,7 +455,7 @@ JGetMonospaceFontName()
  ******************************************************************************/
 
 JSize
-JGetDefaultMonoFontSize()
+JGetDefaultMonospaceFontSize()
 {
-	return theDefaultMonoFontSize;
+	return theDefaultMonospaceFontSize;
 }

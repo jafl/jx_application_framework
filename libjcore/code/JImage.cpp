@@ -11,7 +11,7 @@
 
 #include <JImage.h>
 #include <JImageMask.h>
-#include <JColormap.h>
+#include <JColorManager.h>
 #include <JStdError.h>
 #include <jFileUtil.h>
 #include <jGlobals.h>
@@ -43,12 +43,12 @@ JImage::JImage
 	(
 	const JCoordinate	width,
 	const JCoordinate	height,
-	JColormap*			colormap
+	JColorManager*			colorManager
 	)
 	:
 	itsWidth( width ),
 	itsHeight( height ),
-	itsColormap( colormap )
+	itsColorManager( colorManager )
 {
 }
 
@@ -64,7 +64,7 @@ JImage::JImage
 	:
 	itsWidth( source.itsWidth ),
 	itsHeight( source.itsHeight ),
-	itsColormap( source.itsColormap )
+	itsColorManager( source.itsColorManager )
 {
 }
 
@@ -275,7 +275,7 @@ JImage::WriteJPEG
 	that can be read by the specified function, or contains too many
 	colors.
 
-	Color approximation is controlled by the settings in the colormap object.
+	Color approximation is controlled by the settings in the colorManager object.
 
 	If this function returns UnknownFileType, it should be translated to
 	the approrpriate FileIsNot* message.
@@ -319,10 +319,11 @@ JImage::ReadGD
 			for (JCoordinate y=0; y<itsHeight; y++)
 				{
 				const int c = gdImageGetPixel(image, x,y);
-				JColorIndex color =
-					itsColormap->GetColor(gdImageRed  (image, c) * kGDColorScale,
-										  gdImageGreen(image, c) * kGDColorScale,
-										  gdImageBlue (image, c) * kGDColorScale);
+				JColorID color =
+					JColorManager::GetColorID(JRGB(
+						gdImageRed  (image, c) * kGDColorScale,
+						gdImageGreen(image, c) * kGDColorScale,
+						gdImageBlue (image, c) * kGDColorScale));
 				SetColor(x,y, color);
 				}
 			}
@@ -351,19 +352,20 @@ JImage::ReadGD
 
 		const JSize colorCount = gdImageColorsTotal(image);
 
-		JColorIndex* colorTable = jnew JColorIndex [ colorCount ];
+		JColorID* colorTable = jnew JColorID [ colorCount ];
 		assert( colorTable != NULL );
 
-		const JColorIndex blackColor = itsColormap->GetBlackColor();
+		const JColorID blackColor = itsColorManager->GetBlackColor();
 
 		for (JIndex i=0; i<colorCount; i++)
 			{
 			if (!hasMask || i != (JIndex) maskColor)
 				{
 				colorTable[i] =
-					itsColormap->GetColor(gdImageRed  (image, i) * kGDColorScale,
-										  gdImageGreen(image, i) * kGDColorScale,
-										  gdImageBlue (image, i) * kGDColorScale);
+					JColorManager::GetColorID(JRGB(
+						gdImageRed  (image, i) * kGDColorScale,
+						gdImageGreen(image, i) * kGDColorScale,
+						gdImageBlue (image, i) * kGDColorScale));
 				}
 			}
 
@@ -457,7 +459,7 @@ JImage::WriteGD
 			{
 			if (!hasMask || mask->ContainsPixel(x,y))
 				{
-				color          = itsColormap->GetRGB(GetColor(x,y)) / kGDColorScale;
+				color          = itsColorManager->GetRGB(GetColor(x,y)) / kGDColorScale;
 				int colorIndex = gdImageColorExact(image, color.red, color.green, color.blue);
 				if (colorIndex == -1 &&
 					(useTrueColor || gdImageColorsTotal(image) < maxColorCount))
@@ -564,7 +566,7 @@ JImage::WriteGD
 	This only works for XPM's with up to 255 colors.  This shouldn't be
 	a problem, because even with that many, you shouldn't be using XPM's.
 
-	Color approximation is controlled by the settings in the colormap object.
+	Color approximation is controlled by the settings in the colorManager object.
 
  ******************************************************************************/
 
@@ -592,12 +594,12 @@ JIndex i;
 		charToCTIndex[i] = 0;
 		}
 
-	JColorIndex* colorTable = jnew JColorIndex [ colorCount ];
+	JColorID* colorTable = jnew JColorID [ colorCount ];
 	assert( colorTable != NULL );
 
 	// decode color table
 
-	const JColorIndex blackColor = itsColormap->GetBlackColor();
+	const JColorID blackColor = itsColorManager->GetBlackColor();
 
 	JBoolean hasMask        = kJFalse;
 	unsigned long maskColor = 0;
@@ -622,7 +624,7 @@ JIndex i;
 			maskColor       = i-1;
 			colorTable[i-1] = blackColor;
 			}
-		else if (!itsColormap->GetColor(colorName, &colorTable[i-1]))
+		else if (!itsColorManager->GetColorID(colorName, &colorTable[i-1]))
 			{
 			colorTable[i-1] = blackColor;
 			}

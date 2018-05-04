@@ -25,7 +25,7 @@ public:
 
 public:
 
-	JPagePrinter(const JFontManager* fontManager, const JColormap* colormap,
+	JPagePrinter(const JFontManager* fontManager, const JColorManager* colorManager,
 				 const JRect& defaultClipRect);
 
 	virtual ~JPagePrinter();

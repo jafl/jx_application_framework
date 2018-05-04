@@ -124,10 +124,10 @@ private:
 private:
 
 	JXTextMenu*				itsMenu;		// it owns us
-	const JFontManager*		itsFontMgr;
+	const JFontManager*		itsFontManager;
 	JArray<TextItemData>*	itsTextItemData;
 
-	JFont	itsDefFont;
+	JFont	itsDefaultFont;
 
 	JBoolean				itsNeedGeomRecalcFlag;
 	JCoordinate				itsMaxImageWidth;
@@ -283,7 +283,7 @@ inline const JFont&
 JXTextMenuData::GetDefaultFont()
 	const
 {
-	return itsDefFont;
+	return itsDefaultFont;
 }
 
 /******************************************************************************

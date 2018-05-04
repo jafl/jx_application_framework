@@ -40,8 +40,8 @@ JXTextMenuData::JXTextMenuData
 	:
 	JXMenuData(),
 	itsMenu( menu ),
-	itsFontMgr( menu->GetFontManager() ),
-	itsDefFont( itsFontMgr->GetDefaultFont() )
+	itsFontManager( menu->GetFontManager() ),
+	itsDefaultFont( JFontManager::GetDefaultFont() )
 {
 	itsTextItemData = jnew JArray<TextItemData>;
 	assert( itsTextItemData != NULL );
@@ -89,7 +89,7 @@ JXTextMenuData::InsertItem
 	JString* text = jnew JString(str);
 	assert( text != NULL );
 
-	TextItemData itemData(text, itsDefFont);
+	TextItemData itemData(text, itsDefaultFont);
 	itsTextItemData->InsertElementAtIndex(index, itemData);
 
 	JXMenuData::InsertItem(index, type, shortcuts, id);
@@ -495,12 +495,12 @@ JXTextMenuData::SetDefaultFontName
 {
 	if (updateExisting)
 		{
-		JFont f = itsDefFont;
+		JFont f = itsDefaultFont;
 		f.SetName(name);
-		UpdateItemFonts(itsDefFont, f);
+		UpdateItemFonts(itsDefaultFont, f);
 		}
 
-	itsDefFont.SetName(name);
+	itsDefaultFont.SetName(name);
 }
 
 void
@@ -512,12 +512,12 @@ JXTextMenuData::SetDefaultFontSize
 {
 	if (updateExisting)
 		{
-		JFont f = itsDefFont;
+		JFont f = itsDefaultFont;
 		f.SetSize(size);
-		UpdateItemFonts(itsDefFont, f);
+		UpdateItemFonts(itsDefaultFont, f);
 		}
 
-	itsDefFont.SetSize(size);
+	itsDefaultFont.SetSize(size);
 }
 
 void
@@ -529,12 +529,12 @@ JXTextMenuData::SetDefaultFontStyle
 {
 	if (updateExisting)
 		{
-		JFont f = itsDefFont;
+		JFont f = itsDefaultFont;
 		f.SetStyle(style);
-		UpdateItemFonts(itsDefFont, f);
+		UpdateItemFonts(itsDefaultFont, f);
 		}
 
-	itsDefFont.SetStyle(style);
+	itsDefaultFont.SetStyle(style);
 }
 
 void
@@ -546,10 +546,10 @@ JXTextMenuData::SetDefaultFont
 {
 	if (updateExisting)
 		{
-		UpdateItemFonts(itsDefFont, font);
+		UpdateItemFonts(itsDefaultFont, font);
 		}
 
-	itsDefFont = font;
+	itsDefaultFont = font;
 }
 
 /******************************************************************************
@@ -719,7 +719,7 @@ JXTextMenuData::GetNMShortcut
 	else
 		{
 		*str = NULL;
-		*font = itsFontMgr->GetDefaultFont();
+		*font = itsFontManager->GetDefaultFont();
 		return kJFalse;
 		}
 }
@@ -1145,6 +1145,7 @@ JXTextMenuData::ConfigureTable
 	// set a sensible scroll step
 
 	const JCoordinate scrollStep =
-		itsDefFont.GetLineHeight() + 2*(JXTextMenuTable::kHilightBorderWidth + 1);
+		itsDefaultFont.GetLineHeight(itsFontManager) +
+		2*(JXTextMenuTable::kHilightBorderWidth + 1);
 	table->SetDefaultRowHeight(scrollStep);
 }

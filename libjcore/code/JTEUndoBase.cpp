@@ -10,7 +10,6 @@
  ******************************************************************************/
 
 #include <JTEUndoBase.h>
-#include <JFontManager.h>
 #include <jAssert.h>
 
 /******************************************************************************
@@ -83,8 +82,6 @@ JTEUndoBase::SetFont
 	const JSize			size
 	)
 {
-	const JFontManager* fontMgr = itsBuffer->GetFontManager();
-
 	const JSize runCount = styles->GetRunCount();
 	for (JIndex i=1; i<=runCount; i++)
 		{

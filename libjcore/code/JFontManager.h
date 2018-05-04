@@ -3,7 +3,7 @@
 
 	Interface for the JFontManager class.
 
-	Copyright (C) 1996 by John Lindal.
+	Copyright (C) 1996-2018 by John Lindal.
 
  ******************************************************************************/
 
@@ -14,6 +14,8 @@
 #include <JFont.h>
 
 class JString;
+
+const JFontID kInvalidFontID = 0;
 
 class JFontManager
 {
@@ -30,21 +32,24 @@ public:
 	virtual JBoolean	GetFontSizes(const JString& name, JSize* minSize,
 									 JSize* maxSize, JArray<JSize>* sizeList) const = 0;
 
-	const JFont&	GetDefaultFont() const;
-	const JFont&	GetDefaultMonospaceFont() const;
-	JFont			GetFont(const JString& name,
+	static JFont	GetDefaultFont();
+	static JFont	GetDefaultMonospaceFont();
+	static JFont	GetFont(const JString& name,
 							const JSize size = 0,
-							const JFontStyle style = JFontStyle()) const;
+							const JFontStyle style = JFontStyle());
+
+	virtual JBoolean	IsExact(const JFontID id) const = 0;
 
 protected:
 
-	virtual JFontID			GetFontID(const JString& name, const JSize size,
-									  const JFontStyle& style) const = 0;
-	virtual const JString&	GetFontName(const JFontID id) const = 0;
-	virtual JBoolean		IsExact(const JFontID id) const = 0;
+	static JFontID	GetFontID(const JString& name, const JSize size,
+							  const JFontStyle& style);
+	static JFont	GetFont(const JFontID id);
 
-	JSize	GetStrikeThickness(const JSize fontSize) const;
-	JSize	GetUnderlineThickness(const JSize fontSize) const;
+	static const JString&	GetFontName(const JFontID id);
+
+	static JSize	GetStrikeThickness(const JSize fontSize);
+	static JSize	GetUnderlineThickness(const JSize fontSize);
 
 	virtual JSize	GetLineHeight(const JFontID fontID, const JSize size,
 								  const JFontStyle& style,
@@ -53,10 +58,20 @@ protected:
 	virtual JSize	GetCharWidth(const JFontID fontID, const JUtf8Character& c) const = 0;
 	virtual JSize	GetStringWidth(const JFontID fontID, const JString& str) const = 0;
 
+public:		// ought to be private
+
+	struct Font
+	{
+		JString*	name;
+		JSize		size;
+		JFontStyle	style;
+	};
+
 private:
 
-	JFont*	itsDefaultFont;
-	JFont*	itsDefaultMonospaceFont;
+	static JArray<Font>	theFontList;
+	static JFontID		theDefaultFontID;
+	static JFontID		theDefaultMonospaceFontID;
 
 private:
 
@@ -68,7 +83,7 @@ private:
 
 
 /******************************************************************************
- Get line thicknesses
+ Get line thicknesses (static protected)
 
  ******************************************************************************/
 
@@ -77,7 +92,6 @@ JFontManager::GetStrikeThickness
 	(
 	const JSize fontSize
 	)
-	const
 {
 	return (fontSize>=24 ? fontSize/12 : 1);
 }
@@ -87,7 +101,6 @@ JFontManager::GetUnderlineThickness
 	(
 	const JSize fontSize
 	)
-	const
 {
 	return (1 + fontSize/32);
 }

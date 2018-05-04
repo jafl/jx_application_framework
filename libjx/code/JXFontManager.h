@@ -59,6 +59,8 @@ public:
 	virtual JBoolean	GetFontSizes(const JString& name, JSize* minSize,
 									 JSize* maxSize, JArray<JSize>* sizeList) const;
 
+	virtual JBoolean	IsExact(const JFontID id) const;
+
 	// for X Window System only
 
 	void		GetXFontNames(const JRegex& regex,
@@ -68,11 +70,6 @@ public:
 	XFont		GetXFontInfo(const JFontID id) const;
 
 protected:
-
-	virtual JFontID			GetFontID(const JString& name, const JSize size,
-									  const JFontStyle& style) const;
-	virtual const JString&	GetFontName(const JFontID id) const;
-	virtual JBoolean		IsExact(const JFontID id) const;
 
 	virtual JSize	GetLineHeight(const JFontID fontID, const JSize size,
 								  const JFontStyle& style,
@@ -85,9 +82,7 @@ private:
 
 	struct FontInfo
 	{
-		JString*	name;
-		JSize		size;
-		JFontStyle	style;
+		JBoolean	allocated;
 		XFont		xfont;
 		JBoolean	exact;		// kJTrue => exact match to requested specs
 		JCoordinate	ascent;		// cache for TrueType; 0 until first computed
@@ -96,8 +91,7 @@ private:
 
 		FontInfo()
 			:
-			name(NULL), size(0), exact(kJFalse),
-			 ascent(0), descent(0), monoWidth(0)
+			allocated(kJFalse), exact(kJFalse), ascent(0), descent(0), monoWidth(0)
 		{ };
 	};
 

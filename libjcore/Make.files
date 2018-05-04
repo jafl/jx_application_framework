@@ -70,13 +70,11 @@
 .cpp ./code/JFont
 .cpp ./code/JFontStyle
 .cpp ./code/JFontManager
-.cpp ./code/JGetCurrentFontManager
 .cpp ./code/JPainter
 .cpp ./code/JPoint
 .cpp ./code/JRect
 .cpp ./code/jColor
-.cpp ./code/JColormap
-.cpp ./code/JGetCurrentColormap
+.cpp ./code/JColorManager
 .cpp ./code/JImage
 .cpp ./code/JImageMask
 .cpp ./code/JPrinter

@@ -9,13 +9,14 @@
  ******************************************************************************/
 
 #include <JFontStyle.h>
+#include <JColorManager.h>
+
+JColorID JFontStyle::itsDefaultColorIndex = JColorManager::GetBlackColor();
 
 /******************************************************************************
  JFontStyle
 
  ******************************************************************************/
-
-JColorIndex JFontStyle::itsDefaultColorIndex = 0;
 
 int
 operator==

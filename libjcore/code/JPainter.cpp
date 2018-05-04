@@ -53,7 +53,7 @@
 
 #include <JPainter.h>
 #include <JFontManager.h>
-#include <JColormap.h>
+#include <JColorManager.h>
 #include <JString.h>
 #include <jGlobals.h>
 #include <jAssert.h>
@@ -65,9 +65,9 @@
 
 JPainter::JPainter
 	(
-	const JFontManager*	fontManager,
-	const JColormap*	colormap,
-	const JRect&		defaultClipRect
+	const JFontManager*		fontManager,
+	const JColorManager*	colorManager,
+	const JRect&			defaultClipRect
 	)
 	:
 	itsOrigin(0,0),
@@ -80,12 +80,12 @@ JPainter::JPainter
 	itsDashOffset(0),
 	itsDashList(NULL),
 
-	itsColormap(colormap),
-
-	itsFont(fontManager->GetDefaultFont()),
+	itsFontManager(fontManager),
+	itsColorManager(colorManager),
+	itsFont(JFontManager::GetDefaultFont()),
 
 	itsDefClipRect(defaultClipRect),
-	itsDefaultColor(itsColormap->GetBlackColor())
+	itsDefaultColor(itsColorManager->GetBlackColor())
 {
 	itsPenColor = itsDefaultColor;
 	itsFont.SetColor(itsDefaultColor);
@@ -240,14 +240,14 @@ JPainter::GetLineHeight
 	)
 	const
 {
-	return itsFont.GetLineHeight(ascent, descent);
+	return itsFont.GetLineHeight(itsFontManager, ascent, descent);
 }
 
 JSize
 JPainter::GetLineHeight()
 	const
 {
-	return itsFont.GetLineHeight();
+	return itsFont.GetLineHeight(itsFontManager);
 }
 
 /******************************************************************************
@@ -262,7 +262,7 @@ JPainter::GetStringWidth
 	)
 	const
 {
-	return itsFont.GetStringWidth(str);
+	return itsFont.GetStringWidth(itsFontManager, str);
 }
 
 /******************************************************************************

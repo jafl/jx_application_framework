@@ -39,11 +39,11 @@
 JPagePrinter::JPagePrinter
 	(
 	const JFontManager*	fontManager,
-	const JColormap*	colormap,
+	const JColorManager*	colorManager,
 	const JRect&		defaultClipRect
 	)
 	:
-	JPainter(fontManager, colormap, defaultClipRect),
+	JPainter(fontManager, colorManager, defaultClipRect),
 	JPrinter(),
 	itsPageIndex(0),
 	itsPageWidth(0),

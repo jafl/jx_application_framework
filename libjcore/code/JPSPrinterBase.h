@@ -18,7 +18,7 @@
 
 class JString;
 class JFontManager;
-class JColormap;
+class JColorManager;
 class JImage;
 class JImageMask;
 
@@ -33,7 +33,7 @@ public:
 
 public:
 
-	JPSPrinterBase(const JFontManager* fontManager, const JColormap* colormap);
+	JPSPrinterBase(const JFontManager* fontManager, const JColorManager* colorManager);
 
 	virtual ~JPSPrinterBase();
 
@@ -70,22 +70,22 @@ public:
 
 	void	PSLine(const JCoordinate x1, const JCoordinate y1,
 				   const JCoordinate x2, const JCoordinate y2,
-				   const JColorIndex color, const JSize lineWidth,
+				   const JColorID color, const JSize lineWidth,
 				   const JBoolean drawDashedLines);
 
 	void	PSRect(const JCoordinate x, const JCoordinate y,
 				   const JCoordinate w, const JCoordinate h,
-				   const JColorIndex color, const JSize lineWidth,
+				   const JColorID color, const JSize lineWidth,
 				   const JBoolean drawDashedLines, const JBoolean fill);
 
 	void	PSArc(const JCoordinate x, const JCoordinate y,
 				  const JCoordinate w, const JCoordinate h,
 				  const JFloat startAngle, const JFloat deltaAngle,
-				  const JColorIndex color, const JSize lineWidth,
+				  const JColorID color, const JSize lineWidth,
 				  const JBoolean drawDashedLines, const JBoolean fill);
 
 	void	PSPolygon(const JCoordinate left, const JCoordinate top,
-					  const JPolygon& poly, const JColorIndex color,
+					  const JPolygon& poly, const JColorID color,
 					  const JSize lineWidth, const JBoolean drawDashedLines,
 					  const JBoolean fill);
 
@@ -110,7 +110,7 @@ protected:
 	virtual void		PSPrintHeaderComments(std::ostream& output) = 0;
 	virtual void		PSPrintSetupComments(std::ostream& output) = 0;
 
-	void	PSConvertToRGB(const JColorIndex color, JSize* red,
+	void	PSConvertToRGB(const JColorID color, JSize* red,
 						   JSize* green, JSize* blue) const;
 
 private:
@@ -131,11 +131,12 @@ private:
 
 	// buffered values
 
-	const JColormap*	itsColormap;
+	const JFontManager*		itsFontManager;
+	const JColorManager*	itsColorManager;
 
 	JBoolean	itsFontSetFlag;
 	JFont		itsLastFont;
-	JColorIndex itsLastColor;
+	JColorID	itsLastColor;
 	JBoolean	itsLastLineWidthInit;	// not everybody guarantees default value of 1
 	JSize		itsLastLineWidth;
 	JBoolean	itsLastDrawDashedLinesFlag;
@@ -151,7 +152,7 @@ private:
 								 const JCoordinate destY);
 
 	void	PSSetFont(const JFont& font);
-	void	PSSetColor(const JColorIndex color);
+	void	PSSetColor(const JColorID color);
 	void	PSSetLineWidth(const JSize width);
 	void	PSSetLineDashes(const JBoolean drawDashedLines);
 

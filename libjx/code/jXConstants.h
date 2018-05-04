@@ -20,6 +20,6 @@ const Time kJXDoubleClickTime = 500;	// milliseconds
 // Since 24-bit color is the maximum, we should never get indicies
 // that are this large.
 
-const JColorIndex kJXTransparentColor = kJIndexMax;		// illegal except for JXImageMask
+const JColorID kJXTransparentColor = kJIndexMax;		// illegal except for JXImageMask
 
 #endif

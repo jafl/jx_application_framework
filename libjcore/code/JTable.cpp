@@ -130,8 +130,8 @@ JTable::JTable
 	(
 	const JCoordinate	defRowHeight,
 	const JCoordinate	defColWidth,
-	const JColorIndex	borderColor,
-	const JColorIndex	selectionColor
+	const JColorID	borderColor,
+	const JColorID	selectionColor
 	)
 	:
 	itsRowBorderInfo(0, borderColor),
@@ -454,7 +454,7 @@ JTable::TableDrawRowBorders
 		return;
 		}
 
-	const JColorIndex origColor = p.GetPenColor();
+	const JColorID origColor = p.GetPenColor();
 	const JSize origWidth       = p.GetLineWidth();
 
 	p.SetLineWidth(itsRowBorderInfo.width);
@@ -500,7 +500,7 @@ JTable::TableDrawColBorders
 		return;
 		}
 
-	const JColorIndex origColor = p.GetPenColor();
+	const JColorID origColor = p.GetPenColor();
 	const JSize origWidth       = p.GetLineWidth();
 
 	p.SetLineWidth(itsColBorderInfo.width);
@@ -640,7 +640,7 @@ JTable::HilightIfSelected
 {
 	if (itsTableSelection->IsSelected(cell))
 		{
-		const JColorIndex origColor = p.GetPenColor();
+		const JColorID origColor = p.GetPenColor();
 		const JBoolean origFill     = p.IsFilling();
 
 		p.SetPenColor(itsSelectionColor);
@@ -1741,7 +1741,7 @@ void
 JTable::SetRowBorderInfo
 	(
 	const JCoordinate	lineWidth,
-	const JColorIndex	color
+	const JColorID	color
 	)
 {
 	itsRowBorderInfo.color = color;
@@ -1775,7 +1775,7 @@ void
 JTable::SetColBorderInfo
 	(
 	const JCoordinate	lineWidth,
-	const JColorIndex	color
+	const JColorID	color
 	)
 {
 	itsColBorderInfo.color = color;

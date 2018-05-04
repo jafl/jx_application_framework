@@ -24,7 +24,7 @@ class JTable : virtual public JBroadcaster
 public:
 
 	JTable(const JCoordinate defRowHeight, const JCoordinate defColWidth,
-		   const JColorIndex borderColor, const JColorIndex selectionColor);
+		   const JColorID borderColor, const JColorID selectionColor);
 
 	virtual ~JTable();
 
@@ -79,14 +79,14 @@ public:
 						 const JBoolean userPrintRowHeader,
 						 const JBoolean userPrintColHeader);
 
-	void	GetRowBorderInfo(JCoordinate* lineWidth, JColorIndex* color) const;
-	void	SetRowBorderInfo(const JCoordinate lineWidth, const JColorIndex color);
+	void	GetRowBorderInfo(JCoordinate* lineWidth, JColorID* color) const;
+	void	SetRowBorderInfo(const JCoordinate lineWidth, const JColorID color);
 
-	void	GetColBorderInfo(JCoordinate* lineWidth, JColorIndex* color) const;
-	void	SetColBorderInfo(const JCoordinate lineWidth, const JColorIndex color);
+	void	GetColBorderInfo(JCoordinate* lineWidth, JColorID* color) const;
+	void	SetColBorderInfo(const JCoordinate lineWidth, const JColorID color);
 
-	JColorIndex	GetSelectionColor() const;
-	void		SetSelectionColor(const JColorIndex color);
+	JColorID	GetSelectionColor() const;
+	void		SetSelectionColor(const JColorID color);
 
 	JBoolean	GetRowHeader(const JTable** table) const;
 	void		SetRowHeader(JTable* table);
@@ -208,9 +208,9 @@ private:
 	struct BorderInfo
 	{
 		JCoordinate	width;
-		JColorIndex	color;
+		JColorID	color;
 
-		BorderInfo(const JCoordinate w, const JColorIndex c)
+		BorderInfo(const JCoordinate w, const JColorID c)
 			:
 			width(w), color(c)
 		{ };
@@ -245,7 +245,7 @@ private:
 
 	BorderInfo	itsRowBorderInfo;
 	BorderInfo	itsColBorderInfo;
-	JColorIndex	itsSelectionColor;
+	JColorID	itsSelectionColor;
 
 	// used when printing
 
@@ -1086,7 +1086,7 @@ inline void
 JTable::GetRowBorderInfo
 	(
 	JCoordinate*	lineWidth,
-	JColorIndex*	color
+	JColorID*	color
 	)
 	const
 {
@@ -1098,7 +1098,7 @@ inline void
 JTable::GetColBorderInfo
 	(
 	JCoordinate*	lineWidth,
-	JColorIndex*	color
+	JColorID*	color
 	)
 	const
 {
@@ -1216,7 +1216,7 @@ JTable::GetTableSelection()
 
  ******************************************************************************/
 
-inline JColorIndex
+inline JColorID
 JTable::GetSelectionColor()
 	const
 {
@@ -1226,7 +1226,7 @@ JTable::GetSelectionColor()
 inline void
 JTable::SetSelectionColor
 	(
-	const JColorIndex color
+	const JColorID color
 	)
 {
 	itsSelectionColor = color;

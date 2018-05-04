@@ -13,7 +13,7 @@
 #include "JRegex.h"
 #include "jStreamUtil.h"
 #include "JRunArray.h"
-#include "JColormap.h"
+#include "JColorManager.h"
 #include "jAssert.h"
 
 /******************************************************************************
@@ -327,7 +327,6 @@ JPasteUNIXTerminalOutput
 	text.Split(theUNIXTerminalFormatPattern, &chunkList, 0, kJTrue);
 
 	JPtrArray<JString> cmdList(JPtrArrayT::kDeleteAll);
-	JColormap* cmap = tb->GetColormap();
 
 	const JSize chunkCount = chunkList.GetElementCount();
 	for (JIndex i=1; i<=chunkCount; i++)
@@ -380,31 +379,31 @@ JPasteUNIXTerminalOutput
 
 				case 30:
 				case 39:
-					f.SetColor(cmap->GetBlackColor());
+					f.SetColor(JColorManager::GetBlackColor());
 					break;
 				case 37:
-					f.SetColor(cmap->GetGrayColor(80));
+					f.SetColor(JColorManager::GetGrayColor(80));
 					break;
 				case 90:
-					f.SetColor(cmap->GetGrayColor(50));
+					f.SetColor(JColorManager::GetGrayColor(50));
 					break;
 				case 31:
-					f.SetColor(cmap->GetRedColor());
+					f.SetColor(JColorManager::GetRedColor());
 					break;
 				case 32:
-					f.SetColor(cmap->GetDarkGreenColor());	// green-on-white is impossible to read
+					f.SetColor(JColorManager::GetDarkGreenColor());	// green-on-white is impossible to read
 					break;
 				case 33:
-					f.SetColor(cmap->GetBrownColor());		// yellow-on-white is impossible to read
+					f.SetColor(JColorManager::GetBrownColor());		// yellow-on-white is impossible to read
 					break;
 				case 34:
-					f.SetColor(cmap->GetBlueColor());
+					f.SetColor(JColorManager::GetBlueColor());
 					break;
 				case 35:
-					f.SetColor(cmap->GetMagentaColor());
+					f.SetColor(JColorManager::GetMagentaColor());
 					break;
 				case 36:
-					f.SetColor(cmap->GetLightBlueColor());	// cyan-on-white is impossible to read
+					f.SetColor(JColorManager::GetLightBlueColor());	// cyan-on-white is impossible to read
 					break;
 				}
 			}

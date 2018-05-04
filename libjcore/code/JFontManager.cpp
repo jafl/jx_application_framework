@@ -3,35 +3,19 @@
 
 	Abstract base class for accessing fonts.
 
-	JFontID must be an index into the derived class' list of allocated
-	fonts.  This way, we don't care how the system wants to reference a
-	font, and 0 is guaranteed never to be used.
-
-	*** Note that this definition means that the font ID is *not* independent
-		of the size and style.
-
-	Character sets are specified by appending them to the font name inside
-	parentheses:  "Helvetica (iso2022-1)"  ExtractCharacterSet() is provided
-	to separate the name and char set.  CombineNameAndCharacterSet()
-	provides the inverse operation.
-
 	Derived classes must implement the following functions:
 
 		GetFontNames
 			Return an alphabetical list of all the available font names.
+
+		GetMonospaceFontNames
+			Return an alphabetical list of all the available monospace font names.
 
 		GetFontSizes
 			Return min avail size, max avail size, and a sorted list of all the
 			available font sizes for the given font name.  If all font sizes are
 			supported (e.g. TrueType), return a reasonable min and max, and an
 			empty list of sizes.  Return kJFalse if there is no such font.
-
-		GetFontID
-			Return a handle to the specified font.  This routine is responsible
-			for finding the best approximation if the specified font is not available.
-
-		GetFontName
-			Return the name of the font with the given id.
 
 		GetLineHeight
 			Return the height of a line of text.
@@ -45,9 +29,21 @@
 		IsExact
 			Return kJTrue if the font matches the requested attributes.
 
+	Implementation details:
+
+	JFontID is an index into the global list of allocated fonts.  This way,
+	we don't care how the system wants to reference a font, and 0 is
+	guaranteed never to be used.
+
+	JFontID's are allocated as needed.  Specific implementations should keep
+	a parallel list with system-dependent data and fill this list lazily.
+
+	*** Note that this definition means that the font ID is *not* independent
+		of the size and style.
+
 	BASE CLASS = none
 
-	Copyright (C) 1996-2000 by John Lindal.
+	Copyright (C) 1996-2018 by John Lindal.
 
  ******************************************************************************/
 
@@ -55,15 +51,17 @@
 #include <jGlobals.h>
 #include <jAssert.h>
 
+JArray<JFontManager::Font> JFontManager::theFontList;
+
+JFontID JFontManager::theDefaultFontID          = kInvalidFontID;
+JFontID JFontManager::theDefaultMonospaceFontID = kInvalidFontID;
+
 /******************************************************************************
  Constructor
 
  ******************************************************************************/
 
 JFontManager::JFontManager()
-	:
-	itsDefaultFont(NULL),
-	itsDefaultMonospaceFont(NULL)
 {
 }
 
@@ -74,50 +72,44 @@ JFontManager::JFontManager()
 
 JFontManager::~JFontManager()
 {
-	jdelete itsDefaultFont;
-	jdelete itsDefaultMonospaceFont;
 }
 
 /******************************************************************************
- GetDefaultFont
+ GetDefaultFont (static)
 
  ******************************************************************************/
 
-const JFont&
+JFont
 JFontManager::GetDefaultFont()
-	const
 {
-	if (itsDefaultFont == NULL)
+	if (theDefaultFontID == kInvalidFontID)
 		{
-		const_cast<JFontManager*>(this)->itsDefaultFont =
-			jnew JFont(GetFont(JGetDefaultFontName()));
-		assert( itsDefaultFont != NULL );
+		theDefaultFontID = GetFontID(JGetDefaultFontName(), JGetDefaultFontSize(), JFontStyle());
 		}
 
-	return *itsDefaultFont;
+	const Font f = theFontList.GetElement(theDefaultFontID);
+	return JFont(theDefaultFontID, f.size, f.style);
 }
 
 /******************************************************************************
- GetDefaultMonospaceFont
+ GetDefaultMonospaceFont (static)
 
  ******************************************************************************/
 
-const JFont&
+JFont
 JFontManager::GetDefaultMonospaceFont()
-	const
 {
-	if (itsDefaultMonospaceFont == NULL)
+	if (theDefaultMonospaceFontID == kInvalidFontID)
 		{
-		const_cast<JFontManager*>(this)->itsDefaultMonospaceFont =
-			jnew JFont(GetFont(JGetMonospaceFontName(), JGetDefaultMonoFontSize()));
-		assert( itsDefaultMonospaceFont != NULL );
+		theDefaultMonospaceFontID = GetFontID(JGetDefaultMonospaceFontName(), JGetDefaultMonospaceFontSize(), JFontStyle());
 		}
 
-	return *itsDefaultMonospaceFont;
+	const Font f = theFontList.GetElement(theDefaultMonospaceFontID);
+	return JFont(theDefaultMonospaceFontID, f.size, f.style);
 }
 
 /******************************************************************************
- GetFont
+ GetFont (static)
 
  ******************************************************************************/
 
@@ -128,8 +120,71 @@ JFontManager::GetFont
 	const JSize			origSize,
 	const JFontStyle	style
 	)
-	const
 {
 	const JSize size = origSize > 0 ? origSize : JGetDefaultFontSize();
-	return JFont(this, GetFontID(name, size, style), size, style);
+	return JFont(GetFontID(name, size, style), size, style);
+}
+
+/******************************************************************************
+ GetFontID (static protected)
+
+ ******************************************************************************/
+
+JFontID
+JFontManager::GetFontID
+	(
+	const JString&		name,
+	const JSize			size,
+	const JFontStyle&	style
+	)
+{
+	const JSize count = theFontList.GetElementCount();
+	for (JIndex i=1; i<=count; i++)
+		{
+		const Font f = theFontList.GetElement(i);
+		if (*f.name == name && f.size == size && f.style.SameSystemAttributes(style))
+			{
+			return i;
+			}
+		}
+
+	Font f;
+	f.size  = size;
+	f.style = style;
+
+	f.name = jnew JString(name);
+	assert( f.name != NULL );
+
+	theFontList.AppendElement(f);
+	return theFontList.GetElementCount();
+}
+
+/******************************************************************************
+ GetFont (static protected)
+
+ ******************************************************************************/
+
+JFont
+JFontManager::GetFont
+	(
+	const JFontID id
+	)
+{
+	const Font f = theFontList.GetElement(id);
+	return JFont(id, f.size, f.style);
+}
+
+/******************************************************************************
+ GetFontName (static protected)
+
+ ******************************************************************************/
+
+const JString&
+JFontManager::GetFontName
+	(
+	const JFontID id
+	)
+{
+	const Font f = theFontList.GetElement(id);
+	return *f.name;
 }

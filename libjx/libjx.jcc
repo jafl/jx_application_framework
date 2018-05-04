@@ -945,17 +945,9 @@ T
 F
 "./code/JXFontManager.cpp"
 T
-2 "JXGetCurrFontMgr.cpp"
+2 "JXColorManager.cpp"
 F
-"./code/JXGetCurrFontMgr.cpp"
-T
-2 "JXColormap.cpp"
-F
-"./code/JXColormap.cpp"
-T
-2 "JXGetCurrColormap.cpp"
-F
-"./code/JXGetCurrColormap.cpp"
+"./code/JXColorManager.cpp"
 T
 2 "JXGC.cpp"
 F

@@ -1,7 +1,7 @@
 /******************************************************************************
  jColor.h
 
-	Copyright (C) 1997-98 by John Lindal.
+	Copyright (C) 1997-2018 by John Lindal.
 
  ******************************************************************************/
 
@@ -13,9 +13,7 @@
 
 struct JHSB;
 
-	// index into JColormap
-
-typedef JIndex	JColorIndex;
+typedef JUInt64	JColorID;
 
 	// color specified via red,green,blue
 
@@ -192,29 +190,5 @@ operator!=
 {
 	return (c1.hue != c2.hue || c1.saturation != c2.saturation || c1.brightness != c2.brightness);
 }
-
-	// information about an animated color
-
-struct JDynamicColorInfo
-{
-	JColorIndex	index;
-	JRGB		color;
-
-	JDynamicColorInfo()
-		:
-		index(0), color()
-	{ };
-
-	JDynamicColorInfo(const JColorIndex i, const JSize r,
-					  const JSize g, const JSize b)
-		:
-		index(i), color(r,g,b)
-	{ };
-
-	JDynamicColorInfo(const JColorIndex i, const JRGB& rgb)
-		:
-		index(i), color(rgb)
-	{ };
-};
 
 #endif

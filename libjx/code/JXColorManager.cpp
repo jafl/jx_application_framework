@@ -1,0 +1,196 @@
+/******************************************************************************
+ JXColorManager.cpp
+
+	Encapsulates the default X Colormap.
+
+	BASE CLASS = JColorManager, public JBroadcaster
+
+	Copyright (C) 1996-2018 by John Lindal.
+
+ ******************************************************************************/
+
+#include <JXColorManager.h>
+#include <JXDisplay.h>
+#include <stdlib.h>
+#include <jAssert.h>
+
+const JSize kBitsPerColorComp = 16;			// X uses 16 bits for each of r,g,b
+	
+/******************************************************************************
+ Constructor function (static private)
+
+	Called by JXDisplay to create a JXColorManager for the default colormap.
+
+ ******************************************************************************/
+
+JXColorManager*
+JXColorManager::Create
+	(
+	JXDisplay* display
+	)
+{
+	Visual* visual = display->GetDefaultVisual();
+	Colormap xColormap =
+		DefaultColormap(display->GetXDisplay(), display->GetScreen());
+
+	JXColorManager* colormap = jnew JXColorManager(display, visual, xColormap);
+	assert( colormap != NULL );
+	return colormap;
+}
+
+/******************************************************************************
+ Constructor (private)
+
+ ******************************************************************************/
+
+JXColorManager::JXColorManager
+	(
+	JXDisplay*	display,
+	Visual*		visual,
+	Colormap	xColormap
+	)
+	:
+	JColorManager(),
+	itsDisplay(display),
+	itsXColormap(xColormap),
+	itsVisual(visual)
+{
+	// check if our visual lets us get an empty colormap
+
+	const long vTemplateMask = VisualIDMask | VisualScreenMask;
+	XVisualInfo vTemplate;
+	vTemplate.visualid = XVisualIDFromVisual(visual);
+	vTemplate.screen   = display->GetScreen();
+
+	int count;
+	XVisualInfo* vInfo =
+		XGetVisualInfo(*display, vTemplateMask, &vTemplate, &count);
+	assert( vInfo != NULL );
+
+	itsXVisualInfo = vInfo[0];
+
+	InitMasks(itsXVisualInfo.red_mask,
+			  itsXVisualInfo.green_mask,
+			  itsXVisualInfo.blue_mask);
+
+	XFree(vInfo);
+
+	assert( itsXVisualInfo.c_class == TrueColor );
+}
+
+/******************************************************************************
+ Destructor
+
+ ******************************************************************************/
+
+JXColorManager::~JXColorManager()
+{
+}
+
+/******************************************************************************
+ InitMasks (private)
+
+ ******************************************************************************/
+
+void
+JXColorManager::InitMasks
+	(
+	const unsigned long	redMask,
+	const unsigned long	greenMask,
+	const unsigned long	blueMask
+	)
+{
+	const short bitCount = 8*sizeof(unsigned long);
+
+	itsMask[0] = redMask;
+	itsMask[1] = greenMask;
+	itsMask[2] = blueMask;
+
+	for (JIndex i=0; i<3; i++)
+		{
+		itsStartIndex[i] = 0;
+		while (itsStartIndex[i] < bitCount &&
+			   (itsMask[i] & (1 << itsStartIndex[i])) == 0)
+			{
+			itsStartIndex[i]++;
+			}
+		assert( itsStartIndex[i] < bitCount );
+
+		itsEndIndex[i] = itsStartIndex[i];
+		while (itsEndIndex[i] < bitCount &&
+			   (itsMask[i] & (1 << itsEndIndex[i])) != 0)
+			{
+			itsEndIndex[i]++;
+			}
+		itsEndIndex[i]--;		// point to last 1 bit
+		assert( itsEndIndex[i] < bitCount && itsEndIndex[i] >= itsStartIndex[i] );
+		}
+}
+
+/******************************************************************************
+ GetColorID (virtual)
+
+	Returns kJTrue if it was able to allocate the requested read-only color.
+	Accepts both names from the color database and hex specifications.
+	(i.e. "red" or "#FFFF00000000")
+
+ ******************************************************************************/
+
+JBoolean
+JXColorManager::GetColorID
+	(
+	const JString&	name,
+	JColorID*		id
+	)
+	const
+{
+	XColor xColor;
+	if (XParseColor(*itsDisplay, itsXColormap, name.GetBytes(), &xColor))
+		{
+		*id = JColorManager::GetColorID(JRGB(xColor.red, xColor.green, xColor.blue));
+		return kJTrue;
+		}
+	else
+		{
+		return kJFalse;
+		}
+}
+
+/******************************************************************************
+ GetXColor
+
+	We scale each component to fit inside the number of bits in its mask.
+	This means multiplying by (2^(mask length)-1)/(2^16-1).  By ignoring
+	the -1's, it becomes a bit shift.  The bit shift produces cleaner
+	levels of gray with 16-bit color and negligible difference on 24-bit
+	color.  Both produce inaccurate results when writing GIFs on 16-bit
+	color.
+
+ ******************************************************************************/
+
+unsigned long
+JXColorManager::GetXColor
+	(
+	const JColorID id
+	)
+	const
+{
+	const JRGB c               = GetRGB(id);
+	const unsigned long rgb[3] = { c.red, c.green, c.blue };
+
+	unsigned long xPixel = 0;
+	for (JIndex i=0; i<3; i++)
+		{
+		const short shift = itsEndIndex[i] + 1 - kBitsPerColorComp;
+		if (shift >= 0)
+			{
+			xPixel |= (rgb[i] << shift) & itsMask[i];
+			}
+		else
+			{
+			xPixel |= (rgb[i] >> -shift) & itsMask[i];
+			}
+		}
+
+	return xPixel;
+}

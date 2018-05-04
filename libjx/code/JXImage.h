@@ -40,15 +40,15 @@ public:
 
 	JXImage(JXDisplay* display,
 			const JCoordinate width, const JCoordinate height,
-			const JColorIndex initColor = kJXTransparentColor, // placeholder for GetDefaultBackColor()
+			const JColorID initColor = kJXTransparentColor, // placeholder for GetDefaultBackColor()
 			const JSize depth = 0, const State initState = kRemoteStorage);
 
 	JXImage(JXDisplay* display, Drawable source);
 	JXImage(JXDisplay* display, Drawable source, const JRect& rect);
 
 	JXImage(JXDisplay* display, const JConstBitmap& bitmap,
-			const JColorIndex foreColor = kJXTransparentColor, // placeholder for GetBlackColor()
-			const JColorIndex backColor = kJXTransparentColor, // placeholder for GetDefaultBackColor()
+			const JColorID foreColor = kJXTransparentColor, // placeholder for GetBlackColor()
+			const JColorID backColor = kJXTransparentColor, // placeholder for GetDefaultBackColor()
 			const JSize depth = 0);
 
 	JXImage(JXDisplay* display, const JXPM& data);
@@ -88,9 +88,9 @@ public:
 
 	JXImagePainter*	CreatePainter();
 
-	virtual JColorIndex	GetColor(const JCoordinate x, const JCoordinate y) const;
+	virtual JColorID	GetColor(const JCoordinate x, const JCoordinate y) const;
 	virtual void		SetColor(const JCoordinate x, const JCoordinate y,
-								 const JColorIndex color);
+								 const JColorID color);
 
 	State	GetDefaultState() const;
 	void	SetDefaultState(const State state);
@@ -105,7 +105,7 @@ public:
 
 	// called by JImageMask
 
-	virtual unsigned long	GetSystemColor(const JColorIndex color) const;
+	virtual unsigned long	GetSystemColor(const JColorID color) const;
 	virtual unsigned long	GetSystemColor(const JCoordinate x, const JCoordinate y) const;
 
 protected:
@@ -119,7 +119,7 @@ protected:
 	const JXGC*	GetGC() const;
 	void		ForcePrivateGC();
 
-	virtual void	SetImageData(const JSize colorCount, const JColorIndex* colorTable,
+	virtual void	SetImageData(const JSize colorCount, const JColorID* colorTable,
 								 unsigned short** imageData,
 								 const JBoolean hasMask, const unsigned long maskColor);
 	virtual void	PrepareForImageData();
@@ -143,7 +143,7 @@ private:
 	XImage*			itsImage;
 	JXImageMask*	itsMask;	// can be NULL
 
-	JArray<JColorIndex>*	itsColorList;		// can be NULL
+	JArray<JColorID>*	itsColorList;		// can be NULL
 
 private:
 

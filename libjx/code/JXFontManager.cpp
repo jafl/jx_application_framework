@@ -19,7 +19,6 @@
 
 #include <JXFontManager.h>
 #include <JXDisplay.h>
-#include <JXColormap.h>
 #include <jXGlobals.h>
 #include <JPtrArray-JString.h>
 #include <JListUtil.h>
@@ -63,8 +62,6 @@ JXFontManager::JXFontManager
 
 	itsAllFontNames  = NULL;
 	itsMonoFontNames = NULL;
-
-	JFontStyle::SetDefaultColorIndex((display->GetColormap())->GetBlackColor());
 }
 
 /******************************************************************************
@@ -78,7 +75,6 @@ JXFontManager::~JXFontManager()
 	for (JIndex i=1; i<=count; i++)
 		{
 		FontInfo info = itsFontList->GetElement(i);
-		jdelete info.name;
 		info.xfont.Free(itsDisplay);
 		}
 	jdelete itsFontList;
@@ -438,58 +434,6 @@ JXFontManager::GetFontSizes
 }
 
 /******************************************************************************
- GetFontID (virtual protected)
-
- ******************************************************************************/
-
-JFontID
-JXFontManager::GetFontID
-	(
-	const JString&		name,
-	const JSize			size,
-	const JFontStyle&	style
-	)
-	const
-{
-	const JSize count = itsFontList->GetElementCount();
-	for (JIndex i=1; i<=count; i++)
-		{
-		const FontInfo info = itsFontList->GetElement(i);
-		if (*(info.name) == name && info.size == size &&
-			info.style.bold == style.bold &&
-			info.style.italic == style.italic)
-			{
-			return i;
-			}
-		}
-
-	// falling through means we need to create a new entry
-
-	const JString xFontName = ConvertToXFontName(name);
-
-	FontInfo info;
-	if (GetNewFont(xFontName, size, style, &(info.xfont)))
-		{
-		info.exact = kJTrue;
-		}
-	else
-		{
-		info.exact = kJFalse;
-		ApproximateFont(xFontName, size, style, &(info.xfont));
-		}
-
-	info.name = jnew JString(name);
-	assert( info.name != NULL );
-
-	info.size      = size;
-	info.style     = style;
-	info.monoWidth = IsMonospace(info.xfont);
-
-	itsFontList->AppendElement(info);
-	return itsFontList->GetElementCount();
-}
-
-/******************************************************************************
  GetFontID
 
 	For X Windows only:  pass in complete string from XListFonts().
@@ -504,20 +448,20 @@ JXFontManager::GetFontID
 	)
 	const
 {
-	const JSize count = itsFontList->GetElementCount();
-	for (JIndex i=1; i<=count; i++)
+	*fontID = JFontManager::GetFontID(xFontStr, 0, JFontStyle());
+
+	while (!itsFontList->IndexValid(*fontID))
 		{
-		const FontInfo info = itsFontList->GetElement(i);
-		if (*(info.name) == xFontStr && info.size == 0)
-			{
-			*fontID = i;
-			return kJTrue;
-			}
+		itsFontList->AppendElement(FontInfo());
+		}
+
+	FontInfo info = itsFontList->GetElement(*fontID);
+	if (info.allocated)
+		{
+		return kJTrue;
 		}
 
 	// falling through means we need to create a new entry
-
-	FontInfo info;
 
 	XftFont* xft = XftFontOpenXlfd(*itsDisplay, itsDisplay->GetScreen(), xFontStr.GetBytes());
 	if (xft != NULL)
@@ -535,21 +479,16 @@ JXFontManager::GetFontID
 			}
 		else
 			{
-			*fontID = 0;
+			*fontID = kInvalidFontID;
 			return kJFalse;
 			}
 		}
 
-	info.name = jnew JString(xFontStr);
-	assert( info.name != NULL );
-
-	info.size      = 0;
+	info.allocated = kJTrue;
 	info.exact     = kJTrue;
 	info.monoWidth = IsMonospace(info.xfont);
 
-	itsFontList->AppendElement(info);
-
-	*fontID = itsFontList->GetElementCount();
+	itsFontList->SetElement(*fontID, info);
 	return kJTrue;
 }
 
@@ -820,23 +759,7 @@ JXFontManager::ApproximateFont
 }
 
 /******************************************************************************
- GetFontName (virtual protected)
-
- ******************************************************************************/
-
-const JString&
-JXFontManager::GetFontName
-	(
-	const JFontID id
-	)
-	const
-{
-	const FontInfo info = itsFontList->GetElement(id);
-	return *(info.name);
-}
-
-/******************************************************************************
- IsExact (virtual protected)
+ IsExact (virtual)
 
  ******************************************************************************/
 
@@ -993,7 +916,36 @@ JXFontManager::GetXFontInfo
 	)
 	const
 {
-	const FontInfo info = itsFontList->GetElement(id);
+	while (!itsFontList->IndexValid(id))
+		{
+		itsFontList->AppendElement(FontInfo());
+		}
+
+	FontInfo info = itsFontList->GetElement(id);
+	if (info.allocated)
+		{
+		return info.xfont;
+		}
+
+	// falling through means we need to create a new entry
+
+	const JFont f = GetFont(id);
+
+	const JString xFontName = ConvertToXFontName(f.GetName());
+	if (GetNewFont(xFontName, f.GetSize(), f.GetStyle(), &(info.xfont)))
+		{
+		info.exact = kJTrue;
+		}
+	else
+		{
+		info.exact = kJFalse;
+		ApproximateFont(xFontName, f.GetSize(), f.GetStyle(), &(info.xfont));
+		}
+
+	info.allocated = kJTrue;
+	info.monoWidth = IsMonospace(info.xfont);
+
+	itsFontList->SetElement(id, info);
 	return info.xfont;
 }
 

@@ -16,7 +16,7 @@
 
 class JString;
 class JFontManager;
-class JColormap;
+class JColorManager;
 class JImage;
 
 class JPainter
@@ -39,13 +39,13 @@ public:
 
 public:
 
-	JPainter(const JFontManager* fontManager, const JColormap* colormap,
+	JPainter(const JFontManager* fontManager, const JColorManager* colorManager,
 			 const JRect& defaultClipRect);
 
 	virtual ~JPainter();
 
-	const JFontManager*	GetFontManager() const;
-	const JColormap*	GetColormap() const;
+	const JFontManager*		GetFontManager() const;
+	const JColorManager*	GetColorManager() const;
 
 	virtual void	Reset();
 	void			Reset(const JRect& defClipRect);	// calls Reset()
@@ -74,8 +74,8 @@ public:
 	void			ShiftPenLocation(const JCoordinate dx, const JCoordinate dy);
 	void			ShiftPenLocation(const JPoint& delta);
 
-	JColorIndex		GetPenColor() const;
-	void			SetPenColor(const JColorIndex color);
+	JColorID		GetPenColor() const;
+	void			SetPenColor(const JColorID color);
 
 	JSize			GetLineWidth() const;
 	void			SetLineWidth(const JSize width);
@@ -191,7 +191,7 @@ private:
 	JPoint		itsOrigin;
 	JPoint		itsPenLoc;
 	JSize		itsLineWidth;
-	JColorIndex	itsPenColor;
+	JColorID	itsPenColor;
 	JBoolean	itsFillFlag;
 	JRect		itsClipRect;
 
@@ -199,12 +199,13 @@ private:
 	JSize			itsDashOffset;
 	JArray<JSize>*	itsDashList;			// can be NULL
 
-	const JColormap*	itsColormap;
+	const JFontManager*		itsFontManager;
+	const JColorManager*	itsColorManager;
 
 	JFont	itsFont;
 
-	JRect				itsDefClipRect;		// global coords, so origin can change
-	const JColorIndex	itsDefaultColor;
+	JRect			itsDefClipRect;		// global coords, so origin can change
+	const JColorID	itsDefaultColor;
 
 private:
 
@@ -341,7 +342,7 @@ JPainter::ShiftPenLocation
 
  ******************************************************************************/
 
-inline JColorIndex
+inline JColorID
 JPainter::GetPenColor()
 	const
 {
@@ -351,7 +352,7 @@ JPainter::GetPenColor()
 inline void
 JPainter::SetPenColor
 	(
-	const JColorIndex color
+	const JColorID color
 	)
 {
 	itsPenColor = color;
@@ -745,19 +746,19 @@ inline const JFontManager*
 JPainter::GetFontManager()
 	const
 {
-	return itsFont.GetFontManager();
+	return itsFontManager;
 }
 
 /******************************************************************************
- GetColormap
+ GetColorManager
 
  ******************************************************************************/
 
-inline const JColormap*
-JPainter::GetColormap()
+inline const JColorManager*
+JPainter::GetColorManager()
 	const
 {
-	return itsColormap;
+	return itsColorManager;
 }
 
 #endif

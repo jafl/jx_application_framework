@@ -220,9 +220,7 @@
 .cpp ./code/JXWindowPainter
 .cpp ./code/JXDragPainter
 .cpp ./code/JXFontManager
-.cpp ./code/JXGetCurrFontMgr
-.cpp ./code/JXColormap
-.cpp ./code/JXGetCurrColormap
+.cpp ./code/JXColorManager
 .cpp ./code/JXGC
 .cpp ./code/jXPainterUtil
 .cpp ./code/JXImage

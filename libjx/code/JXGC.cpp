@@ -18,7 +18,7 @@
 
 #include <JXGC.h>
 #include <JXDisplay.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <JXImageMask.h>
 #include <JXFontManager.h>
 #include <jXUtil.h>
@@ -43,11 +43,9 @@ JXGC::JXGC
 	const Drawable	drawable
 	)
 	:
+	itsDisplay(display),
 	itsClipOffset(0,0)
 {
-	itsDisplay  = display;
-	itsColormap = display->GetColormap();
-
 	XGCValues values;
 	values.graphics_exposures = False;
 	itsXGC = XCreateGC(*itsDisplay, drawable, 0L, &values);
@@ -64,7 +62,7 @@ JXGC::JXGC
 	itsClipPixmap = None;
 
 	itsLastColorInit     = kJFalse;
-	itsLastColor         = itsColormap->GetBlackColor();
+	itsLastColor         = JColorManager::GetBlackColor();
 	itsLastFunction      = GXcopy;
 	itsLastLineWidth     = 0;
 	itsDashedLinesFlag   = kJFalse;
@@ -257,7 +255,7 @@ JXGC::ClearPrivateClipping()
 void
 JXGC::SetDrawingColor
 	(
-	const JColorIndex color
+	const JColorID color
 	)
 {
 	if (color != itsLastColor || !itsLastColorInit)
@@ -272,7 +270,7 @@ JXGC::SetDrawingColor
 			}
 		else
 			{
-			xPixel = color;
+			xPixel = itsDisplay->GetColorManager()->GetXColor(color);
 			}
 
 		XSetForeground(*itsDisplay, itsXGC, xPixel);
@@ -623,17 +621,17 @@ JXGC::DrawString
 	XftColor color;
 	if (xfont.type == JXFontManager::kTrueType)
 		{
-		JSize red, green, blue;
-		itsColormap->GetRGB(itsLastColor, &red, &green, &blue);
+		const JRGB rgb = JColorManager::GetRGB(itsLastColor);
 
 		XRenderColor renderColor;
-		renderColor.red   = red;
-		renderColor.green = green;
-		renderColor.blue  = blue;
+		renderColor.red   = rgb.red;
+		renderColor.green = rgb.green;
+		renderColor.blue  = rgb.blue;
 		renderColor.alpha = 65535;
 
 		XftColorAllocValue(*itsDisplay, itsDisplay->GetDefaultVisual(),
-						   itsColormap->GetXColormap(), &renderColor, &color);
+						   itsDisplay->GetColorManager()->GetXColormap(),
+						   &renderColor, &color);
 		}
 
 	const JFontManager* fontMgr = itsDisplay->GetFontManager();

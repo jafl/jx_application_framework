@@ -1,7 +1,7 @@
 /******************************************************************************
  TEColormap.cpp
 
-	BASE CLASS = JColormap
+	BASE CLASS = JColorManager
 
 	Written by John Lindal.
 
@@ -17,7 +17,7 @@
 
 TEColormap::TEColormap()
 	:
-	JColormap()
+	JColorManager()
 {
 }
 
@@ -35,63 +35,63 @@ TEColormap::~TEColormap()
 
  ******************************************************************************/
 
-JColorIndex
+JColorID
 TEColormap::GetBlackColor()
 	const
 {
 	return 0;
 }
 
-JColorIndex
+JColorID
 TEColormap::GetRedColor()
 	const
 {
 	return 0;
 }
 
-JColorIndex
+JColorID
 TEColormap::GetGreenColor()
 	const
 {
 	return 0;
 }
 
-JColorIndex
+JColorID
 TEColormap::GetYellowColor()
 	const
 {
 	return 0;
 }
 
-JColorIndex
+JColorID
 TEColormap::GetBlueColor()
 	const
 {
 	return 0;
 }
 
-JColorIndex
+JColorID
 TEColormap::GetMagentaColor()
 	const
 {
 	return 0;
 }
 
-JColorIndex
+JColorID
 TEColormap::GetCyanColor()
 	const
 {
 	return 0;
 }
 
-JColorIndex
+JColorID
 TEColormap::GetWhiteColor()
 	const
 {
 	return 0;
 }
 
-JColorIndex
+JColorID
 TEColormap::GetGrayColor
 	(
 	const JSize percentage
@@ -101,105 +101,105 @@ TEColormap::GetGrayColor
 	return 0;
 }
 
-JColorIndex
+JColorID
 TEColormap::GetDarkRedColor()
 	const
 {
 	return 0;
 }
 
-JColorIndex
+JColorID
 TEColormap::GetOrangeColor()
 	const
 {
 	return 0;
 }
 
-JColorIndex
+JColorID
 TEColormap::GetDarkGreenColor()
 	const
 {
 	return 0;
 }
 
-JColorIndex
+JColorID
 TEColormap::GetLightBlueColor()
 	const
 {
 	return 0;
 }
 
-JColorIndex
+JColorID
 TEColormap::GetBrownColor()
 	const
 {
 	return 0;
 }
 
-JColorIndex
+JColorID
 TEColormap::GetPinkColor()
 	const
 {
 	return 0;
 }
 
-JColorIndex
+JColorID
 TEColormap::GetDefaultSelectionColor()
 	const
 {
 	return 0;
 }
 
-JColorIndex
+JColorID
 TEColormap::GetDefaultBackColor()
 	const
 {
 	return 0;
 }
 
-JColorIndex
+JColorID
 TEColormap::GetDefaultFocusColor()
 	const
 {
 	return 0;
 }
 
-JColorIndex
+JColorID
 TEColormap::GetDefaultSliderBackColor()
 	const
 {
 	return 0;
 }
 
-JColorIndex
+JColorID
 TEColormap::GetInactiveLabelColor()
 	const
 {
 	return 0;
 }
 
-JColorIndex
+JColorID
 TEColormap::GetDefaultSelButtonColor()
 	const
 {
 	return 0;
 }
 
-JColorIndex
+JColorID
 TEColormap::GetDefaultDNDBorderColor()
 	const
 {
 	return 0;
 }
 
-JColorIndex
+JColorID
 TEColormap::Get3DLightColor()
 	const
 {
 	return 0;
 }
 
-JColorIndex
+JColorID
 TEColormap::Get3DShadeColor()
 	const
 {
@@ -215,7 +215,7 @@ JBoolean
 TEColormap::GetColor
 	(
 	const JString&	name,
-	JColorIndex*	colorIndex
+	JColorID*	colorIndex
 	)
 	const
 {
@@ -228,7 +228,7 @@ TEColormap::GetColor
 
  ******************************************************************************/
 
-JColorIndex
+JColorID
 TEColormap::GetColor
 	(
 	const JSize	red,
@@ -248,7 +248,7 @@ TEColormap::GetColor
 void
 TEColormap::GetRGB
 	(
-	const JColorIndex	colorIndex,
+	const JColorID	colorIndex,
 	JSize*				red,
 	JSize*				green,
 	JSize*				blue

@@ -23,7 +23,7 @@ class JXImageMask : public JXImage, public JImageMask
 
 public:
 
-	static const JColorIndex kPixelOff;
+	static const JColorID kPixelOff;
 
 public:
 
@@ -36,7 +36,7 @@ public:
 	JXImageMask(JXDisplay* display, Drawable source);
 	JXImageMask(JXDisplay* display, Drawable source, const JRect& rect);
 
-	JXImageMask(const JXImage& image, const JColorIndex color);
+	JXImageMask(const JXImage& image, const JColorID color);
 
 	JXImageMask(const JXImageMask& source);
 	JXImageMask(const JXImageMask& source, const JRect& rect);
@@ -55,8 +55,8 @@ public:
 	virtual void		AddPixel(const JCoordinate x, const JCoordinate y);
 	virtual void		RemovePixel(const JCoordinate x, const JCoordinate y);
 
-	static unsigned long	ColorToBit(const JColorIndex color);
-	static JColorIndex		BitToColor(const unsigned long bit,
+	static unsigned long	ColorToBit(const JColorID color);
+	static JColorID			BitToColor(const unsigned long bit,
 									   JXColormap* colormap);
 
 private:
@@ -74,7 +74,7 @@ private:
 /******************************************************************************
  ColorToBit (static)
 
-	Convert the given JColorIndex to a bit for use in an X bitmap.
+	Convert the given JColorID to a bit for use in an X bitmap.
 
 	Any color other than kPixelOff converts to "pixel on".  This way,
 	the drawing code that produces an image can be reused with a JXImagePainter
@@ -85,7 +85,7 @@ private:
 inline unsigned long
 JXImageMask::ColorToBit
 	(
-	const JColorIndex color
+	const JColorID color
 	)
 {
 	return (color == kPixelOff ? 0 : 1);

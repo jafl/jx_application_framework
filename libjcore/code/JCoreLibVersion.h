@@ -24,49 +24,54 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //	JBroadcaster:
 //		Added ToString(), which can be overridden by derived classes.
 //	*** Moved kJDefaultFontSize, kJDefaultRowColHeaderFontSize, kJDefaultMonoFontSize
-//		to functions in jGlobals.
+//			to functions in jGlobals.
 //	To support translation into Asian languages, the default fonts & sizes
 //		can be overridden in translation files by specifying any of
 //		NAME::FONT, SIZE::FONT, SIZE::ROWCOLHDR::FONT, NAME::MONO::FONT,
 //		SIZE::MONO::FONT.
 //	*** Renamed JOrderedSet to JList to be more accurate.
 //	*** UTF-8 support
-//		Completely redesigned JString API.  Introduced JStringIterator.
+//			Completely redesigned JString API.  Introduced JStringIterator.
 //			Replaced JCharacter with JUtf8Byte & JUtf8Character.
 //			Introduced JCharacterRange & JUtf8ByteRange.
 //	*** Created JFont.  Instances can only be obtained from JFontManager.
-//		Converted most of JFontManager api to protected.
+//			Redesigned JFontManager so JFontID is system independent.
+//			Converted most of JFontManager api to protected.
 //			Exposed equivalent api from JFont.
-//		Removed all api's using JFontID.
-//		Switched JTextEditor::Font to JFont.
+//			Removed all api's using JFontID.
+//			Switched JTextEditor::Font to JFont.
+//	*** Renamed JColorIndex to JColorID
+//	*** Renamed JColormap to JColorManager and redesigned it
+//			so JColorID is system independent.
 //	*** jNew:
-//		Replaced new & delete macros with jnew & jdelete, to avoid conflict
-//			with "= delete" notation for functions.
-//		Removed j_prep_ace.h because it is no longer needed.
+//			Replaced new & delete macros with jnew & jdelete, to avoid conflict
+//				with "= delete" notation for functions.
+//			Removed j_prep_ace.h because it is no longer needed.
 //	*** Removed support for NULL's in JRegex and JString.
-//		If you have NULL's, you have binary data and should treat it differently.
+//			If you have NULL's, you have binary data and should treat it differently.
 //	*** Removed JCheckSiteName()
 //	*** Removed JCreateBuffer() - Run out of memory?  Seriously?
 //	*** Moved JSubset, JProbDistr, J*Histogram to misc/jextra.
 //	*** Updated JIntRange to match JIndexRange API.
 //	*** Removed using statements from jTypes.h & jFStreamUtil.h
-//		You should use the std:: prefix explicitly.
+//			You should use the std:: prefix explicitly.
 //	*** Removed JMessageProtocol::Translate*AndSend
 //	*** Removed FirstElement(), GetElement(), LastElement() from JPtrArray
-//		Use GetFirstElement(), GetElement(), GetLastElement() instead
+//			Use GetFirstElement(), GetElement(), GetLastElement() instead
 //	Added JPtrArray::Join for joining lists of strings.
 //	*** Removed JGetJDataDirectories() because it is no longer used
 //	*** Removed HTML parsing from JTextEditor.  HTML belongs on the web.
-//		Removed JHTMLScanner, JTEHTMLScanner, JExtractHTMLTitle.
+//			Removed JHTMLScanner, JTEHTMLScanner, JExtractHTMLTitle.
 //	*** JTextEditor:
-//		Refactored into JStyledTextBuffer & JTextEditor.
-//		Removed pointless useInternalClipboard option and
-//			TEOwnsClipboard(), WriteClipboardPrivateFormat(),
-//			GetInternalClipboard(), TEClearClipboard().
-//		Removed search/replace for literal string.  JRegex is fast enough.
-//		Removed functions that accepted or returned ranges as pair of
-//			JIndex values, because these are ambiguous.  Switch to
-//			the versions that use JCharacterRange.
+//			Refactored into JStyledTextBuffer & JTextEditor.
+//			Removed pointless useInternalClipboard option and
+//				TEOwnsClipboard(), WriteClipboardPrivateFormat(),
+//				GetInternalClipboard(), TEClearClipboard().
+//			Removed search/replace for literal string.  JRegex is fast enough.
+//			Removed functions that accepted or returned ranges as pair of
+//				JIndex values, because these are ambiguous.  Switch to
+//				the versions that use JCharacterRange.
+//	*** Removed JGetCurrentFontManager & JGetCurrentColormap.
 
 // version 3.2.0:
 //	jMountUtil:
@@ -108,11 +113,11 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //	JPSPrinterBase:
 //		Fixed font name logic to leverage default fonts built into
 //			PostScript printers.
-//	JColormap:
+//	JColorManager:
 //		Private colormaps are obsolete.
 //		Renamed AllocateStaticNamedColor() to GetColor(),
 //		Renamed AllocateStaticColor() to GetColor().
-//			Now returns JColorIndex.  Removed exactMatch argument
+//			Now returns JColorID.  Removed exactMatch argument
 //		Replaced GetGray*Color() with GetGrayColor(percentage).
 //		Removed CanAllocateDynamicColors(), AllocateDynamicColor(),
 //			SetDynamicColor(), SetDynamicColors(), UsingColor(),
@@ -361,7 +366,7 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //	Compiles with gcc 3.x.
 //	JImage:
 //		Now supports truecolor PNG and JPEG.
-//	JColormap:
+//	JColorManager:
 //		Added pure virtual function AllColorsPreallocated().
 //	JTextEditor:
 //		Fixed code so selection can't change during DND.
@@ -1163,7 +1168,7 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //	JIndexRange:
 //		Fixed bug that caused JRegex to return incorrect range when
 //			a sub-expression matched nothing.
-//	JColormap:
+//	JColorManager:
 //		SetDynamicColor() and SetDynamicColors() are no longer const.
 //		Added default implementation of SetDynamicColors().
 //		Added PrepareForMassColorAllocation(), MassColorAllocationFinished()
@@ -1171,7 +1176,7 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //	JImage:
 //		ReadGIF() no longer takes second argument allowApproxColors.
 //			Color approximation is now controlled by the settings in
-//			the colormap object.
+//			the colorManager object.
 //	JLatentPG:
 //		Activates immediately if you call IncrementProgress() with a non-NULL message.
 //		No longer activates if time limit is exceeded on the last step of a fixed
@@ -1262,9 +1267,9 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //		Added ReadGIF(), WriteGIF(), GetFileType().
 //		Changed prototype for SetImageData() to take unsigned short**.
 //		Created AllocateImageData() to allocate data passed to SetImageData().
-//		Added GetColormap().
-//		Constructor takes 3rd argument JColormap*.
-//		Removed JColormap* argument from ReadFromJXPM().
+//		Added GetColorManager().
+//		Constructor takes 3rd argument JColorManager*.
+//		Removed JColorManager* argument from ReadFromJXPM().
 //	JRGB:
 //		Added scaling functions and Set().
 //	JRegex:
@@ -1327,7 +1332,7 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //		Added GetRandomSample() and GetRandomDisjointSamples().
 //	JFileArray:
 //		Now stores full path to file so it is safe to change the working directory.
-//	JColormap:
+//	JColorManager:
 //		Added pure virtual GetSystemColorIndex().
 //	JVector:
 //		Added more constructors.
@@ -1535,22 +1540,22 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //			the beginning of the line or the beginning of the text by
 //			calling ShouldMoveToFrontOfText().
 //		Text can now be dragged from kSelectableText, but obviously still not to it.
-//		Added JColormap* argument to constructor, thereby eliminating
+//		Added JColorManager* argument to constructor, thereby eliminating
 //			need for ColorNameToColorIndex(), RGBToColorIndex(), and
 //			ColorIndexToRGB() in derived classes.
 //		Optimized Read/WritePrivateFormat().
 //		Renamed GetFontManager() to TEGetFontManager().
-//		Renamed GetColormap() to TEGetColormap().
-//	Merged JColorIndex.h and JDynamicColorInfo.h into jColor.h and created JRGB.
+//		Renamed GetColorManager() to TEGetColormap().
+//	Merged JColorID.h and JDynamicColorInfo.h into jColor.h and created JRGB.
 //	Changed contents of struct JDynamicColorInfo.
-//	JColormap:
+//	JColorManager:
 //		Added functions to use JRGB.
 //		Added version of SetDynamicColor() that takes JDynamicColorInfo.
 //		The "exactMatch" parameter for AllocateStaticColor() can now be NULL.
 //	JGetCurrentColormap:
-//		GetCurrColormap() now returns "JColormap*".
+//		GetCurrColormap() now returns "JColorManager*".
 //	jGlobals:
-//		JGetCurrColormap() now returns "JColormap*".
+//		JGetCurrColormap() now returns "JColorManager*".
 //	Fixed JAssertBase so it prints the assert message even if it
 //		doesn't ask "quit or continue?".
 //	JOrderedSet:
@@ -1607,14 +1612,14 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //	JPrefsFile:
 //		Merged NewData() into SetData().
 //		Added version of SetData() that takes const JCharacter*.
-//	Created JColormap.
+//	Created JColorManager.
 //	JPainter:
-//		Constructor requires JColormap* instead of default color value.
-//		Added GetColormap().
+//		Constructor requires JColorManager* instead of default color value.
+//		Added GetColorManager().
 //		GetFontManager() is now public.
 //		Added functions for drawing dashed lines.
 //	JPSPrinterBase:
-//		Constructor requires JColormap* instead of color value.
+//		Constructor requires JColorManager* instead of color value.
 //		Now uses "eofill" instead of "fill" so filling works the same way
 //			on the screen an on paper.
 //		Added functions for drawing dashed lines.

@@ -16,22 +16,18 @@
 #include <JCreateProgressDisplay.h>
 #include <JStringManager.h>
 
-class JGetCurrentFontManager;
 class JFontManager;
-class JGetCurrentColormap;
-class JColormap;
+class JColorManager;
 class JWebBrowser;
 
 void JInitCore(JAssertBase* ah = NULL, const JUtf8Byte* appSignature = NULL,
 			   const JUtf8Byte** defaultStringData = NULL, JUserNotification* un = NULL,
 			   JChooseSaveFile* csf = NULL, JCreateProgressDisplay* cpg = NULL,
-			   JGetCurrentFontManager* gcfm = NULL,
-			   JGetCurrentColormap* gcc = NULL,
 			   const JString& defaultFontName = JString::empty,
 			   const JSize defaultFontSize = 0,
 			   const JSize defaultRowColHeaderFontSize = 0,
-			   const JString& monospaceFontName = JString::empty,
-			   const JSize defaultMonoFontSize = 0);
+			   const JString& defaultMonospaceFontName = JString::empty,
+			   const JSize defaultMonospaceFontSize = 0);
 void JSetWebBrowser(JWebBrowser* webBrowser);
 
 void JDeleteGlobals();
@@ -43,9 +39,6 @@ JUserNotification*		JGetUserNotification();
 JChooseSaveFile*		JGetChooseSaveFile();
 JCreateProgressDisplay*	JGetCreatePG();
 
-const JFontManager*		JGetCurrFontManager();
-JColormap*				JGetCurrColormap();
-
 JStringManager*			JGetStringManager();
 const JString&			JGetString(const JUtf8Byte* id);
 JString					JGetString(const JUtf8Byte* id, const JUtf8Byte* map[], const JSize size);
@@ -54,8 +47,8 @@ const JString&			JGetDefaultFontName();
 JSize					JGetDefaultFontSize();
 JSize					JGetDefaultRowColHeaderFontSize();
 
-const JString&			JGetMonospaceFontName();
-JSize					JGetDefaultMonoFontSize();
+const JString&			JGetDefaultMonospaceFontName();
+JSize					JGetDefaultMonospaceFontSize();
 
 JBoolean	JGetDataDirectories(const JString& signature, const JString& dirName,
 								JString* sysDir, JString* userDir);

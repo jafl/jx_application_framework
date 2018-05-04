@@ -3,7 +3,7 @@
 
 	Stores complete font information required to render.
 
-	Copyright (C) 2016 by John Lindal.
+	Copyright (C) 2016-18 by John Lindal.
 
  ******************************************************************************/
 
@@ -52,8 +52,6 @@ JFont::SetID
 	const JFontID id
 	)
 {
-	assert( itsFontMgr != NULL );
-	assert( itsFontMgr->GetFontName(id) != NULL );
 	itsID = id;
 }
 
@@ -66,8 +64,7 @@ const JString&
 JFont::GetName()
 	const
 {
-	assert( itsFontMgr != NULL );
-	return itsFontMgr->GetFontName(itsID);
+	return JFontManager::GetFontName(itsID);
 }
 
 void
@@ -76,8 +73,7 @@ JFont::SetName
 	const JString& name
 	)
 {
-	assert( itsFontMgr != NULL );
-	itsID = itsFontMgr->GetFontID(name, itsSize, itsStyle);
+	itsID = JFontManager::GetFontID(name, itsSize, itsStyle);
 }
 
 /******************************************************************************
@@ -163,7 +159,7 @@ JFont::SetStrike
 void
 JFont::SetColor
 	(
-	const JColorIndex color
+	const JColorID color
 	)
 {
 	itsStyle.color = color;
@@ -175,63 +171,62 @@ JFont::SetColor
  ******************************************************************************/
 
 JSize
-JFont::GetLineHeight()
+JFont::GetLineHeight
+	(
+	const JFontManager* fontManager
+	)
 	const
 {
-	assert( itsFontMgr != NULL );
-
 	JCoordinate ascent, descent;
-	return itsFontMgr->GetLineHeight(itsID, itsSize, itsStyle, &ascent, &descent);
+	return fontManager->GetLineHeight(itsID, itsSize, itsStyle, &ascent, &descent);
 }
 
 JSize
 JFont::GetLineHeight
 	(
-	JCoordinate* ascent,
-	JCoordinate* descent
+	const JFontManager*	fontManager,
+	JCoordinate*		ascent,
+	JCoordinate*		descent
 	)
 	const
 {
-	assert( itsFontMgr != NULL );
-	return itsFontMgr->GetLineHeight(itsID, itsSize, itsStyle, ascent, descent);
+	return fontManager->GetLineHeight(itsID, itsSize, itsStyle, ascent, descent);
 }
 
 JSize
 JFont::GetCharWidth
 	(
-	const JUtf8Character& c
+	const JFontManager*		fontManager,
+	const JUtf8Character&	c
 	)
 	const
 {
-	assert( itsFontMgr != NULL );
-	return itsFontMgr->GetCharWidth(itsID, c);
+	return fontManager->GetCharWidth(itsID, c);
 }
 
 JSize
 JFont::GetStringWidth
 	(
-	const JString& str
+	const JFontManager*	fontManager,
+	const JString&		str
 	)
 	const
 {
-	assert( itsFontMgr != NULL );
-	return itsFontMgr->GetStringWidth(itsID, str);
+	return fontManager->GetStringWidth(itsID, str);
 }
 
 JSize
 JFont::GetStrikeThickness()
 	const
 {
-	assert( itsFontMgr != NULL );
-	return itsFontMgr->GetStrikeThickness(itsSize);
+	return JFontManager::GetStrikeThickness(itsSize);
 }
 
 JSize
 JFont::GetUnderlineThickness()
 	const
 {
-	assert( itsFontMgr != NULL );
-	return itsFontMgr->GetUnderlineThickness(itsSize);
+	return JFontManager::GetUnderlineThickness(itsSize);
 }
 
 /******************************************************************************
@@ -242,44 +237,13 @@ JFont::GetUnderlineThickness()
 void
 JFont::UpdateID()
 {
-	assert( itsFontMgr != NULL );
-	itsID = itsFontMgr->GetFontID(itsFontMgr->GetFontName(itsID), itsSize, itsStyle);
+	itsID = JFontManager::GetFontID(JFontManager::GetFontName(itsID), itsSize, itsStyle);
 }
 
 /******************************************************************************
  Font operators
 
  ******************************************************************************/
-
-const JFont&
-JFont::operator=
-	(
-	const JFont& source
-	)
-{
-	assert( source.itsFontMgr != NULL );
-
-	if (this == &source)
-		{
-		return *this;
-		}
-
-	if (itsFontMgr == NULL)		// blanks created by JRunArray
-		{
-		itsFontMgr = source.itsFontMgr;
-		itsID      = source.itsID;
-		itsSize    = source.itsSize;
-		itsStyle   = source.itsStyle;
-		}
-	else
-		{
-		itsSize  = source.itsSize;
-		itsStyle = source.itsStyle;
-		SetName(source.GetName());
-		}
-
-	return *this;
-}
 
 int
 operator==
@@ -288,6 +252,5 @@ operator==
 	const JFont& f2
 	)
 {
-	return (f1.itsFontMgr == f2.itsFontMgr && f1.itsID == f2.itsID &&
-			f1.itsSize == f2.itsSize && f1.itsStyle == f2.itsStyle);
+	return (f1.itsID == f2.itsID && f1.itsSize == f2.itsSize && f1.itsStyle == f2.itsStyle);
 }

@@ -3,7 +3,7 @@
 
 	Font information for drawing text.
 
-	Copyright (C) 2016 by John Lindal.
+	Copyright (C) 2016-18 by John Lindal.
 
  ******************************************************************************/
 
@@ -12,14 +12,10 @@
 
 #include <JFontStyle.h>
 #include <JUtf8Character.h>
+#include <JRunArray.h>
 
-class JFontManager;
 class JString;
-
-template <class T> class JList;
-template <class T> class JArray;
-template <class T> class JRunArray;
-template <class T> class JRunArrayElement;
+class JFontManager;
 
 typedef unsigned long JFontID;
 
@@ -29,17 +25,7 @@ class JFont
 
 public:
 
-	JFont(const JFont& source)
-	{
-		itsFontMgr = source.itsFontMgr;
-		itsID      = source.itsID;
-		itsSize    = source.itsSize;
-		itsStyle   = source.itsStyle;
-	};
-
-	const JFont&	operator=(const JFont& source);
-
-	const JFontManager*	GetFontManager() const;
+	// default copy ctor and operator=
 
 	void	Set(const JString& name, const JSize size = 0, const JFontStyle style = JFontStyle());
 	void	Set(const JFont& f);
@@ -60,23 +46,23 @@ public:
 	void	SetItalic(const JBoolean italic);
 	void	SetUnderlineCount(const JSize count);
 	void	SetStrike(const JBoolean strike);
-	void	SetColor(const JColorIndex color);
+	void	SetColor(const JColorID color);
 
-	JSize	GetLineHeight() const;
-	JSize	GetLineHeight(JCoordinate* ascent, JCoordinate* descent) const;
+	JSize	GetLineHeight(const JFontManager* fontManager) const;
+	JSize	GetLineHeight(const JFontManager* fontManager,
+						  JCoordinate* ascent, JCoordinate* descent) const;
 
-	JSize	GetCharWidth(const JUtf8Character& c) const;
-	JSize	GetStringWidth(const JString& str) const;
+	JSize	GetCharWidth(const JFontManager* fontManager, const JUtf8Character& c) const;
+	JSize	GetStringWidth(const JFontManager* fontManager, const JString& str) const;
 
 	JSize	GetStrikeThickness() const;
 	JSize	GetUnderlineThickness() const;
 
 private:
 
-	const JFontManager*	itsFontMgr;
-	JFontID				itsID;
-	JSize				itsSize;
-	JFontStyle			itsStyle;
+	JFontID		itsID;
+	JSize		itsSize;
+	JFontStyle	itsStyle;
 
 private:
 
@@ -88,10 +74,9 @@ private:
 
 	friend class JFontManager;
 
-	JFont(const JFontManager* mgr, const JFontID id,
-		  const JSize size, const JFontStyle& style)
+	JFont(const JFontID id, const JSize size, const JFontStyle& style)
 		:
-		itsFontMgr(mgr), itsID(id), itsSize(size), itsStyle(style)
+		itsID(id), itsSize(size), itsStyle(style)
 	{ };
 
 	void	SetID(const JFontID id);
@@ -100,22 +85,10 @@ public:		// collections must be able to use new[]  :(
 
 	JFont()
 		:
-		itsFontMgr(NULL), itsID(0), itsSize(0)
+		itsID(0), itsSize(0)
 	{ };
 };
 
-
-/******************************************************************************
- GetFontManager
-
- ******************************************************************************/
-
-inline const JFontManager*
-JFont::GetFontManager()
-	const
-{
-	return itsFontMgr;
-}
 
 /******************************************************************************
  GetID
@@ -130,7 +103,7 @@ JFont::GetID()
 }
 
 /******************************************************************************
- GetFontSize
+ GetSize
 
  ******************************************************************************/
 

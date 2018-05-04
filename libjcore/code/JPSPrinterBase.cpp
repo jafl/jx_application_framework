@@ -45,7 +45,7 @@
 #include <JImageMask.h>
 #include <jFileUtil.h>
 #include <JFontManager.h>
-#include <JColormap.h>
+#include <JColorManager.h>
 #include <JStringIterator.h>
 #include <jTime.h>
 #include <stdlib.h>
@@ -60,11 +60,12 @@
 
 JPSPrinterBase::JPSPrinterBase
 	(
-	const JFontManager*	fontManager,
-	const JColormap*	colormap
+	const JFontManager*		fontManager,
+	const JColorManager*	colorManager
 	)
 	:
-	itsColormap(colormap),
+	itsFontManager(fontManager),
+	itsColorManager(colorManager),
 	itsFontSetFlag(kJFalse),
 	itsLastFont(fontManager->GetDefaultFont())
 {
@@ -375,7 +376,7 @@ JPSPrinterBase::PSString
 
 	// add the rest of the styles
 
-	const JSize strWidth = font.GetStringWidth(str);
+	const JSize strWidth = font.GetStringWidth(itsFontManager, str);
 
 	const JSize underlineCount = font.GetStyle().underlineCount;
 	if (underlineCount > 0)
@@ -426,7 +427,7 @@ JPSPrinterBase::PSLine
 	const JCoordinate	y1,
 	const JCoordinate	x2,
 	const JCoordinate	y2,
-	const JColorIndex	color,
+	const JColorID	color,
 	const JSize			lineWidth,
 	const JBoolean		drawDashedLines
 	)
@@ -462,7 +463,7 @@ JPSPrinterBase::PSRect
 	const JCoordinate	y,
 	const JCoordinate	w,
 	const JCoordinate	h,
-	const JColorIndex	color,
+	const JColorID	color,
 	const JSize			lineWidth,
 	const JBoolean		drawDashedLines,
 	const JBoolean		fill
@@ -513,7 +514,7 @@ JPSPrinterBase::PSArc
 	const JCoordinate	h,
 	const JFloat		startAngle,
 	const JFloat		deltaAngle,
-	const JColorIndex	color,
+	const JColorID	color,
 	const JSize			lineWidth,
 	const JBoolean		drawDashedLines,
 	const JBoolean		fill
@@ -589,7 +590,7 @@ JPSPrinterBase::PSPolygon
 	const JCoordinate	left,
 	const JCoordinate	top,
 	const JPolygon&		poly,
-	const JColorIndex	color,
+	const JColorID	color,
 	const JSize			lineWidth,
 	const JBoolean		drawDashedLines,
 	const JBoolean		fill
@@ -696,7 +697,7 @@ JPSPrinterBase::PSColorImageNoMask
 		{
 		for (JCoordinate x=srcRect.left; x<srcRect.right; x++)
 			{
-			const JColorIndex color = image.GetColor(x,y);
+			const JColorID color = image.GetColor(x,y);
 			PSConvertToRGB(color, &(c[0]), &(c[1]), &(c[2]));
 			for (JIndex i=0; i<=2; i++)
 				{
@@ -787,7 +788,7 @@ void
 JPSPrinterBase::ResetBufferedValues()
 {
 	itsFontSetFlag = kJFalse;
-	itsLastColor   = itsColormap->GetBlackColor();
+	itsLastColor   = itsColorManager->GetBlackColor();
 
 	itsLastLineWidthInit = kJFalse;
 	itsLastLineWidth     = 1;
@@ -989,7 +990,7 @@ JPSPrinterBase::ApplyStyles
 void
 JPSPrinterBase::PSSetColor
 	(
-	const JColorIndex color
+	const JColorID color
 	)
 {
 	if (color != itsLastColor)
@@ -1006,21 +1007,21 @@ JPSPrinterBase::PSSetColor
 /******************************************************************************
  PSConvertToRGB (protected)
 
-	Convert JColorIndex (16-bit RGB) to 8-bit RGB Postscript color.
+	Convert JColorID (16-bit RGB) to 8-bit RGB Postscript color.
 
  ******************************************************************************/
 
 void
 JPSPrinterBase::PSConvertToRGB
 	(
-	const JColorIndex	color,
-	JSize*				red,
-	JSize*				green,
-	JSize*				blue
+	const JColorID	color,
+	JSize*			red,
+	JSize*			green,
+	JSize*			blue
 	)
 	const
 {
-	if (itsBWFlag && color != itsColormap->GetWhiteColor())
+	if (itsBWFlag && color != itsColorManager->GetWhiteColor())
 		{
 		*red = *green = *blue = 0;		// black
 		}
@@ -1030,10 +1031,10 @@ JPSPrinterBase::PSConvertToRGB
 		}
 	else
 		{
-		itsColormap->GetRGB(color, red, green, blue);
-		*red   /= 256;
-		*green /= 256;
-		*blue  /= 256;
+		const JRGB rgb = JColorManager::GetRGB(color);
+		*red   = rgb.red   / 256;
+		*green = rgb.green / 256;
+		*blue  = rgb.blue  / 256;
 		}
 }
 

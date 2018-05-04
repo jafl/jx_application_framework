@@ -3,8 +3,8 @@
 
 	System independent color functions.
 
-	JColorIndex is a system dependent value that is allocated at run time.
-	Each component of an RGB value has 16 bits (0 to 65535, see JColormap.h).
+	JColorID is a system dependent value that is allocated at run time.
+	Each component of an RGB value has 16 bits (0 to 65535, see JColorManager.h).
 
 	This file can expand to support other ways of specifying colors.
 	Conversions between the formats are handled via cross-constructors.
@@ -13,7 +13,7 @@
 
  ******************************************************************************/
 
-#include <JColormap.h>
+#include <JColorManager.h>
 #include <JMinMax.h>
 #include <jMath.h>
 #include <jAssert.h>

@@ -50,7 +50,7 @@ JImageMask::~JImageMask()
 
 	Note that by comparing system dependent colors instead of JColorIndices,
 	we run in O(W H) instead of O(W H C), where C is the number of colors
-	in the colormap.  The disadvantage is that system colors may be approximate
+	in the colorManager.  The disadvantage is that system colors may be approximate
 	so two colors close together will have the same system value, but different
 	JColorIndices.  For masking, this should not be a problem, however, because
 	one usually masks out a color that is very different from the other
@@ -62,7 +62,7 @@ void
 JImageMask::CalcMask
 	(
 	const JImage&		image,
-	const JColorIndex	color
+	const JColorID	color
 	)
 {
 	const unsigned long sysColor = image.GetSystemColor(color);

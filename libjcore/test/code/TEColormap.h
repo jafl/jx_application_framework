@@ -8,9 +8,9 @@
 #ifndef _H_TEColormap
 #define _H_TEColormap
 
-#include <JColormap.h>
+#include <JColorManager.h>
 
-class TEColormap : public JColormap
+class TEColormap : public JColorManager
 {
 public:
 
@@ -18,42 +18,42 @@ public:
 
 	virtual ~TEColormap();
 
-	virtual JBoolean	GetColor(const JString& name, JColorIndex* colorIndex) const;
-	virtual JColorIndex	GetColor(const JSize red, const JSize green, const JSize blue) const;
-	virtual void		GetRGB(const JColorIndex colorIndex, JSize* red,
+	virtual JBoolean	GetColor(const JString& name, JColorID* colorIndex) const;
+	virtual JColorID	GetColor(const JSize red, const JSize green, const JSize blue) const;
+	virtual void		GetRGB(const JColorID colorIndex, JSize* red,
 							   JSize* green, JSize* blue) const;
 
 	// useful colors
 
-	virtual JColorIndex	GetBlackColor() const;
-	virtual JColorIndex	GetRedColor() const;
-	virtual JColorIndex	GetGreenColor() const;
-	virtual JColorIndex	GetYellowColor() const;
-	virtual JColorIndex	GetBlueColor() const;
-	virtual JColorIndex	GetMagentaColor() const;
-	virtual JColorIndex	GetCyanColor() const;
-	virtual JColorIndex	GetWhiteColor() const;
+	virtual JColorID	GetBlackColor() const;
+	virtual JColorID	GetRedColor() const;
+	virtual JColorID	GetGreenColor() const;
+	virtual JColorID	GetYellowColor() const;
+	virtual JColorID	GetBlueColor() const;
+	virtual JColorID	GetMagentaColor() const;
+	virtual JColorID	GetCyanColor() const;
+	virtual JColorID	GetWhiteColor() const;
 
-	virtual JColorIndex	GetGrayColor(const JSize percentage) const;
+	virtual JColorID	GetGrayColor(const JSize percentage) const;
 
-	virtual JColorIndex	GetDarkRedColor() const;
-	virtual JColorIndex	GetOrangeColor() const;
-	virtual JColorIndex	GetDarkGreenColor() const;
-	virtual JColorIndex	GetLightBlueColor() const;
-	virtual JColorIndex	GetBrownColor() const;
-	virtual JColorIndex	GetPinkColor() const;
+	virtual JColorID	GetDarkRedColor() const;
+	virtual JColorID	GetOrangeColor() const;
+	virtual JColorID	GetDarkGreenColor() const;
+	virtual JColorID	GetLightBlueColor() const;
+	virtual JColorID	GetBrownColor() const;
+	virtual JColorID	GetPinkColor() const;
 
-	virtual JColorIndex	GetDefaultSelectionColor() const;
+	virtual JColorID	GetDefaultSelectionColor() const;
 
-	virtual JColorIndex	GetDefaultBackColor() const;
-	virtual JColorIndex	GetDefaultFocusColor() const;
-	virtual JColorIndex	GetDefaultSliderBackColor() const;
-	virtual JColorIndex	GetInactiveLabelColor() const;
-	virtual JColorIndex	GetDefaultSelButtonColor() const;
-	virtual JColorIndex	GetDefaultDNDBorderColor() const;
+	virtual JColorID	GetDefaultBackColor() const;
+	virtual JColorID	GetDefaultFocusColor() const;
+	virtual JColorID	GetDefaultSliderBackColor() const;
+	virtual JColorID	GetInactiveLabelColor() const;
+	virtual JColorID	GetDefaultSelButtonColor() const;
+	virtual JColorID	GetDefaultDNDBorderColor() const;
 
-	virtual JColorIndex	Get3DLightColor() const;
-	virtual JColorIndex	Get3DShadeColor() const;
+	virtual JColorID	Get3DLightColor() const;
+	virtual JColorID	Get3DShadeColor() const;
 
 private:
 

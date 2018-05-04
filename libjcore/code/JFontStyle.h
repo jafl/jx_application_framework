@@ -17,7 +17,7 @@ struct JFontStyle
 {
 private:
 
-	static JColorIndex itsDefaultColorIndex;
+	static JColorID itsDefaultColorIndex;
 
 public:
 
@@ -25,7 +25,7 @@ public:
 	JBoolean			italic;
 	JSize				underlineCount;		// may change font height
 	JBoolean			strike;
-	JColorIndex			color;
+	JColorID			color;
 
 	JFontStyle()
 		:
@@ -42,7 +42,7 @@ public:
 		const JBoolean		i,
 		const JSize			u,
 		const JBoolean		s,
-		const JColorIndex	c = JFontStyle::itsDefaultColorIndex
+		const JColorID	c = JFontStyle::itsDefaultColorIndex
 		)
 		:
 		bold(b),
@@ -54,7 +54,7 @@ public:
 
 	JFontStyle
 		(
-		const JColorIndex c
+		const JColorID c
 		)
 		:
 		bold(kJFalse),
@@ -72,13 +72,14 @@ public:
 					color == itsDefaultColorIndex);
 	};
 
-	static void
-	SetDefaultColorIndex
+	JBoolean
+	SameSystemAttributes
 		(
-		const JColorIndex c
+		const JFontStyle& style
 		)
+		const
 	{
-		itsDefaultColorIndex = c;
+		return JI2B( style.bold == bold && style.italic == italic );
 	};
 };
 

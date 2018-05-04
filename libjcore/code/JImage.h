@@ -17,7 +17,7 @@
 #include <gd.h>
 
 class JImageMask;
-class JColormap;
+class JColorManager;
 
 class JImage
 {
@@ -35,7 +35,7 @@ public:
 
 public:
 
-	JImage(const JCoordinate width, const JCoordinate height, JColormap* colormap);
+	JImage(const JCoordinate width, const JCoordinate height, JColorManager* colorManager);
 	JImage(const JImage& source);
 
 	virtual ~JImage();
@@ -44,10 +44,10 @@ public:
 	JCoordinate	GetHeight() const;
 	JRect		GetBounds() const;
 
-	JColormap*			GetColormap() const;
-	virtual JColorIndex	GetColor(const JCoordinate x, const JCoordinate y) const = 0;
+	JColorManager*			GetColorManager() const;
+	virtual JColorID	GetColor(const JCoordinate x, const JCoordinate y) const = 0;
 	virtual void		SetColor(const JCoordinate x, const JCoordinate y,
-								 const JColorIndex color) = 0;
+								 const JColorID color) = 0;
 
 	virtual JBoolean	GetMask(JImageMask** mask) const = 0;
 
@@ -66,7 +66,7 @@ public:
 
 	// called by JImageMask
 
-	virtual unsigned long	GetSystemColor(const JColorIndex color) const = 0;
+	virtual unsigned long	GetSystemColor(const JColorID color) const = 0;
 	virtual unsigned long	GetSystemColor(const JCoordinate x, const JCoordinate y) const = 0;
 
 protected:
@@ -78,7 +78,7 @@ protected:
 	JError	ReadJPEG(const JString& fileName);
 	void	ReadFromJXPM(const JXPM& pixmap);
 
-	virtual void	SetImageData(const JSize colorCount, const JColorIndex* colorTable,
+	virtual void	SetImageData(const JSize colorCount, const JColorID* colorTable,
 								 unsigned short** imageData,
 								 const JBoolean hasMask, const unsigned long maskColor) = 0;
 	virtual void	PrepareForImageData() = 0;
@@ -91,7 +91,7 @@ private:
 
 	JCoordinate	itsWidth;
 	JCoordinate	itsHeight;
-	JColormap*	itsColormap;	// we don't own this
+	JColorManager*	itsColorManager;	// we don't own this
 
 private:
 
@@ -213,15 +213,15 @@ JImage::SetDimensions
 }
 
 /******************************************************************************
- GetColormap
+ GetColorManager
 
  ******************************************************************************/
 
-inline JColormap*
-JImage::GetColormap()
+inline JColorManager*
+JImage::GetColorManager()
 	const
 {
-	return itsColormap;
+	return itsColorManager;
 }
 
 #endif

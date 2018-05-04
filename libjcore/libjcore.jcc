@@ -420,10 +420,6 @@ T
 2 "JFontManager.cpp"
 F
 "./code/JFontManager.cpp"
-T
-2 "JGetCurrentFontManager.cpp"
-F
-"./code/JGetCurrentFontManager.cpp"
 F
 T
 1 "drawing"
@@ -444,13 +440,9 @@ T
 F
 "./code/jColor.cpp"
 T
-2 "JColormap.cpp"
+2 "JColorManager.cpp"
 F
-"./code/JColormap.cpp"
-T
-2 "JGetCurrentColormap.cpp"
-F
-"./code/JGetCurrentColormap.cpp"
+"./code/JColorManager.cpp"
 T
 2 "JImage.cpp"
 F

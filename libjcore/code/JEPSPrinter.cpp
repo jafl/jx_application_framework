@@ -51,13 +51,13 @@ const JUtf8Byte kSetupDataEndDelimiter = '\1';
 
 JEPSPrinter::JEPSPrinter
 	(
-	const JFontManager*	fontManager,
-	const JColormap*	colormap
+	const JFontManager*		fontManager,
+	const JColorManager*	colorManager
 	)
 	:
-	JPainter(fontManager, colormap, JRect(0,0,0,0)),
+	JPainter(fontManager, colorManager, JRect(0,0,0,0)),
 	JPrinter(),
-	JPSPrinterBase(fontManager, colormap),
+	JPSPrinterBase(fontManager, colorManager),
 	itsBounds(0,0,0,0)
 {
 	itsIncludePreviewFlag = kJFalse;
@@ -241,7 +241,7 @@ JEPSPrinter::PrintPreview()
 
 			// Intensity formula from X11, Vol 1, p 211
 
-			const JColorIndex color = image->GetColor(x,y);
+			const JColorID color = image->GetColor(x,y);
 			PSConvertToRGB(color, &(c[0]), &(c[1]), &(c[2]));
 			const JSize intensity = JRound(0.30 * c[0] + 0.59 * c[1] + 0.11 * c[2]);
 			if (intensity <= 0x0F)
