@@ -14,7 +14,6 @@
 #include <JFontStyle.h>
 #include <JRunArray.h>
 
-class JFontManager;
 class JXImage;
 class JXTextMenu;
 class JXTextMenuTable;
@@ -124,7 +123,6 @@ private:
 private:
 
 	JXTextMenu*				itsMenu;		// it owns us
-	const JFontManager*		itsFontManager;
 	JArray<TextItemData>*	itsTextItemData;
 
 	JFont	itsDefaultFont;

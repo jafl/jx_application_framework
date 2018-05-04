@@ -14,7 +14,6 @@
 #include <JXTextMenuTable.h>
 #include <JXWindow.h>
 #include <JXImage.h>
-#include <JXColormap.h>
 #include <jXGlobals.h>
 #include <jXKeysym.h>
 #include <JFontManager.h>
@@ -40,7 +39,6 @@ JXTextMenuData::JXTextMenuData
 	:
 	JXMenuData(),
 	itsMenu( menu ),
-	itsFontManager( menu->GetFontManager() ),
 	itsDefaultFont( JFontManager::GetDefaultFont() )
 {
 	itsTextItemData = jnew JArray<TextItemData>;
@@ -719,7 +717,7 @@ JXTextMenuData::GetNMShortcut
 	else
 		{
 		*str = NULL;
-		*font = itsFontManager->GetDefaultFont();
+		*font = itsMenu->GetFontManager()->GetDefaultFont();
 		return kJFalse;
 		}
 }
@@ -813,18 +811,20 @@ static const JXTMModifierConversion kNMModConv[] =
 {
 	{ "Shift-", 6, kJXShiftKeyIndex   },
 	{ "Ctrl-",  5, kJXControlKeyIndex },
+	{ "Meta-",  5, kJXMetaKeyIndex    },	// index = kOSXModifierCount
 	{ "Mod1-",  5, kJXMod1KeyIndex    },
 	{ "Mod2-",  5, kJXMod2KeyIndex    },
 	{ "Mod3-",  5, kJXMod3KeyIndex    },
 	{ "Mod4-",  5, kJXMod4KeyIndex    },
 	{ "Mod5-",  5, kJXMod5KeyIndex    },
-	{ "Meta-",  5, kJXMetaKeyIndex    },
 	{ "Alt-",   4, kJXAltKeyIndex     },
 	{ "Super-", 6, kJXSuperKeyIndex   },
 	{ "Hyper-", 6, kJXHyperKeyIndex   }
 };
 
 const JSize kNMModConvCount = sizeof(kNMModConv)/sizeof(JXTMModifierConversion);
+
+const JSize kOSXModifierCount = 3;
 
 struct JXTMKeySymConversion
 {
@@ -860,18 +860,16 @@ JXTextMenuData::ParseNMShortcut
 	JXKeyModifiers*	modifiers
 	)
 {
-JIndex i;
-
 	JString keyStr(*str);
 	modifiers->Clear();
 
 	// decode modifiers
-
+	{
 	JStringIterator iter(&keyStr);
 	while (1)
 		{
 		JBoolean found = kJFalse;
-		for (i=0; i<kNMModConvCount; i++)
+		for (JIndex i=0; i<kNMModConvCount; i++)
 			{
 			if (keyStr.BeginsWith(kNMModConv[i].str) &&
 				keyStr.GetByteCount() > kNMModConv[i].strLength)
@@ -899,10 +897,49 @@ JIndex i;
 			break;
 			}
 		}
+	}
+	// nicer display for OS X
+
+	if (itsMenu->GetDisplay()->IsOSX() &&
+		(modifiers->shift() || modifiers->control() || modifiers->meta()))
+		{
+		JStringIterator iter(str);
+
+		for (JIndex i=0; i<kOSXModifierCount; i++)
+			{
+			iter.MoveTo(kJIteratorStartAtBeginning, 0);
+			while (iter.Next(kNMModConv[i].str))
+				{
+				iter.RemoveLastMatch();
+				}
+			}
+
+		iter.MoveTo(kJIteratorStartAtBeginning, 0);
+		const JBoolean ok = iter.Next(keyStr);
+		assert( ok );
+		iter.RemoveLastMatch();
+
+		if (modifiers->shift())
+			{
+			str->Append("\xE2\x87\xA7");
+			}
+
+		if (modifiers->control())
+			{
+			str->Append("\xE2\x8C\x83");
+			}
+
+		if (modifiers->meta())
+			{
+			str->Append("\xE2\x8C\x98");
+			}
+
+		str->Append(keyStr);
+		}
 
 	// translate known name to single character
 
-	for (i=0; i<kNMKeyConvCount; i++)
+	for (JIndex i=0; i<kNMKeyConvCount; i++)
 		{
 		if (JString::Compare(keyStr, kNMKeyConv[i].str, kJFalse) == 0)
 			{
@@ -1069,10 +1106,10 @@ JXTextMenuData::ConfigureTable
 
 			if (itemData.text != NULL)
 				{
-				const JCoordinate th = itemData.font.GetLineHeight();
+				const JCoordinate th = itemData.font.GetLineHeight(itsMenu->GetFontManager());
 				h                    = JMax(h, th);
 				const JCoordinate tw = 2*JXTextMenuTable::kHMarginWidth +
-					itemData.font.GetStringWidth(*(itemData.text));
+					itemData.font.GetStringWidth(itsMenu->GetFontManager(), *(itemData.text));
 				itsMaxTextWidth = JMax(itsMaxTextWidth, tw);
 				}
 
@@ -1087,11 +1124,11 @@ JXTextMenuData::ConfigureTable
 				itsHasNMShortcutsFlag = kJTrue;
 				JFont f = itemData.font;
 				f.ClearStyle();
-				const JCoordinate th = f.GetLineHeight();
+				const JCoordinate th = f.GetLineHeight(itsMenu->GetFontManager());
 				h = JMax(h, th);
 				const JCoordinate tw = JXTextMenuTable::kHNMSMarginWidth +
 					JXTextMenuTable::kHMarginWidth +
-					itemData.font.GetStringWidth(*(itemData.nmShortcut));
+					itemData.font.GetStringWidth(itsMenu->GetFontManager(), *(itemData.nmShortcut));
 				itsMaxShortcutWidth = JMax(itsMaxShortcutWidth, tw);
 				}
 
@@ -1145,7 +1182,7 @@ JXTextMenuData::ConfigureTable
 	// set a sensible scroll step
 
 	const JCoordinate scrollStep =
-		itsDefaultFont.GetLineHeight(itsFontManager) +
+		itsDefaultFont.GetLineHeight(itsMenu->GetFontManager()) +
 		2*(JXTextMenuTable::kHilightBorderWidth + 1);
 	table->SetDefaultRowHeight(scrollStep);
 }

@@ -1,7 +1,7 @@
 JStyledTextBuffer
+	broadcast char/byte delta with TextChanged, to allow adjusting selection/caret
 	AutoIndent
 	CleanRightMargin
-	broadcast useful messages for JTextEditor, e.g., adjust caret/selection
 
 JTextEditor
 	set selection/caret after undo
@@ -10,16 +10,6 @@ JTextEditor
 put back
 	*KeyHandler
 	JTEStyler
-
-JXTEBase
-	show busy cursor when get WillBeBusy from JStyledTextBuffer
-
-JXTextMenu
-	on OSX, replace Meta- Shift- Ctrl- and invert ordering
-
-	cmd   - E2 8C 98
-	shift - E2 87 A7
-	ctrl  - E2 8C 83
 
 implement flex/bison parser for libjexpr
 
@@ -35,6 +25,7 @@ sample text in TestTabDirector
 	has \x - correctly interpreted?
 
 test
+	on OSX, replace Shift- Ctrl- Meta- with symbols for menu shortcuts
 	man pages
 	styled unix terminal output - yui build output
 	default & vi key handlers
