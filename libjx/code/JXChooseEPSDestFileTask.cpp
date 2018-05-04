@@ -1,35 +1,28 @@
 /******************************************************************************
- JXAdjustPSPrintSetupLayoutTask.cpp
+ JXChooseEPSDestFileTask.cpp
 
-	Adjusts location of widgets after fit-to-content.
+	Requests destination file after fit-to-content.
 
 	BASE CLASS = JXUrgentTask, virtual JBroadcaster
 
-	Copyright (C) 2017 by John Lindal.
+	Copyright (C) 2017-2018 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 
-#include <JXAdjustPSPrintSetupLayoutTask.h>
-#include <JXDirector.h>
-#include <JXWidget.h>
+#include <JXChooseEPSDestFileTask.h>
+#include <JXEPSPrintSetupDialog.h>
 
 /******************************************************************************
  Constructor
 
  ******************************************************************************/
 
-JXAdjustPSPrintSetupLayoutTask::JXAdjustPSPrintSetupLayoutTask
+JXChooseEPSDestFileTask::JXChooseEPSDestFileTask
 	(
-	JXDirector*			director,
-	const JCoordinate	delta,
-	JXWidget*			chooseFileButton,
-	JXWidget*			fileInput
+	JXEPSPrintSetupDialog* director
 	)
 	:
-	itsDirector(director),
-	itsDelta(delta),
-	itsChooseFileButton(chooseFileButton),
-	itsFileInput(fileInput)
+	itsDirector(director)
 {
 	ClearWhenGoingAway(itsDirector, &itsDirector);
 }
@@ -39,7 +32,7 @@ JXAdjustPSPrintSetupLayoutTask::JXAdjustPSPrintSetupLayoutTask
 
  ******************************************************************************/
 
-JXAdjustPSPrintSetupLayoutTask::~JXAdjustPSPrintSetupLayoutTask()
+JXChooseEPSDestFileTask::~JXChooseEPSDestFileTask()
 {
 }
 
@@ -49,11 +42,10 @@ JXAdjustPSPrintSetupLayoutTask::~JXAdjustPSPrintSetupLayoutTask()
  ******************************************************************************/
 
 void
-JXAdjustPSPrintSetupLayoutTask::Perform()
+JXChooseEPSDestFileTask::Perform()
 {
 	if (itsDirector != NULL)
 		{
-		itsChooseFileButton->Move(0, itsDelta);
-		itsFileInput->Move(0, itsDelta);
+		itsDirector->ChooseDestinationFile();
 		}
 }

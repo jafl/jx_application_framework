@@ -12,6 +12,7 @@
 
 #include <JXPTPrintSetupDialog.h>
 #include <JXPSPrintSetupDialog.h>
+#include <JXAdjustPrintSetupLayoutTask.h>
 #include <JXWindow.h>
 #include <JXTextButton.h>
 #include <JXStaticText.h>
@@ -100,7 +101,7 @@ JXPTPrintSetupDialog::BuildWindow
 
 	itsPrintCmdLabel =
 		jnew JXStaticText(JGetString("itsPrintCmdLabel::JXPTPrintSetupDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,70, 100,19);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,70, 90,19);
 	assert( itsPrintCmdLabel != NULL );
 	itsPrintCmdLabel->SetToLabel();
 
@@ -140,12 +141,12 @@ JXPTPrintSetupDialog::BuildWindow
 
 	itsPrintCmd =
 		jnew JXInputField(window,
-					JXWidget::kHElastic, JXWidget::kFixedTop, 110,70, 240,20);
+					JXWidget::kHElastic, JXWidget::kFixedTop, 100,70, 250,20);
 	assert( itsPrintCmd != NULL );
 
 	itsChooseFileButton =
 		jnew JXTextButton(JGetString("itsChooseFileButton::JXPTPrintSetupDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 30,70, 80,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,90, 80,20);
 	assert( itsChooseFileButton != NULL );
 	itsChooseFileButton->SetShortcuts(JGetString("itsChooseFileButton::JXPTPrintSetupDialog::shortcuts::JXLayout"));
 
@@ -248,16 +249,22 @@ JXPTPrintSetupDialog::SetObjects
 	window->SetTitle(JGetString("WindowTitle::JXPTPrintSetupDialog"));
 	SetButtons(okButton, cancelButton);
 
-	const JRect r = itsPrintCmd->GetFrame();
+	const JRect r1 = itsPrintCmd->GetFrame(),
+				r2 = itsChooseFileButton->GetFrame();
 	itsFileInput =
 		jnew JXFileInput(window,
-						JXWidget::kHElastic, JXWidget::kVElastic,
-						r.left, r.top, r.width(), r.height());
+						 JXWidget::kHElastic, JXWidget::kVElastic,
+						 r1.left, r2.top, r1.width(), r2.height());
 	assert( itsFileInput != NULL );
 	itsFileInput->ShouldAllowInvalidFile();
 	itsFileInput->SetText(fileName);
 	itsFileInput->ShouldBroadcastAllTextChanged(kJTrue);
 	ListenTo(itsFileInput);
+
+	JXAdjustPrintSetupLayoutTask* task =
+		jnew JXAdjustPrintSetupLayoutTask(this, itsPrintCmd, itsChooseFileButton, itsFileInput);
+	assert( task != NULL );
+	task->Go();
 
 	itsPrintCmd->SetText(printCmd);
 	itsPrintCmd->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);

@@ -20,3 +20,5 @@
 .cpp ./code/THXVarTable
 .cpp ./code/THXVarList
 .cpp ./code/THXBaseConvDirector
+
+literal: ${LIB_DEPS}

@@ -13,6 +13,7 @@
 #include <JXEPSPrintSetupDialog.h>
 #include <JXEPSPrinter.h>
 #include <JXPSPrintSetupDialog.h>
+#include <JXChooseEPSDestFileTask.h>
 #include <JXWindow.h>
 #include <JXTextButton.h>
 #include <JXStaticText.h>
@@ -158,7 +159,9 @@ JXEPSPrintSetupDialog::SetObjects
 	itsFileInput->ShouldBroadcastAllTextChanged(kJTrue);
 	if (itsFileInput->IsEmpty())
 		{
-		ChooseDestinationFile();
+		JXChooseEPSDestFileTask* task = jnew JXChooseEPSDestFileTask(this);
+		assert( task != NULL );
+		task->Go();
 		}
 
 	UpdateDisplay();
@@ -225,7 +228,7 @@ JXEPSPrintSetupDialog::Receive
 }
 
 /******************************************************************************
- ChooseDestinationFile (private)
+ ChooseDestinationFile
 
  ******************************************************************************/
 

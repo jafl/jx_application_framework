@@ -236,9 +236,10 @@
 .cpp ./code/JXPSPrinter
 .cpp ./code/JXPSPrintSetupDialog
 .cpp ./code/JXPSPageSetupDialog
-.cpp ./code/JXAdjustPSPrintSetupLayoutTask
+.cpp ./code/JXAdjustPrintSetupLayoutTask
 .cpp ./code/JXEPSPrinter
 .cpp ./code/JXEPSPrintSetupDialog
+.cpp ./code/JXChooseEPSDestFileTask
 .cpp ./code/JXWebBrowser
 .cpp ./code/JXStringCompletionMenu
 .cpp ./code/JXChooseColorDialog

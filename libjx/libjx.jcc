@@ -1015,9 +1015,9 @@ T
 F
 "./code/JXPSPageSetupDialog.cpp"
 T
-2 "JXAdjustPSPrintSetupLayoutTask.cpp"
+2 "JXAdjustPrintSetupLayoutTask.cpp"
 F
-"./code/JXAdjustPSPrintSetupLayoutTask.cpp"
+"./code/JXAdjustPrintSetupLayoutTask.cpp"
 T
 2 "JXEPSPrinter.cpp"
 F
@@ -1026,6 +1026,10 @@ T
 2 "JXEPSPrintSetupDialog.cpp"
 F
 "./code/JXEPSPrintSetupDialog.cpp"
+T
+2 "JXChooseEPSDestFileTask.cpp"
+F
+"./code/JXChooseEPSDestFileTask.cpp"
 F
 T
 1 "misc"
@@ -1076,7 +1080,6 @@ F
 # tasks
 4
 "makemake"
-T "@" "jxlayout --choose --post-cmd 'jcc --reload-open' $file_name" "" F F T T T T F "Compile layouts" "F10" "" T
 F
 # build settings
 1
