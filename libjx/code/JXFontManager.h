@@ -82,7 +82,7 @@ private:
 
 	struct FontInfo
 	{
-		JBoolean	allocated;
+		JBoolean	filled;
 		XFont		xfont;
 		JBoolean	exact;		// kJTrue => exact match to requested specs
 		JCoordinate	ascent;		// cache for TrueType; 0 until first computed
@@ -91,7 +91,7 @@ private:
 
 		FontInfo()
 			:
-			allocated(kJFalse), exact(kJFalse), ascent(0), descent(0), monoWidth(0)
+			filled(kJFalse), exact(kJFalse), ascent(0), descent(0), monoWidth(0)
 		{ };
 	};
 

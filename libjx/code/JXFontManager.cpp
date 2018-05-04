@@ -456,7 +456,7 @@ JXFontManager::GetFontID
 		}
 
 	FontInfo info = itsFontList->GetElement(*fontID);
-	if (info.allocated)
+	if (info.filled)
 		{
 		return kJTrue;
 		}
@@ -484,7 +484,7 @@ JXFontManager::GetFontID
 			}
 		}
 
-	info.allocated = kJTrue;
+	info.filled    = kJTrue;
 	info.exact     = kJTrue;
 	info.monoWidth = IsMonospace(info.xfont);
 
@@ -922,7 +922,7 @@ JXFontManager::GetXFontInfo
 		}
 
 	FontInfo info = itsFontList->GetElement(id);
-	if (info.allocated)
+	if (info.filled)
 		{
 		return info.xfont;
 		}
@@ -942,7 +942,7 @@ JXFontManager::GetXFontInfo
 		ApproximateFont(xFontName, f.GetSize(), f.GetStyle(), &(info.xfont));
 		}
 
-	info.allocated = kJTrue;
+	info.filled    = kJTrue;
 	info.monoWidth = IsMonospace(info.xfont);
 
 	itsFontList->SetElement(id, info);
