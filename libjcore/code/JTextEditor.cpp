@@ -122,7 +122,7 @@
 
 	BASE CLASS = virtual JBroadcaster
 
-	Copyright (C) 1996-99 by John Lindal.
+	Copyright (C) 1996-2018 by John Lindal.
 
  ******************************************************************************/
 
@@ -179,10 +179,10 @@ JTextEditor::JTextEditor
 	JStyledTextBuffer*	buffer,
 	const JBoolean		ownsBuffer,
 	const JBoolean		breakCROnly,
-	const JColorID	caretColor,
-	const JColorID	selectionColor,
-	const JColorID	outlineColor,
-	const JColorID	wsColor,
+	const JColorID		caretColor,
+	const JColorID		selectionColor,
+	const JColorID		outlineColor,
+	const JColorID		wsColor,
 	const JCoordinate	width
 	)
 	:

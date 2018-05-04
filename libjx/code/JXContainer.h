@@ -299,9 +299,9 @@ private:
 									  const JBoolean deleteBlockedWidgetCells,
 									  JPtrArray<JXFTCCell>* cellList) const;
 
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		FTCCompareHorizontally(JXContainer* const & w1, JXContainer* const & w2);
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		FTCCompareVertically(JXContainer* const & w1, JXContainer* const & w2);
 
 	// called by JXWindow

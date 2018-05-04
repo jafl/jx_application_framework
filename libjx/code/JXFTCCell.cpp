@@ -1009,7 +1009,7 @@ JXFTCCell::GetApertureGlobal()
 
  ******************************************************************************/
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 JXFTCCell::CompareHorizontally
 	(
 	JXFTCCell* const & c1,
@@ -1021,7 +1021,7 @@ JXFTCCell::CompareHorizontally
 		c2->itsFrameG.left);
 }
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 JXFTCCell::CompareVertically
 	(
 	JXFTCCell* const & c1,

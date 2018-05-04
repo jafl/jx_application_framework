@@ -44,7 +44,6 @@ protected:
 	virtual void		TESetVertScrollStep(const JCoordinate vStep);
 	virtual void		TEClipboardChanged();
 	virtual JBoolean	TEGetExternalClipboard(JString* text, JRunArray<JFont>* style) const;
-	virtual void		TEDisplayBusyCursor() const;
 	virtual JBoolean	TEBeginDND();
 	virtual void		TEPasteDropData();
 	virtual void		TECaretShouldBlink(const JBoolean blink);

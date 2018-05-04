@@ -164,8 +164,8 @@ public:
 
 protected:
 
-	JXTEBase(const Type type, const JBoolean breakCROnly,
-			 const JBoolean pasteStyledText,
+	JXTEBase(const Type type, JStyledTextBuffer* buffer, const JBoolean ownsBuffer,
+			 const JBoolean breakCROnly,
 			 JXScrollbarSet* scrollbarSet, JXContainer* enclosure,
 			 const HSizingOption hSizing, const VSizingOption vSizing,
 			 const JCoordinate x, const JCoordinate y,
@@ -188,8 +188,6 @@ protected:
 								  const JXKeyModifiers& modifiers) override;
 
 	virtual JBoolean	HitSamePart(const JPoint& pt1, const JPoint& pt2) const override;
-
-	virtual void		TEDisplayBusyCursor() const override;
 
 	virtual JBoolean	TEBeginDND() override;
 	virtual void		DNDFinish(const JBoolean isDrop, const JXContainer* target) override;

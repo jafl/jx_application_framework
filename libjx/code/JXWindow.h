@@ -148,8 +148,8 @@ public:
 
 	JXWindowDirector*	GetDirector() const;
 
-	JColorIndex		GetBackColor() const;
-	void			SetBackColor(const JColorIndex color);
+	JColorID		GetBackColor() const;
+	void			SetBackColor(const JColorID color);
 	void			SetIcon(JXImage* icon);
 	JXWindowIcon*	SetIcon(JXImage* normalIcon, JXImage* dropIcon);
 	JBoolean		GetIconWidget(JXWindowIcon** widget) const;
@@ -360,7 +360,7 @@ private:
 	Pixmap		itsBufferPixmap;
 	JString		itsTitle;
 	JString		itsWindowType;
-	JColorIndex	itsBackColor;
+	JColorID	itsBackColor;
 	JXImage*	itsIcon;					// can be NULL
 	JRect		itsBounds;
 	JPoint		itsDesktopLoc;				// convert to root coordinates
@@ -843,7 +843,7 @@ JXWindow::GetFocusWidget
 
  ******************************************************************************/
 
-inline JColorIndex
+inline JColorID
 JXWindow::GetBackColor()
 	const
 {

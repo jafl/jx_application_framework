@@ -2747,7 +2747,7 @@ JXContainer::FTCAdjustSize
 
  ******************************************************************************/
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 JXContainer::FTCCompareHorizontally
 	(
 	JXContainer* const & w1,
@@ -2759,7 +2759,7 @@ JXContainer::FTCCompareHorizontally
 		w2->GetFrameForFTC().left);
 }
 
-JOrderedSetT::CompareResult
+JListT::CompareResult
 JXContainer::FTCCompareVertically
 	(
 	JXContainer* const & w1,

@@ -102,9 +102,9 @@ private:
 	JString	Indent(const JSize extra = 0) const;
 	JString	GetDirectionName() const;
 
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		CompareHorizontally(JXFTCCell* const & c1, JXFTCCell* const & c2);
-	static JOrderedSetT::CompareResult
+	static JListT::CompareResult
 		CompareVertically(JXFTCCell* const & c1, JXFTCCell* const & c2);
 
 	// not allowed

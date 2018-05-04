@@ -29,22 +29,22 @@ protected:
 
 	virtual JBoolean	HitSamePart(const JPoint& pt1, const JPoint& pt2) const override;
 
-	virtual void		TableRefresh();
-	virtual void		TableRefreshRect(const JRect& rect);
-	virtual void		TableSetGUIBounds(const JCoordinate w, const JCoordinate h);
+	virtual void		TableRefresh() override;
+	virtual void		TableRefreshRect(const JRect& rect) override;
+	virtual void		TableSetGUIBounds(const JCoordinate w, const JCoordinate h) override;
 	virtual void		TableSetScrollSteps(const JCoordinate hStep,
-											const JCoordinate vStep);
-	virtual void		TableHeightChanged(const JCoordinate y, const JCoordinate delta);
-	virtual void		TableHeightScaled(const JFloat scaleFactor);
+											const JCoordinate vStep) override;
+	virtual void		TableHeightChanged(const JCoordinate y, const JCoordinate delta) override;
+	virtual void		TableHeightScaled(const JFloat scaleFactor) override;
 	virtual void		TableRowMoved(const JCoordinate origY, const JSize height,
-									  const JCoordinate newY);
-	virtual void		TableWidthChanged(const JCoordinate x, const JCoordinate delta);
-	virtual void		TableWidthScaled(const JFloat scaleFactor);
+									  const JCoordinate newY) override;
+	virtual void		TableWidthChanged(const JCoordinate x, const JCoordinate delta) override;
+	virtual void		TableWidthScaled(const JFloat scaleFactor) override;
 	virtual void		TableColMoved(const JCoordinate origX, const JSize width,
-									  const JCoordinate newX);
+									  const JCoordinate newX) override;
 	virtual JBoolean	TableScrollToCellRect(const JRect& cellRect,
-											  const JBoolean centerInDisplay = kJFalse);
-	virtual JCoordinate	TableGetApertureWidth() const;
+											  const JBoolean centerInDisplay = kJFalse) override;
+	virtual JCoordinate	TableGetApertureWidth() const override;
 
 	void		BeginSelectionDrag(const JPoint& cell, const JXMouseButton button,
 								   const JXKeyModifiers& modifiers);

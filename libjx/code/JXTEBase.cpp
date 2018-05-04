@@ -314,8 +314,9 @@ enum
 JXTEBase::JXTEBase
 	(
 	const Type			type,
+	JStyledTextBuffer*	buffer,
+	const JBoolean		ownsBuffer,
 	const JBoolean		breakCROnly,
-	const JBoolean		pasteStyledText,
 	JXScrollbarSet*		scrollbarSet,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
@@ -327,13 +328,11 @@ JXTEBase::JXTEBase
 	)
 	:
 	JXScrollableWidget(scrollbarSet, enclosure, hSizing, vSizing, x,y, w,h),
-	JTextEditor(type, breakCROnly, pasteStyledText,
-				GetFontManager(), GetColormap(),
-				GetColormap()->GetRedColor(),				// caret
-				GetColormap()->GetDefaultSelectionColor(),	// selection filled
-				GetColormap()->GetBlueColor(),				// selection outline
-				GetColormap()->GetBlackColor(),				// drag
-				GetColormap()->GetGrayColor(70),			// whitespace
+	JTextEditor(type, buffer, ownsBuffer, breakCROnly,
+				JColorManager::GetRedColor(),				// caret
+				JColorManager::GetDefaultSelectionColor(),	// selection filled
+				JColorManager::GetBlueColor(),				// selection outline
+				JColorManager::GetGrayColor(70),			// whitespace
 				GetApertureWidth()),
 
 	itsWillPasteCustomFlag( kJFalse )
@@ -376,6 +375,8 @@ JXTEBase::JXTEBase
 		WantInput(kJTrue);
 		SetDefaultCursor(kJXTextEditCursor);
 		}
+
+	ListenTo(GetBuffer());
 }
 
 /******************************************************************************
@@ -559,18 +560,6 @@ JXTEBase::HitSamePart
 	const
 {
 	return TEHitSamePart(pt1, pt2);
-}
-
-/******************************************************************************
- TEDisplayBusyCursor (virtual protected)
-
- ******************************************************************************/
-
-void
-JXTEBase::TEDisplayBusyCursor()
-	const
-{
-	(JXGetApplication())->DisplayBusyCursor();
 }
 
 /******************************************************************************
@@ -2372,6 +2361,11 @@ JXTEBase::Receive
 			GoToLine(lineIndex);
 			}
 		itsGoToLineDialog = NULL;
+		}
+
+	else if (sender == GetBuffer() && message.Is(JStyledTextBuffer::kWillBeBusy))
+		{
+		(JXGetApplication())->DisplayBusyCursor();
 		}
 
 	else

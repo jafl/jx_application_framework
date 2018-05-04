@@ -95,11 +95,11 @@ public:
 
 	// background color
 
-	JColorIndex	GetCurrBackColor() const;
-	JColorIndex	GetBackColor() const;
-	void		SetBackColor(const JColorIndex color);
-	JColorIndex	GetFocusColor() const;
-	void		SetFocusColor(const JColorIndex color);
+	JColorID	GetCurrBackColor() const;
+	JColorID	GetBackColor() const;
+	void		SetBackColor(const JColorID color);
+	JColorID	GetFocusColor() const;
+	void		SetFocusColor(const JColorID color);
 
 	virtual JString	ToString() const override;
 
@@ -195,8 +195,8 @@ private:
 
 	// background colors
 
-	JColorIndex	itsBackColor;
-	JColorIndex	itsFocusColor;
+	JColorID	itsBackColor;
+	JColorID	itsFocusColor;
 
 	// Used to draw during dragging.  We need a pointer
 	// to it so we can update its origin after scrolling
@@ -382,14 +382,14 @@ JXWidget::WantsModifiedTab()
 
  ******************************************************************************/
 
-inline JColorIndex
+inline JColorID
 JXWidget::GetCurrBackColor()
 	const
 {
 	return (HasFocus() ? itsFocusColor : itsBackColor);
 }
 
-inline JColorIndex
+inline JColorID
 JXWidget::GetBackColor()
 	const
 {
@@ -399,7 +399,7 @@ JXWidget::GetBackColor()
 inline void
 JXWidget::SetBackColor
 	(
-	const JColorIndex color
+	const JColorID color
 	)
 {
 	if (color != itsBackColor)
@@ -412,7 +412,7 @@ JXWidget::SetBackColor
 		}
 }
 
-inline JColorIndex
+inline JColorID
 JXWidget::GetFocusColor()
 	const
 {
@@ -422,7 +422,7 @@ JXWidget::GetFocusColor()
 inline void
 JXWidget::SetFocusColor
 	(
-	const JColorIndex color
+	const JColorID color
 	)
 {
 	if (color != itsFocusColor)
