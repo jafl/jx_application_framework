@@ -94,8 +94,8 @@ public:
 
 	JTextEditor(const Type type, JStyledTextBuffer* buffer, const JBoolean ownsBuffer,
 				const JBoolean breakCROnly,
-				const JColorIndex caretColor, const JColorIndex selectionColor,
-				const JColorIndex outlineColor, const JColorIndex wsColor,
+				const JColorID caretColor, const JColorID selectionColor,
+				const JColorID outlineColor, const JColorID wsColor,
 				const JCoordinate width);
 
 	virtual ~JTextEditor();
@@ -156,7 +156,7 @@ public:
 	void	SetCurrentFontItalic(const JBoolean italic);
 	void	SetCurrentFontUnderline(const JSize count);
 	void	SetCurrentFontStrike(const JBoolean strike);
-	void	SetCurrentFontColor(const JColorIndex color);
+	void	SetCurrentFontColor(const JColorID color);
 	void	SetCurrentFontStyle(const JFontStyle& style);
 	void	SetCurrentFont(const JFont& font);
 
@@ -228,14 +228,14 @@ public:
 	JCoordinate	TEGetLeftMarginWidth() const;
 	void		TESetLeftMarginWidth(const JCoordinate width);
 
-	JColorIndex	GetCaretColor() const;
-	void		SetCaretColor(const JColorIndex color);
-	JColorIndex	GetSelectionColor() const;
-	void		SetSelectionColor(const JColorIndex color);
-	JColorIndex	GetSelectionOutlineColor() const;
-	void		SetSelectionOutlineColor(const JColorIndex color);
-	JColorIndex	GetWhitespaceColor() const;
-	void		SetWhitespaceColor(const JColorIndex color);
+	JColorID	GetCaretColor() const;
+	void		SetCaretColor(const JColorID color);
+	JColorID	GetSelectionColor() const;
+	void		SetSelectionColor(const JColorID color);
+	JColorID	GetSelectionOutlineColor() const;
+	void		SetSelectionOutlineColor(const JColorID color);
+	JColorID	GetWhitespaceColor() const;
+	void		SetWhitespaceColor(const JColorID color);
 
 	JBoolean	WillBroadcastCaretLocationChanged() const;
 	void		ShouldBroadcastCaretLocationChanged(const JBoolean broadcast);
@@ -296,7 +296,7 @@ protected:
 
 	void	SetType(const Type type);
 
-	void				RecalcAll(const JBoolean needAdjustStyles);
+	void				RecalcAll();
 	JArray<JBoolean>	GetCmdStatus(JString* crmActionText, JString* crm2ActionText,
 									 JBoolean* isReadOnly) const;
 
@@ -342,7 +342,7 @@ protected:
 	virtual JBoolean	TEScrollForDrag(const JPoint& pt) = 0;
 	virtual JBoolean	TEScrollForDND(const JPoint& pt) = 0;
 	virtual void		TESetVertScrollStep(const JCoordinate vStep) = 0;
-	virtual void		TEUpdateClipboard() = 0;
+	virtual void		TEUpdateClipboard(const JString& text, const JRunArray<JFont>& style) = 0;
 	virtual JBoolean	TEGetClipboard(JString* text, JRunArray<JFont>* style) const = 0;
 	virtual void		TECaretShouldBlink(const JBoolean blink) = 0;
 
@@ -356,9 +356,6 @@ protected:
 	virtual void	CRMConvertTab(JString* charBuffer, JSize* charCount,
 								  const JSize currentLineWidth) const;
 
-	virtual void	AdjustStylesBeforeRecalc(const JString& buffer, JRunArray<JFont>* styles,
-											 JCharacterRange* recalcRange, JCharacterRange* redrawRange,
-											 const JBoolean deletion);
 
 	JBoolean		GetCaretLocation(CaretLocation* caretLoc) const;
 	CaretLocation	CalcCaretLocation(const JPoint& pt) const;
@@ -400,37 +397,38 @@ private:
 	Type				itsType;
 	JStyledTextBuffer*	itsBuffer;
 	const JBoolean		itsOwnsBufferFlag;
-	JBoolean			itsActiveFlag;
-	JBoolean			itsPerformDNDFlag;			// kJTrue => drag-and-drop enabled
-	JBoolean			itsAutoIndentFlag;			// kJTrue => auto-indent after newline enabled
-	JBoolean			itsMoveToFrontOfTextFlag;	// kJTrue => left arrow w/ moveEOL puts caret after whitespace
-	JBoolean			itsBcastLocChangedFlag;		// kJTrue => broadcast CaretLocationChanged instead of CaretLineChanged
-	JBoolean			itsIsPrintingFlag;			// kJTrue => stack threads through Print()
-	JBoolean			itsDrawWhitespaceFlag;		// kJTrue => show tabs, spaces, newlines
-	CaretMode			itsCaretMode;
-	static JBoolean		theCopyWhenSelectFlag;		// kJTrue => SetSelection() calls Copy()
 
-	JColorIndex			itsCaretColor;
-	JColorIndex			itsSelectionColor;
-	JColorIndex			itsSelectionOutlineColor;
-	JColorIndex			itsWhitespaceColor;
+	JBoolean	itsActiveFlag;
+	JBoolean	itsBreakCROnlyFlag;			// kJFalse => break line at whitespace
+	JBoolean	itsPerformDNDFlag;			// kJTrue => drag-and-drop enabled
+	JBoolean	itsAutoIndentFlag;			// kJTrue => auto-indent after newline enabled
+	JBoolean	itsMoveToFrontOfTextFlag;	// kJTrue => left arrow w/ moveEOL puts caret after whitespace
+	JBoolean	itsBcastLocChangedFlag;		// kJTrue => broadcast CaretLocationChanged instead of CaretLineChanged
+	JBoolean	itsIsPrintingFlag;			// kJTrue => stack threads through Print()
+	JBoolean	itsDrawWhitespaceFlag;		// kJTrue => show tabs, spaces, newlines
+	CaretMode	itsCaretMode;
 
-	JCoordinate								itsWidth;			// pixels -- width of widest line
-	JCoordinate								itsHeight;			// pixels
-	JCoordinate								itsGUIWidth;		// pixels -- available width of widget aperture
-	JCoordinate								itsLeftMarginWidth;	// pixels
-	JCoordinate								itsDefTabWidth;		// pixels
-	JCoordinate								itsMaxWordWidth;	// pixels -- widest single word; only if word wrap
-	JArray<JStyledTextBuffer::TextIndex>*	itsLineStarts;		// index of first character on each line
-	JRunArray<LineGeometry>*				itsLineGeom;		// geometry of each line
+	JColorID	itsCaretColor;
+	JColorID	itsSelectionColor;
+	JColorID	itsSelectionOutlineColor;
+	JColorID	itsWhitespaceColor;
+
+	JCoordinate	itsWidth;			// pixels -- width of widest line
+	JCoordinate	itsHeight;			// pixels
+	JCoordinate	itsGUIWidth;		// pixels -- available width of widget aperture
+	JCoordinate	itsLeftMarginWidth;	// pixels
+	JCoordinate	itsDefTabWidth;		// pixels
+	JCoordinate	itsMaxWordWidth;	// pixels -- widest single word; only if word wrap
+
+	JArray<JStyledTextBuffer::TextIndex>*	itsLineStarts;	// index of first character on each line
+	JRunArray<LineGeometry>*				itsLineGeom;	// geometry of each line
 
 	JInterpolate	itsInterpolator;
 	JTEKeyHandler*	itsKeyHandler;
 
 	// information for Recalc
 
-	JBoolean	itsBreakCROnlyFlag;			// kJFalse => break line at whitespace
-	JSize		itsPrevBufLength;			// buffer length after last Recalc
+	JSize	itsPrevBufLength;	// buffer length after last Recalc
 
 	// used while active
 
@@ -454,17 +452,15 @@ private:
 	CaretLocation					itsDropLoc;			// insertion point at which to drop the dragged text
 	JBoolean						itsIsDragSourceFlag;// kJTrue => is dragging even if itsDragType == kInvalidDrag
 
+	// global
+
+	static JBoolean	theCopyWhenSelectFlag;	// kJTrue => SetSelection() calls Copy()
+
 private:
 
-	void		Recalc(const JStyledTextBuffer::TextIndex& startIndex,
-					   const JSize minCharCount,
-					   const JBoolean deletion,
-					   const JBoolean needCaretBcast = kJTrue,
-					   const JBoolean needAdjustStyles = kJTrue);
-	void		Recalc(const CaretLocation& caretLoc, const JSize minCharCount,
-					   const JBoolean deletion,
-					   const JBoolean needCaretBcast = kJTrue,
-					   const JBoolean needAdjustStyles = kJTrue);
+	void		Recalc(const JStyledTextBuffer::TextRange& recalcRange,
+					   const JStyledTextBuffer::TextRange& redrawRange,
+					   const JBoolean deletion);
 	void		Recalc1(const JSize bufLength, const CaretLocation& caretLoc,
 						const JSize minCharCount, JCoordinate* maxLineWidth,
 						JIndex* firstLineIndex, JIndex* lastLineIndex);
@@ -552,7 +548,6 @@ private:
 
 	void		BroadcastCaretMessages(const CaretLocation& caretLoc,
 									   const JBoolean lineChanged);
-	JBoolean	BroadcastCaretPosChanged(const CaretLocation& caretLoc);
 
 	static JInteger	GetLineHeight(const LineGeometry& data);
 
@@ -857,6 +852,22 @@ JTextEditor::GetSelection
 }
 
 /******************************************************************************
+ SelectAll
+
+ ******************************************************************************/
+
+inline void
+JTextEditor::SelectAll()
+{
+	if (!itsBuffer->GetText().IsEmpty())
+		{
+		SetSelection(JStyledTextBuffer::TextRange(
+			JCharacterRange(1, itsBuffer->GetText().GetCharacterCount()),
+			JUtf8ByteRange( 1, itsBuffer->GetText().GetByteCount())));
+		}
+}
+
+/******************************************************************************
  Default tab width
 
  ******************************************************************************/
@@ -877,7 +888,7 @@ JTextEditor::SetDefaultTabWidth
 	if (width != itsDefTabWidth)
 		{
 		itsDefTabWidth = width;
-		RecalcAll(kJFalse);
+		RecalcAll();
 		}
 }
 
@@ -1117,6 +1128,19 @@ JTextEditor::WillBreakCROnly()
 	return itsBreakCROnlyFlag;
 }
 
+inline void
+JTextEditor::SetBreakCROnly
+	(
+	const JBoolean breakCROnly
+	)
+{
+	if (breakCROnly != itsBreakCROnlyFlag)
+		{
+		PrivateSetBreakCROnly(breakCROnly);
+		RecalcAll();
+		}
+}
+
 /******************************************************************************
  GetLineCount
 
@@ -1282,7 +1306,7 @@ JTextEditor::SetCaretMode
 
  ******************************************************************************/
 
-inline JColorIndex
+inline JColorID
 JTextEditor::GetCaretColor()
 	const
 {
@@ -1292,7 +1316,7 @@ JTextEditor::GetCaretColor()
 inline void
 JTextEditor::SetCaretColor
 	(
-	const JColorIndex color
+	const JColorID color
 	)
 {
 	if (color != itsCaretColor)
@@ -1302,7 +1326,7 @@ JTextEditor::SetCaretColor
 		}
 }
 
-inline JColorIndex
+inline JColorID
 JTextEditor::GetSelectionColor()
 	const
 {
@@ -1312,7 +1336,7 @@ JTextEditor::GetSelectionColor()
 inline void
 JTextEditor::SetSelectionColor
 	(
-	const JColorIndex color
+	const JColorID color
 	)
 {
 	if (color != itsSelectionColor)
@@ -1325,7 +1349,7 @@ JTextEditor::SetSelectionColor
 		}
 }
 
-inline JColorIndex
+inline JColorID
 JTextEditor::GetSelectionOutlineColor()
 	const
 {
@@ -1335,7 +1359,7 @@ JTextEditor::GetSelectionOutlineColor()
 inline void
 JTextEditor::SetSelectionOutlineColor
 	(
-	const JColorIndex color
+	const JColorID color
 	)
 {
 	if (color != itsSelectionOutlineColor)
@@ -1348,7 +1372,7 @@ JTextEditor::SetSelectionOutlineColor
 		}
 }
 
-inline JColorIndex
+inline JColorID
 JTextEditor::GetWhitespaceColor()
 	const
 {
@@ -1358,13 +1382,181 @@ JTextEditor::GetWhitespaceColor()
 inline void
 JTextEditor::SetWhitespaceColor
 	(
-	const JColorIndex color
+	const JColorID color
 	)
 {
 	if (color != itsWhitespaceColor)
 		{
 		itsWhitespaceColor = color;
 		TERefresh();
+		}
+}
+
+/******************************************************************************
+ GetCurrentFont
+
+ ******************************************************************************/
+
+inline JFont
+JTextEditor::GetCurrentFont()
+	const
+{
+	if (!itsSelection.IsEmpty())
+		{
+		return itsBuffer->GetStyles().GetElement(itsSelection.charRange.first);
+		}
+	else
+		{
+		return itsInsertionFont;
+		}
+}
+
+/******************************************************************************
+ Set current font
+
+ ******************************************************************************/
+
+inline void
+JTextEditor::SetCurrentFontName
+	(
+	const JString& name
+	)
+{
+	if (!itsSelection.IsEmpty())
+		{
+		itsBuffer->SetFontName(itsSelection, name, kJFalse);
+		}
+	else
+		{
+		itsInsertionFont.SetName(name);
+		}
+}
+
+inline void
+JTextEditor::SetCurrentFontSize
+	(
+	const JSize size
+	)
+{
+	if (!itsSelection.IsEmpty())
+		{
+		itsBuffer->SetFontSize(itsSelection, size, kJFalse);
+		}
+	else
+		{
+		itsInsertionFont.SetSize(size);
+		}
+}
+
+inline void
+JTextEditor::SetCurrentFontBold
+	(
+	const JBoolean bold
+	)
+{
+	if (!itsSelection.IsEmpty())
+		{
+		itsBuffer->SetFontBold(itsSelection, bold, kJFalse);
+		}
+	else
+		{
+		itsInsertionFont.SetBold(bold);
+		}
+}
+
+inline void
+JTextEditor::SetCurrentFontItalic
+	(
+	const JBoolean italic
+	)
+{
+	if (!itsSelection.IsEmpty())
+		{
+		itsBuffer->SetFontItalic(itsSelection, italic, kJFalse);
+		}
+	else
+		{
+		itsInsertionFont.SetItalic(italic);
+		}
+}
+
+inline void
+JTextEditor::SetCurrentFontUnderline
+	(
+	const JSize count
+	)
+{
+	if (!itsSelection.IsEmpty())
+		{
+		itsBuffer->SetFontUnderline(itsSelection, count, kJFalse);
+		}
+	else
+		{
+		itsInsertionFont.SetUnderlineCount(count);
+		}
+}
+
+inline void
+JTextEditor::SetCurrentFontStrike
+	(
+	const JBoolean strike
+	)
+{
+	if (!itsSelection.IsEmpty())
+		{
+		itsBuffer->SetFontStrike(itsSelection, strike, kJFalse);
+		}
+	else
+		{
+		itsInsertionFont.SetStrike(strike);
+		}
+}
+
+inline void
+JTextEditor::SetCurrentFontColor
+	(
+	const JColorID color
+	)
+{
+	if (!itsSelection.IsEmpty())
+		{
+		itsBuffer->SetFontColor(itsSelection, color, kJFalse);
+		}
+	else
+		{
+		itsInsertionFont.SetColor(color);
+		}
+}
+
+inline void
+JTextEditor::SetCurrentFontStyle
+	(
+	const JFontStyle& style
+	)
+{
+	if (!itsSelection.IsEmpty())
+		{
+		itsBuffer->SetFontStyle(itsSelection, style, kJFalse);
+		}
+	else
+		{
+		itsInsertionFont.SetStyle(style);
+		}
+}
+
+inline void
+JTextEditor::SetCurrentFont
+	(
+	const JFont& f
+	)
+{
+	if (!itsSelection.IsEmpty())
+		{
+		itsBuffer->SetFont(itsSelection, f, kJFalse);
+		}
+	else
+		{
+		itsInsertionFont = f;
 		}
 }
 

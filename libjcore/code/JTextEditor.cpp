@@ -73,8 +73,7 @@
 			because it is pure virtual for us.
 
 		TEUpdateClipboard
-			Do whatever is appropriate to update the system clipboard
-			after a Copy or Cut operation.
+			Update the system clipboard with the given text/style.
 
 		TEGetClipboard
 			Returns kJTrue if there is something pasteable on the system
@@ -131,7 +130,7 @@
 #include <JTEKeyHandler.h>
 #include <JPagePrinter.h>
 #include <JFontManager.h>
-#include <JColormap.h>
+#include <JColorManager.h>
 #include <JListUtil.h>
 #include <JRunArrayIterator.h>
 #include <JRegex.h>
@@ -167,10 +166,10 @@ const JUtf8Byte* JTextEditor::kCaretLocationChanged = "CaretLocationChanged::JTe
 /******************************************************************************
  Constructor
 
-	Colors must be from the same colormap given to JStyledTextBuffer.
+	Colors must be from the same colorManager given to JStyledTextBuffer.
 
-	*** Derived classes must call RecalcAll().  We can't call RecalcAll()
-	*** due to pure virtual functions.
+	*** Derived classes must call RecalcAll().  We can't call it due to
+	*** pure virtual functions.
 
  ******************************************************************************/
 
@@ -180,10 +179,10 @@ JTextEditor::JTextEditor
 	JStyledTextBuffer*	buffer,
 	const JBoolean		ownsBuffer,
 	const JBoolean		breakCROnly,
-	const JColorIndex	caretColor,
-	const JColorIndex	selectionColor,
-	const JColorIndex	outlineColor,
-	const JColorIndex	wsColor,
+	const JColorID	caretColor,
+	const JColorID	selectionColor,
+	const JColorID	outlineColor,
+	const JColorID	wsColor,
 	const JCoordinate	width
 	)
 	:
@@ -305,7 +304,7 @@ JTextEditor::Receive
 			itsInsertionFont = itsBuffer->GetDefaultFont();
 			}
 
-		RecalcAll(kJTrue);
+		RecalcAll();
 		SetCaretLocation(CaretLocation(TextIndex(1,1),1));
 		}
 
@@ -318,12 +317,11 @@ JTextEditor::Receive
 		const TextRange& r = info->GetRange();
 		if (r.charRange.GetCount() == itsBuffer->GetText().GetCharacterCount())
 			{
-			RecalcAll(kJFalse);
+			RecalcAll();
 			}
 		else
 			{
-			Recalc(TextIndex(r.charRange.first, r.byteRange.first),
-				   JMax(1ul, r.GetCount().charCount), kJFalse);
+			Recalc(r, info->GetRedrawRange(), info->IsDeletion());
 			}
 		}
 
@@ -333,7 +331,7 @@ JTextEditor::Receive
 		if (itsBuffer->IsEmpty())
 			{
 			itsInsertionFont = CalcInsertionFont(TextIndex(1,1));
-			RecalcAll(kJFalse);
+			RecalcAll();
 			}
 		}
 
@@ -557,9 +555,16 @@ JTextEditor::ReplaceAll
 									 replaceStr, replaceIsRegex,
 									 itsInterpolator, preserveCase);
 
-	if (!r.IsEmpty())
+	if (restrictToSelection && !r.IsEmpty())
 		{
 		SetSelection(r);
+		return kJTrue;
+		}
+	else if (!r.IsEmpty())
+		{
+		SetCaretLocation(TextIndex(
+			itsBuffer->GetText().GetCharacterCount()+1,
+			itsBuffer->GetText().GetByteCount()+1));
 		return kJTrue;
 		}
 	else
@@ -635,24 +640,9 @@ JTextEditor::SearchBackward
 }
 
 /******************************************************************************
- SetBreakCROnly
+ PrivateSetBreakCROnly (private)
 
  ******************************************************************************/
-
-void
-JTextEditor::SetBreakCROnly
-	(
-	const JBoolean breakCROnly
-	)
-{
-	if (breakCROnly != itsBreakCROnlyFlag)
-		{
-		PrivateSetBreakCROnly(breakCROnly);
-		RecalcAll(kJFalse);
-		}
-}
-
-// private
 
 void
 JTextEditor::PrivateSetBreakCROnly
@@ -744,175 +734,7 @@ JTextEditor::TEGUIWidthChanged()
 	else if (itsWidth != itsGUIWidth)
 		{
 		itsWidth = itsGUIWidth;
-		RecalcAll(kJFalse);
-		}
-}
-
-/******************************************************************************
- GetCurrentFont
-
- ******************************************************************************/
-
-JFont
-JTextEditor::GetCurrentFont()
-	const
-{
-	if (!itsSelection.IsEmpty())
-		{
-		return itsBuffer->GetStyles().GetElement(itsSelection.charRange.first);
-		}
-	else
-		{
-		return itsInsertionFont;
-		}
-}
-
-/******************************************************************************
- Set current font
-
- ******************************************************************************/
-
-void
-JTextEditor::SetCurrentFontName
-	(
-	const JString& name
-	)
-{
-	if (!itsSelection.IsEmpty())
-		{
-		itsBuffer->SetFontName(itsSelection, name, kJFalse);
-		}
-	else
-		{
-		itsInsertionFont.SetName(name);
-		}
-}
-
-void
-JTextEditor::SetCurrentFontSize
-	(
-	const JSize size
-	)
-{
-	if (!itsSelection.IsEmpty())
-		{
-		itsBuffer->SetFontSize(itsSelection, size, kJFalse);
-		}
-	else
-		{
-		itsInsertionFont.SetSize(size);
-		}
-}
-
-void
-JTextEditor::SetCurrentFontBold
-	(
-	const JBoolean bold
-	)
-{
-	if (!itsSelection.IsEmpty())
-		{
-		itsBuffer->SetFontBold(itsSelection, bold, kJFalse);
-		}
-	else
-		{
-		itsInsertionFont.SetBold(bold);
-		}
-}
-
-void
-JTextEditor::SetCurrentFontItalic
-	(
-	const JBoolean italic
-	)
-{
-	if (!itsSelection.IsEmpty())
-		{
-		itsBuffer->SetFontItalic(itsSelection, italic, kJFalse);
-		}
-	else
-		{
-		itsInsertionFont.SetItalic(italic);
-		}
-}
-
-void
-JTextEditor::SetCurrentFontUnderline
-	(
-	const JSize count
-	)
-{
-	if (!itsSelection.IsEmpty())
-		{
-		itsBuffer->SetFontUnderline(itsSelection, count, kJFalse);
-		}
-	else
-		{
-		itsInsertionFont.SetUnderlineCount(count);
-		}
-}
-
-void
-JTextEditor::SetCurrentFontStrike
-	(
-	const JBoolean strike
-	)
-{
-	if (!itsSelection.IsEmpty())
-		{
-		itsBuffer->SetFontStrike(itsSelection, strike, kJFalse);
-		}
-	else
-		{
-		itsInsertionFont.SetStrike(strike);
-		}
-}
-
-void
-JTextEditor::SetCurrentFontColor
-	(
-	const JColorIndex color
-	)
-{
-	if (!itsSelection.IsEmpty())
-		{
-		itsBuffer->SetFontColor(itsSelection, color, kJFalse);
-		}
-	else
-		{
-		itsInsertionFont.SetColor(color);
-		}
-}
-
-void
-JTextEditor::SetCurrentFontStyle
-	(
-	const JFontStyle& style
-	)
-{
-	if (!itsSelection.IsEmpty())
-		{
-		itsBuffer->SetFontStyle(itsSelection, style, kJFalse);
-		}
-	else
-		{
-		itsInsertionFont.SetStyle(style);
-		}
-}
-
-void
-JTextEditor::SetCurrentFont
-	(
-	const JFont& f
-	)
-{
-	if (!itsSelection.IsEmpty())
-		{
-		itsBuffer->SetFont(itsSelection, f, kJFalse);
-		}
-	else
-		{
-		itsInsertionFont = f;
+		RecalcAll();
 		}
 }
 
@@ -947,7 +769,7 @@ JTextEditor::SetAllFontNameAndSize
 
 	itsInsertionFont.Set(name, size, itsInsertionFont.GetStyle());
 
-	itsBuffer->SetAllFontNameAndSize(name, size, clearUndo);	// initiates RecalcAll()
+	itsBuffer->SetAllFontNameAndSize(name, size, clearUndo);
 }
 
 /******************************************************************************
@@ -960,9 +782,9 @@ JTextEditor::Cut()
 {
 	if (!TEIsDragging())
 		{
-		TEUpdateClipboard();
+		Copy();
 		DeleteSelection();
-		DeactivateCurrentUndo();
+		itsBuffer->DeactivateCurrentUndo();
 		}
 }
 
@@ -974,7 +796,10 @@ JTextEditor::Cut()
 void
 JTextEditor::Copy()
 {
-	TEUpdateClipboard();
+	JString text;
+	JRunArray<JFont> style;
+	GetSelection(&text, &style);
+	TEUpdateClipboard(text, style);
 }
 
 /******************************************************************************
@@ -995,8 +820,15 @@ JTextEditor::GetClipboard
 	)
 	const
 {
-	JRunArray<JFont> tempStyle;
-	return TEGetClipboard(text, &tempStyle);
+	if (style != NULL)
+		{
+		return TEGetClipboard(text, style);
+		}
+	else
+		{
+		JRunArray<JFont> tempStyle;
+		return TEGetClipboard(text, &tempStyle);
+		}
 }
 
 /******************************************************************************
@@ -1035,7 +867,7 @@ JTextEditor::Paste
 		return;
 		}
 
-	JStyledTextBuffer::TextRange range;
+	TextRange range;
 
 	const JBoolean hadSelection = HasSelection();
 	if (hadSelection)
@@ -1048,12 +880,9 @@ JTextEditor::Paste
 		range.byteRange.SetFirstAndCount(itsCaretLoc.location.byteIndex, 0);
 		}
 
-	itsBuffer.Paste(range, text, style);
+	range = itsBuffer->Paste(range, text, style);
 
-	Recalc(itsCaretLoc, pasteLength.charCount, hadSelection, kJFalse);
-	SetCaretLocation(
-		TextIndex(itsCharSelection.first + pasteLength.charCount,
-				  itsByteSelection.first + pasteLength.byteCount));
+	SetCaretLocation(TextIndex(range.charRange.last+1, range.byteRange.last+1));
 }
 
 /******************************************************************************
@@ -1063,17 +892,17 @@ JTextEditor::Paste
 
  ******************************************************************************/
 
-JTextEditor::TextIndex
+TextIndex
 JTextEditor::GetInsertionIndex()
 	const
 {
-	if (!itsCharSelection.IsEmpty())
+	if (!itsSelection.IsEmpty())
 		{
-		return TextIndex(itsCharSelection.first, itsByteSelection.first);
+		return TextIndex(itsSelection.charRange.first, itsSelection.byteRange.first);
 		}
 	else
 		{
-		return TextIndex(itsCaretLoc);
+		return itsCaretLoc.location;
 		}
 }
 
@@ -1089,9 +918,9 @@ JTextEditor::GetSelection
 	)
 	const
 {
-	if (!itsCharSelection.IsEmpty())
+	if (!itsSelection.IsEmpty())
 		{
-		text->Set(itsBuffer.GetRawBytes(), itsSelection.byteRange);
+		text->Set(itsBuffer->GetText().GetBytes(), itsSelection.byteRange);
 		return kJTrue;
 		}
 	else
@@ -1113,8 +942,7 @@ JTextEditor::GetSelection
 
 	if (GetSelection(text))
 		{
-		style->InsertElementsAtIndex(1, *itsStyles, itsSelection.charRange.first,
-									 itsSelection.charRange.GetCount());
+		style->AppendSlice(itsBuffer->GetStyles(), itsSelection.charRange);
 		return kJTrue;
 		}
 	else
@@ -1134,9 +962,8 @@ JTextEditor::GetSelection
 void
 JTextEditor::SetSelection
 	(
-	const JCharacterRange&	charRange,
-	const JUtf8ByteRange&	byteRange,
-	const JBoolean			needCaretBcast
+	const TextRange&	range,
+	const JBoolean		needCaretBcast
 	)
 {
 	if (itsIsDragSourceFlag)
@@ -1144,10 +971,10 @@ JTextEditor::SetSelection
 		return;
 		}
 
-	DeactivateCurrentUndo();
+	itsBuffer->DeactivateCurrentUndo();
 	itsPrevDragType = kInvalidDrag;		// avoid wordSel and lineSel pivots
 
-	if (itsBuffer.IsEmpty() || itsCharSelection == charRange)
+	if (itsBuffer->GetText().IsEmpty() || itsSelection.charRange == range.charRange)
 		{
 		return;
 		}
@@ -1209,21 +1036,6 @@ JTextEditor::SetSelection
 		{
 		TERefreshCaret(origCaretLoc);
 		TERefreshLines(newStartLine, newEndLine);
-		}
-}
-
-/******************************************************************************
- SelectAll
-
- ******************************************************************************/
-
-void
-JTextEditor::SelectAll()
-{
-	if (!itsBuffer.IsEmpty())
-		{
-		SetSelection(JCharacterRange(1, itsBuffer.GetCharacterCount()),
-					 JUtf8ByteRange( 1, itsBuffer.GetByteCount()));
 		}
 }
 
@@ -1798,9 +1610,9 @@ JTextEditor::TEDraw
 /*
 	if (itsLeftMarginWidth > kMinLeftMarginWidth)
 		{
-		const JColorIndex savedColor = p.GetPenColor();
+		const JColorID savedColor = p.GetPenColor();
 		const JBoolean savedFill     = p.IsFilling();
-		p.SetPenColor(itsColormap->GetGray90Color());
+		p.SetPenColor(itsColorManager->GetGray90Color());
 		p.SetFilling(kJTrue);
 		const JRect& clipRect = p.GetClipRect();
 		p.Rect(0, clipRect.top, itsLeftMarginWidth-1, clipRect.height());
@@ -1910,7 +1722,7 @@ teDrawSpaces
 	const JCoordinate		left,
 	const JCoordinate		ycenter,
 	const JFont&			f,
-	const JColorIndex		wsColor
+	const JColorID		wsColor
 	)
 {
 	JCoordinate l = left;
@@ -2211,7 +2023,7 @@ JTextEditor::TEDrawSelection
 
 	// draw the selection region
 
-	const JColorIndex savedColor = p.GetPenColor();
+	const JColorID savedColor = p.GetPenColor();
 	const JBoolean savedFill     = p.IsFilling();
 	if (itsSelActiveFlag)
 		{
@@ -2331,7 +2143,7 @@ JTextEditor::TEDrawCaret
 		y2 = y1 + GetLineHeight(caretLoc.lineIndex)-1;
 		}
 
-	const JColorIndex savedColor = p.GetPenColor();
+	const JColorID savedColor = p.GetPenColor();
 	p.SetPenColor(itsCaretColor);
 
 	if (itsCaretMode == kBlockCaret)
@@ -3148,24 +2960,6 @@ JTextEditor::BroadcastCaretMessages
 	const JBoolean			lineChanged
 	)
 {
-	if (!BroadcastCaretPosChanged(caretLoc) && lineChanged)
-		{
-		JIndex line = caretLoc.lineIndex;
-		if (caretLoc.charIndex == itsBuffer->GetLength()+1 &&
-			EndsWithNewline())
-			{
-			line++;
-			}
-		Broadcast(CaretLineChanged(line));
-		}
-}
-
-JBoolean
-JTextEditor::BroadcastCaretPosChanged
-	(
-	const CaretLocation& caretLoc
-	)
-{
 	if (itsBcastLocChangedFlag)
 		{
 		JIndex line = caretLoc.lineIndex;
@@ -3178,7 +2972,16 @@ JTextEditor::BroadcastCaretPosChanged
 			}
 		Broadcast(CaretLocationChanged(line, col));
 		}
-	return itsBcastLocChangedFlag;
+	else if (lineChanged)
+		{
+		JIndex line = caretLoc.lineIndex;
+		if (caretLoc.charIndex == itsBuffer->GetLength()+1 &&
+			EndsWithNewline())
+			{
+			line++;
+			}
+		Broadcast(CaretLineChanged(line));
+		}
 }
 
 /******************************************************************************
@@ -4135,25 +3938,6 @@ JTextEditor::RecalcAll
 /******************************************************************************
  Recalc (private)
 
- ******************************************************************************/
-
-inline void
-JTextEditor::Recalc
-	(
-	const JIndex	startChar,
-	const JSize		minCharCount,
-	const JBoolean	deletion,
-	const JBoolean	needCaretBcast,
-	const JBoolean	needAdjustStyles
-	)
-{
-	Recalc(CalcCaretLocation(startChar), minCharCount, deletion,
-		   needCaretBcast, needAdjustStyles);
-}
-
-/******************************************************************************
- Recalc (private)
-
 	Recalculate layout, starting from caretLoc and continuing at least
 	through charCount characters.
 
@@ -4805,34 +4589,6 @@ JTextEditor::NoPrevWhitespaceOnLine
 		}
 
 	return kJTrue;	// we hit the start of the string
-}
-
-/******************************************************************************
- AdjustStylesBeforeRecalc (virtual protected)
-
-	Called before Recalc() begins its work.  Derived classes can override
-	this to adjust the style of the affected range of text.  range is an
-	in/out variable because the changes usually slop out beyond the initial
-	range.
-
-	*** The endpoints of the ranges are only allowed to move outward.
-
-	*** The contents of *styles can change, but the length must remain
-		the same.  *range must be expanded to include all the changed
-		elements.
-
- ******************************************************************************/
-
-void
-JTextEditor::AdjustStylesBeforeRecalc
-	(
-	const JString&		buffer,
-	JRunArray<JFont>*	styles,
-	JIndexRange*		recalcRange,
-	JIndexRange*		redrawRange,
-	const JBoolean		deletion
-	)
-{
 }
 
 /******************************************************************************
