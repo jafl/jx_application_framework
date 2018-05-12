@@ -17,6 +17,7 @@ class JTEUndoTyping : public JTEUndoTextBase
 public:
 
 	JTEUndoTyping(JStyledTextBuffer* buffer, const JStyledTextBuffer::TextIndex& start);
+	JTEUndoTyping(JStyledTextBuffer* buffer, const JStyledTextBuffer::TextRange& replaceRange);
 
 	virtual ~JTEUndoTyping();
 

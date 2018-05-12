@@ -461,7 +461,14 @@ JTEST(ReplaceAllInRange)
 
 	bcastTest.Expect(JStyledTextBuffer::kTextChanged);
 
+	JBoolean canUndo, canRedo;
+	JAssertTrue(buf.HasSingleUndo());
+	JAssertFalse(buf.HasMultipleUndo(&canUndo, &canRedo));
+
 	buf.Undo();
+
+	JAssertTrue(buf.HasSingleUndo());
+	JAssertFalse(buf.HasMultipleUndo(&canUndo, &canRedo));
 
 	bcastTest.Expect(JStyledTextBuffer::kTextChanged);
 
@@ -664,6 +671,46 @@ JTEST(CopyPaste)
 	JAssertTrue(buf.GetFont(13).GetStyle().bold);
 }
 
+JTEST(DeleteText)
+{
+	StyledTextBuffer buf;
+	buf.UseMultipleUndo();
+	buf.SetText(JString("b" "\xC3\xAE" "g\n" "b" "\xC3\xB8" "ld\n" "\t   normal\n" "double underline", 0, kJFalse));
+	buf.SetFontSize(TextRange(JCharacterRange(1,3), JUtf8ByteRange(1,4)), 20, kJFalse);
+	buf.SetFontBold(TextRange(JCharacterRange(5,8), JUtf8ByteRange(6,10)), kJTrue, kJFalse);
+	buf.SetFontUnderline(TextRange(JCharacterRange(16,31), JUtf8ByteRange(18,33)), 2, kJTrue);
+
+	buf.DeleteText(TextRange(JCharacterRange(2,6), JUtf8ByteRange(2,8)));
+	JAssertStringsEqual("b" "ld\n" "\t   normal\n" "double underline", buf.GetText());
+
+	buf.DeleteText(TextRange(JCharacterRange(10,18), JUtf8ByteRange(10,18)));
+	JAssertStringsEqual("b" "ld\n" "\t   nble underline", buf.GetText());
+
+	JAssertEqual(2, buf.GetStyles().GetElement(13).GetStyle().underlineCount);
+
+	JBoolean canUndo, canRedo;
+	JAssertFalse(buf.HasSingleUndo());
+	JAssertTrue(buf.HasMultipleUndo(&canUndo, &canRedo));
+	JAssertTrue(canUndo);
+	JAssertFalse(canRedo);
+
+	buf.Undo();
+
+	JAssertTrue(buf.HasMultipleUndo(&canUndo, &canRedo));
+	JAssertTrue(canUndo);
+	JAssertTrue(canRedo);
+
+	buf.Undo();
+
+	JAssertTrue(buf.HasMultipleUndo(&canUndo, &canRedo));
+	JAssertFalse(canUndo);
+	JAssertTrue(canRedo);
+
+	JAssertEqual(20, buf.GetStyles().GetElement(2).GetSize());
+	JAssertTrue(buf.GetStyles().GetElement(6).GetStyle().bold);
+	JAssertEqual(2, buf.GetStyles().GetElement(21).GetStyle().underlineCount);
+}
+
 JTEST(BackwardDelete)
 {
 	StyledTextBuffer buf;
@@ -832,7 +879,7 @@ JTEST(TabSelection)
 	JBroadcastTester bcastTest(&buf);
 	bcastTest.Expect(JStyledTextBuffer::kTextChanged);
 
-	buf.Indent(TextRange(JCharacterRange(1,1), JUtf8ByteRange(1,1)), 2);
+	buf.Indent(TextRange(JCharacterRange(1,1), JUtf8ByteRange(1,2)), 2);
 	JAssertStringsEqual("\t\t" "\xC3\xA1" "bcd\n1234\nwxzy", buf.GetText());
 
 	buf.Outdent(TextRange(JCharacterRange(8,13), JUtf8ByteRange(9,14)), 3);

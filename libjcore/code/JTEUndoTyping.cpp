@@ -30,6 +30,17 @@ JTEUndoTyping::JTEUndoTyping
 {
 }
 
+JTEUndoTyping::JTEUndoTyping
+	(
+	JStyledTextBuffer*					buffer,
+	const JStyledTextBuffer::TextRange&	replaceRange
+	)
+	:
+	JTEUndoTextBase(buffer, replaceRange),
+	itsOrigStartIndex(replaceRange.charRange.first, replaceRange.byteRange.first)
+{
+}
+
 /******************************************************************************
  Destructor
 

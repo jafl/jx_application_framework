@@ -51,7 +51,7 @@ if (changed)
 		{
 		NewUndo(undo, isNew);
 		}
-	BroadcastTextChanged(range, kJFalse);
+	BroadcastTextChanged(range, kJFalse, kJFalse);
 	}
 else
 	{

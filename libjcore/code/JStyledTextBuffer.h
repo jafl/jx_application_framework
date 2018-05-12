@@ -40,24 +40,6 @@ public:
 		kDOSText
 	};
 
-	struct TextIndex
-	{
-		JIndex charIndex;
-		JIndex byteIndex;
-
-		TextIndex()
-			:
-			charIndex(0),
-			byteIndex(0)
-			{ };
-
-		TextIndex(const JIndex ch, const JIndex byte)
-			:
-			charIndex(ch),
-			byteIndex(byte)
-			{ };
-	};
-
 	struct TextCount
 	{
 		JIndex charCount;
@@ -75,7 +57,27 @@ public:
 			byteCount(byte)
 			{ };
 
-		JStyledTextBuffer::TextCount& operator+=(const JStyledTextBuffer::TextCount& c);
+		TextCount& operator+=(const TextCount& c);
+	};
+
+	struct TextIndex
+	{
+		JIndex charIndex;
+		JIndex byteIndex;
+
+		TextIndex()
+			:
+			charIndex(0),
+			byteIndex(0)
+			{ };
+
+		TextIndex(const JIndex ch, const JIndex byte)
+			:
+			charIndex(ch),
+			byteIndex(byte)
+			{ };
+
+		TextIndex& operator+=(const TextCount& c);
 	};
 
 	struct TextRange
@@ -115,6 +117,12 @@ public:
 		{
 			charRange.SetToNothing();
 			byteRange.SetToNothing();
+		};
+
+		TextIndex
+		GetFirst() const
+		{
+			return TextIndex(charRange.first, byteRange.first);
 		};
 
 		TextCount
@@ -203,9 +211,12 @@ public:
 	TextIndex	GetPartialWordEnd(const TextIndex& index) const;
 	TextIndex	GetParagraphStart(const TextIndex& index) const;
 	TextIndex	GetParagraphEnd(const TextIndex& index) const;
-	TextIndex	AdjustTextIndex(const TextIndex& index, const JInteger charDelta) const;
 
 	JIndex		GetColumnForChar(const TextIndex& lineStart, const TextIndex& location) const;
+	TextIndex	AdjustTextIndex(const TextIndex& index, const JInteger charDelta) const;
+
+	JStringIterator*	GetConstIterator(const JIteratorPosition pos, const TextIndex& index) const;
+	void				DisposeConstIterator(JStringIterator* iter) const;
 
 	JBoolean	ReadPlainText(const JString& fileName, PlainTextFormat* format,
 							  const JBoolean acceptBinaryFile = kJTrue);
@@ -278,21 +289,17 @@ public:
 
 	JFont	CalcInsertionFont(const TextIndex& index) const;
 
-	void		Outdent(const TextRange& range, const JSize tabCount = 1,
-						const JBoolean force = kJFalse);
-	void		Indent(const TextRange& range, const JSize tabCount = 1);
+	TextRange	Outdent(const TextRange& range, const JSize tabCount = 1,
+					const JBoolean force = kJFalse);
+	TextRange	Indent(const TextRange& range, const JSize tabCount = 1);
 
 	TextRange	CleanWhitespace(const TextRange& range, const JBoolean align);
 
 	JBoolean	TabInsertsSpaces() const;
 	void		TabShouldInsertSpaces(const JBoolean spaces);
 
-	JBoolean	WillShowWhitespace() const;
-	void		ShouldShowWhitespace(const JBoolean show);
-
-	JBoolean	WillMoveToFrontOfText() const;
-	void		ShouldMoveToFrontOfText(const JBoolean moveToFront);
-
+	JBoolean	HasSingleUndo() const;
+	JBoolean	HasMultipleUndo(JBoolean* canUndo, JBoolean* canRedo) const;
 	void		Undo();
 	void		Redo();
 	void		ClearUndo();
@@ -319,9 +326,10 @@ public:
 	TextIndex	BackwardDelete(const TextIndex&	lineStart, const TextIndex&	caretIndex,
 							   const JBoolean deleteToTabStop,
 							   JString* returnText = NULL, JRunArray<JFont>* returnStyle = NULL);
-	void		ForwardDelete(const TextIndex&	lineStart, const TextIndex&	caretIndex,
+	void		ForwardDelete(const TextIndex& lineStart, const TextIndex& caretIndex,
 							  const JBoolean deleteToTabStop,
 							  JString* returnText = NULL, JRunArray<JFont>* returnStyle = NULL);
+	void		DeleteText(const TextRange& range);
 
 	static JBoolean	ContainsIllegalChars(const JString& text);
 	static JBoolean	RemoveIllegalChars(JString* text, JRunArray<JFont>* style = NULL);
@@ -362,7 +370,8 @@ protected:
 
 	void	SetFont(const TextRange& range, const JRunArray<JFont>& f);
 
-	void	BroadcastTextChanged(const TextRange& range, const JBoolean deletion);
+	void	BroadcastTextChanged(const TextRange& range, const JBoolean deletion,
+								 const JBoolean adjustStyles = kJTrue);
 
 	virtual JBoolean	NeedsToFilterText(const JString& text) const;
 	virtual JBoolean	FilterText(JString* text, JRunArray<JFont>* style);
@@ -437,8 +446,8 @@ private:
 	TextCount	InsertText(JStringIterator* targetText, JRunArray<JFont>* targetStyle,
 						   const JString& text, const JRunArray<JFont>* style,
 						   const JFont* defaultStyle);
-	void		DeleteText(const TextRange& range);
-	void		DeleteText(JStringIterator* iter, const TextCount& count);
+	void		PrivateDeleteText(const TextRange& range);
+	void		PrivateDeleteText(JStringIterator* iter, const TextCount& count);
 	JBoolean	CleanText(const JString& text, const JRunArray<JFont>* style,
 						  JString** cleanText, JRunArray<JFont>** cleanStyle,
 						  JBoolean* okToInsert);
@@ -605,6 +614,31 @@ JStyledTextBuffer::GetStyles()
 	const
 {
 	return *itsStyles;
+}
+
+/******************************************************************************
+ Has undo
+
+ ******************************************************************************/
+
+inline JBoolean
+JStyledTextBuffer::HasSingleUndo()
+	const
+{
+	return JI2B( itsUndo != NULL );
+}
+
+inline JBoolean
+JStyledTextBuffer::HasMultipleUndo
+	(
+	JBoolean* canUndo,
+	JBoolean* canRedo
+	)
+	const
+{
+	*canUndo = JI2B( itsFirstRedoIndex > 1 );
+	*canRedo = JI2B( itsUndoList != NULL && itsFirstRedoIndex <= itsUndoList->GetElementCount() );
+	return JI2B( itsUndoList != NULL );
 }
 
 /******************************************************************************
@@ -833,6 +867,32 @@ JStyledTextBuffer::SetBlockSizes
 {
 	itsBuffer.SetBlockSize(textBlockSize);
 	itsStyles->SetBlockSize(styleBlockSize);
+}
+
+/******************************************************************************
+ TextIndex operators
+
+ ******************************************************************************/
+
+inline JStyledTextBuffer::TextIndex
+operator+
+	(
+	const JStyledTextBuffer::TextIndex& i,
+	const JStyledTextBuffer::TextCount& c
+	)
+{
+	return JStyledTextBuffer::TextIndex(i.charIndex + c.charCount, i.byteIndex + c.byteCount);
+}
+
+inline JStyledTextBuffer::TextIndex&
+JStyledTextBuffer::TextIndex::operator+=
+	(
+	const JStyledTextBuffer::TextCount& c
+	)
+{
+	charIndex += c.charCount;
+	byteIndex += c.byteCount;
+	return *this;
 }
 
 /******************************************************************************

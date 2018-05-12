@@ -1331,7 +1331,7 @@ JStyledTextBuffer::SetFontName
 			{
 			NewUndo(undo, isNew);
 			}
-		BroadcastTextChanged(range, kJFalse);
+		BroadcastTextChanged(range, kJFalse, kJFalse);
 		}
 	else
 		{
@@ -1495,7 +1495,7 @@ JStyledTextBuffer::SetFont
 		{
 		NewUndo(undo, isNew);
 		}
-	BroadcastTextChanged(range, kJFalse);
+	BroadcastTextChanged(range, kJFalse, kJFalse);
 }
 
 // protected - for JTEUndoStyle
@@ -1518,7 +1518,7 @@ JStyledTextBuffer::SetFont
 		sIter.SkipNext();
 		}
 
-	BroadcastTextChanged(range, kJFalse);
+	BroadcastTextChanged(range, kJFalse, kJFalse);
 }
 
 /******************************************************************************
@@ -1578,7 +1578,7 @@ JStyledTextBuffer::SetAllFontNameAndSize
 	BroadcastTextChanged(TextRange(
 		JCharacterRange(1, itsBuffer.GetCharacterCount()),
 		JUtf8ByteRange(1, itsBuffer.GetByteCount())),
-		kJFalse);
+		kJFalse, kJFalse);
 }
 
 /******************************************************************************
@@ -1674,17 +1674,16 @@ JStyledTextBuffer::PrivatePaste
 {
 	if (!range.IsEmpty())
 		{
-		DeleteText(range);
+		PrivateDeleteText(range);
 		}
 
-	const TextIndex i(range.charRange.first, range.byteRange.first);
 	if (itsPasteStyledTextFlag)
 		{
-		return InsertText(i, text, style);
+		return InsertText(range.GetFirst(), text, style);
 		}
 	else
 		{
-		return InsertText(i, text);
+		return InsertText(range.GetFirst(), text);
 		}
 }
 
@@ -2006,7 +2005,10 @@ JStyledTextBuffer::FilterText
 }
 
 /******************************************************************************
- DeleteText (private)
+ DeleteText
+
+	We create JTEUndoTyping so keys pressed after the delete key count
+	as part of the undo task.
 
  ******************************************************************************/
 
@@ -2016,14 +2018,38 @@ JStyledTextBuffer::DeleteText
 	const TextRange& range
 	)
 {
+	JTEUndoTyping* newUndo = jnew JTEUndoTyping(this, range);
+	assert( newUndo != NULL );
+
+	PrivateDeleteText(range);
+
+	NewUndo(newUndo, kJTrue);
+
+	BroadcastTextChanged(TextRange(
+		JCharacterRange(range.charRange.first, 0),
+		JUtf8ByteRange(range.byteRange.first, 0)),
+		kJTrue);
+}
+
+/******************************************************************************
+ PrivateDeleteText (private)
+
+ ******************************************************************************/
+
+void
+JStyledTextBuffer::PrivateDeleteText
+	(
+	const TextRange& range
+	)
+{
 	JStringIterator iter(&itsBuffer);
 
 	iter.UnsafeMoveTo(kJIteratorStartBefore, range.charRange.first, range.byteRange.first);
-	DeleteText(&iter, range.GetCount());
+	PrivateDeleteText(&iter, range.GetCount());
 }
 
 void
-JStyledTextBuffer::DeleteText
+JStyledTextBuffer::PrivateDeleteText
 	(
 	JStringIterator*	iter,
 	const TextCount&	count
@@ -2033,9 +2059,9 @@ JStyledTextBuffer::DeleteText
 
 	iter->BeginMatch();
 	iter->UnsafeMoveTo(
-		kJIteratorStartAfter,
-		iter->GetNextCharacterIndex() + count.charCount - 1,
-		iter->GetNextByteIndex()      + count.byteCount - 1);
+		kJIteratorStartBefore,
+		iter->GetNextCharacterIndex() + count.charCount,
+		iter->GetNextByteIndex()      + count.byteCount);
 	iter->FinishMatch();
 	iter->RemoveLastMatch();
 }
@@ -2245,7 +2271,7 @@ JStyledTextBuffer::ForwardDelete
 
  ******************************************************************************/
 
-void
+JStyledTextBuffer::TextRange
 JStyledTextBuffer::Outdent
 	(
 	const TextRange&	origRange,
@@ -2253,7 +2279,8 @@ JStyledTextBuffer::Outdent
 	const JBoolean		force
 	)
 {
-	const TextIndex pEnd = GetParagraphEnd(TextIndex(origRange.charRange.last, origRange.byteRange.last));
+	const TextIndex pEnd = GetParagraphEnd(AdjustTextIndex(
+		TextIndex(origRange.charRange.last+1, origRange.byteRange.last+1), -1));
 
 	const TextRange range(JCharacterRange(origRange.charRange.first, pEnd.charIndex),
 						  JUtf8ByteRange(origRange.byteRange.first, pEnd.byteIndex));
@@ -2327,7 +2354,7 @@ JStyledTextBuffer::Outdent
 		}
 	else if (!sufficientWS)
 		{
-		return;
+		return TextRange();
 		}
 
 	JBoolean isNew;
@@ -2357,7 +2384,7 @@ JStyledTextBuffer::Outdent
 					   spaceCount < tabCharCount)
 					{
 					spaceCount++;
-					DeleteText(&iter, TextCount(1,1));
+					PrivateDeleteText(&iter, TextCount(1,1));
 					deleteCount++;
 					cr.last--;
 					}
@@ -2377,7 +2404,7 @@ JStyledTextBuffer::Outdent
 					{
 					break;
 					}
-				DeleteText(&iter, TextCount(1,1));
+				PrivateDeleteText(&iter, TextCount(1,1));
 				deleteCount++;
 				cr.last--;
 				}
@@ -2389,7 +2416,9 @@ JStyledTextBuffer::Outdent
 
 	NewUndo(undo, isNew);
 
-	BroadcastTextChanged(range, kJTrue);
+	BroadcastTextChanged(range, kJTrue, kJFalse);
+
+	return TextRange(cr, JUtf8ByteRange(range.byteRange.first, range.byteRange.last - deleteCount));
 }
 
 /******************************************************************************
@@ -2400,14 +2429,15 @@ JStyledTextBuffer::Outdent
 
  ******************************************************************************/
 
-void
+JStyledTextBuffer::TextRange
 JStyledTextBuffer::Indent
 	(
 	const TextRange&	origRange,
 	const JSize			tabCount
 	)
 {
-	const TextIndex pEnd = GetParagraphEnd(TextIndex(origRange.charRange.last, origRange.byteRange.last));
+	const TextIndex pEnd = GetParagraphEnd(AdjustTextIndex(
+		TextIndex(origRange.charRange.last+1, origRange.byteRange.last+1), -1));
 
 	const TextRange range(JCharacterRange(origRange.charRange.first, pEnd.charIndex),
 						  JUtf8ByteRange(origRange.byteRange.first, pEnd.byteIndex));
@@ -2456,10 +2486,12 @@ JStyledTextBuffer::Indent
 
 	NewUndo(undo, isNew);
 
-	BroadcastTextChanged(TextRange(
-		JCharacterRange(range.charRange.first, range.charRange.last + insertCount),
-		JUtf8ByteRange(range.byteRange.first, range.byteRange.last + insertCount)),
-		kJFalse);
+	const JUtf8ByteRange br(range.byteRange.first, range.byteRange.last + insertCount);
+	const TextRange tr(cr, br);
+
+	BroadcastTextChanged(tr, kJFalse, kJFalse);
+
+	return tr;
 }
 
 /******************************************************************************
@@ -2499,7 +2531,7 @@ JStyledTextBuffer::MoveText
 		}
 	else	// move
 		{
-		TextIndex srcIndex(srcRange.charRange.first, srcRange.byteRange.first);
+		TextIndex srcIndex = srcRange.GetFirst();
 		if (destIndex.charIndex > srcRange.charRange.first)
 			{
 			destIndex.charIndex -= text.GetCharacterCount();
@@ -2514,7 +2546,7 @@ JStyledTextBuffer::MoveText
 
 		undo = GetMoveUndo(srcIndex, destIndex, srcRange.GetCount(), &isNew);
 
-		DeleteText(srcRange);
+		PrivateDeleteText(srcRange);
 		BroadcastTextChanged(TextRange(
 			JCharacterRange(srcRange.charRange.first, 0),
 			JUtf8ByteRange(srcRange.byteRange.first, 0)),
@@ -2560,8 +2592,9 @@ JStyledTextBuffer::CleanWhitespace
 	const JBoolean		align
 	)
 {
-	const TextIndex i1 = GetParagraphStart(TextIndex(origRange.charRange.first, origRange.byteRange.first));
-	const TextIndex i2 = GetParagraphEnd(TextIndex(origRange.charRange.last, origRange.byteRange.last));
+	const TextIndex i1 = GetParagraphStart(origRange.GetFirst());
+	const TextIndex i2 = GetParagraphEnd(AdjustTextIndex(
+		TextIndex(origRange.charRange.last+1, origRange.byteRange.last+1), -1));
 
 	const TextRange range(JCharacterRange(i1.charIndex, i2.charIndex),
 						  JUtf8ByteRange(i1.byteIndex, i2.byteIndex));
@@ -3605,7 +3638,7 @@ JStyledTextBuffer::AutoIndent
 			{
 			typingUndo->HandleDelete(firstChar, lastWSChar);
 
-			DeleteText(firstChar, lastWSChar);
+			PrivateDeleteText(firstChar, lastWSChar);
 			Recalc(CaretLocation(firstChar, lineIndex), 1, kJTrue, kJFalse);
 
 			newCaretChar -= lastWSChar - firstChar + 1;
@@ -3664,13 +3697,17 @@ void
 JStyledTextBuffer::BroadcastTextChanged
 	(
 	const TextRange&	range,
-	const JBoolean		deletion
+	const JBoolean		deletion,
+	const JBoolean		adjustStyles
 	)
 {
 	TextRange recalcRange = range,
 			  redrawRange = range;
 
-	AdjustStylesBeforeBroadcast(itsBuffer, itsStyles, &recalcRange, &redrawRange, deletion);
+	if (adjustStyles)
+		{
+		AdjustStylesBeforeBroadcast(itsBuffer, itsStyles, &recalcRange, &redrawRange, deletion);
+		}
 
 	assert( recalcRange.charRange.Contains(range.charRange) );
 	assert( recalcRange.byteRange.Contains(range.byteRange) );
@@ -3736,7 +3773,9 @@ JStyledTextBuffer::GetWordStart
 	const JIndex charIndex = JMin(index.charIndex, itsBuffer.GetCharacterCount()),
 				 byteIndex = JMin(index.byteIndex, itsBuffer.GetByteCount());
 
-	JStringIterator iter(itsBuffer);
+	// create separate object on which to iterate, without copying
+	const JString s(itsBuffer, kJFalse);
+	JStringIterator iter(s);
 	iter.UnsafeMoveTo(kJIteratorStartAfter, charIndex, byteIndex);
 
 	JUtf8Character c;
@@ -3787,7 +3826,9 @@ JStyledTextBuffer::GetWordEnd
 		return TextIndex(bufLen, itsBuffer.GetByteCount());
 		}
 
-	JStringIterator iter(itsBuffer);
+	// create separate object on which to iterate, without copying
+	const JString s(itsBuffer, kJFalse);
+	JStringIterator iter(s);
 	iter.UnsafeMoveTo(kJIteratorStartBefore, index.charIndex, index.byteIndex);
 
 	JUtf8Character c;
@@ -3893,7 +3934,9 @@ JStyledTextBuffer::GetPartialWordStart
 	const JIndex charIndex = JMin(index.charIndex, itsBuffer.GetCharacterCount()),
 				 byteIndex = JMin(index.byteIndex, itsBuffer.GetByteCount());
 
-	JStringIterator iter(itsBuffer);
+	// create separate object on which to iterate, without copying
+	const JString s(itsBuffer, kJFalse);
+	JStringIterator iter(s);
 	iter.UnsafeMoveTo(kJIteratorStartAfter, charIndex, byteIndex);
 
 	JUtf8Character c;
@@ -3958,7 +4001,9 @@ JStyledTextBuffer::GetPartialWordEnd
 		return TextIndex(bufLen, itsBuffer.GetByteCount());
 		}
 
-	JStringIterator iter(itsBuffer);
+	// create separate object on which to iterate, without copying
+	const JString s(itsBuffer, kJFalse);
+	JStringIterator iter(s);
 	iter.UnsafeMoveTo(kJIteratorStartBefore, index.charIndex, index.byteIndex);
 
 	JUtf8Character c;
@@ -4016,7 +4061,9 @@ JStyledTextBuffer::GetParagraphStart
 		return TextIndex(1,1);
 		}
 
-	JStringIterator iter(itsBuffer);
+	// create separate object on which to iterate, without copying
+	const JString s(itsBuffer, kJFalse);
+	JStringIterator iter(s);
 	iter.UnsafeMoveTo(kJIteratorStartBefore, index.charIndex, index.byteIndex);
 
 	JUtf8Character c;
@@ -4060,7 +4107,9 @@ JStyledTextBuffer::GetParagraphEnd
 		return TextIndex(bufLen, itsBuffer.GetByteCount());
 		}
 
-	JStringIterator iter(itsBuffer);
+	// create separate object on which to iterate, without copying
+	const JString s(itsBuffer, kJFalse);
+	JStringIterator iter(s);
 	iter.UnsafeMoveTo(kJIteratorStartBefore, index.charIndex, index.byteIndex);
 
 	JUtf8Character c;
@@ -4099,12 +4148,13 @@ JStyledTextBuffer::GetColumnForChar
 		}
 
 	// create separate object on which to iterate, without copying
-	const JString s(itsBuffer.GetBytes(), JUtf8ByteRange(lineStart.byteIndex, location.byteIndex-1), kJFalse);
+	const JString s(itsBuffer, kJFalse);
 	JStringIterator iter(s);
+	iter.UnsafeMoveTo(kJIteratorStartBefore, lineStart.charIndex, lineStart.byteIndex);
 
 	JIndex col = 1;
 	JUtf8Character c;
-	while (iter.Next(&c))
+	while (iter.Next(&c) && iter.GetNextCharacterIndex() <= location.charIndex)
 		{
 		col += (c == '\t' ? CRMGetTabWidth(col) : 1);
 		}
@@ -4127,7 +4177,8 @@ JStyledTextBuffer::AdjustTextIndex
 	)
 	const
 {
-	JStringIterator iter(itsBuffer);
+	const JString s(itsBuffer, kJFalse);
+	JStringIterator iter(s);
 	iter.UnsafeMoveTo(kJIteratorStartBefore, index.charIndex, index.byteIndex);
 
 	if (charDelta > 0)
@@ -4143,7 +4194,49 @@ JStyledTextBuffer::AdjustTextIndex
 }
 
 /******************************************************************************
- CharToTextRange (private)
+ GetConstIterator
+
+ ******************************************************************************/
+
+JStringIterator*
+JStyledTextBuffer::GetConstIterator
+	(
+	const JIteratorPosition	pos,
+	const TextIndex&		index
+	)
+	const
+{
+	JString* s = jnew JString(itsBuffer, kJFalse);
+	assert( s != NULL );
+
+	JStringIterator* iter = jnew JStringIterator(*s);
+	assert( iter != NULL );
+
+	iter->UnsafeMoveTo(pos, index.charIndex, index.byteIndex);
+	return iter;
+}
+
+/******************************************************************************
+ DisposeConstIterator
+
+ ******************************************************************************/
+
+void
+JStyledTextBuffer::DisposeConstIterator
+	(
+	JStringIterator* iter
+	)
+	const
+{
+	JString* s = const_cast<JString*>(&(iter->GetString()));
+	assert( s != &itsBuffer );
+
+	jdelete iter;
+	jdelete s;
+}
+
+/******************************************************************************
+ CharToTextRange
 
 	Optimized by starting JStringIterator at start of line, computed by
 	using binary search.
@@ -4163,7 +4256,9 @@ JStyledTextBuffer::CharToTextRange
 	assert( !charRange.IsEmpty() );
 	assert( itsBuffer.RangeValid(charRange) );
 
-	JStringIterator iter(itsBuffer);
+	// create separate object on which to iterate, without copying
+	const JString s(itsBuffer, kJFalse);
+	JStringIterator iter(s);
 	if (lineStart != NULL)
 		{
 		iter.UnsafeMoveTo(kJIteratorStartBefore, lineStart->charIndex, lineStart->byteIndex);
@@ -4232,7 +4327,9 @@ JStyledTextBuffer::CalcInsertionFont
 	)
 	const
 {
-	JStringIterator iter(itsBuffer);
+	// create separate object on which to iterate, without copying
+	const JString s(itsBuffer, kJFalse);
+	JStringIterator iter(s);
 	iter.UnsafeMoveTo(kJIteratorStartBefore, index.charIndex, index.byteIndex);
 
 	return CalcInsertionFont(iter, *itsStyles);
