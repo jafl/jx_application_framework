@@ -717,7 +717,7 @@ JXDNDManager::AnnounceAskActions
 	XChangeProperty(*itsDisplay, itsDraggerWindow,
 					itsAtoms[ kDNDActionDescriptionAtomIndex ], XA_STRING, 8,
 					PropModeReplace,
-					(unsigned char*) descripData.GetBytes(),
+					(unsigned char*) descripData.GetRawBytes(),
 					descripData.GetByteCount());
 }
 

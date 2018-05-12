@@ -322,7 +322,7 @@ JXTextSelection::ConvertData
 		*data       = jnew unsigned char[ *dataLength ];
 		if (*data != NULL)
 			{
-			memcpy(*data, itsText->GetBytes(), *dataLength);
+			memcpy(*data, itsText->GetRawBytes(), *dataLength);
 			return kJTrue;
 			}
 		}

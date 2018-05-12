@@ -121,7 +121,7 @@ JXDirectSaveSource::Init
 					(d->GetDNDManager())->GetDNDDirectSave0XAtom(),
 					(d->GetSelectionManager())->GetMimePlainTextXAtom(), 8,
 					PropModeReplace,
-					(unsigned char*) fileName.GetBytes(),
+					(unsigned char*) fileName.GetRawBytes(),
 					fileName.GetByteCount());
 }
 

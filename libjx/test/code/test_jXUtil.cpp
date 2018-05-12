@@ -22,20 +22,20 @@ JTEST(PackStrings)
 					   list2(JPtrArrayT::kDeleteAll);
 
 	JString s = JXPackStrings(list1);
-	JXUnpackStrings(s.GetBytes(), s.GetByteCount(), &list2);
+	JXUnpackStrings(s.GetRawBytes(), s.GetByteCount(), &list2);
 	JAssertTrue(list2.IsEmpty());
 
 	list2.CleanOut();
 	list1.Append(JString("foo", 0, kJFalse));
 	s = JXPackStrings(list1);
-	JXUnpackStrings(s.GetBytes(), s.GetByteCount(), &list2);
+	JXUnpackStrings(s.GetRawBytes(), s.GetByteCount(), &list2);
 	JAssertEqual(1, list2.GetElementCount());
 	JAssertStringsEqual("foo", *(list2.GetFirstElement()));
 
 	list2.CleanOut();
 	list1.Prepend(JString("bar", 0, kJFalse));
 	s = JXPackStrings(list1);
-	JXUnpackStrings(s.GetBytes(), s.GetByteCount(), &list2);
+	JXUnpackStrings(s.GetRawBytes(), s.GetByteCount(), &list2);
 	JAssertEqual(2, list2.GetElementCount());
 	JAssertStringsEqual("bar", *(list2.GetElement(1)));
 	JAssertStringsEqual("foo", *(list2.GetElement(2)));
@@ -48,14 +48,14 @@ JTEST(PackFileNames)
 					   list3(JPtrArrayT::kDeleteAll);
 
 	JString s = JXPackFileNames(list1);
-	JXUnpackFileNames(s.GetBytes(), s.GetByteCount(), &list2, &list3);
+	JXUnpackFileNames(s.GetRawBytes(), s.GetByteCount(), &list2, &list3);
 	JAssertTrue(list2.IsEmpty());
 
 	list2.CleanOut();
 	list3.CleanOut();
 	list1.Append(JString("/bin/ls", 0, kJFalse));
 	s = JXPackFileNames(list1);
-	JXUnpackFileNames(s.GetBytes(), s.GetByteCount(), &list2, &list3);
+	JXUnpackFileNames(s.GetRawBytes(), s.GetByteCount(), &list2, &list3);
 	JAssertEqual(1, list2.GetElementCount());
 	JAssertStringsEqual("/bin/ls", *(list2.GetFirstElement()));
 
@@ -63,7 +63,7 @@ JTEST(PackFileNames)
 	list3.CleanOut();
 	list1.Prepend(JString("/bin/cat", 0, kJFalse));
 	s = JXPackFileNames(list1);
-	JXUnpackFileNames(s.GetBytes(), s.GetByteCount(), &list2, &list3);
+	JXUnpackFileNames(s.GetRawBytes(), s.GetByteCount(), &list2, &list3);
 	JAssertEqual(2, list2.GetElementCount());
 	JAssertStringsEqual("/bin/cat", *(list2.GetElement(1)));
 	JAssertStringsEqual("/bin/ls", *(list2.GetElement(2)));
@@ -72,7 +72,7 @@ JTEST(PackFileNames)
 	list3.CleanOut();
 	list1.Append(JString("http://test.com/baz", 0, kJFalse));
 	s = JXPackFileNames(list1);
-	JXUnpackFileNames(s.GetBytes(), s.GetByteCount(), &list2, &list3);
+	JXUnpackFileNames(s.GetRawBytes(), s.GetByteCount(), &list2, &list3);
 	JAssertEqual(2, list2.GetElementCount());
 	JAssertStringsEqual("/bin/cat", *(list2.GetElement(1)));
 	JAssertStringsEqual("/bin/ls", *(list2.GetElement(2)));

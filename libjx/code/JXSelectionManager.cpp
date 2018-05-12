@@ -317,7 +317,7 @@ JXSelectionManager::GetData
 			{
 			XFree(*data);
 			*data = (unsigned char*) malloc(newData.GetByteCount()+1);	// JString::AllocateBytes uses new[]
-			memcpy(*data, newData.GetBytes(), newData.GetByteCount()+1);
+			memcpy(*data, newData.GetRawBytes(), newData.GetByteCount()+1);
 			*dataLength = newData.GetByteCount();
 			}
 		}

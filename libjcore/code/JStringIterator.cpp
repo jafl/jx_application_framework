@@ -306,7 +306,7 @@ JStringIterator::UnsafeMoveTo
 		assert( itsConstString->ByteIndexValid(byteIndex) );
 
 		JSize byteCount;
-		JUtf8Character::GetCharacterByteCount(itsConstString->GetBytes() + byteIndex-1, &byteCount);
+		JUtf8Character::GetCharacterByteCount(itsConstString->GetRawBytes() + byteIndex-1, &byteCount);
 
 		itsByteOffset      = byteIndex + byteCount-1;
 		itsCharacterOffset = characterIndex;
@@ -479,7 +479,7 @@ JStringIterator::Prev
 	JIndex i = itsByteOffset;
 
 	JSize count;
-	JUtf8Character::GetPrevCharacterByteCount(itsConstString->GetBytes() + i-1, &count);
+	JUtf8Character::GetPrevCharacterByteCount(itsConstString->GetRawBytes() + i-1, &count);
 
 	i -= count-1;
 
