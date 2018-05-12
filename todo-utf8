@@ -4,8 +4,8 @@ JStyledTextBuffer
 	CleanRightMargin
 
 JTextEditor
-	set selection/caret after undo
-	*** all overrides that do recalc, etc:  handle via messages
+	set selection/caret after performing undo operations
+	some calls to SetCaretLocation/SetSelection should not deactivate undo
 
 put back
 	*KeyHandler
