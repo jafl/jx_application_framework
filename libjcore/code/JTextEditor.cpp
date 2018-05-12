@@ -130,7 +130,6 @@
 #include <JTEKeyHandler.h>
 #include <JPagePrinter.h>
 #include <JFontManager.h>
-#include <JColorManager.h>
 #include <JListUtil.h>
 #include <JRunArrayIterator.h>
 #include <JRegex.h>
@@ -178,6 +177,7 @@ JTextEditor::JTextEditor
 	const Type			type,
 	JStyledTextBuffer*	buffer,
 	const JBoolean		ownsBuffer,
+	const JFontManager*	fontManager,
 	const JBoolean		breakCROnly,
 	const JColorID		caretColor,
 	const JColorID		selectionColor,
@@ -189,6 +189,8 @@ JTextEditor::JTextEditor
 	itsType(type),
 	itsBuffer(buffer),
 	itsOwnsBufferFlag(ownsBuffer),
+
+	itsFontManager(fontManager),
 
 	itsCaretColor(caretColor),
 	itsSelectionColor(selectionColor),
@@ -596,7 +598,7 @@ JTextEditor::SearchForward
 		itsSelection.IsEmpty() ? itsCaretLoc.location.byteIndex :
 		itsSelection.byteRange.last + 1);
 
-	JStyledTextBuffer::TextRange range;
+	TextRange range;
 	const JBoolean found = itsBuffer->SearchForward(match, i, wrapSearch, wrapped, &range);
 	if (found)
 		{
@@ -629,7 +631,7 @@ JTextEditor::SearchBackward
 		itsSelection.IsEmpty() ? itsCaretLoc.location.byteIndex: 
 		itsSelection.byteRange.first);
 
-	JStyledTextBuffer::TextRange range;
+	TextRange range;
 	const JBoolean found = itsBuffer->SearchBackward(match, i, wrapSearch, wrapped, &range);
 	if (found)
 		{
@@ -898,7 +900,7 @@ JTextEditor::GetInsertionIndex()
 {
 	if (!itsSelection.IsEmpty())
 		{
-		return TextIndex(itsSelection.charRange.first, itsSelection.byteRange.first);
+		return itsSelection.GetFirst();
 		}
 	else
 		{
@@ -954,9 +956,6 @@ JTextEditor::GetSelection
 /******************************************************************************
  SetSelection (private)
 
-	*** Requires, but does not validate, that charRange and byteRange
-		correspond to the same bytes.
-
  ******************************************************************************/
 
 void
@@ -974,33 +973,32 @@ JTextEditor::SetSelection
 	itsBuffer->DeactivateCurrentUndo();
 	itsPrevDragType = kInvalidDrag;		// avoid wordSel and lineSel pivots
 
-	if (itsBuffer->GetText().IsEmpty() || itsSelection.charRange == range.charRange)
+	if (itsBuffer->IsEmpty() || itsSelection.charRange == range.charRange)
 		{
 		return;
 		}
 
-	assert( itsBuffer.CharacterIndexValid(charRange.first) );
-	assert( itsBuffer.CharacterIndexValid(charRange.last) );
-	assert( !charRange.IsEmpty() );
+	assert( !range.IsEmpty() );
+	assert( itsBuffer->GetText().CharacterIndexValid(range.charRange.first) );
+	assert( itsBuffer->GetText().CharacterIndexValid(range.charRange.last) );
+	assert( itsBuffer->GetText().ByteIndexValid(range.byteRange.first) );
+	assert( itsBuffer->GetText().ByteIndexValid(range.byteRange.last) );
 
-	assert( itsBuffer.ByteIndexValid(byteRange.first) );
-	assert( itsBuffer.ByteIndexValid(byteRange.last) );
-	assert( !byteRange.IsEmpty() );
-
-	const JBoolean hadSelection            = !itsCharSelection.IsEmpty();
+	const JBoolean hadSelection            = !itsSelection.IsEmpty();
 	const CaretLocation origCaretLoc       = itsCaretLoc;
-	const JUtf8ByteRange origByteSelection = itsByteSelection;
+	const JUtf8ByteRange origByteSelection = itsSelection.byteRange;
 
-	itsCaretLoc      = CaretLocation(0,0,0);
-	itsCharSelection = charRange;
-	itsByteSelection = byteRange;
+	itsCaretLoc  = CaretLocation();
+	itsSelection = range;
 
-	const JIndex newStartLine = GetLineForByte(itsByteSelection.first);
-	const JIndex newEndLine   = GetLineForByte(itsByteSelection.last);
+	const JIndex newStartLine = GetLineForByte(itsSelection.byteRange.first);
+	const JIndex newEndLine   = GetLineForByte(itsSelection.byteRange.last);
 
 	if (needCaretBcast)
 		{
-		BroadcastCaretMessages(CaretLocation(itsCharSelection.first, itsByteSelection.first, newStartLine), kJTrue);
+		BroadcastCaretMessages(
+			CaretLocation(itsSelection.GetFirst(), newStartLine),
+			kJTrue);
 		}
 
 	TECaretShouldBlink(kJFalse);
@@ -1013,13 +1011,13 @@ JTextEditor::SetSelection
 	// We only optimize heavily for the case when one end of the
 	// selection remains fixed because this is the case during mouse drags.
 
-	if (hadSelection && origByteSelection.first == itsByteSelection.first)
+	if (hadSelection && origByteSelection.first == itsSelection.byteRange.first)
 		{
 		const JIndex origEndLine = GetLineForByte(origByteSelection.last);
 		TERefreshLines(JMin(origEndLine, newEndLine),
 					   JMax(origEndLine, newEndLine));
 		}
-	else if (hadSelection && origByteSelection.last == itsByteSelection.last)
+	else if (hadSelection && origByteSelection.last == itsSelection.byteRange.last)
 		{
 		const JIndex origStartLine = GetLineForByte(origByteSelection.first);
 		TERefreshLines(JMin(origStartLine, newStartLine),
@@ -1042,25 +1040,15 @@ JTextEditor::SetSelection
 /******************************************************************************
  DeleteSelection
 
-	We create JTEUndoTyping so keys pressed after the delete key count
-	as part of the undo task.
-
  ******************************************************************************/
 
 void
 JTextEditor::DeleteSelection()
 {
-	if (!itsIsDragSourceFlag && !itsCharSelection.IsEmpty())
+	if (!itsIsDragSourceFlag && !itsSelection.IsEmpty())
 		{
-		JTEUndoTyping* newUndo = jnew JTEUndoTyping(this);
-		assert( newUndo != NULL );
-
-		DeleteText(itsCharSelection, itsByteSelection);
-		Recalc(TextIndex(itsCharSelection.first, itsByteSelection.first), 1, kJTrue, kJFalse);
-		SetCaretLocation(
-			TextIndex(itsCharSelection.first, itsByteSelection.first));
-
-		NewUndo(newUndo, kJTrue);
+		itsBuffer->DeleteText(itsSelection);
+		SetCaretLocation(itsSelection.GetFirst());
 		}
 }
 
@@ -1079,38 +1067,34 @@ JTextEditor::TabSelectionLeft
 	const JBoolean	force
 	)
 {
-	if (TEIsDragging() || itsBuffer.IsEmpty())
+	if (TEIsDragging() || itsBuffer->IsEmpty())
 		{
 		return;
 		}
 
-	JStyledTextBuffer::TextRange r;
-	JStyledTextBuffer::TextIndex start, end;
+	TextRange r;
+	TextIndex start, end;
 	if (!itsSelection.IsEmpty())
 		{
-		start = GetParagraphStart(JStyledTextBuffer::TextIndex(itsCharSelection.first, itsByteSelection.first)),
-		end   = JStyledTextBuffer::TextIndex(itsCharSelection.last, itsByteSelection.last);
+		start = itsBuffer->GetParagraphStart(itsSelection.GetFirst());
+		end   = itsBuffer->AdjustTextIndex(
+			TextIndex(itsSelection.charRange.last+1, itsSelection.byteRange.last+1), -1);
 		}
 	else
 		{
-		start = GetParagraphStart(itsCaretLoc.location),
+		start = itsBuffer->GetParagraphStart(itsCaretLoc.location);
 		end   = itsCaretLoc.location;
 		}
 
 	r.charRange.Set(start.charIndex, end.charIndex);
 	r.byteRange.Set(start.byteIndex, end.byteIndex);
 
-	const JIndex firstLine = GetLineForChar(itsCharSelection.first);
-	const JIndex lastLine  = GetLineForChar(itsCharSelection.last);
+	r = itsBuffer->Outdent(r, tabCount, force);
 
-	itsBuffer.Outdent(r, tabCount, force);
-
-	const TextIndex startIndex = GetLineStart(firstLine);
-	const TextIndex endIndex   = GetLineEnd(lastLine);
-	Recalc(startIndex, endIndex.charIndex - startIndex.charIndex + 1, kJTrue, kJFalse);
-
-	SetSelection(JCharacterRange(startIndex.charIndex, endIndex.charIndex - deleteCount),
-				 JUtf8ByteRange(startIndex.byteIndex, endIndex.byteIndex - deleteCount));
+	if (!r.IsEmpty())
+		{
+		SetSelection(r);
+		}
 }
 
 /******************************************************************************
@@ -1127,38 +1111,31 @@ JTextEditor::TabSelectionRight
 	const JSize tabCount
 	)
 {
-	if (TEIsDragging() || itsBuffer.IsEmpty())
+	if (TEIsDragging() || itsBuffer->IsEmpty())
 		{
 		return;
 		}
 
-	JStyledTextBuffer::TextRange r;
-	JStyledTextBuffer::TextIndex start, end;
+	TextRange r;
+	TextIndex start, end;
 	if (!itsSelection.IsEmpty())
 		{
-		start = GetParagraphStart(JStyledTextBuffer::TextIndex(itsCharSelection.first, itsByteSelection.first)),
-		end   = JStyledTextBuffer::TextIndex(itsCharSelection.last, itsByteSelection.last);
+		start = itsBuffer->GetParagraphStart(itsSelection.GetFirst());
+		end   = itsBuffer->AdjustTextIndex(
+			TextIndex(itsSelection.charRange.last+1, itsSelection.byteRange.last+1), -1);
 		}
 	else
 		{
-		start = GetParagraphStart(itsCaretLoc.location),
+		start = itsBuffer->GetParagraphStart(itsCaretLoc.location);
 		end   = itsCaretLoc.location;
 		}
 
 	r.charRange.Set(start.charIndex, end.charIndex);
 	r.byteRange.Set(start.byteIndex, end.byteIndex);
 
-	const JIndex firstLine = GetLineForChar(itsCharSelection.first);
-	const JIndex lastLine  = GetLineForChar(itsCharSelection.last);
+	r = itsBuffer->Indent(r, tabCount);
 
-	itsBuffer.Indent(r, tabCount);
-
-	const TextIndex startIndex = GetLineStart(firstLine);
-	const TextIndex endIndex   = GetLineEnd(lastLine);
-	Recalc(startIndex, endIndex.charIndex + insertCount - startIndex.charIndex + 1, kJFalse, kJFalse);
-
-	SetSelection(JCharacterRange(startIndex.charIndex, endIndex.charIndex + insertCount),
-				 JUtf8ByteRange(startIndex.byteIndex, endIndex.byteIndex + insertCount));
+	SetSelection(r);
 }
 
 /******************************************************************************
@@ -1186,60 +1163,34 @@ JTextEditor::AnalyzeWhitespace
 	)
 {
 	JBoolean useSpaces, isMixed;
-	*tabWidth = JAnalyzeWhitespace(itsBuffer, *tabWidth, itsTabToSpacesFlag,
+	*tabWidth = JAnalyzeWhitespace(itsBuffer->GetText(), *tabWidth,
+								   itsBuffer->TabInsertsSpaces(),
 								   &useSpaces, &isMixed);
 
-	TabShouldInsertSpaces(useSpaces);
+	itsBuffer->TabShouldInsertSpaces(useSpaces);
 	ShouldShowWhitespace(isMixed);
 }
 
 /******************************************************************************
- CleanWhitespace
+ CleanSelectedWhitespace
 
 	Clean up the indentation whitespace and strip trailing whitespace in
-	the specified range.
+	the selected range.
 
  ******************************************************************************/
 
-void
-JTextEditor::CleanWhitespace
+inline void
+JTextEditor::CleanSelectedWhitespace
 	(
-	const JCharacterRange&	charRange,
-	const JBoolean			align
+	const JBoolean align
 	)
 {
-	const JStyledTextBuffer::TextRange r =
-		itsBuffer.CleanWhitespace(
-			JStyledTextBuffer::TextRange(charRange, CharToByteRange(charRange)),
-			align);
-
-	SetSelection(r);
-}
-
-/******************************************************************************
- InsertText (private)
-
-	*** Caller must call Recalc().  Nothing can be selected.
-
-	Returns number of characters / bytes that were actually inserted.
-
-	style can be NULL.
-
-	In second version, iterator must be positioned at insertion index.
-
- ******************************************************************************/
-
-JTextEditor::TextCount
-JTextEditor::InsertText
-	(
-	const TextIndex&		index,
-	const JString&			text,
-	const JRunArray<JFont>*	style	// can be NULL
-	)
-{
-	assert( itsSelection.IsEmpty() );
-
-	return itsBuffer.InsertText(index, text, itsStyles, &itsInsertionFont);
+	TextRange r;
+	if (GetSelection(&r))
+		{
+		r = itsBuffer->CleanWhitespace(r, align);
+		SetSelection(r);
+		}
 }
 
 /******************************************************************************
@@ -1537,17 +1488,16 @@ JTextEditor::GetCmdStatus
 				}
 			}
 
-		if (itsUndoList != NULL)
+		JBoolean canUndo, canRedo;
+		if (itsBuffer->HasMultipleUndo(&canUndo, &canRedo))
 			{
-			flags.SetElement(kUndoCmd, JConvertToBoolean( itsFirstRedoIndex > 1 ));
-			flags.SetElement(kRedoCmd,
-				JConvertToBoolean( itsFirstRedoIndex <= itsUndoList->GetElementCount() ));
+			flags.SetElement(kUndoCmd, canUndo);
+			flags.SetElement(kRedoCmd, canRedo);
 			}
-		else if (itsUndo != NULL)
+		else if (itsBuffer->HasSingleUndo())
 			{
-			const JBoolean isRedo = itsUndo->IsRedo();
-			flags.SetElement(kUndoCmd, !isRedo);
-			flags.SetElement(kRedoCmd, isRedo);
+			flags.SetElement(kUndoCmd, kJTrue);
+			flags.SetElement(kRedoCmd, kJFalse);
 			}
 		}
 
@@ -1567,8 +1517,7 @@ JTextEditor::GetCmdStatus
 
 			if (itsType == kFullEditor)
 				{
-				flags.SetElement(kReplaceAllBackwardCmd, kJTrue);
-				flags.SetElement(kReplaceAllForwardCmd,  kJTrue);
+				flags.SetElement(kReplaceAllCmd,  kJTrue);
 
 				if (HasSelection())
 					{
@@ -1628,7 +1577,7 @@ JTextEditor::TEDraw
 
 	// if DND, draw drop location and object being dragged
 
-	if (itsDragType == kDragAndDrop && itsDropLoc.charIndex > 0)
+	if (itsDragType == kDragAndDrop && itsDropLoc.location.charIndex > 0)
 		{
 		TEDrawCaret(p, itsDropLoc);
 		}
@@ -1660,7 +1609,7 @@ JTextEditor::TEDrawText
 	const JRect&	rect
 	)
 {
-	if (IsEmpty())
+	if (itsBuffer->IsEmpty())
 		{
 		return;
 		}
@@ -1680,17 +1629,19 @@ JTextEditor::TEDrawText
 	// draw text, one line at a time
 
 	JIndex runIndex, firstInRun;
-	const JBoolean found = itsStyles->FindRun(GetLineStart(startLine), &runIndex, &firstInRun);
+	const JBoolean found = itsBuffer->GetStyles().FindRun(GetLineStart(startLine).charIndex, &runIndex, &firstInRun);
 	assert( found );
 
-	JRunArrayIterator<LineGeometry> iter(itsLineGeom, kJIteratorStartBefore, startLine);
+	JStringIterator* siter = itsBuffer->GetConstIterator(kJIteratorStartBefore, GetLineStart(startLine));
+
+	JRunArrayIterator<LineGeometry> giter(itsLineGeom, kJIteratorStartBefore, startLine);
 	LineGeometry geom;
 	for (JIndex i=startLine; i<=lineCount; i++)
 		{
-		const JBoolean ok = iter.Next(&geom);
+		const JBoolean ok = giter.Next(&geom);
 		assert( ok );
 
-		TEDrawLine(p, h, geom, i, &runIndex, &firstInRun);
+		TEDrawLine(p, h, geom, siter, i, &runIndex, &firstInRun);
 
 		h += geom.height;
 		if (h >= rect.bottom)
@@ -1698,6 +1649,8 @@ JTextEditor::TEDrawText
 			break;
 			}
 		}
+
+	itsBuffer->DisposeConstIterator(siter);
 }
 
 /******************************************************************************
@@ -1713,20 +1666,23 @@ JTextEditor::TEDrawText
 inline void
 teDrawSpaces
 	(
-	const JCharacter*		buffer,
-	const JRunArray<JFont>&	styles,
-	const JIndex			startChar,
-	const JInteger			direction,		// +1/-1
-	const JIndex			trueRunEnd,
-	JPainter&				p,
-	const JCoordinate		left,
-	const JCoordinate		ycenter,
-	const JFont&			f,
-	const JColorID		wsColor
+	const JStyledTextBuffer*	stb,
+	const JIndex				startChar,
+	const JInteger				direction,		// +1/-1
+	const JIndex				trueRunEnd,
+	JPainter&					p,
+	const JCoordinate			left,
+	const JCoordinate			ycenter,
+	const JFontManager*			fontManager,
+	const JFont&				f,
+	const JColorID				wsColor
 	)
 {
+	const JUtf8Byte* buffer        = stb->GetText().GetBytes();
+	const JRunArray<JFont>& styles = stb->GetStyles();
+
 	JCoordinate l = left;
-	JSize w       = f.GetCharWidth(' ');
+	JSize w       = f.GetCharWidth(fontManager, ' ');
 
 	p.SetLineWidth(1);
 	p.SetPenColor(wsColor);
@@ -1739,7 +1695,7 @@ teDrawSpaces
 			(direction == -1 && i < trueRunEnd))
 			{
 			JFont f = styles.GetElement(i);
-			w       = f.GetCharWidth(' ');
+			w       = f.GetCharWidth(fontManager, ' ');
 			}
 
 		if (direction == -1)
@@ -1762,6 +1718,7 @@ JTextEditor::TEDrawLine
 	JPainter&			p,
 	const JCoordinate	top,
 	const LineGeometry&	geom,
+	JStringIterator*	iter,
 	const JIndex		lineIndex,
 	JIndex*				runIndex,
 	JIndex*				firstInRun
@@ -1769,27 +1726,12 @@ JTextEditor::TEDrawLine
 {
 	TEDrawInMargin(p, JPoint(-itsLeftMarginWidth, top), geom, lineIndex);
 
-	const JSize lineLength = GetLineLength(lineIndex);
-	assert( lineLength > 0 );
-
-	JBoolean lineEndsWithNewline = kJFalse;
-
-	JIndex startChar = GetLineStart(lineIndex);
-	JIndex endChar   = startChar + lineLength - 1;
-	if (itsBuffer->GetCharacter(endChar) == '\n')	// some fonts draw stuff for \n
-		{
-		endChar--;
-		lineEndsWithNewline = kJTrue;
-		}
-
-	JCoordinate left = 0;
-
 	JBoolean wsInit = kJFalse;
 	JRect wsRect;
 	JCoordinate wsYCenter = 0;
 	if (itsDrawWhitespaceFlag)
 		{
-		wsRect.Set(top+3, left, top+geom.height-4, left);
+		wsRect.Set(top+3, 0, top+geom.height-4, 0);
 		if (wsRect.height() < 3)
 			{
 			wsRect.top    -= (3 - wsRect.height())/2;
@@ -1801,10 +1743,19 @@ JTextEditor::TEDrawLine
 		wsYCenter = wsRect.ycenter();
 		}
 
-	JString s;
+	const TextCount lineLength = GetLineLength(lineIndex);
+	assert( lineLength.charCount > 0 );
+
+	JIndex startChar = iter->GetNextCharacterIndex();
+	JIndex endChar   = iter->GetPrevCharacterIndex() + lineLength.charCount;
+	JCoordinate left = 0;
+	JUtf8Character c;
+	JBoolean lineEndsWithNewline = kJFalse;
+
+	const JRunArray<JFont> styles = itsBuffer->GetStyles();
 	while (startChar <= endChar)
 		{
-		JSize runLength        = itsStyles->GetRunLength(*runIndex);
+		JSize runLength        = styles.GetRunLength(*runIndex);
 		const JSize trueRunEnd = *firstInRun + runLength-1;
 
 		runLength -= startChar - *firstInRun;
@@ -1813,34 +1764,48 @@ JTextEditor::TEDrawLine
 			runLength = endChar - startChar + 1;
 			}
 
-		const JFont& f = itsStyles->GetRunDataRef(*runIndex);
-		s              = itsBuffer->GetSubstring(startChar, startChar + runLength-1);
+		const JFont& f = styles.GetRunDataRef(*runIndex);
 
 		// If the line starts with spaces, we have to draw them.
 
 		if (!wsInit && itsDrawWhitespaceFlag)
 			{
-			teDrawSpaces(*itsBuffer, *itsStyles, startChar, +1, trueRunEnd,
-						 p, left, wsYCenter, f, itsWhitespaceColor);
+			teDrawSpaces(itsBuffer, startChar, +1, trueRunEnd,
+						 p, left, wsYCenter, itsFontManager, f, itsWhitespaceColor);
 			}
 		wsInit = kJTrue;
 
 		// If there is a tab in the string, we step up to it and take care of
 		// the rest in the next iteration.
 
-		JIndex tabIndex;
-		if (s.LocateSubstring("\t", &tabIndex))
+		JCharacterRange cr;
+		cr.SetFirstAndCount(startChar, runLength);
+
+		iter->BeginMatch();
+
+		JBoolean foundTab = kJFalse;
+		while (iter->GetNextCharacterIndex() <= cr.last)
 			{
-			runLength = tabIndex - 1;
-			if (runLength > 0)
+			const JBoolean ok = iter->Next(&c);
+			assert( ok );
+
+			if (c == '\t')
 				{
-				s = itsBuffer->GetSubstring(startChar, startChar + runLength-1);
+				iter->SkipPrev();
+				foundTab = kJTrue;
+				break;
 				}
 			}
-		else
+
+		if (c == '\n')	// some fonts draw stuff for \n
 			{
-			tabIndex = 0;
+			iter->SkipPrev();
+			endChar--;
+			lineEndsWithNewline = kJTrue;
 			}
+
+		const JStringMatch& m = iter->FinishMatch();
+		runLength             = m.GetCharacterCount();
 
 		if (runLength > 0)
 			{
@@ -1848,6 +1813,7 @@ JTextEditor::TEDrawLine
 			JCoordinate ascent,descent;
 			p.GetLineHeight(&ascent, &descent);
 
+			const JString s = m.GetString();
 			p.String(left, top + geom.ascent - ascent, s);
 
 			// we only care if there is more text on the line
@@ -1858,7 +1824,7 @@ JTextEditor::TEDrawLine
 				}
 			}
 
-		if (tabIndex > 0)
+		if (foundTab)
 			{
 			if (itsDrawWhitespaceFlag)
 				{
@@ -1882,9 +1848,8 @@ JTextEditor::TEDrawLine
 
 			if (itsDrawWhitespaceFlag)
 				{
-				teDrawSpaces(*itsBuffer, *itsStyles,
-							 startChar + runLength - 1, -1, *firstInRun,
-							 p, left, wsYCenter, f, itsWhitespaceColor);
+				teDrawSpaces(itsBuffer, startChar + runLength - 1, -1, *firstInRun,
+							 p, left, wsYCenter, itsFontManager, f, itsWhitespaceColor);
 				}
 
 			left += GetTabWidth(startChar + runLength, left);
@@ -1892,9 +1857,8 @@ JTextEditor::TEDrawLine
 
 			if (itsDrawWhitespaceFlag)
 				{
-				teDrawSpaces(*itsBuffer, *itsStyles,
-							 startChar + runLength, +1, trueRunEnd,
-							 p, left, wsYCenter, f, itsWhitespaceColor);
+				teDrawSpaces(itsBuffer, startChar + runLength, +1, trueRunEnd,
+							 p, left, wsYCenter, itsFontManager, f, itsWhitespaceColor);
 				}
 			}
 
@@ -1935,17 +1899,19 @@ JTextEditor::TEDrawLine
 			p.LineTo(pt3);
 			p.LineTo(pt4);
 
-			const JFont& f = itsStyles->GetRunDataRef(*runIndex);
-			teDrawSpaces(*itsBuffer, *itsStyles, endChar, -1, *firstInRun,
-						 p, left, wsYCenter, f, itsWhitespaceColor);
+			const JFont& f = styles.GetRunDataRef(*runIndex);
+			teDrawSpaces(itsBuffer, endChar, -1, *firstInRun,
+						 p, left, wsYCenter, itsFontManager, f, itsWhitespaceColor);
 			}
 
-		const JSize runLength = itsStyles->GetRunLength(*runIndex);
+		const JSize runLength = styles.GetRunLength(*runIndex);
 		if (startChar >= *firstInRun + runLength-1)
 			{
 			*firstInRun += runLength;
 			(*runIndex)++;
 			}
+
+		iter->SkipNext();	// skip over newline character
 		}
 }
 
@@ -1987,8 +1953,8 @@ JTextEditor::TEDrawSelection
 
 	// calculate intersection of selection region and drawing region
 
-	JIndex startLine = GetLineForChar(itsSelection.first);
-	JIndex endLine   = GetLineForChar(itsSelection.last);
+	JIndex startLine = GetLineForChar(itsSelection.charRange.first);
+	JIndex endLine   = GetLineForChar(itsSelection.charRange.last);
 
 	const JIndex origStartLine = startLine;
 	const JIndex origEndLine   = endLine;
@@ -2005,14 +1971,14 @@ JTextEditor::TEDrawSelection
 	else if (startVisLine > startLine)
 		{
 		startLine = startVisLine;
-		startChar = GetLineStart(startVisLine);
+		startChar = GetLineStart(startVisLine).charIndex;
 		x         = 0;
 		y         = startVisLineTop;
 		}
 	else
 		{
-		startChar = itsSelection.first;
-		x         = GetCharLeft(CaretLocation(startChar, startLine));
+		startChar = itsSelection.charRange.first;
+		x         = GetCharLeft(CaretLocation(itsSelection.GetFirst(), startLine));
 		y         = GetLineTop(startLine);
 		}
 
@@ -2050,7 +2016,7 @@ JTextEditor::TEDrawSelection
 		if (endChar > itsSelection.last)
 			{
 			endChar = itsSelection.last;
-			w = GetStringWidth(startChar, endChar);
+			w       = GetStringWidth(startChar, endChar);
 			}
 		else
 			{
@@ -2709,7 +2675,7 @@ JTextEditor::TEHitSamePart
 {
 	const CaretLocation loc1 = CalcCaretLocation(pt1);
 	const CaretLocation loc2 = CalcCaretLocation(pt2);
-	return JConvertToBoolean(loc1 == loc2);
+	return JI2B(loc1 == loc2);
 }
 
 /******************************************************************************
@@ -3005,46 +2971,6 @@ JTextEditor::GetColumnForChar
 {
 	CaretLocation loc = CalcCaretLocation(charIndex);
 	return itsBuffer.GetColumnForChar(GetLineStart(loc.lineIndex), loc.location);
-}
-
-/******************************************************************************
- CharToTextIndex (private)
-
-	This cannot be in JString, because there, it would always be the worst
-	case: one wrapped line of characters with no breaks.  All following
-	marks would always have to be recomputed, not merely shifted, to avoid
-	an uneven distribution.
-
- ******************************************************************************/
-
-JTextEditor::TextIndex
-JTextEditor::CharToTextIndex
-	(
-	const JIndex charIndex
-	)
-	const
-{
-	const TextRange r = CharToTextRange(JCharacterRange(charIndex, charIndex));
-	return TextIndex(r.charRange.first, r.byteRange.first);
-}
-
-/******************************************************************************
- CharToTextRange (private)
-
-	Optimized by starting JStringIterator at start of line, computed by
-	using binary search.
-
- ******************************************************************************/
-
-TextRange
-JTextEditor::CharToTextRange
-	(
-	const JCharacterRange& charRange
-	)
-	const
-{
-	const TextIndex i = GetLineStart(GetLineForChar(charRange.first));
-	return itsBuffer->CharToTextRange(&i, charRange);
 }
 
 /******************************************************************************

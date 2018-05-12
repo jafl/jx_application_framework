@@ -13,6 +13,7 @@
 #include <JInterpolate.h>
 
 class JTEKeyHandler;
+class JFontManager;
 class JStringMatch;
 class JPainter;
 class JPagePrinter;
@@ -93,7 +94,7 @@ public:
 public:
 
 	JTextEditor(const Type type, JStyledTextBuffer* buffer, const JBoolean ownsBuffer,
-				const JBoolean breakCROnly,
+				const JFontManager* fontManager, const JBoolean breakCROnly,
 				const JColorID caretColor, const JColorID selectionColor,
 				const JColorID outlineColor, const JColorID wsColor,
 				const JCoordinate width);
@@ -168,7 +169,6 @@ public:
 
 	void	CleanAllWhitespace(const JBoolean align);
 	void	CleanSelectedWhitespace(const JBoolean align);
-	void	CleanWhitespace(const JCharacterRange& range, const JBoolean align);
 	void	AnalyzeWhitespace(JSize* tabWidth);
 
 	JBoolean	WillAutoIndent() const;
@@ -184,12 +184,13 @@ public:
 	JIndex		GetLineForChar(const JIndex charIndex) const;
 	void		GoToLine(const JIndex lineIndex);
 	void		SelectLine(const JIndex lineIndex);
-	JIndex		GetLineLength(const JIndex lineIndex) const;
 	JCoordinate	GetLineTop(const JIndex lineIndex) const;
 	JCoordinate	GetLineBottom(const JIndex lineIndex) const;
 	JSize		GetLineHeight(const JIndex lineIndex) const;
 	JIndex		CRLineIndexToVisualLineIndex(const JIndex crLineIndex) const;
 	JIndex		VisualLineIndexToCRLineIndex(const JIndex visualLineIndex) const;
+
+	JStyledTextBuffer::TextCount	GetLineLength(const JIndex lineIndex) const;
 
 	JCoordinate	GetCharLeft(const JIndex charIndex) const;
 	JCoordinate	GetCharRight(const JIndex charIndex) const;
@@ -346,7 +347,7 @@ protected:
 	virtual JBoolean	TEGetClipboard(JString* text, JRunArray<JFont>* style) const = 0;
 	virtual void		TECaretShouldBlink(const JBoolean blink) = 0;
 
-	virtual JCoordinate	GetTabWidth(const JStyledTextBuffer::TextIndex& charIndex, const JCoordinate x) const;
+	virtual JCoordinate	GetTabWidth(const JIndex charIndex, const JCoordinate x) const;
 
 	virtual JCoordinate	GetPrintHeaderHeight(JPagePrinter& p) const;
 	virtual JCoordinate	GetPrintFooterHeight(JPagePrinter& p) const;
@@ -407,6 +408,8 @@ private:
 	JBoolean	itsIsPrintingFlag;			// kJTrue => stack threads through Print()
 	JBoolean	itsDrawWhitespaceFlag;		// kJTrue => show tabs, spaces, newlines
 	CaretMode	itsCaretMode;
+
+	const JFontManager*	itsFontManager;
 
 	JColorID	itsCaretColor;
 	JColorID	itsSelectionColor;
@@ -481,6 +484,7 @@ private:
 
 	void	TEDrawText(JPainter& p, const JRect& rect);
 	void	TEDrawLine(JPainter& p, const JCoordinate top, const LineGeometry& geom,
+					   JStringIterator* iter,
 					   const JIndex lineIndex, JIndex* runIndex, JIndex* firstInRun);
 	void	TEDrawSelection(JPainter& p, const JRect& rect, const JIndex startVisLine,
 							const JCoordinate startVisLineTop);
@@ -490,10 +494,6 @@ private:
 	JFont	CalcInsertionFont(const JStringIterator& buffer,
 							  const JRunArray<JFont>& styles) const;
 	void	DropSelection(const JStyledTextBuffer::TextIndex& dropLoc, const JBoolean dropCopy);
-
-	JStyledTextBuffer::TextCount	PrivatePaste(const JString& text, const JRunArray<JFont>* style);
-	JStyledTextBuffer::TextCount	InsertText(const JStyledTextBuffer::TextIndex& index, const JString& text,
-											   const JRunArray<JFont>* style = NULL);
 
 	void			SetCaretLocation(const JStyledTextBuffer::TextIndex& caretLoc);
 	void			SetCaretLocation(const CaretLocation& caretLoc);
@@ -516,9 +516,7 @@ private:
 							   const JStyledTextBuffer::TextIndex& endIndex,
 							   JIndex* runIndex, JIndex* firstInRun) const;
 
-	JStyledTextBuffer::TextIndex	CharToTextIndex(const JIndex charIndex) const;
-	JStyledTextBuffer::TextRange	CharToTextRange(const JCharacterRange& charRange) const;
-	JIndex							GetLineForByte(const JIndex byteIndex) const;
+	JIndex	GetLineForByte(const JIndex byteIndex) const;
 
 	void	PrivateSetBreakCROnly(const JBoolean breakCROnly);
 	void	TEGUIWidthChanged();
@@ -657,7 +655,7 @@ inline JBoolean
 JTextEditor::IsReadOnly()
 	const
 {
-	return JConvertToBoolean( itsType != kFullEditor );
+	return JI2B( itsType != kFullEditor );
 }
 
 /******************************************************************************
@@ -926,28 +924,8 @@ JTextEditor::CleanAllWhitespace
 	const JBoolean align
 	)
 {
-	CleanWhitespace(JCharacterRange(1, itsBuffer->GetText().GetCharacterCount()), align);
-}
-
-/******************************************************************************
- CleanSelectedWhitespace
-
-	Clean up the indentation whitespace and strip trailing whitespace in
-	the selected range.
-
- ******************************************************************************/
-
-inline void
-JTextEditor::CleanSelectedWhitespace
-	(
-	const JBoolean align
-	)
-{
-	JCharacterRange r;
-	if (GetSelection(&r))
-		{
-		CleanWhitespace(r, align);
-		}
+	SelectAll();
+	CleanSelectedWhitespace(align);
 }
 
 /******************************************************************************
@@ -1177,14 +1155,18 @@ JTextEditor::GetLineStart
 
  ******************************************************************************/
 
-inline JSize
+inline JStyledTextBuffer::TextCount
 JTextEditor::GetLineLength
 	(
 	const JIndex lineIndex
 	)
 	const
 {
-	return (GetLineEnd(lineIndex).charIndex - GetLineStart(lineIndex).charIndex + 1);
+	const JStyledTextBuffer::TextIndex
+		s = GetLineStart(lineIndex),
+		e = GetLineEnd(lineIndex);
+	return JStyledTextBuffer::TextCount(
+		e.charIndex - s.charIndex + 1, e.byteIndex - s.byteIndex + 1);
 }
 
 /******************************************************************************
