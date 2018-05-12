@@ -12,7 +12,7 @@
 
 	BASE CLASS = none
 
-	Copyright (C) 1996 by John Lindal.
+	Copyright (C) 1996-2018 by John Lindal.
 
  ******************************************************************************/
 
@@ -575,29 +575,6 @@ JXGC::FillPolygon
 }
 
 /******************************************************************************
- SetFont
-
- ******************************************************************************/
-
-void
-JXGC::SetFont
-	(
-	const JFontID id
-	)
-{
-	if (id != itsLastFontID)
-		{
-		itsLastFontID = id;
-
-		JXFontManager::XFont xfont = (itsDisplay->GetXFontManager())->GetXFontInfo(id);
-		if (xfont.type == JXFontManager::kStdType)
-			{
-			XSetFont(*itsDisplay, itsXGC, xfont.xfstd->fid);
-			}
-		}
-}
-
-/******************************************************************************
  DrawString
 
 	If the string is too long to be sent to the server in one chunk,
@@ -643,12 +620,23 @@ JXGC::DrawString
 	JSize offset  = 0;
 	while (offset < byteCount)
 		{
-		const JSize count = JMin(byteCount - offset, chunkByteCount);
+		const JUtf8Byte* s = str.GetRawBytes() + offset;	// GetRawBytes() because str may be a shadow
 
-		const JUtf8Byte* s = str.GetBytes() + offset;
+		JSize count = byteCount - offset;
+		if (count > chunkByteCount)
+			{
+			count = chunkByteCount;
+			JSize byteCount;
+			while (!JUtf8Character::GetCharacterByteCount(s + count, &byteCount))
+				{
+				count--;
+				}
+			}
+
 		if (xfont.type == JXFontManager::kStdType)
 			{
-			XDrawString(*itsDisplay, drawable, itsXGC, x,y, s, count);
+			// Xutf8DrawString() would be more accurate, but it's not standard, and XmbDrawString() supposedly does a better job.
+			XmbDrawString(*itsDisplay, drawable, xfont.xfset, itsXGC, x,y, s, count);
 			}
 		else
 			{

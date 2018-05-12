@@ -13,7 +13,7 @@
 
 	BASE CLASS = JFontManager
 
-	Copyright (C) 1996 by John Lindal.
+	Copyright (C) 1996-2018 by John Lindal.
 
  ******************************************************************************/
 
@@ -99,8 +99,20 @@ JXFontManager::IsMonospace
 {
 	if (xfont.type == kStdType)
 	{
-		return (xfont.xfstd->min_bounds.width == xfont.xfstd->max_bounds.width ?
-				xfont.xfstd->min_bounds.width : 0);
+		XFontStruct** fsList;
+		char** nameList;
+		const int count = XFontsOfFontSet(xfont.xfset, &fsList, &nameList);
+		JCoordinate w   = fsList[0]->min_bounds.width;
+		for (int i=0; i<count; i++)
+			{
+			if (fsList[i]->min_bounds.width != w ||
+				fsList[i]->max_bounds.width != w)
+				{
+				return 0;
+				}
+			}
+
+		return w;
 	}
 	else
 	{
@@ -466,16 +478,20 @@ JXFontManager::GetFontID
 	XftFont* xft = XftFontOpenXlfd(*itsDisplay, itsDisplay->GetScreen(), xFontStr.GetBytes());
 	if (xft != NULL)
 		{
-		info.xfont.type   = kTrueType;
+		info.xfont.type = kTrueType;
 		info.xfont.xftt = xft;
 		}
 	else
 		{
-		XFontStruct* xfs = XLoadQueryFont(*itsDisplay, xFontStr.GetBytes());
-		if (xfs != NULL)
+		char** missingCharsetList;
+		int missingCharsetCount;
+		char* defString;
+		XFontSet set = XCreateFontSet(*itsDisplay, xFontStr.GetBytes(), &missingCharsetList, &missingCharsetCount, &defString);
+		if (set != NULL)
 			{
+			XFreeStringList(missingCharsetList);
 			info.xfont.type  = kStdType;
-			info.xfont.xfstd = xfs;
+			info.xfont.xfset = set;
 			}
 		else
 			{
@@ -514,34 +530,34 @@ JXFontManager::GetNewFont
 		XftFont* xft = XftFontOpenName(*itsDisplay, itsDisplay->GetScreen(), xFontStr.GetBytes());
 		if (xft != NULL)
 			{
-			xfont->type   = kTrueType;
+			xfont->type = kTrueType;
 			xfont->xftt = xft;
 			return kJTrue;
 			}
 		}
 
 	const JUtf8Byte* italicStr = kObliqueStr;	// try oblique before italic
-	const JUtf8Byte* iso       = "iso8859-1";
+	const JUtf8Byte* iso       = "*";
 
-	XFontStruct* xfs = NULL;
+	XFontSet set;
+	char** missingCharsetList;
+	int missingCharsetCount;
+	char* defString;
 	while (1)
 		{
 		xFontStr = BuildStdFontName(name, size, style, italicStr, iso);
-		xfs      = XLoadQueryFont(*itsDisplay, xFontStr.GetBytes());
-		if (xfs != NULL)
+		set      = XCreateFontSet(*itsDisplay, xFontStr.GetBytes(), &missingCharsetList, &missingCharsetCount, &defString);
+		if (set != NULL)
 			{
+			XFreeStringList(missingCharsetList);
 			xfont->type  = kStdType;
-			xfont->xfstd = xfs;
+			xfont->xfset = set;
 			return kJTrue;
 			}
 
 		if (strcmp(italicStr, kObliqueStr) == 0 && style.italic)
 			{
 			italicStr = kItalicStr;
-			}
-		else if (iso[1] != '\0')
-			{
-			iso = "*";
 			}
 		else
 			{
@@ -792,27 +808,30 @@ JXFontManager::GetLineHeight
 	const
 {
 	FontInfo info = itsFontList->GetElement(fontID);
-	if (info.xfont.type == kStdType)
+	if (info.xfont.type == kStdType && info.ascent == 0)
 		{
-		*ascent  = info.xfont.xfstd->ascent;
-		*descent = info.xfont.xfstd->descent;
+		XFontStruct** fsList;
+		char** nameList;
+		const int count = XFontsOfFontSet(info.xfont.xfset, &fsList, &nameList);
+		for (int i=0; i<count; i++)
+			{
+			info.ascent  = JMax(info.ascent,  (JCoordinate) fsList[i]->ascent);
+			info.descent = JMax(info.descent, (JCoordinate) fsList[i]->descent);
+			}
 		}
-	else
+	else if (info.ascent == 0)
 		{
 		assert( info.xfont.type == kTrueType );
 
-		if (info.ascent == 0)
-			{
-			XGlyphInfo g;
-			XftTextExtentsUtf8(*itsDisplay, info.xfont.xftt, (FcChar8*) "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789|_", 64, &g);
-			info.ascent  = g.y + 1 + size/10;
-			info.descent = g.height - g.y;
-			itsFontList->SetElement(fontID, info);
-			}
-
-		*ascent  = info.ascent;
-		*descent = info.descent;
+		XGlyphInfo g;
+		XftTextExtentsUtf8(*itsDisplay, info.xfont.xftt, (FcChar8*) "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789|_", 64, &g);
+		info.ascent  = g.y + 1 + size/10;
+		info.descent = g.height - g.y;
+		itsFontList->SetElement(fontID, info);
 		}
+
+	*ascent  = info.ascent;
+	*descent = info.descent;
 
 	const JCoordinate underlineHeight = 2 * GetUnderlineThickness(size) * style.underlineCount;
 	if (*descent < underlineHeight)
@@ -843,14 +862,15 @@ JXFontManager::GetCharWidth
 		}
 	else if (info.xfont.type == kStdType)
 		{
-		return XTextWidth(info.xfont.xfstd, c.GetBytes(), 1);
+		// Xutf8TextEscapement() would be more accurate, but it's not standard.
+		return XmbTextEscapement(info.xfont.xfset, c.GetBytes(), c.GetByteCount());
 		}
 	else
 		{
 		assert( info.xfont.type == kTrueType );
 
 		XGlyphInfo g;
-		XftTextExtentsUtf8(*itsDisplay, info.xfont.xftt, (FcChar8*) &c, 1, &g);
+		XftTextExtentsUtf8(*itsDisplay, info.xfont.xftt, (FcChar8*) &c, c.GetByteCount(), &g);
 		return g.xOff;
 		}
 }
@@ -883,12 +903,23 @@ JXFontManager::GetStringWidth
 		XGlyphInfo g;
 		while (offset < byteCount)
 			{
-			const JSize count = JMin(byteCount - offset, chunkByteCount);
+			const JUtf8Byte* s = str.GetRawBytes() + offset;	// GetRawBytes() because str may be a shadow
 
-			const JUtf8Byte* s = str.GetBytes() + offset;
+			JSize count = byteCount - offset;
+			if (count > chunkByteCount)
+				{
+				count = chunkByteCount;
+				JSize byteCount;
+				while (!JUtf8Character::GetCharacterByteCount(s + count, &byteCount))
+					{
+					count--;
+					}
+				}
+
 			if (info.xfont.type == kStdType)
 				{
-				width += XTextWidth(info.xfont.xfstd, s, count);
+				// Xutf8TextEscapement() would be more accurate, but it's not standard.
+				width += XmbTextEscapement(info.xfont.xfset, s, count);
 				}
 			else
 				{
@@ -1007,7 +1038,7 @@ JXFontManager::XFont::Free
 {
 	if (type == kStdType)
 	{
-		XFreeFont(*display, xfstd);
+		XFreeFontSet(*display, xfset);
 	}
 	else
 	{

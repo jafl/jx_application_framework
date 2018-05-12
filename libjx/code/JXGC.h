@@ -132,4 +132,18 @@ JXGC::GetDisplay()
 	return itsDisplay;
 }
 
+/******************************************************************************
+ SetFont
+
+ ******************************************************************************/
+
+inline void
+JXGC::SetFont
+	(
+	const JFontID id
+	)
+{
+	itsLastFontID = id;
+}
+
 #endif

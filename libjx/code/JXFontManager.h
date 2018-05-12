@@ -36,13 +36,13 @@ public:
 
 	struct XFont
 	{
-		FontType		type;
-		XFontStruct*	xfstd;
-		XftFont*		xftt;
+		FontType	type;
+		XFontSet	xfset;
+		XftFont*	xftt;
 
 		XFont()
 			:
-			type(kStdType), xfstd(NULL), xftt(NULL)
+			type(kStdType), xfset(NULL), xftt(NULL)
 		{ };
 
 		void Free(JXDisplay* display);
@@ -85,8 +85,8 @@ private:
 		JBoolean	filled;
 		XFont		xfont;
 		JBoolean	exact;		// kJTrue => exact match to requested specs
-		JCoordinate	ascent;		// cache for TrueType; 0 until first computed
-		JCoordinate	descent;	// cache for TrueType; 0 until first computed
+		JCoordinate	ascent;		// 0 until first computed
+		JCoordinate	descent;	// 0 until first computed
 		JCoordinate	monoWidth;	// 0 if not monospace
 
 		FontInfo()
