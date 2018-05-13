@@ -1,7 +1,7 @@
 /******************************************************************************
  test_JStyledTextBuffer.cc
 
-	Program to test JStyledTextBuffer class.
+	Program to test JStyledText class.
 
 	Written by John Lindal.
 
@@ -263,7 +263,7 @@ JTEST(ReplaceAllBackward)
 	JAssertStringsEqual("Fivesc\xC3\xB8" "r\xC3\xA9 found seven y\xC3\xA9" "ars ago...", buf.GetText());
 }
 
-class BigFontMatch : public JStyledTextBuffer::FontMatch
+class BigFontMatch : public JStyledText::FontMatch
 {
 	virtual JBoolean Match(const JFont& f) const
 	{
@@ -271,7 +271,7 @@ class BigFontMatch : public JStyledTextBuffer::FontMatch
 	}
 };
 
-class BoldFontMatch : public JStyledTextBuffer::FontMatch
+class BoldFontMatch : public JStyledText::FontMatch
 {
 	virtual JBoolean Match(const JFont& f) const
 	{
@@ -279,7 +279,7 @@ class BoldFontMatch : public JStyledTextBuffer::FontMatch
 	}
 };
 
-class ItalicFontMatch : public JStyledTextBuffer::FontMatch
+class ItalicFontMatch : public JStyledText::FontMatch
 {
 	virtual JBoolean Match(const JFont& f) const
 	{
@@ -287,7 +287,7 @@ class ItalicFontMatch : public JStyledTextBuffer::FontMatch
 	}
 };
 
-class UnderlineFontMatch : public JStyledTextBuffer::FontMatch
+class UnderlineFontMatch : public JStyledText::FontMatch
 {
 	virtual JBoolean Match(const JFont& f) const
 	{
