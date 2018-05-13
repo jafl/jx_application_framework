@@ -11,7 +11,7 @@
  ******************************************************************************/
 
 #include <JTEUndoTabShift.h>
-#include <JStyledTextBuffer.h>
+#include <JStyledText.h>
 #include <jAssert.h>
 
 /******************************************************************************
@@ -23,11 +23,11 @@
 
 JTEUndoTabShift::JTEUndoTabShift
 	(
-	JStyledTextBuffer*					buffer,
-	const JStyledTextBuffer::TextRange&	range
+	JStyledText*					text,
+	const JStyledText::TextRange&	range
 	)
 	:
-	JTEUndoPaste(buffer, range)
+	JTEUndoPaste(text, range)
 {
 }
 

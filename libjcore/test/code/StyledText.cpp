@@ -1,15 +1,15 @@
 /******************************************************************************
- StyledTextBuffer.cpp
+ StyledText.cpp
 
-	Class to test JStyledTextBuffer.
+	Class to test JStyledText.
 
-	BASE CLASS = JStyledTextBuffer
+	BASE CLASS = JStyledText
 
 	Written by John Lindal.
 
  ******************************************************************************/
 
-#include "StyledTextBuffer.h"
+#include "StyledText.h"
 #include "JFontManager.h"
 #include <jAssert.h>
 
@@ -18,9 +18,9 @@
 
  ******************************************************************************/
 
-StyledTextBuffer::StyledTextBuffer()
+StyledText::StyledText()
 	:
-	JStyledTextBuffer(kJTrue)
+	JStyledText(kJTrue)
 {
 }
 
@@ -29,7 +29,7 @@ StyledTextBuffer::StyledTextBuffer()
 
  ******************************************************************************/
 
-StyledTextBuffer::~StyledTextBuffer()
+StyledText::~StyledText()
 {
 }
 
@@ -39,14 +39,14 @@ StyledTextBuffer::~StyledTextBuffer()
  ******************************************************************************/
 
 JIndex
-StyledTextBuffer::GetWordStart
+StyledText::GetWordStart
 	(
 	const JIndex charIndex,
 	const JIndex byteIndex
 	)
 	const
 {
-	return JStyledTextBuffer::GetWordStart(TextIndex(charIndex, byteIndex)).charIndex;
+	return JStyledText::GetWordStart(TextIndex(charIndex, byteIndex)).charIndex;
 }
 
 /******************************************************************************
@@ -55,14 +55,14 @@ StyledTextBuffer::GetWordStart
  ******************************************************************************/
 
 JIndex
-StyledTextBuffer::GetWordEnd
+StyledText::GetWordEnd
 	(
 	const JIndex charIndex,
 	const JIndex byteIndex
 	)
 	const
 {
-	return JStyledTextBuffer::GetWordEnd(TextIndex(charIndex, byteIndex)).charIndex;
+	return JStyledText::GetWordEnd(TextIndex(charIndex, byteIndex)).charIndex;
 }
 
 /******************************************************************************
@@ -71,14 +71,14 @@ StyledTextBuffer::GetWordEnd
  ******************************************************************************/
 
 JIndex
-StyledTextBuffer::GetPartialWordStart
+StyledText::GetPartialWordStart
 	(
 	const JIndex charIndex,
 	const JIndex byteIndex
 	)
 	const
 {
-	return JStyledTextBuffer::GetPartialWordStart(TextIndex(charIndex, byteIndex)).charIndex;
+	return JStyledText::GetPartialWordStart(TextIndex(charIndex, byteIndex)).charIndex;
 }
 
 /******************************************************************************
@@ -87,14 +87,14 @@ StyledTextBuffer::GetPartialWordStart
  ******************************************************************************/
 
 JIndex
-StyledTextBuffer::GetPartialWordEnd
+StyledText::GetPartialWordEnd
 	(
 	const JIndex charIndex,
 	const JIndex byteIndex
 	)
 	const
 {
-	return JStyledTextBuffer::GetPartialWordEnd(TextIndex(charIndex, byteIndex)).charIndex;
+	return JStyledText::GetPartialWordEnd(TextIndex(charIndex, byteIndex)).charIndex;
 }
 
 /******************************************************************************
@@ -103,14 +103,14 @@ StyledTextBuffer::GetPartialWordEnd
  ******************************************************************************/
 
 JIndex
-StyledTextBuffer::GetParagraphStart
+StyledText::GetParagraphStart
 	(
 	const JIndex charIndex,
 	const JIndex byteIndex
 	)
 	const
 {
-	return JStyledTextBuffer::GetParagraphStart(TextIndex(charIndex, byteIndex)).charIndex;
+	return JStyledText::GetParagraphStart(TextIndex(charIndex, byteIndex)).charIndex;
 }
 
 /******************************************************************************
@@ -119,12 +119,12 @@ StyledTextBuffer::GetParagraphStart
  ******************************************************************************/
 
 JIndex
-StyledTextBuffer::GetParagraphEnd
+StyledText::GetParagraphEnd
 	(
 	const JIndex charIndex,
 	const JIndex byteIndex
 	)
 	const
 {
-	return JStyledTextBuffer::GetParagraphEnd(TextIndex(charIndex, byteIndex)).charIndex;
+	return JStyledText::GetParagraphEnd(TextIndex(charIndex, byteIndex)).charIndex;
 }

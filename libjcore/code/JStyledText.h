@@ -1,12 +1,12 @@
 /******************************************************************************
- JStyledTextBuffer.h
+ JStyledText.h
 
 	Copyright (C) 1996-2018 by John Lindal.
 
  ******************************************************************************/
 
-#ifndef _H_JStyledTextBuffer
-#define _H_JStyledTextBuffer
+#ifndef _H_JStyledText
+#define _H_JStyledText
 
 #include <JBroadcaster.h>
 #include <JFont.h>
@@ -26,7 +26,7 @@ class JTEUndoMove;
 
 typedef JBoolean (*JCharacterInWordFn)(const JUtf8Character&);
 
-class JStyledTextBuffer : virtual public JBroadcaster
+class JStyledText : virtual public JBroadcaster
 {
 	friend class JTEUndoTextBase;
 	friend class JTEUndoStyle;
@@ -100,6 +100,12 @@ public:
 			byteRange(m.GetUtf8ByteRange())
 			{ };
 
+		TextRange(const TextIndex& first, const TextIndex& beyondLast)
+		{
+			charRange.Set(first.charIndex, beyondLast.charIndex-1);
+			byteRange.Set(first.byteIndex, beyondLast.byteIndex-1);
+		};
+
 		TextRange(const TextIndex& i, const TextCount& c)
 		{
 			charRange.SetFirstAndCount(i.charIndex, c.charCount);
@@ -125,6 +131,18 @@ public:
 			return TextIndex(charRange.first, byteRange.first);
 		};
 
+		TextIndex
+		GetLast(const JStyledText& buffer) const
+		{
+			return buffer.AdjustTextIndex(GetAfter(), -1);
+		}
+
+		TextIndex
+		GetAfter() const
+		{
+			return TextIndex(charRange.last+1, byteRange.last+1);
+		}
+
 		TextCount
 		GetCount() const
 		{
@@ -141,7 +159,7 @@ public:
 
 	struct CRMRule
 	{
-		friend JStyledTextBuffer;
+		friend JStyledText;
 
 		CRMRule()
 			:
@@ -188,10 +206,10 @@ public:
 
 public:
 
-	JStyledTextBuffer(const JBoolean pasteStyledText);
-	JStyledTextBuffer(const JStyledTextBuffer& source);
+	JStyledText(const JBoolean pasteStyledText);
+	JStyledText(const JStyledText& source);
 
-	virtual ~JStyledTextBuffer();
+	virtual ~JStyledText();
 
 	JBoolean	WillPasteStyledText() const;
 	void		ShouldPasteStyledText(const JBoolean pasteStyled);
@@ -393,7 +411,7 @@ private:
 
 private:
 
-	JString				itsBuffer;
+	JString				itsText;
 	JRunArray<JFont>*	itsStyles;
 	JBoolean			itsPasteStyledTextFlag;		// kJTrue => paste styled text
 	JBoolean			itsTabToSpacesFlag;			// kJTrue => 1 tab -> itsCRMTabCharCount spaces
@@ -425,13 +443,13 @@ private:
 	void				NewUndo(JTEUndoBase* undo, const JBoolean isNew);
 	void				ReplaceUndo(JTEUndoBase* oldUndo, JTEUndoBase* newUndo);
 	void				ClearOutdatedUndo();
-	JTEUndoTyping*		GetTypingUndo(const JStyledTextBuffer::TextIndex& start, JBoolean* isNew);
+	JTEUndoTyping*		GetTypingUndo(const JStyledText::TextIndex& start, JBoolean* isNew);
 	JTEUndoStyle*		GetStyleUndo(const TextRange& range, JBoolean* isNew);
-	JTEUndoPaste*		GetPasteUndo(const JStyledTextBuffer::TextRange& range, JBoolean* isNew);
-	JTEUndoTabShift*	GetTabShiftUndo(const JStyledTextBuffer::TextRange& range, JBoolean* isNew);
-	JTEUndoMove*		GetMoveUndo(const JStyledTextBuffer::TextIndex& srcIndex,
-									const JStyledTextBuffer::TextIndex& destIndex,
-									const JStyledTextBuffer::TextCount& count,
+	JTEUndoPaste*		GetPasteUndo(const JStyledText::TextRange& range, JBoolean* isNew);
+	JTEUndoTabShift*	GetTabShiftUndo(const JStyledText::TextRange& range, JBoolean* isNew);
+	JTEUndoMove*		GetMoveUndo(const JStyledText::TextIndex& srcIndex,
+									const JStyledText::TextIndex& destIndex,
+									const JStyledText::TextCount& count,
 									JBoolean* isNew);
 
 	JString	PrepareReplaceMatch(const JStringMatch& match,
@@ -468,7 +486,7 @@ private:
 
 	// not allowed
 
-	const JStyledTextBuffer& operator=(const JStyledTextBuffer& source);
+	const JStyledText& operator=(const JStyledText& source);
 
 public:
 
@@ -554,10 +572,10 @@ public:
  ******************************************************************************/
 
 inline JBoolean
-JStyledTextBuffer::IsEmpty()
+JStyledText::IsEmpty()
 	const
 {
-	return itsBuffer.IsEmpty();
+	return itsText.IsEmpty();
 }
 
 /******************************************************************************
@@ -566,10 +584,10 @@ JStyledTextBuffer::IsEmpty()
  ******************************************************************************/
 
 inline const JString&
-JStyledTextBuffer::GetText()
+JStyledText::GetText()
 	const
 {
-	return itsBuffer;
+	return itsText;
 }
 
 /******************************************************************************
@@ -578,13 +596,13 @@ JStyledTextBuffer::GetText()
  ******************************************************************************/
 
 inline JBoolean
-JStyledTextBuffer::CharacterIndexValid
+JStyledText::CharacterIndexValid
 	(
 	const JIndex charIndex
 	)
 	const
 {
-	return itsBuffer.CharacterIndexValid(charIndex);
+	return itsText.CharacterIndexValid(charIndex);
 }
 
 /******************************************************************************
@@ -595,13 +613,13 @@ JStyledTextBuffer::CharacterIndexValid
  ******************************************************************************/
 
 inline JBoolean
-JStyledTextBuffer::IsEntireWord
+JStyledText::IsEntireWord
 	(
 	const TextRange& range
 	)
 	const
 {
-	return IsEntireWord(itsBuffer, range);
+	return IsEntireWord(itsText, range);
 }
 
 /******************************************************************************
@@ -610,7 +628,7 @@ JStyledTextBuffer::IsEntireWord
  ******************************************************************************/
 
 inline const JRunArray<JFont>&
-JStyledTextBuffer::GetStyles()
+JStyledText::GetStyles()
 	const
 {
 	return *itsStyles;
@@ -622,14 +640,14 @@ JStyledTextBuffer::GetStyles()
  ******************************************************************************/
 
 inline JBoolean
-JStyledTextBuffer::HasSingleUndo()
+JStyledText::HasSingleUndo()
 	const
 {
 	return JI2B( itsUndo != NULL );
 }
 
 inline JBoolean
-JStyledTextBuffer::HasMultipleUndo
+JStyledText::HasMultipleUndo
 	(
 	JBoolean* canUndo,
 	JBoolean* canRedo
@@ -647,14 +665,14 @@ JStyledTextBuffer::HasMultipleUndo
  ******************************************************************************/
 
 inline JBoolean
-JStyledTextBuffer::IsUsingMultipleUndo()
+JStyledText::IsUsingMultipleUndo()
 	const
 {
 	return JI2B( itsUndoList != NULL );
 }
 
 inline JSize
-JStyledTextBuffer::GetUndoDepth()
+JStyledText::GetUndoDepth()
 	const
 {
 	return itsMaxUndoCount;
@@ -666,7 +684,7 @@ JStyledTextBuffer::GetUndoDepth()
  ******************************************************************************/
 
 inline JBoolean
-JStyledTextBuffer::IsAtLastSaveLocation()
+JStyledText::IsAtLastSaveLocation()
 	const
 {
 	return JI2B( itsUndoList != NULL &&
@@ -675,13 +693,13 @@ JStyledTextBuffer::IsAtLastSaveLocation()
 }
 
 inline void
-JStyledTextBuffer::SetLastSaveLocation()
+JStyledText::SetLastSaveLocation()
 {
 	itsLastSaveRedoIndex = itsFirstRedoIndex;
 }
 
 inline void
-JStyledTextBuffer::ClearLastSaveLocation()
+JStyledText::ClearLastSaveLocation()
 {
 	itsLastSaveRedoIndex = 0;
 }
@@ -695,14 +713,14 @@ JStyledTextBuffer::ClearLastSaveLocation()
  ******************************************************************************/
 
 inline JBoolean
-JStyledTextBuffer::WillPasteStyledText()
+JStyledText::WillPasteStyledText()
 	const
 {
 	return itsPasteStyledTextFlag;
 }
 
 inline void
-JStyledTextBuffer::ShouldPasteStyledText
+JStyledText::ShouldPasteStyledText
 	(
 	const JBoolean pasteStyled
 	)
@@ -716,7 +734,7 @@ JStyledTextBuffer::ShouldPasteStyledText
  ******************************************************************************/
 
 inline const JFont&
-JStyledTextBuffer::GetDefaultFont()
+JStyledText::GetDefaultFont()
 	const
 {
 	return itsDefaultFont;
@@ -728,14 +746,14 @@ JStyledTextBuffer::GetDefaultFont()
  ******************************************************************************/
 
 inline JBoolean
-JStyledTextBuffer::TabInsertsSpaces()
+JStyledText::TabInsertsSpaces()
 	const
 {
 	return itsTabToSpacesFlag;
 }
 
 inline void
-JStyledTextBuffer::TabShouldInsertSpaces
+JStyledText::TabShouldInsertSpaces
 	(
 	const JBoolean spaces
 	)
@@ -749,21 +767,21 @@ JStyledTextBuffer::TabShouldInsertSpaces
  ******************************************************************************/
 
 inline JSize
-JStyledTextBuffer::GetCRMLineWidth()
+JStyledText::GetCRMLineWidth()
 	const
 {
 	return itsCRMLineWidth;
 }
 
 inline JSize
-JStyledTextBuffer::GetCRMTabCharCount()
+JStyledText::GetCRMTabCharCount()
 	const
 {
 	return itsCRMTabCharCount;
 }
 
 inline JBoolean
-JStyledTextBuffer::GetCRMRuleList
+JStyledText::GetCRMRuleList
 	(
 	const CRMRuleList** ruleList
 	)
@@ -779,7 +797,7 @@ JStyledTextBuffer::GetCRMRuleList
  ******************************************************************************/
 
 inline JFont
-JStyledTextBuffer::GetFont
+JStyledText::GetFont
 	(
 	const JIndex charIndex
 	)
@@ -789,7 +807,7 @@ JStyledTextBuffer::GetFont
 }
 
 inline void
-JStyledTextBuffer::SetDefaultFontName
+JStyledText::SetDefaultFontName
 	(
 	const JString& name
 	)
@@ -799,7 +817,7 @@ JStyledTextBuffer::SetDefaultFontName
 }
 
 inline void
-JStyledTextBuffer::SetDefaultFontSize
+JStyledText::SetDefaultFontSize
 	(
 	const JSize size
 	)
@@ -809,7 +827,7 @@ JStyledTextBuffer::SetDefaultFontSize
 }
 
 inline void
-JStyledTextBuffer::SetDefaultFontStyle
+JStyledText::SetDefaultFontStyle
 	(
 	const JFontStyle& style
 	)
@@ -819,7 +837,7 @@ JStyledTextBuffer::SetDefaultFontStyle
 }
 
 inline void
-JStyledTextBuffer::SetDefaultFont
+JStyledText::SetDefaultFont
 	(
 	const JFont& font
 	)
@@ -834,11 +852,11 @@ JStyledTextBuffer::SetDefaultFont
  ******************************************************************************/
 
 inline JBoolean
-JStyledTextBuffer::EndsWithNewline()
+JStyledText::EndsWithNewline()
 	const
 {
-	return JI2B(!itsBuffer.IsEmpty() &&
-				itsBuffer.GetLastCharacter() == '\n' );
+	return JI2B(!itsText.IsEmpty() &&
+				itsText.GetLastCharacter() == '\n' );
 }
 
 /******************************************************************************
@@ -847,7 +865,7 @@ JStyledTextBuffer::EndsWithNewline()
  ******************************************************************************/
 
 inline JCharacterInWordFn
-JStyledTextBuffer::GetCharacterInWordFunction()
+JStyledText::GetCharacterInWordFunction()
 	const
 {
 	return itsCharInWordFn;
@@ -859,13 +877,13 @@ JStyledTextBuffer::GetCharacterInWordFunction()
  ******************************************************************************/
 
 inline void
-JStyledTextBuffer::SetBlockSizes
+JStyledText::SetBlockSizes
 	(
 	const JSize textBlockSize,
 	const JSize styleBlockSize
 	)
 {
-	itsBuffer.SetBlockSize(textBlockSize);
+	itsText.SetBlockSize(textBlockSize);
 	itsStyles->SetBlockSize(styleBlockSize);
 }
 
@@ -874,20 +892,20 @@ JStyledTextBuffer::SetBlockSizes
 
  ******************************************************************************/
 
-inline JStyledTextBuffer::TextIndex
+inline JStyledText::TextIndex
 operator+
 	(
-	const JStyledTextBuffer::TextIndex& i,
-	const JStyledTextBuffer::TextCount& c
+	const JStyledText::TextIndex& i,
+	const JStyledText::TextCount& c
 	)
 {
-	return JStyledTextBuffer::TextIndex(i.charIndex + c.charCount, i.byteIndex + c.byteCount);
+	return JStyledText::TextIndex(i.charIndex + c.charCount, i.byteIndex + c.byteCount);
 }
 
-inline JStyledTextBuffer::TextIndex&
-JStyledTextBuffer::TextIndex::operator+=
+inline JStyledText::TextIndex&
+JStyledText::TextIndex::operator+=
 	(
-	const JStyledTextBuffer::TextCount& c
+	const JStyledText::TextCount& c
 	)
 {
 	charIndex += c.charCount;
@@ -900,20 +918,20 @@ JStyledTextBuffer::TextIndex::operator+=
 
  ******************************************************************************/
 
-inline JStyledTextBuffer::TextCount
+inline JStyledText::TextCount
 operator+
 	(
-	const JStyledTextBuffer::TextCount& c1,
-	const JStyledTextBuffer::TextCount& c2
+	const JStyledText::TextCount& c1,
+	const JStyledText::TextCount& c2
 	)
 {
-	return JStyledTextBuffer::TextCount(c1.charCount + c2.charCount, c1.byteCount + c2.byteCount);
+	return JStyledText::TextCount(c1.charCount + c2.charCount, c1.byteCount + c2.byteCount);
 }
 
-inline JStyledTextBuffer::TextCount&
-JStyledTextBuffer::TextCount::operator+=
+inline JStyledText::TextCount&
+JStyledText::TextCount::operator+=
 	(
-	const JStyledTextBuffer::TextCount& c
+	const JStyledText::TextCount& c
 	)
 {
 	charCount += c.charCount;

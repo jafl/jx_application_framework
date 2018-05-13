@@ -96,7 +96,7 @@
 .cpp ./code/JTreeList
 .cpp ./code/JNamedTreeList
 .cpp ./code/JNamedTreeNode
-.cpp ./code/JStyledTextBuffer
+.cpp ./code/JStyledText
 .cpp ./code/JTEUndoBase
 .cpp ./code/JTEUndoTextBase
 .cpp ./code/JTEUndoMove

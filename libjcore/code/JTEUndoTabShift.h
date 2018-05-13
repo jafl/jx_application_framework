@@ -14,7 +14,7 @@ class JTEUndoTabShift : public JTEUndoPaste
 {
 public:
 
-	JTEUndoTabShift(JStyledTextBuffer* buffer, const JStyledTextBuffer::TextRange& range);
+	JTEUndoTabShift(JStyledText* text, const JStyledText::TextRange& range);
 
 	virtual ~JTEUndoTabShift();
 

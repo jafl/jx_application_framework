@@ -1,22 +1,22 @@
 /******************************************************************************
- StyledTextBuffer.h
+ StyledText.h
 
 	Written by John Lindal.
 
  ******************************************************************************/
 
-#ifndef _H_StyledTextBuffer
-#define _H_StyledTextBuffer
+#ifndef _H_StyledText
+#define _H_StyledText
 
-#include <JStyledTextBuffer.h>
+#include <JStyledText.h>
 
-class StyledTextBuffer : public JStyledTextBuffer
+class StyledText : public JStyledText
 {
 public:
 
-	StyledTextBuffer();
+	StyledText();
 
-	virtual ~StyledTextBuffer();
+	virtual ~StyledText();
 
 	// expose protected functionality for testing
 
@@ -31,8 +31,8 @@ private:
 
 	// not allowed
 
-	StyledTextBuffer(const StyledTextBuffer& source);
-	const StyledTextBuffer& operator=(const StyledTextBuffer& source);
+	StyledText(const StyledText& source);
+	const StyledText& operator=(const StyledText& source);
 };
 
 #endif

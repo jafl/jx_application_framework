@@ -556,9 +556,9 @@ F
 T
 1 "text editor"
 T
-2 "JStyledTextBuffer.cpp"
+2 "JStyledText.cpp"
 F
-"./code/JStyledTextBuffer.cpp"
+"./code/JStyledText.cpp"
 T
 2 "JTEUndoBase.cpp"
 F

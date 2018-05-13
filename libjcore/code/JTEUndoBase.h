@@ -9,32 +9,32 @@
 #define _H_JTEUndoBase
 
 #include <JUndo.h>
-#include <JStyledTextBuffer.h>	// need struct definitions
+#include <JStyledText.h>	// need struct definitions
 
 class JTEUndoBase : public JUndo
 {
 public:
 
-	JTEUndoBase(JStyledTextBuffer* buffer);
+	JTEUndoBase(JStyledText* text);
 
 	virtual ~JTEUndoBase();
 
-	virtual void	SetCount(const JStyledTextBuffer::TextCount& count);
+	virtual void	SetCount(const JStyledText::TextCount& count);
 
-	// called by JStyledTextBuffer::SetAllFontNameAndSize()
+	// called by JStyledText::SetAllFontNameAndSize()
 
 	virtual void	SetFont(const JString& name, const JSize size);
 
 protected:
 
-	JStyledTextBuffer*	GetBuffer() const;
+	JStyledText*	GetText() const;
 
 	void	SetFont(JRunArray<JFont>* styles,
 					const JString& name, const JSize size);
 
 private:
 
-	JStyledTextBuffer*	itsBuffer;		// we don't own this
+	JStyledText*	itsText;		// we don't own this
 
 private:
 
@@ -50,11 +50,11 @@ private:
 
  ******************************************************************************/
 
-inline JStyledTextBuffer*
-JTEUndoBase::GetBuffer()
+inline JStyledText*
+JTEUndoBase::GetText()
 	const
 {
-	return itsBuffer;
+	return itsText;
 }
 
 #endif

@@ -1,7 +1,7 @@
 /******************************************************************************
  JTEUndoTyping.cpp
 
-	Class to undo typing into a JStyledTextBuffer object.
+	Class to undo typing into a JStyledText object.
 
 	BASE CLASS = JTEUndoTextBase
 
@@ -21,22 +21,22 @@
 
 JTEUndoTyping::JTEUndoTyping
 	(
-	JStyledTextBuffer*					buffer,
-	const JStyledTextBuffer::TextIndex&	start
+	JStyledText*					text,
+	const JStyledText::TextIndex&	start
 	)
 	:
-	JTEUndoTextBase(buffer, JStyledTextBuffer::TextRange(start, JStyledTextBuffer::TextCount())),
+	JTEUndoTextBase(text, JStyledText::TextRange(start, JStyledText::TextCount())),
 	itsOrigStartIndex(start)
 {
 }
 
 JTEUndoTyping::JTEUndoTyping
 	(
-	JStyledTextBuffer*					buffer,
-	const JStyledTextBuffer::TextRange&	replaceRange
+	JStyledText*					text,
+	const JStyledText::TextRange&	replaceRange
 	)
 	:
-	JTEUndoTextBase(buffer, replaceRange),
+	JTEUndoTextBase(text, replaceRange),
 	itsOrigStartIndex(replaceRange.charRange.first, replaceRange.byteRange.first)
 {
 }
@@ -58,7 +58,7 @@ JTEUndoTyping::~JTEUndoTyping()
 void
 JTEUndoTyping::Undo()
 {
-	UndoText(JStyledTextBuffer::TextRange(itsOrigStartIndex, itsCount));
+	UndoText(JStyledText::TextRange(itsOrigStartIndex, itsCount));
 }
 
 /******************************************************************************
@@ -69,7 +69,7 @@ JTEUndoTyping::Undo()
 void
 JTEUndoTyping::HandleCharacters
 	(
-	const JStyledTextBuffer::TextCount& count
+	const JStyledText::TextCount& count
 	)
 {
 	assert( IsActive() );
@@ -94,7 +94,7 @@ JTEUndoTyping::HandleDelete
 {
 	assert( IsActive() );
 
-	const JString s(GetBuffer()->GetText().GetBytes(), match.GetUtf8ByteRange(), kJFalse);
+	const JString s(GetText()->GetText().GetBytes(), match.GetUtf8ByteRange(), kJFalse);
 	JStringIterator iter(s, kJIteratorStartAtEnd);
 
 	const JIndex firstCharIndex = match.GetCharacterRange().first;
@@ -144,7 +144,7 @@ JTEUndoTyping::HandleFwdDelete
 {
 	assert( IsActive() );
 
-	const JString s(GetBuffer()->GetText().GetBytes(), match.GetUtf8ByteRange(), kJFalse);
+	const JString s(GetText()->GetText().GetBytes(), match.GetUtf8ByteRange(), kJFalse);
 	JStringIterator iter(s, kJIteratorStartAtBeginning);
 
 	const JIndex firstCharIndex = match.GetCharacterRange().first;
@@ -167,7 +167,7 @@ JTEUndoTyping::HandleFwdDelete
 JBoolean
 JTEUndoTyping::SameStartIndex
 	(
-	const JStyledTextBuffer::TextIndex& index
+	const JStyledText::TextIndex& index
 	)
 	const
 {

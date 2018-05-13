@@ -185,6 +185,6 @@ CRMSelectionAction::JTextEditor		"Clean margins for selection"
 CRM2CaretAction::JTextEditor		"Coerce paragraph margins"
 CRM2SelectionAction::JTextEditor	"Coerce margins for selection"
 
-# JStyledTextBuffer
+# JStyledText
 
-ReplacingText::JStyledTextBuffer	"Replacing text..."
+ReplacingText::JStyledText	"Replacing text..."

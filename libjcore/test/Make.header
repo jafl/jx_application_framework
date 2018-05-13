@@ -35,7 +35,7 @@ FAST_TESTS := \
   test_JBoolean test_JUtf8Character test_JString \
   test_JStringMatch test_JStringIterator test_JRegex \
   test_JSubstitute test_JInterpolate \
-  test_jTextUtil test_JStyledTextBuffer \
+  test_jTextUtil test_JStyledText \
   test_JBroadcaster \
   test_JArray test_JLinkedList test_JPtrArray test_JRunArray \
   test_JStack test_JQueue test_JVector test_JMatrix \

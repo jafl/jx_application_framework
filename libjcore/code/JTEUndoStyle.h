@@ -16,7 +16,7 @@ class JTEUndoStyle : public JTEUndoBase
 {
 public:
 
-	JTEUndoStyle(JStyledTextBuffer* buffer, const JStyledTextBuffer::TextRange& range);
+	JTEUndoStyle(JStyledText* text, const JStyledText::TextRange& range);
 
 	virtual ~JTEUndoStyle();
 
@@ -24,12 +24,12 @@ public:
 
 	virtual void	SetFont(const JString& name, const JSize size) override;
 
-	JBoolean	SameRange(const JStyledTextBuffer::TextRange& range) const;
+	JBoolean	SameRange(const JStyledText::TextRange& range) const;
 
 private:
 
-	JStyledTextBuffer::TextRange	itsRange;
-	JRunArray<JFont>*				itsOrigStyles;
+	JStyledText::TextRange	itsRange;
+	JRunArray<JFont>*		itsOrigStyles;
 
 private:
 

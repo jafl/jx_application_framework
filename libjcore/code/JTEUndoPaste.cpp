@@ -1,7 +1,7 @@
 /******************************************************************************
  JTEUndoPaste.cpp
 
-	Class to undo paste into a JStyledTextBuffer object.
+	Class to undo paste into a JStyledText object.
 
 	BASE CLASS = JTEUndoTextBase
 
@@ -21,11 +21,11 @@
 
 JTEUndoPaste::JTEUndoPaste
 	(
-	JStyledTextBuffer*					buffer,
-	const JStyledTextBuffer::TextRange&	range
+	JStyledText*					text,
+	const JStyledText::TextRange&	range
 	)
 	:
-	JTEUndoTextBase(buffer, range),
+	JTEUndoTextBase(text, range),
 	itsRange(range)
 {
 }
@@ -49,7 +49,7 @@ JTEUndoPaste::~JTEUndoPaste()
 void
 JTEUndoPaste::SetCount
 	(
-	const JStyledTextBuffer::TextCount& count
+	const JStyledText::TextCount& count
 	)
 {
 	itsRange.SetCount(count);
@@ -74,7 +74,7 @@ JTEUndoPaste::Undo()
 JBoolean
 JTEUndoPaste::SameStartIndex
 	(
-	const JStyledTextBuffer::TextRange& range
+	const JStyledText::TextRange& range
 	)
 	const
 {

@@ -11,7 +11,7 @@
  ******************************************************************************/
 
 #include <JTEUndoMove.h>
-#include <JStyledTextBuffer.h>
+#include <JStyledText.h>
 #include <jAssert.h>
 
 /******************************************************************************
@@ -21,13 +21,13 @@
 
 JTEUndoMove::JTEUndoMove
 	(
-	JStyledTextBuffer*					buffer,
-	const JStyledTextBuffer::TextIndex&	srcIndex,
-	const JStyledTextBuffer::TextIndex&	destIndex,
-	const JStyledTextBuffer::TextCount&	count
+	JStyledText*					text,
+	const JStyledText::TextIndex&	srcIndex,
+	const JStyledText::TextIndex&	destIndex,
+	const JStyledText::TextCount&	count
 	)
 	:
-	JTEUndoBase(buffer),
+	JTEUndoBase(text),
 	itsSrcIndex(srcIndex),
 	itsDestIndex(destIndex),
 	itsCount(count)
@@ -51,7 +51,7 @@ JTEUndoMove::~JTEUndoMove()
 void
 JTEUndoMove::SetCount
 	(
-	const JStyledTextBuffer::TextCount& count
+	const JStyledText::TextCount& count
 	)
 {
 	itsCount = count;
@@ -65,7 +65,7 @@ JTEUndoMove::SetCount
 void
 JTEUndoMove::Undo()
 {
-	GetBuffer()->MoveText(		// deletes us
-		JStyledTextBuffer::TextRange(itsDestIndex, itsCount), itsSrcIndex,
+	GetText()->MoveText(		// deletes us
+		JStyledText::TextRange(itsDestIndex, itsCount), itsSrcIndex,
 		kJFalse);
 }

@@ -63,7 +63,7 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //	*** Removed HTML parsing from JTextEditor.  HTML belongs on the web.
 //			Removed JHTMLScanner, JTEHTMLScanner, JExtractHTMLTitle.
 //	*** JTextEditor:
-//			Refactored into JStyledTextBuffer & JTextEditor.
+//			Refactored into JStyledText & JTextEditor.
 //			Removed pointless useInternalClipboard option and
 //				TEOwnsClipboard(), WriteClipboardPrivateFormat(),
 //				GetInternalClipboard(), TEClearClipboard().

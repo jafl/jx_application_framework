@@ -14,19 +14,19 @@ class JTEUndoPaste : public JTEUndoTextBase
 {
 public:
 
-	JTEUndoPaste(JStyledTextBuffer* buffer, const JStyledTextBuffer::TextRange& range);
+	JTEUndoPaste(JStyledText* text, const JStyledText::TextRange& range);
 
 	virtual ~JTEUndoPaste();
 
 	virtual void	Undo() override;
 
-	virtual void	SetCount(const JStyledTextBuffer::TextCount& count) override;
+	virtual void	SetCount(const JStyledText::TextCount& count) override;
 
-	JBoolean	SameStartIndex(const JStyledTextBuffer::TextRange& range) const;
+	JBoolean	SameStartIndex(const JStyledText::TextRange& range) const;
 
 private:
 
-	JStyledTextBuffer::TextRange itsRange;
+	JStyledText::TextRange itsRange;
 
 private:
 

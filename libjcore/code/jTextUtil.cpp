@@ -8,7 +8,7 @@
  ******************************************************************************/
 
 #include "jTextUtil.h"
-#include "JStyledTextBuffer.h"
+#include "JStyledText.h"
 #include "JStringIterator.h"
 #include "JRegex.h"
 #include "jStreamUtil.h"
@@ -217,7 +217,7 @@ JAnalyzeWhitespace
 /******************************************************************************
  JReadUNIXManOutput
 
-	Replaces the contents of the given JStyledTextBuffer.
+	Replaces the contents of the given JStyledText.
 
 	"_\b_" => underscore
 	"_\bc" => underlined c
@@ -230,8 +230,8 @@ static const JRegex theExtraLinesPattern = "\n{3,}";
 void
 JReadUNIXManOutput
 	(
-	std::istream&		input,
-	JStyledTextBuffer*	tb
+	std::istream&	input,
+	JStyledText*	tb
 	)
 {
 	JString buffer;
@@ -312,9 +312,9 @@ static const JRegex theUNIXTerminalFormatPattern = "^\\[([0-9]+(?:;[0-9]+)*)m$";
 JSize
 JPasteUNIXTerminalOutput
 	(
-	const JString&						text,
-	const JStyledTextBuffer::TextIndex&	pasteIndex,
-	JStyledTextBuffer*					tb
+	const JString&					text,
+	const JStyledText::TextIndex&	pasteIndex,
+	JStyledText*					tb
 	)
 {
 	JString buffer;
@@ -411,7 +411,7 @@ JPasteUNIXTerminalOutput
 
 	const JBoolean saved = tb->WillPasteStyledText();
 	tb->ShouldPasteStyledText(kJTrue);
-	tb->Paste(JStyledTextBuffer::TextRange(pasteIndex, JStyledTextBuffer::TextCount()), buffer, &styles);
+	tb->Paste(JStyledText::TextRange(pasteIndex, JStyledText::TextCount()), buffer, &styles);
 	tb->ShouldPasteStyledText(saved);
 
 	return buffer.GetCharacterCount();

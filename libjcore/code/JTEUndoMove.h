@@ -16,22 +16,22 @@ class JTEUndoMove : public JTEUndoBase
 {
 public:
 
-	JTEUndoMove(JStyledTextBuffer* buffer,
-				const JStyledTextBuffer::TextIndex& srcIndex,
-				const JStyledTextBuffer::TextIndex& destIndex,
-				const JStyledTextBuffer::TextCount& count);
+	JTEUndoMove(JStyledText* text,
+				const JStyledText::TextIndex& srcIndex,
+				const JStyledText::TextIndex& destIndex,
+				const JStyledText::TextCount& count);
 
 	virtual ~JTEUndoMove();
 
 	virtual void	Undo() override;
 
-	virtual void	SetCount(const JStyledTextBuffer::TextCount& count) override;
+	virtual void	SetCount(const JStyledText::TextCount& count) override;
 
 private:
 
-	JStyledTextBuffer::TextIndex	itsSrcIndex;
-	JStyledTextBuffer::TextIndex	itsDestIndex;
-	JStyledTextBuffer::TextCount	itsCount;
+	JStyledText::TextIndex	itsSrcIndex;
+	JStyledText::TextIndex	itsDestIndex;
+	JStyledText::TextCount	itsCount;
 
 private:
 

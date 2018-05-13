@@ -1,7 +1,7 @@
 /******************************************************************************
  JTEUndoTextBase.cpp
 
-	Base class to support undoing any operation on a JStyledTextBuffer object
+	Base class to support undoing any operation on a JStyledText object
 	that starts by deleting some text.
 
 	BASE CLASS = JTEUndoBase
@@ -23,16 +23,16 @@
 
 JTEUndoTextBase::JTEUndoTextBase
 	(
-	JStyledTextBuffer*					buffer,
-	const JStyledTextBuffer::TextRange&	range
+	JStyledText*					text,
+	const JStyledText::TextRange&	range
 	)
 	:
-	JTEUndoBase(buffer)
+	JTEUndoBase(text)
 {
 	itsOrigStyles = jnew JRunArray<JFont>;
 	assert( itsOrigStyles != NULL );
 
-	buffer->Copy(range, &itsOrigText, itsOrigStyles);
+	text->Copy(range, &itsOrigText, itsOrigStyles);
 }
 
 /******************************************************************************
@@ -55,20 +55,20 @@ JTEUndoTextBase::~JTEUndoTextBase()
 void
 JTEUndoTextBase::UndoText
 	(
-	const JStyledTextBuffer::TextRange& range
+	const JStyledText::TextRange& range
 	)
 {
-	JStyledTextBuffer* buffer = GetBuffer();
+	JStyledText* text = GetText();
 
-	JTEUndoPaste* newUndo = jnew JTEUndoPaste(buffer, range);
+	JTEUndoPaste* newUndo = jnew JTEUndoPaste(text, range);
 	assert( newUndo != NULL );
 
-	const JStyledTextBuffer::TextCount pasteCount = buffer->PrivatePaste(range, itsOrigText, itsOrigStyles);
+	const JStyledText::TextCount pasteCount = text->PrivatePaste(range, itsOrigText, itsOrigStyles);
 	assert( pasteCount.charCount == itsOrigText.GetCharacterCount() );
 
 	newUndo->SetCount(pasteCount);
 
-	buffer->ReplaceUndo(this, newUndo);		// deletes us
+	text->ReplaceUndo(this, newUndo);		// deletes us
 
 	JCharacterRange charRange;
 	charRange.SetFirstAndCount(range.charRange.first, pasteCount.charCount);
@@ -76,14 +76,14 @@ JTEUndoTextBase::UndoText
 	JUtf8ByteRange byteRange;
 	byteRange.SetFirstAndCount(range.byteRange.first, pasteCount.byteCount);
 
-	buffer->BroadcastTextChanged(
-		JStyledTextBuffer::TextRange(charRange, byteRange), !range.IsEmpty());
+	text->BroadcastTextChanged(
+		JStyledText::TextRange(charRange, byteRange), !range.IsEmpty());
 }
 
 /******************************************************************************
  PrependToSave (protected)
 
-	Prepend the character to the save buffer.
+	Prepend the character to the save text.
 
  ******************************************************************************/
 
@@ -95,13 +95,13 @@ JTEUndoTextBase::PrependToSave
 	)
 {
 	itsOrigText.Prepend(c);
-	itsOrigStyles->PrependElement(GetBuffer()->GetFont(charIndex));
+	itsOrigStyles->PrependElement(GetText()->GetFont(charIndex));
 }
 
 /******************************************************************************
  AppendToSave (protected)
 
-	Append the character at index to the save buffer.
+	Append the character at index to the save text.
 
  ******************************************************************************/
 
@@ -113,13 +113,13 @@ JTEUndoTextBase::AppendToSave
 	)
 {
 	itsOrigText.Append(c);
-	itsOrigStyles->AppendElement(GetBuffer()->GetFont(charIndex));
+	itsOrigStyles->AppendElement(GetText()->GetFont(charIndex));
 }
 
 /******************************************************************************
  SetFont (virtual)
 
-	Called by JStyledTextBuffer::SetAllFontNameAndSize().
+	Called by JStyledText::SetAllFontNameAndSize().
 
  ******************************************************************************/
 

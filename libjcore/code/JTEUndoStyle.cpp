@@ -1,7 +1,7 @@
 /******************************************************************************
  JTEUndoStyle.cpp
 
-	Class to undo style change in a JStyledTextBuffer object.
+	Class to undo style change in a JStyledText object.
 
 	BASE CLASS = JTEUndoBase
 
@@ -20,11 +20,11 @@
 
 JTEUndoStyle::JTEUndoStyle
 	(
-	JStyledTextBuffer*					buffer,
-	const JStyledTextBuffer::TextRange&	range
+	JStyledText*					text,
+	const JStyledText::TextRange&	range
 	)
 	:
-	JTEUndoBase(buffer),
+	JTEUndoBase(text),
 	itsRange(range)
 {
 	assert( !itsRange.IsEmpty() );
@@ -32,7 +32,7 @@ JTEUndoStyle::JTEUndoStyle
 	itsOrigStyles = jnew JRunArray<JFont>;
 	assert( itsOrigStyles != NULL );
 
-	itsOrigStyles->AppendSlice(buffer->GetStyles(), itsRange.charRange);
+	itsOrigStyles->AppendSlice(text->GetStyles(), itsRange.charRange);
 }
 
 /******************************************************************************
@@ -53,22 +53,22 @@ JTEUndoStyle::~JTEUndoStyle()
 void
 JTEUndoStyle::Undo()
 {
-	JStyledTextBuffer* buffer = GetBuffer();
+	JStyledText* text = GetText();
 
-	JTEUndoStyle* newUndo = jnew JTEUndoStyle(buffer, itsRange);
+	JTEUndoStyle* newUndo = jnew JTEUndoStyle(text, itsRange);
 	assert( newUndo != NULL );
 
-	buffer->SetFont(itsRange, *itsOrigStyles);
+	text->SetFont(itsRange, *itsOrigStyles);
 
-	buffer->ReplaceUndo(this, newUndo);		// deletes us
+	text->ReplaceUndo(this, newUndo);		// deletes us
 
-	buffer->BroadcastTextChanged(itsRange, kJFalse);
+	text->BroadcastTextChanged(itsRange, kJFalse);
 }
 
 /******************************************************************************
  SetFont (virtual)
 
-	Called by JStyledTextBuffer::SetAllFontNameAndSize().
+	Called by JStyledText::SetAllFontNameAndSize().
 
  ******************************************************************************/
 
@@ -90,7 +90,7 @@ JTEUndoStyle::SetFont
 JBoolean
 JTEUndoStyle::SameRange
 	(
-	const JStyledTextBuffer::TextRange& range
+	const JStyledText::TextRange& range
 	)
 	const
 {

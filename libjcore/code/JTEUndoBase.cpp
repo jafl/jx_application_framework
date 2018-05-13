@@ -1,7 +1,7 @@
 /******************************************************************************
  JTEUndoBase.cpp
 
-	Base class to support undoing any operation on a JStyledTextBuffer object.
+	Base class to support undoing any operation on a JStyledText object.
 
 	BASE CLASS = JUndo
 
@@ -19,11 +19,11 @@
 
 JTEUndoBase::JTEUndoBase
 	(
-	JStyledTextBuffer* buffer
+	JStyledText* text
 	)
 	:
 	JUndo(),
-	itsBuffer(buffer)
+	itsText(text)
 {
 }
 
@@ -39,14 +39,14 @@ JTEUndoBase::~JTEUndoBase()
 /******************************************************************************
  SetCount (virtual)
 
-	Supports JStyledTextBuffer::MoveText()
+	Supports JStyledText::MoveText()
 
  ******************************************************************************/
 
 void
 JTEUndoBase::SetCount
 	(
-	const JStyledTextBuffer::TextCount& count
+	const JStyledText::TextCount& count
 	)
 {
 }
@@ -54,7 +54,7 @@ JTEUndoBase::SetCount
 /******************************************************************************
  SetFont (virtual)
 
-	Called by JStyledTextBuffer::SetAllFontNameAndSize().
+	Called by JStyledText::SetAllFontNameAndSize().
 
  ******************************************************************************/
 
