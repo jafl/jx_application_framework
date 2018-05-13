@@ -132,9 +132,9 @@ public:
 		};
 
 		TextIndex
-		GetLast(const JStyledText& buffer) const
+		GetLast(const JStyledText& text) const
 		{
-			return buffer.AdjustTextIndex(GetAfter(), -1);
+			return text.AdjustTextIndex(GetAfter(), -1);
 		}
 
 		TextIndex
@@ -338,8 +338,8 @@ public:
 	TextRange	Paste(const TextRange& range,
 					  const JString& text, const JRunArray<JFont>* style = NULL);
 
-	TextRange	MoveText(const TextRange& srcRange, const TextIndex& origDestIndex,
-						 const JBoolean copy);
+	JBoolean	MoveText(const TextRange& srcRange, const TextIndex& origDestIndex,
+						 const JBoolean copy, TextRange* newRange);
 
 	TextIndex	BackwardDelete(const TextIndex&	lineStart, const TextIndex&	caretIndex,
 							   const JBoolean deleteToTabStop,
@@ -394,7 +394,7 @@ protected:
 	virtual JBoolean	NeedsToFilterText(const JString& text) const;
 	virtual JBoolean	FilterText(JString* text, JRunArray<JFont>* style);
 
-	virtual void	AdjustStylesBeforeBroadcast(const JString& buffer,
+	virtual void	AdjustStylesBeforeBroadcast(const JString& text,
 												JRunArray<JFont>* styles,
 												TextRange* recalcRange,
 												TextRange* redrawRange,
@@ -435,7 +435,7 @@ private:
 
 private:
 
-	JFont	CalcInsertionFont(JStringIterator& buffer,
+	JFont	CalcInsertionFont(JStringIterator& iter,
 							  const JRunArray<JFont>& styles) const;
 
 	JBoolean			GetCurrentUndo(JTEUndoBase** undo) const;
@@ -482,7 +482,7 @@ private:
 								   const JString& text, const JRunArray<JFont>& style,
 								   const TextRange& range);
 
-	static void	ConvertFromMacintoshNewlinetoUNIXNewline(JString* buffer);
+	static void	ConvertFromMacintoshNewlinetoUNIXNewline(JString* text);
 
 	// not allowed
 

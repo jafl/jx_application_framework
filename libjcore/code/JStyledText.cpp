@@ -342,10 +342,10 @@ JStyledText::ReadPlainText
 void
 JStyledText::ConvertFromMacintoshNewlinetoUNIXNewline
 	(
-	JString* buffer
+	JString* text
 	)
 {
-	JUtf8Byte* s = const_cast<JUtf8Byte*>(buffer->GetBytes());
+	JUtf8Byte* s = const_cast<JUtf8Byte*>(text->GetBytes());
 	while (*s > 0)
 		{
 		if (*s == kMacintoshNewlineChar)
@@ -398,16 +398,16 @@ JStyledText::WritePlainText
 		}
 	assert( newlineStr != NULL );
 
-	const JUtf8Byte* buffer = itsText.GetBytes();
-	const JSize byteCount   = itsText.GetByteCount();
-	JIndex start            = 0;
+	const JUtf8Byte* text = itsText.GetBytes();
+	const JSize byteCount = itsText.GetByteCount();
+	JIndex start          = 0;
 	for (JIndex i=0; i<byteCount; i++)
 		{
-		if (buffer[i] == kUNIXNewlineChar)
+		if (text[i] == kUNIXNewlineChar)
 			{
 			if (start < i)
 				{
-				output.write(buffer + start, i - start);
+				output.write(text + start, i - start);
 				}
 			output << newlineStr;
 			start = i+1;
@@ -416,7 +416,7 @@ JStyledText::WritePlainText
 
 	if (start < byteCount)
 		{
-		output.write(buffer + start, byteCount - start);
+		output.write(text + start, byteCount - start);
 		}
 }
 
@@ -964,17 +964,17 @@ JStyledText::ReplaceAllInRange
 	const JBoolean		preserveCase
 	)
 {
-	JString buffer;
+	JString text;
 	JRunArray<JFont> styles;
 
 	if (range.charRange.GetCount() == itsText.GetCharacterCount())	// avoid counting characters
 		{
-		buffer = itsText;
+		text   = itsText;
 		styles = *itsStyles;
 		}
 	else
 		{
-		buffer.Set(itsText.GetRawBytes(), range.byteRange);
+		text.Set(itsText.GetRawBytes(), range.byteRange);
 		styles.AppendSlice(*itsStyles, range.charRange);
 		}
 
@@ -983,11 +983,11 @@ JStyledText::ReplaceAllInRange
 
 	JBoolean changed = kJFalse;
 
-	JStringIterator iter(&buffer);
+	JStringIterator iter(&text);
 	while (iter.Next(regex))
 		{
 		const JStringMatch& match = iter.GetLastMatch();
-		if (!entireWord || IsEntireWord(buffer, match))
+		if (!entireWord || IsEntireWord(text, match))
 			{
 			iter.RemoveLastMatch();
 			styles.RemoveElements(match.GetCharacterRange());
@@ -1011,10 +1011,10 @@ JStyledText::ReplaceAllInRange
 
 	if (changed)
 	{
-		Paste(range, buffer, &styles);	// handles undo
+		Paste(range, text, &styles);	// handles undo
 
 		return TextRange(range.GetFirst(),
-			TextCount(buffer.GetCharacterCount(), buffer.GetByteCount()));
+			TextCount(text.GetCharacterCount(), text.GetByteCount()));
 	}
 	else
 	{
@@ -2486,19 +2486,22 @@ JStyledText::Indent
 
  ******************************************************************************/
 
-JStyledText::TextRange
+JBoolean
 JStyledText::MoveText
 	(
 	const TextRange&	srcRange,
 	const TextIndex&	origDestIndex,
-	const JBoolean		copy
+	const JBoolean		copy,
+	TextRange*			newRange
 	)
 {
+	newRange->SetToNothing();
+
 	if (!copy &&
 		(srcRange.charRange.first <= origDestIndex.charIndex &&
 		 origDestIndex.charIndex <= srcRange.charRange.last + 1))
 		{
-		return TextRange();
+		return kJFalse;
 		}
 
 	JString text;
@@ -2546,10 +2549,10 @@ JStyledText::MoveText
 
 	NewUndo(undo, isNew);
 
-	TextRange r(destIndex, insertCount);
-	BroadcastTextChanged(r, kJFalse);
+	*newRange = TextRange(destIndex, insertCount);
+	BroadcastTextChanged(*newRange, kJFalse);
 
-	return r;
+	return kJTrue;
 }
 
 /******************************************************************************
@@ -3723,7 +3726,7 @@ JStyledText::BroadcastTextChanged
 void
 JStyledText::AdjustStylesBeforeBroadcast
 	(
-	const JString&		buffer,
+	const JString&		text,
 	JRunArray<JFont>*	styles,
 	TextRange*			recalcRange,
 	TextRange*			redrawRange,
@@ -3786,7 +3789,7 @@ JStyledText::GetWordStart
  GetWordEnd
 
 	Return the index of the last character of the word at the given location.
-	This function is required to work for charIndex > buffer length.
+	This function is required to work for charIndex > text length.
 
  ******************************************************************************/
 
@@ -3959,7 +3962,7 @@ JStyledText::GetPartialWordStart
  GetPartialWordEnd
 
 	Return the index of the last character of the partial word at the given
-	location.  This function is required to work for charIndex > buffer length.
+	location.  This function is required to work for charIndex > text length.
 
 	Example:  get_word Get142TheWordABCGood
 				^    ^   ^  ^  ^   ^  ^   ^
@@ -4067,7 +4070,7 @@ JStyledText::GetParagraphStart
 
 	Return the index of the newline that ends the paragraph that contains
 	the character at the given location.  This function is required to work
-	for charIndex > buffer length.
+	for charIndex > text length.
 
  ******************************************************************************/
 
@@ -4322,19 +4325,19 @@ JStyledText::CalcInsertionFont
 JFont
 JStyledText::CalcInsertionFont
 	(
-	JStringIterator&		buffer,
+	JStringIterator&		iter,
 	const JRunArray<JFont>&	styles
 	)
 	const
 {
 	JUtf8Character c;
-	if (buffer.Prev(&c, kJFalse) && c == '\n')
+	if (iter.Prev(&c, kJFalse) && c == '\n')
 		{
-		return styles.GetElement(buffer.GetNextCharacterIndex());
+		return styles.GetElement(iter.GetNextCharacterIndex());
 		}
-	else if (!buffer.AtBeginning())
+	else if (!iter.AtBeginning())
 		{
-		return styles.GetElement(buffer.GetPrevCharacterIndex());
+		return styles.GetElement(iter.GetPrevCharacterIndex());
 		}
 	else if (!styles.IsEmpty())
 		{

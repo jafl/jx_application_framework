@@ -65,7 +65,9 @@ JTEUndoMove::SetCount
 void
 JTEUndoMove::Undo()
 {
-	GetText()->MoveText(		// deletes us
+	JStyledText::TextRange newRange;
+	const JBoolean ok = GetText()->MoveText(		// deletes us
 		JStyledText::TextRange(itsDestIndex, itsCount), itsSrcIndex,
-		kJFalse);
+		kJFalse, &newRange);
+	assert( ok );
 }
