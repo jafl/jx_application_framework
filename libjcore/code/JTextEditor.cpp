@@ -198,7 +198,7 @@ JTextEditor::JTextEditor
 	itsWhitespaceColor(wsColor),
 
 	itsKeyHandler(NULL),
-	itsPrevBufLength(0),
+	itsPrevTextLength(0),
 	itsDragType(kInvalidDrag),
 	itsPrevDragType(kInvalidDrag),
 	itsIsDragSourceFlag(kJFalse)
@@ -232,7 +232,7 @@ JTextEditor::JTextEditor
 
 	itsCaretLoc      = CaretLocation(TextIndex(1,1),1);
 	itsCaretX        = 0;
-	itsInsertionFont = CalcInsertionFont(TextIndex(1,1));
+	itsInsertionFont = itsText->CalcInsertionFont(TextIndex(1,1));
 
 	if (type == kFullEditor)
 		{
@@ -332,7 +332,7 @@ JTextEditor::Receive
 		{
 		if (itsText->IsEmpty())
 			{
-			itsInsertionFont = CalcInsertionFont(TextIndex(1,1));
+			itsInsertionFont = itsText->CalcInsertionFont(TextIndex(1,1));
 			RecalcAll();
 			}
 		}
@@ -396,7 +396,7 @@ JTextEditor::SearchForward
 		itsText->SearchForward(i, regex, entireWord, wrapSearch, wrapped);
 	if (!m.IsEmpty())
 		{
-		SetSelection(TextRange(m.GetCharacterRange(), m.GetUtf8ByteRange()));
+		SetSelection(m);
 		}
 
 	return m;
@@ -430,7 +430,7 @@ JTextEditor::SearchBackward
 		itsText->SearchBackward(i, regex, entireWord, wrapSearch, wrapped);
 	if (!m.IsEmpty())
 		{
-		SetSelection(TextRange(m.GetCharacterRange(), m.GetUtf8ByteRange()));
+		SetSelection(m);
 		}
 
 	return m;
@@ -512,13 +512,7 @@ JTextEditor::ReplaceSelection
 
 	if (count.charCount > 0)
 		{
-		JCharacterRange charRange;
-		charRange.SetFirstAndCount(charIndex, count.charCount);
-
-		JUtf8ByteRange byteRange;
-		byteRange.SetFirstAndCount(byteIndex, count.byteCount);
-
-		SetSelection(TextRange(charRange, byteRange));
+		SetSelection(TextRange(TextIndex(charIndex, byteIndex), count));
 		}
 }
 
@@ -1072,21 +1066,9 @@ JTextEditor::TabSelectionLeft
 		return;
 		}
 
-	TextRange r;
-	TextIndex start, end;
-	if (!itsSelection.IsEmpty())
-		{
-		start = itsText->GetParagraphStart(itsSelection.GetFirst());
-		end   = itsSelection.GetLast(*itsText);
-		}
-	else
-		{
-		start = itsText->GetParagraphStart(itsCaretLoc.location);
-		end   = itsCaretLoc.location;
-		}
-
-	r.charRange.Set(start.charIndex, end.charIndex);
-	r.byteRange.Set(start.byteIndex, end.byteIndex);
+	TextRange r(
+		itsText->GetParagraphStart(itsSelection.IsEmpty() ? itsCaretLoc.location : itsSelection.GetFirst()),
+		itsSelection.IsEmpty() ? itsCaretLoc.location : itsSelection.GetAfter());
 
 	r = itsText->Outdent(r, tabCount, force);
 
@@ -1115,21 +1097,9 @@ JTextEditor::TabSelectionRight
 		return;
 		}
 
-	TextRange r;
-	TextIndex start, end;
-	if (!itsSelection.IsEmpty())
-		{
-		start = itsText->GetParagraphStart(itsSelection.GetFirst());
-		end   = itsSelection.GetLast(*itsText);
-		}
-	else
-		{
-		start = itsText->GetParagraphStart(itsCaretLoc.location);
-		end   = itsCaretLoc.location;
-		}
-
-	r.charRange.Set(start.charIndex, end.charIndex);
-	r.byteRange.Set(start.byteIndex, end.byteIndex);
+	TextRange r(
+		itsText->GetParagraphStart(itsSelection.IsEmpty() ? itsCaretLoc.location : itsSelection.GetFirst()),
+		itsSelection.IsEmpty() ? itsCaretLoc.location : itsSelection.GetAfter());
 
 	r = itsText->Indent(r, tabCount);
 
@@ -1651,17 +1621,17 @@ inline void
 teDrawSpaces
 	(
 	const JStyledText*	stb,
-	const JIndex				startChar,
-	const JInteger				direction,		// +1/-1
-	const JIndex				trueRunEnd,
-	JPainter&					p,
-	const JCoordinate			left,
-	const JCoordinate			ycenter,
-	const JFont&				f,
-	const JColorID				wsColor
+	const JIndex		startChar,
+	const JInteger		direction,		// +1/-1
+	const JIndex		trueRunEnd,
+	JPainter&			p,
+	const JCoordinate	left,
+	const JCoordinate	ycenter,
+	const JFont&		f,
+	const JColorID		wsColor
 	)
 {
-	const JUtf8Byte* buffer        = stb->GetText().GetBytes();
+	const JUtf8Byte* text          = stb->GetText().GetBytes();
 	const JRunArray<JFont>& styles = stb->GetStyles();
 
 	JCoordinate l = left;
@@ -1672,7 +1642,7 @@ teDrawSpaces
 
 	JIndex i = startChar;
 	JPoint pt;
-	while (buffer[i-1] == ' ')
+	while (text[i-1] == ' ')
 		{
 		if ((direction == +1 && i > trueRunEnd) ||
 			(direction == -1 && i < trueRunEnd))
@@ -2312,14 +2282,22 @@ JTextEditor::TEHandleMouseDrag
 		TEGetDoubleClickSelection(caretLoc.location,
 								  JI2B(itsDragType == kSelectPartialWordDrag),
 								  kJTrue, &range);
-		SetSelection(JCovering(itsWordSelPivot, range), kJFalse);
+
+		const JIndexRange cr = JCovering(itsWordSelPivot.charRange, range.charRange),
+						  br = JCovering(itsWordSelPivot.byteRange, range.byteRange);
+		SetSelection(TextRange(
+			*static_cast<const JCharacterRange*>(&cr),
+			*static_cast<const JUtf8ByteRange*>(&br)),
+			kJFalse);
+
 		BroadcastCaretMessages(caretLoc, kJTrue);
 		}
 	else if (itsDragType == kSelectLineDrag)
 		{
-		SetSelection(GetLineStart( JMin(itsLineSelPivot, caretLoc.lineIndex) ),
-					 GetLineEnd(   JMax(itsLineSelPivot, caretLoc.lineIndex) ),
-					 kJFalse);
+		SetSelection(TextRange(
+			GetLineStart( JMin(itsLineSelPivot, caretLoc.lineIndex) ),
+			GetLineEnd(   JMax(itsLineSelPivot, caretLoc.lineIndex) )),
+			kJFalse);
 		BroadcastCaretMessages(caretLoc, kJTrue);
 		}
 	else if (itsDragType == kDragAndDrop && JMouseMoved(itsStartPt, pt))
@@ -2343,10 +2321,7 @@ JTextEditor::TEHandleMouseDrag
  ******************************************************************************/
 
 void
-JTextEditor::TEHandleMouseUp
-	(
-	const JBoolean dropCopy
-	)
+JTextEditor::TEHandleMouseUp()
 {
 	// set itsSelectionPivot for "shift-arrow" selection
 
@@ -2358,26 +2333,26 @@ JTextEditor::TEHandleMouseUp
 		{
 		if ((itsDragType == kSelectWordDrag ||
 			 itsDragType == kSelectPartialWordDrag) &&
-			itsWordSelPivot.last  == itsSelection.last &&
-			itsWordSelPivot.first != itsSelection.first)
+			itsWordSelPivot.charRange.last  == itsSelection.charRange.last &&
+			itsWordSelPivot.charRange.first != itsSelection.charRange.first)
 			{
-			itsSelectionPivot = itsSelection.last+1;
+			itsSelectionPivot = itsSelection.GetAfter();
 			}
 		else if (itsDragType == kSelectLineDrag &&
-				 GetLineEnd(itsLineSelPivot)   == itsSelection.last &&
-				 GetLineStart(itsLineSelPivot) != itsSelection.first)
+				 GetLineEnd(itsLineSelPivot).charIndex   == itsSelection.charRange.last &&
+				 GetLineStart(itsLineSelPivot).charIndex != itsSelection.charRange.first)
 			{
-			itsSelectionPivot = itsSelection.last+1;
+			itsSelectionPivot = itsSelection.GetAfter();
 			}
 
-		if (itsSelectionPivot == itsSelection.last+1)
+		if (itsSelectionPivot.charIndex == itsSelection.charRange.last+1)
 			{
-			itsCaretX = GetCharLeft(CalcCaretLocation(itsSelection.first));
+			itsCaretX = GetCharLeft(CalcCaretLocation(itsSelection.GetFirst()));
 			}
 		else
 			{
-			itsSelectionPivot = itsSelection.first;
-			itsCaretX = GetCharRight(CalcCaretLocation(itsSelection.last));
+			itsSelectionPivot = itsSelection.GetFirst();
+			itsCaretX         = GetCharRight(CalcCaretLocation(itsSelection.GetLast(*itsText)));
 			}
 		}
 
@@ -2407,7 +2382,7 @@ void
 JTextEditor::TEHandleDNDEnter()
 {
 	itsDragType = kDragAndDrop;
-	itsDropLoc  = CaretLocation(0,0);
+	itsDropLoc  = CaretLocation();
 	TERefreshCaret(itsCaretLoc);		// hide the typing caret
 }
 
@@ -2434,10 +2409,10 @@ JTextEditor::TEHandleDNDHere
 
 	const CaretLocation caretLoc = CalcCaretLocation(pt);
 
-	CaretLocation dropLoc = CaretLocation(0,0);
+	CaretLocation dropLoc;
 	if (!dropOnSelf ||
-		caretLoc.charIndex <= itsSelection.first ||
-		itsSelection.last+1 <= caretLoc.charIndex)
+		caretLoc.location.charIndex   <= itsSelection.charRange.first ||
+		itsSelection.charRange.last+1 <= caretLoc.location.charIndex)
 		{
 		dropLoc = caretLoc;		// only drop outside selection
 		}
@@ -2482,120 +2457,29 @@ JTextEditor::TEHandleDNDDrop
 	assert( itsDragType == kDragAndDrop );
 
 	TEHandleDNDHere(pt, dropOnSelf);
-	TERefreshCaret(itsDropLoc);
 
-	if (dropOnSelf)
+	if (dropOnSelf && itsDropLoc.location.charIndex > 0)
 		{
-		itsDragType = kLocalDragAndDrop;
-		TEHandleMouseUp(dropCopy);
+		TextRange r;
+		const JBoolean ok = itsText->MoveText(itsSelection, itsDropLoc.location, dropCopy, &r);
+		assert( ok );
+
+		SetSelection(r);
+		TEScrollToSelection(kJFalse);
 		}
-	else
+	else if (!dropOnSelf)
 		{
 		SetCaretLocation(itsDropLoc);
 		TEPasteDropData();
 
-		const JIndex index = GetInsertionIndex();
-		if (index > itsDropLoc.charIndex)
+		const TextIndex index = GetInsertionIndex();
+		if (index.charIndex > itsDropLoc.location.charIndex)
 			{
-			SetSelection(itsDropLoc.charIndex, index-1);
+			SetSelection(TextRange(itsDropLoc.location, index));
 			}
 		}
 
 	itsDragType = kInvalidDrag;
-}
-
-/******************************************************************************
- CalcLocalDNDRect (private)
-
-	Returns the rectangle to draw when performing local DND.
-	The point should be relative to the left margin.
-	The rectangle is relative to the frame.
-
- ******************************************************************************/
-
-JRect
-JTextEditor::CalcLocalDNDRect
-	(
-	const JPoint& pt
-	)
-	const
-{
-	JRect r(pt, pt);
-	r.Shift(itsLeftMarginWidth, 0);
-	r.Shrink(-kDraggedOutlineRadius, -kDraggedOutlineRadius);
-	return r;
-}
-
-/******************************************************************************
- DropSelection (private)
-
-	Called by TEHandleMouseUp() and JTEUndoDrop.  We modify the undo
-	information even though we are private because we implement a single
-	user command.
-
- ******************************************************************************/
-
-void
-JTextEditor::DropSelection
-	(
-	const JIndex	origDropLoc,
-	const JBoolean	dropCopy
-	)
-{
-	assert( !itsSelection.IsEmpty() );
-
-	itsIsDragSourceFlag = kJFalse;		// allow text to be modified
-
-	if (!dropCopy &&
-		(origDropLoc == itsSelection.first ||
-		 origDropLoc == itsSelection.last + 1))
-		{
-		return;
-		}
-
-	const JSize textLen = itsSelection.GetLength();
-
-	JString dropText;
-	JRunArray<JFont> dropStyles;
-	const JBoolean ok = Copy(&dropText, &dropStyles);
-	assert( ok );
-
-	JIndex dropLoc       = origDropLoc;
-	JTEUndoBase* newUndo = NULL;
-	if (dropCopy)
-		{
-		SetCaretLocation(dropLoc);
-		newUndo = jnew JTEUndoPaste(this, textLen);
-		}
-	else
-		{
-		JIndex origIndex = itsSelection.first;
-		if (dropLoc > itsSelection.first)
-			{
-			dropLoc -= textLen;
-			}
-		else
-			{
-			assert( dropLoc < itsSelection.first );
-			origIndex += textLen;
-			}
-
-		newUndo = jnew JTEUndoDrop(this, origIndex, dropLoc, textLen);
-
-		DeleteText(itsSelection);
-		Recalc(itsSelection.first, 1, kJTrue, kJFalse);
-		}
-	assert( newUndo != NULL );
-
-	itsSelection.SetToNothing();
-	const JSize pasteLength = InsertText(dropLoc, dropText, &dropStyles);
-	newUndo->SetPasteLength(pasteLength);
-
-	Recalc(dropLoc, textLen, kJFalse, kJFalse);
-	SetSelection(dropLoc, dropLoc + textLen-1);
-	TEScrollToSelection(kJFalse);
-
-	NewUndo(newUndo, kJTrue);
 }
 
 /******************************************************************************
@@ -2610,35 +2494,35 @@ JTextEditor::DropSelection
 void
 JTextEditor::TEGetDoubleClickSelection
 	(
-	const JIndex	charIndex,
-	const JBoolean	partialWord,
-	const JBoolean	dragging,
-	JIndexRange*	range
+	const TextIndex&	origIndex,
+	const JBoolean		partialWord,
+	const JBoolean		dragging,
+	TextRange*			range
 	)
 {
-	JIndex startIndex, endIndex;
+	TextIndex startIndex, endIndex;
 	if (partialWord)
 		{
-		startIndex = GetPartialWordStart(charIndex);
-		endIndex   = GetPartialWordEnd(startIndex);
+		startIndex = itsText->GetPartialWordStart(origIndex);
+		endIndex   = itsText->GetPartialWordEnd(startIndex);
 		}
 	else
 		{
-		startIndex = GetWordStart(charIndex);
-		endIndex   = GetWordEnd(startIndex);
+		startIndex = itsText->GetWordStart(origIndex);
+		endIndex   = itsText->GetWordEnd(startIndex);
 		}
 
 	// To select the word, the caret location should be inside the word
 	// or on the character following the word.
 
-	const JSize bufLength = itsText->GetLength();
+	const JSize textLength = itsText->GetText().GetCharacterCount();
 
-	if ((startIndex <= charIndex && charIndex <= endIndex) ||
+	if ((startIndex.charIndex <= origIndex.charIndex && origIndex.charIndex <= endIndex.charIndex) ||
 		(!dragging &&
-		 ((charIndex == endIndex+1  && IndexValid(endIndex+1)) ||
-		  (charIndex == bufLength+1 && endIndex == bufLength))) )
+		 ((origIndex.charIndex == endIndex.charIndex+1 && itsText->CharacterIndexValid(endIndex.charIndex+1)) ||
+		  (origIndex.charIndex == textLength+1 && endIndex.charIndex == textLength))) )
 		{
-		range->Set(startIndex, endIndex);
+		*range = TextRange(startIndex, itsText->AdjustTextIndex(endIndex, +1));
 		}
 
 	// Otherwise, we select the character that was clicked on
@@ -3518,53 +3402,6 @@ JTextEditor::GetLineForByte
 }
 
 /******************************************************************************
- CalcInsertionFont (private)
-
-	Returns the font to use when inserting at the specified point.
-
- ******************************************************************************/
-
-JFont
-JTextEditor::CalcInsertionFont
-	(
-	const TextIndex& index
-	)
-	const
-{
-	JStringIterator iter(itsText);
-	iter.UnsafeMoveTo(kJIteratorStartBefore, index.charIndex, index.byteIndex);
-
-	return CalcInsertionFont(iter, *itsStyles);
-}
-
-JFont
-JTextEditor::CalcInsertionFont
-	(
-	const JStringIterator&	buffer,
-	const JRunArray<JFont>&	styles
-	)
-	const
-{
-	JUtf8Character c;
-	if (buffer.Prev(&c, kJFalse) && c == '\n')
-		{
-		return styles.GetElement(buffer.GetNextCharacterIndex());
-		}
-	else if (charIndex > 1)
-		{
-		return styles.GetElement(buffer.GetPrevCharacterIndex());
-		}
-	else if (!styles.IsEmpty())
-		{
-		return styles.GetElement(1);
-		}
-	else
-		{
-		return itsDefFont;
-		}
-}
-
-/******************************************************************************
  GetLineEnd
 
 	Returns the last character on the specified line.
@@ -3587,7 +3424,7 @@ JTextEditor::GetLineEnd
 		}
 	else
 		{
-		return itsPrevBufLength;	// consistent with rest of output from Recalc()
+		return itsPrevTextLength;	// consistent with rest of output from Recalc()
 		}
 }
 
@@ -4008,9 +3845,9 @@ JTextEditor::Recalc
 		TESetGUIBounds(itsLeftMarginWidth + itsWidth + kRightMarginWidth, itsHeight, origY);
 		}
 
-	// save buffer length for next time
+	// save text length for next time
 
-	itsPrevBufLength = bufLength;
+	itsPrevTextLength = bufLength;
 
 	// show the changes
 
@@ -4097,7 +3934,7 @@ JTextEditor::Recalc1
 		// (we use (bufLength - endChar) so subtraction won't produce negative numbers)
 
 		while (lineIndex < GetLineCount() &&
-			   (itsPrevBufLength+1) - GetLineStart(lineIndex+1) >
+			   (itsPrevTextLength+1) - GetLineStart(lineIndex+1) >
 					bufLength - endChar)
 			{
 			itsLineStarts->RemoveElement(lineIndex+1);
@@ -4114,7 +3951,7 @@ JTextEditor::Recalc1
 			}
 		else if (totalCharCount >= minCharCount &&
 				 lineIndex < GetLineCount() &&
-				 itsPrevBufLength - GetLineStart(lineIndex+1) ==
+				 itsPrevTextLength - GetLineStart(lineIndex+1) ==
 					bufLength - (endChar+1))
 			{
 			// The rest of the line starts merely shift.
@@ -4146,7 +3983,7 @@ JTextEditor::Recalc1
 		// far enough yet, so the above breakout code didn't trigger.
 
 		if (lineIndex < GetLineCount() &&
-			   itsPrevBufLength - GetLineStart(lineIndex+1) ==
+			   itsPrevTextLength - GetLineStart(lineIndex+1) ==
 					bufLength - (endChar+1))
 			{
 			itsLineStarts->RemoveElement(lineIndex+1);
@@ -4212,7 +4049,7 @@ JTextEditor::RecalcLine
 		JIndex charIndex = firstCharIndex + charCount;
 
 		// Add words until we hit the right margin, a newline,
-		// or the end of the buffer.
+		// or the end of the text.
 
 		while (charIndex <= bufLength && !endOfLine)
 			{

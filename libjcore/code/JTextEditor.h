@@ -142,7 +142,7 @@ public:
 							 const JBoolean needCaretBcast = kJTrue);
 */
 	JBoolean	TEScrollToSelection(const JBoolean centerInDisplay);
-	void		TEGetDoubleClickSelection(const JStyledText::TextIndex charIndex,
+	void		TEGetDoubleClickSelection(const JStyledText::TextIndex& charIndex,
 										  const JBoolean partialWord,
 										  const JBoolean dragging,
 										  JStyledText::TextRange* range);
@@ -249,8 +249,8 @@ public:		// ought to be protected
 
 	struct CaretLocation
 	{
-		JStyledText::TextIndex location;	// caret is in front of this location in the buffer
-		JIndex lineIndex;						// caret is on this line of text
+		JStyledText::TextIndex location;	// caret is in front of this location in the text
+		JIndex lineIndex;					// caret is on this line of text
 
 		CaretLocation()
 			:
@@ -312,7 +312,7 @@ protected:
 								  const JBoolean extendSelection,
 								  const JBoolean partialWord);
 	void		TEHandleMouseDrag(const JPoint& pt);
-	void		TEHandleMouseUp(const JBoolean dropCopy);
+	void		TEHandleMouseUp();
 	JBoolean	TEHitSamePart(const JPoint& pt1, const JPoint& pt2) const;
 
 	virtual JBoolean	TEBeginDND() = 0;
@@ -432,7 +432,7 @@ private:
 
 	// information for Recalc
 
-	JSize	itsPrevBufLength;	// buffer length after last Recalc
+	JSize	itsPrevTextLength;	// text length after last Recalc
 
 	// used while active
 
@@ -491,11 +491,6 @@ private:
 							const JCoordinate startVisLineTop);
 	void	TEDrawCaret(JPainter& p, const CaretLocation& caretLoc);
 
-	JFont	CalcInsertionFont(const JStyledText::TextIndex& index) const;
-	JFont	CalcInsertionFont(const JStringIterator& buffer,
-							  const JRunArray<JFont>& styles) const;
-	void	DropSelection(const JStyledText::TextIndex& dropLoc, const JBoolean dropCopy);
-
 	void			SetCaretLocation(const JStyledText::TextIndex& caretLoc);
 	void			SetCaretLocation(const CaretLocation& caretLoc);
 	CaretLocation	CalcCaretLocation(const JStyledText::TextIndex& index) const;
@@ -524,8 +519,6 @@ private:
 
 	JCoordinate	GetEWNHeight() const;
 
-	JRect	CalcLocalDNDRect(const JPoint& pt) const;
-
 	void	InsertKeyPress(const JUtf8Character& key);
 	void	BackwardDelete(const JBoolean deleteToTabStop,
 						   JString* returnText = NULL, JRunArray<JFont>* returnStyle = NULL);
@@ -539,7 +532,7 @@ private:
 						  const JStyledText::TextIndex& endIndex,
 						  JStyledText::TextIndex* tabIndex) const;
 
-	void		ReplaceRange(JStringIterator* buffer, JRunArray<JFont>* styles,
+	void		ReplaceRange(JStringIterator* iter, JRunArray<JFont>* styles,
 							 const JStringMatch& match,
 							 const JString& replaceStr,
 							 const JBoolean replaceIsRegex,
