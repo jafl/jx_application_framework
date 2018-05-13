@@ -338,7 +338,7 @@ public:
 	TextRange	Paste(const TextRange& range,
 					  const JString& text, const JRunArray<JFont>* style = NULL);
 
-	JBoolean	MoveText(const TextRange& srcRange, const TextIndex& origDestIndex,
+	TextRange	MoveText(const TextRange& srcRange, const TextIndex& origDestIndex,
 						 const JBoolean copy);
 
 	TextIndex	BackwardDelete(const TextIndex&	lineStart, const TextIndex&	caretIndex,

@@ -830,14 +830,14 @@ JTEST(Move)
 	bcastTest.Expect(JStyledText::kTextChanged);
 	bcastTest.Expect(JStyledText::kTextChanged);
 
-	JBoolean ok = buf.MoveText(
+	TextRange r = buf.MoveText(
 		TextRange(
 			JCharacterRange(5,7),
 			JUtf8ByteRange(6,9)),
 		TextIndex(11,13),
 		kJFalse);
 
-	JAssertTrue(ok);
+	JAssertFalse(r.IsEmpty());
 	JAssertStringsEqual("b" "\xC3\xAE" "g" "b" "nor" "\xC3\xB8" "ld" "mal" "double underline", buf.GetText());
 	JAssertTrue(buf.GetFont(4).GetStyle().bold);
 	JAssertFalse(buf.GetFont(7).GetStyle().bold);
@@ -845,14 +845,14 @@ JTEST(Move)
 
 	bcastTest.Expect(JStyledText::kTextChanged);
 
-	ok = buf.MoveText(
+	r = buf.MoveText(
 		TextRange(
 			JCharacterRange(14,19),
 			JUtf8ByteRange(16,21)),
 		TextIndex(1,1),
 		kJTrue);
 
-	JAssertTrue(ok);
+	JAssertFalse(r.IsEmpty());
 	JAssertStringsEqual("double" "b" "\xC3\xAE" "g" "b" "nor" "\xC3\xB8" "ld" "mal" "double underline", buf.GetText());
 	JAssertEqual(2, buf.GetFont(2).GetStyle().underlineCount);
 

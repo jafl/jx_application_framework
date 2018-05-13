@@ -1013,13 +1013,8 @@ JStyledText::ReplaceAllInRange
 	{
 		Paste(range, buffer, &styles);	// handles undo
 
-		JCharacterRange charRange;
-		charRange.SetFirstAndCount(range.charRange.first, buffer.GetCharacterCount());
-
-		JUtf8ByteRange byteRange;
-		byteRange.SetFirstAndCount(range.byteRange.first, buffer.GetByteCount());
-
-		return TextRange(charRange, byteRange);
+		return TextRange(range.GetFirst(),
+			TextCount(buffer.GetCharacterCount(), buffer.GetByteCount()));
 	}
 	else
 	{
@@ -1644,13 +1639,7 @@ JStyledText::Paste
 
 	NewUndo(newUndo, isNew);
 
-	JCharacterRange charRange;
-	charRange.SetFirstAndCount(range.charRange.first, pasteCount.charCount);
-
-	JUtf8ByteRange byteRange;
-	byteRange.SetFirstAndCount(range.byteRange.first, pasteCount.byteCount);
-
-	TextRange r(charRange, byteRange);
+	TextRange r(range.GetFirst(), pasteCount);
 	BroadcastTextChanged(r, !range.IsEmpty());
 	return r;
 }
@@ -2497,7 +2486,7 @@ JStyledText::Indent
 
  ******************************************************************************/
 
-JBoolean
+JStyledText::TextRange
 JStyledText::MoveText
 	(
 	const TextRange&	srcRange,
@@ -2509,7 +2498,7 @@ JStyledText::MoveText
 		(srcRange.charRange.first <= origDestIndex.charIndex &&
 		 origDestIndex.charIndex <= srcRange.charRange.last + 1))
 		{
-		return kJFalse;
+		return TextRange();
 		}
 
 	JString text;
@@ -2557,14 +2546,10 @@ JStyledText::MoveText
 
 	NewUndo(undo, isNew);
 
-	JCharacterRange charRange;
-	charRange.SetFirstAndCount(destIndex.charIndex, insertCount.charCount);
+	TextRange r(destIndex, insertCount);
+	BroadcastTextChanged(r, kJFalse);
 
-	JUtf8ByteRange byteRange;
-	byteRange.SetFirstAndCount(destIndex.byteIndex, insertCount.byteCount);
-
-	BroadcastTextChanged(TextRange(charRange, byteRange), kJFalse);
-	return kJTrue;
+	return r;
 }
 
 /******************************************************************************
