@@ -556,29 +556,37 @@ F
 T
 1 "text editor"
 T
+2 "JTEKeyHandler.cpp"
+F
+"./code/JTEKeyHandler.cpp"
+T
+2 "JTEDefaultKeyHandler.cpp"
+F
+"./code/JTEDefaultKeyHandler.cpp"
+T
 2 "JStyledText.cpp"
 F
 "./code/JStyledText.cpp"
 T
-2 "JTEUndoBase.cpp"
+2 "JSTUndoBase.cpp"
 F
-"./code/JTEUndoBase.cpp"
+"./code/JSTUndoBase.cpp"
 T
-2 "JTEUndoTextBase.cpp"
+2 "JSTUndoTextBase.cpp"
 F
-"./code/JTEUndoTextBase.cpp"
+"./code/JSTUndoTextBase.cpp"
 T
-2 "JTEUndoMove.cpp"
+2 "JSTUndoMove.cpp"
 F
-"./code/JTEUndoMove.cpp"
+"./code/JSTUndoMove.cpp"
 T
-2 "JTEUndoPaste.cpp"
+2 "JSTUndoPaste.cpp"
 F
-"./code/JTEUndoPaste.cpp"
+"./code/JSTUndoPaste.cpp"
 T
-2 "JTEUndoStyle.cpp"
+2 "JSTUndoStyle.cpp"
 F
-"./code/JTEUndoStyle.cpp"
+"./code/JSTUndoStyle.cpp"
 T
 2 "JTEUndoTabShift.cpp"
 F
@@ -759,7 +767,7 @@ F
 F
 # build settings
 1
-F
+T
 "libjcore-${JX_LIB_VERSION}.a,libjcore-${JX_LIB_VERSION}.so"
 ""
 "make -k all"

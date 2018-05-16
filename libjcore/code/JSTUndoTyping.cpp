@@ -1,15 +1,15 @@
 /******************************************************************************
- JTEUndoTyping.cpp
+ JSTUndoTyping.cpp
 
 	Class to undo typing into a JStyledText object.
 
-	BASE CLASS = JTEUndoTextBase
+	BASE CLASS = JSTUndoTextBase
 
 	Copyright (C) 1996-2018 by John Lindal.
 
  ******************************************************************************/
 
-#include <JTEUndoTyping.h>
+#include <JSTUndoTyping.h>
 #include <JStringIterator.h>
 #include <JStringMatch.h>
 #include <jAssert.h>
@@ -19,24 +19,24 @@
 
  ******************************************************************************/
 
-JTEUndoTyping::JTEUndoTyping
+JSTUndoTyping::JSTUndoTyping
 	(
 	JStyledText*					text,
 	const JStyledText::TextIndex&	start
 	)
 	:
-	JTEUndoTextBase(text, JStyledText::TextRange(start, JStyledText::TextCount())),
+	JSTUndoTextBase(text, JStyledText::TextRange(start, JStyledText::TextCount())),
 	itsOrigStartIndex(start)
 {
 }
 
-JTEUndoTyping::JTEUndoTyping
+JSTUndoTyping::JSTUndoTyping
 	(
 	JStyledText*					text,
 	const JStyledText::TextRange&	replaceRange
 	)
 	:
-	JTEUndoTextBase(text, replaceRange),
+	JSTUndoTextBase(text, replaceRange),
 	itsOrigStartIndex(replaceRange.charRange.first, replaceRange.byteRange.first)
 {
 }
@@ -46,7 +46,7 @@ JTEUndoTyping::JTEUndoTyping
 
  ******************************************************************************/
 
-JTEUndoTyping::~JTEUndoTyping()
+JSTUndoTyping::~JSTUndoTyping()
 {
 }
 
@@ -56,7 +56,7 @@ JTEUndoTyping::~JTEUndoTyping()
  ******************************************************************************/
 
 void
-JTEUndoTyping::Undo()
+JSTUndoTyping::Undo()
 {
 	UndoText(JStyledText::TextRange(itsOrigStartIndex, itsCount));
 }
@@ -67,7 +67,7 @@ JTEUndoTyping::Undo()
  ******************************************************************************/
 
 void
-JTEUndoTyping::HandleCharacters
+JSTUndoTyping::HandleCharacters
 	(
 	const JStyledText::TextCount& count
 	)
@@ -87,7 +87,7 @@ JTEUndoTyping::HandleCharacters
  ******************************************************************************/
 
 void
-JTEUndoTyping::HandleDelete
+JSTUndoTyping::HandleDelete
 	(
 	const JStringMatch& match
 	)
@@ -137,7 +137,7 @@ JTEUndoTyping::HandleDelete
  ******************************************************************************/
 
 void
-JTEUndoTyping::HandleFwdDelete
+JSTUndoTyping::HandleFwdDelete
 	(
 	const JStringMatch& match
 	)
@@ -160,17 +160,19 @@ JTEUndoTyping::HandleFwdDelete
 }
 
 /******************************************************************************
- SameStartIndex
+ MatchesCurrentIndex
 
  ******************************************************************************/
 
 JBoolean
-JTEUndoTyping::SameStartIndex
+JSTUndoTyping::MatchesCurrentIndex
 	(
 	const JStyledText::TextIndex& index
 	)
 	const
 {
-	return JI2B( index.charIndex == itsOrigStartIndex.charIndex &&
-				 index.byteIndex == itsOrigStartIndex.byteIndex );
+	const JStyledText::TextIndex i = itsOrigStartIndex + itsCount;
+
+	return JI2B( index.charIndex == i.charIndex &&
+				 index.byteIndex == i.byteIndex );
 }

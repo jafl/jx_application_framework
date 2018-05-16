@@ -1,5 +1,5 @@
 /******************************************************************************
- JTEUndoTyping.h
+ JSTUndoTyping.h
 
 	Copyright (C) 1996-2018 by John Lindal.
 
@@ -8,18 +8,18 @@
 #ifndef _H_JTEUndoTyping
 #define _H_JTEUndoTyping
 
-#include <JTEUndoTextBase.h>
+#include <JSTUndoTextBase.h>
 
 class JStringMatch;
 
-class JTEUndoTyping : public JTEUndoTextBase
+class JSTUndoTyping : public JSTUndoTextBase
 {
 public:
 
-	JTEUndoTyping(JStyledText* buffer, const JStyledText::TextIndex& start);
-	JTEUndoTyping(JStyledText* buffer, const JStyledText::TextRange& replaceRange);
+	JSTUndoTyping(JStyledText* buffer, const JStyledText::TextIndex& start);
+	JSTUndoTyping(JStyledText* buffer, const JStyledText::TextRange& replaceRange);
 
-	virtual ~JTEUndoTyping();
+	virtual ~JSTUndoTyping();
 
 	virtual void	Undo() override;
 
@@ -28,7 +28,7 @@ public:
 
 	void	HandleCharacters(const JStyledText::TextCount& count);
 
-	JBoolean	SameStartIndex(const JStyledText::TextIndex& index) const;
+	JBoolean	MatchesCurrentIndex(const JStyledText::TextIndex& index) const;
 
 private:
 
@@ -39,8 +39,8 @@ private:
 
 	// not allowed
 
-	JTEUndoTyping(const JTEUndoTyping& source);
-	const JTEUndoTyping& operator=(const JTEUndoTyping& source);
+	JSTUndoTyping(const JSTUndoTyping& source);
+	const JSTUndoTyping& operator=(const JSTUndoTyping& source);
 };
 
 #endif

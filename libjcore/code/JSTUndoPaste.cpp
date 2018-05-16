@@ -1,38 +1,33 @@
 /******************************************************************************
- JTEUndoStyle.cpp
+ JSTUndoPaste.cpp
 
-	Class to undo style change in a JStyledText object.
+	Class to undo paste into a JStyledText object.
 
-	BASE CLASS = JTEUndoBase
+	BASE CLASS = JSTUndoTextBase
 
 	Copyright (C) 1996-2018 by John Lindal.
 
  ******************************************************************************/
 
-#include <JTEUndoStyle.h>
-#include <JString.h>
+#include <JSTUndoPaste.h>
 #include <jAssert.h>
 
 /******************************************************************************
  Constructor
 
+	Saves a snapshot of the specified range, to allow undo.
+
  ******************************************************************************/
 
-JTEUndoStyle::JTEUndoStyle
+JSTUndoPaste::JSTUndoPaste
 	(
 	JStyledText*					text,
 	const JStyledText::TextRange&	range
 	)
 	:
-	JTEUndoBase(text),
+	JSTUndoTextBase(text, range),
 	itsRange(range)
 {
-	assert( !itsRange.IsEmpty() );
-
-	itsOrigStyles = jnew JRunArray<JFont>;
-	assert( itsOrigStyles != NULL );
-
-	itsOrigStyles->AppendSlice(text->GetStyles(), itsRange.charRange);
 }
 
 /******************************************************************************
@@ -40,9 +35,24 @@ JTEUndoStyle::JTEUndoStyle
 
  ******************************************************************************/
 
-JTEUndoStyle::~JTEUndoStyle()
+JSTUndoPaste::~JSTUndoPaste()
 {
-	jdelete itsOrigStyles;
+}
+
+/******************************************************************************
+ SetCount (virtual)
+
+	Saves the number of characters that need to be replaced when we undo.
+
+ ******************************************************************************/
+
+void
+JSTUndoPaste::SetCount
+	(
+	const JStyledText::TextCount& count
+	)
+{
+	itsRange.SetCount(count);
 }
 
 /******************************************************************************
@@ -51,49 +61,23 @@ JTEUndoStyle::~JTEUndoStyle()
  ******************************************************************************/
 
 void
-JTEUndoStyle::Undo()
+JSTUndoPaste::Undo()
 {
-	JStyledText* text = GetText();
-
-	JTEUndoStyle* newUndo = jnew JTEUndoStyle(text, itsRange);
-	assert( newUndo != NULL );
-
-	text->SetFont(itsRange, *itsOrigStyles);
-
-	text->ReplaceUndo(this, newUndo);		// deletes us
-
-	text->BroadcastTextChanged(itsRange, kJFalse);
+	UndoText(itsRange);
 }
 
 /******************************************************************************
- SetFont (virtual)
-
-	Called by JStyledText::SetAllFontNameAndSize().
-
- ******************************************************************************/
-
-void
-JTEUndoStyle::SetFont
-	(
-	const JString&	name,
-	const JSize		size
-	)
-{
-	JTEUndoBase::SetFont(itsOrigStyles, name, size);
-}
-
-/******************************************************************************
- SameRange
+ SameStartIndex
 
  ******************************************************************************/
 
 JBoolean
-JTEUndoStyle::SameRange
+JSTUndoPaste::SameStartIndex
 	(
 	const JStyledText::TextRange& range
 	)
 	const
 {
-	return JI2B( range.charRange == itsRange.charRange &&
-				 range.byteRange == itsRange.byteRange );
+	return JI2B( range.charRange.first == itsRange.charRange.first &&
+				 range.byteRange.first == itsRange.byteRange.first );
 }

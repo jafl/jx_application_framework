@@ -1,5 +1,5 @@
 /******************************************************************************
- JTEUndoBase.cpp
+ JSTUndoBase.cpp
 
 	Base class to support undoing any operation on a JStyledText object.
 
@@ -9,7 +9,7 @@
 
  ******************************************************************************/
 
-#include <JTEUndoBase.h>
+#include <JSTUndoBase.h>
 #include <jAssert.h>
 
 /******************************************************************************
@@ -17,7 +17,7 @@
 
  ******************************************************************************/
 
-JTEUndoBase::JTEUndoBase
+JSTUndoBase::JSTUndoBase
 	(
 	JStyledText* text
 	)
@@ -32,7 +32,7 @@ JTEUndoBase::JTEUndoBase
 
  ******************************************************************************/
 
-JTEUndoBase::~JTEUndoBase()
+JSTUndoBase::~JSTUndoBase()
 {
 }
 
@@ -44,7 +44,7 @@ JTEUndoBase::~JTEUndoBase()
  ******************************************************************************/
 
 void
-JTEUndoBase::SetCount
+JSTUndoBase::SetCount
 	(
 	const JStyledText::TextCount& count
 	)
@@ -59,7 +59,7 @@ JTEUndoBase::SetCount
  ******************************************************************************/
 
 void
-JTEUndoBase::SetFont
+JSTUndoBase::SetFont
 	(
 	const JString&	name,
 	const JSize		size
@@ -75,7 +75,7 @@ JTEUndoBase::SetFont
  ******************************************************************************/
 
 void
-JTEUndoBase::SetFont
+JSTUndoBase::SetFont
 	(
 	JRunArray<JFont>*	styles,
 	const JString&		name,

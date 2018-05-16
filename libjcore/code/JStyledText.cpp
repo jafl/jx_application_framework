@@ -35,11 +35,11 @@
  ******************************************************************************/
 
 #include <JStyledText.h>
-#include <JTEUndoTyping.h>
-#include <JTEUndoPaste.h>
-#include <JTEUndoMove.h>
-#include <JTEUndoStyle.h>
-#include <JTEUndoTabShift.h>
+#include <JSTUndoTyping.h>
+#include <JSTUndoPaste.h>
+#include <JSTUndoMove.h>
+#include <JSTUndoStyle.h>
+#include <JSTUndoTabShift.h>
 #include <JFontManager.h>
 #include <JColorManager.h>
 #include <JListUtil.h>
@@ -92,11 +92,13 @@ const JUtf8Byte* JStyledText::kWillBeBusy  = "WillBeBusy::JStyledText";
 
 JStyledText::JStyledText
 	(
+	const JBoolean useMultipleUndo,
 	const JBoolean pasteStyledText
 	)
 	:
 	itsPasteStyledTextFlag(pasteStyledText),
-	itsDefaultFont(JFontManager::GetDefaultFont())
+	itsDefaultFont(JFontManager::GetDefaultFont()),
+	itsCharInWordFn(DefaultIsCharacterInWord)
 {
 	itsStyles = jnew JRunArray<JFont>;
 	assert( itsStyles != NULL );
@@ -108,13 +110,19 @@ JStyledText::JStyledText
 	itsUndoState         = kIdle;
 	itsMaxUndoCount      = kDefaultMaxUndoCount;
 	itsTabToSpacesFlag   = kJFalse;
+	itsAutoIndentFlag    = kJFalse;
 
 	itsCRMLineWidth      = kUNIXLineWidth;
 	itsCRMTabCharCount   = kUNIXTabCharCount;
 	itsCRMRuleList       = NULL;
 	itsOwnsCRMRulesFlag  = kJFalse;
 
-	itsCharInWordFn      = DefaultIsCharacterInWord;
+	if (useMultipleUndo)
+		{
+		itsUndoList = jnew JPtrArray<JSTUndoBase>(JPtrArrayT::kDeleteAll,
+												  itsMaxUndoCount+1);
+		assert( itsUndoList != NULL );
+		}
 }
 
 /******************************************************************************
@@ -1292,7 +1300,7 @@ JStyledText::SetFontName
 	)
 {
 	JBoolean isNew;
-	JTEUndoStyle* undo = NULL;
+	JSTUndoStyle* undo = NULL;
 
 	if (clearUndo)
 		{
@@ -1464,7 +1472,7 @@ JStyledText::SetFont
 	)
 {
 	JBoolean isNew;
-	JTEUndoStyle* undo = NULL;
+	JSTUndoStyle* undo = NULL;
 
 	if (clearUndo)
 		{
@@ -1493,7 +1501,7 @@ JStyledText::SetFont
 	BroadcastTextChanged(range, kJFalse, kJFalse);
 }
 
-// protected - for JTEUndoStyle
+// protected - for JSTUndoStyle
 
 void
 JStyledText::SetFont
@@ -1631,7 +1639,7 @@ JStyledText::Paste
 	assert( style == NULL || style->GetElementCount() == text.GetCharacterCount() );
 
 	JBoolean isNew;
-	JTEUndoPaste* newUndo = GetPasteUndo(range, &isNew);
+	JSTUndoPaste* newUndo = GetPasteUndo(range, &isNew);
 	assert( newUndo != NULL );
 
 	const TextCount pasteCount = PrivatePaste(range, text, style);
@@ -1726,6 +1734,11 @@ JStyledText::InsertText
 
 	if (!okToInsert)
 		{
+		if (allocated)
+			{
+			jdelete cleanText;
+			jdelete cleanStyle;
+			}
 		return TextCount();
 		}
 
@@ -1996,7 +2009,7 @@ JStyledText::FilterText
 /******************************************************************************
  DeleteText
 
-	We create JTEUndoTyping so keys pressed after the delete key count
+	We create JSTUndoTyping so keys pressed after the delete key count
 	as part of the undo task.
 
  ******************************************************************************/
@@ -2007,7 +2020,7 @@ JStyledText::DeleteText
 	const TextRange& range
 	)
 {
-	JTEUndoTyping* newUndo = jnew JTEUndoTyping(this, range);
+	JSTUndoTyping* newUndo = jnew JSTUndoTyping(this, range);
 	assert( newUndo != NULL );
 
 	PrivateDeleteText(range);
@@ -2053,6 +2066,61 @@ JStyledText::PrivateDeleteText
 		iter->GetNextByteIndex()      + count.byteCount);
 	iter->FinishMatch();
 	iter->RemoveLastMatch();
+}
+
+/******************************************************************************
+ InsertCharacter
+
+ ******************************************************************************/
+
+JUndo*
+JStyledText::InsertCharacter
+	(
+	const TextRange&		replaceRange,
+	const JUtf8Character&	key,
+	const JFont&			font
+	)
+{
+	JBoolean isNew = kJTrue;
+	JSTUndoTyping* typingUndo;
+	if (replaceRange.IsEmpty())
+		{
+		typingUndo = GetTypingUndo(replaceRange.GetFirst(), &isNew);
+		}
+	else
+		{
+		typingUndo = jnew JSTUndoTyping(this, replaceRange);
+		assert( typingUndo != NULL );
+
+		PrivateDeleteText(replaceRange);
+		}
+
+	typingUndo->HandleCharacters(TextCount(1, key.GetByteCount()));
+
+	const JString s(key.GetBytes(), key.GetByteCount(), kJFalse);
+
+	JRunArray<JFont>* styles = jnew JRunArray<JFont>;
+	assert( styles != NULL );
+	styles->AppendElement(font);
+
+	const TextCount pasteCount = InsertText(replaceRange.GetFirst(), s, styles);
+	assert( pasteCount.charCount == 1 );
+
+	jdelete styles;
+	styles = NULL;
+
+	BroadcastTextChanged(
+		TextRange(replaceRange.GetFirst(), pasteCount),
+		!replaceRange.IsEmpty());
+
+	if (key == '\n' && itsAutoIndentFlag)
+		{
+		AutoIndent(typingUndo);
+		}
+
+	NewUndo(typingUndo, isNew);
+
+	return typingUndo;
 }
 
 /******************************************************************************
@@ -2147,7 +2215,7 @@ JStyledText::BackwardDelete
 		}
 
 	JBoolean isNew;
-	JTEUndoTyping* typingUndo = GetTypingUndo(caretIndex, &isNew);
+	JSTUndoTyping* typingUndo = GetTypingUndo(caretIndex, &isNew);
 	typingUndo->HandleDelete(match);
 
 	itsStyles->RemoveElements(match.GetCharacterRange());
@@ -2236,7 +2304,7 @@ JStyledText::ForwardDelete
 		}
 
 	JBoolean isNew;
-	JTEUndoTyping* typingUndo = GetTypingUndo(caretIndex, &isNew);
+	JSTUndoTyping* typingUndo = GetTypingUndo(caretIndex, &isNew);
 	typingUndo->HandleFwdDelete(match);
 
 	itsStyles->RemoveElements(match.GetCharacterRange());
@@ -2346,7 +2414,7 @@ JStyledText::Outdent
 		}
 
 	JBoolean isNew;
-	JTEUndoTabShift* undo = GetTabShiftUndo(range, &isNew);
+	JSTUndoTabShift* undo = GetTabShiftUndo(range, &isNew);
 
 	iter.UnsafeMoveTo(kJIteratorStartBefore, range.charRange.first, range.byteRange.first);
 
@@ -2431,7 +2499,7 @@ JStyledText::Indent
 
 
 	JBoolean isNew;
-	JTEUndoTabShift* undo = GetTabShiftUndo(range, &isNew);
+	JSTUndoTabShift* undo = GetTabShiftUndo(range, &isNew);
 
 	JString tabs;
 	if (itsTabToSpacesFlag)
@@ -2511,7 +2579,7 @@ JStyledText::MoveText
 
 	TextIndex destIndex = origDestIndex;
 
-	JTEUndoBase* undo = NULL;
+	JSTUndoBase* undo = NULL;
 	JBoolean isNew;
 	if (copy)
 		{
@@ -3034,7 +3102,7 @@ JStyledText::Undo()
 {
 	assert( itsUndoState == kIdle );
 
-	JTEUndoBase* undo;
+	JSTUndoBase* undo;
 	if (GetCurrentUndo(&undo))
 		{
 		itsUndoState = kUndo;
@@ -3054,7 +3122,7 @@ JStyledText::Redo()
 {
 	assert( itsUndoState == kIdle );
 
-	JTEUndoBase* undo;
+	JSTUndoBase* undo;
 	if (GetCurrentRedo(&undo))
 		{
 		itsUndoState = kRedo;
@@ -3072,7 +3140,7 @@ JStyledText::Redo()
 void
 JStyledText::DeactivateCurrentUndo()
 {
-	JTEUndoBase* undo = NULL;
+	JSTUndoBase* undo = NULL;
 	if (GetCurrentUndo(&undo))
 		{
 		undo->Deactivate();
@@ -3102,40 +3170,6 @@ JStyledText::ClearUndo()
 }
 
 /******************************************************************************
- UseMultipleUndo
-
-	You probably never need to turn off multiple undo unless you
-	are running out of memory.
-
-	If you call this in your constructor, you should call
-	SetLastSaveLocation() afterwards.
-
- ******************************************************************************/
-
-void
-JStyledText::UseMultipleUndo
-	(
-	const JBoolean useMultiple
-	)
-{
-	if (useMultiple && itsUndoList == NULL)
-		{
-		ClearUndo();
-
-		itsUndoList = jnew JPtrArray<JTEUndoBase>(JPtrArrayT::kDeleteAll,
-												 itsMaxUndoCount+1);
-		assert( itsUndoList != NULL );
-		}
-	else if (!useMultiple && itsUndoList != NULL)
-		{
-		ClearUndo();
-
-		jdelete itsUndoList;
-		itsUndoList = NULL;
-		}
-}
-
-/******************************************************************************
  SetUndoDepth
 
  ******************************************************************************/
@@ -3160,7 +3194,7 @@ JStyledText::SetUndoDepth
 JBoolean
 JStyledText::GetCurrentUndo
 	(
-	JTEUndoBase** undo
+	JSTUndoBase** undo
 	)
 	const
 {
@@ -3188,7 +3222,7 @@ JStyledText::GetCurrentUndo
 JBoolean
 JStyledText::GetCurrentRedo
 	(
-	JTEUndoBase** redo
+	JSTUndoBase** redo
 	)
 	const
 {
@@ -3223,7 +3257,7 @@ JStyledText::GetCurrentRedo
 void
 JStyledText::NewUndo
 	(
-	JTEUndoBase*	undo,
+	JSTUndoBase*	undo,
 	const JBoolean	isNew
 	)
 {
@@ -3294,8 +3328,8 @@ JStyledText::NewUndo
 void
 JStyledText::ReplaceUndo
 	(
-	JTEUndoBase* oldUndo,
-	JTEUndoBase* newUndo
+	JSTUndoBase* oldUndo,
+	JSTUndoBase* newUndo
 	)
 {
 #ifndef NDEBUG
@@ -3354,35 +3388,35 @@ JStyledText::ClearOutdatedUndo()
 /******************************************************************************
  GetTypingUndo (private)
 
-	Return the active JTEUndoTyping object.  If the current undo object is
-	not an active JTEUndoTyping object, we create a new one that is active.
+	Return the active JSTUndoTyping object.  If the current undo object is
+	not an active JSTUndoTyping object, we create a new one that is active.
 
 	If we create a new object, *isNew = kJTrue, and the caller is required
 	to call NewUndo() after changing the text.
 
  ******************************************************************************/
 
-JTEUndoTyping*
+JSTUndoTyping*
 JStyledText::GetTypingUndo
 	(
-	const JStyledText::TextIndex&	start,
-	JBoolean*							isNew
+	const TextIndex&	start,
+	JBoolean*			isNew
 	)
 {
-	JTEUndoTyping* typingUndo = NULL;
+	JSTUndoTyping* typingUndo = NULL;
 
-	JTEUndoBase* undo = NULL;
+	JSTUndoBase* undo = NULL;
 	if (GetCurrentUndo(&undo) &&
-		(typingUndo = dynamic_cast<JTEUndoTyping*>(undo)) != NULL &&
+		(typingUndo = dynamic_cast<JSTUndoTyping*>(undo)) != NULL &&
 		typingUndo->IsActive() &&
-		typingUndo->SameStartIndex(start))
+		typingUndo->MatchesCurrentIndex(start))
 		{
 		*isNew = kJFalse;
 		return typingUndo;
 		}
 	else
 		{
-		typingUndo = jnew JTEUndoTyping(this, start);
+		typingUndo = jnew JSTUndoTyping(this, start);
 		assert( typingUndo != NULL );
 
 		*isNew = kJTrue;
@@ -3393,26 +3427,26 @@ JStyledText::GetTypingUndo
 /******************************************************************************
  GetStyleUndo (private)
 
-	Return the active JTEUndoStyle object.  If the current undo object is
-	not an active JTEUndoStyle object, we create a new one that is active.
+	Return the active JSTUndoStyle object.  If the current undo object is
+	not an active JSTUndoStyle object, we create a new one that is active.
 
 	If we create a new object, *isNew = kJTrue, and the caller is required
 	to call NewUndo() after changing the text.
 
  ******************************************************************************/
 
-JTEUndoStyle*
+JSTUndoStyle*
 JStyledText::GetStyleUndo
 	(
 	const TextRange&	range,
 	JBoolean*			isNew
 	)
 {
-	JTEUndoStyle* styleUndo = NULL;
+	JSTUndoStyle* styleUndo = NULL;
 
-	JTEUndoBase* undo = NULL;
+	JSTUndoBase* undo = NULL;
 	if (GetCurrentUndo(&undo) &&
-		(styleUndo = dynamic_cast<JTEUndoStyle*>(undo)) != NULL &&
+		(styleUndo = dynamic_cast<JSTUndoStyle*>(undo)) != NULL &&
 		styleUndo->IsActive() &&
 		styleUndo->SameRange(range))
 		{
@@ -3421,7 +3455,7 @@ JStyledText::GetStyleUndo
 		}
 	else
 		{
-		styleUndo = jnew JTEUndoStyle(this, range);
+		styleUndo = jnew JSTUndoStyle(this, range);
 		assert( styleUndo != NULL );
 
 		*isNew = kJTrue;
@@ -3432,21 +3466,21 @@ JStyledText::GetStyleUndo
 /******************************************************************************
  GetPasteUndo (private)
 
-	Return a new JTEUndoPaste object, since they can never be reused.
+	Return a new JSTUndoPaste object, since they can never be reused.
 
 	If we create a new object, *isNew = kJTrue, and the caller is required
 	to call NewUndo() after changing the text.
 
  ******************************************************************************/
 
-JTEUndoPaste*
+JSTUndoPaste*
 JStyledText::GetPasteUndo
 	(
-	const JStyledText::TextRange&	range,
-	JBoolean*							isNew
+	const TextRange&	range,
+	JBoolean*			isNew
 	)
 {
-	JTEUndoPaste* pasteUndo = jnew JTEUndoPaste(this, range);
+	JSTUndoPaste* pasteUndo = jnew JSTUndoPaste(this, range);
 	assert( pasteUndo != NULL );
 
 	*isNew = kJTrue;
@@ -3456,26 +3490,26 @@ JStyledText::GetPasteUndo
 /******************************************************************************
  GetTabShiftUndo (private)
 
-	Return the active JTEUndoTabShift object.  If the current undo object is
-	not an active JTEUndoTabShift object, we create a new one that is active.
+	Return the active JSTUndoTabShift object.  If the current undo object is
+	not an active JSTUndoTabShift object, we create a new one that is active.
 
 	If we create a new object, *isNew = kJTrue, and the caller is required
 	to call NewUndo() after changing the text.
 
  ******************************************************************************/
 
-JTEUndoTabShift*
+JSTUndoTabShift*
 JStyledText::GetTabShiftUndo
 	(
-	const JStyledText::TextRange&	range,
-	JBoolean*							isNew
+	const TextRange&	range,
+	JBoolean*			isNew
 	)
 {
-	JTEUndoTabShift* tabShiftUndo = NULL;
+	JSTUndoTabShift* tabShiftUndo = NULL;
 
-	JTEUndoBase* undo = NULL;
+	JSTUndoBase* undo = NULL;
 	if (GetCurrentUndo(&undo) &&
-		(tabShiftUndo = dynamic_cast<JTEUndoTabShift*>(undo)) != NULL &&
+		(tabShiftUndo = dynamic_cast<JSTUndoTabShift*>(undo)) != NULL &&
 		tabShiftUndo->IsActive() &&
 		tabShiftUndo->SameStartIndex(range))
 		{
@@ -3484,7 +3518,7 @@ JStyledText::GetTabShiftUndo
 		}
 	else
 		{
-		tabShiftUndo = jnew JTEUndoTabShift(this, range);
+		tabShiftUndo = jnew JSTUndoTabShift(this, range);
 		assert( tabShiftUndo != NULL );
 
 		*isNew = kJTrue;
@@ -3495,23 +3529,23 @@ JStyledText::GetTabShiftUndo
 /******************************************************************************
  GetMoveUndo (private)
 
-	Return a new JTEUndoMove object, since they can never be reused.
+	Return a new JSTUndoMove object, since they can never be reused.
 
 	If we create a new object, *isNew = kJTrue, and the caller is required
 	to call NewUndo() after changing the text.
 
  ******************************************************************************/
 
-JTEUndoMove*
+JSTUndoMove*
 JStyledText::GetMoveUndo
 	(
-	const JStyledText::TextIndex&	srcIndex,
-	const JStyledText::TextIndex&	destIndex,
-	const JStyledText::TextCount&	count,
-	JBoolean*							isNew
+	const TextIndex&	srcIndex,
+	const TextIndex&	destIndex,
+	const TextCount&	count,
+	JBoolean*			isNew
 	)
 {
-	JTEUndoMove* moveUndo = jnew JTEUndoMove(this, srcIndex, destIndex, count);
+	JSTUndoMove* moveUndo = jnew JSTUndoMove(this, srcIndex, destIndex, count);
 	assert( moveUndo != NULL );
 
 	*isNew = kJTrue;
@@ -3529,7 +3563,7 @@ JStyledText::GetMoveUndo
 void
 JStyledText::AutoIndent
 	(
-	JTEUndoTyping* typingUndo
+	JSTUndoTyping* typingUndo
 	)
 {
 #if 0
@@ -3639,7 +3673,7 @@ JStyledText::AutoIndent
 }
 
 /******************************************************************************
- InsertSpacesForTab (private)
+ InsertSpacesForTab
 
 	Insert spaces to use up the same amount of space that a tab would use.
 
@@ -4175,7 +4209,14 @@ JStyledText::AdjustTextIndex
 		iter.SkipPrev(-charDelta);
 		}
 
-	return TextIndex(iter.GetNextCharacterIndex(), iter.GetNextByteIndex());
+	if (iter.AtEnd())
+		{
+		return TextIndex(itsText.GetCharacterCount()+1, itsText.GetByteCount()+1);
+		}
+	else
+		{
+		return TextIndex(iter.GetNextCharacterIndex(), iter.GetNextByteIndex());
+		}
 }
 
 /******************************************************************************

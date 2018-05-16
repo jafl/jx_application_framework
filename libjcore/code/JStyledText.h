@@ -16,20 +16,21 @@
 
 class JRegex;
 class JInterpolate;
-class JTEUndoBase;
-class JTEUndoTextBase;
-class JTEUndoTyping;
-class JTEUndoStyle;
-class JTEUndoPaste;
-class JTEUndoTabShift;
-class JTEUndoMove;
+class JUndo;
+class JSTUndoBase;
+class JSTUndoTextBase;
+class JSTUndoTyping;
+class JSTUndoStyle;
+class JSTUndoPaste;
+class JSTUndoTabShift;
+class JSTUndoMove;
 
 typedef JBoolean (*JCharacterInWordFn)(const JUtf8Character&);
 
 class JStyledText : virtual public JBroadcaster
 {
-	friend class JTEUndoTextBase;
-	friend class JTEUndoStyle;
+	friend class JSTUndoTextBase;
+	friend class JSTUndoStyle;
 
 public:
 
@@ -206,13 +207,10 @@ public:
 
 public:
 
-	JStyledText(const JBoolean pasteStyledText);
+	JStyledText(const JBoolean useMultipleUndo, const JBoolean pasteStyledText);
 	JStyledText(const JStyledText& source);
 
 	virtual ~JStyledText();
-
-	JBoolean	WillPasteStyledText() const;
-	void		ShouldPasteStyledText(const JBoolean pasteStyled);
 
 	JBoolean		IsEmpty() const;
 	JBoolean		EndsWithNewline() const;
@@ -308,7 +306,7 @@ public:
 	JFont	CalcInsertionFont(const TextIndex& index) const;
 
 	TextRange	Outdent(const TextRange& range, const JSize tabCount = 1,
-					const JBoolean force = kJFalse);
+						const JBoolean force = kJFalse);
 	TextRange	Indent(const TextRange& range, const JSize tabCount = 1);
 
 	TextRange	CleanWhitespace(const TextRange& range, const JBoolean align);
@@ -316,15 +314,15 @@ public:
 	JBoolean	TabInsertsSpaces() const;
 	void		TabShouldInsertSpaces(const JBoolean spaces);
 
+	JBoolean	WillAutoIndent() const;
+	void		ShouldAutoIndent(const JBoolean indent);
+
 	JBoolean	HasSingleUndo() const;
 	JBoolean	HasMultipleUndo(JBoolean* canUndo, JBoolean* canRedo) const;
 	void		Undo();
 	void		Redo();
 	void		ClearUndo();
 	void		DeactivateCurrentUndo();
-
-	JBoolean	IsUsingMultipleUndo() const;
-	void		UseMultipleUndo(const JBoolean useMultiple = kJTrue);
 
 	JSize		GetUndoDepth() const;
 	void		SetUndoDepth(const JSize maxUndoCount);
@@ -349,6 +347,11 @@ public:
 							  JString* returnText = NULL, JRunArray<JFont>* returnStyle = NULL);
 	void		DeleteText(const TextRange& range);
 
+	JUndo*	InsertCharacter(const TextRange& replaceRange,
+							const JUtf8Character& key, const JFont& font);
+
+	void	InsertSpacesForTab(const TextIndex& lineStart, const TextIndex& caretIndex);
+
 	static JBoolean	ContainsIllegalChars(const JString& text);
 	static JBoolean	RemoveIllegalChars(JString* text, JRunArray<JFont>* style = NULL);
 
@@ -372,7 +375,6 @@ public:
 	JBoolean	WillBroadcastAllTextChanged() const;
 	void		ShouldBroadcastAllTextChanged(const JBoolean broadcast);
 
-	JBoolean	CharacterIndexValid(const JIndex charIndex) const;
 	TextRange	CharToTextRange(const TextIndex* lineStart, const JCharacterRange& charRange) const;
 
 	void	SetBlockSizes(const JSize textBlockSize, const JSize styleBlockSize);
@@ -413,13 +415,14 @@ private:
 
 	JString				itsText;
 	JRunArray<JFont>*	itsStyles;
-	JBoolean			itsPasteStyledTextFlag;		// kJTrue => paste styled text
+	const JBoolean		itsPasteStyledTextFlag;		// kJTrue => paste styled text
 	JBoolean			itsTabToSpacesFlag;			// kJTrue => 1 tab -> itsCRMTabCharCount spaces
+	JBoolean			itsAutoIndentFlag;			// kJTrue => auto-indent after newline
 
 	JFont	itsDefaultFont;
 
-	JTEUndoBase*			itsUndo;				// can be NULL
-	JPtrArray<JTEUndoBase>*	itsUndoList;			// NULL if not multiple undo
+	JSTUndoBase*			itsUndo;				// can be NULL
+	JPtrArray<JSTUndoBase>*	itsUndoList;			// NULL if not multiple undo
 	JIndex					itsFirstRedoIndex;		// range [1:count+1]
 	JInteger				itsLastSaveRedoIndex;	// index where text was saved -- can be outside range of itsUndoList!
 	UndoState				itsUndoState;
@@ -438,19 +441,17 @@ private:
 	JFont	CalcInsertionFont(JStringIterator& iter,
 							  const JRunArray<JFont>& styles) const;
 
-	JBoolean			GetCurrentUndo(JTEUndoBase** undo) const;
-	JBoolean			GetCurrentRedo(JTEUndoBase** redo) const;
-	void				NewUndo(JTEUndoBase* undo, const JBoolean isNew);
-	void				ReplaceUndo(JTEUndoBase* oldUndo, JTEUndoBase* newUndo);
+	JBoolean			GetCurrentUndo(JSTUndoBase** undo) const;
+	JBoolean			GetCurrentRedo(JSTUndoBase** redo) const;
+	void				NewUndo(JSTUndoBase* undo, const JBoolean isNew);
+	void				ReplaceUndo(JSTUndoBase* oldUndo, JSTUndoBase* newUndo);
 	void				ClearOutdatedUndo();
-	JTEUndoTyping*		GetTypingUndo(const JStyledText::TextIndex& start, JBoolean* isNew);
-	JTEUndoStyle*		GetStyleUndo(const TextRange& range, JBoolean* isNew);
-	JTEUndoPaste*		GetPasteUndo(const JStyledText::TextRange& range, JBoolean* isNew);
-	JTEUndoTabShift*	GetTabShiftUndo(const JStyledText::TextRange& range, JBoolean* isNew);
-	JTEUndoMove*		GetMoveUndo(const JStyledText::TextIndex& srcIndex,
-									const JStyledText::TextIndex& destIndex,
-									const JStyledText::TextCount& count,
-									JBoolean* isNew);
+	JSTUndoTyping*		GetTypingUndo(const TextIndex& start, JBoolean* isNew);
+	JSTUndoStyle*		GetStyleUndo(const TextRange& range, JBoolean* isNew);
+	JSTUndoPaste*		GetPasteUndo(const TextRange& range, JBoolean* isNew);
+	JSTUndoTabShift*	GetTabShiftUndo(const TextRange& range, JBoolean* isNew);
+	JSTUndoMove*		GetMoveUndo(const TextIndex& srcIndex, const TextIndex& destIndex,
+									const TextCount& count, JBoolean* isNew);
 
 	JString	PrepareReplaceMatch(const JStringMatch& match,
 								const JString& replaceStr, const JBoolean replaceIsRegex,
@@ -473,8 +474,7 @@ private:
 	static TextRange	CharToTextRange(const JCharacterRange& charRange,
 										JStringIterator* iter);
 
-	void	AutoIndent(JTEUndoTyping* typingUndo);
-	void	InsertSpacesForTab(const TextIndex& lineStart, const TextIndex& caretIndex);
+	void	AutoIndent(JSTUndoTyping* typingUndo);
 
 	static JBoolean	DefaultIsCharacterInWord(const JUtf8Character& c);
 
@@ -591,21 +591,6 @@ JStyledText::GetText()
 }
 
 /******************************************************************************
- CharacterIndexValid
-
- ******************************************************************************/
-
-inline JBoolean
-JStyledText::CharacterIndexValid
-	(
-	const JIndex charIndex
-	)
-	const
-{
-	return itsText.CharacterIndexValid(charIndex);
-}
-
-/******************************************************************************
  IsEntireWord
 
 	Return kJTrue if the given character range is a single, complete word.
@@ -660,16 +645,9 @@ JStyledText::HasMultipleUndo
 }
 
 /******************************************************************************
- Multiple undo
+ GetUndoDepth
 
  ******************************************************************************/
-
-inline JBoolean
-JStyledText::IsUsingMultipleUndo()
-	const
-{
-	return JI2B( itsUndoList != NULL );
-}
 
 inline JSize
 JStyledText::GetUndoDepth()
@@ -705,30 +683,6 @@ JStyledText::ClearLastSaveLocation()
 }
 
 /******************************************************************************
- Allow paste styled text
-
-	ShouldPasteStyled() is protected because most derived classes won't
-	be written to expect it to change.
-
- ******************************************************************************/
-
-inline JBoolean
-JStyledText::WillPasteStyledText()
-	const
-{
-	return itsPasteStyledTextFlag;
-}
-
-inline void
-JStyledText::ShouldPasteStyledText
-	(
-	const JBoolean pasteStyled
-	)
-{
-	itsPasteStyledTextFlag = pasteStyled;
-}
-
-/******************************************************************************
  Get default font
 
  ******************************************************************************/
@@ -759,6 +713,27 @@ JStyledText::TabShouldInsertSpaces
 	)
 {
 	itsTabToSpacesFlag = spaces;
+}
+
+/******************************************************************************
+ Auto indenting
+
+ ******************************************************************************/
+
+inline JBoolean
+JStyledText::WillAutoIndent()
+	const
+{
+	return itsAutoIndentFlag;
+}
+
+inline void
+JStyledText::ShouldAutoIndent
+	(
+	const JBoolean indent
+	)
+{
+	itsAutoIndentFlag = indent;
 }
 
 /******************************************************************************

@@ -1,7 +1,7 @@
 /******************************************************************************
- JTEUndoMove.h
+ JSTUndoMove.h
 
-	Interface for the JTEUndoMove class.
+	Interface for the JSTUndoMove class.
 
 	Copyright (C) 1996-2018 by John Lindal.
 
@@ -10,18 +10,18 @@
 #ifndef _H_JTEUndoMove
 #define _H_JTEUndoMove
 
-#include <JTEUndoBase.h>
+#include <JSTUndoBase.h>
 
-class JTEUndoMove : public JTEUndoBase
+class JSTUndoMove : public JSTUndoBase
 {
 public:
 
-	JTEUndoMove(JStyledText* text,
+	JSTUndoMove(JStyledText* text,
 				const JStyledText::TextIndex& srcIndex,
 				const JStyledText::TextIndex& destIndex,
 				const JStyledText::TextCount& count);
 
-	virtual ~JTEUndoMove();
+	virtual ~JSTUndoMove();
 
 	virtual void	Undo() override;
 
@@ -37,8 +37,8 @@ private:
 
 	// not allowed
 
-	JTEUndoMove(const JTEUndoMove& source);
-	const JTEUndoMove& operator=(const JTEUndoMove& source);
+	JSTUndoMove(const JSTUndoMove& source);
+	const JSTUndoMove& operator=(const JSTUndoMove& source);
 };
 
 #endif

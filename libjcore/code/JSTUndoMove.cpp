@@ -1,32 +1,36 @@
 /******************************************************************************
- JTEUndoPaste.cpp
+ JSTUndoMove.cpp
 
-	Class to undo paste into a JStyledText object.
+	Class to undo moving text from one place to another, typically via
+	drag-and-drop.
 
-	BASE CLASS = JTEUndoTextBase
+	BASE CLASS = JSTUndoBase
 
 	Copyright (C) 1996-2018 by John Lindal.
 
  ******************************************************************************/
 
-#include <JTEUndoPaste.h>
+#include <JSTUndoMove.h>
+#include <JStyledText.h>
 #include <jAssert.h>
 
 /******************************************************************************
  Constructor
 
-	Saves a snapshot of the specified range, to allow undo.
-
  ******************************************************************************/
 
-JTEUndoPaste::JTEUndoPaste
+JSTUndoMove::JSTUndoMove
 	(
 	JStyledText*					text,
-	const JStyledText::TextRange&	range
+	const JStyledText::TextIndex&	srcIndex,
+	const JStyledText::TextIndex&	destIndex,
+	const JStyledText::TextCount&	count
 	)
 	:
-	JTEUndoTextBase(text, range),
-	itsRange(range)
+	JSTUndoBase(text),
+	itsSrcIndex(srcIndex),
+	itsDestIndex(destIndex),
+	itsCount(count)
 {
 }
 
@@ -35,24 +39,22 @@ JTEUndoPaste::JTEUndoPaste
 
  ******************************************************************************/
 
-JTEUndoPaste::~JTEUndoPaste()
+JSTUndoMove::~JSTUndoMove()
 {
 }
 
 /******************************************************************************
  SetCount (virtual)
 
-	Saves the number of characters that need to be replaced when we undo.
-
  ******************************************************************************/
 
 void
-JTEUndoPaste::SetCount
+JSTUndoMove::SetCount
 	(
 	const JStyledText::TextCount& count
 	)
 {
-	itsRange.SetCount(count);
+	itsCount = count;
 }
 
 /******************************************************************************
@@ -61,23 +63,11 @@ JTEUndoPaste::SetCount
  ******************************************************************************/
 
 void
-JTEUndoPaste::Undo()
+JSTUndoMove::Undo()
 {
-	UndoText(itsRange);
-}
-
-/******************************************************************************
- SameStartIndex
-
- ******************************************************************************/
-
-JBoolean
-JTEUndoPaste::SameStartIndex
-	(
-	const JStyledText::TextRange& range
-	)
-	const
-{
-	return JI2B( range.charRange.first == itsRange.charRange.first &&
-				 range.byteRange.first == itsRange.byteRange.first );
+	JStyledText::TextRange newRange;
+	const JBoolean ok = GetText()->MoveText(		// deletes us
+		JStyledText::TextRange(itsDestIndex, itsCount), itsSrcIndex,
+		kJFalse, &newRange);
+	assert( ok );
 }

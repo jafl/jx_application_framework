@@ -1,5 +1,5 @@
 /******************************************************************************
- JTEUndoPaste.h
+ JSTUndoPaste.h
 
 	Copyright (C) 1996-2018 by John Lindal.
 
@@ -8,15 +8,15 @@
 #ifndef _H_JTEUndoPaste
 #define _H_JTEUndoPaste
 
-#include <JTEUndoTextBase.h>
+#include <JSTUndoTextBase.h>
 
-class JTEUndoPaste : public JTEUndoTextBase
+class JSTUndoPaste : public JSTUndoTextBase
 {
 public:
 
-	JTEUndoPaste(JStyledText* text, const JStyledText::TextRange& range);
+	JSTUndoPaste(JStyledText* text, const JStyledText::TextRange& range);
 
-	virtual ~JTEUndoPaste();
+	virtual ~JSTUndoPaste();
 
 	virtual void	Undo() override;
 
@@ -32,8 +32,8 @@ private:
 
 	// not allowed
 
-	JTEUndoPaste(const JTEUndoPaste& source);
-	const JTEUndoPaste& operator=(const JTEUndoPaste& source);
+	JSTUndoPaste(const JSTUndoPaste& source);
+	const JSTUndoPaste& operator=(const JSTUndoPaste& source);
 };
 
 #endif

@@ -1,16 +1,16 @@
 /******************************************************************************
- JTEUndoTabShift.cpp
+ JSTUndoTabShift.cpp
 
-	Class to undo indenting a block of text.  We have to use JTEUndoPaste
+	Class to undo indenting a block of text.  We have to use JSTUndoPaste
 	to get back the original pattern of spaces and tabs.
 
-	BASE CLASS = JTEUndoPaste
+	BASE CLASS = JSTUndoPaste
 
 	Copyright (C) 1996-2018 by John Lindal.
 
  ******************************************************************************/
 
-#include <JTEUndoTabShift.h>
+#include <JSTUndoTabShift.h>
 #include <JStyledText.h>
 #include <jAssert.h>
 
@@ -21,13 +21,13 @@
 
  ******************************************************************************/
 
-JTEUndoTabShift::JTEUndoTabShift
+JSTUndoTabShift::JSTUndoTabShift
 	(
 	JStyledText*					text,
 	const JStyledText::TextRange&	range
 	)
 	:
-	JTEUndoPaste(text, range)
+	JSTUndoPaste(text, range)
 {
 }
 
@@ -36,6 +36,6 @@ JTEUndoTabShift::JTEUndoTabShift
 
  ******************************************************************************/
 
-JTEUndoTabShift::~JTEUndoTabShift()
+JSTUndoTabShift::~JSTUndoTabShift()
 {
 }

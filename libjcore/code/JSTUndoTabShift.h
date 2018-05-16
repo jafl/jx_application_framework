@@ -1,5 +1,5 @@
 /******************************************************************************
- JTEUndoTabShift.h
+ JSTUndoTabShift.h
 
 	Copyright (C) 1996-2000 by John Lindal.
 
@@ -8,22 +8,22 @@
 #ifndef _H_JTEUndoTabShift
 #define _H_JTEUndoTabShift
 
-#include <JTEUndoPaste.h>
+#include <JSTUndoPaste.h>
 
-class JTEUndoTabShift : public JTEUndoPaste
+class JSTUndoTabShift : public JSTUndoPaste
 {
 public:
 
-	JTEUndoTabShift(JStyledText* text, const JStyledText::TextRange& range);
+	JSTUndoTabShift(JStyledText* text, const JStyledText::TextRange& range);
 
-	virtual ~JTEUndoTabShift();
+	virtual ~JSTUndoTabShift();
 
 private:
 
 	// not allowed
 
-	JTEUndoTabShift(const JTEUndoTabShift& source);
-	const JTEUndoTabShift& operator=(const JTEUndoTabShift& source);
+	JSTUndoTabShift(const JSTUndoTabShift& source);
+	const JSTUndoTabShift& operator=(const JSTUndoTabShift& source);
 };
 
 #endif

@@ -1,5 +1,5 @@
 /******************************************************************************
- JTEUndoBase.h
+ JSTUndoBase.h
 
 	Copyright (C) 1996-2002 by John Lindal.
 
@@ -11,13 +11,13 @@
 #include <JUndo.h>
 #include <JStyledText.h>	// need struct definitions
 
-class JTEUndoBase : public JUndo
+class JSTUndoBase : public JUndo
 {
 public:
 
-	JTEUndoBase(JStyledText* text);
+	JSTUndoBase(JStyledText* text);
 
-	virtual ~JTEUndoBase();
+	virtual ~JSTUndoBase();
 
 	virtual void	SetCount(const JStyledText::TextCount& count);
 
@@ -40,8 +40,8 @@ private:
 
 	// not allowed
 
-	JTEUndoBase(const JTEUndoBase& source);
-	const JTEUndoBase& operator=(const JTEUndoBase& source);
+	JSTUndoBase(const JSTUndoBase& source);
+	const JSTUndoBase& operator=(const JSTUndoBase& source);
 };
 
 
@@ -51,7 +51,7 @@ private:
  ******************************************************************************/
 
 inline JStyledText*
-JTEUndoBase::GetText()
+JSTUndoBase::GetText()
 	const
 {
 	return itsText;

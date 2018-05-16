@@ -1,7 +1,7 @@
 /******************************************************************************
- JTEUndoStyle.h
+ JSTUndoStyle.h
 
-	Interface for the JTEUndoStyle class.
+	Interface for the JSTUndoStyle class.
 
 	Copyright (C) 1996-2018 by John Lindal.
 
@@ -10,15 +10,15 @@
 #ifndef _H_JTEUndoStyle
 #define _H_JTEUndoStyle
 
-#include <JTEUndoBase.h>
+#include <JSTUndoBase.h>
 
-class JTEUndoStyle : public JTEUndoBase
+class JSTUndoStyle : public JSTUndoBase
 {
 public:
 
-	JTEUndoStyle(JStyledText* text, const JStyledText::TextRange& range);
+	JSTUndoStyle(JStyledText* text, const JStyledText::TextRange& range);
 
-	virtual ~JTEUndoStyle();
+	virtual ~JSTUndoStyle();
 
 	virtual void	Undo() override;
 
@@ -35,8 +35,8 @@ private:
 
 	// not allowed
 
-	JTEUndoStyle(const JTEUndoStyle& source);
-	const JTEUndoStyle& operator=(const JTEUndoStyle& source);
+	JSTUndoStyle(const JSTUndoStyle& source);
+	const JSTUndoStyle& operator=(const JSTUndoStyle& source);
 };
 
 #endif

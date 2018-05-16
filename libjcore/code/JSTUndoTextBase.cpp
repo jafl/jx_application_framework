@@ -1,17 +1,17 @@
 /******************************************************************************
- JTEUndoTextBase.cpp
+ JSTUndoTextBase.cpp
 
 	Base class to support undoing any operation on a JStyledText object
 	that starts by deleting some text.
 
-	BASE CLASS = JTEUndoBase
+	BASE CLASS = JSTUndoBase
 
 	Copyright (C) 1996-2018 by John Lindal.
 
  ******************************************************************************/
 
-#include <JTEUndoTextBase.h>
-#include <JTEUndoPaste.h>
+#include <JSTUndoTextBase.h>
+#include <JSTUndoPaste.h>
 #include <jAssert.h>
 
 /******************************************************************************
@@ -21,13 +21,13 @@
 
  ******************************************************************************/
 
-JTEUndoTextBase::JTEUndoTextBase
+JSTUndoTextBase::JSTUndoTextBase
 	(
 	JStyledText*					text,
 	const JStyledText::TextRange&	range
 	)
 	:
-	JTEUndoBase(text)
+	JSTUndoBase(text)
 {
 	itsOrigStyles = jnew JRunArray<JFont>;
 	assert( itsOrigStyles != NULL );
@@ -40,7 +40,7 @@ JTEUndoTextBase::JTEUndoTextBase
 
  ******************************************************************************/
 
-JTEUndoTextBase::~JTEUndoTextBase()
+JSTUndoTextBase::~JSTUndoTextBase()
 {
 	jdelete itsOrigStyles;
 }
@@ -53,14 +53,14 @@ JTEUndoTextBase::~JTEUndoTextBase()
  ******************************************************************************/
 
 void
-JTEUndoTextBase::UndoText
+JSTUndoTextBase::UndoText
 	(
 	const JStyledText::TextRange& range
 	)
 {
 	JStyledText* text = GetText();
 
-	JTEUndoPaste* newUndo = jnew JTEUndoPaste(text, range);
+	JSTUndoPaste* newUndo = jnew JSTUndoPaste(text, range);
 	assert( newUndo != NULL );
 
 	const JStyledText::TextCount pasteCount = text->PrivatePaste(range, itsOrigText, itsOrigStyles);
@@ -88,7 +88,7 @@ JTEUndoTextBase::UndoText
  ******************************************************************************/
 
 void
-JTEUndoTextBase::PrependToSave
+JSTUndoTextBase::PrependToSave
 	(
 	const JUtf8Character&	c,
 	const JIndex			charIndex
@@ -106,7 +106,7 @@ JTEUndoTextBase::PrependToSave
  ******************************************************************************/
 
 void
-JTEUndoTextBase::AppendToSave
+JSTUndoTextBase::AppendToSave
 	(
 	const JUtf8Character&	c,
 	const JIndex			charIndex
@@ -124,11 +124,11 @@ JTEUndoTextBase::AppendToSave
  ******************************************************************************/
 
 void
-JTEUndoTextBase::SetFont
+JSTUndoTextBase::SetFont
 	(
 	const JString&	name,
 	const JSize		size
 	)
 {
-	JTEUndoBase::SetFont(itsOrigStyles, name, size);
+	JSTUndoBase::SetFont(itsOrigStyles, name, size);
 }

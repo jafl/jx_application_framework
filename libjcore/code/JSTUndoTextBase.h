@@ -1,7 +1,7 @@
 /******************************************************************************
- JTEUndoTextBase.h
+ JSTUndoTextBase.h
 
-	Interface for the JTEUndoTextBase class.
+	Interface for the JSTUndoTextBase class.
 
 	Copyright (C) 1996 by John Lindal.
 
@@ -10,15 +10,15 @@
 #ifndef _H_JTEUndoTextBase
 #define _H_JTEUndoTextBase
 
-#include <JTEUndoBase.h>
+#include <JSTUndoBase.h>
 
-class JTEUndoTextBase : public JTEUndoBase
+class JSTUndoTextBase : public JSTUndoBase
 {
 public:
 
-	JTEUndoTextBase(JStyledText* text, const JStyledText::TextRange& range);
+	JSTUndoTextBase(JStyledText* text, const JStyledText::TextRange& range);
 
-	virtual ~JTEUndoTextBase();
+	virtual ~JSTUndoTextBase();
 
 	virtual void	SetFont(const JString& name, const JSize size) override;
 
@@ -38,8 +38,8 @@ private:
 
 	// not allowed
 
-	JTEUndoTextBase(const JTEUndoTextBase& source);
-	const JTEUndoTextBase& operator=(const JTEUndoTextBase& source);
+	JSTUndoTextBase(const JSTUndoTextBase& source);
+	const JSTUndoTextBase& operator=(const JSTUndoTextBase& source);
 };
 
 #endif
