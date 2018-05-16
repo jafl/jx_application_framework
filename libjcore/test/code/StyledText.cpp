@@ -18,9 +18,12 @@
 
  ******************************************************************************/
 
-StyledText::StyledText()
+StyledText::StyledText
+	(
+	const JBoolean useMultipleUndo
+	)
 	:
-	JStyledText(kJTrue)
+	JStyledText(useMultipleUndo, kJTrue)
 {
 }
 

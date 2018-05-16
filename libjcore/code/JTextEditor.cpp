@@ -127,10 +127,11 @@
  ******************************************************************************/
 
 #include <JTextEditor.h>
-#include <JTEKeyHandler.h>
+#include <JTEDefaultKeyHandler.h>
 #include <JPagePrinter.h>
 #include <JFontManager.h>
 #include <JListUtil.h>
+#include <JUndo.h>
 #include <JRunArrayIterator.h>
 #include <JRegex.h>
 #include <JStringIterator.h>
@@ -203,17 +204,16 @@ JTextEditor::JTextEditor
 	itsPrevDragType(kInvalidDrag),
 	itsIsDragSourceFlag(kJFalse)
 {
-	itsActiveFlag              = kJFalse;
-	itsSelActiveFlag           = kJFalse;
-	itsCaretVisibleFlag        = kJFalse;
-	itsPerformDNDFlag          = kJFalse;
-	itsAutoIndentFlag          = kJFalse;
-	itsMoveToFrontOfTextFlag   = kJFalse;
-	itsBcastLocChangedFlag     = kJFalse;
-	itsBreakCROnlyFlag         = breakCROnly;
-	itsIsPrintingFlag          = kJFalse;
-	itsDrawWhitespaceFlag      = kJFalse;
-	itsCaretMode               = kLineCaret;
+	itsActiveFlag            = kJFalse;
+	itsSelActiveFlag         = kJFalse;
+	itsCaretVisibleFlag      = kJFalse;
+	itsPerformDNDFlag        = kJFalse;
+	itsMoveToFrontOfTextFlag = kJFalse;
+	itsBcastLocChangedFlag   = kJFalse;
+	itsBreakCROnlyFlag       = breakCROnly;
+	itsIsPrintingFlag        = kJFalse;
+	itsDrawWhitespaceFlag    = kJFalse;
+	itsCaretMode             = kLineCaret;
 
 	itsWidth           = width - kDefLeftMarginWidth - kRightMarginWidth;
 	itsHeight          = 0;
@@ -879,27 +879,6 @@ JTextEditor::Paste
 	range = itsText->Paste(range, text, style);
 
 	SetCaretLocation(range.GetAfter());
-}
-
-/******************************************************************************
- GetInsertionIndex (protected)
-
-	Return the index where new text will be typed or pasted.
-
- ******************************************************************************/
-
-TextIndex
-JTextEditor::GetInsertionIndex()
-	const
-{
-	if (!itsSelection.IsEmpty())
-		{
-		return itsSelection.GetFirst();
-		}
-	else
-		{
-		return itsCaretLoc.location;
-		}
 }
 
 /******************************************************************************
@@ -2068,7 +2047,7 @@ JTextEditor::TEDrawCaret
 	if (itsCaretMode == kBlockCaret)
 		{
 		JCoordinate w = 5;
-		if (itsText->CharacterIndexValid(caretLoc.location.charIndex))
+		if (itsText->GetText().CharacterIndexValid(caretLoc.location.charIndex))
 			{
 			JStringIterator* iter =
 				itsText->GetConstIterator(kJIteratorStartBefore, caretLoc.location);
@@ -2519,7 +2498,7 @@ JTextEditor::TEGetDoubleClickSelection
 
 	if ((startIndex.charIndex <= origIndex.charIndex && origIndex.charIndex <= endIndex.charIndex) ||
 		(!dragging &&
-		 ((origIndex.charIndex == endIndex.charIndex+1 && itsText->CharacterIndexValid(endIndex.charIndex+1)) ||
+		 ((origIndex.charIndex == endIndex.charIndex+1 && itsText->GetText().CharacterIndexValid(endIndex.charIndex+1)) ||
 		  (origIndex.charIndex == textLength+1 && endIndex.charIndex == textLength))) )
 		{
 		*range = TextRange(startIndex, itsText->AdjustTextIndex(endIndex, +1));
@@ -2529,14 +2508,33 @@ JTextEditor::TEGetDoubleClickSelection
 
 	else
 		{
-		range->first = range->last = JMin(charIndex, bufLength);
-		if (range->first > 1 &&
-			itsText->GetCharacter(range->first)   == '\n' &&
-			itsText->GetCharacter(range->first-1) != '\n')
+		TextIndex i(JMin(origIndex.charIndex, textLength),
+					JMin(origIndex.byteIndex, itsText->GetText().GetByteCount()));
+
+		JStringIterator* iter = itsText->GetConstIterator(kJIteratorStartBefore, i);
+
+		if (!iter->AtBeginning())
 			{
-			(range->first)--;
-			(range->last)--;
+			JUtf8Character c1, c2;
+			const JBoolean ok1 = iter->Prev(&c1, kJFalse);
+			const JBoolean ok2 = iter->Next(&c2, kJFalse);
+			assert( ok1 && ok2 );
+
+			if (c1 != '\n' && c2 == '\n')
+				{
+				iter->SkipPrev();
+				}
 			}
+
+		const JIndex b1 = iter->GetNextByteIndex();
+		iter->SkipNext();
+		const JIndex b2 = iter->GetNextByteIndex();
+
+		*range = TextRange(
+			TextIndex(iter->GetPrevCharacterIndex(), b1),
+			TextCount(1, b2-b1));
+
+		itsText->DisposeConstIterator(iter);
 		}
 }
 
@@ -2593,28 +2591,24 @@ JTextEditor::SetKeyHandler
 JBoolean
 JTextEditor::TEHandleKeyPress
 	(
-	const JCharacter	origKey,
-	const JBoolean		selectText,
-	const CaretMotion	motion,
-	const JBoolean		deleteToTabStop
+	const JUtf8Character&	origKey,
+	const JBoolean			selectText,
+	const CaretMotion		motion,
+	const JBoolean			deleteToTabStop
 	)
 {
 	assert( itsActiveFlag );
-	assert( (!itsSelection.IsEmpty() && itsCaretLoc.charIndex == 0) ||
-			( itsSelection.IsEmpty() && itsCaretLoc.charIndex >  0) );
+	assert( (!itsSelection.IsEmpty() && itsCaretLoc.location.charIndex == 0) ||
+			( itsSelection.IsEmpty() && itsCaretLoc.location.charIndex >  0) );
 
-	if (itsType == kStaticText)
-		{
-		return kJFalse;
-		}
-	else if (TEIsDragging())
+	if (TEIsDragging())
 		{
 		return kJTrue;
 		}
 
 	// pre-processing
 
-	JCharacter key = origKey;
+	JUtf8Character key = origKey;
 	if (key == '\r')
 		{
 		key = '\n';
@@ -2628,7 +2622,7 @@ JTextEditor::TEHandleKeyPress
 	if (processed)
 		{
 		// We redraw the display immediately because it is very disconcerting
-		// when the display does not instantly show the changes.
+		// when the display does not instantly show the result.
 
 		TEUpdateDisplay();
 		}
@@ -2643,35 +2637,22 @@ JTextEditor::TEHandleKeyPress
 void
 JTextEditor::InsertKeyPress
 	(
-	const JCharacter key
+	const JUtf8Character& key
 	)
 {
-	JBoolean isNew;
-	JTEUndoTyping* typingUndo = GetTypingUndo(&isNew);
-	typingUndo->HandleCharacter();
-
 	const JBoolean hadSelection = !itsSelection.IsEmpty();
 	if (hadSelection)
 		{
-		itsInsertionFont = itsStyles->GetElement(itsSelection.first);
-		DeleteText(itsSelection);
-		itsCaretLoc = CalcCaretLocation(itsSelection.first);
-		itsSelection.SetToNothing();
-		}
-	const JCharacter s[2]   = { key, '\0' };
-	const JSize pasteLength = InsertText(itsCaretLoc, s);
-	assert( pasteLength == 1 );
-	Recalc(itsCaretLoc, 1, hadSelection, kJFalse);
-	SetCaretLocation(itsCaretLoc.charIndex+1);
-
-	typingUndo->Activate();		// cancel SetCaretLocation()
-
-	if (key == '\n' && itsAutoIndentFlag)
-		{
-		AutoIndent(typingUndo);
+		itsInsertionFont = itsText->GetStyles().GetElement(itsSelection.charRange.first);
+		itsCaretLoc      = CalcCaretLocation(itsSelection.GetFirst());
 		}
 
-	NewUndo(typingUndo, isNew);
+	JUndo* undo = itsText->InsertCharacter(itsSelection, key, itsInsertionFont);
+
+	itsSelection.SetToNothing();
+	SetCaretLocation(itsText->AdjustTextIndex(itsCaretLoc.location, +1));
+
+	undo->Activate();		// cancel SetCaretLocation()
 }
 
 /******************************************************************************
@@ -2691,7 +2672,7 @@ JTextEditor::BackwardDelete
 {
 	assert( itsSelection.IsEmpty() );
 
-	itsText.BackwardDelete(lineStart, itsCaretLoc.location, deleteToTabStop, returnText, returnStyle);
+	itsText->BackwardDelete(lineStart, itsCaretLoc.location, deleteToTabStop, returnText, returnStyle);
 
 	const JFont f = itsStyles->GetElement(startIndex);	// preserve font
 //	DeleteText(deleteRange);

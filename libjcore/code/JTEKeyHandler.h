@@ -30,8 +30,8 @@ protected:
 
 	JTextEditor*	GetTE() const;
 	void			InsertKeyPress(const JUtf8Character& key);
-	void			BackwardDelete(const JBoolean deleteToTabStop, JString* text);
-	void			ForwardDelete(const JBoolean deleteToTabStop, JString* text);
+	void			BackwardDelete(const JBoolean deleteToTabStop, JString* text = NULL);
+	void			ForwardDelete(const JBoolean deleteToTabStop, JString* text = NULL);
 	void			MoveCaretVert(const JInteger deltaLines);
 
 private:

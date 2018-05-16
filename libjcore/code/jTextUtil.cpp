@@ -309,7 +309,7 @@ JReadUNIXManOutput
 
 static const JRegex theUNIXTerminalFormatPattern = "^\\[([0-9]+(?:;[0-9]+)*)m$";
 
-JSize
+JStyledText::TextRange
 JPasteUNIXTerminalOutput
 	(
 	const JString&					text,
@@ -409,10 +409,5 @@ JPasteUNIXTerminalOutput
 			}
 		}
 
-	const JBoolean saved = tb->WillPasteStyledText();
-	tb->ShouldPasteStyledText(kJTrue);
-	tb->Paste(JStyledText::TextRange(pasteIndex, JStyledText::TextCount()), buffer, &styles);
-	tb->ShouldPasteStyledText(saved);
-
-	return buffer.GetCharacterCount();
+	return tb->Paste(JStyledText::TextRange(pasteIndex, JStyledText::TextCount()), buffer, &styles);
 }

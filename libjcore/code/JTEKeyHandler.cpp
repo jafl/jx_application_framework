@@ -47,7 +47,7 @@ JTEKeyHandler::Initialize()
 }
 
 /******************************************************************************
- InsertKeyPress (protected; delegation)
+ InsertKeyPress (protected)
 
  ******************************************************************************/
 
@@ -61,7 +61,7 @@ JTEKeyHandler::InsertKeyPress
 }
 
 /******************************************************************************
- BackwardDelete (protected; delegation)
+ BackwardDelete (protected)
 
  ******************************************************************************/
 
@@ -69,12 +69,15 @@ void
 JTEKeyHandler::BackwardDelete
 	(
 	const JBoolean	deleteToTabStop,
-	JString*		text
+	JString*		text	// can be NULL
 	)
 {
 	if (itsTE->HasSelection())
 		{
-		itsTE->GetSelection(text);
+		if (text != NULL)
+			{
+			itsTE->GetSelection(text);
+			}
 		itsTE->DeleteSelection();
 		}
 	else
@@ -84,7 +87,7 @@ JTEKeyHandler::BackwardDelete
 }
 
 /******************************************************************************
- ForwardDelete (protected; delegation)
+ ForwardDelete (protected)
 
  ******************************************************************************/
 
@@ -92,12 +95,15 @@ void
 JTEKeyHandler::ForwardDelete
 	(
 	const JBoolean	deleteToTabStop,
-	JString*		text
+	JString*		text	// can be NULL
 	)
 {
 	if (itsTE->HasSelection())
 		{
-		itsTE->GetSelection(text);
+		if (text != NULL)
+			{
+			itsTE->GetSelection(text);
+			}
 		itsTE->DeleteSelection();
 		}
 	else
@@ -107,7 +113,7 @@ JTEKeyHandler::ForwardDelete
 }
 
 /******************************************************************************
- MoveCaretVert (protected; delegation)
+ MoveCaretVert (protected)
 
  ******************************************************************************/
 

@@ -8,7 +8,7 @@ JTextEditor
 	some calls to SetCaretLocation/SetSelection should not deactivate undo
 
 put back
-	*KeyHandler
+	JVIKeyHandler
 	JTEStyler
 
 implement flex/bison parser for libjexpr

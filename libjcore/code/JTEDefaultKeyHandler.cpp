@@ -13,6 +13,11 @@
 #include <jASCIIConstants.h>
 #include <jAssert.h>
 
+typedef JStyledText::TextIndex TextIndex;
+typedef JStyledText::TextCount TextCount;
+typedef JStyledText::TextRange TextRange;
+typedef JTextEditor::CaretLocation CaretLocation;
+
 /******************************************************************************
  Constructor
 
@@ -51,6 +56,7 @@ JTEDefaultKeyHandler::HandleKeyPress
 	)
 {
 	JTextEditor* te             = GetTE();
+	JStyledText* st             = te->GetText();
 	const JBoolean hasSelection = te->HasSelection();
 
 	// We select text by selecting to where the caret ends up.
@@ -65,28 +71,23 @@ JTEDefaultKeyHandler::HandleKeyPress
 		JBoolean restoreCaretX        = kJTrue;
 		const JCoordinate savedCaretX = te->itsCaretX;
 
-		if (hasSelection && te->itsSelectionPivot.charIndex == te->itsCharSelection.last+1)
+		if (hasSelection && te->itsSelectionPivot.charIndex == te->itsSelection.charRange.last+1)
 			{
-			te->SetCaretLocation(JTextEditor::TextIndex(
-				te->itsCharSelection.first, te->itsByteSelection.first));
+			te->SetCaretLocation(te->itsSelection.GetFirst());
 			}
-		else if (hasSelection && te->itsSelectionPivot.charIndex == te->itsCharSelection.first)
+		else if (hasSelection && te->itsSelectionPivot.charIndex == te->itsSelection.charRange.first)
 			{
-			te->SetCaretLocation(te->AdjustTextIndex(
-				JTextEditor::TextIndex(te->itsCharSelection.last, te->itsByteSelection.last),
-				+1));
+			te->SetCaretLocation(te->itsSelection.GetAfter());
 			}
 		else if (hasSelection)	// SetSelection() was called by outsider
 			{
-			te->itsSelectionPivot.Set(te->itsCharSelection.first, te->itsByteSelection.first);
+			te->itsSelectionPivot = te->itsSelection.GetFirst();
 			restoreCaretX         = kJFalse;
-			te->SetCaretLocation(te->AdjustTextIndex(
-				JTextEditor::TextIndex(te->itsCharSelection.last, te->itsByteSelection.last),
-				+1));
+			te->SetCaretLocation(te->itsSelection.GetAfter());
 			}
 		else
 			{
-			te->itsSelectionPivot = te->itsCaretLoc;
+			te->itsSelectionPivot = te->itsCaretLoc.location;
 			}
 
 		if (restoreCaretX && (key == kJUpArrow || key == kJDownArrow))
@@ -108,43 +109,25 @@ JTEDefaultKeyHandler::HandleKeyPress
 		te->GoToBeginningOfLine();
 		}
 
-	else if (key == kJLeftArrow && motion == JTextEditor::kMoveByWord && hasSelection)
-		{
-		te->SetCaretLocation(te->GetWordStart(				// works for zero
-			JTextEditor::TextIndex(te->itsCharSelection.first, te->itsByteSelection.first)));
-		}
 	else if (key == kJLeftArrow && motion == JTextEditor::kMoveByWord)
 		{
-		te->SetCaretLocation(te->GetWordStart(				// works for zero
-			te->AdjustTextIndex(te->itsCaretLoc, -1)));
+		te->SetCaretLocation(st->GetWordStart(
+			hasSelection ? te->itsSelection.GetFirst() :
+			st->AdjustTextIndex(te->itsCaretLoc.location, -1)));
 		}
 
-	else if (key == kJLeftArrow && motion == JTextEditor::kMoveByPartialWord && hasSelection)
-		{
-		te->SetCaretLocation(te->GetPartialWordStart(		// works for zero
-			JTextEditor::TextIndex(te->itsCharSelection.first, te->itsByteSelection.first)));
-		}
 	else if (key == kJLeftArrow && motion == JTextEditor::kMoveByPartialWord)
 		{
-		te->SetCaretLocation(te->GetPartialWordStart(		// works for zero
-			te->AdjustTextIndex(te->itsCaretLoc, -1)));
+		te->SetCaretLocation(st->GetPartialWordStart(
+			hasSelection ? te->itsSelection.GetFirst() :
+			st->AdjustTextIndex(te->itsCaretLoc.location, -1)));
 		}
 
-	else if (key == kJLeftArrow && hasSelection)
-		{
-		te->SetCaretLocation(
-			JTextEditor::TextIndex(te->itsCharSelection.first, te->itsByteSelection.first));
-		}
 	else if (key == kJLeftArrow)
 		{
-		if (te->itsCaretLoc.charIndex > 1)
-			{
-			te->SetCaretLocation(te->AdjustTextIndex(te->itsCaretLoc, -1));
-			}
-		else
-			{
-			te->SetCaretLocation(JTextEditor::CaretLocation(1,1,1));	// scroll to it
-			}
+		te->SetCaretLocation(
+			hasSelection ? te->itsSelection.GetFirst() :
+			st->AdjustTextIndex(te->itsCaretLoc.location, -1));
 		}
 
 	// right arrow
@@ -154,75 +137,53 @@ JTEDefaultKeyHandler::HandleKeyPress
 		te->GoToEndOfLine();
 		}
 
-	else if (key == kJRightArrow && motion == JTextEditor::kMoveByWord && hasSelection)
-		{
-		te->SetCaretLocation(te->AdjustTextIndex(
-			te->GetWordEnd(JTextEditor::TextIndex(te->itsCharSelection.last, te->itsByteSelection.last)),
-			+1));
-		}
 	else if (key == kJRightArrow && motion == JTextEditor::kMoveByWord)
 		{
-		te->SetCaretLocation(te->AdjustTextIndex(
-			te->GetWordEnd(te->itsCaretLoc),
+		te->SetCaretLocation(st->AdjustTextIndex(
+			st->GetWordEnd(
+				hasSelection ? te->itsSelection.GetLast(*st) : te->itsCaretLoc.location),
 			+1));
 		}
 
-	else if (key == kJRightArrow && motion == JTextEditor::kMoveByPartialWord && hasSelection)
-		{
-		te->SetCaretLocation(te->AdjustTextIndex(
-			te->GetPartialWordEnd(JTextEditor::TextIndex(te->itsCharSelection.last, te->itsByteSelection.last)),
-			+1));
-		}
 	else if (key == kJRightArrow && motion == JTextEditor::kMoveByPartialWord)
 		{
-		te->SetCaretLocation(te->AdjustTextIndex(
-			te->GetPartialWordEnd(te->itsCaretLoc),
+		te->SetCaretLocation(st->AdjustTextIndex(
+			st->GetPartialWordEnd(
+				hasSelection ? te->itsSelection.GetLast(*st) : te->itsCaretLoc.location),
 			+1));
 		}
 
 	else if (key == kJRightArrow && hasSelection)
 		{
-		te->SetCaretLocation(te->AdjustTextIndex(
-			JTextEditor::TextIndex(te->itsCharSelection.last, te->itsByteSelection.last),
-			+1));
+		te->SetCaretLocation(te->itsSelection.GetAfter());
 		}
 	else if (key == kJRightArrow)
 		{
-		const JSize charCount = te->GetText().GetCharacterCount();
-		if (te->itsCaretLoc.charIndex <= charCount)
-			{
-			te->SetCaretLocation(te->AdjustTextIndex(te->itsCaretLoc, +1));
-			}
-		else
-			{
-			te->SetCaretLocation(charCount+1);	// scroll to it
-			}
+		te->SetCaretLocation(st->AdjustTextIndex(te->itsCaretLoc.location, +1));
 		}
 
 	// up arrow
 
 	else if (key == kJUpArrow && motion == JTextEditor::kMoveByLine)
 		{
-		te->SetCaretLocation(JTextEditor::CaretLocation(1,1,1));
+		te->SetCaretLocation(CaretLocation(TextIndex(1,1),1));
 		}
 
-	else if (key == kJUpArrow && motion == JTextEditor::kMoveByWord && hasSelection)
-		{
-		te->SetCaretLocation(te->GetParagraphStart(te->AdjustTextIndex(
-			JTextEditor::TextIndex(te->itsCharSelection.first, te->itsByteSelection.first),
-			-1)));
-		}
 	else if (key == kJUpArrow && motion == JTextEditor::kMoveByWord)
 		{
-		te->SetCaretLocation(te->GetParagraphStart(te->AdjustTextIndex(te->itsCaretLoc, -1)));
+		te->SetCaretLocation(st->GetParagraphStart(
+			st->AdjustTextIndex(
+				hasSelection ? te->itsSelection.GetFirst() : te->itsCaretLoc.location,
+				-1)));
 		}
 
 	else if (key == kJUpArrow && hasSelection)
 		{
-		te->SetCaretLocation(JTextEditor::TextIndex(te->itsCharSelection.first, te->itsByteSelection.first));
+		te->SetCaretLocation(te->itsSelection.GetFirst());
 		}
-	else if (key == kJUpArrow && te->itsCaretLoc.charIndex == te->GetText().GetCharacterCount()+1 &&
-			 te->EndsWithNewline())
+	else if (key == kJUpArrow &&
+			 te->itsCaretLoc.location.charIndex == st->GetText().GetCharacterCount()+1 &&
+			 st->EndsWithNewline())
 		{
 		te->SetCaretLocation(te->GetLineStart(te->itsCaretLoc.lineIndex));
 		}
@@ -232,34 +193,27 @@ JTEDefaultKeyHandler::HandleKeyPress
 		}
 	else if (key == kJUpArrow)
 		{
-		te->SetCaretLocation(JTextEditor::CaretLocation(1,1,1));
+		te->SetCaretLocation(CaretLocation(TextIndex(1,1),1));
 		}
 
 	// down arrow
 
 	else if (key == kJDownArrow && motion == JTextEditor::kMoveByLine)
 		{
-		te->SetCaretLocation(te->GetText().GetCharacterCount()+1);
+		te->SetCaretLocation(st->GetText().GetCharacterCount()+1);
 		}
 
-	else if (key == kJDownArrow && motion == JTextEditor::kMoveByWord && hasSelection)
-		{
-		te->SetCaretLocation(te->AdjustTextIndex(
-			te->GetParagraphEnd(te->AdjustTextIndex(
-				JTextEditor::TextIndex(te->itsCharSelection.last, te->itsByteSelection.last),
-				+1)),
-			+1));
-		}
 	else if (key == kJDownArrow && motion == JTextEditor::kMoveByWord)
 		{
-		te->SetCaretLocation(te->AdjustTextIndex(te->GetParagraphEnd(te->itsCaretLoc), +1));
+		te->SetCaretLocation(st->AdjustTextIndex(
+			st->GetParagraphEnd(
+				hasSelection ? te->itsSelection.GetAfter() : te->itsCaretLoc.location),
+			+1));
 		}
 
 	else if (key == kJDownArrow && hasSelection)
 		{
-		te->SetCaretLocation(te->AdjustTextIndex(
-			JTextEditor::TextIndex(te->itsCharSelection.last, te->itsByteSelection.last),
-			+1));
+		te->SetCaretLocation(te->itsSelection.GetAfter());
 		}
 	else if (key == kJDownArrow && te->itsCaretLoc.lineIndex < te->GetLineCount())
 		{
@@ -267,36 +221,29 @@ JTEDefaultKeyHandler::HandleKeyPress
 		}
 	else if (key == kJDownArrow)
 		{
-		te->SetCaretLocation(te->GetText().GetCharacterCount()+1);
+		te->SetCaretLocation(st->GetText().GetCharacterCount()+1);
 		}
 
 	// delete
 
-	else if (key == kJDeleteKey && hasSelection)
+	else if (key == kJDeleteKey)
 		{
-		te->DeleteSelection();
-		}
-	else if (key == kJDeleteKey && te->itsCaretLoc.charIndex > 1)
-		{
-		te->BackwardDelete(deleteToTabStop);
+		BackwardDelete(deleteToTabStop);
 		}
 
 	// forward delete
 
-	else if (key == kJForwardDeleteKey && hasSelection)
+	else if (key == kJForwardDeleteKey)
 		{
-		te->DeleteSelection();
-		}
-	else if (key == kJForwardDeleteKey && te->itsCaretLoc.charIndex <= te->GetText().GetCharacterCount())
-		{
-		te->ForwardDelete(deleteToTabStop);
+		ForwardDelete(deleteToTabStop);
 		}
 
 	// insert character
 
-	else if (te->itsTabToSpacesFlag && key == '\t')
+	else if (st->TabInsertsSpaces() && key == '\t')
 		{
-		te->InsertSpacesForTab();
+		const TextIndex i = te->GetInsertionIndex();
+		st->InsertSpacesForTab(te->GetLineStart(te->GetLineForChar(i.charIndex)), i);
 		}
 
 	else if (key.IsPrint() || key == '\n' || key == '\t')
@@ -313,21 +260,17 @@ JTEDefaultKeyHandler::HandleKeyPress
 
 	if (willSelectText)
 		{
-		const JTextEditor::CaretLocation savedCaretLoc = te->itsCaretLoc;
-		if (te->itsCaretLoc.charIndex < te->itsSelectionPivot.charIndex)
+		const CaretLocation savedCaretLoc = te->itsCaretLoc;
+		if (te->itsCaretLoc.location.charIndex < te->itsSelectionPivot.charIndex)
 			{
-			const JTextEditor::TextIndex i = te->AdjustTextIndex(te->itsSelectionPivot, -1);
 			te->SetSelection(
-				JCharacterRange(te->itsCaretLoc.charIndex, i.charIndex),
-				JUtf8ByteRange(te->itsCaretLoc.byteIndex, i.byteIndex),
+				TextRange(te->itsCaretLoc.location, te->itsSelectionPivot),
 				kJFalse);
 			}
-		else if (te->itsCaretLoc.charIndex > te->itsSelectionPivot.charIndex)
+		else if (te->itsCaretLoc.location.charIndex > te->itsSelectionPivot.charIndex)
 			{
-			const JTextEditor::TextIndex i = te->AdjustTextIndex(te->itsCaretLoc, -1);
 			te->SetSelection(
-				JCharacterRange(te->itsSelectionPivot.charIndex, i.charIndex),
-				JUtf8ByteRange(te->itsSelectionPivot.byteIndex, i.byteIndex),
+				TextRange(te->itsSelectionPivot, te->itsCaretLoc.location),
 				kJFalse);
 			}
 

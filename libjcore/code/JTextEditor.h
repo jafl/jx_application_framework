@@ -20,6 +20,9 @@ class JPagePrinter;
 
 class JTextEditor : virtual public JBroadcaster
 {
+	friend class JTEKeyHandler;
+	friend class JTEDefaultKeyHandler;
+
 public:
 
 	enum Type
@@ -171,9 +174,6 @@ public:
 	void	CleanAllWhitespace(const JBoolean align);
 	void	CleanSelectedWhitespace(const JBoolean align);
 	void	AnalyzeWhitespace(JSize* tabWidth);
-
-	JBoolean	WillAutoIndent() const;
-	void		ShouldAutoIndent(const JBoolean indent);
 
 	JBoolean	WillShowWhitespace() const;
 	void		ShouldShowWhitespace(const JBoolean show);
@@ -403,7 +403,6 @@ private:
 	JBoolean	itsActiveFlag;
 	JBoolean	itsBreakCROnlyFlag;			// kJFalse => break line at whitespace
 	JBoolean	itsPerformDNDFlag;			// kJTrue => drag-and-drop enabled
-	JBoolean	itsAutoIndentFlag;			// kJTrue => auto-indent after newline enabled
 	JBoolean	itsMoveToFrontOfTextFlag;	// kJTrue => left arrow w/ moveEOL puts caret after whitespace
 	JBoolean	itsBcastLocChangedFlag;		// kJTrue => broadcast CaretLocationChanged instead of CaretLineChanged
 	JBoolean	itsIsPrintingFlag;			// kJTrue => stack threads through Print()
@@ -524,9 +523,6 @@ private:
 						   JString* returnText = NULL, JRunArray<JFont>* returnStyle = NULL);
 	void	ForwardDelete(const JBoolean deleteToTabStop,
 						  JString* returnText = NULL, JRunArray<JFont>* returnStyle = NULL);
-
-	void	AutoIndent(JTEUndoTyping* typingUndo);
-	void	InsertSpacesForTab();
 
 	JBoolean	LocateTab(const JStyledText::TextIndex& startIndex,
 						  const JStyledText::TextIndex& endIndex,
@@ -885,27 +881,6 @@ JTextEditor::SetDefaultTabWidth
 }
 
 /******************************************************************************
- Auto indenting
-
- ******************************************************************************/
-
-inline JBoolean
-JTextEditor::WillAutoIndent()
-	const
-{
-	return itsAutoIndentFlag;
-}
-
-inline void
-JTextEditor::ShouldAutoIndent
-	(
-	const JBoolean indent
-	)
-{
-	itsAutoIndentFlag = indent;
-}
-
-/******************************************************************************
  CleanAllWhitespace
 
 	Clean up the indentation whitespace and strip trailing whitespace.
@@ -1111,6 +1086,20 @@ JTextEditor::SetBreakCROnly
 		PrivateSetBreakCROnly(breakCROnly);
 		RecalcAll();
 		}
+}
+
+/******************************************************************************
+ GetInsertionIndex (protected)
+
+	Return the index where new text will be typed or pasted.
+
+ ******************************************************************************/
+
+inline JStyledText::TextIndex
+JTextEditor::GetInsertionIndex()
+	const
+{
+	return itsSelection.IsEmpty() ? itsCaretLoc.location : itsSelection.GetFirst();
 }
 
 /******************************************************************************

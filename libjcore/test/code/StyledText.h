@@ -14,7 +14,7 @@ class StyledText : public JStyledText
 {
 public:
 
-	StyledText();
+	StyledText(const JBoolean useMultipleUndo = kJFalse);
 
 	virtual ~StyledText();
 

@@ -13,6 +13,7 @@
 #include <JStringIterator.h>
 #include <JInterpolate.h>
 #include <JRegex.h>
+#include <JFontManager.h>
 #include <jFStreamUtil.h>
 #include <jFileUtil.h>
 #include <jGlobals.h>
@@ -642,6 +643,32 @@ JTEST(CalcInsertionFont)
 	JAssertEqual(2, text.CalcInsertionFont(TextIndex(16,18)).GetStyle().underlineCount);
 }
 
+JTEST(InsertCharacter)
+{
+	StyledText text(kJTrue);
+	text.SetText(JString("b" "\xC3\xAE" "g" "b" "\xC3\xB8" "ld" "normal" "double underline", 0, kJFalse));
+	text.SetFontSize(TextRange(JCharacterRange(1,3), JUtf8ByteRange(1,4)), 20, kJFalse);
+	text.SetFontBold(TextRange(JCharacterRange(4,7), JUtf8ByteRange(5,9)), kJTrue, kJFalse);
+	text.SetFontUnderline(TextRange(JCharacterRange(14,29), JUtf8ByteRange(16,31)), 2, kJFalse);
+
+	text.InsertCharacter(TextRange(JCharacterRange(3,0), JUtf8ByteRange(4,0)), 'x', JFontManager::GetDefaultFont());
+	text.InsertCharacter(TextRange(JCharacterRange(4,0), JUtf8ByteRange(5,0)), 'y', JFontManager::GetDefaultFont());
+	text.InsertCharacter(TextRange(JCharacterRange(5,0), JUtf8ByteRange(6,0)), 'z', JFontManager::GetDefaultFont());
+	JAssertStringsEqual("b" "\xC3\xAE" "xyzg" "b" "\xC3\xB8" "ld" "normal" "double underline", text.GetText());
+
+	text.InsertCharacter(TextRange(JCharacterRange(8,0), JUtf8ByteRange(9,0)), '1', JFontManager::GetDefaultFont());
+	JAssertStringsEqual("b" "\xC3\xAE" "xyzg" "b1" "\xC3\xB8" "ld" "normal" "double underline", text.GetText());
+
+	text.InsertCharacter(TextRange(JCharacterRange(13,15), JUtf8ByteRange(15,17)), 'e', JFontManager::GetDefaultFont());
+	JAssertStringsEqual("b" "\xC3\xAE" "xyzg" "b1" "\xC3\xB8" "ld" "neal" "double underline", text.GetText());
+
+	text.Undo();
+	text.Undo();
+	text.Undo();
+
+	JAssertStringsEqual("b" "\xC3\xAE" "g" "b" "\xC3\xB8" "ld" "normal" "double underline", text.GetText());
+}
+
 JTEST(CopyPaste)
 {
 	StyledText text;
@@ -673,8 +700,7 @@ JTEST(CopyPaste)
 
 JTEST(DeleteText)
 {
-	StyledText text;
-	text.UseMultipleUndo();
+	StyledText text(kJTrue);
 	text.SetText(JString("b" "\xC3\xAE" "g\n" "b" "\xC3\xB8" "ld\n" "\t   normal\n" "double underline", 0, kJFalse));
 	text.SetFontSize(TextRange(JCharacterRange(1,3), JUtf8ByteRange(1,4)), 20, kJFalse);
 	text.SetFontBold(TextRange(JCharacterRange(5,8), JUtf8ByteRange(6,10)), kJTrue, kJFalse);
@@ -713,8 +739,7 @@ JTEST(DeleteText)
 
 JTEST(BackwardDelete)
 {
-	StyledText text;
-	text.UseMultipleUndo();
+	StyledText text(kJTrue);
 	text.SetText(JString("b" "\xC3\xAE" "g\n" "b" "\xC3\xB8" "ld\n" "\t   normal\n" "double underline", 0, kJFalse));
 	text.SetFontSize(TextRange(JCharacterRange(1,3), JUtf8ByteRange(1,4)), 20, kJFalse);
 	text.SetFontBold(TextRange(JCharacterRange(5,8), JUtf8ByteRange(6,10)), kJTrue, kJFalse);
@@ -767,8 +792,7 @@ JTEST(BackwardDelete)
 
 JTEST(ForwardDelete)
 {
-	StyledText text;
-	text.UseMultipleUndo();
+	StyledText text(kJTrue);
 	text.SetText(JString("b" "\xC3\xAE" "g\n" "b" "\xC3\xB8" "ld\n" "\t   normal\n" "double underline", 0, kJFalse));
 	text.SetFontSize(TextRange(JCharacterRange(1,3), JUtf8ByteRange(1,4)), 20, kJFalse);
 	text.SetFontBold(TextRange(JCharacterRange(5,8), JUtf8ByteRange(6,10)), kJTrue, kJFalse);
@@ -819,8 +843,7 @@ JTEST(ForwardDelete)
 
 JTEST(Move)
 {
-	StyledText text;
-	text.UseMultipleUndo();
+	StyledText text(kJTrue);
 	text.SetText(JString("b" "\xC3\xAE" "g" "b" "\xC3\xB8" "ld" "normal" "double underline", 0, kJFalse));
 	text.SetFontSize(TextRange(JCharacterRange(1,3), JUtf8ByteRange(1,4)), 20, kJFalse);
 	text.SetFontBold(TextRange(JCharacterRange(4,7), JUtf8ByteRange(5,9)), kJTrue, kJFalse);
@@ -875,9 +898,8 @@ JTEST(Move)
 
 JTEST(TabSelection)
 {
-	StyledText text;
+	StyledText text(kJTrue);
 	text.SetText(JString("\xC3\xA1" "bcd\n1234\nwxzy", 0, kJFalse));
-	text.UseMultipleUndo();
 
 	JBroadcastTester bcastTest(&text);
 	bcastTest.Expect(JStyledText::kTextChanged);
