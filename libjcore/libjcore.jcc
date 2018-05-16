@@ -588,13 +588,13 @@ T
 F
 "./code/JSTUndoStyle.cpp"
 T
-2 "JTEUndoTabShift.cpp"
+2 "JSTUndoTabShift.cpp"
 F
-"./code/JTEUndoTabShift.cpp"
+"./code/JSTUndoTabShift.cpp"
 T
-2 "JTEUndoTyping.cpp"
+2 "JSTUndoTyping.cpp"
 F
-"./code/JTEUndoTyping.cpp"
+"./code/JSTUndoTyping.cpp"
 F
 T
 1 "widgets"
@@ -767,7 +767,7 @@ F
 F
 # build settings
 1
-T
+F
 "libjcore-${JX_LIB_VERSION}.a,libjcore-${JX_LIB_VERSION}.so"
 ""
 "make -k all"
