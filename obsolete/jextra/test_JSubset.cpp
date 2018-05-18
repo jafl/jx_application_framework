@@ -7,7 +7,7 @@
 
  ******************************************************************************/
 
-#include <JUnitTestManager.h>
+#include <JTestManager.h>
 #include <JSubset.h>
 #include <JHistogram.h>
 #include <JProbDistr.h>
@@ -18,7 +18,7 @@
 
 int main()
 {
-	return JUnitTestManager::Execute();
+	return JTestManager::Execute();
 }
 
 void

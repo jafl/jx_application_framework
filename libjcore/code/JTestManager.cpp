@@ -1,7 +1,7 @@
 /******************************************************************************
- JUnitTestManager.cpp
+ JTestManager.cpp
 
-	Executes and unit tests.
+	Executes functional tests.
 
 	BASE CLASS = NONE
 
@@ -9,23 +9,23 @@
 
  ******************************************************************************/
 
-#include <JUnitTestManager.h>
+#include <JTestManager.h>
 #include <JError.h>
 #include <jAssert.h>
 
-static JUnitTestManager* theManager = NULL;
+static JTestManager* theManager = NULL;
 
 /******************************************************************************
  Instance
 
  ******************************************************************************/
 
-JUnitTestManager*
-JUnitTestManager::Instance()
+JTestManager*
+JTestManager::Instance()
 {
 	if (theManager == NULL)
 		{
-		theManager = new JUnitTestManager();
+		theManager = new JTestManager();
 		assert( theManager != NULL );
 		}
 
@@ -37,7 +37,7 @@ JUnitTestManager::Instance()
 
  ******************************************************************************/
 
-JUnitTestManager::JUnitTestManager()
+JTestManager::JTestManager()
 	:
 	itsCurrentTestName(NULL),
 	itsTestCount(0),
@@ -50,7 +50,7 @@ JUnitTestManager::JUnitTestManager()
 
  ******************************************************************************/
 
-JUnitTestManager::~JUnitTestManager()
+JTestManager::~JTestManager()
 {
 }
 
@@ -60,7 +60,7 @@ JUnitTestManager::~JUnitTestManager()
  ******************************************************************************/
 
 int
-JUnitTestManager::RegisterTest
+JTestManager::RegisterTest
 	(
 	JUnitTest			test,
 	const JUtf8Byte*	name
@@ -81,7 +81,7 @@ JUnitTestManager::RegisterTest
  ******************************************************************************/
 
 int
-JUnitTestManager::Execute()
+JTestManager::Execute()
 {
 	Instance()->ExecuteTests();
 	return (Instance()->itsFailureCount > 0 ? 1 : 0);
@@ -93,7 +93,7 @@ JUnitTestManager::Execute()
  ******************************************************************************/
 
 void
-JUnitTestManager::ExecuteTests()
+JTestManager::ExecuteTests()
 {
 	for (JIndex i=0; i<itsTestCount; i++)
 		{
@@ -108,7 +108,7 @@ JUnitTestManager::ExecuteTests()
  ******************************************************************************/
 
 void
-JUnitTestManager::ReportFailure
+JTestManager::ReportFailure
 	(
 	JUtf8Byte const*	message,
 	JUtf8Byte const*	file,
@@ -127,7 +127,7 @@ JUnitTestManager::ReportFailure
  ******************************************************************************/
 
 void
-JUnitTestManager::ReportFatal
+JTestManager::ReportFatal
 	(
 	JUtf8Byte const*	message,
 	JUtf8Byte const*	file,
@@ -144,7 +144,7 @@ JUnitTestManager::ReportFatal
  ******************************************************************************/
 
 JBoolean
-JUnitTestManager::IsNull
+JTestManager::IsNull
 	(
 	const void*			ptr,
 	JUtf8Byte const*	file,
@@ -177,7 +177,7 @@ JUnitTestManager::IsNull
  ******************************************************************************/
 
 JBoolean
-JUnitTestManager::IsNotNull
+JTestManager::IsNotNull
 	(
 	const void*			ptr,
 	JUtf8Byte const*	file,
@@ -210,7 +210,7 @@ JUnitTestManager::IsNotNull
  ******************************************************************************/
 
 JBoolean
-JUnitTestManager::IsTrue
+JTestManager::IsTrue
 	(
 	const JBoolean		value,
 	JUtf8Byte const*	file,
@@ -243,7 +243,7 @@ JUnitTestManager::IsTrue
  ******************************************************************************/
 
 JBoolean
-JUnitTestManager::IsFalse
+JTestManager::IsFalse
 	(
 	const JBoolean		value,
 	JUtf8Byte const*	file,
@@ -276,7 +276,7 @@ JUnitTestManager::IsFalse
  ******************************************************************************/
 
 JBoolean
-JUnitTestManager::IsOK
+JTestManager::IsOK
 	(
 	const JError&		err,
 	JUtf8Byte const*	file,
@@ -306,7 +306,7 @@ JUnitTestManager::IsOK
  ******************************************************************************/
 
 JBoolean
-JUnitTestManager::StringsAreEqual
+JTestManager::StringsAreEqual
 	(
 	const JUtf8Byte*	expectedValue,
 	const JUtf8Byte*	actualValue,

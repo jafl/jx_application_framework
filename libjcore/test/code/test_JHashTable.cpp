@@ -7,7 +7,7 @@
 
  *****************************************************************************/
 
-#include <JUnitTestManager.h>
+#include <JTestManager.h>
 #include <JHashTable.h>
 #include <JKLRand.h>
 #include <JStrValue.h>
@@ -32,7 +32,7 @@
 
 int main()
 {
-	return JUnitTestManager::Execute();
+	return JTestManager::Execute();
 }
 
 /******************************************************************************

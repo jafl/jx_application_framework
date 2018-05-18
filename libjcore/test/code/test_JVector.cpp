@@ -7,14 +7,14 @@
 
  ******************************************************************************/
 
-#include <JUnitTestManager.h>
+#include <JTestManager.h>
 #include <JVector.h>
 #include <JMatrix.h>
 #include <jAssert.h>
 
 int main()
 {
-	return JUnitTestManager::Execute();
+	return JTestManager::Execute();
 }
 
 JTEST(Exercise)

@@ -7,13 +7,13 @@
 
  ******************************************************************************/
 
-#include <JUnitTestManager.h>
+#include <JTestManager.h>
 #include <JColorManager.h>
 #include <jAssert.h>
 
 int main()
 {
-	return JUnitTestManager::Execute();
+	return JTestManager::Execute();
 }
 
 JTEST(ColorID)

@@ -7,7 +7,7 @@
 
  ******************************************************************************/
 
-#include <JUnitTestManager.h>
+#include <JTestManager.h>
 #include <jProcessUtil.h>
 #include <JMinMax.h>
 #include <stdarg.h>
@@ -17,7 +17,7 @@ extern void JCleanArg(JString* arg);
 
 int main()
 {
-	return JUnitTestManager::Execute();
+	return JTestManager::Execute();
 }
 
 void

@@ -8,7 +8,7 @@
 
  *****************************************************************************/
 
-#include <JUnitTestManager.h>
+#include <JTestManager.h>
 #include <JRegex.h>
 #include <locale.h>
 #include <jAssert.h>
@@ -16,7 +16,7 @@
 int main()
 {
 	std::cout << "Current locale: " << setlocale(LC_ALL, "") << std::endl;
-	return JUnitTestManager::Execute();
+	return JTestManager::Execute();
 }
 
 class JTestRegex : public JRegex

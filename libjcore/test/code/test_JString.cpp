@@ -7,7 +7,7 @@
 
  ******************************************************************************/
 
-#include <JUnitTestManager.h>
+#include <JTestManager.h>
 #include <JString.h>
 #include <JMinMax.h>
 #include <fstream>
@@ -20,7 +20,7 @@ int main()
 	JString::SetDefaultBlockSize(1); // Ridiculous block size to really exercise resizer
 
 	std::cout << "Current locale: " << setlocale(LC_ALL, "") << std::endl;
-	return JUnitTestManager::Execute();
+	return JTestManager::Execute();
 }
 
 JTEST(Counting)
@@ -479,6 +479,8 @@ JTEST(Get)
 	JAssertStringsEqual(s, s1);
 	delete [] s1;
 	s1 = NULL;
+
+	std::cout << "expect invalid:  f8 9c 94" << std::endl;
 
 	s = "\xC3\xA6" "34567\xCE\xA6" "90\xCE\xA6\xF8\x9C\x94";
 	JAssertEqual(JUtf8Character("\xC3\xA6"), s.GetFirstCharacter());

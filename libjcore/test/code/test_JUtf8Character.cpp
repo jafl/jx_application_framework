@@ -7,13 +7,13 @@
 
  ******************************************************************************/
 
-#include <JUnitTestManager.h>
+#include <JTestManager.h>
 #include <JUtf8Character.h>
 #include <jAssert.h>
 
 int main()
 {
-	return JUnitTestManager::Execute();
+	return JTestManager::Execute();
 }
 
 JTEST(Construction)
@@ -54,6 +54,8 @@ JTEST(Set)
 	c.Set("\xE2\x9C\x94");
 	JAssertEqual(3, c.GetByteCount());
 
+	std::cout << "expect invalid: f4" << std::endl;
+
 	c.Set("\xF4\x30");
 	JAssertEqual(JUtf8Character::kUtf32SubstitutionCharacter, c.GetUtf32());
 
@@ -81,7 +83,12 @@ JTEST(IsValid)
 	JAssertTrue(JUtf8Character::IsValid("\xC2\xA9"));
 	JAssertTrue(JUtf8Character::IsValid("\xE2\x9C\x94"));
 
+	std::cout << "expect invalid: c2" << std::endl;
+
 	JAssertFalse(JUtf8Character::IsValid("\xC2\x0A"));
+
+	std::cout << "expect invalid: f6" << std::endl;
+
 	JAssertFalse(JUtf8Character::IsValid("\xF6\x9C\x94"));
 }
 
@@ -128,7 +135,12 @@ JTEST(CharacterByteCount)
 	JAssertTrue(JUtf8Character::GetCharacterByteCount("\xE2\x9C\x94", &byteCount));
 	JAssertEqual(3, byteCount);
 
+	std::cout << "expect invalid: f5" << std::endl;
+
 	JAssertFalse(JUtf8Character::GetCharacterByteCount("\xF5\x9C\x94", &byteCount));
+
+	std::cout << "expect invalid: f4" << std::endl;
+
 	JAssertFalse(JUtf8Character::GetCharacterByteCount("\xF4\x30\x94", &byteCount));
 }
 
@@ -146,6 +158,8 @@ JTEST(PrevCharacter)
 	s = "AB\xF0\xAF\xA7\x97" "c";
 	JAssertTrue(JUtf8Character::GetPrevCharacterByteCount(s + strlen(s) - 1, &byteCount));
 	JAssertEqual(1, byteCount);
+
+	std::cout << "expect invalid: f8" << std::endl;
 
 	s = "ABC\xF8\xAF\xA7\x97";
 	JAssertFalse(JUtf8Character::GetPrevCharacterByteCount(s + strlen(s) - 1, &byteCount));

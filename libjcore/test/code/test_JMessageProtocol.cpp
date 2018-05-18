@@ -7,7 +7,7 @@
 
  ******************************************************************************/
 
-#include <JUnitTestManager.h>
+#include <JTestManager.h>
 #include <ace/reactor.h>
 #include <ace/Acceptor.h>
 #include <ace/LSOCK_Acceptor.h>
@@ -22,7 +22,7 @@
 
 int main()
 {
-	return JUnitTestManager::Execute();
+	return JTestManager::Execute();
 }
 
 static int server = 0;

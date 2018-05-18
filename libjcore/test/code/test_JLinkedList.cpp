@@ -7,14 +7,14 @@
 
  ******************************************************************************/
 
-#include <JUnitTestManager.h>
+#include <JTestManager.h>
 #include <JLinkedList.h>
 #include <JBroadcastTester.h>
 #include <jAssert.h>
 
 int main()
 {
-	return JUnitTestManager::Execute();
+	return JTestManager::Execute();
 }
 
 JListT::CompareResult

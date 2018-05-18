@@ -7,7 +7,7 @@
 
  ******************************************************************************/
 
-#include <JUnitTestManager.h>
+#include <JTestManager.h>
 #include <jFileUtil.h>
 #include <jDirUtil.h>
 #include <jFStreamUtil.h>
@@ -16,7 +16,7 @@
 
 int main()
 {
-	return JUnitTestManager::Execute();
+	return JTestManager::Execute();
 }
 
 JTEST(File)

@@ -7,7 +7,7 @@
 
  ******************************************************************************/
 
-#include <JUnitTestManager.h>
+#include <JTestManager.h>
 #include <StyledTextBuffer.h>
 #include <JRegex.h>
 #include <jFStreamUtil.h>
@@ -17,7 +17,7 @@
 
 int main()
 {
-	return JUnitTestManager::Execute();
+	return JTestManager::Execute();
 }
 
 JTEST(SearchTextForward)

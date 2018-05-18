@@ -7,7 +7,7 @@
 
  *****************************************************************************/
 
-#include <JUnitTestManager.h>
+#include <JTestManager.h>
 #include <JSubstitute.h>
 #include <JString.h>
 #include <jAssert.h>
@@ -15,7 +15,7 @@
 int main()
 {
 	std::cout << "Current locale: " << setlocale(LC_ALL, "") << std::endl;
-	return JUnitTestManager::Execute();
+	return JTestManager::Execute();
 }
 
 JTEST(Escape1)

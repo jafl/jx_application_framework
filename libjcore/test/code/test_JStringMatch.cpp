@@ -7,7 +7,7 @@
 
  ******************************************************************************/
 
-#include <JUnitTestManager.h>
+#include <JTestManager.h>
 #include <JStringMatch.h>
 #include <locale.h>
 #include <jAssert.h>
@@ -48,7 +48,7 @@ public:
 int main()
 {
 	std::cout << "Current locale: " << setlocale(LC_ALL, "") << std::endl;
-	return JUnitTestManager::Execute();
+	return JTestManager::Execute();
 }
 
 JTEST(Construction)

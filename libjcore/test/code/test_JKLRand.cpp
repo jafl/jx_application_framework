@@ -7,7 +7,7 @@
 
  *****************************************************************************/
 
-#include <JUnitTestManager.h>
+#include <JTestManager.h>
 #include <JKLRand.h>
 #include <jAssert.h>
 
@@ -46,7 +46,7 @@
 
 int main()
 {
-	return JUnitTestManager::Execute();
+	return JTestManager::Execute();
 }
 
 JTEST(UniformInt32)

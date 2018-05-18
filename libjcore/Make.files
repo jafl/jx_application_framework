@@ -126,7 +126,7 @@
 .cpp ./code/JMMMonitor
 .cpp ./code/JMMRecord
 .cpp ./code/JMMTable
-.cpp ./code/JUnitTestManager
+.cpp ./code/JTestManager
 .cpp ./code/JBroadcastTester
 .cpp ./code/JMDIServer
 .cpp ./code/jMouseUtil

@@ -1,5 +1,5 @@
 /******************************************************************************
- JUnitTestManager.h
+ JTestManager.h
 
 	Copyright (C) 2016 by John Lindal.
 
@@ -12,7 +12,7 @@
 #include <sstream>
 #include <math.h>
 
-class JUnitTestManager;
+class JTestManager;
 class JError;
 
 typedef void	(*JUnitTest)();
@@ -20,17 +20,17 @@ typedef void	(*JUnitTest)();
 #define MAX_TEST_COUNT 1000
 
 // must assign to unused int in order to call at load time
-#define JTEST(f)	void f(); static int unused_##f = JUnitTestManager::Instance()->RegisterTest(f, #f); void f()
+#define JTEST(f)	void f(); static int unused_##f = JTestManager::Instance()->RegisterTest(f, #f); void f()
 
-#define JAssertNull(ptr)	JUnitTestManager::Instance()->IsNull(ptr, __FILE__, __LINE__)
-#define JAssertNotNull(ptr)	JUnitTestManager::Instance()->IsNotNull(ptr, __FILE__, __LINE__)
-#define JAssertTrue(value)	JUnitTestManager::Instance()->IsTrue(value, __FILE__, __LINE__)
-#define JAssertFalse(value)	JUnitTestManager::Instance()->IsFalse(value, __FILE__, __LINE__)
+#define JAssertNull(ptr)	JTestManager::Instance()->IsNull(ptr, __FILE__, __LINE__)
+#define JAssertNotNull(ptr)	JTestManager::Instance()->IsNotNull(ptr, __FILE__, __LINE__)
+#define JAssertTrue(value)	JTestManager::Instance()->IsTrue(value, __FILE__, __LINE__)
+#define JAssertFalse(value)	JTestManager::Instance()->IsFalse(value, __FILE__, __LINE__)
 
-#define JAssertNullWithMessage(ptr, msg)	JUnitTestManager::Instance()->IsNull(ptr, __FILE__, __LINE__, msg)
-#define JAssertNotNullWithMessage(ptr, msg)	JUnitTestManager::Instance()->IsNotNull(ptr, __FILE__, __LINE__, msg)
-#define JAssertTrueWithMessage(value, msg)	JUnitTestManager::Instance()->IsTrue(value, __FILE__, __LINE__, msg)
-#define JAssertFalseWithMessage(value, msg)	JUnitTestManager::Instance()->IsFalse(value, __FILE__, __LINE__, msg)
+#define JAssertNullWithMessage(ptr, msg)	JTestManager::Instance()->IsNull(ptr, __FILE__, __LINE__, msg)
+#define JAssertNotNullWithMessage(ptr, msg)	JTestManager::Instance()->IsNotNull(ptr, __FILE__, __LINE__, msg)
+#define JAssertTrueWithMessage(value, msg)	JTestManager::Instance()->IsTrue(value, __FILE__, __LINE__, msg)
+#define JAssertFalseWithMessage(value, msg)	JTestManager::Instance()->IsFalse(value, __FILE__, __LINE__, msg)
 
 #define JAssertEqual(expected, actual) \
 	JAreEqual(expected, actual, __FILE__, __LINE__)
@@ -39,10 +39,10 @@ typedef void	(*JUnitTest)();
 	JAreEqual(expected, actual, __FILE__, __LINE__, msg)
 
 #define JAssertStringsEqual(expected, actual) \
-	JUnitTestManager::Instance()->StringsAreEqual(expected, actual, __FILE__, __LINE__)
+	JTestManager::Instance()->StringsAreEqual(expected, actual, __FILE__, __LINE__)
 
 #define JAssertStringsEqualWithMessage(expected, actual, msg) \
-	JUnitTestManager::Instance()->StringsAreEqual(expected, actual, __FILE__, __LINE__, msg)
+	JTestManager::Instance()->StringsAreEqual(expected, actual, __FILE__, __LINE__, msg)
 
 #define JAssertWithin(epsilon, expected, actual) \
 	JAreWithin(epsilon, expected, actual, __FILE__, __LINE__)
@@ -51,13 +51,13 @@ typedef void	(*JUnitTest)();
 	JAreWithin(epsilon, expected, actual, __FILE__, __LINE__, msg)
 
 #define JAssertOK(err) \
-	JUnitTestManager::Instance()->IsOK(err, __FILE__, __LINE__)
+	JTestManager::Instance()->IsOK(err, __FILE__, __LINE__)
 
-class JUnitTestManager
+class JTestManager
 {
 public:
 
-	static JUnitTestManager* Instance();
+	static JTestManager* Instance();
 
 	static int	Execute();
 	static void	ReportFailure(JUtf8Byte const* message, JUtf8Byte const* file, const JIndex line);
@@ -92,16 +92,16 @@ private:
 
 private:
 
-	JUnitTestManager();
+	JTestManager();
 
-	~JUnitTestManager();
+	~JTestManager();
 
 	void	ExecuteTests();
 
 	// not allowed
 
-	JUnitTestManager(const JUnitTestManager& source);
-	const JUnitTestManager& operator=(const JUnitTestManager& source);
+	JTestManager(const JTestManager& source);
+	const JTestManager& operator=(const JTestManager& source);
 };
 
 template <class A, class B>
@@ -131,7 +131,7 @@ JAreEqual
 		  << " but got " << actualValue;
 
 		const std::string msg = s.str();
-		JUnitTestManager::Instance()->ReportFailure(s.str().c_str(), file, line);
+		JTestManager::Instance()->ReportFailure(s.str().c_str(), file, line);
 		return kJFalse;
 		}
 }
@@ -164,13 +164,13 @@ JAreWithin
 		  << " but got " << actualValue;
 
 		const std::string msg = s.str();
-		JUnitTestManager::Instance()->ReportFailure(s.str().c_str(), file, line);
+		JTestManager::Instance()->ReportFailure(s.str().c_str(), file, line);
 		return kJFalse;
 		}
 }
 
 inline JBoolean
-JUnitTestManager::IsTrue
+JTestManager::IsTrue
 	(
 	const int			value,
 	JUtf8Byte const*	file,
@@ -182,7 +182,7 @@ JUnitTestManager::IsTrue
 }
 
 inline JBoolean
-JUnitTestManager::IsFalse
+JTestManager::IsFalse
 	(
 	const int			value,
 	JUtf8Byte const*	file,
@@ -194,7 +194,7 @@ JUnitTestManager::IsFalse
 }
 
 inline JBoolean
-JUnitTestManager::StringsAreEqual
+JTestManager::StringsAreEqual
 	(
 	const JString&		expectedValue,
 	const JString&		actualValue,
@@ -207,7 +207,7 @@ JUnitTestManager::StringsAreEqual
 }
 
 inline JBoolean
-JUnitTestManager::StringsAreEqual
+JTestManager::StringsAreEqual
 	(
 	const JString&		expectedValue,
 	const JUtf8Byte*	actualValue,
@@ -220,7 +220,7 @@ JUnitTestManager::StringsAreEqual
 }
 
 inline JBoolean
-JUnitTestManager::StringsAreEqual
+JTestManager::StringsAreEqual
 	(
 	const JUtf8Byte*	expectedValue,
 	const JString&		actualValue,

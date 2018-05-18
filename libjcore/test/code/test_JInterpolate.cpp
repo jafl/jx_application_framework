@@ -8,7 +8,7 @@
 
  *****************************************************************************/
 
-#include <JUnitTestManager.h>
+#include <JTestManager.h>
 #include <JInterpolate.h>
 #include <JRegex.h>
 #include <JStringIterator.h>
@@ -19,7 +19,7 @@
 int main()
 {
 	std::cout << "Current locale: " << setlocale(LC_ALL, "") << std::endl;
-	return JUnitTestManager::Execute();
+	return JTestManager::Execute();
 }
 
 JTEST(Basic)

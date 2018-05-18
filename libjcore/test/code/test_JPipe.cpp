@@ -7,7 +7,7 @@
 
  ******************************************************************************/
 
-#include <JUnitTestManager.h>
+#include <JTestManager.h>
 #include <JOutPipeStream.h>
 #include <JThisProcess.h>
 #include <JStringIterator.h>
@@ -33,7 +33,7 @@ int main()
 		std::cout << "Your home directory is: " << dir << std::endl;
 		}
 
-	return JUnitTestManager::Execute();
+	return JTestManager::Execute();
 }
 
 JTEST(Input)

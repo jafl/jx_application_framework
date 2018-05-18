@@ -7,7 +7,7 @@
 
  ******************************************************************************/
 
-#include <JUnitTestManager.h>
+#include <JTestManager.h>
 #include <JBroadcastTester.h>
 #include <StyledText.h>
 #include <JStringIterator.h>
@@ -25,7 +25,7 @@ typedef JStyledText::TextRange TextRange;
 
 int main()
 {
-	return JUnitTestManager::Execute();
+	return JTestManager::Execute();
 }
 
 JTEST(SetText)

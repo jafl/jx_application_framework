@@ -7,7 +7,7 @@
 
  *****************************************************************************/
 
-#include <JUnitTestManager.h>
+#include <JTestManager.h>
 #include <jHashFunctions.h>
 #include <jAssert.h>
 
@@ -221,7 +221,7 @@
 
 int main()
 {
-	return JUnitTestManager::Execute();
+	return JTestManager::Execute();
 }
 
 JTEST(DualHash)
