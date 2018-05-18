@@ -5,7 +5,7 @@ JStyledTextBuffer
 
 JTextEditor
 	set selection/caret after performing undo operations
-	some calls to SetCaretLocation/SetSelection should not deactivate undo
++	keep undo active while typing
 
 put back
 	JVIKeyHandler

@@ -2137,9 +2137,15 @@ JStyledText::BackwardDelete
 	const TextIndex&	caretIndex,
 	const JBoolean		deleteToTabStop,
 	JString*			returnText,
-	JRunArray<JFont>*	returnStyle
+	JRunArray<JFont>*	returnStyle,
+	JUndo**				undo
 	)
 {
+	if (undo != NULL)
+		{
+		*undo = NULL;
+		}
+
 	if (caretIndex.charIndex <= 1)
 		{
 		return TextIndex(1,1);
@@ -2221,13 +2227,17 @@ JStyledText::BackwardDelete
 	itsStyles->RemoveElements(match.GetCharacterRange());
 	iter.RemoveLastMatch();		// invalidates match
 
-	typingUndo->Activate();
 	NewUndo(typingUndo, isNew);
 
 	BroadcastTextChanged(TextRange(
 		JCharacterRange(iter.GetNextCharacterIndex(), 0),
 		JUtf8ByteRange(iter.GetNextByteIndex(), 0)),
 		kJTrue);
+
+	if (undo != NULL)
+		{
+		*undo = typingUndo;
+		}
 
 	return TextIndex(iter.GetNextCharacterIndex(), iter.GetNextByteIndex());
 }
@@ -2246,9 +2256,15 @@ JStyledText::ForwardDelete
 	const TextIndex&	caretIndex,
 	const JBoolean		deleteToTabStop,
 	JString*			returnText,
-	JRunArray<JFont>*	returnStyle
+	JRunArray<JFont>*	returnStyle,
+	JUndo**				undo
 	)
 {
+	if (undo != NULL)
+		{
+		*undo = NULL;
+		}
+
 	if (caretIndex.charIndex > itsText.GetCharacterCount())
 		{
 		return;
@@ -2311,13 +2327,17 @@ JStyledText::ForwardDelete
 
 	iter.RemoveLastMatch();		// invalidates match
 
-	typingUndo->Activate();
 	NewUndo(typingUndo, isNew);
 
 	BroadcastTextChanged(TextRange(
 		JCharacterRange(caretIndex.charIndex, 0),
 		JUtf8ByteRange(caretIndex.byteIndex, 0)),
 		kJTrue);
+
+	if (undo != NULL)
+		{
+		*undo = typingUndo;
+		}
 }
 
 /******************************************************************************

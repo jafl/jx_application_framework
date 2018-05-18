@@ -431,7 +431,8 @@ private:
 
 	// information for Recalc
 
-	JSize	itsPrevTextLength;	// text length after last Recalc
+	JBoolean				itsNeedCaretBcastFlag;
+	JStyledText::TextIndex	itsPrevTextEnd;	// text length after last Recalc
 
 	// used while active
 
@@ -464,8 +465,8 @@ private:
 	void		Recalc(const JStyledText::TextRange& recalcRange,
 					   const JStyledText::TextRange& redrawRange,
 					   const JBoolean deletion);
-	void		Recalc1(const JSize bufLength, const CaretLocation& caretLoc,
-						const JSize minCharCount, JCoordinate* maxLineWidth,
+	void		Recalc1(JStringIterator* iter, const JStyledText::TextIndex& after,
+						JCoordinate* maxLineWidth,
 						JIndex* firstLineIndex, JIndex* lastLineIndex);
 	JSize		RecalcLine(const JSize bufLength,
 						   const JStyledText::TextIndex& firstIndex,
@@ -525,7 +526,7 @@ private:
 						  JString* returnText = NULL, JRunArray<JFont>* returnStyle = NULL);
 
 	JBoolean	LocateTab(const JStyledText::TextIndex& startIndex,
-						  const JStyledText::TextIndex& endIndex,
+						  const JSize count,
 						  JStyledText::TextIndex* tabIndex) const;
 
 	void		ReplaceRange(JStringIterator* iter, JRunArray<JFont>* styles,
@@ -538,6 +539,9 @@ private:
 									   const JBoolean lineChanged);
 
 	static JInteger	GetLineHeight(const LineGeometry& data);
+
+	JBoolean		IsTrailingNewline(const JStyledText::TextIndex& index) const;
+	JUtf8Character	GetCharacter(const JStyledText::TextIndex& index) const;
 
 	// not allowed
 
@@ -813,6 +817,27 @@ JTextEditor::GetSelection
 {
 	*range = itsSelection.charRange;
 	return !itsSelection.IsEmpty();
+}
+
+inline JBoolean
+JTextEditor::GetSelection
+	(
+	JString* text
+	)
+	const
+{
+	return itsText->Copy(itsSelection, text);
+}
+
+inline JBoolean
+JTextEditor::GetSelection
+	(
+	JString*			text,
+	JRunArray<JFont>*	style
+	)
+	const
+{
+	return itsText->Copy(itsSelection, text, style);
 }
 /*
 inline void
@@ -1182,6 +1207,40 @@ JTextEditor::GetLineBottom
 	const
 {
 	return (GetLineTop(lineIndex) + GetLineHeight(lineIndex) - 1);
+}
+
+/******************************************************************************
+ GetColumnForChar
+
+	Returns the column that the specified character is in.  If the caret is
+	at the far left, it is column 1.
+
+	Given that this is only useful with monospace fonts, the CRM tab width
+	is used to calculate the column when tabs are encountered, by calling
+	CRMGetTabWidth().
+
+ ******************************************************************************/
+
+inline JIndex
+JTextEditor::GetColumnForChar
+	(
+	const JIndex charIndex
+	)
+	const
+{
+	return GetColumnForChar(CalcCaretLocation(JStyledText::TextIndex(charIndex, 0)));
+}
+
+// protected
+
+inline JIndex
+JTextEditor::GetColumnForChar
+	(
+	const CaretLocation& loc
+	)
+	const
+{
+	return itsText->GetColumnForChar(GetLineStart(loc.lineIndex), loc.location);
 }
 
 /******************************************************************************

@@ -218,6 +218,7 @@ public:
 	JBoolean		SetText(const JString& text, const JRunArray<JFont>* style = NULL);
 
 	const JRunArray<JFont>&	GetStyles() const;
+	JBoolean				WillPasteStyledText() const;
 
 	JBoolean	IsCharacterInWord(const JUtf8Character& c) const;
 
@@ -341,10 +342,12 @@ public:
 
 	TextIndex	BackwardDelete(const TextIndex&	lineStart, const TextIndex&	caretIndex,
 							   const JBoolean deleteToTabStop,
-							   JString* returnText = NULL, JRunArray<JFont>* returnStyle = NULL);
+							   JString* returnText = NULL, JRunArray<JFont>* returnStyle = NULL,
+							   JUndo** undo = NULL);
 	void		ForwardDelete(const TextIndex& lineStart, const TextIndex& caretIndex,
 							  const JBoolean deleteToTabStop,
-							  JString* returnText = NULL, JRunArray<JFont>* returnStyle = NULL);
+							  JString* returnText = NULL, JRunArray<JFont>* returnStyle = NULL,
+							  JUndo** undo = NULL);
 	void		DeleteText(const TextRange& range);
 
 	JUndo*	InsertCharacter(const TextRange& replaceRange,
@@ -680,6 +683,18 @@ inline void
 JStyledText::ClearLastSaveLocation()
 {
 	itsLastSaveRedoIndex = 0;
+}
+
+/******************************************************************************
+ WillPasteStyledText
+
+ ******************************************************************************/
+
+inline JBoolean
+JStyledText::WillPasteStyledText()
+	const
+{
+	return itsPasteStyledTextFlag;
 }
 
 /******************************************************************************
