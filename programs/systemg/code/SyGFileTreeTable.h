@@ -160,7 +160,7 @@ private:
 
 	JBoolean			itsVisibleCols[5];
 	GFMColType			itsCurrentColType;
-	JColorIndex			itsAltRowColor;
+	JColorID			itsAltRowColor;
 	JCoordinate			itsPermCharWidth;
 	JBoolean			itsIgnoreExecPermFlag;
 

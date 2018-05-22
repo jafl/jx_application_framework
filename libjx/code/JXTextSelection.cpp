@@ -12,7 +12,6 @@
 
 #include <JXTextSelection.h>
 #include <JXDisplay.h>
-#include <JXColormap.h>
 #include <sstream>
 #include <jAssert.h>
 
@@ -33,7 +32,7 @@ JXTextSelection::JXTextSelection
 	JXSelectionData(display)
 {
 	JXTextSelectionX();
-	SetData(text, display->GetColormap(), style);
+	SetData(text, style);
 }
 
 JXTextSelection::JXTextSelection
@@ -46,7 +45,7 @@ JXTextSelection::JXTextSelection
 	JXSelectionData(display)
 {
 	JXTextSelectionX();
-	SetData(text, display->GetColormap(), style);
+	SetData(text, style);
 }
 
 JXTextSelection::JXTextSelection
@@ -77,10 +76,9 @@ JXTextSelection::JXTextSelection
 void
 JXTextSelection::JXTextSelectionX()
 {
-	itsText     = NULL;
-	itsStyle    = NULL;
-	itsColormap = NULL;
-	itsTE       = NULL;
+	itsText  = NULL;
+	itsStyle = NULL;
+	itsTE    = NULL;
 
 	itsStyledText0XAtom = None;
 }
@@ -136,12 +134,9 @@ void
 JXTextSelection::SetData
 	(
 	const JString&			text,
-	const JXColormap*		colormap,
 	const JRunArray<JFont>*	style
 	)
 {
-	assert( style == NULL || colormap != NULL );
-
 	if (itsText != NULL)
 		{
 		*itsText = text;
@@ -151,8 +146,6 @@ JXTextSelection::SetData
 		itsText = jnew JString(text);
 		assert( itsText != NULL );
 		}
-
-	SetColormap(colormap);
 
 	if (style != NULL && itsStyle != NULL)
 		{
@@ -169,7 +162,7 @@ JXTextSelection::SetData
 		itsStyle = NULL;
 		}
 
-	SetTextEditor(NULL, JIndexRange());
+	SetTextEditor(NULL, JCharacterRange());
 }
 
 /******************************************************************************
@@ -186,21 +179,16 @@ void
 JXTextSelection::SetData
 	(
 	JString*			text,
-	const JXColormap*	colormap,
 	JRunArray<JFont>*	style
 	)
 {
-	assert( style == NULL || colormap != NULL );
-
 	jdelete itsText;
 	itsText = text;
-
-	SetColormap(colormap);
 
 	jdelete itsStyle;
 	itsStyle = style;
 
-	SetTextEditor(NULL, JIndexRange());
+	SetTextEditor(NULL, JCharacterRange());
 }
 
 /******************************************************************************
@@ -227,39 +215,15 @@ JXTextSelection::SetData
 		itsText->Clear();
 		}
 
-	SetColormap(NULL);
-
 	jdelete itsStyle;
 	itsStyle = NULL;
 
-	SetTextEditor(NULL, JIndexRange());
+	SetTextEditor(NULL, JCharacterRange());
 
 	*itsText = list.Join("\n");
 	if (list.GetElementCount() > 1)
 		{
 		itsText->Append("\n");
-		}
-}
-
-/******************************************************************************
- SetColormap (private)
-
- ******************************************************************************/
-
-void
-JXTextSelection::SetColormap
-	(
-	const JXColormap* colormap
-	)
-{
-	if (itsColormap != NULL)
-		{
-		StopListening(itsColormap);
-		}
-	itsColormap = colormap;
-	if (itsColormap != NULL)
-		{
-		ClearWhenGoingAway(itsColormap, &itsColormap);
 		}
 }
 
@@ -273,8 +237,8 @@ JXTextSelection::SetColormap
 void
 JXTextSelection::SetTextEditor
 	(
-	JTextEditor*		te,
-	const JIndexRange&	selection
+	JTextEditor*			te,
+	const JCharacterRange&	selection
 	)
 {
 	if (itsTE != NULL)
@@ -310,7 +274,7 @@ JXTextSelection::ConvertData
 	*bitsPerBlock = 8;
 
 	JXSelectionManager* selMgr = GetSelectionManager();
-	JIndexRange selection;
+	JCharacterRange selection;
 
 	if ((requestType == XA_STRING ||
 		 requestType == selMgr->GetUtf8StringXAtom() ||
@@ -328,13 +292,12 @@ JXTextSelection::ConvertData
 		}
 
 	else if (requestType == itsStyledText0XAtom &&
-			 itsText != NULL && itsColormap != NULL && itsStyle != NULL)
+			 itsText != NULL && itsStyle != NULL)
 		{
 		const JFileVersion vers = 1;
 		std::ostringstream dataStream;
-		JTextEditor::WritePrivateFormat(dataStream,
-										itsColormap, vers, *itsText, *itsStyle,
-										1, itsText->GetByteCount());
+		JStyledText::WritePrivateFormat(dataStream, vers, *itsText, *itsStyle,
+										JCharacterRange(1, itsText->GetCharacterCount()));
 
 		const std::string s = dataStream.str();
 		*returnType         = itsStyledText0XAtom;

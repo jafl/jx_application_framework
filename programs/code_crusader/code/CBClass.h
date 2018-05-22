@@ -19,7 +19,7 @@
 
 class JPainter;
 class JFontManager;
-class JColormap;
+class JXColorManager;
 class CBTree;
 
 typedef JString (CBClassRemoveNamespace)(const JCharacter* name);
@@ -145,8 +145,8 @@ public:
 
 	virtual void	StreamOut(std::ostream& output) const;
 
-	static JColorIndex	GetGhostNameColor();
-	static void			SetGhostNameColor(const JColorIndex color);
+	static JColorID	GetGhostNameColor();
+	static void			SetGhostNameColor(const JColorID color);
 
 	// called by CBTree::ReloadSetup
 
@@ -171,7 +171,7 @@ protected:
 										 const JBoolean caseSensitive,
 										 const JBoolean reportNotFound) const;
 
-	virtual void	AdjustNameStyle(const JColormap* colormap, JFontStyle* style) const;
+	virtual void	AdjustNameStyle(const JXColorManager* colormap, JFontStyle* style) const;
 
 private:
 
@@ -245,7 +245,7 @@ private:
 
 	JArray<FunctionInfo>*	itsFunctionInfo;
 
-	static JColorIndex	itsGhostNameColor;
+	static JColorID	itsGhostNameColor;
 
 private:
 
@@ -736,7 +736,7 @@ CBClass::GetTree()
 
  ******************************************************************************/
 
-inline JColorIndex
+inline JColorID
 CBClass::GetGhostNameColor()
 {
 	return itsGhostNameColor;
@@ -745,7 +745,7 @@ CBClass::GetGhostNameColor()
 inline void
 CBClass::SetGhostNameColor
 	(
-	const JColorIndex color
+	const JColorID color
 	)
 {
 	itsGhostNameColor = color;

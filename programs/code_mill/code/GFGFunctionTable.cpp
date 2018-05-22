@@ -16,7 +16,7 @@
 #include <gfgGlobals.h>
 
 #include <JXColHeaderWidget.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 
 #include <JFontManager.h>
 #include <JPainter.h>
@@ -214,7 +214,7 @@ GFGFunctionTable::TableDrawCell
 
 	if (fn->IsProtected())
 		{
-		JColorIndex color	= GetColormap()->GetBrownColor();
+		JColorID color	= GetColormap()->GetBrownColor();
 		style.color			= color;
 		}
 

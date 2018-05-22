@@ -11,7 +11,7 @@
 
 #include <JXStyleTable.h>
 #include <JXInputField.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <JStyleTableData.h>
 #include <JFontManager.h>
 #include <jAssert.h>
@@ -39,7 +39,7 @@ JXStyleTable::JXStyleTable
 	JXEditTable(1,kDefColWidth, scrollbarSet, enclosure,
 				hSizing,vSizing, x,y, w,h)
 {
-	itsStyleData = jnew JStyleTableData(this, GetFontManager(), GetColormap());
+	itsStyleData = jnew JStyleTableData(this, GetFontManager());
 	assert( itsStyleData != NULL );
 }
 
@@ -165,6 +165,6 @@ JXStyleTable::GetMin1DVisibleWidth
 		}
 	else
 		{
-		return kMin1DVisCharCount *	(GetFont()).GetCharWidth('W');
+		return kMin1DVisCharCount *	(GetFont()).GetCharWidth(GetFontManager(), 'W');
 		}
 }

@@ -9,7 +9,7 @@
 
 #include "CBSymbolTypeList.h"
 #include "cbGlobals.h"
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <JXImage.h>
 #include <JXImageCache.h>
 #include <jStreamUtil.h>
@@ -31,7 +31,7 @@ const JCharacter* CBSymbolTypeList::kStyleChanged      = "StyleChanged::CBSymbol
 
 CBSymbolTypeList::CBSymbolTypeList
 	(
-	JXColormap* colormap
+	JXColorManager* colormap
 	)
 	:
 	JContainer(),
@@ -160,7 +160,7 @@ CBSymbolTypeList::ReadPrefs
 
 		JRGB color;
 		input >> color;
-		info.style.color = itsColormap->JColormap::GetColor(color);
+		info.style.color = itsColormap->JXColorManager::GetColor(color);
 
 		itsSymbolTypeList->SetElement(j, info);
 		}
@@ -193,7 +193,7 @@ CBSymbolTypeList::WritePrefs
 		output << ' ' << info.style.italic;
 		output << ' ' << info.style.underlineCount;
 		output << ' ' << info.style.strike;
-		output << ' ' << itsColormap->JColormap::GetRGB(info.style.color);
+		output << ' ' << itsColormap->JXColorManager::GetRGB(info.style.color);
 		}
 }
 

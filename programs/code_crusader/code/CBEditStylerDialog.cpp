@@ -149,7 +149,7 @@ CBEditStylerDialog::BuildWindow
 	// adjust window size
 
 	JCoordinate rowBorderWidth;
-	JColorIndex rowBorderColor;
+	JColorID rowBorderColor;
 	itsTypeTable->GetRowBorderInfo(&rowBorderWidth, &rowBorderColor);
 
 	const JCoordinate bdh =

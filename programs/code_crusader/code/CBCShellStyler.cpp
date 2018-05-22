@@ -13,7 +13,7 @@
 #include "CBCShellStyler.h"
 #include "cbmUtil.h"
 #include <JRegex.h>
-#include <JColormap.h>
+#include <JXColorManager.h>
 #include <jAssert.h>
 
 CBCShellStyler* CBCShellStyler::itsSelf = NULL;
@@ -96,7 +96,7 @@ CBCShellStyler::CBCShellStyler()
 		SetTypeStyle(i, blankStyle);
 		}
 
-	JColormap* colormap = GetColormap();
+	JXColorManager* colormap = GetColormap();
 
 	SetTypeStyle(kVariable          - kWhitespace, JFontStyle(colormap->GetBlueColor()));
 	SetTypeStyle(kReservedWord      - kWhitespace, JFontStyle(colormap->GetDarkGreenColor()));

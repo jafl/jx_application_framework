@@ -12,7 +12,7 @@
 #include <JXScrolltab.h>
 #include <JXScrollbar.h>
 #include <JXTextMenu.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <jMath.h>
 #include <jAssert.h>
 
@@ -53,7 +53,7 @@ JXScrolltab::JXScrolltab
 	itsValue(value),
 	itsActionMenu(NULL)
 {
-	SetBackColor(GetColormap()->GetBlueColor());
+	SetBackColor(JColorManager::GetBlueColor());
 	itsScrollbar->ScrolltabCreated(this);
 	UpdatePosition();
 }
@@ -300,7 +300,7 @@ JXScrolltab::DrawBorder
 void
 JXScrolltab::HandleMouseEnter()
 {
-	SetBackColor(GetColormap()->GetLightBlueColor());
+	SetBackColor(JColorManager::GetLightBlueColor());
 }
 
 /******************************************************************************
@@ -311,5 +311,5 @@ JXScrolltab::HandleMouseEnter()
 void
 JXScrolltab::HandleMouseLeave()
 {
-	SetBackColor(GetColormap()->GetBlueColor());
+	SetBackColor(JColorManager::GetBlueColor());
 }

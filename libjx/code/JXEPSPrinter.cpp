@@ -13,7 +13,7 @@
 #include <JXEPSPrinter.h>
 #include <JXEPSPrintSetupDialog.h>
 #include <JXDisplay.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <JXImage.h>
 #include <JXImagePainter.h>
 #include <JString.h>
@@ -35,7 +35,7 @@ JXEPSPrinter::JXEPSPrinter
 	JXDisplay* display
 	)
 	:
-	JEPSPrinter(display->GetFontManager(), display->GetColormap())
+	JEPSPrinter(display->GetFontManager(), display->GetColorManager())
 {
 	itsDisplay = display;
 
@@ -112,7 +112,7 @@ JXEPSPrinter::GetPreviewPainter
 {
 	itsPreviewImage =
 		jnew JXImage(itsDisplay, bounds.width(), bounds.height(),
-					(itsDisplay->GetColormap())->GetWhiteColor());
+					 JColorManager::GetWhiteColor());
 	assert( itsPreviewImage != NULL );
 
 	itsPreviewPainter = itsPreviewImage->CreatePainter();

@@ -55,8 +55,8 @@ public:
 
 	virtual void		HandleKeyPress(const int key, const JXKeyModifiers& modifiers) override;
 	virtual JBoolean	IsSelectable(const JPoint& cell,
-									 const JBoolean forExtend) const;
-	virtual JBoolean	IsEditable(const JPoint& cell) const;
+									 const JBoolean forExtend) const override;
+	virtual JBoolean	IsEditable(const JPoint& cell) const override;
 
 	void	ForceAdjustToTree();
 
@@ -73,7 +73,7 @@ protected:
 	virtual JSize	GetMinCellWidth(const JPoint& cell) const = 0;
 
 	JBoolean		WantsToDrawCell(const JPoint& cell) const;
-	virtual void	TableDrawCell(JPainter& p, const JPoint& cell, const JRect& rect);
+	virtual void	TableDrawCell(JPainter& p, const JPoint& cell, const JRect& rect) override;
 	virtual void	TLWDrawNode(JPainter& p, const JPoint& cell, const JRect& rect) = 0;
 
 	JBoolean		IsDraggingToggle() const;

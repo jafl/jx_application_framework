@@ -75,8 +75,8 @@ public:
 
 public:
 
-	J2DPlotWidget(const JColorIndex black, const JColorIndex white,
-				  const JColorIndex gray, const JColorIndex selection);
+	J2DPlotWidget(const JColorID black, const JColorID white,
+				  const JColorID gray, const JColorID selection);
 
 	virtual ~J2DPlotWidget();
 
@@ -143,8 +143,8 @@ public:
 	const JString&	GetCurveName(const JIndex index) const;
 	void			SetCurveName(const JIndex index, const JCharacter* name);
 
-	void			AddColor(const JColorIndex color);
-	JColorIndex		GetCurveColor(const JIndex index) const;
+	void			AddColor(const JColorID color);
+	JColorID		GetCurveColor(const JIndex index) const;
 	J2DSymbolType	GetSymbolType(const JIndex index) const;
 
 	JPlotDataBase&			GetCurve(const JIndex index);
@@ -315,7 +315,7 @@ private:
 
 	JPtrArray<JPlotDataBase>*	itsCurves;
 	JArray<J2DCurveInfo>*		itsCurveInfo;
-	JArray<JColorIndex>*		itsColors;
+	JArray<JColorID>*		itsColors;
 	JArray<JSize>*				itsColorUsage;
 
 	JFloat			itsXScale[4];
@@ -350,10 +350,10 @@ private:
 	JBoolean		itsShowXMinorTics;
 	JBoolean		itsShowYMinorTics;
 
-	const JColorIndex	itsBlackColor;
-	const JColorIndex	itsWhiteColor;
-	const JColorIndex	itsGrayColor;
-	const JColorIndex	itsSelectionColor;
+	const JColorID	itsBlackColor;
+	const JColorID	itsWhiteColor;
+	const JColorID	itsGrayColor;
+	const JColorID	itsSelectionColor;
 
 	JBoolean		itsUsingRange;
 	JFloat			itsRangeXMax;
@@ -1188,7 +1188,7 @@ J2DPlotWidget::CurveIsProtected
 
  ******************************************************************************/
 
-inline JColorIndex
+inline JColorID
 J2DPlotWidget::GetCurveColor
 	(
 	const JIndex index
@@ -1206,7 +1206,7 @@ J2DPlotWidget::GetCurveColor
 inline void
 J2DPlotWidget::AddColor
 	(
-	const JColorIndex color
+	const JColorID color
 	)
 {
 	itsColors->AppendElement(color);

@@ -23,7 +23,7 @@
 #include <JXWindowPainter.h>
 #include <jXPainterUtil.h>
 #include <JXFontManager.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <JXImage.h>
 #include <jXGlobals.h>
 #include <jStreamUtil.h>
@@ -436,7 +436,7 @@ void
 JXTabGroup::PlaceCardFile()
 {
 	const JSize h = kSelMargin + kBorderWidth + 2*kTextMargin +
-					itsFont.GetLineHeight();
+					itsFont.GetLineHeight(GetFontManager());
 
 	JRect r = GetAperture();
 	if (itsEdge == kTop)
@@ -495,7 +495,7 @@ JXTabGroup::ScrollUpToTab
 		const TabInfo info = itsTabInfoList->GetElement(index);
 
 		right += 2*kBorderWidth + info.preMargin + info.postMargin +
-				 itsFont.GetStringWidth(*(itsTitles->GetElement(i)));
+				 itsFont.GetStringWidth(GetFontManager(), *(itsTitles->GetElement(i)));
 		if (info.closable)
 			{
 			right += kCloseMarginWidth + itsCloseImage->GetWidth();
@@ -555,7 +555,6 @@ JXTabGroup::Draw
 	const JSize count = itsTitles->GetElementCount();
 	itsLastDrawIndex  = JMax(count, itsFirstDrawIndex);
 
-	const JColormap* cmap = p.GetColormap();
 	if (itsEdge == kTop)
 		{
 		JRect r(ap.top + kSelMargin,             ap.left + kSelMargin,
@@ -585,7 +584,7 @@ JXTabGroup::Draw
 
 			if (isSel)
 				{
-				p.SetPenColor(cmap->GetGrayColor(kSelGrayPercentage));
+				p.SetPenColor(JColorManager::GetGrayColor(kSelGrayPercentage));
 				p.SetFilling(kJTrue);
 				p.JPainter::Rect(r);
 				p.SetFilling(kJFalse);
@@ -656,7 +655,7 @@ JXTabGroup::Draw
 
 			if (isSel)
 				{
-				p.SetPenColor(cmap->GetGrayColor(kSelGrayPercentage));
+				p.SetPenColor(JColorManager::GetGrayColor(kSelGrayPercentage));
 				p.SetFilling(kJTrue);
 				p.JPainter::Rect(r);
 				p.SetFilling(kJFalse);
@@ -727,7 +726,7 @@ JXTabGroup::Draw
 
 			if (isSel)
 				{
-				p.SetPenColor(cmap->GetGrayColor(kSelGrayPercentage));
+				p.SetPenColor(JColorManager::GetGrayColor(kSelGrayPercentage));
 				p.SetFilling(kJTrue);
 				p.JPainter::Rect(r);
 				p.SetFilling(kJFalse);
@@ -798,7 +797,7 @@ JXTabGroup::Draw
 
 			if (isSel)
 				{
-				p.SetPenColor(cmap->GetGrayColor(kSelGrayPercentage));
+				p.SetPenColor(JColorManager::GetGrayColor(kSelGrayPercentage));
 				p.SetFilling(kJTrue);
 				p.JPainter::Rect(r);
 				p.SetFilling(kJFalse);
@@ -938,28 +937,27 @@ JXTabGroup::DrawTabBorder
 {
 	JXDrawUpFrame(p, rect, kBorderWidth);
 
-	const JColormap* cmap = p.GetColormap();
 	if (itsEdge == kTop)
 		{
-		p.SetPenColor(cmap->GetDefaultBackColor());
+		p.SetPenColor(JColorManager::GetDefaultBackColor());
 		p.JPainter::Point(rect.topLeft());
 		p.JPainter::Point(rect.topRight() + JPoint(-1,0));
 		p.JPainter::Point(rect.topRight() + JPoint(-2,0));
 		p.JPainter::Point(rect.topRight() + JPoint(-1,1));
 		p.JPainter::Point(rect.topRight() + JPoint(-1,2));
-		p.SetPenColor(cmap->Get3DLightColor());
+		p.SetPenColor(JColorManager::Get3DLightColor());
 		p.JPainter::Point(rect.topLeft() + JPoint(kBorderWidth, kBorderWidth));
-		p.SetPenColor(cmap->Get3DShadeColor());
+		p.SetPenColor(JColorManager::Get3DShadeColor());
 		p.JPainter::Point(rect.topRight() + JPoint(-kBorderWidth-1, kBorderWidth));
 
 		if (isSelected)
 			{
 			JRect r(rect.bottom - kBorderWidth, rect.left  + kBorderWidth,
 					rect.bottom,                rect.right - kBorderWidth);
-			p.SetPenColor(cmap->GetGrayColor(kSelGrayPercentage));
+			p.SetPenColor(JColorManager::GetGrayColor(kSelGrayPercentage));
 			p.JPainter::Rect(r);
 			p.JPainter::Point(rect.topLeft() + JPoint(-1,kSelMargin+kBorderWidth));
-			p.SetPenColor(cmap->Get3DLightColor());
+			p.SetPenColor(JColorManager::Get3DLightColor());
 			p.JPainter::Point(rect.bottomLeft()  + JPoint(1,-1));
 			p.JPainter::Point(rect.bottomRight() + JPoint(-2,-1));
 			p.JPainter::Point(rect.bottomRight() + JPoint(-1,-2));
@@ -969,25 +967,25 @@ JXTabGroup::DrawTabBorder
 
 	else if (itsEdge == kLeft)
 		{
-		p.SetPenColor(cmap->GetDefaultBackColor());
+		p.SetPenColor(JColorManager::GetDefaultBackColor());
 		p.JPainter::Point(rect.topLeft());
 		p.JPainter::Point(rect.bottomLeft() + JPoint(0,-1));
 		p.JPainter::Point(rect.bottomLeft() + JPoint(0,-2));
 		p.JPainter::Point(rect.bottomLeft() + JPoint(1,-1));
 		p.JPainter::Point(rect.bottomLeft() + JPoint(2,-1));
-		p.SetPenColor(cmap->Get3DLightColor());
+		p.SetPenColor(JColorManager::Get3DLightColor());
 		p.JPainter::Point(rect.topLeft() + JPoint(kBorderWidth, kBorderWidth));
-		p.SetPenColor(cmap->Get3DShadeColor());
+		p.SetPenColor(JColorManager::Get3DShadeColor());
 		p.JPainter::Point(rect.bottomLeft() + JPoint(kBorderWidth, -kBorderWidth-1));
 
 		if (isSelected)
 			{
 			JRect r(rect.top    + kBorderWidth, rect.right - kBorderWidth,
 					rect.bottom - kBorderWidth, rect.right);
-			p.SetPenColor(cmap->GetGrayColor(kSelGrayPercentage));
+			p.SetPenColor(JColorManager::GetGrayColor(kSelGrayPercentage));
 			p.JPainter::Rect(r);
 			p.JPainter::Point(rect.topLeft() + JPoint(kSelMargin+kBorderWidth,-1));
-			p.SetPenColor(cmap->Get3DLightColor());
+			p.SetPenColor(JColorManager::Get3DLightColor());
 			p.JPainter::Point(rect.topRight() + JPoint(-1,1));
 			if (rect.bottom < (GetAperture()).bottom)
 				{
@@ -1000,24 +998,24 @@ JXTabGroup::DrawTabBorder
 
 	else if (itsEdge == kBottom)
 		{
-		p.SetPenColor(cmap->GetDefaultBackColor());
+		p.SetPenColor(JColorManager::GetDefaultBackColor());
 		p.JPainter::Point(rect.bottomLeft()  + JPoint(0,-1));
 		p.JPainter::Point(rect.bottomLeft()  + JPoint(0,-2));
 		p.JPainter::Point(rect.bottomLeft()  + JPoint(1,-1));
 		p.JPainter::Point(rect.bottomLeft()  + JPoint(2,-1));
 		p.JPainter::Point(rect.bottomRight() + JPoint(-1,-1));
-		p.SetPenColor(cmap->Get3DLightColor());
+		p.SetPenColor(JColorManager::Get3DLightColor());
 		p.JPainter::Point(rect.bottomLeft() + JPoint(kBorderWidth, -kBorderWidth-1));
-		p.SetPenColor(cmap->Get3DShadeColor());
+		p.SetPenColor(JColorManager::Get3DShadeColor());
 		p.JPainter::Point(rect.bottomRight() + JPoint(-kBorderWidth-1, -kBorderWidth-1));
 
 		if (isSelected)
 			{
 			JRect r(rect.top,                rect.left  + kBorderWidth,
 					rect.top + kBorderWidth, rect.right - kBorderWidth);
-			p.SetPenColor(cmap->GetGrayColor(kSelGrayPercentage));
+			p.SetPenColor(JColorManager::GetGrayColor(kSelGrayPercentage));
 			p.JPainter::Rect(r);
-			p.SetPenColor(cmap->Get3DShadeColor());
+			p.SetPenColor(JColorManager::Get3DShadeColor());
 			if (rect.left > (GetAperture()).left)
 				{
 				p.JPainter::Point(rect.topLeft());
@@ -1030,24 +1028,24 @@ JXTabGroup::DrawTabBorder
 
 	else if (itsEdge == kRight)
 		{
-		p.SetPenColor(cmap->GetDefaultBackColor());
+		p.SetPenColor(JColorManager::GetDefaultBackColor());
 		p.JPainter::Point(rect.topRight() + JPoint(-1,0));
 		p.JPainter::Point(rect.topRight() + JPoint(-2,0));
 		p.JPainter::Point(rect.topRight() + JPoint(-1,1));
 		p.JPainter::Point(rect.topRight() + JPoint(-1,2));
 		p.JPainter::Point(rect.bottomRight() + JPoint(-1,-1));
-		p.SetPenColor(cmap->Get3DLightColor());
+		p.SetPenColor(JColorManager::Get3DLightColor());
 		p.JPainter::Point(rect.topRight() + JPoint(-kBorderWidth-1, kBorderWidth));
-		p.SetPenColor(cmap->Get3DShadeColor());
+		p.SetPenColor(JColorManager::Get3DShadeColor());
 		p.JPainter::Point(rect.bottomRight() + JPoint(-kBorderWidth-1, -kBorderWidth-1));
 
 		if (isSelected)
 			{
 			JRect r(rect.top    + kBorderWidth, rect.left,
 					rect.bottom - kBorderWidth, rect.left + kBorderWidth);
-			p.SetPenColor(cmap->GetGrayColor(kSelGrayPercentage));
+			p.SetPenColor(JColorManager::GetGrayColor(kSelGrayPercentage));
 			p.JPainter::Rect(r);
-			p.SetPenColor(cmap->Get3DShadeColor());
+			p.SetPenColor(JColorManager::Get3DShadeColor());
 			if (rect.top > (GetAperture()).top)
 				{
 				p.JPainter::Point(rect.topLeft());
@@ -1080,14 +1078,13 @@ JXTabGroup::DrawScrollButtons
 	const JCoordinate w = 2*(kArrowWidth + kBorderWidth);
 	const JCoordinate h = kSelMargin + kBorderWidth + 2*kTextMargin + lineHeight;
 
-	const JRect ap        = GetAperture();
-	const JColormap* cmap = p.GetColormap();
+	const JRect ap = GetAperture();
 	if (itsEdge == kTop)
 		{
 		JRect r(ap.top,     ap.right - w,
 				ap.top + h, ap.right);
 
-		p.SetPenColor(cmap->GetDefaultBackColor());
+		p.SetPenColor(JColorManager::GetDefaultBackColor());
 		p.SetFilling(kJTrue);
 		p.JPainter::Rect(r);
 		p.SetFilling(kJFalse);
@@ -1108,7 +1105,7 @@ JXTabGroup::DrawScrollButtons
 			}
 		else
 			{
-			JXFillArrowLeft(p, r, cmap->GetInactiveLabelColor());
+			JXFillArrowLeft(p, r, JColorManager::GetInactiveLabelColor());
 			}
 		itsScrollUpRect = r;
 
@@ -1124,7 +1121,7 @@ JXTabGroup::DrawScrollButtons
 			}
 		else
 			{
-			JXFillArrowRight(p, r, cmap->GetInactiveLabelColor());
+			JXFillArrowRight(p, r, JColorManager::GetInactiveLabelColor());
 			}
 		itsScrollDownRect = r;
 		}
@@ -1134,7 +1131,7 @@ JXTabGroup::DrawScrollButtons
 		JRect r(ap.top,     ap.left,
 				ap.top + w, ap.left + h);
 
-		p.SetPenColor(cmap->GetDefaultBackColor());
+		p.SetPenColor(JColorManager::GetDefaultBackColor());
 		p.SetFilling(kJTrue);
 		p.JPainter::Rect(r);
 		p.SetFilling(kJFalse);
@@ -1155,7 +1152,7 @@ JXTabGroup::DrawScrollButtons
 			}
 		else
 			{
-			JXFillArrowUp(p, r, cmap->GetInactiveLabelColor());
+			JXFillArrowUp(p, r, JColorManager::GetInactiveLabelColor());
 			}
 		itsScrollDownRect = r;
 
@@ -1171,7 +1168,7 @@ JXTabGroup::DrawScrollButtons
 			}
 		else
 			{
-			JXFillArrowDown(p, r, cmap->GetInactiveLabelColor());
+			JXFillArrowDown(p, r, JColorManager::GetInactiveLabelColor());
 			}
 		itsScrollUpRect = r;
 		}
@@ -1181,7 +1178,7 @@ JXTabGroup::DrawScrollButtons
 		JRect r(ap.bottom - h, ap.right - w,
 				ap.bottom,     ap.right);
 
-		p.SetPenColor(cmap->GetDefaultBackColor());
+		p.SetPenColor(JColorManager::GetDefaultBackColor());
 		p.SetFilling(kJTrue);
 		p.JPainter::Rect(r);
 		p.SetFilling(kJFalse);
@@ -1202,7 +1199,7 @@ JXTabGroup::DrawScrollButtons
 			}
 		else
 			{
-			JXFillArrowLeft(p, r, cmap->GetInactiveLabelColor());
+			JXFillArrowLeft(p, r, JColorManager::GetInactiveLabelColor());
 			}
 		itsScrollUpRect = r;
 
@@ -1218,7 +1215,7 @@ JXTabGroup::DrawScrollButtons
 			}
 		else
 			{
-			JXFillArrowRight(p, r, cmap->GetInactiveLabelColor());
+			JXFillArrowRight(p, r, JColorManager::GetInactiveLabelColor());
 			}
 		itsScrollDownRect = r;
 		}
@@ -1228,7 +1225,7 @@ JXTabGroup::DrawScrollButtons
 		JRect r(ap.bottom - w, ap.right - h,
 				ap.bottom,     ap.right);
 
-		p.SetPenColor(cmap->GetDefaultBackColor());
+		p.SetPenColor(JColorManager::GetDefaultBackColor());
 		p.SetFilling(kJTrue);
 		p.JPainter::Rect(r);
 		p.SetFilling(kJFalse);
@@ -1249,7 +1246,7 @@ JXTabGroup::DrawScrollButtons
 			}
 		else
 			{
-			JXFillArrowUp(p, r, cmap->GetInactiveLabelColor());
+			JXFillArrowUp(p, r, JColorManager::GetInactiveLabelColor());
 			}
 		itsScrollUpRect = r;
 
@@ -1265,7 +1262,7 @@ JXTabGroup::DrawScrollButtons
 			}
 		else
 			{
-			JXFillArrowDown(p, r, cmap->GetInactiveLabelColor());
+			JXFillArrowDown(p, r, JColorManager::GetInactiveLabelColor());
 			}
 		itsScrollDownRect = r;
 		}

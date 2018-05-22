@@ -19,7 +19,7 @@
 #include <JXImageSelection.h>
 #include <JXPSPrinter.h>
 #include <JXEPSPrinter.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <jGlobals.h>
 #include <jAssert.h>
 
@@ -299,7 +299,6 @@ TestImageDirector::LoadImage()
 		itsFileName = fullName;
 
 		JXDisplay* display = GetDisplay();
-		JXColormap* cmap   = GetColormap();
 
 		JXImage* image;
 		JError err = JNoError();
@@ -311,7 +310,7 @@ TestImageDirector::LoadImage()
 			if (err.OK())
 				{
 				image = jnew JXImage(display, mask->GetWidth(), mask->GetHeight(),
-									cmap->GetRedColor());
+									JColorManager::GetRedColor());
 				assert( image != NULL );
 				image->SetMask(mask);
 				}

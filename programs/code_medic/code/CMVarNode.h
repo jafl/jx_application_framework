@@ -11,7 +11,7 @@
 #include <JNamedTreeNode.h>
 #include <JFontStyle.h>
 
-class JColormap;
+class JXColorManager;
 class CMVarCommand;
 
 class CMVarNode : public JNamedTreeNode
@@ -32,10 +32,10 @@ public:
 	const JString&	GetValue() const;
 	void			SetValue(const JString& value);
 	void			SetValid(const JBoolean valid);
-	JFontStyle		GetFontStyle(const JColormap* cmap);
+	JFontStyle		GetFontStyle(const JXColorManager* cmap);
 
 	static JFontStyle	GetFontStyle(const JBoolean isValid, const JBoolean isNew,
-									 const JColormap* cmap);
+									 const JXColorManager* cmap);
 
 	JSize	GetBase() const;
 	void	SetBase(const JSize base);

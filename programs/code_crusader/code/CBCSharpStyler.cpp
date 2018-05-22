@@ -13,7 +13,7 @@
 #include "CBCSharpStyler.h"
 #include "CBPrefsManager.h"
 #include <JRegex.h>
-#include <JColormap.h>
+#include <JXColorManager.h>
 #include <jAssert.h>
 
 CBCSharpStyler* CBCSharpStyler::itsSelf = NULL;
@@ -98,8 +98,8 @@ CBCSharpStyler::CBCSharpStyler()
 		SetTypeStyle(i, blankStyle);
 		}
 
-	JColormap* colormap   = GetColormap();
-	const JColorIndex red = colormap->GetRedColor();
+	JXColorManager* colormap   = GetColormap();
+	const JColorID red = colormap->GetRedColor();
 
 	SetTypeStyle(kReservedCKeyword   - kWhitespace, JFontStyle(colormap->GetDarkGreenColor()));
 	SetTypeStyle(kBuiltInDataType    - kWhitespace, JFontStyle(colormap->GetDarkGreenColor()));

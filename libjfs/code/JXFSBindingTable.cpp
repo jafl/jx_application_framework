@@ -695,7 +695,7 @@ void
 JXFSBindingTable::UpdateColWidths()
 {
 	JCoordinate borderWidth;
-	JColorIndex color;
+	JColorID color;
 	GetColBorderInfo(&borderWidth, &color);
 
 	JCoordinate w = GetApertureWidth();

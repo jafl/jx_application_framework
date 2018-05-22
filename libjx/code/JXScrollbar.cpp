@@ -35,7 +35,7 @@
 #include <JXWindow.h>
 #include <JXTextMenu.h>
 #include <JXWindowPainter.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <jXPainterUtil.h>
 #include <jStreamUtil.h>
 #include <JMinMax.h>
@@ -114,7 +114,7 @@ JXScrollbar::JXScrollbar
 	itsDecrPagePushedFlag = itsIncrPagePushedFlag = kJFalse;
 
 	SetBorderWidth(kJXDefaultBorderWidth);
-	SetBackColor(GetColormap()->GetDefaultSliderBackColor());
+	SetBackColor(JColorManager::GetDefaultSliderBackColor());
 
 	itsSpeedScrollCursor = GetSpeedScrollCursor();
 }
@@ -155,7 +155,7 @@ JXScrollbar::Draw
 	// draw the thumb
 
 	JXDrawUpFrame(p, itsThumbRect, GetBorderWidth(), kJTrue,
-				  (p.GetColormap())->GetDefaultBackColor());
+				  JColorManager::GetDefaultBackColor());
 }
 
 // private
@@ -231,8 +231,8 @@ JXScrollbar::DrawHoriz
 
 	// draw the arrows
 
-	const JSize borderWidth     = GetBorderWidth();
-	const JColorIndex backColor = (p.GetColormap())->GetDefaultBackColor();
+	const JSize borderWidth  = GetBorderWidth();
+	const JColorID backColor = JColorManager::GetDefaultBackColor();
 
 	if (itsDecrPushedFlag)
 		{
@@ -340,8 +340,8 @@ JXScrollbar::DrawVert
 
 	// draw the arrows
 
-	const JSize borderWidth     = GetBorderWidth();
-	const JColorIndex backColor = (p.GetColormap())->GetDefaultBackColor();
+	const JSize borderWidth  = GetBorderWidth();
+	const JColorID backColor = JColorManager::GetDefaultBackColor();
 
 	if (itsDecrPushedFlag)
 		{

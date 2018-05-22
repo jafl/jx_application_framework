@@ -12,7 +12,7 @@
 #include "svnMenus.h"
 #include <JXWindow.h>
 #include <JXTextMenu.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <JXDeleteObjectTask.h>
 #include <JXTextSelection.h>
 #include <jXGlobals.h>

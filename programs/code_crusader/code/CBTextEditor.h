@@ -70,7 +70,7 @@ public:
 
 	JBoolean	GetRightMarginWidth(JSize* width) const;
 	void		SetRightMarginWidth(const JBoolean show, const JSize width);
-	void		SetRightMarginColor(const JColorIndex color);
+	void		SetRightMarginColor(const JColorID color);
 
 	const JString&	GetScriptPath() const;
 	void			SetScriptPath(const JCharacter* path);
@@ -154,7 +154,7 @@ private:
 
 	JBoolean	itsDrawRightMarginFlag;
 	JSize		itsRightMarginWidth;
-	JColorIndex	itsRightMarginColor;		// saved by CBPrefsManager
+	JColorID	itsRightMarginColor;		// saved by CBPrefsManager
 
 	// other options
 
@@ -398,7 +398,7 @@ CBTextEditor::SetRightMarginWidth
 inline void
 CBTextEditor::SetRightMarginColor
 	(
-	const JColorIndex color
+	const JColorID color
 	)
 {
 	if (color != itsRightMarginColor)

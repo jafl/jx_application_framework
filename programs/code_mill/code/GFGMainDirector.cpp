@@ -20,7 +20,7 @@
 
 #include <JXChooseSaveFile.h>
 #include <JXColHeaderWidget.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <JXHelpManager.h>
 #include <JXImage.h>
 #include <JXInputField.h>

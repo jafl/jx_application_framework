@@ -1,36 +1,54 @@
 /******************************************************************************
- test_JStyledTextBuffer.cc
+ test_JTextEditor.cc
 
-	Program to test JStyledText class.
+	Program to test JTextEditor class.
 
 	Written by John Lindal.
 
  ******************************************************************************/
 
 #include <JTestManager.h>
-#include <StyledTextBuffer.h>
+#include "TextEditor.h"
+#include "StyledText.h"
 #include <JRegex.h>
 #include <jFStreamUtil.h>
 #include <jFileUtil.h>
 #include <jGlobals.h>
 #include <jAssert.h>
 
+typedef JStyledText::TextIndex TextIndex;
+typedef JStyledText::TextCount TextCount;
+typedef JStyledText::TextRange TextRange;
+
 int main()
 {
 	return JTestManager::Execute();
 }
 
+JTEST(LayoutBreakCROnly)
+{
+}
+
+JTEST(LayoutBreakWidth)
+{
+}
+
 JTEST(SearchTextForward)
 {
-	StyledTextBuffer buf;
+	StyledText text;
 	buf.SetText(JString("Foursc" "\xC3\xB8" "re and seven years ago...", 0, kJFalse));
+
+	TextEditor te(&text, kJTrue, 50);
 
 	// entire word, no wrapping
 
 	JBoolean wrapped;
-	const JStringMatch m1 = buf.SearchForward(JRegex("sc" "\xC3\xB8" "re"), kJTrue, kJFalse, &wrapped);
+	JIndex caretIndex;
+	const JStringMatch m1 = te.SearchForward(JRegex("sc" "\xC3\xB8" "re"), kJTrue, kJFalse, &wrapped);
 	JAssertTrue(m1.IsEmpty());
-	JAssertFalse(buf.HasSelection());	// caret still at beginning
+	JAssertFalse(te.HasSelection());	// caret still at beginning
+	JAssertTrue(te.GetCaretLocation(&caretIndex));
+	JAssertEqual(1, caretIndex);
 	JAssertFalse(wrapped);
 
 	// partial word, no wrapping

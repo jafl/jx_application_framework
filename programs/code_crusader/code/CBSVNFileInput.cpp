@@ -10,7 +10,7 @@
  ******************************************************************************/
 
 #include "CBSVNFileInput.h"
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <jWebUtil.h>
 #include <jAssert.h>
 

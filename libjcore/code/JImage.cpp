@@ -355,7 +355,7 @@ JImage::ReadGD
 		JColorID* colorTable = jnew JColorID [ colorCount ];
 		assert( colorTable != NULL );
 
-		const JColorID blackColor = itsColorManager->GetBlackColor();
+		const JColorID blackColor = JColorManager::GetBlackColor();
 
 		for (JIndex i=0; i<colorCount; i++)
 			{
@@ -459,7 +459,7 @@ JImage::WriteGD
 			{
 			if (!hasMask || mask->ContainsPixel(x,y))
 				{
-				color          = itsColorManager->GetRGB(GetColor(x,y)) / kGDColorScale;
+				color          = JColorManager::GetRGB(GetColor(x,y)) / kGDColorScale;
 				int colorIndex = gdImageColorExact(image, color.red, color.green, color.blue);
 				if (colorIndex == -1 &&
 					(useTrueColor || gdImageColorsTotal(image) < maxColorCount))
@@ -599,7 +599,7 @@ JIndex i;
 
 	// decode color table
 
-	const JColorID blackColor = itsColorManager->GetBlackColor();
+	const JColorID blackColor = JColorManager::GetBlackColor();
 
 	JBoolean hasMask        = kJFalse;
 	unsigned long maskColor = 0;

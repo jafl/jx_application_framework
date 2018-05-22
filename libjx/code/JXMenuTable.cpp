@@ -39,7 +39,7 @@
 #include <JXDisplay.h>
 #include <JXWindow.h>
 #include <JXWindowPainter.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <jXPainterUtil.h>
 #include <jMouseUtil.h>
 #include <jASCIIConstants.h>
@@ -95,8 +95,8 @@ JXMenuTable::JXMenuTable
 	WantInput(kJTrue, kJTrue, kJTrue);		// we don't have a scrollbar set
 
 	SetDrawOrder(kDrawByRow);
-	SetRowBorderInfo(0, GetColormap()->GetBlackColor());
-	SetColBorderInfo(0, GetColormap()->GetBlackColor());
+	SetRowBorderInfo(0, JColorManager::GetBlackColor());
+	SetColBorderInfo(0, JColorManager::GetBlackColor());
 
 	SetDefaultCursor(itsMenu->GetDefaultCursor());
 }
@@ -169,7 +169,7 @@ JXMenuTable::DrawCheckbox
 		(boxRect.bottom)--;
 		(boxRect.right)--;
 
-		const JColorIndex selColor = (p.GetColormap())->GetDefaultSelButtonColor();
+		const JColorID selColor = JColorManager::GetDefaultSelButtonColor();
 
 		if (type == JXMenu::kRadioType)
 			{
@@ -219,10 +219,10 @@ JXMenuTable::DrawSubmenuIndicator
 		JRect r = kSubmenuArrowRect;
 		r.Shift(rect.center());
 
-		const JColorIndex colorIndex =
+		const JColorID colorIndex =
 			itsBaseMenuData->IsEnabled(itemIndex) ?
-				(p.GetColormap())->GetGrayColor(40) :
-				(p.GetColormap())->GetInactiveLabelColor();
+				JColorManager::GetGrayColor(40) :
+				JColorManager::GetInactiveLabelColor();
 		JXFillArrowRight(p, r, colorIndex);
 
 //		const JRect kSubmenuArrowRect(-4, -5, 5, 5);

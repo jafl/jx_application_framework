@@ -48,8 +48,7 @@
 #define kJXReplaceSelectionAction       "ReplaceSelection::JX"
 #define kJXReplaceFindPrevAction        "ReplaceFindPrev::JX"
 #define kJXReplaceFindNextAction        "ReplaceFindNext::JX"
-#define kJXReplaceAllBackwardsAction    "ReplaceAllBackwards::JX"
-#define kJXReplaceAllForwardAction      "ReplaceAllForward::JX"
+#define kJXReplaceAllAction  		    "ReplaceAll::JX"
 #define kJXReplaceAllInSelectionAction  "ReplaceAllInSelection::JX"
 
 // Font size menu

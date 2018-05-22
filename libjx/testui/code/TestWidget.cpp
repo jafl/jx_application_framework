@@ -14,7 +14,7 @@
 #include <JXSelectionManager.h>
 #include <JXDNDManager.h>
 #include <JXFileSelection.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <JXWindow.h>
 #include <JXMenuBar.h>
 #include <JXTextMenu.h>
@@ -181,7 +181,7 @@ JIndex i;
 	itsRandPointCount = 10;
 	itsResizeDialog   = NULL;
 
-	SetBackColor(GetColormap()->GetDefaultBackColor());
+	SetBackColor(JColorManager::GetDefaultBackColor());
 
 	// cursors
 
@@ -195,7 +195,7 @@ JIndex i;
 	// menus
 
 	itsActionsMenu = menuBar->AppendTextMenu(JGetString("ActionsMenuTitle::TestWidget"));
-	itsActionsMenu->SetTitleFontStyle(GetColormap()->GetWhiteColor());
+	itsActionsMenu->SetTitleFontStyle(JColorManager::GetWhiteColor());
 	itsActionsMenu->SetShortcuts(JGetString("ActionsMenuShortcut::TestWidget"));
 	itsActionsMenu->SetMenuItems(kActionsMenuStr);
 	itsActionsMenu->SetUpdateAction(JXMenu::kDisableNone);
@@ -223,7 +223,7 @@ JIndex i;
 		if (i == kAdviceBoldMenuIndex)
 			{
 			adviceMenu->SetItemFontStyle(2,
-				JFontStyle(kJTrue, kJFalse, 0, kJFalse, GetColormap()->GetBlackColor()));
+				JFontStyle(kJTrue, kJFalse, 0, kJFalse, JColorManager::GetBlackColor()));
 			}
 
 		prevMenu      = adviceMenu;
@@ -296,11 +296,10 @@ JIndex i;
 							  x,y, 50,30);
 		assert( itsQuitButton != NULL );
 
-		JXColormap* colormap = GetColormap();
 		itsQuitButton->CenterWithinEnclosure(kJTrue, kJTrue);
-		itsQuitButton->SetFontStyle(JFontStyle(kJTrue, kJFalse, 0, kJFalse, colormap->GetRedColor()));
-		itsQuitButton->SetNormalColor(colormap->GetCyanColor());
-		itsQuitButton->SetPushedColor(colormap->GetBlueColor());
+		itsQuitButton->SetFontStyle(JFontStyle(kJTrue, kJFalse, 0, kJFalse, JColorManager::GetRedColor()));
+		itsQuitButton->SetNormalColor(JColorManager::GetCyanColor());
+		itsQuitButton->SetPushedColor(JColorManager::GetBlueColor());
 
 		ListenTo(itsQuitButton);
 		}
@@ -452,13 +451,11 @@ TestWidget::DrawStuff
 {
 JIndex i;
 
-	JXColormap* colormap = GetColormap();
-
-	p.SetPenColor(colormap->GetGreenColor());
+	p.SetPenColor(JColorManager::GetGreenColor());
 	JRect ellipseRect(100,50,150,300);
 	p.Ellipse(ellipseRect);
 
-	p.SetPenColor(colormap->GetBlackColor());
+	p.SetPenColor(JColorManager::GetBlackColor());
 
 	if (itsFillFlag)
 		{
@@ -478,17 +475,17 @@ JIndex i;
 	p.Image(*itsHomeImage, itsHomeImage->GetBounds(), itsHomeRect);
 
 	its2Rect = JRect(150, 5, 200, 30);
-	p.SetPenColor(colormap->GetRedColor());
+	p.SetPenColor(JColorManager::GetRedColor());
 	p.Rect(its2Rect);
-	p.SetFontStyle(colormap->GetRedColor());
+	p.SetFontStyle(JColorManager::GetRedColor());
 	p.String(its2Rect.topLeft(), JString("2", 0, kJFalse),
 			 its2Rect.width(),  JPainter::kHAlignCenter,
 			 its2Rect.height(), JPainter::kVAlignCenter);
 
 	its3Rect = JRect(10, 150, 40, 200);
-	p.SetPenColor(colormap->GetBlueColor());
+	p.SetPenColor(JColorManager::GetBlueColor());
 	p.Rect(its3Rect);
-	p.SetFontStyle(colormap->GetBlueColor());
+	p.SetFontStyle(JColorManager::GetBlueColor());
 	p.String(its3Rect.topLeft(), JGetString("3", 0, kJFalse),
 			 its3Rect.width(),  JPainter::kHAlignCenter,
 			 its3Rect.height(), JPainter::kVAlignCenter);
@@ -504,11 +501,11 @@ JIndex i;
 		p.Point(itsRNG.UniformLong(0,200), itsRNG.UniformLong(0,200));
 		}
 
-	p.SetPenColor(colormap->GetRedColor());
+	p.SetPenColor(JColorManager::GetRedColor());
 	p.Line(10,0, 0,10);
-	p.SetPenColor(colormap->GetGreenColor());
+	p.SetPenColor(JColorManager::GetGreenColor());
 	p.LineTo(10,20);
-	p.SetPenColor(colormap->GetBlueColor());
+	p.SetPenColor(JColorManager::GetBlueColor());
 	p.LineTo(0,30);
 
 	p.ShiftOrigin(2,0);
@@ -523,26 +520,26 @@ JIndex i;
 
 	p.ShiftOrigin(-2, 0);
 
-	p.SetPenColor(colormap->GetBlueColor());
+	p.SetPenColor(JColorManager::GetBlueColor());
 	JRect r(70, 290, 150, 390);
 	p.Rect(r);
 /*
 	for (JCoordinate y=70; y<150; y++)
 		{
-		p.SetPenColor(colormap->GetGrayColor(y-50));
+		p.SetPenColor(JColorManager::GetGrayColor(y-50));
 		p.Line(290,y, 390,y);
 		}
 
 	for (JCoordinate x=290; x<390; x++)
 		{
-		p.SetPenColor(colormap->GetGrayColor(x-290));
+		p.SetPenColor(JColorManager::GetGrayColor(x-290));
 		p.Line(x,70, x,150);
 		}
 
 	p.SetLineWidth(2);
 	for (JCoordinate y=70; y<150; y+=2)
 		{
-		p.SetPenColor(colormap->GetGrayColor(y%4 ? 40 : 60));
+		p.SetPenColor(JColorManager::GetGrayColor(y%4 ? 40 : 60));
 		p.Line(290,y, 390,y);
 		}
 	p.SetLineWidth(1);
@@ -550,7 +547,7 @@ JIndex i;
 	p.SetLineWidth(2);
 	for (JCoordinate x=290; x<390; x+=2)
 		{
-		p.SetPenColor(colormap->GetGrayColor(x%4 ? 40 : 60));
+		p.SetPenColor(JColorManager::GetGrayColor(x%4 ? 40 : 60));
 		p.Line(x,70, x,150);
 		}
 	p.SetLineWidth(1);
@@ -565,33 +562,33 @@ JIndex i;
 	p.String(180.0, r, helloStr, JPainter::kHAlignRight, JPainter::kVAlignBottom);
 	p.String(270.0, r, helloStr, JPainter::kHAlignRight, JPainter::kVAlignBottom);
 
-	p.SetPenColor(colormap->GetBlueColor());
+	p.SetPenColor(JColorManager::GetBlueColor());
 	p.Rect(200, 10, 100, 50);
 	p.String(200, 10, helloStr, 100, JPainter::kHAlignLeft);
 	p.String(200, 10+p.GetLineHeight(), helloStr, 100, JPainter::kHAlignCenter);
 	p.String(200, 10+2*p.GetLineHeight(), helloStr, 100, JPainter::kHAlignRight);
 
-	p.SetPenColor(colormap->GetDarkGreenColor());
+	p.SetPenColor(JColorManager::GetDarkGreenColor());
 	p.SetFilling(kJTrue);
 	p.Rect(290, 160, 100, 80);
 	p.SetFilling(kJFalse);
 /*
 	for (JCoordinate y=160; y<240; y++)
 		{
-		p.SetPenColor(colormap->GetGrayColor(y-140));
+		p.SetPenColor(JColorManager::GetGrayColor(y-140));
 		p.Line(290,y, 390,y);
 		}
 
 	for (JCoordinate x=290; x<390; x++)
 		{
-		p.SetPenColor(colormap->GetGrayColor(x-290));
+		p.SetPenColor(JColorManager::GetGrayColor(x-290));
 		p.Line(x,160, x,240);
 		}
 
 	p.SetLineWidth(2);
 	for (JCoordinate y=160; y<240; y+=2)
 		{
-		p.SetPenColor(colormap->GetGrayColor(y%4 ? 40 : 60));
+		p.SetPenColor(JColorManager::GetGrayColor(y%4 ? 40 : 60));
 		p.Line(290,y, 390,y);
 		}
 	p.SetLineWidth(1);
@@ -599,28 +596,28 @@ JIndex i;
 	p.SetLineWidth(2);
 	for (JCoordinate x=290; x<390; x+=2)
 		{
-		p.SetPenColor(colormap->GetGrayColor(x%4 ? 40 : 60));
+		p.SetPenColor(JColorManager::GetGrayColor(x%4 ? 40 : 60));
 		p.Line(x,160, x,240);
 		}
 	p.SetLineWidth(1);
 */
 	textPt.Set(340, 200);
 	p.SetFontName(timesFontName);
-	p.SetFontStyle(colormap->GetBlueColor());
+	p.SetFontStyle(JColorManager::GetBlueColor());
 	p.String(  0.0, textPt, helloStr);
 	p.String( 90.0, textPt, helloStr);
-	p.SetFontStyle(colormap->GetYellowColor());
+	p.SetFontStyle(JColorManager::GetYellowColor());
 	p.String(180.0, textPt, helloStr);
 	p.String(270.0, textPt, helloStr);
 
-	p.SetPenColor(colormap->GetYellowColor());
+	p.SetPenColor(JColorManager::GetYellowColor());
 	r.Set(0,11,80,91);
 	p.Rect(r);
 	r.Shrink(1,1);
-	p.SetPenColor(colormap->GetBlueColor());
+	p.SetPenColor(JColorManager::GetBlueColor());
 	p.Ellipse(r);
 	r.Shrink(1,1);
-	p.SetPenColor(colormap->GetRedColor());
+	p.SetPenColor(JColorManager::GetRedColor());
 	p.Arc(r, 270.0-45.0, -270.0);
 
 	JPolygon poly;
@@ -641,7 +638,7 @@ JIndex i;
 
 	// test filling rule
 
-	p.SetPenColor(colormap->GetRedColor());
+	p.SetPenColor(JColorManager::GetRedColor());
 	p.SetFilling(kJTrue);
 
 	JPolygon fillRulePoly;
@@ -658,7 +655,7 @@ JIndex i;
 
 	p.DrawDashedLines(kJTrue);
 
-	p.SetPenColor(colormap->GetBlackColor());
+	p.SetPenColor(JColorManager::GetBlackColor());
 
 	JArray<JSize> dashList;			// pixel rulers
 	dashList.AppendElement(1);
@@ -696,7 +693,7 @@ JIndex i;
 	p.DrawDashedLines(kJFalse);
 	p.Ellipse(213,113, 14,14);
 	p.Rect(207,107, 26,26);
-	p.SetPenColor(colormap->GetYellowColor());
+	p.SetPenColor(JColorManager::GetYellowColor());
 	p.DrawDashedLines(kJTrue);
 	p.Ellipse(213,113, 14,14);
 
@@ -1651,7 +1648,7 @@ TestWidget::BuildXlsfontsMenu
 	menu->AppendItem(JGetString("XFontMenuLastItem::TestWidget"));
 	const JSize count = menu->GetItemCount();
 	menu->SetItemFontStyle(count, JFontStyle(kJTrue, kJFalse, 0, kJFalse,
-											 GetColormap()->GetBlackColor()));
+											 JColorManager::GetBlackColor()));
 	if (count > 1)
 		{
 		menu->ShowSeparatorAfter(count-1);

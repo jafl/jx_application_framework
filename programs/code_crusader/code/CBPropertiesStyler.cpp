@@ -14,7 +14,7 @@
 #include "cbmUtil.h"
 #include <JXDialogDirector.h>
 #include <JRegex.h>
-#include <JColormap.h>
+#include <JXColorManager.h>
 #include <jAssert.h>
 
 CBPropertiesStyler* CBPropertiesStyler::itsSelf = NULL;
@@ -86,7 +86,7 @@ CBPropertiesStyler::CBPropertiesStyler()
 		SetTypeStyle(i, blankStyle);
 		}
 
-	JColormap* colormap = GetColormap();
+	JXColorManager* colormap = GetColormap();
 
 	SetTypeStyle(kComment - kWhitespace, JFontStyle(colormap->GetGrayColor(50)));
 

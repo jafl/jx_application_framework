@@ -13,7 +13,7 @@
 
 #include <J2DPlotWidget.h>
 
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <JXFloatInput.h>
 
 #include <JFontManager.h>
@@ -69,7 +69,7 @@ GLFitParameterTable::GLFitParameterTable
 	itsMinColWidth = 1;
 
 	const JFontManager* fontMgr = GetFontManager();
-	const JSize rowHeight = 2*kVMarginWidth + fontMgr->GetDefaultFont().GetLineHeight();
+	const JSize rowHeight = 2*kVMarginWidth + JFontManager::GetDefaultFont().GetLineHeight();
 	SetDefaultRowHeight(rowHeight);
 
 	itsNameList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
@@ -87,7 +87,7 @@ GLFitParameterTable::GLFitParameterTable
 	AppendCols(4, kDefColWidth);
 	AdjustColWidth();
 
-	JXColormap* colormap = GetColormap();
+	JXColorManager* colormap = GetColormap();
 //	SetRowBorderInfo(0, colormap->GetBlackColor());
 //	SetColBorderInfo(0, colormap->GetBlackColor());
 
@@ -237,7 +237,7 @@ GLFitParameterTable::AdjustColWidth
 	)
 {
 	JCoordinate lineWidth;
-	JColorIndex color;
+	JColorID color;
 	GetColBorderInfo(&lineWidth, &color);
 	JSize usedWidth = 
 		2 * GetColWidth(kFitColIndex) + 2 * lineWidth;

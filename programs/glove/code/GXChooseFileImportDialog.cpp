@@ -18,7 +18,7 @@
 #include <JXTextMenu.h>
 #include <JXStaticText.h>
 #include <JXScrollbarSet.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 
 #include <JPtrArray-JString.h>
 #include <jStreamUtil.h>

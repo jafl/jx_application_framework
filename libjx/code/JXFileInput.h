@@ -24,7 +24,7 @@ public:
 
 	virtual ~JXFileInput();
 
-	virtual JBoolean	InputValid();
+	virtual JBoolean	InputValid() override;
 	virtual JBoolean	GetFile(JString* fullName) const;
 	virtual JString		GetTextForChooseFile() const;
 
@@ -52,9 +52,9 @@ public:
 
 	static const JString&	GetFont(JSize* size);
 
-	static JColorIndex	GetTextColor(const JString& fileName, const JString& basePath,
+	static JColorID	GetTextColor(const JString& fileName, const JString& basePath,
 									 const JBoolean requireRead, const JBoolean requireWrite,
-									 const JBoolean requireExec, const JColormap* colormap);
+									 const JBoolean requireExec, const JXColorManager* colormap);
 	static JBoolean		IsCharacterInWord(const JUtf8Character& c);
 
 protected:
@@ -144,7 +144,7 @@ inline void
 JXFileInput::ClearBasePath()
 {
 	itsBasePath.Clear();
-	RecalcAll(kJTrue);
+	RecalcAll();
 }
 
 /******************************************************************************

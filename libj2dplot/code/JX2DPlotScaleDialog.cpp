@@ -14,7 +14,7 @@
 #include <JXRadioGroup.h>
 #include <JXStaticText.h>
 #include <JXTextRadioButton.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <J2DPlotWidget.h>
 #include <jGlobals.h>
 #include <JMinMax.h>
@@ -374,7 +374,7 @@ void
 JX2DPlotScaleDialog::AdjustXScaleActivation()
 {
 	const JIndex type    = itsXAxisTypeRG->GetSelectedItem();
-	JXColormap* colormap = GetColormap();
+	JXColorManager* colormap = GetColormap();
 
 	if (type == kLinear)
 		{
@@ -397,7 +397,7 @@ void
 JX2DPlotScaleDialog::AdjustYScaleActivation()
 {
 	const JIndex type    = itsYAxisTypeRG->GetSelectedItem();
-	JXColormap* colormap = GetColormap();
+	JXColorManager* colormap = GetColormap();
 
 	if (type == kLinear)
 		{

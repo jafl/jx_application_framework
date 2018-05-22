@@ -14,7 +14,7 @@
 #include "cbmUtil.h"
 #include <JXDialogDirector.h>
 #include <JRegex.h>
-#include <JColormap.h>
+#include <JXColorManager.h>
 #include <jAssert.h>
 
 CBPerlStyler* CBPerlStyler::itsSelf = NULL;
@@ -123,8 +123,8 @@ CBPerlStyler::CBPerlStyler()
 		SetTypeStyle(i, blankStyle);
 		}
 
-	JColormap* colormap   = GetColormap();
-	const JColorIndex red = colormap->GetRedColor();
+	JXColorManager* colormap   = GetColormap();
+	const JColorID red = colormap->GetRedColor();
 
 	SetTypeStyle(kPrototypeArgList   - kWhitespace, JFontStyle(kJTrue, kJFalse, 0, kJFalse));
 	SetTypeStyle(kReservedKeyword    - kWhitespace, JFontStyle(colormap->GetDarkGreenColor()));
@@ -305,7 +305,7 @@ CBPerlStyler::UpgradeTypeList
 	JArray<JFontStyle>*	typeStyles
 	)
 {
-	JColormap* colormap = GetColormap();
+	JXColorManager* colormap = GetColormap();
 
 	if (vers < 1)
 		{

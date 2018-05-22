@@ -19,7 +19,7 @@
 #include <JXTextSelection.h>
 #include <JXWindow.h>
 #include <JXTextMenu.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <JXImage.h>
 #include <jXGlobals.h>
 #include <JPagePrinter.h>

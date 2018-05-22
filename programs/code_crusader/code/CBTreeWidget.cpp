@@ -24,7 +24,7 @@
 #include <JXTextMenu.h>
 #include <JXScrollbar.h>
 #include <JXWindowPainter.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <JXImage.h>
 #include <jXUtil.h>
 
@@ -87,7 +87,7 @@ CBTreeWidget::CBTreeWidget
 
 	WantInput(kJTrue, kJFalse, kJTrue);	// need Meta-Tab
 
-	const JColorIndex gray75Color = GetColormap()->GetGrayColor(75);
+	const JColorID gray75Color = GetColormap()->GetGrayColor(75);
 	SetBackColor(gray75Color);
 	SetFocusColor(gray75Color);
 

@@ -24,15 +24,15 @@ public:
 
 	virtual ~JXUserNotification();
 
-	virtual void		DisplayMessage(const JString& message);
-	virtual void		ReportError(const JString& message);
+	virtual void		DisplayMessage(const JString& message) override;
+	virtual void		ReportError(const JString& message) override;
 
-	virtual JBoolean	AskUserYes(const JString& message);
-	virtual JBoolean	AskUserNo(const JString& message);
+	virtual JBoolean	AskUserYes(const JString& message) override;
+	virtual JBoolean	AskUserNo(const JString& message) override;
 
-	virtual CloseAction	OKToClose(const JString& message);
+	virtual CloseAction	OKToClose(const JString& message) override;
 
-	virtual JBoolean	AcceptLicense();
+	virtual JBoolean	AcceptLicense() override;
 
 protected:
 

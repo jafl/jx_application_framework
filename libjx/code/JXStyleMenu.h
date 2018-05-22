@@ -32,16 +32,16 @@ public:
 
 protected:
 
-	virtual JXMenuDirector*	CreateMenuWindow(JXWindowDirector* supervisor);
+	virtual JXMenuDirector*	CreateMenuWindow(JXWindowDirector* supervisor) override;
 
 	virtual void		UpdateMenu();		// must call inherited
 	virtual JFontStyle	GetFontStyleForMenuUpdate() const = 0;
 	virtual void		HandleMenuItem(const JIndex menuItem) = 0;
 	void				UpdateStyle(const JIndex menuItem, JFontStyle* style);
-	JColorIndex			GetSelectedColor() const;
+	JColorID			GetSelectedColor() const;
 
-	JColorIndex	IndexToColor(const JIndex menuIndex) const;
-	JIndex		ColorToIndex(const JColorIndex color) const;
+	JColorID	IndexToColor(const JIndex menuIndex) const;
+	JIndex		ColorToIndex(const JColorID color) const;
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
@@ -63,8 +63,8 @@ protected:
 
 private:
 
-	JColorIndex	itsColorIndex;
-	JColorIndex	itsColorList[ kColorCount ];
+	JColorID	itsColorIndex;
+	JColorID	itsColorList[ kColorCount ];
 
 	// used when selecting custom color
 
@@ -75,7 +75,7 @@ private:
 	void	JXStyleMenuX();
 
 	void	ChooseColor();
-	void	SetCustomColor(const JColorIndex color);
+	void	SetCustomColor(const JColorID color);
 
 	// not allowed
 
@@ -89,7 +89,7 @@ private:
 
  ******************************************************************************/
 
-inline JColorIndex
+inline JColorID
 JXStyleMenu::GetSelectedColor()
 	const
 {

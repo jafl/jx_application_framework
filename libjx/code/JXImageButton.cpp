@@ -12,7 +12,7 @@
 #include <JXImageButton.h>
 #include <JXWindowPainter.h>
 #include <JXImage.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <jAssert.h>
 
 /******************************************************************************
@@ -59,17 +59,17 @@ void
 JXImageButton::SetBitmap
 	(
 	const JConstBitmap&	bitmap,
-	const JColorIndex	origForeColor,
-	const JColorIndex	origBackColor
+	const JColorID	origForeColor,
+	const JColorID	origBackColor
 	)
 {
-	const JColorIndex foreColor =
+	const JColorID foreColor =
 		(origForeColor == kJXTransparentColor ?
-		 GetColormap()->GetBlackColor() : origForeColor);
+		 JColorManager::GetBlackColor() : origForeColor);
 
-	const JColorIndex backColor =
+	const JColorID backColor =
 		(origBackColor == kJXTransparentColor ?
-		 GetColormap()->GetDefaultBackColor() : origBackColor);
+		 JColorManager::GetDefaultBackColor() : origBackColor);
 
 	if (itsOwnsImageFlag)
 		{
@@ -94,7 +94,7 @@ void
 JXImageButton::SetImage
 	(
 	const JXPM&			xpm,
-	const JColorIndex	backColor
+	const JColorID	backColor
 	)
 {
 	JXImage* image = jnew JXImage(GetDisplay(), xpm);
@@ -112,12 +112,12 @@ JXImageButton::SetImage
 	(
 	JXImage*			image,
 	const JBoolean		widgetOwnsImage,
-	const JColorIndex	origBackColor
+	const JColorID	origBackColor
 	)
 {
-	const JColorIndex backColor =
+	const JColorID backColor =
 		(origBackColor == kJXTransparentColor ?
-		 GetColormap()->GetDefaultBackColor() : origBackColor);
+		 JColorManager::GetDefaultBackColor() : origBackColor);
 
 	if (image != itsImage)
 		{

@@ -16,7 +16,7 @@
 #include <JXTextEditorSet.h>
 #include <JXTextEditor.h>
 #include <JXFontManager.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <jXGlobals.h>
 #include <jAssert.h>
 
@@ -101,6 +101,6 @@ JIndex i;
 		te->SetFontStyle(31, 45, JFontStyle(kJFalse, kJFalse, 3, kJFalse), kJTrue);
 		te->SetFontStyle(46, 53, JFontStyle(kJFalse, kJFalse, 0, kJTrue), kJTrue);
 		te->SetFontStyle(54, 62, JFontStyle(kJTrue, kJFalse, 0, kJFalse,
-											GetColormap()->GetRedColor()), kJTrue);
+											JColorManager::GetRedColor()), kJTrue);
 		}
 }

@@ -12,7 +12,7 @@
 #include "TestApp.h"
 #include "TestMDIServer.h"
 #include <JXDisplay.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <JXLibVersion.h>
 #include <JCoreLibVersion.h>
 #include <string.h>

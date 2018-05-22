@@ -11,7 +11,7 @@
  ******************************************************************************/
 
 #include "CMDebuggerProgramInput.h"
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <jProcessUtil.h>
 #include <jAssert.h>
 

@@ -15,7 +15,7 @@
 #include <JXFontSizeMenu.h>
 #include <JXImageMenu.h>
 #include <JXImage.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <jGlobals.h>
 #include <jAssert.h>
 
@@ -94,15 +94,14 @@ TestPopupChoiceDialog::BuildWindow()
 
 	// set up icon menu
 
-	JXDisplay* display   = window->GetDisplay();
-	JXColormap* colormap = window->GetColormap();
+	JXDisplay* display = window->GetDisplay();
 
-	static const JColorIndex kSmileyColor[] =
+	static const JColorID kSmileyColor[] =
 	{
-		colormap->GetWhiteColor(),
-		colormap->GetRedColor(),
-		colormap->GetBlueColor(),
-		colormap->GetBlackColor()
+		JColorManager::GetWhiteColor(),
+		JColorManager::GetRedColor(),
+		JColorManager::GetBlueColor(),
+		JColorManager::GetBlackColor()
 	};
 
 	JXImage* titleImage = NULL;

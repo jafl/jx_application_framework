@@ -13,8 +13,6 @@
 #include <JXCreatePG.h>
 #include <JXSearchTextDialog.h>
 #include <JXSpellChecker.h>
-#include <JXGetCurrFontMgr.h>
-#include <JXGetCurrColormap.h>
 #include <JXHelpManager.h>
 #include <JXDocumentManager.h>
 #include <JXDockManager.h>
@@ -88,9 +86,7 @@ JXCreateGlobals
 
 	JInitCore(theAssertHandler, appSignature, defaultStringData,
 			  un, theChooseSaveFile, jnew JXCreatePG,
-			  jnew JXGetCurrFontMgr, jnew JXGetCurrColormap,
-			  kDefaultFontName, kDefaultFontSize, kDefaultRowColHeaderFontSize,
-			  kMonospaceFontName, kDefaultMonoFontSize);
+			  kDefaultFontName, 0, 0, kMonospaceFontName, 0);
 
 	XSetErrorHandler(JXDisplay::JXErrorHandler);
 	XSetIOErrorHandler(JXApplication::JXIOErrorHandler);
@@ -123,14 +119,6 @@ JXCloseDirectors()
 		theDockManager = NULL;
 		}
 
-	if (theHelpManager != NULL)
-		{
-		const JBoolean ok = theHelpManager->Close();
-		assert( ok );
-
-		theHelpManager = NULL;
-		}
-
 	if (thePersistentWindowOwner != NULL)
 		{
 		const JBoolean ok = thePersistentWindowOwner->Close();
@@ -159,6 +147,9 @@ JXDeleteGlobals1()
 
 	jdelete theSpellChecker;
 	theSpellChecker = NULL;
+
+	jdelete theHelpManager;
+	theHelpManager = NULL;
 }
 
 /******************************************************************************

@@ -37,7 +37,7 @@ JXFileNameDisplay::JXFileNameDisplay
 {
 	SetFont(GetFontManager()->GetDefaultMonospaceFont());
 	SetBorderWidth(1);
-	SetCaretLocation(GetTextLength() + 1);
+	GoToEndOfLine();
 	ListenTo(this);
 }
 
@@ -63,7 +63,7 @@ JXFileNameDisplay::ApertureResized
 	)
 {
 	JXStaticText::ApertureResized(dw,dh);
-	SetCaretLocation(GetTextLength() + 1);
+	GoToEndOfLine();
 }
 
 /******************************************************************************
@@ -80,7 +80,7 @@ JXFileNameDisplay::Receive
 {
 	if (sender == this && message.Is(JTextEditor::kTextSet))
 		{
-		SetCaretLocation(GetTextLength() + 1);
+		GoToEndOfLine();
 		}
 
 	JXStaticText::Receive(sender, message);

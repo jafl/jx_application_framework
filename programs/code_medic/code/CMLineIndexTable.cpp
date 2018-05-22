@@ -24,10 +24,10 @@
 #include <JXScrollbarSet.h>
 #include <JXScrollbar.h>
 #include <JXFontManager.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <JTableSelection.h>
 #include <JPainter.h>
-#include <JColormap.h>
+#include <JXColorManager.h>
 #include <jDirUtil.h>
 #include <JListUtil.h>
 #include <jAssert.h>
@@ -305,11 +305,11 @@ CMLineIndexTable::DrawBreakpoint
 	(
 	const CMBreakpoint*	bp,
 	JPainter&			p,
-	JColormap*			cmap,
+	JXColorManager*			cmap,
 	const JRect&		rect
 	)
 {
-	const JColorIndex color =
+	const JColorID color =
 		!bp->IsEnabled()   ? cmap->GetGreenColor() :
 		bp->HasCondition() ? cmap->GetYellowColor() : cmap->GetRedColor();
 

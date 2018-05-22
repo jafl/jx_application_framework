@@ -42,8 +42,8 @@ public:
 
 	// printing control
 
-	virtual JBoolean	OpenDocument();
-	virtual void		CloseDocument();
+	virtual JBoolean	OpenDocument() override;
+	virtual void		CloseDocument() override;
 
 	// printing parameters
 

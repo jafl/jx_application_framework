@@ -40,13 +40,13 @@
 #include <JXSelectionManager.h>
 #include <JXDNDManager.h>
 #include <JXTextSelection.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <jXGlobals.h>
 #include <jXActionDefs.h>
 #include <jXKeysym.h>
 
 #include <JFontManager.h>
-#include <JString.h>
+#include <JRegex.h>
 #include <jASCIIConstants.h>
 #include <jStreamUtil.h>
 #include <jFileUtil.h>
@@ -250,8 +250,7 @@ static const JUtf8Byte* kMacReplaceMenuStr =
 	"%l| Replace                   %k Meta-=       %i" kJXReplaceSelectionAction
 	"  | Replace and find previous %k Meta-Shift-L %i" kJXReplaceFindPrevAction
 	"  | Replace and find next     %k Meta-L       %i" kJXReplaceFindNextAction
-	"%l| Replace all backwards                     %i" kJXReplaceAllBackwardsAction
-	"  | Replace all forward                       %i" kJXReplaceAllForwardAction
+	"%l| Replace all                               %i" kJXReplaceAllAction
 	"  | Replace all in selection                  %i" kJXReplaceAllInSelectionAction;
 
 static const JUtf8Byte* kWinReplaceMenuStr =
@@ -267,8 +266,7 @@ static const JUtf8Byte* kWinReplaceMenuStr =
 	"%l| Replace                   %h r %k Ctrl-=       %i" kJXReplaceSelectionAction
 	"  | Replace and find previous %h v %k Ctrl-Shift-L %i" kJXReplaceFindPrevAction
 	"  | Replace and find next     %h x %k Ctrl-L       %i" kJXReplaceFindNextAction
-	"%l| Replace all backwards     %h c                 %i" kJXReplaceAllBackwardsAction
-	"  | Replace all forward       %h d                 %i" kJXReplaceAllForwardAction
+	"%l| Replace all               %h c                 %i" kJXReplaceAllAction
 	"  | Replace all in selection  %h i                 %i" kJXReplaceAllInSelectionAction;
 
 static const MenuItemInfo kReplaceMenuItemInfo[] =
@@ -285,8 +283,7 @@ static const MenuItemInfo kReplaceMenuItemInfo[] =
 	{ JTextEditor::kReplaceSelectionCmd,      kJXReplaceSelectionAction       },
 	{ JTextEditor::kReplaceFindPrevCmd,       kJXReplaceFindPrevAction        },
 	{ JTextEditor::kReplaceFindNextCmd,       kJXReplaceFindNextAction        },
-	{ JTextEditor::kReplaceAllBackwardCmd,    kJXReplaceAllBackwardsAction    },
-	{ JTextEditor::kReplaceAllForwardCmd,     kJXReplaceAllForwardAction      },
+	{ JTextEditor::kReplaceAllCmd,            kJXReplaceAllAction             },
 	{ JTextEditor::kReplaceAllInSelectionCmd, kJXReplaceAllInSelectionAction  }
 };
 const JSize kReplaceMenuItemCount = sizeof(kReplaceMenuItemInfo)/sizeof(MenuItemInfo);
@@ -302,8 +299,7 @@ enum
 	kSRFindClipboardBackCmd, kSRFindClipboardFwdCmd,
 	kSRReplaceCmd,
 	kSRReplaceAndFindPrevCmd, kSRReplaceAndFindNextCmd,
-	kSRReplaceAllBackwardCmd, kSRReplaceAllForwardCmd,
-	kSRReplaceAllInSelectionCmd
+	kSRReplaceAllCmd, kSRReplaceAllInSelectionCmd
 };
 
 /******************************************************************************
@@ -314,8 +310,8 @@ enum
 JXTEBase::JXTEBase
 	(
 	const Type			type,
-	JStyledTextBuffer*	buffer,
-	const JBoolean		ownsBuffer,
+	JStyledText*		text,
+	const JBoolean		ownsText,
 	const JBoolean		breakCROnly,
 	JXScrollbarSet*		scrollbarSet,
 	JXContainer*		enclosure,
@@ -328,7 +324,7 @@ JXTEBase::JXTEBase
 	)
 	:
 	JXScrollableWidget(scrollbarSet, enclosure, hSizing, vSizing, x,y, w,h),
-	JTextEditor(type, buffer, ownsBuffer, breakCROnly,
+	JTextEditor(type, text, ownsText, GetFontManager(), breakCROnly,
 				JColorManager::GetRedColor(),				// caret
 				JColorManager::GetDefaultSelectionColor(),	// selection filled
 				JColorManager::GetBlueColor(),				// selection outline
@@ -361,7 +357,7 @@ JXTEBase::JXTEBase
 	TECaretShouldBlink(kJTrue);
 
 	itsMinWidth = itsMinHeight = 0;
-	RecalcAll(kJTrue);
+	RecalcAll();
 
 	itsStyledText0XAtom =
 		GetDisplay()->RegisterXAtom(JXTextSelection::GetStyledText0XAtomName());
@@ -376,7 +372,7 @@ JXTEBase::JXTEBase
 		SetDefaultCursor(kJXTextEditCursor);
 		}
 
-	ListenTo(GetBuffer());
+	ListenTo(GetText());
 }
 
 /******************************************************************************
@@ -491,7 +487,7 @@ JXTEBase::HandleMouseDown
 		if (button == kJXMiddleButton && type == kFullEditor && theMiddleButtonPasteFlag)
 			{
 			TEHandleMouseDown(pt, 1, kJFalse, kJFalse);
-			TEHandleMouseUp(kJFalse);
+			TEHandleMouseUp();
 			Paste();
 			}
 		else if (button != kJXMiddleButton)
@@ -543,7 +539,7 @@ JXTEBase::HandleMouseUp
 	const JXKeyModifiers&	modifiers
 	)
 {
-	TEHandleMouseUp(modifiers.meta());
+	TEHandleMouseUp();
 }
 
 /******************************************************************************
@@ -697,7 +693,7 @@ JXTEBase::GetSelectionData
 
 		const JBoolean ok = GetSelection(text, style);
 		assert( ok );
-		textData->SetData(text, GetColormap(), style);
+		textData->SetData(text, style);
 
 		if (GetType() == kFullEditor)
 			{
@@ -1157,7 +1153,7 @@ JXTEBase::HandleKeyPress
 		(((key == 'z' || key == 'Z') && !controlOn &&  metaOn && !shiftOn) ||
 		 (key == JXCtrl('Z')         &&  controlOn && !metaOn && !shiftOn)))
 		{
-		Undo();
+		GetText()->Undo();
 		processed = kJTrue;
 		}
 	else if (type == kFullEditor &&
@@ -1220,7 +1216,7 @@ JXTEBase::HandleKeyPress
 			 !((controlOn || metaOn) && '1' <= key && key <= '9') &&
 			 OKToPassToJTE(key, &typedKey))
 		{
-		JBoolean deleteToTabStop = TabInsertsSpaces();
+		JBoolean deleteToTabStop = GetText()->TabInsertsSpaces();
 		if (shiftOn)
 			{
 			deleteToTabStop = !deleteToTabStop;
@@ -1246,7 +1242,7 @@ JXTEBase::HandleKeyPress
 			else if ((key == XK_Page_Down || key == XK_KP_Page_Down) &&
 					  ap.bottom == b.bottom)
 				{
-				SetCaretLocation(GetTextLength()+1);
+				SetCaretLocation(GetText()->GetText().GetCharacterCount()+1);
 				}
 			}
 
@@ -1272,7 +1268,7 @@ JXTEBase::HandleKeyPress
 				}
 			else if (key == XK_End || key == XK_KP_End)
 				{
-				SetCaretLocation(GetTextLength()+1);
+				SetCaretLocation(GetText()->GetText().GetCharacterCount()+1);
 				}
 			}
 		}
@@ -1347,7 +1343,7 @@ JXTEBase::MoveCaretToEdge
 	const int key
 	)
 {
-	const JSize h = (3 * (GetDefaultFont()).GetLineHeight()) / 4;
+	const JSize h = (3 * (GetText()->GetDefaultFont()).GetLineHeight(GetFontManager())) / 4;
 
 	JPoint pt;
 	if (key == kJUpArrow)
@@ -1365,8 +1361,7 @@ JXTEBase::MoveCaretToEdge
 		return;
 		}
 
-	const CaretLocation caretLoc = CalcCaretLocation(pt);
-	SetCaretLocation(caretLoc.charIndex);
+	SetCaretLocation(pt);
 }
 
 /******************************************************************************
@@ -1427,12 +1422,12 @@ JXTEBase::BoundsMoved
 	JXScrollableWidget::BoundsMoved(dx, dy);
 
 	if (theScrollCaretFlag && dy > 0 &&
-		GetLineTop(GetLineForChar(GetInsertionIndex())) > (GetAperture()).bottom)
+		GetLineTop(GetLineForChar(GetInsertionIndex().charIndex)) > (GetAperture()).bottom)
 		{
 		MoveCaretToEdge(kJDownArrow);
 		}
 	else if (theScrollCaretFlag && dy < 0 &&
-			 GetLineBottom(GetLineForChar(GetInsertionIndex())) < (GetAperture()).top)
+			 GetLineBottom(GetLineForChar(GetInsertionIndex().charIndex)) < (GetAperture()).top)
 		{
 		MoveCaretToEdge(kJUpArrow);
 		}
@@ -1637,43 +1632,36 @@ JXTEBase::TESetVertScrollStep
 }
 
 /******************************************************************************
- TEClipboardChanged (virtual protected)
+ TEUpdateClipboard (virtual protected)
 
  ******************************************************************************/
 
 void
-JXTEBase::TEClipboardChanged()
+JXTEBase::TEUpdateClipboard
+	(
+	const JString&			text,
+	const JRunArray<JFont>&	style
+	)
+	const
 {
-	if (HasSelection())
+	JXTextSelection* data = jnew JXTextSelection(GetDisplay(), text, &style);
+	assert( data != NULL );
+
+	if (!GetSelectionManager()->SetData(kJXClipboardName, data))
 		{
-		JString* text = jnew JString;
-		assert( text != NULL );
-
-		JRunArray<JFont>* style = jnew JRunArray<JFont>;
-		assert( style != NULL );
-
-		const JBoolean ok = GetSelection(text, style);
-		assert( ok );
-
-		JXTextSelection* data = jnew JXTextSelection(GetDisplay(), text, style);
-		assert( data != NULL );
-
-		if (!GetSelectionManager()->SetData(kJXClipboardName, data))
-			{
-			(JGetUserNotification())->ReportError(JGetString("UnableToCopy::JXTEBase"));
-			}
+		(JGetUserNotification())->ReportError(JGetString("UnableToCopy::JXTEBase"));
 		}
 }
 
 /******************************************************************************
- TEGetExternalClipboard (virtual protected)
+ TEGetClipboard (virtual protected)
 
 	Returns kJTrue if there is something pasteable on the system clipboard.
 
  ******************************************************************************/
 
 JBoolean
-JXTEBase::TEGetExternalClipboard
+JXTEBase::TEGetClipboard
 	(
 	JString*			text,
 	JRunArray<JFont>*	style
@@ -1738,13 +1726,13 @@ JXTEBase::GetAvailDataTypes
 		// By checking WillPasteStyledText(), we avoid wasting time
 		// parsing style information.
 
-		else if (type == itsStyledText0XAtom && WillPasteStyledText())
+		else if (type == itsStyledText0XAtom && GetText().WillPasteStyledText())
 			{
 			*canGetStyledText = kJTrue;
 			}
 		}
 
-	return JConvertToBoolean( *canGetStyledText || *canGetText );
+	return JI2B( *canGetStyledText || *canGetText );
 }
 
 /******************************************************************************
@@ -1820,7 +1808,7 @@ JXTEBase::GetSelectionData
 				gotData = kJTrue;
 				const std::string s(reinterpret_cast<char*>(data), dataLength);
 				std::istringstream input(s);
-				if (!ReadPrivateFormat(input, this, text, style))
+				if (!JStyledText::ReadPrivateFormat(input, text, style))
 					{
 					err = DataNotCompatible();
 					}
@@ -2340,7 +2328,7 @@ JXTEBase::Receive
 		if (info->Successful())
 			{
 			SetPTPrintFileName(itsPTPrinter->GetFileName());
-			itsPTPrinter->Print(GetText());
+			itsPTPrinter->Print(GetText()->GetText());
 			}
 		StopListening(itsPTPrinter);
 		}
@@ -2363,7 +2351,7 @@ JXTEBase::Receive
 		itsGoToLineDialog = NULL;
 		}
 
-	else if (sender == GetBuffer() && message.Is(JStyledTextBuffer::kWillBeBusy))
+	else if (sender == GetText() && message.Is(JStyledText::kWillBeBusy))
 		{
 		(JXGetApplication())->DisplayBusyCursor();
 		}
@@ -2473,11 +2461,11 @@ JXTEBase::HandleEditMenu
 
 	if (cmd == kUndoCmd)
 		{
-		Undo();
+		GetText()->Undo();
 		}
 	else if (cmd == kRedoCmd)
 		{
-		Redo();
+		GetText()->Redo();
 		}
 
 	else if (cmd == kCutCmd)
@@ -2514,12 +2502,12 @@ JXTEBase::HandleEditMenu
 	else if (cmd == kCleanRightMarginCmd)
 		{
 		JCharacterRange range;
-		CleanRightMargin(kJFalse, &range);
+		GetText()->CleanRightMargin(kJFalse, &range);
 		}
 	else if (cmd == kCoerceRightMarginCmd)
 		{
 		JCharacterRange range;
-		CleanRightMargin(kJTrue, &range);
+		GetText()->CleanRightMargin(kJTrue, &range);
 		}
 	else if (cmd == kShiftSelLeftCmd)
 		{
@@ -2604,7 +2592,7 @@ JXTEBase::UpdateSearchMenu()
 	JArray<JBoolean> enableFlags =
 		GetCmdStatus(&crmActionText, &crm2ActionText, &isReadOnly);
 
-	if (!IsEmpty())
+	if (!GetText()->IsEmpty())
 		{
 		enableFlags.SetElement(kFindSelectionBackwardCmd, kJTrue);
 		enableFlags.SetElement(kFindSelectionForwardCmd,  kJTrue);
@@ -2675,7 +2663,7 @@ JXTEBase::UpdateReplaceMenu()
 	JArray<JBoolean> enableFlags =
 		GetCmdStatus(&crmActionText, &crm2ActionText, &isReadOnly);
 
-	if (!IsEmpty())
+	if (!GetText()->IsEmpty())
 		{
 		enableFlags.SetElement(kFindSelectionBackwardCmd, kJTrue);
 		enableFlags.SetElement(kFindSelectionForwardCmd,  kJTrue);
@@ -2749,7 +2737,7 @@ JXTEBase::HandleSearchReplaceCmd
 		{
 		if (!HasSelection())
 			{
-			JCharacterRange r;
+			JStyledText::TextRange r;
 			TEGetDoubleClickSelection(GetInsertionIndex(), kJFalse, kJFalse, &r);
 			SetSelection(r);
 			}
@@ -2759,7 +2747,7 @@ JXTEBase::HandleSearchReplaceCmd
 		{
 		if (!HasSelection())
 			{
-			JCharacterRange r;
+			JStyledText::TextRange r;
 			TEGetDoubleClickSelection(GetInsertionIndex(), kJFalse, kJFalse, &r);
 			SetSelection(r);
 			}
@@ -2786,17 +2774,13 @@ JXTEBase::HandleSearchReplaceCmd
 		{
 		ReplaceAndSearchForward();
 		}
-	else if (cmd == kReplaceAllBackwardCmd)
+	else if (cmd == kReplaceAllCmd)
 		{
-		ReplaceAllBackward();
-		}
-	else if (cmd == kReplaceAllForwardCmd)
-		{
-		ReplaceAllForward();
+		ReplaceAll(kJFalse);
 		}
 	else if (cmd == kReplaceAllInSelectionCmd)
 		{
-		ReplaceAllInSelection();
+		ReplaceAll(kJTrue);
 		}
 }
 
@@ -2845,14 +2829,12 @@ JXTEBase::SearchForward
 	const JBoolean reportNotFound
 	)
 {
-	JString searchStr, replaceStr;
-	JBoolean searchIsRegex, caseSensitive, entireWord, wrapSearch;
-	JBoolean replaceIsRegex, preserveCase;
-	JRegex* regex;
+	JRegex searchRegex;
+	JString replaceStr;
+	JBoolean entireWord, wrapSearch, replaceIsRegex, preserveCase;
 	if (!(JXGetSearchTextDialog())->GetSearchParameters(
-			&searchStr, &searchIsRegex, &caseSensitive, &entireWord, &wrapSearch,
-			&replaceStr, &replaceIsRegex, &preserveCase,
-			&regex))
+			&searchRegex, &entireWord, &wrapSearch,
+			&replaceStr, &replaceIsRegex, &preserveCase))
 		{
 		return kJFalse;
 		}
@@ -2862,32 +2844,20 @@ JXTEBase::SearchForward
 		SetCaretLocation(1);
 		}
 
-	JBoolean found, wrapped;
-	if (searchIsRegex)
-		{
-		(JXGetApplication())->DisplayBusyCursor();
+	JBoolean wrapped;
+	const JStringMatch m = JTextEditor::SearchForward(searchRegex, entireWord, wrapSearch, &wrapped);
 
-		JArray<JCharacterRange> submatchList;
-		found = JTextEditor::SearchForward(*regex, entireWord,
-										   wrapSearch, &wrapped, &submatchList);
-		}
-	else
-		{
-		found = JTextEditor::SearchForward(searchStr, caseSensitive, entireWord,
-										   wrapSearch, &wrapped);
-		}
-
-	if (found)
+	if (!m.IsEmpty())
 		{
 		TEScrollToSelection(kJTrue);
 		}
 
-	if ((!found && reportNotFound) || wrapped)
+	if ((m.IsEmpty() && reportNotFound) || wrapped)
 		{
 		GetDisplay()->Beep();
 		}
 
-	return found;
+	return !m.IsEmpty();
 }
 
 /******************************************************************************
@@ -2901,49 +2871,35 @@ JXTEBase::SearchForward
 JBoolean
 JXTEBase::SearchBackward()
 {
-	JString searchStr, replaceStr;
-	JBoolean searchIsRegex, caseSensitive, entireWord, wrapSearch;
-	JBoolean replaceIsRegex, preserveCase;
-	JRegex* regex;
+	JRegex searchRegex;
+	JString replaceStr;
+	JBoolean entireWord, wrapSearch, replaceIsRegex, preserveCase;
 	if (!(JXGetSearchTextDialog())->GetSearchParameters(
-			&searchStr, &searchIsRegex, &caseSensitive, &entireWord, &wrapSearch,
-			&replaceStr, &replaceIsRegex, &preserveCase,
-			&regex))
+			&searchRegex, &entireWord, &wrapSearch,
+			&replaceStr, &replaceIsRegex, &preserveCase))
 		{
 		return kJFalse;
 		}
 
 	if (GetType() != kFullEditor && !HasSelection())	// caret not visible
 		{
-		SetCaretLocation(GetTextLength()+1);
+		SetCaretLocation(GetText()->GetText().GetCharacterCount()+1);
 		}
 
-	JBoolean found, wrapped;
-	if (searchIsRegex)
-		{
-		(JXGetApplication())->DisplayBusyCursor();
+	JBoolean wrapped;
+	const JStringMatch m = JTextEditor::SearchBackward(searchRegex, entireWord, wrapSearch, &wrapped);
 
-		JArray<JCharacterRange> submatchList;
-		found = JTextEditor::SearchBackward(*regex, entireWord,
-											wrapSearch, &wrapped, &submatchList);
-		}
-	else
-		{
-		found = JTextEditor::SearchBackward(searchStr, caseSensitive, entireWord,
-											wrapSearch, &wrapped);
-		}
-
-	if (found)
+	if (!m.IsEmpty())
 		{
 		TEScrollToSelection(kJTrue);
 		}
 
-	if (!found || wrapped)
+	if (m.IsEmpty() || wrapped)
 		{
 		GetDisplay()->Beep();
 		}
 
-	return found;
+	return !m.IsEmpty();
 }
 
 /******************************************************************************
@@ -2956,7 +2912,7 @@ JXTEBase::SearchClipboardForward()
 {
 	JString text;
 	JRunArray<JFont> style;
-	if (TEGetExternalClipboard(&text, &style))
+	if (TEGetClipboard(&text, &style))
 		{
 		(JXGetSearchTextDialog())->SetSearchText(text);
 		return SearchForward();
@@ -2972,7 +2928,7 @@ JXTEBase::SearchClipboardBackward()
 {
 	JString text;
 	JRunArray<JFont> style;
-	if (TEGetExternalClipboard(&text, &style))
+	if (TEGetClipboard(&text, &style))
 		{
 		(JXGetSearchTextDialog())->SetSearchText(text);
 		return SearchBackward();
@@ -3041,136 +2997,59 @@ JXTEBase::EnterReplaceSelection()
 JBoolean
 JXTEBase::ReplaceSelection()
 {
-	JString searchStr, replaceStr;
-	JBoolean searchIsRegex, caseSensitive, entireWord, wrapSearch;
-	JBoolean replaceIsRegex, preserveCase;
-	JRegex* regex;
+	JRegex searchRegex;
+	JString replaceStr;
+	JBoolean entireWord, wrapSearch, replaceIsRegex, preserveCase;
 	if (GetType() != kFullEditor ||
 		!(JXGetSearchTextDialog())->GetSearchParameters(
-			&searchStr, &searchIsRegex, &caseSensitive, &entireWord, &wrapSearch,
-			&replaceStr, &replaceIsRegex, &preserveCase,
-			&regex))
+			&searchRegex, &entireWord, &wrapSearch,
+			&replaceStr, &replaceIsRegex, &preserveCase))
 		{
 		return kJFalse;
 		}
 
-	JArray<JCharacterRange> submatchList;
-	if (searchIsRegex &&
-		SelectionMatches(*regex, entireWord, &submatchList))
+	const JStringMatch m = SelectionMatches(searchRegex, entireWord);
+
+	if (!m.IsEmpty())
 		{
-		JTextEditor::ReplaceSelection(replaceStr, preserveCase,
-									  replaceIsRegex, *regex, submatchList);
+		JTextEditor::ReplaceSelection(m, replaceStr, replaceIsRegex, preserveCase);
 		return kJTrue;
-		}
-	else if (!searchIsRegex &&
-			 SelectionMatches(searchStr, caseSensitive, entireWord))
-		{
-		submatchList.AppendElement(JCharacterRange(1, searchStr.GetCharacterCount()));
-		JTextEditor::ReplaceSelection(replaceStr, preserveCase,
-									  replaceIsRegex, *regex, submatchList);
-		return kJTrue;
-		}
-
-	GetDisplay()->Beep();
-	return kJFalse;
-}
-
-/******************************************************************************
- ReplaceAllForward
-
-	Replace every occurrence of the search string with the replace string,
-	starting from the current location.  Returns kJTrue if it replaced anything.
-
- ******************************************************************************/
-
-JBoolean
-JXTEBase::ReplaceAllForward()
-{
-	JString searchStr, replaceStr;
-	JBoolean searchIsRegex, caseSensitive, entireWord, wrapSearch;
-	JBoolean replaceIsRegex, preserveCase;
-	JRegex* regex;
-	if (GetType() == kFullEditor &&
-		(JXGetSearchTextDialog())->GetSearchParameters(
-			&searchStr, &searchIsRegex, &caseSensitive, &entireWord, &wrapSearch,
-			&replaceStr, &replaceIsRegex, &preserveCase,
-			&regex))
-		{
-		(JXGetApplication())->DisplayBusyCursor();
-
-		return JTextEditor::ReplaceAllForward(
-					searchStr, searchIsRegex, caseSensitive, entireWord, wrapSearch,
-					replaceStr, replaceIsRegex, preserveCase, *regex);
 		}
 	else
 		{
+		GetDisplay()->Beep();
 		return kJFalse;
 		}
 }
 
 /******************************************************************************
- ReplaceAllBackward
+ ReplaceAll
 
-	Replace every occurrence of the search string with the replace string,
-	starting from the current location.  Returns kJTrue if it replaced anything.
-
- ******************************************************************************/
-
-JBoolean
-JXTEBase::ReplaceAllBackward()
-{
-	JString searchStr, replaceStr;
-	JBoolean searchIsRegex, caseSensitive, entireWord, wrapSearch;
-	JBoolean replaceIsRegex, preserveCase;
-	JRegex* regex;
-	if (GetType() == kFullEditor &&
-		(JXGetSearchTextDialog())->GetSearchParameters(
-			&searchStr, &searchIsRegex, &caseSensitive, &entireWord, &wrapSearch,
-			&replaceStr, &replaceIsRegex, &preserveCase,
-			&regex))
-		{
-		(JXGetApplication())->DisplayBusyCursor();
-
-		return JTextEditor::ReplaceAllBackward(
-					searchStr, searchIsRegex, caseSensitive, entireWord, wrapSearch,
-					replaceStr, replaceIsRegex, preserveCase, *regex);
-		}
-	else
-		{
-		return kJFalse;
-		}
-}
-
-/******************************************************************************
- ReplaceAllInSelection
-
-	Replace every occurrence of the search string with the replace string,
-	restricting the search to the current selection.  Returns kJTrue if it
-	replaced anything.
+	Replace every occurrence of the search string with the replace string.
+	Returns kJTrue if it replaced anything.
 
  ******************************************************************************/
 
 JBoolean
-JXTEBase::ReplaceAllInSelection()
+JXTEBase::ReplaceAll
+	(
+	const JBoolean restrictToSelection
+	)
 {
-	JString searchStr, replaceStr;
-	JBoolean searchIsRegex, caseSensitive, entireWord, wrapSearch;
-	JBoolean replaceIsRegex, preserveCase;
+	JRegex searchRegex;
+	JString replaceStr;
+	JBoolean entireWord, wrapSearch, replaceIsRegex, preserveCase;
 	JRegex* regex;
-	JCharacterRange searchRange;
 	if (GetType() == kFullEditor &&
-		GetSelection(&searchRange) &&
 		(JXGetSearchTextDialog())->GetSearchParameters(
-			&searchStr, &searchIsRegex, &caseSensitive, &entireWord, &wrapSearch,
-			&replaceStr, &replaceIsRegex, &preserveCase,
-			&regex))
+			&searchRegex, &entireWord, &wrapSearch,
+			&replaceStr, &replaceIsRegex, &preserveCase))
 		{
 		(JXGetApplication())->DisplayBusyCursor();
 
-		return JTextEditor::ReplaceAllForward(
-					searchStr, searchIsRegex, caseSensitive, entireWord, wrapSearch,
-					replaceStr, replaceIsRegex, preserveCase, *regex,
-					searchRange);
+		return JTextEditor::ReplaceAll(searchRegex, entireWord,
+									   replaceStr, replaceIsRegex,
+									   preserveCase, restrictToSelection);
 		}
 	else
 		{
@@ -3406,7 +3285,7 @@ JXTEBase::AskForLine()
 {
 	assert( itsGoToLineDialog == NULL );
 
-	const JIndex lineIndex = GetLineForChar(GetInsertionIndex());
+	const JIndex lineIndex = GetLineForChar(GetInsertionIndex().charIndex);
 	const JSize lineCount  = GetLineCount();
 
 	JXDirector* sup = GetWindow()->GetDirector();
@@ -3431,7 +3310,7 @@ JXTEBase::SaveDisplayState()
 {
 	DisplayState state;
 	state.scroll       = JXScrollableWidget::SaveDisplayState();
-	state.hadSelection = GetSelection(&(state.selStart), &(state.selEnd));
+	state.hadSelection = GetSelection(&state.range);
 	return state;
 }
 
@@ -3458,7 +3337,7 @@ JXTEBase::RestoreDisplayState
 
 	if (state.hadSelection)
 		{
-		SetSelection(state.selStart, state.selEnd);
+		SetSelection(state.range);
 		}
 }
 
@@ -3470,7 +3349,7 @@ JXTEBase::RestoreDisplayState
 std::istream&
 operator>>
 	(
-	std::istream&						input,
+	std::istream&					input,
 	JXTEBase::PartialWordModifier&	pwMod
 	)
 {
@@ -3486,7 +3365,7 @@ operator>>
 std::ostream&
 operator<<
 	(
-	std::ostream&							output,
+	std::ostream&						output,
 	const JXTEBase::PartialWordModifier	pwMod
 	)
 {

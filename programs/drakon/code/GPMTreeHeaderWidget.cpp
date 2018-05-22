@@ -14,7 +14,7 @@
 #include <jXConstants.h>
 #include <JPainter.h>
 #include <JFontManager.h>
-#include <JColormap.h>
+#include <JXColorManager.h>
 #include <jAssert.h>
 
 /******************************************************************************

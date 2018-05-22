@@ -11,8 +11,6 @@
 #include <JXSelectionManager.h>
 #include <JTextEditor.h>
 
-class JXColormap;
-
 class JXTextSelection : public JXSelectionData
 {
 public:
@@ -28,17 +26,13 @@ public:
 
 	JBoolean	GetText(const JString** text) const;
 	JBoolean	GetStyle(const JRunArray<JFont>** style) const;
-	JBoolean	GetColormap(const JXColormap** colormap) const;
 	JBoolean	GetTextEditor(JTextEditor** te) const;
 
-	void	SetData(const JString& text,
-					const JXColormap* colormap = NULL,
-					const JRunArray<JFont>* style = NULL);
-	void	SetData(JString* text, const JXColormap* colormap,
-					JRunArray<JFont>* style);
+	void	SetData(const JString& text, const JRunArray<JFont>* style = NULL);
+	void	SetData(JString* text, JRunArray<JFont>* style);
 	void	SetData(const JPtrArray<JString>& list);
 
-	void	SetTextEditor(JTextEditor* te, const JIndexRange& selection);
+	void	SetTextEditor(JTextEditor* te, const JCharacterRange& selection);
 
 	static const JUtf8Byte*	GetStyledText0XAtomName();
 
@@ -53,16 +47,14 @@ private:
 
 	JString*			itsText;		// NULL until Resolve()
 	JRunArray<JFont>*	itsStyle;		// can be NULL
-	const JXColormap*	itsColormap;	// not owned; can be NULL
 	JTextEditor*		itsTE;			// not owned; can be NULL
-	JIndexRange			itsSelection;
+	JCharacterRange		itsSelection;
 
 	Atom	itsStyledText0XAtom;
 
 private:
 
 	void	JXTextSelectionX();
-	void	SetColormap(const JXColormap* colormap);
 
 	// not allowed
 
@@ -101,22 +93,6 @@ JXTextSelection::GetStyle
 {
 	*style = itsStyle;
 	return JI2B( itsStyle != NULL );
-}
-
-/******************************************************************************
- GetColormap
-
- ******************************************************************************/
-
-inline JBoolean
-JXTextSelection::GetColormap
-	(
-	const JXColormap** colormap
-	)
-	const
-{
-	*colormap = itsColormap;
-	return JI2B( itsColormap != NULL );
 }
 
 /******************************************************************************

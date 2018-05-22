@@ -40,8 +40,8 @@ const JCoordinate kMinButtonHMargin = 10;
 JXCheckboxListDialog::JXCheckboxListDialog
 	(
 	JXDirector*					supervisor,
-	const JCharacter*			windowTitle,
-	const JCharacter*			prompt,
+	const JString&				windowTitle,
+	const JString&				prompt,
 	const JPtrArray<JString>&	choiceList,
 	const JPtrArray<JString>*	shortcutList
 	)
@@ -81,7 +81,7 @@ JXCheckboxListDialog::GetSelectedItems
 	const JSize count = itsCBList->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		if (itsCBList->NthElement(i)->IsChecked())
+		if (itsCBList->GetElement(i)->IsChecked())
 			{
 			indexList->AppendElement(i);
 			}
@@ -101,7 +101,7 @@ JXCheckboxListDialog::SelectItem
 	const JIndex index
 	)
 {
-	itsCBList->NthElement(index)->SetState(kJTrue);
+	itsCBList->GetElement(index)->SetState(kJTrue);
 }
 
 /******************************************************************************
@@ -115,7 +115,7 @@ JXCheckboxListDialog::SelectAllItems()
 	const JSize count = itsCBList->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		itsCBList->NthElement(i)->SetState(kJTrue);
+		itsCBList->GetElement(i)->SetState(kJTrue);
 		}
 }
 
@@ -127,8 +127,8 @@ JXCheckboxListDialog::SelectAllItems()
 void
 JXCheckboxListDialog::BuildWindow
 	(
-	const JCharacter*			windowTitle,
-	const JCharacter*			prompt,
+	const JString&				windowTitle,
+	const JString&				prompt,
 	const JPtrArray<JString>&	choiceList,
 	const JPtrArray<JString>*	shortcutList
 	)
@@ -156,7 +156,7 @@ JXCheckboxListDialog::BuildWindow
 	for (JIndex i=1; i<=actionCount; i++)
 		{
 		JXTextCheckbox* cb =
-			jnew JXTextCheckbox(*(choiceList.NthElement(i)), window,
+			jnew JXTextCheckbox(*(choiceList.GetElement(i)), window,
 								JXWidget::kFixedLeft, JXWidget::kFixedTop,
 								kCBHLMarginWidth, y + (i-1) * kItemVSeparation,
 								10, kTextHeight);
@@ -164,7 +164,7 @@ JXCheckboxListDialog::BuildWindow
 
 		if (shortcutList != NULL)
 			{
-			cb->SetShortcuts(*(shortcutList->NthElement(i)));
+			cb->SetShortcuts(*(shortcutList->GetElement(i)));
 			}
 
 		itsCBList->Append(cb);
@@ -175,7 +175,7 @@ JXCheckboxListDialog::BuildWindow
 
 	for (JIndex i=1; i<=actionCount; i++)
 		{
-		(itsCBList->NthElement(i))->SetSize(wmin, kTextHeight);
+		(itsCBList->GetElement(i))->SetSize(wmin, kTextHeight);
 		}
 
 	wmin += kCBHLMarginWidth + kCBHRMarginWidth;

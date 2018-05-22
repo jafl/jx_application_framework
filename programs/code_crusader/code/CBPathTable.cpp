@@ -14,7 +14,7 @@
 #include <JXPathInput.h>
 #include <JXSelectionManager.h>
 #include <JXDNDManager.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <JXImage.h>
 #include <jXUtil.h>
 #include <jXConstants.h>

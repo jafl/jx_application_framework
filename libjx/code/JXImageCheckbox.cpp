@@ -10,7 +10,7 @@
 #include <JXImageCheckbox.h>
 #include <JXImage.h>
 #include <JXWindowPainter.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <jXPainterUtil.h>
 #include <jAssert.h>
 
@@ -60,17 +60,17 @@ void
 JXImageCheckbox::SetBitmap
 	(
 	const JConstBitmap&	bitmap,
-	const JColorIndex	origForeColor,
-	const JColorIndex	origBackColor
+	const JColorID	origForeColor,
+	const JColorID	origBackColor
 	)
 {
-	const JColorIndex foreColor =
+	const JColorID foreColor =
 		(origForeColor == kJXTransparentColor ?
-		 GetColormap()->GetBlackColor() : origForeColor);
+		 JColorManager::GetBlackColor() : origForeColor);
 
-	const JColorIndex backColor =
+	const JColorID backColor =
 		(origBackColor == kJXTransparentColor ?
-		 GetColormap()->GetDefaultBackColor() : origBackColor);
+		 JColorManager::GetDefaultBackColor() : origBackColor);
 
 	if (itsOwnsImageFlag)
 		{
@@ -95,7 +95,7 @@ void
 JXImageCheckbox::SetImage
 	(
 	const JXPM&			xpm,
-	const JColorIndex	backColor
+	const JColorID	backColor
 	)
 {
 	JXImage* image = jnew JXImage(GetDisplay(), xpm);
@@ -113,12 +113,12 @@ JXImageCheckbox::SetImage
 	(
 	JXImage*			image,
 	const JBoolean		widgetOwnsImage,
-	const JColorIndex	origBackColor
+	const JColorID	origBackColor
 	)
 {
-	const JColorIndex backColor =
+	const JColorID backColor =
 		(origBackColor == kJXTransparentColor ?
-		 GetColormap()->GetDefaultBackColor() : origBackColor);
+		 JColorManager::GetDefaultBackColor() : origBackColor);
 
 	if (image != itsImage)
 		{
@@ -182,11 +182,11 @@ JXImageCheckbox::DrawBorder
 		p.SetLineWidth(borderWidth);
 		if (drawChecked)
 			{
-			p.SetPenColor(GetColormap()->GetWhiteColor());
+			p.SetPenColor(JColorManager::GetWhiteColor());
 			}
 		else
 			{
-			p.SetPenColor(GetColormap()->GetInactiveLabelColor());
+			p.SetPenColor(JColorManager::GetInactiveLabelColor());
 			}
 		p.RectInside(frame);
 		}

@@ -20,7 +20,7 @@
 #include <JXWindowPainter.h>
 #include <JXTextMenu.h>
 #include <JXIntegerInput.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 
 #include <JList.h>
 #include <JString.h>

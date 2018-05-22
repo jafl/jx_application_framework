@@ -27,7 +27,7 @@
 #include <JPagePrinter.h>
 
 #include <jXEventUtil.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <jXGlobals.h>
 #include <jXActionDefs.h>
 #include <jXKeysym.h>

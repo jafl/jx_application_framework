@@ -133,7 +133,7 @@ GDBGetCompletions::HandleSuccess
 			itsHistory->Paste(data);
 			}
 		itsInput->SetText(itsPrefix);
-		itsInput->SetCaretLocation(itsInput->GetTextLength() + 1);
+		itsInput->GoToEndOfLine();
 		return;
 		}
 
@@ -147,7 +147,7 @@ GDBGetCompletions::HandleSuccess
 
 		maxPrefix += " ";
 		itsInput->SetText(maxPrefix);
-		itsInput->SetCaretLocation(itsInput->GetTextLength() + 1);
+		itsInput->GoToEndOfLine();
 		return;
 		}
 
@@ -175,6 +175,6 @@ GDBGetCompletions::HandleSuccess
 	else
 		{
 		itsInput->SetText(maxPrefix);
-		itsInput->SetCaretLocation(itsInput->GetTextLength() + 1);
+		itsInput->GoToEndOfLine();
 		}
 }

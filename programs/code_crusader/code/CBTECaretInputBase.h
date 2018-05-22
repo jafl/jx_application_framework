@@ -39,7 +39,7 @@ protected:
 	virtual JIndex	GetValue(const JTextEditor::CaretLocationChanged& info) const = 0;
 
 	virtual void		BoundsResized(const JCoordinate dw, const JCoordinate dh) override;
-	virtual JCoordinate$1GetFTCMinContentSize(const JBoolean horizontal) const override;
+	virtual JCoordinate	GetFTCMinContentSize(const JBoolean horizontal) const override;
 
 	virtual void		HandleFocusEvent() override;
 	virtual void		HandleUnfocusEvent() override;

@@ -12,7 +12,7 @@
 #include <JXWindowPainter.h>
 #include <jXPainterUtil.h>
 #include <JXFontManager.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <jXGlobals.h>
 #include <jAssert.h>
 
@@ -45,9 +45,8 @@ JXTextRadioButton::JXTextRadioButton
 	itsShortcuts = NULL;
 	itsULIndex   = 0;
 
-	JXColormap* colormap = GetColormap();
-	itsNormalColor = colormap->GetDefaultBackColor();
-	itsPushedColor = colormap->GetDefaultSelButtonColor();
+	itsNormalColor = JColorManager::GetDefaultBackColor();
+	itsPushedColor = JColorManager::GetDefaultSelButtonColor();
 }
 
 /******************************************************************************
@@ -117,7 +116,7 @@ JCoordinate
 JXTextRadioButton::GetPreferredWidth()
 	const
 {
-	return 2*kMarginWidth + kBoxHeight + itsFont.GetStringWidth(itsLabel);
+	return 2*kMarginWidth + kBoxHeight + itsFont.GetStringWidth(GetFontManager(), itsLabel);
 }
 
 /******************************************************************************
@@ -152,12 +151,12 @@ JXTextRadioButton::Draw
 	else if (drawChecked)
 		{
 		JXDrawFlatDiamond(p, boxRect, kJXDefaultBorderWidth,
-						  GetColormap()->GetInactiveLabelColor(), kJTrue, itsPushedColor);
+						  JColorManager::GetInactiveLabelColor(), kJTrue, itsPushedColor);
 		}
 	else
 		{
 		JXDrawFlatDiamond(p, boxRect, kJXDefaultBorderWidth,
-						  GetColormap()->GetInactiveLabelColor(), kJTrue, itsNormalColor);
+						  JColorManager::GetInactiveLabelColor(), kJTrue, itsNormalColor);
 		}
 
 	// draw text
@@ -169,7 +168,7 @@ JXTextRadioButton::Draw
 	else
 		{
 		JFont f = itsFont;
-		f.SetColor(GetColormap()->GetInactiveLabelColor());
+		f.SetColor(JColorManager::GetInactiveLabelColor());
 		p.SetFont(f);
 		}
 
@@ -208,5 +207,6 @@ JXTextRadioButton::GetFTCMinContentSize
 {
 	return (horizontal ?
 			JMax(GetApertureWidth(), GetPreferredWidth()) :
-			JMax(GetApertureHeight(), kBoxHeight, JRound(itsFont.GetLineHeight() * 1.25)));
+			JMax(GetApertureHeight(), kBoxHeight,
+				 JRound(itsFont.GetLineHeight(GetFontManager()) * 1.25)));
 }

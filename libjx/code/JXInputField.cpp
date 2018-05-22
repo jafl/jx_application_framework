@@ -13,7 +13,7 @@
 #include <JXTextMenu.h>
 #include <JXEditTable.h>
 #include <JXWindowPainter.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <jXConstants.h>
 #include <jXGlobals.h>
 #include <jXKeysym.h>
@@ -334,11 +334,11 @@ JXInputField::DrawBorder
 		{
 		if (IsDNDTarget())
 			{
-			p.SetPenColor((p.GetColormap())->GetDefaultDNDBorderColor());
+			p.SetPenColor(JColorManager::GetDefaultDNDBorderColor());
 			}
 		else
 			{
-			p.SetPenColor(GetColormap()->GetBlackColor());
+			p.SetPenColor(JColorManager::GetBlackColor());
 			}
 		p.JPainter::Rect(frame);
 		}

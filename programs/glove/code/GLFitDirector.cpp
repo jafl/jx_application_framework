@@ -50,7 +50,7 @@
 
 #include <JXApplication.h>
 #include <JXColHeaderWidget.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <JXDownRect.h>
 #include <JXExprWidget.h>
 #include <JXHelpManager.h>

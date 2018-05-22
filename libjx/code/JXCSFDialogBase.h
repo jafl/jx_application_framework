@@ -35,8 +35,8 @@ public:
 
 	virtual ~JXCSFDialogBase();
 
-	virtual void		Activate();
-	virtual JBoolean	Deactivate();
+	virtual void		Activate() override;
+	virtual JBoolean	Deactivate() override;
 
 	const JString&	GetPath() const;
 	const JString&	GetFilter() const;

@@ -21,7 +21,7 @@
 class JString;
 class JFontManager;
 class JXDisplay;
-class JXColormap;
+class JXColorManager;
 class JXWindow;
 class JXWidget;
 class JXWindowPainter;
@@ -97,7 +97,6 @@ public:
 
 	JXDisplay*		GetDisplay() const;
 	JXWindow*		GetWindow() const;
-	JXColormap*		GetColormap() const;
 
 	JXContainer*	GetEnclosure() const;
 //	JBoolean		SetEnclosure(JXContainer* obj);

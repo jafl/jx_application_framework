@@ -11,7 +11,7 @@
 #include <JXSelectionData.h>
 
 class JXImage;
-class JXColormap;
+class JXColorManager;
 
 class JXImageSelection : public JXSelectionData
 {
@@ -32,7 +32,7 @@ public:
 							 JXDisplay* display, JXImage** image);
 	static JBoolean	GetImage(JXSelectionManager* selMgr,
 							 const Atom selectionName, const Time time,
-							 JXColormap* colormap, JXImage** image);
+							 JXColorManager* colormap, JXImage** image);
 
 	static const JUtf8Byte*	GetXPMXAtomName();
 	static const JUtf8Byte*	GetGIFXAtomName();
@@ -41,10 +41,10 @@ public:
 
 protected:
 
-	virtual void		AddTypes(const Atom selectionName);
+	virtual void		AddTypes(const Atom selectionName) override;
 	virtual JBoolean	ConvertData(const Atom requestType, Atom* returnType,
 									unsigned char** data, JSize* dataLength,
-									JSize* bitsPerBlock) const;
+									JSize* bitsPerBlock) const override;
 
 	virtual void	ReceiveGoingAway(JBroadcaster* sender) override;
 

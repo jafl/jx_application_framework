@@ -21,7 +21,7 @@
 
 #include <JXStringList.h>
 #include <JXWindow.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <jXGlobals.h>
 #include <JStyleTableData.h>
 #include <JTableSelection.h>
@@ -56,11 +56,10 @@ JXStringList::JXStringList
 	itsSortedList  = NULL;
 	itsMinColWidth = 1;
 
-	itsStyles = jnew JStyleTableData(this, GetFontManager(), GetColormap());
+	itsStyles = jnew JStyleTableData(this, GetFontManager());
 	assert( itsStyles != NULL );
 
-	JXColormap* colormap         = GetColormap();
-	const JColorIndex blackColor = colormap->GetBlackColor();
+	const JColorID blackColor = JColorManager::GetBlackColor();
 	SetRowBorderInfo(0, blackColor);
 	SetColBorderInfo(0, blackColor);
 

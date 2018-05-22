@@ -24,7 +24,7 @@
 #include <JXChooseSaveFile.h>
 #include <JXHelpManager.h>
 #include <JXFontManager.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <JXSharedPrefsManager.h>
 #include <JRegex.h>
 #include <JSubstitute.h>
@@ -2458,7 +2458,7 @@ CBPrefsManager::CRMRuleListInfo::Free()
 
  ******************************************************************************/
 
-JColorIndex
+JColorID
 CBPrefsManager::GetColor
 	(
 	const JIndex index
@@ -2473,7 +2473,7 @@ void
 CBPrefsManager::SetColor
 	(
 	const JIndex		index,
-	const JColorIndex	color
+	const JColorID	color
 	)
 {
 	assert( ColorIndexValid(index) );
@@ -2494,7 +2494,7 @@ CBPrefsManager::SetColor
 void
 CBPrefsManager::ReadColors()
 {
-	JColormap* colormap = ((JXGetApplication())->GetCurrentDisplay())->GetColormap();
+	JXColorManager* colormap = ((JXGetApplication())->GetCurrentDisplay())->GetColormap();
 
 	JBoolean ok[ kColorCount ];
 
@@ -2532,7 +2532,7 @@ CBPrefsManager::ReadColors()
 
 	// set unallocated colors to the default values
 
-	const JColorIndex defaultColor[] =
+	const JColorID defaultColor[] =
 		{
 		colormap->GetBlackColor(),
 		colormap->GetWhiteColor(),
@@ -2541,7 +2541,7 @@ CBPrefsManager::ReadColors()
 		colormap->GetBlueColor(),
 		colormap->GetGrayColor(70)
 		};
-	assert( sizeof(defaultColor)/sizeof(JColorIndex) == kColorCount );
+	assert( sizeof(defaultColor)/sizeof(JColorID) == kColorCount );
 
 	for (JIndex i=0; i<kColorCount; i++)
 		{
@@ -2555,7 +2555,7 @@ CBPrefsManager::ReadColors()
 void
 CBPrefsManager::WriteColors()
 {
-	JColormap* colormap = ((JXGetApplication())->GetCurrentDisplay())->GetColormap();
+	JXColorManager* colormap = ((JXGetApplication())->GetCurrentDisplay())->GetColormap();
 
 	std::ostringstream data;
 	data << kCurrentTextColorVers;

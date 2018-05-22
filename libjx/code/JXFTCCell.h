@@ -99,8 +99,8 @@ private:
 	void		SyncSize(const JCoordinate dw, const JCoordinate dh);
 	JBoolean	IsElastic();
 
-	JString	Indent(const JSize extra = 0) const;
-	JString	GetDirectionName() const;
+	JString				Indent(const JSize extra = 0) const;
+	const JUtf8Byte*	GetDirectionName() const;
 
 	static JListT::CompareResult
 		CompareHorizontally(JXFTCCell* const & c1, JXFTCCell* const & c2);

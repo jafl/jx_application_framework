@@ -258,7 +258,7 @@ CBKeyScriptTableBase::AdjustColWidths()
 	const JSize apWidth = GetApertureWidth();
 
 	JCoordinate lineWidth;
-	JColorIndex color;
+	JColorID color;
 	GetColBorderInfo(&lineWidth, &color);
 	const JSize usedWidth = GetColWidth(kMacroColumn) + lineWidth;
 

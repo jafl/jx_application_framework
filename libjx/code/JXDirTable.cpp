@@ -17,7 +17,7 @@
 #include <JXWindow.h>
 #include <JXWindowPainter.h>
 #include <JXImage.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <JXSelectionManager.h>
 #include <JXDNDManager.h>
 #include <JXTimerTask.h>
@@ -112,11 +112,11 @@ JXDirTable::JXDirTable
 	itsIgnoreSelChangesFlag = kJFalse;
 	SetSelectionBehavior(itsAllowSelectMultipleFlag, kJTrue);
 
-	const JIndex blackColor = GetColormap()->GetBlackColor();
+	const JIndex blackColor = JColorManager::GetBlackColor();
 	SetRowBorderInfo(0, blackColor);
 	SetColBorderInfo(0, blackColor);
 	AppendCols(1);
-	SetDefaultRowHeight(GetFontManager()->GetDefaultFont().GetLineHeight() +
+	SetDefaultRowHeight(JFontManager::GetDefaultFont().GetLineHeight(GetFontManager()) +
 						2*kVMarginWidth);
 	AdjustTableContents();
 	ListenTo(itsDirInfo);
@@ -495,10 +495,10 @@ JXDirTable::TableDrawCell
 
 	const JBoolean italic = entry.IsLink();
 
-	JColorIndex color = GetColormap()->GetBlackColor();
+	JColorID color = JColorManager::GetBlackColor();
 	if (!ItemIsActive(cell.y))
 		{
-		color = GetColormap()->GetGrayColor(40);
+		color = JColorManager::GetGrayColor(40);
 		}
 
 	JFont font = GetWindow()->GetFontManager()->GetDefaultFont();
@@ -928,11 +928,11 @@ JXDirTable::AdjustTableContents()
 	const JSize count = itsDirInfo->GetElementCount();
 	AppendRows(count);
 
-	const JFont& font = fontMgr->GetDefaultFont();
+	const JFont& font = JFontManager::GetDefaultFont();
 	for (JIndex i=1; i<=count; i++)
 		{
 		const JDirEntry& entry = itsDirInfo->GetEntry(i);
-		const JSize w          = font.GetStringWidth(entry.GetName());
+		const JSize w          = font.GetStringWidth(GetFontManager(), entry.GetName());
 		if (w > itsMaxStringWidth)
 			{
 			itsMaxStringWidth = w;

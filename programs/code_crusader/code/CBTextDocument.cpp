@@ -38,7 +38,7 @@
 #include <JXScrollbarSet.h>
 #include <JXScrollbar.h>
 #include <JXDownRect.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <JXSharedPrefsManager.h>
 #include <jXEventUtil.h>
 #include <JFontManager.h>

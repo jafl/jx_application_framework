@@ -15,7 +15,7 @@
 #include "CBSearchTextDialog.h"
 #include "cbmUtil.h"
 #include "cbGlobals.h"
-#include <JColormap.h>
+#include <JXColorManager.h>
 #include <jFileUtil.h>
 #include <jFStreamUtil.h>
 #include <stdio.h>

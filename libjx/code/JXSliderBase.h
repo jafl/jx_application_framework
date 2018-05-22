@@ -36,9 +36,9 @@ protected:
 									const JXButtonStates& buttonStates,
 									const JXKeyModifiers& modifiers) override;
 
-	virtual void		SliderRedraw() const;
-	virtual JCoordinate	SliderGetWidth() const;
-	virtual JCoordinate	SliderGetHeight() const;
+	virtual void		SliderRedraw() const override;
+	virtual JCoordinate	SliderGetWidth() const override;
+	virtual JCoordinate	SliderGetHeight() const override;
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 

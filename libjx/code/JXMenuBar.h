@@ -64,7 +64,7 @@ protected:
 
 	virtual void	ApertureResized(const JCoordinate dw, const JCoordinate dh) override;
 
-	virtual JCoordinate$1GetFTCMinContentSize(const JBoolean horizontal) const override;
+	virtual JCoordinate	GetFTCMinContentSize(const JBoolean horizontal) const override;
 
 private:
 

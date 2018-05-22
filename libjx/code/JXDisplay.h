@@ -19,7 +19,7 @@
 
 class JFontManager;
 class JXGC;
-class JXColormap;
+class JXColorManager;
 class JXWindow;
 class JXContainer;
 class JXFontManager;
@@ -95,7 +95,7 @@ public:
 
 	const JString&	GetName() const;
 	Display*		GetXDisplay() const;
-	JXColormap*		GetColormap() const;
+	JXColorManager*	GetColorManager() const;
 	JSize			GetMaxStringByteCount() const;
 	JBoolean		IsOSX() const;
 
@@ -205,10 +205,6 @@ public:
 	JBoolean	GetKeyboardGrabber(JXWindow** window) const;
 	void		SetKeyboardGrabber(JXWindow* window);
 
-	// called by JXColormap
-
-	void	ColormapChanged(JXColormap*	colormap);
-
 	// called by JXWDManager, etc.
 
 	JXWDManager*	GetWDManager() const;
@@ -285,7 +281,7 @@ private:
 
 	JString					itsName;
 	Display*				itsXDisplay;
-	JXColormap*				itsColormap;
+	JXColorManager*			itsColorManager;
 	const JSize				itsMaxStringByteCount;
 	JBoolean				itsIsOSXFlag;	// scroll wheel is fine-grain on OS X
 	mutable JArray<JRect>*	itsBounds;
@@ -578,15 +574,15 @@ JXDisplay::GetDefaultGC()
 }
 
 /******************************************************************************
- GetColormap
+ GetColorManager
 
  ******************************************************************************/
 
-inline JXColormap*
-JXDisplay::GetColormap()
+inline JXColorManager*
+JXDisplay::GetColorManager()
 	const
 {
-	return itsColormap;
+	return itsColorManager;
 }
 
 /******************************************************************************

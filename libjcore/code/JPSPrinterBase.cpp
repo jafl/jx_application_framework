@@ -60,14 +60,12 @@
 
 JPSPrinterBase::JPSPrinterBase
 	(
-	const JFontManager*		fontManager,
-	const JColorManager*	colorManager
+	const JFontManager* fontManager
 	)
 	:
 	itsFontManager(fontManager),
-	itsColorManager(colorManager),
 	itsFontSetFlag(kJFalse),
-	itsLastFont(fontManager->GetDefaultFont())
+	itsLastFont(JFontManager::GetDefaultFont())
 {
 	itsDocOpenFlag = kJFalse;
 	itsBWFlag      = kJFalse;
@@ -788,7 +786,7 @@ void
 JPSPrinterBase::ResetBufferedValues()
 {
 	itsFontSetFlag = kJFalse;
-	itsLastColor   = itsColorManager->GetBlackColor();
+	itsLastColor   = JColorManager::GetBlackColor();
 
 	itsLastLineWidthInit = kJFalse;
 	itsLastLineWidth     = 1;
@@ -1021,7 +1019,7 @@ JPSPrinterBase::PSConvertToRGB
 	)
 	const
 {
-	if (itsBWFlag && color != itsColorManager->GetWhiteColor())
+	if (itsBWFlag && color != JColorManager::GetWhiteColor())
 		{
 		*red = *green = *blue = 0;		// black
 		}

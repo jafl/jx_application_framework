@@ -32,7 +32,7 @@ public:
 
 	void	EditStyles();
 
-	JColormap*						GetColormap() const;
+	JXColorManager*						GetColormap() const;
 	const JStringMap<JFontStyle>&	GetWordList() const;
 
 	void	ReadFromSharedPrefs(std::istream& input);
@@ -59,8 +59,8 @@ protected:
 
 private:
 
-	JColormap*				itsColormap;			// not owned
-	JColorIndex				itsDefColor;
+	JXColorManager*				itsColormap;			// not owned
+	JColorID				itsDefColor;
 
 	const JFileVersion		itsTypeNameVersion;
 	const JSize				itsTypeNameCount;
@@ -87,7 +87,7 @@ private:
 	JBoolean	TypeStylesChanged(const JArray<JFontStyle>& newTypeStyles) const;
 	JBoolean	WordStylesChanged(const JStringMap<JFontStyle>& newWordStyles) const;
 
-	void	SetDefaultFontColor(const JColorIndex color);
+	void	SetDefaultFontColor(const JColorID color);
 
 	static JListT::CompareResult
 		CompareWords(const WordStyle& w1, const WordStyle& w2);
@@ -143,7 +143,7 @@ CBStylerBase::GetWordList()
 
  ******************************************************************************/
 
-inline JColormap*
+inline JXColorManager*
 CBStylerBase::GetColormap()
 	const
 {

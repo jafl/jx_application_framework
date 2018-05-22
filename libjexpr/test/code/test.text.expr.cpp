@@ -16,7 +16,7 @@
 #include <JFunction.h>
 
 #include <JString.h>
-#include <JColorIndex.h>
+#include <JColorID.h>
 #include <jCommandLine.h>
 #include <jFStreamUtil.h>
 #include <jStreamUtil.h>

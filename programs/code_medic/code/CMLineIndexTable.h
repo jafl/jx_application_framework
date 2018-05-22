@@ -10,7 +10,7 @@
 
 #include <JXTable.h>
 
-class JColormap;
+class JXColorManager;
 class JXTextMenu;
 class JXScrollbar;
 class CMLink;
@@ -39,7 +39,7 @@ public:
 	void		SetCurrentLine(const JIndex line);
 
 	static void	DrawBreakpoint(const CMBreakpoint* bp, JPainter& p,
-							   JColormap* cmap, const JRect& rect);
+							   JXColorManager* cmap, const JRect& rect);
 
 protected:
 
@@ -59,7 +59,7 @@ protected:
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 	virtual void	ReceiveGoingAway(JBroadcaster* sender) override;
 
-	virtual JColorIndex	GetCurrentLineMarkerColor() const = 0;
+	virtual JColorID	GetCurrentLineMarkerColor() const = 0;
 	virtual JString		GetLineText(const JIndex lineIndex) const = 0;
 	virtual JString		GetLongestLineText(const JIndex lineCount) const = 0;
 	virtual JIndex		GetBreakpointLineIndex(const JIndex bpIndex, const CMBreakpoint* bp) const = 0;

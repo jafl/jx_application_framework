@@ -8,7 +8,7 @@
  ******************************************************************************/
 
 #include <jXPainterUtil.h>
-#include <JColormap.h>
+#include <JColorManager.h>
 #include <jAssert.h>
 
 /******************************************************************************
@@ -23,7 +23,7 @@ JXDrawUpFrame
 	const JRect&		rect,
 	const JCoordinate	width,
 	const JBoolean		fill,
-	const JColorIndex	origFillColor
+	const JColorID	origFillColor
 	)
 {
 	if (width <= 0 || rect.IsEmpty())
@@ -31,13 +31,13 @@ JXDrawUpFrame
 		return;
 		}
 
-	const JColorIndex fillColor =
+	const JColorID fillColor =
 		(origFillColor == kJXTransparentColor ?
-		 (p.GetColormap())->GetBlackColor() : origFillColor);
+		 JColorManager::GetBlackColor() : origFillColor);
 
 	// save the original settings
 
-	const JColorIndex origColor = p.GetPenColor();
+	const JColorID origColor = p.GetPenColor();
 	const JSize origWidth       = p.GetLineWidth();
 	const JBoolean origFill     = p.IsFilling();
 
@@ -72,7 +72,6 @@ JXDrawUpFrame
 	const JPoint botRight1 = botRight + JPoint(-width+1, -width+1);
 
 	JPolygon edge(6);
-	const JColormap* cmap = p.GetColormap();
 
 	edge.AppendElement(topRight);
 	edge.AppendElement(topRight1);
@@ -80,7 +79,7 @@ JXDrawUpFrame
 	edge.AppendElement(botLeft1);
 	edge.AppendElement(botLeft);
 	edge.AppendElement(botRight);
-	p.SetPenColor(cmap->Get3DShadeColor());
+	p.SetPenColor(JColorManager::Get3DShadeColor());
 	p.Polygon(edge);
 	p.Point(botRight);
 
@@ -90,7 +89,7 @@ JXDrawUpFrame
 	edge.SetElement(4, botLeft1);
 	edge.SetElement(5, botLeft);
 	edge.SetElement(6, topLeft);
-	p.SetPenColor(cmap->Get3DLightColor());
+	p.SetPenColor(JColorManager::Get3DLightColor());
 	p.Polygon(edge);
 
 	// clean up
@@ -112,7 +111,7 @@ JXDrawDownFrame
 	const JRect&		rect,
 	const JCoordinate	width,
 	const JBoolean		fill,
-	const JColorIndex	origFillColor
+	const JColorID	origFillColor
 	)
 {
 	if (width <= 0 || rect.IsEmpty())
@@ -120,13 +119,13 @@ JXDrawDownFrame
 		return;
 		}
 
-	const JColorIndex fillColor =
+	const JColorID fillColor =
 		(origFillColor == kJXTransparentColor ?
-		 (p.GetColormap())->GetBlackColor() : origFillColor);
+		 JColorManager::GetBlackColor() : origFillColor);
 
 	// save the original settings
 
-	const JColorIndex origColor = p.GetPenColor();
+	const JColorID origColor = p.GetPenColor();
 	const JSize origWidth       = p.GetLineWidth();
 	const JBoolean origFill     = p.IsFilling();
 
@@ -161,7 +160,6 @@ JXDrawDownFrame
 	const JPoint botRight1 = botRight + JPoint(-width+1, -width+1);
 
 	JPolygon edge(6);
-	const JColormap* cmap = p.GetColormap();
 
 	edge.AppendElement(topRight);
 	edge.AppendElement(topRight1);
@@ -169,7 +167,7 @@ JXDrawDownFrame
 	edge.AppendElement(botLeft1);
 	edge.AppendElement(botLeft);
 	edge.AppendElement(topLeft);
-	p.SetPenColor(cmap->Get3DShadeColor());
+	p.SetPenColor(JColorManager::Get3DShadeColor());
 	p.Polygon(edge);
 
 	edge.SetElement(1, topRight);
@@ -178,7 +176,7 @@ JXDrawDownFrame
 	edge.SetElement(4, botLeft1);
 	edge.SetElement(5, botLeft);
 	edge.SetElement(6, botRight);
-	p.SetPenColor(cmap->Get3DLightColor());
+	p.SetPenColor(JColorManager::Get3DLightColor());
 	p.Polygon(edge);
 	p.Point(botRight);
 
@@ -206,7 +204,7 @@ JXDrawEngravedFrame
 	const JCoordinate	betweenWidth,
 	const JCoordinate	upWidth,
 	const JBoolean		fill,
-	const JColorIndex	fillColor
+	const JColorID	fillColor
 	)
 {
 	JRect rect = origRect;
@@ -214,9 +212,9 @@ JXDrawEngravedFrame
 	rect.Shrink(downWidth, downWidth);
 	if (betweenWidth > 0)
 		{
-		const JColorIndex origColor = p.GetPenColor();
+		const JColorID origColor = p.GetPenColor();
 		const JBoolean origFill     = p.IsFilling();
-		p.SetPenColor((p.GetColormap())->GetDefaultBackColor());
+		p.SetPenColor(JColorManager::GetDefaultBackColor());
 		p.SetFilling(kJTrue);
 		p.Rect(rect);
 		p.SetPenColor(origColor);
@@ -244,7 +242,7 @@ JXDrawEmbossedFrame
 	const JCoordinate	betweenWidth,
 	const JCoordinate	downWidth,
 	const JBoolean		fill,
-	const JColorIndex	fillColor
+	const JColorID	fillColor
 	)
 {
 	JRect rect = origRect;
@@ -252,9 +250,9 @@ JXDrawEmbossedFrame
 	rect.Shrink(upWidth, upWidth);
 	if (betweenWidth > 0)
 		{
-		const JColorIndex origColor = p.GetPenColor();
+		const JColorID origColor = p.GetPenColor();
 		const JBoolean origFill     = p.IsFilling();
-		p.SetPenColor((p.GetColormap())->GetDefaultBackColor());
+		p.SetPenColor(JColorManager::GetDefaultBackColor());
 		p.SetFilling(kJTrue);
 		p.Rect(rect);
 		p.SetPenColor(origColor);
@@ -276,9 +274,9 @@ JXDrawFlatDiamond
 	JPainter&			p,
 	const JRect&		rect,
 	const JCoordinate	width,
-	const JColorIndex	borderColor,
+	const JColorID	borderColor,
 	const JBoolean		fill,
-	const JColorIndex	origFillColor
+	const JColorID	origFillColor
 	)
 {
 	if (width <= 0 || rect.IsEmpty())
@@ -286,13 +284,13 @@ JXDrawFlatDiamond
 		return;
 		}
 
-	const JColorIndex fillColor =
+	const JColorID fillColor =
 		(origFillColor == kJXTransparentColor ?
-		 (p.GetColormap())->GetBlackColor() : origFillColor);
+		 JColorManager::GetBlackColor() : origFillColor);
 
 	// save the original settings
 
-	const JColorIndex origColor = p.GetPenColor();
+	const JColorID origColor = p.GetPenColor();
 	const JSize origWidth       = p.GetLineWidth();
 
 	p.SetLineWidth(1);
@@ -375,7 +373,7 @@ JXDrawUpDiamond
 	const JRect&		rect,
 	const JCoordinate	width,
 	const JBoolean		fill,
-	const JColorIndex	origFillColor
+	const JColorID	origFillColor
 	)
 {
 	if (width <= 0 || rect.IsEmpty())
@@ -383,13 +381,13 @@ JXDrawUpDiamond
 		return;
 		}
 
-	const JColorIndex fillColor =
+	const JColorID fillColor =
 		(origFillColor == kJXTransparentColor ?
-		 (p.GetColormap())->GetBlackColor() : origFillColor);
+		 JColorManager::GetBlackColor() : origFillColor);
 
 	// save the original settings
 
-	const JColorIndex origColor = p.GetPenColor();
+	const JColorID origColor = p.GetPenColor();
 	const JSize origWidth       = p.GetLineWidth();
 
 	p.SetLineWidth(1);
@@ -413,17 +411,15 @@ JXDrawUpDiamond
 
 	// draw the four sides
 
-	const JColormap* cmap = p.GetColormap();
-
 	if (width == 1)
 		{
 		// optimize: draw four lines
 
-		p.SetPenColor(cmap->Get3DShadeColor());
+		p.SetPenColor(JColorManager::Get3DShadeColor());
 		p.Line(left, bottom);
 		p.LineTo(right);
 
-		p.SetPenColor(cmap->Get3DLightColor());
+		p.SetPenColor(JColorManager::Get3DLightColor());
 		p.Line(left, top);
 		p.LineTo(right + JPoint(1,1));
 		}
@@ -447,7 +443,7 @@ JXDrawUpDiamond
 		edge.AppendElement(right1);
 		edge.AppendElement(right);
 		edge.AppendElement(bottom);
-		p.SetPenColor(cmap->Get3DShadeColor());
+		p.SetPenColor(JColorManager::Get3DShadeColor());
 		p.Polygon(edge);
 
 		edge.SetElement(1, left);
@@ -456,7 +452,7 @@ JXDrawUpDiamond
 		edge.SetElement(4, right1);
 		edge.SetElement(5, right);
 		edge.SetElement(6, top);
-		p.SetPenColor(cmap->Get3DLightColor());
+		p.SetPenColor(JColorManager::Get3DLightColor());
 		p.Polygon(edge);
 
 		p.SetFilling(origFill);
@@ -480,7 +476,7 @@ JXDrawDownDiamond
 	const JRect&		rect,
 	const JCoordinate	width,
 	const JBoolean		fill,
-	const JColorIndex	origFillColor
+	const JColorID	origFillColor
 	)
 {
 	if (width <= 0 || rect.IsEmpty())
@@ -488,13 +484,13 @@ JXDrawDownDiamond
 		return;
 		}
 
-	const JColorIndex fillColor =
+	const JColorID fillColor =
 		(origFillColor == kJXTransparentColor ?
-		 (p.GetColormap())->GetBlackColor() : origFillColor);
+		 JColorManager::GetBlackColor() : origFillColor);
 
 	// save the original settings
 
-	const JColorIndex origColor = p.GetPenColor();
+	const JColorID origColor = p.GetPenColor();
 	const JSize origWidth       = p.GetLineWidth();
 
 	p.SetLineWidth(1);
@@ -518,17 +514,15 @@ JXDrawDownDiamond
 
 	// draw the four sides
 
-	const JColormap* cmap = p.GetColormap();
-
 	if (width == 1)
 		{
 		// optimize: draw four lines
 
-		p.SetPenColor(cmap->Get3DShadeColor());
+		p.SetPenColor(JColorManager::Get3DShadeColor());
 		p.Line(left, top);
 		p.LineTo(right);
 
-		p.SetPenColor(cmap->Get3DLightColor());
+		p.SetPenColor(JColorManager::Get3DLightColor());
 		p.Line(left, bottom);
 		p.LineTo(right + JPoint(1,-1));
 		}
@@ -552,7 +546,7 @@ JXDrawDownDiamond
 		edge.AppendElement(right1);
 		edge.AppendElement(right);
 		edge.AppendElement(top);
-		p.SetPenColor(cmap->Get3DShadeColor());
+		p.SetPenColor(JColorManager::Get3DShadeColor());
 		p.Polygon(edge);
 
 		edge.SetElement(1, left);
@@ -561,7 +555,7 @@ JXDrawDownDiamond
 		edge.SetElement(4, right1);
 		edge.SetElement(5, right);
 		edge.SetElement(6, bottom);
-		p.SetPenColor(cmap->Get3DLightColor());
+		p.SetPenColor(JColorManager::Get3DLightColor());
 		p.Polygon(edge);
 
 		p.SetFilling(origFill);
@@ -583,7 +577,7 @@ JXFillDiamond
 	(
 	JPainter&			p,
 	const JRect&		rect,
-	const JColorIndex	fillColor
+	const JColorID	fillColor
 	)
 {
 	const JBoolean origFill = p.IsFilling();
@@ -617,7 +611,7 @@ JXDrawUpArrowLeft
 	const JRect&		rect,
 	const JCoordinate	width,
 	const JBoolean		fill,
-	const JColorIndex	origFillColor
+	const JColorID	origFillColor
 	)
 {
 	if (width <= 0 || rect.IsEmpty())
@@ -625,13 +619,13 @@ JXDrawUpArrowLeft
 		return;
 		}
 
-	const JColorIndex fillColor =
+	const JColorID fillColor =
 		(origFillColor == kJXTransparentColor ?
-		 (p.GetColormap())->GetBlackColor() : origFillColor);
+		 JColorManager::GetBlackColor() : origFillColor);
 
 	// save the original settings
 
-	const JColorIndex origColor = p.GetPenColor();
+	const JColorID origColor = p.GetPenColor();
 	const JSize origWidth       = p.GetLineWidth();
 
 	p.SetLineWidth(1);
@@ -651,17 +645,15 @@ JXDrawUpArrowLeft
 
 	// draw the three sides
 
-	const JColormap* cmap = p.GetColormap();
-
 	if (width == 1)
 		{
 		// optimize: draw three lines
 
-		p.SetPenColor(cmap->Get3DShadeColor());
+		p.SetPenColor(JColorManager::Get3DShadeColor());
 		p.Line(topRight, botRight);
 		p.LineTo(left);
 
-		p.SetPenColor(cmap->Get3DLightColor());
+		p.SetPenColor(JColorManager::Get3DLightColor());
 		p.Line(topRight, left);
 		}
 	else
@@ -683,14 +675,14 @@ JXDrawUpArrowLeft
 		edge.AppendElement(topRight);
 		edge.AppendElement(topRight1);
 		edge.AppendElement(botRight1);
-		p.SetPenColor(cmap->Get3DShadeColor());
+		p.SetPenColor(JColorManager::Get3DShadeColor());
 		p.Polygon(edge);
 
 		edge.SetElement(3, topRight);
 		edge.SetElement(4, topRight1);
 		edge.RemoveElement(6);
 		edge.RemoveElement(5);
-		p.SetPenColor(cmap->Get3DLightColor());
+		p.SetPenColor(JColorManager::Get3DLightColor());
 		p.Polygon(edge);
 
 		p.SetFilling(origFill);
@@ -714,7 +706,7 @@ JXDrawDownArrowLeft
 	const JRect&		rect,
 	const JCoordinate	width,
 	const JBoolean		fill,
-	const JColorIndex	origFillColor
+	const JColorID	origFillColor
 	)
 {
 	if (width <= 0 || rect.IsEmpty())
@@ -722,13 +714,13 @@ JXDrawDownArrowLeft
 		return;
 		}
 
-	const JColorIndex fillColor =
+	const JColorID fillColor =
 		(origFillColor == kJXTransparentColor ?
-		 (p.GetColormap())->GetBlackColor() : origFillColor);
+		 JColorManager::GetBlackColor() : origFillColor);
 
 	// save the original settings
 
-	const JColorIndex origColor = p.GetPenColor();
+	const JColorID origColor = p.GetPenColor();
 	const JSize origWidth       = p.GetLineWidth();
 
 	p.SetLineWidth(1);
@@ -748,16 +740,14 @@ JXDrawDownArrowLeft
 
 	// draw the three sides
 
-	const JColormap* cmap = p.GetColormap();
-
 	if (width == 1)
 		{
 		// optimize: draw three lines
 
-		p.SetPenColor(cmap->Get3DShadeColor());
+		p.SetPenColor(JColorManager::Get3DShadeColor());
 		p.Line(topRight, left);
 
-		p.SetPenColor(cmap->Get3DLightColor());
+		p.SetPenColor(JColorManager::Get3DLightColor());
 		p.Line(topRight, botRight);
 		p.LineTo(left);
 		}
@@ -778,14 +768,14 @@ JXDrawDownArrowLeft
 		edge.AppendElement(left);
 		edge.AppendElement(topRight);
 		edge.AppendElement(topRight1);
-		p.SetPenColor(cmap->Get3DShadeColor());
+		p.SetPenColor(JColorManager::Get3DShadeColor());
 		p.Polygon(edge);
 
 		edge.SetElement(3, botRight);
 		edge.SetElement(4, topRight);
 		edge.AppendElement(topRight1);
 		edge.AppendElement(botRight1);
-		p.SetPenColor(cmap->Get3DLightColor());
+		p.SetPenColor(JColorManager::Get3DLightColor());
 		p.Polygon(edge);
 
 		p.SetFilling(origFill);
@@ -807,7 +797,7 @@ JXFillArrowLeft
 	(
 	JPainter&			p,
 	const JRect&		rect,
-	const JColorIndex	fillColor
+	const JColorID	fillColor
 	)
 {
 	const JBoolean origFill = p.IsFilling();
@@ -836,7 +826,7 @@ JXDrawUpArrowRight
 	const JRect&		rect,
 	const JCoordinate	width,
 	const JBoolean		fill,
-	const JColorIndex	origFillColor
+	const JColorID	origFillColor
 	)
 {
 	if (width <= 0 || rect.IsEmpty())
@@ -844,13 +834,13 @@ JXDrawUpArrowRight
 		return;
 		}
 
-	const JColorIndex fillColor =
+	const JColorID fillColor =
 		(origFillColor == kJXTransparentColor ?
-		 (p.GetColormap())->GetBlackColor() : origFillColor);
+		 JColorManager::GetBlackColor() : origFillColor);
 
 	// save the original settings
 
-	const JColorIndex origColor = p.GetPenColor();
+	const JColorID origColor = p.GetPenColor();
 	const JSize origWidth       = p.GetLineWidth();
 
 	p.SetLineWidth(1);
@@ -870,16 +860,14 @@ JXDrawUpArrowRight
 
 	// draw the three sides
 
-	const JColormap* cmap = p.GetColormap();
-
 	if (width == 1)
 		{
 		// optimize: draw three lines
 
-		p.SetPenColor(cmap->Get3DShadeColor());
+		p.SetPenColor(JColorManager::Get3DShadeColor());
 		p.Line(botLeft, right);
 
-		p.SetPenColor(cmap->Get3DLightColor());
+		p.SetPenColor(JColorManager::Get3DLightColor());
 		p.Line(botLeft, topLeft);
 		p.LineTo(right);
 		}
@@ -900,14 +888,14 @@ JXDrawUpArrowRight
 		edge.AppendElement(right);
 		edge.AppendElement(botLeft);
 		edge.AppendElement(botLeft1);
-		p.SetPenColor(cmap->Get3DShadeColor());
+		p.SetPenColor(JColorManager::Get3DShadeColor());
 		p.Polygon(edge);
 
 		edge.SetElement(3, topLeft);
 		edge.SetElement(4, botLeft);
 		edge.AppendElement(botLeft1);
 		edge.AppendElement(topLeft1);
-		p.SetPenColor(cmap->Get3DLightColor());
+		p.SetPenColor(JColorManager::Get3DLightColor());
 		p.Polygon(edge);
 
 		p.SetFilling(origFill);
@@ -931,7 +919,7 @@ JXDrawDownArrowRight
 	const JRect&		rect,
 	const JCoordinate	width,
 	const JBoolean		fill,
-	const JColorIndex	origFillColor
+	const JColorID	origFillColor
 	)
 {
 	if (width <= 0 || rect.IsEmpty())
@@ -939,13 +927,13 @@ JXDrawDownArrowRight
 		return;
 		}
 
-	const JColorIndex fillColor =
+	const JColorID fillColor =
 		(origFillColor == kJXTransparentColor ?
-		 (p.GetColormap())->GetBlackColor() : origFillColor);
+		 JColorManager::GetBlackColor() : origFillColor);
 
 	// save the original settings
 
-	const JColorIndex origColor = p.GetPenColor();
+	const JColorID origColor = p.GetPenColor();
 	const JSize origWidth       = p.GetLineWidth();
 
 	p.SetLineWidth(1);
@@ -965,17 +953,15 @@ JXDrawDownArrowRight
 
 	// draw the three sides
 
-	const JColormap* cmap = p.GetColormap();
-
 	if (width == 1)
 		{
 		// optimize: draw three lines
 
-		p.SetPenColor(cmap->Get3DShadeColor());
+		p.SetPenColor(JColorManager::Get3DShadeColor());
 		p.Line(botLeft, topLeft);
 		p.LineTo(right);
 
-		p.SetPenColor(cmap->Get3DLightColor());
+		p.SetPenColor(JColorManager::Get3DLightColor());
 		p.Line(botLeft, right);
 		}
 	else
@@ -997,14 +983,14 @@ JXDrawDownArrowRight
 		edge.AppendElement(botLeft);
 		edge.AppendElement(botLeft1);
 		edge.AppendElement(topLeft1);
-		p.SetPenColor(cmap->Get3DShadeColor());
+		p.SetPenColor(JColorManager::Get3DShadeColor());
 		p.Polygon(edge);
 
 		edge.SetElement(3, botLeft);
 		edge.SetElement(4, botLeft1);
 		edge.RemoveElement(6);
 		edge.RemoveElement(5);
-		p.SetPenColor(cmap->Get3DLightColor());
+		p.SetPenColor(JColorManager::Get3DLightColor());
 		p.Polygon(edge);
 
 		p.SetFilling(origFill);
@@ -1026,7 +1012,7 @@ JXFillArrowRight
 	(
 	JPainter&			p,
 	const JRect&		rect,
-	const JColorIndex	fillColor
+	const JColorID	fillColor
 	)
 {
 	const JBoolean origFill = p.IsFilling();
@@ -1055,7 +1041,7 @@ JXDrawUpArrowUp
 	const JRect&		rect,
 	const JCoordinate	width,
 	const JBoolean		fill,
-	const JColorIndex	origFillColor
+	const JColorID	origFillColor
 	)
 {
 	if (width <= 0 || rect.IsEmpty())
@@ -1063,13 +1049,13 @@ JXDrawUpArrowUp
 		return;
 		}
 
-	const JColorIndex fillColor =
+	const JColorID fillColor =
 		(origFillColor == kJXTransparentColor ?
-		 (p.GetColormap())->GetBlackColor() : origFillColor);
+		 JColorManager::GetBlackColor() : origFillColor);
 
 	// save the original settings
 
-	const JColorIndex origColor = p.GetPenColor();
+	const JColorID origColor = p.GetPenColor();
 	const JSize origWidth       = p.GetLineWidth();
 
 	p.SetLineWidth(1);
@@ -1089,17 +1075,15 @@ JXDrawUpArrowUp
 
 	// draw the three sides
 
-	const JColormap* cmap = p.GetColormap();
-
 	if (width == 1)
 		{
 		// optimize: draw three lines
 
-		p.SetPenColor(cmap->Get3DShadeColor());
+		p.SetPenColor(JColorManager::Get3DShadeColor());
 		p.Line(botLeft, botRight);
 		p.LineTo(top);
 
-		p.SetPenColor(cmap->Get3DLightColor());
+		p.SetPenColor(JColorManager::Get3DLightColor());
 		p.Line(botLeft, top);
 		}
 	else
@@ -1121,14 +1105,14 @@ JXDrawUpArrowUp
 		edge.AppendElement(botLeft);
 		edge.AppendElement(botLeft1);
 		edge.AppendElement(botRight1);
-		p.SetPenColor(cmap->Get3DShadeColor());
+		p.SetPenColor(JColorManager::Get3DShadeColor());
 		p.Polygon(edge);
 
 		edge.SetElement(3, botLeft);
 		edge.SetElement(4, botLeft1);
 		edge.RemoveElement(6);
 		edge.RemoveElement(5);
-		p.SetPenColor(cmap->Get3DLightColor());
+		p.SetPenColor(JColorManager::Get3DLightColor());
 		p.Polygon(edge);
 
 		p.SetFilling(origFill);
@@ -1152,7 +1136,7 @@ JXDrawDownArrowUp
 	const JRect&		rect,
 	const JCoordinate	width,
 	const JBoolean		fill,
-	const JColorIndex	origFillColor
+	const JColorID	origFillColor
 	)
 {
 	if (width <= 0 || rect.IsEmpty())
@@ -1160,13 +1144,13 @@ JXDrawDownArrowUp
 		return;
 		}
 
-	const JColorIndex fillColor =
+	const JColorID fillColor =
 		(origFillColor == kJXTransparentColor ?
-		 (p.GetColormap())->GetBlackColor() : origFillColor);
+		 JColorManager::GetBlackColor() : origFillColor);
 
 	// save the original settings
 
-	const JColorIndex origColor = p.GetPenColor();
+	const JColorID origColor = p.GetPenColor();
 	const JSize origWidth       = p.GetLineWidth();
 
 	p.SetLineWidth(1);
@@ -1186,16 +1170,14 @@ JXDrawDownArrowUp
 
 	// draw the three sides
 
-	const JColormap* cmap = p.GetColormap();
-
 	if (width == 1)
 		{
 		// optimize: draw three lines
 
-		p.SetPenColor(cmap->Get3DShadeColor());
+		p.SetPenColor(JColorManager::Get3DShadeColor());
 		p.Line(botLeft, top);
 
-		p.SetPenColor(cmap->Get3DLightColor());
+		p.SetPenColor(JColorManager::Get3DLightColor());
 		p.Line(botLeft, botRight);
 		p.LineTo(top);
 		}
@@ -1216,14 +1198,14 @@ JXDrawDownArrowUp
 		edge.AppendElement(top);
 		edge.AppendElement(botLeft);
 		edge.AppendElement(botLeft1);
-		p.SetPenColor(cmap->Get3DShadeColor());
+		p.SetPenColor(JColorManager::Get3DShadeColor());
 		p.Polygon(edge);
 
 		edge.SetElement(3, botRight);
 		edge.SetElement(4, botLeft);
 		edge.AppendElement(botLeft1);
 		edge.AppendElement(botRight1);
-		p.SetPenColor(cmap->Get3DLightColor());
+		p.SetPenColor(JColorManager::Get3DLightColor());
 		p.Polygon(edge);
 
 		p.SetFilling(origFill);
@@ -1245,7 +1227,7 @@ JXFillArrowUp
 	(
 	JPainter&			p,
 	const JRect&		rect,
-	const JColorIndex	fillColor
+	const JColorID	fillColor
 	)
 {
 	const JBoolean origFill = p.IsFilling();
@@ -1274,7 +1256,7 @@ JXDrawUpArrowDown
 	const JRect&		rect,
 	const JCoordinate	width,
 	const JBoolean		fill,
-	const JColorIndex	origFillColor
+	const JColorID	origFillColor
 	)
 {
 	if (width <= 0 || rect.IsEmpty())
@@ -1282,13 +1264,13 @@ JXDrawUpArrowDown
 		return;
 		}
 
-	const JColorIndex fillColor =
+	const JColorID fillColor =
 		(origFillColor == kJXTransparentColor ?
-		 (p.GetColormap())->GetBlackColor() : origFillColor);
+		 JColorManager::GetBlackColor() : origFillColor);
 
 	// save the original settings
 
-	const JColorIndex origColor = p.GetPenColor();
+	const JColorID origColor = p.GetPenColor();
 	const JSize origWidth       = p.GetLineWidth();
 
 	p.SetLineWidth(1);
@@ -1308,16 +1290,14 @@ JXDrawUpArrowDown
 
 	// draw the three sides
 
-	const JColormap* cmap = p.GetColormap();
-
 	if (width == 1)
 		{
 		// optimize: draw three lines
 
-		p.SetPenColor(cmap->Get3DShadeColor());
+		p.SetPenColor(JColorManager::Get3DShadeColor());
 		p.Line(topRight, bottom);
 
-		p.SetPenColor(cmap->Get3DLightColor());
+		p.SetPenColor(JColorManager::Get3DLightColor());
 		p.Line(topRight, topLeft);
 		p.LineTo(bottom);
 		}
@@ -1338,14 +1318,14 @@ JXDrawUpArrowDown
 		edge.AppendElement(bottom);
 		edge.AppendElement(topRight);
 		edge.AppendElement(topRight1);
-		p.SetPenColor(cmap->Get3DShadeColor());
+		p.SetPenColor(JColorManager::Get3DShadeColor());
 		p.Polygon(edge);
 
 		edge.SetElement(3, topLeft);
 		edge.SetElement(4, topRight);
 		edge.AppendElement(topRight1);
 		edge.AppendElement(topLeft1);
-		p.SetPenColor(cmap->Get3DLightColor());
+		p.SetPenColor(JColorManager::Get3DLightColor());
 		p.Polygon(edge);
 
 		p.SetFilling(origFill);
@@ -1369,7 +1349,7 @@ JXDrawDownArrowDown
 	const JRect&		rect,
 	const JCoordinate	width,
 	const JBoolean		fill,
-	const JColorIndex	origFillColor
+	const JColorID	origFillColor
 	)
 {
 	if (width <= 0 || rect.IsEmpty())
@@ -1377,13 +1357,13 @@ JXDrawDownArrowDown
 		return;
 		}
 
-	const JColorIndex fillColor =
+	const JColorID fillColor =
 		(origFillColor == kJXTransparentColor ?
-		 (p.GetColormap())->GetBlackColor() : origFillColor);
+		 JColorManager::GetBlackColor() : origFillColor);
 
 	// save the original settings
 
-	const JColorIndex origColor = p.GetPenColor();
+	const JColorID origColor = p.GetPenColor();
 	const JSize origWidth       = p.GetLineWidth();
 
 	p.SetLineWidth(1);
@@ -1403,17 +1383,15 @@ JXDrawDownArrowDown
 
 	// draw the three sides
 
-	const JColormap* cmap = p.GetColormap();
-
 	if (width == 1)
 		{
 		// optimize: draw three lines
 
-		p.SetPenColor(cmap->Get3DShadeColor());
+		p.SetPenColor(JColorManager::Get3DShadeColor());
 		p.Line(topRight, topLeft);
 		p.LineTo(bottom);
 
-		p.SetPenColor(cmap->Get3DLightColor());
+		p.SetPenColor(JColorManager::Get3DLightColor());
 		p.Line(topRight, bottom);
 		}
 	else
@@ -1435,14 +1413,14 @@ JXDrawDownArrowDown
 		edge.AppendElement(topRight);
 		edge.AppendElement(topRight1);
 		edge.AppendElement(topLeft1);
-		p.SetPenColor(cmap->Get3DShadeColor());
+		p.SetPenColor(JColorManager::Get3DShadeColor());
 		p.Polygon(edge);
 
 		edge.SetElement(3, topRight);
 		edge.SetElement(4, topRight1);
 		edge.RemoveElement(6);
 		edge.RemoveElement(5);
-		p.SetPenColor(cmap->Get3DLightColor());
+		p.SetPenColor(JColorManager::Get3DLightColor());
 		p.Polygon(edge);
 
 		p.SetFilling(origFill);
@@ -1464,7 +1442,7 @@ JXFillArrowDown
 	(
 	JPainter&			p,
 	const JRect&		rect,
-	const JColorIndex	fillColor
+	const JColorID	fillColor
 	)
 {
 	const JBoolean origFill = p.IsFilling();
@@ -1506,7 +1484,7 @@ JXDrawDNDBorder
 		r.right  -= (width-1)/2;
 
 		p.SetLineWidth(width);
-		p.SetPenColor((p.GetColormap())->GetDefaultDNDBorderColor());
+		p.SetPenColor(JColorManager::GetDefaultDNDBorderColor());
 		p.JPainter::Rect(r);
 		p.SetLineWidth(1);
 		}

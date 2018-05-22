@@ -55,7 +55,7 @@ public:
 	virtual void	HandleShortcut(const int key, const JXKeyModifiers& modifiers) override;
 
 	virtual JBoolean	IsSelectable(const JPoint& cell,
-									 const JBoolean forExtend) const;
+									 const JBoolean forExtend) const override;
 
 protected:
 
@@ -68,7 +68,7 @@ protected:
 								  JIndex* nextIndex) const;
 	JBoolean	ItemIsSelectable(const JIndex index, const JBoolean forMulti) const;
 
-	virtual void	TableDrawCell(JPainter& p, const JPoint& cell, const JRect& rect);
+	virtual void	TableDrawCell(JPainter& p, const JPoint& cell, const JRect& rect) override;
 
 	virtual void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
 									const JSize clickCount,

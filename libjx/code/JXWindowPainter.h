@@ -17,7 +17,7 @@
 
 class JXDisplay;
 class JXGC;
-class JXColormap;
+class JXColorManager;
 class JXImage;
 
 class JXWindowPainter : public JPainter
@@ -30,9 +30,9 @@ public:
 
 	virtual ~JXWindowPainter();
 
-	JXDisplay*	GetDisplay() const;
-	JXColormap*	GetXColormap() const;
-	JXGC*		GetGC() const;
+	JXDisplay*		GetDisplay() const;
+	JXColorManager*	GetXColorManager() const;
+	JXGC*			GetGC() const;
 
 	virtual void	Reset();
 	void			Reset(const JRect& defClipRect, const Region clipRegion);
@@ -114,7 +114,7 @@ private:
 	void	StyleString(const JString& str,
 						const JCoordinate x, const JCoordinate y,
 						const JCoordinate ascent, const JCoordinate descent,
-						const JColorIndex color);
+						const JColorID color);
 
 	void	CalcClipRegion(const Region region);
 

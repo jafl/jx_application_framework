@@ -30,7 +30,7 @@
 #include <JXStaticText.h>
 #include <JXTimerTask.h>
 #include <JXImage.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <JXWindow.h>
 
 #include <JNamedTreeList.h>

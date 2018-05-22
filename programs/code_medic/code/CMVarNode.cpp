@@ -14,7 +14,7 @@
 #include "cbmUtil.h"
 #include <JTree.h>
 #include <JRegex.h>
-#include <JColormap.h>
+#include <JXColorManager.h>
 #include <jAssert.h>
 
 /******************************************************************************
@@ -292,7 +292,7 @@ CMVarNode::SetValid
 JFontStyle
 CMVarNode::GetFontStyle
 	(
-	const JColormap* cmap
+	const JXColorManager* cmap
 	)
 {
 	if (!itsValidFlag)
@@ -316,7 +316,7 @@ CMVarNode::GetFontStyle
 	(
 	const JBoolean		isValid,
 	const JBoolean		isNew,
-	const JColormap*	cmap
+	const JXColorManager*	cmap
 	)
 {
 	if (!isValid)

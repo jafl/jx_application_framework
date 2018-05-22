@@ -12,7 +12,7 @@
 
 #include "gpmGlobals.h"
 
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <JXMenuBar.h>
 #include <JXTextMenu.h>
 #include <JXToolBar.h>
@@ -313,7 +313,7 @@ GPMProcessTable::DrawRowBackground
 	JPainter&			p,
 	const JPoint&		cell,
 	const JRect&		rect,
-	const JColorIndex	color
+	const JColorID	color
 	)
 {
 	if (cell.y % 2 == 1)
@@ -345,7 +345,7 @@ GPMProcessTable::DrawProcessState
 		}
 	else
 		{
-		const JColormap* cmap = p.GetColormap();
+		const JXColorManager* cmap = p.GetColormap();
 
 		JRect r(rect.ycenter()-3, rect.xcenter()-3,
 				rect.ycenter()+4, rect.xcenter()+4);

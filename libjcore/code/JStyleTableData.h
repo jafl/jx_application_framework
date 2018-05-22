@@ -13,13 +13,12 @@
 #include <JString.h>
 
 class JFontManager;
-class JColorManager;
 
 class JStyleTableData : public JAuxTableData<JFontStyle>
 {
 public:
 
-	JStyleTableData(JTable* table, const JFontManager* fontManager, JColorManager* colorManager);
+	JStyleTableData(JTable* table, const JFontManager* fontManager);
 
 	virtual ~JStyleTableData();
 
@@ -33,8 +32,7 @@ public:
 
 private:
 
-	const JFontManager*	itsFontManager;			// not owned
-	JColorManager*		itsColorManager;		// not owned
+	const JFontManager*	itsFontManager;		// not owned
 
 	JFont	itsFont;
 

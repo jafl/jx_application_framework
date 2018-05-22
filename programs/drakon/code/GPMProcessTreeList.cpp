@@ -15,7 +15,7 @@
 #include <JXTextMenu.h>
 #include <JXTEBase.h>
 #include <JXImage.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 
 #include <JTableSelection.h>
 #include <JTreeList.h>

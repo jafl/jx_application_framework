@@ -22,15 +22,15 @@ class JXChooseColorDialog : public JXDialogDirector
 {
 public:
 
-	JXChooseColorDialog(JXWindowDirector* supervisor, const JColorIndex colorIndex);
+	JXChooseColorDialog(JXWindowDirector* supervisor, const JColorID colorIndex);
 
 	virtual ~JXChooseColorDialog();
 
-	JColorIndex	GetColor() const;
+	JColorID	GetColor() const;
 
 protected:
 
-	virtual JBoolean	OKToDeactivate();
+	virtual JBoolean	OKToDeactivate() override;
 	virtual void		Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
@@ -50,7 +50,7 @@ private:
 
 private:
 
-	void	BuildWindow(const JColorIndex colorIndex);
+	void	BuildWindow(const JColorID colorIndex);
 	void	UpdateWheelColor();
 	void	UpdateHSBColor();
 	void	UpdateRGBColor();

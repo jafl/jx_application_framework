@@ -26,7 +26,7 @@
 #include <JXWebBrowser.h>
 #include <JXImageCache.h>
 #include <JXDragPainter.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <JXTimerTask.h>
 #include <JXChooseSaveFile.h>
 #include <jXGlobals.h>
@@ -214,7 +214,7 @@ SVNRepoView::TableDrawCell
 {
 	if (cell.y % 2 == 0)
 		{
-		const JColorIndex origColor = p.GetPenColor();
+		const JColorID origColor = p.GetPenColor();
 		p.SetPenColor(itsAltRowColor);
 		p.SetFilling(kJTrue);
 		p.Rect(rect);

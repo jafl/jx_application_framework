@@ -18,7 +18,7 @@ class JString;
 class JPainter;
 class JEPSPrinter;
 class JFontManager;
-class JColormap;
+class JXColorManager;
 class JVariableList;
 class JFunction;
 class JNaryFunction;
@@ -72,7 +72,7 @@ public:
 public:
 
 	JExprEditor(const JVariableList* varList, const JFontManager* fontManager,
-				JColormap* colormap);
+				JXColorManager* colormap);
 
 	virtual ~JExprEditor();
 
@@ -219,7 +219,7 @@ private:
 	JFunction*	itsFunctionClip;
 
 	const JFontManager*	itsFontManager;
-	JColormap*			itsColormap;
+	JXColorManager*			itsColormap;
 
 	// used for undo
 
@@ -229,8 +229,8 @@ private:
 	// used while drawing
 
 	JPainter*			itsPainter;
-	const JColorIndex	itsTextColor;
-	const JColorIndex	itsSelectionColor;
+	const JColorID	itsTextColor;
+	const JColorID	itsSelectionColor;
 	const JFontStyle	itsDefaultStyle;
 
 	// used during drag

@@ -27,7 +27,7 @@
 #include "cbmUtil.h"
 #include <JXDisplay.h>
 #include <JXWindow.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <jXGlobals.h>
 #include <JListUtil.h>
 #include <jAssert.h>
@@ -394,7 +394,7 @@ CBStylerBase::Receive
 void
 CBStylerBase::SetDefaultFontColor
 	(
-	const JColorIndex color
+	const JColorID color
 	)
 {
 JIndex i;

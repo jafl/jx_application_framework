@@ -39,12 +39,12 @@ public:
 	JBoolean	HasImage() const;
 	JBoolean	GetImage(JXImage** image) const;
 	void		SetImage(JXImage* image, const JBoolean widgetOwnsImage,
-						 const JColorIndex backColor = kJXTransparentColor);  // placeholder for GetDefaultBackColor()
+						 const JColorID backColor = kJXTransparentColor);  // placeholder for GetDefaultBackColor()
 	void		SetBitmap(const JConstBitmap& bitmap,
-						  const JColorIndex foreColor = kJXTransparentColor,  // placeholder for GetBlackColor()
-						  const JColorIndex backColor = kJXTransparentColor); // placeholder for GetDefaultBackColor()
+						  const JColorID foreColor = kJXTransparentColor,  // placeholder for GetBlackColor()
+						  const JColorID backColor = kJXTransparentColor); // placeholder for GetDefaultBackColor()
 	void		SetXPM(const JXPM& data,
-					   const JColorIndex backColor = kJXTransparentColor);    // placeholder for GetDefaultBackColor()
+					   const JColorID backColor = kJXTransparentColor);    // placeholder for GetDefaultBackColor()
 
 protected:
 

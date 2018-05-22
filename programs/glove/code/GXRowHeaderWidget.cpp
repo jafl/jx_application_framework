@@ -12,7 +12,7 @@
 #include "GXRowHeaderWidget.h"
 #include "GXRaggedFloatTable.h"
 #include <JXWindow.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <JXScrollbarSet.h>
 #include <JXScrollbar.h>
 #include <JXDragPainter.h>

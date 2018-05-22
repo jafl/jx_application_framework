@@ -17,7 +17,7 @@
 #include "lldb/API/SBValue.h"
 #include "cmGlobals.h"
 #include <JXStringTable.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <JStringTableData.h>
 #include <JStyleTableData.h>
 #include <jAssert.h>

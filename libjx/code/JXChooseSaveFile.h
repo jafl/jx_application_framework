@@ -32,14 +32,14 @@ public:
 
 	virtual JBoolean ChooseFile(const JString& prompt,
 								const JString& instructions,
-								JString* fullName);
+								JString* fullName) override;
 	virtual JBoolean ChooseFile(const JString& prompt,
 								const JString& instructions,
 								const JString& origName,
-								JString* fullName);
+								JString* fullName) override;
 	virtual JBoolean ChooseFiles(const JString& prompt,
 								 const JString& instructions,
-								 JPtrArray<JString>* fullNameList);
+								 JPtrArray<JString>* fullNameList) override;
 
 	JBoolean ChooseFile(const JString& prompt,
 						const JString& instructions,
@@ -54,16 +54,16 @@ public:
 	virtual JBoolean ChooseRPath(const JString& prompt,
 								 const JString& instructions,
 								 const JString& origPath,
-								 JString* newPath);
+								 JString* newPath) override;
 	virtual JBoolean ChooseRWPath(const JString& prompt,
 								  const JString& instructions,
 								  const JString& origPath,
-								  JString* newPath);
+								  JString* newPath) override;
 
 	virtual JBoolean SaveFile(const JString& prompt,
 							  const JString& instructions,
 							  const JString& originalName,
-							  JString* newFullName);
+							  JString* newFullName) override;
 
 	void	ReadSetup(std::istream& input);
 	void	WriteSetup(std::ostream& output) const;
@@ -92,8 +92,8 @@ protected:
 
 	JDirInfo*		GetDirInfo();
 
-	virtual void	ReadPrefs(std::istream& input);
-	virtual void	WritePrefs(std::ostream& output) const;
+	virtual void	ReadPrefs(std::istream& input) override;
+	virtual void	WritePrefs(std::ostream& output) const override;
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 

@@ -13,7 +13,7 @@
 #include "CBJavaScriptStyler.h"
 #include "cbmUtil.h"
 #include <JXDialogDirector.h>
-#include <JColormap.h>
+#include <JXColorManager.h>
 #include <JRegex.h>
 #include <jAssert.h>
 
@@ -110,8 +110,8 @@ CBJavaScriptStyler::CBJavaScriptStyler()
 		SetTypeStyle(i, blankStyle);
 		}
 
-	JColormap* colormap   = GetColormap();
-	const JColorIndex red = colormap->GetRedColor();
+	JXColorManager* colormap   = GetColormap();
+	const JColorID red = colormap->GetRedColor();
 
 	SetTypeStyle(kReservedKeyword      - kWhitespace, JFontStyle(colormap->GetDarkGreenColor()));
 
@@ -290,7 +290,7 @@ CBJavaScriptStyler::UpgradeTypeList
 	JArray<JFontStyle>*	typeStyles
 	)
 {
-	JColormap* colormap = GetColormap();
+	JXColorManager* colormap = GetColormap();
 
 	if (vers < 1)
 		{

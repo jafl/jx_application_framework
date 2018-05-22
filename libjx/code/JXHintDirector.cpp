@@ -16,7 +16,7 @@
 #include <JXBorderRect.h>
 #include <JXStaticText.h>
 #include <JXFontManager.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <jAssert.h>
 
 const JCoordinate kHMargin = 3;
@@ -100,7 +100,7 @@ JXHintDirector::BuildWindow
 	JCoordinate ascent = 0, descent = 0;
 	if (!text.IsEmpty())
 		{
-		(textWidget->GetFont(1)).GetLineHeight(&ascent, &descent);
+		(textWidget->GetText()->GetFont(1)).GetLineHeight(window->GetFontManager(), &ascent, &descent);
 		}
 
 	const JCoordinate w = 2*kHMargin + textWidget->GetFrameWidth();
@@ -132,7 +132,7 @@ JXHintDirector::BuildWindow
 
 	// use standard background color
 
-	JColorIndex backColorIndex = GetColormap()->JColormap::GetColor(kBackColor);
+	const JColorID backColorIndex = JColorManager::GetColorID(kBackColor);
 	window->SetBackColor(backColorIndex);
 	border->SetBackColor(backColorIndex);
 	textWidget->SetBackgroundColor(backColorIndex);

@@ -24,7 +24,7 @@
 #include "ScrollingWidget.h"
 #include <JXWidget.h>
 #include <JXWindowPainter.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <jAssert.h>
 
 /******************************************************************************
@@ -75,15 +75,13 @@ ScrollingWidget::Draw
 	const JRect& rect
 	)
 {
-	JXColormap* cmap = GetColormap();
-
 	// Drawing goes here
 	// See JPainter.h for available functions
 	
-	p.SetPenColor(cmap->GetGreenColor());
+	p.SetPenColor(JColorManager::GetGreenColor());
 	p.Rect(10, 10, 50, 50);
 	
 	p.SetFilling(kJTrue);
-	p.SetPenColor(cmap->GetBlueColor());
+	p.SetPenColor(JColorManager::GetBlueColor());
 	p.Rect(10, 70, 50, 50);
 }

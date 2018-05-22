@@ -1,34 +1,31 @@
 /******************************************************************************
- TEFontManager.h
+ TestFontManager.h
 
 	Written by John Lindal.
 
  ******************************************************************************/
 
-#ifndef _H_TEFontManager
-#define _H_TEFontManager
+#ifndef _H_TestFontManager
+#define _H_TestFontManager
 
 #include <JFontManager.h>
 
-class TEFontManager : public JFontManager
+class TestFontManager : public JFontManager
 {
 public:
 
-	TEFontManager();
+	TestFontManager();
 
-	virtual ~TEFontManager();
+	virtual ~TestFontManager();
 
 	virtual void		GetFontNames(JPtrArray<JString>* fontNames) const;
 	virtual void		GetMonospaceFontNames(JPtrArray<JString>* fontNames) const;
 	virtual JBoolean	GetFontSizes(const JString& name, JSize* minSize,
 									 JSize* maxSize, JArray<JSize>* sizeList) const;
 
-protected:
+	virtual JBoolean	IsExact(const JFontID id) const;
 
-	virtual JFontID			GetFontID(const JString& name, const JSize size,
-									  const JFontStyle& style) const;
-	virtual const JString&	GetFontName(const JFontID id) const;
-	virtual JBoolean		IsExact(const JFontID id) const;
+protected:
 
 	virtual JSize	GetLineHeight(const JFontID fontID, const JSize size,
 								  const JFontStyle& style,
@@ -45,8 +42,8 @@ private:
 
 	// not allowed
 
-	TEFontManager(const TEFontManager& source);
-	const TEFontManager& operator=(const TEFontManager& source);
+	TestFontManager(const TestFontManager& source);
+	const TestFontManager& operator=(const TestFontManager& source);
 };
 
 #endif

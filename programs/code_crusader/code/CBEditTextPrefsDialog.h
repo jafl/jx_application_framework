@@ -41,7 +41,7 @@ protected:
 private:
 
 	CBTextDocument*	itsDoc;		// not owned
-	JColorIndex		itsColor [ CBPrefsManager::kColorCount ];
+	JColorID		itsColor [ CBPrefsManager::kColorCount ];
 	JXTextButton*	itsColorButton [ CBPrefsManager::kColorCount ];
 	JIndex			itsEmulatorIndex;
 	JIndex			itsOrigEmulatorIndex;
@@ -95,7 +95,7 @@ private:
 	JBoolean	HandleColorButton(JBroadcaster* sender);
 	void		SetDefaultColors();
 	void		SetReverseVideoColors();
-	void		ChangeColor(const JIndex colorIndex, const JColorIndex color);
+	void		ChangeColor(const JIndex colorIndex, const JColorID color);
 	void		UpdateSampleText();
 
 	void	UpdateDisplay();

@@ -24,7 +24,7 @@
 #include <JX2DPlotEPSPrinter.h>
 #include <JXPTPrinter.h>
 #include <JXDisplay.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <JXFontManager.h>
 #include <JXChooseSaveFile.h>
 #include <JXSearchTextDialog.h>
@@ -910,7 +910,7 @@ CMPrefsManager::SetTabCharCount
 
  ******************************************************************************/
 
-JColorIndex
+JColorID
 CMPrefsManager::GetColor
 	(
 	const JIndex index
@@ -954,7 +954,7 @@ CMPrefsManager::SetColorList
 	JRGB			colorList[]
 	)
 {
-	JColormap* colormap = ((JXGetApplication())->GetCurrentDisplay())->GetColormap();
+	JXColorManager* colormap = ((JXGetApplication())->GetCurrentDisplay())->GetColormap();
 
 	JBoolean ok[ kColorCount ];
 	if (hasColors)
@@ -975,7 +975,7 @@ CMPrefsManager::SetColorList
 
 	// set unallocated colors to the default values
 
-	const JColorIndex defaultColor[] =
+	const JColorID defaultColor[] =
 		{
 		colormap->GetBlackColor(),
 		colormap->GetWhiteColor(),
@@ -984,7 +984,7 @@ CMPrefsManager::SetColorList
 		colormap->GetBlueColor(),
 		colormap->GetGrayColor(70)
 		};
-	assert( sizeof(defaultColor)/sizeof(JColorIndex) == kColorCount );
+	assert( sizeof(defaultColor)/sizeof(JColorID) == kColorCount );
 
 	for (JIndex i=0; i<kColorCount; i++)
 		{
@@ -998,7 +998,7 @@ CMPrefsManager::SetColorList
 void
 CMPrefsManager::WriteColors()
 {
-	JColormap* colormap = ((JXGetApplication())->GetCurrentDisplay())->GetColormap();
+	JXColorManager* colormap = ((JXGetApplication())->GetCurrentDisplay())->GetColormap();
 
 	std::ostringstream data;
 	data << kCurrentTextColorVers;

@@ -15,7 +15,7 @@
 #include <JXWindow.h>
 #include <JXMenuBar.h>
 #include <JXStaticText.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <JXDeleteObjectTask.h>
 #include <JPainter.h>
 #include <JPagePrinter.h>
@@ -221,7 +221,7 @@ MDRecordTable::DrawRowBackground
 	JPainter&			p,
 	const JPoint&		cell,
 	const JRect&		rect,
-	const JColorIndex	color
+	const JColorID	color
 	)
 {
 	if (cell.y % 2 == 1)
@@ -248,7 +248,7 @@ MDRecordTable::DrawRecordState
 {
 	if (!record.IsValid())
 		{
-		const JColormap* cmap = p.GetColormap();
+		const JXColorManager* cmap = p.GetColormap();
 
 		JRect r(rect.ycenter()-3, rect.xcenter()-3,
 				rect.ycenter()+4, rect.xcenter()+4);

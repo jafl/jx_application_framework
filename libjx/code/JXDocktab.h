@@ -68,7 +68,7 @@ private:
 
 	JXTextMenu*	itsActionMenu;	// NULL until first used
 	DockFinder*	itsDockFinder;
-	JColorIndex	itsFocusColor;
+	JColorID	itsFocusColor;
 
 private:
 

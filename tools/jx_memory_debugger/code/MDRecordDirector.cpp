@@ -24,7 +24,7 @@
 #include <JXScrollbarSet.h>
 #include <JXStaticText.h>
 #include <JXPSPrinter.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <JXImage.h>
 #include <JTableSelection.h>
 #include <jAssert.h>

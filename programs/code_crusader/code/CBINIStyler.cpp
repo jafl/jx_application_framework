@@ -14,7 +14,7 @@
 #include "cbmUtil.h"
 #include <JXDialogDirector.h>
 #include <JRegex.h>
-#include <JColormap.h>
+#include <JXColorManager.h>
 #include <jAssert.h>
 
 CBINIStyler* CBINIStyler::itsSelf = NULL;
@@ -94,7 +94,7 @@ CBINIStyler::CBINIStyler()
 		SetTypeStyle(i, blankStyle);
 		}
 
-	JColormap* colormap = GetColormap();
+	JXColorManager* colormap = GetColormap();
 
 	SetTypeStyle(kSectionName       - kWhitespace, JFontStyle(kJTrue, kJFalse, 0, kJFalse));
 

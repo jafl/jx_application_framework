@@ -132,7 +132,7 @@ CBStylerTable::CBStylerTableX
 	prefsMgr->GetDefaultFont(&fontName, &fontSize);
 	SetFont(fontName, fontSize);
 
-	const JColorIndex backColor = prefsMgr->GetColor(CBMPrefsManager::kBackColorIndex);
+	const JColorID backColor = prefsMgr->GetColor(CBMPrefsManager::kBackColorIndex);
 	SetBackColor(backColor);
 	SetFocusColor(backColor);
 	SetSelectionColor(prefsMgr->GetColor(CBMPrefsManager::kSelColorIndex));

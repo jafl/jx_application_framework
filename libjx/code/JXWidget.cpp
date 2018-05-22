@@ -46,7 +46,7 @@
 #include <JXDisplay.h>
 #include <JXDragPainter.h>
 #include <JXDNDManager.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <jAssert.h>
 
 // JBroadcaster message types
@@ -78,8 +78,8 @@ JXWidget::JXWidget
 	itsHSizing     = hSizing;
 	itsVSizing     = vSizing;
 	itsBorderWidth = 0;
-	itsBackColor   = GetColormap()->GetDefaultBackColor();
-	itsFocusColor  = GetColormap()->GetDefaultFocusColor();
+	itsBackColor   = JColorManager::GetDefaultBackColor();
+	itsFocusColor  = JColorManager::GetDefaultFocusColor();
 	itsDragPainter = NULL;
 
 	itsAllowUnboundedScrollingFlag = kJFalse;

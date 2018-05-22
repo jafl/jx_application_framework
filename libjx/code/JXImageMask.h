@@ -14,7 +14,7 @@
 #include <JImageMask.h>
 #include <jXConstants.h>		// need definition of kJXTransparentColor
 
-class JXColormap;
+class JXColorManager;
 class JXWindowIcon;
 
 class JXImageMask : public JXImage, public JImageMask
@@ -57,7 +57,7 @@ public:
 
 	static unsigned long	ColorToBit(const JColorID color);
 	static JColorID			BitToColor(const unsigned long bit,
-									   JXColormap* colormap);
+									   JXColorManager* colormap);
 
 private:
 

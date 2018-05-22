@@ -13,7 +13,7 @@
 #include <JPagePrinter.h>
 #include <JEPSPrinter.h>
 #include <JFontStyle.h>
-#include <JColormap.h>
+#include <JXColorManager.h>
 #include <jGlobals.h>
 #include <jMath.h>
 #include <jASCIIConstants.h>
@@ -57,10 +57,10 @@ const JCharacter* J2DPlotWidget::kMarkRemoved     = "MarkRemoved::J2DPlotWidget"
 
 J2DPlotWidget::J2DPlotWidget
 	(
-	const JColorIndex black,
-	const JColorIndex white,
-	const JColorIndex gray,
-	const JColorIndex selection
+	const JColorID black,
+	const JColorID white,
+	const JColorID gray,
+	const JColorID selection
 	)
 	:
 	itsTitle("Title"),
@@ -78,7 +78,7 @@ J2DPlotWidget::J2DPlotWidget
 	itsCurveInfo = jnew JArray<J2DCurveInfo>;
 	assert(itsCurveInfo != NULL);
 
-	itsColors = jnew JArray<JColorIndex>;
+	itsColors = jnew JArray<JColorID>;
 	assert(itsColors != NULL);
 
 	itsColorUsage = jnew JArray<JSize>;

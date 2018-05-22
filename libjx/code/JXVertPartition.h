@@ -47,12 +47,12 @@ protected:
 								  const JXKeyModifiers& modifiers) override;
 	virtual void	AdjustCursor(const JPoint& pt, const JXKeyModifiers& modifiers) override;
 
-	virtual JCoordinate		GetTotalSize() const;
+	virtual JCoordinate		GetTotalSize() const override;
 	virtual JXWidgetSet*	CreateCompartment(const JIndex index,
 											  const JCoordinate position,
-											  const JCoordinate size);
-	virtual void			UpdateCompartmentSizes();
-	virtual JBoolean		SaveGeometryForLater(const JArray<JCoordinate>& sizes);
+											  const JCoordinate size) override;
+	virtual void			UpdateCompartmentSizes() override;
+	virtual JBoolean		SaveGeometryForLater(const JArray<JCoordinate>& sizes) override;
 
 	virtual JBoolean	RunInternalFTC(const JBoolean horizontal, JCoordinate* newSize) override;
 	virtual void		FTCAdjustSize(const JCoordinate dw, const JCoordinate dh) override;

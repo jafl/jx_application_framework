@@ -14,7 +14,7 @@
 #include <JXHintDirector.h>
 #include <JXTextMenu.h>
 #include <JXImage.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <JXWindowPainter.h>
 #include <jXGlobals.h>
 #include <jXPainterUtil.h>
@@ -89,7 +89,7 @@ JXToolBarButton::GetLabelFont()
 	JFont font = itsFont;
 	if (!IsActive())
 		{
-		font.SetColor(GetColormap()->GetInactiveLabelColor());
+		font.SetColor(JColorManager::GetInactiveLabelColor());
 		}
 	return font;
 }
@@ -165,11 +165,11 @@ JXToolBarButton::DrawBorder
 		p.SetLineWidth(borderWidth);
 		if (itsIsCheckedFlag)
 			{
-			p.SetPenColor(GetColormap()->GetWhiteColor());
+			p.SetPenColor(JColorManager::GetWhiteColor());
 			}
 		else
 			{
-			p.SetPenColor(GetColormap()->GetInactiveLabelColor());
+			p.SetPenColor(JColorManager::GetInactiveLabelColor());
 			}
 		p.RectInside(frame);
 		}
@@ -234,7 +234,7 @@ JXToolBarButton::NeedsGeometryAdjustment
 	else
 		{
 		itsFont                 = itsMenu->GetItemFont(itemIndex);
-		const JCoordinate width = itsFont.GetStringWidth(itsLabel);
+		const JCoordinate width = itsFont.GetStringWidth(GetFontManager(), itsLabel);
 		const JCoordinate newWidth =
 			(itsType == kText || itsImage == NULL) ?
 				width + 2*kLabelBuffer :

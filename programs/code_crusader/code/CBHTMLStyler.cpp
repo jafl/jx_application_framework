@@ -13,7 +13,7 @@
 #include "CBHTMLStyler.h"
 #include "cbmUtil.h"
 #include <JRegex.h>
-#include <JColormap.h>
+#include <JXColorManager.h>
 #include <jAssert.h>
 
 CBHTMLStyler* CBHTMLStyler::itsSelf = NULL;
@@ -182,7 +182,7 @@ CBHTMLStyler::CBHTMLStyler()
 		SetTypeStyle(i, blankStyle);
 		}
 
-	JColormap* colormap = GetColormap();
+	JXColorManager* colormap = GetColormap();
 
 	SetTypeStyle(kHTMLTag            - kWhitespace, JFontStyle(colormap->GetBlueColor()));
 	SetTypeStyle(kHTMLScript         - kWhitespace, JFontStyle(colormap->GetDarkRedColor()));
@@ -195,7 +195,7 @@ CBHTMLStyler::CBHTMLStyler()
 	InitJSPTypeStyles();
 	InitJavaScriptTypeStyles();
 
-	const JColorIndex red = colormap->GetRedColor();
+	const JColorID red = colormap->GetRedColor();
 	for (JIndex i=0; i<kUnusedJavaKeywordCount; i++)
 		{
 		SetWordStyle(kUnusedJavaKeyword[i], JFontStyle(red));
@@ -233,7 +233,7 @@ CBHTMLStyler::~CBHTMLStyler()
 void
 CBHTMLStyler::InitMustacheTypeStyles()
 {
-	JColormap* colormap = GetColormap();
+	JXColorManager* colormap = GetColormap();
 
 	SetTypeStyle(kMustacheCommand - kWhitespace, JFontStyle(colormap->GetDarkGreenColor()));
 }
@@ -246,7 +246,7 @@ CBHTMLStyler::InitMustacheTypeStyles()
 void
 CBHTMLStyler::InitPHPTypeStyles()
 {
-	JColormap* colormap = GetColormap();
+	JXColorManager* colormap = GetColormap();
 
 	SetTypeStyle(kPHPStartEnd          - kWhitespace, JFontStyle(kJTrue, kJFalse, 0, kJFalse, colormap->GetDarkRedColor()));
 	SetTypeStyle(kPHPReservedKeyword   - kWhitespace, JFontStyle(colormap->GetDarkGreenColor()));
@@ -266,7 +266,7 @@ CBHTMLStyler::InitPHPTypeStyles()
 void
 CBHTMLStyler::InitJSPTypeStyles()
 {
-	JColormap* colormap = GetColormap();
+	JXColorManager* colormap = GetColormap();
 
 	SetTypeStyle(kJSPStartEnd         - kWhitespace, JFontStyle(kJTrue, kJFalse, 0, kJFalse, colormap->GetDarkGreenColor()));
 	SetTypeStyle(kJSPComment          - kWhitespace, JFontStyle(colormap->GetGrayColor(50)));
@@ -284,7 +284,7 @@ CBHTMLStyler::InitJSPTypeStyles()
 void
 CBHTMLStyler::InitJavaScriptTypeStyles()
 {
-	JColormap* colormap = GetColormap();
+	JXColorManager* colormap = GetColormap();
 
 	SetTypeStyle(kJSReservedKeyword    - kWhitespace, JFontStyle(colormap->GetDarkGreenColor()));
 	SetTypeStyle(kJSString             - kWhitespace, JFontStyle(colormap->GetDarkRedColor()));
@@ -806,7 +806,7 @@ CBHTMLStyler::UpgradeTypeList
 	JArray<JFontStyle>*	typeStyles
 	)
 {
-	JColormap* cmap = GetColormap();
+	JXColorManager* cmap = GetColormap();
 
 	if (vers < 1)
 		{

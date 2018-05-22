@@ -11,7 +11,7 @@
 
 	Planned features:
 		For image read from file: store raw rgb values separately and
-			then rewrite JPSPrinter to ask for rgb instead of JColorIndex.
+			then rewrite JPSPrinter to ask for rgb instead of JColorID.
 
 	BASE CLASS = JImage, public JBroadcaster
 
@@ -24,7 +24,7 @@
 #include <JXImagePainter.h>
 #include <JXDisplay.h>
 #include <JXGC.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <jXUtil.h>
 #include <JStdError.h>
 #include <jStreamUtil.h>
@@ -45,16 +45,16 @@ JXImage::JXImage
 	JXDisplay*			display,
 	const JCoordinate	width,
 	const JCoordinate	height,
-	const JColorIndex	origInitColor,
+	const JColorID	origInitColor,
 	const JSize			depth,
 	const State			initState
 	)
 	:
-	JImage(width, height, display->GetColormap())
+	JImage(width, height, display->GetColorManager())
 {
 	JXImageX(display, depth);
 
-	const JColorIndex initColor =
+	const JColorID initColor =
 		(origInitColor == kJXTransparentColor && itsDepth > 1 ?
 		 itsXColormap->GetDefaultBackColor() : origInitColor);
 
@@ -98,11 +98,11 @@ JXImage::JXImage
 /******************************************************************************
  Constructor (drawable)
 
-	We assume that the given JXColormap is the colormap used by the
+	We assume that the given JXColorManager is the colormap used by the
 	given Drawable.  (X does not seem to provide a way to check this
 	because XGetWindowAttributes() only works on a Window, not a Pixmap.)
 	This means that we assume that all the colors used by the Drawable
-	have been registered with the JXColormap.  If we didn't assume this,
+	have been registered with the JXColorManager.  If we didn't assume this,
 	we would have to call XQueryColor for every pixel and that would
 	be *really* slow.
 
@@ -117,7 +117,7 @@ JXImage::JXImage
 	Drawable	source
 	)
 	:
-	JImage(0,0, display->GetColormap())
+	JImage(0,0, display->GetColorManager())
 {
 	JXImageFromDrawable(display, source, JRect());
 }
@@ -129,7 +129,7 @@ JXImage::JXImage
 	const JRect&	rect
 	)
 	:
-	JImage(rect.width(), rect.height(), display->GetColormap())
+	JImage(rect.width(), rect.height(), display->GetColorManager())
 {
 	JXImageFromDrawable(display, source, rect);
 }
@@ -184,20 +184,20 @@ JXImage::JXImage
 	(
 	JXDisplay*			display,
 	const JConstBitmap&	bitmap,
-	const JColorIndex	origForeColor,
-	const JColorIndex	origBackColor,
+	const JColorID	origForeColor,
+	const JColorID	origBackColor,
 	const JSize			depth
 	)
 	:
-	JImage(bitmap.w, bitmap.h, display->GetColormap())
+	JImage(bitmap.w, bitmap.h, display->GetColorManager())
 {
 	JXImageX(display, depth);
 
-	const JColorIndex foreColor =
+	const JColorID foreColor =
 		(origForeColor == kJXTransparentColor && itsDepth > 1 ?
 		 itsXColormap->GetBlackColor() : origForeColor);
 
-	const JColorIndex backColor =
+	const JColorID backColor =
 		(origBackColor == kJXTransparentColor && itsDepth > 1 ?
 		 itsXColormap->GetDefaultBackColor() : origBackColor);
 
@@ -239,7 +239,7 @@ JXImage::JXImage
 	const JXPM&	data
 	)
 	:
-	JImage(0,0, display->GetColormap())
+	JImage(0,0, display->GetColorManager())
 {
 	JXImageX(display);
 	ReadFromJXPM(data);
@@ -260,7 +260,7 @@ JXImage::JXImage
 	JXDisplay*			display
 	)
 	:
-	JImage(width, height, display->GetColormap())
+	JImage(width, height, display->GetColorManager())
 {
 #ifndef NDEBUG
 	{
@@ -293,7 +293,7 @@ JXImage::JXImage
 	JXDisplay* display
 	)
 	:
-	JImage(0,0, display->GetColormap())
+	JImage(0,0, display->GetColorManager())
 {
 	JXImageX(display);
 }
@@ -352,7 +352,7 @@ JXImage::JXImage
 	const JRect&	rect
 	)
 	:
-	JImage(rect.width(), rect.height(), source.GetColormap())
+	JImage(rect.width(), rect.height(), source.GetColorManager())
 {
 	JXImageX(source.itsDisplay, source.itsDepth);
 	itsDefState = source.itsDefState;
@@ -406,7 +406,7 @@ JXImage::JXImageX
 	)
 {
 	itsDisplay   = display;
-	itsXColormap = display->GetColormap();
+	itsXColormap = display->GetColorManager();
 	itsGC        = NULL;
 	itsDepth     = (depth > 0 ? depth : itsDisplay->GetDepth());
 
@@ -480,7 +480,7 @@ JXImage::CreateFromXPM
 	JXImage**		image
 	)
 {
-	JXColormap* colormap = display->GetColormap();
+	JXColorManager* colorManager = display->GetColorManager();
 
 	Pixmap image_pixmap = None;
 	Pixmap mask_pixmap  = None;
@@ -490,8 +490,8 @@ JXImage::CreateFromXPM
 							  XpmExactColors | XpmCloseness |
 							  XpmColorKey | XpmAllocCloseColors |
 							  XpmReturnAllocPixels;
-	attr.visual             = colormap->GetVisual();
-	attr.colormap           = colormap->GetXColormap();
+	attr.visual             = colorManager->GetVisual();
+	attr.colormap           = colorManager->GetXColormap();
 	attr.depth              = display->GetDepth();
 	attr.color_key          = XPM_COLOR;
 	attr.alloc_pixels       = NULL;
@@ -803,7 +803,7 @@ JXImage::CreatePainter()
 
  ******************************************************************************/
 
-JColorIndex
+JColorID
 JXImage::GetColor
 	(
 	const JCoordinate x,
@@ -835,7 +835,7 @@ JXImage::SetColor
 	(
 	const JCoordinate x,
 	const JCoordinate y,
-	const JColorIndex color
+	const JColorID color
 	)
 {
 	ConvertToImage();
@@ -861,7 +861,7 @@ JXImage::SetColor
 unsigned long
 JXImage::GetSystemColor
 	(
-	const JColorIndex color
+	const JColorID color
 	)
 	const
 {
@@ -1077,7 +1077,7 @@ JXImage::ConvertToImage()
 /******************************************************************************
  SetImageData (virtual protected)
 
-	colorTable[ imageData[x][y] ] is the JColorIndex for pixel (x,y)
+	colorTable[ imageData[x][y] ] is the JColorID for pixel (x,y)
 
 	colorTable[ maskColor ] is the transparent color, which shouldn't be used
 
@@ -1087,7 +1087,7 @@ void
 JXImage::SetImageData
 	(
 	const JSize			colorCount,
-	const JColorIndex*	colorTable,
+	const JColorID*	colorTable,
 	unsigned short**	imageData,
 	const JBoolean		hasMask,
 	const unsigned long	maskColor

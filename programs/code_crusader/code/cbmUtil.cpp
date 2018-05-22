@@ -23,7 +23,7 @@
 
 #include <JXDisplay.h>
 #include <JXInputField.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <JRegex.h>
 #include <jFileUtil.h>
 #include <jDirUtil.h>
@@ -133,7 +133,7 @@ JIndex i;
 
 	output << ' ' << (long) CBPrefsManager::kColorCount;
 
-	JColormap* colormap = ((JXGetApplication())->GetCurrentDisplay())->GetColormap();
+	JXColorManager* colormap = ((JXGetApplication())->GetCurrentDisplay())->GetColormap();
 	for (i=1; i<=CBPrefsManager::kColorCount; i++)
 		{
 		output << ' ' << colormap->GetRGB(prefsMgr->GetColor(i));
@@ -247,7 +247,7 @@ JIndex i;
 	if (vers < 2)
 		{
 		assert( colorCount == 5 );
-		JColormap* colormap = (CBCStyler::Instance())->GetColormap();
+		JXColorManager* colormap = (CBCStyler::Instance())->GetColormap();
 		colorList[5]        = colormap->GetRGB(colormap->GetGrayColor(70));
 		}
 	else

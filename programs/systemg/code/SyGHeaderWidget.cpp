@@ -13,7 +13,7 @@
 #include "SyGFileTreeTable.h"
 #include <JXWindow.h>
 #include <JFontManager.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <jXPainterUtil.h>
 #include <jXGlobals.h>
 #include <jAssert.h>
@@ -68,7 +68,7 @@ SyGHeaderWidget::GetPreferredHeight
 	const JFontManager* fontMgr
 	)
 {
-	return fontMgr->GetDefaultFont().GetLineHeight() + 2*kBorderWidth;
+	return JFontManager::GetDefaultFont().GetLineHeight() + 2*kBorderWidth;
 }
 
 /******************************************************************************

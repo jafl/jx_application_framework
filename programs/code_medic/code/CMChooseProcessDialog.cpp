@@ -19,7 +19,7 @@
 #include <JXScrollbarSet.h>
 #include <JXFontManager.h>
 
-#include <JColormap.h>
+#include <JXColorManager.h>
 #include <jProcessUtil.h>
 #include <jStreamUtil.h>
 #include <jAssert.h>

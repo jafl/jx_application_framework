@@ -20,7 +20,7 @@
 #include <JXScrollbar.h>
 #include <JXDragPainter.h>
 #include <JXFontManager.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <jXPainterUtil.h>
 #include <jXGlobals.h>
 #include <JString.h>
@@ -75,12 +75,12 @@ JXRowHeaderWidget::JXRowHeaderWidget
 	itsDragLineCursor    = JXGetDragHorizLineCursor(GetDisplay());
 	itsDragAllLineCursor = JXGetDragAllHorizLineCursor(GetDisplay());
 
-	SetColBorderInfo(0, GetColormap()->GetBlackColor());
+	SetColBorderInfo(0, JColorManager::GetBlackColor());
 
 	// override JXEditTable
 
 	WantInput(kJFalse);
-	SetBackColor(GetColormap()->GetDefaultBackColor());
+	SetBackColor(JColorManager::GetDefaultBackColor());
 
 	AppendCols(1, GetApertureWidth());
 	AdjustToTable();
@@ -456,7 +456,7 @@ JXRowHeaderWidget::InDragRegion
 	const
 {
 	JCoordinate width;
-	JColorIndex color;
+	JColorID color;
 	GetRowBorderInfo(&width, &color);
 	const JCoordinate halfWidth = kDragRegionHalfWidth + (width+1)/2;
 
@@ -577,7 +577,7 @@ JXRowHeaderWidget::Receive
 		const JTable::RowBorderWidthChanged* info =
 			dynamic_cast<const JTable::RowBorderWidthChanged*>(&message);
 		assert( info != NULL );
-		SetRowBorderInfo(info->GetNewBorderWidth(), GetColormap()->GetDefaultBackColor());
+		SetRowBorderInfo(info->GetNewBorderWidth(), JColorManager::GetDefaultBackColor());
 		}
 
 	// something else
@@ -599,9 +599,9 @@ JXRowHeaderWidget::AdjustToTable()
 	assert( itsTable != NULL && itsTitles == NULL );
 
 	JCoordinate width;
-	JColorIndex color;
+	JColorID color;
 	itsTable->GetRowBorderInfo(&width, &color);
-	SetRowBorderInfo(width, GetColormap()->GetDefaultBackColor());
+	SetRowBorderInfo(width, JColorManager::GetDefaultBackColor());
 
 	RemoveAllRows();
 

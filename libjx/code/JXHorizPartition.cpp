@@ -13,8 +13,8 @@
 #include <JXHorizPartition.h>
 #include <JXRestorePartitionGeometry.h>
 #include <JXDragPainter.h>
-#include <JXColormap.h>
 #include <JXCursor.h>
+#include <JColorManager.h>
 #include <jAssert.h>
 
 /******************************************************************************
@@ -170,7 +170,7 @@ JXHorizPartition::Draw
 	const JRect&		rect
 	)
 {
-	p.SetPenColor((p.GetColormap())->GetGrayColor(60));
+	p.SetPenColor(JColorManager::GetGrayColor(60));
 
 	const JRect ap       = GetAperture();
 	const JCoordinate y1 = ap.top+1;

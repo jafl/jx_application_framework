@@ -12,7 +12,7 @@
 #include <JXProgressIndicator.h>
 #include <JXWindowPainter.h>
 #include <jXPainterUtil.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <jXConstants.h>
 #include <jAssert.h>
 
@@ -42,10 +42,8 @@ JXProgressIndicator::JXProgressIndicator
 	itsValue    = 0;
 	itsMaxValue = 1;
 
-	JXColormap* colormap = GetColormap();
-
-	itsForeColor = colormap->JColormap::GetColor(foreColor);
-	itsBackColor = colormap->JColormap::GetColor(backColor);
+	itsForeColor = JColorManager::GetColorID(foreColor);
+	itsBackColor = JColorManager::GetColorID(backColor);
 	SetBackColor(itsBackColor);
 
 	SetBorderWidth(2);

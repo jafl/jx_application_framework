@@ -12,7 +12,7 @@
 #include <JXDisplay.h>
 #include <JXWindow.h>
 #include <JXImageMask.h>
-#include <JXColormap.h>
+#include <JColorManager.h>
 #include <JKLRand.h>
 #include <jAssert.h>
 
@@ -116,11 +116,10 @@ AnimateWindowIconTask::CreateIcon
 	const JBoolean		drop
 	)
 {
-	JXDisplay* display   = itsWindow->GetDisplay();
-	JXColormap* colormap = display->GetColormap();
+	JXDisplay* display = itsWindow->GetDisplay();
 
 	JXImage* icon = jnew JXImage(display, bitmap,
-								(drop ? colormap->GetRedColor() : colormap->GetBlueColor()));
+								(drop ? JColorManager::GetRedColor() : JColorManager::GetBlueColor()));
 	assert( icon != NULL );
 
 	JXImageMask* mask = jnew JXImageMask(display, maskBitmap);

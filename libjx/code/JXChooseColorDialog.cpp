@@ -15,7 +15,7 @@
 #include <JXIntegerInput.h>
 #include <JXFlatRect.h>
 #include <JXStaticText.h>
-#include <JXColormap.h>
+#include <JColorManager.h>
 #include <jMath.h>
 #include <jGlobals.h>
 #include <jAssert.h>
@@ -28,7 +28,7 @@
 JXChooseColorDialog::JXChooseColorDialog
 	(
 	JXWindowDirector*	supervisor,
-	const JColorIndex	colorIndex
+	const JColorID	colorIndex
 	)
 	:
 	JXDialogDirector(supervisor, kJTrue)
@@ -53,7 +53,7 @@ JXChooseColorDialog::~JXChooseColorDialog()
 void
 JXChooseColorDialog::BuildWindow
 	(
-	const JColorIndex colorIndex
+	const JColorID colorIndex
 	)
 {
 // begin JXLayout
@@ -177,7 +177,7 @@ JXChooseColorDialog::BuildWindow
 	window->SetTitle(JGetString("WindowTitle::JXChooseColorDialog"));
 	SetButtons(okButton, cancelButton);
 
-	const JRGB rgb = GetColormap()->JColormap::GetRGB(colorIndex);
+	const JRGB rgb = JColorManager::GetRGB(colorIndex);
 	const JHSB hsb(rgb);
 
 	itsHSlider->SetRange(0.0, kJMaxHSBValueF);
@@ -218,7 +218,7 @@ JXChooseColorDialog::BuildWindow
 
  ******************************************************************************/
 
-JColorIndex
+JColorID
 JXChooseColorDialog::GetColor()
 	const
 {
@@ -265,14 +265,12 @@ JXChooseColorDialog::Receive
 void
 JXChooseColorDialog::UpdateWheelColor()
 {
-	JXColormap* colormap = GetColormap();
-
 	JRGB newColor = itsColorWheel->GetRGB();
 	UpdateSliders(newColor);
 	UpdateInputFields(newColor);
 
-	const JColorIndex newColorIndex = colormap->JColormap::GetColor(newColor);
-	itsColorSample->SetBackColor(newColorIndex);
+	const JColorID newColorID = JColorManager::GetColorID(newColor);
+	itsColorSample->SetBackColor(newColorID);
 }
 
 /******************************************************************************
@@ -283,16 +281,14 @@ JXChooseColorDialog::UpdateWheelColor()
 void
 JXChooseColorDialog::UpdateHSBColor()
 {
-	JXColormap* colormap = GetColormap();
-
 	JRGB newColor = JHSB(JRound(itsHSlider->GetValue()),
 						 JRound(itsSSlider->GetValue()),
 						 JRound(itsVSlider->GetValue()));
 	UpdateColorWheel(newColor);
 	UpdateInputFields(newColor);
 
-	const JColorIndex newColorIndex = colormap->JColormap::GetColor(newColor);
-	itsColorSample->SetBackColor(newColorIndex);
+	const JColorID newColorID = JColorManager::GetColorID(newColor);
+	itsColorSample->SetBackColor(newColorID);
 }
 
 /******************************************************************************
@@ -303,8 +299,6 @@ JXChooseColorDialog::UpdateHSBColor()
 void
 JXChooseColorDialog::UpdateRGBColor()
 {
-	JXColormap* colormap = GetColormap();
-
 	JInteger r,g,b;
 	JBoolean ok = itsRInput->GetValue(&r);
 	assert( ok );
@@ -317,8 +311,8 @@ JXChooseColorDialog::UpdateRGBColor()
 	UpdateColorWheel(newColor);
 	UpdateSliders(newColor);
 
-	const JColorIndex newColorIndex = colormap->JColormap::GetColor(newColor);
-	itsColorSample->SetBackColor(newColorIndex);
+	const JColorID newColorID = JColorManager::GetColorID(newColor);
+	itsColorSample->SetBackColor(newColorID);
 }
 
 /******************************************************************************

@@ -36,7 +36,7 @@ public:
 	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers) override;
 
 	static void	DrawRowBackground(JPainter& p, const JPoint& cell, const JRect& rect,
-								  const JColorIndex color);
+								  const JColorID color);
 	static void	DrawProcessState(const GPMProcessEntry& entry,
 								 JPainter& p, const JRect& rect,
 								 const JXImage& zombieImage);

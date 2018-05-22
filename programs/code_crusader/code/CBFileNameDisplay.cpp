@@ -12,7 +12,7 @@
 #include "CBTextDocument.h"
 #include "cbUtil.h"
 #include <JXMenu.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <jFileUtil.h>
 #include <jVCSUtil.h>
 #include <jASCIIConstants.h>

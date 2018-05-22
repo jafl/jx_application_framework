@@ -18,7 +18,7 @@
 #include <JXWindowPainter.h>
 #include <JXWindowDirector.h>
 #include <JXDragPainter.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <JXTextMenu.h>
 #include <JXMenuBar.h>
 #include <JXFontSizeMenu.h>
@@ -220,7 +220,7 @@ void
 JX2DPlotWidget::JX2DPlotWidgetX()
 {
 	SetBorderWidth(kJXDefaultBorderWidth);
-	JXColormap* colormap = GetColormap();
+	JXColorManager* colormap = GetColormap();
 	SetBackColor(colormap->GetWhiteColor());
 	AddColor(colormap->GetRedColor());
 	AddColor(colormap->GetBlueColor());

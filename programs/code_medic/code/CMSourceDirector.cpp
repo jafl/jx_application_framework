@@ -35,7 +35,7 @@
 #include <JXHelpManager.h>
 #include <JXWDManager.h>
 #include <JXImage.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <JXMacWinPrefsDialog.h>
 #include <JXCloseDirectorTask.h>
 

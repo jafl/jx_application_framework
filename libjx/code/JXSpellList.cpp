@@ -8,7 +8,7 @@
  ******************************************************************************/
 
 #include <JXSpellList.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <jXGlobals.h>
 #include <JTableSelection.h>
 #include <jAssert.h>

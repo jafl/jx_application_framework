@@ -19,7 +19,7 @@
 #include "Widget.h"
 #include <JXWidget.h>
 #include <JXWindowPainter.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <jXPainterUtil.h>
 #include <jXConstants.h>
 #include <jAssert.h>
@@ -80,16 +80,14 @@ Widget::Draw
 	const JRect&     rect
 	)
 {
-	JXColormap* cmap = GetColormap();
-
 	// This is where everything happens
 	// See JPainter.h for available functions
 
-	p.SetPenColor(cmap->GetGreenColor());
+	p.SetPenColor(JColorManager::GetGreenColor());
 	p.Rect(10, 10, 50, 50);
 	
 	p.SetFilling(kJTrue);
-	p.SetPenColor(cmap->GetBlueColor());
+	p.SetPenColor(JColorManager::GetBlueColor());
 	p.Rect(10, 70, 50, 50);
 }
 

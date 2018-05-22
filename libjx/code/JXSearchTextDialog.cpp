@@ -36,7 +36,7 @@
 #include <JXMenu.h>
 #include <JXSearchTextDecorTask.h>
 #include <JXFontManager.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <jXGlobals.h>
 #include <JRegex.h>
 #include <JInterpolate.h>

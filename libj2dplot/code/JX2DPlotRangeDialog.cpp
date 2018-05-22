@@ -12,7 +12,7 @@
 #include <JXTextButton.h>
 #include <JXFloatInput.h>
 #include <JXStaticText.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <JMinMax.h>
 #include <jGlobals.h>
 #include <jAssert.h>

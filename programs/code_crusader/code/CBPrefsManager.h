@@ -163,8 +163,8 @@ public:
 	void	GetDefaultFont(JString* name, JSize* size) const;
 	void	SetDefaultFont(const JCharacter* name, const JSize size);
 
-	JColorIndex		GetColor(const JIndex index) const;
-	void			SetColor(const JIndex index, const JColorIndex color);
+	JColorID		GetColor(const JIndex index) const;
+	void			SetColor(const JIndex index, const JColorID color);
 	static JBoolean	ColorIndexValid(const JIndex index);
 
 	CBEmulator	GetEmulator() const;
@@ -309,7 +309,7 @@ private:
 	JBoolean					itsExecOutputWordWrapFlag;
 	JBoolean					itsUnknownTypeWordWrapFlag;
 
-	JColorIndex	itsColor [ kColorCount ];
+	JColorID	itsColor [ kColorCount ];
 
 	CBEditFileTypesDialog*	itsFileTypesDialog;
 	CBEditMacroDialog*		itsMacroDialog;

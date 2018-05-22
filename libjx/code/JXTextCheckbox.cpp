@@ -11,7 +11,7 @@
 #include <JXWindow.h>
 #include <JXWindowPainter.h>
 #include <JXFontManager.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <jXPainterUtil.h>
 #include <jXGlobals.h>
 #include <jAssert.h>
@@ -44,9 +44,8 @@ JXTextCheckbox::JXTextCheckbox
 	itsShortcuts = NULL;
 	itsULIndex   = 0;
 
-	JXColormap* colormap = GetColormap();
-	itsNormalColor = colormap->GetDefaultBackColor();
-	itsPushedColor = colormap->GetDefaultSelButtonColor();
+	itsNormalColor = JColorManager::GetDefaultBackColor();
+	itsPushedColor = JColorManager::GetDefaultSelButtonColor();
 }
 
 /******************************************************************************
@@ -116,7 +115,7 @@ JCoordinate
 JXTextCheckbox::GetPreferredWidth()
 	const
 {
-	return 2*kMarginWidth + kBoxHeight + itsFont.GetStringWidth(itsLabel);
+	return 2*kMarginWidth + kBoxHeight + itsFont.GetStringWidth(GetFontManager(), itsLabel);
 }
 
 /******************************************************************************
@@ -163,7 +162,7 @@ JXTextCheckbox::Draw
 		p.SetFilling(kJFalse);
 
 		p.SetLineWidth(kJXDefaultBorderWidth);
-		p.SetPenColor(GetColormap()->GetInactiveLabelColor());
+		p.SetPenColor(JColorManager::GetInactiveLabelColor());
 		p.RectInside(boxRect);
 		}
 
@@ -176,7 +175,7 @@ JXTextCheckbox::Draw
 	else
 		{
 		JFont f = itsFont;
-		f.SetColor(GetColormap()->GetInactiveLabelColor());
+		f.SetColor(JColorManager::GetInactiveLabelColor());
 		p.SetFont(f);
 		}
 
@@ -214,6 +213,6 @@ JXTextCheckbox::GetFTCMinContentSize
 	const
 {
 	return (horizontal ?
-			JMax((JSize) GetApertureWidth(), 2*kMarginWidth + kBoxHeight + itsFont.GetStringWidth(itsLabel)) :
-			JMax(GetApertureHeight(), kBoxHeight, JRound(itsFont.GetLineHeight() * 1.25)));
+			JMax((JSize) GetApertureWidth(), 2*kMarginWidth + kBoxHeight + itsFont.GetStringWidth(GetFontManager(), itsLabel)) :
+			JMax(GetApertureHeight(), kBoxHeight, JRound(itsFont.GetLineHeight(GetFontManager()) * 1.25)));
 }

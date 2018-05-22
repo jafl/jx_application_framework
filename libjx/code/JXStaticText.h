@@ -35,7 +35,7 @@ public:
 	void	SetFontStyle(const JFontStyle& style);
 	void	SetFont(const JFont& f);
 
-	void	SetBackgroundColor(const JColorIndex color);
+	void	SetBackgroundColor(const JColorID color);
 
 	void	SetToLabel(const JBoolean centerHorizontally = kJFalse);
 
@@ -45,7 +45,7 @@ protected:
 
 	virtual void		BoundsMoved(const JCoordinate dx, const JCoordinate dy) override;
 	virtual void		BoundsResized(const JCoordinate dw, const JCoordinate dh) override;
-	virtual JCoordinate$1GetFTCMinContentSize(const JBoolean horizontal) const override;
+	virtual JCoordinate	GetFTCMinContentSize(const JBoolean horizontal) const override;
 
 private:
 
@@ -79,7 +79,7 @@ JXStaticText::SetFontName
 {
 	SelectAll();
 	SetCurrentFontName(name);
-	SetDefaultFontName(name);
+	GetText()->SetDefaultFontName(name);
 }
 
 inline void
@@ -90,7 +90,7 @@ JXStaticText::SetFontSize
 {
 	SelectAll();
 	SetCurrentFontSize(size);
-	SetDefaultFontSize(size);
+	GetText()->SetDefaultFontSize(size);
 }
 
 inline void
@@ -101,7 +101,7 @@ JXStaticText::SetFontStyle
 {
 	SelectAll();
 	SetCurrentFontStyle(style);
-	SetDefaultFontStyle(style);
+	GetText()->SetDefaultFontStyle(style);
 }
 
 inline void
@@ -112,7 +112,7 @@ JXStaticText::SetFont
 {
 	SelectAll();
 	SetCurrentFont(f);
-	SetDefaultFont(f);
+	GetText()->SetDefaultFont(f);
 }
 
 /******************************************************************************
@@ -123,7 +123,7 @@ JXStaticText::SetFont
 inline void
 JXStaticText::SetBackgroundColor
 	(
-	const JColorIndex color
+	const JColorID color
 	)
 {
 	SetBackColor(color);

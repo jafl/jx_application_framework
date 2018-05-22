@@ -12,7 +12,7 @@
 #include "CBTextDocument.h"
 #include "CBTextEditor.h"
 #include "cbGlobals.h"
-#include <JColormap.h>
+#include <JXColorManager.h>
 #include <JRegex.h>
 #include <jAssert.h>
 
@@ -333,7 +333,7 @@ CBJavaClass::IsInherited
 void
 CBJavaClass::AdjustNameStyle
 	(
-	const JColormap*	colormap,
+	const JXColorManager*	colormap,
 	JFontStyle*			style
 	)
 	const

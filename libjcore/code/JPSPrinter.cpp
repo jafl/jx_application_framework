@@ -54,12 +54,11 @@ static const JFloat kPaperHeight[] =
 
 JPSPrinter::JPSPrinter
 	(
-	const JFontManager*	fontManager,
-	const JColorManager*	colorManager
+	const JFontManager* fontManager
 	)
 	:
-	JPagePrinter(fontManager, colorManager, JRect()),
-	JPSPrinterBase(fontManager, colorManager)
+	JPagePrinter(fontManager, JRect()),
+	JPSPrinterBase(fontManager)
 {
 	itsPaperType = kUSLetter;
 

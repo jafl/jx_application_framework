@@ -14,7 +14,7 @@
 #include <JXHorizPartition.h>
 #include <JXVertPartition.h>
 #include <JXWindowPainter.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <jGlobals.h>
 #include <jAssert.h>
 
@@ -137,7 +137,7 @@ TestCompartment::Draw
 
 	if (!IsActive())
 		{
-		p.SetFontStyle((p.GetColormap())->GetInactiveLabelColor());
+		p.SetFontStyle(JColorManager::GetInactiveLabelColor());
 		}
 
 	p.String(ap.left, top, JGetString("LeftClickInstr::TestCompartment"),

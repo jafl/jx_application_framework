@@ -10,7 +10,7 @@
  ******************************************************************************/
 
 #include <CBCommandPathInput.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <jDirUtil.h>
 #include <jAssert.h>
 
@@ -109,7 +109,7 @@ CBCommandPathInput::AdjustStylesBeforeRecalc
 {
 	if (buffer == "@")
 		{
-		const JColormap* colormap = GetColormap();
+		const JXColorManager* colormap = GetColormap();
 		const JSize totalLength   = buffer.GetLength();
 		JFont f                   = styles->GetFirstElement();
 		styles->RemoveAll();
@@ -135,13 +135,13 @@ CBCommandPathInput::AdjustStylesBeforeRecalc
 
  ******************************************************************************/
 
-JColorIndex
+JColorID
 CBCommandPathInput::GetTextColor
 	(
 	const JCharacter*	path,
 	const JCharacter*	base,
 	const JBoolean		requireWrite,
-	const JColormap*	colormap
+	const JXColorManager*	colormap
 	)
 {
 	if (strcmp(path, "@") == 0)

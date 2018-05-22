@@ -14,7 +14,6 @@
 #include <JStyleTableData.h>
 #include <JTable.h>
 #include <JFontManager.h>
-#include <JColorManager.h>
 #include <jGlobals.h>
 #include <jAssert.h>
 
@@ -32,14 +31,12 @@ const JUtf8Byte* JStyleTableData::kFontChanged = "FontChanged::JStyleTableData";
 JStyleTableData::JStyleTableData
 	(
 	JTable*				table,
-	const JFontManager*	fontManager,
-	JColorManager*			colorManager
+	const JFontManager*	fontManager
 	)
 	:
 	JAuxTableData<JFontStyle>(table, JFontStyle()),
 	itsFontManager(fontManager),
-	itsColorManager(colorManager),
-	itsFont(fontManager->GetDefaultFont())
+	itsFont(JFontManager::GetDefaultFont())
 {
 	AdjustToFont();
 }

@@ -21,7 +21,7 @@ public:
 
 	virtual ~CBSampleText();
 
-	void	ShowRightMargin(const JBoolean show, const JColorIndex color);
+	void	ShowRightMargin(const JBoolean show, const JColorID color);
 
 protected:
 
@@ -30,7 +30,7 @@ protected:
 private:
 
 	JBoolean	itsDrawRightMarginFlag;
-	JColorIndex	itsRightMarginColor;
+	JColorID	itsRightMarginColor;
 
 private:
 
@@ -50,7 +50,7 @@ inline void
 CBSampleText::ShowRightMargin
 	(
 	const JBoolean		show,
-	const JColorIndex	color
+	const JColorID	color
 	)
 {
 	itsDrawRightMarginFlag = show;

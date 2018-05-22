@@ -33,7 +33,7 @@
 #include <JXWDMenu.h>
 #include <JXToolBar.h>
 #include <JXScrollbarSet.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <JXImage.h>
 #include <JProcess.h>
 #include <jDirUtil.h>

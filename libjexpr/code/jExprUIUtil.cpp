@@ -35,7 +35,7 @@ JApplyFunction
 	const JVariableList*	varList,
 	const JFunction&		origF,
 	const JFontManager*		fontMgr,
-	JColormap*				colormap,
+	JXColorManager*				colormap,
 
 	JFunction**				newF,
 	JFunction**				newArg,

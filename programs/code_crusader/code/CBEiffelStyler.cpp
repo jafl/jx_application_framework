@@ -14,7 +14,7 @@
 #include "cbmUtil.h"
 #include <JXDialogDirector.h>
 #include <JRegex.h>
-#include <JColormap.h>
+#include <JXColorManager.h>
 #include <jAssert.h>
 
 CBEiffelStyler* CBEiffelStyler::itsSelf = NULL;
@@ -103,8 +103,8 @@ CBEiffelStyler::CBEiffelStyler()
 		SetTypeStyle(i, blankStyle);
 		}
 
-	JColormap* colormap   = GetColormap();
-	const JColorIndex red = colormap->GetRedColor();
+	JXColorManager* colormap   = GetColormap();
+	const JColorID red = colormap->GetRedColor();
 
 	SetTypeStyle(kReservedKeyword - kWhitespace, JFontStyle(colormap->GetDarkGreenColor()));
 	SetTypeStyle(kBuiltInDataType - kWhitespace, JFontStyle(colormap->GetDarkGreenColor()));

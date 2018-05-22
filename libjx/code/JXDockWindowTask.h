@@ -24,7 +24,7 @@ public:
 
 	virtual ~JXDockWindowTask();
 
-	virtual void	Perform(const Time delta, Time* maxSleepTime);
+	virtual void	Perform(const Time delta, Time* maxSleepTime) override;
 	JBoolean		IsDone() const;
 
 	static void	PrepareForDockAll();

@@ -170,7 +170,7 @@ public:
 	JSize	GetTabCharCount() const;
 	void	SetTabCharCount(const JSize count);
 
-	JColorIndex		GetColor(const JIndex index) const;
+	JColorID		GetColor(const JIndex index) const;
 	static JBoolean	ColorIndexValid(const JIndex index);
 
 	void	LoadSearchPrefs();
@@ -189,7 +189,7 @@ private:
 	CMEditPrefsDialog* itsEditPrefsDialog;
 
 	// these were taken from CBPrefsManager for compatibility with shared files
-	JColorIndex	itsColor [ kColorCount ];
+	JColorID	itsColor [ kColorCount ];
 
 private:
 

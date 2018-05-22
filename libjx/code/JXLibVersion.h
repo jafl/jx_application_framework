@@ -73,10 +73,10 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //	Switched all uses of "6x13" to JGetMonospaceFontName().
 //	JXFontManager:
 //		Added support for anti-aliased fonts.
-//		Removed JXColormap* arg from ctor.
+//		Removed JXColorManager* arg from ctor.
 //	JXGC:
 //		Added support for anti-aliased fonts.
-//		Removed JXColormap* arg from ctor.
+//		Removed JXColorManager* arg from ctor.
 //	JXWindowPainter:
 //		Rotated strings are anti-aliased.
 //		Fixed bugs in placement of rotated text.
@@ -84,11 +84,11 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //	JXPSPrintSetupDialog:
 //		Fixed bug so Print button is enabled when dialog is opened.
 //		Fixed crash when print to printer and file name input is empty.
-//	JXColormap:
+//	JXColorManager:
 //		Private colormaps are obsolete.
 //		Renamed AllocateStaticNamedColor() to GetColor(),
 //		Renamed AllocateStaticColor() to GetColor().
-//			Now returns JColorIndex.  Removed exactMatch argument
+//			Now returns JColorID.  Removed exactMatch argument
 //		Replaced GetGray*Color() with GetGrayColor(percentage).
 //		Removed public version of Create(), GetMaxColorCount(),
 //			CanAllocateDynamicColors(), AllocateDynamicColor(),
@@ -118,10 +118,10 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //			root window to avoid wasting time at the next invocation.
 //	JXImage:
 //		Removed allowApproxColors argument from all CreateFrom*().
-//		Removed JXColormap* arg from all ctors and CreateFrom*().
+//		Removed JXColorManager* arg from all ctors and CreateFrom*().
 //		Added optional initState arg to basic ctor, to allow creating XImage.
 //	JXImageMask:
-//		Removed JXColormap* arg from all ctors and CreateFrom*().
+//		Removed JXColorManager* arg from all ctors and CreateFrom*().
 //	JXImageSelection:
 //		Removed allowApproxColors argument from GetImage().
 //	JXStyleMenu:
@@ -135,11 +135,11 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //	JXXFontMenu:
 //		Renamed FontNeedsUpdate to NameNeedsUpdate, FontChanged to NameChanged.
 //	JXTextSelection:
-//		Removed JXColormap* arg from ctor.
+//		Removed JXColorManager* arg from ctor.
 //	JXPSPrinter:
-//		Removed JXColormap* arg from ctor.
+//		Removed JXColorManager* arg from ctor.
 //	JXEPSPrinter:
-//		Removed JXColormap* arg from ctor.
+//		Removed JXColorManager* arg from ctor.
 //	JXWidget:
 //		Added Will/ShouldAllowUnboundedScrolling().
 //	JXStaticText:
@@ -1382,7 +1382,7 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 
 // version 1.1.17:
 //	libXPM is now included in libjx.
-//	JXColormap:
+//	JXColorManager:
 //		Added color approximation and set of functions to control how it is done.
 //	JXDNDManager:
 //		Upgraded to XDND protocol version 2 which supports arbitrary drop actions.
@@ -1606,7 +1606,7 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //			begins typing.
 //	JXPasswordInput:
 //		Draws # for each character entered.
-//	JXColormap:
+//	JXColorManager:
 //		Added GetSystemColorIndex().  This is only guaranteed to work when
 //			using PseudoColor.  In general, you should use GetXPixel() instead.
 //	JXWidget:
@@ -1821,14 +1821,14 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //		Optimized drawing of images that have masks.
 //	Removed jXColors.h.
 //		All color indices must now be obtained from the colormap.
-//		Each color constant has been converted to a function in JColormap.
+//		Each color constant has been converted to a function in JXColorManager.
 //		The values of the colors are no longer assured, so any code that
 //			assumed particular values for black,red,etc is now invalid!!!
 //	JXImageMask:
 //		Removed kPixelOn.
-//	JXColormap:
+//	JXColorManager:
 //		Overloaded AllocateStaticColor() to accept a valid X pixel value.
-//		Now inherits from JColormap.
+//		Now inherits from JXColorManager.
 //		Added more pre-allocated colors.
 //		All JX colors are now as Netscape-compatible as possible.
 //		Added GetDisplay() and GetXVisualInfo().

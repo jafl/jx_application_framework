@@ -114,7 +114,7 @@ JXPGMessageDirector::AddMessageLine
 	const JString& text
 	)
 {
-	itsMessageText->SetCaretLocation(itsMessageText->GetTextLength() + 1);
+	itsMessageText->GoToEndOfLine();
 
 	if (!itsMessageText->IsEmpty())
 		{
@@ -138,7 +138,7 @@ JXPGMessageDirector::AddMessageString
 	const JString& text
 	)
 {
-	itsMessageText->SetCaretLocation(itsMessageText->GetTextLength() + 1);
+	itsMessageText->GoToEndOfLine();
 	itsMessageText->Paste(text);
 	GetWindow()->Update();
 }

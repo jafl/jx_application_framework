@@ -18,7 +18,6 @@
 
 class JString;
 class JFontManager;
-class JColorManager;
 class JImage;
 class JImageMask;
 
@@ -33,7 +32,7 @@ public:
 
 public:
 
-	JPSPrinterBase(const JFontManager* fontManager, const JColorManager* colorManager);
+	JPSPrinterBase(const JFontManager* fontManager);
 
 	virtual ~JPSPrinterBase();
 
@@ -131,8 +130,7 @@ private:
 
 	// buffered values
 
-	const JFontManager*		itsFontManager;
-	const JColorManager*	itsColorManager;
+	const JFontManager*	itsFontManager;
 
 	JBoolean	itsFontSetFlag;
 	JFont		itsLastFont;

@@ -16,8 +16,8 @@
 #include <JXWidget.h>
 #include <JXDragPainter.h>
 #include <JXDNDManager.h>
-#include <JXColormap.h>
-#include <JOrderedSetUtil.h>
+#include <JColorManager.h>
+#include <JListUtil.h>
 #include <sstream>
 #include <jAssert.h>
 
@@ -97,14 +97,14 @@ JXFTCCell::ToString()
 {
 	std::ostringstream s;
 	JXContainer::ToString().Print(s);
-	GetDirectionName().Print(s);
+	s << GetDirectionName();
 	if (itsWidget != NULL)
 		{
 		s << " (";
 		itsWidget->ToString().Print(s);
 		s << ")";
 		}
-	return JString(s.str());
+	return JString(s.str(), JUtf8ByteRange());
 }
 
 /******************************************************************************
@@ -112,7 +112,7 @@ JXFTCCell::ToString()
 
  ******************************************************************************/
 
-JString
+const JUtf8Byte*
 JXFTCCell::GetDirectionName()
 	const
 {
@@ -331,12 +331,11 @@ JXFTCCell::EnforceSpacing()
 	if (theDebugFTCFlag)
 		{
 		GetFTCLog() << Indent(+1) << "--- Enforcing spacing";
-		GetDirectionName().Print(GetFTCLog());
-		GetFTCLog() << ":" << std::endl;
+		GetFTCLog() << GetDirectionName() << ":" << std::endl;
 
 		for (JIndex i=1; i<=itsChildSpacing->GetElementCount(); i++)
 			{
-			GetFTCLog() << Indent(+2) << itsChildSpacing->GetElement(i) << ' ' << itsChildren->NthElement(i)->ToString() << std::endl;
+			GetFTCLog() << Indent(+2) << itsChildSpacing->GetElement(i) << ' ' << itsChildren->GetElement(i)->ToString() << std::endl;
 			}
 		GetFTCLog() << std::endl;
 		}
@@ -380,12 +379,11 @@ JXFTCCell::EnforcePositions()
 	if (theDebugFTCFlag)
 		{
 		GetFTCLog() << Indent(+1) << "--- Enforcing positions";
-		GetDirectionName().Print(GetFTCLog());
-		GetFTCLog() << ":" << std::endl;
+		GetFTCLog() << GetDirectionName() << ":" << std::endl;
 
 		for (JIndex i=1; i<=itsChildPositions->GetElementCount(); i++)
 			{
-			GetFTCLog() << Indent(+2) << "position: " << itsChildPositions->GetElement(i) << ' ' << itsChildren->NthElement(i)->ToString() << std::endl;
+			GetFTCLog() << Indent(+2) << "position: " << itsChildPositions->GetElement(i) << ' ' << itsChildren->GetElement(i)->ToString() << std::endl;
 			}
 		GetFTCLog() << std::endl;
 		}
@@ -603,16 +601,16 @@ JXFTCCell::DrawBackground
 	JRect r = frame;
 	r.Shrink(depth, depth);
 
-	const JColorIndex colorList[] =
+	const JColorID colorList[] =
 	{
-		p.GetColormap()->GetBlueColor(),
-		p.GetColormap()->GetRedColor(),
-		p.GetColormap()->GetYellowColor(),
-		p.GetColormap()->GetLightBlueColor(),
-		p.GetColormap()->GetWhiteColor(),
-		p.GetColormap()->GetCyanColor()
+		JColorManager::GetBlueColor(),
+		JColorManager::GetRedColor(),
+		JColorManager::GetYellowColor(),
+		JColorManager::GetLightBlueColor(),
+		JColorManager::GetWhiteColor(),
+		JColorManager::GetCyanColor()
 	};
-	const JColorIndex color = colorList[ depth % (sizeof(colorList)/sizeof(JColorIndex)) ];
+	const JColorID color = colorList[ depth % (sizeof(colorList)/sizeof(JColorID)) ];
 
 	p.SetPenColor(color);
 	p.JPainter::Rect(r);

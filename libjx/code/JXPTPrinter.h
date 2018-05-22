@@ -33,7 +33,7 @@ public:
 
 	virtual ~JXPTPrinter();
 
-	virtual void	Print(const JString& text);
+	virtual void	Print(const JString& text) override;
 
 	// saving setup information
 

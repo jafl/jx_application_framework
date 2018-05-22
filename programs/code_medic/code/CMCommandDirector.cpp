@@ -55,7 +55,7 @@
 #include <JXWDMenu.h>
 #include <JXChooseSaveFile.h>
 #include <JXImage.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <JXMacWinPrefsDialog.h>
 
 #include <jFileUtil.h>
@@ -449,7 +449,7 @@ CMCommandDirector::PrepareCommand
 {
 	itsCommandInput->SetText(cmd);
 	itsCommandInput->Focus();
-	itsCommandInput->SetCaretLocation(itsCommandInput->GetTextLength()+1);
+	itsCommandInput->GoToEndOfLine();
 	Activate();
 	GetWindow()->RequestFocus();
 }
@@ -925,7 +925,7 @@ CMCommandDirector::Receive
 		const CMLink::UserOutput* output =
 			dynamic_cast<const CMLink::UserOutput*>(&message);
 		assert(output != NULL);
-		itsCommandOutput->SetCaretLocation(itsCommandOutput->GetTextLength() + 1);
+		itsCommandOutput->GoToEndOfLine();
 //		itsISOStyler->FilterISO(output->GetText());
 
 		JFont font = itsCommandOutput->GetDefaultFont();
@@ -1094,7 +1094,7 @@ CMCommandDirector::Receive
 		{
 		const JString& str = itsHistoryMenu->GetItemText(message);
 		itsCommandInput->SetText(str);
-		itsCommandInput->SetCaretLocation(str.GetLength()+1);
+		itsCommandInput->GoToEndOfLine();
 		}
 
 	// misc
@@ -1188,7 +1188,7 @@ CMCommandDirector::HandleUserInput()
 		}
 	else
 		{
-		itsCommandOutput->SetCaretLocation(itsCommandOutput->GetTextLength() + 1);
+		itsCommandOutput->GoToEndOfLine();
 		}
 //	itsISOStyler->FilterISO(input);
 	itsCommandOutput->SetCurrentFontStyle(itsCommandOutput->GetDefaultFont().GetStyle());
@@ -1259,7 +1259,7 @@ CMCommandDirector::ShowHistoryCommand
 		itsCommandInput->SetText(itsCurrentCommand);
 		}
 
-	itsCommandInput->SetCaretLocation(itsCommandInput->GetTextLength()+1);
+	itsCommandInput->GoToEndOfLine();
 }
 
 /******************************************************************************

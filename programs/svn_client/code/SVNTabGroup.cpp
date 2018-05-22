@@ -59,7 +59,7 @@ SVNTabGroup::SVNTabGroup
 	assert( itsImageList != NULL );
 
 	JXDisplay* display   = enclosure->GetDisplay();
-	JXColormap* colormap = enclosure->GetColormap();
+	JXColorManager* colormap = enclosure->GetColormap();
 	for (JIndex i=1; i<=kBusyIconCount; i++)
 		{
 		JXImage* icon = jnew JXImage(display, kBusyIcon[i-1]);

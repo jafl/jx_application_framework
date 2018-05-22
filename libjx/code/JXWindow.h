@@ -18,7 +18,7 @@
 
 class JXDisplay;
 class JXGC;
-class JXColormap;
+class JXColorManager;
 class JXImage;
 class JXWindowDirector;
 class JXWidget;
@@ -61,8 +61,8 @@ public:
 
 	virtual ~JXWindow();
 
-	JXDisplay*	GetDisplay() const;
-	JXColormap*	GetColormap() const;
+	JXDisplay*		GetDisplay() const;
+	JXColorManager*	GetColorManager() const;
 
 	const JString&	GetTitle() const;
 	void			SetTitle(const JString& title);
@@ -198,7 +198,6 @@ public:
 	// called by JXDisplay
 
 	void	Update();
-	void	ColormapChanged(JXColormap* colormap);
 	void	DispatchMouse();
 
 	JBoolean	BeginDrag(JXContainer* obj, const JPoint& ptG,
@@ -353,34 +352,34 @@ private:
 	JXWindow*			itsMainWindow;		// can be NULL; uses us for icon
 	const JBoolean		itsIsOverlayFlag;
 
-	JXDisplay*	itsDisplay;					// we don't own this
-	JXColormap*	itsColormap;
-	JXGC*		itsGC;
-	Window		itsXWindow;
-	Pixmap		itsBufferPixmap;
-	JString		itsTitle;
-	JString		itsWindowType;
-	JColorID	itsBackColor;
-	JXImage*	itsIcon;					// can be NULL
-	JRect		itsBounds;
-	JPoint		itsDesktopLoc;				// convert to root coordinates
-	JPoint		itsWMFrameLoc;				// top left of Window Manager frame
-	JBoolean	itsHasBeenVisibleFlag;		// XQuartz placement
-	Region		itsUpdateRegion;
-	JBoolean	itsIsMappedFlag;
-	JBoolean	itsIsIconifiedFlag;
-	JBoolean	itsHasFocusFlag;
-	JBoolean	itsFocusWhenShowFlag;		// kJTrue => RequestFocus() when mapped
-	JBoolean	itsBufferDrawingFlag;		// kJTrue => draw to pixmap and then copy to window
-	JBoolean	itsKeepBufferPixmapFlag;	// kJTrue => don't toss itsBufferPixmap
-	JBoolean	itsUseBkgdPixmapFlag;		// kJTrue => use XSetWindowBackgroundPixmap()
-	JBoolean	itsIsDestructingFlag;		// kJTrue => in destructor
+	JXDisplay*		itsDisplay;					// we don't own this
+	JXColorManager*	itsColorManager;
+	JXGC*			itsGC;
+	Window			itsXWindow;
+	Pixmap			itsBufferPixmap;
+	JString			itsTitle;
+	JString			itsWindowType;
+	JColorID		itsBackColor;
+	JXImage*		itsIcon;					// can be NULL
+	JRect			itsBounds;
+	JPoint			itsDesktopLoc;				// convert to root coordinates
+	JPoint			itsWMFrameLoc;				// top left of Window Manager frame
+	JBoolean		itsHasBeenVisibleFlag;		// XQuartz placement
+	Region			itsUpdateRegion;
+	JBoolean		itsIsMappedFlag;
+	JBoolean		itsIsIconifiedFlag;
+	JBoolean		itsHasFocusFlag;
+	JBoolean		itsFocusWhenShowFlag;		// kJTrue => RequestFocus() when mapped
+	JBoolean		itsBufferDrawingFlag;		// kJTrue => draw to pixmap and then copy to window
+	JBoolean		itsKeepBufferPixmapFlag;	// kJTrue => don't toss itsBufferPixmap
+	JBoolean		itsUseBkgdPixmapFlag;		// kJTrue => use XSetWindowBackgroundPixmap()
+	JBoolean		itsIsDestructingFlag;		// kJTrue => in destructor
 
-	JBoolean	itsHasMinSizeFlag;
-	JPoint		itsMinSize;
-	JBoolean	itsHasMaxSizeFlag;
-	JPoint		itsMaxSize;
-	JPoint		itsFTCDelta;				// prevent size creep
+	JBoolean		itsHasMinSizeFlag;
+	JPoint			itsMinSize;
+	JBoolean		itsHasMaxSizeFlag;
+	JPoint			itsMaxSize;
+	JPoint			itsFTCDelta;				// prevent size creep
 
 	JArray<Shortcut>*	itsShortcuts;
 
@@ -724,15 +723,15 @@ JXWindow::GetDisplay()
 }
 
 /******************************************************************************
- GetColormap
+ GetColorManager
 
  ******************************************************************************/
 
-inline JXColormap*
-JXWindow::GetColormap()
+inline JXColorManager*
+JXWindow::GetColorManager()
 	const
 {
-	return itsColormap;
+	return itsColorManager;
 }
 
 /******************************************************************************

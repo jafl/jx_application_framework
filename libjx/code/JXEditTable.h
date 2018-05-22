@@ -32,16 +32,16 @@ public:
 
 	JXTEBase*	GetEditMenuHandler() const;
 
-	virtual JBoolean	IsEditable(const JPoint& cell) const;
+	virtual JBoolean	IsEditable(const JPoint& cell) const override;
 
 protected:
 
-	virtual JBoolean	CreateInputField(const JPoint& cell, const JRect& cellRect);
-	virtual void		DeleteInputField();
-	virtual void		PlaceInputField(const JCoordinate x, const JCoordinate y);
-	virtual void		MoveInputField(const JCoordinate dx, const JCoordinate dy);
-	virtual void		SetInputFieldSize(const JCoordinate w, const JCoordinate h);
-	virtual void		ResizeInputField(const JCoordinate dw, const JCoordinate dh);
+	virtual JBoolean	CreateInputField(const JPoint& cell, const JRect& cellRect) override;
+	virtual void		DeleteInputField() override;
+	virtual void		PlaceInputField(const JCoordinate x, const JCoordinate y) override;
+	virtual void		MoveInputField(const JCoordinate dx, const JCoordinate dy) override;
+	virtual void		SetInputFieldSize(const JCoordinate w, const JCoordinate h) override;
+	virtual void		ResizeInputField(const JCoordinate dw, const JCoordinate dh) override;
 
 	virtual JXInputField*	CreateXInputField(const JPoint& cell,
 											  const JCoordinate x, const JCoordinate y,
@@ -49,7 +49,7 @@ protected:
 	virtual void			PrepareDeleteXInputField() = 0;
 	JBoolean				GetXInputField(JXInputField** inputField) const;
 
-	virtual JCoordinate	GetMin1DVisibleWidth(const JPoint& cell) const;
+	virtual JCoordinate	GetMin1DVisibleWidth(const JPoint& cell) const override;
 
 private:
 

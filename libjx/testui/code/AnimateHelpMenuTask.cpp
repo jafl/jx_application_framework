@@ -11,8 +11,8 @@
 #include "HelpMenuBitmaps.h"
 #include <JXTextMenu.h>
 #include <JXImage.h>
-#include <JXColormap.h>
 #include <jXGlobals.h>
+#include <JColorManager.h>
 #include <jAssert.h>
 
 const JSize kAnimationPeriod = 400;		// 0.4 second (milliseconds)
@@ -37,20 +37,19 @@ AnimateHelpMenuTask::AnimateHelpMenuTask
 	assert( itsImageList != NULL );
 
 	JXDisplay* display   = itsMenu->GetDisplay();
-	JXColormap* colormap = itsMenu->GetColormap();
 	for (JIndex i=1; i<=kHelpIconCount; i++)
 		{
-		JColorIndex fgColor = colormap->GetBlackColor();
+		JColorID fgColor = JColorManager::GetBlackColor();
 		if (i == kGreyOutIcon1Index)
 			{
-			fgColor = colormap->GetGrayColor(50);
+			fgColor = JColorManager::GetGrayColor(50);
 			}
 		else if (i == kGreyOutIcon2Index)
 			{
-			fgColor = colormap->GetGrayColor(75);
+			fgColor = JColorManager::GetGrayColor(75);
 			}
 		JXImage* icon =
-			jnew JXImage(display, kHelpIcon[i-1], fgColor, colormap->GetWhiteColor());
+			jnew JXImage(display, kHelpIcon[i-1], fgColor, JColorManager::GetWhiteColor());
 		assert( icon != NULL );
 		icon->SetDefaultState(JXImage::kRemoteStorage);
 		icon->ConvertToDefaultState();

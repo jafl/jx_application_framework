@@ -35,13 +35,13 @@ public:
 	void	SetFontStyle(const JFontStyle& style);
 	void	SetFont(const JFont& f);
 
-	void	SetNormalColor(const JColorIndex color);
-	void	SetPushedColor(const JColorIndex color);
+	void	SetNormalColor(const JColorID color);
+	void	SetPushedColor(const JColorID color);
 
 	const JPoint&	GetPadding() const;
 	void			SetPaddingBeforeFTC(const JPoint& p);
 
-	virtual void	SetShortcuts(const JString& list);
+	virtual void	SetShortcuts(const JString& list) override;
 
 	virtual JString	ToString() const override;
 
@@ -49,7 +49,7 @@ protected:
 
 	virtual void		Draw(JXWindowPainter& p, const JRect& rect) override;
 	virtual void		DrawBackground(JXWindowPainter& p, const JRect& frame) override;
-	virtual JCoordinate$1GetFTCMinContentSize(const JBoolean horizontal) const override;
+	virtual JCoordinate	GetFTCMinContentSize(const JBoolean horizontal) const override;
 
 private:
 
@@ -57,7 +57,7 @@ private:
 	JString*	itsShortcuts;	// can be NULL
 	JIndex		itsULIndex;
 	JFont		itsFont;
-	JColorIndex	itsPushedColor;
+	JColorID	itsPushedColor;
 	JPoint		itsPadding;
 
 private:
@@ -138,7 +138,7 @@ JXTextButton::SetFont
 inline void
 JXTextButton::SetNormalColor
 	(
-	const JColorIndex color
+	const JColorID color
 	)
 {
 	SetBackColor(color);
@@ -147,7 +147,7 @@ JXTextButton::SetNormalColor
 inline void
 JXTextButton::SetPushedColor
 	(
-	const JColorIndex color
+	const JColorID color
 	)
 {
 	itsPushedColor = color;

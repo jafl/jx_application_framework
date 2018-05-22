@@ -23,7 +23,7 @@ public:
 
 	virtual ~JXDecorRect();
 
-	void	SetColor(const JColorIndex color);
+	void	SetColor(const JColorID color);
 
 protected:
 
@@ -46,7 +46,7 @@ private:
 inline void
 JXDecorRect::SetColor
 	(
-	const JColorIndex color
+	const JColorID color
 	)
 {
 	SetBackColor(color);

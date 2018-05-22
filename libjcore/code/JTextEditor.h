@@ -133,37 +133,31 @@ public:
 
 	JBoolean	GetCaretLocation(JIndex* charIndex) const;
 	void		SetCaretLocation(const JIndex charIndex);
+	void		SetCaretLocation(const JPoint& pt);
 
 	JBoolean	HasSelection() const;
 	JBoolean	GetSelection(JCharacterRange* range) const;
 	JBoolean	GetSelection(JString* text) const;
 	JBoolean	GetSelection(JString* text, JRunArray<JFont>* style) const;
-/* don't call internally
-	void		SetSelection(const JIndex startIndex, const JIndex endIndex,
-							 const JBoolean needCaretBcast = kJTrue);
 	void		SetSelection(const JCharacterRange& range,
 							 const JBoolean needCaretBcast = kJTrue);
-*/
+
 	JBoolean	TEScrollToSelection(const JBoolean centerInDisplay);
-	void		TEGetDoubleClickSelection(const JStyledText::TextIndex& charIndex,
-										  const JBoolean partialWord,
-										  const JBoolean dragging,
-										  JStyledText::TextRange* range);
 
 	void		GoToBeginningOfLine();
 	void		GoToEndOfLine();
 
-	JFont	GetCurrentFont() const;
+	JFont		GetCurrentFont() const;
 
-	void	SetCurrentFontName(const JString& name);
-	void	SetCurrentFontSize(const JSize size);
-	void	SetCurrentFontBold(const JBoolean bold);
-	void	SetCurrentFontItalic(const JBoolean italic);
-	void	SetCurrentFontUnderline(const JSize count);
-	void	SetCurrentFontStrike(const JBoolean strike);
-	void	SetCurrentFontColor(const JColorID color);
-	void	SetCurrentFontStyle(const JFontStyle& style);
-	void	SetCurrentFont(const JFont& font);
+	void		SetCurrentFontName(const JString& name);
+	void		SetCurrentFontSize(const JSize size);
+	void		SetCurrentFontBold(const JBoolean bold);
+	void		SetCurrentFontItalic(const JBoolean italic);
+	void		SetCurrentFontUnderline(const JSize count);
+	void		SetCurrentFontStrike(const JBoolean strike);
+	void		SetCurrentFontColor(const JColorID color);
+	void		SetCurrentFontStyle(const JFontStyle& style);
+	void		SetCurrentFont(const JFont& font);
 
 	JCoordinate	GetDefaultTabWidth() const;
 	void		SetDefaultTabWidth(const JCoordinate width);
@@ -171,9 +165,9 @@ public:
 								 const JBoolean force = kJFalse);
 	void		TabSelectionRight(const JSize tabCount = 1);
 
-	void	CleanAllWhitespace(const JBoolean align);
-	void	CleanSelectedWhitespace(const JBoolean align);
-	void	AnalyzeWhitespace(JSize* tabWidth);
+	void		CleanAllWhitespace(const JBoolean align);
+	void		CleanSelectedWhitespace(const JBoolean align);
+	void		AnalyzeWhitespace(JSize* tabWidth);
 
 	JBoolean	WillShowWhitespace() const;
 	void		ShouldShowWhitespace(const JBoolean show);
@@ -191,27 +185,25 @@ public:
 	JIndex		CRLineIndexToVisualLineIndex(const JIndex crLineIndex) const;
 	JIndex		VisualLineIndexToCRLineIndex(const JIndex visualLineIndex) const;
 
-	JStyledText::TextCount	GetLineLength(const JIndex lineIndex) const;
-
 	JCoordinate	GetCharLeft(const JIndex charIndex) const;
 	JCoordinate	GetCharRight(const JIndex charIndex) const;
 
 	JIndex		GetColumnForChar(const JIndex charIndex) const;
 	void		GoToColumn(const JIndex lineIndex, const JIndex columnIndex);
 
-	void	DeleteSelection();
-	void	SelectAll();
+	void		DeleteSelection();
+	void		SelectAll();
 
-	void	Cut();
-	void	Copy();
-	void	Paste();															// clipboard
-	void	Paste(const JString& text, const JRunArray<JFont>* style = NULL);	// other source
+	void		Cut();
+	void		Copy() const;
+	void		Paste();															// clipboard
+	void		Paste(const JString& text, const JRunArray<JFont>* style = NULL);	// other source
 
 	JBoolean	GetClipboard(JString* text, JRunArray<JFont>* style = NULL) const;
 
-	void	Paginate(const JCoordinate pageHeight,
-					 JArray<JCoordinate>* breakpts) const;
-	void	Print(JPagePrinter& p);
+	void		Paginate(const JCoordinate pageHeight,
+						 JArray<JCoordinate>* breakpts) const;
+	void		Print(JPagePrinter& p);
 
 	JCharacterInWordFn	GetCharacterInWordFunction() const;
 	void				SetCharacterInWordFunction(JCharacterInWordFn f);
@@ -344,7 +336,7 @@ protected:
 	virtual JBoolean	TEScrollForDrag(const JPoint& pt) = 0;
 	virtual JBoolean	TEScrollForDND(const JPoint& pt) = 0;
 	virtual void		TESetVertScrollStep(const JCoordinate vStep) = 0;
-	virtual void		TEUpdateClipboard(const JString& text, const JRunArray<JFont>& style) = 0;
+	virtual void		TEUpdateClipboard(const JString& text, const JRunArray<JFont>& style) const = 0;
 	virtual JBoolean	TEGetClipboard(JString* text, JRunArray<JFont>* style) const = 0;
 	virtual void		TECaretShouldBlink(const JBoolean blink) = 0;
 
@@ -358,7 +350,6 @@ protected:
 	virtual void	CRMConvertTab(JString* charBuffer, JSize* charCount,
 								  const JSize currentLineWidth) const;
 
-
 	JBoolean		GetCaretLocation(CaretLocation* caretLoc) const;
 	CaretLocation	CalcCaretLocation(const JPoint& pt) const;
 	JBoolean		PointInSelection(const JPoint& pt) const;
@@ -368,6 +359,15 @@ protected:
 	JStyledText::TextIndex	GetInsertionIndex() const;
 	JStyledText::TextIndex	GetLineStart(const JIndex lineIndex) const;
 	JStyledText::TextIndex	GetLineEnd(const JIndex lineIndex) const;
+	JStyledText::TextCount	GetLineLength(const JIndex lineIndex) const;
+
+	JBoolean	GetSelection(JStyledText::TextRange* range) const;
+	void		SetSelection(const JStyledText::TextRange& range,
+							 const JBoolean needCaretBcast = kJTrue);
+	void		TEGetDoubleClickSelection(const JStyledText::TextIndex& charIndex,
+										  const JBoolean partialWord,
+										  const JBoolean dragging,
+										  JStyledText::TextRange* range);
 
 	void	SetAllFontNameAndSize(const JString& name, const JSize size,
 								  const JCoordinate tabWidth,
@@ -465,23 +465,18 @@ private:
 	void		Recalc(const JStyledText::TextRange& recalcRange,
 					   const JStyledText::TextRange& redrawRange,
 					   const JBoolean deletion);
-	void		Recalc1(JStringIterator* iter, const JStyledText::TextIndex& after,
+	void		Recalc1(const JStyledText::TextRange& recalcRange,
 						JCoordinate* maxLineWidth,
 						JIndex* firstLineIndex, JIndex* lastLineIndex);
-	JSize		RecalcLine(const JSize bufLength,
-						   const JStyledText::TextIndex& firstIndex,
+	void		RecalcLine(JStringIterator* iter,
 						   const JIndex lineIndex, JCoordinate* lineWidth,
 						   JIndex* runIndex, JIndex* firstInRun);
-	JBoolean	LocateNextWhitespace(const JSize bufLength,
-									 JStyledText::TextIndex* startIndex) const;
-	JSize		GetSubwordForLine(const JSize bufLength, const JIndex lineIndex,
-								  const JStyledText::TextIndex& startIndex,
+	void		GetSubwordForLine(JStringIterator* iter, const JIndex lineIndex,
 								  JCoordinate* lineWidth) const;
-	JSize		IncludeWhitespaceOnLine(const JSize bufLength,
-										const JStyledText::TextIndex& startIndex,
+	void		IncludeWhitespaceOnLine(JStringIterator* iter,
 										JCoordinate* lineWidth, JBoolean* endOfLine,
 										JIndex* runIndex, JIndex* firstInRun) const;
-	JBoolean	NoPrevWhitespaceOnLine(const JString& str, const CaretLocation& startLoc) const;
+	JBoolean	NoPrevWhitespaceOnLine(const JStyledText::TextIndex& index) const;
 
 	void	TEDrawText(JPainter& p, const JRect& rect);
 	void	TEDrawLine(JPainter& p, const JCoordinate top, const LineGeometry& geom,
@@ -499,13 +494,9 @@ private:
 	JRect			CalcCaretRect(const CaretLocation& caretLoc) const;
 	void			TERefreshCaret(const CaretLocation& caretLoc);
 
-	JBoolean	GetSelection(JStyledText::TextRange* range) const;
-	void		SetSelection(const JStyledText::TextRange& range,
-							 const JBoolean needCaretBcast = kJTrue);
-
 	JCoordinate	GetCharLeft(const CaretLocation& charLoc) const;
 	JCoordinate	GetCharRight(const CaretLocation& charLoc) const;
-	JCoordinate	GetCharWidth(const CaretLocation& charLoc) const;
+	JCoordinate	GetCharWidth(const CaretLocation& charLoc, const JUtf8Character& c) const;
 	JCoordinate	GetStringWidth(const JStyledText::TextIndex& startIndex,
 							   const JStyledText::TextIndex& endIndex) const;
 	JCoordinate	GetStringWidth(const JStyledText::TextIndex& startIndex,
@@ -527,7 +518,7 @@ private:
 
 	JBoolean	LocateTab(const JStyledText::TextIndex& startIndex,
 						  const JSize count,
-						  JStyledText::TextIndex* tabIndex) const;
+						  JIndex* tabCharIndex, JIndex* pretabByteIndex) const;
 
 	void		ReplaceRange(JStringIterator* iter, JRunArray<JFont>* styles,
 							 const JStringMatch& match,
@@ -839,7 +830,7 @@ JTextEditor::GetSelection
 {
 	return itsText->Copy(itsSelection, text, style);
 }
-/*
+
 inline void
 JTextEditor::SetSelection
 	(
@@ -847,9 +838,8 @@ JTextEditor::SetSelection
 	const JBoolean			needCaretBcast
 	)
 {
-	SetSelection(range.first, range.last, needCaretBcast);
+	SetSelection(itsText->CharToTextRange(NULL, range), needCaretBcast);
 }
-*/
 
 // protected
 
@@ -1040,6 +1030,15 @@ JTextEditor::GetCaretLocation
 	return itsSelection.IsEmpty();
 }
 
+void
+JTextEditor::SetCaretLocation
+	(
+	const JPoint& pt
+	)
+{
+	SetCaretLocation(CalcCaretLocation(pt));
+}
+
 // protected
 
 inline JBoolean
@@ -1157,7 +1156,7 @@ JTextEditor::GetLineStart
 }
 
 /******************************************************************************
- GetLineLength
+ GetLineLength (protected)
 
 	Returns the number of characters on the specified line.
 

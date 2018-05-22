@@ -25,8 +25,8 @@ public:
 	virtual JBoolean	GetPath(JString* path) const;
 	virtual JString		GetTextForChoosePath() const;
 
-	static JColorIndex	GetTextColor(const JCharacter* path, const JCharacter* base,
-									 const JBoolean requireWrite, const JColormap* colormap);
+	static JColorID	GetTextColor(const JCharacter* path, const JCharacter* base,
+									 const JBoolean requireWrite, const JXColorManager* colormap);
 
 protected:
 

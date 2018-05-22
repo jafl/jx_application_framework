@@ -24,7 +24,7 @@ public:
 
 protected:
 
-	virtual JColorIndex	GetCurrentLineMarkerColor() const;
+	virtual JColorID	GetCurrentLineMarkerColor() const;
 	virtual JString		GetLineText(const JIndex lineIndex) const;
 	virtual JString		GetLongestLineText(const JIndex lineCount) const;
 	virtual JIndex		GetBreakpointLineIndex(const JIndex bpIndex, const CMBreakpoint* bp) const;

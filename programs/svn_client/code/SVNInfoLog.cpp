@@ -11,7 +11,7 @@
 #include "SVNMainDirector.h"
 #include "svnMenus.h"
 #include <JXTextMenu.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <jXGlobals.h>
 #include <JProcess.h>
 #include <JRegex.h>

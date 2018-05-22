@@ -34,7 +34,7 @@
 #include <JXDisplay.h>
 #include <JXWindow.h>
 #include <JXWindowIcon.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <JXDragPainter.h>
 #include <JXDNDManager.h>
 #include <JXSelectionManager.h>
@@ -610,7 +610,7 @@ SyGFileTreeTable::TableDrawCell
 {
 	if (cell.y % 2 == 0)
 		{
-		const JColorIndex origColor = p.GetPenColor();
+		const JColorID origColor = p.GetPenColor();
 		p.SetPenColor(itsAltRowColor);
 		p.SetFilling(kJTrue);
 		p.Rect(rect);

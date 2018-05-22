@@ -28,7 +28,7 @@
 #include <JXWDManager.h>
 #include <JXWDMenu.h>
 #include <JXImage.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <JXCloseDirectorTask.h>
 #include <JXPSPrinter.h>
 

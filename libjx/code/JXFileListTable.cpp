@@ -15,7 +15,7 @@
 #include <JXWindow.h>
 #include <JXWindowPainter.h>
 #include <JXImage.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <JXTEBase.h>
 #include <JXTextMenu.h>
 #include <JXSelectionManager.h>
@@ -93,12 +93,12 @@ JXFileListTable::JXFileListTable
 	assert( itsFileIcon != NULL );
 	itsFileIcon->ConvertToRemoteStorage();
 
-	const JIndex blackColor = GetColormap()->GetBlackColor();
+	const JColorID blackColor = JColorManager::GetBlackColor();
 	SetRowBorderInfo(0, blackColor);
 	SetColBorderInfo(0, blackColor);
 
 	AppendCols(1);
-	SetDefaultRowHeight((GetFontManager()->GetDefaultFont()).GetLineHeight() +
+	SetDefaultRowHeight((JFontManager::GetDefaultFont()).GetLineHeight(GetFontManager()) +
 						2*kVMarginWidth);
 
 	SetSelectionBehavior(kJTrue, kJTrue);
@@ -452,7 +452,7 @@ JXFileListTable::FilterFile
 			const JString drawStr = JString(
 				(itsFileList->GetElement(info.fileIndex))->GetBytes() + info.drawIndex-1,
 				0, kJFalse);
-			const JSize w = (GetFontManager()->GetDefaultFont()).GetStringWidth(drawStr);
+			const JSize w = (JFontManager::GetDefaultFont()).GetStringWidth(GetFontManager(), drawStr);
 			if (w > itsMaxStringWidth)
 				{
 				itsMaxStringWidth = w;
@@ -846,7 +846,7 @@ JXFileListTable::TableDrawCell
 
 	if (IsInactive(*name))
 		{
-		p.SetFontStyle((p.GetColormap())->GetGrayColor(50));
+		p.SetFontStyle(JColorManager::GetGrayColor(50));
 		}
 
 	r = rect;

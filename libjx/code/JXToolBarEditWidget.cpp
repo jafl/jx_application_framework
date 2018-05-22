@@ -18,7 +18,7 @@
 #include <JXDNDManager.h>
 #include <JXChooseSaveFile.h>
 #include <JXDisplay.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <JXImage.h>
 #include <JTreeList.h>
 #include <JTableSelection.h>

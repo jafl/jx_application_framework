@@ -459,7 +459,7 @@ JStyledText::ReadPrivateFormat
 }
 
 /******************************************************************************
- ReadPrivateFormat (static protected)
+ ReadPrivateFormat (static)
 
 	See WritePrivateFormat() for version information.
 

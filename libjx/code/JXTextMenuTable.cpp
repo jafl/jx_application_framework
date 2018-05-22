@@ -14,7 +14,7 @@
 #include <JXWindowPainter.h>
 #include <jXPainterUtil.h>
 #include <JXImage.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <JString.h>
 #include <jAssert.h>
 
@@ -138,7 +138,7 @@ JXTextMenuTable::TableDrawCell
 
 		if (!itsTextMenuData->IsEnabled(cell.y))
 			{
-			font.SetColor(GetColormap()->GetInactiveLabelColor());
+			font.SetColor(JColorManager::GetInactiveLabelColor());
 			}
 		p.SetFont(font);
 
@@ -167,7 +167,7 @@ JXTextMenuTable::TableDrawCell
 			{
 			if (!itsTextMenuData->IsEnabled(cell.y))
 				{
-				font.SetColor(GetColormap()->GetInactiveLabelColor());
+				font.SetColor(JColorManager::GetInactiveLabelColor());
 				}
 			p.SetFont(font);
 

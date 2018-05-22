@@ -9,7 +9,7 @@
 
 #include <JX2DCurveNameList.h>
 
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <JXInputField.h>
 
 #include <JFontManager.h>
@@ -54,7 +54,7 @@ JX2DCurveNameList::JX2DCurveNameList
 
 	const JFontManager* fontMgr = GetFontManager();
 	const JSize rowHeight = 2*kVMarginWidth +
-		fontMgr->GetDefaultFont().GetLineHeight();
+		JFontManager::GetDefaultFont().GetLineHeight();
 	SetDefaultRowHeight(rowHeight);
 
 	const JSize count = curveInfo.GetElementCount();
@@ -69,7 +69,7 @@ JX2DCurveNameList::JX2DCurveNameList
 		itsNameList->Append(info.name);
 
 		const JCoordinate width = 2*kHMarginWidth +
-			fontMgr->GetDefaultFont().GetStringWidth(*(info.name));
+			JFontManager::GetDefaultFont().GetStringWidth(*(info.name));
 		if (width > itsMinColWidth)
 			{
 			itsMinColWidth = width;
@@ -79,7 +79,7 @@ JX2DCurveNameList::JX2DCurveNameList
 	AppendCols(1);
 	AdjustColWidth();
 
-	JXColormap* colormap = GetColormap();
+	JXColorManager* colormap = GetColormap();
 	SetRowBorderInfo(0, colormap->GetBlackColor());
 	SetColBorderInfo(0, colormap->GetBlackColor());
 

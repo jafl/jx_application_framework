@@ -55,7 +55,7 @@
 #include <JXTimerTask.h>
 #include <JXImage.h>
 #include <JXDisplay.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <jXGlobals.h>
 #include <JStringIterator.h>
 #include <jFileUtil.h>
@@ -614,13 +614,13 @@ JXDocumentManager::UpdateDocumentMenu
 		menu->AppendItem(name);
 		if ((info.doc)->NeedsSave())
 			{
-			menu->SetItemFontStyle(i, (menu->GetColormap())->GetDarkRedColor());
+			menu->SetItemFontStyle(i, JColorManager::GetDarkRedColor());
 			}
 
 		const JXImage* icon;
 		if ((info.doc)->GetMenuIcon(&icon) &&
-			icon->GetDisplay()  == menu->GetDisplay() &&
-			icon->GetColormap() == menu->GetColormap())
+			icon->GetDisplay() == menu->GetDisplay() &&
+			icon->GetColorManager() == menu->GetColorManager())
 			{
 			menu->SetItemImage(i, const_cast<JXImage*>(icon), kJFalse);
 			}

@@ -66,7 +66,7 @@ JXSaveFileInput::HandleFocusEvent()
 		{
 		if (root.IsEmpty())
 			{
-			SetCaretLocation(1);
+			GoToBeginningOfLine();
 			}
 		else
 			{

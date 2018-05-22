@@ -14,7 +14,7 @@
 #include "cbmUtil.h"
 #include <JXDialogDirector.h>
 #include <JRegex.h>
-#include <JColormap.h>
+#include <JXColorManager.h>
 #include <jAssert.h>
 
 CBRubyStyler* CBRubyStyler::itsSelf = NULL;
@@ -109,8 +109,8 @@ CBRubyStyler::CBRubyStyler()
 		SetTypeStyle(i, blankStyle);
 		}
 
-	JColormap* colormap   = GetColormap();
-	const JColorIndex red = colormap->GetRedColor();
+	JXColorManager* colormap   = GetColormap();
+	const JColorID red = colormap->GetRedColor();
 
 	SetTypeStyle(kReservedKeyword    - kWhitespace, JFontStyle(colormap->GetDarkGreenColor()));
 

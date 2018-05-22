@@ -13,7 +13,7 @@
 
 #include "SimpleTable.h"
 #include <JXWindowPainter.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <JString.h>
 #include <jXPainterUtil.h>
 #include <jXConstants.h>

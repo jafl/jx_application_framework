@@ -39,7 +39,7 @@
 #include <JXPSPrinter.h>
 #include <JXEPSPrinter.h>
 #include <JXImageMask.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <JXHelpManager.h>
 #include <JXTipOfTheDayDialog.h>
 #include <JXStandAlonePG.h>
@@ -291,8 +291,7 @@ TestDirector::BuildWindow
 	const JBoolean testWidgetIsImage
 	)
 {
-	JXDisplay* display   = (JXGetApplication())->GetCurrentDisplay();
-	JXColormap* colormap = display->GetColormap();
+	JXDisplay* display = (JXGetApplication())->GetCurrentDisplay();
 
 // begin JXLayout
 
@@ -331,7 +330,7 @@ TestDirector::BuildWindow
 	// menus
 
 	JXImage* aboutTitleImage =
-		jnew JXImage(display, kSmileyBitmap[ kHappySmileyIndex ], colormap->GetRedColor());
+		jnew JXImage(display, kSmileyBitmap[ kHappySmileyIndex ], JColorManager::GetRedColor());
 	assert( aboutTitleImage != NULL );
 	itsAboutMenu = menuBar->AppendTextMenu(aboutTitleImage, kJTrue);
 	itsAboutMenu->SetShortcuts(JGetString("AboutMenuShortcut::TestDirector"));
@@ -423,15 +422,14 @@ JIndex i;
 
 	// create icons
 
-	JXDisplay* display   = window->GetDisplay();
-	JXColormap* colormap = window->GetColormap();
+	JXDisplay* display = window->GetDisplay();
 
-	const JColorIndex kSmileyColor[] =
+	const JColorID kSmileyColor[] =
 	{
-		colormap->GetWhiteColor(),
-		colormap->GetRedColor(),
-		colormap->GetBlueColor(),
-		colormap->GetBlackColor()
+		JColorManager::GetWhiteColor(),
+		JColorManager::GetRedColor(),
+		JColorManager::GetBlueColor(),
+		JColorManager::GetBlackColor()
 	};
 
 	JXImage* image[kSmileyBitmapCount];

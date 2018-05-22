@@ -24,7 +24,7 @@
 #include <JXUpdateWDMenuTask.h>
 #include <JXDisplay.h>
 #include <JXImage.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <jXGlobals.h>
 #include <jXActionDefs.h>
 #include <JStringIterator.h>
@@ -412,13 +412,13 @@ JXWDManager::UpdateWDMenu1
 
 		if ((info.dir)->NeedsSave())
 			{
-			menu->SetItemFontStyle(menuIndex, (menu->GetColormap())->GetDarkRedColor());
+			menu->SetItemFontStyle(menuIndex, JColorManager::GetDarkRedColor());
 			}
 
 		const JXImage* icon;
 		if ((info.dir)->GetMenuIcon(&icon) &&
-			icon->GetDisplay()  == menu->GetDisplay() &&
-			icon->GetColormap() == menu->GetColormap())
+			icon->GetDisplay() == menu->GetDisplay() &&
+			icon->GetColorManager() == menu->GetColorManager())
 			{
 			menu->SetItemImage(menuIndex, const_cast<JXImage*>(icon), kJFalse);
 			}

@@ -57,7 +57,7 @@
 #include "CBFileListTable.h"
 #include "cbGlobals.h"
 #include <JPainter.h>
-#include <JColormap.h>
+#include <JXColorManager.h>
 #include <JFontManager.h>
 #include <JString.h>
 #include <JMinMax.h>
@@ -66,7 +66,7 @@
 
 // class data
 
-JColorIndex CBClass::itsGhostNameColor;
+JColorID CBClass::itsGhostNameColor;
 
 static const JCharacter* kGhostFileName = "Unknown";
 
@@ -1049,7 +1049,7 @@ CBClass::Draw
 	)
 	const
 {
-	const JColormap* colormap = p.GetColormap();
+	const JXColorManager* colormap = p.GetColormap();
 
 	// only draw box if visible
 
@@ -1153,7 +1153,7 @@ CBClass::DrawMILinks
 		return;
 		}
 
-	const JColormap* colormap = p.GetColormap();
+	const JXColorManager* colormap = p.GetColormap();
 	const JPoint linkToPt     = GetLinkToPt();
 
 	for (JIndex i=2; i<=parentCount; i++)
@@ -1239,7 +1239,7 @@ CBClass::DrawText
 void
 CBClass::AdjustNameStyle
 	(
-	const JColormap*	colormap,
+	const JXColorManager*	colormap,
 	JFontStyle*			style
 	)
 	const
@@ -1271,7 +1271,7 @@ CBClass::CalcFrameHeight
 	const JSize			fontSize
 	)
 {
-	JFont font = fontManager->GetDefaultFont();
+	JFont font = JFontManager::GetDefaultFont();
 	font.SetSize(fontSize);
 	font.SetStyle(kConcreteLabelStyle);
 	return 2*kVMarginWidth + font.GetLineHeight();
@@ -1343,7 +1343,7 @@ CBClass::CalcFrame()
 		JFontStyle style = kConcreteLabelStyle;
 		style.bold       = kJTrue;	// if not bold, extra space doesn't hurt
 
-		JFont font = fontManager->GetDefaultFont();
+		JFont font = JFontManager::GetDefaultFont();
 		font.SetSize(fontSize);
 		font.SetStyle(style);
 

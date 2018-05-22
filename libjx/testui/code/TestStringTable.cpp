@@ -511,7 +511,7 @@ void
 TestStringTable::UpdateRowBorderMenu()
 {
 	JCoordinate width;
-	JColorIndex color;
+	JColorID color;
 	GetRowBorderInfo(&width, &color);
 	itsRowBorderMenu->CheckItem(width+1);
 }
@@ -528,7 +528,7 @@ TestStringTable::HandleRowBorderMenu
 	)
 {
 	JCoordinate width;
-	JColorIndex color;
+	JColorID color;
 	GetRowBorderInfo(&width, &color);
 	SetRowBorderInfo(index-1, color);
 }
@@ -542,7 +542,7 @@ void
 TestStringTable::UpdateColBorderMenu()
 {
 	JCoordinate width;
-	JColorIndex color;
+	JColorID color;
 	GetColBorderInfo(&width, &color);
 	itsColBorderMenu->CheckItem(width+1);
 }
@@ -559,7 +559,7 @@ TestStringTable::HandleColBorderMenu
 	)
 {
 	JCoordinate width;
-	JColorIndex color;
+	JColorID color;
 	GetColBorderInfo(&width, &color);
 	SetColBorderInfo(index-1, color);
 }

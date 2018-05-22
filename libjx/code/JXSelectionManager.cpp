@@ -219,15 +219,16 @@ JXSelectionManager::GetData
 		{
 		JProcess* p;
 		int fd;
-		if (JProcess::Create(&p, "pbpaste", kJIgnoreConnection, NULL, kJCreatePipe, &fd).OK())
+		if (JProcess::Create(&p, JString("pbpaste", 0, kJFalse),
+							 kJIgnoreConnection, NULL, kJCreatePipe, &fd).OK())
 			{
 			JString clipdata;
 			JReadAll(fd, &clipdata);
 			jdelete p;
 
 			*returnType = GetUtf8StringXAtom();
-			*data       = (unsigned char*) clipdata.AllocateCString();
-			*dataLength = clipdata.GetLength();
+			*data       = (unsigned char*) clipdata.AllocateBytes();
+			*dataLength = clipdata.GetByteCount();
 			*delMethod  = kArrayDelete;
 			return kJTrue;
 			}
@@ -1161,7 +1162,8 @@ JXSelectionManager::SetData
 				{
 				JProcess* p;
 				int fd;
-				if (JProcess::Create(&p, "pbcopy", kJCreatePipe, &fd).OK())
+				if (JProcess::Create(&p, JString("pbcopy", 0, kJFalse),
+									 kJCreatePipe, &fd).OK())
 					{
 					write(fd, clipdata, dataLength);
 					close(fd);

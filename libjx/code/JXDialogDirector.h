@@ -30,14 +30,14 @@ public:
 	void	BeginDialog();
 	void	EndDialog(const JBoolean success);
 
-	virtual void		Activate();
-	virtual JBoolean	Deactivate();
+	virtual void		Activate() override;
+	virtual JBoolean	Deactivate() override;
 
 protected:
 
 	void	UseModalPlacement(const JBoolean doIt);
 
-	virtual JBoolean	OKToDeactivate();
+	virtual JBoolean	OKToDeactivate() override;
 	JBoolean			Cancelled() const;		// for use in OKToDeactivate()
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;

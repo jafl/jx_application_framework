@@ -16,7 +16,6 @@
 
 class JString;
 class JFontManager;
-class JColorManager;
 class JImage;
 
 class JPainter
@@ -39,13 +38,11 @@ public:
 
 public:
 
-	JPainter(const JFontManager* fontManager, const JColorManager* colorManager,
-			 const JRect& defaultClipRect);
+	JPainter(const JFontManager* fontManager, const JRect& defaultClipRect);
 
 	virtual ~JPainter();
 
-	const JFontManager*		GetFontManager() const;
-	const JColorManager*	GetColorManager() const;
+	const JFontManager*	GetFontManager() const;
 
 	virtual void	Reset();
 	void			Reset(const JRect& defClipRect);	// calls Reset()
@@ -199,8 +196,7 @@ private:
 	JSize			itsDashOffset;
 	JArray<JSize>*	itsDashList;			// can be NULL
 
-	const JFontManager*		itsFontManager;
-	const JColorManager*	itsColorManager;
+	const JFontManager*	itsFontManager;
 
 	JFont	itsFont;
 
@@ -747,18 +743,6 @@ JPainter::GetFontManager()
 	const
 {
 	return itsFontManager;
-}
-
-/******************************************************************************
- GetColorManager
-
- ******************************************************************************/
-
-inline const JColorManager*
-JPainter::GetColorManager()
-	const
-{
-	return itsColorManager;
 }
 
 #endif

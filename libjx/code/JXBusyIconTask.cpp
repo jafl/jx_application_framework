@@ -46,8 +46,7 @@ JXBusyIconTask::JXBusyIconTask
 	itsImageList = jnew JPtrArray<JXImage>(JPtrArrayT::kDeleteAll, kBusyIconCount);
 	assert( itsImageList != NULL );
 
-	JXDisplay* display   = widget->GetDisplay();
-	JXColormap* colormap = widget->GetColormap();
+	JXDisplay* display = widget->GetDisplay();
 	for (JIndex i=1; i<=kBusyIconCount; i++)
 		{
 		JXImage* icon = jnew JXImage(display, kBusyIcon[i-1]);

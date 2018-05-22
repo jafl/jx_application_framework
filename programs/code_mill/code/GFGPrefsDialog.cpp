@@ -16,7 +16,7 @@
 #include <JXTextButton.h>
 #include <JXWindow.h>
 
-#include <JColormap.h>
+#include <JXColorManager.h>
 #include <JString.h>
 
 #include <jXGlobals.h>

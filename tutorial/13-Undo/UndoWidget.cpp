@@ -14,7 +14,7 @@
 #include <JXWidget.h>
 #include <JXWindowPainter.h>
 #include <JXDragPainter.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <jXGlobals.h>
 #include <jAssert.h>
 
@@ -87,7 +87,7 @@ UndoWidget::Draw
 	)
 {
 	// Set pen color
-	p.SetPenColor(GetColormap()->GetBlackColor());
+	p.SetPenColor(JColorManager::GetBlackColor());
 
 	// Find out how many points there are
 	// There are count/2 lines

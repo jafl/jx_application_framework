@@ -11,7 +11,7 @@ TestButtonsDialog.cpp
 #include "SmileyBitmaps.h"
 #include <JXWindow.h>
 #include <JXStaticText.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 
 #include <JXTextButton.h>
 #include <JXImageButton.h>
@@ -102,7 +102,7 @@ TestButtonsDialog::BuildWindow()
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 40,290, 70,30);
 	assert( cancelButton != NULL );
 	cancelButton->SetFontName(JGetString("TimesFontName::TestButtonsDialog::JXLayout"));
-	const JFontStyle cancelButton_style(kJTrue, kJFalse, 0, kJFalse, GetColormap()->GetRedColor());
+	const JFontStyle cancelButton_style(kJTrue, kJFalse, 0, kJFalse, JColorManager::GetRedColor());
 	cancelButton->SetFontStyle(cancelButton_style);
 
 	JXImageButton* okButton =
@@ -115,8 +115,8 @@ TestButtonsDialog::BuildWindow()
 		jnew JXTextCheckbox(JGetString("tcb::TestButtonsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,25, 120,20);
 	assert( tcb != NULL );
-	tcb->SetNormalColor(GetColormap()->GetRedColor());
-	tcb->SetPushedColor(GetColormap()->GetBlueColor());
+	tcb->SetNormalColor(JColorManager::GetRedColor());
+	tcb->SetPushedColor(JColorManager::GetBlueColor());
 
 	JXImageCheckbox* bcb =
 		jnew JXImageCheckbox(window,
@@ -173,7 +173,7 @@ TestButtonsDialog::BuildWindow()
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 25,110, 90,20);
 	assert( imageLabel != NULL );
 	imageLabel->SetFontSize(JGetDefaultFontSize()-2);
-	const JFontStyle imageLabel_style(kJFalse, kJFalse, 0, kJFalse, GetColormap()->GetGreenColor());
+	const JFontStyle imageLabel_style(kJFalse, kJFalse, 0, kJFalse, JColorManager::GetGreenColor());
 	imageLabel->SetFontStyle(imageLabel_style);
 	imageLabel->SetToLabel();
 
@@ -181,8 +181,8 @@ TestButtonsDialog::BuildWindow()
 		jnew JXTextCheckbox(JGetString("dtcb::TestButtonsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,50, 120,20);
 	assert( dtcb != NULL );
-	dtcb->SetNormalColor(GetColormap()->GetRedColor());
-	dtcb->SetPushedColor(GetColormap()->GetBlueColor());
+	dtcb->SetNormalColor(JColorManager::GetRedColor());
+	dtcb->SetPushedColor(JColorManager::GetBlueColor());
 
 	JXTextRadioButton* dtrb =
 		jnew JXTextRadioButton(4, JGetString("dtrb::TestButtonsDialog::JXLayout"), itsRG1,
@@ -243,18 +243,16 @@ TestButtonsDialog::BuildWindow()
 	dtcb->Deactivate();
 	dtrb->Deactivate();
 
-	JXColormap* colormap = GetColormap();
-
-	okButton->SetBitmap(okButtonBitmap, colormap->GetBlueColor());
-	bcb->SetBitmap(checkboxBitmap, colormap->GetGreenColor());
+	okButton->SetBitmap(okButtonBitmap, JColorManager::GetBlueColor());
+	bcb->SetBitmap(checkboxBitmap, JColorManager::GetGreenColor());
 	bcb->SetHint(JGetString("ImageCBHint::TestButtonsDialog"));
 
-	static const JColorIndex kRadioButtonColor[] =
+	static const JColorID kRadioButtonColor[] =
 	{
-		colormap->GetWhiteColor(),
-		colormap->GetRedColor(),
-		colormap->GetBlueColor(),
-		colormap->GetBlackColor()
+		JColorManager::GetWhiteColor(),
+		JColorManager::GetRedColor(),
+		JColorManager::GetBlueColor(),
+		JColorManager::GetBlackColor()
 	};
 
 	static const JUtf8Byte* kRadioButtonHintID[] =

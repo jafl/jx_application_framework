@@ -11,12 +11,12 @@
 
 #include <JXImageMask.h>
 #include <JXDisplay.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <jFileUtil.h>
 #include <JStdError.h>
 #include <jAssert.h>
 
-const JColorIndex JXImageMask::kPixelOff = kJXTransparentColor;
+const JColorID JXImageMask::kPixelOff = kJXTransparentColor;
 
 /******************************************************************************
  Constructor
@@ -32,7 +32,7 @@ JXImageMask::JXImageMask
 	)
 	:
 	JXImage(display, width, height,
-			(filled ? (display->GetColormap())->GetBlackColor() : kPixelOff), 1),
+			(filled ? JColorManager::GetBlackColor() : kPixelOff), 1),
 	JImageMask()
 {
 	SetDefaultState(kRemoteStorage);
@@ -109,11 +109,11 @@ JXImageMask::JXImageMask
 JXImageMask::JXImageMask
 	(
 	const JXImage&		image,
-	const JColorIndex	color
+	const JColorID	color
 	)
 	:
 	JXImage(image.GetDisplay(), image.GetWidth(), image.GetHeight(),
-			(image.GetColormap())->GetBlackColor(), 1),
+			JColorManager::GetBlackColor(), 1),
 	JImageMask()
 {
 	CalcMask(image, color);
@@ -288,7 +288,7 @@ JXImageMask::ContainsPixel
 	)
 	const
 {
-	return JConvertToBoolean( GetColor(x,y) == GetColormap()->GetBlackColor() );
+	return JConvertToBoolean( GetColor(x,y) == JColorManager::GetBlackColor() );
 }
 
 /******************************************************************************
@@ -303,7 +303,7 @@ JXImageMask::AddPixel
 	const JCoordinate y
 	)
 {
-	SetColor(x,y, GetColormap()->GetBlackColor());
+	SetColor(x,y, JColorManager::GetBlackColor());
 }
 
 /******************************************************************************
@@ -324,15 +324,15 @@ JXImageMask::RemovePixel
 /******************************************************************************
  BitToColor (static)
 
-	Convert the given bit from an X bitmap to a JColorIndex.
+	Convert the given bit from an X bitmap to a JColorID.
 
  ******************************************************************************/
 
-JColorIndex
+JColorID
 JXImageMask::BitToColor
 	(
 	const unsigned long	bit,
-	JXColormap*			colormap
+	JXColorManager*			colormap
 	)
 {
 	return (bit == 0 ? kPixelOff : colormap->GetBlackColor());

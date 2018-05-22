@@ -13,7 +13,7 @@
 #include "CBTCLStyler.h"
 #include "cbmUtil.h"
 #include <JRegex.h>
-#include <JColormap.h>
+#include <JXColorManager.h>
 #include <jAssert.h>
 
 CBTCLStyler* CBTCLStyler::itsSelf = NULL;
@@ -93,7 +93,7 @@ CBTCLStyler::CBTCLStyler()
 		SetTypeStyle(i, blankStyle);
 		}
 
-	JColormap* colormap = GetColormap();
+	JXColorManager* colormap = GetColormap();
 
 	SetTypeStyle(kPredefinedWord - kWhitespace, JFontStyle(colormap->GetDarkGreenColor()));
 	SetTypeStyle(kVariable       - kWhitespace, JFontStyle(colormap->GetBlueColor()));

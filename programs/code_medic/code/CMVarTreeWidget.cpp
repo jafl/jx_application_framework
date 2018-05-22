@@ -19,7 +19,7 @@
 #include <JXInputField.h>
 #include <JXSelectionManager.h>
 #include <JXTextSelection.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <JTree.h>
 #include <JNamedTreeList.h>
 #include <JTableSelection.h>

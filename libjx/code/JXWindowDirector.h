@@ -16,7 +16,7 @@ class JString;
 class JXImage;
 class JXDisplay;
 class JXWindow;
-class JXColormap;
+class JXColorManager;
 
 class JXWindowDirector : public JXDirector
 {
@@ -28,15 +28,14 @@ public:
 
 	virtual ~JXWindowDirector();
 
-	virtual void		Activate();
-	virtual JBoolean	Deactivate();
+	virtual void		Activate() override;
+	virtual JBoolean	Deactivate() override;
 
 	virtual void	Suspend() override;
 	virtual void	Resume() override;
 
 	JXWindow*	GetWindow() const;
 	JXDisplay*	GetDisplay() const;
-	JXColormap*	GetColormap() const;
 
 	// used by JXWDManager
 
@@ -46,7 +45,7 @@ public:
 
 	// needed by JXDialogDirector until dynamic_cast works
 
-	virtual JBoolean	IsWindowDirector() const;
+	virtual JBoolean	IsWindowDirector() const override;
 
 protected:
 

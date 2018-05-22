@@ -13,7 +13,7 @@
 #include <JXVertPartition.h>
 #include <JXRestorePartitionGeometry.h>
 #include <JXDragPainter.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <JXCursor.h>
 #include <jAssert.h>
 
@@ -170,7 +170,7 @@ JXVertPartition::Draw
 	const JRect&		rect
 	)
 {
-	p.SetPenColor((p.GetColormap())->GetGrayColor(60));
+	p.SetPenColor(JColorManager::GetGrayColor(60));
 
 	const JRect ap       = GetAperture();
 	const JCoordinate x1 = ap.left+1;

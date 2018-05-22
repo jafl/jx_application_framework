@@ -13,7 +13,7 @@
 #include "CBSQLStyler.h"
 #include "cbmUtil.h"
 #include <JRegex.h>
-#include <JColormap.h>
+#include <JXColorManager.h>
 #include <jAssert.h>
 
 CBSQLStyler* CBSQLStyler::itsSelf = NULL;
@@ -104,7 +104,7 @@ CBSQLStyler::CBSQLStyler()
 		SetTypeStyle(i, blankStyle);
 		}
 
-	JColormap* colormap = GetColormap();
+	JXColorManager* colormap = GetColormap();
 
 	SetTypeStyle(kVariable            - kWhitespace, JFontStyle(colormap->GetBlueColor()));
 	SetTypeStyle(kKeyword             - kWhitespace, JFontStyle(colormap->GetDarkGreenColor()));

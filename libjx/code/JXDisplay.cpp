@@ -44,7 +44,7 @@
 
 #include <JXDisplay.h>
 #include <JXGC.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <JXWindow.h>
 #include <JXWindowDirector.h>
 #include <JXFontManager.h>
@@ -156,7 +156,7 @@ JXDisplay::JXDisplay
 	itsLatestKeyModifiers(this)
 {
 	itsXDisplay             = xDisplay;
-	itsColormap             = JXColormap::Create(this);
+	itsColorManager         = JXColorManager::Create(this);
 	itsLastEventTime        = 0;
 	itsLastIdleTime         = 0;
 	itsLastMotionNotifyTime = 0;
@@ -248,7 +248,7 @@ JXDisplay::~JXDisplay()
 
 	jdelete itsWindowList;
 	jdelete itsDefaultGC;
-	jdelete itsColormap;
+	jdelete itsColorManager;
 	jdelete itsBounds;
 
 	const JSize count = itsCursorList->GetElementCount();
@@ -834,12 +834,12 @@ JXDisplay::CreateCustomXCursor
 	const
 {
 	XColor foreColor;
-	foreColor.pixel = itsColormap->GetBlackColor();
+	foreColor.pixel = itsColorManager->GetXColor(JColorManager::GetBlackColor());
 	foreColor.red = foreColor.green = foreColor.blue = 0;
 	foreColor.flags = DoRed | DoGreen | DoBlue;
 
 	XColor backColor;
-	backColor.pixel = itsColormap->GetWhiteColor();
+	backColor.pixel = itsColorManager->GetXColor(JColorManager::GetWhiteColor());
 	backColor.red = backColor.green = backColor.blue = 65535;
 	backColor.flags = DoRed | DoGreen | DoBlue;
 
@@ -917,29 +917,6 @@ JXDisplay::DisplayCursorInAllWindows
 	// we need to make sure that the X server gets the messages.
 
 	Flush();
-}
-
-/******************************************************************************
- ColormapChanged
-
-	Update the colormap for each window.
-
- ******************************************************************************/
-
-void
-JXDisplay::ColormapChanged
-	(
-	JXColormap*	colormap
-	)
-{
-	assert( colormap == itsColormap );
-
-	const JSize windowCount = itsWindowList->GetElementCount();
-	for (JIndex i=1; i<=windowCount; i++)
-		{
-		WindowInfo info = itsWindowList->GetElement(i);
-		(info.window)->ColormapChanged(itsColormap);
-		}
 }
 
 /******************************************************************************

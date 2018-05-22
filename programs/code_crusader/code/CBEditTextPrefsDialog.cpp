@@ -28,7 +28,7 @@
 #include <JXChooseMonoFont.h>
 #include <JXScrollbar.h>
 #include <JXChooseColorDialog.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <JXHelpManager.h>
 #include <JFontManager.h>
 #include <jAssert.h>
@@ -434,7 +434,7 @@ CBEditTextPrefsDialog::BuildWindow
 	// must do this after SetWindow()
 
 	CBPrefsManager* prefsMgr = CBGetPrefsManager();
-	JXColormap* colormap     = GetColormap();
+	JXColorManager* colormap     = GetColormap();
 	for (JIndex i=0; i<CBPrefsManager::kColorCount; i++)
 		{
 		itsColor[i] = prefsMgr->GetColor(i+1);
@@ -741,7 +741,7 @@ CBEditTextPrefsDialog::HandleColorButton
 void
 CBEditTextPrefsDialog::SetDefaultColors()
 {
-	JXColormap* cmap = GetColormap();
+	JXColorManager* cmap = GetColormap();
 	ChangeColor(CBPrefsManager::kTextColorIndex,        cmap->GetBlackColor());
 	ChangeColor(CBPrefsManager::kBackColorIndex,        cmap->GetWhiteColor());
 	ChangeColor(CBPrefsManager::kCaretColorIndex,       cmap->GetRedColor());
@@ -758,7 +758,7 @@ CBEditTextPrefsDialog::SetDefaultColors()
 void
 CBEditTextPrefsDialog::SetReverseVideoColors()
 {
-	JXColormap* cmap = GetColormap();
+	JXColorManager* cmap = GetColormap();
 	ChangeColor(CBPrefsManager::kTextColorIndex,        cmap->GetWhiteColor());
 	ChangeColor(CBPrefsManager::kBackColorIndex,        cmap->GetBlackColor());
 	ChangeColor(CBPrefsManager::kCaretColorIndex,       cmap->GetWhiteColor());
@@ -776,7 +776,7 @@ void
 CBEditTextPrefsDialog::ChangeColor
 	(
 	const JIndex		colorIndex,
-	const JColorIndex	color
+	const JColorID	color
 	)
 {
 	assert( CBPrefsManager::ColorIndexValid(colorIndex) );

@@ -39,7 +39,7 @@
 #include "transform.xpm"
 
 #include <JXApplication.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <JXDisplay.h>
 #include <JXFloatInput.h>
 #include <JXImage.h>
@@ -318,7 +318,7 @@ GXRaggedFloatTable::TableDrawCell
 	const JRect&	rect
 	)
 {
-	JXColormap* colormap = GetColormap();
+	JXColorManager* colormap = GetColormap();
 
 	if ((GetTableSelection()).IsSelected(cell))
 		{
@@ -2767,7 +2767,7 @@ GXRaggedFloatTable::PrintRealTable
 		RemoveRow(GetRowCount());
 		}
 
-	const JColorIndex gray50Color = GetColormap()->GetGrayColor(50);
+	const JColorID gray50Color = GetColormap()->GetGrayColor(50);
 	SetRowBorderInfo(0, gray50Color);
 	SetColBorderInfo(0, gray50Color);
 

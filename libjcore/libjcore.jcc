@@ -556,6 +556,10 @@ F
 T
 1 "text editor"
 T
+2 "JTextEditor.cpp"
+F
+"./code/JTextEditor.cpp"
+T
 2 "JTEKeyHandler.cpp"
 F
 "./code/JTEKeyHandler.cpp"

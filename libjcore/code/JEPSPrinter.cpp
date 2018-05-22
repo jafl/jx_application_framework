@@ -51,13 +51,12 @@ const JUtf8Byte kSetupDataEndDelimiter = '\1';
 
 JEPSPrinter::JEPSPrinter
 	(
-	const JFontManager*		fontManager,
-	const JColorManager*	colorManager
+	const JFontManager* fontManager
 	)
 	:
-	JPainter(fontManager, colorManager, JRect(0,0,0,0)),
+	JPainter(fontManager, JRect(0,0,0,0)),
 	JPrinter(),
-	JPSPrinterBase(fontManager, colorManager),
+	JPSPrinterBase(fontManager),
 	itsBounds(0,0,0,0)
 {
 	itsIncludePreviewFlag = kJFalse;

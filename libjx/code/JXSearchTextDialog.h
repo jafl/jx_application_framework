@@ -43,8 +43,8 @@ public:
 
 	virtual ~JXSearchTextDialog();
 
-	virtual void		Activate();
-	virtual JBoolean	Deactivate();
+	virtual void		Activate() override;
+	virtual JBoolean	Deactivate() override;
 
 	JBoolean	HasActiveTE() const;
 	JBoolean	GetActiveTE(JXTEBase** te) const;
@@ -59,12 +59,10 @@ public:
 	void		SetReplaceText(const JString& str);
 	void		SetRegexReplace(const JBoolean regex = kJTrue);
 
-	JBoolean	GetSearchParameters(JString* searchStr, JBoolean* searchIsRegex,
-									JBoolean* caseSensitive, JBoolean* entireWord,
+	JBoolean	GetSearchParameters(JRegex* searchRegex, JBoolean* entireWord,
 									JBoolean* wrapSearch,
 									JString* replaceStr, JBoolean* replaceIsRegex,
-									JBoolean* preserveCase,
-									JRegex** regex) const;
+									JBoolean* preserveCase) const;
 
 	void	SetFont(const JString& name, const JSize size);
 

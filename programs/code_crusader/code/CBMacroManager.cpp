@@ -19,7 +19,7 @@
 #include "CBTextDocument.h"
 #include "CBTextEditor.h"
 #include "cbmUtil.h"
-#include <JColormap.h>
+#include <JXColorManager.h>
 #include <jFileUtil.h>
 #include <jProcessUtil.h>
 #include <jASCIIConstants.h>
@@ -202,7 +202,7 @@ void
 CBMacroManager::HighlightErrors
 	(
 	const JString&		script,
-	const JColormap*	colormap,
+	const JXColorManager*	colormap,
 	JRunArray<JFont>*	styles
 	)
 {

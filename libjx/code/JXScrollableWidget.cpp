@@ -26,7 +26,7 @@
 #include <JXMenu.h>
 #include <JXWindow.h>
 #include <JXWindowPainter.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <jXPainterUtil.h>
 #include <jXKeysym.h>
 #include <jXGlobals.h>

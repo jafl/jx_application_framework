@@ -76,14 +76,14 @@ LLDBGetCompletions::HandleSuccess
 		}
 	else if (strlen(matches.GetStringAtIndex(0)) > 0)
 		{
-		itsInput->SetCaretLocation(itsInput->GetTextLength() + 1);
+		itsInput->GoToEndOfLine();
 		itsInput->Paste(matches.GetStringAtIndex(0));
 		return;
 		}
 	else if (matchCount == 1)
 		{
 		itsInput->SetText(matches.GetStringAtIndex(1));
-		itsInput->SetCaretLocation(itsInput->GetTextLength() + 1);
+		itsInput->GoToEndOfLine();
 		return;
 		}
 

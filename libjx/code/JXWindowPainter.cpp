@@ -15,7 +15,7 @@
 #include <JXWindowPainter.h>
 #include <JXDisplay.h>
 #include <JXGC.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <JXImage.h>
 #include <JXImagePainter.h>
 #include <jXUtil.h>
@@ -38,8 +38,7 @@ JXWindowPainter::JXWindowPainter
 	const Region	defaultClipRegion
 	)
 	:
-	JPainter((gc->GetDisplay())->GetFontManager(), gc->GetColormap(),
-			 defaultClipRect)
+	JPainter((gc->GetDisplay())->GetFontManager(), defaultClipRect)
 {
 	assert( gc != NULL );
 
@@ -91,15 +90,15 @@ JXWindowPainter::~JXWindowPainter()
 }
 
 /******************************************************************************
- GetXColormap
+ GetXColorManager
 
  ******************************************************************************/
 
-JXColormap*
-JXWindowPainter::GetXColormap()
+JXColorManager*
+JXWindowPainter::GetXColorManager()
 	const
 {
-	return itsGC->GetColormap();
+	return itsDisplay->GetColorManager();
 }
 
 /******************************************************************************
@@ -116,7 +115,7 @@ JXWindowPainter::GetFontDrawable()
 		const_cast<JXWindowPainter*>(this)->itsFontDrawable =
 			XftDrawCreate(*itsDisplay, itsDrawable,
 						  itsDisplay->GetDefaultVisual(),
-						  (itsDisplay->GetColormap())->GetXColormap());
+						  *GetXColorManager());
 		XftDrawSetClip(itsFontDrawable, itsFontClipRegion);
 		}
 
@@ -410,12 +409,12 @@ JXWindowPainter::String
 		JCoordinate xu = x;
 		if (uIndex > 1)
 			{
-			xu += font.GetStringWidth(iter.FinishMatch().GetString());
+			xu += font.GetStringWidth(GetFontManager(), iter.FinishMatch().GetString());
 			}
 
 		JUtf8Character c;
 		iter.Next(&c);
-		const JCoordinate w = font.GetCharWidth(c);
+		const JCoordinate w = font.GetCharWidth(GetFontManager(), c);
 
 		const JCoordinate lineWidth = font.GetUnderlineThickness();
 		const JCoordinate yu        = y + JLFloor(1.5 * lineWidth);
@@ -591,7 +590,7 @@ JXWindowPainter::StyleString
 	const JCoordinate	y,
 	const JCoordinate	ascent,
 	const JCoordinate	descent,
-	const JColorIndex	color
+	const JColorID	color
 	)
 {
 	const JFontStyle& fontStyle = GetFont().GetStyle();
@@ -599,7 +598,7 @@ JXWindowPainter::StyleString
 	if (fontStyle.underlineCount > 0 || fontStyle.strike)
 		{
 		const JPoint origPenLoc        = GetPenLocation();
-		const JColorIndex origPenColor = GetPenColor();
+		const JColorID origPenColor = GetPenColor();
 		const JSize origLW             = GetLineWidth();
 		const JBoolean wasDashed       = LinesAreDashed();
 

@@ -11,8 +11,8 @@
 
 #include <JXLevelControl.h>
 #include <JXWindowPainter.h>
-#include <JXColormap.h>
 #include <jXPainterUtil.h>
+#include <JColorManager.h>
 #include <jAssert.h>
 
 /******************************************************************************
@@ -33,7 +33,7 @@ JXLevelControl::JXLevelControl
 	JXSliderBase(0, enclosure, hSizing, vSizing, x,y, w,h)
 {
 	SetBorderWidth(kJXDefaultBorderWidth);
-	SetBackColor(GetColormap()->GetDefaultSliderBackColor());
+	SetBackColor(JColorManager::GetDefaultSliderBackColor());
 }
 
 /******************************************************************************
@@ -90,5 +90,5 @@ JXLevelControl::Draw
 		rThumb.right  = bounds.width();
 		}
 
-	JXDrawUpFrame(p, rThumb, GetBorderWidth(), kJTrue, GetColormap()->GetDefaultBackColor());
+	JXDrawUpFrame(p, rThumb, GetBorderWidth(), kJTrue, JColorManager::GetDefaultBackColor());
 }

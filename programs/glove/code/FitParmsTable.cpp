@@ -8,7 +8,7 @@
  ******************************************************************************/
 
 #include <FitParmsTable.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <JPainter.h>
 #include <JFontManager.h>
 #include <JFontStyle.h>
@@ -126,12 +126,12 @@ FitParmsTable::Append
 {
 	
 	const JFontManager* fm = GetFontManager();
-	JSize lineHeight = fm->GetDefaultFont().GetLineHeight();
+	JSize lineHeight = JFontManager::GetDefaultFont().GetLineHeight();
 	AppendRows(1, lineHeight + 2);
 	JString* str = jnew JString(col1);
 	itsCol1->Append(str);
 	JSize col1Width = GetColWidth(1);
-	JSize strWidth = fm->GetDefaultFont().GetStringWidth(*str);
+	JSize strWidth = JFontManager::GetDefaultFont().GetStringWidth(*str);
 	if (strWidth + 10 > col1Width)
 		{
 		SetColWidth(1, strWidth + 10);
@@ -139,7 +139,7 @@ FitParmsTable::Append
 	str = jnew JString(col2);
 	itsCol2->Append(str);
 	JSize col2Width = GetColWidth(2);
-	strWidth = fm->GetDefaultFont().GetStringWidth(*str);
+	strWidth = JFontManager::GetDefaultFont().GetStringWidth(*str);
 	if (strWidth + 10 > col2Width)
 		{
 		SetColWidth(2, strWidth + 10);

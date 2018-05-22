@@ -11,7 +11,7 @@
 
 #include <GLChiSqLabel.h>
 
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <JXWindowPainter.h>
 #include <JXFontManager.h>
 #include <jXPainterUtil.h>

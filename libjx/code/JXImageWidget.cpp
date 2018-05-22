@@ -13,7 +13,7 @@
 #include <JXAdjustIWBoundsTask.h>
 #include <JXWindowPainter.h>
 #include <JXImage.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <jXGlobals.h>
 #include <jAssert.h>
 
@@ -85,17 +85,17 @@ void
 JXImageWidget::SetBitmap
 	(
 	const JConstBitmap&	bitmap,
-	const JColorIndex	origForeColor,
-	const JColorIndex	origBackColor
+	const JColorID	origForeColor,
+	const JColorID	origBackColor
 	)
 {
-	const JColorIndex foreColor =
+	const JColorID foreColor =
 		(origForeColor == kJXTransparentColor ?
-		 GetColormap()->GetBlackColor() : origForeColor);
+		 JColorManager::GetBlackColor() : origForeColor);
 
-	const JColorIndex backColor =
+	const JColorID backColor =
 		(origBackColor == kJXTransparentColor ?
-		 GetColormap()->GetDefaultBackColor() : origBackColor);
+		 JColorManager::GetDefaultBackColor() : origBackColor);
 
 	if (itsOwnsImageFlag)
 		{
@@ -122,12 +122,12 @@ void
 JXImageWidget::SetXPM
 	(
 	const JXPM&			data,
-	const JColorIndex	origBackColor
+	const JColorID	origBackColor
 	)
 {
-	const JColorIndex backColor =
+	const JColorID backColor =
 		(origBackColor == kJXTransparentColor ?
-		 GetColormap()->GetDefaultBackColor() : origBackColor);
+		 JColorManager::GetDefaultBackColor() : origBackColor);
 
 	if (itsOwnsImageFlag)
 		{
@@ -155,12 +155,12 @@ JXImageWidget::SetImage
 	(
 	JXImage*			image,
 	const JBoolean		widgetOwnsImage,
-	const JColorIndex	origBackColor
+	const JColorID	origBackColor
 	)
 {
-	const JColorIndex backColor =
+	const JColorID backColor =
 		(origBackColor == kJXTransparentColor ?
-		 GetColormap()->GetDefaultBackColor() : origBackColor);
+		 JColorManager::GetDefaultBackColor() : origBackColor);
 
 	if (image != itsImage)
 		{

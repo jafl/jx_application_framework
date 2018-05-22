@@ -18,7 +18,7 @@
 
 #include <J2DPlotWidget.h>
 
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <JXDisplay.h>
 #include <JXImage.h>
 #include <JXInputField.h>
@@ -65,7 +65,7 @@ GLFitDescriptionList::GLFitDescriptionList
 	itsMinColWidth = 1;
 
 	const JFontManager* fontMgr = GetFontManager();
-	const JSize rowHeight = 2*kVMarginWidth + fontMgr->GetDefaultFont().GetLineHeight();
+	const JSize rowHeight = 2*kVMarginWidth + JFontManager::GetDefaultFont().GetLineHeight();
 	SetDefaultRowHeight(rowHeight);
 
 	const JSize count = GetFitManager()->GetFitCount();
@@ -76,7 +76,7 @@ GLFitDescriptionList::GLFitDescriptionList
 	AppendCols(1);
 	SyncWithManager();
 
-	JXColormap* colormap = GetColormap();
+	JXColorManager* colormap = GetColormap();
 	SetRowBorderInfo(0, colormap->GetBlackColor());
 	SetColBorderInfo(0, colormap->GetBlackColor());
 

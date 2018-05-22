@@ -12,7 +12,7 @@
 
 #include <JXWindowDirector.h>
 #include <JXWindow.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 
 #include <J2DPlotWidget.h>
 
@@ -58,7 +58,7 @@ GloveCursorTable::GloveCursorTable
 	SetRowBorderInfo(1, GetColormap()->GetGrayColor(80));
 	
 	const JFontManager* fm = GetFontManager();
-	JSize lineHeight = fm->GetDefaultFont().GetLineHeight();
+	JSize lineHeight = JFontManager::GetDefaultFont().GetLineHeight();
 	AppendRows(1, lineHeight + 2);
 	
 	itsShowX = kJFalse;
@@ -185,7 +185,7 @@ GloveCursorTable::AdjustTable()
 		if (GetRowCount() < count)
 			{
 			const JFontManager* fm = GetFontManager();
-			JSize lineHeight = fm->GetDefaultFont().GetLineHeight();
+			JSize lineHeight = JFontManager::GetDefaultFont().GetLineHeight();
 			
 			for (JSize i = GetRowCount(); i < count; i++)
 				{

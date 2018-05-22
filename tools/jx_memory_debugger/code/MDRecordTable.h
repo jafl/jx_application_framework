@@ -67,7 +67,7 @@ private:
 	void	UpdateTable();
 	void	AdjustDataColWidth(const JCoordinate w);
 	void	DrawRowBackground(JPainter& p, const JPoint& cell, const JRect& rect,
-							  const JColorIndex color);
+							  const JColorID color);
 	void	DrawRecordState(const MDRecord& record,
 							JPainter& p, const JRect& rect);
 

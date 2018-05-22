@@ -1,5 +1,5 @@
 /******************************************************************************
- TEFontManager.cpp
+ TestFontManager.cpp
 
 	BASE CLASS = JFontManager
 
@@ -7,7 +7,7 @@
 
  ******************************************************************************/
 
-#include "TEFontManager.h"
+#include "TestFontManager.h"
 #include <jAssert.h>
 
 /******************************************************************************
@@ -15,12 +15,15 @@
 
  ******************************************************************************/
 
-TEFontManager::TEFontManager()
+TestFontManager::TestFontManager()
 	:
 	JFontManager()
 {
 	itsFontNames = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 	assert( itsFontNames != NULL );
+
+	itsFontNames->Append(JString("Courier", 0, kJFalse));
+	itsFontNames->Append(JString("Times", 0, kJFalse));
 }
 
 /******************************************************************************
@@ -28,7 +31,7 @@ TEFontManager::TEFontManager()
 
  ******************************************************************************/
 
-TEFontManager::~TEFontManager()
+TestFontManager::~TestFontManager()
 {
 	jdelete itsFontNames;
 }
@@ -39,7 +42,7 @@ TEFontManager::~TEFontManager()
  ******************************************************************************/
 
 void
-TEFontManager::GetFontNames
+TestFontManager::GetFontNames
 	(
 	JPtrArray<JString>* fontNames
 	)
@@ -54,7 +57,7 @@ TEFontManager::GetFontNames
  ******************************************************************************/
 
 void
-TEFontManager::GetMonospaceFontNames
+TestFontManager::GetMonospaceFontNames
 	(
 	JPtrArray<JString>* fontNames
 	)
@@ -69,7 +72,7 @@ TEFontManager::GetMonospaceFontNames
  ******************************************************************************/
 
 JBoolean
-TEFontManager::GetFontSizes
+TestFontManager::GetFontSizes
 	(
 	const JString&	name,
 	JSize*			minSize,
@@ -78,54 +81,10 @@ TEFontManager::GetFontSizes
 	)
 	const
 {
-	*minSize = *maxSize = 0;
+	*minSize = 8;
+	*maxSize = 24;
 	sizeList->RemoveAll();
-	return kJFalse;
-}
-
-/******************************************************************************
- GetFontID (virtual)
-
- ******************************************************************************/
-
-JFontID
-TEFontManager::GetFontID
-	(
-	const JString&		name,
-	const JSize			size,
-	const JFontStyle&	style
-	)
-	const
-{
-	const JSize count = itsFontNames->GetElementCount();
-	for (JIndex i=1; i<=count; i++)
-		{
-		const JString* n = itsFontNames->GetElement(i);
-		if (*n == name)
-			{
-			return i;
-			}
-		}
-
-	// falling through means we need to create a new entry
-
-	itsFontNames->Append(name);
-	return itsFontNames->GetElementCount();
-}
-
-/******************************************************************************
- GetFontName (virtual)
-
- ******************************************************************************/
-
-const JString&
-TEFontManager::GetFontName
-	(
-	const JFontID id
-	)
-	const
-{
-	return *(itsFontNames->GetElement(id));
+	return kJTrue;
 }
 
 /******************************************************************************
@@ -134,7 +93,7 @@ TEFontManager::GetFontName
  ******************************************************************************/
 
 JBoolean
-TEFontManager::IsExact
+TestFontManager::IsExact
 	(
 	const JFontID id
 	)
@@ -149,7 +108,7 @@ TEFontManager::IsExact
  ******************************************************************************/
 
 JSize
-TEFontManager::GetLineHeight
+TestFontManager::GetLineHeight
 	(
 	const JFontID		fontID,
 	const JSize			size,
@@ -171,14 +130,14 @@ TEFontManager::GetLineHeight
  ******************************************************************************/
 
 JSize
-TEFontManager::GetCharWidth
+TestFontManager::GetCharWidth
 	(
 	const JFontID			fontID,
 	const JUtf8Character&	c
 	)
 	const
 {
-	return 10;
+	return 7;
 }
 
 /******************************************************************************
@@ -187,12 +146,12 @@ TEFontManager::GetCharWidth
  ******************************************************************************/
 
 JSize
-TEFontManager::GetStringWidth
+TestFontManager::GetStringWidth
 	(
 	const JFontID	fontID,
 	const JString&	str
 	)
 	const
 {
-	return 10*str.GetCharacterCount();
+	return 7*str.GetCharacterCount();
 }

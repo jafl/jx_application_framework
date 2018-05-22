@@ -13,7 +13,7 @@
 #include <JXWindow.h>
 #include <JXWindowPainter.h>
 #include <JXFontManager.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <jXGlobals.h>
 #include <JStringIterator.h>
 #include <jAssert.h>
@@ -42,9 +42,9 @@ JXTextButton::JXTextButton
 	itsShortcuts = NULL;
 	itsULIndex   = 0;
 
-	itsPushedColor = GetColormap()->GetDefaultBackColor();
+	itsPushedColor = JColorManager::GetDefaultBackColor();
 
-	const JSize lineHeight = itsFont.GetLineHeight();
+	const JSize lineHeight = itsFont.GetLineHeight(GetFontManager());
 	itsPadding.Set(lineHeight/4, lineHeight/8);
 }
 
@@ -167,7 +167,7 @@ JXTextButton::Draw
 	else
 		{
 		JFont f = itsFont;
-		f.SetColor(GetColormap()->GetInactiveLabelColor());
+		f.SetColor(JColorManager::GetInactiveLabelColor());
 		p.SetFont(f);
 		}
 
@@ -193,7 +193,7 @@ JXTextButton::DrawBackground
 		p.SetPenColor(itsPushedColor);
 		p.SetFilling(kJTrue);
 		p.JPainter::Rect(frame);
-		p.SetPenColor(GetColormap()->GetBlackColor());
+		p.SetPenColor(JColorManager::GetBlackColor());
 		p.SetFilling(kJFalse);
 		}
 	else
@@ -214,9 +214,7 @@ JXTextButton::GetFTCMinContentSize
 	)
 	const
 {
-	const JSize lineHeight = itsFont.GetLineHeight();
-
 	return (horizontal ?
-			JMax((JSize) GetApertureWidth(), itsFont.GetStringWidth(itsLabel) + 2*itsPadding.x) :
-			JMax((JSize) GetApertureHeight(), lineHeight + 2*itsPadding.y));
+			JMax((JSize) GetApertureWidth(), itsFont.GetStringWidth(GetFontManager(), itsLabel) + 2*itsPadding.x) :
+			JMax((JSize) GetApertureHeight(), itsFont.GetLineHeight(GetFontManager()) + 2*itsPadding.y));
 }

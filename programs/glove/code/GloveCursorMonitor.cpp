@@ -10,7 +10,7 @@
 #include "GloveCursorMonitor.h"
 #include "GlovePlotter.h"
 #include <JXWindowPainter.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <jXPainterUtil.h>
 #include <jXConstants.h>
 #include <JXWindow.h>

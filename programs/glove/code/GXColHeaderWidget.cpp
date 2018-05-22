@@ -16,7 +16,7 @@
 #include <JXScrollbar.h>
 #include <JXDragPainter.h>
 #include <JXFontManager.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <jXPainterUtil.h>
 #include <jXConstants.h>
 #include <jGlobals.h>

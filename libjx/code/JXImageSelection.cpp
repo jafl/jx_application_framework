@@ -12,7 +12,7 @@
 #include <JXImageSelection.h>
 #include <JXDisplay.h>
 #include <JXSelectionManager.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <JXImage.h>
 #include <jStreamUtil.h>
 #include <jFStreamUtil.h>
@@ -135,12 +135,12 @@ JXImageSelection::SetData
 {
 	if (itsImage != NULL)
 		{
-		StopListening(itsImage->GetXColormap());
+		StopListening(itsImage->GetXColorManager());
 		jdelete itsImage;
 		}
 
 	itsImage = image;
-	ListenTo(itsImage->GetXColormap());
+	ListenTo(itsImage->GetXColorManager());
 }
 
 /******************************************************************************
@@ -222,7 +222,7 @@ JXImageSelection::ReceiveGoingAway
 	JBroadcaster* sender
 	)
 {
-	if (sender == itsImage->GetXColormap())
+	if (sender == itsImage->GetXColorManager())
 		{
 		jdelete itsImage;
 		itsImage = NULL;
@@ -277,7 +277,7 @@ JXImageSelection::GetImage
 	)
 {
 	return GetImage(display->GetSelectionManager(), selectionName, time,
-					display->GetColormap(), image);
+					display->GetColorManager(), image);
 }
 
 JBoolean
@@ -286,7 +286,7 @@ JXImageSelection::GetImage
 	JXSelectionManager* selMgr,
 	const Atom			selectionName,
 	const Time			time,
-	JXColormap*			colormap,
+	JXColorManager*			colormap,
 	JXImage**			image
 	)
 {

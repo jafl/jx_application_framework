@@ -13,7 +13,7 @@
 #include "CBJavaStyler.h"
 #include "cbmUtil.h"
 #include <JXDialogDirector.h>
-#include <JColormap.h>
+#include <JXColorManager.h>
 #include <jAssert.h>
 
 CBJavaStyler* CBJavaStyler::itsSelf = NULL;
@@ -109,8 +109,8 @@ CBJavaStyler::CBJavaStyler()
 		SetTypeStyle(i, blankStyle);
 		}
 
-	JColormap* colormap   = GetColormap();
-	const JColorIndex red = colormap->GetRedColor();
+	JXColorManager* colormap   = GetColormap();
+	const JColorID red = colormap->GetRedColor();
 
 	SetTypeStyle(kReservedKeyword      - kWhitespace, JFontStyle(colormap->GetDarkGreenColor()));
 	SetTypeStyle(kBuiltInDataType      - kWhitespace, JFontStyle(colormap->GetDarkGreenColor()));

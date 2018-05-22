@@ -24,7 +24,7 @@
 #include "JXImageWidget.h"
 #include "JXFlatRect.h"
 #include "JXImage.h"
-#include "JXColormap.h"
+#include "JXColorManager.h"
 #include "JXFontManager.h"
 #include "jXGlobals.h"
 #include <JKLRand.h>
@@ -92,7 +92,7 @@ JXTipOfTheDayDialog::BuildWindow
 		jnew JXFlatRect(window,
 					JXWidget::kFixedLeft, JXWidget::kVElastic, 10,10, 50,200);
 	assert( sideBar != NULL );
-	sideBar->SetColor(GetColormap()->GetInactiveLabelColor());
+	sideBar->SetColor(JColorManager::GetInactiveLabelColor());
 
 	itsCloseButton =
 		jnew JXTextButton(JGetString("itsCloseButton::JXTipOfTheDayDialog::JXLayout"), window,

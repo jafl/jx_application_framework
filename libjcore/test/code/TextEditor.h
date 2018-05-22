@@ -14,41 +14,34 @@ class TextEditor : public JTextEditor
 {
 public:
 
-	TextEditor();
+	TextEditor(JStyledText* text, const JBoolean breakCROnly, const JCoordinate width);
 
 	virtual ~TextEditor();
 
-	virtual JBoolean	TEHasSearchText() const;
-
-	// expose protected functionality for testing
-
-	JIndex	GetWordStart(const JIndex charIndex, const JIndex byteIndex) const;
-	JIndex	GetWordEnd(const JIndex charIndex, const JIndex byteIndex) const;
-	JIndex	GetPartialWordStart(const JIndex charIndex, const JIndex byteIndex) const;
-	JIndex	GetPartialWordEnd(const JIndex charIndex, const JIndex byteIndex) const;
-	JIndex	GetParagraphStart(const JIndex charIndex, const JIndex byteIndex) const;
-	JIndex	GetParagraphEnd(const JIndex charIndex, const JIndex byteIndex) const;
+	virtual JBoolean	TEHasSearchText() const override;
 
 protected:
 
-	virtual void		TERefresh();
-	virtual void		TERefreshRect(const JRect& rect);
-	virtual void		TERedraw();
+	virtual void		TERefresh() override;
+	virtual void		TERefreshRect(const JRect& rect) override;
+	virtual void		TERedraw() override;
 	virtual void		TESetGUIBounds(const JCoordinate w, const JCoordinate h,
-									   const JCoordinate changeY);
-	virtual JBoolean	TEWidthIsBeyondDisplayCapacity(const JSize width) const;
+									   const JCoordinate changeY) override;
+	virtual JBoolean	TEWidthIsBeyondDisplayCapacity(const JSize width) const override;
 	virtual JBoolean	TEScrollToRect(const JRect& rect,
-									   const JBoolean centerInDisplay);
-	virtual JBoolean	TEScrollForDrag(const JPoint& pt);
-	virtual JBoolean	TEScrollForDND(const JPoint& pt);
-	virtual void		TESetVertScrollStep(const JCoordinate vStep);
-	virtual void		TEClipboardChanged();
-	virtual JBoolean	TEGetExternalClipboard(JString* text, JRunArray<JFont>* style) const;
-	virtual JBoolean	TEBeginDND();
-	virtual void		TEPasteDropData();
-	virtual void		TECaretShouldBlink(const JBoolean blink);
+									   const JBoolean centerInDisplay) override;
+	virtual JBoolean	TEScrollForDrag(const JPoint& pt) override;
+	virtual JBoolean	TEScrollForDND(const JPoint& pt) override;
+	virtual void		TESetVertScrollStep(const JCoordinate vStep) override;
+	virtual void		TEUpdateClipboard(const JString& text, const JRunArray<JFont>& style) override;
+	virtual JBoolean	TEGetClipboard(JString* text, JRunArray<JFont>* style) const override;
+	virtual JBoolean	TEBeginDND() override;
+	virtual void		TEPasteDropData() override;
+	virtual void		TECaretShouldBlink(const JBoolean blink) override;
 
 private:
+
+	JCoordinate	itsWidth, itsHeight;
 
 	JString*			itsClipText;
 	JRunArray<JFont>*	itsClipStyle;

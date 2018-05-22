@@ -11,7 +11,7 @@
 #include "PlotDir.h"
 #include <J2DPlotWidget.h>
 
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <JXInputField.h>
 
 #include <JFontManager.h>
@@ -57,7 +57,7 @@ GLCurveNameList::GLCurveNameList
 	itsMinColWidth = 1;
 
 	const JFontManager* fontMgr = GetFontManager();
-	const JSize rowHeight = 2*kVMarginWidth + fontMgr->GetDefaultFont().GetLineHeight();
+	const JSize rowHeight = 2*kVMarginWidth + JFontManager::GetDefaultFont().GetLineHeight();
 	SetDefaultRowHeight(rowHeight);
 
 	const JSize count = plot->GetCurveCount();
@@ -73,7 +73,7 @@ GLCurveNameList::GLCurveNameList
 		itsNameList->Append(str);
 
 		const JCoordinate width = 2*kHMarginWidth +
-			fontMgr->GetDefaultFont().GetStringWidth(*str);
+			JFontManager::GetDefaultFont().GetStringWidth(*str);
 		if (width > itsMinColWidth)
 			{
 			itsMinColWidth = width;
@@ -83,7 +83,7 @@ GLCurveNameList::GLCurveNameList
 	AppendCols(1);
 	AdjustColWidth();
 
-	JXColormap* colormap = GetColormap();
+	JXColorManager* colormap = GetColormap();
 	SetRowBorderInfo(0, colormap->GetBlackColor());
 	SetColBorderInfo(0, colormap->GetBlackColor());
 
@@ -152,7 +152,7 @@ GLCurveNameList::TableDrawCell
 
 	JRect r = rect;
 	r.left += kHMarginWidth;
-	JColorIndex color	= GetColormap()->GetBlackColor();
+	JColorID color	= GetColormap()->GetBlackColor();
 	if (itsDir->CurveIsFit(cell.y))
 		{
 		color	= GetColormap()->GetGrayColor(60);

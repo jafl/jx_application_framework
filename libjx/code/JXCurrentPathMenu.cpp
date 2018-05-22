@@ -65,8 +65,7 @@ JXCurrentPathMenu::JXCurrentPathMenuX
 	const JString& path
 	)
 {
-	JXDisplay*  d = GetDisplay();
-	JXColormap* c = GetColormap();
+	JXDisplay* d = GetDisplay();
 
 	itsFolderIcon = jnew JXImage(d, jx_folder_small);
 	assert( itsFolderIcon != NULL );

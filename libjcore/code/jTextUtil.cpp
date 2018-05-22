@@ -231,7 +231,7 @@ void
 JReadUNIXManOutput
 	(
 	std::istream&	input,
-	JStyledText*	tb
+	JStyledText*	st
 	)
 {
 	JString buffer;
@@ -240,7 +240,7 @@ JReadUNIXManOutput
 
 	JRunArray<JFont> styles;
 
-	const JFont& defFont = tb->GetDefaultFont();
+	const JFont& defFont = st->GetDefaultFont();
 
 	JFont boldFont = defFont;
 	boldFont.SetBold(kJTrue);
@@ -295,7 +295,7 @@ JReadUNIXManOutput
 		iter.ReplaceLastMatch("\n\n");
 		}
 
-	tb->SetText(buffer, &styles);
+	st->SetText(buffer, &styles);
 }
 
 /******************************************************************************
@@ -314,13 +314,13 @@ JPasteUNIXTerminalOutput
 	(
 	const JString&					text,
 	const JStyledText::TextIndex&	pasteIndex,
-	JStyledText*					tb
+	JStyledText*					st
 	)
 {
 	JString buffer;
 	JRunArray<JFont> styles;
 
-	JFont f        = tb->GetDefaultFont();
+	JFont f        = st->GetDefaultFont();
 	const JFont f0 = f;
 
 	JPtrArray<JString> chunkList(JPtrArrayT::kDeleteAll);
@@ -409,5 +409,5 @@ JPasteUNIXTerminalOutput
 			}
 		}
 
-	return tb->Paste(JStyledText::TextRange(pasteIndex, JStyledText::TextCount()), buffer, &styles);
+	return st->Paste(JStyledText::TextRange(pasteIndex, JStyledText::TextCount()), buffer, &styles);
 }

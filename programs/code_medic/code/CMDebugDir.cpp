@@ -14,7 +14,7 @@
 #include <JXTextButton.h>
 #include <JXStaticText.h>
 #include <JXScrollbarSet.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <jXGlobals.h>
 #include <jAssert.h>
 

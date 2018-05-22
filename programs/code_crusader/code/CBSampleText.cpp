@@ -9,7 +9,7 @@
 
 #include "CBSampleText.h"
 #include <JXWindowPainter.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <JFontManager.h>
 #include <jAssert.h>
 
@@ -67,7 +67,7 @@ CBSampleText::Draw
 			TEGetLeftMarginWidth() +
 			(kRightMarginWidth * GetDefaultFont().GetCharWidth(' '));
 
-		const JColorIndex saveColor = p.GetPenColor();
+		const JColorID saveColor = p.GetPenColor();
 		p.SetPenColor(itsRightMarginColor);
 		p.Line(x, rect.top, x, rect.bottom);
 		p.SetPenColor(saveColor);

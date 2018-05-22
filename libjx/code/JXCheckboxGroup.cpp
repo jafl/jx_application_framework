@@ -243,7 +243,7 @@ JXCheckboxGroup::ReceiveGoingAway
 	const JSize cbCount = itsCBList->GetElementCount();
 	for (JIndex i=1; i<=cbCount; i++)
 		{
-		if (itsCBList->NthElement(i) == sender)
+		if (itsCBList->GetElement(i) == sender)
 			{
 			itsCBList->RemoveElement(i);
 			break;

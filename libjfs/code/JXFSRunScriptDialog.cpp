@@ -70,7 +70,7 @@ JXFSRunScriptDialog::Activate()
 
 	if (IsActive())
 		{
-		itsCmdInput->SetCaretLocation(itsCmdInput->GetTextLength()+1);
+		itsCmdInput->GoToEndOfLine();
 		}
 }
 

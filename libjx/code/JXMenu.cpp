@@ -41,7 +41,7 @@
 #include <JXWindowPainter.h>
 #include <JXWindow.h>
 #include <JXImage.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <jXPainterUtil.h>
 #include <jXGlobals.h>
 
@@ -158,7 +158,7 @@ JXMenu::JXMenuX
 	const JBoolean		menuOwnsImage
 	)
 {
-	const JSize lineHeight = itsTitleFont.GetLineHeight();
+	const JSize lineHeight = itsTitleFont.GetLineHeight(GetFontManager());
 	itsTitlePadding.Set(lineHeight/2, lineHeight/4);
 
 	itsTitleImage         = NULL;
@@ -352,7 +352,7 @@ JXMenu::UpdateTitleGeometry()
 	JCoordinate w = 0;
 	if (!itsTitle.IsEmpty())
 		{
-		w += itsTitleFont.GetStringWidth(itsTitle);
+		w += itsTitleFont.GetStringWidth(GetFontManager(), itsTitle);
 		}
 	if (itsTitleImage != NULL)
 		{
@@ -1185,9 +1185,9 @@ JXMenu::Draw
 			ra.right--;
 			}
 
-		const JColorIndex colorIndex =
-			IsActive() ? (p.GetColormap())->GetGrayColor(40) :
-						 (p.GetColormap())->GetInactiveLabelColor();
+		const JColorID colorIndex =
+			IsActive() ? JColorManager::GetGrayColor(40) :
+						 JColorManager::GetInactiveLabelColor();
 		if (itsArrowDirection == kArrowPointsDown)
 			{
 			JXFillArrowDown(p, ra, colorIndex);
@@ -1219,7 +1219,7 @@ JXMenu::Draw
 		else
 			{
 			JFont f = itsTitleFont;
-			f.SetColor(GetColormap()->GetInactiveLabelColor());
+			f.SetColor(JColorManager::GetInactiveLabelColor());
 			p.SetFont(f);
 			}
 
@@ -1251,7 +1251,7 @@ JXMenu::DrawBorder
 	else if (borderWidth > 0)
 		{
 		p.SetLineWidth(borderWidth);
-		p.SetPenColor(GetColormap()->GetInactiveLabelColor());
+		p.SetPenColor(JColorManager::GetInactiveLabelColor());
 		p.RectInside(frame);
 		}
 }
@@ -1588,7 +1588,7 @@ JXMenu::GetFTCMinContentSize
 		const_cast<JXMenu*>(this)->itsWaitingForFTCFlag = kJTrue;
 		const JSize tw = IsPopupChoice() ?
 			GetMaxPopupChoiceTitleWidth() :
-			itsTitleFont.GetStringWidth(itsTitle);
+			itsTitleFont.GetStringWidth(GetFontManager(), itsTitle);
 		const_cast<JXMenu*>(this)->itsWaitingForFTCFlag = kJFalse;
 
 		return ((itsTitleImage != NULL ? itsTitleImage->GetWidth() : 0) +
@@ -1601,7 +1601,7 @@ JXMenu::GetFTCMinContentSize
 	else
 		{
 		return (JMax(itsTitleImage != NULL ? itsTitleImage->GetHeight() : 0,
-					 (JCoordinate) itsTitleFont.GetLineHeight()) +
+					 (JCoordinate) itsTitleFont.GetLineHeight(GetFontManager())) +
 				2*borderWidth +
 				2*itsTitlePadding.y);
 		}
@@ -1629,7 +1629,7 @@ JXMenu::GetMaxPopupChoiceTitleWidth()
 	for (JIndex i=1; i<=count; i++)
 		{
 		self->AdjustPopupChoiceTitle(i);
-		max = JMax(max, itsTitleFont.GetStringWidth(itsTitle));
+		max = JMax(max, itsTitleFont.GetStringWidth(GetFontManager(), itsTitle));
 		}
 
 	self->SetTitle(origTitle, origTitleImage, origOwnsImage);

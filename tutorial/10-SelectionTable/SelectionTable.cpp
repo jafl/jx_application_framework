@@ -17,7 +17,7 @@
 #include <JXMenuBar.h>
 #include <JXWindowPainter.h>
 #include <JXTextMenu.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <JList.h>
 #include <JString.h>
 #include <JTableSelection.h>

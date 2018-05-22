@@ -21,7 +21,7 @@
 #include <JXDisplay.h>
 #include <JXWindow.h>
 #include <JXImage.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <JXSelectionManager.h>
 #include <JXTextSelection.h>
 

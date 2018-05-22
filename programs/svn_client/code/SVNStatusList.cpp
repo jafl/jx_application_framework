@@ -11,7 +11,7 @@
 #include "svnMenus.h"
 #include <JXTextMenu.h>
 #include <JXTextSelection.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <jXGlobals.h>
 #include <JTableSelection.h>
 #include <JSimpleProcess.h>

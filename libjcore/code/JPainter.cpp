@@ -65,9 +65,8 @@
 
 JPainter::JPainter
 	(
-	const JFontManager*		fontManager,
-	const JColorManager*	colorManager,
-	const JRect&			defaultClipRect
+	const JFontManager*	fontManager,
+	const JRect&		defaultClipRect
 	)
 	:
 	itsOrigin(0,0),
@@ -81,11 +80,10 @@ JPainter::JPainter
 	itsDashList(NULL),
 
 	itsFontManager(fontManager),
-	itsColorManager(colorManager),
 	itsFont(JFontManager::GetDefaultFont()),
 
 	itsDefClipRect(defaultClipRect),
-	itsDefaultColor(itsColorManager->GetBlackColor())
+	itsDefaultColor(JColorManager::GetBlackColor())
 {
 	itsPenColor = itsDefaultColor;
 	itsFont.SetColor(itsDefaultColor);

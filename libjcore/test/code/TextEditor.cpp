@@ -10,8 +10,7 @@
  ******************************************************************************/
 
 #include "TextEditor.h"
-#include "TEFontManager.h"
-#include "TEColormap.h"
+#include "TestFontManager.h"
 #include <jAssert.h>
 
 /******************************************************************************
@@ -19,19 +18,22 @@
 
  ******************************************************************************/
 
-TextEditor::TextEditor()
+TextEditor::TextEditor
+	(
+	JStyledText*		text,
+	const JBoolean		breakCROnly,
+	const JCoordinate	width
+	)
 	:
-	JTextEditor(kFullEditor, kJTrue, kJFalse,
-				jnew TEFontManager,
-				jnew TEColormap,
-				1,1,1,1,1, 500),
+	JTextEditor(kFullEditor, text, kJFalse,
+				jnew TestFontManager, breakCROnly,
+				1,1,1,1, width),
+	itsWidth(0),
+	itsHeight(0),
 	itsClipText(NULL),
 	itsClipStyle(NULL)
 {
-	assert( TEGetFontManager() != NULL );
-	assert( TEGetColormap() != NULL );
-
-	RecalcAll(kJTrue);
+	RecalcAll();
 }
 
 /******************************************************************************
@@ -91,6 +93,8 @@ TextEditor::TESetGUIBounds
 	const JCoordinate changeY
 	)
 {
+	itsWidth  = w;
+	itsHeight = h;
 }
 
 /******************************************************************************
@@ -170,21 +174,24 @@ TextEditor::TESetVertScrollStep
  ******************************************************************************/
 
 void
-TextEditor::TEClipboardChanged()
+TextEditor::TEUpdateClipboard
+	(
+	const JString&			text,
+	const JRunArray<JFont>&	style
+	)
 {
-	if (HasSelection())
+	if (itsClipText == NULL)
 		{
-		if (itsClipText == NULL)
-			{
-			itsClipText = jnew JString;
-			assert( itsClipText != NULL );
+		itsClipText = jnew JString(text);
+		assert( itsClipText != NULL );
 
-			itsClipStyle = jnew JRunArray<JFont>;
-			assert( itsClipStyle != NULL );
-			}
-
-		const JBoolean ok = GetSelection(itsClipText, itsClipStyle);
-		assert( ok );
+		itsClipStyle = jnew JRunArray<JFont>(style);
+		assert( itsClipStyle != NULL );
+		}
+	else
+		{
+		*itsClipText  = text;
+		*itsClipStyle = style;
 		}
 }
 
@@ -194,7 +201,7 @@ TextEditor::TEClipboardChanged()
  ******************************************************************************/
 
 JBoolean
-TextEditor::TEGetExternalClipboard
+TextEditor::TEGetClipboard
 	(
 	JString*			text,
 	JRunArray<JFont>*	style
@@ -255,100 +262,4 @@ TextEditor::TEHasSearchText()
 	const
 {
 	return kJFalse;
-}
-
-/******************************************************************************
- GetWordStart
-
- ******************************************************************************/
-
-JIndex
-TextEditor::GetWordStart
-	(
-	const JIndex charIndex,
-	const JIndex byteIndex
-	)
-	const
-{
-	return JTextEditor::GetWordStart(TextIndex(charIndex, byteIndex)).charIndex;
-}
-
-/******************************************************************************
- GetWordEnd
-
- ******************************************************************************/
-
-JIndex
-TextEditor::GetWordEnd
-	(
-	const JIndex charIndex,
-	const JIndex byteIndex
-	)
-	const
-{
-	return JTextEditor::GetWordEnd(TextIndex(charIndex, byteIndex)).charIndex;
-}
-
-/******************************************************************************
- GetPartialWordStart
-
- ******************************************************************************/
-
-JIndex
-TextEditor::GetPartialWordStart
-	(
-	const JIndex charIndex,
-	const JIndex byteIndex
-	)
-	const
-{
-	return JTextEditor::GetPartialWordStart(TextIndex(charIndex, byteIndex)).charIndex;
-}
-
-/******************************************************************************
- GetPartialWordEnd
-
- ******************************************************************************/
-
-JIndex
-TextEditor::GetPartialWordEnd
-	(
-	const JIndex charIndex,
-	const JIndex byteIndex
-	)
-	const
-{
-	return JTextEditor::GetPartialWordEnd(TextIndex(charIndex, byteIndex)).charIndex;
-}
-
-/******************************************************************************
- GetParagraphStart
-
- ******************************************************************************/
-
-JIndex
-TextEditor::GetParagraphStart
-	(
-	const JIndex charIndex,
-	const JIndex byteIndex
-	)
-	const
-{
-	return JTextEditor::GetParagraphStart(TextIndex(charIndex, byteIndex)).charIndex;
-}
-
-/******************************************************************************
- GetParagraphEnd
-
- ******************************************************************************/
-
-JIndex
-TextEditor::GetParagraphEnd
-	(
-	const JIndex charIndex,
-	const JIndex byteIndex
-	)
-	const
-{
-	return JTextEditor::GetParagraphEnd(TextIndex(charIndex, byteIndex)).charIndex;
 }

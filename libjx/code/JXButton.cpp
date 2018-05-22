@@ -13,7 +13,7 @@
 #include <JXWindow.h>
 #include <JXWindowPainter.h>
 #include <jXPainterUtil.h>
-#include <JXColormap.h>
+#include <JColorManager.h>
 #include <JString.h>
 
 // JBroadcaster message types
@@ -105,7 +105,7 @@ JXButton::DrawBorder
 	else if (borderWidth > 0)
 		{
 		p.SetLineWidth(borderWidth);
-		p.SetPenColor(GetColormap()->GetInactiveLabelColor());
+		p.SetPenColor(JColorManager::GetInactiveLabelColor());
 		p.RectInside(origFrame);
 		}
 }

@@ -28,7 +28,7 @@
 #include <JXScrollbarSet.h>
 #include <JXStaticText.h>
 #include <JXFileInput.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <JXImage.h>
 #include <JXChooseSaveFile.h>
 #include <JXTimerTask.h>

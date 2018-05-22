@@ -55,8 +55,8 @@ protected:
 
 	virtual void	CreateCompartmentObject(const JIndex index,
 											const JCoordinate position,
-											const JCoordinate size);
-	virtual void	DeleteCompartmentObject(const JIndex index);
+											const JCoordinate size) override;
+	virtual void	DeleteCompartmentObject(const JIndex index) override;
 
 	virtual JXWidgetSet*	CreateCompartment(const JIndex index,
 											  const JCoordinate position,

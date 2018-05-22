@@ -43,9 +43,8 @@ public:
 	{
 		JXScrollableWidget::DisplayState	scroll;
 
-		JBoolean	hadSelection;
-		JIndex		selStart;
-		JIndex		selEnd;
+		JBoolean		hadSelection;
+		JCharacterRange	range;
 	};
 
 public:
@@ -123,11 +122,9 @@ public:
 	JBoolean	ReplaceSelection();
 	JBoolean	ReplaceAndSearchForward();
 	JBoolean	ReplaceAndSearchBackward();
-	JBoolean	ReplaceAllForward();
-	JBoolean	ReplaceAllBackward();
-	JBoolean	ReplaceAllInSelection();
+	JBoolean	ReplaceAll(const JBoolean restrictToSelection);
 
-	virtual JBoolean	TEHasSearchText() const;
+	virtual JBoolean	TEHasSearchText() const override;
 
 	void			SetPSPrinter(JXPSPrinter* p);
 	const JString&	GetPSPrintFileName() const;
@@ -164,7 +161,7 @@ public:
 
 protected:
 
-	JXTEBase(const Type type, JStyledTextBuffer* buffer, const JBoolean ownsBuffer,
+	JXTEBase(const Type type, JStyledText* text, const JBoolean ownsText,
 			 const JBoolean breakCROnly,
 			 JXScrollbarSet* scrollbarSet, JXContainer* enclosure,
 			 const HSizingOption hSizing, const VSizingOption vSizing,
@@ -243,8 +240,8 @@ protected:
 
 	virtual void		TECaretShouldBlink(const JBoolean blink) override;
 
-	virtual void		TEClipboardChanged() override;
-	virtual JBoolean	TEGetExternalClipboard(JString* text, JRunArray<JFont>* style) const override;
+	virtual void		TEUpdateClipboard(const JString& text, const JRunArray<JFont>& style) const override;
+	virtual JBoolean	TEGetClipboard(JString* text, JRunArray<JFont>* style) const override;
 
 	virtual JCoordinate	GetPrintFooterHeight(JPagePrinter& p) const override;
 	virtual void		DrawPrintFooter(JPagePrinter& p, const JCoordinate footerHeight) override;

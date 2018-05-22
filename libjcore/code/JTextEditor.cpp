@@ -204,6 +204,8 @@ JTextEditor::JTextEditor
 	itsPrevDragType(kInvalidDrag),
 	itsIsDragSourceFlag(kJFalse)
 {
+	assert( itsText != NULL );
+
 	itsActiveFlag            = kJFalse;
 	itsSelActiveFlag         = kJFalse;
 	itsCaretVisibleFlag      = kJFalse;
@@ -801,6 +803,7 @@ JTextEditor::Cut()
 
 void
 JTextEditor::Copy()
+	const
 {
 	JString text;
 	JRunArray<JFont> style;
@@ -895,7 +898,7 @@ JTextEditor::Paste
 }
 
 /******************************************************************************
- SetSelection (private)
+ SetSelection (protected)
 
  ******************************************************************************/
 
@@ -2024,10 +2027,13 @@ JTextEditor::TEDrawCaret
 	if (itsCaretMode == kBlockCaret)
 		{
 		JCoordinate w = 5;
-		if (itsText->GetText().CharacterIndexValid(caretLoc.location.charIndex) &&
-			GetCharacter(caretLoc.location) != '\n')
+		if (itsText->GetText().CharacterIndexValid(caretLoc.location.charIndex))
 			{
-			w = GetCharWidth(caretLoc);
+			const JUtf8Character c = GetCharacter(caretLoc.location);
+			if (c != '\n')
+				{
+				w = GetCharWidth(caretLoc, c);
+				}
 			}
 		p.Rect(x,y1, w+1,y2-y1);
 		}
@@ -2431,7 +2437,7 @@ JTextEditor::TEHandleDNDDrop
 }
 
 /******************************************************************************
- TEGetDoubleClickSelection (private)
+ TEGetDoubleClickSelection (protected)
 
 	Select the word that was clicked on.  By computing the end of the word
 	found by GetWordStart(), we avoid selecting two words when the user
@@ -3435,7 +3441,14 @@ JTextEditor::GetCharRight
 	)
 	const
 {
-	return GetCharLeft(charLoc) + GetCharWidth(charLoc);
+	const TextIndex firstChar = GetLineStart(charLoc.lineIndex);
+
+	JCoordinate x = 0;
+	if (charLoc.location.charIndex > firstChar.charIndex)
+		{
+		x = GetStringWidth(firstChar, charLoc.location);
+		}
+	return x;
 }
 
 /******************************************************************************
@@ -3448,11 +3461,11 @@ JTextEditor::GetCharRight
 JCoordinate
 JTextEditor::GetCharWidth
 	(
-	const CaretLocation& charLoc
+	const CaretLocation&	charLoc,
+	const JUtf8Character&	c
 	)
 	const
 {
-	const JUtf8Character c = GetCharacter(charLoc.location);
 	if (c != '\t')
 		{
 		const JFont f = itsText->GetStyles().GetElement(charLoc.location.charIndex);
@@ -3528,21 +3541,22 @@ JTextEditor::GetStringWidth
 		// If there is a tab in the string, we step up to it and take care of
 		// the rest in the next iteration.
 
-		TextIndex tab;
-		if (LocateTab(start, runLength, &tab))
+		JIndex tabCharIndex, pretabByteIndex;
+		const JBoolean foundTab = LocateTab(start, runLength, &tabCharIndex, &pretabByteIndex);
+		if (foundTab)
 			{
-			runLength = tab.charIndex - start.charIndex;
+			runLength = tabCharIndex - start.charIndex;
 			}
 
 		if (runLength > 0)
 			{
 			width += f.GetStringWidth(itsFontManager,
 				JString(itsText->GetText().GetBytes(),
-						JUtf8ByteRange(start.byteIndex, tab.byteIndex-1),
+						JUtf8ByteRange(start.byteIndex, pretabByteIndex),
 						kJFalse));
 			}
 
-		if (tab.charIndex > 0)
+		if (foundTab)
 			{
 			if (preWidth < 0)
 				{
@@ -3569,7 +3583,7 @@ JTextEditor::GetStringWidth
  LocateTab (private)
 
 	Returns the index of the first tab character, starting from startIndex.
-	If no tab is found, returns kJFalse, and *tabIndex = 0.
+	If no tab is found, returns kJFalse, and tabCharIndex = 0.
 
  ******************************************************************************/
 
@@ -3578,7 +3592,8 @@ JTextEditor::LocateTab
 	(
 	const TextIndex&	start,
 	const JSize			count,
-	TextIndex*			tab
+	JIndex*				tabCharIndex,
+	JIndex*				pretabByteIndex
 	)
 	const
 {
@@ -3591,15 +3606,15 @@ JTextEditor::LocateTab
 		if (c == '\t')
 			{
 			iter->SkipPrev();
-			tab->charIndex = iter->GetNextCharacterIndex();
-			tab->byteIndex = iter->GetNextByteIndex();
+			*tabCharIndex    = iter->GetNextCharacterIndex();
+			*pretabByteIndex = iter->GetPrevByteIndex();
 			return kJTrue;
 			}
 		i++;
 		}
 
-	tab->charIndex = 0;
-	tab->byteIndex = 0;
+	*tabCharIndex    = 0;
+	*pretabByteIndex = iter->GetPrevByteIndex();
 	return kJFalse;
 }
 
@@ -3684,19 +3699,13 @@ JTextEditor::Recalc
 	JIndex firstLineIndex, lastLineIndex;
 	if (!itsText->IsEmpty())
 		{
-		JStringIterator* iter =
-			itsText->GetConstIterator(kJIteratorStartBefore, recalcRange.GetFirst());
-
-		Recalc1(iter, recalcRange.GetAfter(), &maxLineWidth,
-				&firstLineIndex, &lastLineIndex);
+		Recalc1(recalcRange, &maxLineWidth, &firstLineIndex, &lastLineIndex);
 
 		if (!redrawRange.IsEmpty())
 			{
 			firstLineIndex = JMin(firstLineIndex, GetLineForChar(redrawRange.charRange.first));
 			lastLineIndex  = JMax(lastLineIndex,  GetLineForChar(redrawRange.charRange.last));
 			}
-
-		itsText->DisposeConstIterator(iter);
 		}
 	else
 		{
@@ -3813,17 +3822,15 @@ JTextEditor::Recalc
 void
 JTextEditor::Recalc1
 	(
-	JStringIterator*	iter,
-	const TextIndex&	after,
+	const TextRange&	range,
 	JCoordinate*		maxLineWidth,
 	JIndex*				firstLineIndex,
 	JIndex*				lastLineIndex
 	)
 {
-	JIndex lineIndex = caretLoc.lineIndex;
-	if (!itsBreakCROnlyFlag && lineIndex > 1 &&
-		caretLoc.charIndex <= bufLength &&
-		NoPrevWhitespaceOnLine(*itsText, caretLoc))
+	JIndex lineIndex = GetLineForChar(range.charRange.first);
+	if (!itsBreakCROnlyFlag && lineIndex > 1 && range.charRange.first > 1 &&
+		NoPrevWhitespaceOnLine(range.GetFirst()))
 		{
 		// If we start in the first word on the line, it
 		// might actually belong on the previous line.
@@ -3831,35 +3838,36 @@ JTextEditor::Recalc1
 		lineIndex--;
 		}
 
-	JIndex firstChar   = GetLineStart(lineIndex);
-	JSize minCharCount = origMinCharCount + (caretLoc.charIndex - firstChar);
-	*firstLineIndex    = lineIndex;
+	JStringIterator* iter = itsText->GetConstIterator(kJIteratorStartBefore, GetLineStart(lineIndex));
+	const TextIndex& end  = range.GetAfter();
+	*firstLineIndex       = lineIndex;
 
 	JIndex runIndex, firstInRun;
-	const JBoolean found = itsStyles->FindRun(firstChar, &runIndex, &firstInRun);
+	const JBoolean found = itsText->GetStyles().FindRun(iter->GetNextCharacterIndex(), &runIndex, &firstInRun);
 	assert( found );
 
-	JSize totalCharCount = 0;
-	*maxLineWidth        = itsWidth;
+	const TextCount textLength(itsText->GetText().GetCharacterCount(),
+							   itsText->GetText().GetByteCount());
+
+	*maxLineWidth = itsWidth;
 	while (1)
 		{
 		JCoordinate lineWidth;
-		const JSize charCount = RecalcLine(bufLength, firstChar, lineIndex, &lineWidth,
-										   &runIndex, &firstInRun);
-		totalCharCount += charCount;
+		RecalcLine(iter, lineIndex, &lineWidth, &runIndex, &firstInRun);
+
 		if (*maxLineWidth < lineWidth)
 			{
 			*maxLineWidth = lineWidth;
 			}
-		const JIndex endChar = firstChar + charCount-1;
-		assert( endChar <= bufLength );
 
 		// remove line starts that are further from the end than the new one
 		// (we use (bufLength - endChar) so subtraction won't produce negative numbers)
 
+		const JIndex endCharIndex = iter->GetPrevCharacterIndex();
+
 		while (lineIndex < GetLineCount() &&
-			   (itsPrevTextEnd+1) - GetLineStart(lineIndex+1) >
-					bufLength - endChar)
+			   (itsPrevTextEnd.charIndex+1) - GetLineStart(lineIndex+1).charIndex >
+					textLength.charCount - endCharIndex)
 			{
 			itsLineStarts->RemoveElement(lineIndex+1);
 			itsLineGeom->RemoveElement(lineIndex+1);
@@ -3867,28 +3875,28 @@ JTextEditor::Recalc1
 
 		// check if we are done
 
-		if (endChar >= bufLength)
+		if (iter->AtEnd())
 			{
 			// We reached the end of the text.
 
 			break;
 			}
-		else if (totalCharCount >= minCharCount &&
+		else if (iter->GetNextCharacterIndex() >= end.charIndex &&
 				 lineIndex < GetLineCount() &&
-				 itsPrevTextEnd - GetLineStart(lineIndex+1) ==
-					bufLength - (endChar+1))
+				 (itsPrevTextEnd.charIndex+1) - GetLineStart(lineIndex+1).charIndex ==
+					textLength.charCount - endCharIndex)
 			{
 			// The rest of the line starts merely shift.
 
-			const JSize lineCount = itsLineStarts->GetElementCount();
-			assert( lineCount > lineIndex );
-			const long delta = endChar+1 - GetLineStart(lineIndex+1);
-			if (delta != 0)
+			const JSize lineCount = GetLineCount();
+			const TextCount delta(textLength.charCount - itsPrevTextEnd.charIndex,
+								  textLength.byteCount - itsPrevTextEnd.byteIndex);
+			if (delta.charCount != 0)
 				{
-				const JIndex* lineStart = itsLineStarts->GetCArray();
-				for (JIndex i=lineIndex+1; i<=lineCount; i++)
+				TextIndex* lineStart = const_cast<TextIndex*>(itsLineStarts->GetCArray());
+				for (JIndex i=lineIndex; i<lineCount; i++)
 					{
-					itsLineStarts->SetElement(i, lineStart[i-1] + delta);
+					lineStart[i] += delta;
 					}
 				}
 			break;
@@ -3897,9 +3905,8 @@ JTextEditor::Recalc1
 		// insert the new line start
 
 		lineIndex++;
-		firstChar += charCount;
-
-		itsLineStarts->InsertElementAtIndex(lineIndex, firstChar);
+		itsLineStarts->InsertElementAtIndex(lineIndex,
+			TextIndex(iter->GetNextCharacterIndex(), iter->GetNextByteIndex()));
 		itsLineGeom->InsertElementAtIndex(lineIndex, LineGeometry());
 
 		// This catches the case when the new and old line starts
@@ -3907,8 +3914,8 @@ JTextEditor::Recalc1
 		// far enough yet, so the above breakout code didn't trigger.
 
 		if (lineIndex < GetLineCount() &&
-			   itsPrevTextEnd - GetLineStart(lineIndex+1) ==
-					bufLength - (endChar+1))
+			(itsPrevTextEnd.charIndex+1) - GetLineStart(lineIndex+1).charIndex ==
+				textLength.charCount - endCharIndex)
 			{
 			itsLineStarts->RemoveElement(lineIndex+1);
 			itsLineGeom->RemoveElement(lineIndex+1);
@@ -3916,50 +3923,49 @@ JTextEditor::Recalc1
 		}
 
 	*lastLineIndex = lineIndex;
+
+	itsText->DisposeConstIterator(iter);
 }
 
 /******************************************************************************
  RecalcLine (private)
 
-	Recalculate the line starting with firstChar.  Returns the number
-	of characters on the line.  Sets the appropriate values in itsLineGeom.
-	Sets *lineWidth to the width of the line in pixels.
-
-	If insertLine is kJTrue, then this line is new, so we insert a new
-	element into itsLineGeom.
+	Recalculate the line at which the iterator is positioned.  Returns the
+	number of characters on the line.  Sets the appropriate values in
+	itsLineGeom.  Sets *lineWidth to the width of the line in pixels.
 
 	Updates *runIndex,*firstInRun so that they are correct for the character
 	beyond the end of the line.
 
  ******************************************************************************/
 
-JSize
+static const JRegex wsPattern = "[\\p{Zs}\t\n]";
+
+void
 JTextEditor::RecalcLine
 	(
-	const JSize		bufLength,
-	const JIndex	firstCharIndex,
-	const JIndex	lineIndex,
-	JCoordinate*	lineWidth,
-	JIndex*			runIndex,
-	JIndex*			firstInRun
+	JStringIterator*	iter,
+	const JIndex		lineIndex,
+	JCoordinate*		lineWidth,
+	JIndex*				runIndex,
+	JIndex*				firstInRun
 	)
 {
-	JSize charCount = 0;
-	*lineWidth      = 0;
+	*lineWidth = 0;
 
 	JIndex gswRunIndex   = *runIndex;
 	JIndex gswFirstInRun = *firstInRun;
 
+	const TextIndex first(iter->GetNextCharacterIndex(), iter->GetNextByteIndex());
+
 	if (itsBreakCROnlyFlag)
 		{
-		JIndex endIndex = firstCharIndex;
-		if (!itsText->LocateNextSubstring("\n", &endIndex))
-			{
-			endIndex = itsText->GetLength();
-			}
-		charCount  = endIndex - firstCharIndex + 1;
-		*lineWidth = GetStringWidth(firstCharIndex, endIndex,
-									&gswRunIndex, &gswFirstInRun);
+		iter->Next("\n");
+
+		// newline is single byte
+		const TextIndex last(iter->GetPrevCharacterIndex(), iter->GetPrevByteIndex());
+
+		*lineWidth = GetStringWidth(first, last, &gswRunIndex, &gswFirstInRun);
 		}
 
 	else
@@ -3967,47 +3973,46 @@ JTextEditor::RecalcLine
 		// include leading whitespace
 
 		JBoolean endOfLine;
-		charCount = IncludeWhitespaceOnLine(bufLength, firstCharIndex,
-											lineWidth, &endOfLine,
-											&gswRunIndex, &gswFirstInRun);
-		JIndex charIndex = firstCharIndex + charCount;
+		IncludeWhitespaceOnLine(iter, lineWidth, &endOfLine,
+								&gswRunIndex, &gswFirstInRun);
 
 		// Add words until we hit the right margin, a newline,
 		// or the end of the text.
 
-		while (charIndex <= bufLength && !endOfLine)
+		while (!iter->AtEnd() && !endOfLine)
 			{
 			// get the next word
 
-			JIndex prevIndex = charIndex;
-			if (!LocateNextWhitespace(bufLength, &charIndex))
-				{
-				charIndex = bufLength+1;
-				}
+			iter->BeginMatch();
+			iter->Next(wsPattern);
+			const JStringMatch& m = iter->FinishMatch();
 
 			// check if the word fits on this line
 
-			JCoordinate dw =
-				GetStringWidth(prevIndex, charIndex-1, &gswRunIndex, &gswFirstInRun);
+			const TextRange r(m);
+			const JCoordinate dw = GetStringWidth(r.GetFirst(), r.GetLast(*itsText),
+												  &gswRunIndex, &gswFirstInRun);
 			if (itsMaxWordWidth < dw)
 				{
 				itsMaxWordWidth = dw;
 				}
+
 			if (*lineWidth + dw > itsWidth)
 				{
-				if (prevIndex != firstCharIndex)
+				if (r.charRange.first > first.charIndex)
 					{
 					// this word goes on the next line
 
-					charIndex = prevIndex;
+					iter->UnsafeMoveTo(kJIteratorStartBefore, r.charRange.first, r.byteRange.first);
 					}
 				else
 					{
 					// put as much of this word as possible on the line
 
-					assert( *lineWidth == 0 && charCount == 0 );
-					charCount = GetSubwordForLine(bufLength, lineIndex,
-												  firstCharIndex, lineWidth);
+					iter->UnsafeMoveTo(kJIteratorStartBefore, first.charIndex, first.byteIndex);
+
+					assert( *lineWidth == 0 );
+					GetSubwordForLine(iter, lineIndex, lineWidth);
 					}
 				break;
 				}
@@ -4015,29 +4020,27 @@ JTextEditor::RecalcLine
 			// put the word on this line
 
 			*lineWidth += dw;
-			charCount  += charIndex - prevIndex;
 
 			// include the whitespace after the word
 
-			JSize wsCount =
-				IncludeWhitespaceOnLine(bufLength, charIndex, lineWidth, &endOfLine,
-										&gswRunIndex, &gswFirstInRun);
-			charIndex += wsCount;
-			charCount += wsCount;
+			IncludeWhitespaceOnLine(iter, lineWidth, &endOfLine,
+									&gswRunIndex, &gswFirstInRun);
 			}
 		}
 
 	// update geometry for this line
 
-	const JSize runCount = itsStyles->GetRunCount();
-	const JSize lastChar = firstCharIndex + charCount-1;
+	const JRunArray<JFont>& styles = itsText->GetStyles();
+
+	const JSize runCount = styles.GetRunCount();
+	const JSize lastChar = iter->GetPrevCharacterIndex();
 
 	JCoordinate maxAscent=0, maxDescent=0;
 	while (*runIndex <= runCount)
 		{
-		const JFont& f = itsStyles->GetRunDataRef(*runIndex);
+		const JFont& f = styles.GetRunDataRef(*runIndex);
 		JCoordinate ascent, descent;
-		f.GetLineHeight(&ascent, &descent);
+		f.GetLineHeight(itsFontManager, &ascent, &descent);
 
 		if (ascent > maxAscent)
 			{
@@ -4048,7 +4051,7 @@ JTextEditor::RecalcLine
 			maxDescent = descent;
 			}
 
-		const JIndex firstInNextRun = *firstInRun + itsStyles->GetRunLength(*runIndex);
+		const JIndex firstInNextRun = *firstInRun + styles.GetRunLength(*runIndex);
 		if (firstInNextRun <= lastChar+1)
 			{
 			(*runIndex)++;
@@ -4069,10 +4072,6 @@ JTextEditor::RecalcLine
 		{
 		itsLineGeom->AppendElement(geom);
 		}
-
-	// return number of characters on line
-
-	return charCount;
 }
 
 /******************************************************************************
@@ -4080,9 +4079,9 @@ JTextEditor::RecalcLine
 
 	*** Only for use by RecalcLine()
 
-	Starting with the given index, return the number of consecutive whitespace
-	characters encountered.  Increments *lineWidth with the width of this
-	whitespace.  If we encounter a newline, we stop beyond it and set
+	Return the number of consecutive whitespace characters encountered.
+	Increments *lineWidth with the width of this whitespace.  If we
+	encounter a newline, we stop beyond it and set
 	*endOfLine to kJTrue.
 
 	Updates *runIndex,*firstInRun so that they are correct for the character
@@ -4090,47 +4089,45 @@ JTextEditor::RecalcLine
 
  ******************************************************************************/
 
-JSize
+void
 JTextEditor::IncludeWhitespaceOnLine
 	(
-	const JSize		bufLength,
-	const JIndex	origStartIndex,
-	JCoordinate*	lineWidth,
-	JBoolean*		endOfLine,
-	JIndex*			runIndex,
-	JIndex*			firstInRun
+	JStringIterator*	iter,
+	JCoordinate*		lineWidth,
+	JBoolean*			endOfLine,
+	JIndex*				runIndex,
+	JIndex*				firstInRun
 	)
 	const
 {
 	*endOfLine = kJFalse;
 
-	JIndex startIndex = origStartIndex;
-	JIndex endIndex   = startIndex;
-	JSize wsCount     = 0;
+	TextIndex first(iter->GetNextCharacterIndex(), iter->GetNextByteIndex());
 
-	while (endIndex <= bufLength)
+	JUtf8Character c;
+	while (iter->Next(&c))
 		{
-		const JCharacter c = itsText->GetCharacter(endIndex);
-		if (!isspace(c))
+		if (!c.IsSpace())
 			{
+			iter->SkipPrev();
 			break;
 			}
 
-		wsCount++;
 		if (c == '\t')
 			{
-			if (endIndex > startIndex)
+			if (iter->GetPrevCharacterIndex() > first.charIndex)
 				{
-				*lineWidth += GetStringWidth(startIndex, endIndex-1,
-											 runIndex, firstInRun);
+				*lineWidth += GetStringWidth(	// tab is single byte
+					first, TextIndex(iter->GetPrevCharacterIndex()-1, iter->GetPrevByteIndex()-1),
+					runIndex, firstInRun);
 				}
-			*lineWidth += GetTabWidth(endIndex, *lineWidth);
-			startIndex  = endIndex+1;
+			*lineWidth += GetTabWidth(iter->GetPrevCharacterIndex(), *lineWidth);
+			first       = TextIndex(iter->GetNextCharacterIndex(), iter->GetNextByteIndex());
 
 			// update *runIndex,*firstInRun after passing tab character
 
-			const JSize runLength = itsStyles->GetRunLength(*runIndex);
-			if (startIndex > *firstInRun + runLength-1)
+			const JSize runLength = itsText->GetStyles().GetRunLength(*runIndex);
+			if (first.charIndex > *firstInRun + runLength-1)
 				{
 				*firstInRun += runLength;
 				(*runIndex)++;
@@ -4144,56 +4141,18 @@ JTextEditor::IncludeWhitespaceOnLine
 				break;
 				}
 			}
-
-		endIndex++;
-		if (c == '\n')
+		else if (c == '\n')
 			{
 			*endOfLine = kJTrue;
 			break;
 			}
 		}
 
-	if (endIndex > startIndex)
+	const TextIndex last(iter->GetPrevCharacterIndex(), iter->GetPrevByteIndex());
+	if (last.charIndex > first.charIndex)
 		{
-		*lineWidth += GetStringWidth(startIndex, endIndex-1, runIndex, firstInRun);
+		*lineWidth += GetStringWidth(first, last, runIndex, firstInRun);
 		}
-
-	return wsCount;
-}
-
-/******************************************************************************
- LocateNextWhitespace (private)
-
-	*** Only for use by RecalcLine()
-
-	Find the next whitespace character, starting from the given index.
-	Returns kJFalse if it doesn't find any.
-
-	*** If we only break at newlines, only newlines are considered to be
-		whitespace.
-
- ******************************************************************************/
-
-JBoolean
-JTextEditor::LocateNextWhitespace
-	(
-	const JSize	bufLength,
-	JIndex*		startIndex
-	)
-	const
-{
-	for (JIndex i=*startIndex; i<=bufLength; i++)
-		{
-		const JCharacter c = itsText->GetCharacter(i);
-		if ((!itsBreakCROnlyFlag && isspace(c)) ||
-			( itsBreakCROnlyFlag && c == '\n'))
-			{
-			*startIndex = i;
-			return kJTrue;
-			}
-		}
-
-	return kJFalse;
 }
 
 /******************************************************************************
@@ -4201,52 +4160,48 @@ JTextEditor::LocateNextWhitespace
 
 	*** Only for use by RecalcLine()
 
-	Starting with the given index, return the number of characters that
-	will fit on a line.  Sets *lineWidth to the width of the line in pixels.
-	We always put at least one character on the line.
+	Skip past the number of characters that will fit on a line.  Sets
+	*lineWidth to the width of the line in pixels.  We always put at least
+	one character on the line.
 
  ******************************************************************************/
 
-JSize
+void
 JTextEditor::GetSubwordForLine
 	(
-	const JSize		bufLength,
-	const JIndex	lineIndex,
-	const JIndex	startIndex,
-	JCoordinate*	lineWidth
+	JStringIterator*	iter,
+	const JIndex		lineIndex,
+	JCoordinate*		lineWidth
 	)
 	const
 {
 	*lineWidth = 0;
 
-	JIndex endIndex = 0;
-	CaretLocation caretLoc(0, lineIndex);
-	for (JIndex i=startIndex; i<=bufLength; i++)
+	JUtf8Character c;
+	JBoolean first = kJTrue;
+	while (iter->Next(&c))
 		{
-		caretLoc.charIndex   = i;
-		const JCoordinate dw = GetCharWidth(caretLoc);
-		if (i > startIndex && *lineWidth + dw > itsWidth)
+		const CaretLocation caretLoc(
+			TextIndex(iter->GetNextCharacterIndex(), iter->GetNextByteIndex()),
+			lineIndex);
+
+		const JCoordinate dw = GetCharWidth(caretLoc, c);
+		if (!first && *lineWidth + dw > itsWidth)
 			{
-			endIndex = i-1;
 			break;
 			}
 		else
 			{
 			*lineWidth += dw;
 			}
+		first = kJFalse;
 		}
-	if (endIndex == 0)
-		{
-		endIndex = bufLength;
-		}
-
-	return (endIndex - startIndex + 1);
 }
 
 /******************************************************************************
  NoPrevWhitespaceOnLine (private)
 
-	Returns kJTrue if there is no whitespace between startIndex-1 and
+	Returns kJTrue if there is no whitespace between index-1 and
 	the first character on the line.
 
 	Called by Recalc1() to decide whether or not to start on the
@@ -4257,20 +4212,26 @@ JTextEditor::GetSubwordForLine
 JBoolean
 JTextEditor::NoPrevWhitespaceOnLine
 	(
-	const JCharacter*		str,
-	const CaretLocation&	startLoc
+	const TextIndex& index
 	)
 	const
 {
-	const JIndex firstChar = GetLineStart(startLoc.lineIndex);
-	for (JIndex i = startLoc.charIndex - 1; i>firstChar; i--)
+	const TextIndex start = GetLineStart(GetLineForChar(index.charIndex));
+
+	JStringIterator* iter = itsText->GetConstIterator(kJIteratorStartBefore, index);
+	JUtf8Character c;
+	while (!iter->AtBeginning() &&
+		   iter->GetPrevCharacterIndex() >= start.charIndex &&
+		   iter->Prev(&c))
 		{
-		if (isspace(str[i-1]))
+		if (c.IsSpace())
 			{
+			itsText->DisposeConstIterator(iter);
 			return kJFalse;
 			}
 		}
 
+	itsText->DisposeConstIterator(iter);
 	return kJTrue;	// we hit the start of the string
 }
 
@@ -4289,77 +4250,95 @@ JTextEditor::CalcCaretLocation
 	)
 	const
 {
-	const JSize bufLength = itsText->GetLength();
-	if (bufLength == 0)
+	if (itsText->IsEmpty())
 		{
 		return CaretLocation(TextIndex(1,1),1);
 		}
 	else if (pt.y >= itsHeight)
 		{
-		return CaretLocation(bufLength+1, GetLineCount());
+		return CaretLocation(
+			TextIndex(itsText->GetText().GetCharacterCount()+1,
+					  itsText->GetText().GetByteCount()+1),
+			GetLineCount());
 		}
 
 	// find the line that was clicked on
 
 	JCoordinate lineTop;
 	const JIndex lineIndex = CalcLineIndex(pt.y, &lineTop);
-	if (EndsWithNewline() &&
+	if (itsText->EndsWithNewline() &&
 		itsHeight - GetEWNHeight() < pt.y && pt.y <= itsHeight)
 		{
-		return CaretLocation(bufLength+1, GetLineCount());
+		return CaretLocation(
+			TextIndex(itsText->GetText().GetCharacterCount()+1,
+					  itsText->GetText().GetByteCount()+1),
+			GetLineCount());
 		}
 
 	// find the closest insertion point
 
-	JIndex charIndex = 0;
-	{
-	const JIndex lineStart = GetLineStart(lineIndex);
-
-	JIndex lineEnd = GetLineEnd(lineIndex);
-	if ((lineEnd < bufLength || EndsWithNewline()) &&
-		isspace(itsText->GetCharacter(lineEnd)))
+	const TextIndex lineStart = GetLineStart(lineIndex);
+	if (pt.x <= 0)
 		{
-		lineEnd--;
+		return CaretLocation(GetLineStart(lineIndex), lineIndex);
 		}
 
+	TextIndex lineEnd = GetLineEnd(lineIndex);
+	if (lineEnd.charIndex == lineStart.charIndex)
+		{
+		return CaretLocation(lineStart, lineIndex);
+		}
+
+	if ((lineEnd.charIndex < itsText->GetText().GetCharacterCount() ||
+		 itsText->EndsWithNewline()) &&
+		GetCharacter(lineEnd).IsSpace())
+		{
+		lineEnd = itsText->AdjustTextIndex(lineEnd, -1);
+		}
+
+	TextIndex index;
+	JCoordinate x     = 0;
 	JCoordinate prevD = pt.x;
-	if (prevD <= 0)
+
+	JRunArrayIterator<JFont> fiter(itsText->GetStyles(), kJIteratorStartBefore, lineStart.charIndex);
+	JFont f;
+
+	JStringIterator* iter = itsText->GetConstIterator(kJIteratorStartBefore, lineStart);
+	JUtf8Character c;
+	while (iter->GetNextCharacterIndex() <= lineEnd.charIndex &&
+		   iter->Next(&c) && fiter.Next(&f))
 		{
-		charIndex = lineStart;
-		}
-	else
-		{
-		JCoordinate x = 0;
-		for (JIndex i=lineStart; i<=lineEnd; i++)
+		if (c != '\t')
 			{
-			x += GetCharWidth(CaretLocation(i, lineIndex));
-			const JCoordinate d = pt.x - x;
-			if (d == 0)
-				{
-				charIndex = i+1;
-				break;
-				}
-			else if (d < 0 && prevD <= -d)
-				{
-				charIndex = i;
-				break;
-				}
-			else if (d < 0 && prevD > -d)
-				{
-				charIndex = i+1;
-				break;
-				}
-			prevD = d;
+			x += f.GetCharWidth(itsFontManager, c);
+			}
+		else
+			{
+			x += GetTabWidth(iter->GetPrevCharacterIndex(), x);
 			}
 
-		if (charIndex == 0)
+		const JCoordinate d = pt.x - x;
+		if (d < 0 && prevD <= -d)
 			{
-			charIndex = lineEnd+1;
+			iter->SkipPrev();
+			break;
 			}
-		}
-	}
+		else if (d == 0 || (d < 0 && prevD > -d))
+			{
+			break;
+			}
 
-	return CaretLocation(charIndex, lineIndex);
+		prevD = d;
+		}
+
+	const CaretLocation loc(
+		TextIndex(iter->GetNextCharacterIndex(),
+				  iter->GetNextByteIndex()),
+		lineIndex);
+
+	itsText->DisposeConstIterator(iter);
+
+	return loc;
 }
 
 /******************************************************************************
@@ -4381,13 +4360,13 @@ JTextEditor::CalcCaretLocation
 	JIndex byteIndex = index.byteIndex;
 	if (byteIndex == 0)
 		{
+		const TextIndex i = GetLineStart(lineIndex);
 		const TextRange r =
-			itsText->CharToTextRange(GetLineStart(lineIndex),
-									 JCharacterRange(index.charIndex, index.charIndex));
+			itsText->CharToTextRange(&i, JCharacterRange(index.charIndex, index.charIndex));
 		byteIndex = r.byteRange.first;
 		}
 
-	return CaretLocation(index.charIndex, byteIndex, lineIndex);
+	return CaretLocation(TextIndex(index.charIndex, byteIndex), lineIndex);
 }
 
 /******************************************************************************
@@ -4443,10 +4422,10 @@ JCoordinate
 JTextEditor::GetEWNHeight()
 	const
 {
-	const JFont f = CalcInsertionFont(
-						TextIndex(itsText.GetCharacterCount() + 1,
-								  itsText.GetByteCount() + 1));
-	return f.GetLineHeight();
+	const JFont f = itsText->CalcInsertionFont(
+						TextIndex(itsText->GetText().GetCharacterCount() + 1,
+								  itsText->GetText().GetByteCount() + 1));
+	return f.GetLineHeight(itsFontManager);
 }
 
 /******************************************************************************
@@ -4488,5 +4467,5 @@ JTextEditor::IsTrailingNewline
 	const
 {
 	return JI2B(index.charIndex == itsText->GetText().GetCharacterCount()+1 &&
-				itsText->EndsWithNewline())
+				itsText->EndsWithNewline());
 }

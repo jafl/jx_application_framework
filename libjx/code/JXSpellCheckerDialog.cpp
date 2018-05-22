@@ -15,7 +15,7 @@
 #include <JXStaticText.h>
 #include <JXSpellList.h>
 #include <JXScrollbarSet.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <jXGlobals.h>
 #include <JUserNotification.h>
 #include <jAssert.h>

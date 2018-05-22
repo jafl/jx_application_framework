@@ -12,7 +12,7 @@
 #include "CBTextDocument.h"
 #include "CBTextEditor.h"
 #include "cbGlobals.h"
-#include <JColormap.h>
+#include <JXColorManager.h>
 #include <JRegex.h>
 #include <jAssert.h>
 
@@ -298,7 +298,7 @@ CBPHPClass::IsInherited
 void
 CBPHPClass::AdjustNameStyle
 	(
-	const JColormap*	colormap,
+	const JXColorManager*	colormap,
 	JFontStyle*			style
 	)
 	const

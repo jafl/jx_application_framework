@@ -12,7 +12,7 @@
  ******************************************************************************/
 
 #include "CBDiffStyleMenu.h"
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <jAssert.h>
 
 /******************************************************************************
@@ -89,7 +89,7 @@ CBDiffStyleMenu::ReadStyle
 
 	JRGB color;
 	input >> color;
-	itsStyle.color = GetColormap()->JColormap::GetColor(color);
+	itsStyle.color = GetColormap()->JXColorManager::GetColor(color);
 }
 
 /******************************************************************************
@@ -105,5 +105,5 @@ CBDiffStyleMenu::WriteStyle
 {
 	output << ' ' << itsStyle.bold << itsStyle.italic << itsStyle.strike;
 	output << ' ' << itsStyle.underlineCount;
-	output << ' ' << GetColormap()->JColormap::GetRGB(itsStyle.color);
+	output << ' ' << GetColormap()->JXColorManager::GetRGB(itsStyle.color);
 }

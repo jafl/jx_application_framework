@@ -17,7 +17,7 @@
 
 #include "ClipboardWidget.h"
 
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <JXDisplay.h>
 #include <JXMenuBar.h>
 #include <JXSelectionManager.h>
@@ -64,8 +64,7 @@ ClipboardWidget::ClipboardWidget
 	itsText(text)
 {
 	// Set the background color.
-	JXColormap* cmap = GetColormap();
-	SetBackColor(cmap->GetWhiteColor());
+	SetBackColor(JColorManager::GetWhiteColor());
 
 	// Create the menu and attach it to the menu bar.
 	itsEditMenu = menuBar->AppendTextMenu(kEditMenuTitleStr);
@@ -147,14 +146,11 @@ ClipboardWidget::Draw
 	const JRect&     rect
 	)
 {
-	// We need the colormap in order to specify colors.
-	JXColormap* cmap = GetColormap();
-
 	// This is where everything happens
 	// See JPainter.h for available functions
 
 	// This sets the color of the pen.
-	p.SetPenColor(cmap->GetCyanColor());
+	p.SetPenColor(JColorManager::GetCyanColor());
 
 	// This draws our rectangle.
 	p.Rect(10, 10, 150, 50);

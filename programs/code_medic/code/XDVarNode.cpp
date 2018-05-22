@@ -12,7 +12,7 @@
 #include "cmGlobals.h"
 #include <JTree.h>
 #include <JRegex.h>
-#include <JColormap.h>
+#include <JXColorManager.h>
 #include <jAssert.h>
 
 /******************************************************************************

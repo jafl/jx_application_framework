@@ -11,7 +11,7 @@
 
 #include "MDSizeHistogram.h"
 #include <JXWindowPainter.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <JFontManager.h>
 #include <jFileUtil.h>
 #include <jGlobals.h>

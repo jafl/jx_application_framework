@@ -13,7 +13,7 @@
 #include "GPMProcessList.h"
 #include "gpmGlobals.h"
 #include <JXWindowPainter.h>
-#include <JColormap.h>
+#include <JXColorManager.h>
 #include <JRegex.h>
 #include <jStreamUtil.h>
 #include <unistd.h>
@@ -109,14 +109,14 @@ GPMSystemStats::Draw
 
 	// render memory usage
 
-	const JColormap* cmap = p.GetColormap();
+	const JXColorManager* cmap = p.GetColormap();
 
-	const JColorIndex otherMem = cmap->GetDarkRedColor();
-	const JColorIndex userMem  = cmap->GetRedColor();
-	const JColorIndex freeMem  = cmap->GetGreenColor();
-	const JColorIndex cpuBack  = cmap->GetBlackColor();
-	const JColorIndex userCPU  = cmap->GetGreenColor();
-	const JColorIndex otherCPU = cmap->GetRedColor();
+	const JColorID otherMem = cmap->GetDarkRedColor();
+	const JColorID userMem  = cmap->GetRedColor();
+	const JColorID freeMem  = cmap->GetGreenColor();
+	const JColorID cpuBack  = cmap->GetBlackColor();
+	const JColorID userCPU  = cmap->GetGreenColor();
+	const JColorID otherCPU = cmap->GetRedColor();
 
 	const JRect bounds = GetBounds();
 

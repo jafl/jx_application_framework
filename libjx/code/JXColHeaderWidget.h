@@ -45,7 +45,7 @@ protected:
 
 protected:
 
-	virtual void	TableDrawCell(JPainter& p, const JPoint& cell, const JRect& rect);
+	virtual void	TableDrawCell(JPainter& p, const JPoint& cell, const JRect& rect) override;
 
 	virtual void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
 									const JSize clickCount,
@@ -63,8 +63,8 @@ protected:
 
 	virtual JXInputField*	CreateXInputField(const JPoint& cell,
 											  const JCoordinate x, const JCoordinate y,
-											  const JCoordinate w, const JCoordinate h);
-	virtual void			PrepareDeleteXInputField();
+											  const JCoordinate w, const JCoordinate h) override;
+	virtual void			PrepareDeleteXInputField() override;
 
 	virtual void	ApertureResized(const JCoordinate dw, const JCoordinate dh) override;
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;

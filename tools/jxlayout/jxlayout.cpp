@@ -125,23 +125,23 @@ struct ColorConversion
 
 static const ColorConversion kColorTable[] =
 {
-	{"FL_BLACK",        "GetColormap()->GetBlackColor()"},
-	{"FL_RED",          "GetColormap()->GetRedColor()"},
-	{"FL_GREEN",        "GetColormap()->GetGreenColor()"},
-	{"FL_YELLOW",       "GetColormap()->GetYellowColor()"},
-	{"FL_BLUE",         "GetColormap()->GetBlueColor()"},
-	{"FL_MAGENTA",      "GetColormap()->GetMagentaColor()"},
-	{"FL_CYAN",         "GetColormap()->GetCyanColor()"},
-	{"FL_WHITE",        "GetColormap()->GetWhiteColor()"},
-	{"FL_LCOL",         "GetColormap()->GetBlackColor()"},
-	{"FL_COL1",         "GetColormap()->GetDefaultBackColor()"},
-	{"FL_MCOL",         "GetColormap()->GetDefaultFocusColor()"},
-	{"FL_RIGHT_BCOL",   "GetColormap()->Get3DShadeColor()"},
-	{"FL_BOTTOM_BCOL",  "GetColormap()->Get3DShadeColor()"},
-	{"FL_TOP_BCOL",     "GetColormap()->Get3DLightColor()"},
-	{"FL_LEFT_BCOL",    "GetColormap()->Get3DLightColor()"},
-	{"FL_INACTIVE",     "GetColormap()->GetInactiveLabelColor()"},
-	{"FL_INACTIVE_COL", "GetColormap()->GetInactiveLabelColor()"}
+	{"FL_BLACK",        "JColorManager::GetBlackColor()"},
+	{"FL_RED",          "JColorManager::GetRedColor()"},
+	{"FL_GREEN",        "JColorManager::GetGreenColor()"},
+	{"FL_YELLOW",       "JColorManager::GetYellowColor()"},
+	{"FL_BLUE",         "JColorManager::GetBlueColor()"},
+	{"FL_MAGENTA",      "JColorManager::GetMagentaColor()"},
+	{"FL_CYAN",         "JColorManager::GetCyanColor()"},
+	{"FL_WHITE",        "JColorManager::GetWhiteColor()"},
+	{"FL_LCOL",         "JColorManager::GetBlackColor()"},
+	{"FL_COL1",         "JColorManager::GetDefaultBackColor()"},
+	{"FL_MCOL",         "JColorManager::GetDefaultFocusColor()"},
+	{"FL_RIGHT_BCOL",   "JColorManager::Get3DShadeColor()"},
+	{"FL_BOTTOM_BCOL",  "JColorManager::Get3DShadeColor()"},
+	{"FL_TOP_BCOL",     "JColorManager::Get3DLightColor()"},
+	{"FL_LEFT_BCOL",    "JColorManager::Get3DLightColor()"},
+	{"FL_INACTIVE",     "JColorManager::GetInactiveLabelColor()"},
+	{"FL_INACTIVE_COL", "JColorManager::GetInactiveLabelColor()"}
 };
 
 const JSize kColorTableSize = sizeof(kColorTable)/sizeof(ColorConversion);

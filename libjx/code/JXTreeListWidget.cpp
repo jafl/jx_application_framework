@@ -31,7 +31,7 @@
 #include <JTreeList.h>
 #include <JTreeNode.h>
 #include <JPainter.h>
-#include <JColormap.h>
+#include <JXColorManager.h>
 #include <JTableSelection.h>
 #include <JMinMax.h>
 #include <jASCIIConstants.h>
@@ -402,23 +402,21 @@ JXTreeListWidget::TableDrawCell
 			kClosedTriangle.AppendElement(JPoint(0, 5));
 			}
 
-		const JColormap* colormap = p.GetColormap();
-
 		if ((itsToggleDragIndex == cell.y && itsMouseInToggleFlag) ||
 			itsDNDTargetIndex == JIndex(cell.y))
 			{
 			p.SetFilling(kJTrue);
-			p.SetPenColor(colormap->GetBlackColor());
+			p.SetPenColor(JColorManager::GetBlackColor());
 			p.Polygon(*triangle);
 			}
 		else
 			{
 			p.SetFilling(kJTrue);
-			p.SetPenColor(colormap->GetGrayColor(90));
+			p.SetPenColor(JColorManager::GetGrayColor(90));
 			p.Polygon(*triangle);
 
 			p.SetFilling(kJFalse);
-			p.SetPenColor(colormap->GetBlackColor());
+			p.SetPenColor(JColorManager::GetBlackColor());
 			p.Polygon(*triangle);
 			}
 

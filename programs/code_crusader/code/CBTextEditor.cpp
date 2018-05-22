@@ -55,7 +55,7 @@
 #include <JXStringCompletionMenu.h>
 #include <JXWindowPainter.h>
 #include <JXFontManager.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 
 #include <JRegex.h>
 #include <JStack.h>
@@ -932,7 +932,7 @@ CBTextEditor::Draw
 			TEGetLeftMarginWidth() +
 			(itsRightMarginWidth * GetDefaultFont().GetCharWidth(' '));
 
-		const JColorIndex saveColor = p.GetPenColor();
+		const JColorID saveColor = p.GetPenColor();
 		p.SetPenColor(itsRightMarginColor);
 		p.Line(x, rect.top, x, rect.bottom);
 		p.SetPenColor(saveColor);

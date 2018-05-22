@@ -39,8 +39,8 @@ private:
 
 	JSize		itsValue;
 	JSize		itsMaxValue;
-	JColorIndex	itsForeColor;
-	JColorIndex	itsBackColor;
+	JColorID	itsForeColor;
+	JColorID	itsBackColor;
 
 private:
 

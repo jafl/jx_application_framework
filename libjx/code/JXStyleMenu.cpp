@@ -30,7 +30,7 @@
 #include <JXStyleMenuDirector.h>
 #include <JXChooseColorDialog.h>
 #include <JXWindow.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <jXActionDefs.h>
 #include <jGlobals.h>
 #include <jAssert.h>
@@ -125,8 +125,7 @@ JXStyleMenu::JXStyleMenuX()
 		SetMenuItems(kWinMenuStr);
 		}
 
-	JXColormap* colormap = GetColormap();
-	const JColorIndex blackColor = colormap->GetBlackColor();
+	const JColorID blackColor = JColorManager::GetBlackColor();
 
 	SetItemFontStyle(
 		kBoldStyleCmd,         JFontStyle(kJTrue, kJFalse, 0, kJFalse, blackColor));
@@ -141,16 +140,16 @@ JXStyleMenu::JXStyleMenuX()
 
 	assert( kColorCount == 11 );
 	itsColorList[ 0] = blackColor;
-	itsColorList[ 1] = colormap->GetGrayColor(60);
-	itsColorList[ 2] = colormap->GetBrownColor();
-	itsColorList[ 3] = colormap->GetOrangeColor();
-	itsColorList[ 4] = colormap->GetRedColor();
-	itsColorList[ 5] = colormap->GetDarkRedColor();
-	itsColorList[ 6] = colormap->GetDarkGreenColor();
-	itsColorList[ 7] = colormap->GetBlueColor();
-	itsColorList[ 8] = colormap->GetLightBlueColor();
-	itsColorList[ 9] = colormap->GetPinkColor();
-	itsColorList[10] = colormap->GetDefaultBackColor();
+	itsColorList[ 1] = JColorManager::GetGrayColor(60);
+	itsColorList[ 2] = JColorManager::GetBrownColor();
+	itsColorList[ 3] = JColorManager::GetOrangeColor();
+	itsColorList[ 4] = JColorManager::GetRedColor();
+	itsColorList[ 5] = JColorManager::GetDarkRedColor();
+	itsColorList[ 6] = JColorManager::GetDarkGreenColor();
+	itsColorList[ 7] = JColorManager::GetBlueColor();
+	itsColorList[ 8] = JColorManager::GetLightBlueColor();
+	itsColorList[ 9] = JColorManager::GetPinkColor();
+	itsColorList[10] = JColorManager::GetDefaultBackColor();
 
 	ListenTo(this);
 }
@@ -174,7 +173,7 @@ JXStyleMenu::~JXStyleMenu()
 inline void
 JXStyleMenu::SetCustomColor
 	(
-	const JColorIndex color
+	const JColorID color
 	)
 {
 	itsColorList[ kColorCount-1 ] = color;
@@ -306,7 +305,7 @@ JXStyleMenu::UpdateMenu()
 		plain = kJFalse;
 		}
 
-	if (plain && style.color == GetColormap()->GetBlackColor())
+	if (plain && style.color == JColorManager::GetBlackColor())
 		{
 		CheckItem(kPlainStyleCmd);
 		}
@@ -399,7 +398,7 @@ JXStyleMenu::ChooseColor()
 
  ******************************************************************************/
 
-JColorIndex
+JColorID
 JXStyleMenu::IndexToColor
 	(
 	const JIndex menuIndex
@@ -421,7 +420,7 @@ JXStyleMenu::IndexToColor
 JIndex
 JXStyleMenu::ColorToIndex
 	(
-	const JColorIndex color
+	const JColorID color
 	)
 	const
 {

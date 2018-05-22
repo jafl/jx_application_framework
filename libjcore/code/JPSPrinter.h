@@ -30,7 +30,7 @@ public:
 
 public:
 
-	JPSPrinter(const JFontManager* fontManager, const JColorManager* colorManager);
+	JPSPrinter(const JFontManager* fontManager);
 
 	virtual ~JPSPrinter();
 

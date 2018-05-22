@@ -1,7 +1,7 @@
 /******************************************************************************
  CBSearchColormap.cpp
 
-	BASE CLASS = JColormap
+	BASE CLASS = JXColorManager
 
 	Copyright (C) 1998 by John Lindal.
 
@@ -17,7 +17,7 @@
 
 CBSearchColormap::CBSearchColormap()
 	:
-	JColormap()
+	JXColorManager()
 {
 }
 
@@ -35,63 +35,63 @@ CBSearchColormap::~CBSearchColormap()
 
  ******************************************************************************/
 
-JColorIndex
+JColorID
 CBSearchColormap::GetBlackColor()
 	const
 {
 	return 0;
 }
 
-JColorIndex
+JColorID
 CBSearchColormap::GetRedColor()
 	const
 {
 	return 0;
 }
 
-JColorIndex
+JColorID
 CBSearchColormap::GetGreenColor()
 	const
 {
 	return 0;
 }
 
-JColorIndex
+JColorID
 CBSearchColormap::GetYellowColor()
 	const
 {
 	return 0;
 }
 
-JColorIndex
+JColorID
 CBSearchColormap::GetBlueColor()
 	const
 {
 	return 0;
 }
 
-JColorIndex
+JColorID
 CBSearchColormap::GetMagentaColor()
 	const
 {
 	return 0;
 }
 
-JColorIndex
+JColorID
 CBSearchColormap::GetCyanColor()
 	const
 {
 	return 0;
 }
 
-JColorIndex
+JColorID
 CBSearchColormap::GetWhiteColor()
 	const
 {
 	return 0;
 }
 
-JColorIndex
+JColorID
 CBSearchColormap::GetGrayColor
 	(
 	const JSize percentage
@@ -101,105 +101,105 @@ CBSearchColormap::GetGrayColor
 	return 0;
 }
 
-JColorIndex
+JColorID
 CBSearchColormap::GetDarkRedColor()
 	const
 {
 	return 0;
 }
 
-JColorIndex
+JColorID
 CBSearchColormap::GetOrangeColor()
 	const
 {
 	return 0;
 }
 
-JColorIndex
+JColorID
 CBSearchColormap::GetDarkGreenColor()
 	const
 {
 	return 0;
 }
 
-JColorIndex
+JColorID
 CBSearchColormap::GetLightBlueColor()
 	const
 {
 	return 0;
 }
 
-JColorIndex
+JColorID
 CBSearchColormap::GetBrownColor()
 	const
 {
 	return 0;
 }
 
-JColorIndex
+JColorID
 CBSearchColormap::GetPinkColor()
 	const
 {
 	return 0;
 }
 
-JColorIndex
+JColorID
 CBSearchColormap::GetDefaultSelectionColor()
 	const
 {
 	return 0;
 }
 
-JColorIndex
+JColorID
 CBSearchColormap::GetDefaultBackColor()
 	const
 {
 	return 0;
 }
 
-JColorIndex
+JColorID
 CBSearchColormap::GetDefaultFocusColor()
 	const
 {
 	return 0;
 }
 
-JColorIndex
+JColorID
 CBSearchColormap::GetDefaultSliderBackColor()
 	const
 {
 	return 0;
 }
 
-JColorIndex
+JColorID
 CBSearchColormap::GetInactiveLabelColor()
 	const
 {
 	return 0;
 }
 
-JColorIndex
+JColorID
 CBSearchColormap::GetDefaultSelButtonColor()
 	const
 {
 	return 0;
 }
 
-JColorIndex
+JColorID
 CBSearchColormap::GetDefaultDNDBorderColor()
 	const
 {
 	return 0;
 }
 
-JColorIndex
+JColorID
 CBSearchColormap::Get3DLightColor()
 	const
 {
 	return 0;
 }
 
-JColorIndex
+JColorID
 CBSearchColormap::Get3DShadeColor()
 	const
 {
@@ -215,7 +215,7 @@ JBoolean
 CBSearchColormap::GetColor
 	(
 	const JCharacter*	name,
-	JColorIndex*		colorIndex
+	JColorID*		colorIndex
 	)
 	const
 {
@@ -228,7 +228,7 @@ CBSearchColormap::GetColor
 
  ******************************************************************************/
 
-JColorIndex
+JColorID
 CBSearchColormap::GetColor
 	(
 	const JSize	red,
@@ -248,7 +248,7 @@ CBSearchColormap::GetColor
 void
 CBSearchColormap::GetRGB
 	(
-	const JColorIndex	colorIndex,
+	const JColorID	colorIndex,
 	JSize*				red,
 	JSize*				green,
 	JSize*				blue

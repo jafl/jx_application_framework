@@ -16,7 +16,7 @@
 #include <JXSlider.h>
 #include <JXImage.h>
 #include <JXWindowPainter.h>
-#include <JXColormap.h>
+#include <JColorManager.h>
 #include <jAssert.h>
 
 const JCoordinate kSliderWidth  = 20;
@@ -113,8 +113,7 @@ JXColorWheel::Draw
 	const JRect&		rect
 	)
 {
-	JXColormap* colormap    = GetColormap();
-	const JColorIndex black = colormap->GetBlackColor();
+	const JColorID black = JColorManager::GetBlackColor();
 
 	const JRect bounds       = GetBoundsGlobal();
 	const JCoordinate max    = JMin(bounds.height(), bounds.width() - kSliderWidth - kSliderMargin);
@@ -149,7 +148,7 @@ JXColorWheel::Draw
 					const JFloat a = 0.5 + atan2(dy, dx) / (2.0 * kJPi);
 
 					JHSB color(JRound(a * kJMaxHSBValue), JRound(r * kJMaxHSBValue), itsLastDrawBrightness);
-					itsImage->SetColor(x,y, colormap->JColormap::GetColor(color));
+					itsImage->SetColor(x,y, JColorManager::GetColorID(color));
 					}
 				}
 			}
@@ -167,7 +166,7 @@ JXColorWheel::Draw
 
 	JRect mark(y-kWheelMargin, x-kWheelMargin, y+kWheelMargin+1, x+kWheelMargin+1);
 
-	p.SetPenColor(colormap->GetWhiteColor());
+	p.SetPenColor(JColorManager::GetWhiteColor());
 	p.SetFilling(kJTrue);
 	p.JPainter::Rect(mark);
 	p.SetFilling(kJFalse);

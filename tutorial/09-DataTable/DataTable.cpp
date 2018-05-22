@@ -12,7 +12,7 @@
 
 #include "DataTable.h"
 #include <JXWindowPainter.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <JList.h>
 #include <JString.h>
 #include <jXPainterUtil.h>

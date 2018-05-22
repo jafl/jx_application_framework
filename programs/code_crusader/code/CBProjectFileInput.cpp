@@ -11,7 +11,7 @@
 
 #include "CBProjectFileInput.h"
 #include "CBProjectDocument.h"
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <jAssert.h>
 
 /******************************************************************************
@@ -70,7 +70,7 @@ CBProjectFileInput::AdjustStylesBeforeRecalc
 			okLength = 0;
 			}
 
-		const JColormap* colormap = GetColormap();
+		const JXColorManager* colormap = GetColormap();
 		const JSize totalLength   = buffer.GetLength();
 		JFont f                   = styles->GetFirstElement();
 

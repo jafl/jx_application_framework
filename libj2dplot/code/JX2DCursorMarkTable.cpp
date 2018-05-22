@@ -11,7 +11,7 @@
 
 #include <JXWindowDirector.h>
 #include <JXWindow.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 
 #include <J2DPlotWidget.h>
 
@@ -56,7 +56,7 @@ JX2DCursorMarkTable::JX2DCursorMarkTable
 	SetRowBorderInfo(1, GetColormap()->GetGrayColor(80));
 
 	const JFontManager* fm = GetFontManager();
-	const JSize lineHeight = fm->GetDefaultFont().GetLineHeight();
+	const JSize lineHeight = JFontManager::GetDefaultFont().GetLineHeight();
 	SetDefaultRowHeight(lineHeight + 2);
 	AppendRows(1);
 
@@ -204,7 +204,7 @@ JX2DCursorMarkTable::Print
 		}
 
 	JCoordinate lineWidth;
-	JColorIndex color;
+	JColorID color;
 	GetColBorderInfo(&lineWidth, &color);
 	SetColBorderInfo(0, color);
 	SetRowBorderInfo(0, color);

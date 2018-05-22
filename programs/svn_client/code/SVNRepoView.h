@@ -113,7 +113,7 @@ private:
 	SVNRepoTree*		itsRepoTree;
 	SVNRepoTreeList*	itsRepoTreeList;	// not owned
 	JXTimerTask*		itsRefreshTask;		// refresh every minute to update age
-	JColorIndex			itsAltRowColor;
+	JColorID			itsAltRowColor;
 	JXTextMenu*			itsEditMenu;		// not owned
 	JXTextMenu*			itsContextMenu;		// NULL until first used
 

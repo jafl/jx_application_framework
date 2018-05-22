@@ -21,7 +21,7 @@
 #include <JXWindowPainter.h>
 #include <jXPainterUtil.h>
 #include <jXGlobals.h>
-#include <JXColormap.h>
+#include <JColorManager.h>
 #include <jAssert.h>
 
 // Action menu -- remember to update JXDockTabGroup
@@ -72,7 +72,7 @@ JXDocktab::JXDocktab
 {
 	SetHint(JGetString("Hint::JXDocktab"));
 
-	itsFocusColor = GetColormap()->GetColor(0, 0, kJMaxRGBValue/2);
+	itsFocusColor = JColorManager::GetColorID(JRGB(0, 0, kJMaxRGBValue/2));
 }
 
 /******************************************************************************
@@ -97,8 +97,6 @@ JXDocktab::Draw
 	const JRect&		rect
 	)
 {
-	const JColormap* cmap = p.GetColormap();
-
 	// drag region
 
 	JXWindow* w = GetWindow();
@@ -112,14 +110,14 @@ JXDocktab::Draw
 		p.SetPenColor(itsFocusColor);
 		p.SetFilling(kJTrue);
 		p.JPainter::Rect(rect);
-		p.SetPenColor(GetColormap()->GetBlackColor());
+		p.SetPenColor(JColorManager::GetBlackColor());
 		p.SetFilling(kJFalse);
 
-		p.SetPenColor(cmap->GetWhiteColor());
+		p.SetPenColor(JColorManager::GetWhiteColor());
 		}
 	else
 		{
-		p.SetPenColor(cmap->GetGrayColor(60));
+		p.SetPenColor(JColorManager::GetGrayColor(60));
 		}
 
 	const JRect ap       = GetAperture();

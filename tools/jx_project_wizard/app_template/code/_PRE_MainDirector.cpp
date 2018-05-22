@@ -19,7 +19,7 @@
 #include <JXToolBar.h>
 #include <JXScrollbarSet.h>
 #include <JXStaticText.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <JXImage.h>
 #include <jAssert.h>
 

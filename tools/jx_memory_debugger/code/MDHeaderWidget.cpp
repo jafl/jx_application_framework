@@ -12,7 +12,7 @@
 #include <jXPainterUtil.h>
 #include <jXConstants.h>
 #include <JFontManager.h>
-#include <JColormap.h>
+#include <JXColorManager.h>
 #include <jGlobals.h>
 #include <jAssert.h>
 

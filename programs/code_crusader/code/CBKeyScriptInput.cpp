@@ -11,7 +11,7 @@
 
 #include "CBKeyScriptInput.h"
 #include "CBMacroManager.h"
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <jAssert.h>
 
 /******************************************************************************

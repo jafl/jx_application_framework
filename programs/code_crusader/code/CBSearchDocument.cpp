@@ -16,7 +16,7 @@
 #include <JXProgressIndicator.h>
 #include <JXMenuBar.h>
 #include <JXTextMenu.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <JThisProcess.h>
 #include <JOutPipeStream.h>
 #include <jFileUtil.h>

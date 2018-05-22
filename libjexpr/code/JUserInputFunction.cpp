@@ -26,7 +26,7 @@
 #include <JConstantValue.h>
 
 #include <JPainter.h>
-#include <JColormap.h>
+#include <JXColorManager.h>
 #include <JString.h>
 #include <string.h>
 #include <jGlobals.h>
@@ -48,7 +48,7 @@ JUserInputFunction::JUserInputFunction
 	(
 	const JVariableList*	varList,
 	const JFontManager*		fontManager,
-	JColormap*				colormap,
+	JXColorManager*				colormap,
 	const JCharacter*		text
 	)
 	:
@@ -472,7 +472,7 @@ JUserInputFunction::HandleKeyPress
 		}
 	else if (key == '(' || key == '[')
 		{
-		SetCaretLocation(GetTextLength()+1);
+		GoToEndOfLine();
 		}
 
 	TEHandleKeyPress(key, kJFalse, kMoveByCharacter, kJFalse);
@@ -580,7 +580,7 @@ JUserInputFunction::Parse
 		else if (match == JVariableList::kMultipleMatch)
 			{
 			SetParseableText(this, maxPrefix);
-			SetCaretLocation(GetTextLength()+1);
+			GoToEndOfLine();
 			*needRender = kJTrue;
 			return kJFalse;
 			}
@@ -641,7 +641,7 @@ JUserInputFunction::Parse
 		else if (match == JVariableList::kMultipleMatch)
 			{
 			SetParseableText(this, maxPrefix);
-			SetCaretLocation(GetTextLength()+1);
+			GoToEndOfLine();
 			*needRender = kJTrue;
 			return kJFalse;
 			}

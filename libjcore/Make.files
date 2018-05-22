@@ -96,6 +96,7 @@
 .cpp ./code/JTreeList
 .cpp ./code/JNamedTreeList
 .cpp ./code/JNamedTreeNode
+.cpp ./code/JTextEditor
 .cpp ./code/JTEKeyHandler
 .cpp ./code/JTEDefaultKeyHandler
 .cpp ./code/JStyledText

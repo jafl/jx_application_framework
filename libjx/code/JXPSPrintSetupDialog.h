@@ -51,7 +51,7 @@ protected:
 					   JXStaticText* firstPageIndexLabel, JXIntegerInput* firstPageIndex,
 					   JXStaticText* lastPageIndexLabel, JXIntegerInput* lastPageIndex);
 
-	virtual JBoolean	OKToDeactivate();
+	virtual JBoolean	OKToDeactivate() override;
 	virtual void		Receive(JBroadcaster* sender, const Message& message) override;
 
 private:

@@ -20,7 +20,7 @@
 #include <JXTextMenu.h>
 #include <JXDisplay.h>
 #include <JXGC.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <JXWindowPainter.h>
 #include <JXIconDirector.h>
 #include <JXWindowIcon.h>
@@ -154,9 +154,9 @@ JXWindow::JXWindow
 
 	// get display/colormap for this window
 
-	itsDisplay   = (JXGetApplication())->GetCurrentDisplay();
-	itsColormap  = itsDisplay->GetColormap();
-	itsBackColor = itsColormap->GetDefaultBackColor();
+	itsDisplay      = (JXGetApplication())->GetCurrentDisplay();
+	itsColorManager = itsDisplay->GetColorManager();
+	itsBackColor    = JColorManager::GetDefaultBackColor();
 
 	// create window
 
@@ -166,8 +166,8 @@ JXWindow::JXWindow
 
 	XSetWindowAttributes attr;
 	attr.background_pixel  = itsBackColor;
-	attr.border_pixel      = itsColormap->GetBlackColor();
-	attr.colormap          = *itsColormap;
+	attr.border_pixel      = itsColorManager->GetXColor(JColorManager::GetBlackColor());
+	attr.colormap          = *itsColorManager;
 	attr.cursor            = itsDisplay->GetXCursorID(itsCursorIndex);
 	attr.save_under        = itsIsOverlayFlag;
 	attr.override_redirect = itsIsOverlayFlag;
@@ -175,7 +175,7 @@ JXWindow::JXWindow
 
 	itsXWindow =
 		XCreateWindow(*itsDisplay, itsDisplay->GetRootWindow(), 0,0, w,h,
-					  0, CopyFromParent, InputOutput, itsColormap->GetVisual(),
+					  0, CopyFromParent, InputOutput, itsColorManager->GetVisual(),
 					  valueMask, &attr);
 
 	// set window properties
@@ -394,21 +394,6 @@ void
 JXWindow::HideFromTaskbar()
 {
 	SetWMClass("Miscellaneous", JXGetInvisibleWindowClass());
-}
-
-/******************************************************************************
- ColormapChanged
-
- ******************************************************************************/
-
-void
-JXWindow::ColormapChanged
-	(
-	JXColormap* colormap
-	)
-{
-	XSetWindowColormap(*itsDisplay, itsXWindow, *colormap);
-	Refresh();	// need to redraw to update pixel values
 }
 
 /******************************************************************************
@@ -2138,7 +2123,7 @@ JXWindow::ClearStepSize()
 void
 JXWindow::SetBackColor
 	(
-	const JColorIndex color
+	const JColorID color
 	)
 {
 	itsBackColor = color;

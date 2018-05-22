@@ -50,7 +50,7 @@
 #include <JXFTCCell.h>
 #include <jXUtil.h>
 #include <jXGlobals.h>
-#include <JOrderedSetUtil.h>
+#include <JListUtil.h>
 #include <sstream>
 #include <jAssert.h>
 
@@ -1666,18 +1666,6 @@ JXContainer::GetDisplay()
 }
 
 /******************************************************************************
- GetColormap
-
- ******************************************************************************/
-
-JXColormap*
-JXContainer::GetColormap()
-	const
-{
-	return itsWindow->GetColormap();
-}
-
-/******************************************************************************
  GetFontManager
 
  ******************************************************************************/
@@ -2339,7 +2327,7 @@ JXContainer::FTCGroupAlignedObjects
 		if ((exact && targetInterval != interval) ||
 			(!exact &&
 			 (!JIntersection(targetInterval, interval, &intersection) ||
-			  intersection.GetLength() == 1 ||
+			  intersection.GetCount() == 1 ||
 			  FTCWillOverlapNonincludedWidget(target, obj, *fullObjList, matchedList))))
 			{
 			continue;
@@ -2546,7 +2534,7 @@ JXContainer::FTCTrimBlockedMatches
 
 		const JBoolean overlaps = JI2B(
 			JIntersection(targetInterval, interval, &intersection) &&
-			intersection.GetLength() > 1);
+			intersection.GetCount() > 1);
 
 		if (overlaps &&
 			((horizontal && rect.right  <= targetRect.left) ||
@@ -2680,13 +2668,13 @@ JXContainer::ComputePaddingForInternalFTC()
 		return JRect();
 		}
 
-	JXContainer* obj = itsEnclosedObjs->FirstElement();
+	JXContainer* obj = itsEnclosedObjs->GetFirstElement();
 	JRect covering   = obj->GetFrameForFTC();
 
 	const JSize count = itsEnclosedObjs->GetElementCount();
 	for (JIndex i=2; i<=count; i++)
 		{
-		covering = JCovering(covering, itsEnclosedObjs->NthElement(i)->GetFrameForFTC());
+		covering = JCovering(covering, itsEnclosedObjs->GetElement(i)->GetFrameForFTC());
 		}
 
 	const JRect r = GetApertureGlobal();

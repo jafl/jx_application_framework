@@ -11,7 +11,7 @@
 #include "CMSourceDirector.h"
 #include "CMBreakpointManager.h"
 #include "CMLink.h"
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <JListUtil.h>
 #include <jAssert.h>
 
@@ -136,7 +136,7 @@ CMLineAddressTable::FindAddressLineNumber
 
  ******************************************************************************/
 
-JColorIndex
+JColorID
 CMLineAddressTable::GetCurrentLineMarkerColor()
 	const
 {

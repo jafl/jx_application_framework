@@ -21,7 +21,7 @@
 #include <JXRadioGroup.h>
 #include <JXStaticText.h>
 #include <JXScrollbarSet.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <JXInputField.h>
 
 #include <jStreamUtil.h>

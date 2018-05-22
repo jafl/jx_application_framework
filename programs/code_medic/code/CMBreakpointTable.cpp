@@ -19,7 +19,7 @@
 #include <JXColHeaderWidget.h>
 #include <JXIntegerInput.h>
 #include <JXWindowPainter.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <JTableSelection.h>
 #include <JFontManager.h>
 #include <jStreamUtil.h>
@@ -362,8 +362,8 @@ CMBreakpointTable::TableDrawCell
 			poly.AppendElement(JPoint(r.topRight()));
 			poly.AppendElement(JPoint(r.xcenter(), r.bottom));
 
-			JXColormap* cmap        = GetColormap();
-			const JColorIndex color = bp->IsEnabled() ? cmap->GetRedColor() : cmap->GetGreenColor();
+			JXColorManager* cmap        = GetColormap();
+			const JColorID color = bp->IsEnabled() ? cmap->GetRedColor() : cmap->GetGreenColor();
 
 			p.SetPenColor(color);
 			p.SetFilling(kJTrue);

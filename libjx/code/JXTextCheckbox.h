@@ -35,10 +35,10 @@ public:
 	void	SetFontStyle(const JFontStyle& style);
 	void	SetFont(const JFont& f);
 
-	void	SetNormalColor(const JColorIndex color);
-	void	SetPushedColor(const JColorIndex color);
+	void	SetNormalColor(const JColorID color);
+	void	SetPushedColor(const JColorID color);
 
-	virtual void	SetShortcuts(const JString& list);
+	virtual void	SetShortcuts(const JString& list) override;
 
 	JCoordinate		GetPreferredWidth() const;
 
@@ -48,7 +48,7 @@ protected:
 
 	virtual void		Draw(JXWindowPainter& p, const JRect& rect) override;
 	virtual void		DrawBorder(JXWindowPainter& p, const JRect& frame) override;
-	virtual JCoordinate$1GetFTCMinContentSize(const JBoolean horizontal) const override;
+	virtual JCoordinate	GetFTCMinContentSize(const JBoolean horizontal) const override;
 
 private:
 
@@ -57,8 +57,8 @@ private:
 	JIndex		itsULIndex;
 	JFont		itsFont;
 
-	JColorIndex	itsNormalColor;
-	JColorIndex	itsPushedColor;
+	JColorID	itsNormalColor;
+	JColorID	itsPushedColor;
 
 private:
 
@@ -136,7 +136,7 @@ JXTextCheckbox::SetFont
 inline void
 JXTextCheckbox::SetNormalColor
 	(
-	const JColorIndex color
+	const JColorID color
 	)
 {
 	itsNormalColor = color;
@@ -149,7 +149,7 @@ JXTextCheckbox::SetNormalColor
 inline void
 JXTextCheckbox::SetPushedColor
 	(
-	const JColorIndex color
+	const JColorID color
 	)
 {
 	itsPushedColor = color;

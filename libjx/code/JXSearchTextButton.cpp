@@ -13,7 +13,7 @@
 #include <JXSearchTextButton.h>
 #include <JXWindowPainter.h>
 #include <jXPainterUtil.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <jAssert.h>
 
 const JCoordinate kArrowHalfWidth  = 2;
@@ -70,9 +70,9 @@ JXSearchTextButton::Draw
 	r.left   = bounds.xcenter() - kArrowHalfWidth;
 	r.right  = r.left + 2*kArrowHalfWidth;
 
-	const JColorIndex colorIndex =
-		IsActive() ? (p.GetColormap())->GetGrayColor(40) :
-					 (p.GetColormap())->GetInactiveLabelColor();
+	const JColorID colorIndex =
+		IsActive() ? JColorManager::GetGrayColor(40) :
+					 JColorManager::GetInactiveLabelColor();
 	if (itsFwdFlag)
 		{
 		r.right++;

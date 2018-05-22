@@ -87,7 +87,7 @@
 
 #include <JEPSPrinter.h>
 #include <JFontManager.h>
-#include <JColormap.h>
+#include <JXColorManager.h>
 #include <JString.h>
 #include <JMinMax.h>
 #include <jASCIIConstants.h>
@@ -113,7 +113,7 @@ JExprEditor::JExprEditor
 	(
 	const JVariableList*	varList,
 	const JFontManager*		fontManager,
-	JColormap*				colormap
+	JXColorManager*				colormap
 	)
 	:
 	JExprRenderer(),

@@ -15,7 +15,7 @@
 #include <JXDNDManager.h>
 #include <JXStringCompletionMenu.h>
 #include <JXFontManager.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <jXGlobals.h>
 #include <jXUtil.h>
 #include <JStringIterator.h>
@@ -49,7 +49,7 @@ JXPathInput::JXPathInput
 	itsExpectURLDropFlag    = kJFalse;
 	SetIsRequired();
 	SetCharacterInWordFunction(IsCharacterInWord);
-	SetDefaultFont(GetFontManager()->GetDefaultMonospaceFont());
+	SetDefaultFont(JFontManager::GetDefaultMonospaceFont());
 	ShouldBroadcastCaretLocationChanged(kJTrue);
 	SetHint(JGetString("Hint::JXPathInput"));
 	ListenTo(this);
@@ -89,7 +89,7 @@ void
 JXPathInput::HandleUnfocusEvent()
 {
 	JXInputField::HandleUnfocusEvent();
-	SetCaretLocation(GetTextLength() + 1);
+	GoToEndOfLine();
 }
 
 /******************************************************************************
@@ -107,7 +107,7 @@ JXPathInput::ApertureResized
 	JXInputField::ApertureResized(dw,dh);
 	if (!HasFocus())
 		{
-		SetCaretLocation(GetTextLength() + 1);
+		GoToEndOfLine();
 		}
 }
 
@@ -152,7 +152,7 @@ JXPathInput::Receive
 {
 	if (sender == this && message.Is(JTextEditor::kTextSet))
 		{
-		SetCaretLocation(GetTextLength() + 1);
+		GoToEndOfLine();
 		}
 	else if (sender == this && message.Is(JTextEditor::kCaretLocationChanged))
 		{
@@ -324,8 +324,7 @@ JXPathInput::AdjustStylesBeforeRecalc
 	const JBoolean		deletion
 	)
 {
-	const JColormap* colormap = GetColormap();
-	const JSize totalLength   = buffer.GetCharacterCount();
+	const JSize totalLength = buffer.GetCharacterCount();
 
 	JString fullPath = buffer;
 	if ((JIsRelativePath(buffer) && !HasBasePath()) ||
@@ -378,17 +377,17 @@ JXPathInput::AdjustStylesBeforeRecalc
 	styles->RemoveAll();
 	if (errLength >= totalLength)
 		{
-		f.SetColor(colormap->GetRedColor());
+		f.SetColor(JColorManager::GetRedColor());
 		styles->AppendElements(f, totalLength);
 		}
 	else
 		{
-		f.SetColor(colormap->GetBlackColor());
+		f.SetColor(JColorManager::GetBlackColor());
 		styles->AppendElements(f, totalLength - errLength);
 
 		if (errLength > 0)
 			{
-			f.SetColor(colormap->GetRedColor());
+			f.SetColor(JColorManager::GetRedColor());
 			styles->AppendElements(f, errLength);
 			}
 		}
@@ -407,13 +406,13 @@ JXPathInput::AdjustStylesBeforeRecalc
 
  ******************************************************************************/
 
-JColorIndex
+JColorID
 JXPathInput::GetTextColor
 	(
 	const JString&		path,
 	const JString&		base,
 	const JBoolean		requireWrite,
-	const JColormap*	colormap
+	const JXColorManager*	colormap
 	)
 {
 	if (path.IsEmpty())

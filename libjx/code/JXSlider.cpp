@@ -11,7 +11,7 @@
 
 #include <JXSlider.h>
 #include <JXWindowPainter.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <jXPainterUtil.h>
 #include <jAssert.h>
 
@@ -83,7 +83,7 @@ JXSlider::Draw
 		}
 
 	JXDrawDownFrame(p, rTrack, kJXDefaultBorderWidth, kJTrue,
-					(p.GetColormap())->GetDefaultSliderBackColor());
+					JColorManager::GetDefaultSliderBackColor());
 	JXDrawUpFrame(p, rThumb, kJXDefaultBorderWidth, kJTrue,
-				  (p.GetColormap())->GetDefaultBackColor());
+				  JColorManager::GetDefaultBackColor());
 }

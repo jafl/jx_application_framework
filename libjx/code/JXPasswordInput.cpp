@@ -16,7 +16,7 @@
 #include <JXDisplay.h>
 #include <JXImageCache.h>
 #include <JXImage.h>
-#include <JColormap.h>
+#include <JXColorManager.h>
 #include <jASCIIConstants.h>
 #include <jAssert.h>
 
@@ -123,7 +123,7 @@ JXPasswordInput::Draw
 
 	// fake text
 
-	p.SetPenColor((p.GetColormap())->GetBlackColor());
+	p.SetPenColor(JColorManager::GetBlackColor());
 	p.SetFilling(kJTrue);
 
 	const JRect b = GetBounds();
@@ -236,7 +236,7 @@ JXPasswordInput::HandleKeyPress
 			}
 		else
 			{
-			SetCaretLocation(GetTextLength()+1);
+			GoToEndOfLine();
 			}
 		}
 	else

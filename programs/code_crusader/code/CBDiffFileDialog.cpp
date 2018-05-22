@@ -23,7 +23,7 @@
 #include <JXTabGroup.h>
 #include <JXDocumentMenu.h>
 #include <JXHelpManager.h>
-#include <JXColormap.h>
+#include <JXColorManager.h>
 #include <JXChooseSaveFile.h>
 #include <JProcess.h>
 #include <JRegex.h>
@@ -547,7 +547,7 @@ CBDiffFileDialog::BuildWindow()
 	itsPlainFile2Input->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
 	ListenTo(itsPlainFile2Input);
 
-	JXColormap* cmap = GetColormap();
+	JXColorManager* cmap = GetColormap();
 	itsPlainOnly1StyleMenu->SetStyle(
 		JFontStyle(kJFalse, kJFalse, 0, kJTrue, cmap->GetRedColor()));
 	itsPlainOnly2StyleMenu->SetStyle(

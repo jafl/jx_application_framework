@@ -394,7 +394,7 @@ JXFSRunFileDialog::HandleChooseCmdButton
 		JSplitPathAndName(fullName, &path, &name);
 		name.AppendCharacter(' ');
 		cmdInput->SetText(name);
-		cmdInput->SetCaretLocation(name.GetLength() + 1);
+		cmdInput->GoToEndOfLine();
 		}
 }
 
