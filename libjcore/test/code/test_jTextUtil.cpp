@@ -9,6 +9,7 @@
 
 #include <JTestManager.h>
 #include <jTextUtil.h>
+#include <jGlobals.h>
 #include <jAssert.h>
 
 int main()
@@ -223,4 +224,46 @@ JTEST(AnalyzeWhitespaceWidth)
 	JAssertTrue(useSpaces);
 	JAssertFalse(isMixed);
 	JAssertEqual(4, tabWidth);
+}
+
+JTEST(Markdown)
+{
+	JStyledText st(kJFalse, kJTrue);
+
+	JReadLimitedMarkdown(JString("hello", 0, kJFalse), &st);
+	JAssertStringsEqual("hello", st.GetText());
+
+	JReadLimitedMarkdown(JString("hello *bold* _italic_ `tt` bye!", 0, kJFalse), &st);
+	JAssertStringsEqual("hello bold italic tt bye!", st.GetText());
+	JAssertTrue(st.GetStyles().GetElement(8).GetStyle().bold);
+	JAssertFalse(st.GetStyles().GetElement(8).GetStyle().italic);
+	JAssertFalse(st.GetStyles().GetElement(15).GetStyle().bold);
+	JAssertTrue(st.GetStyles().GetElement(15).GetStyle().italic);
+	JAssertFalse(st.GetStyles().GetElement(19).GetStyle().bold);
+	JAssertFalse(st.GetStyles().GetElement(19).GetStyle().italic);
+	JAssertStringsEqual(JGetDefaultMonospaceFontName(), st.GetStyles().GetElement(19).GetName());
+	JAssertFalse(st.GetStyles().GetElement(22).GetStyle().bold);
+	JAssertFalse(st.GetStyles().GetElement(22).GetStyle().italic);
+	JAssertStringsEqual(JGetDefaultFontName(), st.GetStyles().GetElement(22).GetName());
+/*
+	JReadLimitedMarkdown(JString("_w*b*w_ _*b`t`b*_", 0, kJFalse), &st);
+	JAssertStringsEqual("wbw btb", st.GetText());
+	JAssertFalse(st.GetStyles().GetElement(1).GetStyle().bold);
+	JAssertTrue(st.GetStyles().GetElement(1).GetStyle().italic);
+	JAssertTrue(st.GetStyles().GetElement(2).GetStyle().bold);
+	JAssertTrue(st.GetStyles().GetElement(2).GetStyle().italic);
+	JAssertFalse(st.GetStyles().GetElement(3).GetStyle().bold);
+	JAssertTrue(st.GetStyles().GetElement(3).GetStyle().italic);
+	JAssertFalse(st.GetStyles().GetElement(4).GetStyle().bold);
+	JAssertFalse(st.GetStyles().GetElement(4).GetStyle().italic);
+	JAssertTrue(st.GetStyles().GetElement(5).GetStyle().bold);
+	JAssertTrue(st.GetStyles().GetElement(5).GetStyle().italic);
+	JAssertStringsEqual(JGetDefaultFontName(), st.GetStyles().GetElement(5).GetName());
+	JAssertTrue(st.GetStyles().GetElement(6).GetStyle().bold);
+	JAssertTrue(st.GetStyles().GetElement(6).GetStyle().italic);
+	JAssertStringsEqual(JGetDefaultMonospaceFontName(), st.GetStyles().GetElement(6).GetName());
+	JAssertTrue(st.GetStyles().GetElement(7).GetStyle().bold);
+	JAssertTrue(st.GetStyles().GetElement(7).GetStyle().italic);
+	JAssertStringsEqual(JGetDefaultFontName(), st.GetStyles().GetElement(7).GetName());
+*/
 }

@@ -17,6 +17,7 @@ JSize	JAnalyzeWhitespace(const JString& buffer, const JSize tabWidth,
 						   JBoolean* useSpaces, JBoolean* isMixed);
 
 void	JReadUNIXManOutput(std::istream& input, JStyledText* tb);
+void	JReadLimitedMarkdown(const JString& text, JStyledText* st);
 
 JStyledText::TextRange	JPasteUNIXTerminalOutput(const JString& text,
 												 const JStyledText::TextIndex& pasteIndex,

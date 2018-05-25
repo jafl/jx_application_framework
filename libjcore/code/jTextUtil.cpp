@@ -12,8 +12,8 @@
 #include "JStringIterator.h"
 #include "JRegex.h"
 #include "jStreamUtil.h"
-#include "JRunArray.h"
 #include "JColorManager.h"
+#include "jGlobals.h"
 #include "jAssert.h"
 
 /******************************************************************************
@@ -410,4 +410,71 @@ JPasteUNIXTerminalOutput
 		}
 
 	return st->Paste(JStyledText::TextRange(pasteIndex, JStyledText::TextCount()), buffer, &styles);
+}
+
+/******************************************************************************
+ JReadLimitedMarkdown
+
+	Replaces the contents of the given JStyledText.
+
+	Parses limited markdown:  bold, italic, fixed width.
+	Does not handle nested styling.
+
+ ******************************************************************************/
+
+static const JRegex theBoldPattern       = "\\*([^*]+)\\*";
+static const JRegex theItalicPattern     = "_([^_]+)_";
+static const JRegex theFixedWidthPattern = "`([^`]+)`";
+
+void
+jReplaceMarkdownPattern
+	(
+	JStringIterator*	iter,
+	const JRegex&		pattern,
+	const JFont&		f,
+	JRunArray<JFont>*	styles
+	)
+{
+	iter->MoveTo(kJIteratorStartAtBeginning, 0);
+	while (iter->Next(pattern))
+		{
+		const JStringMatch& m = iter->GetLastMatch();
+		const JString s       = m.GetSubstring(1);
+
+		const JCharacterRange r(m.GetCharacterRange());
+		styles->RemoveElements(r);
+		styles->InsertElementsAtIndex(r.first, f, s.GetCharacterCount());
+
+		iter->ReplaceLastMatch(s);
+		}
+}
+
+void
+JReadLimitedMarkdown
+	(
+	const JString&	text,
+	JStyledText*	st
+	)
+{
+	JString buffer = text;
+	JRunArray<JFont> styles;
+
+	JStringIterator iter(&buffer);
+
+	JFont f = st->GetDefaultFont();
+	styles.AppendElements(f, buffer.GetCharacterCount());
+
+	f.SetBold(kJTrue);
+	jReplaceMarkdownPattern(&iter, theBoldPattern, f, &styles);
+	f.SetBold(kJFalse);
+
+	f.SetItalic(kJTrue);
+	jReplaceMarkdownPattern(&iter, theItalicPattern, f, &styles);
+	f.SetItalic(kJFalse);
+
+	f.SetName(JGetDefaultMonospaceFontName());
+	jReplaceMarkdownPattern(&iter, theFixedWidthPattern, f, &styles);
+	// no need to reset font
+
+	st->SetText(buffer, &styles);
 }
