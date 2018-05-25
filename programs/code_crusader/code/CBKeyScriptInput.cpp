@@ -51,7 +51,7 @@ CBKeyScriptInput::~CBKeyScriptInput()
  ******************************************************************************/
 
 void
-CBKeyScriptInput::AdjustStylesBeforeRecalc
+CBKeyScriptInput::xAdjustStylesBeforeRecalc
 	(
 	const JString&		buffer,
 	JRunArray<JFont>*	styles,

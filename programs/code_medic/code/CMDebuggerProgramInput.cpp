@@ -98,7 +98,7 @@ CMDebuggerProgramInput::InputValid()
  ******************************************************************************/
 
 void
-CMDebuggerProgramInput::AdjustStylesBeforeRecalc
+CMDebuggerProgramInput::xAdjustStylesBeforeRecalc
 	(
 	const JString&		buffer,
 	JRunArray<JFont>*	styles,

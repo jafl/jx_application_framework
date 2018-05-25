@@ -51,7 +51,7 @@ CBSVNFileInput::~CBSVNFileInput()
  ******************************************************************************/
 
 void
-CBSVNFileInput::AdjustStylesBeforeRecalc
+CBSVNFileInput::xAdjustStylesBeforeRecalc
 	(
 	const JString&		buffer,
 	JRunArray<JFont>*	styles,

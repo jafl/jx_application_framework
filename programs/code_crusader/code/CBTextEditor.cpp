@@ -1745,7 +1745,7 @@ CBTextEditor::SetTabCharCount
  ******************************************************************************/
 
 void
-CBTextEditor::AdjustStylesBeforeRecalc
+CBTextEditor::xAdjustStylesBeforeRecalc
 	(
 	const JString&		buffer,
 	JRunArray<JFont>*	styles,

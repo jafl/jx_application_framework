@@ -51,7 +51,7 @@ CBProjectFileInput::~CBProjectFileInput()
  ******************************************************************************/
 
 void
-CBProjectFileInput::AdjustStylesBeforeRecalc
+CBProjectFileInput::xAdjustStylesBeforeRecalc
 	(
 	const JString&		buffer,
 	JRunArray<JFont>*	styles,

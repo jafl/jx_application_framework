@@ -326,7 +326,7 @@ CBFileNameDisplay::HandleKeyPress
  ******************************************************************************/
 
 void
-CBFileNameDisplay::AdjustStylesBeforeRecalc
+CBFileNameDisplay::xAdjustStylesBeforeRecalc
 	(
 	const JString&		buffer,
 	JRunArray<JFont>*	styles,

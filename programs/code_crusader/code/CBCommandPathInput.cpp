@@ -98,7 +98,7 @@ CBCommandPathInput::InputValid()
  ******************************************************************************/
 
 void
-CBCommandPathInput::AdjustStylesBeforeRecalc
+CBCommandPathInput::xAdjustStylesBeforeRecalc
 	(
 	const JString&		buffer,
 	JRunArray<JFont>*	styles,

@@ -153,7 +153,7 @@ CMSourceText::SetFileType
  ******************************************************************************/
 
 void
-CMSourceText::AdjustStylesBeforeRecalc
+CMSourceText::xAdjustStylesBeforeRecalc
 	(
 	const JString&		buffer,
 	JRunArray<JFont>*	styles,
