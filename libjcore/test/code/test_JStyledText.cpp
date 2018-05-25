@@ -436,7 +436,7 @@ JTEST(ReplaceMatch)
 	JInterpolate interp;
 
 	const TextCount count =
-		text.ReplaceMatch(m1, JString("FL$1UR", 0, kJFalse), kJTrue, interp, kJTrue);
+		text.ReplaceMatch(m1, JString("FL$1UR", 0, kJFalse), &interp, kJTrue);
 
 	JAssertEqual(5, count.charCount);
 	JAssertEqual(6, count.byteCount);
@@ -456,7 +456,7 @@ JTEST(ReplaceAllInRange)
 	text.ReplaceAllInRange(TextRange(
 		JCharacterRange(1, text.GetText().GetCharacterCount()),
 		JUtf8ByteRange(1, text.GetText().GetByteCount())),
-		JRegex("e"), kJFalse, JString("\xC3\xA9", 0, kJFalse), kJFalse, interp, kJFalse);
+		JRegex("e"), kJFalse, JString("\xC3\xA9", 0, kJFalse), NULL, kJFalse);
 
 	JAssertStringsEqual("Foursc" "\xC3\xB8" "r" "\xC3\xA9" " and s" "\xC3\xA9" "v" "\xC3\xA9" "n y" "\xC3\xA9" "ars ago...", text.GetText());
 
@@ -476,7 +476,7 @@ JTEST(ReplaceAllInRange)
 	text.ReplaceAllInRange(TextRange(
 		JCharacterRange(11, 21),
 		JUtf8ByteRange(12, 22)),
-		JRegex("e"), kJFalse, JString("\xC3\xA9", 0, kJFalse), kJFalse, interp, kJFalse);
+		JRegex("e"), kJFalse, JString("\xC3\xA9", 0, kJFalse), NULL, kJFalse);
 
 	JAssertStringsEqual("Foursc" "\xC3\xB8" "re and s" "\xC3\xA9" "v" "\xC3\xA9" "n years ago...", text.GetText());
 }
@@ -655,6 +655,11 @@ JTEST(InsertCharacter)
 	text.InsertCharacter(TextRange(JCharacterRange(4,0), JUtf8ByteRange(5,0)), 'y', JFontManager::GetDefaultFont());
 	text.InsertCharacter(TextRange(JCharacterRange(5,0), JUtf8ByteRange(6,0)), 'z', JFontManager::GetDefaultFont());
 	JAssertStringsEqual("b" "\xC3\xAE" "xyzg" "b" "\xC3\xB8" "ld" "normal" "double underline", text.GetText());
+	JAssertEqual(20, text.GetStyles().GetElement(2).GetSize());
+	JAssertEqual(JGetDefaultFontSize(), text.GetStyles().GetElement(3).GetSize());
+	JAssertEqual(JGetDefaultFontSize(), text.GetStyles().GetElement(4).GetSize());
+	JAssertEqual(JGetDefaultFontSize(), text.GetStyles().GetElement(5).GetSize());
+	JAssertEqual(20, text.GetStyles().GetElement(6).GetSize());
 
 	text.InsertCharacter(TextRange(JCharacterRange(8,0), JUtf8ByteRange(9,0)), '1', JFontManager::GetDefaultFont());
 	JAssertStringsEqual("b" "\xC3\xAE" "xyzg" "b1" "\xC3\xB8" "ld" "normal" "double underline", text.GetText());

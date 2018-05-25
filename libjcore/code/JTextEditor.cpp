@@ -492,7 +492,7 @@ JTextEditor::ReplaceSelection
 	(
 	const JStringMatch&	match,
 	const JString&		replaceStr,
-	const JBoolean		replaceIsRegex,
+	JInterpolate*		interpolator,
 	const JBoolean		preserveCase
 	)
 {
@@ -513,7 +513,7 @@ JTextEditor::ReplaceSelection
 	itsNeedCaretBcastFlag = kJFalse;
 
 	const TextCount count =
-		itsText->ReplaceMatch(match, replaceStr, replaceIsRegex, itsInterpolator, preserveCase);
+		itsText->ReplaceMatch(match, replaceStr, interpolator, preserveCase);
 
 	itsNeedCaretBcastFlag = kJTrue;
 	if (count.charCount > 0)
@@ -540,7 +540,7 @@ JTextEditor::ReplaceAll
 	const JRegex&	regex,
 	const JBoolean	entireWord,
 	const JString&	replaceStr,
-	const JBoolean	replaceIsRegex,
+	JInterpolate*	interpolator,
 	const JBoolean	preserveCase,
 	const JBoolean	restrictToSelection
 	)
@@ -560,8 +560,7 @@ JTextEditor::ReplaceAll
 	itsNeedCaretBcastFlag = kJFalse;
 
 	r = itsText->ReplaceAllInRange(r, regex, entireWord,
-								   replaceStr, replaceIsRegex,
-								   itsInterpolator, preserveCase);
+								   replaceStr, interpolator, preserveCase);
 
 	itsNeedCaretBcastFlag = kJTrue;
 	if (restrictToSelection && !r.IsEmpty())
@@ -594,8 +593,8 @@ JBoolean
 JTextEditor::SearchForward
 	(
 	const JStyledText::FontMatch&	match,
-	const JBoolean						wrapSearch,
-	JBoolean*							wrapped
+	const JBoolean					wrapSearch,
+	JBoolean*						wrapped
 	)
 {
 	const TextIndex i(
@@ -627,8 +626,8 @@ JBoolean
 JTextEditor::SearchBackward
 	(
 	const JStyledText::FontMatch&	match,
-	const JBoolean						wrapSearch,
-	JBoolean*							wrapped
+	const JBoolean					wrapSearch,
+	JBoolean*						wrapped
 	)
 {
 	const TextIndex i(
@@ -889,12 +888,27 @@ JTextEditor::Paste
 		range.byteRange.SetFirstAndCount(itsCaretLoc.location.byteIndex, 0);
 		}
 
+	JRunArray<JFont>* style1 = NULL;
+	if (style == NULL)
+		{
+		style1 = jnew JRunArray<JFont>;
+		assert( style1 != NULL );
+
+		style1->AppendElements(
+			hadSelection ?
+				itsText->GetStyles().GetElement(range.charRange.first) :
+			itsInsertionFont,
+			text.GetCharacterCount());
+		}
+
 	itsNeedCaretBcastFlag = kJFalse;
 
-	range = itsText->Paste(range, text, style);
+	range = itsText->Paste(range, text, style != NULL ? style : style1);
 
 	itsNeedCaretBcastFlag = kJTrue;
 	SetCaretLocation(range.GetAfter());
+
+	jdelete style1;
 }
 
 /******************************************************************************
@@ -1105,7 +1119,7 @@ JTextEditor::AnalyzeWhitespace
 
  ******************************************************************************/
 
-inline void
+void
 JTextEditor::CleanSelectedWhitespace
 	(
 	const JBoolean align
@@ -4081,8 +4095,7 @@ JTextEditor::RecalcLine
 
 	Return the number of consecutive whitespace characters encountered.
 	Increments *lineWidth with the width of this whitespace.  If we
-	encounter a newline, we stop beyond it and set
-	*endOfLine to kJTrue.
+	encounter a newline, we stop beyond it and set *endOfLine to kJTrue.
 
 	Updates *runIndex,*firstInRun so that they are correct for the character
 	beyond the end of the whitespace.
@@ -4100,6 +4113,12 @@ JTextEditor::IncludeWhitespaceOnLine
 	)
 	const
 {
+	if (iter->AtEnd())
+		{
+		*endOfLine = kJFalse;
+		return;
+		}
+
 	*endOfLine = kJFalse;
 
 	TextIndex first(iter->GetNextCharacterIndex(), iter->GetNextByteIndex());
@@ -4148,9 +4167,10 @@ JTextEditor::IncludeWhitespaceOnLine
 			}
 		}
 
-	const TextIndex last(iter->GetPrevCharacterIndex(), iter->GetPrevByteIndex());
-	if (last.charIndex > first.charIndex)
+	JIndex endCharIndex;
+	if (iter->GetPrevCharacterIndex(&endCharIndex) > first.charIndex)
 		{
+		const TextIndex last(endCharIndex, iter->GetPrevByteIndex());
 		*lineWidth += GetStringWidth(first, last, runIndex, firstInRun);
 		}
 }
@@ -4179,7 +4199,7 @@ JTextEditor::GetSubwordForLine
 
 	JUtf8Character c;
 	JBoolean first = kJTrue;
-	while (iter->Next(&c))
+	while (iter->Next(&c, kJFalse))
 		{
 		const CaretLocation caretLoc(
 			TextIndex(iter->GetNextCharacterIndex(), iter->GetNextByteIndex()),
@@ -4195,6 +4215,7 @@ JTextEditor::GetSubwordForLine
 			*lineWidth += dw;
 			}
 		first = kJFalse;
+		iter->SkipNext();
 		}
 }
 
@@ -4358,7 +4379,11 @@ JTextEditor::CalcCaretLocation
 	const JIndex lineIndex = GetLineForChar(index.charIndex);
 
 	JIndex byteIndex = index.byteIndex;
-	if (byteIndex == 0)
+	if (byteIndex == 0 && index.charIndex == itsText->GetText().GetCharacterCount() + 1)
+		{
+		byteIndex = itsText->GetText().GetByteCount() + 1;
+		}
+	else if (byteIndex == 0)
 		{
 		const TextIndex i = GetLineStart(lineIndex);
 		const TextRange r =

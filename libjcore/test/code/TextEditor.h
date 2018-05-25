@@ -33,7 +33,7 @@ protected:
 	virtual JBoolean	TEScrollForDrag(const JPoint& pt) override;
 	virtual JBoolean	TEScrollForDND(const JPoint& pt) override;
 	virtual void		TESetVertScrollStep(const JCoordinate vStep) override;
-	virtual void		TEUpdateClipboard(const JString& text, const JRunArray<JFont>& style) override;
+	virtual void		TEUpdateClipboard(const JString& text, const JRunArray<JFont>& style) const override;
 	virtual JBoolean	TEGetClipboard(JString* text, JRunArray<JFont>* style) const override;
 	virtual JBoolean	TEBeginDND() override;
 	virtual void		TEPasteDropData() override;
@@ -43,8 +43,8 @@ private:
 
 	JCoordinate	itsWidth, itsHeight;
 
-	JString*			itsClipText;
-	JRunArray<JFont>*	itsClipStyle;
+	mutable JString*			itsClipText;
+	mutable JRunArray<JFont>*	itsClipStyle;
 
 private:
 

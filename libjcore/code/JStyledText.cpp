@@ -76,9 +76,10 @@ isWhitespace
 
 // JBroadcaster message types
 
-const JUtf8Byte* JStyledText::kTextSet     = "TextSet::JStyledText";
-const JUtf8Byte* JStyledText::kTextChanged = "TextChanged::JStyledText";
-const JUtf8Byte* JStyledText::kWillBeBusy  = "WillBeBusy::JStyledText";
+const JUtf8Byte* JStyledText::kTextSet            = "TextSet::JStyledText";
+const JUtf8Byte* JStyledText::kTextChanged        = "TextChanged::JStyledText";
+const JUtf8Byte* JStyledText::kDefaultFontChanged = "DefaultFontChanged::JStyledText";
+const JUtf8Byte* JStyledText::kWillBeBusy         = "WillBeBusy::JStyledText";
 
 /******************************************************************************
  Constructor
@@ -570,9 +571,7 @@ JStyledText::WritePrivateFormat
 	if (!IsEmpty())
 		{
 		WritePrivateFormat(output, kCurrentPrivateFormatVersion,
-						   itsText, *itsStyles, TextRange(
-						   JCharacterRange(1, itsText.GetCharacterCount()),
-						   JUtf8ByteRange(1, itsText.GetByteCount())));
+						   itsText, *itsStyles, SelectAll());
 		}
 	else
 		{
@@ -894,15 +893,13 @@ JStyledText::ReplaceMatch
 	(
 	const JStringMatch&	match,
 	const JString&		replaceStr,
-	const JBoolean		replaceIsRegex,
-	JInterpolate&		interpolator,
+	JInterpolate*		interpolator,
 	const JBoolean		preserveCase,
 	const JBoolean		createUndo
 	)
 {
 	const JString replaceText =
-		PrepareReplaceMatch(match, replaceStr, replaceIsRegex,
-							interpolator, preserveCase);
+		PrepareReplaceMatch(match, replaceStr, interpolator, preserveCase);
 
 	const TextRange r(match.GetCharacterRange(), match.GetUtf8ByteRange());
 	if (createUndo)
@@ -929,15 +926,14 @@ JStyledText::PrepareReplaceMatch
 	(
 	const JStringMatch&	match,
 	const JString&		replaceStr,
-	const JBoolean		replaceIsRegex,
-	JInterpolate&		interpolator,
+	JInterpolate*		interpolator,
 	const JBoolean		preserveCase
 	)
 {
 	JString replaceText;
-	if (replaceIsRegex)
+	if (interpolator != NULL)
 		{
-		replaceText = interpolator.Interpolate(replaceStr, match);
+		replaceText = interpolator->Interpolate(replaceStr, match);
 		}
 	else
 		{
@@ -967,8 +963,7 @@ JStyledText::ReplaceAllInRange
 	const JRegex&		regex,
 	const JBoolean		entireWord,
 	const JString&		replaceStr,
-	const JBoolean		replaceIsRegex,
-	JInterpolate&		interpolator,
+	JInterpolate*		interpolator,
 	const JBoolean		preserveCase
 	)
 {
@@ -997,12 +992,11 @@ JStyledText::ReplaceAllInRange
 		const JStringMatch& match = iter.GetLastMatch();
 		if (!entireWord || IsEntireWord(text, match))
 			{
-			iter.RemoveLastMatch();
-			styles.RemoveElements(match.GetCharacterRange());
-
 			const JString replaceText =
-				PrepareReplaceMatch(match, replaceStr, replaceIsRegex,
-									interpolator, preserveCase);
+				PrepareReplaceMatch(match, replaceStr, interpolator, preserveCase);
+
+			styles.RemoveElements(match.GetCharacterRange());
+			iter.RemoveLastMatch();		// invalidates match
 
 			const TextCount count = InsertText(&iter, &styles, replaceText, NULL, NULL);
 			iter.SkipNext(count.charCount);
@@ -1689,7 +1683,7 @@ JStyledText::PrivatePaste
 
 	Returns number of characters / bytes that were actually inserted.
 
-	style can be NULL.
+	style and defaultFont can be NULL.
 
 	In second version, iterator must be positioned at insertion index.
 
@@ -1752,7 +1746,7 @@ JStyledText::InsertText
 
 	const JIndex charIndex =
 		targetText->GetString().IsEmpty() ? 1 :
-		targetText->AtEnd() ? targetText->GetString().GetCharacterCount() :
+		targetText->AtEnd() ? targetText->GetString().GetCharacterCount() + 1 :
 		targetText->GetNextCharacterIndex();
 
 	if (cleanStyle != NULL)
@@ -2099,15 +2093,8 @@ JStyledText::InsertCharacter
 
 	const JString s(key.GetBytes(), key.GetByteCount(), kJFalse);
 
-	JRunArray<JFont>* styles = jnew JRunArray<JFont>;
-	assert( styles != NULL );
-	styles->AppendElement(font);
-
-	const TextCount pasteCount = InsertText(replaceRange.GetFirst(), s, styles);
+	const TextCount pasteCount = InsertText(replaceRange.GetFirst(), s, NULL, &font);
 	assert( pasteCount.charCount == 1 );
-
-	jdelete styles;
-	styles = NULL;
 
 	BroadcastTextChanged(
 		TextRange(replaceRange.GetFirst(), pasteCount),
@@ -4394,7 +4381,8 @@ JStyledText::CalcInsertionFont
 	JUtf8Character c;
 	if (iter.Prev(&c, kJFalse) && c == '\n')
 		{
-		return styles.GetElement(iter.GetNextCharacterIndex());
+		return styles.GetElement(
+			iter.AtEnd() ? iter.GetPrevCharacterIndex() : iter.GetNextCharacterIndex());
 		}
 	else if (!iter.AtBeginning())
 		{

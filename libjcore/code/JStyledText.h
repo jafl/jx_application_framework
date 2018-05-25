@@ -257,13 +257,13 @@ public:
 								   const JBoolean wrapSearch, JBoolean* wrapped);
 
 	TextCount	ReplaceMatch(const JStringMatch& match,
-							 const JString& replaceStr, const JBoolean replaceIsRegex,
-							 JInterpolate& interpolator, const JBoolean preserveCase,
+							 const JString& replaceStr, JInterpolate* interpolator,
+							 const JBoolean preserveCase,
 							 const JBoolean createUndo = kJTrue);
 	TextRange	ReplaceAllInRange(const TextRange& range,
 								  const JRegex& regex, const JBoolean entireWord,
-								  const JString& replaceStr, const JBoolean replaceIsRegex,
-								  JInterpolate& interpolator, const JBoolean preserveCase);
+								  const JString& replaceStr, JInterpolate* interpolator,
+								  const JBoolean preserveCase);
 	JBoolean	IsEntireWord(const TextRange& range) const;
 
 	JBoolean	SearchForward(const FontMatch& match, const TextIndex& startIndex,
@@ -375,9 +375,7 @@ public:
 	JCharacterInWordFn	GetCharacterInWordFunction() const;
 	void				SetCharacterInWordFunction(JCharacterInWordFn f);
 
-	JBoolean	WillBroadcastAllTextChanged() const;
-	void		ShouldBroadcastAllTextChanged(const JBoolean broadcast);
-
+	TextRange	SelectAll() const;
 	TextRange	CharToTextRange(const TextIndex* lineStart, const JCharacterRange& charRange) const;
 
 	void	SetBlockSizes(const JSize textBlockSize, const JSize styleBlockSize);
@@ -457,8 +455,8 @@ private:
 									const TextCount& count, JBoolean* isNew);
 
 	JString	PrepareReplaceMatch(const JStringMatch& match,
-								const JString& replaceStr, const JBoolean replaceIsRegex,
-								JInterpolate& interpolator, const JBoolean preserveCase);
+								const JString& replaceStr, JInterpolate* interpolator,
+								const JBoolean preserveCase);
 
 	TextCount	PrivatePaste(const TextRange& range,
 							 const JString& text, const JRunArray<JFont>* style);
@@ -608,6 +606,19 @@ JStyledText::IsEntireWord
 	const
 {
 	return IsEntireWord(itsText, range);
+}
+
+/******************************************************************************
+ SelectAll
+
+ ******************************************************************************/
+
+inline JStyledText::TextRange
+JStyledText::SelectAll()
+	const
+{
+	return TextRange(JCharacterRange(1, itsText.GetCharacterCount()),
+					 JUtf8ByteRange(1, itsText.GetByteCount()));
 }
 
 /******************************************************************************

@@ -74,9 +74,6 @@ public:
 	JBoolean IsLineEnd() const;
 	void     SetLineEnd(const JBoolean yesNo = kJTrue);
 
-	JBoolean IsMatchCase() const;
-	void     SetMatchCase(const JBoolean yesNo = kJTrue);
-
 	JError RestoreDefaults();
 
 protected:

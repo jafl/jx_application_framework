@@ -10,9 +10,9 @@
 
 #include <JStyledText.h>
 #include <JRect.h>
-#include <JInterpolate.h>
 
 class JTEKeyHandler;
+class JInterpolate;
 class JFontManager;
 class JStringMatch;
 class JPainter;
@@ -120,7 +120,7 @@ public:
 	JStringMatch	SelectionMatches(const JRegex& regex, const JBoolean entireWord);
 
 	JBoolean	ReplaceAll(const JRegex& regex, const JBoolean entireWord,
-						   const JString& replaceStr, const JBoolean replaceIsRegex,
+						   const JString& replaceStr, JInterpolate* interpolator,
 						   const JBoolean preserveCase,
 						   const JBoolean restrictToSelection = kJFalse);
 
@@ -130,6 +130,8 @@ public:
 							   const JBoolean wrapSearch, JBoolean* wrapped);
 
 	virtual JBoolean	TEHasSearchText() const = 0;
+
+	JIndex		GetInsertionCharIndex() const;
 
 	JBoolean	GetCaretLocation(JIndex* charIndex) const;
 	void		SetCaretLocation(const JIndex charIndex);
@@ -204,9 +206,6 @@ public:
 	void		Paginate(const JCoordinate pageHeight,
 						 JArray<JCoordinate>* breakpts) const;
 	void		Print(JPagePrinter& p);
-
-	JCharacterInWordFn	GetCharacterInWordFunction() const;
-	void				SetCharacterInWordFunction(JCharacterInWordFn f);
 
 	JTEKeyHandler*	GetKeyHandler() const;
 	void			SetKeyHandler(JTEKeyHandler* handler);
@@ -347,9 +346,6 @@ protected:
 	virtual void		DrawPrintHeader(JPagePrinter& p, const JCoordinate headerHeight);
 	virtual void		DrawPrintFooter(JPagePrinter& p, const JCoordinate footerHeight);
 
-	virtual void	CRMConvertTab(JString* charBuffer, JSize* charCount,
-								  const JSize currentLineWidth) const;
-
 	JBoolean		GetCaretLocation(CaretLocation* caretLoc) const;
 	CaretLocation	CalcCaretLocation(const JPoint& pt) const;
 	JBoolean		PointInSelection(const JPoint& pt) const;
@@ -376,7 +372,7 @@ protected:
 
 	void	ReplaceSelection(const JStringMatch& match,
 							 const JString& replaceStr,
-							 const JBoolean replaceIsRegex,
+							 JInterpolate* interpolator,
 							 const JBoolean preserveCase);
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
@@ -426,7 +422,6 @@ private:
 	JArray<JStyledText::TextIndex>*	itsLineStarts;	// index of first character on each line
 	JRunArray<LineGeometry>*		itsLineGeom;	// geometry of each line
 
-	JInterpolate	itsInterpolator;
 	JTEKeyHandler*	itsKeyHandler;
 
 	// information for Recalc
@@ -1030,7 +1025,7 @@ JTextEditor::GetCaretLocation
 	return itsSelection.IsEmpty();
 }
 
-void
+inline void
 JTextEditor::SetCaretLocation
 	(
 	const JPoint& pt
@@ -1054,7 +1049,7 @@ JTextEditor::GetCaretLocation
 
 // private
 
-void
+inline void
 JTextEditor::SetCaretLocation
 	(
 	const JStyledText::TextIndex& index
@@ -1110,6 +1105,20 @@ JTextEditor::SetBreakCROnly
 		PrivateSetBreakCROnly(breakCROnly);
 		RecalcAll();
 		}
+}
+
+/******************************************************************************
+ GetInsertionCharIndex
+
+	Return the index where new text will be typed or pasted.
+
+ ******************************************************************************/
+
+inline JIndex
+JTextEditor::GetInsertionCharIndex()
+	const
+{
+	return GetInsertionIndex().charIndex;
 }
 
 /******************************************************************************

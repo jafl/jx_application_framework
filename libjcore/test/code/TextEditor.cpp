@@ -179,6 +179,7 @@ TextEditor::TEUpdateClipboard
 	const JString&			text,
 	const JRunArray<JFont>&	style
 	)
+	const
 {
 	if (itsClipText == NULL)
 		{
