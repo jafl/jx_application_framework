@@ -60,6 +60,7 @@ include ${JX_ROOT}/include/make/jx_targets
 
 .PHONY : libs
 libs::
+	@cd ${JCORELIBDIR}; cp -f jStringData_init.h code/jStringData.h
 	@cd ${JCORELIBDIR}; ${MAKE} COMPILE_STRINGS=0
 
 .PHONY : touch
