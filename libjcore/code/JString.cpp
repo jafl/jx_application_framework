@@ -120,7 +120,7 @@ JString::JString
 	else
 		{
 		itsOwnerFlag      = kJFalse;
-		itsBytes          = const_cast<JUtf8Byte*>(source.GetBytes());	// we promise not to modify it
+		itsBytes          = const_cast<JUtf8Byte*>(source.GetRawBytes());	// we promise not to modify it
 		itsByteCount      = source.itsByteCount;
 		itsCharacterCount = source.itsCharacterCount;
 		}
@@ -1898,11 +1898,11 @@ JString::CalcCharacterMatchLength
 		ucol_setStrength(coll, UCOL_PRIMARY);
 		}
 
-	const JUtf8Byte* b1 = s1.GetBytes();
-	const JUtf8Byte* b2 = s2.GetBytes();
+	const JUtf8Byte* b1 = s1.GetRawBytes();
+	const JUtf8Byte* b2 = s2.GetRawBytes();
 
 	JIndex i = 0, i1 = 0, i2 = 0;
-	while (b1[i1] != 0 && b2[i2] != 0)
+	while (i1 < s1.GetByteCount() && i2 < s2.GetByteCount())
 		{
 		JSize n1, n2;
 		if (!JUtf8Character::GetCharacterByteCount(b1+i1, &n1) ||

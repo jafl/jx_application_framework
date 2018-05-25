@@ -977,7 +977,7 @@ operator==
 	const JString& s2
 	)
 {
-	return (JString::Compare(s1.GetBytes(), s1.GetByteCount(), s2.GetBytes(), s2.GetByteCount(), kJTrue) == 0);
+	return (JString::Compare(s1.GetRawBytes(), s1.GetByteCount(), s2.GetRawBytes(), s2.GetByteCount(), kJTrue) == 0);
 }
 
 inline int
@@ -987,7 +987,7 @@ operator==
 	const JUtf8Byte*	str
 	)
 {
-	return (JString::Compare(s.GetBytes(), s.GetByteCount(), str, strlen(str), kJTrue) == 0);
+	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str, strlen(str), kJTrue) == 0);
 }
 
 inline int
@@ -997,7 +997,7 @@ operator==
 	const JString&		s
 	)
 {
-	return (JString::Compare(s.GetBytes(), s.GetByteCount(), str, strlen(str), kJTrue) == 0);
+	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str, strlen(str), kJTrue) == 0);
 }
 
 inline int
@@ -1007,7 +1007,7 @@ operator==
 	const std::string&	str
 	)
 {
-	return (JString::Compare(s.GetBytes(), s.GetByteCount(), str.data(), str.length(), kJTrue) == 0);
+	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str.data(), str.length(), kJTrue) == 0);
 }
 
 inline int
@@ -1017,7 +1017,7 @@ operator==
 	const JString&		s
 	)
 {
-	return (JString::Compare(s.GetBytes(), s.GetByteCount(), str.data(), str.length(), kJTrue) == 0);
+	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str.data(), str.length(), kJTrue) == 0);
 }
 
 // operator!=
@@ -1029,7 +1029,7 @@ operator!=
 	const JString& s2
 	)
 {
-	return (JString::Compare(s1.GetBytes(), s1.GetByteCount(), s2.GetBytes(), s2.GetByteCount(), kJTrue) != 0);
+	return (JString::Compare(s1.GetRawBytes(), s1.GetByteCount(), s2.GetRawBytes(), s2.GetByteCount(), kJTrue) != 0);
 }
 
 inline int
@@ -1039,7 +1039,7 @@ operator!=
 	const JUtf8Byte*	str
 	)
 {
-	return (JString::Compare(s.GetBytes(), s.GetByteCount(), str, strlen(str), kJTrue) != 0);
+	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str, strlen(str), kJTrue) != 0);
 }
 
 inline int
@@ -1049,7 +1049,7 @@ operator!=
 	const JString&		s
 	)
 {
-	return (JString::Compare(s.GetBytes(), s.GetByteCount(), str, strlen(str), kJTrue) != 0);
+	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str, strlen(str), kJTrue) != 0);
 }
 
 inline int
@@ -1059,7 +1059,7 @@ operator!=
 	const std::string&	str
 	)
 {
-	return (JString::Compare(s.GetBytes(), s.GetByteCount(), str.data(), str.length(), kJTrue) != 0);
+	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str.data(), str.length(), kJTrue) != 0);
 }
 
 inline int
@@ -1069,7 +1069,7 @@ operator!=
 	const JString&		s
 	)
 {
-	return (JString::Compare(s.GetBytes(), s.GetByteCount(), str.data(), str.length(), kJTrue) != 0);
+	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str.data(), str.length(), kJTrue) != 0);
 }
 
 /******************************************************************************
@@ -1090,7 +1090,7 @@ operator<
 	const JString& s2
 	)
 {
-	return (JString::Compare(s1.GetBytes(), s1.GetByteCount(), s2.GetBytes(), s2.GetByteCount(), kJFalse) < 0);
+	return (JString::Compare(s1.GetRawBytes(), s1.GetByteCount(), s2.GetRawBytes(), s2.GetByteCount(), kJFalse) < 0);
 }
 
 inline int
@@ -1100,7 +1100,7 @@ operator<
 	const JUtf8Byte*	str
 	)
 {
-	return (JString::Compare(s.GetBytes(), s.GetByteCount(), str, strlen(str), kJFalse) < 0);
+	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str, strlen(str), kJFalse) < 0);
 }
 
 inline int
@@ -1110,7 +1110,7 @@ operator<
 	const JString&		s
 	)
 {
-	return (JString::Compare(s.GetBytes(), s.GetByteCount(), str, strlen(str), kJFalse) < 0);
+	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str, strlen(str), kJFalse) < 0);
 }
 
 inline int
@@ -1120,7 +1120,7 @@ operator<
 	const std::string&	str
 	)
 {
-	return (JString::Compare(s.GetBytes(), s.GetByteCount(), str.data(), str.length(), kJFalse) < 0);
+	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str.data(), str.length(), kJFalse) < 0);
 }
 
 inline int
@@ -1130,7 +1130,7 @@ operator<
 	const JString&		s
 	)
 {
-	return (JString::Compare(s.GetBytes(), s.GetByteCount(), str.data(), str.length(), kJFalse) < 0);
+	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str.data(), str.length(), kJFalse) < 0);
 }
 
 // operator<=
@@ -1142,7 +1142,7 @@ operator<=
 	const JString& s2
 	)
 {
-	return (JString::Compare(s1.GetBytes(), s1.GetByteCount(), s2.GetBytes(), s2.GetByteCount(), kJFalse) <= 0);
+	return (JString::Compare(s1.GetRawBytes(), s1.GetByteCount(), s2.GetRawBytes(), s2.GetByteCount(), kJFalse) <= 0);
 }
 
 inline int
@@ -1152,7 +1152,7 @@ operator<=
 	const JUtf8Byte*	str
 	)
 {
-	return (JString::Compare(s.GetBytes(), s.GetByteCount(), str, strlen(str), kJFalse) <= 0);
+	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str, strlen(str), kJFalse) <= 0);
 }
 
 inline int
@@ -1162,7 +1162,7 @@ operator<=
 	const JString&		s
 	)
 {
-	return (JString::Compare(s.GetBytes(), s.GetByteCount(), str, strlen(str), kJFalse) <= 0);
+	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str, strlen(str), kJFalse) <= 0);
 }
 
 inline int
@@ -1172,7 +1172,7 @@ operator<=
 	const std::string&	str
 	)
 {
-	return (JString::Compare(s.GetBytes(), s.GetByteCount(), str.data(), str.length(), kJFalse) <= 0);
+	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str.data(), str.length(), kJFalse) <= 0);
 }
 
 inline int
@@ -1182,7 +1182,7 @@ operator<=
 	const JString&		s
 	)
 {
-	return (JString::Compare(s.GetBytes(), s.GetByteCount(), str.data(), str.length(), kJFalse) <= 0);
+	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str.data(), str.length(), kJFalse) <= 0);
 }
 
 // operator>
@@ -1195,7 +1195,7 @@ operator>
 	const JString& s2
 	)
 {
-	return (JString::Compare(s1.GetBytes(), s1.GetByteCount(), s2.GetBytes(), s2.GetByteCount(), kJFalse) > 0);
+	return (JString::Compare(s1.GetRawBytes(), s1.GetByteCount(), s2.GetRawBytes(), s2.GetByteCount(), kJFalse) > 0);
 }
 
 inline int
@@ -1205,7 +1205,7 @@ operator>
 	const JUtf8Byte*	str
 	)
 {
-	return (JString::Compare(s.GetBytes(), s.GetByteCount(), str, strlen(str), kJFalse) > 0);
+	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str, strlen(str), kJFalse) > 0);
 }
 
 inline int
@@ -1215,7 +1215,7 @@ operator>
 	const JString&		s
 	)
 {
-	return (JString::Compare(s.GetBytes(), s.GetByteCount(), str, strlen(str), kJFalse) > 0);
+	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str, strlen(str), kJFalse) > 0);
 }
 
 inline int
@@ -1225,7 +1225,7 @@ operator>
 	const std::string&	str
 	)
 {
-	return (JString::Compare(s.GetBytes(), s.GetByteCount(), str.data(), str.length(), kJFalse) > 0);
+	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str.data(), str.length(), kJFalse) > 0);
 }
 
 inline int
@@ -1235,7 +1235,7 @@ operator>
 	const JString&		s
 	)
 {
-	return (JString::Compare(s.GetBytes(), s.GetByteCount(), str.data(), str.length(), kJFalse) > 0);
+	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str.data(), str.length(), kJFalse) > 0);
 }
 
 // operator>=
@@ -1247,7 +1247,7 @@ operator>=
 	const JString& s2
 	)
 {
-	return (JString::Compare(s1.GetBytes(), s1.GetByteCount(), s2.GetBytes(), s2.GetByteCount(), kJFalse) >= 0);
+	return (JString::Compare(s1.GetRawBytes(), s1.GetByteCount(), s2.GetRawBytes(), s2.GetByteCount(), kJFalse) >= 0);
 }
 
 inline int
@@ -1257,7 +1257,7 @@ operator>=
 	const JUtf8Byte*	str
 	)
 {
-	return (JString::Compare(s.GetBytes(), s.GetByteCount(), str, strlen(str), kJFalse) >= 0);
+	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str, strlen(str), kJFalse) >= 0);
 }
 
 inline int
@@ -1267,7 +1267,7 @@ operator>=
 	const JString&		s
 	)
 {
-	return (JString::Compare(s.GetBytes(), s.GetByteCount(), str, strlen(str), kJFalse) >= 0);
+	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str, strlen(str), kJFalse) >= 0);
 }
 
 inline int
@@ -1277,7 +1277,7 @@ operator>=
 	const std::string&	str
 	)
 {
-	return (JString::Compare(s.GetBytes(), s.GetByteCount(), str.data(), str.length(), kJFalse) >= 0);
+	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str.data(), str.length(), kJFalse) >= 0);
 }
 
 inline int
@@ -1287,7 +1287,7 @@ operator>=
 	const JString&		s
 	)
 {
-	return (JString::Compare(s.GetBytes(), s.GetByteCount(), str.data(), str.length(), kJFalse) >= 0);
+	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str.data(), str.length(), kJFalse) >= 0);
 }
 
 /******************************************************************************
@@ -1309,7 +1309,7 @@ JString::Compare
 	const JBoolean	caseSensitive
 	)
 {
-	return JString::Compare(s1.GetBytes(), s1.GetByteCount(), s2.GetBytes(), s2.GetByteCount(), caseSensitive);
+	return JString::Compare(s1.GetRawBytes(), s1.GetByteCount(), s2.GetRawBytes(), s2.GetByteCount(), caseSensitive);
 }
 
 inline int
@@ -1320,7 +1320,7 @@ JString::Compare
 	const JBoolean		caseSensitive
 	)
 {
-	return JString::Compare(s1.GetBytes(), s1.GetByteCount(), s2, strlen(s2), caseSensitive);
+	return JString::Compare(s1.GetRawBytes(), s1.GetByteCount(), s2, strlen(s2), caseSensitive);
 }
 
 inline int
@@ -1331,7 +1331,7 @@ JString::Compare
 	const JBoolean		caseSensitive
 	)
 {
-	return JString::Compare(s1, strlen(s1), s2.GetBytes(), s2.GetByteCount(), caseSensitive);
+	return JString::Compare(s1, strlen(s1), s2.GetRawBytes(), s2.GetByteCount(), caseSensitive);
 }
 
 inline int
@@ -1353,7 +1353,7 @@ JString::Compare
 	const JBoolean		caseSensitive
 	)
 {
-	return JString::Compare(s1.GetBytes(), s1.GetByteCount(), s2.data(), s2.length(), caseSensitive);
+	return JString::Compare(s1.GetRawBytes(), s1.GetByteCount(), s2.data(), s2.length(), caseSensitive);
 }
 
 inline int
@@ -1364,7 +1364,7 @@ JString::Compare
 	const JBoolean		caseSensitive
 	)
 {
-	return JString::Compare(s1.data(), s1.length(), s2.GetBytes(), s2.GetByteCount(), caseSensitive);
+	return JString::Compare(s1.data(), s1.length(), s2.GetRawBytes(), s2.GetByteCount(), caseSensitive);
 }
 
 /******************************************************************************
