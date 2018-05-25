@@ -70,8 +70,8 @@ JTEST(PackFileNames)
 
 	list2.CleanOut();
 	list3.CleanOut();
-	list1.Append(JString("http://test.com/baz", 0, kJFalse));
 	s = JXPackFileNames(list1);
+	s.Append("\r\nhttp://test.com/baz");	// hack to force invalid element
 	JXUnpackFileNames(s.GetRawBytes(), s.GetByteCount(), &list2, &list3);
 	JAssertEqual(2, list2.GetElementCount());
 	JAssertStringsEqual("/bin/cat", *(list2.GetElement(1)));

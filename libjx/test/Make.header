@@ -35,7 +35,7 @@ LDFLAGS   :=
 # tests
 
 AUTO_TESTS := \
-      test_jXUtil
+      test_jXUtil test_jXEventUtil test_JXTextMenuData
 
 #####
 

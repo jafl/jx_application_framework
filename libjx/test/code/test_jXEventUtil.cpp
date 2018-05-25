@@ -8,7 +8,7 @@
  *****************************************************************************/
 
 #include <JTestManager.h>
-#include <jXUtil.h>
+#include <jXEventUtil.h>
 #include <jAssert.h>
 
 int main()
@@ -25,6 +25,6 @@ JTEST(IsPrint)
 
 JTEST(Ctrl)
 {
-	JAssertEqual(3, JXCtrl('C'));
-	JAssertEqual(115, JXCtrl('s'));
+	JAssertEqual(3, (long) JXCtrl('C'));
+	JAssertEqual(19, (long) JXCtrl('S'));
 }
