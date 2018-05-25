@@ -268,17 +268,16 @@ JXPSPrintSetupDialog::SetObjects
 						 r1.left, r2.top, r1.width(), r2.height());
 	assert( itsFileInput != NULL );
 	itsFileInput->ShouldAllowInvalidFile();
-	itsFileInput->SetText(fileName);
-	itsFileInput->ShouldBroadcastAllTextChanged(kJTrue);
-	ListenTo(itsFileInput);
+	itsFileInput->GetText()->SetText(fileName);
+	ListenTo(itsFileInput->GetText());
 
 	JXAdjustPrintSetupLayoutTask* task =
 		jnew JXAdjustPrintSetupLayoutTask(this, itsPrintCmd, itsChooseFileButton, itsFileInput);
 	assert( task != NULL );
 	task->Go();
 
-	itsPrintCmd->SetText(printCmd);
-	itsPrintCmd->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
+	itsPrintCmd->GetText()->SetText(printCmd);
+	itsPrintCmd->GetText()->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
 
 	ListenTo(itsDestination);
 	ListenTo(itsChooseFileButton);
@@ -328,7 +327,7 @@ JXPSPrintSetupDialog::UpdateDisplay()
 {
 	itsPrintButton->SetActive(JI2B(
 		itsDestination->GetSelectedItem() == kPrintToPrinterID ||
-		!itsFileInput->IsEmpty()));
+		!itsFileInput->GetText()->IsEmpty()));
 }
 
 /******************************************************************************
@@ -350,7 +349,7 @@ JXPSPrintSetupDialog::OKToDeactivate()
 
 	if (itsDestination->GetSelectedItem() == kPrintToFileID)
 		{
-		return OKToDeactivate(itsFileInput->GetText());
+		return OKToDeactivate(itsFileInput->GetText()->GetText());
 		}
 	else
 		{
@@ -423,9 +422,9 @@ JXPSPrintSetupDialog::Receive
 		{
 		ChooseDestinationFile();
 		}
-	else if (sender == itsFileInput &&
-			 (message.Is(JTextEditor::kTextSet) ||
-			  message.Is(JTextEditor::kTextChanged)))
+	else if (sender == itsFileInput->GetText() &&
+			 (message.Is(JStyledText::kTextSet) ||
+			  message.Is(JStyledText::kTextChanged)))
 		{
 		UpdateDisplay();
 		}
@@ -478,7 +477,7 @@ JXPSPrintSetupDialog::SetDestination
 		itsFileInput->Focus();
 
 		UpdateDisplay();
-		if (itsFileInput->IsEmpty())
+		if (itsFileInput->GetText()->IsEmpty())
 			{
 			ChooseDestinationFile();
 			}
@@ -547,14 +546,14 @@ JXPSPrintSetupDialog::SetParameters
 		kIndexToDest[ itsDestination->GetSelectedItem()-1 ];
 
 	JBoolean changed = JI2B(
-		newDest                 != p->GetDestination() ||
-		itsPrintCmd->GetText()  != p->GetPrintCmd()    ||
-		itsFileInput->GetText() != p->GetFileName());
+		newDest                            != p->GetDestination() ||
+		itsPrintCmd->GetText()->GetText()  != p->GetPrintCmd()    ||
+		itsFileInput->GetText()->GetText() != p->GetFileName());
 
 	JString fullName;
 	itsFileInput->GetFile(&fullName);
 
-	p->SetDestination(newDest, itsPrintCmd->GetText(), fullName);
+	p->SetDestination(newDest, itsPrintCmd->GetText()->GetText(), fullName);
 
 	JInteger copyCount;
 	const JBoolean ok = itsCopyCount->GetValue(&copyCount);

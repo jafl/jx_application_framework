@@ -9,7 +9,7 @@
 #define _H_JXSpellCheckerDialog
 
 #include <JXDialogDirector.h>
-#include <JIndexRange.h>
+#include <JStyledText.h>
 
 class JXTextButton;
 class JXTEBase;
@@ -23,13 +23,13 @@ class JXSpellCheckerDialog : public JXDialogDirector
 public:
 
 	JXSpellCheckerDialog(JXSpellChecker* checker,
-						 JXTEBase* editor, const JIndexRange& range);
+						 JXTEBase* editor, const JStyledText::TextRange& range);
 
 	virtual ~JXSpellCheckerDialog();
 
-	virtual void		Activate();
-	virtual JBoolean	Deactivate();
-	virtual JBoolean	Close();
+	virtual void		Activate() override;
+	virtual JBoolean	Deactivate() override;
+	virtual JBoolean	Close() override;
 
 	void	Check();
 
@@ -39,11 +39,11 @@ protected:
 
 private:
 
-	JXSpellChecker*	itsChecker;
-	JXTEBase*		itsEditor;				// not owned
-	JIndexRange		itsCheckRange;
-	JIndex			itsCurrentIndex;
-	JBoolean		itsFoundErrorsFlag;
+	JXSpellChecker*			itsChecker;
+	JXTEBase*				itsEditor;				// not owned
+	JStyledText::TextRange	itsCheckRange;
+	JStyledText::TextIndex	itsCurrentIndex;
+	JBoolean				itsFoundErrorsFlag;
 
 	JXSpellList*		itsSuggestionWidget;
 	JPtrArray<JString>*	itsSuggestionList;

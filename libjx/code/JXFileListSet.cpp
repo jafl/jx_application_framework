@@ -380,11 +380,11 @@ JXFileListSet::ReadSetup
 
 	JString s;
 	input >> s;
-	itsWildcardInput->SetText(s);
+	itsWildcardInput->GetText()->SetText(s);
 	itsWildcardMenu->ReadSetup(input);
 
 	input >> s;
-	itsRegexInput->SetText(s);
+	itsRegexInput->GetText()->SetText(s);
 	itsRegexMenu->ReadSetup(input);
 
 	// only need to adjust geometry since table's regex is read separately

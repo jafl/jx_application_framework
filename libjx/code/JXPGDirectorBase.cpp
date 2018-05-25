@@ -142,7 +142,7 @@ JXPGDirectorBase::Init
 
 	// adjust window size to fit text
 
-	text->SetText(message);
+	text->GetText()->SetText(message);
 
 	const JRect apG = text->GetApertureGlobal();
 

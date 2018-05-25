@@ -52,9 +52,9 @@ protected:
 
 	JXInputField*	GetFileNameInput();
 
-	virtual void	UpdateDisplay();	// must call inherited
+	virtual void	UpdateDisplay() override;	// must call inherited
 
-	virtual JBoolean	OKToDeactivate();
+	virtual JBoolean	OKToDeactivate() override;
 	virtual void		Receive(JBroadcaster* sender, const Message& message) override;
 
 private:

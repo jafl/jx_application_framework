@@ -57,7 +57,7 @@ JXFloatInput::GetValue
 	)
 	const
 {
-	return JI2B((GetText()).ConvertToFloat(value) && ValueValid(*value));
+	return JI2B( GetText().GetText().ConvertToFloat(value) && ValueValid(*value) );
 }
 
 /******************************************************************************
@@ -74,9 +74,9 @@ JXFloatInput::SetValue
 	if (ValueValid(value))
 		{
 		const JString text = value;
-		if (text != GetText())
+		if (text != GetText()->GetText())
 			{
-			SetText(text);
+			GetText()->SetText(text);
 			}
 		}
 }
@@ -148,7 +148,7 @@ JXFloatInput::InputValid()
 		}
 	else
 		{
-		const JString& text = GetText();
+		const JString& text = GetText()->GetText();
 
 		if (!IsRequired() && text.IsEmpty())
 			{

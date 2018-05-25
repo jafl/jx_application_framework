@@ -107,7 +107,7 @@ JXFLInputBase::OKToUnfocus()
 	const JError err = Apply();
 	if (err.OK())
 		{
-		itsHistoryMenu->AddString(GetText());
+		itsHistoryMenu->AddString(GetText()->GetText());
 		return kJTrue;
 		}
 	else
@@ -131,9 +131,9 @@ JXFLInputBase::Receive
 {
 	if (sender == itsHistoryMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JString origStr = GetText();
+		const JString origStr = GetText()->GetText();
 		const JString newStr  = itsHistoryMenu->GetItemText(message);
-		SetText(newStr);
+		GetText()->SetText(newStr);
 
 		const JError err = Apply();
 		if (err.OK())
@@ -142,7 +142,7 @@ JXFLInputBase::Receive
 			}
 		else
 			{
-			SetText(origStr);
+			GetText()->SetText(origStr);
 			err.ReportIfError();
 			}
 		}

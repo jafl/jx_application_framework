@@ -29,7 +29,7 @@ public:
 
 protected:
 
-	virtual JBoolean	GetImage(const JIndex index, const JXImage** image) const;
+	virtual JBoolean	GetImage(const JIndex index, const JXImage** image) const override;
 	virtual void		HandleMouseDown(const JPoint& pt,
 										const JXMouseButton button,
 										const JSize clickCount,

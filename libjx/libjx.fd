@@ -3119,7 +3119,7 @@ label: (0-65535):
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: (redRangeLabel) 
+name: (redRangeLabel)
 callback: 
 argument: 
 
@@ -3751,7 +3751,7 @@ argument:
 Name: JXSearchTextDialog
 Width: 450
 Height: 310
-Number of Objects: 30
+Number of Objects: 28
 
 --------------------
 class: FL_BOX
@@ -4150,60 +4150,6 @@ callback:
 argument: kJTrue
 
 --------------------
-class: FL_TEXT
-type: FL_NORMAL_TEXT
-box: 320 110 100 20
-boxtype: FL_FLAT_BOX
-colors: FL_COL1 FL_MCOL
-alignment: FL_ALIGN_CENTER
-style: FL_NORMAL_STYLE
-size: FL_NORMAL_SIZE
-lcol: FL_BLACK
-label: Replace all
-shortcut: 
-resize: FL_RESIZE_ALL
-gravity: FL_NorthEast FL_NoGravity
-name: (replaceAllLabel)
-callback: 
-argument: 
-
---------------------
-class: FL_BOX
-type: FL_NO_BOX
-box: 300 110 20 20
-boxtype: FL_NO_BOX
-colors: FL_COL1 FL_COL1
-alignment: FL_ALIGN_CENTER
-style: FL_NORMAL_STYLE
-size: FL_NORMAL_SIZE
-lcol: FL_BLACK
-label: JXSearchTextButton
-shortcut: 
-resize: FL_RESIZE_ALL
-gravity: FL_NorthEast FL_NoGravity
-name: itsReplaceAllBackButton
-callback: 
-argument: kJFalse
-
---------------------
-class: FL_BOX
-type: FL_NO_BOX
-box: 420 110 20 20
-boxtype: FL_NO_BOX
-colors: FL_COL1 FL_COL1
-alignment: FL_ALIGN_CENTER
-style: FL_NORMAL_STYLE
-size: FL_NORMAL_SIZE
-lcol: FL_BLACK
-label: JXSearchTextButton
-shortcut: 
-resize: FL_RESIZE_ALL
-gravity: FL_NorthEast FL_NoGravity
-name: itsReplaceAllFwdButton
-callback: 
-argument: kJTrue
-
---------------------
 class: FL_BUTTON
 type: FL_NORMAL_BUTTON
 box: 300 140 140 20
@@ -4292,6 +4238,24 @@ gravity: FL_North FL_NoGravity
 name: itsReplaceInput
 callback: 
 argument: kJTrue, kJFalse
+
+--------------------
+class: FL_BUTTON
+type: FL_NORMAL_BUTTON
+box: 300 110 140 20
+boxtype: FL_UP_BOX
+colors: FL_COL1 FL_COL1
+alignment: FL_ALIGN_CENTER
+style: FL_NORMAL_STYLE
+size: FL_NORMAL_SIZE
+lcol: FL_BLACK
+label: Replace all
+shortcut: 
+resize: FL_RESIZE_ALL
+gravity: FL_NorthEast FL_NoGravity
+name: itsReplaceAllButton
+callback: 
+argument: 
 
 =============== FORM ===============
 Name: JXAcceptLicenseDialog

@@ -121,7 +121,7 @@ JXProgressDisplay::ProcessBeginning
 
 	if (itsLabel != NULL)
 		{
-		itsLabel->SetText(message);
+		itsLabel->GetText()->SetText(message);
 		}
 
 	assert( (processType == kFixedLengthProcess && itsIndicator != NULL) ||
@@ -139,7 +139,7 @@ JXProgressDisplay::ProcessBeginning
 		}
 	else if (processType == kVariableLengthProcess)
 		{
-		itsCounter->SetText(JString::empty);
+		itsCounter->GetText()->SetText(JString::empty);
 		itsCounter->Show();
 		if (itsIndicator != NULL)
 			{
@@ -254,7 +254,7 @@ JXProgressDisplay::IncrementProgress1
 			AppendToMessageWindow(message);
 			}
 		const JString stepCountStr(stepCount, JString::kBase10);
-		itsCounter->SetText(stepCountStr);
+		itsCounter->GetText()->SetText(stepCountStr);
 		itsCounter->Redraw();
 		}
 	else

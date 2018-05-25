@@ -13,7 +13,6 @@
 #include <JXPSPageSetupDialog.h>
 #include <JXPSPrintSetupDialog.h>
 #include <JXDisplay.h>
-#include <JXColorManager.h>
 #include <jXGlobals.h>
 #include <jFileUtil.h>
 #include <jProcessUtil.h>
@@ -40,7 +39,7 @@ JXPSPrinter::JXPSPrinter
 	const JXDisplay* display
 	)
 	:
-	JPSPrinter(display->GetFontManager(), display->GetColorManager()),
+	JPSPrinter(display->GetFontManager()),
 	itsPrintCmd("lpr", 0)
 {
 	itsDestination = kPrintToPrinter;

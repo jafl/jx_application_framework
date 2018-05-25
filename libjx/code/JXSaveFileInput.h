@@ -30,12 +30,26 @@ protected:
 
 	virtual void	HandleFocusEvent() override;
 
-	virtual JBoolean	NeedsToFilterText(const JString& text) const;
-	virtual JBoolean	FilterText(JString* text, JRunArray<JFont>* style);
+private:
+
+	class StyledText : public JXInputField::StyledText
+	{
+		public:
+
+		StyledText()
+			:
+			JXInputField::StyledText(kJFalse)
+		{ };
+
+		protected:
+
+		virtual JBoolean	NeedsToFilterText(const JString& text) const override;
+		virtual JBoolean	FilterText(JString* text, JRunArray<JFont>* style) override;
+	};
 
 private:
 
-	static JBoolean	itsAllowSpaceFlag;
+	static JBoolean	theAllowSpaceFlag;
 
 private:
 
@@ -55,7 +69,7 @@ private:
 inline JBoolean
 JXSaveFileInput::WillAllowSpace()
 {
-	return itsAllowSpaceFlag;
+	return theAllowSpaceFlag;
 }
 
 inline void
@@ -64,7 +78,7 @@ JXSaveFileInput::ShouldAllowSpace
 	const JBoolean allow
 	)
 {
-	itsAllowSpaceFlag = allow;
+	theAllowSpaceFlag = allow;
 }
 
 #endif

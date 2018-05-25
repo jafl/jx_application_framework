@@ -149,19 +149,19 @@ JXEditWWWPrefsDialog::BuildWindow
 
 	const JFont& font = (window->GetFontManager())->GetDefaultMonospaceFont();
 
-	itsShowURLCmdInput->SetText(showURLCmd);
+	itsShowURLCmdInput->GetText()->SetText(showURLCmd);
 	itsShowURLCmdInput->SetIsRequired();
 	itsShowURLCmdInput->SetFont(font);
 
-	itsShowFileContentCmdInput->SetText(showFileContentCmd);
+	itsShowFileContentCmdInput->GetText()->SetText(showFileContentCmd);
 	itsShowFileContentCmdInput->SetIsRequired();
 	itsShowFileContentCmdInput->SetFont(font);
 
-	itsShowFileLocationCmdInput->SetText(showFileLocationCmd);
+	itsShowFileLocationCmdInput->GetText()->SetText(showFileLocationCmd);
 	itsShowFileLocationCmdInput->SetIsRequired();
 	itsShowFileLocationCmdInput->SetFont(font);
 
-	itsComposeMailCmdInput->SetText(composeMailCmd);
+	itsComposeMailCmdInput->GetText()->SetText(composeMailCmd);
 	itsComposeMailCmdInput->SetIsRequired();
 	itsComposeMailCmdInput->SetFont(font);
 }
@@ -181,8 +181,8 @@ JXEditWWWPrefsDialog::GetPrefs
 	)
 	const
 {
-	*showURLCmd          = itsShowURLCmdInput->GetText();
-	*showFileContentCmd  = itsShowFileContentCmdInput->GetText();
-	*showFileLocationCmd = itsShowFileLocationCmdInput->GetText();
-	*composeMailCmd      = itsComposeMailCmdInput->GetText();
+	*showURLCmd          = itsShowURLCmdInput->GetText()->GetText();
+	*showFileContentCmd  = itsShowFileContentCmdInput->GetText()->GetText();
+	*showFileLocationCmd = itsShowFileLocationCmdInput->GetText()->GetText();
+	*composeMailCmd      = itsComposeMailCmdInput->GetText()->GetText();
 }

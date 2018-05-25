@@ -57,8 +57,7 @@ JXIntegerInput::GetValue
 	)
 	const
 {
-	return JConvertToBoolean(
-			(GetText()).ConvertToInteger(value) && ValueValid(*value) );
+	return JI2B( GetText().GetText().ConvertToInteger(value) && ValueValid(*value) );
 }
 
 /******************************************************************************
@@ -75,9 +74,9 @@ JXIntegerInput::SetValue
 	if (ValueValid(value))
 		{
 		const JString text(value, 0);
-		if (text != GetText())
+		if (text != GetText()->GetText())
 			{
-			SetText(text);
+			GetText()->SetText(text);
 			}
 		}
 }
@@ -149,7 +148,7 @@ JXIntegerInput::InputValid()
 		}
 	else
 		{
-		const JString& text = GetText();
+		const JString& text = GetText()->GetText();
 
 		if (!IsRequired() && text.IsEmpty())
 			{

@@ -27,11 +27,11 @@
 #include "JXColorManager.h"
 #include "JXFontManager.h"
 #include "jXGlobals.h"
+#include <jTextUtil.h>
 #include <JKLRand.h>
-#include <sstream>
 #include <jAssert.h>
 
-static const JUtf8Byte* kDelimiter = "<div>";
+static const JUtf8Byte* kDelimiter = "=====";
 
 // JBroadcaster message types
 
@@ -136,19 +136,18 @@ JXTipOfTheDayDialog::BuildWindow
 	assert( wIcon != NULL );
 	window->SetIcon(wIcon);
 
-	sideBar->SetColor(GetColormap()->GetGrayColor(50));
-	icon->SetXPM(jx_tip_of_the_day, GetColormap()->GetGrayColor(50));
+	sideBar->SetColor(JColorManager::GetGrayColor(50));
+	icon->SetXPM(jx_tip_of_the_day, JColorManager::GetGrayColor(50));
 
+	title->SetToLabel();
 	title->SetBorderWidth(kJXDefaultBorderWidth);
 	title->TESetLeftMarginWidth(5);
 	title->SetBackColor(title->GetFocusColor());
-	title->JTextEditor::SetFont(1, title->GetTextLength(),
+	title->GetText()->SetFont(title->GetText()->SelectAll(),
 		(window->GetFontManager())->GetFont(
 			JGetString("FontName::JXTipOfTheDayDialog"), 18,
 			JFontStyle(kJTrue, kJFalse, 0, kJFalse)),
 		kJTrue);
-	title->SetCaretLocation(1);
-	title->Paste(JString("\n", 0, kJFalse));
 
 	itsText =
 		jnew JXStaticText(JString::empty, kJTrue, kJFalse,
@@ -225,6 +224,7 @@ JXTipOfTheDayDialog::ParseTips()
 		JString* s = list.GetElement(i);
 		if (!s->IsEmpty())
 			{
+			s->Prepend("\n");
 			AddTip(*s);
 			}
 		}
@@ -265,10 +265,5 @@ JXTipOfTheDayDialog::AddTip
 void
 JXTipOfTheDayDialog::DisplayTip()
 {
-	const JString* s = itsTipList->GetElement(itsTipIndex);
-	const std::string s1(s->GetBytes(), s->GetByteCount());
-	std::istringstream input(s1);
-	itsText->ReadHTML(input);
-	itsText->SetCaretLocation(1);
-	itsText->Paste(JString("\n", 0, kJFalse));
+	JReadLimitedMarkdown(*itsTipList->GetElement(itsTipIndex), itsText->GetText());
 }

@@ -11,6 +11,7 @@
  ******************************************************************************/
 
 #include <JXHelpManager.h>
+#include <JWebBrowser.h>
 #include <jGlobals.h>
 #include <jAssert.h>
 
@@ -42,7 +43,7 @@ JXHelpManager::~JXHelpManager()
 void
 JXHelpManager::ShowTOC()
 {
-	(JXGetWebBrowser())->ShowURL(JGetString("HELP_URL"));
+	JGetWebBrowser()->ShowURL(JGetString("HELP_URL"));
 }
 
 /******************************************************************************
@@ -56,13 +57,13 @@ JXHelpManager::ShowSection
 	const JUtf8Byte* name
 	)
 {
-	JString url = name;
+	JString url(name, 0);
 	if (!url.Contains("://"))
 		{
-		url = JGetString("HELP_URL") + "#" + url;
+		url = JGetString("HELP_URL") + JString("#", 0, kJFalse) + url;
 		}
 
-	(JXGetWebBrowser())->ShowURL(url);
+	JGetWebBrowser()->ShowURL(url);
 }
 
 /******************************************************************************
@@ -73,7 +74,7 @@ JXHelpManager::ShowSection
 void
 JXHelpManager::ShowChangeLog()
 {
-	(JXGetWebBrowser())->ShowURL(JGetString("CHANGE_LOG_URL"));
+	JGetWebBrowser()->ShowURL(JGetString("CHANGE_LOG_URL"));
 }
 
 /******************************************************************************
@@ -84,5 +85,5 @@ JXHelpManager::ShowChangeLog()
 void
 JXHelpManager::ShowCredits()
 {
-	(JXGetWebBrowser())->ShowURL(JGetString("CREDITS_URL"));
+	JGetWebBrowser()->ShowURL(JGetString("CREDITS_URL"));
 }

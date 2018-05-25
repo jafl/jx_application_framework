@@ -100,7 +100,7 @@ JXTextMenuData::InsertItem
 	(itsMenu->GetWindow())->MenuItemInserted(itsMenu, index);
 	itsNeedGeomRecalcFlag = kJTrue;
 
-	if (nmShortcut != NULL)
+	if (!nmShortcut.IsEmpty())
 		{
 		SetNMShortcut(index, nmShortcut);	// parse it and register it
 		}

@@ -619,8 +619,7 @@ JXDocumentManager::UpdateDocumentMenu
 
 		const JXImage* icon;
 		if ((info.doc)->GetMenuIcon(&icon) &&
-			icon->GetDisplay() == menu->GetDisplay() &&
-			icon->GetColorManager() == menu->GetColorManager())
+			icon->GetDisplay() == menu->GetDisplay())
 			{
 			menu->SetItemImage(i, const_cast<JXImage*>(icon), kJFalse);
 			}

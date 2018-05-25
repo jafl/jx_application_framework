@@ -62,10 +62,10 @@ JXIntersection
 }
 
 JString	JXPackStrings(const JPtrArray<JString>& strList,
-					  const JUtf8Byte* separator = "\0", const JSize sepLength = 1);
+					  const JUtf8Byte* separator = "\1", const JSize sepLength = 1);
 void	JXUnpackStrings(const JUtf8Byte* data, const JSize byteCount,
 						JPtrArray<JString>* strList,
-						const JUtf8Byte* separator = "\0", const JSize sepLength = 1);
+						const JUtf8Byte* separator = "\1", const JSize sepLength = 1);
 
 JString	JXPackFileNames(const JPtrArray<JString>& fileNameList);
 void	JXUnpackFileNames(const JUtf8Byte* data, const JSize byteCount,

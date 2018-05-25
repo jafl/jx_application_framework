@@ -79,9 +79,30 @@ protected:
 									  const Atom action, const Time time,
 									  const JXWidget* source) override;
 
-	virtual void	AdjustStylesBeforeRecalc(const JString& buffer, JRunArray<JFont>* styles,
-											 JIndexRange* recalcRange, JIndexRange* redrawRange,
-											 const JBoolean deletion);
+private:
+
+	class StyledText : public JXInputField::StyledText
+	{
+		public:
+
+		StyledText(JXFileInput* field)
+			:
+			JXInputField::StyledText(kJFalse),
+			itsField(field)
+		{ };
+
+		protected:
+
+		virtual void	AdjustStylesBeforeBroadcast(
+							const JString& text, JRunArray<JFont>* styles,
+							JStyledText::TextRange* recalcRange,
+							JStyledText::TextRange* redrawRange,
+							const JBoolean deletion) override;
+
+		private:
+
+		JXFileInput*	itsField;
+	};
 
 private:
 

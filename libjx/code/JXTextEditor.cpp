@@ -27,6 +27,8 @@
 
 JXTextEditor::JXTextEditor
 	(
+	JStyledText*		text,
+	const JBoolean		ownsText,
 	JXMenuBar*			menuBar,
 	JXScrollbarSet*		scrollbarSet,
 	JXContainer*		enclosure,
@@ -38,13 +40,12 @@ JXTextEditor::JXTextEditor
 	const JCoordinate	h
 	)
 	:
-	JXTEBase(kFullEditor, kJFalse, kJTrue, scrollbarSet,
+	JXTEBase(kFullEditor, text, ownsText, kJFalse, scrollbarSet,
 			 enclosure, hSizing, vSizing, x,y, w,h)
 {
 	WantInput(kJTrue, kJTrue);
 	ShouldAllowDragAndDrop(kJTrue);
-	UseMultipleUndo();
-	SetLastSaveLocation();
+	GetText()->SetLastSaveLocation();
 
 	(scrollbarSet->GetVScrollbar())->SetScrollDelay(0);
 

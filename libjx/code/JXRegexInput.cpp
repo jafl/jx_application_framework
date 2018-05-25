@@ -66,7 +66,7 @@ JXRegexInput::InputValid()
 		}
 	else
 		{
-		const JString& text = GetText();
+		const JString& text = GetText()->GetText();
 
 		if (!IsRequired() && text.IsEmpty())
 			{

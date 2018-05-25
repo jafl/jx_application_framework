@@ -114,7 +114,7 @@ const JString&
 JXCSFDialogBase::GetFilter()
 	const
 {
-	return itsFilterInput->GetText();
+	return itsFilterInput->GetText()->GetText();
 }
 
 /******************************************************************************
@@ -304,10 +304,10 @@ JXCSFDialogBase::SetObjects
 	itsShowHiddenCB  = showHiddenCB;
 	itsCurrPathMenu  = currPathMenu;
 
-	itsPathInput->SetText(itsDirInfo->GetDirectory());
+	itsPathInput->GetText()->SetText(itsDirInfo->GetDirectory());
 	itsPathInput->SetBasePath(itsDirInfo->GetDirectory());
-	itsFilterInput->SetText(itsPrevFilterString);
-	itsFilterInput->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
+	itsFilterInput->GetText()->SetText(itsPrevFilterString);
+	itsFilterInput->GetText()->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
 
 	itsPathHistory->SetHistoryLength(kHistoryLength);
 	itsFilterHistory->SetHistoryLength(kHistoryLength);
@@ -449,7 +449,7 @@ JXCSFDialogBase::Receive
 		{
 		SelectPrevDirectory();
 		const JString& newDir = itsDirInfo->GetDirectory();
-		itsPathInput->SetText(newDir);
+		itsPathInput->GetText()->SetText(newDir);
 		itsPathInput->SetBasePath(newDir);
 		itsPathHistory->AddString(newDir);
 		itsCurrPathMenu->SetPath(newDir);
@@ -634,7 +634,7 @@ JXCSFDialogBase::UpdateDisplay()
 void
 JXCSFDialogBase::AdjustFilter()
 {
-	const JString& newFilter = itsFilterInput->GetText();
+	const JString& newFilter = itsFilterInput->GetText()->GetText();
 	if (newFilter != itsPrevFilterString)
 		{
 		itsDirInfo->SetWildcardFilter(newFilter);

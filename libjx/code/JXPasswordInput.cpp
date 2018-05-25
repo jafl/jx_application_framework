@@ -63,7 +63,7 @@ JXPasswordInput::~JXPasswordInput()
 void
 JXPasswordInput::ClearPassword()
 {
-	SetText(JString::empty);
+	GetText()->SetText(JString::empty);
 }
 
 /******************************************************************************
@@ -133,7 +133,7 @@ JXPasswordInput::Draw
 	r.top = r.bottom = b.ycenter();
 	r.Expand(0, kDotDiameter / 2);
 
-	const JSize textLength = GetTextLength();
+	const JSize textLength = GetText()->GetText().GetCharacterCount();
 	for (JIndex i=1; i<=textLength; i++)
 		{
 		p.JPainter::Ellipse(r);

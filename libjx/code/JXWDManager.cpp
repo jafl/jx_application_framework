@@ -417,8 +417,7 @@ JXWDManager::UpdateWDMenu1
 
 		const JXImage* icon;
 		if ((info.dir)->GetMenuIcon(&icon) &&
-			icon->GetDisplay() == menu->GetDisplay() &&
-			icon->GetColorManager() == menu->GetColorManager())
+			icon->GetDisplay() == menu->GetDisplay())
 			{
 			menu->SetItemImage(menuIndex, const_cast<JXImage*>(icon), kJFalse);
 			}

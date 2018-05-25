@@ -483,5 +483,5 @@ JXHistoryMenuBase::UpdateInputField
 	// make local copy in case menu is changed
 	const JString str = GetItemText(message);
 
-	input->SetText(str);
+	input->GetText()->SetText(str);
 }

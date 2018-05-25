@@ -55,6 +55,6 @@ JXFLWildcardInput::GetRegexString()
 	const
 {
 	JString regexStr;
-	JDirInfo::BuildRegexFromWildcardFilter(GetText(), &regexStr);
+	JDirInfo::BuildRegexFromWildcardFilter(GetText().GetText(), &regexStr);
 	return regexStr;
 }

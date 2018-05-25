@@ -53,5 +53,5 @@ JString
 JXFLRegexInput::GetRegexString()
 	const
 {
-	return GetText();
+	return GetText().GetText();
 }

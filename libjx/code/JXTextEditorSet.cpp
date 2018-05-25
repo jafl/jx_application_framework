@@ -22,6 +22,8 @@
 
 JXTextEditorSet::JXTextEditorSet
 	(
+	JStyledText*		text,
+	const JBoolean		ownsText,
 	JXTextEditor**		textEditor,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
@@ -44,9 +46,9 @@ JXTextEditorSet::JXTextEditorSet
 	assert( scrollbarSet != NULL );
 
 	*textEditor =
-		jnew JXTextEditor(menuBar, scrollbarSet,
-						 scrollbarSet->GetScrollEnclosure(),
-						 kHElastic, kVElastic, 0,0, 10,10);
+		jnew JXTextEditor(text, ownsText, menuBar, scrollbarSet,
+						  scrollbarSet->GetScrollEnclosure(),
+						  kHElastic, kVElastic, 0,0, 10,10);
 	assert( *textEditor != NULL );
 
 	(**textEditor).FitToEnclosure();
@@ -57,6 +59,8 @@ JXTextEditorSet::JXTextEditorSet
 JXTextEditorSet::JXTextEditorSet
 	(
 	JXMenuBar*			menuBar,
+	JStyledText*		text,
+	const JBoolean		ownsText,
 	JXTextEditor**		textEditor,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
@@ -76,9 +80,9 @@ JXTextEditorSet::JXTextEditorSet
 	assert( scrollbarSet != NULL );
 
 	*textEditor =
-		jnew JXTextEditor(menuBar, scrollbarSet,
-						 scrollbarSet->GetScrollEnclosure(),
-						 kHElastic, kVElastic, 0,0, 10,10);
+		jnew JXTextEditor(text, ownsText, menuBar, scrollbarSet,
+						  scrollbarSet->GetScrollEnclosure(),
+						  kHElastic, kVElastic, 0,0, 10,10);
 	assert( *textEditor != NULL );
 
 	(**textEditor).FitToEnclosure();

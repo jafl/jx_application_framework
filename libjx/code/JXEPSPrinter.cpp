@@ -13,10 +13,9 @@
 #include <JXEPSPrinter.h>
 #include <JXEPSPrintSetupDialog.h>
 #include <JXDisplay.h>
-#include <JXColorManager.h>
 #include <JXImage.h>
 #include <JXImagePainter.h>
-#include <JString.h>
+#include <JColorManager.h>
 #include <jStreamUtil.h>
 #include <jAssert.h>
 
@@ -35,7 +34,7 @@ JXEPSPrinter::JXEPSPrinter
 	JXDisplay* display
 	)
 	:
-	JEPSPrinter(display->GetFontManager(), display->GetColorManager())
+	JEPSPrinter(display->GetFontManager())
 {
 	itsDisplay = display;
 

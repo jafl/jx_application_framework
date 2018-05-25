@@ -2829,12 +2829,13 @@ JXTEBase::SearchForward
 	const JBoolean reportNotFound
 	)
 {
-	JRegex searchRegex;
+	JRegex* searchRegex;
 	JString replaceStr;
-	JBoolean entireWord, wrapSearch, replaceIsRegex, preserveCase;
+	JInterpolate* interpolator;
+	JBoolean entireWord, wrapSearch, preserveCase;
 	if (!(JXGetSearchTextDialog())->GetSearchParameters(
 			&searchRegex, &entireWord, &wrapSearch,
-			&replaceStr, &replaceIsRegex, &preserveCase))
+			&replaceStr, &interpolator, &preserveCase))
 		{
 		return kJFalse;
 		}
@@ -2845,7 +2846,7 @@ JXTEBase::SearchForward
 		}
 
 	JBoolean wrapped;
-	const JStringMatch m = JTextEditor::SearchForward(searchRegex, entireWord, wrapSearch, &wrapped);
+	const JStringMatch m = JTextEditor::SearchForward(*searchRegex, entireWord, wrapSearch, &wrapped);
 
 	if (!m.IsEmpty())
 		{
@@ -2871,12 +2872,13 @@ JXTEBase::SearchForward
 JBoolean
 JXTEBase::SearchBackward()
 {
-	JRegex searchRegex;
+	JRegex* searchRegex;
 	JString replaceStr;
-	JBoolean entireWord, wrapSearch, replaceIsRegex, preserveCase;
+	JInterpolate* interpolator;
+	JBoolean entireWord, wrapSearch, preserveCase;
 	if (!(JXGetSearchTextDialog())->GetSearchParameters(
 			&searchRegex, &entireWord, &wrapSearch,
-			&replaceStr, &replaceIsRegex, &preserveCase))
+			&replaceStr, &interpolator, &preserveCase))
 		{
 		return kJFalse;
 		}
@@ -2887,7 +2889,7 @@ JXTEBase::SearchBackward()
 		}
 
 	JBoolean wrapped;
-	const JStringMatch m = JTextEditor::SearchBackward(searchRegex, entireWord, wrapSearch, &wrapped);
+	const JStringMatch m = JTextEditor::SearchBackward(*searchRegex, entireWord, wrapSearch, &wrapped);
 
 	if (!m.IsEmpty())
 		{
@@ -2997,22 +2999,23 @@ JXTEBase::EnterReplaceSelection()
 JBoolean
 JXTEBase::ReplaceSelection()
 {
-	JRegex searchRegex;
+	JRegex* searchRegex;
 	JString replaceStr;
-	JBoolean entireWord, wrapSearch, replaceIsRegex, preserveCase;
+	JInterpolate* interpolator;
+	JBoolean entireWord, wrapSearch, preserveCase;
 	if (GetType() != kFullEditor ||
 		!(JXGetSearchTextDialog())->GetSearchParameters(
 			&searchRegex, &entireWord, &wrapSearch,
-			&replaceStr, &replaceIsRegex, &preserveCase))
+			&replaceStr, &interpolator, &preserveCase))
 		{
 		return kJFalse;
 		}
 
-	const JStringMatch m = SelectionMatches(searchRegex, entireWord);
+	const JStringMatch m = SelectionMatches(*searchRegex, entireWord);
 
 	if (!m.IsEmpty())
 		{
-		JTextEditor::ReplaceSelection(m, replaceStr, replaceIsRegex, preserveCase);
+		JTextEditor::ReplaceSelection(m, replaceStr, interpolator, preserveCase);
 		return kJTrue;
 		}
 	else
@@ -3036,19 +3039,20 @@ JXTEBase::ReplaceAll
 	const JBoolean restrictToSelection
 	)
 {
-	JRegex searchRegex;
+	JRegex* searchRegex;
 	JString replaceStr;
-	JBoolean entireWord, wrapSearch, replaceIsRegex, preserveCase;
+	JInterpolate* interpolator;
+	JBoolean entireWord, wrapSearch, preserveCase;
 	JRegex* regex;
 	if (GetType() == kFullEditor &&
 		(JXGetSearchTextDialog())->GetSearchParameters(
 			&searchRegex, &entireWord, &wrapSearch,
-			&replaceStr, &replaceIsRegex, &preserveCase))
+			&replaceStr, &interpolator, &preserveCase))
 		{
 		(JXGetApplication())->DisplayBusyCursor();
 
-		return JTextEditor::ReplaceAll(searchRegex, entireWord,
-									   replaceStr, replaceIsRegex,
+		return JTextEditor::ReplaceAll(*searchRegex, entireWord,
+									   replaceStr, interpolator,
 									   preserveCase, restrictToSelection);
 		}
 	else

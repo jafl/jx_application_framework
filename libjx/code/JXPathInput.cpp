@@ -40,7 +40,7 @@ JXPathInput::JXPathInput
 	const JCoordinate	h
 	)
 	:
-	JXInputField(enclosure, hSizing, vSizing, x,y, w,h),
+	JXInputField(jnew StyledText(this), enclosure, hSizing, vSizing, x,y, w,h),
 	itsCompleter(NULL),
 	itsCompletionMenu(NULL)
 {
@@ -48,11 +48,12 @@ JXPathInput::JXPathInput
 	itsRequireWriteFlag     = kJFalse;
 	itsExpectURLDropFlag    = kJFalse;
 	SetIsRequired();
-	SetCharacterInWordFunction(IsCharacterInWord);
-	SetDefaultFont(JFontManager::GetDefaultMonospaceFont());
+	GetText()->SetCharacterInWordFunction(IsCharacterInWord);
+	GetText()->SetDefaultFont(JFontManager::GetDefaultMonospaceFont());
 	ShouldBroadcastCaretLocationChanged(kJTrue);
 	SetHint(JGetString("Hint::JXPathInput"));
 	ListenTo(this);
+	ListenTo(this->GetText());
 }
 
 /******************************************************************************
@@ -76,8 +77,8 @@ JXPathInput::GetFont
 	JSize* size
 	)
 {
-	*size = JGetDefaultMonoFontSize();
-	return JGetMonospaceFontName();
+	*size = JGetDefaultMonospaceFontSize();
+	return JGetDefaultMonospaceFontName();
 }
 
 /******************************************************************************
@@ -130,7 +131,7 @@ JXPathInput::BoundsMoved
 	const JRect ap = GetAperture();
 	if (ap.left != 0)
 		{
-		SetHint(GetText());
+		SetHint(GetText()->GetText());
 		}
 	else
 		{
@@ -150,7 +151,7 @@ JXPathInput::Receive
 	const Message&	message
 	)
 {
-	if (sender == this && message.Is(JTextEditor::kTextSet))
+	if (sender == this->GetText() && message.Is(JStyledText::kTextSet))
 		{
 		GoToEndOfLine();
 		}
@@ -158,7 +159,7 @@ JXPathInput::Receive
 		{
 		JIndex i;
 		WantInput(kJTrue,
-				  JI2B(GetCaretLocation(&i) && i == GetTextLength()+1),
+				  JI2B(GetCaretLocation(&i) && i == GetText()->GetText().GetCharacterCount()+1),
 				  WantsModifiedTab());
 		}
 
@@ -186,7 +187,7 @@ JXPathInput::SetBasePath
 		{
 		assert( JIsAbsolutePath(path) );
 		itsBasePath = path;
-		RecalcAll(kJTrue);
+		RecalcAll();
 		}
 }
 
@@ -207,7 +208,7 @@ JXPathInput::GetPath
 	)
 	const
 {
-	const JString& text = GetText();
+	const JString& text = GetText().GetText();
 	return JI2B(!text.IsEmpty() &&
 				(JIsAbsolutePath(text) || HasBasePath()) &&
 				JConvertToAbsolutePath(text, &itsBasePath, path) &&
@@ -234,7 +235,7 @@ JXPathInput::InputValid()
 		return kJFalse;
 		}
 
-	const JString& text = GetText();
+	const JString& text = GetText()->GetText();
 	if (text.IsEmpty())		// paranoia -- JXInputField should have reported
 		{
 		return !IsRequired();
@@ -244,13 +245,13 @@ JXPathInput::InputValid()
 	if (JIsRelativePath(text) && !HasBasePath())
 		{
 		(JGetUserNotification())->ReportError(JGetString("NoRelPath::JXPathInput"));
-		RecalcAll(kJTrue);
+		RecalcAll();
 		return kJFalse;
 		}
 	if (!JConvertToAbsolutePath(text, &itsBasePath, &path))
 		{
 		(JGetUserNotification())->ReportError(JGetString("InvalidDir::JXPathInput"));
-		RecalcAll(kJTrue);
+		RecalcAll();
 		return kJFalse;
 		}
 
@@ -263,13 +264,13 @@ JXPathInput::InputValid()
 		if (!JDirectoryReadable(path))
 			{
 			(JGetUserNotification())->ReportError(JGetString("Unreadable::JXPathInput"));
-			RecalcAll(kJTrue);
+			RecalcAll();
 			return kJFalse;
 			}
 		else if (itsRequireWriteFlag && !JDirectoryWritable(path))
 			{
 			(JGetUserNotification())->ReportError(JGetString("DirNotWritable::JXGlobal"));
-			RecalcAll(kJTrue);
+			RecalcAll();
 			return kJFalse;
 			}
 		else
@@ -297,102 +298,8 @@ JXPathInput::InputValid()
 		}
 
 	(JGetUserNotification())->ReportError(JGetString(errID));
-	RecalcAll(kJTrue);
+	RecalcAll();
 	return kJFalse;
-}
-
-/******************************************************************************
- AdjustStylesBeforeRecalc (virtual protected)
-
-	Draw the invalid portion of the path in red.
-
- ******************************************************************************/
-
-#ifdef _J_UNIX
-static const JUtf8Byte* kThisDirSuffix = "/.";
-#elif defined WIN32
-static const JUtf8Byte* kThisDirSuffix = "\\.";
-#endif
-
-void
-JXPathInput::AdjustStylesBeforeRecalc
-	(
-	const JString&		buffer,
-	JRunArray<JFont>*	styles,
-	JIndexRange*		recalcRange,
-	JIndexRange*		redrawRange,
-	const JBoolean		deletion
-	)
-{
-	const JSize totalLength = buffer.GetCharacterCount();
-
-	JString fullPath = buffer;
-	if ((JIsRelativePath(buffer) && !HasBasePath()) ||
-		!JExpandHomeDirShortcut(buffer, &fullPath))
-		{
-		fullPath.Clear();
-		}
-
-	// Last clause because if JConvertToAbsolutePath() succeeds, we don't
-	// want to further modify fullName.
-
-	else if (JIsRelativePath(buffer) &&
-			 !JConvertToAbsolutePath(buffer, &itsBasePath, &fullPath))
-		{
-		if (HasBasePath())
-			{
-			fullPath = JCombinePathAndName(itsBasePath, buffer);
-			}
-		else
-			{
-			fullPath.Clear();
-			}
-		}
-
-	JSize errLength;
-	if (fullPath.IsEmpty())
-		{
-		errLength = totalLength;
-		}
-	else
-		{
-		const JString closestDir = JGetClosestDirectory(fullPath, itsRequireWriteFlag);
-		if (fullPath.BeginsWith(closestDir))
-			{
-			errLength = fullPath.GetCharacterCount() - closestDir.GetCharacterCount();
-			}
-		else
-			{
-			errLength = totalLength;
-			}
-		}
-
-	if (errLength > 0 && buffer.EndsWith(kThisDirSuffix))
-		{
-		errLength++;	// trailing . is trimmed
-		}
-
-	JFont f = styles->GetFirstElement();
-
-	styles->RemoveAll();
-	if (errLength >= totalLength)
-		{
-		f.SetColor(JColorManager::GetRedColor());
-		styles->AppendElements(f, totalLength);
-		}
-	else
-		{
-		f.SetColor(JColorManager::GetBlackColor());
-		styles->AppendElements(f, totalLength - errLength);
-
-		if (errLength > 0)
-			{
-			f.SetColor(JColorManager::GetRedColor());
-			styles->AppendElements(f, errLength);
-			}
-		}
-
-	*redrawRange += JIndexRange(1, totalLength);
 }
 
 /******************************************************************************
@@ -551,7 +458,7 @@ JXPathInput::HandleDNDDrop
 		}
 	else if (Focus() && GetDroppedDirectory(time, kJTrue, &dirName))
 		{
-		SetText(dirName);
+		GetText()->SetText(dirName);
 		}
 }
 
@@ -611,7 +518,7 @@ JString
 JXPathInput::GetTextForChoosePath()
 	const
 {
-	JString text = GetText();
+	JString text = GetText().GetText();
 	if (text.IsEmpty() && HasBasePath())
 		{
 		text = itsBasePath;
@@ -647,7 +554,7 @@ JXPathInput::ChoosePath
 		(!itsRequireWriteFlag &&
 		 (JGetChooseSaveFile())->ChooseRPath(prompt, instr, origPath, &newPath)))
 		{
-		SetText(newPath);
+		GetText()->SetText(newPath);
 		return kJTrue;
 		}
 	else
@@ -785,14 +692,14 @@ JXPathInput::Complete
 
 	JIndex caretIndex;
 	if (!te->GetCaretLocation(&caretIndex) ||
-		caretIndex != te->GetTextLength()+1)
+		caretIndex != te->GetText()->GetText().GetCharacterCount()+1)
 		{
 		return kJFalse;
 		}
 
 	// catch empty path
 
-	if (te->IsEmpty())
+	if (te->GetText()->IsEmpty())
 		{
 		const JString path = JGetRootDirectory();
 		te->Paste(path);
@@ -802,7 +709,7 @@ JXPathInput::Complete
 	// convert to absolute path
 
 	JString fullName;
-	if (!JExpandHomeDirShortcut(te->GetText(), &fullName))
+	if (!JExpandHomeDirShortcut(te->GetText()->GetText(), &fullName))
 		{
 		return kJFalse;
 		}
@@ -818,7 +725,7 @@ JXPathInput::Complete
 	// if completing ~ rather than ~/
 
 	if (fullName.EndsWith(ACE_DIRECTORY_SEPARATOR_STR) &&
-		!(te->GetText()).EndsWith(ACE_DIRECTORY_SEPARATOR_STR))
+		!te->GetText()->GetText().EndsWith(ACE_DIRECTORY_SEPARATOR_STR))
 		{
 		JStripTrailingDirSeparator(&fullName);
 		}
@@ -913,4 +820,100 @@ JXPathInput::Complete
 		{
 		return kJFalse;
 		}
+}
+
+/******************************************************************************
+ AdjustStylesBeforeBroadcast (virtual protected)
+
+	Draw the invalid portion of the path in red.
+
+ ******************************************************************************/
+
+#ifdef _J_UNIX
+static const JUtf8Byte* kThisDirSuffix = "/.";
+#elif defined WIN32
+static const JUtf8Byte* kThisDirSuffix = "\\.";
+#endif
+
+void
+JXPathInput::StyledText::AdjustStylesBeforeBroadcast
+	(
+	const JString&			text,
+	JRunArray<JFont>*		styles,
+	JStyledText::TextRange*	recalcRange,
+	JStyledText::TextRange*	redrawRange,
+	const JBoolean			deletion
+	)
+{
+	const JSize totalLength = text.GetCharacterCount();
+
+	JString fullPath = text;
+	if ((JIsRelativePath(text) && !itsField->HasBasePath()) ||
+		!JExpandHomeDirShortcut(text, &fullPath))
+		{
+		fullPath.Clear();
+		}
+
+	// Last clause because if JConvertToAbsolutePath() succeeds, we don't
+	// want to further modify fullName.
+
+	else if (JIsRelativePath(text) &&
+			 !JConvertToAbsolutePath(text, &itsField->itsBasePath, &fullPath))
+		{
+		if (itsField->HasBasePath())
+			{
+			fullPath = JCombinePathAndName(itsField->itsBasePath, text);
+			}
+		else
+			{
+			fullPath.Clear();
+			}
+		}
+
+	JSize errLength;
+	if (fullPath.IsEmpty())
+		{
+		errLength = totalLength;
+		}
+	else
+		{
+		const JString closestDir = JGetClosestDirectory(fullPath, itsField->itsRequireWriteFlag);
+		if (fullPath.BeginsWith(closestDir))
+			{
+			errLength = fullPath.GetCharacterCount() - closestDir.GetCharacterCount();
+			}
+		else
+			{
+			errLength = totalLength;
+			}
+		}
+
+	if (errLength > 0 && text.EndsWith(kThisDirSuffix))
+		{
+		errLength++;	// trailing . is trimmed
+		}
+
+	JFont f = styles->GetFirstElement();
+
+	styles->RemoveAll();
+	if (errLength >= totalLength)
+		{
+		f.SetColor(JColorManager::GetRedColor());
+		styles->AppendElements(f, totalLength);
+		}
+	else
+		{
+		f.SetColor(JColorManager::GetBlackColor());
+		styles->AppendElements(f, totalLength - errLength);
+
+		if (errLength > 0)
+			{
+			f.SetColor(JColorManager::GetRedColor());
+			styles->AppendElements(f, errLength);
+			}
+		}
+
+	*redrawRange = JStyledText::TextRange(
+		JCharacterRange(1, totalLength),
+		JUtf8ByteRange(1, text.GetByteCount()));
 }

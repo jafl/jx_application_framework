@@ -62,6 +62,33 @@ public:
 
 protected:
 
+	class StyledText : public JStyledText
+	{
+		public:
+
+		StyledText(const JBoolean acceptNewline)
+			:
+			JStyledText(kJFalse, kJFalse),
+			itsAcceptNewlineFlag(acceptNewline)
+		{ };
+
+		protected:
+
+		virtual JBoolean	NeedsToFilterText(const JString& text) const override;
+		virtual JBoolean	FilterText(JString* text, JRunArray<JFont>* style) override;
+
+		private:
+
+		const JBoolean	itsAcceptNewlineFlag;
+	};
+
+protected:
+
+	JXInputField(StyledText* text, JXContainer* enclosure,
+				 const HSizingOption hSizing, const VSizingOption vSizing,
+				 const JCoordinate x, const JCoordinate y,
+				 const JCoordinate w, const JCoordinate h);
+
 	virtual void		HandleFocusEvent() override;
 	virtual void		HandleUnfocusEvent() override;
 	virtual JBoolean	OKToUnfocus() override;
@@ -76,25 +103,21 @@ protected:
 
 	virtual void	DrawBorder(JXWindowPainter& p, const JRect& frame) override;
 
-	virtual JBoolean	NeedsToFilterText(const JString& text) const;
-	virtual JBoolean	FilterText(JString* text, JRunArray<JFont>* style);
-
 	virtual JCoordinate	GetFTCMinContentSize(const JBoolean horizontal) const override;
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 
-	JBoolean	itsAcceptNewlineFlag;
-	JSize		itsMinLength;
-	JSize		itsMaxLength;		// 0 => no maximum
+	JSize	itsMinLength;
+	JSize	itsMaxLength;		// 0 => no maximum
 
 	JXTextMenu*		itsContextMenu;	// NULL until first used
 	JXEditTable*	itsTable;		// can be NULL; if not, it owns us
 
 private:
 
-	void	JXInputFieldX(const JBoolean acceptNewline);
+	void	JXInputFieldX();
 
 	void		CreateContextMenu();
 	void		UpdateContextMenu();

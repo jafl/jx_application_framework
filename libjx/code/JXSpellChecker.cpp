@@ -115,9 +115,8 @@ JXSpellChecker::Check
 		return;
 		}
 
-	JIndexRange range(1, editor->GetTextLength());
-
-	JXSpellCheckerDialog* dlog = jnew JXSpellCheckerDialog(this, editor, range);
+	JXSpellCheckerDialog* dlog =
+		jnew JXSpellCheckerDialog(this, editor, editor->GetText()->SelectAll());
 	assert( dlog != NULL );
 	dlog->Check();
 }
@@ -140,7 +139,8 @@ JXSpellChecker::CheckSelection
 		return;
 		}
 
-	JXSpellCheckerDialog* dlog = jnew JXSpellCheckerDialog(this, editor, range);
+	JXSpellCheckerDialog* dlog =
+		jnew JXSpellCheckerDialog(this, editor, editor->GetText()->CharToTextRange(NULL, range));
 	assert( dlog != NULL );
 	dlog->Check();
 }

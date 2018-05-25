@@ -78,7 +78,7 @@ JXStringCompletionMenu::AddString
 		{
 		if (IsEmpty())
 			{
-			SetDefaultFont(itsTE->GetDefaultFont(), kJFalse);
+			SetDefaultFont(itsTE->GetText()->GetDefaultFont(), kJFalse);
 			}
 
 		JString shortcut;
@@ -152,7 +152,7 @@ JXStringCompletionMenu::CompletionRequested
 
 		// place it next to the caret (use the character in front of the caret)
 
-		const JIndex charIndex = itsTE->GetInsertionIndex() - 1;
+		const JIndex charIndex = itsTE->GetInsertionCharIndex() - 1;
 		const JCoordinate x    = itsTE->GetCharRight(charIndex) + 2;
 		const JIndex lineIndex = itsTE->GetLineForChar(charIndex);
 		const JCoordinate y    = itsTE->GetLineTop(lineIndex) - GetFrameHeight();

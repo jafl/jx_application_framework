@@ -55,6 +55,8 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //		Added methods ShowChangeLog() and ShowCredits().
 //	*** App must define HELP_URL and CHANGE_LOG_URL.
 //	All strings have been extracted to jx_strings.
+//	JXTipOfTheDayDialog
+//		*** Switched from HTML to limited markdown.  Changed tip separator to "====="
 
 // version 3.1.0:
 //	JXGetStringDialog:

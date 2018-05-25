@@ -17,6 +17,7 @@
 #include <JXScrollbarSet.h>
 #include <JXColorManager.h>
 #include <jXGlobals.h>
+#include <JRegex.h>
 #include <JUserNotification.h>
 #include <jAssert.h>
 
@@ -27,16 +28,16 @@
 
 JXSpellCheckerDialog::JXSpellCheckerDialog
 	(
-	JXSpellChecker*		checker,
-	JXTEBase*			editor,
-	const JIndexRange&	range
+	JXSpellChecker*					checker,
+	JXTEBase*						editor,
+	const JStyledText::TextRange&	range
 	)
 	:
 	JXDialogDirector(editor->GetWindow()->GetDirector(), kJTrue),
 	itsChecker(checker),
 	itsEditor(editor),
 	itsCheckRange(range),
-	itsCurrentIndex(range.first),
+	itsCurrentIndex(range.GetFirst()),
 	itsFoundErrorsFlag(kJFalse)
 {
 	itsSuggestionList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll, 100);
@@ -96,11 +97,11 @@ JXSpellCheckerDialog::Deactivate()
 JBoolean
 JXSpellCheckerDialog::Close()
 {
-	itsEditor->SetCaretLocation(itsCheckRange.first);
+	itsEditor->SetCaretLocation(itsCheckRange.charRange.first);
 
 	if (!itsFoundErrorsFlag && itsChecker->WillReportNoErrors())
 		{
-		(JGetUserNotification())->DisplayMessage(JGetString(kNoErrorsID));
+		(JGetUserNotification())->DisplayMessage(JGetString("NoErrors::JXSpellCheckerDialog"));
 		}
 
 	return JXDialogDirector::Close();
@@ -206,11 +207,10 @@ JXSpellCheckerDialog::BuildWindow()
 	ListenTo(itsChangeAllButton);
 
 	itsCheckText->SetCurrentFontBold(kJTrue);
-	itsCheckText->SetDefaultFontStyle(JFontStyle(kJTrue, kJFalse, 0, kJFalse));
+	itsCheckText->GetText()->SetDefaultFontStyle(JFontStyle(kJTrue, kJFalse, 0, kJFalse));
 
 	itsFirstGuess->SetBackColor(itsFirstGuess->GetFocusColor());
-	itsFirstGuess->ShouldBroadcastAllTextChanged(kJTrue);
-	ListenTo(itsFirstGuess);
+	ListenTo(itsFirstGuess->GetText());
 
 	// place intelligently
 	// (outside left, right, bottom, top; inside top, bottom, left, right)
@@ -284,11 +284,11 @@ JXSpellCheckerDialog::Check()
 	JBoolean keepGoing = kJTrue;
 	while (keepGoing)
 		{
-		const JIndex end   = itsEditor->GetWordEnd(itsCurrentIndex);
-		const JIndex start = itsEditor->GetWordStart(end);
-		if (end < start ||
-			!itsEditor->IndexValid(itsCurrentIndex) ||
-			itsCheckRange.last < start)
+		const JStyledText::TextIndex end   = itsEditor->GetText()->GetWordEnd(itsCurrentIndex);
+		const JStyledText::TextIndex start = itsEditor->GetText()->GetWordStart(end);
+		if (end.charIndex < start.charIndex ||
+			!itsEditor->GetText()->GetText().CharacterIndexValid(itsCurrentIndex.charIndex) ||
+			itsCheckRange.charRange.last < start.charIndex)
 			{
 			if (IsActive())
 				{
@@ -302,7 +302,10 @@ JXSpellCheckerDialog::Check()
 			}
 		else
 			{
-			itsEditor->SetSelection(start, end);
+			const JStyledText::TextIndex beyondEnd =
+				itsEditor->GetText()->AdjustTextIndex(end, +1);
+
+			itsEditor->SetSelection(JStyledText::TextRange(start, beyondEnd));
 
 			JString word;
 			const JBoolean selected = itsEditor->GetSelection(&word);
@@ -310,20 +313,20 @@ JXSpellCheckerDialog::Check()
 
 			JBoolean goodFirstSuggestion;
 			keepGoing       = itsChecker->CheckWord(word, itsSuggestionList, &goodFirstSuggestion);
-			itsCurrentIndex = end + 1;
+			itsCurrentIndex = beyondEnd;
 
 			if (!keepGoing)
 				{
 				itsFoundErrorsFlag = kJTrue;
-				itsCheckText->SetText(word);
+				itsCheckText->GetText()->SetText(word);
 
 				if (itsSuggestionList->IsEmpty())
 					{
-					itsFirstGuess->SetText(JString::empty);
+					itsFirstGuess->GetText()->SetText(JString::empty);
 					}
 				else if (goodFirstSuggestion)
 					{
-					itsFirstGuess->SetText(*(itsSuggestionList->GetElement(1)));
+					itsFirstGuess->GetText()->SetText(*(itsSuggestionList->GetElement(1)));
 					}
 				itsSuggestionWidget->SetStringList(itsSuggestionList);
 
@@ -352,7 +355,7 @@ JXSpellCheckerDialog::Receive
 			dynamic_cast<const JXSpellList::WordSelected*>(&message);
 		assert( choice != NULL );
 
-		itsFirstGuess->SetText(choice->GetWord());
+		itsFirstGuess->GetText()->SetText(choice->GetWord());
 		itsFirstGuess->Focus();
 		itsIgnoreButton->SetShortcuts(JString::empty);
 		itsChangeButton->SetShortcuts(JGetString("DefaultButtonShortcut::JXSpellCheckerDialog"));
@@ -363,7 +366,7 @@ JXSpellCheckerDialog::Receive
 			dynamic_cast<const JXSpellList::ReplaceWord*>(&message);
 		assert( choice != NULL );
 
-		itsFirstGuess->SetText(choice->GetWord());
+		itsFirstGuess->GetText()->SetText(choice->GetWord());
 		Change();
 		Check();
 		}
@@ -373,16 +376,16 @@ JXSpellCheckerDialog::Receive
 			dynamic_cast<const JXSpellList::ReplaceWordAll*>(&message);
 		assert( choice != NULL );
 
-		itsFirstGuess->SetText(choice->GetWord());
+		itsFirstGuess->GetText()->SetText(choice->GetWord());
 		ChangeAll();
 		Check();
 		}
 
-	else if (sender == itsFirstGuess &&
-			 (message.Is(JTextEditor::kTextChanged) ||
-			  message.Is(JTextEditor::kTextSet)))
+	else if (sender == itsFirstGuess->GetText() &&
+			 (message.Is(JStyledText::kTextChanged) ||
+			  message.Is(JStyledText::kTextSet)))
 		{
-		if (itsFirstGuess->IsEmpty())
+		if (itsFirstGuess->GetText()->IsEmpty())
 			{
 			itsIgnoreButton->SetShortcuts(JGetString("DefaultButtonShortcut::JXSpellCheckerDialog"));
 			itsChangeButton->SetShortcuts(JString::empty);
@@ -400,7 +403,7 @@ JXSpellCheckerDialog::Receive
 
 	else if (sender == itsIgnoreButton && message.Is(JXButton::kPushed))
 		{
-		itsChecker->Ignore(itsCheckText->GetText());
+		itsChecker->Ignore(itsCheckText->GetText()->GetText());
 		Check();
 		}
 	else if (sender == itsChangeButton && message.Is(JXButton::kPushed))
@@ -415,12 +418,12 @@ JXSpellCheckerDialog::Receive
 		}
 	else if (sender == itsLearnButton && message.Is(JXButton::kPushed))
 		{
-		itsChecker->Learn(itsCheckText->GetText());
+		itsChecker->Learn(itsCheckText->GetText()->GetText());
 		Check();
 		}
 	else if (sender == itsLearnCapsButton && message.Is(JXButton::kPushed))
 		{
-		itsChecker->LearnCaps(itsCheckText->GetText());
+		itsChecker->LearnCaps(itsCheckText->GetText()->GetText());
 		Check();
 		}
 
@@ -438,10 +441,14 @@ JXSpellCheckerDialog::Receive
 void
 JXSpellCheckerDialog::Change()
 {
-	itsEditor->Paste(itsFirstGuess->GetText());
-	itsCurrentIndex     = itsEditor->GetInsertionIndex();
-	itsCheckRange.last -= itsCheckText->GetTextLength();
-	itsCheckRange.last += itsFirstGuess->GetTextLength();
+	itsEditor->Paste(itsFirstGuess->GetText()->GetText());
+	itsCurrentIndex = itsEditor->GetInsertionIndex();
+
+	itsCheckRange.charRange.last -= itsCheckText->GetText()->GetText().GetCharacterCount();
+	itsCheckRange.byteRange.last -= itsCheckText->GetText()->GetText().GetByteCount();
+
+	itsCheckRange.charRange.last += itsFirstGuess->GetText()->GetText().GetCharacterCount();
+	itsCheckRange.byteRange.last += itsFirstGuess->GetText()->GetText().GetByteCount();
 }
 
 /******************************************************************************
@@ -454,16 +461,22 @@ JXSpellCheckerDialog::ChangeAll()
 {
 	Change();
 
-	const JString& oldWord = itsCheckText->GetText();
-	const JString& newWord = itsFirstGuess->GetText();
+	const JString& oldWord = itsCheckText->GetText()->GetText();
+	const JString& newWord = itsFirstGuess->GetText()->GetText();
+
+	JRegex pattern(JRegex::BackslashForLiteral(oldWord));
 
 	JBoolean wrapped;
 	JCharacterRange r;
-	while (itsEditor->JTextEditor::SearchForward(oldWord, kJTrue, kJTrue, kJFalse, &wrapped) &&
-		   itsEditor->GetSelection(&r) && r.first <= itsCheckRange.last)
+	while (!itsEditor->JTextEditor::SearchForward(pattern, kJTrue, kJFalse, &wrapped).IsEmpty() &&
+		   itsEditor->GetSelection(&r) && r.first <= itsCheckRange.charRange.last)
 		{
 		itsEditor->Paste(newWord);
-		itsCheckRange.last -= oldWord.GetCharacterCount();
-		itsCheckRange.last += newWord.GetCharacterCount();
+
+		itsCheckRange.charRange.last -= oldWord.GetCharacterCount();
+		itsCheckRange.byteRange.last -= oldWord.GetByteCount();
+
+		itsCheckRange.charRange.last += newWord.GetCharacterCount();
+		itsCheckRange.byteRange.last += newWord.GetByteCount();
 		}
 }

@@ -55,10 +55,10 @@ protected:
 	JBoolean			GetNode(const JPoint& pt, JPoint* cell, NodePart* part) const;
 	virtual JBoolean	HitSamePart(const JPoint& pt1, const JPoint& pt2) const override;
 
-	virtual void		AdjustToTree();
-	virtual JSize		GetMinCellWidth(const JPoint& cell) const;
+	virtual void		AdjustToTree() override;
+	virtual JSize		GetMinCellWidth(const JPoint& cell) const override;
 
-	virtual void		TLWDrawNode(JPainter& p, const JPoint& cell, const JRect& rect);
+	virtual void		TLWDrawNode(JPainter& p, const JPoint& cell, const JRect& rect) override;
 	virtual JBoolean	GetImage(const JIndex index, const JXImage** image) const;
 	JSize				GetImageWidth(const JIndex index) const;
 	JBoolean			GetImageRect(const JIndex index, JRect* rect) const;
@@ -69,11 +69,11 @@ protected:
 
 	virtual JXInputField*	CreateXInputField(const JPoint& cell,
 											  const JCoordinate x, const JCoordinate y,
-											  const JCoordinate w, const JCoordinate h);
-	virtual JBoolean		ExtractInputData(const JPoint& cell);
-	virtual void			PrepareDeleteXInputField();
-	virtual void			PlaceInputField(const JCoordinate x, const JCoordinate y);
-	virtual void			SetInputFieldSize(const JCoordinate w, const JCoordinate h);
+											  const JCoordinate w, const JCoordinate h) override;
+	virtual JBoolean		ExtractInputData(const JPoint& cell) override;
+	virtual void			PrepareDeleteXInputField() override;
+	virtual void			PlaceInputField(const JCoordinate x, const JCoordinate y) override;
+	virtual void			SetInputFieldSize(const JCoordinate w, const JCoordinate h) override;
 	JCoordinate				GetInputFieldIndent(const JIndex index) const;
 
 	virtual JXInputField*

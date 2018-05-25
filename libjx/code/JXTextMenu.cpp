@@ -360,16 +360,7 @@ JXTextMenu::SetItemImage
 	)
 {
 	JXImage* image = GetDisplay()->GetImageCache()->GetImage(data);
-	if (image->GetXColorManager() == GetColorManager())
-		{
-		SetItemImage(index, image, kJFalse);
-		}
-	else
-		{
-		JXImage* image = jnew JXImage(GetDisplay(), data);
-		assert( image != NULL );
-		SetItemImage(index, image, kJTrue);
-		}
+	SetItemImage(index, image, kJFalse);
 }
 
 void

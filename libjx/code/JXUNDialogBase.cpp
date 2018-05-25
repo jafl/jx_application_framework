@@ -58,7 +58,7 @@ JXUNDialogBase::Init
 		{
 		text->SetBreakCROnly(kJTrue);
 		}
-	text->SetText(message);
+	text->GetText()->SetText(message);
 
 	// adjust window size to fit text - more sophisticated than ftc
 

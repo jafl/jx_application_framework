@@ -59,9 +59,9 @@ public:
 	void		SetReplaceText(const JString& str);
 	void		SetRegexReplace(const JBoolean regex = kJTrue);
 
-	JBoolean	GetSearchParameters(JRegex* searchRegex, JBoolean* entireWord,
+	JBoolean	GetSearchParameters(JRegex** searchRegex, JBoolean* entireWord,
 									JBoolean* wrapSearch,
-									JString* replaceStr, JBoolean* replaceIsRegex,
+									JString* replaceStr, JInterpolate** interpolator,
 									JBoolean* preserveCase) const;
 
 	void	SetFont(const JString& name, const JSize size);
@@ -88,8 +88,7 @@ protected:
 					   JXSearchTextButton* findFwdButton, JXSearchTextButton* findBackButton,
 					   JXTextButton* replaceButton,
 					   JXSearchTextButton* replaceFindFwdButton, JXSearchTextButton* replaceFindBackButton,
-					   JXSearchTextButton* replaceAllFwdButton, JXSearchTextButton* replaceAllBackButton,
-					   JXTextButton* replaceAllInSelButton,
+					   JXTextButton* replaceAllButton, JXTextButton* replaceAllInSelButton,
 					   JXTextButton* closeButton, JXTextButton* helpButton, JXTextButton* qRefButton);
 
 	JXSearchTextButton*	GetFindFwdButton() const;
@@ -97,8 +96,7 @@ protected:
 	JXTextButton*		GetReplaceButton() const;
 	JXSearchTextButton*	GetReplaceFindFwdButton() const;
 	JXSearchTextButton*	GetReplaceFindBackButton() const;
-	JXSearchTextButton*	GetReplaceAllFwdButton() const;
-	JXSearchTextButton*	GetReplaceAllBackButton() const;
+	JXTextButton*		GetReplaceAllButton() const;
 	JXTextButton*		GetReplaceAllInSelButton() const;
 
 	virtual void	UpdateDisplay();
@@ -152,13 +150,12 @@ private:
 	JXSearchTextButton*  itsFindFwdButton;
 	JXSearchTextButton*  itsReplaceFindBackButton;
 	JXSearchTextButton*  itsReplaceFindFwdButton;
-	JXSearchTextButton*  itsReplaceAllBackButton;
-	JXSearchTextButton*  itsReplaceAllFwdButton;
 	JXTextButton*        itsReplaceAllInSelButton;
 	JXTextCheckbox*      itsStayOpenCB;
 	JXTextCheckbox*      itsRetainFocusCB;
 	JXInputField*        itsSearchInput;
 	JXInputField*        itsReplaceInput;
+	JXTextButton*        itsReplaceAllButton;
 
 // end JXLayout
 
@@ -267,18 +264,11 @@ JXSearchTextDialog::GetReplaceFindBackButton()
 	return itsReplaceFindBackButton;
 }
 
-inline JXSearchTextButton*
-JXSearchTextDialog::GetReplaceAllFwdButton()
+inline JXTextButton*
+JXSearchTextDialog::GetReplaceAllButton()
 	const
 {
-	return itsReplaceAllFwdButton;
-}
-
-inline JXSearchTextButton*
-JXSearchTextDialog::GetReplaceAllBackButton()
-	const
-{
-	return itsReplaceAllBackButton;
+	return itsReplaceAllButton;
 }
 
 inline JXTextButton*

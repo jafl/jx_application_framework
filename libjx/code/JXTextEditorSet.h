@@ -12,6 +12,7 @@
 
 #include <JXWidgetSet.h>
 
+class JStyledText;
 class JXMenuBar;
 class JXTextEditor;
 
@@ -19,12 +20,13 @@ class JXTextEditorSet : public JXWidgetSet
 {
 public:
 
-	JXTextEditorSet(JXTextEditor** textEditor, JXContainer* enclosure,
+	JXTextEditorSet(JStyledText* text, const JBoolean ownsText,
+					JXTextEditor** textEditor, JXContainer* enclosure,
 					const HSizingOption hSizing, const VSizingOption vSizing,
 					const JCoordinate x, const JCoordinate y,
 					const JCoordinate w, const JCoordinate h);
 
-	JXTextEditorSet(JXMenuBar* menuBar,
+	JXTextEditorSet(JXMenuBar* menuBar, JStyledText* text, const JBoolean ownsText,
 					JXTextEditor** textEditor, JXContainer* enclosure,
 					const HSizingOption hSizing, const VSizingOption vSizing,
 					const JCoordinate x, const JCoordinate y,

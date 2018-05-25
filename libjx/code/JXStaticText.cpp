@@ -33,7 +33,8 @@ JXStaticText::JXStaticText
 	const JCoordinate	h
 	)
 	:
-	JXTEBase(kStaticText, JI2B(w==0), kJFalse, NULL,
+	JXTEBase(kStaticText, jnew JStyledText(kJFalse, kJFalse), kJTrue,
+			 JI2B(w==0), NULL,
 			 enclosure, hSizing, vSizing, x,y,
 			 (w>0 ? w : 100), (h>0 ? h : 100))
 {
@@ -57,7 +58,8 @@ JXStaticText::JXStaticText
 	)
 	:
 	JXTEBase((selectable ? kSelectableText : kStaticText),
-			 !wordWrap, kJFalse, scrollbarSet,
+			 jnew JStyledText(kJFalse, kJFalse), kJTrue,
+			 !wordWrap, scrollbarSet,
 			 enclosure, hSizing, vSizing, x,y,
 			 (w>0 ? w : 100), (h>0 ? h : 100))
 {
@@ -80,7 +82,7 @@ JXStaticText::JXStaticTextX
 
 	TESetLeftMarginWidth(kMinLeftMarginWidth);
 
-	SetText(text);
+	GetText()->SetText(text);
 
 	JCoordinate w = origW;
 	JCoordinate h = origH;
@@ -114,7 +116,7 @@ JString
 JXStaticText::ToString()
 	const
 {
-	return JXTEBase::ToString() + ": " + GetText();
+	return JXTEBase::ToString() + JString(": ", 0, kJFalse) + GetText().GetText();
 }
 
 /******************************************************************************

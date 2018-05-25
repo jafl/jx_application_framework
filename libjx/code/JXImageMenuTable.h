@@ -33,14 +33,14 @@ public:
 
 protected:
 
-	virtual void	TableDrawCell(JPainter& p, const JPoint& cell, const JRect& rect);
+	virtual void	TableDrawCell(JPainter& p, const JPoint& cell, const JRect& rect) override;
 
 	virtual JBoolean	CellToItemIndex(const JPoint& pt, const JPoint& cell,
-										JIndex* itemIndex) const;
-	virtual void		MenuHilightItem(const JIndex itemIndex);
-	virtual void		MenuUnhilightItem(const JIndex itemIndex);
+										JIndex* itemIndex) const override;
+	virtual void		MenuHilightItem(const JIndex itemIndex) override;
+	virtual void		MenuUnhilightItem(const JIndex itemIndex) override;
 	virtual void		GetSubmenuPoints(const JIndex itemIndex,
-										 JPoint* leftPt, JPoint* rightPt);
+										 JPoint* leftPt, JPoint* rightPt) override;
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 

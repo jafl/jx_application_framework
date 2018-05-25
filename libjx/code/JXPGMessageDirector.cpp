@@ -98,7 +98,7 @@ JXPGMessageDirector::BuildWindow()
 						 0,0, 10,10);
 	itsMessageText->FitToEnclosure();
 
-	itsMessageText->SetDefaultFont(window->GetFontManager()->GetDefaultMonospaceFont());
+	itsMessageText->GetText()->SetDefaultFont(JFontManager::GetDefaultMonospaceFont());
 }
 
 /******************************************************************************
@@ -116,7 +116,7 @@ JXPGMessageDirector::AddMessageLine
 {
 	itsMessageText->GoToEndOfLine();
 
-	if (!itsMessageText->IsEmpty())
+	if (!itsMessageText->GetText()->IsEmpty())
 		{
 		itsMessageText->Paste(JString("\n", 0, kJFalse));
 		}
@@ -213,7 +213,7 @@ JXPGMessageDirector::SaveMessages()
 			JGetString("DefaultName::JXPGMessageDirector"), &fileName))
 		{
 		std::ofstream output(fileName.GetBytes());
-		const JString& text = itsMessageText->GetText();
+		const JString& text = itsMessageText->GetText()->GetText();
 		text.Print(output);
 		output << std::endl;		// cosmetics
 		}

@@ -272,8 +272,6 @@ JXSaveFileDialog::SetObjects
 	itsSaveButton    = saveButton;
 	itsFileNameInput = fileNameInput;
 
-	itsFileNameInput->ShouldBroadcastAllTextChanged(kJTrue);		// want every keypress
-
 	JXWindow* window = scrollbarSet->GetWindow();
 	window->SetTitle(JGetString("Title::JXSaveFileDialog"));
 
@@ -287,8 +285,8 @@ JXSaveFileDialog::SetObjects
 	JXDirTable* table = GetFileBrowser();
 	table->AllowSelectFiles(kJFalse, kJFalse);
 	table->AllowDblClickInactive(kJTrue);
-	promptLabel->SetText(prompt);
-	itsFileNameInput->SetText(origName);
+	promptLabel->GetText()->SetText(prompt);
+	itsFileNameInput->GetText()->SetText(origName);
 
 	JXDirTable* fileBrowser = GetFileBrowser();
 	fileBrowser->ShouldSelectWhenChangePath(kJFalse);
@@ -308,6 +306,7 @@ JXSaveFileDialog::SetObjects
 	ListenTo(fileBrowser);
 	ListenTo(&(fileBrowser->GetTableSelection()));
 	ListenTo(itsFileNameInput);
+	ListenTo(itsFileNameInput->GetText());
 
 	cancelButton->SetShortcuts(JGetString("CancelShortcut::JXGlobal"));
 
@@ -335,23 +334,22 @@ JXSaveFileDialog::Receive
 {
 	JXDirTable* fileBrowser = GetFileBrowser();
 
-	if (sender == itsFileNameInput)
+	if (sender == itsFileNameInput && message.Is(JXWidget::kGotFocus))
 		{
-		if (message.Is(JXWidget::kGotFocus))
-			{
-			itsSaveButton->SetLabel(JGetString("SaveLabel::JXSaveFileDialog"));
-			UpdateDisplay();
-			}
-		else if (message.Is(JXWidget::kLostFocus))
-			{
-			itsSaveButton->SetLabel(JGetString("OpenLabel::JXSaveFileDialog"));
-			UpdateDisplay();
-			}
-		else if (message.Is(JTextEditor::kTextChanged) ||
-				 message.Is(JTextEditor::kTextSet))
-			{
-			UpdateDisplay();
-			}
+		itsSaveButton->SetLabel(JGetString("SaveLabel::JXSaveFileDialog"));
+		UpdateDisplay();
+		}
+	else if (sender == itsFileNameInput && message.Is(JXWidget::kLostFocus))
+		{
+		itsSaveButton->SetLabel(JGetString("OpenLabel::JXSaveFileDialog"));
+		UpdateDisplay();
+		}
+
+	else if (sender == itsFileNameInput->GetText() &&
+			 (message.Is(JStyledText::kTextChanged) ||
+			  message.Is(JStyledText::kTextSet)))
+		{
+		UpdateDisplay();
 		}
 
 	else if (sender == fileBrowser && message.Is(JXDirTable::kFileDblClicked))
@@ -360,7 +358,7 @@ JXSaveFileDialog::Receive
 			dynamic_cast<const JXDirTable::FileDblClicked*>(&message);
 		assert( info != NULL );
 		const JString fileName = (info->GetDirEntry()).GetName();
-		itsFileNameInput->SetText(fileName);
+		itsFileNameInput->GetText()->SetText(fileName);
 		itsFileNameInput->Focus();
 		}
 
@@ -418,7 +416,7 @@ JXSaveFileDialog::OKToDeactivate()
 		return kJFalse;
 		}
 
-	const JString& fileName = itsFileNameInput->GetText();
+	const JString& fileName = itsFileNameInput->GetText()->GetText();
 	if (fileName.IsEmpty())
 		{
 		(JGetUserNotification())->ReportError(JGetString("MustEnterFileName::JXSaveFileDialog"));
@@ -488,7 +486,7 @@ JXSaveFileDialog::UpdateDisplay()
 		}
 
 	if ((itsFileNameInput->HasFocus() || saveWoutFocus) &&
-		((itsFileNameInput->GetText()).IsEmpty() ||
+		(itsFileNameInput->GetText()->GetText().IsEmpty() ||
 		 !GetDirInfo()->IsWritable()))
 		{
 		itsSaveButton->Deactivate();
@@ -498,7 +496,7 @@ JXSaveFileDialog::UpdateDisplay()
 		itsSaveButton->Activate();
 		}
 
-	if ((itsFileNameInput->GetText()).IsEmpty())
+	if (itsFileNameInput->GetText()->GetText().IsEmpty())
 		{
 		itsXDSSource->Deactivate();
 		}

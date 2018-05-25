@@ -44,10 +44,12 @@ Makefiles:
 .PHONY : tidy
 tidy::
 	@cd test; ${MAKE} tidy
+	@cd testui; ${MAKE} tidy
 
 .PHONY : clean
 clean::
 	@cd test; ${MAKE} clean
+	@cd testui; ${MAKE} clean
 
 # DO NOT DELETE THIS LINE -- Code Crusader depends on it.
 

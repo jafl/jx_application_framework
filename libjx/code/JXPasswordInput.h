@@ -30,7 +30,7 @@ public:
 
 protected:
 
-	virtual void	TERefreshRect(const JRect& rect);
+	virtual void	TERefreshRect(const JRect& rect) override;
 	virtual void	Draw(JXWindowPainter& p, const JRect& rect) override;
 
 	virtual void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
@@ -60,7 +60,7 @@ inline const JString&
 JXPasswordInput::GetPassword()
 	const
 {
-	return GetText();
+	return GetText().GetText();
 }
 
 #endif

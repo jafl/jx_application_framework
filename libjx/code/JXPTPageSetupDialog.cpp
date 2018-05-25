@@ -193,9 +193,9 @@ JXPTPageSetupDialog::SetObjects
 	(okButton->GetWindow())->SetTitle(JGetString("WindowTitle::JXPTPageSetupDialog"));
 	SetButtons(okButton, cancelButton);
 
-	itsPrintCmd->SetText(printCmd);
+	itsPrintCmd->GetText()->SetText(printCmd);
 	itsPrintCmd->SetIsRequired();
-	itsPrintCmd->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
+	itsPrintCmd->GetText()->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
 
 	itsWidth->SetValue(pageWidth);
 	itsWidth->SetLowerLimit(1);
@@ -220,7 +220,7 @@ JXPTPageSetupDialog::SetParameters
 	)
 	const
 {
-	const JString& printCmd = itsPrintCmd->GetText();
+	const JString& printCmd = itsPrintCmd->GetText()->GetText();
 
 	JInteger w,h;
 	JBoolean ok = itsWidth->GetValue(&w);
@@ -298,7 +298,7 @@ JXPTPageSetupDialog::PrintTestPage()
 				}
 			output.close();
 
-			const JString sysCmd  = itsPrintCmd->GetText() + " " + JPrepArgForExec(fileName);
+			const JString sysCmd  = itsPrintCmd->GetText()->GetText() + JString(" ", 0, kJFalse) + JPrepArgForExec(fileName);
 			err = JExecute(sysCmd, NULL);
 			err.ReportIfError();
 

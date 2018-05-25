@@ -31,13 +31,13 @@
 #include <JXRadioGroup.h>
 #include <JXTextRadioButton.h>
 #include <JXStringHistoryMenu.h>
-#include <JXHelpManager.h>
 #include <JXTimerTask.h>
 #include <JXMenu.h>
 #include <JXSearchTextDecorTask.h>
 #include <JXFontManager.h>
 #include <JXColorManager.h>
 #include <jXGlobals.h>
+#include <JWebBrowser.h>
 #include <JRegex.h>
 #include <JInterpolate.h>
 #include <jStreamUtil.h>
@@ -114,10 +114,6 @@ JXSearchTextDialog::JXSearchTextDialog
 
 	JXSetSearchTextDialog(this);
 	SetSearchTextHelpName(searchTextHelpName);
-
-	(JXGetHelpManager())->RegisterSection(kJXSearchTextHelpName);
-	(JXGetHelpManager())->RegisterSection(kJXRegexHelpName);
-	(JXGetHelpManager())->RegisterSection(kJXRegexQRefHelpName);
 }
 
 // protected -- must be done after prefs are loaded
@@ -193,9 +189,9 @@ JXSearchTextDialog::SetSearchText
 	const JString& str
 	)
 {
-	if (str != itsSearchInput->GetText())
+	if (str != itsSearchInput->GetText()->GetText())
 		{
-		itsSearchInput->SetText(str);
+		itsSearchInput->GetText()->SetText(str);
 		}
 	itsSearchInput->Focus();
 	itsSearchInput->SelectAll();
@@ -228,9 +224,9 @@ JXSearchTextDialog::SetReplaceText
 	const JString& str
 	)
 {
-	if (str != itsReplaceInput->GetText())
+	if (str != itsReplaceInput->GetText()->GetText())
 		{
-		itsReplaceInput->SetText(str);
+		itsReplaceInput->GetText()->SetText(str);
 		}
 	itsReplaceInput->Focus();
 	itsReplaceInput->SelectAll();
@@ -384,22 +380,6 @@ JXSearchTextDialog::BuildWindow()
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 420,80, 20,20);
 	assert( itsReplaceFindFwdButton != NULL );
 
-	JXStaticText* replaceAllLabel =
-		jnew JXStaticText(JGetString("replaceAllLabel::JXSearchTextDialog::JXLayout"), window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 320,110, 100,20);
-	assert( replaceAllLabel != NULL );
-	replaceAllLabel->SetToLabel(kJTrue);
-
-	itsReplaceAllBackButton =
-		jnew JXSearchTextButton(kJFalse, window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 300,110, 20,20);
-	assert( itsReplaceAllBackButton != NULL );
-
-	itsReplaceAllFwdButton =
-		jnew JXSearchTextButton(kJTrue, window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 420,110, 20,20);
-	assert( itsReplaceAllFwdButton != NULL );
-
 	itsReplaceAllInSelButton =
 		jnew JXTextButton(JGetString("itsReplaceAllInSelButton::JXSearchTextDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 300,140, 140,20);
@@ -425,6 +405,11 @@ JXSearchTextDialog::BuildWindow()
 					JXWidget::kHElastic, JXWidget::kFixedTop, 20,115, 220,45);
 	assert( itsReplaceInput != NULL );
 
+	itsReplaceAllButton =
+		jnew JXTextButton(JGetString("itsReplaceAllButton::JXSearchTextDialog::JXLayout"), window,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 300,110, 140,20);
+	assert( itsReplaceAllButton != NULL );
+
 // end JXLayout
 
 	SetObjects(itsSearchInput, itsPrevSearchMenu,
@@ -436,8 +421,7 @@ JXSearchTextDialog::BuildWindow()
 			   itsFindFwdButton, itsFindBackButton,
 			   itsReplaceButton,
 			   itsReplaceFindFwdButton, itsReplaceFindBackButton,
-			   itsReplaceAllFwdButton, itsReplaceAllBackButton,
-			   itsReplaceAllInSelButton,
+			   itsReplaceAllButton, itsReplaceAllInSelButton,
 			   itsCloseButton, itsHelpButton, itsQRefButton);
 }
 
@@ -470,8 +454,7 @@ JXSearchTextDialog::SetObjects
 	JXTextButton*			replaceButton,
 	JXSearchTextButton*		replaceFindFwdButton,
 	JXSearchTextButton*		replaceFindBackButton,
-	JXSearchTextButton*		replaceAllFwdButton,
-	JXSearchTextButton*		replaceAllBackButton,
+	JXTextButton*			replaceAllButton,
 	JXTextButton*			replaceAllInSelButton,
 
 	JXTextButton*			closeButton,
@@ -508,15 +491,14 @@ JXSearchTextDialog::SetObjects
 	itsReplaceButton         = replaceButton;
 	itsReplaceFindFwdButton  = replaceFindFwdButton;
 	itsReplaceFindBackButton = replaceFindBackButton;
-	itsReplaceAllFwdButton   = replaceAllFwdButton;
-	itsReplaceAllBackButton  = replaceAllBackButton;
+	itsReplaceAllButton      = replaceAllButton;
 	itsReplaceAllInSelButton = replaceAllInSelButton;
 
 	itsCloseButton = closeButton;
 	itsHelpButton  = helpButton;
 	itsQRefButton  = qRefButton;
 
-	SetFont(JGetMonospaceFontName(), JGetDefaultMonoFontSize());
+	SetFont(JGetDefaultMonospaceFontName(), JGetDefaultMonospaceFontSize());
 
 	// decor
 
@@ -596,8 +578,7 @@ JXSearchTextDialog::SetObjects
 	ListenTo(itsReplaceButton);
 	ListenTo(itsReplaceFindFwdButton);
 	ListenTo(itsReplaceFindBackButton);
-	ListenTo(itsReplaceAllFwdButton);
-	ListenTo(itsReplaceAllBackButton);
+	ListenTo(itsReplaceAllButton);
 	ListenTo(itsReplaceAllInSelButton);
 
 	ListenTo(itsHelpButton);
@@ -619,13 +600,13 @@ JXSearchTextDialog::SetObjects
 
 	// XSearch data
 
-	itsSearchInput->ShouldBroadcastAllTextChanged(kJTrue);
 	ListenTo(itsSearchInput);
+	ListenTo(itsSearchInput->GetText());
 	ListenTo(itsSearchIsRegexCB);
 	ListenTo(itsSingleLineCB);
 
-	itsReplaceInput->ShouldBroadcastAllTextChanged(kJTrue);
 	ListenTo(itsReplaceInput);
+	ListenTo(itsReplaceInput->GetText());
 	ListenTo(itsReplaceIsRegexCB);
 	ListenTo(itsPreserveCaseCB);
 
@@ -711,25 +692,10 @@ JXSearchTextDialog::Receive
 			}
 		}
 
-	else if (sender == itsReplaceAllFwdButton && message.Is(JXButton::kPushed))
+	else if ((sender == itsReplaceAllButton || sender == itsReplaceAllInSelButton) &&
+			 message.Is(JXButton::kPushed))
 		{
-		if (itsTE != NULL && itsTE->ReplaceAllForward())
-			{
-			found = kJTrue;
-			director->Activate();
-			}
-		}
-	else if (sender == itsReplaceAllBackButton && message.Is(JXButton::kPushed))
-		{
-		if (itsTE != NULL && itsTE->ReplaceAllBackward())
-			{
-			found = kJTrue;
-			director->Activate();
-			}
-		}
-	else if (sender == itsReplaceAllInSelButton && message.Is(JXButton::kPushed))
-		{
-		if (itsTE != NULL && itsTE->ReplaceAllInSelection())
+		if (itsTE != NULL && itsTE->ReplaceAll(JI2B(sender == itsReplaceAllInSelButton)))
 			{
 			found = kJTrue;
 			director->Activate();
@@ -738,11 +704,11 @@ JXSearchTextDialog::Receive
 
 	else if (sender == itsHelpButton && message.Is(JXButton::kPushed))
 		{
-		(JXGetHelpManager())->ShowSection(JGetString("HelpURL::JXSearchTextDialog"));
+		JGetWebBrowser()->ShowURL(JGetString("HelpURL::JXSearchTextDialog"));
 		}
 	else if (sender == itsQRefButton && message.Is(JXButton::kPushed))
 		{
-		(JXGetHelpManager())->ShowSection(JGetString("QuickRefURL::JXSearchTextDialog"));
+		JGetWebBrowser()->ShowURL(JGetString("QuickRefURL::JXSearchTextDialog"));
 		}
 
 	else if (sender == itsCloseButton && message.Is(JXButton::kPushed))
@@ -791,12 +757,21 @@ JXSearchTextDialog::Receive
 		UpdateDisplay();
 
 		if (!itsIgnoreXSearchChangeFlag &&
-			(message.Is(JTextEditor::kTextSet) ||
-			 (message.Is(JXWidget::kLostFocus) && itsNeedXSearchBcastFlag)))
+			message.Is(JXWidget::kLostFocus) && itsNeedXSearchBcastFlag)
 			{
 			SetXSearch();
 			}
-		else if (!itsIgnoreXSearchChangeFlag && message.Is(JTextEditor::kTextChanged))
+		}
+
+	else if (sender == itsSearchInput->GetText() || sender == itsReplaceInput->GetText())
+		{
+		UpdateDisplay();
+
+		if (!itsIgnoreXSearchChangeFlag && message.Is(JStyledText::kTextSet))
+			{
+			SetXSearch();
+			}
+		else if (!itsIgnoreXSearchChangeFlag && message.Is(JStyledText::kTextChanged))
 			{
 			itsNeedXSearchBcastFlag = kJTrue;	// wait for them to use it
 			}
@@ -846,7 +821,7 @@ JBoolean
 JXSearchTextDialog::HasSearchText()
 	const
 {
-	return !itsSearchInput->IsEmpty();
+	return !itsSearchInput->GetText()->IsEmpty();
 }
 
 /******************************************************************************
@@ -858,7 +833,7 @@ JBoolean
 JXSearchTextDialog::HasReplaceText()
 	const
 {
-	return !itsReplaceInput->IsEmpty();
+	return !itsReplaceInput->GetText()->IsEmpty();
 }
 
 /******************************************************************************
@@ -874,17 +849,13 @@ JXSearchTextDialog::HasReplaceText()
 JBoolean
 JXSearchTextDialog::GetSearchParameters
 	(
-	JString*	searchStr,
-	JBoolean*	searchIsRegex,
-	JBoolean*	caseSensitive,
-	JBoolean*	entireWord,
-	JBoolean*	wrapSearch,
+	JRegex**		searchRegex,
+	JBoolean*		entireWord,
+	JBoolean*		wrapSearch,
 
-	JString*	replaceStr,
-	JBoolean*	replaceIsRegex,
-	JBoolean*	preserveCase,
-
-	JRegex**	regex
+	JString*		replaceStr,
+	JInterpolate**	interpolator,
+	JBoolean*		preserveCase
 	)
 	const
 {
@@ -895,17 +866,20 @@ JXSearchTextDialog::GetSearchParameters
 		return kJFalse;
 		}
 
-	*wrapSearch    = itsWrapSearchCB->IsChecked();
-	*caseSensitive = !itsIgnoreCaseCB->IsChecked();
-	*preserveCase  = itsPreserveCaseCB->IsChecked();
+	*searchRegex = itsRegex;
+	*wrapSearch  = itsWrapSearchCB->IsChecked();
 
-	*searchStr     = itsSearchInput->GetText();
-	*searchIsRegex = itsSearchIsRegexCB->IsChecked();
-	if (*searchIsRegex)
+	*entireWord = JI2B(
+		(itsSearchIsRegexCB->IsChecked() ||
+		 itsSearchInput->GetText()->IsEntireWord(itsSearchInput->GetText()->SelectAll())) &&
+		itsEntireWordCB->IsChecked());
+
+	itsRegex->SetCaseSensitive(!itsIgnoreCaseCB->IsChecked());
+
+	if (itsSearchIsRegexCB->IsChecked())
 		{
-		itsRegex->SetCaseSensitive(*caseSensitive);
 		itsRegex->SetSingleLine(itsSingleLineCB->IsChecked());
-		const JError err = itsRegex->SetPattern(*searchStr);
+		const JError err = itsRegex->SetPattern(itsSearchInput->GetText()->GetText());
 		if (!err.OK())
 			{
 			itsSearchInput->Focus();
@@ -913,12 +887,20 @@ JXSearchTextDialog::GetSearchParameters
 			return kJFalse;
 			}
 		}
-
-	*replaceStr     = itsReplaceInput->GetText();
-	*replaceIsRegex = itsReplaceIsRegexCB->IsChecked();
-	if (*replaceIsRegex)
+	else
 		{
-		itsRegex->SetMatchCase(*preserveCase);
+		itsRegex->SetSingleLine(kJTrue);
+		const JError err = itsRegex->SetPattern(
+			JRegex::BackslashForLiteral(itsSearchInput->GetText()->GetText()));
+		assert( err.OK() );
+		}
+
+	*replaceStr   = itsReplaceInput->GetText()->GetText();
+	*interpolator = NULL;
+	*preserveCase = itsPreserveCaseCB->IsChecked();
+
+	if (itsReplaceIsRegexCB->IsChecked())
+		{
 		JCharacterRange errRange;
 		const JError err = itsInterpolator->ContainsError(*replaceStr, &errRange);
 		if (!err.OK())
@@ -928,17 +910,14 @@ JXSearchTextDialog::GetSearchParameters
 			err.ReportIfError();
 			return kJFalse;
 			}
+
+		*interpolator = itsInterpolator;
 		}
-
-	*entireWord = (*searchIsRegex || itsSearchInput->IsEntireWord()) ?
-					itsEntireWordCB->IsChecked() : kJFalse;
-
-	*regex = itsRegex;
 
 	// use the original strings, not the substituted ones
 
-	itsPrevSearchMenu->AddString(itsSearchInput->GetText());
-	itsPrevReplaceMenu->AddString(itsReplaceInput->GetText());
+	itsPrevSearchMenu->AddString(itsSearchInput->GetText()->GetText());
+	itsPrevReplaceMenu->AddString(itsReplaceInput->GetText()->GetText());
 
 	// broadcast to other programs who support Xsearch protocol
 
@@ -964,7 +943,7 @@ JXSearchTextDialog::UpdateDisplay()
 	const JBoolean teWritable =
 		JConvertToBoolean( itsTE != NULL && itsTE->GetType() == JTextEditor::kFullEditor );
 
-	const JBoolean canSearch = JI2B(itsTE != NULL && !itsTE->IsEmpty() && hasSearchText);
+	const JBoolean canSearch = JI2B(itsTE != NULL && !itsTE->GetText()->IsEmpty() && hasSearchText);
 	itsFindFwdButton->SetActive(canSearch);
 	itsFindBackButton->SetActive(canSearch);
 
@@ -973,10 +952,7 @@ JXSearchTextDialog::UpdateDisplay()
 	itsReplaceFindFwdButton->SetActive(canReplace);
 	itsReplaceFindBackButton->SetActive(canReplace);
 
-	const JBoolean canReplaceAll = JI2B(canSearch && teWritable);
-	itsReplaceAllFwdButton->SetActive(canReplaceAll);
-	itsReplaceAllBackButton->SetActive(canReplaceAll);
-
+	itsReplaceAllButton->SetActive(JI2B(canSearch && teWritable));
 	itsReplaceAllInSelButton->SetActive(canReplace);
 
 	itsSingleLineCB->SetActive(itsSearchIsRegexCB->IsChecked());
@@ -1166,7 +1142,7 @@ JXSearchTextDialog::InitXSearch()
 	XSetWindowAttributes attr;
 	attr.override_redirect = kJTrue;
 
-	Visual* visual   = GetColormap()->GetVisual();
+	Visual* visual   = display->GetColorManager()->GetVisual();
 	itsVersionWindow = XCreateWindow(d2, rootWindow, 0,0, 10,10,
 									 0, CopyFromParent, InputOutput, visual,
 									 CWOverrideRedirect, &attr);
@@ -1440,9 +1416,9 @@ JXSearchTextDialog::WriteXSearchV1
 	)
 	const
 {
-	(itsSearchInput->GetText()).Print(output);
+	(itsSearchInput->GetText()->GetText()).Print(output);
 	output << '\0';
-	(itsReplaceInput->GetText()).Print(output);
+	(itsReplaceInput->GetText()->GetText()).Print(output);
 	output << '\0';
 	output << (itsWrapSearchCB->IsChecked() ? 'T' : 'F');
 	output << (itsEntireWordCB->IsChecked() ? 'T' : 'F');

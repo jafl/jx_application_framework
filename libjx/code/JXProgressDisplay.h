@@ -32,13 +32,13 @@ public:
 					 JXProgressIndicator* indicator,
 					 JXTEBase* label = NULL);
 
-	virtual JBoolean	IncrementProgress(const JString& message = JString::empty);
-	virtual JBoolean	IncrementProgress(const JSize delta);
+	virtual JBoolean	IncrementProgress(const JString& message = JString::empty) override;
+	virtual JBoolean	IncrementProgress(const JSize delta) override;
 	virtual JBoolean	IncrementProgress(const JString& message,
-										  const JSize delta);
-	virtual JBoolean	ProcessContinuing();
-	virtual void		ProcessFinished();
-	virtual void		DisplayBusyCursor();
+										  const JSize delta) override;
+	virtual JBoolean	ProcessContinuing() override;
+	virtual void		ProcessFinished() override;
+	virtual void		DisplayBusyCursor() override;
 
 protected:
 
@@ -46,10 +46,10 @@ protected:
 									 const JSize stepCount,
 									 const JString& message, 
 									 const JBoolean allowCancel,
-									 const JBoolean allowBackground);
+									 const JBoolean allowBackground) override;
 
 	virtual void		AppendToMessageWindow(const JString& message);
-	virtual JBoolean	CheckForCancel();
+	virtual JBoolean	CheckForCancel() override;
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 

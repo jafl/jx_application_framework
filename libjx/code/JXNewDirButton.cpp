@@ -39,7 +39,7 @@ JXNewDirButton::JXNewDirButton
 	assert( itsFolderIcon != NULL );
 	itsFolderIcon->ConvertToRemoteStorage();
 
-	const JSize spaceWidth = GetFont().GetCharWidth(' ');
+	const JSize spaceWidth = GetFont().GetCharWidth(GetFontManager(), ' ');
 	const JSize spaceCount = JRound(itsFolderIcon->GetWidth() / (JFloat) spaceWidth);
 	JString s = JGetString("Label::JXNewDirButton");
 	for (JIndex i=1; i<=spaceCount; i++)
@@ -47,7 +47,7 @@ JXNewDirButton::JXNewDirButton
 		s.Append(" ");
 		}
 	SetLabel(s);
-	itsLabelWidth = GetFont().GetStringWidth(s);
+	itsLabelWidth = GetFont().GetStringWidth(GetFontManager(), s);
 }
 
 /******************************************************************************

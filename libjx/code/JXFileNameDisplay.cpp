@@ -38,7 +38,7 @@ JXFileNameDisplay::JXFileNameDisplay
 	SetFont(GetFontManager()->GetDefaultMonospaceFont());
 	SetBorderWidth(1);
 	GoToEndOfLine();
-	ListenTo(this);
+	ListenTo(GetText());
 }
 
 /******************************************************************************
@@ -78,7 +78,7 @@ JXFileNameDisplay::Receive
 	const Message&	message
 	)
 {
-	if (sender == this && message.Is(JTextEditor::kTextSet))
+	if (sender == GetText() && message.Is(JStyledText::kTextSet))
 		{
 		GoToEndOfLine();
 		}
@@ -105,7 +105,7 @@ JXFileNameDisplay::BoundsMoved
 	const JRect ap = GetAperture();
 	if (ap.left != 0)
 		{
-		SetHint(GetText());
+		SetHint(GetText()->GetText());
 		}
 	else
 		{

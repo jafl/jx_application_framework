@@ -30,7 +30,7 @@ public:
 	virtual JString	GetRegexString() const = 0;
 	JError			Apply() const;
 
-	virtual void HandleKeyPress(const int key, const JXKeyModifiers& modifiers);														
+	virtual void HandleKeyPress(const int key, const JXKeyModifiers& modifiers) override;
 
 protected:
 

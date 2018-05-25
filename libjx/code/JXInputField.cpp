@@ -78,10 +78,10 @@ JXInputField::JXInputField
 	const JCoordinate	h
 	)
 	:
-	JXTEBase(kFullEditor, kJTrue, kJFalse, NULL,
+	JXTEBase(kFullEditor, jnew StyledText(kJFalse), kJTrue, kJTrue, NULL,
 			 enclosure, hSizing, vSizing, x,y, w,h)
 {
-	JXInputFieldX(kJFalse);
+	JXInputFieldX();
 }
 
 JXInputField::JXInputField
@@ -97,28 +97,44 @@ JXInputField::JXInputField
 	const JCoordinate	h
 	)
 	:
-	JXTEBase(kFullEditor, !wordWrap, kJFalse, NULL,
+	JXTEBase(kFullEditor, jnew StyledText(acceptNewline), kJTrue, !wordWrap, NULL,
 			 enclosure, hSizing, vSizing, x,y, w,h)
 {
-	JXInputFieldX(acceptNewline);
+	JXInputFieldX();
+}
+
+// protected
+
+JXInputField::JXInputField
+	(
+	StyledText*			text,
+	JXContainer*		enclosure,
+	const HSizingOption	hSizing,
+	const VSizingOption	vSizing,
+	const JCoordinate	x,
+	const JCoordinate	y,
+	const JCoordinate	w,
+	const JCoordinate	h
+	)
+	:
+	JXTEBase(kFullEditor, text, kJTrue, kJTrue, NULL,
+			 enclosure, hSizing, vSizing, x,y, w,h)
+{
+	JXInputFieldX();
 }
 
 // private
 
 void
-JXInputField::JXInputFieldX
-	(
-	const JBoolean acceptNewline
-	)
+JXInputField::JXInputFieldX()
 {
-	itsAcceptNewlineFlag = acceptNewline;
-	itsMinLength         = 0;
-	itsMaxLength         = 0;
+	itsMinLength = 0;
+	itsMaxLength = 0;
 
 	itsContextMenu = NULL;
 	itsTable       = NULL;
 
-	SetDefaultFontSize(JGetDefaultFontSize());
+	GetText()->SetDefaultFontSize(JGetDefaultFontSize());
 	TESetLeftMarginWidth(kMinLeftMarginWidth);
 }
 
@@ -140,7 +156,7 @@ JString
 JXInputField::ToString()
 	const
 {
-	return JXTEBase::ToString() + ": " + GetText();
+	return JXTEBase::ToString() + JString(": ", 0, kJFalse) + GetText().GetText();
 }
 
 /******************************************************************************
@@ -174,12 +190,12 @@ JXInputField::SetFontName
 	const JString& name
 	)
 {
-	if (!IsEmpty())
+	if (!GetText()->IsEmpty())
 		{
-		JXTEBase::SetFontName(1, GetTextLength(), name, kJTrue);
+		GetText()->SetFontName(GetText()->SelectAll(), name, kJTrue);
 		}
 
-	SetDefaultFontName(name);
+	GetText()->SetDefaultFontName(name);
 }
 
 void
@@ -188,12 +204,12 @@ JXInputField::SetFontSize
 	const JSize size
 	)
 {
-	if (!IsEmpty())
+	if (!GetText()->IsEmpty())
 		{
-		JXTEBase::SetFontSize(1, GetTextLength(), size, kJTrue);
+		GetText()->SetFontSize(GetText()->SelectAll(), size, kJTrue);
 		}
 
-	SetDefaultFontSize(size);
+	GetText()->SetDefaultFontSize(size);
 }
 
 void
@@ -202,12 +218,12 @@ JXInputField::SetFontStyle
 	const JFontStyle& style
 	)
 {
-	if (!IsEmpty())
+	if (!GetText()->IsEmpty())
 		{
-		JXTEBase::SetFontStyle(1, GetTextLength(), style, kJTrue);
+		GetText()->SetFontStyle(GetText()->SelectAll(), style, kJTrue);
 		}
 
-	SetDefaultFontStyle(style);
+	GetText()->SetDefaultFontStyle(style);
 }
 
 void
@@ -216,12 +232,12 @@ JXInputField::SetFont
 	const JFont& font
 	)
 {
-	if (!IsEmpty())
+	if (!GetText()->IsEmpty())
 		{
-		JXTEBase::SetFont(1, GetTextLength(), font, kJTrue);
+		GetText()->SetFont(GetText()->SelectAll(), font, kJTrue);
 		}
 
-	SetDefaultFont(font);
+	GetText()->SetDefaultFont(font);
 }
 
 /******************************************************************************
@@ -280,7 +296,7 @@ void
 JXInputField::HandleFocusEvent()
 {
 	JXTEBase::HandleFocusEvent();
-	ClearUndo();
+	GetText()->ClearUndo();
 	SelectAll();
 }
 
@@ -293,7 +309,7 @@ void
 JXInputField::HandleUnfocusEvent()
 {
 	JXTEBase::HandleUnfocusEvent();
-	ClearUndo();
+	GetText()->ClearUndo();
 }
 
 /******************************************************************************
@@ -412,7 +428,7 @@ JXInputField::HandleDNDDrop
 JBoolean
 JXInputField::InputValid()
 {
-	const JSize length  = GetTextLength();
+	const JSize length = GetText()->GetText().GetCharacterCount();
 
 	JString errorStr;
 	if (itsMinLength == 1 && length == 0)
@@ -518,7 +534,7 @@ JXInputField::HandleKeyPress
 		JIndex i;
 		const JBoolean ok = GetCaretLocation(&i);
 		assert( ok );
-		SetSelection(i, GetTextLength());
+		SetSelection(JCharacterRange(i, GetText()->GetText().GetCharacterCount()));
 		Cut();
 		}
 
@@ -526,62 +542,6 @@ JXInputField::HandleKeyPress
 		{
 		JXTEBase::HandleKeyPress(key, modifiers);
 		}
-}
-
-/******************************************************************************
- NeedsToFilterText (virtual protected)
-
-	Derived classes should return kJTrue if FilterText() needs to be called.
-	This is an optimization, to avoid copying the data if nothing needs to
-	be done to it.
-
- ******************************************************************************/
-
-JBoolean
-JXInputField::NeedsToFilterText
-	(
-	const JString& text
-	)
-	const
-{
-	return JI2B(JXTEBase::NeedsToFilterText(text) ||
-				text.Contains("\n"));
-}
-
-/******************************************************************************
- FilterText (virtual protected)
-
-	Derived classes can override this to enforce restrictions on the text.
-	Return kJFalse if the text cannot be used at all.
-
-	*** Note that style may be NULL or empty if the data was plain text.
-
- ******************************************************************************/
-
-JBoolean
-JXInputField::FilterText
-	(
-	JString*			text,
-	JRunArray<JFont>*	style
-	)
-{
-	if (!JXTEBase::FilterText(text, style))
-		{
-		return kJFalse;
-		}
-
-	// convert newline to space
-
-	if (!itsAcceptNewlineFlag)
-		{
-		JStringIterator iter(text);
-		while (iter.Next("\n"))
-			{
-			iter.ReplaceLastMatch(" ");
-			}
-		}
-
-	return kJTrue;
 }
 
 /******************************************************************************
@@ -692,7 +652,7 @@ JXInputField::HandleContextMenu
 
 	if (cmd == kUndoCmd)
 		{
-		Undo();
+		GetText()->Undo();
 		}
 
 	else if (cmd == kCutCmd)
@@ -763,4 +723,54 @@ JXInputField::GetFTCMinContentSize
 		}
 
 	return JXTEBase::GetFTCMinContentSize(horizontal);
+}
+
+/******************************************************************************
+ NeedsToFilterText (virtual protected)
+
+	Derived classes should return kJTrue if FilterText() needs to be called.
+	This is an optimization, to avoid copying the data if nothing needs to
+	be done to it.
+
+ ******************************************************************************/
+
+JBoolean
+JXInputField::StyledText::NeedsToFilterText
+	(
+	const JString& text
+	)
+	const
+{
+	return text.Contains("\n");
+}
+
+/******************************************************************************
+ FilterText (virtual protected)
+
+	Derived classes can override this to enforce restrictions on the text.
+	Return kJFalse if the text cannot be used at all.
+
+	*** Note that style may be NULL or empty if the data was plain text.
+
+ ******************************************************************************/
+
+JBoolean
+JXInputField::StyledText::FilterText
+	(
+	JString*			text,
+	JRunArray<JFont>*	style
+	)
+{
+	// convert newline to space
+
+	if (!itsAcceptNewlineFlag)
+		{
+		JStringIterator iter(text);
+		while (iter.Next("\n"))
+			{
+			iter.ReplaceLastMatch(" ");
+			}
+		}
+
+	return kJTrue;
 }

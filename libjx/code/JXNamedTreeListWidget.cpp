@@ -233,7 +233,7 @@ JXNamedTreeListWidget::GetTextWidth
 {
 	JFont font = GetFont();
 	font.SetStyle(GetCellStyle(JPoint(GetNodeColIndex(), index)));
-	return font.GetStringWidth(itsNamedTreeList->GetNodeName(index));
+	return font.GetStringWidth(GetFontManager(), itsNamedTreeList->GetNodeName(index));
 }
 
 /******************************************************************************
@@ -323,7 +323,7 @@ JXNamedTreeListWidget::GetMinCellWidth
 		JPoint editCell;
 		JXInputField* input = NULL;
 		if (GetEditedCell(&editCell) && editCell == cell &&
-			GetXInputField(&input) && !(input->GetText()).IsEmpty())
+			GetXInputField(&input) && !input->GetText()->IsEmpty())
 			{
 			textWidth = input->GetBoundsWidth() - kRightMarginWidth - 1;
 			}
@@ -331,7 +331,7 @@ JXNamedTreeListWidget::GetMinCellWidth
 			{
 			JFont font = GetFont();
 			font.SetStyle(GetCellStyle(cell));
-			textWidth = font.GetStringWidth(text);
+			textWidth = font.GetStringWidth(GetFontManager(), text);
 			}
 
 		return GetNodeIndent(cell.y) +
@@ -474,7 +474,7 @@ JXNamedTreeListWidget::CreateXInputField
 	font.SetStyle(GetCellStyle(cell));
 
 	itsNameInputField->SetFont(font);
-	itsNameInputField->SetText(itsNamedTreeList->GetNodeName(cell.y));
+	itsNameInputField->GetText()->SetText(itsNamedTreeList->GetNodeName(cell.y));
 	return itsNameInputField;
 }
 
@@ -524,7 +524,7 @@ JXNamedTreeListWidget::ExtractInputData
 
 	if (JIndex(cell.x) == GetNodeColIndex() && itsNameInputField->InputValid())
 		{
-		itsNamedTreeList->SetNodeName(cell.y, itsNameInputField->GetText());
+		itsNamedTreeList->SetNodeName(cell.y, itsNameInputField->GetText()->GetText());
 		NeedsAdjustToTree();
 		return kJTrue;
 		}

@@ -53,7 +53,7 @@ const JString&
 JXGetStringDialog::GetString()
 	const
 {
-	return itsInputField->GetText();
+	return itsInputField->GetText()->GetText();
 }
 
 /******************************************************************************
@@ -103,7 +103,7 @@ JXGetStringDialog::BuildWindow
 	window->SetTitle(windowTitle);
 	SetButtons(okButton, cancelButton);
 
-	promptDisplay->SetText(prompt);
+	promptDisplay->GetText()->SetText(prompt);
 
 	if (password)
 		{
@@ -117,7 +117,7 @@ JXGetStringDialog::BuildWindow
 		}
 	else if (!initialValue.IsEmpty())
 		{
-		itsInputField->SetText(initialValue);
+		itsInputField->GetText()->SetText(initialValue);
 		}
 	itsInputField->SetIsRequired();
 }

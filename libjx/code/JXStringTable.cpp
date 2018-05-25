@@ -111,7 +111,7 @@ JXStringTable::CreateXInputField
 	font.SetStyle(GetCellStyle(cell));
 	itsStringInputField->SetFont(font);
 
-	itsStringInputField->SetText(itsStringData->GetString(cell));
+	itsStringInputField->GetText()->SetText(itsStringData->GetString(cell));
 	return itsStringInputField;
 }
 
@@ -161,7 +161,7 @@ JXStringTable::ExtractInputData
 
 	if (itsStringInputField->InputValid())
 		{
-		itsStringData->SetString(cell, itsStringInputField->GetText());
+		itsStringData->SetString(cell, itsStringInputField->GetText()->GetText());
 		return kJTrue;
 		}
 	else

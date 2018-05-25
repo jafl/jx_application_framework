@@ -43,7 +43,8 @@ JXLinkText::JXLinkText
 	const JCoordinate	h
 	)
 	:
-	JXTEBase(kSelectableText, kJFalse, kJTrue, scrollbarSet,
+	JXTEBase(kSelectableText, jnew JStyledText(kJFalse, kJTrue), kJTrue,
+			 kJFalse, scrollbarSet,
 			 enclosure, hSizing, vSizing, x,y, w,h)
 {
 	itsLinkCursor     = GetDisplay()->CreateBuiltInCursor("XC_hand2", XC_hand2);
@@ -77,12 +78,12 @@ JXLinkText::AdjustCursor
 		const CaretLocation caretLoc = CalcCaretLocation(pt);
 
 		JCharacterRange selRange;
-		if (!GetSelection(&selRange) || !selRange.Contains(caretLoc.charIndex))
+		if (!GetSelection(&selRange) || !selRange.Contains(caretLoc.location.charIndex))
 			{
 			for (JIndex i=1; i<=linkCount; i++)
 				{
 				const JIndexRange linkRange = GetLinkRange(i);
-				if (linkRange.Contains(caretLoc.charIndex))
+				if (linkRange.Contains(caretLoc.location.charIndex))
 					{
 					DisplayCursor(itsLinkCursor);
 					return;

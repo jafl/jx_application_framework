@@ -34,7 +34,7 @@ JXGetNewDirDialog::JXGetNewDirDialog
 {
 	assert( JDirectoryExists(basePath) );
 
-	GetInputField()->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
+	GetInputField()->GetText()->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
 }
 
 /******************************************************************************

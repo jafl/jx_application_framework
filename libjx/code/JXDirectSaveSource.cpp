@@ -101,7 +101,7 @@ JXDirectSaveSource::DNDInit
 	const JXKeyModifiers&	modifiers
 	)
 {
-	Init(GetWindow(), itsNameInput->GetText());
+	Init(GetWindow(), itsNameInput->GetText()->GetText());
 }
 
 /******************************************************************************
