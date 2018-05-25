@@ -48,6 +48,21 @@ TextEditor::~TextEditor()
 }
 
 /******************************************************************************
+ SetAllFontNameAndSize
+
+ ******************************************************************************/
+
+void
+TextEditor::SetAllFontNameAndSize
+	(
+	const JString&	name,
+	const JSize		size
+	)
+{
+	JTextEditor::SetAllFontNameAndSize(name, size, 36, kJTrue, kJTrue);
+}
+
+/******************************************************************************
  TERefresh (virtual protected)
 
  ******************************************************************************/

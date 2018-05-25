@@ -28,9 +28,33 @@ int main()
 
 JTEST(LayoutBreakCROnly)
 {
+	// GetLineCount, GetLineForChar, etc.
+	// GetLineStart, GetLineEnd, GetLineLength
+	// GoToBeginningOfLine, etc.
+	// GetCharLeft, etc.
+	// GetColumnForChar, etc.
+	// CalcCaretLocation(pt)
+	// MoveCaretVert
 }
 
 JTEST(LayoutBreakWidth)
+{
+}
+
+JTEST(GetCmdStatus)
+{
+}
+
+JTEST(MouseActions)
+{
+	// TEGetDoubleClickSelection
+}
+
+JTEST(KeyPress)
+{
+}
+
+JTEST(ReplaceSelection)	// after SearchTextBackward
 {
 }
 
@@ -110,6 +134,10 @@ JTEST(SearchTextForward)
 	JAssertTrue(te.GetSelection(&s));
 	JAssertStringsEqual("...", s);
 	JAssertFalse(wrapped);
+
+	const JStringMatch m8 = te.SelectionMatches(JRegex("\\.\\.\\."), kJFalse);
+	JAssertFalse(m8.IsEmpty());
+	JAssertStringsEqual("...", m8.GetString());
 }
 
 JTEST(SearchTextBackward)
@@ -452,4 +480,47 @@ JTEST(TabSelectionMixed)
 	te.SelectAll();
 	te.TabSelectionLeft(1);
 	JAssertStringsEqual("\xC3\xA1" "bcd\n 1234\n  wxzy", text.GetText());
+}
+
+JTEST(SetAllFontNameAndSize)
+{
+	StyledText text;
+
+	TextEditor te(&text, kJFalse, 50);
+	te.SetCurrentFontSize(20);
+	te.Paste(JString("b" "\xC3\xAE" "g", 0, kJFalse));
+	te.SetCurrentFontSize(JGetDefaultFontSize());
+	te.SetCurrentFontBold(kJTrue);
+	te.Paste(JString("b" "\xC3\xB8" "ld", 0, kJFalse));
+	te.SetCurrentFontBold(kJFalse);
+	te.Paste(JString("normal", 0, kJFalse));
+	te.SetCurrentFontUnderline(2);
+	te.Paste(JString("double underline", 0, kJFalse));
+	te.SetCurrentFontUnderline(0);
+
+	te.SetAllFontNameAndSize(JString("foobar", 0, kJFalse), 15);
+
+	JFont f = text.GetStyles().GetElement(2);
+	JAssertStringsEqual("foobar", f.GetName());
+	JAssertEqual(15, f.GetSize());
+	JAssertFalse(f.GetStyle().bold);
+	JAssertEqual(0, f.GetStyle().underlineCount);
+
+	f = text.GetStyles().GetElement(5);
+	JAssertStringsEqual("foobar", f.GetName());
+	JAssertEqual(15, f.GetSize());
+	JAssertTrue(f.GetStyle().bold);
+	JAssertEqual(0, f.GetStyle().underlineCount);
+
+	f = text.GetStyles().GetElement(10);
+	JAssertStringsEqual("foobar", f.GetName());
+	JAssertEqual(15, f.GetSize());
+	JAssertFalse(f.GetStyle().bold);
+	JAssertEqual(0, f.GetStyle().underlineCount);
+
+	f = text.GetStyles().GetElement(17);
+	JAssertStringsEqual("foobar", f.GetName());
+	JAssertEqual(15, f.GetSize());
+	JAssertFalse(f.GetStyle().bold);
+	JAssertEqual(2, f.GetStyle().underlineCount);
 }

@@ -20,6 +20,10 @@ public:
 
 	virtual JBoolean	TEHasSearchText() const override;
 
+	// expose protected functionality
+
+	void	SetAllFontNameAndSize(const JString& name, const JSize size);
+
 protected:
 
 	virtual void		TERefresh() override;

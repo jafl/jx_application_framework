@@ -461,19 +461,20 @@ JTextEditor::SelectionMatches
 
 	// We cannot match only the selected text, because that will fail if
 	// there are look-behind or look-ahead assertions.
+	//
+	// We cannot use GetConstIterator() because it uses a temporary string
 
-	JStringIterator* iter = itsText->GetConstIterator(kJIteratorStartBefore, itsSelection.GetFirst());
-	if (iter->Next(regex))
+	JStringIterator iter(GetText()->GetText());
+	iter.UnsafeMoveTo(kJIteratorStartBefore, itsSelection.charRange.first, itsSelection.byteRange.first);
+	if (iter.Next(regex))
 		{
-		const JStringMatch& m = iter->GetLastMatch();
+		const JStringMatch& m = iter.GetLastMatch();
 		if (m.GetCharacterRange() == itsSelection.charRange)
 			{
-			itsText->DisposeConstIterator(iter);
 			return m;
 			}
 		}
 
-	itsText->DisposeConstIterator(iter);
 	return JStringMatch(itsText->GetText());
 }
 
