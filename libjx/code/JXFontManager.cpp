@@ -84,104 +84,6 @@ JXFontManager::~JXFontManager()
 }
 
 /******************************************************************************
- IsMonospace (private)
-
-	Returns monospace width or zero.
-
- ******************************************************************************/
-
-inline JCoordinate
-JXFontManager::IsMonospace
-	(
-	const XFont& xfont
-	)
-	const
-{
-	if (xfont.type == kStdType)
-	{
-		XFontStruct** fsList;
-		char** nameList;
-		const int count = XFontsOfFontSet(xfont.xfset, &fsList, &nameList);
-		JCoordinate w   = fsList[0]->min_bounds.width;
-		for (int i=0; i<count; i++)
-			{
-			if (fsList[i]->min_bounds.width != w ||
-				fsList[i]->max_bounds.width != w)
-				{
-				return 0;
-				}
-			}
-
-		return w;
-	}
-	else
-	{
-		assert( xfont.type == kTrueType );
-
-		XGlyphInfo g1, g2;
-		XftTextExtentsUtf8(*itsDisplay, xfont.xftt, (FcChar8*) "M", 1, &g1);
-		XftTextExtentsUtf8(*itsDisplay, xfont.xftt, (FcChar8*) "|", 1, &g2);
-		return (g1.xOff == g2.xOff ? g1.xOff : 0);
-	}
-}
-
-/******************************************************************************
- IsPostscript (private)
-
-	Returns kJTrue if the font is available in Postscript.
-
-	Until JPSPrinter can embed fonts in a Postscript file, we are limited
-	to only the standard Postscript fonts.
-
- ******************************************************************************/
-
-inline JBoolean
-JXFontManager::IsPostscript
-	(
-	const JString& name
-	)
-	const
-{
-#if ONLY_STD_PS_FONTS
-
-	return JI2B(name == "Arial"                     ||	// Helvetica sucks on OS X
-				name.BeginsWith("Courier")          ||
-				name.BeginsWith("Helvetica")        ||
-				name == "Times"                     ||
-				name.Contains("Bookman")            ||
-				name.Contains("Century Schoolbook") ||
-				name.Contains("Chancery")           ||
-				name.Contains("Palatino"));
-
-#else
-
-	return kJTrue;
-
-#endif
-}
-
-/******************************************************************************
- IsUseless (private)
-
-	Returns kJTrue if the font is useless, i.e., no printing characters.
-
- ******************************************************************************/
-
-inline JBoolean
-JXFontManager::IsUseless
-	(
-	const JString& name
-	)
-	const
-{
-	return JI2B(name.Contains("Dingbats")         ||
-				name == "Symbol"                  ||
-				name.Contains("Standard Symbols") ||
-				name.Contains("Cursor")           ||
-				name.EndsWith(" Ti"));
-}
-
-/******************************************************************************
  GetFontNames (virtual)
 
 	Returns the subset of available fonts that can be printed.
@@ -193,7 +95,6 @@ JXFontManager::GetFontNames
 	(
 	JPtrArray<JString>* fontNames
 	)
-	const
 {
 	if (itsAllFontNames != NULL)
 		{
@@ -296,7 +197,6 @@ JXFontManager::GetMonospaceFontNames
 	(
 	JPtrArray<JString>* fontNames
 	)
-	const
 {
 	if (itsMonoFontNames != NULL)
 		{
@@ -384,7 +284,6 @@ JXFontManager::GetXFontNames
 	JPtrArray<JString>*	fontNames,
 	JSortXFontNamesFn	compare
 	)
-	const
 {
 	fontNames->CleanOut();
 	fontNames->SetCompareFunction(
@@ -436,7 +335,6 @@ JXFontManager::GetFontSizes
 	JSize*			maxSize,
 	JArray<JSize>*	sizeList
 	)
-	const
 {
 	sizeList->RemoveAll();
 
@@ -446,30 +344,34 @@ JXFontManager::GetFontSizes
 }
 
 /******************************************************************************
- GetFontID
+ GetXFont
 
 	For X Windows only:  pass in complete string from XListFonts().
+
+	*** Caller must jdelete the returned object.
 
  ******************************************************************************/
 
 JBoolean
-JXFontManager::GetFontID
+JXFontManager::GetXFont
 	(
 	const JString&	xFontStr,
-	JFontID*		fontID
+	JFont**			font
 	)
-	const
 {
-	*fontID = JFontManager::GetFontID(xFontStr, 0, JFontStyle());
+	*font = NULL;
 
-	while (!itsFontList->IndexValid(*fontID))
+	const JFontID id = GetFontID(xFontStr, 0, JFontStyle());
+	while (!itsFontList->IndexValid(id))
 		{
 		itsFontList->AppendElement(FontInfo());
 		}
 
-	FontInfo info = itsFontList->GetElement(*fontID);
+	FontInfo info = itsFontList->GetElement(id);
 	if (info.filled)
 		{
+		*font = jnew JFont(GetFont(id));
+		assert( font != NULL );
 		return kJTrue;
 		}
 
@@ -495,7 +397,6 @@ JXFontManager::GetFontID
 			}
 		else
 			{
-			*fontID = kInvalidFontID;
 			return kJFalse;
 			}
 		}
@@ -504,8 +405,212 @@ JXFontManager::GetFontID
 	info.exact     = kJTrue;
 	info.monoWidth = IsMonospace(info.xfont);
 
-	itsFontList->SetElement(*fontID, info);
+	itsFontList->SetElement(id, info);
+
+	*font = jnew JFont(GetFont(id));
+	assert( font != NULL );
 	return kJTrue;
+}
+
+/******************************************************************************
+ IsExact (virtual)
+
+ ******************************************************************************/
+
+JBoolean
+JXFontManager::IsExact
+	(
+	const JFontID id
+	)
+{
+	return ResolveFontID(id).exact;
+}
+
+/******************************************************************************
+ GetLineHeight (virtual protected)
+
+ ******************************************************************************/
+
+JSize
+JXFontManager::GetLineHeight
+	(
+	const JFontID		id,
+	const JSize			size,
+	const JFontStyle&	style,
+
+	JCoordinate*		ascent,
+	JCoordinate*		descent
+	)
+{
+	FontInfo info = ResolveFontID(id);
+	if (info.xfont.type == kStdType && info.ascent == 0)
+		{
+		XFontStruct** fsList;
+		char** nameList;
+		const int count = XFontsOfFontSet(info.xfont.xfset, &fsList, &nameList);
+		for (int i=0; i<count; i++)
+			{
+			info.ascent  = JMax(info.ascent,  (JCoordinate) fsList[i]->ascent);
+			info.descent = JMax(info.descent, (JCoordinate) fsList[i]->descent);
+			}
+		itsFontList->SetElement(id, info);
+		}
+	else if (info.ascent == 0)
+		{
+		assert( info.xfont.type == kTrueType );
+
+		XGlyphInfo g;
+		XftTextExtentsUtf8(*itsDisplay, info.xfont.xftt, (FcChar8*) "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789|_", 64, &g);
+		info.ascent  = g.y + 1 + size/10;
+		info.descent = g.height - g.y;
+		itsFontList->SetElement(id, info);
+		}
+
+	*ascent  = info.ascent;
+	*descent = info.descent;
+
+	const JCoordinate underlineHeight = 2 * GetUnderlineThickness(size) * style.underlineCount;
+	if (*descent < underlineHeight)
+		{
+		*descent = underlineHeight;
+		}
+
+	return (*ascent + *descent);
+}
+
+/******************************************************************************
+ GetCharWidth (virtual protected)
+
+ ******************************************************************************/
+
+JSize
+JXFontManager::GetCharWidth
+	(
+	const JFontID			id,
+	const JUtf8Character&	c
+	)
+{
+	const FontInfo info = ResolveFontID(id);
+	if (info.monoWidth > 0)
+		{
+		return info.monoWidth;
+		}
+	else if (info.xfont.type == kStdType)
+		{
+		// Xutf8TextEscapement() would be more accurate, but it's not standard.
+		return XmbTextEscapement(info.xfont.xfset, c.GetBytes(), c.GetByteCount());
+		}
+	else
+		{
+		assert( info.xfont.type == kTrueType );
+
+		XGlyphInfo g;
+		XftTextExtentsUtf8(*itsDisplay, info.xfont.xftt, (FcChar8*) &c, c.GetByteCount(), &g);
+		return g.xOff;
+		}
+}
+
+/******************************************************************************
+ GetStringWidth (virtual protected)
+
+ ******************************************************************************/
+
+JSize
+JXFontManager::GetStringWidth
+	(
+	const JFontID	id,
+	const JString&	str
+	)
+{
+	const FontInfo info = ResolveFontID(id);
+	if (info.monoWidth > 0)
+		{
+		return str.GetCharacterCount() * info.monoWidth;
+		}
+	else
+		{
+		const JSize byteCount      = str.GetByteCount();
+		const JSize chunkByteCount = itsDisplay->GetMaxStringByteCount();
+
+		JSize width  = 0;
+		JSize offset = 0;
+		XGlyphInfo g;
+		while (offset < byteCount)
+			{
+			const JUtf8Byte* s = str.GetRawBytes() + offset;	// GetRawBytes() because str may be a shadow
+
+			JSize count = byteCount - offset;
+			if (count > chunkByteCount)
+				{
+				count = chunkByteCount;
+				JSize byteCount;
+				while (!JUtf8Character::GetCharacterByteCount(s + count, &byteCount))
+					{
+					count--;
+					}
+				}
+
+			if (info.xfont.type == kStdType)
+				{
+				// Xutf8TextEscapement() would be more accurate, but it's not standard.
+				width += XmbTextEscapement(info.xfont.xfset, s, count);
+				}
+			else
+				{
+				assert( info.xfont.type == kTrueType );
+				XftTextExtentsUtf8(*itsDisplay, info.xfont.xftt, (FcChar8*) s, count, &g);
+				width += g.xOff;
+				}
+
+			offset += count;
+			}
+
+		return width;
+		}
+}
+
+/******************************************************************************
+ ResolveFontID (private)
+
+ ******************************************************************************/
+
+JXFontManager::FontInfo
+JXFontManager::ResolveFontID
+	(
+	const JFontID id
+	)
+{
+	while (!itsFontList->IndexValid(id))
+		{
+		itsFontList->AppendElement(FontInfo());
+		}
+
+	FontInfo info = itsFontList->GetElement(id);
+	if (info.filled)
+		{
+		return info;
+		}
+
+	// falling through means we need to create a new entry
+
+	const JFont f = GetFont(id);
+
+	const JString xFontName = ConvertToXFontName(f.GetName());
+	if (GetNewFont(xFontName, f.GetSize(), f.GetStyle(), &(info.xfont)))
+		{
+		info.exact = kJTrue;
+		}
+	else
+		{
+		info.exact = kJFalse;
+		ApproximateFont(xFontName, f.GetSize(), f.GetStyle(), &(info.xfont));
+		}
+
+	info.filled    = kJTrue;
+	info.monoWidth = IsMonospace(info.xfont);
+
+	itsFontList->SetElement(id, info);
+	return info;
 }
 
 /******************************************************************************
@@ -521,7 +626,6 @@ JXFontManager::GetNewFont
 	const JFontStyle&	style,
 	XFont*				xfont
 	)
-	const
 {
 	JString xFontStr;
 
@@ -567,7 +671,7 @@ JXFontManager::GetNewFont
 }
 
 /******************************************************************************
- BuildStdFontName (private)
+ BuildStdFontName (static private)
 
  ******************************************************************************/
 
@@ -580,7 +684,6 @@ JXFontManager::BuildStdFontName
 	const JUtf8Byte*	italicStr,
 	const JUtf8Byte*	iso
 	)
-	const
 {
 	// handle NxM separately
 
@@ -644,7 +747,7 @@ JXFontManager::BuildStdFontName
 }
 
 /******************************************************************************
- BuildTrueTypeFontName (private)
+ BuildTrueTypeFontName (static private)
 
  ******************************************************************************/
 
@@ -656,7 +759,6 @@ JXFontManager::BuildTrueTypeFontName
 	const JFontStyle&	style,
 	JString*			xFontStr
 	)
-	const
 {
 	xFontStr->Clear();
 
@@ -721,7 +823,6 @@ JXFontManager::ApproximateFont
 	const JFontStyle&	origStyle,
 	XFont*				xfont
 	)
-	const
 {
 	JString name     = origName;
 	JSize size       = origSize;
@@ -775,213 +876,7 @@ JXFontManager::ApproximateFont
 }
 
 /******************************************************************************
- IsExact (virtual)
-
- ******************************************************************************/
-
-JBoolean
-JXFontManager::IsExact
-	(
-	const JFontID id
-	)
-	const
-{
-	const FontInfo info = itsFontList->GetElement(id);
-	return info.exact;
-}
-
-/******************************************************************************
- GetLineHeight (virtual protected)
-
- ******************************************************************************/
-
-JSize
-JXFontManager::GetLineHeight
-	(
-	const JFontID		fontID,
-	const JSize			size,
-	const JFontStyle&	style,
-
-	JCoordinate*		ascent,
-	JCoordinate*		descent
-	)
-	const
-{
-	FontInfo info = itsFontList->GetElement(fontID);
-	if (info.xfont.type == kStdType && info.ascent == 0)
-		{
-		XFontStruct** fsList;
-		char** nameList;
-		const int count = XFontsOfFontSet(info.xfont.xfset, &fsList, &nameList);
-		for (int i=0; i<count; i++)
-			{
-			info.ascent  = JMax(info.ascent,  (JCoordinate) fsList[i]->ascent);
-			info.descent = JMax(info.descent, (JCoordinate) fsList[i]->descent);
-			}
-		}
-	else if (info.ascent == 0)
-		{
-		assert( info.xfont.type == kTrueType );
-
-		XGlyphInfo g;
-		XftTextExtentsUtf8(*itsDisplay, info.xfont.xftt, (FcChar8*) "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789|_", 64, &g);
-		info.ascent  = g.y + 1 + size/10;
-		info.descent = g.height - g.y;
-		itsFontList->SetElement(fontID, info);
-		}
-
-	*ascent  = info.ascent;
-	*descent = info.descent;
-
-	const JCoordinate underlineHeight = 2 * GetUnderlineThickness(size) * style.underlineCount;
-	if (*descent < underlineHeight)
-		{
-		*descent = underlineHeight;
-		}
-
-	return (*ascent + *descent);
-}
-
-/******************************************************************************
- GetCharWidth (virtual protected)
-
- ******************************************************************************/
-
-JSize
-JXFontManager::GetCharWidth
-	(
-	const JFontID			fontID,
-	const JUtf8Character&	c
-	)
-	const
-{
-	const FontInfo info = itsFontList->GetElement(fontID);
-	if (info.monoWidth > 0)
-		{
-		return info.monoWidth;
-		}
-	else if (info.xfont.type == kStdType)
-		{
-		// Xutf8TextEscapement() would be more accurate, but it's not standard.
-		return XmbTextEscapement(info.xfont.xfset, c.GetBytes(), c.GetByteCount());
-		}
-	else
-		{
-		assert( info.xfont.type == kTrueType );
-
-		XGlyphInfo g;
-		XftTextExtentsUtf8(*itsDisplay, info.xfont.xftt, (FcChar8*) &c, c.GetByteCount(), &g);
-		return g.xOff;
-		}
-}
-
-/******************************************************************************
- GetStringWidth (virtual protected)
-
- ******************************************************************************/
-
-JSize
-JXFontManager::GetStringWidth
-	(
-	const JFontID	fontID,
-	const JString&	str
-	)
-	const
-{
-	const FontInfo info = itsFontList->GetElement(fontID);
-	if (info.monoWidth > 0)
-		{
-		return str.GetCharacterCount() * info.monoWidth;
-		}
-	else
-		{
-		const JSize byteCount      = str.GetByteCount();
-		const JSize chunkByteCount = itsDisplay->GetMaxStringByteCount();
-
-		JSize width  = 0;
-		JSize offset = 0;
-		XGlyphInfo g;
-		while (offset < byteCount)
-			{
-			const JUtf8Byte* s = str.GetRawBytes() + offset;	// GetRawBytes() because str may be a shadow
-
-			JSize count = byteCount - offset;
-			if (count > chunkByteCount)
-				{
-				count = chunkByteCount;
-				JSize byteCount;
-				while (!JUtf8Character::GetCharacterByteCount(s + count, &byteCount))
-					{
-					count--;
-					}
-				}
-
-			if (info.xfont.type == kStdType)
-				{
-				// Xutf8TextEscapement() would be more accurate, but it's not standard.
-				width += XmbTextEscapement(info.xfont.xfset, s, count);
-				}
-			else
-				{
-				assert( info.xfont.type == kTrueType );
-				XftTextExtentsUtf8(*itsDisplay, info.xfont.xftt, (FcChar8*) s, count, &g);
-				width += g.xOff;
-				}
-
-			offset += count;
-			}
-
-		return width;
-		}
-}
-
-/******************************************************************************
- GetXFontInfo
-
- ******************************************************************************/
-
-JXFontManager::XFont
-JXFontManager::GetXFontInfo
-	(
-	const JFontID id
-	)
-	const
-{
-	while (!itsFontList->IndexValid(id))
-		{
-		itsFontList->AppendElement(FontInfo());
-		}
-
-	FontInfo info = itsFontList->GetElement(id);
-	if (info.filled)
-		{
-		return info.xfont;
-		}
-
-	// falling through means we need to create a new entry
-
-	const JFont f = GetFont(id);
-
-	const JString xFontName = ConvertToXFontName(f.GetName());
-	if (GetNewFont(xFontName, f.GetSize(), f.GetStyle(), &(info.xfont)))
-		{
-		info.exact = kJTrue;
-		}
-	else
-		{
-		info.exact = kJFalse;
-		ApproximateFont(xFontName, f.GetSize(), f.GetStyle(), &(info.xfont));
-		}
-
-	info.filled    = kJTrue;
-	info.monoWidth = IsMonospace(info.xfont);
-
-	itsFontList->SetElement(id, info);
-	return info.xfont;
-}
-
-/******************************************************************************
- ConvertToXFontName (private)
+ ConvertToXFontName (static private)
 
 	Fold name to lower case.
 
@@ -992,7 +887,6 @@ JXFontManager::ConvertToXFontName
 	(
 	const JString& name
 	)
-	const
 {
 	JString fontName = name;
 	fontName.ToLower();
@@ -1000,7 +894,7 @@ JXFontManager::ConvertToXFontName
 }
 
 /******************************************************************************
- ConvertToPSFontName (private)
+ ConvertToPSFontName (static private)
 
 	Capitalize the first character of every word.
 
@@ -1011,7 +905,6 @@ JXFontManager::ConvertToPSFontName
 	(
 	JString* name
 	)
-	const
 {
 	JStringIterator iter(name);
 	JUtf8Character c, prev;
@@ -1023,6 +916,101 @@ JXFontManager::ConvertToPSFontName
 			}
 		prev = c;
 		}
+}
+
+/******************************************************************************
+ IsMonospace (private)
+
+	Returns monospace width or zero.
+
+ ******************************************************************************/
+
+JCoordinate
+JXFontManager::IsMonospace
+	(
+	const XFont& xfont
+	)
+{
+	if (xfont.type == kStdType)
+	{
+		XFontStruct** fsList;
+		char** nameList;
+		const int count = XFontsOfFontSet(xfont.xfset, &fsList, &nameList);
+		JCoordinate w   = fsList[0]->min_bounds.width;
+		for (int i=0; i<count; i++)
+			{
+			if (fsList[i]->min_bounds.width != w ||
+				fsList[i]->max_bounds.width != w)
+				{
+				return 0;
+				}
+			}
+
+		return w;
+	}
+	else
+	{
+		assert( xfont.type == kTrueType );
+
+		XGlyphInfo g1, g2;
+		XftTextExtentsUtf8(*itsDisplay, xfont.xftt, (FcChar8*) "M", 1, &g1);
+		XftTextExtentsUtf8(*itsDisplay, xfont.xftt, (FcChar8*) "|", 1, &g2);
+		return (g1.xOff == g2.xOff ? g1.xOff : 0);
+	}
+}
+
+/******************************************************************************
+ IsPostscript (private)
+
+	Returns kJTrue if the font is available in Postscript.
+
+	Until JPSPrinter can embed fonts in a Postscript file, we are limited
+	to only the standard Postscript fonts.
+
+ ******************************************************************************/
+
+JBoolean
+JXFontManager::IsPostscript
+	(
+	const JString& name
+	)
+{
+#if ONLY_STD_PS_FONTS
+
+	return JI2B(name == "Arial"                     ||	// Helvetica sucks on OS X
+				name.BeginsWith("Courier")          ||
+				name.BeginsWith("Helvetica")        ||
+				name == "Times"                     ||
+				name.Contains("Bookman")            ||
+				name.Contains("Century Schoolbook") ||
+				name.Contains("Chancery")           ||
+				name.Contains("Palatino"));
+
+#else
+
+	return kJTrue;
+
+#endif
+}
+
+/******************************************************************************
+ IsUseless (private)
+
+	Returns kJTrue if the font is useless, i.e., no printing characters.
+
+ ******************************************************************************/
+
+JBoolean
+JXFontManager::IsUseless
+	(
+	const JString& name
+	)
+{
+	return JI2B(name.Contains("Dingbats")         ||
+				name == "Symbol"                  ||
+				name.Contains("Standard Symbols") ||
+				name.Contains("Cursor")           ||
+				name.EndsWith(" Ti"));
 }
 
 /******************************************************************************
