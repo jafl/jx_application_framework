@@ -14,7 +14,7 @@
 #include "cbmUtil.h"
 #include <JTree.h>
 #include <JRegex.h>
-#include <JXColorManager.h>
+#include <JColorManager.h>
 #include <jAssert.h>
 
 /******************************************************************************
@@ -290,18 +290,15 @@ CMVarNode::SetValid
  ******************************************************************************/
 
 JFontStyle
-CMVarNode::GetFontStyle
-	(
-	const JXColorManager* cmap
-	)
+CMVarNode::GetFontStyle()
 {
 	if (!itsValidFlag)
 		{
-		return JFontStyle(cmap->GetGrayColor(50));
+		return JFontStyle(JColorManager::GetGrayColor(50));
 		}
 	else if (itsNewValueFlag)
 		{
-		return JFontStyle(cmap->GetBlueColor());
+		return JFontStyle(JColorManager::GetBlueColor());
 		}
 	else
 		{
@@ -314,18 +311,17 @@ CMVarNode::GetFontStyle
 JFontStyle
 CMVarNode::GetFontStyle
 	(
-	const JBoolean		isValid,
-	const JBoolean		isNew,
-	const JXColorManager*	cmap
+	const JBoolean isValid,
+	const JBoolean isNew,
 	)
 {
 	if (!isValid)
 		{
-		return JFontStyle(cmap->GetGrayColor(50));
+		return JFontStyle(JColorManager::GetGrayColor(50));
 		}
 	else if (isNew)
 		{
-		return JFontStyle(cmap->GetBlueColor());
+		return JFontStyle(JColorManager::GetBlueColor());
 		}
 	else
 		{

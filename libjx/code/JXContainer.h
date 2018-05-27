@@ -21,7 +21,6 @@
 class JString;
 class JFontManager;
 class JXDisplay;
-class JXColorManager;
 class JXWindow;
 class JXWidget;
 class JXWindowPainter;
@@ -101,11 +100,11 @@ public:
 	JXContainer*	GetEnclosure() const;
 //	JBoolean		SetEnclosure(JXContainer* obj);
 
-	const JFontManager*		GetFontManager() const;
-	const JXFontManager*	GetXFontManager() const;
-	JXSelectionManager*		GetSelectionManager() const;
-	JXDNDManager*			GetDNDManager() const;
-	JXMenuManager*			GetMenuManager() const;
+	JFontManager*		GetFontManager() const;
+	JXFontManager*		GetXFontManager() const;
+	JXSelectionManager*	GetSelectionManager() const;
+	JXDNDManager*		GetDNDManager() const;
+	JXMenuManager*		GetMenuManager() const;
 
 	JCursorIndex	GetDefaultCursor() const;
 

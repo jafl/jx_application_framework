@@ -173,7 +173,7 @@ JFont::SetColor
 JSize
 JFont::GetLineHeight
 	(
-	const JFontManager* fontManager
+	JFontManager* fontManager
 	)
 	const
 {
@@ -184,9 +184,9 @@ JFont::GetLineHeight
 JSize
 JFont::GetLineHeight
 	(
-	const JFontManager*	fontManager,
-	JCoordinate*		ascent,
-	JCoordinate*		descent
+	JFontManager*	fontManager,
+	JCoordinate*	ascent,
+	JCoordinate*	descent
 	)
 	const
 {
@@ -196,7 +196,7 @@ JFont::GetLineHeight
 JSize
 JFont::GetCharWidth
 	(
-	const JFontManager*		fontManager,
+	JFontManager*			fontManager,
 	const JUtf8Character&	c
 	)
 	const
@@ -207,8 +207,8 @@ JFont::GetCharWidth
 JSize
 JFont::GetStringWidth
 	(
-	const JFontManager*	fontManager,
-	const JString&		str
+	JFontManager*	fontManager,
+	const JString&	str
 	)
 	const
 {

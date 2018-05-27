@@ -12,7 +12,6 @@
 #include <JXImageSelection.h>
 #include <JXDisplay.h>
 #include <JXSelectionManager.h>
-#include <JXColorManager.h>
 #include <JXImage.h>
 #include <jStreamUtil.h>
 #include <jFStreamUtil.h>
@@ -135,12 +134,10 @@ JXImageSelection::SetData
 {
 	if (itsImage != NULL)
 		{
-		StopListening(itsImage->GetXColorManager());
 		jdelete itsImage;
 		}
 
 	itsImage = image;
-	ListenTo(itsImage->GetXColorManager());
 }
 
 /******************************************************************************
@@ -210,30 +207,6 @@ JXImageSelection::ConvertData
 }
 
 /******************************************************************************
- ReceiveGoingAway (virtual protected)
-
-	The given sender has been deleted.
-
- ******************************************************************************/
-
-void
-JXImageSelection::ReceiveGoingAway
-	(
-	JBroadcaster* sender
-	)
-{
-	if (sender == itsImage->GetXColorManager())
-		{
-		jdelete itsImage;
-		itsImage = NULL;
-		}
-	else
-		{
-		JXSelectionData::ReceiveGoingAway(sender);
-		}
-}
-
-/******************************************************************************
  Get X atom names (static)
 
  ******************************************************************************/
@@ -276,8 +249,7 @@ JXImageSelection::GetImage
 	JXImage**		image
 	)
 {
-	return GetImage(display->GetSelectionManager(), selectionName, time,
-					display->GetColorManager(), image);
+	return GetImage(display->GetSelectionManager(), selectionName, time, image);
 }
 
 JBoolean
@@ -286,11 +258,10 @@ JXImageSelection::GetImage
 	JXSelectionManager* selMgr,
 	const Atom			selectionName,
 	const Time			time,
-	JXColorManager*			colormap,
 	JXImage**			image
 	)
 {
-	JXDisplay* display = colormap->GetDisplay();
+	JXDisplay* display = selMgr->GetDisplay();
 	Atom atoms[ kAtomCount ];
 	display->RegisterXAtoms(kAtomCount, kAtomNames, atoms);
 

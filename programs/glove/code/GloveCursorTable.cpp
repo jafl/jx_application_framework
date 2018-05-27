@@ -57,8 +57,7 @@ GloveCursorTable::GloveCursorTable
 	SetColBorderInfo(1, GetColormap()->GetGrayColor(80));
 	SetRowBorderInfo(1, GetColormap()->GetGrayColor(80));
 	
-	const JFontManager* fm = GetFontManager();
-	JSize lineHeight = JFontManager::GetDefaultFont().GetLineHeight();
+	const JSize lineHeight = JFontManager::GetDefaultFont().GetLineHeight(GetFontManager);
 	AppendRows(1, lineHeight + 2);
 	
 	itsShowX = kJFalse;
@@ -184,10 +183,9 @@ GloveCursorTable::AdjustTable()
 		JSize count = JMax(xCount, yCount) + 1;
 		if (GetRowCount() < count)
 			{
-			const JFontManager* fm = GetFontManager();
-			JSize lineHeight = JFontManager::GetDefaultFont().GetLineHeight();
+			const JSize lineHeight = JFontManager::GetDefaultFont().GetLineHeight(GetFontManager());
 			
-			for (JSize i = GetRowCount(); i < count; i++)
+			for (JIndex i = GetRowCount(); i < count; i++)
 				{
 				AppendRows(1, lineHeight + 2);
 				}
@@ -204,7 +202,7 @@ GloveCursorTable::AdjustTable()
 	else
 		{
 		JSize count = GetRowCount();
-		for (JSize i = count; i > 1; i--)
+		for (JIndex i = count; i > 1; i--)
 			{
 			RemoveRow(i);
 			}

@@ -18,7 +18,8 @@ class TestTextEditor : public JXTextEditor
 {
 public:
 
-	TestTextEditor(const JBoolean editable, JXMenuBar* menuBar,
+	TestTextEditor(JStyledText* text, const JBoolean ownsText,
+				   const JBoolean editable, JXMenuBar* menuBar,
 				   JXScrollbarSet* scrollbarSet, JXContainer* enclosure,
 				   const HSizingOption hSizing, const VSizingOption vSizing,
 				   const JCoordinate x, const JCoordinate y,

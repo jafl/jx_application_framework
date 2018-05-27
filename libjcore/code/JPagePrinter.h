@@ -25,7 +25,7 @@ public:
 
 public:
 
-	JPagePrinter(const JFontManager* fontManager, const JRect& defaultClipRect);
+	JPagePrinter(JFontManager* fontManager, const JRect& defaultClipRect);
 
 	virtual ~JPagePrinter();
 

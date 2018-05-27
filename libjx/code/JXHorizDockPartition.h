@@ -57,8 +57,8 @@ protected:
 
 	virtual JXWidgetSet*	CreateCompartment(const JIndex index,
 											  const JCoordinate position,
-											  const JCoordinate size);
-	virtual JBoolean		SaveGeometryForLater(const JArray<JCoordinate>& sizes);
+											  const JCoordinate size) override;
+	virtual JBoolean		SaveGeometryForLater(const JArray<JCoordinate>& sizes) override;
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 

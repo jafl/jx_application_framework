@@ -48,12 +48,12 @@ public:
 	void	SetStrike(const JBoolean strike);
 	void	SetColor(const JColorID color);
 
-	JSize	GetLineHeight(const JFontManager* fontManager) const;
-	JSize	GetLineHeight(const JFontManager* fontManager,
+	JSize	GetLineHeight(JFontManager* fontManager) const;
+	JSize	GetLineHeight(JFontManager* fontManager,
 						  JCoordinate* ascent, JCoordinate* descent) const;
 
-	JSize	GetCharWidth(const JFontManager* fontManager, const JUtf8Character& c) const;
-	JSize	GetStringWidth(const JFontManager* fontManager, const JString& str) const;
+	JSize	GetCharWidth(JFontManager* fontManager, const JUtf8Character& c) const;
+	JSize	GetStringWidth(JFontManager* fontManager, const JString& str) const;
 
 	JSize	GetStrikeThickness() const;
 	JSize	GetUnderlineThickness() const;

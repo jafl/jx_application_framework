@@ -18,7 +18,6 @@
 
 class JXDisplay;
 class JXGC;
-class JXColorManager;
 class JXImage;
 class JXWindowDirector;
 class JXWidget;
@@ -61,8 +60,7 @@ public:
 
 	virtual ~JXWindow();
 
-	JXDisplay*		GetDisplay() const;
-	JXColorManager*	GetColorManager() const;
+	JXDisplay*	GetDisplay() const;
 
 	const JString&	GetTitle() const;
 	void			SetTitle(const JString& title);
@@ -353,7 +351,6 @@ private:
 	const JBoolean		itsIsOverlayFlag;
 
 	JXDisplay*		itsDisplay;					// we don't own this
-	JXColorManager*	itsColorManager;
 	JXGC*			itsGC;
 	Window			itsXWindow;
 	Pixmap			itsBufferPixmap;
@@ -720,18 +717,6 @@ JXWindow::GetDisplay()
 	const
 {
 	return itsDisplay;
-}
-
-/******************************************************************************
- GetColorManager
-
- ******************************************************************************/
-
-inline JXColorManager*
-JXWindow::GetColorManager()
-	const
-{
-	return itsColorManager;
 }
 
 /******************************************************************************

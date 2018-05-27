@@ -12,13 +12,12 @@
 #include <JPrefObject.h>
 
 class JXImage;
-class JXColorManager;
 
 class CBSymbolTypeList : public JContainer, public JPrefObject
 {
 public:
 
-	CBSymbolTypeList(JXColorManager* colormap);
+	CBSymbolTypeList(JXDisplay* display);
 
 	virtual ~CBSymbolTypeList();
 
@@ -61,7 +60,6 @@ private:
 
 	JArray<SymbolTypeInfo>*	itsSymbolTypeList;
 
-	JXColorManager*	itsColormap;		// not owned
 	JXImage*	itsCClassIcon;
 	JXImage*	itsCStructIcon;
 	JXImage*	itsCEnumIcon;

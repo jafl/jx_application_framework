@@ -18,7 +18,6 @@ class JString;
 class JPainter;
 class JEPSPrinter;
 class JFontManager;
-class JXColorManager;
 class JVariableList;
 class JFunction;
 class JNaryFunction;
@@ -71,8 +70,7 @@ public:
 
 public:
 
-	JExprEditor(const JVariableList* varList, const JFontManager* fontManager,
-				JXColorManager* colormap);
+	JExprEditor(const JVariableList* varList, JFontManager* fontManager);
 
 	virtual ~JExprEditor();
 
@@ -218,8 +216,7 @@ private:
 
 	JFunction*	itsFunctionClip;
 
-	const JFontManager*	itsFontManager;
-	JXColorManager*			itsColormap;
+	JFontManager*	itsFontManager;
 
 	// used for undo
 

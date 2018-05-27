@@ -611,8 +611,6 @@ JXGC::DrawString
 						   &renderColor, &color);
 		}
 
-	const JFontManager* fontMgr = itsDisplay->GetFontManager();
-
 	const JSize byteCount      = str.GetByteCount();
 	const JSize chunkByteCount = itsDisplay->GetMaxStringByteCount();
 

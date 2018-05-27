@@ -430,16 +430,15 @@ CBCClass::IsInherited
 void
 CBCClass::AdjustNameStyle
 	(
-	const JXColorManager*	colormap,
-	JFontStyle*			style
+	JFontStyle* style
 	)
 	const
 {
-	CBClass::AdjustNameStyle(colormap, style);
+	CBClass::AdjustNameStyle(style);
 
 	const DeclareType type = GetDeclareType();
 	if (type == kStructType || type == kEnumType)
 		{
-		style->color = colormap->GetGrayColor(50);
+		style->color = JColorManager::GetGrayColor(50);
 		}
 }

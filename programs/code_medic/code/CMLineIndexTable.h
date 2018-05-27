@@ -10,7 +10,6 @@
 
 #include <JXTable.h>
 
-class JXColorManager;
 class JXTextMenu;
 class JXScrollbar;
 class CMLink;
@@ -38,8 +37,7 @@ public:
 	JCoordinate	GetCurrentLine() const;
 	void		SetCurrentLine(const JIndex line);
 
-	static void	DrawBreakpoint(const CMBreakpoint* bp, JPainter& p,
-							   JXColorManager* cmap, const JRect& rect);
+	static void	DrawBreakpoint(const CMBreakpoint* bp, JPainter& p, const JRect& rect);
 
 protected:
 

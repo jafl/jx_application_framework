@@ -470,7 +470,7 @@ JXDisplay::SetWDManager
 
  ******************************************************************************/
 
-const JFontManager*
+JFontManager*
 JXDisplay::GetFontManager()
 	const
 {

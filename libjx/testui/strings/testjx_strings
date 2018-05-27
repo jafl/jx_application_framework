@@ -1,5 +1,7 @@
 0
 
+# vim:set ts=4:
+
 # AboutDialog
 
 WindowTitle::AboutDialog	"About this silly program"
@@ -232,9 +234,6 @@ FileMenuTitle::TestTextEditDocument		"File"
 FileMenuShortcut::TestTextEditDocument	"#F"
 ChooseFilesPrompt::TestTextEditDocument	"Files to open:"
 OpenFilesProgress::TestTextEditDocument	"Opening files..."
-
-AskParseHTML::TestTextEditDocument
-"This file contains HTML formatting.  Do you want to load it as formatted text?  (Some information will be lost when it is translated.)"
 
 # TestDNDTextDirector
 

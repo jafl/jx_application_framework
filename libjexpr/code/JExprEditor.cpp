@@ -87,7 +87,6 @@
 
 #include <JEPSPrinter.h>
 #include <JFontManager.h>
-#include <JXColorManager.h>
 #include <JString.h>
 #include <JMinMax.h>
 #include <jASCIIConstants.h>
@@ -112,13 +111,11 @@ const JCharacter* JExprEditor::kExprChanged = "ExprChanged::JExprEditor";
 JExprEditor::JExprEditor
 	(
 	const JVariableList*	varList,
-	const JFontManager*		fontManager,
-	JXColorManager*				colormap
+	JFontManager*			fontManager
 	)
 	:
 	JExprRenderer(),
 	itsFontManager(fontManager),
-	itsColormap(colormap),
 	itsTextColor(colormap->GetBlackColor()),
 	itsSelectionColor(colormap->GetDefaultSelectionColor()),
 	itsDefaultStyle(itsTextColor)
@@ -220,7 +217,7 @@ JExprEditor::PrivateClearFunction()
 {
 	jdelete itsFunction;
 	JUserInputFunction* newUIF =
-		jnew JUserInputFunction(itsVarList, itsFontManager, itsColormap);
+		jnew JUserInputFunction(itsVarList, itsFontManager);
 	assert( newUIF != NULL );
 	itsFunction = newUIF;
 
@@ -731,7 +728,7 @@ JExprEditor::ApplyFunctionToSelection
 		JFunction* newF;
 		JFunction* newArg;
 		JUserInputFunction* newUIF;
-		if (JApplyFunction(fnName, itsVarList, *f, itsFontManager, itsColormap,
+		if (JApplyFunction(fnName, itsVarList, *f, itsFontManager,
 						   &newF, &newArg, &newUIF))
 			{
 			SaveStateForUndo();
@@ -766,7 +763,7 @@ JExprEditor::AddArgument()
 			{
 			SaveStateForUndo();
 			JUserInputFunction* uif =
-				jnew JUserInputFunction(itsVarList, itsFontManager, itsColormap);
+				jnew JUserInputFunction(itsVarList, itsFontManager);
 			assert( uif != NULL );
 			naryF->AppendArg(uif);
 			Render();
@@ -1713,7 +1710,7 @@ JExprEditor::EIPHandleMouseUp()
 				s = itsVarList->GetVariableName(varVal->GetVariableIndex());
 				}
 			JUserInputFunction* newUIF =
-				jnew JUserInputFunction(itsVarList, itsFontManager, itsColormap, s);
+				jnew JUserInputFunction(itsVarList, itsFontManager, s);
 			assert( newUIF != NULL );
 			ReplaceFunction(selectedF, newUIF);
 			Render();
@@ -1803,7 +1800,7 @@ JExprEditor::EIPHandleKeyPress
 		// replace selection with JUserInputFunction
 
 		JUserInputFunction* newUIF =
-			jnew JUserInputFunction(itsVarList, itsFontManager, itsColormap);
+			jnew JUserInputFunction(itsVarList, itsFontManager);
 		assert( newUIF != NULL );
 		JFunction* selectedF = itsRectList->GetFunction(itsSelection);
 		ReplaceFunction(selectedF, newUIF);
@@ -1825,7 +1822,7 @@ JExprEditor::EIPHandleKeyPress
 			// replace selection with JUserInputFunction
 
 			JUserInputFunction* newUIF =
-				jnew JUserInputFunction(itsVarList, itsFontManager, itsColormap);
+				jnew JUserInputFunction(itsVarList, itsFontManager);
 			assert( newUIF != NULL );
 			newUIF->Activate();
 			JBoolean needParse, needRender;
@@ -1929,7 +1926,7 @@ JExprEditor::ApplyOperatorKey
 		}
 
 	JUserInputFunction* newUIF =
-		jnew JUserInputFunction(itsVarList, itsFontManager, itsColormap);
+		jnew JUserInputFunction(itsVarList, itsFontManager);
 	assert( newUIF != NULL );
 
 	JFunction* newArg = newUIF;

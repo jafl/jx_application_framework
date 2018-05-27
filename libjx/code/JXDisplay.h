@@ -99,13 +99,13 @@ public:
 	JSize			GetMaxStringByteCount() const;
 	JBoolean		IsOSX() const;
 
-	const JFontManager*		GetFontManager() const;
-	const JXFontManager*	GetXFontManager() const;
-	JXSelectionManager*		GetSelectionManager() const;
-	JXDNDManager*			GetDNDManager() const;
-	JXMenuManager*			GetMenuManager() const;
-	JBoolean				GetWDManager(JXWDManager** mgr) const;
-	JXImageCache*			GetImageCache() const;
+	JFontManager*		GetFontManager() const;
+	JXFontManager*		GetXFontManager() const;
+	JXSelectionManager*	GetSelectionManager() const;
+	JXDNDManager*		GetDNDManager() const;
+	JXMenuManager*		GetMenuManager() const;
+	JBoolean			GetWDManager(JXWDManager** mgr) const;
+	JXImageCache*		GetImageCache() const;
 
 	JCursorIndex	CreateBuiltInCursor(const JUtf8Byte* name,
 										const unsigned int shape);
@@ -800,7 +800,7 @@ JXDisplay::GetWMWindowTypeXAtom
 
  ******************************************************************************/
 
-inline const JXFontManager*
+inline JXFontManager*
 JXDisplay::GetXFontManager()
 	const
 {

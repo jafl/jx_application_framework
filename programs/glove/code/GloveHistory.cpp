@@ -220,17 +220,17 @@ GloveHistory::AdjustTabWidth()
 {
 	JCoordinate charWidth;
 
-	const JFontManager* fontMgr = JTextEditor::TEGetFontManager();
+	JFontManager* fontMgr = GetFontManager();
 	if (itsFontMenu != NULL)
 		{
 		const JFont font = fontMgr->GetFont(itsFontMenu->GetFontName());
-		charWidth = font.GetCharWidth(' ');
+		charWidth = font.GetCharWidth(fontMgr, ' ');
 		}
 	else
 		{
 		assert( itsSizeMenu != NULL );
 		const JFont font = fontMgr->GetFont(JGetMonospaceFontName(), itsSizeMenu->GetFontSize());
-		charWidth = font.GetCharWidth(' ');
+		charWidth = font.GetCharWidth(fontMgr, ' ');
 		}
 
 	SetDefaultTabWidth(itsTabCharCount * charWidth);

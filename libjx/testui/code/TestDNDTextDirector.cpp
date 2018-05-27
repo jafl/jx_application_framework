@@ -54,6 +54,8 @@ TestDNDTextDirector::~TestDNDTextDirector()
 
  ******************************************************************************/
 
+#define TEXT_RANGE(a,b) text->CharToTextRange(NULL, JCharacterRange(a, b))
+
 void
 TestDNDTextDirector::BuildWindow()
 {
@@ -84,23 +86,28 @@ JIndex i;
 	JXTextEditor* te;
 	for (i=1; i<=2; i++)
 		{
+		JStyledText* text = jnew JStyledText(kJTrue, kJTrue);
+		assert( text != NULL );
+
 		JXTextEditorSet* teSet =
-			jnew JXTextEditorSet(&te, partition->GetCompartment(i),
+			jnew JXTextEditorSet(text, kJTrue, &te, partition->GetCompartment(i),
 								JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 100,100);
 		assert( teSet != NULL );
 		teSet->FitToEnclosure();
 
 		// create something to drag around
 
-		te->SetText(JString(
+		text->SetText(JString(
 			"plain\n\nbold\n\nitalicunderline\n\ntrplunderline\n\nstrike\n\nboldred\n",
 			0, kJFalse));
 
-		te->SetFontStyle(8, 13, JFontStyle(kJTrue, kJFalse, 0, kJFalse), kJTrue);
-		te->SetFontStyle(14, 30, JFontStyle(kJFalse, kJTrue, 1, kJFalse), kJTrue);
-		te->SetFontStyle(31, 45, JFontStyle(kJFalse, kJFalse, 3, kJFalse), kJTrue);
-		te->SetFontStyle(46, 53, JFontStyle(kJFalse, kJFalse, 0, kJTrue), kJTrue);
-		te->SetFontStyle(54, 62, JFontStyle(kJTrue, kJFalse, 0, kJFalse,
+		text->SetFontStyle(TEXT_RANGE(8, 13), JFontStyle(kJTrue, kJFalse, 0, kJFalse), kJTrue);
+		text->SetFontStyle(TEXT_RANGE(14, 30), JFontStyle(kJFalse, kJTrue, 1, kJFalse), kJTrue);
+		text->SetFontStyle(TEXT_RANGE(31, 45), JFontStyle(kJFalse, kJFalse, 3, kJFalse), kJTrue);
+		text->SetFontStyle(TEXT_RANGE(46, 53), JFontStyle(kJFalse, kJFalse, 0, kJTrue), kJTrue);
+		text->SetFontStyle(TEXT_RANGE(54, 62), JFontStyle(kJTrue, kJFalse, 0, kJFalse,
 											JColorManager::GetRedColor()), kJTrue);
 		}
 }
+
+#undef TEXT_RANGE

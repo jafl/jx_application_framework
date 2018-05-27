@@ -56,8 +56,8 @@ GLCurveNameList::GLCurveNameList
 {
 	itsMinColWidth = 1;
 
-	const JFontManager* fontMgr = GetFontManager();
-	const JSize rowHeight = 2*kVMarginWidth + JFontManager::GetDefaultFont().GetLineHeight();
+	JFontManager* fontMgr = GetFontManager();
+	const JSize rowHeight = 2*kVMarginWidth + JFontManager::GetDefaultFont().GetLineHeight(fontMgr);
 	SetDefaultRowHeight(rowHeight);
 
 	const JSize count = plot->GetCurveCount();
@@ -73,7 +73,7 @@ GLCurveNameList::GLCurveNameList
 		itsNameList->Append(str);
 
 		const JCoordinate width = 2*kHMarginWidth +
-			JFontManager::GetDefaultFont().GetStringWidth(*str);
+			JFontManager::GetDefaultFont().GetStringWidth(fontMgr, *str);
 		if (width > itsMinColWidth)
 			{
 			itsMinColWidth = width;

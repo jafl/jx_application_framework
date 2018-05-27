@@ -73,9 +73,8 @@ public:
 
 	virtual JXImage*	Copy() const;
 
-	JXDisplay*		GetDisplay() const;
-	JXColorManager*	GetXColorManager() const;
-	JSize			GetDepth() const;
+	JXDisplay*	GetDisplay() const;
+	JSize		GetDepth() const;
 
 	JBoolean			HasMask() const;
 	virtual JBoolean	GetMask(JImageMask** mask) const;
@@ -134,7 +133,6 @@ protected:
 private:
 
 	JXDisplay*	itsDisplay;		// we don't own this
-	JXColorManager*	itsXColormap;	// we don't own this
 	JXGC*		itsGC;			// NULL if using display's default GC
 	JSize		itsDepth;
 
@@ -168,18 +166,6 @@ JXImage::GetDisplay()
 	const
 {
 	return itsDisplay;
-}
-
-/******************************************************************************
- GetXColorManager
-
- ******************************************************************************/
-
-inline JXColorManager*
-JXImage::GetXColorManager()
-	const
-{
-	return itsXColormap;
 }
 
 /******************************************************************************

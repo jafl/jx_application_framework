@@ -44,7 +44,7 @@ public:
 	JCoordinate	GetHeight() const;
 	JRect		GetBounds() const;
 
-	JColorManager*			GetColorManager() const;
+	JColorManager*		GetColorManager() const;
 	virtual JColorID	GetColor(const JCoordinate x, const JCoordinate y) const = 0;
 	virtual void		SetColor(const JCoordinate x, const JCoordinate y,
 								 const JColorID color) = 0;

@@ -14,7 +14,6 @@
 #include <JTextEditor.h>
 
 class JFontManager;
-class JXColorManager;
 class JVariableList;
 class JExprRectList;
 
@@ -22,9 +21,7 @@ class JUserInputFunction : public JFunction, public JTextEditor
 {
 public:
 
-	JUserInputFunction(const JVariableList* varList,
-					   const JFontManager* fontManager,
-					   JXColorManager* colormap,
+	JUserInputFunction(const JVariableList* varList, JFontManager* fontManager,
 					   const JCharacter* text = NULL);
 	JUserInputFunction(const JUserInputFunction& source);
 

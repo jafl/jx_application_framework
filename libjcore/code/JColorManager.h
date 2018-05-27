@@ -20,7 +20,7 @@ public:
 
 	virtual ~JColorManager();
 
-	virtual JBoolean	GetColorID(const JString& name, JColorID* colorID) const = 0;
+	virtual JBoolean	GetColorID(const JString& name, JColorID* colorID) = 0;
 	static JColorID		GetColorID(const JRGB& color);
 	static JRGB			GetRGB(const JColorID colorID);
 

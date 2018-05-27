@@ -1670,7 +1670,7 @@ JXContainer::GetDisplay()
 
  ******************************************************************************/
 
-const JFontManager*
+JFontManager*
 JXContainer::GetFontManager()
 	const
 {
@@ -1682,7 +1682,7 @@ JXContainer::GetFontManager()
 
  ******************************************************************************/
 
-const JXFontManager*
+JXFontManager*
 JXContainer::GetXFontManager()
 	const
 {

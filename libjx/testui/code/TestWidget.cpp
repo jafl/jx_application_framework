@@ -486,7 +486,7 @@ JIndex i;
 	p.SetPenColor(JColorManager::GetBlueColor());
 	p.Rect(its3Rect);
 	p.SetFontStyle(JColorManager::GetBlueColor());
-	p.String(its3Rect.topLeft(), JGetString("3", 0, kJFalse),
+	p.String(its3Rect.topLeft(), JString("3", 0, kJFalse),
 			 its3Rect.width(),  JPainter::kHAlignCenter,
 			 its3Rect.height(), JPainter::kVAlignCenter);
 

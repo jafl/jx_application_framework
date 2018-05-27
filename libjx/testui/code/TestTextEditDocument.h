@@ -12,6 +12,7 @@
 
 #include <JXFileDocument.h>
 
+class JStyledText;
 class JXTextMenu;
 class TestTextEditor;
 
@@ -27,22 +28,13 @@ public:
 protected:
 
 	void			ReadFile(const JString& fileName);
-	virtual void	WriteTextFile(std::ostream& output, const JBoolean safetySave) const;
-	virtual void	DiscardChanges();
+	virtual void	WriteTextFile(std::ostream& output, const JBoolean safetySave) const override;
+	virtual void	DiscardChanges() override;
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 
-	enum DataType
-	{
-		kUnknownType,
-		kPlainText,
-		kHTML
-	};
-
-private:
-
-	DataType		itsDataType;
+	JStyledText*	itsText;
 	TestTextEditor*	itsTextEditor;	// owned by its enclosure
 	JXTextMenu*		itsFileMenu;	// owned by menu bar
 

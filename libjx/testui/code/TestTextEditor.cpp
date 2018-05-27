@@ -32,6 +32,8 @@ const JSize kUndoDepthCount     = sizeof(kUndoDepth)/sizeof(JSize);
 
 TestTextEditor::TestTextEditor
 	(
+	JStyledText*		text,
+	const JBoolean		ownsText,
 	const JBoolean		editable,
 	JXMenuBar*			menuBar,
 	JXScrollbarSet*		scrollbarSet,
@@ -44,7 +46,7 @@ TestTextEditor::TestTextEditor
 	const JCoordinate	h
 	)
 	:
-	JXTextEditor(menuBar, scrollbarSet,
+	JXTextEditor(text, ownsText, menuBar, scrollbarSet,
 				 enclosure, hSizing, vSizing, x,y, w,h)
 {
 	if (!editable)
@@ -126,12 +128,12 @@ TestTextEditor::UpdateCustomEditMenuItems()
 	assert( ok );
 
 	editMenu->EnableItem(itsAutoIndentCmdIndex);
-	if (WillAutoIndent())
+	if (GetText()->WillAutoIndent())
 		{
 		editMenu->CheckItem(itsAutoIndentCmdIndex);
 		}
 
-	const JSize undoDepth = GetUndoDepth();
+	const JSize undoDepth = GetText()->GetUndoDepth();
 	for (JIndex i=0; i<kUndoDepthCount; i++)
 		{
 		const JIndex itemIndex = itsFirstUndoDepthCmdIndex + i;
@@ -158,12 +160,12 @@ TestTextEditor::HandleCustomEditMenuItems
 {
 	if (index == itsAutoIndentCmdIndex)
 		{
-		ShouldAutoIndent(!WillAutoIndent());
+		GetText()->ShouldAutoIndent(!GetText()->WillAutoIndent());
 		return kJTrue;
 		}
 	else if (index >= itsFirstUndoDepthCmdIndex)
 		{
-		SetUndoDepth(kUndoDepth[ index - itsFirstUndoDepthCmdIndex ]);
+		GetText()->SetUndoDepth(kUndoDepth[ index - itsFirstUndoDepthCmdIndex ]);
 		return kJTrue;
 		}
 	else

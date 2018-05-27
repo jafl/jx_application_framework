@@ -345,15 +345,13 @@ GPMProcessTable::DrawProcessState
 		}
 	else
 		{
-		const JXColorManager* cmap = p.GetColormap();
-
 		JRect r(rect.ycenter()-3, rect.xcenter()-3,
 				rect.ycenter()+4, rect.xcenter()+4);
 		p.SetPenColor(entry.GetState() == GPMProcessEntry::kStopped ?
-					  cmap->GetRedColor() : cmap->GetGreenColor());
+					  JColorManager::GetRedColor() : JColorManager::GetGreenColor());
 		p.SetFilling(kJTrue);
 		p.Ellipse(r);
-		p.SetPenColor(cmap->GetBlackColor());
+		p.SetPenColor(JColorManager::GetBlackColor());
 		p.SetFilling(kJFalse);
 		p.Ellipse(r);
 		}

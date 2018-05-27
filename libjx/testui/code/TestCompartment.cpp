@@ -14,7 +14,9 @@
 #include <JXHorizPartition.h>
 #include <JXVertPartition.h>
 #include <JXWindowPainter.h>
-#include <JXColorManager.h>
+#include <jXPainterUtil.h>
+#include <JFontManager.h>
+#include <JColorManager.h>
 #include <jGlobals.h>
 #include <jAssert.h>
 
@@ -232,9 +234,9 @@ TestCompartment::GetFTCMinContentSize
 	)
 	const
 {
-	const JFont& f = GetFontManager()->GetDefaultFont();
+	const JFont& f = JFontManager::GetDefaultFont();
 
 	return (horizontal ?
-			(f.GetStringWidth("Left click to insert before") + 10) :
-			(f.GetLineHeight() * (IsElastic() ? 4 : 3) + 10));
+			(f.GetStringWidth(GetFontManager(), JGetString("LeftClickInstr::TestCompartment")) + 10) :
+			(f.GetLineHeight(GetFontManager()) * (IsElastic() ? 4 : 3) + 10));
 }

@@ -11,9 +11,10 @@
 
 #include <JXImageMask.h>
 #include <JXDisplay.h>
-#include <JXColorManager.h>
+#include <JColorManager.h>
 #include <jFileUtil.h>
 #include <JStdError.h>
+#include <X11/Xutil.h>
 #include <jAssert.h>
 
 const JColorID JXImageMask::kPixelOff = kJXTransparentColor;
@@ -331,9 +332,8 @@ JXImageMask::RemovePixel
 JColorID
 JXImageMask::BitToColor
 	(
-	const unsigned long	bit,
-	JXColorManager*			colormap
+	const unsigned long	bit
 	)
 {
-	return (bit == 0 ? kPixelOff : colormap->GetBlackColor());
+	return (bit == 0 ? kPixelOff : JColorManager::GetBlackColor());
 }

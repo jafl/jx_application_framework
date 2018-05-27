@@ -51,7 +51,7 @@ const JUtf8Byte kSetupDataEndDelimiter = '\1';
 
 JEPSPrinter::JEPSPrinter
 	(
-	const JFontManager* fontManager
+	JFontManager* fontManager
 	)
 	:
 	JPainter(fontManager, JRect(0,0,0,0)),

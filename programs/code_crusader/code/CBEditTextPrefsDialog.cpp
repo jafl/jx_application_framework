@@ -553,9 +553,9 @@ CBEditTextPrefsDialog::UpdateSettings()
 	JFloat vScrollScale = 1.0;
 	if (fontChanged)
 		{
-		const JFontManager* fontMgr = te->GetFontManager();
-		const JFloat h1 = te->GetDefaultFont().GetLineHeight();
-		const JFloat h2 = fontMgr->GetFont(fontName, fontSize).GetLineHeight();
+		JFontManager* fontMgr = te->GetFontManager();
+		const JFloat h1 = te->GetDefaultFont().GetLineHeight(fontMgr);
+		const JFloat h2 = fontMgr->GetFont(fontName, fontSize).GetLineHeight(fontMgr);
 		vScrollScale    = h2 / h1;
 		}
 

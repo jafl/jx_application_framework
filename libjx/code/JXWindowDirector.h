@@ -16,7 +16,6 @@ class JString;
 class JXImage;
 class JXDisplay;
 class JXWindow;
-class JXColorManager;
 
 class JXWindowDirector : public JXDirector
 {

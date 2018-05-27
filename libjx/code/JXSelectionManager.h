@@ -48,6 +48,8 @@ public:
 	JBoolean	SetData(const Atom selectionName, JXSelectionData* data);
 	void		ClearData(const Atom selectionName, const Time endTime);
 
+	JXDisplay*	GetDisplay();
+
 	Atom	GetTargetsXAtom() const;
 	Atom	GetTimeStampXAtom() const;
 	Atom	GetUtf8StringXAtom() const;
@@ -133,6 +135,17 @@ private:
 	const JXSelectionManager& operator=(const JXSelectionManager& source);
 };
 
+
+/******************************************************************************
+ GetDisplay
+
+ ******************************************************************************/
+
+inline JXDisplay*
+JXSelectionManager::GetDisplay()
+{
+	return itsDisplay;
+}
 
 /******************************************************************************
  Get atom

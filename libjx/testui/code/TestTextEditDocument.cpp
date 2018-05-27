@@ -19,7 +19,7 @@
 #include <JXStandAlonePG.h>
 #include <jXGlobals.h>
 
-#include <JString.h>
+#include <JStyledText.h>
 #include <jFStreamUtil.h>
 #include <jStreamUtil.h>
 #include <jFileUtil.h>
@@ -61,7 +61,6 @@ TestTextEditDocument::TestTextEditDocument
 				   (JXGetDocumentManager())->GetNewFileName(),
 				   kJFalse, kJTrue, JString::empty)
 {
-	itsDataType = kPlainText;
 	BuildWindow(kJTrue);
 }
 
@@ -75,7 +74,6 @@ TestTextEditDocument::TestTextEditDocument
 {
 	assert( JFileExists(fileName) );
 
-	itsDataType = kUnknownType;
 	BuildWindow(JFileWritable(fileName));
 	ReadFile(fileName);
 }
@@ -87,6 +85,7 @@ TestTextEditDocument::TestTextEditDocument
 
 TestTextEditDocument::~TestTextEditDocument()
 {
+	jdelete itsText;
 }
 
 /******************************************************************************
@@ -121,13 +120,16 @@ TestTextEditDocument::BuildWindow
 	window->SetWMClass("testjx", "TestTextEditDocument");
 	window->SetMinSize(20,50);
 
+	itsText = jnew JStyledText(kJTrue, kJTrue);
+	assert( itsText != NULL );
+
 	itsTextEditor =
-		jnew TestTextEditor(fileWritable, menuBar, scrollbarSet,
-						   scrollbarSet->GetScrollEnclosure(),
-						   JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 10,10);
+		jnew TestTextEditor(itsText, kJFalse, fileWritable, menuBar, scrollbarSet,
+							scrollbarSet->GetScrollEnclosure(),
+							JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 10,10);
 	assert( itsTextEditor != NULL );
 	itsTextEditor->FitToEnclosure();
-	ListenTo(itsTextEditor);
+	ListenTo(itsTextEditor->GetText());
 
 	itsFileMenu = menuBar->PrependTextMenu(JGetString("FileMenuTitle::TestTextEditDocument"));
 	itsFileMenu->SetShortcuts(JGetString("FileMenuShortcut::TestTextEditDocument"));
@@ -168,9 +170,9 @@ TestTextEditDocument::Receive
 		HandleFileMenu(selection->GetIndex());
 		}
 
-	else if (sender == itsTextEditor && message.Is(JTextEditor::kTextChanged))
+	else if (sender == itsTextEditor->GetText() && message.Is(JStyledText::kTextChanged))
 		{
-		if (itsTextEditor->IsAtLastSaveLocation())
+		if (itsTextEditor->GetText()->IsAtLastSaveLocation())
 			{
 			DataReverted();
 			}
@@ -318,7 +320,7 @@ TestTextEditDocument::DiscardChanges()
 		}
 	else
 		{
-		itsTextEditor->SetText(JString::empty);
+		itsTextEditor->GetText()->SetText(JString::empty);
 		}
 
 	DataReverted();
@@ -335,47 +337,9 @@ TestTextEditDocument::ReadFile
 	const JString& fileName
 	)
 {
-	JBoolean isHTML = kJFalse;
-	if (itsDataType == kHTML)
-		{
-		isHTML = kJTrue;
-		}
-	else if (itsDataType == kUnknownType)
-		{
-		std::ifstream input(fileName.GetBytes());
-		input >> std::ws;
-		if (input.peek() == '<')
-			{
-			JString str = JRead(input, 6);
-			str.ToLower();
-			if (str == "<html>")
-				{
-				isHTML = kJTrue;
-				}
-			}
-		input.close();
-
-		if (isHTML)
-			{
-			isHTML = (JGetUserNotification())->AskUserYes(
-				JGetString("AskParseHTML::TestTextEditDocument"));
-			}
-		}
-
-	if (isHTML)
-		{
-		std::ifstream input(fileName.GetBytes());
-		itsTextEditor->ReadHTML(input);
-		itsDataType = kHTML;
-		}
-	else
-		{
-		JTextEditor::PlainTextFormat format;
-		itsTextEditor->ReadPlainText(fileName, &format);
-		itsDataType = kPlainText;
-		}
-
-	itsTextEditor->SetLastSaveLocation();
+	JStyledText::PlainTextFormat format;
+	itsTextEditor->GetText()->ReadPlainText(fileName, &format);
+	itsTextEditor->GetText()->SetLastSaveLocation();
 }
 
 /******************************************************************************
@@ -403,13 +367,13 @@ TestTextEditDocument::WriteTextFile
 	)
 	const
 {
-	itsTextEditor->WritePlainText(output, JTextEditor::kUNIXText);
+	itsTextEditor->GetText()->WritePlainText(output, JStyledText::kUNIXText);
 	if (!safetySave)
 		{
-		itsTextEditor->DeactivateCurrentUndo();
+		itsTextEditor->GetText()->DeactivateCurrentUndo();
 		if (output.good())
 			{
-			itsTextEditor->SetLastSaveLocation();
+			itsTextEditor->GetText()->SetLastSaveLocation();
 			}
 		}
 }

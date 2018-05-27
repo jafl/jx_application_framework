@@ -276,7 +276,7 @@ TestSaveFileDialog::HandleFormatChange
 	)
 {
 	JXInputField* fileNameInput = GetFileNameInput();
-	JString fileName            = fileNameInput->GetText();
+	JString fileName            = fileNameInput->GetText()->GetText();
 
 	if (fileName.IsEmpty())
 		{
@@ -304,6 +304,6 @@ TestSaveFileDialog::HandleFormatChange
 		fileName += ".jpg";
 		}
 
-	fileNameInput->SetText(fileName);
-	fileNameInput->SetSelection(1, nameLength);
+	fileNameInput->GetText()->SetText(fileName);
+	fileNameInput->SetSelection(JCharacterRange(1, nameLength));
 }

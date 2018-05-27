@@ -70,19 +70,18 @@ CBProjectFileInput::xAdjustStylesBeforeRecalc
 			okLength = 0;
 			}
 
-		const JXColorManager* colormap = GetColormap();
-		const JSize totalLength   = buffer.GetLength();
-		JFont f                   = styles->GetFirstElement();
+		const JSize totalLength = buffer.GetLength();
+		JFont f                 = styles->GetFirstElement();
 
 		styles->RemoveAll();
 		if (okLength > 0)
 			{
-			f.SetColor(colormap->GetBlackColor());
+			f.SetColor(JColorManager::GetBlackColor());
 			styles->AppendElements(f, okLength);
 			}
 		if (okLength < totalLength)
 			{
-			f.SetColor(colormap->GetRedColor());
+			f.SetColor(JColorManager::GetRedColor());
 			styles->AppendElements(f, totalLength - okLength);
 			}
 

@@ -16,7 +16,6 @@ class JFunction;
 class JVariableList;
 class JUserInputFunction;
 class JFontManager;
-class JXColorManager;
 
 JBoolean
 JApplyFunction
@@ -24,8 +23,7 @@ JApplyFunction
 	const JCharacter*		fnName,
 	const JVariableList*	varList,
 	const JFunction&		origF,
-	const JFontManager*		fontMgr,
-	JXColorManager*				colormap,
+	JFontManager*			fontMgr,
 
 	JFunction**				newF,
 	JFunction**				newArg,

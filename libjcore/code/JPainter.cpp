@@ -65,8 +65,8 @@
 
 JPainter::JPainter
 	(
-	const JFontManager*	fontManager,
-	const JRect&		defaultClipRect
+	JFontManager*	fontManager,
+	const JRect&	defaultClipRect
 	)
 	:
 	itsOrigin(0,0),

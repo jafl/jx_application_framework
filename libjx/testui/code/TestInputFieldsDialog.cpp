@@ -224,10 +224,10 @@ TestInputFieldsDialog::BuildWindow()
 	window->SetTitle(JGetString("WindowTitle::TestInputFieldsDialog"));
 	SetButtons(okButton, cancelButton);
 
-	text2->SetText(JGetString("Text2::TestInputFieldsDialog"));
+	text2->GetText()->SetText(JGetString("Text2::TestInputFieldsDialog"));
 	text2->SetIsRequired();
 	text3->SetMaxLength(5);
-	text4->SetText(JGetString("Text4::TestInputFieldsDialog"));
+	text4->GetText()->SetText(JGetString("Text4::TestInputFieldsDialog"));
 	text4->SetIsRequired();
 	text4->SetMaxLength(10);
 
@@ -245,7 +245,7 @@ TestInputFieldsDialog::BuildWindow()
 
 	// never store real passwords as plaintext!
 
-	pwInput->SetText(JGetString("Password::TestInputFieldsDialog"));
+	pwInput->GetText()->SetText(JGetString("Password::TestInputFieldsDialog"));
 	pwInput->SetHint(JGetString("PasswordHint::TestInputFieldsDialog"));
 }
 

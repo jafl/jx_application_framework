@@ -19,7 +19,6 @@
 
 class JPainter;
 class JFontManager;
-class JXColorManager;
 class CBTree;
 
 typedef JString (CBClassRemoveNamespace)(const JCharacter* name);
@@ -128,7 +127,7 @@ public:
 	JBoolean			Contains(const JPoint& pt) const;
 	JCoordinate			GetTotalWidth() const;
 	JCoordinate			GetTotalHeight() const;
-	static JCoordinate	GetTotalHeight(CBTree* tree, const JFontManager* fontManager);
+	static JCoordinate	GetTotalHeight(CBTree* tree, JFontManager* fontManager);
 	void				GetCoords(JCoordinate* x, JCoordinate* y) const;
 	void				SetCoords(const JCoordinate x, const JCoordinate y);
 
@@ -171,7 +170,7 @@ protected:
 										 const JBoolean caseSensitive,
 										 const JBoolean reportNotFound) const;
 
-	virtual void	AdjustNameStyle(const JXColorManager* colormap, JFontStyle* style) const;
+	virtual void	AdjustNameStyle(JFontStyle* style) const override;
 
 private:
 
@@ -253,7 +252,7 @@ private:
 	JBoolean	FindParent(ParentInfo* pInfo, const JBoolean okToSearchGhosts);
 	void		AddChild(CBClass* child, const JBoolean primary);
 
-	static JCoordinate	CalcFrameHeight(const JFontManager* fontManager,
+	static JCoordinate	CalcFrameHeight(JFontManager* fontManager,
 										const JSize fontSize);
 
 	JBoolean	NeedDrawName() const;

@@ -27,7 +27,7 @@ public:
 
 	virtual ~SyGHeaderWidget();
 
-	static JCoordinate	GetPreferredHeight(const JFontManager* fontMgr);
+	static JCoordinate	GetPreferredHeight(JFontManager* fontMgr);
 
 protected:
 

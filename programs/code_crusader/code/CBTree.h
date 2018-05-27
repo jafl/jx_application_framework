@@ -95,11 +95,11 @@ public:
 	JBoolean	WillDrawMILinksOnTop() const;
 	void		ShouldDrawMILinksOnTop(const JBoolean drawOnTop);
 
-	const JFontManager*	GetFontManager() const;
-	JSize				GetFontSize() const;
-	void				SetFontSize(const JSize size);
-	JCoordinate			GetLineHeight() const;
-	void				GetBounds(JCoordinate* width, JCoordinate* height) const;
+	JFontManager*	GetFontManager() const;
+	JSize			GetFontSize() const;
+	void			SetFontSize(const JSize size);
+	JCoordinate		GetLineHeight() const;
+	void			GetBounds(JCoordinate* width, JCoordinate* height) const;
 
 	const JPtrArray<JString>&	GetParseSuffixes() const;
 	const JPtrArray<CBClass>&	GetClasses() const;

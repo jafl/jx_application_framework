@@ -18,7 +18,7 @@ class JStyleTableData : public JAuxTableData<JFontStyle>
 {
 public:
 
-	JStyleTableData(JTable* table, const JFontManager* fontManager);
+	JStyleTableData(JTable* table, JFontManager* fontManager);
 
 	virtual ~JStyleTableData();
 
@@ -32,9 +32,8 @@ public:
 
 private:
 
-	const JFontManager*	itsFontManager;		// not owned
-
-	JFont	itsFont;
+	JFontManager*	itsFontManager;		// not owned
+	JFont			itsFont;
 
 private:
 

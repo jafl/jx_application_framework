@@ -68,8 +68,8 @@ GLFitParameterTable::GLFitParameterTable
 {
 	itsMinColWidth = 1;
 
-	const JFontManager* fontMgr = GetFontManager();
-	const JSize rowHeight = 2*kVMarginWidth + JFontManager::GetDefaultFont().GetLineHeight();
+	JFontManager* fontMgr = GetFontManager();
+	const JSize rowHeight = 2*kVMarginWidth + JFontManager::GetDefaultFont().GetLineHeight(fontMgr);
 	SetDefaultRowHeight(rowHeight);
 
 	itsNameList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
@@ -86,11 +86,6 @@ GLFitParameterTable::GLFitParameterTable
 
 	AppendCols(4, kDefColWidth);
 	AdjustColWidth();
-
-	JXColorManager* colormap = GetColormap();
-//	SetRowBorderInfo(0, colormap->GetBlackColor());
-//	SetColBorderInfo(0, colormap->GetBlackColor());
-
 }
 
 /******************************************************************************

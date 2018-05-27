@@ -26,7 +26,6 @@
 #include <JConstantValue.h>
 
 #include <JPainter.h>
-#include <JXColorManager.h>
 #include <JString.h>
 #include <string.h>
 #include <jGlobals.h>
@@ -47,13 +46,12 @@ const JCoordinate kVMarginWidth = 1;
 JUserInputFunction::JUserInputFunction
 	(
 	const JVariableList*	varList,
-	const JFontManager*		fontManager,
-	JXColorManager*				colormap,
+	JFontManager*			fontManager,
 	const JCharacter*		text
 	)
 	:
 	JFunction(kJUserInputType),
-	JTextEditor(kFullEditor, kJTrue, kJFalse, fontManager, colormap,
+	JTextEditor(kFullEditor, kJTrue, kJFalse, fontManager,
 				colormap->GetBlackColor(),				// caret
 				colormap->GetDefaultSelectionColor(),	// selection
 				colormap->GetBlueColor(),				// outline

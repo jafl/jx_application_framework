@@ -54,7 +54,7 @@ public:
 
 	static JColorID	GetTextColor(const JString& fileName, const JString& basePath,
 									 const JBoolean requireRead, const JBoolean requireWrite,
-									 const JBoolean requireExec, const JXColorManager* colormap);
+									 const JBoolean requireExec);
 	static JBoolean		IsCharacterInWord(const JUtf8Character& c);
 
 protected:

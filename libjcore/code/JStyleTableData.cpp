@@ -30,8 +30,8 @@ const JUtf8Byte* JStyleTableData::kFontChanged = "FontChanged::JStyleTableData";
 
 JStyleTableData::JStyleTableData
 	(
-	JTable*				table,
-	const JFontManager*	fontManager
+	JTable*			table,
+	JFontManager*	fontManager
 	)
 	:
 	JAuxTableData<JFontStyle>(table, JFontStyle()),

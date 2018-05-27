@@ -60,7 +60,7 @@
 
 JPSPrinterBase::JPSPrinterBase
 	(
-	const JFontManager* fontManager
+	JFontManager* fontManager
 	)
 	:
 	itsFontManager(fontManager),

@@ -38,8 +38,8 @@
 
 JPagePrinter::JPagePrinter
 	(
-	const JFontManager*	fontManager,
-	const JRect&		defaultClipRect
+	JFontManager*	fontManager,
+	const JRect&	defaultClipRect
 	)
 	:
 	JPainter(fontManager, defaultClipRect),

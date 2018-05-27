@@ -19,7 +19,6 @@
 #include <X11/Xft/Xft.h>
 
 class JXDisplay;
-class JXColorManager;
 class JXImageMask;
 
 class JXGC

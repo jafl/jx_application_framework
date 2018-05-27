@@ -298,8 +298,7 @@ CBPHPClass::IsInherited
 void
 CBPHPClass::AdjustNameStyle
 	(
-	const JXColorManager*	colormap,
-	JFontStyle*			style
+	JFontStyle* style
 	)
 	const
 {

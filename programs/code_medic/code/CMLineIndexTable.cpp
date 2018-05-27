@@ -24,10 +24,9 @@
 #include <JXScrollbarSet.h>
 #include <JXScrollbar.h>
 #include <JXFontManager.h>
-#include <JXColorManager.h>
 #include <JTableSelection.h>
 #include <JPainter.h>
-#include <JXColorManager.h>
+#include <JColorManager.h>
 #include <jDirUtil.h>
 #include <JListUtil.h>
 #include <jAssert.h>
@@ -291,7 +290,7 @@ CMLineIndexTable::DrawBreakpoints
 		}
 	else
 		{
-		DrawBreakpoint(itsBPList->GetElement(itsBPDrawIndex), p, GetColormap(), r);
+		DrawBreakpoint(itsBPList->GetElement(itsBPDrawIndex), p, r);
 		}
 }
 
@@ -305,13 +304,12 @@ CMLineIndexTable::DrawBreakpoint
 	(
 	const CMBreakpoint*	bp,
 	JPainter&			p,
-	JXColorManager*			cmap,
 	const JRect&		rect
 	)
 {
 	const JColorID color =
-		!bp->IsEnabled()   ? cmap->GetGreenColor() :
-		bp->HasCondition() ? cmap->GetYellowColor() : cmap->GetRedColor();
+		!bp->IsEnabled()   ? JColorManager::GetGreenColor() :
+		bp->HasCondition() ? JColorManager::GetYellowColor() : JColorManager::GetRedColor();
 
 	p.SetPenColor(color);
 	p.SetFilling(kJTrue);
@@ -319,7 +317,7 @@ CMLineIndexTable::DrawBreakpoint
 
 	if (bp->GetAction() != CMBreakpoint::kRemoveBreakpoint)
 		{
-		p.SetPenColor(cmap->GetBlackColor());
+		p.SetPenColor(JColorManager::GetBlackColor());
 		p.SetFilling(kJFalse);
 		p.Ellipse(rect);
 		}
@@ -804,14 +802,14 @@ CMLineIndexTable::ReceiveGoingAway
 void
 CMLineIndexTable::AdjustToText()
 {
-	const JFontManager* fontMgr = GetFontManager();
+	JFontManager* fontMgr = GetFontManager();
 
 	JFont font = itsText->GetCurrentFont();
 
 	const JSize lineCount       = itsText->IsEmpty() ? 0 : itsText->GetLineCount();
 	const JString lineCountStr  = GetLongestLineText(lineCount);
-	const JSize lineHeight      = font.GetLineHeight();
-	const JSize lineNumberWidth = font.GetStringWidth(lineCountStr);
+	const JSize lineHeight      = font.GetLineHeight(fontMgr);
+	const JSize lineNumberWidth = font.GetStringWidth(fontMgr, lineCountStr);
 
 	SetColWidth(kBreakpointColumn, lineHeight);
 	SetColWidth(kExecPointColumn,  lineHeight);

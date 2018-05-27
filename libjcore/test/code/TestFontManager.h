@@ -18,21 +18,21 @@ public:
 
 	virtual ~TestFontManager();
 
-	virtual void		GetFontNames(JPtrArray<JString>* fontNames) const;
-	virtual void		GetMonospaceFontNames(JPtrArray<JString>* fontNames) const;
+	virtual void		GetFontNames(JPtrArray<JString>* fontNames);
+	virtual void		GetMonospaceFontNames(JPtrArray<JString>* fontNames);
 	virtual JBoolean	GetFontSizes(const JString& name, JSize* minSize,
-									 JSize* maxSize, JArray<JSize>* sizeList) const;
+									 JSize* maxSize, JArray<JSize>* sizeList);
 
-	virtual JBoolean	IsExact(const JFontID id) const;
+	virtual JBoolean	IsExact(const JFontID id);
 
 protected:
 
 	virtual JSize	GetLineHeight(const JFontID fontID, const JSize size,
 								  const JFontStyle& style,
-								  JCoordinate* ascent, JCoordinate* descent) const;
+								  JCoordinate* ascent, JCoordinate* descent);
 
-	virtual JSize	GetCharWidth(const JFontID fontID, const JUtf8Character& c) const;
-	virtual JSize	GetStringWidth(const JFontID fontID, const JString& str) const;
+	virtual JSize	GetCharWidth(const JFontID fontID, const JUtf8Character& c);
+	virtual JSize	GetStringWidth(const JFontID fontID, const JString& str);
 
 private:
 

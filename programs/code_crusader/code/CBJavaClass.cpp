@@ -333,8 +333,7 @@ CBJavaClass::IsInherited
 void
 CBJavaClass::AdjustNameStyle
 	(
-	const JXColorManager*	colormap,
-	JFontStyle*			style
+	JFontStyle* style
 	)
 	const
 {
@@ -344,7 +343,7 @@ CBJavaClass::AdjustNameStyle
 		{
 		if (!itsIsPublicFlag)
 			{
-			style->color = colormap->GetGrayColor(50);
+			style->color = JColorManager::GetGrayColor(50);
 			}
 
 		if (itsIsFinalFlag)

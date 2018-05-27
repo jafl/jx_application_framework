@@ -26,14 +26,14 @@ public:
 
 	operator Colormap() const;
 
-	JXDisplay*	GetDisplay() const;
-	Colormap	GetXColormap() const;
-	XVisualInfo	GetXVisualInfo() const;
-	Visual*		GetVisual() const;
-	int			GetVisualClass() const;
+	JXDisplay*	GetDisplay();
+	Colormap	GetXColormap();
+	XVisualInfo	GetXVisualInfo();
+	Visual*		GetVisual();
+	int			GetVisualClass();
 
-	virtual JBoolean	GetColorID(const JString& name, JColorID* id) const;
-	unsigned long		GetXColor(const JColorID id) const;
+	virtual JBoolean	GetColorID(const JString& name, JColorID* id);
+	unsigned long		GetXColor(const JColorID id);
 
 private:
 
@@ -74,7 +74,6 @@ private:
 
 inline JXDisplay*
 JXColorManager::GetDisplay()
-	const
 {
 	return itsDisplay;
 }
@@ -98,7 +97,6 @@ JXColorManager::operator Colormap()
 
 inline Colormap
 JXColorManager::GetXColormap()
-	const
 {
 	return itsXColormap;
 }
@@ -113,7 +111,6 @@ JXColorManager::GetXColormap()
 
 inline XVisualInfo
 JXColorManager::GetXVisualInfo()
-	const
 {
 	return itsXVisualInfo;
 }
@@ -125,7 +122,6 @@ JXColorManager::GetXVisualInfo()
 
 inline Visual*
 JXColorManager::GetVisual()
-	const
 {
 	return itsVisual;
 }
@@ -137,7 +133,6 @@ JXColorManager::GetVisual()
 
 inline int
 JXColorManager::GetVisualClass()
-	const
 {
 	return itsXVisualInfo.c_class;
 }

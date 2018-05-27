@@ -316,15 +316,14 @@ JXPathInput::InputValid()
 JColorID
 JXPathInput::GetTextColor
 	(
-	const JString&		path,
-	const JString&		base,
-	const JBoolean		requireWrite,
-	const JXColorManager*	colormap
+	const JString&	path,
+	const JString&	base,
+	const JBoolean	requireWrite
 	)
 {
 	if (path.IsEmpty())
 		{
-		return colormap->GetBlackColor();
+		return JColorManager::GetBlackColor();
 		}
 
 	JString fullPath;
@@ -334,11 +333,11 @@ JXPathInput::GetTextColor
 		JCanEnterDirectory(fullPath) &&
 		(!requireWrite || JDirectoryWritable(fullPath)))
 		{
-		return colormap->GetBlackColor();
+		return JColorManager::GetBlackColor();
 		}
 	else
 		{
-		return colormap->GetRedColor();
+		return JColorManager::GetRedColor();
 		}
 }
 

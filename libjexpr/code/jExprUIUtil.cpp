@@ -15,7 +15,6 @@
 #include <JFunctionWithArgs.h>
 #include <JUserInputFunction.h>
 
-#include <JString.h>
 #include <jGlobals.h>
 #include <jAssert.h>
 
@@ -34,8 +33,7 @@ JApplyFunction
 	const JCharacter*		fnName,
 	const JVariableList*	varList,
 	const JFunction&		origF,
-	const JFontManager*		fontMgr,
-	JXColorManager*				colormap,
+	JFontManager*			fontMgr,
 
 	JFunction**				newF,
 	JFunction**				newArg,
@@ -112,8 +110,7 @@ JApplyFunction
 				}
 			else if (newType != kJLogBType || origArgCount > 1)
 				{
-				JUserInputFunction* uif =
-					jnew JUserInputFunction(varList, fontMgr, colormap);
+				JUserInputFunction* uif = jnew JUserInputFunction(varList, fontMgr);
 				assert( uif != NULL );
 				fwa->SetArg(i, uif);
 				if (*newUIF == NULL)

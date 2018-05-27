@@ -292,17 +292,16 @@ JXFileInput::InputValid()
 JColorID
 JXFileInput::GetTextColor
 	(
-	const JString&		fileName,
-	const JString&		basePath,
-	const JBoolean		requireRead,
-	const JBoolean		requireWrite,
-	const JBoolean		requireExec,
-	const JXColorManager*	colormap
+	const JString&	fileName,
+	const JString&	basePath,
+	const JBoolean	requireRead,
+	const JBoolean	requireWrite,
+	const JBoolean	requireExec
 	)
 {
 	if (fileName.IsEmpty())
 		{
-		return colormap->GetBlackColor();
+		return JColorManager::GetBlackColor();
 		}
 
 	JString fullName;
@@ -312,11 +311,11 @@ JXFileInput::GetTextColor
 		(!requireWrite || JFileWritable(fullName)) &&
 		(!requireExec  || JFileExecutable(fullName)))
 		{
-		return colormap->GetBlackColor();
+		return JColorManager::GetBlackColor();
 		}
 	else
 		{
-		return colormap->GetRedColor();
+		return JColorManager::GetRedColor();
 		}
 }
 

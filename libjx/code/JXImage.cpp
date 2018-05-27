@@ -56,7 +56,7 @@ JXImage::JXImage
 
 	const JColorID initColor =
 		(origInitColor == kJXTransparentColor && itsDepth > 1 ?
-		 itsXColormap->GetDefaultBackColor() : origInitColor);
+		 JColorManager::GetDefaultBackColor() : origInitColor);
 
 	if (initState == kRemoteStorage)
 		{
@@ -195,11 +195,11 @@ JXImage::JXImage
 
 	const JColorID foreColor =
 		(origForeColor == kJXTransparentColor && itsDepth > 1 ?
-		 itsXColormap->GetBlackColor() : origForeColor);
+		 JColorManager::GetBlackColor() : origForeColor);
 
 	const JColorID backColor =
 		(origBackColor == kJXTransparentColor && itsDepth > 1 ?
-		 itsXColormap->GetDefaultBackColor() : origBackColor);
+		 JColorManager::GetDefaultBackColor() : origBackColor);
 
 	unsigned long forePixel, backPixel;
 	if (itsDepth == 1)
@@ -405,15 +405,14 @@ JXImage::JXImageX
 	const JSize	depth
 	)
 {
-	itsDisplay   = display;
-	itsXColormap = display->GetColorManager();
-	itsGC        = NULL;
-	itsDepth     = (depth > 0 ? depth : itsDisplay->GetDepth());
+	itsDisplay  = display;
+	itsGC       = NULL;
+	itsDepth    = (depth > 0 ? depth : itsDisplay->GetDepth());
 
-	itsDefState  = kRemoteStorage;
-	itsPixmap    = None;
-	itsImage     = NULL;
-	itsMask      = NULL;
+	itsDefState = kRemoteStorage;
+	itsPixmap   = None;
+	itsImage    = NULL;
+	itsMask     = NULL;
 }
 
 /******************************************************************************
@@ -580,7 +579,7 @@ JXImage::WriteXPM
 {
 	XpmAttributes attr;
 	attr.valuemask = XpmColormap;
-	attr.colormap  = itsXColormap->GetXColormap();
+	attr.colormap  = itsDisplay->GetColorManager()->GetXColormap();
 
 	int xpmErr;
 	if (itsImage != NULL)
@@ -813,7 +812,7 @@ JXImage::GetColor
 {
 	if (itsDepth == 1)
 		{
-		return JXImageMask::BitToColor(GetSystemColor(x,y), itsXColormap);
+		return JXImageMask::BitToColor(GetSystemColor(x,y));
 		}
 	else
 		{
@@ -1156,7 +1155,7 @@ JXImage::PrepareForImageData()
 
 	const int bitmap_pad = (itsDepth > 16 ? 32 : (itsDepth > 8 ? 16 : 8));
 
-	itsImage = XCreateImage(*itsDisplay, itsXColormap->GetVisual(), itsDepth,
+	itsImage = XCreateImage(*itsDisplay, itsDisplay->GetColorManager()->GetVisual(), itsDepth,
 							ZPixmap, 0, NULL, w,h, bitmap_pad, 0);
 	assert( itsImage != NULL );
 

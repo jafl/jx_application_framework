@@ -12,7 +12,6 @@
 #include <JFont.h>
 
 class JString;
-class JXColorManager;
 class CBMacroList;
 class CBTextDocument;
 
@@ -51,8 +50,7 @@ public:
 	// called by CBCharActionManager and tables
 
 	static void	Perform(const JString& script, CBTextDocument* doc);
-	static void	HighlightErrors(const JString& script, const JXColorManager* colormap,
-								JRunArray<JFont>* styles);
+	static void	HighlightErrors(const JString& script, JRunArray<JFont>* styles);
 
 	// called by CBMacroTable
 

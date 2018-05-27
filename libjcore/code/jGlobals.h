@@ -17,7 +17,6 @@
 #include <JStringManager.h>
 
 class JFontManager;
-class JColorManager;
 class JWebBrowser;
 
 void JInitCore(JAssertBase* ah = NULL, const JUtf8Byte* appSignature = NULL,

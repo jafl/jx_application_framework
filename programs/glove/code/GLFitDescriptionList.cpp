@@ -64,8 +64,8 @@ GLFitDescriptionList::GLFitDescriptionList
 {
 	itsMinColWidth = 1;
 
-	const JFontManager* fontMgr = GetFontManager();
-	const JSize rowHeight = 2*kVMarginWidth + JFontManager::GetDefaultFont().GetLineHeight();
+	JFontManager* fontMgr = GetFontManager();
+	const JSize rowHeight = 2*kVMarginWidth + JFontManager::GetDefaultFont().GetLineHeight(fontMgr);
 	SetDefaultRowHeight(rowHeight);
 
 	const JSize count = GetFitManager()->GetFitCount();

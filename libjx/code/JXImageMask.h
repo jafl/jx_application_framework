@@ -14,7 +14,6 @@
 #include <JImageMask.h>
 #include <jXConstants.h>		// need definition of kJXTransparentColor
 
-class JXColorManager;
 class JXWindowIcon;
 
 class JXImageMask : public JXImage, public JImageMask
@@ -56,8 +55,7 @@ public:
 	virtual void		RemovePixel(const JCoordinate x, const JCoordinate y);
 
 	static unsigned long	ColorToBit(const JColorID color);
-	static JColorID			BitToColor(const unsigned long bit,
-									   JXColorManager* colormap);
+	static JColorID			BitToColor(const unsigned long bit);
 
 private:
 

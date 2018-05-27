@@ -69,7 +69,7 @@ protected:
 	void				ExtendCheckRange(const JIndex newEndIndex);
 
 	const JTextEditor*		GetTextEditor() const;
-	const JFontManager*		GetFontManager() const;
+	JFontManager*			GetFontManager() const;
 	const JFont&			GetDefaultFont() const;
 	const JString&			GetText() const;
 	const JRunArray<JFont>&	GetStyles() const;
@@ -84,7 +84,7 @@ private:
 	JBoolean	itsActiveFlag;
 
 	const JTextEditor*	itsTE;			// not owned; NULL unless lexing
-	const JFontManager*	itsFontMgr;		// not owned; NULL unless lexing
+	JFontManager*		itsFontMgr;		// not owned; NULL unless lexing
 	const JString*		itsText;		// not owned; NULL unless lexing
 	JRunArray<JFont>*	itsStyles;		// not owned; NULL unless lexing
 
@@ -157,7 +157,7 @@ JTEStyler::GetTextEditor()
 
  ******************************************************************************/
 
-inline const JFontManager*
+inline JFontManager*
 JTEStyler::GetFontManager()
 	const
 {

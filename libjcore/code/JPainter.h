@@ -38,11 +38,11 @@ public:
 
 public:
 
-	JPainter(const JFontManager* fontManager, const JRect& defaultClipRect);
+	JPainter(JFontManager* fontManager, const JRect& defaultClipRect);
 
 	virtual ~JPainter();
 
-	const JFontManager*	GetFontManager() const;
+	JFontManager*	GetFontManager() const;
 
 	virtual void	Reset();
 	void			Reset(const JRect& defClipRect);	// calls Reset()
@@ -196,7 +196,7 @@ private:
 	JSize			itsDashOffset;
 	JArray<JSize>*	itsDashList;			// can be NULL
 
-	const JFontManager*	itsFontManager;
+	JFontManager*	itsFontManager;
 
 	JFont	itsFont;
 
@@ -738,7 +738,7 @@ JPainter::Image
 
  ******************************************************************************/
 
-inline const JFontManager*
+inline JFontManager*
 JPainter::GetFontManager()
 	const
 {

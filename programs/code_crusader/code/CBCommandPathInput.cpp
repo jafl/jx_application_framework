@@ -109,11 +109,10 @@ CBCommandPathInput::xAdjustStylesBeforeRecalc
 {
 	if (buffer == "@")
 		{
-		const JXColorManager* colormap = GetColormap();
-		const JSize totalLength   = buffer.GetLength();
-		JFont f                   = styles->GetFirstElement();
+		const JSize totalLength = buffer.GetLength();
+		JFont f                 = styles->GetFirstElement();
 		styles->RemoveAll();
-		f.SetColor(colormap->GetBlackColor());
+		f.SetColor(JColorManager::GetBlackColor());
 		styles->AppendElements(f, totalLength);
 		*redrawRange += JIndexRange(1, totalLength);
 		}
@@ -140,13 +139,12 @@ CBCommandPathInput::GetTextColor
 	(
 	const JCharacter*	path,
 	const JCharacter*	base,
-	const JBoolean		requireWrite,
-	const JXColorManager*	colormap
+	const JBoolean		requireWrite
 	)
 {
 	if (strcmp(path, "@") == 0)
 		{
-		return colormap->GetBlackColor();
+		return JColorManager::GetBlackColor();
 		}
 	else
 		{

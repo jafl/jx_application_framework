@@ -40,7 +40,7 @@ protected:
 	virtual CBClass*			NewGhost(const JCharacter* name, CBTree* tree);
 	virtual const JCharacter*	GetNamespaceOperator() const;
 
-	virtual void	AdjustNameStyle(const JXColorManager* colormap, JFontStyle* style) const;
+	virtual void	AdjustNameStyle(JFontStyle* style) const;
 
 private:
 

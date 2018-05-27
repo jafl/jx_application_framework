@@ -37,10 +37,10 @@ protected:
 									const JXButtonStates& buttonStates,
 									const JXKeyModifiers& modifiers) override;
 
-	virtual JCoordinate	GetPrintHeaderHeight(JPagePrinter& p) const;
-	virtual JCoordinate	GetPrintFooterHeight(JPagePrinter& p) const;
-	virtual void		DrawPrintHeader(JPagePrinter& p, const JCoordinate headerHeight);
-	virtual void		DrawPrintFooter(JPagePrinter& p, const JCoordinate footerHeight);
+	virtual JCoordinate	GetPrintHeaderHeight(JPagePrinter& p) const override;
+	virtual JCoordinate	GetPrintFooterHeight(JPagePrinter& p) const override;
+	virtual void		DrawPrintHeader(JPagePrinter& p, const JCoordinate headerHeight) override;
+	virtual void		DrawPrintFooter(JPagePrinter& p, const JCoordinate footerHeight) override;
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 

@@ -41,6 +41,9 @@
 	*** Note that this definition means that the font ID is *not* independent
 		of the size and style.
 
+	Nothing is const because any function might change the derived class'
+	internal data.
+
 	BASE CLASS = none
 
 	Copyright (C) 1996-2018 by John Lindal.

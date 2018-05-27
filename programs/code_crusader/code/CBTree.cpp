@@ -2496,7 +2496,7 @@ CBTree::GetProjectDoc()
 
  ******************************************************************************/
 
-const JFontManager*
+JFontManager*
 CBTree::GetFontManager()
 	const
 {

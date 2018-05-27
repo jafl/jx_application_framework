@@ -73,7 +73,7 @@ CMTextDisplayBase::AdjustFont
 	JXTEBase* te
 	)
 {
-	const JFontManager* fontMgr = te->TEGetFontManager();
+	JFontManager* fontMgr = te->TEGetFontManager();
 
 	JString name;
 	JSize size;
@@ -91,7 +91,7 @@ CMTextDisplayBase::AdjustFont
 	// tab width
 
 	const JSize tabCharCount    = CMGetPrefsManager()->GetTabCharCount();
-	const JCoordinate charWidth = te->GetDefaultFont().GetCharWidth(' ');
+	const JCoordinate charWidth = te->GetDefaultFont().GetCharWidth(fontMgr, ' ');
 	te->SetDefaultTabWidth(tabCharCount * charWidth);
 	te->SetCRMTabCharCount(tabCharCount);
 }

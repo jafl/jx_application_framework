@@ -125,13 +125,13 @@ FitParmsTable::Append
 	)
 {
 	
-	const JFontManager* fm = GetFontManager();
-	JSize lineHeight = JFontManager::GetDefaultFont().GetLineHeight();
+	JFontManager* fm = GetFontManager();
+	JSize lineHeight = JFontManager::GetDefaultFont().GetLineHeight(fm);
 	AppendRows(1, lineHeight + 2);
 	JString* str = jnew JString(col1);
 	itsCol1->Append(str);
 	JSize col1Width = GetColWidth(1);
-	JSize strWidth = JFontManager::GetDefaultFont().GetStringWidth(*str);
+	JSize strWidth = JFontManager::GetDefaultFont().GetStringWidth(fm, *str);
 	if (strWidth + 10 > col1Width)
 		{
 		SetColWidth(1, strWidth + 10);
@@ -139,7 +139,7 @@ FitParmsTable::Append
 	str = jnew JString(col2);
 	itsCol2->Append(str);
 	JSize col2Width = GetColWidth(2);
-	strWidth = JFontManager::GetDefaultFont().GetStringWidth(*str);
+	strWidth = JFontManager::GetDefaultFont().GetStringWidth(fm, *str);
 	if (strWidth + 10 > col2Width)
 		{
 		SetColWidth(2, strWidth + 10);

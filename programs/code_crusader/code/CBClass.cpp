@@ -1049,8 +1049,6 @@ CBClass::Draw
 	)
 	const
 {
-	const JXColorManager* colormap = p.GetColormap();
-
 	// only draw box if visible
 
 	JRect irect;
@@ -1058,19 +1056,19 @@ CBClass::Draw
 		{
 		if (itsIsSelectedFlag && itsDeclType == kGhostType)
 			{
-			p.SetPenColor(colormap->GetBlueColor());
+			p.SetPenColor(JColorManager::GetBlueColor());
 			}
 		else if (itsIsSelectedFlag)
 			{
-			p.SetPenColor(colormap->GetCyanColor());
+			p.SetPenColor(JColorManager::GetCyanColor());
 			}
 		else if (itsDeclType == kGhostType)
 			{
-			p.SetPenColor(colormap->GetGrayColor(80));
+			p.SetPenColor(JColorManager::GetGrayColor(80));
 			}
 		else
 			{
-			p.SetPenColor(colormap->GetWhiteColor());
+			p.SetPenColor(JColorManager::GetWhiteColor());
 			}
 		p.SetFilling(kJTrue);
 		p.Rect(itsFrame);
@@ -1078,7 +1076,7 @@ CBClass::Draw
 		// draw black frame
 
 		p.SetFilling(kJFalse);
-		p.SetPenColor(colormap->GetBlackColor());
+		p.SetPenColor(JColorManager::GetBlackColor());
 		p.Rect(itsFrame);
 		}
 
@@ -1091,7 +1089,7 @@ CBClass::Draw
 			{
 			// remember to update kCollapsedLinkLength
 
-			p.SetPenColor(colormap->GetBlackColor());
+			p.SetPenColor(JColorManager::GetBlackColor());
 			p.Line(pt.x   ,pt.y, pt.x+2 ,pt.y);
 			p.Line(pt.x+6 ,pt.y, pt.x+8 ,pt.y);
 			p.Line(pt.x+12,pt.y, pt.x+14,pt.y);
@@ -1110,21 +1108,21 @@ CBClass::Draw
 			const InheritType type = GetParentType(1);
 			if (type == kInheritPublic)
 				{
-				p.SetPenColor(colormap->GetBlackColor());
+				p.SetPenColor(JColorManager::GetBlackColor());
 				}
 			else if (type == kInheritProtected)
 				{
-				p.SetPenColor(colormap->GetYellowColor());
+				p.SetPenColor(JColorManager::GetYellowColor());
 				}
 			else
 				{
 				assert( type == kInheritPrivate );
-				p.SetPenColor(colormap->GetRedColor());
+				p.SetPenColor(JColorManager::GetRedColor());
 				}
 
 			const JCoordinate x = (linkFromPt.x + linkToPt.x)/2;
 			p.Line(linkToPt.x, linkToPt.y, x, linkToPt.y);
-			p.SetPenColor(colormap->GetBlackColor());
+			p.SetPenColor(JColorManager::GetBlackColor());
 			p.LineTo(x, linkFromPt.y);
 			p.LineTo(linkFromPt);
 			}
@@ -1153,8 +1151,7 @@ CBClass::DrawMILinks
 		return;
 		}
 
-	const JXColorManager* colormap = p.GetColormap();
-	const JPoint linkToPt     = GetLinkToPt();
+	const JPoint linkToPt = GetLinkToPt();
 
 	for (JIndex i=2; i<=parentCount; i++)
 		{
@@ -1176,16 +1173,16 @@ CBClass::DrawMILinks
 			const InheritType type = GetParentType(i);
 			if (type == kInheritPublic)
 				{
-				p.SetPenColor(colormap->GetGreenColor());
+				p.SetPenColor(JColorManager::GetGreenColor());
 				}
 			else if (type == kInheritProtected)
 				{
-				p.SetPenColor(colormap->GetYellowColor());
+				p.SetPenColor(JColorManager::GetYellowColor());
 				}
 			else
 				{
 				assert( type == kInheritPrivate );
-				p.SetPenColor(colormap->GetRedColor());
+				p.SetPenColor(JColorManager::GetRedColor());
 				}
 
 			p.Line(linkFromPt, linkToPt);
@@ -1239,8 +1236,7 @@ CBClass::DrawText
 void
 CBClass::AdjustNameStyle
 	(
-	const JXColorManager*	colormap,
-	JFontStyle*			style
+	JFontStyle* style
 	)
 	const
 {
@@ -1251,7 +1247,7 @@ CBClass::AdjustNameStyle
 
 	if (itsIsSelectedFlag && itsDeclType == kGhostType)
 		{
-		style->color = colormap->GetWhiteColor();
+		style->color = JColorManager::GetWhiteColor();
 		}
 	else if (itsDeclType == kGhostType)
 		{
@@ -1267,14 +1263,14 @@ CBClass::AdjustNameStyle
 inline JCoordinate
 CBClass::CalcFrameHeight
 	(
-	const JFontManager*	fontManager,
-	const JSize			fontSize
+	JFontManager*	fontManager,
+	const JSize		fontSize
 	)
 {
 	JFont font = JFontManager::GetDefaultFont();
 	font.SetSize(fontSize);
 	font.SetStyle(kConcreteLabelStyle);
-	return 2*kVMarginWidth + font.GetLineHeight();
+	return 2*kVMarginWidth + font.GetLineHeight(fontManager);
 }
 
 /******************************************************************************
@@ -1311,8 +1307,8 @@ CBClass::GetTotalHeight()
 JCoordinate
 CBClass::GetTotalHeight
 	(
-	CBTree*				tree,
-	const JFontManager*	fontManager
+	CBTree*			tree,
+	JFontManager*	fontManager
 	)
 {
 	return 2*kVMarginWidth + CalcFrameHeight(fontManager, tree->GetFontSize());
@@ -1332,8 +1328,8 @@ CBClass::CalcFrame()
 		x += kLinkWidth;
 		}
 
-	const JFontManager* fontManager = GetTree()->GetFontManager();
-	const JSize fontSize            = itsTree->GetFontSize();
+	JFontManager* fontManager = GetTree()->GetFontManager();
+	const JSize fontSize      = itsTree->GetFontSize();
 
 	JCoordinate w = 10;
 	if (!CBInUpdateThread())
@@ -1347,7 +1343,7 @@ CBClass::CalcFrame()
 		font.SetSize(fontSize);
 		font.SetStyle(style);
 
-		w = JMax(kMinFrameWidth, 2*kHMarginWidth + font.GetStringWidth(name));
+		w = JMax(kMinFrameWidth, 2*kHMarginWidth + font.GetStringWidth(fontManager, name));
 		}
 
 	const JCoordinate h = CalcFrameHeight(fontManager, fontSize);

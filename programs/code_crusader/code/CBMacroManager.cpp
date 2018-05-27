@@ -19,7 +19,7 @@
 #include "CBTextDocument.h"
 #include "CBTextEditor.h"
 #include "cbmUtil.h"
-#include <JXColorManager.h>
+#include <JColorManager.h>
 #include <jFileUtil.h>
 #include <jProcessUtil.h>
 #include <jASCIIConstants.h>
@@ -202,7 +202,6 @@ void
 CBMacroManager::HighlightErrors
 	(
 	const JString&		script,
-	const JXColorManager*	colormap,
 	JRunArray<JFont>*	styles
 	)
 {
@@ -210,13 +209,13 @@ CBMacroManager::HighlightErrors
 	styles->RemoveAll();
 
 	JFont black = f;
-	black.SetColor(colormap->GetBlackColor());
+	black.SetColor(JColorManager::GetBlackColor());
 
 	JFont blue = f;
-	blue.SetColor(colormap->GetBlueColor());
+	blue.SetColor(JColorManager::GetBlueColor());
 
 	JFont red = f;
-	red.SetColor(colormap->GetRedColor());
+	red.SetColor(JColorManager::GetRedColor());
 
 	const JIndex length = script.GetLength();
 	styles->AppendElements(black, length);

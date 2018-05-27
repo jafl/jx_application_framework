@@ -170,20 +170,18 @@ SVNPrefsDialog::BuildWindow
 	window->SetTitle(JGetString("WindowTitle::SVNPrefsDialog"));
 	SetButtons(okButton, cancelButton);
 
-	const JFontManager* fontMgr = window->GetFontManager();
-
 	itsIntegrationRG->SelectItem(type);
 
 	itsCommitEditor->SetText(commitEditor);
 	itsCommitEditor->SetIsRequired();
-	itsCommitEditor->SetFont(fontMgr->GetDefaultMonospaceFont());
+	itsCommitEditor->SetFont(JFontManager::GetDefaultMonospaceFont());
 
 	itsDiffCmd->SetText(diffCmd);
 	itsDiffCmd->SetIsRequired();
-	itsDiffCmd->SetFont(fontMgr->GetDefaultMonospaceFont());
+	itsDiffCmd->SetFont(JFontManager::GetDefaultMonospaceFont());
 
 	itsReloadChangedCmd->SetText(reloadChangedCmd);
-	itsReloadChangedCmd->SetFont(fontMgr->GetDefaultMonospaceFont());
+	itsReloadChangedCmd->SetFont(JFontManager::GetDefaultMonospaceFont());
 
 	UpdateDisplay();
 

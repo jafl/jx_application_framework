@@ -49,7 +49,7 @@ public:
 	static const JString&	GetFont(JSize* size);
 
 	static JColorID	GetTextColor(const JString& path, const JString& base,
-								 const JBoolean requireWrite, const JXColorManager* colormap);
+								 const JBoolean requireWrite);
 	static JBoolean		IsCharacterInWord(const JUtf8Character& c);
 
 	static JBoolean		Complete(JXInputField* te, const JString& basePath,

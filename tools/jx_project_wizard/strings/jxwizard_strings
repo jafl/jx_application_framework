@@ -58,4 +58,4 @@ UnableToCreateProjDir::JXWMainDialog
 $err"
 
 InvalidTmplDirError::JXWMainDialog
-"The template directory that you specified does not contain a jx_project_wizard template.  If you are not sure where it is, check the jx_project_wizard source directory or /usr/lib/jx/jx_project_wizard/."
+"The template directory that you specified does not contain a jx_project_wizard template.  If you are not sure where it is, check the jx_project_wizard source directory or /usr/local/lib/jx/jx_project_wizard/."

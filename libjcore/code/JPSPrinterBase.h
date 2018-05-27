@@ -32,7 +32,7 @@ public:
 
 public:
 
-	JPSPrinterBase(const JFontManager* fontManager);
+	JPSPrinterBase(JFontManager* fontManager);
 
 	virtual ~JPSPrinterBase();
 
@@ -130,7 +130,7 @@ private:
 
 	// buffered values
 
-	const JFontManager*	itsFontManager;
+	JFontManager*	itsFontManager;
 
 	JBoolean	itsFontSetFlag;
 	JFont		itsLastFont;

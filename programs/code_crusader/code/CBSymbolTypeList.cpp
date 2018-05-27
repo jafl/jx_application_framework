@@ -9,9 +9,9 @@
 
 #include "CBSymbolTypeList.h"
 #include "cbGlobals.h"
-#include <JXColorManager.h>
 #include <JXImage.h>
 #include <JXImageCache.h>
+#include <JColorManager.h>
 #include <jStreamUtil.h>
 #include <jAssert.h>
 
@@ -31,14 +31,13 @@ const JCharacter* CBSymbolTypeList::kStyleChanged      = "StyleChanged::CBSymbol
 
 CBSymbolTypeList::CBSymbolTypeList
 	(
-	JXColorManager* colormap
+	JXDisplay* display
 	)
 	:
 	JContainer(),
-	JPrefObject(CBGetPrefsManager(), kCBSymbolTypeListID),
-	itsColormap(colormap)
+	JPrefObject(CBGetPrefsManager(), kCBSymbolTypeListID)
 {
-	CreateSymTypeList();
+	CreateSymTypeList(display);
 	JPrefObject::ReadPrefs();
 	InstallOrderedSet(itsSymbolTypeList);
 }
@@ -160,7 +159,7 @@ CBSymbolTypeList::ReadPrefs
 
 		JRGB color;
 		input >> color;
-		info.style.color = itsColormap->JXColorManager::GetColor(color);
+		info.style.color = JColorManager::GetColor(color);
 
 		itsSymbolTypeList->SetElement(j, info);
 		}
@@ -193,7 +192,7 @@ CBSymbolTypeList::WritePrefs
 		output << ' ' << info.style.italic;
 		output << ' ' << info.style.underlineCount;
 		output << ' ' << info.style.strike;
-		output << ' ' << itsColormap->JXColorManager::GetRGB(info.style.color);
+		output << ' ' << JColorManager::GetRGB(info.style.color);
 		}
 }
 
@@ -248,18 +247,21 @@ CBSymbolTypeList::FindType
 		CBSymbolList::C, L, S, I));
 
 void
-CBSymbolTypeList::CreateSymTypeList()
+CBSymbolTypeList::CreateSymTypeList
+	(
+	JXDisplay* display
+	)
 {
-	CreateIcons();
+	CreateIcons(display);
 
 	const JFontStyle bold(kJTrue, kJFalse, 0, kJFalse),
 					 italic(kJFalse, kJTrue, 0, kJFalse),
-					 bold_gray(kJTrue, kJFalse, 0, kJFalse, itsColormap->GetGrayColor(50));
+					 bold_gray(kJTrue, kJFalse, 0, kJFalse, JColorManager::GetGrayColor(50));
 
 	itsSymbolTypeList = jnew JArray<SymbolTypeInfo>(50);
 	assert( itsSymbolTypeList != NULL );
 
-	ADD_S (kUnknownST, kCBOtherLang, JFontStyle(itsColormap->GetGrayColor(50)))
+	ADD_S (kUnknownST, kCBOtherLang, JFontStyle(JColorManager::GetGrayColor(50)))
 
 	ADD_I(kAdobeFlexFunctionST,       kCBAdobeFlexLang, itsFunctionIcon)
 	ADD_S(kAdobeFlexClassST,          kCBAdobeFlexLang, bold)
@@ -298,7 +300,7 @@ CBSymbolTypeList::CreateSymTypeList()
 	ADD_I(kBisonTerminalDeclST,    kCBBisonLang, itsBisonTermDeclIcon)
 
 	ADD_SI(kCClassST,          kCBCLang, bold, itsCClassIcon)
-	ADD_SI(kCMacroST,          kCBCLang, JFontStyle(itsColormap->GetBlueColor()), itsCMacroIcon)
+	ADD_SI(kCMacroST,          kCBCLang, JFontStyle(JColorManager::GetBlueColor()), itsCMacroIcon)
 	ADD_I (kCEnumValueST,      kCBCLang, itsMemberIcon)
 	ADD_I (kCFunctionST,       kCBCLang, itsFunctionIcon)
 	ADD_I (kCEnumST,           kCBCLang, itsCEnumIcon)
@@ -312,7 +314,7 @@ CBSymbolTypeList::CreateSymTypeList()
 	ADD_I (kCExternVariableST, kCBCLang, itsVariableIcon)
 
 	ADD_SI(kCSharpClassST,      kCBCSharpLang, bold, itsCSharpClassIcon)
-	ADD_SI(kCSharpMacroST,      kCBCSharpLang, JFontStyle(itsColormap->GetBlueColor()), itsCMacroIcon)
+	ADD_SI(kCSharpMacroST,      kCBCSharpLang, JFontStyle(JColorManager::GetBlueColor()), itsCMacroIcon)
 	ADD_I (kCSharpEnumValueST,  kCBCSharpLang, itsMemberIcon)
 	ADD_I (kCSharpEventST,      kCBCSharpLang, itsCSharpEventIcon)
 	ADD_I (kCSharpFieldST,      kCBCSharpLang, itsVariableIcon)
@@ -334,7 +336,7 @@ CBSymbolTypeList::CreateSymTypeList()
 	ADD_SI(kEiffelClassST,   kCBEiffelLang, bold, itsEiffelClassIcon)
 	ADD_I (kEiffelFeatureST, kCBEiffelLang, itsFunctionIcon)
 
-	ADD_SI(kErlangMacroST,    kCBErlangLang, JFontStyle(itsColormap->GetBlueColor()), itsCMacroIcon)
+	ADD_SI(kErlangMacroST,    kCBErlangLang, JFontStyle(JColorManager::GetBlueColor()), itsCMacroIcon)
 	ADD_I (kErlangFunctionST, kCBErlangLang, itsFunctionIcon)
 	ADD   (kErlangModuleST,   kCBErlangLang)
 	ADD   (kErlangRecordST,   kCBErlangLang)
@@ -390,7 +392,7 @@ CBSymbolTypeList::CreateSymTypeList()
 	ADD_SI(kPHPClassST,     kCBPHPLang, bold, itsPHPClassIcon)
 	ADD_SI(kPHPInterfaceST, kCBPHPLang, bold_gray, itsPHPInterfaceIcon)
 	ADD_I (kPHPFunctionST,  kCBPHPLang, itsFunctionIcon)
-	ADD_SI(kPHPDefineST,    kCBPHPLang, JFontStyle(itsColormap->GetBlueColor()), itsCMacroIcon)
+	ADD_SI(kPHPDefineST,    kCBPHPLang, JFontStyle(JColorManager::GetBlueColor()), itsCMacroIcon)
 
 	ADD_SI(kPythonClassST,       kCBPythonLang, bold, itsPythonClassIcon)
 	ADD_I (kPythonFunctionST,    kCBPythonLang, itsFunctionIcon)
@@ -413,7 +415,7 @@ CBSymbolTypeList::CreateSymTypeList()
 
 	ADD   (kSMLExceptionST,   kCBSMLLang)
 	ADD_I (kSMLFunctionST,    kCBSMLLang, itsFunctionIcon)
-	ADD_SI(kSMLFunctorST,     kCBSMLLang, JFontStyle(itsColormap->GetGrayColor(50)), itsFunctionIcon)
+	ADD_SI(kSMLFunctorST,     kCBSMLLang, JFontStyle(JColorManager::GetGrayColor(50)), itsFunctionIcon)
 	ADD   (kSMLSignatureST,   kCBSMLLang)
 	ADD   (kSMLStructureST,   kCBSMLLang)
 	ADD   (kSMLTypeST,        kCBSMLLang)
@@ -513,9 +515,12 @@ CBSymbolTypeList::CreateSymTypeList()
 #include "jcc_sym_member.xpm"
 
 void
-CBSymbolTypeList::CreateIcons()
+CBSymbolTypeList::CreateIcons
+	(
+	JXDisplay* display
+	)
 {
-	JXImageCache* c = itsColormap->GetDisplay()->GetImageCache();
+	JXImageCache* c = display->GetImageCache();
 
 	// C
 

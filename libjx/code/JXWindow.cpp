@@ -154,9 +154,8 @@ JXWindow::JXWindow
 
 	// get display/colormap for this window
 
-	itsDisplay      = (JXGetApplication())->GetCurrentDisplay();
-	itsColorManager = itsDisplay->GetColorManager();
-	itsBackColor    = JColorManager::GetDefaultBackColor();
+	itsDisplay   = (JXGetApplication())->GetCurrentDisplay();
+	itsBackColor = JColorManager::GetDefaultBackColor();
 
 	// create window
 
@@ -164,10 +163,12 @@ JXWindow::JXWindow
 		CWBackPixel | CWBorderPixel | CWColormap | CWCursor |
 		CWSaveUnder | CWOverrideRedirect | CWEventMask;
 
+	JXColorManager* colorManager = itsDisplay->GetColorManager();
+
 	XSetWindowAttributes attr;
 	attr.background_pixel  = itsBackColor;
-	attr.border_pixel      = itsColorManager->GetXColor(JColorManager::GetBlackColor());
-	attr.colormap          = *itsColorManager;
+	attr.border_pixel      = colorManager->GetXColor(JColorManager::GetBlackColor());
+	attr.colormap          = *colorManager;
 	attr.cursor            = itsDisplay->GetXCursorID(itsCursorIndex);
 	attr.save_under        = itsIsOverlayFlag;
 	attr.override_redirect = itsIsOverlayFlag;
@@ -175,7 +176,7 @@ JXWindow::JXWindow
 
 	itsXWindow =
 		XCreateWindow(*itsDisplay, itsDisplay->GetRootWindow(), 0,0, w,h,
-					  0, CopyFromParent, InputOutput, itsColorManager->GetVisual(),
+					  0, CopyFromParent, InputOutput, colorManager->GetVisual(),
 					  valueMask, &attr);
 
 	// set window properties

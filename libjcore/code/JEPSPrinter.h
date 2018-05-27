@@ -18,7 +18,7 @@ class JEPSPrinter : public JPainter, public JPrinter, public JPSPrinterBase
 {
 public:
 
-	JEPSPrinter(const JFontManager* fontManager);
+	JEPSPrinter(JFontManager* fontManager);
 
 	virtual ~JEPSPrinter();
 

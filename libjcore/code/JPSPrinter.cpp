@@ -54,7 +54,7 @@ static const JFloat kPaperHeight[] =
 
 JPSPrinter::JPSPrinter
 	(
-	const JFontManager* fontManager
+	JFontManager* fontManager
 	)
 	:
 	JPagePrinter(fontManager, JRect()),

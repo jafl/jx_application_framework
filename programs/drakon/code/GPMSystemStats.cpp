@@ -109,14 +109,12 @@ GPMSystemStats::Draw
 
 	// render memory usage
 
-	const JXColorManager* cmap = p.GetColormap();
-
-	const JColorID otherMem = cmap->GetDarkRedColor();
-	const JColorID userMem  = cmap->GetRedColor();
-	const JColorID freeMem  = cmap->GetGreenColor();
-	const JColorID cpuBack  = cmap->GetBlackColor();
-	const JColorID userCPU  = cmap->GetGreenColor();
-	const JColorID otherCPU = cmap->GetRedColor();
+	const JColorID otherMem = JColorManager::GetDarkRedColor();
+	const JColorID userMem  = JColorManager::GetRedColor();
+	const JColorID freeMem  = JColorManager::GetGreenColor();
+	const JColorID cpuBack  = JColorManager::GetBlackColor();
+	const JColorID userCPU  = JColorManager::GetGreenColor();
+	const JColorID otherCPU = JColorManager::GetRedColor();
 
 	const JRect bounds = GetBounds();
 

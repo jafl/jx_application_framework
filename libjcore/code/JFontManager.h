@@ -13,8 +13,6 @@
 #include <JPtrArray-JString.h>
 #include <JFont.h>
 
-class JString;
-
 const JFontID kInvalidFontID = 0;
 
 class JFontManager
@@ -27,10 +25,10 @@ public:
 
 	virtual ~JFontManager();
 
-	virtual void		GetFontNames(JPtrArray<JString>* fontNames) const = 0;
-	virtual void		GetMonospaceFontNames(JPtrArray<JString>* fontNames) const = 0;
+	virtual void		GetFontNames(JPtrArray<JString>* fontNames) = 0;
+	virtual void		GetMonospaceFontNames(JPtrArray<JString>* fontNames) = 0;
 	virtual JBoolean	GetFontSizes(const JString& name, JSize* minSize,
-									 JSize* maxSize, JArray<JSize>* sizeList) const = 0;
+									 JSize* maxSize, JArray<JSize>* sizeList) = 0;
 
 	static JFont	GetDefaultFont();
 	static JFont	GetDefaultMonospaceFont();
@@ -38,7 +36,7 @@ public:
 							const JSize size = 0,
 							const JFontStyle style = JFontStyle());
 
-	virtual JBoolean	IsExact(const JFontID id) const = 0;
+	virtual JBoolean	IsExact(const JFontID id) = 0;
 
 protected:
 
@@ -51,12 +49,12 @@ protected:
 	static JSize	GetStrikeThickness(const JSize fontSize);
 	static JSize	GetUnderlineThickness(const JSize fontSize);
 
-	virtual JSize	GetLineHeight(const JFontID fontID, const JSize size,
+	virtual JSize	GetLineHeight(const JFontID id, const JSize size,
 								  const JFontStyle& style,
-								  JCoordinate* ascent, JCoordinate* descent) const = 0;
+								  JCoordinate* ascent, JCoordinate* descent) = 0;
 
-	virtual JSize	GetCharWidth(const JFontID fontID, const JUtf8Character& c) const = 0;
-	virtual JSize	GetStringWidth(const JFontID fontID, const JString& str) const = 0;
+	virtual JSize	GetCharWidth(const JFontID id, const JUtf8Character& c) = 0;
+	virtual JSize	GetStringWidth(const JFontID id, const JString& str) = 0;
 
 public:		// ought to be private
 

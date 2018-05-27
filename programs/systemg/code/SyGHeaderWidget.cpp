@@ -65,10 +65,10 @@ SyGHeaderWidget::~SyGHeaderWidget()
 JCoordinate
 SyGHeaderWidget::GetPreferredHeight
 	(
-	const JFontManager* fontMgr
+	JFontManager* fontMgr
 	)
 {
-	return JFontManager::GetDefaultFont().GetLineHeight() + 2*kBorderWidth;
+	return JFontManager::GetDefaultFont().GetLineHeight(fontMgr) + 2*kBorderWidth;
 }
 
 /******************************************************************************

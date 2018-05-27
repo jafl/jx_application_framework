@@ -46,7 +46,6 @@ TestFontManager::GetFontNames
 	(
 	JPtrArray<JString>* fontNames
 	)
-	const
 {
 	fontNames->CopyObjects(*itsFontNames, JPtrArrayT::kDeleteAll, kJFalse);
 }
@@ -61,7 +60,6 @@ TestFontManager::GetMonospaceFontNames
 	(
 	JPtrArray<JString>* fontNames
 	)
-	const
 {
 	fontNames->CopyObjects(*itsFontNames, JPtrArrayT::kDeleteAll, kJFalse);
 }
@@ -79,7 +77,6 @@ TestFontManager::GetFontSizes
 	JSize*			maxSize,
 	JArray<JSize>*	sizeList
 	)
-	const
 {
 	*minSize = 8;
 	*maxSize = 24;
@@ -97,7 +94,6 @@ TestFontManager::IsExact
 	(
 	const JFontID id
 	)
-	const
 {
 	return kJTrue;
 }
@@ -117,7 +113,6 @@ TestFontManager::GetLineHeight
 	JCoordinate*		ascent,
 	JCoordinate*		descent
 	)
-	const
 {
 	*ascent  = 5;
 	*descent = 2;
@@ -135,7 +130,6 @@ TestFontManager::GetCharWidth
 	const JFontID			fontID,
 	const JUtf8Character&	c
 	)
-	const
 {
 	return 7;
 }
@@ -151,7 +145,6 @@ TestFontManager::GetStringWidth
 	const JFontID	fontID,
 	const JString&	str
 	)
-	const
 {
 	return 7*str.GetCharacterCount();
 }

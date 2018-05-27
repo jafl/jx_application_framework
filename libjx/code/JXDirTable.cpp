@@ -920,8 +920,6 @@ JXDirTable::AdjustTableContents()
 
 	// adjust the number of rows and the width of the text column
 
-	const JFontManager* fontMgr = GetFontManager();
-
 	RemoveAllRows();
 	itsMaxStringWidth = 0;
 

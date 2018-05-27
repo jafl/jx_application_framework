@@ -142,7 +142,6 @@ JXColorManager::GetColorID
 	const JString&	name,
 	JColorID*		id
 	)
-	const
 {
 	XColor xColor;
 	if (XParseColor(*itsDisplay, itsXColormap, name.GetBytes(), &xColor))
@@ -173,7 +172,6 @@ JXColorManager::GetXColor
 	(
 	const JColorID id
 	)
-	const
 {
 	const JRGB c               = GetRGB(id);
 	const unsigned long rgb[3] = { c.red, c.green, c.blue };
