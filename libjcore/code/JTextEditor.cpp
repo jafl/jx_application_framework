@@ -178,7 +178,7 @@ JTextEditor::JTextEditor
 	const Type			type,
 	JStyledText*		text,
 	const JBoolean		ownsText,
-	const JFontManager*	fontManager,
+	JFontManager*		fontManager,
 	const JBoolean		breakCROnly,
 	const JColorID		caretColor,
 	const JColorID		selectionColor,
@@ -1675,7 +1675,7 @@ JTextEditor::TEDrawLine
 	assert( lineLength.charCount > 0 );
 
 	JIndex startChar = iter->GetNextCharacterIndex();
-	JIndex endChar   = iter->GetPrevCharacterIndex() + lineLength.charCount;
+	JIndex endChar   = startChar + lineLength.charCount - 1;
 	JCoordinate left = 0;
 	JUtf8Character c;
 	JBoolean lineEndsWithNewline = kJFalse;

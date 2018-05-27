@@ -97,7 +97,7 @@ public:
 public:
 
 	JTextEditor(const Type type, JStyledText* text, const JBoolean ownsText,
-				const JFontManager* fontManager, const JBoolean breakCROnly,
+				JFontManager* fontManager, const JBoolean breakCROnly,
 				const JColorID caretColor, const JColorID selectionColor,
 				const JColorID outlineColor, const JColorID wsColor,
 				const JCoordinate width);
@@ -405,7 +405,7 @@ private:
 	JBoolean	itsDrawWhitespaceFlag;		// kJTrue => show tabs, spaces, newlines
 	CaretMode	itsCaretMode;
 
-	const JFontManager*	itsFontManager;
+	JFontManager*	itsFontManager;
 
 	JColorID	itsCaretColor;
 	JColorID	itsSelectionColor;
