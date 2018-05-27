@@ -93,3 +93,14 @@ ifdef J_CYGWIN
 else
   EXE=${1}
 endif
+
+#
+# useful functions
+#
+
+define run_tests
+    @echo ========== \
+     ${foreach p, $(1), echo; echo $p; if ! ./$p; then e=1; fi;} \
+     echo ==========; \
+     if [[ "$$e" == "1" ]]; then false; fi
+endef
