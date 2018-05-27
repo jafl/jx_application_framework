@@ -5,15 +5,25 @@
 	associated with a unique id, which is also a string.  ID's typically
 	have the form "name::class".
 
-	Every application must register a unique signature.  Each registered
-	directory is searched for the file <signature>_$LANG and then
-	<signature>.  The first one that is found is loaded into the hash table.
+	Every application must register a unique signature.  This is used to search
+	for translation files:
+
+	1a.  /usr/lib/<signature>/string_data/<locale>
+	1b. /usr/lib/<signature>/string_data/<language>
+	1c. /usr/lib/<signature>/string_data/default
+	2a.  ~/.<signature>/string_data/<locale>
+	2b. ~/.<signature>/string_data/<language>
+	2c. ~/.<signature>/string_data/default
+
+	The ones that are found are loaded into the hash table in the order shown
+	to support overrides.
 
 	Each data file has the format:
 
 		file format (ASCII digits followed by ASCII newline)
 		# comment
 		id "string"
+		...
 
 	The comment ends at the end of the line.  Inside the string, quotes and
 	backslashes must be preceded by a backslash.
@@ -49,6 +59,7 @@
 #include <jAssert.h>
 
 static const JString theDataDirName("string_data", 0, kJFalse);
+static const JString theDefaultFileName("default", 0, kJFalse);
 JBoolean JStringManager::thePseudotranslationFlag = kJFalse;
 
 // non-overridable strings
@@ -262,20 +273,20 @@ JStringManager::Register
 		JString locale(getenv("LANG"), 0);
 
 		// remove character set
-
+		{
 		JStringIterator iter(&locale);
 		if (iter.Next("."))
 			{
 			iter.SkipPrev();
 			iter.RemoveAllNext();
 			}
-
+		}
 		// split locale into language & country
 
 		JPtrArray<JString> localeParts(JPtrArrayT::kDeleteAll);
 		locale.Split("_", &localeParts);
 
-		const JString* language = localeParts.GetElement(1);
+		const JString& language = *localeParts.GetElement(1);
 
 		JString path[2];
 		JGetDataDirectories(JString(signature, 0, kJFalse), theDataDirName, path, path+1);
@@ -293,7 +304,13 @@ JStringManager::Register
 					continue;
 					}
 
-				name = JCombinePathAndName(path[i], *language);
+				name = JCombinePathAndName(path[i], language);
+				if (MergeFile(name))
+					{
+					continue;
+					}
+
+				name = JCombinePathAndName(path[i], theDefaultFileName);
 				if (MergeFile(name))
 					{
 					continue;

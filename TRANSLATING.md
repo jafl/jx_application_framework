@@ -1,18 +1,19 @@
 Overview
 ========
 
-When a JX program is started, it looks in /usr/lib/jx/string_data and
-~/.jx/string_data to find a file name matching the app signature passed to
-the JXApplication constructor.  It also looks for a file with the app
-signature followed by the value of the LANG environment variable.  It loads
-them in the following order:
+When a JX program is started, it looks in /usr/lib/<signature>/string_data
+and ~/.<signature>/string_data to find a file name matching the locale or
+language.  (The app signature is passed to the JXApplication constructor.)
+The files are loaded in the following order:
 
-1. `/usr/lib/jx/string_data`
-1. `/usr/lib/jx/string_data_no_NO.UTF-8`
-1. `~/.jx/string_data`
-1. `~/.jx/string_data_no_NO.UTF-8`
+1. `/usr/lib/<signature>/string_data/no_NO`
+1. `/usr/lib/<signature>/string_data/no`
+1. `/usr/lib/<signature>/string_data/default`
+1. `~/.<signature>/string_data/no_NO`
+1. `~/.<signature>/string_data/no`
+1. `~/.<signature>/string_data/default`
 
-This ensures that default text is available for any text that has not been
+This ensures that default is available for any text that has not been
 translated and that the user's data overrides the system data.
 
 Layouts

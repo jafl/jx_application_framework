@@ -1,3 +1,5 @@
+colors not working
+
 JStyledTextBuffer
 	broadcast char/byte delta with TextChanged, to allow adjusting selection/caret
 	AutoIndent
@@ -14,10 +16,6 @@ put back
 implement flex/bison parser for libjexpr
 
 -----
-
-test translation files
-	/usr/lib/testjx/string_data
-	~/.testjx/string_data
 
 fix TODO's
 
