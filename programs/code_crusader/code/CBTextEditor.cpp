@@ -520,27 +520,6 @@ CBTextEditor::Receive
 				{
 				itsFnMenu->TextChanged(itsDoc->GetFileType(), "");
 				}
-
-			if (message.Is(kTextSet))
-				{
-				JBoolean setTabWidth, setTabMode, tabInsertsSpaces, setAutoIndent, autoIndent;
-				JSize tabWidth;
-				CBMParseEditorOptions(GetText(), &setTabWidth, &tabWidth,
-									  &setTabMode, &tabInsertsSpaces, &setAutoIndent, &autoIndent);
-
-				if (setTabWidth)
-					{
-					itsDoc->OverrideTabWidth(tabWidth);
-					}
-				if (setTabMode)
-					{
-					itsDoc->OverrideTabInsertsSpaces(tabInsertsSpaces);
-					}
-				if (setAutoIndent)
-					{
-					itsDoc->OverrideAutoIndent(autoIndent);
-					}
-				}
 			}
 		else if (sender == this && message.Is(kTypeChanged))
 			{

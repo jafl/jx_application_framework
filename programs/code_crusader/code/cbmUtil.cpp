@@ -348,6 +348,7 @@ static JRegex emacsTopTabWidthOption = EMACS_TOP_START EMACS_TAB_WIDTH EMACS_TOP
 static JRegex emacsTopTabModeOption  = EMACS_TOP_START EMACS_TAB_MODE  EMACS_TOP_END;
 static JRegex emacsTabWidthOption    = EMACS_START EMACS_TAB_WIDTH;
 static JRegex emacsTabModeOption     = EMACS_START EMACS_TAB_MODE;
+static JRegex viTabModeOption        = VI_START "(?:tabmode|tm)=(t|s)" VI_END;
 static JRegex viTabWidthOption       = VI_START "(?:tabstop|ts)=([0-9]+)" VI_END;
 static JRegex viAutoIndentOption     = VI_START "(autoindent|noautoindent|ai|noai)" VI_END;
 
@@ -389,6 +390,12 @@ CBMParseEditorOptions
 		const JString s   = text.GetSubstring(matchList.GetElement(2));
 		*setTabMode       = kJTrue;
 		*tabInsertsSpaces = JI2B(s == "nil");
+		}
+	else if (viTabModeOption.Match(text, &matchList))
+		{
+		const JString s   = text.GetSubstring(matchList.GetElement(2));
+		*setTabMode       = kJTrue;
+		*tabInsertsSpaces = JI2B(s == "s");
 		}
 
 	if (viAutoIndentOption.Match(text, &matchList))
