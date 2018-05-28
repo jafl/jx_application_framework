@@ -417,14 +417,15 @@ JPasteUNIXTerminalOutput
 
 	Replaces the contents of the given JStyledText.
 
-	Parses limited markdown:  bold, italic, fixed width.
+	Parses limited markdown:  *bold*, -italic-, _underline_, `fixed width`.
 	Does not handle nested styling.
 
  ******************************************************************************/
 
-static const JRegex theBoldPattern       = "\\*([^*]+)\\*";
-static const JRegex theItalicPattern     = "_([^_]+)_";
-static const JRegex theFixedWidthPattern = "`([^`]+)`";
+static const JRegex theBoldPattern       = "\\B\\*((?>[^*]+))\\*\\B";
+static const JRegex theItalicPattern     = "\\B-((?>[^-]+))-\\B";
+static const JRegex theUnderlinePattern  = "\\b_((?>[^_]+))_\\b";
+static const JRegex theFixedWidthPattern = "`((?>[^`]+))`";
 
 void
 jReplaceMarkdownPattern
@@ -471,6 +472,10 @@ JReadLimitedMarkdown
 	f.SetItalic(kJTrue);
 	jReplaceMarkdownPattern(&iter, theItalicPattern, f, &styles);
 	f.SetItalic(kJFalse);
+
+	f.SetUnderlineCount(1);
+	jReplaceMarkdownPattern(&iter, theUnderlinePattern, f, &styles);
+	f.SetUnderlineCount(0);
 
 	f.SetName(JGetDefaultMonospaceFontName());
 	jReplaceMarkdownPattern(&iter, theFixedWidthPattern, f, &styles);

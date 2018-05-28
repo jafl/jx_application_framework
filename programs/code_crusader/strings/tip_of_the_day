@@ -36,7 +36,7 @@ Clicking the middle mouse button in an Editor window pastes the current contents
 
 =====
 
-Holding down the partial word modifier key (adjustable in the Preferences dialog) makes the left and right arrows move the caret by one _partial_ word at a time. As an example, this lets you move around inside both `GetFileName` and `get_file_name`.
+Holding down the partial word modifier key (adjustable in the Preferences dialog) makes the left and right arrows move the caret by one -partial- word at a time. As an example, this lets you move around inside both `GetFileName` and `get_file_name`.
 
 =====
 
@@ -115,7 +115,7 @@ The same is true for the Page Up and Page Down keys.
 
 =====
 
-Double clicking a _file_ in the Save File dialog copies the name to the input field. This is useful if you want to replace a file or create a new file with a similar name.
+Double clicking a -file- in the Save File dialog copies the name to the input field. This is useful if you want to replace a file or create a new file with a similar name.
 
 =====
 

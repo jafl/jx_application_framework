@@ -233,18 +233,34 @@ JTEST(Markdown)
 	JReadLimitedMarkdown(JString("hello", 0, kJFalse), &st);
 	JAssertStringsEqual("hello", st.GetText());
 
-	JReadLimitedMarkdown(JString("hello *bold* _italic_ `tt` bye!", 0, kJFalse), &st);
-	JAssertStringsEqual("hello bold italic tt bye!", st.GetText());
+	JReadLimitedMarkdown(JString("hello *bold* -italic- _under_ `get_file_n-a-m-e` by*e*!", 0, kJFalse), &st);
+	JAssertStringsEqual("hello bold italic under get_file_n-a-m-e by*e*!", st.GetText());
+//                              ^      ^     ^     ^               ^
+
 	JAssertTrue(st.GetStyles().GetElement(8).GetStyle().bold);
 	JAssertFalse(st.GetStyles().GetElement(8).GetStyle().italic);
+	JAssertEqual(0, st.GetStyles().GetElement(8).GetStyle().underlineCount);
+	JAssertStringsEqual(JGetDefaultFontName(), st.GetStyles().GetElement(8).GetName());
+
 	JAssertFalse(st.GetStyles().GetElement(15).GetStyle().bold);
 	JAssertTrue(st.GetStyles().GetElement(15).GetStyle().italic);
-	JAssertFalse(st.GetStyles().GetElement(19).GetStyle().bold);
-	JAssertFalse(st.GetStyles().GetElement(19).GetStyle().italic);
-	JAssertStringsEqual(JGetDefaultMonospaceFontName(), st.GetStyles().GetElement(19).GetName());
-	JAssertFalse(st.GetStyles().GetElement(22).GetStyle().bold);
-	JAssertFalse(st.GetStyles().GetElement(22).GetStyle().italic);
-	JAssertStringsEqual(JGetDefaultFontName(), st.GetStyles().GetElement(22).GetName());
+	JAssertEqual(0, st.GetStyles().GetElement(15).GetStyle().underlineCount);
+	JAssertStringsEqual(JGetDefaultFontName(), st.GetStyles().GetElement(15).GetName());
+
+	JAssertFalse(st.GetStyles().GetElement(21).GetStyle().bold);
+	JAssertFalse(st.GetStyles().GetElement(21).GetStyle().italic);
+	JAssertEqual(1, st.GetStyles().GetElement(21).GetStyle().underlineCount);
+	JAssertStringsEqual(JGetDefaultFontName(), st.GetStyles().GetElement(21).GetName());
+
+	JAssertFalse(st.GetStyles().GetElement(27).GetStyle().bold);
+	JAssertFalse(st.GetStyles().GetElement(27).GetStyle().italic);
+	JAssertEqual(0, st.GetStyles().GetElement(27).GetStyle().underlineCount);
+	JAssertStringsEqual(JGetDefaultMonospaceFontName(), st.GetStyles().GetElement(27).GetName());
+
+	JAssertFalse(st.GetStyles().GetElement(42).GetStyle().bold);
+	JAssertFalse(st.GetStyles().GetElement(42).GetStyle().italic);
+	JAssertEqual(0, st.GetStyles().GetElement(42).GetStyle().underlineCount);
+	JAssertStringsEqual(JGetDefaultFontName(), st.GetStyles().GetElement(42).GetName());
 /*
 	JReadLimitedMarkdown(JString("_w*b*w_ _*b`t`b*_", 0, kJFalse), &st);
 	JAssertStringsEqual("wbw btb", st.GetText());

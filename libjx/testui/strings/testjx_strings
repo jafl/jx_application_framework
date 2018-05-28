@@ -277,15 +277,15 @@ TIP_OF_THE_DAY
 
 "
 =====
-This is tip #1
+This is *tip #1*
 =====
-This <em>is</em> tip #2
+This is _tip #2_
 =====
 =====
 This is tip #3
 
-It is somewhat more complicated than the previous two (2) tips because..._just because_!
+It is somewhat more complicated than the previous two tips because...-just because-!
 ====
 
-This is *tip* #4
+This is `tip #4`
 "
