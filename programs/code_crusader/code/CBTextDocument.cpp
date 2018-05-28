@@ -1358,11 +1358,40 @@ CBTextDocument::ReadFile
 		itsTextEditor->UpdateWritable(fullName);
 		}
 
+	JBoolean setTabWidth, setTabMode, tabInsertsSpaces, setAutoIndent, autoIndent;
+	JSize tabWidth;
+	CBMParseEditorOptions(itsTextEditor->GetText(), &setTabWidth, &tabWidth,
+						  &setTabMode, &tabInsertsSpaces, &setAutoIndent, &autoIndent);
+
+	if (setTabWidth)
+		{
+		OverrideTabWidth(tabWidth);
+		}
+	if (setTabMode)
+		{
+		OverrideTabInsertsSpaces(tabInsertsSpaces);
+		}
+	if (setAutoIndent)
+		{
+		OverrideAutoIndent(autoIndent);
+		}
+
 	if (firstTime)
 		{
+		const JBoolean spaces = itsTextEditor->TabInsertsSpaces();
+
 		JSize tabWidth = itsTextEditor->GetTabCharCount();
 		itsTextEditor->AnalyzeWhitespace(&tabWidth);
-		itsTextEditor->SetTabCharCount(tabWidth);
+
+		if (setTabMode)
+			{
+			itsTextEditor->TabShouldInsertSpaces(spaces);
+			}
+
+		if (!setTabWidth)
+			{
+			itsTextEditor->SetTabCharCount(tabWidth);
+			}
 
 		JPtrArray<JString> safetyFilesToOpen(JPtrArrayT::kDeleteAll);
 		if (CheckForSafetySaveFiles(fileName, &safetyFilesToOpen))
