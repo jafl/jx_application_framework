@@ -28,7 +28,7 @@
 JXChooseColorDialog::JXChooseColorDialog
 	(
 	JXWindowDirector*	supervisor,
-	const JColorID	colorIndex
+	const JColorID		colorIndex
 	)
 	:
 	JXDialogDirector(supervisor, kJTrue)

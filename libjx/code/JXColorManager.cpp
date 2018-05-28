@@ -156,6 +156,34 @@ JXColorManager::GetColorID
 }
 
 /******************************************************************************
+ GetColorID
+
+	Converts a system color value into a ColorID
+
+ ******************************************************************************/
+
+JColorID
+JXColorManager::GetColorID
+	(
+	const unsigned long systemColor
+	)
+{
+	unsigned long rgb[3];
+	for (JIndex i=0; i<3; i++)
+		{
+		rgb[i] = (systemColor & itsMask[i]) >> itsStartIndex[i];
+		if (itsStartIndex[i] > 0)
+			{
+			rgb[i] &= ~(~(0L) << (8*sizeof(unsigned long) - itsStartIndex[i]));
+			}
+		const short maxValue = (1 << (itsEndIndex[i]-itsStartIndex[i]+1)) - 1;
+		rgb[i] = JRound(rgb[i] * kJMaxRGBValueF / maxValue);
+		}
+
+	return JColorManager::GetColorID(JRGB(rgb[0], rgb[1], rgb[2]));
+}
+
+/******************************************************************************
  GetXColor
 
 	We scale each component to fit inside the number of bits in its mask.

@@ -45,7 +45,7 @@ JXImage::JXImage
 	JXDisplay*			display,
 	const JCoordinate	width,
 	const JCoordinate	height,
-	const JColorID	origInitColor,
+	const JColorID		origInitColor,
 	const JSize			depth,
 	const State			initState
 	)
@@ -184,8 +184,8 @@ JXImage::JXImage
 	(
 	JXDisplay*			display,
 	const JConstBitmap&	bitmap,
-	const JColorID	origForeColor,
-	const JColorID	origBackColor,
+	const JColorID		origForeColor,
+	const JColorID		origBackColor,
 	const JSize			depth
 	)
 	:
@@ -209,8 +209,8 @@ JXImage::JXImage
 		}
 	else
 		{
-		forePixel = foreColor;
-		backPixel = backColor;
+		forePixel = itsDisplay->GetColorManager()->GetXColor(foreColor);
+		backPixel = itsDisplay->GetColorManager()->GetXColor(backColor);
 		}
 
 	itsPixmap =
@@ -816,7 +816,7 @@ JXImage::GetColor
 		}
 	else
 		{
-		return GetSystemColor(x,y);
+		return itsDisplay->GetColorManager()->GetColorID(GetSystemColor(x,y));
 		}
 }
 
@@ -832,9 +832,9 @@ JXImage::GetColor
 void
 JXImage::SetColor
 	(
-	const JCoordinate x,
-	const JCoordinate y,
-	const JColorID color
+	const JCoordinate	x,
+	const JCoordinate	y,
+	const JColorID		color
 	)
 {
 	ConvertToImage();
@@ -846,7 +846,7 @@ JXImage::SetColor
 		}
 	else
 		{
-		xPixel = color;
+		xPixel = itsDisplay->GetColorManager()->GetXColor(color);
 		}
 
 	XPutPixel(itsImage, x,y, xPixel);
@@ -870,7 +870,7 @@ JXImage::GetSystemColor
 		}
 	else
 		{
-		return color;
+		return itsDisplay->GetColorManager()->GetXColor(color);
 		}
 }
 

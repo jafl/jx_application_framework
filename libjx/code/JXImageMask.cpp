@@ -109,7 +109,7 @@ JXImageMask::JXImageMask
 
 JXImageMask::JXImageMask
 	(
-	const JXImage&		image,
+	const JXImage&	image,
 	const JColorID	color
 	)
 	:
