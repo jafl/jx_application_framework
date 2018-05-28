@@ -1,5 +1,3 @@
-icon colors not working
-
 JStyledTextBuffer
 	broadcast char/byte delta with TextChanged, to allow adjusting selection/caret
 	AutoIndent
@@ -23,7 +21,7 @@ sample text in TestTabDirector
 	has \x - correctly interpreted?
 
 test
-	on OSX, replace Shift- Ctrl- Meta- with symbols for menu shortcuts
+	tip of the day
 	man pages
 	styled unix terminal output - yui build output
 	default & vi key handlers

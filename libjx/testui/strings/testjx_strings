@@ -276,16 +276,16 @@ Usage:  <options>
 TIP_OF_THE_DAY
 
 "
-<div>
+=====
 This is tip #1
-<div>
+=====
 This <em>is</em> tip #2
-<div>
-<div>
+=====
+=====
 This is tip #3
-<p>
-It is somewhat more complicated than the previous two (2) tips because...<u>just because</u>!
-<div>
 
-This is <b>tip</b> #4
+It is somewhat more complicated than the previous two (2) tips because..._just because_!
+====
+
+This is *tip* #4
 "
