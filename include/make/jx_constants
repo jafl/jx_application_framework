@@ -19,8 +19,13 @@ J_DISTR_TAR_DIR := ${JX_ROOT}/..
 # This can't be in jx_config_common because the top-level Makefile can only
 # include jx_constants.
 
-JX_ROOT_BIN_DIRECTORY := /usr/bin
-JX_ROOT_LIB_DIRECTORY := /usr/lib
+ifeq ($(shell uname -o),Darwin)
+  JX_ROOT_BIN_DIRECTORY := /usr/local/bin
+  JX_ROOT_LIB_DIRECTORY := /usr/local/lib
+else
+  JX_ROOT_BIN_DIRECTORY := /usr/bin
+  JX_ROOT_LIB_DIRECTORY := /usr/lib
+endif
 
 # Complain if JX_INSTALL_ROOT is set but not usable
 #ifdef JX_INSTALL_ROOT

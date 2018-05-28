@@ -73,6 +73,7 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //				JIndex values, because these are ambiguous.  Switch to
 //				the versions that use JCharacterRange.
 //	*** Removed JGetCurrentFontManager & JGetCurrentColormap.
+//	*** Changed all /usr/lib paths to /usr/local/lib on OSX because of SIP
 
 // version 3.2.0:
 //	jMountUtil:

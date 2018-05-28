@@ -23,8 +23,13 @@
 
  ******************************************************************************/
 
+#ifdef _J_OSX
+const JUtf8Byte* kSystemDataFileDir = "/usr/local/lib/";
+#else
 const JUtf8Byte* kSystemDataFileDir = "/usr/lib/";
-const JUtf8Byte* kUserDataFileDir   = "~/.";
+#endif
+
+const JUtf8Byte* kUserDataFileDir = "~/.";
 
 JBoolean
 JGetDataDirectories

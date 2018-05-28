@@ -90,7 +90,7 @@ Code Crusader's editor can be extended by writing scripts in your favorite langu
 
 In the Edit File Types dialog, set the script path for each appropriate file type and place your scripts (or symlinks to them) in the specified directory.  These scripts will then appear on the Scripts sub-menu when you right-click in an Editor window of the appropriate type.
 
-Personal directories are inside `~/.jxcb/scripts/`.  System-wide directories are inside `/usr/lib/jxcb/scripts/`.
+Personal directories are inside `~/.jxcb/scripts/`.  System-wide directories are inside `/usr/lib/jxcb/scripts/` (or `/usr/local/lib/jxcb/scripts/` on OSX).
 
 =====
 

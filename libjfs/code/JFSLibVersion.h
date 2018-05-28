@@ -12,13 +12,17 @@
 
 // These have to be #defined so they can be used for conditional compilation.
 
-#define CURRENT_JFS_MAJOR_VERSION	1
-#define CURRENT_JFS_MINOR_VERSION	1
-#define CURRENT_JFS_PATCH_VERSION	4
+#define CURRENT_JFS_MAJOR_VERSION	2
+#define CURRENT_JFS_MINOR_VERSION	0
+#define CURRENT_JFS_PATCH_VERSION	0
 
 // This is mainly provided so programmers can see the official version number.
 
-static const char* kCurrentJFSLibVersionStr = "1.1.4";
+static const char* kCurrentJFSLibVersionStr = "2.0.0";
+
+// version 2.0.0:
+//	Supports utf-8
+//	*** Moved global bindings file to /usr/local/lib/jx/jfs/file_bindings on OSX
 
 // version 1.1.4:
 //	JXFSBindingManager:

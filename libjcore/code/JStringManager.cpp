@@ -8,10 +8,10 @@
 	Every application must register a unique signature.  This is used to search
 	for translation files:
 
-	1a.  /usr/lib/<signature>/string_data/<locale>
+	1a. /usr/lib/<signature>/string_data/<locale>
 	1b. /usr/lib/<signature>/string_data/<language>
 	1c. /usr/lib/<signature>/string_data/default
-	2a.  ~/.<signature>/string_data/<locale>
+	2a. ~/.<signature>/string_data/<locale>
 	2b. ~/.<signature>/string_data/<language>
 	2c. ~/.<signature>/string_data/default
 

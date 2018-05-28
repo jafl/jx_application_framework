@@ -1,4 +1,4 @@
-colors not working
+icon colors not working
 
 JStyledTextBuffer
 	broadcast char/byte delta with TextChanged, to allow adjusting selection/caret

@@ -17,7 +17,12 @@
 #include <sstream>
 #include <jAssert.h>
 
-static const JCharacter* kGlobalBindingsFile           = "/usr/lib/jx/jfs/file_bindings";
+#ifdef _J_OSX
+static const JCharacter* kGlobalBindingsFile = "/usr/local/lib/jx/jfs/file_bindings";
+#else
+static const JCharacter* kGlobalBindingsFile = "/usr/lib/jx/jfs/file_bindings";
+#endif
+
 static const JCharacter* kUserExtensionBindingRoot     = "jx/jfs/file_bindings";
 static const JCharacter* kOrigUserExtensionBindingFile = "~/.systemG.filebindings";
 static const JCharacter* kSignalFileName               = "~/.jx/jfs/file_bindings.signal";
