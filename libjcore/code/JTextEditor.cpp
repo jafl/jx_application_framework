@@ -1712,7 +1712,8 @@ JTextEditor::TEDrawLine
 		iter->BeginMatch();
 
 		JBoolean foundTab = kJFalse;
-		while (iter->GetNextCharacterIndex() <= cr.last)
+		JIndex ci;
+		while (iter->GetNextCharacterIndex(&ci) && ci <= cr.last)
 			{
 			const JBoolean ok = iter->Next(&c);
 			assert( ok );

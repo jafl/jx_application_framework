@@ -11,6 +11,7 @@
 
 #include "TextEditor.h"
 #include "TestFontManager.h"
+#include "TestPainter.h"
 #include <jAssert.h>
 
 /******************************************************************************
@@ -48,18 +49,29 @@ TextEditor::~TextEditor()
 }
 
 /******************************************************************************
- SetAllFontNameAndSize
+ SetBoundsWidth
 
  ******************************************************************************/
 
 void
-TextEditor::SetAllFontNameAndSize
+TextEditor::SetBoundsWidth
 	(
-	const JString&	name,
-	const JSize		size
+	const JCoordinate width
 	)
 {
-	JTextEditor::SetAllFontNameAndSize(name, size, 36, kJTrue, kJTrue);
+	TESetBoundsWidth(width);
+}
+
+/******************************************************************************
+ Draw
+
+ ******************************************************************************/
+
+void
+TextEditor::Draw()
+{
+	TestPainter p;
+	TEDraw(p, JRect(0,0,1000000,1000000));
 }
 
 /******************************************************************************

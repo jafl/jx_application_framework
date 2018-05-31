@@ -28,17 +28,273 @@ int main()
 
 JTEST(LayoutBreakCROnly)
 {
-	// GetLineCount, GetLineForChar, etc.
-	// GetLineStart, GetLineEnd, GetLineLength
-	// GoToBeginningOfLine, etc.
-	// GetCharLeft, etc.
-	// GetColumnForChar, etc.
-	// CalcCaretLocation(pt)
-	// MoveCaretVert
+	StyledText text;
+	text.SetText(JString(
+		"Four sc" "\xC3\xB8" "re and seven years ago\n"
+/*32*/	"our fathers brought forth on this continent,\n"
+/*77*/	"a new nation,\n"
+/*91*/	"conceived in Liberty,\n"
+/*113*/	"and dedicated to the proposition that all men are created equal.\n", 0, kJFalse));
+
+	TextEditor te(&text, kJTrue, 50);
+
+	std::cout << "=====" << std::endl;
+	te.Draw();
+	std::cout << "=====" << std::endl;
+
+	JAssertEqual(5, te.GetLineCount());
+	JAssertEqual(65*7 + 12, te.GetWidth());
+	JAssertEqual(6*7, te.GetHeight());
+	JAssertEqual(1, te.GetLineForChar(8));
+	JAssertEqual(2, te.GetLineForChar(50));
+	JAssertEqual(21, te.GetLineTop(4));
+	JAssertEqual(7, te.GetLineHeight(4));
+	JAssertEqual(3, te.CRLineIndexToVisualLineIndex(3));
+	JAssertEqual(4, te.VisualLineIndexToCRLineIndex(4));
+	JAssertEqual(8, te.GetColumnForChar(8));
+	JAssertEqual(5, te.GetColumnForChar(36));
+
+	JAssertEqual(1, te.GetLineCharStart(1));
+	JAssertEqual(31, te.GetLineCharLength(1));
+	JAssertEqual(31, te.GetLineCharEnd(1));
+
+	JAssertEqual(32, te.GetLineCharStart(2));
+	JAssertEqual(45, te.GetLineCharLength(2));
+	JAssertEqual(76, te.GetLineCharEnd(2));
+
+	JAssertEqual(77, te.GetLineCharStart(3));
+	JAssertEqual(14, te.GetLineCharLength(3));
+	JAssertEqual(90, te.GetLineCharEnd(3));
+
+	JAssertEqual(91, te.GetLineCharStart(4));
+	JAssertEqual(22, te.GetLineCharLength(4));
+	JAssertEqual(112, te.GetLineCharEnd(4));
+
+	JAssertEqual(113, te.GetLineCharStart(5));
+
+	JAssertEqual(10, te.GetCharLeft(1));
+	JAssertEqual(59, te.GetCharLeft(8));
+	JAssertEqual(66, te.GetCharRight(8));
+	JAssertEqual(66, te.GetCharLeft(9));
+
+	JIndex charIndex;
+	JCharacterRange charRange;
+
+	te.GoToLine(100);
+	JAssertTrue(te.GetCaretLocation(&charIndex));
+	JAssertEqual(text.GetText().GetCharacterCount()+1, charIndex);
+
+	te.GoToLine(4);
+	JAssertTrue(te.GetCaretLocation(&charIndex));
+	JAssertEqual(91, charIndex);
+
+	te.GoToColumn(4, 10);
+	JAssertTrue(te.GetCaretLocation(&charIndex));
+	JAssertEqual(100, charIndex);
+
+	te.GoToBeginningOfLine();
+	JAssertTrue(te.GetCaretLocation(&charIndex));
+	JAssertEqual(91, charIndex);
+
+	te.GoToEndOfLine();
+	JAssertTrue(te.GetCaretLocation(&charIndex));
+	JAssertEqual(112, charIndex);
+
+	te.SelectLine(2);
+	JAssertFalse(te.GetCaretLocation(&charIndex));
+	JAssertTrue(te.GetSelection(&charRange));
+	JAssertEqual(32, charRange.first);
+
+	te.GoToBeginningOfLine();
+	JAssertTrue(te.GetCaretLocation(&charIndex));
+	JAssertEqual(32, charIndex);
+
+	te.SelectLine(2);
+	te.GoToEndOfLine();
+	JAssertTrue(te.GetCaretLocation(&charIndex));
+	JAssertEqual(76, charIndex);
+
+	JAssertEqual(1, te.CalcCaretCharLocation(JPoint(0,0)));
+	JAssertEqual(1, te.CalcCaretCharLocation(JPoint(13,6)));
+	JAssertEqual(2, te.CalcCaretCharLocation(JPoint(14,6)));
+	JAssertEqual(8, te.CalcCaretCharLocation(JPoint(62,3)));
+	JAssertEqual(9, te.CalcCaretCharLocation(JPoint(63,3)));
+	JAssertEqual(32, te.CalcCaretCharLocation(JPoint(13,7)));
+	JAssertEqual(33, te.CalcCaretCharLocation(JPoint(14,9)));
+
+	te.SelectLine(2);
+	JAssertFalse(te.TestPointInSelection(JPoint(13,6)));
+	JAssertTrue(te.TestPointInSelection(JPoint(13,7)));
+
+	te.SetCaretLocation(8);
+	JAssertFalse(te.TestPointInSelection(JPoint(13,7)));
+
+	te.TestMoveCaretVert(+2);
+	JAssertTrue(te.GetCaretLocation(&charIndex));
+	JAssertEqual(84, charIndex);
+
+	te.TestMoveCaretVert(-1);
+	JAssertTrue(te.GetCaretLocation(&charIndex));
+	JAssertEqual(39, charIndex);
+}
+
+void
+TestLayoutBreakWidth
+	(
+	JStyledText&		text,
+	TextEditor&			te,
+	const JCoordinate	width
+	)
+{
+	te.SetBoundsWidth(width);
+
+	std::cout << "=====" << std::endl;
+	te.Draw();
+	std::cout << "=====" << std::endl;
+
+	JAssertEqual(30, te.GetLineCount());
+	JAssertEqual(width, te.GetWidth());
+	JAssertEqual(31*7, te.GetHeight());
+	JAssertEqual(2, te.GetLineForChar(8));
+	JAssertEqual(6, te.GetLineForChar(28));
+	JAssertEqual(6, te.GetLineForChar(32));
+	JAssertEqual(8, te.GetLineForChar(50));
+	JAssertEqual(21, te.GetLineTop(4));
+	JAssertEqual(7, te.GetLineHeight(4));
+	JAssertEqual(1, te.CRLineIndexToVisualLineIndex(1));
+	JAssertEqual(7, te.CRLineIndexToVisualLineIndex(2));
+	JAssertEqual(14, te.CRLineIndexToVisualLineIndex(3));
+	JAssertEqual(16, te.CRLineIndexToVisualLineIndex(4));
+	JAssertEqual(20, te.CRLineIndexToVisualLineIndex(5));
+	JAssertEqual(5, te.VisualLineIndexToCRLineIndex(20));
+	JAssertEqual(3, te.GetColumnForChar(8));
+	JAssertEqual(1, te.GetColumnForChar(36));
+
+	JAssertEqual(1, te.GetLineCharStart(1));
+	JAssertEqual(5, te.GetLineCharLength(1));
+	JAssertEqual(5, te.GetLineCharEnd(1));
+
+	JAssertEqual(6, te.GetLineCharStart(2));
+	JAssertEqual(12, te.GetLineCharStart(3));
+	JAssertEqual(16, te.GetLineCharStart(4));
+	JAssertEqual(22, te.GetLineCharStart(5));
+	JAssertEqual(28, te.GetLineCharStart(6));
+	JAssertEqual(32, te.GetLineCharStart(7));
+	JAssertEqual(36, te.GetLineCharStart(8));
+	JAssertEqual(44, te.GetLineCharStart(9));
+	JAssertEqual(52, te.GetLineCharStart(10));
+	JAssertEqual(58, te.GetLineCharStart(11));
+	JAssertEqual(66, te.GetLineCharStart(12));
+	JAssertEqual(1, te.GetLineCharStart(13));
+	JAssertEqual(1, te.GetLineCharStart(14));
+	JAssertEqual(1, te.GetLineCharStart(15));
+	JAssertEqual(1, te.GetLineCharStart(16));
+	JAssertEqual(1, te.GetLineCharStart(17));
+	JAssertEqual(1, te.GetLineCharStart(18));
+	JAssertEqual(1, te.GetLineCharStart(19));
+	JAssertEqual(1, te.GetLineCharStart(20));
+	JAssertEqual(1, te.GetLineCharStart(21));
+	JAssertEqual(1, te.GetLineCharStart(22));
+	JAssertEqual(1, te.GetLineCharStart(23));
+	JAssertEqual(1, te.GetLineCharStart(24));
+	JAssertEqual(1, te.GetLineCharStart(25));
+/*
+	JAssertEqual(32, te.GetLineCharStart(2));
+	JAssertEqual(45, te.GetLineCharLength(2));
+	JAssertEqual(76, te.GetLineCharEnd(2));
+
+	JAssertEqual(77, te.GetLineCharStart(3));
+	JAssertEqual(14, te.GetLineCharLength(3));
+	JAssertEqual(90, te.GetLineCharEnd(3));
+
+	JAssertEqual(91, te.GetLineCharStart(4));
+	JAssertEqual(22, te.GetLineCharLength(4));
+	JAssertEqual(112, te.GetLineCharEnd(4));
+
+	JAssertEqual(113, te.GetLineCharStart(5));
+
+	JAssertEqual(10, te.GetCharLeft(1));
+	JAssertEqual(59, te.GetCharLeft(8));
+	JAssertEqual(66, te.GetCharRight(8));
+	JAssertEqual(66, te.GetCharLeft(9));
+
+	JIndex charIndex;
+	JCharacterRange charRange;
+
+	te.GoToLine(100);
+	JAssertTrue(te.GetCaretLocation(&charIndex));
+	JAssertEqual(text.GetText().GetCharacterCount()+1, charIndex);
+
+	te.GoToLine(4);
+	JAssertTrue(te.GetCaretLocation(&charIndex));
+	JAssertEqual(91, charIndex);
+
+	te.GoToColumn(4, 10);
+	JAssertTrue(te.GetCaretLocation(&charIndex));
+	JAssertEqual(100, charIndex);
+
+	te.GoToBeginningOfLine();
+	JAssertTrue(te.GetCaretLocation(&charIndex));
+	JAssertEqual(91, charIndex);
+
+	te.GoToEndOfLine();
+	JAssertTrue(te.GetCaretLocation(&charIndex));
+	JAssertEqual(112, charIndex);
+
+	te.SelectLine(2);
+	JAssertFalse(te.GetCaretLocation(&charIndex));
+	JAssertTrue(te.GetSelection(&charRange));
+	JAssertEqual(32, charRange.first);
+
+	te.GoToBeginningOfLine();
+	JAssertTrue(te.GetCaretLocation(&charIndex));
+	JAssertEqual(32, charIndex);
+
+	te.SelectLine(2);
+	te.GoToEndOfLine();
+	JAssertTrue(te.GetCaretLocation(&charIndex));
+	JAssertEqual(76, charIndex);
+
+	JAssertEqual(1, te.CalcCaretCharLocation(JPoint(0,0)));
+	JAssertEqual(1, te.CalcCaretCharLocation(JPoint(13,6)));
+	JAssertEqual(2, te.CalcCaretCharLocation(JPoint(14,6)));
+	JAssertEqual(8, te.CalcCaretCharLocation(JPoint(62,3)));
+	JAssertEqual(9, te.CalcCaretCharLocation(JPoint(63,3)));
+	JAssertEqual(32, te.CalcCaretCharLocation(JPoint(13,7)));
+	JAssertEqual(33, te.CalcCaretCharLocation(JPoint(14,9)));
+
+	te.SelectLine(2);
+	JAssertFalse(te.TestPointInSelection(JPoint(13,6)));
+	JAssertTrue(te.TestPointInSelection(JPoint(13,7)));
+
+	te.SetCaretLocation(8);
+	JAssertFalse(te.TestPointInSelection(JPoint(13,7)));
+
+	te.TestMoveCaretVert(+2);
+	JAssertTrue(te.GetCaretLocation(&charIndex));
+	JAssertEqual(84, charIndex);
+
+	te.TestMoveCaretVert(-1);
+	JAssertTrue(te.GetCaretLocation(&charIndex));
+	JAssertEqual(39, charIndex);
+*/
 }
 
 JTEST(LayoutBreakWidth)
 {
+	StyledText text;
+	text.SetText(JString(
+		"Four sc" "\xC3\xB8" "re and seven years ago\n"
+		"our fathers brought forth on this continent,\n"
+		"a new nation,\n"
+		"conceived in Liberty,\n"
+		"and dedicated to the proposition that all men are created equal.\n", 0, kJFalse));
+
+	TextEditor te(&text, kJFalse, 100);
+
+//	TestLayoutBreakWidth(text, te, 12 + 49);
+//	TestLayoutBreakWidth(text, te, 12 + 52);
+//	TestLayoutBreakWidth(text, te, 12 + 55);
 }
 
 JTEST(GetCmdStatus)

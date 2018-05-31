@@ -18,11 +18,25 @@ public:
 
 	virtual ~TextEditor();
 
+	JCoordinate	GetWidth() const;
+	JCoordinate	GetHeight() const;
+
 	virtual JBoolean	TEHasSearchText() const override;
 
 	// expose protected functionality
 
+	void	SetBoundsWidth(const JCoordinate width);
 	void	SetAllFontNameAndSize(const JString& name, const JSize size);
+
+	JIndex	GetLineCharStart(const JIndex lineIndex) const;
+	JIndex	GetLineCharEnd(const JIndex lineIndex) const;
+	JIndex	GetLineCharLength(const JIndex lineIndex) const;
+
+	JIndex		CalcCaretCharLocation(const JPoint& pt) const;
+	JBoolean	TestPointInSelection(const JPoint& pt) const;
+	void		TestMoveCaretVert(const JInteger deltaLines);
+
+	void	Draw();
 
 protected:
 
@@ -57,5 +71,133 @@ private:
 	TextEditor(const TextEditor& source);
 	const TextEditor& operator=(const TextEditor& source);
 };
+
+
+/******************************************************************************
+ Dimensions
+
+ ******************************************************************************/
+
+inline JCoordinate
+TextEditor::GetWidth()
+	const
+{
+	return itsWidth;
+}
+
+inline JCoordinate
+TextEditor::GetHeight()
+	const
+{
+	return itsHeight;
+}
+
+/******************************************************************************
+ SetAllFontNameAndSize
+
+ ******************************************************************************/
+
+inline void
+TextEditor::SetAllFontNameAndSize
+	(
+	const JString&	name,
+	const JSize		size
+	)
+{
+	JTextEditor::SetAllFontNameAndSize(name, size, 36, kJTrue, kJTrue);
+}
+
+/******************************************************************************
+ GetLineCharStart
+
+ ******************************************************************************/
+
+inline JIndex
+TextEditor::GetLineCharStart
+	(
+	const JIndex lineIndex
+	)
+	const
+{
+	return GetLineStart(lineIndex).charIndex;
+}
+
+/******************************************************************************
+ GetLineCharEnd
+
+	Returns the last character on the specified line.
+
+ ******************************************************************************/
+
+inline JIndex
+TextEditor::GetLineCharEnd
+	(
+	const JIndex lineIndex
+	)
+	const
+{
+	return GetLineEnd(lineIndex).charIndex;
+}
+
+/******************************************************************************
+ GetLineCharLength
+
+ ******************************************************************************/
+
+inline JSize
+TextEditor::GetLineCharLength
+	(
+	const JIndex lineIndex
+	)
+	const
+{
+	return GetLineLength(lineIndex).charCount;
+}
+
+/******************************************************************************
+ CalcCaretCharLocation
+
+ ******************************************************************************/
+
+inline JIndex
+TextEditor::CalcCaretCharLocation
+	(
+	const JPoint& origPt
+	)
+	const
+{
+	JPoint pt = origPt;
+	pt.x     -= TEGetLeftMarginWidth();
+	return CalcCaretLocation(pt).location.charIndex;
+}
+
+/******************************************************************************
+ TestPointInSelection
+
+ ******************************************************************************/
+
+inline JBoolean
+TextEditor::TestPointInSelection
+	(
+	const JPoint& pt
+	)
+	const
+{
+	return PointInSelection(pt);
+}
+
+/******************************************************************************
+ TestMoveCaretVert
+
+ ******************************************************************************/
+
+inline void
+TextEditor::TestMoveCaretVert
+	(
+	const JInteger deltaLines
+	)
+{
+	MoveCaretVert(deltaLines);
+}
 
 #endif
