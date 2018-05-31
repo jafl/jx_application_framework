@@ -571,9 +571,7 @@ JTextEditor::ReplaceAll
 		}
 	else if (!r.IsEmpty())
 		{
-		SetCaretLocation(TextIndex(
-			itsText->GetText().GetCharacterCount()+1,
-			itsText->GetText().GetByteCount()+1));
+		SetCaretLocation(itsText->GetBeyondEnd());
 		return kJTrue;
 		}
 	else
@@ -2836,9 +2834,8 @@ JTextEditor::GoToColumn
 	CaretLocation caretLoc(TextIndex(), lineIndex);
 	if (lineIndex > lineCount && itsText->EndsWithNewline())
 		{
-		caretLoc.location.charIndex = itsText->GetText().GetCharacterCount() + 1;
-		caretLoc.location.byteIndex = itsText->GetText().GetByteCount() + 1;
-		caretLoc.lineIndex          = lineCount;
+		caretLoc.location  = itsText->GetBeyondEnd();
+		caretLoc.lineIndex = lineCount;
 		}
 	else
 		{
@@ -2879,9 +2876,8 @@ JTextEditor::GoToLine
 	CaretLocation caretLoc;
 	if (trueIndex > lineCount && itsText->EndsWithNewline())
 		{
-		caretLoc.location.charIndex = itsText->GetText().GetCharacterCount() + 1;
-		caretLoc.location.byteIndex = itsText->GetText().GetByteCount() + 1;
-		caretLoc.lineIndex          = lineCount;
+		caretLoc.location  = itsText->GetBeyondEnd();
+		caretLoc.lineIndex = lineCount;
 		}
 	else
 		{
@@ -2924,9 +2920,12 @@ JTextEditor::SelectLine
 	GoToLine(lineIndex);
 	if (itsSelection.IsEmpty())
 		{
+		const TextIndex beyondEnd = lineIndex < GetLineCount() ?
+			GetLineStart(lineIndex+1) : itsText->GetBeyondEnd();
+
 		SetSelection(TextRange(
 			GetLineStart(itsCaretLoc.lineIndex),
-			GetLineEnd(itsCaretLoc.lineIndex)));
+			beyondEnd));
 		}
 }
 
@@ -3388,10 +3387,7 @@ JTextEditor::GetLineEnd
 {
 	if (lineIndex < GetLineCount())
 		{
-		TextIndex i = GetLineStart(lineIndex+1);
-		i.charIndex--;
-		i.byteIndex--;	// newline is single byte
-		return i;
+		return itsText->AdjustTextIndex(GetLineStart(lineIndex+1), -1);
 		}
 	else
 		{
@@ -3793,11 +3789,7 @@ JTextEditor::Recalc
 
 	// save for next time
 
-	itsPrevTextEnd = itsText->AdjustTextIndex(
-		TextIndex(
-			itsText->GetText().GetCharacterCount()+1,
-			itsText->GetText().GetByteCount()+1),
-		-1);
+	itsPrevTextEnd = itsText->AdjustTextIndex(itsText->GetBeyondEnd(), -1);
 
 	// show the changes
 
@@ -4003,6 +3995,11 @@ JTextEditor::RecalcLine
 			iter->Next(wsPattern);
 			const JStringMatch& m = iter->FinishMatch();
 
+			if (!iter->AtEnd())		// don't ignore whitespace
+				{
+				iter->SkipPrev();
+				}
+
 			// check if the word fits on this line
 
 			const TextRange r(m);
@@ -4170,7 +4167,7 @@ JTextEditor::IncludeWhitespaceOnLine
 		}
 
 	JIndex endCharIndex;
-	if (iter->GetPrevCharacterIndex(&endCharIndex) > first.charIndex)
+	if (iter->GetPrevCharacterIndex(&endCharIndex) && endCharIndex >= first.charIndex)
 		{
 		const TextIndex last(endCharIndex, iter->GetPrevByteIndex());
 		*lineWidth += GetStringWidth(first, last, runIndex, firstInRun);
@@ -4279,10 +4276,7 @@ JTextEditor::CalcCaretLocation
 		}
 	else if (pt.y >= itsHeight)
 		{
-		return CaretLocation(
-			TextIndex(itsText->GetText().GetCharacterCount()+1,
-					  itsText->GetText().GetByteCount()+1),
-			GetLineCount());
+		return CaretLocation(itsText->GetBeyondEnd(), GetLineCount());
 		}
 
 	// find the line that was clicked on
@@ -4292,10 +4286,7 @@ JTextEditor::CalcCaretLocation
 	if (itsText->EndsWithNewline() &&
 		itsHeight - GetEWNHeight() < pt.y && pt.y <= itsHeight)
 		{
-		return CaretLocation(
-			TextIndex(itsText->GetText().GetCharacterCount()+1,
-					  itsText->GetText().GetByteCount()+1),
-			GetLineCount());
+		return CaretLocation(itsText->GetBeyondEnd(), GetLineCount());
 		}
 
 	// find the closest insertion point
@@ -4449,9 +4440,7 @@ JCoordinate
 JTextEditor::GetEWNHeight()
 	const
 {
-	const JFont f = itsText->CalcInsertionFont(
-						TextIndex(itsText->GetText().GetCharacterCount() + 1,
-								  itsText->GetText().GetByteCount() + 1));
+	const JFont f = itsText->CalcInsertionFont(itsText->GetBeyondEnd());
 	return f.GetLineHeight(itsFontManager);
 }
 
