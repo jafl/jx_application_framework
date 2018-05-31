@@ -20,12 +20,12 @@ public:
 
 	// expose protected functionality for testing
 
-	JIndex	GetWordStart(const JIndex charIndex, const JIndex byteIndex) const;
-	JIndex	GetWordEnd(const JIndex charIndex, const JIndex byteIndex) const;
-	JIndex	GetPartialWordStart(const JIndex charIndex, const JIndex byteIndex) const;
-	JIndex	GetPartialWordEnd(const JIndex charIndex, const JIndex byteIndex) const;
-	JIndex	GetParagraphStart(const JIndex charIndex, const JIndex byteIndex) const;
-	JIndex	GetParagraphEnd(const JIndex charIndex, const JIndex byteIndex) const;
+	TextIndex	GetWordStart(const JIndex charIndex, const JIndex byteIndex) const;
+	TextIndex	GetWordEnd(const JIndex charIndex, const JIndex byteIndex) const;
+	TextIndex	GetPartialWordStart(const JIndex charIndex, const JIndex byteIndex) const;
+	TextIndex	GetPartialWordEnd(const JIndex charIndex, const JIndex byteIndex) const;
+	TextIndex	GetParagraphStart(const JIndex charIndex, const JIndex byteIndex) const;
+	TextIndex	GetParagraphEnd(const JIndex charIndex, const JIndex byteIndex) const;
 
 private:
 

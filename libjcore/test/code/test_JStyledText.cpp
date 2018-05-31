@@ -54,29 +54,29 @@ void TestItemStartEnd(const JUtf8Byte* s)
 	StyledText text;
 	text.SetText(JString(s, 0, kJFalse));
 
-	JAssertEqual(1, text.GetWordStart(0, 0));
-	JAssertEqual(1, text.GetWordStart(1, 1));
-	JAssertEqual(1, text.GetWordStart(3, 3));
-	JAssertEqual(1, text.GetWordStart(5, 5));
-	JAssertEqual(6, text.GetWordStart(6, 6));
-	JAssertEqual(6, text.GetWordStart(8, 8));
-	JAssertEqual(6, text.GetWordStart(10, 11));
+	JAssertEqual(1, text.GetWordStart(0, 0).charIndex);
+	JAssertEqual(1, text.GetWordStart(1, 1).charIndex);
+	JAssertEqual(1, text.GetWordStart(3, 3).charIndex);
+	JAssertEqual(1, text.GetWordStart(5, 5).charIndex);
+	JAssertEqual(6, text.GetWordStart(6, 6).charIndex);
+	JAssertEqual(6, text.GetWordStart(8, 8).charIndex);
+	JAssertEqual(6, text.GetWordStart(10, 11).charIndex);
 
-	JAssertEqual(4, text.GetWordEnd(1, 1));
-	JAssertEqual(4, text.GetWordEnd(3, 3));
-	JAssertEqual(4, text.GetWordEnd(4, 4));
-	JAssertEqual(10, text.GetWordEnd(5, 5));
-	JAssertEqual(10, text.GetWordEnd(8, 8));
-	JAssertEqual(10, text.GetWordEnd(9, 10));
-	JAssertEqual(text.GetText().GetCharacterCount(), text.GetWordEnd(text.GetText().GetCharacterCount()+1, text.GetText().GetByteCount()+1));
+	JAssertEqual(4, text.GetWordEnd(1, 1).charIndex);
+	JAssertEqual(4, text.GetWordEnd(3, 3).charIndex);
+	JAssertEqual(4, text.GetWordEnd(4, 4).charIndex);
+	JAssertEqual(10, text.GetWordEnd(5, 5).charIndex);
+	JAssertEqual(10, text.GetWordEnd(8, 8).charIndex);
+	JAssertEqual(10, text.GetWordEnd(9, 10).charIndex);
+	JAssertEqual(text.GetText().GetCharacterCount(), text.GetWordEnd(text.GetText().GetCharacterCount()+1, text.GetText().GetByteCount()+1).charIndex);
 
-	JAssertEqual(6, text.GetWordStart(11, 12));
-	JAssertEqual(6, text.GetWordStart(12, 13));
-	JAssertEqual(6, text.GetWordStart(13, 14));
+	JAssertEqual(6, text.GetWordStart(11, 12).charIndex);
+	JAssertEqual(6, text.GetWordStart(12, 13).charIndex);
+	JAssertEqual(6, text.GetWordStart(13, 14).charIndex);
 
-	JAssertEqual(16, text.GetWordEnd(11, 12));
-	JAssertEqual(16, text.GetWordEnd(12, 13));
-	JAssertEqual(16, text.GetWordEnd(13, 14));
+	JAssertEqual(16, text.GetWordEnd(11, 12).charIndex);
+	JAssertEqual(16, text.GetWordEnd(12, 13).charIndex);
+	JAssertEqual(16, text.GetWordEnd(13, 14).charIndex);
 
 	const TextIndex first(1,1);
 
@@ -87,36 +87,36 @@ void TestItemStartEnd(const JUtf8Byte* s)
 
 	const JCharacterRange charRange = m1.GetCharacterRange();
 	const JUtf8ByteRange  byteRange = m1.GetUtf8ByteRange();
-	JAssertEqual(charRange.first, text.GetWordStart(charRange.first+3, byteRange.first+3));
-	JAssertEqual(charRange.last, text.GetWordEnd(charRange.first+3, byteRange.first+3));
+	JAssertEqual(charRange.first, text.GetWordStart(charRange.first+3, byteRange.first+3).charIndex);
+	JAssertEqual(charRange.last, text.GetWordEnd(charRange.first+3, byteRange.first+3).charIndex);
 
-	JAssertEqual(1, text.GetPartialWordStart(0, 0));
-	JAssertEqual(charRange.last-3, text.GetPartialWordStart(charRange.last, byteRange.last));
-	JAssertEqual(charRange.last-3, text.GetPartialWordStart(charRange.last-3, byteRange.last-3));
-	JAssertEqual(charRange.last-4, text.GetPartialWordStart(charRange.last-4, byteRange.last-4));
-	JAssertEqual(charRange.last-7, text.GetPartialWordStart(charRange.last-5, byteRange.last-5));
-	JAssertEqual(charRange.last-9, text.GetPartialWordStart(charRange.last-8, byteRange.last-9));
-	JAssertEqual(charRange.last-10, text.GetPartialWordStart(charRange.last-9, byteRange.last-10));
+	JAssertEqual(1, text.GetPartialWordStart(0, 0).charIndex);
+	JAssertEqual(charRange.last-3, text.GetPartialWordStart(charRange.last, byteRange.last).charIndex);
+	JAssertEqual(charRange.last-3, text.GetPartialWordStart(charRange.last-3, byteRange.last-3).charIndex);
+	JAssertEqual(charRange.last-4, text.GetPartialWordStart(charRange.last-4, byteRange.last-4).charIndex);
+	JAssertEqual(charRange.last-7, text.GetPartialWordStart(charRange.last-5, byteRange.last-5).charIndex);
+	JAssertEqual(charRange.last-9, text.GetPartialWordStart(charRange.last-8, byteRange.last-9).charIndex);
+	JAssertEqual(charRange.last-10, text.GetPartialWordStart(charRange.last-9, byteRange.last-10).charIndex);
 
-	JAssertEqual(charRange.first, text.GetPartialWordEnd(charRange.first, byteRange.first));
-	JAssertEqual(charRange.first+2, text.GetPartialWordEnd(charRange.first+1, byteRange.first+1));
-	JAssertEqual(charRange.first+5, text.GetPartialWordEnd(charRange.first+3, byteRange.first+3));
-	JAssertEqual(charRange.first+5, text.GetPartialWordEnd(charRange.first+4, byteRange.first+4));
-	JAssertEqual(charRange.first+6, text.GetPartialWordEnd(charRange.first+6, byteRange.first+7));
-	JAssertEqual(charRange.first+10, text.GetPartialWordEnd(charRange.first+7, byteRange.first+8));
-	JAssertEqual(text.GetText().GetCharacterCount(), text.GetPartialWordEnd(text.GetText().GetCharacterCount()+1, text.GetText().GetByteCount()+1));
+	JAssertEqual(charRange.first, text.GetPartialWordEnd(charRange.first, byteRange.first).charIndex);
+	JAssertEqual(charRange.first+2, text.GetPartialWordEnd(charRange.first+1, byteRange.first+1).charIndex);
+	JAssertEqual(charRange.first+5, text.GetPartialWordEnd(charRange.first+3, byteRange.first+3).charIndex);
+	JAssertEqual(charRange.first+5, text.GetPartialWordEnd(charRange.first+4, byteRange.first+4).charIndex);
+	JAssertEqual(charRange.first+6, text.GetPartialWordEnd(charRange.first+6, byteRange.first+7).charIndex);
+	JAssertEqual(charRange.first+10, text.GetPartialWordEnd(charRange.first+7, byteRange.first+8).charIndex);
+	JAssertEqual(text.GetText().GetCharacterCount(), text.GetPartialWordEnd(text.GetText().GetCharacterCount()+1, text.GetText().GetByteCount()+1).charIndex);
 
 	const JStringMatch m2 = text.SearchForward(first, JRegex("and dedicated"), kJFalse, kJFalse, &wrapped);
 	JAssertFalse(m1.IsEmpty());
 
-	JAssertEqual(1, text.GetParagraphStart(0, 0));
-	JAssertEqual(1, text.GetParagraphStart(13, 14));
-	JAssertEqual(m2.GetCharacterRange().first, text.GetParagraphStart(m1.GetCharacterRange().first, m1.GetUtf8ByteRange().first));
+	JAssertEqual(1, text.GetParagraphStart(0, 0).charIndex);
+	JAssertEqual(1, text.GetParagraphStart(13, 14).charIndex);
+	JAssertEqual(m2.GetCharacterRange().first, text.GetParagraphStart(m1.GetCharacterRange().first, m1.GetUtf8ByteRange().first).charIndex);
 
-	JAssertEqual(37, text.GetParagraphEnd(1, 1));
-	JAssertEqual(37, text.GetParagraphEnd(13, 14));
-	JAssertEqual(text.GetText().GetCharacterCount(), text.GetParagraphEnd(m1.GetCharacterRange().first, m1.GetUtf8ByteRange().first));
-	JAssertEqual(text.GetText().GetCharacterCount(), text.GetParagraphEnd(text.GetText().GetCharacterCount()+1, text.GetText().GetByteCount()+1));
+	JAssertEqual(37, text.GetParagraphEnd(1, 1).charIndex);
+	JAssertEqual(37, text.GetParagraphEnd(13, 14).charIndex);
+	JAssertEqual(text.GetText().GetCharacterCount(), text.GetParagraphEnd(m1.GetCharacterRange().first, m1.GetUtf8ByteRange().first).charIndex);
+	JAssertEqual(text.GetText().GetCharacterCount(), text.GetParagraphEnd(text.GetText().GetCharacterCount()+1, text.GetText().GetByteCount()+1).charIndex);
 }
 
 JTEST(ItemStartEnd)
@@ -132,6 +132,35 @@ JTEST(ItemStartEnd)
 		"fathers brought forth on this continent,\n"
 		"a new nation, conceived in Liberty,\n"
 		"and dedicated to the PRoP\xC3\xB8" "s1tion that all men are created equal.\n");
+
+	StyledText text;
+	text.SetText(JString(
+		"\xC3\x91""\xC3\xAE""\xC3\xA7""\xC3\xA9"
+		"\xC3\x91""\xC3\xA5""\xC5\x93""\xC3\xB8", 0, kJFalse));
+
+	TextIndex i = text.GetWordStart(3,5);
+	JAssertEqual(1, i.byteIndex);
+
+	i = text.GetWordEnd(3,5);
+	JAssertEqual(15, i.byteIndex);
+
+	i = text.GetPartialWordStart(3,5);
+	JAssertEqual(1, i.byteIndex);
+
+	i = text.GetPartialWordStart(7,15);
+	JAssertEqual(9, i.byteIndex);
+
+	i = text.GetPartialWordEnd(3,5);
+	JAssertEqual(7, i.byteIndex);
+
+	i = text.GetPartialWordEnd(7,15);
+	JAssertEqual(15, i.byteIndex);
+
+	i = text.GetParagraphStart(3,5);
+	JAssertEqual(1, i.byteIndex);
+
+	i = text.GetParagraphEnd(3,5);
+	JAssertEqual(15, i.byteIndex);
 }
 
 JTEST(ColumnForChar)
@@ -368,7 +397,7 @@ JTEST(SearchTextBackward)
 	StyledText text;
 	text.SetText(JString("Fourscore and seve" "\xC3\xB1" " years ago...", 0, kJFalse));
 
-	const TextIndex last(text.GetText().GetCharacterCount() + 1, text.GetText().GetByteCount() + 1);
+	const TextIndex last = text.GetBeyondEnd();
 
 	// entire word, no wrapping
 

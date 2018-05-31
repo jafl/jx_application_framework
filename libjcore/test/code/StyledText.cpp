@@ -41,7 +41,7 @@ StyledText::~StyledText()
 
  ******************************************************************************/
 
-JIndex
+JStyledText::TextIndex
 StyledText::GetWordStart
 	(
 	const JIndex charIndex,
@@ -49,7 +49,7 @@ StyledText::GetWordStart
 	)
 	const
 {
-	return JStyledText::GetWordStart(TextIndex(charIndex, byteIndex)).charIndex;
+	return JStyledText::GetWordStart(TextIndex(charIndex, byteIndex));
 }
 
 /******************************************************************************
@@ -57,7 +57,7 @@ StyledText::GetWordStart
 
  ******************************************************************************/
 
-JIndex
+JStyledText::TextIndex
 StyledText::GetWordEnd
 	(
 	const JIndex charIndex,
@@ -65,7 +65,7 @@ StyledText::GetWordEnd
 	)
 	const
 {
-	return JStyledText::GetWordEnd(TextIndex(charIndex, byteIndex)).charIndex;
+	return JStyledText::GetWordEnd(TextIndex(charIndex, byteIndex));
 }
 
 /******************************************************************************
@@ -73,7 +73,7 @@ StyledText::GetWordEnd
 
  ******************************************************************************/
 
-JIndex
+JStyledText::TextIndex
 StyledText::GetPartialWordStart
 	(
 	const JIndex charIndex,
@@ -81,7 +81,7 @@ StyledText::GetPartialWordStart
 	)
 	const
 {
-	return JStyledText::GetPartialWordStart(TextIndex(charIndex, byteIndex)).charIndex;
+	return JStyledText::GetPartialWordStart(TextIndex(charIndex, byteIndex));
 }
 
 /******************************************************************************
@@ -89,7 +89,7 @@ StyledText::GetPartialWordStart
 
  ******************************************************************************/
 
-JIndex
+JStyledText::TextIndex
 StyledText::GetPartialWordEnd
 	(
 	const JIndex charIndex,
@@ -97,7 +97,7 @@ StyledText::GetPartialWordEnd
 	)
 	const
 {
-	return JStyledText::GetPartialWordEnd(TextIndex(charIndex, byteIndex)).charIndex;
+	return JStyledText::GetPartialWordEnd(TextIndex(charIndex, byteIndex));
 }
 
 /******************************************************************************
@@ -105,7 +105,7 @@ StyledText::GetPartialWordEnd
 
  ******************************************************************************/
 
-JIndex
+JStyledText::TextIndex
 StyledText::GetParagraphStart
 	(
 	const JIndex charIndex,
@@ -113,7 +113,7 @@ StyledText::GetParagraphStart
 	)
 	const
 {
-	return JStyledText::GetParagraphStart(TextIndex(charIndex, byteIndex)).charIndex;
+	return JStyledText::GetParagraphStart(TextIndex(charIndex, byteIndex));
 }
 
 /******************************************************************************
@@ -121,7 +121,7 @@ StyledText::GetParagraphStart
 
  ******************************************************************************/
 
-JIndex
+JStyledText::TextIndex
 StyledText::GetParagraphEnd
 	(
 	const JIndex charIndex,
@@ -129,5 +129,5 @@ StyledText::GetParagraphEnd
 	)
 	const
 {
-	return JStyledText::GetParagraphEnd(TextIndex(charIndex, byteIndex)).charIndex;
+	return JStyledText::GetParagraphEnd(TextIndex(charIndex, byteIndex));
 }

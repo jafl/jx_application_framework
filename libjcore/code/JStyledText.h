@@ -228,6 +228,7 @@ public:
 	TextIndex	GetPartialWordEnd(const TextIndex& index) const;
 	TextIndex	GetParagraphStart(const TextIndex& index) const;
 	TextIndex	GetParagraphEnd(const TextIndex& index) const;
+	TextIndex	GetBeyondEnd() const;
 
 	JIndex		GetColumnForChar(const TextIndex& lineStart, const TextIndex& location) const;
 	TextIndex	AdjustTextIndex(const TextIndex& index, const JInteger charDelta) const;
@@ -350,10 +351,10 @@ public:
 							  JUndo** undo = NULL);
 	void		DeleteText(const TextRange& range);
 
-	JUndo*	InsertCharacter(const TextRange& replaceRange,
-							const JUtf8Character& key, const JFont& font);
+	JUndo*		InsertCharacter(const TextRange& replaceRange,
+								const JUtf8Character& key, const JFont& font);
 
-	void	InsertSpacesForTab(const TextIndex& lineStart, const TextIndex& caretIndex);
+	void		InsertSpacesForTab(const TextIndex& lineStart, const TextIndex& caretIndex);
 
 	static JBoolean	ContainsIllegalChars(const JString& text);
 	static JBoolean	RemoveIllegalChars(JString* text, JRunArray<JFont>* style = NULL);
@@ -378,7 +379,7 @@ public:
 	TextRange	SelectAll() const;
 	TextRange	CharToTextRange(const TextIndex* lineStart, const JCharacterRange& charRange) const;
 
-	void	SetBlockSizes(const JSize textBlockSize, const JSize styleBlockSize);
+	void		SetBlockSizes(const JSize textBlockSize, const JSize styleBlockSize);
 
 	static JListT::CompareResult
 		CompareCharacterIndices(const TextIndex& i, const TextIndex& j);
@@ -858,6 +859,18 @@ JStyledText::EndsWithNewline()
 {
 	return JI2B(!itsText.IsEmpty() &&
 				itsText.GetLastCharacter() == '\n' );
+}
+
+/******************************************************************************
+ GetBeyondEnd
+
+ ******************************************************************************/
+
+inline JStyledText::TextIndex
+JStyledText::GetBeyondEnd()
+	const
+{
+	return TextIndex(itsText.GetCharacterCount()+1, itsText.GetByteCount()+1);
 }
 
 /******************************************************************************

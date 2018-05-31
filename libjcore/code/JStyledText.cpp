@@ -3849,7 +3849,7 @@ JStyledText::GetWordEnd
 	const JSize bufLen = itsText.GetCharacterCount();
 	if (index.charIndex >= bufLen)
 		{
-		return TextIndex(bufLen, itsText.GetByteCount());
+		return AdjustTextIndex(GetBeyondEnd(), -1);
 		}
 
 	// create separate object on which to iterate, without copying
@@ -4024,7 +4024,7 @@ JStyledText::GetPartialWordEnd
 	const JSize bufLen = itsText.GetCharacterCount();
 	if (index.charIndex >= bufLen)
 		{
-		return TextIndex(bufLen, itsText.GetByteCount());
+		return AdjustTextIndex(GetBeyondEnd(), -1);
 		}
 
 	// create separate object on which to iterate, without copying
@@ -4130,7 +4130,7 @@ JStyledText::GetParagraphEnd
 	const JSize bufLen = itsText.GetCharacterCount();
 	if (index.charIndex >= bufLen)
 		{
-		return TextIndex(bufLen, itsText.GetByteCount());
+		return AdjustTextIndex(GetBeyondEnd(), -1);
 		}
 
 	// create separate object on which to iterate, without copying
@@ -4218,7 +4218,7 @@ JStyledText::AdjustTextIndex
 
 	if (iter.AtEnd())
 		{
-		return TextIndex(itsText.GetCharacterCount()+1, itsText.GetByteCount()+1);
+		return GetBeyondEnd();
 		}
 	else
 		{
