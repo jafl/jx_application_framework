@@ -499,17 +499,8 @@ JTextEditor::ReplaceSelection
 {
 	assert( HasSelection() );
 
-	JIndex charIndex, byteIndex;
-	if (!itsSelection.IsEmpty())
-		{
-		charIndex = itsSelection.charRange.first;
-		byteIndex = itsSelection.byteRange.first;
-		}
-	else
-		{
-		charIndex = itsCaretLoc.location.charIndex;
-		byteIndex = itsCaretLoc.location.byteIndex;
-		}
+	const JIndex charIndex = itsSelection.charRange.first;
+	const JIndex byteIndex = itsSelection.byteRange.first;
 
 	itsNeedCaretBcastFlag = kJFalse;
 
@@ -930,7 +921,9 @@ JTextEditor::SetSelection
 	itsText->DeactivateCurrentUndo();
 	itsPrevDragType = kInvalidDrag;		// avoid wordSel and lineSel pivots
 
-	if (itsText->IsEmpty() || itsSelection.charRange == range.charRange)
+	if (itsText->IsEmpty() ||
+		(itsSelection.charRange == range.charRange &&
+		 itsSelection.byteRange == range.byteRange))
 		{
 		return;
 		}

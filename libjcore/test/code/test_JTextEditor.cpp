@@ -336,10 +336,6 @@ JTEST(KeyPress)
 {
 }
 
-JTEST(ReplaceSelection)	// after SearchTextBackward
-{
-}
-
 JTEST(SearchTextForward)
 {
 	StyledText text;
@@ -492,6 +488,34 @@ JTEST(SearchTextBackward)
 	JAssertTrue(te.GetSelection(&s));
 	JAssertStringsEqual("Four", s);
 	JAssertFalse(wrapped);
+}
+
+JTEST(ReplaceSelection)
+{
+	StyledText text;
+	text.SetText(JString("Foursc" "\xC3\xB8" "re and seven years ago...", 0, kJFalse));
+
+	TextEditor te(&text, kJFalse, 50);
+
+	JBoolean wrapped;
+	const JStringMatch m1 = te.SearchForward(JRegex("sc" "\xC3\xB8" "re"), kJFalse, kJFalse, &wrapped);
+	JAssertTrue(te.HasSelection());
+
+	JString s;
+	te.TestReplaceSelection(m1, JString("s" "\xC3\xA7" "or" "\xC3\xA9", 0, kJFalse), NULL, kJFalse);
+	JAssertStringsEqual("Fours" "\xC3\xA7" "or" "\xC3\xA9" " and seven years ago...", te.GetText()->GetText());
+	JAssertTrue(te.GetSelection(&s));
+	JAssertStringsEqual("s" "\xC3\xA7" "or" "\xC3\xA9", s);
+
+	const JStringMatch m2 = te.SearchForward(JRegex("and"), kJFalse, kJFalse, &wrapped);
+	JAssertTrue(te.HasSelection());
+
+	JIndex i;
+	te.TestReplaceSelection(m2, JString::empty, NULL, kJFalse);
+	JAssertStringsEqual("Fours" "\xC3\xA7" "or" "\xC3\xA9" "  seven years ago...", te.GetText()->GetText());
+	JAssertFalse(te.HasSelection());
+	JAssertTrue(te.GetCaretLocation(&i));
+	JAssertEqual(11, i);
 }
 
 JTEST(ReplaceAll)

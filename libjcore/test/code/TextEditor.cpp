@@ -49,6 +49,23 @@ TextEditor::~TextEditor()
 }
 
 /******************************************************************************
+ TestReplaceSelection
+
+ ******************************************************************************/
+
+void
+TextEditor::TestReplaceSelection
+	(
+	const JStringMatch&	match,
+	const JString&		replaceStr,
+	JInterpolate*		interpolator,
+	const JBoolean		preserveCase
+	)
+{
+	ReplaceSelection(match, replaceStr, interpolator, preserveCase);
+}
+
+/******************************************************************************
  SetBoundsWidth
 
  ******************************************************************************/

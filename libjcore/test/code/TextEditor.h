@@ -38,6 +38,9 @@ public:
 
 	void	Draw();
 
+	void	TestReplaceSelection(const JStringMatch& match, const JString& replaceStr,
+								 JInterpolate* interpolator, const JBoolean preserveCase);
+
 protected:
 
 	virtual void		TERefresh() override;
