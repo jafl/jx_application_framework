@@ -1,4 +1,4 @@
-0
+1
 
 # vim:set ts=4 tm=t:
 
@@ -132,7 +132,7 @@ BottomRBLabel::TestTabDirector			"Bottom"
 RightRBLabel::TestTabDirector			"Right"
 NewTabButtonLabel::TestTabDirector		"Add new tab"
 RemoveTabButtonLabel::TestTabDirector	"Remove this tab"
-SampleText::TestTabDirector				"I code, therefore I am. \xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94"
+SampleText::TestTabDirector				"I code, therefore I am. ©Åå✔"
 TabLabelPrefix::TestTabDirector			"Tab #"
 
 # TestPartitionDirector

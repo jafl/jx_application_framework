@@ -35,9 +35,6 @@ implement flex/bison parser for libjexpr
 
 fix TODO's
 
-sample text in TestTabDirector
-	has \x - correctly interpreted?
-
 test
 	tip of the day
 	man pages
