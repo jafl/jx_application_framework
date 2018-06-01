@@ -106,24 +106,24 @@ JImage::GetFileType
 	const JSize count = fread(buffer, sizeof(char), bufSize, input);
 	fclose(input);
 
-	if (JString::CompareMaxNBytes(buffer, "GIF", 3, kJTrue))
+	if (JString::CompareMaxNBytes(buffer, "GIF", 3, kJTrue) == 0)
 		{
 		return kGIFType;
 		}
-	else if (JString::CompareMaxNBytes(buffer, "\x89PNG", 4, kJTrue))
+	else if (JString::CompareMaxNBytes(buffer, "\x89PNG", 4, kJTrue) == 0)
 		{
 		return kPNGType;
 		}
-	else if (JString::CompareMaxNBytes(buffer, "\xFF\xD8\xFF", 3, kJTrue))
+	else if (JString::CompareMaxNBytes(buffer, "\xFF\xD8\xFF", 3, kJTrue) == 0)
 		{
 		return kJPEGType;
 		}
-	else if (JString::CompareMaxNBytes(buffer, "/* XPM */", 9, kJTrue))
+	else if (JString::CompareMaxNBytes(buffer, "/* XPM */", 9, kJTrue) == 0)
 		{
 		return kXPMType;
 		}
-	else if (JString::CompareMaxNBytes(buffer, "#define", 7, kJTrue) ||
-			 JString::CompareMaxNBytes(buffer, "/*"     , 2, kJTrue))
+	else if (JString::CompareMaxNBytes(buffer, "#define", 7, kJTrue) == 0 ||
+			 JString::CompareMaxNBytes(buffer, "/*"     , 2, kJTrue) == 0)
 		{
 		return kXBMType;
 		}
