@@ -2,12 +2,11 @@ JTextEditor:
 	undo paste doesn't update caret location
 	tab makes rest of text invisible
 	clicking in selection doesn't set caret location
+		treats ending newline line as part of selection
 	dropOnSelf crashed
 
 TestTabDirector
 	created tabs:  horiz button padding is zero
-
-JXStyleMenu:  shortcuts should not be styled
 
 XIM to type utf-8 characters
 

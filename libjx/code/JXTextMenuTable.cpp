@@ -15,8 +15,10 @@
 #include <jXPainterUtil.h>
 #include <JXImage.h>
 #include <JXColorManager.h>
-#include <JString.h>
+#include <JXDisplay.h>
 #include <jAssert.h>
+
+static const JString kOSXSymbolFontName("Apple Symbols", 0, kJFalse);
 
 /******************************************************************************
  Constructor
@@ -165,15 +167,34 @@ JXTextMenuTable::TableDrawCell
 		JFont font;
 		if (itsTextMenuData->GetNMShortcut(cell.y, &nmShortcut, &font))
 			{
+			font.ClearStyle();
+
+			JPainter::HAlignment hAlign = JPainter::kHAlignLeft;
+			if (GetDisplay()->IsOSX())
+				{
+				font.SetName(kOSXSymbolFontName);
+				hAlign = JPainter::kHAlignRight;
+
+				rect.left  += kHilightBorderWidth;
+				rect.right -= kHNMSMarginWidth;
+
+				rect.right -= font.GetCharWidth(GetFontManager(), 'W');
+				rect.right += font.GetCharWidth(GetFontManager(), nmShortcut->GetLastCharacter());
+				}
+			else
+				{
+				rect.left  += kHNMSMarginWidth;
+				rect.right -= kHilightBorderWidth;
+				}
+
 			if (!itsTextMenuData->IsEnabled(cell.y))
 				{
 				font.SetColor(JColorManager::GetInactiveLabelColor());
 				}
+
 			p.SetFont(font);
 
-			rect.left  += kHNMSMarginWidth;
-			rect.right -= kHilightBorderWidth;
-			p.String(rect, *nmShortcut, JPainter::kHAlignLeft, JPainter::kVAlignCenter);
+			p.String(rect, *nmShortcut, hAlign, JPainter::kVAlignCenter);
 			}
 		}
 }
