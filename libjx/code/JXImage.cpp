@@ -1086,7 +1086,7 @@ void
 JXImage::SetImageData
 	(
 	const JSize			colorCount,
-	const JColorID*	colorTable,
+	const JColorID*		colorTable,
 	unsigned short**	imageData,
 	const JBoolean		hasMask,
 	const unsigned long	maskColor
@@ -1106,7 +1106,7 @@ JXImage::SetImageData
 		{
 		if (!hasMask || i != maskColor)
 			{
-			xColorTable[i] = colorTable[i];
+			xColorTable[i] = itsDisplay->GetColorManager()->GetXColor(colorTable[i]);
 			}
 		}
 
