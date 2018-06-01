@@ -290,7 +290,7 @@ JXTextMenuData::InsertMenuItems
 				}
 			}
 
-		InsertItem(i, itemText, type, shortcuts, nmShortcut, id);
+		InsertItem(startIndex + i-1, itemText, type, shortcuts, nmShortcut, id);
 		if (!isActive)
 			{
 			DisableItem(i);
@@ -772,7 +772,7 @@ JXTextMenuData::SetNMShortcut
 			ParseNMShortcut(itemData.nmShortcut, &key, &modifiers) &&
 			!window->InstallMenuShortcut(itsMenu, index, key, modifiers))
 			{
-			SetNMShortcut(index, NULL);		// don't display if not registered
+			SetNMShortcut(index, JString::empty);	// don't display if not registered
 			}
 		}
 }
