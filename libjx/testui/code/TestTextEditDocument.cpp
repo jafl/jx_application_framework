@@ -17,6 +17,7 @@
 #include <JXDocumentMenu.h>
 #include <JXScrollbarSet.h>
 #include <JXStandAlonePG.h>
+#include <JXDeleteObjectTask.h>
 #include <jXGlobals.h>
 
 #include <JStyledText.h>
@@ -85,7 +86,7 @@ TestTextEditDocument::TestTextEditDocument
 
 TestTextEditDocument::~TestTextEditDocument()
 {
-	jdelete itsText;
+	JXDeleteObjectTask<JStyledText>::Delete(itsText);
 }
 
 /******************************************************************************
@@ -261,7 +262,7 @@ TestTextEditDocument::OpenFiles()
 {
 	JChooseSaveFile* csf = JGetChooseSaveFile();
 	JPtrArray<JString> fullNameList(JPtrArrayT::kDeleteAll);
-	if (csf->ChooseFiles(JGetString("ChooseFilesPrompt::TestTextEditDocument"), NULL, &fullNameList))
+	if (csf->ChooseFiles(JGetString("ChooseFilesPrompt::TestTextEditDocument"), JString::empty, &fullNameList))
 		{
 		const JSize count = fullNameList.GetElementCount();
 		JXStandAlonePG pg;
