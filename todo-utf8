@@ -1,3 +1,21 @@
+JTextEditor:
+	undo paste doesn't update caret location
+	tab makes rest of text invisible
+	clicking in selection doesn't set caret location
+	dropOnSelf crashed
+
+TestTabDirector
+	created tabs:  horiz button padding is zero
+
+JXStyleMenu:  shortcuts should not be styled
+
+XIM to type utf-8 characters
+
+finish JTextEditor tests
+	GetCmdStatus
+	MouseActions
+	KeyPress
+
 JStyledTextBuffer
 	broadcast char/byte delta with TextChanged, to allow adjusting selection/caret
 	AutoIndent
