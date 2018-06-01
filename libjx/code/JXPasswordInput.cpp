@@ -159,7 +159,9 @@ JXPasswordInput::Draw
 	if ((GetDisplay()->GetLatestKeyModifiers()).shiftLock())
 		{
 		JXImage* img = (GetDisplay()->GetImageCache())->GetImage(jx_caps_lock_on);
-		p.JPainter::Image(*img, img->GetBounds(), b.right - img->GetWidth(), b.top);
+		p.JPainter::Image(*img, img->GetBounds(),
+						  b.right - img->GetWidth() - 1,
+						  b.ycenter() - img->GetHeight()/2);
 		}
 }
 
