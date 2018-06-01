@@ -37,7 +37,7 @@
 static const JUtf8Byte* kItalicStr  = "-i";
 static const JUtf8Byte* kObliqueStr = "-o";
 
-static const JRegex nxmRegex = "^[0-9]+x[0-9]+$";
+static const JRegex nxmRegex = "^([0-9]+)x([0-9]+)$";
 
 #if FC_MAJOR < 2 || (FC_MAJOR == 2 && FC_MINOR < 3)
 	#define FcStrFree free
@@ -133,7 +133,7 @@ JXFontManager::GetFontNames
 		FcFontSetDestroy(set);
 
 		int nameCount;
-		char** nameList = XListFonts(*itsDisplay, "-*-*-medium-r-normal-*-*-*-75-75-*-*-*-*",
+		char** nameList = XListFonts(*itsDisplay, "-*-*-medium-r-normal-*-*-*-75-75-*-*-iso10646-1",
 									 INT_MAX, &nameCount);
 		if (nameList == NULL)
 			{
@@ -182,15 +182,6 @@ JXFontManager::GetFontNames
  GetMonospaceFontNames (virtual)
 
  ******************************************************************************/
-
-static const JUtf8Byte* kMonospaceFontPattern[] =
-{
-	"-*-*-medium-r-normal-*-*-*-72-72-*-*-*-*",
-	"-*-*-medium-r-normal-*-*-*-75-75-*-*-iso*-*",
-};
-
-const int kMonospaceFontPatternCount =
-	sizeof(kMonospaceFontPattern) / sizeof(JUtf8Byte*);
 
 void
 JXFontManager::GetMonospaceFontNames
@@ -505,7 +496,7 @@ JXFontManager::GetCharWidth
 		assert( info.xfont.type == kTrueType );
 
 		XGlyphInfo g;
-		XftTextExtentsUtf8(*itsDisplay, info.xfont.xftt, (FcChar8*) &c, c.GetByteCount(), &g);
+		XftTextExtentsUtf8(*itsDisplay, info.xfont.xftt, (FcChar8*) c.GetBytes(), c.GetByteCount(), &g);
 		return g.xOff;
 		}
 }
@@ -621,15 +612,15 @@ JXFontManager::ResolveFontID
 JBoolean
 JXFontManager::GetNewFont
 	(
-	const JString&		name,
-	const JSize			size,
+	const JString&		origName,
+	const JSize			origSize,
 	const JFontStyle&	style,
 	XFont*				xfont
 	)
 {
 	JString xFontStr;
 
-	if (BuildTrueTypeFontName(name, size, style, &xFontStr))
+	if (BuildTrueTypeFontName(origName, origSize, style, &xFontStr))
 		{
 		XftFont* xft = XftFontOpenName(*itsDisplay, itsDisplay->GetScreen(), xFontStr.GetBytes());
 		if (xft != NULL)
@@ -640,8 +631,32 @@ JXFontManager::GetNewFont
 			}
 		}
 
+	JString name     = origName;
+	JSize pointSize  = origSize;
+	JSize pixelSize  = 0;
+	JSize pixelWidth = 0;
+
+	const JUtf8Byte* spacing = "normal";
+
+	const JStringMatch m = nxmRegex.Match(name, kJTrue);
+	if (!m.IsEmpty())
+		{
+		JBoolean ok = m.GetSubstring(1).ConvertToUInt(&pixelWidth);
+		assert(ok);
+
+		ok = m.GetSubstring(2).ConvertToUInt(&pixelSize);
+		assert(ok);
+
+		name.Set("fixed");
+		pointSize = 0;
+
+		if (pixelWidth == 6 && (pixelSize == 12 || pixelSize == 13))
+			{
+			spacing = "semicondensed";
+			}
+		}
+
 	const JUtf8Byte* italicStr = kObliqueStr;	// try oblique before italic
-	const JUtf8Byte* iso       = "*";
 
 	XFontSet set;
 	char** missingCharsetList;
@@ -649,7 +664,7 @@ JXFontManager::GetNewFont
 	char* defString;
 	while (1)
 		{
-		xFontStr = BuildStdFontName(name, size, style, italicStr, iso);
+		xFontStr = BuildStdFontName(name, pointSize, pixelSize, pixelWidth, spacing, style, italicStr);
 		set      = XCreateFontSet(*itsDisplay, xFontStr.GetBytes(), &missingCharsetList, &missingCharsetCount, &defString);
 		if (set != NULL)
 			{
@@ -679,24 +694,14 @@ JString
 JXFontManager::BuildStdFontName
 	(
 	const JString&		xName,
-	const JSize			size,
+	const JSize			pointSize,
+	const JSize			pixelSize,
+	const JSize			pixelWidth,
+	const JUtf8Byte*	spacing,
 	const JFontStyle&	style,
-	const JUtf8Byte*	italicStr,
-	const JUtf8Byte*	iso
+	const JUtf8Byte*	italicStr
 	)
 {
-	// handle NxM separately
-
-	if (nxmRegex.Match(xName))
-		{
-		JString xFontStr = xName;
-		if (style.bold)
-			{
-			xFontStr += "bold";
-			}
-		return xFontStr;
-		}
-
 	// any foundry
 
 	JString xFontStr("-*-", 0, kJFalse);
@@ -727,19 +732,59 @@ JXFontManager::BuildStdFontName
 		xFontStr.Append("-r");
 		}
 
-	// normal character spacing, any pixel size
+	// character spacing
 
-	xFontStr.Append("-normal-*-*-");
+	xFontStr.Append("-");
+	xFontStr.Append(spacing);
+
+	// extra foundry info
+
+	xFontStr.Append("-*");
+
+	// pixel size
+
+	if (pixelSize > 0)
+		{
+		xFontStr.Append("-");
+		xFontStr.Append( JString(pixelSize, JString::kBase10) );
+		}
+	else
+		{
+		xFontStr.Append("-*");
+		}
 
 	// font size
 
-	xFontStr.Append( JString(10*(size+2), JString::kBase10) );
+	if (pointSize > 0)
+		{
+		xFontStr.Append("-");
+		xFontStr.Append( JString(10*(pointSize+2), JString::kBase10) );
+		}
+	else
+		{
+		xFontStr.Append("-*");
+		}
 
 	// screen resolution (apparently, we should always just use 75 dpi fonts),
-	// any spacing, any avg width, charset to match unicode
+	// any spacing
 
-	xFontStr.Append("-75-75-*-*-");
-	xFontStr.Append(iso);
+	xFontStr.Append("-75-75-*");
+
+	// avg width
+
+	if (pixelWidth > 0)
+		{
+		xFontStr.Append("-");
+		xFontStr.Append( JString(10*pixelWidth, JString::kBase10) );
+		}
+	else
+		{
+		xFontStr.Append("-*");
+		}
+
+	// unicode charset
+
+	xFontStr.Append("-iso10646-1");
 
 	// return the result
 
@@ -1024,11 +1069,13 @@ JXFontManager::XFont::Free
 	JXDisplay* display
 	)
 {
-	if (type == kStdType)
+	if (xfset != NULL)
 	{
+		assert( type == kStdType );
 		XFreeFontSet(*display, xfset);
 	}
-	else
+
+	if (xftt != NULL)
 	{
 		assert( type == kTrueType );
 		XftFontClose(*display, xftt);

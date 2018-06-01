@@ -107,9 +107,10 @@ private:
 
 	FontInfo	ResolveFontID(const JFontID id);
 
-	static JString	BuildStdFontName(const JString& xName, const JSize size,
-									 const JFontStyle& style, const JUtf8Byte* italicStr,
-									 const JUtf8Byte* iso);
+	static JString	BuildStdFontName(const JString& xName, const JSize pointSize,
+									 const JSize pixelSize, const JSize pixelWidth,
+									 const JUtf8Byte* spacing,
+									 const JFontStyle& style, const JUtf8Byte* italicStr);
 	static JBoolean	BuildTrueTypeFontName(const JString& xName,
 										  const JSize size, const JFontStyle& style,
 										  JString* xFontStr);
