@@ -100,6 +100,8 @@ JXSearchTextDialog::JXSearchTextDialog
 	itsRegex->SetLineBegin(kJTrue);				// ^ matches beginning of line, not text
 	itsRegex->SetLineEnd(kJTrue);				// $ matches end of line, not text
 
+	itsInterpolator = jnew JInterpolate;
+	assert( itsInterpolator != NULL );
 	itsInterpolator->SetWhitespaceEscapes();
 
 	itsUpdateTask = jnew JXTimerTask(kUpdatePeriod);
@@ -133,6 +135,7 @@ JXSearchTextDialog::~JXSearchTextDialog()
 {
 	jdelete itsUpdateTask;
 	jdelete itsRegex;
+	jdelete itsInterpolator;
 }
 
 /******************************************************************************
