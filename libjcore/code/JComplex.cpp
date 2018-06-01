@@ -229,7 +229,7 @@ JPrintComplexNumber
 			}
 		else if (i == 0.0)
 			{
-			str = JString(r);
+			str = JString(r, JString::kPrecisionAsNeeded);
 			}
 		else if (r == 0.0)
 			{
@@ -239,14 +239,14 @@ JPrintComplexNumber
 				}
 			else if (i != 1.0)
 				{
-				str  = JString(i);
+				str  = JString(i, JString::kPrecisionAsNeeded);
 				str += " ";
 				}
 			str += (useEEImag ? kEEImagString : kMathImagString);
 			}
 		else
 			{
-			str = JString(r);
+			str = JString(r, JString::kPrecisionAsNeeded);
 			if (i == -1.0)
 				{
 				str += " - ";
@@ -264,7 +264,7 @@ JPrintComplexNumber
 
 				if (i != 1.0)
 					{
-					str += JString(fabs(i));
+					str += JString(fabs(i), JString::kPrecisionAsNeeded);
 					str += " ";
 					}
 				}
@@ -282,23 +282,23 @@ JPrintComplexNumber
 			}
 		else if (i == 0.0)
 			{
-			str = JString(mag);
+			str = JString(mag, JString::kPrecisionAsNeeded);
 			}
 		else
 			{
-			const JFloat ph     = arg(value) * kJRadToDeg;
-			const JString phStr = ph;
+			const JFloat ph = arg(value) * kJRadToDeg;
+			const JString phStr(ph, JString::kPrecisionAsNeeded);
 
 			if (phStr == "180" || phStr == "-180")
 				{
 				str  = "-";
-				str += JString(mag);
+				str += JString(mag, JString::kPrecisionAsNeeded);
 				}
 			else
 				{
-				str  = JString(mag);
+				str  = JString(mag, JString::kPrecisionAsNeeded);
 				str += ", ";
-				str += JString(ph);
+				str += phStr;
 				str += " deg";
 				}
 			}

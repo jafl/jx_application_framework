@@ -339,7 +339,7 @@ JPasteUNIXTerminalOutput
 			styles.AppendElements(f, chunk->GetCharacterCount());
 			}
 
-		m.GetSubstring(1).Split(';', &cmdList);
+		m.GetSubstring(1).Split(";", &cmdList);
 
 		const JSize cmdCcount = cmdList.GetElementCount();
 		for (JIndex i=1; i<=cmdCcount; i++)

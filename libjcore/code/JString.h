@@ -66,7 +66,7 @@ public:
 //	JString(const JUtf8Character& c);	// prevent sneaky, incorrect, automatic construction from char*
 
 	JString(const JUInt64 number, const Base base, const JBoolean pad = kJFalse);
-	JString(const JFloat number, const JInteger precision = kPrecisionAsNeeded,
+	JString(const JFloat number, const JInteger precision,
 			const ExponentDisplay expDisplay = kStandardExponent,
 			const JInteger exponent = 0, const JInteger sigDigitCount = 0);
 

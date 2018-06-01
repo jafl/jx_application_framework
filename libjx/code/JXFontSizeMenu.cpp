@@ -206,7 +206,7 @@ JXFontSizeMenu::BuildMenu
 			{
 			const JString itemText(sizeList.GetElement(i), 0, JString::kForceNoExponent);
 			id = itemText + "::JX";
-			AppendItem(itemText, kRadioType, NULL, NULL, id);
+			AppendItem(itemText, kRadioType, JString::empty, JString::empty, id);
 			}
 		itsVarSizeIndex = 0;
 		}
@@ -218,7 +218,7 @@ JXFontSizeMenu::BuildMenu
 				{
 				const JString itemText(size, 0, JString::kForceNoExponent);
 				id = itemText + "::JX";
-				AppendItem(itemText, kRadioType, NULL, NULL, id);
+				AppendItem(itemText, kRadioType, JString::empty, JString::empty, id);
 				}
 			}
 
@@ -226,11 +226,12 @@ JXFontSizeMenu::BuildMenu
 			{
 			const JString itemText(size, 0, JString::kForceNoExponent);
 			id = itemText + "::JX";
-			AppendItem(itemText, kRadioType, NULL, NULL, id);
+			AppendItem(itemText, kRadioType, JString::empty, JString::empty, id);
 			}
 		ShowSeparatorAfter(GetItemCount());
 		AppendItem(JGetString("VariableSizeLabel::JXFontSizeMenu"),
-				   kRadioType, NULL, NULL, JString(kJXOtherFontSizeAction, 0, kJFalse));
+				   kRadioType, JString::empty, JString::empty,
+				   JString(kJXOtherFontSizeAction, 0, kJFalse));
 		itsVarSizeIndex = GetItemCount();
 		}
 	SetUpdateAction(kDisableNone);

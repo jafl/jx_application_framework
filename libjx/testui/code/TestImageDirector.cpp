@@ -292,7 +292,7 @@ void
 TestImageDirector::LoadImage()
 {
 	JString fullName;
-	if ((JGetChooseSaveFile())->ChooseFile(JGetString("ChooseImagePrompt::TestImageDirector"), NULL, &fullName))
+	if ((JGetChooseSaveFile())->ChooseFile(JGetString("ChooseImagePrompt::TestImageDirector"), JString::empty, &fullName))
 		{
 		itsImageWidget->SetImage(NULL, kJTrue);	// free current colors
 
@@ -353,7 +353,7 @@ TestImageDirector::SaveImage
 		itsImageWidget->GetImage(&image) &&
 		(JGetChooseSaveFile())->SaveFile(
 			JGetString("SaveImagePrompt::TestImageDirector"),
-			NULL, itsFileName, &fullName))
+			JString::empty, itsFileName, &fullName))
 		{
 		JError err = JNoError();
 		if (type == JImage::kGIFType)
@@ -398,7 +398,7 @@ TestImageDirector::SaveMask()
 		image->GetMask(&mask) &&
 		(JGetChooseSaveFile())->SaveFile(
 			JGetString("SaveMaskPrompt::TestImageDirector"),
-			NULL, fileName, &fullName))
+			JString::empty, fileName, &fullName))
 		{
 		const JError err = mask->WriteXBM(fullName);
 		JGetStringManager()->ReportError("UnableToSaveMask::TestImageDirector", err);

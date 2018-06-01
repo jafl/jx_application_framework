@@ -129,7 +129,8 @@ JIndex i,j;
 		{
 		for (i=1; i<=kInitRowCount; i++)
 			{
-			const JString str = "(" + JString(i) + "," + JString(j) + ")";
+			const JString str = "(" + JString(i, JString::kPrecisionAsNeeded) + "," +
+								JString(j, JString::kPrecisionAsNeeded) + ")";
 			data->SetString(i,j, str);
 			}
 		}
@@ -487,7 +488,8 @@ TestStringTable::HandleTableMenu
 			{
 			for (JIndex j=1; j<=colCount; j++)
 				{
-				const JString str = "(" + JString(i) + "," + JString(j) + ")";
+				const JString str = "(" + JString(i, JString::kPrecisionAsNeeded) + "," +
+									JString(j, JString::kPrecisionAsNeeded) + ")";
 				data->SetString(origRowCount+i, j, str);
 				}
 
@@ -611,7 +613,7 @@ TestStringTable::DrawPrintFooter
 	)
 {
 	JRect pageRect = p.GetPageRect();
-	const JString pageNumberStr = p.GetPageIndex();
+	const JString pageNumberStr(p.GetPageIndex(), JString::kPrecisionAsNeeded);
 
 	const JUtf8Byte* map[] =
 		{

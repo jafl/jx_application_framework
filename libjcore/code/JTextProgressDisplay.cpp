@@ -194,7 +194,7 @@ JTextProgressDisplay::IncrementProgress
 	const JSize delta
 	)
 {
-	return IncrementProgress(NULL, delta);
+	return IncrementProgress(JString::empty, delta);
 }
 
 /******************************************************************************

@@ -327,7 +327,7 @@ TestFloatTable::DrawPrintFooter
 	)
 {
 	JRect pageRect = p.GetPageRect();
-	const JString pageNumberStr = JString(p.GetPageIndex());
+	const JString pageNumberStr = JString(p.GetPageIndex(), JString::kPrecisionAsNeeded);
 
 	const JUtf8Byte* map[] =
 		{

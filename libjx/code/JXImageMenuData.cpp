@@ -74,7 +74,7 @@ JXImageMenuData::InsertItem
 	const IconData itemData(image, menuOwnsImage);
 	itsIconData->InsertElementAtIndex(index, itemData);
 
-	JXMenuData::InsertItem(index, type, NULL, id);
+	JXMenuData::InsertItem(index, type, JString::empty, id);
 
 	itsNeedGeomRecalcFlag = kJTrue;
 }

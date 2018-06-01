@@ -197,7 +197,7 @@ JXProgressDisplay::IncrementProgress
 	assert( ProcessRunning() );
 
 	IncrementStepCount(delta);
-	return IncrementProgress1(NULL);
+	return IncrementProgress1(JString::empty);
 }
 
 /******************************************************************************

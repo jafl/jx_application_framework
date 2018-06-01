@@ -74,6 +74,8 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //				the versions that use JCharacterRange.
 //	*** Removed JGetCurrentFontManager & JGetCurrentColormap.
 //	*** Changed all /usr/lib paths to /usr/local/lib on OSX because of SIP
+//	*** JString(float) now requires second argument to prevent NULL from
+//		silently converting to "0"
 
 // version 3.2.0:
 //	jMountUtil:

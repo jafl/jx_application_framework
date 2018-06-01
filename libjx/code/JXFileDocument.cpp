@@ -545,7 +545,7 @@ JXFileDocument::SaveCopyInNewFile
 		}
 
 	JString newName;
-	if (itsCSF->SaveFile(itsSaveNewFilePrompt, NULL, origName, &newName))
+	if (itsCSF->SaveFile(itsSaveNewFilePrompt, JString::empty, origName, &newName))
 		{
 		// We set safetySave because it's as if it were a temp file.
 
@@ -592,7 +592,7 @@ JXFileDocument::SaveInNewFile
 
 	const JString origName = GetFileNameForSave();
 	if (!fullName.IsEmpty() ||
-		itsCSF->SaveFile(itsSaveNewFilePrompt, NULL, origName, &fullName))
+		itsCSF->SaveFile(itsSaveNewFilePrompt, JString::empty, origName, &fullName))
 		{
 		const JString savePath    = itsFilePath;
 		const JString saveName    = itsFileName;

@@ -118,7 +118,7 @@ TestPopupChoiceDialog::BuildWindow()
 		}
 
 	// set title to image so SetToPopupChoice() will change the title
-	iconMenu->SetTitle(NULL, titleImage, kJFalse);
+	iconMenu->SetTitle(JString::empty, titleImage, kJFalse);
 
 	iconMenu->SetUpdateAction(JXMenu::kDisableNone);
 	iconMenu->SetToPopupChoice(kJTrue, 1);

@@ -76,7 +76,7 @@ JXChooseSaveFile::ChooseFile
 	)
 {
 	itsResultStr = fullName;
-	return ChooseFile(prompt, instructions, NULL, kJFalse);
+	return ChooseFile(prompt, instructions, JString::empty, kJFalse);
 }
 
 JBoolean
@@ -101,7 +101,7 @@ JXChooseSaveFile::ChooseFiles
 	)
 {
 	itsResultList = fullNameList;
-	return ChooseFile(prompt, instructions, NULL, kJTrue);
+	return ChooseFile(prompt, instructions, JString::empty, kJTrue);
 }
 
 JBoolean
@@ -137,7 +137,7 @@ JXChooseSaveFile::ChooseFiles
 	itsUserFilter            = wildcardFilter;
 
 	itsResultList     = fullNameList;
-	const JBoolean ok = ChooseFile(prompt, instructions, NULL, kJTrue);
+	const JBoolean ok = ChooseFile(prompt, instructions, JString::empty, kJTrue);
 
 	itsUserFilter = origFilter;
 	return ok;

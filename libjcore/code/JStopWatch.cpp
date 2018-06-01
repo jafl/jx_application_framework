@@ -159,19 +159,19 @@ JStopWatch::FormatTimeInterval
 	JString timeString;
 	if (time < 60.0)									// less than 1 min
 		{
-		timeString = JString(time) + " seconds";
+		timeString = JString(time, JString::kPrecisionAsNeeded) + " seconds";
 		}
 	else if (time < 3600.0)								// less than 1 hour
 		{
-		timeString = JString(time/60.0) + " minutes";
+		timeString = JString(time/60.0, JString::kPrecisionAsNeeded) + " minutes";
 		}
 	else if (time < 86400.0)							// less than 1 day
 		{
-		timeString = JString(time/3600.0) + " hours";
+		timeString = JString(time/3600.0, JString::kPrecisionAsNeeded) + " hours";
 		}
 	else
 		{
-		timeString = JString(time/86400.0) + " days";
+		timeString = JString(time/86400.0, JString::kPrecisionAsNeeded) + " days";
 		}
 
 	return timeString;

@@ -209,7 +209,7 @@ JXPGMessageDirector::SaveMessages()
 {
 	JString fileName;
 	if ((JGetChooseSaveFile())->SaveFile(
-			JGetString("SavePrompt::JXPGMessageDirector"), NULL,
+			JGetString("SavePrompt::JXPGMessageDirector"), JString::empty,
 			JGetString("DefaultName::JXPGMessageDirector"), &fileName))
 		{
 		std::ofstream output(fileName.GetBytes());

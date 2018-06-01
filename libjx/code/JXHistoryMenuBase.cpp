@@ -179,7 +179,7 @@ JXHistoryMenuBase::AddItem
 		}
 
 	InsertItem(itsHistoryDirection == kNewestItemAtTop ? itsFirstIndex : itemCount+1,
-			   text, kPlainType, NULL, nmShortcut);
+			   text, kPlainType, JString::empty, nmShortcut);
 	AdjustLength();
 }
 
@@ -289,11 +289,11 @@ JXHistoryMenuBase::ReadSetup
 
 		if (menu != NULL && direction == kNewestItemAtTop)
 			{
-			menu->AppendItem(text, kPlainType, NULL, nmShortcut);
+			menu->AppendItem(text, kPlainType, JString::empty, nmShortcut);
 			}
 		else if (menu != NULL)
 			{
-			menu->InsertItem(firstIndex, text, kPlainType, NULL, nmShortcut);
+			menu->InsertItem(firstIndex, text, kPlainType, JString::empty, nmShortcut);
 			}
 
 		if (itemList != NULL)

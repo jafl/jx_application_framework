@@ -361,10 +361,10 @@ JTEST(IntegerConversion)
 
 JTEST(FloatConversion)
 {
-	JString s1(42);
+	JString s1(42, JString::kPrecisionAsNeeded);
 	JAssertStringsEqual("42", s1);
 
-	JString s2(42.7);
+	JString s2(42.7, JString::kPrecisionAsNeeded);
 	JAssertStringsEqual("42.7", s2);
 
 	JFloat f;
@@ -377,7 +377,7 @@ JTEST(FloatConversion)
 	JUInt u;
 	JAssertFalse(s2.ConvertToUInt(&u));
 
-	JString s3(-1.3e5);
+	JString s3(-1.3e5, JString::kPrecisionAsNeeded);
 	JAssertStringsEqual("-130000", s3);
 
 	JAssertTrue(s3.ConvertToFloat(&f));
@@ -388,7 +388,7 @@ JTEST(FloatConversion)
 
 	JAssertFalse(s3.ConvertToUInt(&u));
 
-	JString s4(1.3e20);
+	JString s4(1.3e20, JString::kPrecisionAsNeeded);
 	JAssertStringsEqual("1.3e+20", s4);
 
 	JString s5(1.57e5, 2, JString::kUseGivenExponent, 2, 2);
