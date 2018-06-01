@@ -185,6 +185,8 @@ JTEST(ColumnForChar)
 
 	col = text.GetColumnForChar(TextIndex(12,13), TextIndex(16,17));
 	JAssertEqual(10, col);
+
+	col = text.GetColumnForChar(TextIndex(12,13), TextIndex(19,20));
 }
 
 JTEST(ReadPlainText)
@@ -822,6 +824,11 @@ JTEST(BackwardDelete)
 
 	text.BackwardDelete(TextIndex(8,9), TextIndex(17,18), kJTrue);
 	JAssertStringsEqual("b" "\xC3\xAE" "g\n" "b" "d\n" "\tnormal\n" "double underline", text.GetText());
+
+	bcastTest.Expect(JStyledText::kTextChanged);
+
+	text.BackwardDelete(TextIndex(16,17), TextIndex(32,33), kJTrue);
+	JAssertStringsEqual("b" "\xC3\xAE" "g\n" "b" "d\n" "\tnormal\n" "double underlin", text.GetText());
 }
 
 JTEST(ForwardDelete)

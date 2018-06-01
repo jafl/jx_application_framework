@@ -2216,17 +2216,24 @@ JStyledText::BackwardDelete
 
 	NewUndo(typingUndo, isNew);
 
-	BroadcastTextChanged(TextRange(
-		JCharacterRange(iter.GetNextCharacterIndex(), 0),
-		JUtf8ByteRange(iter.GetNextByteIndex(), 0)),
-		kJTrue);
+	TextIndex returnIndex;
+	if (iter.AtEnd())
+		{
+		returnIndex = GetBeyondEnd();
+		}
+	else
+		{
+		returnIndex = TextIndex(iter.GetNextCharacterIndex(), iter.GetNextByteIndex());
+		}
+
+	BroadcastTextChanged(TextRange(returnIndex, TextCount(0,0)), kJTrue);
 
 	if (undo != NULL)
 		{
 		*undo = typingUndo;
 		}
 
-	return TextIndex(iter.GetNextCharacterIndex(), iter.GetNextByteIndex());
+	return returnIndex;
 }
 
 /******************************************************************************
@@ -4178,9 +4185,10 @@ JStyledText::GetColumnForChar
 	JStringIterator iter(s);
 	iter.UnsafeMoveTo(kJIteratorStartBefore, lineStart.charIndex, lineStart.byteIndex);
 
-	JIndex col = 1;
+	JIndex col = 1, charIndex;
 	JUtf8Character c;
-	while (iter.Next(&c) && iter.GetNextCharacterIndex() <= location.charIndex)
+	while (iter.GetNextCharacterIndex(&charIndex) && charIndex < location.charIndex &&
+		   iter.Next(&c))
 		{
 		col += (c == '\t' ? CRMGetTabWidth(col) : 1);
 		}
@@ -4203,6 +4211,11 @@ JStyledText::AdjustTextIndex
 	)
 	const
 {
+	if (charDelta == 0)
+		{
+		return index;
+		}
+
 	const JString s(itsText, kJFalse);
 	JStringIterator iter(s);
 	iter.UnsafeMoveTo(kJIteratorStartBefore, index.charIndex, index.byteIndex);

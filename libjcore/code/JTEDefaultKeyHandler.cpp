@@ -55,9 +55,9 @@ JTEDefaultKeyHandler::HandleKeyPress
 	const JBoolean					deleteToTabStop
 	)
 {
-	JTextEditor* te             = GetTE();
-	JStyledText* st             = te->GetText();
-	const JBoolean hasSelection = te->HasSelection();
+	JTextEditor* te       = GetTE();
+	JStyledText* st       = te->GetText();
+	JBoolean hasSelection = te->HasSelection();
 
 	// We select text by selecting to where the caret ends up.
 
@@ -99,6 +99,8 @@ JTEDefaultKeyHandler::HandleKeyPress
 		{
 		return kJFalse;
 		}
+
+	hasSelection = te->HasSelection();
 
 	JBoolean processed = kJTrue;
 

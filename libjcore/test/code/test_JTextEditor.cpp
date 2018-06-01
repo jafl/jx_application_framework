@@ -307,6 +307,8 @@ JTEST(LayoutBreakWidth)
 	JAssertEqual(1, te.GetLineCharStart(1));
 	JAssertEqual(1, te.GetLineCharEnd(1));
 
+	JAssertEqual(1, te.CalcCaretCharLocation(JPoint(0,0)));
+
 	text.SetText(JString("foo\n ", 0, kJFalse));
 
 	JAssertEqual(2, te.GetLineCount());
@@ -321,6 +323,10 @@ JTEST(LayoutBreakWidth)
 	JAssertEqual(5, te.GetLineCharStart(2));
 	JAssertEqual(1, te.GetLineCharLength(2));
 	JAssertEqual(5, te.GetLineCharEnd(2));
+
+	text.SetText(JString("foo", 0, kJFalse));
+
+	JAssertEqual(4, te.CalcCaretCharLocation(JPoint(100,0)));
 }
 
 JTEST(GetCmdStatus)

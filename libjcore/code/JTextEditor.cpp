@@ -257,6 +257,7 @@ JTextEditor::~JTextEditor()
 {
 	if (itsOwnsTextFlag)
 		{
+		StopListening(itsText);
 		jdelete itsText;
 		}
 
@@ -2631,7 +2632,9 @@ JTextEditor::InsertKeyPress
 
 	itsNeedCaretBcastFlag = kJFalse;
 
-	JUndo* undo = itsText->InsertCharacter(itsSelection, key, itsInsertionFont);
+	JUndo* undo = itsText->InsertCharacter(
+		hadSelection ? itsSelection : TextRange(itsCaretLoc.location, TextCount(0,0)),
+		key, itsInsertionFont);
 
 	itsNeedCaretBcastFlag = kJTrue;
 	itsSelection.SetToNothing();
@@ -2657,8 +2660,6 @@ JTextEditor::BackwardDelete
 {
 	assert( itsSelection.IsEmpty() );
 
-	const JFont f = itsText->GetStyles().GetElement(itsCaretLoc.location.charIndex);	// preserve font
-
 	itsNeedCaretBcastFlag = kJFalse;
 
 	JUndo* undo;
@@ -2668,8 +2669,17 @@ JTextEditor::BackwardDelete
 								returnText, returnStyle, &undo);
 
 	itsNeedCaretBcastFlag = kJTrue;
+
+	JFont f          = JFontManager::GetDefaultFont();
+	JBoolean setFont = kJFalse;
+	if (i.charIndex > 1)
+		{
+		f       = itsText->GetStyles().GetElement(i.charIndex-1);	// preserve font
+		setFont = kJTrue;
+		}
+
 	SetCaretLocation(i);
-	if (itsText->WillPasteStyledText())
+	if (itsText->WillPasteStyledText() && setFont)
 		{
 		itsInsertionFont = f;
 		}
@@ -3612,7 +3622,7 @@ JTextEditor::LocateTab
 			{
 			iter->SkipPrev();
 			*tabCharIndex    = iter->GetNextCharacterIndex();
-			*pretabByteIndex = iter->GetPrevByteIndex();
+			*pretabByteIndex = (iter->AtBeginning() ? 0 : iter->GetPrevByteIndex());
 			return kJTrue;
 			}
 		i++;
@@ -4312,7 +4322,8 @@ JTextEditor::CalcCaretLocation
 
 	JStringIterator* iter = itsText->GetConstIterator(kJIteratorStartBefore, lineStart);
 	JUtf8Character c;
-	while (iter->GetNextCharacterIndex() <= lineEnd.charIndex &&
+	JIndex charIndex;
+	while (iter->GetNextCharacterIndex(&charIndex) && charIndex <= lineEnd.charIndex &&
 		   iter->Next(&c) && fiter.Next(&f))
 		{
 		if (c != '\t')
@@ -4338,10 +4349,16 @@ JTextEditor::CalcCaretLocation
 		prevD = d;
 		}
 
-	const CaretLocation loc(
-		TextIndex(iter->GetNextCharacterIndex(),
-				  iter->GetNextByteIndex()),
-		lineIndex);
+	if (iter->AtEnd())
+		{
+		index = itsText->GetBeyondEnd();
+		}
+	else
+		{
+		index = TextIndex(iter->GetNextCharacterIndex(),
+						  iter->GetNextByteIndex());
+		}
+	const CaretLocation loc(index, lineIndex);
 
 	itsText->DisposeConstIterator(iter);
 
