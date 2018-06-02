@@ -1,7 +1,33 @@
+in strings file, define default font for each language:
+	fallback (en, etc)
+	armenian (hy)
+	greek (el)
+	cyrillic (ru)
+	hebrew (he)
+	chinese (zh)
+	japanese (ja)
+	korean (ko)
+	thai (th)
+	arabic (ar)
+
 choose chinese font based on base font serif
 	PingFang, Heiti - sanserif
 	Songti - serif
 	SC - simplified, TC - traditional, HK - Hong Kong
+
+	test in Linux via VirtualBox Fedora
+
+
+	FcLangSet* langset = NULL;
+	ok = FcPatternGetLangSet(set->fonts[i], FC_LANG, 0, &langset);
+	std::cout << ' ' << (ok == FcResultMatch);
+
+	if (ok == FcResultMatch)
+	{
+	FcLangResult langok = FcLangSetHasLang(langset, (FcChar8*) "ru");
+	std::cout << ' ' << (langok == FcLangEqual);
+	}
+
 
 
 JTextEditor:
@@ -13,7 +39,9 @@ JTextEditor:
 
 TestTabDirector
 	created tabs:  horiz button padding is zero
-	&Aring; extends above line height
+
+TextTextEditor
+	some characters extend above line height
 
 XIM to type utf-8 characters
 
@@ -21,6 +49,7 @@ finish JTextEditor tests
 	GetCmdStatus
 	MouseActions
 	KeyPress
+	2 TE's for 1 ST
 
 JStyledTextBuffer
 	broadcast char/byte delta with TextChanged, to allow adjusting selection/caret

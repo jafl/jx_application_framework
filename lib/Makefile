@@ -112,7 +112,7 @@ PERSONAL_PROGS := \
 .PHONY : personal
 personal:
 	@${foreach dir, \
-          ${addprefix ../tools/,    ${PERSONAL_TOOLS}}
+          ${addprefix ../tools/,    ${PERSONAL_TOOLS}} \
           ${addprefix ../programs/, ${PERSONAL_PROGS}}, \
        ${BEGIN_DIR}; ${MAKE} personal; ${END_DIR};}
 
