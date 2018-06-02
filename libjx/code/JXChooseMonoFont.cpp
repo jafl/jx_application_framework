@@ -187,7 +187,7 @@ JXChooseMonoFont::PrependOtherMonospaceFonts
 			menu->PrependItem(*fontName, JXMenu::kRadioType);
 			menu->SetItemFontName(1, *fontName);
 
-			fontManager->Preload(menu->GetItemFont(i).GetID());
+			fontManager->Preload(menu->GetItemFont(1).GetID());
 			}
 
 		menu->ShowSeparatorAfter(count);

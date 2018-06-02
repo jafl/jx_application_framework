@@ -56,7 +56,13 @@ static const JString kDefaultFontName(
 	#endif
 	0, kJFalse);
 
-static const JString kMonospaceFontName("Bitstream Vera Sans Mono", 0, kJFalse);
+static const JString kMonospaceFontName(
+	#ifdef _J_OSX
+	"Menlo",
+	#else
+	"Bitstream Vera Sans Mono",
+	#endif
+	0, kJFalse);
 
 /******************************************************************************
  JXCreateGlobals

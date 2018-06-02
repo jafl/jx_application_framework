@@ -69,6 +69,10 @@ TestTextEditor::TestTextEditor
 	itsAutoIndentCmdIndex     = editCount + 1;
 	itsFirstUndoDepthCmdIndex = itsAutoIndentCmdIndex + 1;
 	editMenu->AppendMenuItems(kEditMenuStr);
+
+	// start with some challenging glyphs
+
+	Paste(JString("ABC Ж Җ ζ Ǽ ậ ϖ Ӝ ἆ Ɽ 转 燜 ㄊ 먄 욶 א ݣ ﺺ", 0, kJFalse));
 }
 
 /******************************************************************************

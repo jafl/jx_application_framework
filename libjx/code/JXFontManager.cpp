@@ -1,16 +1,6 @@
 /******************************************************************************
  JXFontManager.cpp
 
-	http://keithp.com/~keithp/render/Xft.tutorial
-	http://www.mail-archive.com/render@xfree86.org/msg00131.html
-	http://linux.about.com/library/cmd/blcmdl3_fontconfig.htm
-
-	Unicode:
-		http://jrgraphix.net/research/unicode_blocks.php
-
-	iso8859:
-		http://czyborra.com/charsets/iso8859.html
-
 	BASE CLASS = JFontManager
 
 	Copyright (C) 1996-2018 by John Lindal.
@@ -31,8 +21,7 @@
 #include <string.h>
 #include <jAssert.h>
 
-#define ONLY_STD_PS_FONTS	1
-#define ONLY_STD_MONOSPACE	1
+#define INCLUDE_X11_FONTS 0
 
 static const JUtf8Byte* kItalicStr  = "-i";
 static const JUtf8Byte* kObliqueStr = "-o";
@@ -99,83 +88,92 @@ JXFontManager::GetFontNames
 	if (itsAllFontNames != NULL)
 		{
 		fontNames->CopyObjects(*itsAllFontNames, fontNames->GetCleanUpAction(), kJFalse);
+		return;
 		}
-	else
+
+	fontNames->CleanOut();
+	fontNames->SetCompareFunction(JCompareStringsCaseInsensitive);
+	fontNames->SetSortOrder(JListT::kSortAscending);
+
+	JString name;
+
+	FcFontSet* set =
+		XftListFonts(*itsDisplay, itsDisplay->GetScreen(),
+					 FC_LANG, FcTypeString,
+						JGetStringManager()->GetBCP47Locale().GetBytes(),
+					 NULL,
+					 FC_FAMILY, NULL);
+
+	for (int i=0; i < set->nfont; i++)
 		{
-		fontNames->CleanOut();
-		fontNames->SetCompareFunction(JCompareStringsCaseInsensitive);
-		fontNames->SetSortOrder(JListT::kSortAscending);
+		FcChar8* s = FcNameUnparse(set->fonts[i]);
+		name.Set((JUtf8Byte*) s);
+		FcStrFree(s);
+		s = NULL;
 
-		JString name;
-
-		FcFontSet* set = XftListFonts(*itsDisplay, itsDisplay->GetScreen(), NULL, FC_FAMILY, NULL);
-		for (int i=0; i < set->nfont; i++)
+		TrimTrueTypeFontName(&name);
+		if (ShouldIgnore(name))
 			{
-			FcChar8* s = FcNameUnparse(set->fonts[i]);
-			name.Set((JUtf8Byte*) s);
-//			std::cout << "tt  font: " << name << std::endl;
-
-			if (!IsPostscript(name) || IsUseless(name))
-				{
-				FcStrFree(s);
-				continue;
-				}
-
-			JBoolean isDuplicate;
-			const JIndex index = fontNames->GetInsertionSortIndex(&name, &isDuplicate);
-			if (!isDuplicate)
-				{
-				fontNames->InsertAtIndex(index, name);
-				}
-
-			FcStrFree(s);
+			continue;
 			}
-		FcFontSetDestroy(set);
+//		std::cout << "tt  font: " << name << std::endl;
+//		FcPatternPrint(set->fonts[i]);
 
-		int nameCount;
-		char** nameList = XListFonts(*itsDisplay, "-*-*-medium-r-normal-*-*-*-75-75-*-*-iso10646-1",
-									 INT_MAX, &nameCount);
-		if (nameList == NULL)
+		JBoolean isDuplicate;
+		const JIndex index = fontNames->GetInsertionSortIndex(&name, &isDuplicate);
+		if (!isDuplicate)
 			{
-			return;
+			fontNames->InsertAtIndex(index, name);
 			}
-
-		for (int i=0; i<nameCount; i++)
-			{
-			const std::string s(nameList[i], strlen(nameList[i]));
-			std::istringstream input(s);
-			input.ignore();						// initial dash
-			JIgnoreUntil(input, '-');			// foundry name
-			name = JReadUntil(input, '-');		// font name
-
-			if (name.IsEmpty() || name == "nil")
-				{
-				continue;
-				}
-
-			ConvertToPSFontName(&name);
-//			std::cout << "std font: " << name << std::endl;
-
-			if (!IsPostscript(name) || IsUseless(name))
-				{
-				continue;
-				}
-
-			JBoolean isDuplicate;
-			const JIndex index = fontNames->GetInsertionSortIndex(&name, &isDuplicate);
-			if (!isDuplicate)
-				{
-				fontNames->InsertAtIndex(index, name);
-				}
-			}
-
-		XFreeFontNames(nameList);
-
-		// save names for next time
-
-		itsAllFontNames = jnew JDCCPtrArray<JString>(*fontNames, JPtrArrayT::kDeleteAll);
-		assert( itsAllFontNames != NULL );
 		}
+	FcFontSetDestroy(set);
+
+#if INCLUDE_X11_FONTS
+
+	int nameCount;
+	char** nameList = XListFonts(*itsDisplay, "-*-*-medium-r-normal-*-0-0-75-75-*-*-iso10646-1",
+								 INT_MAX, &nameCount);
+	if (nameList == NULL)
+		{
+		return;
+		}
+
+	for (int i=0; i<nameCount; i++)
+		{
+		const std::string s(nameList[i], strlen(nameList[i]));
+		std::istringstream input(s);
+		input.ignore();						// initial dash
+		JIgnoreUntil(input, '-');			// foundry name
+		name = JReadUntil(input, '-');		// font name
+
+		if (name.IsEmpty() || name == "nil")
+			{
+			continue;
+			}
+
+		ConvertToPSFontName(&name);
+
+		if (ShouldIgnore(name))
+			{
+			continue;
+			}
+//		std::cout << "std font: " << name << std::endl;
+
+		JBoolean isDuplicate;
+		const JIndex index = fontNames->GetInsertionSortIndex(&name, &isDuplicate);
+		if (!isDuplicate)
+			{
+			fontNames->InsertAtIndex(index, name);
+			}
+		}
+	XFreeFontNames(nameList);
+
+	// save names for next time
+
+	itsAllFontNames = jnew JDCCPtrArray<JString>(*fontNames, JPtrArrayT::kDeleteAll);
+	assert( itsAllFontNames != NULL );
+
+#endif
 }
 
 /******************************************************************************
@@ -192,70 +190,53 @@ JXFontManager::GetMonospaceFontNames
 	if (itsMonoFontNames != NULL)
 		{
 		fontNames->CopyObjects(*itsMonoFontNames, fontNames->GetCleanUpAction(), kJFalse);
+		return;
 		}
-	else
+
+	(JXGetApplication())->DisplayBusyCursor();
+
+	fontNames->CleanOut();
+	fontNames->SetCompareFunction(JCompareStringsCaseInsensitive);
+	fontNames->SetSortOrder(JListT::kSortAscending);
+
+	JString name;
+
+	FcFontSet* set =
+		XftListFonts(*itsDisplay, itsDisplay->GetScreen(),
+					 FC_SPACING, FcTypeInteger, FC_MONO,
+					 FC_LANG, FcTypeString,
+						JGetStringManager()->GetBCP47Locale().GetBytes(),
+					 NULL,
+					 FC_FAMILY, NULL);
+
+	for (int i=0; i < set->nfont; i++)
 		{
-		(JXGetApplication())->DisplayBusyCursor();
+		FcChar8* s = FcNameUnparse(set->fonts[i]);
+		name.Set((JUtf8Byte*) s);
+		FcStrFree(s);
+		s = NULL;
+//		std::cout << "tt  mono: " << name << std::endl;
 
-		fontNames->CleanOut();
-		fontNames->SetCompareFunction(JCompareStringsCaseInsensitive);
-		fontNames->SetSortOrder(JListT::kSortAscending);
-
-		JPtrArray<JString> allFontNames(JPtrArrayT::kDeleteAll);
-		allFontNames.SetCompareFunction(JCompareStringsCaseInsensitive);
-		allFontNames.SetSortOrder(JListT::kSortAscending);
-
-		JString name;
-
-		FcFontSet* set =
-			XftListFonts(*itsDisplay, itsDisplay->GetScreen(),
-						 FC_SPACING, FcTypeInteger, FC_MONO, NULL,
-						 FC_FAMILY, NULL);
-		for (int i=0; i < set->nfont; i++)
+		TrimTrueTypeFontName(&name);
+		if (ShouldIgnore(name))
 			{
-			FcChar8* s = FcNameUnparse(set->fonts[i]);
-			name.Set((JUtf8Byte*) s);
-//			std::cout << "tt  mono: " << name << std::endl;
-
-#if ONLY_STD_MONOSPACE
-
-			if (!name.BeginsWith("Courier") &&
-				!name.BeginsWith("Consolas") &&
-				!name.Contains(" Mono")     &&
-				name != "LucidaTypewriter")
-				{
-				FcStrFree(s);
-				continue;
-				}
-#else
-			if (IsUseless(name))
-				{
-				FcStrFree(s);
-				continue;
-				}
-#endif
-			JBoolean isDuplicate;
-			const JIndex index =
-				allFontNames.GetInsertionSortIndex(&name, &isDuplicate);
-			if (!isDuplicate)
-				{
-				allFontNames.InsertAtIndex(index, name);
-
-				JString* n = jnew JString(name);
-				assert( n != NULL );
-				const JBoolean ok = fontNames->InsertSorted(n, kJFalse);
-				assert( ok );
-				}
-
-			FcStrFree(s);
+			continue;
 			}
-		FcFontSetDestroy(set);
 
-		// save names for next time
+		JBoolean isDuplicate;
+		const JIndex index = fontNames->GetInsertionSortIndex(&name, &isDuplicate);
+		if (!isDuplicate)
+			{
+			fontNames->InsertAtIndex(index, name);
+			}
 
-		itsMonoFontNames = jnew JDCCPtrArray<JString>(*fontNames, JPtrArrayT::kDeleteAll);
-		assert( itsMonoFontNames != NULL );
 		}
+	FcFontSetDestroy(set);
+
+	// save names for next time
+
+	itsMonoFontNames = jnew JDCCPtrArray<JString>(*fontNames, JPtrArrayT::kDeleteAll);
+	assert( itsMonoFontNames != NULL );
 }
 
 /******************************************************************************
@@ -586,15 +567,14 @@ JXFontManager::ResolveFontID
 
 	const JFont f = GetFont(id);
 
-	const JString xFontName = ConvertToXFontName(f.GetName());
-	if (GetNewFont(xFontName, f.GetSize(), f.GetStyle(), &(info.xfont)))
+	if (GetNewFont(f.GetName(), f.GetSize(), f.GetStyle(), &(info.xfont)))
 		{
 		info.exact = kJTrue;
 		}
 	else
 		{
 		info.exact = kJFalse;
-		ApproximateFont(xFontName, f.GetSize(), f.GetStyle(), &(info.xfont));
+		ApproximateFont(f.GetName(), f.GetSize(), f.GetStyle(), &(info.xfont));
 		}
 
 	info.filled    = kJTrue;
@@ -845,9 +825,35 @@ JXFontManager::BuildTrueTypeFontName
 		xFontStr->Append(":slant=roman");
 		}
 
+	// language
+
+	xFontStr->Append(":lang=");
+	xFontStr->Append(JGetStringManager()->GetBCP47Locale());
+
 	// success
 
 	return kJTrue;
+}
+
+/******************************************************************************
+ TrimTrueTypeFontName (static private)
+
+ ******************************************************************************/
+
+static const JRegex nameEndMarkerPattern = "[:,]";
+
+void
+JXFontManager::TrimTrueTypeFontName
+	(
+	JString* s
+	)
+{
+	JStringIterator iter(s);
+	if (iter.Next(nameEndMarkerPattern))
+		{
+		iter.SkipPrev();
+		iter.RemoveAllNext();
+		}
 }
 
 /******************************************************************************
@@ -921,24 +927,6 @@ JXFontManager::ApproximateFont
 }
 
 /******************************************************************************
- ConvertToXFontName (static private)
-
-	Fold name to lower case.
-
- ******************************************************************************/
-
-JString
-JXFontManager::ConvertToXFontName
-	(
-	const JString& name
-	)
-{
-	JString fontName = name;
-	fontName.ToLower();
-	return fontName;
-}
-
-/******************************************************************************
  ConvertToPSFontName (static private)
 
 	Capitalize the first character of every word.
@@ -1005,58 +993,19 @@ JXFontManager::IsMonospace
 }
 
 /******************************************************************************
- IsPostscript (private)
+ ShouldIgnore (private)
 
-	Returns kJTrue if the font is available in Postscript.
-
-	Until JPSPrinter can embed fonts in a Postscript file, we are limited
-	to only the standard Postscript fonts.
+	Returns kJTrue if the font should be ignored.
 
  ******************************************************************************/
 
 JBoolean
-JXFontManager::IsPostscript
+JXFontManager::ShouldIgnore
 	(
 	const JString& name
 	)
 {
-#if ONLY_STD_PS_FONTS
-
-	return JI2B(name == "Arial"                     ||	// Helvetica sucks on OS X
-				name.BeginsWith("Courier")          ||
-				name.BeginsWith("Helvetica")        ||
-				name == "Times"                     ||
-				name.Contains("Bookman")            ||
-				name.Contains("Century Schoolbook") ||
-				name.Contains("Chancery")           ||
-				name.Contains("Palatino"));
-
-#else
-
-	return kJTrue;
-
-#endif
-}
-
-/******************************************************************************
- IsUseless (private)
-
-	Returns kJTrue if the font is useless, i.e., no printing characters.
-
- ******************************************************************************/
-
-JBoolean
-JXFontManager::IsUseless
-	(
-	const JString& name
-	)
-{
-	return JI2B(name.GetFirstCharacter() == '.'   ||
-				name.Contains("Dingbats")         ||
-				name == "Symbol"                  ||
-				name.Contains("Standard Symbols") ||
-				name.Contains("Cursor")           ||
-				name.EndsWith(" Ti"));
+	return JI2B(name.GetFirstCharacter() == '.');
 }
 
 /******************************************************************************

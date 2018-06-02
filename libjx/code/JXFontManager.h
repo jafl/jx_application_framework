@@ -116,18 +116,17 @@ private:
 	static JBoolean	BuildTrueTypeFontName(const JString& xName,
 										  const JSize size, const JFontStyle& style,
 										  JString* xFontStr);
+	static void		TrimTrueTypeFontName(JString* s);
 
 	JBoolean	GetNewFont(const JString& name, const JSize size,
 						   const JFontStyle& style, XFont* xfont);
 	void		ApproximateFont(const JString& name, const JSize size,
 								const JFontStyle& style, XFont* xfont);
 
-	static JString		ConvertToXFontName(const JString& name);
 	static void		ConvertToPSFontName(JString* name);
 
 	JCoordinate		IsMonospace(const XFont& xfont);
-	static JBoolean	IsPostscript(const JString& name);
-	static JBoolean	IsUseless(const JString& name);
+	static JBoolean	ShouldIgnore(const JString& name);
 
 	// not allowed
 
