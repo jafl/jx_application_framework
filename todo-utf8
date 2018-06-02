@@ -1,6 +1,7 @@
 choose chinese font based on base font serif
-	PingFang - sanserif
+	PingFang, Heiti - sanserif
 	Songti - serif
+	SC - simplified, TC - traditional, HK - Hong Kong
 
 
 JTextEditor:

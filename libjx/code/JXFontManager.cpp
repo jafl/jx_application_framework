@@ -1051,7 +1051,8 @@ JXFontManager::IsUseless
 	const JString& name
 	)
 {
-	return JI2B(name.Contains("Dingbats")         ||
+	return JI2B(name.GetFirstCharacter() == '.'   ||
+				name.Contains("Dingbats")         ||
 				name == "Symbol"                  ||
 				name.Contains("Standard Symbols") ||
 				name.Contains("Cursor")           ||
