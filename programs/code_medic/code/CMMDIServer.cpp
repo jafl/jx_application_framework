@@ -212,7 +212,7 @@ CMMDIServer::HandleMDIRequest
 			else
 				{
 				(CMGetLink())->SetBreakpoint(*fileName, lineIndex);
-				CMLink::NotifyUser("Breakpoint set in " + *fileName + " at line " + JString(lineIndex, JString::kBase10), kJFalse);
+				CMLink::NotifyUser("Breakpoint set in " + *fileName + " at line " + JString(lineIndex, JString::kBase10) + "\n\n", kJFalse);
 				}
 			}
 		else
