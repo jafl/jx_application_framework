@@ -35,6 +35,7 @@ public:
 	JBoolean	MergeFile(std::istream& input, const JBoolean debug = kJFalse);
 	void		WriteFile(std::ostream& output) const;
 
+	const JString&	GetBCP47Locale() const;
 	const JString&	Get(const JUtf8Byte* id) const;
 
 	JString			Get(const JUtf8Byte* id, const JUtf8Byte* map[],
@@ -52,6 +53,7 @@ public:
 
 private:
 
+	JString			itsBCP47Locale;
 	JSubstitute*	itsReplaceEngine;
 	static JBoolean	thePseudotranslationFlag;
 
@@ -65,6 +67,20 @@ private:
 	const JStringManager& operator=(const JStringManager& source);
 };
 
+
+/******************************************************************************
+ EnablePseudotranslation
+
+	This must be called before initialization.
+
+ *****************************************************************************/
+
+inline const JString&
+JStringManager::GetBCP47Locale()
+	const
+{
+	return itsBCP47Locale;
+}
 
 /******************************************************************************
  EnablePseudotranslation

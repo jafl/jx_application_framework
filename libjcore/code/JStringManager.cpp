@@ -81,7 +81,8 @@ const JSize kNoOverrideIDCount = sizeof(kNoOverrideID) / sizeof(JUtf8Byte*);
 JStringManager::JStringManager()
 	:
 	// does kDeleteAll make quitting too slow? -- apparently not
-	JStringPtrMap<JString>(JPtrArrayT::kDeleteAll)
+	JStringPtrMap<JString>(JPtrArrayT::kDeleteAll),
+	itsBCP47Locale("en-US", 0)		// need something as default, until we load
 {
 	itsReplaceEngine = jnew JSubstitute;
 	assert( itsReplaceEngine != NULL );
@@ -285,6 +286,10 @@ JStringManager::Register
 
 		JPtrArray<JString> localeParts(JPtrArrayT::kDeleteAll);
 		locale.Split("_", &localeParts);
+
+		itsBCP47Locale = *localeParts.GetElement(1);
+		itsBCP47Locale.Append("-");
+		itsBCP47Locale += *localeParts.GetElement(1);
 
 		const JString& language = *localeParts.GetElement(1);
 
