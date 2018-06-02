@@ -69,6 +69,8 @@ public:
 	JBoolean	GetXFont(const JString& xFontStr, JFont** font);
 	XFont		GetXFontInfo(const JFontID id);
 
+	void		Preload(const JFontID id);
+
 protected:
 
 	virtual JSize	GetLineHeight(const JFontID id, const JSize size,
@@ -146,6 +148,20 @@ JXFontManager::GetXFontInfo
 	)
 {
 	return ResolveFontID(id).xfont;
+}
+
+/******************************************************************************
+ Preload
+
+ ******************************************************************************/
+
+inline void
+JXFontManager::Preload
+	(
+	const JFontID id
+	)
+{
+	ResolveFontID(id);
 }
 
 #endif

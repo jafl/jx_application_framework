@@ -12,6 +12,7 @@
 #include <JXChooseMonoFont.h>
 #include <JXXFontMenu.h>
 #include <JXFontSizeMenu.h>
+#include <JXDisplay.h>
 #include <jXConstants.h>
 #include <JRegex.h>
 #include <stdlib.h>
@@ -172,8 +173,10 @@ JXChooseMonoFont::PrependOtherMonospaceFonts
 	JXXFontMenu* menu
 	)
 {
+	JXFontManager* fontManager = GetDisplay()->GetXFontManager();
+
 	JPtrArray<JString> fontNames(JPtrArrayT::kDeleteAll);
-	GetFontManager()->GetMonospaceFontNames(&fontNames);
+	fontManager->GetMonospaceFontNames(&fontNames);
 
 	const JSize count = fontNames.GetElementCount();
 	if (count > 0)
@@ -183,6 +186,8 @@ JXChooseMonoFont::PrependOtherMonospaceFonts
 			const JString* fontName = fontNames.GetElement(i);
 			menu->PrependItem(*fontName, JXMenu::kRadioType);
 			menu->SetItemFontName(1, *fontName);
+
+			fontManager->Preload(menu->GetItemFont(i).GetID());
 			}
 
 		menu->ShowSeparatorAfter(count);

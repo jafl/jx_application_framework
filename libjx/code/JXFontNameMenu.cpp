@@ -14,8 +14,9 @@
  ******************************************************************************/
 
 #include <JXFontNameMenu.h>
+#include <JXFontManager.h>
+#include <JXDisplay.h>
 #include <jXGlobals.h>
-#include <JFontManager.h>
 #include <jAssert.h>
 
 // JBroadcaster message types
@@ -110,8 +111,10 @@ JXFontNameMenu::BuildMenu()
 {
 	RemoveAllItems();
 
+	JXFontManager* fontManager = GetDisplay()->GetXFontManager();
+
 	JPtrArray<JString> fontNames(JPtrArrayT::kDeleteAll);
-	GetFontManager()->GetFontNames(&fontNames);
+	fontManager->GetFontNames(&fontNames);
 
 	const JSize count = fontNames.GetElementCount();
 	assert( count > 0 );
@@ -121,6 +124,8 @@ JXFontNameMenu::BuildMenu()
 		const JString* fontName = fontNames.GetElement(i);
 		AppendItem(*fontName, kRadioType);
 		SetItemFontName(i, *fontName);
+
+		fontManager->Preload(GetItemFont(i).GetID());
 		}
 
 	SetUpdateAction(kDisableNone);

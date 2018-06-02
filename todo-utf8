@@ -1,3 +1,8 @@
+choose chinese font based on base font serif
+	PingFang - sanserif
+	Songti - serif
+
+
 JTextEditor:
 	undo paste doesn't update caret location
 	tab makes rest of text invisible
@@ -7,6 +12,7 @@ JTextEditor:
 
 TestTabDirector
 	created tabs:  horiz button padding is zero
+	&Aring; extends above line height
 
 XIM to type utf-8 characters
 

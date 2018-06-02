@@ -15,6 +15,7 @@
 
 #include <JXXFontMenu.h>
 #include <JXFontManager.h>
+#include <JXDisplay.h>
 #include <jAssert.h>
 
 /******************************************************************************
@@ -136,6 +137,8 @@ JXXFontMenu::BuildMenu
 {
 	RemoveAllItems();
 
+	JXFontManager* fontManager = GetDisplay()->GetXFontManager();
+
 	const JSize count = fontNames.GetElementCount();
 	assert( count > 0 );
 	for (JIndex i=1; i<=count; i++)
@@ -143,6 +146,8 @@ JXXFontMenu::BuildMenu
 		const JString* fontName = fontNames.GetElement(i);
 		AppendItem(*fontName, kRadioType);
 		SetItemFontName(i, *fontName);
+
+		fontManager->Preload(GetItemFont(i).GetID());
 		}
 
 	SetFontName(*(fontNames.GetFirstElement()));
