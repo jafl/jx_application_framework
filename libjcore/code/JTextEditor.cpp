@@ -934,6 +934,7 @@ JTextEditor::SetSelection
 	assert( itsText->GetText().CharacterIndexValid(range.charRange.last) );
 	assert( itsText->GetText().ByteIndexValid(range.byteRange.first) );
 	assert( itsText->GetText().ByteIndexValid(range.byteRange.last) );
+	assert( JString::CountCharacters(itsText->GetText().GetRawBytes(), range.byteRange) == range.charRange.GetCount() );	// TODO: debugging
 
 	const JBoolean hadSelection            = !itsSelection.IsEmpty();
 	const CaretLocation origCaretLoc       = itsCaretLoc;
