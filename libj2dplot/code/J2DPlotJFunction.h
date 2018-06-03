@@ -18,7 +18,7 @@ class J2DPlotJFunction : public JPlotFunctionBase
 public:
 
 	static JBoolean Create(	J2DPlotJFunction **plotfunction, J2DPlotWidget* plot,
-							JVariableList* varList, const JCharacter* function,
+							JVariableList* varList, const JString& function,
 							const JIndex xIndex, const JFloat xMin, const JFloat xMax);
 
 	J2DPlotJFunction(J2DPlotWidget* plot, JVariableList* varList, JFunction* f,
@@ -29,8 +29,8 @@ public:
 
 	const JVariableList*	GetVariableList() const;
 	const JFunction&		GetFunction() const;
-	virtual JString			GetFunctionString() const;
-	virtual JBoolean		GetYValue(const JFloat x, JFloat* y) const;
+	virtual JString			GetFunctionString() const override;
+	virtual JBoolean		GetYValue(const JFloat x, JFloat* y) const override;
 
 	void	SetFunction(JVariableList* varList, JFunction* f,
 						const JBoolean ownsFn, const JIndex xIndex,

@@ -221,7 +221,7 @@ JX2DPlotScaleDialog::BuildWindow()
 
 // end JXLayout
 
-	window->SetTitle("Edit Plot Scale");
+	window->SetTitle(JGetString("WindowTitle::JX2DPlotScaleDialog"));
 	SetButtons(okButton, cancelButton);
 
 	itsXInc->SetLowerLimit(0.0);
@@ -289,14 +289,14 @@ JFloat value, min,max;
 	else if (itsXMin->GetValue(&min) && itsXMax->GetValue(&max) &&
 			 min == max)
 		{
-		(JGetUserNotification())->ReportError("Limits cannot be equal.");
+		(JGetUserNotification())->ReportError(JGetString("LimitsMustBeDifferent::JX2DPlotScaleDialog"));
 		itsXMin->Focus();
 		return kJFalse;
 		}
 	else if (itsYMin->GetValue(&min) && itsYMax->GetValue(&max) &&
 			 min == max)
 		{
-		(JGetUserNotification())->ReportError("Limits cannot be equal.");
+		(JGetUserNotification())->ReportError(JGetString("LimitsMustBeDifferent::JX2DPlotScaleDialog"));
 		itsYMin->Focus();
 		return kJFalse;
 		}
@@ -304,14 +304,14 @@ JFloat value, min,max;
 	else if (itsXAxisTypeRG->GetSelectedItem() == kLog &&
 			 itsXMin->GetValue(&value) && value <= 0.0)
 		{
-		(JGetUserNotification())->ReportError("Limits must be positive when using log scale.");
+		(JGetUserNotification())->ReportError(JGetString("PositiveLimitsForLog::JX2DPlotScaleDialog"));
 		itsXMin->Focus();
 		return kJFalse;
 		}
 	else if (itsXAxisTypeRG->GetSelectedItem() == kLog &&
 			 itsXMax->GetValue(&value) && value <= 0.0)
 		{
-		(JGetUserNotification())->ReportError("Limits must be positive when using log scale.");
+		(JGetUserNotification())->ReportError(JGetString("PositiveLimitsForLog::JX2DPlotScaleDialog"));
 		itsXMax->Focus();
 		return kJFalse;
 		}
@@ -319,14 +319,14 @@ JFloat value, min,max;
 	else if (itsYAxisTypeRG->GetSelectedItem() == kLog &&
 			 itsYMin->GetValue(&value) && value <= 0.0)
 		{
-		(JGetUserNotification())->ReportError("Limits must be positive when using log scale.");
+		(JGetUserNotification())->ReportError(JGetString("PositiveLimitsForLog::JX2DPlotScaleDialog"));
 		itsYMin->Focus();
 		return kJFalse;
 		}
 	else if (itsYAxisTypeRG->GetSelectedItem() == kLog &&
 			 itsYMax->GetValue(&value) && value <= 0.0)
 		{
-		(JGetUserNotification())->ReportError("Limits must be positive when using log scale.");
+		(JGetUserNotification())->ReportError(JGetString("PositiveLimitsForLog::JX2DPlotScaleDialog"));
 		itsYMax->Focus();
 		return kJFalse;
 		}
@@ -373,10 +373,7 @@ JX2DPlotScaleDialog::Receive
 void
 JX2DPlotScaleDialog::AdjustXScaleActivation()
 {
-	const JIndex type    = itsXAxisTypeRG->GetSelectedItem();
-	JXColorManager* colormap = GetColormap();
-
-	if (type == kLinear)
+	if (itsXAxisTypeRG->GetSelectedItem() == kLinear)
 		{
 		itsXIncLabel->Show();
 		itsXInc->Show();
@@ -396,10 +393,7 @@ JX2DPlotScaleDialog::AdjustXScaleActivation()
 void
 JX2DPlotScaleDialog::AdjustYScaleActivation()
 {
-	const JIndex type    = itsYAxisTypeRG->GetSelectedItem();
-	JXColorManager* colormap = GetColormap();
-
-	if (type == kLinear)
+	if (itsYAxisTypeRG->GetSelectedItem() == kLinear)
 		{
 		itsYIncLabel->Show();
 		itsYInc->Show();

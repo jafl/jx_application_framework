@@ -35,7 +35,7 @@ public:
 
 protected:
 
-	virtual void	TableDrawCell(JPainter& p, const JPoint& cell, const JRect& rect);
+	virtual void	TableDrawCell(JPainter& p, const JPoint& cell, const JRect& rect) override;
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:

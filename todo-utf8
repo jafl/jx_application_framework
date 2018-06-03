@@ -3,17 +3,7 @@ choose chinese font based on base font serif
 
 
 	JStyledText::CleanText does font substitution
-
-
-	FcLangSet* langset = NULL;
-	ok = FcPatternGetLangSet(set->fonts[i], FC_LANG, 0, &langset);
-	std::cout << ' ' << (ok == FcResultMatch);
-
-	if (ok == FcResultMatch)
-	{
-	FcLangResult langok = FcLangSetHasLang(langset, (FcChar8*) "ru");
-	std::cout << ' ' << (langok == FcLangEqual);
-	}
+	font substitution off for JXStaticText - no need for static, translatable text
 
 
 

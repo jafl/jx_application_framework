@@ -73,9 +73,9 @@ JX2DCursorMarkTableDir::BuildWindow
 
 // end JXLayout
 
-	window->SetTitle("Cursor Mark Values");
-    window->SetMinSize(250,300);
-    window->SetCloseAction(JXWindow::kDeactivateDirector);
+	window->SetTitle(JGetString("WindowTitle::JX2DCursorMarkTableDir"));
+	window->SetMinSize(250,300);
+	window->SetCloseAction(JXWindow::kDeactivateDirector);
 
 	itsTable =
 		jnew JX2DCursorMarkTable(plot,

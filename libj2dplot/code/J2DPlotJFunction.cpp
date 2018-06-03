@@ -23,7 +23,7 @@ J2DPlotJFunction::Create
 	J2DPlotJFunction**	plotfunction,
 	J2DPlotWidget*		plot,
 	JVariableList*		varList,
-	const JCharacter*	function,
+	const JString&		function,
 	const JIndex		xIndex,
 	const JFloat		xMin,
 	const JFloat		xMax

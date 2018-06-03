@@ -28,7 +28,7 @@ public:
 public:
 
 	static JX2DPlotPrintEPSDialog*
-		Create(const JCharacter* fileName,
+		Create(const JString& fileName,
 			   const JBoolean printPreview, const JBoolean bw,
 			   const JCoordinate w, const JCoordinate h, const Unit unit);
 
@@ -40,7 +40,7 @@ protected:
 
 	JX2DPlotPrintEPSDialog();
 
-	virtual JBoolean	OKToDeactivate();
+	virtual JBoolean	OKToDeactivate() override;
 	virtual void		Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
@@ -58,7 +58,7 @@ private:
 
 private:
 
-	void	BuildWindow(const JCharacter* fileName,
+	void	BuildWindow(const JString& fileName,
 						const JBoolean printPreview, const JBoolean bw,
 						const JCoordinate w, const JCoordinate h,
 						const Unit unit);

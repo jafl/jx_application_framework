@@ -23,7 +23,7 @@
 
 // Unit menu
 
-static const JCharacter* kUnitMenuStr = "mm %r | cm %r | inches %r";
+static const JUtf8Byte* kUnitMenuStr = "mm %r | cm %r | inches %r";
 
 static const JFloat kUnitToPixel[] =
 {
@@ -35,7 +35,7 @@ static const JFloat kUnitToPixel[] =
 
 // Predefined Sizes menu
 
-static const JCharacter* kPredefSizeMenuStr =
+static const JUtf8Byte* kPredefSizeMenuStr =
 	"    US letter    %k 1/4 page"
 	"  | .            %k 1/2 page"
 	"  | .            %k full page"
@@ -73,10 +73,6 @@ static JBoolean kPredefInit = kJFalse;
 static JCoordinate kPredefWidth  [ kPaperTypeCount * kPredefSizeCount ];
 static JCoordinate kPredefHeight [ kPaperTypeCount * kPredefSizeCount ];
 
-// string ID's
-
-static const JCharacter* kTooSmallID = "TooSmall::JX2DPlotPrintEPSDialog";
-
 /******************************************************************************
  Constructor function (static)
 
@@ -85,7 +81,7 @@ static const JCharacter* kTooSmallID = "TooSmall::JX2DPlotPrintEPSDialog";
 JX2DPlotPrintEPSDialog*
 JX2DPlotPrintEPSDialog::Create
 	(
-	const JCharacter*	fileName,
+	const JString&		fileName,
 	const JBoolean		printPreview,
 	const JBoolean		bw,
 	const JCoordinate	w,
@@ -179,7 +175,7 @@ JFloat v;
 void
 JX2DPlotPrintEPSDialog::BuildWindow
 	(
-	const JCharacter*	fileName,
+	const JString&		fileName,
 	const JBoolean		printPreview,
 	const JBoolean		bw,
 	const JCoordinate	w,
@@ -323,7 +319,7 @@ JX2DPlotPrintEPSDialog::OKToDeactivate()
 	GetPlotSize(&w, &h, &u);
 	if (w < 50 || h < 50)
 		{
-		(JGetUserNotification())->ReportError(JGetString(kTooSmallID));
+		(JGetUserNotification())->ReportError(JGetString("TooSmall::JX2DPlotPrintEPSDialog"));
 		return kJFalse;
 		}
 	else

@@ -25,8 +25,8 @@ public:
 
 	virtual ~JPlotFunctionBase();
 
-	virtual JBoolean	IsFunction() const;
-	virtual void		GetElement(const JIndex index, J2DDataPoint* data) const;
+	virtual JBoolean	IsFunction() const override;
+	virtual void		GetElement(const JIndex index, J2DDataPoint* data) const override;
 
 	virtual void		GetXRange(JFloat* min, JFloat* max) const override;
 	virtual JBoolean	GetYRange(const JFloat xMin, const JFloat xMax,

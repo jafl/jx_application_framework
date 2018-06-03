@@ -34,7 +34,7 @@ public:
 protected:
 
 	virtual JXEPSPrintSetupDialog*
-		CreatePrintSetupDialog(const JCharacter* fileName,
+		CreatePrintSetupDialog(const JString& fileName,
 							   const JBoolean preview, const JBoolean bw);
 
 	virtual JBoolean	EndUserPrintSetup(const JBroadcaster::Message& message,

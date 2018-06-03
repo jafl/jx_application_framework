@@ -11,14 +11,12 @@
 
 #include <JXWindowDirector.h>
 #include <JXWindow.h>
-#include <JXColorManager.h>
 
 #include <J2DPlotWidget.h>
 
 #include <JPagePrinter.h>
 #include <JFontManager.h>
-#include <JFontStyle.h>
-#include <JString.h>
+#include <JColorManager.h>
 
 #include <jGlobals.h>
 #include <JMinMax.h>
@@ -52,8 +50,8 @@ JX2DCursorMarkTable::JX2DCursorMarkTable
 	itsPrintingFlag = kJFalse;
 
 	AppendCols(2, kDefColWidth);
-	SetColBorderInfo(1, GetColormap()->GetGrayColor(80));
-	SetRowBorderInfo(1, GetColormap()->GetGrayColor(80));
+	SetColBorderInfo(1, JColorManager::GetGrayColor(80));
+	SetRowBorderInfo(1, JColorManager::GetGrayColor(80));
 
 	const JSize lineHeight = JFontManager::GetDefaultFont().GetLineHeight(GetFontManager());
 	SetDefaultRowHeight(lineHeight + 2);
@@ -90,13 +88,13 @@ JX2DCursorMarkTable::TableDrawCell
 
 	if (cell.y == 1 && cell.x == 1)
 		{
-		p.String(r, "X Marks",
+		p.String(r, JGetString("XColumnTitle::JX2DCursorMarkTable"),
 			itsPrintingFlag ? JPainter::kHAlignLeft : JPainter::kHAlignCenter,
 			JPainter::kVAlignCenter);
 		}
 	else if (cell.y == 1 && cell.x == 2)
 		{
-		p.String(r, "Y Marks",
+		p.String(r, JGetString("YColumnTitle::JX2DCursorMarkTable"),
 			itsPrintingFlag ? JPainter::kHAlignLeft : JPainter::kHAlignCenter,
 			JPainter::kVAlignCenter);
 		}

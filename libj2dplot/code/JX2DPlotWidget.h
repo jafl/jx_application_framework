@@ -46,18 +46,18 @@ public:
 
 	void			SetPSPrinter(JXPSPrinter* p);
 	const JString&	GetPSPrintFileName() const;
-	void			SetPSPrintFileName(const JCharacter* fileName);
+	void			SetPSPrintFileName(const JString& fileName);
 	void			HandlePSPageSetup();
 	void			PrintPS();
 
 	void			SetEPSPrinter(JX2DPlotEPSPrinter* p);
 	const JString&	GetEPSPlotFileName() const;
-	void			SetEPSPlotFileName(const JCharacter* fileName);
+	void			SetEPSPlotFileName(const JString& fileName);
 	const JRect&	GetEPSPlotBounds() const;
 	void			SetEPSPlotBounds(const JRect& rect);
 	void			PrintPlotEPS();
 	const JString&	GetEPSMarksFileName() const;
-	void			SetEPSMarksFileName(const JCharacter* fileName);
+	void			SetEPSMarksFileName(const JString& fileName);
 	void			PrintMarksEPS();
 
 	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers) override;
@@ -71,9 +71,9 @@ protected:
 	virtual void	DrawBorder(JXWindowPainter& p, const JRect& frame) override;
 	virtual void	BoundsResized(const JCoordinate dw, const JCoordinate dh) override;
 
-	virtual JCoordinate	GetMarksHeight() const;
+	virtual JCoordinate	GetMarksHeight() const override;
 	virtual JBoolean	PrintMarks(JPagePrinter& p, const JBoolean putOnSamePage,
-									const JRect& partialPageRect);
+									const JRect& partialPageRect) override;
 
 	virtual void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
 									const JSize clickCount,
@@ -86,23 +86,23 @@ protected:
 								  const JXKeyModifiers& modifiers) override;
 	virtual void	AdjustCursor(const JPoint& pt, const JXKeyModifiers& modifiers) override;
 
-	virtual JSize	PWGetGUIWidth() const;
-	virtual JSize	PWGetGUIHeight() const;
+	virtual JSize	PWGetGUIWidth() const override;
+	virtual JSize	PWGetGUIHeight() const override;
 
-	virtual JPainter*	PWCreateDragInsidePainter();
-	virtual JBoolean	PWGetDragPainter(JPainter** p) const;
-	virtual void		PWDeleteDragPainter();
+	virtual JPainter*	PWCreateDragInsidePainter() override;
+	virtual JBoolean	PWGetDragPainter(JPainter** p) const override;
+	virtual void		PWDeleteDragPainter() override;
 
-	virtual void	PWRefreshRect(const JRect& rect);
-	virtual void	PWRedraw();
-	virtual void	PWRedrawRect(const JRect& rect);
-	virtual void	PWForceRefresh();
-	virtual void	PWDisplayCursor(const MouseCursor cursor);
+	virtual void	PWRefreshRect(const JRect& rect) override;
+	virtual void	PWRedraw() override;
+	virtual void	PWRedrawRect(const JRect& rect) override;
+	virtual void	PWForceRefresh() override;
+	virtual void	PWDisplayCursor(const MouseCursor cursor) override;
 
-	virtual void	ProtectionChanged();
-	virtual void	ChangeCurveOptions(const JIndex index);
-	virtual void	ChangeLabels(const LabelSelection selection);
-	virtual void	ChangeScale(const JBoolean xAxis);
+	virtual void	ProtectionChanged() override;
+	virtual void	ChangeCurveOptions(const JIndex index) override;
+	virtual void	ChangeLabels(const LabelSelection selection) override;
+	virtual void	ChangeScale(const JBoolean xAxis) override;
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
@@ -243,7 +243,7 @@ JX2DPlotWidget::GetPSPrintFileName()
 inline void
 JX2DPlotWidget::SetPSPrintFileName
 	(
-	const JCharacter* fileName
+	const JString& fileName
 	)
 {
 	itsPSPrintName = fileName;
@@ -266,7 +266,7 @@ JX2DPlotWidget::GetEPSPlotFileName()
 inline void
 JX2DPlotWidget::SetEPSPlotFileName
 	(
-	const JCharacter* fileName
+	const JString& fileName
 	)
 {
 	itsEPSPlotName = fileName;
@@ -319,7 +319,7 @@ JX2DPlotWidget::GetEPSMarksFileName()
 inline void
 JX2DPlotWidget::SetEPSMarksFileName
 	(
-	const JCharacter* fileName
+	const JString& fileName
 	)
 {
 	itsEPSMarksName = fileName;

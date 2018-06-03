@@ -37,9 +37,9 @@ JX2DPlotLabelDialog::JX2DPlotLabelDialog
 	itsSelection(selection)
 {
 	BuildWindow();
-	itsPlotTitle->SetText(title);
-	itsXAxisLabel->SetText(xLabel);
-	itsYAxisLabel->SetText(yLabel);
+	itsPlotTitle->GetText()->SetText(title);
+	itsXAxisLabel->GetText()->SetText(xLabel);
+	itsYAxisLabel->GetText()->SetText(yLabel);
 
 	itsFontMenu->SetFontName(font);
 	itsSizeMenu->SetFontSize(size);
@@ -113,18 +113,18 @@ JX2DPlotLabelDialog::BuildWindow()
 	yAxisLabel->SetToLabel();
 
 	itsFontMenu =
-		jnew JXFontNameMenu("Font:", window,
+		jnew JXFontNameMenu(JGetString("FontNameMenuTitle::JX2DPlotLabelDialog"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 350,20, 170,30);
 	assert( itsFontMenu != NULL );
 
 	itsSizeMenu =
-		jnew JXFontSizeMenu(itsFontMenu, "Size:", window,
+		jnew JXFontSizeMenu(itsFontMenu, JGetString("FontSizeMenuTitle::JX2DPlotLabelDialog"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 350,60, 170,30);
 	assert( itsSizeMenu != NULL );
 
 // end JXLayout
 
-	window->SetTitle("Edit Plot Labels");
+	window->SetTitle(JGetString("WindowTitle::JX2DPlotLabelDialog"));
 	SetButtons(okButton, cancelButton);
 
 	itsFontMenu->SetToPopupChoice();
@@ -145,9 +145,9 @@ JX2DPlotLabelDialog::GetLabels
 	)
 	const
 {
-	*title  = itsPlotTitle->GetText();
-	*xLabel = itsXAxisLabel->GetText();
-	*yLabel = itsYAxisLabel->GetText();
+	*title  = itsPlotTitle->GetText()->GetText();
+	*xLabel = itsXAxisLabel->GetText()->GetText();
+	*yLabel = itsYAxisLabel->GetText()->GetText();
 }
 
 /******************************************************************************

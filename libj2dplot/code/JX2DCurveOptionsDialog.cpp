@@ -166,7 +166,7 @@ JX2DCurveOptionsDialog::BuildWindow()
 
 // end JXLayout
 
-	window->SetTitle("Curve Options");
+	window->SetTitle(JGetString("WindowTitle::JX2DCurveOptionsDialog"));
 	SetButtons(okButton, NULL);
 
 	ListenTo(itsCancelButton);

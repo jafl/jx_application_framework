@@ -44,8 +44,8 @@ const JFileVersion kCurrentSetupVersion = 3;	// must begin with digit >= 2
 
 // Options menu
 
-static const JCharacter* kOptionsMenuTitleStr = "Options";
-static const JCharacter* kOptionsMenuStr =
+static const JString& kOptionsMenuTitleStr = JString("Options", 0, kJFalse);
+static const JUtf8Byte* kOptionsMenuStr =
 	"    Change scale..."
 	"  | Reset scale"
 	"%l| Show frame  %b"
@@ -75,8 +75,8 @@ enum
 
 // Cursor menu
 
-static const JCharacter* kCursorMenuTitleStr = "Cursors";
-static const JCharacter* kCursorMenuStr =
+static const JString kCursorMenuTitleStr = JString("Cursors", 0, kJFalse);
+static const JUtf8Byte* kCursorMenuStr =
 	"    X cursor     %b"
 	"  | Y cursor     %b"
 	"  | Dual cursors %b"
@@ -100,7 +100,7 @@ enum
 
 // Curve Options menu (popup)
 
-static const JCharacter* kCurveOptionsMenuStr =
+static const JUtf8Byte* kCurveOptionsMenuStr =
 	"    Visible         %b"
 	"%l| Show all"
 	"  | Hide others"
@@ -137,10 +137,10 @@ JX2DPlotWidget::JX2DPlotWidget
 	)
 	:
 	JXWidget(enclosure, hSizing, vSizing, x,y, w,h),
-	J2DPlotWidget(GetColormap()->GetBlackColor(),
-				  GetColormap()->GetWhiteColor(),
-				  GetColormap()->GetGrayColor(70),
-				  GetColormap()->GetRedColor())
+	J2DPlotWidget(JColorManager::GetBlackColor(),
+				  JColorManager::GetWhiteColor(),
+				  JColorManager::GetGrayColor(70),
+				  JColorManager::GetRedColor())
 {
 	JX2DPlotWidgetX();
 
@@ -165,7 +165,7 @@ JX2DPlotWidget::JX2DPlotWidget
 	itsMarkMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsMarkMenu);
 
-	itsCurveOptionsMenu = jnew JXTextMenu("", this, kFixedLeft, kFixedTop, 0,0, 10,10);
+	itsCurveOptionsMenu = jnew JXTextMenu(JString::empty, this, kFixedLeft, kFixedTop, 0,0, 10,10);
 	assert( itsCurveOptionsMenu != NULL );
 	itsCurveOptionsMenu->SetToHiddenPopupMenu();
 	itsCurveOptionsMenu->SetMenuItems(kCurveOptionsMenuStr);
@@ -188,10 +188,10 @@ JX2DPlotWidget::JX2DPlotWidget
 	)
 	:
 	JXWidget(enclosure, hSizing, vSizing, x,y, w,h),
-	J2DPlotWidget(GetColormap()->GetBlackColor(),
-				  GetColormap()->GetWhiteColor(),
-				  GetColormap()->GetGrayColor(50),
-				  GetColormap()->GetRedColor())
+	J2DPlotWidget(JColorManager::GetBlackColor(),
+				  JColorManager::GetWhiteColor(),
+				  JColorManager::GetGrayColor(50),
+				  JColorManager::GetRedColor())
 {
 	JX2DPlotWidgetX();
 
@@ -220,13 +220,12 @@ void
 JX2DPlotWidget::JX2DPlotWidgetX()
 {
 	SetBorderWidth(kJXDefaultBorderWidth);
-	JXColorManager* colormap = GetColormap();
-	SetBackColor(colormap->GetWhiteColor());
-	AddColor(colormap->GetRedColor());
-	AddColor(colormap->GetBlueColor());
-	AddColor(colormap->GetMagentaColor());
-	AddColor(colormap->GetBrownColor());
-	AddColor(colormap->GetLightBlueColor());
+	SetBackColor(JColorManager::GetWhiteColor());
+	AddColor(JColorManager::GetRedColor());
+	AddColor(JColorManager::GetBlueColor());
+	AddColor(JColorManager::GetMagentaColor());
+	AddColor(JColorManager::GetBrownColor());
+	AddColor(JColorManager::GetLightBlueColor());
 
 	itsPlotLabelDialog		= NULL;
 	itsPlotScaleDialog		= NULL;
@@ -1127,7 +1126,7 @@ JIndex i;
 
 	for (i=1; i<=xCount; i++)
 		{
-		JString str("x");
+		JString str("x", 0);
 		str += JString(i, JString::kBase10);
 		itsMarkMenu->AppendItem(str);
 		}
@@ -1139,7 +1138,7 @@ JIndex i;
 
 	for (i=1; i<=yCount; i++)
 		{
-		JString str("y");
+		JString str("y", 0);
 		str += JString(i, JString::kBase10);
 		itsMarkMenu->AppendItem(str);
 		}
@@ -1491,7 +1490,7 @@ JX2DPlotWidget::PWXReadSetup
 {
 	JFileVersion vers = 0;
 	input >> std::ws;
-	const JCharacter c1 = input.peek();
+	const char c1 = input.peek();
 	if ('2' <= c1 && c1 <= '9')			// version 1 => leave it for J2DPlotWidget
 		{
 		input >> vers;

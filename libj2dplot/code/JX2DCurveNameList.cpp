@@ -8,25 +8,21 @@
  *****************************************************************************/
 
 #include <JX2DCurveNameList.h>
-
-#include <JXColorManager.h>
 #include <JXInputField.h>
-
 #include <JFontManager.h>
+#include <JColorManager.h>
 #include <JPainter.h>
 #include <JTableSelection.h>
-
-#include <jGlobals.h>
 #include <jASCIIConstants.h>
-
 #include <JMinMax.h>
+#include <jGlobals.h>
 #include <jAssert.h>
 
 const JCoordinate kHMarginWidth = 3;
 const JCoordinate kVMarginWidth = 1;
 const JCoordinate kDefColWidth  = 100;
 
-const JCharacter* JX2DCurveNameList::kNameSelected = "JX2DCurveNameList::kNameSelected";
+const JUtf8Byte* JX2DCurveNameList::kNameSelected = "JX2DCurveNameList::kNameSelected";
 
 /******************************************************************************
  Constructor
@@ -78,9 +74,8 @@ JX2DCurveNameList::JX2DCurveNameList
 	AppendCols(1);
 	AdjustColWidth();
 
-	JXColorManager* colormap = GetColormap();
-	SetRowBorderInfo(0, colormap->GetBlackColor());
-	SetColBorderInfo(0, colormap->GetBlackColor());
+	SetRowBorderInfo(0, JColorManager::GetBlackColor());
+	SetColBorderInfo(0, JColorManager::GetBlackColor());
 
 	BeginEditing(JPoint(1, startIndex));
 }
@@ -195,7 +190,7 @@ JX2DCurveNameList::CreateXInputField
 	itsInput = jnew JXInputField(this, kHElastic, kVElastic, x, y, w, h);
 	assert(itsInput != NULL);
 
-	itsInput->SetText(*(itsNameList->GetElement(cell.y)));
+	itsInput->GetText()->SetText(*(itsNameList->GetElement(cell.y)));
 	itsInput->SetIsRequired();
 	return itsInput;
 }
@@ -222,7 +217,7 @@ JX2DCurveNameList::ExtractInputData
 	const JPoint& cell
 	)
 {
-	const JString& name = itsInput->GetText();
+	const JString& name = itsInput->GetText()->GetText();
 	if (!name.IsEmpty())
 		{
 		*(itsNameList->GetElement(cell.y)) = name;

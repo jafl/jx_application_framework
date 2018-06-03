@@ -12,8 +12,9 @@
 #include <JString.h>
 #include <JPagePrinter.h>
 #include <JEPSPrinter.h>
+#include <JFontManager.h>
 #include <JFontStyle.h>
-#include <JXColorManager.h>
+#include <JColorManager.h>
 #include <jGlobals.h>
 #include <jMath.h>
 #include <jASCIIConstants.h>
@@ -39,16 +40,16 @@ const JFileVersion kCurrentCurveSetupVersion = 0;
 
 // JBroadcaster messages
 
-const JCharacter* J2DPlotWidget::kTitleChanged    = "TitleChanged::J2DPlotWidget";
-const JCharacter* J2DPlotWidget::kScaleChanged    = "ScaleChanged::J2DPlotWidget";
-const JCharacter* J2DPlotWidget::kGeometryChanged = "GeometryChanged::J2DPlotWidget";
-const JCharacter* J2DPlotWidget::kPlotChanged     = "PlotChanged::J2DPlotWidget";
-const JCharacter* J2DPlotWidget::kIsEmpty         = "IsEmpty::J2DPlotWidget";
-const JCharacter* J2DPlotWidget::kCurveAdded      = "CurveAdded::J2DPlotWidget";
-const JCharacter* J2DPlotWidget::kCurveRemoved    = "CurveRemoved::J2DPlotWidget";
-const JCharacter* J2DPlotWidget::kCursorsChanged  = "CursorsChanged::J2DPlotWidget";
-const JCharacter* J2DPlotWidget::kCursorMarked    = "CursorMarked::J2DPlotWidget";
-const JCharacter* J2DPlotWidget::kMarkRemoved     = "MarkRemoved::J2DPlotWidget";
+const JUtf8Byte* J2DPlotWidget::kTitleChanged    = "TitleChanged::J2DPlotWidget";
+const JUtf8Byte* J2DPlotWidget::kScaleChanged    = "ScaleChanged::J2DPlotWidget";
+const JUtf8Byte* J2DPlotWidget::kGeometryChanged = "GeometryChanged::J2DPlotWidget";
+const JUtf8Byte* J2DPlotWidget::kPlotChanged     = "PlotChanged::J2DPlotWidget";
+const JUtf8Byte* J2DPlotWidget::kIsEmpty         = "IsEmpty::J2DPlotWidget";
+const JUtf8Byte* J2DPlotWidget::kCurveAdded      = "CurveAdded::J2DPlotWidget";
+const JUtf8Byte* J2DPlotWidget::kCurveRemoved    = "CurveRemoved::J2DPlotWidget";
+const JUtf8Byte* J2DPlotWidget::kCursorsChanged  = "CursorsChanged::J2DPlotWidget";
+const JUtf8Byte* J2DPlotWidget::kCursorMarked    = "CursorMarked::J2DPlotWidget";
+const JUtf8Byte* J2DPlotWidget::kMarkRemoved     = "MarkRemoved::J2DPlotWidget";
 
 /*******************************************************************************
  Constructor
@@ -63,9 +64,9 @@ J2DPlotWidget::J2DPlotWidget
 	const JColorID selection
 	)
 	:
-	itsTitle("Title"),
-	itsXLabel("X Label"),
-	itsYLabel("Y Label"),
+	itsTitle(JGetString("DefaultTitle::J2DPlotWidget")),
+	itsXLabel(JGetString("DefaultXLabel::J2DPlotWidget")),
+	itsYLabel(JGetString("DefaultYLabel::J2DPlotWidget")),
 	itsBlackColor(black),
 	itsWhiteColor(white),
 	itsGrayColor(gray),
@@ -94,8 +95,8 @@ J2DPlotWidget::J2DPlotWidget
 		itsSymbolUsage[i] = 0;
 		}
 
-	itsFontName					= JGetDefaultFontName();
-	itsFontSize					= JGetDefaultFontSize();
+	itsFontName					= JFontManager::GetDefaultFontName();
+	itsFontSize					= JFontManager::GetDefaultFontSize();
 
 	itsLegendWidth				= 0;
 
@@ -422,8 +423,8 @@ J2DPlotWidget::ProtectCurve
 void
 J2DPlotWidget::SetCurveName
 	(
-	const JIndex		index,
-	const JCharacter*	name
+	const JIndex	index,
+	const JString&	name
 	)
 {
 	J2DCurveInfo info = itsCurveInfo->GetElement(index);
@@ -462,9 +463,9 @@ J2DPlotWidget::SetCurveInfoArray
 JIndex
 J2DPlotWidget::AddCurve
 	(
-	JPlotDataBase*		data,
-	const JBoolean		ownsData,
-	const JCharacter*	name
+	JPlotDataBase*	data,
+	const JBoolean	ownsData,
+	const JString&	name
 	)
 {
 	const JBoolean f = data->IsFunction();
@@ -474,11 +475,11 @@ J2DPlotWidget::AddCurve
 JIndex
 J2DPlotWidget::AddCurve
 	(
-	JPlotDataBase*		data,
-	const JBoolean		ownsData,
-	const JCharacter*	name,
-	const JBoolean		line,
-	const JBoolean		symbol
+	JPlotDataBase*	data,
+	const JBoolean	ownsData,
+	const JString&	name,
+	const JBoolean	line,
+	const JBoolean	symbol
 	)
 {
 	itsCurves->Append(data);
@@ -509,13 +510,13 @@ J2DPlotWidget::AddCurve
 JBoolean
 J2DPlotWidget::AddCurve
 	(
-	JArray<JFloat>&		x,
-	JArray<JFloat>&		y,
-	const JBoolean		listen,
-	const JCharacter*	label,
-	JIndex*				index,
-	const JBoolean		line,
-	const JBoolean		symbol
+	JArray<JFloat>&	x,
+	JArray<JFloat>&	y,
+	const JBoolean	listen,
+	const JString&	label,
+	JIndex*			index,
+	const JBoolean	line,
+	const JBoolean	symbol
 	)
 {
 	J2DPlotData* newData;
@@ -547,7 +548,7 @@ J2DPlotWidget::RemoveCurve
 
 	if (info.protect)
 		{
-		JGetUserNotification()->ReportError("This curve can not be removed.");
+		JGetUserNotification()->ReportError(JGetString("CannotRemoveCurve::J2DPlotWidget"));
 		return;
 		}
 

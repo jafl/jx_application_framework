@@ -127,7 +127,7 @@ JX2DPlotRangeDialog::BuildWindow()
 
 // end JXLayout
 
-	window->SetTitle("Edit Plot Range");
+	window->SetTitle(JGetString("WindowTitle::JX2DPlotRangeDialog"));
 	SetButtons(okButton, cancelButton);
 	ListenTo(itsClearButton);
 }

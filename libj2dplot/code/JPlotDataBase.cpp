@@ -10,7 +10,7 @@
 #include <JPlotDataBase.h>
 #include <jAssert.h>
 
-const JCharacter* JPlotDataBase::kCurveChanged = "CurveChanged::JPlotDataBase";
+const JUtf8Byte* JPlotDataBase::kCurveChanged = "CurveChanged::JPlotDataBase";
 
 /*********************************************************************************
  Constructor

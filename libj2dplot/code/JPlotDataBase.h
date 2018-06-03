@@ -74,7 +74,7 @@ private:
 
 public:
 
-	static const JCharacter* kCurveChanged;
+	static const JUtf8Byte* kCurveChanged;
 
 	class CurveChanged : public JBroadcaster::Message
 	{

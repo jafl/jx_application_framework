@@ -103,17 +103,17 @@ public:
 	JBoolean		WillIgnoreCurveChanged() const;
 	void			ShouldIgnoreCurveChanged(const JBoolean ignore);
 
-	void			SetLabels(const JCharacter* title, const JCharacter* xLabel, const JCharacter* yLabel);
+	void			SetLabels(const JString& title, const JString& xLabel, const JString& yLabel);
 	const JString&	GetXLabel() const;
-	void			SetXLabel(const JCharacter* xLabel);
+	void			SetXLabel(const JString& xLabel);
 	const JString&	GetYLabel() const;
-	void			SetYLabel(const JCharacter* yLabel);
+	void			SetYLabel(const JString& yLabel);
 	const JString&	GetTitle() const;
-	void			SetTitle(const JCharacter* xLabel);
+	void			SetTitle(const JString& xLabel);
 
 
 	const JString&	GetFontName() const;
-	void			SetFontName(const JCharacter* name);
+	void			SetFontName(const JString& name);
 
 	JSize			GetFontSize() const;
 	void			SetFontSize(const JSize size);
@@ -141,7 +141,7 @@ public:
 	JSize			GetCurveCount() const;
 
 	const JString&	GetCurveName(const JIndex index) const;
-	void			SetCurveName(const JIndex index, const JCharacter* name);
+	void			SetCurveName(const JIndex index, const JString& name);
 
 	void			AddColor(const JColorID color);
 	JColorID		GetCurveColor(const JIndex index) const;
@@ -151,12 +151,12 @@ public:
 	const JPlotDataBase&	GetCurve(const JIndex index) const;
 
 	JIndex			AddCurve(JPlotDataBase* data, const JBoolean ownsData,
-							 const JCharacter* name);
+							 const JString& name);
 	JIndex			AddCurve(JPlotDataBase* data, const JBoolean ownsData,
-							 const JCharacter* name,
+							 const JString& name,
 							 const JBoolean line, const JBoolean symbol);
 	JBoolean		AddCurve(JArray<JFloat>& x, JArray<JFloat>& y,
-							 const JBoolean listen, const JCharacter* name,
+							 const JBoolean listen, const JString& name,
 							 JIndex* index,
 							 const JBoolean line = kJFalse, const JBoolean symbol = kJTrue);
 	void			RemoveCurve(const JIndex index);
@@ -517,18 +517,18 @@ private:
 
 public:
 
-	static const JCharacter* kTitleChanged;
-	static const JCharacter* kScaleChanged;
-	static const JCharacter* kGeometryChanged;
-	static const JCharacter* kPlotChanged;
-	static const JCharacter* kIsEmpty;
-	static const JCharacter* kCurveAdded;
-	static const JCharacter* kCurveRemoved;
+	static const JUtf8Byte* kTitleChanged;
+	static const JUtf8Byte* kScaleChanged;
+	static const JUtf8Byte* kGeometryChanged;
+	static const JUtf8Byte* kPlotChanged;
+	static const JUtf8Byte* kIsEmpty;
+	static const JUtf8Byte* kCurveAdded;
+	static const JUtf8Byte* kCurveRemoved;
 
 	// Cursors
-	static const JCharacter* kCursorsChanged;
-	static const JCharacter* kCursorMarked;
-	static const JCharacter* kMarkRemoved;
+	static const JUtf8Byte* kCursorsChanged;
+	static const JUtf8Byte* kCursorMarked;
+	static const JUtf8Byte* kMarkRemoved;
 
 	class TitleChanged : public JBroadcaster::Message
 	{
@@ -852,7 +852,7 @@ J2DPlotWidget::GetFontName()
 inline void
 J2DPlotWidget::SetFontName
 	(
-	const JCharacter* name
+	const JString& name
 	)
 {
 	itsFontName = name;
@@ -896,7 +896,7 @@ J2DPlotWidget::GetTitle()
 inline void
 J2DPlotWidget::SetTitle
 	(
-	const JCharacter* xLabel
+	const JString& xLabel
 	)
 {
 	itsTitle = xLabel;
@@ -919,7 +919,7 @@ J2DPlotWidget::GetXLabel()
 inline void
 J2DPlotWidget::SetXLabel
 	(
-	const JCharacter* xLabel
+	const JString& xLabel
 	)
 {
 	itsXLabel = xLabel;
@@ -936,7 +936,7 @@ J2DPlotWidget::GetYLabel()
 inline void
 J2DPlotWidget::SetYLabel
 	(
-	const JCharacter* yLabel
+	const JString& yLabel
 	)
 {
 	itsYLabel = yLabel;
@@ -951,9 +951,9 @@ J2DPlotWidget::SetYLabel
 inline void
 J2DPlotWidget::SetLabels
 	(
-	const JCharacter* title,
-	const JCharacter* xLabel,
-	const JCharacter* yLabel
+	const JString& title,
+	const JString& xLabel,
+	const JString& yLabel
 	)
 {
 	itsTitle  = title;
