@@ -80,8 +80,11 @@ LLDBGetSourceFileList::HandleSuccess
 				lldb::SBCompileUnit u = m.GetCompileUnitAtIndex(j);
 				lldb::SBFileSpec f    = u.GetFileSpec();
 
-				fullName = JCombinePathAndName(f.GetDirectory(), f.GetFilename());
-				table->AddFile(fullName);
+				if (f.GetDirectory() != NULL && f.GetFilename() != NULL)
+					{
+					fullName = JCombinePathAndName(f.GetDirectory(), f.GetFilename());
+					table->AddFile(fullName);
+					}
 				}
 			}
 		}
