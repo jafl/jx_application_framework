@@ -9,7 +9,8 @@
 #include <JPlotDataBase.h>
 #include <J2DPlotData.h>
 #include <J2DDataRect.h>
-#include <JString.h>
+#include <JRegex.h>
+#include <JStringIterator.h>
 #include <JPagePrinter.h>
 #include <JEPSPrinter.h>
 #include <JFontManager.h>
@@ -1148,6 +1149,8 @@ J2DPlotWidget::SetPlotDecPlaces1
 
  ******************************************************************************/
 
+static const JRegex exponentPattern = "[eE]";
+
 JSize
 J2DPlotWidget::GetDecPlaces
 	(
@@ -1170,12 +1173,17 @@ J2DPlotWidget::GetDecPlaces
 
 	JBoolean hadE = kJFalse;
 
-	JIndex dotIndex, eIndex;
-	if (!valStr.LocateSubstring(".", &dotIndex))
+	JStringIterator iter(valStr);
+
+	JIndex dotIndex = 0;
+	if (iter.Next("."))
 		{
-		dotIndex = 0;
+		dotIndex = iter.GetPrevCharacterIndex();
 		}
-	if (valStr.LocateSubstring("e", kJFalse, &eIndex))
+
+	iter.MoveTo(kJIteratorStartAtBeginning, 0);
+
+	if (iter.Next(exponentPattern))
 		{
 		if (dotIndex == 0)
 			{
@@ -1183,7 +1191,7 @@ J2DPlotWidget::GetDecPlaces
 			}
 		else
 			{
-			places = eIndex - dotIndex - 1;
+			places = iter.GetPrevCharacterIndex() - dotIndex - 1;
 			}
 		hadE = kJTrue;
 		}
@@ -2015,9 +2023,11 @@ J2DPlotWidget::TruncateCurveName
 	)
 {
 	const J2DCurveInfo info = itsCurveInfo->GetElement(index);
+
+	JStringIterator iter(info.name);
 	while (p.GetStringWidth(*(info.name)) > kMaxLegendStringWidth)
 		{
-		(info.name)->RemoveSubstring((info.name)->GetLength(),(info.name)->GetLength());
+		iter.RemovePrev();
 		}
 }
 
@@ -4401,7 +4411,7 @@ J2DPlotWidget::DrawCursorLabels
 		}
 	JSize labelHeight	= p.GetLineHeight();
 	JSize cursorHeight	= GetCursorLabelHeight(p);
-	JSize strwidth		= p.GetStringWidth("x1 = 0000000000");
+	JSize strwidth		= p.GetStringWidth(JString("x1 = 0000000000", 0, kJFalse));
 	JSize totalWidth	= 3 * strwidth + 2 * kCursorValueBuffer;
 	JSize axisWidth		= itsXAxisEnd - itsXAxisStart;
 	JCoordinate startx	= itsXAxisStart;
@@ -4425,7 +4435,7 @@ J2DPlotWidget::DrawCursorLabels
 
 	if (itsXCursorVisible)
 		{
-		JString x1 = "x1 = ";
+		JString x1("x1 = ", 0);
 		x1 += FloatToString(itsXCursorVal1);
 
 		p.String(startx,
@@ -4434,10 +4444,10 @@ J2DPlotWidget::DrawCursorLabels
 
 		if (itsDualCursors)
 			{
-			JString x2 = "x2 = ";
+			JString x2("x2 = ", 0);
 			x2 += FloatToString(itsXCursorVal2);
 
-			JString dx = "dx = ";
+			JString dx("dx = ", 0);
 			dx += FloatToString(itsXCursorVal2 - itsXCursorVal1);
 
 			p.String(startx + kCursorValueBuffer + strwidth,
@@ -4451,7 +4461,7 @@ J2DPlotWidget::DrawCursorLabels
 
 	if (itsYCursorVisible)
 		{
-		JString y1 = "y1 = ";
+		JString y1("y1 = ", 0);
 		y1 += FloatToString(itsYCursorVal1);
 
 		if (itsDualCursors)
@@ -4461,10 +4471,10 @@ J2DPlotWidget::DrawCursorLabels
 				starty += labelHeight;
 				}
 
-			JString y2 = "y2 = ";
+			JString y2("y2 = ", 0);
 			y2 += FloatToString(itsYCursorVal2);
 
-			JString dy = "dy = ";
+			JString dy("dy = ", 0);
 			dy += FloatToString(itsYCursorVal2 - itsYCursorVal1);
 
 			p.String(startx,
