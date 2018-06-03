@@ -1,6 +1,8 @@
 /******************************************************************************
  JFontManager.cpp
 
+	JFontManager::Init() must be called after initializing jGlobals.
+
 	Abstract base class for accessing fonts.
 
 	Derived classes must implement the following functions:
@@ -52,15 +54,51 @@
 
 #include <JFontManager.h>
 #include <jGlobals.h>
+#include <stdarg.h>
 #include <jAssert.h>
+
+JString	JFontManager::theDefaultFontName("Helvetica", 0, kJFalse);
+JSize	JFontManager::theDefaultFontSize    = 10;
+JSize	JFontManager::theDefaultRCHFontSize = 9;
+
+JString	JFontManager::theDefaultMonospaceFontName("Courier", 0, kJFalse);
+JSize	JFontManager::theDefaultMonospaceFontSize = 10;
 
 JArray<JFontManager::Font> JFontManager::theFontList;
 
 JFontID JFontManager::theDefaultFontID          = kInvalidFontID;
 JFontID JFontManager::theDefaultMonospaceFontID = kInvalidFontID;
 
+const JIndex arabicPages[] =
+	{ 12,14,20,150,156,190,191,253 };
+
+const JIndex armenianPages[] =
+	{ 10 };
+
+const JIndex cjkPages[] =
+	{ 102,105,106,107,112,113,114,115,116,118,148,154,267,268,269,270,271,272 };
+
+const JIndex cyrillicPages[] =
+	{ 8,9,62,100,123 };
+
+const JIndex greekPages[] =
+	{ 7,69 };
+
+const JIndex hebrewPages[] =
+	{ 11 };
+
+JFontManager::FallbackFont JFontManager::theFallbackFontList[] =
+{
+	JFontManager::FallbackFont("Arabic", "ar", arabicPages),
+	JFontManager::FallbackFont("Armenian", "hy", armenianPages),
+	JFontManager::FallbackFont("CJK", "zh|ja|ko", cjkPages),
+	JFontManager::FallbackFont("Cyrillic", "ru", cyrillicPages),
+	JFontManager::FallbackFont("Greek", "el", greekPages),
+	JFontManager::FallbackFont("Hebrew", "he", hebrewPages)
+};
+
 /******************************************************************************
- Constructor
+ Constructor (protected)
 
  ******************************************************************************/
 
@@ -87,7 +125,7 @@ JFontManager::GetDefaultFont()
 {
 	if (theDefaultFontID == kInvalidFontID)
 		{
-		theDefaultFontID = GetFontID(JGetDefaultFontName(), JGetDefaultFontSize(), JFontStyle());
+		theDefaultFontID = GetFontID(theDefaultFontName, theDefaultFontSize, JFontStyle());
 		}
 
 	const Font f = theFontList.GetElement(theDefaultFontID);
@@ -104,7 +142,7 @@ JFontManager::GetDefaultMonospaceFont()
 {
 	if (theDefaultMonospaceFontID == kInvalidFontID)
 		{
-		theDefaultMonospaceFontID = GetFontID(JGetDefaultMonospaceFontName(), JGetDefaultMonospaceFontSize(), JFontStyle());
+		theDefaultMonospaceFontID = GetFontID(theDefaultMonospaceFontName, theDefaultMonospaceFontSize, JFontStyle());
 		}
 
 	const Font f = theFontList.GetElement(theDefaultMonospaceFontID);
@@ -124,7 +162,7 @@ JFontManager::GetFont
 	const JFontStyle	style
 	)
 {
-	const JSize size = origSize > 0 ? origSize : JGetDefaultFontSize();
+	const JSize size = origSize > 0 ? origSize : theDefaultFontSize;
 	return JFont(GetFontID(name, size, style), size, style);
 }
 
@@ -190,4 +228,139 @@ JFontManager::GetFontName
 {
 	const Font f = theFontList.GetElement(id);
 	return *f.name;
+}
+
+/******************************************************************************
+ Init (static)
+
+ ******************************************************************************/
+
+void
+jParseSize
+	(
+	JStringManager*		stringMgr,
+	const JUtf8Byte*	key,
+	JSize*				value
+	)
+{
+	if (stringMgr->Contains(key))
+		{
+		const JString& fontSize = JGetString(key);
+
+		JSize size;
+		if (fontSize.ConvertToUInt(&size))
+			{
+			*value = size;
+			}
+		}
+}
+
+void
+JFontManager::Init
+	(
+	const JUtf8Byte*	defaultFontName,
+	const JUtf8Byte*	defaultMonospaceFontName,
+	...
+	)
+{
+	// default font
+
+	JStringManager* stringMgr = JGetStringManager();
+
+	if (stringMgr->Contains("NAME::FONT"))
+		{
+		theDefaultFontName = JGetString("NAME::FONT");
+		}
+	else if (defaultFontName != NULL)
+		{
+		theDefaultFontName.Set(defaultFontName);
+		}
+
+	jParseSize(stringMgr, "SIZE::FONT", &theDefaultFontSize);
+	jParseSize(stringMgr, "SIZE::ROWCOLHDR::FONT", &theDefaultRCHFontSize);
+
+	// monospace font
+
+	if (stringMgr->Contains("NAME::MONO::FONT"))
+		{
+		theDefaultFontName = JGetString("NAME::MONO::FONT");
+		}
+	else if (defaultMonospaceFontName != NULL)
+		{
+		theDefaultMonospaceFontName.Set(defaultMonospaceFontName);
+		}
+
+	jParseSize(stringMgr, "SIZE::MONO::FONT", &theDefaultMonospaceFontSize);
+
+	// fallback fonts, when selected font does not support a language
+
+	const JSize kFallbackFontCount = sizeof(theFallbackFontList) / sizeof(FallbackFont);
+
+	va_list ap;
+	va_start(ap, defaultMonospaceFontName);
+	while (1)
+		{
+		const JUtf8Byte* key = va_arg(ap, const JUtf8Byte*);
+		if (key == NULL)
+			{
+			break;
+			}
+
+		const JUtf8Byte* name = va_arg(ap, const JUtf8Byte*);
+
+		JIndex i;
+		const JBoolean found = FindFallbackIndex(kFallbackFontCount, key, &i);
+		if (!found)
+			{
+			std::cerr << "unknown fallback font key: " << key << std::endl;
+			continue;
+			}
+
+		JString k;
+		k.Set("NAME::");
+		k += key;
+		k += "::FONT";
+
+		if (stringMgr->Contains(k))
+			{
+			theFallbackFontList[i-1].name = JGetString(k.GetBytes()).GetBytes();
+			}
+		else
+			{
+			theFallbackFontList[i-1].name = name;
+			}
+
+		k.Set("SIZE::");
+		k += key;
+		k += "::FONT";
+
+		theFallbackFontList[i-1].size = theDefaultFontSize;
+		jParseSize(stringMgr, k.GetBytes(), &theFallbackFontList[i-1].size);
+		}
+}
+
+/******************************************************************************
+ FindFallbackIndex (static private)
+
+ ******************************************************************************/
+
+JBoolean
+JFontManager::FindFallbackIndex
+	(
+	const JSize			count,
+	const JUtf8Byte*	key,
+	JIndex*				index
+	)
+{
+	for (JIndex i=1; i<=count; i++)
+		{
+		if (JString::Compare(key, theFallbackFontList[i-1].key) == 0)
+			{
+			*index = i;
+			return kJTrue;
+			}
+		}
+
+	*index = 0;
+	return kJFalse;
 }

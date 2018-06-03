@@ -23,8 +23,9 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 // version 4.0.0:
 //	JBroadcaster:
 //		Added ToString(), which can be overridden by derived classes.
+//	*** Moved default font name, etc. to JFontManager
 //	*** Converted kJDefaultFontSize, kJDefaultRowColHeaderFontSize, and
-//			kJDefaultMonoFontSize to functions in jGlobals.
+//			kJDefaultMonoFontSize to functions in JFontManager.
 //	*** See TRANSLATING.md for new locations of translation files
 //	To support translation into Asian languages, the default fonts & sizes
 //		can be overridden in translation files by specifying any of

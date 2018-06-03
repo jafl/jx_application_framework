@@ -71,14 +71,10 @@ JXPathInput::~JXPathInput()
 
  ******************************************************************************/
 
-const JString&
-JXPathInput::GetFont
-	(
-	JSize* size
-	)
+JFont
+JXPathInput::GetFont()
 {
-	*size = JGetDefaultMonospaceFontSize();
-	return JGetDefaultMonospaceFontName();
+	return JFontManager::GetDefaultMonospaceFont();
 }
 
 /******************************************************************************

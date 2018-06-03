@@ -21,21 +21,14 @@
 #include <ace/OS_NS_sys_socket.h>
 #include <jAssert.h>
 
-static JAssertBase*				theAssertHandler      = NULL;
+static JAssertBase*				theAssertHandler    = NULL;
 
-static JUserNotification*		theUserNotification    = NULL;
-static JChooseSaveFile*			theChooseSaveFile      = NULL;
-static JCreateProgressDisplay*	theCreatePG            = NULL;
+static JUserNotification*		theUserNotification = NULL;
+static JChooseSaveFile*			theChooseSaveFile   = NULL;
+static JCreateProgressDisplay*	theCreatePG         = NULL;
 
-static JStringManager*			theStringManager       = NULL;
-static JWebBrowser*				theWebBrowser          = NULL;
-
-static JString					theDefaultFontName("Helvetica", 0, kJFalse);
-static JSize					theDefaultFontSize    = 10;
-static JSize					theDefaultRCHFontSize = 9;
-
-static JString					theDefaultMonospaceFontName("Courier", 0, kJFalse);
-static JSize					theDefaultMonospaceFontSize = 10;
+static JStringManager*			theStringManager    = NULL;
+static JWebBrowser*				theWebBrowser       = NULL;
 
 /******************************************************************************
  JInitCore
@@ -72,13 +65,7 @@ JInitCore
 
 	JUserNotification*		un,
 	JChooseSaveFile*		csf,
-	JCreateProgressDisplay*	cpg,
-
-	const JString&			defaultFontName,
-	const JSize				defaultFontSize,
-	const JSize				defaultRowColHeaderFontSize,
-	const JString&			defaultMonospaceFontName,
-	const JSize				defaultMonospaceFontSize
+	JCreateProgressDisplay*	cpg
 	)
 {
 	if (theStringManager != NULL)
@@ -148,73 +135,6 @@ JInitCore
 		{
 		theCreatePG = jnew JCreateTextPG;
 		assert( theCreatePG != NULL );
-		}
-
-	// default font
-
-	if (stringMgr->Contains("NAME::FONT"))
-		{
-		theDefaultFontName = JGetString("NAME::FONT");
-		}
-	else if (!defaultFontName.IsEmpty())
-		{
-		theDefaultFontName = defaultFontName;
-		}
-
-	if (stringMgr->Contains("SIZE::FONT"))
-		{
-		const JString& fontSize = JGetString("SIZE::FONT");
-
-		JSize size;
-		if (fontSize.ConvertToUInt(&size))
-			{
-			theDefaultFontSize = size;
-			}
-		}
-	else if (defaultFontSize > 0)
-		{
-		theDefaultFontSize = defaultFontSize;
-		}
-
-	if (stringMgr->Contains("SIZE::ROWCOLHDR::FONT"))
-		{
-		const JString& fontSize = JGetString("SIZE::ROWCOLHDR::FONT");
-
-		JSize size;
-		if (fontSize.ConvertToUInt(&size))
-			{
-			theDefaultRCHFontSize = size;
-			}
-		}
-	else if (defaultRowColHeaderFontSize > 0)
-		{
-		theDefaultRCHFontSize = defaultRowColHeaderFontSize;
-		}
-
-	// monospace font
-
-	if (stringMgr->Contains("NAME::MONO::FONT"))
-		{
-		theDefaultFontName = JGetString("NAME::MONO::FONT");
-		}
-	else if (!defaultMonospaceFontName.IsEmpty())
-		{
-		theDefaultMonospaceFontName = defaultMonospaceFontName;
-		}
-
-	if (stringMgr->Contains("SIZE::MONO::FONT"))
-		{
-		const JString& fontSize = JGetString("SIZE::MONO::FONT");
-
-		JSize size;
-		if (fontSize.ConvertToUInt(&size))
-			{
-			theDefaultMonospaceFontSize = size;
-			}
-		}
-	else if (defaultMonospaceFontSize > 0)
-		{
-		theDefaultMonospaceFontSize = defaultMonospaceFontSize;
 		}
 
 	// remember to clean up
@@ -403,59 +323,4 @@ JGetCreatePG()
 		}
 
 	return theCreatePG;
-}
-
-/******************************************************************************
- JGetDefaultFontName
-
- ******************************************************************************/
-
-const JString&
-JGetDefaultFontName()
-{
-	return theDefaultFontName;
-}
-
-/******************************************************************************
- JGetDefaultFontSize
-
- ******************************************************************************/
-
-JSize
-JGetDefaultFontSize()
-{
-	return theDefaultFontSize;
-}
-
-/******************************************************************************
- JGetDefaultRowColHeaderFontSize
-
- ******************************************************************************/
-
-JSize
-JGetDefaultRowColHeaderFontSize()
-{
-	return theDefaultRCHFontSize;
-}
-
-/******************************************************************************
- JGetDefaultMonospaceFontName
-
- ******************************************************************************/
-
-const JString&
-JGetDefaultMonospaceFontName()
-{
-	return theDefaultMonospaceFontName;
-}
-
-/******************************************************************************
- JGetDefaultMonoFontSize
-
- ******************************************************************************/
-
-JSize
-JGetDefaultMonospaceFontSize()
-{
-	return theDefaultMonospaceFontSize;
 }

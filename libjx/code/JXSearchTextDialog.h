@@ -12,6 +12,7 @@
 #include <JUtf8Character.h>
 #include <X11/X.h>
 
+class JFont;
 class JString;
 class JRegex;
 class JInterpolate;
@@ -64,7 +65,7 @@ public:
 									JString* replaceStr, JInterpolate** interpolator,
 									JBoolean* preserveCase) const;
 
-	void	SetFont(const JString& name, const JSize size);
+	void	SetFont(const JFont& font);
 
 	void	ReadSetup(std::istream& input);
 	void	WriteSetup(std::ostream& output) const;

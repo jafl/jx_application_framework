@@ -501,7 +501,7 @@ JXSearchTextDialog::SetObjects
 	itsHelpButton  = helpButton;
 	itsQRefButton  = qRefButton;
 
-	SetFont(JGetDefaultMonospaceFontName(), JGetDefaultMonospaceFontSize());
+	SetFont(JFontManager::GetDefaultMonospaceFont());
 
 	// decor
 
@@ -971,12 +971,9 @@ JXSearchTextDialog::UpdateDisplay()
 void
 JXSearchTextDialog::SetFont
 	(
-	const JString&	name,
-	const JSize		size
+	const JFont& font
 	)
 {
-	JFont font = (GetWindow()->GetFontManager())->GetFont(name, size);
-
 	itsSearchInput->SetFont(font);
 	itsPrevSearchMenu->SetDefaultFont(font, kJTrue);
 

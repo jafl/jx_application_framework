@@ -20,13 +20,13 @@ int main()
 JTEST(DefaultFont)
 {
 	const JFont f = JFontManager::GetDefaultFont();
-	JAssertStringsEqual(JGetDefaultFontName(), f.GetName());
-	JAssertEqual(JGetDefaultFontSize(), f.GetSize());
+	JAssertStringsEqual(JFontManager::GetDefaultFontName(), f.GetName());
+	JAssertEqual(JFontManager::GetDefaultFontSize(), f.GetSize());
 }
 
 JTEST(DefaultMonospaceFont)
 {
 	const JFont f = JFontManager::GetDefaultMonospaceFont();
-	JAssertStringsEqual(JGetDefaultMonospaceFontName(), f.GetName());
-	JAssertEqual(JGetDefaultMonospaceFontSize(), f.GetSize());
+	JAssertStringsEqual(JFontManager::GetDefaultMonospaceFontName(), f.GetName());
+	JAssertEqual(JFontManager::GetDefaultMonospaceFontSize(), f.GetSize());
 }

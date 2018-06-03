@@ -18,7 +18,7 @@
 
 #include <JPagePrinter.h>
 #include <JFloatTableData.h>
-#include <JString.h>
+#include <JFontManager.h>
 #include <JKLRand.h>
 #include <jTime.h>
 #include <jAssert.h>
@@ -73,7 +73,7 @@ JIndex i,j;
 	itsTableMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsTableMenu);
 
-	itsSizeMenu = jnew JXFontSizeMenu(JGetDefaultFontName(), JGetString("SizeMenuTitle::TestFloatTable"),
+	itsSizeMenu = jnew JXFontSizeMenu(JFontManager::GetDefaultFontName(), JGetString("SizeMenuTitle::TestFloatTable"),
 									  menuBar, kFixedLeft, kFixedTop, 0,0, 10,10);
 	assert( itsSizeMenu != NULL );
 	menuBar->AppendMenu(itsSizeMenu);
@@ -246,7 +246,7 @@ TestFloatTable::Receive
 
 	else if (sender == itsSizeMenu && message.Is(JXFontSizeMenu::kSizeChanged))
 		{
-		SetFont(JGetDefaultFontName(), itsSizeMenu->GetFontSize());
+		SetFont(JFontManager::GetDefaultFontName(), itsSizeMenu->GetFontSize());
 		}
 
 	else
@@ -327,7 +327,7 @@ TestFloatTable::DrawPrintFooter
 	)
 {
 	JRect pageRect = p.GetPageRect();
-	const JString pageNumberStr = JString(p.GetPageIndex(), JString::kPrecisionAsNeeded);
+	const JString pageNumberStr = JString(p.GetPageIndex(), 0);
 
 	const JUtf8Byte* map[] =
 		{

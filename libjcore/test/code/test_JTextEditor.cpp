@@ -12,6 +12,7 @@
 #include "StyledText.h"
 #include <JRegex.h>
 #include <JInterpolate.h>
+#include <JFontManager.h>
 #include <jFStreamUtil.h>
 #include <jFileUtil.h>
 #include <jGlobals.h>
@@ -620,7 +621,7 @@ JTEST(SearchStyle)
 	TextEditor te(&text, kJFalse, 50);
 	te.SetCurrentFontSize(20);
 	te.Paste(JString("b" "\xC3\xAE" "g", 0, kJFalse));
-	te.SetCurrentFontSize(JGetDefaultFontSize());
+	te.SetCurrentFontSize(JFontManager::GetDefaultFontSize());
 	te.SetCurrentFontBold(kJTrue);
 	te.Paste(JString("b" "\xC3\xB8" "ld", 0, kJFalse));
 	te.SetCurrentFontBold(kJFalse);
@@ -801,7 +802,7 @@ JTEST(SetAllFontNameAndSize)
 	TextEditor te(&text, kJFalse, 50);
 	te.SetCurrentFontSize(20);
 	te.Paste(JString("b" "\xC3\xAE" "g", 0, kJFalse));
-	te.SetCurrentFontSize(JGetDefaultFontSize());
+	te.SetCurrentFontSize(JFontManager::GetDefaultFontSize());
 	te.SetCurrentFontBold(kJTrue);
 	te.Paste(JString("b" "\xC3\xB8" "ld", 0, kJFalse));
 	te.SetCurrentFontBold(kJFalse);

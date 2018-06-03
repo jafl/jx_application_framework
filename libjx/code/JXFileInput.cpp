@@ -72,14 +72,10 @@ JXFileInput::~JXFileInput()
 
  ******************************************************************************/
 
-const JString&
-JXFileInput::GetFont
-	(
-	JSize* size
-	)
+JFont
+JXFileInput::GetFont()
 {
-	*size = JGetDefaultMonospaceFontSize();
-	return JGetDefaultMonospaceFontName();
+	return JFontManager::GetDefaultMonospaceFont();
 }
 
 /******************************************************************************

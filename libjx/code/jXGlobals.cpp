@@ -21,6 +21,8 @@
 #include <JXDisplay.h>
 #include <JXAssert.h>
 #include <JXSharedPrefsManager.h>
+#include <jXDefaultFonts.h>
+#include <JFontManager.h>
 #include <jStreamUtil.h>
 #include <jDirUtil.h>
 #include <X11/Xlib.h>
@@ -39,30 +41,14 @@ static JXDockManager*			theDockManager    = NULL;
 static JXMDIServer*				theMDIServer      = NULL;	// can be NULL
 static JXWebBrowser*			theWebBrowser     = NULL;	// owned by JCore
 
-static JXDirector*				thePersistentWindowOwner  = NULL;	// can be NULL
-static JXSearchTextDialog*		theSearchTextDialog       = NULL;	// can be NULL
-static JXSpellChecker*			theSpellChecker           = NULL;
+static JXDirector*				thePersistentWindowOwner = NULL;	// can be NULL
+static JXSearchTextDialog*		theSearchTextDialog      = NULL;	// can be NULL
+static JXSpellChecker*			theSpellChecker          = NULL;
 
-static JXComposeRuleList*		theComposeRuleList        = NULL;	// can be NULL
+static JXComposeRuleList*		theComposeRuleList       = NULL;	// can be NULL
 
 static const JUtf8Byte* kInvisibleWindowClass = "Do_not_display_in_taskbar";
 static const JUtf8Byte* kDockWindowClass      = "JX_Dock";
-
-static const JString kDefaultFontName(
-	#ifdef _J_OSX
-	"Arial",
-	#else
-	"Helvetica",
-	#endif
-	0, kJFalse);
-
-static const JString kMonospaceFontName(
-	#ifdef _J_OSX
-	"Menlo",
-	#else
-	"Bitstream Vera Sans Mono",
-	#endif
-	0, kJFalse);
 
 /******************************************************************************
  JXCreateGlobals
@@ -91,8 +77,16 @@ JXCreateGlobals
 	assert( theChooseSaveFile != NULL );
 
 	JInitCore(theAssertHandler, appSignature, defaultStringData,
-			  un, theChooseSaveFile, jnew JXCreatePG,
-			  kDefaultFontName, 0, 0, kMonospaceFontName, 0);
+			  un, theChooseSaveFile, jnew JXCreatePG);
+
+	JFontManager::Init(kLatinDefaultFontName, kMonospaceFontName,
+		"Arabic", kArabicDefaultFontName,
+		"Armenian", kArmenianDefaultFontName,
+		"CJK", kCJKDefaultFontName,
+		"Cyrillic", kCyrillicDefaultFontName,
+		"Greek", kGreekDefaultFontName,
+		"Hebrew", kHebrewDefaultFontName,
+		NULL);
 
 	XSetErrorHandler(JXDisplay::JXErrorHandler);
 	XSetIOErrorHandler(JXApplication::JXIOErrorHandler);

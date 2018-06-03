@@ -903,9 +903,9 @@ JXFontManager::ApproximateFont
 			style.italic = kJFalse;
 			size         = origSize;
 			}
-		else if (name != JGetDefaultFontName())
+		else if (name != JFontManager::GetDefaultFontName())
 			{
-			name  = JGetDefaultFontName();
+			name  = JFontManager::GetDefaultFontName();
 			size  = origSize;
 			style = origStyle;
 			}
@@ -914,7 +914,7 @@ JXFontManager::ApproximateFont
 			// this should never happen, but it does with some Win95 X servers
 
 			std::cerr << "The X server does not have any 75 dpi PostScript fonts, not even ";
-			std::cerr << JGetDefaultFontName() << std::endl;
+			std::cerr << JFontManager::GetDefaultFontName() << std::endl;
 			std::cerr << "Please install the xorg-x11-fonts-75dpi package" << std::endl;
 			JXApplication::Abort(JXDocumentManager::kServerDead, kJFalse);
 			}

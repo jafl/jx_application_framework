@@ -51,7 +51,7 @@ JXFontSizeMenu::JXFontSizeMenu
 {
 	JXFontSizeMenuX(NULL);
 	BuildMenu(fontName);
-	SetFontSize(JGetDefaultFontSize());
+	SetFontSize(JFontManager::GetDefaultFontSize());
 }
 
 JXFontSizeMenu::JXFontSizeMenu
@@ -66,7 +66,7 @@ JXFontSizeMenu::JXFontSizeMenu
 {
 	JXFontSizeMenuX(NULL);
 	BuildMenu(fontName);
-	SetFontSize(JGetDefaultFontSize());
+	SetFontSize(JFontManager::GetDefaultFontSize());
 }
 
 JXFontSizeMenu::JXFontSizeMenu
@@ -87,7 +87,7 @@ JXFontSizeMenu::JXFontSizeMenu
 	JXFontSizeMenuX(fontMenu);
 	const JString fontName = itsFontNameMenu->GetFontName();
 	BuildMenu(fontName);
-	SetFontSize(JGetDefaultFontSize());
+	SetFontSize(JFontManager::GetDefaultFontSize());
 }
 
 JXFontSizeMenu::JXFontSizeMenu
@@ -103,7 +103,7 @@ JXFontSizeMenu::JXFontSizeMenu
 	JXFontSizeMenuX(fontMenu);
 	const JString fontName = itsFontNameMenu->GetFontName();
 	BuildMenu(fontName);
-	SetFontSize(JGetDefaultFontSize());
+	SetFontSize(JFontManager::GetDefaultFontSize());
 }
 
 // private

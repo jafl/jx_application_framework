@@ -11,7 +11,6 @@ TestButtonsDialog.cpp
 #include "SmileyBitmaps.h"
 #include <JXWindow.h>
 #include <JXStaticText.h>
-#include <JXColorManager.h>
 
 #include <JXTextButton.h>
 #include <JXImageButton.h>
@@ -24,6 +23,8 @@ TestButtonsDialog.cpp
 #include <JXTextRadioButton.h>
 #include <JXImageRadioButton.h>
 #include <jXGlobals.h>
+#include <JFontManager.h>
+#include <JColorManager.h>
 #include <jAssert.h>
 
 static unsigned char okButtonData[] =
@@ -94,7 +95,7 @@ TestButtonsDialog::BuildWindow()
 		jnew JXStaticText(JGetString("rg1Label::TestButtonsDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 150,20, 104,20);
 	assert( rg1Label != NULL );
-	rg1Label->SetFontSize(JGetDefaultFontSize()-2);
+	rg1Label->SetFontSize(JFontManager::GetDefaultFontSize()-2);
 	rg1Label->SetToLabel();
 
 	JXTextButton* cancelButton =
@@ -172,7 +173,7 @@ TestButtonsDialog::BuildWindow()
 		jnew JXStaticText(JGetString("imageLabel::TestButtonsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 25,110, 90,20);
 	assert( imageLabel != NULL );
-	imageLabel->SetFontSize(JGetDefaultFontSize()-2);
+	imageLabel->SetFontSize(JFontManager::GetDefaultFontSize()-2);
 	const JFontStyle imageLabel_style(kJFalse, kJFalse, 0, kJFalse, JColorManager::GetGreenColor());
 	imageLabel->SetFontStyle(imageLabel_style);
 	imageLabel->SetToLabel();
@@ -193,7 +194,7 @@ TestButtonsDialog::BuildWindow()
 		jnew JXTextCheckbox(JGetString("itsEnable1CB::TestButtonsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,230, 80,20);
 	assert( itsEnable1CB != NULL );
-	itsEnable1CB->SetFontSize(JGetDefaultFontSize()-2);
+	itsEnable1CB->SetFontSize(JFontManager::GetDefaultFontSize()-2);
 
 	JXStaticText* cbGroupLabel =
 		jnew JXStaticText(JGetString("cbGroupLabel::TestButtonsDialog::JXLayout"), window,
@@ -210,7 +211,7 @@ TestButtonsDialog::BuildWindow()
 		jnew JXTextCheckbox(JGetString("itsEnable2CB::TestButtonsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 100,230, 80,20);
 	assert( itsEnable2CB != NULL );
-	itsEnable2CB->SetFontSize(JGetDefaultFontSize()-2);
+	itsEnable2CB->SetFontSize(JFontManager::GetDefaultFontSize()-2);
 
 	its2CB =
 		jnew JXTextCheckbox(JGetString("its2CB::TestButtonsDialog::JXLayout"), window,
@@ -221,7 +222,7 @@ TestButtonsDialog::BuildWindow()
 		jnew JXTextCheckbox(JGetString("itsEnable3CB::TestButtonsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 180,230, 80,20);
 	assert( itsEnable3CB != NULL );
-	itsEnable3CB->SetFontSize(JGetDefaultFontSize()-2);
+	itsEnable3CB->SetFontSize(JFontManager::GetDefaultFontSize()-2);
 
 	its3CB =
 		jnew JXTextCheckbox(JGetString("its3CB::TestButtonsDialog::JXLayout"), window,
@@ -232,7 +233,7 @@ TestButtonsDialog::BuildWindow()
 		jnew JXStaticText(JGetString("rg2Label::TestButtonsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 25,134, 102,20);
 	assert( rg2Label != NULL );
-	rg2Label->SetFontSize(JGetDefaultFontSize()-2);
+	rg2Label->SetFontSize(JFontManager::GetDefaultFontSize()-2);
 	rg2Label->SetToLabel();
 
 // end JXLayout

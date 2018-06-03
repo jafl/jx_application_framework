@@ -191,7 +191,8 @@ JXColHeaderWidget::TableDrawCell
 		}
 
 	const JFont font = GetFontManager()->GetFont(
-			JGetDefaultFontName(), JGetDefaultRowColHeaderFontSize(),
+			JFontManager::GetDefaultFontName(),
+			JFontManager::GetDefaultRowColHeaderFontSize(),
 			JFontStyle(kJTrue, kJFalse, 0, kJFalse));
 	p.SetFont(font);
 	p.String(rect, str, JPainter::kHAlignCenter, JPainter::kVAlignCenter);

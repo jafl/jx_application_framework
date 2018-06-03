@@ -1,20 +1,4 @@
-in strings file, define default font for each language:
-	fallback (en, etc)
-	armenian (hy)
-	greek (el)
-	cyrillic (ru)
-	hebrew (he)
-	chinese (zh)
-	japanese (ja)
-	korean (ko)
-	thai (th)
-	arabic (ar)
-
 choose chinese font based on base font serif
-	PingFang, Heiti - sanserif
-	Songti - serif
-	SC - simplified, TC - traditional, HK - Hong Kong
-
 	test in Linux via VirtualBox Fedora
 
 
@@ -30,21 +14,6 @@ choose chinese font based on base font serif
 
 
 
-JTextEditor:
-	undo paste doesn't update caret location
-	tab makes rest of text invisible
-	clicking in selection doesn't set caret location
-		treats ending newline line as part of selection
-	dropOnSelf crashed
-
-TestTabDirector
-	created tabs:  horiz button padding is zero
-
-TextTextEditor
-	some characters extend above line height
-
-XIM to type utf-8 characters
-
 finish JTextEditor tests
 	GetCmdStatus
 	MouseActions
@@ -56,9 +25,22 @@ JStyledTextBuffer
 	AutoIndent
 	CleanRightMargin
 
-JTextEditor
-	set selection/caret after performing undo operations
-+	keep undo active while typing
+JTextEditor:
+	undo paste doesn't update caret location
+		set selection/caret after performing undo operations
++		keep undo active while typing
+	tab makes rest of text invisible
+	clicking in selection doesn't set caret location
+		treats ending newline line as part of selection
+	dropOnSelf crashed
+
+JXFontManager
+	some characters extend above line height
+
+TestTabDirector
+	created tabs:  horiz button padding is zero
+
+XIM to type utf-8 characters
 
 put back
 	JVIKeyHandler
@@ -71,7 +53,6 @@ implement flex/bison parser for libjexpr
 fix TODO's
 
 test
-	tip of the day
 	man pages
 	styled unix terminal output - yui build output
 	default & vi key handlers

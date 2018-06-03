@@ -131,7 +131,7 @@ JXFontNameMenu::BuildMenu()
 	SetUpdateAction(kDisableNone);
 
 	itsFontIndex = 1;
-	SetFontName(JGetDefaultFontName());
+	SetFontName(JFontManager::GetDefaultFontName());
 	ListenTo(this);
 }
 

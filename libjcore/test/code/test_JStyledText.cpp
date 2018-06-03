@@ -283,7 +283,7 @@ JTEST(ReadWritePrivateFormat)
 	StyledText text;
 	text.SetText(JString("\xC3\x86" "bcd", 0, kJFalse));
 	text.SetFontName(TextRange(JCharacterRange(2,2), JUtf8ByteRange(3,3)), JString("foo", 0, kJFalse), kJTrue);
-	text.SetFontSize(TextRange(JCharacterRange(2,3), JUtf8ByteRange(3,4)), 2*JGetDefaultFontSize(), kJTrue);
+	text.SetFontSize(TextRange(JCharacterRange(2,3), JUtf8ByteRange(3,4)), 2*JFontManager::GetDefaultFontSize(), kJTrue);
 	text.SetFontBold(TextRange(JCharacterRange(1,2), JUtf8ByteRange(1,3)), kJTrue, kJTrue);
 	JAssertEqual(4, text.GetStyles().GetRunCount());
 
@@ -309,29 +309,29 @@ JTEST(ReadWritePrivateFormat)
 	JAssertEqual(4, buf2.GetStyles().GetRunCount());
 
 	JFont f = buf2.GetFont(1);
-	JAssertStringsEqual(JGetDefaultFontName(), f.GetName());
-	JAssertEqual(JGetDefaultFontSize(), f.GetSize());
+	JAssertStringsEqual(JFontManager::GetDefaultFontName(), f.GetName());
+	JAssertEqual(JFontManager::GetDefaultFontSize(), f.GetSize());
 	JAssertTrue(f.GetStyle().bold);
 	JAssertFalse(f.GetStyle().italic);
 	JAssertEqual(0, f.GetStyle().underlineCount);
 
 	f = buf2.GetFont(2);
 	JAssertStringsEqual("foo", f.GetName());
-	JAssertEqual(2*JGetDefaultFontSize(), f.GetSize());
+	JAssertEqual(2*JFontManager::GetDefaultFontSize(), f.GetSize());
 	JAssertTrue(f.GetStyle().bold);
 	JAssertFalse(f.GetStyle().italic);
 	JAssertEqual(0, f.GetStyle().underlineCount);
 
 	f = buf2.GetFont(3);
-	JAssertStringsEqual(JGetDefaultFontName(), f.GetName());
-	JAssertEqual(2*JGetDefaultFontSize(), f.GetSize());
+	JAssertStringsEqual(JFontManager::GetDefaultFontName(), f.GetName());
+	JAssertEqual(2*JFontManager::GetDefaultFontSize(), f.GetSize());
 	JAssertFalse(f.GetStyle().bold);
 	JAssertFalse(f.GetStyle().italic);
 	JAssertEqual(0, f.GetStyle().underlineCount);
 
 	f = buf2.GetFont(4);
-	JAssertStringsEqual(JGetDefaultFontName(), f.GetName());
-	JAssertEqual(JGetDefaultFontSize(), f.GetSize());
+	JAssertStringsEqual(JFontManager::GetDefaultFontName(), f.GetName());
+	JAssertEqual(JFontManager::GetDefaultFontSize(), f.GetSize());
 	JAssertFalse(f.GetStyle().bold);
 	JAssertFalse(f.GetStyle().italic);
 	JAssertEqual(0, f.GetStyle().underlineCount);
@@ -687,9 +687,9 @@ JTEST(InsertCharacter)
 	text.InsertCharacter(TextRange(JCharacterRange(5,0), JUtf8ByteRange(6,0)), 'z', JFontManager::GetDefaultFont());
 	JAssertStringsEqual("b" "\xC3\xAE" "xyzg" "b" "\xC3\xB8" "ld" "normal" "double underline", text.GetText());
 	JAssertEqual(20, text.GetStyles().GetElement(2).GetSize());
-	JAssertEqual(JGetDefaultFontSize(), text.GetStyles().GetElement(3).GetSize());
-	JAssertEqual(JGetDefaultFontSize(), text.GetStyles().GetElement(4).GetSize());
-	JAssertEqual(JGetDefaultFontSize(), text.GetStyles().GetElement(5).GetSize());
+	JAssertEqual(JFontManager::GetDefaultFontSize(), text.GetStyles().GetElement(3).GetSize());
+	JAssertEqual(JFontManager::GetDefaultFontSize(), text.GetStyles().GetElement(4).GetSize());
+	JAssertEqual(JFontManager::GetDefaultFontSize(), text.GetStyles().GetElement(5).GetSize());
 	JAssertEqual(20, text.GetStyles().GetElement(6).GetSize());
 
 	text.InsertCharacter(TextRange(JCharacterRange(8,0), JUtf8ByteRange(9,0)), '1', JFontManager::GetDefaultFont());

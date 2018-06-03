@@ -14,6 +14,7 @@
 #include <JXTextButton.h>
 #include <JXTextCheckbox.h>
 #include <jXGlobals.h>
+#include <JFontManager.h>
 #include <jAssert.h>
 
 /******************************************************************************
@@ -89,7 +90,7 @@ JXMacWinPrefsDialog::BuildWindow()
 		jnew JXStaticText(JGetString("restartHint::JXMacWinPrefsDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 40,40, 300,20);
 	assert( restartHint != NULL );
-	restartHint->SetFontSize(JGetDefaultFontSize()-2);
+	restartHint->SetFontSize(JFontManager::GetDefaultFontSize()-2);
 	restartHint->SetToLabel();
 
 	itsScrollCaretCB =

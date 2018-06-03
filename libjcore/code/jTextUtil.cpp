@@ -12,6 +12,7 @@
 #include "JStringIterator.h"
 #include "JRegex.h"
 #include "jStreamUtil.h"
+#include "JFontManager.h"
 #include "JColorManager.h"
 #include "jGlobals.h"
 #include "jAssert.h"
@@ -477,7 +478,7 @@ JReadLimitedMarkdown
 	jReplaceMarkdownPattern(&iter, theUnderlinePattern, f, &styles);
 	f.SetUnderlineCount(0);
 
-	f.SetName(JGetDefaultMonospaceFontName());
+	f.SetName(JFontManager::GetDefaultMonospaceFontName());
 	jReplaceMarkdownPattern(&iter, theFixedWidthPattern, f, &styles);
 	// no need to reset font
 

@@ -11,6 +11,7 @@
 #define _H_JFontManager
 
 #include <JPtrArray-JString.h>
+#include <JStringMap.h>
 #include <JFont.h>
 
 const JFontID kInvalidFontID = 0;
@@ -21,7 +22,8 @@ class JFontManager
 
 public:
 
-	JFontManager();
+	static void	Init(const JUtf8Byte* defaultFontName,
+					 const JUtf8Byte* defaultMonospaceFontName, ...);
 
 	virtual ~JFontManager();
 
@@ -29,6 +31,13 @@ public:
 	virtual void		GetMonospaceFontNames(JPtrArray<JString>* fontNames) = 0;
 	virtual JBoolean	GetFontSizes(const JString& name, JSize* minSize,
 									 JSize* maxSize, JArray<JSize>* sizeList) = 0;
+
+	static const JString&	GetDefaultFontName();
+	static const JString&	GetDefaultMonospaceFontName();
+
+	static JSize	GetDefaultFontSize();
+	static JSize	GetDefaultRowColHeaderFontSize();
+	static JSize	GetDefaultMonospaceFontSize();
 
 	static JFont	GetDefaultFont();
 	static JFont	GetDefaultMonospaceFont();
@@ -39,6 +48,8 @@ public:
 	virtual JBoolean	IsExact(const JFontID id) = 0;
 
 protected:
+
+	JFontManager();
 
 	static JFontID	GetFontID(const JString& name, const JSize size,
 							  const JFontStyle& style);
@@ -67,11 +78,42 @@ public:		// ought to be private
 
 private:
 
+	struct FallbackFont
+	{
+		const JUtf8Byte*	key;
+		const JUtf8Byte*	lang;
+		const JUtf8Byte*	name;
+		JSize				size;
+		const JIndex*		pages;
+
+		FallbackFont(const JUtf8Byte* k, const JUtf8Byte* l, const JIndex* p)
+			:
+			key(k),
+			lang(l),
+			name(NULL),
+			size(0),
+			pages(p)
+			{ };
+	};
+
+private:
+
+	static JString		theDefaultFontName;
+	static JSize		theDefaultFontSize;
+	static JSize		theDefaultRCHFontSize;
+
+	static JString		theDefaultMonospaceFontName;
+	static JSize		theDefaultMonospaceFontSize;
+
 	static JArray<Font>	theFontList;
 	static JFontID		theDefaultFontID;
 	static JFontID		theDefaultMonospaceFontID;
 
+	static FallbackFont	theFallbackFontList[];
+
 private:
+
+	static JBoolean	FindFallbackIndex(const JSize count, const JUtf8Byte* key, JIndex* index);
 
 	// not allowed
 
@@ -79,6 +121,41 @@ private:
 	const JFontManager& operator=(const JFontManager& source);
 };
 
+
+/******************************************************************************
+ Get defaults (static)
+
+ ******************************************************************************/
+
+inline const JString&
+JFontManager::GetDefaultFontName()
+{
+	return theDefaultFontName;
+}
+
+inline JSize
+JFontManager::GetDefaultFontSize()
+{
+	return theDefaultFontSize;
+}
+
+inline JSize
+JFontManager::GetDefaultRowColHeaderFontSize()
+{
+	return theDefaultRCHFontSize;
+}
+
+inline const JString&
+JFontManager::GetDefaultMonospaceFontName()
+{
+	return theDefaultMonospaceFontName;
+}
+
+inline JSize
+JFontManager::GetDefaultMonospaceFontSize()
+{
+	return theDefaultMonospaceFontSize;
+}
 
 /******************************************************************************
  Get line thicknesses (static protected)

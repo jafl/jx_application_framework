@@ -50,7 +50,7 @@ public:
 
 	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers) override;
 
-	static const JString&	GetFont(JSize* size);
+	static JFont	GetFont();
 
 	static JColorID	GetTextColor(const JString& fileName, const JString& basePath,
 									 const JBoolean requireRead, const JBoolean requireWrite,

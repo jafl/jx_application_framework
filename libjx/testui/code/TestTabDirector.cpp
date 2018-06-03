@@ -167,7 +167,7 @@ TestTabDirector::Receive
 {
 	if (sender == itsAddTabButton && message.Is(JXButton::kPushed))
 		{
-		JString s(itsNextTabIndex, JString::kPrecisionAsNeeded);
+		JString s(itsNextTabIndex, 0);
 		s.Prepend(JGetString("TabLabelPrefix::TestTabDirector"));
 		JXContainer* card = itsTabGroup->AppendTab(s, kJTrue);
 		itsNextTabIndex++;

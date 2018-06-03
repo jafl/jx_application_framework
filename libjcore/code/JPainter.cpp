@@ -135,7 +135,8 @@ JPainter::ResetAllButClipping()
 	itsFillFlag            = kJFalse;
 	itsDrawDashedLinesFlag = kJFalse;
 
-	itsFont.Set(JGetDefaultFontName(), JGetDefaultFontSize(), JFontStyle(itsDefaultColor));
+	itsFont = JFontManager::GetDefaultFont();
+	itsFont.SetColor(itsDefaultColor);
 }
 
 /******************************************************************************

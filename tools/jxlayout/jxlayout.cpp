@@ -11,6 +11,7 @@
 #include <JStringIterator.h>
 #include <JRegex.h>
 #include <JPtrArray-JString.h>
+#include <JFontManager.h>
 #include <jTextUtil.h>
 #include <jFStreamUtil.h>
 #include <jStreamUtil.h>
@@ -104,13 +105,13 @@ struct FontSizeConversion
 
 static const FontSizeConversion kFontSizeTable[] =
 {
-	{"FL_DEFAULT_SIZE", "JGetDefaultFontSize()-2"},
-	{"FL_TINY_SIZE",    "JGetDefaultFontSize()-4"},
-	{"FL_SMALL_SIZE",   "JGetDefaultFontSize()-2"},
-	{"FL_NORMAL_SIZE",  "JGetDefaultFontSize()"},
-	{"FL_MEDIUM_SIZE",  "JGetDefaultFontSize()+2"},
-	{"FL_LARGE_SIZE",   "JGetDefaultFontSize()+4"},
-	{"FL_HUGE_SIZE",    "JGetDefaultFontSize()+8"}
+	{"FL_DEFAULT_SIZE", "JFontManager::GetDefaultFontSize()-2"},
+	{"FL_TINY_SIZE",    "JFontManager::GetDefaultFontSize()-4"},
+	{"FL_SMALL_SIZE",   "JFontManager::GetDefaultFontSize()-2"},
+	{"FL_NORMAL_SIZE",  "JFontManager::GetDefaultFontSize()"},
+	{"FL_MEDIUM_SIZE",  "JFontManager::GetDefaultFontSize()+2"},
+	{"FL_LARGE_SIZE",   "JFontManager::GetDefaultFontSize()+4"},
+	{"FL_HUGE_SIZE",    "JFontManager::GetDefaultFontSize()+8"}
 };
 
 const JSize kFontSizeTableSize = sizeof(kFontSizeTable)/sizeof(FontSizeConversion);
@@ -1081,7 +1082,7 @@ GetTempVarName
 	const JSize count = objNames.GetElementCount();
 	for (JIndex i=1; i<=INT_MAX; i++)
 		{
-		*varName = prefix + JString(i) + suffix;
+		*varName = prefix + JString(i, 0) + suffix;
 		JBoolean unique = kJTrue;
 		for (JIndex j=1; j<=count; j++)
 			{
@@ -1383,7 +1384,7 @@ ApplyOptions
 
 	if (AcceptsFontSpec(className))
 		{
-		JString fontName = JGetDefaultFontName();
+		JString fontName = JFontManager::GetDefaultFontName();
 		if (flStyle.Contains("FIXED"))
 			{
 			output << indent;

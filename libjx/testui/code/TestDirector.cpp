@@ -1145,7 +1145,7 @@ TestDirector::FGProcess
 
 		// update the display
 
-		JString progressStr(i, JString::kPrecisionAsNeeded);
+		JString progressStr(i, 0);
 		progressStr.Prepend("iteration ");
 		if (!pg->IncrementProgress(progressStr))
 			{

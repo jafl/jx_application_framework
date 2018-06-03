@@ -372,7 +372,7 @@ TestWidget::Print
 		// draw the footer
 
 		pageRect = p.GetPageRect();
-		const JString pageNumberStr(i, JString::kPrecisionAsNeeded);
+		const JString pageNumberStr(i, 0);
 
 		const JUtf8Byte* map[] =
 			{

@@ -10,6 +10,7 @@
 #include "AboutDialog.h"
 #include <JXWindow.h>
 #include <JXTextButton.h>
+#include <JFontManager.h>
 #include <jGlobals.h>
 #include <jAssert.h>
 
@@ -55,7 +56,7 @@ AboutDialog::BuildWindow()
 					JXWidget::kHElastic, JXWidget::kVElastic, 10,35, 80,30);
 	assert( okButton != NULL );
 	okButton->SetShortcuts(JGetString("okButton::AboutDialog::shortcuts::JXLayout"));
-	okButton->SetFontSize(JGetDefaultFontSize()-2);
+	okButton->SetFontSize(JFontManager::GetDefaultFontSize()-2);
 
 // end JXLayout
 

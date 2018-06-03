@@ -14,8 +14,9 @@
 #include <JXIntegerInput.h>
 #include <JXPasswordInput.h>
 #include <JXStaticText.h>
-#include <JXColorManager.h>
 #include <jXGlobals.h>
+#include <JFontManager.h>
+#include <JColorManager.h>
 #include <jAssert.h>
 
 /******************************************************************************
@@ -137,7 +138,7 @@ TestInputFieldsDialog::BuildWindow()
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,40, 100,20);
 	assert( reqStringLabel != NULL );
 	reqStringLabel->SetFontName(JGetString("TimesFontName::TestInputFieldsDialog::JXLayout"));
-	reqStringLabel->SetFontSize(JGetDefaultFontSize()-2);
+	reqStringLabel->SetFontSize(JFontManager::GetDefaultFontSize()-2);
 	const JFontStyle reqStringLabel_style(kJTrue, kJFalse, 0, kJFalse, JColorManager::GetGreenColor());
 	reqStringLabel->SetFontStyle(reqStringLabel_style);
 	reqStringLabel->SetToLabel();
@@ -155,7 +156,7 @@ TestInputFieldsDialog::BuildWindow()
 		jnew JXStaticText(JGetString("max10Label::TestInputFieldsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,80, 100,20);
 	assert( max10Label != NULL );
-	max10Label->SetFontSize(JGetDefaultFontSize()-2);
+	max10Label->SetFontSize(JFontManager::GetDefaultFontSize()-2);
 	const JFontStyle max10Label_style(kJFalse, kJTrue, 0, kJFalse, JColorManager::GetBlackColor());
 	max10Label->SetFontStyle(max10Label_style);
 	max10Label->SetToLabel();

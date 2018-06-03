@@ -21,12 +21,7 @@ class JWebBrowser;
 
 void JInitCore(JAssertBase* ah = NULL, const JUtf8Byte* appSignature = NULL,
 			   const JUtf8Byte** defaultStringData = NULL, JUserNotification* un = NULL,
-			   JChooseSaveFile* csf = NULL, JCreateProgressDisplay* cpg = NULL,
-			   const JString& defaultFontName = JString::empty,
-			   const JSize defaultFontSize = 0,
-			   const JSize defaultRowColHeaderFontSize = 0,
-			   const JString& defaultMonospaceFontName = JString::empty,
-			   const JSize defaultMonospaceFontSize = 0);
+			   JChooseSaveFile* csf = NULL, JCreateProgressDisplay* cpg = NULL);
 void JSetWebBrowser(JWebBrowser* webBrowser);
 
 void JDeleteGlobals();
@@ -41,13 +36,6 @@ JCreateProgressDisplay*	JGetCreatePG();
 JStringManager*			JGetStringManager();
 const JString&			JGetString(const JUtf8Byte* id);
 JString					JGetString(const JUtf8Byte* id, const JUtf8Byte* map[], const JSize size);
-
-const JString&			JGetDefaultFontName();
-JSize					JGetDefaultFontSize();
-JSize					JGetDefaultRowColHeaderFontSize();
-
-const JString&			JGetDefaultMonospaceFontName();
-JSize					JGetDefaultMonospaceFontSize();
 
 JBoolean	JGetDataDirectories(const JString& signature, const JString& dirName,
 								JString* sysDir, JString* userDir);

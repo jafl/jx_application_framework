@@ -25,7 +25,7 @@ JFont::Set
 	const JFontStyle	style
 	)
 {
-	itsSize  = size > 0 ? size : JGetDefaultFontSize();
+	itsSize  = size > 0 ? size : JFontManager::GetDefaultFontSize();
 	itsStyle = style;
 	SetName(name);
 }

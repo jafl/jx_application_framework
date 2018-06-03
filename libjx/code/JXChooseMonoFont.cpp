@@ -48,14 +48,14 @@ JXChooseMonoFont::JXChooseMonoFont
 							kFixedLeft, kFixedTop, 0,0, w,25, &itsFontMenu);
 	assert( ok );
 	PrependOtherMonospaceFonts(itsFontMenu);
-	itsFontMenu->SetFontName(JGetDefaultMonospaceFontName());
+	itsFontMenu->SetFontName(JFontManager::GetDefaultMonospaceFontName());
 	itsFontMenu->SetToPopupChoice();
 	ListenTo(itsFontMenu);
 
-	itsSizeMenu = jnew JXFontSizeMenu(JGetDefaultMonospaceFontName(), JGetString("SizeMenuTitle::JXChooseMonoFont"), this,
+	itsSizeMenu = jnew JXFontSizeMenu(JFontManager::GetDefaultMonospaceFontName(), JGetString("SizeMenuTitle::JXChooseMonoFont"), this,
 									 kFixedLeft, kFixedTop, 0,30, w,25);
 	assert( itsSizeMenu != NULL );
-	itsSizeMenu->SetFontSize(JGetDefaultMonospaceFontSize());
+	itsSizeMenu->SetFontSize(JFontManager::GetDefaultMonospaceFontSize());
 	itsSizeMenu->SetToPopupChoice();
 	ListenTo(itsSizeMenu);
 
