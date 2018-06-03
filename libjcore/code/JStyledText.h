@@ -462,14 +462,14 @@ private:
 	TextCount	PrivatePaste(const TextRange& range,
 							 const JString& text, const JRunArray<JFont>* style);
 	TextCount	InsertText(const TextIndex& index, const JString& text,
-						   const JRunArray<JFont>* style = NULL,
-						   const JFont* defaultStyle = NULL);
+						   const JFont& font);
+	TextCount	InsertText(const TextIndex& index, const JString& text,
+						   const JRunArray<JFont>& style);
 	TextCount	InsertText(JStringIterator* targetText, JRunArray<JFont>* targetStyle,
-						   const JString& text, const JRunArray<JFont>* style,
-						   const JFont* defaultStyle);
+						   const JString& text, const JRunArray<JFont>& style);
 	void		PrivateDeleteText(const TextRange& range);
 	void		PrivateDeleteText(JStringIterator* iter, const TextCount& count);
-	JBoolean	CleanText(const JString& text, const JRunArray<JFont>* style,
+	JBoolean	CleanText(const JString& text, const JRunArray<JFont>& style,
 						  JString** cleanText, JRunArray<JFont>** cleanStyle,
 						  JBoolean* okToInsert);
 

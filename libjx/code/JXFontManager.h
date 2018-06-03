@@ -59,8 +59,6 @@ public:
 	virtual JBoolean	GetFontSizes(const JString& name, JSize* minSize,
 									 JSize* maxSize, JArray<JSize>* sizeList);
 
-	virtual JBoolean	IsExact(const JFontID id);
-
 	// for X Window System only
 
 	void		GetXFontNames(const JRegex& regex,
@@ -79,6 +77,9 @@ protected:
 
 	virtual JSize	GetCharWidth(const JFontID id, const JUtf8Character& c);
 	virtual JSize	GetStringWidth(const JFontID id, const JString& str);
+
+	virtual JBoolean	IsExact(const JFontID id);
+	virtual JBoolean	HasGlyphForCharacter(const JFontID id, const JUtf8Character& c);
 
 private:
 

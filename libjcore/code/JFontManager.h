@@ -23,7 +23,8 @@ class JFontManager
 public:
 
 	static void	Init(const JUtf8Byte* defaultFontName,
-					 const JUtf8Byte* defaultMonospaceFontName, ...);
+					 const JUtf8Byte* defaultMonospaceFontName,
+					 const JUtf8Byte** fallbackFontNames);
 
 	virtual ~JFontManager();
 
@@ -45,8 +46,6 @@ public:
 							const JSize size = 0,
 							const JFontStyle style = JFontStyle());
 
-	virtual JBoolean	IsExact(const JFontID id) = 0;
-
 protected:
 
 	JFontManager();
@@ -67,6 +66,9 @@ protected:
 	virtual JSize	GetCharWidth(const JFontID id, const JUtf8Character& c) = 0;
 	virtual JSize	GetStringWidth(const JFontID id, const JString& str) = 0;
 
+	virtual JBoolean	IsExact(const JFontID id) = 0;
+	virtual JBoolean	HasGlyphForCharacter(const JFontID id, const JUtf8Character& c) = 0;
+
 public:		// ought to be private
 
 	struct Font
@@ -74,26 +76,6 @@ public:		// ought to be private
 		JString*	name;
 		JSize		size;
 		JFontStyle	style;
-	};
-
-private:
-
-	struct FallbackFont
-	{
-		const JUtf8Byte*	key;
-		const JUtf8Byte*	lang;
-		const JUtf8Byte*	name;
-		JSize				size;
-		const JIndex*		pages;
-
-		FallbackFont(const JUtf8Byte* k, const JUtf8Byte* l, const JIndex* p)
-			:
-			key(k),
-			lang(l),
-			name(NULL),
-			size(0),
-			pages(p)
-			{ };
 	};
 
 private:
@@ -109,11 +91,9 @@ private:
 	static JFontID		theDefaultFontID;
 	static JFontID		theDefaultMonospaceFontID;
 
-	static FallbackFont	theFallbackFontList[];
+	static const JUtf8Byte**	theFallbackFontNames;
 
 private:
-
-	static JBoolean	FindFallbackIndex(const JSize count, const JUtf8Byte* key, JIndex* index);
 
 	// not allowed
 

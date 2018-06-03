@@ -2,6 +2,9 @@ choose chinese font based on base font serif
 	test in Linux via VirtualBox Fedora
 
 
+	JStyledText::CleanText does font substitution
+
+
 	FcLangSet* langset = NULL;
 	ok = FcPatternGetLangSet(set->fonts[i], FC_LANG, 0, &langset);
 	std::cout << ' ' << (ok == FcResultMatch);

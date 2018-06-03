@@ -58,6 +58,9 @@ public:
 	JSize	GetStrikeThickness() const;
 	JSize	GetUnderlineThickness() const;
 
+	JBoolean	IsExact(JFontManager* fontManager) const;
+	JBoolean	HasGlyphForCharacter(JFontManager* fontManager, const JUtf8Character& c) const;
+
 private:
 
 	JFontID		itsID;

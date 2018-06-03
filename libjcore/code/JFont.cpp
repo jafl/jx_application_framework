@@ -230,6 +230,39 @@ JFont::GetUnderlineThickness()
 }
 
 /******************************************************************************
+ IsExact
+
+	Returns true if the font matches exactly what was requested.
+
+ ******************************************************************************/
+
+JBoolean
+JFont::IsExact
+	(
+	JFontManager* fontManager
+	)
+	const
+{
+	return fontManager->IsExact(itsID);
+}
+
+/******************************************************************************
+ HasGlyphForCharacter
+
+ ******************************************************************************/
+
+JBoolean
+JFont::HasGlyphForCharacter
+	(
+	JFontManager*			fontManager,
+	const JUtf8Character&	c
+	)
+	const
+{
+	return fontManager->HasGlyphForCharacter(itsID, c);
+}
+
+/******************************************************************************
  UpdateID (private)
 
  ******************************************************************************/

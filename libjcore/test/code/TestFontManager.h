@@ -23,8 +23,6 @@ public:
 	virtual JBoolean	GetFontSizes(const JString& name, JSize* minSize,
 									 JSize* maxSize, JArray<JSize>* sizeList);
 
-	virtual JBoolean	IsExact(const JFontID id);
-
 protected:
 
 	virtual JSize	GetLineHeight(const JFontID fontID, const JSize size,
@@ -33,6 +31,9 @@ protected:
 
 	virtual JSize	GetCharWidth(const JFontID fontID, const JUtf8Character& c);
 	virtual JSize	GetStringWidth(const JFontID fontID, const JString& str);
+
+	virtual JBoolean	IsExact(const JFontID id);
+	virtual JBoolean	HasGlyphForCharacter(const JFontID id, const JUtf8Character& c);
 
 private:
 

@@ -385,7 +385,7 @@ JXFontManager::GetXFont
 }
 
 /******************************************************************************
- IsExact (virtual)
+ IsExact (virtual protected)
 
  ******************************************************************************/
 
@@ -396,6 +396,29 @@ JXFontManager::IsExact
 	)
 {
 	return ResolveFontID(id).exact;
+}
+
+/******************************************************************************
+ HasGlyphForCharacter (virtual protected)
+
+ ******************************************************************************/
+
+JBoolean
+JXFontManager::HasGlyphForCharacter
+	(
+	const JFontID			id,
+	const JUtf8Character&	c
+	)
+{
+	XFont info = GetXFontInfo(id);
+	if (info.type == kTrueType)
+		{
+		return JI2B( FcCharSetHasChar(info.xftt->charset, c.GetUtf32()) );
+		}
+	else
+		{
+		return kJTrue;	// no way to tell?
+		}
 }
 
 /******************************************************************************

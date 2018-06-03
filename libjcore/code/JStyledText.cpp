@@ -986,6 +986,8 @@ JStyledText::ReplaceAllInRange
 
 	JBoolean changed = kJFalse;
 
+	JRunArray<JFont> newStyles;
+
 	JStringIterator iter(&text);
 	while (iter.Next(regex))
 		{
@@ -995,10 +997,15 @@ JStyledText::ReplaceAllInRange
 			const JString replaceText =
 				PrepareReplaceMatch(match, replaceStr, interpolator, preserveCase);
 
+			newStyles.RemoveAll();
+			newStyles.AppendElements(CalcInsertionFont(
+				TextIndex(match.GetCharacterRange().first, match.GetUtf8ByteRange().first)),
+				replaceText.GetCharacterCount());
+
 			styles.RemoveElements(match.GetCharacterRange());
 			iter.RemoveLastMatch();		// invalidates match
 
-			const TextCount count = InsertText(&iter, &styles, replaceText, NULL, NULL);
+			const TextCount count = InsertText(&iter, &styles, replaceText, newStyles);
 			iter.SkipNext(count.charCount);
 
 			changed = kJTrue;
@@ -1668,13 +1675,16 @@ JStyledText::PrivatePaste
 		PrivateDeleteText(range);
 		}
 
-	if (itsPasteStyledTextFlag)
+	if (itsPasteStyledTextFlag && style != NULL)
 		{
-		return InsertText(range.GetFirst(), text, style);
+		return InsertText(range.GetFirst(), text, *style);
 		}
 	else
 		{
-		return InsertText(range.GetFirst(), text);
+		return InsertText(range.GetFirst(), text,
+			itsPasteStyledTextFlag ?
+				CalcInsertionFont(range.GetFirst()) :
+				itsDefaultFont);
 		}
 }
 
@@ -1683,8 +1693,6 @@ JStyledText::PrivatePaste
 
 	Returns number of characters / bytes that were actually inserted.
 
-	style and defaultFont can be NULL.
-
 	In second version, iterator must be positioned at insertion index.
 
  ******************************************************************************/
@@ -1692,16 +1700,29 @@ JStyledText::PrivatePaste
 JStyledText::TextCount
 JStyledText::InsertText
 	(
+	const TextIndex&	index,
+	const JString&		text,
+	const JFont&		font
+	)
+{
+	JRunArray<JFont> style;
+	style.AppendElements(font, text.GetCharacterCount());
+
+	return InsertText(index, text, style);
+}
+
+JStyledText::TextCount
+JStyledText::InsertText
+	(
 	const TextIndex&		index,
 	const JString&			text,
-	const JRunArray<JFont>*	style,		// can be NULL
-	const JFont*			defaultFont	// can be NULL
+	const JRunArray<JFont>&	style
 	)
 {
 	JStringIterator iter(&itsText);
 	iter.UnsafeMoveTo(kJIteratorStartBefore, index.charIndex, index.byteIndex);
 
-	return InsertText(&iter, itsStyles, text, style, defaultFont);
+	return InsertText(&iter, itsStyles, text, style);
 }
 
 JStyledText::TextCount
@@ -1710,8 +1731,7 @@ JStyledText::InsertText
 	JStringIterator*		targetText,
 	JRunArray<JFont>*		targetStyle,
 	const JString&			text,
-	const JRunArray<JFont>*	style,			// can be NULL
-	const JFont*			defaultFont		// can be NULL
+	const JRunArray<JFont>&	style
 	)
 {
 	if (text.IsEmpty())
@@ -1723,9 +1743,7 @@ JStyledText::InsertText
 	JRunArray<JFont>* cleanStyle = NULL;
 
 	JBoolean okToInsert;
-	const JBoolean allocated =
-		CleanText(text, style, &cleanText, &cleanStyle, &okToInsert);
-
+	const JBoolean allocated = CleanText(text, style, &cleanText, &cleanStyle, &okToInsert);
 	if (!okToInsert)
 		{
 		if (allocated)
@@ -1739,30 +1757,17 @@ JStyledText::InsertText
 	if (!allocated)
 		{
 		cleanText  = const_cast<JString*>(&text);
-		cleanStyle = const_cast<JRunArray<JFont>*>(style);
+		cleanStyle = const_cast<JRunArray<JFont>*>(&style);
 		}
 
-	// insert the text
+	// insert the styles first, before the iterator position changes
 
 	const JIndex charIndex =
 		targetText->GetString().IsEmpty() ? 1 :
 		targetText->AtEnd() ? targetText->GetString().GetCharacterCount() + 1 :
 		targetText->GetNextCharacterIndex();
 
-	if (cleanStyle != NULL)
-		{
-		targetStyle->InsertElementsAtIndex(charIndex, *cleanStyle, 1, cleanStyle->GetElementCount());
-		}
-	else
-		{
-		targetStyle->InsertElementsAtIndex(
-			charIndex,
-			defaultFont != NULL ? *defaultFont : CalcInsertionFont(*targetText, *targetStyle),
-			cleanText->GetCharacterCount());
-		}
-
-	// modify targetText only after calling CalcInsertionFont()
-
+	targetStyle->InsertElementsAtIndex(charIndex, *cleanStyle, 1, cleanStyle->GetElementCount());
 	targetText->Insert(*cleanText);
 
 	const TextCount result(cleanText->GetCharacterCount(), cleanText->GetByteCount());
@@ -1779,13 +1784,12 @@ JStyledText::InsertText
 /******************************************************************************
  CleanText (private)
 
-	Removes illegal characters, converts to UNIX newline format, lets
+	Removes illegal characters, converts to UNIX newline format, adjusts
+	fonts to ensure that all characters will be rendered correctly, lets
 	derived class perform additional filtering.  Returns true if the text
 	was modified.
 
 	*okToInsert is true if derived class filtering accepted the text.
-
-	style can be NULL.
 
  ******************************************************************************/
 
@@ -1794,18 +1798,15 @@ JStyledText::InsertText
 		{ \
 		*cleanText = jnew JString(text); \
 		assert( *cleanText != NULL ); \
-		if (style != NULL) \
-			{ \
-			*cleanStyle = jnew JRunArray<JFont>(*style); \
-			assert( *cleanStyle != NULL ); \
-			} \
+		*cleanStyle = jnew JRunArray<JFont>(style); \
+		assert( *cleanStyle != NULL ); \
 		}
 
 JBoolean
 JStyledText::CleanText
 	(
 	const JString&			text,
-	const JRunArray<JFont>*	style,	// can be NULL
+	const JRunArray<JFont>&	style,
 	JString**				cleanText,
 	JRunArray<JFont>**		cleanStyle,
 	JBoolean*				okToInsert
@@ -1816,7 +1817,7 @@ JStyledText::CleanText
 		return kJFalse;
 		}
 
-	assert( style == NULL || text.GetCharacterCount() == style->GetElementCount() );
+	assert( text.GetCharacterCount() == style.GetElementCount() );
 
 	*cleanText  = NULL;
 	*cleanStyle = NULL;
@@ -1842,10 +1843,7 @@ JStyledText::CleanText
 		tmpText.SetBlockSize((**cleanText).GetByteCount()+256);
 
 		JRunArray<JFont> tmpStyle;
-		if (*cleanStyle != NULL)
-			{
-			tmpStyle.SetBlockSize((**cleanStyle).GetRunCount()+16);
-			}
+		tmpStyle.SetBlockSize((**cleanStyle).GetRunCount()+16);
 
 		JStringIterator iter(*cleanText);
 		JUtf8Character c;
@@ -1860,19 +1858,13 @@ JStyledText::CleanText
 			if (!m.IsEmpty())
 				{
 				tmpText.Append(m.GetString());
-				if (*cleanStyle != NULL)
-					{
-					tmpStyle.AppendSlice(**cleanStyle, m.GetCharacterRange());
-					}
+				tmpStyle.AppendSlice(**cleanStyle, m.GetCharacterRange());
 				}
 			iter.BeginMatch();
 			}
 
-		**cleanText = tmpText;
-		if (*cleanStyle != NULL)
-			{
-			**cleanStyle = tmpStyle;
-			}
+		**cleanText  = tmpText;
+		**cleanStyle = tmpStyle;
 		}
 
 	// convert from Macintosh format
@@ -1884,6 +1876,10 @@ JStyledText::CleanText
 
 		ConvertFromMacintoshNewlinetoUNIXNewline(*cleanText);
 		}
+
+	// font substitution to make all characters render
+
+	
 
 	// allow derived classes to make additional changes
 	// (last so we don't pass anything illegal to FilterText())
@@ -1907,8 +1903,7 @@ JStyledText::CleanText
 
 	We accept form feed (0C) because PrintPlainText() converts it to space.
 
-	We accept all characters above 0x7F because they provide useful
-	(though hopelessly system dependent) extensions to the character set.
+	We accept all characters above 0x7F because JString will clean UTF-8.
 
  ******************************************************************************/
 
@@ -1950,7 +1945,7 @@ JStyledText::RemoveIllegalChars
 		{
 		const JStringMatch& m = iter.GetLastMatch();
 
-		if (style != NULL)
+		if (style != NULL && !style->IsEmpty())
 			{
 			style->RemoveElements(m.GetCharacterRange());
 			}
@@ -2093,7 +2088,7 @@ JStyledText::InsertCharacter
 
 	const JString s(key.GetBytes(), key.GetByteCount(), kJFalse);
 
-	const TextCount pasteCount = InsertText(replaceRange.GetFirst(), s, NULL, &font);
+	const TextCount pasteCount = InsertText(replaceRange.GetFirst(), s, font);
 	assert( pasteCount.charCount == 1 );
 
 	BroadcastTextChanged(
@@ -2532,6 +2527,8 @@ JStyledText::Indent
 			}
 		}
 
+	JRunArray<JFont> style;
+
 	JStringIterator iter(&itsText);
 	iter.UnsafeMoveTo(kJIteratorStartBefore, range.charRange.first, range.byteRange.first);
 
@@ -2544,7 +2541,12 @@ JStyledText::Indent
 		if ((!iter.Prev(&c, kJFalse) || c == '\n') &&
 			iter.Next(&c, kJFalse) && c != '\n')
 			{
-			const JSize count = InsertText(&iter, itsStyles, tabs, NULL, NULL).charCount;
+			style.RemoveAll();
+			style.AppendElements(CalcInsertionFont(
+				TextIndex(iter.GetNextCharacterIndex(), iter.GetNextByteIndex())),
+				tabs.GetCharacterCount());
+
+			const JSize count = InsertText(&iter, itsStyles, tabs, style).charCount;
 			insertCount      += count;
 			cr.last          += count;
 			}
@@ -2626,7 +2628,7 @@ JStyledText::MoveText
 		}
 	assert( undo != NULL );
 
-	const TextCount insertCount = InsertText(destIndex, text, &styles);
+	const TextCount insertCount = InsertText(destIndex, text, styles);
 	undo->SetCount(insertCount);
 
 	NewUndo(undo, isNew);

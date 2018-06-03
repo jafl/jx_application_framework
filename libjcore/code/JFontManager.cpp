@@ -69,33 +69,7 @@ JArray<JFontManager::Font> JFontManager::theFontList;
 JFontID JFontManager::theDefaultFontID          = kInvalidFontID;
 JFontID JFontManager::theDefaultMonospaceFontID = kInvalidFontID;
 
-const JIndex arabicPages[] =
-	{ 12,14,20,150,156,190,191,253 };
-
-const JIndex armenianPages[] =
-	{ 10 };
-
-const JIndex cjkPages[] =
-	{ 102,105,106,107,112,113,114,115,116,118,148,154,267,268,269,270,271,272 };
-
-const JIndex cyrillicPages[] =
-	{ 8,9,62,100,123 };
-
-const JIndex greekPages[] =
-	{ 7,69 };
-
-const JIndex hebrewPages[] =
-	{ 11 };
-
-JFontManager::FallbackFont JFontManager::theFallbackFontList[] =
-{
-	JFontManager::FallbackFont("Arabic", "ar", arabicPages),
-	JFontManager::FallbackFont("Armenian", "hy", armenianPages),
-	JFontManager::FallbackFont("CJK", "zh|ja|ko", cjkPages),
-	JFontManager::FallbackFont("Cyrillic", "ru", cyrillicPages),
-	JFontManager::FallbackFont("Greek", "el", greekPages),
-	JFontManager::FallbackFont("Hebrew", "he", hebrewPages)
-};
+const JUtf8Byte** JFontManager::theFallbackFontNames = NULL;
 
 /******************************************************************************
  Constructor (protected)
@@ -260,7 +234,7 @@ JFontManager::Init
 	(
 	const JUtf8Byte*	defaultFontName,
 	const JUtf8Byte*	defaultMonospaceFontName,
-	...
+	const JUtf8Byte**	fallbackFontNames
 	)
 {
 	// default font
@@ -294,73 +268,5 @@ JFontManager::Init
 
 	// fallback fonts, when selected font does not support a language
 
-	const JSize kFallbackFontCount = sizeof(theFallbackFontList) / sizeof(FallbackFont);
-
-	va_list ap;
-	va_start(ap, defaultMonospaceFontName);
-	while (1)
-		{
-		const JUtf8Byte* key = va_arg(ap, const JUtf8Byte*);
-		if (key == NULL)
-			{
-			break;
-			}
-
-		const JUtf8Byte* name = va_arg(ap, const JUtf8Byte*);
-
-		JIndex i;
-		const JBoolean found = FindFallbackIndex(kFallbackFontCount, key, &i);
-		if (!found)
-			{
-			std::cerr << "unknown fallback font key: " << key << std::endl;
-			continue;
-			}
-
-		JString k;
-		k.Set("NAME::");
-		k += key;
-		k += "::FONT";
-
-		if (stringMgr->Contains(k))
-			{
-			theFallbackFontList[i-1].name = JGetString(k.GetBytes()).GetBytes();
-			}
-		else
-			{
-			theFallbackFontList[i-1].name = name;
-			}
-
-		k.Set("SIZE::");
-		k += key;
-		k += "::FONT";
-
-		theFallbackFontList[i-1].size = theDefaultFontSize;
-		jParseSize(stringMgr, k.GetBytes(), &theFallbackFontList[i-1].size);
-		}
-}
-
-/******************************************************************************
- FindFallbackIndex (static private)
-
- ******************************************************************************/
-
-JBoolean
-JFontManager::FindFallbackIndex
-	(
-	const JSize			count,
-	const JUtf8Byte*	key,
-	JIndex*				index
-	)
-{
-	for (JIndex i=1; i<=count; i++)
-		{
-		if (JString::Compare(key, theFallbackFontList[i-1].key) == 0)
-			{
-			*index = i;
-			return kJTrue;
-			}
-		}
-
-	*index = 0;
-	return kJFalse;
+	theFallbackFontNames = fallbackFontNames;
 }

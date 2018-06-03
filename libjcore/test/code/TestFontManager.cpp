@@ -85,7 +85,7 @@ TestFontManager::GetFontSizes
 }
 
 /******************************************************************************
- IsExact (virtual)
+ IsExact (virtual protected)
 
  ******************************************************************************/
 
@@ -93,6 +93,21 @@ JBoolean
 TestFontManager::IsExact
 	(
 	const JFontID id
+	)
+{
+	return kJTrue;
+}
+
+/******************************************************************************
+ HasGlyphForCharacter (virtual protected)
+
+ ******************************************************************************/
+
+JBoolean
+TestFontManager::HasGlyphForCharacter
+	(
+	const JFontID			id,
+	const JUtf8Character&	c
 	)
 {
 	return kJTrue;
