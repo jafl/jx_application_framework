@@ -381,6 +381,11 @@ JXMenu::SetShortcuts
 	const JString& list
 	)
 {
+	if (theDisplayStyle == kMacintoshStyle)
+		{
+		return;
+		}
+
 	JXWindow* w = GetWindow();
 	w->ClearShortcuts(this);
 	w->InstallShortcuts(this, list);

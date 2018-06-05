@@ -15,7 +15,7 @@
 
 if (list.IsEmpty())
 	{
-	delete itsShortcuts;
+	jdelete itsShortcuts;
 	itsShortcuts = NULL;
 	itsULIndex   = 0;
 	}
@@ -23,7 +23,7 @@ else
 	{
 	if (itsShortcuts == NULL)
 		{
-		itsShortcuts = new JString(list);
+		itsShortcuts = jnew JString(list);
 		assert( itsShortcuts != NULL );
 		}
 	else

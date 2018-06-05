@@ -129,8 +129,7 @@ JTEST(ParseLinux)
 	JAssertStringsEqual("Meta-Hyper-A", *s);
 
 	JIndex i;
-	JAssertTrue(data.ShortcutToIndex('a', &i));
-	JAssertEqual(3, i);
+	JAssertFalse(data.ShortcutToIndex('a', &i));
 
 	JAssertFalse(data.HasCheckboxes());
 	JAssertFalse(data.HasSubmenus());

@@ -353,6 +353,8 @@ JXTextMenuData::ParseMenuItemStr
 	text->Set(*(list.GetFirstElement()));
 	text->TrimWhitespace();
 
+	const JBoolean isOSX = JI2B( JXMenu::GetDisplayStyle() == JXMenu::kMacintoshStyle );
+
 	const JSize count = list.GetElementCount();
 	for (JIndex i=2; i<=count; i++)
 		{
@@ -377,8 +379,11 @@ JXTextMenuData::ParseMenuItemStr
 
 		else if (opc == 'h' && shortcuts->IsEmpty())
 			{
-			*shortcuts = jGetOpValue(*op);
-			shortcuts->TrimWhitespace();
+			if (!isOSX)
+				{
+				*shortcuts = jGetOpValue(*op);
+				shortcuts->TrimWhitespace();
+				}
 			}
 		else if (opc == 'h')
 			{
