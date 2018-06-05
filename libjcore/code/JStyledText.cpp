@@ -993,7 +993,7 @@ JStyledText::ReplaceAllInRange
 	JBoolean changed = kJFalse;
 
 	JRunArray<JFont> newStyles;
-
+	{
 	JStringIterator iter(&text);
 	while (iter.Next(regex))
 		{
@@ -1003,10 +1003,12 @@ JStyledText::ReplaceAllInRange
 			const JString replaceText =
 				PrepareReplaceMatch(match, replaceStr, interpolator, preserveCase);
 
+			const JString s(text, kJFalse);
+			JStringIterator iter2(s);
+			iter2.UnsafeMoveTo(kJIteratorStartBefore, match.GetCharacterRange().first, match.GetUtf8ByteRange().first);
 			newStyles.RemoveAll();
-			newStyles.AppendElements(CalcInsertionFont(
-				TextIndex(match.GetCharacterRange().first, match.GetUtf8ByteRange().first)),
-				replaceText.GetCharacterCount());
+			newStyles.AppendElements(CalcInsertionFont(iter2, styles),
+									 replaceText.GetCharacterCount());
 
 			styles.RemoveElements(match.GetCharacterRange());
 			iter.RemoveLastMatch();		// invalidates match
@@ -1021,7 +1023,7 @@ JStyledText::ReplaceAllInRange
 				}
 			}
 		}
-
+	}
 	pg.ProcessFinished();
 
 	if (changed)
@@ -1052,7 +1054,7 @@ JStyledText::IsEntireWord
 	)
 	const
 {
-	const JString s(text, kJFalse);	// avoid potential double iterator
+	const JString s(text, kJFalse);	// javoid potential double iterator
 
 	JStringIterator iter(s);
 	JUtf8Character c;
@@ -1083,7 +1085,7 @@ JStyledText::IsEntireWord
 			return kJFalse;
 			}
 
-		if (iter.GetNextCharacterIndex() > range.charRange.last)
+		if (iter.AtEnd() || iter.GetNextCharacterIndex() > range.charRange.last)
 			{
 			break;
 			}
