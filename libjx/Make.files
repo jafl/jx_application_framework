@@ -101,6 +101,7 @@
 .cpp ./code/JXCharInput
 .cpp ./code/JXPathInput
 .cpp ./code/JXFileInput
+.cpp ./code/JXStyledText
 .cpp ./code/JXTEBase
 .cpp ./code/JXTEBlinkCaretTask
 .cpp ./code/JXSearchTextDialog

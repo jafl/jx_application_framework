@@ -5,6 +5,9 @@
 	merely for convenience.  Full control over the styles is just a matter
 	of using the JTextEditor functions.
 
+	We do not perform font substitution, because we should be displaying
+	translatable text from JStringManager.
+
 	BASE CLASS = JXTEBase
 
 	Copyright (C) 1996-2017 by John Lindal.
@@ -12,6 +15,7 @@
  ******************************************************************************/
 
 #include <JXStaticText.h>
+#include <JXStyledText.h>
 #include <jXConstants.h>
 #include <strstream>
 #include <jAssert.h>
@@ -33,7 +37,7 @@ JXStaticText::JXStaticText
 	const JCoordinate	h
 	)
 	:
-	JXTEBase(kStaticText, jnew JStyledText(kJFalse, kJFalse), kJTrue,
+	JXTEBase(kStaticText, jnew JXStyledText(kJFalse, kJFalse, NULL), kJTrue,
 			 JI2B(w==0), NULL,
 			 enclosure, hSizing, vSizing, x,y,
 			 (w>0 ? w : 100), (h>0 ? h : 100))
@@ -58,7 +62,7 @@ JXStaticText::JXStaticText
 	)
 	:
 	JXTEBase((selectable ? kSelectableText : kStaticText),
-			 jnew JStyledText(kJFalse, kJFalse), kJTrue,
+			 jnew JXStyledText(kJFalse, kJFalse, NULL), kJTrue,
 			 !wordWrap, scrollbarSet,
 			 enclosure, hSizing, vSizing, x,y,
 			 (w>0 ? w : 100), (h>0 ? h : 100))

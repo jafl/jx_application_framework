@@ -60,6 +60,7 @@ public:
 
 	JBoolean	IsExact(JFontManager* fontManager) const;
 	JBoolean	HasGlyphForCharacter(JFontManager* fontManager, const JUtf8Character& c) const;
+	JBoolean	SubstituteToDisplayGlyph(JFontManager* fontManager, const JUtf8Character& c);
 
 private:
 

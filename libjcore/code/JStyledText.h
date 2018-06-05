@@ -395,7 +395,7 @@ protected:
 	void	BroadcastTextChanged(const TextRange& range, const JBoolean deletion,
 								 const JBoolean adjustStyles = kJTrue);
 
-	virtual JBoolean	NeedsToFilterText(const JString& text) const;
+	virtual JBoolean	NeedsToFilterText(const JString& text, const JRunArray<JFont>& style) const;
 	virtual JBoolean	FilterText(JString* text, JRunArray<JFont>* style);
 
 	virtual void	AdjustStylesBeforeBroadcast(const JString& text,

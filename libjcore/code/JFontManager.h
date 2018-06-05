@@ -23,8 +23,7 @@ class JFontManager
 public:
 
 	static void	Init(const JUtf8Byte* defaultFontName,
-					 const JUtf8Byte* defaultMonospaceFontName,
-					 const JUtf8Byte** fallbackFontNames);
+					 const JUtf8Byte* defaultMonospaceFontName);
 
 	virtual ~JFontManager();
 
@@ -68,6 +67,7 @@ protected:
 
 	virtual JBoolean	IsExact(const JFontID id) = 0;
 	virtual JBoolean	HasGlyphForCharacter(const JFontID id, const JUtf8Character& c) = 0;
+	virtual JBoolean	GetSubstituteFontName(const JFont& f, const JUtf8Character& c, JString* name) = 0;
 
 public:		// ought to be private
 
@@ -90,8 +90,6 @@ private:
 	static JArray<Font>	theFontList;
 	static JFontID		theDefaultFontID;
 	static JFontID		theDefaultMonospaceFontID;
-
-	static const JUtf8Byte**	theFallbackFontNames;
 
 private:
 

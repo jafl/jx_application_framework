@@ -69,8 +69,6 @@ JArray<JFontManager::Font> JFontManager::theFontList;
 JFontID JFontManager::theDefaultFontID          = kInvalidFontID;
 JFontID JFontManager::theDefaultMonospaceFontID = kInvalidFontID;
 
-const JUtf8Byte** JFontManager::theFallbackFontNames = NULL;
-
 /******************************************************************************
  Constructor (protected)
 
@@ -232,9 +230,8 @@ jParseSize
 void
 JFontManager::Init
 	(
-	const JUtf8Byte*	defaultFontName,
-	const JUtf8Byte*	defaultMonospaceFontName,
-	const JUtf8Byte**	fallbackFontNames
+	const JUtf8Byte* defaultFontName,
+	const JUtf8Byte* defaultMonospaceFontName
 	)
 {
 	// default font
@@ -265,8 +262,4 @@ JFontManager::Init
 		}
 
 	jParseSize(stringMgr, "SIZE::MONO::FONT", &theDefaultMonospaceFontSize);
-
-	// fallback fonts, when selected font does not support a language
-
-	theFallbackFontNames = fallbackFontNames;
 }

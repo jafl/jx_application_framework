@@ -421,6 +421,10 @@ F
 T
 1 "Text"
 T
+2 "JXStyledText.cpp"
+F
+"./code/JXStyledText.cpp"
+T
 2 "JXTEBase.cpp"
 F
 "./code/JXTEBase.cpp"

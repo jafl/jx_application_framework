@@ -11,6 +11,7 @@
 #define _H_JXInputField
 
 #include <JXTEBase.h>
+#include <JXStyledText.h>
 
 class JXTextMenu;
 class JXEditTable;
@@ -62,19 +63,19 @@ public:
 
 protected:
 
-	class StyledText : public JStyledText
+	class StyledText : public JXStyledText
 	{
 		public:
 
-		StyledText(const JBoolean acceptNewline)
+		StyledText(const JBoolean acceptNewline, JFontManager* fontManager)
 			:
-			JStyledText(kJFalse, kJFalse),
+			JXStyledText(kJFalse, kJFalse, fontManager),
 			itsAcceptNewlineFlag(acceptNewline)
 		{ };
 
 		protected:
 
-		virtual JBoolean	NeedsToFilterText(const JString& text) const override;
+		virtual JBoolean	NeedsToFilterText(const JString& text, const JRunArray<JFont>& style) const override;
 		virtual JBoolean	FilterText(JString* text, JRunArray<JFont>* style) override;
 
 		private:

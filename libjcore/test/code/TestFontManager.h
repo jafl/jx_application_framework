@@ -34,6 +34,7 @@ protected:
 
 	virtual JBoolean	IsExact(const JFontID id);
 	virtual JBoolean	HasGlyphForCharacter(const JFontID id, const JUtf8Character& c);
+	virtual JBoolean	GetSubstituteFontName(const JFont& f, const JUtf8Character& c, JString* name);
 
 private:
 

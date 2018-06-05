@@ -1,10 +1,5 @@
-choose chinese font based on base font serif
-	test in Linux via VirtualBox Fedora
-
-
-	JStyledText::CleanText does font substitution
-	font substitution off for JXStaticText - no need for static, translatable text
-
+call FilterText after set font or font name or SetAllFontAndName
+display alternate font for JXFontNameMenu items:  Mshtakan
 
 
 finish JTextEditor tests
@@ -49,6 +44,8 @@ test
 	man pages
 	styled unix terminal output - yui build output
 	default & vi key handlers
+	fonts in Linux via VirtualBox Fedora
+		need fallbacks
 
 unit test libjx
 	JXCSFDialogBase

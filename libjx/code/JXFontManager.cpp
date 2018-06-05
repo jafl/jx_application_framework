@@ -32,6 +32,44 @@ static const JRegex nxmRegex = "^([0-9]+)x([0-9]+)$";
 	#define FcStrFree free
 #endif
 
+static const JUtf8Byte* kDefaultFontName =
+	#ifdef _J_OSX
+	"Arial";
+	#else
+	NULL;
+	#endif
+
+static const JUtf8Byte* kMonospaceFontName =
+	#ifdef _J_OSX
+	"Menlo";
+	#else
+	"Bitstream Vera Sans Mono";
+	#endif
+
+static const JUtf8Byte* kFallbackFontNames[] =
+{
+#ifdef _J_OSX
+	"Arial",			// Latin, some Cyrillic, some Arabic
+	"Arial Unicode MS",	// Arabic, Armenian, CJK, Cyrillic, Greek, Hebrew
+	"Mshtakan"
+#else
+	?
+#endif
+};
+
+const JSize kFallbackFontCount = sizeof(kFallbackFontNames) / sizeof(JUtf8Byte*);
+
+/******************************************************************************
+ Init (static)
+
+ ******************************************************************************/
+
+void
+JXFontManager::Init()
+{
+	JFontManager::Init(kDefaultFontName, kMonospaceFontName);
+}
+
 /******************************************************************************
  Constructor
 
@@ -79,6 +117,21 @@ JXFontManager::~JXFontManager()
 
  ******************************************************************************/
 
+inline void
+jInsertFontName
+	(
+	JPtrArray<JString>*	fontNames,
+	JString*			name
+	)
+{
+	JBoolean isDuplicate;
+	const JIndex index = fontNames->GetInsertionSortIndex(name, &isDuplicate);
+	if (!isDuplicate)
+		{
+		fontNames->InsertAtIndex(index, *name);
+		}
+}
+
 void
 JXFontManager::GetFontNames
 	(
@@ -119,14 +172,15 @@ JXFontManager::GetFontNames
 //		std::cout << "tt  font: " << name << std::endl;
 //		FcPatternPrint(set->fonts[i]);
 
-		JBoolean isDuplicate;
-		const JIndex index = fontNames->GetInsertionSortIndex(&name, &isDuplicate);
-		if (!isDuplicate)
-			{
-			fontNames->InsertAtIndex(index, name);
-			}
+		jInsertFontName(fontNames, &name);
 		}
 	FcFontSetDestroy(set);
+
+	for (int i=0; i<kFallbackFontCount; i++)
+		{
+		name.Set(kFallbackFontNames[i]);
+		jInsertFontName(fontNames, &name);
+		}
 
 #if INCLUDE_X11_FONTS
 
@@ -159,12 +213,7 @@ JXFontManager::GetFontNames
 			}
 //		std::cout << "std font: " << name << std::endl;
 
-		JBoolean isDuplicate;
-		const JIndex index = fontNames->GetInsertionSortIndex(&name, &isDuplicate);
-		if (!isDuplicate)
-			{
-			fontNames->InsertAtIndex(index, name);
-			}
+		jInsertFontName(fontNames, &name);
 		}
 	XFreeFontNames(nameList);
 
@@ -223,13 +272,7 @@ JXFontManager::GetMonospaceFontNames
 			continue;
 			}
 
-		JBoolean isDuplicate;
-		const JIndex index = fontNames->GetInsertionSortIndex(&name, &isDuplicate);
-		if (!isDuplicate)
-			{
-			fontNames->InsertAtIndex(index, name);
-			}
-
+		jInsertFontName(fontNames, &name);
 		}
 	FcFontSetDestroy(set);
 
@@ -419,6 +462,33 @@ JXFontManager::HasGlyphForCharacter
 		{
 		return kJTrue;	// no way to tell?
 		}
+}
+
+/******************************************************************************
+ GetSubstituteFontName (virtual protected)
+
+ ******************************************************************************/
+
+JBoolean
+JXFontManager::GetSubstituteFontName
+	(
+	const JFont&			f,
+	const JUtf8Character&	c,
+	JString*				name
+	)
+{
+	JFont f1 = f;
+	for (int i=0; i<kFallbackFontCount; i++)
+		{
+		f1.SetName(JString(kFallbackFontNames[i], 0, kJFalse));
+		if (HasGlyphForCharacter(f1.GetID(), c))
+			{
+			name->Set(kFallbackFontNames[i]);
+			return kJTrue;
+			}
+		}
+
+	return kJFalse;
 }
 
 /******************************************************************************

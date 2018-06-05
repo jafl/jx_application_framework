@@ -11,6 +11,7 @@
  ******************************************************************************/
 
 #include "TestDNDTextDirector.h"
+#include <JXStyledText.h>
 #include <JXWindow.h>
 #include <JXHorizPartition.h>
 #include <JXTextEditorSet.h>
@@ -86,7 +87,7 @@ JIndex i;
 	JXTextEditor* te;
 	for (i=1; i<=2; i++)
 		{
-		JStyledText* text = jnew JStyledText(kJTrue, kJTrue);
+		JXStyledText* text = jnew JXStyledText(kJTrue, kJTrue, GetDisplay()->GetFontManager());
 		assert( text != NULL );
 
 		JXTextEditorSet* teSet =

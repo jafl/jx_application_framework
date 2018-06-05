@@ -22,6 +22,7 @@
  ******************************************************************************/
 
 #include <JXLinkText.h>
+#include <JXStyledText.h>
 #include <JXDisplay.h>
 #include <X11/cursorfont.h>
 #include <jAssert.h>
@@ -43,7 +44,8 @@ JXLinkText::JXLinkText
 	const JCoordinate	h
 	)
 	:
-	JXTEBase(kSelectableText, jnew JStyledText(kJFalse, kJTrue), kJTrue,
+	JXTEBase(kSelectableText,
+			 jnew JXStyledText(kJFalse, kJTrue, enclosure->GetFontManager()), kJTrue,
 			 kJFalse, scrollbarSet,
 			 enclosure, hSizing, vSizing, x,y, w,h)
 {

@@ -78,7 +78,8 @@ JXInputField::JXInputField
 	const JCoordinate	h
 	)
 	:
-	JXTEBase(kFullEditor, jnew StyledText(kJFalse), kJTrue, kJTrue, NULL,
+	JXTEBase(kFullEditor, jnew StyledText(kJFalse, enclosure->GetFontManager()),
+			 kJTrue, kJTrue, NULL,
 			 enclosure, hSizing, vSizing, x,y, w,h)
 {
 	JXInputFieldX();
@@ -97,7 +98,8 @@ JXInputField::JXInputField
 	const JCoordinate	h
 	)
 	:
-	JXTEBase(kFullEditor, jnew StyledText(acceptNewline), kJTrue, !wordWrap, NULL,
+	JXTEBase(kFullEditor, jnew StyledText(acceptNewline, enclosure->GetFontManager()),
+			 kJTrue, !wordWrap, NULL,
 			 enclosure, hSizing, vSizing, x,y, w,h)
 {
 	JXInputFieldX();
@@ -736,11 +738,12 @@ JXInputField::GetFTCMinContentSize
 JBoolean
 JXInputField::StyledText::NeedsToFilterText
 	(
-	const JString& text
+	const JString&			text,
+	const JRunArray<JFont>&	style
 	)
 	const
 {
-	return text.Contains("\n");
+	return JI2B( JXStyledText::NeedsToFilterText(text, style) || text.Contains("\n") );
 }
 
 /******************************************************************************
@@ -760,6 +763,11 @@ JXInputField::StyledText::FilterText
 	JRunArray<JFont>*	style
 	)
 {
+	if (!JXStyledText::FilterText(text, style))
+		{
+		return kJFalse;
+		}
+
 	// convert newline to space
 
 	if (!itsAcceptNewlineFlag)

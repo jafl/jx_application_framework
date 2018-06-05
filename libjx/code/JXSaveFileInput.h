@@ -36,14 +36,14 @@ private:
 	{
 		public:
 
-		StyledText()
+		StyledText(JFontManager* fontManager)
 			:
-			JXInputField::StyledText(kJFalse)
+			JXInputField::StyledText(kJFalse, fontManager)
 		{ };
 
 		protected:
 
-		virtual JBoolean	NeedsToFilterText(const JString& text) const override;
+		virtual JBoolean	NeedsToFilterText(const JString& text, const JRunArray<JFont>& style) const override;
 		virtual JBoolean	FilterText(JString* text, JRunArray<JFont>* style) override;
 	};
 

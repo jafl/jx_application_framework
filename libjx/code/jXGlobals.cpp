@@ -21,7 +21,7 @@
 #include <JXDisplay.h>
 #include <JXAssert.h>
 #include <JXSharedPrefsManager.h>
-#include <JFontManager.h>
+#include <JXFontManager.h>
 #include <jStreamUtil.h>
 #include <jDirUtil.h>
 #include <X11/Xlib.h>
@@ -48,30 +48,6 @@ static JXComposeRuleList*		theComposeRuleList       = NULL;	// can be NULL
 
 static const JUtf8Byte* kInvisibleWindowClass = "Do_not_display_in_taskbar";
 static const JUtf8Byte* kDockWindowClass      = "JX_Dock";
-
-static const JUtf8Byte* kDefaultFontName =
-	#ifdef _J_OSX
-	"Arial";	// "Arial Unicode MS"
-	#else
-	"Helvetica";
-	#endif
-
-static const JUtf8Byte* kMonospaceFontName =
-	#ifdef _J_OSX
-	"Menlo";
-	#else
-	"Bitstream Vera Sans Mono";
-	#endif
-
-static const JUtf8Byte* kFallbackFontNames[] =
-{
-#ifdef _J_OSX
-		"Arial Unicode MS",
-		"Mshtakan"
-#else
-		?
-#endif
-};
 
 /******************************************************************************
  JXCreateGlobals
@@ -102,7 +78,7 @@ JXCreateGlobals
 	JInitCore(theAssertHandler, appSignature, defaultStringData,
 			  un, theChooseSaveFile, jnew JXCreatePG);
 
-	JFontManager::Init(kDefaultFontName, kMonospaceFontName, kFallbackFontNames);
+	JXFontManager::Init();
 
 	XSetErrorHandler(JXDisplay::JXErrorHandler);
 	XSetIOErrorHandler(JXApplication::JXIOErrorHandler);

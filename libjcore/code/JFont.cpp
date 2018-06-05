@@ -263,6 +263,33 @@ JFont::HasGlyphForCharacter
 }
 
 /******************************************************************************
+ SubstituteToDisplayGlyph
+
+	Returns kJTrue if the font name had to be changed
+
+ ******************************************************************************/
+
+JBoolean
+JFont::SubstituteToDisplayGlyph
+	(
+	JFontManager*			fontManager,
+	const JUtf8Character&	c
+	)
+{
+	if (!fontManager->HasGlyphForCharacter(itsID, c))
+		{
+		JString name;
+		if (fontManager->GetSubstituteFontName(*this, c, &name))
+			{
+			SetName(name);
+			return kJTrue;
+			}
+		}
+
+	return kJFalse;
+}
+
+/******************************************************************************
  UpdateID (private)
 
  ******************************************************************************/

@@ -33,7 +33,8 @@ JXSaveFileInput::JXSaveFileInput
 	const JCoordinate	h
 	)
 	:
-	JXInputField(jnew StyledText(), enclosure, hSizing, vSizing, x,y, w,h)
+	JXInputField(jnew StyledText(enclosure->GetFontManager()),
+				 enclosure, hSizing, vSizing, x,y, w,h)
 {
 	GetText()->SetCharacterInWordFunction(IsCharacterInWord);
 
@@ -101,11 +102,12 @@ JXSaveFileInput::IsCharacterInWord
 JBoolean
 JXSaveFileInput::StyledText::NeedsToFilterText
 	(
-	const JString& text
+	const JString&			text,
+	const JRunArray<JFont>&	style
 	)
 	const
 {
-	return JI2B(JXInputField::StyledText::NeedsToFilterText(text) ||
+	return JI2B(JXInputField::StyledText::NeedsToFilterText(text, style) ||
 				text.Contains(ACE_DIRECTORY_SEPARATOR_STR) ||
 				(!theAllowSpaceFlag && text.Contains(" ")));
 }

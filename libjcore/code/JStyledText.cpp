@@ -84,11 +84,6 @@ const JUtf8Byte* JStyledText::kWillBeBusy         = "WillBeBusy::JStyledText";
 /******************************************************************************
  Constructor
 
-	We don't provide a constructor that accepts text because we
-	can't call RecalcAll() due to pure virtual functions.
-
-	*** Derived classes must call RecalcAll().
-
  ******************************************************************************/
 
 JStyledText::JStyledText
@@ -200,34 +195,45 @@ JStyledText::SetText
 	)
 {
 	ClearUndo();
-	itsText = text;
 
-	JBoolean cleaned = kJFalse;
+	JRunArray<JFont> tmpStyle;
 	if (style != NULL)
 		{
-		assert( itsText.GetCharacterCount() == style->GetElementCount() );
-		*itsStyles = *style;
-		cleaned    = RemoveIllegalChars(&itsText, itsStyles);
+		tmpStyle = *style;
 		}
 	else
 		{
-		cleaned = RemoveIllegalChars(&itsText);
-
-		itsStyles->RemoveAll();
-		if (!itsText.IsEmpty())
-			{
-			itsStyles->AppendElements(itsDefaultFont, itsText.GetCharacterCount());
-			}
+		tmpStyle.AppendElements(itsDefaultFont, text.GetCharacterCount());
 		}
 
-	if (NeedsToFilterText(itsText))
+	JString* cleanText           = NULL;
+	JRunArray<JFont>* cleanStyle = NULL;
+
+	JBoolean okToInsert, cleaned;
+	const JBoolean allocated = CleanText(text, tmpStyle, &cleanText, &cleanStyle, &okToInsert);
+	if (okToInsert && allocated)
 		{
+		itsText    = *cleanText;
+		*itsStyles = *cleanStyle;
+		cleaned    = kJTrue;
+		}
+	else if (okToInsert)
+		{
+		itsText    = text;
+		*itsStyles = tmpStyle;
+		cleaned    = kJFalse;
+		}
+	else
+		{
+		itsText.Clear();
+		itsStyles->RemoveAll();
 		cleaned = kJTrue;
-		if (!FilterText(&itsText, itsStyles))
-			{
-			itsText.Clear();
-			itsStyles->RemoveAll();
-			}
+		}
+
+	if (allocated)
+		{
+		jdelete cleanText;
+		jdelete cleanStyle;
 		}
 
 	Broadcast(TextSet());
@@ -1877,15 +1883,12 @@ JStyledText::CleanText
 		ConvertFromMacintoshNewlinetoUNIXNewline(*cleanText);
 		}
 
-	// font substitution to make all characters render
-
-	
-
 	// allow derived classes to make additional changes
 	// (last so we don't pass anything illegal to FilterText())
 
 	*okToInsert = kJTrue;
-	if (NeedsToFilterText(*cleanText != NULL ? **cleanText : text))
+	if (NeedsToFilterText(*cleanText  != NULL ? **cleanText  : text,
+						  *cleanStyle != NULL ? **cleanStyle : style))
 		{
 		COPY_FOR_CLEAN_TEXT
 
@@ -1968,7 +1971,8 @@ JStyledText::RemoveIllegalChars
 JBoolean
 JStyledText::NeedsToFilterText
 	(
-	const JString& text
+	const JString&			text,
+	const JRunArray<JFont>&	style
 	)
 	const
 {
@@ -1980,8 +1984,6 @@ JStyledText::NeedsToFilterText
 
 	Derived classes can override this to enforce restrictions on the text.
 	Return kJFalse if the text cannot be used at all.
-
-	*** Note that style may be NULL or empty if the data was plain text.
 
  ******************************************************************************/
 

@@ -72,7 +72,7 @@ TestTextEditor::TestTextEditor
 
 	// start with some challenging glyphs
 
-	Paste(JString("ABC Ж Җ ζ Ǽ ậ ϖ Ӝ ἆ Ɽ 转 燜 ㄊ 먄 욶 א ݣ ﺺ", 0, kJFalse));
+	Paste(JString("ABC Ж Җ ζ Ǽ ậ ϖ Ӝ ἆ Ɽ 转 燜 ㄊ 먄 욶 א ݣ ﺺ Բարեւ", 0, kJFalse));
 }
 
 /******************************************************************************

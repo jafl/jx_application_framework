@@ -114,6 +114,22 @@ TestFontManager::HasGlyphForCharacter
 }
 
 /******************************************************************************
+ GetSubstituteFontName (virtual protected)
+
+ ******************************************************************************/
+
+JBoolean
+TestFontManager::GetSubstituteFontName
+	(
+	const JFont&			f,
+	const JUtf8Character&	c,
+	JString*				name
+	)
+{
+	return kJFalse;
+}
+
+/******************************************************************************
  GetLineHeight (virtual)
 
  ******************************************************************************/

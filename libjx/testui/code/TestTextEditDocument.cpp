@@ -10,6 +10,7 @@
 #include "TestTextEditDocument.h"
 #include "TestTextEditor.h"
 
+#include <JXStyledText.h>
 #include <JXDocumentManager.h>
 #include <JXWindow.h>
 #include <JXMenuBar.h>
@@ -20,7 +21,6 @@
 #include <JXDeleteObjectTask.h>
 #include <jXGlobals.h>
 
-#include <JStyledText.h>
 #include <jFStreamUtil.h>
 #include <jStreamUtil.h>
 #include <jFileUtil.h>
@@ -121,7 +121,7 @@ TestTextEditDocument::BuildWindow
 	window->SetWMClass("testjx", "TestTextEditDocument");
 	window->SetMinSize(20,50);
 
-	itsText = jnew JStyledText(kJTrue, kJTrue);
+	itsText = jnew JXStyledText(kJTrue, kJTrue, GetDisplay()->GetFontManager());
 	assert( itsText != NULL );
 
 	itsTextEditor =
