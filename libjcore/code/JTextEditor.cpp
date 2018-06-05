@@ -544,10 +544,10 @@ JTextEditor::ReplaceAll
 		}
 
 	TextRange r(
-		!itsSelection.IsEmpty() ? itsSelection.charRange :
+		restrictToSelection ? itsSelection.charRange :
 		JCharacterRange(1, itsText->GetText().GetCharacterCount()),
 
-		!itsSelection.IsEmpty() ? itsSelection.byteRange :
+		restrictToSelection ? itsSelection.byteRange :
 		JUtf8ByteRange(1, itsText->GetText().GetByteCount()));
 
 	itsNeedCaretBcastFlag = kJFalse;
