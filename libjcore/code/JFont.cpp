@@ -9,6 +9,7 @@
 
 #include <JFont.h>
 #include <JFontManager.h>
+#include <JStringIterator.h>
 #include <jGlobals.h>
 #include <jAssert.h>
 
@@ -244,6 +245,32 @@ JFont::IsExact
 	const
 {
 	return fontManager->IsExact(itsID);
+}
+
+/******************************************************************************
+ HasGlyphsForString
+
+ ******************************************************************************/
+
+JBoolean
+JFont::HasGlyphsForString
+	(
+	JFontManager*	fontManager,
+	const JString&	s
+	)
+	const
+{
+	JStringIterator iter(s);
+	JUtf8Character c;
+	while (iter.Next(&c))
+		{
+		if (!fontManager->HasGlyphForCharacter(itsID, c))
+			{
+			return kJFalse;
+			}
+		}
+
+	return kJTrue;
 }
 
 /******************************************************************************

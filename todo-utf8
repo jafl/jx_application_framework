@@ -1,5 +1,6 @@
 call FilterText after set font or font name or SetAllFontAndName
-display alternate font for JXFontNameMenu items:  Mshtakan
+Meta-E not set for "Enter Search String"
+search/replace text not shared by testjx
 
 
 finish JTextEditor tests
@@ -21,6 +22,7 @@ JTextEditor:
 	clicking in selection doesn't set caret location
 		treats ending newline line as part of selection
 	dropOnSelf crashed
+	"Replace All" did nothing when something was selected
 
 JXFontManager
 	some characters extend above line height

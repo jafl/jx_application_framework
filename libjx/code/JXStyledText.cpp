@@ -100,8 +100,6 @@ JXStyledText::NeedsToFilterText
 
  ******************************************************************************/
 
-#include <JStopWatch.h>
-
 JBoolean
 JXStyledText::FilterText
 	(
@@ -111,9 +109,6 @@ JXStyledText::FilterText
 {
 	if (itsFontManager != NULL)
 		{
-JStopWatch w;
-w.StartTimer();
-
 		JStringIterator siter(text);
 		JRunArrayIterator<JFont> fiter(style);
 
@@ -129,9 +124,6 @@ w.StartTimer();
 				fiter.SetPrev(f);
 				}
 			}
-
-w.StopTimer();
-std::cout << w.PrintTimeInterval() << std::endl;
 		}
 
 	return kJTrue;

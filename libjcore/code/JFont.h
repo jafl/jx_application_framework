@@ -59,6 +59,7 @@ public:
 	JSize	GetUnderlineThickness() const;
 
 	JBoolean	IsExact(JFontManager* fontManager) const;
+	JBoolean	HasGlyphsForString(JFontManager* fontManager, const JString& s) const;
 	JBoolean	HasGlyphForCharacter(JFontManager* fontManager, const JUtf8Character& c) const;
 	JBoolean	SubstituteToDisplayGlyph(JFontManager* fontManager, const JUtf8Character& c);
 

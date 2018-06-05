@@ -142,6 +142,11 @@ JXTextMenuTable::TableDrawCell
 			{
 			font.SetColor(JColorManager::GetInactiveLabelColor());
 			}
+
+		if (!font.HasGlyphsForString(GetFontManager(), text))
+			{
+			font.SubstituteToDisplayGlyph(GetFontManager(), text.GetFirstCharacter());
+			}
 		p.SetFont(font);
 
 		rect.left += kHMarginWidth;
