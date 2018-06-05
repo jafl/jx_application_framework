@@ -3951,8 +3951,6 @@ JTextEditor::Recalc1
 
  ******************************************************************************/
 
-static const JRegex wsPattern = "[\\p{Zs}\t\n]";
-
 void
 JTextEditor::RecalcLine
 	(
@@ -3996,13 +3994,18 @@ JTextEditor::RecalcLine
 			// get the next word
 
 			iter->BeginMatch();
-			iter->Next(wsPattern);
-			const JStringMatch& m = iter->FinishMatch();
 
-			if (!iter->AtEnd())		// don't ignore whitespace
+			JUtf8Character c;
+			while (iter->Next(&c))	// JRegex is too slow for this intensive operation
 				{
-				iter->SkipPrev();
+				if (c.IsSpace())
+					{
+					iter->SkipPrev();		// don't ignore whitespace
+					break;
+					}
 				}
+
+			const JStringMatch& m = iter->FinishMatch();
 
 			// check if the word fits on this line
 
