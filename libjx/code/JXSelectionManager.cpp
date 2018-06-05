@@ -48,6 +48,7 @@ static const JUtf8Byte* kAtomNames[ JXSelectionManager::kAtomCount ] =
 	"UTF8_STRING",
 	"MULTIPLE",						// several formats at once
 	"text/plain;charset=utf-8",
+	"text/plain",
 	"text/uri-list;charset=utf-8",
 	"DELETE",						// returns type "NULL"
 	"NULL",

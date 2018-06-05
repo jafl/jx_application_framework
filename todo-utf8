@@ -1,6 +1,4 @@
 call FilterText after set font or font name or SetAllFontAndName
-Meta-E not set for "Enter Search String"
-search/replace text not shared by testjx
 
 
 finish JTextEditor tests
