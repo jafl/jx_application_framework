@@ -40,7 +40,8 @@ JXPathInput::JXPathInput
 	const JCoordinate	h
 	)
 	:
-	JXInputField(jnew StyledText(this), enclosure, hSizing, vSizing, x,y, w,h),
+	JXInputField(jnew StyledText(this, enclosure->GetFontManager()),
+				 enclosure, hSizing, vSizing, x,y, w,h),
 	itsCompleter(NULL),
 	itsCompletionMenu(NULL)
 {
@@ -147,6 +148,8 @@ JXPathInput::Receive
 	const Message&	message
 	)
 {
+	JXInputField::Receive(sender, message);		// update JStyledText first
+
 	if (sender == this->GetText() && message.Is(JStyledText::kTextSet))
 		{
 		GoToEndOfLine();
@@ -158,8 +161,6 @@ JXPathInput::Receive
 				  JI2B(GetCaretLocation(&i) && i == GetText()->GetText().GetCharacterCount()+1),
 				  WantsModifiedTab());
 		}
-
-	JXInputField::Receive(sender, message);
 }
 
 /******************************************************************************

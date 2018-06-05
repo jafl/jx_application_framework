@@ -84,9 +84,9 @@ private:
 	{
 		public:
 
-		StyledText(JXPathInput* field)
+		StyledText(JXPathInput* field, JFontManager* fontManager)
 			:
-			JXInputField::StyledText(kJFalse),
+			JXInputField::StyledText(kJFalse, fontManager),
 			itsField(field)
 		{ };
 

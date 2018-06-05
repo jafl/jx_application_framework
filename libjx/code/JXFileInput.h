@@ -85,9 +85,9 @@ private:
 	{
 		public:
 
-		StyledText(JXFileInput* field)
+		StyledText(JXFileInput* field, JFontManager* fontManager)
 			:
-			JXInputField::StyledText(kJFalse),
+			JXInputField::StyledText(kJFalse, fontManager),
 			itsField(field)
 		{ };
 
