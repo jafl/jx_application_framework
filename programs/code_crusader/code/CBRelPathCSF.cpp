@@ -30,8 +30,8 @@ CBRelPathCSF::CBRelPathCSF
 	:
 	JXChooseSaveFile()
 {
-	itsFileDialog = NULL;
-	itsPathDialog = NULL;
+	itsFileDialog = nullptr;
+	itsPathDialog = nullptr;
 	itsPathType   = kProjectRelative;
 	itsDoc        = doc;
 }
@@ -260,24 +260,24 @@ CBRelPathCSF::Receive
 		{
 		const JXDialogDirector::Deactivated* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		if (info->Successful())
 			{
 			itsPathType = itsFileDialog->GetPathType();
 			}
-		itsFileDialog = NULL;
+		itsFileDialog = nullptr;
 		}
 
 	else if (sender == itsPathDialog && message.Is(JXDialogDirector::kDeactivated))
 		{
 		const JXDialogDirector::Deactivated* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		if (info->Successful())
 			{
 			itsPathType = itsPathDialog->GetPathType();
 			}
-		itsPathDialog = NULL;
+		itsPathDialog = nullptr;
 		}
 
 	JXChooseSaveFile::Receive(sender, message);

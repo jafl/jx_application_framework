@@ -35,7 +35,7 @@ JValueTableData<S,T>::JValueTableData
 	itsDefValue(defValue)
 {
 	itsCols = jnew JPtrArray< S >(JPtrArrayT::kDeleteAll);
-	assert( itsCols != NULL );
+	assert( itsCols != nullptr );
 }
 
 /******************************************************************************
@@ -53,7 +53,7 @@ JValueTableData<S,T>::JValueTableData
 	itsDefValue(source.itsDefValue)
 {
 	itsCols = jnew JPtrArray< S >(JPtrArrayT::kDeleteAll);
-	assert( itsCols != NULL );
+	assert( itsCols != nullptr );
 
 	const JSize count = (source.itsCols)->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
@@ -285,7 +285,7 @@ JValueTableData<S,T>::InsertRows
 	const JList<T>*	initData
 	)
 {
-	assert( initData == NULL || initData->GetElementCount() == GetColCount() );
+	assert( initData == nullptr || initData->GetElementCount() == GetColCount() );
 
 	if (count > 0)
 		{
@@ -297,7 +297,7 @@ JValueTableData<S,T>::InsertRows
 			for (JIndex i=1; i<=colCount; i++)
 				{
 				S* colData = itsCols->GetElement(i);
-				if (initData != NULL)
+				if (initData != nullptr)
 					{
 					colData->InsertElementAtIndex(trueIndex, initData->GetElement(i));
 					}
@@ -490,7 +490,7 @@ JValueTableData<S,T>::InsertCols
 	const JList<T>*	initData
 	)
 {
-	assert( initData == NULL || initData->GetElementCount() == GetRowCount() );
+	assert( initData == nullptr || initData->GetElementCount() == GetRowCount() );
 
 	if (count > 0)
 		{
@@ -499,11 +499,11 @@ JValueTableData<S,T>::InsertCols
 		for (JIndex j=1; j<=count; j++)
 			{
 			S* colData = jnew S;
-			assert( colData != NULL );
+			assert( colData != nullptr );
 			itsCols->InsertAtIndex(trueIndex, colData);
 
 			const JSize rowCount = GetRowCount();
-			if (initData != NULL)
+			if (initData != nullptr)
 				{
 				for (JIndex i=1; i<=rowCount; i++)
 					{

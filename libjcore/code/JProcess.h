@@ -24,56 +24,56 @@ public:
 
 	static JError	Create(JProcess** process, const JString& str,
 						   const JExecuteAction toAction = kJIgnoreConnection,
-						   int* toFD = NULL,
+						   int* toFD = nullptr,
 						   const JExecuteAction fromAction = kJIgnoreConnection,
-						   int* fromFD = NULL,
+						   int* fromFD = nullptr,
 						   const JExecuteAction errAction = kJIgnoreConnection,
-						   int* errFD = NULL);
+						   int* errFD = nullptr);
 
 	static JError	Create(JProcess** process,
 						   const JPtrArray<JString>& argList,
 						   const JExecuteAction toAction = kJIgnoreConnection,
-						   int* toFD = NULL,
+						   int* toFD = nullptr,
 						   const JExecuteAction fromAction = kJIgnoreConnection,
-						   int* fromFD = NULL,
+						   int* fromFD = nullptr,
 						   const JExecuteAction errAction = kJIgnoreConnection,
-						   int* errFD = NULL);
+						   int* errFD = nullptr);
 
 	static JError	Create(JProcess** process,
 						   const JUtf8Byte* argv[], const JSize size,
 						   const JExecuteAction toAction = kJIgnoreConnection,
-						   int* toFD = NULL,
+						   int* toFD = nullptr,
 						   const JExecuteAction fromAction = kJIgnoreConnection,
-						   int* fromFD = NULL,
+						   int* fromFD = nullptr,
 						   const JExecuteAction errAction = kJIgnoreConnection,
-						   int* errFD = NULL);
+						   int* errFD = nullptr);
 
 	static JError	Create(JProcess** process, const JString& workingDirectory,
 						   const JString& str,
 						   const JExecuteAction toAction = kJIgnoreConnection,
-						   int* toFD = NULL,
+						   int* toFD = nullptr,
 						   const JExecuteAction fromAction = kJIgnoreConnection,
-						   int* fromFD = NULL,
+						   int* fromFD = nullptr,
 						   const JExecuteAction errAction = kJIgnoreConnection,
-						   int* errFD = NULL);
+						   int* errFD = nullptr);
 
 	static JError	Create(JProcess** process, const JString& workingDirectory,
 						   const JPtrArray<JString>& argList,
 						   const JExecuteAction toAction = kJIgnoreConnection,
-						   int* toFD = NULL,
+						   int* toFD = nullptr,
 						   const JExecuteAction fromAction = kJIgnoreConnection,
-						   int* fromFD = NULL,
+						   int* fromFD = nullptr,
 						   const JExecuteAction errAction = kJIgnoreConnection,
-						   int* errFD = NULL);
+						   int* errFD = nullptr);
 
 	static JError	Create(JProcess** process, const JString& workingDirectory,
 						   const JUtf8Byte* argv[], const JSize size,
 						   const JExecuteAction toAction = kJIgnoreConnection,
-						   int* toFD = NULL,
+						   int* toFD = nullptr,
 						   const JExecuteAction fromAction = kJIgnoreConnection,
-						   int* fromFD = NULL,
+						   int* fromFD = nullptr,
 						   const JExecuteAction errAction = kJIgnoreConnection,
-						   int* errFD = NULL);
+						   int* errFD = nullptr);
 
 	JProcess(const pid_t pid);
 

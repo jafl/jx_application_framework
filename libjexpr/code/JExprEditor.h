@@ -212,7 +212,7 @@ private:
 	JExprRectList*			itsRectList;
 	JIndex					itsSelection;
 	JBoolean				itsActiveFlag;
-	JUserInputFunction*		itsActiveUIF;	// can be NULL; owned by itsFunction
+	JUserInputFunction*		itsActiveUIF;	// can be nullptr; owned by itsFunction
 
 	JFunction*	itsFunctionClip;
 
@@ -359,7 +359,7 @@ JExprEditor::GetClipboard
 	const
 {
 	*f = itsFunctionClip;
-	return JConvertToBoolean( itsFunctionClip != NULL );
+	return JConvertToBoolean( itsFunctionClip != nullptr );
 }
 
 /******************************************************************************
@@ -371,7 +371,7 @@ inline JBoolean
 JExprEditor::UIFIsActive()
 	const
 {
-	return JI2B( itsActiveUIF != NULL );
+	return JI2B( itsActiveUIF != nullptr );
 }
 
 #endif

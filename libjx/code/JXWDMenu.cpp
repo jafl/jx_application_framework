@@ -93,7 +93,7 @@ JXWDMenu::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		itsWDMgr->HandleWDMenu(this, selection->GetIndex());
 		}
 

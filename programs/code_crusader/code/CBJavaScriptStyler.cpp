@@ -17,7 +17,7 @@
 #include <JRegex.h>
 #include <jAssert.h>
 
-CBJavaScriptStyler* CBJavaScriptStyler::itsSelf = NULL;
+CBJavaScriptStyler* CBJavaScriptStyler::itsSelf = nullptr;
 
 const JFileVersion kCurrentTypeListVersion = 2;
 
@@ -69,12 +69,12 @@ static JBoolean recursiveInstance = kJFalse;
 CBStylerBase*
 CBJavaScriptStyler::Instance()
 {
-	if (itsSelf == NULL && !recursiveInstance)
+	if (itsSelf == nullptr && !recursiveInstance)
 		{
 		recursiveInstance = kJTrue;
 
 		itsSelf = jnew CBJavaScriptStyler;
-		assert( itsSelf != NULL );
+		assert( itsSelf != nullptr );
 
 		recursiveInstance = kJFalse;
 		}
@@ -141,7 +141,7 @@ CBJavaScriptStyler::CBJavaScriptStyler()
 CBJavaScriptStyler::~CBJavaScriptStyler()
 {
 	JPrefObject::WritePrefs();
-	itsSelf = NULL;
+	itsSelf = nullptr;
 }
 
 /******************************************************************************

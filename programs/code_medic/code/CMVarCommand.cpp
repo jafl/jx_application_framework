@@ -43,5 +43,5 @@ CMVarCommand::~CMVarCommand()
 void
 CMVarCommand::HandleFailure()
 {
-	Broadcast(ValueMessage(kValueFailed, NULL));
+	Broadcast(ValueMessage(kValueFailed, nullptr));
 }

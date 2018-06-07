@@ -70,7 +70,7 @@ JArcCosine::Copy()
 	const
 {
 	JArcCosine* newFunction = jnew JArcCosine(*this);
-	assert( newFunction != NULL );
+	assert( newFunction != nullptr );
 	return newFunction;
 }
 

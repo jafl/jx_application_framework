@@ -69,9 +69,9 @@ protected:
 private:
 
 	JString					itsPath;		// used to construct itsDirInfo
-	JDirInfo*				itsDirInfo;		// can be NULL
-	JPtrArray<JDirEntry>*	itsEntries;		// can be NULL
-	JXFSDirMenu*			itsParent;		// can be NULL; owns us
+	JDirInfo*				itsDirInfo;		// can be nullptr
+	JPtrArray<JDirEntry>*	itsEntries;		// can be nullptr
+	JXFSDirMenu*			itsParent;		// can be nullptr; owns us
 	JString					itsEmptyMsg;
 	JBoolean				itsShowPathFlag;
 	JBoolean				itsDereferenceLinksFlag;

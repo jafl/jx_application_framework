@@ -53,7 +53,7 @@ private:
 	CBTreeDirector*	itsDirector;			// owns us
 	CBFnListWidget*	itsFnListWidget;
 	JXTextMenu*		itsActionsMenu;
-	JXPSPrinter*	itsPrinter;				// not owned; can be NULL
+	JXPSPrinter*	itsPrinter;				// not owned; can be nullptr
 
 // begin JXLayout
 

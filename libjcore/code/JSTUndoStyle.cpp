@@ -10,7 +10,6 @@
  ******************************************************************************/
 
 #include <JSTUndoStyle.h>
-#include <JString.h>
 #include <jAssert.h>
 
 /******************************************************************************
@@ -30,7 +29,7 @@ JSTUndoStyle::JSTUndoStyle
 	assert( !itsRange.IsEmpty() );
 
 	itsOrigStyles = jnew JRunArray<JFont>;
-	assert( itsOrigStyles != NULL );
+	assert( itsOrigStyles != nullptr );
 
 	itsOrigStyles->AppendSlice(text->GetStyles(), itsRange.charRange);
 }
@@ -56,13 +55,13 @@ JSTUndoStyle::Undo()
 	JStyledText* text = GetText();
 
 	JSTUndoStyle* newUndo = jnew JSTUndoStyle(text, itsRange);
-	assert( newUndo != NULL );
+	assert( newUndo != nullptr );
 
 	text->SetFont(itsRange, *itsOrigStyles);
 
 	text->ReplaceUndo(this, newUndo);		// deletes us
 
-	text->BroadcastTextChanged(itsRange, kJFalse);
+	text->BroadcastTextChanged(itsRange, 0, 0, kJFalse);
 }
 
 /******************************************************************************

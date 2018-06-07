@@ -90,14 +90,14 @@ SVNCommandLog::StartProcess
 	if (GetDirector()->HasPath())
 		{
 		err = JProcess::Create(p, GetPath(), itsCmd,
-							   kJIgnoreConnection, NULL,
+							   kJIgnoreConnection, nullptr,
 							   kJCreatePipe, outFD,
 							   kJAttachToFromFD);
 		}
 	else
 		{
 		err = JProcess::Create(p, itsCmd,
-							   kJIgnoreConnection, NULL,
+							   kJIgnoreConnection, nullptr,
 							   kJCreatePipe, outFD,
 							   kJAttachToFromFD);
 		}

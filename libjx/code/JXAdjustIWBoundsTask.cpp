@@ -43,6 +43,6 @@ JXAdjustIWBoundsTask::~JXAdjustIWBoundsTask()
 void
 JXAdjustIWBoundsTask::Perform()
 {
-	itsImageWidget->itsAdjustBoundsTask = NULL;	// we will now be deleted
+	itsImageWidget->itsAdjustBoundsTask = nullptr;	// we will now be deleted
 	itsImageWidget->AdjustBounds();
 }

@@ -94,7 +94,7 @@ GloveHistory::GloveHistory
 	if (JXXFontMenu::Create(regex, CompareFontNames, kFontMenuTitleStr, menuBar,
 							kFixedLeft, kFixedTop, 0,0, 10,10, &itsFontMenu))
 		{
-		itsSizeMenu = NULL;
+		itsSizeMenu = nullptr;
 		itsFontMenu->SetFontName(kDefaultFontName);
 		SetDefaultFont(GetFontManager()->GetFont(kDefaultFontName));
 		menuBar->AppendMenu(itsFontMenu);
@@ -102,12 +102,12 @@ GloveHistory::GloveHistory
 		}
 	else
 		{
-		itsFontMenu = NULL;
+		itsFontMenu = nullptr;
 		SetDefaultFont(GetFontManager()->GetDefaultMonospaceFont());
 
 		itsSizeMenu = jnew JXFontSizeMenu(JGetMonospaceFontName(), kSizeMenuTitleStr, menuBar,
 										 kFixedLeft, kFixedTop, 0,0, 10,10);
-		assert( itsSizeMenu != NULL );
+		assert( itsSizeMenu != nullptr );
 		menuBar->AppendMenu(itsSizeMenu);
 		itsSizeMenu->SetFontSize(JGetDefaultFontSize());
 		ListenTo(itsSizeMenu);
@@ -180,7 +180,7 @@ GloveHistory::AdjustFont()
 
 	SelectAll();
 
-	if (itsFontMenu != NULL)
+	if (itsFontMenu != nullptr)
 		{
 		JFont font = GetFontManager()->GetFont(itsFontMenu->GetFontName());
 		SetCurrentFont(font);
@@ -188,7 +188,7 @@ GloveHistory::AdjustFont()
 		}
 	else
 		{
-		assert( itsSizeMenu != NULL );
+		assert( itsSizeMenu != nullptr );
 		const JSize size = itsSizeMenu->GetFontSize();
 		SetCurrentFontSize(size);
 		SetDefaultFontSize(size);
@@ -221,14 +221,14 @@ GloveHistory::AdjustTabWidth()
 	JCoordinate charWidth;
 
 	JFontManager* fontMgr = GetFontManager();
-	if (itsFontMenu != NULL)
+	if (itsFontMenu != nullptr)
 		{
 		const JFont font = fontMgr->GetFont(itsFontMenu->GetFontName());
 		charWidth = font.GetCharWidth(fontMgr, ' ');
 		}
 	else
 		{
-		assert( itsSizeMenu != NULL );
+		assert( itsSizeMenu != nullptr );
 		const JFont font = fontMgr->GetFont(JGetMonospaceFontName(), itsSizeMenu->GetFontSize());
 		charWidth = font.GetCharWidth(fontMgr, ' ');
 		}

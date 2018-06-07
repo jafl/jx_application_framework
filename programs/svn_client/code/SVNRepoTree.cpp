@@ -24,10 +24,10 @@ SVNRepoTree::SVNRepoTree
 	)
 	:
 	JTree(root),
-	itsView(NULL)
+	itsView(nullptr)
 {
 	itsSavedOpenNodes = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
-	assert( itsSavedOpenNodes != NULL );
+	assert( itsSavedOpenNodes != nullptr );
 	itsSavedOpenNodes->SetCompareFunction(JCompareStringsCaseSensitive);
 }
 
@@ -85,7 +85,7 @@ void
 SVNRepoTree::SaveOpenNodes()
 	const
 {
-	if (itsView != NULL)
+	if (itsView != nullptr)
 		{
 		JPtrArray<JString> paths(JPtrArrayT::kDeleteAll);
 		const JSize count = itsView->GetElementCount();
@@ -94,7 +94,7 @@ SVNRepoTree::SaveOpenNodes()
 			if (itsView->IsOpen(i))
 				{
 				JString* s = jnew JString((itsView->GetRepoNode(i))->GetRepoPath());
-				assert( s != NULL );
+				assert( s != nullptr );
 
 				itsSavedOpenNodes->InsertSorted(s);
 				}
@@ -128,7 +128,7 @@ SVNRepoTree::SavePathToOpen
 	while (url.GetLength() > baseUrl.GetLength())
 		{
 		JString* s = jnew JString(url);
-		assert( s != NULL );
+		assert( s != nullptr );
 		itsSavedOpenNodes->InsertSorted(s);
 
 		JSplitPathAndName(url, &path, &name);
@@ -150,7 +150,7 @@ SVNRepoTree::ReopenIfNeeded
 {
 	const JString& repoPath = node->GetRepoPath();
 	JIndex i;
-	if (itsView != NULL &&
+	if (itsView != nullptr &&
 		itsSavedOpenNodes->SearchSorted(const_cast<JString*>(&repoPath), JListT::kAnyMatch, &i))
 		{
 		itsView->Open(node);
@@ -223,7 +223,7 @@ SVNRepoTreeNode*
 SVNRepoTree::GetRepoRoot()
 {
 	SVNRepoTreeNode* root = dynamic_cast<SVNRepoTreeNode*>(GetRoot());
-	assert( root != NULL );
+	assert( root != nullptr );
 	return root;
 }
 
@@ -232,6 +232,6 @@ SVNRepoTree::GetRepoRoot()
 	const
 {
 	const SVNRepoTreeNode* root = dynamic_cast<const SVNRepoTreeNode*>(GetRoot());
-	assert( root != NULL );
+	assert( root != nullptr );
 	return root;
 }

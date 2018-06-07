@@ -37,7 +37,7 @@ CBShellDocument::Create
 	)
 {
 	const JString shell     = JGetUserShell();
-	const JCharacter* cmd[] = { shell, "-i", NULL };
+	const JCharacter* cmd[] = { shell, "-i", nullptr };
 
 	JProcess* p;
 	int inFD, outFD;
@@ -46,7 +46,7 @@ CBShellDocument::Create
 	if (err.OK())
 		{
 		*doc = jnew CBShellDocument(p, inFD, outFD);
-		assert( *doc != NULL );
+		assert( *doc != nullptr );
 
 		(**doc).Activate();
 		return kJTrue;
@@ -54,7 +54,7 @@ CBShellDocument::Create
 	else
 		{
 		err.ReportIfError();
-		*doc = NULL;
+		*doc = nullptr;
 		return kJFalse;
 		}
 }
@@ -74,9 +74,9 @@ CBShellDocument::CBShellDocument
 	CBTextDocument(kCBShellOutputFT, "CBShellHelp", kJFalse, ConstructShellEditor)
 {
 	itsShellEditor = (CBShellEditor*) GetTextEditor();
-	itsProcess     = NULL;
-	itsDataLink    = NULL;
-	itsCmdStream   = NULL;
+	itsProcess     = nullptr;
+	itsDataLink    = nullptr;
+	itsCmdStream   = nullptr;
 
 	// buttons in upper right
 
@@ -92,7 +92,7 @@ CBShellDocument::CBShellDocument
 		jnew JXTextButton(JGetString(kKillLabelID), window,
 						 JXWidget::kFixedRight, JXWidget::kFixedTop,
 						 rect.right - kMenuButtonWidth,0, kMenuButtonWidth,h);
-	assert( itsKillButton != NULL );
+	assert( itsKillButton != nullptr );
 	ListenTo(itsKillButton);
 
 	itsKillButton->SetShortcuts("^C#.");
@@ -122,7 +122,7 @@ CBShellDocument::ConstructShellEditor
 		jnew CBShellEditor(document, fileName, menuBar, lineInput, colInput,
 						  scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 						  JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 10,10);
-	assert( te != NULL );
+	assert( te != nullptr );
 
 	return te;
 }
@@ -153,17 +153,17 @@ CBShellDocument::SetConnection
 	const int	outFD
 	)
 {
-	assert( !ProcessRunning() && itsDataLink == NULL );
+	assert( !ProcessRunning() && itsDataLink == nullptr );
 
 	itsProcess = p;
 	ListenTo(itsProcess);
 
 	itsDataLink = new DataLink(inFD);
-	assert( itsDataLink != NULL );
+	assert( itsDataLink != nullptr );
 	ListenTo(itsDataLink);
 
 	itsCmdStream = jnew JOutPipeStream(outFD, kJTrue);
-	assert( itsCmdStream != NULL );
+	assert( itsCmdStream != nullptr );
 
 	UpdateButtons();
 }
@@ -177,7 +177,7 @@ void
 CBShellDocument::DeleteLinks()
 {
 	delete itsDataLink;
-	itsDataLink = NULL;
+	itsDataLink = nullptr;
 }
 
 /******************************************************************************
@@ -191,7 +191,7 @@ CBShellDocument::SendCommand
 	const JCharacter* cmd
 	)
 {
-	if (itsCmdStream != NULL)
+	if (itsCmdStream != nullptr)
 		{
 		*itsCmdStream << cmd;
 		itsCmdStream->flush();
@@ -246,7 +246,7 @@ CBShellDocument::ReceiveData
 {
 	const JAsynchDataReceiverT::DataReady* info =
 		dynamic_cast<const JAsynchDataReceiverT::DataReady*>(&message);
-	assert( info != NULL );
+	assert( info != nullptr );
 
 	itsShellEditor->InsertText(info->GetData());
 }
@@ -276,7 +276,7 @@ void
 CBShellDocument::CloseOutFD()
 {
 	jdelete itsCmdStream;
-	itsCmdStream = NULL;
+	itsCmdStream = nullptr;
 }
 
 /******************************************************************************

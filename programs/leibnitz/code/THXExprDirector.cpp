@@ -283,22 +283,22 @@ THXExprDirector::BuildWindow
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 360,240, "");
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	JXMenuBar* menuBar =
 		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 360,30);
-	assert( menuBar != NULL );
+	assert( menuBar != nullptr );
 
 	itsPartition =
 		jnew JXVertPartition(heights, elasticIndex, minHeights, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 300,210);
-	assert( itsPartition != NULL );
+	assert( itsPartition != nullptr );
 
 	itsKeyPad =
 		jnew THXKeyPad(window,
 					JXWidget::kFixedRight, JXWidget::kVElastic, 300,30, 60,210);
-	assert( itsKeyPad != NULL );
+	assert( itsKeyPad != nullptr );
 
 // end JXLayout
 
@@ -309,7 +309,7 @@ THXExprDirector::BuildWindow
 
 	JXDisplay* display = GetDisplay();
 	JXImage* icon      = jnew JXImage(display, thx_expr_window);
-	assert( icon != NULL );
+	assert( icon != nullptr );
 	window->SetIcon(icon);
 
 	// create tape
@@ -318,14 +318,14 @@ THXExprDirector::BuildWindow
 		jnew JXScrollbarSet(itsPartition->GetCompartment(2),
 						   JXWidget::kHElastic, JXWidget::kVElastic,
 						   0,0, 100,100);
-	assert( scrollbarSet2 != NULL );
+	assert( scrollbarSet2 != nullptr );
 	scrollbarSet2->FitToEnclosure();
 
 	itsTapeWidget =
 		jnew THXTapeText(scrollbarSet2, scrollbarSet2->GetScrollEnclosure(),
 						JXWidget::kHElastic, JXWidget::kVElastic,
 						0,0, 10,10);
-	assert( itsTapeWidget != NULL );
+	assert( itsTapeWidget != nullptr );
 	itsTapeWidget->FitToEnclosure();
 	itsTapeWidget->SetPTPrinter(THXGetTapePrinter());
 
@@ -335,7 +335,7 @@ THXExprDirector::BuildWindow
 		jnew JXScrollbarSet(itsPartition->GetCompartment(1),
 						   JXWidget::kHElastic, JXWidget::kVElastic,
 						   0,0, 100,100);
-	assert( scrollbarSet1 != NULL );
+	assert( scrollbarSet1 != nullptr );
 	scrollbarSet1->FitToEnclosure();
 
 	itsExprWidget =
@@ -343,7 +343,7 @@ THXExprDirector::BuildWindow
 						  scrollbarSet1->GetScrollEnclosure(),
 						  JXWidget::kHElastic, JXWidget::kVElastic,
 						  0,0, 10,10);
-	assert( itsExprWidget != NULL );
+	assert( itsExprWidget != nullptr );
 	itsExprWidget->FitToEnclosure();
 
 	itsKeyPad->SetExprEditor(itsExprWidget);
@@ -409,7 +409,7 @@ THXExprDirector::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleActionsMenu(selection->GetIndex());
 		}
 
@@ -421,7 +421,7 @@ THXExprDirector::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandlePrefsMenu(selection->GetIndex());
 		}
 
@@ -433,7 +433,7 @@ THXExprDirector::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		(THXGetApplication())->HandleHelpMenu(itsHelpMenu, "THXExprHelp",
 											  selection->GetIndex());
 		}
@@ -522,7 +522,7 @@ void
 THXExprDirector::SaveTape()
 {
 	JString newName;
-	if ((JXGetChooseSaveFile())->SaveFile("Save tape as:", NULL,
+	if ((JXGetChooseSaveFile())->SaveFile("Save tape as:", nullptr,
 										  itsTapeName, &newName))
 		{
 		itsTapeName = newName;

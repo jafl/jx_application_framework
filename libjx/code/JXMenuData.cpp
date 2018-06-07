@@ -26,7 +26,7 @@ JXMenuData::JXMenuData()
 	JContainer()
 {
 	itsBaseItemData = jnew JArray<BaseItemData>;
-	assert( itsBaseItemData != NULL );
+	assert( itsBaseItemData != nullptr );
 
 	InstallOrderedSet(itsBaseItemData);
 }
@@ -62,13 +62,13 @@ JXMenuData::InsertItem
 	if (!shortcuts.IsEmpty())
 		{
 		itemData.shortcuts = jnew JString(shortcuts);
-		assert( itemData.shortcuts != NULL );
+		assert( itemData.shortcuts != nullptr );
 		}
 
 	if (!id.IsEmpty())
 		{
 		itemData.id = jnew JString(id);
-		assert( itemData.id != NULL );
+		assert( itemData.id != nullptr );
 		}
 
 	itsBaseItemData->InsertElementAtIndex(index, itemData);
@@ -119,17 +119,17 @@ JXMenuData::CleanOutBaseItem
 	)
 {
 	jdelete (itemData->shortcuts);
-	itemData->shortcuts = NULL;
+	itemData->shortcuts = nullptr;
 
 	jdelete (itemData->id);
-	itemData->id = NULL;
+	itemData->id = nullptr;
 
-	if (itemData->submenu != NULL)
+	if (itemData->submenu != nullptr)
 		{
-		assert( (itemData->submenu)->itsMenuBar == NULL );
-		(itemData->submenu)->itsOwner = NULL;
+		assert( (itemData->submenu)->itsMenuBar == nullptr );
+		(itemData->submenu)->itsOwner = nullptr;
 		jdelete (itemData->submenu);
-		itemData->submenu = NULL;
+		itemData->submenu = nullptr;
 		}
 }
 
@@ -168,7 +168,7 @@ JXMenuData::HasSubmenus()
 	for (JIndex i=1; i<=count; i++)
 		{
 		const BaseItemData itemData = itsBaseItemData->GetElement(i);
-		if (itemData.submenu != NULL)
+		if (itemData.submenu != nullptr)
 			{
 			return kJTrue;
 			}
@@ -194,10 +194,10 @@ JXMenuData::SetItemShortcuts
 	JBoolean changed = kJFalse;
 	if (!shortcuts.IsEmpty())
 		{
-		if (itemData.shortcuts == NULL)
+		if (itemData.shortcuts == nullptr)
 			{
 			itemData.shortcuts = jnew JString(shortcuts);
-			assert( itemData.shortcuts != NULL );
+			assert( itemData.shortcuts != nullptr );
 			itsBaseItemData->SetElement(index, itemData);
 			}
 		else
@@ -207,10 +207,10 @@ JXMenuData::SetItemShortcuts
 		(itemData.shortcuts)->ToLower();
 		changed = kJTrue;
 		}
-	else if (itemData.shortcuts != NULL)
+	else if (itemData.shortcuts != nullptr)
 		{
 		jdelete (itemData.shortcuts);
-		itemData.shortcuts = NULL;
+		itemData.shortcuts = nullptr;
 		itsBaseItemData->SetElement(index, itemData);
 		changed = kJTrue;
 		}
@@ -226,7 +226,7 @@ JXMenuData::SetItemShortcuts
 
 	Derived classes can override this to update underlining, etc.
 
-	Note that shortcuts can be NULL.
+	Note that shortcuts can be nullptr.
 
  ******************************************************************************/
 
@@ -261,7 +261,7 @@ JXMenuData::ShortcutToIndex
 	for (JIndex i=1; i<=count; i++)
 		{
 		const BaseItemData itemData = itsBaseItemData->GetElement(i);
-		if (itemData.enabled && itemData.shortcuts != NULL &&
+		if (itemData.enabled && itemData.shortcuts != nullptr &&
 			(itemData.shortcuts)->Contains(c))
 			{
 			*index = i;
@@ -288,10 +288,10 @@ JXMenuData::SetItemID
 
 	if (!id.IsEmpty())
 		{
-		if (itemData.id == NULL)
+		if (itemData.id == nullptr)
 			{
 			itemData.id = jnew JString(id);
-			assert( itemData.id != NULL );
+			assert( itemData.id != nullptr );
 			itsBaseItemData->SetElement(index, itemData);
 			}
 		else
@@ -299,10 +299,10 @@ JXMenuData::SetItemID
 			*(itemData.id) = id;
 			}
 		}
-	else if (itemData.id != NULL)
+	else if (itemData.id != nullptr)
 		{
 		jdelete (itemData.id);
-		itemData.id = NULL;
+		itemData.id = nullptr;
 		itsBaseItemData->SetElement(index, itemData);
 		}
 }
@@ -350,12 +350,12 @@ JXMenuData::SetItemEnable
 	)
 {
 	BaseItemData itemData = itsBaseItemData->GetElement(index);
-	if (itemData.submenu == NULL && itemData.enabled != enabled)
+	if (itemData.submenu == nullptr && itemData.enabled != enabled)
 		{
 		itemData.enabled = enabled;
 		itsBaseItemData->SetElement(index, itemData);
 		}
-	else if (itemData.submenu != NULL)
+	else if (itemData.submenu != nullptr)
 		{
 		if (enabled && !(itemData.submenu)->itsShouldBeActiveFlag)
 			{
@@ -404,13 +404,13 @@ JXMenuData::AttachSubmenu
 	JXMenu*			submenu
 	)
 {
-	assert( submenu != NULL );
+	assert( submenu != nullptr );
 
 	BaseItemData itemData = itsBaseItemData->GetElement(index);
-	if (itemData.submenu != NULL)
+	if (itemData.submenu != nullptr)
 		{
-		assert( (itemData.submenu)->itsMenuBar == NULL );
-		(itemData.submenu)->itsOwner = NULL;
+		assert( (itemData.submenu)->itsMenuBar == nullptr );
+		(itemData.submenu)->itsOwner = nullptr;
 		jdelete (itemData.submenu);
 		}
 	itemData.submenu   = submenu;
@@ -437,12 +437,12 @@ JXMenuData::RemoveSubmenu
 {
 	BaseItemData itemData = itsBaseItemData->GetElement(index);
 	*theMenu              = itemData.submenu;
-	if (*theMenu != NULL)
+	if (*theMenu != nullptr)
 		{
-		(**theMenu).itsOwner = NULL;		// SetOwner() would cause infinite loop
+		(**theMenu).itsOwner = nullptr;		// SetOwner() would cause infinite loop
 		(**theMenu).AdjustAppearance();
 
-		itemData.submenu = NULL;
+		itemData.submenu = nullptr;
 		itsBaseItemData->SetElement(index, itemData);
 
 		return kJTrue;
@@ -459,7 +459,7 @@ JXMenuData::RemoveSubmenu
 	JXMenu* theMenu
 	)
 {
-	assert( theMenu != NULL );
+	assert( theMenu != nullptr );
 
 	JIndex index;
 	if (FindSubmenu(theMenu, &index))
@@ -511,13 +511,13 @@ JXMenuData::DeleteSubmenu
 	)
 {
 	BaseItemData itemData = itsBaseItemData->GetElement(index);
-	if (itemData.submenu != NULL)
+	if (itemData.submenu != nullptr)
 		{
-		assert( (itemData.submenu)->itsMenuBar == NULL );
-		(itemData.submenu)->itsOwner = NULL;
+		assert( (itemData.submenu)->itsMenuBar == nullptr );
+		(itemData.submenu)->itsOwner = nullptr;
 		jdelete (itemData.submenu);
 
-		itemData.submenu = NULL;
+		itemData.submenu = nullptr;
 		itsBaseItemData->SetElement(index, itemData);
 		}
 }
@@ -541,7 +541,7 @@ JXMenuData::PrepareToOpenMenu
 		JBoolean changed = kJFalse;
 		if (itemData.enabled &&
 			(updateAction == JXMenu::kDisableAll ||
-			 (itemData.submenu == NULL && updateAction == JXMenu::kDisableSingles)))
+			 (itemData.submenu == nullptr && updateAction == JXMenu::kDisableSingles)))
 			{
 			itemData.enabled = kJFalse;
 			changed          = kJTrue;

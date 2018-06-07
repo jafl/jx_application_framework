@@ -50,7 +50,7 @@ DNDWidgetDir::BuildWindow()
 {
 	// Create the window
 	JXWindow* window = jnew JXWindow(this, 300,200, "Drag Painter Program");
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	// Set the window sizing
 	window->SetMinSize(300,200);
@@ -60,14 +60,14 @@ DNDWidgetDir::BuildWindow()
 	JXScrollbarSet* scrollbarSet =
 		jnew JXScrollbarSet(window,
 			JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 300,200);
-	assert( scrollbarSet != NULL );
+	assert( scrollbarSet != nullptr );
 
 	// Create the custom widget with the scrollbarset as its enclosure
 	DNDWidget* widget =
 		jnew DNDWidget(scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 			JXWidget::kHElastic, JXWidget::kVElastic,
 			0, 0, 10, 10);
-	assert( widget != NULL );
+	assert( widget != nullptr );
 
 	// Fit the widget within the scrollbarset enclosure
 	widget->FitToEnclosure(kJTrue, kJTrue);

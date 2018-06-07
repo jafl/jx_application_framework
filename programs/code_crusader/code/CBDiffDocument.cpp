@@ -85,7 +85,7 @@ CBDiffDocument::CreatePlain
 
 	JProcess* p;
 	err = JProcess::Create(&p, cmd,
-						   kJIgnoreConnection, NULL,
+						   kJIgnoreConnection, nullptr,
 						   kJAttachToFD, &tempFileFD,
 						   kJAttachToFD, &errFileFD);
 	if (err.OK())
@@ -93,11 +93,11 @@ CBDiffDocument::CreatePlain
 		// let diff chug along while we load the contents of file 1
 
 		CBDiffDocument* doc = origDoc;
-		if (doc == NULL)
+		if (doc == nullptr)
 			{
 			doc = jnew CBDiffDocument(kPlainType, fullName, "", cmd, defStyle,
 									 name1, removeStyle, name2, insertStyle);
-			assert( doc != NULL );
+			assert( doc != nullptr );
 			}
 		doc->Init(fullName);
 
@@ -119,7 +119,7 @@ CBDiffDocument::CreatePlain
 			std::ifstream input(tempFileName);
 			if (length > 0 && !isdigit(input.peek()))
 				{
-				if (origDoc == NULL)
+				if (origDoc == nullptr)
 					{
 					doc->Close();
 					}
@@ -139,7 +139,7 @@ CBDiffDocument::CreatePlain
 				}
 			else
 				{
-				if (origDoc == NULL)
+				if (origDoc == nullptr)
 					{
 					doc->Close();
 					}
@@ -151,7 +151,7 @@ CBDiffDocument::CreatePlain
 			}
 		else
 			{
-			if (origDoc == NULL)
+			if (origDoc == nullptr)
 				{
 				doc->Close();
 				}
@@ -220,7 +220,7 @@ CBDiffDocument::CreateCVS
 
 	JProcess* p;
 	err = JProcess::Create(&p, diskPath, diffCmd,
-						   kJIgnoreConnection, NULL,
+						   kJIgnoreConnection, nullptr,
 						   kJAttachToFD, &tempFileFD,
 						   kJAttachToFD, &errFileFD);
 	if (err.OK())
@@ -253,8 +253,8 @@ CBDiffDocument::CreateCVS
 		JProcess* p1;
 		int errFD;
 		err = JProcess::Create(&p1, tempRoot, cmd1,
-							   kJIgnoreConnection, NULL,
-							   kJIgnoreConnection, NULL,
+							   kJIgnoreConnection, nullptr,
+							   kJIgnoreConnection, nullptr,
 							   kJCreatePipe, &errFD);
 		if (err.OK())
 			{
@@ -272,11 +272,11 @@ CBDiffDocument::CreateCVS
 		const JString startFullName = JCombinePathAndName(tempPath, fileName);
 
 		CBDiffDocument* doc = origDoc;
-		if (doc == NULL)
+		if (doc == nullptr)
 			{
 			doc = jnew CBDiffDocument(kCVSType, fullName, getCmd, diffCmd, defStyle,
 									 name1, removeStyle, name2, insertStyle);
-			assert( doc != NULL );
+			assert( doc != nullptr );
 			}
 		doc->Init(startFullName);
 
@@ -300,7 +300,7 @@ CBDiffDocument::CreateCVS
 
 			if (length == 0)
 				{
-				if (origDoc == NULL)
+				if (origDoc == nullptr)
 					{
 					doc->Close();
 					}
@@ -334,7 +334,7 @@ CBDiffDocument::CreateCVS
 
 				if (text.GetLength() > 0 && !isdigit(text.GetFirstCharacter()))
 					{
-					if (origDoc == NULL)
+					if (origDoc == nullptr)
 						{
 						doc->Close();
 						}
@@ -358,7 +358,7 @@ CBDiffDocument::CreateCVS
 			}
 		else
 			{
-			if (origDoc == NULL)
+			if (origDoc == nullptr)
 				{
 				doc->Close();
 				}
@@ -425,7 +425,7 @@ CBDiffDocument::CreateSVN
 
 	JProcess* p;
 	err = JProcess::Create(&p, diffCmd,
-						   kJIgnoreConnection, NULL,
+						   kJIgnoreConnection, nullptr,
 						   kJAttachToFD, &tempFileFD,
 						   kJAttachToFD, &errFileFD);
 	if (err.OK())
@@ -446,16 +446,16 @@ CBDiffDocument::CreateSVN
 			}
 		else
 			{
-			err         = FillOutputFile(NULL, getCmd, &startFullName);
+			err         = FillOutputFile(nullptr, getCmd, &startFullName);
 			removeAfter = kJTrue;
 			}
 
 		CBDiffDocument* doc = origDoc;
-		if (doc == NULL)
+		if (doc == nullptr)
 			{
 			doc = jnew CBDiffDocument(kSVNType, fullName, getCmd, diffCmd, defStyle,
 									 name1, removeStyle, name2, insertStyle);
-			assert( doc != NULL );
+			assert( doc != nullptr );
 			}
 		if (!startFullName.IsEmpty())
 			{
@@ -484,7 +484,7 @@ CBDiffDocument::CreateSVN
 
 			if (length == 0)
 				{
-				if (origDoc == NULL)
+				if (origDoc == nullptr)
 					{
 					doc->Close();
 					}
@@ -518,7 +518,7 @@ CBDiffDocument::CreateSVN
 
 				if (text.GetLength() > 0 && !isdigit(text.GetFirstCharacter()))
 					{
-					if (origDoc == NULL)
+					if (origDoc == nullptr)
 						{
 						doc->Close();
 						}
@@ -542,7 +542,7 @@ CBDiffDocument::CreateSVN
 			}
 		else
 			{
-			if (origDoc == NULL)
+			if (origDoc == nullptr)
 				{
 				doc->Close();
 				}
@@ -624,7 +624,7 @@ CBDiffDocument::CreateGit
 		}
 
 	CBDiffDocument* doc = origDoc;
-	if (doc == NULL)
+	if (doc == nullptr)
 		{
 		JString getCmd = get1Cmd;
 		getCmd        += kGitCmdSeparator;
@@ -632,7 +632,7 @@ CBDiffDocument::CreateGit
 
 		doc = jnew CBDiffDocument(kGitType, fullName, getCmd, diffCmd, defStyle,
 								 name1, removeStyle, name2, insertStyle);
-		assert( doc != NULL );
+		assert( doc != nullptr );
 		}
 
 	JString cmd = diffCmd;
@@ -642,7 +642,7 @@ CBDiffDocument::CreateGit
 
 	err = CBDiffDocument::CreatePlain(f1, cmd, defStyle, name1, removeStyle,
 									  name2, insertStyle, silent, doc);
-	if (!err.OK() && origDoc == NULL)
+	if (!err.OK() && origDoc == nullptr)
 		{
 		doc->Close();
 		}
@@ -769,14 +769,14 @@ CBDiffDocument::FillOutputFile
 		if (!JString::IsEmpty(path))
 			{
 			err = JProcess::Create(&p, path, cmd,
-								   kJIgnoreConnection, NULL,
+								   kJIgnoreConnection, nullptr,
 								   kJAttachToFD, &tempFileFD,
 								   kJAttachToFD, &errFileFD);
 			}
 		else
 			{
 			err = JProcess::Create(&p, cmd,
-								   kJIgnoreConnection, NULL,
+								   kJIgnoreConnection, nullptr,
 								   kJAttachToFD, &tempFileFD,
 								   kJAttachToFD, &errFileFD);
 			}
@@ -861,7 +861,7 @@ CBDiffDocument::CBDiffDocument
 						 JXWidget::kFixedRight, JXWidget::kFixedTop,
 						 rect.right - kMenuButtonWidth,0,
 						 kMenuButtonWidth, menuBar->GetFrameHeight());
-	assert( itsDiffButton != NULL );
+	assert( itsDiffButton != nullptr );
 	ListenTo(itsDiffButton);
 
 	menuBar->AdjustSize(-kMenuButtonWidth, 0);
@@ -983,7 +983,7 @@ CBDiffDocument::ReadDiff
 	if (CBGetDocumentManager()->FileDocumentIsOpen(itsFullName, &doc))
 		{
 		CBTextDocument* textDoc = dynamic_cast<CBTextDocument*>(doc);
-		if (textDoc != NULL)
+		if (textDoc != nullptr)
 			{
 			te->SetBreakCROnly(textDoc->GetTextEditor()->WillBreakCROnly());
 			}
@@ -1151,7 +1151,7 @@ CBDiffDocument::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleDiffMenu(selection->GetIndex());
 		}
 

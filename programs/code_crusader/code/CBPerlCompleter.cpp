@@ -10,7 +10,7 @@
 #include "CBPerlCompleter.h"
 #include <jAssert.h>
 
-CBPerlCompleter* CBPerlCompleter::itsSelf = NULL;
+CBPerlCompleter* CBPerlCompleter::itsSelf = nullptr;
 
 static const JCharacter* kKeywordList[] =
 {
@@ -60,12 +60,12 @@ static JBoolean recursiveInstance = kJFalse;
 CBStringCompleter*
 CBPerlCompleter::Instance()
 {
-	if (itsSelf == NULL && !recursiveInstance)
+	if (itsSelf == nullptr && !recursiveInstance)
 		{
 		recursiveInstance = kJTrue;
 
 		itsSelf = jnew CBPerlCompleter;
-		assert( itsSelf != NULL );
+		assert( itsSelf != nullptr );
 
 		recursiveInstance = kJFalse;
 		}
@@ -102,7 +102,7 @@ CBPerlCompleter::CBPerlCompleter()
 
 CBPerlCompleter::~CBPerlCompleter()
 {
-	itsSelf = NULL;
+	itsSelf = nullptr;
 }
 
 /******************************************************************************

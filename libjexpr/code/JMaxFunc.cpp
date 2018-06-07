@@ -60,7 +60,7 @@ JMaxFunc::Copy()
 	const
 {
 	JMaxFunc* newFunction = jnew JMaxFunc(*this);
-	assert( newFunction != NULL );
+	assert( newFunction != nullptr );
 	return newFunction;
 }
 

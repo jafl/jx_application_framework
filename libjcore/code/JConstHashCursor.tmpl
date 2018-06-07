@@ -92,14 +92,14 @@ JConstHashCursor<V>::JConstHashCursor
 	)
 	:
 	itsTable(table),
-	itsValue(NULL),
+	itsValue(nullptr),
 	itsHashValue(0),
 	itsInitialIndex(0),
 	itsIndex(0),
 	itsIncrement(1),
 	itsInitialCount(0)
 {
-	assert(itsTable != NULL);
+	assert(itsTable != nullptr);
 }
 
 template <class V>
@@ -110,14 +110,14 @@ JConstHashCursor<V>::JConstHashCursor
 	)
 	:
 	itsTable(table),
-	itsValue(NULL),
+	itsValue(nullptr),
 	itsHashValue(hash),
 //	itsInitialIndex(0),
 //	itsIndex(0),
 	itsIncrement( DualHash(itsHashValue) ),
 	itsInitialCount(0)
 {
-	assert(itsTable != NULL);
+	assert(itsTable != nullptr);
 
 	itsInitialIndex = itsIndex = itsTable->HashToIndex(itsHashValue);
 }
@@ -131,15 +131,15 @@ JConstHashCursor<V>::JConstHashCursor
 	)
 	:
 	itsTable(table),
-	itsValue(NULL),
+	itsValue(nullptr),
 	itsHashValue( Hash(*itsValue) ),
 //	itsInitialIndex(0),
 //	itsIndex(0),
 	itsIncrement( DualHash(itsHashValue) ),
 	itsInitialCount(0)
 {
-	assert(itsTable != NULL);
-	assert(itsValue != NULL);
+	assert(itsTable != nullptr);
+	assert(itsValue != nullptr);
 
 	itsInitialIndex = itsIndex = itsTable->HashToIndex(itsHashValue);
 }
@@ -578,7 +578,7 @@ JConstHashCursor<V>::NextKey
 	const JBoolean allowEmpty // = kJFalse
 	)
 {
-	assert(itsValue != NULL);
+	assert(itsValue != nullptr);
 
 	switch (itsInitialCount)
 	{
@@ -669,7 +669,7 @@ template <class V>
 JBoolean
 JConstHashCursor<V>::NextKeyOrOpen()
 {
-	assert(itsValue != NULL);
+	assert(itsValue != nullptr);
 
 	switch (itsInitialCount)
 	{
@@ -859,7 +859,7 @@ JConstHashCursor<V>::Reset
 		{
 		itsHashValue = 0;
 		itsIncrement = 1;
-		itsValue = NULL;
+		itsValue = nullptr;
 		}
 
 	itsInitialIndex = itsIndex = itsTable->HashToIndex(itsHashValue);
@@ -873,7 +873,7 @@ JConstHashCursor<V>::ResetHash
 	const JHashValue hash
 	)
 {
-	itsValue = NULL;
+	itsValue = nullptr;
 	itsHashValue = hash;
 	itsInitialIndex = itsIndex = itsTable->HashToIndex(itsHashValue);
 	itsIncrement = DualHash(itsHashValue);

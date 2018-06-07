@@ -822,7 +822,7 @@ JTEST(Empty)
 JTEST(Invalid)
 {
 	JString* s1 = jnew JString();
-	assert( s1 != NULL );
+	assert( s1 != nullptr );
 
 	JStringIterator i1(s1);
 

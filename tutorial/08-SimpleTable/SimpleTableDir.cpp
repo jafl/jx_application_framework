@@ -54,7 +54,7 @@ SimpleTableDir::BuildWindow()
 {
 	// Create the window
 	JXWindow* window = jnew JXWindow(this, 300,200, "Test SimpleTable Program");
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	// Set sizing
 	window->SetMinSize(300,200);
@@ -64,7 +64,7 @@ SimpleTableDir::BuildWindow()
 	JXScrollbarSet* scrollbarSet =
 		jnew JXScrollbarSet(window,
 			JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 300,200);
-	assert( scrollbarSet != NULL );
+	assert( scrollbarSet != nullptr );
 
 	// Create our SimpleTable. It must be placed inside the
 	// special widget that JXScrollbarSet creates.  We get a
@@ -73,6 +73,6 @@ SimpleTableDir::BuildWindow()
 		jnew SimpleTable(scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 			JXWidget::kHElastic, JXWidget::kVElastic,
 			0, 0, 10, 10);
-	assert( table != NULL );
+	assert( table != nullptr );
 	table->FitToEnclosure();
 }

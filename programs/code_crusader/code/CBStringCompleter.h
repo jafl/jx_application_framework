@@ -53,7 +53,7 @@ private:
 	const JBoolean		itsCaseSensitiveFlag;
 	JPtrArray<JString>*	itsStringList;	// contents not owned
 	JPtrArray<JString>*	itsOwnedList;
-	CBStylerBase*		itsStyler;		// can be NULL; not owned; provides extra words
+	CBStylerBase*		itsStyler;		// can be nullptr; not owned; provides extra words
 
 private:
 

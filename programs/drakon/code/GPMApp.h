@@ -18,7 +18,7 @@ public:
 
 	virtual ~GPMApp();
 
-	void	DisplayAbout(const JCharacter* prevVersStr = NULL);
+	void	DisplayAbout(const JCharacter* prevVersStr = nullptr);
 
 	static const JCharacter*	GetAppSignature();
 	static void					InitStrings();

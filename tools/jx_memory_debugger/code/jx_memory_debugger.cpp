@@ -34,7 +34,7 @@ main
 	JBoolean displayAbout;
 	JString prevVersStr;
 	MDApp* app = jnew MDApp(&argc, argv, &displayAbout, &prevVersStr);
-	assert( app != NULL );
+	assert( app != nullptr );
 
 	if (displayAbout &&
 		!(JGetUserNotification())->AcceptLicense())
@@ -43,7 +43,7 @@ main
 		}
 
 	MDStatsDirector* dir = jnew MDStatsDirector(app);
-	assert( dir != NULL );
+	assert( dir != nullptr );
 	dir->Activate();
 
 	if (displayAbout)

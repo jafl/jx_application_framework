@@ -50,5 +50,5 @@ CBJavaScriptScanner::BeginScan
 	itsCurrentRange.Set(JTellg(input)+1, JTellg(input));
 	itsProbableOperatorFlag = kJFalse;
 
-	switch_streams(&input, NULL);
+	switch_streams(&input, nullptr);
 }

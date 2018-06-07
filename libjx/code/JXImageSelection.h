@@ -59,7 +59,7 @@ public:		// kAtomCount required at global scope
 
 private:
 
-	JXImage*	itsImage;		// NULL until Resolve()
+	JXImage*	itsImage;		// nullptr until Resolve()
 	Atom		itsAtoms[ kAtomCount ];
 	Atom		itsXPMAtom;
 	Atom		itsGIFAtom;
@@ -88,7 +88,7 @@ JXImageSelection::GetImage
 	const
 {
 	*image = itsImage;
-	return JI2B( itsImage != NULL );
+	return JI2B( itsImage != nullptr );
 }
 
 #endif

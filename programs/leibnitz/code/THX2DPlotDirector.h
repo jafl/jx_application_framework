@@ -47,7 +47,7 @@ private:
 	JIndex				itsEditFunctionItemIndex;	// index of item on Curve Options pop up menu
 
 	JPtrArray<J2DPlotJFunction>*	itsFnList;			// contents not owned
-	THX2DPlotFunctionDialog*		itsEditFnDialog;	// NULL unless editing
+	THX2DPlotFunctionDialog*		itsEditFnDialog;	// nullptr unless editing
 	JIndex							itsEditFnIndex;		// index of curve being edited
 
 // begin JXLayout

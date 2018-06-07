@@ -75,14 +75,14 @@ JXMenuTable::JXMenuTable
 	const JCoordinate	h
 	)
 	:
-	JXTable(20,20, NULL, enclosure, hSizing,vSizing, x,y, w,h),
+	JXTable(20,20, nullptr, enclosure, hSizing,vSizing, x,y, w,h),
 	itsMenu( menu ),
 	itsBaseMenuData( data )
 {
-	assert( menu != NULL && data != NULL );
+	assert( menu != nullptr && data != nullptr );
 
 	itsPrevItemIndex = 0;
-	itsOpenSubmenu   = NULL;
+	itsOpenSubmenu   = nullptr;
 
 	itsSwitchingDragFlag = kJFalse;
 	itsIsFirstDragFlag   = kJTrue;
@@ -108,7 +108,7 @@ JXMenuTable::JXMenuTable
 
 JXMenuTable::~JXMenuTable()
 {
-	if (itsOpenSubmenu != NULL)
+	if (itsOpenSubmenu != nullptr)
 		{
 		itsOpenSubmenu->Close();
 		}
@@ -434,8 +434,8 @@ JXMenuTable::MenuHandleMouseAction
 	// (The user perceives this as a mode because when he is aiming for the
 	//  submenu, nothing else on the screen matters.)
 
-	if (itsOpenSubmenu != NULL &&
-		itsOpenSubmenu->itsMenuDirector != NULL)
+	if (itsOpenSubmenu != nullptr &&
+		itsOpenSubmenu->itsMenuDirector != nullptr)
 		{
 		JXWindow* w          = GetWindow();
 		const JPoint currPtR = w->GlobalToRoot(w->JXContainer::LocalToGlobal(itsCurrPt));
@@ -593,7 +593,7 @@ JXMenuTable::GetMenuWidgetToActivate
 {
 	if (!GetDisplay()->FindMouseContainer(this, pt, widget))
 		{
-		*widget = NULL;
+		*widget = nullptr;
 		return kJFalse;
 		}
 
@@ -605,7 +605,7 @@ JXMenuTable::GetMenuWidgetToActivate
 	if ((**widget).IsMenu())
 		{
 		JXMenu* menu = dynamic_cast<JXMenu*>(*widget);
-		assert( menu != NULL );
+		assert( menu != nullptr );
 
 		JXMenuBar* menuBar1;
 		JXMenuBar* menuBar2;
@@ -661,14 +661,14 @@ JXMenuTable::MenuSelectItem
 		newItemIndex = 0;
 		}
 
-	JXMenu* submenu = NULL;
+	JXMenu* submenu = nullptr;
 	if (newItemIndex != 0)
 		{
 		itsBaseMenuData->GetSubmenu(newItemIndex, &submenu);
 		}
 
 	if (newItemIndex == itsPrevItemIndex &&
-		(submenu == NULL || submenu->IsOpen()))
+		(submenu == nullptr || submenu->IsOpen()))
 		{
 		return;
 		}
@@ -676,10 +676,10 @@ JXMenuTable::MenuSelectItem
 	if (itsPrevItemIndex != 0)
 		{
 		MenuUnhilightItem(itsPrevItemIndex);
-		if (itsOpenSubmenu != NULL)
+		if (itsOpenSubmenu != nullptr)
 			{
 			itsOpenSubmenu->Close();
-			itsOpenSubmenu = NULL;
+			itsOpenSubmenu = nullptr;
 			GrabKeyboard();
 			}
 		}
@@ -689,15 +689,15 @@ JXMenuTable::MenuSelectItem
 		MenuHilightItem(newItemIndex);
 		GetWindow()->Update();
 
-		if (submenu != NULL &&
+		if (submenu != nullptr &&
 			(!checkMovement ||
 			 (JLAbs(itsCurrPt.x - itsPrevPt.x) <= kMoveSlowDelta &&
 			  JLAbs(itsCurrPt.y - itsPrevPt.y) <= kMoveSlowDelta)))
 			{
-			if (itsOpenSubmenu != NULL)
+			if (itsOpenSubmenu != nullptr)
 				{
 				itsOpenSubmenu->Close();
-				itsOpenSubmenu = NULL;
+				itsOpenSubmenu = nullptr;
 				}
 
 			JPoint leftPt, rightPt;

@@ -51,7 +51,7 @@ GLPlotApp::GLPlotApp
 // Assumption - person has home dir, or no fileimpprogs
 
 	itsModulePath = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
-	assert(itsModulePath != NULL);
+	assert(itsModulePath != nullptr);
 
 	JString homeDir;
 	
@@ -64,7 +64,7 @@ GLPlotApp::GLPlotApp
 
 	JString dmhome = homeDir + ".glove";
 	JString* str = jnew JString(dmhome);
-	assert(str != NULL);
+	assert(str != nullptr);
 	itsModulePath->Append(str);
 	str = jnew JString("/usr/local/lib/glove");
 	itsModulePath->Append(str);
@@ -312,7 +312,7 @@ GLPlotApp::NewFile()
 	JString str = "Untitled " + JString(itsDirNumber);
 	itsDirNumber++;
 	GXDataDocument* tableDir = jnew GXDataDocument(this, str, kJFalse);
-	assert( tableDir != NULL);
+	assert( tableDir != nullptr);
 	tableDir->Activate();
 }
 
@@ -347,7 +347,7 @@ GLPlotApp::OpenFile
 	else
 		{
 		GXDataDocument* tableDir = jnew GXDataDocument(this, fileName, kJTrue);
-		assert( tableDir != NULL);
+		assert( tableDir != nullptr);
 		tableDir->Activate();
 		}
 }
@@ -615,7 +615,7 @@ GLPlotApp::GetFitModules()
 /******************************************************************************
  DisplayAbout
 
-	prevVersStr can be NULL.
+	prevVersStr can be nullptr.
 
  ******************************************************************************/
 
@@ -626,7 +626,7 @@ GLPlotApp::DisplayAbout
 	)
 {
 	GLAboutDialog* dlog = jnew GLAboutDialog(this, prevVersStr);
-	assert( dlog != NULL );
+	assert( dlog != nullptr );
 	dlog->BeginDialog();
 }
 

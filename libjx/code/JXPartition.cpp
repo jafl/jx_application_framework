@@ -48,7 +48,7 @@ JXPartition::JXPartition
 	JPartition(sizes, elasticIndex, minSizes)
 {
 	itsCompartments = jnew JPtrArray<JXContainer>(JPtrArrayT::kForgetAll);
-	assert( itsCompartments != NULL );
+	assert( itsCompartments != nullptr );
 
 	SetNeedsInternalFTC();
 }
@@ -136,7 +136,7 @@ JXPartition::GetElasticCompartment
 		}
 	else
 		{
-		*compartment = NULL;
+		*compartment = nullptr;
 		return kJFalse;
 		}
 }
@@ -223,7 +223,7 @@ JXPartition::InsertCompartment
 		}
 	else
 		{
-		*newCompartment = NULL;
+		*newCompartment = nullptr;
 		return kJFalse;
 		}
 }

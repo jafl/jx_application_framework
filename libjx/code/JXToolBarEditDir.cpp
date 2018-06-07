@@ -93,52 +93,52 @@ JXToolBarEditDir::BuildWindow()
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 320,430, JString::empty);
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	JXScrollbarSet* scrollbarSet =
 		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 15,100, 290,290);
-	assert( scrollbarSet != NULL );
+	assert( scrollbarSet != nullptr );
 
 	JXTextButton* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::JXToolBarEditDir::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 50,400, 70,20);
-	assert( cancelButton != NULL );
+	assert( cancelButton != nullptr );
 	cancelButton->SetShortcuts(JGetString("cancelButton::JXToolBarEditDir::shortcuts::JXLayout"));
 
 	JXTextButton* okButton =
 		jnew JXTextButton(JGetString("okButton::JXToolBarEditDir::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 200,400, 70,20);
-	assert( okButton != NULL );
+	assert( okButton != nullptr );
 	okButton->SetShortcuts(JGetString("okButton::JXToolBarEditDir::shortcuts::JXLayout"));
 
 	JXStaticText* prompt =
 		jnew JXStaticText(JGetString("prompt::JXToolBarEditDir::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 20,10, 270,30);
-	assert( prompt != NULL );
+	assert( prompt != nullptr );
 
 	itsShowToolBarCB =
 		jnew JXTextCheckbox(JGetString("itsShowToolBarCB::JXToolBarEditDir::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,50, 135,20);
-	assert( itsShowToolBarCB != NULL );
+	assert( itsShowToolBarCB != nullptr );
 	itsShowToolBarCB->SetShortcuts(JGetString("itsShowToolBarCB::JXToolBarEditDir::shortcuts::JXLayout"));
 
 	itsUseSmallButtonsCB =
 		jnew JXTextCheckbox(JGetString("itsUseSmallButtonsCB::JXToolBarEditDir::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,70, 135,20);
-	assert( itsUseSmallButtonsCB != NULL );
+	assert( itsUseSmallButtonsCB != nullptr );
 	itsUseSmallButtonsCB->SetShortcuts(JGetString("itsUseSmallButtonsCB::JXToolBarEditDir::shortcuts::JXLayout"));
 
 	itsShowImagesCB =
 		jnew JXTextCheckbox(JGetString("itsShowImagesCB::JXToolBarEditDir::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 160,50, 140,20);
-	assert( itsShowImagesCB != NULL );
+	assert( itsShowImagesCB != nullptr );
 	itsShowImagesCB->SetShortcuts(JGetString("itsShowImagesCB::JXToolBarEditDir::shortcuts::JXLayout"));
 
 	itsShowTextCB =
 		jnew JXTextCheckbox(JGetString("itsShowTextCB::JXToolBarEditDir::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 160,70, 130,20);
-	assert( itsShowTextCB != NULL );
+	assert( itsShowTextCB != nullptr );
 	itsShowTextCB->SetShortcuts(JGetString("itsShowTextCB::JXToolBarEditDir::shortcuts::JXLayout"));
 
 // end JXLayout
@@ -151,16 +151,16 @@ JXToolBarEditDir::BuildWindow()
 
 	JXAtLeastOneCBGroup* group =
 		jnew JXAtLeastOneCBGroup(2, itsShowImagesCB, itsShowTextCB);
-	assert( group != NULL );
+	assert( group != nullptr );
 
 	JNamedTreeList* list = jnew JNamedTreeList(itsTree);
-	assert(list != NULL);
+	assert(list != nullptr);
 
 	itsWidget =
 		jnew JXToolBarEditWidget(list, scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 								JXWidget::kHElastic, JXWidget::kVElastic,
 								0,0,10,10);
-	assert(itsWidget != NULL);
+	assert(itsWidget != nullptr);
 	itsWidget->FitToEnclosure();
 	ListenTo(itsWidget);
 }

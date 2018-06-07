@@ -52,7 +52,7 @@ const JUtf8Byte* JXSharedPrefsManager::kRead = "Read::JXSharedPrefsManager";
 
 JXSharedPrefsManager::JXSharedPrefsManager()
 {
-	itsFile = NULL;
+	itsFile = nullptr;
 
 	if (JExpandHomeDirShortcut(kSignalFileName, &itsSignalFileName))
 		{
@@ -71,7 +71,7 @@ JXSharedPrefsManager::JXSharedPrefsManager()
 	GetAll(&itsWasNewFlag);
 
 	itsUpdateTask = jnew JXTimerTask(kUpdateInterval);
-	assert( itsUpdateTask != NULL );
+	assert( itsUpdateTask != nullptr );
 	itsUpdateTask->Start();
 	ListenTo(itsUpdateTask);
 }
@@ -316,7 +316,7 @@ JXSharedPrefsManager::GetAll
 void
 JXSharedPrefsManager::PrivateSetFocusFollowsCursorInDock()
 {
-	assert( itsFile != NULL );
+	assert( itsFile != nullptr );
 
 	itsOrigFocusInDockFlag = JXWindow::WillFocusFollowCursorInDock();
 
@@ -333,7 +333,7 @@ JXSharedPrefsManager::PrivateSetFocusFollowsCursorInDock()
 void
 JXSharedPrefsManager::PrivateSetCopyWhenSelectFlag()
 {
-	assert( itsFile != NULL );
+	assert( itsFile != nullptr );
 
 	itsOrigCopyWhenSelectFlag = JTextEditor::WillCopyWhenSelect();
 
@@ -350,7 +350,7 @@ JXSharedPrefsManager::PrivateSetCopyWhenSelectFlag()
 void
 JXSharedPrefsManager::PrivateSetMiddleClickWillPasteFlag()
 {
-	assert( itsFile != NULL );
+	assert( itsFile != nullptr );
 
 	itsOrigMiddleClickWillPasteFlag = JXTEBase::MiddleButtonWillPaste();
 
@@ -367,7 +367,7 @@ JXSharedPrefsManager::PrivateSetMiddleClickWillPasteFlag()
 void
 JXSharedPrefsManager::PrivateSetPartialWordModifier()
 {
-	assert( itsFile != NULL );
+	assert( itsFile != nullptr );
 
 	itsOrigPWMod = JXTEBase::GetPartialWordModifier();
 
@@ -384,7 +384,7 @@ JXSharedPrefsManager::PrivateSetPartialWordModifier()
 void
 JXSharedPrefsManager::PrivateSetCaretFollowsScroll()
 {
-	assert( itsFile != NULL );
+	assert( itsFile != nullptr );
 
 	itsOrigCaretScrollFlag = JXTEBase::CaretWillFollowScroll();
 
@@ -401,7 +401,7 @@ JXSharedPrefsManager::PrivateSetCaretFollowsScroll()
 void
 JXSharedPrefsManager::PrivateSetWindowsHomeEnd()
 {
-	assert( itsFile != NULL );
+	assert( itsFile != nullptr );
 
 	itsOrigWindowsHomeEndFlag = JXTEBase::WillUseWindowsHomeEnd();
 
@@ -418,7 +418,7 @@ JXSharedPrefsManager::PrivateSetWindowsHomeEnd()
 void
 JXSharedPrefsManager::PrivateSetAllowSpaceFlag()
 {
-	assert( itsFile != NULL );
+	assert( itsFile != nullptr );
 
 	itsOrigAllowSpaceFlag = JXSaveFileInput::WillAllowSpace();
 
@@ -435,7 +435,7 @@ JXSharedPrefsManager::PrivateSetAllowSpaceFlag()
 void
 JXSharedPrefsManager::PrivateSetMenuDisplayStyle()
 {
-	assert( itsFile != NULL );
+	assert( itsFile != nullptr );
 
 	itsOrigMenuDisplayStyle = JXMenu::GetDisplayStyle();
 
@@ -455,7 +455,7 @@ JXSharedPrefsManager::ReadPrefs
 	JXSharedPrefObject* obj
 	)
 {
-	if (itsFile != NULL)
+	if (itsFile != nullptr)
 		{
 		if (PrivateReadPrefs(obj))
 			{
@@ -482,7 +482,7 @@ JXSharedPrefsManager::PrivateReadPrefs
 	JXSharedPrefObject* obj
 	)
 {
-	assert( itsFile != NULL );
+	assert( itsFile != nullptr );
 
 	const JPrefID& latestVersID = obj->GetLatestVersionID();
 	if (itsFile->IDValid(latestVersID))
@@ -518,7 +518,7 @@ JXSharedPrefsManager::WritePrefs
 	const JXSharedPrefObject* obj
 	)
 {
-	if (itsFile != NULL)
+	if (itsFile != nullptr)
 		{
 		if (PrivateWritePrefs(obj))
 			{
@@ -545,7 +545,7 @@ JXSharedPrefsManager::PrivateWritePrefs
 	const JXSharedPrefObject* obj
 	)
 {
-	assert( itsFile != NULL );
+	assert( itsFile != nullptr );
 
 	const JFileVersion currVers = obj->GetCurrentPrefsVersion();
 	const JPrefID& latestVersID = obj->GetLatestVersionID();
@@ -593,7 +593,7 @@ JXSharedPrefsManager::PrivateWritePrefs
 JBoolean
 JXSharedPrefsManager::Open()
 {
-	assert( itsFile == NULL );
+	assert( itsFile == nullptr );
 
 	const JError err = JPrefsFile::Create(kDataFileRoot, &itsFile,
 										  JFileArray::kDeleteIfWaitTimeout);
@@ -613,7 +613,7 @@ JXSharedPrefsManager::Close
 	)
 {
 	jdelete itsFile;
-	itsFile = NULL;
+	itsFile = nullptr;
 
 	if (changed || itsChangedFlag)
 		{

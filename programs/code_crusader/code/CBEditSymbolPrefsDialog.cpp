@@ -57,28 +57,28 @@ CBEditSymbolPrefsDialog::BuildWindow
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 470,90, "");
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	JXTextButton* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::CBEditSymbolPrefsDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 60,60, 70,20);
-	assert( cancelButton != NULL );
+	assert( cancelButton != nullptr );
 
 	JXTextButton* okButton =
 		jnew JXTextButton(JGetString("okButton::CBEditSymbolPrefsDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 340,60, 70,20);
-	assert( okButton != NULL );
+	assert( okButton != nullptr );
 	okButton->SetShortcuts(JGetString("okButton::CBEditSymbolPrefsDialog::shortcuts::JXLayout"));
 
 	itsRaiseTreeOnRightClickCB =
 		jnew JXTextCheckbox(JGetString("itsRaiseTreeOnRightClickCB::CBEditSymbolPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 430,20);
-	assert( itsRaiseTreeOnRightClickCB != NULL );
+	assert( itsRaiseTreeOnRightClickCB != nullptr );
 
 	itsHelpButton =
 		jnew JXTextButton(JGetString("itsHelpButton::CBEditSymbolPrefsDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 195,60, 70,20);
-	assert( itsHelpButton != NULL );
+	assert( itsHelpButton != nullptr );
 	itsHelpButton->SetShortcuts(JGetString("itsHelpButton::CBEditSymbolPrefsDialog::shortcuts::JXLayout"));
 
 // end JXLayout
@@ -107,7 +107,7 @@ CBEditSymbolPrefsDialog::Receive
 		{
 		const JXDialogDirector::Deactivated* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		if (info->Successful())
 			{
 			UpdateSettings();

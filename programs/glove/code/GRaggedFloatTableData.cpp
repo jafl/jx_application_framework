@@ -30,7 +30,7 @@ GRaggedFloatTableData::GRaggedFloatTableData
 	itsDefValue(defValue)
 {
 	itsCols = jnew JPtrArray< JArray<JFloat> >(JPtrArrayT::kDeleteAll);
-	assert( itsCols != NULL );
+	assert( itsCols != nullptr );
 
 	const JSize kInitialColCount = 20;
 	const JSize kInitialRowCount = 100;
@@ -58,14 +58,14 @@ GRaggedFloatTableData::GRaggedFloatTableData
 	itsBroadcast(source.itsBroadcast)
 {
 	itsCols = jnew JPtrArray< JArray<JFloat> >(JPtrArrayT::kDeleteAll);
-	assert( itsCols != NULL );
+	assert( itsCols != nullptr );
 
 	const JSize count = (source.itsCols)->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
 		const JArray<JFloat>* origColData = (source.itsCols)->GetElement(i);
 		JArray<JFloat>* newColData = jnew JArray<JFloat>(*origColData);
-		assert( newColData != NULL );
+		assert( newColData != nullptr );
 		itsCols->Append(newColData);
 		}
 }
@@ -289,7 +289,7 @@ GRaggedFloatTableData::InsertRow
 	const JList<JFloat>*	initData
 	)
 {
-	assert( initData == NULL || initData->GetElementCount() == GetDataColCount() );
+	assert( initData == nullptr || initData->GetElementCount() == GetDataColCount() );
 
 	const JSize colCount = itsCols->GetElementCount();
 	for (JIndex i=1; i<=colCount; i++)
@@ -298,7 +298,7 @@ GRaggedFloatTableData::InsertRow
 		if (index <= colData->GetElementCount())
 			{
 			JFloat value = 0;
-			if ((initData != NULL) && (i <= initData->GetElementCount()))
+			if ((initData != nullptr) && (i <= initData->GetElementCount()))
 				{
 				value = initData->GetElement(i);
 				}
@@ -460,10 +460,10 @@ GRaggedFloatTableData::InsertCol
 		}
 
 	JArray<JFloat>* colData = jnew JArray<JFloat>;
-	assert( colData != NULL );
+	assert( colData != nullptr );
 	itsCols->InsertAtIndex(trueIndex, colData);
 
-	if (initData != NULL)
+	if (initData != nullptr)
 		{
 		const JSize rowCount = initData->GetElementCount();
 		for (JIndex i=1; i<=rowCount; i++)
@@ -519,7 +519,7 @@ GRaggedFloatTableData::DuplicateCol
 
 	JArray<JFloat>* origColData = itsCols->GetElement(origIndex);
 	JArray<JFloat>* newColData = jnew JArray<JFloat>(*origColData);
-	assert( newColData != NULL );
+	assert( newColData != nullptr );
 	itsCols->InsertAtIndex(trueIndex, newColData);
 
 	ColsAdded(1);

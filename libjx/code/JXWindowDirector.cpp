@@ -41,8 +41,8 @@ JXWindowDirector::JXWindowDirector
 	:
 	JXDirector(supervisor)
 {
-	assert( supervisor != NULL );
-	itsWindow = NULL;
+	assert( supervisor != nullptr );
+	itsWindow = nullptr;
 }
 
 /******************************************************************************
@@ -52,7 +52,7 @@ JXWindowDirector::JXWindowDirector
 
 JXWindowDirector::~JXWindowDirector()
 {
-	if (itsWindow != NULL)
+	if (itsWindow != nullptr)
 		{
 		// call GetDisplay() before deleting window!
 
@@ -105,7 +105,7 @@ JXWindowDirector::SetWindow
 	JXWindow* window
 	)
 {
-	assert( itsWindow == NULL && window != NULL );
+	assert( itsWindow == nullptr && window != nullptr );
 	itsWindow = window;
 
 	if (IsSuspended())
@@ -125,7 +125,7 @@ JXWindowDirector::Activate()
 	if (!IsActive())
 		{
 		JXDirector::Activate();
-		if (itsWindow != NULL)
+		if (itsWindow != nullptr)
 			{
 			itsWindow->Show();
 			itsWindow->Activate();
@@ -151,7 +151,7 @@ JXWindowDirector::Deactivate()
 		}
 	else if (OKToDeactivate() && JXDirector::Deactivate())
 		{
-		if (itsWindow != NULL)
+		if (itsWindow != nullptr)
 			{
 			itsWindow->Hide();
 			}
@@ -174,7 +174,7 @@ JBoolean
 JXWindowDirector::OKToDeactivate()
 {
 	return JConvertToBoolean(
-		itsWindow == NULL || itsWindow->OKToUnfocusCurrentWidget());
+		itsWindow == nullptr || itsWindow->OKToUnfocusCurrentWidget());
 }
 
 /******************************************************************************
@@ -186,7 +186,7 @@ void
 JXWindowDirector::Suspend()
 {
 	JXDirector::Suspend();
-	if (itsWindow != NULL)
+	if (itsWindow != nullptr)
 		{
 		itsWindow->Suspend();
 		}
@@ -201,7 +201,7 @@ void
 JXWindowDirector::Resume()
 {
 	JXDirector::Resume();
-	if (itsWindow != NULL)
+	if (itsWindow != nullptr)
 		{
 		itsWindow->Resume();
 		}
@@ -240,7 +240,7 @@ JXWindowDirector::GetMenuIcon
 	)
 	const
 {
-	*icon = NULL;
+	*icon = nullptr;
 	return kJFalse;
 }
 

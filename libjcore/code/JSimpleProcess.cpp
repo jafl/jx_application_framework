@@ -58,17 +58,17 @@ JSimpleProcess::Create
 	pid_t childPID;
 	int errFD;
 	const JError err = JExecute(cmdStr, &childPID,
-								kJIgnoreConnection, NULL,
-								kJTossOutput, NULL,
+								kJIgnoreConnection, nullptr,
+								kJTossOutput, nullptr,
 								kJCreatePipe, &errFD);
 	if (err.OK())
 		{
 		*process = jnew JSimpleProcess(childPID, errFD, deleteWhenFinished);
-		assert( *process != NULL );
+		assert( *process != nullptr );
 		}
 	else
 		{
-		*process = NULL;
+		*process = nullptr;
 		}
 
 	return err;
@@ -104,17 +104,17 @@ JSimpleProcess::Create
 	pid_t childPID;
 	int errFD;
 	const JError err = JExecute(workingDirectory, cmdStr, &childPID,
-								kJIgnoreConnection, NULL,
-								kJTossOutput, NULL,
+								kJIgnoreConnection, nullptr,
+								kJTossOutput, nullptr,
 								kJCreatePipe, &errFD);
 	if (err.OK())
 		{
 		*process = jnew JSimpleProcess(childPID, errFD, deleteWhenFinished);
-		assert( *process != NULL );
+		assert( *process != nullptr );
 		}
 	else
 		{
-		*process = NULL;
+		*process = nullptr;
 		}
 
 	return err;
@@ -148,17 +148,17 @@ JSimpleProcess::Create
 	pid_t childPID;
 	int errFD;
 	const JError err = JExecute(argList, &childPID,
-								kJIgnoreConnection, NULL,
-								kJTossOutput, NULL,
+								kJIgnoreConnection, nullptr,
+								kJTossOutput, nullptr,
 								kJCreatePipe, &errFD);
 	if (err.OK())
 		{
 		*process = jnew JSimpleProcess(childPID, errFD, deleteWhenFinished);
-		assert( *process != NULL );
+		assert( *process != nullptr );
 		}
 	else
 		{
-		*process = NULL;
+		*process = nullptr;
 		}
 
 	return err;
@@ -194,17 +194,17 @@ JSimpleProcess::Create
 	pid_t childPID;
 	int errFD;
 	const JError err = JExecute(workingDirectory, argList, &childPID,
-								kJIgnoreConnection, NULL,
-								kJTossOutput, NULL,
+								kJIgnoreConnection, nullptr,
+								kJTossOutput, nullptr,
 								kJCreatePipe, &errFD);
 	if (err.OK())
 		{
 		*process = jnew JSimpleProcess(childPID, errFD, deleteWhenFinished);
-		assert( *process != NULL );
+		assert( *process != nullptr );
 		}
 	else
 		{
-		*process = NULL;
+		*process = nullptr;
 		}
 
 	return err;
@@ -240,17 +240,17 @@ JSimpleProcess::Create
 	pid_t childPID;
 	int errFD;
 	const JError err = JExecute(argv, size, &childPID,
-								kJIgnoreConnection, NULL,
-								kJTossOutput, NULL,
+								kJIgnoreConnection, nullptr,
+								kJTossOutput, nullptr,
 								kJCreatePipe, &errFD);
 	if (err.OK())
 		{
 		*process = jnew JSimpleProcess(childPID, errFD, deleteWhenFinished);
-		assert( *process != NULL );
+		assert( *process != nullptr );
 		}
 	else
 		{
-		*process = NULL;
+		*process = nullptr;
 		}
 
 	return err;
@@ -288,17 +288,17 @@ JSimpleProcess::Create
 	pid_t childPID;
 	int errFD;
 	const JError err = JExecute(workingDirectory, argv, size, &childPID,
-								kJIgnoreConnection, NULL,
-								kJTossOutput, NULL,
+								kJIgnoreConnection, nullptr,
+								kJTossOutput, nullptr,
 								kJCreatePipe, &errFD);
 	if (err.OK())
 		{
 		*process = jnew JSimpleProcess(childPID, errFD, deleteWhenFinished);
-		assert( *process != NULL );
+		assert( *process != nullptr );
 		}
 	else
 		{
-		*process = NULL;
+		*process = nullptr;
 		}
 
 	return err;
@@ -317,10 +317,10 @@ JSimpleProcess::JSimpleProcess
 	)
 	:
 	JProcess(pid),
-	itsStartTime(time(NULL))
+	itsStartTime(time(nullptr))
 {
 	itsLink = new ProcessLink(fd);
-	assert( itsLink != NULL );
+	assert( itsLink != nullptr );
 
 	ListenTo(this);
 
@@ -335,7 +335,7 @@ JSimpleProcess::JSimpleProcess
 JSimpleProcess::~JSimpleProcess()
 {
 	delete itsLink;
-	itsLink = NULL;
+	itsLink = nullptr;
 }
 
 /******************************************************************************
@@ -354,7 +354,7 @@ JSimpleProcess::Receive
 		{
 		const JProcess::Finished* info =
 			dynamic_cast<const JProcess::Finished*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		ReportError(info->Successful());
 		}
 	else
@@ -382,7 +382,7 @@ JSimpleProcess::ReportError
 	const JBoolean hasPartialLine = itsLink->PeekPartialMessage(&lastLine);
 
 	if ((itsLink->HasMessages() || hasPartialLine) &&
-		time(NULL) < itsStartTime + kMaxReportInverval)
+		time(nullptr) < itsStartTime + kMaxReportInverval)
 		{
 		JString text, line;
 		while (itsLink->GetNextMessage(&line))

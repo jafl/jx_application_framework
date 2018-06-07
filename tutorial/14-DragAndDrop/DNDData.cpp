@@ -17,7 +17,7 @@ static const JCharacter* kDragLinesXAtomName	= "DNDTutorialWidget";
 /******************************************************************************
  Constructor
 
-  We need to initialize all of our pointers to NULL.
+  We need to initialize all of our pointers to nullptr.
 
  *****************************************************************************/
 
@@ -28,8 +28,8 @@ DNDData::DNDData
 	)
 	:
 	JXSelectionData(widget, id),
-	itsPoints(NULL),
-	itsBuffer(NULL)
+	itsPoints(nullptr),
+	itsBuffer(nullptr)
 {
 }
 
@@ -61,10 +61,10 @@ DNDData::SetData
 	)
 {
 	// create the data array if it doesn't already exist
-	if (itsPoints == NULL)
+	if (itsPoints == nullptr)
 		{
 		itsPoints = jnew JArray<JPoint>;
-		assert(itsPoints != NULL);
+		assert(itsPoints != nullptr);
 		}
 
 	// if the data had been set previously, we want to remove all of
@@ -82,9 +82,9 @@ DNDData::SetData
 		}
 
 	// since the data has changed, the data buffer is no longer valid. It
-	// is safe to delete it if it is still NULL.
+	// is safe to delete it if it is still nullptr.
 	jdelete itsBuffer;
-	itsBuffer = NULL;
+	itsBuffer = nullptr;
 }
 
 /******************************************************************************
@@ -124,7 +124,7 @@ DNDData::ConvertData
 {
 	*bitsPerBlock = 8;
 
-	if (requestType == itsLinesXAtom && itsPoints != NULL && !itsPoints->IsEmpty())
+	if (requestType == itsLinesXAtom && itsPoints != nullptr && !itsPoints->IsEmpty())
 		{
 		// This initializes and builds our data buffer.
 		CreateBuffer();
@@ -133,7 +133,7 @@ DNDData::ConvertData
 		*returnType = itsLinesXAtom;
 		*dataLength = itsBuffer->GetLength();
 		*data = jnew unsigned char[ *dataLength ];
-		if (*data != NULL)
+		if (*data != nullptr)
 			{
 			memcpy(*data, *itsBuffer, *dataLength);
 			return kJTrue;
@@ -142,7 +142,7 @@ DNDData::ConvertData
 
 	// If we reached this point, than it was either not our data type, or
 	// we had no data.
-	*data       = NULL;
+	*data       = nullptr;
 	*dataLength = 0;
 	*returnType = None;
 	return kJFalse;
@@ -179,9 +179,9 @@ DNDData::CreateBuffer()
 	// This function must be const, since ConvertData is const, so we
 	// need to do a const_cast on ourselves in order to fill the buffer.
 	DNDData* th	= const_cast<DNDData*>(this);
-	assert(th != NULL);
+	assert(th != nullptr);
 	
-	if (itsBuffer == NULL)
+	if (itsBuffer == nullptr)
 		{
 		std::ostringstream os;
 
@@ -198,6 +198,6 @@ DNDData::CreateBuffer()
 
 		// Create our buffer with the character pointer.
 		th->itsBuffer  = jnew JString(os.str());
-		assert( th->itsBuffer != NULL );
+		assert( th->itsBuffer != nullptr );
 		}
 }

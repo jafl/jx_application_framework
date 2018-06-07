@@ -150,7 +150,7 @@ CMArray1DDir::CMArray1DDirX
 	ListenTo(itsLink);
 
 	itsCommandDir           = supervisor;
-	itsCurrentNode          = NULL;
+	itsCurrentNode          = nullptr;
 	itsWaitingForReloadFlag = kJFalse;
 	itsDisplayRange.SetToEmptyAt(0);
 
@@ -231,55 +231,55 @@ CMArray1DDir::BuildWindow()
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 300,500, "");
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	itsExprInput =
 		jnew CMArrayExprInput(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 110,40, 170,20);
-	assert( itsExprInput != NULL );
+	assert( itsExprInput != nullptr );
 
 	JXStaticText* startLabel =
 		jnew JXStaticText(JGetString("startLabel::CMArray1DDir::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,70, 90,20);
-	assert( startLabel != NULL );
+	assert( startLabel != nullptr );
 	startLabel->SetToLabel();
 
 	JXStaticText* endLabel =
 		jnew JXStaticText(JGetString("endLabel::CMArray1DDir::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,100, 90,20);
-	assert( endLabel != NULL );
+	assert( endLabel != nullptr );
 	endLabel->SetToLabel();
 
 	itsStopButton =
 		jnew JXTextButton(JGetString("itsStopButton::CMArray1DDir::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 200,85, 60,20);
-	assert( itsStopButton != NULL );
+	assert( itsStopButton != nullptr );
 	itsStopButton->SetShortcuts(JGetString("itsStopButton::CMArray1DDir::shortcuts::JXLayout"));
 
 	JXMenuBar* menuBar =
 		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 300,30);
-	assert( menuBar != NULL );
+	assert( menuBar != nullptr );
 
 	JXScrollbarSet* scrollbarSet =
 		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,130, 300,370);
-	assert( scrollbarSet != NULL );
+	assert( scrollbarSet != nullptr );
 
 	itsStartIndex =
 		jnew CMArrayIndexInput(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 110,70, 60,20);
-	assert( itsStartIndex != NULL );
+	assert( itsStartIndex != nullptr );
 
 	itsEndIndex =
 		jnew CMArrayIndexInput(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 110,100, 60,20);
-	assert( itsEndIndex != NULL );
+	assert( itsEndIndex != nullptr );
 
 	JXStaticText* exprLabel =
 		jnew JXStaticText(JGetString("exprLabel::CMArray1DDir::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,40, 90,20);
-	assert( exprLabel != NULL );
+	assert( exprLabel != nullptr );
 	exprLabel->SetToLabel();
 
 // end JXLayout
@@ -292,23 +292,23 @@ CMArray1DDir::BuildWindow()
 
 	JXDisplay* display = GetDisplay();
 	JXImage* icon      = jnew JXImage(display, medic_1d_array_window);
-	assert( icon != NULL );
+	assert( icon != nullptr );
 	window->SetIcon(icon);
 
 	CMGetPrefsManager()->GetWindowSize(kArray1DWindSizeID, window, kJTrue);
 
 	CMVarNode* root = itsLink->CreateVarNode();
-	assert( root != NULL );
+	assert( root != nullptr );
 	itsTree = jnew JTree(root);
-	assert( itsTree != NULL );
+	assert( itsTree != nullptr );
 	JNamedTreeList* treeList = jnew JNamedTreeList(itsTree);
-	assert( treeList != NULL );
+	assert( treeList != nullptr );
 
 	itsWidget =
 		jnew CMVarTreeWidget(itsCommandDir, kJFalse, menuBar, itsTree, treeList,
 							scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 							JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 100,100);
-	assert(itsWidget != NULL);
+	assert(itsWidget != nullptr);
 	itsWidget->FitToEnclosure();
 
 	itsExprInput->SetText(itsExpr);
@@ -351,7 +351,7 @@ CMArray1DDir::BuildWindow()
 	JXWDMenu* wdMenu =
 		jnew JXWDMenu(kWindowsMenuTitleStr, menuBar,
 					 JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
-	assert( wdMenu != NULL );
+	assert( wdMenu != nullptr );
 	menuBar->AppendMenu(wdMenu);
 
 	itsHelpMenu = menuBar->AppendTextMenu(kHelpMenuTitleStr);
@@ -445,10 +445,10 @@ CMArray1DDir::Receive
 		{
 		const JTree::NodeChanged* info =
 			dynamic_cast<const JTree::NodeChanged*>(&message);
-		assert(info != NULL);
+		assert(info != nullptr);
 		if (info->GetNode() == itsCurrentNode)
 			{
-			itsCurrentNode = NULL;
+			itsCurrentNode = nullptr;
 			CreateNextNode();
 			}
 		}
@@ -478,7 +478,7 @@ CMArray1DDir::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleFileMenu(selection->GetIndex());
 		}
 
@@ -490,7 +490,7 @@ CMArray1DDir::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleActionMenu(selection->GetIndex());
 		}
 
@@ -498,7 +498,7 @@ CMArray1DDir::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleHelpMenu(selection->GetIndex());
 		}
 
@@ -546,7 +546,7 @@ CMArray1DDir::BeginCreateNodes()
 			JTreeNode* node = root->GetChild(1);
 			if (node == itsCurrentNode)
 				{
-				itsCurrentNode = NULL;
+				itsCurrentNode = nullptr;
 				}
 			jdelete node;
 			itsDisplayRange.first++;
@@ -556,7 +556,7 @@ CMArray1DDir::BeginCreateNodes()
 			JTreeNode* node = root->GetChild(root->GetChildCount());
 			if (node == itsCurrentNode)
 				{
-				itsCurrentNode = NULL;
+				itsCurrentNode = nullptr;
 				}
 			jdelete node;
 			itsDisplayRange.last--;
@@ -565,7 +565,7 @@ CMArray1DDir::BeginCreateNodes()
 	else
 		{
 		(itsTree->GetRoot())->DeleteAllChildren();
-		itsCurrentNode = NULL;
+		itsCurrentNode = nullptr;
 		itsDisplayRange.SetToEmptyAt(itsRequestRange.first);
 		}
 
@@ -585,7 +585,7 @@ CMArray1DDir::BeginCreateNodes()
 void
 CMArray1DDir::CreateNextNode()
 {
-	if (itsCurrentNode != NULL)
+	if (itsCurrentNode != nullptr)
 		{
 		return;
 		}
@@ -596,7 +596,7 @@ CMArray1DDir::CreateNextNode()
 		itsDisplayRange.first--;
 		const JString expr = GetExpression(itsDisplayRange.first);
 		CMVarNode* node    = itsLink->CreateVarNode(root, expr, expr, "");
-		assert (node != NULL);
+		assert (node != nullptr);
 
 		itsCurrentNode = node;
 		root->InsertAtIndex(1, node);	// move it to the top -- inserted by ctor so it will update self
@@ -607,7 +607,7 @@ CMArray1DDir::CreateNextNode()
 		itsDisplayRange.last++;
 		const JString expr = GetExpression(itsDisplayRange.last);
 		CMVarNode* node    = itsLink->CreateVarNode(root, expr, expr, "");
-		assert (node != NULL);
+		assert (node != nullptr);
 
 		itsCurrentNode = node;
 		ListenTo(itsTree);
@@ -641,7 +641,7 @@ CMArray1DDir::GetExpression
 void
 CMArray1DDir::CreateNodesFinished()
 {
-	itsCurrentNode = NULL;
+	itsCurrentNode = nullptr;
 	StopListening(itsTree);
 
 	itsStopButton->Hide();

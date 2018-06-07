@@ -13,10 +13,10 @@
 #include <JUserNotification.h>
 #include <JCreateProgressDisplay.h>
 
-	JUserNotification* gUserNotification = NULL;
-	JCreateProgressDisplay* gCreatePG = NULL;
-	const JCharacter* kJMonospaceFontName = NULL;
-	const JCharacter* kJDefaultFontName = NULL;
+	JUserNotification* gUserNotification = nullptr;
+	JCreateProgressDisplay* gCreatePG = nullptr;
+	const JCharacter* kJMonospaceFontName = nullptr;
+	const JCharacter* kJDefaultFontName = nullptr;
 
 
 #include <JMemoryManager.h>
@@ -113,8 +113,8 @@ main()
 	aDouble = jnew double[10];
 	jdelete aDouble;
 
-	std::cout << "\nDeleting NULL as object, should not fail unless it has been disallowed" << std::endl;
-	aFloat = NULL;
+	std::cout << "\nDeleting nullptr as object, should not fail unless it has been disallowed" << std::endl;
+	aFloat = nullptr;
 	jdelete aFloat;
 	std::cout << "\nNow deleting as array, ***WHY DOES THIS FAIL?!?***" << std::endl;
 	jdelete[] aFloat;

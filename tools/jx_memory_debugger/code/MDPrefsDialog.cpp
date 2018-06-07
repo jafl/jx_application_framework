@@ -55,37 +55,37 @@ MDPrefsDialog::BuildWindow
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 420,100, "");
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	JXTextButton* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::MDPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kVElastic, 90,70, 70,20);
-	assert( cancelButton != NULL );
+	assert( cancelButton != nullptr );
 	cancelButton->SetShortcuts(JGetString("cancelButton::MDPrefsDialog::shortcuts::JXLayout"));
 
 	JXTextButton* okButton =
 		jnew JXTextButton(JGetString("okButton::MDPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kVElastic, 260,70, 70,20);
-	assert( okButton != NULL );
+	assert( okButton != nullptr );
 	okButton->SetShortcuts(JGetString("okButton::MDPrefsDialog::shortcuts::JXLayout"));
 
 	JXStaticText* openFileLabel =
 		jnew JXStaticText(JGetString("openFileLabel::MDPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 110,20);
-	assert( openFileLabel != NULL );
+	assert( openFileLabel != nullptr );
 	openFileLabel->SetToLabel();
 
 	JXStaticText* openFileHint =
 		jnew JXStaticText(JGetString("openFileHint::MDPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 130,40, 270,20);
-	assert( openFileHint != NULL );
+	assert( openFileHint != nullptr );
 	openFileHint->SetFontSize(JGetDefaultFontSize()-2);
 	openFileHint->SetToLabel();
 
 	itsOpenFileInput =
 		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 130,20, 270,20);
-	assert( itsOpenFileInput != NULL );
+	assert( itsOpenFileInput != nullptr );
 
 // end JXLayout
 

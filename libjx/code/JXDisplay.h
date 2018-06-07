@@ -91,7 +91,7 @@ public:
 
 	JBoolean	Close();
 
-	operator Display*() const;
+	explicit operator Display*() const;
 
 	const JString&	GetName() const;
 	Display*		GetXDisplay() const;
@@ -144,12 +144,12 @@ public:
 
 	// useful for Drag-And-Drop, and for Menu objects
 
-	JBoolean	FindMouseContainer(JXContainer** obj, Window* xWindow = NULL,
-								   JPoint* ptG = NULL, JPoint* ptR = NULL) const;
+	JBoolean	FindMouseContainer(JXContainer** obj, Window* xWindow = nullptr,
+								   JPoint* ptG = nullptr, JPoint* ptR = nullptr) const;
 	JBoolean	FindMouseContainer(const JXContainer* coordOwner,
 								   const JPoint& pt, JXContainer** obj,
-								   Window* xWindow = NULL,
-								   JPoint* ptG = NULL, JPoint* ptR = NULL) const;
+								   Window* xWindow = nullptr,
+								   JPoint* ptG = nullptr, JPoint* ptR = nullptr) const;
 
 	// called by JXApplication
 
@@ -249,7 +249,7 @@ private:
 
 		WindowInfo()
 			:
-			window(NULL), xWindow(0)
+			window(nullptr), xWindow(0)
 		{ };
 
 		WindowInfo(JXWindow* w, const Window xw)
@@ -268,7 +268,7 @@ private:
 
 		CursorInfo()
 			:
-			name(NULL), xid(None)
+			name(nullptr), xid(None)
 		{ };
 
 		CursorInfo(JString* n, const Cursor id)
@@ -302,15 +302,15 @@ private:
 
 	JArray<WindowInfo>*	itsWindowList;
 	JBoolean			itsNeedsUpdateFlag;
-	JXWindow*			itsMouseContainer;		// can be NULL
-	JXWindow*			itsMouseGrabber;		// usually NULL
-	JXWindow*			itsKeyboardGrabber;		// usually NULL
+	JXWindow*			itsMouseContainer;		// can be nullptr
+	JXWindow*			itsMouseGrabber;		// usually nullptr
+	JXWindow*			itsKeyboardGrabber;		// usually nullptr
 
 	JXFontManager*		itsFontManager;
 	JXSelectionManager*	itsSelectionManager;
 	JXDNDManager*		itsDNDManager;
 	JXMenuManager*		itsMenuManager;
-	JXWDManager*		itsWDManager;			// can be NULL
+	JXWDManager*		itsWDManager;			// can be nullptr
 	JXImageCache*		itsImageCache;
 
 	Atom	itsStandardXAtoms[ kStandardXAtomCount ];
@@ -322,8 +322,8 @@ private:
 	JBoolean	FindMouseContainer(const Window rootWindow,
 								   const JCoordinate xRoot, const JCoordinate yRoot,
 								   const Window origChildWindow,
-								   JXContainer** obj, Window* xWindow = NULL,
-								   JPoint* ptG = NULL, JPoint* ptR = NULL) const;
+								   JXContainer** obj, Window* xWindow = nullptr,
+								   JPoint* ptG = nullptr, JPoint* ptR = nullptr) const;
 
 	Cursor	CreateCustomXCursor(const JXCursor& cursor) const;
 	void	UpdateModifierMapping();
@@ -856,7 +856,7 @@ JXDisplay::GetWDManager
 	const
 {
 	*mgr = itsWDManager;
-	return JI2B( itsWDManager != NULL );
+	return JI2B( itsWDManager != nullptr );
 }
 
 /******************************************************************************
@@ -898,7 +898,7 @@ JXDisplay::GetMouseContainer
 	const
 {
 	*window = itsMouseContainer;
-	return JConvertToBoolean( *window != NULL );
+	return JConvertToBoolean( *window != nullptr );
 }
 
 inline void
@@ -923,7 +923,7 @@ JXDisplay::GetMouseGrabber
 	const
 {
 	*window = itsMouseGrabber;
-	return JConvertToBoolean( *window != NULL );
+	return JConvertToBoolean( *window != nullptr );
 }
 
 inline void
@@ -943,7 +943,7 @@ JXDisplay::GetKeyboardGrabber
 	const
 {
 	*window = itsKeyboardGrabber;
-	return JConvertToBoolean( *window != NULL );
+	return JConvertToBoolean( *window != nullptr );
 }
 
 inline void

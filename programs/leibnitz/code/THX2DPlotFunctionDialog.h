@@ -25,7 +25,7 @@ class THX2DPlotFunctionDialog : public JXDialogDirector
 public:
 
 	THX2DPlotFunctionDialog(JXDirector* supervisor, const THXVarList* varList,
-							const THX2DPlotDirector* prevPlot = NULL);
+							const THX2DPlotDirector* prevPlot = nullptr);
 	THX2DPlotFunctionDialog(JXDirector* supervisor, const THXVarList* varList,
 							const JFunction& f, const JCharacter* curveName,
 							const JFloat min, const JFloat max);

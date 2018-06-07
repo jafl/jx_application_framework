@@ -38,7 +38,7 @@ GLFitDescription::GLFitDescription
 	itsCanUseStartValues(kJTrue)
 {
 	itsVarList	= jnew GVarList();
-	assert(itsVarList != NULL);
+	assert(itsVarList != nullptr);
 
 	itsVarList->AddVariable("x", 0);
 }
@@ -69,7 +69,7 @@ GLFitDescription::Create
 	for (JIndex i = 1; i <= count; i++)
 		{
 		JString* var = jnew JString();
-		assert(var != NULL);
+		assert(var != nullptr);
 		is >> *var;
 		vars.Append(var);
 		}
@@ -77,13 +77,13 @@ GLFitDescription::Create
 	if (type == kPolynomial)
 		{
 		GLPolyFitDescription* pfd	= jnew GLPolyFitDescription(is);
-		assert(pfd != NULL);
+		assert(pfd != nullptr);
 		*fd	= pfd;
 		}
 	else if (type == kNonLinear)
 		{
 		GLNonLinearFitDescription* nfd	= jnew GLNonLinearFitDescription(is);
-		assert(nfd != NULL);
+		assert(nfd != nullptr);
 		*fd	= nfd;
 		for (JIndex i = 1; i <= count; i++)
 			{

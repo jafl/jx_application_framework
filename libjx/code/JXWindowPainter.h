@@ -103,9 +103,9 @@ private:
 	JXDisplay*	itsDisplay;			// we don't own this
 	Drawable	itsDrawable;		// we don't own this
 	JXGC*		itsGC;				// we don't own this
-	Region		itsDefClipRegion;	// can be NULL
-	Region		itsClipRegion;		// can be NULL
-	XftDraw*	itsFontDrawable;	// NULL until first needed
+	Region		itsDefClipRegion;	// can be nullptr
+	Region		itsClipRegion;		// can be nullptr
+	XftDraw*	itsFontDrawable;	// nullptr until first needed
 	Region		itsFontClipRegion;
 	JBoolean	itsResetShouldClearClipRegionFlag;
 
@@ -145,7 +145,7 @@ JXWindowPainter::GetDefaultClipRegion
 	const
 {
 	*region = itsDefClipRegion;
-	return JI2B( itsDefClipRegion != NULL );
+	return JI2B( itsDefClipRegion != nullptr );
 }
 
 /******************************************************************************

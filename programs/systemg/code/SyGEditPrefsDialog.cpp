@@ -73,122 +73,122 @@ SyGEditPrefsDialog::BuildWindow
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 470,380, "");
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	itsManInput =
 		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 155,190, 300,20);
-	assert( itsManInput != NULL );
+	assert( itsManInput != nullptr );
 
 	itsTerminalInput =
 		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 155,210, 300,20);
-	assert( itsTerminalInput != NULL );
+	assert( itsTerminalInput != nullptr );
 
 	itsGitStatusInput =
 		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 215,260, 240,20);
-	assert( itsGitStatusInput != NULL );
+	assert( itsGitStatusInput != nullptr );
 
 	JXStaticText* terminalLabel =
 		jnew JXStaticText(JGetString("terminalLabel::SyGEditPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,210, 145,20);
-	assert( terminalLabel != NULL );
+	assert( terminalLabel != nullptr );
 	terminalLabel->SetToLabel();
 
 	JXStaticText* manPageLabel =
 		jnew JXStaticText(JGetString("manPageLabel::SyGEditPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,190, 145,20);
-	assert( manPageLabel != NULL );
+	assert( manPageLabel != nullptr );
 	manPageLabel->SetToLabel();
 
 	JXTextButton* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::SyGEditPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 105,350, 60,20);
-	assert( cancelButton != NULL );
+	assert( cancelButton != nullptr );
 	cancelButton->SetShortcuts(JGetString("cancelButton::SyGEditPrefsDialog::shortcuts::JXLayout"));
 
 	JXTextButton* okButton =
 		jnew JXTextButton(JGetString("okButton::SyGEditPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 305,350, 60,20);
-	assert( okButton != NULL );
+	assert( okButton != nullptr );
 	okButton->SetShortcuts(JGetString("okButton::SyGEditPrefsDialog::shortcuts::JXLayout"));
 
 	JXStaticText* cmdHint =
 		jnew JXStaticText(JGetString("cmdHint::SyGEditPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 155,230, 300,20);
-	assert( cmdHint != NULL );
+	assert( cmdHint != nullptr );
 	cmdHint->SetFontSize(JGetDefaultFontSize()-2);
 	cmdHint->SetToLabel();
 
 	itsDelCB =
 		jnew JXTextCheckbox(JGetString("itsDelCB::SyGEditPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,70, 220,20);
-	assert( itsDelCB != NULL );
+	assert( itsDelCB != nullptr );
 
 	itsAllowSpaceCB =
 		jnew JXTextCheckbox(JGetString("itsAllowSpaceCB::SyGEditPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,120, 220,20);
-	assert( itsAllowSpaceCB != NULL );
+	assert( itsAllowSpaceCB != nullptr );
 
 	JXStaticText* warnLabel =
 		jnew JXStaticText(JGetString("warnLabel::SyGEditPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 40,90, 310,20);
-	assert( warnLabel != NULL );
+	assert( warnLabel != nullptr );
 	warnLabel->SetFontSize(JGetDefaultFontSize()-2);
 	warnLabel->SetToLabel();
 
 	JXStaticText* branchLabel =
 		jnew JXStaticText(JGetString("branchLabel::SyGEditPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,300, 205,20);
-	assert( branchLabel != NULL );
+	assert( branchLabel != nullptr );
 	branchLabel->SetToLabel();
 
 	JXStaticText* branchHint =
 		jnew JXStaticText(JGetString("branchHint::SyGEditPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 215,320, 240,20);
-	assert( branchHint != NULL );
+	assert( branchHint != nullptr );
 	branchHint->SetFontSize(JGetDefaultFontSize()-2);
 	branchHint->SetToLabel();
 
 	JXStaticText* statusLabel =
 		jnew JXStaticText(JGetString("statusLabel::SyGEditPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,260, 205,20);
-	assert( statusLabel != NULL );
+	assert( statusLabel != nullptr );
 	statusLabel->SetToLabel();
 
 	itsGitHistoryInput =
 		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 215,280, 240,20);
-	assert( itsGitHistoryInput != NULL );
+	assert( itsGitHistoryInput != nullptr );
 
 	JXStaticText* historyLabel =
 		jnew JXStaticText(JGetString("historyLabel::SyGEditPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,280, 205,20);
-	assert( historyLabel != NULL );
+	assert( historyLabel != nullptr );
 	historyLabel->SetToLabel();
 
 	itsPostCheckoutInput =
 		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 215,300, 240,20);
-	assert( itsPostCheckoutInput != NULL );
+	assert( itsPostCheckoutInput != nullptr );
 
 	itsOpenNewWindowsCB =
 		jnew JXTextCheckbox(JGetString("itsOpenNewWindowsCB::SyGEditPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,20, 220,20);
-	assert( itsOpenNewWindowsCB != NULL );
+	assert( itsOpenNewWindowsCB != nullptr );
 
 	JXStaticText* openHint =
 		jnew JXStaticText(JGetString("openHint::SyGEditPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 40,40, 410,20);
-	assert( openHint != NULL );
+	assert( openHint != nullptr );
 	openHint->SetFontSize(JGetDefaultFontSize()-2);
 	openHint->SetToLabel();
 
 	itsFolderPrefsCB =
 		jnew JXTextCheckbox(JGetString("itsFolderPrefsCB::SyGEditPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,150, 220,20);
-	assert( itsFolderPrefsCB != NULL );
+	assert( itsFolderPrefsCB != nullptr );
 
 // end JXLayout
 

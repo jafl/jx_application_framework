@@ -87,11 +87,11 @@ CMBreakpointTable::CMBreakpointTable
 	JXEditTable(1,1, scrollbarSet, enclosure, hSizing,vSizing, x,y, w,h),
 	JPrefObject(CMGetPrefsManager(), kBreakpointTableID),
 	itsDir(dir),
-	itsTextInput(NULL),
+	itsTextInput(nullptr),
 	itsFont(GetFontManager()->GetDefaultFont())
 {
 	itsBPList = jnew JPtrArray<CMBreakpoint>(JPtrArrayT::kForgetAll);
-	assert(itsBPList != NULL);
+	assert(itsBPList != nullptr);
 	itsBPList->SetCompareFunction(CompareBreakpointLocations);
 	itsBPList->SetSortOrder(JListT::kSortAscending);
 
@@ -576,7 +576,7 @@ CMBreakpointTable::CreateXInputField
 	const JCoordinate	h
 	)
 {
-	assert( itsTextInput == NULL );
+	assert( itsTextInput == nullptr );
 
 	JTableSelection& s = GetTableSelection();
 	s.ClearSelection();
@@ -587,7 +587,7 @@ CMBreakpointTable::CreateXInputField
 	if (cell.x == kIgnoreCountColumn)
 		{
 		JXIntegerInput* input = jnew JXIntegerInput(this, kFixedLeft, kFixedTop, x,y, w,h);
-		assert( input != NULL );
+		assert( input != nullptr );
 		input->SetLowerLimit(0);
 		input->SetValue(bp->GetIgnoreCount());
 
@@ -598,10 +598,10 @@ CMBreakpointTable::CreateXInputField
 		bp->GetCondition(&text);
 		}
 
-	if (itsTextInput == NULL)
+	if (itsTextInput == nullptr)
 		{
 		itsTextInput = jnew JXInputField(this, kFixedLeft, kFixedTop, x,y, w,h);
-		assert( itsTextInput != NULL );
+		assert( itsTextInput != nullptr );
 		itsTextInput->SetText(text);
 		}
 
@@ -620,7 +620,7 @@ CMBreakpointTable::ExtractInputData
 	const JPoint& cell
 	)
 {
-	assert( itsTextInput != NULL );
+	assert( itsTextInput != nullptr );
 
 	if (!itsTextInput->InputValid())
 		{
@@ -665,7 +665,7 @@ CMBreakpointTable::ExtractInputData
 void
 CMBreakpointTable::PrepareDeleteXInputField()
 {
-	itsTextInput = NULL;
+	itsTextInput = nullptr;
 }
 
 /******************************************************************************

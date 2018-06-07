@@ -69,7 +69,7 @@ JParallel::Copy()
 	const
 {
 	JParallel* newFunction = jnew JParallel(*this);
-	assert( newFunction != NULL );
+	assert( newFunction != nullptr );
 	return newFunction;
 }
 

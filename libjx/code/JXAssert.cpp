@@ -28,7 +28,7 @@ JXAssert::JXAssert()
 	itsIsOperatingFlag = kJTrue;
 
 	itsDisplayList = jnew JPtrArray<JXDisplay>(JPtrArrayT::kForgetAll);
-	assert( itsDisplayList != NULL );
+	assert( itsDisplayList != nullptr );
 
 	itsIsOperatingFlag = kJFalse;
 }
@@ -43,7 +43,7 @@ JXAssert::~JXAssert()
 	itsIsOperatingFlag = kJTrue;
 
 	JPtrArray<JXDisplay>* list = itsDisplayList;
-	itsDisplayList = NULL;
+	itsDisplayList = nullptr;
 	jdelete list;
 
 	itsIsOperatingFlag = kJFalse;
@@ -66,7 +66,7 @@ JXAssert::Assert
 	const JBoolean wasOperating = itsIsOperatingFlag;
 	itsIsOperatingFlag = kJTrue;
 
-	if (wasOperating || itsDisplayList == NULL)		// prevents infinite recursion
+	if (wasOperating || itsDisplayList == nullptr)		// prevents infinite recursion
 		{
 		fprintf(stderr, "\nError inside fatal error handler!\n\n");
 		}

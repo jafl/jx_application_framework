@@ -30,7 +30,7 @@ public:
 
 	virtual ~JXFileListTable();
 
-	JBoolean	AddFile(const JString& fullName, JIndex* fullNameIndex = NULL);
+	JBoolean	AddFile(const JString& fullName, JIndex* fullNameIndex = nullptr);
 	void		RemoveFile(const JString& fullName);
 	void		RemoveFiles(const JPtrArray<JString>& fileList);
 	void		RemoveSelectedFiles();
@@ -123,7 +123,7 @@ private:
 
 	JPtrArray<JString>*	itsFileList;			// full name of each file
 	JArray<VisInfo>*	itsVisibleList;			// info about each visible item
-	JRegex*				itsRegex;				// can be NULL
+	JRegex*				itsRegex;				// can be nullptr
 
 	JBoolean			itsAcceptFileDropFlag;	// kJTrue => accept drop of url/url
 	JBoolean			itsBSRemoveSelFlag;		// kJTrue => backspace removes selected files
@@ -138,8 +138,8 @@ private:
 
 	// edit menu (copy, select all)
 
-	JXTEBase*			itsEditMenuProvider;	// can be NULL; not owned
-	JXTextMenu*			itsEditMenu;			// can be NULL; not owned
+	JXTEBase*			itsEditMenuProvider;	// can be nullptr; not owned
+	JXTextMenu*			itsEditMenu;			// can be nullptr; not owned
 
 private:
 
@@ -281,7 +281,7 @@ JXFileListTable::GetEditMenuProvider
 	const
 {
 	*te = itsEditMenuProvider;
-	return JI2B( itsEditMenuProvider != NULL );
+	return JI2B( itsEditMenuProvider != nullptr );
 }
 
 /******************************************************************************

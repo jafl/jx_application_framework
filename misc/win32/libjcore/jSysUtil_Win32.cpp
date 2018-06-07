@@ -32,7 +32,7 @@ JUserIsAdmin()
 		}
 
 	DWORD returnLength;
-	GetTokenInformation(tokenHandle, TokenGroups, NULL, 0, &returnLength);
+	GetTokenInformation(tokenHandle, TokenGroups, nullptr, 0, &returnLength);
 	if (returnLength > 65535)
 		{
 		CloseHandle(tokenHandle);
@@ -40,7 +40,7 @@ JUserIsAdmin()
 		}
 
 	TOKEN_GROUPS* groupList = (TOKEN_GROUPS*) malloc(returnLength);
-	if (groupList == NULL)
+	if (groupList == nullptr)
 		{
 		CloseHandle(tokenHandle);
 		return kJFalse;

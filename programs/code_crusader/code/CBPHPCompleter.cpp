@@ -14,7 +14,7 @@
 #include "CBHTMLStyler.h"
 #include <jAssert.h>
 
-CBPHPCompleter* CBPHPCompleter::itsSelf = NULL;
+CBPHPCompleter* CBPHPCompleter::itsSelf = nullptr;
 
 static const JCharacter* kKeywordList[] =
 {
@@ -30,7 +30,7 @@ static const JCharacter* kKeywordList[] =
 	"if", "implements", "int", "integer", "interface",
 	"false", "FALSE", "final", "float", "for", "foreach", "function",
 	"global",
-	"new", "null", "NULL",
+	"new", "null", "nullptr",
 	"object", "old_function", "or",
 	"parent", "php_user_filter", "print", "private", "protected", "public",
 	"real", "return",
@@ -54,12 +54,12 @@ static JBoolean recursiveInstance = kJFalse;
 CBStringCompleter*
 CBPHPCompleter::Instance()
 {
-	if (itsSelf == NULL && !recursiveInstance)
+	if (itsSelf == nullptr && !recursiveInstance)
 		{
 		recursiveInstance = kJTrue;
 
 		itsSelf = jnew CBPHPCompleter;
-		assert( itsSelf != NULL );
+		assert( itsSelf != nullptr );
 
 		recursiveInstance = kJFalse;
 		}
@@ -99,7 +99,7 @@ CBPHPCompleter::CBPHPCompleter()
 
 CBPHPCompleter::~CBPHPCompleter()
 {
-	itsSelf = NULL;
+	itsSelf = nullptr;
 }
 
 /******************************************************************************

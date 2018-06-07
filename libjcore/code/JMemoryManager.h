@@ -60,7 +60,7 @@ public:
 
 		RecordFilter()
 			:
-			includeInternal(kJFalse), minSize(0), fileName(NULL)
+			includeInternal(kJFalse), minSize(0), fileName(nullptr)
 			{ };
 
 		~RecordFilter()
@@ -446,7 +446,7 @@ public:
 inline JBoolean
 JMemoryManager::RecordingAllocated() const
 {
-	return JConvertToBoolean(itsMemoryTable != NULL);
+	return JConvertToBoolean(itsMemoryTable != nullptr);
 }
 
 /******************************************************************************
@@ -583,7 +583,7 @@ JMemoryManager::GetCheckDoubleAllocation() const
 /******************************************************************************
  SetCheckDoubleAllocation
 
-	Sets whether deletion of a NULL pointer is considered an error (ANSI says
+	Sets whether deletion of a nullptr pointer is considered an error (ANSI says
 	no).  Overrides the J_ALLOW_DELETE_NULL environment variable.
 
  *****************************************************************************/
@@ -611,7 +611,7 @@ JMemoryManager::GetDisallowDeleteNULL() const
 /******************************************************************************
  SetDisallowDeleteNULL
 
-	Sets whether deletion of a NULL pointer is considered an error (ANSI says
+	Sets whether deletion of a nullptr pointer is considered an error (ANSI says
 	no).  Overrides the JMM_ALLOW_DELETE_NULL environment variable.
 
  *****************************************************************************/

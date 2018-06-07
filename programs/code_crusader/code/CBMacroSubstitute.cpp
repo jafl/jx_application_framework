@@ -77,7 +77,7 @@ CBMacroSubstitute::Evaluate
 			pid_t pid;
 			int fromFD, errFD;
 			const JError execErr =
-				JExecute(*value, &pid, kJIgnoreConnection, NULL,
+				JExecute(*value, &pid, kJIgnoreConnection, nullptr,
 						 kJCreatePipe, &fromFD, kJCreatePipe, &errFD);
 			if (!execErr.OK())
 				{

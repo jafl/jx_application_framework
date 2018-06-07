@@ -51,7 +51,7 @@ SyGBeginEditingTask::~SyGBeginEditingTask()
 void
 SyGBeginEditingTask::Perform()
 {
-	itsTable->itsEditTask = NULL;	// first action:  allows it to create another one, if necessary
+	itsTable->itsEditTask = nullptr;	// first action:  allows it to create another one, if necessary
 
 	JPoint cell;
 	if ((itsTable->GetTableSelection()).GetSingleSelectedCell(&cell) &&

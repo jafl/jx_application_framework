@@ -27,7 +27,7 @@ JPtrArray<CBTextDocument>	CBManPageDocument::theManDocList(JPtrArrayT::kForgetAl
 	First searches the open man pages to see if the requested one already
 	exists.  If not, creates a new one and activates it.
 
-	returnDoc can be NULL.
+	returnDoc can be nullptr.
 
  ******************************************************************************/
 
@@ -44,9 +44,9 @@ CBManPageDocument::Create
 	pageName.TrimWhitespace();
 	if (pageName.IsEmpty())
 		{
-		if (returnDoc != NULL)
+		if (returnDoc != nullptr)
 			{
-			*returnDoc = NULL;
+			*returnDoc = nullptr;
 			}
 		return kJFalse;
 		}
@@ -72,9 +72,9 @@ CBManPageDocument::Create
 		{
 		CBManPageDocument* doc =
 			dynamic_cast<CBManPageDocument*>(theManDocList.GetElement(i));
-		assert( doc != NULL );
+		assert( doc != nullptr );
 		doc->Activate();
-		if (returnDoc != NULL)
+		if (returnDoc != nullptr)
 			{
 			*returnDoc = doc;
 			}
@@ -88,7 +88,7 @@ CBManPageDocument::Create
 	CBManPageDocument* trueDoc;
 	CBManPageDocument* doc =
 		jnew CBManPageDocument(pageName, pageIndex, apropos, &trueDoc);
-	assert( doc != NULL );
+	assert( doc != nullptr );
 
 	if (doc != trueDoc)
 		{
@@ -96,12 +96,12 @@ CBManPageDocument::Create
 		assert( ok );
 		}
 
-	if (returnDoc != NULL)
+	if (returnDoc != nullptr)
 		{
 		*returnDoc = trueDoc;
 		}
 
-	if (trueDoc != NULL)
+	if (trueDoc != nullptr)
 		{
 		trueDoc->Activate();
 		return kJTrue;
@@ -116,7 +116,7 @@ CBManPageDocument::Create
  Constructor (protected)
 
 	If the result is already displayed in a different document, we
-	return that in *trueDoc.  If there is nothing relevant, *trueDoc == NULL.
+	return that in *trueDoc.  If there is nothing relevant, *trueDoc == nullptr.
 	Otherwise, *trueDoc == this.
 
  ******************************************************************************/
@@ -133,10 +133,10 @@ CBManPageDocument::CBManPageDocument
 {
 	theManCmdList.SetCompareFunction(JCompareStringsCaseSensitive);
 
-	*trueDoc = NULL;
+	*trueDoc = nullptr;
 
 	JString* cmd = jnew JString;
-	assert( cmd != NULL );
+	assert( cmd != nullptr );
 
 	JBoolean success = kJFalse;
 	if (!apropos)
@@ -149,7 +149,7 @@ CBManPageDocument::CBManPageDocument
 		int fromFD;
 		const JError execErr =
 			JProcess::Create(&p, *cmd,
-							 kJIgnoreConnection, NULL,
+							 kJIgnoreConnection, nullptr,
 							 kJCreatePipe, &fromFD, kJTossOutput);
 		if (!execErr.OK())
 			{
@@ -191,7 +191,7 @@ CBManPageDocument::CBManPageDocument
 			{
 			CBManPageDocument* doc =
 				dynamic_cast<CBManPageDocument*>(theManDocList.GetElement(i));
-			assert( doc != NULL );
+			assert( doc != nullptr );
 			*trueDoc = doc;
 			return;
 			}
@@ -200,7 +200,7 @@ CBManPageDocument::CBManPageDocument
 		int fromFD;
 		const JError execErr =
 			JProcess::Create(&p, *cmd,
-							 kJIgnoreConnection, NULL,
+							 kJIgnoreConnection, nullptr,
 							 kJCreatePipe, &fromFD, kJTossOutput);
 		if (!execErr.OK())
 			{
@@ -245,7 +245,7 @@ CBManPageDocument::CBManPageDocument
 				text += pageName;
 				text += "\" could be found in either the source files or the man pages.";
 				(JGetUserNotification())->DisplayMessage(text);
-				*trueDoc = NULL;
+				*trueDoc = nullptr;
 				return;
 				}
 */			}

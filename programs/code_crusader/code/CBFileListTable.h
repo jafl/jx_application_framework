@@ -87,7 +87,7 @@ private:
 private:
 
 	JArray<FileInfo>*	itsFileInfo;
-	JArray<JBoolean>*	itsFileUsage;		// NULL unless updating files; on stack
+	JArray<JBoolean>*	itsFileUsage;		// nullptr unless updating files; on stack
 	JBoolean			itsReparseAllFlag;	// kJTrue => flush all on next update
 	JBoolean			itsChangedDuringParseFlag;
 	mutable JFAID_t		itsLastUniqueID;

@@ -232,11 +232,11 @@ CBSymbolTypeList::FindType
 
 #define ADD(C,L) \
 	itsSymbolTypeList->AppendElement(SymbolTypeInfo( \
-		CBSymbolList::C, L, JFontStyle(), NULL));
+		CBSymbolList::C, L, JFontStyle(), nullptr));
 
 #define ADD_S(C,L,S) \
 	itsSymbolTypeList->AppendElement(SymbolTypeInfo( \
-		CBSymbolList::C, L, S, NULL));
+		CBSymbolList::C, L, S, nullptr));
 
 #define ADD_I(C,L,I) \
 	itsSymbolTypeList->AppendElement(SymbolTypeInfo( \
@@ -259,7 +259,7 @@ CBSymbolTypeList::CreateSymTypeList
 					 bold_gray(kJTrue, kJFalse, 0, kJFalse, JColorManager::GetGrayColor(50));
 
 	itsSymbolTypeList = jnew JArray<SymbolTypeInfo>(50);
-	assert( itsSymbolTypeList != NULL );
+	assert( itsSymbolTypeList != nullptr );
 
 	ADD_S (kUnknownST, kCBOtherLang, JFontStyle(JColorManager::GetGrayColor(50)))
 

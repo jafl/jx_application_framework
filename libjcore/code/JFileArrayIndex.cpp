@@ -40,7 +40,7 @@ JFileArrayIndex::JFileArrayIndex()
 			sizeof(JFAID_t)         >= JFileArray::kUnsignedLongLength );
 
 	itsArray = jnew JArray<ElementInfo>;
-	assert( itsArray != NULL );
+	assert( itsArray != nullptr );
 
 	InstallOrderedSet(itsArray);
 }
@@ -371,7 +371,7 @@ JFileArrayIndex::EmbeddedFileOpened
 	// we scream if the element isn't an embedded file or if the element is already open
 
 	assert( elementInfo.type == kEmbeddedFile );
-	assert( elementInfo.theEmbeddedFile == NULL );
+	assert( elementInfo.theEmbeddedFile == nullptr );
 
 	// save the reference to the opened file
 
@@ -398,11 +398,11 @@ JFileArrayIndex::EmbeddedFileClosed
 	// we scream if the element isn't an embedded file or if the element isn't open
 
 	assert( elementInfo.type == kEmbeddedFile );
-	assert( elementInfo.theEmbeddedFile != NULL );
+	assert( elementInfo.theEmbeddedFile != nullptr );
 
 	// clear the reference to the file
 
-	elementInfo.theEmbeddedFile = NULL;
+	elementInfo.theEmbeddedFile = nullptr;
 	itsArray->SetElement(index.GetIndex(), elementInfo);
 }
 
@@ -422,7 +422,7 @@ JFileArrayIndex::EmbeddedFileIsClosed
 	const
 {
 	const ElementInfo elementInfo = itsArray->GetElement(index.GetIndex());
-	return JConvertToBoolean( elementInfo.theEmbeddedFile == NULL );
+	return JConvertToBoolean( elementInfo.theEmbeddedFile == nullptr );
 }
 
 /******************************************************************************
@@ -440,7 +440,7 @@ JFileArrayIndex::AllEmbeddedFilesAreClosed()
 	for (JIndex i=1; i<=elementCount; i++)
 		{
 		const ElementInfo elementInfo = itsArray->GetElement(i);
-		if (elementInfo.theEmbeddedFile != NULL)
+		if (elementInfo.theEmbeddedFile != nullptr)
 			{
 			return kJFalse;
 			}
@@ -466,7 +466,7 @@ JFileArrayIndex::ReplaceEmbeddedFileStreams
 	for (JIndex i=1; i<=elementCount; i++)
 		{
 		const ElementInfo elementInfo = itsArray->GetElement(i);
-		if (elementInfo.theEmbeddedFile != NULL)
+		if (elementInfo.theEmbeddedFile != nullptr)
 			{
 			(elementInfo.theEmbeddedFile)->ReplaceStream(newStream);
 			}

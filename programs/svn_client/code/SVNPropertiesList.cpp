@@ -64,13 +64,13 @@ SVNPropertiesList::SVNPropertiesList
 	SVNListBase(director, editMenu, GetCommand(fullName), kJFalse, kJFalse, kJFalse, kJFalse,
 				scrollbarSet, enclosure, hSizing, vSizing, x, y, w, h),
 	itsFullName(fullName),
-	itsCreatePropertyDialog(NULL)
+	itsCreatePropertyDialog(nullptr)
 {
 	itsRemovePropertyCmdList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
-	assert( itsRemovePropertyCmdList != NULL );
+	assert( itsRemovePropertyCmdList != nullptr );
 
 	itsProcessList = jnew JPtrArray<JProcess>(JPtrArrayT::kForgetAll);
-	assert( itsProcessList != NULL );
+	assert( itsProcessList != nullptr );
 }
 
 /******************************************************************************
@@ -205,7 +205,7 @@ SVNPropertiesList::CopySelectedItems
 		}
 
 	JXTextSelection* data = jnew JXTextSelection(GetDisplay(), list);
-	assert( data != NULL );
+	assert( data != nullptr );
 
 	GetSelectionManager()->SetData(kJXClipboardName, data);
 }
@@ -277,14 +277,14 @@ SVNPropertiesList::Receive
 		{
 		const JXDialogDirector::Deactivated* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 
 		if (info->Successful())
 			{
 			CreateProperty1();
 			}
 
-		itsCreatePropertyDialog = NULL;
+		itsCreatePropertyDialog = nullptr;
 		}
 
 	else if (message.Is(JProcess::kFinished))
@@ -315,13 +315,13 @@ SVNPropertiesList::Receive
 JBoolean
 SVNPropertiesList::CreateProperty()
 {
-	assert( itsCreatePropertyDialog == NULL );
+	assert( itsCreatePropertyDialog == nullptr );
 
 	itsCreatePropertyDialog =
 		jnew JXGetStringDialog(
 			GetDirector(), JGetString(kCreatePropertyWindowTitleID),
 			JGetString(kCreatePropertyPromptID), "");
-	assert( itsCreatePropertyDialog != NULL );
+	assert( itsCreatePropertyDialog != nullptr );
 	ListenTo(itsCreatePropertyDialog);
 	itsCreatePropertyDialog->BeginDialog();
 	return kJTrue;
@@ -335,7 +335,7 @@ SVNPropertiesList::CreateProperty()
 JBoolean
 SVNPropertiesList::CreateProperty1()
 {
-	assert( itsCreatePropertyDialog != NULL );
+	assert( itsCreatePropertyDialog != nullptr );
 
 	const JString prop = JPrepArgForExec(itsCreatePropertyDialog->GetString());
 	const JString file = JPrepArgForExec(itsFullName);

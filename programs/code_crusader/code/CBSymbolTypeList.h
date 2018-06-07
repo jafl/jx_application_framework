@@ -41,12 +41,12 @@ private:
 		CBLanguage			lang;
 		JBoolean			visible;	// not used
 		JFontStyle			style;
-		JXImage*			icon;		// can be NULL; not owned
+		JXImage*			icon;		// can be nullptr; not owned
 
 		SymbolTypeInfo()
 			:
 			type(CBSymbolList::kUnknownST), lang(kCBOtherLang),
-			visible(kJTrue), icon(NULL)
+			visible(kJTrue), icon(nullptr)
 		{ };
 
 		SymbolTypeInfo(const CBSymbolList::Type t, const CBLanguage l,
@@ -167,7 +167,7 @@ CBSymbolTypeList::GetLanguage
 /******************************************************************************
  GetStyle
 
-	image can return NULL.
+	image can return nullptr.
 
  ******************************************************************************/
 

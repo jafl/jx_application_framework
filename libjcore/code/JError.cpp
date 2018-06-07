@@ -28,7 +28,7 @@
 
 	Since the type must be unique for every JError, the descriptive message
 	can be stored in JStringManager.  This is automatic when the message
-	passed to the constructor is NULL.
+	passed to the constructor is nullptr.
 
 	Refer to the documentation for JRTTIBase for the recommended way to
 	define type strings.
@@ -46,7 +46,7 @@
 /******************************************************************************
  Constructor
 
-	If msg == NULL, it is retrieved from JStringManager.
+	If msg == nullptr, it is retrieved from JStringManager.
 
 	If copyMsg == kJTrue, we make a copy of the data in msg.
 	Otherwise, we just store the pointer that is passed in.

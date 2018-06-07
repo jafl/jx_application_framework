@@ -36,10 +36,10 @@ protected:
 
 private:
 
-	SyGFileTreeTable*			itsSrcTable;		// not owned; can be NULL
+	SyGFileTreeTable*			itsSrcTable;		// not owned; can be nullptr
 	JPtrArray<JString>*			itsSrcNameList;		// usually from DND data
-	SyGFileTreeTable*			itsDestTable;		// not owned; can be NULL
-	SyGFileTreeNode*			itsDestNode;		// not owned; can be NULL
+	SyGFileTreeTable*			itsDestTable;		// not owned; can be nullptr
+	SyGFileTreeNode*			itsDestNode;		// not owned; can be nullptr
 	JVCSType					itsVCSType;
 	const JBoolean				itsIsMoveFlag;
 	JSimpleProcess*				itsProcess;

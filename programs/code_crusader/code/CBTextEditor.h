@@ -130,9 +130,9 @@ private:
 
 	JIndex					itsExecScriptCmdIndex;	// index of "Run script" on Edit menu
 	JIndex					itsFirstSearchMenuItem;	// index of first item added to Search menu
-	CBFunctionMenu*			itsFnMenu;				// NULL if not source
-	JXStringCompletionMenu*	itsCompletionMenu;		// NULL if doesn't have completer
-	JXTextMenu*				itsContextMenu;			// NULL until first used
+	CBFunctionMenu*			itsFnMenu;				// nullptr if not source
+	JXStringCompletionMenu*	itsCompletionMenu;		// nullptr if doesn't have completer
+	JXTextMenu*				itsContextMenu;			// nullptr until first used
 	JString					itsScriptPath;			// can be empty
 
 	// owned by their enclosures
@@ -142,7 +142,7 @@ private:
 
 	// keyword styling
 
-	JArray<JTEStyler::TokenData>*	itsTokenStartList;	// NULL if styling is turned off
+	JArray<JTEStyler::TokenData>*	itsTokenStartList;	// nullptr if styling is turned off
 
 	// balance while typing
 

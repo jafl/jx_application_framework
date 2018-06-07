@@ -30,14 +30,14 @@ main()
 
 	for (long j=1; j<=4; j++)
 		{
-		const time_t t1 = time(NULL);
+		const time_t t1 = time(nullptr);
 
 		for (long i=0; i<cycleCount; i++)
 			{
 			memcpy(s2, s1, j);
 			}
 
-		const time_t t2 = time(NULL);
+		const time_t t2 = time(nullptr);
 		std::cout << j << " byte(s): " << (t2 - t1) / (double) cycleCount << std::endl;
 		}
 
@@ -45,7 +45,7 @@ main()
 
 	for (long j=1; j<=4; j++)
 		{
-		const time_t t1 = time(NULL);
+		const time_t t1 = time(nullptr);
 
 		for (long i=0; i<cycleCount; i++)
 			{
@@ -55,7 +55,7 @@ main()
 				}
 			}
 
-		const time_t t2 = time(NULL);
+		const time_t t2 = time(nullptr);
 		std::cout << j << " byte(s): " << (t2 - t1) / (double) cycleCount << std::endl;
 		}
 

@@ -61,7 +61,7 @@ private:
 	JXTextMenu*		itsUNMenu;
 	JXTextMenu*		itsCSFMenu;
 	JXTextMenu*		itsPGMenu;
-	JXDisplayMenu*	itsDisplayMenu;		// can be NULL
+	JXDisplayMenu*	itsDisplayMenu;		// can be nullptr
 	JXImageMenu*	itsSmileyMenu;
 	JXImageMenu*	itsIconMenu;
 

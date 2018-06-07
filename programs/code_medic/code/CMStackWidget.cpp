@@ -114,7 +114,7 @@ CMStackWidget::GetStackFrame
 		{
 		const CMStackFrameNode* node =
 			dynamic_cast<const CMStackFrameNode*>(root->GetChild(i));
-		assert( node != NULL );
+		assert( node != nullptr );
 
 		if (node->GetID() == id)
 			{
@@ -123,7 +123,7 @@ CMStackWidget::GetStackFrame
 			}
 		}
 
-	*frame = NULL;
+	*frame = nullptr;
 	return kJFalse;
 }
 
@@ -146,7 +146,7 @@ CMStackWidget::SelectFrame
 		{
 		const CMStackFrameNode* node =
 			dynamic_cast<const CMStackFrameNode*>(root->GetChild(i));
-		assert( node != NULL );
+		assert( node != nullptr );
 
 		if (node->GetID() == id)
 			{
@@ -195,7 +195,7 @@ CMStackWidget::TableDrawCell
 
 			const CMStackArgNode* argNode =
 				dynamic_cast<const CMStackArgNode*>(node);
-			assert( argNode != NULL );
+			assert( argNode != nullptr );
 			p.String(rect, argNode->GetValue(), JPainter::kHAlignLeft, JPainter::kVAlignCenter);
 			}
 		}
@@ -220,7 +220,7 @@ CMStackWidget::GetMinCellWidth
 			{
 			const CMStackArgNode* argNode =
 				dynamic_cast<const CMStackArgNode*>(node);
-			assert( argNode != NULL );
+			assert( argNode != nullptr );
 
 			return GetFont().GetStringWidth(argNode->GetValue());
 			}
@@ -293,7 +293,7 @@ CMStackWidget::HandleMouseDown
 
 			const CMStackFrameNode* stackNode =
 				dynamic_cast<const CMStackFrameNode*>(node);
-			assert( stackNode != NULL );
+			assert( stackNode != nullptr );
 
 			JString fileName;
 			JIndex lineIndex;
@@ -513,7 +513,7 @@ CMStackWidget::Receive
 
 			const CMStackFrameNode* stackNode =
 				dynamic_cast<const CMStackFrameNode*>(node);
-			assert( stackNode != NULL );
+			assert( stackNode != nullptr );
 
 			SwitchToFrame(stackNode->GetID());
 			}

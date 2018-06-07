@@ -198,13 +198,13 @@ JTextEditor::JTextEditor
 	itsSelectionOutlineColor(outlineColor),
 	itsWhitespaceColor(wsColor),
 
-	itsKeyHandler(NULL),
+	itsKeyHandler(nullptr),
 	itsNeedCaretBcastFlag(kJTrue),
 	itsDragType(kInvalidDrag),
 	itsPrevDragType(kInvalidDrag),
 	itsIsDragSourceFlag(kJFalse)
 {
-	assert( itsText != NULL );
+	assert( itsText != nullptr );
 
 	itsActiveFlag            = kJFalse;
 	itsSelActiveFlag         = kJFalse;
@@ -225,12 +225,12 @@ JTextEditor::JTextEditor
 	itsMaxWordWidth    = 0;
 
 	itsLineStarts = jnew JArray<TextIndex>;
-	assert( itsLineStarts != NULL );
+	assert( itsLineStarts != nullptr );
 	itsLineStarts->SetCompareFunction(JStyledText::CompareCharacterIndices);
 	itsLineStarts->SetSortOrder(JListT::kSortAscending);
 
 	itsLineGeom = jnew JRunArray<LineGeometry>;
-	assert( itsLineGeom != NULL );
+	assert( itsLineGeom != nullptr );
 
 	itsCaretLoc      = CaretLocation(TextIndex(1,1),1);
 	itsCaretX        = 0;
@@ -243,7 +243,7 @@ JTextEditor::JTextEditor
 		itsLineGeom->SetBlockSize(128);
 		}
 
-	SetKeyHandler(NULL);
+	SetKeyHandler(nullptr);
 
 	ListenTo(itsText);
 }
@@ -318,7 +318,7 @@ JTextEditor::Receive
 		{
 		const JStyledText::TextChanged* info =
 			dynamic_cast<const JStyledText::TextChanged*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		const TextRange& r = info->GetRange();
 		if (r.charRange.GetCount() == itsText->GetText().GetCharacterCount())
 			{
@@ -326,7 +326,7 @@ JTextEditor::Receive
 			}
 		else
 			{
-			Recalc(r, info->GetRedrawRange(), info->IsDeletion());
+			Recalc(r, info->GetRedrawRange());
 			}
 		}
 
@@ -806,7 +806,7 @@ JTextEditor::Copy()
 
 	Returns the text and style that would be pasted if Paste() were called.
 
-	style can be NULL.  If it is not NULL, it can come back empty even if
+	style can be nullptr.  If it is not nullptr, it can come back empty even if
 	the function returns kJTrue.
 
  ******************************************************************************/
@@ -819,7 +819,7 @@ JTextEditor::GetClipboard
 	)
 	const
 {
-	if (style != NULL)
+	if (style != nullptr)
 		{
 		return TEGetClipboard(text, style);
 		}
@@ -842,7 +842,7 @@ JTextEditor::Paste()
 	JRunArray<JFont> style;
 	if (TEGetClipboard(&text, &style))
 		{
-		JRunArray<JFont>* s = (style.IsEmpty() ? NULL : &style);
+		JRunArray<JFont>* s = (style.IsEmpty() ? nullptr : &style);
 		Paste(text, s);
 		}
 }
@@ -850,7 +850,7 @@ JTextEditor::Paste()
 /******************************************************************************
  Paste
 
-	style can be NULL
+	style can be nullptr
 
  ******************************************************************************/
 
@@ -879,11 +879,11 @@ JTextEditor::Paste
 		range.byteRange.SetFirstAndCount(itsCaretLoc.location.byteIndex, 0);
 		}
 
-	JRunArray<JFont>* style1 = NULL;
-	if (style == NULL)
+	JRunArray<JFont>* style1 = nullptr;
+	if (style == nullptr)
 		{
 		style1 = jnew JRunArray<JFont>;
-		assert( style1 != NULL );
+		assert( style1 != nullptr );
 
 		style1->AppendElements(
 			hadSelection ?
@@ -894,7 +894,7 @@ JTextEditor::Paste
 
 	itsNeedCaretBcastFlag = kJFalse;
 
-	range = itsText->Paste(range, text, style != NULL ? style : style1);
+	range = itsText->Paste(range, text, style != nullptr ? style : style1);
 
 	itsNeedCaretBcastFlag = kJTrue;
 	SetCaretLocation(range.GetAfter());
@@ -2543,7 +2543,7 @@ JTextEditor::TEHitSamePart
 /******************************************************************************
  SetKeyHandler
 
-	Passing NULL resets to the default key handler
+	Passing nullptr resets to the default key handler
 
  ******************************************************************************/
 
@@ -2555,10 +2555,10 @@ JTextEditor::SetKeyHandler
 {
 	jdelete itsKeyHandler;
 
-	if (handler == NULL)
+	if (handler == nullptr)
 		{
 		handler = jnew JTEDefaultKeyHandler(this);
-		assert( handler != NULL );
+		assert( handler != nullptr );
 		}
 
 	itsKeyHandler = handler;
@@ -2685,7 +2685,7 @@ JTextEditor::BackwardDelete
 		itsInsertionFont = f;
 		}
 
-	if (undo != NULL)
+	if (undo != nullptr)
 		{
 		undo->Activate();		// cancel SetCaretLocation()
 		}
@@ -2717,7 +2717,7 @@ JTextEditor::ForwardDelete
 	itsNeedCaretBcastFlag = kJTrue;
 	SetCaretLocation(itsCaretLoc);
 
-	if (undo != NULL)
+	if (undo != nullptr)
 		{
 		undo->Activate();		// cancel SetCaretLocation()
 		}
@@ -3681,7 +3681,7 @@ JTextEditor::RecalcAll()
 		TextCount(itsText->GetText().GetCharacterCount(),
 				  itsText->GetText().GetByteCount()));
 
-	Recalc(r, r, kJFalse);
+	Recalc(r, r);
 }
 
 /******************************************************************************
@@ -3695,9 +3695,8 @@ JTextEditor::RecalcAll()
 void
 JTextEditor::Recalc
 	(
-	const TextRange&	recalcRange,
-	const TextRange&	redrawRange,
-	const JBoolean		deletion
+	const TextRange& recalcRange,
+	const TextRange& redrawRange
 	)
 {
 	JCoordinate maxLineWidth = 0;

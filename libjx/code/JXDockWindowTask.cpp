@@ -74,7 +74,7 @@ JXDockWindowTask::JXDockWindowTask
 	theTaskCount++;
 
 	JXTabGroup* tabGroup = dock->GetTabGroup();
-	if (theUpdateList != NULL && !theUpdateList->Includes(tabGroup))
+	if (theUpdateList != nullptr && !theUpdateList->Includes(tabGroup))
 		{
 		theUpdateList->Append(tabGroup);
 		}
@@ -88,7 +88,7 @@ JXDockWindowTask::JXDockWindowTask
 JXDockWindowTask::~JXDockWindowTask()
 {
 	theTaskCount--;
-	if (theTaskCount == 0 && theUpdateList != NULL)
+	if (theTaskCount == 0 && theUpdateList != nullptr)
 		{
 		const JSize count = theUpdateList->GetElementCount();
 		for (JIndex i=1; i<=count; i++)
@@ -97,7 +97,7 @@ JXDockWindowTask::~JXDockWindowTask()
 			}
 
 		jdelete theUpdateList;
-		theUpdateList = NULL;
+		theUpdateList = nullptr;
 		}
 }
 
@@ -109,10 +109,10 @@ JXDockWindowTask::~JXDockWindowTask()
 void
 JXDockWindowTask::PrepareForDockAll()
 {
-	if (theUpdateList == NULL)
+	if (theUpdateList == nullptr)
 		{
 		theUpdateList = jnew JPtrArray<JXTabGroup>(JPtrArrayT::kForgetAll);
-		assert( theUpdateList != NULL );
+		assert( theUpdateList != nullptr );
 		}
 }
 
@@ -128,7 +128,7 @@ JXDockWindowTask::Perform
 	Time*		maxSleepTime
 	)
 {
-	if (itsWindow == NULL)
+	if (itsWindow == nullptr)
 		{
 		jdelete this;
 		return;

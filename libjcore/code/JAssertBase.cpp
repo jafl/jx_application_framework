@@ -124,7 +124,7 @@ JAssertBase::Action
 JAssertBase::GetAction()
 {
 	const char* action = getenv(kAssertActionEnvName);
-	if (action == NULL)
+	if (action == nullptr)
 		{
 		return kAbort;
 		}

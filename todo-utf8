@@ -1,3 +1,7 @@
+makemake - MM_ALL_SOURCES suffixes are garbage
+
+validate contents of TextChanged messages
+
 call FilterText after set font or font name or SetAllFontAndName
 
 
@@ -9,13 +13,13 @@ finish JTextEditor tests
 
 JStyledTextBuffer
 	broadcast char/byte delta with TextChanged, to allow adjusting selection/caret
+	need smarter update during indent/outdent, to maintain caret location
 	AutoIndent
 	CleanRightMargin
 
 JTextEditor:
 	undo paste doesn't update caret location
 		set selection/caret after performing undo operations
-+		keep undo active while typing
 	tab makes rest of text invisible
 	clicking in selection doesn't set caret location
 		treats ending newline line as part of selection

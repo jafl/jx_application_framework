@@ -34,7 +34,7 @@ static const JCharacter* kProjectTableCaptionID = "ProjectTableCaption::CBEditCo
 /******************************************************************************
  Constructor
 
-	thisCmdList can be NULL
+	thisCmdList can be nullptr
 
  ******************************************************************************/
 
@@ -45,7 +45,7 @@ CBEditCommandsDialog::CBEditCommandsDialog
 	:
 	JXDialogDirector(JXGetApplication(), kJTrue),
 	JPrefObject(CBGetPrefsManager(), kCBEditCommandsDialogID),
-	itsCmdMgr(projDoc == NULL ? NULL : projDoc->GetCommandManager())
+	itsCmdMgr(projDoc == nullptr ? nullptr : projDoc->GetCommandManager())
 {
 	BuildWindow(projDoc);
 	JPrefObject::ReadPrefs();
@@ -65,7 +65,7 @@ CBEditCommandsDialog::~CBEditCommandsDialog()
 /******************************************************************************
  BuildWindow (private)
 
-	thisCmdList can be NULL
+	thisCmdList can be nullptr
 
  ******************************************************************************/
 
@@ -90,27 +90,27 @@ CBEditCommandsDialog::BuildWindow
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 620,530, "");
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	itsPartition =
 		jnew JXVertPartition(heights, elasticIndex, minHeights, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 20,20, 580,455);
-	assert( itsPartition != NULL );
+	assert( itsPartition != nullptr );
 
 	JXTextButton* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::CBEditCommandsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 100,500, 70,20);
-	assert( cancelButton != NULL );
+	assert( cancelButton != nullptr );
 
 	JXTextButton* okButton =
 		jnew JXTextButton(JGetString("okButton::CBEditCommandsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 440,500, 70,20);
-	assert( okButton != NULL );
+	assert( okButton != nullptr );
 
 	itsHelpButton =
 		jnew JXTextButton(JGetString("itsHelpButton::CBEditCommandsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 270,500, 70,20);
-	assert( itsHelpButton != NULL );
+	assert( itsHelpButton != nullptr );
 	itsHelpButton->SetShortcuts(JGetString("itsHelpButton::CBEditCommandsDialog::shortcuts::JXLayout"));
 
 // end JXLayout
@@ -126,7 +126,7 @@ CBEditCommandsDialog::BuildWindow
 	// commands available to all projects
 
 	JXContainer* compartment;
-	if (itsCmdMgr != NULL)
+	if (itsCmdMgr != nullptr)
 		{
 		compartment = itsPartition->GetCompartment(1);
 		}
@@ -136,7 +136,7 @@ CBEditCommandsDialog::BuildWindow
 		compartment =
 			jnew JXWidgetSet(window, JXWidget::kHElastic, JXWidget::kVElastic,
 							frame.left, frame.top, frame.width(), frame.height());
-		assert( compartment != NULL );
+		assert( compartment != nullptr );
 		itsPartition->Hide();
 		}
 
@@ -149,44 +149,44 @@ CBEditCommandsDialog::BuildWindow
 	JXTextButton* allNewButton =
 		jnew JXTextButton(JGetString("allNewButton::CBEditCommandsDialog::allProjectsLayout"), compartment,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 520,60, 60,20);
-	assert( allNewButton != NULL );
+	assert( allNewButton != nullptr );
 
 	JXTextButton* allRemoveButton =
 		jnew JXTextButton(JGetString("allRemoveButton::CBEditCommandsDialog::allProjectsLayout"), compartment,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 520,120, 60,20);
-	assert( allRemoveButton != NULL );
+	assert( allRemoveButton != nullptr );
 
 	JXScrollbarSet* allScrollbarSet =
 		jnew JXScrollbarSet(compartment,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 510,180);
-	assert( allScrollbarSet != NULL );
+	assert( allScrollbarSet != nullptr );
 
 	JXTextButton* allDuplicateButton =
 		jnew JXTextButton(JGetString("allDuplicateButton::CBEditCommandsDialog::allProjectsLayout"), compartment,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 520,90, 60,20);
-	assert( allDuplicateButton != NULL );
+	assert( allDuplicateButton != nullptr );
 
 	JXStaticText* anyProjectTitle =
 		jnew JXStaticText(JGetString("anyProjectTitle::CBEditCommandsDialog::allProjectsLayout"), compartment,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,0, 580,20);
-	assert( anyProjectTitle != NULL );
+	assert( anyProjectTitle != nullptr );
 	anyProjectTitle->SetToLabel();
 
 	JXTextButton* allExportButton =
 		jnew JXTextButton(JGetString("allExportButton::CBEditCommandsDialog::allProjectsLayout"), compartment,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 520,160, 60,20);
-	assert( allExportButton != NULL );
+	assert( allExportButton != nullptr );
 
 	JXTextButton* allImportButton =
 		jnew JXTextButton(JGetString("allImportButton::CBEditCommandsDialog::allProjectsLayout"), compartment,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 520,190, 60,20);
-	assert( allImportButton != NULL );
+	assert( allImportButton != nullptr );
 
 	compartment->SetSize(allProjectsLayout_Frame.width(), allProjectsLayout_Frame.height());
 
 // end allProjectsLayout
 
-	if (itsCmdMgr == NULL)
+	if (itsCmdMgr == nullptr)
 		{
 		allScrollbarSet->AdjustSize(0,
 			(compartment->GetAperture()).bottom -
@@ -200,7 +200,7 @@ CBEditCommandsDialog::BuildWindow
 						   allExportButton, allImportButton,
 						   allScrollbarSet, allScrollbarSet->GetScrollEnclosure(),
 						   JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 10,10);
-	assert( itsAllTable != NULL );
+	assert( itsAllTable != nullptr );
 	itsAllTable->FitToEnclosure();
 	itsAllTable->Move(0, kHeaderHeight);
 	itsAllTable->AdjustSize(0, -kHeaderHeight);
@@ -210,17 +210,17 @@ CBEditCommandsDialog::BuildWindow
 							  allScrollbarSet->GetScrollEnclosure(),
 							  JXWidget::kHElastic, JXWidget::kFixedTop,
 							  0,0, 10,kHeaderHeight);
-	assert( colHeader != NULL );
+	assert( colHeader != nullptr );
 	colHeader->FitToEnclosure(kJTrue, kJFalse);
 	itsAllTable->SetColTitles(colHeader);
 	colHeader->TurnOnColResizing(20);
 
 	// commands available to currently selected project
 
-	itsMakeDependCmd = NULL;
-	itsThisTable     = NULL;
+	itsMakeDependCmd = nullptr;
+	itsThisTable     = nullptr;
 
-	if (itsCmdMgr != NULL)
+	if (itsCmdMgr != nullptr)
 		{
 		compartment = itsPartition->GetCompartment(2);
 
@@ -233,49 +233,49 @@ CBEditCommandsDialog::BuildWindow
 	JXTextButton* thisNewButton =
 		jnew JXTextButton(JGetString("thisNewButton::CBEditCommandsDialog::thisProjectLayout"), compartment,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 520,90, 60,20);
-	assert( thisNewButton != NULL );
+	assert( thisNewButton != nullptr );
 
 	JXTextButton* thisRemoveButton =
 		jnew JXTextButton(JGetString("thisRemoveButton::CBEditCommandsDialog::thisProjectLayout"), compartment,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 520,150, 60,20);
-	assert( thisRemoveButton != NULL );
+	assert( thisRemoveButton != nullptr );
 
 	JXScrollbarSet* thisScrollbarSet =
 		jnew JXScrollbarSet(compartment,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,70, 510,170);
-	assert( thisScrollbarSet != NULL );
+	assert( thisScrollbarSet != nullptr );
 
 	itsMakeDependCmd =
 		jnew JXInputField(compartment,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 260,40, 250,20);
-	assert( itsMakeDependCmd != NULL );
+	assert( itsMakeDependCmd != nullptr );
 
 	JXStaticText* updateMakefileLabel =
 		jnew JXStaticText(JGetString("updateMakefileLabel::CBEditCommandsDialog::thisProjectLayout"), compartment,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,40, 260,20);
-	assert( updateMakefileLabel != NULL );
+	assert( updateMakefileLabel != nullptr );
 	updateMakefileLabel->SetToLabel();
 
 	JXTextButton* thisDuplicateButton =
 		jnew JXTextButton(JGetString("thisDuplicateButton::CBEditCommandsDialog::thisProjectLayout"), compartment,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 520,120, 60,20);
-	assert( thisDuplicateButton != NULL );
+	assert( thisDuplicateButton != nullptr );
 
 	JXStaticText* thisCaption =
 		jnew JXStaticText(JGetString("thisCaption::CBEditCommandsDialog::thisProjectLayout"), compartment,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,10, 580,20);
-	assert( thisCaption != NULL );
+	assert( thisCaption != nullptr );
 	thisCaption->SetToLabel();
 
 	JXTextButton* thisExportButton =
 		jnew JXTextButton(JGetString("thisExportButton::CBEditCommandsDialog::thisProjectLayout"), compartment,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 520,190, 60,20);
-	assert( thisExportButton != NULL );
+	assert( thisExportButton != nullptr );
 
 	JXTextButton* thisImportButton =
 		jnew JXTextButton(JGetString("thisImportButton::CBEditCommandsDialog::thisProjectLayout"), compartment,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 520,220, 60,20);
-	assert( thisImportButton != NULL );
+	assert( thisImportButton != nullptr );
 
 	compartment->SetSize(thisProjectLayout_Frame.width(), thisProjectLayout_Frame.height());
 
@@ -297,7 +297,7 @@ CBEditCommandsDialog::BuildWindow
 							   thisExportButton, thisImportButton,
 							   thisScrollbarSet, thisScrollbarSet->GetScrollEnclosure(),
 							   JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 10,10);
-		assert( itsThisTable != NULL );
+		assert( itsThisTable != nullptr );
 		itsThisTable->FitToEnclosure();
 		itsThisTable->Move(0, kHeaderHeight);
 		itsThisTable->AdjustSize(0, -kHeaderHeight);
@@ -307,7 +307,7 @@ CBEditCommandsDialog::BuildWindow
 								  thisScrollbarSet->GetScrollEnclosure(),
 								  JXWidget::kHElastic, JXWidget::kFixedTop,
 								  0,0, 10,kHeaderHeight);
-		assert( colHeader != NULL );
+		assert( colHeader != nullptr );
 		colHeader->FitToEnclosure(kJTrue, kJFalse);
 		itsThisTable->SetColTitles(colHeader);
 		colHeader->TurnOnColResizing(20);
@@ -330,18 +330,18 @@ CBEditCommandsDialog::Receive
 		{
 		const JXDialogDirector::Deactivated* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		if (info->Successful())
 			{
 			itsAllTable->GetCommandList((CBGetCommandManager())->GetCommandList());
 			(CBGetCommandManager())->UpdateMenuIDs();
 
-			if (itsCmdMgr != NULL)
+			if (itsCmdMgr != nullptr)
 				{
-				assert( itsMakeDependCmd != NULL );
+				assert( itsMakeDependCmd != nullptr );
 				itsCmdMgr->SetMakeDependCommand(itsMakeDependCmd->GetText());
 
-				assert( itsThisTable != NULL );
+				assert( itsThisTable != nullptr );
 				itsThisTable->GetCommandList(itsCmdMgr->GetCommandList());
 				}
 
@@ -385,7 +385,7 @@ CBEditCommandsDialog::ReadPrefs
 	itsPartition->ReadGeometry(input);
 	itsAllTable->ReadGeometry(input);
 
-	if (itsThisTable != NULL)
+	if (itsThisTable != nullptr)
 		{
 		itsThisTable->ReadGeometry(input);
 		}
@@ -418,7 +418,7 @@ CBEditCommandsDialog::WritePrefs
 	output << ' ';
 	itsAllTable->WriteGeometry(output);
 
-	if (itsThisTable != NULL)
+	if (itsThisTable != nullptr)
 		{
 		output << ' ';
 		itsThisTable->WriteGeometry(output);

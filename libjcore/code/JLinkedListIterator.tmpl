@@ -118,7 +118,7 @@ JLinkedListIterator<T>::Prev
 	)
 {
 	const JCursorPosition cursorPos = JListIterator<T>::GetCursor();
-	if (itsLinkedList == NULL || cursorPos == 0)
+	if (itsLinkedList == nullptr || cursorPos == 0)
 		{
 		return kJFalse;
 		}
@@ -151,7 +151,7 @@ JLinkedListIterator<T>::Next
 	)
 {
 	const JCursorPosition cursorPos = JListIterator<T>::GetCursor();
-	if (itsLinkedList == NULL || cursorPos >= itsLinkedList->GetElementCount())
+	if (itsLinkedList == nullptr || cursorPos >= itsLinkedList->GetElementCount())
 		{
 		return kJFalse;
 		}
@@ -179,7 +179,7 @@ JLinkedListIterator<T>::SkipPrev
 	)
 {
 	JCursorPosition cursorPos = JListIterator<T>::GetCursor();
-	if (itsLinkedList != NULL)
+	if (itsLinkedList != nullptr)
 		{
 		JSize remaining = count;
 		while (remaining > 0 && cursorPos > 0)
@@ -209,7 +209,7 @@ JLinkedListIterator<T>::SkipNext
 	)
 {
 	JCursorPosition cursorPos = JListIterator<T>::GetCursor();
-	if (itsLinkedList != NULL)
+	if (itsLinkedList != nullptr)
 		{
 		const JSize maxPos = itsLinkedList->GetElementCount();
 
@@ -274,7 +274,7 @@ JLinkedListIterator<T>::SetNext
 		return kJFalse;
 		}
 
-	assert( itsCurrElement->nextElement != NULL );
+	assert( itsCurrElement->nextElement != nullptr );
 
 	itsLinkedList->IteratorSetElement(JListIterator<T>::GetCursor()+1, data, itsCurrElement->nextElement);
 	return kJTrue;
@@ -344,7 +344,7 @@ JLinkedListIterator<T>::MoveTo
 {
 	JListIterator<T>::MoveTo(newPosition, index);
 
-	if (itsLinkedList == NULL)
+	if (itsLinkedList == nullptr)
 		{
 		return;
 		}
@@ -397,8 +397,8 @@ JLinkedListIterator<T>::OrderedSetChanged
 		}
 	else if (message.Is(JListT::kGoingAway))
 		{
-		itsLinkedList  = NULL;
-		itsCurrElement = NULL;
+		itsLinkedList  = nullptr;
+		itsCurrElement = nullptr;
 		}
 }
 

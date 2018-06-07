@@ -44,7 +44,7 @@ public:
 
 	void NewFile();
 	void OpenFile(const JCharacter* filename);
-	void DisplayAbout(const JCharacter* prevVersStr = NULL);
+	void DisplayAbout(const JCharacter* prevVersStr = nullptr);
 
 	static void					InitStrings();
 

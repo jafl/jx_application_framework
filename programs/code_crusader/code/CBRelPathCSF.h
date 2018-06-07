@@ -48,17 +48,17 @@ public:
 	static PathType	CalcPathType(const JCharacter* path);
 
 	JBoolean ChooseRelFile(const JCharacter* prompt,
-						   const JCharacter* instructions,		// can be NULL
+						   const JCharacter* instructions,		// can be nullptr
 						   const JCharacter* origName,
 						   JString* name);						// relative
 
 	JBoolean ChooseRelRPath(const JCharacter* prompt,
-							const JCharacter* instructions,		// can be NULL
-							const JCharacter* origPath,			// can be NULL
+							const JCharacter* instructions,		// can be nullptr
+							const JCharacter* origPath,			// can be nullptr
 							JString* newPath);					// relative
 	JBoolean ChooseRelRWPath(const JCharacter* prompt,
-							 const JCharacter* instructions,	// can be NULL
-							 const JCharacter* origPath,		// can be NULL
+							 const JCharacter* instructions,	// can be nullptr
+							 const JCharacter* origPath,		// can be nullptr
 							 JString* newPath);					// relative
 
 protected:

@@ -52,12 +52,12 @@ private:
 
 	JXFSRunCommandDialog*	itsRunCmdDialog;
 
-	JXFSRunFileDialog*		itsRunFileDialog;		// NULL unless processing files
-	JPtrArray<JFSBinding>*	itsFileList;			// NULL unless waiting for itsRunFileDialog
+	JXFSRunFileDialog*		itsRunFileDialog;		// nullptr unless processing files
+	JPtrArray<JFSBinding>*	itsFileList;			// nullptr unless waiting for itsRunFileDialog
 	JBoolean				itsIgnoreBindingsFlag;	// kJTrue => ask for every file
 	JIndex					itsRunFileIndex;		// index in itsFileList of itsRunFileDialog
 
-	JXFSRunScriptDialog*	itsRunScriptDialog;		// NULL unless processing script
+	JXFSRunScriptDialog*	itsRunScriptDialog;		// nullptr unless processing script
 	JString					itsScriptPath;			// used when itsRunScriptDialog finishes
 
 	JXFSEditBindingsDialog*	itsEditDialog;

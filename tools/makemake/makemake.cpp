@@ -83,7 +83,7 @@ static const JRegex libSuffixPattern =
 #define J_SHARED_LIB_SUFFIX	J_LINUX_SHARED_LIB_SUFFIX
 #endif
 
-static JRegex* globalIgnorePattern = NULL;
+static JRegex* globalIgnorePattern = nullptr;
 
 static const JRegex objFileSuffix     = "^\\.(o|a|so|class|jar) ";
 static       JRegex noParseFileSuffix = "^\\.(java|e|m[23])$";		// modified by GetOptions()
@@ -221,7 +221,7 @@ main
 		// get the name of the target for make
 
 		JString* mainTargetName = jnew JString(JReadUntil(input,'\n'));
-		assert( mainTargetName != NULL );
+		assert( mainTargetName != nullptr );
 
 		// If we aren't supposed to include this target, and
 		// there aren't any other targets that need our dependency
@@ -245,7 +245,7 @@ main
 			}
 
 		JString* mainTargetObjs = jnew JString;
-		assert( mainTargetObjs != NULL );
+		assert( mainTargetObjs != nullptr );
 
 		// get the names of the files that the main target depends on
 
@@ -332,21 +332,21 @@ main
 
 			fnIter.MoveTo(kJIteratorStartAtBeginning, 0);
 
-			JString* targetName    = NULL;
-			JString* suffixName    = NULL;
-			JString* outSuffixName = NULL;
+			JString* targetName    = nullptr;
+			JString* suffixName    = nullptr;
+			JString* outSuffixName = nullptr;
 			if (fnIter.Next(linePattern))
 				{
 				const JStringMatch& m = fnIter.GetLastMatch();
 
 				targetName = jnew JString(m.GetSubstring("target"));
-				assert( targetName != NULL );
+				assert( targetName != nullptr );
 				targetName->TrimWhitespace();
 				suffixName = jnew JString(m.GetSubstring("inSuffix"));
-				assert( suffixName != NULL );
+				assert( suffixName != nullptr );
 
 				outSuffixName = jnew JString(m.GetSubstring("outSuffix"));
-				assert( outSuffixName != NULL );
+				assert( outSuffixName != nullptr );
 
 				if (outSuffixName->IsEmpty())
 					{
@@ -362,16 +362,16 @@ main
 			else
 				{
 				targetName = jnew JString(fullName);
-				assert( targetName != NULL );
+				assert( targetName != nullptr );
 				suffixName = jnew JString(defSuffix);
-				assert( suffixName != NULL );
+				assert( suffixName != nullptr );
 				outSuffixName = jnew JString(
 					GetOutputSuffix(*suffixName, suffixMapIn, suffixMapOut));
-				assert( outSuffixName != NULL );
+				assert( outSuffixName != nullptr );
 				}
 
 			JString* prefixName = jnew JString(prefix);
-			assert( prefixName != NULL );
+			assert( prefixName != nullptr );
 
 			usesJava = JI2B(usesJava ||
 							javaObjFileSuffix.Match(*suffixName) ||
@@ -389,7 +389,7 @@ main
 				}
 
 			JString* outPrefixName = jnew JString;
-			assert( outPrefixName != NULL );
+			assert( outPrefixName != nullptr );
 
 			*mainTargetObjs += " ";
 			if (!outputDirName.IsEmpty())
@@ -789,13 +789,13 @@ main
 
 	const JUtf8Byte* depArgv[] =
 		{ kMakeBinary, makemakeBinaryDef.GetBytes(), tempFileDef.GetBytes(),
-		  "-f", outputName.GetBytes(), kDependTargetName, NULL };
+		  "-f", outputName.GetBytes(), kDependTargetName, nullptr };
 
 #else
 
 	const JUtf8Byte* depArgv[] =
 		{ kMakeBinary, makemakeBinaryDef.GetBytes(),
-		  "-f", outputName.GetBytes(), kDependTargetName, NULL };
+		  "-f", outputName.GetBytes(), kDependTargetName, nullptr };
 
 #endif
 
@@ -1005,10 +1005,10 @@ GetOptions
 
 	{
 	JString* s = jnew JString(".java", 0);
-	assert( s != NULL );
+	assert( s != nullptr );
 	suffixMapIn->Append(s);
 	s = jnew JString(".java", 0);
-	assert( s != NULL );
+	assert( s != nullptr );
 	suffixMapOut->Append(s);
 	}
 
@@ -1048,7 +1048,7 @@ GetOptions
 			{
 			JCheckForValues(1, &index, argc, argv);
 			JString* s = jnew JString(argv[index], 0);
-			assert( s != NULL );
+			assert( s != nullptr );
 			searchPaths.Append(s);
 			}
 
@@ -1084,10 +1084,10 @@ GetOptions
 				{
 				const JStringMatch& m = iter.GetLastMatch();
 				JString* s = jnew JString(m.GetSubstring(1));
-				assert( s != NULL );
+				assert( s != nullptr );
 				suffixMapIn->Append(s);
 				s = jnew JString(m.GetSubstring(2));
-				assert( s != NULL );
+				assert( s != nullptr );
 				suffixMapOut->Append(s);
 				}
 			else
@@ -1150,7 +1150,7 @@ GetOptions
 		else
 			{
 			JString* userTarget = jnew JString(argv[index], 0);
-			assert( userTarget != NULL );
+			assert( userTarget != nullptr );
 			userTargetList->Append(userTarget);
 			}
 
@@ -1260,7 +1260,7 @@ PickTargets
 	while (!input.eof() && !input.fail())
 		{
 		JString* targetName = jnew JString(JReadUntil(input, '\n'));
-		assert( targetName != NULL );
+		assert( targetName != nullptr );
 
 		all.Append(targetName);
 		count++;
@@ -1294,7 +1294,7 @@ PickTargets
 		else
 			{
 			JString* targetName = jnew JString(*(all.GetElement(choice)));
-			assert( targetName != NULL );
+			assert( targetName != nullptr );
 
 			list->Append(targetName);
 			}
@@ -1390,7 +1390,7 @@ struct HeaderDep
 
 	HeaderDep()
 		:
-		fileName(NULL), depList(NULL)
+		fileName(nullptr), depList(nullptr)
 	{ };
 
 	HeaderDep(JString* name, JPtrArray<JString>* list)
@@ -1458,7 +1458,7 @@ CalcDepend
 	if (!JString::IsEmpty(env))
 		{
 		globalIgnorePattern = jnew JRegex(env);
-		assert( globalIgnorePattern != NULL );
+		assert( globalIgnorePattern != nullptr );
 		}
 
 	// parse command line arguments
@@ -1525,7 +1525,7 @@ CalcDepend
 			if (JDirectoryReadable(JString(argv[i]+2, 0, kJFalse)))
 				{
 				path = jnew JString(argv[i]+2, 0);		// strip off "-I"
-				assert( path != NULL );
+				assert( path != nullptr );
 				if (searchCurrDir)
 					{
 					pathList1.Append(path);
@@ -1755,7 +1755,7 @@ AddDependency
 
 			// check if it already exists
 
-			HeaderDep info(const_cast<JString*>(includedFileName), NULL);
+			HeaderDep info(const_cast<JString*>(includedFileName), nullptr);
 			JIndex j;
 			if (headerList->SearchSorted(info, JListT::kAnyMatch, &j))
 				{
@@ -1790,7 +1790,7 @@ ParseHeaderFile
 {
 	// check if it already exists
 
-	HeaderDep info(const_cast<JString*>(&fileName), (JPtrArray<JString>*) NULL);
+	HeaderDep info(const_cast<JString*>(&fileName), (JPtrArray<JString>*) nullptr);
 	JBoolean found;
 	const JIndex index =
 		headerList->SearchSorted1(info, JListT::kAnyMatch, &found);
@@ -1802,10 +1802,10 @@ ParseHeaderFile
 	// add it to headerList
 
 	info.fileName = jnew JString(fileName);
-	assert( info.fileName != NULL );
+	assert( info.fileName != nullptr );
 
 	info.depList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
-	assert( info.depList != NULL );
+	assert( info.depList != nullptr );
 	(info.depList)->SetCompareFunction(JCompareStringsCaseSensitive);
 
 	headerList->InsertElementAtIndex(index, info);
@@ -1866,7 +1866,7 @@ GetNextIncludedFile
 			const JUtf8Character type = m.GetSubstring(1).GetFirstCharacter();
 			const JString name        = m.GetSubstring(2);
 
-			if (globalIgnorePattern != NULL &&
+			if (globalIgnorePattern != nullptr &&
 				globalIgnorePattern->Match(name))
 				{
 				// skip

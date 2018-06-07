@@ -57,7 +57,7 @@ CBCharActionTable::CBCharActionTable
 	ListenTo(itsSaveButton);
 
 	itsCSF = jnew CBListCSF(JGetString(kReplaceListID), JGetString(kAppendToListID));
-	assert( itsCSF != NULL );
+	assert( itsCSF != nullptr );
 
 	SetColWidth(kMacroColumn, 40);
 	// script column set automatically
@@ -119,7 +119,7 @@ CBCharActionTable::SetData
 	for (JIndex i=1; i<=count; i++)
 		{
 		const JString* script = actionList.GetElement(i);
-		if (script != NULL)
+		if (script != nullptr)
 			{
 			data->AppendRows(1);
 
@@ -170,7 +170,7 @@ CBCharActionTable::CreateStringTableInput
 		{
 		jdelete input;
 		input = jnew JXCharInput(enclosure, hSizing, vSizing, x,y, w,h);
-		assert( input != NULL );
+		assert( input != nullptr );
 		}
 
 	return input;
@@ -213,7 +213,7 @@ CBCharActionTable::LoadMacros()
 {
 	JString fileName;
 	if (GetDialog()->ContentsValid() &&
-		itsCSF->ChooseFile("", NULL, &fileName))
+		itsCSF->ChooseFile("", nullptr, &fileName))
 		{
 		ReadData(fileName, itsCSF->ReplaceExisting());
 		}
@@ -293,7 +293,7 @@ CBCharActionTable::SaveMacros()
 		GetDialog()->GetCurrentMacroSetName(&origName))
 		{
 		JString newName;
-		if (itsCSF->SaveFile(JGetString(kSavePromptID), NULL, origName, &newName))
+		if (itsCSF->SaveFile(JGetString(kSavePromptID), nullptr, origName, &newName))
 			{
 			WriteData(newName);
 			}

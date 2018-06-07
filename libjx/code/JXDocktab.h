@@ -66,7 +66,7 @@ private:
 
 private:
 
-	JXTextMenu*	itsActionMenu;	// NULL until first used
+	JXTextMenu*	itsActionMenu;	// nullptr until first used
 	DockFinder*	itsDockFinder;
 	JColorID	itsFocusColor;
 

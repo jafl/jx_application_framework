@@ -62,7 +62,7 @@ GlovePlotter::GlovePlotter
 	cursorMenu->AppendItem(kModuleMenuTitleStr);
 	
 	itsModuleMenu = jnew JXTextMenu(cursorMenu, cursorMenu->GetItemCount(), menuBar);
-	assert( itsModuleMenu != NULL );
+	assert( itsModuleMenu != nullptr );
 	itsModuleMenu->SetMenuItems(kModuleMenuStr);
 	itsModuleMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsModuleMenu);
@@ -70,7 +70,7 @@ GlovePlotter::GlovePlotter
 	itsIsProcessingCursor = kJFalse;
 	ListenTo(this);
 	UpdateModuleMenu();
-	itsLink = NULL;
+	itsLink = nullptr;
 }
 
 /******************************************************************************
@@ -103,7 +103,7 @@ GlovePlotter::Receive
 		{
 		 const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleModuleMenu(selection->GetIndex());
 		}
 		
@@ -111,7 +111,7 @@ GlovePlotter::Receive
 		{
 		jdelete itsCursorProcess;
 		delete itsLink;
-		itsLink = NULL;
+		itsLink = nullptr;
 		itsIsProcessingCursor = kJFalse;
 		}
 
@@ -203,14 +203,14 @@ GlovePlotter::HandleModuleMenu
 			JProcess::Create(&itsCursorProcess, modName,
 							kJCreatePipe, &outFD,
 							kJCreatePipe, &inFD,
-							kJIgnoreConnection, NULL);
+							kJIgnoreConnection, nullptr);
 		assert(err.OK());
 		JOutPipeStream* op = jnew JOutPipeStream(outFD, kJTrue);
-		assert( op != NULL );
+		assert( op != nullptr );
 		assert( op->good() );
 
 		itsLink = new ProcessLink(inFD);
-		assert(itsLink != NULL);
+		assert(itsLink != nullptr);
 		ListenTo(itsLink);
 		ListenTo(itsCursorProcess);
 

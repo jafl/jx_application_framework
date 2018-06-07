@@ -108,7 +108,7 @@ JParseArgsForExec
 			if (!m.IsEmpty())
 				{
 				JString* s = jnew JString(m.GetString());
-				assert( s != NULL );
+				assert( s != nullptr );
 				s->TrimWhitespace();
 				if (!s->IsEmpty())
 					{
@@ -154,7 +154,7 @@ JParseArgsForExec
 	if (!m.IsEmpty())
 		{
 		JString* s = jnew JString(m.GetString());
-		assert( s != NULL );
+		assert( s != nullptr );
 		JCleanArg(s);	// clean out backslashes and quotes
 		argList->Append(s);
 		}
@@ -351,13 +351,13 @@ JExecute
 	const JSize argc = argList.GetElementCount();
 
 	const JUtf8Byte** argv = jnew const JUtf8Byte* [ argc+1 ];
-	assert( argv != NULL );
+	assert( argv != nullptr );
 
 	for (JIndex i=1; i<=argc; i++)
 		{
 		argv[i-1] = argList.GetElement(i)->GetBytes();
 		}
-	argv[argc] = NULL;
+	argv[argc] = nullptr;
 
 	const JError err = JExecute(argv, (argc+1) * sizeof(JUtf8Byte*), childPID,
 								toAction, toFD, fromAction, fromFD,
@@ -373,13 +373,13 @@ JExecute
 	argv[0] can either be a full path or just a name.  If it is just a
 	name, we search for it just like the shell would.
 
-	argv[] must be terminated with a NULL entry.
+	argv[] must be terminated with a nullptr entry.
 
 	size must be sizeof(argv[]).  JExecute automatically divides by
-	sizeof(char*).  We required this so we can check that argv is NULL
+	sizeof(char*).  We required this so we can check that argv is nullptr
 	terminated.  It is way too easy to forget to do this otherwise.
 
-	If childPID != NULL, it is set to the pid of the child process.
+	If childPID != nullptr, it is set to the pid of the child process.
 	Otherwise, JExecute() blocks until the child exits.
 
 	Actions:
@@ -432,7 +432,7 @@ JExecute
 	)
 {
 	assert( size > sizeof(JUtf8Byte*) );
-	assert( argv[ (size/sizeof(JUtf8Byte*)) - 1 ] == NULL );
+	assert( argv[ (size/sizeof(JUtf8Byte*)) - 1 ] == nullptr );
 
 	const JExecuteAction fromAction =
 		(origFromAction == kJForceNonblockingPipe ? kJCreatePipe : origFromAction);
@@ -443,11 +443,11 @@ JExecute
 	assert( errAction != kJForceNonblockingPipe );
 
 	assert( (toAction != kJCreatePipe && toAction != kJAttachToFD) ||
-			toFD != NULL );
+			toFD != nullptr );
 	assert( (fromAction != kJCreatePipe && fromAction != kJAttachToFD) ||
-			fromFD != NULL );
+			fromFD != nullptr );
 	assert( (errAction != kJCreatePipe && errAction != kJAttachToFD) ||
-			errFD != NULL );
+			errFD != nullptr );
 
 	const JString origProgName(argv[0], 0, kJFalse);
 	JString progName;
@@ -641,7 +641,7 @@ JExecute
 			*errFD = fd[2][0];
 			}
 
-		if (childPID == NULL)
+		if (childPID == nullptr)
 			{
 			return JWaitForChild(pid);
 			}
@@ -659,7 +659,7 @@ JExecute
 	Wait until a child process finishes.  If !block and no child has
 	finished, *pid=0.
 
-	status can be NULL.
+	status can be nullptr.
 
  ******************************************************************************/
 
@@ -877,7 +877,7 @@ JProgramAvailable
 
 	const JUtf8Byte* cpath = getenv("PATH");
 
-	JString path(cpath == NULL ? "" : cpath, 0);
+	JString path(cpath == nullptr ? "" : cpath, 0);
 	if (theIncludeCWDOnPathFlag)
 		{
 		path.Prepend(".:");

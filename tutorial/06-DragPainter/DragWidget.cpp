@@ -45,7 +45,7 @@ DragWidget::DragWidget
 	// See JCollection.h, JList.h, and JArray.h for functionality
 
 	itsPoints = jnew JArray<JPoint>;
-	assert( itsPoints != NULL );
+	assert( itsPoints != nullptr );
 }
 
 /******************************************************************************
@@ -169,7 +169,7 @@ DragWidget::HandleMouseDrag
 	const JBoolean scrolled = ScrollForDrag(pt);
 
 	// Get the drag painter that we created in mouse down
-	JPainter* p = NULL;
+	JPainter* p = nullptr;
 	if (!GetDragPainter(&p))
 		{
 		return;
@@ -178,7 +178,7 @@ DragWidget::HandleMouseDrag
 	// Make sure that the left button is pressed, 
 	// that we have moved,
 	// and that a drag painter exists
-	if (buttonStates.left() && pt != itsPrevPt && p != NULL)	// p is NULL for multiple click
+	if (buttonStates.left() && pt != itsPrevPt && p != nullptr)	// p is nullptr for multiple click
 		{
 		
 		// Draw line depending on whether or not we scrolled
@@ -219,7 +219,7 @@ DragWidget::HandleMouseUp
 	const JXKeyModifiers&	modifiers
 	)
 {
-	JPainter* p = NULL;
+	JPainter* p = nullptr;
 
 	// Make sure that the left button is pressed, 
 	// and that a drag painter exists

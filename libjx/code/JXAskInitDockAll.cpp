@@ -54,7 +54,7 @@ JXAskInitDockAll::Perform
 	Time*		maxSleepTime
 	)
 {
-	if (itsDirector == NULL)
+	if (itsDirector == nullptr)
 		{
 		if ((JGetUserNotification())->AskUserYes(
 					JGetString("StartupTips::JXAskInitDockAll")))

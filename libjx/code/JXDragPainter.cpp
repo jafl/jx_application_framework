@@ -34,10 +34,10 @@ JXDragPainter::JXDragPainter
 	)
 	:
 	JXWindowPainter(jnew JXGC(display, window->GetXWindow()),
-					window->GetXWindow(), defaultClipRect, NULL)
+					window->GetXWindow(), defaultClipRect, nullptr)
 {
 	JXGC* gc = GetGC();
-	assert( gc != NULL );
+	assert( gc != nullptr );
 
 	gc->SetDrawingFunction(GXinvert);
 	gc->SetSubwindowMode(IncludeInferiors);

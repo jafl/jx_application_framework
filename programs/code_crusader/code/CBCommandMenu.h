@@ -40,10 +40,10 @@ protected:
 
 private:
 
-	CBProjectDocument*	itsProjDoc;			// not owned; NULL if should use active project
-	CBTextDocument*		itsTextDoc;			// not owned; NULL if not in menu bar of text doc
-	JXTextMenu*			itsAddToProjMenu;	// not owned; NULL if itsTextDoc == NULL
-	JXTextMenu*			itsManageProjMenu;	// not owned; NULL if itsTextDoc == NULL
+	CBProjectDocument*	itsProjDoc;			// not owned; nullptr if should use active project
+	CBTextDocument*		itsTextDoc;			// not owned; nullptr if not in menu bar of text doc
+	JXTextMenu*			itsAddToProjMenu;	// not owned; nullptr if itsTextDoc == nullptr
+	JXTextMenu*			itsManageProjMenu;	// not owned; nullptr if itsTextDoc == nullptr
 
 private:
 

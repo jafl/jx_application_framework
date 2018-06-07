@@ -10,7 +10,7 @@
 #include "CBEiffelCompleter.h"
 #include <jAssert.h>
 
-CBEiffelCompleter* CBEiffelCompleter::itsSelf = NULL;
+CBEiffelCompleter* CBEiffelCompleter::itsSelf = nullptr;
 
 static const JCharacter* kKeywordList[] =
 {
@@ -43,12 +43,12 @@ static JBoolean recursiveInstance = kJFalse;
 CBStringCompleter*
 CBEiffelCompleter::Instance()
 {
-	if (itsSelf == NULL && !recursiveInstance)
+	if (itsSelf == nullptr && !recursiveInstance)
 		{
 		recursiveInstance = kJTrue;
 
 		itsSelf = jnew CBEiffelCompleter;
-		assert( itsSelf != NULL );
+		assert( itsSelf != nullptr );
 
 		recursiveInstance = kJFalse;
 		}
@@ -85,7 +85,7 @@ CBEiffelCompleter::CBEiffelCompleter()
 
 CBEiffelCompleter::~CBEiffelCompleter()
 {
-	itsSelf = NULL;
+	itsSelf = nullptr;
 }
 
 /******************************************************************************

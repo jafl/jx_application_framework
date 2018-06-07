@@ -16,8 +16,8 @@
  Constructor
 
 	The argument is a pointer to the YYSTYPE variable that the lexer should use
-	to return semantic values.  It may be NULL if the Bison convention is to be
-	used exclusively.  The default constructor sets it to NULL.
+	to return semantic values.  It may be nullptr if the Bison convention is to be
+	used exclusively.  The default constructor sets it to nullptr.
 
  *****************************************************************************/
 
@@ -65,7 +65,7 @@ GDBScanner::AppendInput
 	while (1)
 		{
 		p2 = strchr(p1, '\n');
-		if (p2 == NULL)
+		if (p2 == nullptr)
 			{
 			break;
 			}
@@ -83,7 +83,7 @@ GDBScanner::AppendInput
 	// 1: the first character is a meta character
 	// 2: we have already accumulated something else
 
-	if (strchr("(^~@&*+=", *p1) != NULL || !itsPartialBuffer.IsEmpty())
+	if (strchr("(^~@&*+=", *p1) != nullptr || !itsPartialBuffer.IsEmpty())
 		{
 		itsPartialBuffer += p1;
 		}
@@ -105,7 +105,7 @@ GDBScanner::LexerInput
 	FlexLexerInputSize	flexBufSize
 	)
 {
-	assert( flexBuf != NULL && flexBufSize > 0 );
+	assert( flexBuf != nullptr && flexBufSize > 0 );
 
 	const int charLeft = itsInputBuffer.GetLength() - itsBytesRead;
 	const int numCopy  = (charLeft > flexBufSize) ? flexBufSize : charLeft;

@@ -42,7 +42,7 @@ JXTextMenuData::JXTextMenuData
 	itsDefaultFont( JFontManager::GetDefaultFont() )
 {
 	itsTextItemData = jnew JArray<TextItemData>;
-	assert( itsTextItemData != NULL );
+	assert( itsTextItemData != nullptr );
 
 	itsNeedGeomRecalcFlag = kJTrue;
 	itsMaxImageWidth      = 1;
@@ -52,7 +52,7 @@ JXTextMenuData::JXTextMenuData
 	itsCompressHeightFlag = kJFalse;
 
 	itsItemHeights = jnew JRunArray<JCoordinate>;
-	assert( itsItemHeights != NULL );
+	assert( itsItemHeights != nullptr );
 }
 
 /******************************************************************************
@@ -85,7 +85,7 @@ JXTextMenuData::InsertItem
 	)
 {
 	JString* text = jnew JString(str);
-	assert( text != NULL );
+	assert( text != nullptr );
 
 	TextItemData itemData(text, itsDefaultFont);
 	itsTextItemData->InsertElementAtIndex(index, itemData);
@@ -161,16 +161,16 @@ JXTextMenuData::CleanOutTextItem
 	)
 {
 	jdelete (itemData->text);
-	itemData->text = NULL;
+	itemData->text = nullptr;
 
 	jdelete (itemData->nmShortcut);
-	itemData->nmShortcut = NULL;
+	itemData->nmShortcut = nullptr;
 
 	if (itemData->ownsImage)
 		{
 		jdelete (itemData->image);
 		}
-	itemData->image = NULL;
+	itemData->image = nullptr;
 }
 
 /******************************************************************************
@@ -244,7 +244,7 @@ JXTextMenuData::SetMenuItems
 
 	See ParseMenuItemStr() for more details.
 
-	If idNamespace is not NULL, the string database is searched for
+	If idNamespace is not nullptr, the string database is searched for
 	"<item ID>::<idNamespace>" and this is parsed for the item's text
 	and shortcuts.
 
@@ -280,7 +280,7 @@ JXTextMenuData::InsertMenuItems
 			strID += "::";
 			strID += idNamespace;
 			JString* itemText1;
-			if (strMgr->GetElement(strID, &itemText1) && itemText1 != NULL)
+			if (strMgr->GetElement(strID, &itemText1) && itemText1 != nullptr)
 				{
 				itemText = *itemText1;
 				JBoolean isActive1, hasSeparator1;
@@ -595,14 +595,14 @@ JXTextMenuData::GetImage
 	const
 {
 	const TextItemData itemData = itsTextItemData->GetElement(index);
-	if (itemData.image != NULL)
+	if (itemData.image != nullptr)
 		{
 		*image = itemData.image;
 		return kJTrue;
 		}
 	else
 		{
-		*image = NULL;
+		*image = nullptr;
 		return kJFalse;
 		}
 }
@@ -620,7 +620,7 @@ JXTextMenuData::SetImage
 	const JBoolean	menuOwnsImage
 	)
 {
-	if (image == NULL)
+	if (image == nullptr)
 		{
 		ClearImage(index);
 		return;
@@ -628,7 +628,7 @@ JXTextMenuData::SetImage
 
 	TextItemData itemData = itsTextItemData->GetElement(index);
 
-	if (itemData.image == NULL ||
+	if (itemData.image == nullptr ||
 		(itemData.image->GetBounds()) != image->GetBounds())
 		{
 		itsNeedGeomRecalcFlag = kJTrue;
@@ -658,13 +658,13 @@ JXTextMenuData::ClearImage
 	)
 {
 	TextItemData itemData = itsTextItemData->GetElement(index);
-	if (itemData.image != NULL)
+	if (itemData.image != nullptr)
 		{
 		if (itemData.ownsImage)
 			{
 			jdelete itemData.image;
 			}
-		itemData.image = NULL;
+		itemData.image = nullptr;
 		itsTextItemData->SetElement(index, itemData);
 
 		itsNeedGeomRecalcFlag = kJTrue;
@@ -685,14 +685,14 @@ JXTextMenuData::GetNMShortcut
 	const
 {
 	const TextItemData itemData = itsTextItemData->GetElement(index);
-	if (itemData.nmShortcut != NULL)
+	if (itemData.nmShortcut != nullptr)
 		{
 		*str = itemData.nmShortcut;
 		return kJTrue;
 		}
 	else
 		{
-		*str = NULL;
+		*str = nullptr;
 		return kJFalse;
 		}
 }
@@ -713,7 +713,7 @@ JXTextMenuData::GetNMShortcut
 {
 	const TextItemData itemData = itsTextItemData->GetElement(index);
 
-	if (itemData.nmShortcut != NULL)
+	if (itemData.nmShortcut != nullptr)
 		{
 		*str  = itemData.nmShortcut;
 		*font = itemData.font;
@@ -721,7 +721,7 @@ JXTextMenuData::GetNMShortcut
 		}
 	else
 		{
-		*str = NULL;
+		*str = nullptr;
 		*font = itsMenu->GetFontManager()->GetDefaultFont();
 		return kJFalse;
 		}
@@ -744,10 +744,10 @@ JXTextMenuData::SetNMShortcut
 	const JBoolean strEmpty = str.IsEmpty();
 
 	JBoolean changed = kJFalse;
-	if (!strEmpty && itemData.nmShortcut == NULL)
+	if (!strEmpty && itemData.nmShortcut == nullptr)
 		{
 		itemData.nmShortcut = jnew JString(str);
-		assert( itemData.nmShortcut != NULL );
+		assert( itemData.nmShortcut != nullptr );
 		itsTextItemData->SetElement(index, itemData);
 		changed = kJTrue;
 		}
@@ -756,10 +756,10 @@ JXTextMenuData::SetNMShortcut
 		*(itemData.nmShortcut) = str;
 		changed = kJTrue;
 		}
-	else if (itemData.nmShortcut != NULL)
+	else if (itemData.nmShortcut != nullptr)
 		{
 		jdelete itemData.nmShortcut;
-		itemData.nmShortcut = NULL;
+		itemData.nmShortcut = nullptr;
 		itsTextItemData->SetElement(index, itemData);
 		changed = kJTrue;
 		}
@@ -773,7 +773,7 @@ JXTextMenuData::SetNMShortcut
 
 		int key;
 		JXKeyModifiers modifiers(itsMenu->GetDisplay());
-		if (itemData.nmShortcut != NULL &&
+		if (itemData.nmShortcut != nullptr &&
 			ParseNMShortcut(itemData.nmShortcut, &key, &modifiers) &&
 			!window->InstallMenuShortcut(itsMenu, index, key, modifiers))
 			{
@@ -1059,7 +1059,7 @@ JXTextMenuData::ShowSeparatorAfter
 
 	Derived classes can override this to update underlining, etc.
 
-	Note that shortcuts can be NULL.
+	Note that shortcuts can be nullptr.
 
  ******************************************************************************/
 
@@ -1109,7 +1109,7 @@ JXTextMenuData::ConfigureTable
 				(itsCompressHeightFlag && !hasCheckboxes && !hasSubmenus) ?
 				0 : JXMenuTable::kMinRowHeight;
 
-			if (itemData.text != NULL)
+			if (itemData.text != nullptr)
 				{
 				const JCoordinate th = itemData.font.GetLineHeight(itsMenu->GetFontManager());
 				h                    = JMax(h, th);
@@ -1118,13 +1118,13 @@ JXTextMenuData::ConfigureTable
 				itsMaxTextWidth = JMax(itsMaxTextWidth, tw);
 				}
 
-			if (itemData.image != NULL)
+			if (itemData.image != nullptr)
 				{
 				h = JMax(h, (itemData.image)->GetHeight());
 				itsMaxImageWidth = JMax(itsMaxImageWidth, (itemData.image)->GetWidth());
 				}
 
-			if (itemData.nmShortcut != NULL)
+			if (itemData.nmShortcut != nullptr)
 				{
 				itsHasNMShortcutsFlag = kJTrue;
 				JFont f = itemData.font;

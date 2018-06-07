@@ -39,7 +39,7 @@ XPolygonRegion
 	)
 {
 	POINT* pt = new POINT[ n ];
-	assert( pt != NULL );
+	assert( pt != nullptr );
 
 	for (int i=0; i<n; i++)
 		{
@@ -64,7 +64,7 @@ XDestroyRegion
 	Region region
 	)
 {
-	if (region != NULL)
+	if (region != nullptr)
 		{
 		DeleteObject((HRGN) region);
 		}

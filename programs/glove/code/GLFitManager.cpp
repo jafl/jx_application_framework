@@ -37,7 +37,7 @@ GLFitManager::GLFitManager()
 	itsIsInitialized(kJFalse)
 {
 	itsFitDescriptions	= jnew JPtrArray<GLFitDescription>(JPtrArrayT::kDeleteAll);
-	assert(itsFitDescriptions != NULL);
+	assert(itsFitDescriptions != nullptr);
 
 	itsFitDescriptions->SetCompareFunction(GLFitDescription::CompareFits);
 
@@ -109,7 +109,7 @@ GLFitManager::AddFitDescription
 	)
 {
 //	GLFitDescription* fd	= jnew GLFitDescription(fit);
-//	assert(fd != NULL);
+//	assert(fd != nullptr);
 
 //	itsFitDescriptions->InsertSorted(fd);
 }
@@ -136,7 +136,7 @@ GLFitManager::NewFitDescription
 	)
 {
 //	GLFitDescription* fd	= jnew GLFitDescription(type);
-//	assert(fd != NULL);
+//	assert(fd != nullptr);
 
 //	itsFitDescriptions->InsertSorted(fd);
 }
@@ -242,17 +242,17 @@ GLFitManager::InitializeList()
 {
 	GLBuiltinFitDescription* bd = 
 		jnew GLBuiltinFitDescription(GLFitDescription::kBLinear);
-	assert(bd != NULL);
+	assert(bd != nullptr);
 	itsFitDescriptions->InsertSorted(bd);
 
 	bd = 
 		jnew GLBuiltinFitDescription(GLFitDescription::kBExp);
-	assert(bd != NULL);
+	assert(bd != nullptr);
 	itsFitDescriptions->InsertSorted(bd);
 
 	bd = 
 		jnew GLBuiltinFitDescription(GLFitDescription::kBPower);
-	assert(bd != NULL);
+	assert(bd != nullptr);
 	itsFitDescriptions->InsertSorted(bd);
 
 	const JPtrArray<JString>& paths	= GLGetApplication()->GetModulePath();
@@ -274,7 +274,7 @@ GLFitManager::InitializeList()
 					{
 					GLModuleFitDescription* md	= 
 						jnew GLModuleFitDescription(fit);
-					assert(md != NULL);
+					assert(md != nullptr);
 					itsFitDescriptions->InsertSorted(md);
 					}
 				}

@@ -179,7 +179,7 @@ CMArray2DTable::ExtractInputData
 	const JPoint& cell
 	)
 {
-	JXInputField* input = NULL;
+	JXInputField* input = nullptr;
 	const JBoolean ok = GetXInputField(&input);
 	assert( ok );
 	const JString& text = input->GetText();
@@ -254,7 +254,7 @@ CMArray2DTable::Receive
 			{
 			const JXMenu::ItemSelected* selection =
 				dynamic_cast<const JXMenu::ItemSelected*>(&message);
-			assert( selection != NULL );
+			assert( selection != nullptr );
 			HandleEditMenu(selection->GetIndex());
 			}
 		}
@@ -302,7 +302,7 @@ CMArray2DTable::HandleEditMenu
 		{
 		JXTextSelection* data =
 			jnew JXTextSelection(GetDisplay(), GetStringData()->GetString(cell));
-		assert( data != NULL );
+		assert( data != nullptr );
 
 		GetSelectionManager()->SetData(kJXClipboardName, data);
 		}

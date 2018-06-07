@@ -51,7 +51,7 @@ JXScrolltab::JXScrolltab
 	JXWidget(scrollbar, kFixedLeft, kFixedTop, -20,0, 10,10),
 	itsScrollbar(scrollbar),
 	itsValue(value),
-	itsActionMenu(NULL)
+	itsActionMenu(nullptr)
 {
 	SetBackColor(JColorManager::GetBlueColor());
 	itsScrollbar->ScrolltabCreated(this);
@@ -200,10 +200,10 @@ JXScrolltab::OpenActionMenu
 	const JXKeyModifiers&	modifiers
 	)
 {
-	if (itsActionMenu == NULL)
+	if (itsActionMenu == nullptr)
 		{
 		itsActionMenu = jnew JXTextMenu(JString::empty, this, kFixedLeft, kFixedTop, 0,0, 10,10);
-		assert( itsActionMenu != NULL );
+		assert( itsActionMenu != nullptr );
 		itsActionMenu->SetToHiddenPopupMenu();
 		itsActionMenu->SetMenuItems(kActionMenuStr);
 		itsActionMenu->SetUpdateAction(JXMenu::kDisableNone);
@@ -229,7 +229,7 @@ JXScrolltab::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleActionMenu(selection->GetIndex());	// can destroy us
 		}
 

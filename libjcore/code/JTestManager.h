@@ -65,22 +65,22 @@ public:
 
 	int	RegisterTest(JUnitTest test, const JUtf8Byte* name);
 
-	JBoolean	IsNull(const void* ptr, JUtf8Byte const* file, const JIndex line, const JUtf8Byte* msg = NULL);
-	JBoolean	IsNotNull(const void* ptr, JUtf8Byte const* file, const JIndex line, const JUtf8Byte* msg = NULL);
-	JBoolean	IsTrue(const JBoolean value, JUtf8Byte const* file, const JIndex line, const JUtf8Byte* msg = NULL);
-	JBoolean	IsTrue(const int value, JUtf8Byte const* file, const JIndex line, const JUtf8Byte* msg = NULL);
-	JBoolean	IsFalse(const JBoolean value, JUtf8Byte const* file, const JIndex line, const JUtf8Byte* msg = NULL);
-	JBoolean	IsFalse(const int value, JUtf8Byte const* file, const JIndex line, const JUtf8Byte* msg = NULL);
+	JBoolean	IsNull(const void* ptr, JUtf8Byte const* file, const JIndex line, const JUtf8Byte* msg = nullptr);
+	JBoolean	IsNotNull(const void* ptr, JUtf8Byte const* file, const JIndex line, const JUtf8Byte* msg = nullptr);
+	JBoolean	IsTrue(const JBoolean value, JUtf8Byte const* file, const JIndex line, const JUtf8Byte* msg = nullptr);
+	JBoolean	IsTrue(const int value, JUtf8Byte const* file, const JIndex line, const JUtf8Byte* msg = nullptr);
+	JBoolean	IsFalse(const JBoolean value, JUtf8Byte const* file, const JIndex line, const JUtf8Byte* msg = nullptr);
+	JBoolean	IsFalse(const int value, JUtf8Byte const* file, const JIndex line, const JUtf8Byte* msg = nullptr);
 	JBoolean	IsOK(const JError& err, JUtf8Byte const* file, const JIndex line);
 
 	JBoolean	StringsAreEqual(const JString& expectedValue, const JString& actualValue,
-								JUtf8Byte const* file, const JIndex line, const JUtf8Byte* msg = NULL);
+								JUtf8Byte const* file, const JIndex line, const JUtf8Byte* msg = nullptr);
 	JBoolean	StringsAreEqual(const JString& expectedValue, const JUtf8Byte* actualValue,
-								JUtf8Byte const* file, const JIndex line, const JUtf8Byte* msg = NULL);
+								JUtf8Byte const* file, const JIndex line, const JUtf8Byte* msg = nullptr);
 	JBoolean	StringsAreEqual(const JUtf8Byte* expectedValue, const JString& actualValue,
-								JUtf8Byte const* file, const JIndex line, const JUtf8Byte* msg = NULL);
+								JUtf8Byte const* file, const JIndex line, const JUtf8Byte* msg = nullptr);
 	JBoolean	StringsAreEqual(const JUtf8Byte* expectedValue, const JUtf8Byte* actualValue,
-								JUtf8Byte const* file, const JIndex line, const JUtf8Byte* msg = NULL);
+								JUtf8Byte const* file, const JIndex line, const JUtf8Byte* msg = nullptr);
 
 private:
 
@@ -112,7 +112,7 @@ JAreEqual
 	const B&			actualValue,
 	JUtf8Byte const*	file,
 	const JIndex		line,
-	const JUtf8Byte*	msg = NULL
+	const JUtf8Byte*	msg = nullptr
 	)
 {
 	if (expectedValue == actualValue)
@@ -122,7 +122,7 @@ JAreEqual
 	else
 		{
 		std::ostringstream s;
-		if (msg != NULL)
+		if (msg != nullptr)
 			{
 			s << msg << ": ";
 			}
@@ -145,7 +145,7 @@ JAreWithin
 	const T&			actualValue,
 	JUtf8Byte const*	file,
 	const JIndex		line,
-	const JUtf8Byte*	msg = NULL
+	const JUtf8Byte*	msg = nullptr
 	)
 {
 	if (fabs(expectedValue - actualValue) < epsilon)
@@ -155,7 +155,7 @@ JAreWithin
 	else
 		{
 		std::ostringstream s;
-		if (msg != NULL)
+		if (msg != nullptr)
 			{
 			s << msg << ": ";
 			}

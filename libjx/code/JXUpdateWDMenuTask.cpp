@@ -42,6 +42,6 @@ JXUpdateWDMenuTask::~JXUpdateWDMenuTask()
 void
 JXUpdateWDMenuTask::Perform()
 {
-	itsWDMgr->itsUpdateWDMenuTask = NULL;	// we will now be deleted
+	itsWDMgr->itsUpdateWDMenuTask = nullptr;	// we will now be deleted
 	itsWDMgr->UpdateAllWDMenus();
 }

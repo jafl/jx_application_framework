@@ -40,7 +40,7 @@ public:
 
 	void	PermanentDirectorCreated(JXWindowDirector* dir,
 									 const JString& shortcut = JString::empty,
-									 const JUtf8Byte* id = NULL);
+									 const JUtf8Byte* id = nullptr);
 	void	DirectorCreated(JXWindowDirector* dir);
 	void	DirectorDeleted(JXWindowDirector* dir);
 
@@ -54,20 +54,20 @@ private:
 	struct WindowInfo
 	{
 		JXWindowDirector*	dir;
-		JString*			shortcutStr;	// NULL unless specified in DirectorCreated()
-		JInteger			shortcutIndex;	// use if shortcutStr == NULL
-		JString*			itemID;			// NULL unless specified in DirectorCreated()
+		JString*			shortcutStr;	// nullptr unless specified in DirectorCreated()
+		JInteger			shortcutIndex;	// use if shortcutStr == nullptr
+		JString*			itemID;			// nullptr unless specified in DirectorCreated()
 
 		WindowInfo()
 			:
-			dir(NULL), shortcutStr(NULL),
-			shortcutIndex(kNoShortcutForDir), itemID(NULL)
+			dir(nullptr), shortcutStr(nullptr),
+			shortcutIndex(kNoShortcutForDir), itemID(nullptr)
 		{ };
 
 		WindowInfo(JXWindowDirector* d)
 			:
-			dir(d), shortcutStr(NULL),
-			shortcutIndex(kNoShortcutForDir), itemID(NULL)
+			dir(d), shortcutStr(nullptr),
+			shortcutIndex(kNoShortcutForDir), itemID(nullptr)
 		{ };
 	};
 
@@ -76,7 +76,7 @@ private:
 	JArray<WindowInfo>*	itsPermWindowList;
 	JArray<WindowInfo>*	itsWindowList;
 	const JBoolean		itsWantShortcutFlag;
-	JXUpdateWDMenuTask*	itsUpdateWDMenuTask;	// NULL unless pending
+	JXUpdateWDMenuTask*	itsUpdateWDMenuTask;	// nullptr unless pending
 
 private:
 

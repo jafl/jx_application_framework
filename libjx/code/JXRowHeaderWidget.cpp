@@ -52,9 +52,9 @@ JXRowHeaderWidget::JXRowHeaderWidget
 	const JCoordinate	h
 	)
 	:
-	JXEditTable(1,w, NULL, enclosure, hSizing,vSizing, x,y, w,h)
+	JXEditTable(1,w, nullptr, enclosure, hSizing,vSizing, x,y, w,h)
 {
-	assert( table != NULL && scrollbarSet != NULL );
+	assert( table != nullptr && scrollbarSet != nullptr );
 
 	itsTable = table;
 	itsTable->SetRowHeader(this);
@@ -63,7 +63,7 @@ JXRowHeaderWidget::JXRowHeaderWidget
 	itsVScrollbar = scrollbarSet->GetVScrollbar();
 	ListenTo(itsVScrollbar);
 
-	itsTitles = NULL;
+	itsTitles = nullptr;
 
 	itsAllowRowResizingFlag = kJFalse;
 	itsMinRowHeight         = 1;
@@ -111,10 +111,10 @@ JXRowHeaderWidget::GetRowTitle
 	)
 	const
 {
-	if (itsTitles != NULL)
+	if (itsTitles != nullptr)
 		{
 		const JString* str = itsTitles->GetElement(index);
-		if (str != NULL)
+		if (str != nullptr)
 			{
 			*title = *str;
 			return kJTrue;
@@ -137,15 +137,15 @@ JXRowHeaderWidget::SetRowTitle
 	const JString&	title
 	)
 {
-	if (itsTitles == NULL)
+	if (itsTitles == nullptr)
 		{
 		itsTitles = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
-		assert( itsTitles != NULL );
+		assert( itsTitles != nullptr );
 
 		const JSize rowCount = GetRowCount();
 		for (JIndex i=1; i<=rowCount; i++)
 			{
-			itsTitles->Append(NULL);
+			itsTitles->Append(nullptr);
 			}
 		}
 
@@ -163,7 +163,7 @@ JXRowHeaderWidget::ClearRowTitle
 	const JIndex index
 	)
 {
-	if (itsTitles != NULL)
+	if (itsTitles != nullptr)
 		{
 		itsTitles->SetToNull(index, JPtrArrayT::kDelete);
 		}
@@ -204,10 +204,10 @@ JXRowHeaderWidget::TableDrawCell
 
 	JString str;
 	JBoolean hasTitle = kJFalse;
-	if (itsTitles != NULL)
+	if (itsTitles != nullptr)
 		{
 		const JString* title = itsTitles->GetElement(cell.y);
-		if (title != NULL)
+		if (title != nullptr)
 			{
 			str      = *title;
 			hasTitle = kJTrue;
@@ -328,7 +328,7 @@ JXRowHeaderWidget::HandleMouseDrag
 
 		if (pt.y != itsPrevPt.y)
 			{
-			JPainter* p = NULL;
+			JPainter* p = nullptr;
 			const JBoolean ok = GetDragPainter(&p);
 			assert( ok );
 
@@ -386,7 +386,7 @@ JXRowHeaderWidget::HandleMouseUp
 		{
 		// erase the line
 
-		JPainter* p = NULL;
+		JPainter* p = nullptr;
 		const JBoolean ok = GetDragPainter(&p);
 		assert( ok );
 
@@ -519,7 +519,7 @@ JXRowHeaderWidget::Receive
 		{
 		const JTable::RowHeightChanged* info =
 			dynamic_cast<const JTable::RowHeightChanged*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		SetRowHeight(info->GetIndex(), info->GetNewRowHeight());
 		}
 
@@ -527,7 +527,7 @@ JXRowHeaderWidget::Receive
 		{
 		const JTable::AllRowHeightsChanged* info =
 			dynamic_cast<const JTable::AllRowHeightsChanged*>(& message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		SetAllRowHeights(info->GetNewRowHeight());
 		}
 
@@ -535,12 +535,12 @@ JXRowHeaderWidget::Receive
 		{
 		const JTable::RowsInserted* info =
 			dynamic_cast<const JTable::RowsInserted*>(&message);
-		assert( info != NULL );
-		if (itsTitles != NULL)
+		assert( info != nullptr );
+		if (itsTitles != nullptr)
 			{
 			for (JIndex i=1; i<=info->GetCount(); i++)
 				{
-				itsTitles->InsertAtIndex(info->GetFirstIndex(), (JString*) NULL);
+				itsTitles->InsertAtIndex(info->GetFirstIndex(), (JString*) nullptr);
 				}
 			}
 		InsertRows(info->GetFirstIndex(), info->GetCount(), info->GetRowHeight());
@@ -550,8 +550,8 @@ JXRowHeaderWidget::Receive
 		{
 		const JTable::RowsRemoved* info =
 			dynamic_cast<const JTable::RowsRemoved*>(&message);
-		assert( info != NULL );
-		if (itsTitles != NULL)
+		assert( info != nullptr );
+		if (itsTitles != nullptr)
 			{
 			for (JIndex i=1; i<=info->GetCount(); i++)
 				{
@@ -565,8 +565,8 @@ JXRowHeaderWidget::Receive
 		{
 		const JTable::RowMoved* info =
 			dynamic_cast<const JTable::RowMoved*>(&message);
-		assert( info != NULL );
-		if (itsTitles != NULL)
+		assert( info != nullptr );
+		if (itsTitles != nullptr)
 			{
 			itsTitles->MoveElementToIndex(info->GetOrigIndex(), info->GetNewIndex());
 			}
@@ -577,7 +577,7 @@ JXRowHeaderWidget::Receive
 		{
 		const JTable::RowBorderWidthChanged* info =
 			dynamic_cast<const JTable::RowBorderWidthChanged*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		SetRowBorderInfo(info->GetNewBorderWidth(), JColorManager::GetDefaultBackColor());
 		}
 
@@ -597,7 +597,7 @@ JXRowHeaderWidget::Receive
 void
 JXRowHeaderWidget::AdjustToTable()
 {
-	assert( itsTable != NULL && itsTitles == NULL );
+	assert( itsTable != nullptr && itsTitles == nullptr );
 
 	JCoordinate width;
 	JColorID color;
@@ -629,7 +629,7 @@ JXRowHeaderWidget::CreateXInputField
 	)
 {
 	assert_msg( 0, "The programmer forgot to override JXEditTable::CreateXInputField()" );
-	return NULL;
+	return nullptr;
 }
 
 /******************************************************************************

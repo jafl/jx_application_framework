@@ -113,8 +113,8 @@ private:
 	JSize	itsMinLength;
 	JSize	itsMaxLength;		// 0 => no maximum
 
-	JXTextMenu*		itsContextMenu;	// NULL until first used
-	JXEditTable*	itsTable;		// can be NULL; if not, it owns us
+	JXTextMenu*		itsContextMenu;	// nullptr until first used
+	JXEditTable*	itsTable;		// can be nullptr; if not, it owns us
 
 private:
 
@@ -202,7 +202,7 @@ inline JBoolean
 JXInputField::IsTableInput()
 	const
 {
-	return JI2B( itsTable != NULL );
+	return JI2B( itsTable != nullptr );
 }
 
 inline JBoolean
@@ -213,7 +213,7 @@ JXInputField::GetTable
 	const
 {
 	*table = itsTable;
-	return JI2B( itsTable != NULL );
+	return JI2B( itsTable != nullptr );
 }
 
 #endif

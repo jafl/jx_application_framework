@@ -20,7 +20,7 @@ public:
 
 	virtual	~GDBVarNode();
 
-	virtual JString	GetFullName(JBoolean* isPointer = NULL) const;
+	virtual JString	GetFullName(JBoolean* isPointer = nullptr) const;
 
 private:
 

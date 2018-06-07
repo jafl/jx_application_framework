@@ -29,7 +29,7 @@ XCreatePixmap
     unsigned int	depth
 	)
 {
-	HBITMAP bitmap = CreateBitmap(width, height, depth, depth, NULL);
+	HBITMAP bitmap = CreateBitmap(width, height, depth, depth, nullptr);
 	return xAllocateID(display, kXPixmapType, bitmap);
 }
 

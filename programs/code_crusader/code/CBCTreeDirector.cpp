@@ -100,9 +100,9 @@ void
 CBCTreeDirector::CBCTreeDirectorX()
 {
 	itsCTree = dynamic_cast<CBCTree*>(GetTree());
-	assert( itsCTree != NULL );
+	assert( itsCTree != nullptr );
 
-	itsEditCPPDialog = NULL;
+	itsEditCPPDialog = nullptr;
 }
 
 /******************************************************************************
@@ -130,14 +130,14 @@ CBCTreeDirector::Receive
 		{
 		const JXDialogDirector::Deactivated* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		if (info->Successful() &&
 			itsEditCPPDialog->UpdateMacros(itsCTree->GetCPreprocessor()))
 			{
 			itsCTree->NextUpdateMustReparseAll();
 			GetProjectDoc()->UpdateSymbolDatabase();
 			}
-		itsEditCPPDialog = NULL;
+		itsEditCPPDialog = nullptr;
 		}
 
 	else
@@ -213,10 +213,10 @@ CBCTreeDirector::HandleTreeMenu
 
 	if (index == kEditCPPMacrosCmd)
 		{
-		assert( itsEditCPPDialog == NULL );
+		assert( itsEditCPPDialog == nullptr );
 		itsEditCPPDialog =
 			jnew CBEditCPPMacroDialog(this, *(itsCTree->GetCPreprocessor()));
-		assert( itsEditCPPDialog != NULL );
+		assert( itsEditCPPDialog != nullptr );
 		itsEditCPPDialog->BeginDialog();
 		ListenTo(itsEditCPPDialog);
 		}
@@ -302,10 +302,10 @@ CBCTreeDirector::NewCTree
 	// dynamic_cast<> doesn't work because object is not fully constructed
 
 	CBCTreeDirector* cTreeDir = static_cast<CBCTreeDirector*>(director);
-	assert( cTreeDir != NULL );
+	assert( cTreeDir != nullptr );
 
 	CBCTree* tree = jnew CBCTree(cTreeDir, marginWidth);
-	assert( tree != NULL );
+	assert( tree != nullptr );
 	return tree;
 }
 
@@ -331,12 +331,12 @@ CBCTreeDirector::StreamInCTree
 	// dynamic_cast<> doesn't work because object is not fully constructed
 
 	CBCTreeDirector* cTreeDir = static_cast<CBCTreeDirector*>(director);
-	assert( cTreeDir != NULL );
+	assert( cTreeDir != nullptr );
 
 	CBCTree* tree = jnew CBCTree(projInput, projVers,
 								setInput, setVers, symInput, symVers,
 								cTreeDir, marginWidth, dirList);
-	assert( tree != NULL );
+	assert( tree != nullptr );
 	return tree;
 }
 

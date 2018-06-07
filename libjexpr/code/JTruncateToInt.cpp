@@ -69,7 +69,7 @@ JTruncateToInt::Copy()
 	const
 {
 	JTruncateToInt* newFunction = jnew JTruncateToInt(*this);
-	assert( newFunction != NULL );
+	assert( newFunction != nullptr );
 	return newFunction;
 }
 

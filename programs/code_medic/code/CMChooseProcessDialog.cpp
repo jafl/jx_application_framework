@@ -49,8 +49,8 @@ CMChooseProcessDialog::CMChooseProcessDialog
 	BuildWindow();
 
 	int inFD;
-	const JError err = JExecute(kCmdStr, NULL,
-								kJIgnoreConnection, NULL,
+	const JError err = JExecute(kCmdStr, nullptr,
+								kJIgnoreConnection, nullptr,
 								kJCreatePipe, &inFD);
 	if (err.OK())
 		{
@@ -97,39 +97,39 @@ CMChooseProcessDialog::BuildWindow()
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 390,500, "");
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	JXScrollbarSet* scrollbarSet =
 		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 20,50, 350,400);
-	assert( scrollbarSet != NULL );
+	assert( scrollbarSet != nullptr );
 
 	itsProcessIDInput =
 		jnew JXIntegerInput(window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 90,470, 80,20);
-	assert( itsProcessIDInput != NULL );
+	assert( itsProcessIDInput != nullptr );
 
 	JXStaticText* pidLabel =
 		jnew JXStaticText(JGetString("pidLabel::CMChooseProcessDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 20,470, 70,20);
-	assert( pidLabel != NULL );
+	assert( pidLabel != nullptr );
 	pidLabel->SetToLabel();
 
 	JXTextButton* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::CMChooseProcessDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 215,470, 60,20);
-	assert( cancelButton != NULL );
+	assert( cancelButton != nullptr );
 
 	JXTextButton* okButton =
 		jnew JXTextButton(JGetString("okButton::CMChooseProcessDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 310,470, 60,20);
-	assert( okButton != NULL );
+	assert( okButton != nullptr );
 	okButton->SetShortcuts(JGetString("okButton::CMChooseProcessDialog::shortcuts::JXLayout"));
 
 	JXStaticText* hint =
 		jnew JXStaticText(JGetString("hint::CMChooseProcessDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 360,20);
-	assert( hint != NULL );
+	assert( hint != nullptr );
 	hint->SetToLabel();
 
 // end JXLayout
@@ -140,7 +140,7 @@ CMChooseProcessDialog::BuildWindow()
 	itsText =
 		jnew CMProcessText(this, scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 						   JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 10,10);
-	assert( itsText != NULL );
+	assert( itsText != nullptr );
 	itsText->FitToEnclosure();
 	itsText->SetDefaultFont(window->GetFontManager()->GetDefaultMonospaceFont());
 }
@@ -161,7 +161,7 @@ CMChooseProcessDialog::Receive
 		{
 		const JXDialogDirector::Deactivated* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		if (info->Successful())
 			{
 			JInteger pid;

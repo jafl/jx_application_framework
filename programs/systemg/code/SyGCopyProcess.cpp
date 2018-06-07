@@ -23,7 +23,7 @@
 /******************************************************************************
  Constructor function (static)
 
-	srcTable can be NULL.  We take ownership of srcNameList.
+	srcTable can be nullptr.  We take ownership of srcNameList.
 
  ******************************************************************************/
 
@@ -40,7 +40,7 @@ SyGCopyProcess::Copy
 		{
 		SyGCopyProcess* p =
 			jnew SyGCopyProcess(srcTable, srcNameList, destTable, destNode, kJTrue);
-		assert( p != NULL );
+		assert( p != nullptr );
 		}
 }
 
@@ -57,7 +57,7 @@ SyGCopyProcess::Move
 		{
 		SyGCopyProcess* p =
 			jnew SyGCopyProcess(srcTable, srcNameList, destTable, destNode, kJFalse);
-		assert( p != NULL );
+		assert( p != nullptr );
 		}
 }
 
@@ -269,7 +269,7 @@ SyGCopyProcess::SyGCopyProcess
 	itsDestTable(destTable),
 	itsDestNode(destNode),
 	itsIsMoveFlag(!isCopy),
-	itsProcess(NULL)
+	itsProcess(nullptr)
 {
 	assert( !itsSrcNameList->IsEmpty() );
 	itsSrcNameList->SetCleanUpAction(JPtrArrayT::kDeleteAll);
@@ -360,7 +360,7 @@ SyGCopyProcess::SyGCopyProcess
 		}
 	}
 
-	if (itsSrcTable != NULL)
+	if (itsSrcTable != nullptr)
 		{
 		(itsSrcTable->GetTableSelection()).ClearSelection();
 		ClearWhenGoingAway(itsSrcTable, &itsSrcTable);
@@ -417,7 +417,7 @@ SyGCopyProcess::SyGCopyProcess
 
 SyGCopyProcess::~SyGCopyProcess()
 {
-	assert( itsProcess == NULL );
+	assert( itsProcess == nullptr );
 	jdelete itsSrcNameList;
 }
 
@@ -476,19 +476,19 @@ SyGCopyProcess::Receive
 
 		JSimpleProcess* process = itsProcess;
 		JXDeleteObjectTask<JBroadcaster>::Delete(itsProcess);
-		itsProcess = NULL;
+		itsProcess = nullptr;
 
 		const JProcess::Finished* info =
 			dynamic_cast<const JProcess::Finished*>(&message);
 		if (info->Successful())
 			{
-			if (itsSrcTable != NULL)
+			if (itsSrcTable != nullptr)
 				{
 				itsSrcTable->UpdateDisplay(kJTrue);
 				}
 
-			JBoolean selectName = JI2B(itsDestNode != NULL);
-			assert( selectName == JI2B(itsDestTable != NULL) );
+			JBoolean selectName = JI2B(itsDestNode != nullptr);
+			assert( selectName == JI2B(itsDestTable != nullptr) );
 
 			if (selectName && itsDestTable->IsEditing())
 				{

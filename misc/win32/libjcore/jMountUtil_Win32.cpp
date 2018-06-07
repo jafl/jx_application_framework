@@ -24,7 +24,7 @@ JGetUserMountPointList
 	)
 {
 	list->CleanOut();
-	if (modTime != NULL)
+	if (modTime != nullptr)
 		{
 		*modTime = 0;
 		}
@@ -56,9 +56,9 @@ JGetUserMountPointList
 			}
 
 		JString* path = new JString(drive);
-		assert( path != NULL );
+		assert( path != nullptr );
 		JString* devicePath = new JString(drive);
-		assert( devicePath != NULL );
+		assert( devicePath != nullptr );
 		list->AppendElement(JMountPoint(path, type, c - 'A', devicePath));
 		}
 
@@ -111,7 +111,7 @@ JGetUserMountPointType
 /******************************************************************************
  JIsMounted
 
-	device can be NULL
+	device can be nullptr
 
  ******************************************************************************/
 
@@ -215,7 +215,7 @@ JFormatPartition
 	JProcess**			process
 	)
 {
-	*process = NULL;
+	*process = nullptr;
 	return JAccessDenied(path);
 }
 
@@ -234,8 +234,8 @@ JIsSamePartition
 	)
 {
 	JString s1, s2;
-	if (!JConvertToAbsolutePath(path1, NULL, &s1) ||
-		!JConvertToAbsolutePath(path2, NULL, &s2))
+	if (!JConvertToAbsolutePath(path1, nullptr, &s1) ||
+		!JConvertToAbsolutePath(path2, nullptr, &s2))
 		{
 		return kJFalse;
 		}

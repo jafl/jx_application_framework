@@ -68,10 +68,10 @@ JXCurrentPathMenu::JXCurrentPathMenuX
 	JXDisplay* d = GetDisplay();
 
 	itsFolderIcon = jnew JXImage(d, jx_folder_small);
-	assert( itsFolderIcon != NULL );
+	assert( itsFolderIcon != nullptr );
 
 	itsReadOnlyFolderIcon = jnew JXImage(d, jx_folder_read_only_small);
-	assert( itsReadOnlyFolderIcon != NULL );
+	assert( itsReadOnlyFolderIcon != nullptr );
 
 	// after creating icons
 
@@ -105,7 +105,7 @@ JXCurrentPathMenu::GetPath
 
 	const JXMenu::ItemSelected* selection =
 		dynamic_cast<const JXMenu::ItemSelected*>(&message);
-	assert( selection != NULL );
+	assert( selection != nullptr );
 
 	return GetPath(selection->GetIndex());
 }
@@ -155,7 +155,7 @@ JXCurrentPathMenu::SetPath
 	PrependItem(p);
 	SetItemImage(1, GetIcon(p), kJFalse);
 
-	const JXImage* image = NULL;
+	const JXImage* image = nullptr;
 	GetItemImage(GetItemCount(), &image);
 	SetTitle(GetItemText(GetItemCount()), const_cast<JXImage*>(image), kJFalse);
 	SetUpdateAction(kDisableNone);

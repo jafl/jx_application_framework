@@ -131,7 +131,7 @@
 #		JMM_DISALLOW_DELETE_NULL If this environment variable is set to "yes" the
 #		                       manager will consider deletion of a null pointer to
 #		                       be an error, in spite of ANSI.  Most people delete
-#		                       NULL frequently, so the default is to allow it, but
+#		                       nullptr frequently, so the default is to allow it, but
 #		                       those with a particularly clean (not to say
 #		                       obsessive) style may find this useful.  Overridden
 #		                       by the SetDisllowDeleteNULL method.
@@ -274,12 +274,12 @@ const JSize kDisconnectStrLength       = strlen(kDisconnectStr);
 
 JMemoryManager::JMemoryManager()
 	:
-	itsMemoryTable(NULL),
-	itsErrorPrinter(NULL),
-	itsLink(NULL),
-	itsErrorStream(NULL),
-	itsExitStatsFileName(NULL),
-	itsExitStatsStream(NULL),
+	itsMemoryTable(nullptr),
+	itsErrorPrinter(nullptr),
+	itsLink(nullptr),
+	itsErrorStream(nullptr),
+	itsExitStatsFileName(nullptr),
+	itsExitStatsStream(nullptr),
 	itsRecursionDepth(0),
 	itsLastDeleteFile(kUnknownFile),
 	itsLastDeleteLine(0),
@@ -296,25 +296,25 @@ JMemoryManager::JMemoryManager()
 	assert(theConstructingFlag == kJTrue);
 
 	const JUtf8Byte* abortUnknownAlloc = getenv("JMM_ABORT_UNKNOWN_ALLOC");
-	if (abortUnknownAlloc != NULL && JString::Compare(abortUnknownAlloc, "yes", kJFalse) == 0)
+	if (abortUnknownAlloc != nullptr && JString::Compare(abortUnknownAlloc, "yes", kJFalse) == 0)
 		{
 		theAbortUnknownAllocFlag = kJTrue;
 		}
 
 	const JUtf8Byte* broadcastErrors = getenv("JMM_BROADCAST_ERRORS");
-	if (broadcastErrors != NULL && JString::Compare(broadcastErrors, "yes", kJFalse) == 0)
+	if (broadcastErrors != nullptr && JString::Compare(broadcastErrors, "yes", kJFalse) == 0)
 		{
 		itsBroadcastErrorsFlag = kJTrue;
 		}
 
 	const JUtf8Byte* printExitStats = getenv("JMM_PRINT_EXIT_STATS");
-	if (printExitStats != NULL && JString::Compare(printExitStats, "yes", kJFalse) == 0)
+	if (printExitStats != nullptr && JString::Compare(printExitStats, "yes", kJFalse) == 0)
 		{
 		itsPrintExitStatsFlag = kJTrue;
 		}
 
 	const JUtf8Byte* printInternalStats = getenv("JMM_PRINT_INTERNAL_STATS");
-	if (printInternalStats != NULL && JString::Compare(printInternalStats, "yes", kJFalse) == 0)
+	if (printInternalStats != nullptr && JString::Compare(printInternalStats, "yes", kJFalse) == 0)
 		{
 		itsPrintInternalStatsFlag = kJTrue;
 		}
@@ -322,29 +322,29 @@ JMemoryManager::JMemoryManager()
 	ReadValue(&theInitializeFlag, &theAllocateGarbage, getenv("JMM_INITIALIZE"));
 	ReadValue(&itsShredFlag, &itsDeallocateGarbage, getenv("JMM_SHRED"));
 	const JUtf8Byte* checkDoubleAllocation = getenv("JMM_CHECK_DOUBLE_ALLOCATION");
-	if (checkDoubleAllocation != NULL && JString::Compare(checkDoubleAllocation, "yes", kJFalse) == 0)
+	if (checkDoubleAllocation != nullptr && JString::Compare(checkDoubleAllocation, "yes", kJFalse) == 0)
 		{
 		itsCheckDoubleAllocationFlag = kJTrue;
 		}
 
 	const JUtf8Byte* disallowDeleteNULL = getenv("JMM_DISALLOW_DELETE_NULL");
-	if (disallowDeleteNULL != NULL && JString::Compare(disallowDeleteNULL, "yes", kJFalse) == 0)
+	if (disallowDeleteNULL != nullptr && JString::Compare(disallowDeleteNULL, "yes", kJFalse) == 0)
 		{
 		itsDisallowDeleteNULLFlag = kJTrue;
 		}
 
 	const JUtf8Byte* recordAllocated = getenv("JMM_RECORD_ALLOCATED");
-	if (recordAllocated != NULL && JString::Compare(recordAllocated, "yes", kJFalse) == 0)
+	if (recordAllocated != nullptr && JString::Compare(recordAllocated, "yes", kJFalse) == 0)
 		{
 		const JUtf8Byte* tableType = getenv("JMM_TABLE_TYPE");
 		JUtf8Byte* recordDeallocated = getenv("JMM_RECORD_DEALLOCATED");
 		JBoolean recordDeallocatedFlag = kJFalse;
-		if (recordDeallocated != NULL && JString::Compare(recordDeallocated, "yes", kJFalse) == 0)
+		if (recordDeallocated != nullptr && JString::Compare(recordDeallocated, "yes", kJFalse) == 0)
 			{
 			recordDeallocatedFlag = kJTrue;
 			}
 
-		if (tableType != NULL && JString::Compare(tableType, "array", kJFalse) == 0)
+		if (tableType != nullptr && JString::Compare(tableType, "array", kJFalse) == 0)
 			{
 			itsMemoryTable = new JMMArrayTable(this, recordDeallocatedFlag);
 			}
@@ -353,7 +353,7 @@ JMemoryManager::JMemoryManager()
 			itsMemoryTable = new JMMHashTable(this, recordDeallocatedFlag);
 			}
 
-		assert(itsMemoryTable != NULL);
+		assert(itsMemoryTable != nullptr);
 		}
 
 	// JMM_PIPE done in Instance()
@@ -372,10 +372,10 @@ JMemoryManager::~JMemoryManager()
 
 	// For form's sake, write it correctly
 
-	if (itsMemoryTable != NULL)
+	if (itsMemoryTable != nullptr)
 		{
 		delete itsMemoryTable;
-		itsMemoryTable = NULL;
+		itsMemoryTable = nullptr;
 		}
 
 	delete itsErrorPrinter;
@@ -394,26 +394,26 @@ JMemoryManager*
 JMemoryManager::Instance()
 {
 	// Guarantees access is only through this function
-	static JMemoryManager* manager = NULL;
+	static JMemoryManager* manager = nullptr;
 
-	if (manager == NULL)
+	if (manager == nullptr)
 		{
 		theConstructingFlag = kJTrue;
 		manager = new JMemoryManager;
-		assert(manager != NULL);
+		assert(manager != nullptr);
 
 		// Create the error printer proxy to do the printing work.
 		// Construction of the error printer must take place here, after
 		// the manager is fully constructed; the recursive call to Instance
 		// is harmless.
 		manager->itsErrorPrinter = new JMMErrorPrinter;
-		assert(manager->itsErrorPrinter != NULL);
+		assert(manager->itsErrorPrinter != nullptr);
 
 		const JUtf8Byte* pipeName = getenv("JMM_PIPE");
 		if (!JString::IsEmpty(pipeName))
 			{
 			manager->itsErrorStream = new JMMDebugErrorStream;
-			assert(manager->itsErrorStream != NULL);
+			assert(manager->itsErrorStream != nullptr);
 			}
 
 		theConstructingFlag = kJFalse;
@@ -424,7 +424,7 @@ JMemoryManager::Instance()
 		if (!JString::IsEmpty(pipeName))
 			{
 			manager->ConnectToDebugger(pipeName);
-			ACE_Object_Manager::at_exit(NULL, ::JMMHandleACEExit, NULL);
+			ACE_Object_Manager::at_exit(nullptr, ::JMMHandleACEExit, nullptr);
 
 			// If we create the file when we actually need it, it
 			// re-constructs JStringManager.
@@ -436,7 +436,7 @@ JMemoryManager::Instance()
 				theInternalFlag = kJTrue;
 
 				manager->itsExitStatsFileName = new JString(fileName);
-				assert( manager->itsExitStatsFileName != NULL );
+				assert( manager->itsExitStatsFileName != nullptr );
 
 				theInternalFlag = kJFalse;
 				}
@@ -474,12 +474,12 @@ JMemoryManager::New
 	const size_t trueSize = size ? size : 1;
 	void* newBlock = malloc(trueSize);
 
-	if (newBlock == NULL)
+	if (newBlock == nullptr)
 		{
 		std::cout << "failed to allocate block of size " << trueSize << std::endl;
 		}
 
-	assert(newBlock != NULL);
+	assert(newBlock != nullptr);
 	if (theInitializeFlag)
 		{
 		memset(newBlock, theAllocateGarbage, trueSize);
@@ -546,7 +546,7 @@ JMemoryManager::Delete
 void
 JMemoryManager::PrintMemoryStats()
 {
-	if (itsMemoryTable != NULL)
+	if (itsMemoryTable != nullptr)
 		{
 		std::cout << "\n   Dynamic memory usage:\n";
 #if 0
@@ -593,11 +593,11 @@ JMemoryManager::PrintMemoryStats()
 void
 JMemoryManager::CancelRecordAllocated()
 {
-	if (itsMemoryTable != NULL)
+	if (itsMemoryTable != nullptr)
 		{
 		BeginRecursiveBlock();
 		delete itsMemoryTable;
-		itsMemoryTable = NULL;
+		itsMemoryTable = nullptr;
 		EndRecursiveBlock();
 		}
 }
@@ -612,7 +612,7 @@ JMemoryManager::CancelRecordAllocated()
 void
 JMemoryManager::CancelRecordDeallocated()
 {
-	if (itsMemoryTable != NULL)
+	if (itsMemoryTable != nullptr)
 		{
 		itsMemoryTable->CancelRecordDeallocated();
 		}
@@ -626,7 +626,7 @@ JMemoryManager::CancelRecordDeallocated()
 void
 JMemoryManager::PrintAllocated() const
 {
-	if (itsMemoryTable != NULL)
+	if (itsMemoryTable != nullptr)
 		{
 		itsMemoryTable->PrintAllocated(itsPrintInternalStatsFlag);
 		}
@@ -671,7 +671,7 @@ JMemoryManager::AddNewRecord
 	const JMMRecord& record
 	)
 {
-	if (itsMemoryTable != NULL)
+	if (itsMemoryTable != nullptr)
 		{
 		itsMemoryTable->AddNewRecord(record, itsCheckDoubleAllocationFlag);
 		}
@@ -691,14 +691,14 @@ JMemoryManager::DeleteRecord
 	const JBoolean   isArray
 	)
 {
-	if (block == NULL)
+	if (block == nullptr)
 		{
 		HandleNULLDeleted(file, line, isArray);
 		}
 	else
 		{
 		JBoolean wasAllocated;
-		if (itsMemoryTable != NULL)
+		if (itsMemoryTable != nullptr)
 			{
 			JMMRecord record;
 			wasAllocated = itsMemoryTable->SetRecordDeleted(&record, block,
@@ -760,7 +760,7 @@ JMemoryManager::EndRecursiveBlock()
 void
 JMemoryManager::EmptyStacks()
 {
-	if (itsMemoryTable != NULL && itsRecursionDepth == 0)
+	if (itsMemoryTable != nullptr && itsRecursionDepth == 0)
 		{
 		// Do alloc stack first so dealloc's never have to search through the
 		// Alloc stack
@@ -832,12 +832,12 @@ JMMHandleACEExit(void*, void*)
 void
 JMemoryManager::HandleACEExit()
 {
-	if (itsLink != NULL)
+	if (itsLink != nullptr)
 		{
 		SendExitStats();
 		itsLink->SendDisconnect();
 		itsLink->Flush();
-		itsLink = NULL;
+		itsLink = nullptr;
 		}
 }
 
@@ -860,12 +860,12 @@ JMMHandleExit()
 void
 JMemoryManager::HandleExit()
 {
-	if (itsLink != NULL)
+	if (itsLink != nullptr)
 		{
 		HandleACEExit();
 		}
 
-	if (itsExitStatsStream != NULL)
+	if (itsExitStatsStream != nullptr)
 		{
 		WriteExitStats();
 		}
@@ -916,10 +916,10 @@ JMemoryManager::ConnectToDebugger
 	)
 {
 	itsLink = new DebugLink;
-	assert( itsLink != NULL );
+	assert( itsLink != nullptr );
 
 	DebugLinkConnector* connector = new DebugLinkConnector;
-	assert( connector != NULL );
+	assert( connector != nullptr );
 
 	ACE_UNIX_Addr addr(socketName);
 	if (connector->connect(itsLink, addr, ACE_Synch_Options::asynch) == -1 &&
@@ -944,7 +944,7 @@ void
 JMemoryManager::HandleDebugRequest()
 	const
 {
-	assert( itsLink != NULL );
+	assert( itsLink != nullptr );
 
 	JString text;
 	const JBoolean ok = itsLink->GetNextMessage(&text);
@@ -1078,7 +1078,7 @@ JMemoryManager::SendExitStats()
 		theInternalFlag = kJTrue;
 
 		itsExitStatsStream = new std::ofstream(itsExitStatsFileName->GetBytes());
-		assert( itsExitStatsStream != NULL );
+		assert( itsExitStatsStream != nullptr );
 
 		theInternalFlag = kJFalse;
 		}
@@ -1104,7 +1104,7 @@ JMemoryManager::WriteExitStats()
 	WriteRecords(*itsExitStatsStream, filter);
 
 	delete itsExitStatsStream;
-	itsExitStatsStream = NULL;
+	itsExitStatsStream = nullptr;
 }
 
 /******************************************************************************
@@ -1121,7 +1121,7 @@ JMemoryManager::SendError
 	)
 {
 	JMemoryManager* mgr = JMemoryManager::Instance();
-	if (mgr->itsLink != NULL)
+	if (mgr->itsLink != nullptr)
 		{
 		std::ostringstream output;
 		output << kJMemoryManagerDebugVersion;
@@ -1130,7 +1130,7 @@ JMemoryManager::SendError
 
 		mgr->SendDebugMessage(output);
 		}
-	else if (mgr->itsExitStatsStream != NULL)
+	else if (mgr->itsExitStatsStream != nullptr)
 		{
 		*(mgr->itsExitStatsStream) << ' ' << kErrorMessage;
 		*(mgr->itsExitStatsStream) << ' ' << msg;
@@ -1302,7 +1302,7 @@ JMemoryManager::ReadValue
 	const JUtf8Byte* string
 	)
 {
-	*hasValue = JI2B( string != NULL && JString::Compare(string, "no", kJFalse) != 0 );
+	*hasValue = JI2B( string != nullptr && JString::Compare(string, "no", kJFalse) != 0 );
 
 	if (*hasValue)
 		{
@@ -1348,14 +1348,14 @@ JMemoryManager::RecordFilter::Match
 		}
 
 	const JSize newFileLength = strlen(record.GetNewFile());
-	if (match && fileName != NULL && newFileLength == fileName->GetByteCount())
+	if (match && fileName != nullptr && newFileLength == fileName->GetByteCount())
 		{
 		if (record.GetNewFile() != *fileName)
 			{
 			match = kJFalse;
 			}
 		}
-	else if (match && fileName != NULL)
+	else if (match && fileName != nullptr)
 		{
 		const JUtf8Byte *s1, *s2;
 		JSize l1, l2;
@@ -1398,10 +1398,10 @@ JMemoryManager::RecordFilter::Read
 
 	if (hasFile)
 		{
-		if (fileName == NULL)
+		if (fileName == nullptr)
 			{
 			fileName = new JString;
-			assert( fileName != NULL );
+			assert( fileName != nullptr );
 			}
 
 		input >> *fileName;
@@ -1418,7 +1418,7 @@ JMemoryManager::RecordFilter::Write
 	output << includeInternal;
 	output << ' ' << minSize;
 
-	const JBoolean hasFile = JI2B(fileName != NULL && !fileName->IsEmpty());
+	const JBoolean hasFile = JI2B(fileName != nullptr && !fileName->IsEmpty());
 	output << ' ' << hasFile;
 	if (hasFile)
 		{

@@ -69,7 +69,7 @@ protected:
 private:
 
 	JPtrArray<JXMenu>*	itsMenus;
-	JXTextMenu*			itsOverflowMenu;			// NULL unless menus overflow bar
+	JXTextMenu*			itsOverflowMenu;			// nullptr unless menus overflow bar
 	JSize				itsIgnoreWidthChangedCount;	// kJTrue => in WidthChanged()
 
 private:

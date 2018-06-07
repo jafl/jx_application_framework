@@ -47,7 +47,7 @@ protected:
 
 private:
 
-	CBProjectDocument*	itsProjDoc;			// NULL is allowed
+	CBProjectDocument*	itsProjDoc;			// nullptr is allowed
 	JString				itsPrevLine;
 	JBoolean			itsHasErrorsFlag;	// kJTrue => found errors
 	JXTextMenu*			itsErrorMenu;		// not owned

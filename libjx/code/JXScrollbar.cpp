@@ -104,10 +104,10 @@ JXScrollbar::JXScrollbar
 
 	itsContScrollDelay = kContinuousScrollDelay;
 
-	itsScrolltabList              = NULL;
+	itsScrolltabList              = nullptr;
 	itsIgnoreScrolltabDeletedFlag = kJFalse;
 
-	itsActionMenu = NULL;
+	itsActionMenu = nullptr;
 
 	itsDragAction = kInvalidClick;
 	itsDecrPushedFlag     = itsIncrPushedFlag     = kJFalse;
@@ -258,7 +258,7 @@ JXScrollbar::DrawHoriz
 
 	// place the scrolltabs
 
-	if (itsScrolltabList != NULL)
+	if (itsScrolltabList != nullptr)
 		{
 		const JSize tabCount = itsScrolltabList->GetElementCount();
 		for (JIndex i=1; i<=tabCount; i++)
@@ -367,7 +367,7 @@ JXScrollbar::DrawVert
 
 	// place the scrolltabs
 
-	if (itsScrolltabList != NULL)
+	if (itsScrolltabList != nullptr)
 		{
 		const JSize tabCount = itsScrolltabList->GetElementCount();
 		for (JIndex i=1; i<=tabCount; i++)
@@ -741,7 +741,7 @@ JXScrollbar::SetMaxValue
 		{
 		// remove scrolltabs that are beyond the new maximum
 
-		if (itsScrolltabList != NULL && maxValue < itsMaxValue)
+		if (itsScrolltabList != nullptr && maxValue < itsMaxValue)
 			{
 			const JSize tabCount = itsScrolltabList->GetElementCount();
 			for (JIndex i=tabCount; i>=1; i--)
@@ -791,21 +791,21 @@ void
 JXScrollbar::PlaceScrolltab()
 {
 	JXScrolltab* tab = jnew JXScrolltab(this, itsValue);
-	assert( tab != NULL );
+	assert( tab != nullptr );
 	// tab registers itself
 }
 
 void
 JXScrollbar::RemoveAllScrolltabs()
 {
-	if (itsScrolltabList != NULL)
+	if (itsScrolltabList != nullptr)
 		{
 		itsIgnoreScrolltabDeletedFlag = kJTrue;
 		itsScrolltabList->DeleteAll();
 		itsIgnoreScrolltabDeletedFlag = kJFalse;
 
 		jdelete itsScrolltabList;
-		itsScrolltabList = NULL;
+		itsScrolltabList = nullptr;
 		}
 }
 
@@ -815,10 +815,10 @@ JXScrollbar::ScrolltabCreated
 	JXScrolltab* tab
 	)
 {
-	if (itsScrolltabList == NULL)
+	if (itsScrolltabList == nullptr)
 		{
 		itsScrolltabList = jnew JPtrArray<JXScrolltab>(JPtrArrayT::kForgetAll);
-		assert( itsScrolltabList != NULL );
+		assert( itsScrolltabList != nullptr );
 		itsScrolltabList->SetCompareFunction(CompareScrolltabValues);
 		itsScrolltabList->SetSortOrder(JListT::kSortAscending);
 		}
@@ -832,13 +832,13 @@ JXScrollbar::ScrolltabDeleted
 	JXScrolltab* tab
 	)
 {
-	if (itsScrolltabList != NULL && !itsIgnoreScrolltabDeletedFlag)
+	if (itsScrolltabList != nullptr && !itsIgnoreScrolltabDeletedFlag)
 		{
 		itsScrolltabList->Remove(tab);
 		if (itsScrolltabList->IsEmpty())
 			{
 			jdelete itsScrolltabList;
-			itsScrolltabList = NULL;
+			itsScrolltabList = nullptr;
 			}
 		}
 }
@@ -856,7 +856,7 @@ JXScrollbar::ScrollToTab
 	const JIndex tabIndex
 	)
 {
-	if (itsScrolltabList != NULL && itsScrolltabList->IndexValid(tabIndex))
+	if (itsScrolltabList != nullptr && itsScrolltabList->IndexValid(tabIndex))
 		{
 		(itsScrolltabList->GetElement(tabIndex))->ScrollToTab();
 		}
@@ -880,7 +880,7 @@ JXScrollbar::PrepareForLowerMaxValue
 	const JSize			length
 	)
 {
-	if (itsScrolltabList != NULL && length > 0)
+	if (itsScrolltabList != nullptr && length > 0)
 		{
 		const JCoordinate delta = - (JCoordinate) length;
 
@@ -918,7 +918,7 @@ JXScrollbar::PrepareForHigherMaxValue
 	const JSize			length
 	)
 {
-	if (itsScrolltabList != NULL && length > 0)
+	if (itsScrolltabList != nullptr && length > 0)
 		{
 		const JSize tabCount = itsScrolltabList->GetElementCount();
 		for (JIndex i=1; i<=tabCount; i++)
@@ -947,7 +947,7 @@ JXScrollbar::PrepareForScaledMaxValue
 	const JFloat scaleFactor
 	)
 {
-	if (itsScrolltabList != NULL && scaleFactor != 1.0)
+	if (itsScrolltabList != nullptr && scaleFactor != 1.0)
 		{
 		const JSize tabCount = itsScrolltabList->GetElementCount();
 		for (JIndex i=1; i<=tabCount; i++)
@@ -976,7 +976,7 @@ JXScrollbar::StripMoved
 {
 JIndex i;
 
-	if (itsScrolltabList != NULL && origStart != newStart)
+	if (itsScrolltabList != nullptr && origStart != newStart)
 		{
 		JPtrArray<JXScrolltab> savedTabList(JPtrArrayT::kForgetAll);
 
@@ -1107,7 +1107,7 @@ JXScrollbar::ReadSetup
 			input >> value;
 
 			JXScrolltab* tab = jnew JXScrolltab(this, value);
-			assert( tab != NULL );
+			assert( tab != nullptr );
 			// tab registers itself
 			}
 		}
@@ -1144,7 +1144,7 @@ JXScrollbar::WriteSetup
 	output << ' ' << kCurrentSetupVersion;
 	output << ' ' << itsValue;
 
-	if (itsScrolltabList != NULL)
+	if (itsScrolltabList != nullptr)
 		{
 		const JSize tabCount = itsScrolltabList->GetElementCount();
 		output << ' ' << tabCount;
@@ -1175,10 +1175,10 @@ JXScrollbar::OpenActionMenu
 	const JXKeyModifiers&	modifiers
 	)
 {
-	if (itsActionMenu == NULL)
+	if (itsActionMenu == nullptr)
 		{
 		itsActionMenu = jnew JXTextMenu(JString::empty, this, kFixedLeft, kFixedTop, 0,0, 10,10);
-		assert( itsActionMenu != NULL );
+		assert( itsActionMenu != nullptr );
 		itsActionMenu->Hide();
 		itsActionMenu->SetToHiddenPopupMenu(kJTrue);
 		itsActionMenu->SetMenuItems(kActionMenuStr);
@@ -1205,7 +1205,7 @@ JXScrollbar::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleActionMenu(selection->GetIndex());
 		}
 

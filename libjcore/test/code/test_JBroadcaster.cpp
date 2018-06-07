@@ -96,7 +96,7 @@ clearPointer
 	void* arg
 	)
 {
-	*((PointerSize**) arg) = NULL;
+	*((PointerSize**) arg) = nullptr;
 }
 
 JTEST(voidstar)

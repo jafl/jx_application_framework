@@ -246,7 +246,7 @@ private:
 	JPtrArray<CMCommand>*	itsForegroundQ;
 	JPtrArray<CMCommand>*	itsBackgroundQ;
 
-	JStringPtrMap<JString>*	itsFileNameMap;		// can contain NULL's
+	JStringPtrMap<JString>*	itsFileNameMap;		// can contain nullptr's
 
 private:
 
@@ -691,7 +691,7 @@ CMLink::GetRunningCommand
 	)
 {
 	*cmd = itsRunningCommand;
-	return JI2B(itsRunningCommand != NULL);
+	return JI2B(itsRunningCommand != nullptr);
 }
 
 /******************************************************************************

@@ -79,10 +79,10 @@ GPMProcessTable::GPMProcessTable
 	JXTable(kDefRowHeight, kDefColWidth, scrollbarSet,
 			enclosure, hSizing, vSizing, x,y, w,h),
 	itsList(list),
-	itsContextMenu(NULL),
-	itsSelectedEntry(NULL),
+	itsContextMenu(nullptr),
+	itsSelectedEntry(nullptr),
 	itsFullCmdDisplay(fullCmdDisplay),
-	itsZombieImage(NULL)
+	itsZombieImage(nullptr)
 {
 	AppendCols(GPMProcessList::kListCount);
 	SetColWidth(GPMProcessList::kListState,  20);
@@ -98,7 +98,7 @@ GPMProcessTable::GPMProcessTable
 	SetColBorderInfo(0, GetColormap()->GetBlackColor());
 
 	itsZombieImage = jnew JXImage(GetDisplay(), jx_edit_clear);
-	assert( itsZombieImage != NULL );
+	assert( itsZombieImage != nullptr );
 
 	itsContextMenu = CreateContextMenu(this);
 	ListenTo(itsContextMenu);
@@ -128,7 +128,7 @@ GPMProcessTable::CreateContextMenu
 	)
 {
 	JXTextMenu* menu = jnew JXTextMenu("", enclosure, kFixedLeft, kFixedTop, 0,0, 10,10);
-	assert( menu != NULL );
+	assert( menu != nullptr );
 	menu->SetMenuItems(kContextMenuStr);
 	menu->SetToHiddenPopupMenu(kJTrue);
 
@@ -179,7 +179,7 @@ GPMProcessTable::Receive
 			}
 
 		JIndex index;
-		if (itsSelectedEntry != NULL)
+		if (itsSelectedEntry != nullptr)
 			{
 			if (itsList->GetEntryIndex(itsSelectedEntry, &index))
 				{
@@ -187,7 +187,7 @@ GPMProcessTable::Receive
 				}
 
 			StopListening(itsSelectedEntry);
-			itsSelectedEntry = NULL;
+			itsSelectedEntry = nullptr;
 			}
 
 		Refresh();
@@ -201,7 +201,7 @@ GPMProcessTable::Receive
 		{
 		 const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleContextMenu(selection->GetIndex());
 		}
 
@@ -633,7 +633,7 @@ GPMProcessTable::GetSelectedProcess
 		}
 	else
 		{
-		*entry = NULL;
+		*entry = nullptr;
 		return kJFalse;
 		}
 }

@@ -92,10 +92,10 @@ static const JUtf8Byte* kMountedInfoName = _PATH_MOUNTED;
 	"users".  The other possibility is that the *device* must be owned by
 	the user, and opts must include "owner".
 
-	If state != NULL, its value is compared with the mod time of /etc/fstab
+	If state != nullptr, its value is compared with the mod time of /etc/fstab
 	or equivalent.  If the state is the same, nothing is done.
 
-	Returns kJTrue if /etc/fstab was read in, i.e., if state was NULL or
+	Returns kJTrue if /etc/fstab was read in, i.e., if state was nullptr or
 	outdated.
 
  ******************************************************************************/
@@ -114,15 +114,15 @@ JGetUserMountPointList
 	JProcess* p;
 	int outFD;
 	const JError err = JProcess::Create(&p, kMountCmd,
-										kJIgnoreConnection, NULL,
+										kJIgnoreConnection, nullptr,
 										kJCreatePipe, &outFD,
-										kJIgnoreConnection, NULL);
+										kJIgnoreConnection, nullptr);
 	if (!err.OK())
 		{
-		if (state != NULL)
+		if (state != nullptr)
 			{
 			jdelete state->mountCmdOutput;
-			state->mountCmdOutput = NULL;
+			state->mountCmdOutput = nullptr;
 			}
 		return kJFalse;
 		}
@@ -133,31 +133,31 @@ JGetUserMountPointList
 	p->WaitUntilFinished();
 	const JBoolean success = p->SuccessfulFinish();
 	jdelete p;
-	p = NULL;
+	p = nullptr;
 
 	if (!success)
 		{
-		if (state != NULL)
+		if (state != nullptr)
 			{
 			jdelete state->mountCmdOutput;
-			state->mountCmdOutput = NULL;
+			state->mountCmdOutput = nullptr;
 			}
 		return kJFalse;
 		}
 
-	if (state != NULL && state->mountCmdOutput != NULL &&
+	if (state != nullptr && state->mountCmdOutput != nullptr &&
 		mountData == *(state->mountCmdOutput))
 		{
 		return kJFalse;
 		}
 
 	list->CleanOut();
-	if (state != NULL && state->mountCmdOutput == NULL)
+	if (state != nullptr && state->mountCmdOutput == nullptr)
 		{
 		state->mountCmdOutput = jnew JString(mountData);
-		assert( state->mountCmdOutput != NULL );
+		assert( state->mountCmdOutput != nullptr );
 		}
-	else if (state != NULL)
+	else if (state != nullptr)
 		{
 		*(state->mountCmdOutput) = mountData;
 		}
@@ -177,9 +177,9 @@ JGetUserMountPointList
 			}
 
 		JString* path = jnew JString(m.GetSubstring(2));
-		assert( path != NULL );
+		assert( path != nullptr );
 		JString* devicePath = jnew JString(m.GetSubstring(1));
-		assert( devicePath != NULL );
+		assert( devicePath != nullptr );
 
 		const JMountType type =
 			JGetUserMountPointType(*path, *devicePath, JString::empty);
@@ -213,7 +213,7 @@ JGetUserMountPointList
 	)
 {
 	time_t t;
-	if (state != NULL &&
+	if (state != nullptr &&
 		(!(JGetModificationTime(_PATH_FSTAB, &t)).OK() ||
 		 t == state->modTime))
 		{
@@ -221,7 +221,7 @@ JGetUserMountPointList
 		}
 
 	list->CleanOut();
-	if (state != NULL)
+	if (state != nullptr)
 		{
 		state->modTime = t;
 		}
@@ -262,9 +262,9 @@ JGetUserMountPointList
 				}
 
 			JString* path = jnew JString(info->fs_file);
-			assert( path != NULL );
+			assert( path != nullptr );
 			JString* devicePath = jnew JString(info->fs_spec);
-			assert( devicePath != NULL );
+			assert( devicePath != nullptr );
 			list->AppendElement(JMountPoint(path, type, stbuf.st_dev, devicePath, fsType));
 			}
 		}
@@ -283,7 +283,7 @@ JGetUserMountPointList
 	)
 {
 	time_t t;
-	if (state != NULL &&
+	if (state != nullptr &&
 		(!(JGetModificationTime(kAvailInfoName, &t)).OK() ||
 		 t == state->modTime))
 		{
@@ -291,13 +291,13 @@ JGetUserMountPointList
 		}
 
 	list->CleanOut();
-	if (state != NULL)
+	if (state != nullptr)
 		{
 		state->modTime = t;
 		}
 
 	FILE* f = fopen(kAvailInfoName.GetBytes(), "r");
-	if (f == NULL)
+	if (f == nullptr)
 		{
 		return kJTrue;	// did clear list
 		}
@@ -331,9 +331,9 @@ JGetUserMountPointList
 				}
 
 			JString* path = jnew JString(info.vfs_mountp);
-			assert( path != NULL );
+			assert( path != nullptr );
 			JString* devicePath = jnew JString(info.vfs_special);
-			assert( devicePath != NULL );
+			assert( devicePath != nullptr );
 			list->AppendElement(JMountPoint(path, type, stbuf.st_dev, devicePath, fsType));
 			}
 		}
@@ -375,7 +375,7 @@ JGetUserMountPointList
 	)
 {
 	time_t t;
-	if (state != NULL &&
+	if (state != nullptr &&
 		(!(JGetModificationTime(kAvailInfoName, &t)).OK() ||
 		 t == state->modTime))
 		{
@@ -383,13 +383,13 @@ JGetUserMountPointList
 		}
 
 	list->CleanOut();
-	if (state != NULL)
+	if (state != nullptr)
 		{
 		state->modTime = t;
 		}
 
 	FILE* f = setmntent(kAvailInfoName.GetBytes(), "r");
-	if (f == NULL)
+	if (f == nullptr)
 		{
 		return kJTrue;	// did clear list
 		}
@@ -400,11 +400,11 @@ JGetUserMountPointList
 	while (const mntent* info = getmntent(f))
 		{
 		if (!(isRoot ||
-			  hasmntopt(info, "user") != NULL  ||
-			  hasmntopt(info, "users") != NULL ||
-			  hasmntopt(info, "pamconsole") != NULL ||
+			  hasmntopt(info, "user") != nullptr  ||
+			  hasmntopt(info, "users") != nullptr ||
+			  hasmntopt(info, "pamconsole") != nullptr ||
 			  (jUserOwnsDevice(info->mnt_fsname) &&
-			   hasmntopt(info, "owner") != NULL)) ||
+			   hasmntopt(info, "owner") != nullptr)) ||
 			JIsRootDirectory(info->mnt_dir) ||
 			strcmp(info->mnt_type, MNTTYPE_SWAP) == 0)
 			{
@@ -426,9 +426,9 @@ JGetUserMountPointList
 			}
 
 		JString* path = jnew JString(info->mnt_dir);
-		assert( path != NULL );
+		assert( path != nullptr );
 		JString* devicePath = jnew JString(info->mnt_fsname);
-		assert( devicePath != NULL );
+		assert( devicePath != nullptr );
 		list->AppendElement(JMountPoint(path, type, stbuf.st_dev, devicePath, fsType));
 		}
 
@@ -468,7 +468,7 @@ JGetUserMountPointType
 	const JString& fsType
 	)
 {
-	if (strstr(fsType, "cd9660") != NULL)
+	if (strstr(fsType, "cd9660") != nullptr)
 		{
 		return kJCDROM;
 		}
@@ -504,11 +504,11 @@ JGetUserMountPointType
 	const JString& fsType
 	)
 {
-	if (strstr(fsType, "iso9660") != NULL)
+	if (strstr(fsType, "iso9660") != nullptr)
 		{
 		return kJCDROM;
 		}
-	else if (strstr(fsType, "ufs") != NULL)
+	else if (strstr(fsType, "ufs") != nullptr)
 		{
 		return kJHardDisk;
 		}
@@ -572,11 +572,11 @@ JGetUserMountPointType
 	const JString& fsType
 	)
 {
-	if (strstr(fsType, "iso9660") != NULL)
+	if (strstr(fsType, "iso9660") != nullptr)
 		{
 		return kJCDROM;
 		}
-	else if (strstr(path, "floppy") != NULL)
+	else if (strstr(path, "floppy") != nullptr)
 		{
 		return kJFloppyDisk;	// hot-swappable drives are often /dev/sd*
 		}
@@ -607,7 +607,7 @@ JGetUserMountPointType
 /******************************************************************************
  JIsMounted
 
-	device can be NULL
+	device can be nullptr
 
  ******************************************************************************/
 
@@ -643,19 +643,19 @@ JIsMounted
 			stbuf1.st_dev == stbuf2.st_dev)
 			{
 			isMounted = kJTrue;
-			if (writable != NULL)
+			if (writable != nullptr)
 				{
 				*writable = JNegate((info[i].f_flags & MNT_RDONLY) != 0);
 				}
-			if (isTop != NULL)
+			if (isTop != nullptr)
 				{
 				*isTop = JI2B(stbuf1.st_ino == stbuf2.st_ino);
 				}
-			if (device != NULL)
+			if (device != nullptr)
 				{
 				*device = info[i].f_mntfromname;
 				}
-			if (fsType != NULL)
+			if (fsType != nullptr)
 				{
 				*fsType = kOtherFSType;
 				if (JString::Compare(info[i].f_fstypename, "vfat", kJFalse) == 0 ||	// UNIX
@@ -664,7 +664,7 @@ JIsMounted
 					*fsType = kVFATType;
 					}
 				}
-			if (fsTypeString != NULL)
+			if (fsTypeString != nullptr)
 				{
 				*fsTypeString = info[i].f_fstypename;
 				}
@@ -695,7 +695,7 @@ JIsMounted
 		}
 
 	FILE* f = fopen(kMountedInfoName, "r");
-	if (f == NULL)
+	if (f == nullptr)
 		{
 		return kJFalse;
 		}
@@ -710,19 +710,19 @@ JIsMounted
 			stbuf1.st_dev == stbuf2.st_dev)
 			{
 			isMounted = kJTrue;
-			if (writable != NULL)
+			if (writable != nullptr)
 				{
-				*writable = JI2B(hasmntopt(&info, "ro") == NULL);
+				*writable = JI2B(hasmntopt(&info, "ro") == nullptr);
 				}
-			if (isTop != NULL)
+			if (isTop != nullptr)
 				{
 				*isTop = JI2B(stbuf1.st_ino == stbuf2.st_ino);
 				}
-			if (device != NULL)
+			if (device != nullptr)
 				{
 				*device = info.mnt_special;
 				}
-			if (fsType != NULL)
+			if (fsType != nullptr)
 				{
 				*fsType = kOtherFSType;
 				if (JString::Compare(info.mnt_fstype, "vfat", kJFalse) == 0)
@@ -730,7 +730,7 @@ JIsMounted
 					*fsType = kVFATType;
 					}
 				}
-			if (fsTypeString != NULL)
+			if (fsTypeString != nullptr)
 				{
 				*fsTypeString = info.mnt_fstype;
 				}
@@ -762,7 +762,7 @@ JIsMounted
 		}
 
 	FILE* f = setmntent(kMountedInfoName, "r");
-	if (f == NULL)
+	if (f == nullptr)
 		{
 		return kJFalse;
 		}
@@ -776,19 +776,19 @@ JIsMounted
 			stbuf1.st_dev == stbuf2.st_dev)
 			{
 			isMounted = kJTrue;
-			if (writable != NULL)
+			if (writable != nullptr)
 				{
 				*writable = kJTrue;
 				}
-			if (isTop != NULL)
+			if (isTop != nullptr)
 				{
 				*isTop = JI2B(stbuf1.st_ino == stbuf2.st_ino);
 				}
-			if (device != NULL)
+			if (device != nullptr)
 				{
 				*device = info->mnt_fsname;
 				}
-			if (fsType != NULL)
+			if (fsType != nullptr)
 				{
 				*fsType = kOtherFSType;
 				if (JString::Compare(info->mnt_type, "vfat", kJFalse) == 0)
@@ -796,7 +796,7 @@ JIsMounted
 					*fsType = kVFATType;
 					}
 				}
-			if (fsTypeString != NULL)
+			if (fsTypeString != nullptr)
 				{
 				*fsTypeString = info->mnt_type;
 				}
@@ -828,7 +828,7 @@ JIsMounted
 		}
 
 	FILE* f = setmntent(kMountedInfoName, "r");
-	if (f == NULL)
+	if (f == nullptr)
 		{
 		return kJFalse;
 		}
@@ -842,19 +842,19 @@ JIsMounted
 			stbuf1.st_dev == stbuf2.st_dev)
 			{
 			isMounted = kJTrue;
-			if (writable != NULL)
+			if (writable != nullptr)
 				{
-				*writable = JI2B(hasmntopt(info, MNTOPT_RO) == NULL);
+				*writable = JI2B(hasmntopt(info, MNTOPT_RO) == nullptr);
 				}
-			if (isTop != NULL)
+			if (isTop != nullptr)
 				{
 				*isTop = JI2B(stbuf1.st_ino == stbuf2.st_ino);
 				}
-			if (device != NULL)
+			if (device != nullptr)
 				{
 				*device = info->mnt_fsname;
 				}
-			if (fsType != NULL)
+			if (fsType != nullptr)
 				{
 				*fsType = kOtherFSType;
 				if (JString::Compare(info->mnt_type, "vfat", kJFalse) == 0)
@@ -862,7 +862,7 @@ JIsMounted
 					*fsType = kVFATType;
 					}
 				}
-			if (fsTypeString != NULL)
+			if (fsTypeString != nullptr)
 				{
 				*fsTypeString = info->mnt_type;
 				}
@@ -931,12 +931,12 @@ JMount
 	const JBoolean	block
 	)
 {
-	const JUtf8Byte* argv[] = { mount ? "mount" : "umount", path.GetBytes(), NULL };
+	const JUtf8Byte* argv[] = { mount ? "mount" : "umount", path.GetBytes(), nullptr };
 	pid_t pid;
-	JExecute(argv, sizeof(argv), block ? (pid_t*) NULL : &pid,
-			 kJIgnoreConnection, NULL,
-			 kJTossOutput, NULL,
-			 kJTossOutput, NULL);
+	JExecute(argv, sizeof(argv), block ? (pid_t*) nullptr : &pid,
+			 kJIgnoreConnection, nullptr,
+			 kJTossOutput, nullptr,
+			 kJTossOutput, nullptr);
 }
 
 /******************************************************************************
@@ -1078,7 +1078,7 @@ JTranslateLocalToRemote
 
 	JString localPath;
 	FILE* f = fopen(kMountedInfoName, "r");
-	if (f == NULL || !JGetTrueName(localPathStr, &localPath))
+	if (f == nullptr || !JGetTrueName(localPathStr, &localPath))
 		{
 		return kJFalse;
 		}
@@ -1114,7 +1114,7 @@ JTranslateLocalToRemote
 
 	JString localPath;
 	FILE* f = setmntent(kMountedInfoName, "r");
-	if (f == NULL || !JGetTrueName(localPathStr, &localPath))
+	if (f == nullptr || !JGetTrueName(localPathStr, &localPath))
 		{
 		return kJFalse;
 		}
@@ -1230,7 +1230,7 @@ JTranslateRemoteToLocal
 	localPath->Clear();
 
 	FILE* f = fopen(kMountedInfoName, "r");
-	if (f == NULL)
+	if (f == nullptr)
 		{
 		return kJFalse;
 		}
@@ -1266,7 +1266,7 @@ JTranslateRemoteToLocal
 	localPath->Clear();
 
 	FILE* f = setmntent(kMountedInfoName, "r");
-	if (f == NULL)
+	if (f == nullptr)
 		{
 		return kJFalse;
 		}
@@ -1323,7 +1323,7 @@ JFormatPartition
 										"-e", "/sbin/mkfs",
 											"-t", type.GetBytes(),
 											"-c", device.GetBytes(),
-										NULL };
+										nullptr };
 			const JError err = JProcess::Create(process, argv, sizeof(argv));
 			if (err.OK())
 				{
@@ -1333,7 +1333,7 @@ JFormatPartition
 			}
 		}
 
-	*process = NULL;
+	*process = nullptr;
 	return JAccessDenied(path);
 }
 

@@ -73,7 +73,7 @@ private:
 
 	JXTable*			itsTable;		// we don't own this
 	const JXScrollbar*	itsHScrollbar;	// we don't own this
-	JPtrArray<JString>*	itsTitles;		// can be NULL; elements can be NULL
+	JPtrArray<JString>*	itsTitles;		// can be nullptr; elements can be nullptr
 
 	JBoolean	itsAllowColResizingFlag;
 	JCoordinate	itsMinColWidth;

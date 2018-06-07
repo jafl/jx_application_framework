@@ -38,7 +38,7 @@ JX2DPlotEPSPrinter::JX2DPlotEPSPrinter
 	itsUnit = JX2DPlotPrintEPSDialog::kCentimeters;
 
 	itsUsePlotSetupFlag = kJTrue;
-	itsPlotSetupDialog  = NULL;
+	itsPlotSetupDialog  = nullptr;
 }
 
 /******************************************************************************
@@ -114,7 +114,7 @@ JX2DPlotEPSPrinter::CreatePrintSetupDialog
 	const JBoolean	bw
 	)
 {
-	assert( itsPlotSetupDialog == NULL );
+	assert( itsPlotSetupDialog == nullptr );
 
 	if (itsUsePlotSetupFlag)
 		{
@@ -145,7 +145,7 @@ JX2DPlotEPSPrinter::EndUserPrintSetup
 	)
 {
 	const JBoolean ok = JXEPSPrinter::EndUserPrintSetup(message, changed);
-	if (itsPlotSetupDialog != NULL)
+	if (itsPlotSetupDialog != nullptr)
 		{
 		JCoordinate w,h;
 		JX2DPlotPrintEPSDialog::Unit u;
@@ -161,6 +161,6 @@ JX2DPlotEPSPrinter::EndUserPrintSetup
 		itsUnit       = u;
 		}
 
-	itsPlotSetupDialog = NULL;
+	itsPlotSetupDialog = nullptr;
 	return ok;
 }

@@ -56,7 +56,7 @@ private:
 	CMSourceDirector*				itsSrcDir;
 	CMCommandDirector*				itsCmdDir;
 	CBStylerBase*					itsStyler;
-	JArray<JTEStyler::TokenData>*	itsTokenStartList;		// NULL if styling is turned off
+	JArray<JTEStyler::TokenData>*	itsTokenStartList;		// nullptr if styling is turned off
 	JIndex							itsFirstSearchMenuItem;	// index of first item added to Search menu
 	JSize							itsLastClickCount;
 

@@ -32,7 +32,7 @@ JXPrefsManager::JXPrefsManager
 				  currentVersion, eraseFileIfOpen)
 {
 	itsSafetySaveTask = jnew JXTimerTask(kSafetySaveInterval);
-	assert( itsSafetySaveTask != NULL );
+	assert( itsSafetySaveTask != nullptr );
 	itsSafetySaveTask->Start();
 	ListenTo(itsSafetySaveTask);
 }

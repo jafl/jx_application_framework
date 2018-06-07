@@ -85,9 +85,9 @@ private:
 	JString		itsAuthor;
 	JSize		itsFileSize;			// only relevant for files
 
-	JProcess*			itsProcess;		// can be NULL
+	JProcess*			itsProcess;		// can be nullptr
 	JString				itsResponseFullName;
-	RecordLink*			itsErrorLink;	// can be NULL
+	RecordLink*			itsErrorLink;	// can be nullptr
 	JPtrArray<JString>*	itsErrorList;	// cache while process is running
 
 private:

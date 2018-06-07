@@ -219,7 +219,7 @@ JXImageMask::CreateFromXBM
 		}
 
 	*mask = jnew JXImageMask(bitmap, w,h, display);
-	assert( *mask != NULL );
+	assert( *mask != nullptr );
 
 	return JNoError();
 }
@@ -272,7 +272,7 @@ JXImageMask::Copy()
 	const
 {
 	JXImageMask* obj = jnew JXImageMask(*this);
-	assert( obj != NULL );
+	assert( obj != nullptr );
 	return obj;
 }
 

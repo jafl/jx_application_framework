@@ -27,24 +27,24 @@
 #include <X11/Xlib.h>
 #include <jAssert.h>
 
-static JXApplication*			theApplication    = NULL;	// owns itself
-static JXChooseSaveFile*		theChooseSaveFile = NULL;	// owned by JCore
-static JXAssert*				theAssertHandler  = NULL;	// owned by JCore
+static JXApplication*			theApplication    = nullptr;	// owns itself
+static JXChooseSaveFile*		theChooseSaveFile = nullptr;	// owned by JCore
+static JXAssert*				theAssertHandler  = nullptr;	// owned by JCore
 
 // we own these
 
-static JXSharedPrefsManager*	theSharedPrefsMgr = NULL;
-static JXHelpManager*			theHelpManager    = NULL;	// can be NULL
-static JXDocumentManager*		theDocManager     = NULL;	// can be NULL
-static JXDockManager*			theDockManager    = NULL;
-static JXMDIServer*				theMDIServer      = NULL;	// can be NULL
-static JXWebBrowser*			theWebBrowser     = NULL;	// owned by JCore
+static JXSharedPrefsManager*	theSharedPrefsMgr = nullptr;
+static JXHelpManager*			theHelpManager    = nullptr;	// can be nullptr
+static JXDocumentManager*		theDocManager     = nullptr;	// can be nullptr
+static JXDockManager*			theDockManager    = nullptr;
+static JXMDIServer*				theMDIServer      = nullptr;	// can be nullptr
+static JXWebBrowser*			theWebBrowser     = nullptr;	// owned by JCore
 
-static JXDirector*				thePersistentWindowOwner = NULL;	// can be NULL
-static JXSearchTextDialog*		theSearchTextDialog      = NULL;	// can be NULL
-static JXSpellChecker*			theSpellChecker          = NULL;
+static JXDirector*				thePersistentWindowOwner = nullptr;	// can be nullptr
+static JXSearchTextDialog*		theSearchTextDialog      = nullptr;	// can be nullptr
+static JXSpellChecker*			theSpellChecker          = nullptr;
 
-static JXComposeRuleList*		theComposeRuleList       = NULL;	// can be NULL
+static JXComposeRuleList*		theComposeRuleList       = nullptr;	// can be nullptr
 
 static const JUtf8Byte* kInvisibleWindowClass = "Do_not_display_in_taskbar";
 static const JUtf8Byte* kDockWindowClass      = "JX_Dock";
@@ -62,18 +62,18 @@ JXCreateGlobals
 	const JUtf8Byte**	defaultStringData
 	)
 {
-	assert( defaultStringData != NULL );	// need JX strings
+	assert( defaultStringData != nullptr );	// need JX strings
 
 	theApplication = app;
 
 	theAssertHandler = jnew JXAssert;
-	assert( theAssertHandler != NULL );
+	assert( theAssertHandler != nullptr );
 
 	JXUserNotification* un = jnew JXUserNotification;
-	assert( un != NULL );
+	assert( un != nullptr );
 
 	theChooseSaveFile = jnew JXChooseSaveFile;
-	assert( theChooseSaveFile != NULL );
+	assert( theChooseSaveFile != nullptr );
 
 	JInitCore(theAssertHandler, appSignature, defaultStringData,
 			  un, theChooseSaveFile, jnew JXCreatePG);
@@ -86,10 +86,10 @@ JXCreateGlobals
 	// create last so it can access as much as possible
 
 	theSharedPrefsMgr = jnew JXSharedPrefsManager();
-	assert( theSharedPrefsMgr != NULL );
+	assert( theSharedPrefsMgr != nullptr );
 
 	theWebBrowser = jnew JXWebBrowser;
-	assert( theWebBrowser != NULL );
+	assert( theWebBrowser != nullptr );
 	JSetWebBrowser(theWebBrowser);		// so JGetWebBrowser() will work
 }
 
@@ -103,21 +103,21 @@ JXCreateGlobals
 void
 JXCloseDirectors()
 {
-	if (theDockManager != NULL)
+	if (theDockManager != nullptr)
 		{
 		const JBoolean ok = theDockManager->Close();
 		assert( ok );
 
-		theDockManager = NULL;
+		theDockManager = nullptr;
 		}
 
-	if (thePersistentWindowOwner != NULL)
+	if (thePersistentWindowOwner != nullptr)
 		{
 		const JBoolean ok = thePersistentWindowOwner->Close();
 		assert( ok );
 
-		thePersistentWindowOwner = NULL;
-		theSearchTextDialog      = NULL;
+		thePersistentWindowOwner = nullptr;
+		theSearchTextDialog      = nullptr;
 		}
 }
 
@@ -132,16 +132,16 @@ void
 JXDeleteGlobals1()
 {
 	jdelete theDocManager;
-	theDocManager = NULL;
+	theDocManager = nullptr;
 
 	jdelete theMDIServer;
-	theMDIServer = NULL;
+	theMDIServer = nullptr;
 
 	jdelete theSpellChecker;
-	theSpellChecker = NULL;
+	theSpellChecker = nullptr;
 
 	jdelete theHelpManager;
-	theHelpManager = NULL;
+	theHelpManager = nullptr;
 }
 
 /******************************************************************************
@@ -155,11 +155,11 @@ void
 JXDeleteGlobals2()
 {
 	jdelete theSharedPrefsMgr;
-	theSharedPrefsMgr = NULL;
+	theSharedPrefsMgr = nullptr;
 
-	theChooseSaveFile = NULL;
-	theAssertHandler  = NULL;
-	theApplication    = NULL;
+	theChooseSaveFile = nullptr;
+	theAssertHandler  = nullptr;
+	theApplication    = nullptr;
 
 //	JDeleteGlobals();	// called atexit()
 }
@@ -172,7 +172,7 @@ JXDeleteGlobals2()
 JXApplication*
 JXGetApplication()
 {
-	assert( theApplication != NULL );
+	assert( theApplication != nullptr );
 	return theApplication;
 }
 
@@ -185,7 +185,7 @@ JXGetApplication
 	)
 {
 	*app = theApplication;
-	return JConvertToBoolean( theApplication != NULL );
+	return JConvertToBoolean( theApplication != nullptr );
 }
 
 /******************************************************************************
@@ -196,7 +196,7 @@ JXGetApplication
 JXChooseSaveFile*
 JXGetChooseSaveFile()
 {
-	assert( theChooseSaveFile != NULL );
+	assert( theChooseSaveFile != nullptr );
 	return theChooseSaveFile;
 }
 
@@ -208,7 +208,7 @@ JXGetChooseSaveFile()
 JXAssert*
 JXGetAssertHandler()
 {
-	assert( theAssertHandler != NULL );
+	assert( theAssertHandler != nullptr );
 	return theAssertHandler;
 }
 
@@ -223,7 +223,7 @@ JXGetAssertHandler()
 JXDocumentManager*
 JXGetDocumentManager()
 {
-	assert( theDocManager != NULL );
+	assert( theDocManager != nullptr );
 	return theDocManager;
 }
 
@@ -236,7 +236,7 @@ JXGetDocumentManager
 	)
 {
 	*docManager = theDocManager;
-	return JConvertToBoolean( theDocManager != NULL );
+	return JConvertToBoolean( theDocManager != nullptr );
 }
 
 /******************************************************************************
@@ -257,7 +257,7 @@ JXSetDocumentManager
 	JXDocumentManager* docManager
 	)
 {
-	assert( theDocManager == NULL && docManager != NULL );
+	assert( theDocManager == nullptr && docManager != nullptr );
 	theDocManager = docManager;
 }
 
@@ -275,9 +275,9 @@ JXCreateDefaultDocumentManager
 	const JBoolean wantShortcuts
 	)
 {
-	assert( theDocManager == NULL );
+	assert( theDocManager == nullptr );
 	JXDocumentManager* docManager = jnew JXDocumentManager(wantShortcuts);
-	assert( docManager != NULL );
+	assert( docManager != nullptr );
 	// constructor calls JXSetDocumentManager()
 }
 
@@ -292,7 +292,7 @@ JXCreateDefaultDocumentManager
 JXHelpManager*
 JXGetHelpManager()
 {
-	assert( theHelpManager != NULL );
+	assert( theHelpManager != nullptr );
 	return theHelpManager;
 }
 
@@ -310,7 +310,7 @@ JXGetHelpManager
 	)
 {
 	*helpMgr = theHelpManager;
-	return JI2B( theHelpManager != NULL );
+	return JI2B( theHelpManager != nullptr );
 }
 
 /******************************************************************************
@@ -323,10 +323,10 @@ JXGetHelpManager
 void
 JXInitHelp()
 {
-	assert( theHelpManager == NULL );
+	assert( theHelpManager == nullptr );
 
 	theHelpManager = jnew JXHelpManager;
-	assert( theHelpManager != NULL );
+	assert( theHelpManager != nullptr );
 }
 
 /******************************************************************************
@@ -339,7 +339,7 @@ JXInitHelp()
 JXDockManager*
 JXGetDockManager()
 {
-	assert( theDockManager != NULL );
+	assert( theDockManager != nullptr );
 	return theDockManager;
 }
 
@@ -357,7 +357,7 @@ JXGetDockManager
 	)
 {
 	*dockMgr = theDockManager;
-	return JI2B( theDockManager != NULL );
+	return JI2B( theDockManager != nullptr );
 }
 
 /******************************************************************************
@@ -376,7 +376,7 @@ JXSetDockManager
 	JXDockManager* dockMgr
 	)
 {
-	assert( theDockManager == NULL && dockMgr != NULL );
+	assert( theDockManager == nullptr && dockMgr != nullptr );
 	theDockManager = dockMgr;
 }
 
@@ -392,7 +392,7 @@ JXGetMDIServer
 	)
 {
 	*server = theMDIServer;
-	return JConvertToBoolean( theMDIServer != NULL );
+	return JConvertToBoolean( theMDIServer != nullptr );
 }
 
 /******************************************************************************
@@ -411,7 +411,7 @@ JXSetMDIServer
 	JXMDIServer* server
 	)
 {
-	assert( theMDIServer == NULL && server != NULL );
+	assert( theMDIServer == nullptr && server != nullptr );
 	theMDIServer = server;
 }
 
@@ -423,7 +423,7 @@ JXSetMDIServer
 JXWebBrowser*
 JXGetWebBrowser()
 {
-	assert( theWebBrowser != NULL );
+	assert( theWebBrowser != nullptr );
 	return theWebBrowser;
 }
 
@@ -449,10 +449,10 @@ JXGetSharedPrefsManager()
 JXDirector*
 JXGetPersistentWindowOwner()
 {
-	if (thePersistentWindowOwner == NULL)
+	if (thePersistentWindowOwner == nullptr)
 		{
-		thePersistentWindowOwner = jnew JXDirector(NULL);
-		assert( thePersistentWindowOwner != NULL );
+		thePersistentWindowOwner = jnew JXDirector(nullptr);
+		assert( thePersistentWindowOwner != nullptr );
 		}
 
 	return thePersistentWindowOwner;
@@ -466,7 +466,7 @@ JXGetPersistentWindowOwner()
 void
 JXSuspendPersistentWindows()
 {
-	if (thePersistentWindowOwner != NULL)
+	if (thePersistentWindowOwner != nullptr)
 		{
 		thePersistentWindowOwner->Suspend();
 		}
@@ -480,7 +480,7 @@ JXSuspendPersistentWindows()
 void
 JXResumePersistentWindows()
 {
-	if (thePersistentWindowOwner != NULL)
+	if (thePersistentWindowOwner != nullptr)
 		{
 		thePersistentWindowOwner->Resume();
 		}
@@ -494,14 +494,14 @@ JXResumePersistentWindows()
 JXSearchTextDialog*
 JXGetSearchTextDialog()
 {
-	if (theSearchTextDialog == NULL)
+	if (theSearchTextDialog == nullptr)
 		{
 		JXSearchTextDialog::Create();
 		}
 
 	// The dialog must register itself.
 
-	assert( theSearchTextDialog != NULL );
+	assert( theSearchTextDialog != nullptr );
 	return theSearchTextDialog;
 }
 
@@ -512,7 +512,7 @@ JXGetSearchTextDialog
 	)
 {
 	*dlog = theSearchTextDialog;
-	return JI2B( theSearchTextDialog != NULL );
+	return JI2B( theSearchTextDialog != nullptr );
 }
 
 /******************************************************************************
@@ -531,7 +531,7 @@ JXSetSearchTextDialog
 	JXSearchTextDialog* dlog
 	)
 {
-	assert( theSearchTextDialog == NULL && dlog != NULL );
+	assert( theSearchTextDialog == nullptr && dlog != nullptr );
 	theSearchTextDialog = dlog;
 }
 
@@ -543,12 +543,12 @@ JXSetSearchTextDialog
 JXSpellChecker*
 JXGetSpellChecker()
 {
-	if (theSpellChecker == NULL)
+	if (theSpellChecker == nullptr)
 		{
 		theSpellChecker = jnew JXSpellChecker();
 		}
 
-	assert( theSpellChecker != NULL );
+	assert( theSpellChecker != nullptr );
 	return theSpellChecker;
 }
 

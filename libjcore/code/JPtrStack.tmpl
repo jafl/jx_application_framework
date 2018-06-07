@@ -159,7 +159,7 @@ JPtrStack<T,S>::PushCopy
 	)
 {
 	T* ptr = jnew T(data);
-	assert( ptr != NULL );
+	assert( ptr != nullptr );
 	JPtrStack<T,S>::Push(ptr);
 }
 

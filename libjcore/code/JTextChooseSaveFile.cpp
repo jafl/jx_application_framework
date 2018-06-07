@@ -158,7 +158,7 @@ JTextChooseSaveFile::ChooseFiles
 		if (JFileExists(fullName))
 			{
 			JString* s = jnew JString(fullName);
-			assert( s != NULL );
+			assert( s != nullptr );
 			fullNameList->Append(s);
 			}
 		else if (!(JGetUserNotification())->AskUserYes(JGetString("FileDoesNotExist::JTextChooseSaveFile")))

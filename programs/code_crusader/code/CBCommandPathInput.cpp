@@ -129,7 +129,7 @@ CBCommandPathInput::xAdjustStylesBeforeRecalc
 	Draw the entire text red if the path is invalid.  This is provided
 	so tables can draw the text the same way as the input field.
 
-	base can be NULL.  If you use CBCommandPathInput for relative paths, base
+	base can be nullptr.  If you use CBCommandPathInput for relative paths, base
 	should be the path passed to SetBasePath().
 
  ******************************************************************************/

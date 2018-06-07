@@ -30,7 +30,7 @@ public:
 
 	void	SetItems(JXTextButton* cancelButton, JXStaticText* counter,
 					 JXProgressIndicator* indicator,
-					 JXTEBase* label = NULL);
+					 JXTEBase* label = nullptr);
 
 	virtual JBoolean	IncrementProgress(const JString& message = JString::empty) override;
 	virtual JBoolean	IncrementProgress(const JSize delta) override;
@@ -57,12 +57,12 @@ private:
 
 	JBoolean	itsCancelFlag;
 
-	JXTextButton*			itsCancelButton;		// can be NULL unless cancellable
-	JXStaticText*			itsCounter;				// can be NULL unless var length
-	JXProgressIndicator*	itsIndicator;			// can be NULL unless fixed length
-	JXTEBase*				itsLabel;				// can be NULL
+	JXTextButton*			itsCancelButton;		// can be nullptr unless cancellable
+	JXStaticText*			itsCounter;				// can be nullptr unless var length
+	JXProgressIndicator*	itsIndicator;			// can be nullptr unless fixed length
+	JXTEBase*				itsLabel;				// can be nullptr
 
-	JXPGMessageDirector*	itsMessageDirector;		// NULL unless messages during process
+	JXPGMessageDirector*	itsMessageDirector;		// nullptr unless messages during process
 
 private:
 

@@ -94,7 +94,7 @@ JXFileDocument::JXFileDocument
 	itsAutosaveBeforeCloseFlag    = kJFalse;
 	itsCSF                        = JGetChooseSaveFile();
 	itsNeedSafetySaveFlag         = kJFalse;
-	itsSafetySaveFileName         = NULL;
+	itsSafetySaveFileName         = nullptr;
 
 	FileChanged(fileName, onDisk);
 }
@@ -438,7 +438,7 @@ JXFileDocument::FileModifiedByOthers
 		itsCheckModTimeFlag &&
 		JGetModificationTime(fullName, &modTime) == kJNoError &&
 		modTime != itsFileModTime);
-	if (modTimeChanged != NULL)
+	if (modTimeChanged != nullptr)
 		{
 		*modTimeChanged = m;
 		}
@@ -447,7 +447,7 @@ JXFileDocument::FileModifiedByOthers
 		itsCheckPermsFlag &&
 		JGetPermissions(fullName, &perms) == kJNoError &&
 		perms != itsFilePerms);
-	if (permsChanged != NULL)
+	if (permsChanged != nullptr)
 		{
 		*permsChanged = p;
 		}
@@ -522,7 +522,7 @@ JXFileDocument::DataReverted
 
 	If origName is not empty, it is passed to JChooseSaveFile::SaveFile().
 
-	If fullName != NULL and the save is successful, *fullName is the name
+	If fullName != nullptr and the save is successful, *fullName is the name
 	of the file that was created.
 
  ******************************************************************************/
@@ -552,7 +552,7 @@ JXFileDocument::SaveCopyInNewFile
 		const JError err = WriteFile(newName, kJTrue);
 		if (err.OK())
 			{
-			if (fullName != NULL)
+			if (fullName != nullptr)
 				{
 				*fullName = newName;
 				}
@@ -564,7 +564,7 @@ JXFileDocument::SaveCopyInNewFile
 			}
 		}
 
-	if (fullName != NULL)
+	if (fullName != nullptr)
 		{
 		fullName->Clear();
 		}
@@ -855,9 +855,9 @@ JXFileDocument::WriteFile
 		{
 		// use JFOpen() to get an error message
 
-		FILE* file = NULL;
+		FILE* file = nullptr;
 		JError err = JFOpen(fullName, "w", &file);
-		if (file != NULL)
+		if (file != nullptr)
 			{
 			// This should never happen, but who knows??
 
@@ -945,10 +945,10 @@ JXFileDocument::SafetySave
 			if (err.OK())
 				{
 				itsNeedSafetySaveFlag = kJFalse;
-				if (itsSafetySaveFileName == NULL)
+				if (itsSafetySaveFileName == nullptr)
 					{
 					itsSafetySaveFileName = jnew JString(fullName);
-					assert( itsSafetySaveFileName != NULL );
+					assert( itsSafetySaveFileName != nullptr );
 					}
 				else
 					{
@@ -974,12 +974,12 @@ JXFileDocument::SafetySave
 void
 JXFileDocument::RemoveSafetySaveFile()
 {
-	if (itsSafetySaveFileName != NULL)
+	if (itsSafetySaveFileName != nullptr)
 		{
 		JRemoveFile(*itsSafetySaveFileName);
 
 		jdelete itsSafetySaveFileName;
-		itsSafetySaveFileName = NULL;
+		itsSafetySaveFileName = nullptr;
 		}
 
 	itsNeedSafetySaveFlag = kJFalse;
@@ -999,7 +999,7 @@ JXFileDocument::GetSafetySaveFileName
 	)
 	const
 {
-	if (itsSafetySaveFileName != NULL)
+	if (itsSafetySaveFileName != nullptr)
 		{
 		*fileName = *itsSafetySaveFileName;
 		return kJTrue;
@@ -1050,7 +1050,7 @@ JXFileDocument::CheckForSafetySaveFiles
 			JGetModificationTime(assertName, &assertTime) == kJNoError &&
 			assertTime > modTime);
 
-		const JUtf8Byte* id = NULL;
+		const JUtf8Byte* id = nullptr;
 		if (safetyExists && assertExists)
 			{
 			id = "OpenSafetyAssertFilePrompt::JXFileDocument";
@@ -1069,20 +1069,20 @@ JXFileDocument::CheckForSafetySaveFiles
 			"name", name.GetBytes()
 			};
 
-		if (id != NULL &&
+		if (id != nullptr &&
 			(JGetUserNotification())->AskUserYes(
 				JGetString(id, map, sizeof(map))))
 			{
 			if (safetyExists)
 				{
 				JString* s = jnew JString(safetyName);
-				assert( s != NULL );
+				assert( s != nullptr );
 				filesToOpen->Append(s);
 				}
 			if (assertExists)
 				{
 				JString* s = jnew JString(assertName);
-				assert( s != NULL );
+				assert( s != nullptr );
 				filesToOpen->Append(s);
 				}
 			}
@@ -1149,7 +1149,7 @@ void
 JXFileDocument::AdjustWindowTitle()
 {
 	JXWindow* window = GetWindow();
-	if (window != NULL)
+	if (window != nullptr)
 		{
 		JString title = GetWindowTitle();
 		if (!itsSavedFlag)

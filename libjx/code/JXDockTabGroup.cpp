@@ -73,8 +73,8 @@ JXDockTabGroup::JXDockTabGroup
 	)
 	:
 	JXTabGroup(enclosure, hSizing, vSizing, x,y, w,h),
-	itsDockWidget(NULL),
-	itsDockContextMenu(NULL),
+	itsDockWidget(nullptr),
+	itsDockContextMenu(nullptr),
 	itsDockContextIndex(0)
 {
 }
@@ -178,7 +178,7 @@ JXDockTabGroup::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleDockContextMenu(selection->GetIndex());
 		}
 
@@ -196,10 +196,10 @@ JXDockTabGroup::Receive
 void
 JXDockTabGroup::CreateDockContextMenu()
 {
-	if (itsDockContextMenu == NULL)
+	if (itsDockContextMenu == nullptr)
 		{
 		itsDockContextMenu = jnew JXTextMenu(JString::empty, this, kFixedLeft, kFixedTop, 0,0, 10,10);
-		assert( itsDockContextMenu != NULL );
+		assert( itsDockContextMenu != nullptr );
 		itsDockContextMenu->SetMenuItems(kContextMenuStr, "JXDockTabGroup");
 		itsDockContextMenu->SetUpdateAction(JXMenu::kDisableNone);
 		itsDockContextMenu->SetToHiddenPopupMenu();
@@ -296,7 +296,7 @@ JXDockTabGroup::HandleDockContextMenu
 			{
 			JXDockWidget* dock;
 			w->GetDockWidget(&dock);
-			(JXGetDockManager())->SetDefaultDock(type.GetBytes(), w->IsDocked() ? dock : NULL);
+			(JXGetDockManager())->SetDefaultDock(type.GetBytes(), w->IsDocked() ? dock : nullptr);
 			}
 		}
 

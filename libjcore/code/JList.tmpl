@@ -32,10 +32,10 @@ JList<T>::JList()
 	:
 	JCollection()
 {
-	itsCompareFn     = NULL;
-	itsCompareObj    = NULL;
+	itsCompareFn     = nullptr;
+	itsCompareObj    = nullptr;
 	itsSortOrder     = JListT::kSortAscending;
-	itsFirstIterator = NULL;
+	itsFirstIterator = nullptr;
 }
 
 /******************************************************************************
@@ -52,10 +52,10 @@ JList<T>::JList
 	JCollection(source)
 {
 	itsCompareFn     = source.itsCompareFn;
-	itsCompareObj    = (source.itsCompareObj == NULL ? (JElementComparison<T>*) NULL :
+	itsCompareObj    = (source.itsCompareObj == nullptr ? (JElementComparison<T>*) nullptr :
 													   (source.itsCompareObj)->Copy());
 	itsSortOrder     = source.itsSortOrder;
-	itsFirstIterator = NULL;	// we don't copy the iterators
+	itsFirstIterator = nullptr;	// we don't copy the iterators
 }
 
 /******************************************************************************
@@ -103,7 +103,7 @@ JList<T>::OrderedSetAssigned
 	)
 {
 	itsCompareFn  = source.itsCompareFn;
-	itsCompareObj = (source.itsCompareObj == NULL ? (JElementComparison<T>*) NULL :
+	itsCompareObj = (source.itsCompareObj == nullptr ? (JElementComparison<T>*) nullptr :
 													(source.itsCompareObj)->Copy());
 	itsSortOrder  = source.itsSortOrder;
 
@@ -301,7 +301,7 @@ JList<T>::NotifyIterators
 	const JBroadcaster::Message& message
 	)
 {
-	if (itsFirstIterator != NULL)
+	if (itsFirstIterator != nullptr)
 		{
 		itsFirstIterator->OrderedSetChanged(message);
 		}
@@ -321,7 +321,7 @@ JList<T>::GetCompareFunction
 	const
 {
 	*compareFn = itsCompareFn;
-	return JI2B( itsCompareFn != NULL );
+	return JI2B( itsCompareFn != nullptr );
 }
 
 template <class T>
@@ -334,12 +334,12 @@ JList<T>::SetCompareFunction
 	itsCompareFn = compareFn;
 
 	jdelete itsCompareObj;
-	itsCompareObj = NULL;
+	itsCompareObj = nullptr;
 
-	if (itsCompareFn != NULL)
+	if (itsCompareFn != nullptr)
 		{
 		itsCompareObj = jnew JCompareFnWrapper<T>(itsCompareFn);
-		assert( itsCompareObj != NULL );
+		assert( itsCompareObj != nullptr );
 		}
 }
 
@@ -357,7 +357,7 @@ JList<T>::GetCompareObject
 	const
 {
 	*compareObj = itsCompareObj;
-	return JI2B( itsCompareObj != NULL );
+	return JI2B( itsCompareObj != nullptr );
 }
 
 template <class T>
@@ -367,7 +367,7 @@ JList<T>::SetCompareObject
 	const JElementComparison<T>& compareObj
 	)
 {
-	itsCompareFn = NULL;
+	itsCompareFn = nullptr;
 
 	jdelete itsCompareObj;
 	itsCompareObj = compareObj.Copy();
@@ -377,10 +377,10 @@ template <class T>
 void
 JList<T>::ClearCompareObject()
 {
-	itsCompareFn = NULL;
+	itsCompareFn = nullptr;
 
 	jdelete itsCompareObj;
-	itsCompareObj = NULL;
+	itsCompareObj = nullptr;
 }
 
 /******************************************************************************
@@ -419,7 +419,7 @@ JBoolean
 JList<T>::IsSorted()
 	const
 {
-	assert( itsCompareObj != NULL );
+	assert( itsCompareObj != nullptr );
 
 	const JSize count = GetElementCount();
 	if (count < 2)
@@ -474,7 +474,7 @@ template <class T>
 void
 JList<T>::Sort()
 {
-	assert( itsCompareObj != NULL );
+	assert( itsCompareObj != nullptr );
 
 	const JSize count = GetElementCount();
 	if (count < 2)
@@ -528,7 +528,7 @@ JList<T>::Sort()
 	Returns kJTrue if the element was inserted.  Obviously, this is only
 	useful if insertIfDuplicate==kJFalse.
 
-	If index!=NULL, it contains the index where the element was inserted.
+	If index!=nullptr, it contains the index where the element was inserted.
 
  ******************************************************************************/
 
@@ -546,7 +546,7 @@ JList<T>::InsertSorted
 	if (!isDuplicate || insertIfDuplicate)
 		{
 		InsertElementAtIndex(i, data);
-		if (index != NULL)
+		if (index != nullptr)
 			{
 			*index = i;
 			}
@@ -554,7 +554,7 @@ JList<T>::InsertSorted
 		}
 	else
 		{
-		if (index != NULL)
+		if (index != nullptr)
 			{
 			*index = 0;
 			}
@@ -587,7 +587,7 @@ JList<T>::GetInsertionSortIndex
 		index++;
 		}
 
-	if (isDuplicate != NULL)
+	if (isDuplicate != nullptr)
 		{
 		*isDuplicate = found;
 		}
@@ -652,7 +652,7 @@ JList<T>::SearchSorted1
 	)
 	const
 {
-	assert( itsCompareObj != NULL );
+	assert( itsCompareObj != nullptr );
 
 	*found = kJFalse;
 
@@ -749,7 +749,7 @@ JList<T>::NewIterator
 	)
 {
 	JListIterator<T>* iter = jnew JListIterator<T>(this, start, index);
-	assert( iter != NULL );
+	assert( iter != nullptr );
 	return iter;
 }
 
@@ -763,7 +763,7 @@ JList<T>::NewIterator
 	const
 {
 	JListIterator<T>* iter = jnew JListIterator<T>(*this, start, index);
-	assert( iter != NULL );
+	assert( iter != nullptr );
 	return iter;
 }
 
@@ -815,7 +815,7 @@ JCompareFnWrapper<T>::Copy()
 	const
 {
 	JCompareFnWrapper<T>* copy = jnew JCompareFnWrapper<T>(itsCompareFn);
-	assert( copy != NULL );
+	assert( copy != nullptr );
 	return copy;
 }
 

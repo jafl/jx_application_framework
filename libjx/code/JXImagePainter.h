@@ -65,7 +65,7 @@ public:
 
 private:
 
-	JXImage*	itsImage;	// we don't own this, can be NULL
+	JXImage*	itsImage;	// we don't own this, can be nullptr
 
 private:
 

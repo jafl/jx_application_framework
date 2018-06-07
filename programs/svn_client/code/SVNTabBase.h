@@ -37,8 +37,8 @@ public:
 
 	virtual JBoolean	GetBaseRevision(JString* rev);
 	void				CompareEdited(const JCharacter* rev);
-	void				CompareCurrent(const JCharacter* rev = NULL);
-	void				ComparePrev(const JCharacter* rev = NULL);
+	void				CompareCurrent(const JCharacter* rev = nullptr);
+	void				ComparePrev(const JCharacter* rev = nullptr);
 
 	virtual JBoolean	ScheduleForAdd();
 	virtual JBoolean	ScheduleForRemove();
@@ -61,9 +61,9 @@ private:
 
 private:
 
-	JBoolean	Prepare(JString* cmd, const JCharacter* warnMsgID = NULL,
+	JBoolean	Prepare(JString* cmd, const JCharacter* warnMsgID = nullptr,
 						const JBoolean includeDeleted = kJFalse);
-	JBoolean	Execute(const JCharacter* cmd, const JCharacter* warnMsgID = NULL,
+	JBoolean	Execute(const JCharacter* cmd, const JCharacter* warnMsgID = nullptr,
 						const JBoolean includeDeleted = kJFalse,
 						const JBoolean blocking = kJTrue);
 	void		Compare(const JString& rev, const JBoolean isPrev);

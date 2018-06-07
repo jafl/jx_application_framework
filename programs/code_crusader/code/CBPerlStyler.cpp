@@ -17,7 +17,7 @@
 #include <JXColorManager.h>
 #include <jAssert.h>
 
-CBPerlStyler* CBPerlStyler::itsSelf = NULL;
+CBPerlStyler* CBPerlStyler::itsSelf = nullptr;
 
 const JFileVersion kCurrentTypeListVersion = 3;
 
@@ -82,12 +82,12 @@ static JBoolean recursiveInstance = kJFalse;
 CBStylerBase*
 CBPerlStyler::Instance()
 {
-	if (itsSelf == NULL && !recursiveInstance)
+	if (itsSelf == nullptr && !recursiveInstance)
 		{
 		recursiveInstance = kJTrue;
 
 		itsSelf = jnew CBPerlStyler;
-		assert( itsSelf != NULL );
+		assert( itsSelf != nullptr );
 
 		recursiveInstance = kJFalse;
 		}
@@ -158,7 +158,7 @@ CBPerlStyler::CBPerlStyler()
 CBPerlStyler::~CBPerlStyler()
 {
 	JPrefObject::WritePrefs();
-	itsSelf = NULL;
+	itsSelf = nullptr;
 }
 
 /******************************************************************************

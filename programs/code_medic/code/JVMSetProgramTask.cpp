@@ -41,7 +41,7 @@ void
 JVMSetProgramTask::Perform()
 {
 	JVMLink* link = dynamic_cast<JVMLink*>(CMGetLink());
-	if (link != NULL)
+	if (link != nullptr)
 		{
 		link->BroadcastProgramSet();
 		}

@@ -66,7 +66,7 @@ SyGApplication::SyGApplication
 	)
 	:
 	JXApplication(argc, argv, kAppSignature, kSyGDefaultStringData),
-	JPrefObject(NULL, kSAppID),
+	JPrefObject(nullptr, kSAppID),
 	itsTermCmd(kDefaultTermCmd),
 	itsGitStatusCmd(kDefaultGitStatusCmd),
 	itsGitHistoryCmd(kDefaultGitHistoryCmd),
@@ -76,7 +76,7 @@ SyGApplication::SyGApplication
 	// warn that prefs are unreadable.
 
 	itsWindowList = jnew JPtrArray<SyGTreeDir>(JPtrArrayT::kForgetAll);
-	assert( itsWindowList != NULL );
+	assert( itsWindowList != nullptr );
 
 	*displayAbout = SyGCreateGlobals(this);
 
@@ -98,16 +98,16 @@ SyGApplication::SyGApplication
 		}
 
 	itsMountPointList = jnew JMountPointList(JPtrArrayT::kDeleteAll);
-	assert( itsMountPointList != NULL );
+	assert( itsMountPointList != nullptr );
 	JGetUserMountPointList(itsMountPointList, &itsMountPointState);
 
 	itsShortcutList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
-	assert( itsShortcutList != NULL );
+	assert( itsShortcutList != nullptr );
 	itsShortcutList->SetCompareFunction(CompareShortcuts);
 	itsShortcutList->SetSortOrder(JListT::kSortAscending);
 
 	itsMountPointPrefs = jnew JStringPtrMap<JString>(JPtrArrayT::kDeleteAll);
-	assert( itsMountPointPrefs != NULL );
+	assert( itsMountPointPrefs != nullptr );
 
 	SetPrefInfo(SyGGetPrefsMgr(), kSAppID);
 	JPrefObject::ReadPrefs();
@@ -143,7 +143,7 @@ JBoolean
 SyGApplication::OpenDirectory()
 {
 	JString path;
-	if ((SyGGetChooseSaveFile())->ChooseRPath("Select path", NULL, NULL, &path))
+	if ((SyGGetChooseSaveFile())->ChooseRPath("Select path", nullptr, nullptr, &path))
 		{
 		return OpenDirectory(path);
 		}
@@ -165,19 +165,19 @@ SyGApplication::OpenDirectory
 	const JBoolean	clearSelection
 	)
 {
-	if (dir != NULL)
+	if (dir != nullptr)
 		{
-		*dir = NULL;
+		*dir = nullptr;
 		}
 
-	if (row != NULL)
+	if (row != nullptr)
 		{
 		*row = 0;
 		}
 
 	JString fixedName, trueName;
 	if (!JExpandHomeDirShortcut(pathName, &fixedName) ||
-		!JConvertToAbsolutePath(fixedName, NULL, &trueName))
+		!JConvertToAbsolutePath(fixedName, nullptr, &trueName))
 		{
 		if (reportError)
 			{
@@ -251,14 +251,14 @@ SyGApplication::OpenDirectory
 				{
 				SyGTreeDir* childDir = itsWindowList->GetElement(i);
 				childDir->Activate();
-				if (dir != NULL)
+				if (dir != nullptr)
 					{
 					*dir = childDir;
 					}
 
 				JPoint cell;
 				(childDir->GetTable())->SelectName(pathList, selectName, &cell, clearSelection);
-				if (row != NULL)
+				if (row != nullptr)
 					{
 					*row = cell.y;
 					}
@@ -284,7 +284,7 @@ SyGApplication::OpenDirectory
 	JGetTrueName(fixedName, &trueName);
 
 	SyGTreeDir* childDir = jnew SyGTreeDir(trueName);
-	assert( childDir != NULL );
+	assert( childDir != nullptr );
 
 	if (deiconify)
 		{
@@ -293,15 +293,15 @@ SyGApplication::OpenDirectory
 	childDir->Activate();
 
 	JPoint cell;
-	(childDir->GetTable())->SelectName(selectName, NULL, &cell);
-	if (row != NULL)
+	(childDir->GetTable())->SelectName(selectName, nullptr, &cell);
+	if (row != nullptr)
 		{
 		*row = cell.y;
 		}
 
 	itsWindowList->Append(childDir);
 
-	if (dir != NULL)
+	if (dir != nullptr)
 		{
 		*dir = childDir;
 		}
@@ -405,7 +405,7 @@ SyGApplication::UpdateShortcutMenu
 	for (JIndex i=1; i<=count; i++)
 		{
 		const JMountPoint mp = itsMountPointList->GetElement(i);
-		menu->AppendItem(*(mp.path), JXMenu::kPlainType, NULL,
+		menu->AppendItem(*(mp.path), JXMenu::kPlainType, nullptr,
 						 GetNMShortcut(&shortcutIndex), *(mp.path));
 
 		JXImage* image;
@@ -418,7 +418,7 @@ SyGApplication::UpdateShortcutMenu
 	JString trashDir;
 	if (SyGGetTrashDirectory(&trashDir, kJFalse))
 		{
-		menu->AppendItem("Trash", JXMenu::kPlainType, NULL,
+		menu->AppendItem("Trash", JXMenu::kPlainType, nullptr,
 						 GetNMShortcut(&shortcutIndex), trashDir);
 		menu->SetItemImage(menu->GetItemCount(), SyGGetTrashSmallIcon(), kJFalse);
 		}
@@ -431,7 +431,7 @@ SyGApplication::UpdateShortcutMenu
 	for (JIndex i=1; i<=count; i++)
 		{
 		const JString* path = itsShortcutList->GetElement(i);
-		menu->AppendItem(*path, JXMenu::kPlainType, NULL,
+		menu->AppendItem(*path, JXMenu::kPlainType, nullptr,
 						 GetNMShortcut(&shortcutIndex), *path);
 		menu->SetItemImage(menu->GetItemCount(), folderIcon, kJFalse);
 		}
@@ -466,7 +466,7 @@ SyGApplication::GetNMShortcut
 		}
 	else
 		{
-		return NULL;
+		return nullptr;
 		}
 }
 
@@ -501,7 +501,7 @@ SyGApplication::OpenShortcut
 	const JIndex index
 	)
 {
-	const JString* path = NULL;
+	const JString* path = nullptr;
 
 	JString trashDir;
 	const JBoolean hasTrashDir = SyGGetTrashDirectory(&trashDir, kJFalse);
@@ -521,7 +521,7 @@ SyGApplication::OpenShortcut
 		path = itsShortcutList->GetElement(index - shortcutOffset);
 		}
 
-	if (!OpenDirectory(*path, NULL, NULL, kJTrue, kJFalse) && index > shortcutOffset)
+	if (!OpenDirectory(*path, nullptr, nullptr, kJTrue, kJFalse) && index > shortcutOffset)
 		{
 		JString msg = "\"";
 		msg += *path;
@@ -545,7 +545,7 @@ SyGApplication::AddShortcut
 	)
 {
 	JString* s = jnew JString(JConvertToHomeDirShortcut(shortcut));
-	assert( s != NULL );
+	assert( s != nullptr );
 	if (!itsShortcutList->InsertSorted(s, kJFalse))
 		{
 		jdelete s;
@@ -574,7 +574,7 @@ SyGApplication::RemoveShortcut
 /******************************************************************************
  IsMountPoint
 
-	If returns kJTrue and type != NULL, type is the type of the device.
+	If returns kJTrue and type != nullptr, type is the type of the device.
 
  ******************************************************************************/
 
@@ -599,7 +599,7 @@ SyGApplication::IsMountPoint
 		const JMountPoint info = itsMountPointList->GetElement(i);
 		if (JSameDirEntry(path, *(info.path)))
 			{
-			if (type != NULL)
+			if (type != nullptr)
 				{
 				*type = info.type;
 				}
@@ -691,7 +691,7 @@ SyGApplication::RestoreProgramState()
 	for (JIndex i=1; i<=count; i++)
 		{
 		const JString* str = children.GetElement(i);
-		OpenDirectory(*str, NULL, NULL, kJFalse, kJFalse);
+		OpenDirectory(*str, nullptr, nullptr, kJFalse, kJFalse);
 		}
 
 	if (itsWindowList->IsEmpty())
@@ -843,7 +843,7 @@ SyGApplication::DisplayAbout
 	)
 {
 	SyGAboutDialog* dlog = jnew SyGAboutDialog(this, prevVersStr);
-	assert( dlog != NULL );
+	assert( dlog != nullptr );
 	dlog->BeginDialog();
 }
 

@@ -43,6 +43,6 @@ JXAdjustScrollbarTask::~JXAdjustScrollbarTask()
 void
 JXAdjustScrollbarTask::Perform()
 {
-	itsScrollableWidget->itsAdjustScrollbarTask = NULL;	// we will now be deleted
+	itsScrollableWidget->itsAdjustScrollbarTask = nullptr;	// we will now be deleted
 	itsScrollableWidget->AdjustScrollbars();
 }

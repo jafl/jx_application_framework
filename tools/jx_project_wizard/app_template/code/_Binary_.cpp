@@ -45,7 +45,7 @@ main
 	JBoolean displayAbout;
 	JString prevVersStr;
 	<PRE>App* app = jnew <PRE>App(&argc, argv, &displayAbout, &prevVersStr);
-	assert( app != NULL );
+	assert( app != nullptr );
 
 	if (displayAbout &&
 		!(JGetUserNotification())->AcceptLicense())
@@ -60,7 +60,7 @@ main
 	// You may want to create all directors inside HandleCmdLineOptions()
 
 	<PRE>MainDirector* dir = jnew <PRE>MainDirector(app);
-	assert( dir != NULL );
+	assert( dir != nullptr );
 	dir->Activate();
 
 	if (displayAbout)

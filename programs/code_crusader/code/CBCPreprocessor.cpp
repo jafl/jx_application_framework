@@ -23,7 +23,7 @@
 CBCPreprocessor::CBCPreprocessor()
 {
 	itsMacroList = jnew CBPPMacroList;
-	assert( itsMacroList != NULL );
+	assert( itsMacroList != nullptr );
 	itsMacroList->SetSortOrder(JListT::kSortAscending);
 	itsMacroList->SetCompareFunction(CompareMacros);
 }
@@ -174,10 +174,10 @@ CBCPreprocessor::DefineMacro
 	const JCharacter* value
 	)
 {
-	assert( !JString::IsEmpty(name) && value != NULL );
+	assert( !JString::IsEmpty(name) && value != nullptr );
 
 	MacroInfo info(jnew JString(name), jnew JString(value));
-	assert( info.name != NULL && info.value != NULL );
+	assert( info.name != nullptr && info.value != nullptr );
 	itsMacroList->InsertSorted(info);
 }
 
@@ -257,7 +257,7 @@ CBCPreprocessor::ReadMacro
 	)
 {
 	MacroInfo info(jnew JString, jnew JString);
-	assert( info.name != NULL && info.value != NULL );
+	assert( info.name != nullptr && info.value != nullptr );
 	input >> *(info.name) >> *(info.value);
 	itsMacroList->AppendElement(info);
 }

@@ -169,7 +169,7 @@ SyGTrashButton::WillAcceptDrop
 void
 SyGTrashButton::HandleDNDEnter()
 {
-	SyGSetDNDTarget(NULL);
+	SyGSetDNDTarget(nullptr);
 	SetImage(SyGGetTrashSmallIcon(kJTrue), kJFalse);
 }
 
@@ -181,7 +181,7 @@ SyGTrashButton::HandleDNDEnter()
 void
 SyGTrashButton::HandleDNDLeave()
 {
-	SyGSetDNDTarget(NULL);
+	SyGSetDNDTarget(nullptr);
 	SetImage(SyGGetTrashSmallIcon(kJFalse), kJFalse);
 }
 
@@ -216,7 +216,7 @@ SyGTrashButton::MoveFilesToTrash
 	const JXWidget*	source
 	)
 {
-	SyGFileTreeTable* srcTable = NULL;
+	SyGFileTreeTable* srcTable = nullptr;
 	if (SyGGetDNDSource(source, &srcTable) &&
 		SyGIsTrashDirectory((srcTable->GetFileTree())->GetDirectory()))
 		{
@@ -228,7 +228,7 @@ SyGTrashButton::MoveFilesToTrash
 	JXDNDManager* dndMgr           = display->GetDNDManager();
 	const Atom dndSelectionName    = dndMgr->GetDNDSelectionName();
 
-	unsigned char* data = NULL;
+	unsigned char* data = nullptr;
 	JSize dataLength;
 	Atom returnType;
 	JXSelectionManager::DeleteMethod delMethod;
@@ -238,7 +238,7 @@ SyGTrashButton::MoveFilesToTrash
 		if (returnType == selManager->GetURLXAtom())
 			{
 			JPtrArray<JString>* fileNameList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
-			assert( fileNameList != NULL );
+			assert( fileNameList != nullptr );
 			JPtrArray<JString> urlList(JPtrArrayT::kDeleteAll);
 			JXUnpackFileNames((char*) data, dataLength, fileNameList, &urlList);
 
@@ -249,5 +249,5 @@ SyGTrashButton::MoveFilesToTrash
 		selManager->DeleteData(&data, delMethod);
 		}
 
-	SyGSetDNDSource(NULL);
+	SyGSetDNDSource(nullptr);
 }

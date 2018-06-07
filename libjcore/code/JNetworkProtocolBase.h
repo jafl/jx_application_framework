@@ -51,7 +51,7 @@ public:
 
 		Chunk()
 			:
-			data(NULL), count(0), sendOffset(0)
+			data(nullptr), count(0), sendOffset(0)
 		{ };
 
 		Chunk(const char* data, const JSize count);
@@ -66,7 +66,7 @@ public:
 		void CleanOut()
 		{
 			jdelete data;
-			data = NULL;
+			data = nullptr;
 		}
 	};
 

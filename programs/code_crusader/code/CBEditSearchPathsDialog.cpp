@@ -99,44 +99,44 @@ CBEditSearchPathsDialog::BuildWindow
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 370,370, "");
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	JXScrollbarSet* scrollbarSet =
 		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 20,100, 240,220);
-	assert( scrollbarSet != NULL );
+	assert( scrollbarSet != nullptr );
 
 	JXTextButton* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::CBEditSearchPathsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 70,340, 70,20);
-	assert( cancelButton != NULL );
+	assert( cancelButton != nullptr );
 
 	JXTextButton* okButton =
 		jnew JXTextButton(JGetString("okButton::CBEditSearchPathsDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 230,340, 70,20);
-	assert( okButton != NULL );
+	assert( okButton != nullptr );
 
 	JXStaticText* instrText =
 		jnew JXStaticText(JGetString("instrText::CBEditSearchPathsDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 20,20, 330,70);
-	assert( instrText != NULL );
+	assert( instrText != nullptr );
 
 	JXTextButton* addPathButton =
 		jnew JXTextButton(JGetString("addPathButton::CBEditSearchPathsDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 280,110, 70,20);
-	assert( addPathButton != NULL );
+	assert( addPathButton != nullptr );
 	addPathButton->SetShortcuts(JGetString("addPathButton::CBEditSearchPathsDialog::shortcuts::JXLayout"));
 
 	JXTextButton* removePathButton =
 		jnew JXTextButton(JGetString("removePathButton::CBEditSearchPathsDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 280,140, 70,20);
-	assert( removePathButton != NULL );
+	assert( removePathButton != nullptr );
 	removePathButton->SetShortcuts(JGetString("removePathButton::CBEditSearchPathsDialog::shortcuts::JXLayout"));
 
 	JXTextButton* choosePathButton =
 		jnew JXTextButton(JGetString("choosePathButton::CBEditSearchPathsDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 280,190, 70,20);
-	assert( choosePathButton != NULL );
+	assert( choosePathButton != nullptr );
 	choosePathButton->SetShortcuts(JGetString("choosePathButton::CBEditSearchPathsDialog::shortcuts::JXLayout"));
 
 // end JXLayout
@@ -160,7 +160,7 @@ CBEditSearchPathsDialog::BuildWindow
 						choosePathButton, csf,
 						scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 						JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 10,10);
-	assert( itsTable != NULL );
+	assert( itsTable != nullptr );
 }
 
 /******************************************************************************

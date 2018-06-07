@@ -34,7 +34,7 @@ JXImageMenuData::JXImageMenuData
 	JXMenuData()
 {
 	itsIconData = jnew JArray<IconData>;
-	assert( itsIconData != NULL );
+	assert( itsIconData != nullptr );
 
 	itsColumnCount = columnCount;
 
@@ -69,7 +69,7 @@ JXImageMenuData::InsertItem
 	const JString&			id
 	)
 {
-	assert( image != NULL );
+	assert( image != nullptr );
 
 	const IconData itemData(image, menuOwnsImage);
 	itsIconData->InsertElementAtIndex(index, itemData);
@@ -135,7 +135,7 @@ JXImageMenuData::CleanOutIconItem
 		{
 		jdelete (itemData->image);
 		}
-	itemData->image = NULL;
+	itemData->image = nullptr;
 }
 
 /******************************************************************************
@@ -151,11 +151,11 @@ JXImageMenuData::SetImage
 	const JBoolean	menuOwnsImage
 	)
 {
-	assert( image != NULL );
+	assert( image != nullptr );
 
 	IconData itemData = itsIconData->GetElement(index);
 
-	if (itemData.image == NULL ||
+	if (itemData.image == nullptr ||
 		(itemData.image->GetBounds()) != image->GetBounds())
 		{
 		itsNeedGeomRecalcFlag = kJTrue;

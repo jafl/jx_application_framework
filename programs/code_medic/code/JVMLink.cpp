@@ -83,47 +83,47 @@ const JCharacter* JVMLink::kIDResolved = "IDResolved::JVMLink";
 JVMLink::JVMLink()
 	:
 	CMLink(kFeatures),
-	itsAcceptor(NULL),
-	itsDebugLink(NULL),
-	itsProcess(NULL),
-	itsOutputLink(NULL),
-	itsInputLink(NULL),
-	itsLatestMsg(NULL),
-	itsJVMDeathTask(NULL)
+	itsAcceptor(nullptr),
+	itsDebugLink(nullptr),
+	itsProcess(nullptr),
+	itsOutputLink(nullptr),
+	itsInputLink(nullptr),
+	itsLatestMsg(nullptr),
+	itsJVMDeathTask(nullptr)
 {
 	InitFlags();
 
 	itsBPMgr = jnew JVMBreakpointManager(this);
-	assert( itsBPMgr != NULL );
+	assert( itsBPMgr != nullptr );
 
 	itsSourcePathList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
-	assert( itsSourcePathList != NULL );
+	assert( itsSourcePathList != nullptr );
 
 	itsClassByIDList = jnew JArray<ClassInfo>;
-	assert( itsClassByIDList != NULL );
+	assert( itsClassByIDList != nullptr );
 	itsClassByIDList->SetCompareFunction(CompareClassIDs);
 
 	itsClassByNameList = jnew JAliasArray<ClassInfo>(itsClassByIDList, CompareClassNames, JListT::kSortAscending);
-	assert( itsClassByNameList != NULL );
+	assert( itsClassByNameList != nullptr );
 
 	itsThreadRoot = jnew JVMThreadNode(JVMThreadNode::kGroupType, JVMThreadNode::kRootThreadGroupID);
-	assert( itsThreadRoot != NULL );
+	assert( itsThreadRoot != nullptr );
 
 	itsThreadTree = jnew JTree(itsThreadRoot);
-	assert( itsThreadTree != NULL );
+	assert( itsThreadTree != nullptr );
 
 	itsThreadList = jnew JPtrArray<JVMThreadNode>(JPtrArrayT::kForgetAll);
-	assert( itsThreadList != NULL );
+	assert( itsThreadList != nullptr );
 	itsThreadList->SetCompareFunction(JVMThreadNode::CompareID);
 
 	itsCullThreadGroupsTask = jnew JXTimerTask(10000);
-	assert( itsCullThreadGroupsTask != NULL );
+	assert( itsCullThreadGroupsTask != nullptr );
 	itsCullThreadGroupsTask->Start();
 	ListenTo(itsCullThreadGroupsTask);
 	itsCullThreadGroupIndex = 1;
 
 	itsFrameList = jnew JArray<FrameInfo>();
-	assert( itsFrameList != NULL );
+	assert( itsFrameList != nullptr );
 
 	StartDebugger();
 }
@@ -221,7 +221,7 @@ JBoolean
 JVMLink::HasProgram()
 	const
 {
-	return JI2B(!itsJVMExecArgs.IsEmpty() || itsDebugLink != NULL);
+	return JI2B(!itsJVMExecArgs.IsEmpty() || itsDebugLink != nullptr);
 }
 
 /******************************************************************************
@@ -291,7 +291,7 @@ JBoolean
 JVMLink::HasLoadedSymbols()
 	const
 {
-	return JI2B(itsDebugLink != NULL);
+	return JI2B(itsDebugLink != nullptr);
 }
 
 /******************************************************************************
@@ -303,7 +303,7 @@ JBoolean
 JVMLink::IsDebugging()
 	const
 {
-	return JI2B(itsDebugLink != NULL);
+	return JI2B(itsDebugLink != nullptr);
 }
 
 /******************************************************************************
@@ -315,7 +315,7 @@ JBoolean
 JVMLink::ProgramIsRunning()
 	const
 {
-	return JI2B(itsDebugLink != NULL && !itsProgramIsStoppedFlag);
+	return JI2B(itsDebugLink != nullptr && !itsProgramIsStoppedFlag);
 }
 
 /******************************************************************************
@@ -327,7 +327,7 @@ JBoolean
 JVMLink::ProgramIsStopped()
 	const
 {
-	return JI2B(itsDebugLink != NULL && itsProgramIsStoppedFlag);
+	return JI2B(itsDebugLink != nullptr && itsProgramIsStoppedFlag);
 }
 
 /******************************************************************************
@@ -375,7 +375,7 @@ JVMLink::Receive
 		{
 		const JVMSocket::MessageReady* info =
 			dynamic_cast<const JVMSocket::MessageReady*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		ReceiveMessageFromJVM(*info);
 		}
 	else if (sender == itsInputLink && message.Is(CMPipeT::kReadReady))
@@ -387,19 +387,19 @@ JVMLink::Receive
 		{
 		const JProcess::Finished* info =
 			dynamic_cast<const JProcess::Finished*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		ProgramFinished1(info);
 
 		jdelete itsJVMDeathTask;
-		itsJVMDeathTask = NULL;
+		itsJVMDeathTask = nullptr;
 
 		jdelete itsProcess;
-		itsProcess = NULL;
+		itsProcess = nullptr;
 		}
 	else if (sender == itsJVMDeathTask && message.Is(JXTimerTask::kTimerWentOff))
 		{
-		ProgramFinished1(NULL);
-		itsJVMDeathTask = NULL;
+		ProgramFinished1(nullptr);
+		itsJVMDeathTask = nullptr;
 		}
 
 	else if (sender == itsThreadTree)
@@ -443,9 +443,9 @@ JVMLink::ReceiveMessageFromJVM
 
 			cmd->Finished(JI2B(info.GetErrorCode() == 0));
 
-			itsLatestMsg = NULL;
+			itsLatestMsg = nullptr;
 
-			SetRunningCommand(NULL);
+			SetRunningCommand(nullptr);
 			if (!HasForegroundCommands())
 				{
 				RunNextCommand();
@@ -492,7 +492,7 @@ JVMLink::DispatchEventsFromJVM
 		if (type == kVMDeathEvent)
 			{
 			itsJVMDeathTask = jnew JXTimerTask(1000, kJTrue);
-			assert( itsJVMDeathTask != NULL );
+			assert( itsJVMDeathTask != nullptr );
 			itsJVMDeathTask->Start();
 			ListenTo(itsJVMDeathTask);
 			}
@@ -531,7 +531,7 @@ JVMLink::DispatchEventsFromJVM
 			if (!FindThread(threadID, &node))	// might be created by JVMGetThreadGroups
 				{
 				node = jnew JVMThreadNode(JVMThreadNode::kThreadType, threadID);
-				assert( node != NULL );
+				assert( node != nullptr );
 				}
 			}
 		else if (type == kThreadDeathEvent)
@@ -641,7 +641,7 @@ JVMLink::FindThread
 		}
 	else
 		{
-		*node = NULL;
+		*node = nullptr;
 		return kJFalse;
 		}
 }
@@ -681,7 +681,7 @@ JVMLink::CheckNextThreadGroup()
 		}
 
 	CMCommand* cmd = jnew JVMGetThreadParent(node, kJTrue);
-	assert( cmd != NULL );
+	assert( cmd != nullptr );
 
 	itsCullThreadGroupIndex++;
 }
@@ -728,21 +728,21 @@ JVMLink::AddClass
 		}
 
 	info.name = jnew JString(ClassSignatureToName(signature));
-	assert( info.name != NULL );
+	assert( info.name != nullptr );
 
 	JString path;
 	if (ClassSignatureToFile(signature, &path))
 		{
 		info.path = jnew JString(path);
-		assert( info.path != NULL );
+		assert( info.path != nullptr );
 		}
 	else
 		{
-		info.path = NULL;
+		info.path = nullptr;
 		}
 
 	info.methods = jnew JArray<MethodInfo>();
-	assert( info.methods != NULL );
+	assert( info.methods != nullptr );
 	info.methods->SetCompareFunction(CompareMethodIDs);
 
 	itsClassByIDList->InsertSorted(info);
@@ -754,7 +754,7 @@ JVMLink::AddClass
 	Broadcast(IDResolved(id));
 
 	CMCommand* cmd = jnew JVMGetClassMethods(id);
-	assert( cmd != NULL );
+	assert( cmd != nullptr );
 }
 
 /******************************************************************************
@@ -781,7 +781,7 @@ JVMLink::GetClassName
 	else
 		{
 		CMCommand* cmd = jnew JVMGetClassInfo(id);
-		assert( cmd != NULL );
+		assert( cmd != nullptr );
 
 		name->Clear();
 		return kJFalse;
@@ -806,7 +806,7 @@ JVMLink::GetClassSourceFile
 	if (itsClassByIDList->SearchSorted(target, JListT::kAnyMatch, &i))
 		{
 		target = itsClassByIDList->GetElement(i);
-		if (target.path != NULL)
+		if (target.path != nullptr)
 			{
 			*fullName = *(target.path);
 			return kJTrue;
@@ -842,7 +842,7 @@ JVMLink::AddMethod
 	info.id = methodID;
 
 	info.name = jnew JString(name);
-	assert( info.name != NULL );
+	assert( info.name != nullptr );
 
 	target.methods->InsertSorted(info);
 
@@ -1171,7 +1171,7 @@ JVMLink::SetProgram
 	// delete all directories in itsJarPathList
 
 	JString fullName;
-	if (!JConvertToAbsolutePath(fileName, NULL, &fullName) ||
+	if (!JConvertToAbsolutePath(fileName, nullptr, &fullName) ||
 		!JFileReadable(fullName))
 		{
 		const JString error = JGetString("ConfigFileUnreadable::JVMLink");
@@ -1259,7 +1259,7 @@ JVMLink::SetProgram
 		}
 
 	JVMSetProgramTask* task = jnew JVMSetProgramTask();
-	assert( task != NULL );
+	assert( task != nullptr );
 	task->Go();
 }
 
@@ -1332,10 +1332,10 @@ JVMLink::RunProgram
 
 	JString cmd = itsJVMCmd;
 
-	if (strstr(itsJVMCmd,      "-agentlib:jdwp") == NULL &&
-		strstr(itsJVMExecArgs, "-agentlib:jdwp") == NULL &&
-		strstr(itsJVMCmd,      "-Xrunjdwp")      == NULL &&
-		strstr(itsJVMExecArgs, "-Xrunjdwp")      == NULL)
+	if (strstr(itsJVMCmd,      "-agentlib:jdwp") == nullptr &&
+		strstr(itsJVMExecArgs, "-agentlib:jdwp") == nullptr &&
+		strstr(itsJVMCmd,      "-Xrunjdwp")      == nullptr &&
+		strstr(itsJVMExecArgs, "-Xrunjdwp")      == nullptr)
 		{
 		cmd += " -agentlib:jdwp=transport=dt_socket,address=localhost:";
 		cmd += JString(kJavaPort, JString::kBase10);
@@ -1350,16 +1350,16 @@ JVMLink::RunProgram
 	const JError err = JProcess::Create(&itsProcess, itsJVMCWD, cmd,
 										kJCreatePipe, &toFD,
 										kJCreatePipe, &fromFD,
-										kJAttachToFromFD, NULL);
+										kJAttachToFromFD, nullptr);
 	if (err.OK())
 		{
 		ListenTo(itsProcess);
 
 		itsOutputLink = new ProcessLink(toFD);
-		assert( itsOutputLink != NULL );
+		assert( itsOutputLink != nullptr );
 
 		itsInputLink = new ProcessLink(fromFD);
-		assert( itsInputLink != NULL );
+		assert( itsInputLink != nullptr );
 		ListenTo(itsInputLink);
 		}
 	else
@@ -1481,7 +1481,7 @@ JVMLink::RemoveAllBreakpointsAtAddress
 void
 JVMLink::RemoveAllBreakpoints()
 {
-	itsDebugLink->Send(GetNextTransactionID(), kEventRequestCmdSet, kERClearAllBreakpointsCmd, NULL, 0);
+	itsDebugLink->Send(GetNextTransactionID(), kEventRequestCmdSet, kERClearAllBreakpointsCmd, nullptr, 0);
 }
 
 /******************************************************************************
@@ -1647,7 +1647,7 @@ void
 JVMLink::Continue()
 {
 	itsProgramIsStoppedFlag = kJFalse;
-	itsDebugLink->Send(GetNextTransactionID(), kVirtualMachineCmdSet, kVMResumeCmd, NULL, 0);
+	itsDebugLink->Send(GetNextTransactionID(), kVirtualMachineCmdSet, kVMResumeCmd, nullptr, 0);
 	Broadcast(ProgramRunning());
 }
 
@@ -1709,7 +1709,7 @@ JVMLink::CreateArray2DCommand
 	)
 {
 	CMArray2DCommand* cmd = jnew JVMArray2DCommand(dir, table, data);
-	assert( cmd != NULL );
+	assert( cmd != nullptr );
 	return cmd;
 }
 
@@ -1727,7 +1727,7 @@ JVMLink::CreatePlot2DCommand
 	)
 {
 	CMPlot2DCommand* cmd = jnew JVMPlot2DCommand(dir, x, y);
-	assert( cmd != NULL );
+	assert( cmd != nullptr );
 	return cmd;
 }
 
@@ -1743,7 +1743,7 @@ JVMLink::CreateDisplaySourceForMain
 	)
 {
 	CMDisplaySourceForMain* cmd = jnew JVMDisplaySourceForMain(sourceDir);
-	assert( cmd != NULL );
+	assert( cmd != nullptr );
 	return cmd;
 }
 
@@ -1760,7 +1760,7 @@ JVMLink::CreateGetCompletions
 	)
 {
 	CMGetCompletions* cmd = jnew JVMGetCompletions(input, history);
-	assert( cmd != NULL );
+	assert( cmd != nullptr );
 	return cmd;
 }
 
@@ -1776,7 +1776,7 @@ JVMLink::CreateGetFrame
 	)
 {
 	CMGetFrame* cmd = jnew JVMGetFrame(widget);
-	assert( cmd != NULL );
+	assert( cmd != nullptr );
 	return cmd;
 }
 
@@ -1793,7 +1793,7 @@ JVMLink::CreateGetStack
 	)
 {
 	CMGetStack* cmd = jnew JVMGetStack(tree, widget);
-	assert( cmd != NULL );
+	assert( cmd != nullptr );
 	return cmd;
 }
 
@@ -1809,7 +1809,7 @@ JVMLink::CreateGetThread
 	)
 {
 	CMGetThread* cmd = jnew JVMGetThread(widget);
-	assert( cmd != NULL );
+	assert( cmd != nullptr );
 	return cmd;
 }
 
@@ -1826,7 +1826,7 @@ JVMLink::CreateGetThreads
 	)
 {
 	CMGetThreads* cmd = jnew JVMGetThreads(tree, widget);
-	assert( cmd != NULL );
+	assert( cmd != nullptr );
 	return cmd;
 }
 
@@ -1843,7 +1843,7 @@ JVMLink::CreateGetFullPath
 	)
 {
 	CMGetFullPath* cmd = jnew JVMGetFullPath(fileName, lineIndex);
-	assert( cmd != NULL );
+	assert( cmd != nullptr );
 	return cmd;
 }
 
@@ -1859,7 +1859,7 @@ JVMLink::CreateGetInitArgs
 	)
 {
 	CMGetInitArgs* cmd = jnew JVMGetInitArgs(argInput);
-	assert( cmd != NULL );
+	assert( cmd != nullptr );
 	return cmd;
 }
 
@@ -1875,7 +1875,7 @@ JVMLink::CreateGetLocalVars
 	)
 {
 	CMGetLocalVars* cmd = jnew JVMGetLocalVars(rootNode);
-	assert( cmd != NULL );
+	assert( cmd != nullptr );
 	return cmd;
 }
 
@@ -1891,7 +1891,7 @@ JVMLink::CreateGetSourceFileList
 	)
 {
 	CMGetSourceFileList* cmd = jnew JVMGetSourceFileList(fileList);
-	assert( cmd != NULL );
+	assert( cmd != nullptr );
 	return cmd;
 }
 
@@ -1910,7 +1910,7 @@ JVMLink::CreateVarValueCommand
 	s        += expr;
 
 	CMVarCommand* cmd = jnew JVMVarCommand(s);
-	assert( cmd != NULL );
+	assert( cmd != nullptr );
 	return cmd;
 }
 
@@ -1930,7 +1930,7 @@ JVMLink::CreateVarContentCommand
 	s        += ")";
 
 	CMVarCommand* cmd = jnew JVMVarCommand(s);
-	assert( cmd != NULL );
+	assert( cmd != nullptr );
 	return cmd;
 }
 
@@ -1946,7 +1946,7 @@ JVMLink::CreateVarNode
 	)
 {
 	CMVarNode* node = jnew JVMVarNode(shouldUpdate);
-	assert( node != NULL );
+	assert( node != nullptr );
 	return node;
 }
 
@@ -1960,7 +1960,7 @@ JVMLink::CreateVarNode
 	)
 {
 	CMVarNode* node = jnew JVMVarNode(parent, name, fullName, value);
-	assert( node != NULL );
+	assert( node != nullptr );
 	return node;
 }
 
@@ -2006,7 +2006,7 @@ JVMLink::CreateGetMemory
 	CMMemoryDir* dir
 	)
 {
-	return NULL;
+	return nullptr;
 }
 
 /******************************************************************************
@@ -2020,7 +2020,7 @@ JVMLink::CreateGetAssembly
 	CMSourceDirector* dir
 	)
 {
-	return NULL;
+	return nullptr;
 }
 
 /******************************************************************************
@@ -2034,7 +2034,7 @@ JVMLink::CreateGetRegisters
 	CMRegistersDir* dir
 	)
 {
-	return NULL;
+	return nullptr;
 }
 
 /******************************************************************************
@@ -2050,7 +2050,7 @@ JVMLink::SendRaw
 	const JCharacter* text
 	)
 {
-	if (itsOutputLink != NULL)
+	if (itsOutputLink != nullptr)
 		{
 		itsOutputLink->Write(text);
 		}
@@ -2121,7 +2121,7 @@ JVMLink::Send
 	const JSize				count
 	)
 {
-	if (itsDebugLink != NULL)
+	if (itsDebugLink != nullptr)
 		{
 		itsDebugLink->Send(command->GetTransactionID(), cmdSet, cmd, data, count);
 		}
@@ -2146,7 +2146,7 @@ JVMLink::ProgramFinished1
 		StopDebugger();
 
 		JString reasonStr;
-		if (info != NULL)
+		if (info != nullptr)
 			{
 			int result;
 			const JChildExitReason reason = info->GetReason(&result);
@@ -2166,7 +2166,7 @@ JVMLink::ProgramFinished1
 	else
 		{
 		jdelete itsProcess;
-		itsProcess = NULL;
+		itsProcess = nullptr;
 		}
 }
 
@@ -2179,7 +2179,7 @@ void
 JVMLink::StopProgram()
 {
 	itsProgramIsStoppedFlag = kJTrue;
-	itsDebugLink->Send(GetNextTransactionID(), kVirtualMachineCmdSet, kVMSuspendCmd, NULL, 0);
+	itsDebugLink->Send(GetNextTransactionID(), kVirtualMachineCmdSet, kVMSuspendCmd, nullptr, 0);
 	Broadcast(ProgramStopped(CMLocation("", 1)));
 }
 
@@ -2191,18 +2191,18 @@ JVMLink::StopProgram()
 void
 JVMLink::KillProgram()
 {
-	if (itsProcess != NULL)
+	if (itsProcess != nullptr)
 		{
 		itsProcess->Kill();
 		}
-	else if (itsDebugLink != NULL)
+	else if (itsDebugLink != nullptr)
 		{
 		unsigned char data[4];
 		JVMSocket::Pack4(1, data);
 		itsDebugLink->Send(GetNextTransactionID(), kVirtualMachineCmdSet, kVMExitCmd, data, sizeof(data));
 
 		itsJVMDeathTask = jnew JXTimerTask(1000, kJTrue);
-		assert( itsJVMDeathTask != NULL );
+		assert( itsJVMDeathTask != nullptr );
 		itsJVMDeathTask->Start();
 		ListenTo(itsJVMDeathTask);
 		}
@@ -2221,7 +2221,7 @@ JVMLink::DetachOrKill()
 	DeleteProcessLink();	// doesn't hurt to do it always
 
 	jdelete itsDebugLink;
-	itsDebugLink = NULL;
+	itsDebugLink = nullptr;
 
 	FlushClassList();
 }
@@ -2235,11 +2235,11 @@ JBoolean
 JVMLink::OKToDetachOrKill()
 	const
 {
-	if (itsProcess != NULL)
+	if (itsProcess != nullptr)
 		{
 		return (JGetUserNotification())->AskUserYes(JGetString("WarnKillProgram::JVMLink"));
 		}
-	else if (itsDebugLink != NULL)
+	else if (itsDebugLink != nullptr)
 		{
 		return (JGetUserNotification())->AskUserYes(JGetString("WarnDetachProgram::JVMLink"));
 		}
@@ -2257,10 +2257,10 @@ JVMLink::OKToDetachOrKill()
 JBoolean
 JVMLink::StartDebugger()
 {
-	if (itsAcceptor == NULL)
+	if (itsAcceptor == nullptr)
 		{
 		itsAcceptor = jnew JVMAcceptor;
-		assert( itsAcceptor != NULL );
+		assert( itsAcceptor != nullptr );
 		}
 
 	const JString portStr(kJavaPort, JString::kBase10);
@@ -2276,7 +2276,7 @@ JVMLink::StartDebugger()
 		JString msg = JGetString("ListenError::JVMLink", map, sizeof(map));
 
 		JVMWelcomeTask* task = jnew JVMWelcomeTask(msg, kJTrue);
-		assert( task != NULL );
+		assert( task != nullptr );
 		task->Go();
 		return kJFalse;
 		}
@@ -2289,7 +2289,7 @@ JVMLink::StartDebugger()
 		JString msg = JGetString("Welcome::JVMLink", map, sizeof(map));
 
 		JVMWelcomeTask* task = jnew JVMWelcomeTask(msg, kJFalse);
-		assert( task != NULL );
+		assert( task != nullptr );
 		task->Go();
 		return kJTrue;
 		}
@@ -2317,7 +2317,7 @@ JBoolean
 JVMLink::ChangeDebugger()
 {
 	CMPrefsManager* mgr = CMGetPrefsManager();
-	if (itsJVMCmd != mgr->GetJVMCommand() && itsProcess != NULL)
+	if (itsJVMCmd != mgr->GetJVMCommand() && itsProcess != nullptr)
 		{
 		const JBoolean ok = RestartDebugger();
 		if (ok)
@@ -2386,7 +2386,7 @@ JVMLink::ConnectionEstablished
 	itsAcceptor->close();
 
 	CMCommand* cmd = jnew JVMGetIDSizes();
-	assert( cmd != NULL );
+	assert( cmd != nullptr );
 
 	// listen for class unload
 
@@ -2412,8 +2412,8 @@ JVMLink::ConnectionEstablished
 	itsThreadRoot->DeleteAllChildren();
 	ListenTo(itsThreadTree);
 
-	cmd = jnew JVMGetThreadGroups(itsThreadRoot, NULL);
-	assert( cmd != NULL );
+	cmd = jnew JVMGetThreadGroups(itsThreadRoot, nullptr);
+	assert( cmd != nullptr );
 
 	// trigger commands
 
@@ -2450,7 +2450,7 @@ JVMLink::ConnectionFinished
 {
 	assert( socket == itsDebugLink );
 
-	itsDebugLink = NULL;
+	itsDebugLink = nullptr;
 	DeleteProcessLink();
 
 	RestartDebugger();
@@ -2465,8 +2465,8 @@ void
 JVMLink::DeleteProcessLink()
 {
 	delete itsOutputLink;
-	itsOutputLink = NULL;
+	itsOutputLink = nullptr;
 
 	delete itsInputLink;
-	itsInputLink = NULL;
+	itsInputLink = nullptr;
 }

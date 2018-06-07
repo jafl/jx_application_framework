@@ -49,11 +49,11 @@ JXMenuBar::JXMenuBar
 	)
 	:
 	JXWidget(enclosure, hSizing, vSizing, x,y, w,h),
-	itsOverflowMenu(NULL),
+	itsOverflowMenu(nullptr),
 	itsIgnoreWidthChangedCount(0)
 {
 	itsMenus = jnew JPtrArray<JXMenu>(JPtrArrayT::kForgetAll);
-	assert( itsMenus != NULL );
+	assert( itsMenus != nullptr );
 
 	SetBorderWidth(kJXDefaultBorderWidth);
 
@@ -67,7 +67,7 @@ JXMenuBar::JXMenuBar
 			jnew JXDocktab(enclosure,
 						  hSizing == kFixedRight ? kFixedRight : kFixedLeft,
 						  vSizing, x, y, JXDocktab::kWidth, h);
-		assert( tab != NULL );
+		assert( tab != nullptr );
 		}
 }
 
@@ -84,11 +84,11 @@ JXMenuBar::~JXMenuBar()
 		JXMenu* theMenu = itsMenus->GetElement(i);
 		if (theMenu == itsOverflowMenu)
 			{
-			itsOverflowMenu = NULL;
+			itsOverflowMenu = nullptr;
 			}
 
-		assert( theMenu->itsOwner == NULL );
-		theMenu->itsMenuBar = NULL;		// so they won't talk to us
+		assert( theMenu->itsOwner == nullptr );
+		theMenu->itsMenuBar = nullptr;		// so they won't talk to us
 		jdelete theMenu;
 		}
 
@@ -108,7 +108,7 @@ JXMenuBar::GetMenuCount()
 	const
 {
 	return (itsMenus->GetElementCount() +
-			(itsOverflowMenu != NULL ? itsOverflowMenu->GetItemCount()-1 : 0));
+			(itsOverflowMenu != nullptr ? itsOverflowMenu->GetItemCount()-1 : 0));
 }
 
 /******************************************************************************
@@ -125,7 +125,7 @@ JXMenuBar::GetMenu
 	)
 {
 	const JSize count = itsMenus->GetElementCount();
-	if (itsOverflowMenu != NULL && index >= count)
+	if (itsOverflowMenu != nullptr && index >= count)
 		{
 		const JXMenu* menu;
 		const JBoolean found = itsOverflowMenu->GetSubmenu(index - (count-1), &menu);
@@ -146,7 +146,7 @@ JXMenuBar::GetMenu
 	const
 {
 	const JSize count = itsMenus->GetElementCount();
-	if (itsOverflowMenu != NULL && index >= count)
+	if (itsOverflowMenu != nullptr && index >= count)
 		{
 		const JXMenu* menu;
 		const JBoolean found = itsOverflowMenu->GetSubmenu(index - (count-1), &menu);
@@ -173,7 +173,7 @@ JXMenuBar::FindMenu
 	const
 {
 	JBoolean found = itsMenus->Find(menu, index);
-	if (!found && itsOverflowMenu != NULL)
+	if (!found && itsOverflowMenu != nullptr)
 		{
 		const JSize count = itsOverflowMenu->GetItemCount();
 		for (JIndex i=1; i<=count; i++)
@@ -209,7 +209,7 @@ JXMenuBar::InsertTextMenu
 	const JRect bounds = GetBounds();
 	JXTextMenu* theMenu = jnew JXTextMenu(title, this, kFixedLeft, kVElastic,
 										 bounds.left,bounds.top, 10,bounds.height());
-	assert( theMenu != NULL );
+	assert( theMenu != nullptr );
 
 	InsertMenu(index, theMenu);
 	return theMenu;
@@ -227,7 +227,7 @@ JXMenuBar::InsertTextMenu
 	JXTextMenu* theMenu =
 		jnew JXTextMenu(image, menuOwnsImage, this, kFixedLeft, kVElastic,
 					   bounds.left,bounds.top, 10,bounds.height());
-	assert( theMenu != NULL );
+	assert( theMenu != nullptr );
 
 	InsertMenu(index, theMenu);
 	return theMenu;
@@ -240,7 +240,7 @@ JXMenuBar::InsertMenu
 	JXMenu*			theMenu
 	)
 {
-	assert( theMenu != NULL );
+	assert( theMenu != nullptr );
 
 	ClearOverflowMenu();
 
@@ -361,7 +361,7 @@ JXMenuBar::RemoveMenu
 	MenuWidthChanged(index, -theMenu->GetFrameWidth());
 	itsMenus->RemoveElement(index);
 	assert( theMenu->itsMenuBar == this );
-	theMenu->itsMenuBar = NULL;		// SetMenuBar() would cause infinite loop
+	theMenu->itsMenuBar = nullptr;		// SetMenuBar() would cause infinite loop
 	theMenu->AdjustAppearance();
 	theMenu->Hide();
 
@@ -402,8 +402,8 @@ JXMenuBar::DeleteMenu
 	)
 {
 	JXMenu* theMenu = RemoveMenu(index);
-	assert( theMenu->itsOwner == NULL );
-	theMenu->itsMenuBar = NULL;
+	assert( theMenu->itsOwner == nullptr );
+	theMenu->itsMenuBar = nullptr;
 	jdelete theMenu;
 }
 
@@ -504,14 +504,14 @@ JXMenuBar::ApertureResized
 void
 JXMenuBar::ClearOverflowMenu()
 {
-	if (itsOverflowMenu != NULL)
+	if (itsOverflowMenu != nullptr)
 		{
 		itsMenus->Remove(itsOverflowMenu);
 		assert( itsOverflowMenu->itsMenuBar == this );
-		itsOverflowMenu->itsMenuBar = NULL;		// SetMenuBar() would cause infinite loop
+		itsOverflowMenu->itsMenuBar = nullptr;		// SetMenuBar() would cause infinite loop
 
 		JXMenu* overflowMenu = itsOverflowMenu;
-		itsOverflowMenu      = NULL;
+		itsOverflowMenu      = nullptr;
 
 		itsIgnoreWidthChangedCount++;
 
@@ -566,16 +566,16 @@ JXMenuBar::WidthChanged()
 	// create menu to hold overflow
 
 	JXImage* image = jnew JXImage(GetDisplay(), jx_down_chevron);
-	assert( image != NULL );
+	assert( image != nullptr );
 
 	JXTextMenu* overflowMenu =
 		jnew JXTextMenu(image, kJTrue, this, kFixedLeft, kFixedTop, 0,0, 10,10);
-	assert( overflowMenu != NULL );
+	assert( overflowMenu != nullptr );
 	overflowMenu->SetUpdateAction(JXMenu::kDisableNone);
 
 	overflowMenu->SetMenuBar(this);		// don't show down arrow at right of title
 	const JCoordinate extraWidth = overflowMenu->GetFrameWidth();
-	overflowMenu->SetMenuBar(NULL);
+	overflowMenu->SetMenuBar(nullptr);
 
 	// move menus to overflow menu
 
@@ -601,7 +601,7 @@ JXMenuBar::WidthChanged()
 	if (overflowMenu->IsEmpty())
 		{
 		jdelete overflowMenu;
-		overflowMenu = NULL;
+		overflowMenu = nullptr;
 		}
 	else
 		{

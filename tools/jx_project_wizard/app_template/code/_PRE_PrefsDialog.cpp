@@ -52,18 +52,18 @@ void
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 400,290, "");
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	JXTextButton* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::<PRE>PrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kVElastic, 90,250, 70,20);
-	assert( cancelButton != NULL );
+	assert( cancelButton != nullptr );
 	cancelButton->SetShortcuts(JGetString("cancelButton::<PRE>PrefsDialog::shortcuts::JXLayout"));
 
 	JXTextButton* okButton =
 		jnew JXTextButton(JGetString("okButton::<PRE>PrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kVElastic, 240,250, 70,20);
-	assert( okButton != NULL );
+	assert( okButton != nullptr );
 	okButton->SetShortcuts(JGetString("okButton::<PRE>PrefsDialog::shortcuts::JXLayout"));
 
 // end JXLayout

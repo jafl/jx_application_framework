@@ -138,7 +138,7 @@ JTableSelection::Receive
 		{
 		const JTableData::RowsInserted* info =
 			dynamic_cast<const JTableData::RowsInserted*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		info->AdjustCell(&itsBoat);
 		info->AdjustCell(&itsAnchor);
 		reselect = kJTrue;
@@ -148,7 +148,7 @@ JTableSelection::Receive
 		{
 		const JTableData::RowDuplicated* info =
 			dynamic_cast<const JTableData::RowDuplicated*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		info->AdjustCell(&itsBoat);
 		info->AdjustCell(&itsAnchor);
 		reselect = kJTrue;
@@ -158,7 +158,7 @@ JTableSelection::Receive
 		{
 		const JTableData::RowsRemoved* info =
 			dynamic_cast<const JTableData::RowsRemoved*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		const JPoint origBoat   = itsBoat;
 		const JPoint origAnchor = itsAnchor;
 		info->AdjustCell(&itsBoat);
@@ -175,7 +175,7 @@ JTableSelection::Receive
 		{
 		const JTableData::ColsInserted* info =
 			dynamic_cast<const JTableData::ColsInserted*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		info->AdjustCell(&itsBoat);
 		info->AdjustCell(&itsAnchor);
 		reselect = kJTrue;
@@ -185,7 +185,7 @@ JTableSelection::Receive
 		{
 		const JTableData::ColDuplicated* info =
 			dynamic_cast<const JTableData::ColDuplicated*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		info->AdjustCell(&itsBoat);
 		info->AdjustCell(&itsAnchor);
 		reselect = kJTrue;
@@ -195,7 +195,7 @@ JTableSelection::Receive
 		{
 		const JTableData::ColsRemoved* info =
 			dynamic_cast<const JTableData::ColsRemoved*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		const JPoint origBoat   = itsBoat;
 		const JPoint origAnchor = itsAnchor;
 		info->AdjustCell(&itsBoat);

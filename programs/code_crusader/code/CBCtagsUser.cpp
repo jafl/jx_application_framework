@@ -133,9 +133,9 @@ CBCtagsUser::CBCtagsUser
 	const JCharacter* args
 	)
 	:
-	itsProcess(NULL),
+	itsProcess(nullptr),
 	itsArgs(args),
-	itsCmdPipe(NULL),
+	itsCmdPipe(nullptr),
 	itsResultFD(ACE_INVALID_HANDLE),
 	itsIsActiveFlag(HasExuberantCtags()),
 	itsTryRestartFlag(kJTrue)
@@ -238,7 +238,7 @@ CBCtagsUser::StartProcess
 {
 	*lang = kCBOtherLang;
 
-	if (itsIsActiveFlag && itsProcess == NULL)
+	if (itsIsActiveFlag && itsProcess == nullptr)
 		{
 		JString cmd = kBaseExecCmd;
 		cmd += itsArgs;
@@ -253,7 +253,7 @@ CBCtagsUser::StartProcess
 			ListenTo(itsProcess);
 
 			itsCmdPipe = jnew JOutPipeStream(toFD, kJTrue);
-			assert( itsCmdPipe != NULL );
+			assert( itsCmdPipe != nullptr );
 
 			itsResultFD = fromFD;
 			assert( itsResultFD != ACE_INVALID_HANDLE );
@@ -267,7 +267,7 @@ CBCtagsUser::StartProcess
 			}
 		}
 
-	if (itsProcess != NULL)
+	if (itsProcess != nullptr)
 		{
 		assert( kFTCount == kCBFTCount && kFTInfo[fileType].fileType == fileType );
 
@@ -304,10 +304,10 @@ void
 CBCtagsUser::DeleteProcess()
 {
 	jdelete itsProcess;
-	itsProcess = NULL;
+	itsProcess = nullptr;
 
 	jdelete itsCmdPipe;
-	itsCmdPipe = NULL;
+	itsCmdPipe = nullptr;
 
 	close(itsResultFD);
 	itsResultFD = ACE_INVALID_HANDLE;
@@ -342,7 +342,7 @@ CBCtagsUser::ReadExtensionFlags
 			}
 
 		JString* value = jnew JString;
-		assert( value != NULL );
+		assert( value != nullptr );
 
 		JIndex colonIndex;
 		if (data.LocateSubstring(":", &colonIndex))
@@ -1150,16 +1150,16 @@ CBCtagsUser::HasExuberantCtags()
 		pid_t pid;
 
 		#if defined _J_SUNOS
-		pid_t* ppid = NULL;
+		pid_t* ppid = nullptr;
 		#else
 		pid_t* ppid = &pid;
 		#endif
 
 		int fromFD;
 		JError err = JExecute(kCheckVersionCmd, ppid,
-							  kJIgnoreConnection, NULL,
+							  kJIgnoreConnection, nullptr,
 							  kJCreatePipe, &fromFD,
-							  kJTossOutput, NULL);
+							  kJTossOutput, nullptr);
 		if (err.OK())
 			{
 			JString vers;

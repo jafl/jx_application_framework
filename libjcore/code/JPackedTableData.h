@@ -55,9 +55,9 @@ public:
 						const JCoordinate w, const JCoordinate h, T (*f)(const T&));
 
 	void	InsertRows(const JIndex index, const JSize count,
-					   const JList<T>* initData = NULL);
-	void	PrependRows(const JSize count, const JList<T>* initData = NULL);
-	void	AppendRows(const JSize count, const JList<T>* initData = NULL);
+					   const JList<T>* initData = nullptr);
+	void	PrependRows(const JSize count, const JList<T>* initData = nullptr);
+	void	AppendRows(const JSize count, const JList<T>* initData = nullptr);
 	void	DuplicateRow(const JIndex origIndex, const JIndex newIndex);
 	void	RemoveRow(const JIndex index);
 	void	RemoveNextRows(const JIndex firstIndex, const JSize count);
@@ -66,9 +66,9 @@ public:
 	void	MoveRow(const JIndex origIndex, const JIndex newIndex);
 
 	void	InsertCols(const JIndex index, const JSize count,
-					   const JList<T>* initData = NULL);
-	void	PrependCols(const JSize count, const JList<T>* initData = NULL);
-	void	AppendCols(const JSize count, const JList<T>* initData = NULL);
+					   const JList<T>* initData = nullptr);
+	void	PrependCols(const JSize count, const JList<T>* initData = nullptr);
+	void	AppendCols(const JSize count, const JList<T>* initData = nullptr);
 	void	DuplicateCol(const JIndex origIndex, const JIndex newIndex);
 	void	RemoveCol(const JIndex index);
 	void	RemoveNextCols(const JIndex firstIndex, const JSize count);

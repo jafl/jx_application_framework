@@ -33,7 +33,7 @@ JXImageButton::JXImageButton
 	:
 	JXButton(enclosure, hSizing, vSizing, x,y, w,h)
 {
-	itsImage         = NULL;
+	itsImage         = nullptr;
 	itsOwnsImageFlag = kJTrue;
 }
 
@@ -77,7 +77,7 @@ JXImageButton::SetBitmap
 		}
 
 	itsImage = jnew JXImage(GetDisplay(), bitmap, foreColor, backColor);
-	assert( itsImage != NULL );
+	assert( itsImage != nullptr );
 
 	itsOwnsImageFlag = kJTrue;
 
@@ -98,7 +98,7 @@ JXImageButton::SetImage
 	)
 {
 	JXImage* image = jnew JXImage(GetDisplay(), xpm);
-	assert( image != NULL );
+	assert( image != nullptr );
 	SetImage(image, kJTrue, backColor);
 }
 
@@ -142,7 +142,7 @@ JXImageButton::SetImage
 void
 JXImageButton::FitToImage()
 {
-	if (itsImage != NULL)
+	if (itsImage != nullptr)
 		{
 		const JSize bw = GetBorderWidth();
 		SetSize(itsImage->GetWidth() + 2*bw,
@@ -162,7 +162,7 @@ JXImageButton::Draw
 	const JRect&		rect
 	)
 {
-	if (itsImage != NULL)
+	if (itsImage != nullptr)
 		{
 		p.Image(*itsImage, itsImage->GetBounds(), GetBounds());
 		}

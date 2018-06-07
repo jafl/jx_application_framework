@@ -23,7 +23,7 @@ public:
 	JBoolean			NewBrowser(SVNMainDirector** dir);
 	JBoolean			GetBrowser(const JCharacter* path, SVNMainDirector** dir);
 	JBoolean			GetBrowserForExactURL(const JCharacter* url, SVNMainDirector** dir);
-	SVNMainDirector*	OpenDirectory(const JCharacter* path, JBoolean* wasOpen = NULL);
+	SVNMainDirector*	OpenDirectory(const JCharacter* path, JBoolean* wasOpen = nullptr);
 
 	// called by CBPrefsManager
 

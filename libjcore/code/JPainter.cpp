@@ -77,7 +77,7 @@ JPainter::JPainter
 
 	itsDrawDashedLinesFlag(kJFalse),
 	itsDashOffset(0),
-	itsDashList(NULL),
+	itsDashList(nullptr),
 
 	itsFontManager(fontManager),
 	itsFont(JFontManager::GetDefaultFont()),
@@ -213,10 +213,10 @@ JPainter::SetDashList
 	const JSize				dashOffset
 	)
 {
-	if (itsDashList == NULL)
+	if (itsDashList == nullptr)
 		{
 		itsDashList = jnew JArray<JSize>(dashList);
-		assert( itsDashList != NULL );
+		assert( itsDashList != nullptr );
 		}
 	else
 		{

@@ -17,7 +17,7 @@
 #include <JXColorManager.h>
 #include <jAssert.h>
 
-CBCStyler* CBCStyler::itsSelf = NULL;
+CBCStyler* CBCStyler::itsSelf = nullptr;
 
 const JFileVersion kCurrentTypeListVersion = 3;
 
@@ -68,12 +68,12 @@ static JBoolean recursiveInstance = kJFalse;
 CBStylerBase*
 CBCStyler::Instance()
 {
-	if (itsSelf == NULL && !recursiveInstance)
+	if (itsSelf == nullptr && !recursiveInstance)
 		{
 		recursiveInstance = kJTrue;
 
 		itsSelf = jnew CBCStyler;
-		assert( itsSelf != NULL );
+		assert( itsSelf != nullptr );
 
 		recursiveInstance = kJFalse;
 		}
@@ -142,7 +142,7 @@ CBCStyler::CBCStyler()
 CBCStyler::~CBCStyler()
 {
 	JPrefObject::WritePrefs();
-	itsSelf = NULL;
+	itsSelf = nullptr;
 }
 
 /******************************************************************************
@@ -393,7 +393,7 @@ CBCStyler::Receive
 		{
 		const JXDialogDirector::Deactivated* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		if (info->Successful())
 			{
 			CBMWriteSharedPrefs(kJTrue);

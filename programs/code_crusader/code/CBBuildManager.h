@@ -46,8 +46,8 @@ public:
 
 	void		CreateMakeFiles(const MakefileMethod method);
 	JBoolean	UpdateMakeFiles(const JBoolean reportError = kJTrue);
-	JBoolean	UpdateMakefile(CBExecOutputDocument* compileDoc = NULL,
-							   CBCommand** cmd = NULL,
+	JBoolean	UpdateMakefile(CBExecOutputDocument* compileDoc = nullptr,
+							   CBCommand** cmd = nullptr,
 							   const JBoolean force = kJFalse);
 
 	void		EditProjectConfig();
@@ -76,7 +76,7 @@ public:
 
 	// called by CBProjectDocument
 
-	void	ProjectChanged(const CBProjectNode* node = NULL);
+	void	ProjectChanged(const CBProjectNode* node = nullptr);
 
 	// called by CBCommandManager
 
@@ -133,7 +133,7 @@ private:
 	time_t			itsLastMakefileUpdateTime;
 
 	CBProjectDocument*		itsProjDoc;			// owns us
-	CBCommand*				itsMakeDependCmd;	// not owned; NULL unless running
+	CBCommand*				itsMakeDependCmd;	// not owned; nullptr unless running
 	CBProjectConfigDialog*	itsProjectConfigDialog;
 
 	static JBoolean	itsRebuildMakefileDailyFlag;

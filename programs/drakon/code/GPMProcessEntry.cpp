@@ -69,7 +69,7 @@ GPMProcessEntry::GPMProcessEntry
 	itsPID = entry.kp_proc.p_pid;
 
 	passwd* info = getpwuid(itsUID);
-	if (info != NULL)
+	if (info != nullptr)
 		{
 		itsUser = info->pw_name;
 		}
@@ -137,7 +137,7 @@ GPMProcessEntry::Update
 
 		kinfo_proc entry;
 		size_t len = sizeof(entry);
-		int result = sysctl(mib, 4, &entry, &len, NULL, 0);
+		int result = sysctl(mib, 4, &entry, &len, nullptr, 0);
 		if (result != 0)
 			{
 			itsState = kZombie;
@@ -354,12 +354,12 @@ GPMProcessEntry::ReadCmdline()
 
 	int mib[] = { CTL_KERN, KERN_PROC, KERN_PROC_ARGS, itsPID };
 
-	if (sysctl(mib, 4, NULL, &len, NULL, 0) == 0)
+	if (sysctl(mib, 4, nullptr, &len, nullptr, 0) == 0)
 		{
 		void* buf = malloc(len);
-		assert( buf != NULL );
+		assert( buf != nullptr );
 
-		result = sysctl(mib, 4, buf, &len, NULL, 0);
+		result = sysctl(mib, 4, buf, &len, nullptr, 0);
 		if (result == 0)
 			{
 			JIndex i = 0;
@@ -381,17 +381,17 @@ GPMProcessEntry::ReadCmdline()
 
 	int argmax;
 	size_t len = sizeof(argmax);
-	if (sysctl(mib, 2, &argmax, &len, NULL, 0) == 0)
+	if (sysctl(mib, 2, &argmax, &len, nullptr, 0) == 0)
 		{
 		void* buf = malloc(argmax);
-		assert( buf != NULL );
+		assert( buf != nullptr );
 
 		mib[0] = CTL_KERN;
 		mib[1] = KERN_PROCARGS2;
 		mib[2] = itsPID;
 
 		len = argmax;
-		if (sysctl(mib, 3, buf, &len, NULL, 0) == 0)
+		if (sysctl(mib, 3, buf, &len, nullptr, 0) == 0)
 			{
 			int argc = * (int*) buf;
 			buf      = ((char*) buf) + sizeof(argc);

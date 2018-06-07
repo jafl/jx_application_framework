@@ -65,7 +65,7 @@ CMGetSourceFileList::Receive
 		{
 		const CMLink::SymbolsLoaded* info =
 			dynamic_cast<const CMLink::SymbolsLoaded*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		if (info->Successful())
 			{
 			CMCommand::Send();

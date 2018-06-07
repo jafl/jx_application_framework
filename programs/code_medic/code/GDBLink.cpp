@@ -79,27 +79,27 @@ static const JBoolean kFeatures[]=
 GDBLink::GDBLink()
 	:
 	CMLink(kFeatures),
-	itsDebuggerProcess(NULL),
-	itsChildProcess(NULL),
-	itsOutputLink(NULL),
-	itsInputLink(NULL)
+	itsDebuggerProcess(nullptr),
+	itsChildProcess(nullptr),
+	itsOutputLink(nullptr),
+	itsInputLink(nullptr)
 {
 	InitFlags();
 
 	itsScanner = jnew GDBScanner;
-	assert( itsScanner != NULL );
+	assert( itsScanner != nullptr );
 
 	itsBPMgr = jnew GDBBreakpointManager(this);
-	assert( itsBPMgr != NULL );
+	assert( itsBPMgr != nullptr );
 
 	itsGetStopLocation = jnew GDBGetStopLocationForLink();
-	assert( itsGetStopLocation != NULL );
+	assert( itsGetStopLocation != nullptr );
 
 	itsGetStopLocation2 = jnew GDBGetStopLocationForAsm();
-	assert( itsGetStopLocation2 != NULL );
+	assert( itsGetStopLocation2 != nullptr );
 
 	itsPingTask = jnew GDBPingTask();
-	assert( itsPingTask != NULL );
+	assert( itsPingTask != nullptr );
 
 	StartDebugger();
 }
@@ -548,7 +548,7 @@ GDBLink::ReadFromDebugger()
 			if (GetRunningCommand(&cmd))
 				{
 				cmd->Finished(kJTrue);	// may delete object
-				SetRunningCommand(NULL);
+				SetRunningCommand(nullptr);
 
 				#ifdef _J_OLD_OSX
 				RunNextCommand();
@@ -600,7 +600,7 @@ GDBLink::ReadFromDebugger()
 			// will slurp up "(no debugging symbols found)..." as well.
 
 			GDBGetProgramName* cmd = jnew GDBGetProgramName;
-			assert( cmd != NULL );
+			assert( cmd != nullptr );
 
 			Broadcast(UserOutput(*(token.data.pString), kJFalse));
 			}
@@ -608,7 +608,7 @@ GDBLink::ReadFromDebugger()
 			{
 			if (!itsIsAttachedFlag)
 				{
-				if (token.data.pString != NULL)
+				if (token.data.pString != nullptr)
 					{
 					Broadcast(UserOutput(*(token.data.pString), kJTrue));
 					}
@@ -628,7 +628,7 @@ GDBLink::ReadFromDebugger()
 			// We have to check whether a core was loaded or cleared.
 
 			GDBCheckCoreStatus* cmd = jnew GDBCheckCoreStatus;
-			assert( cmd != NULL );
+			assert( cmd != nullptr );
 			}
 
 		else if (token.type == GDBScanner::kAttachedToProcess)
@@ -660,11 +660,11 @@ GDBLink::ReadFromDebugger()
 			}
 		else if (token.type == GDBScanner::kEndGetPID)
 			{
-			if (itsChildProcess == NULL)	// ask user for PID
+			if (itsChildProcess == nullptr)	// ask user for PID
 				{
 				CMChooseProcessDialog* dialog =
 					jnew CMChooseProcessDialog(JXGetApplication(), kJFalse);
-				assert( dialog != NULL );
+				assert( dialog != nullptr );
 				dialog->BeginDialog();
 				}
 			}
@@ -672,7 +672,7 @@ GDBLink::ReadFromDebugger()
 		else if (token.type == GDBScanner::kProgramStoppedAtLocation)
 			{
 			itsProgramIsStoppedFlag = kJTrue;
-			if (token.data.pLocation != NULL)
+			if (token.data.pLocation != nullptr)
 				{
 				SendProgramStopped(*(token.data.pLocation));
 //				Send("call (JXGetAssertHandler())->UnlockDisplays()");
@@ -682,7 +682,7 @@ GDBLink::ReadFromDebugger()
 				itsGetStopLocation->Send();
 				}
 
-			if (token.data.pString != NULL)
+			if (token.data.pString != nullptr)
 				{
 				Broadcast(UserOutput(*(token.data.pString), kJFalse));
 				}
@@ -716,7 +716,7 @@ GDBLink::ReadFromDebugger()
 			{
 			ProgramFinished1();
 
-			if (token.data.pString != NULL)
+			if (token.data.pString != nullptr)
 				{
 				Broadcast(UserOutput(*(token.data.pString), kJFalse));
 				}
@@ -939,7 +939,7 @@ GDBLink::SetCore
 		if (itsProgramName.IsEmpty())
 			{
 			GDBAnalyzeCore* cmd = jnew GDBAnalyzeCore(cmdStr);
-			assert( cmd != NULL );
+			assert( cmd != nullptr );
 			cmd->Send();
 			}
 		else
@@ -1577,7 +1577,7 @@ GDBLink::CreateArray2DCommand
 	)
 {
 	CMArray2DCommand* cmd = jnew GDBArray2DCommand(dir, table, data);
-	assert( cmd != NULL );
+	assert( cmd != nullptr );
 	return cmd;
 }
 
@@ -1595,7 +1595,7 @@ GDBLink::CreatePlot2DCommand
 	)
 {
 	CMPlot2DCommand* cmd = jnew GDBPlot2DCommand(dir, x, y);
-	assert( cmd != NULL );
+	assert( cmd != nullptr );
 	return cmd;
 }
 
@@ -1611,7 +1611,7 @@ GDBLink::CreateDisplaySourceForMain
 	)
 {
 	CMDisplaySourceForMain* cmd = jnew GDBDisplaySourceForMain(sourceDir);
-	assert( cmd != NULL );
+	assert( cmd != nullptr );
 	return cmd;
 }
 
@@ -1628,7 +1628,7 @@ GDBLink::CreateGetCompletions
 	)
 {
 	CMGetCompletions* cmd = jnew GDBGetCompletions(input, history);
-	assert( cmd != NULL );
+	assert( cmd != nullptr );
 	return cmd;
 }
 
@@ -1644,7 +1644,7 @@ GDBLink::CreateGetFrame
 	)
 {
 	CMGetFrame* cmd = jnew GDBGetFrame(widget);
-	assert( cmd != NULL );
+	assert( cmd != nullptr );
 	return cmd;
 }
 
@@ -1661,7 +1661,7 @@ GDBLink::CreateGetStack
 	)
 {
 	CMGetStack* cmd = jnew GDBGetStack(tree, widget);
-	assert( cmd != NULL );
+	assert( cmd != nullptr );
 	return cmd;
 }
 
@@ -1677,7 +1677,7 @@ GDBLink::CreateGetThread
 	)
 {
 	CMGetThread* cmd = jnew GDBGetThread(widget);
-	assert( cmd != NULL );
+	assert( cmd != nullptr );
 	return cmd;
 }
 
@@ -1694,7 +1694,7 @@ GDBLink::CreateGetThreads
 	)
 {
 	CMGetThreads* cmd = jnew GDBGetThreads(tree, widget);
-	assert( cmd != NULL );
+	assert( cmd != nullptr );
 	return cmd;
 }
 
@@ -1722,7 +1722,7 @@ GDBLink::CreateGetFullPath
 	#endif
 
 	CMGetFullPath* cmd = jnew GDBGetFullPath(fileName, lineIndex);
-	assert( cmd != NULL );
+	assert( cmd != nullptr );
 	return cmd;
 }
 
@@ -1738,7 +1738,7 @@ GDBLink::CreateGetInitArgs
 	)
 {
 	CMGetInitArgs* cmd = jnew GDBGetInitArgs(argInput);
-	assert( cmd != NULL );
+	assert( cmd != nullptr );
 	return cmd;
 }
 
@@ -1754,7 +1754,7 @@ GDBLink::CreateGetLocalVars
 	)
 {
 	CMGetLocalVars* cmd = jnew GDBGetLocalVars(rootNode);
-	assert( cmd != NULL );
+	assert( cmd != nullptr );
 	return cmd;
 }
 
@@ -1770,7 +1770,7 @@ GDBLink::CreateGetSourceFileList
 	)
 {
 	CMGetSourceFileList* cmd = jnew GDBGetSourceFileList(fileList);
-	assert( cmd != NULL );
+	assert( cmd != nullptr );
 	return cmd;
 }
 
@@ -1789,7 +1789,7 @@ GDBLink::CreateVarValueCommand
 	s        += expr;
 
 	CMVarCommand* cmd = jnew GDBVarCommand(s);
-	assert( cmd != NULL );
+	assert( cmd != nullptr );
 	return cmd;
 }
 
@@ -1809,7 +1809,7 @@ GDBLink::CreateVarContentCommand
 	s        += ")";
 
 	CMVarCommand* cmd = jnew GDBVarCommand(s);
-	assert( cmd != NULL );
+	assert( cmd != nullptr );
 	return cmd;
 }
 
@@ -1825,7 +1825,7 @@ GDBLink::CreateVarNode
 	)
 {
 	CMVarNode* node = jnew GDBVarNode(shouldUpdate);
-	assert( node != NULL );
+	assert( node != nullptr );
 	return node;
 }
 
@@ -1839,7 +1839,7 @@ GDBLink::CreateVarNode
 	)
 {
 	CMVarNode* node = jnew GDBVarNode(parent, name, value);
-	assert( node != NULL );
+	assert( node != nullptr );
 	return node;
 }
 
@@ -1886,7 +1886,7 @@ GDBLink::CreateGetMemory
 	)
 {
 	CMGetMemory* cmd = jnew GDBGetMemory(dir);
-	assert( cmd != NULL );
+	assert( cmd != nullptr );
 	return cmd;
 }
 
@@ -1902,7 +1902,7 @@ GDBLink::CreateGetAssembly
 	)
 {
 	CMGetAssembly* cmd = jnew GDBGetAssembly(dir);
-	assert( cmd != NULL );
+	assert( cmd != nullptr );
 	return cmd;
 }
 
@@ -1918,7 +1918,7 @@ GDBLink::CreateGetRegisters
 	)
 {
 	CMGetRegisters* cmd = jnew GDBGetRegisters(dir);
-	assert( cmd != NULL );
+	assert( cmd != nullptr );
 	return cmd;
 }
 
@@ -2075,7 +2075,7 @@ GDBLink::ParseMapArray
 		stream.ignore();
 
 		JStringPtrMap<JString>* map = jnew JStringPtrMap<JString>(JPtrArrayT::kDeleteAll);
-		assert( map != NULL );
+		assert( map != nullptr );
 		if (ParseMap(stream, map))
 			{
 			list->Append(map);
@@ -2145,7 +2145,7 @@ GDBLink::SendWhenStopped
 {
 #ifdef _J_OLD_OSX
 
-	if (itsOutputLink != NULL)
+	if (itsOutputLink != nullptr)
 		{
 		if (ProgramIsRunning())
 			{
@@ -2164,7 +2164,7 @@ GDBLink::SendWhenStopped
 			}
 
 		CMCommand* cmd = jnew GDBSimpleCommand(s);
-		assert( cmd != NULL );
+		assert( cmd != nullptr );
 		cmd->Send();
 		}
 
@@ -2186,7 +2186,7 @@ GDBLink::Send
 	const JCharacter* text
 	)
 {
-	if (itsOutputLink != NULL)
+	if (itsOutputLink != nullptr)
 		{
 		if (ProgramIsRunning())
 			{
@@ -2213,7 +2213,7 @@ GDBLink::SendRaw
 	const JCharacter* text
 	)
 {
-	if (itsOutputLink != NULL)
+	if (itsOutputLink != nullptr)
 		{
 		itsOutputLink->Write(text);
 
@@ -2247,7 +2247,7 @@ GDBLink::SendMedicCommand
 	CMCommand* command
 	)
 {
-	if (itsOutputLink == NULL)
+	if (itsOutputLink == nullptr)
 		{
 		return;
 		}
@@ -2301,12 +2301,12 @@ GDBLink::ProgramStarted
 	)
 {
 	jdelete itsChildProcess;
-	itsChildProcess = NULL;
+	itsChildProcess = nullptr;
 
 	if (pid != 0)
 		{
 		itsChildProcess = jnew JProcess(pid);
-		assert( itsChildProcess != NULL );
+		assert( itsChildProcess != nullptr );
 		ListenTo(itsChildProcess);
 
 		std::ostringstream log;
@@ -2327,7 +2327,7 @@ void
 GDBLink::ProgramFinished1()
 {
 	jdelete itsChildProcess;
-	itsChildProcess = NULL;
+	itsChildProcess = nullptr;
 
 	if (itsIsAttachedFlag)
 		{
@@ -2354,12 +2354,12 @@ GDBLink::StopProgram()
 		{
 		// wait for tbreak
 		}
-	else if (itsChildProcess != NULL)
+	else if (itsChildProcess != nullptr)
 		{
 		Log("stopping program");
 		itsChildProcess->SendSignal(SIGINT);
 		}
-//	else if (itsDebuggerProcess != NULL)	// remote debugging
+//	else if (itsDebuggerProcess != nullptr)	// remote debugging
 //		{
 //		itsDebuggerProcess->SendSignal(SIGINT);
 //		}
@@ -2367,7 +2367,7 @@ GDBLink::StopProgram()
 		{
 		CMChooseProcessDialog* dlog =
 			jnew CMChooseProcessDialog(JXGetApplication(), kJFalse, kJTrue);
-		assert( dlog != NULL );
+		assert( dlog != nullptr );
 		dlog->BeginDialog();
 		}
 }
@@ -2395,7 +2395,7 @@ GDBLink::DetachOrKill()
 		{
 		Send("detach");
 		}
-	else if (itsChildProcess != NULL)
+	else if (itsChildProcess != nullptr)
 		{
 		Send("kill");
 		}
@@ -2434,7 +2434,7 @@ GDBLink::OKToDetachOrKill()
 JBoolean
 GDBLink::StartDebugger()
 {
-	assert( itsDebuggerProcess == NULL && itsChildProcess == NULL );
+	assert( itsDebuggerProcess == nullptr && itsChildProcess == nullptr );
 
 	itsScanner->Reset();
 
@@ -2445,14 +2445,14 @@ GDBLink::StartDebugger()
 	const JError err = JProcess::Create(&itsDebuggerProcess, cmd,
 										kJCreatePipe, &toFD,
 										kJCreatePipe, &fromFD,
-										kJAttachToFromFD, NULL);
+										kJAttachToFromFD, nullptr);
 	if (err.OK())
 		{
 		itsOutputLink = new ProcessLink(toFD);
-		assert( itsOutputLink != NULL );
+		assert( itsOutputLink != nullptr );
 
 		itsInputLink = new ProcessLink(fromFD);
-		assert( itsInputLink != NULL );
+		assert( itsInputLink != nullptr );
 		ListenTo(itsInputLink);
 
 		ListenTo(itsDebuggerProcess);
@@ -2547,16 +2547,16 @@ GDBLink::StopDebugger()
 	Send("quit");
 
 	jdelete itsDebuggerProcess;
-	itsDebuggerProcess = NULL;
+	itsDebuggerProcess = nullptr;
 
 	jdelete itsChildProcess;
-	itsChildProcess = NULL;
+	itsChildProcess = nullptr;
 
 	delete itsOutputLink;
-	itsOutputLink = NULL;
+	itsOutputLink = nullptr;
 
 	delete itsInputLink;
-	itsInputLink = NULL;
+	itsInputLink = nullptr;
 
 	CancelAllCommands();
 

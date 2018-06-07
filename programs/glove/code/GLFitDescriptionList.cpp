@@ -60,7 +60,7 @@ GLFitDescriptionList::GLFitDescriptionList
 	)
 	:
 	JXEditTable(1, kDefColWidth, scrollbarSet, enclosure, hSizing,vSizing, x,y, w,h),
-	itsInput(NULL)
+	itsInput(nullptr)
 {
 	itsMinColWidth = 1;
 
@@ -71,7 +71,7 @@ GLFitDescriptionList::GLFitDescriptionList
 	const JSize count = GetFitManager()->GetFitCount();
 
 	itsNameList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
-	assert(itsNameList != NULL);
+	assert(itsNameList != nullptr);
 
 	AppendCols(1);
 	SyncWithManager();
@@ -81,19 +81,19 @@ GLFitDescriptionList::GLFitDescriptionList
 	SetColBorderInfo(0, colormap->GetBlackColor());
 
 	itsBuiltInIcon	= jnew JXImage(GetDisplay(), JXPM(glBuiltInFit));
-	assert(itsBuiltInIcon != NULL);
+	assert(itsBuiltInIcon != nullptr);
 	itsBuiltInIcon->ConvertToRemoteStorage();
 
 	itsNonLinearIcon	= jnew JXImage(GetDisplay(), JXPM(glNonLinearFit));
-	assert(itsNonLinearIcon != NULL);
+	assert(itsNonLinearIcon != nullptr);
 	itsNonLinearIcon->ConvertToRemoteStorage();
 
 	itsPolyIcon	= jnew JXImage(GetDisplay(), JXPM(glPolyFit));
-	assert(itsPolyIcon != NULL);
+	assert(itsPolyIcon != nullptr);
 	itsPolyIcon->ConvertToRemoteStorage();
 
 	itsExecutableIcon = jnew JXImage(GetDisplay(), JXPM(jx_executable_small));
-	assert( itsExecutableIcon != NULL );
+	assert( itsExecutableIcon != nullptr );
 	itsExecutableIcon->ConvertToRemoteStorage();
 
 	ListenTo(GetFitManager());
@@ -238,9 +238,9 @@ GLFitDescriptionList::CreateXInputField
 	s.SelectRow(cell.y);
 	Broadcast(FitSelected(cell.y));
 
-	assert(itsInput == NULL);
+	assert(itsInput == nullptr);
 	itsInput = jnew JXInputField(this, kFixedLeft, kFixedTop, x, y, w, h);
-	assert(itsInput != NULL);
+	assert(itsInput != nullptr);
 
 	itsInput->SetText(*(itsNameList->GetElement(cell.y)));
 	itsInput->SetIsRequired();
@@ -255,7 +255,7 @@ GLFitDescriptionList::CreateXInputField
 void
 GLFitDescriptionList::PrepareDeleteXInputField()
 {
-	itsInput = NULL;
+	itsInput = nullptr;
 }
 
 /******************************************************************************
@@ -380,7 +380,7 @@ GLFitDescriptionList::SyncWithManager()
 		{
 		const GLFitDescription& fd	= GetFitManager()->GetFitDescription(i);
 		JString* str	= jnew JString(fd.GetFnName());
-		assert(str != NULL);
+		assert(str != nullptr);
 		itsNameList->Append(str);
 
 		const JCoordinate width = 2*kHMarginWidth + kIconWidth + 

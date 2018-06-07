@@ -62,7 +62,7 @@
 		"\xA3\x32\x01\x87\x16",
 		"\xA3\x32\x02\x87\x16",
 
-		NULL
+		nullptr
 		};
 
 #if SIZEOF_LONG == 8
@@ -238,7 +238,7 @@ JTEST(DualHash)
 JTEST(Hash7Bit)
 {
 	JIndex i=0;
-	while (hashStringArg[i] != NULL)
+	while (hashStringArg[i] != nullptr)
 		{
 		JHashValue result = JHash7Bit(hashStringArg[i]);
 		JAssertEqualWithMessage(hash7BitResult[i], result, "JHash7Bit");
@@ -249,7 +249,7 @@ JTEST(Hash7Bit)
 JTEST(Hash8Bit)
 {
 	JIndex i=0;
-	while (hashStringArg[i] != NULL)
+	while (hashStringArg[i] != nullptr)
 		{
 		JHashValue result = JHash8Bit(hashStringArg[i]);
 		JAssertEqualWithMessage(hash8BitResult[i], result, "JHash8Bit");

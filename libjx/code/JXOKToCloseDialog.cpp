@@ -65,34 +65,34 @@ JXOKToCloseDialog::BuildWindow
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 330,110, JString::empty);
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	JXTextButton* saveButton =
 		jnew JXTextButton(JGetString("saveButton::JXOKToCloseDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 250,80, 60,20);
-	assert( saveButton != NULL );
+	assert( saveButton != nullptr );
 	saveButton->SetShortcuts(JGetString("saveButton::JXOKToCloseDialog::shortcuts::JXLayout"));
 
 	itsDiscardButton =
 		jnew JXTextButton(JGetString("itsDiscardButton::JXOKToCloseDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 50,80, 80,20);
-	assert( itsDiscardButton != NULL );
+	assert( itsDiscardButton != nullptr );
 	itsDiscardButton->SetShortcuts(JGetString("itsDiscardButton::JXOKToCloseDialog::shortcuts::JXLayout"));
 
 	JXStaticText* text =
 		jnew JXStaticText(JGetString("text::JXOKToCloseDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 60,20, 250,50);
-	assert( text != NULL );
+	assert( text != nullptr );
 
 	JXImageWidget* icon =
 		jnew JXImageWidget(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 40,40);
-	assert( icon != NULL );
+	assert( icon != nullptr );
 
 	JXTextButton* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::JXOKToCloseDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 170,80, 60,20);
-	assert( cancelButton != NULL );
+	assert( cancelButton != nullptr );
 
 // end JXLayout
 
@@ -118,7 +118,7 @@ JXOKToCloseDialog::Receive
 	if (sender == this && message.Is(kDeactivated))
 		{
 		const Deactivated* info = dynamic_cast<const Deactivated*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		if (info->Successful())
 			{
 			Broadcast(GotResponse(JUserNotification::kSaveData));

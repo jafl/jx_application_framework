@@ -78,18 +78,18 @@ J2DPlotWidget::J2DPlotWidget
 	itsShowFrameFlag	= kJTrue;
 
 	itsCurveInfo = jnew JArray<J2DCurveInfo>;
-	assert(itsCurveInfo != NULL);
+	assert(itsCurveInfo != nullptr);
 
 	itsColors = jnew JArray<JColorID>;
-	assert(itsColors != NULL);
+	assert(itsColors != nullptr);
 
 	itsColorUsage = jnew JArray<JSize>;
-	assert(itsColorUsage != NULL);
+	assert(itsColorUsage != nullptr);
 
 	AddColor(itsBlackColor);
 
 	itsCurves = jnew JPtrArray<JPlotDataBase>(JPtrArrayT::kForgetAll);
-	assert(itsCurves != NULL);
+	assert(itsCurves != nullptr);
 
 	for (JIndex i=0; i<kSymbolCount; i++)
 		{
@@ -126,10 +126,10 @@ J2DPlotWidget::J2DPlotWidget
 	// Cursors
 
 	itsXMarks = jnew JArray<JFloat>;
-	assert(itsXMarks != NULL);
+	assert(itsXMarks != nullptr);
 
 	itsYMarks = jnew JArray<JFloat>;
-	assert(itsYMarks != NULL);
+	assert(itsYMarks != nullptr);
 
 	itsXCursorVisible	= kJFalse;
 	itsYCursorVisible	= kJFalse;
@@ -450,7 +450,7 @@ J2DPlotWidget::SetCurveInfoArray
 		{
 		J2DCurveInfo info = infoArray.GetElement(i);
 		info.name = jnew JString(*info.name);
-		assert(info.name != NULL);
+		assert(info.name != nullptr);
 		itsCurveInfo->SetElement(i, info);
 		}
 	UpdatePlot(kJTrue);
@@ -486,7 +486,7 @@ J2DPlotWidget::AddCurve
 	itsCurves->Append(data);
 
 	JString* str = jnew JString(name);
-	assert(str != NULL);
+	assert(str != nullptr);
 
 	J2DCurveInfo info(kJTrue, line, symbol,
 						ownsData, kJTrue, kJTrue, kJFalse,
@@ -3758,7 +3758,7 @@ JIndex i;
 		{
 		J2DCurveInfo info;
 		info.name = jnew JString;
-		assert(info.name != NULL);
+		assert(info.name != nullptr);
 		input >> info;
 
 		if (setData)
@@ -3929,7 +3929,7 @@ J2DPlotWidget::PWHandleMouseDown
 	else if (clickCount == 2)
 		{
 		JIndex curveIndex;
-		JPainter* p = NULL;
+		JPainter* p = nullptr;
 		if (PWGetDragPainter(&p))
 			{
 			PWDeleteDragPainter();
@@ -4000,7 +4000,7 @@ J2DPlotWidget::PWHandleMouseDrag
 	const JPoint& pt
 	)
 {
-	JPainter* p = NULL;
+	JPainter* p = nullptr;
 	if (pt != itsPrevPt && PWGetDragPainter(&p)) // no painter for multiple click
 		{
 		const JPoint newPt =
@@ -4068,7 +4068,7 @@ J2DPlotWidget::PWHandleMouseUp
 	const JBoolean	cleanZoom
 	)
 {
-	JPainter* p = NULL;
+	JPainter* p = nullptr;
 	if (PWGetDragPainter(&p))		// no painter for multiple click
 		{
 		if (itsIsCursorDragging)

@@ -48,21 +48,21 @@ JXDockManager::JXDockManager
 	const JPrefID&	id
 	)
 	:
-	JXDirector(NULL),
+	JXDirector(nullptr),
 	JPrefObject(prefsMgr, id),
 	itsDisplay(display),
 	itsTitle(title),
-	itsWindowIcon(NULL),
+	itsWindowIcon(nullptr),
 	itsNextDockIndex(1),
 	itsNextDockID(1),
 	itsIsReadingSetupFlag(kJFalse),
 	itsCloseDockMode(kUndockWindows)
 {
 	itsDockList = jnew JPtrArray<JXDockDirector>(JPtrArrayT::kForgetAll);
-	assert( itsDockList != NULL );
+	assert( itsDockList != nullptr );
 
 	itsWindowTypeMap = jnew JStringMap<JIndex>;
-	assert( itsWindowTypeMap != NULL );
+	assert( itsWindowTypeMap != nullptr );
 
 	display->RegisterXAtoms(kAtomCount, kAtomNames, itsAtoms);
 
@@ -98,7 +98,7 @@ JXDockManager::CreateDock
 	JXDockWindowTask::PrepareForDockAll();
 
 	JXDockDirector* dock = jnew JXDockDirector(title, splitHoriz);
-	assert( dock != NULL );
+	assert( dock != nullptr );
 	itsDockList->Append(dock);
 	dock->Activate();
 	return dock;
@@ -150,15 +150,15 @@ JXDockManager::CreateIcon
 	)
 	const
 {
-	if (itsWindowIcon != NULL)
+	if (itsWindowIcon != nullptr)
 		{
 		*icon = jnew JXImage(*itsWindowIcon);
-		assert( *icon != NULL );
+		assert( *icon != nullptr );
 		return kJTrue;
 		}
 	else
 		{
-		*icon = NULL;
+		*icon = nullptr;
 		return kJFalse;
 		}
 }
@@ -184,7 +184,7 @@ JXDockManager::FindDock
 			}
 		}
 
-	*dock = NULL;
+	*dock = nullptr;
 	return kJFalse;
 }
 
@@ -255,17 +255,17 @@ JXDockManager::GetDefaultDock
 		{
 		if (FindDock(id, dock))
 			{
-			return JI2B( dock != NULL );
+			return JI2B( dock != nullptr );
 			}
 		else
 			{
-			SetDefaultDock(windowType, NULL);
+			SetDefaultDock(windowType, nullptr);
 			return kJFalse;
 			}
 		}
 	else
 		{
-		*dock = NULL;
+		*dock = nullptr;
 		return kJFalse;
 		}
 }
@@ -273,7 +273,7 @@ JXDockManager::GetDefaultDock
 /******************************************************************************
  SetDefaultDock
 
-	If dock==NULL, clears the mapping.
+	If dock==nullptr, clears the mapping.
 
  ******************************************************************************/
 
@@ -284,7 +284,7 @@ JXDockManager::SetDefaultDock
 	const JXDockWidget*	dock
 	)
 {
-	if (dock == NULL || windowType == JXGetDockWindowClass())
+	if (dock == nullptr || windowType == JXGetDockWindowClass())
 		{
 		itsWindowTypeMap->RemoveElement(windowType);
 		}
@@ -354,7 +354,7 @@ JXDockManager::ReadSetup
 		title = GetNewDockTitle();
 
 		JXDockDirector* dock = jnew JXDockDirector(input, vers, title);
-		assert( dock != NULL );
+		assert( dock != nullptr );
 		itsDockList->Append(dock);
 		dock->Activate();
 		}

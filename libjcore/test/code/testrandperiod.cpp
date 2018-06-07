@@ -31,7 +31,7 @@ main()
 	std::cout << "\n   Running " << callibrationCycles
 			  << " iterations to estimate running time." << std::endl;
 
-	const time_t startCallibrationTime = time(NULL);
+	const time_t startCallibrationTime = time(nullptr);
 	const clock_t startCallibrationClock = clock();
 
 	do
@@ -41,7 +41,7 @@ main()
 		}
 		while(period < callibrationCycles);
 
-	const time_t  endCallibrationTime = time(NULL);
+	const time_t  endCallibrationTime = time(nullptr);
 	const clock_t endCallibrationClock = clock();
 
 	const double deltaCallibrationClock = (1.0*endCallibrationClock-startCallibrationClock)
@@ -72,7 +72,7 @@ main()
 
 	std::cout << "\n   Running full period test." << std::endl;
 
-	const time_t startTime = time(NULL);
+	const time_t startTime = time(nullptr);
 	const clock_t startClock = clock();
 
 	do
@@ -83,7 +83,7 @@ main()
 		while(seed != startSeed);
 
 	clock_t endClock = clock();
-	time_t endTime = time(NULL);
+	time_t endTime = time(nullptr);
 
 	std::cout << "   Full period test finished." << std::endl;
 

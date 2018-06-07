@@ -333,27 +333,27 @@ JXTEBase::JXTEBase
 
 	itsWillPasteCustomFlag( kJFalse )
 {
-	itsEditMenu    = NULL;
-	itsSearchMenu  = NULL;
-	itsReplaceMenu = NULL;
+	itsEditMenu    = nullptr;
+	itsSearchMenu  = nullptr;
+	itsReplaceMenu = nullptr;
 
 	itsCanCheckSpellingFlag   = kJFalse;
 	itsCanAdjustMarginsFlag   = kJFalse;
 	itsCanCleanWhitespaceFlag = kJFalse;
 	itsCanToggleReadOnlyFlag  = kJFalse;
 
-	itsPSPrinter      = NULL;
-	itsPSPrintName    = NULL;
-	itsPTPrinter      = NULL;
-	itsPTPrintName    = NULL;
+	itsPSPrinter      = nullptr;
+	itsPSPrintName    = nullptr;
+	itsPTPrinter      = nullptr;
+	itsPTPrintName    = nullptr;
 
-	itsGoToLineDialog = NULL;
+	itsGoToLineDialog = nullptr;
 
-	itsDNDDragInfo    = NULL;
-	itsDNDDropInfo    = NULL;
+	itsDNDDragInfo    = nullptr;
+	itsDNDDropInfo    = nullptr;
 
 	itsBlinkTask = jnew JXTEBlinkCaretTask(this);
-	assert( itsBlinkTask != NULL );
+	assert( itsBlinkTask != nullptr );
 	TECaretShouldBlink(kJTrue);
 
 	itsMinWidth = itsMinHeight = 0;
@@ -470,7 +470,7 @@ JXTEBase::HandleMouseDown
 	const JXKeyModifiers&	modifiers
 	)
 {
-	if (itsSearchMenu != NULL || itsReplaceMenu != NULL)
+	if (itsSearchMenu != nullptr || itsReplaceMenu != nullptr)
 		{
 		(JXGetSearchTextDialog())->SetActiveTE(this);
 		}
@@ -522,7 +522,7 @@ JXTEBase::HandleMouseDrag
 
 	TEHandleMouseDrag(pt);
 
-	itsDNDDragInfo = NULL;
+	itsDNDDragInfo = nullptr;
 }
 
 /******************************************************************************
@@ -566,10 +566,10 @@ JXTEBase::HitSamePart
 JBoolean
 JXTEBase::TEBeginDND()
 {
-	assert( itsDNDDragInfo != NULL );
+	assert( itsDNDDragInfo != nullptr );
 
 	JXTextSelection* data = jnew JXTextSelection(this, kSelectionDataID);
-	assert( data != NULL );
+	assert( data != nullptr );
 
 	return BeginDND(*(itsDNDDragInfo->pt), *(itsDNDDragInfo->buttonStates),
 					*(itsDNDDragInfo->modifiers), data);
@@ -654,11 +654,11 @@ JXTEBase::GetDNDAskActions
 	askActionList->AppendElement(dndMgr->GetDNDActionMoveXAtom());
 
 	JString* s = jnew JString("CopyDescription::JXTEBase", 0, kJFalse);
-	assert( s != NULL );
+	assert( s != nullptr );
 	askDescriptionList->Append(s);
 
 	s = jnew JString("MoveDescription::JXTEBase", 0, kJFalse);
-	assert( s != NULL );
+	assert( s != nullptr );
 	askDescriptionList->Append(s);
 }
 
@@ -683,13 +683,13 @@ JXTEBase::GetSelectionData
 	if (id == kSelectionDataID)
 		{
 		JXTextSelection* textData = dynamic_cast<JXTextSelection*>(data);
-		assert( textData != NULL );
+		assert( textData != nullptr );
 
 		JString* text = jnew JString;
-		assert( text != NULL );
+		assert( text != nullptr );
 
 		JRunArray<JFont>* style = jnew JRunArray<JFont>;
-		assert( style != NULL );
+		assert( style != nullptr );
 
 		const JBoolean ok = GetSelection(text, style);
 		assert( ok );
@@ -766,7 +766,7 @@ JXTEBase::WillAcceptDrop
 	When overriding this function, derived classes must also override
 	TEXConvertDropData() to process the actual data that is dropped.
 
-	source is non-NULL if the drag is between widgets in the same program.
+	source is non-nullptr if the drag is between widgets in the same program.
 	This provides a way for compound documents to identify drags between their
 	various parts.
 
@@ -870,7 +870,7 @@ JXTEBase::HandleDNDDrop
 	TEHandleDNDDrop(pt, JI2B(source == this),
 					JI2B(itsDNDDropInfo->action == copyAction));
 
-	itsDNDDropInfo = NULL;
+	itsDNDDropInfo = nullptr;
 }
 
 /******************************************************************************
@@ -883,7 +883,7 @@ JXTEBase::HandleDNDDrop
 void
 JXTEBase::TEPasteDropData()
 {
-	assert( itsDNDDropInfo != NULL );
+	assert( itsDNDDropInfo != nullptr );
 
 	JXDNDManager* dndMgr     = GetDNDManager();
 	const Atom selectionName = dndMgr->GetDNDSelectionName();
@@ -894,14 +894,14 @@ JXTEBase::TEPasteDropData()
 		TEXConvertDropData(*(itsDNDDropInfo->typeList), itsDNDDropInfo->action,
 						   itsDNDDropInfo->time, &text, &style))
 		{
-		JRunArray<JFont>* s = (style.IsEmpty() ? NULL : &style);
+		JRunArray<JFont>* s = (style.IsEmpty() ? nullptr : &style);
 		Paste(text, s);
 		}
 	else if (!itsWillPasteCustomFlag &&
 			 GetSelectionData(selectionName, *(itsDNDDropInfo->typeList),
 							  itsDNDDropInfo->time, &text, &style) == kJNoError)
 		{
-		JRunArray<JFont>* s = (style.IsEmpty() ? NULL : &style);
+		JRunArray<JFont>* s = (style.IsEmpty() ? nullptr : &style);
 		Paste(text, s);
 
 		if (itsDNDDropInfo->action == dndMgr->GetDNDActionMoveXAtom())
@@ -1037,7 +1037,7 @@ JXTEBase::HandleFocusEvent()
 		itsBlinkTask->Start();
 		TEActivateSelection();
 
-		if (itsSearchMenu != NULL || itsReplaceMenu != NULL)
+		if (itsSearchMenu != nullptr || itsReplaceMenu != nullptr)
 			{
 			(JXGetSearchTextDialog())->SetActiveTE(this);
 			}
@@ -1057,7 +1057,7 @@ JXTEBase::HandleUnfocusEvent()
 	itsBlinkTask->Stop();
 	TEDeactivateSelection();
 
-	if (itsSearchMenu != NULL || itsReplaceMenu != NULL)
+	if (itsSearchMenu != nullptr || itsReplaceMenu != nullptr)
 		{
 		(JXGetSearchTextDialog())->TEDeactivated(this);
 		}
@@ -1123,7 +1123,7 @@ JXTEBase::HandleKeyPress
 	const JXKeyModifiers&	origModifiers
 	)
 {
-	if (itsSearchMenu != NULL || itsReplaceMenu != NULL)
+	if (itsSearchMenu != nullptr || itsReplaceMenu != nullptr)
 		{
 		(JXGetSearchTextDialog())->SetActiveTE(this);
 		}
@@ -1376,7 +1376,7 @@ JXTEBase::HandleShortcut
 	const JXKeyModifiers&	modifiers
 	)
 {
-	if (itsSearchMenu != NULL || itsReplaceMenu != NULL)
+	if (itsSearchMenu != nullptr || itsReplaceMenu != nullptr)
 		{
 		(JXGetSearchTextDialog())->SetActiveTE(this);
 		}
@@ -1645,7 +1645,7 @@ JXTEBase::TEUpdateClipboard
 	const
 {
 	JXTextSelection* data = jnew JXTextSelection(GetDisplay(), text, &style);
-	assert( data != NULL );
+	assert( data != nullptr );
 
 	if (!GetSelectionManager()->SetData(kJXClipboardName, data))
 		{
@@ -1795,7 +1795,7 @@ JXTEBase::GetSelectionData
 		JError err       = JNoError();
 
 		Atom returnType, textReturnType;
-		unsigned char* data = NULL;
+		unsigned char* data = nullptr;
 		JSize dataLength;
 		JXSelectionManager::DeleteMethod delMethod;
 
@@ -1858,7 +1858,7 @@ JXTEBase::DataNotCompatible::DataNotCompatible
 {
 	if (type != None)
 		{
-		assert( display != NULL );
+		assert( display != nullptr );
 
 		const JUtf8Byte* map[] =
 			{
@@ -2074,7 +2074,7 @@ JXTEBase::ShareEditMenu
 	const JBoolean	allowToggleReadOnly
 	)
 {
-	assert( itsEditMenu == NULL && menu != NULL );
+	assert( itsEditMenu == nullptr && menu != nullptr );
 
 	itsEditMenu               = menu;
 	itsCanCheckSpellingFlag   = allowCheckSpelling;
@@ -2107,7 +2107,7 @@ JXTEBase::AppendSearchMenu
 	JXMenuBar* menuBar
 	)
 {
-	assert( itsSearchMenu == NULL && itsReplaceMenu == NULL );
+	assert( itsSearchMenu == nullptr && itsReplaceMenu == nullptr );
 
 	itsSearchMenu = menuBar->AppendTextMenu(JGetString("SearchMenuTitle::JXTEBase"));
 	if (JXMenu::GetDefaultStyle() == JXMenu::kMacintoshStyle)
@@ -2147,7 +2147,7 @@ JXTEBase::AppendSearchReplaceMenu
 	JXMenuBar* menuBar
 	)
 {
-	assert( itsSearchMenu == NULL && itsReplaceMenu == NULL );
+	assert( itsSearchMenu == nullptr && itsReplaceMenu == nullptr );
 
 	itsReplaceMenu = menuBar->AppendTextMenu(JGetString("SearchMenuTitle::JXTEBase"));
 	if (JXMenu::GetDefaultStyle() == JXMenu::kMacintoshStyle)
@@ -2190,18 +2190,18 @@ JXTEBase::ShareSearchMenu
 	JXTEBase* te
 	)
 {
-	assert( itsSearchMenu == NULL && itsReplaceMenu == NULL &&
-			(te->itsSearchMenu != NULL || te->itsReplaceMenu != NULL) );
+	assert( itsSearchMenu == nullptr && itsReplaceMenu == nullptr &&
+			(te->itsSearchMenu != nullptr || te->itsReplaceMenu != nullptr) );
 
 	itsSearchMenu  = te->itsSearchMenu;
 	itsReplaceMenu = te->itsReplaceMenu;
 
-	if (itsSearchMenu != NULL)
+	if (itsSearchMenu != nullptr)
 		{
 		ListenTo(itsSearchMenu);
 		return itsSearchMenu;
 		}
-	else if (itsReplaceMenu != NULL)
+	else if (itsReplaceMenu != nullptr)
 		{
 		ListenTo(itsReplaceMenu);
 		return itsReplaceMenu;
@@ -2209,7 +2209,7 @@ JXTEBase::ShareSearchMenu
 	else
 		{
 		assert_msg( 0, "should never happen" );
-		return NULL;
+		return nullptr;
 		}
 }
 
@@ -2219,7 +2219,7 @@ JXTEBase::ShareSearchMenu
 	JXTextMenu* menu
 	)
 {
-	assert( itsSearchMenu == NULL && itsReplaceMenu == NULL && menu != NULL );
+	assert( itsSearchMenu == nullptr && itsReplaceMenu == nullptr && menu != nullptr );
 
 	itsSearchMenu = menu;
 	ListenTo(itsSearchMenu);
@@ -2231,7 +2231,7 @@ JXTEBase::ShareSearchReplaceMenu
 	JXTextMenu* menu
 	)
 {
-	assert( itsSearchMenu == NULL && itsReplaceMenu == NULL && menu != NULL );
+	assert( itsSearchMenu == nullptr && itsReplaceMenu == nullptr && menu != nullptr );
 
 	itsReplaceMenu = menu;
 	ListenTo(itsReplaceMenu);
@@ -2264,7 +2264,7 @@ JXTEBase::Receive
 			{
 			const JXMenu::ItemSelected* selection =
 				dynamic_cast<const JXMenu::ItemSelected*>(&message);
-			assert( selection != NULL );
+			assert( selection != nullptr );
 			HandleEditMenu(selection->GetIndex());
 			}
 		}
@@ -2282,7 +2282,7 @@ JXTEBase::Receive
 			{
 			const JXMenu::ItemSelected* selection =
 				dynamic_cast<const JXMenu::ItemSelected*>(&message);
-			assert( selection != NULL );
+			assert( selection != nullptr );
 			HandleSearchMenu(selection->GetIndex());
 			}
 		}
@@ -2300,7 +2300,7 @@ JXTEBase::Receive
 			{
 			const JXMenu::ItemSelected* selection =
 				dynamic_cast<const JXMenu::ItemSelected*>(&message);
-			assert( selection != NULL );
+			assert( selection != nullptr );
 			HandleReplaceMenu(selection->GetIndex());
 			}
 		}
@@ -2310,7 +2310,7 @@ JXTEBase::Receive
 		{
 		const JPrinter::PrintSetupFinished* info =
 			dynamic_cast<const JPrinter::PrintSetupFinished*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		if (info->Successful())
 			{
 			SetPSPrintFileName(itsPSPrinter->GetFileName());
@@ -2324,7 +2324,7 @@ JXTEBase::Receive
 		{
 		const JPrinter::PrintSetupFinished* info =
 			dynamic_cast<const JPrinter::PrintSetupFinished*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		if (info->Successful())
 			{
 			SetPTPrintFileName(itsPTPrinter->GetFileName());
@@ -2337,7 +2337,7 @@ JXTEBase::Receive
 		{
 		const JXDialogDirector::Deactivated* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		if (info->Successful())
 			{
 			JBoolean physicalLineIndexFlag;
@@ -2348,7 +2348,7 @@ JXTEBase::Receive
 				}
 			GoToLine(lineIndex);
 			}
-		itsGoToLineDialog = NULL;
+		itsGoToLineDialog = nullptr;
 		}
 
 	else if (sender == GetText() && message.Is(JStyledText::kWillBeBusy))
@@ -2371,7 +2371,7 @@ JXTEBase::Receive
 void
 JXTEBase::UpdateEditMenu()
 {
-	assert( itsEditMenu != NULL );
+	assert( itsEditMenu != nullptr );
 
 	JString crmActionText, crm2ActionText;
 	JBoolean isReadOnly;
@@ -2446,7 +2446,7 @@ JXTEBase::HandleEditMenu
 	const JIndex index
 	)
 {
-	assert( itsEditMenu != NULL );
+	assert( itsEditMenu != nullptr );
 
 	CmdIndex cmd;
 	if (!EditMenuIndexToCmd(index, &cmd))
@@ -2454,7 +2454,7 @@ JXTEBase::HandleEditMenu
 		return;
 		}
 
-	if (itsSearchMenu != NULL || itsReplaceMenu != NULL)
+	if (itsSearchMenu != nullptr || itsReplaceMenu != nullptr)
 		{
 		(JXGetSearchTextDialog())->SetActiveTE(this);
 		}
@@ -2585,7 +2585,7 @@ JXTEBase::HandleEditMenu
 void
 JXTEBase::UpdateSearchMenu()
 {
-	assert( itsSearchMenu != NULL );
+	assert( itsSearchMenu != nullptr );
 
 	JString crmActionText, crm2ActionText;
 	JBoolean isReadOnly;
@@ -2620,7 +2620,7 @@ JXTEBase::HandleSearchMenu
 	const JIndex index
 	)
 {
-	assert( itsSearchMenu != NULL );
+	assert( itsSearchMenu != nullptr );
 
 	CmdIndex cmd;
 	if (SearchMenuIndexToCmd(index, &cmd))
@@ -2656,7 +2656,7 @@ JXTEBase::HandleSearchMenu
 void
 JXTEBase::UpdateReplaceMenu()
 {
-	assert( itsReplaceMenu != NULL );
+	assert( itsReplaceMenu != nullptr );
 
 	JString crmActionText, crm2ActionText;
 	JBoolean isReadOnly;
@@ -2691,7 +2691,7 @@ JXTEBase::HandleReplaceMenu
 	const JIndex index
 	)
 {
-	assert( itsReplaceMenu != NULL );
+	assert( itsReplaceMenu != nullptr );
 
 	CmdIndex cmd;
 	if (SearchReplaceMenuIndexToCmd(index, &cmd))
@@ -3075,7 +3075,7 @@ JXTEBase::SetPSPrinter
 	JXPSPrinter* p
 	)
 {
-	if (itsPSPrinter != NULL)
+	if (itsPSPrinter != nullptr)
 		{
 		StopListening(itsPSPrinter);
 		}
@@ -3093,11 +3093,11 @@ const JString&
 JXTEBase::GetPSPrintFileName()
 	const
 {
-	if (itsPSPrintName == NULL)
+	if (itsPSPrintName == nullptr)
 		{
 		JXTEBase* me = const_cast<JXTEBase*>(this);
 		me->itsPSPrintName = jnew JString;
-		assert( itsPSPrintName != NULL );
+		assert( itsPSPrintName != nullptr );
 		}
 
 	return *itsPSPrintName;
@@ -3130,7 +3130,7 @@ JXTEBase::SetPSPrintFileName
 void
 JXTEBase::HandlePSPageSetup()
 {
-	assert( itsPSPrinter != NULL );
+	assert( itsPSPrinter != nullptr );
 
 	itsPSPrinter->BeginUserPageSetup();
 }
@@ -3145,7 +3145,7 @@ JXTEBase::HandlePSPageSetup()
 void
 JXTEBase::PrintPS()
 {
-	assert( itsPSPrinter != NULL );
+	assert( itsPSPrinter != nullptr );
 
 	itsPSPrinter->SetFileName(GetPSPrintFileName());
 	itsPSPrinter->BeginUserPrintSetup();
@@ -3200,7 +3200,7 @@ JXTEBase::SetPTPrinter
 	JXPTPrinter* p
 	)
 {
-	if (itsPTPrinter != NULL)
+	if (itsPTPrinter != nullptr)
 		{
 		StopListening(itsPTPrinter);
 		}
@@ -3218,11 +3218,11 @@ const JString&
 JXTEBase::GetPTPrintFileName()
 	const
 {
-	if (itsPTPrintName == NULL)
+	if (itsPTPrintName == nullptr)
 		{
 		JXTEBase* me = const_cast<JXTEBase*>(this);
 		me->itsPTPrintName = jnew JString;
-		assert( itsPTPrintName != NULL );
+		assert( itsPTPrintName != nullptr );
 		}
 
 	return *itsPTPrintName;
@@ -3255,7 +3255,7 @@ JXTEBase::SetPTPrintFileName
 void
 JXTEBase::HandlePTPageSetup()
 {
-	assert( itsPTPrinter != NULL );
+	assert( itsPTPrinter != nullptr );
 
 	itsPTPrinter->BeginUserPageSetup();
 }
@@ -3270,7 +3270,7 @@ JXTEBase::HandlePTPageSetup()
 void
 JXTEBase::PrintPT()
 {
-	assert( itsPTPrinter != NULL );
+	assert( itsPTPrinter != nullptr );
 
 	itsPTPrinter->SetFileName(GetPTPrintFileName());
 	itsPTPrinter->BeginUserPrintSetup();
@@ -3287,14 +3287,14 @@ JXTEBase::PrintPT()
 void
 JXTEBase::AskForLine()
 {
-	assert( itsGoToLineDialog == NULL );
+	assert( itsGoToLineDialog == nullptr );
 
 	const JIndex lineIndex = GetLineForChar(GetInsertionIndex().charIndex);
 	const JSize lineCount  = GetLineCount();
 
 	JXDirector* sup = GetWindow()->GetDirector();
 	itsGoToLineDialog = jnew JXGoToLineDialog(sup, lineIndex, lineCount);
-	assert( itsGoToLineDialog != NULL );
+	assert( itsGoToLineDialog != nullptr );
 	itsGoToLineDialog->BeginDialog();
 	ListenTo(itsGoToLineDialog);
 }

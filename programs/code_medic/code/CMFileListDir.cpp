@@ -151,17 +151,17 @@ CMFileListDir::BuildWindow()
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 250,500, "");
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	JXMenuBar* menuBar =
 		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 250,30);
-	assert( menuBar != NULL );
+	assert( menuBar != nullptr );
 
 	itsFileListSet =
 		jnew JXFileListSet(menuBar, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 250,470);
-	assert( itsFileListSet != NULL );
+	assert( itsFileListSet != nullptr );
 
 // end JXLayout
 
@@ -174,7 +174,7 @@ CMFileListDir::BuildWindow()
 
 	JXDisplay* display = GetDisplay();
 	JXImage* icon      = jnew JXImage(display, medic_file_list_window);
-	assert( icon != NULL );
+	assert( icon != nullptr );
 	window->SetIcon(icon);
 
 	ListenTo(GetTable());
@@ -199,7 +199,7 @@ CMFileListDir::BuildWindow()
 	JXWDMenu* wdMenu =
 		jnew JXWDMenu(kWindowsMenuTitleStr, menuBar,
 					 JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
-	assert( wdMenu != NULL );
+	assert( wdMenu != nullptr );
 	menuBar->AppendMenu(wdMenu);
 
 	itsHelpMenu = menuBar->AppendTextMenu(kHelpMenuTitleStr);
@@ -285,7 +285,7 @@ CMFileListDir::Receive
 		{
 		const CMLink::SymbolsLoaded* info =
 			dynamic_cast<const CMLink::SymbolsLoaded*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		UpdateWindowTitle(info->GetProgramName());
 		}
 
@@ -297,7 +297,7 @@ CMFileListDir::Receive
 		{
 		 const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleFileMenu(selection->GetIndex());
 		}
 
@@ -309,7 +309,7 @@ CMFileListDir::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleActionsMenu(selection->GetIndex());
 		}
 
@@ -317,7 +317,7 @@ CMFileListDir::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleHelpMenu(selection->GetIndex());
 		}
 

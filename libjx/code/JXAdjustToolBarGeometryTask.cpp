@@ -45,6 +45,6 @@ JXAdjustToolBarGeometryTask::~JXAdjustToolBarGeometryTask()
 void
 JXAdjustToolBarGeometryTask::Perform()
 {
-	itsToolBar->itsAdjustTask = NULL;	// we will now be deleted
+	itsToolBar->itsAdjustTask = nullptr;	// we will now be deleted
 	itsToolBar->AdjustGeometryIfNeeded();
 }

@@ -115,7 +115,7 @@ ClipboardWidget::Receive
 		// Cast the sender so we can access its functions.
 		 const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 
 		// Handle the menu selection
 		HandleEditMenu(selection->GetIndex());
@@ -226,7 +226,7 @@ ClipboardWidget::HandleEditMenu
 		// We instantiate a selection object that is appropriate for
 		// our data.
 		JXTextSelection* data = jnew JXTextSelection(GetDisplay(), itsText);
-		assert(data != NULL);
+		assert(data != nullptr);
 
 		// The selection data is then given to the selection manager.
 		if (!GetSelectionManager()->SetData(kJXClipboardName, data))
@@ -272,7 +272,7 @@ ClipboardWidget::Paste()
 			if (atom == XA_STRING || atom == selMgr->GetUtf8StringXAtom())
 				{
 				// Get the data of the appropriate type.
-				unsigned char* data = NULL;
+				unsigned char* data = nullptr;
 				JSize dataLength;
 				Atom returnType;
 				JXSelectionManager::DeleteMethod dMethod;

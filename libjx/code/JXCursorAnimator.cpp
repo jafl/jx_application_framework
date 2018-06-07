@@ -128,7 +128,7 @@ JXCursorAnimator::InitFrames
 	)
 {
 	itsFrames = jnew JArray<JCursorIndex>(kBeachBallFrameCount);
-	assert( itsFrames != NULL );
+	assert( itsFrames != nullptr );
 
 	for (JIndex i=0; i<kBeachBallFrameCount; i++)
 		{

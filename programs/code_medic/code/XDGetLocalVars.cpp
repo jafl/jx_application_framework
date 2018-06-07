@@ -51,7 +51,7 @@ XDGetLocalVars::HandleSuccess
 {
 	XDLink* link = dynamic_cast<XDLink*>(CMGetLink());
 	xmlNode* root;
-	if (link == NULL || !link->GetParsedData(&root))
+	if (link == nullptr || !link->GetParsedData(&root))
 		{
 		return;
 		}
@@ -60,14 +60,14 @@ XDGetLocalVars::HandleSuccess
 
 	xmlNode* node = root->children;
 	JString id;
-	while (node != NULL)
+	while (node != nullptr)
 		{
 		if (JGetXMLNodeAttr(node, "name") != "Globals")
 			{
 			id = JGetXMLNodeAttr(node, "id");
 
 			XDGetContextVars* cmd = jnew XDGetContextVars(itsRootNode, id);
-			assert( cmd != NULL );
+			assert( cmd != nullptr );
 			cmd->Send();
 			}
 

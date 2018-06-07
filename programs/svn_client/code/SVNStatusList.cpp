@@ -175,7 +175,7 @@ SVNStatusList::Ignore()
 		JSplitPathAndName(*(list.FirstElement()), &path, &name);
 
 		JXTextSelection* data = jnew JXTextSelection(GetDisplay(), name);
-		assert( data != NULL );
+		assert( data != nullptr );
 
 		GetSelectionManager()->SetData(kJXClipboardName, data);
 

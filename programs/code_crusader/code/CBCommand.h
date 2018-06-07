@@ -45,14 +45,14 @@ private:
 
 	struct CmdInfo
 	{
-		JString*					cmd;		// can be NULL
-		CBCommand*					cmdObj;		// can be NULL
-		CBCommandManager::CmdInfo*	cmdInfo;	// NULL if cmdObj==NULL
+		JString*					cmd;		// can be nullptr
+		CBCommand*					cmdObj;		// can be nullptr
+		CBCommandManager::CmdInfo*	cmdInfo;	// nullptr if cmdObj==nullptr
 		JBoolean					isMakeDepend;
 
 		CmdInfo()
 			:
-			cmd(NULL), cmdObj(NULL), cmdInfo(NULL), isMakeDepend(kJFalse)
+			cmd(nullptr), cmdObj(nullptr), cmdInfo(nullptr), isMakeDepend(kJFalse)
 		{ };
 
 		CmdInfo(JString* c, CBCommand* o, CBCommandManager::CmdInfo* i,
@@ -68,10 +68,10 @@ private:
 
 private:
 
-	CBProjectDocument*		itsProjDoc;			// can be NULL
+	CBProjectDocument*		itsProjDoc;			// can be nullptr
 	const JString			itsCmdPath;
 	JArray<CmdInfo>*		itsCmdList;
-	CBExecOutputDocument*	itsOutputDoc;		// not owned; can be NULL
+	CBExecOutputDocument*	itsOutputDoc;		// not owned; can be nullptr
 	JString					itsWindowTitle;
 	JString					itsDontCloseMsg;
 	const JBoolean			itsBeepFlag;
@@ -84,9 +84,9 @@ private:
 
 	// used for subroutines
 
-	CBExecOutputDocument*	itsBuildOutputDoc;	// can be NULL; ensures single window for subroutines
-	CBExecOutputDocument*	itsRunOutputDoc;	// can be NULL; ensures single window for subroutines
-	CBCommand*				itsParent;			// can be NULL; not owned; parent who Start()ed us
+	CBExecOutputDocument*	itsBuildOutputDoc;	// can be nullptr; ensures single window for subroutines
+	CBExecOutputDocument*	itsRunOutputDoc;	// can be nullptr; ensures single window for subroutines
+	CBCommand*				itsParent;			// can be nullptr; not owned; parent who Start()ed us
 	JBoolean				itsCallParentProcessFinishedFlag;
 
 private:

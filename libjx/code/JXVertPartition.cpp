@@ -78,9 +78,9 @@ JXVertPartition::JXVertPartitionX()
 	SetDefaultCursor(JXGetDragHorizLineCursor(GetDisplay()));
 	itsDragAllLineCursor = JXGetDragAllHorizLineCursor(GetDisplay());
 
-	itsFTCSizes    = NULL;
-	itsFTCMinSizes = NULL;
-	itsSavedGeom   = NULL;
+	itsFTCSizes    = nullptr;
+	itsFTCMinSizes = nullptr;
+	itsSavedGeom   = nullptr;
 
 	SetElasticSize();
 }
@@ -125,7 +125,7 @@ JXVertPartition::CreateCompartment
 	JXWidgetSet* compartment =
 		jnew JXWidgetSet(this, kHElastic, kFixedTop,
 						0,position, GetApertureWidth(), size);
-	assert( compartment != NULL );
+	assert( compartment != nullptr );
 	compartment->SetNeedsInternalFTC();
 	return compartment;
 }
@@ -260,7 +260,7 @@ JXVertPartition::HandleMouseDrag
 
 		if (pt.y != itsPrevPt.y)
 			{
-			JPainter* p = NULL;
+			JPainter* p = nullptr;
 			const JBoolean ok = GetDragPainter(&p);
 			assert( ok );
 
@@ -293,7 +293,7 @@ JXVertPartition::HandleMouseUp
 		{
 		// erase the line
 
-		JPainter* p = NULL;
+		JPainter* p = nullptr;
 		const JBoolean ok = GetDragPainter(&p);
 		assert( ok );
 
@@ -386,10 +386,10 @@ JXVertPartition::RunInternalFTC
 	else	// vertical
 		{
 		itsFTCSizes = jnew JArray<JCoordinate>;
-		assert( itsFTCSizes != NULL );
+		assert( itsFTCSizes != nullptr );
 
 		itsFTCMinSizes = jnew JArray<JCoordinate>;
-		assert( itsFTCMinSizes != NULL );
+		assert( itsFTCMinSizes != nullptr );
 
 		JCoordinate sum = 0;
 		JIndex i        = 1;
@@ -435,21 +435,21 @@ JXVertPartition::FTCAdjustSize
 {
 	JXPartition::FTCAdjustSize(dw, dh);
 
-	if (itsFTCSizes != NULL)
+	if (itsFTCSizes != nullptr)
 		{
 		SetCompartmentSizes(*itsFTCSizes);
 		jdelete itsFTCSizes;
-		itsFTCSizes = NULL;
+		itsFTCSizes = nullptr;
 
 		SetMinCompartmentSizes(*itsFTCMinSizes);
 		jdelete itsFTCMinSizes;
-		itsFTCMinSizes = NULL;
+		itsFTCMinSizes = nullptr;
 
-		if (itsSavedGeom != NULL)
+		if (itsSavedGeom != nullptr)
 			{
 			RestoreGeometry(*itsSavedGeom);
 			jdelete itsSavedGeom;
-			itsSavedGeom = NULL;
+			itsSavedGeom = nullptr;
 			}
 		}
 }
@@ -465,13 +465,13 @@ JXVertPartition::SaveGeometryForLater
 	const JArray<JCoordinate>& sizes
 	)
 {
-	if (itsSavedGeom == NULL)
+	if (itsSavedGeom == nullptr)
 		{
 		itsSavedGeom = jnew JArray<JCoordinate>(sizes);
-		assert( itsSavedGeom != NULL );
+		assert( itsSavedGeom != nullptr );
 
 		JXUrgentTask* geomTask = jnew JXRestorePartitionGeometry(this);
-		assert( geomTask != NULL );
+		assert( geomTask != nullptr );
 		geomTask->Go();
 		}
 	else

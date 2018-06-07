@@ -51,7 +51,7 @@ MDRecordTable::MDRecordTable
 	JXEditTable(kDefRowHeight, kDefColWidth, scrollbarSet,
 				enclosure, hSizing, vSizing, x,y, w,h),
 	itsRecordList(list),
-	itsSelectedRecord(NULL),
+	itsSelectedRecord(nullptr),
 	itsMinDataWidth(kDefColWidth)
 {
 	AppendCols(MDRecordList::kColumnCount);
@@ -133,7 +133,7 @@ MDRecordTable::UpdateTable()
 		}
 
 	JIndex index;
-	if (itsSelectedRecord != NULL)
+	if (itsSelectedRecord != nullptr)
 		{
 		if (itsRecordList->GetRecordIndex(itsSelectedRecord, &index))
 			{
@@ -141,7 +141,7 @@ MDRecordTable::UpdateTable()
 			}
 
 		StopListening(itsSelectedRecord);
-		itsSelectedRecord = NULL;
+		itsSelectedRecord = nullptr;
 		}
 
 	Refresh();
@@ -448,7 +448,7 @@ MDRecordTable::CreateXInputField
 	JXInputField* field =
 		jnew MDRecordDataField(text, this, JXWidget::kFixedLeft, JXWidget::kFixedTop,
 							  x,y, w,h);
-	assert( field != NULL );
+	assert( field != nullptr );
 
 	return field;
 }
@@ -497,7 +497,7 @@ MDRecordTable::GetSelectedRecord
 		}
 	else
 		{
-		*entry = NULL;
+		*entry = nullptr;
 		return kJFalse;
 		}
 }

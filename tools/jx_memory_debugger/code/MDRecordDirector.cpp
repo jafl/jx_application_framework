@@ -105,7 +105,7 @@ MDRecordDirector::MDRecordDirector
 	)
 	:
 	JXWindowDirector(supervisor),
-	itsPrinter(NULL)
+	itsPrinter(nullptr)
 {
 	BuildWindow(recordList, windowTitle);
 
@@ -120,7 +120,7 @@ MDRecordDirector::MDRecordDirector
 		}
 
 	itsPrinter = jnew JXPSPrinter(GetDisplay());
-	assert( itsPrinter != NULL );
+	assert( itsPrinter != nullptr );
 	ListenTo(itsPrinter);
 }
 
@@ -153,17 +153,17 @@ MDRecordDirector::BuildWindow
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 500,400, "");
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	JXMenuBar* menuBar =
 		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 500,30);
-	assert( menuBar != NULL );
+	assert( menuBar != nullptr );
 
 	itsToolBar =
 		jnew JXToolBar(MDGetPrefsManager(), kMDRecordToolBarID, menuBar, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 500,370);
-	assert( itsToolBar != NULL );
+	assert( itsToolBar != nullptr );
 
 // end JXLayout
 
@@ -172,14 +172,14 @@ MDRecordDirector::BuildWindow
 	window->SetMinSize(200, 200);
 
 	JXImage* image = jnew JXImage(GetDisplay(), md_main_window_icon);
-	assert( image != NULL );
+	assert( image != nullptr );
 	window->SetIcon(image);
 
 	JXScrollbarSet* scrollbarSet =
 		jnew JXScrollbarSet(itsToolBar->GetWidgetEnclosure(),
 						   JXWidget::kHElastic,JXWidget::kVElastic,
 						   0,0, 100,100);
-	assert( scrollbarSet != NULL );
+	assert( scrollbarSet != nullptr );
 	scrollbarSet->FitToEnclosure();
 
 	const JCoordinate kHeaderHeight	= 25;
@@ -190,7 +190,7 @@ MDRecordDirector::BuildWindow
 			scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 			JXWidget::kHElastic, JXWidget::kVElastic,
 			0,kHeaderHeight, 100,tableHeight);
-	assert( itsRecordTable != NULL );
+	assert( itsRecordTable != nullptr );
 	itsRecordTable->FitToEnclosure(kJTrue, kJFalse);
 
 	MDHeaderWidget* tableHeader =
@@ -198,7 +198,7 @@ MDRecordDirector::BuildWindow
 			scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 			JXWidget::kHElastic, JXWidget::kFixedTop,
 			0,0, 100,kHeaderHeight);
-	assert( tableHeader != NULL );
+	assert( tableHeader != nullptr );
 	tableHeader->FitToEnclosure(kJTrue, kJFalse);
 
 	// menus
@@ -213,7 +213,7 @@ MDRecordDirector::BuildWindow
 	JXWDMenu* windowsMenu =
 		jnew JXWDMenu(kWindowsMenuTitleStr, menuBar,
 					 JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
-	assert( windowsMenu != NULL );
+	assert( windowsMenu != nullptr );
 	menuBar->AppendMenu(windowsMenu);
 
 	itsPrefsMenu = menuBar->AppendTextMenu(kPrefsMenuTitleStr);
@@ -264,7 +264,7 @@ MDRecordDirector::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleFileMenu(selection->GetIndex());
 		}
 
@@ -276,7 +276,7 @@ MDRecordDirector::Receive
 		{
 		 const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandlePrefsMenu(selection->GetIndex());
 		}
 
@@ -288,7 +288,7 @@ MDRecordDirector::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleHelpMenu(selection->GetIndex());
 		}
 
@@ -297,7 +297,7 @@ MDRecordDirector::Receive
 		{
 		const JPrinter::PrintSetupFinished* info =
 			dynamic_cast<const JPrinter::PrintSetupFinished*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		if (info->Successful())
 			{
 			(MDGetPrefsManager())->SavePrintSetup(*itsPrinter);
@@ -308,7 +308,7 @@ MDRecordDirector::Receive
 		{
 		const JPrinter::PrintSetupFinished* info =
 			dynamic_cast<const JPrinter::PrintSetupFinished*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		if (info->Successful())
 			{
 			(MDGetPrefsManager())->SavePrintSetup(*itsPrinter);

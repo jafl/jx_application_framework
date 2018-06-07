@@ -230,7 +230,7 @@ private:
 
 	JXWindow*				itsWindow;
 	JXContainer*			itsEnclosure;
-	JPtrArray<JXContainer>*	itsEnclosedObjs;	// NULL if empty
+	JPtrArray<JXContainer>*	itsEnclosedObjs;	// nullptr if empty
 	JBoolean				itsGoingAwayFlag;
 
 	JBoolean	itsActiveFlag;
@@ -260,7 +260,7 @@ private:
 
 	// hint
 
-	JXHintManager*	itsHintMgr;		// NULL if no hint
+	JXHintManager*	itsHintMgr;		// nullptr if no hint
 
 	// FTC
 
@@ -534,7 +534,7 @@ inline JRect
 JXContainer::GetFrame()		// enclosure coordinates
 	const
 {
-	if (itsEnclosure != NULL)
+	if (itsEnclosure != nullptr)
 		{
 		return (itsEnclosure->GlobalToLocal(GetFrameGlobal()));
 		}
@@ -626,7 +626,7 @@ inline std::ostream&
 JXContainer::GetFTCLog()
 	const
 {
-	return (theDebugFTCLogBuffer != NULL ? *theDebugFTCLogBuffer : std::cout);
+	return (theDebugFTCLogBuffer != nullptr ? *theDebugFTCLogBuffer : std::cout);
 }
 
 #endif

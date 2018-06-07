@@ -85,7 +85,7 @@ private:
 	CBCommandManager::CmdList*	itsCmdList;
 	JString						itsBasePath;
 
-	JXInputField*	itsTextInput;			// NULL unless editing
+	JXInputField*	itsTextInput;			// nullptr unless editing
 	JFont			itsFont;
 
 	JXTextMenu*		itsOptionsMenu;

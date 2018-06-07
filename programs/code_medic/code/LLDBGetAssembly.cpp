@@ -59,7 +59,7 @@ LLDBGetAssembly::HandleSuccess
 	)
 {
 	LLDBLink* link = dynamic_cast<LLDBLink*>(CMGetLink());
-	if (link == NULL)
+	if (link == nullptr)
 		{
 		return;
 		}

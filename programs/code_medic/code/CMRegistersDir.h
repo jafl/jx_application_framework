@@ -39,7 +39,7 @@ private:
 
 	CMCommandDirector*	itsCommandDir;
 	JXStaticText*		itsWidget;
-	CMGetRegisters*		itsCmd;			// can be NULL
+	CMGetRegisters*		itsCmd;			// can be nullptr
 	JBoolean			itsShouldUpdateFlag;
 	JBoolean			itsNeedsUpdateFlag;
 

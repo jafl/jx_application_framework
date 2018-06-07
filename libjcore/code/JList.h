@@ -336,8 +336,8 @@ public:
 	virtual void	Sort();
 
 	JBoolean	InsertSorted(const T& data, const JBoolean insertIfDuplicate = kJTrue,
-							 JIndex* index = NULL);
-	JIndex		GetInsertionSortIndex(const T& data, JBoolean* isDuplicate = NULL) const;
+							 JIndex* index = nullptr);
+	JIndex		GetInsertionSortIndex(const T& data, JBoolean* isDuplicate = nullptr) const;
 
 	JBoolean	SearchSorted(const T& target, const JListT::SearchReturn which,
 							 JIndex* index) const;
@@ -353,8 +353,8 @@ protected:
 
 private:
 
-	JListT::CompareResult	(*itsCompareFn)(const T&, const T&);	// can be NULL
-	JElementComparison<T>*	itsCompareObj;							// can be NULL
+	JListT::CompareResult	(*itsCompareFn)(const T&, const T&);	// can be nullptr
+	JElementComparison<T>*	itsCompareObj;							// can be nullptr
 
 	JListT::SortOrder		itsSortOrder;
 	JListIterator<T>*		itsFirstIterator;	// linked list of active iterators

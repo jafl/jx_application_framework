@@ -64,7 +64,7 @@ yyprint
 	YYSTYPE	value
 	)
 {
-	if (value.pString != NULL)
+	if (value.pString != nullptr)
 		{
 		fprintf(file, "string:  %s", (value.pString)->GetCString());
 		}
@@ -88,7 +88,7 @@ top_group :
 
 	group P_EOF
 		{
-		itsCurrentNode = $$ = (CMGetLink())->CreateVarNode(NULL, "", NULL, $1->GetName());
+		itsCurrentNode = $$ = (CMGetLink())->CreateVarNode(nullptr, "", nullptr, $1->GetName());
 		for (JIndex i=1; i<=$1->list->GetElementCount(); i++)
 			{
 			itsCurrentNode->Append($1->list->GetElement(i));
@@ -102,7 +102,7 @@ top_group :
 
 	| reference_value group P_EOF
 		{
-		itsCurrentNode = $$ = (CMGetLink())->CreateVarNode(NULL, "", NULL, *$1);
+		itsCurrentNode = $$ = (CMGetLink())->CreateVarNode(nullptr, "", nullptr, *$1);
 		for (JIndex i=1; i<=$2->list->GetElementCount(); i++)
 			{
 			itsCurrentNode->Append($2->list->GetElement(i));
@@ -119,7 +119,7 @@ top_group :
 
 	| value P_EOF
 		{
-		itsCurrentNode = $$ = (CMGetLink())->CreateVarNode(NULL, "", NULL, *$1);
+		itsCurrentNode = $$ = (CMGetLink())->CreateVarNode(nullptr, "", nullptr, *$1);
 		itsCurrentNode->MakePointer(itsIsPointerFlag);
 		itsIsPointerFlag = kJFalse;
 
@@ -130,8 +130,8 @@ top_group :
 
 	| reference_value value P_EOF
 		{
-		itsCurrentNode = $$ = (CMGetLink())->CreateVarNode(NULL, "", NULL, *$1);
-		CMVarNode* child = (CMGetLink())->CreateVarNode(itsCurrentNode, "", NULL, *$2);
+		itsCurrentNode = $$ = (CMGetLink())->CreateVarNode(nullptr, "", nullptr, *$1);
+		CMVarNode* child = (CMGetLink())->CreateVarNode(itsCurrentNode, "", nullptr, *$2);
 		child->MakePointer(itsIsPointerFlag);
 		itsIsPointerFlag = kJFalse;
 
@@ -146,23 +146,23 @@ group :
 
 	P_GROUP_OPEN node_list P_GROUP_CLOSE
 		{
-		$$ = jnew GDBVarGroupInfo(NULL, $2);
-		assert( $$ != NULL );
+		$$ = jnew GDBVarGroupInfo(nullptr, $2);
+		assert( $$ != nullptr );
 		}
 
 	| P_GROUP_OPEN value_list P_GROUP_CLOSE
 		{
-		$$ = jnew GDBVarGroupInfo(NULL, $2);
-		assert( $$ != NULL );
+		$$ = jnew GDBVarGroupInfo(nullptr, $2);
+		assert( $$ != nullptr );
 		}
 
 	| P_GROUP_OPEN group P_GROUP_CLOSE
 		{
 		JPtrArray<CMVarNode>* list = jnew JPtrArray<CMVarNode>(JPtrArrayT::kForgetAll);
-		assert( list != NULL );
+		assert( list != nullptr );
 		AppendAsArrayElement("", *($2->list), list);
-		$$ = jnew GDBVarGroupInfo(NULL, list);
-		assert( $$ != NULL );
+		$$ = jnew GDBVarGroupInfo(nullptr, list);
+		assert( $$ != nullptr );
 
 		jdelete $2;
 		}
@@ -170,22 +170,22 @@ group :
 	| P_SUMMARY P_GROUP_OPEN node_list P_GROUP_CLOSE
 		{
 		$$ = jnew GDBVarGroupInfo($1, $3);
-		assert( $$ != NULL );
+		assert( $$ != nullptr );
 		}
 
 	| P_SUMMARY P_GROUP_OPEN value_list P_GROUP_CLOSE
 		{
 		$$ = jnew GDBVarGroupInfo($1, $3);
-		assert( $$ != NULL );
+		assert( $$ != nullptr );
 		}
 
 	| P_SUMMARY P_GROUP_OPEN group P_GROUP_CLOSE
 		{
 		JPtrArray<CMVarNode>* list = jnew JPtrArray<CMVarNode>(JPtrArrayT::kForgetAll);
-		assert( list != NULL );
+		assert( list != nullptr );
 		AppendAsArrayElement($3->GetName(), *($3->list), list);
 		$$ = jnew GDBVarGroupInfo($1, list);
-		assert( $$ != NULL );
+		assert( $$ != nullptr );
 
 		jdelete $3;
 		}
@@ -196,7 +196,7 @@ node_list :
 	node
 		{
 		JPtrArray<CMVarNode>* list = $$ = jnew JPtrArray<CMVarNode>(JPtrArrayT::kForgetAll);
-		assert( list != NULL );
+		assert( list != nullptr );
 		list->Append($1);
 		}
 
@@ -210,7 +210,7 @@ node_list :
 		{
 		$$ = $1;
 
-		CMVarNode* node = (CMGetLink())->CreateVarNode(NULL, "", NULL, *$3);
+		CMVarNode* node = (CMGetLink())->CreateVarNode(nullptr, "", nullptr, *$3);
 		if ((($$->FirstElement())->GetName()).BeginsWith("["))
 			{
 			AppendAsArrayElement(node, $$);
@@ -226,7 +226,7 @@ node_list :
 	| group ',' group
 		{
 		JPtrArray<CMVarNode>* list = $$ = jnew JPtrArray<CMVarNode>(JPtrArrayT::kForgetAll);
-		assert( list != NULL );
+		assert( list != nullptr );
 		AppendAsArrayElement($1->GetName(), *($1->list), list);
 		AppendAsArrayElement($3->GetName(), *($3->list), list);
 
@@ -243,7 +243,7 @@ node_list :
 		else
 			{
 			JPtrArray<CMVarNode>* list = $$ = jnew JPtrArray<CMVarNode>(JPtrArrayT::kForgetAll);
-			assert( list != NULL );
+			assert( list != nullptr );
 			AppendAsArrayElement("", *$1, list);
 
 			jdelete $1;
@@ -257,7 +257,7 @@ node_list :
 	| node_list '.' '.' '.'
 		{
 		$$ = $1;
-		CMVarNode* child = (CMGetLink())->CreateVarNode(NULL, "...", NULL, "");
+		CMVarNode* child = (CMGetLink())->CreateVarNode(nullptr, "...", nullptr, "");
 		$$->Append(child);
 		}
 	;
@@ -271,7 +271,7 @@ node :
 			$1->RemoveSubstring($1->GetLength(), $1->GetLength());
 			$1->TrimWhitespace();
 			}
-		itsCurrentNode = $$ = (CMGetLink())->CreateVarNode(NULL, *$1, NULL, *$2);
+		itsCurrentNode = $$ = (CMGetLink())->CreateVarNode(nullptr, *$1, nullptr, *$2);
 		if (!$1->BeginsWith("_vptr.") && !$1->BeginsWith("_vb."))
 			{
 			itsCurrentNode->MakePointer(itsIsPointerFlag);
@@ -289,7 +289,7 @@ node :
 			$1->RemoveSubstring($1->GetLength(), $1->GetLength());
 			$1->TrimWhitespace();
 			}
-		itsCurrentNode = $$ = (CMGetLink())->CreateVarNode(NULL, *$1, NULL, $2->GetName());
+		itsCurrentNode = $$ = (CMGetLink())->CreateVarNode(nullptr, *$1, nullptr, $2->GetName());
 		itsIsPointerFlag = kJFalse;
 		for (JIndex i=1; i<=$2->list->GetElementCount(); i++)
 			{
@@ -302,7 +302,7 @@ node :
 
 	| P_NO_DATA_FIELDS
 		{
-		itsCurrentNode = $$ = (CMGetLink())->CreateVarNode(NULL, *$1, NULL, "");
+		itsCurrentNode = $$ = (CMGetLink())->CreateVarNode(nullptr, *$1, nullptr, "");
 		itsIsPointerFlag = kJFalse;
 
 		jdelete $1;
@@ -315,7 +315,7 @@ node :
 			$1->RemoveSubstring($1->GetLength(), $1->GetLength());
 			$1->TrimWhitespace();
 			}
-		itsCurrentNode = $$ = (CMGetLink())->CreateVarNode(NULL, *$1, NULL, "<nothing>");
+		itsCurrentNode = $$ = (CMGetLink())->CreateVarNode(nullptr, *$1, nullptr, "<nothing>");
 		itsIsPointerFlag = kJFalse;
 
 		jdelete $1;
@@ -373,7 +373,7 @@ value_list :
 	value_node
 		{
 		JPtrArray<CMVarNode>* list = $$ = jnew JPtrArray<CMVarNode>(JPtrArrayT::kForgetAll);
-		assert( list != NULL );
+		assert( list != nullptr );
 		AppendAsArrayElement($1, $$);
 		}
 
@@ -386,7 +386,7 @@ value_list :
 	| value_list '.' '.' '.'
 		{
 		$$ = $1;
-		CMVarNode* child = (CMGetLink())->CreateVarNode(NULL, "...", NULL, "");
+		CMVarNode* child = (CMGetLink())->CreateVarNode(nullptr, "...", nullptr, "");
 		$$->Append(child);
 		}
 	;
@@ -397,7 +397,7 @@ value_node :
 
 	value
 		{
-		itsCurrentNode = $$ = (CMGetLink())->CreateVarNode(NULL, "", NULL, *$1);
+		itsCurrentNode = $$ = (CMGetLink())->CreateVarNode(nullptr, "", nullptr, *$1);
 		itsCurrentNode->MakePointer(itsIsPointerFlag);
 		itsIsPointerFlag = kJFalse;
 
@@ -543,7 +543,7 @@ value :
 	| P_GROUP_OPEN P_GROUP_CLOSE
 		{
 		$$ = jnew JString("{}");
-		assert( $$ != NULL );
+		assert( $$ != nullptr );
 		}
 	;
 

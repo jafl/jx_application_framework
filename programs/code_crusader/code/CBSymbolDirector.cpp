@@ -172,7 +172,7 @@ CBSymbolDirector::CBSymbolDirector
 {
 	CBSymbolDirectorX(supervisor);
 
-	const JBoolean useProjData = JI2B( setInput == NULL || setVers < 71 );
+	const JBoolean useProjData = JI2B( setInput == nullptr || setVers < 71 );
 	if (!useProjData)
 		{
 		GetWindow()->ReadGeometry(*setInput);
@@ -231,10 +231,10 @@ CBSymbolDirector::CBSymbolDirectorX
 	ListenTo(itsProjDoc);
 
 	itsSymbolList = jnew CBSymbolList(projDoc);
-	assert( itsSymbolList != NULL );
+	assert( itsSymbolList != nullptr );
 
 	itsSRList = jnew JPtrArray<CBSymbolSRDirector>(JPtrArrayT::kForgetAll);
-	assert( itsSRList != NULL );
+	assert( itsSRList != nullptr );
 
 	itsRaiseTreeOnRightClickFlag = kJFalse;
 
@@ -285,7 +285,7 @@ CBSymbolDirector::StreamOut
 	)
 	const
 {
-	if (setOutput != NULL)
+	if (setOutput != nullptr)
 		{
 		*setOutput << ' ';
 		GetWindow()->WriteGeometry(*setOutput);
@@ -505,7 +505,7 @@ CBSymbolDirector::FindSymbol
 		const JString& fileName =
 			itsSymbolList->GetFile(symbolIndex, &lineIndex);
 
-		CBTextDocument* doc = NULL;
+		CBTextDocument* doc = nullptr;
 		if ((CBGetDocumentManager())->OpenTextDocument(fileName, lineIndex, &doc) &&
 			CBSymbolList::ShouldSmartScroll(type))
 			{
@@ -518,7 +518,7 @@ CBSymbolDirector::FindSymbol
 		CBSymbolSRDirector* dir =
 			jnew CBSymbolSRDirector(this, itsProjDoc, itsSymbolList,
 								   symbolList, name);
-		assert( dir != NULL );
+		assert( dir != nullptr );
 		dir->Activate();
 		itsSRList->Append(dir);
 		return kJTrue;
@@ -582,17 +582,17 @@ CBSymbolDirector::BuildWindow
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 400,430, "");
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	JXMenuBar* menuBar =
 		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 400,30);
-	assert( menuBar != NULL );
+	assert( menuBar != nullptr );
 
 	itsToolBar =
 		jnew JXToolBar(CBGetPrefsManager(), kCBSymbolToolBarID, menuBar, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 400,400);
-	assert( itsToolBar != NULL );
+	assert( itsToolBar != nullptr );
 
 // end JXLayout
 
@@ -604,19 +604,19 @@ CBSymbolDirector::BuildWindow
 	JXScrollbarSet* scrollbarSet =
 		jnew JXScrollbarSet(itsToolBar->GetWidgetEnclosure(),
 						   JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 100,100);
-	assert( scrollbarSet != NULL );
+	assert( scrollbarSet != nullptr );
 	scrollbarSet->FitToEnclosure();
 
 	itsSymbolTable =
 		jnew CBSymbolTable(this, symbolList,
 						  scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 						  JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 10,10);
-	assert( itsSymbolTable != NULL );
+	assert( itsSymbolTable != nullptr );
 	itsSymbolTable->FitToEnclosure();
 
 	JXDisplay* display = GetDisplay();
 	JXImage* icon      = jnew JXImage(display, jcc_symbol_window);
-	assert( icon != NULL );
+	assert( icon != nullptr );
 	window->SetIcon(icon);
 
 	JPoint desktopLoc;
@@ -638,12 +638,12 @@ CBSymbolDirector::BuildWindow
 	CBFileHistoryMenu* recentProjectMenu =
 		jnew CBFileHistoryMenu(CBDocumentManager::kProjectFileHistory,
 							  itsFileMenu, kRecentProjectMenuCmd, menuBar);
-	assert( recentProjectMenu != NULL );
+	assert( recentProjectMenu != nullptr );
 
 	CBFileHistoryMenu* recentTextMenu =
 		jnew CBFileHistoryMenu(CBDocumentManager::kTextFileHistory,
 							  itsFileMenu, kRecentTextMenuCmd, menuBar);
-	assert( recentTextMenu != NULL );
+	assert( recentTextMenu != nullptr );
 
 	itsSymbolMenu = menuBar->AppendTextMenu(kSymbolMenuTitleStr);
 	itsSymbolMenu->SetMenuItems(kSymbolMenuStr, "CBSymbolDirector");
@@ -664,16 +664,16 @@ CBSymbolDirector::BuildWindow
 	itsProjectMenu->SetItemImage(kSaveAllTextCmd,  jx_file_save_all);
 
 	itsCmdMenu =
-		jnew CBCommandMenu(itsProjDoc, NULL, menuBar,
+		jnew CBCommandMenu(itsProjDoc, nullptr, menuBar,
 						  JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
-	assert( itsCmdMenu != NULL );
+	assert( itsCmdMenu != nullptr );
 	menuBar->AppendMenu(itsCmdMenu);
 	ListenTo(itsCmdMenu);
 
 	CBDocumentMenu* fileListMenu =
 		jnew CBDocumentMenu(kFileListMenuTitleStr, menuBar,
 						   JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
-	assert( fileListMenu != NULL );
+	assert( fileListMenu != nullptr );
 	menuBar->AppendMenu(fileListMenu);
 
 	itsPrefsMenu = menuBar->AppendTextMenu(kPrefsMenuTitleStr);
@@ -730,7 +730,7 @@ CBSymbolDirector::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleFileMenu(selection->GetIndex());
 		}
 
@@ -742,7 +742,7 @@ CBSymbolDirector::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleSymbolMenu(selection->GetIndex());
 		}
 
@@ -754,7 +754,7 @@ CBSymbolDirector::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleProjectMenu(selection->GetIndex());
 		}
 
@@ -766,7 +766,7 @@ CBSymbolDirector::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandlePrefsMenu(selection->GetIndex());
 		}
 
@@ -778,7 +778,7 @@ CBSymbolDirector::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		(CBGetApplication())->HandleHelpMenu(itsHelpMenu, "CBSymbolHelp",
 											 selection->GetIndex());
 		}
@@ -1051,7 +1051,7 @@ CBSymbolDirector::EditPrefs()
 {
 	CBEditSymbolPrefsDialog* dlog =
 		jnew CBEditSymbolPrefsDialog(itsRaiseTreeOnRightClickFlag);
-	assert( dlog != NULL );
+	assert( dlog != nullptr );
 	dlog->BeginDialog();
 }
 
@@ -1091,7 +1091,7 @@ CBSymbolDirector::ReceiveWithFeedback
 		{
 		CBCommandMenu::GetTargetInfo* info =
 			dynamic_cast<CBCommandMenu::GetTargetInfo*>(message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		itsSymbolTable->GetFileNamesForSelection(info->GetFileList(),
 												 info->GetLineIndexList());
 		}

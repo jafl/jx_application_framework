@@ -62,7 +62,7 @@ void
 CBSearchPathHistoryMenu::CBSearchPathHistoryMenuX()
 {
 	JXImage* icon = jnew JXImage(GetDisplay(), jx_folder_small);
-	assert( icon != NULL );
+	assert( icon != nullptr );
 	SetDefaultIcon(icon, kJTrue);
 }
 
@@ -92,7 +92,7 @@ CBSearchPathHistoryMenu::GetPath
 
 	const JXMenu::ItemSelected* selection =
 		dynamic_cast<const JXMenu::ItemSelected*>(&message);
-	assert( selection != NULL );
+	assert( selection != nullptr );
 
 	return GetPath(selection->GetIndex(), recurse);
 }
@@ -161,7 +161,7 @@ CBSearchPathHistoryMenu::RemoveInvalidPaths()
 		{
 		const JString& dirName = JXTextMenu::GetItemText(i);
 		if (JIsAbsolutePath(dirName) &&
-			!JConvertToAbsolutePath(dirName, NULL, &fullName))
+			!JConvertToAbsolutePath(dirName, nullptr, &fullName))
 			{
 			RemoveItem(i);
 			}

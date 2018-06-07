@@ -24,7 +24,7 @@ public:
 
 		MacroInfo()
 			:
-			name(NULL), value(NULL)
+			name(nullptr), value(nullptr)
 		{ };
 
 		MacroInfo(JString* n, JString* v)

@@ -43,10 +43,10 @@ protected:
 
 private:
 
-	CBProjectDocument*	itsProjDoc;			// can be NULL
-	CBTextDocument*		itsTextDoc;			// can be NULL
-	JPtrArray<JString>*	itsFullNameList;	// can be NULL
-	JArray<JIndex>*		itsLineIndexList;	// can be NULL
+	CBProjectDocument*	itsProjDoc;			// can be nullptr
+	CBTextDocument*		itsTextDoc;			// can be nullptr
+	JPtrArray<JString>*	itsFullNameList;	// can be nullptr
+	JArray<JIndex>*		itsLineIndexList;	// can be nullptr
 
 // begin JXLayout
 

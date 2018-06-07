@@ -36,7 +36,7 @@ TestLinkedDocument::TestLinkedDocument
 	:
 	TestTextEditDocument(supervisor)
 {
-	itsDoc = NULL;
+	itsDoc = nullptr;
 
 	if (JFileExists(kOurFile))
 		{
@@ -60,11 +60,11 @@ TestLinkedDocument::TestLinkedDocument
 	JString newName;
 	if (docMgr->FindFile(fileName, currDir, &newName))
 		{
-		JXFileDocument* doc = NULL;
+		JXFileDocument* doc = nullptr;
 		if (docMgr->FileDocumentIsOpen(newName, &doc))
 			{
 			itsDoc = dynamic_cast<TestTextEditDocument*>(doc);
-			if (itsDoc == NULL)
+			if (itsDoc == nullptr)
 				{
 				(JGetUserNotification())->ReportError(
 					JGetString("FileAlreadyOpen::TestLinkedDocument"));
@@ -73,7 +73,7 @@ TestLinkedDocument::TestLinkedDocument
 		else
 			{
 			itsDoc = jnew TestTextEditDocument(supervisor, newName);
-			assert( itsDoc != NULL );
+			assert( itsDoc != nullptr );
 			}
 
 		// This would be the place to update the path + name so the file can be
@@ -92,7 +92,7 @@ TestLinkedDocument::TestLinkedDocument
 	// Normally, one would only care that the document is open.  In this case,
 	// we make it visible so the user can read the tutorial text.
 
-	if (itsDoc != NULL)
+	if (itsDoc != nullptr)
 		{
 		itsDoc->Activate();
 		}

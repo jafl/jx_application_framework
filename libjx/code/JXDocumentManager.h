@@ -96,7 +96,7 @@ private:
 
 		DocInfo()
 			:
-			doc(NULL), keepOpen(kJFalse), shortcut(kNoShortcutForDoc)
+			doc(nullptr), keepOpen(kJFalse), shortcut(kNoShortcutForDoc)
 		{ };
 
 		DocInfo(JXDocument*	d)
@@ -112,7 +112,7 @@ private:
 
 		FileMap()
 			:
-			oldName(NULL), newName(NULL)
+			oldName(nullptr), newName(nullptr)
 		{ };
 
 		FileMap(JString* s1, JString* s2)
@@ -133,7 +133,7 @@ private:
 	JBoolean				itsPerformSafetySaveFlag;
 	JXTimerTask*			itsSafetySaveTask;
 
-	JXUpdateDocMenuTask*	itsUpdateDocMenuTask;	// NULL unless pending
+	JXUpdateDocMenuTask*	itsUpdateDocMenuTask;	// nullptr unless pending
 	JXImage*				itsDefaultMenuIcon;
 
 private:

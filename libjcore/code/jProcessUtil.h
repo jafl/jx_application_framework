@@ -48,54 +48,54 @@ JBoolean	JProgramAvailable(const JString& programName);
 
 JError	JExecute(const JString& cmd, pid_t* childPID,
 				 const JExecuteAction toAction = kJIgnoreConnection,
-				 int* toFD = NULL,
+				 int* toFD = nullptr,
 				 const JExecuteAction fromAction = kJIgnoreConnection,
-				 int* fromFD = NULL,
+				 int* fromFD = nullptr,
 				 const JExecuteAction errAction = kJIgnoreConnection,
-				 int* errFD = NULL);
+				 int* errFD = nullptr);
 
 JError	JExecute(const JPtrArray<JString>& argList, pid_t* childPID,
 				 const JExecuteAction toAction = kJIgnoreConnection,
-				 int* toFD = NULL,
+				 int* toFD = nullptr,
 				 const JExecuteAction fromAction = kJIgnoreConnection,
-				 int* fromFD = NULL,
+				 int* fromFD = nullptr,
 				 const JExecuteAction errAction = kJIgnoreConnection,
-				 int* errFD = NULL);
+				 int* errFD = nullptr);
 
 JError	JExecute(const JUtf8Byte* argv[], const JSize size, pid_t* childPID,
 				 const JExecuteAction toAction = kJIgnoreConnection,
-				 int* toFD = NULL,
+				 int* toFD = nullptr,
 				 const JExecuteAction fromAction = kJIgnoreConnection,
-				 int* fromFD = NULL,
+				 int* fromFD = nullptr,
 				 const JExecuteAction errAction = kJIgnoreConnection,
-				 int* errFD = NULL);
+				 int* errFD = nullptr);
 
 JError	JExecute(const JString& workingDirectory,
 				 const JString& cmd, pid_t* childPID,
 				 const JExecuteAction toAction = kJIgnoreConnection,
-				 int* toFD = NULL,
+				 int* toFD = nullptr,
 				 const JExecuteAction fromAction = kJIgnoreConnection,
-				 int* fromFD = NULL,
+				 int* fromFD = nullptr,
 				 const JExecuteAction errAction = kJIgnoreConnection,
-				 int* errFD = NULL);
+				 int* errFD = nullptr);
 
 JError	JExecute(const JString& workingDirectory,
 				 const JPtrArray<JString>& argList, pid_t* childPID,
 				 const JExecuteAction toAction = kJIgnoreConnection,
-				 int* toFD = NULL,
+				 int* toFD = nullptr,
 				 const JExecuteAction fromAction = kJIgnoreConnection,
-				 int* fromFD = NULL,
+				 int* fromFD = nullptr,
 				 const JExecuteAction errAction = kJIgnoreConnection,
-				 int* errFD = NULL);
+				 int* errFD = nullptr);
 
 JError	JExecute(const JString& workingDirectory,
 				 const JUtf8Byte* argv[], const JSize size, pid_t* childPID,
 				 const JExecuteAction toAction = kJIgnoreConnection,
-				 int* toFD = NULL,
+				 int* toFD = nullptr,
 				 const JExecuteAction fromAction = kJIgnoreConnection,
-				 int* fromFD = NULL,
+				 int* fromFD = nullptr,
 				 const JExecuteAction errAction = kJIgnoreConnection,
-				 int* errFD = NULL);
+				 int* errFD = nullptr);
 
 	// utility functions
 
@@ -104,11 +104,11 @@ void	JParseArgsForExec(const JString& cmd, JPtrArray<JString>* argList);
 
 	// wait for any child -- returns child that finished
 
-JError JWaitForChild(const JBoolean block, pid_t* pid, ACE_exitcode* status = NULL);
+JError JWaitForChild(const JBoolean block, pid_t* pid, ACE_exitcode* status = nullptr);
 
 	// wait for specified child
 
-JError JWaitForChild(const pid_t pid, ACE_exitcode* status = NULL);
+JError JWaitForChild(const pid_t pid, ACE_exitcode* status = nullptr);
 
 	// evaluate "status" from JWaitForChild()
 

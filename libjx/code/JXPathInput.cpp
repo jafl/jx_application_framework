@@ -42,8 +42,8 @@ JXPathInput::JXPathInput
 	:
 	JXInputField(jnew StyledText(this, enclosure->GetFontManager()),
 				 enclosure, hSizing, vSizing, x,y, w,h),
-	itsCompleter(NULL),
-	itsCompletionMenu(NULL)
+	itsCompleter(nullptr),
+	itsCompletionMenu(nullptr)
 {
 	itsAllowInvalidPathFlag = kJFalse;
 	itsRequireWriteFlag     = kJFalse;
@@ -305,7 +305,7 @@ JXPathInput::InputValid()
 	Draw the entire text red if the path is invalid.  This is provided
 	so tables can draw the text the same way as the input field.
 
-	base can be NULL.  If you use JXPathInput for relative paths, base
+	base can be nullptr.  If you use JXPathInput for relative paths, base
 	should be the path passed to SetBasePath().
 
  ******************************************************************************/
@@ -532,7 +532,7 @@ JXPathInput::GetTextForChoosePath()
 	Calls either ChooseRPath() or ChooseRWPath(), as appropriate based
 	on itsRequireWriteFlag.
 
-	instr can be NULL, just like in JChooseSaveFile::Choose*Path().
+	instr can be nullptr, just like in JChooseSaveFile::Choose*Path().
 
  ******************************************************************************/
 
@@ -587,7 +587,7 @@ JXPathInput::HandleKeyPress
 {
 	if (key == '\t')
 		{
-		if (itsCompleter == NULL)
+		if (itsCompleter == nullptr)
 			{
 			if (!JDirInfo::Create(JGetRootDirectory(), &itsCompleter))
 				{
@@ -604,7 +604,7 @@ JXPathInput::HandleKeyPress
 		}
 	else
 		{
-		if (itsCompletionMenu != NULL)
+		if (itsCompletionMenu != nullptr)
 			{
 			itsCompletionMenu->ClearRequestCount();
 			}
@@ -627,7 +627,7 @@ JXPathInput::HandleMouseDown
 	const JXKeyModifiers&	modifiers
 	)
 {
-	if (itsCompletionMenu != NULL)
+	if (itsCompletionMenu != nullptr)
 		{
 		itsCompletionMenu->ClearRequestCount();
 		}
@@ -639,7 +639,7 @@ JXPathInput::HandleMouseDown
 
 	Returns kJTrue if the path or file name was completed.
 
-	basePath can be NULL.  *menu will be constructed if it is NULL.
+	basePath can be nullptr.  *menu will be constructed if it is nullptr.
 
  ******************************************************************************/
 
@@ -681,7 +681,7 @@ JXPathInput::Complete
 	JXInputField*				te,
 	const JString&				basePath,	// can be empty
 	JDirInfo*					completer,
-	JXStringCompletionMenu**	menu		// constructed if NULL
+	JXStringCompletionMenu**	menu		// constructed if nullptr
 	)
 {
 	// only complete if caret is at end of text
@@ -784,7 +784,7 @@ JXPathInput::Complete
 			}
 		te->Paste(maxPrefix);		// so Undo removes only completion
 
-		if (*menu != NULL)
+		if (*menu != nullptr)
 			{
 			(**menu).ClearRequestCount();
 			}
@@ -793,10 +793,10 @@ JXPathInput::Complete
 		}
 	else if (matchCount > 1)
 		{
-		if (*menu == NULL)
+		if (*menu == nullptr)
 			{
 			*menu = jnew JXStringCompletionMenu(te, kJFalse);
-			assert( *menu != NULL );
+			assert( *menu != nullptr );
 			}
 		else
 			{

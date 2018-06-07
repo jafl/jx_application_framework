@@ -151,7 +151,7 @@ GloveCursorMonitor::Receive
 		{
 		 const GlovePlotter::CursorsChanged* info =
 			dynamic_cast<const GlovePlotter::CursorsChanged*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		itsShowX = info->ShowX();
 		itsShowY = info->ShowY();
 		itsDual  = info->Dual();

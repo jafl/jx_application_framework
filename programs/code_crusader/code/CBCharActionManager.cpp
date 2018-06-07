@@ -31,7 +31,7 @@ const unsigned char kEndOfSetupListMarker = '\1';
 CBCharActionManager::CBCharActionManager()
 {
 	itsActionList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll, kActionCount);
-	assert( itsActionList != NULL );
+	assert( itsActionList != nullptr );
 
 	ClearAllActions();
 }
@@ -47,7 +47,7 @@ CBCharActionManager::CBCharActionManager
 	)
 {
 	itsActionList = jnew JDCCPtrArray<JString>(*(source.itsActionList), JPtrArrayT::kDeleteAll);
-	assert( itsActionList != NULL );
+	assert( itsActionList != nullptr );
 }
 
 /******************************************************************************
@@ -73,7 +73,7 @@ CBCharActionManager::Perform
 	)
 {
 	const JString* script = itsActionList->GetElement(c+1);
-	if (script != NULL)
+	if (script != nullptr)
 		{
 		CBMacroManager::Perform(*script, doc);
 		}
@@ -93,7 +93,7 @@ CBCharActionManager::GetAction
 	const
 {
 	const JString* s = itsActionList->GetElement(c+1);
-	if (s != NULL)
+	if (s != nullptr)
 		{
 		*script = *s;
 		return kJTrue;
@@ -152,7 +152,7 @@ CBCharActionManager::ClearAllActions()
 	itsActionList->DeleteAll();
 	for (JIndex i=1; i<=kActionCount; i++)
 		{
-		itsActionList->Append(NULL);
+		itsActionList->Append(nullptr);
 		}
 }
 
@@ -216,7 +216,7 @@ CBCharActionManager::WriteSetup
 	for (JIndex i=1; i<=kActionCount; i++)
 		{
 		const JString* script = itsActionList->GetElement(i);
-		if (script != NULL)
+		if (script != nullptr)
 			{
 			output.put((unsigned char) i-1);
 			output << *script;

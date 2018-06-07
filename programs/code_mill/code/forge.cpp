@@ -44,7 +44,7 @@ main
 	JBoolean displayAbout;
 	JString prevVersStr;
 	GFGApp* app = jnew GFGApp(&argc, argv, &displayAbout, &prevVersStr);
-	assert( app != NULL );
+	assert( app != nullptr );
 
 	if (displayAbout &&
 		!(JGetUserNotification())->AcceptLicense())

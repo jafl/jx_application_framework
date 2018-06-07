@@ -88,40 +88,40 @@ JXFSRunScriptDialog::BuildWindow
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 330,130, JString::empty);
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	itsCmdInput =
 		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 20,40, 290,20);
-	assert( itsCmdInput != NULL );
+	assert( itsCmdInput != nullptr );
 
 	JXStaticText* cmdLabel =
 		jnew JXStaticText(JGetString("cmdLabel::JXFSRunScriptDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 110,20);
-	assert( cmdLabel != NULL );
+	assert( cmdLabel != nullptr );
 	cmdLabel->SetToLabel();
 
 	JXTextButton* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::JXFSRunScriptDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 160,90, 60,20);
-	assert( cancelButton != NULL );
+	assert( cancelButton != nullptr );
 
 	JXTextButton* runButton =
 		jnew JXTextButton(JGetString("runButton::JXFSRunScriptDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 250,90, 60,20);
-	assert( runButton != NULL );
+	assert( runButton != nullptr );
 	runButton->SetShortcuts(JGetString("runButton::JXFSRunScriptDialog::shortcuts::JXLayout"));
 
 	itsUseShellCB =
 		jnew JXTextCheckbox(JGetString("itsUseShellCB::JXFSRunScriptDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,80, 120,20);
-	assert( itsUseShellCB != NULL );
+	assert( itsUseShellCB != nullptr );
 	itsUseShellCB->SetShortcuts(JGetString("itsUseShellCB::JXFSRunScriptDialog::shortcuts::JXLayout"));
 
 	itsUseWindowCB =
 		jnew JXTextCheckbox(JGetString("itsUseWindowCB::JXFSRunScriptDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,100, 120,20);
-	assert( itsUseWindowCB != NULL );
+	assert( itsUseWindowCB != nullptr );
 	itsUseWindowCB->SetShortcuts(JGetString("itsUseWindowCB::JXFSRunScriptDialog::shortcuts::JXLayout"));
 
 // end JXLayout

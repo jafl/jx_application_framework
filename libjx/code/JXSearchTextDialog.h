@@ -40,7 +40,7 @@ public:
 
 public:
 
-	static JXSearchTextDialog*	Create(const JUtf8Byte* searchTextHelpName = NULL);
+	static JXSearchTextDialog*	Create(const JUtf8Byte* searchTextHelpName = nullptr);
 
 	virtual ~JXSearchTextDialog();
 
@@ -75,7 +75,7 @@ public:
 
 protected:
 
-	JXSearchTextDialog(const JUtf8Byte* searchTextHelpName = NULL);
+	JXSearchTextDialog(const JUtf8Byte* searchTextHelpName = nullptr);
 
 	void	JXSearchTextDialogX();
 
@@ -118,7 +118,7 @@ public:		// kAtomCount required at global scope
 
 private:
 
-	JXTEBase*			itsTE;					// can be NULL; not owned
+	JXTEBase*			itsTE;					// can be nullptr; not owned
 	JRegex*				itsRegex;
 	JInterpolate*		itsInterpolator;
 	JXTimerTask*		itsUpdateTask;
@@ -188,7 +188,7 @@ inline JBoolean
 JXSearchTextDialog::HasActiveTE()
 	const
 {
-	return JI2B(itsTE != NULL);
+	return JI2B(itsTE != nullptr);
 }
 
 inline JBoolean
@@ -199,7 +199,7 @@ JXSearchTextDialog::GetActiveTE
 	const
 {
 	*te = itsTE;
-	return JI2B(itsTE != NULL);
+	return JI2B(itsTE != nullptr);
 }
 
 inline void
@@ -220,7 +220,7 @@ JXSearchTextDialog::TEDeactivated
 {
 	if (itsTE == te)
 		{
-		itsTE = NULL;
+		itsTE = nullptr;
 		UpdateDisplay();
 		}
 }

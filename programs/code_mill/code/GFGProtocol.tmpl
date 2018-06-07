@@ -39,7 +39,7 @@ GFGProtocol<ACE_PEER_STREAM_2>::GFGProtocol
 	GFGProtocolX();
 
 	set_handle(fd);
-	open(NULL);
+	open(nullptr);
 }
 
 // private
@@ -51,7 +51,7 @@ GFGProtocol<ACE_PEER_STREAM_2>::GFGProtocolX()
 	itsBufferSize = GFGProtocolT::kDefaultBufferSize;
 
 	itsBuffer = jnew JCharacter [ itsBufferSize ];
-	assert( itsBuffer != NULL );
+	assert( itsBuffer != nullptr );
 
 	itsInHandleInputFlag = kJFalse;
 }
@@ -79,7 +79,7 @@ GFGProtocol<ACE_PEER_STREAM_2>::Read
 	JString* buffer
 	)
 {
-	assert( buffer != NULL );
+	assert( buffer != nullptr );
 	*buffer = itsData;
 	itsData.Clear();
 }

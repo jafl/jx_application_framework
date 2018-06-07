@@ -49,8 +49,8 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //			Replaced new & delete macros with jnew & jdelete, to avoid conflict
 //				with "= delete" notation for functions.
 //			Removed j_prep_ace.h because it is no longer needed.
-//	*** Removed support for NULL's in JRegex and JString.
-//			If you have NULL's, you have binary data and should treat it differently.
+//	*** Removed support for nullptr's in JRegex and JString.
+//			If you have nullptr's, you have binary data and should treat it differently.
 //	*** Removed JCheckSiteName()
 //	*** Removed JCreateBuffer() - Run out of memory?  Seriously?
 //	*** Moved JSubset, JProbDistr, J*Histogram to misc/jextra.
@@ -75,8 +75,9 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //				the versions that use JCharacterRange.
 //	*** Removed JGetCurrentFontManager & JGetCurrentColormap.
 //	*** Changed all /usr/lib paths to /usr/local/lib on OSX because of SIP
-//	*** JString(float) now requires second argument to prevent NULL from
+//	*** JString(float) now requires second argument to prevent nullptr from
 //		silently converting to "0"
+//	*** Converted to nullptr.  NULL is forced to be undefined.
 
 // version 3.2.0:
 //	jMountUtil:
@@ -194,7 +195,7 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //	JTreeNode:
 //		Added GetChildCompareFunction().
 //		Added optional argument propagate to SortChildren().
-//		Fixed IsRoot() to return kJTrue if not in a JTree and itsParent == NULL.
+//		Fixed IsRoot() to return kJTrue if not in a JTree and itsParent == nullptr.
 //	jProcessUtil:
 //		Added JSetProcessPriority().
 //		Added versions of JExecute() which specify workingDirectory.
@@ -514,7 +515,7 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //		Added PasteHTML(), PrepareToPasteHTML(), and PasteHTMLFinished().
 //		Optimized GetLineTop() and CalcLineIndex().
 //		Added SetText() that takes JString&.  This allows using a string that
-//			contains NULL.  (Of course, these will be stripped out immediately :)
+//			contains nullptr.  (Of course, these will be stripped out immediately :)
 //		Added third argument acceptBinaryFile to ReadPlainText().
 //		Added SetFontBold/Italic/Underline/Strike/Color().  These correspond to
 //			the previously existing SetCurrentFont*() functions.
@@ -628,7 +629,7 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //		Added Get/SetCompareObject() to allow function to use additional information.
 //		*** Switch from GetCompareFunction() to GetCompareObject() where ever
 //			possible, because the latter is guaranteed to return something as long
-//			as sorting has been set.  The former may return NULL even if a sort
+//			as sorting has been set.  The former may return nullptr even if a sort
 //			has been set.
 //		GetCompareFunction() now returns JBoolean.
 //		Added RemovePrevElements().
@@ -725,7 +726,7 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //	JUserNotification:
 //		Added AcceptLicense().
 //	JPrefObject:
-//		Restructured to allow NULL prefs mgr so library objects can inherit
+//		Restructured to allow nullptr prefs mgr so library objects can inherit
 //			without requiring all applications to implement prefs.
 //		*** Zero is no longer a valid ID.  (It never was, but nobody checked.)
 //	JFontManager:
@@ -759,7 +760,7 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //		Optimized SetPattern() to not compile if the pattern doesn't change.
 //	JChooseSaveFile:
 //		The version of ChooseFile() that accepts "origName" now allows this parameter
-//			to be NULL.
+//			to be nullptr.
 //	jCommandLine:
 //		Modified arguments to JCheckForValues() to provide a more useful error message.
 //		Added JIsVersionRequest() and JIsHelpRequest().
@@ -902,7 +903,7 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //		NeedsUpdate() now checks both lstat() and stat() times.
 //		Added FollowLink() and GetModeString().
 //	JPrefObject:
-//		No longer allows NULL prefs mgr.  Fixed GetPrefsManager().
+//		No longer allows nullptr prefs mgr.  Fixed GetPrefsManager().
 //		Removed HasPrefsManager().
 
 // version 1.1.21:
@@ -930,7 +931,7 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //		Broadcasts when data is changed or removed.
 //	JPrefObject:
 //		Added GetPrefsManager() and GetID().
-//		Allows NULL prefs mgr so library objects can inherit without requiring
+//		Allows nullptr prefs mgr so library objects can inherit without requiring
 //			all applications to implement prefs.
 //	JPTPrinter:
 //		Added pure virtual Print() so one doesn't need to know about derived classes.
@@ -975,7 +976,7 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //	JString:
 //		Fixed bug in ConvertTo*() that returned {kJTrue, 0} if the string was empty.
 //		Added version of JCompareMaxN() that takes (char*,length).
-//		All functions involving locating substrings are now NULL safe.
+//		All functions involving locating substrings are now nullptr safe.
 //	jFileUtil:
 //		Added JExtractFileAndLine().
 //		JRenameFile():
@@ -1183,7 +1184,7 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //			Color approximation is now controlled by the settings in
 //			the colorManager object.
 //	JLatentPG:
-//		Activates immediately if you call IncrementProgress() with a non-NULL message.
+//		Activates immediately if you call IncrementProgress() with a non-nullptr message.
 //		No longer activates if time limit is exceeded on the last step of a fixed
 //			length process.
 //	JPtrArray:
@@ -1249,9 +1250,9 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //			They are designed for situations requiring maximal optimization
 //			and must be used with extreme care.
 //	jStreamUtil:
-//		Fixed JReadUntil() and JIgnoreUntil() so they can read NULL's.
+//		Fixed JReadUntil() and JIgnoreUntil() so they can read nullptr's.
 //	JString:
-//		Fixed operator>> so it can read NULL's.
+//		Fixed operator>> so it can read nullptr's.
 
 // version 1.1.14:
 //	Created JHTMLScanner.
@@ -1348,7 +1349,7 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //		Added ChangeElement().
 //		Changed "Column" to "Col" in function names to be consistent with JTable.
 //	JOrderedSet:
-//		Second argument of GetInsertionSortIndex() can now be NULL.
+//		Second argument of GetInsertionSortIndex() can now be nullptr.
 //	JArray:
 //		Fixed bug in SearchSorted1() that returned "not found" when searching for
 //			the single existing element with which == JOrderedSetT::kLastMatch.
@@ -1386,7 +1387,7 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //			data loss if the program crashes.
 //	JTextEditor:
 //		Added ContainsIllegalChars() and RemoveIllegalChars() for stripping
-//			out NULL's, etc before pasting.
+//			out nullptr's, etc before pasting.
 //		SetText() and ReadPlainText() strip illegal characters.  They
 //			return kJFalse if anything was removed.
 //	The jRandom module has been replaced by the JKLRand class.
@@ -1556,7 +1557,7 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //	JColorManager:
 //		Added functions to use JRGB.
 //		Added version of SetDynamicColor() that takes JDynamicColorInfo.
-//		The "exactMatch" parameter for AllocateStaticColor() can now be NULL.
+//		The "exactMatch" parameter for AllocateStaticColor() can now be nullptr.
 //	JGetCurrentColormap:
 //		GetCurrColormap() now returns "JColorManager*".
 //	jGlobals:
@@ -1656,7 +1657,7 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //	JString:
 //		Added GetCString(), InsertCharacter(), PrependCharacter(), AppendCharacter().
 //			(What took me so long???)
-//		Proved that JStrings can contain NULL characters.  You just have to
+//		Proved that JStrings can contain nullptr characters.  You just have to
 //			remember that they can't be passed to Clib functions like strlen().
 //		Renamed JCaseInsensitiveCompare() to JString::Compare().
 //		Added functions to take (str,length) and ContainsNULL().
@@ -1733,13 +1734,13 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //	JTextEditor:
 //		Added SearchForward() and SearchBackward().
 //	JChooseSaveFile:
-//		Added second argument to ChooseRPath() and ChooseRWPath().  If not NULL,
+//		Added second argument to ChooseRPath() and ChooseRWPath().  If not nullptr,
 //			this specifies the directory to start in.
 //	Created JProcess class to encapsulate a child process.
 //	jProcessUtil:
 //		Added option to errAction: kJAttachToFromFD.
 //		Appended "status" argument to both versions JWaitForChild().
-//			The value defaults to NULL, so all existing code will compile
+//			The value defaults to nullptr, so all existing code will compile
 //			and work as before.
 //	JProcess:
 //		Finished() message includes functions to tell why the process finished.
@@ -1770,7 +1771,7 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 
 // version 1.1.3:
 //	JRTTIBase:
-//		Is() now assert()'s that its argument is not NULL.
+//		Is() now assert()'s that its argument is not nullptr.
 //	JError:
 //		Constructor now takes a third argument "copyMsg".  If this is kJTrue,
 //			then the object makes a copy of the message string that is passed in.
@@ -1806,8 +1807,8 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //			delimiters.
 //		TextChanged message now guarantees that "text has already changed".
 //	jAssert:
-//		Created global object "JAssertBase* gAssert".  If this is not NULL,
-//			it is used to process failed assert()'s.  It it is NULL, the
+//		Created global object "JAssertBase* gAssert".  If this is not nullptr,
+//			it is used to process failed assert()'s.  It it is nullptr, the
 //			usual text message is displayed.
 //		Check JAssertBase.doc for information on creating derived classes.
 //	JError:
@@ -1850,7 +1851,7 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //		font, and 0 is guaranteed never to be used.
 //	JPtrArray:
 //		Added NullElement() as convenience to avoid
-//			SetElement(i, static_cast(T*, NULL)).
+//			SetElement(i, static_cast(T*, nullptr)).
 //	JComplex:
 //		Added second version of JPrintComplexNumber().
 //	Integrated JIPC from Dustin Laurence.  Check the test suite for the right
@@ -1945,7 +1946,7 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 
 // version 1.1.0:
 //	jdirUtil:
-//		Appended "JProgressDisplay* pg = NULL" to argument list of SearchSubdirs().
+//		Appended "JProgressDisplay* pg = nullptr" to argument list of SearchSubdirs().
 //		By having the pg passed in, jdirUtil no longer requires gCreatePG.
 //	JTextEditor:
 //		Added functionality to Drag-And-Drop between objects.

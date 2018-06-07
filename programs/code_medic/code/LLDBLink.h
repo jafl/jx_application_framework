@@ -179,7 +179,7 @@ private:
 	void		StopDebugger();
 
 	void		ProgramStarted(const pid_t pid);
-	JBoolean	ProgramStopped(JString* msg = NULL);
+	JBoolean	ProgramStopped(JString* msg = nullptr);
 	void		ProgramFinished1();
 
 	void	DetachOrKill(const JBoolean destroyTarget);

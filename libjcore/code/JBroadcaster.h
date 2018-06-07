@@ -75,7 +75,7 @@ public:		// ought to be private
 
 		ClearPointer()
 			:
-			sender(NULL), pointer(NULL)
+			sender(nullptr), pointer(nullptr)
 		{ };
 
 		ClearPointer(JBroadcaster* s, void* p)
@@ -126,7 +126,7 @@ JBroadcaster::Broadcast
 	const Message& message
 	)
 {
-	if (itsRecipients != NULL)
+	if (itsRecipients != nullptr)
 		{
 		BroadcastPrivate(message);
 		}
@@ -154,7 +154,7 @@ JBroadcaster::BroadcastWithFeedback
 	Message* message
 	)
 {
-	if (itsRecipients != NULL)
+	if (itsRecipients != nullptr)
 		{
 		BroadcastWithFeedbackPrivate(message);
 		}

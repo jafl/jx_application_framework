@@ -64,9 +64,9 @@ main
 	JProcess* p;
 	int fromFD;
 	const JError err = JProcess::Create(&p, argv[1],
-										kJIgnoreConnection, NULL,
+										kJIgnoreConnection, nullptr,
 										kJForceNonblockingPipe, &fromFD,
-										kJAttachToFromFD, NULL);
+										kJAttachToFromFD, nullptr);
 	if (err.OK())
 		{
 		char buffer[BUFSIZ];
@@ -90,7 +90,7 @@ main
 			}
 /*
 		ProcessLink* link = new ProcessLink(fromFD);
-		assert( link != NULL );
+		assert( link != nullptr );
 
 		ACE_Time_Value delta(20);
 		ACE_Reactor::instance()->run_reactor_event_loop(delta);

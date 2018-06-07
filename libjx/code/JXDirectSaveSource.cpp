@@ -48,7 +48,7 @@ JXDirectSaveSource::JXDirectSaveSource
 	itsNameInput = nameInput;
 
 	JXImage* icon = jnew JXImage(GetDisplay(), jx_plain_file_small);
-	assert( icon != NULL );
+	assert( icon != nullptr );
 	icon->ConvertToRemoteStorage();
 	SetImage(icon, kJTrue);
 
@@ -80,10 +80,10 @@ JXDirectSaveSource::HandleMouseDown
 	)
 {
 	JXDSSFinishSaveTask* task = jnew JXDSSFinishSaveTask(itsDialog);
-	assert( task != NULL );
+	assert( task != nullptr );
 
 	JXDSSSelection* data = jnew JXDSSSelection(GetWindow(), task);
-	assert( data != NULL );
+	assert( data != nullptr );
 
 	BeginDND(pt, buttonStates, modifiers, data);
 }

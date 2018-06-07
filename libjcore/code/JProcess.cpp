@@ -49,11 +49,11 @@ JProcess::Create
 	if (err.OK())
 		{
 		*process = jnew JProcess(childPID);
-		assert( *process != NULL );
+		assert( *process != nullptr );
 		}
 	else
 		{
-		*process = NULL;
+		*process = nullptr;
 		}
 
 	return err;
@@ -78,11 +78,11 @@ JProcess::Create
 	if (err.OK())
 		{
 		*process = jnew JProcess(childPID);
-		assert( *process != NULL );
+		assert( *process != nullptr );
 		}
 	else
 		{
-		*process = NULL;
+		*process = nullptr;
 		}
 
 	return err;
@@ -108,11 +108,11 @@ JProcess::Create
 	if (err.OK())
 		{
 		*process = jnew JProcess(childPID);
-		assert( *process != NULL );
+		assert( *process != nullptr );
 		}
 	else
 		{
-		*process = NULL;
+		*process = nullptr;
 		}
 
 	return err;
@@ -138,11 +138,11 @@ JProcess::Create
 	if (err.OK())
 		{
 		*process = jnew JProcess(childPID);
-		assert( *process != NULL );
+		assert( *process != nullptr );
 		}
 	else
 		{
-		*process = NULL;
+		*process = nullptr;
 		}
 
 	return err;
@@ -168,11 +168,11 @@ JProcess::Create
 	if (err.OK())
 		{
 		*process = jnew JProcess(childPID);
-		assert( *process != NULL );
+		assert( *process != nullptr );
 		}
 	else
 		{
-		*process = NULL;
+		*process = nullptr;
 		}
 
 	return err;
@@ -199,11 +199,11 @@ JProcess::Create
 	if (err.OK())
 		{
 		*process = jnew JProcess(childPID);
-		assert( *process != NULL );
+		assert( *process != nullptr );
 		}
 	else
 		{
-		*process = NULL;
+		*process = nullptr;
 		}
 
 	return err;

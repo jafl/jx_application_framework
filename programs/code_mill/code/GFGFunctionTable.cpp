@@ -55,7 +55,7 @@ GFGFunctionTable::Create
 	GFGFunctionTable* table =
 		jnew GFGFunctionTable(list, scrollbarSet, enclosure,
 			hSizing, vSizing, x,y, w,h);
-	assert(table != NULL);
+	assert(table != nullptr);
 
 	table->GFGFunctionTableX();
 

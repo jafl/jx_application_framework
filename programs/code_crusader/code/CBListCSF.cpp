@@ -24,7 +24,7 @@ CBListCSF::CBListCSF
 	:
 	JXChooseSaveFile()
 {
-	itsChooseDialog        = NULL;
+	itsChooseDialog        = nullptr;
 	itsReplaceExistingFlag = kJFalse;
 	itsReplaceListStr      = replaceListStr;
 	itsAppendToListStr     = appendToListStr;
@@ -81,12 +81,12 @@ CBListCSF::Receive
 		{
 		const JXDialogDirector::Deactivated* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		if (info->Successful())
 			{
 			itsReplaceExistingFlag = itsChooseDialog->ReplaceExisting();
 			}
-		itsChooseDialog = NULL;
+		itsChooseDialog = nullptr;
 		}
 
 	JXChooseSaveFile::Receive(sender, message);

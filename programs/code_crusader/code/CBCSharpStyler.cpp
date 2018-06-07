@@ -16,7 +16,7 @@
 #include <JXColorManager.h>
 #include <jAssert.h>
 
-CBCSharpStyler* CBCSharpStyler::itsSelf = NULL;
+CBCSharpStyler* CBCSharpStyler::itsSelf = nullptr;
 
 const JFileVersion kCurrentTypeListVersion = 0;
 
@@ -57,12 +57,12 @@ static JBoolean recursiveInstance = kJFalse;
 CBStylerBase*
 CBCSharpStyler::Instance()
 {
-	if (itsSelf == NULL && !recursiveInstance)
+	if (itsSelf == nullptr && !recursiveInstance)
 		{
 		recursiveInstance = kJTrue;
 
 		itsSelf = jnew CBCSharpStyler;
-		assert( itsSelf != NULL );
+		assert( itsSelf != nullptr );
 
 		recursiveInstance = kJFalse;
 		}
@@ -126,7 +126,7 @@ CBCSharpStyler::CBCSharpStyler()
 CBCSharpStyler::~CBCSharpStyler()
 {
 	JPrefObject::WritePrefs();
-	itsSelf = NULL;
+	itsSelf = nullptr;
 }
 
 /******************************************************************************

@@ -33,11 +33,11 @@ JXImageWidget::JXImageWidget
 	const JCoordinate	h
 	)
 	:
-	JXScrollableWidget(NULL, enclosure, hSizing, vSizing, x,y, w,h)
+	JXScrollableWidget(nullptr, enclosure, hSizing, vSizing, x,y, w,h)
 {
-	itsImage            = NULL;
+	itsImage            = nullptr;
 	itsOwnsImageFlag    = kJTrue;
-	itsAdjustBoundsTask = NULL;
+	itsAdjustBoundsTask = nullptr;
 
 	SetBorderWidth(0);
 }
@@ -56,9 +56,9 @@ JXImageWidget::JXImageWidget
 	:
 	JXScrollableWidget(scrollbarSet, enclosure, hSizing, vSizing, x,y, w,h)
 {
-	itsImage            = NULL;
+	itsImage            = nullptr;
 	itsOwnsImageFlag    = kJTrue;
-	itsAdjustBoundsTask = NULL;
+	itsAdjustBoundsTask = nullptr;
 }
 
 /******************************************************************************
@@ -103,7 +103,7 @@ JXImageWidget::SetBitmap
 		}
 
 	itsImage = jnew JXImage(GetDisplay(), bitmap, foreColor, backColor);
-	assert( itsImage != NULL );
+	assert( itsImage != nullptr );
 
 	itsOwnsImageFlag = kJTrue;
 
@@ -135,7 +135,7 @@ JXImageWidget::SetXPM
 		}
 
 	itsImage = jnew JXImage(GetDisplay(), data);
-	assert( itsImage != NULL );
+	assert( itsImage != nullptr );
 
 	itsOwnsImageFlag = kJTrue;
 
@@ -190,7 +190,7 @@ JXImageWidget::Draw
 	const JRect&		rect
 	)
 {
-	if (itsImage != NULL)
+	if (itsImage != nullptr)
 		{
 		p.Image(*itsImage, itsImage->GetBounds(), GetBounds());
 		}
@@ -223,10 +223,10 @@ JXImageWidget::ApertureResized
 void
 JXImageWidget::NeedAdjustBounds()
 {
-	if (itsAdjustBoundsTask == NULL)
+	if (itsAdjustBoundsTask == nullptr)
 		{
 		itsAdjustBoundsTask = jnew JXAdjustIWBoundsTask(this);
-		assert( itsAdjustBoundsTask != NULL );
+		assert( itsAdjustBoundsTask != nullptr );
 		itsAdjustBoundsTask->Go();
 		}
 }
@@ -241,13 +241,13 @@ JXImageWidget::NeedAdjustBounds()
 void
 JXImageWidget::AdjustBounds()
 {
-	if (itsAdjustBoundsTask != NULL)
+	if (itsAdjustBoundsTask != nullptr)
 		{
 		return;
 		}
 
 	JRect newBounds = GetAperture();
-	if (itsImage != NULL)
+	if (itsImage != nullptr)
 		{
 		newBounds = JCovering(newBounds, itsImage->GetBounds());
 		}

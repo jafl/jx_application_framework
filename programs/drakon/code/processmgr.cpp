@@ -40,7 +40,7 @@ main
 	JBoolean displayAbout;
 	JString prevVersStr;
 	GPMApp* app = jnew GPMApp(&argc, argv, &displayAbout, &prevVersStr);
-	assert( app != NULL );
+	assert( app != nullptr );
 
 	if (displayAbout &&
 		!(JGetUserNotification())->AcceptLicense())
@@ -53,7 +53,7 @@ main
 	(GPMGetMDIServer())->HandleCmdLineOptions(argc, argv);
 
 	GPMMainDirector* dir = jnew GPMMainDirector(app);
-	assert( dir != NULL );
+	assert( dir != nullptr );
 	dir->Activate();
 	(GPMGetMDIServer())->SetMainDirector(dir);
 

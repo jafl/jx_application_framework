@@ -68,7 +68,7 @@ public:
 
 	virtual ~CBProjectTable();
 
-	JBoolean	NewGroup(CBGroupNode** returnNode = NULL);
+	JBoolean	NewGroup(CBGroupNode** returnNode = nullptr);
 	void		AddDirectoryTree();
 	void		AddDirectoryTree(const JCharacter* fullPath,
 								 const CBRelPathCSF::PathType pathType);
@@ -186,7 +186,7 @@ private:
 	CBProjectDocument*	itsDoc;				// not owned
 	JXTextMenu*			itsEditMenu;		// not owned
 	JXTextMenu*			itsContextMenu;		// not owned
-	JXImageButton*		itsCSFButton;		// NULL unless editing CBFileNodeBase
+	JXImageButton*		itsCSFButton;		// nullptr unless editing CBFileNodeBase
 
 	JSize		itsSelDepth;				// depth of items that can be selected
 	JBoolean	itsIgnoreSelChangesFlag;	// kJTrue while cleaning selection

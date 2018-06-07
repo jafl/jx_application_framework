@@ -38,18 +38,18 @@ JXTextEditorSet::JXTextEditorSet
 {
 	JXMenuBar* menuBar =
 		jnew JXMenuBar(this, kHElastic, kFixedTop, 0,0, w,kJXDefaultMenuBarHeight);
-	assert( menuBar != NULL );
+	assert( menuBar != nullptr );
 
 	JXScrollbarSet* scrollbarSet =
 		jnew JXScrollbarSet(this, kHElastic,kVElastic,
 						   0,kJXDefaultMenuBarHeight, w,h-kJXDefaultMenuBarHeight);
-	assert( scrollbarSet != NULL );
+	assert( scrollbarSet != nullptr );
 
 	*textEditor =
 		jnew JXTextEditor(text, ownsText, menuBar, scrollbarSet,
 						  scrollbarSet->GetScrollEnclosure(),
 						  kHElastic, kVElastic, 0,0, 10,10);
-	assert( *textEditor != NULL );
+	assert( *textEditor != nullptr );
 
 	(**textEditor).FitToEnclosure();
 
@@ -73,17 +73,17 @@ JXTextEditorSet::JXTextEditorSet
 	:
 	JXWidgetSet(enclosure, hSizing, vSizing, x,y, w,h)
 {
-	assert( menuBar != NULL );
+	assert( menuBar != nullptr );
 
 	JXScrollbarSet* scrollbarSet =
 		jnew JXScrollbarSet(this, kHElastic, kVElastic, 0,0, w,h);
-	assert( scrollbarSet != NULL );
+	assert( scrollbarSet != nullptr );
 
 	*textEditor =
 		jnew JXTextEditor(text, ownsText, menuBar, scrollbarSet,
 						  scrollbarSet->GetScrollEnclosure(),
 						  kHElastic, kVElastic, 0,0, 10,10);
-	assert( *textEditor != NULL );
+	assert( *textEditor != nullptr );
 
 	(**textEditor).FitToEnclosure();
 }

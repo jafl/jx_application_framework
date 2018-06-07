@@ -42,8 +42,8 @@ static const JRegex memberLine("([^[:space:]]+)[[:space:]]+[^[:space:]]+[[:space
 
 GFGLink::GFGLink()
 	:
-	itsCTagsProcess(NULL),
-	itsClassList(NULL)
+	itsCTagsProcess(nullptr),
+	itsClassList(nullptr)
 {
 	StartCTags();
 }
@@ -72,7 +72,7 @@ GFGLink::ParseClass
 	)
 {
 	JBoolean ok	= kJTrue;
-	if (itsCTagsProcess == NULL)
+	if (itsCTagsProcess == nullptr)
 		{
 		ok = StartCTags();
 		}
@@ -116,10 +116,10 @@ void
 GFGLink::StopCTags()
 {
 	jdelete itsCTagsProcess;
-	itsCTagsProcess = NULL;
+	itsCTagsProcess = nullptr;
 
 	jdelete itsOutputLink;
-	itsOutputLink	= NULL;
+	itsOutputLink	= nullptr;
 	
 	close(itsInputFD);
 	itsInputFD = ACE_INVALID_HANDLE;
@@ -158,7 +158,7 @@ GFGLink::ParseLine
 			}
 
 		GFGMemberFunction* fn	= jnew GFGMemberFunction();
-		assert(fn != NULL);
+		assert(fn != nullptr);
 
 		fn->SetFnName(name);
 		fn->ShouldBeRequired(required);
@@ -306,7 +306,7 @@ GFGLink::ParseInterface
 JBoolean
 GFGLink::StartCTags()
 {
-	assert( itsCTagsProcess == NULL );
+	assert( itsCTagsProcess == nullptr );
 
 	JString cmd = kCTagsCmd;
 
@@ -314,11 +314,11 @@ GFGLink::StartCTags()
 	const JError err = JProcess::Create(&itsCTagsProcess, cmd,
 										kJCreatePipe, &toFD,
 										kJCreatePipe, &fromFD,
-										kJAttachToFromFD, NULL);
+										kJAttachToFromFD, nullptr);
 	if (err.OK())
 		{
 		itsOutputLink = jnew JOutPipeStream(toFD, kJTrue);
-		assert( itsOutputLink != NULL );
+		assert( itsOutputLink != nullptr );
 
 		itsInputFD = fromFD;
 		assert( itsInputFD != ACE_INVALID_HANDLE );

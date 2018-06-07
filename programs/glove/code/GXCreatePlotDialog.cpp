@@ -75,55 +75,55 @@ GXCreatePlotDialog::BuildWindow
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 370,160, "");
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	JXTextButton* okButton =
 		jnew JXTextButton(JGetString("okButton::GXCreatePlotDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 280,130, 70,20);
-	assert( okButton != NULL );
+	assert( okButton != nullptr );
 	okButton->SetShortcuts(JGetString("okButton::GXCreatePlotDialog::shortcuts::JXLayout"));
 
 	JXTextButton* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::GXCreatePlotDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 180,130, 70,20);
-	assert( cancelButton != NULL );
+	assert( cancelButton != nullptr );
 	cancelButton->SetShortcuts(JGetString("cancelButton::GXCreatePlotDialog::shortcuts::JXLayout"));
 
 	itsLabelInput =
 		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 115,10, 200,20);
-	assert( itsLabelInput != NULL );
+	assert( itsLabelInput != nullptr );
 
 	JXStaticText* labelLabel =
 		jnew JXStaticText(JGetString("labelLabel::GXCreatePlotDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 65,10, 50,20);
-	assert( labelLabel != NULL );
+	assert( labelLabel != nullptr );
 	labelLabel->SetToLabel();
 
 	itsXMenu =
 		jnew JXTextMenu(JGetString("itsXMenu::GXCreatePlotDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 10,40, 160,30);
-	assert( itsXMenu != NULL );
+	assert( itsXMenu != nullptr );
 
 	itsXErrMenu =
 		jnew JXTextMenu(JGetString("itsXErrMenu::GXCreatePlotDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 10,80, 160,30);
-	assert( itsXErrMenu != NULL );
+	assert( itsXErrMenu != nullptr );
 
 	itsYErrMenu =
 		jnew JXTextMenu(JGetString("itsYErrMenu::GXCreatePlotDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 200,80, 160,30);
-	assert( itsYErrMenu != NULL );
+	assert( itsYErrMenu != nullptr );
 
 	itsYMenu =
 		jnew JXTextMenu(JGetString("itsYMenu::GXCreatePlotDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 200,40, 160,30);
-	assert( itsYMenu != NULL );
+	assert( itsYMenu != nullptr );
 
 	itsPlotsMenu =
 		jnew JXTextMenu(JGetString("itsPlotsMenu::GXCreatePlotDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 10,120, 130,30);
-	assert( itsPlotsMenu != NULL );
+	assert( itsPlotsMenu != nullptr );
 
 // end JXLayout
 
@@ -234,7 +234,7 @@ GXCreatePlotDialog::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		itsStartX = selection->GetIndex();
 		}
 		
@@ -242,7 +242,7 @@ GXCreatePlotDialog::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		itsStartXErr = selection->GetIndex();
 		}
 		
@@ -250,7 +250,7 @@ GXCreatePlotDialog::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		itsStartY = selection->GetIndex();
 		}
 		
@@ -258,7 +258,7 @@ GXCreatePlotDialog::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		itsStartYErr = selection->GetIndex();
 		}
 		
@@ -266,7 +266,7 @@ GXCreatePlotDialog::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		itsPlotIndex = selection->GetIndex();
 		}
 		

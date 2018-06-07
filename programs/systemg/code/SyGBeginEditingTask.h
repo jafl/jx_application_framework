@@ -29,7 +29,7 @@ public:
 private:
 
 	SyGFileTreeTable*	itsTable;	// owns us
-	SyGFileTreeNode*	itsNode;	// not owned; NULL if dead
+	SyGFileTreeNode*	itsNode;	// not owned; nullptr if dead
 
 private:
 

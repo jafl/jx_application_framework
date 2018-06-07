@@ -42,6 +42,6 @@ JXUpdateDocMenuTask::~JXUpdateDocMenuTask()
 void
 JXUpdateDocMenuTask::Perform()
 {
-	itsDocMgr->itsUpdateDocMenuTask = NULL;	// we will now be deleted
+	itsDocMgr->itsUpdateDocMenuTask = nullptr;	// we will now be deleted
 	itsDocMgr->UpdateAllDocumentMenus();
 }

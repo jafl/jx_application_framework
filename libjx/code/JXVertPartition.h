@@ -78,9 +78,9 @@ private:
 
 	// used during FTC
 
-	JArray<JCoordinate>*	itsFTCSizes;	// NULL unless in FTC
-	JArray<JCoordinate>*	itsFTCMinSizes;	// NULL unless in FTC
-	JArray<JCoordinate>*	itsSavedGeom;	// NULL unless in FTC w/ geometry loaded
+	JArray<JCoordinate>*	itsFTCSizes;	// nullptr unless in FTC
+	JArray<JCoordinate>*	itsFTCMinSizes;	// nullptr unless in FTC
+	JArray<JCoordinate>*	itsSavedGeom;	// nullptr unless in FTC w/ geometry loaded
 
 private:
 

@@ -82,7 +82,7 @@ JXSpellList::HandleMouseDown
 
 		const JString& word = *((GetStringList()).GetElement(cell.y));
 
-		JBroadcaster::Message* msg = NULL;
+		JBroadcaster::Message* msg = nullptr;
 		if (clickCount == 1)
 			{
 			msg = jnew WordSelected(word);
@@ -96,7 +96,7 @@ JXSpellList::HandleMouseDown
 			msg = jnew ReplaceWord(word);
 			}
 
-		if (msg != NULL)
+		if (msg != nullptr)
 			{
 			Broadcast(*msg);
 			jdelete msg;

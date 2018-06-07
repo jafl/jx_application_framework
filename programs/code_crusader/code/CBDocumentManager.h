@@ -50,25 +50,25 @@ public:
 									 const JBoolean create, JString* fullName);
 	JBoolean	GetTextTemplateDirectory(const JBoolean create, JString* tmplDir);
 
-	JBoolean	NewProjectDocument(CBProjectDocument** doc = NULL);
+	JBoolean	NewProjectDocument(CBProjectDocument** doc = nullptr);
 	void		NewTextDocument();
 	void		NewTextDocumentFromTemplate();
 	void		NewShellDocument();
 	JBoolean	OpenTextDocument(const JCharacter* fileName,
 								 const JIndex lineIndex = 0,
-								 CBTextDocument** doc = NULL,
+								 CBTextDocument** doc = nullptr,
 								 const JBoolean iconify = kJFalse,
 								 const JBoolean forceReload = kJFalse);
 	JBoolean	OpenTextDocument(const JCharacter* fileName,
 								 const JIndexRange& lineRange,
-								 CBTextDocument** doc = NULL,
+								 CBTextDocument** doc = nullptr,
 								 const JBoolean iconify = kJFalse,
 								 const JBoolean forceReload = kJFalse);
 	static JBoolean	WarnFileSize(const JCharacter* fileName);
 
 	void	OpenBinaryDocument(const JCharacter* fileName);
 
-	void	OpenSomething(const JCharacter* fileName = NULL,
+	void	OpenSomething(const JCharacter* fileName = nullptr,
 						  const JIndexRange lineRange = JIndexRange(),
 						  const JBoolean iconify = kJFalse,
 						  const JBoolean forceReload = kJFalse);
@@ -106,10 +106,10 @@ public:
 	void		SetActiveListDocument(CBExecOutputDocument* doc);
 
 	JBoolean	OpenComplementFile(const JString& fullName, const CBTextFileType type,
-								   CBProjectDocument* projDoc = NULL,
+								   CBProjectDocument* projDoc = nullptr,
 								   const JBoolean searchDirs = kJTrue);
 	JBoolean	GetComplementFile(const JString& inputName, const CBTextFileType inputType,
-								  JString* outputName, CBProjectDocument* projDoc = NULL,
+								  JString* outputName, CBProjectDocument* projDoc = nullptr,
 								  const JBoolean searchDirs = kJTrue) const;
 	JBoolean	GetOpenComplementFile(const JString& inputName,
 									  const CBTextFileType inputType,
@@ -291,7 +291,7 @@ public:
 				:
 				ProjectDocumentMessage(kProjectDocumentActivated,
 									   list->IsEmpty() ?
-											(CBProjectDocument*) NULL :
+											(CBProjectDocument*) nullptr :
 											list->FirstElement())
 				{ };
 		};

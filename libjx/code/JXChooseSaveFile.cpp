@@ -36,14 +36,14 @@ JXChooseSaveFile::JXChooseSaveFile
 	JChooseSaveFile(),
 	JPrefObject(prefsMgr, id)
 {
-	itsDirInfo           = NULL;	// constructed in GetDirInfo()
-	itsCurrentDialog     = NULL;
-	itsChooseFileDialog  = NULL;
-	itsChoosePathDialog  = NULL;
-	itsSaveFileDialog    = NULL;
+	itsDirInfo           = nullptr;	// constructed in GetDirInfo()
+	itsCurrentDialog     = nullptr;
+	itsChooseFileDialog  = nullptr;
+	itsChoosePathDialog  = nullptr;
+	itsSaveFileDialog    = nullptr;
 
-	itsResultStr  = NULL;
-	itsResultList = NULL;
+	itsResultStr  = nullptr;
+	itsResultList = nullptr;
 }
 
 /******************************************************************************
@@ -171,7 +171,7 @@ JXChooseSaveFile::ChooseFile
 			}
 		}
 
-	assert( itsChooseFileDialog == NULL );
+	assert( itsChooseFileDialog == nullptr );
 
 	(JXGetApplication())->PrepareForBlockingWindow();
 
@@ -189,7 +189,7 @@ JXChooseSaveFile::ChooseFile
 		dirInfo->GoTo(savedPath);
 		}
 
-	itsChooseFileDialog = NULL;
+	itsChooseFileDialog = nullptr;
 	return itsResponse;
 }
 
@@ -272,7 +272,7 @@ JXChooseSaveFile::ChooseRWPath
 /******************************************************************************
  ChoosePath (private)
 
-	origPath can be NULL.
+	origPath can be nullptr.
 
  ******************************************************************************/
 
@@ -297,7 +297,7 @@ JXChooseSaveFile::ChoosePath
 		restorePath = kJTrue;
 		}
 
-	assert( itsChoosePathDialog == NULL );
+	assert( itsChoosePathDialog == nullptr );
 
 	(JXGetApplication())->PrepareForBlockingWindow();
 
@@ -314,7 +314,7 @@ JXChooseSaveFile::ChoosePath
 		dirInfo->GoTo(savedPath);
 		}
 
-	itsChoosePathDialog = NULL;
+	itsChoosePathDialog = nullptr;
 	return itsResponse;
 }
 
@@ -367,7 +367,7 @@ JXChooseSaveFile::SaveFile
 		restorePath = kJTrue;
 		}
 
-	assert( itsSaveFileDialog == NULL );
+	assert( itsSaveFileDialog == nullptr );
 
 	(JXGetApplication())->PrepareForBlockingWindow();
 
@@ -384,7 +384,7 @@ JXChooseSaveFile::SaveFile
 		dirInfo->GoTo(savedPath);
 		}
 
-	itsSaveFileDialog = NULL;
+	itsSaveFileDialog = nullptr;
 	return itsResponse;
 }
 
@@ -423,46 +423,46 @@ JXChooseSaveFile::Receive
 		{
 		const JXDialogDirector::Deactivated* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		itsResponse   = info->Successful();
 		itsUserFilter = itsCurrentDialog->GetFilter();
 		SaveState(itsCurrentDialog);
 
-		if (itsResponse && sender == itsChooseFileDialog && itsResultList != NULL)
+		if (itsResponse && sender == itsChooseFileDialog && itsResultList != nullptr)
 			{
 			const JBoolean ok = itsChooseFileDialog->GetFullNames(itsResultList);
 			assert( ok );
 			}
 		else if (itsResponse && sender == itsChooseFileDialog)
 			{
-			assert( itsResultStr != NULL );
+			assert( itsResultStr != nullptr );
 			const JBoolean ok = itsChooseFileDialog->GetFullName(itsResultStr);
 			assert( ok );
 			}
 		else if (itsResponse && sender == itsChoosePathDialog)
 			{
-			assert( itsResultStr != NULL );
+			assert( itsResultStr != nullptr );
 			*itsResultStr = itsChoosePathDialog->GetPath();
 			}
 		else if (itsResponse && sender == itsSaveFileDialog)
 			{
-			assert( itsResultStr != NULL );
+			assert( itsResultStr != nullptr );
 			JString name;
 			const JBoolean ok = itsSaveFileDialog->GetFileName(&name);
 			assert( ok );
 			*itsResultStr = JCombinePathAndName(itsSaveFileDialog->GetPath(), name);
 			}
-		else if (itsResultStr != NULL)
+		else if (itsResultStr != nullptr)
 			{
 			itsResultStr->Clear();
 			}
-		else if (itsResultList != NULL)
+		else if (itsResultList != nullptr)
 			{
 			itsResultList->CleanOut();
 			}
-		itsCurrentDialog = NULL;
-		itsResultStr     = NULL;
-		itsResultList    = NULL;
+		itsCurrentDialog = nullptr;
+		itsResultStr     = nullptr;
+		itsResultList    = nullptr;
 		}
 
 	else
@@ -484,7 +484,7 @@ JXChooseSaveFile::WaitForResponse
 	JXCSFDialogBase* dlog
 	)
 {
-	assert( itsCurrentDialog == NULL );
+	assert( itsCurrentDialog == nullptr );
 
 	itsCurrentDialog = dlog;
 	ListenTo(itsCurrentDialog);
@@ -498,7 +498,7 @@ JXChooseSaveFile::WaitForResponse
 	// block with event loop running until we get a response
 
 	JXWindow* window = itsCurrentDialog->GetWindow();
-	while (itsCurrentDialog != NULL)
+	while (itsCurrentDialog != nullptr)
 		{
 		app->HandleOneEventForWindow(window);
 		}
@@ -646,7 +646,7 @@ JXChooseSaveFile::WritePrefs
 JDirInfo*
 JXChooseSaveFile::GetDirInfo()
 {
-	if (itsDirInfo == NULL && this == JXGetChooseSaveFile())
+	if (itsDirInfo == nullptr && this == JXGetChooseSaveFile())
 		{
 		JString dirName = JGetCurrentDirectory();
 		if (!JDirInfo::Create(dirName, &itsDirInfo))
@@ -662,7 +662,7 @@ JXChooseSaveFile::GetDirInfo()
 		itsDirInfo->ShowHidden(kJFalse);
 		return itsDirInfo;
 		}
-	else if (itsDirInfo == NULL)
+	else if (itsDirInfo == nullptr)
 		{
 		return (JXGetChooseSaveFile())->GetDirInfo();
 		}

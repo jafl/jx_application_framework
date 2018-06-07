@@ -123,7 +123,7 @@ GDBGetStack::HandleSuccess
 		CMStackFrameNode* node =
 			jnew CMStackFrameNode(root, frameIndex, frameName,
 								 fileName, lineIndex);
-		assert( node != NULL );
+		assert( node != nullptr );
 		root->Prepend(node);
 
 		if (selectNextFrame)

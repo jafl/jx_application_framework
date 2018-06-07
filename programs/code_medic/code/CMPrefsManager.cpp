@@ -56,7 +56,7 @@ CMPrefsManager::CMPrefsManager
 	:
 	JXPrefsManager(kCurrentPrefsFileVersion, kJTrue)
 {
-	itsEditPrefsDialog = NULL;
+	itsEditPrefsDialog = nullptr;
 
 	*isNew = JPrefsManager::UpgradeData();
 
@@ -163,7 +163,7 @@ CMPrefsManager::SetExpirationTimeStamp
 void
 CMPrefsManager::EditPrefs()
 {
-	assert( itsEditPrefsDialog == NULL );
+	assert( itsEditPrefsDialog == nullptr );
 
 	const JString gdbCmd = GetGDBCommand();
 	const JString jvmCmd = GetJVMCommand();
@@ -187,7 +187,7 @@ CMPrefsManager::EditPrefs()
 							  gdbCmd, jvmCmd, editFileCmd, editFileLineCmd,
 							  cSourceSuffixes, cHeaderSuffixes,
 							  javaSuffixes, phpSuffixes, fortranSuffixes);
-	assert( itsEditPrefsDialog != NULL );
+	assert( itsEditPrefsDialog != nullptr );
 	itsEditPrefsDialog->BeginDialog();
 	ListenTo(itsEditPrefsDialog);
 }
@@ -245,12 +245,12 @@ CMPrefsManager::Receive
 		{
 		const JXDialogDirector::Deactivated* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		if (info->Successful())
 			{
 			UpdatePrefs(itsEditPrefsDialog);
 			}
-		itsEditPrefsDialog = NULL;
+		itsEditPrefsDialog = nullptr;
 		}
 	else
 		{

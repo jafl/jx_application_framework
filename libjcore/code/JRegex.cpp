@@ -80,7 +80,7 @@ JRegex::JRegex()
 	:
 	itsPattern(kJFalse),
 	itsState(kEmpty),
-	itsRegex(NULL),
+	itsRegex(nullptr),
 	itsCFlags(defaultCFlags),
 	itsEFlags(defaultEFlags)
 {
@@ -94,7 +94,7 @@ JRegex::JRegex
 	:
 	itsPattern(kJFalse),
 	itsState(kEmpty),
-	itsRegex(NULL),
+	itsRegex(nullptr),
 	itsCFlags(defaultCFlags),
 	itsEFlags(defaultEFlags)
 {
@@ -109,7 +109,7 @@ JRegex::JRegex
 	:
 	itsPattern(kJFalse),
 	itsState(kEmpty),
-	itsRegex(NULL),
+	itsRegex(nullptr),
 	itsCFlags(defaultCFlags),
 	itsEFlags(defaultEFlags)
 {
@@ -127,7 +127,7 @@ JRegex::JRegex
 	)
 	:
 	itsState(kEmpty),
-	itsRegex(NULL),
+	itsRegex(nullptr),
 	itsCFlags(source.itsCFlags),
 	itsEFlags(source.itsEFlags)
 {
@@ -249,7 +249,7 @@ JRegex::SetPattern
 	const JString& pattern
 	)
 {
-	if (itsPattern != pattern)	// may contain NULL, so cannot call other version
+	if (itsPattern != pattern)	// may contain nullptr, so cannot call other version
 		{
 		itsPattern.Set(pattern);
 		return Compile();
@@ -327,14 +327,14 @@ JSize
 JRegex::GetSubexpressionCount()
 	const
 {
-	if (itsRegex == NULL)
+	if (itsRegex == nullptr)
 		{
 		return 0;
 		}
 	else
 		{
 		int count;
-		const int result = pcre_fullinfo(itsRegex, NULL, PCRE_INFO_CAPTURECOUNT, &count);
+		const int result = pcre_fullinfo(itsRegex, nullptr, PCRE_INFO_CAPTURECOUNT, &count);
 		assert( result == 0 );
 		return count;
 		}
@@ -436,7 +436,7 @@ JRegex::GetSubexpressionIndex
 	)
 	const
 {
-	if (itsRegex != NULL)
+	if (itsRegex != nullptr)
 		{
 		const int i = pcre_get_stringnumber(itsRegex, name);
 		if (i > 0)
@@ -551,13 +551,13 @@ JRegex::Compile()
 		return JRegexError(kError, "empty pattern", 0);
 		}
 
-	assert( itsRegex == NULL );
+	assert( itsRegex == nullptr );
 
 	const char* errorMessage;
 	int errorOffset;
 	itsRegex = pcre_compile(itsPattern.GetBytes(), itsCFlags,
-							&errorMessage, &errorOffset, NULL);
-	const int retVal = (itsRegex == NULL ? 1 : 0);
+							&errorMessage, &errorOffset, nullptr);
+	const int retVal = (itsRegex == nullptr ? 1 : 0);
 
 	if (retVal == 0)
 		{
@@ -624,23 +624,23 @@ JRegex::Match
 		}
 
 	const JSize subCount = GetSubexpressionCount();
-	regmatch_t* pmatch   = NULL;
+	regmatch_t* pmatch   = nullptr;
 	int nmatch           = (subCount+1)*3;
 
 	pmatch = jnew regmatch_t[ nmatch ];
-	assert( pmatch != NULL );
+	assert( pmatch != nullptr );
 
-	nmatch = pcre_exec(itsRegex, NULL, str.GetRawBytes(), byteCount, byteOffset,
+	nmatch = pcre_exec(itsRegex, nullptr, str.GetRawBytes(), byteCount, byteOffset,
 					   itsEFlags, (int*) pmatch, nmatch);
 	if (nmatch > 0)
 		{
 		const JUtf8ByteRange m0 = jMakeRange(pmatch[0]);
 
-		JArray<JUtf8ByteRange>* list = NULL;
+		JArray<JUtf8ByteRange>* list = nullptr;
 		if (includeSubmatches)
 			{
 			list = jnew JArray<JUtf8ByteRange>;
-			assert( list != NULL );
+			assert( list != nullptr );
 
 			for (JIndex i=1; i<nmatch; i++)
 				{
@@ -670,10 +670,10 @@ JRegex::Match
 void
 JRegex::CleanUp()
 {
-	if (itsRegex != NULL)
+	if (itsRegex != nullptr)
 		{
 		pcre_free(itsRegex);
-		itsRegex = NULL;
+		itsRegex = nullptr;
 
 		#ifdef JRE_ALLOC_CHECK
 		numRegexAlloc--;

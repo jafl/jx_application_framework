@@ -250,7 +250,7 @@ inline JSize
 GFGMemberFunction::GetArgCount()
 	const
 {
-	if (itsArgs == NULL)
+	if (itsArgs == nullptr)
 		{
 		return 0;
 		}

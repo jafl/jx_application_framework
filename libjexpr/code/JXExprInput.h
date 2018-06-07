@@ -39,7 +39,7 @@ protected:
 
 private:
 
-	JXTextMenu*	itsFontMenu;	// can be NULL
+	JXTextMenu*	itsFontMenu;	// can be nullptr
 
 private:
 

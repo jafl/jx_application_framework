@@ -24,8 +24,8 @@ public:
 
 	JLinkedListElement()
 		:
-		prevElement( NULL ),
-		nextElement( NULL )
+		prevElement( nullptr ),
+		nextElement( nullptr )
 		{ };
 };
 
@@ -76,14 +76,14 @@ private:
 
 	JLinkedListElement<T>*	CreateElement(const JIndex index, JIndex* trueIndex);
 	void					DeleteNextElements(const JIndex firstIndex, const JSize count,
-											   JLinkedListElement<T>* origElement = NULL);
+											   JLinkedListElement<T>* origElement = nullptr);
 	void					DeleteAll();
 	void					DeleteChain(JLinkedListElement<T>* firstElement);
 
 	void					LinkInElement(const JIndex index,
 										  JLinkedListElement<T>* theElement);
 	JLinkedListElement<T>*	UnlinkNextElements(const JIndex firstIndex, const JSize count,
-											   JLinkedListElement<T>* origElement = NULL);
+											   JLinkedListElement<T>* origElement = nullptr);
 
 	void	StoreData(JLinkedListElement<T>* listElement, const T& data);
 

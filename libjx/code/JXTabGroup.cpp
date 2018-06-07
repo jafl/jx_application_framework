@@ -97,7 +97,7 @@ JXTabGroup::JXTabGroup
 	itsCanScrollDownFlag(kJFalse),
 	itsFirstDrawIndex(1),
 	itsLastDrawIndex(1),
-	itsContextMenu(NULL),
+	itsContextMenu(nullptr),
 	itsPrevTabIndex(0),
 	itsDragAction(kInvalidClick),
 	itsScrollUpPushedFlag(kJFalse),
@@ -106,22 +106,22 @@ JXTabGroup::JXTabGroup
 	itsClosePushedFlag(kJFalse)
 {
 	itsTitles = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
-	assert( itsTitles != NULL );
+	assert( itsTitles != nullptr );
 
 	itsTabInfoList = jnew JArray<TabInfo>;
-	assert( itsTabInfoList != NULL );
+	assert( itsTabInfoList != nullptr );
 
 	itsCloseImage = jnew JXImage(GetDisplay(), jx_tab_close);
-	assert( itsCloseImage != NULL );
+	assert( itsCloseImage != nullptr );
 
 	itsClosePushedImage = jnew JXImage(GetDisplay(), jx_tab_close_pushed);
-	assert( itsClosePushedImage != NULL );
+	assert( itsClosePushedImage != nullptr );
 
 	itsTabRects = jnew JArray<JRect>;
-	assert( itsTabRects != NULL );
+	assert( itsTabRects != nullptr );
 
 	itsCardFile = jnew JXCardFile(this, kHElastic, kVElastic, 0,0, 100,100);
-	assert( itsCardFile != NULL );
+	assert( itsCardFile != nullptr );
 	PlaceCardFile();
 }
 
@@ -417,7 +417,7 @@ JXTabGroup::RemoveTab
 	if (itsCanScrollUpFlag && !itsCanScrollDownFlag)
 		{
 		JXScrollTabsTask* task = jnew JXScrollTabsTask(this);
-		assert( task != NULL );
+		assert( task != nullptr );
 		task->Go();
 		}
 
@@ -1300,7 +1300,7 @@ JXTabGroup::BoundsResized
 		((itsEdge == kLeft || itsEdge == kRight) && dh > 0))
 		{
 		JXScrollTabsTask* task = jnew JXScrollTabsTask(this);
-		assert( task != NULL );
+		assert( task != nullptr );
 		task->Go();
 		}
 }
@@ -1697,7 +1697,7 @@ JXTabGroup::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleContextMenu(selection->GetIndex());
 		}
 
@@ -1715,10 +1715,10 @@ JXTabGroup::Receive
 void
 JXTabGroup::CreateContextMenu()
 {
-	if (itsContextMenu == NULL)
+	if (itsContextMenu == nullptr)
 		{
 		itsContextMenu = jnew JXTextMenu(JString::empty, this, kFixedLeft, kFixedTop, 0,0, 10,10);
-		assert( itsContextMenu != NULL );
+		assert( itsContextMenu != nullptr );
 		itsContextMenu->SetMenuItems(kContextMenuStr, "JXTabGroup");
 		itsContextMenu->SetUpdateAction(JXMenu::kDisableNone);
 		itsContextMenu->SetToHiddenPopupMenu();

@@ -36,13 +36,13 @@ ExprDirector::ExprDirector
 	JXDialogDirector(supervisor, kJTrue)
 {
 	JXWindow* window = jnew JXWindow(this, 300,240, "Function Editor");
-	assert( window != NULL );
+	assert( window != nullptr );
     
     JXExprEditorSet* set = 
     	jnew JXExprEditorSet(list, &itsEditor, window,
     	JXWidget::kHElastic, JXWidget::kVElastic,0,0,300,200);
-    assert (set != NULL);
-    assert (itsEditor != NULL);
+    assert (set != nullptr);
+    assert (itsEditor != nullptr);
 
 	JString funStr(function);
     
@@ -52,11 +52,11 @@ ExprDirector::ExprDirector
 		}
 	JXTextButton* ok = jnew JXTextButton("Return", window, 
 						JXWidget::kHElastic, JXWidget::kVElastic,60,210,70,20);
-	assert (ok != NULL);
+	assert (ok != nullptr);
 	ok->SetShortcuts("^M");
 	JXTextButton* cancel = jnew JXTextButton("Cancel", window, 
 						JXWidget::kHElastic, JXWidget::kVElastic,170,210,70,20);
-	assert (cancel != NULL);
+	assert (cancel != nullptr);
     cancel->SetShortcuts("^[");
 	SetButtons(ok,cancel);
 }

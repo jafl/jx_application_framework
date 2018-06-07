@@ -68,9 +68,9 @@ CBPathTable::CBPathTable
 	SetDefaultRowHeight(rowHeight);
 
 	itsFolderIcon = jnew JXImage(GetDisplay(), jx_folder_small);
-	assert( itsFolderIcon != NULL );
+	assert( itsFolderIcon != nullptr );
 
-	itsPathInput        = NULL;
+	itsPathInput        = nullptr;
 	itsAddPathButton    = addPathButton;
 	itsRemovePathButton = removePathButton;
 	itsChoosePathButton = choosePathButton;
@@ -81,7 +81,7 @@ CBPathTable::CBPathTable
 	ListenTo(itsChoosePathButton);
 
 	itsData = jnew JStringTableData;
-	assert( itsData != NULL );
+	assert( itsData != nullptr );
 
 	itsData->AppendCols(3);		// recurse flag, folder icon, path
 
@@ -308,10 +308,10 @@ CBPathTable::CreateXInputField
 	const JCoordinate	h
 	)
 {
-	assert( itsPathInput == NULL && cell.x == kTextColumn );
+	assert( itsPathInput == nullptr && cell.x == kTextColumn );
 
 	itsPathInput = jnew JXPathInput(this, kFixedLeft, kFixedTop, x,y, w,h);
-	assert( itsPathInput != NULL );
+	assert( itsPathInput != nullptr );
 
 	itsPathInput->SetText(itsData->GetString(cell));
 	itsPathInput->SetBasePath(itsBasePath);
@@ -336,7 +336,7 @@ CBPathTable::ExtractInputData
 	const JPoint& cell
 	)
 {
-	assert( itsPathInput != NULL && cell.x == kTextColumn );
+	assert( itsPathInput != nullptr && cell.x == kTextColumn );
 
 	if (itsPathInput->InputValid())
 		{
@@ -357,9 +357,9 @@ CBPathTable::ExtractInputData
 void
 CBPathTable::PrepareDeleteXInputField()
 {
-	if (itsPathInput != NULL)
+	if (itsPathInput != nullptr)
 		{
-		itsPathInput = NULL;
+		itsPathInput = nullptr;
 		UpdateButtons();
 		}
 }
@@ -413,11 +413,11 @@ void
 CBPathTable::ChoosePath()
 {
 	JPoint cell;
-	if (itsPathInput != NULL && GetEditedCell(&cell))
+	if (itsPathInput != nullptr && GetEditedCell(&cell))
 		{
 		JString path      = itsPathInput->GetText();
-		const JBoolean ok = itsCSF->ChooseRelRPath("", NULL, path, &path);	// kills itsPathInput
-		if (BeginEditing(cell) && ok && itsPathInput != NULL)
+		const JBoolean ok = itsCSF->ChooseRelRPath("", nullptr, path, &path);	// kills itsPathInput
+		if (BeginEditing(cell) && ok && itsPathInput != nullptr)
 			{
 			itsPathInput->SetText(path);
 			}
@@ -432,7 +432,7 @@ CBPathTable::ChoosePath()
 void
 CBPathTable::UpdateButtons()
 {
-	if (itsPathInput != NULL)
+	if (itsPathInput != nullptr)
 		{
 		itsRemovePathButton->Activate();
 		itsChoosePathButton->Activate();

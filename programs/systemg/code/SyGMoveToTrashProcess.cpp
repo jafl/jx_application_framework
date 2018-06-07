@@ -20,7 +20,7 @@
 /******************************************************************************
  Constructor function (static)
 
-	table can be NULL.  We take ownership of fullNameList.
+	table can be nullptr.  We take ownership of fullNameList.
 
  ******************************************************************************/
 
@@ -35,7 +35,7 @@ SyGMoveToTrashProcess::Move
 	if (SyGGetTrashDirectory(&trashDir, kJFalse))
 		{
 		SyGMoveToTrashProcess* p = jnew SyGMoveToTrashProcess(table, fullNameList, trashDir);
-		assert( p != NULL );
+		assert( p != nullptr );
 		}
 }
 
@@ -54,9 +54,9 @@ SyGMoveToTrashProcess::SyGMoveToTrashProcess
 	itsTable(table),
 	itsFullNameList(fullNameList),
 	itsTrashDir(trashDir),
-	itsProcess(NULL)
+	itsProcess(nullptr)
 {
-	if (itsTable != NULL)
+	if (itsTable != nullptr)
 		{
 		ClearWhenGoingAway(itsTable, &itsTable);
 		}
@@ -72,14 +72,14 @@ SyGMoveToTrashProcess::SyGMoveToTrashProcess
 
 SyGMoveToTrashProcess::~SyGMoveToTrashProcess()
 {
-	if (itsTable != NULL)
+	if (itsTable != nullptr)
 		{
 		itsTable->UpdateDisplay(kJTrue);
 		}
 
 	SyGUpdateTrash();
 
-	assert( itsProcess == NULL );
+	assert( itsProcess == nullptr );
 	jdelete itsFullNameList;
 }
 
@@ -98,7 +98,7 @@ SyGMoveToTrashProcess::Receive
 	if (sender == itsProcess && message.Is(JProcess::kFinished))
 		{
 		JXDeleteObjectTask<JBroadcaster>::Delete(itsProcess);
-		itsProcess = NULL;
+		itsProcess = nullptr;
 		ProcessNextFile();
 		}
 	else
@@ -138,7 +138,7 @@ SyGMoveToTrashProcess::ProcessNextFile()
 		JRenameDirEntry(newName, newName2);
 		}
 
-	const JCharacter* argv[] = { "mv", "-f", *origName, newName, NULL };
+	const JCharacter* argv[] = { "mv", "-f", *origName, newName, nullptr };
 
 	const JError err = JSimpleProcess::Create(&itsProcess, argv, sizeof(argv));
 	err.ReportIfError();
@@ -151,7 +151,7 @@ SyGMoveToTrashProcess::ProcessNextFile()
 		}
 	else
 		{
-		itsProcess = NULL;
+		itsProcess = nullptr;
 		ProcessNextFile();
 		}
 }

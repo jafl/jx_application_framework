@@ -120,7 +120,7 @@ private:
 
 private:
 
-	JString*		itsFileName;				// name of file (for JSetFStreamLength) - NULL if embedded
+	JString*		itsFileName;				// name of file (for JSetFStreamLength) - nullptr if embedded
 	std::fstream*	itsStream;					// stream for accessing file
 	JBoolean		itsIsOpenFlag;				// kJTrue => set high bit of element count
 	JBoolean		itsFlushChangesFlag;		// kJTrue => write index after every change

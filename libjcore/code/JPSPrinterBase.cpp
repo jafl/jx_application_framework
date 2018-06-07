@@ -70,8 +70,8 @@ JPSPrinterBase::JPSPrinterBase
 	itsDocOpenFlag = kJFalse;
 	itsBWFlag      = kJFalse;
 	itsDashOffset  = 0;
-	itsDashList    = NULL;
-	itsFile        = NULL;
+	itsDashList    = nullptr;
+	itsFile        = nullptr;
 
 	ResetBufferedValues();
 }
@@ -83,7 +83,7 @@ JPSPrinterBase::JPSPrinterBase
 
 JPSPrinterBase::~JPSPrinterBase()
 {
-	assert( !itsDocOpenFlag && itsFile == NULL );
+	assert( !itsDocOpenFlag && itsFile == nullptr );
 
 	jdelete itsDashList;
 }
@@ -99,12 +99,12 @@ JPSPrinterBase::PSOpenDocument()
 	assert( !itsDocOpenFlag && !itsOutputFileName.IsEmpty() );
 
 	itsFile = jnew std::ofstream(itsOutputFileName.GetBytes());
-	assert( itsFile != NULL );
+	assert( itsFile != nullptr );
 
 	if (itsFile->fail())
 		{
 		jdelete itsFile;
-		itsFile = NULL;
+		itsFile = nullptr;
 		return kJFalse;
 		}
 
@@ -135,7 +135,7 @@ JPSPrinterBase::PSOpenDocument()
 		}
 
 	const JUtf8Byte* userName = getenv("USER");
-	if (userName != NULL)
+	if (userName != nullptr)
 		{
 		*itsFile << "%%For: " << userName << '\n';
 		}
@@ -165,7 +165,7 @@ JPSPrinterBase::PSCloseDocument()
 	*itsFile << "%%EOF\n";
 
 	jdelete itsFile;
-	itsFile = NULL;
+	itsFile = nullptr;
 
 	itsDocOpenFlag = kJFalse;
 	PSResetCoordinates();
@@ -182,7 +182,7 @@ JPSPrinterBase::PSCancelDocument()
 	assert( itsDocOpenFlag );
 
 	jdelete itsFile;
-	itsFile = NULL;
+	itsFile = nullptr;
 	const JError err = JRemoveFile(itsOutputFileName);
 	assert_ok( err );
 
@@ -251,10 +251,10 @@ JPSPrinterBase::PSSetDashList
 	const JSize				dashOffset
 	)
 {
-	if (itsDashList == NULL)
+	if (itsDashList == nullptr)
 		{
 		itsDashList = jnew JArray<JSize>(dashList);
-		assert( itsDashList != NULL );
+		assert( itsDashList != nullptr );
 		}
 	else
 		{
@@ -860,13 +860,13 @@ JPSPrinterBase::AdjustFontName
 	if (name->Contains(" Mono"))
 		{
 		*name = "Courier";
-		ApplyStyles(name, style, NULL, "Oblique");
+		ApplyStyles(name, style, nullptr, "Oblique");
 		return;
 		}
 	else if (name->Contains(" Sans"))
 		{
 		*name = "Helvetica";
-		ApplyStyles(name, style, NULL, "Oblique");
+		ApplyStyles(name, style, nullptr, "Oblique");
 		return;
 		}
 	else if (*name == "Times" || name->Contains(" Serif"))
@@ -940,7 +940,7 @@ JPSPrinterBase::AdjustFontName
 		}
 */
 	*name = "Helvetica";
-	ApplyStyles(name, style, NULL, "Oblique");
+	ApplyStyles(name, style, nullptr, "Oblique");
 }
 
 /******************************************************************************
@@ -1073,7 +1073,7 @@ JPSPrinterBase::PSSetLineDashes
 
 		if (drawDashedLines)
 			{
-			assert( itsDashList != NULL );
+			assert( itsDashList != nullptr );
 
 			*itsFile << '[';
 

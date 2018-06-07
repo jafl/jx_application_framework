@@ -36,7 +36,7 @@ JXSplashWindow::JXSplashWindow
 {
 	JXDisplay* d   = (JXGetApplication())->GetCurrentDisplay();
 	JXImage* image = jnew JXImage(d, imageData);
-	assert( image != NULL );
+	assert( image != nullptr );
 
 	BuildWindow(image, text, displayInterval);
 }
@@ -86,11 +86,11 @@ JXSplashWindow::BuildWindow
 	JXWindow* window = jnew JXWindow(this, totalWidth + 3*borderWidth,
 									totalHeight + 3*borderWidth,
 									JGetString("WindowTitle::JXSplashWindow"), kJTrue);
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	JXEmbossedRect* border =
 		jnew JXEmbossedRect(window, JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 10,10);
-	assert( border != NULL);
+	assert( border != nullptr);
 	border->FitToEnclosure();
 	border->SetWidths(borderWidth, borderWidth, borderWidth);
 
@@ -98,7 +98,7 @@ JXSplashWindow::BuildWindow
 		jnew JXImageWidget(border, JXWidget::kFixedLeft, JXWidget::kFixedTop,
 						  marginWidth, marginWidth,
 						  imageWidth, image->GetHeight());
-	assert( iconWidget != NULL );
+	assert( iconWidget != nullptr );
 	iconWidget->SetImage(image, kJTrue);
 
 	JXStaticText* textWidget =
@@ -107,7 +107,7 @@ JXSplashWindow::BuildWindow
 						 2*marginWidth + imageWidth, marginWidth,
 						 totalWidth - (3*marginWidth + imageWidth),
 						 totalHeight - 2*marginWidth);
-	assert( textWidget != NULL );
+	assert( textWidget != nullptr );
 
 	// adjust window to fit icon
 
@@ -129,7 +129,7 @@ JXSplashWindow::BuildWindow
 	// close after specified time interval
 
 	JXTimerTask* task = jnew JXTimerTask(displayInterval * 1000, kJTrue);
-	assert( task != NULL );
+	assert( task != nullptr );
 	ListenTo(task);
 	task->Start();
 

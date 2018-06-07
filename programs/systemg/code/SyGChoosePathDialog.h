@@ -22,7 +22,7 @@ public:
 
 	virtual ~SyGChoosePathDialog();
 
-	void		BuildWindow(const JBoolean newWindow, const JCharacter* message = NULL);
+	void		BuildWindow(const JBoolean newWindow, const JCharacter* message = nullptr);
 
 	JBoolean	OpenInNewWindow() const;
 

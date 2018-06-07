@@ -32,7 +32,7 @@ CBCommandSelection::CBCommandSelection
 	JXSelectionData(display),
 	itsTable(table)
 {
-	assert( itsTable != NULL );
+	assert( itsTable != nullptr );
 
 	JPoint cell;
 	const JBoolean hasSelection =
@@ -97,7 +97,7 @@ CBCommandSelection::ConvertData
 		*returnType = itsCBCommandXAtom;
 		*dataLength = itsData.GetLength();
 		*data       = jnew unsigned char[ *dataLength ];
-		if (*data != NULL)
+		if (*data != nullptr)
 			{
 			memcpy(*data, itsData.GetCString(), *dataLength);
 			return kJTrue;
@@ -105,7 +105,7 @@ CBCommandSelection::ConvertData
 		}
 
 	else if (requestType == selMgr->GetDeleteSelectionXAtom() &&
-			 itsTable != NULL && IsCurrent() &&
+			 itsTable != nullptr && IsCurrent() &&
 			 (itsTable->GetTableSelection()).GetSingleSelectedCell(&cell) &&
 			 JIndex(cell.y) == itsSrcRowIndex)
 		{
@@ -117,7 +117,7 @@ CBCommandSelection::ConvertData
 		return kJTrue;
 		}
 
-	*data       = NULL;
+	*data       = nullptr;
 	*dataLength = 0;
 	*returnType = None;
 	return kJFalse;

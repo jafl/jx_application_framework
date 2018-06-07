@@ -97,10 +97,10 @@ JStyledText::JStyledText
 	itsCharInWordFn(DefaultIsCharacterInWord)
 {
 	itsStyles = jnew JRunArray<JFont>;
-	assert( itsStyles != NULL );
+	assert( itsStyles != nullptr );
 
-	itsUndo              = NULL;
-	itsUndoList          = NULL;
+	itsUndo              = nullptr;
+	itsUndoList          = nullptr;
 	itsFirstRedoIndex    = 1;
 	itsLastSaveRedoIndex = itsFirstRedoIndex;
 	itsUndoState         = kIdle;
@@ -110,14 +110,14 @@ JStyledText::JStyledText
 
 	itsCRMLineWidth      = kUNIXLineWidth;
 	itsCRMTabCharCount   = kUNIXTabCharCount;
-	itsCRMRuleList       = NULL;
+	itsCRMRuleList       = nullptr;
 	itsOwnsCRMRulesFlag  = kJFalse;
 
 	if (useMultipleUndo)
 		{
 		itsUndoList = jnew JPtrArray<JSTUndoBase>(JPtrArrayT::kDeleteAll,
 												  itsMaxUndoCount+1);
-		assert( itsUndoList != NULL );
+		assert( itsUndoList != nullptr );
 		}
 }
 
@@ -139,10 +139,10 @@ JStyledText::JStyledText
 	itsDefaultFont( source.itsDefaultFont )
 {
 	itsStyles = jnew JRunArray<JFont>(*(source.itsStyles));
-	assert( itsStyles != NULL );
+	assert( itsStyles != nullptr );
 
-	itsUndo              = NULL;
-	itsUndoList          = NULL;
+	itsUndo              = nullptr;
+	itsUndoList          = nullptr;
 	itsFirstRedoIndex    = 1;
 	itsLastSaveRedoIndex = itsFirstRedoIndex;
 	itsUndoState         = kIdle;
@@ -152,9 +152,9 @@ JStyledText::JStyledText
 	itsCRMLineWidth      = source.itsCRMLineWidth;
 	itsCRMTabCharCount   = source.itsCRMTabCharCount;
 
-	itsCRMRuleList       = NULL;
+	itsCRMRuleList       = nullptr;
 	itsOwnsCRMRulesFlag  = kJFalse;
-	if (source.itsCRMRuleList != NULL)
+	if (source.itsCRMRuleList != nullptr)
 		{
 		SetCRMRuleList(source.itsCRMRuleList, source.itsOwnsCRMRulesFlag);
 		}
@@ -183,7 +183,7 @@ JStyledText::~JStyledText()
 
 	Clears undo history.
 
-	style can safely be NULL or itsStyles.
+	style can safely be nullptr or itsStyles.
 
  ******************************************************************************/
 
@@ -197,7 +197,7 @@ JStyledText::SetText
 	ClearUndo();
 
 	JRunArray<JFont> tmpStyle;
-	if (style != NULL)
+	if (style != nullptr)
 		{
 		tmpStyle = *style;
 		}
@@ -206,8 +206,8 @@ JStyledText::SetText
 		tmpStyle.AppendElements(itsDefaultFont, text.GetCharacterCount());
 		}
 
-	JString* cleanText           = NULL;
-	JRunArray<JFont>* cleanStyle = NULL;
+	JString* cleanText           = nullptr;
+	JRunArray<JFont>* cleanStyle = nullptr;
 
 	JBoolean okToInsert, cleaned;
 	const JBoolean allocated = CleanText(text, tmpStyle, &cleanText, &cleanStyle, &okToInsert);
@@ -301,7 +301,7 @@ JStyledText::ReadPlainText
 		// allocate a new block.
 
 		JUtf8Byte* buffer = jnew JUtf8Byte[ byteCount ];
-		assert( buffer != NULL );
+		assert( buffer != nullptr );
 
 		std::ifstream input(fileName.GetBytes());
 		JIndex i = 0;
@@ -344,7 +344,7 @@ JStyledText::ReadPlainText
 		*format = kUNIXText;
 		}
 
-	return SetText(itsText, NULL);
+	return SetText(itsText, nullptr);
 }
 
 /******************************************************************************
@@ -402,7 +402,7 @@ JStyledText::WritePlainText
 		return;
 		}
 
-	const JUtf8Byte* newlineStr = NULL;
+	const JUtf8Byte* newlineStr = nullptr;
 	if (format == kDOSText)
 		{
 		newlineStr = kDOSNewline;
@@ -411,7 +411,7 @@ JStyledText::WritePlainText
 		{
 		newlineStr = kMacintoshNewline;
 		}
-	assert( newlineStr != NULL );
+	assert( newlineStr != nullptr );
 
 	const JUtf8Byte* text = itsText.GetBytes();
 	const JSize byteCount = itsText.GetByteCount();
@@ -512,7 +512,7 @@ JStyledText::ReadPrivateFormat
 	for (JIndex i=1; i<=fontCount; i++)
 		{
 		JString* name = jnew JString;
-		assert( name != NULL );
+		assert( name != nullptr );
 		input >> *name;
 		fontNameList.Append(name);
 		}
@@ -914,7 +914,7 @@ JStyledText::ReplaceMatch
 		}
 	else
 		{
-		PrivatePaste(r, replaceText, NULL);
+		PrivatePaste(r, replaceText, nullptr);
 		}
 
 	return TextCount(replaceText.GetCharacterCount(), replaceText.GetByteCount());
@@ -937,7 +937,7 @@ JStyledText::PrepareReplaceMatch
 	)
 {
 	JString replaceText;
-	if (interpolator != NULL)
+	if (interpolator != nullptr)
 		{
 		replaceText = interpolator->Interpolate(replaceStr, match);
 		}
@@ -1309,7 +1309,7 @@ JStyledText::SetFontName
 	)
 {
 	JBoolean isNew;
-	JSTUndoStyle* undo = NULL;
+	JSTUndoStyle* undo = nullptr;
 
 	if (clearUndo)
 		{
@@ -1339,11 +1339,11 @@ JStyledText::SetFontName
 
 	if (changed)
 		{
-		if (undo != NULL)
+		if (undo != nullptr)
 			{
 			NewUndo(undo, isNew);
 			}
-		BroadcastTextChanged(range, kJFalse, kJFalse);
+		BroadcastTextChanged(range, 0, 0, kJFalse, kJFalse);
 		}
 	else
 		{
@@ -1481,7 +1481,7 @@ JStyledText::SetFont
 	)
 {
 	JBoolean isNew;
-	JSTUndoStyle* undo = NULL;
+	JSTUndoStyle* undo = nullptr;
 
 	if (clearUndo)
 		{
@@ -1503,11 +1503,11 @@ JStyledText::SetFont
 		itsStyles->SetElement(range.charRange.first, f);
 		}
 
-	if (undo != NULL)
+	if (undo != nullptr)
 		{
 		NewUndo(undo, isNew);
 		}
-	BroadcastTextChanged(range, kJFalse, kJFalse);
+	BroadcastTextChanged(range, 0, 0, kJFalse, kJFalse);
 }
 
 // protected - for JSTUndoStyle
@@ -1530,7 +1530,7 @@ JStyledText::SetFont
 		sIter.SkipNext();
 		}
 
-	BroadcastTextChanged(range, kJFalse, kJFalse);
+	BroadcastTextChanged(range, 0, 0, kJFalse, kJFalse);
 }
 
 /******************************************************************************
@@ -1572,7 +1572,7 @@ JStyledText::SetAllFontNameAndSize
 		itsStyles->SetRunData(i, f);
 		}
 
-	if (itsUndoList != NULL)
+	if (itsUndoList != nullptr)
 		{
 		const JSize undoCount = itsUndoList->GetElementCount();
 		for (JIndex i=1; i<=undoCount; i++)
@@ -1580,7 +1580,7 @@ JStyledText::SetAllFontNameAndSize
 			(itsUndoList->GetElement(i))->SetFont(name, size);
 			}
 		}
-	else if (itsUndo != NULL)
+	else if (itsUndo != nullptr)
 		{
 		itsUndo->SetFont(name, size);
 		}
@@ -1590,13 +1590,13 @@ JStyledText::SetAllFontNameAndSize
 	BroadcastTextChanged(TextRange(
 		JCharacterRange(1, itsText.GetCharacterCount()),
 		JUtf8ByteRange(1, itsText.GetByteCount())),
-		kJFalse, kJFalse);
+		0, 0, kJFalse, kJFalse);
 }
 
 /******************************************************************************
  Copy
 
-	Returns kJTrue if there was anything to copy.  style can be NULL.
+	Returns kJTrue if there was anything to copy.  style can be nullptr.
 	If function returns kJFalse, text and style are not modified.
 
  ******************************************************************************/
@@ -1614,7 +1614,7 @@ JStyledText::Copy
 		{
 		text->Set(itsText.GetRawBytes(), range.byteRange);
 
-		if (style != NULL)
+		if (style != nullptr)
 			{
 			style->RemoveAll();
 			style->AppendSlice(*itsStyles, range.charRange);
@@ -1633,7 +1633,7 @@ JStyledText::Copy
 /******************************************************************************
  Paste
 
-	style can be NULL
+	style can be nullptr
 
  ******************************************************************************/
 
@@ -1645,19 +1645,22 @@ JStyledText::Paste
 	const JRunArray<JFont>*	style
 	)
 {
-	assert( style == NULL || style->GetElementCount() == text.GetCharacterCount() );
+	assert( style == nullptr || style->GetElementCount() == text.GetCharacterCount() );
 
 	JBoolean isNew;
 	JSTUndoPaste* newUndo = GetPasteUndo(range, &isNew);
-	assert( newUndo != NULL );
+	assert( newUndo != nullptr );
 
 	const TextCount pasteCount = PrivatePaste(range, text, style);
 	newUndo->SetCount(pasteCount);
 
 	NewUndo(newUndo, isNew);
 
+	const JInteger charDelta = pasteCount.charCount - range.charRange.GetCount(),
+				   byteDelta = pasteCount.byteCount - range.byteRange.GetCount();
+
 	TextRange r(range.GetFirst(), pasteCount);
-	BroadcastTextChanged(r, !range.IsEmpty());
+	BroadcastTextChanged(r, charDelta, byteDelta, !range.IsEmpty());
 	return r;
 }
 
@@ -1666,7 +1669,7 @@ JStyledText::Paste
 
 	Returns number of characters that were actually inserted.
 
-	style can be NULL.
+	style can be nullptr.
 
  ******************************************************************************/
 
@@ -1683,7 +1686,7 @@ JStyledText::PrivatePaste
 		PrivateDeleteText(range);
 		}
 
-	if (itsPasteStyledTextFlag && style != NULL)
+	if (itsPasteStyledTextFlag && style != nullptr)
 		{
 		return InsertText(range.GetFirst(), text, *style);
 		}
@@ -1747,8 +1750,8 @@ JStyledText::InsertText
 		return TextCount();
 		}
 
-	JString* cleanText           = NULL;
-	JRunArray<JFont>* cleanStyle = NULL;
+	JString* cleanText           = nullptr;
+	JRunArray<JFont>* cleanStyle = nullptr;
 
 	JBoolean okToInsert;
 	const JBoolean allocated = CleanText(text, style, &cleanText, &cleanStyle, &okToInsert);
@@ -1802,12 +1805,12 @@ JStyledText::InsertText
  ******************************************************************************/
 
 #define COPY_FOR_CLEAN_TEXT \
-	if (*cleanText == NULL) \
+	if (*cleanText == nullptr) \
 		{ \
 		*cleanText = jnew JString(text); \
-		assert( *cleanText != NULL ); \
+		assert( *cleanText != nullptr ); \
 		*cleanStyle = jnew JRunArray<JFont>(style); \
-		assert( *cleanStyle != NULL ); \
+		assert( *cleanStyle != nullptr ); \
 		}
 
 JBoolean
@@ -1827,8 +1830,8 @@ JStyledText::CleanText
 
 	assert( text.GetCharacterCount() == style.GetElementCount() );
 
-	*cleanText  = NULL;
-	*cleanStyle = NULL;
+	*cleanText  = nullptr;
+	*cleanStyle = nullptr;
 
 	// remove illegal characters
 
@@ -1842,8 +1845,8 @@ JStyledText::CleanText
 	// convert from DOS format -- deleting is n^2, so we copy instead
 	// (not using Split because the text could be very large)
 
-	if ((*cleanText != NULL && (**cleanText).Contains(kDOSNewline)) ||
-		(*cleanText == NULL && text.Contains(kDOSNewline)))
+	if ((*cleanText != nullptr && (**cleanText).Contains(kDOSNewline)) ||
+		(*cleanText == nullptr && text.Contains(kDOSNewline)))
 		{
 		COPY_FOR_CLEAN_TEXT
 
@@ -1877,8 +1880,8 @@ JStyledText::CleanText
 
 	// convert from Macintosh format
 
-	else if ((*cleanText != NULL && (**cleanText).Contains(kMacintoshNewline)) ||
-			 (*cleanText == NULL && text.Contains(kMacintoshNewline)))
+	else if ((*cleanText != nullptr && (**cleanText).Contains(kMacintoshNewline)) ||
+			 (*cleanText == nullptr && text.Contains(kMacintoshNewline)))
 		{
 		COPY_FOR_CLEAN_TEXT
 
@@ -1889,15 +1892,15 @@ JStyledText::CleanText
 	// (last so we don't pass anything illegal to FilterText())
 
 	*okToInsert = kJTrue;
-	if (NeedsToFilterText(*cleanText  != NULL ? **cleanText  : text,
-						  *cleanStyle != NULL ? **cleanStyle : style))
+	if (NeedsToFilterText(*cleanText  != nullptr ? **cleanText  : text,
+						  *cleanStyle != nullptr ? **cleanStyle : style))
 		{
 		COPY_FOR_CLEAN_TEXT
 
 		*okToInsert = FilterText(*cleanText, *cleanStyle);
 		}
 
-	return JI2B( *cleanText != NULL );
+	return JI2B( *cleanText != nullptr );
 }
 
 /******************************************************************************
@@ -1929,7 +1932,7 @@ JStyledText::ContainsIllegalChars
 	Returns kJTrue if we had to remove any characters that
 	ContainsIllegalChars() would flag.
 
-	style can be NULL or empty.
+	style can be nullptr or empty.
 
  ******************************************************************************/
 
@@ -1940,7 +1943,7 @@ JStyledText::RemoveIllegalChars
 	JRunArray<JFont>*	style
 	)
 {
-	assert( style == NULL || style->IsEmpty() ||
+	assert( style == nullptr || style->IsEmpty() ||
 			style->GetElementCount() == text->GetCharacterCount() );
 
 	JBoolean changed = kJFalse;
@@ -1950,7 +1953,7 @@ JStyledText::RemoveIllegalChars
 		{
 		const JStringMatch& m = iter.GetLastMatch();
 
-		if (style != NULL && !style->IsEmpty())
+		if (style != nullptr && !style->IsEmpty())
 			{
 			style->RemoveElements(m.GetCharacterRange());
 			}
@@ -2014,7 +2017,7 @@ JStyledText::DeleteText
 	)
 {
 	JSTUndoTyping* newUndo = jnew JSTUndoTyping(this, range);
-	assert( newUndo != NULL );
+	assert( newUndo != nullptr );
 
 	PrivateDeleteText(range);
 
@@ -2023,6 +2026,8 @@ JStyledText::DeleteText
 	BroadcastTextChanged(TextRange(
 		JCharacterRange(range.charRange.first, 0),
 		JUtf8ByteRange(range.byteRange.first, 0)),
+		- (JInteger) range.charRange.GetCount(),
+		- (JInteger) range.byteRange.GetCount(),
 		kJTrue);
 }
 
@@ -2083,7 +2088,7 @@ JStyledText::InsertCharacter
 	else
 		{
 		typingUndo = jnew JSTUndoTyping(this, replaceRange);
-		assert( typingUndo != NULL );
+		assert( typingUndo != nullptr );
 
 		PrivateDeleteText(replaceRange);
 		}
@@ -2095,8 +2100,12 @@ JStyledText::InsertCharacter
 	const TextCount pasteCount = InsertText(replaceRange.GetFirst(), s, font);
 	assert( pasteCount.charCount == 1 );
 
+	const JInteger charDelta = pasteCount.charCount - replaceRange.charRange.GetCount(),
+				   byteDelta = pasteCount.byteCount - replaceRange.byteRange.GetCount();
+
 	BroadcastTextChanged(
 		TextRange(replaceRange.GetFirst(), pasteCount),
+		charDelta, byteDelta,
 		!replaceRange.IsEmpty());
 
 	if (key == '\n' && itsAutoIndentFlag)
@@ -2127,9 +2136,9 @@ JStyledText::BackwardDelete
 	JUndo**				undo
 	)
 {
-	if (undo != NULL)
+	if (undo != nullptr)
 		{
-		*undo = NULL;
+		*undo = nullptr;
 		}
 
 	if (caretIndex.charIndex <= 1)
@@ -2196,11 +2205,11 @@ JStyledText::BackwardDelete
 
 	const JStringMatch& match = iter.FinishMatch();
 
-	if (returnText != NULL)
+	if (returnText != nullptr)
 		{
 		returnText->Set(match.GetString());
 		}
-	if (returnStyle != NULL)
+	if (returnStyle != nullptr)
 		{
 		returnStyle->RemoveAll();
 		returnStyle->AppendSlice(*itsStyles, match.GetCharacterRange());
@@ -2209,6 +2218,9 @@ JStyledText::BackwardDelete
 	JBoolean isNew;
 	JSTUndoTyping* typingUndo = GetTypingUndo(caretIndex, &isNew);
 	typingUndo->HandleDelete(match);
+
+	const JInteger charDelta = - match.GetCharacterRange().GetCount(),
+				   byteDelta = - match.GetUtf8ByteRange().GetCount();
 
 	itsStyles->RemoveElements(match.GetCharacterRange());
 	iter.RemoveLastMatch();		// invalidates match
@@ -2225,9 +2237,10 @@ JStyledText::BackwardDelete
 		returnIndex = TextIndex(iter.GetNextCharacterIndex(), iter.GetNextByteIndex());
 		}
 
-	BroadcastTextChanged(TextRange(returnIndex, TextCount(0,0)), kJTrue);
+	BroadcastTextChanged(TextRange(returnIndex, TextCount(0,0)),
+						 charDelta, byteDelta, kJTrue);
 
-	if (undo != NULL)
+	if (undo != nullptr)
 		{
 		*undo = typingUndo;
 		}
@@ -2253,9 +2266,9 @@ JStyledText::ForwardDelete
 	JUndo**				undo
 	)
 {
-	if (undo != NULL)
+	if (undo != nullptr)
 		{
-		*undo = NULL;
+		*undo = nullptr;
 		}
 
 	if (caretIndex.charIndex > itsText.GetCharacterCount())
@@ -2302,11 +2315,11 @@ JStyledText::ForwardDelete
 
 	const JStringMatch& match = iter.FinishMatch();
 
-	if (returnText != NULL)
+	if (returnText != nullptr)
 		{
 		returnText->Set(match.GetString());
 		}
-	if (returnStyle != NULL)
+	if (returnStyle != nullptr)
 		{
 		returnStyle->RemoveAll();
 		returnStyle->AppendSlice(*itsStyles, match.GetCharacterRange());
@@ -2316,8 +2329,10 @@ JStyledText::ForwardDelete
 	JSTUndoTyping* typingUndo = GetTypingUndo(caretIndex, &isNew);
 	typingUndo->HandleFwdDelete(match);
 
-	itsStyles->RemoveElements(match.GetCharacterRange());
+	const JInteger charDelta = - match.GetCharacterRange().GetCount(),
+				   byteDelta = - match.GetUtf8ByteRange().GetCount();
 
+	itsStyles->RemoveElements(match.GetCharacterRange());
 	iter.RemoveLastMatch();		// invalidates match
 
 	NewUndo(typingUndo, isNew);
@@ -2325,9 +2340,9 @@ JStyledText::ForwardDelete
 	BroadcastTextChanged(TextRange(
 		JCharacterRange(caretIndex.charIndex, 0),
 		JUtf8ByteRange(caretIndex.byteIndex, 0)),
-		kJTrue);
+		charDelta, byteDelta, kJTrue);
 
-	if (undo != NULL)
+	if (undo != nullptr)
 		{
 		*undo = typingUndo;
 		}
@@ -2485,7 +2500,8 @@ JStyledText::Outdent
 
 	NewUndo(undo, isNew);
 
-	BroadcastTextChanged(range, kJTrue, kJFalse);
+	BroadcastTextChanged(range, -JInteger(deleteCount), -JInteger(deleteCount),
+						 kJTrue, kJFalse);
 
 	return TextRange(cr, JUtf8ByteRange(range.byteRange.first, range.byteRange.last - deleteCount));
 }
@@ -2564,7 +2580,7 @@ JStyledText::Indent
 	const JUtf8ByteRange br(range.byteRange.first, range.byteRange.last + insertCount);
 	const TextRange tr(cr, br);
 
-	BroadcastTextChanged(tr, kJFalse, kJFalse);
+	BroadcastTextChanged(tr, insertCount, insertCount, kJFalse, kJFalse);
 
 	return tr;
 }
@@ -2599,7 +2615,7 @@ JStyledText::MoveText
 
 	TextIndex destIndex = origDestIndex;
 
-	JSTUndoBase* undo = NULL;
+	JSTUndoBase* undo = nullptr;
 	JBoolean isNew;
 	if (copy)
 		{
@@ -2628,9 +2644,11 @@ JStyledText::MoveText
 		BroadcastTextChanged(TextRange(
 			JCharacterRange(srcRange.charRange.first, 0),
 			JUtf8ByteRange(srcRange.byteRange.first, 0)),
+			-JInteger(srcRange.charRange.GetCount()),
+			-JInteger(srcRange.byteRange.GetCount()),
 			kJTrue);
 		}
-	assert( undo != NULL );
+	assert( undo != nullptr );
 
 	const TextCount insertCount = InsertText(destIndex, text, styles);
 	undo->SetCount(insertCount);
@@ -2638,7 +2656,7 @@ JStyledText::MoveText
 	NewUndo(undo, isNew);
 
 	*newRange = TextRange(destIndex, insertCount);
-	BroadcastTextChanged(*newRange, kJFalse);
+	BroadcastTextChanged(*newRange, insertCount.charCount, insertCount.byteCount, kJFalse);
 
 	return kJTrue;
 }
@@ -2992,13 +3010,13 @@ JStyledText::SetCRMRuleList
 void
 JStyledText::ClearCRMRuleList()
 {
-	if (itsOwnsCRMRulesFlag && itsCRMRuleList != NULL)
+	if (itsOwnsCRMRulesFlag && itsCRMRuleList != nullptr)
 		{
 		itsCRMRuleList->DeleteAll();
 		jdelete itsCRMRuleList;
 		}
 
-	itsCRMRuleList      = NULL;
+	itsCRMRuleList      = nullptr;
 	itsOwnsCRMRulesFlag = kJFalse;
 }
 
@@ -3015,13 +3033,13 @@ JStyledText::CRMRule::CRMRule
 	)
 {
 	first = jnew JRegex(firstPattern);
-	assert( first != NULL );
+	assert( first != nullptr );
 
 	rest = jnew JRegex(restPattern);
-	assert( rest != NULL );
+	assert( rest != nullptr );
 
 	replace = jnew JString(restPattern);
-	assert( replace != NULL );
+	assert( replace != nullptr );
 }
 
 /******************************************************************************
@@ -3160,7 +3178,7 @@ JStyledText::Redo()
 void
 JStyledText::DeactivateCurrentUndo()
 {
-	JSTUndoBase* undo = NULL;
+	JSTUndoBase* undo = nullptr;
 	if (GetCurrentUndo(&undo))
 		{
 		undo->Deactivate();
@@ -3179,9 +3197,9 @@ void
 JStyledText::ClearUndo()
 {
 	jdelete itsUndo;
-	itsUndo = NULL;
+	itsUndo = nullptr;
 
-	if (itsUndoList != NULL)
+	if (itsUndoList != nullptr)
 		{
 		itsUndoList->CleanOut();
 		}
@@ -3218,19 +3236,19 @@ JStyledText::GetCurrentUndo
 	)
 	const
 {
-	if (itsUndoList != NULL && itsFirstRedoIndex > 1)
+	if (itsUndoList != nullptr && itsFirstRedoIndex > 1)
 		{
 		*undo = itsUndoList->GetElement(itsFirstRedoIndex - 1);
 		return kJTrue;
 		}
-	else if (itsUndoList != NULL)
+	else if (itsUndoList != nullptr)
 		{
 		return kJFalse;
 		}
 	else
 		{
 		*undo = itsUndo;
-		return JConvertToBoolean( *undo != NULL );
+		return JConvertToBoolean( *undo != nullptr );
 		}
 }
 
@@ -3246,19 +3264,19 @@ JStyledText::GetCurrentRedo
 	)
 	const
 {
-	if (itsUndoList != NULL && itsFirstRedoIndex <= itsUndoList->GetElementCount())
+	if (itsUndoList != nullptr && itsFirstRedoIndex <= itsUndoList->GetElementCount())
 		{
 		*redo = itsUndoList->GetElement(itsFirstRedoIndex);
 		return kJTrue;
 		}
-	else if (itsUndoList != NULL)
+	else if (itsUndoList != nullptr)
 		{
 		return kJFalse;
 		}
 	else
 		{
 		*redo = itsUndo;
-		return JConvertToBoolean( *redo != NULL );
+		return JConvertToBoolean( *redo != nullptr );
 		}
 }
 
@@ -3286,7 +3304,7 @@ JStyledText::NewUndo
 		return;
 		}
 
-	if (itsUndoList != NULL && itsUndoState == kIdle)
+	if (itsUndoList != nullptr && itsUndoState == kIdle)
 		{
 		// clear redo objects
 
@@ -3311,7 +3329,7 @@ JStyledText::NewUndo
 		assert( !itsUndoList->IsEmpty() );
 		}
 
-	else if (itsUndoList != NULL && itsUndoState == kUndo)
+	else if (itsUndoList != nullptr && itsUndoState == kUndo)
 		{
 		assert( itsFirstRedoIndex > 1 );
 
@@ -3322,7 +3340,7 @@ JStyledText::NewUndo
 		undo->Deactivate();
 		}
 
-	else if (itsUndoList != NULL && itsUndoState == kRedo)
+	else if (itsUndoList != nullptr && itsUndoState == kRedo)
 		{
 		assert( itsFirstRedoIndex <= itsUndoList->GetElementCount() );
 
@@ -3356,12 +3374,12 @@ JStyledText::ReplaceUndo
 
 	assert( itsUndoState != kIdle );
 
-	if (itsUndoList != NULL && itsUndoState == kUndo)
+	if (itsUndoList != nullptr && itsUndoState == kUndo)
 		{
 		assert( itsFirstRedoIndex > 1 &&
 				oldUndo == itsUndoList->GetElement(itsFirstRedoIndex - 1) );
 		}
-	else if (itsUndoList != NULL && itsUndoState == kRedo)
+	else if (itsUndoList != nullptr && itsUndoState == kRedo)
 		{
 		assert( itsFirstRedoIndex <= itsUndoList->GetElementCount() &&
 				oldUndo == itsUndoList->GetElement(itsFirstRedoIndex) );
@@ -3384,7 +3402,7 @@ JStyledText::ReplaceUndo
 void
 JStyledText::ClearOutdatedUndo()
 {
-	if (itsUndoList == NULL)
+	if (itsUndoList == nullptr)
 		{
 		return;
 		}
@@ -3423,11 +3441,11 @@ JStyledText::GetTypingUndo
 	JBoolean*			isNew
 	)
 {
-	JSTUndoTyping* typingUndo = NULL;
+	JSTUndoTyping* typingUndo = nullptr;
 
-	JSTUndoBase* undo = NULL;
+	JSTUndoBase* undo = nullptr;
 	if (GetCurrentUndo(&undo) &&
-		(typingUndo = dynamic_cast<JSTUndoTyping*>(undo)) != NULL &&
+		(typingUndo = dynamic_cast<JSTUndoTyping*>(undo)) != nullptr &&
 		typingUndo->IsActive() &&
 		typingUndo->MatchesCurrentIndex(start))
 		{
@@ -3437,7 +3455,7 @@ JStyledText::GetTypingUndo
 	else
 		{
 		typingUndo = jnew JSTUndoTyping(this, start);
-		assert( typingUndo != NULL );
+		assert( typingUndo != nullptr );
 
 		*isNew = kJTrue;
 		return typingUndo;
@@ -3462,11 +3480,11 @@ JStyledText::GetStyleUndo
 	JBoolean*			isNew
 	)
 {
-	JSTUndoStyle* styleUndo = NULL;
+	JSTUndoStyle* styleUndo = nullptr;
 
-	JSTUndoBase* undo = NULL;
+	JSTUndoBase* undo = nullptr;
 	if (GetCurrentUndo(&undo) &&
-		(styleUndo = dynamic_cast<JSTUndoStyle*>(undo)) != NULL &&
+		(styleUndo = dynamic_cast<JSTUndoStyle*>(undo)) != nullptr &&
 		styleUndo->IsActive() &&
 		styleUndo->SameRange(range))
 		{
@@ -3476,7 +3494,7 @@ JStyledText::GetStyleUndo
 	else
 		{
 		styleUndo = jnew JSTUndoStyle(this, range);
-		assert( styleUndo != NULL );
+		assert( styleUndo != nullptr );
 
 		*isNew = kJTrue;
 		return styleUndo;
@@ -3501,7 +3519,7 @@ JStyledText::GetPasteUndo
 	)
 {
 	JSTUndoPaste* pasteUndo = jnew JSTUndoPaste(this, range);
-	assert( pasteUndo != NULL );
+	assert( pasteUndo != nullptr );
 
 	*isNew = kJTrue;
 	return pasteUndo;
@@ -3525,11 +3543,11 @@ JStyledText::GetTabShiftUndo
 	JBoolean*			isNew
 	)
 {
-	JSTUndoTabShift* tabShiftUndo = NULL;
+	JSTUndoTabShift* tabShiftUndo = nullptr;
 
-	JSTUndoBase* undo = NULL;
+	JSTUndoBase* undo = nullptr;
 	if (GetCurrentUndo(&undo) &&
-		(tabShiftUndo = dynamic_cast<JSTUndoTabShift*>(undo)) != NULL &&
+		(tabShiftUndo = dynamic_cast<JSTUndoTabShift*>(undo)) != nullptr &&
 		tabShiftUndo->IsActive() &&
 		tabShiftUndo->SameStartIndex(range))
 		{
@@ -3539,7 +3557,7 @@ JStyledText::GetTabShiftUndo
 	else
 		{
 		tabShiftUndo = jnew JSTUndoTabShift(this, range);
-		assert( tabShiftUndo != NULL );
+		assert( tabShiftUndo != nullptr );
 
 		*isNew = kJTrue;
 		return tabShiftUndo;
@@ -3566,7 +3584,7 @@ JStyledText::GetMoveUndo
 	)
 {
 	JSTUndoMove* moveUndo = jnew JSTUndoMove(this, srcIndex, destIndex, count);
-	assert( moveUndo != NULL );
+	assert( moveUndo != nullptr );
 
 	*isNew = kJTrue;
 	return moveUndo;
@@ -3634,7 +3652,7 @@ JStyledText::AutoIndent
 		// line, so we give it only the whitespace.
 
 		CRMRuleList* savedRuleList = itsCRMRuleList;
-		itsCRMRuleList             = NULL;
+		itsCRMRuleList             = nullptr;
 		firstTextChar              = firstChar;
 		ruleIndex                  = 0;
 		CRMGetPrefix(&firstTextChar, lastChar,
@@ -3736,6 +3754,8 @@ void
 JStyledText::BroadcastTextChanged
 	(
 	const TextRange&	range,
+	const JInteger		charDelta,
+	const JInteger		byteDelta,
 	const JBoolean		deletion,
 	const JBoolean		adjustStyles
 	)
@@ -3759,7 +3779,7 @@ JStyledText::BroadcastTextChanged
 		redrawRange.SetToNothing();
 		}
 
-	Broadcast(TextChanged(recalcRange, redrawRange, kJFalse));
+	Broadcast(TextChanged(recalcRange, redrawRange, charDelta, byteDelta));
 }
 
 /******************************************************************************
@@ -3907,7 +3927,7 @@ JStyledText::SetCharacterInWordFunction
 	JCharacterInWordFn f
 	)
 {
-	assert( f != NULL );
+	assert( f != nullptr );
 	itsCharInWordFn = f;
 }
 
@@ -4259,10 +4279,10 @@ JStyledText::GetConstIterator
 	const
 {
 	JString* s = jnew JString(itsText, kJFalse);
-	assert( s != NULL );
+	assert( s != nullptr );
 
 	JStringIterator* iter = jnew JStringIterator(*s);
-	assert( iter != NULL );
+	assert( iter != nullptr );
 
 	iter->UnsafeMoveTo(pos, index.charIndex, index.byteIndex);
 	return iter;
@@ -4293,7 +4313,7 @@ JStyledText::DisposeConstIterator
 	Optimized by starting JStringIterator at start of line, computed by
 	using binary search.
 
-	lineStart can be NULL
+	lineStart can be nullptr
 
  ******************************************************************************/
 
@@ -4311,7 +4331,7 @@ JStyledText::CharToTextRange
 	// create separate object on which to iterate, without copying
 	const JString s(itsText, kJFalse);
 	JStringIterator iter(s);
-	if (lineStart != NULL)
+	if (lineStart != nullptr)
 		{
 		iter.UnsafeMoveTo(kJIteratorStartBefore, lineStart->charIndex, lineStart->byteIndex);
 		}

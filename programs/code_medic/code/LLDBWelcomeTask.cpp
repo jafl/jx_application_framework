@@ -48,7 +48,7 @@ void
 LLDBWelcomeTask::Perform()
 {
 	LLDBLink* link = dynamic_cast<LLDBLink*>(CMGetLink());
-	if (link != NULL)
+	if (link != nullptr)
 		{
 		link->BroadcastWelcome(itsMessage, itsRestartFlag);
 		}

@@ -40,7 +40,7 @@ JXStyleTable::JXStyleTable
 				hSizing,vSizing, x,y, w,h)
 {
 	itsStyleData = jnew JStyleTableData(this, GetFontManager());
-	assert( itsStyleData != NULL );
+	assert( itsStyleData != nullptr );
 }
 
 /******************************************************************************
@@ -79,7 +79,7 @@ JXStyleTable::SetFont
 {
 	itsStyleData->SetFont(name, size);
 
-	JXInputField* input = NULL;
+	JXInputField* input = nullptr;
 	if (GetXInputField(&input))
 		{
 		input->SetFontName(name);
@@ -117,7 +117,7 @@ JXStyleTable::SetCellStyle
 	itsStyleData->SetCellStyle(cell, style);
 
 	JPoint editCell;
-	JXInputField* input = NULL;
+	JXInputField* input = nullptr;
 	if (GetEditedCell(&editCell) && editCell == cell &&
 		GetXInputField(&input))
 		{
@@ -138,7 +138,7 @@ JXStyleTable::SetAllCellStyles
 {
 	itsStyleData->SetAllCellStyles(style);
 
-	JXInputField* input = NULL;
+	JXInputField* input = nullptr;
 	if (IsEditing() && GetXInputField(&input))
 		{
 		input->SetFontStyle(style);

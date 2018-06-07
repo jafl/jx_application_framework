@@ -298,7 +298,7 @@ CBKeyScriptTableBase::CreateStringTableInput
 		{
 		CBKeyScriptInput* obj =
 			jnew CBKeyScriptInput(enclosure, hSizing, vSizing, x,y, w,h);
-		assert( obj != NULL );
+		assert( obj != nullptr );
 		return obj;
 		}
 	else

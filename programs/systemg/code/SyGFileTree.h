@@ -24,7 +24,7 @@ public:
 
 	const JString&	GetDirectory() const;
 	JBoolean		Update(const JBoolean force = kJFalse,
-						   JFSFileTreeNodeBase** updateNode = NULL);
+						   JFSFileTreeNodeBase** updateNode = nullptr);
 
 	JBoolean	HiddenVisible() const;
 	void		ShowHidden(const JBoolean show);

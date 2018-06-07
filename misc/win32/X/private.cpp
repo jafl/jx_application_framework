@@ -40,13 +40,13 @@ xOpenDisplay
 	)
 {
 	Display* display = new Display;
-	assert( display != NULL );
+	assert( display != nullptr );
 
 	display->name = new string(name);
-	assert( display->name != NULL );
+	assert( display->name != nullptr );
 
 	display->itemList = new vector<xItem>;
-	assert( display->itemList != NULL );
+	assert( display->itemList != nullptr );
 
 	display->closeMode = DestroyAll;
 	display->closed    = false;
@@ -165,7 +165,7 @@ xAllocateID
 	void*				handle
 	)
 {
-	if (handle == NULL || handle == INVALID_HANDLE_VALUE)
+	if (handle == nullptr || handle == INVALID_HANDLE_VALUE)
 		{
 		return None;
 		}
@@ -269,7 +269,7 @@ xFindID
 		if (xFindID(*iter1, id, &item1, remove))
 			{
 			*display = *iter1;
-			if (item != NULL)
+			if (item != nullptr)
 				{
 				*item = item1;
 				}
@@ -277,7 +277,7 @@ xFindID
 			}
 		}
 
-	*display = NULL;
+	*display = nullptr;
 	return false;
 }
 

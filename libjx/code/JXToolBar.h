@@ -164,7 +164,7 @@ private:
 			GetSource(const JXWidget** w) const
 			{
 				*w = itsSource;
-				return JI2B(itsSource != NULL);
+				return JI2B(itsSource != nullptr);
 			};
 
 		protected:

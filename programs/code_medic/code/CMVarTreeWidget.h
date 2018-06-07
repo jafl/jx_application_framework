@@ -32,7 +32,7 @@ public:
 
 	virtual ~CMVarTreeWidget();
 
-	CMVarNode*	NewExpression(const JCharacter* expr = NULL);
+	CMVarNode*	NewExpression(const JCharacter* expr = nullptr);
 	CMVarNode*	DisplayExpression(const JCharacter* expr);
 	void		ShowNode(const CMVarNode* node);
 

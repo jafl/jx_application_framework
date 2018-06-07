@@ -61,9 +61,9 @@ protected:
 private:
 
 	THXVarList*		itsVarList;		// not owned
-	JXExprInput*	itsTextInput;	// NULL unless editing
+	JXExprInput*	itsTextInput;	// nullptr unless editing
 	JXTextMenu*		itsFontMenu;
-	JString			itsOrigText;	// used while itsTextInput != NULL
+	JString			itsOrigText;	// used while itsTextInput != nullptr
 
 private:
 

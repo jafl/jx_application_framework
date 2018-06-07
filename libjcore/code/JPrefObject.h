@@ -34,7 +34,7 @@ protected:
 
 private:
 
-	JPrefsManager*	itsPrefsMgr;	// not owned; can be NULL
+	JPrefsManager*	itsPrefsMgr;	// not owned; can be nullptr
 	JPrefID			itsID;
 
 private:
@@ -55,7 +55,7 @@ inline JBoolean
 JPrefObject::PrefInfoValid()
 	const
 {
-	return JI2B( itsPrefsMgr != NULL && itsID.IsValid() );
+	return JI2B( itsPrefsMgr != nullptr && itsID.IsValid() );
 }
 
 inline JBoolean

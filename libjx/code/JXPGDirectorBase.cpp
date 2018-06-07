@@ -27,7 +27,7 @@ JXPGDirectorBase::JXPGDirectorBase
 	JXWindowDirector(supervisor)
 {
 	itsExpectsCloseFlag = kJFalse;
-	itsCancelButton     = NULL;
+	itsCancelButton     = nullptr;
 }
 
 /******************************************************************************
@@ -105,7 +105,7 @@ JXPGDirectorBase::Close()
 		{
 		return JXWindowDirector::Close();
 		}
-	else if (itsCancelButton != NULL)
+	else if (itsCancelButton != nullptr)
 		{
 		itsCancelButton->Push();
 		return kJFalse;

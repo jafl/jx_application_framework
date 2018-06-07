@@ -116,7 +116,7 @@ CreateServer
 		}
 
 	// keep the compiler happy
-	return NULL;
+	return nullptr;
 }
 
 /******************************************************************************
@@ -137,7 +137,7 @@ CreateINETServer
 	// This object will create an INETHandler when a client connects.
 
 	INETAcceptor* acceptor = new INETAcceptor;
-	assert( acceptor != NULL );
+	assert( acceptor != nullptr );
 
 	// Begin waiting for a connection.
 
@@ -173,7 +173,7 @@ CreateUNIXServer
 	// This object will create a UNIXHandler when a client connects.
 
 	UNIXAcceptor* acceptor = new UNIXAcceptor;
-	assert( acceptor != NULL );
+	assert( acceptor != nullptr );
 
 	// Begin waiting for a connection.
 

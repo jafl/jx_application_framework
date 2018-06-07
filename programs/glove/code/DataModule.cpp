@@ -51,12 +51,12 @@ DataModule::Create
 			JProcess::Create(&process, sysCmd,
 							kJCreatePipe, &outFD,
 							kJCreatePipe, &inFD,
-							kJIgnoreConnection, NULL);	
+							kJIgnoreConnection, nullptr);	
 
 	if (err.OK())
 		{
 		JOutPipeStream* op = jnew JOutPipeStream(outFD, kJTrue);
-		assert( op != NULL );
+		assert( op != nullptr );
 		assert( op->good() );
 		*module = jnew DataModule(table, data, process, inFD, op);
 		return kJTrue;
@@ -86,16 +86,16 @@ DataModule::DataModule
 	ListenTo(itsProcess);
 
 	itsLink = new ProcessLink(fd);
-	assert(itsLink != NULL);
+	assert(itsLink != nullptr);
 	ListenTo(itsLink);
 
 	itsOutput = output;
 //	ListenTo(output);
 	itsHeaderRead = kJFalse;
 	itsSentData = kJFalse;
-	itsPG = NULL;
+	itsPG = nullptr;
 	itsCols = jnew JArray<JIndex>;
-	assert(itsCols != NULL);
+	assert(itsCols != nullptr);
 }
 
 /*******************************************************************************
@@ -107,7 +107,7 @@ DataModule::~DataModule()
 {
 	jdelete itsProcess;
 	delete itsLink;
-	if (itsPG != NULL)
+	if (itsPG != nullptr)
 		{
 		itsPG->ProcessFinished();
 		jdelete itsPG;
@@ -149,7 +149,7 @@ DataModule::Receive
 		{
 		const JTableData::ColsRemoved* info =
 			dynamic_cast<const JTableData::ColsRemoved*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		JIndex fIndex	= info->GetFirstIndex();
 		JIndex lIndex	= info->GetLastIndex();
 		for (JIndex index = fIndex; index <= lIndex; index++)
@@ -165,7 +165,7 @@ DataModule::Receive
 					{
 					JGetUserNotification()->ReportError("Module column removed.");
 					DeleteBroadcasterTask* dbt = jnew DeleteBroadcasterTask(this);
-					assert(dbt != NULL);
+					assert(dbt != nullptr);
 					dbt->Go();
 					return;
 					}
@@ -177,7 +177,7 @@ DataModule::Receive
 		{
 		const JTableData::ColsInserted* info =
 			dynamic_cast<const JTableData::ColsInserted*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		JIndex fIndex	= info->GetFirstIndex();
 		JIndex lIndex	= info->GetLastIndex();
 		for (JIndex index = fIndex; index <= lIndex; index++)
@@ -228,7 +228,7 @@ DataModule::HandleInput
 					{
 					JGetUserNotification()->ReportError("Module Error.");
 					DeleteBroadcasterTask* dbt = jnew DeleteBroadcasterTask(this);
-					assert(dbt != NULL);
+					assert(dbt != nullptr);
 					dbt->Go();
 					return;
 					}
@@ -275,7 +275,7 @@ DataModule::HandlePrepareCols
 		jnew GLUndoElementsInsert(itsTable, JPoint(itsColStart, 1), 
 								 JPoint(itsColStart + itsColNum - 1, itsTable->GetRowCount()),
 								 GLUndoElementsBase::kCols);
-	assert(undo != NULL);
+	assert(undo != nullptr);
 	itsTable->NewUndo(undo);
 }
 
@@ -290,7 +290,7 @@ DataModule::HandleDataRead
 	const JString& str
 	)
 {
-	if (itsPG == NULL)
+	if (itsPG == nullptr)
 		{
 		itsPG = JGetCreatePG()->New();
 		itsPG->VariableLengthProcessBeginning(
@@ -303,7 +303,7 @@ DataModule::HandleDataRead
 	if (eval == kGloveFinished)
 		{
 		DeleteBroadcasterTask* dbt = jnew DeleteBroadcasterTask(this);
-		assert(dbt != NULL);
+		assert(dbt != nullptr);
 		dbt->Go();
 		return;
 		}
@@ -311,7 +311,7 @@ DataModule::HandleDataRead
 		{
 		JGetUserNotification()->ReportError("Module Error.");
 		DeleteBroadcasterTask* dbt = jnew DeleteBroadcasterTask(this);
-		assert(dbt != NULL);
+		assert(dbt != nullptr);
 		dbt->Go();
 		return;
 		}
@@ -334,7 +334,7 @@ DataModule::HandleDataRead
 				{
 				JGetUserNotification()->ReportError("Module Error.");
 				DeleteBroadcasterTask* dbt = jnew DeleteBroadcasterTask(this);
-				assert(dbt != NULL);
+				assert(dbt != nullptr);
 				dbt->Go();
 				return;		
 				}
@@ -364,7 +364,7 @@ DataModule::HandleDataRead
 						{
 						JGetUserNotification()->ReportError("Module Error.");
 						DeleteBroadcasterTask* dbt = jnew DeleteBroadcasterTask(this);
-						assert(dbt != NULL);
+						assert(dbt != nullptr);
 						dbt->Go();
 						return;	
 						}
@@ -373,7 +373,7 @@ DataModule::HandleDataRead
 					{
 					JGetUserNotification()->ReportError("Module Error.");
 					DeleteBroadcasterTask* dbt = jnew DeleteBroadcasterTask(this);
-					assert(dbt != NULL);
+					assert(dbt != nullptr);
 					dbt->Go();
 					return;	
 					}
@@ -382,7 +382,7 @@ DataModule::HandleDataRead
 				{
 				JGetUserNotification()->ReportError("Module Error.");
 				DeleteBroadcasterTask* dbt = jnew DeleteBroadcasterTask(this);
-				assert(dbt != NULL);
+				assert(dbt != nullptr);
 				dbt->Go();
 				return;	
 				}
@@ -391,7 +391,7 @@ DataModule::HandleDataRead
 			{
 			JGetUserNotification()->ReportError("Module Error.");
 			DeleteBroadcasterTask* dbt = jnew DeleteBroadcasterTask(this);
-			assert(dbt != NULL);
+			assert(dbt != nullptr);
 			dbt->Go();
 			return;		
 			}
@@ -400,7 +400,7 @@ DataModule::HandleDataRead
 	if (!keepGoing)
 		{
 		DeleteBroadcasterTask* dbt = jnew DeleteBroadcasterTask(this);
-		assert(dbt != NULL);
+		assert(dbt != nullptr);
 		dbt->Go();
 		return;
 		}

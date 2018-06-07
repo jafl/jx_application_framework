@@ -132,7 +132,7 @@ DataTable::Receive
 			// cast the message to an ElementsInserted object
 			const JListT::ElementsInserted* info = 
 				dynamic_cast<const JListT::ElementsInserted*>(&message);
-			assert(info != NULL);
+			assert(info != nullptr);
 
 			// For each element inserted, we insert a row
 			InsertRows(info->GetFirstIndex(), info->GetCount(), kDefRowHeight);
@@ -144,7 +144,7 @@ DataTable::Receive
 			// cast the message to an ElementsRemoved object
 			const JListT::ElementsRemoved* info = 
 				dynamic_cast<const JListT::ElementsRemoved*>(&message);
-			assert(info != NULL);
+			assert(info != nullptr);
 
 			// Remove the corresponding table rows. 
 			RemoveNextRows(info->GetFirstIndex(), info->GetCount());
@@ -156,7 +156,7 @@ DataTable::Receive
 			// cast the message to an ElementsRemoved object
 			const JListT::ElementChanged* info = 
 				dynamic_cast<const JListT::ElementChanged*>(&message);
-			assert(info != NULL);
+			assert(info != nullptr);
 
 			// The element changed, so redraw it.
 			// (This would not be necessary if we were using a

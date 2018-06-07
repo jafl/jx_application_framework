@@ -58,7 +58,7 @@ JArray<CBPrefsManager::DataType>*
 CBPrefsManager::CreateListFn()
 {
 	JArray<DataType>* list = new JArray<DataType>;
-	assert( list != NULL );
+	assert( list != nullptr );
 	list->SetSortOrder(JListT::kSortAscending);
 	list->SetCompareFunction(CompareNameFn);
 	return list;
@@ -108,7 +108,7 @@ CBPrefsManager::CreateAndReadData
 		DataType info;
 
 		info.name = new JString;
-		assert( info.name != NULL );
+		assert( info.name != nullptr );
 
 		listStream >> info.id >> *(info.name);
 
@@ -185,7 +185,7 @@ CBPrefsManager::EditDataFn
 	EditDataArg* initialSelection
 	)
 {
-	assert( DialogVar == NULL );
+	assert( DialogVar == nullptr );
 
 	JArray<DataType>* list = CreateListFn();
 	JIndex firstUnusedID   = FirstDataID;
@@ -197,7 +197,7 @@ CBPrefsManager::EditDataFn
 		const DataType origInfo = ListVar->GetElement(i);
 
 		DataType newInfo(origInfo.id, new JString(*(origInfo.name)), CopyConstr);
-		assert( newInfo.name != NULL && PtrCheck );
+		assert( newInfo.name != nullptr && PtrCheck );
 		list->AppendElement(newInfo);
 
 		if (origInfo.id >= firstUnusedID)
@@ -212,7 +212,7 @@ CBPrefsManager::EditDataFn
 		}
 
 	DialogVar = new DialogClass(list, initialIndex, firstUnusedID);
-	assert( DialogVar != NULL );
+	assert( DialogVar != nullptr );
 	DialogVar->BeginDialog();
 	ListenTo(DialogVar);
 }

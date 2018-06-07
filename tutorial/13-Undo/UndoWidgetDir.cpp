@@ -69,7 +69,7 @@ UndoWidgetDir::BuildWindow()
 {
 		// Create the window
 	JXWindow* window = jnew JXWindow(this, 300,200, "Undo Program");
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	// Set the window sizing
 	window->SetMinSize(300,200);
@@ -80,7 +80,7 @@ UndoWidgetDir::BuildWindow()
 	JXMenuBar* menuBar =
 		jnew JXMenuBar(window, JXWidget::kHElastic, JXWidget::kFixedTop,
 						0,0, 300,kJXDefaultMenuBarHeight);
-	assert( menuBar != NULL );
+	assert( menuBar != nullptr );
 
 	// Attach our menu to the menu bar.
 	itsActionsMenu = menuBar->AppendTextMenu(kActionsMenuTitleStr);
@@ -100,14 +100,14 @@ UndoWidgetDir::BuildWindow()
 		jnew JXScrollbarSet(window,
 			JXWidget::kHElastic, JXWidget::kVElastic,
 			0,kJXDefaultMenuBarHeight, 300,200 - kJXDefaultMenuBarHeight);
-	assert( scrollbarSet != NULL );
+	assert( scrollbarSet != nullptr );
 
 	// Create the custom widget with the scrollbarset as its enclosure
 	itsWidget =
 		jnew UndoWidget(scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 			JXWidget::kHElastic, JXWidget::kVElastic,
 			0, 0, 10, 10);
-	assert( itsWidget != NULL );
+	assert( itsWidget != nullptr );
 
 	// Fit the widget within the scrollbarset enclosure
 	itsWidget->FitToEnclosure(kJTrue, kJTrue);
@@ -146,7 +146,7 @@ UndoWidgetDir::Receive
 		// member function - GetIndex() in this case.
 		 const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 
 		// Pass the index to a menu handler function
 		HandleActionsMenu(selection->GetIndex());

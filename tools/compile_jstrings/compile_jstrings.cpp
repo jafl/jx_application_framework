@@ -181,7 +181,7 @@ main
 			iter.BeginMatch();
 			}
 
-		data2 << "NULL };" << std::endl;
+		data2 << "nullptr };" << std::endl;
 
 		// if the file won't change, don't re-write it
 
@@ -280,7 +280,7 @@ GetOptions
 		else
 			{
 			JString* inputFileName = jnew JString(argv[index], 0);
-			assert( inputFileName != NULL );
+			assert( inputFileName != nullptr );
 
 			if (inputFileName->EndsWith("~") ||
 				inputFileName->BeginsWith("#"))

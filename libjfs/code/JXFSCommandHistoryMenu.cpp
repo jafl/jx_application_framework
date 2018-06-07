@@ -73,7 +73,7 @@ void
 JXFSCommandHistoryMenu::JFSCommandHistoryMenuX()
 {
 	JXImage* icon = jnew JXImage(GetDisplay(), jx_executable_small);
-	assert( icon != NULL );
+	assert( icon != nullptr );
 	SetDefaultIcon(icon, kJTrue);
 }
 
@@ -104,7 +104,7 @@ JXFSCommandHistoryMenu::GetCommand
 
 	const JXMenu::ItemSelected* selection =
 		dynamic_cast<const JXMenu::ItemSelected*>(&message);
-	assert( selection != NULL );
+	assert( selection != nullptr );
 
 	return GetCommand(selection->GetIndex(), type, singleFile);
 }

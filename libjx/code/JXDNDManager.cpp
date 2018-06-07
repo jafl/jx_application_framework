@@ -154,25 +154,25 @@ JXDNDManager::JXDNDManager
 {
 	itsDisplay            = display;
 	itsIsDraggingFlag     = kJFalse;
-	itsDragger            = NULL;
+	itsDragger            = nullptr;
 	itsDraggerWindow      = None;
-	itsTargetFinder       = NULL;
+	itsTargetFinder       = nullptr;
 	itsMouseWindow        = None;
 	itsMouseWindowIsAware = kJFalse;
-	itsMouseContainer     = NULL;
+	itsMouseContainer     = nullptr;
 	itsMsgWindow          = None;
 
 	itsDraggerTypeList = jnew JArray<Atom>;
-	assert( itsDraggerTypeList != NULL );
+	assert( itsDraggerTypeList != nullptr );
 
 	itsDraggerAskActionList = jnew JArray<Atom>;
-	assert( itsDraggerAskActionList != NULL );
+	assert( itsDraggerAskActionList != nullptr );
 
 	itsDraggerAskDescripList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
-	assert( itsDraggerAskDescripList != NULL );
+	assert( itsDraggerAskDescripList != nullptr );
 
-	itsChooseDropActionDialog = NULL;
-	itsUserDropAction         = NULL;
+	itsChooseDropActionDialog = nullptr;
+	itsUserDropAction         = nullptr;
 
 	itsSentFakePasteFlag = kJFalse;
 
@@ -225,21 +225,21 @@ JXDNDManager::BeginDND
 	TargetFinder*			targetFinder
 	)
 {
-	if (itsDragger != NULL)
+	if (itsDragger != nullptr)
 		{
 		return kJFalse;
 		}
 
 	assert( (widget->GetWindow())->IsDragging() );
 
-	if (itsMouseContainer != NULL)
+	if (itsMouseContainer != nullptr)
 		{
 		StopListening(itsMouseContainer);
 		}
 
 	itsMouseWindow               = None;
 	itsMouseWindowIsAware        = kJFalse;
-	itsMouseContainer            = NULL;
+	itsMouseContainer            = nullptr;
 	itsMsgWindow                 = None;
 	itsPrevHandleDNDAction       = None;
 	itsPrevHandleDNDScrollButton = (JXMouseButton) 0;
@@ -256,7 +256,7 @@ JXDNDManager::BeginDND
 		ListenTo(itsDragger);
 		itsDragger->BecomeDNDSource();
 		itsDragger->DNDInit(pt, buttonStates, modifiers);
-		itsDragger->HandleDNDResponse(NULL, kJFalse, None);		// set initial cursor
+		itsDragger->HandleDNDResponse(nullptr, kJFalse, None);		// set initial cursor
 
 		AnnounceTypeList(itsDraggerWindow, *itsDraggerTypeList);
 
@@ -285,7 +285,7 @@ JXDNDManager::HandleDND
 	const JXMouseButton		scrollButton
 	)
 {
-	assert( itsDragger != NULL );
+	assert( itsDragger != nullptr );
 
 	JXContainer* dropWidget;
 	Window xWindow, msgWindow;
@@ -354,10 +354,10 @@ JXDNDManager::FindTarget
 	JBoolean isAware = kJFalse;
 	*xWindow         = None;
 	*msgWindow       = None;
-	*target          = NULL;
+	*target          = nullptr;
 	*vers            = 0;
 
-	if (itsTargetFinder != NULL)
+	if (itsTargetFinder != nullptr)
 		{
 		return itsTargetFinder->FindTarget(coordOwner, pt, xWindow, msgWindow,
 										   target, vers);
@@ -381,7 +381,7 @@ JXDNDManager::FindTarget
 			XClassHint hint;
 			if (XGetClassHint(*itsDisplay, xWindow2, &hint))
 				{
-				if (hint.res_name != NULL &&
+				if (hint.res_name != nullptr &&
 					strcmp(hint.res_name, JXGetDockWindowClass()) == 0)
 					{
 					isDock = kJTrue;
@@ -443,7 +443,7 @@ JXDNDManager::FindTarget
 void
 JXDNDManager::FinishDND()
 {
-	if (itsDragger != NULL)
+	if (itsDragger != nullptr)
 		{
 		itsIsDraggingFlag = kJFalse;		// don't grab ESC any longer
 
@@ -472,9 +472,9 @@ JXDNDManager::CancelDND()
 {
 	if (itsIsDraggingFlag)	// can't use IsDragging() because called if dragger deleted
 		{
-		if (itsDragger != NULL)
+		if (itsDragger != nullptr)
 			{
-			itsDragger->DNDFinish(kJFalse, NULL);
+			itsDragger->DNDFinish(kJFalse, nullptr);
 			}
 		SendDNDLeave();
 		FinishDND1();
@@ -495,27 +495,27 @@ JXDNDManager::FinishDND1()
 	// need to check itsMouseContainer because if drop in other app,
 	// the data has not yet been transferred
 
-	if (itsDragger != NULL && itsMouseContainer != NULL)
+	if (itsDragger != nullptr && itsMouseContainer != nullptr)
 		{
 		itsDragger->DNDCompletelyFinished();
 		}
-	if (itsDragger != NULL)
+	if (itsDragger != nullptr)
 		{
 		itsDragger->FinishDNDSource();
 		StopListening(itsDragger);
 		}
-	if (itsMouseContainer != NULL)
+	if (itsMouseContainer != nullptr)
 		{
 		StopListening(itsMouseContainer);
 		}
 
 	itsIsDraggingFlag     = kJFalse;
-	itsDragger            = NULL;
+	itsDragger            = nullptr;
 	itsDraggerWindow      = None;
-	itsTargetFinder       = NULL;
+	itsTargetFinder       = nullptr;
 	itsMouseWindow        = None;
 	itsMouseWindowIsAware = kJFalse;
-	itsMouseContainer     = NULL;
+	itsMouseContainer     = nullptr;
 	itsMsgWindow          = None;
 }
 
@@ -570,7 +570,7 @@ JXDNDManager::IsDNDAware
 	Atom actualType;
 	int actualFormat;
 	unsigned long itemCount, remainingBytes;
-	unsigned char* rawData = NULL;
+	unsigned char* rawData = nullptr;
 	XGetWindowProperty(*itsDisplay, xWindow, itsAtoms[ kDNDProxyAtomIndex ],
 					   0, LONG_MAX, False, XA_WINDOW,
 					   &actualType, &actualFormat,
@@ -581,7 +581,7 @@ JXDNDManager::IsDNDAware
 		*proxy = *(reinterpret_cast<Window*>(rawData));
 
 		XFree(rawData);
-		rawData = NULL;
+		rawData = nullptr;
 
 		// check XdndProxy on proxy window -- must point to itself
 
@@ -598,7 +598,7 @@ JXDNDManager::IsDNDAware
 		}
 
 	XFree(rawData);
-	rawData = NULL;
+	rawData = nullptr;
 
 	// check XdndAware
 
@@ -662,7 +662,7 @@ JBoolean
 JXDNDManager::DraggerCanProvideText()
 	const
 {
-	if (itsDragger == NULL)
+	if (itsDragger == nullptr)
 		{
 		return kJFalse;
 		}
@@ -697,7 +697,7 @@ JXDNDManager::AnnounceAskActions
 	)
 	const
 {
-	assert( itsDragger != NULL );
+	assert( itsDragger != nullptr );
 
 	itsDraggerAskActionList->RemoveAll();
 	itsDraggerAskDescripList->CleanOut();
@@ -741,7 +741,7 @@ JXDNDManager::GetAskActions
 	)
 	const
 {
-	if (itsDragger != NULL)
+	if (itsDragger != nullptr)
 		{
 		*actionList = *itsDraggerAskActionList;
 		descriptionList->CopyObjects(*itsDraggerAskDescripList,
@@ -755,7 +755,7 @@ JXDNDManager::GetAskActions
 		Atom actualType;
 		int actualFormat;
 		unsigned long itemCount, remainingBytes;
-		unsigned char* rawData = NULL;
+		unsigned char* rawData = nullptr;
 
 		// get action atoms
 
@@ -823,14 +823,14 @@ JXDNDManager::ChooseDropAction
 	Atom*						action
 	)
 {
-	assert( itsChooseDropActionDialog == NULL );
+	assert( itsChooseDropActionDialog == nullptr );
 
 	JXApplication* app = JXGetApplication();
 	app->PrepareForBlockingWindow();
 
 	itsChooseDropActionDialog =
 		jnew JXDNDChooseDropActionDialog(actionList, descriptionList, *action);
-	assert( itsChooseDropActionDialog != NULL );
+	assert( itsChooseDropActionDialog != nullptr );
 
 	ListenTo(itsChooseDropActionDialog);
 	itsChooseDropActionDialog->BeginDialog();
@@ -844,14 +844,14 @@ JXDNDManager::ChooseDropAction
 	itsUserDropAction = action;
 
 	JXWindow* window = itsChooseDropActionDialog->GetWindow();
-	while (itsChooseDropActionDialog != NULL)
+	while (itsChooseDropActionDialog != nullptr)
 		{
 		app->HandleOneEventForWindow(window);
 		}
 
 	app->BlockingWindowFinished();
 
-	itsUserDropAction = NULL;
+	itsUserDropAction = nullptr;
 	return JI2B( *action != None );
 }
 
@@ -872,7 +872,7 @@ JXDNDManager::Receive
 		{
 		const JXDialogDirector::Deactivated* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		if (info->Successful())
 			{
 			*itsUserDropAction = itsChooseDropActionDialog->GetAction();
@@ -881,7 +881,7 @@ JXDNDManager::Receive
 			{
 			*itsUserDropAction = None;
 			}
-		itsChooseDropActionDialog = NULL;
+		itsChooseDropActionDialog = nullptr;
 		}
 
 	else
@@ -913,7 +913,7 @@ JXDNDManager::SendDNDEnter
 	itsMouseContainer     = widget;
 	itsMsgWindow          = msgWindow;
 
-	if (itsMouseContainer != NULL)
+	if (itsMouseContainer != nullptr)
 		{
 		ListenTo(itsMouseContainer);
 		}
@@ -926,9 +926,9 @@ JXDNDManager::SendDNDEnter
 	itsMouseRectR         = JRect(0,0,0,0);
 	itsPrevStatusAction   = None;
 
-	itsDragger->HandleDNDResponse(NULL, kJFalse, None);		// reset cursor
+	itsDragger->HandleDNDResponse(nullptr, kJFalse, None);		// reset cursor
 
-	if (itsMouseContainer != NULL)
+	if (itsMouseContainer != nullptr)
 		{
 		itsPrevHereAction = None;
 		}
@@ -998,7 +998,7 @@ JXDNDManager::SendDNDHere
 						(!itsUseMouseRectFlag || !itsMouseRectR.Contains(ptR) ||
 						 scrollButton != 0) );
 
-	if (itsMouseContainer != NULL)
+	if (itsMouseContainer != nullptr)
 		{
 		// Scroll first, because it affects drop location.
 		// Always call it, in case mouse is inside a scroll zone.
@@ -1095,7 +1095,7 @@ JXDNDManager::SendDNDLeave
 	const JBoolean sendPasteClick
 	)
 {
-	if (itsMouseContainer != NULL)
+	if (itsMouseContainer != nullptr)
 		{
 		if (itsWillAcceptDropFlag)
 			{
@@ -1135,7 +1135,7 @@ JXDNDManager::SendDNDLeave
 									   &dropWidget, &xWindow, &ptG, &ptR);
 
 		const Window rootWindow = itsDisplay->GetRootWindow();
-		if (dropWidget == NULL && xWindow != None && xWindow != rootWindow)
+		if (dropWidget == nullptr && xWindow != None && xWindow != rootWindow)
 			{
 			// this isn't necessary -- our clipboard continues to work as usual
 			// (itsDisplay->GetSelectionManager())->ClearData(kJXClipboardName);
@@ -1145,7 +1145,7 @@ JXDNDManager::SendDNDLeave
 			XSetSelectionOwner(*itsDisplay, kJXClipboardName, xferWindow, CurrentTime);
 			if (XGetSelectionOwner(*itsDisplay, kJXClipboardName) == xferWindow)
 				{
-				PrepareForDrop(NULL);
+				PrepareForDrop(nullptr);
 
 				itsSentFakePasteFlag     = kJTrue;
 				itsFakeButtonPressTime   = lastEventTime+1;
@@ -1194,7 +1194,7 @@ JXDNDManager::SendDNDDrop()
 
 	PrepareForDrop(itsMouseContainer);
 
-	if (itsMouseContainer != NULL)
+	if (itsMouseContainer != nullptr)
 		{
 		itsMouseContainer->DNDDrop(itsPrevMousePt, *itsDraggerTypeList,
 								   itsPrevStatusAction, CurrentTime, itsDragger);
@@ -1237,7 +1237,7 @@ JXDNDManager::PrepareForDrop
 	const JXContainer* target
 	)
 {
-	const JXSelectionData* data = NULL;
+	const JXSelectionData* data = nullptr;
 	if ((itsDisplay->GetSelectionManager())->
 			GetData(itsAtoms[ kDNDSelectionAtomIndex ], CurrentTime, &data))
 		{
@@ -1429,20 +1429,20 @@ JXDNDManager::HandleDNDEnter
 		std::cout << "Received XdndEnter" << std::endl;
 		#endif
 
-		if (itsDragger != NULL)
+		if (itsDragger != nullptr)
 			{
 			StopListening(itsDragger);
 			}
-		if (itsMouseContainer != NULL)
+		if (itsMouseContainer != nullptr)
 			{
 			StopListening(itsMouseContainer);
 			}
 
 		itsIsDraggingFlag = kJFalse;
-		itsDragger        = NULL;
+		itsDragger        = nullptr;
 		itsDraggerWindow  = clientMessage.data.l[ kDNDEnterWindow ];
 		itsMouseWindow    = clientMessage.window;
-		itsMouseContainer = NULL;
+		itsMouseContainer = nullptr;
 		itsPrevHereAction = None;
 
 		XSelectInput(*itsDisplay, itsDraggerWindow, StructureNotifyMask);
@@ -1454,7 +1454,7 @@ JXDNDManager::HandleDNDEnter
 			Atom actualType;
 			int actualFormat;
 			unsigned long itemCount, remainingBytes;
-			unsigned char* rawData = NULL;
+			unsigned char* rawData = nullptr;
 			XGetWindowProperty(*itsDisplay, itsDraggerWindow, itsAtoms[ kDNDTypeListAtomIndex ],
 							   0, LONG_MAX, False, XA_ATOM,
 							   &actualType, &actualFormat,
@@ -1525,7 +1525,7 @@ JXDNDManager::HandleDNDHere
 	const Atom origAction = action;
 
 	JXWindow* window;
-	if (itsMouseContainer != NULL)
+	if (itsMouseContainer != nullptr)
 		{
 		window = itsMouseContainer->GetWindow();
 		ptG    = window->RootToGlobal(ptR);
@@ -1543,7 +1543,7 @@ JXDNDManager::HandleDNDHere
 			pt = itsMouseContainer->GlobalToLocal(ptG);
 			InvokeDNDScroll(clientMessage, pt);
 			itsWillAcceptDropFlag =
-				itsMouseContainer->WillAcceptDrop(*itsDraggerTypeList, &action, pt, time, NULL);
+				itsMouseContainer->WillAcceptDrop(*itsDraggerTypeList, &action, pt, time, nullptr);
 			if (itsWillAcceptDropFlag)
 				{
 				itsMouseContainer->DNDEnter();
@@ -1555,7 +1555,7 @@ JXDNDManager::HandleDNDHere
 			pt = itsMouseContainer->GlobalToLocal(ptG);
 			InvokeDNDScroll(clientMessage, pt);
 			itsWillAcceptDropFlag =
-				itsMouseContainer->WillAcceptDrop(*itsDraggerTypeList, &action, pt, time, NULL);
+				itsMouseContainer->WillAcceptDrop(*itsDraggerTypeList, &action, pt, time, nullptr);
 			if ((action != itsPrevHereAction || !savedAccept) && itsWillAcceptDropFlag)
 				{
 				itsMouseContainer->DNDEnter();
@@ -1574,7 +1574,7 @@ JXDNDManager::HandleDNDHere
 			ListenTo(itsMouseContainer);
 			pt = itsMouseContainer->GlobalToLocal(ptG);
 			itsWillAcceptDropFlag =
-				itsMouseContainer->WillAcceptDrop(*itsDraggerTypeList, &action, pt, time, NULL);
+				itsMouseContainer->WillAcceptDrop(*itsDraggerTypeList, &action, pt, time, nullptr);
 			if (itsWillAcceptDropFlag)
 				{
 				itsMouseContainer->DNDEnter();
@@ -1584,11 +1584,11 @@ JXDNDManager::HandleDNDHere
 
 	itsPrevHereAction = origAction;
 
-	if (itsMouseContainer != NULL && itsWillAcceptDropFlag)
+	if (itsMouseContainer != nullptr && itsWillAcceptDropFlag)
 		{
 		itsPrevMousePt      = pt;
 		itsPrevStatusAction = action;
-		itsMouseContainer->DNDHere(itsPrevMousePt, NULL);
+		itsMouseContainer->DNDHere(itsPrevMousePt, nullptr);
 		SendDNDStatus(kJTrue, action);
 		}
 	else
@@ -1652,7 +1652,7 @@ JXDNDManager::HandleDNDLeave
 void
 JXDNDManager::HandleDNDLeave1()
 {
-	if (itsMouseContainer != NULL && itsWillAcceptDropFlag)
+	if (itsMouseContainer != nullptr && itsWillAcceptDropFlag)
 		{
 		itsMouseContainer->DNDLeave();
 		}
@@ -1688,10 +1688,10 @@ JXDNDManager::HandleDNDDrop
 
 		const Time time = clientMessage.data.l[ kDNDDropTimeStamp ];
 
-		if (itsMouseContainer != NULL && itsWillAcceptDropFlag)
+		if (itsMouseContainer != nullptr && itsWillAcceptDropFlag)
 			{
 			itsMouseContainer->DNDDrop(itsPrevMousePt, *itsDraggerTypeList,
-									   itsPrevStatusAction, time, NULL);
+									   itsPrevStatusAction, time, nullptr);
 			}
 
 		SendDNDFinished();		// do it here because not when HandleDNDLeave()
@@ -1713,20 +1713,20 @@ JXDNDManager::HandleDNDFinished()
 		}
 	StopListening(itsDisplay);
 
-	if (itsDragger != NULL)
+	if (itsDragger != nullptr)
 		{
 		StopListening(itsDragger);
 		}
-	if (itsMouseContainer != NULL)
+	if (itsMouseContainer != nullptr)
 		{
 		StopListening(itsMouseContainer);
 		}
 
 	itsIsDraggingFlag = kJFalse;
-	itsDragger        = NULL;
+	itsDragger        = nullptr;
 	itsDraggerWindow  = None;
 	itsMouseWindow    = None;
-	itsMouseContainer = NULL;
+	itsMouseContainer = nullptr;
 }
 
 /******************************************************************************
@@ -1742,7 +1742,7 @@ JXDNDManager::HandleDNDStatus
 {
 	assert( clientMessage.message_type == itsAtoms[ kDNDStatusAtomIndex ] );
 
-	if (itsDragger != NULL &&
+	if (itsDragger != nullptr &&
 		itsMouseWindow == (Window) clientMessage.data.l[ kDNDStatusWindow ])
 		{
 		#if JXDND_SOURCE_DELAY > 0
@@ -1782,7 +1782,7 @@ JXDNDManager::HandleDNDStatus
 		if (itsWillAcceptDropFlag != savedAccept ||
 			itsPrevStatusAction != action)
 			{
-			itsDragger->HandleDNDResponse(NULL, itsWillAcceptDropFlag, action);
+			itsDragger->HandleDNDResponse(nullptr, itsWillAcceptDropFlag, action);
 			itsPrevStatusAction = action;
 			}
 
@@ -1899,13 +1899,13 @@ JXDNDManager::ReceiveWithFeedback
 	if (sender == itsDisplay && message->Is(JXDisplay::kXError))
 		{
 		JXDisplay::XError* err = dynamic_cast<JXDisplay::XError*>(message);
-		assert( err != NULL );
+		assert( err != nullptr );
 
 		// source: target crashed -- nothing to do
 
 		// target: source crashed
 
-		if (itsDragger == NULL && itsDraggerWindow != None &&
+		if (itsDragger == nullptr && itsDraggerWindow != None &&
 			err->GetType() == BadWindow &&
 			err->GetXID()  == itsDraggerWindow)
 			{
@@ -1940,7 +1940,7 @@ JXDNDManager::HandleDestroyNotify
 	const XDestroyWindowEvent& xEvent
 	)
 {
-	if (itsDragger == NULL && itsDraggerWindow != None &&
+	if (itsDragger == nullptr && itsDraggerWindow != None &&
 		xEvent.window == itsDraggerWindow)
 		{
 		#if JXDND_DEBUG_MSGS
@@ -1974,12 +1974,12 @@ JXDNDManager::ReceiveGoingAway
 {
 	if (sender == itsDragger)
 		{
-		itsDragger = NULL;
+		itsDragger = nullptr;
 		CancelDND();
 		}
 	else if (sender == itsMouseContainer)
 		{
-		itsMouseContainer = NULL;
+		itsMouseContainer = nullptr;
 		}
 	else
 		{

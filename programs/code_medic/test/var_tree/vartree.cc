@@ -113,8 +113,8 @@ struct AModeTab : public VkComponent
 };
 
 const char *const AModeTab::DisplayAMode = "DisplayAMode";
-String AModeTab::_defaultAModeTabResources[] = { NULL };
-UIAppDefault AModeTab::_appDefaults[] = {{ NULL, NULL, NULL, NULL, NULL }};
+String AModeTab::_defaultAModeTabResources[] = { nullptr };
+UIAppDefault AModeTab::_appDefaults[] = {{ nullptr, nullptr, nullptr, nullptr, nullptr }};
 Boolean AModeTab::_initAppDefaults = 0;
 
 template <class T>
@@ -134,7 +134,7 @@ class Pt3 : public Vec3<T>
 {
 public:
 
-	Pt3() { vertfcn = NULL; vert2dfcn = NULL; circfcn = NULL; };
+	Pt3() { vertfcn = nullptr; vert2dfcn = nullptr; circfcn = nullptr; };
 	virtual ~Pt3() {};
 
 	static void (*vertfcn)( T x, T y, T z);
@@ -468,13 +468,13 @@ int main(int argc, char** argv)
 	tab->_aModeTab = (Widget) 0x819d258;
 	tab->_graph    = (ModeGraph*) 0x8182698;
 	tab->_AModes   = (AModeList*) 0x8138c68;
-	tab->_curAMode = NULL;
+	tab->_curAMode = nullptr;
 	tab->ac        = 2;
 	tab->args[0].name  = "name";
 	tab->args[0].value = 135926720;
 	tab->args[1].name  = "itemCount";
 	tab->args[1].value = 18;
-	tab->_default_callback_data.client_data = NULL;
+	tab->_default_callback_data.client_data = nullptr;
 	tab->_default_callback_data.obj = (Widget) 0x819c7d8;
 
 	Pt3<double> v1;

@@ -37,7 +37,7 @@ main
 
 	JBoolean displayLicense;
 	JXWApp* app = jnew JXWApp(&argc, argv, &displayLicense);
-	assert( app != NULL );
+	assert( app != nullptr );
 
 	if (displayLicense &&
 		!(JGetUserNotification())->AcceptLicense())
@@ -46,7 +46,7 @@ main
 		}
 
 	JXWMainDialog* dlog = jnew JXWMainDialog(app, argc, argv);
-	assert( dlog != NULL );
+	assert( dlog != nullptr );
 	dlog->Activate();
 
 	app->Run();

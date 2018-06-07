@@ -75,7 +75,7 @@ CBApp::CBApp
 	)
 	:
 	JXApplication(argc, argv, kAppSignature, kCBDefaultStringData),
-	JPrefObject(NULL, kCBAppID)
+	JPrefObject(nullptr, kCBAppID)
 {
 	itsWarnBeforeQuitFlag = kJFalse;
 
@@ -170,7 +170,7 @@ CBApp::Quit()
 /******************************************************************************
  DisplayAbout
 
-	prevVersStr can be NULL.
+	prevVersStr can be nullptr.
 
  ******************************************************************************/
 
@@ -182,13 +182,13 @@ CBApp::DisplayAbout
 	)
 {
 	CBAboutDialog* dlog = jnew CBAboutDialog(this, prevVersStr);
-	assert( dlog != NULL );
+	assert( dlog != nullptr );
 	dlog->BeginDialog();
 
 	if (init && JString::IsEmpty(prevVersStr))
 		{
 		JXAskInitDockAll* task = jnew JXAskInitDockAll(dlog);
-		assert( task != NULL );
+		assert( task != nullptr );
 		task->Start();
 		}
 }
@@ -202,7 +202,7 @@ void
 CBApp::EditMiscPrefs()
 {
 	CBEditMiscPrefsDialog* dlog = jnew CBEditMiscPrefsDialog();
-	assert( dlog != NULL );
+	assert( dlog != nullptr );
 	dlog->BeginDialog();
 }
 
@@ -299,7 +299,7 @@ CBApp::HandleHelpMenu
 	else if (index == kTipCmd)
 		{
 		JXTipOfTheDayDialog* dlog = jnew JXTipOfTheDayDialog;
-		assert( dlog != NULL );
+		assert( dlog != nullptr );
 		dlog->BeginDialog();
 		}
 
@@ -366,7 +366,7 @@ CBApp::FindFile
 					}
 				}
 			else if (JSearchSubdirs(*(info.path), fileName, kJTrue, caseSensitive,
-									&path, &newName, NULL, &cancelled1))
+									&path, &newName, nullptr, &cancelled1))
 				{
 				*fullName = JCombinePathAndName(path, newName);
 				found     = kJTrue;
@@ -391,7 +391,7 @@ CBApp::FindFile
 			// last thing on the compiler search path.
 
 			if (JSearchSubdirs(kSysIncludeDir, fileName, kJTrue, caseSensitive,
-							   &path, &newName, NULL, &cancelled))
+							   &path, &newName, nullptr, &cancelled))
 				{
 				*fullName = JCombinePathAndName(path, newName);
 				found     = kJTrue;
@@ -454,7 +454,7 @@ CBApp::CollectSearchPaths
 			if (dirList.GetTruePath(i, &truePath, &recurse))
 				{
 				CBDirInfo newInfo(jnew JString(truePath), recurse);
-				assert( newInfo.path != NULL );
+				assert( newInfo.path != nullptr );
 				newInfo.projIndex = j;
 
 				JBoolean found;

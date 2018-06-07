@@ -163,19 +163,19 @@ GXDataDocument::GXDataDocument
 	JXFileDocument(supervisor, fileName, onDisk, kJFalse, ".glv")
 {
 	itsData = jnew GRaggedFloatTableData(0.0);
-	assert( itsData != NULL );
+	assert( itsData != nullptr );
 
 	itsPlotWindows = jnew JPtrArray<PlotDir>(JPtrArrayT::kForgetAll);
-	assert( itsPlotWindows != NULL );
+	assert( itsPlotWindows != nullptr );
 
-	itsPrinter          = NULL;
-	itsFileImportDialog = NULL;
-	itsDelimiterDialog  = NULL;
+	itsPrinter          = nullptr;
+	itsFileImportDialog = nullptr;
+	itsDelimiterDialog  = nullptr;
 
 	BuildWindow();
 
 	itsPrinter = jnew JXPSPrinter(GetDisplay());
-	assert( itsPrinter != NULL );
+	assert( itsPrinter != nullptr );
 	ListenTo(itsPrinter);
 
 	itsPlotNumber = 1;
@@ -213,13 +213,13 @@ GXDataDocument::BuildWindow()
 	JSize h = 360;
 
 	JXWindow* window = jnew JXWindow(this, w,h, "");
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	JXMenuBar* menuBar =
 		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop,
 					0,0, w, kJXDefaultMenuBarHeight);
-	assert( menuBar != NULL );
+	assert( menuBar != nullptr );
 
 	JXToolBar* toolBar =
 		jnew JXToolBar(GetPrefsMgr(), kDataToolBarID, menuBar,
@@ -227,7 +227,7 @@ GXDataDocument::BuildWindow()
 					JXWidget::kHElastic, JXWidget::kVElastic,
 					0,kJXDefaultMenuBarHeight,
 					w,h - kJXDefaultMenuBarHeight);
-	assert( toolBar != NULL );
+	assert( toolBar != nullptr );
 
 	window->SetMinSize(150, 150);
 
@@ -236,19 +236,19 @@ GXDataDocument::BuildWindow()
 	ListenTo(itsFileMenu);
 
 	JXImage* image = jnew JXImage(GetDisplay(), JXPM(filenew));
-	assert(image != NULL);
+	assert(image != nullptr);
 	itsFileMenu->SetItemImage(kNewCmd, image, kJTrue);
 
 	image = jnew JXImage(GetDisplay(), JXPM(fileopen));
-	assert(image != NULL);
+	assert(image != nullptr);
 	itsFileMenu->SetItemImage(kOpenCmd, image, kJTrue);
 
 	image = jnew JXImage(GetDisplay(), JXPM(filefloppy));
-	assert(image != NULL);
+	assert(image != nullptr);
 	itsFileMenu->SetItemImage(kSaveCmd, image, kJTrue);
 
 	image = jnew JXImage(GetDisplay(), JXPM(fileprint));
-	assert(image != NULL);
+	assert(image != nullptr);
 	itsFileMenu->SetItemImage(kPrintCmd, image, kJTrue);
 
 	const JCoordinate scrollheight =
@@ -259,7 +259,7 @@ GXDataDocument::BuildWindow()
 					JXWidget::kHElastic, JXWidget::kVElastic,
 					0,0,
 					w, scrollheight);
-	assert( itsScrollbarSet != NULL );
+	assert( itsScrollbarSet != nullptr );
 
 	AdjustWindowTitle();
 
@@ -275,7 +275,7 @@ GXDataDocument::BuildWindow()
 		jnew JXTextButton("OK", encl,
 						JXWidget::kFixedLeft, JXWidget::kFixedTop,
 						0, 0, kRowHeaderWidth-2, kColHeaderHeight-2);
-	assert(okButton != NULL);
+	assert(okButton != nullptr);
 
 	itsTable =
 		jnew GXRaggedFloatTable(this, okButton, itsData, 6,
@@ -284,7 +284,7 @@ GXDataDocument::BuildWindow()
 							kRowHeaderWidth,kColHeaderHeight,
 							enclApG.width()  - kRowHeaderWidth,
 							enclApG.height() - kColHeaderHeight);
-	assert( itsTable != NULL );
+	assert( itsTable != nullptr );
 
 	enclApG = encl->GetApertureGlobal();	// JXScrollableWidget forces a change in this
 
@@ -293,7 +293,7 @@ GXDataDocument::BuildWindow()
 							  JXWidget::kFixedLeft, JXWidget::kVElastic,
 							  0,kColHeaderHeight, kRowHeaderWidth,
 							  enclApG.height() - kColHeaderHeight);
-	assert( rowHeader != NULL );
+	assert( rowHeader != nullptr );
 
 	GXColHeaderWidget* colHeader =
 		jnew GXColHeaderWidget(itsTable, itsScrollbarSet, encl,
@@ -301,16 +301,16 @@ GXDataDocument::BuildWindow()
 							  kRowHeaderWidth,0, enclApG.width() - kRowHeaderWidth,
 							  kColHeaderHeight);
 	colHeader->TurnOnColResizing(20);
-	assert( colHeader != NULL );
+	assert( colHeader != nullptr );
 
 	JXDocumentMenu* windowListMenu =
 		jnew JXDocumentMenu(kWindowListMenuTitleStr, menuBar,
 			JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
-	assert( windowListMenu != NULL );
+	assert( windowListMenu != nullptr );
 	menuBar->AppendMenu(windowListMenu);
 
 	itsExportMenu = jnew JXTextMenu(itsFileMenu, kExportCmd, menuBar);
-	assert( itsExportMenu != NULL );
+	assert( itsExportMenu != nullptr );
 	itsExportMenu->SetMenuItems(kExportMenuStr);
 	itsExportMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsExportMenu);
@@ -321,7 +321,7 @@ GXDataDocument::BuildWindow()
 	ListenTo(itsHelpMenu);
 
 	image = jnew JXImage(GetDisplay(), JXPM(manual));
-	assert(image != NULL);
+	assert(image != nullptr);
 	itsHelpMenu->SetItemImage(kTOCCmd, image, kJTrue);
 
 	toolBar->LoadPrefs();
@@ -360,7 +360,7 @@ GXDataDocument::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleFileMenu(selection->GetIndex());
 		}
 
@@ -368,7 +368,7 @@ GXDataDocument::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleExportMenu(selection->GetIndex());
 		}
 
@@ -376,7 +376,7 @@ GXDataDocument::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleHelpMenu(selection->GetIndex());
 		}
 
@@ -385,7 +385,7 @@ GXDataDocument::Receive
 		{
 		const JPrinter::PrintSetupFinished* info =
 			dynamic_cast<const JPrinter::PrintSetupFinished*>(&message);
-		assert(info != NULL);
+		assert(info != nullptr);
 		if (info->Successful())
 			{
 			itsTable->PrintRealTable(*itsPrinter);
@@ -396,24 +396,24 @@ GXDataDocument::Receive
 		{
 		const JXDialogDirector::Deactivated* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		if (info->Successful())
 			{
 			LoadImportFile();
 			}
-		itsFileImportDialog = NULL;
+		itsFileImportDialog = nullptr;
 		}
 
 	else if (sender == itsDelimiterDialog && message.Is(JXDialogDirector::kDeactivated))
 		{
 		const JXDialogDirector::Deactivated* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		if (info->Successful())
 			{
 			LoadDelimitedFile();
 			}
-		itsDelimiterDialog = NULL;
+		itsDelimiterDialog = nullptr;
 		}
 
 	else if (sender == itsData && itsListenToData)
@@ -591,9 +591,9 @@ GXDataDocument::LoadNativeFile
 void
 GXDataDocument::ChooseFileFilter()
 {
-	assert (itsFileImportDialog == NULL);
+	assert (itsFileImportDialog == nullptr);
 	itsFileImportDialog = jnew GXChooseFileImportDialog(this, itsCurrentFileName);
-	assert (itsFileImportDialog != NULL);
+	assert (itsFileImportDialog != nullptr);
 	ListenTo(itsFileImportDialog);
 	itsFileImportDialog->BeginDialog();
 }
@@ -619,14 +619,14 @@ GXDataDocument::LoadImportFile()
 			return;
 			}
 
-		const JCharacter* argv[] = { filter, itsCurrentFileName, NULL };
+		const JCharacter* argv[] = { filter, itsCurrentFileName, nullptr };
 
 		int inFD;
 		pid_t pid;
 		JError err = JExecute(argv, sizeof(argv), &pid,
-							  kJIgnoreConnection, NULL,
+							  kJIgnoreConnection, nullptr,
 							  kJCreatePipe, &inFD,
-							  kJIgnoreConnection, NULL);
+							  kJIgnoreConnection, nullptr);
 
 		if (!err.OK())
 			{
@@ -741,11 +741,11 @@ GXDataDocument::CreateNewPlot
 	itsPlotNumber++;
 
 	PlotDir* plotDir = jnew PlotDir(this, this, GetFileName());
-	assert (plotDir != NULL);
+	assert (plotDir != nullptr);
 	itsPlotWindows->Append(plotDir);
 
 	JX2DPlotWidget* plot = plotDir->GetPlot();
-	assert( plot != NULL );
+	assert( plot != nullptr );
 	ListenTo(plot);
 
 	AddToPlot(itsPlotWindows->GetElementCount(), type, xCol, x2Col, yCol, y2Col, linked, label);
@@ -775,10 +775,10 @@ GXDataDocument::AddToPlot
 	assert( itsPlotWindows->IndexValid(plotIndex) );
 
 	PlotDir* plotDir = itsPlotWindows->GetElement(plotIndex);
-	assert (plotDir != NULL);
+	assert (plotDir != nullptr);
 
 	JX2DPlotWidget* plot = plotDir->GetPlot();
-	assert( plot != NULL );
+	assert( plot != nullptr );
 	ListenTo(plot);
 
 	if (type == kDataPlot)
@@ -793,11 +793,11 @@ GXDataDocument::AddToPlot
 			JGetUserNotification()->ReportError("The data columns must have the same number of elements.");
 			return;
 			}
-		if (x2Col != NULL)
+		if (x2Col != nullptr)
 			{
 			curve->SetXErrors(*x2Col);
 			}
-		if (y2Col != NULL)
+		if (y2Col != nullptr)
 			{
 			curve->SetYErrors(*y2Col);
 			}
@@ -837,10 +837,10 @@ GXDataDocument::GetPlotNames
 	for (JIndex i = 1; i <= index; i++)
 		{
 		PlotDir* plotDir = itsPlotWindows->GetElement(i);
-		assert (plotDir != NULL);
+		assert (plotDir != nullptr);
 
 		JX2DPlotWidget* plot = plotDir->GetPlot();
-		assert( plot != NULL );
+		assert( plot != nullptr );
 		name = jnew JString(plot->GetTitle());
 		if (name->GetLength() > kMaxPlotTitleSize)
 			{
@@ -894,7 +894,7 @@ GXDataDocument::WriteTextFile
 	for (JSize i = 1; i <= plotCount; i++)
 		{
 		PlotDir* plotDir = itsPlotWindows->GetElement(i);
-		assert (plotDir != NULL);
+		assert (plotDir != nullptr);
 		plotDir->WriteSetup(output);
 		plotDir->WriteData(output, itsData);
 		}
@@ -922,7 +922,7 @@ GXDataDocument::ReadPlotData
 	for (JSize i = 1; i <= count; i++)
 		{
 		PlotDir* plotDir = jnew PlotDir(this, this, GetFileName());
-		assert (plotDir != NULL);
+		assert (plotDir != nullptr);
 
 		plotDir->ReadSetup(is, gloveVersion);
 		plotDir->ReadData(is, itsData, gloveVersion);
@@ -955,14 +955,14 @@ GXDataDocument::HandleExportMenu
 		JString filename;
 		if (JGetChooseSaveFile()->SaveFile(tempname, "Export file as:", "", &filename))
 			{
-			const JCharacter* argv[] = { modName, filename, NULL };
+			const JCharacter* argv[] = { modName, filename, nullptr };
 
 			int inFD, outFD;
 			pid_t pid;
 			JError err = JExecute(argv, sizeof(argv), &pid,
 								  kJCreatePipe, &outFD,
 								  kJCreatePipe, &inFD,
-								  kJIgnoreConnection, NULL);
+								  kJIgnoreConnection, nullptr);
 
 			if (!err.OK())
 				{
@@ -1106,10 +1106,10 @@ GXDataDocument::LoadInternalFile
 {
 	if (index == kDelimitedText)
 		{
-		assert(itsDelimiterDialog == NULL);
+		assert(itsDelimiterDialog == nullptr);
 		itsDelimiterDialog =
 			jnew GXGetDelimiterDialog(this, itsFileImportDialog->GetFileText());
-		assert(itsDelimiterDialog != NULL);
+		assert(itsDelimiterDialog != nullptr);
 		ListenTo(itsDelimiterDialog);
 		itsDelimiterDialog->BeginDialog();
 		}
@@ -1127,7 +1127,7 @@ GXDataDocument::LoadInternalFile
 void
 GXDataDocument::LoadDelimitedFile()
 {
-	assert(itsDelimiterDialog != NULL);
+	assert(itsDelimiterDialog != nullptr);
 
 	const GXGetDelimiterDialog::DelimiterType type = itsDelimiterDialog->GetDelimiterType();
 	JCharacter delim;

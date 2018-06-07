@@ -57,12 +57,12 @@ JIndex i;
 	for (i=1; i<=varCount; i++)
 		{
 		JString* name = jnew JString;
-		assert( name != NULL );
+		assert( name != nullptr );
 		input >> *name;
 		itsNames->Append(name);
 
 		JString* fStr = jnew JString;
-		assert( fStr != NULL );
+		assert( fStr != nullptr );
 		input >> *fStr;
 		JFunction* f;
 		if (JParseFunction(*fStr, this, &f))
@@ -72,7 +72,7 @@ JIndex i;
 			}
 		else
 			{
-			itsFunctions->Append(NULL);
+			itsFunctions->Append(nullptr);
 			misfitIndexList.AppendElement(i + kUserFnOffset);
 			misfitFnList.Append(fStr);
 			}
@@ -99,10 +99,10 @@ void
 THXVarList::THXVarListX()
 {
 	itsNames = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
-	assert( itsNames != NULL );
+	assert( itsNames != nullptr );
 
 	itsFunctions = jnew JPtrArray<JFunction>(JPtrArrayT::kDeleteAll);
-	assert( itsFunctions != NULL );
+	assert( itsFunctions != nullptr );
 
 	InstallOrderedSet(itsNames);
 
@@ -111,19 +111,19 @@ THXVarList::THXVarListX()
 	itsNames->Append(kXName);
 
 	itsXValue = jnew JConstantValue(0.0);
-	assert( itsXValue != NULL );
+	assert( itsXValue != nullptr );
 	itsFunctions->Append(itsXValue);
 
 	itsNames->Append(kYName);
 
 	itsYValue = jnew JConstantValue(0.0);
-	assert( itsYValue != NULL );
+	assert( itsYValue != nullptr );
 	itsFunctions->Append(itsYValue);
 
 	itsNames->Append(kTName);
 
 	itsTValue = jnew JConstantValue(0.0);
-	assert( itsTValue != NULL );
+	assert( itsTValue != nullptr );
 	itsFunctions->Append(itsTValue);
 }
 
@@ -147,7 +147,7 @@ JIndex
 THXVarList::NewFunction()
 {
 	JString* name = jnew JString;
-	assert( name != NULL );
+	assert( name != nullptr );
 
 	JIndex i = 1,j;
 	do
@@ -164,7 +164,7 @@ THXVarList::NewFunction()
 	itsNames->Append(name);
 
 	JFunction* f = jnew JConstantValue(0.0);
-	assert( f != NULL );
+	assert( f != nullptr );
 	itsFunctions->Append(f);
 
 	const JIndex varIndex = GetElementCount();

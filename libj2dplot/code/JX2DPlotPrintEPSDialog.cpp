@@ -90,7 +90,7 @@ JX2DPlotPrintEPSDialog::Create
 	)
 {
 	JX2DPlotPrintEPSDialog* dlog = jnew JX2DPlotPrintEPSDialog;
-	assert( dlog != NULL );
+	assert( dlog != nullptr );
 	dlog->BuildWindow(fileName, printPreview, bw, w, h, unit);
 	return dlog;
 }
@@ -186,74 +186,74 @@ JX2DPlotPrintEPSDialog::BuildWindow
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 370,190, JString::empty);
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	JXTextButton* chooseFileButton =
 		jnew JXTextButton(JGetString("chooseFileButton::JX2DPlotPrintEPSDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 80,20);
-	assert( chooseFileButton != NULL );
+	assert( chooseFileButton != nullptr );
 	chooseFileButton->SetShortcuts(JGetString("chooseFileButton::JX2DPlotPrintEPSDialog::shortcuts::JXLayout"));
 
 	JXTextButton* okButton =
 		jnew JXTextButton(JGetString("okButton::JX2DPlotPrintEPSDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 230,160, 70,20);
-	assert( okButton != NULL );
+	assert( okButton != nullptr );
 	okButton->SetShortcuts(JGetString("okButton::JX2DPlotPrintEPSDialog::shortcuts::JXLayout"));
 
 	JXTextButton* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::JX2DPlotPrintEPSDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 80,160, 70,20);
-	assert( cancelButton != NULL );
+	assert( cancelButton != nullptr );
 	cancelButton->SetShortcuts(JGetString("cancelButton::JX2DPlotPrintEPSDialog::shortcuts::JXLayout"));
 
 	JXTextCheckbox* bwCB =
 		jnew JXTextCheckbox(JGetString("bwCB::JX2DPlotPrintEPSDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 190,120, 150,20);
-	assert( bwCB != NULL );
+	assert( bwCB != nullptr );
 	bwCB->SetShortcuts(JGetString("bwCB::JX2DPlotPrintEPSDialog::shortcuts::JXLayout"));
 
 	JXTextCheckbox* previewCB =
 		jnew JXTextCheckbox(JGetString("previewCB::JX2DPlotPrintEPSDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 30,120, 130,20);
-	assert( previewCB != NULL );
+	assert( previewCB != nullptr );
 	previewCB->SetShortcuts(JGetString("previewCB::JX2DPlotPrintEPSDialog::shortcuts::JXLayout"));
 
 	JXFileInput* fileInput =
 		jnew JXFileInput(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 100,20, 250,20);
-	assert( fileInput != NULL );
+	assert( fileInput != nullptr );
 
 	itsWidthInput =
 		jnew JXFloatInput(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 70,60, 60,20);
-	assert( itsWidthInput != NULL );
+	assert( itsWidthInput != nullptr );
 
 	itsHeightInput =
 		jnew JXFloatInput(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 70,80, 60,20);
-	assert( itsHeightInput != NULL );
+	assert( itsHeightInput != nullptr );
 
 	JXStaticText* widthLabel =
 		jnew JXStaticText(JGetString("widthLabel::JX2DPlotPrintEPSDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,60, 50,20);
-	assert( widthLabel != NULL );
+	assert( widthLabel != nullptr );
 	widthLabel->SetToLabel();
 
 	JXStaticText* heightLabel =
 		jnew JXStaticText(JGetString("heightLabel::JX2DPlotPrintEPSDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,80, 50,20);
-	assert( heightLabel != NULL );
+	assert( heightLabel != nullptr );
 	heightLabel->SetToLabel();
 
 	itsUnitMenu =
 		jnew JXTextMenu(JGetString("itsUnitMenu::JX2DPlotPrintEPSDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 130,70, 60,20);
-	assert( itsUnitMenu != NULL );
+	assert( itsUnitMenu != nullptr );
 
 	itsPredefSizeMenu =
 		jnew JXTextMenu(JGetString("itsPredefSizeMenu::JX2DPlotPrintEPSDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 220,65, 120,30);
-	assert( itsPredefSizeMenu != NULL );
+	assert( itsPredefSizeMenu != nullptr );
 
 // end JXLayout
 
@@ -348,7 +348,7 @@ JX2DPlotPrintEPSDialog::Receive
 		{
 		 const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleUnitMenu(selection->GetIndex());
 		}
 
@@ -356,7 +356,7 @@ JX2DPlotPrintEPSDialog::Receive
 		{
 		 const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandlePredefSizeMenu(selection->GetIndex());
 		}
 

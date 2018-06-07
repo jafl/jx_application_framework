@@ -62,7 +62,7 @@ SVNInfoLog::SVNInfoLog
 	SVNTextBase(director, editMenu, scrollbarSet, enclosure, hSizing, vSizing, x, y, w, h),
 	itsFullName(fullName),
 	itsRevision(JStringEmpty(rev) ? "" : rev),
-	itsContextMenu(NULL)
+	itsContextMenu(nullptr)
 {
 }
 
@@ -100,7 +100,7 @@ SVNInfoLog::StartProcess
 	cmd += JPrepArgForExec(itsFullName);
 
 	return JProcess::Create(p, cmd,
-							kJIgnoreConnection, NULL,
+							kJIgnoreConnection, nullptr,
 							kJForceNonblockingPipe, outFD,
 							kJAttachToFromFD);
 }
@@ -121,7 +121,7 @@ SVNInfoLog::Execute
 	pid_t pid;
 	int outFD, errFD;
 	JError err = JExecute(cmd, &pid,
-						  kJIgnoreConnection, NULL,
+						  kJIgnoreConnection, nullptr,
 						  kJCreatePipe, &outFD,
 						  kJCreatePipe, &errFD);
 	if (!err.OK())
@@ -242,7 +242,7 @@ SVNInfoLog::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleContextMenu(selection->GetIndex());
 		}
 
@@ -260,10 +260,10 @@ SVNInfoLog::Receive
 void
 SVNInfoLog::CreateContextMenu()
 {
-	if (itsContextMenu == NULL)
+	if (itsContextMenu == nullptr)
 		{
 		itsContextMenu = jnew JXTextMenu("", this, kFixedLeft, kFixedTop, 0,0, 10,10);
-		assert( itsContextMenu != NULL );
+		assert( itsContextMenu != nullptr );
 		itsContextMenu->SetMenuItems(kContextMenuStr, "SVNInfoLog");
 		itsContextMenu->SetUpdateAction(JXMenu::kDisableNone);
 		itsContextMenu->SetToHiddenPopupMenu();

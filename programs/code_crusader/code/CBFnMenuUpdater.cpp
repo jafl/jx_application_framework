@@ -181,7 +181,7 @@ CBFnMenuUpdater::ReadFunctionList
 	while (1)
 		{
 		JString* fnName = jnew JString;
-		assert( fnName != NULL );
+		assert( fnName != nullptr );
 
 		input >> std::ws;
 		*fnName = JReadUntil(input, '\t');	// fn name

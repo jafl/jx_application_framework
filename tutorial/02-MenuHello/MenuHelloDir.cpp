@@ -68,7 +68,7 @@ MenuHelloDir::BuildWindow()
 {
 	// Create the window and give it to the director.
 	JXWindow* window = jnew JXWindow(this, 200,100, "Hello World Program");
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	// This sets the minimum and maximum size to be the
 	// current size.
@@ -79,7 +79,7 @@ MenuHelloDir::BuildWindow()
 	JXMenuBar* menuBar =
 		jnew JXMenuBar(window, JXWidget::kHElastic, JXWidget::kFixedTop,
 						0,0, 200,kJXDefaultMenuBarHeight);
-	assert( menuBar != NULL );
+	assert( menuBar != nullptr );
 
 	// Attach our menu to the menu bar.
 	itsTextMenu = menuBar->AppendTextMenu(kTextMenuTitleStr);
@@ -100,7 +100,7 @@ MenuHelloDir::BuildWindow()
 		jnew JXStaticText("Hello world!", window,
 			JXWidget::kFixedLeft, JXWidget::kFixedTop,
 			20, 40, 160, 20);
-	assert( itsText != NULL );
+	assert( itsText != nullptr );
 }
 
 /******************************************************************************
@@ -136,7 +136,7 @@ MenuHelloDir::Receive
 		// member function - GetIndex() in this case.
 		 const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 
 		// Pass the index to a menu handler function
 		HandleTextMenu(selection->GetIndex());

@@ -54,7 +54,7 @@ protected:
 
 private:
 
-	JXImage*	itsImage;			// can be NULL
+	JXImage*	itsImage;			// can be nullptr
 	JBoolean	itsOwnsImageFlag;
 
 	JXAdjustIWBoundsTask*	itsAdjustBoundsTask;
@@ -80,7 +80,7 @@ inline JBoolean
 JXImageWidget::HasImage()
 	const
 {
-	return JConvertToBoolean( itsImage != NULL );
+	return JConvertToBoolean( itsImage != nullptr );
 }
 
 /******************************************************************************
@@ -96,7 +96,7 @@ JXImageWidget::GetImage
 	const
 {
 	*image = itsImage;
-	return JConvertToBoolean( itsImage != NULL );
+	return JConvertToBoolean( itsImage != nullptr );
 }
 
 #endif

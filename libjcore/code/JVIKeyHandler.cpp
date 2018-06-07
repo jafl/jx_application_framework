@@ -38,7 +38,7 @@ JVIKeyHandler::JVIKeyHandler
 	JTEKeyHandler(te)
 {
 	itsDefKeyHandler = jnew JTEDefaultKeyHandler(te);
-	assert( itsDefKeyHandler != NULL );
+	assert( itsDefKeyHandler != nullptr );
 	itsDefKeyHandler->Initialize();
 }
 
@@ -318,7 +318,7 @@ JVIKeyHandler::HandleKeyPress
 	else if (key == 'P' || key == 'p')
 		{
 		CutBuffer* buf = GetCutBuffer(cutbufPattern);
-		if (buf->buf != NULL)
+		if (buf->buf != nullptr)
 			{
 			const JTextEditor::TextIndex i = te->GetInsertionIndex();
 			if (buf->line)
@@ -552,10 +552,10 @@ JVIKeyHandler::CutBuffer::Set
 	const JBoolean l
 	)
 {
-	if (buf == NULL)
+	if (buf == nullptr)
 	{
 		buf = jnew JString;
-		assert( buf != NULL );
+		assert( buf != nullptr );
 	}
 
 	buf->Set(s);

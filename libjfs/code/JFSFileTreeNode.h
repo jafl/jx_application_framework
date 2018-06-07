@@ -27,7 +27,7 @@ public:
 	JError				Rename(const JCharacter* newName,
 							   const JBoolean sort = kJTrue);
 	virtual JBoolean	Update(const JBoolean force = kJFalse,
-							   JFSFileTreeNodeBase** updateNode = NULL);
+							   JFSFileTreeNodeBase** updateNode = nullptr);
 	void				UpdatePath(const Message& message);
 	void				UpdatePath(const JString& oldPath, const JString& newPath);
 
@@ -66,7 +66,7 @@ protected:
 private:
 
 	JDirEntry*	itsDirEntry;
-	JDirInfo*	itsDirInfo;		// can be NULL
+	JDirInfo*	itsDirInfo;		// can be nullptr
 
 private:
 

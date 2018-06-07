@@ -29,7 +29,7 @@ protected:
 
 private:
 
-	JFontManager*	itsFontManager;		// can be NULL
+	JFontManager*	itsFontManager;		// can be nullptr
 };
 
 #endif

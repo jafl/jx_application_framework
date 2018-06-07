@@ -122,7 +122,7 @@ THXBaseConvMenu::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		itsItemIndex = selection->GetIndex();
 		Broadcast(BaseChanged(GetBase()));
 		}

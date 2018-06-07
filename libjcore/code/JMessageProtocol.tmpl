@@ -60,7 +60,7 @@ JMessageProtocol<ACE_PEER_STREAM_2>::JMessageProtocol
 	JMessageProtocolX();
 
 	ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH>::set_handle(fd);
-	ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH>::open(NULL);
+	ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH>::open(nullptr);
 }
 
 // private
@@ -75,7 +75,7 @@ JMessageProtocol<ACE_PEER_STREAM_2>::JMessageProtocolX()
 	itsBufferOffset = 0;
 
 	itsBuffer = jnew JUtf8Byte [ itsBufferSize ];
-	assert( itsBuffer != NULL );
+	assert( itsBuffer != nullptr );
 
 	UseUNIXProtocol();
 
@@ -204,7 +204,7 @@ JMessageProtocol<ACE_PEER_STREAM_2>::SetBufferSize
 
 	jdelete [] itsBuffer;
 	itsBuffer = jnew JUtf8Byte [ itsBufferSize ];
-	assert( itsBuffer != NULL );
+	assert( itsBuffer != nullptr );
 }
 
 /******************************************************************************
@@ -487,7 +487,7 @@ JString*
 JMessageProtocol<ACE_PEER_STREAM_2>::NewMessage()
 {
 	JString* msg = jnew JString;
-	assert( msg != NULL );
+	assert( msg != nullptr );
 	itsMessageList.Append(msg);
 	return msg;
 }

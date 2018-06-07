@@ -49,14 +49,14 @@ GLNonLinearFitDialog::GLNonLinearFitDialog
 	JXDialogDirector(supervisor, kJTrue)
 {
 	itsVarList	= jnew GVarList();
-	assert(itsVarList != NULL);
+	assert(itsVarList != nullptr);
 
 	itsVarList->AddVariable("x", 0);
 
 	BuildWindow();
 
 	itsDelButtonTask	= jnew JXTimerTask(kDeleteButtonUpdateDelay);
-	assert(itsDelButtonTask != NULL);
+	assert(itsDelButtonTask != nullptr);
 	itsDelButtonTask->Start();
 	ListenTo(itsDelButtonTask);
 }
@@ -100,33 +100,33 @@ GLNonLinearFitDialog::BuildWindow()
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 400,430, "");
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	JXMenuBar* menuBar =
 		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 400,30);
-	assert( menuBar != NULL );
+	assert( menuBar != nullptr );
 
 	itsPartition =
 		jnew JXVertPartition(heights, elasticIndex, minHeights, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 10,40, 380,345);
-	assert( itsPartition != NULL );
+	assert( itsPartition != nullptr );
 
 	JXTextButton* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::GLNonLinearFitDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kVElastic, 20,400, 70,20);
-	assert( cancelButton != NULL );
+	assert( cancelButton != nullptr );
 	cancelButton->SetShortcuts(JGetString("cancelButton::GLNonLinearFitDialog::shortcuts::JXLayout"));
 
 	itsHelpButton =
 		jnew JXTextButton(JGetString("itsHelpButton::GLNonLinearFitDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kVElastic, 165,400, 70,20);
-	assert( itsHelpButton != NULL );
+	assert( itsHelpButton != nullptr );
 
 	JXTextButton* okButton =
 		jnew JXTextButton(JGetString("okButton::GLNonLinearFitDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kVElastic, 310,400, 70,20);
-	assert( okButton != NULL );
+	assert( okButton != nullptr );
 	okButton->SetShortcuts(JGetString("okButton::GLNonLinearFitDialog::shortcuts::JXLayout"));
 
 // end JXLayout
@@ -142,23 +142,23 @@ GLNonLinearFitDialog::BuildWindow()
 	itsNameInput =
 		jnew JXInputField(container,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 120,0, 260,20);
-	assert( itsNameInput != NULL );
+	assert( itsNameInput != nullptr );
 
 	JXScrollbarSet* scrollbarSet =
 		jnew JXScrollbarSet(container,
 					JXWidget::kHElastic, JXWidget::kVElastic, 120,20, 260,100);
-	assert( scrollbarSet != NULL );
+	assert( scrollbarSet != nullptr );
 
 	JXStaticText* fitNameLabel =
 		jnew JXStaticText(JGetString("fitNameLabel::GLNonLinearFitDialog::functionLayout"), container,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,0, 110,20);
-	assert( fitNameLabel != NULL );
+	assert( fitNameLabel != nullptr );
 	fitNameLabel->SetToLabel();
 
 	JXStaticText* fitFnLabel =
 		jnew JXStaticText(JGetString("fitFnLabel::GLNonLinearFitDialog::functionLayout"), container,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,20, 110,20);
-	assert( fitFnLabel != NULL );
+	assert( fitFnLabel != nullptr );
 	fitFnLabel->SetToLabel();
 
 	container->SetSize(functionLayout_Frame.width(), functionLayout_Frame.height());
@@ -170,7 +170,7 @@ GLNonLinearFitDialog::BuildWindow()
 			scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 			JXWidget::kHElastic, JXWidget::kVElastic,
 			0, 0, 100, 100);
-	assert(itsFnEditor != NULL);
+	assert(itsFnEditor != nullptr);
 	itsFnEditor->FitToEnclosure(kJTrue, kJTrue);
 
 	container	= itsPartition->GetCompartment(2);
@@ -184,18 +184,18 @@ GLNonLinearFitDialog::BuildWindow()
 	JXStaticText* derivativeLabel =
 		jnew JXStaticText(JGetString("derivativeLabel::GLNonLinearFitDialog::derivativeLayout"), container,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,0, 100,20);
-	assert( derivativeLabel != NULL );
+	assert( derivativeLabel != nullptr );
 	derivativeLabel->SetToLabel();
 
 	scrollbarSet =
 		jnew JXScrollbarSet(container,
 					JXWidget::kHElastic, JXWidget::kVElastic, 120,0, 260,100);
-	assert( scrollbarSet != NULL );
+	assert( scrollbarSet != nullptr );
 
 	JXStaticText* warningText =
 		jnew JXStaticText(JGetString("warningText::GLNonLinearFitDialog::derivativeLayout"), container,
 					JXWidget::kHElastic, JXWidget::kVElastic, 20,20, 90,60);
-	assert( warningText != NULL );
+	assert( warningText != nullptr );
 	warningText->SetFontSize(JGetDefaultFontSize()-2);
 
 	container->SetSize(derivativeLayout_Frame.width(), derivativeLayout_Frame.height());
@@ -207,7 +207,7 @@ GLNonLinearFitDialog::BuildWindow()
 			scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 			JXWidget::kHElastic, JXWidget::kVElastic,
 			0, 0, 100, 100);
-	assert(itsDerivativeEditor != NULL);
+	assert(itsDerivativeEditor != nullptr);
 	itsDerivativeEditor->FitToEnclosure(kJTrue, kJTrue);
 
 	container	= itsPartition->GetCompartment(3);
@@ -221,24 +221,24 @@ GLNonLinearFitDialog::BuildWindow()
 	scrollbarSet =
 		jnew JXScrollbarSet(container,
 					JXWidget::kHElastic, JXWidget::kVElastic, 120,0, 260,100);
-	assert( scrollbarSet != NULL );
+	assert( scrollbarSet != nullptr );
 
 	JXStaticText* parmLabel =
 		jnew JXStaticText(JGetString("parmLabel::GLNonLinearFitDialog::variableLayout"), container,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,0, 100,20);
-	assert( parmLabel != NULL );
+	assert( parmLabel != nullptr );
 	parmLabel->SetToLabel();
 
 	itsNewButton =
 		jnew JXTextButton(JGetString("itsNewButton::GLNonLinearFitDialog::variableLayout"), container,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 40,30, 65,20);
-	assert( itsNewButton != NULL );
+	assert( itsNewButton != nullptr );
 	itsNewButton->SetShortcuts(JGetString("itsNewButton::GLNonLinearFitDialog::shortcuts::variableLayout"));
 
 	itsDeleteButton =
 		jnew JXTextButton(JGetString("itsDeleteButton::GLNonLinearFitDialog::variableLayout"), container,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 40,60, 65,20);
-	assert( itsDeleteButton != NULL );
+	assert( itsDeleteButton != nullptr );
 
 	container->SetSize(variableLayout_Frame.width(), variableLayout_Frame.height());
 
@@ -249,7 +249,7 @@ GLNonLinearFitDialog::BuildWindow()
 			scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 			JXWidget::kHElastic, JXWidget::kVElastic,
 			0, 0, 100, 100);
-	assert(itsVarTable != NULL);
+	assert(itsVarTable != nullptr);
 	itsVarTable->FitToEnclosure(kJTrue, kJTrue);
 
 	ListenTo(itsNewButton);

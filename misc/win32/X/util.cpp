@@ -57,12 +57,12 @@ XStringListToTextProperty
 	long length = 0;
 	for (int i=0; i<count; i++)
 		{
-		length += strlen(list[i]) + 1;	// include NULL
+		length += strlen(list[i]) + 1;	// include nullptr
 		}
-	length++;	// extra NULL
+	length++;	// extra nullptr
 
 	unsigned char* value = (unsigned char*) malloc(length);
-	if (value != NULL)
+	if (value != nullptr)
 		{
 		char* p = (char*) value;
 		for (int i=0; i<count; i++)

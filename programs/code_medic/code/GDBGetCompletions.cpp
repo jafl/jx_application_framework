@@ -79,7 +79,7 @@ GDBGetCompletions::HandleSuccess
 		if (j > i)
 			{
 			JString* s = jnew JString(data, JIndexRange(i, j-1));
-			assert( s != NULL );
+			assert( s != nullptr );
 			s->TrimWhitespace();
 			if (s->IsEmpty() || !lines.InsertSorted(s, kJFalse))
 				{
@@ -93,7 +93,7 @@ GDBGetCompletions::HandleSuccess
 	if (i <= data.GetLength())
 		{
 		JString* s = jnew JString(data, JIndexRange(i, data.GetLength()));
-		assert( s != NULL );
+		assert( s != nullptr );
 		s->TrimWhitespace();
 		if (s->IsEmpty() || !lines.InsertSorted(s, kJFalse))
 			{

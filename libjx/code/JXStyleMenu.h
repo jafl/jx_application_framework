@@ -68,7 +68,7 @@ private:
 
 	// used when selecting custom color
 
-	JXChooseColorDialog*	itsChooseColorDialog;	// can be NULL
+	JXChooseColorDialog*	itsChooseColorDialog;	// can be nullptr
 
 private:
 

@@ -114,19 +114,19 @@ CMLineIndexTable::CMLineIndexTable
 	const JCoordinate	h
 	)
 	:
-	JXTable(1, 1, NULL, enclosure, hSizing, vSizing, x, y, w, h),
+	JXTable(1, 1, nullptr, enclosure, hSizing, vSizing, x, y, w, h),
 	itsDirector(dir),
 	itsText(text),
 	itsVScrollbar(scrollbarSet->GetVScrollbar()),
 	itsCurrentLineIndex(0),
-	itsLineMenu(NULL),
-	itsDeselectTask(NULL)
+	itsLineMenu(nullptr),
+	itsDeselectTask(nullptr)
 {
 	itsLink = CMGetLink();
 	ListenTo(itsLink);
 
 	itsBPList = jnew JPtrArray<CMBreakpoint>(JPtrArrayT::kForgetAll);
-	assert(itsBPList != NULL);
+	assert(itsBPList != nullptr);
 	itsBPList->SetCompareFunction(bpCcompareFn);
 	itsBPList->SetSortOrder(JListT::kSortAscending);
 
@@ -140,7 +140,7 @@ CMLineIndexTable::CMLineIndexTable
 	AppendCols(3);
 
 	CMAdjustLineTableToTextTask* task = jnew CMAdjustLineTableToTextTask(this);
-	assert( task != NULL );
+	assert( task != nullptr );
 	task->Go();
 
 	ListenTo(itsText);
@@ -330,7 +330,7 @@ CMLineIndexTable::DrawBreakpoint
 	the given rowIndex.  Returns kJTrue if the breakpoint is on the
 	specified line.
 
-	If multiple != NULL, it it set to kJTrue if there is more than one
+	If multiple != nullptr, it it set to kJTrue if there is more than one
 	breakpoint on the specified line.
 
  ******************************************************************************/
@@ -342,7 +342,7 @@ CMLineIndexTable::FindNextBreakpoint
 	JBoolean*		multiple
 	)
 {
-	if (multiple != NULL)
+	if (multiple != nullptr)
 		{
 		*multiple = kJFalse;
 		}
@@ -353,7 +353,7 @@ CMLineIndexTable::FindNextBreakpoint
 		const JIndex i   = itsText->CRLineIndexToVisualLineIndex(GetBreakpointLineIndex(itsBPDrawIndex, bp));
 		if (i == rowIndex)
 			{
-			if (multiple != NULL && itsBPList->IndexValid(itsBPDrawIndex+1))
+			if (multiple != nullptr && itsBPList->IndexValid(itsBPDrawIndex+1))
 				{
 				*multiple = BreakpointsOnSameLine(bp, itsBPList->GetElement(itsBPDrawIndex+1));
 				}
@@ -407,7 +407,7 @@ CMLineIndexTable::HandleMouseDown
 	const JXKeyModifiers&	modifiers
 	)
 {
-	if (ScrollForWheel(button, modifiers, NULL, itsVScrollbar))
+	if (ScrollForWheel(button, modifiers, nullptr, itsVScrollbar))
 		{
 		return;
 		}
@@ -493,10 +493,10 @@ CMLineIndexTable::OpenLineMenu
 	const JIndex			firstBPIndex
 	)
 {
-	if (itsLineMenu == NULL)
+	if (itsLineMenu == nullptr)
 		{
 		itsLineMenu = jnew JXTextMenu("", this, kFixedLeft, kFixedTop, 0,0, 10,10);
-		assert( itsLineMenu != NULL );
+		assert( itsLineMenu != nullptr );
 		itsLineMenu->SetToHiddenPopupMenu(kJTrue);
 		itsLineMenu->SetUpdateAction(JXMenu::kDisableNone);
 		ListenTo(itsLineMenu);
@@ -552,10 +552,10 @@ CMLineIndexTable::OpenLineMenu
 	JTableSelection& s = GetTableSelection();
 	s.ClearSelection();
 	s.SelectRow(lineIndex);
-	if (itsDeselectTask == NULL)
+	if (itsDeselectTask == nullptr)
 		{
 		itsDeselectTask = jnew CMDeselectLineTask(this);
-		assert( itsDeselectTask != NULL );
+		assert( itsDeselectTask != nullptr );
 		itsDeselectTask->Start();
 		}
 
@@ -727,7 +727,7 @@ CMLineIndexTable::Receive
 		{
 		const JXScrollbar::Scrolled* info =
 			dynamic_cast<const JXScrollbar::Scrolled*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		ScrollTo(0, info->GetValue());
 		}
 
@@ -759,7 +759,7 @@ CMLineIndexTable::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleLineMenu(selection->GetIndex());
 		}
 

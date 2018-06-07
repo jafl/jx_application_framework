@@ -44,13 +44,13 @@ JXBusyIconTask::JXBusyIconTask
 	JXAnimationTask(widget)
 {
 	itsImageList = jnew JPtrArray<JXImage>(JPtrArrayT::kDeleteAll, kBusyIconCount);
-	assert( itsImageList != NULL );
+	assert( itsImageList != nullptr );
 
 	JXDisplay* display = widget->GetDisplay();
 	for (JIndex i=1; i<=kBusyIconCount; i++)
 		{
 		JXImage* icon = jnew JXImage(display, kBusyIcon[i-1]);
-		assert( icon != NULL );
+		assert( icon != nullptr );
 		itsImageList->Append(icon);
 		}
 }

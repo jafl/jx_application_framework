@@ -41,7 +41,7 @@ protected:
 
 private:
 
-	CBJavaTreeScanner*	itsClassNameLexer;	// NULL unless parsing
+	CBJavaTreeScanner*	itsClassNameLexer;	// nullptr unless parsing
 
 private:
 

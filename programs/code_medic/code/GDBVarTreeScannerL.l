@@ -15,7 +15,7 @@ This scanner reads output from gdb's print command.
 
 #define NEW_TOKEN(s) \
 	lvalp->pString = jnew JString(s); \
-	assert( lvalp->pString != NULL );
+	assert( lvalp->pString != nullptr );
 %}
 
 %option c++ yyclass = "GDBVarTreeScanner" prefix="GDBVar"

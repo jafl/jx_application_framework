@@ -19,9 +19,9 @@
 class JFontManager;
 class JWebBrowser;
 
-void JInitCore(JAssertBase* ah = NULL, const JUtf8Byte* appSignature = NULL,
-			   const JUtf8Byte** defaultStringData = NULL, JUserNotification* un = NULL,
-			   JChooseSaveFile* csf = NULL, JCreateProgressDisplay* cpg = NULL);
+void JInitCore(JAssertBase* ah = nullptr, const JUtf8Byte* appSignature = nullptr,
+			   const JUtf8Byte** defaultStringData = nullptr, JUserNotification* un = nullptr,
+			   JChooseSaveFile* csf = nullptr, JCreateProgressDisplay* cpg = nullptr);
 void JSetWebBrowser(JWebBrowser* webBrowser);
 
 void JDeleteGlobals();

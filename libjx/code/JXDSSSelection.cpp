@@ -87,7 +87,7 @@ JXDSSSelection::ConvertData
 		Atom actualType;
 		int actualFormat;
 		unsigned long itemCount, remainingBytes;
-		unsigned char* rawData = NULL;
+		unsigned char* rawData = nullptr;
 		XGetWindowProperty(*(GetDisplay()), itsWindow->GetXWindow(),
 						   dndMgr->GetDNDDirectSave0XAtom(),
 						   0, LONG_MAX, True, selMgr->GetMimePlainTextXAtom(),
@@ -101,16 +101,16 @@ JXDSSSelection::ConvertData
 							   urlList(JPtrArrayT::kDeleteAll);
 			JXUnpackFileNames((char*) rawData, itemCount, &fileNameList, &urlList);
 
-			if (itsAction != NULL && !fileNameList.IsEmpty())
+			if (itsAction != nullptr && !fileNameList.IsEmpty())
 				{
 				itsAction->Save(*(fileNameList.GetFirstElement()));
 				}
-			else if (itsAction != NULL)
+			else if (itsAction != nullptr)
 				{
 				jdelete itsAction;
 				(JGetUserNotification())->ReportError(JGetString("MustSaveSameOnComputer::JXDSSSelection"));
 				}
-			const_cast<JXDSSSelection*>(this)->itsAction = NULL;
+			const_cast<JXDSSSelection*>(this)->itsAction = nullptr;
 			}
 
 		XFree(rawData);
@@ -120,14 +120,14 @@ JXDSSSelection::ConvertData
 		*returnType = XA_STRING;
 		*dataLength = 1;
 		*data = jnew unsigned char[ *dataLength ];
-		if (*data != NULL)
+		if (*data != nullptr)
 			{
 			**data = 0x45;	// E
 			return kJTrue;
 			}
 		}
 
-	*data       = NULL;
+	*data       = nullptr;
 	*dataLength = 0;
 	*returnType = None;
 	return kJFalse;

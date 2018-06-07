@@ -113,7 +113,7 @@ JXStyleMenu::JXStyleMenu
 void
 JXStyleMenu::JXStyleMenuX()
 {
-	itsChooseColorDialog = NULL;
+	itsChooseColorDialog = nullptr;
 
 	if (JXMenu::GetDefaultStyle() == kMacintoshStyle)
 		{
@@ -192,7 +192,7 @@ JXStyleMenu::CreateMenuWindow
 {
 	JXStyleMenuDirector* dir =
 		jnew JXStyleMenuDirector(supervisor, this, GetTextMenuData());
-	assert( dir != NULL );
+	assert( dir != nullptr );
 	return dir;
 }
 
@@ -216,7 +216,7 @@ JXStyleMenu::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 
 		const JIndex i = selection->GetIndex();
 		if (i == kCustomColorCmd)
@@ -238,14 +238,14 @@ JXStyleMenu::Receive
 		{
 		const JXDialogDirector::Deactivated* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		if (info->Successful())
 			{
 			itsColorIndex = itsChooseColorDialog->GetColor();
 			SetCustomColor(itsColorIndex);
 			HandleMenuItem(kCustomColorCmd);
 			}
-		itsChooseColorDialog = NULL;
+		itsChooseColorDialog = nullptr;
 		}
 
 	else
@@ -382,12 +382,12 @@ JXStyleMenu::UpdateStyle
 void
 JXStyleMenu::ChooseColor()
 {
-	assert( itsChooseColorDialog == NULL );
+	assert( itsChooseColorDialog == nullptr );
 
 	JXWindowDirector* supervisor = GetWindow()->GetDirector();
 	itsChooseColorDialog =
 		jnew JXChooseColorDialog(supervisor, IndexToColor(kCustomColorCmd));
-	assert( itsChooseColorDialog != NULL );
+	assert( itsChooseColorDialog != nullptr );
 
 	ListenTo(itsChooseColorDialog);
 	itsChooseColorDialog->BeginDialog();

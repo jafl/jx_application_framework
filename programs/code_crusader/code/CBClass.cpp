@@ -214,7 +214,7 @@ JIndex i;
 		{
 		ParentInfo pInfo;
 		pInfo.name = jnew JString;
-		assert( pInfo.name != NULL );
+		assert( pInfo.name != nullptr );
 
 		input >> *(pInfo.name) >> pInfo.indexFromFile >> pInfo.inheritance;
 		itsParentInfo->AppendElement(pInfo);
@@ -229,7 +229,7 @@ JIndex i;
 		{
 		FunctionInfo fInfo;
 		fInfo.name = jnew JString;
-		assert( fInfo.name != NULL );
+		assert( fInfo.name != nullptr );
 		JBoolean pureVirtual;
 		input >> *(fInfo.name) >> fInfo.access >> pureVirtual;
 		fInfo.implemented = !pureVirtual;
@@ -246,9 +246,9 @@ CBClass::CBClass
 	:
 	itsFullName(name),
 	itsName(name),
-	itsTree(NULL),
-	itsParentInfo(NULL),
-	itsFunctionInfo(NULL)
+	itsTree(nullptr),
+	itsParentInfo(nullptr),
+	itsFunctionInfo(nullptr)
 {
 }
 
@@ -263,13 +263,13 @@ CBClass::CBClassX
 	itsTree = tree;
 
 	itsParentInfo = jnew JArray<ParentInfo>;
-	assert( itsParentInfo != NULL );
+	assert( itsParentInfo != nullptr );
 
 	itsHasPrimaryChildrenFlag   = kJFalse;
 	itsHasSecondaryChildrenFlag = kJFalse;
 
 	itsFunctionInfo = jnew JArray<FunctionInfo>;
-	assert( itsFunctionInfo != NULL );
+	assert( itsFunctionInfo != nullptr );
 	itsFunctionInfo->SetCompareFunction(CompareFunctionNames);
 	itsFunctionInfo->SetSortOrder(JListT::kSortAscending);
 
@@ -284,13 +284,13 @@ CBClass::CBClassX
 /******************************************************************************
  Destructor
 
-	Any or all can be NULL if we were constructed as a search target.
+	Any or all can be nullptr if we were constructed as a search target.
 
  ******************************************************************************/
 
 CBClass::~CBClass()
 {
-	if (itsParentInfo != NULL)
+	if (itsParentInfo != nullptr)
 		{
 		const JSize pCount = itsParentInfo->GetElementCount();
 		for (JIndex i=1; i<=pCount; i++)
@@ -301,7 +301,7 @@ CBClass::~CBClass()
 		jdelete itsParentInfo;
 		}
 
-	if (itsFunctionInfo != NULL)
+	if (itsFunctionInfo != nullptr)
 		{
 		const JSize fCount = itsFunctionInfo->GetElementCount();
 		for (JIndex i=1; i<=fCount; i++)
@@ -446,8 +446,8 @@ CBClass::AddParent
 	const JCharacter* name
 	)
 {
-	ParentInfo pInfo(jnew JString(name), NULL, type);
-	assert( pInfo.name != NULL );
+	ParentInfo pInfo(jnew JString(name), nullptr, type);
+	assert( pInfo.name != nullptr );
 	itsParentInfo->AppendElement(pInfo);
 }
 
@@ -465,7 +465,7 @@ CBClass::ClearConnections()
 	for (JIndex i=1; i<=parentCount; i++)
 		{
 		ParentInfo pInfo = itsParentInfo->GetElement(i);
-		pInfo.parent     = NULL;
+		pInfo.parent     = nullptr;
 		itsParentInfo->SetElement(i, pInfo);
 		}
 
@@ -478,7 +478,7 @@ CBClass::ClearConnections()
 
 	Search the class tree for our parents and update itsParentInfo.
 
-	Returns kJTrue if it managed to fill in another NULL parent.
+	Returns kJTrue if it managed to fill in another nullptr parent.
 
  ******************************************************************************/
 
@@ -494,7 +494,7 @@ CBClass::FindParents
 	for (JIndex i=1; i<=parentCount; i++)
 		{
 		ParentInfo pInfo             = itsParentInfo->GetElement(i);
-		const JBoolean parentWasNull = JConvertToBoolean( pInfo.parent == NULL );
+		const JBoolean parentWasNull = JConvertToBoolean( pInfo.parent == nullptr );
 
 		if (parentWasNull &&
 			!FindParent(&pInfo, okToCreateGhost) && okToCreateGhost)
@@ -502,7 +502,7 @@ CBClass::FindParents
 			pInfo.parent = NewGhost(*(pInfo.name), itsTree);
 			}
 
-		if (parentWasNull && pInfo.parent != NULL)
+		if (parentWasNull && pInfo.parent != nullptr)
 			{
 			foundAnotherParent = kJTrue;
 			(pInfo.parent)->AddChild(this, JI2B(i==1));
@@ -600,7 +600,7 @@ CBClass::NewGhost
 	)
 {
 	assert_msg( 0, "The programmer forgot to override CBClass::NewGhost()" );
-	return NULL;
+	return nullptr;
 }
 
 /******************************************************************************
@@ -615,7 +615,7 @@ CBClass::GetNamespaceOperator()
 	const
 {
 	assert_msg( 0, "The programmer forgot to override CBClass::GetNamespaceOperator()" );
-	return NULL;
+	return nullptr;
 }
 
 /******************************************************************************
@@ -669,11 +669,11 @@ CBClass::GetParent
 		{
 		ParentInfo pInfo = itsParentInfo->GetElement(index);
 		*parent          = pInfo.parent;
-		return JConvertToBoolean( *parent != NULL );
+		return JConvertToBoolean( *parent != nullptr );
 		}
 	else
 		{
-		*parent = NULL;
+		*parent = nullptr;
 		return kJFalse;
 		}
 }
@@ -748,7 +748,7 @@ CBClass::AddFunction
 	)
 {
 	FunctionInfo fInfo(jnew JString(name), access, implemented);
-	assert( fInfo.name != NULL );
+	assert( fInfo.name != nullptr );
 
 	itsFunctionInfo->InsertSorted(fInfo);
 	if (!implemented)

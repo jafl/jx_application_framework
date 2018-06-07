@@ -36,7 +36,7 @@ JXDeleteObjectTask<T>::Delete
 	)
 {
 	JXDeleteObjectTask<T>* task = jnew JXDeleteObjectTask<T>(obj);
-	assert( task != NULL );
+	assert( task != nullptr );
 	task->Start();
 }
 
@@ -56,7 +56,7 @@ JXDeleteObjectTask<T>::JXDeleteObjectTask
 	itsObject = obj;
 
 	JBroadcaster* b = dynamic_cast<JBroadcaster*>(obj);
-	if (b != NULL)
+	if (b != nullptr)
 		{
 		ListenTo(b);
 		}
@@ -87,7 +87,7 @@ JXDeleteObjectTask<T>::Perform
 	)
 {
 	jdelete itsObject;
-	itsObject = NULL;
+	itsObject = nullptr;
 	jdelete this;
 }
 
@@ -106,7 +106,7 @@ JXDeleteObjectTask<T>::ReceiveGoingAway
 	JBroadcaster* b = dynamic_cast<JBroadcaster*>(itsObject);
 	if (sender == b)
 		{
-		itsObject = NULL;
+		itsObject = nullptr;
 		}
 	else
 		{

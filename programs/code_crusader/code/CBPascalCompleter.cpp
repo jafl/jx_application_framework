@@ -10,7 +10,7 @@
 #include "CBPascalCompleter.h"
 #include <jAssert.h>
 
-CBPascalCompleter* CBPascalCompleter::itsSelf = NULL;
+CBPascalCompleter* CBPascalCompleter::itsSelf = nullptr;
 
 static const JCharacter* kKeywordList[] =
 {
@@ -53,12 +53,12 @@ static JBoolean recursiveInstance = kJFalse;
 CBStringCompleter*
 CBPascalCompleter::Instance()
 {
-	if (itsSelf == NULL && !recursiveInstance)
+	if (itsSelf == nullptr && !recursiveInstance)
 		{
 		recursiveInstance = kJTrue;
 
 		itsSelf = jnew CBPascalCompleter;
-		assert( itsSelf != NULL );
+		assert( itsSelf != nullptr );
 
 		recursiveInstance = kJFalse;
 		}
@@ -95,7 +95,7 @@ CBPascalCompleter::CBPascalCompleter()
 
 CBPascalCompleter::~CBPascalCompleter()
 {
-	itsSelf = NULL;
+	itsSelf = nullptr;
 }
 
 /******************************************************************************

@@ -33,7 +33,7 @@ JXImageRadioButton::JXImageRadioButton
 	:
 	JXRadioButton(id, enclosure, hSizing, vSizing, x,y, w,h)
 {
-	itsImage         = NULL;
+	itsImage         = nullptr;
 	itsOwnsImageFlag = kJTrue;
 
 	SetBorderWidth(kJXDefaultBorderWidth);
@@ -79,7 +79,7 @@ JXImageRadioButton::SetBitmap
 		}
 
 	itsImage = jnew JXImage(GetDisplay(), bitmap, foreColor, backColor);
-	assert( itsImage != NULL );
+	assert( itsImage != nullptr );
 
 	itsOwnsImageFlag = kJTrue;
 
@@ -100,7 +100,7 @@ JXImageRadioButton::SetImage
 	)
 {
 	JXImage* image = jnew JXImage(GetDisplay(), xpm);
-	assert( image != NULL );
+	assert( image != nullptr );
 	SetImage(image, kJTrue, backColor);
 }
 
@@ -148,7 +148,7 @@ JXImageRadioButton::Draw
 	const JRect&		rect
 	)
 {
-	if (itsImage != NULL)
+	if (itsImage != nullptr)
 		{
 		p.Image(*itsImage, itsImage->GetBounds(), GetBounds());
 		}

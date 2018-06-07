@@ -46,7 +46,7 @@ JError		JRenameDirectory(const JString& oldName, const JString& newName);
 JError		JChangeDirectory(const JString& dirName);
 JError		JRemoveDirectory(const JString& dirName);
 JBoolean	JKillDirectory(const JString& dirName, const JBoolean sync = kJTrue,
-						   JProcess** p = NULL);
+						   JProcess** p = nullptr);
 
 JString		JGetCurrentDirectory();
 JBoolean	JGetHomeDirectory(JString* homeDir);
@@ -57,12 +57,12 @@ JBoolean	JGetTempDirectory(JString* tempDir);
 JBoolean	JGetTrueName(const JString& name, JString* trueName);
 JBoolean	JSearchSubdirs(const JString& startPath, const JString& name,
 						   const JBoolean isFile, const JBoolean caseSensitive,
-						   JString* path, JString* newName = NULL,
-						   JProgressDisplay* pg = NULL,
-						   JBoolean* userCancelled = NULL);
+						   JString* path, JString* newName = nullptr,
+						   JProgressDisplay* pg = nullptr,
+						   JBoolean* userCancelled = nullptr);
 
 JString		JGetUniqueDirEntryName(const JString& path, const JString& namePrefix,
-								   const JUtf8Byte* nameSuffix = NULL,
+								   const JUtf8Byte* nameSuffix = nullptr,
 								   const JIndex startIndex = 1);
 JError		JCreateTempDirectory(const JString* path, const JString* prefix,
 								 JString* fullName);
@@ -81,11 +81,11 @@ JBoolean	JConvertToAbsolutePath(const JString& path, const JString* base, JStrin
 JString		JConvertToRelativePath(const JString& path, const JString& base);
 
 JBoolean	JExpandHomeDirShortcut(const JString& path, JString* result,
-								   JString* homeDir = NULL, JSize* homeLength = NULL);
+								   JString* homeDir = nullptr, JSize* homeLength = nullptr);
 JString		JConvertToHomeDirShortcut(const JString& path);
 JString		JGetClosestDirectory(const JString& origDirName,
 								 const JBoolean requireWrite = kJFalse,
-								 const JString* basePath = NULL);
+								 const JString* basePath = nullptr);
 
 #ifdef WIN32
 JBoolean	JGetDirectoryFromCSIDL(const int folderCSIDL, JString* path);
@@ -98,7 +98,7 @@ JCreateTempDirectory
 	JString* fullName
 	)
 {
-	return JCreateTempDirectory(NULL, NULL, fullName);
+	return JCreateTempDirectory(nullptr, nullptr, fullName);
 }
 
 #endif

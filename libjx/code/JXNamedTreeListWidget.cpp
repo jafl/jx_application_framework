@@ -61,7 +61,7 @@ JXNamedTreeListWidget::JXNamedTreeListWidget
 	JXTreeListWidget(treeList, scrollbarSet, enclosure, hSizing,vSizing, x,y, w,h)
 {
 	itsNamedTreeList       = treeList;
-	itsNameInputField      = NULL;
+	itsNameInputField      = nullptr;
 	itsHilightTextOnlyFlag = kJFalse;
 
 	WantInput(kJTrue);
@@ -163,7 +163,7 @@ JXNamedTreeListWidget::GetImage
 	)
 	const
 {
-	*image = NULL;
+	*image = nullptr;
 	return kJFalse;
 }
 
@@ -321,7 +321,7 @@ JXNamedTreeListWidget::GetMinCellWidth
 
 		JSize textWidth = kEmptyTextWidth;
 		JPoint editCell;
-		JXInputField* input = NULL;
+		JXInputField* input = nullptr;
 		if (GetEditedCell(&editCell) && editCell == cell &&
 			GetXInputField(&input) && !input->GetText()->IsEmpty())
 			{
@@ -459,7 +459,7 @@ JXNamedTreeListWidget::CreateXInputField
 	const JCoordinate	h
 	)
 {
-	assert( itsNameInputField == NULL );
+	assert( itsNameInputField == nullptr );
 
 	const JCoordinate dx = JIndex(cell.x) == GetNodeColIndex() ?
 							GetInputFieldIndent(cell.y) :
@@ -468,7 +468,7 @@ JXNamedTreeListWidget::CreateXInputField
 
 	itsNameInputField =
 		CreateTreeListInput(cell, this, kFixedLeft, kFixedTop, x+dx,y, w-dx,h);
-	assert( itsNameInputField != NULL );
+	assert( itsNameInputField != nullptr );
 
 	JFont font = GetFont();
 	font.SetStyle(GetCellStyle(cell));
@@ -500,7 +500,7 @@ JXNamedTreeListWidget::CreateTreeListInput
 	)
 {
 	JXInputField* obj = jnew JXInputField(enclosure, hSizing, vSizing, x,y, w,h);
-	assert( obj != NULL );
+	assert( obj != nullptr );
 	return obj;
 }
 
@@ -520,7 +520,7 @@ JXNamedTreeListWidget::ExtractInputData
 	const JPoint& cell
 	)
 {
-	assert( itsNameInputField != NULL );
+	assert( itsNameInputField != nullptr );
 
 	if (JIndex(cell.x) == GetNodeColIndex() && itsNameInputField->InputValid())
 		{
@@ -542,7 +542,7 @@ JXNamedTreeListWidget::ExtractInputData
 void
 JXNamedTreeListWidget::PrepareDeleteXInputField()
 {
-	itsNameInputField = NULL;
+	itsNameInputField = nullptr;
 }
 
 /******************************************************************************

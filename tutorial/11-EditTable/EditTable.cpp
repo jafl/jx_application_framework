@@ -81,9 +81,9 @@ EditTable::EditTable
 	// This will be our data, but we don't own it so we can't delete it.
 	itsData = data;
 
-	// We need to set this to NULL in case we receive a message before
+	// We need to set this to nullptr in case we receive a message before
 	// we create it.
-	itsTableMenu = NULL;
+	itsTableMenu = nullptr;
 
 	// This data needs only one column
 	AppendCols(1, kDefColWidth);
@@ -108,9 +108,9 @@ EditTable::EditTable
 	// The table needs to listen to the menu for messages.
 	ListenTo(itsTableMenu);
 
-	// This is NULL, because we want to make sure we only create one at
+	// This is nullptr, because we want to make sure we only create one at
 	// a time.
-	itsIntegerInputField = NULL;
+	itsIntegerInputField = nullptr;
 }
 
 /******************************************************************************
@@ -198,7 +198,7 @@ EditTable::Receive
 			// cast the message to an ElementsInserted object
 			const JListT::ElementsInserted* info =
 				dynamic_cast<const JListT::ElementsInserted*>(&message);
-			assert(info != NULL);
+			assert(info != nullptr);
 
 			// For each element inserted, we insert a row
 			InsertRows(info->GetFirstIndex(), info->GetCount(), kDefRowHeight);
@@ -210,7 +210,7 @@ EditTable::Receive
 			// cast the message to an ElementsRemoved object
 			const JListT::ElementsRemoved* info =
 				dynamic_cast<const JListT::ElementsRemoved*>(&message);
-			assert(info != NULL);
+			assert(info != nullptr);
 
 			// Remove corresponding table rows.
 			RemoveNextRows(info->GetFirstIndex(), info->GetCount());
@@ -222,7 +222,7 @@ EditTable::Receive
 			// cast the message to an ElementsRemoved object
 			const JListT::ElementChanged* info =
 				dynamic_cast<const JListT::ElementChanged*>(&message);
-			assert(info != NULL);
+			assert(info != nullptr);
 
 			// The element changed, so redraw it.
 			// (This would not be necessary if we were using a
@@ -247,7 +247,7 @@ EditTable::Receive
 			// This will tell us which item was selected.
 			const JXMenu::ItemSelected* info =
 				dynamic_cast<const JXMenu::ItemSelected*>(&message);
-			assert(info != NULL);
+			assert(info != nullptr);
 
 			// Pass the selected menu item to our menu handler function.
 			HandleTableMenu(info->GetIndex());
@@ -442,11 +442,11 @@ EditTable::CreateXInputField
 	)
 {
 	// We are not supposed to have more than one input field.
-	assert( itsIntegerInputField == NULL );
+	assert( itsIntegerInputField == nullptr );
 
 	// Create the input field
 	itsIntegerInputField = jnew JXIntegerInput(this, kFixedLeft, kFixedTop, x,y,w,h);
-	assert( itsIntegerInputField != NULL );
+	assert( itsIntegerInputField != nullptr );
 
 	// Set the input field's value to that of the cell.
 	itsIntegerInputField->SetValue(itsData->GetElement(cell.y));
@@ -475,7 +475,7 @@ EditTable::ExtractInputData
 	)
 {
 	// This better exist if this is called!
-	assert( itsIntegerInputField != NULL );
+	assert( itsIntegerInputField != nullptr );
 
 	// If the data is invalid, return kJFalse.
 	// This tells JTable to not stop editing.
@@ -510,8 +510,8 @@ EditTable::ExtractInputData
 void
 EditTable::PrepareDeleteXInputField()
 {
-	// Set the input field to NULL after an edit so we know that we have no
+	// Set the input field to nullptr after an edit so we know that we have no
 	// currently allocated input field.
 
-	itsIntegerInputField = NULL;
+	itsIntegerInputField = nullptr;
 }

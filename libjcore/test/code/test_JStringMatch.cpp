@@ -20,10 +20,10 @@ public:
 		(
 		const JString&			target,
 		const JUtf8ByteRange&	byteRange,
-		JArray<JUtf8ByteRange>*	list = NULL
+		JArray<JUtf8ByteRange>*	list = nullptr
 		)
 		:
-		JStringMatch(target, byteRange, NULL, list)
+		JStringMatch(target, byteRange, nullptr, list)
 	{ }
 
 	void
@@ -106,7 +106,7 @@ JTEST(Submatches)
 	JString s("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", 0);
 
 	JArray<JUtf8ByteRange>* list1 = jnew JArray<JUtf8ByteRange>();
-	assert( list1 != NULL );
+	assert( list1 != nullptr );
 	list1->AppendElement(JUtf8ByteRange(11,12));
 	list1->AppendElement(JUtf8ByteRange(9, 14));
 	list1->AppendElement(JUtf8ByteRange(7, 7));

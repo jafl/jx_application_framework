@@ -121,7 +121,7 @@ JRunArrayIterator<T>::Prev
 	T* item
 	)
 {
-	if (itsRunArray == NULL || (itsRunIndex == 1 && itsOffsetInRun == 0))
+	if (itsRunArray == nullptr || (itsRunIndex == 1 && itsOffsetInRun == 0))
 		{
 		return kJFalse;
 		}
@@ -157,7 +157,7 @@ JRunArrayIterator<T>::Next
 	T* item
 	)
 {
-	if (itsRunArray == NULL || itsRunIndex > itsRunArray->GetRunCount())
+	if (itsRunArray == nullptr || itsRunIndex > itsRunArray->GetRunCount())
 		{
 		return kJFalse;
 		}
@@ -191,7 +191,7 @@ JRunArrayIterator<T>::SkipPrev
 	)
 {
 	JCursorPosition cursorPos = JListIterator<T>::GetCursor();
-	if (itsRunArray != NULL)
+	if (itsRunArray != nullptr)
 		{
 		JSize remaining = count;
 		while (remaining > 0 && cursorPos > 0)
@@ -233,7 +233,7 @@ JRunArrayIterator<T>::SkipNext
 	)
 {
 	JCursorPosition cursorPos = JListIterator<T>::GetCursor();
-	if (itsRunArray != NULL)
+	if (itsRunArray != nullptr)
 		{
 		const JSize maxPos = itsRunArray->GetElementCount();
 
@@ -430,7 +430,7 @@ JRunArrayIterator<T>::MoveTo
 {
 	JListIterator<T>::MoveTo(newPosition, index);
 
-	if (itsRunArray == NULL)
+	if (itsRunArray == nullptr)
 		{
 		return;
 		}
@@ -486,7 +486,7 @@ JRunArrayIterator<T>::OrderedSetChanged
 
 	if (message.Is(JListT::kGoingAway))
 		{
-		itsRunArray    = NULL;
+		itsRunArray    = nullptr;
 		itsRunIndex    = 0;
 		itsOffsetInRun = 0;
 		}

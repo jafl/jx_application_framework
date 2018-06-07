@@ -36,7 +36,7 @@ JPackedTableData<T>::JPackedTableData
 	itsDefValue(defValue)
 {
 	itsData = jnew JRunArray< T >;
-	assert( itsData != NULL );
+	assert( itsData != nullptr );
 }
 
 /******************************************************************************
@@ -54,7 +54,7 @@ JPackedTableData<T>::JPackedTableData
 	itsDefValue(source.itsDefValue)
 {
 	itsData = jnew JRunArray< T >(*(source.itsData));
-	assert( itsData != NULL );
+	assert( itsData != nullptr );
 }
 
 /******************************************************************************
@@ -464,14 +464,14 @@ JPackedTableData<T>::InsertRows
 	const JList<T>*	initData
 	)
 {
-	assert( initData == NULL || initData->GetElementCount() == GetColCount() );
+	assert( initData == nullptr || initData->GetElementCount() == GetColCount() );
 
 	if (count > 0)
 		{
 		const JIndex trueIndex = JMin(index, GetRowCount()+1);
 
 		const JSize colCount = GetColCount();
-		if (initData != NULL)
+		if (initData != nullptr)
 			{
 			for (JIndex i=colCount; i>=1; i--)
 				{
@@ -663,14 +663,14 @@ JPackedTableData<T>::InsertCols
 	const JList<T>*	initData
 	)
 {
-	assert( initData == NULL || initData->GetElementCount() == GetRowCount() );
+	assert( initData == nullptr || initData->GetElementCount() == GetRowCount() );
 
 	if (count > 0)
 		{
 		const JIndex trueIndex = JMin(index, GetColCount()+1);
 
 		const JSize rowCount = GetRowCount();
-		if (initData != NULL)
+		if (initData != nullptr)
 			{
 			const JIndex startIndex = RCToI(1,trueIndex);
 			for (JIndex j=1; j<=count; j++)

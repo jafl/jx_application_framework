@@ -76,9 +76,9 @@ JXTextSelection::JXTextSelection
 void
 JXTextSelection::JXTextSelectionX()
 {
-	itsText  = NULL;
-	itsStyle = NULL;
-	itsTE    = NULL;
+	itsText  = nullptr;
+	itsStyle = nullptr;
+	itsTE    = nullptr;
 
 	itsStyledText0XAtom = None;
 }
@@ -113,7 +113,7 @@ JXTextSelection::AddTypes
 	if (selectionName != GetDNDSelectionName())
 		{
 		AddType(selMgr->GetUtf8StringXAtom());
-		if (itsText == NULL || itsText->IsAscii())
+		if (itsText == nullptr || itsText->IsAscii())
 			{
 			AddType(XA_STRING);
 			}
@@ -125,8 +125,8 @@ JXTextSelection::AddTypes
 
 	Makes a copy of text and style.
 
-	colormap and style can be NULL.
-	If style != NULL, colormap must not be NULL.
+	colormap and style can be nullptr.
+	If style != nullptr, colormap must not be nullptr.
 
  ******************************************************************************/
 
@@ -137,32 +137,32 @@ JXTextSelection::SetData
 	const JRunArray<JFont>*	style
 	)
 {
-	if (itsText != NULL)
+	if (itsText != nullptr)
 		{
 		*itsText = text;
 		}
 	else
 		{
 		itsText = jnew JString(text);
-		assert( itsText != NULL );
+		assert( itsText != nullptr );
 		}
 
-	if (style != NULL && itsStyle != NULL)
+	if (style != nullptr && itsStyle != nullptr)
 		{
 		*itsStyle = *style;
 		}
-	else if (style != NULL && itsStyle == NULL)
+	else if (style != nullptr && itsStyle == nullptr)
 		{
 		itsStyle = jnew JRunArray<JFont>(*style);
-		assert( itsStyle != NULL );
+		assert( itsStyle != nullptr );
 		}
 	else
 		{
 		jdelete itsStyle;
-		itsStyle = NULL;
+		itsStyle = nullptr;
 		}
 
-	SetTextEditor(NULL, JCharacterRange());
+	SetTextEditor(nullptr, JCharacterRange());
 }
 
 /******************************************************************************
@@ -170,8 +170,8 @@ JXTextSelection::SetData
 
 	Takes ownership of text and style.
 
-	colormap and style can be NULL.
-	If style != NULL, colormap must not be NULL.
+	colormap and style can be nullptr.
+	If style != nullptr, colormap must not be nullptr.
 
  ******************************************************************************/
 
@@ -188,7 +188,7 @@ JXTextSelection::SetData
 	jdelete itsStyle;
 	itsStyle = style;
 
-	SetTextEditor(NULL, JCharacterRange());
+	SetTextEditor(nullptr, JCharacterRange());
 }
 
 /******************************************************************************
@@ -205,10 +205,10 @@ JXTextSelection::SetData
 	const JPtrArray<JString>& list
 	)
 {
-	if (itsText == NULL)
+	if (itsText == nullptr)
 		{
 		itsText = jnew JString;
-		assert( itsText != NULL );
+		assert( itsText != nullptr );
 		}
 	else
 		{
@@ -216,9 +216,9 @@ JXTextSelection::SetData
 		}
 
 	jdelete itsStyle;
-	itsStyle = NULL;
+	itsStyle = nullptr;
 
-	SetTextEditor(NULL, JCharacterRange());
+	SetTextEditor(nullptr, JCharacterRange());
 
 	*itsText = list.Join("\n");
 	if (list.GetElementCount() > 1)
@@ -241,12 +241,12 @@ JXTextSelection::SetTextEditor
 	const JCharacterRange&	selection
 	)
 {
-	if (itsTE != NULL)
+	if (itsTE != nullptr)
 		{
 		StopListening(itsTE);
 		}
 	itsTE = te;
-	if (itsTE != NULL)
+	if (itsTE != nullptr)
 		{
 		ClearWhenGoingAway(itsTE, &itsTE);
 		}
@@ -279,12 +279,12 @@ JXTextSelection::ConvertData
 	if ((requestType == XA_STRING ||
 		 requestType == selMgr->GetUtf8StringXAtom() ||
 		 requestType == selMgr->GetMimePlainTextXAtom()) &&
-		itsText != NULL)
+		itsText != nullptr)
 		{
 		*returnType = requestType;
 		*dataLength = itsText->GetByteCount();
 		*data       = jnew unsigned char[ *dataLength ];
-		if (*data != NULL)
+		if (*data != nullptr)
 			{
 			memcpy(*data, itsText->GetRawBytes(), *dataLength);
 			return kJTrue;
@@ -292,7 +292,7 @@ JXTextSelection::ConvertData
 		}
 
 	else if (requestType == itsStyledText0XAtom &&
-			 itsText != NULL && itsStyle != NULL)
+			 itsText != nullptr && itsStyle != nullptr)
 		{
 		const JFileVersion vers = 1;
 		std::ostringstream dataStream;
@@ -303,7 +303,7 @@ JXTextSelection::ConvertData
 		*returnType         = itsStyledText0XAtom;
 		*dataLength         = s.length();
 		*data               = jnew unsigned char[ *dataLength ];
-		if (*data != NULL)
+		if (*data != nullptr)
 			{
 			memcpy(*data, s.data(), *dataLength);
 			return kJTrue;
@@ -311,7 +311,7 @@ JXTextSelection::ConvertData
 		}
 
 	else if (requestType == selMgr->GetDeleteSelectionXAtom() &&
-			 itsTE != NULL && IsCurrent() &&
+			 itsTE != nullptr && IsCurrent() &&
 			 itsTE->GetSelection(&selection) && selection == itsSelection)
 		{
 		itsTE->DeleteSelection();
@@ -322,7 +322,7 @@ JXTextSelection::ConvertData
 		return kJTrue;
 		}
 
-	*data       = NULL;
+	*data       = nullptr;
 	*dataLength = 0;
 	*returnType = None;
 	return kJFalse;

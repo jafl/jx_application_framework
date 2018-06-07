@@ -34,7 +34,7 @@ JXColorManager::Create
 		DefaultColormap(display->GetXDisplay(), display->GetScreen());
 
 	JXColorManager* colormap = jnew JXColorManager(display, visual, xColormap);
-	assert( colormap != NULL );
+	assert( colormap != nullptr );
 	return colormap;
 }
 
@@ -65,7 +65,7 @@ JXColorManager::JXColorManager
 	int count;
 	XVisualInfo* vInfo =
 		XGetVisualInfo(*display, vTemplateMask, &vTemplate, &count);
-	assert( vInfo != NULL );
+	assert( vInfo != nullptr );
 
 	itsXVisualInfo = vInfo[0];
 

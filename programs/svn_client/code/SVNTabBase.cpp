@@ -449,7 +449,7 @@ void
 SVNTabBase::Commit()
 {
 	JString cmd = "svn commit $file_name";
-	if (Prepare(&cmd, NULL, kJTrue))
+	if (Prepare(&cmd, nullptr, kJTrue))
 		{
 		itsDirector->Commit(cmd);
 		}
@@ -572,7 +572,7 @@ SVNTabBase::Prepare
 		return kJFalse;
 		}
 
-	if (warnMsgID != NULL && !(JGetUserNotification())->AskUserNo(JGetString(warnMsgID)))
+	if (warnMsgID != nullptr && !(JGetUserNotification())->AskUserNo(JGetString(warnMsgID)))
 		{
 		return kJFalse;
 		}

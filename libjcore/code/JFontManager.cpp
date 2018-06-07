@@ -166,7 +166,7 @@ JFontManager::GetFontID
 	f.style = style;
 
 	f.name = jnew JString(name);
-	assert( f.name != NULL );
+	assert( f.name != nullptr );
 
 	theFontList.AppendElement(f);
 	return theFontList.GetElementCount();
@@ -242,7 +242,7 @@ JFontManager::Init
 		{
 		theDefaultFontName = JGetString("NAME::FONT");
 		}
-	else if (defaultFontName != NULL)
+	else if (defaultFontName != nullptr)
 		{
 		theDefaultFontName.Set(defaultFontName);
 		}
@@ -256,7 +256,7 @@ JFontManager::Init
 		{
 		theDefaultFontName = JGetString("NAME::MONO::FONT");
 		}
-	else if (defaultMonospaceFontName != NULL)
+	else if (defaultMonospaceFontName != nullptr)
 		{
 		theDefaultMonospaceFontName.Set(defaultMonospaceFontName);
 		}

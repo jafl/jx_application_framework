@@ -47,7 +47,7 @@ public:
 	void			Commit(const JCharacter* cmd);
 	void			ShowInfoLog(SVNTabBase* tab);
 	void			ShowInfoLog(const JCharacter* fullName,
-								const JCharacter* rev = NULL);
+								const JCharacter* rev = nullptr);
 	void			ShowProperties(SVNTabBase* tab);
 	void			ShowProperties(const JCharacter* fullName);
 
@@ -81,8 +81,8 @@ private:
 	JBoolean	itsReloadOpenFilesFlag;
 
 	SVNTabGroup*			itsTabGroup;
-	SVNRepoView*			itsRepoWidget;		// can be NULL
-	SVNStatusList*			itsStatusWidget;	// can be NULL
+	SVNRepoView*			itsRepoWidget;		// can be nullptr
+	SVNStatusList*			itsStatusWidget;	// can be nullptr
 	JPtrArray<SVNTabBase>*	itsTabList;
 
 	JXTextMenu*	itsFileMenu;
@@ -180,7 +180,7 @@ SVNMainDirector::GetRepoWidget
 	)
 {
 	*widget = itsRepoWidget;
-	return JI2B( itsRepoWidget != NULL );
+	return JI2B( itsRepoWidget != nullptr );
 }
 
 /******************************************************************************
@@ -192,7 +192,7 @@ inline JBoolean
 SVNMainDirector::OKToStartActionProcess()
 	const
 {
-	return JI2B( itsActionProcess == NULL );
+	return JI2B( itsActionProcess == nullptr );
 }
 
 #endif

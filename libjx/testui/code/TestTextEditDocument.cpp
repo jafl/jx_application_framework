@@ -103,17 +103,17 @@ TestTextEditDocument::BuildWindow
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 400,330, JString::empty);
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	JXMenuBar* menuBar =
 		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 400,30);
-	assert( menuBar != NULL );
+	assert( menuBar != nullptr );
 
 	JXScrollbarSet* scrollbarSet =
 		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 400,300);
-	assert( scrollbarSet != NULL );
+	assert( scrollbarSet != nullptr );
 
 // end JXLayout
 
@@ -122,13 +122,13 @@ TestTextEditDocument::BuildWindow
 	window->SetMinSize(20,50);
 
 	itsText = jnew JXStyledText(kJTrue, kJTrue, GetDisplay()->GetFontManager());
-	assert( itsText != NULL );
+	assert( itsText != nullptr );
 
 	itsTextEditor =
 		jnew TestTextEditor(itsText, kJFalse, fileWritable, menuBar, scrollbarSet,
 							scrollbarSet->GetScrollEnclosure(),
 							JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 10,10);
-	assert( itsTextEditor != NULL );
+	assert( itsTextEditor != nullptr );
 	itsTextEditor->FitToEnclosure();
 	ListenTo(itsTextEditor->GetText());
 
@@ -141,7 +141,7 @@ TestTextEditDocument::BuildWindow
 	JXDocumentMenu* fileListMenu =
 		jnew JXDocumentMenu(JGetString("FilesMenuTitle::TestTextEditDocument"), menuBar,
 						   JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
-	assert( fileListMenu != NULL );
+	assert( fileListMenu != nullptr );
 	menuBar->PrependMenu(fileListMenu);
 }
 
@@ -167,7 +167,7 @@ TestTextEditDocument::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleFileMenu(selection->GetIndex());
 		}
 
@@ -215,7 +215,7 @@ TestTextEditDocument::HandleFileMenu
 	if (index == kNewFileCmd)
 		{
 		TestTextEditDocument* doc = jnew TestTextEditDocument(GetSupervisor());
-		assert( doc != NULL );
+		assert( doc != nullptr );
 		doc->Activate();
 		}
 	else if (index == kOpenFileCmd)
@@ -278,7 +278,7 @@ TestTextEditDocument::OpenFiles()
 				{
 				doc = jnew TestTextEditDocument(GetSupervisor(), fileName);
 				}
-			assert( doc != NULL );
+			assert( doc != nullptr );
 			doc->Activate();
 
 			if (!pg.IncrementProgress())

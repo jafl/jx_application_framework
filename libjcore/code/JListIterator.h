@@ -64,7 +64,7 @@ protected:
 private:
 
 	const JList<T>*	itsConstOrderedSet;		// JList that is being iterated over
-	JList<T>*			itsOrderedSet;			// NULL if we were passed a const object
+	JList<T>*			itsOrderedSet;			// nullptr if we were passed a const object
 	JCursorPosition			itsCursorPosition;		// Current iterator position
 
 	JListIterator<T>*	itsNextIterator;		// Next iterator in linked list

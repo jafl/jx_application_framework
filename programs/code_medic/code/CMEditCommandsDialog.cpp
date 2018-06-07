@@ -30,7 +30,7 @@ CMEditCommandsDialog::CMEditCommandsDialog()
 	JPrefObject(CMGetPrefsManager(), kEditCommandsDialogID)
 {
 	itsCommands	= jnew JPtrArray<JString>(JPtrArrayT::kForgetAll);
-	assert(itsCommands != NULL);
+	assert(itsCommands != nullptr);
 
 	CMGetPrefsManager()->GetCmdList(itsCommands);
 
@@ -63,45 +63,45 @@ CMEditCommandsDialog::BuildWindow()
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 350,370, "");
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	JXStaticText* gdbCmdTitle =
 		jnew JXStaticText(JGetString("gdbCmdTitle::CMEditCommandsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,10, 150,20);
-	assert( gdbCmdTitle != NULL );
+	assert( gdbCmdTitle != nullptr );
 	gdbCmdTitle->SetToLabel();
 
 	JXScrollbarSet* scrollbarSet =
 		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 10,50, 230,280);
-	assert( scrollbarSet != NULL );
+	assert( scrollbarSet != nullptr );
 
 	JXTextButton* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::CMEditCommandsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 80,340, 60,20);
-	assert( cancelButton != NULL );
+	assert( cancelButton != nullptr );
 
 	JXTextButton* okButton =
 		jnew JXTextButton(JGetString("okButton::CMEditCommandsDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 210,340, 60,20);
-	assert( okButton != NULL );
+	assert( okButton != nullptr );
 	okButton->SetShortcuts(JGetString("okButton::CMEditCommandsDialog::shortcuts::JXLayout"));
 
 	itsNewButton =
 		jnew JXTextButton(JGetString("itsNewButton::CMEditCommandsDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 260,70, 70,20);
-	assert( itsNewButton != NULL );
+	assert( itsNewButton != nullptr );
 	itsNewButton->SetShortcuts(JGetString("itsNewButton::CMEditCommandsDialog::shortcuts::JXLayout"));
 
 	itsRemoveButton =
 		jnew JXTextButton(JGetString("itsRemoveButton::CMEditCommandsDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 260,110, 70,20);
-	assert( itsRemoveButton != NULL );
+	assert( itsRemoveButton != nullptr );
 
 	JXStaticText* hint =
 		jnew JXStaticText(JGetString("hint::CMEditCommandsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,30, 270,20);
-	assert( hint != NULL );
+	assert( hint != nullptr );
 	hint->SetFontSize(JGetDefaultFontSize()-2);
 	hint->SetToLabel();
 
@@ -121,7 +121,7 @@ CMEditCommandsDialog::BuildWindow()
 								scrollbarSet->GetScrollEnclosure(),
 								JXWidget::kHElastic, JXWidget::kVElastic,
 								0,0, 10,10);
-	assert(itsWidget != NULL);
+	assert(itsWidget != nullptr);
 	itsWidget->SyncWithData();
 	itsWidget->FitToEnclosure(kJTrue, kJTrue);	// requires sync
 }

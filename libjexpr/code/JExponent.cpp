@@ -75,7 +75,7 @@ JExponent::Copy()
 	const
 {
 	JExponent* newFunction = jnew JExponent(*this);
-	assert( newFunction != NULL );
+	assert( newFunction != nullptr );
 	return newFunction;
 }
 

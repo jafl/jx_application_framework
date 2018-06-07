@@ -113,7 +113,7 @@ JXFSBindingTable::JXFSBindingTable
 	itsAddButton(addButton),
 	itsRemoveButton(removeButton),
 	itsDuplicateButton(duplicateButton),
-	itsTextInput(NULL)
+	itsTextInput(nullptr)
 {
 	// row height
 
@@ -131,7 +131,7 @@ JXFSBindingTable::JXFSBindingTable
 	// type menu
 
 	itsTypeMenu = jnew JXTextMenu("", this, kFixedLeft, kFixedTop, 0,0, 10,10);
-	assert( itsTypeMenu != NULL );
+	assert( itsTypeMenu != nullptr );
 	itsTypeMenu->Hide();
 	itsTypeMenu->SetToHiddenPopupMenu(kJTrue);
 	itsTypeMenu->SetMenuItems(kTypeMenuStr);
@@ -141,7 +141,7 @@ JXFSBindingTable::JXFSBindingTable
 	// regex for testing
 
 	itsTestRegex = jnew JRegex;
-	assert( itsTestRegex != NULL );
+	assert( itsTestRegex != nullptr );
 
 	// data
 
@@ -339,14 +339,14 @@ JXFSBindingTable::CreateXInputField
 	const JCoordinate	h
 	)
 {
-	assert( itsTextInput == NULL );
+	assert( itsTextInput == nullptr );
 
 	JTableSelection& s = GetTableSelection();
 	s.ClearSelection();
 	s.SelectCell(cell);
 
 	itsTextInput = jnew JXInputField(this, kFixedLeft, kFixedTop, x,y, w,h);
-	assert( itsTextInput != NULL );
+	assert( itsTextInput != nullptr );
 
 	const JFSBinding* b = itsBindingList->GetBinding(cell.y);
 	if (cell.x == kPatternColumn)
@@ -378,7 +378,7 @@ JXFSBindingTable::ExtractInputData
 	const JPoint& cell
 	)
 {
-	assert( itsTextInput != NULL );
+	assert( itsTextInput != nullptr );
 
 	const JString& s = itsTextInput->GetText();
 	JBoolean ok      = itsTextInput->InputValid();
@@ -433,7 +433,7 @@ JXFSBindingTable::ExtractInputData
 void
 JXFSBindingTable::PrepareDeleteXInputField()
 {
-	itsTextInput = NULL;
+	itsTextInput = nullptr;
 
 	JPoint cell;
 	if ((GetTableSelection()).GetSingleSelectedCell(&cell))
@@ -484,7 +484,7 @@ JXFSBindingTable::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleTypeMenu(selection->GetIndex());
 		}
 

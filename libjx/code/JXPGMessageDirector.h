@@ -33,7 +33,7 @@ protected:
 private:
 
 	JXStaticText*	itsMessageText;
-	JXPTPrinter*	itsPrinter;			// can be NULL
+	JXPTPrinter*	itsPrinter;			// can be nullptr
 
 // begin JXLayout
 

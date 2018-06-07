@@ -22,7 +22,7 @@ public:
 
 	virtual	~LLDBVarNode();
 
-	virtual JString	GetFullName(JBoolean* isPointer = NULL) const;
+	virtual JString	GetFullName(JBoolean* isPointer = nullptr) const;
 
 	static CMVarNode*	BuildTree(lldb::SBFrame& frame, lldb::SBValue& value);
 

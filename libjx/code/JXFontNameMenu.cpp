@@ -158,7 +158,7 @@ JXFontNameMenu::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		itsFontIndex = selection->GetIndex();
 		Broadcast(NameChanged());
 		}

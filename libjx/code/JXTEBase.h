@@ -281,10 +281,10 @@ private:
 	JCoordinate	itsMinHeight;
 
 	JPoint			itsPrevMousePt;				// used while mouse is on top of us
-	JXPSPrinter*	itsPSPrinter;				// not owned; can be NULL
-	JString*		itsPSPrintName;				// file name when printing to a file; can be NULL
-	JXPTPrinter*	itsPTPrinter;				// not owned; can be NULL
-	JString*		itsPTPrintName;				// file name when printing to a file; can be NULL
+	JXPSPrinter*	itsPSPrinter;				// not owned; can be nullptr
+	JString*		itsPSPrintName;				// file name when printing to a file; can be nullptr
+	JXPTPrinter*	itsPTPrinter;				// not owned; can be nullptr
+	JString*		itsPTPrintName;				// file name when printing to a file; can be nullptr
 
 	Atom			itsStyledText0XAtom;
 	JBoolean		itsWillPasteCustomFlag;		// kJTrue => call TEXConvertDropData() in TEPasteDropData()
@@ -300,7 +300,7 @@ private:
 
 	// edit menu
 
-	JXTextMenu*		itsEditMenu;				// can be NULL
+	JXTextMenu*		itsEditMenu;				// can be nullptr
 	JBoolean		itsCanCheckSpellingFlag;	// kJTrue => menu items usable
 	JBoolean		itsCanAdjustMarginsFlag;	// kJTrue => menu items usable
 	JBoolean		itsCanCleanWhitespaceFlag;	// kJTrue => menu items usable
@@ -308,16 +308,16 @@ private:
 
 	// search/replace menu
 
-	JXTextMenu*		itsSearchMenu;				// can be NULL; NULL if itsReplaceMenu != NULL
-	JXTextMenu*		itsReplaceMenu;				// can be NULL; NULL if itsSearchMenu != NULL
+	JXTextMenu*		itsSearchMenu;				// can be nullptr; nullptr if itsReplaceMenu != nullptr
+	JXTextMenu*		itsReplaceMenu;				// can be nullptr; nullptr if itsSearchMenu != nullptr
 
 	// used to pass values from HandleMouseDrag() to TEBeginDND()
 
-	DNDDragInfo*	itsDNDDragInfo;		// NULL if not in HandleMouseDrag()
+	DNDDragInfo*	itsDNDDragInfo;		// nullptr if not in HandleMouseDrag()
 
 	// used to pass values from HandleDNDDrop() to TEPasteDropData()
 
-	DNDDropInfo*	itsDNDDropInfo;		// NULL if not in HandleDNDDrop()
+	DNDDropInfo*	itsDNDDropInfo;		// nullptr if not in HandleDNDDrop()
 
 private:
 
@@ -373,7 +373,7 @@ public:
 		{
 		public:
 
-			DataNotCompatible(const Atom type = None, JXDisplay* d = NULL);
+			DataNotCompatible(const Atom type = None, JXDisplay* d = nullptr);
 		};
 };
 
@@ -390,7 +390,7 @@ inline JBoolean
 JXTEBase::HasEditMenu()
 	const
 {
-	return JConvertToBoolean( itsEditMenu != NULL );
+	return JConvertToBoolean( itsEditMenu != nullptr );
 }
 
 inline JBoolean
@@ -401,7 +401,7 @@ JXTEBase::GetEditMenu
 	const
 {
 	*menu = itsEditMenu;
-	return JConvertToBoolean( itsEditMenu != NULL );
+	return JConvertToBoolean( itsEditMenu != nullptr );
 }
 
 /******************************************************************************
@@ -450,7 +450,7 @@ inline JBoolean
 JXTEBase::HasSearchMenu()
 	const
 {
-	return JConvertToBoolean( itsSearchMenu != NULL );
+	return JConvertToBoolean( itsSearchMenu != nullptr );
 }
 
 inline JBoolean
@@ -461,7 +461,7 @@ JXTEBase::GetSearchMenu
 	const
 {
 	*menu = itsSearchMenu;
-	return JConvertToBoolean( itsSearchMenu != NULL );
+	return JConvertToBoolean( itsSearchMenu != nullptr );
 }
 
 /******************************************************************************
@@ -473,7 +473,7 @@ inline JBoolean
 JXTEBase::HasSearchReplaceMenu()
 	const
 {
-	return JConvertToBoolean( itsReplaceMenu != NULL );
+	return JConvertToBoolean( itsReplaceMenu != nullptr );
 }
 
 inline JBoolean
@@ -484,7 +484,7 @@ JXTEBase::GetSearchReplaceMenu
 	const
 {
 	*menu = itsReplaceMenu;
-	return JConvertToBoolean( itsReplaceMenu != NULL );
+	return JConvertToBoolean( itsReplaceMenu != nullptr );
 }
 
 /******************************************************************************

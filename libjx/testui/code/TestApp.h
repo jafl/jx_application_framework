@@ -62,7 +62,7 @@ TestApp::GetMainDirector
 	const
 {
 	*dir = itsMainDirector;
-	return JConvertToBoolean( *dir != NULL );
+	return JConvertToBoolean( *dir != nullptr );
 }
 
 /******************************************************************************

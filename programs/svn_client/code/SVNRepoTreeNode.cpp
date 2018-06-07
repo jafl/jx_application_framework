@@ -48,11 +48,11 @@ SVNRepoTreeNode::SVNRepoTreeNode
 	itsModTime(modTime),
 	itsAuthor(author),
 	itsFileSize(size),
-	itsProcess(NULL),
-	itsErrorLink(NULL)
+	itsProcess(nullptr),
+	itsErrorLink(nullptr)
 {
 	itsErrorList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
-	assert( itsErrorList != NULL );
+	assert( itsErrorList != nullptr );
 }
 
 /******************************************************************************
@@ -64,7 +64,7 @@ SVNRepoTreeNode::~SVNRepoTreeNode()
 {
 	DeleteLinks();
 
-	if (itsProcess != NULL)
+	if (itsProcess != nullptr)
 		{
 		StopListening(itsProcess);
 		itsProcess->Kill();
@@ -88,7 +88,7 @@ JString
 SVNRepoTreeNode::GetAgeString()
 	const
 {
-	return (itsModTime == 0 ? "" : JPrintTimeInterval(JRound(difftime(time(NULL), itsModTime))));
+	return (itsModTime == 0 ? "" : JPrintTimeInterval(JRound(difftime(time(nullptr), itsModTime))));
 }
 
 /******************************************************************************
@@ -181,10 +181,10 @@ SVNRepoTreeNode::OKToOpen()
 void
 SVNRepoTreeNode::Update()
 {
-	if (itsProcess != NULL)
+	if (itsProcess != nullptr)
 		{
 		JProcess* p = itsProcess;
-		itsProcess  = NULL;
+		itsProcess  = nullptr;
 
 		p->Kill();
 		jdelete p;
@@ -197,7 +197,7 @@ SVNRepoTreeNode::Update()
 		return;
 		}
 
-	JError err = JCreateTempFile(NULL, NULL, &itsResponseFullName);
+	JError err = JCreateTempFile(nullptr, nullptr, &itsResponseFullName);
 	if (!err.OK())
 		{
 		err.ReportIfError();
@@ -218,8 +218,8 @@ SVNRepoTreeNode::Update()
 
 	int outFD, errFD;
 	err = JProcess::Create(&itsProcess, cmd,
-						   kJIgnoreConnection, NULL,
-						   kJIgnoreConnection, NULL,
+						   kJIgnoreConnection, nullptr,
+						   kJIgnoreConnection, nullptr,
 						   kJCreatePipe, &errFD);
 	if (err.OK())
 		{
@@ -232,7 +232,7 @@ SVNRepoTreeNode::Update()
 		SVNRepoTreeNode* node =
 			jnew SVNRepoTreeNode(GetTree(), "", 0, JGetString(kBusyLabel),
 								kBusy, 0, 0, "", 0);
-		assert( node != NULL );
+		assert( node != nullptr );
 		this->Append(node);
 		}
 	else
@@ -276,7 +276,7 @@ SVNRepoTreeNode::ReceiveGoingAway
 {
 	if (sender == itsProcess)
 		{
-		itsProcess = NULL;
+		itsProcess = nullptr;
 		DeleteLinks();
 
 		ParseResponse();
@@ -295,7 +295,7 @@ SVNRepoTreeNode::ReceiveGoingAway
 void
 SVNRepoTreeNode::ReceiveErrorLine()
 {
-	assert( itsErrorLink != NULL );
+	assert( itsErrorLink != nullptr );
 
 	JString line;
 	const JBoolean ok = itsErrorLink->GetNextMessage(&line);
@@ -314,12 +314,12 @@ SVNRepoTreeNode::ParseResponse()
 {
 	DeleteAllChildren();
 
-	xmlDoc* doc = xmlReadFile(itsResponseFullName, NULL, XML_PARSE_NOBLANKS | XML_PARSE_NOCDATA);
-	if (doc != NULL)
+	xmlDoc* doc = xmlReadFile(itsResponseFullName, nullptr, XML_PARSE_NOBLANKS | XML_PARSE_NOCDATA);
+	if (doc != nullptr)
 		{
 		xmlNode* root = xmlDocGetRootElement(doc);
 
-		if (root != NULL &&
+		if (root != nullptr &&
 			strcmp((char*) root->name, "lists") == 0 &&
 			strcmp((char*) root->children->name, "list") == 0)
 			{
@@ -327,7 +327,7 @@ SVNRepoTreeNode::ParseResponse()
 
 			xmlNode* entry = root->children->children;
 			JString repoPath1;
-			while (entry != NULL)
+			while (entry != nullptr)
 				{
 				const JString type = JGetXMLNodeAttr(entry, "kind");
 
@@ -337,33 +337,33 @@ SVNRepoTreeNode::ParseResponse()
 				JSize size     = 0;
 
 				xmlNode* child = JGetXMLChildNode(entry, "name");
-				if (child != NULL && child->children != NULL &&
+				if (child != nullptr && child->children != nullptr &&
 					child->children->type == XML_TEXT_NODE)
 					{
 					name = (char*) child->children->content;
 					}
 
 				child = JGetXMLChildNode(entry, "size");
-				if (child != NULL && child->children != NULL &&
+				if (child != nullptr && child->children != nullptr &&
 					child->children->type == XML_TEXT_NODE)
 					{
 					size = atol((char*) child->children->content);
 					}
 
 				child = JGetXMLChildNode(entry, "commit");
-				if (child != NULL)
+				if (child != nullptr)
 					{
 					rev = atol(JGetXMLNodeAttr(child, "revision"));
 
 					xmlNode* child2 = JGetXMLChildNode(child, "author");
-					if (child2 != NULL && child2->children != NULL &&
+					if (child2 != nullptr && child2->children != nullptr &&
 						child2->children->type == XML_TEXT_NODE)
 						{
 						author = (char*) child2->children->content;
 						}
 
 					child2 = JGetXMLChildNode(child, "date");
-					if (child2 != NULL && child2->children != NULL &&
+					if (child2 != nullptr && child2->children != nullptr &&
 						child2->children->type == XML_TEXT_NODE)
 						{
 						tm tm;
@@ -384,7 +384,7 @@ SVNRepoTreeNode::ParseResponse()
 						jnew SVNRepoTreeNode(GetTree(), repoPath1, itsRepoRevision,
 											name, type == "dir" ? kDirectory : kFile,
 											rev, modTime, author, size);
-					assert( node != NULL );
+					assert( node != nullptr );
 					this->InsertSorted(node);
 					}
 
@@ -422,7 +422,7 @@ SVNRepoTreeNode::DisplayErrors()
 		SVNRepoTreeNode* node =
 			jnew SVNRepoTreeNode(GetTree(), "", 0, *(itsErrorList->GetElement(i)),
 								kError, 0, 0, "", 0);
-		assert( node != NULL );
+		assert( node != nullptr );
 		this->InsertAtIndex(i, node);
 		}
 
@@ -438,7 +438,7 @@ SVNRepoTree*
 SVNRepoTreeNode::GetRepoTree()
 {
 	SVNRepoTree* tree = dynamic_cast<SVNRepoTree*>(GetTree());
-	assert (tree != NULL);
+	assert (tree != nullptr);
 	return tree;
 }
 
@@ -447,7 +447,7 @@ SVNRepoTreeNode::GetRepoTree()
 	const
 {
 	const SVNRepoTree* tree = dynamic_cast<const SVNRepoTree*>(GetTree());
-	assert (tree != NULL);
+	assert (tree != nullptr);
 	return tree;
 }
 
@@ -461,7 +461,7 @@ SVNRepoTreeNode::GetRepoParent()
 {
 	JTreeNode* p       = GetParent();
 	SVNRepoTreeNode* n = dynamic_cast<SVNRepoTreeNode*>(p);
-	assert( n != NULL );
+	assert( n != nullptr );
 	return n;
 }
 
@@ -471,7 +471,7 @@ SVNRepoTreeNode::GetRepoParent()
 {
 	const JTreeNode* p       = GetParent();
 	const SVNRepoTreeNode* n = dynamic_cast<const SVNRepoTreeNode*>(p);
-	assert( n != NULL );
+	assert( n != nullptr );
 	return n;
 }
 
@@ -485,12 +485,12 @@ SVNRepoTreeNode::GetRepoParent
 	if (GetParent(&p))
 		{
 		*parent = dynamic_cast<SVNRepoTreeNode*>(p);
-		assert( *parent != NULL );
+		assert( *parent != nullptr );
 		return kJTrue;
 		}
 	else
 		{
-		*parent = NULL;
+		*parent = nullptr;
 		return kJFalse;
 		}
 }
@@ -506,12 +506,12 @@ SVNRepoTreeNode::GetRepoParent
 	if (GetParent(&p))
 		{
 		*parent = dynamic_cast<const SVNRepoTreeNode*>(p);
-		assert( *parent != NULL );
+		assert( *parent != nullptr );
 		return kJTrue;
 		}
 	else
 		{
-		*parent = NULL;
+		*parent = nullptr;
 		return kJFalse;
 		}
 }
@@ -528,7 +528,7 @@ SVNRepoTreeNode::GetRepoChild
 	)
 {
 	SVNRepoTreeNode* node = dynamic_cast<SVNRepoTreeNode*>(GetChild(index));
-	assert (node != NULL);
+	assert (node != nullptr);
 	return node;
 }
 
@@ -540,7 +540,7 @@ SVNRepoTreeNode::GetRepoChild
 	const
 {
 	const SVNRepoTreeNode* node = dynamic_cast<const SVNRepoTreeNode*>(GetChild(index));
-	assert (node != NULL);
+	assert (node != nullptr);
 	return node;
 }
 
@@ -556,7 +556,7 @@ SVNRepoTreeNode::SetConnection
 	)
 {
 	itsErrorLink = new RecordLink(errFD);
-	assert( itsErrorLink != NULL );
+	assert( itsErrorLink != nullptr );
 	ListenTo(itsErrorLink);
 }
 
@@ -570,5 +570,5 @@ SVNRepoTreeNode::DeleteLinks()
 {
 	StopListening(itsErrorLink);
 	delete itsErrorLink;
-	itsErrorLink = NULL;
+	itsErrorLink = nullptr;
 }

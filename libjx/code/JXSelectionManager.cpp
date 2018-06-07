@@ -50,8 +50,8 @@ static const JUtf8Byte* kAtomNames[ JXSelectionManager::kAtomCount ] =
 	"text/plain;charset=utf-8",
 	"text/plain",
 	"text/uri-list;charset=utf-8",
-	"DELETE",						// returns type "NULL"
-	"NULL",
+	"DELETE",						// returns type "nullptr"
+	"nullptr",
 	"CLIPBOARD"
 };
 
@@ -68,7 +68,7 @@ JXSelectionManager::JXSelectionManager
 	itsDisplay = display;
 
 	itsDataList = jnew JPtrArray<JXSelectionData>(JPtrArrayT::kDeleteAll);
-	assert( itsDataList != NULL );
+	assert( itsDataList != nullptr );
 
 	itsMaxDataChunkSize = XMaxRequestSize(*display) * 4/5;
 
@@ -122,7 +122,7 @@ JXSelectionManager::GetAvailableTypes
 {
 	// Check if this application owns the selection.
 
-	JXSelectionData* data = NULL;
+	JXSelectionData* data = nullptr;
 	if (GetData(selectionName, time, &data))
 		{
 		*typeList = data->GetTypeList();
@@ -139,7 +139,7 @@ JXSelectionManager::GetAvailableTypes
 		Atom actualType;
 		int actualFormat;
 		unsigned long itemCount, remainingBytes;
-		unsigned char* data = NULL;
+		unsigned char* data = nullptr;
 		XGetWindowProperty(*itsDisplay, itsDataWindow, itsAtoms[ kSelectionWindPropAtomIndex ],
 						   0, LONG_MAX, True, XA_ATOM,
 						   &actualType, &actualFormat,
@@ -221,7 +221,7 @@ JXSelectionManager::GetData
 		JProcess* p;
 		int fd;
 		if (JProcess::Create(&p, JString("pbpaste", 0, kJFalse),
-							 kJIgnoreConnection, NULL, kJCreatePipe, &fd).OK())
+							 kJIgnoreConnection, nullptr, kJCreatePipe, &fd).OK())
 			{
 			JString clipdata;
 			JReadAll(fd, &clipdata);
@@ -237,7 +237,7 @@ JXSelectionManager::GetData
 
 	// Check if this application owns the selection.
 
-	JXSelectionData* localData = NULL;
+	JXSelectionData* localData = nullptr;
 	JSize bitsPerBlock;
 	if (GetData(selectionName, time, &localData))
 		{
@@ -250,7 +250,7 @@ JXSelectionManager::GetData
 		else
 			{
 			*returnType = None;
-			*data       = NULL;
+			*data       = nullptr;
 			*dataLength = 0;
 			return kJFalse;
 			}
@@ -259,7 +259,7 @@ JXSelectionManager::GetData
 	// We have to go via the X server.
 
 	*returnType = None;
-	*data       = NULL;
+	*data       = nullptr;
 	*dataLength = 0;
 	*delMethod  = kXFree;
 
@@ -307,7 +307,7 @@ JXSelectionManager::GetData
 		else
 			{
 			XFree(*data);
-			*data = NULL;
+			*data = nullptr;
 			}
 		}
 
@@ -356,7 +356,7 @@ JXSelectionManager::DeleteData
 		jdelete [] *data;
 		}
 
-	*data = NULL;
+	*data = nullptr;
 }
 
 /******************************************************************************
@@ -379,7 +379,7 @@ JXSelectionManager::SendDeleteRequest
 	)
 {
 	Atom returnType;
-	unsigned char* data = NULL;
+	unsigned char* data = nullptr;
 	JSize dataLength;
 	JXSelectionManager::DeleteMethod delMethod;
 
@@ -490,7 +490,7 @@ JXSelectionManager::HandleSelectionRequest
 		selectionName = kJXClipboardName;
 		}
 
-	JXSelectionData* selData = NULL;
+	JXSelectionData* selData = nullptr;
 	if (GetData(selectionName, selReqEvent.time, &selData))
 		{
 		Atom returnType;
@@ -850,7 +850,7 @@ JXSelectionManager::ReceiveDataIncr
 	)
 {
 	*returnType = None;
-	*data       = NULL;
+	*data       = nullptr;
 	*dataLength = 0;
 	*delMethod  = kCFree;
 
@@ -921,7 +921,7 @@ JXSelectionManager::ReceiveDataIncr
 		if (itemCount == 0)
 			{
 			#if JXSEL_DEBUG_MSGS
-			if (*data == NULL)
+			if (*data == nullptr)
 				{
 				std::cout << "Didn't receive any data on iteration ";
 				std::cout << chunkIndex << std::endl;
@@ -929,7 +929,7 @@ JXSelectionManager::ReceiveDataIncr
 			#endif
 
 			XFree(chunk);
-			ok = JConvertToBoolean( *data != NULL );
+			ok = JConvertToBoolean( *data != nullptr );
 			break;
 			}
 
@@ -940,13 +940,13 @@ JXSelectionManager::ReceiveDataIncr
 			assert( remainingBytes == 0 );
 
 			const JSize chunkSize = itemCount * actualFormat/8;
-			if (*data == NULL)
+			if (*data == nullptr)
 				{
 				// the first chunk determines the format
 				*returnType = actualType;
 
 				*data = static_cast<unsigned char*>(malloc(chunkSize));
-				assert( *data != NULL );
+				assert( *data != nullptr );
 				memcpy(*data, chunk, chunkSize);
 
 				#if JXSEL_DEBUG_MSGS && ! JXSEL_DEBUG_ONLY_RESULT
@@ -974,10 +974,10 @@ JXSelectionManager::ReceiveDataIncr
 
 	// clean up
 
-	if (!ok && *data != NULL)
+	if (!ok && *data != nullptr)
 		{
 		free(*data);
-		*data       = NULL;
+		*data       = nullptr;
 		*dataLength = 0;
 		*returnType = None;
 		}
@@ -1076,7 +1076,7 @@ JXSelectionManager::ReceiveWithFeedback
 	if (sender == itsDisplay && message->Is(JXDisplay::kXError))
 		{
 		JXDisplay::XError* err = dynamic_cast<JXDisplay::XError*>(message);
-		assert( err != NULL );
+		assert( err != nullptr );
 
 		if (err->GetType() == BadAlloc)
 			{
@@ -1124,7 +1124,7 @@ JXSelectionManager::SetData
 
 	// check if it already owns the selection
 
-	JXSelectionData* origData = NULL;
+	JXSelectionData* origData = nullptr;
 	const JBoolean found = GetData(selectionName, CurrentTime, &origData);
 	if (found && origData != data)
 		{
@@ -1205,7 +1205,7 @@ JXSelectionManager::ClearData
 	const Time	endTime
 	)
 {
-	JXSelectionData* data = NULL;
+	JXSelectionData* data = nullptr;
 	if (GetData(selectionName, endTime, &data))
 		{
 		const Time t = (endTime == CurrentTime ? itsDisplay->GetLastEventTime() : endTime);
@@ -1223,7 +1223,7 @@ JXSelectionManager::ClearData
 
 	time can be CurrentTime.
 
-	In the private version, if index != NULL, it contains the index into itsDataList.
+	In the private version, if index != nullptr, it contains the index into itsDataList.
 
  ******************************************************************************/
 
@@ -1263,7 +1263,7 @@ JXSelectionManager::GetData
 			 (time != CurrentTime && t1 != CurrentTime &&
 			  t1 <= time && (!finished || time <= t2))))
 			{
-			if (index != NULL)
+			if (index != nullptr)
 				{
 				*index = i;
 				}
@@ -1271,8 +1271,8 @@ JXSelectionManager::GetData
 			}
 		}
 
-	*data = NULL;
-	if (index != NULL)
+	*data = nullptr;
+	if (index != nullptr)
 		{
 		*index = 0;
 		}

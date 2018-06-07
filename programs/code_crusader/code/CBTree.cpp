@@ -70,7 +70,7 @@ static const JCharacter* kRequiresCodeMillID = "RequiresCodeMill::CBTree";
 /******************************************************************************
  Constructor
 
-	In the 2nd version, dirList can be NULL
+	In the 2nd version, dirList can be nullptr
 
  ******************************************************************************/
 
@@ -114,8 +114,8 @@ JIndex i;
 
 	std::istream* symInput        = (projVers <= 41 ? &projInput : symStream);
 	const JFileVersion symVers    = (projVers <= 41 ? projVers   : origSymVers);
-	const JBoolean useSetProjData = JI2B( setInput == NULL || setVers < 71 );
-	const JBoolean useSymProjData = JI2B( symInput == NULL || symVers < 71 );
+	const JBoolean useSetProjData = JI2B( setInput == nullptr || setVers < 71 );
+	const JBoolean useSymProjData = JI2B( symInput == nullptr || symVers < 71 );
 
 /* symbol file */
 
@@ -169,7 +169,7 @@ JIndex i;
 
 /* symbol file */
 
-	if (symInput != NULL)
+	if (symInput != nullptr)
 		{
 		JBoolean classNamesSorted = kJTrue;
 		if (symVers < 7)
@@ -232,7 +232,7 @@ JIndex i;
 	// We read this way down here because in version <= 41,
 	// everything was in a single file.
 
-	if (dirList != NULL)
+	if (dirList != nullptr)
 		{
 		dirList->ReadDirectories(projInput, projVers);
 		}
@@ -293,23 +293,23 @@ CBTree::CBTreeX
 	itsFontSize = JGetDefaultFontSize();
 
 	itsClassesByFull = jnew JPtrArray<CBClass>(JPtrArrayT::kDeleteAll, kBlockSize);
-	assert( itsClassesByFull != NULL );
+	assert( itsClassesByFull != nullptr );
 	itsClassesByFull->SetCompareFunction(CompareClassFullNames);
 	itsClassesByFull->SetSortOrder(JListT::kSortAscending);
 
 	itsVisibleByGeom = jnew JPtrArray<CBClass>(JPtrArrayT::kForgetAll, kBlockSize);
-	assert( itsVisibleByGeom != NULL );
+	assert( itsVisibleByGeom != nullptr );
 
 	itsVisibleByName = jnew JPtrArray<CBClass>(JPtrArrayT::kForgetAll, kBlockSize);
-	assert( itsVisibleByName != NULL );
+	assert( itsVisibleByName != nullptr );
 	itsVisibleByName->SetCompareFunction(CompareClassNames);
 	itsVisibleByName->SetSortOrder(JListT::kSortAscending);
 
 	itsSuffixList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
-	assert( itsSuffixList != NULL );
+	assert( itsSuffixList != nullptr );
 	CBGetPrefsManager()->GetFileSuffixes(itsFileType, itsSuffixList);
 
-	itsCollapsedList = NULL;
+	itsCollapsedList = nullptr;
 
 	InstallOrderedSet(itsClassesByFull);
 
@@ -431,7 +431,7 @@ JIndex i;
 /******************************************************************************
  StreamOut (virtual)
 
-	dirList can be NULL
+	dirList can be nullptr
 
  ******************************************************************************/
 
@@ -449,14 +449,14 @@ JIndex i;
 
 /* project file */
 
-	if (dirList != NULL)
+	if (dirList != nullptr)
 		{
 		dirList->WriteDirectories(projOutput);
 		}
 
 /* symbol file */
 
-	if (symOutput != NULL)
+	if (symOutput != nullptr)
 		{
 		*symOutput << ' ' << itsWidth;
 		*symOutput << ' ' << itsHeight;
@@ -464,14 +464,14 @@ JIndex i;
 
 /* settings file */
 
-	if (setOutput != NULL)
+	if (setOutput != nullptr)
 		{
 		*setOutput << ' ' << itsNeedsMinimizeMILinksFlag;
 		}
 
 /* symbol file */
 
-	if (symOutput != NULL)
+	if (symOutput != nullptr)
 		{
 		// write the number of classes in tree
 
@@ -533,7 +533,7 @@ CBTree::FileTypesChanged
 	Get ready to parse files that have changed or been created and to
 	throw out classes in files that no longer exist.
 
-	deadFileIDList can be NULL.
+	deadFileIDList can be nullptr.
 
 	*** This often runs in the update thread.
 
@@ -555,7 +555,7 @@ CBTree::PrepareForUpdate
 	// save collapsed classes
 
 	itsCollapsedList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
-	assert( itsCollapsedList != NULL );
+	assert( itsCollapsedList != nullptr );
 	SaveCollapsedClasses(itsCollapsedList);
 
 	if (reparseAll)
@@ -598,7 +598,7 @@ CBTree::UpdateFinished
 
 	const JBoolean forceRecalcVisible = RestoreCollapsedClasses(*itsCollapsedList);
 	jdelete itsCollapsedList;
-	itsCollapsedList = NULL;
+	itsCollapsedList = nullptr;
 
 	// rebuild tree
 
@@ -945,7 +945,7 @@ CBTree::RecalcVisible
 	Calculates the placement of all classes, assuming all parents have
 	been found.  Normally only called by RecalcVisible().
 
-	rootGeom can be NULL.  It is only needed by MinimizeMILinks().
+	rootGeom can be nullptr.  It is only needed by MinimizeMILinks().
 	It contains information about root classes that have children
 	and is sorted by CBClass*.
 
@@ -965,7 +965,7 @@ CBTree::PlaceAll
 	itsWidth  = 0;
 	itsHeight = itsMarginWidth;
 
-	if (rootGeom != NULL)
+	if (rootGeom != nullptr)
 		{
 		rootGeom->RemoveAll();
 		rootGeom->SetCompareFunction(CompareRGClassPtrs);
@@ -979,7 +979,7 @@ CBTree::PlaceAll
 			{
 			const JCoordinate prevH = itsHeight;
 			PlaceClass(theClass, itsMarginWidth, &itsHeight, &itsWidth);
-			if (rootGeom != NULL && theClass->HasChildren())
+			if (rootGeom != nullptr && theClass->HasChildren())
 				{
 				rootGeom->InsertSorted(RootGeom(theClass, prevH, itsHeight - prevH));
 				}
@@ -1203,14 +1203,14 @@ CBTree::ArrangeRoots
 	l2.SetCompareFunction(CompareRSContent);
 
 	JArray<JBoolean>* content = jnew JArray<JBoolean>(rootCount);
-	assert( content != NULL );
+	assert( content != nullptr );
 	for (JIndex i=1; i<=rootCount; i++)
 		{
 		content->AppendElement(kJFalse);
 		}
 
 	JArray<JIndex>* order = jnew JArray<JIndex>(rootCount);
-	assert( order != NULL );
+	assert( order != nullptr );
 
 	list1->AppendElement(RootSubset(content, order, 0));
 
@@ -1287,10 +1287,10 @@ CBTree::ArrangeRoots
 					else if (!found)
 						{
 						JArray<JBoolean>* newContent = jnew JArray<JBoolean>(*(subset->content));
-						assert( newContent != NULL );
+						assert( newContent != nullptr );
 
 						JArray<JIndex>* newOrder = jnew JArray<JIndex>(*(subset->order));
-						assert( newOrder != NULL );
+						assert( newOrder != nullptr );
 						newOrder->AppendElement(newRootIndex);
 
 						list2->InsertElementAtIndex(i, RootSubset(newContent, newOrder, newLinkLength));
@@ -1448,7 +1448,7 @@ CBTree::FindRoots
 		if (!FindRoot(root, *rootList, &rootIndex))
 			{
 			const RootMIInfo info(root, geom.h, jnew JArray<RootConn>);
-			assert( info.connList != NULL );
+			assert( info.connList != nullptr );
 			rootList->AppendElement(info);
 			rootIndex = rootList->GetElementCount();
 			}
@@ -1551,7 +1551,7 @@ CBTree::FindClass
 		}
 	else
 		{
-		*theClass = NULL;
+		*theClass = nullptr;
 		return kJFalse;
 		}
 }
@@ -1572,7 +1572,7 @@ CBTree::IsUniqueClassName
 	)
 	const
 {
-	*theClass = NULL;
+	*theClass = nullptr;
 
 	const JSize classCount = itsClassesByFull->GetElementCount();
 	for (JIndex i=1; i<=classCount; i++)
@@ -1580,19 +1580,19 @@ CBTree::IsUniqueClassName
 		CBClass* c = itsClassesByFull->GetElement(i);
 		if (c->GetName() == name)
 			{
-			if (*theClass == NULL)
+			if (*theClass == nullptr)
 				{
 				*theClass = c;
 				}
 			else
 				{
-				*theClass = NULL;
+				*theClass = nullptr;
 				return kJFalse;
 				}
 			}
 		}
 
-	return JI2B( *theClass != NULL );
+	return JI2B( *theClass != nullptr );
 }
 
 /******************************************************************************
@@ -1612,7 +1612,7 @@ CBTree::ClosestVisibleMatch
 {
 	if (IsEmpty())
 		{
-		*theClass = NULL;
+		*theClass = nullptr;
 		return kJFalse;
 		}
 
@@ -1668,7 +1668,7 @@ CBTree::FindParent
 			{
 			JString prefixClassName =
 				cName.GetSubstring(1, cName.GetLength() - parentSuffix.GetLength());
-			const CBClass* prefixClass = NULL;
+			const CBClass* prefixClass = nullptr;
 			if (FindClass(prefixClassName, &prefixClass) &&
 				(prefixClass == container ||
 				 prefixClass->IsAncestor(container)))
@@ -1680,7 +1680,7 @@ CBTree::FindParent
 			}
 		}
 
-	*parent = NULL;
+	*parent = nullptr;
 	nameSpace->Clear();
 	return kJFalse;
 }
@@ -2097,7 +2097,7 @@ CBTree::CopySelectedClassNames()
 	if (!nameList.IsEmpty())
 		{
 		JXTextSelection* data = jnew JXTextSelection(itsDirector->GetDisplay(), nameList);
-		assert( data != NULL );
+		assert( data != nullptr );
 
 		((itsDirector->GetDisplay())->GetSelectionManager())->SetData(kJXClipboardName, data);
 		}
@@ -2366,7 +2366,7 @@ CBTree::GetClass
 			}
 		}
 
-	*theClass = NULL;
+	*theClass = nullptr;
 	return kJFalse;
 }
 
@@ -2399,12 +2399,12 @@ CBTree::HitSameClass
 			}
 		else if (c1 || c2)	// quit now if it contains only one pt
 			{
-			*theClass = NULL;
+			*theClass = nullptr;
 			return kJFalse;
 			}
 		}
 
-	*theClass = NULL;
+	*theClass = nullptr;
 	return kJFalse;
 }
 

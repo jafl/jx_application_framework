@@ -77,7 +77,7 @@ JXCSFDialogBase::JXCSFDialogBase
 	itsPrevPath = itsDirInfo->GetDirectory();
 
 	itsDeactCancelFlag = kJFalse;
-	itsNewDirDialog    = NULL;
+	itsNewDirDialog    = nullptr;
 
 	// Our window geometry is stored by JXChooseSaveFile.
 
@@ -190,7 +190,7 @@ JXCSFDialogBase::ReadBaseSetup
 	)
 {
 	JXWindow* window = GetWindow();
-	assert( window != NULL && itsFileBrowser != NULL );
+	assert( window != nullptr && itsFileBrowser != nullptr );
 
 	JFileVersion vers;
 	input >> vers;
@@ -212,7 +212,7 @@ JXCSFDialogBase::ReadBaseSetup
 				JXScrollbar *hScrollbar, *vScrollbar;
 				itsFileBrowser->UpdateScrollbars();
 				itsFileBrowser->GetScrollbars(&hScrollbar, &vScrollbar);
-				assert( vScrollbar != NULL );
+				assert( vScrollbar != nullptr );
 				vScrollbar->SetValue(y);
 				}
 			}
@@ -238,7 +238,7 @@ JXCSFDialogBase::WriteBaseSetup
 	)
 	const
 {
-	assert( itsFileBrowser != NULL );
+	assert( itsFileBrowser != nullptr );
 
 	output << ' ' << kCurrentSetupVersion;
 
@@ -252,7 +252,7 @@ JXCSFDialogBase::WriteBaseSetup
 
 	JXScrollbar *hScrollbar, *vScrollbar;
 	itsFileBrowser->GetScrollbars(&hScrollbar, &vScrollbar);
-	assert( vScrollbar != NULL );
+	assert( vScrollbar != nullptr );
 	output << ' ' << vScrollbar->GetValue();
 
 	output << kSetupDataEndDelimiter;
@@ -277,7 +277,7 @@ JXCSFDialogBase::SetObjects
 	JXTextButton*			upButton,
 	JXTextButton*			homeButton,
 	JXTextButton*			desktopButton,
-	JXNewDirButton*			newDirButton,	// can be NULL
+	JXNewDirButton*			newDirButton,	// can be nullptr
 	JXTextCheckbox*			showHiddenCB,
 	JXCurrentPathMenu*		currPathMenu,
 	const JString&			message
@@ -288,7 +288,7 @@ JXCSFDialogBase::SetObjects
 		jnew JXDirTable(itsDirInfo, scrollbarSet, encl,
 					   JXWidget::kHElastic, JXWidget::kVElastic,
 					   0,0, encl->GetBoundsWidth(), encl->GetBoundsHeight());
-	assert( itsFileBrowser != NULL );
+	assert( itsFileBrowser != nullptr );
 	itsFileBrowser->FitToEnclosure();
 	itsFileBrowser->InstallShortcuts();
 
@@ -322,7 +322,7 @@ JXCSFDialogBase::SetObjects
 	itsUpButton->SetShortcuts(JGetString("UpShortcut::JXCSFDialogBase"));
 	itsHomeButton->SetShortcuts(JGetString("HomeShortcut::JXCSFDialogBase"));
 	itsDesktopButton->SetShortcuts(JGetString("DesktopShortcut::JXCSFDialogBase"));
-	if (itsNewDirButton != NULL)
+	if (itsNewDirButton != nullptr)
 		{
 		itsNewDirButton->SetShortcuts(JGetString("NewDirShortcut::JXCSFDialogBase"));
 		}
@@ -337,7 +337,7 @@ JXCSFDialogBase::SetObjects
 	ListenTo(itsUpButton);
 	ListenTo(itsHomeButton);
 	ListenTo(itsDesktopButton);
-	if (itsNewDirButton != NULL)
+	if (itsNewDirButton != nullptr)
 		{
 		ListenTo(itsNewDirButton);
 		}
@@ -365,7 +365,7 @@ JXCSFDialogBase::DisplayMessage
 	)
 {
 	JXWindow* window = GetWindow();
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	if (!message.IsEmpty())
 		{
@@ -373,7 +373,7 @@ JXCSFDialogBase::DisplayMessage
 			jnew JXStaticText(message, window,
 					JXWidget::kHElastic, JXWidget::kFixedTop,
 					20,20, window->GetBoundsWidth()-40,20);
-		assert( messageObj != NULL );
+		assert( messageObj != nullptr );
 
 		const JRect apG = messageObj->GetApertureGlobal();
 
@@ -427,7 +427,7 @@ JXCSFDialogBase::AdjustSizings()
 	itsHomeButton->SetSizing(JXWidget::kFixedRight, JXWidget::kFixedTop);
 	itsDesktopButton->SetSizing(JXWidget::kFixedRight, JXWidget::kFixedTop);
 
-	if (itsNewDirButton != NULL)
+	if (itsNewDirButton != nullptr)
 		{
 		itsNewDirButton->SetSizing(JXWidget::kFixedRight, JXWidget::kFixedTop);
 		}
@@ -497,7 +497,7 @@ JXCSFDialogBase::Receive
 		{
 		const JXCheckbox::Pushed* state =
 			dynamic_cast<const JXCheckbox::Pushed*>(&message);
-		assert( state != NULL );
+		assert( state != nullptr );
 		itsFileBrowser->ShowHidden(state->IsChecked());
 		}
 
@@ -559,12 +559,12 @@ JXCSFDialogBase::Receive
 		{
 		const JXDialogDirector::Deactivated* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		if (info->Successful())
 			{
 			CreateNewDirectory();
 			}
-		itsNewDirDialog = NULL;
+		itsNewDirDialog = nullptr;
 		}
 
 	else
@@ -616,11 +616,11 @@ JXCSFDialogBase::UpdateDisplay()
 		itsUpButton->Activate();
 		}
 
-	if (itsNewDirButton != NULL && itsDirInfo->IsWritable())
+	if (itsNewDirButton != nullptr && itsDirInfo->IsWritable())
 		{
 		itsNewDirButton->Activate();
 		}
-	else if (itsNewDirButton != NULL)
+	else if (itsNewDirButton != nullptr)
 		{
 		itsNewDirButton->Deactivate();
 		}
@@ -653,7 +653,7 @@ JXCSFDialogBase::AdjustFilter()
 void
 JXCSFDialogBase::GetNewDirectory()
 {
-	assert( itsNewDirDialog == NULL );
+	assert( itsNewDirDialog == nullptr );
 
 	JXApplication* app = JXGetApplication();
 	app->PrepareForBlockingWindow();
@@ -662,7 +662,7 @@ JXCSFDialogBase::GetNewDirectory()
 		jnew JXGetNewDirDialog(JXGetApplication(), JGetString("NewDirWindowTitle::JXCSFDialogBase"),
 							  JGetString("NewDirPrompt::JXCSFDialogBase"), JString::empty,
 							  itsDirInfo->GetDirectory(), kJFalse);
-	assert( itsNewDirDialog != NULL );
+	assert( itsNewDirDialog != nullptr );
 
 	JXWindow* window = itsNewDirDialog->GetWindow();
 	window->PlaceAsDialogWindow();
@@ -673,7 +673,7 @@ JXCSFDialogBase::GetNewDirectory()
 
 	// block with event loop running until we get a response
 
-	while (itsNewDirDialog != NULL)
+	while (itsNewDirDialog != nullptr)
 		{
 		app->HandleOneEventForWindow(window);
 		}
@@ -692,7 +692,7 @@ JXCSFDialogBase::GetNewDirectory()
 void
 JXCSFDialogBase::CreateNewDirectory()
 {
-	assert( itsNewDirDialog != NULL);
+	assert( itsNewDirDialog != nullptr);
 
 	const JString newDirName = itsNewDirDialog->GetNewDirName();
 
@@ -759,7 +759,7 @@ JXCSFDialogBase::SelectPrevDirectory()
 			{
 			JXCSFSelectPrevDirTask* task =
 				jnew JXCSFSelectPrevDirTask(itsDirInfo, itsFileBrowser, dirName);
-			assert( task != NULL );
+			assert( task != nullptr );
 			task->Go();
 			}
 		}

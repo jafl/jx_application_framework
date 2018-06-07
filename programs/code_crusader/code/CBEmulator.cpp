@@ -23,16 +23,16 @@ CBInstallEmulator
 	JTEKeyHandler**		handler
 	)
 {
-	*handler = NULL;
+	*handler = nullptr;
 
 	if (type == kCBVIEmulator)
 		{
 		*handler = jnew CBVIKeyHandler(editor);
-		assert( *handler != NULL );
+		assert( *handler != nullptr );
 		}
 
 	editor->SetKeyHandler(*handler);
-	return JI2B(*handler != NULL);
+	return JI2B(*handler != nullptr);
 }
 
 /******************************************************************************

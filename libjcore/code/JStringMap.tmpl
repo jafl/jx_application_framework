@@ -158,7 +158,7 @@ JStringMap<V>::SetElement
 			}
 
 		hashEntry.key = jnew JString(key);
-		assert( hashEntry.key != NULL );
+		assert( hashEntry.key != nullptr );
 		cursor->Set(cursor->GetCursorHashValue(), hashEntry);
 
 		return kJTrue;

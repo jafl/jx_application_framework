@@ -51,7 +51,7 @@ JXAdjustPrintSetupLayoutTask::~JXAdjustPrintSetupLayoutTask()
 void
 JXAdjustPrintSetupLayoutTask::Perform()
 {
-	if (itsDirector != NULL)
+	if (itsDirector != nullptr)
 		{
 		const JCoordinate delta =
 			itsPrintCmd->GetFrameGlobal().top - itsFileInput->GetFrameGlobal().top;

@@ -38,7 +38,7 @@ public:
 	void	DeleteCompartment(const JIndex index);
 
 	JBoolean	SplitVert(const JIndex index,
-						  JXVertDockPartition** returnPartition = NULL,
+						  JXVertDockPartition** returnPartition = nullptr,
 						  const JBoolean reportError = kJFalse);
 
 	void	ReadSetup(std::istream& input, const JFileVersion vers);
@@ -65,8 +65,8 @@ protected:
 private:
 
 	JXDockDirector*				itsDirector;
-	JXTextMenu*					itsDockMenu;			// NULL until first used
-	JXDockWidget*				itsParentDock;			// NULL if top-level partition
+	JXTextMenu*					itsDockMenu;			// nullptr until first used
+	JXDockWidget*				itsParentDock;			// nullptr if top-level partition
 	JIndex						itsCompartmentIndex;	// left index; used when Dock menu is open
 	JPtrArray<JXDockWidget>*	itsDockList;			// items not owned
 

@@ -30,7 +30,7 @@ JSTUndoTextBase::JSTUndoTextBase
 	JSTUndoBase(text)
 {
 	itsOrigStyles = jnew JRunArray<JFont>;
-	assert( itsOrigStyles != NULL );
+	assert( itsOrigStyles != nullptr );
 
 	text->Copy(range, &itsOrigText, itsOrigStyles);
 }
@@ -61,7 +61,7 @@ JSTUndoTextBase::UndoText
 	JStyledText* text = GetText();
 
 	JSTUndoPaste* newUndo = jnew JSTUndoPaste(text, range);
-	assert( newUndo != NULL );
+	assert( newUndo != nullptr );
 
 	const JStyledText::TextCount pasteCount = text->PrivatePaste(range, itsOrigText, itsOrigStyles);
 	assert( pasteCount.charCount == itsOrigText.GetCharacterCount() );
@@ -76,8 +76,12 @@ JSTUndoTextBase::UndoText
 	JUtf8ByteRange byteRange;
 	byteRange.SetFirstAndCount(range.byteRange.first, pasteCount.byteCount);
 
+	const JInteger charDelta = pasteCount.charCount - range.charRange.GetCount(),
+				   byteDelta = pasteCount.byteCount - range.byteRange.GetCount();
+
 	text->BroadcastTextChanged(
-		JStyledText::TextRange(charRange, byteRange), !range.IsEmpty());
+		JStyledText::TextRange(charRange, byteRange),
+		charDelta, byteDelta, !range.IsEmpty());
 }
 
 /******************************************************************************

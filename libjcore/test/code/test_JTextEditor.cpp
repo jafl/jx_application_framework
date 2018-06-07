@@ -509,7 +509,7 @@ JTEST(ReplaceSelection)
 	JAssertTrue(te.HasSelection());
 
 	JString s;
-	te.TestReplaceSelection(m1, JString("s" "\xC3\xA7" "or" "\xC3\xA9", 0, kJFalse), NULL, kJFalse);
+	te.TestReplaceSelection(m1, JString("s" "\xC3\xA7" "or" "\xC3\xA9", 0, kJFalse), nullptr, kJFalse);
 	JAssertStringsEqual("Fours" "\xC3\xA7" "or" "\xC3\xA9" " and seven years ago...", te.GetText()->GetText());
 	JAssertTrue(te.GetSelection(&s));
 	JAssertStringsEqual("s" "\xC3\xA7" "or" "\xC3\xA9", s);
@@ -518,7 +518,7 @@ JTEST(ReplaceSelection)
 	JAssertTrue(te.HasSelection());
 
 	JIndex i;
-	te.TestReplaceSelection(m2, JString::empty, NULL, kJFalse);
+	te.TestReplaceSelection(m2, JString::empty, nullptr, kJFalse);
 	JAssertStringsEqual("Fours" "\xC3\xA7" "or" "\xC3\xA9" "  seven years ago...", te.GetText()->GetText());
 	JAssertFalse(te.HasSelection());
 	JAssertTrue(te.GetCaretLocation(&i));
@@ -535,13 +535,13 @@ JTEST(ReplaceAll)
 
 	JBoolean found = te.ReplaceAll(
 		JRegex("e"), kJTrue,
-		JString("\xC3\xA9", 0, kJFalse), NULL, kJFalse, kJFalse);
+		JString("\xC3\xA9", 0, kJFalse), nullptr, kJFalse, kJFalse);
 	JAssertFalse(found);
 	JAssertStringsEqual("Fourscore and seven years ago...", text.GetText());
 
 	found = te.ReplaceAll(
 		JRegex("e"), kJFalse,
-		JString("\xC3\xA9", 0, kJFalse), NULL, kJFalse, kJFalse);
+		JString("\xC3\xA9", 0, kJFalse), nullptr, kJFalse, kJFalse);
 	JAssertTrue(found);
 	JAssertStringsEqual("Fourscor\xC3\xA9 and s\xC3\xA9" "v\xC3\xA9" "n y\xC3\xA9" "ars ago...", text.GetText());
 	JAssertEqual(charCount, text.GetText().GetCharacterCount());
@@ -550,12 +550,12 @@ JTEST(ReplaceAll)
 	r1.SetCaseSensitive(kJFalse);
 	found = te.ReplaceAll(
 		r1, kJTrue,
-		JString("five", 0, kJFalse), NULL, kJTrue, kJFalse);
+		JString("five", 0, kJFalse), nullptr, kJTrue, kJFalse);
 	JAssertFalse(found);	// caret at end
 
 	found = te.ReplaceAll(
 		r1, kJFalse,
-		JString("five", 0, kJFalse), NULL, kJTrue, kJFalse);
+		JString("five", 0, kJFalse), nullptr, kJTrue, kJFalse);
 	JAssertTrue(found);
 	JAssertStringsEqual("Fivescor\xC3\xA9 and s" "\xC3\xA9" "v\xC3\xA9" "n y\xC3\xA9" "ars ago...", text.GetText());
 
@@ -570,14 +570,14 @@ JTEST(ReplaceAll)
 	te.SetSelection(JCharacterRange(15, 22));
 	found = te.ReplaceAll(
 		JRegex("\xC3\xA9"), kJFalse,
-		JString("e", 0, kJFalse), NULL, kJFalse, kJTrue);
+		JString("e", 0, kJFalse), nullptr, kJFalse, kJTrue);
 	JAssertTrue(found);
 	JAssertStringsEqual("Fivescor\xC3\xA9 found seven y\xC3\xA9" "fours fougo...", text.GetText());
 
 	te.SetSelection(JCharacterRange(text.GetText().GetCharacterCount() - 5, text.GetText().GetCharacterCount()));
 	found = te.ReplaceAll(
 		JRegex("o"), kJFalse,
-		JString("\xC3\xB8", 0, kJFalse), NULL, kJFalse, kJTrue);
+		JString("\xC3\xB8", 0, kJFalse), nullptr, kJFalse, kJTrue);
 	JAssertTrue(found);
 	JAssertStringsEqual("Fivescor\xC3\xA9 found seven y\xC3\xA9" "fours foug\xC3\xB8...", text.GetText());
 }

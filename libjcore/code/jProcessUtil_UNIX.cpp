@@ -40,8 +40,8 @@ JRunProgram
 	int errFD;
 	const JError err =
 		JProcess::Create(&p, cmd,
-						 kJIgnoreConnection, NULL,
-						 kJIgnoreConnection, NULL,
+						 kJIgnoreConnection, nullptr,
+						 kJIgnoreConnection, nullptr,
 						 kJCreatePipe, &errFD);
 	if (err.OK())
 		{
@@ -175,7 +175,7 @@ JGetPGID
 	fileName += JString(pid, JString::kBase10);
 	fileName += "/status";
 
-	FILE* statusFile = NULL;
+	FILE* statusFile = nullptr;
 	const JError err = JFOpen(fileName, "r", &statusFile);
 	if (!err.OK())
 		{

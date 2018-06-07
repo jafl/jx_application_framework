@@ -37,9 +37,9 @@ protected:
 private:
 
 	CBCommandTable*		itsAllTable;
-	CBCommandManager*	itsCmdMgr;			// can be NULL
-	CBCommandTable*		itsThisTable;		// NULL if itsCmdMgr == NULL
-	JString				itsThisTableSetup;	// used when itsThisTable == NULL
+	CBCommandManager*	itsCmdMgr;			// can be nullptr
+	CBCommandTable*		itsThisTable;		// nullptr if itsCmdMgr == nullptr
+	JString				itsThisTableSetup;	// used when itsThisTable == nullptr
 
 // begin JXLayout
 

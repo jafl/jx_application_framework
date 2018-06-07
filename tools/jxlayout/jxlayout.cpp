@@ -302,7 +302,7 @@ main
 
 	if (changed && !postCmd.IsEmpty())
 		{
-		const JError err = JExecute(postCmd, NULL);
+		const JError err = JExecute(postCmd, nullptr);
 		err.ReportIfError();
 		}
 
@@ -353,7 +353,7 @@ GenerateForm
 	// copy source file contents before start delimiter
 
 	JString tempCodeFileName;
-	JError err = JCreateTempFile(&codePath, NULL, &tempCodeFileName);
+	JError err = JCreateTempFile(&codePath, nullptr, &tempCodeFileName);
 	if (!err.OK())
 		{
 		std::cerr << "Unable to create temporary file in " << codePath << std::endl;
@@ -423,7 +423,7 @@ GenerateForm
 	// copy header file contents before start delimiter
 
 	JString tempHeaderFileName;
-	err = JCreateTempFile(&codePath, NULL, &tempHeaderFileName);
+	err = JCreateTempFile(&codePath, nullptr, &tempHeaderFileName);
 	if (!err.OK())
 		{
 		std::cerr << "Unable to create temporary file in " << codePath << std::endl;
@@ -542,7 +542,7 @@ JIndex i;
 		output << indent << "JXWindow* window = jnew JXWindow(this, ";
 		output << formWidth << ',' << formHeight;
 		output << ", JString::empty);" << std::endl;
-		output << indent << "assert( window != NULL );" << std::endl;
+		output << indent << "assert( window != nullptr );" << std::endl;
 		output << std::endl;
 		}
 	else
@@ -586,7 +586,7 @@ JIndex i;
 	JPtrArray<JString> optionValues(JPtrArrayT::kForgetAll, kOptionCount);
 	for (i=1; i<=kOptionCount; i++)
 		{
-		optionValues.Append(NULL);
+		optionValues.Append(nullptr);
 		}
 
 	// generate code for each object
@@ -679,7 +679,7 @@ JIndex i;
 
 		JBoolean isLocal = kJFalse;
 		JString* varName = jnew JString(JReadLine(input));
-		assert( varName != NULL );
+		assert( varName != nullptr );
 		RemoveIdentifier(kObjNameMarker, varName);
 
 		// callback (ignored)
@@ -784,7 +784,7 @@ JIndex i;
 		// get the class name and additional arguments
 
 		JString* className = jnew JString;
-		assert( className != NULL );
+		assert( className != nullptr );
 		objTypes->Append(className);
 
 		JString argList;
@@ -868,7 +868,7 @@ JIndex i;
 
 		output << indent << "assert( ";
 		varName->Print(output);
-		output << " != NULL );" << std::endl;
+		output << " != nullptr );" << std::endl;
 
 		ApplyOptions(output, *className, formName, tagName, *varName, optionValues,
 					 lSize, lStyle, lColor, indent, &stringMgr);
@@ -1331,7 +1331,7 @@ ApplyOptions
 						output << "\"));" << std::endl;
 
 						JString* s = jnew JString(*value);
-						assert( s != NULL );
+						assert( s != nullptr );
 						stringMgr->SetElement(id, s, JPtrArrayT::kDelete);
 						}
 					}
@@ -1889,7 +1889,7 @@ FindConfigFile
 		}
 
 	char* envStr = getenv(kEnvUserConfigFileDir.GetBytes());
-	if (envStr != NULL && envStr[0] != '\0')
+	if (envStr != nullptr && envStr[0] != '\0')
 		{
 		JString otherFileName = JCombinePathAndName(JString(envStr, 0, kJFalse), *configFileName);
 		if (JFileExists(otherFileName))

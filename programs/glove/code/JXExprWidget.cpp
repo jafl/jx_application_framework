@@ -381,7 +381,7 @@ JXExprWidget::EIPClipboardChanged()
 		const JString text = f->Print();
 
 		JXTextSelection* data = jnew JXTextSelection(GetDisplay(), text);
-		assert( data != NULL );
+		assert( data != nullptr );
 
 		GetSelectionManager()->SetData(kJXClipboardName, data);
 		}
@@ -438,7 +438,7 @@ JXExprWidget::EIPGetExternalClipboard
 			}
 
 		Atom returnType;
-		unsigned char* data = NULL;
+		unsigned char* data = nullptr;
 		JSize dataLength;
 		JXSelectionManager::DeleteMethod delMethod;
 		if (canGetText &&

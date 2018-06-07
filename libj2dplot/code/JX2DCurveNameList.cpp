@@ -44,7 +44,7 @@ JX2DCurveNameList::JX2DCurveNameList
 	)
 	:
 	JXEditTable(1, kDefColWidth, scrollbarSet, enclosure, hSizing,vSizing, x,y, w,h),
-	itsInput(NULL)
+	itsInput(nullptr)
 {
 	itsMinColWidth = 1;
 
@@ -55,7 +55,7 @@ JX2DCurveNameList::JX2DCurveNameList
 	const JSize count = curveInfo.GetElementCount();
 
 	itsNameList = jnew JPtrArray<JString>(JPtrArrayT::kForgetAll, count);
-	assert(itsNameList != NULL);
+	assert(itsNameList != nullptr);
 
 	AppendRows(count);
 	for (JIndex i=1; i<=count; i++)
@@ -186,9 +186,9 @@ JX2DCurveNameList::CreateXInputField
 	s.SelectRow(cell.y);
 	Broadcast(NameSelected(cell.y));
 
-	assert(itsInput == NULL);
+	assert(itsInput == nullptr);
 	itsInput = jnew JXInputField(this, kHElastic, kVElastic, x, y, w, h);
-	assert(itsInput != NULL);
+	assert(itsInput != nullptr);
 
 	itsInput->GetText()->SetText(*(itsNameList->GetElement(cell.y)));
 	itsInput->SetIsRequired();
@@ -203,7 +203,7 @@ JX2DCurveNameList::CreateXInputField
 void
 JX2DCurveNameList::PrepareDeleteXInputField()
 {
-	itsInput = NULL;
+	itsInput = nullptr;
 }
 
 /******************************************************************************

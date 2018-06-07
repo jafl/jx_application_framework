@@ -118,11 +118,11 @@ public:
 
 private:
 
-	const JString*	itsConstString;			// NULL if invalidated
-	JString*		itsString;				// NULL if we were passed a const object
+	const JString*	itsConstString;			// nullptr if invalidated
+	JString*		itsString;				// nullptr if we were passed a const object
 	JCursorPosition	itsByteOffset;
 	JCursorPosition	itsCharacterOffset;
-	JStringMatch*	itsLastMatch;			// can be NULL
+	JStringMatch*	itsLastMatch;			// can be nullptr
 	JCursorPosition	itsMatchStartByte;		// set by BeginMatch()
 	JCursorPosition	itsMatchStartChar;		// set by BeginMatch()
 
@@ -165,7 +165,7 @@ inline JBoolean
 JStringIterator::IsValid()
 	const
 {
-	return JI2B( itsConstString != NULL );
+	return JI2B( itsConstString != nullptr );
 }
 
 /******************************************************************************
@@ -195,7 +195,7 @@ inline JBoolean
 JStringIterator::AtEnd()
 	const
 {
-	return JI2B( itsConstString == NULL ||
+	return JI2B( itsConstString == nullptr ||
 				 itsByteOffset >= itsConstString->GetByteCount() );
 }
 
@@ -365,7 +365,7 @@ JStringIterator::BeginMatch()
 inline void
 JStringIterator::RemoveLastMatch()
 {
-	ReplaceLastMatch(NULL, JUtf8ByteRange());
+	ReplaceLastMatch(nullptr, JUtf8ByteRange());
 }
 
 /******************************************************************************

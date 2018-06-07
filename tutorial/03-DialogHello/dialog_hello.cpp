@@ -27,11 +27,11 @@ main
 	// Create the application object - one per program
 	JXApplication* app = 
 		jnew JXApplication(&argc, argv, kAppSignature, kTutorialStringData);
-	assert( app != NULL );
+	assert( app != nullptr );
 
 	// Create the window director to maintain the Hello World window
 	DialogHelloDir* mainDir = jnew DialogHelloDir(app);
-	assert( mainDir != NULL );
+	assert( mainDir != nullptr );
 
 	// Show the window and activate it
 	mainDir->Activate();

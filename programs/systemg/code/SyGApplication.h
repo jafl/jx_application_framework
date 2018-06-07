@@ -32,7 +32,7 @@ public:
 
 	JBoolean	OpenDirectory();
 	JBoolean	OpenDirectory(const JString& pathName,
-							  SyGTreeDir** dir = NULL, JIndex* row = NULL,
+							  SyGTreeDir** dir = nullptr, JIndex* row = nullptr,
 							  const JBoolean deiconify = kJTrue,
 							  const JBoolean reportError = kJTrue,
 							  const JBoolean forceNew = kJTrue,
@@ -49,7 +49,7 @@ public:
 	void	RemoveShortcut(const JString& shortcut);
 	void	RemoveAllShortcuts();
 
-	JBoolean	IsMountPoint(const JCharacter* path, JMountType* type = NULL) const;
+	JBoolean	IsMountPoint(const JCharacter* path, JMountType* type = nullptr) const;
 	JBoolean	GetMountPointPrefs(const JCharacter* path, const JString** prefs) const;
 	void		SetMountPointPrefs(const JCharacter* path, const JCharacter* prefs);
 
@@ -69,7 +69,7 @@ public:
 	const JString&	GetPostCheckoutCommand() const;
 	void			SetPostCheckoutCommand(const JCharacter* cmd);
 
-	void	DisplayAbout(const JCharacter* prevVersStr = NULL);
+	void	DisplayAbout(const JCharacter* prevVersStr = nullptr);
 
 	JBoolean	RestoreProgramState();
 	void		SaveProgramState();

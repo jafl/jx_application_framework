@@ -153,7 +153,7 @@ CMMDIServer::HandleMDIRequest
 			else
 				{
 				JString* str = jnew JString(*arg);
-				assert(str != NULL);
+				assert(str != nullptr);
 				JIndex findex;
 				JInteger value = 0;
 				if (str->LocateSubstring(":", &findex))

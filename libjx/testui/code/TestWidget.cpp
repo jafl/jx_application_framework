@@ -179,7 +179,7 @@ JIndex i;
 
 	itsFillFlag       = kJFalse;
 	itsRandPointCount = 10;
-	itsResizeDialog   = NULL;
+	itsResizeDialog   = nullptr;
 
 	SetBackColor(JColorManager::GetDefaultBackColor());
 
@@ -202,21 +202,21 @@ JIndex i;
 	ListenTo(itsActionsMenu);
 
 	itsPointMenu = jnew JXTextMenu(itsActionsMenu, kPointMenuCmd, menuBar);
-	assert( itsPointMenu != NULL );
+	assert( itsPointMenu != nullptr );
 	itsPointMenu->SetMenuItems(kPointMenuStr);
 	itsPointMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsPointMenu);
 
 	// This tests the JX response to an empty menu.
 	JXTextMenu* emptyMenu = jnew JXTextMenu(itsActionsMenu, kEmptyMenuCmd, menuBar);
-	assert( emptyMenu != NULL );
+	assert( emptyMenu != nullptr );
 
 	JXMenu* prevMenu     = itsActionsMenu;
 	JIndex prevMenuIndex = kAdviceMenuCmd;
 	for (i=1; i<=kAdviceMenuCount; i++)
 		{
 		JXTextMenu* adviceMenu = jnew JXTextMenu(prevMenu, prevMenuIndex, menuBar);
-		assert( adviceMenu != NULL );
+		assert( adviceMenu != nullptr );
 		adviceMenu->SetMenuItems(kAdviceMenuStr[i-1]);
 		adviceMenu->SetUpdateAction(JXMenu::kDisableNone);
 
@@ -235,7 +235,7 @@ JIndex i;
 	// secret menus are a bad idea because the user can't find them!
 
 	itsSecretMenu = jnew JXTextMenu(JString::empty, this, kFixedLeft, kFixedTop, 0,0, 10,10);
-	assert( itsSecretMenu != NULL );
+	assert( itsSecretMenu != nullptr );
 	itsSecretMenu->SetMenuItems(kSecretMenuStr);
 	itsSecretMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsSecretMenu->SetToHiddenPopupMenu(kJTrue);		// will assert() otherwise
@@ -243,7 +243,7 @@ JIndex i;
 	ListenTo(itsSecretMenu);
 
 	itsSecretSubmenu = jnew JXTextMenu(itsSecretMenu, kSecretSubmenuIndex, this);
-	assert( itsSecretSubmenu != NULL );
+	assert( itsSecretSubmenu != nullptr );
 	itsSecretSubmenu->SetMenuItems(kSecretSubmenuStr);
 	itsSecretSubmenu->SetUpdateAction(JXMenu::kDisableNone);
 	// we don't ListenTo() it because it's only there for show
@@ -251,24 +251,24 @@ JIndex i;
 	// image from xpm
 
 	itsXPMImage = jnew JXImage(GetDisplay(), JXPM(macapp_xpm));
-	assert( itsXPMImage != NULL );
+	assert( itsXPMImage != nullptr );
 
 	// partial image from image
 
 	itsPartialXPMImage = jnew JXImage(*itsXPMImage, JRect(5,5,14,16));
-	assert( itsPartialXPMImage != NULL );
+	assert( itsPartialXPMImage != nullptr );
 
 	// home symbol
 
 	itsHomeImage = jnew JXImage(GetDisplay(), JXPM(home_xpm));
-	assert( itsHomeImage != NULL );
+	assert( itsHomeImage != nullptr );
 
 	itsHomeRect = itsHomeImage->GetBounds();
 	itsHomeRect.Shift(120, 10);
 
 	// buffer contents of Widget in JXImage
 
-	itsImageBuffer = NULL;
+	itsImageBuffer = nullptr;
 	if (isImage)
 		{
 		CreateImageBuffer();
@@ -284,7 +284,7 @@ JIndex i;
 		jnew JXTextButton(JGetString("AnimationButtonStartLabel::TestWidget"),
 						  this, JXWidget::kFixedLeft, JXWidget::kFixedTop,
 						  37,175, 50,30);
-	assert( itsAnimButton != NULL );
+	assert( itsAnimButton != nullptr );
 	itsAnimButton->SetShortcuts(JGetString("AnimationButtonStartShortcut::TestWidget"));
 	ListenTo(itsAnimButton);
 
@@ -294,7 +294,7 @@ JIndex i;
 			jnew JXTextButton(JGetString("QuitButtonLabel::TestWidget"),
 							  this, JXWidget::kFixedRight, JXWidget::kFixedBottom,
 							  x,y, 50,30);
-		assert( itsQuitButton != NULL );
+		assert( itsQuitButton != nullptr );
 
 		itsQuitButton->CenterWithinEnclosure(kJTrue, kJTrue);
 		itsQuitButton->SetFontStyle(JFontStyle(kJTrue, kJFalse, 0, kJFalse, JColorManager::GetRedColor()));
@@ -305,7 +305,7 @@ JIndex i;
 		}
 	else
 		{
-		itsQuitButton = NULL;
+		itsQuitButton = nullptr;
 		}
 
 	ExpandToFitContent();
@@ -433,7 +433,7 @@ TestWidget::Draw
 	const JRect&		rect
 	)
 {
-	if (itsImageBuffer != NULL)
+	if (itsImageBuffer != nullptr)
 		{
 		p.JPainter::Image(*itsImageBuffer, itsImageBuffer->GetBounds(), 0,0);
 		}
@@ -719,7 +719,7 @@ TestWidget::BoundsResized
 {
 	JXScrollableWidget::BoundsResized(dw,dh);
 
-	if (itsImageBuffer != NULL && (dw != 0 || dh != 0))
+	if (itsImageBuffer != nullptr && (dw != 0 || dh != 0))
 		{
 		CreateImageBuffer();
 		}
@@ -746,14 +746,14 @@ TestWidget::CreateImageBuffer()
 	// clear itsImageBuffer so Draw() will work correctly
 
 	jdelete itsImageBuffer;
-	itsImageBuffer = NULL;
+	itsImageBuffer = nullptr;
 
 	// create image
 
 	const JRect bounds = GetBounds();
 	JXImage* imageBuffer =
 		jnew JXImage(GetDisplay(), bounds.width(), bounds.height());
-	assert( imageBuffer != NULL );
+	assert( imageBuffer != nullptr );
 	imageBuffer->SetDefaultState(JXImage::kRemoteStorage);
 
 	// draw to image
@@ -828,7 +828,7 @@ TestWidget::HandleMouseDown
 			// override JXWidget::GetSelectionData().
 
 			JXFileSelection* data = jnew JXFileSelection(GetDisplay(), list);
-			assert( data != NULL );
+			assert( data != nullptr );
 
 			BeginDND(pt, buttonStates, modifiers, data);
 			}
@@ -889,7 +889,7 @@ TestWidget::HandleMouseDrag
 {
 	const JBoolean scrolled = ScrollForDrag(pt);
 
-	JPainter* p = NULL;
+	JPainter* p = nullptr;
 	if (buttonStates.left() && pt != itsPrevPt && GetDragPainter(&p))	// no painter for multiple click
 		{
 		if (!scrolled)
@@ -929,7 +929,7 @@ TestWidget::HandleMouseUp
 	const JXKeyModifiers&	modifiers
 	)
 {
-	JPainter* p = NULL;
+	JPainter* p = nullptr;
 	if (button == kJXLeftButton && GetDragPainter(&p))	// no painter for multiple click
 		{
 		p->Rect(JRect(itsStartPt, itsPrevPt));
@@ -1345,9 +1345,9 @@ TestWidget::UpdateActionsMenu()
 		}
 
 	itsActionsMenu->SetItemEnable(kShowHideQuitCmd,
-								  JI2B(itsQuitButton != NULL));
+								  JI2B(itsQuitButton != nullptr));
 	itsActionsMenu->SetItemEnable(kActDeactQuitCmd,
-								  JI2B(itsQuitButton != NULL));
+								  JI2B(itsQuitButton != nullptr));
 }
 
 /******************************************************************************
@@ -1393,25 +1393,25 @@ TestWidget::HandleActionsMenu
 		itsActionsMenu->SetItemText(kActDeactCmd, JGetString("DeactivateMenuItem::TestWidget"));
 		}
 
-	else if (index == kShowHideQuitCmd && itsQuitButton != NULL &&
+	else if (index == kShowHideQuitCmd && itsQuitButton != nullptr &&
 			 itsQuitButton->WouldBeVisible())
 		{
 		itsQuitButton->Hide();
 		itsActionsMenu->SetItemText(kShowHideQuitCmd, JGetString("ShowQuitMenuItem::TestWidget"));
 		}
-	else if (index == kShowHideQuitCmd && itsQuitButton != NULL)
+	else if (index == kShowHideQuitCmd && itsQuitButton != nullptr)
 		{
 		itsQuitButton->Show();
 		itsActionsMenu->SetItemText(kShowHideQuitCmd, JGetString("HideQuitMenuItem::TestWidget"));
 		}
 
-	else if (index == kActDeactQuitCmd && itsQuitButton != NULL &&
+	else if (index == kActDeactQuitCmd && itsQuitButton != nullptr &&
 			 itsQuitButton->WouldBeActive())
 		{
 		itsQuitButton->Deactivate();
 		itsActionsMenu->SetItemText(kActDeactQuitCmd, JGetString("ActivateQuitMenuItem::TestWidget"));
 		}
-	else if (index == kActDeactQuitCmd && itsQuitButton != NULL)
+	else if (index == kActDeactQuitCmd && itsQuitButton != nullptr)
 		{
 		itsQuitButton->Activate();
 		itsActionsMenu->SetItemText(kActDeactQuitCmd, JGetString("DeactivateQuitMenuItem::TestWidget"));
@@ -1461,10 +1461,10 @@ TestWidget::HandlePointMenu
 void
 TestWidget::GetNewSize()
 {
-	assert( itsResizeDialog == NULL );
+	assert( itsResizeDialog == nullptr );
 
 	itsResizeDialog = jnew ResizeWidgetDialog(GetWindow()->GetDirector(), this);
-	assert( itsResizeDialog != NULL );
+	assert( itsResizeDialog != nullptr );
 	ListenTo(itsResizeDialog);
 	itsResizeDialog->BeginDialog();
 }
@@ -1477,7 +1477,7 @@ TestWidget::GetNewSize()
 void
 TestWidget::ChangeSize()
 {
-	assert( itsResizeDialog != NULL );
+	assert( itsResizeDialog != nullptr );
 
 	JCoordinate w,h;
 	itsResizeDialog->GetNewSize(&w, &h);
@@ -1499,11 +1499,11 @@ TestWidget::Receive
 	)
 {
 	JXWindow* window         = GetWindow();		// ensure that it isn't const
-	JXWindowIcon* windowIcon = NULL;
+	JXWindowIcon* windowIcon = nullptr;
 
 	if (sender == itsAnimButton && message.Is(JXButton::kPushed))
 		{
-		if (GetCursorAnimator() == NULL)
+		if (GetCursorAnimator() == nullptr)
 			{
 			CreateCursorAnimator();
 			itsAnimButton->SetShortcuts(JGetString("AnimationButtonStopShorcut::TestWidget"));
@@ -1526,7 +1526,7 @@ TestWidget::Receive
 		{
 		const JXWindowIcon::HandleDrop* data =
 			dynamic_cast<const JXWindowIcon::HandleDrop*>(&message);
-		assert( data != NULL );
+		assert( data != nullptr );
 		HandleDNDDrop(JPoint(0,0), data->GetTypeList(), data->GetAction(),
 					  data->GetTime(), data->GetSource());
 		}
@@ -1539,7 +1539,7 @@ TestWidget::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleActionsMenu(selection->GetIndex());
 		}
 
@@ -1551,7 +1551,7 @@ TestWidget::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandlePointMenu(selection->GetIndex());
 		}
 
@@ -1559,7 +1559,7 @@ TestWidget::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		if (selection->GetIndex() == kSecretMenuDialogCmd)
 			{
 			(JGetUserNotification())->DisplayMessage(
@@ -1571,12 +1571,12 @@ TestWidget::Receive
 		{
 		const JXDialogDirector::Deactivated* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		if (info->Successful())
 			{
 			ChangeSize();
 			}
-		itsResizeDialog = NULL;
+		itsResizeDialog = nullptr;
 		}
 
 	else
@@ -1597,14 +1597,14 @@ TestWidget::ReceiveWithFeedback
 	Message*		message
 	)
 {
-	JXWindowIcon* windowIcon = NULL;
+	JXWindowIcon* windowIcon = nullptr;
 
 	if (GetWindow()->GetIconWidget(&windowIcon) &&
 		sender == windowIcon && message->Is(JXWindowIcon::kAcceptDrop))
 		{
 		JXWindowIcon::AcceptDrop* data =
 			dynamic_cast<JXWindowIcon::AcceptDrop*>(message);
-		assert( data != NULL );
+		assert( data != nullptr );
 		if (!data->WillAcceptDrop())
 			{
 			data->ShouldAcceptDrop(
@@ -1632,7 +1632,7 @@ TestWidget::BuildXlsfontsMenu
 	)
 {
 	JXTextMenu* menu = jnew JXTextMenu(owner, kXlsfontsMenuCmd, enclosure);
-	assert( menu != NULL );
+	assert( menu != nullptr );
 	menu->SetUpdateAction(JXMenu::kDisableNone);
 
 	JPtrArray<JString> fontList(JPtrArrayT::kDeleteAll);

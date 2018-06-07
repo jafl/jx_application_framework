@@ -47,14 +47,14 @@ TestStrTableDirector::TestStrTableDirector
 	JXWindowDirector(supervisor)
 {
 	itsData = jnew JStringTableData;
-	assert( itsData != NULL );
+	assert( itsData != nullptr );
 
-	itsPrinter = NULL;
+	itsPrinter = nullptr;
 
 	BuildWindow();
 
 	itsPrinter = jnew JXPSPrinter(GetDisplay());
-	assert( itsPrinter != NULL );
+	assert( itsPrinter != nullptr );
 	ListenTo(itsPrinter);
 }
 
@@ -80,17 +80,17 @@ TestStrTableDirector::BuildWindow()
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 400,330, JString::empty);
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	JXMenuBar* menuBar =
 		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 400,30);
-	assert( menuBar != NULL );
+	assert( menuBar != nullptr );
 
 	JXScrollbarSet* scrollbarSet =
 		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 400,300);
-	assert( scrollbarSet != NULL );
+	assert( scrollbarSet != nullptr );
 
 // end JXLayout
 
@@ -116,17 +116,17 @@ TestStrTableDirector::BuildWindow()
 	itsTable =
 		jnew TestStringTable(itsData, menuBar, scrollbarSet, encl,
 					JXWidget::kHElastic, JXWidget::kVElastic, 10,20, 390,280);
-	assert( itsTable != NULL );
+	assert( itsTable != nullptr );
 
 	itsColHeader =
 		jnew JXColHeaderWidget(itsTable, scrollbarSet, encl,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 10,0, 390,20);
-	assert( itsColHeader != NULL );
+	assert( itsColHeader != nullptr );
 
 	itsRowHeader =
 		jnew JXRowHeaderWidget(itsTable, scrollbarSet, encl,
 					JXWidget::kFixedLeft, JXWidget::kVElastic, 0,20, 10,280);
-	assert( itsRowHeader != NULL );
+	assert( itsRowHeader != nullptr );
 
 	encl->SetSize(tablelayout_Frame.width(), tablelayout_Frame.height());
 
@@ -157,7 +157,7 @@ TestStrTableDirector::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleFileMenu(selection->GetIndex());
 		}
 
@@ -165,7 +165,7 @@ TestStrTableDirector::Receive
 		{
 		const JXRowHeaderWidget::NeedsToBeWidened* info =
 			dynamic_cast<const JXRowHeaderWidget::NeedsToBeWidened*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 
 		const JCoordinate dw = info->GetDeltaWidth();
 		itsRowHeader->AdjustSize(dw,0);
@@ -180,7 +180,7 @@ TestStrTableDirector::Receive
 		{
 		const JPrinter::PrintSetupFinished* info =
 			dynamic_cast<const JPrinter::PrintSetupFinished*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		if (info->Successful())
 			{
 			itsTable->Print(*itsPrinter);

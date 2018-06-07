@@ -88,7 +88,7 @@ JXPSPageSetupDialog::Create
 	)
 {
 	JXPSPageSetupDialog* dlog = jnew JXPSPageSetupDialog;
-	assert( dlog != NULL );
+	assert( dlog != nullptr );
 	dlog->BuildWindow(paper, orient);
 	return dlog;
 }
@@ -128,44 +128,44 @@ JXPSPageSetupDialog::BuildWindow
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 240,160, JString::empty);
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	JXStaticText* orientationLabel =
 		jnew JXStaticText(JGetString("orientationLabel::JXPSPageSetupDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 15,85, 75,20);
-	assert( orientationLabel != NULL );
+	assert( orientationLabel != nullptr );
 	orientationLabel->SetToLabel();
 
 	JXTextButton* okButton =
 		jnew JXTextButton(JGetString("okButton::JXPSPageSetupDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 140,130, 70,20);
-	assert( okButton != NULL );
+	assert( okButton != nullptr );
 	okButton->SetShortcuts(JGetString("okButton::JXPSPageSetupDialog::shortcuts::JXLayout"));
 
 	JXTextButton* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::JXPSPageSetupDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 30,130, 70,20);
-	assert( cancelButton != NULL );
+	assert( cancelButton != nullptr );
 
 	itsOrientation =
 		jnew JXRadioGroup(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 95,65, 94,54);
-	assert( itsOrientation != NULL );
+	assert( itsOrientation != nullptr );
 
 	JXImageRadioButton* portraitRB =
 		jnew JXImageRadioButton(1, itsOrientation,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 5,5, 40,40);
-	assert( portraitRB != NULL );
+	assert( portraitRB != nullptr );
 
 	JXImageRadioButton* landscapeRB =
 		jnew JXImageRadioButton(2, itsOrientation,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 45,5, 40,40);
-	assert( landscapeRB != NULL );
+	assert( landscapeRB != nullptr );
 
 	itsPaperTypeMenu =
 		jnew JXTextMenu(JGetString("itsPaperTypeMenu::JXPSPageSetupDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 30,20, 180,30);
-	assert( itsPaperTypeMenu != NULL );
+	assert( itsPaperTypeMenu != nullptr );
 
 // end JXLayout
 
@@ -282,7 +282,7 @@ JXPSPageSetupDialog::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		itsPaperType = selection->GetIndex();
 		}
 

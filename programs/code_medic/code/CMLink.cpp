@@ -64,17 +64,17 @@ CMLink::CMLink
 {
 	// commands are often owned by other objects, who can delete them more reliably
 	itsForegroundQ = jnew JPtrArray<CMCommand>(JPtrArrayT::kForgetAll);
-	assert( itsForegroundQ != NULL );
+	assert( itsForegroundQ != nullptr );
 
 	// commands are often owned by other objects, who can delete them more reliably
 	itsBackgroundQ = jnew JPtrArray<CMCommand>(JPtrArrayT::kForgetAll);
-	assert( itsBackgroundQ != NULL );
+	assert( itsBackgroundQ != nullptr );
 
-	itsRunningCommand = NULL;
+	itsRunningCommand = nullptr;
 	itsLastCommandID  = 0;
 
 	itsFileNameMap = jnew JStringPtrMap<JString>(JPtrArrayT::kDeleteAll);
-	assert( itsFileNameMap != NULL );
+	assert( itsFileNameMap != nullptr );
 }
 
 /******************************************************************************
@@ -240,7 +240,7 @@ CMLink::Cancel
 {
 	if (itsRunningCommand == cmd)
 		{
-		itsRunningCommand = NULL;
+		itsRunningCommand = nullptr;
 		}
 	itsBackgroundQ->Remove(cmd);
 	itsForegroundQ->Remove(cmd);
@@ -295,7 +295,7 @@ CMLink::HandleCommandRunning
 	const JIndex cmdID
 	)
 {
-	assert( itsRunningCommand == NULL );
+	assert( itsRunningCommand == nullptr );
 
 	const JSize fgCount = itsForegroundQ->GetElementCount();
 	for (JIndex i=1; i<=fgCount; i++)
@@ -309,7 +309,7 @@ CMLink::HandleCommandRunning
 			}
 		}
 
-	if (itsRunningCommand == NULL && !itsBackgroundQ->IsEmpty())
+	if (itsRunningCommand == nullptr && !itsBackgroundQ->IsEmpty())
 		{
 		CMCommand* command = itsBackgroundQ->FirstElement();
 		if (command->GetTransactionID() == cmdID)
@@ -336,7 +336,7 @@ CMLink::CancelAllCommands()
 
 		if (itsRunningCommand == cmd)
 			{
-			itsRunningCommand = NULL;
+			itsRunningCommand = nullptr;
 			}
 		}
 
@@ -359,7 +359,7 @@ CMLink::CancelBackgroundCommands()
 
 		if (itsRunningCommand == cmd)
 			{
-			itsRunningCommand = NULL;
+			itsRunningCommand = nullptr;
 			}
 		}
 }
@@ -378,7 +378,7 @@ CMLink::RememberFile
 {
 	if (JString::IsEmpty(fullName))
 		{
-		itsFileNameMap->SetElement(fileName, NULL, JPtrArrayT::kDelete);
+		itsFileNameMap->SetElement(fileName, nullptr, JPtrArrayT::kDelete);
 		}
 	else
 		{
@@ -400,7 +400,7 @@ CMLink::FindFile
 	)
 	const
 {
-	const JString* s = NULL;
+	const JString* s = nullptr;
 	if (JIsAbsolutePath(fileName) && JFileExists(fileName))
 		{
 		*exists   = kJTrue;
@@ -409,7 +409,7 @@ CMLink::FindFile
 		}
 	else if (itsFileNameMap->GetElement(fileName, &s))
 		{
-		if (s == NULL)
+		if (s == nullptr)
 			{
 			*exists = kJFalse;
 			fullName->Clear();

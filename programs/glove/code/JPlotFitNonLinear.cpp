@@ -35,10 +35,10 @@ JPlotFitNonLinear::JPlotFitNonLinear
 	)
 	:
 	JPlotFitBase(plot, fitData, xMin, xMax),
-	itsVarList(NULL),
-	itsFunction(NULL),
-	itsFPrimed(NULL),
-	itsErrors(NULL)
+	itsVarList(nullptr),
+	itsFunction(nullptr),
+	itsFPrimed(nullptr),
+	itsErrors(nullptr)
 {
 }
 
@@ -53,10 +53,10 @@ JPlotFitNonLinear::JPlotFitNonLinear
 	)
 	:
 	JPlotFitBase(plot, fitData, xmin, xmax, ymin, ymax),
-	itsVarList(NULL),
-	itsFunction(NULL),
-	itsFPrimed(NULL),
-	itsErrors(NULL)
+	itsVarList(nullptr),
+	itsFunction(nullptr),
+	itsFPrimed(nullptr),
+	itsErrors(nullptr)
 {
 }
 
@@ -84,7 +84,7 @@ JPlotFitNonLinear::SetCurrentParameters
 	const JVector& p
 	)
 {
-	assert(itsVarList != NULL);
+	assert(itsVarList != nullptr);
 
 	const JSize count	= p.GetDimensionCount();
 	for (JIndex i = 1; i <= count; i++)
@@ -118,8 +118,8 @@ JPlotFitNonLinear::FunctionN
 	const JFloat x
 	)
 {
-	assert(itsVarList != NULL);
-	assert(itsFunction != NULL);
+	assert(itsVarList != nullptr);
+	assert(itsFunction != nullptr);
 	itsVarList->SetValue(1, x);
 	JFloat y = 0;;
 	itsFunction->Evaluate(&y);
@@ -137,12 +137,12 @@ JPlotFitNonLinear::FunctionNPrimed
 	const JFloat x
 	)
 {
-	if (itsFPrimed == NULL)
+	if (itsFPrimed == nullptr)
 		{
 		return JPlotFitBase::FunctionNPrimed(x);
 		}
-	assert(itsVarList != NULL);
-	assert(itsFunction != NULL);
+	assert(itsVarList != nullptr);
+	assert(itsFunction != nullptr);
 	itsVarList->SetValue(1, x);
 	JFloat y = 0;
 	itsFPrimed->Evaluate(&y);
@@ -164,7 +164,7 @@ JPlotFitNonLinear::SetVarList
 	const JSize count	= list->GetVariableCount() - 1;
 	SetParameterCount(count);
 	itsErrors	= jnew JVector(count);
-	assert(itsErrors != NULL);
+	assert(itsErrors != nullptr);
 }
 
 /******************************************************************************
@@ -178,7 +178,7 @@ JPlotFitNonLinear::SetFunction
 	const JCharacter* function
 	)
 {
-	assert(itsVarList != NULL);
+	assert(itsVarList != nullptr);
 	SetFunctionString(function);
 	
 	JBoolean ok	= JParseFunction(function, itsVarList, &itsFunction);
@@ -196,7 +196,7 @@ JPlotFitNonLinear::SetFPrimed
 	const JCharacter* fPrimed
 	)
 {
-	assert(itsVarList != NULL);
+	assert(itsVarList != nullptr);
 	JBoolean ok	= JParseFunction(fPrimed, itsVarList, &itsFPrimed);
 	assert(ok);
 }

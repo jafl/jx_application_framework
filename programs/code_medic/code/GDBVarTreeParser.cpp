@@ -20,11 +20,11 @@ GDBVarTreeParser::GDBVarTreeParser
 	const JCharacter* text
 	)
 	:
-	itsCurrentNode(NULL),
+	itsCurrentNode(nullptr),
 	itsIsPointerFlag(kJFalse)
 {
 	itsScanner = jnew GDBVarTreeScanner(text);
-	assert(itsScanner != NULL);
+	assert(itsScanner != nullptr);
 }
 
 /******************************************************************************
@@ -66,7 +66,7 @@ GDBVarTreeParser::yylex
 
 		token          = P_GROUP_CLOSE;
 		lvalp->pString = jnew JString("}");
-		assert( lvalp->pString != NULL );
+		assert( lvalp->pString != nullptr );
 
 		itsGroupDepth--;
 	}
@@ -128,8 +128,8 @@ GDBVarTreeParser::AppendAsArrayElement
 {
 	const JString name = "[" + JString(list->GetElementCount(), JString::kBase10) + "]";
 
-	CMVarNode* node = (CMGetLink())->CreateVarNode(NULL, name, NULL, groupLabel);
-	assert( node != NULL );
+	CMVarNode* node = (CMGetLink())->CreateVarNode(nullptr, name, nullptr, groupLabel);
+	assert( node != nullptr );
 	list->Append(node);
 
 	const JSize count = data.GetElementCount();
@@ -154,7 +154,7 @@ GDBVarTreeParser::ReportRecoverableError()
 		child->SetValid(kJFalse);
 
 		child = (CMGetLink())->CreateVarNode(itsCurrentNode,
-					JGetString("ErrorNodeName::GDBVarTreeParser"), NULL,
+					JGetString("ErrorNodeName::GDBVarTreeParser"), nullptr,
 					JGetString("ErrorNodeValue::GDBVarTreeParser"));
 		child->SetValid(kJFalse);
 

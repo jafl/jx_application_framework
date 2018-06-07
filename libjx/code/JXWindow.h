@@ -289,25 +289,25 @@ private:
 
 	struct Shortcut
 	{
-		JXWidget*		widget;		// not owned (NULL if menu   != NULL)
-		JXTextMenu*		menu;		// not owned (NULL if widget != NULL)
+		JXWidget*		widget;		// not owned (nullptr if menu   != nullptr)
+		JXTextMenu*		menu;		// not owned (nullptr if widget != nullptr)
 		JIndex			menuItem;
 		int				key;
 		unsigned int	state;
 
 		Shortcut()
 			:
-			widget(NULL), menu(NULL), menuItem(0), key(0), state(0)
+			widget(nullptr), menu(nullptr), menuItem(0), key(0), state(0)
 		{ };
 
 		Shortcut(JXWidget* w, const int k, const unsigned int s)
 			:
-			widget(w), menu(NULL), menuItem(0), key(k), state(s)
+			widget(w), menu(nullptr), menuItem(0), key(k), state(s)
 		{ };
 
 		Shortcut(JXTextMenu* m, const JIndex mi, const int k, const unsigned int s)
 			:
-			widget(NULL), menu(m), menuItem(mi), key(k), state(s)
+			widget(nullptr), menu(m), menuItem(mi), key(k), state(s)
 		{ };
 	};
 
@@ -346,8 +346,8 @@ private:
 private:
 
 	JXWindowDirector*	itsDirector;		// it owns us, we don't own it
-	JXIconDirector*		itsIconDir;			// can be NULL; owned by itsDirector
-	JXWindow*			itsMainWindow;		// can be NULL; uses us for icon
+	JXIconDirector*		itsIconDir;			// can be nullptr; owned by itsDirector
+	JXWindow*			itsMainWindow;		// can be nullptr; uses us for icon
 	const JBoolean		itsIsOverlayFlag;
 
 	JXDisplay*		itsDisplay;					// we don't own this
@@ -357,7 +357,7 @@ private:
 	JString			itsTitle;
 	JString			itsWindowType;
 	JColorID		itsBackColor;
-	JXImage*		itsIcon;					// can be NULL
+	JXImage*		itsIcon;					// can be nullptr
 	JRect			itsBounds;
 	JPoint			itsDesktopLoc;				// convert to root coordinates
 	JPoint			itsWMFrameLoc;				// top left of Window Manager frame
@@ -394,8 +394,8 @@ private:
 	JBoolean		itsBPRChangedFlag;			// flag for BeginDrag()
 
 	JPtrArray<JXWidget>*	itsFocusList;		// widgets that want focus
-	JXWidget*				itsFocusWidget;		// receives key events directly; not owned; can be NULL
-	JXHintManager*			itsCurrHintMgr;		// not owned; can be NULL; deactivate when key press
+	JXWidget*				itsFocusWidget;		// receives key events directly; not owned; can be nullptr
+	JXHintManager*			itsCurrHintMgr;		// not owned; can be nullptr; deactivate when key press
 
 	mutable Window	itsRootChild;				// ancestor which is direct child of root window
 
@@ -410,19 +410,19 @@ private:
 
 	JBoolean			itsIsDockedFlag;
 	Window				itsDockXWindow;			// None if not docked
-	JXDockWidget*		itsDockWidget;			// can be NULL, even if docked
+	JXDockWidget*		itsDockWidget;			// can be nullptr, even if docked
 	JRect				itsUndockedGeom;
 	JPoint				itsUndockedWMFrameLoc;
 	JXDockWindowTask*	itsDockingTask;
 
-	JArray<ChildWindowInfo>*	itsChildWindowList;		// NULL unless has children
+	JArray<ChildWindowInfo>*	itsChildWindowList;		// nullptr unless has children
 
 	static JBoolean	theAutoDockNewWindowFlag;			// kJTrue => check auto-docking settings
 	static JBoolean	theFocusFollowsCursorInDockFlag;	// kJTrue => automatically set input focus to docked window containing cursor
 
 	// FTC
 
-	JXExpandWindowToFitContentTask*	itsExpandTask;		// NULL unless waiting for it
+	JXExpandWindowToFitContentTask*	itsExpandTask;		// nullptr unless waiting for it
 
 private:
 
@@ -648,7 +648,7 @@ JXWindow::GetDockWidget
 	const
 {
 	*dock = itsDockWidget;
-	return JI2B( itsDockWidget != NULL );
+	return JI2B( itsDockWidget != nullptr );
 }
 
 /******************************************************************************
@@ -784,7 +784,7 @@ JXWindow::GetMouseContainer
 	const
 {
 	*container = itsMouseContainer;
-	return JConvertToBoolean( *container != NULL );
+	return JConvertToBoolean( *container != nullptr );
 }
 
 /******************************************************************************
@@ -819,7 +819,7 @@ JXWindow::GetFocusWidget
 	const
 {
 	*widget = itsFocusWidget;
-	return JConvertToBoolean( itsFocusWidget != NULL );
+	return JConvertToBoolean( itsFocusWidget != nullptr );
 }
 
 /******************************************************************************

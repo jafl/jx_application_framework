@@ -67,10 +67,10 @@ private:
 	Time			itsEndTime;
 	JArray<Atom>*	itsTypeList;		// sorted
 
-	// used for delayed evaluation -- NULL after Resolve()
+	// used for delayed evaluation -- nullptr after Resolve()
 
 	JXWidget*	itsDataSource;			// not owned
-	JString*	itsDataSourceID;		// may be NULL
+	JString*	itsDataSourceID;		// may be nullptr
 
 private:
 

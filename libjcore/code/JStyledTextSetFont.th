@@ -18,7 +18,7 @@
  ******************************************************************************/
 
 JBoolean isNew;
-JSTUndoStyle* undo = NULL;
+JSTUndoStyle* undo = nullptr;
 
 if (clearUndo)
 	{
@@ -47,11 +47,11 @@ for (JIndex i=range.charRange.first; i<=range.charRange.last; i++)
 
 if (changed)
 	{
-	if (undo != NULL)
+	if (undo != nullptr)
 		{
 		NewUndo(undo, isNew);
 		}
-	BroadcastTextChanged(range, kJFalse, kJFalse);
+	BroadcastTextChanged(range, 0, 0, kJFalse, kJFalse);
 	}
 else
 	{

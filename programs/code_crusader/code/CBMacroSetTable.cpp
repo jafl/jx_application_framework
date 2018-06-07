@@ -265,9 +265,9 @@ CBMacroSetTable::AddRow()
 		CBPrefsManager::MacroSetInfo info(itsLastNewID, jnew JString("New"),
 										  jnew CBCharActionManager,
 										  jnew CBMacroManager);
-		assert( info.name   != NULL &&
-				info.action != NULL &&
-				info.macro  != NULL );
+		assert( info.name   != nullptr &&
+				info.action != nullptr &&
+				info.macro  != nullptr );
 		itsMacroList->AppendElement(info);
 
 		JStringTableData* data = GetStringData();

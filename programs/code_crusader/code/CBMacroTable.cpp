@@ -51,7 +51,7 @@ CBMacroTable::CBMacroTable
 
 	itsCSF = jnew CBListCSF(JGetString("ReplaceMacroList::CBMacroTable"),
 						   JGetString("AppendToMacroList::CBMacroTable"));
-	assert( itsCSF != NULL );
+	assert( itsCSF != nullptr );
 
 	SetColWidth(kMacroColumn, 60);
 	// script column set automatically
@@ -168,7 +168,7 @@ CBMacroTable::LoadMacros()
 {
 	JString fileName;
 	if (GetDialog()->ContentsValid() &&
-		itsCSF->ChooseFile("", NULL, &fileName))
+		itsCSF->ChooseFile("", nullptr, &fileName))
 		{
 		ReadData(fileName, itsCSF->ReplaceExisting());
 		}
@@ -248,7 +248,7 @@ CBMacroTable::SaveMacros()
 		GetDialog()->GetCurrentMacroSetName(&origName))
 		{
 		JString newName;
-		if (itsCSF->SaveFile(JGetString("SaveMacroListPrompt::CBMacroTable"), NULL, origName, &newName))
+		if (itsCSF->SaveFile(JGetString("SaveMacroListPrompt::CBMacroTable"), nullptr, origName, &newName))
 			{
 			WriteData(newName);
 			}

@@ -84,46 +84,46 @@ CBFindFileDialog::BuildWindow()
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 290,140, "");
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	itsCloseButton =
 		jnew JXTextButton(JGetString("itsCloseButton::CBFindFileDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 130,110, 60,20);
-	assert( itsCloseButton != NULL );
+	assert( itsCloseButton != nullptr );
 	itsCloseButton->SetShortcuts(JGetString("itsCloseButton::CBFindFileDialog::shortcuts::JXLayout"));
 
 	itsFindButton =
 		jnew JXTextButton(JGetString("itsFindButton::CBFindFileDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 210,110, 60,20);
-	assert( itsFindButton != NULL );
+	assert( itsFindButton != nullptr );
 	itsFindButton->SetShortcuts(JGetString("itsFindButton::CBFindFileDialog::shortcuts::JXLayout"));
 
 	itsFileName =
 		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 20,40, 220,20);
-	assert( itsFileName != NULL );
+	assert( itsFileName != nullptr );
 
 	JXStaticText* nameLabel =
 		jnew JXStaticText(JGetString("nameLabel::CBFindFileDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 80,20);
-	assert( nameLabel != NULL );
+	assert( nameLabel != nullptr );
 	nameLabel->SetToLabel();
 
 	itsFileHistoryMenu =
 		jnew JXStringHistoryMenu(kHistoryLength, "", window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 240,40, 30,20);
-	assert( itsFileHistoryMenu != NULL );
+	assert( itsFileHistoryMenu != nullptr );
 
 	itsIgnoreCaseCB =
 		jnew JXTextCheckbox(JGetString("itsIgnoreCaseCB::CBFindFileDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,70, 230,20);
-	assert( itsIgnoreCaseCB != NULL );
+	assert( itsIgnoreCaseCB != nullptr );
 	itsIgnoreCaseCB->SetShortcuts(JGetString("itsIgnoreCaseCB::CBFindFileDialog::shortcuts::JXLayout"));
 
 	itsStayOpenCB =
 		jnew JXTextCheckbox(JGetString("itsStayOpenCB::CBFindFileDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,110, 90,20);
-	assert( itsStayOpenCB != NULL );
+	assert( itsStayOpenCB != nullptr );
 
 // end JXLayout
 
@@ -149,7 +149,7 @@ CBFindFileDialog::BuildWindow()
 	JXDocumentMenu* fileListMenu =
 		jnew JXDocumentMenu("", window,
 						   JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,-20, 10,10);
-	assert( fileListMenu != NULL );
+	assert( fileListMenu != nullptr );
 
 	UpdateDisplay();
 }

@@ -96,7 +96,7 @@ JImage::GetFileType
 	assert( !fileName.IsEmpty() );
 
 	FILE* input = fopen(fileName.GetBytes(), "rb");
-	if (input == NULL)
+	if (input == nullptr)
 		{
 		return kUnknownType;
 		}
@@ -299,7 +299,7 @@ JImage::ReadGD
 		}
 	gdImagePtr image = imageCreateFromFile(input);
 	fclose(input);
-	if (image == NULL)
+	if (image == nullptr)
 		{
 		return UnknownFileType(fileName);
 		}
@@ -331,7 +331,7 @@ JImage::ReadGD
 		ImageDataFinished();
 
 		gdImageDestroy(image);
-		image = NULL;
+		image = nullptr;
 
 		return JNoError();
 		}
@@ -353,7 +353,7 @@ JImage::ReadGD
 		const JSize colorCount = gdImageColorsTotal(image);
 
 		JColorID* colorTable = jnew JColorID [ colorCount ];
-		assert( colorTable != NULL );
+		assert( colorTable != nullptr );
 
 		const JColorID blackColor = JColorManager::GetBlackColor();
 
@@ -380,7 +380,7 @@ JImage::ReadGD
 			}
 
 		gdImageDestroy(image);	// free up memory as soon as possible
-		image = NULL;
+		image = nullptr;
 
 		SetImageData(colorCount, colorTable, cols, hasMask, maskColor);
 
@@ -423,7 +423,7 @@ JImage::WriteGD
 	)
 	const
 {
-	gdImagePtr image = NULL;
+	gdImagePtr image = nullptr;
 	if (useTrueColor)
 		{
 		image = gdImageCreateTrueColor(itsWidth, itsHeight);
@@ -432,7 +432,7 @@ JImage::WriteGD
 		{
 		image = gdImageCreate(itsWidth, itsHeight);
 		}
-	if (image == NULL)
+	if (image == nullptr)
 		{
 		return JNoProcessMemory();
 		}
@@ -443,7 +443,7 @@ JImage::WriteGD
 
 	int maxColorCount = gdMaxColors;
 
-	JImageMask* mask       = NULL;
+	JImageMask* mask       = nullptr;
 	const JBoolean hasMask = GetMask(&mask);
 	if (hasMask)
 		{
@@ -595,7 +595,7 @@ JIndex i;
 		}
 
 	JColorID* colorTable = jnew JColorID [ colorCount ];
-	assert( colorTable != NULL );
+	assert( colorTable != nullptr );
 
 	// decode color table
 
@@ -682,13 +682,13 @@ JImage::AllocateImageData
 	)
 {
 	*data = jnew unsigned short [ w * h ];
-	if (*data == NULL)
+	if (*data == nullptr)
 		{
 		return JNoProcessMemory();
 		}
 
 	*cols = jnew unsigned short* [ w ];
-	if (*cols == NULL)
+	if (*cols == nullptr)
 		{
 		return JNoProcessMemory();
 		}

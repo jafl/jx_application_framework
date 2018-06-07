@@ -33,7 +33,7 @@ const JCoordinate kMinButtonHMargin = 10;
 /******************************************************************************
  Constructor
 
-	shortcutList can be NULL.
+	shortcutList can be nullptr.
 
  ******************************************************************************/
 
@@ -49,7 +49,7 @@ JXCheckboxListDialog::JXCheckboxListDialog
 	JXDialogDirector(supervisor, kJTrue)
 {
 	itsCBList = jnew JPtrArray<JXCheckbox>(JPtrArrayT::kForgetAll);
-	assert( itsCBList != NULL );
+	assert( itsCBList != nullptr );
 
 	BuildWindow(windowTitle, prompt, choiceList, shortcutList);
 }
@@ -136,7 +136,7 @@ JXCheckboxListDialog::BuildWindow
 	const JSize actionCount = choiceList.GetElementCount();
 
 	JXWindow* window = jnew JXWindow(this, 10,10, windowTitle);
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	JCoordinate y = kFirstItemTop;
 
@@ -146,7 +146,7 @@ JXCheckboxListDialog::BuildWindow
 		jnew JXStaticText(prompt, window,
 						  JXWidget::kFixedLeft, JXWidget::kFixedTop,
 						  kHMarginWidth,y, 0,0);
-	assert( instrText != NULL );
+	assert( instrText != nullptr );
 
 	y += instrText->GetFrameHeight() + kItemVDelta;
 
@@ -160,9 +160,9 @@ JXCheckboxListDialog::BuildWindow
 								JXWidget::kFixedLeft, JXWidget::kFixedTop,
 								kCBHLMarginWidth, y + (i-1) * kItemVSeparation,
 								10, kTextHeight);
-		assert( cb != NULL );
+		assert( cb != nullptr );
 
-		if (shortcutList != NULL)
+		if (shortcutList != nullptr)
 			{
 			cb->SetShortcuts(*(shortcutList->GetElement(i)));
 			}
@@ -193,14 +193,14 @@ JXCheckboxListDialog::BuildWindow
 		jnew JXTextButton(JGetString("CancelLabel::JXGlobal"), window,
 						 JXWidget::kFixedLeft, JXWidget::kFixedTop,
 						 buttonX,y, kButtonWidth,kTextHeight);
-	assert( cancelButton != NULL );
+	assert( cancelButton != nullptr );
 
 	JXTextButton* okButton =
 		jnew JXTextButton(JGetString("OKLabel::JXGlobal"), window,
 						 JXWidget::kFixedLeft, JXWidget::kFixedTop,
 						 wmin - buttonX - (kButtonWidth+2), y-1,
 						 kButtonWidth+2, kTextHeight+2);
-	assert( okButton != NULL );
+	assert( okButton != nullptr );
 	okButton->SetShortcuts(JGetString("OKShortcut::JXGlobal"));
 
 	SetButtons(okButton, cancelButton);

@@ -32,7 +32,7 @@ JQueue<T,S>::JQueue()
 	JContainer()
 {
 	itsElements = jnew S;
-	assert( itsElements != NULL );
+	assert( itsElements != nullptr );
 
 	InstallOrderedSet(itsElements);
 }
@@ -51,7 +51,7 @@ JQueue<T,S>::JQueue
 	JContainer(source)
 {
 	itsElements = jnew S(*(source.itsElements));
-	assert( itsElements != NULL );
+	assert( itsElements != nullptr );
 
 	InstallOrderedSet(itsElements);
 }

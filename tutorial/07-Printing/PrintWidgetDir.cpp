@@ -31,7 +31,7 @@ PrintWidgetDir::PrintWidgetDir
 
 	// Create the printer object
 	itsPrinter = jnew JXPSPrinter(GetDisplay());
-	assert( itsPrinter != NULL );
+	assert( itsPrinter != nullptr );
 
 	// We need to know when a dialog is closed
 	ListenTo(itsPrinter);
@@ -74,7 +74,7 @@ PrintWidgetDir::Receive
 		// See if the user cancelled the print job
 		const JPrinter::PrintSetupFinished* info =
 			dynamic_cast<const JPrinter::PrintSetupFinished*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		if (info->Successful())
 			{
 			// If the user didn't cancel, print
@@ -101,7 +101,7 @@ PrintWidgetDir::BuildWindow()
 {
 	// Create the window
 	JXWindow* window = jnew JXWindow(this, 300,200, "Printing Test Program");
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	// Set the window sizing
 	window->SetMinSize(300,200);
@@ -120,14 +120,14 @@ PrintWidgetDir::BuildWindow()
 	JXScrollbarSet* scrollbarSet =
 		jnew JXScrollbarSet(window,
 			JXWidget::kHElastic, JXWidget::kVElastic, 0,20, 300,180);
-	assert( scrollbarSet != NULL );
+	assert( scrollbarSet != nullptr );
 
 	// Create the custom widget with the scrollbarset as its enclosure
 	PrintWidget* widget =
 		jnew PrintWidget(scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 			JXWidget::kHElastic, JXWidget::kVElastic,
 			0, 0, 10, 10);
-	assert( widget != NULL );
+	assert( widget != nullptr );
 
 	// Fit the widget within the scrollbarset enclosure
 	widget->FitToEnclosure(kJTrue, kJTrue);

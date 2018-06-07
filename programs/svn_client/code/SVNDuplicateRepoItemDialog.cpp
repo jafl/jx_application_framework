@@ -32,7 +32,7 @@ SVNDuplicateRepoItemDialog::SVNDuplicateRepoItemDialog
 	JXGetStringDialog(supervisor, windowTitle, prompt, initialName),
 	itsSrcNode(srcNode)
 {
-	assert( itsSrcNode != NULL );
+	assert( itsSrcNode != nullptr );
 
 	GetInputField()->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
 }

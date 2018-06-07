@@ -44,9 +44,9 @@
 JMMRecord::JMMRecord()
 {
 	// Defined but not initialized in JMMRecordData
-	itsAddress = NULL;
-	itsNewFile = NULL;
-	itsDeleteFile = NULL;
+	itsAddress = nullptr;
+	itsNewFile = nullptr;
+	itsDeleteFile = nullptr;
 	itsSize = 0;
 
 	itsID = 0;
@@ -73,7 +73,7 @@ JMMRecord::JMMRecord
 	// Defined but not initialized in JMMRecordData
 	itsAddress = address;
 	itsNewFile = file;
-	itsDeleteFile = NULL;
+	itsDeleteFile = nullptr;
 	itsSize = size;
 
 	itsID = id;
@@ -87,9 +87,9 @@ JMMRecord::JMMRecord
 
 	// These values are only allowed in a default constructor, and may only
 	// be changed in a copy constructor!
-	assert(itsAddress != NULL);
+	assert(itsAddress != nullptr);
 	assert(itsSize != 0);
-	assert(itsNewFile != NULL);
+	assert(itsNewFile != nullptr);
 }
 
 /******************************************************************************
@@ -120,9 +120,9 @@ JMMRecord::SetDeleteLocation
 	const JBoolean   arrayDelete
 	)
 {
-	assert(itsDeleteFile == NULL);
+	assert(itsDeleteFile == nullptr);
 	assert(itsDeleteLine == 0);
-	assert(deleteFile != NULL);
+	assert(deleteFile != nullptr);
 	itsDeleteFile = deleteFile;
 	itsDeleteLine = deleteLine;
 	itsArrayDeleteFlag = arrayDelete;

@@ -94,7 +94,7 @@ private:
 	JXTextButton*			itsUpButton;
 	JXTextButton*			itsHomeButton;
 	JXTextButton*			itsDesktopButton;
-	JXNewDirButton*			itsNewDirButton;	// can be NULL
+	JXNewDirButton*			itsNewDirButton;	// can be nullptr
 	JXTextCheckbox*			itsShowHiddenCB;
 	JXCurrentPathMenu*		itsCurrPathMenu;
 

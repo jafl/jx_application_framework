@@ -42,7 +42,7 @@ JXUpdateMinSizeTask::~JXUpdateMinSizeTask()
 void
 JXUpdateMinSizeTask::Perform()
 {
-	if (itsDockWidget != NULL)
+	if (itsDockWidget != nullptr)
 		{
 		itsDockWidget->UpdateMinSize();
 		}

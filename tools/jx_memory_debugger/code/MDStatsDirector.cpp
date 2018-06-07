@@ -154,12 +154,12 @@ MDStatsDirector::MDStatsDirector
 	:
 	JXWindowDirector(supervisor),
 	JPrefObject(MDGetPrefsManager(), kMDStatsDirectorID),
-	itsAcceptor(NULL),
-	itsLink(NULL),
-	itsProcess(NULL),
-	itsPingTask(NULL),
-	itsMessageDir(NULL),
-	itsRequestRecordsDialog(NULL)
+	itsAcceptor(nullptr),
+	itsLink(nullptr),
+	itsProcess(nullptr),
+	itsPingTask(nullptr),
+	itsMessageDir(nullptr),
+	itsRequestRecordsDialog(nullptr)
 {
 	BuildWindow();
 
@@ -198,7 +198,7 @@ MDStatsDirector::SetLink
 	JMemoryManager::DebugLink* link
 	)
 {
-	assert( itsLink == NULL );
+	assert( itsLink == nullptr );
 	itsLink = link;
 	JMemoryManager::SetProtocol(itsLink);
 	ListenTo(itsLink);
@@ -206,7 +206,7 @@ MDStatsDirector::SetLink
 	DeleteDebugAcceptor();
 
 	itsPingTask = jnew JXTimerTask(kRefreshInterval * 1000);
-	assert( itsPingTask != NULL );
+	assert( itsPingTask != nullptr );
 	itsPingTask->Start();
 	ListenTo(itsPingTask);
 }
@@ -223,16 +223,16 @@ MDStatsDirector::CloseLink
 	)
 {
 	jdelete itsLink;
-	itsLink = NULL;
+	itsLink = nullptr;
 
 	if (deleteProcess)
 		{
 		jdelete itsProcess;
-		itsProcess = NULL;
+		itsProcess = nullptr;
 		}
 
 	jdelete itsPingTask;
-	itsPingTask = NULL;
+	itsPingTask = nullptr;
 }
 
 /******************************************************************************
@@ -246,7 +246,7 @@ MDStatsDirector::OpenDebugAcceptor()
 	const JError err = JCreateTempFile(&itsSocketName);
 
 	itsAcceptor = jnew MDLinkAcceptor(this);
-	assert( itsAcceptor != NULL );
+	assert( itsAcceptor != nullptr );
 
 	JRemoveFile(itsSocketName);
 	ACE_UNIX_Addr addr(itsSocketName);
@@ -265,10 +265,10 @@ MDStatsDirector::OpenDebugAcceptor()
 void
 MDStatsDirector::DeleteDebugAcceptor()
 {
-	if (itsAcceptor != NULL)
+	if (itsAcceptor != nullptr)
 		{
 		jdelete itsAcceptor;
-		itsAcceptor = NULL;
+		itsAcceptor = nullptr;
 		}
 }
 
@@ -287,17 +287,17 @@ MDStatsDirector::BuildWindow()
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 500,300, "");
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	JXMenuBar* menuBar =
 		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 500,30);
-	assert( menuBar != NULL );
+	assert( menuBar != nullptr );
 
 	itsToolBar =
 		jnew JXToolBar(MDGetPrefsManager(), kMDStatsToolBarID, menuBar, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 500,270);
-	assert( itsToolBar != NULL );
+	assert( itsToolBar != nullptr );
 
 // end JXLayout
 
@@ -306,7 +306,7 @@ MDStatsDirector::BuildWindow()
 	window->SetMinSize(200, 200);
 
 	JXImage* image = jnew JXImage(GetDisplay(), md_main_window_icon);
-	assert( image != NULL );
+	assert( image != nullptr );
 	window->SetIcon(image);
 
 	JXWidgetSet* statsEncl = itsToolBar->GetWidgetEnclosure();
@@ -320,69 +320,69 @@ MDStatsDirector::BuildWindow()
 	JXStaticText* binaryLabel =
 		jnew JXStaticText(JGetString("binaryLabel::MDStatsDirector::statsLayout"), statsEncl,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,10, 50,20);
-	assert( binaryLabel != NULL );
+	assert( binaryLabel != nullptr );
 	binaryLabel->SetToLabel();
 
 	itsProgramInput =
 		jnew JXFileInput(statsEncl,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 60,10, 370,20);
-	assert( itsProgramInput != NULL );
+	assert( itsProgramInput != nullptr );
 
 	itsChooseProgramButton =
 		jnew JXTextButton(JGetString("itsChooseProgramButton::MDStatsDirector::statsLayout"), statsEncl,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 430,10, 60,20);
-	assert( itsChooseProgramButton != NULL );
+	assert( itsChooseProgramButton != nullptr );
 	itsChooseProgramButton->SetShortcuts(JGetString("itsChooseProgramButton::MDStatsDirector::shortcuts::statsLayout"));
 
 	JXStaticText* argsLabel =
 		jnew JXStaticText(JGetString("argsLabel::MDStatsDirector::statsLayout"), statsEncl,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,30, 50,20);
-	assert( argsLabel != NULL );
+	assert( argsLabel != nullptr );
 	argsLabel->SetToLabel();
 
 	itsArgsInput =
 		jnew JXInputField(statsEncl,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 60,30, 370,20);
-	assert( itsArgsInput != NULL );
+	assert( itsArgsInput != nullptr );
 
 	itsRunProgramButton =
 		jnew JXTextButton(JGetString("itsRunProgramButton::MDStatsDirector::statsLayout"), statsEncl,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 430,30, 60,20);
-	assert( itsRunProgramButton != NULL );
+	assert( itsRunProgramButton != nullptr );
 	itsRunProgramButton->SetShortcuts(JGetString("itsRunProgramButton::MDStatsDirector::shortcuts::statsLayout"));
 
 	JXStaticText* blocksLabel =
 		jnew JXStaticText(JGetString("blocksLabel::MDStatsDirector::statsLayout"), statsEncl,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,60, 50,20);
-	assert( blocksLabel != NULL );
+	assert( blocksLabel != nullptr );
 	blocksLabel->SetToLabel();
 
 	itsAllocatedBlocksDisplay =
-		jnew JXStaticText("", kJFalse, kJTrue, NULL, statsEncl,
+		jnew JXStaticText("", kJFalse, kJTrue, nullptr, statsEncl,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 60,60, 90,20);
-	assert( itsAllocatedBlocksDisplay != NULL );
+	assert( itsAllocatedBlocksDisplay != nullptr );
 
 	JXStaticText* bytesLabel =
 		jnew JXStaticText(JGetString("bytesLabel::MDStatsDirector::statsLayout"), statsEncl,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 160,60, 50,20);
-	assert( bytesLabel != NULL );
+	assert( bytesLabel != nullptr );
 	bytesLabel->SetToLabel();
 
 	itsAllocatedBytesDisplay =
-		jnew JXStaticText("", kJFalse, kJTrue, NULL, statsEncl,
+		jnew JXStaticText("", kJFalse, kJTrue, nullptr, statsEncl,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 210,60, 90,20);
-	assert( itsAllocatedBytesDisplay != NULL );
+	assert( itsAllocatedBytesDisplay != nullptr );
 
 	JXStaticText* deallocLabel =
 		jnew JXStaticText(JGetString("deallocLabel::MDStatsDirector::statsLayout"), statsEncl,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 310,60, 80,20);
-	assert( deallocLabel != NULL );
+	assert( deallocLabel != nullptr );
 	deallocLabel->SetToLabel();
 
 	itsDeallocatedBlocksDisplay =
-		jnew JXStaticText("", kJFalse, kJTrue, NULL, statsEncl,
+		jnew JXStaticText("", kJFalse, kJTrue, nullptr, statsEncl,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 390,60, 90,20);
-	assert( itsDeallocatedBlocksDisplay != NULL );
+	assert( itsDeallocatedBlocksDisplay != nullptr );
 
 	statsEncl->SetSize(statsLayout_Frame.width(), statsLayout_Frame.height());
 
@@ -399,13 +399,13 @@ MDStatsDirector::BuildWindow()
 		jnew JXScrollbarSet(itsToolBar->GetWidgetEnclosure(),
 						   JXWidget::kHElastic,JXWidget::kVElastic,
 						   0,headerHeight, 100,histoHeight);
-	assert( scrollbarSet != NULL );
+	assert( scrollbarSet != nullptr );
 	scrollbarSet->FitToEnclosure(kJTrue, kJFalse);
 
 	itsAllocatedHisto =
 		jnew MDSizeHistogram(scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 						   JXWidget::kHElastic,JXWidget::kVElastic, 0,0, 100,100);
-	assert( itsAllocatedHisto != NULL );
+	assert( itsAllocatedHisto != nullptr );
 	itsAllocatedHisto->FitToEnclosure();
 
 	itsProgramInput->ShouldBroadcastAllTextChanged(kJTrue);
@@ -430,7 +430,7 @@ MDStatsDirector::BuildWindow()
 	JXWDMenu* windowsMenu =
 		jnew JXWDMenu(kWindowsMenuTitleStr, menuBar,
 					 JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
-	assert( windowsMenu != NULL );
+	assert( windowsMenu != nullptr );
 	menuBar->AppendMenu(windowsMenu);
 
 	itsPrefsMenu = menuBar->AppendTextMenu(kPrefsMenuTitleStr);
@@ -526,14 +526,14 @@ MDStatsDirector::Receive
 		{
 		const JXDialogDirector::Deactivated* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		if (info->Successful())
 			{
 			JMemoryManager::RecordFilter filter;
 			itsRequestRecordsDialog->BuildFilter(&filter);
 			RequestRecords(filter);
 			}
-		itsRequestRecordsDialog = NULL;
+		itsRequestRecordsDialog = nullptr;
 		}
 
 	else if (sender == itsFileMenu && message.Is(JXMenu::kNeedsUpdate))
@@ -544,7 +544,7 @@ MDStatsDirector::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleFileMenu(selection->GetIndex());
 		}
 
@@ -556,7 +556,7 @@ MDStatsDirector::Receive
 		{
 		 const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandlePrefsMenu(selection->GetIndex());
 		}
 
@@ -568,7 +568,7 @@ MDStatsDirector::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleHelpMenu(selection->GetIndex());
 		}
 
@@ -587,7 +587,7 @@ void
 MDStatsDirector::ChooseProgram()
 {
 	JString fullName;
-	if ((JXGetChooseSaveFile())->ChooseFile("", NULL, itsProgramInput->GetText(), &fullName))
+	if ((JXGetChooseSaveFile())->ChooseFile("", nullptr, itsProgramInput->GetText(), &fullName))
 		{
 		itsProgramInput->SetText(fullName);
 		}
@@ -615,13 +615,13 @@ MDStatsDirector::RunProgram()
 	setenv("MALLOC_CHECK_",        "2",           1);
 
 	JCharacter* v = getenv("JMM_INITIALIZE");
-	if (v == NULL || JString::Compare(v, "no", kJFalse) == 0)
+	if (v == nullptr || JString::Compare(v, "no", kJFalse) == 0)
 		{
 		setenv("JMM_INITIALIZE", "default", 1);
 		}
 
 	v = getenv("JMM_SHRED");
-	if (v == NULL || JString::Compare(v, "no", kJFalse) == 0)
+	if (v == nullptr || JString::Compare(v, "no", kJFalse) == 0)
 		{
 		setenv("JMM_SHRED", "default", 1);
 		}
@@ -701,7 +701,7 @@ MDStatsDirector::SendRequest
 void
 MDStatsDirector::HandleResponse()
 {
-	assert( itsLink != NULL );
+	assert( itsLink != nullptr );
 
 	JString text;
 	const JBoolean ok = itsLink->GetNextMessage(&text);
@@ -878,7 +878,7 @@ MDStatsDirector::ReadExitStats()
 	JRemoveFile(itsExitStatsFile);
 	itsExitStatsFile.Clear();
 
-	if (itsMessageDir != NULL)
+	if (itsMessageDir != nullptr)
 		{
 		itsMessageDir->ProcessFinished();
 		}
@@ -917,7 +917,7 @@ MDStatsDirector::ReceiveRecords
 	)
 {
 	MDRecordList* list = jnew MDRecordList;
-	assert( list != NULL );
+	assert( list != nullptr );
 
 	while (1)
 		{
@@ -929,12 +929,12 @@ MDStatsDirector::ReceiveRecords
 			}
 
 		MDRecord* record = jnew MDRecord(input);
-		assert( record != NULL );
+		assert( record != nullptr );
 		list->AddRecord(record);
 		}
 
 	MDRecordDirector* dir = jnew MDRecordDirector(this, list, windowTitle);
-	assert( dir != NULL );
+	assert( dir != nullptr );
 	dir->Activate();
 }
 
@@ -952,10 +952,10 @@ MDStatsDirector::ReceiveErrorMessage
 	JString msg;
 	input >> msg;
 
-	if (itsMessageDir == NULL)
+	if (itsMessageDir == nullptr)
 		{
 		itsMessageDir = jnew JXPGMessageDirector(this);
-		assert( itsMessageDir != NULL );
+		assert( itsMessageDir != nullptr );
 		itsMessageDir->Activate();
 		}
 
@@ -970,7 +970,7 @@ MDStatsDirector::ReceiveErrorMessage
 void
 MDStatsDirector::UpdateFileMenu()
 {
-	itsFileMenu->SetItemEnable(kGetRecordsCmd, JI2B(itsProcess != NULL));
+	itsFileMenu->SetItemEnable(kGetRecordsCmd, JI2B(itsProcess != nullptr));
 }
 
 /******************************************************************************
@@ -986,9 +986,9 @@ MDStatsDirector::HandleFileMenu
 {
 	if (index == kGetRecordsCmd)
 		{
-		assert( itsRequestRecordsDialog == NULL );
+		assert( itsRequestRecordsDialog == nullptr );
 		itsRequestRecordsDialog = jnew MDFilterRecordsDialog(this);
-		assert( itsRequestRecordsDialog != NULL );
+		assert( itsRequestRecordsDialog != nullptr );
 		itsRequestRecordsDialog->BeginDialog();
 		ListenTo(itsRequestRecordsDialog);
 		}

@@ -52,7 +52,7 @@ GDBVarNode::~GDBVarNode()
 /******************************************************************************
  GetFullName (virtual)
 
-	isPointer can be NULL.  Its content is only modified if GetFullName()
+	isPointer can be nullptr.  Its content is only modified if GetFullName()
 	has to directly recurse due to fake nodes in the path.
 
  ******************************************************************************/

@@ -62,68 +62,68 @@ JX2DPlotRangeDialog::BuildWindow()
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 390,120, JString::empty);
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	JXTextButton* okButton =
 		jnew JXTextButton(JGetString("okButton::JX2DPlotRangeDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 280,90, 70,20);
-	assert( okButton != NULL );
+	assert( okButton != nullptr );
 	okButton->SetShortcuts(JGetString("okButton::JX2DPlotRangeDialog::shortcuts::JXLayout"));
 
 	JXTextButton* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::JX2DPlotRangeDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 40,90, 70,20);
-	assert( cancelButton != NULL );
+	assert( cancelButton != nullptr );
 	cancelButton->SetShortcuts(JGetString("cancelButton::JX2DPlotRangeDialog::shortcuts::JXLayout"));
 
 	itsXMin =
 		jnew JXFloatInput(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 90,20, 120,20);
-	assert( itsXMin != NULL );
+	assert( itsXMin != nullptr );
 
 	JXStaticText* xRangeLabel =
 		jnew JXStaticText(JGetString("xRangeLabel::JX2DPlotRangeDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 70,20);
-	assert( xRangeLabel != NULL );
+	assert( xRangeLabel != nullptr );
 	xRangeLabel->SetToLabel();
 
 	JXStaticText* xToLabel =
 		jnew JXStaticText(JGetString("xToLabel::JX2DPlotRangeDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 220,20, 30,20);
-	assert( xToLabel != NULL );
+	assert( xToLabel != nullptr );
 	xToLabel->SetToLabel();
 
 	itsXMax =
 		jnew JXFloatInput(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 250,20, 120,20);
-	assert( itsXMax != NULL );
+	assert( itsXMax != nullptr );
 
 	itsYMin =
 		jnew JXFloatInput(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 90,50, 120,20);
-	assert( itsYMin != NULL );
+	assert( itsYMin != nullptr );
 
 	JXStaticText* yRangeLabel =
 		jnew JXStaticText(JGetString("yRangeLabel::JX2DPlotRangeDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,50, 70,20);
-	assert( yRangeLabel != NULL );
+	assert( yRangeLabel != nullptr );
 	yRangeLabel->SetToLabel();
 
 	JXStaticText* yToLabel =
 		jnew JXStaticText(JGetString("yToLabel::JX2DPlotRangeDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 220,50, 30,20);
-	assert( yToLabel != NULL );
+	assert( yToLabel != nullptr );
 	yToLabel->SetToLabel();
 
 	itsYMax =
 		jnew JXFloatInput(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 250,50, 120,20);
-	assert( itsYMax != NULL );
+	assert( itsYMax != nullptr );
 
 	itsClearButton =
 		jnew JXTextButton(JGetString("itsClearButton::JX2DPlotRangeDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 160,90, 70,20);
-	assert( itsClearButton != NULL );
+	assert( itsClearButton != nullptr );
 
 // end JXLayout
 

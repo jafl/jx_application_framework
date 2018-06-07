@@ -54,11 +54,11 @@ FitModule::Create
 			JProcess::Create(&process, sysCmd,
 							kJCreatePipe, &outFD,
 							kJCreatePipe, &inFD,
-							kJIgnoreConnection, NULL);						
+							kJIgnoreConnection, nullptr);						
 	if (err.OK())
 		{
 		JOutPipeStream* op = jnew JOutPipeStream(outFD, kJTrue);
-		assert( op != NULL );
+		assert( op != nullptr );
 		assert( op->good() );
 		*module = jnew FitModule(dir, fitData, process, inFD, op);
 		return kJTrue;
@@ -88,22 +88,22 @@ FitModule::FitModule
 	ListenTo(itsProcess);
 	
 	itsLink = new ProcessLink(fd);
-	assert(itsLink != NULL);
+	assert(itsLink != nullptr);
 //	itsLink->set_hanle(input);
 	ListenTo(itsLink);
 //	itsProcessInput = jnew JIPCLine(input, kJTrue);
-//	assert(itsProcessInput != NULL);
+//	assert(itsProcessInput != nullptr);
 //	ListenTo(itsProcessInput);
 	itsNames = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
-	assert(itsNames != NULL);
+	assert(itsNames != nullptr);
 	itsValues = jnew JArray<JFloat>;
-	assert(itsValues != NULL);
+	assert(itsValues != nullptr);
 	itsFunction = jnew JString();
-	assert (itsFunction != NULL);
+	assert (itsFunction != nullptr);
 	itsStatusRead = kJFalse;
 	itsHeaderRead = kJFalse;
 	itsFunctionRead = kJFalse;
-	itsPG = NULL;
+	itsPG = nullptr;
 	
 	JIndex type;
 	if (itsData->HasXErrors())
@@ -199,7 +199,7 @@ FitModule::~FitModule()
 {
 	jdelete itsProcess;
 	delete itsLink;
-	if (itsPG != NULL)
+	if (itsPG != nullptr)
 		{
 		itsPG->ProcessFinished();
 		jdelete itsPG;
@@ -284,7 +284,7 @@ FitModule::HandleInput
 			str.Prepend("Module error: ");
 			JGetUserNotification()->ReportError(str);
 			DeleteFitModTask* dft = jnew DeleteFitModTask(this);
-			assert(dft != NULL);
+			assert(dft != nullptr);
 			dft->Go();
 			}
 		else if (val == kGloveOK)
@@ -295,7 +295,7 @@ FitModule::HandleInput
 			{
 			JGetUserNotification()->ReportError("Unknown module error");
 			DeleteFitModTask* dft = jnew DeleteFitModTask(this);
-			assert(dft != NULL);
+			assert(dft != nullptr);
 			dft->Go();
 			}
 		}
@@ -313,7 +313,7 @@ FitModule::HandleDataRead
 	JString& str
 	)
 {
-	if (itsPG == NULL)
+	if (itsPG == nullptr)
 		{
 		itsPG = JGetCreatePG()->New();
 		itsPG->VariableLengthProcessBeginning(
@@ -331,7 +331,7 @@ FitModule::HandleDataRead
 	if (!keepGoing)
 		{
 		DeleteFitModTask* dft = jnew DeleteFitModTask(this);
-		assert(dft != NULL);
+		assert(dft != nullptr);
 		dft->Go();
 		return;
 		}
@@ -360,7 +360,7 @@ FitModule::HandleFit()
 		{
 		JGetUserNotification()->ReportError("Unknown module error.");
 		DeleteFitModTask* dft = jnew DeleteFitModTask(this);
-		assert(dft != NULL);
+		assert(dft != nullptr);
 		dft->Go();
 		return;;
 		}
@@ -389,7 +389,7 @@ FitModule::HandleFit()
 				jnew JPlotModuleFit(itsDir->GetPlot(), itsData, xmin, xmax, 
 					itsNames, itsValues, f, list, itsParmsCount, 
 					itsHasErrors, itsHasGOF);
-			assert(fit != NULL);
+			assert(fit != nullptr);
 			if (!(itsDir->AddFitModule(fit, itsData)))
 				{
 				jdelete fit;
@@ -402,7 +402,7 @@ FitModule::HandleFit()
 			}
 		}
 	DeleteFitModTask* dft = jnew DeleteFitModTask(this);
-	assert(dft != NULL);
+	assert(dft != nullptr);
 	dft->Go();
 	return;
 }

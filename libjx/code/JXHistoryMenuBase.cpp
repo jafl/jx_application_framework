@@ -87,7 +87,7 @@ JXHistoryMenuBase::JXHistoryMenuBaseX
 	itsHistoryDirection = kNewestItemAtTop;
 	SetUpdateAction(kDisableNone);
 
-	itsDefaultIcon     = NULL;
+	itsDefaultIcon     = nullptr;
 	itsOwnsDefIconFlag = kJFalse;
 
 	ListenTo(this);
@@ -199,7 +199,7 @@ JXHistoryMenuBase::ReadSetup
 	std::istream& input
 	)
 {
-	ReadSetup(input, this, NULL, NULL);
+	ReadSetup(input, this, nullptr, nullptr);
 }
 
 /******************************************************************************
@@ -220,7 +220,7 @@ JXHistoryMenuBase::ReadSetup
 	JPtrArray<JString>*	nmShortcutList
 	)
 {
-	ReadSetup(input, NULL, itemList, nmShortcutList);
+	ReadSetup(input, nullptr, itemList, nmShortcutList);
 }
 
 /******************************************************************************
@@ -240,15 +240,15 @@ JXHistoryMenuBase::ReadSetup
 	JPtrArray<JString>*	nmShortcutList
 	)
 {
-	if (menu != NULL)
+	if (menu != nullptr)
 		{
 		menu->ClearHistory();
 		}
-	if (itemList != NULL)
+	if (itemList != nullptr)
 		{
 		itemList->CleanOut();
 		}
-	if (nmShortcutList != NULL)
+	if (nmShortcutList != nullptr)
 		{
 		nmShortcutList->CleanOut();
 		}
@@ -287,20 +287,20 @@ JXHistoryMenuBase::ReadSetup
 			break;
 			}
 
-		if (menu != NULL && direction == kNewestItemAtTop)
+		if (menu != nullptr && direction == kNewestItemAtTop)
 			{
 			menu->AppendItem(text, kPlainType, JString::empty, nmShortcut);
 			}
-		else if (menu != NULL)
+		else if (menu != nullptr)
 			{
 			menu->InsertItem(firstIndex, text, kPlainType, JString::empty, nmShortcut);
 			}
 
-		if (itemList != NULL)
+		if (itemList != nullptr)
 			{
 			itemList->Append(text);
 			}
-		if (nmShortcutList != NULL)
+		if (nmShortcutList != nullptr)
 			{
 			nmShortcutList->Append(nmShortcut);
 			}
@@ -308,7 +308,7 @@ JXHistoryMenuBase::ReadSetup
 
 	// must always read them all to place file marker
 
-	if (menu != NULL)
+	if (menu != nullptr)
 		{
 		menu->AdjustLength();
 		}
@@ -456,7 +456,7 @@ JXHistoryMenuBase::GetItemText
 
 	const JXMenu::ItemSelected* selection =
 		dynamic_cast<const JXMenu::ItemSelected*>(&message);
-	assert( selection != NULL );
+	assert( selection != nullptr );
 
 	return JXTextMenu::GetItemText(selection->GetIndex());
 }

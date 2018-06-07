@@ -85,63 +85,63 @@ CBViewManPageDialog::BuildWindow()
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 360,150, "");
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	itsCloseButton =
 		jnew JXTextButton(JGetString("itsCloseButton::CBViewManPageDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 120,120, 60,20);
-	assert( itsCloseButton != NULL );
+	assert( itsCloseButton != nullptr );
 	itsCloseButton->SetShortcuts(JGetString("itsCloseButton::CBViewManPageDialog::shortcuts::JXLayout"));
 
 	itsViewButton =
 		jnew JXTextButton(JGetString("itsViewButton::CBViewManPageDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 280,120, 60,20);
-	assert( itsViewButton != NULL );
+	assert( itsViewButton != nullptr );
 	itsViewButton->SetShortcuts(JGetString("itsViewButton::CBViewManPageDialog::shortcuts::JXLayout"));
 
 	itsFnName =
 		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 20,40, 290,20);
-	assert( itsFnName != NULL );
+	assert( itsFnName != nullptr );
 
 	JXStaticText* nameLabel =
 		jnew JXStaticText(JGetString("nameLabel::CBViewManPageDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 100,20);
-	assert( nameLabel != NULL );
+	assert( nameLabel != nullptr );
 	nameLabel->SetToLabel();
 
 	JXStaticText* sectionLabel =
 		jnew JXStaticText(JGetString("sectionLabel::CBViewManPageDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,80, 90,20);
-	assert( sectionLabel != NULL );
+	assert( sectionLabel != nullptr );
 	sectionLabel->SetToLabel();
 
 	itsAproposCheckbox =
 		jnew JXTextCheckbox(JGetString("itsAproposCheckbox::CBViewManPageDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 210,80, 80,20);
-	assert( itsAproposCheckbox != NULL );
+	assert( itsAproposCheckbox != nullptr );
 	itsAproposCheckbox->SetShortcuts(JGetString("itsAproposCheckbox::CBViewManPageDialog::shortcuts::JXLayout"));
 
 	itsHelpButton =
 		jnew JXTextButton(JGetString("itsHelpButton::CBViewManPageDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 200,120, 60,20);
-	assert( itsHelpButton != NULL );
+	assert( itsHelpButton != nullptr );
 	itsHelpButton->SetShortcuts(JGetString("itsHelpButton::CBViewManPageDialog::shortcuts::JXLayout"));
 
 	itsFnHistoryMenu =
 		jnew JXStringHistoryMenu(kHistoryLength, "", window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 310,40, 30,20);
-	assert( itsFnHistoryMenu != NULL );
+	assert( itsFnHistoryMenu != nullptr );
 
 	itsManIndex =
 		jnew JXCharInput(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 110,80, 30,20);
-	assert( itsManIndex != NULL );
+	assert( itsManIndex != nullptr );
 
 	itsStayOpenCB =
 		jnew JXTextCheckbox(JGetString("itsStayOpenCB::CBViewManPageDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,120, 90,20);
-	assert( itsStayOpenCB != NULL );
+	assert( itsStayOpenCB != nullptr );
 
 // end JXLayout
 
@@ -168,7 +168,7 @@ CBViewManPageDialog::BuildWindow()
 	JXDocumentMenu* fileListMenu =
 		jnew JXDocumentMenu("", window,
 						   JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,-20, 10,10);
-	assert( fileListMenu != NULL );
+	assert( fileListMenu != nullptr );
 
 	UpdateDisplay();
 }
@@ -257,7 +257,7 @@ CBViewManPageDialog::ViewManPage()
 			manIndex = (itsManIndex->GetText()).GetFirstCharacter();
 			}
 
-		CBManPageDocument::Create(NULL, itsFnName->GetText(), manIndex,
+		CBManPageDocument::Create(nullptr, itsFnName->GetText(), manIndex,
 								  itsAproposCheckbox->IsChecked());
 		}
 }

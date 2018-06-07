@@ -63,7 +63,7 @@ static const JCharacter* kAppSignature = "<Binary>";
 /******************************************************************************
  DisplayAbout
 
-	prevVersStr can be NULL.
+	prevVersStr can be nullptr.
 
  ******************************************************************************/
 
@@ -74,7 +74,7 @@ void
 	)
 {
 	<PRE>AboutDialog* dlog = jnew <PRE>AboutDialog(this, prevVersStr);
-	assert( dlog != NULL );
+	assert( dlog != nullptr );
 	dlog->BeginDialog();
 }
 

@@ -45,7 +45,7 @@ JXImage::CreateFromFile
 		}
 	else
 		{
-		*image = NULL;
+		*image = nullptr;
 		return UnknownFileType(fileName);
 		}
 }

@@ -70,11 +70,11 @@ JXVertDockPartition::JXVertDockPartition
 	JXVertPartition(enclosure, widths, elasticIndex, minWidths,
 					hSizing, vSizing, x,y, w,h),
 	itsDirector(director),
-	itsDockMenu(NULL),
+	itsDockMenu(nullptr),
 	itsParentDock(parent)
 {
 	itsDockList = jnew JPtrArray<JXDockWidget>(JPtrArrayT::kForgetAll);
-	assert( itsDockList != NULL );
+	assert( itsDockList != nullptr );
 
 	CreateInitialCompartments();
 }
@@ -107,14 +107,14 @@ JXVertDockPartition::CreateCompartment
 
 	JXDockTabGroup* tabGroup =
 		jnew JXDockTabGroup(compartment, kHElastic, kVElastic, 0,0, 100,100);
-	assert( tabGroup != NULL );
+	assert( tabGroup != nullptr );
 	tabGroup->FitToEnclosure();
 
 	JXDockWidget* dock =
 		jnew JXDockWidget(itsDirector, this, kJFalse, tabGroup,
 						 tabGroup->GetCardEnclosure(), kHElastic, kVElastic,
 						 0,0, 100,100);
-	assert( dock != NULL );
+	assert( dock != nullptr );
 	dock->FitToEnclosure();
 	itsDockList->InsertAtIndex(index, dock);
 
@@ -139,7 +139,7 @@ JXVertDockPartition::FindDock
 	for (JIndex i=1; i<=count; i++)
 		{
 		JXDockWidget* d = itsDockList->GetElement(i);
-		assert( d != NULL );
+		assert( d != nullptr );
 
 		if (d->GetID() == id)
 			{
@@ -154,7 +154,7 @@ JXVertDockPartition::FindDock
 			}
 		}
 
-	*dock = NULL;
+	*dock = nullptr;
 	return kJFalse;
 }
 
@@ -171,7 +171,7 @@ JXVertDockPartition::HasWindows()
 	for (JIndex i=1; i<=count; i++)
 		{
 		JXDockWidget* d = itsDockList->GetElement(i);
-		assert( d != NULL );
+		assert( d != nullptr );
 
 		if (d->HasWindows())
 			{
@@ -194,7 +194,7 @@ JXVertDockPartition::CloseAllWindows()
 	for (JIndex i=1; i<=count; i++)
 		{
 		JXDockWidget* d = itsDockList->GetElement(i);
-		assert( d != NULL );
+		assert( d != nullptr );
 
 		if (!d->CloseAllWindows())
 			{
@@ -245,7 +245,7 @@ JXVertDockPartition::ReadSetup
 	for (JIndex i=1; i<=compartmentCount; i++)
 		{
 		JXDockWidget* dock = itsDockList->GetElement(i);
-		assert( dock != NULL );
+		assert( dock != nullptr );
 
 		JIndex id;
 		input >> id;
@@ -294,7 +294,7 @@ JXVertDockPartition::WriteSetup
 	for (JIndex i=1; i<=count; i++)
 		{
 		JXDockWidget* dock = itsDockList->GetElement(i);
-		assert( dock != NULL );
+		assert( dock != nullptr );
 
 		output << ' ' << dock->GetID();
 
@@ -336,10 +336,10 @@ JXVertDockPartition::HandleMouseDown
 			return;
 			}
 
-		if (itsDockMenu == NULL)
+		if (itsDockMenu == nullptr)
 			{
 			itsDockMenu = jnew JXTextMenu(JString::empty, this, kFixedLeft, kFixedTop, 0,0, 10,10);
-			assert( itsDockMenu != NULL );
+			assert( itsDockMenu != nullptr );
 			itsDockMenu->SetToHiddenPopupMenu();
 			itsDockMenu->SetMenuItems(kDockMenuStr);
 			itsDockMenu->SetUpdateAction(JXMenu::kDisableNone);
@@ -374,7 +374,7 @@ JXVertDockPartition::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleDockMenu(selection->GetIndex());
 		}
 
@@ -431,7 +431,7 @@ JXVertDockPartition::HandleDockMenu
 
 	if (index == kSplitTopHorizCmd)
 		{
-		SplitHoriz(itsCompartmentIndex, NULL, kJTrue);
+		SplitHoriz(itsCompartmentIndex, nullptr, kJTrue);
 		}
 	else if (index == kSplitTopVertCmd)
 		{
@@ -444,7 +444,7 @@ JXVertDockPartition::HandleDockMenu
 
 	else if (index == kSplitBottomHorizCmd)
 		{
-		SplitHoriz(itsCompartmentIndex+1, NULL, kJTrue);
+		SplitHoriz(itsCompartmentIndex+1, nullptr, kJTrue);
 		}
 	else if (index == kSplitBottomVertCmd)
 		{
@@ -494,7 +494,7 @@ JXVertDockPartition::InsertCompartment
 /******************************************************************************
  SplitHoriz
 
-	returnPartition can be NULL.
+	returnPartition can be nullptr.
 
  ******************************************************************************/
 
@@ -506,15 +506,15 @@ JXVertDockPartition::SplitHoriz
 	const JBoolean			reportError
 	)
 {
-	if (returnPartition != NULL)
+	if (returnPartition != nullptr)
 		{
-		*returnPartition = NULL;
+		*returnPartition = nullptr;
 		}
 
 	JXDockWidget* parent = itsDockList->GetElement(index);
-	assert( parent != NULL );
+	assert( parent != nullptr );
 
-	JXHorizDockPartition* p = NULL;
+	JXHorizDockPartition* p = nullptr;
 	if (parent->GetHorizChildPartition(&p))
 		{
 		p->InsertCompartment(p->GetCompartmentCount()+1, reportError);
@@ -522,7 +522,7 @@ JXVertDockPartition::SplitHoriz
 	else
 		{
 		JXContainer* encl = GetCompartment(index);
-		assert( encl != NULL );
+		assert( encl != nullptr );
 
 		const JCoordinate w = encl->GetApertureWidth() - kDragRegionSize;
 		if (w < 2*JXDockWidget::kDefaultMinSize)
@@ -541,10 +541,10 @@ JXVertDockPartition::SplitHoriz
 		p = jnew JXHorizDockPartition(itsDirector, parent, widths, 0, minWidths, encl,
 									 kHElastic, kVElastic, 0,0,
 									 encl->GetApertureWidth(), encl->GetApertureHeight());
-		assert( p != NULL );
+		assert( p != nullptr );
 
 		JXDockWidget* d1 = p->GetDockWidget(1);
-		assert( d1 != NULL );
+		assert( d1 != nullptr );
 
 		if (parent->TransferAll(d1))
 			{
@@ -554,7 +554,7 @@ JXVertDockPartition::SplitHoriz
 			{
 			d1->TransferAll(parent);
 			jdelete p;
-			p = NULL;
+			p = nullptr;
 
 			if (reportError)
 				{
@@ -563,11 +563,11 @@ JXVertDockPartition::SplitHoriz
 			}
 		}
 
-	if (returnPartition != NULL)
+	if (returnPartition != nullptr)
 		{
 		*returnPartition = p;
 		}
-	return JI2B( p != NULL );
+	return JI2B( p != nullptr );
 }
 
 /******************************************************************************
@@ -593,12 +593,12 @@ JXVertDockPartition::DeleteCompartment
 
 	if (GetCompartmentCount() == 1)
 		{
-		assert( itsParentDock != NULL );
+		assert( itsParentDock != nullptr );
 
 		JXDockWidget* child = itsDockList->GetFirstElement();
-		assert( child != NULL );
+		assert( child != nullptr );
 
-		itsParentDock->SetChildPartition(NULL);		// so docking will be allowed
+		itsParentDock->SetChildPartition(nullptr);		// so docking will be allowed
 		child->TransferAll(itsParentDock);
 		jdelete this;
 		}

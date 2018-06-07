@@ -841,15 +841,15 @@ JKillDirectory
 	JProcess**		p
 	)
 {
-	if (p != NULL)
+	if (p != nullptr)
 		{
-		*p = NULL;
+		*p = nullptr;
 		}
 
-	const JUtf8Byte* argv[] = {"rm", "-rf", dirName.GetBytes(), NULL};
+	const JUtf8Byte* argv[] = {"rm", "-rf", dirName.GetBytes(), nullptr};
 	if (sync)
 		{
-		const JError err = JExecute(argv, sizeof(argv), NULL);
+		const JError err = JExecute(argv, sizeof(argv), nullptr);
 		if (err.OK())
 			{
 			return !JNameUsed(dirName);
@@ -866,7 +866,7 @@ JKillDirectory
 		if (err.OK())
 			{
 			JThisProcess::Ignore(sp);
-			if (p != NULL)
+			if (p != nullptr)
 				{
 				*p = sp;
 				}
@@ -940,7 +940,7 @@ JGetHomeDirectory
 	JUtf8Byte* envUserName = getenv("USER");
 
 	struct passwd* pw;
-	if (envUserName != NULL)
+	if (envUserName != nullptr)
 		{
 		pw = getpwnam(envUserName);
 		}
@@ -949,7 +949,7 @@ JGetHomeDirectory
 		pw = getpwuid( getuid() );
 		}
 
-	if (pw != NULL)
+	if (pw != nullptr)
 		{
 		const JString dir = JString(pw->pw_dir, 0, kJFalse);
 		if (JDirectoryExists(dir))
@@ -981,7 +981,7 @@ JGetHomeDirectory
 	)
 {
 	struct passwd* pw = getpwnam(user.GetBytes());
-	if (pw != NULL)
+	if (pw != nullptr)
 		{
 		const JString dir = JString(pw->pw_dir, 0, kJFalse);
 		if (JDirectoryExists(dir))
@@ -1052,7 +1052,7 @@ JGetTempDirectory
 			{
 			theTempPath.Set(path);
 			}
-		else if (P_tmpdir != NULL && JDirectoryWritable(JString(P_tmpdir, 0, kJFalse)))
+		else if (P_tmpdir != nullptr && JDirectoryWritable(JString(P_tmpdir, 0, kJFalse)))
 			{
 			theTempPath.Set(P_tmpdir);
 			}
@@ -1114,7 +1114,7 @@ JCreateTempDirectory
 
 	jclear_errno();
 	JUtf8Byte* d = mkdtemp(s);
-	if (d != NULL)
+	if (d != nullptr)
 		{
 		*fullName = s;
 		JAppendDirSeparator(fullName);
@@ -1343,7 +1343,7 @@ JIsRootDirectory
 
 	If path begins with '/', there is nothing to do.
 	If path begins with '~', the user's home directory is inserted.
-	Otherwise, if base is not NULL and not empty, it is prepended.
+	Otherwise, if base is not nullptr and not empty, it is prepended.
 	Otherwise, the result of JGetCurrentDirectory() is prepended.
 
 	As a final check, it calls JNameUsed() to check that the result exists.
@@ -1358,11 +1358,11 @@ JBoolean
 JConvertToAbsolutePath
 	(
 	const JString&	path,
-	const JString*	base,		// can be NULL
+	const JString*	base,		// can be nullptr
 	JString*		result
 	)
 {
-	assert( !path.IsEmpty() && result != NULL );
+	assert( !path.IsEmpty() && result != nullptr );
 
 	JBoolean ok = kJTrue;
 	const JUtf8Character c = path.GetFirstCharacter();
@@ -1485,8 +1485,8 @@ JConvertToRelativePath
 	home directory, if it exists.  Otherwise, kJFalse is returned and *result
 	is empty.
 
-	If homeDir != NULL, it is set to the home directory that was specified
-	by the ~.  If homeLength != NULL it is set to the number of characters
+	If homeDir != nullptr, it is set to the home directory that was specified
+	by the ~.  If homeLength != nullptr it is set to the number of characters
 	at the start of path that specified the home directory.
 
 	This function does not check that the resulting expanded path is valid.
@@ -1506,17 +1506,17 @@ JExpandHomeDirShortcut
 	)
 {
 	assert( !path.IsEmpty() );
-	assert( result != NULL );
+	assert( result != nullptr );
 
 	JBoolean ok = kJTrue;
 	if (path == "~")
 		{
 		ok = JGetHomeDirectory(result);
-		if (ok && homeDir != NULL)
+		if (ok && homeDir != nullptr)
 			{
 			*homeDir = *result;
 			}
-		if (ok && homeLength != NULL)
+		if (ok && homeLength != nullptr)
 			{
 			*homeLength = 1;
 			}
@@ -1524,11 +1524,11 @@ JExpandHomeDirShortcut
 	else if (path.BeginsWith("~/"))
 		{
 		ok = JGetHomeDirectory(result);
-		if (ok && homeDir != NULL)
+		if (ok && homeDir != nullptr)
 			{
 			*homeDir = *result;
 			}
-		if (ok && homeLength != NULL)
+		if (ok && homeLength != nullptr)
 			{
 			*homeLength = 2;
 			}
@@ -1550,11 +1550,11 @@ JExpandHomeDirShortcut
 		const JString userName = iter.FinishMatch().GetString();
 
 		ok = JGetHomeDirectory(userName, result);
-		if (ok && homeDir != NULL)
+		if (ok && homeDir != nullptr)
 			{
 			*homeDir = *result;
 			}
-		if (ok && homeLength != NULL)
+		if (ok && homeLength != nullptr)
 			{
 			*homeLength = iter.GetPrevCharacterIndex();
 			}
@@ -1568,11 +1568,11 @@ JExpandHomeDirShortcut
 	else
 		{
 		*result = path;
-		if (homeDir != NULL)
+		if (homeDir != nullptr)
 			{
 			homeDir->Clear();
 			}
-		if (homeLength != NULL)
+		if (homeLength != nullptr)
 			{
 			*homeLength = 0;
 			}
@@ -1585,11 +1585,11 @@ JExpandHomeDirShortcut
 	else
 		{
 		result->Clear();
-		if (homeDir != NULL)
+		if (homeDir != nullptr)
 			{
 			homeDir->Clear();
 			}
-		if (homeLength != NULL)
+		if (homeLength != nullptr)
 			{
 			*homeLength = 0;
 			}

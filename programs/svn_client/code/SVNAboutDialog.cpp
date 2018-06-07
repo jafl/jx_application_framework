@@ -68,50 +68,50 @@ SVNAboutDialog::BuildWindow
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 430,200, "");
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	JXStaticText* textWidget =
 		jnew JXStaticText(JGetString("textWidget::SVNAboutDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 90,20, 330,130);
-	assert( textWidget != NULL );
+	assert( textWidget != nullptr );
 
 	JXTextButton* okButton =
 		jnew JXTextButton(JGetString("okButton::SVNAboutDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 320,170, 60,20);
-	assert( okButton != NULL );
+	assert( okButton != nullptr );
 	okButton->SetShortcuts(JGetString("okButton::SVNAboutDialog::shortcuts::JXLayout"));
 
 	itsHelpButton =
 		jnew JXTextButton(JGetString("itsHelpButton::SVNAboutDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 185,170, 60,20);
-	assert( itsHelpButton != NULL );
+	assert( itsHelpButton != nullptr );
 	itsHelpButton->SetShortcuts(JGetString("itsHelpButton::SVNAboutDialog::shortcuts::JXLayout"));
 
 	JXImageWidget* imageWidget =
 		jnew JXImageWidget(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 25,20, 40,40);
-	assert( imageWidget != NULL );
+	assert( imageWidget != nullptr );
 
 	itsCreditsButton =
 		jnew JXTextButton(JGetString("itsCreditsButton::SVNAboutDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 50,170, 60,20);
-	assert( itsCreditsButton != NULL );
+	assert( itsCreditsButton != nullptr );
 
 	JXImageWidget* npsIcon =
 		jnew JXImageWidget(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,75, 65,65);
-	assert( npsIcon != NULL );
+	assert( npsIcon != nullptr );
 
 // end JXLayout
 
 	window->SetTitle(JGetString("WindowTitle::SVNAboutDialog"));
-	SetButtons(okButton, NULL);
+	SetButtons(okButton, nullptr);
 
 	ListenTo(itsHelpButton);
 	ListenTo(itsCreditsButton);
 
 	JXImage* image = jnew JXImage(GetDisplay(), svn_about_icon);
-	assert( image != NULL );
+	assert( image != nullptr );
 	imageWidget->SetImage(image, kJTrue);
 
 	JString text = SVNGetVersionStr();
@@ -131,7 +131,7 @@ SVNAboutDialog::BuildWindow
 	// NPS icon
 
 	image = jnew JXImage(GetDisplay(), new_planet_software);
-	assert( image != NULL );
+	assert( image != nullptr );
 	npsIcon->SetImage(image, kJTrue);
 
 	// adjust window to fit text

@@ -15,7 +15,7 @@
 CBStylerBase*
 CBBourneShellStyler::Instance()
 {
-	return NULL;
+	return nullptr;
 }
 
 void
@@ -31,7 +31,7 @@ CBBourneShellStyler::Shutdown()
 CBStylerBase*
 CBCSharpStyler::Instance()
 {
-	return NULL;
+	return nullptr;
 }
 
 void
@@ -47,7 +47,7 @@ CBCSharpStyler::Shutdown()
 CBStylerBase*
 CBCShellStyler::Instance()
 {
-	return NULL;
+	return nullptr;
 }
 
 void
@@ -63,7 +63,7 @@ CBCShellStyler::Shutdown()
 CBStylerBase*
 CBEiffelStyler::Instance()
 {
-	return NULL;
+	return nullptr;
 }
 
 void
@@ -79,7 +79,7 @@ CBEiffelStyler::Shutdown()
 CBStylerBase*
 CBINIStyler::Instance()
 {
-	return NULL;
+	return nullptr;
 }
 
 void
@@ -95,7 +95,7 @@ CBINIStyler::Shutdown()
 CBStylerBase*
 CBJavaScriptStyler::Instance()
 {
-	return NULL;
+	return nullptr;
 }
 
 void
@@ -111,7 +111,7 @@ CBJavaScriptStyler::Shutdown()
 CBStylerBase*
 CBPerlStyler::Instance()
 {
-	return NULL;
+	return nullptr;
 }
 
 void
@@ -127,7 +127,7 @@ CBPerlStyler::Shutdown()
 CBStylerBase*
 CBPropertiesStyler::Instance()
 {
-	return NULL;
+	return nullptr;
 }
 
 void
@@ -143,7 +143,7 @@ CBPropertiesStyler::Shutdown()
 CBStylerBase*
 CBPythonStyler::Instance()
 {
-	return NULL;
+	return nullptr;
 }
 
 void
@@ -159,7 +159,7 @@ CBPythonStyler::Shutdown()
 CBStylerBase*
 CBRubyStyler::Instance()
 {
-	return NULL;
+	return nullptr;
 }
 
 void
@@ -175,7 +175,7 @@ CBRubyStyler::Shutdown()
 CBStylerBase*
 CBSQLStyler::Instance()
 {
-	return NULL;
+	return nullptr;
 }
 
 void
@@ -191,7 +191,7 @@ CBSQLStyler::Shutdown()
 CBStylerBase*
 CBTCLStyler::Instance()
 {
-	return NULL;
+	return nullptr;
 }
 
 void

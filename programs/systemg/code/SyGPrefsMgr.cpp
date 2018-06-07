@@ -34,7 +34,7 @@ SyGPrefsMgr::SyGPrefsMgr
 	:
 	JXPrefsManager(kCurrentPrefsFileVersion, kJTrue)
 {
-	itsDialog = NULL;
+	itsDialog = nullptr;
 	*isNew    = JPrefsManager::UpgradeData();
 
 	JXChooseSaveFile* csf = JXGetChooseSaveFile();
@@ -182,12 +182,12 @@ SyGPrefsMgr::Receive
 		{
 		const JXDialogDirector::Deactivated* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-		assert(info != NULL);
+		assert(info != nullptr);
 		if (info->Successful())
 			{
 			UpdatePrefs();
 			}
-		itsDialog = NULL;
+		itsDialog = nullptr;
 		}
 	else
 		{
@@ -203,7 +203,7 @@ SyGPrefsMgr::Receive
 void
 SyGPrefsMgr::EditPrefs()
 {
-	assert( itsDialog == NULL );
+	assert( itsDialog == nullptr );
 
 	const JString manCmd        = (SyGGetManPageDialog())->GetViewManPageCommand();
 	const JString termCmd       = (SyGGetApplication())->GetTerminalCommand();
@@ -214,7 +214,7 @@ SyGPrefsMgr::EditPrefs()
 	itsDialog = jnew SyGEditPrefsDialog(termCmd, manCmd, gitStatusCmd, gitHistoryCmd,
 									   coCmd, DelWillDelete(), WillOpenNewWindows(),
 									   WillSaveFolderPrefs());
-	assert(itsDialog != NULL);
+	assert(itsDialog != nullptr);
 
 	itsDialog->BeginDialog();
 	ListenTo(itsDialog);
@@ -228,7 +228,7 @@ SyGPrefsMgr::EditPrefs()
 void
 SyGPrefsMgr::UpdatePrefs()
 {
-	assert( itsDialog != NULL );
+	assert( itsDialog != nullptr );
 
 	JString manCmd, termCmd, gitStatusCmd, gitHistoryCmd, postCheckoutCmd;
 	JBoolean del, newWindows, perFolderPrefs;

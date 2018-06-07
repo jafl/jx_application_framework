@@ -44,7 +44,7 @@ JXChooseEPSDestFileTask::~JXChooseEPSDestFileTask()
 void
 JXChooseEPSDestFileTask::Perform()
 {
-	if (itsDirector != NULL)
+	if (itsDirector != nullptr)
 		{
 		itsDirector->ChooseDestinationFile();
 		}

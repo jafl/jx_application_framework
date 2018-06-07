@@ -54,28 +54,28 @@ JXChooseFontSizeDialog::BuildWindow
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 190,90, JString::empty);
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	JXTextButton* okButton =
 		jnew JXTextButton(JGetString("okButton::JXChooseFontSizeDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 110,60, 60,20);
-	assert( okButton != NULL );
+	assert( okButton != nullptr );
 	okButton->SetShortcuts(JGetString("okButton::JXChooseFontSizeDialog::shortcuts::JXLayout"));
 
 	JXTextButton* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::JXChooseFontSizeDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,60, 60,20);
-	assert( cancelButton != NULL );
+	assert( cancelButton != nullptr );
 
 	itsFontSize =
 		jnew JXIntegerInput(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 120,20, 40,20);
-	assert( itsFontSize != NULL );
+	assert( itsFontSize != nullptr );
 
 	JXStaticText* fontSizeLabel =
 		jnew JXStaticText(JGetString("fontSizeLabel::JXChooseFontSizeDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,20, 110,20);
-	assert( fontSizeLabel != NULL );
+	assert( fontSizeLabel != nullptr );
 	fontSizeLabel->SetToLabel();
 
 // end JXLayout

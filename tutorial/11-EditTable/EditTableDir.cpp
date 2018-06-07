@@ -28,7 +28,7 @@ EditTableDir::EditTableDir
 {
 	// Create the array that will hold the table's data
 	itsData = jnew JArray<JIndex>;
-	assert(itsData != NULL);
+	assert(itsData != nullptr);
 
 	// Append 3 elements to the array.
 	itsData->AppendElement(4);
@@ -73,7 +73,7 @@ EditTableDir::BuildWindow()
 {
 	// Create the window
 	JXWindow* window = jnew JXWindow(this, 300,200, "Test EditTable Program");
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	// Set sizing
 	window->SetMinSize(300,200);
@@ -84,14 +84,14 @@ EditTableDir::BuildWindow()
 	JXMenuBar* menuBar =
 		jnew JXMenuBar(window, JXWidget::kHElastic, JXWidget::kFixedTop,
 						0,0, 300,kJXDefaultMenuBarHeight);
-	assert( menuBar != NULL );
+	assert( menuBar != nullptr );
 
 	// Create the scrollbar set to hold the table
 	JXScrollbarSet* scrollbarSet =
 		jnew JXScrollbarSet(window,
 			JXWidget::kHElastic, JXWidget::kVElastic,
 			0,kJXDefaultMenuBarHeight, 300,200-kJXDefaultMenuBarHeight);
-	assert( scrollbarSet != NULL );
+	assert( scrollbarSet != nullptr );
 
 	// Create our EditTable. It must be placed inside the
 	// special widget that JXScrollbarSet creates.  We get a
@@ -101,6 +101,6 @@ EditTableDir::BuildWindow()
 			scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 			JXWidget::kHElastic, JXWidget::kVElastic,
 			0, 0, 10, 10);
-	assert( table != NULL );
+	assert( table != nullptr );
 	table->FitToEnclosure();
 }

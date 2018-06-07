@@ -102,13 +102,13 @@ void
 TestVarList::TestVarListX()
 {
 	itsNumericNames = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
-	assert( itsNumericNames != NULL );
+	assert( itsNumericNames != nullptr );
 
 	itsNumericValues = jnew JArray<JFloat>;
-	assert( itsNumericValues != NULL );
+	assert( itsNumericValues != nullptr );
 
 	itsNumericArrays = jnew JPtrArray<TVLNArray>(JPtrArrayT::kDeleteAll);
-	assert( itsNumericArrays != NULL );
+	assert( itsNumericArrays != nullptr );
 
 	InstallOrderedSet(itsNumericNames);
 }
@@ -142,7 +142,7 @@ TestVarList::AddNumericVar
 		{
 		itsNumericNames->Append(name);
 		itsNumericValues->AppendElement(value);
-		itsNumericArrays->AppendElement(static_cast<TVLNArray*>(NULL));
+		itsNumericArrays->AppendElement(static_cast<TVLNArray*>(nullptr));
 		return kJTrue;
 		}
 	else
@@ -266,7 +266,7 @@ TestVarList::IsArray
 	)
 	const
 {
-	return JConvertToBoolean( itsNumericArrays->GetElement(index) != NULL );
+	return JConvertToBoolean( itsNumericArrays->GetElement(index) != nullptr );
 }
 
 /******************************************************************************
@@ -334,12 +334,12 @@ TestVarList::GetNumericValue
 	const
 {
 	TVLNArray* values = itsNumericArrays->GetElement(variableIndex);
-	if (values == NULL && elementIndex == 1)
+	if (values == nullptr && elementIndex == 1)
 		{
 		*value = itsNumericValues->GetElement(variableIndex);
 		return kJTrue;
 		}
-	else if (values != NULL && values->IndexValid(elementIndex))
+	else if (values != nullptr && values->IndexValid(elementIndex))
 		{
 		*value = values->GetElement(elementIndex);
 		return kJTrue;

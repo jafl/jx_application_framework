@@ -36,15 +36,15 @@ TestDecisionEquality
 
 	TestVarList theVarList(input);
 
-	JDecision* d1 = NULL;
-	JDecision* d2 = NULL;
+	JDecision* d1 = nullptr;
+	JDecision* d2 = nullptr;
 	while (1)
 		{
 		if (!GetDecision(input, &theVarList, &d1))
 			{
 			break;
 			}
-		else if (d1 == NULL)
+		else if (d1 == nullptr)
 			{
 			continue;
 			}
@@ -56,7 +56,7 @@ TestDecisionEquality
 			jdelete d1;
 			break;
 			}
-		else if (d2 == NULL)
+		else if (d2 == nullptr)
 			{
 			jdelete d1;
 			continue;
@@ -93,15 +93,15 @@ TestFunctionEquality
 
 	TestVarList theVarList(input);
 
-	JFunction* f1 = NULL;
-	JFunction* f2 = NULL;
+	JFunction* f1 = nullptr;
+	JFunction* f2 = nullptr;
 	while (1)
 		{
 		if (!GetFunction(input, &theVarList, &f1))
 			{
 			break;
 			}
-		else if (f1 == NULL)
+		else if (f1 == nullptr)
 			{
 			continue;
 			}
@@ -111,7 +111,7 @@ TestFunctionEquality
 			jdelete f1;
 			break;
 			}
-		else if (f2 == NULL)
+		else if (f2 == nullptr)
 			{
 			jdelete f1;
 			continue;

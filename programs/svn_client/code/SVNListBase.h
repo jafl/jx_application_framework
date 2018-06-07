@@ -109,13 +109,13 @@ private:
 	JBoolean			itsReloadOpenFilesFlag;
 	JXTextMenu*			itsEditMenu;		// not owned
 	const JBoolean		itsEnableContextMenuFlag;
-	JXTextMenu*			itsContextMenu;		// NULL until first used
+	JXTextMenu*			itsContextMenu;		// nullptr until first used
 
 	JPtrArray<JString>*	itsLineList;		// displayed
 
-	JProcess*			itsProcess;			// can be NULL
-	RecordLink*			itsMessageLink;		// can be NULL
-	RecordLink*			itsErrorLink;		// can be NULL
+	JProcess*			itsProcess;			// can be nullptr
+	RecordLink*			itsMessageLink;		// can be nullptr
+	RecordLink*			itsErrorLink;		// can be nullptr
 	JPtrArray<JString>*	itsErrorList;		// cache while process is running
 	DisplayState		itsDisplayState;
 	JPtrArray<JString>*	itsSavedSelection;

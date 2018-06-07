@@ -37,7 +37,7 @@ CBJavaTree::CBJavaTree
 	CBTree(StreamInJavaClass, director, kCBJavaSourceFT, marginWidth),
 	CBCtagsUser(kCtagsArgs)
 {
-	itsClassNameLexer = NULL;
+	itsClassNameLexer = nullptr;
 }
 
 CBJavaTree::CBJavaTree
@@ -57,7 +57,7 @@ CBJavaTree::CBJavaTree
 		   StreamInJavaClass, director, kCBJavaSourceFT, marginWidth, dirList),
 	CBCtagsUser(kCtagsArgs)
 {
-	itsClassNameLexer = NULL;
+	itsClassNameLexer = nullptr;
 
 	if (projVers < 86 && !IsEmpty())
 		{
@@ -90,7 +90,7 @@ CBJavaTree::StreamOut
 	)
 	const
 {
-	assert( dirList == NULL );
+	assert( dirList == nullptr );
 	CBTree::StreamOut(projOutput, setOutput, symOutput, dirList);
 }
 
@@ -110,7 +110,7 @@ CBJavaTree::StreamInJavaClass
 	)
 {
 	CBJavaClass* newClass = jnew CBJavaClass(input, vers, tree);
-	assert( newClass != NULL );
+	assert( newClass != nullptr );
 	return newClass;
 }
 
@@ -128,7 +128,7 @@ CBJavaTree::UpdateFinished
 	)
 {
 	jdelete itsClassNameLexer;
-	itsClassNameLexer = NULL;
+	itsClassNameLexer = nullptr;
 
 	DeleteProcess();
 
@@ -149,10 +149,10 @@ CBJavaTree::ParseFile
 	const JFAID_t		id
 	)
 {
-	if (itsClassNameLexer == NULL)
+	if (itsClassNameLexer == nullptr)
 		{
 		itsClassNameLexer = jnew CBJavaTreeScanner;
-		assert( itsClassNameLexer != NULL );
+		assert( itsClassNameLexer != nullptr );
 		}
 
 	// extract info about classes
@@ -169,7 +169,7 @@ CBJavaTree::ParseFile
 
 	// default superclass
 
-	if (newClass != NULL && !newClass->HasParents())
+	if (newClass != nullptr && !newClass->HasParents())
 		{
 		newClass->AddParent(CBClass::kInheritPublic, "java.lang.Object");
 		}

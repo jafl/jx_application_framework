@@ -65,7 +65,7 @@ GPMApp::~GPMApp()
 /******************************************************************************
  DisplayAbout
 
-	prevVersStr can be NULL.
+	prevVersStr can be nullptr.
 
  ******************************************************************************/
 
@@ -76,7 +76,7 @@ GPMApp::DisplayAbout
 	)
 {
 	GPMAboutDialog* dlog = jnew GPMAboutDialog(this, prevVersStr);
-	assert( dlog != NULL );
+	assert( dlog != nullptr );
 	dlog->BeginDialog();
 }
 

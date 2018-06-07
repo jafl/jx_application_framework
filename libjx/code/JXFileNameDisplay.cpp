@@ -32,7 +32,7 @@ JXFileNameDisplay::JXFileNameDisplay
 	const JCoordinate	h
 	)
 	:
-	JXStaticText(text, kJFalse, kJFalse, NULL,
+	JXStaticText(text, kJFalse, kJFalse, nullptr,
 				 enclosure, hSizing, vSizing, x,y, w,h)
 {
 	SetFont(GetFontManager()->GetDefaultMonospaceFont());

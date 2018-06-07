@@ -17,7 +17,7 @@
 #include <JXColorManager.h>
 #include <jAssert.h>
 
-CBEiffelStyler* CBEiffelStyler::itsSelf = NULL;
+CBEiffelStyler* CBEiffelStyler::itsSelf = nullptr;
 
 const JFileVersion kCurrentTypeListVersion = 3;
 
@@ -62,12 +62,12 @@ static JBoolean recursiveInstance = kJFalse;
 CBStylerBase*
 CBEiffelStyler::Instance()
 {
-	if (itsSelf == NULL && !recursiveInstance)
+	if (itsSelf == nullptr && !recursiveInstance)
 		{
 		recursiveInstance = kJTrue;
 
 		itsSelf = jnew CBEiffelStyler;
-		assert( itsSelf != NULL );
+		assert( itsSelf != nullptr );
 
 		recursiveInstance = kJFalse;
 		}
@@ -123,7 +123,7 @@ CBEiffelStyler::CBEiffelStyler()
 CBEiffelStyler::~CBEiffelStyler()
 {
 	JPrefObject::WritePrefs();
-	itsSelf = NULL;
+	itsSelf = nullptr;
 }
 
 /******************************************************************************

@@ -14,15 +14,15 @@
 #include <jFStreamUtil.h>
 #include <jAssert.h>
 
-static TestApp*			theApplication = NULL;		// owns itself
-static TestMDIServer*	theMDIServer   = NULL;		// owned by JX, can be NULL
+static TestApp*			theApplication = nullptr;		// owns itself
+static TestMDIServer*	theMDIServer   = nullptr;		// owned by JX, can be nullptr
 
 static const JUtf8Byte* kDockSetupFileName = "testjx_dock_data";
 
 /******************************************************************************
  TestjxCreateGlobals
 
-	server can be NULL
+	server can be nullptr
 
  ******************************************************************************/
 
@@ -41,7 +41,7 @@ TestjxCreateGlobals
 
 	TestDockManager* theDockManager =
 		jnew TestDockManager((JXGetApplication())->GetCurrentDisplay());
-	assert( theDockManager != NULL );
+	assert( theDockManager != nullptr );
 
 	if (JFileExists(JString(kDockSetupFileName, 0, kJFalse)))
 		{
@@ -52,7 +52,7 @@ TestjxCreateGlobals
 	if (wantMDI)
 		{
 		theMDIServer = jnew TestMDIServer;
-		assert( theMDIServer != NULL );
+		assert( theMDIServer != nullptr );
 		}
 
 	JXInitHelp();
@@ -69,8 +69,8 @@ TestjxDeleteGlobals()
 	std::ofstream output(kDockSetupFileName);
 	(JXGetDockManager())->WriteSetup(output);
 
-	theApplication = NULL;
-	theMDIServer   = NULL;
+	theApplication = nullptr;
+	theMDIServer   = nullptr;
 }
 
 /******************************************************************************
@@ -81,7 +81,7 @@ TestjxDeleteGlobals()
 TestApp*
 TestjxGetApplication()
 {
-	assert( theApplication != NULL );
+	assert( theApplication != nullptr );
 	return theApplication;
 }
 
@@ -97,5 +97,5 @@ TestjxGetMDIServer
 	)
 {
 	*server = theMDIServer;
-	return JBoolean( theMDIServer != NULL );
+	return JBoolean( theMDIServer != nullptr );
 }

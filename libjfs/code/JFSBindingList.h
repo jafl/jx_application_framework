@@ -76,8 +76,8 @@ private:
 	JPtrArray<JFSBinding>*	itsOverriddenList;	// overriden system bindings
 
 	JBoolean	itsUseDefaultFlag;		// kJTrue => use in GetCommandForFile()
-	JFSBinding*	itsUserDefault;			// NULL if none; hides itsSystemDefault
-	JFSBinding*	itsSystemDefault;		// NULL if none
+	JFSBinding*	itsUserDefault;			// nullptr if none; hides itsSystemDefault
+	JFSBinding*	itsSystemDefault;		// nullptr if none
 
 	JString		itsShellCmd;
 	JString		itsWindowCmd;

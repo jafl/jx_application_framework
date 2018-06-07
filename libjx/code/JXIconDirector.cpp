@@ -33,12 +33,12 @@ JXIconDirector::JXIconDirector
 {
 	JXWindow* window = jnew JXWindow(this, normalIcon->GetWidth(),
 									normalIcon->GetHeight(), JString::empty);
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	itsIconWidget =
 		jnew JXWindowIcon(normalIcon, dropIcon, supervisor->GetWindow(), window,
 						 JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 10,10);
-	assert( itsIconWidget != NULL );
+	assert( itsIconWidget != nullptr );
 	itsIconWidget->FitToEnclosure();
 
 	// window is mapped when main window is iconified -- director never activated

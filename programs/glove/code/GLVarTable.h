@@ -59,8 +59,8 @@ protected:
 private:
 
 	GVarList*		itsVarList;		// not owned
-	JXExprInput*	itsTextInput;	// NULL unless editing
-	JString*		itsOrigText;	// used while itsTextInput != NULL
+	JXExprInput*	itsTextInput;	// nullptr unless editing
+	JString*		itsOrigText;	// used while itsTextInput != nullptr
 
 private:
 

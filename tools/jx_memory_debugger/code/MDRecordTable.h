@@ -59,7 +59,7 @@ private:
 
 	MDRecordList*		itsRecordList;
 	mutable JString		itsKeyBuffer;
-	const MDRecord* 	itsSelectedRecord;	// NULL unless updating
+	const MDRecord* 	itsSelectedRecord;	// nullptr unless updating
 	JCoordinate			itsMinDataWidth;
 
 private:

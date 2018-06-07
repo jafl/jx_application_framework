@@ -41,7 +41,7 @@ public:
 protected:
 
 	JStringMatch(const JString& target, const JUtf8ByteRange& byteRange,
-				 const JRegex* regex = NULL, JArray<JUtf8ByteRange>* list = NULL);
+				 const JRegex* regex = nullptr, JArray<JUtf8ByteRange>* list = nullptr);
 
 	void	SetFirstCharacterIndex(const JIndex index);
 	void	SetLastCharacterIndex(const JIndex index);
@@ -56,8 +56,8 @@ private:
 	const JString&			itsTarget;
 	JUtf8ByteRange			itsByteRange;
 	JCharacterRange			itsCharacterRange;	// empty if have not computed # of characters
-	const JRegex*			itsRegex;			// can be NULL
-	JArray<JUtf8ByteRange>*	itsSubmatchList;	// can be NULL
+	const JRegex*			itsRegex;			// can be nullptr
+	JArray<JUtf8ByteRange>*	itsSubmatchList;	// can be nullptr
 
 private:
 
@@ -98,7 +98,7 @@ inline JSize
 JStringMatch::GetSubstringCount()
 	const
 {
-	return (itsSubmatchList == NULL ? 0 : itsSubmatchList->GetElementCount());
+	return (itsSubmatchList == nullptr ? 0 : itsSubmatchList->GetElementCount());
 }
 
 /******************************************************************************
@@ -141,7 +141,7 @@ JStringMatch::GetUtf8ByteRange
 	const
 {
 	return (submatchIndex == 0 ? itsByteRange :
-			itsSubmatchList == NULL || !itsSubmatchList->IndexValid(submatchIndex) ? JUtf8ByteRange() :
+			itsSubmatchList == nullptr || !itsSubmatchList->IndexValid(submatchIndex) ? JUtf8ByteRange() :
 			itsSubmatchList->GetElement(submatchIndex));
 }
 

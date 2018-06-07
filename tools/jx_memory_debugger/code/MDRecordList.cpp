@@ -26,12 +26,12 @@ MDRecordList::MDRecordList()
 	itsSortColumn(kRecordState)
 {
 	itsRecords = jnew JPtrArray<MDRecord>(JPtrArrayT::kDeleteAll);
-	assert(itsRecords != NULL);
+	assert(itsRecords != nullptr);
 	itsRecords->SetCompareFunction(MDRecord::CompareState);
 	InstallOrderedSet(itsRecords);
 
 	itsAlphaRecords = jnew JPtrArray<MDRecord>(JPtrArrayT::kForgetAll);
-	assert( itsAlphaRecords != NULL );
+	assert( itsAlphaRecords != nullptr );
 	itsAlphaRecords->SetCompareFunction(MDRecord::CompareFileName);
 }
 
@@ -89,7 +89,7 @@ MDRecordList::ClosestMatch
 		}
 	else
 		{
-		*record = NULL;
+		*record = nullptr;
 		return kJFalse;
 		}
 }

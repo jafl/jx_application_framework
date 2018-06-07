@@ -21,7 +21,7 @@ CBProjectTree::CBProjectTree
 	CBProjectDocument* doc
 	)
 	:
-	JTree(jnew CBProjectNode(NULL, kCBRootNT, "root", kJTrue))
+	JTree(jnew CBProjectNode(nullptr, kCBRootNT, "root", kJTrue))
 {
 	itsDoc = doc;
 }
@@ -33,7 +33,7 @@ CBProjectTree::CBProjectTree
 	CBProjectDocument*	doc
 	)
 	:
-	JTree(CBProjectNode::StreamIn(input, vers, NULL))
+	JTree(CBProjectNode::StreamIn(input, vers, nullptr))
 {
 	itsDoc = doc;
 }
@@ -73,7 +73,7 @@ CBProjectTree::GetProjectRoot()
 {
 	CBProjectNode* rootNode =
 		dynamic_cast<CBProjectNode*>(const_cast<JTreeNode*>(GetRoot()));
-	assert( rootNode != NULL );
+	assert( rootNode != nullptr );
 	return rootNode;
 }
 

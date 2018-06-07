@@ -177,14 +177,14 @@ private:
 	struct ParentInfo
 	{
 		JString*	name;
-		CBClass*	parent;			// can be NULL; not owned
+		CBClass*	parent;			// can be nullptr; not owned
 		InheritType	inheritance;
 		JIndex		indexFromFile;	// used while reading from file
 
 		ParentInfo()
 			:
-			name(NULL),
-			parent(NULL),
+			name(nullptr),
+			parent(nullptr),
 			inheritance(kInheritPublic),
 			indexFromFile(0)
 			{ };
@@ -206,7 +206,7 @@ private:
 
 		FunctionInfo()
 			:
-			name(NULL),
+			name(nullptr),
 			access(kPublicAccess),
 			implemented(kJTrue)
 			{ };

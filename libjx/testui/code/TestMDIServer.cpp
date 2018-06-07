@@ -64,7 +64,7 @@ TestMDIServer::HandleMDIRequest
 		return;
 		}
 
-	TestDirector* director = NULL;
+	TestDirector* director = nullptr;
 	const JBoolean ok = (TestjxGetApplication())->GetMainDirector(&director);
 	assert( ok );
 

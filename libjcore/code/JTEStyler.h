@@ -83,19 +83,19 @@ private:
 
 	JBoolean	itsActiveFlag;
 
-	const JTextEditor*	itsTE;			// not owned; NULL unless lexing
-	JFontManager*		itsFontMgr;		// not owned; NULL unless lexing
-	const JString*		itsText;		// not owned; NULL unless lexing
-	JRunArray<JFont>*	itsStyles;		// not owned; NULL unless lexing
+	const JTextEditor*	itsTE;			// not owned; nullptr unless lexing
+	JFontManager*		itsFontMgr;		// not owned; nullptr unless lexing
+	const JString*		itsText;		// not owned; nullptr unless lexing
+	JRunArray<JFont>*	itsStyles;		// not owned; nullptr unless lexing
 
 	JBoolean	itsRedoAllFlag;						// kJTrue => itsStyles is *not* full
-	JFont*		itsDefFont;							// NULL unless processing
+	JFont*		itsDefFont;							// nullptr unless processing
 
-	JIndexRange*	itsRecalcRange;					// not owned; NULL unless lexing
-	JIndexRange*	itsRedrawRange;					// not owned; NULL unless lexing
+	JIndexRange*	itsRecalcRange;					// not owned; nullptr unless lexing
+	JIndexRange*	itsRedrawRange;					// not owned; nullptr unless lexing
 	JIndexRange		itsCheckRange;
 
-	JArray<TokenData>*	itsTokenStartList;			// not owned; NULL unless lexing
+	JArray<TokenData>*	itsTokenStartList;			// not owned; nullptr unless lexing
 	JSize				itsTokenStartFactor;
 	JSize				itsTokenStartCount;
 

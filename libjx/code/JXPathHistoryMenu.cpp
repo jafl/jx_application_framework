@@ -64,7 +64,7 @@ void
 JXPathHistoryMenu::JXPathHistoryMenuX()
 {
 	JXImage* icon = jnew JXImage(GetDisplay(), jx_folder_small);
-	assert( icon != NULL );
+	assert( icon != nullptr );
 	SetDefaultIcon(icon, kJTrue);
 }
 
@@ -112,7 +112,7 @@ JXPathHistoryMenu::UpdateMenu()
 	if (GetFirstIndex() == 1)
 		{
 		JMountPointList list(JPtrArrayT::kDeleteAll);
-		if (JGetUserMountPointList(&list, NULL))
+		if (JGetUserMountPointList(&list, nullptr))
 			{
 			const JSize count = list.GetElementCount();
 			SetFirstIndex(count+1);

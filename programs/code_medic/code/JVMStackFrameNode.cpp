@@ -62,7 +62,7 @@ JVMStackFrameNode::Receive
 		{
 		const JVMLink::IDResolved* info =
 			dynamic_cast<const JVMLink::IDResolved*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 
 		if (info->GetID() == itsClassID || info->GetID() == itsMethodID)
 			{

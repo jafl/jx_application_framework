@@ -56,7 +56,7 @@ private:
 
 	JXScrollbar*	itsScrollbar;	// owns us
 	JCoordinate		itsValue;
-	JXTextMenu*		itsActionMenu;	// can be NULL
+	JXTextMenu*		itsActionMenu;	// can be nullptr
 
 private:
 

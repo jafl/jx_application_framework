@@ -59,12 +59,12 @@ JBoolean JXContainer::theDebugHorizFTCFlag                    = kJFalse;
 JBoolean JXContainer::theDebugVertFTCFlag                     = kJFalse;
 JBoolean JXContainer::theDebugFTCNoopExaminations             = kJFalse;
 JBoolean JXContainer::theDebugFTCWillOverlapNonincludedWidget = kJFalse;
-std::ostream* JXContainer::theDebugFTCLogBuffer               = NULL;
+std::ostream* JXContainer::theDebugFTCLogBuffer               = nullptr;
 
 /******************************************************************************
  Constructor (protected)
 
-	If enclosure is NULL, we are a window.
+	If enclosure is nullptr, we are a window.
 
  ******************************************************************************/
 
@@ -99,11 +99,11 @@ JXContainer::JXContainerX
 	JXContainer*	enclosure
 	)
 {
-	assert( display != NULL && window != NULL );
+	assert( display != nullptr && window != nullptr );
 
 	itsWindow          = window;
 	itsEnclosure       = enclosure;
-	itsEnclosedObjs    = NULL;
+	itsEnclosedObjs    = nullptr;
 	itsActiveFlag      = kJFalse;
 	itsWasActiveFlag   = kJTrue;
 	itsVisibleFlag     = kJFalse;
@@ -113,7 +113,7 @@ JXContainer::JXContainerX
 	itsIsDNDTargetFlag = kJFalse;
 	itsGoingAwayFlag   = kJFalse;
 
-	if (enclosure != NULL)
+	if (enclosure != nullptr)
 		{
 		// inherit settings from enclosure
 
@@ -131,12 +131,12 @@ JXContainer::JXContainerX
 	itsInvisibleCursor   = JXGetInvisibleCursor(display);
 	itsCursorVisibleFlag = kJTrue;
 	itsCurrCursor        = kJXDefaultCursor;
-	itsCursorAnim        = NULL;
-	itsCursorAnimTask    = NULL;
+	itsCursorAnim        = nullptr;
+	itsCursorAnimTask    = nullptr;
 
-	itsHintMgr = NULL;
+	itsHintMgr = nullptr;
 
-	if (itsEnclosure != NULL)
+	if (itsEnclosure != nullptr)
 		{
 		itsEnclosure->AddEnclosedObject(this);
 		}
@@ -149,7 +149,7 @@ JXContainer::JXContainerX
 
 JXContainer::~JXContainer()
 {
-	if (itsEnclosure != NULL)
+	if (itsEnclosure != nullptr)
 		{
 		itsEnclosure->RemoveEnclosedObject(this);
 		}
@@ -157,7 +157,7 @@ JXContainer::~JXContainer()
 	JXContainer* c;
 	if (itsWindow->GetMouseContainer(&c) && c == this)
 		{
-		itsWindow->SetMouseContainer(NULL, JPoint(0,0), 0);
+		itsWindow->SetMouseContainer(nullptr, JPoint(0,0), 0);
 		}
 
 	jdelete itsCursorAnimTask;
@@ -199,7 +199,7 @@ JXContainer::IsAncestor
 			{
 			return kJTrue;
 			}
-		else if (encl == NULL)
+		else if (encl == nullptr)
 			{
 			return kJFalse;
 			}
@@ -226,7 +226,7 @@ JXContainer::SetEnclosure
 	JXContainer* obj
 	)
 {
-	if (itsEnclosure != NULL && obj->GetWindow() == itsWindow)
+	if (itsEnclosure != nullptr && obj->GetWindow() == itsWindow)
 		{
 		itsEnclosure->RemoveEnclosedObject(this);
 		itsEnclosure = obj;
@@ -264,9 +264,9 @@ JXContainer::DrawAll
 
 	// draw enclosed objects first, if visible
 
-	Region visRegion                      = NULL;
-	JPtrArray<JXFTCCell>* ftcRootCellList = NULL;
-	if (apVisible && itsEnclosedObjs != NULL)
+	Region visRegion                      = nullptr;
+	JPtrArray<JXFTCCell>* ftcRootCellList = nullptr;
+	if (apVisible && itsEnclosedObjs != nullptr)
 		{
 		XRectangle xClipRect = JXJToXRect(apClipRectG);
 		visRegion            = JXRectangleRegion(&xClipRect);
@@ -279,12 +279,12 @@ JXContainer::DrawAll
 			{
 			JXContainer* obj = itsEnclosedObjs->GetElement(i);
 			if (theDebugFTCFlag &&
-				dynamic_cast<JXFTCCell*>(obj) != NULL)
+				dynamic_cast<JXFTCCell*>(obj) != nullptr)
 				{
-				if (ftcRootCellList == NULL)
+				if (ftcRootCellList == nullptr)
 					{
 					ftcRootCellList = jnew JPtrArray<JXFTCCell>(JPtrArrayT::kForgetAll);
-					assert( ftcRootCellList != NULL );
+					assert( ftcRootCellList != nullptr );
 					}
 
 				ftcRootCellList->AppendElement(dynamic_cast<JXFTCCell*>(obj));
@@ -326,7 +326,7 @@ JXContainer::DrawAll
 
 	// draw background and contents, if visible
 
-	if (!theDebugFTCFlag && visRegion != NULL && XEmptyRegion(visRegion))
+	if (!theDebugFTCFlag && visRegion != nullptr && XEmptyRegion(visRegion))
 		{
 		// If nothing else is visible, we can quit now.
 
@@ -336,8 +336,8 @@ JXContainer::DrawAll
 
 	if (apVisible)
 		{
-		Region origDefClipRegion = NULL;
-		if (visRegion != NULL)
+		Region origDefClipRegion = nullptr;
+		if (visRegion != nullptr)
 			{
 			Region region;
 			if (p.GetDefaultClipRegion(&region))
@@ -367,14 +367,14 @@ JXContainer::DrawAll
 
 		// clean up
 
-		if (origDefClipRegion != NULL)
+		if (origDefClipRegion != nullptr)
 			{
 			p.SetDefaultClipRegion(origDefClipRegion);
 			XDestroyRegion(origDefClipRegion);
 			}
 		}
 
-	if (ftcRootCellList != NULL)	// overlay FTC on top of window contents
+	if (ftcRootCellList != nullptr)	// overlay FTC on top of window contents
 		{
 		JPtrArrayIterator<JXFTCCell> iter(ftcRootCellList);
 		JXFTCCell* root;
@@ -384,12 +384,12 @@ JXContainer::DrawAll
 			}
 
 		jdelete ftcRootCellList;
-		ftcRootCellList = NULL;
+		ftcRootCellList = nullptr;
 		}
 
 	// clean up
 
-	if (visRegion != NULL)
+	if (visRegion != nullptr)
 		{
 		XDestroyRegion(visRegion);
 		}
@@ -414,7 +414,7 @@ JXContainer::GetVisibleRectGlobal
 	*visRectG = origRectG;
 
 	const JXContainer* encl = this;
-	while (encl != NULL)
+	while (encl != nullptr)
 		{
 		JRect enclRect = encl->GetApertureGlobal();
 		if (!JIntersection(*visRectG, enclRect, visRectG))
@@ -446,13 +446,13 @@ JXContainer::FindContainer
 {
 	if (!IsVisible() || !IsActive() || !(GetFrameGlobal()).Contains(ptG))
 		{
-		*container = NULL;
+		*container = nullptr;
 		return kJFalse;
 		}
 
 	// check if enclosed object contains it
 
-	if (itsEnclosedObjs != NULL)
+	if (itsEnclosedObjs != nullptr)
 		{
 		const JSize objCount = itsEnclosedObjs->GetElementCount();
 		for (JIndex i=1; i<=objCount; i++)
@@ -492,7 +492,7 @@ JXContainer::DispatchNewMouseEvent
 
 	// check if enclosed object wants it
 
-	if (IsActive() && itsEnclosedObjs != NULL)
+	if (IsActive() && itsEnclosedObjs != nullptr)
 		{
 		const JSize objCount = itsEnclosedObjs->GetElementCount();
 		for (JIndex i=1; i<=objCount; i++)
@@ -536,7 +536,7 @@ JXContainer::DispatchNewMouseEvent
 		{
 		const JPoint pt = GlobalToLocal(ptG);
 		const JXKeyModifiers modifiers(GetDisplay(), state);
-		if (IsActive() && itsCursorAnim == NULL)
+		if (IsActive() && itsCursorAnim == nullptr)
 			{
 			AdjustCursor(pt, modifiers);
 			}
@@ -607,7 +607,7 @@ JXContainer::GetHint
 	)
 	const
 {
-	if (itsHintMgr != NULL)
+	if (itsHintMgr != nullptr)
 		{
 		*text = itsHintMgr->GetText();
 		return kJTrue;
@@ -636,10 +636,10 @@ JXContainer::SetHint
 		{
 		ClearHint();
 		}
-	else if (itsHintMgr == NULL)
+	else if (itsHintMgr == nullptr)
 		{
 		itsHintMgr = jnew JXHintManager(this, text);
-		assert( itsHintMgr != NULL );
+		assert( itsHintMgr != nullptr );
 		}
 	else
 		{
@@ -658,7 +658,7 @@ void
 JXContainer::ClearHint()
 {
 	jdelete itsHintMgr;
-	itsHintMgr = NULL;
+	itsHintMgr = nullptr;
 }
 
 /******************************************************************************
@@ -669,7 +669,7 @@ JXContainer::ClearHint()
 void
 JXContainer::MouseEnter()
 {
-	if (itsHintMgr != NULL)
+	if (itsHintMgr != nullptr)
 		{
 		itsHintMgr->Activate();
 		}
@@ -689,7 +689,7 @@ JXContainer::MouseHere
 	const JXKeyModifiers&	modifiers
 	)
 {
-	if (itsHintMgr != NULL)
+	if (itsHintMgr != nullptr)
 		{
 		itsHintMgr->HandleMouseHere(pt);
 		}
@@ -705,7 +705,7 @@ JXContainer::MouseHere
 void
 JXContainer::MouseLeave()
 {
-	if (itsHintMgr != NULL)
+	if (itsHintMgr != nullptr)
 		{
 		itsHintMgr->HandleMouseLeave();
 		}
@@ -778,7 +778,7 @@ JXContainer::MouseDown
 	const JXKeyModifiers&	modifiers
 	)
 {
-	if (itsHintMgr != NULL)
+	if (itsHintMgr != nullptr)
 		{
 		itsHintMgr->Deactivate();
 		}
@@ -891,7 +891,7 @@ JXContainer::FinishDNDSource()
 	return kJTrue if they will accept the current drop.  If they return kJFalse,
 	they will not receive any DND messages.
 
-	source is non-NULL if the drag is between widgets in the same program.
+	source is non-nullptr if the drag is between widgets in the same program.
 	This provides a way for compound documents to identify drags between their
 	various parts.
 
@@ -1099,7 +1099,7 @@ JXContainer::DispatchClientMessage
 		return kJTrue;
 		}
 
-	if (itsEnclosedObjs != NULL)
+	if (itsEnclosedObjs != nullptr)
 		{
 		const JSize objCount = itsEnclosedObjs->GetElementCount();
 		for (JIndex i=1; i<=objCount; i++)
@@ -1141,7 +1141,7 @@ JXContainer::Show()
 {
 	itsIsShowingFlag = kJTrue;
 
-	if (itsEnclosure != NULL &&
+	if (itsEnclosure != nullptr &&
 		(!itsEnclosure->IsVisible() || itsEnclosure->itsIsHidingFlag))
 		{
 //		assert( !itsVisibleFlag );
@@ -1150,7 +1150,7 @@ JXContainer::Show()
 	else if (!itsVisibleFlag)
 		{
 		itsVisibleFlag = kJTrue;
-		if (itsEnclosedObjs != NULL)
+		if (itsEnclosedObjs != nullptr)
 			{
 			const JSize objCount = itsEnclosedObjs->GetElementCount();
 			for (JIndex i=1; i<=objCount; i++)
@@ -1163,7 +1163,7 @@ JXContainer::Show()
 				}
 			}
 
-		if (itsEnclosure == NULL ||
+		if (itsEnclosure == nullptr ||
 			!(itsEnclosure->itsIsShowingFlag ||
 			  itsEnclosure->itsIsHidingFlag))
 			{
@@ -1185,7 +1185,7 @@ JXContainer::Hide()
 {
 	itsIsHidingFlag = kJTrue;
 
-	if (itsEnclosure != NULL && !itsEnclosure->IsVisible())
+	if (itsEnclosure != nullptr && !itsEnclosure->IsVisible())
 		{
 //		assert( !itsVisibleFlag );
 		itsWasVisibleFlag = kJFalse;
@@ -1194,14 +1194,14 @@ JXContainer::Hide()
 		{
 		// Refresh() only works while visible
 
-		if (itsEnclosure == NULL ||
+		if (itsEnclosure == nullptr ||
 			!(itsEnclosure->itsIsShowingFlag ||
 			  itsEnclosure->itsIsHidingFlag))
 			{
 			Refresh();
 			}
 
-		if (itsEnclosedObjs != NULL)
+		if (itsEnclosedObjs != nullptr)
 			{
 			const JSize objCount = itsEnclosedObjs->GetElementCount();
 			for (JIndex i=1; i<=objCount; i++)
@@ -1222,7 +1222,7 @@ JXContainer::Hide()
 		itsVisibleFlag    = kJFalse;
 		itsWasVisibleFlag = kJTrue;
 
-		if (itsEnclosure == NULL ||
+		if (itsEnclosure == nullptr ||
 			!(itsEnclosure->itsIsShowingFlag ||
 			  itsEnclosure->itsIsHidingFlag))
 			{
@@ -1242,7 +1242,7 @@ JBoolean
 JXContainer::WouldBeVisible()
 	const
 {
-	if (itsEnclosure == NULL || itsEnclosure->IsVisible())
+	if (itsEnclosure == nullptr || itsEnclosure->IsVisible())
 		{
 		return itsVisibleFlag;
 		}
@@ -1262,7 +1262,7 @@ JXContainer::Activate()
 {
 	itsIsActivatingFlag = kJTrue;
 
-	if (itsEnclosure != NULL &&
+	if (itsEnclosure != nullptr &&
 		(!itsEnclosure->itsActiveFlag || itsEnclosure->itsIsDeactivatingFlag))
 		{
 //		assert( !itsActiveFlag );
@@ -1271,7 +1271,7 @@ JXContainer::Activate()
 	else if (!itsActiveFlag)
 		{
 		itsActiveFlag = kJTrue;
-		if (itsEnclosedObjs != NULL)
+		if (itsEnclosedObjs != nullptr)
 			{
 			const JSize objCount = itsEnclosedObjs->GetElementCount();
 			for (JIndex i=1; i<=objCount; i++)
@@ -1284,7 +1284,7 @@ JXContainer::Activate()
 				}
 			}
 
-		if (itsEnclosure == NULL ||
+		if (itsEnclosure == nullptr ||
 			!(itsEnclosure->itsIsActivatingFlag ||
 			  itsEnclosure->itsIsDeactivatingFlag))
 			{
@@ -1306,14 +1306,14 @@ JXContainer::Deactivate()
 {
 	itsIsDeactivatingFlag = kJTrue;
 
-	if (itsEnclosure != NULL && !itsEnclosure->itsActiveFlag)
+	if (itsEnclosure != nullptr && !itsEnclosure->itsActiveFlag)
 		{
 //		assert( !itsActiveFlag );
 		itsWasActiveFlag = kJFalse;
 		}
 	else if (itsActiveFlag)
 		{
-		if (itsEnclosedObjs != NULL)
+		if (itsEnclosedObjs != nullptr)
 			{
 			const JSize objCount = itsEnclosedObjs->GetElementCount();
 			for (JIndex i=1; i<=objCount; i++)
@@ -1334,7 +1334,7 @@ JXContainer::Deactivate()
 		itsActiveFlag    = kJFalse;
 		itsWasActiveFlag = kJTrue;
 
-		if (itsEnclosure == NULL ||
+		if (itsEnclosure == nullptr ||
 			!(itsEnclosure->itsIsActivatingFlag ||
 			  itsEnclosure->itsIsDeactivatingFlag))
 			{
@@ -1355,7 +1355,7 @@ JBoolean
 JXContainer::WouldBeActive()
 	const
 {
-	if (itsEnclosure == NULL || itsEnclosure->itsActiveFlag)
+	if (itsEnclosure == nullptr || itsEnclosure->itsActiveFlag)
 		{
 		return itsActiveFlag;
 		}
@@ -1373,7 +1373,7 @@ JXContainer::WouldBeActive()
 void
 JXContainer::Suspend()
 {
-	if (itsEnclosedObjs != NULL)
+	if (itsEnclosedObjs != nullptr)
 		{
 		const JSize objCount = itsEnclosedObjs->GetElementCount();
 		for (JIndex i=1; i<=objCount; i++)
@@ -1402,7 +1402,7 @@ JXContainer::Resume()
 		itsSuspendCount--;
 		}
 
-	if (itsEnclosedObjs != NULL)
+	if (itsEnclosedObjs != nullptr)
 		{
 		const JSize objCount = itsEnclosedObjs->GetElementCount();
 		for (JIndex i=1; i<=objCount; i++)
@@ -1414,7 +1414,7 @@ JXContainer::Resume()
 	if (itsSuspendCount == 0)
 		{
 		Refresh();
-		if (itsEnclosure == NULL)
+		if (itsEnclosure == nullptr)
 			{
 			itsWindow->RecalcMouseContainer();
 			}
@@ -1483,7 +1483,7 @@ JXContainer::DispatchCursor
 {
 	// check if cursor is in enclosed object
 
-	if (IsActive() && itsEnclosedObjs != NULL)
+	if (IsActive() && itsEnclosedObjs != nullptr)
 		{
 		const JSize objCount = itsEnclosedObjs->GetElementCount();
 		for (JIndex i=1; i<=objCount; i++)
@@ -1517,10 +1517,10 @@ JXContainer::ActivateCursor
 	assert( IsVisible() );
 
 	const JBoolean isActive = IsActive();
-	if (isActive && itsCursorAnim != NULL)
+	if (isActive && itsCursorAnim != nullptr)
 		{
 		itsCursorAnim->Activate();
-		assert( itsCursorAnimTask != NULL );
+		assert( itsCursorAnimTask != nullptr );
 		itsCursorAnimTask->Start();
 		}
 	else if (isActive)
@@ -1541,7 +1541,7 @@ JXContainer::ActivateCursor
 void
 JXContainer::DeactivateCursor()
 {
-	if (itsCursorAnim != NULL)
+	if (itsCursorAnim != nullptr)
 		{
 		itsCursorAnim->Deactivate();
 		itsCursorAnimTask->Stop();
@@ -1602,11 +1602,11 @@ JXContainer::CreateCursorAnimator()
 {
 	jdelete itsCursorAnim;
 	itsCursorAnim = jnew JXCursorAnimator(itsWindow);
-	assert( itsCursorAnim != NULL );
+	assert( itsCursorAnim != nullptr );
 
 	jdelete itsCursorAnimTask;
 	itsCursorAnimTask = jnew JXCursorAnimationTask(itsCursorAnim);
-	assert( itsCursorAnimTask != NULL );
+	assert( itsCursorAnimTask != nullptr );
 
 	if (IsVisible())
 		{
@@ -1625,7 +1625,7 @@ void
 JXContainer::AnimateCursor()
 	const
 {
-	if (itsCursorAnim != NULL)
+	if (itsCursorAnim != nullptr)
 		{
 		itsCursorAnim->NextFrame();
 		}
@@ -1642,10 +1642,10 @@ void
 JXContainer::RemoveCursorAnimator()
 {
 	jdelete itsCursorAnim;
-	itsCursorAnim = NULL;
+	itsCursorAnim = nullptr;
 
 	jdelete itsCursorAnimTask;
-	itsCursorAnimTask = NULL;
+	itsCursorAnimTask = nullptr;
 
 	if (IsVisible())
 		{
@@ -1777,7 +1777,7 @@ JXContainer::NotifyBoundsMoved
 		{
 		BoundsMoved(dx,dy);
 
-		if (itsEnclosedObjs != NULL)
+		if (itsEnclosedObjs != nullptr)
 			{
 			const JSize objCount = itsEnclosedObjs->GetElementCount();
 			for (JIndex i=1; i<=objCount; i++)
@@ -1806,7 +1806,7 @@ JXContainer::NotifyBoundsResized
 		{
 		BoundsResized(dw,dh);
 
-		if (itsEnclosedObjs != NULL)
+		if (itsEnclosedObjs != nullptr)
 			{
 			const JSize objCount = itsEnclosedObjs->GetElementCount();
 			for (JIndex i=1; i<=objCount; i++)
@@ -1831,16 +1831,16 @@ JXContainer::GetEnclosedObjects
 	)
 	const
 {
-	if (itsEnclosedObjs != NULL)
+	if (itsEnclosedObjs != nullptr)
 		{
 		*iter = jnew JPtrArrayIterator<JXContainer>(*itsEnclosedObjs);
 		}
 	else
 		{
-		*iter = NULL;
+		*iter = nullptr;
 		}
 
-	return JNegate( *iter == NULL );
+	return JNegate( *iter == nullptr );
 }
 
 /******************************************************************************
@@ -1851,13 +1851,13 @@ JXContainer::GetEnclosedObjects
 void
 JXContainer::DeleteEnclosedObjects()
 {
-	if (itsEnclosedObjs != NULL)
+	if (itsEnclosedObjs != nullptr)
 		{
 		itsGoingAwayFlag = kJTrue;		// ignore RemoveEnclosedObject messages
 		itsEnclosedObjs->DeleteAll();
 		itsGoingAwayFlag = kJFalse;
 		jdelete itsEnclosedObjs;
-		itsEnclosedObjs = NULL;
+		itsEnclosedObjs = nullptr;
 		}
 }
 
@@ -1875,10 +1875,10 @@ JXContainer::AddEnclosedObject
 	JXContainer* theObject
 	)
 {
-	if (itsEnclosedObjs == NULL)
+	if (itsEnclosedObjs == nullptr)
 		{
 		itsEnclosedObjs = jnew JPtrArray<JXContainer>(JPtrArrayT::kForgetAll);
-		assert( itsEnclosedObjs != NULL );
+		assert( itsEnclosedObjs != nullptr );
 		}
 
 	if (!itsEnclosedObjs->Includes(theObject))
@@ -1900,13 +1900,13 @@ JXContainer::RemoveEnclosedObject
 	JXContainer* theObject
 	)
 {
-	if (itsEnclosedObjs != NULL && !itsGoingAwayFlag)
+	if (itsEnclosedObjs != nullptr && !itsGoingAwayFlag)
 		{
 		itsEnclosedObjs->Remove(theObject);
 		if (itsEnclosedObjs->IsEmpty())
 			{
 			jdelete itsEnclosedObjs;
-			itsEnclosedObjs = NULL;
+			itsEnclosedObjs = nullptr;
 			}
 		}
 }
@@ -2094,9 +2094,9 @@ JXContainer::FTCBuildLayout
 	)
 	const
 {
-	if (itsEnclosedObjs == NULL)
+	if (itsEnclosedObjs == nullptr)
 		{
-		*root = NULL;
+		*root = nullptr;
 		return kJFalse;
 		}
 
@@ -2153,7 +2153,7 @@ JXContainer::FTCBuildLayout
 				if (!theDebugFTCNoopExaminations)
 					{
 					theDebugFTCLogBuffer = jnew std::ostringstream;
-					assert( theDebugFTCLogBuffer != NULL );
+					assert( theDebugFTCLogBuffer != nullptr );
 					}
 
 				GetFTCLog() << "examine: " << obj->GetFrameForFTC() << ' ' << obj->ToString() << std::endl;
@@ -2168,13 +2168,13 @@ JXContainer::FTCBuildLayout
 				{
 				GetFTCLog() << "cell: " << cell->GetFrameForFTC() << ' ' << cell->ToString() << std::endl << std::endl;
 
-				if (theDebugFTCLogBuffer != NULL && cell != obj)
+				if (theDebugFTCLogBuffer != nullptr && cell != obj)
 					{
 					std::cout << dynamic_cast<std::ostringstream*>(theDebugFTCLogBuffer)->str();
 					}
 
 				jdelete theDebugFTCLogBuffer;
-				theDebugFTCLogBuffer = NULL;
+				theDebugFTCLogBuffer = nullptr;
 				}
 			}
 		objList.CopyPointers(cellList, JPtrArrayT::kForgetAll, kJFalse);	// resets iter
@@ -2228,7 +2228,7 @@ JXContainer::FTCBuildLayout
 			objList.DeleteAll();
 			}
 
-		*root = NULL;	// unable to enclose everything in a single table
+		*root = nullptr;	// unable to enclose everything in a single table
 		return kJFalse;
 		}
 }
@@ -2292,22 +2292,22 @@ JXContainer::FTCGroupAlignedObjects
 	const JIntRange targetInterval = ftcGetInterval(targetRect, horizontal);
 
 	JXFTCCell* container =
-		jnew JXFTCCell(NULL, target->GetEnclosure(),
+		jnew JXFTCCell(nullptr, target->GetEnclosure(),
 					   horizontal ? JXFTCCell::kHorizontal : JXFTCCell::kVertical,
 					   exact);
-	assert( container != NULL );
+	assert( container != nullptr );
 
 	JPtrArray<JXFTCCell> cellList(JPtrArrayT::kForgetAll);
 
 	JXFTCCell* cell = dynamic_cast<JXFTCCell*>(target);
-	if (cell != NULL)
+	if (cell != nullptr)
 		{
 		ftcReparentCell(cell, container);
 		}
 	else
 		{
 		cell = jnew JXFTCCell(target, container, JXFTCCell::kNoDirection, exact);
-		assert( cell != NULL );
+		assert( cell != nullptr );
 		}
 	cellList.AppendElement(cell);
 
@@ -2334,14 +2334,14 @@ JXContainer::FTCGroupAlignedObjects
 			}
 
 		JXFTCCell* cellObj = dynamic_cast<JXFTCCell*>(obj);
-		if (cellObj != NULL)
+		if (cellObj != nullptr)
 			{
 			cell = cellObj;
 			}
 		else	// only create new cell to wrap real widget
 			{
 			cell = jnew JXFTCCell(obj, container, JXFTCCell::kNoDirection, exact);
-			assert( cell != NULL );
+			assert( cell != nullptr );
 			}
 		cellList.AppendElement(cell);
 		matchedList.AppendElement(obj);
@@ -2364,7 +2364,7 @@ JXContainer::FTCGroupAlignedObjects
 	if (cellList.GetElementCount() == 1)
 		{
 		JXFTCCell* targetCell = dynamic_cast<JXFTCCell*>(target);
-		if (targetCell == NULL)
+		if (targetCell == nullptr)
 			{
 			targetCell = cellList.GetFirstElement();
 			}
@@ -2391,7 +2391,7 @@ JXContainer::FTCGroupAlignedObjects
 				while (i2.Next(&obj))
 					{
 					JXFTCCell* c2 = dynamic_cast<JXFTCCell*>(obj);
-					assert( c2 != NULL );
+					assert( c2 != nullptr );
 					ftcReparentCell(c2, container);
 					cellList.InsertBefore(cell, c2);
 					}
@@ -2516,7 +2516,7 @@ JXContainer::FTCTrimBlockedMatches
 	const JRect targetRect         = target->GetFrameForFTC();
 	const JIntRange targetInterval = ftcGetInterval(targetRect, horizontal);
 
-	JXContainer *obj, *minBlocker = NULL, *maxBlocker = NULL;
+	JXContainer *obj, *minBlocker = nullptr, *maxBlocker = nullptr;
 
 	// find blockers
 
@@ -2539,7 +2539,7 @@ JXContainer::FTCTrimBlockedMatches
 		if (overlaps &&
 			((horizontal && rect.right  <= targetRect.left) ||
 			 (vertical   && rect.bottom <= targetRect.top )) &&
-			(minBlocker == NULL ||
+			(minBlocker == nullptr ||
 			 (horizontal && minBlocker->GetFrameForFTC().right  < rect.right ) ||
 			 (vertical   && minBlocker->GetFrameForFTC().bottom < rect.bottom)))
 			{
@@ -2553,7 +2553,7 @@ JXContainer::FTCTrimBlockedMatches
 		else if (overlaps &&
 				 ((horizontal && targetRect.right  <= rect.left) ||
 				  (vertical   && targetRect.bottom <= rect.top )) &&
-				 (maxBlocker == NULL ||
+				 (maxBlocker == nullptr ||
 				  (horizontal && rect.left < maxBlocker->GetFrameForFTC().left) ||
 				  (vertical   && rect.top  < maxBlocker->GetFrameForFTC().top )))
 			{
@@ -2568,10 +2568,10 @@ JXContainer::FTCTrimBlockedMatches
 
 	// ignore cells before minBlocker or after maxBlocker
 
-	const JCoordinate min = (minBlocker == NULL ? 0 :
+	const JCoordinate min = (minBlocker == nullptr ? 0 :
 							 horizontal ? minBlocker->GetFrameForFTC().right :
 										  minBlocker->GetFrameForFTC().bottom),
-					  max = (maxBlocker == NULL ? 1e6 :
+					  max = (maxBlocker == nullptr ? 1e6 :
 							 horizontal ? maxBlocker->GetFrameForFTC().left :
 										  maxBlocker->GetFrameForFTC().top);
 
@@ -2589,7 +2589,7 @@ JXContainer::FTCTrimBlockedMatches
 				}
 
 			cellIter.RemovePrev();
-			if (cell->GetWidget() != NULL && deleteBlockedWidgetCells)
+			if (cell->GetWidget() != nullptr && deleteBlockedWidgetCells)
 				{
 				jdelete cell;	// delete cell for widget that needs to be re-processed
 				}
@@ -2663,7 +2663,7 @@ JRect
 JXContainer::ComputePaddingForInternalFTC()
 	const
 {
-	if (itsEnclosedObjs == NULL || itsEnclosedObjs->IsEmpty())
+	if (itsEnclosedObjs == nullptr || itsEnclosedObjs->IsEmpty())
 		{
 		return JRect();
 		}

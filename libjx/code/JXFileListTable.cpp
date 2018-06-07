@@ -71,26 +71,26 @@ JXFileListTable::JXFileListTable
 	:
 	JXTable(10, 10, scrollbarSet, enclosure, hSizing,vSizing, x,y, w,h)
 {
-	itsRegex              = NULL;
+	itsRegex              = nullptr;
 	itsAcceptFileDropFlag = kJFalse;
 	itsBSRemoveSelFlag    = kJFalse;
 	itsDragType           = kInvalidDrag;
 	itsMaxStringWidth     = 0;
-	itsEditMenuProvider   = NULL;
-	itsEditMenu           = NULL;
+	itsEditMenuProvider   = nullptr;
+	itsEditMenu           = nullptr;
 
 	itsFileList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll, 100);
-	assert( itsFileList != NULL );
+	assert( itsFileList != nullptr );
 	// UNIX file system is case-sensitive.
 	itsFileList->SetCompareFunction(JCompareStringsCaseSensitive);
 	ListenTo(itsFileList);
 
 	itsVisibleList = jnew JArray<VisInfo>(100);
-	assert( itsVisibleList != NULL );
+	assert( itsVisibleList != nullptr );
 	itsVisibleList->SetSortOrder(JListT::kSortAscending);
 
 	itsFileIcon = jnew JXImage(GetDisplay(), jx_plain_file_small);
-	assert( itsFileIcon != NULL );
+	assert( itsFileIcon != nullptr );
 	itsFileIcon->ConvertToRemoteStorage();
 
 	const JColorID blackColor = JColorManager::GetBlackColor();
@@ -143,7 +143,7 @@ JXFileListTable::IsInactive
 	If a relative path is added, then GetFullName() will call the virtual
 	function ResolveFullName().
 
-	If fullNameIndex is not NULL, it is set to the index into GetFullNameList(),
+	If fullNameIndex is not nullptr, it is set to the index into GetFullNameList(),
 	both when the file is inserted and when the file is already there.
 
  ******************************************************************************/
@@ -152,12 +152,12 @@ JBoolean
 JXFileListTable::AddFile
 	(
 	const JString&	fullName,
-	JIndex*			fullNameIndex	// can be NULL
+	JIndex*			fullNameIndex	// can be nullptr
 	)
 {
 	assert( !fullName.IsEmpty() );
 
-	if (fullNameIndex != NULL)
+	if (fullNameIndex != nullptr)
 		{
 		*fullNameIndex = 0;
 		}
@@ -165,11 +165,11 @@ JXFileListTable::AddFile
 	ClearSelection();
 
 	JString* s = jnew JString(fullName);
-	assert( s != NULL );
+	assert( s != nullptr );
 
 	JBoolean found;
 	const JIndex index = itsFileList->SearchSorted1(s, JListT::kAnyMatch, &found);
-	if (fullNameIndex != NULL)
+	if (fullNameIndex != nullptr)
 		{
 		*fullNameIndex = index;
 		}
@@ -279,7 +279,7 @@ JXFileListTable::GetFilterRegex
 	)
 	const
 {
-	if (itsRegex != NULL)
+	if (itsRegex != nullptr)
 		{
 		*regexStr = itsRegex->GetPattern();
 		return kJTrue;
@@ -307,10 +307,10 @@ JXFileListTable::SetFilterRegex
 		ClearFilterRegex();
 		return JNoError();
 		}
-	else if (itsRegex == NULL)
+	else if (itsRegex == nullptr)
 		{
 		itsRegex = jnew JRegex;
-		assert( itsRegex != NULL );
+		assert( itsRegex != nullptr );
 		const JError err = itsRegex->SetPattern(regexStr);
 		itsRegex->SetCaseSensitive(kJFalse);
 		if (err.OK())
@@ -320,7 +320,7 @@ JXFileListTable::SetFilterRegex
 		else
 			{
 			jdelete itsRegex;
-			itsRegex = NULL;
+			itsRegex = nullptr;
 			}
 		return err;
 		}
@@ -356,10 +356,10 @@ JXFileListTable::SetFilterRegex
 void
 JXFileListTable::ClearFilterRegex()
 {
-	if (itsRegex != NULL)
+	if (itsRegex != nullptr)
 		{
 		jdelete itsRegex;
-		itsRegex = NULL;
+		itsRegex = nullptr;
 
 		RebuildTable();
 		}
@@ -423,7 +423,7 @@ JXFileListTable::FilterFile
 		info.nameIndex = 1;
 		}
 
-	if (itsRegex == NULL || itsRegex->Match(JString(fullName->GetBytes() + info.nameIndex-1, 0, kJFalse)))
+	if (itsRegex == nullptr || itsRegex->Match(JString(fullName->GetBytes() + info.nameIndex-1, 0, kJFalse)))
 		{
 		const JString fileName(*fullName, JCharacterRange(info.nameIndex, fullName->GetCharacterCount()));
 		itsVisibleList->SetCompareObject(PrefixMatch(fileName, *itsFileList));
@@ -921,7 +921,7 @@ JXFileListTable::HandleMouseDrag
 	if (itsDragType == kWaitForDND && JMouseMoved(itsMouseDownPt, pt))
 		{
 		JXFileSelection* data = jnew JXFileSelection(this, kSelectionDataID);
-		assert( data != NULL );
+		assert( data != nullptr );
 
 		BeginDND(pt, buttonStates, modifiers, data);
 		itsDragType = kInvalidDrag;
@@ -1153,7 +1153,7 @@ JXFileListTable::PrefixMatch::Copy()
 	const
 {
 	PrefixMatch* copy = jnew PrefixMatch(itsPrefix, itsFileList);
-	assert( copy != NULL );
+	assert( copy != nullptr );
 	return copy;
 }
 
@@ -1168,20 +1168,20 @@ JXFileListTable::SetEditMenuProvider
 	JXTEBase* te
 	)
 {
-	if (itsEditMenu != NULL)
+	if (itsEditMenu != nullptr)
 		{
 		StopListening(itsEditMenu);
 		}
 
-	if (te != NULL && te->GetEditMenu(&itsEditMenu))
+	if (te != nullptr && te->GetEditMenu(&itsEditMenu))
 		{
 		itsEditMenuProvider = te;
 		ListenTo(itsEditMenu);
 		}
 	else
 		{
-		itsEditMenuProvider = NULL;
-		itsEditMenu         = NULL;
+		itsEditMenuProvider = nullptr;
+		itsEditMenu         = nullptr;
 		}
 }
 
@@ -1209,14 +1209,14 @@ JXFileListTable::Receive
 		{
 		const JListT::ElementsInserted* m =
 			dynamic_cast<const JListT::ElementsInserted*>(&message);
-		assert( m != NULL );
+		assert( m != nullptr );
 		ADJUST_INDEX(m);
 		}
 	else if (sender == itsFileList && message.Is(JListT::kElementsRemoved))
 		{
 		const JListT::ElementsRemoved* m =
 			dynamic_cast<const JListT::ElementsRemoved*>(&message);
-		assert( m != NULL );
+		assert( m != nullptr );
 
 		const JSize count = itsVisibleList->GetElementCount();
 		for (JIndex i=count; i>=1; i--)
@@ -1237,14 +1237,14 @@ JXFileListTable::Receive
 		{
 		const JListT::ElementMoved* m =
 			dynamic_cast<const JListT::ElementMoved*>(&message);
-		assert( m != NULL );
+		assert( m != nullptr );
 		ADJUST_INDEX(m);
 		}
 	else if (sender == itsFileList && message.Is(JListT::kElementsSwapped))
 		{
 		const JListT::ElementsSwapped* m =
 			dynamic_cast<const JListT::ElementsSwapped*>(&message);
-		assert( m != NULL );
+		assert( m != nullptr );
 		ADJUST_INDEX(m);
 		}
 	else if (sender == itsFileList && message.Is(JListT::kElementChanged))
@@ -1264,7 +1264,7 @@ JXFileListTable::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleEditMenu(selection->GetIndex());
 		}
 
@@ -1345,7 +1345,7 @@ JXFileListTable::CopySelectedFileNames()
 			}
 
 		JXTextSelection* data = jnew JXTextSelection(GetDisplay(), list);
-		assert( data != NULL );
+		assert( data != nullptr );
 
 		GetSelectionManager()->SetData(kJXClipboardName, data);
 		}
@@ -1374,7 +1374,7 @@ JXFileListTable::GetSelectionData
 		assert( HasSelection() );
 
 		JXFileSelection* fileData = dynamic_cast<JXFileSelection*>(data);
-		assert( fileData != NULL );
+		assert( fileData != nullptr );
 
 		JPtrArray<JString> list(JPtrArrayT::kDeleteAll);
 

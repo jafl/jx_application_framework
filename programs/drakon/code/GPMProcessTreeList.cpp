@@ -48,10 +48,10 @@ GPMProcessTreeList::GPMProcessTreeList
 	:
 	JXNamedTreeListWidget(treeList, scrollbarSet, enclosure, hSizing,vSizing, x,y, w,h),
 	itsList(list),
-	itsContextMenu(NULL),
-	itsSelectedEntry(NULL),
+	itsContextMenu(nullptr),
+	itsSelectedEntry(nullptr),
 	itsFullCmdDisplay(fullCmdDisplay),
-	itsZombieImage(NULL)
+	itsZombieImage(nullptr)
 {
 	AppendCols(GPMProcessList::kTreeCount - 2);
 	SetColWidth(GPMProcessList::kTreeState,  20);
@@ -64,7 +64,7 @@ GPMProcessTreeList::GPMProcessTreeList
 	SetColWidth(GPMProcessList::kTreeTime,   60);
 
 	itsZombieImage = jnew JXImage(GetDisplay(), jx_edit_clear);
-	assert( itsZombieImage != NULL );
+	assert( itsZombieImage != nullptr );
 
 	itsContextMenu = GPMProcessTable::CreateContextMenu(this);
 	ListenTo(itsContextMenu);
@@ -96,10 +96,10 @@ GPMProcessTreeList::Receive
 {
 	if (sender == itsList && message.Is(GPMProcessList::kPrepareForUpdate))
 		{
-		if (itsSelectedEntry != NULL)
+		if (itsSelectedEntry != nullptr)
 			{
 			StopListening(itsSelectedEntry);
-			itsSelectedEntry = NULL;
+			itsSelectedEntry = nullptr;
 			}
 
 		if (GetSelectedProcess(&itsSelectedEntry))
@@ -114,13 +114,13 @@ GPMProcessTreeList::Receive
 		s.ClearSelection();
 
 		JIndex index;
-		if (itsSelectedEntry != NULL &&
+		if (itsSelectedEntry != nullptr &&
 			GetTreeList()->FindNode(itsSelectedEntry, &index))
 			{
 			s.SelectRow(index);
 
 			StopListening(itsSelectedEntry);
-			itsSelectedEntry = NULL;
+			itsSelectedEntry = nullptr;
 			}
 
 		Refresh();
@@ -134,7 +134,7 @@ GPMProcessTreeList::Receive
 		{
 		 const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleContextMenu(selection->GetIndex());
 		}
 
@@ -344,7 +344,7 @@ GPMProcessTreeList::GetSelectedProcess
 		}
 	else
 		{
-		*entry = NULL;
+		*entry = nullptr;
 		return kJFalse;
 		}
 }

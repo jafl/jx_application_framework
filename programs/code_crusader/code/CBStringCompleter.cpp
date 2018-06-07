@@ -36,7 +36,7 @@ CBStringCompleter::CBStringCompleter
 	itsCaseSensitiveFlag(caseSensitive)
 {
 	itsStringList = jnew JPtrArray<JString>(JPtrArrayT::kForgetAll, 1000);
-	assert( itsStringList != NULL );
+	assert( itsStringList != nullptr );
 	itsStringList->SetSortOrder(JListT::kSortAscending);
 
 	if (itsCaseSensitiveFlag)
@@ -49,7 +49,7 @@ CBStringCompleter::CBStringCompleter
 		}
 
 	itsOwnedList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
-	assert( itsOwnedList != NULL );
+	assert( itsOwnedList != nullptr );
 
 	if (itsLanguage != kCBOtherLang)
 		{
@@ -58,7 +58,7 @@ CBStringCompleter::CBStringCompleter
 
 	CBGetStyler(lang, &itsStyler);
 	UpdateWordList();
-	if (itsStyler != NULL)
+	if (itsStyler != nullptr)
 		{
 		ListenTo(itsStyler);
 		}
@@ -115,7 +115,7 @@ CBStringCompleter::Add
 	)
 {
 	JString* s = jnew JString(str);
-	assert( s != NULL );
+	assert( s != nullptr );
 	if (itsStringList->InsertSorted(s, kJFalse))
 		{
 		itsOwnedList->Append(s);
@@ -195,7 +195,7 @@ CBStringCompleter::Complete
 	JXStringCompletionMenu*	menu
 	)
 {
-	assert( menu != NULL );
+	assert( menu != nullptr );
 
 	JIndex caretIndex;
 	if (!te->GetCaretLocation(&caretIndex))
@@ -416,7 +416,7 @@ CBStringCompleter::UpdateWordList()
 
 	// add words from styler's override list
 
-	if (itsStyler != NULL)
+	if (itsStyler != nullptr)
 		{
 		CopyWordsFromStyler(itsStyler);
 		}

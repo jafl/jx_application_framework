@@ -46,7 +46,7 @@ THXVarTable::THXVarTable
 	SetDefaultRowHeight(rowHeight);
 
 	itsVarList   = varList;
-	itsTextInput = NULL;
+	itsTextInput = nullptr;
 	itsFontMenu  = fontMenu;
 
 	AppendCols(2);	// name, function
@@ -190,10 +190,10 @@ THXVarTable::CreateXInputField
 	const JCoordinate	h
 	)
 {
-	assert( itsTextInput == NULL );
+	assert( itsTextInput == nullptr );
 
 	itsTextInput = jnew JXExprInput(this, kFixedLeft, kFixedTop, x,y, w,h);
-	assert( itsTextInput != NULL );
+	assert( itsTextInput != nullptr );
 
 	const JIndex varIndex = cell.y + THXVarList::kUserFnOffset;
 	if (cell.x == kNameColumn)
@@ -225,7 +225,7 @@ THXVarTable::ExtractInputData
 	const JPoint& cell
 	)
 {
-	assert( itsTextInput != NULL );
+	assert( itsTextInput != nullptr );
 
 	const JString s = itsTextInput->GetVarName();
 	if (s == itsOrigText)
@@ -262,7 +262,7 @@ THXVarTable::ExtractInputData
 void
 THXVarTable::PrepareDeleteXInputField()
 {
-	itsTextInput = NULL;
+	itsTextInput = nullptr;
 }
 
 /******************************************************************************

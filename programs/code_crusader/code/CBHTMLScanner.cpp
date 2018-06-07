@@ -54,7 +54,7 @@ CBHTMLScanner::BeginScan
 	itsPHPHereDocTag.Clear();
 	itsProbableJSOperatorFlag = kJFalse;
 
-	switch_streams(&input, NULL);
+	switch_streams(&input, nullptr);
 }
 
 /******************************************************************************

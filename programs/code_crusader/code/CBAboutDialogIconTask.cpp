@@ -42,14 +42,14 @@ CBAboutDialogIconTask::CBAboutDialogIconTask
 	JXAnimationTask(widget)
 {
 	itsImageList = jnew JPtrArray<JXImage>(JPtrArrayT::kDeleteAll, kAboutIconCount);
-	assert( itsImageList != NULL );
+	assert( itsImageList != nullptr );
 
 	JXDisplay* display   = widget->GetDisplay();
 	JXColorManager* colormap = widget->GetColormap();
 	for (JIndex i=1; i<=kAboutIconCount; i++)
 		{
 		JXImage* icon = jnew JXImage(display, kAboutIcon[i-1]);
-		assert( icon != NULL );
+		assert( icon != nullptr );
 		itsImageList->Append(icon);
 		}
 }

@@ -184,7 +184,7 @@ SVNMainDirector::SVNMainDirector
 		window->SetSize(w,h);
 		}
 
-	if (itsRepoWidget != NULL)
+	if (itsRepoWidget != nullptr)
 		{
 		itsRepoWidget->RefreshContent();
 		}
@@ -210,7 +210,7 @@ SVNMainDirector::SVNMainDirector
 		JBoolean hadRepoWidget;
 		input >> hadRepoWidget;
 
-		if (itsRepoWidget != NULL)
+		if (itsRepoWidget != nullptr)
 			{
 			itsRepoWidget->ReadSetup(hadRepoWidget, input, vers);
 			}
@@ -226,17 +226,17 @@ SVNMainDirector::SVNMainDirector
 void
 SVNMainDirector::SVNMainDirectorX()
 {
-	itsRepoWidget               = NULL;
-	itsStatusWidget             = NULL;
-	itsActionProcess            = NULL;
-	itsCheckOutProcess          = NULL;
-	itsBrowseRepoDialog         = NULL;
-	itsBrowseRepoRevisionDialog = NULL;
-	itsCheckOutRepoDialog       = NULL;
-	itsRefreshStatusTask        = NULL;
+	itsRepoWidget               = nullptr;
+	itsStatusWidget             = nullptr;
+	itsActionProcess            = nullptr;
+	itsCheckOutProcess          = nullptr;
+	itsBrowseRepoDialog         = nullptr;
+	itsBrowseRepoRevisionDialog = nullptr;
+	itsCheckOutRepoDialog       = nullptr;
+	itsRefreshStatusTask        = nullptr;
 
 	itsTabList = jnew JPtrArray<SVNTabBase>(JPtrArrayT::kForgetAll);
-	assert( itsTabList != NULL );
+	assert( itsTabList != nullptr );
 
 	BuildWindow();
 
@@ -284,9 +284,9 @@ SVNMainDirector::StreamOut
 	GetWindow()->WriteGeometry(output);
 
 	output << ' ';
-	output << JI2B(itsRepoWidget != NULL);
+	output << JI2B(itsRepoWidget != nullptr);
 
-	if (itsRepoWidget != NULL)
+	if (itsRepoWidget != nullptr)
 		{
 		output << ' ';
 		itsRepoWidget->WriteSetup(output);
@@ -320,17 +320,17 @@ SVNMainDirector::BuildWindow()
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 500,300, "");
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	JXMenuBar* menuBar =
 		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 500,30);
-	assert( menuBar != NULL );
+	assert( menuBar != nullptr );
 
 	itsToolBar =
 		jnew JXToolBar(SVNGetPrefsManager(), kSVNMainToolBarID, menuBar, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 500,270);
-	assert( itsToolBar != NULL );
+	assert( itsToolBar != nullptr );
 
 // end JXLayout
 
@@ -350,7 +350,7 @@ SVNMainDirector::BuildWindow()
 	window->SetWMClass(SVNGetWMClassInstance(), SVNGetMainWindowClass());
 
 	JXImage* image = jnew JXImage(GetDisplay(), svn_main_window_icon);
-	assert( image != NULL );
+	assert( image != nullptr );
 	window->SetIcon(image);
 	ListenTo(window);
 
@@ -397,7 +397,7 @@ SVNMainDirector::BuildWindow()
 	JXWDMenu* wdMenu =
 		jnew JXWDMenu(kWindowsMenuTitleStr, menuBar,
 					 JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
-	assert( wdMenu != NULL );
+	assert( wdMenu != nullptr );
 	menuBar->AppendMenu(wdMenu);
 
 	itsPrefsMenu = menuBar->AppendTextMenu(kPrefsMenuTitleStr);
@@ -419,7 +419,7 @@ SVNMainDirector::BuildWindow()
 		jnew SVNTabGroup(itsToolBar->GetWidgetEnclosure(),
 						JXWidget::kHElastic, JXWidget::kVElastic,
 						0,0, 100,100);
-	assert( itsTabGroup != NULL );
+	assert( itsTabGroup != nullptr );
 	itsTabGroup->FitToEnclosure();
 	ListenTo(itsTabGroup->GetCardEnclosure());
 
@@ -436,7 +436,7 @@ SVNMainDirector::BuildWindow()
 							scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 							JXWidget::kHElastic, JXWidget::kVElastic,
 							0,0, 100,100);
-		assert( itsRepoWidget != NULL );
+		assert( itsRepoWidget != nullptr );
 
 		itsTabList->Append(itsRepoWidget);
 		}
@@ -453,7 +453,7 @@ SVNMainDirector::BuildWindow()
 							  scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 							  JXWidget::kHElastic, JXWidget::kVElastic,
 							  0,0, 100,100);
-		assert( itsStatusWidget != NULL );
+		assert( itsStatusWidget != nullptr );
 
 		itsTabList->Append(itsStatusWidget);
 		itsStatusWidget->RefreshContent();
@@ -506,7 +506,7 @@ SVNMainDirector::BuildScrollbarSet
 	JXScrollbarSet* scrollbarSet =
 		jnew JXScrollbarSet(widget, JXWidget::kHElastic,JXWidget::kVElastic,
 						   0,0, 100,100);
-	assert( scrollbarSet != NULL );
+	assert( scrollbarSet != nullptr );
 	scrollbarSet->FitToEnclosure();
 	return scrollbarSet;
 }
@@ -555,7 +555,7 @@ SVNMainDirector::GetRepoPath
 	)
 	const
 {
-	if (itsRepoWidget != NULL)
+	if (itsRepoWidget != nullptr)
 		{
 		*path = (itsRepoWidget->GetRepoTree())->GetRepoPath();
 		JStripTrailingDirSeparator(path);
@@ -583,7 +583,7 @@ SVNMainDirector::RegisterActionProcess
 	const JBoolean	reload
 	)
 {
-	assert( itsActionProcess == NULL );
+	assert( itsActionProcess == nullptr );
 
 	itsActionProcess = p;
 	ListenTo(itsActionProcess);
@@ -607,10 +607,10 @@ SVNMainDirector::RegisterActionProcess
 void
 SVNMainDirector::ScheduleStatusRefresh()
 {
-	if (itsRefreshStatusTask == NULL)
+	if (itsRefreshStatusTask == nullptr)
 		{
 		itsRefreshStatusTask = jnew SVNRefreshStatusTask(this);
-		assert( itsRefreshStatusTask != NULL );
+		assert( itsRefreshStatusTask != nullptr );
 		itsRefreshStatusTask->Start();
 		}
 }
@@ -635,7 +635,7 @@ SVNMainDirector::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleFileMenu(selection->GetIndex());
 		}
 
@@ -647,7 +647,7 @@ SVNMainDirector::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleActionsMenu(selection->GetIndex());
 		}
 
@@ -659,7 +659,7 @@ SVNMainDirector::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleInfoMenu(selection->GetIndex());
 		}
 
@@ -671,7 +671,7 @@ SVNMainDirector::Receive
 		{
 		 const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandlePrefsMenu(selection->GetIndex());
 		}
 
@@ -683,7 +683,7 @@ SVNMainDirector::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleHelpMenu(selection->GetIndex());
 		}
 
@@ -691,9 +691,9 @@ SVNMainDirector::Receive
 		{
 		const JProcess::Finished* info =
 			dynamic_cast<const JProcess::Finished*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 
-		itsActionProcess       = NULL;
+		itsActionProcess       = nullptr;
 		JBoolean refreshRepo   = itsRefreshRepoFlag;	// changed when refresh status
 		JBoolean refreshStatus = itsRefreshStatusFlag;	// changed when refresh status
 		JBoolean reload        = itsReloadOpenFilesFlag;
@@ -718,7 +718,7 @@ SVNMainDirector::Receive
 
 			if (sender == itsCheckOutProcess)
 				{
-				itsCheckOutProcess = NULL;
+				itsCheckOutProcess = nullptr;
 				CreateStatusTab();
 				}
 			}
@@ -732,7 +732,7 @@ SVNMainDirector::Receive
 		{
 		const JXDialogDirector::Deactivated* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 
 		if (info->Successful())
 			{
@@ -749,42 +749,42 @@ SVNMainDirector::Receive
 				}
 			}
 
-		itsBrowseRepoDialog = NULL;
+		itsBrowseRepoDialog = nullptr;
 		}
 
 	else if (sender == itsBrowseRepoRevisionDialog && message.Is(JXDialogDirector::kDeactivated))
 		{
 		const JXDialogDirector::Deactivated* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 
 		if (info->Successful())
 			{
 			BrowseRepo(itsBrowseRepoRevisionDialog->GetString());
 			}
 
-		itsBrowseRepoRevisionDialog = NULL;
+		itsBrowseRepoRevisionDialog = nullptr;
 		}
 
 	else if (sender == itsCheckOutRepoDialog && message.Is(JXDialogDirector::kDeactivated))
 		{
 		const JXDialogDirector::Deactivated* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 
 		if (info->Successful())
 			{
 			CheckOut(itsCheckOutRepoDialog->GetRepo());
 			}
 
-		itsCheckOutRepoDialog = NULL;
+		itsCheckOutRepoDialog = nullptr;
 		}
 
 	else if (message.Is(JXCardFile::kCardRemoved))
 		{
 		const JXCardFile::CardRemoved* info =
 			dynamic_cast<const JXCardFile::CardRemoved*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 
 		JIndex i;
 		if (info->GetCardIndex(&i))
@@ -819,8 +819,8 @@ SVNMainDirector::ReceiveGoingAway
 {
 	if (sender == itsActionProcess)
 		{
-		itsActionProcess   = NULL;
-		itsCheckOutProcess = NULL;
+		itsActionProcess   = nullptr;
+		itsCheckOutProcess = nullptr;
 		itsTabGroup->ClearBusyIndex();
 		CleanUpWorkingCopy();
 		}
@@ -844,7 +844,7 @@ SVNMainDirector::UpdateFileMenu()
 	itsFileMenu->EnableItem(kCloseCmd);
 	itsFileMenu->EnableItem(kQuitCmd);
 
-	if (itsRepoWidget != NULL && itsStatusWidget == NULL)
+	if (itsRepoWidget != nullptr && itsStatusWidget == nullptr)
 		{
 		itsFileMenu->EnableItem(kCheckOutCurrentRepoCmd);
 		}
@@ -855,7 +855,7 @@ SVNMainDirector::UpdateFileMenu()
 		JPtrArray<JString> list(JPtrArrayT::kDeleteAll);
 		(itsTabList->GetElement(i))->GetSelectedFiles(&list);
 
-		if (!list.IsEmpty() && itsStatusWidget != NULL)
+		if (!list.IsEmpty() && itsStatusWidget != nullptr)
 			{
 			itsFileMenu->EnableItem(kOpenFilesCmd);
 			itsFileMenu->EnableItem(kShowFilesCmd);
@@ -886,24 +886,24 @@ SVNMainDirector::HandleFileMenu
 		}
 	else if (index == kBrowseRepoCmd)
 		{
-		assert( itsBrowseRepoDialog == NULL );
+		assert( itsBrowseRepoDialog == nullptr );
 
 		itsBrowseRepoDialog =
 			jnew SVNGetRepoDialog(
 				JXGetPersistentWindowOwner(), JGetString("BrowseRepoWindowTitle::SVNMainDirector"));
-		assert( itsBrowseRepoDialog != NULL );
+		assert( itsBrowseRepoDialog != nullptr );
 		ListenTo(itsBrowseRepoDialog);
 		itsBrowseRepoDialog->BeginDialog();
 		}
 
 	else if (index == kCheckOutRepoCmd)
 		{
-		assert( itsCheckOutRepoDialog == NULL );
+		assert( itsCheckOutRepoDialog == nullptr );
 
 		itsCheckOutRepoDialog =
 			jnew SVNGetRepoDialog(
 				JXGetPersistentWindowOwner(), JGetString("CheckOutRepoWindowTitle::SVNMainDirector"));
-		assert( itsCheckOutRepoDialog != NULL );
+		assert( itsCheckOutRepoDialog != nullptr );
 		ListenTo(itsCheckOutRepoDialog);
 		itsCheckOutRepoDialog->BeginDialog();
 		}
@@ -965,7 +965,7 @@ SVNMainDirector::CheckOut
 	if (!(SVNGetWDManager())->GetBrowserForExactURL(url, &dir))
 		{
 		dir = jnew SVNMainDirector(JXGetApplication(), url);
-		assert( dir != NULL );
+		assert( dir != nullptr );
 		dir->Activate();
 		}
 	dir->CheckOut();
@@ -979,7 +979,7 @@ SVNMainDirector::CheckOut
 void
 SVNMainDirector::CheckOut()
 {
-	if (itsStatusWidget != NULL || !OKToStartActionProcess())
+	if (itsStatusWidget != nullptr || !OKToStartActionProcess())
 		{
 		return;
 		}
@@ -994,7 +994,7 @@ SVNMainDirector::CheckOut()
 	JSplitPathAndName(repoPath, &path, &name);
 
 	if (!(JXGetChooseSaveFile())->SaveFile(
-			JGetString("CheckOutDirectoryPrompt::SVNMainDirector"), NULL, name, &path))
+			JGetString("CheckOutDirectoryPrompt::SVNMainDirector"), nullptr, name, &path))
 		{
 		return;
 		}
@@ -1025,7 +1025,7 @@ SVNMainDirector::CheckOut()
 void
 SVNMainDirector::CreateStatusTab()
 {
-	assert( itsStatusWidget == NULL );
+	assert( itsStatusWidget == nullptr );
 
 	JIndex index;
 	const JBoolean found = itsTabList->Find(itsRepoWidget, &index);
@@ -1040,7 +1040,7 @@ SVNMainDirector::CreateStatusTab()
 						  scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 						  JXWidget::kHElastic, JXWidget::kVElastic,
 						  0,0, 100,100);
-	assert( itsStatusWidget != NULL );
+	assert( itsStatusWidget != nullptr );
 
 	itsTabList->InsertAtIndex(index, itsStatusWidget);
 	itsStatusWidget->RefreshContent();
@@ -1061,7 +1061,7 @@ SVNMainDirector::UpdateActionsMenu()
 		itsActionsMenu->EnableItem(kCloseTabCmd);
 		}
 
-	if (itsActionProcess == NULL)
+	if (itsActionProcess == nullptr)
 		{
 		if (HasPath())
 			{
@@ -1227,7 +1227,7 @@ SVNMainDirector::HandleActionsMenu
 void
 SVNMainDirector::RefreshRepo()
 {
-	if (itsRepoWidget != NULL)
+	if (itsRepoWidget != nullptr)
 		{
 		itsRepoWidget->RefreshContent();
 		}
@@ -1262,7 +1262,7 @@ SVNMainDirector::BrowseRepo
 						scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 						JXWidget::kHElastic, JXWidget::kVElastic,
 						0,0, 100,100);
-	assert( widget != NULL );
+	assert( widget != nullptr );
 
 	itsTabGroup->ShowTab(card);
 	itsTabList->Append(widget);
@@ -1279,9 +1279,9 @@ void
 SVNMainDirector::RefreshStatus()
 {
 	jdelete itsRefreshStatusTask;
-	itsRefreshStatusTask = NULL;
+	itsRefreshStatusTask = nullptr;
 
-	if (itsStatusWidget != NULL)
+	if (itsStatusWidget != nullptr)
 		{
 		itsStatusWidget->RefreshContent();
 		}
@@ -1308,7 +1308,7 @@ SVNMainDirector::UpdateWorkingCopy()
 						  scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 						  JXWidget::kHElastic, JXWidget::kVElastic,
 						  0,0, 100,100);
-	assert( updateWidget != NULL );
+	assert( updateWidget != nullptr );
 
 	itsTabGroup->ShowTab(card);
 	itsTabList->Append(updateWidget);
@@ -1399,7 +1399,7 @@ SVNMainDirector::Execute
 						  scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 						  JXWidget::kHElastic, JXWidget::kVElastic,
 						  0,0, 100,100);
-	assert( widget != NULL );
+	assert( widget != nullptr );
 
 	itsTabGroup->ShowTab(card);
 	itsTabList->Append(widget);
@@ -1490,13 +1490,13 @@ SVNMainDirector::HandleInfoMenu
 
 	else if (index == kBrowseRepoRevisionCmd)
 		{
-		assert( itsBrowseRepoRevisionDialog == NULL );
+		assert( itsBrowseRepoRevisionDialog == nullptr );
 
 		itsBrowseRepoRevisionDialog =
 			jnew JXGetStringDialog(
 				this, JGetString("BrowseRepoRevWindowTitle::SVNMainDirector"),
 				JGetString("BrowseRepoRevPrompt::SVNMainDirector"), "");
-		assert( itsBrowseRepoRevisionDialog != NULL );
+		assert( itsBrowseRepoRevisionDialog != nullptr );
 		ListenTo(itsBrowseRepoRevisionDialog);
 		itsBrowseRepoRevisionDialog->BeginDialog();
 		}
@@ -1563,7 +1563,7 @@ SVNMainDirector::ShowInfoLog
 					   scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 					   JXWidget::kHElastic, JXWidget::kVElastic,
 					   0,0, 100,100);
-	assert( widget != NULL );
+	assert( widget != nullptr );
 
 	itsTabGroup->ShowTab(card);
 	itsTabList->Append(widget);
@@ -1618,7 +1618,7 @@ SVNMainDirector::ShowProperties
 							  scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 							  JXWidget::kHElastic, JXWidget::kVElastic,
 							  0,0, 100,100);
-	assert( widget != NULL );
+	assert( widget != nullptr );
 
 	itsTabGroup->ShowTab(card);
 	itsTabList->Append(widget);

@@ -64,7 +64,7 @@ private:
 	JPtrArray<CMBreakpoint>*	itsBPList;
 	JPoint						itsSelectedCell;	// x=col, y=bpIndex
 
-	JXInputField*	itsTextInput;			// NULL unless editing
+	JXInputField*	itsTextInput;			// nullptr unless editing
 	JFont			itsFont;
 
 private:

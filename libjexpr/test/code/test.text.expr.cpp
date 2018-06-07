@@ -129,12 +129,12 @@ TestDecisionParser
 		JBoolean expectedResult;
 		input >> expectedResult;
 
-		JDecision* theDecision = NULL;
+		JDecision* theDecision = nullptr;
 		if (!GetDecision(input, &theVarList, &theDecision))
 			{
 			break;
 			}
-		else if (theDecision != NULL)
+		else if (theDecision != nullptr)
 			{
 			theDecision->Print(std::cout);
 			std::cout << std::endl;
@@ -171,12 +171,12 @@ TestFunctionParser
 		JFloat expectedResult;
 		input >> expectedResult;
 
-		JFunction* theFunction = NULL;
+		JFunction* theFunction = nullptr;
 		if (!GetFunction(input, &theVarList, &theFunction))
 			{
 			break;
 			}
-		else if (theFunction != NULL)
+		else if (theFunction != nullptr)
 			{
 			theFunction->Print(std::cout);
 			std::cout << std::endl;
@@ -217,12 +217,12 @@ TestComplexFunctionParser
 		JComplex expectedResult;
 		input >> expectedResult;
 
-		JFunction* theFunction = NULL;
+		JFunction* theFunction = nullptr;
 		if (!GetFunction(input, &theVarList, &theFunction))
 			{
 			break;
 			}
-		else if (theFunction != NULL)
+		else if (theFunction != nullptr)
 			{
 			theFunction->Print(std::cout);
 			std::cout << std::endl;

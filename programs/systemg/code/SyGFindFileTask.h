@@ -40,9 +40,9 @@ private:
 
 	SyGTreeDir*			itsDirector;		// not owned
 	JPtrArray<JString>*	itsPathList;
-	JProcess*			itsProcess;			// can be NULL
-	RecordLink*			itsMessageLink;		// can be NULL
-	RecordLink*			itsErrorLink;		// can be NULL
+	JProcess*			itsProcess;			// can be nullptr
+	RecordLink*			itsMessageLink;		// can be nullptr
+	RecordLink*			itsErrorLink;		// can be nullptr
 	JString				itsErrors;			// cache while process is running
 	JBoolean			itsFoundFilesFlag;
 

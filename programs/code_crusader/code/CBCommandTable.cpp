@@ -117,7 +117,7 @@ CBCommandTable::CBCommandTable
 	JXEditTable(1,1, scrollbarSet, enclosure, hSizing,vSizing, x,y, w,h),
 	itsFont(GetFontManager()->GetDefaultFont())
 {
-	itsTextInput   = NULL;
+	itsTextInput   = nullptr;
 	itsDNDRowIndex = 0;
 
 	itsCommandXAtom =
@@ -151,12 +151,12 @@ CBCommandTable::CBCommandTable
 
 	itsCSF = jnew CBListCSF(JGetString("ReplaceCommandList::CBCommandTable"),
 						   JGetString("AppendToCommandList::CBCommandTable"));
-	assert( itsCSF != NULL );
+	assert( itsCSF != nullptr );
 
 	// type menu
 
 	itsOptionsMenu = jnew JXTextMenu("", this, kFixedLeft, kFixedTop, 0,0, 10,10);
-	assert( itsOptionsMenu != NULL );
+	assert( itsOptionsMenu != nullptr );
 	itsOptionsMenu->SetToHiddenPopupMenu();
 	itsOptionsMenu->SetMenuItems(kOptionsMenuStr);
 	itsOptionsMenu->SetUpdateAction(JXMenu::kDisableNone);
@@ -164,7 +164,7 @@ CBCommandTable::CBCommandTable
 
 	// base path
 
-	CBProjectDocument* doc = NULL;
+	CBProjectDocument* doc = nullptr;
 	if ((CBGetDocumentManager())->GetActiveProjectDocument(&doc))
 		{
 		itsBasePath = doc->GetFilePath();
@@ -173,7 +173,7 @@ CBCommandTable::CBCommandTable
 	// data
 
 	itsCmdList = jnew CBCommandManager::CmdList(cmdList);
-	assert( itsCmdList != NULL );
+	assert( itsCmdList != nullptr );
 	FinishCmdListCopy(itsCmdList);
 
 	for (JIndex i=1; i<=kColCount; i++)
@@ -348,7 +348,7 @@ CBCommandTable::TableDrawCell
 		}
 	else
 		{
-		const JString* s = NULL;
+		const JString* s = nullptr;
 		JFontStyle style;
 		if (cell.x == kMenuTextColumn)
 			{
@@ -372,7 +372,7 @@ CBCommandTable::TableDrawCell
 			style.color =
 				CBCommandPathInput::GetTextColor(*s, itsBasePath, kJFalse, p.GetColormap());
 			}
-		assert( s != NULL );
+		assert( s != nullptr );
 
 		JFont font = itsFont;
 		font.SetStyle(style);
@@ -445,7 +445,7 @@ CBCommandTable::HandleMouseDrag
 			CBCommandSelection* data =
 				jnew CBCommandSelection(GetDisplay(), this,
 									   itsCmdList->GetElement(cell.y));
-			assert( data != NULL );
+			assert( data != nullptr );
 
 			BeginDND(pt, buttonStates, modifiers, data);
 			}
@@ -500,7 +500,7 @@ CBCommandTable::WillAcceptDrop
 		{
 		return kJTrue;
 		}
-	else if (source == NULL)
+	else if (source == nullptr)
 		{
 		return kJFalse;
 		}
@@ -755,7 +755,7 @@ CBCommandTable::CreateXInputField
 	const JCoordinate	h
 	)
 {
-	assert( itsTextInput == NULL );
+	assert( itsTextInput == nullptr );
 
 	JTableSelection& s = GetTableSelection();
 	s.ClearSelection();
@@ -773,10 +773,10 @@ CBCommandTable::CreateXInputField
 		{
 		itsTextInput = jnew JXInputField(this, kFixedLeft, kFixedTop, x,y, w,h);
 		}
-	assert( itsTextInput != NULL );
+	assert( itsTextInput != nullptr );
 
 	const CBCommandManager::CmdInfo info = itsCmdList->GetElement(cell.y);
-	const JString* text = NULL;
+	const JString* text = nullptr;
 	if (cell.x == kMenuTextColumn)
 		{
 		text = info.menuText;
@@ -797,7 +797,7 @@ CBCommandTable::CreateXInputField
 		{
 		text = info.path;
 		}
-	assert( text != NULL );
+	assert( text != nullptr );
 
 	itsTextInput->SetText(*text);
 	itsTextInput->SetFont(itsFont);
@@ -817,13 +817,13 @@ CBCommandTable::ExtractInputData
 	const JPoint& cell
 	)
 {
-	assert( itsTextInput != NULL && cell.x != kOptionsColumn );
+	assert( itsTextInput != nullptr && cell.x != kOptionsColumn );
 
 	CBCommandManager::CmdInfo info = itsCmdList->GetElement(cell.y);
 
 	const JString& text = itsTextInput->GetText();
 
-	JString* s = NULL;
+	JString* s = nullptr;
 	if (cell.x == kMenuTextColumn)
 		{
 		s = info.menuText;
@@ -849,7 +849,7 @@ CBCommandTable::ExtractInputData
 		{
 		s = info.path;
 		}
-	assert( s != NULL );
+	assert( s != nullptr );
 
 	if (itsTextInput->InputValid())
 		{
@@ -871,7 +871,7 @@ CBCommandTable::ExtractInputData
 void
 CBCommandTable::PrepareDeleteXInputField()
 {
-	itsTextInput = NULL;
+	itsTextInput = nullptr;
 }
 
 /******************************************************************************
@@ -917,7 +917,7 @@ CBCommandTable::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleOptionsMenu(selection->GetIndex());
 		}
 
@@ -944,8 +944,8 @@ CBCommandTable::AddCommand()
 		{
 		CBCommandManager::CmdInfo info(jnew JString("./"), jnew JString, jnew JString,
 									   jnew JString, jnew JString, jnew JString);
-		assert( info.path != NULL && info.cmd != NULL && info.name != NULL &&
-				info.menuText != NULL && info.menuShortcut != NULL );
+		assert( info.path != nullptr && info.cmd != nullptr && info.name != nullptr &&
+				info.menuText != nullptr && info.menuShortcut != nullptr );
 		itsCmdList->AppendElement(info);
 		AppendRows(1);
 		BeginEditing(JPoint(kCommandColumn, itsCmdList->GetElementCount()));
@@ -1000,7 +1000,7 @@ CBCommandTable::ExportAllCommands()
 {
 	JString origName, newName;
 	if (!EndEditing() ||
-		!itsCSF->SaveFile(JGetString("ExportPrompt::CBCommandTable"), NULL, JGetString("ExportFileName::CBCommandTable"), &newName))
+		!itsCSF->SaveFile(JGetString("ExportPrompt::CBCommandTable"), nullptr, JGetString("ExportFileName::CBCommandTable"), &newName))
 		{
 		return;
 		}
@@ -1029,7 +1029,7 @@ CBCommandTable::ImportCommands()
 {
 	JString fileName;
 	if (!EndEditing() ||
-		!itsCSF->ChooseFile("", NULL, JGetString("ImportFilter::CBCommandTable"), NULL, &fileName))
+		!itsCSF->ChooseFile("", nullptr, JGetString("ImportFilter::CBCommandTable"), nullptr, &fileName))
 		{
 		return;
 		}

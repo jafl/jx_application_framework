@@ -51,8 +51,8 @@ private:
 	JBoolean		itsActiveFlag;	// kJTrue if should show hint
 	Time			itsStartTime;
 	JPoint			itsPrevPt;
-	JXDirector*		itsDirOwner;	// can be NULL
-	JXHintDirector*	itsDirector;	// can be NULL
+	JXDirector*		itsDirOwner;	// can be nullptr
+	JXHintDirector*	itsDirector;	// can be nullptr
 
 private:
 

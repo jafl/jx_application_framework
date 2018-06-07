@@ -50,10 +50,10 @@ JXProgressDisplay::JXProgressDisplay()
 	JProgressDisplay()
 {
 	itsCancelFlag      = kJFalse;
-	itsCancelButton    = NULL;
-	itsCounter         = NULL;
-	itsIndicator       = NULL;
-	itsMessageDirector = NULL;
+	itsCancelButton    = nullptr;
+	itsCounter         = nullptr;
+	itsIndicator       = nullptr;
+	itsMessageDirector = nullptr;
 }
 
 /******************************************************************************
@@ -79,7 +79,7 @@ JXProgressDisplay::SetItems
 	JXTEBase*				label
 	)
 {
-	if (itsCancelButton != NULL)
+	if (itsCancelButton != nullptr)
 		{
 		StopListening(itsCancelButton);
 		}
@@ -89,7 +89,7 @@ JXProgressDisplay::SetItems
 	itsIndicator    = indicator;
 	itsLabel        = label;
 
-	if (itsCancelButton != NULL)
+	if (itsCancelButton != nullptr)
 		{
 		ListenTo(itsCancelButton);
 		}
@@ -119,20 +119,20 @@ JXProgressDisplay::ProcessBeginning
 		DisplayBusyCursor();
 		}
 
-	if (itsLabel != NULL)
+	if (itsLabel != nullptr)
 		{
 		itsLabel->GetText()->SetText(message);
 		}
 
-	assert( (processType == kFixedLengthProcess && itsIndicator != NULL) ||
-			(processType == kVariableLengthProcess && itsCounter != NULL) );
+	assert( (processType == kFixedLengthProcess && itsIndicator != nullptr) ||
+			(processType == kVariableLengthProcess && itsCounter != nullptr) );
 
 	if (processType == kFixedLengthProcess)
 		{
 		itsIndicator->SetValue(0);
 		itsIndicator->SetMaxValue(stepCount);
 		itsIndicator->Show();
-		if (itsCounter != NULL)
+		if (itsCounter != nullptr)
 			{
 			itsCounter->Hide();
 			}
@@ -141,15 +141,15 @@ JXProgressDisplay::ProcessBeginning
 		{
 		itsCounter->GetText()->SetText(JString::empty);
 		itsCounter->Show();
-		if (itsIndicator != NULL)
+		if (itsIndicator != nullptr)
 			{
 			itsIndicator->Hide();
 			}
 		}
 
-	assert( !allowCancel || itsCancelButton != NULL );
+	assert( !allowCancel || itsCancelButton != nullptr );
 
-	if (itsCancelButton != NULL)
+	if (itsCancelButton != nullptr)
 		{
 		itsCancelButton->SetVisible(allowCancel);
 		}
@@ -161,7 +161,7 @@ JXProgressDisplay::ProcessBeginning
 	Update the display to show that progress is being made.
 	Returns kJFalse if process was cancelled by user.
 
-	If the current process is of variable length and the message is not NULL,
+	If the current process is of variable length and the message is not nullptr,
 	then it is displayed in the message window.
 
  ******************************************************************************/
@@ -206,7 +206,7 @@ JXProgressDisplay::IncrementProgress
 	Update the display to show that progress is being made.
 	Returns kJFalse if process was cancelled by user.
 
-	If the current process is of variable length and the message is not NULL,
+	If the current process is of variable length and the message is not nullptr,
 	then it is displayed in the message window.
 
  ******************************************************************************/
@@ -230,7 +230,7 @@ JXProgressDisplay::IncrementProgress
 	Update the display to show that progress is being made.
 	Returns kJFalse if process was cancelled by user.
 
-	If the current process is of variable length and the message is not NULL,
+	If the current process is of variable length and the message is not nullptr,
 	then it is displayed in the message window.
 
  ******************************************************************************/
@@ -249,7 +249,7 @@ JXProgressDisplay::IncrementProgress1
 		}
 	else if (process == kVariableLengthProcess)
 		{
-		if (message != NULL)
+		if (message != nullptr)
 			{
 			AppendToMessageWindow(message);
 			}
@@ -276,7 +276,7 @@ JXProgressDisplay::IncrementProgress1
 JBoolean
 JXProgressDisplay::ProcessContinuing()
 {
-	if (itsMessageDirector != NULL)
+	if (itsMessageDirector != nullptr)
 		{
 		messageWindowLocInit = kJTrue;
 		messageWindowLoc =
@@ -307,14 +307,14 @@ JXProgressDisplay::ProcessFinished()
 {
 	JProgressDisplay::ProcessFinished();
 
-	if (itsMessageDirector != NULL)
+	if (itsMessageDirector != nullptr)
 		{
 		messageWindowLocInit = kJTrue;
 		messageWindowLoc =
 			(itsMessageDirector->GetWindow())->GetDesktopLocation();
 
 		itsMessageDirector->ProcessFinished();
-		itsMessageDirector = NULL;
+		itsMessageDirector = nullptr;
 		}
 }
 
@@ -340,10 +340,10 @@ JXProgressDisplay::AppendToMessageWindow
 	const JString& message
 	)
 {
-	if (itsMessageDirector == NULL)
+	if (itsMessageDirector == nullptr)
 		{
 		itsMessageDirector = jnew JXPGMessageDirector(JXGetApplication());
-		assert(itsMessageDirector != NULL);
+		assert(itsMessageDirector != nullptr);
 
 		if (messageWindowLocInit)
 			{
@@ -373,7 +373,7 @@ JXProgressDisplay::Receive
 		{
 		const JXButton::Pushed* info =
 			dynamic_cast<const JXButton::Pushed*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		itsCancelFlag = kJTrue;
 
 		// must be last since it could delete us

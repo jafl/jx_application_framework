@@ -47,13 +47,13 @@ public:
 	const JString&	GetText(const JIndex index) const;
 	void			SetText(const JIndex index, const JString& str);
 	void			SetMenuItems(const JUtf8Byte* menuStr,
-								 const JUtf8Byte* idNamespace = NULL);
+								 const JUtf8Byte* idNamespace = nullptr);
 	void			InsertMenuItems(const JIndex index, const JUtf8Byte* menuStr,
-									const JUtf8Byte* idNamespace = NULL);
+									const JUtf8Byte* idNamespace = nullptr);
 	void			PrependMenuItems(const JUtf8Byte* menuStr,
-									 const JUtf8Byte* idNamespace = NULL);
+									 const JUtf8Byte* idNamespace = nullptr);
 	void			AppendMenuItems(const JUtf8Byte* menuStr,
-									const JUtf8Byte* idNamespace = NULL);
+									const JUtf8Byte* idNamespace = nullptr);
 
 	JFont	GetFont(const JIndex index) const;
 
@@ -101,22 +101,22 @@ private:
 	{
 		JString*	text;
 		JIndex		ulIndex;
-		JString*	nmShortcut;			// can be NULL
+		JString*	nmShortcut;			// can be nullptr
 		JFont		font;
-		JXImage*	image;				// can be NULL
+		JXImage*	image;				// can be nullptr
 		JBoolean	ownsImage;			// kJTrue if we should delete image
 		JBoolean	separator;			// kJTrue if item is followed by separator
 
 		TextItemData()
 			:
-			text( NULL ), ulIndex( 0 ), nmShortcut( NULL ),
-			image( NULL ), ownsImage( kJTrue ), separator( kJFalse )
+			text( nullptr ), ulIndex( 0 ), nmShortcut( nullptr ),
+			image( nullptr ), ownsImage( kJTrue ), separator( kJFalse )
 		{ };
 
 		TextItemData(JString* str, const JFont& f)
 			:
-			text( str ), ulIndex( 0 ), nmShortcut( NULL ), font( f ),
-			image( NULL ), ownsImage( kJTrue ), separator( kJFalse )
+			text( str ), ulIndex( 0 ), nmShortcut( nullptr ), font( f ),
+			image( nullptr ), ownsImage( kJTrue ), separator( kJFalse )
 		{ };
 	};
 

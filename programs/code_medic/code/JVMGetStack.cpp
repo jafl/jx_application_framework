@@ -53,7 +53,7 @@ JVMGetStack::Starting()
 	const JSize length  = link->GetObjectIDSize();
 	const JSize size    = length+8;
 	unsigned char* data = (unsigned char*) calloc(size, 1);
-	assert( data != NULL );
+	assert( data != nullptr );
 
 	unsigned char* d = data;
 	JVMSocket::Pack(length, link->GetCurrentThreadID(), d);
@@ -119,7 +119,7 @@ JVMGetStack::HandleSuccess
 
 		JVMStackFrameNode* node =
 			jnew JVMStackFrameNode(root, id, classID, methodID, offset);
-		assert( node != NULL );
+		assert( node != nullptr );
 		root->Prepend(node);
 
 		link->AddFrame(id, classID, methodID, offset);

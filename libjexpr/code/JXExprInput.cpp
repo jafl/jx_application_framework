@@ -48,7 +48,7 @@ JXExprInput::JXExprInput
 	:
 	JXInputField(enclosure, hSizing, vSizing, x,y, w,h)
 {
-	itsFontMenu = NULL;
+	itsFontMenu = nullptr;
 }
 
 /******************************************************************************
@@ -133,7 +133,7 @@ JXExprInput::CreateFontMenu
 {
 	JXTextMenu* menu = jnew JXTextMenu(kFontMenuTitleStr, enclosure,
 									  kFixedLeft, kVElastic, 0,0, 10,10);
-	assert( menu != NULL );
+	assert( menu != nullptr );
 
 	if (JXMenu::GetDefaultStyle() == JXMenu::kMacintoshStyle)
 		{
@@ -187,7 +187,7 @@ JXExprInput::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleFontMenu(selection->GetIndex());
 		}
 

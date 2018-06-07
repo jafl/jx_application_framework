@@ -49,5 +49,5 @@ CBJavaScanner::BeginScan
 	itsResetFlag = kJTrue;
 	itsCurrentRange.Set(JTellg(input)+1, JTellg(input));
 
-	switch_streams(&input, NULL);
+	switch_streams(&input, nullptr);
 }

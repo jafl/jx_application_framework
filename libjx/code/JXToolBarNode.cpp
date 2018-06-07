@@ -32,7 +32,7 @@ JXToolBarNode::JXToolBarNode
 	itsHasSeparator(hasSeparator),
 	itsIsChecked(checked)
 {
-	assert(parent != NULL);
+	assert(parent != nullptr);
 	parent->Append(this);
 }
 

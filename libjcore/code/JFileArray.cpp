@@ -194,11 +194,11 @@ JFileArray::Create
 	if (err.OK())
 		{
 		*obj = jnew JFileArray(fileName, fileSignature, action);
-		assert( *obj != NULL );
+		assert( *obj != nullptr );
 		}
 	else
 		{
-		*obj = NULL;
+		*obj = nullptr;
 		}
 	return err;
 }
@@ -295,7 +295,7 @@ JFileArray::JFileArray
 	)
 	:
 	JCollection(),
-	itsEnclosingFile( NULL ),
+	itsEnclosingFile( nullptr ),
 	itsEnclosureElementID( JFAID::kInvalidID )
 {
 	assert( sizeof(JSize)           >= kUnsignedLongLength &&
@@ -316,13 +316,13 @@ JFileArray::JFileArray
 		}
 
 	itsStream = jnew std::fstream;
-	assert( itsStream != NULL );
+	assert( itsStream != nullptr );
 
 	itsStream->open(fileName.GetBytes(), kFileOpenMode);
 	assert( itsStream->good() );
 
 	itsFileName = jnew JString;
-	assert( itsFileName != NULL );
+	assert( itsFileName != nullptr );
 	const JBoolean ok = JGetTrueName(fileName, itsFileName);
 	assert( ok );
 
@@ -355,11 +355,11 @@ JFileArray::Create
 	if (err.OK())
 		{
 		*obj = jnew JFileArray(theEnclosingFile, enclosureElementID);
-		assert( *obj != NULL );
+		assert( *obj != nullptr );
 		}
 	else
 		{
-		*obj = NULL;
+		*obj = nullptr;
 		}
 	return err;
 }
@@ -408,9 +408,9 @@ JFileArray::JFileArray
 	// get the std::fstream and whether we are new from our enclosing file
 
 	JBoolean isNew;
-	itsFileName = NULL;
+	itsFileName = nullptr;
 	itsStream   = theEnclosingFile->OpenEmbeddedFile(this, enclosureElementID, &isNew);
-	assert( itsStream != NULL );
+	assert( itsStream != nullptr );
 
 	// common initialization
 
@@ -432,7 +432,7 @@ JFileArray::FileArrayX
 	)
 {
 	itsFileIndex = jnew JFileArrayIndex;
-	assert( itsFileIndex != NULL);
+	assert( itsFileIndex != nullptr);
 
 	itsFileSignatureByteCount = strlen(fileSignature);
 
@@ -497,15 +497,15 @@ JFileArray::~JFileArray()
 	FlushChanges();
 
 	jdelete itsFileIndex;
-	itsFileIndex = NULL;
+	itsFileIndex = nullptr;
 
 	// base file deletes std::fstream
 	// embedded file notifies enclosing file
 
-	if (itsEnclosingFile != NULL)
+	if (itsEnclosingFile != nullptr)
 		{
 		itsEnclosingFile->EmbeddedFileClosed(itsEnclosureElementID);
-		itsEnclosingFile = NULL;
+		itsEnclosingFile = nullptr;
 		}
 	else
 		{
@@ -514,8 +514,8 @@ JFileArray::~JFileArray()
 		jdelete itsFileName;
 		}
 
-	itsStream   = NULL;
-	itsFileName = NULL;
+	itsStream   = nullptr;
+	itsFileName = nullptr;
 }
 
 /******************************************************************************
@@ -587,13 +587,13 @@ const JString&
 JFileArray::GetFileName()
 	const
 {
-	if (itsEnclosingFile != NULL)
+	if (itsEnclosingFile != nullptr)
 		{
 		return itsEnclosingFile->GetFileName();
 		}
 	else
 		{
-		assert( itsFileName != NULL );
+		assert( itsFileName != nullptr );
 		return *itsFileName;
 		}
 }
@@ -628,7 +628,7 @@ JFileArray::GetElement
 	// allocate temporary space to hold the element's data
 
 	JUtf8Byte* data = jnew JUtf8Byte [ length ];
-	assert( data != NULL );
+	assert( data != nullptr );
 
 	// stuff the element's data into elementData
 
@@ -1115,7 +1115,7 @@ JFileArray::ExpandData
 
 	JSize       dataSize = JMin(maxTempMem, totalLength - offset);
 	JUtf8Byte* data      = jnew JUtf8Byte [ dataSize ];
-	assert( data != NULL );
+	assert( data != nullptr );
 
 	// start at end of data and work towards front of file
 
@@ -1206,7 +1206,7 @@ JFileArray::CompactData
 
 	JSize       dataSize = JMin(maxTempMem, totalLength - offset - blankSize);
 	JUtf8Byte* data      = jnew JUtf8Byte [ dataSize ];
-	assert( data != NULL );
+	assert( data != nullptr );
 
 	// start in front of unneeded space and work towards end of file
 
@@ -1521,7 +1521,7 @@ JUnsignedOffset
 JFileArray::GetStartOfFile()
 	const
 {
-	if (itsEnclosingFile != NULL)
+	if (itsEnclosingFile != nullptr)
 		{
 		JFAIndex enclosureElementIndex;
 		const JBoolean ok =
@@ -1549,7 +1549,7 @@ JSize
 JFileArray::GetFileLength()
 	const
 {
-	if (itsEnclosingFile != NULL)
+	if (itsEnclosingFile != nullptr)
 		{
 		JFAIndex enclosureElementIndex;
 		const JBoolean ok =
@@ -1576,7 +1576,7 @@ JFileArray::SetFileLength
 	const JSize newLength
 	)
 {
-	if (itsEnclosingFile != NULL)
+	if (itsEnclosingFile != nullptr)
 		{
 		JFAIndex enclosureElementIndex;
 		const JBoolean ok =
@@ -1618,7 +1618,7 @@ JFileArray::ReplaceStream
 {
 	// replace our stream with the new stream
 
-	if (itsEnclosingFile == NULL)
+	if (itsEnclosingFile == nullptr)
 		{
 		jdelete itsStream;
 		}
@@ -1779,7 +1779,7 @@ JFileArray::NotEmbeddedFile::NotEmbeddedFile
 	:
 	JError(JFileArray::kNotEmbeddedFile)
 {
-	const JString s(index, JString::kBase10);
+	const JString s((JUInt64) index);
 	static const JUtf8Byte* map[] =
 	{
 		"index", s.GetBytes()

@@ -14,7 +14,7 @@
 #include "CBHTMLStyler.h"
 #include <jAssert.h>
 
-CBJSPCompleter* CBJSPCompleter::itsSelf = NULL;
+CBJSPCompleter* CBJSPCompleter::itsSelf = nullptr;
 
 static const JCharacter* kKeywordList[] =
 {
@@ -76,12 +76,12 @@ static JBoolean recursiveInstance = kJFalse;
 CBStringCompleter*
 CBJSPCompleter::Instance()
 {
-	if (itsSelf == NULL && !recursiveInstance)
+	if (itsSelf == nullptr && !recursiveInstance)
 		{
 		recursiveInstance = kJTrue;
 
 		itsSelf = jnew CBJSPCompleter;
-		assert( itsSelf != NULL );
+		assert( itsSelf != nullptr );
 
 		recursiveInstance = kJFalse;
 		}
@@ -121,7 +121,7 @@ CBJSPCompleter::CBJSPCompleter()
 
 CBJSPCompleter::~CBJSPCompleter()
 {
-	itsSelf = NULL;
+	itsSelf = nullptr;
 }
 
 /******************************************************************************

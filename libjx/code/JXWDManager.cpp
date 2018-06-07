@@ -74,13 +74,13 @@ JXWDManager::JXWDManager
 	)
 	:
 	itsWantShortcutFlag(wantShortcuts),
-	itsUpdateWDMenuTask(NULL)
+	itsUpdateWDMenuTask(nullptr)
 {
 	itsPermWindowList = jnew JArray<WindowInfo>;
-	assert( itsPermWindowList != NULL );
+	assert( itsPermWindowList != nullptr );
 
 	itsWindowList = jnew JArray<WindowInfo>;
-	assert( itsWindowList != NULL );
+	assert( itsWindowList != nullptr );
 	itsWindowList->SetCompareFunction(CompareWindowNames);
 	itsWindowList->SetSortOrder(JListT::kSortAscending);
 
@@ -130,13 +130,13 @@ JXWDManager::DirectorCreated
 	JXWindowDirector* dir
 	)
 {
-	DirectorCreated(itsWindowList, dir, JString::empty, NULL);
+	DirectorCreated(itsWindowList, dir, JString::empty, nullptr);
 }
 
 /******************************************************************************
  DirectorCreated (private)
 
-	If shortcut is NULL, it gets a numeric shortcut.
+	If shortcut is nullptr, it gets a numeric shortcut.
 	If shortcut is JString::empty, then it doesn't have a shortcut.
 
  ******************************************************************************/
@@ -153,10 +153,10 @@ JXWDManager::DirectorCreated
 	WindowInfo info(dir);
 
 	JIndex insertionIndex = 0;
-	if (shortcut != NULL)
+	if (shortcut != nullptr)
 		{
 		info.shortcutStr = jnew JString(shortcut);
-		assert( info.shortcutStr != NULL );
+		assert( info.shortcutStr != nullptr );
 		}
 	else
 		{
@@ -176,7 +176,7 @@ JXWDManager::DirectorCreated
 	if (!JString::IsEmpty(id))
 		{
 		info.itemID = jnew JString(id, 0);
-		assert( info.itemID != NULL );
+		assert( info.itemID != nullptr );
 		}
 
 	// insert the new window -- can't sort until later
@@ -204,7 +204,7 @@ JXWDManager::ShortcutUsed
 	for (JIndex i=1; i<=count; i++)
 		{
 		const WindowInfo info = windowList.GetElement(i);
-		if (info.shortcutStr   == NULL &&
+		if (info.shortcutStr   == nullptr &&
 			info.shortcutIndex == shortcutIndex)
 			{
 			return kJTrue;
@@ -261,7 +261,7 @@ JXWDManager::DirectorDeleted1
 				for (JIndex j=1; j<=count; j++)
 					{
 					WindowInfo info1 = itsWindowList->GetElement(j);
-					if (info1.shortcutStr   == NULL &&
+					if (info1.shortcutStr   == nullptr &&
 						info1.shortcutIndex == kNoShortcutForDir)
 						{
 						info1.shortcutIndex = info.shortcutIndex;
@@ -316,10 +316,10 @@ JXWDManager::GetDirectors
 void
 JXWDManager::WDMenusNeedUpdate()
 {
-	if (itsUpdateWDMenuTask == NULL)
+	if (itsUpdateWDMenuTask == nullptr)
 		{
 		itsUpdateWDMenuTask = jnew JXUpdateWDMenuTask(this);
-		assert( itsUpdateWDMenuTask != NULL );
+		assert( itsUpdateWDMenuTask != nullptr );
 		itsUpdateWDMenuTask->Go();
 		}
 }
@@ -405,7 +405,7 @@ JXWDManager::UpdateWDMenu1
 		menu->AppendItem(name);
 		const JIndex menuIndex = menu->GetItemCount();
 
-		if (info.itemID != NULL)
+		if (info.itemID != nullptr)
 			{
 			menu->SetItemID(menuIndex, *(info.itemID));
 			}
@@ -422,7 +422,7 @@ JXWDManager::UpdateWDMenu1
 			menu->SetItemImage(menuIndex, const_cast<JXImage*>(icon), kJFalse);
 			}
 
-		if (info.shortcutStr != NULL)
+		if (info.shortcutStr != nullptr)
 			{
 			menu->SetItemNMShortcut(menuIndex, *(info.shortcutStr));
 			}

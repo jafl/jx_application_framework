@@ -22,13 +22,13 @@
 GFGClass::GFGClass()
 	:
 	JPtrArray<GFGMemberFunction>(JPtrArrayT::kDeleteAll),
-	itsBaseClasses(NULL),
-	itsBaseClassFiles(NULL),
-	itsAncestors(NULL),
-	itsAncestorFiles(NULL)
+	itsBaseClasses(nullptr),
+	itsBaseClassFiles(nullptr),
+	itsAncestors(nullptr),
+	itsAncestorFiles(nullptr)
 {
 	itsLink	= jnew GFGLink();
-	assert(itsLink != NULL);
+	assert(itsLink != nullptr);
 	ListenTo(itsLink);
 
 	SetCompareFunction(GFGMemberFunction::CompareFunction);
@@ -56,7 +56,7 @@ JSize
 GFGClass::GetBaseClassCount()
 	const
 {
-	if (itsBaseClasses == NULL)
+	if (itsBaseClasses == nullptr)
 		{
 		return 0;
 		}
@@ -80,9 +80,9 @@ GFGClass::GetBaseClass
 	)
 	const
 {
-	assert(itsBaseClasses != NULL);
+	assert(itsBaseClasses != nullptr);
 	assert(itsBaseClasses->IndexValid(index));
-	assert(itsBaseClassFiles != NULL);
+	assert(itsBaseClassFiles != nullptr);
 	assert(itsBaseClassFiles->IndexValid(index));
 	
 	*classname	= *(itsBaseClasses->GetElement(index));
@@ -102,19 +102,19 @@ GFGClass::AddBaseClass
 	)
 {
 	JString* cname	= jnew JString(classname);
-	assert(cname != NULL);
+	assert(cname != nullptr);
 	JString* fname	= jnew JString(filename);
-	assert(fname != NULL);
+	assert(fname != nullptr);
 	
-	if (itsBaseClasses == NULL)
+	if (itsBaseClasses == nullptr)
 		{
 		itsBaseClasses		= jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
-		assert(itsBaseClasses != NULL);
+		assert(itsBaseClasses != nullptr);
 		}
-	if (itsBaseClassFiles == NULL)
+	if (itsBaseClassFiles == nullptr)
 		{
 		itsBaseClassFiles	= jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
-		assert(itsBaseClassFiles != NULL);
+		assert(itsBaseClassFiles != nullptr);
 		}
 	itsBaseClasses->Append(cname);
 	itsBaseClassFiles->Append(fname);
@@ -129,7 +129,7 @@ JSize
 GFGClass::GetAncestorCount()
 	const
 {
-	if (itsAncestors == NULL)
+	if (itsAncestors == nullptr)
 		{
 		return 0;
 		}
@@ -153,9 +153,9 @@ GFGClass::GetAncestor
 	)
 	const
 {
-	assert(itsAncestors != NULL);
+	assert(itsAncestors != nullptr);
 	assert(itsAncestors->IndexValid(index));
-	assert(itsAncestorFiles != NULL);
+	assert(itsAncestorFiles != nullptr);
 	assert(itsAncestorFiles->IndexValid(index));
 	
 	*classname	= *(itsAncestors->GetElement(index));
@@ -175,19 +175,19 @@ GFGClass::AddAncestor
 	)
 {
 	JString* cname	= jnew JString(classname);
-	assert(cname != NULL);
+	assert(cname != nullptr);
 	JString* fname	= jnew JString(filename);
-	assert(fname != NULL);
+	assert(fname != nullptr);
 	
-	if (itsAncestors == NULL)
+	if (itsAncestors == nullptr)
 		{
 		itsAncestors		= jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
-		assert(itsAncestors != NULL);
+		assert(itsAncestors != nullptr);
 		}
-	if (itsAncestorFiles == NULL)
+	if (itsAncestorFiles == nullptr)
 		{
 		itsAncestorFiles	= jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
-		assert(itsAncestorFiles != NULL);
+		assert(itsAncestorFiles != nullptr);
 		}
 	itsAncestors->Append(cname);
 	itsAncestorFiles->Append(fname);

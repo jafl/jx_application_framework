@@ -30,11 +30,11 @@ public:
 
 	virtual ~THXApp();
 
-	void	DisplayAbout(const JCharacter* prevVersStr = NULL);
+	void	DisplayAbout(const JCharacter* prevVersStr = nullptr);
 
 	THXVarList*			GetVariableList() const;
 	THXExprDirector*	NewExpression(const JBoolean centerOnScreen = kJFalse);
-	void				New2DPlot(const THX2DPlotDirector* prevPlot = NULL);
+	void				New2DPlot(const THX2DPlotDirector* prevPlot = nullptr);
 	void				ShowConstants() const;
 	void				ShowBaseConversion() const;
 
@@ -70,7 +70,7 @@ private:
 	JPtrArray<THXExprDirector>*		itsExprList;
 	JBoolean						itsKeyPadVisibleFlag;
 	JPtrArray<THX2DPlotDirector>*	its2DPlotList;
-	THX2DPlotFunctionDialog*		its2DPlotFnDialog;	// NULL unless asking user
+	THX2DPlotFunctionDialog*		its2DPlotFnDialog;	// nullptr unless asking user
 	THXBaseConvDirector*			itsBCDirector;
 
 private:

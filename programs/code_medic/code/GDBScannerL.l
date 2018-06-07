@@ -318,7 +318,7 @@ PROMPT "(gdb) "\n
 
 &\".*"No such file or directory".*\"\n {
 
-	itsData.pString = NULL;
+	itsData.pString = nullptr;
 	BEGIN(INITIAL);
 	RETURN(kNoSymbolsInProgram);
 	}

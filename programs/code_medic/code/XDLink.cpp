@@ -75,17 +75,17 @@ static const JBoolean kFeatures[]=
 XDLink::XDLink()
 	:
 	CMLink(kFeatures),
-	itsAcceptor(NULL),
-	itsLink(NULL),
-	itsParsedDataRoot(NULL)
+	itsAcceptor(nullptr),
+	itsLink(nullptr),
+	itsParsedDataRoot(nullptr)
 {
 	InitFlags();
 
 	itsBPMgr = jnew XDBreakpointManager(this);
-	assert( itsBPMgr != NULL );
+	assert( itsBPMgr != nullptr );
 
 	itsSourcePathList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
-	assert( itsSourcePathList != NULL );
+	assert( itsSourcePathList != nullptr );
 
 	StartDebugger();
 }
@@ -177,7 +177,7 @@ JBoolean
 XDLink::HasProgram()
 	const
 {
-	return JI2B(!itsProgramName.IsEmpty() || itsLink != NULL);
+	return JI2B(!itsProgramName.IsEmpty() || itsLink != nullptr);
 }
 
 /******************************************************************************
@@ -233,7 +233,7 @@ JBoolean
 XDLink::HasLoadedSymbols()
 	const
 {
-	return JI2B(itsLink != NULL);
+	return JI2B(itsLink != nullptr);
 }
 
 /******************************************************************************
@@ -245,7 +245,7 @@ JBoolean
 XDLink::IsDebugging()
 	const
 {
-	return JI2B(itsLink != NULL);
+	return JI2B(itsLink != nullptr);
 }
 
 /******************************************************************************
@@ -257,7 +257,7 @@ JBoolean
 XDLink::ProgramIsRunning()
 	const
 {
-	return JI2B(itsLink != NULL && !itsProgramIsStoppedFlag);
+	return JI2B(itsLink != nullptr && !itsProgramIsStoppedFlag);
 }
 
 /******************************************************************************
@@ -269,7 +269,7 @@ JBoolean
 XDLink::ProgramIsStopped()
 	const
 {
-	return JI2B(itsLink != NULL && itsProgramIsStoppedFlag);
+	return JI2B(itsLink != nullptr && itsProgramIsStoppedFlag);
 }
 
 /******************************************************************************
@@ -355,12 +355,12 @@ XDLink::ReceiveMessageFromDebugger()
 		}
 
 	xmlDoc* doc = xmlReadMemory(data.GetCString(), data.GetLength(),
-								NULL, NULL, XML_PARSE_NOCDATA);
-	if (doc != NULL)
+								nullptr, nullptr, XML_PARSE_NOCDATA);
+	if (doc != nullptr)
 		{
 		xmlNode* root = xmlDocGetRootElement(doc);
 
-		if (root != NULL && strcmp((char*) root->name, "init") == 0)
+		if (root != nullptr && strcmp((char*) root->name, "init") == 0)
 			{
 			itsIDEKey         = JGetXMLNodeAttr(root, "idekey");
 			const JString uri = JGetXMLNodeAttr(root, "fileuri");
@@ -385,12 +385,12 @@ XDLink::ReceiveMessageFromDebugger()
 			itsInitFinishedFlag = kJTrue;
 			itsScriptURI        = uri;
 			}
-		else if (root != NULL && strcmp((char*) root->name, "response") == 0)
+		else if (root != nullptr && strcmp((char*) root->name, "response") == 0)
 			{
 			const JString status = JGetXMLNodeAttr(root, "status");
 			const JString reason = JGetXMLNodeAttr(root, "reason");
 			if (status == "break" && reason == "error" &&
-				root->children != NULL && root->children->children != NULL &&
+				root->children != nullptr && root->children->children != nullptr &&
 				strcmp((char*) root->children->name, "error") == 0 &&
 				root->children->children->type == XML_TEXT_NODE)
 				{
@@ -417,11 +417,11 @@ XDLink::ReceiveMessageFromDebugger()
 				itsParsedDataRoot = root;
 
 				cmd->Finished(JI2B(
-					root->children == NULL || strcmp((char*) root->children->name, "error") != 0));
+					root->children == nullptr || strcmp((char*) root->children->name, "error") != 0));
 
-				itsParsedDataRoot = NULL;
+				itsParsedDataRoot = nullptr;
 
-				SetRunningCommand(NULL);
+				SetRunningCommand(nullptr);
 				if (!HasForegroundCommands())
 					{
 					RunNextCommand();
@@ -433,7 +433,7 @@ XDLink::ReceiveMessageFromDebugger()
 				CancelAllCommands();
 
 				XDCloseSocketTask* task = jnew XDCloseSocketTask(itsLink);
-				assert( task != NULL );
+				assert( task != nullptr );
 				task->Go();
 				}
 			}
@@ -462,7 +462,7 @@ XDLink::SetProgram
 	itsSourcePathList->DeleteAll();
 
 	JString fullName;
-	if (!JConvertToAbsolutePath(fileName, NULL, &fullName) ||
+	if (!JConvertToAbsolutePath(fileName, nullptr, &fullName) ||
 		!JFileReadable(fullName))
 		{
 		const JString error = JGetString("ConfigFileUnreadable::XDLink");
@@ -519,7 +519,7 @@ XDLink::SetProgram
 		}
 
 	XDSetProgramTask* task = jnew XDSetProgramTask();
-	assert( task != NULL );
+	assert( task != nullptr );
 	task->Go();
 }
 
@@ -1005,7 +1005,7 @@ XDLink::CreateArray2DCommand
 	)
 {
 	CMArray2DCommand* cmd = jnew XDArray2DCommand(dir, table, data);
-	assert( cmd != NULL );
+	assert( cmd != nullptr );
 	return cmd;
 }
 
@@ -1023,7 +1023,7 @@ XDLink::CreatePlot2DCommand
 	)
 {
 	CMPlot2DCommand* cmd = jnew XDPlot2DCommand(dir, x, y);
-	assert( cmd != NULL );
+	assert( cmd != nullptr );
 	return cmd;
 }
 
@@ -1039,7 +1039,7 @@ XDLink::CreateDisplaySourceForMain
 	)
 {
 	CMDisplaySourceForMain* cmd = jnew XDDisplaySourceForMain(sourceDir);
-	assert( cmd != NULL );
+	assert( cmd != nullptr );
 	return cmd;
 }
 
@@ -1056,7 +1056,7 @@ XDLink::CreateGetCompletions
 	)
 {
 	CMGetCompletions* cmd = jnew XDGetCompletions(input, history);
-	assert( cmd != NULL );
+	assert( cmd != nullptr );
 	return cmd;
 }
 
@@ -1072,7 +1072,7 @@ XDLink::CreateGetFrame
 	)
 {
 	CMGetFrame* cmd = jnew XDGetFrame(widget);
-	assert( cmd != NULL );
+	assert( cmd != nullptr );
 	return cmd;
 }
 
@@ -1089,7 +1089,7 @@ XDLink::CreateGetStack
 	)
 {
 	CMGetStack* cmd = jnew XDGetStack(tree, widget);
-	assert( cmd != NULL );
+	assert( cmd != nullptr );
 	return cmd;
 }
 
@@ -1105,7 +1105,7 @@ XDLink::CreateGetThread
 	)
 {
 	CMGetThread* cmd = jnew XDGetThread(widget);
-	assert( cmd != NULL );
+	assert( cmd != nullptr );
 	return cmd;
 }
 
@@ -1122,7 +1122,7 @@ XDLink::CreateGetThreads
 	)
 {
 	CMGetThreads* cmd = jnew XDGetThreads(tree, widget);
-	assert( cmd != NULL );
+	assert( cmd != nullptr );
 	return cmd;
 }
 
@@ -1139,7 +1139,7 @@ XDLink::CreateGetFullPath
 	)
 {
 	CMGetFullPath* cmd = jnew XDGetFullPath(fileName, lineIndex);
-	assert( cmd != NULL );
+	assert( cmd != nullptr );
 	return cmd;
 }
 
@@ -1155,7 +1155,7 @@ XDLink::CreateGetInitArgs
 	)
 {
 	CMGetInitArgs* cmd = jnew XDGetInitArgs(argInput);
-	assert( cmd != NULL );
+	assert( cmd != nullptr );
 	return cmd;
 }
 
@@ -1171,7 +1171,7 @@ XDLink::CreateGetLocalVars
 	)
 {
 	CMGetLocalVars* cmd = jnew XDGetLocalVars(rootNode);
-	assert( cmd != NULL );
+	assert( cmd != nullptr );
 	return cmd;
 }
 
@@ -1187,7 +1187,7 @@ XDLink::CreateGetSourceFileList
 	)
 {
 	CMGetSourceFileList* cmd = jnew XDGetSourceFileList(fileList);
-	assert( cmd != NULL );
+	assert( cmd != nullptr );
 	return cmd;
 }
 
@@ -1208,7 +1208,7 @@ XDLink::CreateVarValueCommand
 	s        += itsStackFrameIndex;
 
 	CMVarCommand* cmd = jnew XDVarCommand(s);
-	assert( cmd != NULL );
+	assert( cmd != nullptr );
 	return cmd;
 }
 
@@ -1238,7 +1238,7 @@ XDLink::CreateVarNode
 	)
 {
 	CMVarNode* node = jnew XDVarNode(shouldUpdate);
-	assert( node != NULL );
+	assert( node != nullptr );
 	return node;
 }
 
@@ -1252,7 +1252,7 @@ XDLink::CreateVarNode
 	)
 {
 	CMVarNode* node = jnew XDVarNode(parent, name, fullName, value);
-	assert( node != NULL );
+	assert( node != nullptr );
 	return node;
 }
 
@@ -1382,7 +1382,7 @@ XDLink::CreateGetMemory
 	CMMemoryDir* dir
 	)
 {
-	return NULL;
+	return nullptr;
 }
 
 /******************************************************************************
@@ -1396,7 +1396,7 @@ XDLink::CreateGetAssembly
 	CMSourceDirector* dir
 	)
 {
-	return NULL;
+	return nullptr;
 }
 
 /******************************************************************************
@@ -1410,7 +1410,7 @@ XDLink::CreateGetRegisters
 	CMRegistersDir* dir
 	)
 {
-	return NULL;
+	return nullptr;
 }
 
 /******************************************************************************
@@ -1426,7 +1426,7 @@ XDLink::Send
 	const JCharacter* text
 	)
 {
-	if (itsLink != NULL)
+	if (itsLink != nullptr)
 		{
 		if (ProgramIsRunning())
 			{
@@ -1463,7 +1463,7 @@ XDLink::SendRaw
 	const JCharacter* text
 	)
 {
-	if (itsLink != NULL)
+	if (itsLink != nullptr)
 		{
 		JString s = text;
 		s.TrimWhitespace();
@@ -1563,10 +1563,10 @@ XDLink::OKToDetachOrKill()
 JBoolean
 XDLink::StartDebugger()
 {
-	if (itsAcceptor == NULL)
+	if (itsAcceptor == nullptr)
 		{
 		itsAcceptor = jnew XDAcceptor;
-		assert( itsAcceptor != NULL );
+		assert( itsAcceptor != nullptr );
 		}
 
 	const JString portStr(kXdebugPort, JString::kBase10);
@@ -1582,7 +1582,7 @@ XDLink::StartDebugger()
 		JString msg = JGetString("ListenError::XDLink", map, sizeof(map));
 
 		XDWelcomeTask* task = jnew XDWelcomeTask(msg, kJTrue);
-		assert( task != NULL );
+		assert( task != nullptr );
 		task->Go();
 		return kJFalse;
 		}
@@ -1595,7 +1595,7 @@ XDLink::StartDebugger()
 		JString msg = JGetString("Welcome::XDLink", map, sizeof(map));
 
 		XDWelcomeTask* task = jnew XDWelcomeTask(msg, kJFalse);
-		assert( task != NULL );
+		assert( task != nullptr );
 		task->Go();
 		return kJTrue;
 		}
@@ -1642,7 +1642,7 @@ XDLink::StopDebugger()
 	Send("detach");
 
 	jdelete itsLink;
-	itsLink = NULL;
+	itsLink = nullptr;
 
 	CancelAllCommands();
 
@@ -1686,7 +1686,7 @@ XDLink::ConnectionFinished
 {
 	assert( socket == itsLink );
 
-	itsLink = NULL;
+	itsLink = nullptr;
 	itsIDEKey.Clear();
 
 	RestartDebugger();

@@ -44,7 +44,7 @@ JVMGetIDSizes::Starting()
 	CMCommand::Starting();
 
 	dynamic_cast<JVMLink*>(CMGetLink())->Send(this,
-		JVMLink::kVirtualMachineCmdSet, JVMLink::kVMIDSizesCmd, NULL, 0);
+		JVMLink::kVirtualMachineCmdSet, JVMLink::kVMIDSizesCmd, nullptr, 0);
 }
 
 /******************************************************************************

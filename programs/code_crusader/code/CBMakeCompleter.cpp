@@ -10,7 +10,7 @@
 #include "CBMakeCompleter.h"
 #include <jAssert.h>
 
-CBMakeCompleter* CBMakeCompleter::itsSelf = NULL;
+CBMakeCompleter* CBMakeCompleter::itsSelf = nullptr;
 
 static const JCharacter* kKeywordList[] =
 {
@@ -42,12 +42,12 @@ static JBoolean recursiveInstance = kJFalse;
 CBStringCompleter*
 CBMakeCompleter::Instance()
 {
-	if (itsSelf == NULL && !recursiveInstance)
+	if (itsSelf == nullptr && !recursiveInstance)
 		{
 		recursiveInstance = kJTrue;
 
 		itsSelf = jnew CBMakeCompleter;
-		assert( itsSelf != NULL );
+		assert( itsSelf != nullptr );
 
 		recursiveInstance = kJFalse;
 		}
@@ -84,7 +84,7 @@ CBMakeCompleter::CBMakeCompleter()
 
 CBMakeCompleter::~CBMakeCompleter()
 {
-	itsSelf = NULL;
+	itsSelf = nullptr;
 }
 
 /******************************************************************************

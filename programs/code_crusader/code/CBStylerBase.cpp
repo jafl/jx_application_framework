@@ -63,10 +63,10 @@ CBStylerBase::CBStylerBase
 	itsTypeNames(typeNames),
 	itsFileType(fileType),
 	itsDialogTitle(editDialogTitle),
-	itsEditDialog(NULL)
+	itsEditDialog(nullptr)
 {
 	itsTypeStyles = jnew JArray<JFontStyle>;
-	assert( itsTypeStyles != NULL );
+	assert( itsTypeStyles != nullptr );
 
 	itsDefColor = (CBMGetPrefsManager())->GetColor(CBMPrefsManager::kTextColorIndex);
 
@@ -77,7 +77,7 @@ CBStylerBase::CBStylerBase
 		}
 
 	itsWordStyles = jnew JStringMap<JFontStyle>;
-	assert( itsWordStyles != NULL );
+	assert( itsWordStyles != nullptr );
 
 	ListenTo(CBMGetPrefsManager());
 }
@@ -368,13 +368,13 @@ CBStylerBase::Receive
 		{
 		const JXDialogDirector::Deactivated* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		if (info->Successful())
 			{
 			ExtractStyles();
 			}
 		(itsEditDialog->GetWindow())->WriteGeometry(&itsDialogGeom);
-		itsEditDialog = NULL;
+		itsEditDialog = nullptr;
 		}
 
 	else
@@ -436,7 +436,7 @@ JIndex i;
 void
 CBStylerBase::EditStyles()
 {
-	assert( itsEditDialog == NULL );
+	assert( itsEditDialog == nullptr );
 
 	JArray<WordStyle> wordList;
 	GetWordList(*itsWordStyles, &wordList, kJTrue);
@@ -444,7 +444,7 @@ CBStylerBase::EditStyles()
 	itsEditDialog = jnew CBEditStylerDialog(itsDialogTitle, IsActive(),
 										   itsTypeNames, *itsTypeStyles,
 										   wordList, itsFileType);
-	assert( itsEditDialog != NULL );
+	assert( itsEditDialog != nullptr );
 
 	JXWindow* window = itsEditDialog->GetWindow();
 	window->ReadGeometry(itsDialogGeom);
@@ -462,7 +462,7 @@ CBStylerBase::EditStyles()
 void
 CBStylerBase::ExtractStyles()
 {
-	assert( itsEditDialog != NULL );
+	assert( itsEditDialog != nullptr );
 
 	JBoolean active;
 	JArray<JFontStyle> newTypeStyles = *itsTypeStyles;

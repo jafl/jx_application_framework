@@ -49,6 +49,6 @@ JRTTIBase::Is
 	)
 	const
 {
-	assert( type != NULL );
+	assert( type != nullptr );
 	return JI2B( type == itsType || strcmp(type, itsType) == 0 );
 }

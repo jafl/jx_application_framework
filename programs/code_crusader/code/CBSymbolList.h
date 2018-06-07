@@ -34,7 +34,7 @@ public:
 
 	const JString&	GetSymbol(const JIndex symbolIndex,
 							  CBLanguage* lang, Type* type,
-							  JBoolean* fullyQualifiedFileScope = NULL) const;
+							  JBoolean* fullyQualifiedFileScope = nullptr) const;
 	const JString&	GetFile(const JIndex symbolIndex, JIndex* lineIndex) const;
 	JBoolean		GetSignature(const JIndex symbolIndex,
 								 const JString** signature) const;
@@ -81,7 +81,7 @@ public:		// ought to be private
 	struct SymbolInfo
 	{
 		JString*	name;		// shared with CBStringCompleter!
-		JString*	signature;	// can be NULL
+		JString*	signature;	// can be nullptr
 		CBLanguage	lang;
 		Type		type;
 		JBoolean	fullyQualifiedFileScope;
@@ -90,7 +90,7 @@ public:		// ought to be private
 
 		SymbolInfo()
 			:
-			name(NULL), signature(NULL), lang(kCBOtherLang), type(kUnknownST),
+			name(nullptr), signature(nullptr), lang(kCBOtherLang), type(kUnknownST),
 			fullyQualifiedFileScope(kJFalse),
 			fileID(JFAID::kInvalidID), lineIndex(0)
 		{ };
@@ -199,7 +199,7 @@ CBSymbolList::GetSignature
 {
 	const SymbolInfo info = itsSymbolList->GetElement(symbolIndex);
 	*signature = info.signature;
-	return JI2B( info.signature != NULL );
+	return JI2B( info.signature != nullptr );
 }
 
 #endif

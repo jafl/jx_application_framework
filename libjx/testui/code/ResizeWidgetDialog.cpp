@@ -54,39 +54,39 @@ ResizeWidgetDialog::BuildWindow
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 160,120, JString::empty);
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	JXTextButton* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::ResizeWidgetDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 20,90, 50,20);
-	assert( cancelButton != NULL );
+	assert( cancelButton != nullptr );
 
 	JXTextButton* okButton =
 		jnew JXTextButton(JGetString("okButton::ResizeWidgetDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 90,90, 50,20);
-	assert( okButton != NULL );
+	assert( okButton != nullptr );
 	okButton->SetShortcuts(JGetString("okButton::ResizeWidgetDialog::shortcuts::JXLayout"));
 
 	itsWidth =
 		jnew JXIntegerInput(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 70,20, 70,20);
-	assert( itsWidth != NULL );
+	assert( itsWidth != nullptr );
 
 	itsHeight =
 		jnew JXIntegerInput(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 70,50, 70,20);
-	assert( itsHeight != NULL );
+	assert( itsHeight != nullptr );
 
 	JXStaticText* widthLabel =
 		jnew JXStaticText(JGetString("widthLabel::ResizeWidgetDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 50,20);
-	assert( widthLabel != NULL );
+	assert( widthLabel != nullptr );
 	widthLabel->SetToLabel();
 
 	JXStaticText* heightLabel =
 		jnew JXStaticText(JGetString("heightLabel::ResizeWidgetDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,50, 50,20);
-	assert( heightLabel != NULL );
+	assert( heightLabel != nullptr );
 	heightLabel->SetToLabel();
 
 // end JXLayout

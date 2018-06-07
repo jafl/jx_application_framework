@@ -118,7 +118,7 @@ JXSaveFileInput::StyledText::NeedsToFilterText
 	Derived classes can override this to enforce restrictions on the text.
 	Return kJFalse if the text cannot be used at all.
 
-	*** Note that style may be NULL or empty if the data was plain text.
+	*** Note that style may be nullptr or empty if the data was plain text.
 
  ******************************************************************************/
 

@@ -21,7 +21,7 @@ static const JRegex pureVirtualPattern = "[[:space:]]*=[[:space:]]*0;$";
 
 GFGMemberFunction::GFGMemberFunction()
 	:	
-	itsArgs(NULL)
+	itsArgs(nullptr)
 {
 	itsIsProtected	= kJFalse;
 	itsIsRequired	= kJFalse;
@@ -71,7 +71,7 @@ GFGMemberFunction::GetArg
 	)
 	const
 {
-	assert(itsArgs != NULL);
+	assert(itsArgs != nullptr);
 	assert(itsArgs->IndexValid(index));
 	return *(itsArgs->GetElement(index));
 }
@@ -87,10 +87,10 @@ GFGMemberFunction::AddArg
 	const JCharacter* arg
 	)
 {
-	if (itsArgs == NULL)
+	if (itsArgs == nullptr)
 		{
 		itsArgs = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
-		assert(itsArgs != NULL);
+		assert(itsArgs != nullptr);
 		}
 
 	itsArgs->Append(arg);

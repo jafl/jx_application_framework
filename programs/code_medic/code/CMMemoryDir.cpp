@@ -230,44 +230,44 @@ CMMemoryDir::BuildWindow()
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 500,500, "");
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	JXMenuBar* menuBar =
 		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 500,30);
-	assert( menuBar != NULL );
+	assert( menuBar != nullptr );
 
 	JXStaticText* exprLabel =
 		jnew JXStaticText(JGetString("exprLabel::CMMemoryDir::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,40, 80,20);
-	assert( exprLabel != NULL );
+	assert( exprLabel != nullptr );
 	exprLabel->SetToLabel();
 
 	itsExprInput =
 		jnew CMArrayExprInput(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 100,40, 380,20);
-	assert( itsExprInput != NULL );
+	assert( itsExprInput != nullptr );
 
 	itsDisplayTypeMenu =
 		jnew JXTextMenu(JGetString("itsDisplayTypeMenu::CMMemoryDir::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,70, 400,25);
-	assert( itsDisplayTypeMenu != NULL );
+	assert( itsDisplayTypeMenu != nullptr );
 
 	JXStaticText* countLabel =
 		jnew JXStaticText(JGetString("countLabel::CMMemoryDir::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,105, 80,20);
-	assert( countLabel != NULL );
+	assert( countLabel != nullptr );
 	countLabel->SetToLabel();
 
 	itsItemCountInput =
 		jnew CMArrayIndexInput(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 100,105, 60,20);
-	assert( itsItemCountInput != NULL );
+	assert( itsItemCountInput != nullptr );
 
 	JXScrollbarSet* scrollbarSet =
 		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,135, 500,370);
-	assert( scrollbarSet != NULL );
+	assert( scrollbarSet != nullptr );
 
 // end JXLayout
 
@@ -279,7 +279,7 @@ CMMemoryDir::BuildWindow()
 
 	JXDisplay* display = GetDisplay();
 	JXImage* icon      = jnew JXImage(display, medic_memory_window);
-	assert( icon != NULL );
+	assert( icon != nullptr );
 	window->SetIcon(icon);
 
 	CMGetPrefsManager()->GetWindowSize(kMemoryWindSizeID, window, kJTrue);
@@ -288,7 +288,7 @@ CMMemoryDir::BuildWindow()
 		jnew JXStaticText("", kJFalse, kJTrue,
 						 scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 						 JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 100,100);
-	assert(itsWidget != NULL);
+	assert(itsWidget != nullptr);
 	itsWidget->FitToEnclosure();
 
 	JString name;
@@ -330,7 +330,7 @@ CMMemoryDir::BuildWindow()
 	JXWDMenu* wdMenu =
 		jnew JXWDMenu(kWindowsMenuTitleStr, menuBar,
 					 JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
-	assert( wdMenu != NULL );
+	assert( wdMenu != nullptr );
 	menuBar->AppendMenu(wdMenu);
 
 	itsHelpMenu = menuBar->AppendTextMenu(kHelpMenuTitleStr);
@@ -401,7 +401,7 @@ CMMemoryDir::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 
 		if (selection->GetIndex() != (JIndex) itsDisplayType)
 			{
@@ -463,7 +463,7 @@ CMMemoryDir::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleFileMenu(selection->GetIndex());
 		}
 
@@ -475,7 +475,7 @@ CMMemoryDir::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleActionMenu(selection->GetIndex());
 		}
 
@@ -483,7 +483,7 @@ CMMemoryDir::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleHelpMenu(selection->GetIndex());
 		}
 
@@ -567,7 +567,7 @@ CMMemoryDir::Update()
 		{
 		itsNeedsUpdateFlag = kJFalse;
 
-		if (itsCmd != NULL)
+		if (itsCmd != nullptr)
 			{
 			itsCmd->CMCommand::Send();
 			}

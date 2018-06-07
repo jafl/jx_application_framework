@@ -38,10 +38,10 @@ JTreeList::JTreeList
 	itsWasOpenBeforeMoveFlag = kJFalse;
 
 	itsVisibleNodeList = jnew JPtrArray<JTreeNode>(JPtrArrayT::kForgetAll);
-	assert( itsVisibleNodeList != NULL );
+	assert( itsVisibleNodeList != nullptr );
 
 	itsOpenNodeList = jnew JPtrArray<JTreeNode>(JPtrArrayT::kForgetAll);
-	assert( itsOpenNodeList != NULL );
+	assert( itsOpenNodeList != nullptr );
 
 	InstallOrderedSet(itsVisibleNodeList);
 
@@ -410,7 +410,7 @@ JTreeList::Receive
 		{
 		const JTree::NodeInserted* info =
 			dynamic_cast<const JTree::NodeInserted*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		const JIndex index = info->GetIndex();
 		JTreeNode* parent  = info->GetParent();
 		JTreeNode* node    = info->GetNode();
@@ -447,7 +447,7 @@ JTreeList::Receive
 		{
 		const JTree::NodeRemoved* info =
 			dynamic_cast<const JTree::NodeRemoved*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		JTreeNode* node = info->GetNode();
 		JIndex index;
 		if (FindNode(node, &index))
@@ -461,7 +461,7 @@ JTreeList::Receive
 		{
 		const JTree::NodeDeleted* info =
 			dynamic_cast<const JTree::NodeDeleted*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		JTreeNode* node = info->GetNode();
 		itsOpenNodeList->Remove(node);
 		JIndex index;
@@ -475,7 +475,7 @@ JTreeList::Receive
 		{
 		const JTree::NodeChanged* info =
 			dynamic_cast<const JTree::NodeChanged*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		JTreeNode* node = info->GetNode();
 
 		JIndex index;
@@ -494,7 +494,7 @@ JTreeList::Receive
 		{
 		const JTree::PrepareForNodeMove* info =
 			dynamic_cast<const JTree::PrepareForNodeMove*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		itsWasOpenBeforeMoveFlag = IsOpen(info->GetNode());
 		}
 

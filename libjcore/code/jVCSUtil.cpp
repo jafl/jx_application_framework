@@ -186,7 +186,7 @@ JIsManagedByVCS
 		isManaged = kJTrue;	// TODO: ask git (until then, better safe than sorry)
 		}
 
-	if (returnType != NULL)
+	if (returnType != nullptr)
 		{
 		*returnType = (isManaged ? type : kJUnknownVCSType);
 		}
@@ -252,7 +252,7 @@ JRenameVCS
 	JError err        = JNoError();
 	JBoolean tryPlain = kJFalse;
 	JString cmd;
-	JProcess* p = NULL;
+	JProcess* p = nullptr;
 	if (type1 != type2)
 		{
 		tryPlain = kJTrue;
@@ -280,7 +280,7 @@ JRenameVCS
 			p->WaitUntilFinished();
 			}
 
-		if (p != NULL && !p->SuccessfulFinish())
+		if (p != nullptr && !p->SuccessfulFinish())
 			{
 			err      = JAccessDenied(oldFullName, newFullName);
 			tryPlain = kJTrue;
@@ -327,7 +327,7 @@ JRenameVCS
 /******************************************************************************
  JRemoveVCS
 
-	if !sync and p != NULL, p *may* return a process.
+	if !sync and p != nullptr, p *may* return a process.
 
  ******************************************************************************/
 
@@ -339,9 +339,9 @@ JRemoveVCS
 	JProcess**		returnP
 	)
 {
-	if (returnP != NULL)
+	if (returnP != nullptr)
 		{
-		*returnP = NULL;
+		*returnP = nullptr;
 		}
 
 	if (!JNameUsed(fullName))
@@ -362,10 +362,10 @@ JRemoveVCS
 	JError err        = JNoError();
 	JBoolean tryPlain = kJFalse;
 	JString cmd;
-	JProcess* p = NULL;
+	JProcess* p = nullptr;
 	if (type == kJSVNType || type == kJGitType)
 		{
-		const JUtf8Byte* binary = NULL;
+		const JUtf8Byte* binary = nullptr;
 		if (type == kJSVNType)
 			{
 			binary = "svn rm --force ";
@@ -383,7 +383,7 @@ JRemoveVCS
 			p->WaitUntilFinished();
 			}
 
-		if (p != NULL && !p->SuccessfulFinish())
+		if (p != nullptr && !p->SuccessfulFinish())
 			{
 			err      = JAccessDenied(fullName);
 			tryPlain = kJTrue;
@@ -514,7 +514,7 @@ JGetSVNEntryType
 	JString cmd = "svn info --xml " + JPrepArgForExec(url);
 	JProcess* p;
 	int fromFD, errFD;
-	JError err = JProcess::Create(&p, cmd, kJIgnoreConnection, NULL,
+	JError err = JProcess::Create(&p, cmd, kJIgnoreConnection, nullptr,
 								  kJCreatePipe, &fromFD, kJCreatePipe, &errFD);
 	if (!err.OK())
 		{
@@ -525,13 +525,13 @@ JGetSVNEntryType
 	p->WaitUntilFinished();
 	if (p->SuccessfulFinish())
 		{
-		xmlDoc* doc = xmlReadFd(fromFD, NULL, NULL, XML_PARSE_NOBLANKS | XML_PARSE_NOCDATA);
+		xmlDoc* doc = xmlReadFd(fromFD, nullptr, nullptr, XML_PARSE_NOBLANKS | XML_PARSE_NOCDATA);
 		close(fromFD);
-		if (doc != NULL)
+		if (doc != nullptr)
 			{
 			xmlNode* root = xmlDocGetRootElement(doc);
 
-			if (root != NULL &&
+			if (root != nullptr &&
 				strcmp((char*) root->name, "info") == 0 &&
 				strcmp((char*) root->children->name, "entry") == 0)
 				{

@@ -28,34 +28,34 @@
 #include <jFileUtil.h>
 #include <jAssert.h>
 
-static SyGApplication*			theApplication       = NULL;	// owns itself
-static SyGPrefsMgr*				thePrefsMgr          = NULL;
-static SyGMDIServer*			theMDIServer         = NULL;	// owned by JX
+static SyGApplication*			theApplication       = nullptr;	// owns itself
+static SyGPrefsMgr*				thePrefsMgr          = nullptr;
+static SyGMDIServer*			theMDIServer         = nullptr;	// owned by JX
 
-static SyGViewManPageDialog*	theManPageDialog     = NULL;	// not owned
-static SyGFindFileDialog*		theFindFileDialog    = NULL;	// not owned
-static SyGChooseSaveFile*		theAltChooseSaveFile = NULL;
+static SyGViewManPageDialog*	theManPageDialog     = nullptr;	// not owned
+static SyGFindFileDialog*		theFindFileDialog    = nullptr;	// not owned
+static SyGChooseSaveFile*		theAltChooseSaveFile = nullptr;
 
-static SyGFileTreeTable*		theDNDSource         = NULL;	// not owned
-static SyGFileTreeTable*		theDNDTarget         = NULL;	// not owned
+static SyGFileTreeTable*		theDNDSource         = nullptr;	// not owned
+static SyGFileTreeTable*		theDNDTarget         = nullptr;	// not owned
 
 // owned by JXImageCache
-static JXImage*	theFileIcon                   = NULL;
-static JXImage*	theSelectedFileIcon           = NULL;
-static JXImage*	theFolderIcon                 = NULL;
-static JXImage*	theSelectedFolderIcon         = NULL;
-static JXImage* theReadOnlyFolderIcon         = NULL;
-static JXImage* theSelectedReadOnlyFolderIcon = NULL;
-static JXImage* theLockedFolderIcon           = NULL;
-static JXImage* theSelectedLockedFolderIcon   = NULL;
-static JXImage*	theExecIcon                   = NULL;
-static JXImage*	theSelectedExecIcon           = NULL;
-static JXImage*	theUnknownIcon                = NULL;
-static JXImage*	theSelectedUnknownIcon        = NULL;
+static JXImage*	theFileIcon                   = nullptr;
+static JXImage*	theSelectedFileIcon           = nullptr;
+static JXImage*	theFolderIcon                 = nullptr;
+static JXImage*	theSelectedFolderIcon         = nullptr;
+static JXImage* theReadOnlyFolderIcon         = nullptr;
+static JXImage* theSelectedReadOnlyFolderIcon = nullptr;
+static JXImage* theLockedFolderIcon           = nullptr;
+static JXImage* theSelectedLockedFolderIcon   = nullptr;
+static JXImage*	theExecIcon                   = nullptr;
+static JXImage*	theSelectedExecIcon           = nullptr;
+static JXImage*	theUnknownIcon                = nullptr;
+static JXImage*	theSelectedUnknownIcon        = nullptr;
 
 static const JCharacter* kTrashDirName      = "/.trashcan/";
 static JString theTrashDir;			// only need to compute this once
-static JDirInfo* theTrashDirInfo            = NULL;
+static JDirInfo* theTrashDirInfo            = nullptr;
 static const JCharacter* kRecentFileDirName = "/.jxfvwm2taskbar/recent_files/";
 static JString theRecentFileDir;	// only need to compute this once
 const JSize kRecentFileCount                = 20;
@@ -110,25 +110,25 @@ SyGCreateGlobals
 
 	JBoolean isNew;
 	thePrefsMgr = jnew SyGPrefsMgr(&isNew);
-	assert(thePrefsMgr != NULL);
+	assert(thePrefsMgr != nullptr);
 
 	JXInitHelp();
 
 	JXWDManager* wdMgr = jnew JXWDManager(app->GetCurrentDisplay(), kJTrue);
-	assert( wdMgr != NULL );
+	assert( wdMgr != nullptr );
 	// registers itself
 
 	theMDIServer = jnew SyGMDIServer;
-	assert( theMDIServer != NULL );
+	assert( theMDIServer != nullptr );
 
 	theManPageDialog = jnew SyGViewManPageDialog(JXGetPersistentWindowOwner());
-	assert( theManPageDialog != NULL );
+	assert( theManPageDialog != nullptr );
 
 	theFindFileDialog = jnew SyGFindFileDialog(JXGetPersistentWindowOwner());
-	assert( theFindFileDialog != NULL );
+	assert( theFindFileDialog != nullptr );
 
 	theAltChooseSaveFile = jnew SyGChooseSaveFile(thePrefsMgr, kSAltCSSetupID);
-	assert( theAltChooseSaveFile != NULL );
+	assert( theAltChooseSaveFile != nullptr );
 
 	JString trashDir;
 	SyGGetTrashDirectory(&trashDir, kJFalse);	// silently creates it
@@ -144,34 +144,34 @@ SyGCreateGlobals
 void
 SyGDeleteGlobals()
 {
-	theMDIServer = NULL;
+	theMDIServer = nullptr;
 
 	// window closed by JXGetPersistentWindowOwner()
 
 	theManPageDialog->JPrefObject::WritePrefs();
-	theManPageDialog = NULL;
+	theManPageDialog = nullptr;
 
 	theFindFileDialog->JPrefObject::WritePrefs();
-	theFindFileDialog = NULL;
+	theFindFileDialog = nullptr;
 
 	jdelete theAltChooseSaveFile;
-	theAltChooseSaveFile = NULL;
+	theAltChooseSaveFile = nullptr;
 
 	jdelete theTrashDirInfo;
-	theTrashDirInfo = NULL;
+	theTrashDirInfo = nullptr;
 
 	SyGDeleteIcons();
 
 	JXFSBindingManager::Destroy();
 
-	theApplication = NULL;
-	theDNDSource   = NULL;
-	theDNDTarget   = NULL;
+	theApplication = nullptr;
+	theDNDSource   = nullptr;
+	theDNDTarget   = nullptr;
 
 	// this must be last so everybody else can use it to save their setup
 
 	jdelete thePrefsMgr;
-	thePrefsMgr = NULL;
+	thePrefsMgr = nullptr;
 }
 
 /******************************************************************************
@@ -210,7 +210,7 @@ SyGCleanUpBeforeSuddenDeath
 SyGApplication*
 SyGGetApplication()
 {
-	assert( theApplication != NULL );
+	assert( theApplication != nullptr );
 	return theApplication;
 }
 
@@ -222,7 +222,7 @@ SyGGetApplication()
 SyGPrefsMgr*
 SyGGetPrefsMgr()
 {
-	assert(thePrefsMgr != NULL);
+	assert(thePrefsMgr != nullptr);
 	return thePrefsMgr;
 }
 
@@ -234,7 +234,7 @@ SyGGetPrefsMgr()
 SyGMDIServer*
 SyGGetMDIServer()
 {
-	assert( theMDIServer != NULL );
+	assert( theMDIServer != nullptr );
 	return theMDIServer;
 }
 
@@ -319,7 +319,7 @@ SyGGetTrashDirectory
 JBoolean
 SyGTrashDirectoryIsEmpty()
 {
-	if (theTrashDirInfo != NULL)
+	if (theTrashDirInfo != nullptr)
 		{
 		theTrashDirInfo->Update();
 		return theTrashDirInfo->IsEmpty();
@@ -338,7 +338,7 @@ SyGTrashDirectoryIsEmpty()
 void
 SyGUpdateTrash()
 {
-	if (theTrashDirInfo != NULL)
+	if (theTrashDirInfo != nullptr)
 		{
 		theTrashDirInfo->ForceUpdate();
 		(SyGGetApplication())->UpdateTrash();
@@ -420,7 +420,7 @@ SyGExec
 SyGViewManPageDialog*
 SyGGetManPageDialog()
 {
-	assert( theManPageDialog != NULL );
+	assert( theManPageDialog != nullptr );
 	return theManPageDialog;
 }
 
@@ -432,7 +432,7 @@ SyGGetManPageDialog()
 SyGFindFileDialog*
 SyGGetFindFileDialog()
 {
-	assert( theFindFileDialog != NULL );
+	assert( theFindFileDialog != nullptr );
 	return theFindFileDialog;
 }
 
@@ -444,14 +444,14 @@ SyGGetFindFileDialog()
 SyGChooseSaveFile*
 SyGGetChooseSaveFile()
 {
-	assert( theAltChooseSaveFile != NULL );
+	assert( theAltChooseSaveFile != nullptr );
 	return theAltChooseSaveFile;
 }
 
 /******************************************************************************
  DND source
 
-	dndSource can be NULL
+	dndSource can be nullptr
 
  ******************************************************************************/
 
@@ -464,11 +464,11 @@ SyGGetDNDSource
 {
 	if (dndSource != theDNDSource)
 		{
-		theDNDSource = NULL;
+		theDNDSource = nullptr;
 		}
 
 	*widget = theDNDSource;
-	return JI2B( theDNDSource != NULL );
+	return JI2B( theDNDSource != nullptr );
 }
 
 void
@@ -483,7 +483,7 @@ SyGSetDNDSource
 /******************************************************************************
  DND target
 
-	dndTarget can be NULL
+	dndTarget can be nullptr
 
  ******************************************************************************/
 
@@ -503,11 +503,11 @@ SyGGetDNDTarget
 
 //	if (dndTarget != theDNDTarget)
 //		{
-//		theDNDTarget = NULL;
+//		theDNDTarget = nullptr;
 //		}
 
 	*widget = theDNDTarget;
-	return JI2B( theDNDTarget != NULL );
+	return JI2B( theDNDTarget != nullptr );
 }
 
 void
@@ -537,15 +537,15 @@ SyGGetDNDAskActions
 	actionList->AppendElement(dndMgr->GetDNDActionLinkXAtom());
 
 	JString* s = jnew JString(JGetString(kDNDCopyDescriptionID));
-	assert( s != NULL );
+	assert( s != nullptr );
 	descriptionList->Append(s);
 
 	s = jnew JString(JGetString(kDNDMoveDescriptionID));
-	assert( s != NULL );
+	assert( s != nullptr );
 	descriptionList->Append(s);
 
 	s = jnew JString(JGetString(kDNDLinkDescriptionID));
-	assert( s != NULL );
+	assert( s != nullptr );
 	descriptionList->Append(s);
 }
 
@@ -667,7 +667,7 @@ SyGGetFileSmallIcon
 	const JBoolean selected
 	)
 {
-	assert( theFileIcon != NULL );
+	assert( theFileIcon != nullptr );
 	return selected ? theSelectedFileIcon : theFileIcon;
 }
 
@@ -677,7 +677,7 @@ SyGGetFolderSmallIcon
 	const JBoolean selected
 	)
 {
-	assert( theFolderIcon != NULL );
+	assert( theFolderIcon != nullptr );
 	return selected ? theSelectedFolderIcon : theFolderIcon;
 }
 
@@ -687,7 +687,7 @@ SyGGetReadOnlyFolderSmallIcon
 	const JBoolean selected
 	)
 {
-	assert( theReadOnlyFolderIcon != NULL );
+	assert( theReadOnlyFolderIcon != nullptr );
 	return selected ? theSelectedReadOnlyFolderIcon : theReadOnlyFolderIcon;
 }
 
@@ -697,7 +697,7 @@ SyGGetLockedFolderSmallIcon
 	const JBoolean selected
 	)
 {
-	assert( theLockedFolderIcon != NULL );
+	assert( theLockedFolderIcon != nullptr );
 	return selected ? theSelectedLockedFolderIcon : theLockedFolderIcon;
 }
 
@@ -707,7 +707,7 @@ SyGGetExecSmallIcon
 	const JBoolean selected
 	)
 {
-	assert( theExecIcon != NULL );
+	assert( theExecIcon != nullptr );
 	return selected ? theSelectedExecIcon : theExecIcon;
 }
 
@@ -717,7 +717,7 @@ SyGGetUnknownSmallIcon
 	const JBoolean selected
 	)
 {
-	assert( theExecIcon != NULL );
+	assert( theExecIcon != nullptr );
 	return selected ? theSelectedUnknownIcon : theUnknownIcon;
 }
 

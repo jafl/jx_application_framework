@@ -199,9 +199,9 @@ public:
 	void		Cut();
 	void		Copy() const;
 	void		Paste();															// clipboard
-	void		Paste(const JString& text, const JRunArray<JFont>* style = NULL);	// other source
+	void		Paste(const JString& text, const JRunArray<JFont>* style = nullptr);	// other source
 
-	JBoolean	GetClipboard(JString* text, JRunArray<JFont>* style = NULL) const;
+	JBoolean	GetClipboard(JString* text, JRunArray<JFont>* style = nullptr) const;
 
 	void		Paginate(const JCoordinate pageHeight,
 						 JArray<JCoordinate>* breakpts) const;
@@ -458,8 +458,7 @@ private:
 private:
 
 	void		Recalc(const JStyledText::TextRange& recalcRange,
-					   const JStyledText::TextRange& redrawRange,
-					   const JBoolean deletion);
+					   const JStyledText::TextRange& redrawRange);
 	void		Recalc1(const JStyledText::TextRange& recalcRange,
 						JCoordinate* maxLineWidth,
 						JIndex* firstLineIndex, JIndex* lastLineIndex);
@@ -507,9 +506,9 @@ private:
 
 	void	InsertKeyPress(const JUtf8Character& key);
 	void	BackwardDelete(const JBoolean deleteToTabStop,
-						   JString* returnText = NULL, JRunArray<JFont>* returnStyle = NULL);
+						   JString* returnText = nullptr, JRunArray<JFont>* returnStyle = nullptr);
 	void	ForwardDelete(const JBoolean deleteToTabStop,
-						  JString* returnText = NULL, JRunArray<JFont>* returnStyle = NULL);
+						  JString* returnText = nullptr, JRunArray<JFont>* returnStyle = nullptr);
 
 	JBoolean	LocateTab(const JStyledText::TextIndex& startIndex,
 						  const JSize count,
@@ -833,7 +832,7 @@ JTextEditor::SetSelection
 	const JBoolean			needCaretBcast
 	)
 {
-	SetSelection(itsText->CharToTextRange(NULL, range), needCaretBcast);
+	SetSelection(itsText->CharToTextRange(nullptr, range), needCaretBcast);
 }
 
 // protected

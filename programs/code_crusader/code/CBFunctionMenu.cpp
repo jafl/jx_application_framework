@@ -88,7 +88,7 @@ CBFunctionMenu::CBFunctionMenuX
 	itsCaretItemIndex = 0;
 
 	itsLineIndexList = jnew JArray<JIndex>(100);
-	assert( itsLineIndexList != NULL );
+	assert( itsLineIndexList != nullptr );
 
 	SetEmptyMenuItems();
 	SetUpdateAction(kDisableNone);
@@ -122,7 +122,7 @@ CBFunctionMenu::TextChanged
 	itsFileType    = type;
 	itsNeedsUpdate = kJTrue;
 
-	SetTitle(CBCtagsUser::GetFunctionMenuTitle(type), NULL, kJFalse);
+	SetTitle(CBCtagsUser::GetFunctionMenuTitle(type), nullptr, kJFalse);
 
 #ifdef CODE_MEDIC
 
@@ -151,7 +151,7 @@ CBFunctionMenu::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleSelection(selection->GetIndex());
 		}
 
@@ -191,7 +191,7 @@ CBFunctionMenu::UpdateMenu()
 		{
 		#if defined CODE_CRUSADER
 
-		assert( itsDoc != NULL );
+		assert( itsDoc != nullptr );
 
 		JString fileName;
 		JBoolean deleteFile = kJFalse;
@@ -208,7 +208,7 @@ CBFunctionMenu::UpdateMenu()
 				// itsDoc can't be CBTextDocument, because Code Medic uses us
 
 				CBTextDocument* textDoc = dynamic_cast<CBTextDocument*>(itsDoc);
-				assert( textDoc != NULL );
+				assert( textDoc != nullptr );
 
 				std::ofstream output(fileName);
 				((textDoc->GetTextEditor())->GetText()).Print(output);

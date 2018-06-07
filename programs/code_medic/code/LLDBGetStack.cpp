@@ -66,7 +66,7 @@ LLDBGetStack::HandleSuccess
 	)
 {
 	LLDBLink* link = dynamic_cast<LLDBLink*>(CMGetLink());
-	if (link == NULL)
+	if (link == nullptr)
 		{
 		return;
 		}
@@ -95,7 +95,7 @@ LLDBGetStack::HandleSuccess
 		frameName += ":  ";
 
 		const JCharacter* name = f.GetFunctionName();
-		frameName += (name == NULL ? "?" : name);
+		frameName += (name == nullptr ? "?" : name);
 
 		JIndex lineIndex      = 0;
 		lldb::SBLineEntry e   = f.GetLineEntry();
@@ -113,7 +113,7 @@ LLDBGetStack::HandleSuccess
 		CMStackFrameNode* node =
 			jnew CMStackFrameNode(root, f.GetFrameID(), frameName,
 								 fileName, lineIndex);
-		assert( node != NULL );
+		assert( node != nullptr );
 		root->Prepend(node);
 
 		if (selectNextFrame)
@@ -121,7 +121,7 @@ LLDBGetStack::HandleSuccess
 			initFrameIndex  = f.GetFrameID();
 			selectNextFrame = kJFalse;
 			}
-		else if (f.GetFunctionName() != NULL && assertPattern.Match(f.GetFunctionName()))
+		else if (f.GetFunctionName() != nullptr && assertPattern.Match(f.GetFunctionName()))
 			{
 			selectNextFrame = kJTrue;
 			}
@@ -138,10 +138,10 @@ LLDBGetStack::HandleSuccess
 			{
 			lldb::SBValue v = args.GetValueAtIndex(i);
 
-			if (v.GetName() != NULL)
+			if (v.GetName() != nullptr)
 				{
-				CMStackArgNode* argNode = jnew CMStackArgNode(node, v.GetName(), v.GetValue() == NULL ? "null" : v.GetValue());
-				assert( argNode != NULL );
+				CMStackArgNode* argNode = jnew CMStackArgNode(node, v.GetName(), v.GetValue() == nullptr ? "null" : v.GetValue());
+				assert( argNode != nullptr );
 				}
 			}
 		}

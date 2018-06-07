@@ -96,9 +96,9 @@ SyGMDIServer::HandleMDIRequest
 			else
 				{
 				JString path;
-				if (JConvertToAbsolutePath(arg, NULL, &path))
+				if (JConvertToAbsolutePath(arg, nullptr, &path))
 					{
-					app->OpenDirectory(path, NULL, NULL, kJTrue, kJTrue, forceNew, clearSelection);
+					app->OpenDirectory(path, nullptr, nullptr, kJTrue, kJTrue, forceNew, clearSelection);
 					clearSelection = kJFalse;
 					}
 				restore = kJFalse;
@@ -125,7 +125,7 @@ void
 SyGMDIServer::OpenFiles()
 {
 	JPtrArray<JString> fileList(JPtrArrayT::kDeleteAll);
-	if ((JGetChooseSaveFile())->ChooseFiles("Open files", NULL, &fileList))
+	if ((JGetChooseSaveFile())->ChooseFiles("Open files", nullptr, &fileList))
 		{
 		JXFSBindingManager::Exec(fileList);
 		}

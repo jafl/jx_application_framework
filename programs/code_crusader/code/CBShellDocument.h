@@ -82,7 +82,7 @@ inline JBoolean
 CBShellDocument::ProcessRunning()
 	const
 {
-	return JI2B( itsProcess != NULL && !itsProcess->IsFinished() );
+	return JI2B( itsProcess != nullptr && !itsProcess->IsFinished() );
 }
 
 /******************************************************************************
@@ -98,7 +98,7 @@ CBShellDocument::GetDataLink
 	const
 {
 	*link = itsDataLink;
-	return JI2B( itsDataLink != NULL );
+	return JI2B( itsDataLink != nullptr );
 }
 
 #endif

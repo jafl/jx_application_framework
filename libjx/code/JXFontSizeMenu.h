@@ -52,7 +52,7 @@ protected:
 
 private:
 
-	JXFontNameMenu*	itsFontNameMenu;	// can be NULL
+	JXFontNameMenu*	itsFontNameMenu;	// can be nullptr
 	JSize			itsFontSize;
 	JIndex			itsCurrIndex;
 	JIndex			itsVarSizeIndex;	// 0 if font not rescalable
@@ -60,7 +60,7 @@ private:
 
 	// used when selecting arbitrary font size
 
-	JXChooseFontSizeDialog*	itsChooseSizeDialog;	// can be NULL
+	JXChooseFontSizeDialog*	itsChooseSizeDialog;	// can be nullptr
 
 private:
 

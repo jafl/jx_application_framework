@@ -191,12 +191,12 @@ private:
 	JArray<Atom>*		itsDraggerTypeList;			// data types supported by itsDragger
 	JArray<Atom>*		itsDraggerAskActionList;	// actions accepted by itsDragger
 	JPtrArray<JString>*	itsDraggerAskDescripList;	// description of each action
-	TargetFinder*		itsTargetFinder;			// NULL if use default method; not owned
+	TargetFinder*		itsTargetFinder;			// nullptr if use default method; not owned
 
 	Atom			itsDNDVersion;			// version being used
 	Window			itsMouseWindow;			// window that mouse is in; not owned
 	JBoolean		itsMouseWindowIsAware;	// kJTrue if itsMouseWindow has XdndAware
-	JXContainer*	itsMouseContainer;		// widget that mouse is in; NULL if inter-app; not owned
+	JXContainer*	itsMouseContainer;		// widget that mouse is in; nullptr if inter-app; not owned
 	Window			itsMsgWindow;			// window that receives messages (not itsMouseWindow if proxy)
 
 	JBoolean		itsWillAcceptDropFlag;	// kJTrue if target will accept drop
@@ -216,7 +216,7 @@ private:
 	JXKeyModifiers	itsPrevHandleDNDModifiers;
 
 	JXDNDChooseDropActionDialog*	itsChooseDropActionDialog;
-	Atom*							itsUserDropAction;		// NULL unless waiting for GetDropActionDialog
+	Atom*							itsUserDropAction;		// nullptr unless waiting for GetDropActionDialog
 
 	JBoolean	itsSentFakePasteFlag;		// kJTrue if times are valid
 	Time		itsFakeButtonPressTime;
@@ -380,7 +380,7 @@ inline JBoolean
 JXDNDManager::IsDragging()
 	const
 {
-	return JI2B( itsDragger != NULL && itsIsDraggingFlag );
+	return JI2B( itsDragger != nullptr && itsIsDraggingFlag );
 }
 
 /******************************************************************************
@@ -408,7 +408,7 @@ inline JBoolean
 JXDNDManager::TargetWillAcceptDrop()
 	const
 {
-	return JI2B( itsDragger != NULL && itsWillAcceptDropFlag );
+	return JI2B( itsDragger != nullptr && itsWillAcceptDropFlag );
 }
 
 /******************************************************************************

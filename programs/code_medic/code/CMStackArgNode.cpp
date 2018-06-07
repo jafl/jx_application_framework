@@ -23,10 +23,10 @@ CMStackArgNode::CMStackArgNode
 	const JCharacter*	value
 	)
 	:
-	JNamedTreeNode(NULL, name, kJFalse),
+	JNamedTreeNode(nullptr, name, kJFalse),
 	itsValue(value)
 {
-	assert( parent != NULL );
+	assert( parent != nullptr );
 	parent->AppendArg(this);
 }
 

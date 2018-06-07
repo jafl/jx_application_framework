@@ -52,7 +52,7 @@ SVNPrefsManager::SVNPrefsManager
 	)
 	:
 	JXPrefsManager(kCurrentPrefsFileVersion, kJTrue),
-	itsPrefsDialog(NULL)
+	itsPrefsDialog(nullptr)
 {
 	*isNew = JPrefsManager::UpgradeData();
 
@@ -285,7 +285,7 @@ SVNPrefsManager::ForgetProgramState()
 void
 SVNPrefsManager::EditPrefs()
 {
-	assert( itsPrefsDialog == NULL );
+	assert( itsPrefsDialog == nullptr );
 
 	Integration type;
 	JString commitEditor, diffCmd, reloadChangedCmd;
@@ -294,7 +294,7 @@ SVNPrefsManager::EditPrefs()
 
 	itsPrefsDialog =
 		new SVNPrefsDialog(JXGetApplication(), type, commitEditor, diffCmd, reloadChangedCmd);
-	assert( itsPrefsDialog != NULL );
+	assert( itsPrefsDialog != nullptr );
 	ListenTo(itsPrefsDialog);
 	itsPrefsDialog->BeginDialog();
 }
@@ -462,7 +462,7 @@ SVNPrefsManager::Receive
 		{
 		const JXDialogDirector::Deactivated* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		if (info->Successful())
 			{
 			Integration type;
@@ -471,7 +471,7 @@ SVNPrefsManager::Receive
 
 			SetIntegration(type, commitEditor, diffCmd, reloadChangedCmd);
 			}
-		itsPrefsDialog = NULL;
+		itsPrefsDialog = nullptr;
 		}
 	else
 		{

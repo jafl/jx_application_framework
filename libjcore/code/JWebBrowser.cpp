@@ -356,7 +356,7 @@ JWebBrowser::ConvertVarNames
 	JUtf8Character c;
 	while (iter.Next("%") && iter.Next(&c))
 		{
-		if (strstr(varNameList, c.GetBytes()) != NULL)
+		if (strstr(varNameList, c.GetBytes()) != nullptr)
 			{
 			iter.ReplaceLastMatch("$");
 			}

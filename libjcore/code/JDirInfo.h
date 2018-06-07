@@ -131,19 +131,19 @@ private:
 	JBoolean	itsShowHiddenFlag;
 	JBoolean	itsShowVCSDirsFlag;
 	JBoolean	itsShowOthersFlag;
-	JRegex*		itsNameRegex;			// can be NULL
+	JRegex*		itsNameRegex;			// can be nullptr
 	JBoolean	itsOwnsNameRegexFlag;
 	JBoolean	itsInvertNameRegexFlag;
 	JBoolean	itsFilterDirsFlag;
-	JRegex*		itsContentRegex;		// can be NULL
+	JRegex*		itsContentRegex;		// can be nullptr
 
-	JCheckPermissions*	itsPermFilter;	// can be NULL
+	JCheckPermissions*	itsPermFilter;	// can be nullptr
 
 	JPtrArray<JDirEntry>*	itsDirEntries;		// everything, current sorting fn
 	JPtrArray<JDirEntry>*	itsVisEntries;		// visible, current sorting fn
 	JPtrArray<JDirEntry>*	itsAlphaEntries;	// visible, sorted alphabetically
 
-	JProgressDisplay*	itsPG;			// can be NULL
+	JProgressDisplay*	itsPG;			// can be nullptr
 
 private:
 
@@ -288,7 +288,7 @@ inline JBoolean
 JDirInfo::HasWildcardFilter()
 	const
 {
-	return JNegate( itsNameRegex == NULL );
+	return JNegate( itsNameRegex == nullptr );
 }
 
 inline JBoolean
@@ -302,14 +302,14 @@ inline JBoolean
 JDirInfo::HasDirEntryFilter()
 	const
 {
-	return JNegate( itsPermFilter == NULL );
+	return JNegate( itsPermFilter == nullptr );
 }
 
 inline JBoolean
 JDirInfo::HasContentFilter()
 	const
 {
-	return JNegate( itsContentRegex == NULL );
+	return JNegate( itsContentRegex == nullptr );
 }
 
 /******************************************************************************

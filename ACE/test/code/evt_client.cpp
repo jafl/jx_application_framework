@@ -92,7 +92,7 @@ OpenConnection
 		}
 
 	// keep the compiler happy
-	return NULL;
+	return nullptr;
 }
 
 /******************************************************************************
@@ -115,13 +115,13 @@ INETConnect
 	// This object will handle the transaction with the server.
 
 	INETHandler* handler = new INETHandler;
-	assert( handler != NULL );
+	assert( handler != nullptr );
 
 	// This object will hook the INETHandler's ACE_SOCK_Stream up when
 	// a connection is established.
 
 	INETConnector* connector = new INETConnector;
-	assert( connector != NULL );
+	assert( connector != nullptr );
 
 	// Begin waiting for a connection.
 
@@ -157,13 +157,13 @@ UNIXConnect
 	// This object will handle the transaction with the server.
 
 	UNIXHandler* handler = new UNIXHandler;
-	assert( handler != NULL );
+	assert( handler != nullptr );
 
 	// This object will hook the UNIXHandler's ACE_LSOCK_Stream up when
 	// a connection is established.
 
 	UNIXConnector* connector = new UNIXConnector;
-	assert( connector != NULL );
+	assert( connector != nullptr );
 
 	// Begin waiting for a connection.
 

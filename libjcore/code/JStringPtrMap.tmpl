@@ -124,7 +124,7 @@ JStringPtrMap<V>::SetElement
 	)
 {
 	V* ptr = jnew V(data);
-	assert( ptr != NULL );
+	assert( ptr != nullptr );
 	return SetElement(JString(key, 0, kJFalse), ptr, action, type);
 }
 
@@ -139,7 +139,7 @@ JStringPtrMap<V>::SetElement
 	)
 {
 	V* ptr = jnew V(data);
-	assert( ptr != NULL );
+	assert( ptr != nullptr );
 	return SetElement(key, ptr, action, type);
 }
 
@@ -152,7 +152,7 @@ JStringPtrMap<V>::SetNewElement
 	)
 {
 	V* ptr = jnew V(data);
-	assert( ptr != NULL );
+	assert( ptr != nullptr );
 	return SetNewElement(JString(key, 0, kJFalse), ptr);
 }
 
@@ -165,7 +165,7 @@ JStringPtrMap<V>::SetNewElement
 	)
 {
 	V* ptr = jnew V(data);
-	assert( ptr != NULL );
+	assert( ptr != nullptr );
 	return SetNewElement(key, ptr);
 }
 
@@ -179,7 +179,7 @@ JStringPtrMap<V>::SetOldElement
 	)
 {
 	V* ptr = jnew V(data);
-	assert( ptr != NULL );
+	assert( ptr != nullptr );
 	return SetOldElement(JString(key, 0, kJFalse), ptr, action);
 }
 
@@ -193,7 +193,7 @@ JStringPtrMap<V>::SetOldElement
 	)
 {
 	V* ptr = jnew V(data);
-	assert( ptr != NULL );
+	assert( ptr != nullptr );
 	return SetOldElement(key, ptr, action);
 }
 
@@ -207,7 +207,7 @@ JStringPtrMap<V>::SetContains
 	)
 {
 	V* ptr = jnew V(data);
-	assert( ptr != NULL );
+	assert( ptr != nullptr );
 	return SetContains(JString(key, 0, kJFalse), ptr, action);
 }
 
@@ -221,7 +221,7 @@ JStringPtrMap<V>::SetContains
 	)
 {
 	V* ptr = jnew V(data);
-	assert( ptr != NULL );
+	assert( ptr != nullptr );
 	return SetContains(key, ptr, action);
 }
 

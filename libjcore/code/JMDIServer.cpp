@@ -70,10 +70,10 @@ JMDIServer::JMDIServer
 
 	ACE_UNIX_Addr addr(socketName.GetBytes());
 	itsAcceptor = jnew ACE_LSOCK_Acceptor(addr, 0, PF_UNIX, kMDIServerQSize);
-	assert( itsAcceptor != NULL );
+	assert( itsAcceptor != nullptr );
 
 	itsSocket = jnew ACE_LSOCK_Stream;
-	assert( itsSocket != NULL );
+	assert( itsSocket != nullptr );
 }
 
 /******************************************************************************
@@ -229,7 +229,7 @@ void
 JMDIServer::CheckForConnections()
 {
 	ACE_Time_Value dontWait(0,0);
-	if (itsAcceptor->accept(*itsSocket, NULL, &dontWait) != -1)
+	if (itsAcceptor->accept(*itsSocket, nullptr, &dontWait) != -1)
 		{
 		ProcessMDIMessage();
 		}

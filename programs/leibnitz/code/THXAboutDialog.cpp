@@ -69,44 +69,44 @@ THXAboutDialog::BuildWindow
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 430,180, "");
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	JXImageWidget* thxIcon =
 		jnew JXImageWidget(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 25,20, 40,40);
-	assert( thxIcon != NULL );
+	assert( thxIcon != nullptr );
 
 	JXStaticText* textWidget =
 		jnew JXStaticText(JGetString("textWidget::THXAboutDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 90,20, 330,110);
-	assert( textWidget != NULL );
+	assert( textWidget != nullptr );
 
 	JXTextButton* okButton =
 		jnew JXTextButton(JGetString("okButton::THXAboutDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 320,150, 60,20);
-	assert( okButton != NULL );
+	assert( okButton != nullptr );
 	okButton->SetShortcuts(JGetString("okButton::THXAboutDialog::shortcuts::JXLayout"));
 
 	itsCreditsButton =
 		jnew JXTextButton(JGetString("itsCreditsButton::THXAboutDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 50,150, 60,20);
-	assert( itsCreditsButton != NULL );
+	assert( itsCreditsButton != nullptr );
 
 	itsHelpButton =
 		jnew JXTextButton(JGetString("itsHelpButton::THXAboutDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 185,150, 60,20);
-	assert( itsHelpButton != NULL );
+	assert( itsHelpButton != nullptr );
 	itsHelpButton->SetShortcuts(JGetString("itsHelpButton::THXAboutDialog::shortcuts::JXLayout"));
 
 	JXImageWidget* npsIcon =
 		jnew JXImageWidget(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,75, 65,65);
-	assert( npsIcon != NULL );
+	assert( npsIcon != nullptr );
 
 // end JXLayout
 
 	window->SetTitle("About");
-	SetButtons(okButton, NULL);
+	SetButtons(okButton, nullptr);
 
 	ListenTo(itsHelpButton);
 	ListenTo(itsCreditsButton);
@@ -130,13 +130,13 @@ THXAboutDialog::BuildWindow
 	// Program icon
 
 	JXImage* image = jnew JXImage(GetDisplay(), thx_about);
-	assert( image != NULL );
+	assert( image != nullptr );
 	thxIcon->SetImage(image, kJTrue);
 
 	// NPS icon
 
 	image = jnew JXImage(GetDisplay(), new_planet_software);
-	assert( image != NULL );
+	assert( image != nullptr );
 	npsIcon->SetImage(image, kJTrue);
 
 	// adjust window to fit text

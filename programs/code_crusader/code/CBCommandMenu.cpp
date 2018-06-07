@@ -98,7 +98,7 @@ const JCharacter* CBCommandMenu::kGetTargetInfo = "GetTargetInfo::CBCommandMenu"
 /******************************************************************************
  Constructor
 
-	doc can be NULL
+	doc can be nullptr
 
  ******************************************************************************/
 
@@ -143,28 +143,28 @@ CBCommandMenu::CBCommandMenuX
 	CBTextDocument*		textDoc
 	)
 {
-	assert( projDoc != NULL || textDoc != NULL );
+	assert( projDoc != nullptr || textDoc != nullptr );
 
 	SetProjectDocument(projDoc);
 	itsTextDoc        = textDoc;
-	itsAddToProjMenu  = NULL;
-	itsManageProjMenu = NULL;
+	itsAddToProjMenu  = nullptr;
+	itsManageProjMenu = nullptr;
 
 	SetMenuItems(kMenuStr);
 	SetUpdateAction(kDisableNone);
 	ListenTo(this);
 	ListenTo(CBGetCommandManager());
 
-	if (itsTextDoc != NULL)
+	if (itsTextDoc != nullptr)
 		{
 		itsAddToProjMenu = jnew JXTextMenu(this, kAddToProjIndex, GetEnclosure());
-		assert( itsAddToProjMenu != NULL );
+		assert( itsAddToProjMenu != nullptr );
 		itsAddToProjMenu->SetMenuItems(kAddToProjMenuStr, "CBCommandMenu");
 		itsAddToProjMenu->SetUpdateAction(JXMenu::kDisableNone);
 		ListenTo(itsAddToProjMenu);
 
 		itsManageProjMenu = jnew JXTextMenu(this, kManageProjIndex, GetEnclosure());
-		assert( itsManageProjMenu != NULL );
+		assert( itsManageProjMenu != nullptr );
 		itsManageProjMenu->SetMenuItems(kManageProjMenuStr, "CBCommandMenu");
 		itsManageProjMenu->SetUpdateAction(JXMenu::kDisableNone);
 		ListenTo(itsManageProjMenu);
@@ -200,7 +200,7 @@ CBCommandMenu::SetProjectDocument
 	)
 {
 	itsProjDoc = projDoc;
-	if (itsProjDoc != NULL)
+	if (itsProjDoc != nullptr)
 		{
 		ClearWhenGoingAway(itsProjDoc, &itsProjDoc);
 		}
@@ -226,7 +226,7 @@ CBCommandMenu::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 
 		GetTargetInfo info;
 		BuildTargetInfo(&info);
@@ -241,7 +241,7 @@ CBCommandMenu::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleAddToProjectMenu(selection->GetIndex());
 		}
 
@@ -253,7 +253,7 @@ CBCommandMenu::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleManageProjectMenu(selection->GetIndex());
 		}
 
@@ -279,7 +279,7 @@ CBCommandMenu::BuildTargetInfo
 	GetTargetInfo* info
 	)
 {
-	if (itsTextDoc == NULL)
+	if (itsTextDoc == nullptr)
 		{
 		BroadcastWithFeedback(info);
 		}
@@ -299,15 +299,15 @@ CBCommandMenu::UpdateMenu()
 		}
 
 	CBProjectDocument* projDoc = itsProjDoc;
-	if (projDoc == NULL)
+	if (projDoc == nullptr)
 		{
 		(CBGetDocumentManager())->GetActiveProjectDocument(&projDoc);
 		}
-	const JBoolean hasProject = JI2B( projDoc != NULL );
+	const JBoolean hasProject = JI2B( projDoc != nullptr );
 
 	(CBGetCommandManager())->AppendMenuItems(this, hasProject);
 
-	if (projDoc != NULL)
+	if (projDoc != nullptr)
 		{
 		(projDoc->GetCommandManager())->AppendMenuItems(this, hasProject);
 		}
@@ -317,7 +317,7 @@ CBCommandMenu::UpdateMenu()
 	SetItemEnable(kAddToProjIndex, CanAddToProject());
 
 	JString itemText = kAddToProjectItemText;
-	if (projDoc != NULL)
+	if (projDoc != nullptr)
 		{
 		itemText += projDoc->GetName();
 		}
@@ -332,7 +332,7 @@ CBCommandMenu::UpdateMenu()
 	SetItemEnable(kManageProjIndex, CanManageProject());
 
 	itemText = kManageProjectItemText;
-	if (projDoc != NULL)
+	if (projDoc != nullptr)
 		{
 		itemText += projDoc->GetName();
 		}
@@ -356,7 +356,7 @@ CBCommandMenu::HandleSelection
 	)
 {
 	CBProjectDocument* projDoc = itsProjDoc;
-	if (projDoc != NULL)
+	if (projDoc != nullptr)
 		{
 		(CBGetDocumentManager())->SetActiveProjectDocument(projDoc);
 		}
@@ -368,7 +368,7 @@ CBCommandMenu::HandleSelection
 	if (index == kRunCmd)
 		{
 		CBRunCommandDialog* dlog;
-		if (itsTextDoc != NULL)
+		if (itsTextDoc != nullptr)
 			{
 			dlog = jnew CBRunCommandDialog(projDoc, itsTextDoc);
 			}
@@ -376,13 +376,13 @@ CBCommandMenu::HandleSelection
 			{
 			dlog = jnew CBRunCommandDialog(projDoc, info.GetFileList(), info.GetLineIndexList());
 			}
-		assert( dlog != NULL );
+		assert( dlog != nullptr );
 		dlog->BeginDialog();
 		}
 	else if (index == kEditCmd)
 		{
 		CBEditCommandsDialog* dlog = jnew CBEditCommandsDialog(projDoc);
-		assert( dlog != NULL );
+		assert( dlog != nullptr );
 		dlog->BeginDialog();
 		}
 
@@ -393,12 +393,12 @@ CBCommandMenu::HandleSelection
 		CBCommandManager* mgr = CBGetCommandManager();
 		if (i > mgr->GetCommandCount())
 			{
-			assert( projDoc != NULL );
+			assert( projDoc != nullptr );
 			i  -= mgr->GetCommandCount();		// before changing mgr
 			mgr = projDoc->GetCommandManager();
 			}
 
-		if (itsTextDoc != NULL)
+		if (itsTextDoc != nullptr)
 			{
 			mgr->Exec(i, projDoc, itsTextDoc);
 			}
@@ -444,7 +444,7 @@ CBCommandMenu::HandleAddToProjectMenu
 		}
 
 	CBProjectDocument* projDoc = itsProjDoc;
-	if (projDoc == NULL)
+	if (projDoc == nullptr)
 		{
 		(CBGetDocumentManager())->GetActiveProjectDocument(&projDoc);
 		}
@@ -480,9 +480,9 @@ JBoolean
 CBCommandMenu::CanAddToProject()
 	const
 {
-	return JI2B(itsProjDoc == NULL &&
+	return JI2B(itsProjDoc == nullptr &&
 				(CBGetDocumentManager())->HasProjectDocuments() &&
-				itsTextDoc != NULL &&
+				itsTextDoc != nullptr &&
 				itsTextDoc->ExistsOnDisk());
 }
 
@@ -521,7 +521,7 @@ CBCommandMenu::HandleManageProjectMenu
 		}
 
 	CBProjectDocument* projDoc = itsProjDoc;
-	if (projDoc == NULL)
+	if (projDoc == nullptr)
 		{
 		(CBGetDocumentManager())->GetActiveProjectDocument(&projDoc);
 		}
@@ -562,5 +562,5 @@ CBCommandMenu::CanManageProject()
 	const
 {
 	return JI2B((CBGetDocumentManager())->HasProjectDocuments() &&
-				itsTextDoc != NULL);
+				itsTextDoc != nullptr);
 }

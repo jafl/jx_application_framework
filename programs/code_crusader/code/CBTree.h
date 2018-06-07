@@ -135,7 +135,7 @@ protected:
 
 		RootGeom()
 			:
-			root(NULL), top(0), h(0)
+			root(nullptr), top(0), h(0)
 		{ };
 
 		RootGeom(CBClass* r, const JSize t, const JSize height)
@@ -149,7 +149,7 @@ protected:
 	JPtrArray<CBClass>*	GetClasses();
 	JPtrArray<CBClass>*	GetVisibleClasses();
 
-	void	PlaceAll(JArray<RootGeom>* rootGeom = NULL);
+	void	PlaceAll(JArray<RootGeom>* rootGeom = nullptr);
 
 	virtual void	ParseFile(const JCharacter* fileName, const JFAID_t id) = 0;
 
@@ -179,7 +179,7 @@ private:
 
 		RootMIInfo()
 			:
-			root(NULL), h(0), connList(NULL)
+			root(nullptr), h(0), connList(nullptr)
 		{ };
 
 		RootMIInfo(CBClass* r, const JSize height, JArray<RootConn>* list)
@@ -196,7 +196,7 @@ private:
 
 		RootSubset()
 			:
-			content(NULL), order(NULL), linkLength(0)
+			content(nullptr), order(nullptr), linkLength(0)
 		{ };
 
 		RootSubset(JArray<JBoolean>* c, JArray<JIndex>* o, const JSize l)
@@ -215,7 +215,7 @@ private:
 
 	const CBTextFileType	itsFileType;
 	JPtrArray<JString>*		itsSuffixList;
-	JPtrArray<JString>*		itsCollapsedList;			// NULL unless updating files
+	JPtrArray<JString>*		itsCollapsedList;			// nullptr unless updating files
 	JBoolean				itsReparseAllFlag;			// kJTrue => flush all on next update
 	JBoolean				itsChangedDuringParseFlag;	// only used while parsing
 	JBoolean				itsBeganEmptyFlag;			// kJTrue => ignore RemoveFile()

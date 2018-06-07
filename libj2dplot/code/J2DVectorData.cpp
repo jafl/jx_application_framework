@@ -30,12 +30,12 @@ J2DVectorData::Create
 	if (OKToCreate(x,y, vx,vy))
 		{
 		*plotData = jnew J2DVectorData(x,y, vx,vy, listen);
-		assert( *plotData != NULL );
+		assert( *plotData != nullptr );
 		return kJTrue;
 		}
 	else
 		{
-		*plotData = NULL;
+		*plotData = nullptr;
 		return kJFalse;
 		}
 }
@@ -71,13 +71,13 @@ J2DVectorData::J2DVectorData()
 	J2DVectorDataX();
 
 	itsXData = jnew JArray<JFloat>(100);
-	assert( itsXData != NULL );
+	assert( itsXData != nullptr );
 	itsYData = jnew JArray<JFloat>(100);
-	assert( itsYData != NULL );
+	assert( itsYData != nullptr );
 	itsVXData = jnew JArray<JFloat>(100);
-	assert( itsVXData != NULL );
+	assert( itsVXData != nullptr );
 	itsVYData = jnew JArray<JFloat>(100);
-	assert( itsVYData != NULL );
+	assert( itsVYData != nullptr );
 
 	itsIsListeningFlag = kJFalse;
 }
@@ -106,31 +106,31 @@ J2DVectorData::J2DVectorData
 	if (listen)
 		{
 		itsXData = const_cast< JArray<JFloat>* >(&x);
-		assert( itsXData != NULL );
+		assert( itsXData != nullptr );
 		ListenTo(itsXData);
 
 		itsYData = const_cast< JArray<JFloat>* >(&y);
-		assert( itsYData != NULL );
+		assert( itsYData != nullptr );
 		ListenTo(itsYData);
 
 		itsVXData = const_cast< JArray<JFloat>* >(&vx);
-		assert( itsVXData != NULL );
+		assert( itsVXData != nullptr );
 		ListenTo(itsVXData);
 
 		itsVYData = const_cast< JArray<JFloat>* >(&vy);
-		assert( itsVYData != NULL );
+		assert( itsVYData != nullptr );
 		ListenTo(itsVYData);
 		}
 	else
 		{
 		itsXData = jnew JArray<JFloat>(x);
-		assert( itsXData != NULL );
+		assert( itsXData != nullptr );
 		itsYData = jnew JArray<JFloat>(y);
-		assert( itsYData != NULL );
+		assert( itsYData != nullptr );
 		itsVXData = jnew JArray<JFloat>(vx);
-		assert( itsVXData != NULL );
+		assert( itsVXData != nullptr );
 		itsVYData = jnew JArray<JFloat>(vy);
-		assert( itsVYData != NULL );
+		assert( itsVYData != nullptr );
 		}
 }
 
@@ -378,19 +378,19 @@ J2DVectorData::IgnoreDataChanges()
 		{
 		StopListening(itsXData);
 		itsXData = jnew JArray<JFloat>(*itsXData);
-		assert( itsXData != NULL );
+		assert( itsXData != nullptr );
 
 		StopListening(itsYData);
 		itsYData = jnew JArray<JFloat>(*itsYData);
-		assert( itsYData != NULL );
+		assert( itsYData != nullptr );
 
 		StopListening(itsVXData);
 		itsVXData = jnew JArray<JFloat>(*itsVXData);
-		assert( itsVXData != NULL );
+		assert( itsVXData != nullptr );
 
 		StopListening(itsVYData);
 		itsVYData = jnew JArray<JFloat>(*itsVYData);
-		assert( itsVYData != NULL );
+		assert( itsVYData != nullptr );
 
 		itsIsListeningFlag = kJFalse;
 		}
@@ -443,10 +443,10 @@ J2DVectorData::ReceiveGoingAway
 	if (sender == itsXData  || sender == itsYData ||
 		sender == itsVXData || sender == itsVYData)
 		{
-		itsXData  = NULL;
-		itsYData  = NULL;
-		itsVXData = NULL;
-		itsVYData = NULL;
+		itsXData  = nullptr;
+		itsYData  = nullptr;
+		itsVXData = nullptr;
+		itsVYData = nullptr;
 		ValidateData();
 		}
 	else
@@ -464,7 +464,7 @@ void
 J2DVectorData::ValidateData()
 {
 	itsIsValidFlag = JI2B(
-		itsXData != NULL &&
+		itsXData != nullptr &&
 		OKToCreate(*itsXData, *itsYData, *itsVXData, *itsVYData));
 
 	SetElementCount(itsIsValidFlag ? itsXData->GetElementCount() : 0);

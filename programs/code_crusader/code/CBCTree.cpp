@@ -71,7 +71,7 @@ void
 CBCTree::CBCTreeX()
 {
 	itsCPP = jnew CBCPreprocessor;
-	assert( itsCPP != NULL );
+	assert( itsCPP != nullptr );
 }
 
 /******************************************************************************
@@ -120,7 +120,7 @@ CBCTree::StreamInCClass
 	)
 {
 	CBCClass* newClass = jnew CBCClass(input, vers, tree);
-	assert( newClass != NULL );
+	assert( newClass != nullptr );
 	return newClass;
 }
 
@@ -372,7 +372,7 @@ CBCTree::ParseClasses
 			className.Prepend(classNamePrefix);
 
 			CBCClass* newClass = jnew CBCClass(className, declType, fileID, this);
-			assert( newClass != NULL );
+			assert( newClass != nullptr );
 
 			newClass->SetTemplate(isTemplate);
 

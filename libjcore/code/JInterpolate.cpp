@@ -63,7 +63,7 @@ static const JUtf8Byte* theVariablePattern = "[+-]?[0-9]+|\\{[A-Za-z0-9_]+\\}";
 JInterpolate::JInterpolate()
 	:
 	JSubstitute(),
-	itsMatch(NULL)
+	itsMatch(nullptr)
 {
 	DefineVariables(theVariablePattern);
 }
@@ -111,7 +111,7 @@ JInterpolate::GetValue
 	)
 	const
 {
-	assert( itsMatch != NULL );
+	assert( itsMatch != nullptr );
 	assert( !name.IsEmpty() );
 
 	if (name.GetFirstCharacter() == '{')

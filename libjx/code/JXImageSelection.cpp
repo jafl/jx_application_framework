@@ -39,7 +39,7 @@ JXImageSelection::JXImageSelection
 	:
 	JXSelectionData(image.GetDisplay())
 {
-	itsImage = NULL;
+	itsImage = nullptr;
 	SetData(image);
 }
 
@@ -50,7 +50,7 @@ JXImageSelection::JXImageSelection
 	:
 	JXSelectionData(image->GetDisplay())
 {
-	itsImage = NULL;
+	itsImage = nullptr;
 	SetData(image);
 }
 
@@ -62,7 +62,7 @@ JXImageSelection::JXImageSelection
 	:
 	JXSelectionData(widget, id)
 {
-	itsImage = NULL;
+	itsImage = nullptr;
 }
 
 /******************************************************************************
@@ -115,7 +115,7 @@ JXImageSelection::SetData
 	)
 {
 	JXImage* copy = jnew JXImage(image);
-	assert( copy != NULL );
+	assert( copy != nullptr );
 	SetData(copy);
 }
 
@@ -132,7 +132,7 @@ JXImageSelection::SetData
 	JXImage* image
 	)
 {
-	if (itsImage != NULL)
+	if (itsImage != nullptr)
 		{
 		jdelete itsImage;
 		}
@@ -156,12 +156,12 @@ JXImageSelection::ConvertData
 	)
 	const
 {
-	*data         = NULL;
+	*data         = nullptr;
 	*dataLength   = 0;
 	*returnType   = None;
 	*bitsPerBlock = 8;
 
-	if (itsImage == NULL)
+	if (itsImage == nullptr)
 		{
 		return kJFalse;
 		}
@@ -331,6 +331,6 @@ JXImageSelection::GetImage
 			}
 		}
 
-	*image = NULL;
+	*image = nullptr;
 	return kJFalse;
 }

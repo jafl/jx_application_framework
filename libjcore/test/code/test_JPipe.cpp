@@ -43,8 +43,8 @@ JTEST(Input)
 	JString cmd = "ls -l " + JPrepArgForExec(dir);
 
 	int fromFD;
-	const JError err = JExecute(cmd, NULL,
-								kJIgnoreConnection, NULL,
+	const JError err = JExecute(cmd, nullptr,
+								kJIgnoreConnection, nullptr,
 								kJCreatePipe, &fromFD);
 	JAssertOK(err);
 

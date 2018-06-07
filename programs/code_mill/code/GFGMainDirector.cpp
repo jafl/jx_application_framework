@@ -103,7 +103,7 @@ GFGMainDirector::GFGMainDirector
 	JPrefObject(GFGGetPrefsManager(), kGFGMainDirectorID)
 {
 	itsClass	= jnew GFGClass();
-	assert(itsClass != NULL);
+	assert(itsClass != nullptr);
 
 	JString outputPath;
 
@@ -184,69 +184,69 @@ GFGMainDirector::BuildWindow
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 650,460, "");
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	itsClassInput =
 		jnew JXInputField(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 105,10, 130,20);
-	assert( itsClassInput != NULL );
+	assert( itsClassInput != nullptr );
 
 	JXStaticText* classNameLabel =
 		jnew JXStaticText(JGetString("classNameLabel::GFGMainDirector::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 15,10, 90,20);
-	assert( classNameLabel != NULL );
+	assert( classNameLabel != nullptr );
 	classNameLabel->SetToLabel();
 
 	JXStaticText* directoryLabel =
 		jnew JXStaticText(JGetString("directoryLabel::GFGMainDirector::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 240,10, 110,20);
-	assert( directoryLabel != NULL );
+	assert( directoryLabel != nullptr );
 	directoryLabel->SetToLabel();
 
 	itsChooseButton =
 		jnew JXTextButton(JGetString("itsChooseButton::GFGMainDirector::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 550,10, 80,20);
-	assert( itsChooseButton != NULL );
+	assert( itsChooseButton != nullptr );
 	itsChooseButton->SetShortcuts(JGetString("itsChooseButton::GFGMainDirector::shortcuts::JXLayout"));
 
 	JXScrollbarSet* scrollbarSet =
 		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 20,75, 610,300);
-	assert( scrollbarSet != NULL );
+	assert( scrollbarSet != nullptr );
 
 	itsGenerateButton =
 		jnew JXTextButton(JGetString("itsGenerateButton::GFGMainDirector::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 440,425, 70,20);
-	assert( itsGenerateButton != NULL );
+	assert( itsGenerateButton != nullptr );
 	itsGenerateButton->SetShortcuts(JGetString("itsGenerateButton::GFGMainDirector::shortcuts::JXLayout"));
 
 	itsHelpButton =
 		jnew JXTextButton(JGetString("itsHelpButton::GFGMainDirector::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 285,425, 70,20);
-	assert( itsHelpButton != NULL );
+	assert( itsHelpButton != nullptr );
 	itsHelpButton->SetShortcuts(JGetString("itsHelpButton::GFGMainDirector::shortcuts::JXLayout"));
 
 	itsCancelButton =
 		jnew JXTextButton(JGetString("itsCancelButton::GFGMainDirector::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 130,425, 70,20);
-	assert( itsCancelButton != NULL );
+	assert( itsCancelButton != nullptr );
 	itsCancelButton->SetShortcuts(JGetString("itsCancelButton::GFGMainDirector::shortcuts::JXLayout"));
 
 	itsDirInput =
 		jnew JXPathInput(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 350,10, 200,20);
-	assert( itsDirInput != NULL );
+	assert( itsDirInput != nullptr );
 
 	JXStaticText* derivedLabel =
 		jnew JXStaticText(JGetString("derivedLabel::GFGMainDirector::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 15,45, 90,20);
-	assert( derivedLabel != NULL );
+	assert( derivedLabel != nullptr );
 	derivedLabel->SetToLabel();
 
 	itsBaseClassTxt =
 		jnew JXStaticText(JGetString("itsBaseClassTxt::GFGMainDirector::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 105,45, 110,20);
-	assert( itsBaseClassTxt != NULL );
+	assert( itsBaseClassTxt != nullptr );
 	const JFontStyle itsBaseClassTxt_style(kJTrue, kJFalse, 0, kJFalse, GetColormap()->GetBlackColor());
 	itsBaseClassTxt->SetFontStyle(itsBaseClassTxt_style);
 	itsBaseClassTxt->SetToLabel();
@@ -254,30 +254,30 @@ GFGMainDirector::BuildWindow
 	JXStaticText* authorLabel =
 		jnew JXStaticText(JGetString("authorLabel::GFGMainDirector::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 15,390, 60,20);
-	assert( authorLabel != NULL );
+	assert( authorLabel != nullptr );
 	authorLabel->SetToLabel();
 
 	itsAuthorInput =
 		jnew JXInputField(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 75,390, 160,20);
-	assert( itsAuthorInput != NULL );
+	assert( itsAuthorInput != nullptr );
 
 	itsStringsButton =
 		jnew JXTextButton(JGetString("itsStringsButton::GFGMainDirector::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 550,390, 80,20);
-	assert( itsStringsButton != NULL );
+	assert( itsStringsButton != nullptr );
 	itsStringsButton->SetShortcuts(JGetString("itsStringsButton::GFGMainDirector::shortcuts::JXLayout"));
 
 	JXStaticText* copyrightLabel =
 		jnew JXStaticText(JGetString("copyrightLabel::GFGMainDirector::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 250,390, 70,20);
-	assert( copyrightLabel != NULL );
+	assert( copyrightLabel != nullptr );
 	copyrightLabel->SetToLabel();
 
 	itsCopyrightInput =
 		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 320,390, 230,20);
-	assert( itsCopyrightInput != NULL );
+	assert( itsCopyrightInput != nullptr );
 
 // end JXLayout
 
@@ -306,7 +306,7 @@ GFGMainDirector::BuildWindow
 	itsBaseClassTxt->SetText(bases);
 
 	JXImage* image = jnew JXImage(GetDisplay(), gfg_main_window_icon);
-	assert( image != NULL );
+	assert( image != nullptr );
 	window->SetIcon(image);
 
 	itsTable	=
@@ -315,7 +315,7 @@ GFGMainDirector::BuildWindow
 			JXWidget::kHElastic, JXWidget::kVElastic,
 			0,kColHeaderHeight, 100,
 			scrollbarSet->GetScrollEnclosure()->GetBoundsHeight() - kColHeaderHeight);
-	assert(itsTable != NULL);
+	assert(itsTable != nullptr);
 
 	itsTable->FitToEnclosure(kJTrue, kJFalse);
 
@@ -324,7 +324,7 @@ GFGMainDirector::BuildWindow
 							  scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 							  JXWidget::kHElastic, JXWidget::kFixedTop,
 							  0,0, 100,kColHeaderHeight);
-	assert(widget != NULL);
+	assert(widget != nullptr);
 	widget->FitToEnclosure(kJTrue, kJFalse);
 
 	widget->SetColTitle(GFGFunctionTable::kFUsed, kUseLabel);
@@ -356,8 +356,8 @@ GFGMainDirector::Receive
 	if (sender == itsChooseButton && message.Is(JXButton::kPushed))
 		{
 		JString path;
-		if (itsDirInput != NULL &&
-			JGetChooseSaveFile()->ChooseRWPath("", NULL, itsDirInput->GetText(), &path))
+		if (itsDirInput != nullptr &&
+			JGetChooseSaveFile()->ChooseRWPath("", nullptr, itsDirInput->GetText(), &path))
 			{
 			itsDirInput->SetText(path);
 			}

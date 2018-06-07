@@ -53,7 +53,7 @@ LLDBVarNode::~LLDBVarNode()
 /******************************************************************************
  GetFullName (virtual)
 
-	isPointer can be NULL.  Its content is only modified if GetFullName()
+	isPointer can be nullptr.  Its content is only modified if GetFullName()
 	has to directly recurse due to fake nodes in the path.
 
  ******************************************************************************/
@@ -81,7 +81,7 @@ LLDBVarNode::BuildTree
 	)
 {
 	const JCharacter* s = v.GetValue();
-	if (s == NULL)
+	if (s == nullptr)
 		{
 		s = "";
 		}
@@ -91,7 +91,7 @@ LLDBVarNode::BuildTree
 	JBoolean isSpecial = kJFalse;
 
 	JString name;
-	if (v.GetName() != NULL)
+	if (v.GetName() != nullptr)
 		{
 		name = v.GetName();
 		}
@@ -105,7 +105,7 @@ LLDBVarNode::BuildTree
 			type == lldb::eBasicTypeUnsignedChar)
 			{
 #ifdef _J_LLDB_HAS_SBVALUE_GETSUMMARY
-			if (v.GetSummary() != NULL)
+			if (v.GetSummary() != nullptr)
 				{
 				value += "  ";
 				value += v.GetSummary();
@@ -126,7 +126,7 @@ LLDBVarNode::BuildTree
 			type == lldb::eBasicTypeUnsignedChar)
 			{
 #ifdef _J_LLDB_HAS_SBVALUE_GETSUMMARY
-			if (v.GetSummary() != NULL)
+			if (v.GetSummary() != nullptr)
 				{
 				value += "  ";
 				value += v.GetSummary();
@@ -144,8 +144,8 @@ LLDBVarNode::BuildTree
 		name.AppendCharacter('>');
 		}
 
-	CMVarNode* node = (CMGetLink())->CreateVarNode(NULL, name, NULL, value);
-	assert( node != NULL );
+	CMVarNode* node = (CMGetLink())->CreateVarNode(nullptr, name, nullptr, value);
+	assert( node != nullptr );
 
 	if (isPointer)
 		{

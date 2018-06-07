@@ -40,7 +40,7 @@ protected:
 
 private:
 
-	JXCheckModTimeTask*	itsSignalTask;	// can be NULL
+	JXCheckModTimeTask*	itsSignalTask;	// can be nullptr
 
 // begin JXLayout
 

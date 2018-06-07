@@ -42,7 +42,7 @@ ClipboardDir::ClipboardDir
 	JXWindowDirector(supervisor)
 {
 	// We create the dialog when we need it.
-	itsDialog = NULL;
+	itsDialog = nullptr;
 
 	// Set up the window and its contents.
 	BuildWindow();
@@ -69,7 +69,7 @@ ClipboardDir::BuildWindow()
 {
 	// Create the window and give it to the director.
 	JXWindow* window = jnew JXWindow(this, 200,100, "Hello World Program");
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	// This sets the minimum and maximum size to be the
 	// current size.
@@ -79,7 +79,7 @@ ClipboardDir::BuildWindow()
 	JXMenuBar* menuBar =
 		jnew JXMenuBar(window, JXWidget::kHElastic, JXWidget::kFixedTop,
 						0,0, 200,kJXDefaultMenuBarHeight);
-	assert( menuBar != NULL );
+	assert( menuBar != nullptr );
 
 	// Create the menu and attach it to the menu bar.
 	itsTextMenu = menuBar->AppendTextMenu(kTextMenuTitleStr);
@@ -98,7 +98,7 @@ ClipboardDir::BuildWindow()
 		jnew ClipboardWidget("Hello world!", menuBar, window,
 			JXWidget::kFixedLeft, JXWidget::kFixedTop,
 			0, kJXDefaultMenuBarHeight, 200, 100-kJXDefaultMenuBarHeight);
-	assert ( itsText != NULL );
+	assert ( itsText != nullptr );
 }
 
 /******************************************************************************
@@ -121,7 +121,7 @@ ClipboardDir::Receive
 		// Cast the sender so we can access its functions.
 		 const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 
 		// Handle the menu selection
 		HandleTextMenu(selection->GetIndex());
@@ -133,7 +133,7 @@ ClipboardDir::Receive
 		// Cast the sender so we can access its functions.
 		const JXDialogDirector::Deactivated* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 
 		// If the user pressed the cancel button, this will fail.
 		if (info->Successful())
@@ -143,7 +143,7 @@ ClipboardDir::Receive
 			}
 
 		// The dialog is deleted (not by us) after it broadcasts this message.
-		itsDialog = NULL;
+		itsDialog = nullptr;
 		}
 
 	// If we don't handle the message, we need to pass it to the base class
@@ -199,11 +199,11 @@ void
 ClipboardDir::SetupInputDialog()
 {
 	// Make sure the dialog hasn't already been created.
-	assert ( itsDialog == NULL );
+	assert ( itsDialog == nullptr );
 
 	// Create the dialog with text from our text widget object.
 	itsDialog = jnew CBStringInputDialog(this, itsText->GetText());
-	assert ( itsDialog != NULL );
+	assert ( itsDialog != nullptr );
 
 	// We need to listen for the dialog's deactivation message.
 	ListenTo(itsDialog);
@@ -223,7 +223,7 @@ void
 ClipboardDir::GetNewTextFromDialog()
 {
 	// The dialog must have been created if we're calling this.
-	assert ( itsDialog != NULL );
+	assert ( itsDialog != nullptr );
 
 	// Get the text from the dialog and pass it to the text widget object.
 	const JString& str = itsDialog->GetString();

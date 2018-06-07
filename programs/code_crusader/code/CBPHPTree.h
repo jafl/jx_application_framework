@@ -41,7 +41,7 @@ protected:
 
 private:
 
-	CBPHPTreeScanner*	itsClassNameLexer;	// NULL unless parsing
+	CBPHPTreeScanner*	itsClassNameLexer;	// nullptr unless parsing
 
 private:
 

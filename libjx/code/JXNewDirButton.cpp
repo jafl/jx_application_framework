@@ -36,7 +36,7 @@ JXNewDirButton::JXNewDirButton
 	JXTextButton(JString::empty, enclosure, hSizing, vSizing, x,y, w,h)
 {
 	itsFolderIcon = jnew JXImage(GetDisplay(), jx_folder_small);
-	assert( itsFolderIcon != NULL );
+	assert( itsFolderIcon != nullptr );
 	itsFolderIcon->ConvertToRemoteStorage();
 
 	const JSize spaceWidth = GetFont().GetCharWidth(GetFontManager(), ' ');

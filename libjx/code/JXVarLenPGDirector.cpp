@@ -59,29 +59,29 @@ JXVarLenPGDirector::BuildWindow
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 270,80, JString::empty);
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	JXTextButton* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::JXVarLenPGDirector::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 190,40, 60,20);
-	assert( cancelButton != NULL );
+	assert( cancelButton != nullptr );
 	cancelButton->SetShortcuts(JGetString("cancelButton::JXVarLenPGDirector::shortcuts::JXLayout"));
 
 	JXStaticText* text =
 		jnew JXStaticText(JGetString("text::JXVarLenPGDirector::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 20,10, 230,20);
-	assert( text != NULL );
+	assert( text != nullptr );
 	text->SetToLabel();
 
 	JXStaticText* counter =
 		jnew JXStaticText(JGetString("counter::JXVarLenPGDirector::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 60,40, 100,20);
-	assert( counter != NULL );
+	assert( counter != nullptr );
 	counter->SetToLabel();
 
 // end JXLayout
 
 	Init(window, text, message, allowCancel, cancelButton);
 
-	pg->SetItems(cancelButton, counter, NULL);
+	pg->SetItems(cancelButton, counter, nullptr);
 }

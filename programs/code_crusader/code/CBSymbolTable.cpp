@@ -68,11 +68,11 @@ CBSymbolTable::CBSymbolTable
 	itsMaxStringWidth = 0;
 
 	itsVisibleList = jnew JArray<JIndex>(CBSymbolList::kBlockSize);
-	assert( itsVisibleList != NULL );
+	assert( itsVisibleList != nullptr );
 
 	itsVisibleListLockedFlag = kJFalse;
-	itsNameFilter            = NULL;
-	itsNameLiteral           = NULL;
+	itsNameFilter            = nullptr;
+	itsNameLiteral           = nullptr;
 
 	const JIndex blackColor = GetColormap()->GetBlackColor();
 	SetRowBorderInfo(0, blackColor);
@@ -253,7 +253,7 @@ CBSymbolTable::CopySelectedSymbolNames()
 			}
 
 		JXTextSelection* data = jnew JXTextSelection(GetDisplay(), list);
-		assert( data != NULL );
+		assert( data != nullptr );
 
 		GetSelectionManager()->SetData(kJXClipboardName, data);
 		}
@@ -304,10 +304,10 @@ CBSymbolTable::ShowAll()
 	itsVisibleList->RemoveAll();	// force rebuild of entire list
 
 	jdelete itsNameFilter;
-	itsNameFilter = NULL;
+	itsNameFilter = nullptr;
 
 	jdelete itsNameLiteral;
-	itsNameLiteral = NULL;
+	itsNameLiteral = nullptr;
 
 	ScrollTo(0,0);
 	RebuildTable();
@@ -326,27 +326,27 @@ CBSymbolTable::SetNameFilter
 	)
 {
 	jdelete itsNameFilter;
-	itsNameFilter = NULL;
+	itsNameFilter = nullptr;
 
 	jdelete itsNameLiteral;
-	itsNameLiteral = NULL;
+	itsNameLiteral = nullptr;
 
 	JError result = JNoError();
 	if (isRegex)
 		{
 		itsNameFilter = jnew JRegex;
-		assert( itsNameFilter != NULL );
+		assert( itsNameFilter != nullptr );
 		result = itsNameFilter->SetPattern(filterStr);
 		if (!result.OK())
 			{
 			jdelete itsNameFilter;
-			itsNameFilter = NULL;
+			itsNameFilter = nullptr;
 			}
 		}
 	else
 		{
 		itsNameLiteral = jnew JString(filterStr);
-		assert( itsNameLiteral != NULL );
+		assert( itsNameLiteral != nullptr );
 		}
 
 	itsVisibleListLockedFlag = kJFalse;
@@ -404,12 +404,12 @@ CBSymbolTable::TableDrawCell
 		AdjustColWidths();
 		}
 
-	const JXImage* icon     = NULL;
+	const JXImage* icon     = nullptr;
 	const JFontStyle& style = (CBGetSymbolTypeList())->GetStyle(type, &icon);
 
 	// draw icon
 
-	if (icon != NULL)
+	if (icon != nullptr)
 		{
 		JRect r = rect;
 		r.right = r.left + kIconWidth;
@@ -424,7 +424,7 @@ CBSymbolTable::TableDrawCell
 	r.left += kIconWidth + kHMarginWidth;
 	p.String(r, symbolName, JPainter::kHAlignLeft, JPainter::kVAlignCenter);
 
-	if (signature != NULL)
+	if (signature != nullptr)
 		{
 		r.left += GetFontManager()->GetDefaultFont().GetStringWidth(symbolName);
 		p.String(r, *signature, JPainter::kHAlignLeft, JPainter::kVAlignCenter);
@@ -661,7 +661,7 @@ CBSymbolTable::RebuildTable()
 			CalcColWidths(itsSymbolList->GetSymbol(j, &lang, &type), signature);
 			}
 		}
-	else if (itsNameFilter != NULL || itsNameLiteral != NULL)
+	else if (itsNameFilter != nullptr || itsNameLiteral != nullptr)
 		{
 		itsVisibleList->RemoveAll();
 
@@ -677,8 +677,8 @@ CBSymbolTable::RebuildTable()
 
 			if (/* (CBGetSymbolTypeList())->IsVisible(type) && */
 
-				((itsNameFilter  != NULL && itsNameFilter->Match(symbolName)) ||
-				 (itsNameLiteral != NULL && symbolName.Contains(*itsNameLiteral)))
+				((itsNameFilter  != nullptr && itsNameFilter->Match(symbolName)) ||
+				 (itsNameLiteral != nullptr && symbolName.Contains(*itsNameLiteral)))
 				)
 				{
 				itsVisibleList->AppendElement(i);
@@ -729,7 +729,7 @@ CBSymbolTable::CalcColWidths
 {
 	JSize w = GetFontManager()->GetDefaultFont().GetStringWidth(symbolName);
 
-	if (signature != NULL)
+	if (signature != nullptr)
 		{
 		w += GetFontManager()->GetDefaultFont().GetStringWidth(*signature);
 		}

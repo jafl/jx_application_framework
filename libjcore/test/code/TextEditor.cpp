@@ -31,8 +31,8 @@ TextEditor::TextEditor
 				1,1,1,1, width),
 	itsWidth(0),
 	itsHeight(0),
-	itsClipText(NULL),
-	itsClipStyle(NULL)
+	itsClipText(nullptr),
+	itsClipStyle(nullptr)
 {
 	RecalcAll();
 }
@@ -225,13 +225,13 @@ TextEditor::TEUpdateClipboard
 	)
 	const
 {
-	if (itsClipText == NULL)
+	if (itsClipText == nullptr)
 		{
 		itsClipText = jnew JString(text);
-		assert( itsClipText != NULL );
+		assert( itsClipText != nullptr );
 
 		itsClipStyle = jnew JRunArray<JFont>(style);
-		assert( itsClipStyle != NULL );
+		assert( itsClipStyle != nullptr );
 		}
 	else
 		{
@@ -253,7 +253,7 @@ TextEditor::TEGetClipboard
 	)
 	const
 {
-	if (itsClipText == NULL)
+	if (itsClipText == nullptr)
 		{
 		return kJFalse;
 		}

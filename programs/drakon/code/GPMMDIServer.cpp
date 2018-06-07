@@ -26,7 +26,7 @@ static const JCharacter* kCommandLineHelpID = "CommandLineHelp::GPMMDIServer";
 GPMMDIServer::GPMMDIServer()
 	:
 	JXMDIServer(),
-	itsMainDirector(NULL)
+	itsMainDirector(nullptr)
 {
 }
 
@@ -51,7 +51,7 @@ GPMMDIServer::HandleMDIRequest
 	const JPtrArray<JString>&	argList
 	)
 {
-	if (itsMainDirector != NULL)
+	if (itsMainDirector != nullptr)
 		{
 		itsMainDirector->Activate();
 		}

@@ -10,7 +10,7 @@
 #include "CBPythonCompleter.h"
 #include <jAssert.h>
 
-CBPythonCompleter* CBPythonCompleter::itsSelf = NULL;
+CBPythonCompleter* CBPythonCompleter::itsSelf = nullptr;
 
 static const JCharacter* kKeywordList[] =
 {
@@ -32,12 +32,12 @@ static JBoolean recursiveInstance = kJFalse;
 CBStringCompleter*
 CBPythonCompleter::Instance()
 {
-	if (itsSelf == NULL && !recursiveInstance)
+	if (itsSelf == nullptr && !recursiveInstance)
 		{
 		recursiveInstance = kJTrue;
 
 		itsSelf = jnew CBPythonCompleter;
-		assert( itsSelf != NULL );
+		assert( itsSelf != nullptr );
 
 		recursiveInstance = kJFalse;
 		}
@@ -74,7 +74,7 @@ CBPythonCompleter::CBPythonCompleter()
 
 CBPythonCompleter::~CBPythonCompleter()
 {
-	itsSelf = NULL;
+	itsSelf = nullptr;
 }
 
 /******************************************************************************

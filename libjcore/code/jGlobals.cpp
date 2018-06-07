@@ -21,14 +21,14 @@
 #include <ace/OS_NS_sys_socket.h>
 #include <jAssert.h>
 
-static JAssertBase*				theAssertHandler    = NULL;
+static JAssertBase*				theAssertHandler    = nullptr;
 
-static JUserNotification*		theUserNotification = NULL;
-static JChooseSaveFile*			theChooseSaveFile   = NULL;
-static JCreateProgressDisplay*	theCreatePG         = NULL;
+static JUserNotification*		theUserNotification = nullptr;
+static JChooseSaveFile*			theChooseSaveFile   = nullptr;
+static JCreateProgressDisplay*	theCreatePG         = nullptr;
 
-static JStringManager*			theStringManager    = NULL;
-static JWebBrowser*				theWebBrowser       = NULL;
+static JStringManager*			theStringManager    = nullptr;
+static JWebBrowser*				theWebBrowser       = nullptr;
 
 /******************************************************************************
  JInitCore
@@ -39,16 +39,16 @@ static JWebBrowser*				theWebBrowser       = NULL;
 	*** We take ownership of all the objects that are passed in.
 		We make copies of the string data.
 
-	Passing in NULL for ah,un,csf,cpg means that you want the default text
+	Passing in nullptr for ah,un,csf,cpg means that you want the default text
 	implementation.
 
-	Passing in NULL for appSignature and defaultStringData means that you want
+	Passing in nullptr for appSignature and defaultStringData means that you want
 	to use the default U.S. string data.
 
-	Passing in NULL for gcfm,gcc means that you get nothing, so we will
+	Passing in nullptr for gcfm,gcc means that you get nothing, so we will
 	explode via assert() if these objects are requested.
 
-	Passing in NULL for the font names means that you get:
+	Passing in nullptr for the font names means that you get:
 		defaultFontName   = "Helvetica"
 		greekFontName     = "Symbol"
 		monospaceFontName = "Courier"
@@ -68,18 +68,18 @@ JInitCore
 	JCreateProgressDisplay*	cpg
 	)
 {
-	if (theStringManager != NULL)
+	if (theStringManager != nullptr)
 		{
 		return;		// already initialized
 		}
 
 	// assert handler
 
-	if (ah != NULL)
+	if (ah != nullptr)
 		{
 		theAssertHandler = ah;
 		}
-	// NULL is valid in this case -- see JGetAssertHandler()
+	// nullptr is valid in this case -- see JGetAssertHandler()
 
 	// use native locale
 
@@ -96,45 +96,45 @@ JInitCore
 	// string manager
 
 	JStringManager* stringMgr = JGetStringManager();	// create it
-	if (defaultStringData != NULL)
+	if (defaultStringData != nullptr)
 		{
 		stringMgr->Register(appSignature, defaultStringData);
 		}
 
 	// user notification
 
-	if (un != NULL)
+	if (un != nullptr)
 		{
 		theUserNotification = un;
 		}
 	else
 		{
 		theUserNotification = jnew JTextUserNotification;
-		assert( theUserNotification != NULL );
+		assert( theUserNotification != nullptr );
 		}
 
 	// choose/save file
 
-	if (csf != NULL)
+	if (csf != nullptr)
 		{
 		theChooseSaveFile = csf;
 		}
 	else
 		{
 		theChooseSaveFile = jnew JTextChooseSaveFile;
-		assert( theChooseSaveFile != NULL );
+		assert( theChooseSaveFile != nullptr );
 		}
 
 	// progress display factory
 
-	if (cpg != NULL)
+	if (cpg != nullptr)
 		{
 		theCreatePG = cpg;
 		}
 	else
 		{
 		theCreatePG = jnew JCreateTextPG;
-		assert( theCreatePG != NULL );
+		assert( theCreatePG != nullptr );
 		}
 
 	// remember to clean up
@@ -153,22 +153,22 @@ void
 JDeleteGlobals()
 {
 	jdelete theCreatePG;
-	theCreatePG = NULL;
+	theCreatePG = nullptr;
 
 	jdelete theChooseSaveFile;
-	theChooseSaveFile = NULL;
+	theChooseSaveFile = nullptr;
 
 	jdelete theUserNotification;
-	theUserNotification = NULL;
+	theUserNotification = nullptr;
 
 	jdelete theStringManager;
-	theStringManager = NULL;
+	theStringManager = nullptr;
 
 	jdelete theWebBrowser;
-	theWebBrowser = NULL;
+	theWebBrowser = nullptr;
 
 	jdelete theAssertHandler;
-	theAssertHandler = NULL;
+	theAssertHandler = nullptr;
 
 	ACE_OS::socket_fini();
 }
@@ -191,7 +191,7 @@ JGetAssertHandler
 	)
 {
 	*ah = theAssertHandler;
-	return JConvertToBoolean( *ah != NULL );
+	return JConvertToBoolean( *ah != nullptr );
 }
 
 /******************************************************************************
@@ -202,11 +202,11 @@ JGetAssertHandler
 JStringManager*
 JGetStringManager()
 {
-	if (theStringManager == NULL)
+	if (theStringManager == nullptr)
 		{
 		theStringManager = jnew JStringManager;
-		assert( theStringManager != NULL );
-		theStringManager->Register(NULL, kJCoreDefaultStringData);
+		assert( theStringManager != nullptr );
+		theStringManager->Register(nullptr, kJCoreDefaultStringData);
 		}
 
 	return theStringManager;
@@ -227,7 +227,7 @@ JGetString
 	const JUtf8Byte* id
 	)
 {
-	return (theStringManager != NULL ? theStringManager->Get(id) : emptyString);
+	return (theStringManager != nullptr ? theStringManager->Get(id) : emptyString);
 }
 
 JString
@@ -238,7 +238,7 @@ JGetString
 	const JSize			size
 	)
 {
-	return (theStringManager != NULL ? theStringManager->Get(id, map, size) : emptyString);
+	return (theStringManager != nullptr ? theStringManager->Get(id, map, size) : emptyString);
 }
 
 /******************************************************************************
@@ -249,7 +249,7 @@ JGetString
 JWebBrowser*
 JGetWebBrowser()
 {
-	assert( theWebBrowser != NULL );
+	assert( theWebBrowser != nullptr );
 	return theWebBrowser;
 }
 
@@ -264,7 +264,7 @@ JSetWebBrowser
 	JWebBrowser* webBrowser
 	)
 {
-	assert( theWebBrowser == NULL );
+	assert( theWebBrowser == nullptr );
 	theWebBrowser = webBrowser;
 }
 
@@ -276,12 +276,12 @@ JSetWebBrowser
 JUserNotification*
 JGetUserNotification()
 {
-	if (theUserNotification == NULL)
+	if (theUserNotification == nullptr)
 		{
 		std::cerr << "Forgot to initialize UserNotification: using text version" << std::endl;
 
 		theUserNotification = jnew JTextUserNotification;
-		assert( theUserNotification != NULL );
+		assert( theUserNotification != nullptr );
 		}
 
 	return theUserNotification;
@@ -295,12 +295,12 @@ JGetUserNotification()
 JChooseSaveFile*
 JGetChooseSaveFile()
 {
-	if (theChooseSaveFile == NULL)
+	if (theChooseSaveFile == nullptr)
 		{
 		std::cerr << "Forgot to initialize ChooseSaveFile: using default version" << std::endl;
 
 		theChooseSaveFile = jnew JTextChooseSaveFile;
-		assert( theChooseSaveFile != NULL );
+		assert( theChooseSaveFile != nullptr );
 		}
 
 	return theChooseSaveFile;
@@ -314,12 +314,12 @@ JGetChooseSaveFile()
 JCreateProgressDisplay*
 JGetCreatePG()
 {
-	if (theCreatePG == NULL)
+	if (theCreatePG == nullptr)
 		{
 		std::cerr << "Forgot to initialize CreateProgressDisplay: using text version" << std::endl;
 
 		theCreatePG = jnew JCreateTextPG;
-		assert( theCreatePG != NULL );
+		assert( theCreatePG != nullptr );
 		}
 
 	return theCreatePG;

@@ -53,7 +53,7 @@ DNDWidget::DNDWidget
 	// See JCollection.h, JList.h, and JArray.h for functionality
 
 	itsPoints = jnew JArray<JPoint>;
-	assert( itsPoints != NULL );
+	assert( itsPoints != nullptr );
 
 	// We need to register the drag X Atom with the display. We will need
 	// to keep a copy of the atom to check in WillAcceptDrop.
@@ -196,7 +196,7 @@ DNDWidget::HandleMouseDrag
 		{
 		// Create the drag data object
 		DNDData* data = jnew DNDData(this, kSelectionID);
-		assert(data != NULL);
+		assert(data != nullptr);
 
 		// Initiate drag-and-drop with the data object. If this succeeds,
 		// HandleMouseDrag will not be called again and you will not get
@@ -209,7 +209,7 @@ DNDWidget::HandleMouseDrag
 	const JBoolean scrolled = ScrollForDrag(pt);
 
 	// Get the drag painter that we created in mouse down
-	JPainter* p = NULL;
+	JPainter* p = nullptr;
 	if (!GetDragPainter(&p))
 		{
 		return;
@@ -218,7 +218,7 @@ DNDWidget::HandleMouseDrag
 	// Make sure that the left button is pressed, 
 	// that we have moved,
 	// and that a drag painter exists
-	if (buttonStates.left() && pt != itsPrevPt && p != NULL)	// p is NULL for multiple click
+	if (buttonStates.left() && pt != itsPrevPt && p != nullptr)	// p is nullptr for multiple click
 		{
 		
 		// Draw line depending on whether or not we scrolled
@@ -260,7 +260,7 @@ DNDWidget::HandleMouseUp
 	const JXKeyModifiers&	modifiers
 	)
 {
-	JPainter* p = NULL;
+	JPainter* p = nullptr;
 	
 	// Make sure that the left button is pressed, 
 	// and that a drag painter exists
@@ -350,7 +350,7 @@ DNDWidget::GetSelectionData
 		{
 		// Cast the data object to the object that we know it is.
 		DNDData* lineData = dynamic_cast<DNDData*>(data);
-		assert(lineData != NULL);
+		assert(lineData != nullptr);
 
 		// Pass our points to the line data object.
 		lineData->SetData(*itsPoints);
@@ -364,7 +364,7 @@ DNDWidget::GetSelectionData
 	return kJTrue if they will accept the current drop.  If they return kJFalse,
 	they will not receive any DND messages.
 
-	source is non-NULL if the drag is between widgets in the same program.
+	source is non-nullptr if the drag is between widgets in the same program.
 	This provides a way for compound documents to identify drags between their
 	various parts.
 
@@ -455,7 +455,7 @@ DNDWidget::HandleDNDDrop
 {
 	// Here we would typically check what type of action it was, ie. move, 
 	// copy, or ask. For simplicity here, we won't deal with that.
-	unsigned char* data = NULL;
+	unsigned char* data = nullptr;
 	JSize dataLength;
 	Atom returnType;
 	JXSelectionManager::DeleteMethod delMethod;

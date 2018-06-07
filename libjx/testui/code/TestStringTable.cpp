@@ -79,7 +79,7 @@ TestStringTable::TestStringTable
 JIndex i,j;
 
 	itsMouseAction = kInsertCol;
-	itsRowHeader   = NULL;
+	itsRowHeader   = nullptr;
 
 	GetEditMenuHandler()->AppendEditMenu(menuBar);
 
@@ -89,33 +89,33 @@ JIndex i,j;
 	ListenTo(itsTableMenu);
 
 	itsRowBorderMenu = jnew JXTextMenu(itsTableMenu, kChangeRowBorderWidthCmd, menuBar);
-	assert( itsRowBorderMenu != NULL );
+	assert( itsRowBorderMenu != nullptr );
 	itsRowBorderMenu->SetMenuItems(kBorderWidthMenuStr);
 	itsRowBorderMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsRowBorderMenu);
 
 	itsColBorderMenu = jnew JXTextMenu(itsTableMenu, kChangeColBorderWidthCmd, menuBar);
-	assert( itsColBorderMenu != NULL );
+	assert( itsColBorderMenu != nullptr );
 	itsColBorderMenu->SetMenuItems(kBorderWidthMenuStr);
 	itsColBorderMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsColBorderMenu);
 
 	itsFontMenu = jnew JXFontNameMenu(JGetString("FontMenuTitle::TestStringTable"),
 									  menuBar, kFixedLeft, kFixedTop, 0,0, 10,10);
-	assert( itsFontMenu != NULL );
+	assert( itsFontMenu != nullptr );
 	menuBar->AppendMenu(itsFontMenu);
 	ListenTo(itsFontMenu);
 
 	itsSizeMenu = jnew JXFontSizeMenu(itsFontMenu, JGetString("SizeMenuTitle::TestStringTable"), 
 									  menuBar, kFixedLeft, kFixedTop, 0,0, 10,10);
-	assert( itsSizeMenu != NULL );
+	assert( itsSizeMenu != nullptr );
 	menuBar->AppendMenu(itsSizeMenu);
 	ListenTo(itsSizeMenu);
 
 	itsStyleMenu =
 		jnew JXStyleTableMenu(this, menuBar,
 							 kFixedLeft, kFixedTop, 0,0, 10,10);
-	assert( itsStyleMenu != NULL );
+	assert( itsStyleMenu != nullptr );
 	menuBar->AppendMenu(itsStyleMenu);
 
 	const JFont& font = GetFont();
@@ -159,7 +159,7 @@ TestStringTable::TurnOnRowResizing
 	)
 {
 	itsRowHeader = rowHeader;
-	if (itsRowHeader != NULL)
+	if (itsRowHeader != nullptr)
 		{
 		itsRowHeader->TurnOnRowResizing(GetDefaultRowHeight());
 		}
@@ -359,7 +359,7 @@ TestStringTable::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleTableMenu(selection->GetIndex());
 		}
 
@@ -371,7 +371,7 @@ TestStringTable::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleRowBorderMenu(selection->GetIndex());
 		}
 
@@ -383,7 +383,7 @@ TestStringTable::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleColBorderMenu(selection->GetIndex());
 		}
 
@@ -391,7 +391,7 @@ TestStringTable::Receive
 		{
 		const JString fontName = itsFontMenu->GetFontName();
 		SetFont(fontName, itsSizeMenu->GetFontSize());
-		if (itsRowHeader != NULL)
+		if (itsRowHeader != nullptr)
 			{
 			itsRowHeader->TurnOnRowResizing(GetDefaultRowHeight());
 			}
@@ -400,7 +400,7 @@ TestStringTable::Receive
 		{
 		const JString fontName = itsFontMenu->GetFontName();
 		SetFont(fontName, itsSizeMenu->GetFontSize());
-		if (itsRowHeader != NULL)
+		if (itsRowHeader != nullptr)
 			{
 			itsRowHeader->TurnOnRowResizing(GetDefaultRowHeight());
 			}

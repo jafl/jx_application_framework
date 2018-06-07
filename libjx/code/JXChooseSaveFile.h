@@ -25,7 +25,7 @@ class JXChooseSaveFile : public JChooseSaveFile, public JPrefObject,
 {
 public:
 
-	JXChooseSaveFile(JPrefsManager* prefsMgr = NULL,
+	JXChooseSaveFile(JPrefsManager* prefsMgr = nullptr,
 					 const JPrefID& id = JFAID::kInvalidID);
 
 	virtual ~JXChooseSaveFile();
@@ -99,7 +99,7 @@ protected:
 
 private:
 
-	JDirInfo*	itsDirInfo;			// NULL if not global JXCSF stored in jXGlobals
+	JDirInfo*	itsDirInfo;			// nullptr if not global JXCSF stored in jXGlobals
 	JString		itsUserFilter;
 	JString		itsDialogState;		// empty if not global JXCSF stored in jXGlobals
 
@@ -109,8 +109,8 @@ private:
 	JXCSFDialogBase*	itsCurrentDialog;
 
 	JBoolean			itsResponse;
-	JString*			itsResultStr;	// not owned; non-NULL if any other dialog is open
-	JPtrArray<JString>*	itsResultList;	// not owned; non-NULL if choose multiple file dialog is open
+	JString*			itsResultStr;	// not owned; non-nullptr if any other dialog is open
+	JPtrArray<JString>*	itsResultList;	// not owned; non-nullptr if choose multiple file dialog is open
 
 private:
 

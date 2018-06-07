@@ -31,7 +31,7 @@ JXPGMessageDirector::JXPGMessageDirector
 	:
 	JXWindowDirector(supervisor)
 {
-	itsPrinter = NULL;
+	itsPrinter = nullptr;
 	BuildWindow();
 }
 
@@ -56,28 +56,28 @@ JXPGMessageDirector::BuildWindow()
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 500,210, JString::empty);
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	JXScrollbarSet* scrollbarSet =
 		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 500,170);
-	assert( scrollbarSet != NULL );
+	assert( scrollbarSet != nullptr );
 
 	itsSaveButton =
 		jnew JXTextButton(JGetString("itsSaveButton::JXPGMessageDirector::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 100,180, 60,20);
-	assert( itsSaveButton != NULL );
+	assert( itsSaveButton != nullptr );
 
 	itsCloseButton =
 		jnew JXTextButton(JGetString("itsCloseButton::JXPGMessageDirector::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 180,180, 60,20);
-	assert( itsCloseButton != NULL );
+	assert( itsCloseButton != nullptr );
 	itsCloseButton->SetShortcuts(JGetString("itsCloseButton::JXPGMessageDirector::shortcuts::JXLayout"));
 
 	itsPrintButton =
 		jnew JXTextButton(JGetString("itsPrintButton::JXPGMessageDirector::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 20,180, 60,20);
-	assert( itsPrintButton != NULL );
+	assert( itsPrintButton != nullptr );
 
 // end JXLayout
 
@@ -177,10 +177,10 @@ JXPGMessageDirector::Receive
 {
 	if (sender == itsPrintButton && message.Is(JXButton::kPushed))
 		{
-		if (itsPrinter == NULL)
+		if (itsPrinter == nullptr)
 			{
 			itsPrinter = jnew JXPTPrinter;
-			assert( itsPrinter != NULL );
+			assert( itsPrinter != nullptr );
 			itsMessageText->SetPTPrinter(itsPrinter);
 			}
 		itsMessageText->PrintPT();

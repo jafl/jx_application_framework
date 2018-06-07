@@ -27,7 +27,7 @@ public:
 	virtual	~CMVarNode();
 
 	JBoolean		ValueIsValid() const;
-	virtual JString	GetFullName(JBoolean* isPointer = NULL) const = 0;
+	virtual JString	GetFullName(JBoolean* isPointer = nullptr) const = 0;
 	const JString&	GetValue() const;
 	void			SetValue(const JString& value);
 	void			SetValid(const JBoolean valid);

@@ -96,7 +96,7 @@ CBJavaClass::ViewSource()
 		{
 		CBDocumentManager* docMgr = CBGetDocumentManager();
 
-		CBTextDocument* doc = NULL;
+		CBTextDocument* doc = nullptr;
 		if (docMgr->OpenTextDocument(fileName, 0, &doc))
 			{
 			JString p = "(class|interface|enum)[ \t\n]*";
@@ -178,7 +178,7 @@ CBJavaClass::ViewDefinition
 		// We need to use a multi-line regex to find the constructor
 		// instead of the class name.
 
-		CBTextDocument* doc = NULL;
+		CBTextDocument* doc = nullptr;
 		if (docMgr->OpenTextDocument(fileName, 0, &doc))
 			{
 			JString p = "\\b";
@@ -252,7 +252,7 @@ CBJavaClass::NewGhost
 {
 	CBJavaClass* newClass = jnew CBJavaClass(name, kGhostType, JFAID::kInvalidID, tree,
 											kJTrue, kJFalse);
-	assert( newClass != NULL );
+	assert( newClass != nullptr );
 	return newClass;
 }
 

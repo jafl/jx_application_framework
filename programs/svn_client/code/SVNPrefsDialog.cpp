@@ -86,83 +86,83 @@ SVNPrefsDialog::BuildWindow
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 400,250, "");
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	itsCommitEditor =
 		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 160,140, 220,20);
-	assert( itsCommitEditor != NULL );
+	assert( itsCommitEditor != nullptr );
 
 	itsDiffCmd =
 		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 160,160, 220,20);
-	assert( itsDiffCmd != NULL );
+	assert( itsDiffCmd != nullptr );
 
 	JXTextButton* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::SVNPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 90,220, 70,20);
-	assert( cancelButton != NULL );
+	assert( cancelButton != nullptr );
 	cancelButton->SetShortcuts(JGetString("cancelButton::SVNPrefsDialog::shortcuts::JXLayout"));
 
 	JXTextButton* okButton =
 		jnew JXTextButton(JGetString("okButton::SVNPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 240,220, 70,20);
-	assert( okButton != NULL );
+	assert( okButton != nullptr );
 	okButton->SetShortcuts(JGetString("okButton::SVNPrefsDialog::shortcuts::JXLayout"));
 
 	itsIntegrationRG =
 		jnew JXRadioGroup(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 160,10, 140,90);
-	assert( itsIntegrationRG != NULL );
+	assert( itsIntegrationRG != nullptr );
 
 	itsJCCIntegrationRB =
 		jnew JXTextRadioButton(SVNPrefsManager::kCodeCrusader, JGetString("itsJCCIntegrationRB::SVNPrefsDialog::JXLayout"), itsIntegrationRG,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 10,10, 120,20);
-	assert( itsJCCIntegrationRB != NULL );
+	assert( itsJCCIntegrationRB != nullptr );
 
 	itsCustomIntegrationRB =
 		jnew JXTextRadioButton(SVNPrefsManager::kCustom, JGetString("itsCustomIntegrationRB::SVNPrefsDialog::JXLayout"), itsIntegrationRG,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 10,60, 120,20);
-	assert( itsCustomIntegrationRB != NULL );
+	assert( itsCustomIntegrationRB != nullptr );
 
 	JXStaticText* integrateWithLabel =
 		jnew JXStaticText(JGetString("integrateWithLabel::SVNPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 60,45, 95,20);
-	assert( integrateWithLabel != NULL );
+	assert( integrateWithLabel != nullptr );
 	integrateWithLabel->SetToLabel();
 
 	JXStaticText* customIntegrationLabel =
 		jnew JXStaticText(JGetString("customIntegrationLabel::SVNPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,120, 120,20);
-	assert( customIntegrationLabel != NULL );
+	assert( customIntegrationLabel != nullptr );
 	customIntegrationLabel->SetToLabel();
 
 	JXStaticText* reloadChangedFilesLabel =
 		jnew JXStaticText(JGetString("reloadChangedFilesLabel::SVNPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,180, 140,20);
-	assert( reloadChangedFilesLabel != NULL );
+	assert( reloadChangedFilesLabel != nullptr );
 	reloadChangedFilesLabel->SetToLabel();
 
 	JXStaticText* compareRevisionsLabel =
 		jnew JXStaticText(JGetString("compareRevisionsLabel::SVNPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,160, 140,20);
-	assert( compareRevisionsLabel != NULL );
+	assert( compareRevisionsLabel != nullptr );
 	compareRevisionsLabel->SetToLabel();
 
 	itsCmdLineIntegrationRB =
 		jnew JXTextRadioButton(SVNPrefsManager::kCmdLine, JGetString("itsCmdLineIntegrationRB::SVNPrefsDialog::JXLayout"), itsIntegrationRG,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 10,35, 120,20);
-	assert( itsCmdLineIntegrationRB != NULL );
+	assert( itsCmdLineIntegrationRB != nullptr );
 
 	itsReloadChangedCmd =
 		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 160,180, 220,20);
-	assert( itsReloadChangedCmd != NULL );
+	assert( itsReloadChangedCmd != nullptr );
 
 	JXStaticText* commitEditorLabel =
 		jnew JXStaticText(JGetString("commitEditorLabel::SVNPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,140, 140,20);
-	assert( commitEditorLabel != NULL );
+	assert( commitEditorLabel != nullptr );
 	commitEditorLabel->SetToLabel();
 
 // end JXLayout

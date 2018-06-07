@@ -124,17 +124,17 @@ CMStackDir::BuildWindow
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 450,500, "");
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	JXMenuBar* menuBar =
 		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 450,30);
-	assert( menuBar != NULL );
+	assert( menuBar != nullptr );
 
 	JXScrollbarSet* scrollbarSet =
 		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 450,470);
-	assert( scrollbarSet != NULL );
+	assert( scrollbarSet != nullptr );
 
 // end JXLayout
 
@@ -147,21 +147,21 @@ CMStackDir::BuildWindow
 
 	JXDisplay* display = GetDisplay();
 	JXImage* icon      = jnew JXImage(display, medic_stack_trace_window);
-	assert( icon != NULL );
+	assert( icon != nullptr );
 	window->SetIcon(icon);
 
-	JNamedTreeNode* root = jnew JNamedTreeNode(NULL, "");
-	assert( root != NULL );
+	JNamedTreeNode* root = jnew JNamedTreeNode(nullptr, "");
+	assert( root != nullptr );
 	JTree* tree = jnew JTree(root);
-	assert( tree != NULL );
+	assert( tree != nullptr );
 	JNamedTreeList* treeList = jnew JNamedTreeList(tree);
-	assert( treeList != NULL );
+	assert( treeList != nullptr );
 
 	itsWidget =
 		jnew CMStackWidget(dir, this, tree, treeList,
 				scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 				JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 100,100);
-	assert( itsWidget != NULL );
+	assert( itsWidget != nullptr );
 	itsWidget->FitToEnclosure();
 
 	// menus
@@ -176,7 +176,7 @@ CMStackDir::BuildWindow
 	JXWDMenu* wdMenu =
 		jnew JXWDMenu(kWindowsMenuTitleStr, menuBar,
 					 JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
-	assert( wdMenu != NULL );
+	assert( wdMenu != nullptr );
 	menuBar->AppendMenu(wdMenu);
 
 	itsHelpMenu = menuBar->AppendTextMenu(kHelpMenuTitleStr);
@@ -252,7 +252,7 @@ CMStackDir::Receive
 		{
 		 const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleFileMenu(selection->GetIndex());
 		}
 
@@ -260,7 +260,7 @@ CMStackDir::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleHelpMenu(selection->GetIndex());
 		}
 
@@ -268,7 +268,7 @@ CMStackDir::Receive
 		{
 		const CMLink::SymbolsLoaded* info =
 			dynamic_cast<const CMLink::SymbolsLoaded*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		UpdateWindowTitle(info->GetProgramName());
 		itsWidget->Update();
 		}

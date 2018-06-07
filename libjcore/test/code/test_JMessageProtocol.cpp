@@ -44,13 +44,13 @@ static const JUtf8Byte* serverSend[] =
 {
 	// force break in middle of UTF-8 character
 
-	"1234567890\xC2\xA9\xC3\x85\xC3", "\xA5\xE2\x9C\x94\n", NULL,
+	"1234567890\xC2\xA9\xC3\x85\xC3", "\xA5\xE2\x9C\x94\n", nullptr,
 	"\xC3\xA6\xCF\x86\xCF", "\x83" "me\xC3\x9F\na",
 
 	// test receiving several messages at once
 
-	"bc\nab", "c\ndef\ngih\nke", "r", NULL,
-	NULL
+	"bc\nab", "c\ndef\ngih\nke", "r", nullptr,
+	nullptr
 };
 
 static const JUtf8Byte* message[] =
@@ -62,7 +62,7 @@ static const JUtf8Byte* message[] =
 	"def",
 	"gih",
 	"ker",
-	NULL
+	nullptr
 };
 
 class Base : virtual public JBroadcaster
@@ -141,7 +141,7 @@ private:
 	{
 		std::cout << "server state: " << itsState << std::endl;
 
-		if (serverSend[ itsSendOffset ] == NULL)
+		if (serverSend[ itsSendOffset ] == nullptr)
 			{
 			return;
 			}
@@ -157,14 +157,14 @@ private:
 
 		JAssertStringsEqual(message[ itsState ], msg);
 
-		while (serverSend[ itsSendOffset ] != NULL)
+		while (serverSend[ itsSendOffset ] != nullptr)
 			{
 			itsLink->SendBytes(serverSend[ itsSendOffset ]);
 			itsSendOffset++;
 			JWait(0.5);
 			}
 
-		if (serverSend[ itsSendOffset+1 ] != NULL)	// prepare to send next batch
+		if (serverSend[ itsSendOffset+1 ] != nullptr)	// prepare to send next batch
 			{
 			itsSendOffset++;
 			}
@@ -191,7 +191,7 @@ TestLink::TestLink()
 	if (server)
 	{
 		Server* svr = jnew Server(this);
-		assert( svr != NULL );
+		assert( svr != nullptr );
 	}
 };
 
@@ -208,7 +208,7 @@ void Listen()
 {
 	ACE_UNIX_Addr addr(socketName);
 	TestAcceptor* acc = jnew TestAcceptor();
-	assert( acc != NULL );
+	assert( acc != nullptr );
 	const int result = acc->open(addr);
 	JAssertEqual(0, result);
 }
@@ -231,7 +231,7 @@ private:
 	{
 		std::cout << "client state: " << itsState << std::endl;
 
-		if (message[ itsState ] == NULL)
+		if (message[ itsState ] == nullptr)
 			{
 			return;
 			}
@@ -247,7 +247,7 @@ private:
 		itsState++;
 		itsLink->SendMessage(JString(message[ itsState ], 0, kJFalse));
 
-		if (message[ itsState+1 ] == NULL)
+		if (message[ itsState+1 ] == nullptr)
 			{
 			itsLink->ShouldSendSynch();
 			itsLink->SendDisconnect();
@@ -264,7 +264,7 @@ private:
 void SendAndRecv()
 {
 	TestLink* link = new TestLink;
-	assert( link != NULL );
+	assert( link != nullptr );
 
 	ACE_UNIX_Addr addr(socketName);
 	TestConnector conn;
@@ -272,7 +272,7 @@ void SendAndRecv()
 	JAssertEqual(0, result);
 
 	Client* a = jnew Client(link);
-	assert( a != NULL );
+	assert( a != nullptr );
 }
 
 JTEST(SendRecv)

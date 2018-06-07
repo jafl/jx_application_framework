@@ -28,7 +28,7 @@
 /******************************************************************************
  Constructor
 
-	arrayIndex can be NULL
+	arrayIndex can be nullptr
 
  ******************************************************************************/
 
@@ -76,13 +76,13 @@ JFunctionWithVar::JFunctionWithVar
 	itsVariableList  = source.itsVariableList;
 	itsVariableIndex = source.itsVariableIndex;
 
-	if (source.itsArrayIndex != NULL)
+	if (source.itsArrayIndex != nullptr)
 		{
 		itsArrayIndex = (source.itsArrayIndex)->Copy();
 		}
 	else
 		{
-		itsArrayIndex = NULL;
+		itsArrayIndex = nullptr;
 		}
 
 	itsVariableList->VariableUserCreated(this);
@@ -116,11 +116,11 @@ JFunctionWithVar::SameAs
 		return kJFalse;
 		}
 
-	if (itsArrayIndex == NULL && theFunctionWithVar.itsArrayIndex == NULL)
+	if (itsArrayIndex == nullptr && theFunctionWithVar.itsArrayIndex == nullptr)
 		{
 		return kJTrue;
 		}
-	else if (itsArrayIndex == NULL || theFunctionWithVar.itsArrayIndex == NULL)
+	else if (itsArrayIndex == nullptr || theFunctionWithVar.itsArrayIndex == nullptr)
 		{
 		return kJFalse;
 		}
@@ -145,7 +145,7 @@ JFunctionWithVar::PrintVariable
 	const JString& name = itsVariableList->GetVariableName(itsVariableIndex);
 	name.Print(output);
 
-	if (itsArrayIndex != NULL)
+	if (itsArrayIndex != nullptr)
 		{
 		output << '[';
 		itsArrayIndex->Print(output);
@@ -183,7 +183,7 @@ JFunctionWithVar::EvaluateArrayIndex
 	const
 {
 	JFloat x = 1.0;
-	if (itsArrayIndex != NULL && !itsArrayIndex->Evaluate(&x))
+	if (itsArrayIndex != nullptr && !itsArrayIndex->Evaluate(&x))
 		{
 		return kJFalse;
 		}
@@ -241,7 +241,7 @@ JFunctionWithVar::PrepareToRender
 
 	// add in array index
 
-	if (itsArrayIndex != NULL)
+	if (itsArrayIndex != nullptr)
 		{
 		// get rectangle for array index
 
@@ -308,7 +308,7 @@ JFunctionWithVar::Render
 
 	// draw our array index
 
-	if (itsArrayIndex != NULL)
+	if (itsArrayIndex != nullptr)
 		{
 		itsArrayIndex->Render(renderer, rectList);
 
@@ -425,7 +425,7 @@ JFunctionWithVar::BuildNodeList
 	const JIndex	myNode
 	)
 {
-	if (itsArrayIndex != NULL)
+	if (itsArrayIndex != nullptr)
 		{
 		nodeList->RecurseNodesForFunction(myNode, itsArrayIndex);
 		}

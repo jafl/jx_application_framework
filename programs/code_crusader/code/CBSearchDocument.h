@@ -58,8 +58,8 @@ private:
 	JSize			itsPrevQuoteOffset;		// start of previous quote from file
 
 	JXTextMenu*				itsMatchMenu;
-	JXProgressIndicator*	itsIndicator;	// NULL after ProcessFinished()
-	CBSearchTE*				itsReplaceTE;	// NULL unless replacing
+	JXProgressIndicator*	itsIndicator;	// nullptr after ProcessFinished()
+	CBSearchTE*				itsReplaceTE;	// nullptr unless replacing
 
 private:
 

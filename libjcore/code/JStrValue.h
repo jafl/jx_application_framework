@@ -24,7 +24,7 @@ public:
 
 	JStrValue()
 		:
-		key(NULL)
+		key(nullptr)
 	{ };
 
 	JStrValue

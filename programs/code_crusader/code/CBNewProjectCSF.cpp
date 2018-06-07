@@ -27,7 +27,7 @@ CBNewProjectCSF::CBNewProjectCSF()
 	:
 	JXChooseSaveFile()
 {
-	itsSaveDialog     = NULL;
+	itsSaveDialog     = nullptr;
 	itsMakefileMethod = CBBuildManager::kMakemake;
 
 	SetPrefInfo(CBGetPrefsManager(), kCBNewProjectCSFID);
@@ -85,13 +85,13 @@ CBNewProjectCSF::Receive
 		{
 		const JXDialogDirector::Deactivated* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		if (info->Successful())
 			{
 			itsSaveDialog->GetProjectTemplate(&itsProjectTemplate);
 			itsMakefileMethod = itsSaveDialog->GetMakefileMethod();
 			}
-		itsSaveDialog = NULL;
+		itsSaveDialog = nullptr;
 		}
 
 	JXChooseSaveFile::Receive(sender, message);

@@ -62,7 +62,7 @@ public:
 						   const JBoolean askDebuggerWhenRelPath = kJTrue);
 	void	ReportUnreadableSourceFile(const JCharacter* fileName) const;
 
-	void	DisassembleFunction(const JCharacter* fn, const JCharacter* addr = NULL);
+	void	DisassembleFunction(const JCharacter* fn, const JCharacter* addr = nullptr);
 
 	void	LoadConfig();
 	void	SaveConfig();
@@ -164,7 +164,7 @@ private:
 	JString		itsCurrentCommand;
 	JBoolean	itsWaitingToRunFlag;
 
-	CMGetInitArgs*	itsGetArgsCmd;		// NULL except at startup; deleted by CMLink
+	CMGetInitArgs*	itsGetArgsCmd;		// nullptr except at startup; deleted by CMLink
 
 // begin JXLayout
 

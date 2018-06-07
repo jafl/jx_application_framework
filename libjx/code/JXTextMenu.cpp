@@ -76,7 +76,7 @@ void
 JXTextMenu::JXTextMenuX()
 {
 	itsTextMenuData = jnew JXTextMenuData(this);
-	assert( itsTextMenuData != NULL );
+	assert( itsTextMenuData != nullptr );
 
 	SetBaseItemData(itsTextMenuData);
 }
@@ -489,7 +489,7 @@ JXTextMenu::CreateMenuWindow
 {
 	JXTextMenuDirector* dir =
 		jnew JXTextMenuDirector(supervisor, this, itsTextMenuData);
-	assert( dir != NULL );
+	assert( dir != nullptr );
 	return dir;
 }
 
@@ -510,7 +510,7 @@ JXTextMenu::SetToPopupChoice
 		{
 		JString newTitle = origTitle;
 		newTitle.Append(":");
-		SetTitle(newTitle, NULL, kJFalse);
+		SetTitle(newTitle, nullptr, kJFalse);
 		}
 
 	JXMenu::SetToPopupChoice(isPopup, initialChoice);
@@ -548,7 +548,7 @@ JXTextMenu::AdjustPopupChoiceTitle
 		}
 	newTitle += GetItemText(index);
 
-	const JXImage* image = NULL;
+	const JXImage* image = nullptr;
 	GetItemImage(index, &image);
 
 	SetTitle(newTitle, const_cast<JXImage*>(image), kJFalse);

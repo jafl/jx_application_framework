@@ -27,11 +27,11 @@ main
 	// Create the application object - one per program
 	JXApplication* app = 
 		jnew JXApplication(&argc, argv, kAppSignature, kTutorialStringData);
-	assert( app != NULL );
+	assert( app != nullptr );
 
 	// Create the window director
 	ScrollingWidgetDir* mainDir = jnew ScrollingWidgetDir(app);
-	assert( mainDir != NULL );
+	assert( mainDir != nullptr );
 
 	// Activate the director
 	mainDir->Activate();

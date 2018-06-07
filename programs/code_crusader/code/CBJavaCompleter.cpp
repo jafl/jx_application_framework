@@ -10,7 +10,7 @@
 #include "CBJavaCompleter.h"
 #include <jAssert.h>
 
-CBJavaCompleter* CBJavaCompleter::itsSelf = NULL;
+CBJavaCompleter* CBJavaCompleter::itsSelf = nullptr;
 
 static const JCharacter* kKeywordList[] =
 {
@@ -81,12 +81,12 @@ static JBoolean recursiveInstance = kJFalse;
 CBStringCompleter*
 CBJavaCompleter::Instance()
 {
-	if (itsSelf == NULL && !recursiveInstance)
+	if (itsSelf == nullptr && !recursiveInstance)
 		{
 		recursiveInstance = kJTrue;
 
 		itsSelf = jnew CBJavaCompleter;
-		assert( itsSelf != NULL );
+		assert( itsSelf != nullptr );
 
 		recursiveInstance = kJFalse;
 		}
@@ -123,7 +123,7 @@ CBJavaCompleter::CBJavaCompleter()
 
 CBJavaCompleter::~CBJavaCompleter()
 {
-	itsSelf = NULL;
+	itsSelf = nullptr;
 }
 
 /******************************************************************************

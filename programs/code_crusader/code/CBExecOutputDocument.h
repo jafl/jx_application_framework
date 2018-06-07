@@ -88,13 +88,13 @@ private:
 	JBoolean		itsClearWhenStartFlag;
 	JSize			itsUseCount;
 
-	RecordLink*		itsRecordLink;			// can be NULL
-	DataLink*		itsDataLink;			// can be NULL
-	JOutPipeStream*	itsCmdStream;			// can be NULL
+	RecordLink*		itsRecordLink;			// can be nullptr
+	DataLink*		itsDataLink;			// can be nullptr
+	JOutPipeStream*	itsCmdStream;			// can be nullptr
 	JString			itsLastPrompt;			// latest cmd line prompt (partial message)
 
 	JXTextButton*	itsPauseButton;
-	JXTextButton*	itsStopButton;			// can be NULL
+	JXTextButton*	itsStopButton;			// can be nullptr
 	JXTextButton*	itsKillButton;
 	JXStaticText*	itsCmdPrompt;
 	CBCmdLineInput*	itsCmdInput;
@@ -173,7 +173,7 @@ inline JBoolean
 CBExecOutputDocument::ProcessRunning()
 	const
 {
-	return JI2B( itsProcess != NULL && !itsProcess->IsFinished() );
+	return JI2B( itsProcess != nullptr && !itsProcess->IsFinished() );
 }
 
 /******************************************************************************
@@ -189,7 +189,7 @@ CBExecOutputDocument::GetRecordLink
 	const
 {
 	*link = itsRecordLink;
-	return JI2B( itsRecordLink != NULL );
+	return JI2B( itsRecordLink != nullptr );
 }
 
 /******************************************************************************
@@ -205,7 +205,7 @@ CBExecOutputDocument::GetDataLink
 	const
 {
 	*link = itsDataLink;
-	return JI2B( itsDataLink != NULL );
+	return JI2B( itsDataLink != nullptr );
 }
 
 /******************************************************************************

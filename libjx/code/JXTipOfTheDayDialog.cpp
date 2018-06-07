@@ -51,7 +51,7 @@ JXTipOfTheDayDialog::JXTipOfTheDayDialog
 	JXDialogDirector(JXGetPersistentWindowOwner(), kJFalse)
 {
 	itsTipList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
-	assert( itsTipList != NULL );
+	assert( itsTipList != nullptr );
 
 	itsTipIndex = 1;
 
@@ -86,44 +86,44 @@ JXTipOfTheDayDialog::BuildWindow
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 410,260, JString::empty);
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	JXFlatRect* sideBar =
 		jnew JXFlatRect(window,
 					JXWidget::kFixedLeft, JXWidget::kVElastic, 10,10, 50,200);
-	assert( sideBar != NULL );
+	assert( sideBar != nullptr );
 	sideBar->SetColor(JColorManager::GetInactiveLabelColor());
 
 	itsCloseButton =
 		jnew JXTextButton(JGetString("itsCloseButton::JXTipOfTheDayDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 340,225, 60,20);
-	assert( itsCloseButton != NULL );
+	assert( itsCloseButton != nullptr );
 
 	itsNextTipButton =
 		jnew JXTextButton(JGetString("itsNextTipButton::JXTipOfTheDayDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 260,225, 60,20);
-	assert( itsNextTipButton != NULL );
+	assert( itsNextTipButton != nullptr );
 	itsNextTipButton->SetShortcuts(JGetString("itsNextTipButton::JXTipOfTheDayDialog::shortcuts::JXLayout"));
 
 	JXImageWidget* icon =
 		jnew JXImageWidget(sideBar,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,15, 30,30);
-	assert( icon != NULL );
+	assert( icon != nullptr );
 
 	JXScrollbarSet* scrollbarSet =
 		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 60,60, 340,150);
-	assert( scrollbarSet != NULL );
+	assert( scrollbarSet != nullptr );
 
 	JXStaticText* title =
 		jnew JXStaticText(JGetString("title::JXTipOfTheDayDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 60,10, 340,50);
-	assert( title != NULL );
+	assert( title != nullptr );
 
 	itsShowAtStartupCB =
 		jnew JXTextCheckbox(JGetString("itsShowAtStartupCB::JXTipOfTheDayDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 10,225, 140,20);
-	assert( itsShowAtStartupCB != NULL );
+	assert( itsShowAtStartupCB != nullptr );
 
 // end JXLayout
 
@@ -133,7 +133,7 @@ JXTipOfTheDayDialog::BuildWindow
 
 	JXDisplay* display = GetDisplay();
 	JXImage* wIcon     = jnew JXImage(display, jx_tip_of_the_day);
-	assert( wIcon != NULL );
+	assert( wIcon != nullptr );
 	window->SetIcon(wIcon);
 
 	sideBar->SetColor(JColorManager::GetGrayColor(50));
@@ -153,7 +153,7 @@ JXTipOfTheDayDialog::BuildWindow
 		jnew JXStaticText(JString::empty, kJTrue, kJFalse,
 						 scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 						 JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 100,100);
-	assert( itsText != NULL );
+	assert( itsText != nullptr );
 	itsText->FitToEnclosure();
 	itsText->TESetLeftMarginWidth(5);
 
@@ -253,7 +253,7 @@ JXTipOfTheDayDialog::AddTip
 		}
 
 	JString* s = jnew JString(tip);
-	assert( s != NULL );
+	assert( s != nullptr );
 	itsTipList->Append(s);
 }
 

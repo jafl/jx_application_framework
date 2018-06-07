@@ -27,7 +27,7 @@ DataTableDir::DataTableDir
 {
 	// Create the array that will hold the table's data
 	itsData = jnew JArray<JIndex>;
-	assert(itsData != NULL);
+	assert(itsData != nullptr);
 
 	// Append 3 elements to the array.
 	itsData->AppendElement(4);
@@ -72,7 +72,7 @@ DataTableDir::BuildWindow()
 {
 	// Create the window
 	JXWindow* window = jnew JXWindow(this, 300,200, "Test DataTable Program");
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	// Set sizing
 	window->SetMinSize(300,200);
@@ -82,7 +82,7 @@ DataTableDir::BuildWindow()
 	JXScrollbarSet* scrollbarSet =
 		jnew JXScrollbarSet(window,
 			JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 300,200);
-	assert( scrollbarSet != NULL );
+	assert( scrollbarSet != nullptr );
 
 	// Create our DataTable. It must be placed inside the
 	// special widget that JXScrollbarSet creates.  We get a
@@ -91,6 +91,6 @@ DataTableDir::BuildWindow()
 		jnew DataTable(itsData, scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 			JXWidget::kHElastic, JXWidget::kVElastic,
 			0, 0, 10, 10);
-	assert( table != NULL );
+	assert( table != nullptr );
 	table->FitToEnclosure();
 }

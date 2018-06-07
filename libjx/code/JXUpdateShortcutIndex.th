@@ -16,15 +16,15 @@
 if (list.IsEmpty())
 	{
 	jdelete itsShortcuts;
-	itsShortcuts = NULL;
+	itsShortcuts = nullptr;
 	itsULIndex   = 0;
 	}
 else
 	{
-	if (itsShortcuts == NULL)
+	if (itsShortcuts == nullptr)
 		{
 		itsShortcuts = jnew JString(list);
-		assert( itsShortcuts != NULL );
+		assert( itsShortcuts != nullptr );
 		}
 	else
 		{

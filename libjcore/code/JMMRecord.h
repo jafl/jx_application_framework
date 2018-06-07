@@ -184,7 +184,7 @@ JMMRecord::GetDeleteLine() const
 inline JBoolean
 JMMRecord::IsDeleted() const
 {
-	return JConvertToBoolean(itsDeleteFile != NULL);
+	return JConvertToBoolean(itsDeleteFile != nullptr);
 }
 
 /******************************************************************************

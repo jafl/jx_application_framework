@@ -44,7 +44,7 @@ JXCardFile::JXCardFile
 	JXWidgetSet(enclosure, hSizing, vSizing, x,y, w,h)
 {
 	itsCards = jnew JPtrArray<JXContainer>(JPtrArrayT::kForgetAll);
-	assert( itsCards != NULL );
+	assert( itsCards != nullptr );
 
 	itsCurrCardIndex = 0;
 
@@ -80,7 +80,7 @@ JXCardFile::InsertCard
 	)
 {
 	JXWidgetSet* card = jnew JXWidgetSet(this, kHElastic, kVElastic, 0,0, 10,10);
-	assert( card != NULL );
+	assert( card != nullptr );
 	InsertCard(index, card);
 	return card;
 }
@@ -122,7 +122,7 @@ JXCardFile::RemoveCard
 	)
 {
 	JXWidgetSet* card = dynamic_cast<JXWidgetSet*>(itsCards->GetElement(index));
-	assert( card != NULL );
+	assert( card != nullptr );
 
 	itsCards->RemoveElement(index);
 	Broadcast(CardRemoved(index));

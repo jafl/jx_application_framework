@@ -241,8 +241,8 @@ CBCRMRuleListTable::AddRow()
 		itsLastNewID++;
 		CBPrefsManager::CRMRuleListInfo info(itsLastNewID, jnew JString("New"),
 											 jnew JTextEditor::CRMRuleList);
-		assert( info.name != NULL &&
-				info.list != NULL );
+		assert( info.name != nullptr &&
+				info.list != nullptr );
 		itsCRMList->AppendElement(info);
 
 		JStringTableData* data = GetStringData();

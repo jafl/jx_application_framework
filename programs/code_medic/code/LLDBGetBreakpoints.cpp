@@ -52,7 +52,7 @@ LLDBGetBreakpoints::HandleSuccess
 	)
 {
 	LLDBLink* link = dynamic_cast<LLDBLink*>(CMGetLink());
-	if (link == NULL)
+	if (link == nullptr)
 		{
 		return;
 		}
@@ -102,7 +102,7 @@ LLDBGetBreakpoints::HandleSuccess
 			addr.Clear();
 			}
 
-		if (b.GetCondition() != NULL)
+		if (b.GetCondition() != nullptr)
 			{
 			cond = b.GetCondition();
 			}
@@ -111,14 +111,14 @@ LLDBGetBreakpoints::HandleSuccess
 			cond.Clear();
 			}
 
-		CMBreakpoint* bp = NULL;
+		CMBreakpoint* bp = nullptr;
 		if (file.IsValid())
 			{
 			const JString fullName = JCombinePathAndName(file.GetDirectory(), file.GetFilename());
 			bp = jnew CMBreakpoint(b.GetID(), fullName, e.GetLine(), func, addr,
 								  JI2B(b.IsEnabled()), action,
 								  cond, b.GetIgnoreCount());
-			assert( bp != NULL );
+			assert( bp != nullptr );
 			}
 		else if (fn.IsValid())
 			{
@@ -126,10 +126,10 @@ LLDBGetBreakpoints::HandleSuccess
 			bp = jnew CMBreakpoint(b.GetID(), loc, func, addr,
 								  JI2B(b.IsEnabled()), action,
 								  cond, b.GetIgnoreCount());
-			assert( bp != NULL );
+			assert( bp != nullptr );
 			}
 
-		if (bp != NULL)
+		if (bp != nullptr)
 			{
 			bpList.InsertSorted(bp);
 
@@ -155,7 +155,7 @@ LLDBGetBreakpoints::HandleSuccess
 		CMLocation loc;
 		addr = JString(w.GetWatchAddress(), JString::kBase16);
 
-		if (w.GetCondition() != NULL)
+		if (w.GetCondition() != nullptr)
 			{
 			cond = w.GetCondition();
 			}
@@ -167,7 +167,7 @@ LLDBGetBreakpoints::HandleSuccess
 		CMBreakpoint* bp = jnew CMBreakpoint(w.GetID(), loc, "", addr,
 											JI2B(w.IsEnabled()), CMBreakpoint::kKeepBreakpoint,
 											cond, w.GetIgnoreCount());
-		assert( bp != NULL );
+		assert( bp != nullptr );
 		bpList.InsertSorted(bp);
 		}
 

@@ -55,7 +55,7 @@ TestTextEditor::TestTextEditor
 		}
 
 	itsPrinter = jnew JXPSPrinter(GetDisplay());
-	assert( itsPrinter != NULL );
+	assert( itsPrinter != nullptr );
 	SetPSPrinter(itsPrinter);
 
 	// adjust the edit menu
@@ -109,7 +109,7 @@ TestTextEditor::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		if (HandleCustomEditMenuItems(selection->GetIndex()))
 			{
 			return;

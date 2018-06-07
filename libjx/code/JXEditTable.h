@@ -53,8 +53,8 @@ protected:
 
 private:
 
-	JXInputField*	itsInputField;		// used for edit-in-place; can be NULL; not owned
-	JXInputField*	itsEditMenuHandler;	// maintains Edit menu; can be NULL
+	JXInputField*	itsInputField;		// used for edit-in-place; can be nullptr; not owned
+	JXInputField*	itsEditMenuHandler;	// maintains Edit menu; can be nullptr
 
 private:
 
@@ -80,7 +80,7 @@ JXEditTable::GetXInputField
 	const
 {
 	*inputField = itsInputField;
-	return JConvertToBoolean( itsInputField != NULL );
+	return JConvertToBoolean( itsInputField != nullptr );
 }
 
 #endif

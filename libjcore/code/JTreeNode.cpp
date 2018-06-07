@@ -17,8 +17,8 @@
 /******************************************************************************
  Constructor
 
-	tree can be NULL.  By not providing a constructor that takes a parent,
-	we allow tree to be NULL, and we allow JNamedTreeList to keep a sorted
+	tree can be nullptr.  By not providing a constructor that takes a parent,
+	we allow tree to be nullptr, and we allow JNamedTreeList to keep a sorted
 	list of nodes.
 
  ******************************************************************************/
@@ -33,9 +33,9 @@ JTreeNode::JTreeNode
 	itsIsDestructingFlag(kJFalse)
 {
 	itsTree      = tree;
-	itsParent    = NULL;
-	itsChildren  = NULL;
-	itsCompareFn = NULL;
+	itsParent    = nullptr;
+	itsChildren  = nullptr;
+	itsCompareFn = nullptr;
 	itsSortOrder = JListT::kSortAscending;
 }
 
@@ -51,7 +51,7 @@ JTreeNode::~JTreeNode()
 	DeleteAllChildren();
 	DisconnectFromParent();
 
-	if (itsTree != NULL)
+	if (itsTree != nullptr)
 		{
 		itsTree->BroadcastDelete(this);
 		}
@@ -66,8 +66,8 @@ JBoolean
 JTreeNode::IsRoot()
 	const
 {
-	return JI2B( (itsTree != NULL && itsTree->GetRoot() == this) ||
-				 (itsTree == NULL && itsParent == NULL) );
+	return JI2B( (itsTree != nullptr && itsTree->GetRoot() == this) ||
+				 (itsTree == nullptr && itsParent == nullptr) );
 }
 
 /******************************************************************************
@@ -78,7 +78,7 @@ JTreeNode::IsRoot()
 JTree*
 JTreeNode::GetTree()
 {
-	assert( itsTree != NULL );
+	assert( itsTree != nullptr );
 	return itsTree;
 }
 
@@ -86,7 +86,7 @@ const JTree*
 JTreeNode::GetTree()
 	const
 {
-	assert( itsTree != NULL );
+	assert( itsTree != nullptr );
 	return itsTree;
 }
 
@@ -104,7 +104,7 @@ JTreeNode::SetTree
 	if (!itsIsDestructingFlag && tree != itsTree)
 		{
 		itsTree = tree;
-		if (itsChildren != NULL)
+		if (itsChildren != nullptr)
 			{
 			const JSize count = itsChildren->GetElementCount();
 			for (JIndex i=1; i<=count; i++)
@@ -123,7 +123,7 @@ JTreeNode::SetTree
 JTreeNode*
 JTreeNode::GetParent()
 {
-	assert( itsParent != NULL );
+	assert( itsParent != nullptr );
 	return itsParent;
 }
 
@@ -131,7 +131,7 @@ const JTreeNode*
 JTreeNode::GetParent()
 	const
 {
-	assert( itsParent != NULL );
+	assert( itsParent != nullptr );
 	return itsParent;
 }
 
@@ -167,7 +167,7 @@ JTreeNode::ShouldBeOpenable
 			DeleteAllChildren();
 			}
 		itsIsOpenableFlag = openable;
-		if (itsTree != NULL)
+		if (itsTree != nullptr)
 			{
 			itsTree->BroadcastChange(this);
 			}
@@ -199,7 +199,7 @@ JTreeNode::GetIndexInParent
 	)
 	const
 {
-	if (itsParent != NULL)
+	if (itsParent != nullptr)
 		{
 		const JBoolean found = itsParent->FindChild(this, index);
 		assert( found );
@@ -222,7 +222,7 @@ JTreeNode::GetIndexInParent
 void
 JTreeNode::DisconnectFromParent()
 {
-	if (itsParent != NULL)
+	if (itsParent != nullptr)
 		{
 		itsParent->Remove(this);
 		}
@@ -240,7 +240,7 @@ JTreeNode::GetDescendantCount()
 	const
 {
 	JSize count = 0;
-	if (itsChildren != NULL)
+	if (itsChildren != nullptr)
 		{
 		const JSize childCount = itsChildren->GetElementCount();
 		for (JIndex i=1; i<=childCount; i++)
@@ -266,7 +266,7 @@ JTreeNode::CollectDescendants
 	JPtrArray<JTreeNode>* list
 	)
 {
-	if (itsChildren != NULL)
+	if (itsChildren != nullptr)
 		{
 		list->SetCleanUpAction(JPtrArrayT::kForgetAll);
 
@@ -295,7 +295,7 @@ JTreeNode::GetChild
 	const JIndex index
 	)
 {
-	assert( itsChildren != NULL );
+	assert( itsChildren != nullptr );
 	return itsChildren->GetElement(index);
 }
 
@@ -306,7 +306,7 @@ JTreeNode::GetChild
 	)
 	const
 {
-	assert( itsChildren != NULL );
+	assert( itsChildren != nullptr );
 	return itsChildren->GetElement(index);
 }
 
@@ -409,7 +409,7 @@ JTreeNode::SetChildCompareFunction
 		itsCompareFn = compareFn;
 		itsSortOrder = order;
 
-		if (itsChildren != NULL)
+		if (itsChildren != nullptr)
 			{
 			itsChildren->SetCompareFunction(compareFn);
 			itsChildren->SetSortOrder(order);
@@ -440,14 +440,14 @@ JTreeNode::SortChildren
 	const JBoolean propagate
 	)
 {
-	if (itsChildren != NULL && itsCompareFn != NULL)
+	if (itsChildren != nullptr && itsCompareFn != nullptr)
 		{
-		if (itsTree != NULL)
+		if (itsTree != nullptr)
 			{
 			ListenTo(itsChildren);
 			}
 		itsChildren->Sort();
-		if (itsTree != NULL)
+		if (itsTree != nullptr)
 			{
 			StopListening(itsChildren);
 			}
@@ -467,7 +467,7 @@ JTreeNode::SortChildren
  Receive (virtual protected)
 
 	We have to broadcast messages while itsChildren is sorted.
-	We only get these messages if itsTree != NULL.
+	We only get these messages if itsTree != nullptr.
 
  ******************************************************************************/
 
@@ -480,11 +480,11 @@ JTreeNode::Receive
 {
 	if (sender == itsChildren && message.Is(JListT::kElementMoved))
 		{
-		assert( itsTree != NULL );
+		assert( itsTree != nullptr );
 
 		const JListT::ElementMoved* info =
 			dynamic_cast<const JListT::ElementMoved*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 
 		const JIndex origIndex = info->GetOrigIndex();
 		const JIndex newIndex  = info->GetNewIndex();
@@ -525,10 +525,10 @@ JTreeNode::SetParent
 	JTreeNode* parent
 	)
 {
-	assert( parent != NULL );
+	assert( parent != nullptr );
 
 	JBoolean isMove = kJFalse;
-	if (itsTree != NULL && itsParent != NULL && parent->itsTree == itsTree)
+	if (itsTree != nullptr && itsParent != nullptr && parent->itsTree == itsTree)
 		{
 		isMove = kJTrue;
 		itsTree->BroadcastPrepareForMove(this);
@@ -549,10 +549,10 @@ JTreeNode::SetParent
 void
 JTreeNode::CreateChildList()
 {
-	if (itsChildren == NULL)
+	if (itsChildren == nullptr)
 		{
 		itsChildren = jnew JPtrArray<JTreeNode>(JPtrArrayT::kForgetAll);
-		assert( itsChildren != NULL );
+		assert( itsChildren != nullptr );
 		itsChildren->SetCompareFunction(itsCompareFn);
 		itsChildren->SetSortOrder(itsSortOrder);
 
@@ -572,7 +572,7 @@ JTreeNode::BroadcastInsertChild
 	const JBoolean	isMove
 	)
 {
-	if (itsTree != NULL && itsChildren != NULL)
+	if (itsTree != nullptr && itsChildren != nullptr)
 		{
 		JIndex index;
 		const JBoolean found = itsChildren->Find(child, &index);
@@ -598,14 +598,14 @@ JTreeNode::Remove
 	)
 {
 	JIndex index;
-	if (!itsIsDestructingFlag && itsChildren != NULL &&
+	if (!itsIsDestructingFlag && itsChildren != nullptr &&
 		itsChildren->Find(child, &index))
 		{
-		child->itsParent = NULL;
-		child->SetTree(NULL);
+		child->itsParent = nullptr;
+		child->SetTree(nullptr);
 
 		itsChildren->RemoveElement(index);
-		if (itsTree != NULL)
+		if (itsTree != nullptr)
 			{
 			itsTree->BroadcastRemove(child);
 			}
@@ -613,7 +613,7 @@ JTreeNode::Remove
 		if (itsChildren->IsEmpty())
 			{
 			jdelete itsChildren;
-			itsChildren = NULL;
+			itsChildren = nullptr;
 			}
 		}
 }
@@ -626,7 +626,7 @@ JTreeNode::Remove
 void
 JTreeNode::DeleteAllChildren()
 {
-	if (itsChildren != NULL)
+	if (itsChildren != nullptr)
 		{
 		const JSize count = itsChildren->GetElementCount();
 		for (JIndex i=count; i>=1; i--)
@@ -635,6 +635,6 @@ JTreeNode::DeleteAllChildren()
 			}
 
 		jdelete itsChildren;
-		itsChildren = NULL;
+		itsChildren = nullptr;
 		}
 }

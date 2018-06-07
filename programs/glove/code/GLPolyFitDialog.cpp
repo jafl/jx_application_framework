@@ -41,7 +41,7 @@ GLPolyFitDialog::GLPolyFitDialog
 	JXDialogDirector(supervisor, kJTrue)
 {
 	itsVarList	= jnew GVarList();
-	assert(itsVarList != NULL);
+	assert(itsVarList != nullptr);
 
 	itsVarList->AddVariable("x", 0);
 	const JSize count	= 10;
@@ -77,95 +77,95 @@ GLPolyFitDialog::BuildWindow()
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 380,450, "");
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	JXScrollbarSet* scrollbarSet =
 		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 20,40, 340,100);
-	assert( scrollbarSet != NULL );
+	assert( scrollbarSet != nullptr );
 
 	itsCB[0] =
 		jnew JXTextCheckbox(JGetString("itsCB[0]::GLPolyFitDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kVElastic, 185,155, 110,20);
-	assert( itsCB[0] != NULL );
+	assert( itsCB[0] != nullptr );
 
 	itsCB[1] =
 		jnew JXTextCheckbox(JGetString("itsCB[1]::GLPolyFitDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kVElastic, 185,180, 110,20);
-	assert( itsCB[1] != NULL );
+	assert( itsCB[1] != nullptr );
 
 	itsCB[2] =
 		jnew JXTextCheckbox(JGetString("itsCB[2]::GLPolyFitDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kVElastic, 185,205, 110,20);
-	assert( itsCB[2] != NULL );
+	assert( itsCB[2] != nullptr );
 
 	itsCB[3] =
 		jnew JXTextCheckbox(JGetString("itsCB[3]::GLPolyFitDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kVElastic, 185,230, 110,20);
-	assert( itsCB[3] != NULL );
+	assert( itsCB[3] != nullptr );
 
 	itsCB[4] =
 		jnew JXTextCheckbox(JGetString("itsCB[4]::GLPolyFitDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kVElastic, 185,255, 110,20);
-	assert( itsCB[4] != NULL );
+	assert( itsCB[4] != nullptr );
 
 	itsCB[5] =
 		jnew JXTextCheckbox(JGetString("itsCB[5]::GLPolyFitDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kVElastic, 185,280, 110,20);
-	assert( itsCB[5] != NULL );
+	assert( itsCB[5] != nullptr );
 
 	itsCB[6] =
 		jnew JXTextCheckbox(JGetString("itsCB[6]::GLPolyFitDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kVElastic, 185,305, 110,20);
-	assert( itsCB[6] != NULL );
+	assert( itsCB[6] != nullptr );
 
 	itsCB[7] =
 		jnew JXTextCheckbox(JGetString("itsCB[7]::GLPolyFitDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kVElastic, 185,330, 110,20);
-	assert( itsCB[7] != NULL );
+	assert( itsCB[7] != nullptr );
 
 	itsCB[8] =
 		jnew JXTextCheckbox(JGetString("itsCB[8]::GLPolyFitDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kVElastic, 185,355, 110,20);
-	assert( itsCB[8] != NULL );
+	assert( itsCB[8] != nullptr );
 
 	itsCB[9] =
 		jnew JXTextCheckbox(JGetString("itsCB[9]::GLPolyFitDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kVElastic, 185,380, 110,20);
-	assert( itsCB[9] != NULL );
+	assert( itsCB[9] != nullptr );
 
 	JXStaticText* powersLabel =
 		jnew JXStaticText(JGetString("powersLabel::GLPolyFitDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kVElastic, 90,158, 65,20);
-	assert( powersLabel != NULL );
+	assert( powersLabel != nullptr );
 	powersLabel->SetToLabel();
 
 	JXTextButton* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::GLPolyFitDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kVElastic, 25,415, 70,20);
-	assert( cancelButton != NULL );
+	assert( cancelButton != nullptr );
 	cancelButton->SetShortcuts(JGetString("cancelButton::GLPolyFitDialog::shortcuts::JXLayout"));
 
 	itsHelpButton =
 		jnew JXTextButton(JGetString("itsHelpButton::GLPolyFitDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kVElastic, 155,415, 70,20);
-	assert( itsHelpButton != NULL );
+	assert( itsHelpButton != nullptr );
 
 	JXTextButton* okButton =
 		jnew JXTextButton(JGetString("okButton::GLPolyFitDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kVElastic, 285,415, 70,20);
-	assert( okButton != NULL );
+	assert( okButton != nullptr );
 	okButton->SetShortcuts(JGetString("okButton::GLPolyFitDialog::shortcuts::JXLayout"));
 
 	itsNameInput =
 		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 90,15, 270,20);
-	assert( itsNameInput != NULL );
+	assert( itsNameInput != nullptr );
 
 	JXStaticText* fitNameLabel =
 		jnew JXStaticText(JGetString("fitNameLabel::GLPolyFitDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 20,15, 65,20);
-	assert( fitNameLabel != NULL );
+	assert( fitNameLabel != nullptr );
 	fitNameLabel->SetToLabel();
 
 // end JXLayout
@@ -176,7 +176,7 @@ GLPolyFitDialog::BuildWindow()
 			scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 			JXWidget::kHElastic, JXWidget::kVElastic,
 			0, 0, 100, 100);
-	assert(itsFn != NULL);
+	assert(itsFn != nullptr);
 	itsFn->FitToEnclosure(kJTrue, kJTrue);
 	itsFn->Hide();
 

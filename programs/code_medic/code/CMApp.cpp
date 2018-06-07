@@ -61,10 +61,10 @@ CMApp::CMApp
 		}
 
 	CMMDIServer* mdi = jnew CMMDIServer;		// deleted by jXGlobals
-	assert( mdi != NULL );
+	assert( mdi != nullptr );
 
 	CMQuitTask* task = jnew CMQuitTask();
-	assert( task != NULL );
+	assert( task != nullptr );
 	task->Start();
 }
 
@@ -122,7 +122,7 @@ CMApp::EditFile
 /******************************************************************************
  DisplayAbout
 
-	prevVersStr can be NULL.
+	prevVersStr can be nullptr.
 
  ******************************************************************************/
 
@@ -134,13 +134,13 @@ CMApp::DisplayAbout
 	)
 {
 	CMAboutDialog* dlog = jnew CMAboutDialog(this, prevVersStr);
-	assert( dlog != NULL );
+	assert( dlog != nullptr );
 	dlog->BeginDialog();
 
 	if (init && JString::IsEmpty(prevVersStr))
 		{
 		JXAskInitDockAll* task = jnew JXAskInitDockAll(dlog);
-		assert( task != NULL );
+		assert( task != nullptr );
 		task->Start();
 		}
 }
@@ -154,7 +154,7 @@ JBoolean
 CMApp::HandleCustomEvent()
 {
 	LLDBLink* link = dynamic_cast<LLDBLink*>(CMGetLink());
-	if (link != NULL)
+	if (link != nullptr)
 		{
 		link->HandleLLDBEvent();
 		}

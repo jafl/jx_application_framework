@@ -129,17 +129,17 @@ void
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 500,300, "");
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	JXMenuBar* menuBar =
 		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 500,30);
-	assert( menuBar != NULL );
+	assert( menuBar != nullptr );
 
 	itsToolBar =
 		jnew JXToolBar(<PRE>GetPrefsManager(), k<PRE>MainToolBarID, menuBar, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 500,270);
-	assert( itsToolBar != NULL );
+	assert( itsToolBar != nullptr );
 
 // end JXLayout
 
@@ -148,14 +148,14 @@ void
 	window->SetMinSize(200, 200);
 
 	JXImage* image = jnew JXImage(GetDisplay(), <pre>_main_window_icon);
-	assert( image != NULL );
+	assert( image != nullptr );
 	window->SetIcon(image);
 
 	JXScrollbarSet* scrollbarSet =
 		jnew JXScrollbarSet(itsToolBar->GetWidgetEnclosure(),
 						   JXWidget::kHElastic,JXWidget::kVElastic,
 						   0,0, 100,100);
-	assert( scrollbarSet != NULL );
+	assert( scrollbarSet != nullptr );
 	scrollbarSet->FitToEnclosure();
 
 	JXStaticText* widget =
@@ -163,7 +163,7 @@ void
 						 scrollbarSet->GetScrollEnclosure(),
 						 JXWidget::kHElastic, JXWidget::kVElastic,
 						 0,0, 100,100);
-	assert( widget != NULL );
+	assert( widget != nullptr );
 	widget->FitToEnclosure();
 	widget->SetBackColor(GetColormap()->GetWhiteColor());
 	widget->SetBorderWidth(2);
@@ -222,7 +222,7 @@ void
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleFileMenu(selection->GetIndex());
 		}
 
@@ -234,7 +234,7 @@ void
 		{
 		 const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandlePrefsMenu(selection->GetIndex());
 		}
 
@@ -246,7 +246,7 @@ void
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleHelpMenu(selection->GetIndex());
 		}
 

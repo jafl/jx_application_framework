@@ -47,7 +47,7 @@ private:
 	JHashTable<JMMRecord>*	itsAllocatedTable;
 	JSize					itsAllocatedBytes;
 	JHashTable<JMMRecord>*	itsDeletedTable;
-	JSize					itsDeletedCount;	// used if itsDeletedTable==NULL
+	JSize					itsDeletedCount;	// used if itsDeletedTable==nullptr
 
 private:
 

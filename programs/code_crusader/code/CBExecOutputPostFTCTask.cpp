@@ -46,7 +46,7 @@ CBExecOutputPostFTCTask::~CBExecOutputPostFTCTask()
 void
 CBExecOutputPostFTCTask::Perform()
 {
-	if (itsDoc != NULL)
+	if (itsDoc != nullptr)
 		{
 		itsDoc->PlaceCmdLineWidgets();
 		}

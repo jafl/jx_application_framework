@@ -127,10 +127,10 @@ private:
 	JXTextMenu*				itsCurveOptionsMenu;
 	JIndex					itsCurveOptionsIndex;
 
-	JXPSPrinter*			itsPSPrinter;		// not owned; can be NULL
+	JXPSPrinter*			itsPSPrinter;		// not owned; can be nullptr
 	JString					itsPSPrintName;		// file name when printing to a file
 
-	JX2DPlotEPSPrinter*		itsEPSPrinter;		// not owned; can be NULL
+	JX2DPlotEPSPrinter*		itsEPSPrinter;		// not owned; can be nullptr
 	JString					itsEPSPlotName;		// output file name
 	JRect					itsEPSPlotBounds;	// bounding rect when printed
 	JString					itsEPSMarksName;	// output file name

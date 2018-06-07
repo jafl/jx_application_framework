@@ -26,7 +26,7 @@ void
 JXMacWinPrefsDialog::EditPrefs()
 {
 	JXMacWinPrefsDialog* dlog = jnew JXMacWinPrefsDialog;
-	assert( dlog != NULL );
+	assert( dlog != nullptr );
 	dlog->BeginDialog();
 }
 
@@ -63,50 +63,50 @@ JXMacWinPrefsDialog::BuildWindow()
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 350,230, JString::empty);
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	JXTextButton* okButton =
 		jnew JXTextButton(JGetString("okButton::JXMacWinPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 210,200, 60,20);
-	assert( okButton != NULL );
+	assert( okButton != nullptr );
 	okButton->SetShortcuts(JGetString("okButton::JXMacWinPrefsDialog::shortcuts::JXLayout"));
 
 	JXTextButton* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::JXMacWinPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 80,200, 60,20);
-	assert( cancelButton != NULL );
+	assert( cancelButton != nullptr );
 
 	itsMacStyleCB =
 		jnew JXTextCheckbox(JGetString("itsMacStyleCB::JXMacWinPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 320,20);
-	assert( itsMacStyleCB != NULL );
+	assert( itsMacStyleCB != nullptr );
 
 	itsHomeEndCB =
 		jnew JXTextCheckbox(JGetString("itsHomeEndCB::JXMacWinPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,70, 320,20);
-	assert( itsHomeEndCB != NULL );
+	assert( itsHomeEndCB != nullptr );
 
 	JXStaticText* restartHint =
 		jnew JXStaticText(JGetString("restartHint::JXMacWinPrefsDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 40,40, 300,20);
-	assert( restartHint != NULL );
+	assert( restartHint != nullptr );
 	restartHint->SetFontSize(JFontManager::GetDefaultFontSize()-2);
 	restartHint->SetToLabel();
 
 	itsScrollCaretCB =
 		jnew JXTextCheckbox(JGetString("itsScrollCaretCB::JXMacWinPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,100, 320,20);
-	assert( itsScrollCaretCB != NULL );
+	assert( itsScrollCaretCB != nullptr );
 
 	itsCopyWhenSelectCB =
 		jnew JXTextCheckbox(JGetString("itsCopyWhenSelectCB::JXMacWinPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,130, 320,20);
-	assert( itsCopyWhenSelectCB != NULL );
+	assert( itsCopyWhenSelectCB != nullptr );
 
 	itsFocusInDockCB =
 		jnew JXTextCheckbox(JGetString("itsFocusInDockCB::JXMacWinPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,160, 320,20);
-	assert( itsFocusInDockCB != NULL );
+	assert( itsFocusInDockCB != nullptr );
 
 // end JXLayout
 
@@ -136,7 +136,7 @@ JXMacWinPrefsDialog::Receive
 		{
 		const JXDialogDirector::Deactivated* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		if (info->Successful())
 			{
 			UpdateSettings();

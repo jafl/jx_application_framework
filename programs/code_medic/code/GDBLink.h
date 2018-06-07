@@ -181,11 +181,11 @@ private:
 private:
 
 	JString			itsDebuggerCmd;
-	JProcess*		itsDebuggerProcess;			// can be NULL
-	JProcess*		itsChildProcess;			// NULL until aquired pid
+	JProcess*		itsDebuggerProcess;			// can be nullptr
+	JProcess*		itsChildProcess;			// nullptr until aquired pid
 
-	ProcessLink*	itsOutputLink;				// NULL if debugger not started
-	ProcessLink*	itsInputLink;				// NULL if debugger not started
+	ProcessLink*	itsOutputLink;				// nullptr if debugger not started
+	ProcessLink*	itsInputLink;				// nullptr if debugger not started
 
 	JString			itsProgramName;				// from "info file"
 	JString			itsCoreName;				// from "info file"

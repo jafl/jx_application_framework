@@ -112,7 +112,7 @@ JPTPrinter::Print
 	)
 {
 	std::ostream* dataOutput  = &trueOutput;
-	std::ofstream* tempOutput = NULL;
+	std::ofstream* tempOutput = nullptr;
 	JString tempName;
 	if (itsPrintReverseOrderFlag)
 		{
@@ -122,7 +122,7 @@ JPTPrinter::Print
 			}
 
 		tempOutput = jnew std::ofstream(tempName.GetBytes());
-		assert( tempOutput != NULL );
+		assert( tempOutput != nullptr );
 		if (tempOutput->bad())
 			{
 			jdelete tempOutput;

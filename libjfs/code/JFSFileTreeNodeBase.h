@@ -22,7 +22,7 @@ public:
 	virtual ~JFSFileTreeNodeBase();
 
 	virtual JBoolean	Update(const JBoolean force = kJFalse,
-							   JFSFileTreeNodeBase** updateNode = NULL);
+							   JFSFileTreeNodeBase** updateNode = nullptr);
 
 	virtual JBoolean	GetDirInfo(JDirInfo** info) = 0;
 	virtual JBoolean	GetDirInfo(const JDirInfo** info) const = 0;

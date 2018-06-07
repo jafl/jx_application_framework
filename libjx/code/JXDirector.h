@@ -111,7 +111,7 @@ inline JBoolean
 JXDirector::HasSubdirectors()
 	const
 {
-	return JI2B( itsSubdirectors != NULL && !itsSubdirectors->IsEmpty() );
+	return JI2B( itsSubdirectors != nullptr && !itsSubdirectors->IsEmpty() );
 }
 
 /******************************************************************************

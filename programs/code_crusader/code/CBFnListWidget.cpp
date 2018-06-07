@@ -94,7 +94,7 @@ CBFnListWidget::CBFnListWidgetX
 	itsTreeWidget = treeWidget;
 
 	itsFnNames = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
-	assert( itsFnNames != NULL );
+	assert( itsFnNames != nullptr );
 	itsFnNames->SetCompareFunction(JCompareStringsCaseInsensitive);
 	itsFnNames->SetSortOrder(JListT::kSortAscending);
 
@@ -103,9 +103,9 @@ CBFnListWidget::CBFnListWidgetX
 	itsHasImagesFlag = kJFalse;
 
 	itsImageList = jnew JPtrArray<JXImage>(JPtrArrayT::kForgetAll);
-	assert( itsImageList != NULL );
+	assert( itsImageList != nullptr );
 
-	itsFnMenu     = NULL;
+	itsFnMenu     = nullptr;
 	itsMenuButton = kJXLeftButton;
 
 	// must be last to avoid crash in Receive()
@@ -567,7 +567,7 @@ CBFnListWidget::CopySelectedFunctionNames()
 			}
 
 		JXTextSelection* data = jnew JXTextSelection(GetDisplay(), list);
-		assert( data != NULL );
+		assert( data != nullptr );
 
 		GetSelectionManager()->SetData(kJXClipboardName, data);
 		}
@@ -582,7 +582,7 @@ JBoolean
 CBFnListWidget::Reconnect()
 {
 	CBTree* tree            = itsTreeWidget->GetTree();
-	const CBClass* newClass = NULL;
+	const CBClass* newClass = nullptr;
 	if (tree->FindClass(itsClassName, &newClass))
 		{
 		InstallClass(newClass);
@@ -663,7 +663,7 @@ CBFnListWidget::BuildFnList1
 			}
 
 		JString* s = jnew JString(theClass->GetFunctionName(i));
-		assert( s != NULL );
+		assert( s != nullptr );
 		JIndex insertionIndex;
 		if (!names->InsertSorted(s, kJFalse, &insertionIndex))
 			{
@@ -690,7 +690,7 @@ CBFnListWidget::BuildFnList1
 			}
 		else
 			{
-			itsImageList->InsertElementAtIndex(insertionIndex, (JXImage*) NULL);
+			itsImageList->InsertElementAtIndex(insertionIndex, (JXImage*) nullptr);
 			}
 
 		JFontStyle style(bold, !isImplemented, 0, kJFalse);
@@ -767,7 +767,7 @@ CBFnListWidget::TableDrawCell
 	if (itsHasImagesFlag)
 		{
 		JXImage* image = itsImageList->GetElement(cell.y);
-		if (image != NULL)
+		if (image != nullptr)
 			{
 			JPoint pt(rect.topLeft());
 			pt.x += kHSpacing / 2;
@@ -805,13 +805,13 @@ CBFnListWidget::PrepareFunctionMenu
 		menu->SetItemFontStyle(i, GetStyle(i));
 
 		JXImage* image = itsImageList->GetElement(i);
-		if (image != NULL)
+		if (image != nullptr)
 			{
 			menu->SetItemImage(i, image, kJFalse);
 			}
 		}
 
-	if (itsFnMenu != NULL)
+	if (itsFnMenu != nullptr)
 		{
 		StopListening(itsFnMenu);
 		}
@@ -841,7 +841,7 @@ CBFnListWidget::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleDoubleClick(itsMenuButton, selection->GetIndex());
 		}
 

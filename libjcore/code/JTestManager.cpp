@@ -13,7 +13,7 @@
 #include <JError.h>
 #include <jAssert.h>
 
-static JTestManager* theManager = NULL;
+static JTestManager* theManager = nullptr;
 
 /******************************************************************************
  Instance
@@ -23,10 +23,10 @@ static JTestManager* theManager = NULL;
 JTestManager*
 JTestManager::Instance()
 {
-	if (theManager == NULL)
+	if (theManager == nullptr)
 		{
 		theManager = new JTestManager();
-		assert( theManager != NULL );
+		assert( theManager != nullptr );
 		}
 
 	return theManager;
@@ -39,7 +39,7 @@ JTestManager::Instance()
 
 JTestManager::JTestManager()
 	:
-	itsCurrentTestName(NULL),
+	itsCurrentTestName(nullptr),
 	itsTestCount(0),
 	itsFailureCount(0)
 {
@@ -152,14 +152,14 @@ JTestManager::IsNull
 	const JUtf8Byte*	msg
 	)
 {
-	if (ptr == NULL)
+	if (ptr == nullptr)
 		{
 		return kJTrue;
 		}
 	else
 		{
 		std::ostringstream s;
-		if (msg != NULL)
+		if (msg != nullptr)
 			{
 			s << msg << ": ";
 			}
@@ -185,14 +185,14 @@ JTestManager::IsNotNull
 	const JUtf8Byte*	msg
 	)
 {
-	if (ptr != NULL)
+	if (ptr != nullptr)
 		{
 		return kJTrue;
 		}
 	else
 		{
 		std::ostringstream s;
-		if (msg != NULL)
+		if (msg != nullptr)
 			{
 			s << msg << ": ";
 			}
@@ -225,7 +225,7 @@ JTestManager::IsTrue
 	else
 		{
 		std::ostringstream s;
-		if (msg != NULL)
+		if (msg != nullptr)
 			{
 			s << msg << ": ";
 			}
@@ -258,7 +258,7 @@ JTestManager::IsFalse
 	else
 		{
 		std::ostringstream s;
-		if (msg != NULL)
+		if (msg != nullptr)
 			{
 			s << msg << ": ";
 			}
@@ -322,7 +322,7 @@ JTestManager::StringsAreEqual
 	else
 		{
 		std::ostringstream s;
-		if (msg != NULL)
+		if (msg != nullptr)
 			{
 			s << msg << ": ";
 			}

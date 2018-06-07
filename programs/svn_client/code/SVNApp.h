@@ -18,7 +18,7 @@ public:
 
 	virtual	~SVNApp();
 
-	void	DisplayAbout(const JCharacter* prevVersStr = NULL);
+	void	DisplayAbout(const JCharacter* prevVersStr = nullptr);
 
 	void	ReloadOpenFilesInIDE();
 

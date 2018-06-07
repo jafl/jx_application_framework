@@ -133,7 +133,7 @@ private:
 	IdleTaskStack*			itsIdleTaskStack;
 
 	JPtrArray<JXUrgentTask>*	itsUrgentTasks;
-	JPtrArray<JXUrgentTask>*	itsRunningUrgentTasks;	// usually NULL; not owned
+	JPtrArray<JXUrgentTask>*	itsRunningUrgentTasks;	// usually nullptr; not owned
 	JBoolean					itsHasBlockingWindowFlag;
 	JBoolean					itsHadBlockingWindowFlag;
 

@@ -52,10 +52,10 @@ CBFileDragSource::CBFileDragSource
 	itsDoc(doc)
 {
 	JXImage* icon = jnew JXImage(GetDisplay(), jx_plain_file_small);
-	assert( icon != NULL );
+	assert( icon != nullptr );
 	SetImage(icon, kJTrue);
 
-	ProvideDirectSave(NULL);
+	ProvideDirectSave(nullptr);
 }
 
 /******************************************************************************
@@ -79,8 +79,8 @@ CBFileDragSource::AdjustCursor
 	const JXKeyModifiers&	modifiers
 	)
 {
-	if ((itsNameInput == NULL && !itsDoc->ExistsOnDisk()) ||
-		(itsNameInput != NULL &&
+	if ((itsNameInput == nullptr && !itsDoc->ExistsOnDisk()) ||
+		(itsNameInput != nullptr &&
 		 (itsNameInput->GetText()).EndsWith(ACE_DIRECTORY_SEPARATOR_STR)))
 		{
 		DisplayCursor(kJXInactiveCursor);
@@ -88,11 +88,11 @@ CBFileDragSource::AdjustCursor
 		}
 	else
 		{
-		if (itsNameInput != NULL && itsNameInput->IsEmpty())
+		if (itsNameInput != nullptr && itsNameInput->IsEmpty())
 			{
 			SetHint(JGetString(kHowToXDS2HintID));
 			}
-		else if (itsNameInput != NULL)
+		else if (itsNameInput != nullptr)
 			{
 			SetHint(JGetString(kXDSHintID));
 			}
@@ -126,24 +126,24 @@ CBFileDragSource::HandleMouseDown
 		{
 		(JXGetWebBrowser())->ShowFileLocation(fileName);
 		}
-	else if (itsNameInput == NULL && onDisk)
+	else if (itsNameInput == nullptr && onDisk)
 		{
 		JPtrArray<JString> list(JPtrArrayT::kForgetAll);
 		list.Append(&fileName);
 
 		JXFileSelection* data = jnew JXFileSelection(GetDisplay(), list);
-		assert( data != NULL );
+		assert( data != nullptr );
 
 		BeginDND(pt, buttonStates, modifiers, data);
 		}
-	else if (itsNameInput != NULL &&
+	else if (itsNameInput != nullptr &&
 			 !(itsNameInput->GetText()).EndsWith(ACE_DIRECTORY_SEPARATOR_STR))
 		{
 		CBDSSFinishSaveTask* task = jnew CBDSSFinishSaveTask(itsDoc);
-		assert( task != NULL );
+		assert( task != nullptr );
 
 		JXDSSSelection* data = jnew JXDSSSelection(GetWindow(), task);
-		assert( data != NULL );
+		assert( data != nullptr );
 
 		BeginDND(pt, buttonStates, modifiers, data);
 		}
@@ -162,7 +162,7 @@ CBFileDragSource::DNDInit
 	const JXKeyModifiers&	modifiers
 	)
 {
-	if (itsNameInput != NULL && !itsNameInput->IsEmpty())
+	if (itsNameInput != nullptr && !itsNameInput->IsEmpty())
 		{
 		JString fullName = itsNameInput->GetText();
 		JStripTrailingDirSeparator(&fullName);		// paranoia -- checked earlier
@@ -187,7 +187,7 @@ CBFileDragSource::GetDNDAction
 	const JXKeyModifiers&	modifiers
 	)
 {
-	if (itsNameInput != NULL)
+	if (itsNameInput != nullptr)
 		{
 		return GetDNDManager()->GetDNDActionDirectSaveXAtom();
 		}

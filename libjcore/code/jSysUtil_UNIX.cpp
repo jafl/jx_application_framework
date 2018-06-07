@@ -115,7 +115,7 @@ jGetUserInfo
 		atexit(jCleanUserInfoMap);
 		}
 
-	const jUIDInfo target = { uid, NULL, NULL };
+	const jUIDInfo target = { uid, nullptr, nullptr };
 	JIndex i;
 	if (theUserInfoMap.SearchSorted(target, JListT::kAnyMatch, &i))
 		{
@@ -124,19 +124,19 @@ jGetUserInfo
 	else
 		{
 		passwd* pwbuf = getpwuid(uid);
-		if (pwbuf != NULL)
+		if (pwbuf != nullptr)
 			{
 			info->userName = jnew JString(pwbuf->pw_name, 0);
-			assert( info->userName != NULL );
+			assert( info->userName != nullptr );
 
 			info->realName = jnew JString(pwbuf->pw_gecos, 0);
-			assert( info->realName != NULL );
+			assert( info->realName != nullptr );
 
 			info->homeDirectory = jnew JString(pwbuf->pw_dir, 0);
-			assert( info->homeDirectory != NULL );
+			assert( info->homeDirectory != nullptr );
 
 			info->shell = jnew JString(pwbuf->pw_shell, 0);
-			assert( info->shell != NULL );
+			assert( info->shell != nullptr );
 
 			info->id = uid;
 			const JBoolean inserted = theUserInfoMap.InsertSorted(*info, kJFalse);
@@ -144,11 +144,11 @@ jGetUserInfo
 			}
 		else
 			{
-			info->userName = info->realName = info->homeDirectory = info->shell = NULL;
+			info->userName = info->realName = info->homeDirectory = info->shell = nullptr;
 			}
 		}
 
-	return JI2B( info->userName != NULL );
+	return JI2B( info->userName != nullptr );
 }
 
 /******************************************************************************
@@ -310,7 +310,7 @@ jGetGroupInfo
 		groupInfoMap.SetSortOrder(JListT::kSortAscending);
 		}
 
-	const jGIDInfo target = { gid, NULL };
+	const jGIDInfo target = { gid, nullptr };
 	JIndex i;
 	if (groupInfoMap.SearchSorted(target, JListT::kAnyMatch, &i))
 		{
@@ -319,10 +319,10 @@ jGetGroupInfo
 	else
 		{
 		group* grpbuf = getgrgid(gid);
-		if (grpbuf != NULL)
+		if (grpbuf != nullptr)
 			{
 			info->groupName = jnew JString(grpbuf->gr_name, 0);
-			assert( info->groupName != NULL );
+			assert( info->groupName != nullptr );
 
 			info->id = gid;
 			const JBoolean inserted = groupInfoMap.InsertSorted(*info, kJFalse);
@@ -330,11 +330,11 @@ jGetGroupInfo
 			}
 		else
 			{
-			info->groupName = NULL;
+			info->groupName = nullptr;
 			}
 		}
 
-	return JI2B( info->groupName != NULL );
+	return JI2B( info->groupName != nullptr );
 }
 
 /******************************************************************************

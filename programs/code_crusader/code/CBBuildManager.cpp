@@ -96,8 +96,8 @@ CBBuildManager::CBBuildManager
 	itsSubProjectBuildCmd(kDefaultSubProjectBuildCmd),
 	itsLastMakefileUpdateTime(0),
 	itsProjDoc(doc),
-	itsMakeDependCmd(NULL),
-	itsProjectConfigDialog(NULL)
+	itsMakeDependCmd(nullptr),
+	itsProjectConfigDialog(nullptr)
 {
 	if (itsTargetName.IsEmpty())
 		{
@@ -120,8 +120,8 @@ CBBuildManager::CBBuildManager
 	itsSubProjectBuildCmd(kDefaultSubProjectBuildCmd),
 	itsLastMakefileUpdateTime(0),
 	itsProjDoc(doc),
-	itsMakeDependCmd(NULL),
-	itsProjectConfigDialog(NULL)
+	itsMakeDependCmd(nullptr),
+	itsProjectConfigDialog(nullptr)
 {
 	ReadSetup(projInput, projVers, setInput, setVers, doc->GetFilePath());
 }
@@ -139,7 +139,7 @@ CBBuildManager::~CBBuildManager()
  UpdateMakefile
 
 	Returns kJTrue if Makefile should be updated.  If this process has been
-	successfully started, returns *cmd != NULL.
+	successfully started, returns *cmd != nullptr.
 
  ******************************************************************************/
 
@@ -151,9 +151,9 @@ CBBuildManager::UpdateMakefile
 	const JBoolean			force
 	)
 {
-	if (itsMakeDependCmd != NULL)
+	if (itsMakeDependCmd != nullptr)
 		{
-		if (cmd != NULL)
+		if (cmd != nullptr)
 			{
 			*cmd = itsMakeDependCmd;
 			}
@@ -162,14 +162,14 @@ CBBuildManager::UpdateMakefile
 
 	if (!UpdateMakeFiles())
 		{
-		if (cmd != NULL)
+		if (cmd != nullptr)
 			{
-			*cmd = NULL;
+			*cmd = nullptr;
 			}
 		return kJTrue;
 		}
 
-	const time_t now = time(NULL);
+	const time_t now = time(nullptr);
 	if (itsMakefileMethod != kManual &&
 		(force || MakeFilesChanged() ||
 		 (itsRebuildMakefileDailyFlag &&
@@ -183,7 +183,7 @@ CBBuildManager::UpdateMakefile
 			ListenTo(itsMakeDependCmd);
 			}
 
-		if (cmd != NULL)
+		if (cmd != nullptr)
 			{
 			*cmd = itsMakeDependCmd;
 			}
@@ -191,9 +191,9 @@ CBBuildManager::UpdateMakefile
 		}
 	else
 		{
-		if (cmd != NULL)
+		if (cmd != nullptr)
 			{
-			*cmd = NULL;
+			*cmd = nullptr;
 			}
 		return kJFalse;
 		}
@@ -598,9 +598,9 @@ CBBuildManager::Receive
 		{
 		const CBCommand::Finished* info =
 			dynamic_cast<const CBCommand::Finished*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 
-		itsMakeDependCmd = NULL;
+		itsMakeDependCmd = nullptr;
 		if (info->Successful())
 			{
 			itsModTime = itsNewModTime;
@@ -612,12 +612,12 @@ CBBuildManager::Receive
 		{
 		const JXDialogDirector::Deactivated* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		if (info->Successful())
 			{
 			UpdateProjectConfig();
 			}
-		itsProjectConfigDialog = NULL;
+		itsProjectConfigDialog = nullptr;
 		}
 
 	else
@@ -629,7 +629,7 @@ CBBuildManager::Receive
 /******************************************************************************
  ProjectChanged
 
-	node can be NULL
+	node can be nullptr
 
  ******************************************************************************/
 
@@ -639,7 +639,7 @@ CBBuildManager::ProjectChanged
 	const CBProjectNode* node
 	)
 {
-	if (node == NULL ||
+	if (node == nullptr ||
 		(itsMakefileMethod == kMakemake && node->IncludedInMakefile())  ||
 		(itsMakefileMethod == kCMake    && node->IncludedInCMakeData()) ||
 		(itsMakefileMethod == kQMake    && node->IncludedInQMakeData()))
@@ -656,14 +656,14 @@ CBBuildManager::ProjectChanged
 void
 CBBuildManager::EditProjectConfig()
 {
-	assert( itsProjectConfigDialog == NULL );
+	assert( itsProjectConfigDialog == nullptr );
 
 	itsProjectConfigDialog =
 		jnew CBProjectConfigDialog(itsProjDoc, itsMakefileMethod,
 								  itsTargetName, itsDepListExpr,
 								  (itsProjDoc->GetCommandManager())->GetMakeDependCommand(),
 								  itsSubProjectBuildCmd);
-	assert( itsProjectConfigDialog != NULL );
+	assert( itsProjectConfigDialog != nullptr );
 	itsProjectConfigDialog->BeginDialog();
 	ListenTo(itsProjectConfigDialog);
 }
@@ -676,7 +676,7 @@ CBBuildManager::EditProjectConfig()
 void
 CBBuildManager::UpdateProjectConfig()
 {
-	assert( itsProjectConfigDialog != NULL );
+	assert( itsProjectConfigDialog != nullptr );
 
 	MakefileMethod method;
 	JString targetName, depListExpr, updateMakefileCmd;
@@ -906,7 +906,7 @@ CBBuildManager::ReadSetup
 			}
 		}
 
-	if (setInput != NULL && setVers >= 71)
+	if (setInput != nullptr && setVers >= 71)
 		{
 		*setInput >> itsMakePath;
 		*setInput >> itsModTime.makeHeaderModTime;
@@ -939,7 +939,7 @@ CBBuildManager::StreamOut
 	projOutput << itsDepListExpr << '\n';
 	projOutput << itsSubProjectBuildCmd << '\n';
 
-	if (setOutput != NULL)
+	if (setOutput != nullptr)
 		{
 		*setOutput << ' ' << itsMakePath;
 		*setOutput << ' ' << itsModTime.makeHeaderModTime;
@@ -975,7 +975,7 @@ CBBuildManager::ReadTemplate
 
 	if (projVers >= 62)
 		{
-		ReadSetup(input, projVers, NULL, 0, NULL);
+		ReadSetup(input, projVers, nullptr, 0, nullptr);
 		}
 	else
 		{
@@ -1097,7 +1097,7 @@ CBBuildManager::WriteTemplate
 	)
 	const
 {
-	StreamOut(output, NULL);
+	StreamOut(output, nullptr);
 
 	JBoolean saveMakefile = kJTrue;
 

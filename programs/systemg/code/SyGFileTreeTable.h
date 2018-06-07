@@ -186,19 +186,19 @@ private:
 
 	JXTextMenu*			itsContextMenu;
 
-	JXRadioGroupDialog*	itsChooseDiskFormatDialog;	// NULL unless asking user
-	JProcess*			itsFormatProcess;			// NULL unless formatting
+	JXRadioGroupDialog*	itsChooseDiskFormatDialog;	// nullptr unless asking user
+	JProcess*			itsFormatProcess;			// nullptr unless formatting
 
-	JXGetStringDialog*	itsCreateGitBranchDialog;	// NULL unless creating branch
-	JXGetStringDialog*	itsFetchGitBranchDialog;	// NULL unless creating branch
+	JXGetStringDialog*	itsCreateGitBranchDialog;	// nullptr unless creating branch
+	JXGetStringDialog*	itsFetchGitBranchDialog;	// nullptr unless creating branch
 	JString				itsFetchGitBranch;
-	JXGetStringDialog*	itsCommitGitBranchDialog;	// NULL unless committing branch
-	JXGetStringDialog*	itsGitStashDialog;			// NULL unless stashing
-	JProcess*			itsGitProcess;				// NULL unless waiting for git
+	JXGetStringDialog*	itsCommitGitBranchDialog;	// nullptr unless committing branch
+	JXGetStringDialog*	itsGitStashDialog;			// nullptr unless stashing
+	JProcess*			itsGitProcess;				// nullptr unless waiting for git
 
-	SyGNewGitRemoteDialog*	itsAddGitRemoteDialog;	// NULL unless adding remote
-	JXCheckboxListDialog*	itsPruneBranchesDialog;	// NULL unless pruning local branches
-	JPtrArray<JString>*		itsPruneBranchList;		// NULL unless pruning local branches
+	SyGNewGitRemoteDialog*	itsAddGitRemoteDialog;	// nullptr unless adding remote
+	JXCheckboxListDialog*	itsPruneBranchesDialog;	// nullptr unless pruning local branches
+	JPtrArray<JString>*		itsPruneBranchList;		// nullptr unless pruning local branches
 
 	// Drag-and-Drop
 
@@ -225,7 +225,7 @@ private:
 	// delayed editing
 
 	JBoolean				itsWaitingToEditFlag;
-	SyGBeginEditingTask*	itsEditTask;	// NULL unless waiting to edit
+	SyGBeginEditingTask*	itsEditTask;	// nullptr unless waiting to edit
 	JPoint					itsEditCell;
 	SyGFileTreeNode*		itsSortNode;	// sort when mouse released
 

@@ -51,7 +51,7 @@ SVNBeginEditingTask::~SVNBeginEditingTask()
 void
 SVNBeginEditingTask::Perform()
 {
-	itsView->itsEditTask = NULL;	// first action:  allows it to create another one, if necessary
+	itsView->itsEditTask = nullptr;	// first action:  allows it to create another one, if necessary
 
 	JPoint cell;
 	if ((itsView->GetTableSelection()).GetSingleSelectedCell(&cell) &&

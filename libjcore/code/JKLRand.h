@@ -187,7 +187,7 @@ JKLRand::SetSeed
 /******************************************************************************
  SetSeedByAbsoluteTime
 
-	Sets the generator seed to time(NULL), returning the new seed for
+	Sets the generator seed to time(nullptr), returning the new seed for
 	convenience in testing for failure (see below).
 
 	According to ANSI it is possible for time() to fail, which sets the seed to
@@ -201,7 +201,7 @@ JKLRand::SetSeed
 inline JInt32
 JKLRand::SetSeedByAbsoluteTime()
 {
-	itsSeed = time((time_t*) NULL);		// egcs is -so- picky!
+	itsSeed = time((time_t*) nullptr);		// egcs is -so- picky!
 	return itsSeed;
 }
 

@@ -67,8 +67,8 @@ JXDocktab::JXDocktab
 	)
 	:
 	JXWidget(enclosure, hSizing, vSizing, x,y, w,h),
-	itsActionMenu(NULL),
-	itsDockFinder(NULL)
+	itsActionMenu(nullptr),
+	itsDockFinder(nullptr)
 {
 	SetHint(JGetString("Hint::JXDocktab"));
 
@@ -159,14 +159,14 @@ JXDocktab::HandleMouseDown
 {
 	if (button == kJXLeftButton)
 		{
-		if (itsDockFinder == NULL)
+		if (itsDockFinder == nullptr)
 			{
 			itsDockFinder = jnew DockFinder(GetDisplay());
-			assert( itsDockFinder != NULL );
+			assert( itsDockFinder != nullptr );
 			}
 
 		JXDockDragData* data = jnew JXDockDragData(GetWindow());
-		assert( data != NULL );
+		assert( data != nullptr );
 
 		BeginDND(pt, buttonStates, modifiers, data, itsDockFinder);
 		}
@@ -205,10 +205,10 @@ JXDocktab::OpenActionMenu
 	const JXKeyModifiers&	modifiers
 	)
 {
-	if (itsActionMenu == NULL)
+	if (itsActionMenu == nullptr)
 		{
 		itsActionMenu = jnew JXTextMenu(JString::empty, this, kFixedLeft, kFixedTop, 0,0, 10,10);
-		assert( itsActionMenu != NULL );
+		assert( itsActionMenu != nullptr );
 		itsActionMenu->SetToHiddenPopupMenu();
 		itsActionMenu->SetMenuItems(kActionMenuStr);
 		itsActionMenu->SetUpdateAction(JXMenu::kDisableNone);
@@ -238,7 +238,7 @@ JXDocktab::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleActionMenu(selection->GetIndex());
 		}
 
@@ -346,7 +346,7 @@ JXDocktab::HandleActionMenu
 			{
 			JXDockWidget* dock;
 			w->GetDockWidget(&dock);
-			(JXGetDockManager())->SetDefaultDock(type.GetBytes(), w->IsDocked() ? dock : NULL);
+			(JXGetDockManager())->SetDefaultDock(type.GetBytes(), w->IsDocked() ? dock : nullptr);
 			}
 		}
 
@@ -431,7 +431,7 @@ JXDocktab::DockFinder::FindTarget
 		}
 	else
 		{
-		*target    = NULL;
+		*target    = nullptr;
 		*msgWindow = *xWindow;
 		*vers      = 0;
 		return kJFalse;

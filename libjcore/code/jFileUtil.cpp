@@ -221,7 +221,7 @@ JSearchFile
 
 	Extracts file name and line index from "file:line-line".
 
-	For backward compatibility, endLineIndex can be NULL.
+	For backward compatibility, endLineIndex can be nullptr.
 
  ******************************************************************************/
 
@@ -248,12 +248,12 @@ JExtractFileAndLine
 		assert( ok );
 
 		const JCharacterRange endRange = m.GetCharacterRange(2);
-		if (endLineIndex != NULL && !endRange.IsEmpty())
+		if (endLineIndex != nullptr && !endRange.IsEmpty())
 			{
 			ok = m.GetSubstring(2).ConvertToUInt(endLineIndex);
 			assert( ok );
 			}
-		else if (endLineIndex != NULL)
+		else if (endLineIndex != nullptr)
 			{
 			*endLineIndex = *startLineIndex;
 			}
@@ -263,7 +263,7 @@ JExtractFileAndLine
 	else
 		{
 		*startLineIndex = 0;
-		if (endLineIndex != NULL)
+		if (endLineIndex != nullptr)
 			{
 			*endLineIndex = 0;
 			}
@@ -421,7 +421,7 @@ JFOpen
 {
 	jclear_errno();
 	*stream = fopen(fileName.GetBytes(), mode);
-	if (*stream != NULL)
+	if (*stream != nullptr)
 		{
 		return JNoError();
 		}

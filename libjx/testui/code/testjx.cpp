@@ -49,7 +49,7 @@ main
 		}
 
 	TestApp* app = jnew TestApp(&argc, argv, wantMDI);
-	assert( app != NULL );
+	assert( app != nullptr );
 
 	JBoolean startIconic, bufferTestWidget, testWidgetIsImage;
 	JBoolean snoopWindow;
@@ -59,7 +59,7 @@ main
 	TestDirector* mainDir =
 		jnew TestDirector(app, kJTrue, startIconic, bufferTestWidget,
 						 testWidgetIsImage, snoopWindow);
-	assert( mainDir != NULL );
+	assert( mainDir != nullptr );
 
 	app->SetMainDirector(mainDir);
 

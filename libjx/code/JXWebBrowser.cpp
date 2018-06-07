@@ -35,7 +35,7 @@ JXWebBrowser::JXWebBrowser()
 	JXSharedPrefObject(GetCurrentConfigVersion(),
 					   JXSharedPrefsManager::kLatestWebBrowserVersionID,
 					   kVersList, kVersCount),
-	itsPrefsDialog(NULL),
+	itsPrefsDialog(nullptr),
 	itsSaveChangesFlag(kJTrue)
 {
 	JXSharedPrefObject::ReadPrefs();
@@ -72,13 +72,13 @@ JXWebBrowser::SaveCommands()
 void
 JXWebBrowser::EditPrefs()
 {
-	assert( itsPrefsDialog == NULL );
+	assert( itsPrefsDialog == nullptr );
 
 	itsPrefsDialog = jnew JXEditWWWPrefsDialog(JXGetApplication(), GetShowURLCmd(),
 											  GetShowFileContentCmd(),
 											  GetShowFileLocationCmd(),
 											  GetComposeMailCmd());
-	assert( itsPrefsDialog != NULL );
+	assert( itsPrefsDialog != nullptr );
 	itsPrefsDialog->BeginDialog();
 	ListenTo(itsPrefsDialog);
 }
@@ -99,7 +99,7 @@ JXWebBrowser::Receive
 		{
 		const JXDialogDirector::Deactivated* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		if (info->Successful())
 			{
 			JString showURLCmd, showFileContentCmd, showFileLocationCmd, composeMailCmd;
@@ -115,7 +115,7 @@ JXWebBrowser::Receive
 
 			SaveCommands();
 			}
-		itsPrefsDialog = NULL;
+		itsPrefsDialog = nullptr;
 		}
 
 	else

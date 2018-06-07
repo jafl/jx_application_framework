@@ -69,46 +69,46 @@ CBSubprojectConfigDialog::BuildWindow
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 360,160, "");
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	JXTextButton* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::CBSubprojectConfigDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 70,130, 70,20);
-	assert( cancelButton != NULL );
+	assert( cancelButton != nullptr );
 
 	JXTextButton* okButton =
 		jnew JXTextButton(JGetString("okButton::CBSubprojectConfigDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 220,130, 70,20);
-	assert( okButton != NULL );
+	assert( okButton != nullptr );
 	okButton->SetShortcuts(JGetString("okButton::CBSubprojectConfigDialog::shortcuts::JXLayout"));
 
 	JXStaticText* fileLabel =
 		jnew JXStaticText(JGetString("fileLabel::CBSubprojectConfigDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 20,60, 70,20);
-	assert( fileLabel != NULL );
+	assert( fileLabel != nullptr );
 	fileLabel->SetToLabel();
 
 	itsShouldBuildCB =
 		jnew JXTextCheckbox(JGetString("itsShouldBuildCB::CBSubprojectConfigDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,90, 230,20);
-	assert( itsShouldBuildCB != NULL );
+	assert( itsShouldBuildCB != nullptr );
 	itsShouldBuildCB->SetShortcuts(JGetString("itsShouldBuildCB::CBSubprojectConfigDialog::shortcuts::JXLayout"));
 
 	itsSubProjName =
 		jnew CBProjectFileInput(window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 90,60, 200,20);
-	assert( itsSubProjName != NULL );
+	assert( itsSubProjName != nullptr );
 
 	itsChooseFileButton =
 		jnew JXTextButton(JGetString("itsChooseFileButton::CBSubprojectConfigDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 290,60, 50,20);
-	assert( itsChooseFileButton != NULL );
+	assert( itsChooseFileButton != nullptr );
 	itsChooseFileButton->SetShortcuts(JGetString("itsChooseFileButton::CBSubprojectConfigDialog::shortcuts::JXLayout"));
 
 	itsIncludeInDepListCB =
 		jnew JXTextCheckbox(JGetString("itsIncludeInDepListCB::CBSubprojectConfigDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 250,20);
-	assert( itsIncludeInDepListCB != NULL );
+	assert( itsIncludeInDepListCB != nullptr );
 	itsIncludeInDepListCB->SetShortcuts(JGetString("itsIncludeInDepListCB::CBSubprojectConfigDialog::shortcuts::JXLayout"));
 
 // end JXLayout

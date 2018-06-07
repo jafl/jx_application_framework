@@ -76,7 +76,7 @@ private:
 
 private:
 
-	JXContainer*			itsWidget;			// can be NULL
+	JXContainer*			itsWidget;			// can be nullptr
 	JRect					itsFrameG;			// global coords
 	const Direction			itsDirection;		// direction of contained cell stack
 	const JBoolean			itsIsExactFlag;

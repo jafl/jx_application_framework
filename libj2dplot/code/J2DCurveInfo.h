@@ -63,7 +63,7 @@ struct J2DCurveInfo
 		show(kJTrue), lines(kJTrue), symbols(kJFalse),
 		own(kJFalse), xerrors(kJTrue), yerrors(kJTrue),
 		protect(kJFalse), color(1),
-		symbol(kCircle), name(NULL)
+		symbol(kCircle), name(nullptr)
 		{ };
 
 	JBoolean

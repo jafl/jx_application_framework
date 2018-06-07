@@ -38,7 +38,7 @@ JCopyBinaryData
 	// allocate transfer space
 
 	JUtf8Byte* data = jnew JUtf8Byte[ chunkSize ];
-	assert( data != NULL );
+	assert( data != nullptr );
 
 	// copy the data in chunks
 
@@ -107,7 +107,7 @@ JReadAll
 	)
 {
 	JUtf8Byte c;
-	JReadUntil(input, 0, NULL, str, &c);
+	JReadUntil(input, 0, nullptr, str, &c);
 }
 
 /******************************************************************************
@@ -116,7 +116,7 @@ JReadAll
 	Read characters from the std::istream until newline ('\n', '\r', '\r\n') is
 	reached. newline is read in and discarded.
 
-	If foundNewLine is not NULL, it tells whether or not the end of a line
+	If foundNewLine is not nullptr, it tells whether or not the end of a line
 	was actually encountered.
 
  ******************************************************************************/
@@ -135,7 +135,7 @@ JReadLine
 		{
 		input.ignore();
 		}
-	if (foundNewLine != NULL)
+	if (foundNewLine != nullptr)
 		{
 		*foundNewLine = foundDelimiter;
 		}
@@ -148,7 +148,7 @@ JReadLine
 	Read characters from the std::istream until delimiter is reached.
 	delimiter is read in and discarded.
 
-	If foundDelimiter is not NULL, it tells whether or not the delimiter
+	If foundDelimiter is not nullptr, it tells whether or not the delimiter
 	was actually found.
 
  ******************************************************************************/
@@ -164,7 +164,7 @@ JReadUntil
 	JString str;
 	JUtf8Byte c;
 	const JBoolean found = JReadUntil(input, 1, &delimiter, &str, &c);
-	if (foundDelimiter != NULL)
+	if (foundDelimiter != nullptr)
 		{
 		*foundDelimiter = found;
 		}
@@ -183,7 +183,7 @@ JReadUntil
 	Returns kJFalse if it encounters an error or end-of-stream instead of
 	a delimiter.  *delimiter is not changed.
 
-	delimiter can be NULL.
+	delimiter can be nullptr.
 
  ******************************************************************************/
 
@@ -218,7 +218,7 @@ JReadUntil
 			if (c == delimiters[j])
 				{
 				isDelimiter = kJTrue;
-				if (delimiter != NULL)
+				if (delimiter != nullptr)
 					{
 					*delimiter = delimiters[j];
 					}
@@ -255,7 +255,7 @@ JReadUntil
 	Read characters from the std::istream until white-space is reached.
 	white-space is read in and discarded.
 
-	If foundws is not NULL, it tells whether or not whitespace
+	If foundws is not nullptr, it tells whether or not whitespace
 	was actually encountered.
 
  ******************************************************************************/
@@ -273,7 +273,7 @@ JReadUntilws
 	JString str;
 	JUtf8Byte c;
 	const JBoolean found = JReadUntil(input, delimiterCount, delimiters, &str, &c);
-	if (foundws != NULL)
+	if (foundws != nullptr)
 		{
 		*foundws = found;
 		}
@@ -287,7 +287,7 @@ JReadUntilws
 	Toss characters from the std::istream until newline ('\n', '\r', '\r\n') is
 	reached. newline is read in and discarded.
 
-	If foundNewLine is not NULL, it tells whether or not the end of a line
+	If foundNewLine is not nullptr, it tells whether or not the end of a line
 	was actually encountered.
 
  ******************************************************************************/
@@ -305,7 +305,7 @@ JIgnoreLine
 		{
 		input.ignore();
 		}
-	if (foundNewLine != NULL)
+	if (foundNewLine != nullptr)
 		{
 		*foundNewLine = foundDelimiter;
 		}
@@ -317,7 +317,7 @@ JIgnoreLine
 	Discard characters from the std::istream until delimiter is reached.
 	delimiter is read in and discarded.
 
-	If foundDelimiter is not NULL, it tells whether or not the delimiter
+	If foundDelimiter is not nullptr, it tells whether or not the delimiter
 	was actually found.
 
 	To keep the prototype as close to JReadUntil() as possible,
@@ -335,7 +335,7 @@ JIgnoreUntil
 {
 	JUtf8Byte c;
 	const JBoolean found = JIgnoreUntil(input, 1, &delimiter, &c);
-	if (foundDelimiter != NULL)
+	if (foundDelimiter != nullptr)
 		{
 		*foundDelimiter = found;
 		}
@@ -358,13 +358,13 @@ JIgnoreUntil
 		return;
 		}
 
-	if (foundDelimiter != NULL)
+	if (foundDelimiter != nullptr)
 		{
 		*foundDelimiter = kJFalse;
 		}
 
 	JUtf8Byte* window = jnew JUtf8Byte[ delimLength ];
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	input.read(window, delimLength);
 
@@ -375,7 +375,7 @@ JIgnoreUntil
 		window[ delimLength-1 ] = input.get();
 		}
 
-	if (foundDelimiter != NULL &&
+	if (foundDelimiter != nullptr &&
 		JString::Compare(window, delimLength, delimiter, delimLength) == 0)
 		{
 		*foundDelimiter = kJTrue;
@@ -396,7 +396,7 @@ JIgnoreUntil
 	Returns kJFalse if it encounters an error or end-of-stream instead of
 	a delimiter.  *delimiter is not changed.
 
-	delimiter can be NULL.
+	delimiter can be nullptr.
 
  ******************************************************************************/
 
@@ -425,7 +425,7 @@ JIgnoreUntil
 			if (c == delimiters[i])
 				{
 				isDelimiter = kJTrue;
-				if (delimiter != NULL)
+				if (delimiter != nullptr)
 					{
 					*delimiter = c;
 					}
@@ -754,7 +754,7 @@ JRead
 	)
 {
 	char* buf = jnew char[ count ];
-	assert( buf != NULL );
+	assert( buf != nullptr );
 
 	size_t dataLength;
 	ssize_t result = jReadN(input, buf, count, &dataLength);
@@ -828,7 +828,7 @@ JReadAll
 	Read characters from the std::istream until delimiter is reached.
 	delimiter is read in and discarded.
 
-	If foundDelimiter is not NULL, it tells whether or not the delimiter
+	If foundDelimiter is not nullptr, it tells whether or not the delimiter
 	was actually found.
 
  ******************************************************************************/
@@ -844,7 +844,7 @@ JReadUntil
 	JString str;
 	JUtf8Byte c;
 	const JBoolean found = JReadUntil(input, 1, &delimiter, &str, &c);
-	if (foundDelimiter != NULL)
+	if (foundDelimiter != nullptr)
 		{
 		*foundDelimiter = found;
 		}
@@ -863,7 +863,7 @@ JReadUntil
 	Returns kJFalse if it encounters an error or end-of-stream instead of
 	a delimiter.  *delimiter is not changed.
 
-	delimiter can be NULL.
+	delimiter can be nullptr.
 
 	This would be unnecessary if libstdc++ provided a stream wrapper for
 	arbitrary file descriptors.
@@ -903,7 +903,7 @@ JReadUntil
 			if (c == delimiters[j])
 				{
 				isDelimiter = kJTrue;
-				if (delimiter != NULL)
+				if (delimiter != nullptr)
 					{
 					*delimiter = c;
 					}
@@ -937,7 +937,7 @@ JReadUntil
 	Discard characters from the std::istream until delimiter is reached.
 	delimiter is read in and discarded.
 
-	If foundDelimiter is not NULL, it tells whether or not the delimiter
+	If foundDelimiter is not nullptr, it tells whether or not the delimiter
 	was actually found.
 
 	To keep the prototype as close to JReadUntil() as possible,
@@ -958,7 +958,7 @@ JIgnoreUntil
 {
 	JUtf8Byte c;
 	const JBoolean found = JIgnoreUntil(input, 1, &delimiter, &c);
-	if (foundDelimiter != NULL)
+	if (foundDelimiter != nullptr)
 		{
 		*foundDelimiter = found;
 		}
@@ -981,13 +981,13 @@ JIgnoreUntil
 		return;
 		}
 
-	if (foundDelimiter != NULL)
+	if (foundDelimiter != nullptr)
 		{
 		*foundDelimiter = kJFalse;
 		}
 
 	char* window = jnew char[ delimLength ];
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	size_t dataLength;
 	ssize_t result = jReadN(input, window, delimLength, &dataLength);
@@ -998,7 +998,7 @@ JIgnoreUntil
 		result = jReadN(input, window + delimLength-1, 1, &dataLength);
 		}
 
-	if (strcmp(window, delimiter) == 0 && foundDelimiter != NULL)
+	if (strcmp(window, delimiter) == 0 && foundDelimiter != nullptr)
 		{
 		*foundDelimiter = kJTrue;
 		}
@@ -1018,7 +1018,7 @@ JIgnoreUntil
 	Returns kJFalse if it encounters an error or end-of-stream instead of
 	a delimiter.  *delimiter is not changed.
 
-	delimiter can be NULL.
+	delimiter can be nullptr.
 
 	This would be unnecessary if libstdc++ provided a stream wrapper for
 	arbitrary file descriptors.
@@ -1052,7 +1052,7 @@ JIgnoreUntil
 			if (c == delimiters[i])
 				{
 				isDelimiter = kJTrue;
-				if (delimiter != NULL)
+				if (delimiter != nullptr)
 					{
 					*delimiter = c;
 					}
@@ -1084,7 +1084,7 @@ JWaitForInput
 	const time_t	timeout
 	)
 {
-	const time_t startTime = time(NULL);
+	const time_t startTime = time(nullptr);
 	while (1)
 		{
 		jclear_errno();
@@ -1104,7 +1104,7 @@ JWaitForInput
 			return kJFalse;
 			}
 
-		if (time(NULL) - startTime > timeout)			// give up
+		if (time(nullptr) - startTime > timeout)			// give up
 			{
 			return kJFalse;
 			}

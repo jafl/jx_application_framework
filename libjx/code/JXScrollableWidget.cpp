@@ -50,7 +50,7 @@ const JUtf8Byte kSetupDataEndDelimiter  = '\2';		// avoid conflict with JXScroll
 /******************************************************************************
  Constructor
 
-	scrollbarSet can be NULL
+	scrollbarSet can be nullptr
 
  ******************************************************************************/
 
@@ -72,7 +72,7 @@ JXScrollableWidget::JXScrollableWidget
 	itsAlwaysShowScrollFlag = kJFalse;
 	itsAdjustingFlag        = kJFalse;
 	itsShouldRedrawFlag     = kJTrue;
-	itsAdjustScrollbarTask  = NULL;
+	itsAdjustScrollbarTask  = nullptr;
 
 	itsHStepSize = itsVStepSize = 0;
 	itsHPageStepContext = itsVPageStepContext = -1;
@@ -85,7 +85,7 @@ JXScrollableWidget::JXScrollableWidget
 	UnlockBounds();
 	TurnOnBufferedDrawing();
 
-	if (itsScrollbarSet != NULL)
+	if (itsScrollbarSet != nullptr)
 		{
 		WantInput(kJTrue);		// get home, end, page up, page down
 
@@ -99,7 +99,7 @@ JXScrollableWidget::JXScrollableWidget
 
 	// changing border width doesn't move bounds
 
-	if (itsScrollbarSet != NULL)
+	if (itsScrollbarSet != nullptr)
 		{
 		ScrollTo(0,0);
 		SetBackColor(GetFocusColor());
@@ -129,7 +129,7 @@ JXScrollableWidget::GetScrollbars
 	)
 	const
 {
-	if (itsScrollbarSet != NULL)
+	if (itsScrollbarSet != nullptr)
 		{
 		*hScrollbar = itsScrollbarSet->GetHScrollbar();
 		*vScrollbar = itsScrollbarSet->GetVScrollbar();
@@ -137,8 +137,8 @@ JXScrollableWidget::GetScrollbars
 		}
 	else
 		{
-		*hScrollbar = NULL;
-		*vScrollbar = NULL;
+		*hScrollbar = nullptr;
+		*vScrollbar = nullptr;
 		return kJFalse;
 		}
 }
@@ -329,9 +329,9 @@ JXScrollableWidget::Receive
 	const Message&	message
 	)
 {
-	JXScrollbar* hScrollbar = NULL;
-	JXScrollbar* vScrollbar = NULL;
-	if (itsScrollbarSet != NULL)
+	JXScrollbar* hScrollbar = nullptr;
+	JXScrollbar* vScrollbar = nullptr;
+	if (itsScrollbarSet != nullptr)
 		{
 		hScrollbar = itsScrollbarSet->GetHScrollbar();
 		vScrollbar = itsScrollbarSet->GetVScrollbar();
@@ -368,10 +368,10 @@ JXScrollableWidget::Receive
 void
 JXScrollableWidget::NeedAdjustScrollbars()
 {
-	if (itsScrollbarSet != NULL && itsAdjustScrollbarTask == NULL)
+	if (itsScrollbarSet != nullptr && itsAdjustScrollbarTask == nullptr)
 		{
 		itsAdjustScrollbarTask = jnew JXAdjustScrollbarTask(this);
-		assert( itsAdjustScrollbarTask != NULL );
+		assert( itsAdjustScrollbarTask != nullptr );
 		itsAdjustScrollbarTask->Go();
 		}
 }
@@ -397,10 +397,10 @@ JXScrollableWidget::NeedAdjustScrollbars()
 void
 JXScrollableWidget::UpdateScrollbars()
 {
-	while (itsAdjustScrollbarTask != NULL)
+	while (itsAdjustScrollbarTask != nullptr)
 		{
 		jdelete itsAdjustScrollbarTask;
-		itsAdjustScrollbarTask = NULL;
+		itsAdjustScrollbarTask = nullptr;
 		AdjustScrollbars();
 		}
 }
@@ -415,7 +415,7 @@ JXScrollableWidget::UpdateScrollbars()
 void
 JXScrollableWidget::AdjustScrollbars()
 {
-	if (itsScrollbarSet == NULL || itsAdjustScrollbarTask != NULL)
+	if (itsScrollbarSet == nullptr || itsAdjustScrollbarTask != nullptr)
 		{
 		return;
 		}
@@ -538,7 +538,7 @@ JXScrollableWidget::HandleMouseDown
 	it handled the event.
 
 	The second version is designed for row and column headers that scroll
-	but don't have a JXScrollbarSet.  The function therefore accepts NULL
+	but don't have a JXScrollbarSet.  The function therefore accepts nullptr
 	for either scrollbar object.
 
  ******************************************************************************/
@@ -550,7 +550,7 @@ JXScrollableWidget::ScrollForWheel
 	const JXKeyModifiers&	modifiers
 	)
 {
-	if (itsScrollbarSet != NULL)
+	if (itsScrollbarSet != nullptr)
 		{
 		return ScrollForWheel(button, modifiers,
 							  itsScrollbarSet->GetHScrollbar(),
@@ -599,7 +599,7 @@ JXScrollableWidget::ScrollForWheel
 
 	// even if no scrollbar, we need to treat it as captured
 
-	if (scrollbar == NULL)
+	if (scrollbar == nullptr)
 		{
 		return kJTrue;
 		}
@@ -644,9 +644,9 @@ JXScrollableWidget::HandleKeyPress
 	const JXKeyModifiers&	modifiers
 	)
 {
-	JXScrollbar* hScrollbar = NULL;
-	JXScrollbar* vScrollbar = NULL;
-	if (itsScrollbarSet != NULL)
+	JXScrollbar* hScrollbar = nullptr;
+	JXScrollbar* vScrollbar = nullptr;
+	if (itsScrollbarSet != nullptr)
 		{
 		hScrollbar = itsScrollbarSet->GetHScrollbar();
 		vScrollbar = itsScrollbarSet->GetVScrollbar();
@@ -660,54 +660,54 @@ JXScrollableWidget::HandleKeyPress
 
 	JXScrollbar* scrollbar = modifiers.meta() ? hScrollbar : vScrollbar;
 
-	if (itsScrollbarSet != NULL &&
+	if (itsScrollbarSet != nullptr &&
 		(key == XK_Home || key == XK_KP_Home))
 		{
 		ScrollTo(0,0);
 		}
-	else if (itsScrollbarSet != NULL &&
+	else if (itsScrollbarSet != nullptr &&
 			 (key == XK_End || key == XK_KP_End))
 		{
 		scrollbar->ScrollToMax();
 		}
-	else if (itsScrollbarSet != NULL &&
+	else if (itsScrollbarSet != nullptr &&
 			 (key == XK_Page_Up || key == XK_KP_Page_Up))
 		{
 		scrollbar->StepPage(modifiers.shift() ? -0.5 : -1.0);
 		}
-	else if (itsScrollbarSet != NULL &&
+	else if (itsScrollbarSet != nullptr &&
 			 (key == XK_Page_Down || key == XK_KP_Page_Down))
 		{
 		scrollbar->StepPage(modifiers.shift() ? +0.5 : +1.0);
 		}
 
-	else if (itsScrollbarSet != NULL && key == kJLeftArrow)
+	else if (itsScrollbarSet != nullptr && key == kJLeftArrow)
 		{
 		hScrollbar->StepLine(-1);
 		}
-	else if (itsScrollbarSet != NULL && key == kJRightArrow)
+	else if (itsScrollbarSet != nullptr && key == kJRightArrow)
 		{
 		hScrollbar->StepLine(+1);
 		}
-	else if (itsScrollbarSet != NULL && key == kJUpArrow)
+	else if (itsScrollbarSet != nullptr && key == kJUpArrow)
 		{
 		vScrollbar->StepLine(-1);
 		}
-	else if (itsScrollbarSet != NULL && key == kJDownArrow)
+	else if (itsScrollbarSet != nullptr && key == kJDownArrow)
 		{
 		vScrollbar->StepLine(+1);
 		}
 
 	// scroll to tab
 
-	else if (itsScrollbarSet != NULL &&
+	else if (itsScrollbarSet != nullptr &&
 			 '1' <= key && key <= '9' &&
 			 ctrl == itsVCtrl &&
 			 meta == itsVMeta)
 		{
 		vScrollbar->ScrollToTab(key - '0');
 		}
-	else if (itsScrollbarSet != NULL &&
+	else if (itsScrollbarSet != nullptr &&
 			 '1' <= key && key <= '9' &&
 			 ctrl == itsHCtrl &&
 			 meta == itsHMeta)

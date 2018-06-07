@@ -69,7 +69,7 @@ CMSourceText::CMSourceText
 					  enclosure, hSizing, vSizing, x,y, w,h),
 	itsSrcDir(srcDir),
 	itsCmdDir(cmdDir),
-	itsStyler(NULL)
+	itsStyler(nullptr)
 {
 	itsTokenStartList = JTEStyler::NewTokenStartList();
 
@@ -134,7 +134,7 @@ CMSourceText::SetFileType
 
 	if (GetTextLength() > 0)
 		{
-		if (itsStyler != NULL)
+		if (itsStyler != nullptr)
 			{
 			RecalcAll(kJTrue);
 			}
@@ -162,7 +162,7 @@ CMSourceText::xAdjustStylesBeforeRecalc
 	const JBoolean		deletion
 	)
 {
-	if (itsStyler != NULL)
+	if (itsStyler != nullptr)
 		{
 		itsStyler->UpdateStyles(this, buffer, styles,
 								recalcRange, redrawRange,
@@ -276,7 +276,7 @@ CMSourceText::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		if (HandleCustomSearchMenuItems(selection->GetIndex()))
 			{
 			return;

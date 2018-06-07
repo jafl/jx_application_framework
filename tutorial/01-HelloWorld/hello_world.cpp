@@ -29,11 +29,11 @@ main
 		jnew JXApplication(&argc, argv, kAppSignature, kTutorialStringData);
 		
 	// Make sure that new succeeded
-	assert( app != NULL );
+	assert( app != nullptr );
 
 	// Create the window director to maintain the Hello World window
 	HelloWorldDir* mainDir = jnew HelloWorldDir(app);
-	assert( mainDir != NULL );
+	assert( mainDir != nullptr );
 
 	// Show the window and activate it
 	mainDir->Activate();

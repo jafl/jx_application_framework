@@ -73,7 +73,7 @@ GFGMDIServer::HandleMDIRequest
 		}
 
 	GFGMainDirector* dialog = jnew GFGMainDirector(JXGetApplication(), argList);
-	assert( dialog != NULL );
+	assert( dialog != nullptr );
 	dialog->Activate();
 
 	if (GFGGetApplication()->IsDeletingTemplate())

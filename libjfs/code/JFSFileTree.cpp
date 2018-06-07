@@ -60,7 +60,7 @@ JFSFileTreeNodeBase*
 JFSFileTree::GetFSRoot()
 {
 	JFSFileTreeNodeBase* root = dynamic_cast<JFSFileTreeNodeBase*>(GetRoot());
-	assert( root != NULL );
+	assert( root != nullptr );
 	return root;
 }
 
@@ -69,6 +69,6 @@ JFSFileTree::GetFSRoot()
 	const
 {
 	const JFSFileTreeNodeBase* root = dynamic_cast<const JFSFileTreeNodeBase*>(GetRoot());
-	assert( root != NULL );
+	assert( root != nullptr );
 	return root;
 }

@@ -39,12 +39,12 @@ JXStringTable::JXStringTable
 	:
 	JXStyleTable(scrollbarSet, enclosure, hSizing,vSizing, x,y, w,h)
 {
-	assert( data != NULL );
+	assert( data != nullptr );
 
 	itsStringData = data;
 	SetTableData(data);
 
-	itsStringInputField = NULL;
+	itsStringInputField = nullptr;
 }
 
 /******************************************************************************
@@ -101,11 +101,11 @@ JXStringTable::CreateXInputField
 	const JCoordinate	h
 	)
 {
-	assert( itsStringInputField == NULL );
+	assert( itsStringInputField == nullptr );
 
 	itsStringInputField =
 		CreateStringTableInput(cell, this, kFixedLeft, kFixedTop, x,y, w,h);
-	assert( itsStringInputField != NULL );
+	assert( itsStringInputField != nullptr );
 
 	JFont font = GetFont();
 	font.SetStyle(GetCellStyle(cell));
@@ -137,7 +137,7 @@ JXStringTable::CreateStringTableInput
 	)
 {
 	JXInputField* obj = jnew JXInputField(enclosure, hSizing, vSizing, x,y, w,h);
-	assert( obj != NULL );
+	assert( obj != nullptr );
 	return obj;
 }
 
@@ -157,7 +157,7 @@ JXStringTable::ExtractInputData
 	const JPoint& cell
 	)
 {
-	assert( itsStringInputField != NULL );
+	assert( itsStringInputField != nullptr );
 
 	if (itsStringInputField->InputValid())
 		{
@@ -178,5 +178,5 @@ JXStringTable::ExtractInputData
 void
 JXStringTable::PrepareDeleteXInputField()
 {
-	itsStringInputField = NULL;
+	itsStringInputField = nullptr;
 }

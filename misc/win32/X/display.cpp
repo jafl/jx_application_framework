@@ -114,7 +114,7 @@ XGetAtomName
 		}
 	else
 		{
-		return NULL;
+		return nullptr;
 		}
 }
 

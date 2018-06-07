@@ -12,7 +12,7 @@
 #include "CBCStyler.h"
 #include <jAssert.h>
 
-CBBisonCompleter* CBBisonCompleter::itsSelf = NULL;
+CBBisonCompleter* CBBisonCompleter::itsSelf = nullptr;
 
 static const JCharacter* kKeywordList[] =
 {
@@ -30,12 +30,12 @@ static JBoolean recursiveInstance = kJFalse;
 CBStringCompleter*
 CBBisonCompleter::Instance()
 {
-	if (itsSelf == NULL && !recursiveInstance)
+	if (itsSelf == nullptr && !recursiveInstance)
 		{
 		recursiveInstance = kJTrue;
 
 		itsSelf = jnew CBBisonCompleter;
-		assert( itsSelf != NULL );
+		assert( itsSelf != nullptr );
 
 		recursiveInstance = kJFalse;
 		}
@@ -74,7 +74,7 @@ CBBisonCompleter::CBBisonCompleter()
 
 CBBisonCompleter::~CBBisonCompleter()
 {
-	itsSelf = NULL;
+	itsSelf = nullptr;
 }
 
 /******************************************************************************

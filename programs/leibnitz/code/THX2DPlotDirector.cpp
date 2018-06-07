@@ -114,9 +114,9 @@ void
 THX2DPlotDirector::THX2DPlotDirectorX()
 {
 	itsFnList = jnew JPtrArray<J2DPlotJFunction>(JPtrArrayT::kForgetAll);
-	assert( itsFnList != NULL );
+	assert( itsFnList != nullptr );
 
-	itsEditFnDialog = NULL;
+	itsEditFnDialog = nullptr;
 }
 
 /******************************************************************************
@@ -150,7 +150,7 @@ THX2DPlotDirector::WriteState
 		{
 		const JPlotDataBase& data      = itsPlotWidget->GetCurve(i);
 		const J2DPlotJFunction* fnData = dynamic_cast<const J2DPlotJFunction*>(&data);
-		assert( fnData != NULL );
+		assert( fnData != nullptr );
 
 		JFloat xMin, xMax;
 		fnData->GetXRange(&xMin, &xMax);
@@ -180,17 +180,17 @@ THX2DPlotDirector::BuildWindow()
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 600,400, "");
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	JXMenuBar* menuBar =
 		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 600,30);
-	assert( menuBar != NULL );
+	assert( menuBar != nullptr );
 
 	itsPlotWidget =
 		jnew JX2DPlotWidget(menuBar, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 600,370);
-	assert( itsPlotWidget != NULL );
+	assert( itsPlotWidget != nullptr );
 
 // end JXLayout
 
@@ -199,7 +199,7 @@ THX2DPlotDirector::BuildWindow()
 
 	JXDisplay* display = GetDisplay();
 	JXImage* icon      = jnew JXImage(display, thx_2D_plot_window);
-	assert( icon != NULL );
+	assert( icon != nullptr );
 	window->SetIcon(icon);
 
 	itsPlotWidget->SetPSPrinter(THXGetPSGraphPrinter());
@@ -217,7 +217,7 @@ THX2DPlotDirector::BuildWindow()
 	optionsMenu->AppendItem(kEditFunctionItemStr);
 
 	itsEditFnMenu = jnew JXTextMenu(optionsMenu, editFunctionSubmenuIndex, menuBar);
-	assert( itsEditFnMenu != NULL );
+	assert( itsEditFnMenu != nullptr );
 	itsEditFnMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsEditFnMenu);
 
@@ -273,7 +273,7 @@ THX2DPlotDirector::AddFunction
 	J2DPlotJFunction* data =
 		jnew J2DPlotJFunction(itsPlotWidget, varList, f, kJTrue,
 							 THXVarList::kXIndex, xMin, xMax);
-	assert( data != NULL );
+	assert( data != nullptr );
 
 	itsPlotWidget->AddCurve(data, kJTrue, name);
 
@@ -333,7 +333,7 @@ THX2DPlotDirector::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleActionsMenu(selection->GetIndex());
 		}
 
@@ -345,7 +345,7 @@ THX2DPlotDirector::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleEditFnMenu(selection->GetIndex());
 		}
 
@@ -357,7 +357,7 @@ THX2DPlotDirector::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		(THXGetApplication())->HandleHelpMenu(itsHelpMenu, "THX2DPlotHelp",
 											  selection->GetIndex());
 		}
@@ -372,7 +372,7 @@ THX2DPlotDirector::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleCurveOptionsMenu(selection->GetIndex());
 		}
 
@@ -380,12 +380,12 @@ THX2DPlotDirector::Receive
 		{
 		const JXDialogDirector::Deactivated* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		if (info->Successful())
 			{
 			UpdateFunction();
 			}
-		itsEditFnDialog = NULL;
+		itsEditFnDialog = nullptr;
 		}
 
 	else
@@ -503,7 +503,7 @@ THX2DPlotDirector::EditFunction
 	const JIndex index
 	)
 {
-	assert( itsEditFnDialog == NULL );
+	assert( itsEditFnDialog == nullptr );
 
 	const J2DPlotJFunction* curve = itsFnList->GetElement(index);
 
@@ -514,7 +514,7 @@ THX2DPlotDirector::EditFunction
 		jnew THX2DPlotFunctionDialog(this, (THXGetApplication())->GetVariableList(),
 									curve->GetFunction(),
 									itsPlotWidget->GetCurveName(index), min, max);
-	assert( itsEditFnDialog != NULL );
+	assert( itsEditFnDialog != nullptr );
 	itsEditFnDialog->BeginDialog();
 	ListenTo(itsEditFnDialog);
 
@@ -529,7 +529,7 @@ THX2DPlotDirector::EditFunction
 void
 THX2DPlotDirector::UpdateFunction()
 {
-	assert( itsEditFnDialog != NULL );
+	assert( itsEditFnDialog != nullptr );
 
 	JIndex plotIndex;
 	const JFunction* f;

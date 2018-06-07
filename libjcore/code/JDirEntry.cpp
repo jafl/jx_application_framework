@@ -57,7 +57,7 @@ JDirEntry::JDirEntryX
 	// parse path and name
 
 	JString fullName;
-	if (!JConvertToAbsolutePath(origFullName, NULL, &fullName))
+	if (!JConvertToAbsolutePath(origFullName, nullptr, &fullName))
 		{
 		fullName = origFullName;	// fail gracefully with type kDoesNotExist
 		}
@@ -74,9 +74,9 @@ JDirEntry::JDirEntryX
 
 	// set rest of instance variables
 
-	itsLinkName  = NULL;
-	itsUserName  = NULL;
-	itsGroupName = NULL;
+	itsLinkName  = nullptr;
+	itsUserName  = nullptr;
+	itsGroupName = nullptr;
 
 	ForceUpdate();
 }
@@ -93,9 +93,9 @@ JDirEntry::JDirEntry
 	)
 	:
 	itsName(fileName),
-	itsLinkName(NULL),
-	itsUserName(NULL),
-	itsGroupName(NULL)
+	itsLinkName(nullptr),
+	itsUserName(nullptr),
+	itsGroupName(nullptr)
 {
 }
 
@@ -112,9 +112,9 @@ JDirEntry::JDirEntry
 	itsPath(source.itsPath),
 	itsName(source.itsName),
 	itsFullName(source.itsFullName),
-	itsLinkName(NULL),
-	itsUserName(NULL),
-	itsGroupName(NULL)
+	itsLinkName(nullptr),
+	itsUserName(nullptr),
+	itsGroupName(nullptr)
 {
 	itsType        = source.itsType;
 	itsSize        = source.itsSize;
@@ -131,10 +131,10 @@ JDirEntry::JDirEntry
 	itsIsWritableFlag   = source.itsIsWritableFlag;
 	itsIsExecutableFlag = source.itsIsExecutableFlag;
 
-	if (source.itsLinkName != NULL)
+	if (source.itsLinkName != nullptr)
 		{
 		itsLinkName = jnew JString(*(source.itsLinkName));
-		assert( itsLinkName != NULL );
+		assert( itsLinkName != nullptr );
 		}
 }
 
@@ -170,19 +170,19 @@ JDirEntry::operator=
 	itsName     = source.itsName;
 	itsFullName = source.itsFullName;
 
-	if (source.itsLinkName != NULL && itsLinkName != NULL)
+	if (source.itsLinkName != nullptr && itsLinkName != nullptr)
 		{
 		*itsLinkName = *(source.itsLinkName);
 		}
-	else if (source.itsLinkName != NULL)
+	else if (source.itsLinkName != nullptr)
 		{
 		itsLinkName = jnew JString(*(source.itsLinkName));
-		assert( itsLinkName != NULL );
+		assert( itsLinkName != nullptr );
 		}
 	else
 		{
 		jdelete itsLinkName;
-		itsLinkName = NULL;
+		itsLinkName = nullptr;
 		}
 
 	itsType        = source.itsType;
@@ -196,24 +196,24 @@ JDirEntry::operator=
 	itsUserID      = source.itsUserID;
 	itsGroupID     = source.itsGroupID;
 
-	if (itsUserName != NULL && source.itsUserName != NULL)
+	if (itsUserName != nullptr && source.itsUserName != nullptr)
 		{
 		*itsUserName = *(source.itsUserName);
 		}
-	else if (itsUserName != NULL)
+	else if (itsUserName != nullptr)
 		{
 		jdelete itsUserName;
-		itsUserName = NULL;
+		itsUserName = nullptr;
 		}
 
-	if (itsGroupName != NULL && source.itsGroupName != NULL)
+	if (itsGroupName != nullptr && source.itsGroupName != nullptr)
 		{
 		*itsGroupName = *(source.itsGroupName);
 		}
-	else if (itsGroupName != NULL)
+	else if (itsGroupName != nullptr)
 		{
 		jdelete itsGroupName;
-		itsGroupName = NULL;
+		itsGroupName = nullptr;
 		}
 
 	itsIsReadableFlag   = source.itsIsReadableFlag;
@@ -235,7 +235,7 @@ JDirEntry
 JDirEntry::FollowLink()
 	const
 {
-	if (itsLinkName != NULL && !itsLinkName->IsEmpty())
+	if (itsLinkName != nullptr && !itsLinkName->IsEmpty())
 		{
 		return JDirEntry(itsPath, *itsLinkName);
 		}
@@ -254,10 +254,10 @@ const JString&
 JDirEntry::GetUserName()
 	const
 {
-	if (itsUserName == NULL)
+	if (itsUserName == nullptr)
 		{
 		const_cast<JDirEntry*>(this)->itsUserName = jnew JString(JGetUserName(itsUserID));
-		assert( itsUserName != NULL );
+		assert( itsUserName != nullptr );
 		}
 
 	return *itsUserName;
@@ -272,10 +272,10 @@ const JString&
 JDirEntry::GetGroupName()
 	const
 {
-	if (itsGroupName == NULL)
+	if (itsGroupName == nullptr)
 		{
 		const_cast<JDirEntry*>(this)->itsGroupName = jnew JString(JGetGroupName(itsGroupID));
-		assert( itsGroupName != NULL );
+		assert( itsGroupName != nullptr );
 		}
 
 	return *itsGroupName;
@@ -418,13 +418,13 @@ JDirEntry::ForceUpdate()
 	itsIsReadableFlag = itsIsWritableFlag = itsIsExecutableFlag = kJFalse;
 
 	jdelete itsLinkName;
-	itsLinkName = NULL;
+	itsLinkName = nullptr;
 
 	jdelete itsUserName;
-	itsUserName = NULL;
+	itsUserName = nullptr;
 
 	jdelete itsGroupName;
-	itsGroupName = NULL;
+	itsGroupName = nullptr;
 
 	// get info from system
 
@@ -476,11 +476,11 @@ JDirEntry::ForceUpdate()
 			}
 
 		itsLinkName = jnew JString;
-		assert( itsLinkName != NULL );
+		assert( itsLinkName != nullptr );
 		if (!(JGetSymbolicLinkTarget(itsFullName, itsLinkName)).OK())
 			{
 			jdelete itsLinkName;
-			itsLinkName = NULL;
+			itsLinkName = nullptr;
 			}
 		}
 	else if (S_ISREG(ftype))

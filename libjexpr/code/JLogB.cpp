@@ -75,7 +75,7 @@ JLogB::Copy()
 	const
 {
 	JLogB* newFunction = jnew JLogB(*this);
-	assert( newFunction != NULL );
+	assert( newFunction != nullptr );
 	return newFunction;
 }
 

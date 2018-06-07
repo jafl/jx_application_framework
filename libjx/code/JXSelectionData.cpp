@@ -35,7 +35,7 @@ JXSelectionData::JXSelectionData
 	)
 	:
 	itsDisplay(display),
-	itsDataSource(NULL)
+	itsDataSource(nullptr)
 {
 	JXSelectionDataX();
 }
@@ -49,14 +49,14 @@ JXSelectionData::JXSelectionData
 	itsDisplay(widget->GetDisplay()),
 	itsDataSource(widget)
 {
-	assert( widget != NULL && !JString::IsEmpty(id) );
+	assert( widget != nullptr && !JString::IsEmpty(id) );
 
 	JXSelectionDataX();
 
 	ListenTo(itsDataSource);	// need to know if it is deleted
 
 	itsDataSourceID = jnew JString(id, 0);
-	assert( itsDataSourceID != NULL );
+	assert( itsDataSourceID != nullptr );
 }
 
 // private
@@ -69,10 +69,10 @@ JXSelectionData::JXSelectionDataX()
 	itsEndTime       = CurrentTime;
 
 	itsTypeList = jnew JArray<Atom>;
-	assert( itsTypeList != NULL );
+	assert( itsTypeList != nullptr );
 	itsTypeList->SetCompareFunction(CompareAtoms);
 
-	itsDataSourceID = NULL;
+	itsDataSourceID = nullptr;
 }
 
 /******************************************************************************
@@ -203,15 +203,15 @@ void
 JXSelectionData::Resolve()
 	const
 {
-	if (itsDataSource != NULL && itsDataSourceID != NULL)
+	if (itsDataSource != nullptr && itsDataSourceID != nullptr)
 		{
 		JXSelectionData* me = const_cast<JXSelectionData*>(this);
 
 		itsDataSource->GetSelectionData(me, *itsDataSourceID);
 
 		jdelete me->itsDataSourceID;
-		me->itsDataSource   = NULL;
-		me->itsDataSourceID = NULL;
+		me->itsDataSource   = nullptr;
+		me->itsDataSourceID = nullptr;
 		}
 }
 
@@ -250,7 +250,7 @@ JXSelectionData::Convert
 		*dataLength   = sizeof(Atom)*atomCount;
 
 		*data = jnew unsigned char [ *dataLength ];
-		if (*data == NULL)
+		if (*data == nullptr)
 			{
 			return kJFalse;
 			}
@@ -273,7 +273,7 @@ JXSelectionData::Convert
 		*dataLength   = sizeof(Time);
 
 		*data = jnew unsigned char [ *dataLength ];
-		if (*data == NULL)
+		if (*data == nullptr)
 			{
 			return kJFalse;
 			}
@@ -337,8 +337,8 @@ JXSelectionData::ReceiveGoingAway
 	if (sender == itsDataSource)
 		{
 		jdelete itsDataSourceID;
-		itsDataSource   = NULL;
-		itsDataSourceID = NULL;
+		itsDataSource   = nullptr;
+		itsDataSourceID = nullptr;
 		}
 	else
 		{

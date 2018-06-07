@@ -201,7 +201,7 @@ JCreateSymbolicLink
 	const JCharacter* origDest
 	)
 {
-	if (FAILED(OleInitialize(NULL)))
+	if (FAILED(OleInitialize(nullptr)))
 		{
 		return JAccessDenied("OLE");
 		}
@@ -209,7 +209,7 @@ JCreateSymbolicLink
 	JBoolean success = kJFalse;
 
 	IShellLink* link;
-	if (SUCCEEDED(CoCreateInstance(CLSID_ShellLink, NULL, CLSCTX_INPROC_SERVER,
+	if (SUCCEEDED(CoCreateInstance(CLSID_ShellLink, nullptr, CLSCTX_INPROC_SERVER,
 								   IID_IShellLink, (void**) &link)))
 		{
 		IPersistFile* file;
@@ -792,7 +792,7 @@ JIsRootDirectory
 
 	If path begins with '/', there is nothing to do.
 	If path begins with '~', the user's home directory is inserted.
-	Otherwise, if base is not NULL and not empty, it is prepended.
+	Otherwise, if base is not nullptr and not empty, it is prepended.
 	Otherwise, the result of JGetCurrentDirectory() is prepended.
 
 	As a final check, it calls JNameUsed() to check that the result exists.
@@ -807,11 +807,11 @@ JBoolean
 JConvertToAbsolutePath
 	(
 	const JCharacter*	path,
-	const JCharacter*	base,		// can be NULL
+	const JCharacter*	base,		// can be nullptr
 	JString*			result
 	)
 {
-	assert( !JString::IsEmpty(path) && result != NULL );
+	assert( !JString::IsEmpty(path) && result != nullptr );
 
 	JBoolean ok = kJTrue;
 	if (JIsAbsolutePath(path))
@@ -860,8 +860,8 @@ JConvertToRelativePath
 {
 	// Check that they are both absolute paths.
 
-	assert( origPath != NULL && JIsAbsolutePath(origPath) &&
-			origBase != NULL && JIsAbsolutePath(origBase) );
+	assert( origPath != nullptr && JIsAbsolutePath(origPath) &&
+			origBase != nullptr && JIsAbsolutePath(origBase) );
 
 	// Remove extra directory separators
 	// and make sure that base ends with one.
@@ -941,8 +941,8 @@ JConvertToRelativePath
 	home directory, if it exists.  Otherwise, kJFalse is returned and *result
 	is empty.
 
-	If homeDir != NULL, it is set to the home directory that was specified
-	by the ~.  If homeLength != NULL it is set to the number of characters
+	If homeDir != nullptr, it is set to the home directory that was specified
+	by the ~.  If homeLength != nullptr it is set to the number of characters
 	at the start of path that specified the home directory.
 
 	This function does not check that the resulting expanded path is valid.
@@ -961,17 +961,17 @@ JExpandHomeDirShortcut
 	JSize*				homeLength
 	)
 {
-	assert( !JString::IsEmpty(path) && result != NULL );
+	assert( !JString::IsEmpty(path) && result != nullptr );
 
 	JBoolean ok = kJTrue;
 	if (path[0] == '~' && path[1] == '\0')
 		{
 		ok = JGetHomeDirectory(result);
-		if (ok && homeDir != NULL)
+		if (ok && homeDir != nullptr)
 			{
 			*homeDir = *result;
 			}
-		if (ok && homeLength != NULL)
+		if (ok && homeLength != nullptr)
 			{
 			*homeLength = 1;
 			}
@@ -979,11 +979,11 @@ JExpandHomeDirShortcut
 	else if (path[0] == '~' && path[1] == '\\')
 		{
 		ok = JGetHomeDirectory(result);
-		if (ok && homeDir != NULL)
+		if (ok && homeDir != nullptr)
 			{
 			*homeDir = *result;
 			}
-		if (ok && homeLength != NULL)
+		if (ok && homeLength != nullptr)
 			{
 			*homeLength = 2;
 			}
@@ -995,11 +995,11 @@ JExpandHomeDirShortcut
 	else
 		{
 		*result = path;
-		if (homeDir != NULL)
+		if (homeDir != nullptr)
 			{
 			homeDir->Clear();
 			}
-		if (homeLength != NULL)
+		if (homeLength != nullptr)
 			{
 			*homeLength = 0;
 			}
@@ -1012,11 +1012,11 @@ JExpandHomeDirShortcut
 	else
 		{
 		result->Clear();
-		if (homeDir != NULL)
+		if (homeDir != nullptr)
 			{
 			homeDir->Clear();
 			}
-		if (homeLength != NULL)
+		if (homeLength != nullptr)
 			{
 			*homeLength = 0;
 			}
@@ -1038,13 +1038,13 @@ JGetSymbolicLinkTarget
 {
 	targetFullName->Clear();
 
-	if (FAILED(OleInitialize(NULL)))
+	if (FAILED(OleInitialize(nullptr)))
 		{
 		return JAccessDenied("OLE");
 		}
 
 	IShellLink* link;
-	if (SUCCEEDED(CoCreateInstance(CLSID_ShellLink, NULL, CLSCTX_INPROC_SERVER,
+	if (SUCCEEDED(CoCreateInstance(CLSID_ShellLink, nullptr, CLSCTX_INPROC_SERVER,
 								   IID_IShellLink, (void**) &link)))
 		{
 		IPersistFile* file;
@@ -1089,13 +1089,13 @@ JGetDirectoryFromCSIDL
 {
 	path->Clear();
 
-	if (FAILED(OleInitialize(NULL)))
+	if (FAILED(OleInitialize(nullptr)))
 		{
 		return kJFalse;
 		}
 
 	JCharacter s[ MAX_PATH ];
-	if (SHGetFolderPath(NULL, folderCSIDL | CSIDL_FLAG_CREATE, NULL, 0, s) == S_OK)
+	if (SHGetFolderPath(nullptr, folderCSIDL | CSIDL_FLAG_CREATE, nullptr, 0, s) == S_OK)
 		{
 		*path = s;
 		JAppendDirSeparator(path);

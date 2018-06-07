@@ -55,7 +55,7 @@ LLDBGetSourceFileList::HandleSuccess
 	)
 {
 	LLDBLink* link = dynamic_cast<LLDBLink*>(CMGetLink());
-	if (link == NULL)
+	if (link == nullptr)
 		{
 		return;
 		}
@@ -80,7 +80,7 @@ LLDBGetSourceFileList::HandleSuccess
 				lldb::SBCompileUnit u = m.GetCompileUnitAtIndex(j);
 				lldb::SBFileSpec f    = u.GetFileSpec();
 
-				if (f.GetDirectory() != NULL && f.GetFilename() != NULL)
+				if (f.GetDirectory() != nullptr && f.GetFilename() != nullptr)
 					{
 					fullName = JCombinePathAndName(f.GetDirectory(), f.GetFilename());
 					table->AddFile(fullName);

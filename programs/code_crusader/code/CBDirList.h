@@ -19,7 +19,7 @@ struct CBDirInfo
 
 	CBDirInfo()
 		:
-		path(NULL), recurse(kJTrue), projIndex(0)
+		path(nullptr), recurse(kJTrue), projIndex(0)
 	{ };
 
 	CBDirInfo(JString* p, const JBoolean r)

@@ -34,7 +34,7 @@ HelloWorldDir::HelloWorldDir
 	JXWindow* window = jnew JXWindow(this, 200,100, JGetString(kWindowTitleID));
 
 	// Make sure that new succeeded
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	// Set the min and max size of the window.
 	// This particular pair of operations can also be done
@@ -50,7 +50,7 @@ HelloWorldDir::HelloWorldDir
 		jnew JXStaticText(JGetString(kWindowTextID), window,
 			JXWidget::kFixedLeft, JXWidget::kFixedTop,
 			20, 40, 160, 20);
-	assert( text != NULL );
+	assert( text != nullptr );
 }
 
 /******************************************************************************

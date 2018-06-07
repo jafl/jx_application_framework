@@ -87,22 +87,22 @@ private:
 	struct VarInfo
 	{
 		JString*	name;
-		JRegex*		regex;	// NULL if name is not regex
-		JString*	value;	// NULL if name is regex
+		JRegex*		regex;	// nullptr if name is not regex
+		JString*	value;	// nullptr if name is regex
 
 		VarInfo()
 			:
-			name(NULL), regex(NULL), value(NULL)
+			name(nullptr), regex(nullptr), value(nullptr)
 		{ };
 
 		VarInfo(JString* n, JString* v)
 			:
-			name(n), regex(NULL), value(v)
+			name(n), regex(nullptr), value(v)
 		{ };
 
 		VarInfo(JString* n, JRegex* r)
 			:
-			name(n), regex(r), value(NULL)
+			name(n), regex(r), value(nullptr)
 		{ };
 	};
 
@@ -175,7 +175,7 @@ JSubstitute::EscapeExists
 	)
 	const
 {
-	return JI2B( itsEscapeTable[c] != NULL );
+	return JI2B( itsEscapeTable[c] != nullptr );
 }
 
 /******************************************************************************
@@ -194,7 +194,7 @@ JSubstitute::GetEscape
 	const
 {
 	*value = itsEscapeTable[c];
-	return JI2B( *value != NULL );
+	return JI2B( *value != nullptr );
 }
 
 /******************************************************************************

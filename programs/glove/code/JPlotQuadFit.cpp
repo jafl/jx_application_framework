@@ -131,8 +131,8 @@ JPlotQuadFit::JPlotQuadFitX
 	JPlotDataBase* fitData
 	)
 {
-	itsP 	= NULL;
-	itsXi	= NULL;
+	itsP 	= nullptr;
+	itsXi	= nullptr;
 
 	SetHasParameterErrors(kJTrue);
 	if (fitData->HasXErrors() || fitData->HasYErrors())
@@ -150,7 +150,7 @@ JPlotQuadFit::JPlotQuadFitX
 	itsRealCount = 0;
 
 	itsRealData = jnew JArray<J2DDataPoint>;
-	assert(itsRealData != NULL);
+	assert(itsRealData != nullptr);
 	const JSize count = fitData->GetElementCount();
 	for (JSize i=1; i<= count; i++)
 		{
@@ -678,7 +678,7 @@ JPlotQuadFit::CalcError
 	itsCParameterT = itsCParameter;
 
 	JFloat parameter = 0;
-	JFloat *sigParameter = NULL;
+	JFloat *sigParameter = nullptr;
 	JIndex fitType = 0;
 	JVector p(2);
 	JMatrix xi(2,2);
@@ -941,7 +941,7 @@ JPlotQuadFit::Function
 	const JIndex 	type
 	)
 {
-	assert(itsP != NULL);
+	assert(itsP != nullptr);
 	JVector xt(*itsP);
 	xt = *itsP + Bt * *itsXi;
 	JFloat value = FunctionN(xt, itsCurrentType);
@@ -1325,13 +1325,13 @@ JPlotQuadFit::LinearMinimization
 {
 	JFloat xx,xmin,fx,fb,fa,bx,ax, fret;
 
-	assert (itsP == NULL);
+	assert (itsP == nullptr);
 	itsP = jnew JVector(p);
-	assert(itsP != NULL);
+	assert(itsP != nullptr);
 
-	assert (itsXi == NULL);
+	assert (itsXi == nullptr);
 	itsXi = jnew JVector(xi);
-	assert(itsXi != NULL);
+	assert(itsXi != nullptr);
 
 	itsCurrentType = type;
 
@@ -1343,9 +1343,9 @@ JPlotQuadFit::LinearMinimization
 	p += xi;
 
 	jdelete itsP;
-	itsP = NULL;
+	itsP = nullptr;
 	jdelete itsXi;
-	itsXi = NULL;
+	itsXi = nullptr;
 
 	return fret;
 }

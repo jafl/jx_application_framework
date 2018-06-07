@@ -34,7 +34,7 @@ JMMErrorPrinter::JMMErrorPrinter
 	itsPrintErrorsFlag(kJTrue)
 {
 	const JUtf8Byte* printErrors = getenv("JMM_NO_PRINT_ERRORS");
-	if (printErrors != NULL && JString::Compare(printErrors, "yes", kJFalse) == 0)
+	if (printErrors != nullptr && JString::Compare(printErrors, "yes", kJFalse) == 0)
 		{
 		itsPrintErrorsFlag = kJFalse;
 		}
@@ -179,7 +179,7 @@ JMMErrorPrinter::HandleNULLDeleted
 {
 	if (itsPrintErrorsFlag)
 		{
-		std::cout << "*** memory error: Attempt to delete NULL as "
+		std::cout << "*** memory error: Attempt to delete nullptr as "
 				  << JMMRecord::TypeName(isArray) << " at"
 				  << "\n                     "
 				  << file << ":" << line << std::endl;

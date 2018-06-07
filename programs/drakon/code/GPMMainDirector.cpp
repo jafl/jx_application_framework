@@ -141,15 +141,15 @@ GPMMainDirector::GPMMainDirector
 	:
 	JXWindowDirector(supervisor),
 	JPrefObject(GPMGetPrefsManager(), kGPMMainDirectorID),
-	itsTimerTask(NULL)
+	itsTimerTask(nullptr)
 {
 	itsProcessList	= jnew GPMProcessList();
-	assert( itsProcessList != NULL );
+	assert( itsProcessList != nullptr );
 
 	BuildWindow();
 
 	itsTimerTask = jnew JXTimerTask(kTimerDelay);
-	assert( itsTimerTask != NULL );
+	assert( itsTimerTask != nullptr );
 	itsTimerTask->Start();
 	ListenTo(itsTimerTask);
 
@@ -183,22 +183,22 @@ GPMMainDirector::BuildWindow()
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 530,350, "");
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	JXMenuBar* menuBar =
 		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 530,30);
-	assert( menuBar != NULL );
+	assert( menuBar != nullptr );
 
 	itsToolBar =
 		jnew JXToolBar(GPMGetPrefsManager(), kGPMMainToolBarID, menuBar, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 530,300);
-	assert( itsToolBar != NULL );
+	assert( itsToolBar != nullptr );
 
 	itsFullCmdDisplay =
-		jnew JXStaticText("", kJFalse, kJTrue, NULL, window,
+		jnew JXStaticText("", kJFalse, kJTrue, nullptr, window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 0,330, 530,20);
-	assert( itsFullCmdDisplay != NULL );
+	assert( itsFullCmdDisplay != nullptr );
 
 // end JXLayout
 
@@ -208,7 +208,7 @@ GPMMainDirector::BuildWindow()
 	window->SetWMClass(GPMGetWMClassInstance(), GPMGetMainWindowClass());
 
 	JXImage* image = jnew JXImage(GetDisplay(), gpm_main_window_icon);
-	assert( image != NULL );
+	assert( image != nullptr );
 	window->SetIcon(image);
 
 	// system stats
@@ -217,7 +217,7 @@ GPMMainDirector::BuildWindow()
 		jnew GPMSystemStats(itsProcessList, itsToolBar->GetWidgetEnclosure(),
 					   JXWidget::kHElastic, JXWidget::kFixedTop,
 					   0,kStatusMargin, 100,kStatusHeight);
-	assert( itsSystemStats != NULL );
+	assert( itsSystemStats != nullptr );
 	itsSystemStats->FitToEnclosure(kJTrue, kJFalse);
 
 	// tab group
@@ -226,7 +226,7 @@ GPMMainDirector::BuildWindow()
 		jnew JXTabGroup(itsToolBar->GetWidgetEnclosure(),
 					   JXWidget::kHElastic, JXWidget::kVElastic,
 					   0,0, 100,100);
-	assert( itsTabGroup != NULL );
+	assert( itsTabGroup != nullptr );
 	itsTabGroup->FitToEnclosure();
 	ListenTo(itsTabGroup->GetCardEnclosure());
 
@@ -242,7 +242,7 @@ GPMMainDirector::BuildWindow()
 	JXScrollbarSet* scrollbarSet =
 		jnew JXScrollbarSet(listTab, JXWidget::kHElastic, JXWidget::kVElastic,
 						   0,0, 100,100);
-	assert( scrollbarSet != NULL );
+	assert( scrollbarSet != nullptr );
 	scrollbarSet->FitToEnclosure();
 
 	const JCoordinate kHeaderHeight	= 25;
@@ -253,7 +253,7 @@ GPMMainDirector::BuildWindow()
 			scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 			JXWidget::kHElastic, JXWidget::kVElastic,
 			0,kHeaderHeight, 100,tableHeight);
-	assert( itsProcessTable != NULL );
+	assert( itsProcessTable != nullptr );
 	itsProcessTable->FitToEnclosure(kJTrue, kJFalse);
 
 	GPMListHeaderWidget* tableHeader =
@@ -261,7 +261,7 @@ GPMMainDirector::BuildWindow()
 			scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 			JXWidget::kHElastic, JXWidget::kFixedTop,
 			0,0, 100,kHeaderHeight);
-	assert( tableHeader != NULL );
+	assert( tableHeader != nullptr );
 	tableHeader->FitToEnclosure(kJTrue, kJFalse);
 
 	// tree view
@@ -269,18 +269,18 @@ GPMMainDirector::BuildWindow()
 	scrollbarSet =
 		jnew JXScrollbarSet(treeTab, JXWidget::kHElastic, JXWidget::kVElastic,
 						   0,0, 100,100);
-	assert( scrollbarSet != NULL );
+	assert( scrollbarSet != nullptr );
 	scrollbarSet->FitToEnclosure();
 
 	JNamedTreeList* treeList = jnew JNamedTreeList(itsProcessList->GetProcessTree());
-	assert( treeList != NULL );
+	assert( treeList != nullptr );
 
 	itsProcessTree =
 		jnew GPMProcessTreeList(itsProcessList, treeList, itsFullCmdDisplay,
 			scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 			JXWidget::kHElastic, JXWidget::kVElastic,
 			0,kHeaderHeight, 100,tableHeight);
-	assert( itsProcessTree != NULL );
+	assert( itsProcessTree != nullptr );
 	itsProcessTree->FitToEnclosure(kJTrue, kJFalse);
 
 	GPMTreeHeaderWidget* treeHeader =
@@ -288,7 +288,7 @@ GPMMainDirector::BuildWindow()
 			scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 			JXWidget::kHElastic, JXWidget::kFixedTop,
 			0,0, 100,kHeaderHeight);
-	assert( treeHeader != NULL );
+	assert( treeHeader != nullptr );
 	treeHeader->FitToEnclosure(kJTrue, kJFalse);
 
 	itsProcessTable->SetDefaultRowHeight(itsProcessTree->GetDefaultRowHeight());
@@ -371,7 +371,7 @@ GPMMainDirector::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleFileMenu(selection->GetIndex());
 		}
 
@@ -383,7 +383,7 @@ GPMMainDirector::Receive
 		{
 		 const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleProcessMenu(selection->GetIndex());
 		}
 
@@ -395,7 +395,7 @@ GPMMainDirector::Receive
 		{
 		 const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandlePrefsMenu(selection->GetIndex());
 		}
 
@@ -407,7 +407,7 @@ GPMMainDirector::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleHelpMenu(selection->GetIndex());
 		}
 

@@ -30,7 +30,7 @@ JNaryFunction::JNaryFunction
 	JFunctionWithArgs(nameIndex, type)
 {
 	itsArgList = jnew JPtrArray<JFunction>(JPtrArrayT::kDeleteAll, kMaxReasonableArgCount);
-	assert( itsArgList != NULL );
+	assert( itsArgList != nullptr );
 }
 
 /******************************************************************************
@@ -56,7 +56,7 @@ JNaryFunction::JNaryFunction
 	JFunctionWithArgs(source)
 {
 	itsArgList = jnew JPtrArray<JFunction>(JPtrArrayT::kDeleteAll, kMaxReasonableArgCount);
-	assert( itsArgList != NULL );
+	assert( itsArgList != nullptr );
 
 	const JSize argCount = (source.itsArgList)->GetElementCount();
 
@@ -247,7 +247,7 @@ JNaryFunction::SetArg
 	JFunction*		arg
 	)
 {
-	assert( arg != NULL );
+	assert( arg != nullptr );
 	if (itsArgList->IndexValid(index))
 		{
 		itsArgList->SetElement(index, arg, JPtrArrayT::kDelete);
@@ -271,7 +271,7 @@ JNaryFunction::InsertArg
 	JFunction*		arg
 	)
 {
-	assert( arg != NULL );
+	assert( arg != nullptr );
 	itsArgList->InsertAtIndex(index, arg);
 }
 
@@ -286,7 +286,7 @@ JNaryFunction::PrependArg
 	JFunction* arg
 	)
 {
-	assert( arg != NULL );
+	assert( arg != nullptr );
 	itsArgList->Prepend(arg);
 }
 
@@ -301,7 +301,7 @@ JNaryFunction::AppendArg
 	JFunction* arg
 	)
 {
-	assert( arg != NULL );
+	assert( arg != nullptr );
 	itsArgList->Append(arg);
 }
 

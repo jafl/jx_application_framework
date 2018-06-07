@@ -81,16 +81,16 @@ THXApp::THXApp
 	itsStartupFlag = kJTrue;
 
 	itsExprList = jnew JPtrArray<THXExprDirector>(JPtrArrayT::kForgetAll);
-	assert( itsExprList != NULL );
+	assert( itsExprList != nullptr );
 
 	itsKeyPadVisibleFlag = kJTrue;
 
 	its2DPlotList = jnew JPtrArray<THX2DPlotDirector>(JPtrArrayT::kForgetAll);
-	assert( its2DPlotList != NULL );
+	assert( its2DPlotList != nullptr );
 	its2DPlotList->SetCompareFunction(Compare2DPlotTitles);
 	its2DPlotList->SetSortOrder(JListT::kSortAscending);
 
-	its2DPlotFnDialog = NULL;
+	its2DPlotFnDialog = nullptr;
 
 	THXCreateGlobals(this);
 	RestoreProgramState();
@@ -143,7 +143,7 @@ THXApp::DisplayAbout
 	)
 {
 	THXAboutDialog* dlog = jnew THXAboutDialog(this, prevVersStr);
-	assert( dlog != NULL );
+	assert( dlog != nullptr );
 	dlog->BeginDialog();
 }
 
@@ -159,7 +159,7 @@ THXApp::NewExpression
 	)
 {
 	THXExprDirector* expr = jnew THXExprDirector(this, itsVarList);
-	assert( expr != NULL );
+	assert( expr != nullptr );
 	if (centerOnScreen)
 		{
 		(expr->GetWindow())->PlaceAsDialogWindow();
@@ -196,7 +196,7 @@ THXApp::SetKeyPadVisible
  New2DPlot
 
 	prevPlot should be the THX2DPlotDirector that originated the request,
-	NULL otherwise.
+	nullptr otherwise.
 
  ******************************************************************************/
 
@@ -206,10 +206,10 @@ THXApp::New2DPlot
 	const THX2DPlotDirector* prevPlot
 	)
 {
-	assert( its2DPlotFnDialog == NULL );
+	assert( its2DPlotFnDialog == nullptr );
 
 	its2DPlotFnDialog = jnew THX2DPlotFunctionDialog(this, itsVarList, prevPlot);
-	assert( its2DPlotFnDialog != NULL );
+	assert( its2DPlotFnDialog != nullptr );
 	its2DPlotFnDialog->BeginDialog();
 	ListenTo(its2DPlotFnDialog);
 }
@@ -222,7 +222,7 @@ THXApp::New2DPlot
 void
 THXApp::Create2DPlot()
 {
-	assert( its2DPlotFnDialog != NULL );
+	assert( its2DPlotFnDialog != nullptr );
 
 	JIndex plotIndex;
 	const JFunction* f;
@@ -233,7 +233,7 @@ THXApp::Create2DPlot()
 	if (plotIndex > its2DPlotList->GetElementCount())
 		{
 		THX2DPlotDirector* plot = jnew THX2DPlotDirector(this);
-		assert( plot != NULL );
+		assert( plot != nullptr );
 		its2DPlotList->Append(plot);
 		}
 
@@ -328,13 +328,13 @@ JIndex i;
 		}
 
 	itsVarList = jnew THXVarList(input, vers);
-	assert( itsVarList != NULL );
+	assert( itsVarList != nullptr );
 
 	itsVarDirector = jnew THXVarDirector(input, vers, this, itsVarList);
-	assert( itsVarDirector != NULL );
+	assert( itsVarDirector != nullptr );
 
 	itsBCDirector = jnew THXBaseConvDirector(input, vers, this);
-	assert( itsBCDirector != NULL );
+	assert( itsBCDirector != nullptr );
 
 	if (vers >= 1)
 		{
@@ -389,7 +389,7 @@ JIndex i;
 		for (i=1; i<=exprCount; i++)
 			{
 			THXExprDirector* expr = jnew THXExprDirector(input, vers, this, itsVarList);
-			assert( expr != NULL );
+			assert( expr != nullptr );
 			expr->Activate();
 			itsExprList->Append(expr);
 
@@ -406,7 +406,7 @@ JIndex i;
 	for (i=1; i<=plotCount; i++)
 		{
 		THX2DPlotDirector* plot = jnew THX2DPlotDirector(input, vers, this, itsVarList);
-		assert( plot != NULL );
+		assert( plot != nullptr );
 		plot->Activate();
 		its2DPlotList->Append(plot);
 		}
@@ -420,7 +420,7 @@ JIndex i;
 		{
 		JXSplashWindow* w = jnew JXSplashWindow(new_planet_software, THXGetVersionStr(),
 											   SPLASH_DISPLAY_TIME);
-		assert( w != NULL );
+		assert( w != nullptr );
 		w->Activate();
 		}
 #endif
@@ -440,13 +440,13 @@ THXApp::InitProgramState()
 		}
 
 	itsVarList = jnew THXVarList;
-	assert( itsVarList != NULL );
+	assert( itsVarList != nullptr );
 
 	itsVarDirector = jnew THXVarDirector(this, itsVarList);
-	assert( itsVarDirector != NULL );
+	assert( itsVarDirector != nullptr );
 
 	itsBCDirector = jnew THXBaseConvDirector(this);
-	assert( itsBCDirector != NULL );
+	assert( itsBCDirector != nullptr );
 
 	NewExpression(kJTrue);
 }
@@ -523,12 +523,12 @@ THXApp::Receive
 		{
 		const JXDialogDirector::Deactivated* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		if (info->Successful())
 			{
 			Create2DPlot();
 			}
-		its2DPlotFnDialog = NULL;
+		its2DPlotFnDialog = nullptr;
 		}
 
 	else
@@ -555,12 +555,12 @@ THXApp::DirectorClosed
 {
 	JIndex dirIndex;
 	THXExprDirector* exprDir = (THXExprDirector*) theDirector;
-	if (exprDir != NULL && itsExprList->Find(exprDir, &dirIndex))
+	if (exprDir != nullptr && itsExprList->Find(exprDir, &dirIndex))
 		{
 		itsExprList->RemoveElement(dirIndex);
 		}
 	THX2DPlotDirector* plot2DDir = (THX2DPlotDirector*) theDirector;
-	if (plot2DDir != NULL && its2DPlotList->Find(plot2DDir, &dirIndex))
+	if (plot2DDir != nullptr && its2DPlotList->Find(plot2DDir, &dirIndex))
 		{
 		its2DPlotList->RemoveElement(dirIndex);
 		}
@@ -576,7 +576,7 @@ THXApp::DirectorClosed
 /*****************************************************************************
  BuildPlotMenu
 
-	If origPlot != NULL, initialChoice is set to the index of the director.
+	If origPlot != nullptr, initialChoice is set to the index of the director.
 
 	We are deactivated until a plot is chosen, so sorting its2DPlotList
 	is safe.

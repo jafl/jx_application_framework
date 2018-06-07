@@ -13,9 +13,9 @@
 #include "GFGMDIServer.h"
 #include <jAssert.h>
 
-static GFGApp*			theApplication  = NULL;		// owns itself
-static GFGPrefsManager*	thePrefsManager = NULL;
-static GFGMDIServer*	theMDIServer    = NULL;
+static GFGApp*			theApplication  = nullptr;		// owns itself
+static GFGPrefsManager*	thePrefsManager = nullptr;
+static GFGMDIServer*	theMDIServer    = nullptr;
 
 // string ID's
 
@@ -38,12 +38,12 @@ GFGCreateGlobals
 
 	JBoolean isNew;
 	thePrefsManager	= jnew GFGPrefsManager(&isNew);
-	assert( thePrefsManager != NULL );
+	assert( thePrefsManager != nullptr );
 
 	JXInitHelp();
 
 	theMDIServer = jnew GFGMDIServer;
-	assert( theMDIServer != NULL );
+	assert( theMDIServer != nullptr );
 
 	return isNew;
 }
@@ -56,13 +56,13 @@ GFGCreateGlobals
 void
 GFGDeleteGlobals()
 {
-	theApplication = NULL;
-	theMDIServer   = NULL;
+	theApplication = nullptr;
+	theMDIServer   = nullptr;
 
 	// this must be last so everybody else can use it to save their setup
 
 	jdelete thePrefsManager;
-	thePrefsManager = NULL;
+	thePrefsManager = nullptr;
 }
 
 /******************************************************************************
@@ -99,7 +99,7 @@ GFGCleanUpBeforeSuddenDeath
 GFGApp*
 GFGGetApplication()
 {
-	assert( theApplication != NULL );
+	assert( theApplication != nullptr );
 	return theApplication;
 }
 
@@ -111,7 +111,7 @@ GFGGetApplication()
 GFGPrefsManager*
 GFGGetPrefsManager()
 {
-	assert( thePrefsManager != NULL );
+	assert( thePrefsManager != nullptr );
 	return thePrefsManager;
 }
 
@@ -123,7 +123,7 @@ GFGGetPrefsManager()
 GFGMDIServer*
 GFGGetMDIServer()
 {
-	assert( theMDIServer != NULL );
+	assert( theMDIServer != nullptr );
 	return theMDIServer;
 }
 

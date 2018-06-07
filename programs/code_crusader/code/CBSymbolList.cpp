@@ -63,7 +63,7 @@ CBSymbolList::CBSymbolList
 	itsBeganEmptyFlag         = kJFalse;
 
 	itsSymbolList = jnew JArray<SymbolInfo>(kBlockSize);
-	assert( itsSymbolList != NULL );
+	assert( itsSymbolList != nullptr );
 	itsSymbolList->SetSortOrder(JListT::kSortAscending);
 	itsSymbolList->SetCompareFunction(CompareSymbols);
 
@@ -84,7 +84,7 @@ CBSymbolList::~CBSymbolList()
 /******************************************************************************
  GetSymbol
 
-	fullyQualifiedFileScope can be NULL.
+	fullyQualifiedFileScope can be nullptr.
 
  ******************************************************************************/
 
@@ -102,7 +102,7 @@ CBSymbolList::GetSymbol
 	*lang                 = info.lang;
 	*type                 = info.type;
 
-	if (fullyQualifiedFileScope != NULL)
+	if (fullyQualifiedFileScope != nullptr)
 		{
 		*fullyQualifiedFileScope = info.fullyQualifiedFileScope;
 		}
@@ -201,7 +201,7 @@ public:
 	Copy() const
 	{
 		FindSymbolCompare* copy = jnew FindSymbolCompare(itsData);
-		assert( copy != NULL );
+		assert( copy != nullptr );
 		return copy;
 	}
 
@@ -492,7 +492,7 @@ CBSymbolList::PrepareContextNamespaceList
 			*cns1 += namespaceOp;
 
 			JString* cns2 = jnew JString(*cns1);					// ::name::
-			assert( cns2 != NULL );
+			assert( cns2 != nullptr );
 			cns2->Prepend(namespaceOp);
 			contextNamespace->InsertAtIndex(i+1, cns2);
 			}
@@ -576,7 +576,7 @@ public:
 	Copy() const
 	{
 		ClosestMatchCompare* copy = jnew ClosestMatchCompare(itsPrefix, itsData);
-		assert( copy != NULL );
+		assert( copy != nullptr );
 		return copy;
 	}
 
@@ -845,7 +845,7 @@ CBSymbolList::ReadSymbolList
 	while (1)
 		{
 		JString* name = jnew JString;
-		assert( name != NULL );
+		assert( name != nullptr );
 
 		input >> std::ws;
 		*name = JReadUntil(input, '\t');		// symbol name
@@ -869,11 +869,11 @@ CBSymbolList::ReadSymbolList
 			typeChar = value->GetFirstCharacter();
 			}
 
-		JString* signature = NULL;
+		JString* signature = nullptr;
 		if (flags.GetElement("signature", &value) && !value->IsEmpty())
 			{
 			signature = jnew JString(*value);
-			assert( signature != NULL );
+			assert( signature != nullptr );
 			signature->PrependCharacter(' ');
 			}
 
@@ -884,11 +884,11 @@ CBSymbolList::ReadSymbolList
 		else
 			{
 			const Type type = DecodeSymbolType(lang, typeChar);
-			if (signature == NULL &&
+			if (signature == nullptr &&
 				(IsFunction(type) || IsPrototype(type)))
 				{
 				signature = jnew JString(" ( )");
-				assert( signature != NULL );
+				assert( signature != nullptr );
 				}
 
 			const SymbolInfo info(name, signature, lang, type,
@@ -900,15 +900,15 @@ CBSymbolList::ReadSymbolList
 			if (IsFileScope(type))
 				{
 				JString* name1 = jnew JString(fileName);
-				assert( name1 != NULL );
+				assert( name1 != nullptr );
 				*name1 += ":";
 				*name1 += *name;
 
-				JString* sig1 = NULL;
-				if (signature != NULL)
+				JString* sig1 = nullptr;
+				if (signature != nullptr)
 					{
 					sig1 = jnew JString(*signature);
-					assert( sig1 != NULL );
+					assert( sig1 != nullptr );
 					}
 
 				const SymbolInfo info1(name1, sig1, lang, type,
@@ -935,7 +935,7 @@ CBSymbolList::ReadSetup
 {
 	std::istream* input          = (projVers <= 41 ? &projInput : symInput);
 	const JFileVersion vers = (projVers <= 41 ? projVers   : symVers);
-	if (input != NULL)
+	if (input != nullptr)
 		{
 		ReadSetup(*input, vers);
 
@@ -967,7 +967,7 @@ CBSymbolList::ReadSetup
 	for (JIndex i=1; i<=symbolCount; i++)
 		{
 		JString* name = jnew JString;
-		assert( name != NULL );
+		assert( name != nullptr );
 		input >> *name;
 
 		long lang, type;
@@ -983,7 +983,7 @@ CBSymbolList::ReadSetup
 		JIndex lineIndex;
 		input >> fileID >> lineIndex;
 
-		JString* signature = NULL;
+		JString* signature = nullptr;
 		if (vers > 63)
 			{
 			JBoolean hasSignature;
@@ -992,7 +992,7 @@ CBSymbolList::ReadSetup
 			if (hasSignature)
 				{
 				signature = jnew JString;
-				assert( signature != NULL );
+				assert( signature != nullptr );
 				input >> *signature;
 				}
 			}
@@ -1027,7 +1027,7 @@ CBSymbolList::WriteSetup
 	)
 	const
 {
-	if (symOutput != NULL)
+	if (symOutput != nullptr)
 		{
 		const JSize symbolCount = itsSymbolList->GetElementCount();
 		*symOutput << ' ' << symbolCount;
@@ -1042,7 +1042,7 @@ CBSymbolList::WriteSetup
 			*symOutput << ' ' << info.fileID;
 			*symOutput << ' ' << info.lineIndex;
 
-			if (info.signature != NULL)
+			if (info.signature != nullptr)
 				{
 				*symOutput << ' ' << kJTrue;
 				*symOutput << ' ' << *(info.signature);
@@ -1135,5 +1135,5 @@ void
 CBSymbolList::SymbolInfo::Free()
 {
 	jdelete name;
-	name = NULL;
+	name = nullptr;
 }

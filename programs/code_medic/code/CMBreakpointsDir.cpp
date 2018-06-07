@@ -126,17 +126,17 @@ CMBreakpointsDir::BuildWindow
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 450,500, "");
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	JXMenuBar* menuBar =
 		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 450,30);
-	assert( menuBar != NULL );
+	assert( menuBar != nullptr );
 
 	JXScrollbarSet* scrollbarSet =
 		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 450,470);
-	assert( scrollbarSet != NULL );
+	assert( scrollbarSet != nullptr );
 
 // end JXLayout
 
@@ -149,7 +149,7 @@ CMBreakpointsDir::BuildWindow
 
 	JXDisplay* display = GetDisplay();
 	JXImage* icon      = jnew JXImage(display, medic_breakpoints_window);
-	assert( icon != NULL );
+	assert( icon != nullptr );
 	window->SetIcon(icon);
 
 	// layout table and column headers
@@ -165,12 +165,12 @@ CMBreakpointsDir::BuildWindow
 	itsTable =
 		jnew CMBreakpointTable(this, scrollbarSet, encl,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,20, 400,280);
-	assert( itsTable != NULL );
+	assert( itsTable != nullptr );
 
 	itsColHeader =
 		jnew JXColHeaderWidget(itsTable, scrollbarSet, encl,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 400,20);
-	assert( itsColHeader != NULL );
+	assert( itsColHeader != nullptr );
 
 	encl->SetSize(tablelayout_Frame.width(), tablelayout_Frame.height());
 
@@ -195,7 +195,7 @@ CMBreakpointsDir::BuildWindow
 	JXWDMenu* wdMenu =
 		jnew JXWDMenu(kWindowsMenuTitleStr, menuBar,
 					 JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
-	assert( wdMenu != NULL );
+	assert( wdMenu != nullptr );
 	menuBar->AppendMenu(wdMenu);
 
 	itsHelpMenu = menuBar->AppendTextMenu(kHelpMenuTitleStr);
@@ -271,7 +271,7 @@ CMBreakpointsDir::Receive
 		{
 		 const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleFileMenu(selection->GetIndex());
 		}
 
@@ -283,7 +283,7 @@ CMBreakpointsDir::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleActionMenu(selection->GetIndex());
 		}
 
@@ -291,7 +291,7 @@ CMBreakpointsDir::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleHelpMenu(selection->GetIndex());
 		}
 
@@ -299,11 +299,11 @@ CMBreakpointsDir::Receive
 		{
 		const CMLink::SymbolsLoaded* info =
 			dynamic_cast<const CMLink::SymbolsLoaded*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		UpdateWindowTitle(info->GetProgramName());
 		}
 
-	else if (CMGetLink() != NULL &&
+	else if (CMGetLink() != nullptr &&
 			 sender == CMGetLink()->GetBreakpointManager() &&
 			 message.Is(CMBreakpointManager::kBreakpointsChanged))
 		{
@@ -382,7 +382,7 @@ void
 CMBreakpointsDir::UpdateActionMenu()
 {
 	CMLink* link = CMGetLink();
-	if (link != NULL)
+	if (link != nullptr)
 		{
 		itsActionMenu->EnableItem(kRemoveAllBreakpointsCmd);
 		}

@@ -56,19 +56,19 @@ SVNTabGroup::SVNTabGroup
 	itsBusyIndex(0)
 {
 	itsImageList = jnew JPtrArray<JXImage>(JPtrArrayT::kDeleteAll, kBusyIconCount);
-	assert( itsImageList != NULL );
+	assert( itsImageList != nullptr );
 
 	JXDisplay* display   = enclosure->GetDisplay();
 	JXColorManager* colormap = enclosure->GetColormap();
 	for (JIndex i=1; i<=kBusyIconCount; i++)
 		{
 		JXImage* icon = jnew JXImage(display, kBusyIcon[i-1]);
-		assert( icon != NULL );
+		assert( icon != nullptr );
 		itsImageList->Append(icon);
 		}
 
 	itsAnimationTask = jnew SVNBusyTabTask(this);
-	assert( itsAnimationTask != NULL );
+	assert( itsAnimationTask != nullptr );
 
 	ListenTo(GetCardEnclosure());
 }
@@ -180,7 +180,7 @@ SVNTabGroup::Receive
 		{
 		const JXCardFile::CardRemoved* info =
 			dynamic_cast<const JXCardFile::CardRemoved*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 
 		JIndex i;
 		const JBoolean hasIndex = info->GetCardIndex(&i);

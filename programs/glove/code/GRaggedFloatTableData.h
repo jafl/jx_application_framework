@@ -35,18 +35,18 @@ public:
 
 	const JArray<JFloat>&	GetColPointer(const JIndex index) const;
 
-	void	InsertRow(const JIndex index, const JList<JFloat>* initData = NULL);
-	void	InsertRows(const JIndex index, const JSize count, const JList<JFloat>* initData = NULL);
+	void	InsertRow(const JIndex index, const JList<JFloat>* initData = nullptr);
+	void	InsertRows(const JIndex index, const JSize count, const JList<JFloat>* initData = nullptr);
 	void	PrependRow();
 	void	DuplicateRow(const JIndex index);
 	void	RemoveRow(const JIndex index);
 	void	RemoveAllRows();
 	void	MoveRow(const JIndex origIndex, const JIndex newIndex);
 
-	void	InsertCol(const JIndex index, const JList<JFloat>* initData = NULL);
-	void	InsertCols(const JIndex index, const JSize count, const JList<JFloat>* initData = NULL);
-	void	PrependCol(const JList<JFloat>* initData = NULL);
-	void	AppendCol(const JList<JFloat>* initData = NULL);
+	void	InsertCol(const JIndex index, const JList<JFloat>* initData = nullptr);
+	void	InsertCols(const JIndex index, const JSize count, const JList<JFloat>* initData = nullptr);
+	void	PrependCol(const JList<JFloat>* initData = nullptr);
+	void	AppendCol(const JList<JFloat>* initData = nullptr);
 	void	DuplicateCol(const JIndex origIndex, const JIndex newIndex);
 	void	RemoveCol(const JIndex index);
 	void	RemoveAllCols();

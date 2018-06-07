@@ -63,7 +63,7 @@ MDApp::~MDApp()
 /******************************************************************************
  DisplayAbout
 
-	prevVersStr can be NULL.
+	prevVersStr can be nullptr.
 
  ******************************************************************************/
 
@@ -74,7 +74,7 @@ MDApp::DisplayAbout
 	)
 {
 	MDAboutDialog* dlog = jnew MDAboutDialog(this, prevVersStr);
-	assert( dlog != NULL );
+	assert( dlog != nullptr );
 	dlog->BeginDialog();
 }
 

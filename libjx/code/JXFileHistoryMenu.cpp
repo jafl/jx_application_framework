@@ -69,7 +69,7 @@ void
 JXFileHistoryMenu::JXFileHistoryMenuX()
 {
 	JXImage* icon = jnew JXImage(GetDisplay(), jx_plain_file_small);
-	assert( icon != NULL );
+	assert( icon != nullptr );
 	SetDefaultIcon(icon, kJTrue);
 }
 
@@ -98,7 +98,7 @@ JXFileHistoryMenu::GetFile
 
 	const JXMenu::ItemSelected* selection =
 		dynamic_cast<const JXMenu::ItemSelected*>(&message);
-	assert( selection != NULL );
+	assert( selection != nullptr );
 
 	return GetFile(selection->GetIndex());
 }

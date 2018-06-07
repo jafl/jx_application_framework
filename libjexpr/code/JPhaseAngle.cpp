@@ -68,7 +68,7 @@ JPhaseAngle::Copy()
 	const
 {
 	JPhaseAngle* newFunction = jnew JPhaseAngle(*this);
-	assert( newFunction != NULL );
+	assert( newFunction != nullptr );
 	return newFunction;
 }
 

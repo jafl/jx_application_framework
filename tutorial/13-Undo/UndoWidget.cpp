@@ -50,10 +50,10 @@ UndoWidget::UndoWidget
 	// See JCollection.h, JList.h, and JArray.h for functionality
 
 	itsPoints = jnew JArray<JPoint>;
-	assert( itsPoints != NULL );
+	assert( itsPoints != nullptr );
 
 	itsUndoList = jnew JPtrArray<JUndo>(JPtrArrayT::kDeleteAll);
-	assert(itsUndoList != NULL);
+	assert(itsUndoList != nullptr);
 }
 
 /******************************************************************************
@@ -180,7 +180,7 @@ UndoWidget::HandleMouseDrag
 	const JBoolean scrolled = ScrollForDrag(pt);
 
 	// Get the drag painter that we created in mouse down
-	JPainter* p = NULL;
+	JPainter* p = nullptr;
 	if (!GetDragPainter(&p))
 		{
 		return;
@@ -189,7 +189,7 @@ UndoWidget::HandleMouseDrag
 	// Make sure that the left button is pressed,
 	// that we have moved,
 	// and that a drag painter exists
-	if (buttonStates.left() && pt != itsPrevPt && p != NULL)	// p is NULL for multiple click
+	if (buttonStates.left() && pt != itsPrevPt && p != nullptr)	// p is nullptr for multiple click
 		{
 
 		// Draw line depending on whether or not we scrolled
@@ -230,7 +230,7 @@ UndoWidget::HandleMouseUp
 	const JXKeyModifiers&	modifiers
 	)
 {
-	JPainter* p = NULL;
+	JPainter* p = nullptr;
 
 	// Make sure that the left button is pressed,
 	// and that a drag painter exists
@@ -249,7 +249,7 @@ UndoWidget::HandleMouseUp
 		// Create the undo object to undo the addition of this line
 
 		UndoLine* undo = jnew UndoLine(this);
-		assert(undo != NULL);
+		assert(undo != nullptr);
 		NewUndo(undo);
 
 		// Tell the widget to redraw itself
@@ -392,7 +392,7 @@ UndoWidget::NewUndo
 	JUndo* undo
 	)
 {
-	if (itsUndoList != NULL && itsUndoState == kIdle)
+	if (itsUndoList != nullptr && itsUndoState == kIdle)
 		{
 		// clear redo objects
 
@@ -410,7 +410,7 @@ UndoWidget::NewUndo
 		assert( !itsUndoList->IsEmpty() );
 		}
 
-	else if (itsUndoList != NULL && itsUndoState == kUndo)
+	else if (itsUndoList != nullptr && itsUndoState == kUndo)
 		{
 		assert( itsFirstRedoIndex > 1 );
 
@@ -421,7 +421,7 @@ UndoWidget::NewUndo
 		undo->Deactivate();
 		}
 
-	else if (itsUndoList != NULL && itsUndoState == kRedo)
+	else if (itsUndoList != nullptr && itsUndoState == kRedo)
 		{
 		assert( itsFirstRedoIndex <= itsUndoList->GetElementCount() );
 
@@ -456,7 +456,7 @@ UndoWidget::AddLine
 	Refresh();
 
 	UndoLine* undo = jnew UndoLine(this);
-	assert(undo != NULL);
+	assert(undo != nullptr);
 
 	NewUndo(undo);
 }
@@ -480,7 +480,7 @@ UndoWidget::RemoveLastLine()
 	Refresh();
 
 	RedoLine* redo = jnew RedoLine(this, start, end);
-	assert(redo != NULL);
+	assert(redo != nullptr);
 
 	NewUndo(redo);
 }

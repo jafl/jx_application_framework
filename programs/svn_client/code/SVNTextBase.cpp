@@ -40,8 +40,8 @@ SVNTextBase::SVNTextBase
 	:
 	JXStaticText("", kJFalse, kJTrue, scrollbarSet, enclosure, hSizing, vSizing, x, y, w, h),
 	SVNTabBase(director),
-	itsProcess(NULL),
-	itsLink(NULL)
+	itsProcess(nullptr),
+	itsLink(nullptr)
 {
 	SetDefaultFont(GetFontManager()->GetDefaultMonospaceFont());
 
@@ -57,13 +57,13 @@ SVNTextBase::SVNTextBase
 
 SVNTextBase::~SVNTextBase()
 {
-	if (itsProcess != NULL)
+	if (itsProcess != nullptr)
 		{
 		StopListening(itsProcess);
 		itsProcess->Kill();
 		}
 	jdelete itsProcess;
-	itsProcess = NULL;	// avoid crash in ReceiveGoingAway()
+	itsProcess = nullptr;	// avoid crash in ReceiveGoingAway()
 
 	DeleteLink();
 }
@@ -76,10 +76,10 @@ SVNTextBase::~SVNTextBase()
 void
 SVNTextBase::RefreshContent()
 {
-	if (itsProcess != NULL)
+	if (itsProcess != nullptr)
 		{
 		JProcess* p = itsProcess;
-		itsProcess  = NULL;
+		itsProcess  = nullptr;
 
 		p->Kill();
 		jdelete p;
@@ -137,7 +137,7 @@ SVNTextBase::ReceiveGoingAway
 {
 	if (sender == itsProcess)
 		{
-		itsProcess = NULL;
+		itsProcess = nullptr;
 		DeleteLink();
 		}
 	else
@@ -159,7 +159,7 @@ SVNTextBase::ReceiveData
 {
 	const JAsynchDataReceiverT::DataReady* info =
 		dynamic_cast<const JAsynchDataReceiverT::DataReady*>(&message);
-	assert( info != NULL );
+	assert( info != nullptr );
 
 	const DisplayState state = SaveDisplayState();
 
@@ -182,7 +182,7 @@ SVNTextBase::AdjustCursor
 	const JXKeyModifiers&	modifiers
 	)
 {
-	if (itsProcess != NULL)
+	if (itsProcess != nullptr)
 		{
 		DisplayCursor(kJXBusyCursor);
 		}
@@ -236,7 +236,7 @@ SVNTextBase::SetConnection
 	p->ShouldDeleteWhenFinished();
 
 	itsLink = new DataLink(fd);
-	assert( itsLink != NULL );
+	assert( itsLink != nullptr );
 	ListenTo(itsLink);
 }
 
@@ -249,5 +249,5 @@ void
 SVNTextBase::DeleteLink()
 {
 	delete itsLink;
-	itsLink = NULL;
+	itsLink = nullptr;
 }

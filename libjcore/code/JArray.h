@@ -24,7 +24,7 @@ public:
 
 	const JArray<T>& operator=(const JArray<T>& source);
 
-	operator const T*() const;
+	explicit operator const T*() const;
 
 	const T*	GetCArray() const;
 	T*			AllocateCArray() const;		// client must call delete [] when finished with it

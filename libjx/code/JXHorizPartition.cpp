@@ -78,9 +78,9 @@ JXHorizPartition::JXHorizPartitionX()
 	SetDefaultCursor(JXGetDragVertLineCursor(GetDisplay()));
 	itsDragAllLineCursor = JXGetDragAllVertLineCursor(GetDisplay());
 
-	itsFTCSizes    = NULL;
-	itsFTCMinSizes = NULL;
-	itsSavedGeom   = NULL;
+	itsFTCSizes    = nullptr;
+	itsFTCMinSizes = nullptr;
+	itsSavedGeom   = nullptr;
 
 	SetElasticSize();
 }
@@ -125,7 +125,7 @@ JXHorizPartition::CreateCompartment
 	JXWidgetSet* compartment =
 		jnew JXWidgetSet(this, kFixedLeft, kVElastic,
 						position,0, size, GetApertureHeight());
-	assert( compartment != NULL );
+	assert( compartment != nullptr );
 	compartment->SetNeedsInternalFTC();
 	return compartment;
 }
@@ -260,7 +260,7 @@ JXHorizPartition::HandleMouseDrag
 
 		if (pt.x != itsPrevPt.x)
 			{
-			JPainter* p = NULL;
+			JPainter* p = nullptr;
 			const JBoolean ok = GetDragPainter(&p);
 			assert( ok );
 
@@ -293,7 +293,7 @@ JXHorizPartition::HandleMouseUp
 		{
 		// erase the line
 
-		JPainter* p = NULL;
+		JPainter* p = nullptr;
 		const JBoolean ok = GetDragPainter(&p);
 		assert( ok );
 
@@ -360,10 +360,10 @@ JXHorizPartition::RunInternalFTC
 	if (horizontal)
 		{
 		itsFTCSizes = jnew JArray<JCoordinate>;
-		assert( itsFTCSizes != NULL );
+		assert( itsFTCSizes != nullptr );
 
 		itsFTCMinSizes = jnew JArray<JCoordinate>;
-		assert( itsFTCMinSizes != NULL );
+		assert( itsFTCMinSizes != nullptr );
 
 		JCoordinate sum = 0;
 		JIndex i        = 1;
@@ -435,21 +435,21 @@ JXHorizPartition::FTCAdjustSize
 {
 	JXPartition::FTCAdjustSize(dw, dh);
 
-	if (itsFTCSizes != NULL)
+	if (itsFTCSizes != nullptr)
 		{
 		SetCompartmentSizes(*itsFTCSizes);
 		jdelete itsFTCSizes;
-		itsFTCSizes = NULL;
+		itsFTCSizes = nullptr;
 
 		SetMinCompartmentSizes(*itsFTCMinSizes);
 		jdelete itsFTCMinSizes;
-		itsFTCMinSizes = NULL;
+		itsFTCMinSizes = nullptr;
 
-		if (itsSavedGeom != NULL)
+		if (itsSavedGeom != nullptr)
 			{
 			RestoreGeometry(*itsSavedGeom);
 			jdelete itsSavedGeom;
-			itsSavedGeom = NULL;
+			itsSavedGeom = nullptr;
 			}
 		}
 }
@@ -465,13 +465,13 @@ JXHorizPartition::SaveGeometryForLater
 	const JArray<JCoordinate>& sizes
 	)
 {
-	if (itsSavedGeom == NULL)
+	if (itsSavedGeom == nullptr)
 		{
 		itsSavedGeom = jnew JArray<JCoordinate>(sizes);
-		assert( itsSavedGeom != NULL );
+		assert( itsSavedGeom != nullptr );
 
 		JXUrgentTask* geomTask = jnew JXRestorePartitionGeometry(this);
-		assert( geomTask != NULL );
+		assert( geomTask != nullptr );
 		geomTask->Go();
 		}
 	else

@@ -71,7 +71,7 @@ JXStyledText::NeedsToFilterText
 	)
 	const
 {
-	if (itsFontManager != NULL)
+	if (itsFontManager != nullptr)
 		{
 		JStringIterator siter(text);
 		JRunArrayIterator<JFont> fiter(style);
@@ -107,7 +107,7 @@ JXStyledText::FilterText
 	JRunArray<JFont>*	style
 	)
 {
-	if (itsFontManager != NULL)
+	if (itsFontManager != nullptr)
 		{
 		JStringIterator siter(text);
 		JRunArrayIterator<JFont> fiter(style);

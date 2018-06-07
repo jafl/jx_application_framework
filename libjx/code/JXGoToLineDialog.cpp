@@ -59,34 +59,34 @@ JXGoToLineDialog::BuildWindow
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 190,120, JString::empty);
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	JXTextButton* okButton =
 		jnew JXTextButton(JGetString("okButton::JXGoToLineDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 110,90, 60,20);
-	assert( okButton != NULL );
+	assert( okButton != nullptr );
 	okButton->SetShortcuts(JGetString("okButton::JXGoToLineDialog::shortcuts::JXLayout"));
 
 	JXTextButton* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::JXGoToLineDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 20,90, 60,20);
-	assert( cancelButton != NULL );
+	assert( cancelButton != nullptr );
 
 	itsLineNumber =
 		jnew JXIntegerInput(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 110,20, 40,20);
-	assert( itsLineNumber != NULL );
+	assert( itsLineNumber != nullptr );
 
 	JXStaticText* gotoLineLabel =
 		jnew JXStaticText(JGetString("gotoLineLabel::JXGoToLineDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 40,20, 70,20);
-	assert( gotoLineLabel != NULL );
+	assert( gotoLineLabel != nullptr );
 	gotoLineLabel->SetToLabel();
 
 	itsPhysicalLineIndexCB =
 		jnew JXTextCheckbox(JGetString("itsPhysicalLineIndexCB::JXGoToLineDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,50, 150,20);
-	assert( itsPhysicalLineIndexCB != NULL );
+	assert( itsPhysicalLineIndexCB != nullptr );
 	itsPhysicalLineIndexCB->SetShortcuts(JGetString("itsPhysicalLineIndexCB::JXGoToLineDialog::shortcuts::JXLayout"));
 
 // end JXLayout

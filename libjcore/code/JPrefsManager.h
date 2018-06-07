@@ -58,7 +58,7 @@ private:
 
 		PrefItem()
 			:
-			id(0), data(NULL)
+			id(0), data(nullptr)
 		{ };
 
 		PrefItem(const JIndex i, JString* d)
@@ -184,7 +184,7 @@ JPrefsManager::IDValid
 	)
 	const
 {
-	PrefItem target(id.GetID(), (JString*) NULL);
+	PrefItem target(id.GetID(), (JString*) nullptr);
 	JIndex index;
 	return itsData->SearchSorted(target, JListT::kAnyMatch, &index);
 }

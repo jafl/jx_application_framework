@@ -39,7 +39,7 @@ const JCoordinate kVMarginWidth = 1;
 /******************************************************************************
  Constructor
 
-	text can be NULL
+	text can be nullptr
 
  ******************************************************************************/
 
@@ -75,7 +75,7 @@ JUserInputFunction::JUserInputFunction
 	RecalcAll(kJTrue);
 	TESetLeftMarginWidth(kMinLeftMarginWidth);
 
-	if (text != NULL)
+	if (text != nullptr)
 		{
 		SetParseableText(this, text);
 		}
@@ -131,7 +131,7 @@ JUserInputFunction::Copy()
 	const
 {
 	JUserInputFunction* newFunction = jnew JUserInputFunction(*this);
-	assert( newFunction != NULL );
+	assert( newFunction != nullptr );
 	return newFunction;
 }
 
@@ -264,7 +264,7 @@ JUserInputFunction::Render
 	const
 {
 	JUserInputFunction* me = const_cast<JUserInputFunction*>(this);
-	assert( me != NULL );
+	assert( me != nullptr );
 
 	itsNeedRedrawFlag = kJFalse;
 
@@ -280,10 +280,10 @@ JUserInputFunction::Render
 
 	JExprEditor* exprEditor =
 		dynamic_cast<JExprEditor*>(const_cast<JExprRenderer*>(&renderer));
-	assert( exprEditor != NULL );
+	assert( exprEditor != nullptr );
 
 	JPainter* p = exprEditor->GetPainter();
-	assert( p != NULL );
+	assert( p != nullptr );
 
 	const JPoint delta = ourRect.topLeft() + JPoint(kHMarginWidth, kVMarginWidth);
 	p->ShiftOrigin(delta);
@@ -525,8 +525,8 @@ JUserInputFunction::Parse
 	JBoolean*				needRender
 	)
 {
-	*f          = NULL;
-	*newUIF     = NULL;
+	*f          = nullptr;
+	*newUIF     = nullptr;
 	*needRender = kJFalse;
 
 	JString buffer = GetParseableText(*this);
@@ -547,7 +547,7 @@ JUserInputFunction::Parse
 		JUserInputFunction* extraUIF;
 		JUserInputFunction* tempUIF =
 			jnew JUserInputFunction(itsVarList, TEGetFontManager(), TEGetColormap());
-		assert( tempUIF != NULL );
+		assert( tempUIF != nullptr );
 		const JBoolean ok =
 			JApplyFunction(buffer, itsVarList, *tempUIF, TEGetFontManager(), TEGetColormap(),
 						   f, &newArg, &extraUIF);
@@ -555,7 +555,7 @@ JUserInputFunction::Parse
 		if (ok)
 			{
 			*newUIF = dynamic_cast<JUserInputFunction*>(newArg);
-			assert( *newUIF != NULL );
+			assert( *newUIF != nullptr );
 			}
 		else
 			{
@@ -589,9 +589,9 @@ JUserInputFunction::Parse
 		if (ok)
 			{
 			JFunctionWithVar* fwv = (**f).CastToJFunctionWithVar();
-			assert( fwv != NULL );
+			assert( fwv != nullptr );
 			*newUIF = jnew JUserInputFunction(itsVarList, TEGetFontManager(), TEGetColormap());
-			assert( *newUIF != NULL );
+			assert( *newUIF != nullptr );
 			fwv->SetArrayIndex(*newUIF);
 			}
 		else
@@ -605,11 +605,11 @@ JUserInputFunction::Parse
 			 (buffer.GetSubstring(1,length-1)).ConvertToFloat(&x))
 		{
 		JConstantValue* expBase = jnew JConstantValue(10.0);
-		assert( expBase != NULL );
+		assert( expBase != nullptr );
 		*newUIF = jnew JUserInputFunction(itsVarList, TEGetFontManager(), TEGetColormap());
-		assert( *newUIF != NULL );
+		assert( *newUIF != nullptr );
 		JExponent* exponent = jnew JExponent(expBase, *newUIF);
-		assert( exponent != NULL );
+		assert( exponent != nullptr );
 		if (x == 1.0)
 			{
 			*f = exponent;
@@ -617,9 +617,9 @@ JUserInputFunction::Parse
 		else
 			{
 			JConstantValue* mantissa = jnew JConstantValue(x);
-			assert( mantissa != NULL );
+			assert( mantissa != nullptr );
 			JProduct* product = jnew JProduct;
-			assert( product != NULL );
+			assert( product != nullptr );
 			product->SetArg(1, mantissa);
 			product->SetArg(2, exponent);
 			*f = product;

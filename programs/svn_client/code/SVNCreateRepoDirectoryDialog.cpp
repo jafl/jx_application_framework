@@ -32,7 +32,7 @@ SVNCreateRepoDirectoryDialog::SVNCreateRepoDirectoryDialog
 	JXGetStringDialog(supervisor, windowTitle, prompt, initialName),
 	itsParentNode(parentNode)
 {
-	assert( itsParentNode != NULL );
+	assert( itsParentNode != nullptr );
 
 	GetInputField()->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
 }

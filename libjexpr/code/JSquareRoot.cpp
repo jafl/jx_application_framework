@@ -74,7 +74,7 @@ JSquareRoot::Copy()
 	const
 {
 	JSquareRoot* newFunction = jnew JSquareRoot(*this);
-	assert( newFunction != NULL );
+	assert( newFunction != nullptr );
 	return newFunction;
 }
 

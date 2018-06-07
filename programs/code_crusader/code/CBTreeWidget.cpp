@@ -72,18 +72,18 @@ CBTreeWidget::CBTreeWidget
 	itsTree     = tree;
 
 	itsFnMenu = jnew JXTextMenu("", this, kFixedLeft, kFixedTop, 0,0, 10,10);
-	assert( itsFnMenu != NULL );
+	assert( itsFnMenu != nullptr );
 	itsFnMenu->Hide();
 	itsFnMenu->SetToHiddenPopupMenu(kJTrue);
 	itsFnMenu->CompressHeight();
 
-	itsFnMenuDir = NULL;
+	itsFnMenuDir = nullptr;
 
 	itsQtSignalImage = jnew JXImage(GetDisplay(), jcc_qt_signal);
-	assert( itsQtSignalImage != NULL );
+	assert( itsQtSignalImage != nullptr );
 
 	itsQtSlotImage = jnew JXImage(GetDisplay(), jcc_qt_slot);
-	assert( itsQtSlotImage != NULL );
+	assert( itsQtSlotImage != nullptr );
 
 	WantInput(kJTrue, kJFalse, kJTrue);	// need Meta-Tab
 
@@ -407,7 +407,7 @@ CBTreeWidget::HandleMouseDown
 	itsKeyBuffer.Clear();
 	itsDragType = kInvalidDrag;
 
-	CBClass* theClass = NULL;
+	CBClass* theClass = nullptr;
 	if (ScrollForWheel(button, modifiers))
 		{
 		return;
@@ -472,13 +472,13 @@ CBTreeWidget::HandleMouseDrag
 		!JMouseMoved(itsStartPt, pt) &&
 		(JXGetApplication())->GetCurrentTime() >= itsMouseDownTime + kJXDoubleClickTime)
 		{
-		if (itsFnMenuDir != NULL)
+		if (itsFnMenuDir != nullptr)
 			{
 			itsFnMenuDir->Close();
 			}
-		itsFnMenuDir = jnew CBFnListDirector(itsDirector, NULL, itsFnMenuClass, this,
+		itsFnMenuDir = jnew CBFnListDirector(itsDirector, nullptr, itsFnMenuClass, this,
 											itsDirector->ShowInheritedFns(), kJTrue);
-		assert( itsFnMenuDir != NULL );
+		assert( itsFnMenuDir != nullptr );
 
 		CBFnListWidget* fnList = itsFnMenuDir->GetFnListWidget();
 		fnList->PrepareFunctionMenu(itsFnMenu);
@@ -490,7 +490,7 @@ CBTreeWidget::HandleMouseDrag
 	else if (itsDragType == kWaitForPopupFnMenuDrag && JMouseMoved(itsStartPt, pt))
 		{
 		JXFileSelection* data = jnew JXFileSelection(this, kSelectionDataID);
-		assert( data != NULL );
+		assert( data != nullptr );
 
 		BeginDND(pt, buttonStates, modifiers, data);
 		itsDragType = kInvalidDrag;
@@ -530,7 +530,7 @@ CBTreeWidget::HitSamePart
 	)
 	const
 {
-	CBClass* theClass = NULL;
+	CBClass* theClass = nullptr;
 	return itsTree->HitSameClass(pt1, pt2, &theClass);
 }
 
@@ -555,12 +555,12 @@ CBTreeWidget::GetSelectionData
 	if (strcmp(id, kSelectionDataID) == 0)
 		{
 		JXFileSelection* fileData = dynamic_cast<JXFileSelection*>(data);
-		assert( fileData != NULL );
+		assert( fileData != nullptr );
 
 		CBDocumentManager* docMgr = CBGetDocumentManager();
 
 		JPtrArray<JString>* list = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
-		assert( list != NULL );
+		assert( list != nullptr );
 
 		JPtrArray<CBClass> classList(JPtrArrayT::kForgetAll);
 		const JBoolean hasSelection = itsTree->GetSelectedClasses(&classList);
@@ -574,14 +574,14 @@ CBTreeWidget::GetSelectionData
 			if (c->GetFileName(&headerName))
 				{
 				JString* s = jnew JString(headerName);
-				assert( s != NULL );
+				assert( s != nullptr );
 				list->Append(s);
 
 				if (docMgr->GetComplementFile(headerName, itsTree->GetFileType(),
 											  &sourceName, itsDirector->GetProjectDoc()))
 					{
 					s = jnew JString(sourceName);
-					assert( s != NULL );
+					assert( s != nullptr );
 					list->Append(s);
 					}
 				}
@@ -792,7 +792,7 @@ CBTreeWidget::HandleKeyPress
 		{
 		itsKeyBuffer.AppendCharacter(key);
 
-		CBClass* selClass = NULL;
+		CBClass* selClass = nullptr;
 		if (itsTree->ClosestVisibleMatch(itsKeyBuffer, &selClass))
 			{
 			itsTree->DeselectAll();
@@ -839,7 +839,7 @@ CBTreeWidget::Receive
 		{
 		const CBTree::FontSizeChanged* info =
 			dynamic_cast<const CBTree::FontSizeChanged*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 
 		JXScrollbar *hScrollbar, *vScrollbar;
 		const JBoolean ok = GetScrollbars(&hScrollbar, &vScrollbar);
@@ -853,14 +853,14 @@ CBTreeWidget::Receive
 		{
 		const CBTree::ClassSelected* selection =
 			dynamic_cast<const CBTree::ClassSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		RefreshRect((selection->GetClass())->GetFrame());
 		}
 	else if (sender == itsTree && message.Is(CBTree::kClassDeselected))
 		{
 		const CBTree::ClassDeselected* selection =
 			dynamic_cast<const CBTree::ClassDeselected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		RefreshRect((selection->GetClass())->GetFrame());
 		}
 	else if (sender == itsTree && message.Is(CBTree::kAllClassesDeselected))
@@ -878,7 +878,7 @@ CBTreeWidget::Receive
 		const JRect ap = GetAperture();
 
 		JPtrArray<CBClass> sel(JPtrArrayT::kForgetAll);
-		CBClass* closest = NULL;
+		CBClass* closest = nullptr;
 		JCoordinate miny = 0;
 		if (itsTree->GetSelectedClasses(&sel))
 			{
@@ -894,20 +894,20 @@ CBTreeWidget::Receive
 					break;
 					}
 				else if (ap.bottom < r.bottom &&
-						 (closest == NULL || r.top - ap.bottom < miny))
+						 (closest == nullptr || r.top - ap.bottom < miny))
 					{
 					miny    = r.top - ap.bottom;
 					closest = c;
 					}
 				else if (r.bottom < ap.top &&
-						 (closest == NULL || ap.top - r.bottom < miny))
+						 (closest == nullptr || ap.top - r.bottom < miny))
 					{
 					miny    = ap.top - r.bottom;
 					closest = c;
 					}
 				}
 
-			if (!visible && closest != NULL)
+			if (!visible && closest != nullptr)
 				{
 				ScrollToRect(closest->GetFrame());
 				}

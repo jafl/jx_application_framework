@@ -55,6 +55,6 @@ GLUndoElementCut::Undo()
 	// create undo object to change it back
 	GLUndoElementAppend* undo = 
 		jnew GLUndoElementAppend(GetTable(), GetCell());
-	assert(undo != NULL);
+	assert(undo != nullptr);
 	NewUndo(undo);
 }

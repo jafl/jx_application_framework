@@ -52,7 +52,7 @@ XCreateFontCursor
 		name = IDC_SIZEALL;
 		}
 
-	HCURSOR cursor = LoadCursor(GetModuleHandle(NULL), name);
+	HCURSOR cursor = LoadCursor(GetModuleHandle(nullptr), name);
 	return xAllocateID(display, kXStandardCursorType, cursor);
 }
 
@@ -81,8 +81,8 @@ XCreatePixmapCursor
 	unsigned int	y
 	)
 {
-	HCURSOR cursor = LoadCursor(GetModuleHandle(NULL), IDC_SIZEALL);
-	// = CreateCursor(GetModuleHandle(NULL), x, y, w, h, 
+	HCURSOR cursor = LoadCursor(GetModuleHandle(nullptr), IDC_SIZEALL);
+	// = CreateCursor(GetModuleHandle(nullptr), x, y, w, h, 
 	return xAllocateID(display, kXCustomCursorType, cursor);
 }
 

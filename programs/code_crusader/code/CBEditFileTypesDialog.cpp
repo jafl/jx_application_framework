@@ -74,55 +74,55 @@ CBEditFileTypesDialog::BuildWindow
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 700,400, "");
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	JXTextButton* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::CBEditFileTypesDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 130,370, 70,20);
-	assert( cancelButton != NULL );
+	assert( cancelButton != nullptr );
 
 	JXTextButton* okButton =
 		jnew JXTextButton(JGetString("okButton::CBEditFileTypesDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 510,370, 70,20);
-	assert( okButton != NULL );
+	assert( okButton != nullptr );
 
 	itsExecOutputWrapCB =
 		jnew JXTextCheckbox(JGetString("itsExecOutputWrapCB::CBEditFileTypesDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 80,300, 310,20);
-	assert( itsExecOutputWrapCB != NULL );
+	assert( itsExecOutputWrapCB != nullptr );
 
 	itsUnknownTypeWrapCB =
 		jnew JXTextCheckbox(JGetString("itsUnknownTypeWrapCB::CBEditFileTypesDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 80,330, 310,20);
-	assert( itsUnknownTypeWrapCB != NULL );
+	assert( itsUnknownTypeWrapCB != nullptr );
 
 	itsHelpButton =
 		jnew JXTextButton(JGetString("itsHelpButton::CBEditFileTypesDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 315,370, 70,20);
-	assert( itsHelpButton != NULL );
+	assert( itsHelpButton != nullptr );
 	itsHelpButton->SetShortcuts(JGetString("itsHelpButton::CBEditFileTypesDialog::shortcuts::JXLayout"));
 
 	JXScrollbarSet* scrollbarSet =
 		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 20,20, 570,260);
-	assert( scrollbarSet != NULL );
+	assert( scrollbarSet != nullptr );
 
 	JXTextButton* addTypeButton =
 		jnew JXTextButton(JGetString("addTypeButton::CBEditFileTypesDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 610,50, 70,20);
-	assert( addTypeButton != NULL );
+	assert( addTypeButton != nullptr );
 	addTypeButton->SetShortcuts(JGetString("addTypeButton::CBEditFileTypesDialog::shortcuts::JXLayout"));
 
 	JXTextButton* duplicateTypeButton =
 		jnew JXTextButton(JGetString("duplicateTypeButton::CBEditFileTypesDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 610,80, 70,20);
-	assert( duplicateTypeButton != NULL );
+	assert( duplicateTypeButton != nullptr );
 	duplicateTypeButton->SetShortcuts(JGetString("duplicateTypeButton::CBEditFileTypesDialog::shortcuts::JXLayout"));
 
 	JXTextButton* removeTypeButton =
 		jnew JXTextButton(JGetString("removeTypeButton::CBEditFileTypesDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 610,110, 70,20);
-	assert( removeTypeButton != NULL );
+	assert( removeTypeButton != nullptr );
 	removeTypeButton->SetShortcuts(JGetString("removeTypeButton::CBEditFileTypesDialog::shortcuts::JXLayout"));
 
 // end JXLayout
@@ -146,13 +146,13 @@ CBEditFileTypesDialog::BuildWindow
 							JXWidget::kHElastic, JXWidget::kVElastic,
 							0, kColHeaderHeight,
 							w, encl->GetApertureHeight() - kColHeaderHeight);
-	assert( itsTable != NULL );
+	assert( itsTable != nullptr );
 
 	JXColHeaderWidget* colHeader =
 		jnew JXColHeaderWidget(itsTable, scrollbarSet, encl,
 							  JXWidget::kHElastic, JXWidget::kFixedTop,
 							  0,0, w, kColHeaderHeight);
-	assert( colHeader != NULL );
+	assert( colHeader != nullptr );
 	colHeader->TurnOnColResizing(20);
 	itsTable->SetColTitles(colHeader);
 

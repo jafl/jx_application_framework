@@ -79,7 +79,7 @@ JXImageMenu::JXImageMenuX
 	)
 {
 	itsIconMenuData = jnew JXImageMenuData(columnCount);
-	assert( itsIconMenuData != NULL );
+	assert( itsIconMenuData != nullptr );
 
 	SetBaseItemData(itsIconMenuData);
 }
@@ -160,7 +160,7 @@ JXImageMenu::SetItemImage
 	)
 {
 	JXImage* image = jnew JXImage(GetDisplay(), data);
-	assert( image != NULL );
+	assert( image != nullptr );
 	SetItemImage(index, image, kJTrue);
 }
 
@@ -188,7 +188,7 @@ JXImageMenu::CreateMenuWindow
 {
 	JXImageMenuDirector* dir =
 		jnew JXImageMenuDirector(supervisor, this, itsIconMenuData);
-	assert( dir != NULL );
+	assert( dir != nullptr );
 	return dir;
 }
 
@@ -203,7 +203,7 @@ JXImageMenu::AdjustPopupChoiceTitle
 	const JIndex index
 	)
 {
-	const JXImage* titleImage = NULL;
+	const JXImage* titleImage = nullptr;
 	if (GetTitleImage(&titleImage))
 		{
 		JXImage* image = const_cast<JXImage*>(GetItemImage(index));

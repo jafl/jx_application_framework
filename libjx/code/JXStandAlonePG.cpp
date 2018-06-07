@@ -43,7 +43,7 @@ JXStandAlonePG::JXStandAlonePG()
 	JXProgressDisplay()
 {
 	itsWindowIndex      = 0;
-	itsProgressDirector = NULL;
+	itsProgressDirector = nullptr;
 	itsRaiseWindowFlag  = kJFalse;
 }
 
@@ -54,7 +54,7 @@ JXStandAlonePG::JXStandAlonePG()
 
 JXStandAlonePG::~JXStandAlonePG()
 {
-	assert( itsProgressDirector == NULL );
+	assert( itsProgressDirector == nullptr );
 }
 
 /******************************************************************************
@@ -79,7 +79,7 @@ JXStandAlonePG::ProcessBeginning
 		(JXGetApplication())->PrepareForBlockingWindow();
 		}
 
-	assert( itsProgressDirector == NULL );
+	assert( itsProgressDirector == nullptr );
 
 	if (processType == kFixedLengthProcess)
 		{
@@ -93,7 +93,7 @@ JXStandAlonePG::ProcessBeginning
 			jnew JXVarLenPGDirector(JXGetApplication(), this, message, allowCancel);
 		itsStepCount = 0;
 		}
-	assert( itsProgressDirector != NULL );
+	assert( itsProgressDirector != nullptr );
 
 	// find the first unused window position and use it
 
@@ -102,7 +102,7 @@ JXStandAlonePG::ProcessBeginning
 	for (JIndex i=1; i<=winCount; i++)
 		{
 		const JXPGWindowPosition winInfo = winPos.GetElement(i);
-		if (winInfo.dir == NULL)
+		if (winInfo.dir == nullptr)
 			{
 			itsWindowIndex = i;
 			break;
@@ -209,15 +209,15 @@ JXStandAlonePG::ProcessFinished()
 	const JPoint pt = (itsProgressDirector->GetWindow())->GetDesktopLocation();
 	winInfo.x   = pt.x;
 	winInfo.y   = pt.y;
-	winInfo.dir = NULL;
+	winInfo.dir = nullptr;
 	winPos.SetElement(itsWindowIndex, winInfo);
 	itsWindowIndex = 0;
 
-	SetItems(NULL, NULL, NULL);
+	SetItems(nullptr, nullptr, nullptr);
 
-	assert( itsProgressDirector != NULL );
+	assert( itsProgressDirector != nullptr );
 	itsProgressDirector->ProcessFinished();
-	itsProgressDirector = NULL;
+	itsProgressDirector = nullptr;
 
 	if (!AllowBackground())
 		{

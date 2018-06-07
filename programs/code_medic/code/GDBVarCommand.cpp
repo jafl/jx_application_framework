@@ -82,7 +82,7 @@ GDBVarCommand::HandleSuccess
 
 	if (!success)
 		{
-		Broadcast(ValueMessage(kValueFailed, NULL));
+		Broadcast(ValueMessage(kValueFailed, nullptr));
 		}
 
 	s.Clear();

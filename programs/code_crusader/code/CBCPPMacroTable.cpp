@@ -82,7 +82,7 @@ CBCPPMacroTable::CBCPPMacroTable
 	ListenTo(itsSaveButton);
 
 	itsCSF = jnew CBListCSF(kReplaceListStr, kAppendToListStr);
-	assert( itsCSF != NULL );
+	assert( itsCSF != nullptr );
 
 	JString fontName;
 	JSize fontSize;
@@ -379,7 +379,7 @@ CBCPPMacroTable::LoadMacros()
 {
 	JString fileName;
 	if (EndEditing() &&
-		itsCSF->ChooseFile("", NULL, &fileName))
+		itsCSF->ChooseFile("", nullptr, &fileName))
 		{
 		ReadData(fileName, itsCSF->ReplaceExisting());
 		}
@@ -444,7 +444,7 @@ CBCPPMacroTable::SaveMacros()
 {
 	JString newName;
 	if (const_cast<CBCPPMacroTable*>(this)->EndEditing() &&
-		itsCSF->SaveFile("Save macros as:", NULL, itsFileName, &newName))
+		itsCSF->SaveFile("Save macros as:", nullptr, itsFileName, &newName))
 		{
 		itsFileName = newName;
 		WriteData(newName);

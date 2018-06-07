@@ -132,62 +132,62 @@ THXBaseConvDirector::BuildWindow()
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 180,160, "");
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	itsCloseButton =
 		jnew JXTextButton(JGetString("itsCloseButton::THXBaseConvDirector::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 100,130, 60,20);
-	assert( itsCloseButton != NULL );
+	assert( itsCloseButton != nullptr );
 	itsCloseButton->SetShortcuts(JGetString("itsCloseButton::THXBaseConvDirector::shortcuts::JXLayout"));
 
 	its10Input =
 		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 80,20, 80,20);
-	assert( its10Input != NULL );
+	assert( its10Input != nullptr );
 
 	JXStaticText* base10Label =
 		jnew JXStaticText(JGetString("base10Label::THXBaseConvDirector::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 60,20);
-	assert( base10Label != NULL );
+	assert( base10Label != nullptr );
 	base10Label->SetToLabel();
 
 	itsHelpButton =
 		jnew JXTextButton(JGetString("itsHelpButton::THXBaseConvDirector::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,130, 60,20);
-	assert( itsHelpButton != NULL );
+	assert( itsHelpButton != nullptr );
 	itsHelpButton->SetShortcuts(JGetString("itsHelpButton::THXBaseConvDirector::shortcuts::JXLayout"));
 
 	its2Input =
 		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 80,50, 80,20);
-	assert( its2Input != NULL );
+	assert( its2Input != nullptr );
 
 	JXStaticText* base2Label =
 		jnew JXStaticText(JGetString("base2Label::THXBaseConvDirector::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,50, 60,20);
-	assert( base2Label != NULL );
+	assert( base2Label != nullptr );
 	base2Label->SetToLabel();
 
 	its8Input =
 		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 80,70, 80,20);
-	assert( its8Input != NULL );
+	assert( its8Input != nullptr );
 
 	JXStaticText* base8Label =
 		jnew JXStaticText(JGetString("base8Label::THXBaseConvDirector::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,70, 60,20);
-	assert( base8Label != NULL );
+	assert( base8Label != nullptr );
 	base8Label->SetToLabel();
 
 	its16Input =
 		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 80,90, 80,20);
-	assert( its16Input != NULL );
+	assert( its16Input != nullptr );
 
 	JXStaticText* base16Label =
 		jnew JXStaticText(JGetString("base16Label::THXBaseConvDirector::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,90, 60,20);
-	assert( base16Label != NULL );
+	assert( base16Label != nullptr );
 	base16Label->SetToLabel();
 
 // end JXLayout
@@ -201,7 +201,7 @@ THXBaseConvDirector::BuildWindow()
 
 	JXDisplay* display = GetDisplay();
 	JXImage* icon      = jnew JXImage(display, thx_base_conv_window);
-	assert( icon != NULL );
+	assert( icon != nullptr );
 	window->SetIcon(icon);
 
 	its2Input->ShouldBroadcastAllTextChanged(kJTrue);		// want every keypress
@@ -274,7 +274,7 @@ THXBaseConvDirector::Convert
 	JBroadcaster* sender
 	)
 {
-	JXInputField* input = NULL;
+	JXInputField* input = nullptr;
 	JSize base          = 0;
 
 	for (JIndex i=0; i<kTHXBaseCount; i++)
@@ -287,7 +287,7 @@ THXBaseConvDirector::Convert
 			}
 		}
 
-	if (input == NULL)
+	if (input == nullptr)
 		{
 		return;
 		}

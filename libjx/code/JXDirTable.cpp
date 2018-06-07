@@ -68,14 +68,14 @@ JXDirTable::JXDirTable
 	:
 	JXTable(10, 10, scrollbarSet, enclosure, hSizing,vSizing, x,y, w,h)
 {
-	assert( data != NULL );
+	assert( data != nullptr );
 	itsDirInfo = data;
 
 	itsActiveCells = jnew JRunArray<JBoolean>;
-	assert( itsActiveCells != NULL );
+	assert( itsActiveCells != nullptr );
 
 	itsDirUpdateTask = jnew JXTimerTask(kDirUpdatePeriod);
-	assert( itsDirUpdateTask != NULL );
+	assert( itsDirUpdateTask != nullptr );
 	itsDirUpdateTask->Start();
 	ListenTo(itsDirUpdateTask);
 
@@ -87,27 +87,27 @@ JXDirTable::JXDirTable
 	itsReselectFlag              = kJFalse;
 
 	itsReselectNameList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
-	assert( itsReselectNameList != NULL );
+	assert( itsReselectNameList != nullptr );
 
 	JXDisplay* d = GetDisplay();
 
 	itsFileIcon = jnew JXImage(d, jx_plain_file_small);
-	assert( itsFileIcon != NULL );
+	assert( itsFileIcon != nullptr );
 
 	itsFolderIcon = jnew JXImage(d, jx_folder_small);
-	assert( itsFolderIcon != NULL );
+	assert( itsFolderIcon != nullptr );
 
 	itsReadOnlyFolderIcon = jnew JXImage(d, jx_folder_read_only_small);
-	assert( itsReadOnlyFolderIcon != NULL );
+	assert( itsReadOnlyFolderIcon != nullptr );
 
 	itsLockedFolderIcon = jnew JXImage(d, jx_folder_locked_small);
-	assert( itsLockedFolderIcon != NULL );
+	assert( itsLockedFolderIcon != nullptr );
 
 	itsExecIcon = jnew JXImage(d, jx_executable_small);
-	assert( itsExecIcon != NULL );
+	assert( itsExecIcon != nullptr );
 
 	itsUnknownIcon = jnew JXImage(d, jx_unknown_file_small);
-	assert( itsUnknownIcon != NULL );
+	assert( itsUnknownIcon != nullptr );
 
 	itsIgnoreSelChangesFlag = kJFalse;
 	SetSelectionBehavior(itsAllowSelectMultipleFlag, kJTrue);
@@ -452,7 +452,7 @@ JXDirTable::TableDrawCell
 
 	// draw icon
 
-	JXImage* icon = NULL;
+	JXImage* icon = nullptr;
 	if (entry.IsDirectory())
 		{
 		if (!entry.IsReadable())
@@ -484,7 +484,7 @@ JXDirTable::TableDrawCell
 		icon = itsUnknownIcon;
 		}
 
-	if (icon != NULL)
+	if (icon != nullptr)
 		{
 		JRect r = rect;
 		r.right = r.left + kIconWidth;

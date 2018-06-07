@@ -32,15 +32,15 @@ JString::Split
 	iter.BeginMatch();
 	while (iter.Next(separator))
 		{
-		JString* separator = NULL;
+		JString* separator = nullptr;
 		if (includeSeparators)
 			{
 			separator = jnew JString(iter.GetLastMatch().GetString());
-			assert( separator != NULL );
+			assert( separator != nullptr );
 			}
 
 		partList->Append(iter.FinishMatch().GetString());
-		if (separator != NULL)
+		if (separator != nullptr)
 			{
 			partList->Append(separator);
 			}

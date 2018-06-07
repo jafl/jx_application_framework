@@ -97,73 +97,73 @@ SyGFindFileDialog::BuildWindow()
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 360,220, "");
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	itsActionRG =
 		jnew JXRadioGroup(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 10,50, 340,120);
-	assert( itsActionRG != NULL );
+	assert( itsActionRG != nullptr );
 
 	itsCloseButton =
 		jnew JXTextButton(JGetString("itsCloseButton::SyGFindFileDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 120,190, 60,20);
-	assert( itsCloseButton != NULL );
+	assert( itsCloseButton != nullptr );
 	itsCloseButton->SetShortcuts(JGetString("itsCloseButton::SyGFindFileDialog::shortcuts::JXLayout"));
 
 	itsSearchButton =
 		jnew JXTextButton(JGetString("itsSearchButton::SyGFindFileDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 280,190, 60,20);
-	assert( itsSearchButton != NULL );
+	assert( itsSearchButton != nullptr );
 	itsSearchButton->SetShortcuts(JGetString("itsSearchButton::SyGFindFileDialog::shortcuts::JXLayout"));
 
 	itsFileInput =
 		jnew JXInputField(itsActionRG,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 35,30, 295,20);
-	assert( itsFileInput != NULL );
+	assert( itsFileInput != nullptr );
 
 	JXTextRadioButton* fileLabel =
 		jnew JXTextRadioButton(kFindFileAction, JGetString("fileLabel::SyGFindFileDialog::JXLayout"), itsActionRG,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 10,10, 270,20);
-	assert( fileLabel != NULL );
+	assert( fileLabel != nullptr );
 	fileLabel->SetShortcuts(JGetString("fileLabel::SyGFindFileDialog::shortcuts::JXLayout"));
 
 	itsHelpButton =
 		jnew JXTextButton(JGetString("itsHelpButton::SyGFindFileDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 200,190, 60,20);
-	assert( itsHelpButton != NULL );
+	assert( itsHelpButton != nullptr );
 	itsHelpButton->SetShortcuts(JGetString("itsHelpButton::SyGFindFileDialog::shortcuts::JXLayout"));
 
 	itsStayOpenCB =
 		jnew JXTextCheckbox(JGetString("itsStayOpenCB::SyGFindFileDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,190, 90,20);
-	assert( itsStayOpenCB != NULL );
+	assert( itsStayOpenCB != nullptr );
 
 	itsExprInput =
 		jnew JXInputField(itsActionRG,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 35,90, 295,20);
-	assert( itsExprInput != NULL );
+	assert( itsExprInput != nullptr );
 
 	JXTextRadioButton* findLabel =
 		jnew JXTextRadioButton(kFindExprAction, JGetString("findLabel::SyGFindFileDialog::JXLayout"), itsActionRG,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 10,70, 270,20);
-	assert( findLabel != NULL );
+	assert( findLabel != nullptr );
 	findLabel->SetShortcuts(JGetString("findLabel::SyGFindFileDialog::shortcuts::JXLayout"));
 
 	JXStaticText* startLabel =
 		jnew JXStaticText(JGetString("startLabel::SyGFindFileDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 50,20);
-	assert( startLabel != NULL );
+	assert( startLabel != nullptr );
 	startLabel->SetToLabel();
 
 	itsPathInput =
 		jnew JXPathInput(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 70,20, 210,20);
-	assert( itsPathInput != NULL );
+	assert( itsPathInput != nullptr );
 
 	itsChoosePathButton =
 		jnew JXTextButton(JGetString("itsChoosePathButton::SyGFindFileDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 280,20, 60,20);
-	assert( itsChoosePathButton != NULL );
+	assert( itsChoosePathButton != nullptr );
 
 // end JXLayout
 
@@ -235,7 +235,7 @@ SyGFindFileDialog::UpdateDisplay()
 void
 SyGFindFileDialog::UpdateButtons()
 {
-	JXInputField* field = NULL;
+	JXInputField* field = nullptr;
 
 	const JIndex action = itsActionRG->GetSelectedItem();
 	if (action == kFindFileAction)
@@ -247,7 +247,7 @@ SyGFindFileDialog::UpdateButtons()
 		field = itsExprInput;
 		}
 
-	assert( field != NULL );
+	assert( field != nullptr );
 	if (field->IsEmpty())
 		{
 		itsSearchButton->Deactivate();
@@ -403,7 +403,7 @@ SyGFindFileDialog::SearchExpr
 		}
 
 	SyGTreeDir* dir;
-	if ((SyGGetApplication())->OpenDirectory(path, &dir, NULL, kJTrue, kJTrue, kJFalse, kJTrue))
+	if ((SyGGetApplication())->OpenDirectory(path, &dir, nullptr, kJTrue, kJTrue, kJFalse, kJTrue))
 		{
 		SyGFindFileTask* task;
 		SyGFindFileTask::Create(dir, path, e, &task);

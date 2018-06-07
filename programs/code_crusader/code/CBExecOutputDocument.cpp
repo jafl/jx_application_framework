@@ -45,10 +45,10 @@ CBExecOutputDocument::CBExecOutputDocument
 	CBTextDocument(fileType, helpSectionName, kJFalse),
 	itsFocusToCmdFlag(focusToCmd)
 {
-	itsProcess            = NULL;
-	itsRecordLink         = NULL;
-	itsDataLink           = NULL;
-	itsCmdStream          = NULL;
+	itsProcess            = nullptr;
+	itsRecordLink         = nullptr;
+	itsDataLink           = nullptr;
+	itsCmdStream          = nullptr;
 	itsReceivedDataFlag   = kJFalse;
 	itsProcessPausedFlag  = kJFalse;
 	itsClearWhenStartFlag = kJTrue;
@@ -69,7 +69,7 @@ CBExecOutputDocument::CBExecOutputDocument
 		jnew JXTextButton(JGetString("PauseLabel::CBExecOutputDocument"), window,
 						  JXWidget::kFixedRight, JXWidget::kFixedTop,
 						  rect.right - x,0, kMenuButtonWidth,h);
-	assert( itsPauseButton != NULL );
+	assert( itsPauseButton != nullptr );
 	ListenTo(itsPauseButton);
 	itsPauseButton->SetShortcuts("^Z");
 	itsPauseButton->SetHint(JGetString("PauseButtonHint::CBExecOutputDocument"));
@@ -80,21 +80,21 @@ CBExecOutputDocument::CBExecOutputDocument
 			jnew JXTextButton(JGetString("StopLabel::CBExecOutputDocument"), window,
 							  JXWidget::kFixedRight, JXWidget::kFixedTop,
 							  rect.right - 2*kMenuButtonWidth,0, kMenuButtonWidth,h);
-		assert( itsStopButton != NULL );
+		assert( itsStopButton != nullptr );
 		ListenTo(itsStopButton);
 		itsStopButton->SetShortcuts("^C#.");
 		itsStopButton->SetHint(JGetString("StopButtonHint::CBExecOutputDocument"));
 		}
 	else
 		{
-		itsStopButton = NULL;
+		itsStopButton = nullptr;
 		}
 
 	itsKillButton =
 		jnew JXTextButton(JGetString("KillLabel::CBExecOutputDocument"), window,
 						  JXWidget::kFixedRight, JXWidget::kFixedTop,
 						  rect.right - kMenuButtonWidth,0, kMenuButtonWidth,h);
-	assert( itsKillButton != NULL );
+	assert( itsKillButton != nullptr );
 	ListenTo(itsKillButton);
 
 	if (!allowStop)
@@ -115,14 +115,14 @@ CBExecOutputDocument::CBExecOutputDocument
 		jnew JXStaticText(JGetString("CmdPrompt::CBExecOutputDocument"), window,
 						  JXWidget::kFixedLeft, vSizing,
 						  -1000, -1000, 0, 500);
-	assert( itsCmdPrompt != NULL );
+	assert( itsCmdPrompt != nullptr );
 	itsCmdPrompt->SetToLabel();
 	itsCmdPrompt->Hide();
 
 	itsCmdInput =
 		jnew CBCmdLineInput(this, window, hSizing, vSizing,
 							-1000, -1000, 500, 500);
-	assert( itsCmdInput != NULL );
+	assert( itsCmdInput != nullptr );
 	itsCmdInput->ShareEditMenu(GetTextEditor());
 	itsCmdInput->Hide();
 
@@ -130,13 +130,13 @@ CBExecOutputDocument::CBExecOutputDocument
 		jnew JXTextButton(JGetString("EOFButtonTitle::CBExecOutputDocument"), window,
 						  JXWidget::kFixedRight, vSizing,
 						  -1000, -1000, 500, 500);
-	assert( itsEOFButton != NULL );
+	assert( itsEOFButton != nullptr );
 	itsEOFButton->SetShortcuts("^D");
 	itsEOFButton->Hide();
 	ListenTo(itsEOFButton);
 
 	JXUrgentTask* task = jnew CBExecOutputPostFTCTask(this);
-	assert( task != NULL );
+	assert( task != nullptr );
 	task->Go();
 
 	GetTextEditor()->SetWritable(kJFalse);
@@ -153,10 +153,10 @@ CBExecOutputDocument::CBExecOutputDocument
 CBExecOutputDocument::~CBExecOutputDocument()
 {
 	delete itsRecordLink;
-	itsRecordLink = NULL;
+	itsRecordLink = nullptr;
 
 	delete itsDataLink;
-	itsDataLink = NULL;
+	itsDataLink = nullptr;
 
 	CloseOutFD();
 
@@ -232,7 +232,7 @@ CBExecOutputDocument::Activate()
 JBoolean
 CBExecOutputDocument::OKToClose()
 {
-	if (itsUseCount > 0 || itsRecordLink != NULL || itsDataLink != NULL)
+	if (itsUseCount > 0 || itsRecordLink != nullptr || itsDataLink != nullptr)
 		{
 		Activate();
 		(JGetUserNotification())->ReportError(itsDontCloseMsg);
@@ -272,7 +272,7 @@ CBExecOutputDocument::DecrementUseCount()
 /******************************************************************************
  SetConnection (virtual)
 
-	execCmd can be NULL.  If it is, the header (timestamp + path + cmd)
+	execCmd can be nullptr.  If it is, the header (timestamp + path + cmd)
 	is not printed.
 
  ******************************************************************************/
@@ -290,7 +290,7 @@ CBExecOutputDocument::SetConnection
 	const JBoolean		showPID
 	)
 {
-	assert( !ProcessRunning() && itsRecordLink == NULL && itsDataLink == NULL );
+	assert( !ProcessRunning() && itsRecordLink == nullptr && itsDataLink == nullptr );
 
 	itsProcess = p;
 	ListenTo(itsProcess);
@@ -298,20 +298,20 @@ CBExecOutputDocument::SetConnection
 	if (NeedsFormattedData())
 		{
 		itsRecordLink = new RecordLink(inFD);
-		assert( itsRecordLink != NULL );
+		assert( itsRecordLink != nullptr );
 		ListenTo(itsRecordLink);
 		}
 	else
 		{
 		itsDataLink = new DataLink(inFD);
-		assert( itsDataLink != NULL );
+		assert( itsDataLink != nullptr );
 		ListenTo(itsDataLink);
 		}
 
 	if (outFD != ACE_INVALID_HANDLE)
 		{
 		itsCmdStream = jnew JOutPipeStream(outFD, kJTrue);
-		assert( itsCmdStream != NULL );
+		assert( itsCmdStream != nullptr );
 		}
 
 	CBTextEditor* te = GetTextEditor();
@@ -336,7 +336,7 @@ CBExecOutputDocument::SetConnection
 		te->ClearUndo();
 		}
 
-	if (execCmd != NULL)
+	if (execCmd != nullptr)
 		{
 		const JString timeStamp = JGetTimeStamp();
 
@@ -379,7 +379,7 @@ CBExecOutputDocument::SendText
 	const JCharacter* text
 	)
 {
-	if (ProcessRunning() && itsCmdStream != NULL)
+	if (ProcessRunning() && itsCmdStream != nullptr)
 		{
 		*itsCmdStream << text;
 		itsCmdStream->flush();
@@ -388,7 +388,7 @@ CBExecOutputDocument::SendText
 		te->SetCaretLocation(te->GetTextLength()+1);
 
 		if (text[0] != '\0' && text[0] != '\n' &&
-			itsRecordLink != NULL &&
+			itsRecordLink != nullptr &&
 			itsRecordLink->PeekPartialMessage(&itsLastPrompt))
 			{
 			te->Paste(itsLastPrompt);
@@ -423,7 +423,7 @@ CBExecOutputDocument::Receive
 		{
 		const JProcess::Finished* info =
 			dynamic_cast<const JProcess::Finished*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		const JBoolean stayOpen = ProcessFinished(*info);
 
 		// let somebody else start a new process
@@ -476,7 +476,7 @@ CBExecOutputDocument::Receive
 void
 CBExecOutputDocument::ReceiveRecord()
 {
-	assert( itsRecordLink != NULL );
+	assert( itsRecordLink != nullptr );
 
 	JString text;
 	const JBoolean ok = itsRecordLink->GetNextMessage(&text);
@@ -540,7 +540,7 @@ CBExecOutputDocument::ReceiveData
 {
 	const JAsynchDataReceiverT::DataReady* info =
 		dynamic_cast<const JAsynchDataReceiverT::DataReady*>(&message);
-	assert( info != NULL );
+	assert( info != nullptr );
 
 	CBTextEditor* te                   = GetTextEditor();
 	const JXTEBase::DisplayState state = te->SaveDisplayState();
@@ -630,10 +630,10 @@ CBExecOutputDocument::KillProcess()
 void
 CBExecOutputDocument::CloseOutFD()
 {
-	if (itsCmdStream != NULL)
+	if (itsCmdStream != nullptr)
 		{
 		jdelete itsCmdStream;
-		itsCmdStream = NULL;
+		itsCmdStream = nullptr;
 		}
 }
 
@@ -663,14 +663,14 @@ CBExecOutputDocument::ProcessFinished
 
 	const pid_t pid = itsProcess->GetPID();
 	JProcess* p = itsProcess;
-	itsProcess = NULL;
+	itsProcess = nullptr;
 	jdelete p;
 
 	delete itsRecordLink;
-	itsRecordLink = NULL;
+	itsRecordLink = nullptr;
 
 	delete itsDataLink;
-	itsDataLink = NULL;
+	itsDataLink = nullptr;
 
 	CloseOutFD();
 	UpdateButtons();
@@ -772,7 +772,7 @@ CBExecOutputDocument::UpdateButtons()
 		{
 		itsPauseButton->Activate();
 		itsKillButton->Activate();
-		if (itsStopButton != NULL)
+		if (itsStopButton != nullptr)
 			{
 			itsStopButton->Activate();
 			}
@@ -790,7 +790,7 @@ CBExecOutputDocument::UpdateButtons()
 			itsPauseButton->SetLabel(JGetString("PauseLabel::CBExecOutputDocument"));
 			}
 
-		if (!itsProcessPausedFlag && itsCmdStream != NULL)
+		if (!itsProcessPausedFlag && itsCmdStream != nullptr)
 			{
 			itsCmdInput->Activate();
 			itsEOFButton->Activate();
@@ -799,7 +799,7 @@ CBExecOutputDocument::UpdateButtons()
 				itsCmdInput->Focus();
 				}
 			}
-		else if (itsCmdStream == NULL)
+		else if (itsCmdStream == nullptr)
 			{
 			itsCmdPrompt->Hide();
 			itsCmdInput->Hide();
@@ -817,7 +817,7 @@ CBExecOutputDocument::UpdateButtons()
 		{
 		itsPauseButton->Deactivate();
 		itsKillButton->Deactivate();
-		if (itsStopButton != NULL)
+		if (itsStopButton != nullptr)
 			{
 			itsStopButton->Deactivate();
 			}

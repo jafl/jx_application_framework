@@ -49,7 +49,7 @@ main
 	JBoolean displayAbout;
 	JString prevVersStr;
 	CMApp* app = jnew CMApp(&argc, argv, &displayAbout, &prevVersStr);
-	assert( app != NULL );
+	assert( app != nullptr );
 
 	if (displayAbout &&
 		!(JGetUserNotification())->AcceptLicense())
@@ -76,7 +76,7 @@ main
 		{
 		JXSplashWindow* w = jnew JXSplashWindow(new_planet_software, CMGetVersionStr(),
 											   SPLASH_DISPLAY_TIME);
-		assert( w != NULL );
+		assert( w != nullptr );
 		w->Activate();
 		}
 #endif

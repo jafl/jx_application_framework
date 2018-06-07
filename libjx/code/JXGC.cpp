@@ -58,7 +58,7 @@ JXGC::JXGC
 	assert( ok );
 	itsDepth = depth;
 
-	itsClipRegion = NULL;
+	itsClipRegion = nullptr;
 	itsClipPixmap = None;
 
 	itsLastColorInit     = kJFalse;
@@ -100,26 +100,26 @@ JXGC::GetClipping
 {
 	*offset = itsClipOffset;
 
-	if (itsClipRegion != NULL)
+	if (itsClipRegion != nullptr)
 		{
 		*region = JXCopyRegion(itsClipRegion);
 		}
 	else
 		{
-		*region = NULL;
+		*region = nullptr;
 		}
 
 	if (itsClipPixmap != None)
 		{
 		*pixmap = jnew JXImageMask(itsDisplay, itsClipPixmap);
-		assert( *pixmap != NULL );
+		assert( *pixmap != nullptr );
 		}
 	else
 		{
-		*pixmap = NULL;
+		*pixmap = nullptr;
 		}
 
-	return JConvertToBoolean( itsClipRegion != NULL || itsClipPixmap != None );
+	return JConvertToBoolean( itsClipRegion != nullptr || itsClipPixmap != None );
 }
 
 /******************************************************************************
@@ -217,7 +217,7 @@ JXGC::SetClipPixmap
 void
 JXGC::ClearClipping()
 {
-	if (itsClipRegion != NULL || itsClipPixmap != None)
+	if (itsClipRegion != nullptr || itsClipPixmap != None)
 		{
 		ClearPrivateClipping();
 		XSetClipMask(*itsDisplay, itsXGC, None);
@@ -234,10 +234,10 @@ JXGC::ClearPrivateClipping()
 {
 	itsClipOffset = JPoint(0,0);
 
-	if (itsClipRegion != NULL)
+	if (itsClipRegion != nullptr)
 		{
 		XDestroyRegion(itsClipRegion);
-		itsClipRegion = NULL;
+		itsClipRegion = nullptr;
 		}
 
 	if (itsClipPixmap != None)
@@ -352,7 +352,7 @@ JXGC::SetDashList
 	const JSize dashCount = dashList.GetElementCount();
 
 	char* xDashList = jnew char [ dashCount ];
-	assert( xDashList != NULL );
+	assert( xDashList != nullptr );
 
 	for (JIndex i=1; i<=dashCount; i++)
 		{

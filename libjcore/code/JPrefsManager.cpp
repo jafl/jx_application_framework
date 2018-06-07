@@ -61,10 +61,10 @@ JPrefsManager::JPrefsManager
 	itsEraseFileIfOpenFlag(eraseFileIfOpen)
 {
 	itsFileName = jnew JString(fileName);
-	assert( itsFileName != NULL );
+	assert( itsFileName != nullptr );
 
 	itsData = jnew JArray<PrefItem>;
-	assert( itsData != NULL );
+	assert( itsData != nullptr );
 	itsData->SetCompareFunction(ComparePrefIDs);
 
 	InstallOrderedSet(itsData);
@@ -103,7 +103,7 @@ JPrefsManager::GetData
 	)
 	const
 {
-	PrefItem item(id.GetID(), NULL);
+	PrefItem item(id.GetID(), nullptr);
 	JIndex index;
 	if (itsData->SearchSorted(item, JListT::kAnyMatch, &index))
 		{
@@ -141,7 +141,7 @@ JPrefsManager::SetData
 	const JUtf8Byte*	data
 	)
 {
-	PrefItem item(id.GetID(), NULL);
+	PrefItem item(id.GetID(), nullptr);
 	JBoolean found;
 	const JIndex index =
 		itsData->SearchSorted1(item, JListT::kAnyMatch, &found);
@@ -153,7 +153,7 @@ JPrefsManager::SetData
 	else
 		{
 		item.data = jnew JString(data, 0);
-		assert( item.data != NULL );
+		assert( item.data != nullptr );
 		itsData->InsertElementAtIndex(index, item);
 		}
 
@@ -171,7 +171,7 @@ JPrefsManager::RemoveData
 	const JPrefID& id
 	)
 {
-	PrefItem item(id.GetID(), NULL);
+	PrefItem item(id.GetID(), nullptr);
 
 	JIndex index;
 	if (itsData->SearchSorted(item, JListT::kAnyMatch, &index))
@@ -196,12 +196,12 @@ JPrefsManager::SaveToDisk()
 {
 	// check that current file is readable
 
-	JPrefsFile* file = NULL;
+	JPrefsFile* file = nullptr;
 	JError err = Open(&file, kJTrue);
 	if (err.OK())
 		{
 		jdelete file;
-		file = NULL;
+		file = nullptr;
 		}
 	else
 		{
@@ -285,7 +285,7 @@ JPrefsManager::UpgradeData
 {
 	JBoolean isNew = kJFalse;
 
-	JPrefsFile* file = NULL;
+	JPrefsFile* file = nullptr;
 	const JError err = Open(&file, kJTrue);
 	if (err.OK())
 		{
@@ -339,7 +339,7 @@ JPrefsManager::LoadData
 		std::string data;
 		file->GetElement(JFAIndex(i), &data);
 		JString* s = jnew JString(data.c_str(), data.length());
-		assert( s != NULL );
+		assert( s != nullptr );
 
 		PrefItem item(id.GetID(), s);
 		JBoolean isDuplicate;
@@ -362,7 +362,7 @@ JPrefsManager::Open
 	)
 	const
 {
-	*file = NULL;
+	*file = nullptr;
 	const JError err = JPrefsFile::Create(*itsFileName, file);
 	if (err.OK())
 		{
@@ -375,7 +375,7 @@ JPrefsManager::Open
 		else
 			{
 			jdelete *file;
-			*file = NULL;
+			*file = nullptr;
 			return WrongVersion();
 			}
 		}
@@ -387,7 +387,7 @@ JPrefsManager::Open
 		}
 
 	jdelete *file;
-	*file = NULL;
+	*file = nullptr;
 	return err;
 }
 

@@ -42,7 +42,7 @@ Pipe<ACE_PEER_STREAM_2>::Pipe
 	PipeX();
 
 	ACE_Svc_Handler<ACE_PEER_STREAM_2,ACE_SYNCH>::set_handle(fd);
-	ACE_Svc_Handler<ACE_PEER_STREAM_2,ACE_SYNCH>::open(NULL);
+	ACE_Svc_Handler<ACE_PEER_STREAM_2,ACE_SYNCH>::open(nullptr);
 }
 
 // private
@@ -54,7 +54,7 @@ Pipe<ACE_PEER_STREAM_2>::PipeX()
 	itsBufferSize = kDefaultBufferSize;
 
 	itsBuffer = jnew JCharacter [ itsBufferSize ];
-	assert( itsBuffer != NULL );
+	assert( itsBuffer != nullptr );
 }
 
 /******************************************************************************

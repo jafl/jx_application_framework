@@ -156,7 +156,7 @@ JMMDebugErrorStream::HandleNULLDeleted
 	)
 {
 	JMemoryManager::SendError(
-		"Attempt to jdelete NULL as " +
+		"Attempt to jdelete nullptr as " +
 		JString(JMMRecord::TypeName(isArray), 0, kJFalse) + " at " +
 		JString(file, 0, kJFalse) + ":" + JString(line, JString::kBase10));
 }

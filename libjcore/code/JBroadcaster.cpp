@@ -63,9 +63,9 @@ public:
 
 JBroadcaster::JBroadcaster()
 	:
-	itsSenders(NULL),
-	itsRecipients(NULL),
-	itsClearPointers(NULL)
+	itsSenders(nullptr),
+	itsRecipients(nullptr),
+	itsClearPointers(nullptr)
 {
 }
 
@@ -83,9 +83,9 @@ JBroadcaster::JBroadcaster
 	const JBroadcaster& source
 	)
 {
-	itsSenders       = NULL;
-	itsRecipients    = NULL;
-	itsClearPointers = NULL;
+	itsSenders       = nullptr;
+	itsRecipients    = nullptr;
+	itsClearPointers = nullptr;
 }
 
 /******************************************************************************
@@ -97,9 +97,9 @@ JBroadcaster::JBroadcaster
 
 JBroadcaster::~JBroadcaster()
 {
-	if (itsRecipients != NULL)
+	if (itsRecipients != nullptr)
 		{
-		while (itsRecipients != NULL && !itsRecipients->IsEmpty())
+		while (itsRecipients != nullptr && !itsRecipients->IsEmpty())
 			{
 			JBroadcaster* aRecipient = itsRecipients->GetLastElement();
 			itsRecipients->RemoveElement(itsRecipients->GetElementCount());
@@ -111,7 +111,7 @@ JBroadcaster::~JBroadcaster()
 		jdelete itsRecipients;
 		}
 
-	if (itsSenders != NULL)
+	if (itsSenders != nullptr)
 		{
 		const JSize count = itsSenders->GetElementCount();
 		for (JIndex i=1; i<=count; i++)
@@ -180,10 +180,10 @@ JBroadcaster::ListenTo
 	const JBroadcaster* csender
 	)
 {
-	assert( csender != NULL );
+	assert( csender != nullptr );
 
 	JBroadcaster* sender = const_cast<JBroadcaster*>(csender);
-	if (itsSenders == NULL || !itsSenders->Includes(sender))
+	if (itsSenders == nullptr || !itsSenders->Includes(sender))
 		{
 		AddSender(sender);
 		sender->AddRecipient(this);
@@ -205,18 +205,18 @@ JBroadcaster::StopListening
 	const JBroadcaster* csender
 	)
 {
-	if (csender == NULL)
+	if (csender == nullptr)
 		{
 		return;
 		}
 
 	JBroadcaster* sender = const_cast<JBroadcaster*>(csender);
-	if (itsSenders != NULL && itsSenders->Includes(sender))
+	if (itsSenders != nullptr && itsSenders->Includes(sender))
 		{
 		RemoveSender(sender);
 		sender->RemoveRecipient(this);
 
-		if (itsClearPointers != NULL)
+		if (itsClearPointers != nullptr)
 			{
 			const JSize count = itsClearPointers->GetElementCount();
 			for (JIndex i=count; i>=1; i--)
@@ -240,14 +240,14 @@ JBoolean
 JBroadcaster::HasSenders()
 	const
 {
-	return JNegate(itsSenders == NULL || itsSenders->IsEmpty());
+	return JNegate(itsSenders == nullptr || itsSenders->IsEmpty());
 }
 
 JSize
 JBroadcaster::GetSenderCount()
 	const
 {
-	if (itsSenders != NULL)
+	if (itsSenders != nullptr)
 		{
 		return itsSenders->GetElementCount();
 		}
@@ -261,14 +261,14 @@ JBoolean
 JBroadcaster::HasRecipients()
 	const
 {
-	return JNegate(itsRecipients == NULL || itsRecipients->IsEmpty());
+	return JNegate(itsRecipients == nullptr || itsRecipients->IsEmpty());
 }
 
 JSize
 JBroadcaster::GetRecipientCount()
 	const
 {
-	if (itsRecipients != NULL)
+	if (itsRecipients != nullptr)
 		{
 		return itsRecipients->GetElementCount();
 		}
@@ -291,10 +291,10 @@ JBroadcaster::AddRecipient
 	JBroadcaster* recipient
 	)
 {
-	if (itsRecipients == NULL)
+	if (itsRecipients == nullptr)
 		{
 		itsRecipients = jnew JBroadcasterList;
-		assert( itsRecipients != NULL );
+		assert( itsRecipients != nullptr );
 		}
 
 	itsRecipients->Prepend(recipient);	// so it gets the -next- message
@@ -314,13 +314,13 @@ JBroadcaster::RemoveRecipient
 	JBroadcaster* recipient
 	)
 {
-	if (itsRecipients != NULL)
+	if (itsRecipients != nullptr)
 		{
 		itsRecipients->Remove(recipient);
 		if (itsRecipients->IsEmpty())
 			{
 			jdelete itsRecipients;
-			itsRecipients = NULL;
+			itsRecipients = nullptr;
 			}
 		}
 }
@@ -338,10 +338,10 @@ JBroadcaster::AddSender
 	JBroadcaster* sender
 	)
 {
-	if (itsSenders == NULL)
+	if (itsSenders == nullptr)
 		{
 		itsSenders = jnew JBroadcasterList;
-		assert( itsSenders != NULL );
+		assert( itsSenders != nullptr );
 		}
 
 	itsSenders->Prepend(sender);
@@ -360,13 +360,13 @@ JBroadcaster::RemoveSender
 	JBroadcaster* sender
 	)
 {
-	if (itsSenders != NULL)
+	if (itsSenders != nullptr)
 		{
 		itsSenders->Remove(sender);
 		if (itsSenders->IsEmpty())
 			{
 			jdelete itsSenders;
-			itsSenders = NULL;
+			itsSenders = nullptr;
 			}
 		}
 }
@@ -407,7 +407,7 @@ JBroadcaster::BroadcastPrivate
 	const Message& message
 	)
 {
-	assert( itsRecipients != NULL );
+	assert( itsRecipients != nullptr );
 
 	JBroadcasterIterator	iterator(itsRecipients, kJIteratorStartAtBeginning);
 	JBroadcaster*			recipient;
@@ -471,7 +471,7 @@ JBroadcaster::BroadcastWithFeedbackPrivate
 	Message* message
 	)
 {
-	assert( itsRecipients != NULL );
+	assert( itsRecipients != nullptr );
 
 	JBroadcasterIterator	iterator(itsRecipients, kJIteratorStartAtBeginning);
 	JBroadcaster*			recipient;
@@ -508,7 +508,7 @@ JBroadcaster::ReceiveWithFeedback
 	Warning:	Since this function may be called from within a -chain-
 				of destructors, it is not usually safe to do anything
 				inside this function other than directly changing
-				instance variables (e.g. setting pointers to NULL).
+				instance variables (e.g. setting pointers to nullptr).
 
 	This function is not pure virtual because not all classes will want
 	to implement it.
@@ -537,12 +537,12 @@ JBroadcaster::ClearWhenGoingAway
 	void*				pointerToMember
 	)
 {
-	assert( csender != NULL );
+	assert( csender != nullptr );
 
-	if (itsClearPointers == NULL)
+	if (itsClearPointers == nullptr)
 		{
 		itsClearPointers = jnew JPointerClearList;
-		assert( itsClearPointers != NULL );
+		assert( itsClearPointers != nullptr );
 		}
 
 	itsClearPointers->AppendElement(
@@ -568,7 +568,7 @@ JBroadcaster::ClearGone
 	JBroadcaster* sender
 	)
 {
-	if (itsClearPointers == NULL)
+	if (itsClearPointers == nullptr)
 		{
 		return;
 		}
@@ -579,7 +579,7 @@ JBroadcaster::ClearGone
 		ClearPointer ptr = itsClearPointers->GetElement(i);
 		if (ptr.sender == sender)
 			{
-			*((PointerSize**) (ptr.pointer)) = NULL;
+			*((PointerSize**) (ptr.pointer)) = nullptr;
 			itsClearPointers->RemoveElement(i);
 			}
 		}

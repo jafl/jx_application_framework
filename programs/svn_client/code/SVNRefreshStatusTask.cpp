@@ -53,7 +53,7 @@ SVNRefreshStatusTask::Perform
 	Time*		maxSleepTime
 	)
 {
-	if (itsDirector == NULL)
+	if (itsDirector == nullptr)
 		{
 		jdelete this;
 		}

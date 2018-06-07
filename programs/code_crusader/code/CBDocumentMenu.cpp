@@ -78,7 +78,7 @@ CBDocumentMenu::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		if (selection->IsFromShortcut())
 			{
 			JXDocumentMenu::Receive(sender, message);
@@ -92,15 +92,15 @@ CBDocumentMenu::Receive
 				CBProjectDocument* projDoc    = dynamic_cast<CBProjectDocument*>(doc);
 				CBSearchDocument* searchDoc   = dynamic_cast<CBSearchDocument*>(doc);
 				CBCompileDocument* compileDoc = dynamic_cast<CBCompileDocument*>(doc);
-				if (projDoc != NULL)
+				if (projDoc != nullptr)
 					{
 					docMgr->SetActiveProjectDocument(projDoc);
 					}
-				else if (searchDoc != NULL)
+				else if (searchDoc != nullptr)
 					{
 					docMgr->SetActiveListDocument(searchDoc);
 					}
-				else if (compileDoc != NULL)
+				else if (compileDoc != nullptr)
 					{
 					docMgr->SetActiveListDocument(compileDoc);
 					}

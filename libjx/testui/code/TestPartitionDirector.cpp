@@ -59,7 +59,7 @@ TestPartitionDirector::TestPartitionDirector
 	:
 	JXWindowDirector(supervisor)
 {
-	itsSetElasticDialog = NULL;
+	itsSetElasticDialog = nullptr;
 	itsSetElasticType   = kHorizElastic;
 
 	BuildWindow();
@@ -96,17 +96,17 @@ JIndex i;
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 310,340, JString::empty);
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	JXMenuBar* menuBar =
 		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 310,30);
-	assert( menuBar != NULL );
+	assert( menuBar != nullptr );
 
 	itsHorizPartition =
 		jnew JXHorizPartition(sizes, kInitElasticIndex, minSizes, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 310,310);
-	assert( itsHorizPartition != NULL );
+	assert( itsHorizPartition != nullptr );
 
 // end JXLayout
 
@@ -115,7 +115,7 @@ JIndex i;
 					itsHorizPartition->GetCompartment(kInitElasticIndex),
 					JXWidget::kHElastic, JXWidget::kVElastic,
 					0,0, 10,315);
-	assert( itsVertPartition != NULL );
+	assert( itsVertPartition != nullptr );
 	itsVertPartition->FitToEnclosure(kJTrue, kJTrue);
 
 	window->SetTitle(JGetString("WindowTitle::TestPartitionDirector"));
@@ -243,7 +243,7 @@ TestPartitionDirector::CreateTestWidget
 		jnew TestCompartment(this, partition->GetCompartment(index),
 							JXWidget::kHElastic, JXWidget::kVElastic,
 							0,0, 10,10);
-	assert( obj != NULL );
+	assert( obj != nullptr );
 	obj->FitToEnclosure(kJTrue, kJTrue);
 }
 
@@ -279,7 +279,7 @@ TestPartitionDirector::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleHorizMenu(selection->GetIndex());
 		}
 
@@ -291,7 +291,7 @@ TestPartitionDirector::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleVertMenu(selection->GetIndex());
 		}
 
@@ -300,7 +300,7 @@ TestPartitionDirector::Receive
 		{
 		const JXDialogDirector::Deactivated* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		const JBoolean ok = info->Successful();
 		const JIndex newElasticIndex = itsSetElasticDialog->GetElasticIndex();
 		if (ok && itsSetElasticType == kHorizElastic)
@@ -311,7 +311,7 @@ TestPartitionDirector::Receive
 			{
 			itsVertPartition->SetElasticIndex(newElasticIndex);
 			}
-		itsSetElasticDialog = NULL;
+		itsSetElasticDialog = nullptr;
 		}
 
 	else
@@ -351,14 +351,14 @@ TestPartitionDirector::HandleHorizMenu
 		}
 	else if (index == kSetHorizElasticIndexCmd)
 		{
-		assert( itsSetElasticDialog == NULL );
+		assert( itsSetElasticDialog == nullptr );
 
 		JIndex elasticIndex;
 		itsHorizPartition->GetElasticIndex(&elasticIndex);
 		const JSize count = itsHorizPartition->GetCompartmentCount();
 
 		itsSetElasticDialog = jnew SetElasticDialog(this, elasticIndex, count);
-		assert( itsSetElasticDialog != NULL );
+		assert( itsSetElasticDialog != nullptr );
 		ListenTo(itsSetElasticDialog);
 		itsSetElasticDialog->BeginDialog();
 
@@ -389,14 +389,14 @@ TestPartitionDirector::HandleVertMenu
 {
 	if (index == kSetVertElasticIndexCmd)
 		{
-		assert( itsSetElasticDialog == NULL );
+		assert( itsSetElasticDialog == nullptr );
 
 		JIndex elasticIndex;
 		itsVertPartition->GetElasticIndex(&elasticIndex);
 		const JSize count = itsVertPartition->GetCompartmentCount();
 
 		itsSetElasticDialog = jnew SetElasticDialog(this, elasticIndex, count);
-		assert( itsSetElasticDialog != NULL );
+		assert( itsSetElasticDialog != nullptr );
 		ListenTo(itsSetElasticDialog);
 		itsSetElasticDialog->BeginDialog();
 

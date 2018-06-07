@@ -12,7 +12,7 @@
 #include "CBREXXCompleter.h"
 #include <jAssert.h>
 
-CBREXXCompleter* CBREXXCompleter::itsSelf = NULL;
+CBREXXCompleter* CBREXXCompleter::itsSelf = nullptr;
 
 static const JCharacter* kKeywordList[] =
 {
@@ -54,12 +54,12 @@ static JBoolean recursiveInstance = kJFalse;
 CBStringCompleter*
 CBREXXCompleter::Instance()
 {
-	if (itsSelf == NULL && !recursiveInstance)
+	if (itsSelf == nullptr && !recursiveInstance)
 		{
 		recursiveInstance = kJTrue;
 
 		itsSelf = jnew CBREXXCompleter;
-		assert( itsSelf != NULL );
+		assert( itsSelf != nullptr );
 
 		recursiveInstance = kJFalse;
 		}
@@ -96,7 +96,7 @@ CBREXXCompleter::CBREXXCompleter()
 
 CBREXXCompleter::~CBREXXCompleter()
 {
-	itsSelf = NULL;
+	itsSelf = nullptr;
 }
 
 /******************************************************************************

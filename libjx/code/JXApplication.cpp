@@ -69,10 +69,10 @@ JXApplication::JXApplication
 	const JUtf8Byte**	defaultStringData
 	)
 	:
-	JXDirector(NULL),
+	JXDirector(nullptr),
 	itsIgnoreDisplayDeletedFlag(kJFalse),
 	itsIgnoreTaskDeletedFlag(kJFalse),
-	itsRunningUrgentTasks(NULL),
+	itsRunningUrgentTasks(nullptr),
 	itsSignature(appSignature, 0),
 	itsRestartCmd(argv[0], 0)
 {
@@ -82,15 +82,15 @@ JXApplication::JXApplication
 	// initialize object
 
 	itsDisplayList = jnew JPtrArray<JXDisplay>(JPtrArrayT::kDeleteAll);
-	assert( itsDisplayList != NULL );
+	assert( itsDisplayList != nullptr );
 
 	itsCurrDisplayIndex = 1;
 
 	itsIdleTaskStack = jnew IdleTaskStack(JPtrArrayT::kDeleteAll);
-	assert( itsIdleTaskStack != NULL );
+	assert( itsIdleTaskStack != nullptr );
 
 	itsIdleTasks = jnew JPtrArray<JXIdleTask>(JPtrArrayT::kDeleteAll);
-	assert( itsIdleTasks != NULL );
+	assert( itsIdleTasks != nullptr );
 
 	itsCurrentTime         = 0;
 	itsMaxSleepTime        = 0;
@@ -99,7 +99,7 @@ JXApplication::JXApplication
 	itsWaitForChildCounter = 0;
 
 	itsUrgentTasks = jnew JPtrArray<JXUrgentTask>(JPtrArrayT::kDeleteAll);
-	assert( itsUrgentTasks != NULL );
+	assert( itsUrgentTasks != nullptr );
 
 	itsHasBlockingWindowFlag = kJFalse;
 	itsHadBlockingWindowFlag = kJFalse;
@@ -127,7 +127,7 @@ JXApplication::JXApplication
 		std::cerr << argv[0];
 		if (displayName.IsEmpty())
 			{
-			std::cerr << ": Can't open display '" << XDisplayName(NULL) << '\'';
+			std::cerr << ": Can't open display '" << XDisplayName(nullptr) << '\'';
 			}
 		else
 			{
@@ -151,14 +151,14 @@ JXApplication::JXApplication
 	timerInfo.it_interval.tv_usec = 0;
 	timerInfo.it_value.tv_sec     = kTimerStart;
 	timerInfo.it_value.tv_usec    = 0;
-	setitimer(ITIMER_REAL, &timerInfo, NULL);
+	setitimer(ITIMER_REAL, &timerInfo, nullptr);
 
 #endif
 
 	// idle task to quit if add directors deactivated
 
 	JXQuitIfAllDeactTask* task = jnew JXQuitIfAllDeactTask;
-	assert( task != NULL );
+	assert( task != nullptr );
 	task->Start();
 }
 
@@ -337,7 +337,7 @@ JXApplication::FindDisplay
 			}
 		}
 
-	*display = NULL;
+	*display = nullptr;
 	return kJFalse;
 }
 
@@ -672,7 +672,7 @@ JXApplication::HandleOneEventForWindow
 					}
 				display->HandleEvent(xEvent, itsCurrentTime);
 				}
-			else if (XCheckIfEvent(*display, &xEvent, GetNextBkgdEvent, NULL))
+			else if (XCheckIfEvent(*display, &xEvent, GetNextBkgdEvent, nullptr))
 				{
 				display->HandleEvent(xEvent, itsCurrentTime);
 				}
@@ -689,7 +689,7 @@ JXApplication::HandleOneEventForWindow
 
 			// discard mouse and keyboard events
 
-			DiscardEventInfo discardInfo(display, NULL);
+			DiscardEventInfo discardInfo(display, nullptr);
 			if (display == uiDisplay)
 				{
 				discardInfo.eventWindow = eventWindow;
@@ -781,7 +781,7 @@ JXApplication::DiscardNextEvent
 {
 	DiscardEventInfo* info = reinterpret_cast<DiscardEventInfo*>(arg);
 
-	if (info->eventWindow != NULL &&
+	if (info->eventWindow != nullptr &&
 		GetNextWindowEvent(display, event, reinterpret_cast<char*>(info->eventWindow)))
 		{
 		return False;
@@ -935,7 +935,7 @@ JXApplication::PushIdleTaskStack()
 	itsIdleTaskStack->Append(itsIdleTasks);
 
 	itsIdleTasks = jnew JPtrArray<JXIdleTask>(JPtrArrayT::kDeleteAll);
-	assert( itsIdleTasks != NULL );
+	assert( itsIdleTasks != nullptr );
 }
 
 /******************************************************************************
@@ -1021,7 +1021,7 @@ JXApplication::PerformIdleTasks()
 			}
 		}
 
-	JXMDIServer* mdiServer = NULL;
+	JXMDIServer* mdiServer = nullptr;
 	if (JXGetMDIServer(&mdiServer))
 		{
 		mdiServer->CheckForConnections();
@@ -1085,7 +1085,7 @@ JXApplication::RemoveUrgentTask
 		{
 		itsUrgentTasks->Remove(task);
 
-		if (itsRunningUrgentTasks != NULL)
+		if (itsRunningUrgentTasks != nullptr)
 			{
 			itsRunningUrgentTasks->Remove(task);
 			}
@@ -1119,7 +1119,7 @@ JXApplication::PerformUrgentTasks()
 			}
 
 		jdelete iter;
-		itsRunningUrgentTasks = NULL;
+		itsRunningUrgentTasks = nullptr;
 		}
 
 	JXDisplay::CheckForXErrors();
@@ -1333,7 +1333,7 @@ JXApplication::Abort
 		{
 		abortCalled = kJTrue;
 
-		JXDocumentManager* docMgr = NULL;
+		JXDocumentManager* docMgr = nullptr;
 		if (JXGetDocumentManager(&docMgr))
 			{
 			docMgr->SafetySave(reason);

@@ -39,18 +39,18 @@ JXScrollbarSet::JXScrollbarSet
 {
 	itsScrollEnclosure =
 		jnew JXWidgetSet(this, kHElastic, kVElastic, 0,0, w,h);
-	assert( itsScrollEnclosure != NULL );
+	assert( itsScrollEnclosure != nullptr );
 
 	itsHScrollbar =
 		jnew JXScrollbar(this, kHElastic, kFixedBottom,
 						0,h-kScrollBarWidth, w-kScrollBarWidth,kScrollBarWidth);
-	assert( itsHScrollbar != NULL );
+	assert( itsHScrollbar != nullptr );
 	itsHScrollbar->Hide();
 
 	itsVScrollbar =
 		jnew JXScrollbar(this, kFixedRight, kVElastic,
 						w-kScrollBarWidth,0, kScrollBarWidth,h-kScrollBarWidth);
-	assert( itsVScrollbar != NULL );
+	assert( itsVScrollbar != nullptr );
 	itsVScrollbar->Hide();
 }
 
@@ -61,7 +61,7 @@ JXScrollbarSet::JXScrollbarSet
 
 JXScrollbarSet::~JXScrollbarSet()
 {
-	itsHScrollbar = itsVScrollbar = NULL;	// don't give out deleted pointers
+	itsHScrollbar = itsVScrollbar = nullptr;	// don't give out deleted pointers
 }
 
 /******************************************************************************

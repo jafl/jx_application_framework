@@ -191,11 +191,11 @@ TestDirector::TestDirector
 	JXWindowDirector(supervisor)
 {
 	itsIsMasterFlag = isMaster;
-	itsPSPrinter    = NULL;
-	itsEPSPrinter   = NULL;
+	itsPSPrinter    = nullptr;
+	itsEPSPrinter   = nullptr;
 
 	itsCSF = jnew TestChooseSaveFile;
-	assert( itsCSF != NULL );
+	assert( itsCSF != nullptr );
 
 	BuildWindow(isMaster, bufferTestWidget, testWidgetIsImage);
 
@@ -203,11 +203,11 @@ TestDirector::TestDirector
 	if (snoopWindow)
 		{
 		itsWindowSnooper = jnew JBroadcastSnooper(window);
-		assert( itsWindowSnooper != NULL );
+		assert( itsWindowSnooper != nullptr );
 		}
 	else
 		{
-		itsWindowSnooper = NULL;
+		itsWindowSnooper = nullptr;
 		}
 
 	if (isMaster && JFileExists(JString(kWindowGeomFileName, 0, kJFalse)))
@@ -224,11 +224,11 @@ TestDirector::TestDirector
 	// GetDisplay() only works after SetWindow()
 
 	itsPSPrinter = jnew JXPSPrinter(GetDisplay());
-	assert( itsPSPrinter != NULL );
+	assert( itsPSPrinter != nullptr );
 	ListenTo(itsPSPrinter);
 
 	itsEPSPrinter = jnew JXEPSPrinter(GetDisplay());
-	assert( itsEPSPrinter != NULL );
+	assert( itsEPSPrinter != nullptr );
 	ListenTo(itsEPSPrinter);
 }
 
@@ -264,7 +264,7 @@ TestDirector::OpenTextFile
 	if (JFileReadable(fileName))
 		{
 		TestTextEditDocument* doc = jnew TestTextEditDocument(this, fileName);
-		assert( doc != NULL );
+		assert( doc != nullptr );
 		doc->Activate();
 		}
 	else
@@ -296,17 +296,17 @@ TestDirector::BuildWindow
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 400,330, JString::empty);
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	JXMenuBar* menuBar =
 		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 400,30);
-	assert( menuBar != NULL );
+	assert( menuBar != nullptr );
 
 	JXScrollbarSet* scrollbarSet =
 		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 400,300);
-	assert( scrollbarSet != NULL );
+	assert( scrollbarSet != nullptr );
 
 // end JXLayout
 
@@ -324,14 +324,14 @@ TestDirector::BuildWindow
 		}
 
 	itsAnimIconTask = jnew AnimateWindowIconTask(GetWindow());
-	assert( itsAnimIconTask != NULL );
+	assert( itsAnimIconTask != nullptr );
 	ListenTo(window);		// for icon animation
 
 	// menus
 
 	JXImage* aboutTitleImage =
 		jnew JXImage(display, kSmileyBitmap[ kHappySmileyIndex ], JColorManager::GetRedColor());
-	assert( aboutTitleImage != NULL );
+	assert( aboutTitleImage != nullptr );
 	itsAboutMenu = menuBar->AppendTextMenu(aboutTitleImage, kJTrue);
 	itsAboutMenu->SetShortcuts(JGetString("AboutMenuShortcut::TestDirector"));
 	itsAboutMenu->SetMenuItems(kAboutMenuStr, "TestDirector");
@@ -339,10 +339,10 @@ TestDirector::BuildWindow
 	ListenTo(itsAboutMenu);
 
 	itsAnimHelpTask = jnew AnimateHelpMenuTask(itsAboutMenu, kHelpCmd);
-	assert( itsAnimHelpTask != NULL );
+	assert( itsAnimHelpTask != nullptr );
 
 	itsPrintPSMenu = jnew JXTextMenu(itsAboutMenu, kPrintPSMenuCmd, menuBar);
-	assert( itsPrintPSMenu != NULL );
+	assert( itsPrintPSMenu != nullptr );
 	itsPrintPSMenu->SetMenuItems(kPrintPSMenuStr);
 	itsPrintPSMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsPrintPSMenu);
@@ -353,19 +353,19 @@ TestDirector::BuildWindow
 	ListenTo(itsTestMenu);
 
 	itsUNMenu = jnew JXTextMenu(itsTestMenu, kTestUserNotifyMenuCmd, menuBar);
-	assert( itsUNMenu != NULL );
+	assert( itsUNMenu != nullptr );
 	itsUNMenu->SetMenuItems(kUserNotificationMenuStr);
 	itsUNMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsUNMenu);
 
 	itsCSFMenu = jnew JXTextMenu(itsTestMenu, kTestChooseSaveFileMenuCmd, menuBar);
-	assert( itsCSFMenu != NULL );
+	assert( itsCSFMenu != nullptr );
 	itsCSFMenu->SetMenuItems(kChooseSaveFileMenuStr);
 	itsCSFMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsCSFMenu);
 
 	itsPGMenu = jnew JXTextMenu(itsTestMenu, kTestPGMenuCmd, menuBar);
-	assert( itsPGMenu != NULL );
+	assert( itsPGMenu != nullptr );
 	itsPGMenu->SetMenuItems(kProgressDisplayMenuStr);
 	itsPGMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsPGMenu);
@@ -376,12 +376,12 @@ TestDirector::BuildWindow
 			jnew JXDisplayMenu(JGetString("DisplayMenuTitle::TestDirector"), menuBar,
 							  JXWidget::kFixedLeft, JXWidget::kFixedTop,
 							  0,0, 10,10);
-		assert( itsDisplayMenu != NULL );
+		assert( itsDisplayMenu != nullptr );
 		menuBar->AppendMenu(itsDisplayMenu);
 		}
 	else
 		{
-		itsDisplayMenu = NULL;
+		itsDisplayMenu = nullptr;
 		}
 
 	itsWidget =
@@ -390,7 +390,7 @@ TestDirector::BuildWindow
 					   scrollbarSet->GetScrollEnclosure(),
 					   JXWidget::kHElastic, JXWidget::kVElastic,
 					   0,0, 10,10);
-	assert( itsWidget != NULL );
+	assert( itsWidget != nullptr );
 	itsWidget->FitToEnclosure(kJTrue, kJTrue);
 	itsWidget->SetSingleFocusWidget();
 
@@ -436,7 +436,7 @@ JIndex i;
 	for (i=0; i<kSmileyBitmapCount; i++)
 		{
 		image[i] = jnew JXImage(display, kSmileyBitmap[i], kSmileyColor[i]);
-		assert( image[i] != NULL );
+		assert( image[i] != nullptr );
 		}
 
 	// create 1x6 menu in menu bar -- this owns the icons
@@ -444,7 +444,7 @@ JIndex i;
 	itsSmileyMenu =
 		jnew JXImageMenu(JGetString("IconMenuTitle::TestDirector"), 6, menuBar,
 						 JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
-	assert( itsSmileyMenu != NULL );
+	assert( itsSmileyMenu != nullptr );
 	itsSmileyMenu->SetUpdateAction(JXMenu::kDisableNone);
 	menuBar->AppendMenu(itsSmileyMenu);
 
@@ -456,7 +456,7 @@ JIndex i;
 	// create 2x2 submenu of radio buttons
 
 	itsIconMenu = jnew JXImageMenu(2, itsSmileyMenu, 2, menuBar);
-	assert( itsIconMenu != NULL );
+	assert( itsIconMenu != nullptr );
 	itsIconMenu->SetUpdateAction(JXMenu::kDisableNone);
 
 	for (i=0; i<kSmileyBitmapCount; i++)
@@ -470,7 +470,7 @@ JIndex i;
 	// create 3x5 submenu that has a few unused cells
 
 	JXImageMenu* submenu = jnew JXImageMenu(5, itsSmileyMenu, 4, menuBar);
-	assert( submenu != NULL );
+	assert( submenu != nullptr );
 	submenu->SetUpdateAction(JXMenu::kDisableNone);
 
 	for (JIndex j=1; j<=3; j++)
@@ -504,7 +504,7 @@ TestDirector::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleAboutMenu(selection->GetIndex());
 		}
 
@@ -516,7 +516,7 @@ TestDirector::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandlePrintPSMenu(selection->GetIndex());
 		}
 
@@ -528,7 +528,7 @@ TestDirector::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleTestMenu(selection->GetIndex());
 		}
 
@@ -540,7 +540,7 @@ TestDirector::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleUNMenu(selection->GetIndex());
 		}
 
@@ -552,7 +552,7 @@ TestDirector::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleCSFMenu(selection->GetIndex());
 		}
 
@@ -564,7 +564,7 @@ TestDirector::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandlePGMenu(selection->GetIndex());
 		}
 
@@ -576,7 +576,7 @@ TestDirector::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleIconMenu(selection->GetIndex());
 		}
 
@@ -594,7 +594,7 @@ TestDirector::Receive
 		{
 		const JPrinter::PrintSetupFinished* info =
 			dynamic_cast<const JPrinter::PrintSetupFinished*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		if (info->Successful())
 			{
 			itsWidget->Print(*itsPSPrinter);
@@ -606,7 +606,7 @@ TestDirector::Receive
 		{
 		const JPrinter::PrintSetupFinished* info =
 			dynamic_cast<const JPrinter::PrintSetupFinished*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		if (info->Successful())
 			{
 			itsWidget->Print(*itsEPSPrinter);
@@ -617,7 +617,7 @@ TestDirector::Receive
 		{
 		const JXTipOfTheDayDialog::ShowAtStartup* info =
 			dynamic_cast<const JXTipOfTheDayDialog::ShowAtStartup*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		std::cout << "Should show at startup: " << info->ShouldShowAtStartup() << std::endl;
 		}
 
@@ -661,7 +661,7 @@ TestDirector::HandleAboutMenu
 	else if (index == kTipCmd)
 		{
 		JXTipOfTheDayDialog* dlog = jnew JXTipOfTheDayDialog(kJTrue, kJFalse);
-		assert( dlog != NULL );
+		assert( dlog != nullptr );
 		dlog->BeginDialog();
 		ListenTo(dlog);
 		}
@@ -739,119 +739,119 @@ TestDirector::HandleTestMenu
 {
 	if (index == kNewTestDirectorCmd)	// mainly for placing on other X displays
 		{
-		if (itsDisplayMenu != NULL)
+		if (itsDisplayMenu != nullptr)
 			{
 			itsDisplayMenu->SelectCurrentDisplay();
 			}
 		TestDirector* dir = jnew TestDirector(TestjxGetApplication(), kJFalse);
-		assert( dir != NULL );
+		assert( dir != nullptr );
 		dir->Activate();
 		}
 
 	else if (index == kTestInputCmd)
 		{
 		TestInputFieldsDialog* dir = jnew TestInputFieldsDialog(this);
-		assert( dir != NULL );
+		assert( dir != nullptr );
 		dir->BeginDialog();
 		}
 	else if (index == kTestButtonsCmd)
 		{
 		TestButtonsDialog* dir = jnew TestButtonsDialog(this);
-		assert( dir != NULL );
+		assert( dir != nullptr );
 		dir->BeginDialog();
 		}
 	else if (index == kTestPopupChoiceCmd)
 		{
 		TestPopupChoiceDialog* dir = jnew TestPopupChoiceDialog(this);
-		assert( dir != NULL );
+		assert( dir != nullptr );
 		dir->BeginDialog();
 		}
 	else if (index == kTestSliderCmd)
 		{
 		TestSliderDirector* dir = jnew TestSliderDirector(this);
-		assert( dir != NULL );
+		assert( dir != nullptr );
 		dir->Activate();
 		}
 
 	else if (index == kTestPartitionsCmd)
 		{
-		if (itsDisplayMenu != NULL)
+		if (itsDisplayMenu != nullptr)
 			{
 			itsDisplayMenu->SelectCurrentDisplay();
 			}
 		TestPartitionDirector* dir = jnew TestPartitionDirector(this);
-		assert( dir != NULL );
+		assert( dir != nullptr );
 		dir->Activate();
 		}
 	else if (index == kTestTabGroupCmd)
 		{
-		if (itsDisplayMenu != NULL)
+		if (itsDisplayMenu != nullptr)
 			{
 			itsDisplayMenu->SelectCurrentDisplay();
 			}
 		TestTabDirector* dir = jnew TestTabDirector(this);
-		assert( dir != NULL );
+		assert( dir != nullptr );
 		dir->Activate();
 		}
 
 	else if (index == kTestStrTableCmd)
 		{
-		if (itsDisplayMenu != NULL)
+		if (itsDisplayMenu != nullptr)
 			{
 			itsDisplayMenu->SelectCurrentDisplay();
 			}
 		TestStrTableDirector* dir = jnew TestStrTableDirector(this);
-		assert( dir != NULL );
+		assert( dir != nullptr );
 		dir->Activate();
 		}
 	else if (index == kTestNumTableCmd)
 		{
-		if (itsDisplayMenu != NULL)
+		if (itsDisplayMenu != nullptr)
 			{
 			itsDisplayMenu->SelectCurrentDisplay();
 			}
 		TestFloatTableDirector* dir = jnew TestFloatTableDirector(this);
-		assert( dir != NULL );
+		assert( dir != nullptr );
 		dir->Activate();
 		}
 
 	else if (index == kTestTextEditorCmd)
 		{
-		if (itsDisplayMenu != NULL)
+		if (itsDisplayMenu != nullptr)
 			{
 			itsDisplayMenu->SelectCurrentDisplay();
 			}
 		TestTextEditDocument* doc = jnew TestTextEditDocument(this);
-		assert( doc != NULL );
+		assert( doc != nullptr );
 		doc->Activate();
 		}
 
 	else if (index == kTestLinkedDocCmd)
 		{
-		if (itsDisplayMenu != NULL)
+		if (itsDisplayMenu != nullptr)
 			{
 			itsDisplayMenu->SelectCurrentDisplay();
 			}
 		TestLinkedDocument* doc = jnew TestLinkedDocument(this);
-		assert( doc != NULL );
+		assert( doc != nullptr );
 		doc->Activate();
 		}
 
 	else if (index == kTestDNDTextCmd)
 		{
-		if (itsDisplayMenu != NULL)
+		if (itsDisplayMenu != nullptr)
 			{
 			itsDisplayMenu->SelectCurrentDisplay();
 			}
 		TestDNDTextDirector* dir = jnew TestDNDTextDirector(this);
-		assert( dir != NULL );
+		assert( dir != nullptr );
 		dir->Activate();
 		}
 
 	else if (index == kTestImageViewCmd)
 		{
 		TestImageDirector* dir = jnew TestImageDirector(this);
-		assert( dir != NULL );
+		assert( dir != nullptr );
 		dir->Activate();
 		}
 
@@ -1168,7 +1168,7 @@ TestDirector::BeginBGProcess
 	)
 {
 	TestPGTask* task = jnew TestPGTask(fixedLength);
-	assert( task != NULL );
+	assert( task != nullptr );
 	task->Start();
 }
 

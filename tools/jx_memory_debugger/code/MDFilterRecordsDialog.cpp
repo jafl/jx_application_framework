@@ -52,40 +52,40 @@ MDFilterRecordsDialog::BuildWindow()
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 420,120, "");
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	JXTextButton* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::MDFilterRecordsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kVElastic, 90,90, 70,20);
-	assert( cancelButton != NULL );
+	assert( cancelButton != nullptr );
 
 	JXTextButton* okButton =
 		jnew JXTextButton(JGetString("okButton::MDFilterRecordsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kVElastic, 260,90, 70,20);
-	assert( okButton != NULL );
+	assert( okButton != nullptr );
 	okButton->SetShortcuts(JGetString("okButton::MDFilterRecordsDialog::shortcuts::JXLayout"));
 
 	itsFileCB =
 		jnew JXTextCheckbox(JGetString("itsFileCB::MDFilterRecordsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 130,20);
-	assert( itsFileCB != NULL );
+	assert( itsFileCB != nullptr );
 	itsFileCB->SetShortcuts(JGetString("itsFileCB::MDFilterRecordsDialog::shortcuts::JXLayout"));
 
 	itsSizeCB =
 		jnew JXTextCheckbox(JGetString("itsSizeCB::MDFilterRecordsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,50, 130,20);
-	assert( itsSizeCB != NULL );
+	assert( itsSizeCB != nullptr );
 	itsSizeCB->SetShortcuts(JGetString("itsSizeCB::MDFilterRecordsDialog::shortcuts::JXLayout"));
 
 	itsFileInput =
 		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 150,20, 250,20);
-	assert( itsFileInput != NULL );
+	assert( itsFileInput != nullptr );
 
 	itsSizeInput =
 		jnew JXIntegerInput(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 150,50, 250,20);
-	assert( itsSizeInput != NULL );
+	assert( itsSizeInput != nullptr );
 
 // end JXLayout
 
@@ -93,7 +93,7 @@ MDFilterRecordsDialog::BuildWindow()
 	SetButtons(okButton, cancelButton);
 
 	JXAtLeastOneCBGroup* cbGroup = jnew JXAtLeastOneCBGroup(2, itsSizeCB, itsFileCB);
-	assert( cbGroup != NULL );
+	assert( cbGroup != nullptr );
 
 	ListenTo(itsFileCB);
 	ListenTo(itsFileInput);
@@ -169,6 +169,6 @@ MDFilterRecordsDialog::BuildFilter
 		{
 		jdelete filter->fileName;
 		filter->fileName = jnew JString(itsFileInput->GetText());
-		assert( filter->fileName != NULL );
+		assert( filter->fileName != nullptr );
 		}
 }

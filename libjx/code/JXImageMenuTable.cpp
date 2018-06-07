@@ -221,7 +221,7 @@ JXImageMenuTable::Receive
 		{
 		const JXImageMenuData::ImageChanged* item =
 			dynamic_cast<const JXImageMenuData::ImageChanged*>(&message);
-		assert( item != NULL );
+		assert( item != nullptr );
 		TableRefreshCell(ItemIndexToCell(item->GetIndex()));
 		}
 

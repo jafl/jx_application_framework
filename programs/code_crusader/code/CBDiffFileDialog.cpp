@@ -238,50 +238,50 @@ CBDiffFileDialog::BuildWindow()
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 550,210, "");
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	itsCloseButton =
 		jnew JXTextButton(JGetString("itsCloseButton::CBDiffFileDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 300,175, 60,20);
-	assert( itsCloseButton != NULL );
+	assert( itsCloseButton != nullptr );
 	itsCloseButton->SetShortcuts(JGetString("itsCloseButton::CBDiffFileDialog::shortcuts::JXLayout"));
 
 	itsViewButton =
 		jnew JXTextButton(JGetString("itsViewButton::CBDiffFileDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 460,175, 60,20);
-	assert( itsViewButton != NULL );
+	assert( itsViewButton != nullptr );
 	itsViewButton->SetShortcuts(JGetString("itsViewButton::CBDiffFileDialog::shortcuts::JXLayout"));
 
 	itsHelpButton =
 		jnew JXTextButton(JGetString("itsHelpButton::CBDiffFileDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 380,175, 60,20);
-	assert( itsHelpButton != NULL );
+	assert( itsHelpButton != nullptr );
 	itsHelpButton->SetShortcuts(JGetString("itsHelpButton::CBDiffFileDialog::shortcuts::JXLayout"));
 
 	itsCommonStyleMenu =
 		jnew CBDiffStyleMenu("Shared text style", window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,170, 140,30);
-	assert( itsCommonStyleMenu != NULL );
+	assert( itsCommonStyleMenu != nullptr );
 
 	itsStayOpenCB =
 		jnew JXTextCheckbox(JGetString("itsStayOpenCB::CBDiffFileDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 180,175, 90,20);
-	assert( itsStayOpenCB != NULL );
+	assert( itsStayOpenCB != nullptr );
 
 	itsIgnoreSpaceChangeCB =
 		jnew JXTextCheckbox(JGetString("itsIgnoreSpaceChangeCB::CBDiffFileDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,140, 270,20);
-	assert( itsIgnoreSpaceChangeCB != NULL );
+	assert( itsIgnoreSpaceChangeCB != nullptr );
 
 	itsIgnoreBlankLinesCB =
 		jnew JXTextCheckbox(JGetString("itsIgnoreBlankLinesCB::CBDiffFileDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 310,140, 230,20);
-	assert( itsIgnoreBlankLinesCB != NULL );
+	assert( itsIgnoreBlankLinesCB != nullptr );
 
 	itsTabGroup =
 		jnew JXTabGroup(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 10,10, 530,120);
-	assert( itsTabGroup != NULL );
+	assert( itsTabGroup != nullptr );
 
 // end JXLayout
 
@@ -299,44 +299,44 @@ CBDiffFileDialog::BuildWindow()
 	JXStaticText* file1Label =
 		jnew JXStaticText(JGetString("file1Label::CBDiffFileDialog::plainLayout"), plainCard,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,10, 20,20);
-	assert( file1Label != NULL );
+	assert( file1Label != nullptr );
 	file1Label->SetToLabel();
 
 	itsPlainOnly1StyleMenu =
 		jnew CBDiffStyleMenu("Style", plainCard,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 430,10, 70,20);
-	assert( itsPlainOnly1StyleMenu != NULL );
+	assert( itsPlainOnly1StyleMenu != nullptr );
 
 	itsPlainOnly2StyleMenu =
 		jnew CBDiffStyleMenu("Style", plainCard,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 430,40, 70,20);
-	assert( itsPlainOnly2StyleMenu != NULL );
+	assert( itsPlainOnly2StyleMenu != nullptr );
 
 	itsPlainFile1Input =
 		jnew JXFileInput(plainCard,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 30,10, 320,20);
-	assert( itsPlainFile1Input != NULL );
+	assert( itsPlainFile1Input != nullptr );
 
 	itsPlainChoose1Button =
 		jnew JXTextButton(JGetString("itsPlainChoose1Button::CBDiffFileDialog::plainLayout"), plainCard,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 350,10, 60,20);
-	assert( itsPlainChoose1Button != NULL );
+	assert( itsPlainChoose1Button != nullptr );
 
 	JXStaticText* file2Label =
 		jnew JXStaticText(JGetString("file2Label::CBDiffFileDialog::plainLayout"), plainCard,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,40, 20,20);
-	assert( file2Label != NULL );
+	assert( file2Label != nullptr );
 	file2Label->SetToLabel();
 
 	itsPlainFile2Input =
 		jnew JXFileInput(plainCard,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 30,40, 320,20);
-	assert( itsPlainFile2Input != NULL );
+	assert( itsPlainFile2Input != nullptr );
 
 	itsPlainChoose2Button =
 		jnew JXTextButton(JGetString("itsPlainChoose2Button::CBDiffFileDialog::plainLayout"), plainCard,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 350,40, 60,20);
-	assert( itsPlainChoose2Button != NULL );
+	assert( itsPlainChoose2Button != nullptr );
 
 	plainCard->SetSize(plainLayout_Frame.width(), plainLayout_Frame.height());
 
@@ -351,47 +351,47 @@ CBDiffFileDialog::BuildWindow()
 	itsCVSFileInput =
 		jnew JXFileInput(cvsCard,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 10,10, 330,20);
-	assert( itsCVSFileInput != NULL );
+	assert( itsCVSFileInput != nullptr );
 
 	itsCVSOnly1StyleMenu =
 		jnew CBDiffStyleMenu("Style", cvsCard,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 160,60, 70,20);
-	assert( itsCVSOnly1StyleMenu != NULL );
+	assert( itsCVSOnly1StyleMenu != nullptr );
 
 	itsCVSOnly2StyleMenu =
 		jnew CBDiffStyleMenu("Style", cvsCard,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 410,60, 70,20);
-	assert( itsCVSOnly2StyleMenu != NULL );
+	assert( itsCVSOnly2StyleMenu != nullptr );
 
 	itsCVSChooseButton =
 		jnew JXTextButton(JGetString("itsCVSChooseButton::CBDiffFileDialog::cvsLayout"), cvsCard,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 340,10, 60,20);
-	assert( itsCVSChooseButton != NULL );
+	assert( itsCVSChooseButton != nullptr );
 
 	itsCVSRev1Input =
 		jnew JXInputField(cvsCard,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,60, 140,20);
-	assert( itsCVSRev1Input != NULL );
+	assert( itsCVSRev1Input != nullptr );
 
 	itsCVSRev1Menu =
 		jnew JXTextMenu(JGetString("itsCVSRev1Menu::CBDiffFileDialog::cvsLayout"), cvsCard,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,40, 140,20);
-	assert( itsCVSRev1Menu != NULL );
+	assert( itsCVSRev1Menu != nullptr );
 
 	itsCVSRev2Input =
 		jnew JXInputField(cvsCard,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 260,60, 140,20);
-	assert( itsCVSRev2Input != NULL );
+	assert( itsCVSRev2Input != nullptr );
 
 	itsCVSRev2Menu =
 		jnew JXTextMenu(JGetString("itsCVSRev2Menu::CBDiffFileDialog::cvsLayout"), cvsCard,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 260,40, 140,20);
-	assert( itsCVSRev2Menu != NULL );
+	assert( itsCVSRev2Menu != nullptr );
 
 	itsCVSSummaryCB =
 		jnew JXTextCheckbox(JGetString("itsCVSSummaryCB::CBDiffFileDialog::cvsLayout"), cvsCard,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 420,10, 80,20);
-	assert( itsCVSSummaryCB != NULL );
+	assert( itsCVSSummaryCB != nullptr );
 
 	cvsCard->SetSize(cvsLayout_Frame.width(), cvsLayout_Frame.height());
 
@@ -406,47 +406,47 @@ CBDiffFileDialog::BuildWindow()
 	itsSVNFileInput =
 		jnew CBSVNFileInput(svnCard,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 10,10, 330,20);
-	assert( itsSVNFileInput != NULL );
+	assert( itsSVNFileInput != nullptr );
 
 	itsSVNOnly1StyleMenu =
 		jnew CBDiffStyleMenu("Style", svnCard,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 160,60, 70,20);
-	assert( itsSVNOnly1StyleMenu != NULL );
+	assert( itsSVNOnly1StyleMenu != nullptr );
 
 	itsSVNOnly2StyleMenu =
 		jnew CBDiffStyleMenu("Style", svnCard,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 410,60, 70,20);
-	assert( itsSVNOnly2StyleMenu != NULL );
+	assert( itsSVNOnly2StyleMenu != nullptr );
 
 	itsSVNChooseButton =
 		jnew JXTextButton(JGetString("itsSVNChooseButton::CBDiffFileDialog::svnLayout"), svnCard,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 340,10, 60,20);
-	assert( itsSVNChooseButton != NULL );
+	assert( itsSVNChooseButton != nullptr );
 
 	itsSVNRev1Input =
 		jnew JXInputField(svnCard,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,60, 140,20);
-	assert( itsSVNRev1Input != NULL );
+	assert( itsSVNRev1Input != nullptr );
 
 	itsSVNRev1Menu =
 		jnew JXTextMenu(JGetString("itsSVNRev1Menu::CBDiffFileDialog::svnLayout"), svnCard,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,40, 140,20);
-	assert( itsSVNRev1Menu != NULL );
+	assert( itsSVNRev1Menu != nullptr );
 
 	itsSVNRev2Input =
 		jnew JXInputField(svnCard,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 260,60, 140,20);
-	assert( itsSVNRev2Input != NULL );
+	assert( itsSVNRev2Input != nullptr );
 
 	itsSVNRev2Menu =
 		jnew JXTextMenu(JGetString("itsSVNRev2Menu::CBDiffFileDialog::svnLayout"), svnCard,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 260,40, 140,20);
-	assert( itsSVNRev2Menu != NULL );
+	assert( itsSVNRev2Menu != nullptr );
 
 	itsSVNSummaryCB =
 		jnew JXTextCheckbox(JGetString("itsSVNSummaryCB::CBDiffFileDialog::svnLayout"), svnCard,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 420,10, 80,20);
-	assert( itsSVNSummaryCB != NULL );
+	assert( itsSVNSummaryCB != nullptr );
 
 	svnCard->SetSize(svnLayout_Frame.width(), svnLayout_Frame.height());
 
@@ -461,47 +461,47 @@ CBDiffFileDialog::BuildWindow()
 	itsGitFileInput =
 		jnew JXFileInput(gitCard,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 10,10, 330,20);
-	assert( itsGitFileInput != NULL );
+	assert( itsGitFileInput != nullptr );
 
 	itsGitOnly1StyleMenu =
 		jnew CBDiffStyleMenu("Style", gitCard,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 160,60, 70,20);
-	assert( itsGitOnly1StyleMenu != NULL );
+	assert( itsGitOnly1StyleMenu != nullptr );
 
 	itsGitOnly2StyleMenu =
 		jnew CBDiffStyleMenu("Style", gitCard,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 410,60, 70,20);
-	assert( itsGitOnly2StyleMenu != NULL );
+	assert( itsGitOnly2StyleMenu != nullptr );
 
 	itsGitChooseButton =
 		jnew JXTextButton(JGetString("itsGitChooseButton::CBDiffFileDialog::gitLayout"), gitCard,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 340,10, 60,20);
-	assert( itsGitChooseButton != NULL );
+	assert( itsGitChooseButton != nullptr );
 
 	itsGitRev1Input =
 		jnew JXInputField(gitCard,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,60, 140,20);
-	assert( itsGitRev1Input != NULL );
+	assert( itsGitRev1Input != nullptr );
 
 	itsGitRev1Menu =
 		jnew JXTextMenu(JGetString("itsGitRev1Menu::CBDiffFileDialog::gitLayout"), gitCard,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,40, 140,20);
-	assert( itsGitRev1Menu != NULL );
+	assert( itsGitRev1Menu != nullptr );
 
 	itsGitRev2Input =
 		jnew JXInputField(gitCard,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 260,60, 140,20);
-	assert( itsGitRev2Input != NULL );
+	assert( itsGitRev2Input != nullptr );
 
 	itsGitRev2Menu =
 		jnew JXTextMenu(JGetString("itsGitRev2Menu::CBDiffFileDialog::gitLayout"), gitCard,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 260,40, 140,20);
-	assert( itsGitRev2Menu != NULL );
+	assert( itsGitRev2Menu != nullptr );
 
 	itsGitSummaryCB =
 		jnew JXTextCheckbox(JGetString("itsGitSummaryCB::CBDiffFileDialog::gitLayout"), gitCard,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 420,10, 80,20);
-	assert( itsGitSummaryCB != NULL );
+	assert( itsGitSummaryCB != nullptr );
 
 	gitCard->SetSize(gitLayout_Frame.width(), gitLayout_Frame.height());
 
@@ -660,7 +660,7 @@ CBDiffFileDialog::BuildWindow()
 	JXDocumentMenu* fileListMenu =
 		jnew JXDocumentMenu("", window,
 						   JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,-20, 10,10);
-	assert( fileListMenu != NULL );
+	assert( fileListMenu != nullptr );
 
 	HandleGitRevMenu(itsGitRev1Menu, kCurrentRevCmd, &itsGitRev1Cmd, itsGitRev1Input);
 }
@@ -682,7 +682,7 @@ CBDiffFileDialog::UpdateDisplay()
 	else if (itsTabIndex == kCVSDiffTabIndex)
 		{
 		itsViewButton->SetActive(JI2B(
-			CheckVCSFileOrPath(itsCVSFileInput, kJFalse, NULL) &&
+			CheckVCSFileOrPath(itsCVSFileInput, kJFalse, nullptr) &&
 			(cbIsFixedRevCmd(itsCVSRev1Cmd) || !itsCVSRev1Input->IsEmpty()) &&
 			(cbIsFixedRevCmd(itsCVSRev2Cmd) || !itsCVSRev2Input->IsEmpty())));
 
@@ -693,7 +693,7 @@ CBDiffFileDialog::UpdateDisplay()
 	else if (itsTabIndex == kSVNDiffTabIndex)
 		{
 		itsViewButton->SetActive(JI2B(
-			CheckSVNFileOrPath(itsSVNFileInput, kJFalse, NULL) &&
+			CheckSVNFileOrPath(itsSVNFileInput, kJFalse, nullptr) &&
 			(cbIsSVNFixedRevCmd(itsSVNRev1Cmd) || !itsSVNRev1Input->IsEmpty()) &&
 			(cbIsSVNFixedRevCmd(itsSVNRev2Cmd) || !itsSVNRev2Input->IsEmpty())));
 
@@ -706,7 +706,7 @@ CBDiffFileDialog::UpdateDisplay()
 		assert( itsTabIndex == kGitDiffTabIndex );
 
 		itsViewButton->SetActive(JI2B(
-			CheckVCSFileOrPath(itsGitFileInput, kJFalse, NULL) &&
+			CheckVCSFileOrPath(itsGitFileInput, kJFalse, nullptr) &&
 			(cbIsFixedRevCmd(itsGitRev1Cmd) || !itsGitRev1Input->IsEmpty()) &&
 			(cbIsFixedRevCmd(itsGitRev2Cmd) || !itsGitRev2Input->IsEmpty())));
 
@@ -814,7 +814,7 @@ CBDiffFileDialog::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleCVSRevMenu(itsCVSRev1Menu, selection->GetIndex(), &itsCVSRev1Cmd, itsCVSRev1Input);
 		}
 
@@ -826,7 +826,7 @@ CBDiffFileDialog::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleCVSRevMenu(itsCVSRev2Menu, selection->GetIndex(), &itsCVSRev2Cmd, itsCVSRev2Input);
 		}
 
@@ -838,7 +838,7 @@ CBDiffFileDialog::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleSVNRevMenu(itsSVNRev1Menu, selection->GetIndex(), &itsSVNRev1Cmd, itsSVNRev1Input);
 		}
 
@@ -850,7 +850,7 @@ CBDiffFileDialog::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleSVNRevMenu(itsSVNRev2Menu, selection->GetIndex(), &itsSVNRev2Cmd, itsSVNRev2Input);
 		}
 
@@ -862,7 +862,7 @@ CBDiffFileDialog::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleGitRevMenu(itsGitRev1Menu, selection->GetIndex(), &itsGitRev1Cmd, itsGitRev1Input);
 		}
 
@@ -874,7 +874,7 @@ CBDiffFileDialog::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleGitRevMenu(itsGitRev2Menu, selection->GetIndex(), &itsGitRev2Cmd, itsGitRev2Input);
 		}
 
@@ -1074,10 +1074,10 @@ CBDiffFileDialog::DiffDirectory
 	const JArray<JIndex> lineIndexList;
 
 	JString* path = jnew JString(fullName);
-	assert( path != NULL );
+	assert( path != nullptr );
 
 	JString* cmd = jnew JString(diffCmd);
-	assert( cmd != NULL );
+	assert( cmd != nullptr );
 
 	if (summaryCB->IsChecked())
 		{
@@ -1085,21 +1085,21 @@ CBDiffFileDialog::DiffDirectory
 		}
 
 	JString* ss = jnew JString;
-	assert( ss != NULL );
+	assert( ss != nullptr );
 
 	JString* mt = jnew JString;
-	assert( mt != NULL );
+	assert( mt != nullptr );
 
 	JString* ms = jnew JString;
-	assert( ms != NULL );
+	assert( ms != nullptr );
 
 	JString* mi = jnew JString;
-	assert( mi != NULL );
+	assert( mi != nullptr );
 
 	CBCommandManager::CmdInfo info(path, cmd, ss, kJFalse, kJTrue, kJTrue, kJTrue,
 								   kJTrue, kJTrue, kJFalse, mt, ms, mi, kJFalse);
 
-	CBCommandManager::Exec(info, NULL, fullNameList, lineIndexList);
+	CBCommandManager::Exec(info, nullptr, fullNameList, lineIndexList);
 
 	info.Free();
 }
@@ -1183,7 +1183,7 @@ CBDiffFileDialog::ViewCVSDiffs
 		itsTabGroup->ShowTab(kCVSDiffTabIndex);		// update styles
 
 		JString getCmd, diffCmd, name1, name2;
-		if (BuildCVSDiffCmd(fullName, itsCVSRev1Cmd, NULL, itsCVSRev2Cmd, NULL,
+		if (BuildCVSDiffCmd(fullName, itsCVSRev1Cmd, nullptr, itsCVSRev2Cmd, nullptr,
 							&getCmd, &diffCmd, &name1, &name2, silent))
 			{
 			const JError err =
@@ -1274,7 +1274,7 @@ CBDiffFileDialog::BuildCVSDiffCmd
 
 	*getCmd  = "cvs -d " + JPrepArgForExec(cvsRoot) + " get ";
 	*diffCmd = "cvs -f diff ";
-	if ((rev1Cmd == kPreviousRevCmd && origRev1 != NULL) ||
+	if ((rev1Cmd == kPreviousRevCmd && origRev1 != nullptr) ||
 		(!cbIsFixedRevCmd(rev1Cmd) && !JString::IsEmpty(origRev1)))
 		{
 		JIndex cmd1  = rev1Cmd;
@@ -1444,7 +1444,7 @@ CBDiffFileDialog::ViewSVNDiffs
 		itsTabGroup->ShowTab(kSVNDiffTabIndex);		// update styles
 
 		JString getCmd, diffCmd, name1, name2;
-		if (BuildSVNDiffCmd(fullName, itsSVNRev1Cmd, NULL, itsSVNRev2Cmd, NULL,
+		if (BuildSVNDiffCmd(fullName, itsSVNRev1Cmd, nullptr, itsSVNRev2Cmd, nullptr,
 							&getCmd, &diffCmd, &name1, &name2, silent))
 			{
 			const JError err =
@@ -1534,8 +1534,8 @@ CBDiffFileDialog::BuildSVNDiffCmd
 
 	*getCmd  = "svn cat ";
 	*diffCmd = (forDirectory ? "svn diff " : "svn diff --diff-cmd diff -x --normal ");
-	if ((rev1Cmd == kPreviousRevCmd && origRev1 != NULL) ||		// PREV from dialog
-		(rev1Cmd == kTrunkCmd && origRev1 != NULL) ||			// TRUNK from dialog
+	if ((rev1Cmd == kPreviousRevCmd && origRev1 != nullptr) ||		// PREV from dialog
+		(rev1Cmd == kTrunkCmd && origRev1 != nullptr) ||			// TRUNK from dialog
 		(!cbIsSVNFixedRevCmd(rev1Cmd) && !JString::IsEmpty(origRev1)))
 		{
 		JIndex cmd1    = rev1Cmd;
@@ -1750,7 +1750,7 @@ CBDiffFileDialog::BuildSVNRepositoryPath
 		}
 	assert( !name->IsEmpty() );
 
-	repoPath.ReplaceSubstring(r, *name, NULL);
+	repoPath.ReplaceSubstring(r, *name, nullptr);
 	*fullName = repoPath;
 	return kJTrue;
 }
@@ -1772,7 +1772,7 @@ CBDiffFileDialog::ViewGitDiffs
 		itsTabGroup->ShowTab(kGitDiffTabIndex);		// update styles
 
 		JString get1Cmd, get2Cmd, diffCmd, name1, name2;
-		if (BuildGitDiffCmd(fullName, itsGitRev1Cmd, NULL, itsGitRev2Cmd, NULL,
+		if (BuildGitDiffCmd(fullName, itsGitRev1Cmd, nullptr, itsGitRev2Cmd, nullptr,
 							&get1Cmd, &get2Cmd, &diffCmd, &name1, &name2, silent))
 			{
 			const JError err =
@@ -1880,7 +1880,7 @@ CBDiffFileDialog::BuildGitDiffCmd
 
 	get1Cmd->Clear();
 	get2Cmd->Clear();
-	if ((rev1Cmd == kPreviousRevCmd && rev1 != NULL) ||		// PREV from dialog
+	if ((rev1Cmd == kPreviousRevCmd && rev1 != nullptr) ||		// PREV from dialog
 		(!cbIsFixedRevCmd(rev1Cmd) && !JString::IsEmpty(rev1)))
 		{
 		JString get1Rev;
@@ -2019,7 +2019,7 @@ CBDiffFileDialog::BuildGitDiffDirectoryCmd
 		*diffCmd += "--ignore-space-change ";
 		}
 
-	if ((rev1Cmd == kPreviousRevCmd && rev1 != NULL) ||		// PREV from dialog
+	if ((rev1Cmd == kPreviousRevCmd && rev1 != nullptr) ||		// PREV from dialog
 		(!cbIsFixedRevCmd(rev1Cmd) && !JString::IsEmpty(rev1)))
 		{
 		JString get1Rev;
@@ -2126,12 +2126,12 @@ CBDiffFileDialog::GetLatestGitRevisions
 	JSplitPathAndName(fullName, &path, &name);
 
 	const JCharacter* args[] =
-		{ "git", "log", "-2", "--format=oneline", name, NULL };
+		{ "git", "log", "-2", "--format=oneline", name, nullptr };
 
 	JProcess* p;
 	int fromFD;
 	const JError err = JProcess::Create(&p, path, args, sizeof(args),
-										kJIgnoreConnection, NULL,
+										kJIgnoreConnection, nullptr,
 										kJCreatePipe, &fromFD);
 	if (err.OK())
 		{
@@ -2169,12 +2169,12 @@ CBDiffFileDialog::GetBestCommonGitAncestor
 		}
 
 	const JCharacter* args[] =
-		{ "git", "merge-base", rev1->GetCString(), rev2, NULL };
+		{ "git", "merge-base", rev1->GetCString(), rev2, nullptr };
 
 	JProcess* p;
 	int fromFD;
 	const JError err = JProcess::Create(&p, path, args, sizeof(args),
-										kJIgnoreConnection, NULL,
+										kJIgnoreConnection, nullptr,
 										kJCreatePipe, &fromFD);
 	if (err.OK())
 		{
@@ -2220,7 +2220,7 @@ CBDiffFileDialog::GetSmartDiffItemText
 	JBoolean isSafetySave, isBackup;
 	JString fileName = GetSmartDiffInfo(origFileName, &isSafetySave, &isBackup);
 
-	const JCharacter* id = NULL;
+	const JCharacter* id = nullptr;
 	if (isSafetySave)
 		{
 		const JString savedName = JCombinePathAndName(path, fileName);
@@ -2240,7 +2240,7 @@ CBDiffFileDialog::GetSmartDiffItemText
 		*enable = JFileReadable(backupName);
 		id      = "DiffBackupItemText::CBDiffFileDialog";
 		}
-	assert( id != NULL );
+	assert( id != nullptr );
 	return JGetString(id);
 }
 
@@ -2362,7 +2362,7 @@ CBDiffFileDialog::ChooseFile
 {
 	const JString origName = widget->GetTextForChooseFile();
 	JString newName;
-	if ((JGetChooseSaveFile())->ChooseFile("", NULL, origName, &newName))
+	if ((JGetChooseSaveFile())->ChooseFile("", nullptr, origName, &newName))
 		{
 		widget->Focus();
 		widget->SetText(newName);
@@ -2382,7 +2382,7 @@ CBDiffFileDialog::ChoosePath
 {
 	const JString origPath = widget->GetTextForChooseFile();
 	JString newPath;
-	if ((JGetChooseSaveFile())->ChooseRPath("", NULL, origPath, &newPath))
+	if ((JGetChooseSaveFile())->ChooseRPath("", nullptr, origPath, &newPath))
 		{
 		widget->Focus();
 		widget->SetText(newPath);
@@ -2399,7 +2399,7 @@ CBDiffFileDialog::CheckVCSFileOrPath
 	(
 	JXFileInput*	widget,
 	const JBoolean	reportError,
-	JString*		fullName		// can be NULL
+	JString*		fullName		// can be nullptr
 	)
 	const
 {
@@ -2410,7 +2410,7 @@ CBDiffFileDialog::CheckVCSFileOrPath
 		widget->GetBasePath(&basePath);
 		if (JConvertToAbsolutePath(text, basePath, &s))
 			{
-			if (fullName != NULL)
+			if (fullName != nullptr)
 				{
 				*fullName = s;
 				}
@@ -2424,7 +2424,7 @@ CBDiffFileDialog::CheckVCSFileOrPath
 		(JGetUserNotification())->ReportError(JGetString("VCSDiffTargetInvalid::CBDiffFileDialog"));
 		}
 
-	if (fullName != NULL)
+	if (fullName != nullptr)
 		{
 		fullName->Clear();
 		}
@@ -2482,7 +2482,7 @@ CBDiffFileDialog::CheckSVNFileOrPath
 	(
 	JXFileInput*	widget,
 	const JBoolean	reportError,
-	JString*		fullName		// can be NULL
+	JString*		fullName		// can be nullptr
 	)
 	const
 {
@@ -2491,7 +2491,7 @@ CBDiffFileDialog::CheckSVNFileOrPath
 		{
 		if (JIsURL(text))
 			{
-			if (fullName != NULL)
+			if (fullName != nullptr)
 				{
 				*fullName = text;
 				}
@@ -2502,7 +2502,7 @@ CBDiffFileDialog::CheckSVNFileOrPath
 		widget->GetBasePath(&basePath);
 		if (JConvertToAbsolutePath(text, basePath, &s))
 			{
-			if (fullName != NULL)
+			if (fullName != nullptr)
 				{
 				*fullName = s;
 				}
@@ -2516,7 +2516,7 @@ CBDiffFileDialog::CheckSVNFileOrPath
 		(JGetUserNotification())->ReportError(JGetString("SVNDiffTargetInvalid::CBDiffFileDialog"));
 		}
 
-	if (fullName != NULL)
+	if (fullName != nullptr)
 		{
 		fullName->Clear();
 		}

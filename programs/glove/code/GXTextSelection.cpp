@@ -24,7 +24,7 @@ GXTextSelection::GXTextSelection
 	const std::string&	text
 	)
 	:
-	JXTextSelection(display, text.c_str(), NULL)
+	JXTextSelection(display, text.c_str(), nullptr)
 {
 }
 
@@ -87,7 +87,7 @@ GXTextSelection::ConvertData
 		{
 		*bitsPerBlock = 8;
 		*data = jnew unsigned char[ itsGloveData.GetLength()];
-		assert( *data != NULL );
+		assert( *data != nullptr );
 		memcpy(*data, itsGloveData, itsGloveData.GetLength());
 		*dataLength = itsGloveData.GetLength();
 		*returnType = itsGloveTextXAtom;

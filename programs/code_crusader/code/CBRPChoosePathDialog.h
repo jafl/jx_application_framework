@@ -22,7 +22,7 @@ public:
 			   const JCharacter* fileFilter,
 			   const JBoolean selectOnlyWritable,
 			   const CBRelPathCSF::PathType pathType,
-			   const JCharacter* message = NULL);
+			   const JCharacter* message = nullptr);
 
 	virtual ~CBRPChoosePathDialog();
 
@@ -45,7 +45,7 @@ private:
 private:
 
 	void	BuildWindow(const CBRelPathCSF::PathType pathType,
-						const JCharacter* message = NULL);
+						const JCharacter* message = nullptr);
 
 	// not allowed
 

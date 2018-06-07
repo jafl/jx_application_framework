@@ -27,13 +27,13 @@ JExprRectList::JExprRectList()
 	JContainer()
 {
 	itsRects = jnew JArray<JRect>(10);
-	assert( itsRects != NULL );
+	assert( itsRects != nullptr );
 
 	itsExtraInfo = jnew JArray<ExtraInfo>(10);
-	assert( itsExtraInfo != NULL );
+	assert( itsExtraInfo != nullptr );
 
 	itsFunctions = jnew JPtrArray<JFunction>(JPtrArrayT::kForgetAll, 10);
-	assert( itsFunctions != NULL );
+	assert( itsFunctions != nullptr );
 
 	InstallOrderedSet(itsRects);
 }

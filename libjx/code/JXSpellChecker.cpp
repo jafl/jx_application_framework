@@ -46,9 +46,9 @@ JXSpellChecker::JXSpellChecker()
 	JXSharedPrefObject(kCurrentPrefsVersion,
 					   JXSharedPrefsManager::kLatestSpellCheckerVersionID,
 					   kVersList, kVersCount),
-	itsProcess(NULL),
+	itsProcess(nullptr),
 	itsInFD(ACE_INVALID_HANDLE),
-	itsOutPipe(NULL),
+	itsOutPipe(nullptr),
 	itsReportNoErrorsFlag(kJTrue)
 {
 	const JString cwd = JGetCurrentDirectory();
@@ -62,13 +62,13 @@ JXSpellChecker::JXSpellChecker()
 	JError err = JProcess::Create(&itsProcess, JString("aspell -a", 0, kJFalse),
 								  kJCreatePipe, &toFD,
 								  kJCreatePipe, &fromFD,
-								  kJTossOutput, NULL);
+								  kJTossOutput, nullptr);
 	if (!err.OK())
 		{
 		err = JProcess::Create(&itsProcess, JString("ispell -a", 0, kJFalse),
 							   kJCreatePipe, &toFD,
 							   kJCreatePipe, &fromFD,
-							   kJTossOutput, NULL);
+							   kJTossOutput, nullptr);
 		}
 
 	if (err.OK())
@@ -77,7 +77,7 @@ JXSpellChecker::JXSpellChecker()
 		assert(itsInFD != ACE_INVALID_HANDLE);
 
 		itsOutPipe = jnew JOutPipeStream(toFD, kJTrue);
-		assert(itsOutPipe != NULL);
+		assert(itsOutPipe != nullptr);
 
 		JIgnoreUntil(itsInFD, '\n');
 		}
@@ -110,14 +110,14 @@ JXSpellChecker::Check
 	JXTEBase* editor
 	)
 {
-	if (itsProcess == NULL)
+	if (itsProcess == nullptr)
 		{
 		return;
 		}
 
 	JXSpellCheckerDialog* dlog =
 		jnew JXSpellCheckerDialog(this, editor, editor->GetText()->SelectAll());
-	assert( dlog != NULL );
+	assert( dlog != nullptr );
 	dlog->Check();
 }
 
@@ -133,15 +133,15 @@ JXSpellChecker::CheckSelection
 	)
 {
 	JCharacterRange range;
-	if (itsProcess == NULL ||
+	if (itsProcess == nullptr ||
 		!editor->GetSelection(&range))
 		{
 		return;
 		}
 
 	JXSpellCheckerDialog* dlog =
-		jnew JXSpellCheckerDialog(this, editor, editor->GetText()->CharToTextRange(NULL, range));
-	assert( dlog != NULL );
+		jnew JXSpellCheckerDialog(this, editor, editor->GetText()->CharToTextRange(nullptr, range));
+	assert( dlog != nullptr );
 	dlog->Check();
 }
 

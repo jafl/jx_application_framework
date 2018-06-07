@@ -43,7 +43,7 @@ public:
 	JString GetPrevVersionStr() const;
 	void	EditPrefs();
 
-	JString	GetHeaderComment(const JCharacter* classname = NULL) const;
+	JString	GetHeaderComment(const JCharacter* classname = nullptr) const;
 	void	SetHeaderComment(const JCharacter* comment);
 
 	JString	GetAuthor() const;
@@ -55,7 +55,7 @@ public:
 	JString	GetCopyright(const JBoolean replaceVars = kJFalse) const;
 	void	SetCopyright(const JCharacter* copyright);
 
-	JString	GetSourceComment(const JCharacter* classname = NULL, const JCharacter* base = NULL) const;
+	JString	GetSourceComment(const JCharacter* classname = nullptr, const JCharacter* base = nullptr) const;
 	void	SetSourceComment(const JCharacter* comment);
 
 	JString	GetConstructorComment() const;
@@ -64,7 +64,7 @@ public:
 	JString	GetDestructorComment() const;
 	void	SetDestructorComment(const JCharacter* comment);
 
-	JString	GetFunctionComment(const JCharacter* fnname = NULL, const JCharacter* access = NULL) const;
+	JString	GetFunctionComment(const JCharacter* fnname = nullptr, const JCharacter* access = nullptr) const;
 	void	SetFunctionComment(const JCharacter* comment);
 
 protected:

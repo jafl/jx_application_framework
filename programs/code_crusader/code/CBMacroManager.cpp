@@ -49,7 +49,7 @@ void
 CBMacroManager::CBMacroManagerX()
 {
 	itsMacroList = jnew CBMacroList;
-	assert( itsMacroList != NULL );
+	assert( itsMacroList != nullptr );
 	itsMacroList->SetSortOrder(JListT::kSortAscending);
 	itsMacroList->SetCompareFunction(CompareMacros);
 }
@@ -73,7 +73,7 @@ CBMacroManager::CBMacroManager
 
 		MacroInfo newInfo(jnew JString(*(oldInfo.macro)),
 						  jnew JString(*(oldInfo.script)));
-		assert( newInfo.macro != NULL && newInfo.script != NULL );
+		assert( newInfo.macro != nullptr && newInfo.script != nullptr );
 		itsMacroList->AppendElement(newInfo);
 		}
 }
@@ -253,10 +253,10 @@ CBMacroManager::AddMacro
 	const JCharacter* script
 	)
 {
-	assert( !JString::IsEmpty(macro) && script != NULL );
+	assert( !JString::IsEmpty(macro) && script != nullptr );
 
 	MacroInfo info(jnew JString(macro), jnew JString(script));
-	assert( info.macro != NULL && info.script != NULL );
+	assert( info.macro != nullptr && info.script != nullptr );
 	itsMacroList->InsertSorted(info);
 }
 
@@ -301,7 +301,7 @@ CBMacroManager::ReadSetup
 	for (JIndex i=1; i<=count; i++)
 		{
 		MacroInfo info(jnew JString, jnew JString);
-		assert( info.macro != NULL && info.script != NULL );
+		assert( info.macro != nullptr && info.script != nullptr );
 		input >> *(info.macro) >> *(info.script);
 		itsMacroList->AppendElement(info);
 		}

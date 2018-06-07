@@ -47,8 +47,8 @@ protected:
 
 private:
 
-	JProcess*		itsProcess;		// can be NULL
-	DataLink*		itsLink;		// can be NULL
+	JProcess*		itsProcess;		// can be nullptr
+	DataLink*		itsLink;		// can be nullptr
 
 private:
 

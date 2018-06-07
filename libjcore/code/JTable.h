@@ -1161,7 +1161,7 @@ JTable::GetRowHeader
 	const
 {
 	*table = itsRowHdrTable;
-	return JI2B( itsRowHdrTable != NULL );
+	return JI2B( itsRowHdrTable != nullptr );
 }
 
 inline void
@@ -1181,7 +1181,7 @@ JTable::GetColHeader
 	const
 {
 	*table = itsColHdrTable;
-	return JI2B( itsColHdrTable != NULL );
+	return JI2B( itsColHdrTable != nullptr );
 }
 
 inline void

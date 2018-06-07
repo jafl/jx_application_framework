@@ -38,14 +38,14 @@ JBoolean	JSearchFile(const JString& fileName, const JString& searchStr,
 						const JBoolean caseSensitive, JIndex* lineIndex);
 
 JError		JUncompressFile(const JString& origFileName, JString* newFileName,
-							const JString* dirName = NULL,
-							JProcess** process = NULL);
+							const JString* dirName = nullptr,
+							JProcess** process = nullptr);
 
 JError		JFOpen(const JString& fileName, const JUtf8Byte* mode, FILE** stream);
 
 void		JExtractFileAndLine(const JString& str,
 								JString* fileName, JIndex* startLineIndex,
-								JIndex* endLineIndex = NULL);
+								JIndex* endLineIndex = nullptr);
 
 JString		JCombineRootAndSuffix(const JString& root, const JUtf8Byte* suffix);
 JString		JCombineRootAndSuffix(const JString& root, const JString& suffix);
@@ -61,7 +61,7 @@ JCreateTempFile
 	JString* fullName
 	)
 {
-	return JCreateTempFile(NULL, NULL, fullName);
+	return JCreateTempFile(nullptr, nullptr, fullName);
 }
 
 inline JString

@@ -52,12 +52,12 @@ JXStringList::JXStringList
 	:
 	JXTable(1,w, scrollbarSet, enclosure, hSizing,vSizing, x,y, w,h)
 {
-	itsList        = NULL;
-	itsSortedList  = NULL;
+	itsList        = nullptr;
+	itsSortedList  = nullptr;
 	itsMinColWidth = 1;
 
 	itsStyles = jnew JStyleTableData(this, GetFontManager());
-	assert( itsStyles != NULL );
+	assert( itsStyles != nullptr );
 
 	const JColorID blackColor = JColorManager::GetBlackColor();
 	SetRowBorderInfo(0, blackColor);
@@ -127,18 +127,18 @@ JXStringList::SetStringList
 	const JPtrArray<JString>* list
 	)
 {
-	if (itsList != NULL)
+	if (itsList != nullptr)
 		{
 		StopListening(itsList);
 
 		jdelete itsSortedList;
-		itsSortedList = NULL;
+		itsSortedList = nullptr;
 		}
 
 	itsList = list;
 
 	itsMinColWidth = 1;
-	if (itsList != NULL)
+	if (itsList != nullptr)
 		{
 		ListenTo(itsList);
 
@@ -156,7 +156,7 @@ JXStringList::SetStringList
 			jnew JAliasArray<JString*>(const_cast<JPtrArray<JString>*>(itsList),
 									  JCompareStringsCaseInsensitive,
 									  JListT::kSortAscending);
-		assert( itsSortedList != NULL );
+		assert( itsSortedList != nullptr );
 		}
 	else
 		{
@@ -343,7 +343,7 @@ JXStringList::ClosestMatch
 	)
 	const
 {
-	if (itsSortedList == NULL)
+	if (itsSortedList == nullptr)
 		{
 		*index = 0;
 		return kJFalse;
@@ -387,7 +387,7 @@ JXStringList::Receive
 		{
 		const JListT::ElementsInserted* info =
 			dynamic_cast<const JListT::ElementsInserted*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		InsertRows(info->GetFirstIndex(), info->GetCount());
 		}
 
@@ -396,7 +396,7 @@ JXStringList::Receive
 		{
 		const JListT::ElementsRemoved* info =
 			dynamic_cast<const JListT::ElementsRemoved*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		itsMinColWidth = 1;
 		RemoveNextRows(info->GetFirstIndex(), info->GetCount());
 		}
@@ -406,7 +406,7 @@ JXStringList::Receive
 		{
 		const JListT::ElementMoved* info =
 			dynamic_cast<const JListT::ElementMoved*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		MoveRow(info->GetOrigIndex(), info->GetNewIndex());
 		}
 
@@ -415,7 +415,7 @@ JXStringList::Receive
 		{
 		const JListT::ElementsSwapped* info =
 			dynamic_cast<const JListT::ElementsSwapped*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		const JFontStyle s1 = itsStyles->GetElement(info->GetIndex1(), 1);
 		itsStyles->SetElement(info->GetIndex1(), 1, itsStyles->GetElement(info->GetIndex2(), 1));
 		itsStyles->SetElement(info->GetIndex2(), 1, s1);
@@ -455,7 +455,7 @@ JXStringList::ReceiveGoingAway
 {
 	if (sender == const_cast<JPtrArray<JString>*>(itsList))
 		{
-		SetStringList(NULL);
+		SetStringList(nullptr);
 		}
 	else
 		{

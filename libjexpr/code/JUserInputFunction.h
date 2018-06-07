@@ -22,7 +22,7 @@ class JUserInputFunction : public JFunction, public JTextEditor
 public:
 
 	JUserInputFunction(const JVariableList* varList, JFontManager* fontManager,
-					   const JCharacter* text = NULL);
+					   const JCharacter* text = nullptr);
 	JUserInputFunction(const JUserInputFunction& source);
 
 	virtual ~JUserInputFunction();

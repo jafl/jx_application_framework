@@ -72,24 +72,24 @@ SVNListBase::SVNListBase
 	itsReloadOpenFilesFlag(reload),
 	itsEditMenu(editMenu),
 	itsEnableContextMenuFlag(enableContextMenu),
-	itsContextMenu(NULL),
-	itsProcess(NULL),
-	itsMessageLink(NULL),
-	itsErrorLink(NULL)
+	itsContextMenu(nullptr),
+	itsProcess(nullptr),
+	itsMessageLink(nullptr),
+	itsErrorLink(nullptr)
 {
 	SetFont(JGetMonospaceFontName(), JGetDefaultMonoFontSize());
 	SetSelectionBehavior(kJTrue, kJTrue);
 
 	itsLineList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
-	assert( itsLineList != NULL );
+	assert( itsLineList != nullptr );
 	itsLineList->SetCompareObject(CompareLines(this));
 	SetStringList(itsLineList);
 
 	itsErrorList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
-	assert( itsErrorList != NULL );
+	assert( itsErrorList != nullptr );
 
 	itsSavedSelection = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
-	assert( itsSavedSelection != NULL );
+	assert( itsSavedSelection != nullptr );
 	itsSavedSelection->SetCompareFunction(JCompareStringsCaseSensitive);
 
 	FitToEnclosure();
@@ -104,7 +104,7 @@ SVNListBase::SVNListBase
 
 SVNListBase::~SVNListBase()
 {
-	if (itsProcess != NULL)
+	if (itsProcess != nullptr)
 		{
 		StopListening(itsProcess);
 		itsProcess->Kill();
@@ -126,10 +126,10 @@ SVNListBase::~SVNListBase()
 void
 SVNListBase::RefreshContent()
 {
-	if (itsProcess != NULL)
+	if (itsProcess != nullptr)
 		{
 		JProcess* p = itsProcess;
-		itsProcess  = NULL;
+		itsProcess  = nullptr;
 
 		p->Kill();
 		jdelete p;
@@ -157,14 +157,14 @@ SVNListBase::RefreshContent()
 	if (GetDirector()->HasPath())
 		{
 		err = JProcess::Create(&itsProcess, GetPath(), itsCmd,
-							   kJIgnoreConnection, NULL,
+							   kJIgnoreConnection, nullptr,
 							   kJCreatePipe, &outFD,
 							   kJCreatePipe, &errFD);
 		}
 	else	// working with URL
 		{
 		err = JProcess::Create(&itsProcess, itsCmd,
-							   kJIgnoreConnection, NULL,
+							   kJIgnoreConnection, nullptr,
 							   kJCreatePipe, &outFD,
 							   kJCreatePipe, &errFD);
 		}
@@ -218,7 +218,7 @@ SVNListBase::Receive
 			{
 			const JXMenu::ItemSelected* selection =
 				dynamic_cast<const JXMenu::ItemSelected*>(&message);
-			assert( selection != NULL );
+			assert( selection != nullptr );
 			HandleEditMenu(selection->GetIndex());
 			}
 		}
@@ -231,7 +231,7 @@ SVNListBase::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleContextMenu(selection->GetIndex());
 		}
 
@@ -254,7 +254,7 @@ SVNListBase::ReceiveGoingAway
 {
 	if (sender == itsProcess)
 		{
-		itsProcess = NULL;
+		itsProcess = nullptr;
 		DeleteLinks();
 
 		DisplayErrors();
@@ -277,7 +277,7 @@ SVNListBase::ReceiveGoingAway
 void
 SVNListBase::ReceiveMessageLine()
 {
-	assert( itsMessageLink != NULL );
+	assert( itsMessageLink != nullptr );
 
 	JString line;
 	const JBoolean ok = itsMessageLink->GetNextMessage(&line);
@@ -293,7 +293,7 @@ SVNListBase::ReceiveMessageLine()
 	const JFontStyle strike(kJFalse, kJFalse, 0, kJTrue);
 
 	JString* temp = jnew JString(line);
-	assert( temp != NULL );
+	assert( temp != nullptr );
 
 	JIndex i;
 	itsLineList->InsertSorted(temp, kJTrue, &i);
@@ -332,7 +332,7 @@ SVNListBase::ShouldDisplayLine
 void
 SVNListBase::ReceiveErrorLine()
 {
-	assert( itsErrorLink != NULL );
+	assert( itsErrorLink != nullptr );
 
 	JString line;
 	const JBoolean ok = itsErrorLink->GetNextMessage(&line);
@@ -445,7 +445,7 @@ SVNListBase::CopySelectedItems
 		}
 
 	JXTextSelection* data = jnew JXTextSelection(GetDisplay(), list);
-	assert( data != NULL );
+	assert( data != nullptr );
 
 	GetSelectionManager()->SetData(kJXClipboardName, data);
 }
@@ -462,7 +462,7 @@ SVNListBase::AdjustCursor
 	const JXKeyModifiers&	modifiers
 	)
 {
-	if (itsProcess != NULL)
+	if (itsProcess != nullptr)
 		{
 		DisplayCursor(kJXBusyCursor);
 		}
@@ -624,10 +624,10 @@ SVNListBase::HandleKeyPress
 JBoolean
 SVNListBase::CreateContextMenu()
 {
-	if (itsContextMenu == NULL && itsEnableContextMenuFlag)
+	if (itsContextMenu == nullptr && itsEnableContextMenuFlag)
 		{
 		itsContextMenu = jnew JXTextMenu("", this, kFixedLeft, kFixedTop, 0,0, 10,10);
-		assert( itsContextMenu != NULL );
+		assert( itsContextMenu != nullptr );
 		itsContextMenu->SetMenuItems(kContextMenuStr, "SVNListBase");
 		itsContextMenu->SetUpdateAction(JXMenu::kDisableNone);
 		itsContextMenu->SetToHiddenPopupMenu();
@@ -637,7 +637,7 @@ SVNListBase::CreateContextMenu()
 		ListenTo(itsContextMenu);
 		}
 
-	return JI2B(itsEnableContextMenuFlag && itsContextMenu != NULL);
+	return JI2B(itsEnableContextMenuFlag && itsContextMenu != nullptr);
 }
 
 /******************************************************************************
@@ -858,7 +858,7 @@ SVNListBase::CompareLines::Copy()
 	const
 {
 	CompareLines* copy = jnew CompareLines(itsWidget);
-	assert( copy != NULL );
+	assert( copy != nullptr );
 	return copy;
 }
 
@@ -875,11 +875,11 @@ SVNListBase::SetConnection
 	)
 {
 	itsMessageLink = new RecordLink(outFD);
-	assert( itsMessageLink != NULL );
+	assert( itsMessageLink != nullptr );
 	ListenTo(itsMessageLink);
 
 	itsErrorLink = new RecordLink(errFD);
-	assert( itsErrorLink != NULL );
+	assert( itsErrorLink != nullptr );
 	ListenTo(itsErrorLink);
 }
 
@@ -892,8 +892,8 @@ void
 SVNListBase::DeleteLinks()
 {
 	delete itsMessageLink;
-	itsMessageLink = NULL;
+	itsMessageLink = nullptr;
 
 	delete itsErrorLink;
-	itsErrorLink = NULL;
+	itsErrorLink = nullptr;
 }

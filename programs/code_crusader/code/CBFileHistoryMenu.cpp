@@ -74,13 +74,13 @@ CBFileHistoryMenu::CBFileHistoryMenuX
 	if (type == CBDocumentManager::kProjectFileHistory)
 		{
 		JXImage* icon = jnew JXImage(GetDisplay(), jcc_project_file);
-		assert( icon != NULL );
+		assert( icon != nullptr );
 		SetDefaultIcon(icon, kJTrue);
 		}
 
 	CBFileHistoryMenu* master =
 		(CBGetDocumentManager())->GetFileHistoryMenu(itsDocType);
-	if (master != NULL)
+	if (master != nullptr)
 		{
 		std::ostringstream data;
 		master->WriteSetup(data);
@@ -118,7 +118,7 @@ CBFileHistoryMenu::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 
 		// need copy because menu will change
 		const JString fileName = GetFile(selection->GetIndex());
@@ -145,7 +145,7 @@ CBFileHistoryMenu::Receive
 		{
 		const CBDocumentManager::AddFileToHistory* info =
 			dynamic_cast<const CBDocumentManager::AddFileToHistory*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		if (itsDocType == info->GetType())
 			{
 			AddFile(info->GetFullName());

@@ -114,7 +114,7 @@ CBMDIServer::HandleMDIRequest
 		else if (arg == "--apropos" && i < argCount)
 			{
 			i++;
-			CBManPageDocument::Create(NULL, *(argList.GetElement(i)), ' ', kJTrue);
+			CBManPageDocument::Create(nullptr, *(argList.GetElement(i)), ' ', kJTrue);
 			lineRange.SetToNothing();
 			restore = kJFalse;
 			}
@@ -275,7 +275,7 @@ CBMDIServer::HandleMDIRequest
 			else
 				{
 				(CBGetDocumentManager())->
-					OpenTextDocument(fileName, lineRange, NULL, iconify, forceReload);
+					OpenTextDocument(fileName, lineRange, nullptr, iconify, forceReload);
 				}
 			lineRange.SetToNothing();
 			restore = kJFalse;
@@ -347,30 +347,30 @@ CBMDIServer::DisplayManPage
 {
 	const JSize argCount = argList.GetElementCount();
 
-	const JString* arg1 = NULL;
+	const JString* arg1 = nullptr;
 	if (*index < argCount)
 		{
 		arg1 = argList.GetElement((*index)+1);
 		}
-	if (arg1 == NULL || arg1->IsEmpty())
+	if (arg1 == nullptr || arg1->IsEmpty())
 		{
 		(CBGetViewManPageDialog())->Activate();
 		return;
 		}
 
-	const JString* arg2 = NULL;
+	const JString* arg2 = nullptr;
 	if (*index < argCount-1)
 		{
 		arg2 = argList.GetElement((*index)+2);
 		}
 
-	if (arg2 != NULL && !arg2->IsEmpty() && arg2->GetFirstCharacter() != '-')
+	if (arg2 != nullptr && !arg2->IsEmpty() && arg2->GetFirstCharacter() != '-')
 		{
 		if (arg1->GetLength() == 1)
 			{
 			// display page of specified section
 
-			CBManPageDocument::Create(NULL, *arg2, arg1->GetFirstCharacter());
+			CBManPageDocument::Create(nullptr, *arg2, arg1->GetFirstCharacter());
 			*index += 2;
 			return;
 			}
@@ -378,13 +378,13 @@ CBMDIServer::DisplayManPage
 			{
 			// apropos
 
-			CBManPageDocument::Create(NULL, *arg2, ' ', kJTrue);
+			CBManPageDocument::Create(nullptr, *arg2, ' ', kJTrue);
 			*index += 2;
 			return;
 			}
 		}
 
-	CBManPageDocument::Create(NULL, *arg1);
+	CBManPageDocument::Create(nullptr, *arg1);
 	(*index)++;
 }
 
@@ -506,14 +506,14 @@ CBMDIServer::DisplayFileDiffs
 		{
 		std::cerr << *(argList.FirstElement()) << ": too few arguments to --diff" << std::endl;
 		}
-	else if (!JConvertToAbsolutePath(file1, NULL, &full1))
+	else if (!JConvertToAbsolutePath(file1, nullptr, &full1))
 		{
 		JString msg = "\"";
 		msg += file1;
 		msg += "\" does not exist or is not a file.";
 		(JGetUserNotification())->ReportError(msg);
 		}
-	else if (!JConvertToAbsolutePath(file2, NULL, &full2))
+	else if (!JConvertToAbsolutePath(file2, nullptr, &full2))
 		{
 		JString msg = "\"";
 		msg += file2;
@@ -608,7 +608,7 @@ CBMDIServer::DisplayVCSDiffs
 		}
 
 	JString full = file;
-	if (!JIsURL(file) && !JConvertToAbsolutePath(file, NULL, &full))
+	if (!JIsURL(file) && !JConvertToAbsolutePath(file, nullptr, &full))
 		{
 		JString msg = "\"";
 		msg += file;

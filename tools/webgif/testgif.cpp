@@ -68,7 +68,7 @@ CreateGIF
 	)
 {
 	gdImagePtr image = gdImageCreate(256, kImageHeight);
-	assert( image != NULL );
+	assert( image != nullptr );
 
 	unsigned long rgb[3] = {0,0,0};
 	for (JCoordinate x=0; x<256; x++)
@@ -88,7 +88,7 @@ CreateGIF
 		}
 
 	FILE* output = fopen(fileName, "wb");
-	assert( output != NULL );
+	assert( output != nullptr );
 	gdImageGif(image, output);
 	assert( ferror(output) == 0 );
 	fclose(output);

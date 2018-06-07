@@ -32,7 +32,7 @@ protected:
 private:
 
 	JTreeNode*		itsRoot;
-	JVMThreadNode*	itsParent;	// can be NULL
+	JVMThreadNode*	itsParent;	// can be nullptr
 
 private:
 

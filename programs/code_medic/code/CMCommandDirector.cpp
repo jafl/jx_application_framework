@@ -239,39 +239,39 @@ CMCommandDirector::CMCommandDirector
 	JXMenuBar* menuBar = BuildWindow();
 
 	itsCurrentSourceDir = jnew CMSourceDirector(this, CMSourceDirector::kMainSourceType);
-	assert( itsCurrentSourceDir != NULL );
+	assert( itsCurrentSourceDir != nullptr );
 	itsCurrentSourceDir->Activate();
 
 	itsCurrentAsmDir = jnew CMSourceDirector(this, CMSourceDirector::kMainAsmType);
-	assert( itsCurrentAsmDir != NULL );
+	assert( itsCurrentAsmDir != nullptr );
 
 	itsThreadsDir = jnew CMThreadsDir(this);
-	assert( itsThreadsDir != NULL );
+	assert( itsThreadsDir != nullptr );
 
 	itsStackDir = jnew CMStackDir(this);
-	assert(itsStackDir != NULL);
+	assert(itsStackDir != nullptr);
 
 	itsBreakpointsDir = jnew CMBreakpointsDir(this);
-	assert(itsBreakpointsDir != NULL);
+	assert(itsBreakpointsDir != nullptr);
 
 	itsVarTreeDir = jnew CMVarTreeDir(this);
-	assert(itsVarTreeDir != NULL);
+	assert(itsVarTreeDir != nullptr);
 
 	itsLocalVarsDir = jnew CMLocalVarsDir(this);
-	assert(itsLocalVarsDir != NULL);
+	assert(itsLocalVarsDir != nullptr);
 
 	itsRegistersDir = jnew CMRegistersDir(this);
-	assert(itsRegistersDir != NULL);
+	assert(itsRegistersDir != nullptr);
 
 	itsFileListDir = jnew CMFileListDir(this);
-	assert(itsFileListDir != NULL);
+	assert(itsFileListDir != nullptr);
 
 	itsDebugDir = jnew CMDebugDir(this);
-	assert(itsDebugDir!=NULL);
+	assert(itsDebugDir!=nullptr);
 
 	JXWDManager* wdMgr = GetDisplay()->GetWDManager();
-	wdMgr->PermanentDirectorCreated(this,                NULL,           kCMShowCommandLineAction);
-	wdMgr->PermanentDirectorCreated(itsCurrentSourceDir, NULL,           kCMShowCurrentSourceAction);
+	wdMgr->PermanentDirectorCreated(this,                nullptr,           kCMShowCommandLineAction);
+	wdMgr->PermanentDirectorCreated(itsCurrentSourceDir, nullptr,           kCMShowCurrentSourceAction);
 	wdMgr->PermanentDirectorCreated(itsThreadsDir,       "Meta-Shift-T", kCMShowThreadsAction);
 	wdMgr->PermanentDirectorCreated(itsStackDir,         "Meta-Shift-S", kCMShowStackTraceAction);
 	wdMgr->PermanentDirectorCreated(itsBreakpointsDir,   "Meta-Shift-B", kCMShowBreakpointsAction);
@@ -289,22 +289,22 @@ CMCommandDirector::CMCommandDirector
 	itsCurrentAsmDir->CreateWindowsMenu();
 
 	itsSourceDirs = jnew JPtrArray<CMSourceDirector>(JPtrArrayT::kForgetAll);
-	assert( itsSourceDirs != NULL );
+	assert( itsSourceDirs != nullptr );
 
 	itsAsmDirs = jnew JPtrArray<CMSourceDirector>(JPtrArrayT::kForgetAll);
-	assert( itsAsmDirs != NULL );
+	assert( itsAsmDirs != nullptr );
 
 	itsArray1DDirs = jnew JPtrArray<CMArray1DDir>(JPtrArrayT::kForgetAll);
-	assert( itsArray1DDirs != NULL );
+	assert( itsArray1DDirs != nullptr );
 
 	itsArray2DDirs = jnew JPtrArray<CMArray2DDir>(JPtrArrayT::kForgetAll);
-	assert( itsArray2DDirs != NULL );
+	assert( itsArray2DDirs != nullptr );
 
 	itsPlot2DDirs = jnew JPtrArray<CMPlot2DDir>(JPtrArrayT::kForgetAll);
-	assert( itsPlot2DDirs != NULL );
+	assert( itsPlot2DDirs != nullptr );
 
 	itsMemoryDirs = jnew JPtrArray<CMMemoryDir>(JPtrArrayT::kForgetAll);
-	assert( itsMemoryDirs != NULL );
+	assert( itsMemoryDirs != nullptr );
 
 	itsHistoryIndex     = 0;
 	itsWaitingToRunFlag = kJFalse;
@@ -472,48 +472,48 @@ CMCommandDirector::BuildWindow()
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 500,550, "");
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	JXMenuBar* menuBar =
 		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 500,30);
-	assert( menuBar != NULL );
+	assert( menuBar != nullptr );
 
 	itsToolBar =
 		jnew JXToolBar(CMGetPrefsManager(), kCmdWindowToolBarID, menuBar, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 500,440);
-	assert( itsToolBar != NULL );
+	assert( itsToolBar != nullptr );
 
 	itsProgramButton =
 		jnew JXTextButton(JGetString("itsProgramButton::CMCommandDirector::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 0,530, 150,20);
-	assert( itsProgramButton != NULL );
+	assert( itsProgramButton != nullptr );
 
 	itsDownRect =
 		jnew JXDownRect(window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 0,470, 500,60);
-	assert( itsDownRect != NULL );
+	assert( itsDownRect != nullptr );
 
 	itsFakePrompt =
 		jnew JXStaticText(JGetString("itsFakePrompt::CMCommandDirector::JXLayout"), itsDownRect,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,0, 38,20);
-	assert( itsFakePrompt != NULL );
+	assert( itsFakePrompt != nullptr );
 	itsFakePrompt->SetToLabel();
 
 	itsCommandInput =
 		jnew CMCommandInput(itsDownRect,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 53,0, 445,56);
-	assert( itsCommandInput != NULL );
+	assert( itsCommandInput != nullptr );
 
 	itsHistoryMenu =
 		jnew JXStringHistoryMenu(kCmdHistoryLength, "", itsDownRect,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,30, 30,20);
-	assert( itsHistoryMenu != NULL );
+	assert( itsHistoryMenu != nullptr );
 
 	itsArgInput =
 		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 150,530, 350,20);
-	assert( itsArgInput != NULL );
+	assert( itsArgInput != nullptr );
 
 // end JXLayout
 
@@ -526,7 +526,7 @@ CMCommandDirector::BuildWindow()
 
 	JXDisplay* display = GetDisplay();
 	JXImage* icon      = jnew JXImage(display, medic_command_window);
-	assert( icon != NULL );
+	assert( icon != nullptr );
 	window->SetIcon(icon);
 
 	itsDownRect->SetBackColor(itsCommandInput->GetCurrBackColor());
@@ -564,7 +564,7 @@ CMCommandDirector::BuildWindow()
 	JXScrollbarSet* scrollbarSet =
 		jnew JXScrollbarSet(itsToolBar->GetWidgetEnclosure(),
 						   JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 100,100);
-	assert( scrollbarSet != NULL );
+	assert( scrollbarSet != nullptr );
 	scrollbarSet->FitToEnclosure();
 
 	// appends Edit & Search menus
@@ -573,7 +573,7 @@ CMCommandDirector::BuildWindow()
 		jnew CMCommandOutputDisplay(menuBar,
 							 scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 							 JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 100,100);
-	assert( itsCommandOutput != NULL );
+	assert( itsCommandOutput != nullptr );
 	itsCommandOutput->FitToEnclosure(kJTrue, kJTrue);
 
 	itsCommandOutput->AppendSearchMenu(menuBar);
@@ -835,7 +835,7 @@ CMCommandDirector::AdjustDebugMenu
 	for (JIndex i=1; i<=count; i++)
 		{
 		const JString* cmd = cmds.GetElement(i);
-		menu->AppendItem(*cmd, JXMenu::kPlainType, NULL, NULL, *cmd);
+		menu->AppendItem(*cmd, JXMenu::kPlainType, nullptr, nullptr, *cmd);
 		}
 }
 
@@ -862,7 +862,7 @@ CMCommandDirector::CreateWindowsMenuAndToolBar
 	JXWDMenu* wdMenu =
 		jnew JXWDMenu(kWindowsMenuTitleStr, menuBar,
 					 JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
-	assert( wdMenu != NULL );
+	assert( wdMenu != nullptr );
 	menuBar->InsertMenuBefore(prefsMenu, wdMenu);
 
 	toolBar->LoadPrefs();
@@ -924,7 +924,7 @@ CMCommandDirector::Receive
 		{
 		const CMLink::UserOutput* output =
 			dynamic_cast<const CMLink::UserOutput*>(&message);
-		assert(output != NULL);
+		assert(output != nullptr);
 		itsCommandOutput->GoToEndOfLine();
 //		itsISOStyler->FilterISO(output->GetText());
 
@@ -969,13 +969,13 @@ CMCommandDirector::Receive
 		{
 		const CMLink::SymbolsLoaded* info =
 			dynamic_cast<const CMLink::SymbolsLoaded*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		UpdateWindowTitle(info->GetProgramName());
 
 		if (itsWaitingToRunFlag)
 			{
 			CMRunProgramTask* task = jnew CMRunProgramTask();
-			assert( task != NULL );
+			assert( task != nullptr );
 			task->Start();
 			itsWaitingToRunFlag = kJFalse;
 			}
@@ -983,10 +983,10 @@ CMCommandDirector::Receive
 
 	else if (sender == itsLink && message.Is(CMLink::kDebuggerStarted))
 		{
-		if (itsGetArgsCmd != NULL)
+		if (itsGetArgsCmd != nullptr)
 			{
 			itsGetArgsCmd->Send();
-			itsGetArgsCmd = NULL;	// one shot
+			itsGetArgsCmd = nullptr;	// one shot
 			}
 		}
 
@@ -1049,7 +1049,7 @@ CMCommandDirector::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleFileMenu(selection->GetIndex());
 		}
 
@@ -1061,7 +1061,7 @@ CMCommandDirector::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleDebugMenu(itsDebugMenu, selection->GetIndex(), itsCommandOutput, itsCommandInput);
 		}
 
@@ -1078,7 +1078,7 @@ CMCommandDirector::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandlePrefsMenu(selection->GetIndex());
 		}
 
@@ -1086,7 +1086,7 @@ CMCommandDirector::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleHelpMenu(selection->GetIndex());
 		}
 
@@ -1108,21 +1108,21 @@ CMCommandDirector::Receive
 		{
 		const CMGetFullPath::FileFound* info =
 			dynamic_cast<const CMGetFullPath::FileFound*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		OpenSourceFile(info->GetFullName(), info->GetLineIndex());
 		}
 	else if (message.Is(CMGetFullPath::kFileNotFound))
 		{
 		const CMGetFullPath::FileNotFound* info =
 			dynamic_cast<const CMGetFullPath::FileNotFound*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		ReportUnreadableSourceFile(info->GetFileName());
 		}
 	else if (message.Is(CMGetFullPath::kNewCommand))
 		{
 		const CMGetFullPath::NewCommand* info =
 			dynamic_cast<const CMGetFullPath::NewCommand*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		ListenTo(info->GetNewCommand());
 		}
 
@@ -1336,7 +1336,7 @@ void
 CMCommandDirector::OpenSourceFiles()
 {
 	JPtrArray<JString> list(JPtrArrayT::kDeleteAll);
-	if ((JGetChooseSaveFile())->ChooseFiles("Choose Source Files", NULL, &list))
+	if ((JGetChooseSaveFile())->ChooseFiles("Choose Source Files", nullptr, &list))
 		{
 		const JSize count = list.GetElementCount();
 		for (JIndex i=1; i<=count; i++)
@@ -1379,7 +1379,7 @@ CMCommandDirector::OpenSourceFile
 			ListenTo(cmd);
 			}
 		}
-	else if (JConvertToAbsolutePath(fileName, NULL, &fullName))
+	else if (JConvertToAbsolutePath(fileName, nullptr, &fullName))
 		{
 		const JSize count = itsSourceDirs->GetElementCount();
 		for (JIndex i=1; i<=count; i++)
@@ -1423,7 +1423,7 @@ CMCommandDirector::DisassembleFunction
 	const JCharacter* addr
 	)
 {
-	CMSourceDirector* dir = NULL;
+	CMSourceDirector* dir = nullptr;
 
 	JString fn = origFn;
 	JIndex i;
@@ -1442,12 +1442,12 @@ CMCommandDirector::DisassembleFunction
 			dir->Activate();
 			break;
 			}
-		dir = NULL;		// trigger Create()
+		dir = nullptr;		// trigger Create()
 		}
 
-	if (dir == NULL)
+	if (dir == nullptr)
 		{
-		dir = CMSourceDirector::Create(this, JString::IsEmpty(addr) ? fn.GetCString() : NULL, CMSourceDirector::kAsmType);
+		dir = CMSourceDirector::Create(this, JString::IsEmpty(addr) ? fn.GetCString() : nullptr, CMSourceDirector::kAsmType);
 		itsAsmDirs->Append(dir);
 		dir->Activate();
 		}
@@ -1490,7 +1490,7 @@ void
 CMCommandDirector::LoadConfig()
 {
 	JString fullName;
-	if ((JGetChooseSaveFile())->ChooseFile("Choose configuration file", NULL, &fullName))
+	if ((JGetChooseSaveFile())->ChooseFile("Choose configuration file", nullptr, &fullName))
 		{
 		std::ifstream input(fullName);
 
@@ -1507,7 +1507,7 @@ CMCommandDirector::LoadConfig()
 			for (JIndex i=1; i<=count; i++)
 				{
 				CMArray1DDir* dir = jnew CMArray1DDir(input, vers, this);
-				assert( dir != NULL );
+				assert( dir != nullptr );
 				// adds itself to list automatically
 				dir->Activate();
 				}
@@ -1517,7 +1517,7 @@ CMCommandDirector::LoadConfig()
 			for (JIndex i=1; i<=count; i++)
 				{
 				CMArray2DDir* dir = jnew CMArray2DDir(input, vers, this);
-				assert( dir != NULL );
+				assert( dir != nullptr );
 				// adds itself to list automatically
 				dir->Activate();
 				}
@@ -1527,7 +1527,7 @@ CMCommandDirector::LoadConfig()
 			for (JIndex i=1; i<=count; i++)
 				{
 				CMPlot2DDir* dir = jnew CMPlot2DDir(input, vers, this);
-				assert( dir != NULL );
+				assert( dir != nullptr );
 				// adds itself to list automatically
 				dir->Activate();
 				}
@@ -1539,7 +1539,7 @@ CMCommandDirector::LoadConfig()
 				for (JIndex i=1; i<=count; i++)
 					{
 					CMMemoryDir* dir = jnew CMMemoryDir(input, vers, this);
-					assert( dir != NULL );
+					assert( dir != nullptr );
 					// adds itself to list automatically
 					dir->Activate();
 					}
@@ -1573,7 +1573,7 @@ CMCommandDirector::SaveConfig()
 		origName = "debug_config";
 		}
 
-	if ((JGetChooseSaveFile())->SaveFile("Choose file name", NULL, origName, &fullName))
+	if ((JGetChooseSaveFile())->SaveFile("Choose file name", nullptr, origName, &fullName))
 		{
 		std::ofstream output(fullName);
 
@@ -1641,7 +1641,7 @@ CMCommandDirector::SaveInCurrentFile()
 void
 CMCommandDirector::SaveInNewFile()
 {
-	if ((JGetChooseSaveFile())->SaveFile("Choose file name:", NULL, "",  &itsCurrentHistoryFile))
+	if ((JGetChooseSaveFile())->SaveFile("Choose file name:", nullptr, "",  &itsCurrentHistoryFile))
 		{
 		SaveInCurrentFile();
 		}
@@ -1650,7 +1650,7 @@ CMCommandDirector::SaveInNewFile()
 /******************************************************************************
  UpdateDebugMenu
 
-	te1 and te2 can both be NULL.  If not, they are used to look for
+	te1 and te2 can both be nullptr.  If not, they are used to look for
 	selected text to send to the Variable Tree window.
 
 	Shared with CMSourceDirector
@@ -1718,8 +1718,8 @@ CMCommandDirector::UpdateDebugMenu
 			if (itsLink->HasLoadedSymbols())
 				{
 				JString text;
-				if (((te1 != NULL && te1->GetSelection(&text)) ||
-					 (te2 != NULL && te2->GetSelection(&text))) &&
+				if (((te1 != nullptr && te1->GetSelection(&text)) ||
+					 (te2 != nullptr && te2->GetSelection(&text))) &&
 					 !text.Contains("\n"))
 					{
 					menu->EnableItem(kDisplayVarCmd);
@@ -1774,7 +1774,7 @@ CMCommandDirector::UpdateDebugMenu
 /******************************************************************************
  HandleDebugMenu
 
-	te1 and te2 can both be NULL.  If not, they are used to look for
+	te1 and te2 can both be nullptr.  If not, they are used to look for
 	selected text to send to the Variable Tree window.
 
 	Shared with CMSourceDirector
@@ -1824,8 +1824,8 @@ CMCommandDirector::HandleDebugMenu
 	else if (index == kDisplayVarCmd)
 		{
 		JString text;
-		if ((te1 != NULL && te1->GetSelection(&text) && !text.Contains("\n")) ||
-			(te2 != NULL && te2->GetSelection(&text) && !text.Contains("\n")))
+		if ((te1 != nullptr && te1->GetSelection(&text) && !text.Contains("\n")) ||
+			(te2 != nullptr && te2->GetSelection(&text) && !text.Contains("\n")))
 			{
 			DisplayExpression(text);
 			}
@@ -1833,8 +1833,8 @@ CMCommandDirector::HandleDebugMenu
 	else if (index == kDisplay1DArrayCmd)
 		{
 		JString text;
-		if ((te1 != NULL && te1->GetSelection(&text) && !text.Contains("\n")) ||
-			(te2 != NULL && te2->GetSelection(&text) && !text.Contains("\n")))
+		if ((te1 != nullptr && te1->GetSelection(&text) && !text.Contains("\n")) ||
+			(te2 != nullptr && te2->GetSelection(&text) && !text.Contains("\n")))
 			{
 			Display1DArray(text);
 			}
@@ -1842,8 +1842,8 @@ CMCommandDirector::HandleDebugMenu
 	else if (index == kPlot1DArrayCmd)
 		{
 		JString text;
-		if ((te1 != NULL && te1->GetSelection(&text) && !text.Contains("\n")) ||
-			(te2 != NULL && te2->GetSelection(&text) && !text.Contains("\n")))
+		if ((te1 != nullptr && te1->GetSelection(&text) && !text.Contains("\n")) ||
+			(te2 != nullptr && te2->GetSelection(&text) && !text.Contains("\n")))
 			{
 			Plot1DArray(text);
 			}
@@ -1851,8 +1851,8 @@ CMCommandDirector::HandleDebugMenu
 	else if (index == kDisplay2DArrayCmd)
 		{
 		JString text;
-		if ((te1 != NULL && te1->GetSelection(&text) && !text.Contains("\n")) ||
-			(te2 != NULL && te2->GetSelection(&text) && !text.Contains("\n")))
+		if ((te1 != nullptr && te1->GetSelection(&text) && !text.Contains("\n")) ||
+			(te2 != nullptr && te2->GetSelection(&text) && !text.Contains("\n")))
 			{
 			Display2DArray(text);
 			}
@@ -1861,8 +1861,8 @@ CMCommandDirector::HandleDebugMenu
 	else if (index == kWatchVarCmd)
 		{
 		JString text;
-		if ((te1 != NULL && te1->GetSelection(&text) && !text.Contains("\n")) ||
-			(te2 != NULL && te2->GetSelection(&text) && !text.Contains("\n")))
+		if ((te1 != nullptr && te1->GetSelection(&text) && !text.Contains("\n")) ||
+			(te2 != nullptr && te2->GetSelection(&text) && !text.Contains("\n")))
 			{
 			(CMGetLink())->WatchExpression(text);
 			}
@@ -1870,8 +1870,8 @@ CMCommandDirector::HandleDebugMenu
 	else if (index == kWatchLocCmd)
 		{
 		JString text;
-		if ((te1 != NULL && te1->GetSelection(&text) && !text.Contains("\n")) ||
-			(te2 != NULL && te2->GetSelection(&text) && !text.Contains("\n")))
+		if ((te1 != nullptr && te1->GetSelection(&text) && !text.Contains("\n")) ||
+			(te2 != nullptr && te2->GetSelection(&text) && !text.Contains("\n")))
 			{
 			(CMGetLink())->WatchLocation(text);
 			}
@@ -1880,35 +1880,35 @@ CMCommandDirector::HandleDebugMenu
 	else if (index == kExamineMemCmd)
 		{
 		JString s1, s2;
-		if ((te1 != NULL && te1->GetSelection(&s1) && !s1.Contains("\n")) ||
-			(te2 != NULL && te2->GetSelection(&s1) && !s1.Contains("\n")))
+		if ((te1 != nullptr && te1->GetSelection(&s1) && !s1.Contains("\n")) ||
+			(te2 != nullptr && te2->GetSelection(&s1) && !s1.Contains("\n")))
 			{
 			s2 = s1;
 			}
 
 		CMMemoryDir* dir = jnew CMMemoryDir(this, s2);
-		assert(dir != NULL);
+		assert(dir != nullptr);
 		dir->Activate();
 		}
 	else if (index == kDisassembleMemCmd)
 		{
 		JString s1, s2;
-		if ((te1 != NULL && te1->GetSelection(&s1) && !s1.Contains("\n")) ||
-			(te2 != NULL && te2->GetSelection(&s1) && !s1.Contains("\n")))
+		if ((te1 != nullptr && te1->GetSelection(&s1) && !s1.Contains("\n")) ||
+			(te2 != nullptr && te2->GetSelection(&s1) && !s1.Contains("\n")))
 			{
 			s2 = s1;
 			}
 
 		CMMemoryDir* dir = jnew CMMemoryDir(this, s2);
-		assert(dir != NULL);
+		assert(dir != nullptr);
 		dir->SetDisplayType(CMMemoryDir::kAsm);
 		dir->Activate();
 		}
 	else if (index == kDisassembleFnCmd)
 		{
 		JString fn;
-		if ((te1 != NULL && te1->GetSelection(&fn) && !fn.Contains("\n")) ||
-			(te2 != NULL && te2->GetSelection(&fn) && !fn.Contains("\n")))
+		if ((te1 != nullptr && te1->GetSelection(&fn) && !fn.Contains("\n")) ||
+			(te2 != nullptr && te2->GetSelection(&fn) && !fn.Contains("\n")))
 			{
 			DisassembleFunction(fn);
 			}
@@ -1980,8 +1980,8 @@ CMCommandDirector::HandleDebugMenu
 		JString s = menu->GetItemText(index);
 
 		JString text;
-		if ((te1 != NULL && te1->GetSelection(&text) && !text.Contains("\n")) ||
-			(te2 != NULL && te2->GetSelection(&text) && !text.Contains("\n")))
+		if ((te1 != nullptr && te1->GetSelection(&text) && !text.Contains("\n")) ||
+			(te2 != nullptr && te2->GetSelection(&text) && !text.Contains("\n")))
 			{
 			JIndex i;
 			while (s.LocateSubstring("##", &i))
@@ -2018,7 +2018,7 @@ CMCommandDirector::RunProgram()
 	else if ((CMGetLink())->HasPendingCommands())
 		{
 		CMRunProgramTask* task = jnew CMRunProgramTask();
-		assert( task != NULL );
+		assert( task != nullptr );
 		task->Start();
 		}
 	else if (itsLink->OKToDetachOrKill())
@@ -2076,7 +2076,7 @@ CMCommandDirector::ChooseCoreFile()
 #endif
 
 	if (itsLink->OKToDetachOrKill() &&
-		(JGetChooseSaveFile())->ChooseFile("Choose core file", NULL, origPath, &coreName))
+		(JGetChooseSaveFile())->ChooseFile("Choose core file", nullptr, origPath, &coreName))
 		{
 		itsLink->SetCore(coreName);
 		}
@@ -2093,7 +2093,7 @@ CMCommandDirector::ChooseProcess()
 	if (itsLink->OKToDetachOrKill())
 		{
 		CMChooseProcessDialog* dialog = jnew CMChooseProcessDialog(this);
-		assert( dialog != NULL );
+		assert( dialog != nullptr );
 		dialog->BeginDialog();
 		}
 }
@@ -2125,7 +2125,7 @@ CMCommandDirector::Display1DArray
 	)
 {
 	CMArray1DDir* dir = jnew CMArray1DDir(this, expr);
-	assert( dir != NULL );
+	assert( dir != nullptr );
 	dir->Activate();
 }
 
@@ -2141,7 +2141,7 @@ CMCommandDirector::Display2DArray
 	)
 {
 	CMArray2DDir* dir = jnew CMArray2DDir(this, expr);
-	assert( dir != NULL );
+	assert( dir != nullptr );
 	dir->Activate();
 }
 
@@ -2157,7 +2157,7 @@ CMCommandDirector::Plot1DArray
 	)
 {
 	CMPlot2DDir* dir = jnew CMPlot2DDir(this, expr);
-	assert( dir != NULL );
+	assert( dir != nullptr );
 	dir->Activate();
 }
 
@@ -2214,7 +2214,7 @@ CMCommandDirector::HandlePrefsMenu
 	else if (index == kEditCmdsCmd)
 		{
 		CMEditCommandsDialog* dlog = jnew CMEditCommandsDialog;
-		assert( dlog != NULL );
+		assert( dlog != nullptr );
 		dlog->BeginDialog();
 		}
 	else if (index == kEditMacWinPrefsCmd)

@@ -286,47 +286,47 @@ struct CBLang2Styler
 
 static const CBLang2Styler kLang2Styler[] =
 {
-	{ kCBOtherLang,       NULL, NULL },
+	{ kCBOtherLang,       nullptr, nullptr },
 	{ kCBCLang,           &CBCStyler::Instance,           &CBCStyler::Shutdown },
 	{ kCBEiffelLang,      &CBEiffelStyler::Instance,      &CBEiffelStyler::Shutdown },
-	{ kCBFortranLang,     NULL, NULL },
+	{ kCBFortranLang,     nullptr, nullptr },
 	{ kCBJavaLang,        &CBJavaStyler::Instance,        &CBJavaStyler::Shutdown },
-	{ kCBAssemblyLang,    NULL, NULL },
-	{ kCBAWKLang,         NULL, NULL },
-	{ kCBCobolLang,       NULL, NULL },
-	{ kCBLispLang,        NULL, NULL },
+	{ kCBAssemblyLang,    nullptr, nullptr },
+	{ kCBAWKLang,         nullptr, nullptr },
+	{ kCBCobolLang,       nullptr, nullptr },
+	{ kCBLispLang,        nullptr, nullptr },
 	{ kCBPerlLang,        &CBPerlStyler::Instance,        &CBPerlStyler::Shutdown },
 	{ kCBPHPLang,         &CBHTMLStyler::Instance,        &CBHTMLStyler::Shutdown },
 	{ kCBPythonLang,      &CBPythonStyler::Instance,      &CBPythonStyler::Shutdown },
-	{ kCBSchemeLang,      NULL, NULL },
+	{ kCBSchemeLang,      nullptr, nullptr },
 	{ kCBBourneShellLang, &CBBourneShellStyler::Instance, &CBBourneShellStyler::Shutdown },
 	{ kCBTCLLang,         &CBTCLStyler::Instance,         &CBTCLStyler::Shutdown },
-	{ kCBVimLang,         NULL, NULL },
+	{ kCBVimLang,         nullptr, nullptr },
 	{ kCBHTMLLang,        &CBHTMLStyler::Instance,        &CBHTMLStyler::Shutdown },
-	{ kCBASPLang,         NULL, NULL },
-	{ kCBMakeLang,        NULL, NULL },
-	{ kCBPascalLang,      NULL, NULL },
-	{ kCBREXXLang,        NULL, NULL },
+	{ kCBASPLang,         nullptr, nullptr },
+	{ kCBMakeLang,        nullptr, nullptr },
+	{ kCBPascalLang,      nullptr, nullptr },
+	{ kCBREXXLang,        nullptr, nullptr },
 	{ kCBRubyLang,        &CBRubyStyler::Instance,        &CBRubyStyler::Shutdown },
-	{ kCBLexLang,         NULL, NULL },
+	{ kCBLexLang,         nullptr, nullptr },
 	{ kCBCShellLang,      &CBCShellStyler::Instance,      &CBCShellStyler::Shutdown },
 	{ kCBBisonLang,       &CBCStyler::Instance,           &CBCStyler::Shutdown },
-	{ kCBBetaLang,        NULL, NULL },
-	{ kCBLuaLang,         NULL, NULL },
-	{ kCBSLangLang,       NULL, NULL },
+	{ kCBBetaLang,        nullptr, nullptr },
+	{ kCBLuaLang,         nullptr, nullptr },
+	{ kCBSLangLang,       nullptr, nullptr },
 	{ kCBSQLLang,         &CBSQLStyler::Instance,         &CBSQLStyler::Shutdown },
-	{ kCBVeraLang,        NULL, NULL },
-	{ kCBVerilogLang,     NULL, NULL },
+	{ kCBVeraLang,        nullptr, nullptr },
+	{ kCBVerilogLang,     nullptr, nullptr },
 	{ kCBCSharpLang,      &CBCSharpStyler::Instance,      &CBCSharpStyler::Shutdown },
-	{ kCBErlangLang,      NULL, NULL },
-	{ kCBSMLLang,         NULL, NULL },
+	{ kCBErlangLang,      nullptr, nullptr },
+	{ kCBSMLLang,         nullptr, nullptr },
 	{ kCBJavaScriptLang,  &CBJavaScriptStyler::Instance,  &CBJavaScriptStyler::Shutdown },
 	{ kCBAntLang,         &CBHTMLStyler::Instance,        &CBHTMLStyler::Shutdown },
 	{ kCBJSPLang,         &CBHTMLStyler::Instance,        &CBHTMLStyler::Shutdown },
 	{ kCBXMLLang,         &CBHTMLStyler::Instance,        &CBHTMLStyler::Shutdown },
-	{ kCBBasicLang,       NULL, NULL },
-	{ kCBMatlabLang,      NULL, NULL },
-	{ kCBAdobeFlexLang,   NULL, NULL },
+	{ kCBBasicLang,       nullptr, nullptr },
+	{ kCBMatlabLang,      nullptr, nullptr },
+	{ kCBAdobeFlexLang,   nullptr, nullptr },
 	{ kCBINILang,         &CBINIStyler::Instance,         &CBINIStyler::Shutdown },
 	{ kCBPropertiesLang,  &CBPropertiesStyler::Instance,  &CBPropertiesStyler::Shutdown },
 };
@@ -343,14 +343,14 @@ CBGetStyler
 	assert( kLang2StylerCount == kCBLangCount );
 	assert( kLang2Styler[lang].lang == lang );
 
-	if (kLang2Styler[lang].create != NULL)
+	if (kLang2Styler[lang].create != nullptr)
 		{
 		*styler = kLang2Styler[lang].create();
-		return JI2B( *styler != NULL );
+		return JI2B( *styler != nullptr );
 		}
 	else
 		{
-		*styler = NULL;
+		*styler = nullptr;
 		return kJFalse;
 		}
 }
@@ -360,7 +360,7 @@ CBShutdownStylers()
 {
 	for (JIndex i=0; i<kLang2StylerCount; i++)
 		{
-		if (kLang2Styler[i].destroy != NULL)
+		if (kLang2Styler[i].destroy != nullptr)
 			{
 			kLang2Styler[i].destroy();
 			}
@@ -383,24 +383,24 @@ struct CBLang2Completer
 
 static const CBLang2Completer kLang2Completer[] =
 {
-	{ kCBOtherLang,       NULL, NULL },
+	{ kCBOtherLang,       nullptr, nullptr },
 	{ kCBCLang,           &CBCCompleter::Instance,           &CBCCompleter::Shutdown },
 	{ kCBEiffelLang,      &CBEiffelCompleter::Instance,      &CBEiffelCompleter::Shutdown },
 	{ kCBFortranLang,     &CBFortranCompleter::Instance,     &CBFortranCompleter::Shutdown },
 	{ kCBJavaLang,        &CBJavaCompleter::Instance,        &CBJavaCompleter::Shutdown },
-	{ kCBAssemblyLang,    NULL, NULL },
-	{ kCBAWKLang,         NULL, NULL },
-	{ kCBCobolLang,       NULL, NULL },
-	{ kCBLispLang,        NULL, NULL },
+	{ kCBAssemblyLang,    nullptr, nullptr },
+	{ kCBAWKLang,         nullptr, nullptr },
+	{ kCBCobolLang,       nullptr, nullptr },
+	{ kCBLispLang,        nullptr, nullptr },
 	{ kCBPerlLang,        &CBPerlCompleter::Instance,        &CBPerlCompleter::Shutdown },
 	{ kCBPHPLang,         &CBPHPCompleter::Instance,         &CBPHPCompleter::Shutdown },
 	{ kCBPythonLang,      &CBPythonCompleter::Instance,      &CBPythonCompleter::Shutdown },
-	{ kCBSchemeLang,      NULL, NULL },
+	{ kCBSchemeLang,      nullptr, nullptr },
 	{ kCBBourneShellLang, &CBBourneShellCompleter::Instance, &CBBourneShellCompleter::Shutdown },
 	{ kCBTCLLang,         &CBTCLCompleter::Instance,         &CBTCLCompleter::Shutdown },
-	{ kCBVimLang,         NULL, NULL },
+	{ kCBVimLang,         nullptr, nullptr },
 	{ kCBHTMLLang,        &CBHTMLCompleter::Instance,        &CBHTMLCompleter::Shutdown },
-	{ kCBASPLang,         NULL, NULL },
+	{ kCBASPLang,         nullptr, nullptr },
 	{ kCBMakeLang,        &CBMakeCompleter::Instance,        &CBMakeCompleter::Shutdown },
 	{ kCBPascalLang,      &CBPascalCompleter::Instance,      &CBPascalCompleter::Shutdown },
 	{ kCBREXXLang,        &CBREXXCompleter::Instance,        &CBREXXCompleter::Shutdown },
@@ -408,24 +408,24 @@ static const CBLang2Completer kLang2Completer[] =
 	{ kCBLexLang,         &CBLexCompleter::Instance,         &CBLexCompleter::Shutdown },
 	{ kCBCShellLang,      &CBCShellCompleter::Instance,      &CBCShellCompleter::Shutdown },
 	{ kCBBisonLang,       &CBBisonCompleter::Instance,       &CBBisonCompleter::Shutdown },
-	{ kCBBetaLang,        NULL, NULL },
+	{ kCBBetaLang,        nullptr, nullptr },
 	{ kCBLuaLang,         &CBLuaCompleter::Instance,         &CBLuaCompleter::Shutdown },
-	{ kCBSLangLang,       NULL, NULL },
+	{ kCBSLangLang,       nullptr, nullptr },
 	{ kCBSQLLang,         &CBSQLCompleter::Instance,         &CBSQLCompleter::Shutdown },
-	{ kCBVeraLang,        NULL, NULL },
-	{ kCBVerilogLang,     NULL, NULL },
+	{ kCBVeraLang,        nullptr, nullptr },
+	{ kCBVerilogLang,     nullptr, nullptr },
 	{ kCBCSharpLang,      &CBCSharpCompleter::Instance,      &CBCSharpCompleter::Shutdown },
-	{ kCBErlangLang,      NULL, NULL },
-	{ kCBSMLLang,         NULL, NULL },
+	{ kCBErlangLang,      nullptr, nullptr },
+	{ kCBSMLLang,         nullptr, nullptr },
 	{ kCBJavaScriptLang,  &CBJavaScriptCompleter::Instance,  &CBJavaScriptCompleter::Shutdown },
-	{ kCBAntLang,         NULL, NULL },
+	{ kCBAntLang,         nullptr, nullptr },
 	{ kCBJSPLang,         &CBJSPCompleter::Instance,         &CBJSPCompleter::Shutdown },
 	{ kCBXMLLang,         &CBHTMLCompleter::Instance,        &CBHTMLCompleter::Shutdown },
-	{ kCBBasicLang,       NULL, NULL },
-	{ kCBMatlabLang,      NULL, NULL },
-	{ kCBAdobeFlexLang,   NULL, NULL },
-	{ kCBINILang,         NULL, NULL },
-	{ kCBPropertiesLang,  NULL, NULL },
+	{ kCBBasicLang,       nullptr, nullptr },
+	{ kCBMatlabLang,      nullptr, nullptr },
+	{ kCBAdobeFlexLang,   nullptr, nullptr },
+	{ kCBINILang,         nullptr, nullptr },
+	{ kCBPropertiesLang,  nullptr, nullptr },
 };
 
 const JSize kLang2CompleterCount = sizeof(kLang2Completer) / sizeof(CBLang2Completer);
@@ -440,14 +440,14 @@ CBGetCompleter
 	assert( kLang2CompleterCount == kCBLangCount );
 	assert( kLang2Completer[lang].lang == lang );
 
-	if (kLang2Completer[lang].create != NULL)
+	if (kLang2Completer[lang].create != nullptr)
 		{
 		*completer = kLang2Completer[lang].create();
-		return JI2B( *completer != NULL );
+		return JI2B( *completer != nullptr );
 		}
 	else
 		{
-		*completer = NULL;
+		*completer = nullptr;
 		return kJFalse;
 		}
 }
@@ -457,7 +457,7 @@ CBShutdownCompleters()
 {
 	for (JIndex i=0; i<kLang2CompleterCount; i++)
 		{
-		if (kLang2Completer[i].destroy != NULL)
+		if (kLang2Completer[i].destroy != nullptr)
 			{
 			kLang2Completer[i].destroy();
 			}

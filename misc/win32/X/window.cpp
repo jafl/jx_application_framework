@@ -41,7 +41,7 @@ XCreateWindow
 	)
 {
 	DWORD style    = 0;
-	HWND parentWnd = NULL;
+	HWND parentWnd = nullptr;
 	if (parent == DefaultRootWindow(display))
 		{
 		style |= WS_OVERLAPPEDWINDOW;
@@ -59,8 +59,8 @@ XCreateWindow
 		parentWnd = (HWND) item.handle.window;
 		}
 
-	HWND window = CreateWindow(NULL, "", style, x, y, width, height,
-							   parentWnd, NULL, GetModuleHandle(NULL), NULL);
+	HWND window = CreateWindow(nullptr, "", style, x, y, width, height,
+							   parentWnd, nullptr, GetModuleHandle(nullptr), nullptr);
 	return xAllocateID(display, kXWindowType, window);
 }
 
@@ -324,7 +324,7 @@ XMoveWindow
 	if (xFindID(display, window, &item) &&
 		item.type == kXWindowType)
 		{
-		SetWindowPos((HWND) item.handle.window, NULL, x, y, 0, 0,
+		SetWindowPos((HWND) item.handle.window, nullptr, x, y, 0, 0,
 					 SWP_NOACTIVATE | SWP_NOZORDER | SWP_NOSIZE);
 		return TRUE;
 		}
@@ -349,7 +349,7 @@ XResizeWindow
 	if (xFindID(display, window, &item) &&
 		item.type == kXWindowType)
 		{
-		SetWindowPos((HWND) item.handle.window, NULL, 0, 0, width, height,
+		SetWindowPos((HWND) item.handle.window, nullptr, 0, 0, width, height,
 					 SWP_NOACTIVATE | SWP_NOZORDER | SWP_NOMOVE);
 		return TRUE;
 		}
@@ -375,9 +375,9 @@ XReparentWindow
 	if (xFindID(display, window, &item1) && item1.type == kXWindowType &&
 		xFindID(display, parent, &item2) && item2.type == kXWindowType)
 		{
-		if (SetParent((HWND) item1.handle.window, (HWND) item2.handle.window) != NULL)
+		if (SetParent((HWND) item1.handle.window, (HWND) item2.handle.window) != nullptr)
 			{
-			SetWindowPos((HWND) item1.handle.window, NULL, x, y, 0, 0,
+			SetWindowPos((HWND) item1.handle.window, nullptr, x, y, 0, 0,
 						 SWP_NOACTIVATE | SWP_NOZORDER | SWP_NOSIZE);
 			return TRUE;
 			}
@@ -473,7 +473,7 @@ XGetWindowAttributes
 		attributes->height                = r.bottom - r.top;
 		attributes->border_width          = 0;
 		attributes->depth                 = 32;
-		attributes->visual                = NULL;
+		attributes->visual                = nullptr;
 		attributes->root                  = DefaultRootWindow(display);
 		attributes->c_class               = InputOutput;
 		attributes->bit_gravity           = 0;
@@ -489,7 +489,7 @@ XGetWindowAttributes
 		attributes->your_event_mask       = 0;
 		attributes->do_not_propagate_mask = 0;
 		attributes->override_redirect     = FALSE;
-		attributes->screen                = NULL;
+		attributes->screen                = nullptr;
 
 		return TRUE;
 		}
@@ -531,15 +531,15 @@ XListProperties
 	xItem item;
 	if (xFindID(display, window, &item) &&
 		item.type == kXWindowType &&
-		item.data.propList != NULL)
+		item.data.propList != nullptr)
 		{
 		*num_prop_return = item.data.propList->size();
 
 		Atom* result = (Atom*) malloc(*num_prop_return * sizeof(Atom));
-		if (result == NULL)
+		if (result == nullptr)
 			{
 			*num_prop_return = 0;
-			return NULL;
+			return nullptr;
 			}
 
 		Atom* p = result;
@@ -554,7 +554,7 @@ XListProperties
 		}
 
 	*num_prop_return = 0;
-	return NULL;
+	return nullptr;
 }
 
 /******************************************************************************
@@ -583,12 +583,12 @@ XGetWindowProperty
 	*actual_format_return = 0;
 	*nitems_return        = 0;
 	*bytes_after_return   = 0;
-	*prop_return          = NULL;
+	*prop_return          = nullptr;
 
 	xItem item;
 	if (xFindID(display, window, &item) &&
 		item.type == kXWindowType &&
-		item.data.propList != NULL)
+		item.data.propList != nullptr)
 		{
 		vector<xWindowProperty>::iterator iter;
 		for (iter = item.data.propList->begin(); iter < item.data.propList->end(); iter++)
@@ -609,7 +609,7 @@ XGetWindowProperty
 				else
 					{
 					*prop_return = (unsigned char*) malloc(L+1);
-					if (*prop_return == NULL)
+					if (*prop_return == nullptr)
 						{
 						return BadAlloc;
 						}
@@ -637,7 +637,7 @@ XGetWindowProperty
 				*actual_format_return = iter->format;
 				*nitems_return        = 0;
 				*bytes_after_return   = iter->length;
-				*prop_return          = NULL;
+				*prop_return          = nullptr;
 				return Success;
 				}
 			}
@@ -685,7 +685,7 @@ XDeleteProperty
 	xItem item;
 	if (xFindID(display, window, &item) &&
 		item.type == kXWindowType &&
-		item.data.propList != NULL)
+		item.data.propList != nullptr)
 		{
 		vector<xWindowProperty>::iterator iter;
 		for (iter = item.data.propList->begin(); iter < item.data.propList->end(); iter++)
@@ -845,7 +845,7 @@ XGetWMHints
 	Window		window
 	)
 {
-	return NULL;
+	return nullptr;
 }
 
 int

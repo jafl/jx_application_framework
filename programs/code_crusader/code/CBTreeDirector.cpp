@@ -116,7 +116,7 @@ enum
 /******************************************************************************
  Constructor
 
-	In the 2nd version, d1 and d2 can be NULL.
+	In the 2nd version, d1 and d2 can be nullptr.
 
  ******************************************************************************/
 
@@ -150,7 +150,7 @@ CBTreeDirector::CBTreeDirector
 						 scrollbarSet->GetScrollEnclosure(),
 						 JXWidget::kHElastic, JXWidget::kVElastic,
 						 0,0, 100,100);
-	assert( itsTreeWidget != NULL );
+	assert( itsTreeWidget != nullptr );
 	itsTreeWidget->FitToEnclosure();
 
 	JPrefObject::ReadPrefs();
@@ -194,8 +194,8 @@ CBTreeDirector::CBTreeDirector
 
 	std::istream* symInput             = (projVers <= 41 ? &projInput : symStream);
 	const JFileVersion symVers    = (projVers <= 41 ? projVers   : origSymVers);
-	const JBoolean useSetProjData = JI2B( setInput == NULL || setVers < 71 );
-	const JBoolean useSymProjData = JI2B( symInput == NULL || symVers < 71 );
+	const JBoolean useSetProjData = JI2B( setInput == nullptr || setVers < 71 );
+	const JBoolean useSymProjData = JI2B( symInput == nullptr || symVers < 71 );
 
 /* settings file */
 
@@ -217,7 +217,7 @@ CBTreeDirector::CBTreeDirector
 						 scrollbarSet->GetScrollEnclosure(),
 						 JXWidget::kHElastic, JXWidget::kVElastic,
 						 0,0, 100,100);
-	assert( itsTreeWidget != NULL );
+	assert( itsTreeWidget != nullptr );
 	itsTreeWidget->FitToEnclosure();
 
 	if (projVers < 71)
@@ -278,7 +278,7 @@ CBTreeDirector::CBTreeDirector
 			CBFnListDirector* dir =
 				jnew CBFnListDirector(projInput, projVers, &keep,
 									 this, itsFnListPrinter, itsTreeWidget);
-			assert( dir != NULL );
+			assert( dir != nullptr );
 			if (useSymProjData && keep && !subProject)
 				{
 				dir->Activate();
@@ -301,7 +301,7 @@ CBTreeDirector::CBTreeDirector
 			CBFnListDirector* dir =
 				jnew CBFnListDirector(*symInput, symVers, &keep,
 									 this, itsFnListPrinter, itsTreeWidget);
-			assert( dir != NULL );
+			assert( dir != nullptr );
 			if (keep && !subProject)
 				{
 				dir->Activate();
@@ -332,10 +332,10 @@ CBTreeDirector::CBTreeDirectorX
 	ListenTo(itsProjDoc);
 
 	itsFnBrowsers = jnew JPtrArray<CBFnListDirector>(JPtrArrayT::kForgetAll);
-	assert( itsFnBrowsers != NULL );
+	assert( itsFnBrowsers != nullptr );
 
 	itsShowInheritedFnsFlag = kJTrue;
-	itsFindFnDialog         = NULL;
+	itsFindFnDialog         = nullptr;
 
 	JXScrollbarSet* sbarSet = BuildWindow(windowIcon, treeMenuTitle, treeMenuItems,
 										  treeMenuNamespace,
@@ -344,15 +344,15 @@ CBTreeDirector::CBTreeDirectorX
 	// can't call GetWindow() until window is created
 
 	itsPSPrinter = jnew JXPSPrinter(GetDisplay());
-	assert( itsPSPrinter != NULL );
+	assert( itsPSPrinter != nullptr );
 	ListenTo(itsPSPrinter);
 
 	itsEPSPrinter = jnew JXEPSPrinter(GetDisplay());
-	assert( itsEPSPrinter != NULL );
+	assert( itsEPSPrinter != nullptr );
 	ListenTo(itsEPSPrinter);
 
 	itsFnListPrinter = jnew JXPSPrinter(GetDisplay());
-	assert( itsFnListPrinter != NULL );
+	assert( itsFnListPrinter != nullptr );
 
 	return sbarSet;
 }
@@ -401,7 +401,7 @@ CBTreeDirector::ReloadSetup
 /******************************************************************************
  StreamOut (virtual)
 
-	dirList, d1, and d2 can be NULL
+	dirList, d1, and d2 can be nullptr
 
  ******************************************************************************/
 
@@ -419,7 +419,7 @@ CBTreeDirector::StreamOut
 
 /* settings file */
 
-	if (setOutput != NULL)
+	if (setOutput != nullptr)
 		{
 		*setOutput << ' ';
 		GetWindow()->WriteGeometry(*setOutput);
@@ -443,7 +443,7 @@ CBTreeDirector::StreamOut
 
 /* symbol file */
 
-	if (symOutput != NULL)
+	if (symOutput != nullptr)
 		{
 		const JSize fnListCount = itsFnBrowsers->GetElementCount();
 		*symOutput << ' ' << fnListCount;
@@ -513,12 +513,12 @@ CBTreeDirector::TreeUpdateFinished
 void
 CBTreeDirector::AskForFunctionToFind()
 {
-	assert( itsFindFnDialog == NULL );
+	assert( itsFindFnDialog == nullptr );
 
 	itsFindFnDialog =
 		jnew JXGetStringDialog(this, JGetString("FindFunctionTitle::CBTreeDirector"),
 							  JGetString("FindFunctionPrompt::CBTreeDirector"));
-	assert( itsFindFnDialog != NULL );
+	assert( itsFindFnDialog != nullptr );
 
 	itsFindFnDialog->BeginDialog();
 	ListenTo(itsFindFnDialog);
@@ -579,7 +579,7 @@ CBTreeDirector::ViewFunctionList
 	CBFnListDirector* dir = jnew CBFnListDirector(this, itsFnListPrinter,
 												 theClass, itsTreeWidget,
 												 itsShowInheritedFnsFlag);
-	assert( dir != NULL );
+	assert( dir != nullptr );
 	dir->Activate();
 }
 
@@ -612,17 +612,17 @@ CBTreeDirector::BuildWindow
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 400,430, "");
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	JXMenuBar* menuBar =
 		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 400,30);
-	assert( menuBar != NULL );
+	assert( menuBar != nullptr );
 
 	itsToolBar =
 		jnew JXToolBar(CBGetPrefsManager(), toolBarPrefID, menuBar, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 400,400);
-	assert( itsToolBar != NULL );
+	assert( itsToolBar != nullptr );
 
 // end JXLayout
 
@@ -634,12 +634,12 @@ CBTreeDirector::BuildWindow
 	JXScrollbarSet* scrollbarSet =
 		jnew JXScrollbarSet(itsToolBar->GetWidgetEnclosure(),
 						   JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 100,100);
-	assert( scrollbarSet != NULL );
+	assert( scrollbarSet != nullptr );
 	scrollbarSet->FitToEnclosure();
 
 	JXDisplay* display = GetDisplay();
 	JXImage* icon      = jnew JXImage(display, windowIcon);
-	assert( icon != NULL );
+	assert( icon != nullptr );
 	window->SetIcon(icon);
 
 	JPoint desktopLoc;
@@ -662,15 +662,15 @@ CBTreeDirector::BuildWindow
 	CBFileHistoryMenu* recentProjectMenu =
 		jnew CBFileHistoryMenu(CBDocumentManager::kProjectFileHistory,
 							  itsFileMenu, kRecentProjectMenuCmd, menuBar);
-	assert( recentProjectMenu != NULL );
+	assert( recentProjectMenu != nullptr );
 
 	CBFileHistoryMenu* recentTextMenu =
 		jnew CBFileHistoryMenu(CBDocumentManager::kTextFileHistory,
 							  itsFileMenu, kRecentTextMenuCmd, menuBar);
-	assert( recentTextMenu != NULL );
+	assert( recentTextMenu != nullptr );
 
 	itsTreeMenu = menuBar->AppendTextMenu("tree");
-	itsTreeMenu->SetTitle(treeMenuTitle, NULL, kJFalse);
+	itsTreeMenu->SetTitle(treeMenuTitle, nullptr, kJFalse);
 	itsTreeMenu->SetMenuItems(treeMenuItems, treeMenuNamespace);
 	ListenTo(itsTreeMenu);
 
@@ -687,16 +687,16 @@ CBTreeDirector::BuildWindow
 	itsProjectMenu->SetItemImage(kSaveAllTextCmd,       jx_file_save_all);
 
 	itsCmdMenu =
-		jnew CBCommandMenu(itsProjDoc, NULL, menuBar,
+		jnew CBCommandMenu(itsProjDoc, nullptr, menuBar,
 						  JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
-	assert( itsCmdMenu != NULL );
+	assert( itsCmdMenu != nullptr );
 	menuBar->AppendMenu(itsCmdMenu);
 	ListenTo(itsCmdMenu);
 
 	CBDocumentMenu* fileListMenu =
 		jnew CBDocumentMenu(kFileListMenuTitleStr, menuBar,
 						   JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
-	assert( fileListMenu != NULL );
+	assert( fileListMenu != nullptr );
 	menuBar->AppendMenu(fileListMenu);
 
 	itsPrefsMenu = menuBar->AppendTextMenu(kPrefsMenuTitleStr);
@@ -758,7 +758,7 @@ CBTreeDirector::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleFileMenu(selection->GetIndex());
 		}
 
@@ -770,7 +770,7 @@ CBTreeDirector::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleTreeMenu(selection->GetIndex());
 		}
 
@@ -782,7 +782,7 @@ CBTreeDirector::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleProjectMenu(selection->GetIndex());
 		}
 
@@ -794,7 +794,7 @@ CBTreeDirector::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandlePrefsMenu(selection->GetIndex());
 		}
 
@@ -806,7 +806,7 @@ CBTreeDirector::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		(CBGetApplication())->HandleHelpMenu(itsHelpMenu, itsWindowHelpName,
 											 selection->GetIndex());
 		}
@@ -815,13 +815,13 @@ CBTreeDirector::Receive
 		{
 		const JXDialogDirector::Deactivated* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		if (info->Successful())
 			{
 			itsTreeWidget->FindFunction(itsFindFnDialog->GetString(), kJTrue,
 										kJXLeftButton);
 			}
-		itsFindFnDialog = NULL;
+		itsFindFnDialog = nullptr;
 		}
 
 	else if (sender == itsPSPrinter &&
@@ -829,7 +829,7 @@ CBTreeDirector::Receive
 		{
 		const JPrinter::PrintSetupFinished* info =
 			dynamic_cast<const JPrinter::PrintSetupFinished*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		if (info->Successful())
 			{
 			itsTreeWidget->Print(*itsPSPrinter);
@@ -841,7 +841,7 @@ CBTreeDirector::Receive
 		{
 		const JPrinter::PrintSetupFinished* info =
 			dynamic_cast<const JPrinter::PrintSetupFinished*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		if (info->Successful())
 			{
 			itsTreeWidget->Print(*itsEPSPrinter);
@@ -1055,7 +1055,7 @@ CBTreeDirector::EditTreePrefs()
 								  itsTree->WillAutoMinimizeMILinks(),
 								  itsTree->WillDrawMILinksOnTop(),
 								  itsTreeWidget->WillRaiseWindowWhenSingleMatch());
-	assert( dlog != NULL );
+	assert( dlog != nullptr );
 	dlog->BeginDialog();
 }
 
@@ -1158,7 +1158,7 @@ CBTreeDirector::ReceiveWithFeedback
 		{
 		CBCommandMenu::GetTargetInfo* info =
 			dynamic_cast<CBCommandMenu::GetTargetInfo*>(message);
-		assert( info != NULL );
+		assert( info != nullptr );
 
 		JPtrArray<CBClass> classList(JPtrArrayT::kForgetAll);
 		if (itsTree->GetSelectedClasses(&classList))

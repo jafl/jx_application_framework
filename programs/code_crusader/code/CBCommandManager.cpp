@@ -55,12 +55,12 @@ CBCommandManager::CBCommandManager
 	:
 	JPrefObject(CBGetPrefsManager(), kCBGlobalCommandsID),
 	itsMakeDependCmd(kDefaultMakeDependCmd),
-	itsCompileDoc(NULL)
+	itsCompileDoc(nullptr)
 {
 	itsCmdList = jnew CmdList;
-	assert( itsCmdList != NULL );
+	assert( itsCmdList != nullptr );
 
-	if (docMgr != NULL)
+	if (docMgr != nullptr)
 		{
 		InitCommandList();
 		ListenTo(docMgr);
@@ -110,10 +110,10 @@ CBCommandManager::Substitute
 	)
 	const
 {
-	assert( projDoc != NULL );
+	assert( projDoc != nullptr );
 
 	JString cmdPath = projDoc->GetFilePath();
-	return Substitute(&cmdPath, cmdStr, projDoc, NULL, 0, kJFalse, reportError);
+	return Substitute(&cmdPath, cmdStr, projDoc, nullptr, 0, kJFalse, reportError);
 }
 
 /******************************************************************************
@@ -129,22 +129,22 @@ CBCommandManager::MakeDepend
 	CBCommand**				resultCmd
 	)
 {
-	assert( projDoc != NULL );
+	assert( projDoc != nullptr );
 
 	JString cmdPath = projDoc->GetFilePath();
 	JString cmdStr  = itsMakeDependCmd;
-	if (Substitute(&cmdPath, &cmdStr, projDoc, NULL, 0, kJFalse))
+	if (Substitute(&cmdPath, &cmdStr, projDoc, nullptr, 0, kJFalse))
 		{
 		CBCommand* cmd = jnew CBCommand(cmdPath, kJFalse, kJFalse, projDoc);
-		assert( cmd != NULL );
+		assert( cmd != nullptr );
 
-		if (!cmd->Add(cmdStr, NULL, NULL, NULL, NULL))	// subroutines not allowed
+		if (!cmd->Add(cmdStr, nullptr, nullptr, nullptr, nullptr))	// subroutines not allowed
 			{
 			jdelete cmd;
 			}
 		else if (cmd->StartMakeProcess(compileDoc))
 			{
-			if (resultCmd != NULL)
+			if (resultCmd != nullptr)
 				{
 				*resultCmd = cmd;
 				}
@@ -152,9 +152,9 @@ CBCommandManager::MakeDepend
 			}
 		}
 
-	if (resultCmd != NULL)
+	if (resultCmd != nullptr)
 		{
-		*resultCmd = NULL;
+		*resultCmd = nullptr;
 		}
 	return kJFalse;
 }
@@ -162,7 +162,7 @@ CBCommandManager::MakeDepend
 /******************************************************************************
  Exec (textDoc)
 
-	projDoc can be NULL
+	projDoc can be nullptr
 
  ******************************************************************************/
 
@@ -188,7 +188,7 @@ CBCommandManager::Exec
 	CBTextDocument*		textDoc
 	)
 {
-	CBCommand* cmd = NULL;
+	CBCommand* cmd = nullptr;
 	JPtrArray<JString> cmdList(JPtrArrayT::kDeleteAll);
 	if (Prepare(info, projDoc, textDoc, &cmd, &cmdList))
 		{
@@ -199,7 +199,7 @@ CBCommandManager::Exec
 /******************************************************************************
  Prepare (textDoc)
 
-	projDoc can be NULL
+	projDoc can be nullptr
 
  ******************************************************************************/
 
@@ -214,8 +214,8 @@ CBCommandManager::Prepare
 	JPtrArray<JString>*	cmdList
 	)
 {
-	*cmd        = NULL;
-	*returnInfo = NULL;
+	*cmd        = nullptr;
+	*returnInfo = nullptr;
 
 	CmdInfo info;
 	if (FindCommandName(cmdName, &info))
@@ -223,10 +223,10 @@ CBCommandManager::Prepare
 		if (Prepare(info, projDoc, textDoc, cmd, cmdList))
 			{
 			*returnInfo = jnew CmdInfo;
-			assert( *returnInfo != NULL );
+			assert( *returnInfo != nullptr );
 			**returnInfo = info.Copy();
 			}
-		return JI2B(*cmd != NULL);
+		return JI2B(*cmd != nullptr);
 		}
 	else if (this != CBGetCommandManager())
 		{
@@ -257,7 +257,7 @@ CBCommandManager::Prepare
 	JPtrArray<JString>*	cmdList
 	)
 {
-	assert( textDoc != NULL );
+	assert( textDoc != nullptr );
 
 	JBoolean onDisk;
 	const JString fullName = textDoc->GetFullName(&onDisk);
@@ -268,13 +268,13 @@ CBCommandManager::Prepare
 	JString cmdPath = *(info.path);
 	JString cmdStr  = *(info.cmd);
 	return JI2B(Substitute(&cmdPath, &cmdStr, projDoc, fullName, lineIndex, onDisk) &&
-				Add(cmdPath, cmdStr, info, projDoc, textDoc, NULL, NULL, cmd, cmdList));
+				Add(cmdPath, cmdStr, info, projDoc, textDoc, nullptr, nullptr, cmd, cmdList));
 }
 
 /******************************************************************************
  Exec (file list)
 
-	projDoc can be NULL
+	projDoc can be nullptr
 
  ******************************************************************************/
 
@@ -302,7 +302,7 @@ CBCommandManager::Exec
 	const JArray<JIndex>&		lineIndexList
 	)
 {
-	CBCommand* cmd = NULL;
+	CBCommand* cmd = nullptr;
 	JPtrArray<JString> cmdList(JPtrArrayT::kDeleteAll);
 	if (Prepare(info, projDoc, fullNameList, lineIndexList, &cmd, &cmdList))
 		{
@@ -313,7 +313,7 @@ CBCommandManager::Exec
 /******************************************************************************
  Prepare (file list)
 
-	projDoc can be NULL
+	projDoc can be nullptr
 
  ******************************************************************************/
 
@@ -329,8 +329,8 @@ CBCommandManager::Prepare
 	JPtrArray<JString>*			cmdList
 	)
 {
-	*cmd        = NULL;
-	*returnInfo = NULL;
+	*cmd        = nullptr;
+	*returnInfo = nullptr;
 
 	CmdInfo info;
 	if (FindCommandName(cmdName, &info))
@@ -338,10 +338,10 @@ CBCommandManager::Prepare
 		if (Prepare(info, projDoc, fullNameList, lineIndexList, cmd, cmdList))
 			{
 			*returnInfo = jnew CmdInfo;
-			assert( *returnInfo != NULL );
+			assert( *returnInfo != nullptr );
 			**returnInfo = info.Copy();
 			}
-		return JI2B(*cmd != NULL);
+		return JI2B(*cmd != nullptr);
 		}
 	else if (this != CBGetCommandManager())
 		{
@@ -397,7 +397,7 @@ CBCommandManager::Prepare
 						   *(fullNameList.GetElement(i)),
 						   (hasLines ? lineIndexList.GetElement(i) : 0),
 						   kJTrue) &&
-				Add(cmdPath, cmdStr, info, projDoc, NULL,
+				Add(cmdPath, cmdStr, info, projDoc, nullptr,
 					&fullNameList, &lineIndexList, cmd, cmdList))
 				{
 				(**cmd).MarkEndOfSequence();
@@ -405,7 +405,7 @@ CBCommandManager::Prepare
 			else
 				{
 				jdelete *cmd;
-				*cmd = NULL;
+				*cmd = nullptr;
 				break;
 				}
 			}
@@ -415,14 +415,14 @@ CBCommandManager::Prepare
 		{
 		JString cmdPath = *(info.path);
 		JString cmdStr  = *(info.cmd);
-		if (Substitute(&cmdPath, &cmdStr, projDoc, NULL, 0, kJTrue))
+		if (Substitute(&cmdPath, &cmdStr, projDoc, nullptr, 0, kJTrue))
 			{
-			Add(cmdPath, cmdStr, info, projDoc, NULL,
+			Add(cmdPath, cmdStr, info, projDoc, nullptr,
 				&fullNameList, &lineIndexList, cmd, cmdList);
 			}
 		}
 
-	return JI2B(*cmd != NULL);
+	return JI2B(*cmd != nullptr);
 }
 
 /******************************************************************************
@@ -444,10 +444,10 @@ CBCommandManager::Add
 	JPtrArray<JString>*			cmdList
 	)
 {
-	if (*cmd == NULL)
+	if (*cmd == nullptr)
 		{
 		*cmd = jnew CBCommand(path, info.isVCS, info.beepWhenFinished, projDoc);
-		assert( *cmd != NULL );
+		assert( *cmd != nullptr );
 		}
 
 	if (path != (**cmd).GetPath())
@@ -462,7 +462,7 @@ CBCommandManager::Add
 			{
 			jdelete subCmd;
 			jdelete *cmd;
-			*cmd = NULL;
+			*cmd = nullptr;
 			return kJFalse;
 			}
 		}
@@ -473,7 +473,7 @@ CBCommandManager::Add
 	else
 		{
 		jdelete *cmd;
-		*cmd = NULL;
+		*cmd = nullptr;
 		return kJFalse;
 		}
 }
@@ -512,7 +512,7 @@ CBCommandManager::Substitute
 		cmdPath->ReplaceSubstring(1, 1, p);
 		}
 
-	if (projDoc == NULL && JIsRelativePath(*cmdPath))
+	if (projDoc == nullptr && JIsRelativePath(*cmdPath))
 		{
 		if (reportError)
 			{
@@ -522,8 +522,8 @@ CBCommandManager::Substitute
 		}
 	else
 		{
-		const JCharacter* basePath = NULL;
-		if (projDoc != NULL)
+		const JCharacter* basePath = nullptr;
+		if (projDoc != nullptr)
 			{
 			basePath = projDoc->GetFilePath();
 			}
@@ -548,7 +548,7 @@ CBCommandManager::Substitute
 		}
 
 	JString projectPath, projectName, programName;
-	if (projDoc != NULL)
+	if (projDoc != nullptr)
 		{
 		projectPath = projDoc->GetFilePath();
 		projectName = projDoc->GetName();
@@ -693,22 +693,22 @@ CBCommandManager::AppendCommand
 	)
 {
 	JString* p = jnew JString(path);
-	assert( p != NULL );
+	assert( p != nullptr );
 
 	JString* c = jnew JString(cmd);
-	assert( c != NULL );
+	assert( c != nullptr );
 
 	JString* cn = jnew JString(cmdName);
-	assert( cn != NULL );
+	assert( cn != nullptr );
 
 	JString* mt = jnew JString(menuText);
-	assert( mt != NULL );
+	assert( mt != nullptr );
 
 	JString* ms = jnew JString(menuShortcut);
-	assert( ms != NULL );
+	assert( ms != nullptr );
 
 	JString* mi = jnew JString;
-	assert( mi != NULL );
+	assert( mi != nullptr );
 
 	CmdInfo info(p, c, cn,
 				 isMake, isVCS, saveAll, oneAtATime,
@@ -839,7 +839,7 @@ CBCommandManager::ReadCommands
 			}
 		}
 
-	if (returnVers != NULL)
+	if (returnVers != nullptr)
 		{
 		*returnVers = vers;
 		}
@@ -859,15 +859,15 @@ CBCommandManager::ReadCmdInfo
 	)
 {
 	JString* path = jnew JString;
-	assert( path != NULL );
+	assert( path != nullptr );
 	input >> *path;
 
 	JString* cmd = jnew JString;
-	assert( cmd != NULL );
+	assert( cmd != nullptr );
 	input >> *cmd;
 
 	JString* cmdName = jnew JString;
-	assert( cmdName != NULL );
+	assert( cmdName != nullptr );
 	input >> *cmdName;
 
 	JBoolean isMake, saveAll, oneAtATime, useWindow, raise, beep;
@@ -885,15 +885,15 @@ CBCommandManager::ReadCmdInfo
 	input >> saveAll >> oneAtATime >> useWindow >> raise >> beep;
 
 	JString* menuText = jnew JString;
-	assert( menuText != NULL );
+	assert( menuText != nullptr );
 	input >> *menuText;
 
 	JString* menuShortcut = jnew JString;
-	assert( menuShortcut != NULL );
+	assert( menuShortcut != nullptr );
 	input >> *menuShortcut;
 
 	JString* menuID = jnew JString;
-	assert( menuID != NULL );
+	assert( menuID != nullptr );
 	if (vers >= 2)
 		{
 		input >> *menuID;
@@ -1647,10 +1647,10 @@ CBCommandManager::GetCompileDoc
 	CBProjectDocument* projDoc
 	)
 {
-	if (itsCompileDoc == NULL)
+	if (itsCompileDoc == nullptr)
 		{
 		itsCompileDoc = jnew CBCompileDocument(projDoc);
-		assert( itsCompileDoc != NULL );
+		assert( itsCompileDoc != nullptr );
 		ListenTo(itsCompileDoc);
 		}
 
@@ -1670,7 +1670,7 @@ CBCommandManager::GetOutputDoc()
 		{
 		CBExecOutputDocument* doc =
 			dynamic_cast<CBExecOutputDocument*>(theExecDocList.GetElement(i));
-		assert( doc != NULL );
+		assert( doc != nullptr );
 		if (!doc->ProcessRunning())
 			{
 			return doc;
@@ -1678,7 +1678,7 @@ CBCommandManager::GetOutputDoc()
 		}
 
 	CBExecOutputDocument* doc = jnew CBExecOutputDocument();
-	assert( doc != NULL );
+	assert( doc != nullptr );
 	theExecDocList.Append(doc);
 	(CBGetCommandManager())->ListenTo(doc);
 	return doc;
@@ -1744,7 +1744,7 @@ CBCommandManager::DocumentDeleted
 {
 	if (sender == itsCompileDoc)
 		{
-		itsCompileDoc = NULL;
+		itsCompileDoc = nullptr;
 		return kJTrue;
 		}
 
@@ -1800,22 +1800,22 @@ CBCommandManager::CmdInfo::Copy()
 	CmdInfo info = *this;
 
 	info.path = jnew JString(*(this->path));
-	assert( info.path != NULL );
+	assert( info.path != nullptr );
 
 	info.cmd = jnew JString(*(this->cmd));
-	assert( info.cmd != NULL );
+	assert( info.cmd != nullptr );
 
 	info.name = jnew JString(*(this->name));
-	assert( info.name != NULL );
+	assert( info.name != nullptr );
 
 	info.menuText = jnew JString(*(this->menuText));
-	assert( info.menuText != NULL );
+	assert( info.menuText != nullptr );
 
 	info.menuShortcut = jnew JString(*(this->menuShortcut));
-	assert( info.menuShortcut != NULL );
+	assert( info.menuShortcut != nullptr );
 
 	info.menuID = jnew JString(*(this->menuID));
-	assert( info.menuID != NULL );
+	assert( info.menuID != nullptr );
 
 	return info;
 }
@@ -1829,20 +1829,20 @@ void
 CBCommandManager::CmdInfo::Free()
 {
 	jdelete path;
-	path = NULL;
+	path = nullptr;
 
 	jdelete cmd;
-	cmd = NULL;
+	cmd = nullptr;
 
 	jdelete name;
-	name = NULL;
+	name = nullptr;
 
 	jdelete menuText;
-	menuText = NULL;
+	menuText = nullptr;
 
 	jdelete menuShortcut;
-	menuShortcut = NULL;
+	menuShortcut = nullptr;
 
 	jdelete menuID;
-	menuID = NULL;
+	menuID = nullptr;
 }

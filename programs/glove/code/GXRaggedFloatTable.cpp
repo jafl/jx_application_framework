@@ -187,14 +187,14 @@ GXRaggedFloatTable::GXRaggedFloatTable
 	itsOKButton(okButton)
 {
 	itsTableDir = dir;
-	assert( data != NULL );
+	assert( data != nullptr );
 
 	ListenTo(itsOKButton);
 	itsOKButton->Deactivate();
 
 	itsFloatData = data;
 
-	itsFloatInputField = NULL;
+	itsFloatInputField = nullptr;
 
 	itsEditMenu = menuBar->AppendTextMenu(kEditMenuTitleStr);
 	itsEditMenu->SetMenuItems(kEditMenuStr);
@@ -203,15 +203,15 @@ GXRaggedFloatTable::GXRaggedFloatTable
 
 
 	JXImage* image = jnew JXImage(GetDisplay(), JXPM(editcut));
-	assert(image != NULL);
+	assert(image != nullptr);
 	itsEditMenu->SetItemImage(kCutCmd, image, kJTrue);
 
 	image = jnew JXImage(GetDisplay(), JXPM(editcopy));
-	assert(image != NULL);
+	assert(image != nullptr);
 	itsEditMenu->SetItemImage(kCopyCmd, image, kJTrue);
 
 	image = jnew JXImage(GetDisplay(), JXPM(editpaste));
-	assert(image != NULL);
+	assert(image != nullptr);
 	itsEditMenu->SetItemImage(kPasteCmd, image, kJTrue);
 
 	itsDataMenu = menuBar->AppendTextMenu(kDataMenuTitleStr);
@@ -221,36 +221,36 @@ GXRaggedFloatTable::GXRaggedFloatTable
 
 
 	image = jnew JXImage(GetDisplay(), JXPM(plotdata));
-	assert(image != NULL);
+	assert(image != nullptr);
 	itsDataMenu->SetItemImage(kPlotCmd, image, kJTrue);
 
 	image = jnew JXImage(GetDisplay(), JXPM(plotvectordata));
-	assert(image != NULL);
+	assert(image != nullptr);
 	itsDataMenu->SetItemImage(kPlotVectorCmd, image, kJTrue);
 
 
 	image = jnew JXImage(GetDisplay(), JXPM(glv_transform));
-	assert(image != NULL);
+	assert(image != nullptr);
 	itsDataMenu->SetItemImage(kTransCmd, image, kJTrue);
 
 	itsModuleMenu = jnew JXTextMenu(itsDataMenu, kDataModuleCmd, menuBar);
-	assert( itsModuleMenu != NULL );
+	assert( itsModuleMenu != nullptr );
 	itsModuleMenu->SetMenuItems(kModuleMenuStr);
 	itsModuleMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsModuleMenu);
 
-	itsCreatePlotDialog 		= NULL;
-	itsCreateVectorPlotDialog	= NULL;
-	itsColByRangeDialog 		= NULL;
-	itsColByIncDialog 			= NULL;
-	itsTransDialog 				= NULL;
-	itsVarList 					= NULL;
+	itsCreatePlotDialog 		= nullptr;
+	itsCreateVectorPlotDialog	= nullptr;
+	itsColByRangeDialog 		= nullptr;
+	itsColByIncDialog 			= nullptr;
+	itsTransDialog 				= nullptr;
+	itsVarList 					= nullptr;
 
 	itsFirstRedoIndex   		= 1;
 	itsUndoState        		= kIdle;
 
 	itsUndoList = jnew JPtrArray<JUndo>(JPtrArrayT::kDeleteAll);
-	assert(itsUndoList != NULL);
+	assert(itsUndoList != nullptr);
 
 	SetTableData(itsFloatData);
 
@@ -467,7 +467,7 @@ GXRaggedFloatTable::HandleKeyPress
 		{
 		JTableSelectionIterator* iter =
 			jnew JTableSelectionIterator(&selection);
-		assert(iter != NULL);
+		assert(iter != nullptr);
 		JBoolean success = iter->Next(&cell);
 		jdelete iter;
 		if (key == kJReturnKey || key == XK_KP_Enter)
@@ -584,12 +584,12 @@ GXRaggedFloatTable::CreateXInputField
 	const JCoordinate	h
 	)
 {
-	assert( itsFloatInputField == NULL );
+	assert( itsFloatInputField == nullptr );
 	itsOKButton->Activate();
 
 	itsFloatInputField =
 		jnew JXFloatInput(this, kFixedLeft, kFixedTop, x,y, w,h);
-	assert( itsFloatInputField != NULL );
+	assert( itsFloatInputField != nullptr );
 
 	JFloat value;
 	if (itsFloatData->GetElement(cell, &value))
@@ -615,7 +615,7 @@ GXRaggedFloatTable::ExtractInputData
 	const JPoint& cell
 	)
 {
-	assert( itsFloatInputField != NULL );
+	assert( itsFloatInputField != nullptr );
 
 	if (itsFloatInputField->InputValid())
 		{
@@ -635,14 +635,14 @@ GXRaggedFloatTable::ExtractInputData
 			{
 			GLUndoElementChange* undo =
 				jnew GLUndoElementChange(this, cell, oldvalue);
-			assert(undo != NULL);
+			assert(undo != nullptr);
 			NewUndo(undo);
 			}
 		else
 			{
 			GLUndoElementAppend* undo =
 				jnew GLUndoElementAppend(this, cell);
-			assert(undo != NULL);
+			assert(undo != nullptr);
 			NewUndo(undo);
 			}
 
@@ -662,7 +662,7 @@ GXRaggedFloatTable::ExtractInputData
 void
 GXRaggedFloatTable::PrepareDeleteXInputField()
 {
-	itsFloatInputField = NULL;
+	itsFloatInputField = nullptr;
 	itsOKButton->Deactivate();
 }
 
@@ -679,7 +679,7 @@ GXRaggedFloatTable::ExtendSelection
 {
 	JTableSelectionIterator* iter =
 		jnew JTableSelectionIterator(&(GetTableSelection()));
-	assert (iter != NULL);
+	assert (iter != nullptr);
 
 	JPoint sCell;
 	JBoolean success = iter->Next(&sCell);
@@ -792,7 +792,7 @@ GXRaggedFloatTable::ExtendSelectionToRow
 {
 	JTableSelectionIterator* iter =
 		jnew JTableSelectionIterator(&(GetTableSelection()));
-	assert (iter != NULL);
+	assert (iter != nullptr);
 
 	JPoint sCell;
 	JBoolean success = iter->Next(&sCell);
@@ -877,7 +877,7 @@ GXRaggedFloatTable::ExtendSelectionToCol
 	JTableSelection& selection = GetTableSelection();
 	JTableSelectionIterator* iter =
 		jnew JTableSelectionIterator(&selection);
-	assert (iter != NULL);
+	assert (iter != nullptr);
 
 	JPoint sCell;
 	JBoolean success = iter->Next(&sCell);
@@ -927,7 +927,7 @@ GXRaggedFloatTable::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleEditMenu(selection->GetIndex());
 		}
 
@@ -940,7 +940,7 @@ GXRaggedFloatTable::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleDataMenu(selection->GetIndex());
 		}
 
@@ -953,7 +953,7 @@ GXRaggedFloatTable::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleModuleMenu(selection->GetIndex());
 		}
 
@@ -961,62 +961,62 @@ GXRaggedFloatTable::Receive
 		{
 		const JXDialogDirector::Deactivated* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		if (info->Successful())
 			{
 			PlotData(kDataPlot);
 			}
-		itsCreatePlotDialog = NULL;
+		itsCreatePlotDialog = nullptr;
 		}
 
 	else if (sender == itsCreateVectorPlotDialog && message.Is(JXDialogDirector::kDeactivated))
 		{
 		const JXDialogDirector::Deactivated* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		if (info->Successful())
 			{
 			PlotData(kVectorPlot);
 			}
-		itsCreateVectorPlotDialog = NULL;
+		itsCreateVectorPlotDialog = nullptr;
 		}
 
 	else if (sender == itsTransDialog && message.Is(JXDialogDirector::kDeactivated))
 		{
 		const JXDialogDirector::Deactivated* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		if (info->Successful())
 			{
 			EvaluateTransformFunction();
 			}
-		itsTransDialog = NULL;
+		itsTransDialog = nullptr;
 		jdelete itsVarList;
-		itsVarList = NULL;
+		itsVarList = nullptr;
 		}
 
 	else if (sender == itsColByIncDialog && message.Is(JXDialogDirector::kDeactivated))
 		{
 		const JXDialogDirector::Deactivated* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		if (info->Successful())
 			{
 			CreateNewColByInc();
 			}
-		itsColByIncDialog = NULL;
+		itsColByIncDialog = nullptr;
 		}
 
 	else if (sender == itsColByRangeDialog && message.Is(JXDialogDirector::kDeactivated))
 		{
 		const JXDialogDirector::Deactivated* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		if (info->Successful())
 			{
 			CreateNewColByRange();
 			}
-		itsColByRangeDialog = NULL;
+		itsColByRangeDialog = nullptr;
 		}
 
 	else if (sender == itsOKButton && message.Is(JXButton::kPushed))
@@ -1028,14 +1028,14 @@ GXRaggedFloatTable::Receive
 		{
 		const GRaggedFloatTableData::ElementRemoved* info =
 			dynamic_cast<const GRaggedFloatTableData::ElementRemoved*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		TableRefreshCol(info->GetCol());
 		}
 	else if (sender == itsFloatData && message.Is(GRaggedFloatTableData::kElementInserted))
 		{
 		const GRaggedFloatTableData::ElementRemoved* info =
 			dynamic_cast<const GRaggedFloatTableData::ElementRemoved*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		TableRefreshCol(info->GetCol());
 		}
 	else if (sender == itsFloatData && message.Is(GRaggedFloatTableData::kDataChanged))
@@ -1244,7 +1244,7 @@ GXRaggedFloatTable::HandleCopyCmd()
 		}
 
 	GXTextSelection* data = jnew GXTextSelection(GetDisplay(), os.str());
-	assert(data != NULL);
+	assert(data != nullptr);
 
 	std::ostringstream os2;
 	os2 << (int)type << " ";
@@ -1313,7 +1313,7 @@ GXRaggedFloatTable::HandlePasteCmd()
 			return;
 			}
 
-		unsigned char* data = NULL;
+		unsigned char* data = nullptr;
 		JSize dataLength;
 		Atom returnType;
 		JXSelectionManager::DeleteMethod dMethod;
@@ -1365,7 +1365,7 @@ GXRaggedFloatTable::HandlePasteCmd()
 							{
 							GLUndoElementChange* undo =
 								jnew GLUndoElementChange(this, cell, oldvalue);
-							assert(undo != NULL);
+							assert(undo != nullptr);
 							itsFloatData->SetElement(cell, value);
 							NewUndo(undo);
 							}
@@ -1373,7 +1373,7 @@ GXRaggedFloatTable::HandlePasteCmd()
 							{
 							GLUndoElementAppend* undo =
 								jnew GLUndoElementAppend(this, cell);
-							assert(undo != NULL);
+							assert(undo != nullptr);
 							itsFloatData->InsertElement(cell, value);
 							NewUndo(undo);
 							}
@@ -1384,7 +1384,7 @@ GXRaggedFloatTable::HandlePasteCmd()
 							jnew GLUndoElementsInsert(this, JPoint(startCol, startRow),
 													 JPoint(startCol, startRow + rows - 1),
 													 GLUndoElementsBase::kElements);
-						assert(undo != NULL);
+						assert(undo != nullptr);
 						NewUndo(undo);
 						for (JIndex row = startRow; row <= startRow + rows - 1; row++)
 							{
@@ -1400,7 +1400,7 @@ GXRaggedFloatTable::HandlePasteCmd()
 						jnew GLUndoElementsChange(this, JPoint(startCol, startRow),
 												 JPoint(startCol + cols1 - 1, startRow + rows1 - 1),
 												 GLUndoElementsBase::kElements);
-					assert(undo != NULL);
+					assert(undo != nullptr);
 					NewUndo(undo);
 					for (JIndex col = startCol; col < startCol + cols1; col++)
 						{
@@ -1422,7 +1422,7 @@ GXRaggedFloatTable::HandlePasteCmd()
 					jnew GLUndoElementsInsert(this, JPoint(count, 1),
 											 JPoint(count + cols - 1, 1),
 											 GLUndoElementsBase::kCols);
-				assert(undo != NULL);
+				assert(undo != nullptr);
 				NewUndo(undo);
 				itsFloatData->InsertCols(count, cols);
 				for (JSize i = 1; i <= cols; i++)
@@ -1441,7 +1441,7 @@ GXRaggedFloatTable::HandlePasteCmd()
 					jnew GLUndoElementsInsert(this, JPoint(startCol, 1),
 											 JPoint(startCol + cols - 1, 1),
 											 GLUndoElementsBase::kCols);
-				assert(undo != NULL);
+				assert(undo != nullptr);
 				NewUndo(undo);
 				itsFloatData->InsertCols(startCol, cols);
 				for (JSize i = 1; i <= cols; i++)
@@ -1499,7 +1499,7 @@ GXRaggedFloatTable::HandleSpecialPasteCmd()
 			return;
 			}
 
-		unsigned char* data = NULL;
+		unsigned char* data = nullptr;
 		JSize dataLength;
 		Atom returnType;
 		JXSelectionManager::DeleteMethod dMethod;
@@ -1628,7 +1628,7 @@ GXRaggedFloatTable::HandleInsertion
 				jnew GLUndoElementsInsert(this, JPoint(1, startRow),
 										 JPoint(itsFloatData->GetDataColCount(), startRow + rows - 1),
 										 GLUndoElementsBase::kRows);
-			assert(undo != NULL);
+			assert(undo != nullptr);
 			NewUndo(undo);
 			}
 		itsFloatData->InsertRows(startRow, rows);
@@ -1642,7 +1642,7 @@ GXRaggedFloatTable::HandleInsertion
 				jnew GLUndoElementsInsert(this, JPoint(startCol, 1),
 										 JPoint(startCol + cols - 1, GetRowCount()),
 										 GLUndoElementsBase::kCols);
-			assert(undo != NULL);
+			assert(undo != nullptr);
 			NewUndo(undo);
 			}
 		itsFloatData->InsertCols(startCol, cols);
@@ -1655,7 +1655,7 @@ GXRaggedFloatTable::HandleInsertion
 			JPoint cell(startCol, startRow);
 			GLUndoElementAppend* undo =
 				jnew GLUndoElementAppend(this, cell);
-			assert(undo != NULL);
+			assert(undo != nullptr);
 			NewUndo(undo);
 			}
 		else if (undo)
@@ -1664,7 +1664,7 @@ GXRaggedFloatTable::HandleInsertion
 				jnew GLUndoElementsInsert(this, JPoint(startCol, startRow),
 										 JPoint(startCol + cols - 1, startRow + rows - 1),
 										 GLUndoElementsBase::kElements);
-			assert(undo != NULL);
+			assert(undo != nullptr);
 			NewUndo(undo);
 			}
 
@@ -1710,7 +1710,7 @@ GXRaggedFloatTable::HandleDuplication()
 //			JPoint cell(startCol, startRow + 1);
 //			GLUndoElementAppend* undo =
 //				jnew GLUndoElementAppend(this, cell);
-//			assert(undo != NULL);
+//			assert(undo != nullptr);
 //			NewUndo(undo);
 //			}
 		for (JIndex col = startCol; col < startCol + cols; col++)
@@ -1781,7 +1781,7 @@ GXRaggedFloatTable::HandleDeletion()
 			jnew GLUndoElementsCut(this, JPoint(1, startRow),
 								  JPoint(itsFloatData->GetDataColCount(), startRow + rows - 1),
 								  GLUndoElementsBase::kRows);
-		assert(undo != NULL);
+		assert(undo != nullptr);
 		NewUndo(undo);
 		for (JIndex i = startRow; i < startRow + rows; i++)
 			{
@@ -1795,7 +1795,7 @@ GXRaggedFloatTable::HandleDeletion()
 			jnew GLUndoElementsCut(this, JPoint(startCol, 1),
 								  JPoint(startCol + cols - 1, GetRowCount()),
 								  GLUndoElementsBase::kCols);
-		assert(undo != NULL);
+		assert(undo != nullptr);
 		NewUndo(undo);
 		for (JIndex i = startCol; i < startCol + cols; i++)
 			{
@@ -1814,7 +1814,7 @@ GXRaggedFloatTable::HandleDeletion()
 				{
 				GLUndoElementCut* undo =
 					jnew GLUndoElementCut(this, cell, value);
-				assert(undo != NULL);
+				assert(undo != nullptr);
 				NewUndo(undo);
 				}
 			}
@@ -1824,7 +1824,7 @@ GXRaggedFloatTable::HandleDeletion()
 				jnew GLUndoElementsCut(this, JPoint(startCol, startRow),
 									  JPoint(startCol + cols - 1, startRow + rows - 1),
 									  GLUndoElementsBase::kElements);
-			assert(undo != NULL);
+			assert(undo != nullptr);
 			NewUndo(undo);
 			}
 		for (JIndex col = startCol; col < startCol + cols; col++)
@@ -2160,19 +2160,19 @@ GXRaggedFloatTable::ChoosePlotColumns
 
 	if (type == kPlotCmd)
 		{
-		assert (itsCreatePlotDialog == NULL);
+		assert (itsCreatePlotDialog == nullptr);
 		itsCreatePlotDialog =
 			jnew GXCreatePlotDialog(itsTableDir, itsFloatData, xCol,x2Col,yCol,y2Col);
-		assert (itsCreatePlotDialog != NULL);
+		assert (itsCreatePlotDialog != nullptr);
 		ListenTo(itsCreatePlotDialog);
 		itsCreatePlotDialog->BeginDialog();
 		}
 	else if (type == kPlotVectorCmd)
 		{
-		assert (itsCreateVectorPlotDialog == NULL);
+		assert (itsCreateVectorPlotDialog == nullptr);
 		itsCreateVectorPlotDialog =
 			jnew GXCreateVectorPlotDialog(itsTableDir, itsFloatData, xCol, yCol, y2Col, x2Col);
-		assert (itsCreateVectorPlotDialog != NULL);
+		assert (itsCreateVectorPlotDialog != nullptr);
 		ListenTo(itsCreateVectorPlotDialog);
 		itsCreateVectorPlotDialog->BeginDialog();
 		}
@@ -2191,11 +2191,11 @@ GXRaggedFloatTable::PlotData
 {
 	if (type == kDataPlot)
 		{
-		assert ( itsCreatePlotDialog != NULL );
+		assert ( itsCreatePlotDialog != nullptr );
 		}
 	else if (type == kVectorPlot)
 		{
-		assert ( itsCreateVectorPlotDialog != NULL );
+		assert ( itsCreateVectorPlotDialog != nullptr );
 		}
 
 	JIndex xCol, x2Col, yCol, y2Col;
@@ -2212,13 +2212,13 @@ GXRaggedFloatTable::PlotData
 	const JArray<JFloat>& xData = itsFloatData->GetColPointer(xCol);
 	const JArray<JFloat>& yData = itsFloatData->GetColPointer(yCol);
 
-	const JArray<JFloat>* xErr = NULL;
+	const JArray<JFloat>* xErr = nullptr;
 	if (x2Col != 0)
 		{
 		xErr = &(itsFloatData->GetColPointer(x2Col));
 		}
 
-	const JArray<JFloat>* yErr = NULL;
+	const JArray<JFloat>* yErr = nullptr;
 	if (y2Col != 0)
 		{
 		yErr = &(itsFloatData->GetColPointer(y2Col));
@@ -2257,10 +2257,10 @@ GXRaggedFloatTable::PlotData
 void
 GXRaggedFloatTable::GetNewColByRange()
 {
-	assert (itsColByRangeDialog == NULL);
+	assert (itsColByRangeDialog == nullptr);
 	itsColByRangeDialog =
 		jnew GXColByRangeDialog(GetWindow()->GetDirector(), itsFloatData->GetDataColCount() + 1);
-	assert (itsColByRangeDialog != NULL);
+	assert (itsColByRangeDialog != nullptr);
 	ListenTo(itsColByRangeDialog);
 	itsColByRangeDialog->BeginDialog();
 
@@ -2274,7 +2274,7 @@ GXRaggedFloatTable::GetNewColByRange()
 void
 GXRaggedFloatTable::CreateNewColByRange()
 {
-	assert( itsColByRangeDialog != NULL );
+	assert( itsColByRangeDialog != nullptr );
 
 	JIndex dest;
 	itsColByRangeDialog->GetDestination(&dest);
@@ -2297,7 +2297,7 @@ GXRaggedFloatTable::CreateNewColByRange()
 			jnew GLUndoElementsInsert(this, JPoint(dest, 1),
 									 JPoint(dest, 1),
 									 GLUndoElementsBase::kCols);
-		assert(undo != NULL);
+		assert(undo != nullptr);
 		NewUndo(undo);
 		itsFloatData->InsertCols(dest, 1);
 		}
@@ -2307,7 +2307,7 @@ GXRaggedFloatTable::CreateNewColByRange()
 			jnew GLUndoElementsChange(this, JPoint(dest, 1),
 									 JPoint(dest, itsFloatData->GetDataRowCount(dest)),
 									 GLUndoElementsBase::kCols);
-		assert(undo != NULL);
+		assert(undo != nullptr);
 		NewUndo(undo);
 		itsFloatData->RemoveAllElements(dest);
 		}
@@ -2329,10 +2329,10 @@ GXRaggedFloatTable::CreateNewColByRange()
 void
 GXRaggedFloatTable::GetNewColByInc()
 {
-	assert (itsColByIncDialog == NULL);
+	assert (itsColByIncDialog == nullptr);
 	itsColByIncDialog =
 		jnew GXColByIncDialog(GetWindow()->GetDirector(), itsFloatData->GetDataColCount() + 1);
-	assert (itsColByIncDialog != NULL);
+	assert (itsColByIncDialog != nullptr);
 	ListenTo(itsColByIncDialog);
 	itsColByIncDialog->BeginDialog();
 }
@@ -2345,7 +2345,7 @@ GXRaggedFloatTable::GetNewColByInc()
 void
 GXRaggedFloatTable::CreateNewColByInc()
 {
-	assert( itsColByIncDialog != NULL );
+	assert( itsColByIncDialog != nullptr );
 
 	JIndex dest;
 	itsColByIncDialog->GetDestination(&dest);
@@ -2368,7 +2368,7 @@ GXRaggedFloatTable::CreateNewColByInc()
 			jnew GLUndoElementsInsert(this, JPoint(dest, 1),
 									 JPoint(dest, 1),
 									 GLUndoElementsBase::kCols);
-		assert(undo != NULL);
+		assert(undo != nullptr);
 		NewUndo(undo);
 		itsFloatData->InsertCols(dest, 1);
 		}
@@ -2378,7 +2378,7 @@ GXRaggedFloatTable::CreateNewColByInc()
 			jnew GLUndoElementsChange(this, JPoint(dest, 1),
 									 JPoint(dest, itsFloatData->GetDataRowCount(dest)),
 									 GLUndoElementsBase::kCols);
-		assert(undo != NULL);
+		assert(undo != nullptr);
 		NewUndo(undo);
 		itsFloatData->RemoveAllElements(dest);
 		}
@@ -2466,8 +2466,8 @@ GXRaggedFloatTable::ReadData
 void
 GXRaggedFloatTable::ChooseNewTransformFunction()
 {
-	assert (itsTransDialog == NULL);
-	assert (itsVarList == NULL);
+	assert (itsTransDialog == nullptr);
+	assert (itsVarList == nullptr);
 
 	const JSize count = itsFloatData->GetDataColCount() + 1;
 	if (count == 1)
@@ -2486,7 +2486,7 @@ GXRaggedFloatTable::ChooseNewTransformFunction()
 
 	itsTransDialog =
 		jnew GXTransformFunctionDialog(GetWindow()->GetDirector(), itsVarList, count);
-	assert (itsTransDialog != NULL);
+	assert (itsTransDialog != nullptr);
 	ListenTo(itsTransDialog);
 	itsTransDialog->BeginDialog();
 }
@@ -2499,7 +2499,7 @@ GXRaggedFloatTable::ChooseNewTransformFunction()
 void
 GXRaggedFloatTable::EvaluateTransformFunction()
 {
-	assert (itsTransDialog != NULL);
+	assert (itsTransDialog != nullptr);
 	JIndex dest =  itsTransDialog->GetDestination();
 	JString fnStr(itsTransDialog->GetFunctionString());
 
@@ -2530,7 +2530,7 @@ GXRaggedFloatTable::EvaluateTransformFunction()
 				if (nl->GetFunctionType(i) == kJVariableValueType)
 					{
 					const JFunction* ai = sf->GetArrayIndex();
-					if (ai != NULL)
+					if (ai != nullptr)
 						{
 						colArrayIndex = sf->GetVariableIndex();
 						JString nstr(ai->Print());
@@ -2580,7 +2580,7 @@ GXRaggedFloatTable::EvaluateTransformFunction()
 				jnew GLUndoElementsInsert(this, JPoint(dest, 1),
 										 JPoint(dest, 1),
 										 GLUndoElementsBase::kCols);
-			assert(undo != NULL);
+			assert(undo != nullptr);
 			NewUndo(undo);
 			itsFloatData->InsertCols(dest, 1);
 			itsFloatData->SetCol(dest, newArray);
@@ -2591,7 +2591,7 @@ GXRaggedFloatTable::EvaluateTransformFunction()
 				jnew GLUndoElementsChange(this, JPoint(dest, 1),
 										 JPoint(dest, itsFloatData->GetDataRowCount(dest)),
 										 GLUndoElementsBase::kCols);
-			assert(undo != NULL);
+			assert(undo != nullptr);
 			NewUndo(undo);
 			itsFloatData->RemoveAllElements(dest);
 			itsFloatData->SetCol(dest, newArray);
@@ -2920,7 +2920,7 @@ GXRaggedFloatTable::NewUndo
 	JUndo* undo
 	)
 {
-	if (itsUndoList != NULL && itsUndoState == kIdle)
+	if (itsUndoList != nullptr && itsUndoState == kIdle)
 		{
 		// clear redo objects
 
@@ -2938,7 +2938,7 @@ GXRaggedFloatTable::NewUndo
 		assert( !itsUndoList->IsEmpty() );
 		}
 
-	else if (itsUndoList != NULL && itsUndoState == kUndo)
+	else if (itsUndoList != nullptr && itsUndoState == kUndo)
 		{
 		assert( itsFirstRedoIndex > 1 );
 
@@ -2951,7 +2951,7 @@ GXRaggedFloatTable::NewUndo
 		undo->Deactivate();
 		}
 
-	else if (itsUndoList != NULL && itsUndoState == kRedo)
+	else if (itsUndoList != nullptr && itsUndoState == kRedo)
 		{
 		assert( itsFirstRedoIndex <= itsUndoList->GetElementCount() );
 

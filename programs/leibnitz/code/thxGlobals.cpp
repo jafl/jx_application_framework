@@ -17,12 +17,12 @@
 #include <JX2DPlotEPSPrinter.h>
 #include <jAssert.h>
 
-static THXApp*				theApplication     = NULL;	// owns itself
-static THXMDIServer*		theMDIServer       = NULL;	// owned by JX
-static THXPrefsManager*		thePrefsManager    = NULL;
-static JXPTPrinter*			theTapePrinter     = NULL;
-static JXPSPrinter*			thePSGraphPrinter  = NULL;
-static JX2DPlotEPSPrinter*	theEPSGraphPrinter = NULL;
+static THXApp*				theApplication     = nullptr;	// owns itself
+static THXMDIServer*		theMDIServer       = nullptr;	// owned by JX
+static THXPrefsManager*		thePrefsManager    = nullptr;
+static JXPTPrinter*			theTapePrinter     = nullptr;
+static JXPSPrinter*			thePSGraphPrinter  = nullptr;
+static JX2DPlotEPSPrinter*	theEPSGraphPrinter = nullptr;
 
 static const JCharacter* kWMClassInstance = "Leibnitz";
 static const JCharacter* kExprWindowClass = "Leibnitz_Expression";
@@ -49,23 +49,23 @@ THXCreateGlobals
 
 	JBoolean isNew;
 	thePrefsManager	= jnew THXPrefsManager(&isNew);
-	assert( thePrefsManager != NULL );
+	assert( thePrefsManager != nullptr );
 
 	JXInitHelp();
 
 	theMDIServer = jnew THXMDIServer;
-	assert( theMDIServer != NULL );
+	assert( theMDIServer != nullptr );
 
 	theTapePrinter = jnew JXPTPrinter;
-	assert( theTapePrinter != NULL );
+	assert( theTapePrinter != nullptr );
 
 	JXDisplay* display = app->GetDisplay(1);
 
 	thePSGraphPrinter = jnew JXPSPrinter(display);
-	assert( thePSGraphPrinter != NULL );
+	assert( thePSGraphPrinter != nullptr );
 
 	theEPSGraphPrinter = jnew JX2DPlotEPSPrinter(display);
-	assert( theEPSGraphPrinter != NULL );
+	assert( theEPSGraphPrinter != nullptr );
 }
 
 /******************************************************************************
@@ -77,21 +77,21 @@ void
 THXDeleteGlobals()
 {
 	jdelete theTapePrinter;
-	theTapePrinter = NULL;
+	theTapePrinter = nullptr;
 
 	jdelete thePSGraphPrinter;
-	thePSGraphPrinter = NULL;
+	thePSGraphPrinter = nullptr;
 
 	jdelete theEPSGraphPrinter;
-	theEPSGraphPrinter = NULL;
+	theEPSGraphPrinter = nullptr;
 
-	theApplication = NULL;
-	theMDIServer   = NULL;
+	theApplication = nullptr;
+	theMDIServer   = nullptr;
 
 	// this must be last so everybody else can use it to save their setup
 
 	jdelete thePrefsManager;
-	thePrefsManager = NULL;
+	thePrefsManager = nullptr;
 }
 
 /******************************************************************************
@@ -102,7 +102,7 @@ THXDeleteGlobals()
 THXApp*
 THXGetApplication()
 {
-	assert( theApplication != NULL );
+	assert( theApplication != nullptr );
 	return theApplication;
 }
 
@@ -114,7 +114,7 @@ THXGetApplication()
 THXPrefsManager*
 THXGetPrefsManager()
 {
-	assert( thePrefsManager != NULL );
+	assert( thePrefsManager != nullptr );
 	return thePrefsManager;
 }
 
@@ -126,7 +126,7 @@ THXGetPrefsManager()
 THXMDIServer*
 THXGetMDIServer()
 {
-	assert( theMDIServer != NULL );
+	assert( theMDIServer != nullptr );
 	return theMDIServer;
 }
 
@@ -138,7 +138,7 @@ THXGetMDIServer()
 JXPSPrinter*
 THXGetPSGraphPrinter()
 {
-	assert( thePSGraphPrinter != NULL );
+	assert( thePSGraphPrinter != nullptr );
 	return thePSGraphPrinter;
 }
 
@@ -150,7 +150,7 @@ THXGetPSGraphPrinter()
 JX2DPlotEPSPrinter*
 THXGetEPSGraphPrinter()
 {
-	assert( theEPSGraphPrinter != NULL );
+	assert( theEPSGraphPrinter != nullptr );
 	return theEPSGraphPrinter;
 }
 
@@ -162,7 +162,7 @@ THXGetEPSGraphPrinter()
 JXPTPrinter*
 THXGetTapePrinter()
 {
-	assert( theTapePrinter != NULL );
+	assert( theTapePrinter != nullptr );
 	return theTapePrinter;
 }
 

@@ -49,13 +49,13 @@ JVMGetThreadName::Starting()
 {
 	CMCommand::Starting();
 
-	if (itsNode != NULL)
+	if (itsNode != nullptr)
 		{
 		JVMLink* link = dynamic_cast<JVMLink*>(CMGetLink());
 
 		const JSize length  = link->GetObjectIDSize();
 		unsigned char* data = (unsigned char*) calloc(length, 1);
-		assert( data != NULL );
+		assert( data != nullptr );
 
 		JVMSocket::Pack(length, itsNode->GetID(), data);
 
@@ -87,7 +87,7 @@ JVMGetThreadName::HandleSuccess
 		return;
 		}
 
-	if (itsNode != NULL)
+	if (itsNode != nullptr)
 		{
 		const unsigned char* data = msg->GetData();
 

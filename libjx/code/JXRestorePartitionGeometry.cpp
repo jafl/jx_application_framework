@@ -48,16 +48,16 @@ JXRestorePartitionGeometry::Perform()
 	JXHorizPartition* h = dynamic_cast<JXHorizPartition*>(itsPartition);
 	JXVertPartition*  v = dynamic_cast<JXVertPartition*>(itsPartition);
 
-	if (h != NULL && h->itsSavedGeom != NULL)
+	if (h != nullptr && h->itsSavedGeom != nullptr)
 		{
 		h->RestoreGeometry(*h->itsSavedGeom);
 		jdelete h->itsSavedGeom;
-		h->itsSavedGeom = NULL;
+		h->itsSavedGeom = nullptr;
 		}
-	else if (v != NULL && v->itsSavedGeom != NULL)
+	else if (v != nullptr && v->itsSavedGeom != nullptr)
 		{
 		v->RestoreGeometry(*v->itsSavedGeom);
 		jdelete v->itsSavedGeom;
-		v->itsSavedGeom = NULL;
+		v->itsSavedGeom = nullptr;
 		}
 }

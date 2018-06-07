@@ -15,7 +15,7 @@
 #include <JXColorManager.h>
 #include <jAssert.h>
 
-CBPythonStyler* CBPythonStyler::itsSelf = NULL;
+CBPythonStyler* CBPythonStyler::itsSelf = nullptr;
 
 const JFileVersion kCurrentTypeListVersion = 0;
 
@@ -54,12 +54,12 @@ static JBoolean recursiveInstance = kJFalse;
 CBStylerBase*
 CBPythonStyler::Instance()
 {
-	if (itsSelf == NULL && !recursiveInstance)
+	if (itsSelf == nullptr && !recursiveInstance)
 		{
 		recursiveInstance = kJTrue;
 
 		itsSelf = jnew CBPythonStyler;
-		assert( itsSelf != NULL );
+		assert( itsSelf != nullptr );
 
 		recursiveInstance = kJFalse;
 		}
@@ -114,7 +114,7 @@ CBPythonStyler::CBPythonStyler()
 CBPythonStyler::~CBPythonStyler()
 {
 	JPrefObject::WritePrefs();
-	itsSelf = NULL;
+	itsSelf = nullptr;
 }
 
 /******************************************************************************

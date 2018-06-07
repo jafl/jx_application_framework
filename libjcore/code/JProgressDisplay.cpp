@@ -29,7 +29,7 @@
 
 		IncrementProgress(const JString* message)
 			Increment the step count by 1 and update the display to show that
-			progress is being made.  If the message is not NULL, it should
+			progress is being made.  If the message is not nullptr, it should
 			be displayed.  Return kJFalse if process was cancelled by user.
 
 		IncrementProgress(const JSize delta)

@@ -111,7 +111,7 @@ protected:
 			GetSource(const JXWidget** source) const
 			{
 				*source = itsSource;
-				return JI2B( itsSource != NULL );
+				return JI2B( itsSource != nullptr );
 			};
 
 			const JXWidget*

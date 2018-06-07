@@ -58,7 +58,7 @@ GVarList::GVarList
 	for (JIndex i = 1; i <= ncount; i++)
 		{
 		JString* str	= jnew JString(*(list.itsNames->GetElement(i)));
-		assert(str != NULL);
+		assert(str != nullptr);
 		itsNames->Append(str);
 		}
 
@@ -66,10 +66,10 @@ GVarList::GVarList
 	for (JIndex i = 1; i <= acount; i++)
 		{
 		JArray<JFloat>* array	= list.itsArrays->GetElement(i);
-		if (array != NULL)
+		if (array != nullptr)
 			{
 			array	= jnew JArray<JFloat>(*(array));
-			assert(array != NULL);
+			assert(array != nullptr);
 			}
 		itsArrays->Append(array);
 		}
@@ -138,13 +138,13 @@ void
 GVarList::GVarListX()
 {
 	itsNames = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
-	assert( itsNames != NULL );
+	assert( itsNames != nullptr );
 
 	itsValues = jnew JArray<JFloat>;
-	assert( itsValues != NULL );
+	assert( itsValues != nullptr );
 
 	itsArrays = jnew JPtrArray<GNArray>(JPtrArrayT::kDeleteAll);
-	assert( itsArrays != NULL );
+	assert( itsArrays != nullptr );
 
 	InstallOrderedSet(itsNames);
 }
@@ -177,10 +177,10 @@ GVarList::AddVariable
 	if (JNameValid(name) && !ParseVariableName(name, strlen(name), &index))
 		{
 		JString* varName = jnew JString(name);
-		assert( varName != NULL );
+		assert( varName != nullptr );
 		itsNames->Append(varName);
 		itsValues->AppendElement(value);
-		itsArrays->AppendElement(static_cast<GNArray*>(NULL));
+		itsArrays->AppendElement(static_cast<GNArray*>(nullptr));
 		return kJTrue;
 		}
 	else
@@ -223,11 +223,11 @@ GVarList::AddArray
 	if (JNameValid(name))
 		{
 		JString* varName = jnew JString(name);
-		assert( varName != NULL );
+		assert( varName != nullptr );
 		itsNames->Append(varName);
 		itsValues->AppendElement(0.0);
 		GNArray* newArray = jnew GNArray(values);
-		assert( newArray != NULL );
+		assert( newArray != nullptr );
 		itsArrays->AppendElement(newArray);
 		return kJTrue;
 		}
@@ -427,7 +427,7 @@ GVarList::IsArray
 	)
 	const
 {
-	return JConvertToBoolean( itsArrays->GetElement(index) != NULL );
+	return JConvertToBoolean( itsArrays->GetElement(index) != nullptr );
 }
 
 /******************************************************************************
@@ -495,12 +495,12 @@ GVarList::GetNumericValue
 	const
 {
 	GNArray* values = itsArrays->GetElement(variableIndex);
-	if (values == NULL && elementIndex == 1)
+	if (values == nullptr && elementIndex == 1)
 		{
 		*value = itsValues->GetElement(variableIndex);
 		return kJTrue;
 		}
-	else if (values != NULL && values->IndexValid(elementIndex))
+	else if (values != nullptr && values->IndexValid(elementIndex))
 		{
 		*value = values->GetElement(elementIndex);
 		return kJTrue;

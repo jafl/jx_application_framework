@@ -87,7 +87,7 @@ GDBGetStackArguments::HandleSuccess
 
 		CMStackFrameNode* frameNode =
 			dynamic_cast<CMStackFrameNode*>(root->GetChild(frameCount - frameIndex));
-		assert( frameNode != NULL );
+		assert( frameNode != nullptr );
 
 		stream.seekg(matchedRange.last);
 		if (!GDBLink::ParseMapArray(stream, &argList))
@@ -114,7 +114,7 @@ GDBGetStackArguments::HandleSuccess
 				}
 
 			CMStackArgNode* argNode = jnew CMStackArgNode(frameNode, *name, *value);
-			assert( argNode != NULL );
+			assert( argNode != nullptr );
 			}
 		}
 }

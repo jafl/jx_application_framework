@@ -139,22 +139,22 @@ THXVarDirector::BuildWindow
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 260,250, "");
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	JXMenuBar* menuBar =
 		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 260,30);
-	assert( menuBar != NULL );
+	assert( menuBar != nullptr );
 
 	JXScrollbarSet* scrollbarSet =
 		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,50, 260,200);
-	assert( scrollbarSet != NULL );
+	assert( scrollbarSet != nullptr );
 
 	JXWidgetSet* colHdrContainer =
 		jnew JXWidgetSet(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,30, 260,20);
-	assert( colHdrContainer != NULL );
+	assert( colHdrContainer != nullptr );
 
 // end JXLayout
 
@@ -180,12 +180,12 @@ THXVarDirector::BuildWindow
 						scrollbarSet->GetScrollEnclosure(),
 						JXWidget::kHElastic, JXWidget::kVElastic,
 						0,0, 10,10);
-	assert( itsVarTable != NULL );
+	assert( itsVarTable != nullptr );
 
 	JXColHeaderWidget* colHeader =
 		jnew JXColHeaderWidget(itsVarTable, scrollbarSet, colHdrContainer,
 							  JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 10,10);
-	assert( colHeader != NULL );
+	assert( colHeader != nullptr );
 	colHeader->FitToEnclosure();
 	colHeader->SetColTitle(1, "Name");
 	colHeader->SetColTitle(2, "Value");
@@ -212,7 +212,7 @@ THXVarDirector::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleActionsMenu(selection->GetIndex());
 		}
 
@@ -224,7 +224,7 @@ THXVarDirector::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		(THXGetApplication())->HandleHelpMenu(itsHelpMenu, "THXConstantsHelp",
 											  selection->GetIndex());
 		}

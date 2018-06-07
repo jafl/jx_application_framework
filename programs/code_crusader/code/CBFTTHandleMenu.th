@@ -41,7 +41,7 @@ CBFileTypeTable::CreateMenuFn()
 		new JXTextMenu("", this,
 					   JXWidget::kFixedLeft, JXWidget::kFixedTop,
 					   0,0, 10,10);
-	assert( menu != NULL );
+	assert( menu != nullptr );
 	menu->SetToHiddenPopupMenu();
 	menu->SetUpdateAction(JXMenu::kDisableNone);
 

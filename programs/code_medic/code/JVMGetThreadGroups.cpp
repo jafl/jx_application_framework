@@ -29,7 +29,7 @@ JVMGetThreadGroups::JVMGetThreadGroups
 	itsParent(parent)
 {
 	ListenTo(itsRoot);
-	if (itsParent != NULL)
+	if (itsParent != nullptr)
 		{
 		ListenTo(itsParent);
 		}
@@ -56,22 +56,22 @@ JVMGetThreadGroups::Starting()
 {
 	CMCommand::Starting();
 
-	if (itsRoot == NULL)
+	if (itsRoot == nullptr)
 		{
 		return;
 		}
 
 	JVMLink* link = dynamic_cast<JVMLink*>(CMGetLink());
-	if (itsParent == NULL)
+	if (itsParent == nullptr)
 		{
 		link->Send(this,
-			JVMLink::kVirtualMachineCmdSet, JVMLink::kVMTopLevelThreadGroupsCmd, NULL, 0);
+			JVMLink::kVirtualMachineCmdSet, JVMLink::kVMTopLevelThreadGroupsCmd, nullptr, 0);
 		}
 	else
 		{
 		const JSize length  = link->GetObjectIDSize();
 		unsigned char* data = (unsigned char*) calloc(length, 1);
-		assert( data != NULL );
+		assert( data != nullptr );
 
 		JVMSocket::Pack(length, itsParent->GetID(), data);
 
@@ -100,7 +100,7 @@ JVMGetThreadGroups::HandleSuccess
 		return;
 		}
 
-	if (itsRoot == NULL)
+	if (itsRoot == nullptr)
 		{
 		return;
 		}
@@ -108,7 +108,7 @@ JVMGetThreadGroups::HandleSuccess
 	const unsigned char* data = msg->GetData();
 	const JSize idLength      = link->GetObjectIDSize();
 
-	if (itsParent != NULL)
+	if (itsParent != nullptr)
 		{
 		const JSize threadCount = JVMSocket::Unpack4(data);
 		data                   += 4;
@@ -122,7 +122,7 @@ JVMGetThreadGroups::HandleSuccess
 			if (!link->FindThread(id, &node))	// might be created by ThreadStartEvent
 				{
 				node = jnew JVMThreadNode(JVMThreadNode::kThreadType, id);
-				assert( node != NULL );
+				assert( node != nullptr );
 
 				itsParent->AppendThread(node);
 				}
@@ -141,9 +141,9 @@ JVMGetThreadGroups::HandleSuccess
 		if (!link->FindThread(id, &node))	// might be created by ThreadStartEvent
 			{
 			node = jnew JVMThreadNode(JVMThreadNode::kGroupType, id);
-			assert( node != NULL );
+			assert( node != nullptr );
 
-			if (itsParent != NULL)
+			if (itsParent != nullptr)
 				{
 				itsParent->AppendThread(node);
 				}
@@ -163,7 +163,7 @@ JVMGetThreadGroups::HandleSuccess
 	Warning:	Since this function may be called from within a -chain-
 				of destructors, it is not usually safe to do anything
 				inside this function other than directly changing
-				instance variables (e.g. setting pointers to NULL).
+				instance variables (e.g. setting pointers to nullptr).
 
 	This function is not pure virtual because not all classes will want
 	to implement it.
@@ -178,8 +178,8 @@ JVMGetThreadGroups::ReceiveGoingAway
 {
 	if (sender == itsRoot || sender == itsParent)
 		{
-		itsRoot   = NULL;
-		itsParent = NULL;
+		itsRoot   = nullptr;
+		itsParent = nullptr;
 		}
 
 	JBroadcaster::ReceiveGoingAway(sender);

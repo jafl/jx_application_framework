@@ -91,46 +91,46 @@ CBRunTEScriptDialog::BuildWindow()
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 390,110, "");
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	itsCloseButton =
 		jnew JXTextButton(JGetString("itsCloseButton::CBRunTEScriptDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 130,80, 60,20);
-	assert( itsCloseButton != NULL );
+	assert( itsCloseButton != nullptr );
 	itsCloseButton->SetShortcuts(JGetString("itsCloseButton::CBRunTEScriptDialog::shortcuts::JXLayout"));
 
 	itsRunButton =
 		jnew JXTextButton(JGetString("itsRunButton::CBRunTEScriptDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 310,80, 60,20);
-	assert( itsRunButton != NULL );
+	assert( itsRunButton != nullptr );
 	itsRunButton->SetShortcuts(JGetString("itsRunButton::CBRunTEScriptDialog::shortcuts::JXLayout"));
 
 	itsCmdInput =
 		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 20,40, 320,20);
-	assert( itsCmdInput != NULL );
+	assert( itsCmdInput != nullptr );
 
 	JXStaticText* cmdLabel =
 		jnew JXStaticText(JGetString("cmdLabel::CBRunTEScriptDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 20,20, 350,20);
-	assert( cmdLabel != NULL );
+	assert( cmdLabel != nullptr );
 	cmdLabel->SetToLabel();
 
 	itsHistoryMenu =
 		jnew JXStringHistoryMenu(kHistoryLength, "", window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 340,40, 30,20);
-	assert( itsHistoryMenu != NULL );
+	assert( itsHistoryMenu != nullptr );
 
 	itsHelpButton =
 		jnew JXTextButton(JGetString("itsHelpButton::CBRunTEScriptDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 220,80, 60,20);
-	assert( itsHelpButton != NULL );
+	assert( itsHelpButton != nullptr );
 	itsHelpButton->SetShortcuts(JGetString("itsHelpButton::CBRunTEScriptDialog::shortcuts::JXLayout"));
 
 	itsStayOpenCB =
 		jnew JXTextCheckbox(JGetString("itsStayOpenCB::CBRunTEScriptDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,80, 90,20);
-	assert( itsStayOpenCB != NULL );
+	assert( itsStayOpenCB != nullptr );
 
 // end JXLayout
 
@@ -156,7 +156,7 @@ CBRunTEScriptDialog::BuildWindow()
 	JXDocumentMenu* fileListMenu =
 		jnew JXDocumentMenu("", window,
 						   JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,-20, 10,10);
-	assert( fileListMenu != NULL );
+	assert( fileListMenu != nullptr );
 
 	UpdateDisplay();
 }
@@ -256,7 +256,7 @@ CBRunTEScriptDialog::RunSimpleScript
 JBoolean
 CBRunTEScriptDialog::RunScript()
 {
-	CBTextDocument* textDoc = NULL;
+	CBTextDocument* textDoc = nullptr;
 	if ((CBGetDocumentManager())->GetActiveTextDocument(&textDoc))
 		{
 		JBoolean onDisk;

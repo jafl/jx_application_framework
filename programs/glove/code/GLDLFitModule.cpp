@@ -39,33 +39,33 @@ GLDLFitModule::Create
 	)
 {
 	ACE_DLL* module = jnew ACE_DLL(moduleName);
-	assert(module != NULL);
+	assert(module != nullptr);
 
 	JBoolean ok	= kJTrue;
 
 	EvalFn*	fn	= (EvalFn*)module->symbol(kFNName);
-	if (fn == NULL)
+	if (fn == nullptr)
 		{
 		ok	= kJFalse;
 		}
 	EvalFn*	fnprimed	= (EvalFn*)module->symbol(kFNPrimedName);
 	GetParmsFn* pf		= (GetParmsFn*)module->symbol(kGetParmsName);
-	if (pf == NULL)
+	if (pf == nullptr)
 		{
 		ok	= kJFalse;
 		}
 	GetParmCountFn* pc	= (GetParmCountFn*)module->symbol(kParmCountName);
-	if (pc == NULL)
+	if (pc == nullptr)
 		{
 		ok	= kJFalse;
 		}
 	GetNameFn* ff		= (GetNameFn*)module->symbol(kFormName);
-	if (ff == NULL)
+	if (ff == nullptr)
 		{
 		ok	= kJFalse;
 		}
 	GetNameFn* fname	= (GetNameFn*)module->symbol(kFitName);
-	if (fname == NULL)
+	if (fname == nullptr)
 		{
 		ok	= kJFalse;
 		}
@@ -76,7 +76,7 @@ GLDLFitModule::Create
 		return kJFalse;
 		}
 	*fit	= jnew GLDLFitModule(module, fn, fnprimed, ifn, pc(), pf(), ff(), fname());
-	assert(*fit != NULL);
+	assert(*fit != nullptr);
 	return kJTrue;
 }
 
@@ -101,15 +101,15 @@ GLDLFitModule::GLDLFitModule
 	itsModule(module)
 {
 	itsParmNames	= jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
-	assert(itsParmNames != NULL);
+	assert(itsParmNames != nullptr);
 	for (JIndex i = 1; i <= count; i++)
 		{
 		JString* str	= jnew JString(parms[i - 1]);
-		assert(str != NULL);
+		assert(str != nullptr);
 		itsParmNames->Append(str);
 		}
 	itsParameters	= jnew JVector(count);
-	assert(itsParameters != NULL);
+	assert(itsParameters != nullptr);
 }
 
 
@@ -135,13 +135,13 @@ JBoolean
 GLDLFitModule::HasStartValues()
 	const
 {
-	return JI2B(itsGetStartValFn != NULL);
+	return JI2B(itsGetStartValFn != nullptr);
 }
 
 /******************************************************************************
  GetStartValues (public)
 
-	The arrays need to be pointers to allow for NULL.
+	The arrays need to be pointers to allow for nullptr.
 
  ******************************************************************************/
 
@@ -155,13 +155,13 @@ GLDLFitModule::GetStartValues
 	JVector* 			  p
 	)
 {
-	if (itsGetStartValFn == NULL)
+	if (itsGetStartValFn == nullptr)
 		{
 		return kJFalse;
 		}
 
-	assert(x != NULL);
-	assert(y != NULL);
+	assert(x != nullptr);
+	assert(y != nullptr);
 
 	
 
@@ -194,7 +194,7 @@ JBoolean
 GLDLFitModule::HasFPrimed()
 	const
 {
-	return JI2B(itsFPrimed != NULL);
+	return JI2B(itsFPrimed != nullptr);
 }
 
 /******************************************************************************
@@ -208,7 +208,7 @@ GLDLFitModule::FPrimed
 	const JFloat 	x
 	)
 {
-	assert(itsFPrimed != NULL);
+	assert(itsFPrimed != nullptr);
 	return itsFPrimed(itsParameters->GetElements(), x);
 }
 

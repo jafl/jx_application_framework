@@ -54,33 +54,33 @@ TestPopupChoiceDialog::BuildWindow()
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 230,170, JString::empty);
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	JXTextButton* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::TestPopupChoiceDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 30,140, 70,20);
-	assert( cancelButton != NULL );
+	assert( cancelButton != nullptr );
 
 	JXTextButton* okButton =
 		jnew JXTextButton(JGetString("okButton::TestPopupChoiceDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 130,140, 70,20);
-	assert( okButton != NULL );
+	assert( okButton != nullptr );
 	okButton->SetShortcuts(JGetString("okButton::TestPopupChoiceDialog::shortcuts::JXLayout"));
 
 	JXFontNameMenu* fontMenu =
 		jnew JXFontNameMenu(JGetString("FontMenuLabel::TestPopupChoiceDialog"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 190,30);
-	assert( fontMenu != NULL );
+	assert( fontMenu != nullptr );
 
 	JXFontSizeMenu* sizeMenu =
 		jnew JXFontSizeMenu(fontMenu, JGetString("FontSizeMenuLabel::TestPopupChoiceDialog"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,60, 190,30);
-	assert( sizeMenu != NULL );
+	assert( sizeMenu != nullptr );
 
 	JXImageMenu* iconMenu =
 		jnew JXImageMenu(JGetString("ImageMenuLabel::TestPopupChoiceDialog"), 2, window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,100, 190,30);
-	assert( iconMenu != NULL );
+	assert( iconMenu != nullptr );
 
 // end JXLayout
 
@@ -104,11 +104,11 @@ TestPopupChoiceDialog::BuildWindow()
 		JColorManager::GetBlackColor()
 	};
 
-	JXImage* titleImage = NULL;
+	JXImage* titleImage = nullptr;
 	for (JIndex i=0; i<kSmileyBitmapCount; i++)
 		{
 		JXImage* image = jnew JXImage(display, kSmileyBitmap[i], kSmileyColor[i]);
-		assert( image != NULL );
+		assert( image != nullptr );
 		iconMenu->AppendItem(image, kJTrue);
 
 		if (i == 0)

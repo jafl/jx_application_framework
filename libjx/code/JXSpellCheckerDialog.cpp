@@ -41,7 +41,7 @@ JXSpellCheckerDialog::JXSpellCheckerDialog
 	itsFoundErrorsFlag(kJFalse)
 {
 	itsSuggestionList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll, 100);
-	assert( itsSuggestionList != NULL );
+	assert( itsSuggestionList != nullptr );
 
 	BuildWindow();
 }
@@ -119,85 +119,85 @@ JXSpellCheckerDialog::BuildWindow()
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 530,270, JString::empty);
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	JXStaticText* notFoundLabel =
 		jnew JXStaticText(JGetString("notFoundLabel::JXSpellCheckerDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 15,15, 110,20);
-	assert( notFoundLabel != NULL );
+	assert( notFoundLabel != nullptr );
 	notFoundLabel->SetToLabel();
 
 	itsCheckText =
 		jnew JXStaticText(JGetString("itsCheckText::JXSpellCheckerDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 135,15, 280,20);
-	assert( itsCheckText != NULL );
+	assert( itsCheckText != nullptr );
 	itsCheckText->SetToLabel();
 
 	JXStaticText* changeToLabel =
 		jnew JXStaticText(JGetString("changeToLabel::JXSpellCheckerDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 15,45, 90,20);
-	assert( changeToLabel != NULL );
+	assert( changeToLabel != nullptr );
 	changeToLabel->SetToLabel();
 
 	JXStaticText* suggestionsLabel =
 		jnew JXStaticText(JGetString("suggestionsLabel::JXSpellCheckerDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 15,75, 90,20);
-	assert( suggestionsLabel != NULL );
+	assert( suggestionsLabel != nullptr );
 	suggestionsLabel->SetToLabel();
 
 	itsFirstGuess =
 		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 105,45, 230,20);
-	assert( itsFirstGuess != NULL );
+	assert( itsFirstGuess != nullptr );
 
 	JXScrollbarSet* set =
 		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 105,75, 230,180);
-	assert( set != NULL );
+	assert( set != nullptr );
 
 	itsIgnoreButton =
 		jnew JXTextButton(JGetString("itsIgnoreButton::JXSpellCheckerDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 440,60, 75,20);
-	assert( itsIgnoreButton != NULL );
+	assert( itsIgnoreButton != nullptr );
 	itsIgnoreButton->SetShortcuts(JGetString("itsIgnoreButton::JXSpellCheckerDialog::shortcuts::JXLayout"));
 
 	itsChangeButton =
 		jnew JXTextButton(JGetString("itsChangeButton::JXSpellCheckerDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 350,60, 75,20);
-	assert( itsChangeButton != NULL );
+	assert( itsChangeButton != nullptr );
 
 	itsLearnButton =
 		jnew JXTextButton(JGetString("itsLearnButton::JXSpellCheckerDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 350,130, 165,20);
-	assert( itsLearnButton != NULL );
+	assert( itsLearnButton != nullptr );
 
 	itsChangeAllButton =
 		jnew JXTextButton(JGetString("itsChangeAllButton::JXSpellCheckerDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 350,90, 75,20);
-	assert( itsChangeAllButton != NULL );
+	assert( itsChangeAllButton != nullptr );
 
 	itsCloseButton =
 		jnew JXTextButton(JGetString("itsCloseButton::JXSpellCheckerDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 440,235, 75,20);
-	assert( itsCloseButton != NULL );
+	assert( itsCloseButton != nullptr );
 	itsCloseButton->SetShortcuts(JGetString("itsCloseButton::JXSpellCheckerDialog::shortcuts::JXLayout"));
 
 	itsLearnCapsButton =
 		jnew JXTextButton(JGetString("itsLearnCapsButton::JXSpellCheckerDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 350,160, 165,20);
-	assert( itsLearnCapsButton != NULL );
+	assert( itsLearnCapsButton != nullptr );
 
 // end JXLayout
 
 	window->SetTitle(JGetString("WindowTitle::JXSpellCheckerDialog"));
 	window->LockCurrentMinSize();
 
-	SetButtons(itsCloseButton, NULL);
+	SetButtons(itsCloseButton, nullptr);
 
 	itsSuggestionWidget =
 		jnew JXSpellList(set, set->GetScrollEnclosure(),
 						JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 230,180);
-	assert( itsSuggestionWidget != NULL );
+	assert( itsSuggestionWidget != nullptr );
 	ListenTo(itsSuggestionWidget);
 
 	ListenTo(itsIgnoreButton);
@@ -353,7 +353,7 @@ JXSpellCheckerDialog::Receive
 		{
 		const JXSpellList::WordSelected* choice =
 			dynamic_cast<const JXSpellList::WordSelected*>(&message);
-		assert( choice != NULL );
+		assert( choice != nullptr );
 
 		itsFirstGuess->GetText()->SetText(choice->GetWord());
 		itsFirstGuess->Focus();
@@ -364,7 +364,7 @@ JXSpellCheckerDialog::Receive
 		{
 		const JXSpellList::ReplaceWord* choice =
 			dynamic_cast<const JXSpellList::ReplaceWord*>(&message);
-		assert( choice != NULL );
+		assert( choice != nullptr );
 
 		itsFirstGuess->GetText()->SetText(choice->GetWord());
 		Change();
@@ -374,7 +374,7 @@ JXSpellCheckerDialog::Receive
 		{
 		const JXSpellList::ReplaceWordAll* choice =
 			dynamic_cast<const JXSpellList::ReplaceWordAll*>(&message);
-		assert( choice != NULL );
+		assert( choice != nullptr );
 
 		itsFirstGuess->GetText()->SetText(choice->GetWord());
 		ChangeAll();

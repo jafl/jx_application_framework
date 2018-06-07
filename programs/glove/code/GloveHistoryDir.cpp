@@ -80,7 +80,7 @@ GloveHistoryDir::BuildWindow()
 	JPoint dtl;
 //	JBoolean foundWindowPref = gjdbApp->GetCmdWindowSize(&dtl, &w, &h);
 	JXWindow* window = jnew JXWindow(this, w,h, "Glove session");
-    assert( window != NULL );
+    assert( window != nullptr );
     window->SetMinSize(300,200);
     window->SetCloseAction(JXWindow::kDeactivateDirector);
 //	if (foundWindowPref)
@@ -91,7 +91,7 @@ GloveHistoryDir::BuildWindow()
     itsMenuBar = 
     	jnew JXMenuBar(window, JXWidget::kHElastic, JXWidget::kFixedTop, 
     					0,0, w,kJXDefaultMenuBarHeight);
-    assert( itsMenuBar != NULL );
+    assert( itsMenuBar != nullptr );
 
 	itsFileMenu = itsMenuBar->AppendTextMenu(kFileMenuTitleStr);
 	itsFileMenu->SetMenuItems(kFileMenuStr);
@@ -103,14 +103,14 @@ GloveHistoryDir::BuildWindow()
 			JXWidget::kHElastic, JXWidget::kVElastic, 
 			0,kJXDefaultMenuBarHeight, 
 			w,h - kJXDefaultMenuBarHeight);
-	assert( scrollbarSet != NULL );
+	assert( scrollbarSet != nullptr );
 
 	itsHistory = 
 		jnew GloveHistory(itsMenuBar, 
 			scrollbarSet, scrollbarSet->GetScrollEnclosure(), 
 			JXWidget::kHElastic, JXWidget::kVElastic,
 			0, 0, 10, 10);
-	assert( itsHistory != NULL );
+	assert( itsHistory != nullptr );
 
 	itsHistory->FitToEnclosure(kJTrue, kJTrue);
 
@@ -135,7 +135,7 @@ GloveHistoryDir::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleFileMenu(selection->GetIndex());
 		}
 	else if (sender == itsFileMenu && message.Is(JXMenu::kNeedsUpdate))

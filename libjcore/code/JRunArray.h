@@ -136,7 +136,7 @@ private:
 
 	JArray< JRunArrayElement<T> >*	itsRuns;	// JArray object that stores the data
 
-	static const JElementComparison<T>*	itsCurrentCompareObj;	// NULL unless sorting
+	static const JElementComparison<T>*	itsCurrentCompareObj;	// nullptr unless sorting
 
 private:
 
@@ -161,7 +161,7 @@ private:
 
 	void	InsertRun(const JIndex runIndex, const JSize runLength, const T& item);
 	void	RemoveRun(const JIndex runIndex,
-					  JIndex* newRunIndex = NULL, JIndex* newFirstInRun = NULL);
+					  JIndex* newRunIndex = nullptr, JIndex* newFirstInRun = nullptr);
 
 	void	SetRunLength(const JIndex runIndex, const JSize newLength);
 	void	IncrementRunLength(const JIndex runIndex, const JSize delta);

@@ -43,7 +43,7 @@ JArray<T>::JArray
 	assert( aBlockSize > 0 );
 
 	itsElements = jnew T [ aBlockSize ];
-	assert( itsElements != NULL );
+	assert( itsElements != nullptr );
 
 	itsSlotCount = aBlockSize;
 	itsBlockSize = aBlockSize;
@@ -62,7 +62,7 @@ JArray<T>::JArray
 	:
 	JList<T>(source)
 {
-	itsElements = NULL;		// makes delete [] safe inside CopyArray
+	itsElements = nullptr;		// makes delete [] safe inside CopyArray
 
 	CopyArray(source);
 }
@@ -122,7 +122,7 @@ JArray<T>::CopyArray
 
 	jdelete [] itsElements;
 	itsElements = jnew T [ itsSlotCount ];
-	assert( itsElements != NULL );
+	assert( itsElements != nullptr );
 
 	memcpy(itsElements, source.itsElements, itsSlotCount * sizeof(T));
 }
@@ -165,7 +165,7 @@ JArray<T>::AllocateCArray()
 	const JSize count = this->JCollection::GetElementCount();
 
 	T* data = jnew T [ count ];
-	assert( data != NULL );
+	assert( data != nullptr );
 
 	memcpy(data, itsElements, count * sizeof(T));
 
@@ -486,7 +486,7 @@ JArray<T>::SearchSorted1
 	)
 	const
 {
-	const JElementComparison<T>* compareObj = NULL;
+	const JElementComparison<T>* compareObj = nullptr;
 	const JBoolean hasCompare = JArray<T>::GetCompareObject(&compareObj);
 	assert( hasCompare );
 
@@ -770,7 +770,7 @@ JArray<T>::ResizeMemoryAllocation
 	if (newSlotCount != itsSlotCount)
 		{
 		T* newElements = jnew T [newSlotCount];
-		assert( newElements != NULL );
+		assert( newElements != nullptr );
 
 		memcpy(newElements, itsElements, JCollection::GetElementCount() * sizeof(T));
 

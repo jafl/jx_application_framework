@@ -34,7 +34,7 @@ const JCoordinate kMinButtonHMargin = 10;
 /******************************************************************************
  Constructor
 
-	shortcutList can be NULL.
+	shortcutList can be nullptr.
 
  ******************************************************************************/
 
@@ -104,7 +104,7 @@ JXRadioGroupDialog::BuildWindow
 	const JSize actionCount = choiceList.GetElementCount();
 
 	JXWindow* window = jnew JXWindow(this, 10,10, windowTitle);
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	JCoordinate y = kFirstItemTop;
 
@@ -114,7 +114,7 @@ JXRadioGroupDialog::BuildWindow
 		jnew JXStaticText(prompt, window,
 						 JXWidget::kFixedLeft, JXWidget::kFixedTop,
 						 kHMarginWidth,y, 0,0);
-	assert( instrText != NULL );
+	assert( instrText != nullptr );
 
 	y += instrText->GetFrameHeight() + kItemVDelta;
 
@@ -126,7 +126,7 @@ JXRadioGroupDialog::BuildWindow
 		jnew JXRadioGroup(window, JXWidget::kFixedLeft, JXWidget::kFixedTop,
 						 kHMarginWidth,y,
 						 kInitRGWidth, kItemVDelta + actionCount * kItemVSeparation);
-	assert( itsRG != NULL );
+	assert( itsRG != nullptr );
 
 	// choices
 
@@ -139,9 +139,9 @@ JXRadioGroupDialog::BuildWindow
 								  JXWidget::kFixedLeft, JXWidget::kFixedTop,
 								  kRGHLMarginWidth, kItemVDelta + (i-1) * kItemVSeparation,
 								  10,kTextHeight);
-		assert( button != NULL );
+		assert( button != nullptr );
 
-		if (shortcutList != NULL)
+		if (shortcutList != nullptr)
 			{
 			button->SetShortcuts(*(shortcutList->GetElement(i)));
 			}
@@ -188,14 +188,14 @@ JXRadioGroupDialog::BuildWindow
 		jnew JXTextButton(JGetString("CancelLabel::JXGlobal"), window,
 						 JXWidget::kFixedLeft, JXWidget::kFixedTop,
 						 buttonX,y, kButtonWidth,kTextHeight);
-	assert( cancelButton != NULL );
+	assert( cancelButton != nullptr );
 
 	JXTextButton* okButton =
 		jnew JXTextButton(JGetString("OKLabel::JXGlobal"), window,
 						 JXWidget::kFixedLeft, JXWidget::kFixedTop,
 						 wmin - buttonX - (kButtonWidth+2), y-1,
 						 kButtonWidth+2, kTextHeight+2);
-	assert( okButton != NULL );
+	assert( okButton != nullptr );
 	okButton->SetShortcuts(JGetString("OKShortcut::JXGlobal"));
 
 	SetButtons(okButton, cancelButton);

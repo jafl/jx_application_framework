@@ -37,8 +37,8 @@ JFSBinding::JFSBinding
 	itsCmdType(type),
 	itsSingleFileFlag(singleFile),
 	itsIsSystemFlag(isSystem),
-	itsNameRegex(NULL),
-	itsContentRegex(NULL)
+	itsNameRegex(nullptr),
+	itsContentRegex(nullptr)
 {
 	UpdateRegex();
 }
@@ -53,8 +53,8 @@ JFSBinding::JFSBinding
 	)
 	:
 	itsIsSystemFlag(isSystem),
-	itsNameRegex(NULL),
-	itsContentRegex(NULL)
+	itsNameRegex(nullptr),
+	itsContentRegex(nullptr)
 {
 	input >> itsPattern >> itsCmd;
 
@@ -115,12 +115,12 @@ JFSBinding::Match
 		{
 		return kJFalse;
 		}
-	else if (itsContentRegex != NULL)
+	else if (itsContentRegex != nullptr)
 		{
 		return JI2B(content.BeginsWith(itsLiteralPrefix) &&
 					itsContentRegex->Match(content));
 		}
-	else if (itsNameRegex != NULL)
+	else if (itsNameRegex != nullptr)
 		{
 		return itsNameRegex->Match(fileName);
 		}
@@ -142,12 +142,12 @@ JFSBinding::UpdateRegex()
 	if (itsPattern.BeginsWith(kContentRegexMarker))
 		{
 		jdelete itsNameRegex;
-		itsNameRegex = NULL;
+		itsNameRegex = nullptr;
 
-		if (itsContentRegex == NULL)
+		if (itsContentRegex == nullptr)
 			{
 			itsContentRegex = jnew JRegex;
-			assert( itsContentRegex != NULL );
+			assert( itsContentRegex != nullptr );
 			itsContentRegex->SetSingleLine(kJTrue);
 			}
 
@@ -158,18 +158,18 @@ JFSBinding::UpdateRegex()
 		else
 			{
 			jdelete itsContentRegex;
-			itsContentRegex = NULL;
+			itsContentRegex = nullptr;
 			}
 		}
 	else if (itsPattern.Contains(kNameRegexMarker))
 		{
 		jdelete itsContentRegex;
-		itsContentRegex = NULL;
+		itsContentRegex = nullptr;
 
-		if (itsNameRegex == NULL)
+		if (itsNameRegex == nullptr)
 			{
 			itsNameRegex = jnew JRegex;
-			assert( itsNameRegex != NULL );
+			assert( itsNameRegex != nullptr );
 			}
 
 		JString s;
@@ -178,16 +178,16 @@ JFSBinding::UpdateRegex()
 		if (!itsNameRegex->SetPattern(s).OK())
 			{
 			jdelete itsNameRegex;
-			itsNameRegex = NULL;
+			itsNameRegex = nullptr;
 			}
 		}
 	else
 		{
 		jdelete itsNameRegex;
-		itsNameRegex = NULL;
+		itsNameRegex = nullptr;
 
 		jdelete itsContentRegex;
-		itsContentRegex = NULL;
+		itsContentRegex = nullptr;
 		}
 }
 

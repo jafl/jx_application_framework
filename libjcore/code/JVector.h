@@ -44,8 +44,8 @@ public:
 	void			Set(const JFloat values[]);
 	void			Set(const JFloat v1, ...);
 
-	JFloat	GetMinElement(JIndex* index = NULL) const;
-	JFloat	GetMaxElement(JIndex* index = NULL) const;
+	JFloat	GetMinElement(JIndex* index = nullptr) const;
+	JFloat	GetMaxElement(JIndex* index = nullptr) const;
 
 	JFloat	GetLength() const;
 

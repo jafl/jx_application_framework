@@ -68,53 +68,53 @@ GPMAboutDialog::BuildWindow
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 430,180, "");
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	JXStaticText* textWidget =
 		jnew JXStaticText(JGetString("textWidget::GPMAboutDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 90,20, 330,110);
-	assert( textWidget != NULL );
+	assert( textWidget != nullptr );
 
 	JXTextButton* okButton =
 		jnew JXTextButton(JGetString("okButton::GPMAboutDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 320,150, 60,20);
-	assert( okButton != NULL );
+	assert( okButton != nullptr );
 	okButton->SetShortcuts(JGetString("okButton::GPMAboutDialog::shortcuts::JXLayout"));
 
 	itsHelpButton =
 		jnew JXTextButton(JGetString("itsHelpButton::GPMAboutDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 185,150, 60,20);
-	assert( itsHelpButton != NULL );
+	assert( itsHelpButton != nullptr );
 
 	JXImageWidget* gpmIcon =
 		jnew JXImageWidget(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 25,20, 40,40);
-	assert( gpmIcon != NULL );
+	assert( gpmIcon != nullptr );
 
 	itsCreditsButton =
 		jnew JXTextButton(JGetString("itsCreditsButton::GPMAboutDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 50,150, 60,20);
-	assert( itsCreditsButton != NULL );
+	assert( itsCreditsButton != nullptr );
 
 	JXImageWidget* npsIcon =
 		jnew JXImageWidget(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,75, 65,65);
-	assert( npsIcon != NULL );
+	assert( npsIcon != nullptr );
 
 // end JXLayout
 
 	window->SetTitle(JGetString("WindowTitle::GPMAboutDialog"));
-	SetButtons(okButton, NULL);
+	SetButtons(okButton, nullptr);
 
 	ListenTo(itsHelpButton);
 	ListenTo(itsCreditsButton);
 
 	JXImage* image = jnew JXImage(GetDisplay(), gpm_about_icon);
-	assert( image != NULL );
+	assert( image != nullptr );
 	gpmIcon->SetImage(image, kJTrue);
 
 	image = jnew JXImage(GetDisplay(), new_planet_software);
-	assert( image != NULL );
+	assert( image != nullptr );
 	npsIcon->SetImage(image, kJTrue);
 
 	JString text = GPMGetVersionStr();

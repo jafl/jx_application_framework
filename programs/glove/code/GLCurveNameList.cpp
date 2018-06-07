@@ -50,7 +50,7 @@ GLCurveNameList::GLCurveNameList
 	)
 	:
 	JXEditTable(1, kDefColWidth, scrollbarSet, enclosure, hSizing,vSizing, x,y, w,h),
-	itsInput(NULL),
+	itsInput(nullptr),
 	itsPlot(plot),
 	itsDir(dir)
 {
@@ -63,13 +63,13 @@ GLCurveNameList::GLCurveNameList
 	const JSize count = plot->GetCurveCount();
 
 	itsNameList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll, count);
-	assert(itsNameList != NULL);
+	assert(itsNameList != nullptr);
 
 	AppendRows(count);
 	for (JIndex i=1; i<=count; i++)
 		{
 		JString* str	= jnew JString(plot->GetCurveName(i));
-		assert(str != NULL);
+		assert(str != nullptr);
 		itsNameList->Append(str);
 
 		const JCoordinate width = 2*kHMarginWidth +
@@ -208,9 +208,9 @@ GLCurveNameList::CreateXInputField
 	s.SelectRow(cell.y);
 	Broadcast(CurveSelected(cell.y));
 
-	assert(itsInput == NULL);
+	assert(itsInput == nullptr);
 	itsInput = jnew JXInputField(this, kFixedLeft, kFixedTop, x, y, w, h);
-	assert(itsInput != NULL);
+	assert(itsInput != nullptr);
 
 	itsInput->SetText(*(itsNameList->GetElement(cell.y)));
 	itsInput->SetIsRequired();
@@ -225,7 +225,7 @@ GLCurveNameList::CreateXInputField
 void
 GLCurveNameList::PrepareDeleteXInputField()
 {
-	itsInput = NULL;
+	itsInput = nullptr;
 }
 
 /******************************************************************************
@@ -307,10 +307,10 @@ GLCurveNameList::Receive
 		{
 		const J2DPlotWidget::CurveAdded* info = 
 			dynamic_cast<const J2DPlotWidget::CurveAdded*>(&message);
-		assert(info != NULL);
+		assert(info != nullptr);
 		AppendRows(1);
 		JString* str	= jnew JString(itsPlot->GetCurveName(info->GetIndex()));
-		assert(str != NULL);
+		assert(str != nullptr);
 		itsNameList->Append(str);
 
 		const JCoordinate width = 2*kHMarginWidth +
@@ -326,7 +326,7 @@ GLCurveNameList::Receive
 		{
 		const J2DPlotWidget::CurveRemoved* info = 
 			dynamic_cast<const J2DPlotWidget::CurveRemoved*>(&message);
-		assert(info != NULL);
+		assert(info != nullptr);
 		RemoveRow(info->GetIndex());
 		itsNameList->DeleteElement(info->GetIndex());
 		TableRefresh();

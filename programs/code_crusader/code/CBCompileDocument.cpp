@@ -134,7 +134,7 @@ CBCompileDocument::SetConnection
 	CBExecOutputDocument::SetConnection(p, inFD, outFD, windowTitle,
 										dontCloseMsg, execDir, execCmd, kJFalse);
 
-	if (execCmd != NULL)
+	if (execCmd != nullptr)
 		{
 		CBTextEditor* te = GetTextEditor();
 		te->Paste(kDirMarkerStr);
@@ -213,10 +213,10 @@ CBCompileDocument::AppendText
 {
 	const JString* text = &origText;
 	JBoolean deleteText = kJFalse;
-	if (strchr(*text, kMultibyteMarker) != NULL)
+	if (strchr(*text, kMultibyteMarker) != nullptr)
 		{
 		JString* s = jnew JString(origText);
-		assert( s != NULL );
+		assert( s != nullptr );
 		text       = s;
 		deleteText = kJTrue;
 
@@ -526,7 +526,7 @@ CBCompileDocument::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleErrorMenu(selection->GetIndex());
 		}
 

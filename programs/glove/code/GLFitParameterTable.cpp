@@ -62,9 +62,9 @@ GLFitParameterTable::GLFitParameterTable
 	)
 	:
 	JXEditTable(1, kDefColWidth, scrollbarSet, enclosure, hSizing,vSizing, x,y, w,h),
-	itsInput(NULL),
+	itsInput(nullptr),
 	itsHasStartValues(kJTrue),
-	itsColHeaderWidget(NULL)
+	itsColHeaderWidget(nullptr)
 {
 	itsMinColWidth = 1;
 
@@ -73,16 +73,16 @@ GLFitParameterTable::GLFitParameterTable
 	SetDefaultRowHeight(rowHeight);
 
 	itsNameList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
-	assert(itsNameList != NULL);
+	assert(itsNameList != nullptr);
 
 	itsStartValues	= jnew JArray<JFloat>;
-	assert(itsStartValues != NULL);
+	assert(itsStartValues != nullptr);
 
 	itsFitValues	= jnew JArray<JFloat>;
-	assert(itsFitValues != NULL);
+	assert(itsFitValues != nullptr);
 
 	itsErrorValues	= jnew JArray<JFloat>;
-	assert(itsErrorValues != NULL);
+	assert(itsErrorValues != nullptr);
 
 	AppendCols(4, kDefColWidth);
 	AdjustColWidth();
@@ -263,9 +263,9 @@ GLFitParameterTable::CreateXInputField
 	const JCoordinate 	h
 	)
 {
-	assert(itsInput == NULL);
+	assert(itsInput == nullptr);
 	itsInput = jnew JXFloatInput(this, kFixedLeft, kFixedTop, x, y, w, h);
-	assert(itsInput != NULL);
+	assert(itsInput != nullptr);
 
 	itsInput->SetValue(itsStartValues->GetElement(cell.y));
 	itsInput->SetIsRequired();
@@ -280,7 +280,7 @@ GLFitParameterTable::CreateXInputField
 void
 GLFitParameterTable::PrepareDeleteXInputField()
 {
-	itsInput = NULL;
+	itsInput = nullptr;
 }
 
 /******************************************************************************

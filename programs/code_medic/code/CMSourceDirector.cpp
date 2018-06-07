@@ -139,7 +139,7 @@ CMSourceDirector::Create
 	)
 {
 	CMSourceDirector* dir = jnew CMSourceDirector(commandDir, fileOrFn, type);
-	assert( dir != NULL );
+	assert( dir != nullptr );
 	dir->CreateWindowsMenu();
 	return dir;
 }
@@ -157,8 +157,8 @@ CMSourceDirector::CMSourceDirector
 	:
 	JXWindowDirector(JXGetApplication()),
 	itsType(type),
-	itsSrcMainCmd(NULL),
-	itsGetAssemblyCmd(NULL)
+	itsSrcMainCmd(nullptr),
+	itsGetAssemblyCmd(nullptr)
 {
 	assert( IsMainSourceWindow() );
 	CMSourceViewDirectorX(commandDir);
@@ -184,8 +184,8 @@ CMSourceDirector::CMSourceDirector
 	:
 	JXWindowDirector(JXGetApplication()),
 	itsType(type),
-	itsSrcMainCmd(NULL),
-	itsGetAssemblyCmd(NULL)
+	itsSrcMainCmd(nullptr),
+	itsGetAssemblyCmd(nullptr)
 {
 	CMSourceViewDirectorX(commandDir);
 
@@ -277,27 +277,27 @@ CMSourceDirector::BuildWindow()
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 600,550, "");
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	itsMenuBar =
 		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 600,30);
-	assert( itsMenuBar != NULL );
+	assert( itsMenuBar != nullptr );
 
 	itsToolBar =
 		jnew JXToolBar(CMGetPrefsManager(), prefID, itsMenuBar, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 600,500);
-	assert( itsToolBar != NULL );
+	assert( itsToolBar != nullptr );
 
 	itsFileDisplay =
 		jnew JXFileNameDisplay("", window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 20,530, 580,20);
-	assert( itsFileDisplay != NULL );
+	assert( itsFileDisplay != nullptr );
 
 	CMFileDragSource* dragSource =
 		jnew CMFileDragSource(this, window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 0,530, 20,20);
-	assert( dragSource != NULL );
+	assert( dragSource != nullptr );
 
 // end JXLayout
 
@@ -316,7 +316,7 @@ CMSourceDirector::BuildWindow()
 
 		JXDisplay* display = GetDisplay();
 		JXImage* icon      = jnew JXImage(display, medic_current_source_window);
-		assert( icon != NULL );
+		assert( icon != nullptr );
 		window->SetIcon(icon);
 		}
 	else if (itsType == kMainAsmType)
@@ -328,7 +328,7 @@ CMSourceDirector::BuildWindow()
 
 		JXDisplay* display = GetDisplay();
 		JXImage* icon      = jnew JXImage(display, medic_current_asm_window);
-		assert( icon != NULL );
+		assert( icon != nullptr );
 		window->SetIcon(icon);
 		}
 	else if (itsType == kAsmType)
@@ -359,7 +359,7 @@ CMSourceDirector::BuildWindow()
 	JXScrollbarSet* scrollbarSet =
 		jnew JXScrollbarSet(itsToolBar->GetWidgetEnclosure(),
 						   JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 100,100);
-	assert( scrollbarSet != NULL );
+	assert( scrollbarSet != nullptr );
 	scrollbarSet->FitToEnclosure();
 
 	JXContainer* encl = scrollbarSet->GetScrollEnclosure();
@@ -369,7 +369,7 @@ CMSourceDirector::BuildWindow()
 						 JXWidget::kHElastic, JXWidget::kVElastic,
 						 kInitTableWidth, 0,
 						 encl->GetApertureWidth()-kInitTableWidth, 100);
-	assert( itsText != NULL );
+	assert( itsText != nullptr );
 	itsText->FitToEnclosure(kJFalse, kJTrue);
 	ListenTo(itsText);
 
@@ -387,7 +387,7 @@ CMSourceDirector::BuildWindow()
 								  JXWidget::kFixedLeft, JXWidget::kVElastic,
 								  0, 0, kInitTableWidth, 100);
 		}
-	assert( itsTable != NULL );
+	assert( itsTable != nullptr );
 	itsTable->FitToEnclosure(kJFalse, kJTrue);
 
 	// requires itsText
@@ -396,10 +396,10 @@ CMSourceDirector::BuildWindow()
 	ListenTo(itsDebugMenu);
 
 	itsFnMenu =
-		jnew CBFunctionMenu(NULL, kCBUnknownFT, itsText, itsMenuBar,
+		jnew CBFunctionMenu(nullptr, kCBUnknownFT, itsText, itsMenuBar,
 						   JXWidget::kFixedLeft, JXWidget::kFixedTop,
 						   0,0, 10,10);
-	assert( itsFnMenu != NULL );
+	assert( itsFnMenu != nullptr );
 	itsFnMenu->Hide();
 
 	itsPrefsMenu = itsMenuBar->AppendTextMenu(kPrefsMenuTitleStr);
@@ -530,7 +530,7 @@ CMSourceDirector::Receive
 		{
 		const CMLink::SymbolsLoaded* info =
 			dynamic_cast<const CMLink::SymbolsLoaded*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		UpdateWindowTitle(info->GetProgramName());
 		}
 	else if (IsMainSourceWindow() &&
@@ -538,7 +538,7 @@ CMSourceDirector::Receive
 		{
 		const CMLink::ProgramStopped* info =
 			dynamic_cast<const CMLink::ProgramStopped*>(&message);
-		assert( info != NULL);
+		assert( info != nullptr);
 		const CMLocation* loc;
 		const JBoolean hasFile = info->GetLocation(&loc);
 		if (itsType == kMainSourceType && hasFile)
@@ -570,7 +570,7 @@ CMSourceDirector::Receive
 		{
 		const CMLink::ProgramStopped2* info =
 			dynamic_cast<const CMLink::ProgramStopped2*>(&message);
-		assert( info != NULL);
+		assert( info != nullptr);
 		const CMLocation* loc;
 		info->GetLocation(&loc);
 		if (!loc->GetFunctionName().IsEmpty() &&
@@ -589,7 +589,7 @@ CMSourceDirector::Receive
 			  message.Is(CMLink::kCoreCleared)     ||
 			  message.Is(CMLink::kDetachedFromProcess)))
 		{
-		if (itsSrcMainCmd != NULL)
+		if (itsSrcMainCmd != nullptr)
 			{
 			itsSrcMainCmd->CMCommand::Send();
 			}
@@ -607,20 +607,20 @@ CMSourceDirector::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleFileMenu(selection->GetIndex());
 		}
 
 	else if (sender == itsDebugMenu && message.Is(JXMenu::kNeedsUpdate))
 		{
-		itsCommandDir->UpdateDebugMenu(itsDebugMenu, itsText, NULL);
+		itsCommandDir->UpdateDebugMenu(itsDebugMenu, itsText, nullptr);
 		}
 	else if (sender == itsDebugMenu && message.Is(JXMenu::kItemSelected))
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
-		itsCommandDir->HandleDebugMenu(itsDebugMenu, selection->GetIndex(), itsText, NULL);
+		assert( selection != nullptr );
+		itsCommandDir->HandleDebugMenu(itsDebugMenu, selection->GetIndex(), itsText, nullptr);
 		}
 
 	else if (sender == itsPrefsMenu && message.Is(JXMenu::kNeedsUpdate))
@@ -631,7 +631,7 @@ CMSourceDirector::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandlePrefsMenu(selection->GetIndex());
 		}
 
@@ -639,7 +639,7 @@ CMSourceDirector::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleHelpMenu(selection->GetIndex());
 		}
 
@@ -682,11 +682,11 @@ CMSourceDirector::ReceiveGoingAway
 		else if (itsType == kMainAsmType)
 			{
 			jdelete itsGetAssemblyCmd;
-			itsGetAssemblyCmd = NULL;
+			itsGetAssemblyCmd = nullptr;
 			}
 
 		CMClearSourceDisplayTask* task = jnew CMClearSourceDisplayTask(this);
-		assert( task != NULL );
+		assert( task != nullptr );
 		task->Go();
 		}
 	else if (sender == itsLink && !CMIsShuttingDown())
@@ -717,7 +717,7 @@ CMSourceDirector::DisplayFile
 	if (!itsCurrentFile.IsEmpty() && JSameDirEntry(fileName, itsCurrentFile))
 		{
 		DisplayLine(lineNumber, markLine);
-		UpdateWindowTitle(NULL);
+		UpdateWindowTitle(nullptr);
 		}
 	else if (JFileReadable(fileName))
 		{
@@ -746,7 +746,7 @@ CMSourceDirector::DisplayFile
 		itsFileDisplay->SetText(itsCurrentFile);
 
 		UpdateFileType();
-		UpdateWindowTitle(NULL);
+		UpdateWindowTitle(nullptr);
 		}
 }
 
@@ -779,24 +779,24 @@ CMSourceDirector::DisplayDisassembly
 			itsTable->SetCurrentLine(0);
 			}
 
-		UpdateWindowTitle(NULL);
+		UpdateWindowTitle(nullptr);
 		}
 	else
 		{
 		itsCurrentFn = fnName;
 
-		if (itsGetAssemblyCmd == NULL)
+		if (itsGetAssemblyCmd == nullptr)
 			{
 			itsGetAssemblyCmd = (CMGetLink())->CreateGetAssembly(this);
 			}
 
-		if (itsGetAssemblyCmd != NULL)
+		if (itsGetAssemblyCmd != nullptr)
 			{
 			itsAsmLocation = loc;
 			itsGetAssemblyCmd->Send();
 			}
 
-		UpdateWindowTitle(NULL);
+		UpdateWindowTitle(nullptr);
 		}
 }
 
@@ -864,7 +864,7 @@ void
 CMSourceDirector::ClearDisplay()
 {
 	CMLineAddressTable* table = dynamic_cast<CMLineAddressTable*>(itsTable);
-	if (table != NULL)
+	if (table != nullptr)
 		{
 		table->ClearLineNumbers();
 		}
@@ -872,7 +872,7 @@ CMSourceDirector::ClearDisplay()
 	itsFileDisplay->SetText("");
 	itsCurrentFile.Clear();
 	itsCurrentFn.Clear();
-	UpdateWindowTitle(NULL);
+	UpdateWindowTitle(nullptr);
 
 	UpdateFileType();
 }
@@ -920,7 +920,7 @@ CMSourceDirector::UpdateFileType()
 /******************************************************************************
  UpdateWindowTitle (private)
 
-	binaryName can be NULL
+	binaryName can be nullptr
 
  ******************************************************************************/
 
@@ -955,7 +955,7 @@ CMSourceDirector::UpdateWindowTitle
 		// Save prefix with binary name since we will be called when file
 		// name changes, too.
 
-		if (binaryName != NULL)
+		if (binaryName != nullptr)
 			{
 			itsWindowTitlePrefix  = binaryName;
 			itsWindowTitlePrefix += prefix;
@@ -1101,7 +1101,7 @@ CMSourceDirector::HandlePrefsMenu
 	else if (index == kEditCmdsCmd)
 		{
 		CMEditCommandsDialog* dlog = jnew CMEditCommandsDialog;
-		assert(dlog != NULL);
+		assert(dlog != nullptr);
 		dlog->BeginDialog();
 		}
 	else if (index == kEditMacWinPrefsCmd)

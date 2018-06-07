@@ -39,7 +39,7 @@ JXTextButton::JXTextButton
 	itsLabel(label),
 	itsFont(GetFontManager()->GetDefaultFont())
 {
-	itsShortcuts = NULL;
+	itsShortcuts = nullptr;
 	itsULIndex   = 0;
 
 	itsPushedColor = JColorManager::GetDefaultBackColor();
@@ -102,15 +102,15 @@ JXTextButton::SetShortcuts
 	if (list.IsEmpty())
 		{
 		jdelete itsShortcuts;
-		itsShortcuts = NULL;
+		itsShortcuts = nullptr;
 		itsULIndex   = 0;
 		}
 	else
 		{
-		if (itsShortcuts == NULL)
+		if (itsShortcuts == nullptr)
 			{
 			itsShortcuts = jnew JString(list);
-			assert( itsShortcuts != NULL );
+			assert( itsShortcuts != nullptr );
 			}
 		else
 			{
@@ -129,7 +129,7 @@ JXTextButton::SetShortcuts
 void
 JXTextButton::CalcULIndex()
 {
-	if (itsShortcuts != NULL)
+	if (itsShortcuts != nullptr)
 		{
 		JString s = *itsShortcuts;
 		{

@@ -142,7 +142,7 @@ CBPHPClass::ViewDefinition
 		// We need to use a multi-line regex to find the constructor
 		// instead of the class name.
 
-		CBTextDocument* doc = NULL;
+		CBTextDocument* doc = nullptr;
 		if (docMgr->OpenTextDocument(fileName, 0, &doc))
 			{
 			JString p = "\\b";
@@ -216,7 +216,7 @@ CBPHPClass::NewGhost
 {
 	CBPHPClass* newClass = jnew CBPHPClass(name, kGhostType, JFAID::kInvalidID, tree,
 										  kJFalse);
-	assert( newClass != NULL );
+	assert( newClass != nullptr );
 	return newClass;
 }
 

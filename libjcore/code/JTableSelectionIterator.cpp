@@ -296,7 +296,7 @@ JTableSelectionIterator::MoveTo
 	const JPoint&			cell
 	)
 {
-	if (itsTableSelection == NULL)
+	if (itsTableSelection == nullptr)
 		{
 		return;
 		}
@@ -346,7 +346,7 @@ JBoolean
 JTableSelectionIterator::AtBeginning()
 {
 	return JI2B( (!itsAtEndFlag && itsCursor.x <= 1 && itsCursor.y <= 1) ||
-				 itsTableSelection == NULL ||
+				 itsTableSelection == nullptr ||
 				 itsTableSelection->GetRowCount() == 0 ||
 				 itsTableSelection->GetColCount() == 0 );
 }
@@ -363,7 +363,7 @@ JBoolean
 JTableSelectionIterator::AtEnd()
 {
 	return JI2B( itsAtEndFlag ||
-				 itsTableSelection == NULL ||
+				 itsTableSelection == nullptr ||
 				 itsTableSelection->GetRowCount() == 0 ||
 				 itsTableSelection->GetColCount() == 0 );
 }
@@ -394,7 +394,7 @@ JTableSelectionIterator::Receive
 		{
 		const JTableData::RowsInserted* info =
 			dynamic_cast<const JTableData::RowsInserted*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		info->AdjustCell(&itsCursor);
 		}
 
@@ -402,7 +402,7 @@ JTableSelectionIterator::Receive
 		{
 		const JTableData::RowDuplicated* info =
 			dynamic_cast<const JTableData::RowDuplicated*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		info->AdjustCell(&itsCursor);
 		}
 
@@ -410,7 +410,7 @@ JTableSelectionIterator::Receive
 		{
 		const JTableData::RowsRemoved* info =
 			dynamic_cast<const JTableData::RowsRemoved*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		JPoint newCursor = itsCursor;
 		if (info->AdjustCell(&newCursor))
 			{
@@ -439,7 +439,7 @@ JTableSelectionIterator::Receive
 		{
 		const JTableData::ColsInserted* info =
 			dynamic_cast<const JTableData::ColsInserted*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		info->AdjustCell(&itsCursor);
 		}
 
@@ -447,7 +447,7 @@ JTableSelectionIterator::Receive
 		{
 		const JTableData::ColDuplicated* info =
 			dynamic_cast<const JTableData::ColDuplicated*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		info->AdjustCell(&itsCursor);
 		}
 
@@ -455,7 +455,7 @@ JTableSelectionIterator::Receive
 		{
 		const JTableData::ColsRemoved* info =
 			dynamic_cast<const JTableData::ColsRemoved*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		JPoint newCursor = itsCursor;
 		if (info->AdjustCell(&newCursor))
 			{
@@ -492,7 +492,7 @@ JTableSelectionIterator::ReceiveGoingAway
 {
 	if (sender == const_cast<JTableSelection*>(itsTableSelection))
 		{
-		itsTableSelection = NULL;
+		itsTableSelection = nullptr;
 		itsCursor         = JPoint(1,1);
 		}
 }

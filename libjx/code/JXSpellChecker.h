@@ -75,7 +75,7 @@ inline JBoolean
 JXSpellChecker::IsAvailable()
 	const
 {
-	return JI2B(itsProcess != NULL);
+	return JI2B(itsProcess != nullptr);
 }
 
 /******************************************************************************

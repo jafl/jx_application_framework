@@ -75,14 +75,14 @@ JIndex i,j;
 
 	itsSizeMenu = jnew JXFontSizeMenu(JFontManager::GetDefaultFontName(), JGetString("SizeMenuTitle::TestFloatTable"),
 									  menuBar, kFixedLeft, kFixedTop, 0,0, 10,10);
-	assert( itsSizeMenu != NULL );
+	assert( itsSizeMenu != nullptr );
 	menuBar->AppendMenu(itsSizeMenu);
 	ListenTo(itsSizeMenu);
 
 	itsStyleMenu =
 		jnew JXStyleTableMenu(this, menuBar,
 							 kFixedLeft, kFixedTop, 0,0, 10,10);
-	assert( itsStyleMenu != NULL );
+	assert( itsStyleMenu != nullptr );
 	menuBar->AppendMenu(itsStyleMenu);
 
 	const JFont& font = GetFont();
@@ -240,7 +240,7 @@ TestFloatTable::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleTableMenu(selection->GetIndex());
 		}
 

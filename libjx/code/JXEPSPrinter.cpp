@@ -38,10 +38,10 @@ JXEPSPrinter::JXEPSPrinter
 {
 	itsDisplay = display;
 
-	itsPreviewImage   = NULL;
-	itsPreviewPainter = NULL;
+	itsPreviewImage   = nullptr;
+	itsPreviewPainter = nullptr;
 
-	itsPrintSetupDialog = NULL;
+	itsPrintSetupDialog = nullptr;
 }
 
 /******************************************************************************
@@ -112,7 +112,7 @@ JXEPSPrinter::GetPreviewPainter
 	itsPreviewImage =
 		jnew JXImage(itsDisplay, bounds.width(), bounds.height(),
 					 JColorManager::GetWhiteColor());
-	assert( itsPreviewImage != NULL );
+	assert( itsPreviewImage != nullptr );
 
 	itsPreviewPainter = itsPreviewImage->CreatePainter();
 	itsPreviewPainter->SetOrigin(-bounds.left, -bounds.top);
@@ -132,14 +132,14 @@ JXEPSPrinter::GetPreviewImage
 	)
 	const
 {
-	if (itsPreviewImage != NULL)
+	if (itsPreviewImage != nullptr)
 		{
 		*image = itsPreviewImage;
 		return kJTrue;
 		}
 	else
 		{
-		*image = NULL;
+		*image = nullptr;
 		return kJFalse;
 		}
 }
@@ -153,10 +153,10 @@ void
 JXEPSPrinter::DeletePreviewData()
 {
 	jdelete itsPreviewPainter;
-	itsPreviewPainter = NULL;
+	itsPreviewPainter = nullptr;
 
 	jdelete itsPreviewImage;
-	itsPreviewImage = NULL;
+	itsPreviewImage = nullptr;
 }
 
 /******************************************************************************
@@ -170,7 +170,7 @@ JXEPSPrinter::DeletePreviewData()
 void
 JXEPSPrinter::BeginUserPrintSetup()
 {
-	assert( itsPrintSetupDialog == NULL );
+	assert( itsPrintSetupDialog == nullptr );
 
 	itsPrintSetupDialog =
 		CreatePrintSetupDialog(GetOutputFileName(),
@@ -213,19 +213,19 @@ JXEPSPrinter::EndUserPrintSetup
 	JBoolean*						changed
 	)
 {
-	assert( itsPrintSetupDialog != NULL );
+	assert( itsPrintSetupDialog != nullptr );
 	assert( message.Is(JXDialogDirector::kDeactivated) );
 
 	const JXDialogDirector::Deactivated* info =
 		dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-	assert( info != NULL );
+	assert( info != nullptr );
 
 	if (info->Successful())
 		{
 		*changed = itsPrintSetupDialog->SetParameters(this);
 		}
 
-	itsPrintSetupDialog = NULL;
+	itsPrintSetupDialog = nullptr;
 	return info->Successful();
 }
 

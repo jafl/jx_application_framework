@@ -30,7 +30,7 @@ void
 CBDirList::CBDirListX()
 {
 	itsDirList = jnew CBDirInfoList;
-	assert( itsDirList != NULL );
+	assert( itsDirList != nullptr );
 	itsDirList->SetSortOrder(JListT::kSortAscending);
 	itsDirList->SetCompareFunction(CBDirInfo::ComparePathNames);
 
@@ -179,7 +179,7 @@ CBDirList::AddPath
 	)
 {
 	CBDirInfo info(jnew JString(path), recurse);
-	assert( info.path != NULL );
+	assert( info.path != nullptr );
 	itsDirList->InsertSorted(info);
 }
 

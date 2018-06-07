@@ -39,7 +39,7 @@ JAsynchDataReceiver<ACE_PEER_STREAM_2>::JAsynchDataReceiver
 	JAsynchDataReceiverX();
 
 	ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH>::set_handle(fd);
-	ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH>::open(NULL);
+	ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH>::open(nullptr);
 }
 
 // private
@@ -51,7 +51,7 @@ JAsynchDataReceiver<ACE_PEER_STREAM_2>::JAsynchDataReceiverX()
 	itsBufferSize = JAsynchDataReceiverT::kDefaultBufferSize;
 
 	itsBuffer = jnew JUtf8Byte [ itsBufferSize ];
-	assert( itsBuffer != NULL );
+	assert( itsBuffer != nullptr );
 
 	itsInHandleInputFlag = kJFalse;
 }
@@ -95,7 +95,7 @@ JAsynchDataReceiver<ACE_PEER_STREAM_2>::SetBufferSize
 
 	jdelete [] itsBuffer;
 	itsBuffer = jnew JUtf8Byte [ itsBufferSize ];
-	assert( itsBuffer != NULL );
+	assert( itsBuffer != nullptr );
 }
 
 /******************************************************************************

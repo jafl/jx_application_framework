@@ -39,10 +39,10 @@ TestFEditDirector::TestFEditDirector
 	JXWindowDirector(supervisor)
 {
 	itsInput = jnew std::ifstream(fileName);
-	assert( itsInput != NULL );
+	assert( itsInput != nullptr );
 
 	itsVarList = jnew TestVarList(*itsInput);
-	assert( itsVarList != NULL );
+	assert( itsVarList != nullptr );
 
 	itsUseComplexFlag = useComplex;
 
@@ -75,32 +75,32 @@ TestFEditDirector::BuildWindow
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 500,290, JString::empty);
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	JXExprEditorSet* exprEditorSet =
 		jnew JXExprEditorSet(varList, &itsExprWidget, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 500,260);
-	assert( exprEditorSet != NULL );
+	assert( exprEditorSet != nullptr );
 
 	itsDoneButton =
 		jnew JXTextButton(JGetString("itsDoneButton::TestFEditDirector::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,0, 50,30);
-	assert( itsDoneButton != NULL );
+	assert( itsDoneButton != nullptr );
 
 	itsNextButton =
 		jnew JXTextButton(JGetString("itsNextButton::TestFEditDirector::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 60,0, 50,30);
-	assert( itsNextButton != NULL );
+	assert( itsNextButton != nullptr );
 
 	itsEvalButton =
 		jnew JXTextButton(JGetString("itsEvalButton::TestFEditDirector::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 120,0, 70,30);
-	assert( itsEvalButton != NULL );
+	assert( itsEvalButton != nullptr );
 
 	JXInputField* inputField =
 		jnew JXInputField(window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 240,0, 260,20);
-	assert( inputField != NULL );
+	assert( inputField != nullptr );
 
 // end JXLayout
 
@@ -162,12 +162,12 @@ TestFEditDirector::GetNextFunction()
 		}
 
 	JBoolean expectedOK;
-	JFunction* theFunction = NULL;
+	JFunction* theFunction = nullptr;
 
 	if (itsUseComplexFlag)
 		{
 		JComplex expectedResult;
-		while (theFunction == NULL)
+		while (theFunction == nullptr)
 			{
 			*itsInput >> expectedOK;
 			*itsInput >> expectedResult;
@@ -189,7 +189,7 @@ TestFEditDirector::GetNextFunction()
 	else
 		{
 		JFloat expectedResult;
-		while (theFunction == NULL)
+		while (theFunction == nullptr)
 			{
 			*itsInput >> expectedOK;
 			*itsInput >> expectedResult;

@@ -60,7 +60,7 @@ CBProjectTableInput::HandleKeyPress
 	const JXKeyModifiers&	modifiers
 	)
 {
-	if (itsProjectTable != NULL &&
+	if (itsProjectTable != nullptr &&
 		(key == '\r' || key == '\n') &&
 		!modifiers.meta() && !modifiers.shift())
 		{

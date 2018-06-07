@@ -34,7 +34,7 @@ SyGPathInput::SyGPathInput
 	:
 	JXPathInput(enclosure, hSizing, vSizing, x,y, w,h)
 {
-	itsDirList = NULL;
+	itsDirList = nullptr;
 }
 
 /******************************************************************************

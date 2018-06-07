@@ -45,7 +45,7 @@ CMFileDragSource::CMFileDragSource
 	itsDoc(doc)
 {
 	JXImage* icon = jnew JXImage(GetDisplay(), jx_plain_file_small);
-	assert( icon != NULL );
+	assert( icon != nullptr );
 	SetImage(icon, kJTrue);
 
 	SetHint(kHintText);
@@ -110,7 +110,7 @@ CMFileDragSource::HandleMouseDown
 		list.Append(const_cast<JString*>(fileName));
 
 		JXFileSelection* data = jnew JXFileSelection(GetDisplay(), list);
-		assert( data != NULL );
+		assert( data != nullptr );
 
 		BeginDND(pt, buttonStates, modifiers, data);
 		}

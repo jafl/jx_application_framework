@@ -194,7 +194,7 @@ CMPlot2DExprTable::CreateStringTableInput
 	const JCoordinate	h
 	)
 {
-	JXInputField* obj = NULL;
+	JXInputField* obj = nullptr;
 	if (cell.x == kRangeMinColIndex || cell.x == kRangeMaxColIndex)
 		{
 		obj = jnew JXIntegerInput(enclosure, hSizing, vSizing, x,y, w,h);
@@ -204,6 +204,6 @@ CMPlot2DExprTable::CreateStringTableInput
 		obj = jnew JXInputField(enclosure, hSizing, vSizing, x,y, w,h);
 		}
 
-	assert( obj != NULL );
+	assert( obj != nullptr );
 	return obj;
 }

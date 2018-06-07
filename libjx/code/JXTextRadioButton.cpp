@@ -42,7 +42,7 @@ JXTextRadioButton::JXTextRadioButton
 	itsLabel(label),
 	itsFont(GetFontManager()->GetDefaultFont())
 {
-	itsShortcuts = NULL;
+	itsShortcuts = nullptr;
 	itsULIndex   = 0;
 
 	itsNormalColor = JColorManager::GetDefaultBackColor();

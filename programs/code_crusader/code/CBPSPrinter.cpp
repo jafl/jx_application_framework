@@ -37,8 +37,8 @@ CBPSPrinter::CBPSPrinter
 	JPrefObject(CBGetPrefsManager(), kCBPrintStyledTextID)
 {
 	itsFontSize           = kUnsetFontSize;
-	itsTE                 = NULL;
-	itsCBPrintSetupDialog = NULL;
+	itsTE                 = nullptr;
+	itsCBPrintSetupDialog = nullptr;
 
 	JPrefObject::ReadPrefs();
 }
@@ -72,7 +72,7 @@ CBPSPrinter::CreatePrintSetupDialog
 	const JBoolean		bw
 	)
 {
-	assert( itsCBPrintSetupDialog == NULL );
+	assert( itsCBPrintSetupDialog == nullptr );
 
 	if (itsFontSize == kUnsetFontSize)
 		{
@@ -111,7 +111,7 @@ CBPSPrinter::EndUserPrintSetup
 	JBoolean*						changed
 	)
 {
-	assert( itsCBPrintSetupDialog != NULL );
+	assert( itsCBPrintSetupDialog != nullptr );
 
 	const JBoolean ok = JXPSPrinter::EndUserPrintSetup(message, changed);
 	if (ok)
@@ -128,7 +128,7 @@ CBPSPrinter::EndUserPrintSetup
 		(CBGetPTTextPrinter())->ShouldPrintHeader(printHeader);
 		}
 
-	itsCBPrintSetupDialog = NULL;
+	itsCBPrintSetupDialog = nullptr;
 	return ok;
 }
 
@@ -185,7 +185,7 @@ CBPSPrinter::WritePrefs
 JBoolean
 CBPSPrinter::OpenDocument()
 {
-	assert( itsTE != NULL );
+	assert( itsTE != nullptr );
 
 	(JXGetApplication())->DisplayBusyCursor();	// changing font can take a while
 
@@ -211,11 +211,11 @@ CBPSPrinter::OpenDocument()
 void
 CBPSPrinter::CloseDocument()
 {
-	assert( itsTE != NULL );
+	assert( itsTE != nullptr );
 
 	JXPSPrinter::CloseDocument();
 	itsTE->ResetFontAfterPrintPS();
-	itsTE = NULL;
+	itsTE = nullptr;
 }
 
 /******************************************************************************
@@ -228,9 +228,9 @@ CBPSPrinter::CloseDocument()
 void
 CBPSPrinter::CancelDocument()
 {
-	assert( itsTE != NULL );
+	assert( itsTE != nullptr );
 
 	JXPSPrinter::CancelDocument();
 	itsTE->ResetFontAfterPrintPS();
-	itsTE = NULL;
+	itsTE = nullptr;
 }

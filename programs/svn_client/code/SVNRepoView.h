@@ -115,7 +115,7 @@ private:
 	JXTimerTask*		itsRefreshTask;		// refresh every minute to update age
 	JColorID			itsAltRowColor;
 	JXTextMenu*			itsEditMenu;		// not owned
-	JXTextMenu*			itsContextMenu;		// NULL until first used
+	JXTextMenu*			itsContextMenu;		// nullptr until first used
 
 	SVNCreateRepoDirectoryDialog*	itsCreateDirectoryDialog;
 	SVNDuplicateRepoItemDialog*		itsDuplicateItemDialog;
@@ -146,7 +146,7 @@ private:
 	// delayed editing
 
 	JBoolean				itsWaitingToEditFlag;
-	SVNBeginEditingTask*	itsEditTask;	// NULL unless waiting to edit
+	SVNBeginEditingTask*	itsEditTask;	// nullptr unless waiting to edit
 	JPoint					itsEditCell;
 	SVNRepoTreeNode*		itsSortNode;	// sort when mouse released
 

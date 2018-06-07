@@ -42,7 +42,7 @@ CMInitVarNodeTask::~CMInitVarNodeTask()
 void
 CMInitVarNodeTask::Perform()
 {
-	if (itsNode != NULL)
+	if (itsNode != nullptr)
 		{
 		itsNode->NameChanged();
 		}

@@ -73,29 +73,29 @@ JXGetStringDialog::BuildWindow
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 310,110, JString::empty);
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	JXTextButton* okButton =
 		jnew JXTextButton(JGetString("okButton::JXGetStringDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 190,80, 60,20);
-	assert( okButton != NULL );
+	assert( okButton != nullptr );
 	okButton->SetShortcuts(JGetString("okButton::JXGetStringDialog::shortcuts::JXLayout"));
 
 	JXTextButton* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::JXGetStringDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 60,80, 60,20);
-	assert( cancelButton != NULL );
+	assert( cancelButton != nullptr );
 	cancelButton->SetShortcuts(JGetString("cancelButton::JXGetStringDialog::shortcuts::JXLayout"));
 
 	itsInputField =
 		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 20,40, 270,20);
-	assert( itsInputField != NULL );
+	assert( itsInputField != nullptr );
 
 	JXStaticText* promptDisplay =
 		jnew JXStaticText(JGetString("promptDisplay::JXGetStringDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 20,20, 270,20);
-	assert( promptDisplay != NULL );
+	assert( promptDisplay != nullptr );
 	promptDisplay->SetToLabel();
 
 // end JXLayout
@@ -113,7 +113,7 @@ JXGetStringDialog::BuildWindow
 			jnew JXPasswordInput(window,
 				JXWidget::kHElastic, JXWidget::kFixedTop,
 				r.left, r.top, r.width(), r.height());
-		assert( itsInputField != NULL );
+		assert( itsInputField != nullptr );
 		}
 	else if (!initialValue.IsEmpty())
 		{

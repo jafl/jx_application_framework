@@ -28,7 +28,7 @@ JMMTable::JMMTable
 	:
 	itsManager(manager)
 {
-	assert(itsManager != NULL);
+	assert(itsManager != nullptr);
 }
 
 /******************************************************************************
@@ -246,7 +246,7 @@ JMMTable::PrintAllocatedRecord
 	std::cout << "\n        New method: " << record.NewTypeName();
 	std::cout << "\n         New'ed at: " << record.GetNewFile() << ":" << record.GetNewLine();
 	std::cout << "\n      Verification: ";
-	if (record.GetDeleteFile() != NULL || record.GetDeleteLine() != 0)
+	if (record.GetDeleteFile() != nullptr || record.GetDeleteLine() != 0)
 		{
 		std::cout << "*** manager error: allocated status inconsistent, possibly not really allocated";
 		}

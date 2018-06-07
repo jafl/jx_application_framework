@@ -46,10 +46,10 @@ GLVarTable::GLVarTable
 	SetDefaultRowHeight(rowHeight);
 
 	itsVarList   = varList;
-	itsTextInput = NULL;
+	itsTextInput = nullptr;
 
 	itsOrigText = jnew JString;
-	assert( itsOrigText != NULL );
+	assert( itsOrigText != nullptr );
 
 	AppendCols(1);
 
@@ -186,10 +186,10 @@ GLVarTable::CreateXInputField
 	const JCoordinate	h
 	)
 {
-	assert( itsTextInput == NULL );
+	assert( itsTextInput == nullptr );
 
 	itsTextInput = jnew JXExprInput(this, kFixedLeft, kFixedTop, x,y, w,h);
-	assert( itsTextInput != NULL );
+	assert( itsTextInput != nullptr );
 
 	const JIndex varIndex = cell.y + kUserParmsOffset;
 	itsTextInput->SetVarName(itsVarList->GetVariableName(varIndex));
@@ -211,7 +211,7 @@ GLVarTable::ExtractInputData
 	const JPoint& cell
 	)
 {
-	assert( itsTextInput != NULL );
+	assert( itsTextInput != nullptr );
 
 	const JString s = itsTextInput->GetVarName();
 	if (s == *itsOrigText)
@@ -238,7 +238,7 @@ GLVarTable::ExtractInputData
 void
 GLVarTable::PrepareDeleteXInputField()
 {
-	itsTextInput = NULL;
+	itsTextInput = nullptr;
 }
 
 /******************************************************************************

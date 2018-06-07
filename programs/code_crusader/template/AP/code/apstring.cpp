@@ -39,7 +39,7 @@ apstring::apstring(const char * s)
 //precondition:  s is '\0'-terminated string as used in C
 //postcondition: copy of s has been constructed
 {
-    assert (s != 0);               // C-string not NULL?
+    assert (s != 0);               // C-string not nullptr?
 
     myLength = strlen(s);
     myCapacity = myLength + 1;      // make room for '\0'
@@ -89,7 +89,7 @@ const apstring& apstring::operator = (const char * s)
 {
 
     int len = 0;                         // length of newly constructed string
-    assert(s != 0);                      // make sure s non-NULL
+    assert(s != 0);                      // make sure s non-nullptr
     len = strlen(s); // # of characters in string
 
     // free old string if necessary

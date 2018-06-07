@@ -65,13 +65,13 @@ JFSBindingList::Create
 		if ((JCreateDirectory(path, 0700)).OK() && JDirectoryWritable(path))
 			{
 			JFSBindingList* list = jnew JFSBindingList(signalFileName, needUserCheck);
-			assert( list != NULL );
+			assert( list != nullptr );
 			return list;
 			}
 		}
 
 	JFSBindingList* list = jnew JFSBindingList("", needUserCheck);
-	assert( list != NULL );
+	assert( list != nullptr );
 	return list;
 }
 
@@ -88,19 +88,19 @@ JFSBindingList::JFSBindingList
 	:
 	JContainer(),
 	itsUseDefaultFlag(kJFalse),
-	itsUserDefault(NULL),
-	itsSystemDefault(NULL),
+	itsUserDefault(nullptr),
+	itsSystemDefault(nullptr),
 	itsShellCmd(kDefaultShellCmd),
 	itsWindowCmd(kDefaultWindowCmd),
 	itsAutoShellFlag(kJFalse),
 	itsSignalFileName(signalFileName)
 {
 	itsBindingList = jnew JPtrArray<JFSBinding>(JPtrArrayT::kDeleteAll);
-	assert( itsBindingList != NULL );
+	assert( itsBindingList != nullptr );
 	itsBindingList->SetCompareFunction(JFSBinding::ComparePatterns);
 
 	itsOverriddenList = jnew JPtrArray<JFSBinding>(JPtrArrayT::kDeleteAll);
-	assert( itsOverriddenList != NULL );
+	assert( itsOverriddenList != nullptr );
 	itsOverriddenList->SetCompareFunction(JFSBinding::ComparePatterns);
 
 	InstallOrderedSet(itsBindingList);
@@ -140,7 +140,7 @@ JFSBindingList::AddBinding
 	)
 {
 	JFSBinding* b = jnew JFSBinding(pattern, cmd, type, singleFile, isSystem);
-	assert( b != NULL );
+	assert( b != nullptr );
 	return AddBinding(b);
 }
 
@@ -207,7 +207,7 @@ JFSBindingList::DeleteBinding
 		itsOverriddenList->SearchSorted(b, JListT::kLastMatch, &fIndex);
 
 	itsBindingList->DeleteElement(index);
-	b = NULL;
+	b = nullptr;
 
 	if (found)
 		{
@@ -403,7 +403,7 @@ JFSBindingList::SetCommand
 	)
 {
 	JFSBinding* b = jnew JFSBinding(pattern, cmd, type, singleFile, kJFalse);
-	assert( b != NULL );
+	assert( b != nullptr );
 
 	JIndex index;
 	if (itsBindingList->SearchSorted(b, JListT::kLastMatch, &index) &&
@@ -428,13 +428,13 @@ const JFSBinding*
 JFSBindingList::GetDefaultCommand()
 	const
 {
-	if (itsUserDefault != NULL)
+	if (itsUserDefault != nullptr)
 		{
 		return itsUserDefault;
 		}
 	else
 		{
-		assert( itsSystemDefault != NULL );
+		assert( itsSystemDefault != nullptr );
 		return itsSystemDefault;
 		}
 }
@@ -452,10 +452,10 @@ JFSBindingList::SetDefaultCommand
 	const JBoolean					singleFile
 	)
 {
-	if (itsUserDefault == NULL)
+	if (itsUserDefault == nullptr)
 		{
 		itsUserDefault = jnew JFSBinding("", cmd, type, singleFile, kJFalse);
-		assert( itsUserDefault != NULL );
+		assert( itsUserDefault != nullptr );
 		}
 	else
 		{
@@ -504,19 +504,19 @@ JFSBindingList::GetBinding
 			}
 		}
 
-	if (itsUseDefaultFlag && itsUserDefault != NULL)
+	if (itsUseDefaultFlag && itsUserDefault != nullptr)
 		{
 		*binding = itsUserDefault;
 		return kJTrue;
 		}
 
-	if (itsUseDefaultFlag && itsSystemDefault != NULL)
+	if (itsUseDefaultFlag && itsSystemDefault != nullptr)
 		{
 		*binding = itsSystemDefault;
 		return kJTrue;
 		}
 
-	*binding = NULL;
+	*binding = nullptr;
 	return kJFalse;
 }
 
@@ -602,10 +602,10 @@ JFSBindingList::Revert()
 	itsOverriddenList->CleanOut();
 
 	jdelete itsUserDefault;
-	itsUserDefault = NULL;
+	itsUserDefault = nullptr;
 
 	jdelete itsSystemDefault;
-	itsSystemDefault = NULL;
+	itsSystemDefault = nullptr;
 
 	// read system bindings
 
@@ -618,7 +618,7 @@ JFSBindingList::Revert()
 
 	// read user bindings
 
-	JPrefsFile* file = NULL;
+	JPrefsFile* file = nullptr;
 	if (!itsSignalFileName.IsEmpty() &&
 		(JPrefsFile::Create(kUserExtensionBindingRoot, &file,
 							JFileArray::kDeleteIfWaitTimeout)).OK())
@@ -679,7 +679,7 @@ JFSBindingList::Revert()
 
 	// ensure that GetDefaultCommand() will work
 
-	if (itsUserDefault == NULL && itsSystemDefault == NULL)
+	if (itsUserDefault == nullptr && itsSystemDefault == nullptr)
 		{
 		SetDefaultCommand(kDefaultCmd, kDefaultCmdType, kDefaultSingleFile);
 		}
@@ -734,7 +734,7 @@ JFSBindingList::Load
 		{
 		JBoolean isDefault, del;
 		JFSBinding* b = jnew JFSBinding(input, vers, isSystem, &isDefault, &del);
-		assert( b != NULL );
+		assert( b != nullptr );
 
 		if (input.eof() || input.fail())
 			{
@@ -765,7 +765,7 @@ JFSBindingList::Load
 JError
 JFSBindingList::Save()
 {
-	JPrefsFile* file = NULL;
+	JPrefsFile* file = nullptr;
 	const JError err = JPrefsFile::Create(kUserExtensionBindingRoot, &file,
 										  JFileArray::kDeleteIfWaitTimeout);
 	if (err.OK())
@@ -778,7 +778,7 @@ JFSBindingList::Save()
 		data << ' ' << itsWindowCmd;
 		data << '\n';
 
-		if (itsUserDefault != NULL)
+		if (itsUserDefault != nullptr)
 			{
 			data << *itsUserDefault << '\n';
 			}

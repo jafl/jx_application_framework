@@ -87,7 +87,7 @@ private:
 
 	JXImage*	itsXPMImage;
 	JXImage*	itsPartialXPMImage;
-	JXImage*	itsImageBuffer;		// can be NULL
+	JXImage*	itsImageBuffer;		// can be nullptr
 
 	JXImage*	itsHomeImage;
 	JRect		itsHomeRect;
@@ -102,7 +102,7 @@ private:
 	// owned by JXContainer
 
 	JXTextButton*	itsAnimButton;
-	JXTextButton*	itsQuitButton;		// can be NULL
+	JXTextButton*	itsQuitButton;		// can be nullptr
 	JXTextMenu*		itsSecretMenu;
 	JXTextMenu*		itsSecretSubmenu;
 

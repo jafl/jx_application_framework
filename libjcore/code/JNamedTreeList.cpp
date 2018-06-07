@@ -28,7 +28,7 @@ JNamedTreeList::JNamedTreeList
 	JTreeList(tree)
 {
 	itsSortedNodeList = jnew JPtrArray<JTreeNode>(JPtrArrayT::kForgetAll);
-	assert( itsSortedNodeList != NULL );
+	assert( itsSortedNodeList != nullptr );
 	itsSortedNodeList->SetSortOrder(JListT::kSortAscending);
 	itsSortedNodeList->SetCompareFunction(JNamedTreeNode::DynamicCastCompareNames);
 
@@ -61,7 +61,7 @@ JNamedTreeList::GetNamedNode
 	)
 {
 	JNamedTreeNode* node = dynamic_cast<JNamedTreeNode*>(GetNode(index));
-	assert( node != NULL );
+	assert( node != nullptr );
 	return node;
 }
 
@@ -73,7 +73,7 @@ JNamedTreeList::GetNamedNode
 	const
 {
 	const JNamedTreeNode* node = dynamic_cast<const JNamedTreeNode*>(GetNode(index));
-	assert( node != NULL );
+	assert( node != nullptr );
 	return node;
 }
 
@@ -123,7 +123,7 @@ JNamedTreeList::Find
 	)
 	const
 {
-	JNamedTreeNode target(NULL, name);
+	JNamedTreeNode target(nullptr, name);
 	if (itsSortedNodeList->SearchSorted(&target, JListT::kFirstMatch, index))
 		{
 		const JBoolean found = FindNode(itsSortedNodeList->GetElement(*index), index);
@@ -154,7 +154,7 @@ JNamedTreeList::ClosestMatch
 {
 	itsSortedNodeList->SetCompareFunction(JNamedTreeNode::DynamicCastCompareNamesForIncrSearch);
 
-	JNamedTreeNode target(NULL, prefixStr);
+	JNamedTreeNode target(nullptr, prefixStr);
 	JBoolean found;
 	*index = itsSortedNodeList->SearchSorted1(&target, JListT::kFirstMatch, &found);
 	if (*index > itsSortedNodeList->GetElementCount())		// insert beyond end of list
@@ -192,7 +192,7 @@ JNamedTreeList::Receive
 		{
 		const NodeInserted* info =
 			dynamic_cast<const NodeInserted*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		itsSortedNodeList->InsertSorted(const_cast<JTreeNode*>(info->GetNode()));
 		}
 
@@ -200,7 +200,7 @@ JNamedTreeList::Receive
 		{
 		const NodeRemoved* info =
 			dynamic_cast<const NodeRemoved*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		itsSortedNodeList->Remove(info->GetNode());
 		}
 
@@ -208,7 +208,7 @@ JNamedTreeList::Receive
 		{
 		const NodeChanged* info =
 			dynamic_cast<const NodeChanged*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		itsSortedNodeList->Remove(info->GetNode());
 		itsSortedNodeList->InsertSorted(const_cast<JTreeNode*>(info->GetNode()));
 

@@ -74,10 +74,10 @@ JPartition::JPartition
 	assert( elasticIndex <= compartmentCount );
 
 	itsSizes = jnew JArray<JCoordinate>(sizes);
-	assert( itsSizes != NULL );
+	assert( itsSizes != nullptr );
 
 	itsMinSizes = jnew JArray<JCoordinate>(minSizes);
-	assert( itsMinSizes != NULL );
+	assert( itsMinSizes != nullptr );
 
 	itsElasticIndex = elasticIndex;
 	itsDragIndex    = 0;

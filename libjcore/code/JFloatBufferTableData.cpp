@@ -61,7 +61,7 @@ JFloatBufferTableData::Receive
 		{
 		const JTableData::RectChanged* info =
 			dynamic_cast<const JTableData::RectChanged*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		UpdateRect(info->GetRect());
 		}
 
@@ -72,7 +72,7 @@ JFloatBufferTableData::Receive
 		{
 		const JTableData::RowsInserted* info =
 			dynamic_cast<const JTableData::RowsInserted*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		InsertRows(info->GetFirstIndex(), info->GetCount());
 		UpdateRows(info->GetFirstIndex(), info->GetCount());
 		}
@@ -82,7 +82,7 @@ JFloatBufferTableData::Receive
 		{
 		const JTableData::RowDuplicated* info =
 			dynamic_cast<const JTableData::RowDuplicated*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		DuplicateRow(info->GetOrigIndex(), info->GetNewIndex());
 		}
 
@@ -91,7 +91,7 @@ JFloatBufferTableData::Receive
 		{
 		const JTableData::RowsRemoved* info =
 			dynamic_cast<const JTableData::RowsRemoved*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		RemoveNextRows(info->GetFirstIndex(), info->GetCount());
 		}
 
@@ -100,7 +100,7 @@ JFloatBufferTableData::Receive
 		{
 		const JTableData::RowMoved* info =
 			dynamic_cast<const JTableData::RowMoved*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		MoveRow(info->GetOrigIndex(), info->GetNewIndex());
 		}
 
@@ -111,7 +111,7 @@ JFloatBufferTableData::Receive
 		{
 		const JTableData::ColsInserted* info =
 			dynamic_cast<const JTableData::ColsInserted*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		InsertCols(info->GetFirstIndex(), info->GetCount());
 		UpdateCols(info->GetFirstIndex(), info->GetCount());
 		}
@@ -121,7 +121,7 @@ JFloatBufferTableData::Receive
 		{
 		const JTableData::ColDuplicated* info =
 			dynamic_cast<const JTableData::ColDuplicated*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		DuplicateCol(info->GetOrigIndex(), info->GetNewIndex());
 		}
 
@@ -130,7 +130,7 @@ JFloatBufferTableData::Receive
 		{
 		const JTableData::ColsRemoved* info =
 			dynamic_cast<const JTableData::ColsRemoved*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		RemoveNextCols(info->GetFirstIndex(), info->GetCount());
 		}
 
@@ -139,7 +139,7 @@ JFloatBufferTableData::Receive
 		{
 		const JTableData::ColMoved* info =
 			dynamic_cast<const JTableData::ColMoved*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		MoveCol(info->GetOrigIndex(), info->GetNewIndex());
 		}
 

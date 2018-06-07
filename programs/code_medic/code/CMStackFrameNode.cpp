@@ -24,12 +24,12 @@ CMStackFrameNode::CMStackFrameNode
 	const JIndex		lineIndex
 	)
 	:
-	JNamedTreeNode(NULL, name, kJFalse),
+	JNamedTreeNode(nullptr, name, kJFalse),
 	itsID(id),
 	itsFileName(fileName),
 	itsLineIndex(lineIndex)
 {
-	assert( parent != NULL );
+	assert( parent != nullptr );
 	parent->Append(this);
 }
 

@@ -67,7 +67,7 @@ JPSPrinter::JPSPrinter
 	itsLastPageIndex  = 0;
 	itsPageCount      = 0;
 
-	itsPG = NULL;
+	itsPG = nullptr;
 
 	PSResetCoordinates();
 }
@@ -79,7 +79,7 @@ JPSPrinter::JPSPrinter
 
 JPSPrinter::~JPSPrinter()
 {
-	if (itsPG != NULL)
+	if (itsPG != nullptr)
 		{
 		itsPG->ProcessFinished();
 		jdelete itsPG;
@@ -188,7 +188,7 @@ JPSPrinter::OpenDocument()
 		return kJFalse;
 		}
 
-	assert( itsPG == NULL );
+	assert( itsPG == nullptr );
 	itsPG = jnew JLatentPG;
 	itsPG->VariableLengthProcessBeginning(JGetString("Printing::JPSPrinter"), kJTrue, kJFalse);
 
@@ -376,7 +376,7 @@ JPSPrinter::CloseDocument()
 
 	itsPG->ProcessFinished();
 	jdelete itsPG;
-	itsPG = NULL;
+	itsPG = nullptr;
 }
 
 /******************************************************************************
@@ -391,7 +391,7 @@ JPSPrinter::CancelDocument()
 
 	itsPG->ProcessFinished();
 	jdelete itsPG;
-	itsPG = NULL;
+	itsPG = nullptr;
 }
 
 /******************************************************************************

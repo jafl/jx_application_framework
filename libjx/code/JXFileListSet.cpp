@@ -102,57 +102,57 @@ JXFileListSet::JXFileListSetX
 	// table
 
 	itsTableScroll = jnew JXScrollbarSet(this, kHElastic, kVElastic, 0,0, w,h);
-	assert( itsTableScroll != NULL );
+	assert( itsTableScroll != nullptr );
 
 	itsTable =
 		jnew JXFileListTable(itsTableScroll, itsTableScroll->GetScrollEnclosure(),
 							kHElastic, kVElastic, 0,0, 10,10);
-	assert( itsTable != NULL );
+	assert( itsTable != nullptr );
 	itsTable->FitToEnclosure();
 
 	// wildcard input
 
 	itsWildcardSet = jnew JXWidgetSet(this, kHElastic, kFixedTop, 0,0, w,kDefaultInputHeight);
-	assert( itsWildcardSet != NULL );
+	assert( itsWildcardSet != nullptr );
 
 	JXStaticText* filterLabel =
 		jnew JXStaticText(JGetString("FilterLabel::JXFileListSet"),
 						  itsWildcardSet, kFixedLeft, kFixedTop,
 						  0, 0, kDefaultLabelWidth, kDefaultInputHeight);
-	assert( filterLabel != NULL );
+	assert( filterLabel != nullptr );
 	filterLabel->SetToLabel();
 
 	itsWildcardMenu =
 		jnew JXStringHistoryMenu(kHistoryLength, JString::empty, itsWildcardSet, kFixedRight, kFixedTop,
 								 w - kHistoryMenuWidth,0, kHistoryMenuWidth,kDefaultInputHeight);
-	assert( itsWildcardMenu != NULL );
+	assert( itsWildcardMenu != nullptr );
 
 	itsWildcardInput =
 		jnew JXFLWildcardInput(this, itsWildcardMenu, itsWildcardSet, kHElastic, kFixedTop,
 							   kDefaultLabelWidth,0, inputWidth,kDefaultInputHeight);
-	assert( itsWildcardInput != NULL );
+	assert( itsWildcardInput != nullptr );
 
 	// regex input
 
 	itsRegexSet = jnew JXWidgetSet(this, kHElastic, kFixedTop, 0,0, w,kDefaultInputHeight);
-	assert( itsRegexSet != NULL );
+	assert( itsRegexSet != nullptr );
 
 	JXStaticText* regexLabel =
 		jnew JXStaticText(JGetString("RegexLabel::JXFileListSet"),
 						  itsRegexSet, kFixedLeft, kFixedTop,
 						  0, 0, kDefaultLabelWidth, kDefaultInputHeight);
-	assert( regexLabel != NULL );
+	assert( regexLabel != nullptr );
 	regexLabel->SetToLabel();
 
 	itsRegexMenu =
 		jnew JXStringHistoryMenu(kHistoryLength, JString::empty, itsRegexSet, kFixedRight, kFixedTop,
 								 w - kHistoryMenuWidth,0, kHistoryMenuWidth,kDefaultInputHeight);
-	assert( itsRegexMenu != NULL );
+	assert( itsRegexMenu != nullptr );
 
 	itsRegexInput =
 		jnew JXFLRegexInput(this, itsRegexMenu, itsRegexSet, kHElastic, kFixedTop,
 							kDefaultLabelWidth,0, inputWidth,kDefaultInputHeight);
-	assert( itsRegexInput != NULL );
+	assert( itsRegexInput != nullptr );
 
 	// start with no filter
 

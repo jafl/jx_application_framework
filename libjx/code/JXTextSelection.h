@@ -16,9 +16,9 @@ class JXTextSelection : public JXSelectionData
 public:
 
 	JXTextSelection(JXDisplay* display, const JString& text,
-					const JRunArray<JFont>* style = NULL);
+					const JRunArray<JFont>* style = nullptr);
 	JXTextSelection(JXDisplay* display, JString* text,
-					JRunArray<JFont>* style = NULL);
+					JRunArray<JFont>* style = nullptr);
 	JXTextSelection(JXDisplay* display, const JPtrArray<JString>& list);
 	JXTextSelection(JXWidget* widget, const JUtf8Byte* id);
 
@@ -28,7 +28,7 @@ public:
 	JBoolean	GetStyle(const JRunArray<JFont>** style) const;
 	JBoolean	GetTextEditor(JTextEditor** te) const;
 
-	void	SetData(const JString& text, const JRunArray<JFont>* style = NULL);
+	void	SetData(const JString& text, const JRunArray<JFont>* style = nullptr);
 	void	SetData(JString* text, JRunArray<JFont>* style);
 	void	SetData(const JPtrArray<JString>& list);
 
@@ -45,9 +45,9 @@ protected:
 
 private:
 
-	JString*			itsText;		// NULL until Resolve()
-	JRunArray<JFont>*	itsStyle;		// can be NULL
-	JTextEditor*		itsTE;			// not owned; can be NULL
+	JString*			itsText;		// nullptr until Resolve()
+	JRunArray<JFont>*	itsStyle;		// can be nullptr
+	JTextEditor*		itsTE;			// not owned; can be nullptr
 	JCharacterRange		itsSelection;
 
 	Atom	itsStyledText0XAtom;
@@ -76,7 +76,7 @@ JXTextSelection::GetText
 	const
 {
 	*text = itsText;
-	return JI2B( itsText != NULL );
+	return JI2B( itsText != nullptr );
 }
 
 /******************************************************************************
@@ -92,7 +92,7 @@ JXTextSelection::GetStyle
 	const
 {
 	*style = itsStyle;
-	return JI2B( itsStyle != NULL );
+	return JI2B( itsStyle != nullptr );
 }
 
 /******************************************************************************
@@ -108,7 +108,7 @@ JXTextSelection::GetTextEditor
 	const
 {
 	*te = itsTE;
-	return JI2B( itsTE != NULL );
+	return JI2B( itsTE != nullptr );
 }
 
 #endif

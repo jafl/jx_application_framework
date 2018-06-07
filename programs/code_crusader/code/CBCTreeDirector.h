@@ -38,7 +38,7 @@ protected:
 private:
 
 	CBCTree*				itsCTree;			// not owned
-	CBEditCPPMacroDialog*	itsEditCPPDialog;	// NULL unless editing
+	CBEditCPPMacroDialog*	itsEditCPPDialog;	// nullptr unless editing
 
 private:
 

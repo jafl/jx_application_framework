@@ -207,7 +207,7 @@ JXSelectionManager::ClearData
 
 	time can be CurrentTime.
 
-	In the private version, if index != NULL, it contains the index into itsDataList.
+	In the private version, if index != nullptr, it contains the index into itsDataList.
 
  ******************************************************************************/
 

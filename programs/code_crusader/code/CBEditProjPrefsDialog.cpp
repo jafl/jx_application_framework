@@ -65,70 +65,70 @@ CBEditProjPrefsDialog::BuildWindow
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 360,310, "");
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	JXTextButton* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::CBEditProjPrefsDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 30,280, 70,20);
-	assert( cancelButton != NULL );
+	assert( cancelButton != nullptr );
 
 	JXTextButton* okButton =
 		jnew JXTextButton(JGetString("okButton::CBEditProjPrefsDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 250,280, 70,20);
-	assert( okButton != NULL );
+	assert( okButton != nullptr );
 	okButton->SetShortcuts(JGetString("okButton::CBEditProjPrefsDialog::shortcuts::JXLayout"));
 
 	itsReopenTextFilesCB =
 		jnew JXTextCheckbox(JGetString("itsReopenTextFilesCB::CBEditProjPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 300,20);
-	assert( itsReopenTextFilesCB != NULL );
+	assert( itsReopenTextFilesCB != nullptr );
 
 	itsHelpButton =
 		jnew JXTextButton(JGetString("itsHelpButton::CBEditProjPrefsDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 140,280, 70,20);
-	assert( itsHelpButton != NULL );
+	assert( itsHelpButton != nullptr );
 	itsHelpButton->SetShortcuts(JGetString("itsHelpButton::CBEditProjPrefsDialog::shortcuts::JXLayout"));
 
 	itsDropFileActionRG =
 		jnew JXRadioGroup(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 70,150, 204,114);
-	assert( itsDropFileActionRG != NULL );
+	assert( itsDropFileActionRG != nullptr );
 
 	JXTextRadioButton* absolutePathRB =
 		jnew JXTextRadioButton(CBProjectTable::kAbsolutePath, JGetString("absolutePathRB::CBEditProjPrefsDialog::JXLayout"), itsDropFileActionRG,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,10, 180,20);
-	assert( absolutePathRB != NULL );
+	assert( absolutePathRB != nullptr );
 
 	JXTextRadioButton* projectRelativeLabel =
 		jnew JXTextRadioButton(CBProjectTable::kProjectRelative, JGetString("projectRelativeLabel::CBEditProjPrefsDialog::JXLayout"), itsDropFileActionRG,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,30, 180,20);
-	assert( projectRelativeLabel != NULL );
+	assert( projectRelativeLabel != nullptr );
 
 	JXTextRadioButton* homeDirLabel =
 		jnew JXTextRadioButton(CBProjectTable::kHomeRelative, JGetString("homeDirLabel::CBEditProjPrefsDialog::JXLayout"), itsDropFileActionRG,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,50, 180,20);
-	assert( homeDirLabel != NULL );
+	assert( homeDirLabel != nullptr );
 
 	JXStaticText* dndPathLabel =
 		jnew JXStaticText(JGetString("dndPathLabel::CBEditProjPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,120, 330,20);
-	assert( dndPathLabel != NULL );
+	assert( dndPathLabel != nullptr );
 	dndPathLabel->SetToLabel();
 
 	JXTextRadioButton* dndAskLabel =
 		jnew JXTextRadioButton(CBProjectTable::kAskPathType, JGetString("dndAskLabel::CBEditProjPrefsDialog::JXLayout"), itsDropFileActionRG,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,80, 180,20);
-	assert( dndAskLabel != NULL );
+	assert( dndAskLabel != nullptr );
 
 	itsDoubleSpaceCB =
 		jnew JXTextCheckbox(JGetString("itsDoubleSpaceCB::CBEditProjPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,50, 300,20);
-	assert( itsDoubleSpaceCB != NULL );
+	assert( itsDoubleSpaceCB != nullptr );
 
 	itsRebuildMakefileDailyCB =
 		jnew JXTextCheckbox(JGetString("itsRebuildMakefileDailyCB::CBEditProjPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,80, 300,20);
-	assert( itsRebuildMakefileDailyCB != NULL );
+	assert( itsRebuildMakefileDailyCB != nullptr );
 
 // end JXLayout
 
@@ -159,7 +159,7 @@ CBEditProjPrefsDialog::Receive
 		{
 		const JXDialogDirector::Deactivated* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		if (info->Successful())
 			{
 			UpdateSettings();

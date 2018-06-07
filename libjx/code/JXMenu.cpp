@@ -92,7 +92,7 @@ JXMenu::JXMenu
 	JXWidget(enclosure, hSizing, vSizing, x,y, w,h),
 	itsTitleFont(GetFontManager()->GetDefaultFont())
 {
-	JXMenuX(title, NULL, kJTrue);
+	JXMenuX(title, nullptr, kJTrue);
 }
 
 JXMenu::JXMenu
@@ -144,7 +144,7 @@ JXMenu::JXMenu
 	JXWidget(enclosure, kFixedLeft, kFixedTop, 0,0, 10,10),
 	itsTitleFont(GetFontManager()->GetDefaultFont())
 {
-	JXMenuX(JString::empty, NULL, kJTrue);
+	JXMenuX(JString::empty, nullptr, kJTrue);
 	owner->AttachSubmenu(itemIndex, this);
 }
 
@@ -161,21 +161,21 @@ JXMenu::JXMenuX
 	const JSize lineHeight = itsTitleFont.GetLineHeight(GetFontManager());
 	itsTitlePadding.Set(lineHeight/2, lineHeight/4);
 
-	itsTitleImage         = NULL;
+	itsTitleImage         = nullptr;
 	itsOwnsTitleImageFlag = kJFalse;
-	itsShortcuts          = NULL;
+	itsShortcuts          = nullptr;
 	itsULIndex            = 0;
 
-	itsBaseItemData = NULL;
-	itsMenuBar      = NULL;
-	itsOwner        = NULL;
+	itsBaseItemData = nullptr;
+	itsMenuBar      = nullptr;
+	itsOwner        = nullptr;
 	itsUpdateAction = kDisableSingles;
 
 	itsArrowPosition         = kArrowAtRight;
 	itsArrowDirection        = kArrowPointsDown;
 	itsIsPopupChoiceFlag     = kJFalse;
 	itsIsHiddenPopupMenuFlag = kJFalse;
-	itsMenuDirector          = NULL;
+	itsMenuDirector          = nullptr;
 
 	itsWaitingForFTCFlag = kJTrue;
 
@@ -194,16 +194,16 @@ JXMenu::JXMenuX
 
 JXMenu::~JXMenu()
 {
-	assert( itsMenuDirector == NULL );
+	assert( itsMenuDirector == nullptr );
 
-	if (itsMenuBar != NULL)
+	if (itsMenuBar != nullptr)
 		{
-		assert( itsOwner == NULL );
+		assert( itsOwner == nullptr );
 		itsMenuBar->RemoveMenu(this);
 		}
-	else if (itsOwner != NULL)
+	else if (itsOwner != nullptr)
 		{
-		assert( itsMenuBar == NULL );
+		assert( itsMenuBar == nullptr );
 		itsOwner->RemoveSubmenu(this);
 		}
 
@@ -229,7 +229,7 @@ JXMenu::SetBaseItemData
 	JXMenuData* baseItemData
 	)
 {
-	assert( itsBaseItemData == NULL && baseItemData != NULL );
+	assert( itsBaseItemData == nullptr && baseItemData != nullptr );
 
 	itsBaseItemData = baseItemData;
 	ListenTo(itsBaseItemData->GetOrderedSet());
@@ -246,10 +246,10 @@ JXMenu::SetBaseItemData
 void
 JXMenu::ClearBaseItemData()
 {
-	assert( itsBaseItemData != NULL );
+	assert( itsBaseItemData != nullptr );
 
 	StopListening(itsBaseItemData->GetOrderedSet());
-	itsBaseItemData = NULL;
+	itsBaseItemData = nullptr;
 }
 
 /******************************************************************************
@@ -354,7 +354,7 @@ JXMenu::UpdateTitleGeometry()
 		{
 		w += itsTitleFont.GetStringWidth(GetFontManager(), itsTitle);
 		}
-	if (itsTitleImage != NULL)
+	if (itsTitleImage != nullptr)
 		{
 		if (w > 0)
 			{
@@ -827,7 +827,7 @@ JXMenu::GetMenuBar
 {
 	JXMenu* topMenu = GetTopLevelMenu();
 	*menuBar = topMenu->itsMenuBar;
-	return JConvertToBoolean( *menuBar != NULL );
+	return JConvertToBoolean( *menuBar != nullptr );
 }
 
 /******************************************************************************
@@ -842,7 +842,7 @@ JXMenu::GetTopLevelMenu()
 	const
 {
 	JXMenu* topMenu = const_cast<JXMenu*>(this);
-	while (topMenu->itsOwner != NULL)
+	while (topMenu->itsOwner != nullptr)
 		{
 		topMenu = topMenu->itsOwner;
 		}
@@ -864,19 +864,19 @@ JXMenu::SetMenuBar
 		{
 		return;
 		}
-	else if (itsMenuBar != NULL)
+	else if (itsMenuBar != nullptr)
 		{
-		assert( itsOwner == NULL );
+		assert( itsOwner == nullptr );
 		itsMenuBar->RemoveMenu(this);
 		}
-	else if (itsOwner != NULL)
+	else if (itsOwner != nullptr)
 		{
-		assert( itsMenuBar == NULL );
+		assert( itsMenuBar == nullptr );
 		itsOwner->RemoveSubmenu(this);
 		}
 
 	itsMenuBar = bar;
-	itsOwner   = NULL;
+	itsOwner   = nullptr;
 
 	AdjustAppearance();
 }
@@ -896,18 +896,18 @@ JXMenu::SetOwner
 		{
 		return;
 		}
-	else if (itsOwner != NULL)
+	else if (itsOwner != nullptr)
 		{
-		assert( itsMenuBar == NULL );
+		assert( itsMenuBar == nullptr );
 		itsOwner->RemoveSubmenu(this);
 		}
-	else if (itsMenuBar != NULL)
+	else if (itsMenuBar != nullptr)
 		{
-		assert( itsOwner == NULL );
+		assert( itsOwner == nullptr );
 		itsMenuBar->RemoveMenu(this);
 		}
 
-	itsMenuBar = NULL;
+	itsMenuBar = nullptr;
 	itsOwner   = owner;
 
 	AdjustAppearance();
@@ -937,11 +937,11 @@ JXMenu::AdjustAppearance
 {
 	// use the same cursor for consistency
 
-	if (itsOwner != NULL)
+	if (itsOwner != nullptr)
 		{
 		SetDefaultCursor(itsOwner->GetDefaultCursor());
 		}
-	else if (itsMenuBar != NULL)
+	else if (itsMenuBar != nullptr)
 		{
 		SetDefaultCursor(itsMenuBar->GetDefaultCursor());
 		}
@@ -951,7 +951,7 @@ JXMenu::AdjustAppearance
 	itsMinWidth = minWidth;
 
 	JCoordinate w = minWidth;
-	if (itsOwner == NULL && itsMenuBar == NULL)
+	if (itsOwner == nullptr && itsMenuBar == nullptr)
 		{
 		SetBorderWidth(kJXDefaultBorderWidth);
 		if (itsWaitingForFTCFlag)
@@ -975,7 +975,7 @@ JXMenu::AdjustAppearance
 	if (dw != 0)
 		{
 		AdjustSize(dw, 0);
-		if (itsMenuBar != NULL)
+		if (itsMenuBar != nullptr)
 			{
 			itsMenuBar->MenuWidthChanged(this, dw);
 			}
@@ -995,14 +995,14 @@ JXMenu::PrepareToOpenMenu
 	const JBoolean shortcut
 	)
 {
-	if (itsOwner != NULL && !itsOwner->IsOpen())	// parent may have effect on child
+	if (itsOwner != nullptr && !itsOwner->IsOpen())	// parent may have effect on child
 		{
 		itsOwner->PrepareToOpenMenu(shortcut);
 		}
 
-	if ((itsOwner == NULL &&			// active status of sub-menus depends on menu item active status
+	if ((itsOwner == nullptr &&			// active status of sub-menus depends on menu item active status
 		 !IsActive()) ||
-		(itsOwner == NULL &&			// visibility is irrelevant for sub-menus
+		(itsOwner == nullptr &&			// visibility is irrelevant for sub-menus
 		 !itsIsHiddenPopupMenuFlag &&	// and hidden popups
 		 !IsVisible()))
 		{
@@ -1037,11 +1037,11 @@ JXMenu::Open
 	)
 {
 	JXMenuManager* menuManager = GetMenuManager();
-	if (itsOwner == NULL)
+	if (itsOwner == nullptr)
 		{
 		menuManager->CloseCurrentMenus();
 		}
-	assert( itsMenuDirector == NULL );
+	assert( itsMenuDirector == nullptr );
 
 	if (!PrepareToOpenMenu(kJFalse))
 		{
@@ -1053,7 +1053,7 @@ JXMenu::Open
 
 	JPoint leftPtR, rightPtR;
 	JCoordinate frameHeight = 0;
-	if (itsOwner == NULL)
+	if (itsOwner == nullptr)
 		{
 		// place below widget frame
 
@@ -1103,17 +1103,17 @@ JXMenu::Open
 void
 JXMenu::Close()
 {
-	assert( itsMenuDirector != NULL );
+	assert( itsMenuDirector != nullptr );
 
 	GetMenuManager()->MenuClosed(this);
 
 	const JBoolean ok = itsMenuDirector->Close();
 	assert( ok );
-	itsMenuDirector = NULL;
+	itsMenuDirector = nullptr;
 
 	Redraw();
 
-	if (itsOwner == NULL)
+	if (itsOwner == nullptr)
 		{
 		GetWindow()->RequestFocus();
 		}
@@ -1162,7 +1162,7 @@ JXMenu::Draw
 	const JRect bounds = GetBounds();
 
 	const JCoordinate borderWidth = GetBorderWidth();
-	if (itsMenuDirector != NULL && borderWidth == 0)
+	if (itsMenuDirector != nullptr && borderWidth == 0)
 		{
 		JXDrawUpFrame(p, bounds, kJXDefaultBorderWidth);
 		}
@@ -1207,7 +1207,7 @@ JXMenu::Draw
 	p.SetClipRect(r);
 
 	r.left += itsTitlePadding.x;
-	if (itsTitleImage != NULL)
+	if (itsTitleImage != nullptr)
 		{
 		JRect ir = r;
 		ir.right = ir.left + itsTitleImage->GetWidth();
@@ -1290,9 +1290,9 @@ JXMenu::PopUp
 {
 	assert( itsIsHiddenPopupMenuFlag );
 
-	if (itsMenuBar == NULL && itsOwner == NULL &&
+	if (itsMenuBar == nullptr && itsOwner == nullptr &&
 		!IsVisible() && !buttonStates.AllOff() &&
-		itsMenuDirector == NULL)
+		itsMenuDirector == nullptr)
 		{
 		Place(pt.x, pt.y - GetFrameHeight());
 		if (Open())
@@ -1320,7 +1320,7 @@ JXMenu::HandleMouseDown
 	const JXKeyModifiers&	modifiers
 	)
 {
-	if (button == kJXLeftButton && itsMenuDirector == NULL && Open())
+	if (button == kJXLeftButton && itsMenuDirector == nullptr && Open())
 		{
 		const JBoolean ok =
 			GetDisplay()->SwitchDrag(this, pt, buttonStates, modifiers,
@@ -1346,7 +1346,7 @@ JXMenu::HandleShortcut
 	const JXKeyModifiers&	modifiers
 	)
 {
-	if (itsMenuDirector == NULL && Open())
+	if (itsMenuDirector == nullptr && Open())
 		{
 		itsMenuDirector->GrabPointer();
 		}
@@ -1409,7 +1409,7 @@ JXMenu::Suspend()
 {
 	const JBoolean wasActive = IsActive();
 	JXWidget::Suspend();
-	if (itsOwner == NULL && wasActive && !IsActive())
+	if (itsOwner == nullptr && wasActive && !IsActive())
 		{
 		PrivateDeactivate();
 		}
@@ -1443,7 +1443,7 @@ void
 JXMenu::PrivateActivate()
 {
 	JIndex ownerItemIndex;
-	if (itsOwner != NULL &&
+	if (itsOwner != nullptr &&
 		!(itsBaseItemData->GetOrderedSet())->IsEmpty() &&
 		itsOwner->itsBaseItemData->FindSubmenu(this, &ownerItemIndex))
 		{
@@ -1460,7 +1460,7 @@ void
 JXMenu::PrivateDeactivate()
 {
 	JIndex ownerItemIndex;
-	if (itsOwner != NULL &&
+	if (itsOwner != nullptr &&
 		itsOwner->itsBaseItemData->FindSubmenu(this, &ownerItemIndex))
 		{
 		itsOwner->DisableItem(ownerItemIndex);
@@ -1548,7 +1548,7 @@ JBoolean
 JXMenu::IncludeInFTC()
 	const
 {
-	return JI2B(!itsIsHiddenPopupMenuFlag && itsOwner == NULL &&
+	return JI2B(!itsIsHiddenPopupMenuFlag && itsOwner == nullptr &&
 				JXContainer::IncludeInFTC());
 }
 
@@ -1596,16 +1596,16 @@ JXMenu::GetFTCMinContentSize
 			itsTitleFont.GetStringWidth(GetFontManager(), itsTitle);
 		const_cast<JXMenu*>(this)->itsWaitingForFTCFlag = kJFalse;
 
-		return ((itsTitleImage != NULL ? itsTitleImage->GetWidth() : 0) +
-				(itsTitleImage != NULL && tw > 0 ? kImageTextBufferWidth : 0) +
-				(itsTitleImage != NULL || tw > 0 ? 2*itsTitlePadding.x : 0) +
+		return ((itsTitleImage != nullptr ? itsTitleImage->GetWidth() : 0) +
+				(itsTitleImage != nullptr && tw > 0 ? kImageTextBufferWidth : 0) +
+				(itsTitleImage != nullptr || tw > 0 ? 2*itsTitlePadding.x : 0) +
 				tw +
 				arrowWidth +
 				2*borderWidth);
 		}
 	else
 		{
-		return (JMax(itsTitleImage != NULL ? itsTitleImage->GetHeight() : 0,
+		return (JMax(itsTitleImage != nullptr ? itsTitleImage->GetHeight() : 0,
 					 (JCoordinate) itsTitleFont.GetLineHeight(GetFontManager())) +
 				2*borderWidth +
 				2*itsTitlePadding.y);

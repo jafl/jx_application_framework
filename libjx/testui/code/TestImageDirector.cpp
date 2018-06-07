@@ -62,19 +62,19 @@ TestImageDirector::TestImageDirector
 	:
 	JXWindowDirector(supervisor)
 {
-	itsPSPrinter  = NULL;
-	itsEPSPrinter = NULL;
+	itsPSPrinter  = nullptr;
+	itsEPSPrinter = nullptr;
 
 	BuildWindow();
 
 	JXDisplay* display = GetDisplay();
 
 	itsPSPrinter = jnew JXPSPrinter(display);
-	assert( itsPSPrinter != NULL );
+	assert( itsPSPrinter != nullptr );
 	ListenTo(itsPSPrinter);
 
 	itsEPSPrinter = jnew JXEPSPrinter(display);
-	assert( itsEPSPrinter != NULL );
+	assert( itsEPSPrinter != nullptr );
 	ListenTo(itsEPSPrinter);
 }
 
@@ -100,17 +100,17 @@ TestImageDirector::BuildWindow()
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 400,330, JString::empty);
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	JXMenuBar* menuBar =
 		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 400,30);
-	assert( menuBar != NULL );
+	assert( menuBar != nullptr );
 
 	JXScrollbarSet* scrollbarSet =
 		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 400,300);
-	assert( scrollbarSet != NULL );
+	assert( scrollbarSet != nullptr );
 
 // end JXLayout
 
@@ -126,7 +126,7 @@ TestImageDirector::BuildWindow()
 	itsImageWidget =
 		jnew JXImageWidget(scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 						  JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 10,10);
-	assert( itsImageWidget != NULL );
+	assert( itsImageWidget != nullptr );
 	itsImageWidget->FitToEnclosure();
 }
 
@@ -150,7 +150,7 @@ TestImageDirector::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleFileMenu(selection->GetIndex());
 		}
 
@@ -159,7 +159,7 @@ TestImageDirector::Receive
 		{
 		const JPrinter::PrintSetupFinished* info =
 			dynamic_cast<const JPrinter::PrintSetupFinished*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		if (info->Successful())
 			{
 			PrintPS();
@@ -171,7 +171,7 @@ TestImageDirector::Receive
 		{
 		const JPrinter::PrintSetupFinished* info =
 			dynamic_cast<const JPrinter::PrintSetupFinished*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		if (info->Successful())
 			{
 			PrintEPS();
@@ -294,7 +294,7 @@ TestImageDirector::LoadImage()
 	JString fullName;
 	if ((JGetChooseSaveFile())->ChooseFile(JGetString("ChooseImagePrompt::TestImageDirector"), JString::empty, &fullName))
 		{
-		itsImageWidget->SetImage(NULL, kJTrue);	// free current colors
+		itsImageWidget->SetImage(nullptr, kJTrue);	// free current colors
 
 		itsFileName = fullName;
 
@@ -311,7 +311,7 @@ TestImageDirector::LoadImage()
 				{
 				image = jnew JXImage(display, mask->GetWidth(), mask->GetHeight(),
 									JColorManager::GetRedColor());
-				assert( image != NULL );
+				assert( image != nullptr );
 				image->SetMask(mask);
 				}
 			}
@@ -418,7 +418,7 @@ TestImageDirector::CopyImage()
 	if (itsImageWidget->GetImage(&image))
 		{
 		JXImageSelection* data = jnew JXImageSelection(*image);
-		assert( data != NULL );
+		assert( data != nullptr );
 		(GetDisplay()->GetSelectionManager())->SetData(kJXClipboardName, data);
 		}
 }
@@ -434,9 +434,9 @@ TestImageDirector::CopyImage()
 void
 TestImageDirector::PasteImage()
 {
-	itsImageWidget->SetImage(NULL, kJTrue);	// free current colors
+	itsImageWidget->SetImage(nullptr, kJTrue);	// free current colors
 
-	JXImage* image = NULL;
+	JXImage* image = nullptr;
 	if (JXImageSelection::GetImage(kJXClipboardName, CurrentTime, GetDisplay(), &image))
 		{
 		itsImageWidget->SetImage(image, kJTrue);

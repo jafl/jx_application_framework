@@ -32,7 +32,7 @@ JXCheckboxGroup::JXCheckboxGroup()
 	JContainer()
 {
 	itsCBList = jnew JPtrArray<JXCheckbox>(JPtrArrayT::kForgetAll);
-	assert( itsCBList != NULL );
+	assert( itsCBList != nullptr );
 
 	InstallOrderedSet(itsCBList);
 }
@@ -45,7 +45,7 @@ JXCheckboxGroup::JXCheckboxGroup
 	JContainer()
 {
 	itsCBList = jnew JPtrArray<JXCheckbox>(cbList, JPtrArrayT::kForgetAll);
-	assert( itsCBList != NULL );
+	assert( itsCBList != nullptr );
 
 	InstallOrderedSet(itsCBList);
 }

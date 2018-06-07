@@ -15,10 +15,10 @@
 #include <JXFSBindingManager.h>
 #include <jAssert.h>
 
-static SVNApp*			theApplication  = NULL;		// owns itself
-static SVNPrefsManager*	thePrefsManager = NULL;
-static SVNWDManager*	theWDManager    = NULL;		// owned by JX
-static SVNMDIServer*	theMDIServer    = NULL;
+static SVNApp*			theApplication  = nullptr;		// owns itself
+static SVNPrefsManager*	thePrefsManager = nullptr;
+static SVNWDManager*	theWDManager    = nullptr;		// owned by JX
+static SVNMDIServer*	theMDIServer    = nullptr;
 
 // string ID's
 
@@ -43,15 +43,15 @@ SVNCreateGlobals
 
 	JBoolean isNew;
 	thePrefsManager	= jnew SVNPrefsManager(&isNew);
-	assert( thePrefsManager != NULL );
+	assert( thePrefsManager != nullptr );
 
 	JXInitHelp();
 
 	theWDManager = jnew SVNWDManager(display, kJTrue);
-	assert( theWDManager != NULL );
+	assert( theWDManager != nullptr );
 
 	theMDIServer = jnew SVNMDIServer;
-	assert( theMDIServer != NULL );
+	assert( theMDIServer != nullptr );
 
 	return isNew;
 }
@@ -64,16 +64,16 @@ SVNCreateGlobals
 void
 SVNDeleteGlobals()
 {
-	theApplication = NULL;
-	theMDIServer   = NULL;
-	theWDManager   = NULL;
+	theApplication = nullptr;
+	theMDIServer   = nullptr;
+	theWDManager   = nullptr;
 
 	JXFSBindingManager::Destroy();
 
 	// this must be last so everybody else can use it to save their setup
 
 	jdelete thePrefsManager;
-	thePrefsManager = NULL;
+	thePrefsManager = nullptr;
 }
 
 /******************************************************************************
@@ -110,7 +110,7 @@ SVNCleanUpBeforeSuddenDeath
 SVNApp*
 SVNGetApplication()
 {
-	assert( theApplication != NULL );
+	assert( theApplication != nullptr );
 	return theApplication;
 }
 
@@ -122,7 +122,7 @@ SVNGetApplication()
 SVNPrefsManager*
 SVNGetPrefsManager()
 {
-	assert( thePrefsManager != NULL );
+	assert( thePrefsManager != nullptr );
 	return thePrefsManager;
 }
 
@@ -134,7 +134,7 @@ SVNGetPrefsManager()
 SVNWDManager*
 SVNGetWDManager()
 {
-	assert( theWDManager != NULL );
+	assert( theWDManager != nullptr );
 	return theWDManager;
 }
 
@@ -146,7 +146,7 @@ SVNGetWDManager()
 SVNMDIServer*
 SVNGetMDIServer()
 {
-	assert( theMDIServer != NULL );
+	assert( theMDIServer != nullptr );
 	return theMDIServer;
 }
 

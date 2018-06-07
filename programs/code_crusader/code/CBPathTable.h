@@ -65,7 +65,7 @@ private:
 
 	JStringTableData*	itsData;
 	JXImage*			itsFolderIcon;
-	JXPathInput*		itsPathInput;			// NULL unless editing
+	JXPathInput*		itsPathInput;			// nullptr unless editing
 	JString				itsBasePath;
 
 	JXTextButton*		itsAddPathButton;		// not owned

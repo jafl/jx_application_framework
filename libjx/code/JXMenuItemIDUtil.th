@@ -71,7 +71,7 @@ JIndex i;
 
 	*index = 0;
 
-	const JUtf8Byte* cmdID = NULL;
+	const JUtf8Byte* cmdID = nullptr;
 	for (i=0; i<CmdCount; i++)
 		{
 		if (CmdIDList[i].cmd == cmd)
@@ -81,7 +81,7 @@ JIndex i;
 			}
 		}
 
-	if (cmdID == NULL)
+	if (cmdID == nullptr)
 		{
 		return kJFalse;
 		}

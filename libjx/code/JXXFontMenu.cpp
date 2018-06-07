@@ -42,17 +42,17 @@ JXXFontMenu::Create
 	JXXFontMenu**		menu
 	)
 {
-	*menu = NULL;
+	*menu = nullptr;
 
 	JPtrArray<JString> fontNames(JPtrArrayT::kDeleteAll);
 	(enclosure->GetXFontManager())->GetXFontNames(regex, &fontNames, compare);
 	if (!fontNames.IsEmpty())
 		{
 		*menu = jnew JXXFontMenu(fontNames, title, enclosure, hSizing, vSizing, x,y, w,h);
-		assert( *menu != NULL );
+		assert( *menu != nullptr );
 		}
 
-	return JConvertToBoolean( *menu != NULL );
+	return JConvertToBoolean( *menu != nullptr );
 }
 
 JBoolean
@@ -66,17 +66,17 @@ JXXFontMenu::Create
 	JXXFontMenu**		menu
 	)
 {
-	*menu = NULL;
+	*menu = nullptr;
 
 	JPtrArray<JString> fontNames(JPtrArrayT::kDeleteAll);
 	(enclosure->GetXFontManager())->GetXFontNames(regex, &fontNames, compare);
 	if (!fontNames.IsEmpty())
 		{
 		*menu = jnew JXXFontMenu(fontNames, owner, itemIndex, enclosure);
-		assert( *menu != NULL );
+		assert( *menu != nullptr );
 		}
 
-	return JConvertToBoolean( *menu != NULL );
+	return JConvertToBoolean( *menu != nullptr );
 }
 
 /******************************************************************************

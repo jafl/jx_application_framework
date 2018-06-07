@@ -42,7 +42,7 @@ public:
 
 		XFont()
 			:
-			type(kStdType), xfset(NULL), xftt(NULL)
+			type(kStdType), xfset(nullptr), xftt(nullptr)
 		{ };
 
 		void Free(JXDisplay* display);
@@ -65,7 +65,7 @@ public:
 
 	void		GetXFontNames(const JRegex& regex,
 							  JPtrArray<JString>* fontNames,
-							  JSortXFontNamesFn compare = NULL);
+							  JSortXFontNamesFn compare = nullptr);
 	JBoolean	GetXFont(const JString& xFontStr, JFont** font);
 	XFont		GetXFontInfo(const JFontID id);
 
@@ -106,8 +106,8 @@ private:
 	JXDisplay*			itsDisplay;
 	JArray<FontInfo>*	itsFontList;
 
-	JPtrArray<JString>*	itsAllFontNames;	// can be NULL
-	JPtrArray<JString>*	itsMonoFontNames;	// can be NULL
+	JPtrArray<JString>*	itsAllFontNames;	// can be nullptr
+	JPtrArray<JString>*	itsMonoFontNames;	// can be nullptr
 
 private:
 

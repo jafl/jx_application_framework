@@ -88,7 +88,7 @@ LLDBArray2DCommand::HandleSuccess
 			}
 
 		const JCharacter* value = v.GetValue();
-		if (value == NULL)
+		if (value == nullptr)
 			{
 			HandleFailure(i, v.GetError().GetCString());
 			continue;

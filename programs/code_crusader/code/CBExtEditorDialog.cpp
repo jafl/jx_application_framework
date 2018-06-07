@@ -65,75 +65,75 @@ CBExtEditorDialog::BuildWindow
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 450,220, "");
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	itsEditTextFileCmdInput =
 		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 200,40, 230,20);
-	assert( itsEditTextFileCmdInput != NULL );
+	assert( itsEditTextFileCmdInput != nullptr );
 
 	itsEditTextFileLineCmdInput =
 		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 200,60, 230,20);
-	assert( itsEditTextFileLineCmdInput != NULL );
+	assert( itsEditTextFileLineCmdInput != nullptr );
 
 	JXTextButton* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::CBExtEditorDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 100,190, 70,20);
-	assert( cancelButton != NULL );
+	assert( cancelButton != nullptr );
 
 	JXTextButton* okButton =
 		jnew JXTextButton(JGetString("okButton::CBExtEditorDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 270,190, 70,20);
-	assert( okButton != NULL );
+	assert( okButton != nullptr );
 	okButton->SetShortcuts(JGetString("okButton::CBExtEditorDialog::shortcuts::JXLayout"));
 
 	JXStaticText* editTextHint =
 		jnew JXStaticText(JGetString("editTextHint::CBExtEditorDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 160,80, 270,20);
-	assert( editTextHint != NULL );
+	assert( editTextHint != nullptr );
 	editTextHint->SetFontSize(JGetDefaultFontSize()-2);
 	editTextHint->SetToLabel();
 
 	JXStaticText* editTextLabel =
 		jnew JXStaticText(JGetString("editTextLabel::CBExtEditorDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 30,40, 170,20);
-	assert( editTextLabel != NULL );
+	assert( editTextLabel != nullptr );
 	editTextLabel->SetToLabel();
 
 	JXStaticText* editLineLabel =
 		jnew JXStaticText(JGetString("editLineLabel::CBExtEditorDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 30,60, 170,20);
-	assert( editLineLabel != NULL );
+	assert( editLineLabel != nullptr );
 	editLineLabel->SetToLabel();
 
 	itsExtTextEditorCB =
 		jnew JXTextCheckbox(JGetString("itsExtTextEditorCB::CBExtEditorDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,20, 160,20);
-	assert( itsExtTextEditorCB != NULL );
+	assert( itsExtTextEditorCB != nullptr );
 
 	itsEditBinaryFileCmdInput =
 		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 200,130, 230,20);
-	assert( itsEditBinaryFileCmdInput != NULL );
+	assert( itsEditBinaryFileCmdInput != nullptr );
 
 	JXStaticText* editBinaryHint =
 		jnew JXStaticText(JGetString("editBinaryHint::CBExtEditorDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 200,150, 230,20);
-	assert( editBinaryHint != NULL );
+	assert( editBinaryHint != nullptr );
 	editBinaryHint->SetFontSize(JGetDefaultFontSize()-2);
 	editBinaryHint->SetToLabel();
 
 	JXStaticText* editBinaryLabel =
 		jnew JXStaticText(JGetString("editBinaryLabel::CBExtEditorDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 30,130, 170,20);
-	assert( editBinaryLabel != NULL );
+	assert( editBinaryLabel != nullptr );
 	editBinaryLabel->SetToLabel();
 
 	itsExtBinaryEditorCB =
 		jnew JXTextCheckbox(JGetString("itsExtBinaryEditorCB::CBExtEditorDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,110, 180,20);
-	assert( itsExtBinaryEditorCB != NULL );
+	assert( itsExtBinaryEditorCB != nullptr );
 
 // end JXLayout
 

@@ -69,7 +69,7 @@ JPtrArrayIterator<T>::SetPrev
 		}
 
 	JPtrArray<T>* ptr = dynamic_cast<JPtrArray<T>*>(obj);
-	assert( ptr != NULL );
+	assert( ptr != nullptr );
 
 	ptr->SetElement(JListIterator<T*>::GetCursor(), dataPtr, action);
 	return kJTrue;
@@ -98,7 +98,7 @@ JPtrArrayIterator<T>::SetNext
 		}
 
 	JPtrArray<T>* ptr = dynamic_cast<JPtrArray<T>*>(obj);
-	assert( ptr != NULL );
+	assert( ptr != nullptr );
 
 	ptr->SetElement(JListIterator<T*>::GetCursor()+1, dataPtr, action);
 	return kJTrue;
@@ -123,7 +123,7 @@ JPtrArrayIterator<T>::DeletePrev()
 		}
 
 	JPtrArray<T>* ptr = dynamic_cast<JPtrArray<T>*>(obj);
-	assert( ptr != NULL );
+	assert( ptr != nullptr );
 
 	ptr->DeleteElement(JListIterator<T*>::GetCursor());
 	return kJTrue;
@@ -148,7 +148,7 @@ JPtrArrayIterator<T>::DeleteNext()
 		}
 
 	JPtrArray<T>* ptr = dynamic_cast<JPtrArray<T>*>(obj);
-	assert( ptr != NULL );
+	assert( ptr != nullptr );
 
 	ptr->DeleteElement(JListIterator<T*>::GetCursor()+1);
 	return kJTrue;
@@ -173,7 +173,7 @@ JPtrArrayIterator<T>::DeletePrevAsArray()
 		}
 
 	JPtrArray<T>* ptr = dynamic_cast<JPtrArray<T>*>(obj);
-	assert( ptr != NULL );
+	assert( ptr != nullptr );
 
 	ptr->DeleteElementAsArray(JListIterator<T*>::GetCursor());
 	return kJTrue;
@@ -198,7 +198,7 @@ JPtrArrayIterator<T>::DeleteNextAsArray()
 		}
 
 	JPtrArray<T>* ptr = dynamic_cast<JPtrArray<T>*>(obj);
-	assert( ptr != NULL );
+	assert( ptr != nullptr );
 
 	ptr->DeleteElementAsArray(JListIterator<T*>::GetCursor()+1);
 	return kJTrue;

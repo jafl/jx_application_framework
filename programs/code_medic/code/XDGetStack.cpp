@@ -55,7 +55,7 @@ XDGetStack::HandleSuccess
 {
 	XDLink* link = dynamic_cast<XDLink*>(CMGetLink());
 	xmlNode* root;
-	if (link == NULL || !link->GetParsedData(&root))
+	if (link == nullptr || !link->GetParsedData(&root))
 		{
 		return;
 		}
@@ -64,7 +64,7 @@ XDGetStack::HandleSuccess
 
 	xmlNode* frame  = root->children;
 	JString frameIndexStr, fileName, lineStr, frameName, path, name;
-	while (frame != NULL)
+	while (frame != nullptr)
 		{
 		frameIndexStr = JGetXMLNodeAttr(frame, "level");
 		JUInt frameIndex;
@@ -95,7 +95,7 @@ XDGetStack::HandleSuccess
 		CMStackFrameNode* node =
 			jnew CMStackFrameNode(stackRoot, frameIndex, frameName,
 								 fileName, lineIndex);
-		assert( node != NULL );
+		assert( node != nullptr );
 		stackRoot->Prepend(node);
 
 		frame = frame->next;

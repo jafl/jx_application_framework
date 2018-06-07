@@ -158,9 +158,9 @@ private:
 	JXTextMenu*			itsHelpMenu;
 
 	CBTextFileType				itsFileType;
-	CBCharActionManager*		itsActionMgr;		// not owned; can be NULL
-	CBMacroManager*				itsMacroMgr;		// not owned; can be NULL
-	JTextEditor::CRMRuleList*	itsCRMRuleList;		// not owned; can be NULL
+	CBCharActionManager*		itsActionMgr;		// not owned; can be nullptr
+	CBMacroManager*				itsMacroMgr;		// not owned; can be nullptr
+	JTextEditor::CRMRuleList*	itsCRMRuleList;		// not owned; can be nullptr
 
 	const JCharacter*	itsHelpSectionName;
 	JBoolean			itsUpdateFileTypeFlag;		// kJFalse while constructing
@@ -332,7 +332,7 @@ CBTextDocument::GetCharActionManager
 	const
 {
 	*mgr = itsActionMgr;
-	return JI2B( itsActionMgr != NULL );
+	return JI2B( itsActionMgr != nullptr );
 }
 
 /******************************************************************************
@@ -350,7 +350,7 @@ CBTextDocument::GetMacroManager
 	const
 {
 	*mgr = itsMacroMgr;
-	return JI2B( itsMacroMgr != NULL );
+	return JI2B( itsMacroMgr != nullptr );
 }
 
 /******************************************************************************

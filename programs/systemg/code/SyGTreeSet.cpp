@@ -138,7 +138,7 @@ void SyGTreeSet::SyGTreeSetX
 	)
 {
 	itsMenuBar     = menuBar;
-	itsEmptyButton = NULL;
+	itsEmptyButton = nullptr;
 
 	const JFont& font              = GetFontManager()->GetDefaultMonospaceFont();
 	const JCoordinate filterHeight = font.GetLineHeight();
@@ -149,7 +149,7 @@ void SyGTreeSet::SyGTreeSetX
 	itsScrollbarSet =
 		jnew JXScrollbarSet(this, kHElastic, kVElastic,
 							0, filterHeight, w, h - filterHeight);
-	assert( itsScrollbarSet != NULL );
+	assert( itsScrollbarSet != nullptr );
 
 	JString path = pathName;
 	if (!JFSFileTreeNode::CanHaveChildren(path))
@@ -159,13 +159,13 @@ void SyGTreeSet::SyGTreeSetX
 		}
 
 	JDirEntry* entry = jnew JDirEntry(path);
-	assert( entry != NULL && JFSFileTreeNode::CanHaveChildren(*entry) );
+	assert( entry != nullptr && JFSFileTreeNode::CanHaveChildren(*entry) );
 	SyGFileTreeNode* root = jnew SyGFileTreeNode(entry);
-	assert( root != NULL );
+	assert( root != nullptr );
 	itsFileTree = jnew SyGFileTree(root);
-	assert( itsFileTree != NULL );
+	assert( itsFileTree != nullptr );
 	SyGFileTreeList* treeList = jnew SyGFileTreeList(itsFileTree);
-	assert( treeList != NULL );
+	assert( treeList != nullptr );
 
 	JXContainer* encl = itsScrollbarSet->GetScrollEnclosure();
 	JRect enclApG     = encl->GetApertureGlobal();
@@ -175,7 +175,7 @@ void SyGTreeSet::SyGTreeSetX
 									 itsScrollbarSet, encl, kHElastic, kVElastic,
 									 0, headerHeight,
 									 enclApG.width(), enclApG.height()-headerHeight);
-	assert( itsTable != NULL );
+	assert( itsTable != nullptr );
 	ListenTo(itsFileTree->GetRootDirInfo());
 
 	SyGHeaderWidget* colHeader =
@@ -183,20 +183,20 @@ void SyGTreeSet::SyGTreeSetX
 							 kHElastic, kFixedTop,
 							 0,0, enclApG.width(),
 							 headerHeight);
-	assert(colHeader != NULL);
+	assert(colHeader != nullptr);
 
 	// header:  filter
 
 	itsFilterLabel =
 		jnew JXStaticText("Filter:", this, kFixedLeft, kFixedTop,
 						  5,0, 40, filterHeight);
-	assert( itsFilterLabel != NULL );
+	assert( itsFilterLabel != nullptr );
 	itsFilterLabel->SetToLabel();
 
 	itsFilterHistory =
 		jnew JXStringHistoryMenu(10, "", this, kFixedRight, kFixedTop,
 								 0,0, 30, filterHeight);
-	assert( itsFilterHistory != NULL );
+	assert( itsFilterHistory != nullptr );
 	ListenTo(itsFilterHistory);
 	itsFilterHistory->Place(w - itsFilterHistory->GetFrameWidth(), 0);
 	itsFilterHistory->SetDefaultFont(font, kJTrue);
@@ -204,7 +204,7 @@ void SyGTreeSet::SyGTreeSetX
 	itsFilterInput =
 		jnew SyGFilterInput(itsTable, this, kHElastic, kFixedTop,
 							45,0, w - 45 - itsFilterHistory->GetFrameWidth(), filterHeight);
-	assert( itsFilterInput != NULL );
+	assert( itsFilterInput != nullptr );
 	ListenTo(itsFilterInput);
 	itsFilterInput->SetFont(font);
 
@@ -338,7 +338,7 @@ SyGTreeSet::UpdateDisplay
 
 	JXContainer* encl   = itsMenuBar->GetEnclosure();
 	const JCoordinate w = encl->GetBoundsWidth();
-	if (isTrashDir && itsEmptyButton == NULL)
+	if (isTrashDir && itsEmptyButton == nullptr)
 		{
 		itsMenuBar->SetSize(w - kEmptyButtonWidth, kJXDefaultMenuBarHeight);
 
@@ -346,15 +346,15 @@ SyGTreeSet::UpdateDisplay
 			jnew JXTextButton("Empty", encl, kFixedRight, kFixedTop,
 							 w - kEmptyButtonWidth, 0,
 							 kEmptyButtonWidth, kJXDefaultMenuBarHeight);
-		assert( itsEmptyButton != NULL );
+		assert( itsEmptyButton != nullptr );
 		ListenTo(itsEmptyButton);
 		}
-	else if (!isTrashDir && itsEmptyButton != NULL)
+	else if (!isTrashDir && itsEmptyButton != nullptr)
 		{
 		itsMenuBar->SetSize(w, kJXDefaultMenuBarHeight);
 
 		jdelete itsEmptyButton;
-		itsEmptyButton = NULL;
+		itsEmptyButton = nullptr;
 		}
 }
 

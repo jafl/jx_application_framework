@@ -195,7 +195,7 @@ GDBGetBreakpoints::ParseBreakpoint
 	CMBreakpoint* bp =
 		jnew CMBreakpoint(bpIndex, fileName, lineIndex, fn, addr,
 						 enabled, action, condition, ignoreCount);
-	assert( bp != NULL );
+	assert( bp != nullptr );
 	list->InsertSorted(bp);
 }
 
@@ -236,7 +236,7 @@ GDBGetBreakpoints::ParseOther
 	CMBreakpoint* bp =
 		jnew CMBreakpoint(bpIndex, CMLocation(), fn, "",
 						 enabled, action, condition, ignoreCount);
-	assert( bp != NULL );
+	assert( bp != nullptr );
 	list->Append(bp);
 
 	if (fn.Contains("watchpoint"))		// may be deleted when go out of scope

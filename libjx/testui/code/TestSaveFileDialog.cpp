@@ -44,7 +44,7 @@ TestSaveFileDialog::Create
 {
 	TestSaveFileDialog* dlog =
 		jnew TestSaveFileDialog(supervisor, dirInfo, fileFilter, saveFormat);
-	assert( dlog != NULL );
+	assert( dlog != nullptr );
 	dlog->BuildWindow(origName, prompt, message);
 	return dlog;
 }
@@ -106,122 +106,122 @@ TestSaveFileDialog::BuildWindow
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 310,390, JString::empty);
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	JXScrollbarSet* scrollbarSet =
 		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 20,140, 180,140);
-	assert( scrollbarSet != NULL );
+	assert( scrollbarSet != nullptr );
 
 	JXTextButton* saveButton =
 		jnew JXTextButton(JGetString("saveButton::TestSaveFileDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 220,280, 70,20);
-	assert( saveButton != NULL );
+	assert( saveButton != nullptr );
 	saveButton->SetShortcuts(JGetString("saveButton::TestSaveFileDialog::shortcuts::JXLayout"));
 
 	JXTextButton* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::TestSaveFileDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 220,310, 70,20);
-	assert( cancelButton != NULL );
+	assert( cancelButton != nullptr );
 
 	JXTextButton* homeButton =
 		jnew JXTextButton(JGetString("homeButton::TestSaveFileDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 250,140, 40,20);
-	assert( homeButton != NULL );
+	assert( homeButton != nullptr );
 
 	JXStaticText* pathLabel =
 		jnew JXStaticText(JGetString("pathLabel::TestSaveFileDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 20,20, 40,20);
-	assert( pathLabel != NULL );
+	assert( pathLabel != nullptr );
 	pathLabel->SetToLabel();
 
 	JXSaveFileInput* fileNameInput =
 		jnew JXSaveFileInput(window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 20,310, 180,20);
-	assert( fileNameInput != NULL );
+	assert( fileNameInput != nullptr );
 
 	JXPathInput* pathInput =
 		jnew JXPathInput(window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 60,20, 200,20);
-	assert( pathInput != NULL );
+	assert( pathInput != nullptr );
 
 	JXTextCheckbox* showHiddenCB =
 		jnew JXTextCheckbox(JGetString("showHiddenCB::TestSaveFileDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 60,80, 130,20);
-	assert( showHiddenCB != NULL );
+	assert( showHiddenCB != nullptr );
 
 	JXStaticText* promptLabel =
 		jnew JXStaticText(JGetString("promptLabel::TestSaveFileDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 20,290, 180,20);
-	assert( promptLabel != NULL );
+	assert( promptLabel != nullptr );
 	promptLabel->SetToLabel();
 
 	JXStaticText* filterLabel =
 		jnew JXStaticText(JGetString("filterLabel::TestSaveFileDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 20,50, 40,20);
-	assert( filterLabel != NULL );
+	assert( filterLabel != nullptr );
 	filterLabel->SetToLabel();
 
 	JXInputField* filterInput =
 		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 60,50, 200,20);
-	assert( filterInput != NULL );
+	assert( filterInput != nullptr );
 
 	JXStaticText* saveLabel =
 		jnew JXStaticText(JGetString("saveLabel::TestSaveFileDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 20,350, 60,20);
-	assert( saveLabel != NULL );
+	assert( saveLabel != nullptr );
 	saveLabel->SetToLabel();
 
 	itsFormatRG =
 		jnew JXRadioGroup(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 90,340, 192,36);
-	assert( itsFormatRG != NULL );
+	assert( itsFormatRG != nullptr );
 
 	JXTextRadioButton* gifRB =
 		jnew JXTextRadioButton(TestChooseSaveFile::kGIFFormat, JGetString("gifRB::TestSaveFileDialog::JXLayout"), itsFormatRG,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,5, 50,20);
-	assert( gifRB != NULL );
+	assert( gifRB != nullptr );
 
 	JXTextRadioButton* jpegRB =
 		jnew JXTextRadioButton(TestChooseSaveFile::kJPEGFormat, JGetString("jpegRB::TestSaveFileDialog::JXLayout"), itsFormatRG,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 120,5, 60,20);
-	assert( jpegRB != NULL );
+	assert( jpegRB != nullptr );
 
 	JXTextRadioButton* pngRB =
 		jnew JXTextRadioButton(TestChooseSaveFile::kPNGFormat, JGetString("pngRB::TestSaveFileDialog::JXLayout"), itsFormatRG,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 60,5, 50,20);
-	assert( pngRB != NULL );
+	assert( pngRB != nullptr );
 
 	JXPathHistoryMenu* pathHistory =
 		jnew JXPathHistoryMenu(1, JString::empty, window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 260,20, 30,20);
-	assert( pathHistory != NULL );
+	assert( pathHistory != nullptr );
 
 	JXStringHistoryMenu* filterHistory =
 		jnew JXStringHistoryMenu(1, JString::empty, window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 260,50, 30,20);
-	assert( filterHistory != NULL );
+	assert( filterHistory != nullptr );
 
 	JXTextButton* upButton =
 		jnew JXTextButton(JGetString("upButton::TestSaveFileDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 220,140, 30,20);
-	assert( upButton != NULL );
+	assert( upButton != nullptr );
 
 	JXTextButton* desktopButton =
 		jnew JXTextButton(JGetString("desktopButton::TestSaveFileDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 220,170, 70,20);
-	assert( desktopButton != NULL );
+	assert( desktopButton != nullptr );
 
 	JXNewDirButton* newDirButton =
 		jnew JXNewDirButton(window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 220,190, 70,20);
-	assert( newDirButton != NULL );
+	assert( newDirButton != nullptr );
 
 	JXCurrentPathMenu* currPathMenu =
 		jnew JXCurrentPathMenu(JGetRootDirectory(), window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 20,110, 180,20);
-	assert( currPathMenu != NULL );
+	assert( currPathMenu != nullptr );
 
 // end JXLayout
 
@@ -254,7 +254,7 @@ TestSaveFileDialog::Receive
 		{
 		const JXRadioGroup::SelectionChanged* selection =
 			dynamic_cast<const JXRadioGroup::SelectionChanged*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleFormatChange(selection->GetID());
 		}
 

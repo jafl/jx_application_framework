@@ -24,34 +24,34 @@
 #include <jDirUtil.h>
 #include <jAssert.h>
 
-static CMApp*				theApplication		= NULL;		// owned by JX
+static CMApp*				theApplication		= nullptr;		// owned by JX
 static JBoolean				theShutdownFlag     = kJFalse;
-static CMPrefsManager*		thePrefsManager		= NULL;
-static JXPTPrinter*			theTextPrinter		= NULL;
-static JXPSPrinter*			thePSPrinter		= NULL;
-static JX2DPlotEPSPrinter*	thePlotEPSPrinter	= NULL;
-static CBFnMenuUpdater*		theFnMenuUpdater	= NULL;
+static CMPrefsManager*		thePrefsManager		= nullptr;
+static JXPTPrinter*			theTextPrinter		= nullptr;
+static JXPSPrinter*			thePSPrinter		= nullptr;
+static JX2DPlotEPSPrinter*	thePlotEPSPrinter	= nullptr;
+static CBFnMenuUpdater*		theFnMenuUpdater	= nullptr;
 
-static CMLink*				theLink   = NULL;
-static CMCommandDirector*	theCmdDir = NULL;
+static CMLink*				theLink   = nullptr;
+static CMCommandDirector*	theCmdDir = nullptr;
 
 // owned by JXImageCache
-static JXImage* theCommandLineIcon   = NULL;
-static JXImage* theCurrentSourceIcon = NULL;
-static JXImage* theCurrentAsmIcon    = NULL;
-static JXImage* theThreadsIcon       = NULL;
-static JXImage* theStackTraceIcon    = NULL;
-static JXImage* theBreakpointsIcon   = NULL;
-static JXImage* theVariablesIcon     = NULL;
-static JXImage* theLocalVarsIcon     = NULL;
-static JXImage* theFileListIcon      = NULL;
-static JXImage* theSourceFileIcon    = NULL;
-static JXImage* theAsmSourceIcon     = NULL;
-static JXImage* theArray1DIcon       = NULL;
-static JXImage* theArray2DIcon       = NULL;
-static JXImage* thePlot2DIcon        = NULL;
-static JXImage* theMemoryIcon        = NULL;
-static JXImage* theRegistersIcon     = NULL;
+static JXImage* theCommandLineIcon   = nullptr;
+static JXImage* theCurrentSourceIcon = nullptr;
+static JXImage* theCurrentAsmIcon    = nullptr;
+static JXImage* theThreadsIcon       = nullptr;
+static JXImage* theStackTraceIcon    = nullptr;
+static JXImage* theBreakpointsIcon   = nullptr;
+static JXImage* theVariablesIcon     = nullptr;
+static JXImage* theLocalVarsIcon     = nullptr;
+static JXImage* theFileListIcon      = nullptr;
+static JXImage* theSourceFileIcon    = nullptr;
+static JXImage* theAsmSourceIcon     = nullptr;
+static JXImage* theArray1DIcon       = nullptr;
+static JXImage* theArray2DIcon       = nullptr;
+static JXImage* thePlot2DIcon        = nullptr;
+static JXImage* theMemoryIcon        = nullptr;
+static JXImage* theRegistersIcon     = nullptr;
 
 static const JCharacter* kCommandWindowClass     = "Code_Medic_Command_Line";
 static const JCharacter* kSourceWindowClass      = "Code_Medic_Source";
@@ -107,31 +107,31 @@ CMCreateGlobals
 
 	JBoolean isNew;
 	thePrefsManager = jnew CMPrefsManager(&isNew);
-	assert(thePrefsManager != NULL);
+	assert(thePrefsManager != nullptr);
 
 	JXInitHelp();
 
 	JXWDManager* wdMgr = jnew JXWDManager(display, kJTrue);
-	assert( wdMgr != NULL );
+	assert( wdMgr != nullptr );
 
 	CMDockManager* dockManager = jnew CMDockManager;
-	assert( dockManager != NULL );
+	assert( dockManager != nullptr );
 	dockManager->JPrefObject::ReadPrefs();
 
 	theTextPrinter = jnew JXPTPrinter;
-	assert( theTextPrinter != NULL );
+	assert( theTextPrinter != nullptr );
 	thePrefsManager->ReadPrinterSetup(theTextPrinter);
 
 	thePSPrinter = jnew JXPSPrinter(display);
-	assert( thePSPrinter != NULL );
+	assert( thePSPrinter != nullptr );
 	thePrefsManager->ReadPrinterSetup(thePSPrinter);
 
 	thePlotEPSPrinter = jnew JX2DPlotEPSPrinter(display);
-	assert( thePlotEPSPrinter != NULL );
+	assert( thePlotEPSPrinter != nullptr );
 	thePrefsManager->ReadPrinterSetup(thePlotEPSPrinter);
 
 	theFnMenuUpdater = jnew CBFnMenuUpdater;
-	assert( theFnMenuUpdater != NULL );
+	assert( theFnMenuUpdater != nullptr );
 
 	thePrefsManager->SyncWithCodeCrusader();
 	thePrefsManager->LoadSearchPrefs();		// requires JXHelpManager
@@ -151,7 +151,7 @@ void
 CMCreateCommandDirector()
 {
 	theCmdDir = jnew CMCommandDirector(theApplication);
-	assert( theCmdDir != NULL );
+	assert( theCmdDir != nullptr );
 	theCmdDir->Activate();
 }
 
@@ -169,32 +169,32 @@ CMDeleteGlobals()
 
 	thePrefsManager->WritePrinterSetup(theTextPrinter);
 	jdelete theTextPrinter;
-	theTextPrinter = NULL;
+	theTextPrinter = nullptr;
 
 	thePrefsManager->WritePrinterSetup(thePSPrinter);
 	jdelete thePSPrinter;
-	thePSPrinter = NULL;
+	thePSPrinter = nullptr;
 
 	thePrefsManager->WritePrinterSetup(thePlotEPSPrinter);
 	jdelete thePlotEPSPrinter;
-	thePlotEPSPrinter = NULL;
+	thePlotEPSPrinter = nullptr;
 
 	jdelete theFnMenuUpdater;
-	theFnMenuUpdater = NULL;
+	theFnMenuUpdater = nullptr;
 
 	jdelete theLink;
-	theLink = NULL;
+	theLink = nullptr;
 	lldb::SBDebugger::Terminate();
 
 	CMDeleteIcons();
 	CBShutdownStylers();
 
-	theApplication = NULL;
+	theApplication = nullptr;
 
 	// this must be last so everybody else can use it to save their setup
 
 	jdelete thePrefsManager;
-	thePrefsManager = NULL;
+	thePrefsManager = nullptr;
 }
 
 /******************************************************************************
@@ -232,7 +232,7 @@ void
 CMStartDebugger()
 {
 	CMLink* origLink = theLink;
-	theLink          = NULL;
+	theLink          = nullptr;
 
 	CMPrefsManager::DebuggerType type = CMGetPrefsManager()->GetDebuggerType();
 	if (type == CMPrefsManager::kGDBType)
@@ -251,14 +251,14 @@ CMStartDebugger()
 		{
 		theLink = jnew XDLink;
 		}
-	assert (theLink != NULL);
+	assert (theLink != nullptr);
 
 	// original must be deleted *last* so listeners can call CMGetLink() to
 	// get the new one
 
 	jdelete origLink;
 
-	if (theCmdDir != NULL)
+	if (theCmdDir != nullptr)
 		{
 		theCmdDir->InitializeCommandOutput();
 		}
@@ -283,7 +283,7 @@ CMIsShuttingDown()
 CMApp*
 CMGetApplication()
 {
-	assert( theApplication != NULL );
+	assert( theApplication != nullptr );
 	return theApplication;
 }
 
@@ -295,7 +295,7 @@ CMGetApplication()
 CMPrefsManager*
 CMGetPrefsManager()
 {
-	assert( thePrefsManager != NULL );
+	assert( thePrefsManager != nullptr );
 	return thePrefsManager;
 }
 
@@ -307,7 +307,7 @@ CMGetPrefsManager()
 JXPTPrinter*
 CMGetPTPrinter()
 {
-	assert( theTextPrinter != NULL );
+	assert( theTextPrinter != nullptr );
 	return theTextPrinter;
 }
 
@@ -319,7 +319,7 @@ CMGetPTPrinter()
 JXPSPrinter*
 CMGetPSPrinter()
 {
-	assert( thePSPrinter != NULL );
+	assert( thePSPrinter != nullptr );
 	return thePSPrinter;
 }
 
@@ -331,7 +331,7 @@ CMGetPSPrinter()
 JX2DPlotEPSPrinter*
 CMGetPlotEPSPrinter()
 {
-	assert( thePlotEPSPrinter != NULL );
+	assert( thePlotEPSPrinter != nullptr );
 	return thePlotEPSPrinter;
 }
 
@@ -343,7 +343,7 @@ CMGetPlotEPSPrinter()
 CBFnMenuUpdater*
 CMGetFnMenuUpdater()
 {
-	assert( theFnMenuUpdater != NULL );
+	assert( theFnMenuUpdater != nullptr );
 	return theFnMenuUpdater;
 }
 
@@ -355,7 +355,7 @@ CMGetFnMenuUpdater()
 CMLink*
 CMGetLink()
 {
-	assert( theLink != NULL );
+	assert( theLink != nullptr );
 	return theLink;
 }
 
@@ -367,7 +367,7 @@ CMGetLink()
 CMCommandDirector*
 CMGetCommandDirector()
 {
-	assert( theCmdDir != NULL );
+	assert( theCmdDir != nullptr );
 	return theCmdDir;
 }
 

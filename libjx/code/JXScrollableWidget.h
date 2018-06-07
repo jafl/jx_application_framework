@@ -89,7 +89,7 @@ protected:
 
 private:
 
-	JXScrollbarSet*	itsScrollbarSet;		// can be NULL
+	JXScrollbarSet*	itsScrollbarSet;		// can be nullptr
 	JBoolean		itsAlwaysShowScrollFlag;
 	JBoolean		itsWindowFrozenFlag;
 	JBoolean		itsAdjustingFlag;		// if should ignore scrollbar messages

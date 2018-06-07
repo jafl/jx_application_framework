@@ -44,7 +44,7 @@ public:
 
 protected:
 
-	JError(const JUtf8Byte* type, const JUtf8Byte* msg = NULL);
+	JError(const JUtf8Byte* type, const JUtf8Byte* msg = nullptr);
 
 	void	SetMessage(const JString& msg);
 	void	SetMessage(const JUtf8Byte* map[], const JSize size);	// JStringManager -- id is object's type

@@ -83,7 +83,7 @@ CBPHPTreeDirector::CBPHPTreeDirector
 				   kWindowTitleSuffix, "CBPHPTreeHelp", jcc_php_tree_window,
 				   kTreeMenuTitleStr, kTreeMenuStr, "CBPHPTreeDirector",
 				   kCBPHPTreeToolBarID, InitPHPTreeToolBar,
-				   NULL, kJFalse)
+				   nullptr, kJFalse)
 {
 	CBPHPTreeDirectorX();
 }
@@ -94,7 +94,7 @@ void
 CBPHPTreeDirector::CBPHPTreeDirectorX()
 {
 	itsPHPTree = dynamic_cast<CBPHPTree*>(GetTree());
-	assert( itsPHPTree != NULL );
+	assert( itsPHPTree != nullptr );
 }
 
 /******************************************************************************
@@ -241,10 +241,10 @@ CBPHPTreeDirector::NewPHPTree
 	// dynamic_cast<> doesn't work because object is not fully constructed
 
 	CBPHPTreeDirector* phpTreeDir = static_cast<CBPHPTreeDirector*>(director);
-	assert( phpTreeDir != NULL );
+	assert( phpTreeDir != nullptr );
 
 	CBPHPTree* tree = jnew CBPHPTree(phpTreeDir, marginWidth);
-	assert( tree != NULL );
+	assert( tree != nullptr );
 	return tree;
 }
 
@@ -267,17 +267,17 @@ CBPHPTreeDirector::StreamInPHPTree
 	CBDirList*			dirList
 	)
 {
-	assert( dirList == NULL );
+	assert( dirList == nullptr );
 
 	// dynamic_cast<> doesn't work because object is not fully constructed
 
 	CBPHPTreeDirector* phpTreeDir = static_cast<CBPHPTreeDirector*>(director);
-	assert( phpTreeDir != NULL );
+	assert( phpTreeDir != nullptr );
 
 	CBPHPTree* tree = jnew CBPHPTree(projInput, projVers,
 									setInput, setVers, symInput, symVers,
 									phpTreeDir, marginWidth, dirList);
-	assert( tree != NULL );
+	assert( tree != nullptr );
 	return tree;
 }
 

@@ -104,7 +104,7 @@ CBSearchDocument::Create
 		close(fd[1]);
 
 		JProcess* process = jnew JProcess(pid);
-		assert( process != NULL );
+		assert( process != nullptr );
 
 		const JCharacter* map[] =
 			{
@@ -116,7 +116,7 @@ CBSearchDocument::Create
 			jnew CBSearchDocument(kJFalse, JI2B(onlyListFiles || listFilesWithoutMatch),
 								 fileList.GetElementCount(),
 								 process, fd[0], windowTitle);
-		assert( doc != NULL );
+		assert( doc != nullptr );
 		doc->Activate();
 
 		RecordLink* link;
@@ -185,7 +185,7 @@ CBSearchDocument::Create
 		close(fd[1]);
 
 		JProcess* process = jnew JProcess(pid);
-		assert( process != NULL );
+		assert( process != nullptr );
 
 		const JCharacter* map[] =
 			{
@@ -197,7 +197,7 @@ CBSearchDocument::Create
 		CBSearchDocument* doc =
 			jnew CBSearchDocument(kJTrue, kJTrue, fileList.GetElementCount(),
 								 process, fd[0], windowTitle);
-		assert( doc != NULL );
+		assert( doc != nullptr );
 
 		(JXGetApplication())->Suspend();	// do this first so result window is active
 		doc->Activate();
@@ -229,7 +229,7 @@ CBSearchDocument::CBSearchDocument
 	CBExecOutputDocument(kCBSearchOutputFT, "CBSearchTextHelp-Multifile", kJFalse, kJFalse),
 	itsIsReplaceFlag(isReplace),
 	itsOnlyListFilesFlag(onlyListFiles),
-	itsReplaceTE(NULL)
+	itsReplaceTE(nullptr)
 {
 	itsFoundFlag       = kJFalse;
 	itsPrevQuoteOffset = 0;
@@ -241,7 +241,7 @@ CBSearchDocument::CBSearchDocument
 	itsIndicator =
 		jnew JXProgressIndicator(GetWindow(), hSizing, vSizing,
 								 -1000, -1000, 500, kIndicatorHeight);
-	assert( itsIndicator != NULL );
+	assert( itsIndicator != nullptr );
 	itsIndicator->SetMaxValue(fileCount);
 
 	JXMenuBar* menuBar = GetMenuBar();
@@ -268,7 +268,7 @@ CBSearchDocument::CBSearchDocument
 	if (itsIsReplaceFlag)
 		{
 		itsReplaceTE = jnew CBSearchTE;
-		assert( itsReplaceTE != NULL );
+		assert( itsReplaceTE != nullptr );
 		}
 }
 
@@ -333,13 +333,13 @@ CBSearchDocument::ProcessFinished
 	if (itsIsReplaceFlag)
 		{
 		jdelete itsReplaceTE;
-		itsReplaceTE = NULL;
+		itsReplaceTE = nullptr;
 
 		(JXGetApplication())->Resume();
 		}
 
 	jdelete itsIndicator;
-	itsIndicator = NULL;
+	itsIndicator = nullptr;
 
 	SetFileDisplayVisible(kJTrue);
 
@@ -486,7 +486,7 @@ CBSearchDocument::ReplaceAll
 	if ((CBGetDocumentManager())->FileDocumentIsOpen(fileName, &doc))
 		{
 		CBTextDocument* textDoc = dynamic_cast<CBTextDocument*>(doc);
-		if (textDoc != NULL)
+		if (textDoc != nullptr)
 			{
 			(textDoc->GetWindow())->Update();
 
@@ -578,7 +578,7 @@ CBSearchDocument::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleMatchMenu(selection->GetIndex());
 		}
 

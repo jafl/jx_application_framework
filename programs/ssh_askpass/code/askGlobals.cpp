@@ -11,7 +11,7 @@
 #include "ASKApp.h"
 #include <jAssert.h>
 
-static ASKApp*	theApplication  = NULL;		// owns itself
+static ASKApp*	theApplication  = nullptr;		// owns itself
 
 // string ID's
 
@@ -41,7 +41,7 @@ ASKCreateGlobals
 void
 ASKDeleteGlobals()
 {
-	theApplication = NULL;
+	theApplication = nullptr;
 }
 
 /******************************************************************************
@@ -52,7 +52,7 @@ ASKDeleteGlobals()
 ASKApp*
 ASKGetApplication()
 {
-	assert( theApplication != NULL );
+	assert( theApplication != nullptr );
 	return theApplication;
 }
 

@@ -47,7 +47,7 @@ private:
 
 	const JString	itsFullName;
 	const JString	itsRevision;
-	JXTextMenu*		itsContextMenu;		// NULL until first used
+	JXTextMenu*		itsContextMenu;		// nullptr until first used
 
 private:
 

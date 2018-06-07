@@ -58,17 +58,17 @@ CMDebugDir::BuildWindow()
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 450,500, "");
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	JXScrollbarSet* scrollbarSet =
 		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,20, 450,480);
-	assert( scrollbarSet != NULL );
+	assert( scrollbarSet != nullptr );
 
 	itsCopyButton =
 		jnew JXTextButton(JGetString("itsCopyButton::CMDebugDir::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 450,20);
-	assert( itsCopyButton != NULL );
+	assert( itsCopyButton != nullptr );
 
 // end JXLayout
 
@@ -82,7 +82,7 @@ CMDebugDir::BuildWindow()
 		jnew JXStaticText("", kJFalse, kJTrue,
 						 scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 						 JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 100,100);
-	assert( itsText != NULL );
+	assert( itsText != nullptr );
 	itsText->FitToEnclosure();
 	CMTextDisplayBase::AdjustFont(itsText);
 
@@ -123,7 +123,7 @@ CMDebugDir::Receive
 			{
 			const CMLink::DebugOutput* msg =
 				dynamic_cast<const CMLink::DebugOutput*>(&message);
-			assert( msg != NULL );
+			assert( msg != nullptr );
 
 			const CMLink::DebugType type = msg->GetType();
 			if (type == CMLink::kCommandType)

@@ -38,7 +38,7 @@ JContainer::JContainer()
 	// We get called before the JList gets created.
 	// Derived classes must therefore call InstallOrderedSet
 
-	itsOrderedSet = NULL;
+	itsOrderedSet = nullptr;
 }
 
 /******************************************************************************
@@ -56,7 +56,7 @@ JContainer::JContainer
 	// We get called before the JList gets created.
 	// Derived classes must therefore call InstallOrderedSet()
 
-	itsOrderedSet = NULL;
+	itsOrderedSet = nullptr;
 }
 
 /******************************************************************************
@@ -97,7 +97,7 @@ JContainer::InstallOrderedSet
 	JCollection* theOrderedSet
 	)
 {
-	if (itsOrderedSet != NULL)
+	if (itsOrderedSet != nullptr)
 		{
 		StopListening(itsOrderedSet);
 		}
@@ -125,14 +125,14 @@ JContainer::Receive
 		{
 		const JListT::ElementsInserted* info =
 			dynamic_cast<const JListT::ElementsInserted*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		SetElementCount(GetElementCount() + info->GetCount());
 		}
 	else if (sender == itsOrderedSet && message.Is(JListT::kElementsRemoved))
 		{
 		const JListT::ElementsRemoved* info =
 			dynamic_cast<const JListT::ElementsRemoved*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		SetElementCount(GetElementCount() - info->GetCount());
 		}
 	else

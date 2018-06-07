@@ -80,7 +80,7 @@ JXRectangleRegion
 /******************************************************************************
  JXGetRegionBounds
 
-	If the region is a rectangle and rect != NULL, *rect contains the rectangle.
+	If the region is a rectangle and rect != nullptr, *rect contains the rectangle.
 
  ******************************************************************************/
 
@@ -98,7 +98,7 @@ JXGetRegionBounds
 /******************************************************************************
  JXRegionIsRectangle
 
-	If the region is a rectangle and rect != NULL, *rect contains the rectangle.
+	If the region is a rectangle and rect != nullptr, *rect contains the rectangle.
 
  ******************************************************************************/
 
@@ -114,7 +114,7 @@ JXRegionIsRectangle
 	if (XRectInRegion(region, xRect.x, xRect.y, xRect.width, xRect.height) ==
 		RectangleIn)
 		{
-		if (rect != NULL)
+		if (rect != nullptr)
 			{
 			*rect = JXXToJRect(xRect);
 			}
@@ -122,7 +122,7 @@ JXRegionIsRectangle
 		}
 	else
 		{
-		if (rect != NULL)
+		if (rect != nullptr)
 			{
 			*rect = JRect(0,0,0,0);
 			}
@@ -302,7 +302,7 @@ JXIntersection
  Packing strings
 
 	These routines pack and unpack a list of strings using the standard
-	X format of NULL separation.
+	X format of nullptr separation.
 
 	JXUnpackStrings() does not clear strList.
 
@@ -436,7 +436,7 @@ JXReportUnreachableHosts
 		if (iter.Next(urlPattern))
 			{
 			JString* host = jnew JString(iter.GetLastMatch().GetSubstring(1));
-			assert( host != NULL );
+			assert( host != nullptr );
 			if (!hostList.InsertSorted(host, kJFalse))
 				{
 				jdelete host;

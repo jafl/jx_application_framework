@@ -106,13 +106,13 @@ void
 JVariableList::JVariableListX()
 {
 	itsDVarUserList = jnew JPtrArray<JDecision>(JPtrArrayT::kForgetAll);
-	assert( itsDVarUserList != NULL );
+	assert( itsDVarUserList != nullptr );
 
 	itsFVarUserList = jnew JPtrArray<JFunction>(JPtrArrayT::kForgetAll);
-	assert( itsFVarUserList != NULL );
+	assert( itsFVarUserList != nullptr );
 
 	itsEvalStack = jnew JArray<JBoolean>(10);
-	assert( itsEvalStack != NULL );
+	assert( itsEvalStack != nullptr );
 }
 
 /******************************************************************************
@@ -566,7 +566,7 @@ JVariableList::Receive
 		{
 		const JListT::ElementsInserted* info =
 			dynamic_cast<const JListT::ElementsInserted*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		VariablesInserted(*info);
 		}
 	else if (sender == const_cast<JCollection*>(mainList) &&
@@ -580,7 +580,7 @@ JVariableList::Receive
 
 			const JListT::ElementsRemoved* info =
 				dynamic_cast<const JListT::ElementsRemoved*>(&message);
-			assert( info != NULL );
+			assert( info != nullptr );
 			VariablesRemoved(*info);
 			}
 		}
@@ -589,7 +589,7 @@ JVariableList::Receive
 		{
 		const JListT::ElementMoved* info =
 			dynamic_cast<const JListT::ElementMoved*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		VariableMoved(*info);
 		}
 	else if (sender == const_cast<JCollection*>(mainList) &&
@@ -597,7 +597,7 @@ JVariableList::Receive
 		{
 		const JListT::ElementsSwapped* info =
 			dynamic_cast<const JListT::ElementsSwapped*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		VariablesSwapped(*info);
 		}
 	else if (sender == const_cast<JCollection*>(mainList) &&

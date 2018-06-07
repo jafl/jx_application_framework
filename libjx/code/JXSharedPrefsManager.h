@@ -61,7 +61,7 @@ public:
 
 private:
 
-	JPrefsFile*		itsFile;			// NULL unless working
+	JPrefsFile*		itsFile;			// nullptr unless working
 	JBoolean		itsChangedFlag;		// used when re-entrant
 	JXTimerTask*	itsUpdateTask;
 	JString			itsSignalFileName;	// can be empty

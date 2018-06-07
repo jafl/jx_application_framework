@@ -36,7 +36,7 @@ static const JUtf8Byte* kDefaultFontName =
 	#ifdef _J_OSX
 	"Arial";
 	#else
-	NULL;
+	nullptr;
 	#endif
 
 static const JUtf8Byte* kMonospaceFontName =
@@ -85,10 +85,10 @@ JXFontManager::JXFontManager
 	itsDisplay = display;
 
 	itsFontList = jnew JArray<FontInfo>;
-	assert( itsFontList != NULL );
+	assert( itsFontList != nullptr );
 
-	itsAllFontNames  = NULL;
-	itsMonoFontNames = NULL;
+	itsAllFontNames  = nullptr;
+	itsMonoFontNames = nullptr;
 }
 
 /******************************************************************************
@@ -138,7 +138,7 @@ JXFontManager::GetFontNames
 	JPtrArray<JString>* fontNames
 	)
 {
-	if (itsAllFontNames != NULL)
+	if (itsAllFontNames != nullptr)
 		{
 		fontNames->CopyObjects(*itsAllFontNames, fontNames->GetCleanUpAction(), kJFalse);
 		return;
@@ -154,15 +154,15 @@ JXFontManager::GetFontNames
 		XftListFonts(*itsDisplay, itsDisplay->GetScreen(),
 					 FC_LANG, FcTypeString,
 						JGetStringManager()->GetBCP47Locale().GetBytes(),
-					 NULL,
-					 FC_FAMILY, NULL);
+					 nullptr,
+					 FC_FAMILY, nullptr);
 
 	for (int i=0; i < set->nfont; i++)
 		{
 		FcChar8* s = FcNameUnparse(set->fonts[i]);
 		name.Set((JUtf8Byte*) s);
 		FcStrFree(s);
-		s = NULL;
+		s = nullptr;
 
 		TrimTrueTypeFontName(&name);
 		if (ShouldIgnore(name))
@@ -187,7 +187,7 @@ JXFontManager::GetFontNames
 	int nameCount;
 	char** nameList = XListFonts(*itsDisplay, "-*-*-medium-r-normal-*-0-0-75-75-*-*-iso10646-1",
 								 INT_MAX, &nameCount);
-	if (nameList == NULL)
+	if (nameList == nullptr)
 		{
 		return;
 		}
@@ -220,7 +220,7 @@ JXFontManager::GetFontNames
 	// save names for next time
 
 	itsAllFontNames = jnew JDCCPtrArray<JString>(*fontNames, JPtrArrayT::kDeleteAll);
-	assert( itsAllFontNames != NULL );
+	assert( itsAllFontNames != nullptr );
 
 #endif
 }
@@ -236,7 +236,7 @@ JXFontManager::GetMonospaceFontNames
 	JPtrArray<JString>* fontNames
 	)
 {
-	if (itsMonoFontNames != NULL)
+	if (itsMonoFontNames != nullptr)
 		{
 		fontNames->CopyObjects(*itsMonoFontNames, fontNames->GetCleanUpAction(), kJFalse);
 		return;
@@ -255,15 +255,15 @@ JXFontManager::GetMonospaceFontNames
 					 FC_SPACING, FcTypeInteger, FC_MONO,
 					 FC_LANG, FcTypeString,
 						JGetStringManager()->GetBCP47Locale().GetBytes(),
-					 NULL,
-					 FC_FAMILY, NULL);
+					 nullptr,
+					 FC_FAMILY, nullptr);
 
 	for (int i=0; i < set->nfont; i++)
 		{
 		FcChar8* s = FcNameUnparse(set->fonts[i]);
 		name.Set((JUtf8Byte*) s);
 		FcStrFree(s);
-		s = NULL;
+		s = nullptr;
 //		std::cout << "tt  mono: " << name << std::endl;
 
 		TrimTrueTypeFontName(&name);
@@ -279,7 +279,7 @@ JXFontManager::GetMonospaceFontNames
 	// save names for next time
 
 	itsMonoFontNames = jnew JDCCPtrArray<JString>(*fontNames, JPtrArrayT::kDeleteAll);
-	assert( itsMonoFontNames != NULL );
+	assert( itsMonoFontNames != nullptr );
 }
 
 /******************************************************************************
@@ -288,7 +288,7 @@ JXFontManager::GetMonospaceFontNames
 	This provides raw output from XListFonts().  For example, ^[0-9]x[0-9]+$
 	would yield a list of clean, monospace fonts.
 
-	If compare is NULL, we use JCompareStringsCaseInsensitive().
+	If compare is nullptr, we use JCompareStringsCaseInsensitive().
 
  ******************************************************************************/
 
@@ -302,12 +302,12 @@ JXFontManager::GetXFontNames
 {
 	fontNames->CleanOut();
 	fontNames->SetCompareFunction(
-					compare != NULL ? compare : JCompareStringsCaseInsensitive);
+					compare != nullptr ? compare : JCompareStringsCaseInsensitive);
 	fontNames->SetSortOrder(JListT::kSortAscending);
 
 	int nameCount;
 	char** nameList = XListFonts(*itsDisplay, "*", INT_MAX, &nameCount);
-	if (nameList == NULL)
+	if (nameList == nullptr)
 		{
 		return;
 		}
@@ -323,7 +323,7 @@ JXFontManager::GetXFontNames
 			if (!isDuplicate)
 				{
 				JString* n = jnew JString(name);
-				assert( n != NULL );
+				assert( n != nullptr );
 				fontNames->InsertAtIndex(index, n);
 				}
 			}
@@ -374,7 +374,7 @@ JXFontManager::GetXFont
 	JFont**			font
 	)
 {
-	*font = NULL;
+	*font = nullptr;
 
 	const JFontID id = GetFontID(xFontStr, 0, JFontStyle());
 	while (!itsFontList->IndexValid(id))
@@ -386,14 +386,14 @@ JXFontManager::GetXFont
 	if (info.filled)
 		{
 		*font = jnew JFont(GetFont(id));
-		assert( font != NULL );
+		assert( font != nullptr );
 		return kJTrue;
 		}
 
 	// falling through means we need to create a new entry
 
 	XftFont* xft = XftFontOpenXlfd(*itsDisplay, itsDisplay->GetScreen(), xFontStr.GetBytes());
-	if (xft != NULL)
+	if (xft != nullptr)
 		{
 		info.xfont.type = kTrueType;
 		info.xfont.xftt = xft;
@@ -404,7 +404,7 @@ JXFontManager::GetXFont
 		int missingCharsetCount;
 		char* defString;
 		XFontSet set = XCreateFontSet(*itsDisplay, xFontStr.GetBytes(), &missingCharsetList, &missingCharsetCount, &defString);
-		if (set != NULL)
+		if (set != nullptr)
 			{
 			XFreeStringList(missingCharsetList);
 			info.xfont.type  = kStdType;
@@ -423,7 +423,7 @@ JXFontManager::GetXFont
 	itsFontList->SetElement(id, info);
 
 	*font = jnew JFont(GetFont(id));
-	assert( font != NULL );
+	assert( font != nullptr );
 	return kJTrue;
 }
 
@@ -696,7 +696,7 @@ JXFontManager::GetNewFont
 	if (BuildTrueTypeFontName(origName, origSize, style, &xFontStr))
 		{
 		XftFont* xft = XftFontOpenName(*itsDisplay, itsDisplay->GetScreen(), xFontStr.GetBytes());
-		if (xft != NULL)
+		if (xft != nullptr)
 			{
 			xfont->type = kTrueType;
 			xfont->xftt = xft;
@@ -739,7 +739,7 @@ JXFontManager::GetNewFont
 		{
 		xFontStr = BuildStdFontName(name, pointSize, pixelSize, pixelWidth, spacing, style, italicStr);
 		set      = XCreateFontSet(*itsDisplay, xFontStr.GetBytes(), &missingCharsetList, &missingCharsetCount, &defString);
-		if (set != NULL)
+		if (set != nullptr)
 			{
 			XFreeStringList(missingCharsetList);
 			xfont->type  = kStdType;
@@ -1112,13 +1112,13 @@ JXFontManager::XFont::Free
 	JXDisplay* display
 	)
 {
-	if (xfset != NULL)
+	if (xfset != nullptr)
 	{
 		assert( type == kStdType );
 		XFreeFontSet(*display, xfset);
 	}
 
-	if (xftt != NULL)
+	if (xftt != nullptr)
 	{
 		assert( type == kTrueType );
 		XftFontClose(*display, xftt);

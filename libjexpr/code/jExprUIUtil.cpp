@@ -40,8 +40,8 @@ JApplyFunction
 	JUserInputFunction**	newUIF
 	)
 {
-	*newF   = NULL;
-	*newUIF = NULL;
+	*newF   = nullptr;
+	*newUIF = nullptr;
 
 	JString buffer = fnName;
 	buffer.TrimWhitespace();
@@ -96,7 +96,7 @@ JApplyFunction
 
 		const JFunctionType newType = (**newF).GetType();
 		JFunctionWithArgs* fwa = (**newF).CastToJFunctionWithArgs();
-		assert( fwa != NULL );
+		assert( fwa != nullptr );
 		argCount = fwa->GetArgCount();
 		for (JIndex i=1; i<=argCount; i++)
 			{
@@ -111,9 +111,9 @@ JApplyFunction
 			else if (newType != kJLogBType || origArgCount > 1)
 				{
 				JUserInputFunction* uif = jnew JUserInputFunction(varList, fontMgr);
-				assert( uif != NULL );
+				assert( uif != nullptr );
 				fwa->SetArg(i, uif);
-				if (*newUIF == NULL)
+				if (*newUIF == nullptr)
 					{
 					*newUIF = uif;
 					}

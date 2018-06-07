@@ -124,7 +124,7 @@ private:
 	static Bool	GetNextNewPropertyEvent(Display* display, XEvent* event, char* arg);
 
 	JBoolean	GetData(const Atom selectionName, const Time time,
-						JXSelectionData** data, JIndex* index = NULL);
+						JXSelectionData** data, JIndex* index = nullptr);
 	void		DeleteOutdatedData();
 
 	// called by JXDNDManager

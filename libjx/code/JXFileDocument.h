@@ -41,7 +41,7 @@ public:
 	JBoolean	SaveInCurrentFile();
 	JBoolean	SaveInNewFile(const JString& fullName = JString::empty);
 	JBoolean	SaveCopyInNewFile(const JString& origName = JString::empty,
-								  JString* fullName = NULL);
+								  JString* fullName = nullptr);
 
 	JBoolean				ExistsOnDisk() const;
 	const JString&			GetFilePath() const;
@@ -49,8 +49,8 @@ public:
 	JString					GetFullName(JBoolean* onDisk) const;
 	virtual const JString&	GetName() const;
 
-	JBoolean	FileModifiedByOthers(JBoolean* modTimeChanged = NULL,
-									 JBoolean* permsChanged = NULL) const;
+	JBoolean	FileModifiedByOthers(JBoolean* modTimeChanged = nullptr,
+									 JBoolean* permsChanged = nullptr) const;
 	void		CheckIfModifiedByOthers();
 	void		RevertIfChangedByOthers(const JBoolean force = kJFalse);
 
@@ -134,7 +134,7 @@ private:
 	JBoolean	itsAllocateTitleSpaceFlag;
 
 	JBoolean	itsNeedSafetySaveFlag;	// kJTrue if not safety saved after latest DataModified()
-	JString*	itsSafetySaveFileName;	// not NULL if safety save file exists
+	JString*	itsSafetySaveFileName;	// not nullptr if safety save file exists
 
 	JChooseSaveFile*	itsCSF;			// we don't own this
 	JString				itsSaveBeforeClosePrompt;

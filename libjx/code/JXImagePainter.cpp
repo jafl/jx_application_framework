@@ -19,7 +19,7 @@
 /******************************************************************************
  Constructor
 
-	defaultClipRegion can be NULL
+	defaultClipRegion can be nullptr
 
 	We don't use the image's GC because our clipping could interfere
 	with JXImage code.
@@ -37,12 +37,12 @@ JXImagePainter::JXImagePainter
 	JXWindowPainter(jnew JXGC(image->GetDisplay(), drawable),
 					drawable, defaultClipRect, defaultClipRegion)
 {
-	assert( image != NULL );
+	assert( image != nullptr );
 
 #ifndef NDEBUG
 	{
 	JXGC* gc = GetGC();
-	assert( gc != NULL );
+	assert( gc != nullptr );
 	}
 #endif
 
@@ -63,7 +63,7 @@ JXImagePainter::~JXImagePainter()
 	JXGC* gc = GetGC();
 	jdelete gc;
 
-	if (itsImage != NULL)
+	if (itsImage != nullptr)
 		{
 		itsImage->ConvertToDefaultState();
 		}
@@ -265,7 +265,7 @@ JXImagePainter::Image
 	)
 {
 	const JXImage* ximage = dynamic_cast<const JXImage*>(&image);
-	assert( ximage != NULL );
+	assert( ximage != nullptr );
 
 	if (PrepareXDraw())
 		{
@@ -281,7 +281,7 @@ JXImagePainter::Image
 JBoolean
 JXImagePainter::PrepareXDraw()
 {
-	if (itsImage != NULL)
+	if (itsImage != nullptr)
 		{
 		itsImage->ConvertToPixmap();
 		SetDrawable(itsImage->itsPixmap);

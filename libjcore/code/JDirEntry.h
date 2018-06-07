@@ -118,7 +118,7 @@ private:
 	JString		itsPath;
 	JString		itsName;
 	JString		itsFullName;
-	JString*	itsLinkName;		// NULL unless it is a link
+	JString*	itsLinkName;		// nullptr unless it is a link
 
 	Type		itsType;
 	JSize		itsSize;
@@ -129,9 +129,9 @@ private:
 	time_t		itsSModTime;		// from stat
 	time_t		itsSStatusTime;
 	uid_t		itsUserID;
-	JString*	itsUserName;		// NULL until first needed
+	JString*	itsUserName;		// nullptr until first needed
 	gid_t		itsGroupID;
-	JString*	itsGroupName;		// NULL until first needed
+	JString*	itsGroupName;		// nullptr until first needed
 
 	JBoolean	itsIsReadableFlag;
 	JBoolean	itsIsWritableFlag;
@@ -252,7 +252,7 @@ JDirEntry::GetLinkName
 	const
 {
 	*linkName = itsLinkName;
-	return JI2B( itsLinkName != NULL );
+	return JI2B( itsLinkName != nullptr );
 }
 
 /*****************************************************************************

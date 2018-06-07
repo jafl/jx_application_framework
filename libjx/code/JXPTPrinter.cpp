@@ -37,8 +37,8 @@ JXPTPrinter::JXPTPrinter()
 	JPTPrinter(),
 	itsDestination(kPrintToPrinter),
 	itsPrintCmd("lpr", 0, kJFalse),
-	itsPageSetupDialog(NULL),
-	itsPrintSetupDialog(NULL)
+	itsPageSetupDialog(nullptr),
+	itsPrintSetupDialog(nullptr)
 {
 }
 
@@ -54,7 +54,7 @@ JXPTPrinter::~JXPTPrinter()
 /******************************************************************************
  SetDestination
 
-	cmd and fileName can be NULL.  They are there to force the caller to
+	cmd and fileName can be nullptr.  They are there to force the caller to
 	consider them.
 
  ******************************************************************************/
@@ -69,12 +69,12 @@ JXPTPrinter::SetDestination
 {
 	itsDestination = dest;
 
-	if (printCmd != NULL)
+	if (printCmd != nullptr)
 		{
 		itsPrintCmd = printCmd;
 		}
 
-	if (fileName != NULL)
+	if (fileName != nullptr)
 		{
 		itsFileName = fileName;
 		}
@@ -219,7 +219,7 @@ JXPTPrinter::Print
 		const JSize copyCount = GetCopyCount();
 		for (JIndex i=1; i<=copyCount; i++)
 			{
-			const JError err = JExecute(sysCmd, NULL);
+			const JError err = JExecute(sysCmd, nullptr);
 			if (!err.OK())
 				{
 				err.ReportIfError();
@@ -257,7 +257,7 @@ JXPTPrinter::Print
 void
 JXPTPrinter::BeginUserPageSetup()
 {
-	assert( itsPageSetupDialog == NULL && itsPrintSetupDialog == NULL );
+	assert( itsPageSetupDialog == nullptr && itsPrintSetupDialog == nullptr );
 
 	itsPageSetupDialog =
 		CreatePageSetupDialog(itsPrintCmd, GetPageWidth(), GetPageHeight(),
@@ -303,12 +303,12 @@ JXPTPrinter::EndUserPageSetup
 	const JBroadcaster::Message& message
 	)
 {
-	assert( itsPageSetupDialog != NULL );
+	assert( itsPageSetupDialog != nullptr );
 	assert( message.Is(JXDialogDirector::kDeactivated) );
 
 	const JXDialogDirector::Deactivated* info =
 		dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-	assert( info != NULL );
+	assert( info != nullptr );
 
 	JBoolean changed = kJFalse;
 	if (info->Successful())
@@ -316,7 +316,7 @@ JXPTPrinter::EndUserPageSetup
 		changed = itsPageSetupDialog->SetParameters(this);
 		}
 
-	itsPageSetupDialog = NULL;
+	itsPageSetupDialog = nullptr;
 	return changed;
 }
 
@@ -331,7 +331,7 @@ JXPTPrinter::EndUserPageSetup
 void
 JXPTPrinter::BeginUserPrintSetup()
 {
-	assert( itsPageSetupDialog == NULL && itsPrintSetupDialog == NULL );
+	assert( itsPageSetupDialog == nullptr && itsPrintSetupDialog == nullptr );
 
 	itsPrintSetupDialog =
 		CreatePrintSetupDialog(itsDestination, itsPrintCmd, itsFileName,
@@ -376,19 +376,19 @@ JXPTPrinter::EndUserPrintSetup
 	JBoolean*						changed
 	)
 {
-	assert( itsPrintSetupDialog != NULL );
+	assert( itsPrintSetupDialog != nullptr );
 	assert( message.Is(JXDialogDirector::kDeactivated) );
 
 	const JXDialogDirector::Deactivated* info =
 		dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-	assert( info != NULL );
+	assert( info != nullptr );
 
 	if (info->Successful())
 		{
 		*changed = itsPrintSetupDialog->SetParameters(this);
 		}
 
-	itsPrintSetupDialog = NULL;
+	itsPrintSetupDialog = nullptr;
 	return info->Successful();
 }
 

@@ -255,7 +255,7 @@ CBFileNode::CreateFilesForTemplate
 		JSplitPathAndName(relName, &path, &name);
 
 		const CBProjectTree* projTree = dynamic_cast<const CBProjectTree*>(GetTree());
-		assert( projTree != NULL );
+		assert( projTree != nullptr );
 
 		const JString& basePath = (projTree->GetProjectDoc())->GetFilePath();
 		path = JCombinePathAndName(basePath, path);

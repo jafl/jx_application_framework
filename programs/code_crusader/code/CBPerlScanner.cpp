@@ -53,7 +53,7 @@ CBPerlScanner::BeginScan
 	itsHereDocTag.Clear();
 	itsHereDocType = kDoubleQuoteString;
 
-	switch_streams(&input, NULL);
+	switch_streams(&input, nullptr);
 }
 
 /******************************************************************************
@@ -129,7 +129,7 @@ CBPerlScanner::SlurpQuoted
 						{
 						return kJTrue;
 						}
-					else if (strchr(suffixList, c) == NULL)
+					else if (strchr(suffixList, c) == nullptr)
 						{
 						yyunput(c, yytext);
 						return kJTrue;

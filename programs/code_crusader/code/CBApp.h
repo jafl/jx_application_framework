@@ -32,7 +32,7 @@ public:
 	static void					InitStrings();
 	static const JCharacter*	GetAppSignature();
 
-	void	DisplayAbout(const JCharacter* prevVersStr = NULL,
+	void	DisplayAbout(const JCharacter* prevVersStr = nullptr,
 						 const JBoolean init = kJFalse);
 	void	EditMiscPrefs();
 

@@ -40,13 +40,13 @@ JXFTCCell::JXFTCCell
 	itsIsExactFlag(exact),
 	itsElasticFlag(kUnknown),
 	itsSyncChildrenFlag(kJFalse),
-	itsChildren(NULL),
-	itsChildSpacing(NULL),
-	itsChildPositions(NULL)
+	itsChildren(nullptr),
+	itsChildSpacing(nullptr),
+	itsChildPositions(nullptr)
 {
-	assert( itsWidget == NULL || itsDirection == kNoDirection );
+	assert( itsWidget == nullptr || itsDirection == kNoDirection );
 
-	if (itsWidget != NULL)
+	if (itsWidget != nullptr)
 		{
 		itsFrameG = itsWidget->GetFrameForFTC();
 		}
@@ -98,7 +98,7 @@ JXFTCCell::ToString()
 	std::ostringstream s;
 	JXContainer::ToString().Print(s);
 	s << GetDirectionName();
-	if (itsWidget != NULL)
+	if (itsWidget != nullptr)
 		{
 		s << " (";
 		itsWidget->ToString().Print(s);
@@ -154,7 +154,7 @@ JXFTCCell::GetDepth()
 	JSize depth = 0;
 
 	JXContainer* p = GetEnclosure();
-	while (p != NULL)
+	while (p != nullptr)
 		{
 		depth++;
 		p = p->GetEnclosure();
@@ -180,7 +180,7 @@ JXFTCCell::Expand
 	itsSyncChildrenFlag   = kJTrue;
 	itsSyncHorizontalFlag = horizontal;
 
-	if (itsWidget != NULL)
+	if (itsWidget != nullptr)
 		{
 		return ExpandWidget();
 		}
@@ -238,15 +238,15 @@ JXFTCCell::BuildChildList()
 	const JBoolean hasObjs = GetEnclosedObjects(&iter);
 	assert( hasObjs );
 
-	assert( itsChildren == NULL );
+	assert( itsChildren == nullptr );
 	itsChildren = jnew JPtrArray<JXFTCCell>(JPtrArrayT::kForgetAll);
-	assert( itsChildren != NULL );
+	assert( itsChildren != nullptr );
 
 	JXContainer* obj;
 	while (iter->Next(&obj))
 		{
 		JXFTCCell* cell = dynamic_cast<JXFTCCell*>(obj);
-		assert( cell != NULL );
+		assert( cell != nullptr );
 		itsChildren->AppendElement(cell);
 		}
 
@@ -273,7 +273,7 @@ JXFTCCell::ComputeInvariants()
 		(!itsSyncHorizontalFlag && itsDirection == kVertical))
 		{
 		itsChildSpacing = jnew JArray<JCoordinate>;
-		assert( itsChildSpacing != NULL );
+		assert( itsChildSpacing != nullptr );
 
 		JRect prev = itsChildren->GetFirstElement()->GetFrameGlobal();
 		for (JIndex i=2; i<=cellCount; i++)
@@ -287,7 +287,7 @@ JXFTCCell::ComputeInvariants()
 		}
 
 	itsChildPositions = jnew JArray<JFloat>;
-	assert( itsChildPositions != NULL );
+	assert( itsChildPositions != nullptr );
 
 	for (JIndex i=1; i<=cellCount; i++)
 		{
@@ -594,7 +594,7 @@ JXFTCCell::DrawBackground
 	const JRect&		frame
 	)
 {
-	p.SetDefaultClipRegion(NULL);
+	p.SetDefaultClipRegion(nullptr);
 	p.Reset();
 	const JSize depth = GetDepth();
 
@@ -705,7 +705,7 @@ JXFTCCell::Move
 void
 JXFTCCell::SyncWidgetPosition()
 {
-	if (itsWidget != NULL)
+	if (itsWidget != nullptr)
 		{
 		const JRect r        = itsWidget->GetFrameForFTC();
 		const JCoordinate dx = itsFrameG.left - r.left,
@@ -788,7 +788,7 @@ JXFTCCell::SyncSize
 		GetFTCLog() << Indent() << "Sync " << ToString() << std::endl;
 		}
 
-	if (itsWidget != NULL)
+	if (itsWidget != nullptr)
 		{
 		const JRect r = itsWidget->GetFrameForFTC();
 
@@ -870,12 +870,12 @@ JXFTCCell::IsElastic()
 
 	itsElasticFlag = kFalse;
 
-	if (itsWidget != NULL)
+	if (itsWidget != nullptr)
 		{
 		// check for sizing option
 
 		JXWidget* widget = dynamic_cast<JXWidget*>(itsWidget);
-		if (widget != NULL &&
+		if (widget != nullptr &&
 			(( itsSyncHorizontalFlag && widget->GetHSizing() == JXWidget::kHElastic) ||
 			 (!itsSyncHorizontalFlag && widget->GetVSizing() == JXWidget::kVElastic)))
 			{

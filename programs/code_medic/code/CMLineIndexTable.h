@@ -92,7 +92,7 @@ private:
 	void	UpdateBreakpoints();
 
 	void		DrawBreakpoints(JPainter& p, const JPoint& cell, const JRect& rect);
-	JBoolean	FindNextBreakpoint(const JIndex rowIndex, JBoolean* multiple = NULL);
+	JBoolean	FindNextBreakpoint(const JIndex rowIndex, JBoolean* multiple = nullptr);
 	JBoolean	HasMultipleBreakpointsOnLine(const JIndex bpIndex) const;
 
 	void	AdjustBreakpoints(const JIndex lineIndex, const JPoint& pt,

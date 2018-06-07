@@ -71,9 +71,9 @@ SelectionTable::SelectionTable
 	// This will be our data, but we don't own it so we can't delete it.
 	itsData = data;
 
-	// We need to set this to NULL in case we receive a message before
+	// We need to set this to nullptr in case we receive a message before
 	// we create it.
-	itsTableMenu = NULL;
+	itsTableMenu = nullptr;
 
 	// This data needs only one column
 	AppendCols(1, kDefColWidth);
@@ -179,7 +179,7 @@ SelectionTable::Receive
 			// cast the message to an ElementsInserted object
 			const JListT::ElementsInserted* info =
 				dynamic_cast<const JListT::ElementsInserted*>(&message);
-			assert(info != NULL);
+			assert(info != nullptr);
 
 			// For each element inserted, we insert a row
 			InsertRows(info->GetFirstIndex(), info->GetCount(), kDefRowHeight);
@@ -191,7 +191,7 @@ SelectionTable::Receive
 			// cast the message to an ElementsRemoved object
 			const JListT::ElementsRemoved* info =
 				dynamic_cast<const JListT::ElementsRemoved*>(&message);
-			assert(info != NULL);
+			assert(info != nullptr);
 
 			// Remove corresponding table rows.
 			for (JSize i = info->GetLastIndex(); i >= info->GetFirstIndex() ; i--)
@@ -206,7 +206,7 @@ SelectionTable::Receive
 			// cast the message to an ElementsRemoved object
 			const JListT::ElementChanged* info =
 				dynamic_cast<const JListT::ElementChanged*>(&message);
-			assert(info != NULL);
+			assert(info != nullptr);
 
 			// The element changed, so redraw it.
 			// (This would not be necessary if we were using a
@@ -231,7 +231,7 @@ SelectionTable::Receive
 			// This will tell us which item was selected.
 			const JXMenu::ItemSelected* info =
 				dynamic_cast<const JXMenu::ItemSelected*>(&message);
-			assert(info != NULL);
+			assert(info != nullptr);
 
 			// Pass the selected menu item to our menu handler function.
 			HandleTableMenu(info->GetIndex());

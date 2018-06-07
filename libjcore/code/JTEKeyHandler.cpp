@@ -69,12 +69,12 @@ void
 JTEKeyHandler::BackwardDelete
 	(
 	const JBoolean	deleteToTabStop,
-	JString*		text	// can be NULL
+	JString*		text	// can be nullptr
 	)
 {
 	if (itsTE->HasSelection())
 		{
-		if (text != NULL)
+		if (text != nullptr)
 			{
 			itsTE->GetSelection(text);
 			}
@@ -95,12 +95,12 @@ void
 JTEKeyHandler::ForwardDelete
 	(
 	const JBoolean	deleteToTabStop,
-	JString*		text	// can be NULL
+	JString*		text	// can be nullptr
 	)
 {
 	if (itsTE->HasSelection())
 		{
-		if (text != NULL)
+		if (text != nullptr)
 			{
 			itsTE->GetSelection(text);
 			}

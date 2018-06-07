@@ -89,12 +89,12 @@ GDBGetLocalVars::HandleSuccess
 	while (varPattern.MatchAfter(argData, matchedRange, &matchList))
 		{
 		JString* name = jnew JString(argData.GetSubstring(matchList.GetElement(2)));
-		assert( name != NULL );
+		assert( name != nullptr );
 		name->TrimWhitespace();
 		nameList.Append(name);
 
 		JString* value = jnew JString(argData.GetSubstring(matchList.GetElement(3)));
-		assert( value != NULL );
+		assert( value != nullptr );
 		value->TrimWhitespace();
 		valueList.Append(value);
 
@@ -110,12 +110,12 @@ GDBGetLocalVars::HandleSuccess
 	while (varPattern.MatchAfter(varData, matchedRange, &matchList))
 		{
 		JString* name = jnew JString(varData.GetSubstring(matchList.GetElement(2)));
-		assert( name != NULL );
+		assert( name != nullptr );
 		name->TrimWhitespace();
 		nameList.InsertAtIndex(insertionIndex, name);
 
 		JString* value = jnew JString(varData.GetSubstring(matchList.GetElement(3)));
-		assert( value != NULL );
+		assert( value != nullptr );
 		value->TrimWhitespace();
 		valueList.InsertAtIndex(insertionIndex, value);
 
@@ -162,15 +162,15 @@ GDBGetLocalVars::HandleSuccess
 
 	for (JIndex i=1; i<=newCount; i++)
 		{
-		CMVarNode* node = NULL;
+		CMVarNode* node = nullptr;
 		if (i <= origCount)
 			{
 			node = itsRootNode->GetVarChild(i);
 			}
 		else
 			{
-			node = (CMGetLink())->CreateVarNode(NULL, *(nameList.GetElement(i)), NULL, "");
-			assert( node != NULL );
+			node = (CMGetLink())->CreateVarNode(nullptr, *(nameList.GetElement(i)), nullptr, "");
+			assert( node != nullptr );
 			itsRootNode->Append(node);	// avoid automatic update
 			}
 

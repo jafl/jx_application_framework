@@ -58,7 +58,7 @@ JRenameDirectory
 	directory.  If path is empty, it tries to use /tmp.  If this fails, it
 	uses the current working directory.
 
-	nameSuffix can be NULL.
+	nameSuffix can be nullptr.
 
 	We ignore the possibility of not finding a valid name because the file
 	system will fill up long before we run out of possibilities.
@@ -91,7 +91,7 @@ JGetUniqueDirEntryName
 		}
 	else
 		{
-		const JBoolean ok = JConvertToAbsolutePath(path, NULL, &fullPath);
+		const JBoolean ok = JConvertToAbsolutePath(path, nullptr, &fullPath);
 		assert( ok );
 		}
 	assert( JDirectoryExists(fullPath) );
@@ -135,7 +135,7 @@ JGetPermissionsString
 	const JUtf8Byte* modeTemplate = "---------";
 
 	JUtf8Byte* modeString = jnew JUtf8Byte[ strlen(modeTemplate)+1 ];
-	assert( modeString != NULL );
+	assert( modeString != nullptr );
 	strcpy(modeString, modeTemplate);
 
 	if (mode & S_IRUSR)
@@ -285,7 +285,7 @@ JGetClosestDirectory
 	caseSensitive is used only if name does not include a partial path,
 	because it is just too messy otherwise.
 
-	If newName is not NULL, it is set to the name of the file that was
+	If newName is not nullptr, it is set to the name of the file that was
 	found.  This is critical if !caseSensitive, but useless otherwise.
 
 	A progress display is used if the search takes more than 3 seconds.
@@ -316,7 +316,7 @@ JSearchSubdirs
 	assert( !name.IsEmpty() && name.GetFirstCharacter() != ACE_DIRECTORY_SEPARATOR_CHAR );
 
 	JLatentPG pg(100);
-	if (userPG != NULL)
+	if (userPG != nullptr)
 		{
 		pg.SetPG(userPG, kJFalse);
 		}
@@ -334,7 +334,7 @@ JSearchSubdirs
 	if (!found)
 		{
 		path->Clear();
-		if (newName != NULL)
+		if (newName != nullptr)
 			{
 			newName->Clear();
 			}
@@ -342,7 +342,7 @@ JSearchSubdirs
 
 	pg.ProcessFinished();
 
-	if (userCancelled != NULL)
+	if (userCancelled != nullptr)
 		{
 		*userCancelled = cancelled;
 		}
@@ -370,7 +370,7 @@ JSearchSubdirs_private
 		{
 		const JBoolean ok = JGetTrueName(startPath, path);
 		assert( ok );
-		if (newName != NULL)
+		if (newName != nullptr)
 			{
 			*newName = name;
 			}
@@ -400,7 +400,7 @@ JSearchSubdirs_private
 				{
 				const JBoolean ok = JGetTrueName(startPath, path);
 				assert( ok );
-				if (newName != NULL)
+				if (newName != nullptr)
 					{
 					*newName = entry.GetName();
 					}

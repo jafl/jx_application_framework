@@ -100,7 +100,7 @@ private:
 	JXTextMenu*		itsHelpMenu;
 
 	CMDisplaySourceForMain*	itsSrcMainCmd;
-	CMGetAssembly*			itsGetAssemblyCmd;	// can be NULL
+	CMGetAssembly*			itsGetAssemblyCmd;	// can be nullptr
 
 // begin JXLayout
 

@@ -31,7 +31,7 @@ CMDockManager::CMDockManager()
 {
 	JXDisplay* display = (JXGetApplication())->GetCurrentDisplay();
 	JXImage* icon      = jnew JXImage(display, medic_command_window);
-	assert( icon != NULL );
+	assert( icon != nullptr );
 	SetIcon(icon);
 }
 
@@ -92,24 +92,24 @@ CMDockManager::DockAll()
 	(dir->GetWindow())->AdjustSize(200, 0);
 
 	JXDockWidget* dock1 = v1->GetDockWidget(1);
-	assert( dock1 != NULL );
+	assert( dock1 != nullptr );
 	SetDefaultDock(CMGetMainSourceWindowClass(), dock1);
 	SetDefaultDock(CMGetMainAsmWindowClass(),    dock1);
 	SetDefaultDock(CMGetSourceViewWindowClass(), dock1);
 	SetDefaultDock(CMGetPlot2DWindowClass(),     dock1);
 
 	JXDockWidget* dock2 = v1->GetDockWidget(2);
-	assert( dock2 != NULL );
+	assert( dock2 != nullptr );
 	SetDefaultDock(CMGetCommandWindowClass(), dock2);
 
 	JXDockWidget* dock3 = v2->GetDockWidget(1);
-	assert( dock3 != NULL );
+	assert( dock3 != nullptr );
 	SetDefaultDock(CMGetThreadWindowClass(),   dock3);
 	SetDefaultDock(CMGetStackWindowClass(),    dock3);
 	SetDefaultDock(CMGetFileListWindowClass(), dock3);
 
 	JXDockWidget* dock4 = v2->GetDockWidget(2);
-	assert( dock4 != NULL );
+	assert( dock4 != nullptr );
 	SetDefaultDock(CMGetVariableWindowClass(),      dock4);
 	SetDefaultDock(CMGetLocalVariableWindowClass(), dock4);
 	SetDefaultDock(CMGetArray1DWindowClass(),       dock4);

@@ -63,7 +63,7 @@ LLDBGetThreads::HandleSuccess
 	)
 {
 	LLDBLink* link = dynamic_cast<LLDBLink*>(CMGetLink());
-	if (link == NULL)
+	if (link == nullptr)
 		{
 		return;
 		}
@@ -115,7 +115,7 @@ LLDBGetThreads::HandleSuccess
 			}
 
 		CMThreadNode* node = jnew CMThreadNode(t.GetThreadID(), name, fileName, lineIndex);
-		assert( node != NULL );
+		assert( node != nullptr );
 
 		root->Append(node);
 		}

@@ -37,7 +37,7 @@ TestApp::TestApp
 	:
 	JXApplication(argc, argv, kAppSignature, kDefaultStringData)
 {
-	itsMainDirector = NULL;
+	itsMainDirector = nullptr;
 
 	TestjxCreateGlobals(this, wantMDI);
 	ListenTo(JThisProcess::Instance());
@@ -65,7 +65,7 @@ TestApp::DisplayAbout
 	)
 {
 	AboutDialog* dlog = jnew AboutDialog(this);
-	assert( dlog != NULL );
+	assert( dlog != nullptr );
 	dlog->BeginDialog();
 }
 
@@ -86,7 +86,7 @@ TestApp::CleanUpBeforeSuddenDeath
 		{
 		const JString userName = JGetUserName();
 
-		const JUtf8Byte* argv[] = { "sendmail", userName.GetBytes(), NULL };
+		const JUtf8Byte* argv[] = { "sendmail", userName.GetBytes(), nullptr };
 
 		JProcess* p;
 		int toFD;

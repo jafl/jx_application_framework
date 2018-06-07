@@ -14,9 +14,9 @@
 #include <JXLibVersion.h>
 #include <jAssert.h>
 
-static JXWApp*			theApplication  = NULL;		// owns itself
-static JXWPrefsManager*	thePrefsManager = NULL;
-static JXWMainDialog*	theMainDialog   = NULL;
+static JXWApp*			theApplication  = nullptr;		// owns itself
+static JXWPrefsManager*	thePrefsManager = nullptr;
+static JXWMainDialog*	theMainDialog   = nullptr;
 
 // string ID's
 
@@ -39,7 +39,7 @@ JXWCreateGlobals
 
 	JBoolean isNew;
 	thePrefsManager	= jnew JXWPrefsManager(&isNew);
-	assert(thePrefsManager != NULL);
+	assert(thePrefsManager != nullptr);
 
 	JXInitHelp();
 
@@ -54,13 +54,13 @@ JXWCreateGlobals
 void
 JXWDeleteGlobals()
 {
-	theApplication = NULL;
-	theMainDialog  = NULL;
+	theApplication = nullptr;
+	theMainDialog  = nullptr;
 
 	// this must be last so everybody else can use it to save their setup
 
 	jdelete thePrefsManager;
-	thePrefsManager = NULL;
+	thePrefsManager = nullptr;
 }
 
 /******************************************************************************
@@ -100,7 +100,7 @@ JXWSetMainDialog
 	JXWMainDialog* dlog
 	)
 {
-	assert( theMainDialog == NULL );
+	assert( theMainDialog == nullptr );
 	theMainDialog = dlog;
 }
 
@@ -112,7 +112,7 @@ JXWSetMainDialog
 JXWApp*
 JXWGetApplication()
 {
-	assert( theApplication != NULL );
+	assert( theApplication != nullptr );
 	return theApplication;
 }
 
@@ -124,7 +124,7 @@ JXWGetApplication()
 JXWPrefsManager*
 JXWGetPrefsManager()
 {
-	assert(thePrefsManager != NULL);
+	assert(thePrefsManager != nullptr);
 	return thePrefsManager;
 }
 

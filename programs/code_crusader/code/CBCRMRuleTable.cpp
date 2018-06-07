@@ -86,7 +86,7 @@ CBCRMRuleTable::CBCRMRuleTable
 	ListenTo(itsSaveButton);
 
 	itsCSF = jnew CBListCSF(kReplaceListStr, kAppendToListStr);
-	assert( itsCSF != NULL );
+	assert( itsCSF != nullptr );
 
 	itsFirstRegex = JTextEditor::CRMRule::CreateFirst(".", "$0");
 	itsRestRegex  = JTextEditor::CRMRule::CreateRest(".");
@@ -339,7 +339,7 @@ CBCRMRuleTable::CreateStringTableInput
 {
 	itsRemoveRowButton->Activate();
 
-	JXInputField* input = NULL;
+	JXInputField* input = nullptr;
 	if (cell.x == kFirstColumn)
 		{
 		input = jnew JXRegexInput(itsFirstRegex, kJFalse,
@@ -356,7 +356,7 @@ CBCRMRuleTable::CreateStringTableInput
 										enclosure, hSizing, vSizing, x,y, w,h);
 		}
 
-	assert( input != NULL );
+	assert( input != nullptr );
 	return input;
 }
 
@@ -382,7 +382,7 @@ CBCRMRuleTable::LoadRules()
 {
 	JString fileName;
 	if (GetWindow()->OKToUnfocusCurrentWidget() &&
-		itsCSF->ChooseFile("", NULL, &fileName))
+		itsCSF->ChooseFile("", nullptr, &fileName))
 		{
 		ReadData(fileName, itsCSF->ReplaceExisting());
 		}
@@ -471,7 +471,7 @@ CBCRMRuleTable::SaveRules()
 		itsDialog->GetCurrentCRMRuleSetName(&origName))
 		{
 		JString newName;
-		if (itsCSF->SaveFile("Save rules as:", NULL, origName, &newName))
+		if (itsCSF->SaveFile("Save rules as:", nullptr, origName, &newName))
 			{
 			WriteData(newName);
 			}

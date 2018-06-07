@@ -30,9 +30,9 @@
 #include <jAssert.h>
 
 template <class T>
-const JElementComparison<T>* JRunArray<T>::itsCurrentCompareObj = NULL;
+const JElementComparison<T>* JRunArray<T>::itsCurrentCompareObj = nullptr;
 
-static int (*theCurrentQuickSortCompareFn)(const void*, const void*) = NULL;
+static int (*theCurrentQuickSortCompareFn)(const void*, const void*) = nullptr;
 
 /******************************************************************************
  Constructor
@@ -45,7 +45,7 @@ JRunArray<T>::JRunArray()
 	JList<T>()
 {
 	itsRuns = jnew JArray< JRunArrayElement<T> >;
-	assert( itsRuns != NULL );
+	assert( itsRuns != nullptr );
 }
 
 /******************************************************************************
@@ -62,7 +62,7 @@ JRunArray<T>::JRunArray
 	JList<T>(source)
 {
 	itsRuns = jnew JArray< JRunArrayElement<T> >(*(source.itsRuns));
-	assert( itsRuns != NULL );
+	assert( itsRuns != nullptr );
 }
 
 template <class T>
@@ -75,7 +75,7 @@ JRunArray<T>::JRunArray
 	JList<T>(source)
 {
 	itsRuns = jnew JArray< JRunArrayElement<T> >;
-	assert( itsRuns != NULL );
+	assert( itsRuns != nullptr );
 
 	InsertSlice(1, source, range);
 }
@@ -91,7 +91,7 @@ JRunArray<T>::JRunArray
 	JList<T>(source)
 {
 	itsRuns = jnew JArray< JRunArrayElement<T> >;
-	assert( itsRuns != NULL );
+	assert( itsRuns != nullptr );
 
 	InsertSlice(1, source, startIndex, endIndex);
 }
@@ -1126,7 +1126,7 @@ template <class T>
 void
 JRunArray<T>::Sort()
 {
-	assert( itsCurrentCompareObj == NULL );
+	assert( itsCurrentCompareObj == nullptr );
 
 	const JBoolean ok = JRunArray<T>::GetCompareObject(&itsCurrentCompareObj);
 	assert( ok );
@@ -1136,8 +1136,8 @@ JRunArray<T>::Sort()
 
 	itsRuns->Sort();
 
-	itsCurrentCompareObj = NULL;
-	itsRuns->SetCompareFunction(NULL);
+	itsCurrentCompareObj = nullptr;
+	itsRuns->SetCompareFunction(nullptr);
 
 	MergeAdjacentRuns();
 
@@ -1163,7 +1163,7 @@ JRunArray<T>::SearchSorted1
 	)
 	const
 {
-	assert( itsCurrentCompareObj == NULL );
+	assert( itsCurrentCompareObj == nullptr );
 
 	const JBoolean ok = JRunArray<T>::GetCompareObject(&itsCurrentCompareObj);
 	assert( ok );
@@ -1174,8 +1174,8 @@ JRunArray<T>::SearchSorted1
 	JRunArrayElement<T> target(1, origTarget);
 	const JIndex runIndex = itsRuns->SearchSorted1(target, which, found);
 
-	itsCurrentCompareObj = NULL;
-	itsRuns->SetCompareFunction(NULL);
+	itsCurrentCompareObj = nullptr;
+	itsRuns->SetCompareFunction(nullptr);
 
 	const JRunArrayElement<T>* runData = itsRuns->GetCArray();
 
@@ -1232,11 +1232,11 @@ JRunArray<T>::QuickSort
 	int (*compare)(const void*, const void*)
 	)
 {
-	assert( theCurrentQuickSortCompareFn == NULL );
+	assert( theCurrentQuickSortCompareFn == nullptr );
 
 	theCurrentQuickSortCompareFn = compare;
 	itsRuns->QuickSort(QuickSortCompareRuns);
-	theCurrentQuickSortCompareFn = NULL;
+	theCurrentQuickSortCompareFn = nullptr;
 
 	MergeAdjacentRuns();
 
@@ -1303,7 +1303,7 @@ JRunArray<T>::NewIterator
 	)
 {
 	JRunArrayIterator<T>* iter = jnew JRunArrayIterator<T>(this, start, index);
-	assert( iter != NULL );
+	assert( iter != nullptr );
 	return iter;
 }
 
@@ -1317,7 +1317,7 @@ JRunArray<T>::NewIterator
 	const
 {
 	JRunArrayIterator<T>* iter = jnew JRunArrayIterator<T>(*this, start, index);
-	assert( iter != NULL );
+	assert( iter != nullptr );
 	return iter;
 }
 
@@ -1495,7 +1495,7 @@ JRunArray<T>::InsertRun
 	This can result in the merging of two adjacent runs
 	if they have the same value.
 
-	newRunIndex,newFirstInRun can be NULL.  If they are not, they must
+	newRunIndex,newFirstInRun can be nullptr.  If they are not, they must
 	apply to the run that is being removed.  They are then updated if runs
 	end up being merged.
 
@@ -1510,7 +1510,7 @@ JRunArray<T>::RemoveRun
 	JIndex*			newFirstInRun
 	)
 {
-	assert( newRunIndex == NULL || (*newRunIndex == runIndex && newFirstInRun != NULL) );
+	assert( newRunIndex == nullptr || (*newRunIndex == runIndex && newFirstInRun != nullptr) );
 
 	JCollection::SetElementCount(JCollection::GetElementCount() - GetRunLength(runIndex));
 	itsRuns->RemoveElement(runIndex);
@@ -1521,7 +1521,7 @@ JRunArray<T>::RemoveRun
 	if (1 < runIndex && runIndex <= GetRunCount() &&
 		GetRunDataRef(runIndex-1) == GetRunDataRef(runIndex))
 		{
-		if (newRunIndex != NULL)
+		if (newRunIndex != nullptr)
 			{
 			*newFirstInRun -= GetRunLength(runIndex-1);
 			(*newRunIndex)--;

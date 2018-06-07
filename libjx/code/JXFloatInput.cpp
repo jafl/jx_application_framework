@@ -73,7 +73,7 @@ JXFloatInput::SetValue
 {
 	if (ValueValid(value))
 		{
-		const JString text(value, JString::kPrecisionAsNeeded);
+		const JString text(value);
 		if (text != GetText()->GetText())
 			{
 			GetText()->SetText(text);
@@ -166,8 +166,7 @@ JXFloatInput::InputValid()
 		JString errorStr;
 		if (!valid && itsHasLowerLimitFlag && itsHasUpperLimitFlag)
 			{
-			const JString n(itsLowerLimit, JString::kPrecisionAsNeeded),
-						  m(itsUpperLimit, JString::kPrecisionAsNeeded);
+			const JString n(itsLowerLimit), m(itsUpperLimit);
 			const JUtf8Byte* map[] =
 				{
 				"min", n.GetBytes(),
@@ -177,7 +176,7 @@ JXFloatInput::InputValid()
 			}
 		else if (!valid && itsHasLowerLimitFlag)
 			{
-			const JString n(itsLowerLimit, JString::kPrecisionAsNeeded);
+			const JString n(itsLowerLimit);
 			const JUtf8Byte* map[] =
 				{
 				"min", n.GetBytes()
@@ -188,7 +187,7 @@ JXFloatInput::InputValid()
 			{
 			assert( itsHasUpperLimitFlag );
 
-			const JString n(itsUpperLimit, JString::kPrecisionAsNeeded);
+			const JString n(itsUpperLimit);
 			const JUtf8Byte* map[] =
 				{
 				"max", n.GetBytes()

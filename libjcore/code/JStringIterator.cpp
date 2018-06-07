@@ -59,8 +59,8 @@ JStringIterator::JStringIterator
 	)
 	:
 	itsConstString(&s),
-	itsString(NULL),
-	itsLastMatch(NULL)
+	itsString(nullptr),
+	itsLastMatch(nullptr)
 {
 	s.SetIterator(this);
 	MoveTo(start, index);
@@ -75,7 +75,7 @@ JStringIterator::JStringIterator
 	:
 	itsConstString(s),
 	itsString(s),
-	itsLastMatch(NULL)
+	itsLastMatch(nullptr)
 {
 	s->SetIterator(this);
 	MoveTo(start, index);
@@ -99,14 +99,14 @@ JStringIterator::~JStringIterator()
 void
 JStringIterator::Invalidate()
 {
-	if (itsConstString != NULL)
+	if (itsConstString != nullptr)
 		{
-		itsConstString->SetIterator(NULL);
+		itsConstString->SetIterator(nullptr);
 		}
 
 	ClearLastMatch();
-	itsConstString     = NULL;
-	itsString          = NULL;
+	itsConstString     = nullptr;
+	itsString          = nullptr;
 	itsByteOffset      = 0;
 	itsCharacterOffset = 0;
 }
@@ -123,7 +123,7 @@ const JStringMatch&
 JStringIterator::GetLastMatch()
 	const
 {
-	assert( itsLastMatch != NULL );
+	assert( itsLastMatch != nullptr );
 	return *itsLastMatch;
 }
 
@@ -139,7 +139,7 @@ void
 JStringIterator::ClearLastMatch()
 {
 	jdelete itsLastMatch;
-	itsLastMatch = NULL;
+	itsLastMatch = nullptr;
 }
 
 /******************************************************************************
@@ -214,7 +214,7 @@ JStringIterator::MoveTo
 	const JIndex			index
 	)
 {
-	if (itsConstString == NULL)
+	if (itsConstString == nullptr)
 		{
 		return;
 		}
@@ -282,7 +282,7 @@ JStringIterator::UnsafeMoveTo
 	const JIndex			byteIndex
 	)
 {
-	if (itsConstString == NULL)
+	if (itsConstString == nullptr)
 		{
 		return;
 		}
@@ -495,7 +495,7 @@ JStringIterator::Prev
 		r.SetFirstAndCount(i, byteCount);
 
 		itsLastMatch = jnew JStringMatch(*itsConstString, r);
-		assert( itsLastMatch != NULL );
+		assert( itsLastMatch != nullptr );
 		itsLastMatch->SetFirstCharacterIndex(itsCharacterOffset + 1);
 
 		return kJTrue;
@@ -547,7 +547,7 @@ JStringIterator::Next
 		r.SetFirstAndCount(i, byteCount);
 
 		itsLastMatch = jnew JStringMatch(*itsConstString, r);
-		assert( itsLastMatch != NULL );
+		assert( itsLastMatch != nullptr );
 		itsLastMatch->SetLastCharacterIndex(itsCharacterOffset);
 
 		return kJTrue;
@@ -594,7 +594,7 @@ JStringIterator::Prev
 		itsByteOffset = m.GetUtf8ByteRange().first - 1;
 
 		itsLastMatch = jnew JStringMatch(m);
-		assert( itsLastMatch != NULL );
+		assert( itsLastMatch != nullptr );
 		itsLastMatch->SetFirstCharacterIndex(itsCharacterOffset + 1);
 
 		return kJTrue;
@@ -641,7 +641,7 @@ JStringIterator::Next
 		itsByteOffset = m.GetUtf8ByteRange().last;
 
 		itsLastMatch = jnew JStringMatch(m);
-		assert( itsLastMatch != NULL );
+		assert( itsLastMatch != nullptr );
 		itsLastMatch->SetLastCharacterIndex(itsCharacterOffset);
 
 		return kJTrue;
@@ -671,7 +671,7 @@ JStringIterator::FinishMatch
 	)
 {
 	JCursorPosition pos = itsByteOffset;
-	if (ignoreLastMatch && itsLastMatch != NULL)
+	if (ignoreLastMatch && itsLastMatch != nullptr)
 		{
 		const JSize ignoreCount = itsLastMatch->GetByteCount();
 		if (pos < itsMatchStartByte)
@@ -697,7 +697,7 @@ JStringIterator::FinishMatch
 	r.last  = JMax(itsMatchStartByte, pos);
 
 	itsLastMatch = jnew JStringMatch(*itsConstString, r);
-	assert( itsLastMatch != NULL );
+	assert( itsLastMatch != nullptr );
 
 	if (itsMatchStartByte <= pos)
 		{
@@ -728,7 +728,7 @@ JStringIterator::SetPrev
 	const JBoolean			move
 	)
 {
-	assert( itsString != NULL );
+	assert( itsString != nullptr );
 	ClearLastMatch();
 
 	JUtf8ByteRange r;
@@ -762,7 +762,7 @@ JStringIterator::SetNext
 	const JBoolean			move
 	)
 {
-	assert( itsString != NULL );
+	assert( itsString != nullptr );
 	ClearLastMatch();
 
 	JUtf8ByteRange r;
@@ -803,7 +803,7 @@ JStringIterator::RemovePrev
 	const JSize characterCount
 	)
 {
-	assert( itsString != NULL );
+	assert( itsString != nullptr );
 	ClearLastMatch();
 
 	JUtf8ByteRange r;
@@ -812,7 +812,7 @@ JStringIterator::RemovePrev
 	const JBoolean result = SkipPrev(characterCount);
 
 	r.first = itsByteOffset + 1;
-	itsString->ReplaceBytes(r, NULL, 0);
+	itsString->ReplaceBytes(r, nullptr, 0);
 	return result;
 }
 
@@ -832,7 +832,7 @@ JStringIterator::RemoveNext
 	const JSize characterCount
 	)
 {
-	assert( itsString != NULL );
+	assert( itsString != nullptr );
 	ClearLastMatch();
 
 	const JCursorPosition savedByteOffset      = itsByteOffset;
@@ -844,7 +844,7 @@ JStringIterator::RemoveNext
 	const JBoolean result = SkipNext(characterCount);
 
 	r.last = itsByteOffset;
-	itsString->ReplaceBytes(r, NULL, 0);
+	itsString->ReplaceBytes(r, nullptr, 0);
 
 	itsByteOffset      = savedByteOffset;
 	itsCharacterOffset = savedCharacterOffset;
@@ -863,11 +863,11 @@ JStringIterator::RemoveNext
 void
 JStringIterator::RemoveAllPrev()
 {
-	assert( itsString != NULL );
+	assert( itsString != nullptr );
 	ClearLastMatch();
 
 	const JUtf8ByteRange r(1, itsByteOffset);
-	itsString->ReplaceBytes(r, NULL, 0);
+	itsString->ReplaceBytes(r, nullptr, 0);
 
 	itsByteOffset      = 0;
 	itsCharacterOffset = 0;
@@ -885,11 +885,11 @@ JStringIterator::RemoveAllPrev()
 void
 JStringIterator::RemoveAllNext()
 {
-	assert( itsString != NULL );
+	assert( itsString != nullptr );
 	ClearLastMatch();
 
 	const JUtf8ByteRange r(itsByteOffset + 1, itsString->GetByteCount());
-	itsString->ReplaceBytes(r, NULL, 0);
+	itsString->ReplaceBytes(r, nullptr, 0);
 }
 
 /******************************************************************************
@@ -910,8 +910,8 @@ JStringIterator::ReplaceLastMatch
 	const JBoolean			matchCase
 	)
 {
-	assert( itsLastMatch != NULL );
-	assert( itsString != NULL );
+	assert( itsLastMatch != nullptr );
+	assert( itsString != nullptr );
 
 	JString s(str, range, kJFalse);
 
@@ -959,7 +959,7 @@ JStringIterator::Insert
 	const JUtf8ByteRange&	range
 	)
 {
-	assert( itsString != NULL );
+	assert( itsString != nullptr );
 
 	JUtf8ByteRange r;
 	r.SetFirstAndCount(itsByteOffset + 1, 0);

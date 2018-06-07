@@ -34,7 +34,7 @@ JVMThreadNode::JVMThreadNode
 		dynamic_cast<JVMLink*>(CMGetLink())->ThreadCreated(this);
 
 		CMCommand* cmd = jnew JVMGetThreadName(this);
-		assert( cmd != NULL );
+		assert( cmd != nullptr );
 		}
 }
 
@@ -74,7 +74,7 @@ JVMThreadNode::JVMThreadNode
 JVMThreadNode::~JVMThreadNode()
 {
 	JVMLink* link = dynamic_cast<JVMLink*>(CMGetLink());
-	if (link != NULL)	// when switching debugger type, it won't be a JVMLink
+	if (link != nullptr)	// when switching debugger type, it won't be a JVMLink
 		{
 		link->ThreadDeleted(this);
 		}
@@ -95,7 +95,7 @@ JVMThreadNode::NameChanged()
 	if (!HasParent())
 		{
 		CMCommand* cmd = jnew JVMGetThreadParent(this);
-		assert( cmd != NULL );
+		assert( cmd != nullptr );
 		}
 }
 
@@ -116,7 +116,7 @@ JVMThreadNode::FindParent
 	if (!link->FindThread(id, &parent))
 		{
 		parent = jnew JVMThreadNode(kGroupType, id);
-		assert( parent != NULL );
+		assert( parent != nullptr );
 		}
 
 	parent->AppendThread(this);

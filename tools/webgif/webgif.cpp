@@ -329,9 +329,9 @@ ReadGIF
 	)
 {
 	FILE* input = fopen(fileName.GetBytes(), "rb");
-	assert( input != NULL );
+	assert( input != nullptr );
 	gdImagePtr image = gdImageCreateFromGif(input);
-	if (image == NULL)
+	if (image == nullptr)
 		{
 		std::cerr << fileName << " is not a GIF" << std::endl;
 		exit(1);
@@ -353,7 +353,7 @@ WriteGIF
 	)
 {
 	FILE* output = fopen(fileName.GetBytes(), "wb");
-	assert( output != NULL );
+	assert( output != nullptr );
 	gdImageGif(image, output);
 	assert( ferror(output) == 0 );
 	fclose(output);

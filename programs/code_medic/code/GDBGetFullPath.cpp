@@ -79,7 +79,7 @@ GDBGetFullPath::HandleSuccess
 		if (fullName == GetFileName())
 			{
 			Broadcast(FileNotFound(GetFileName()));
-			(CMGetLink())->RememberFile(GetFileName(), NULL);
+			(CMGetLink())->RememberFile(GetFileName(), nullptr);
 			}
 		else if (JIsAbsolutePath(fullName))
 			{
@@ -89,7 +89,7 @@ GDBGetFullPath::HandleSuccess
 		else
 			{
 			GDBGetFullPath* cmd = jnew GDBGetFullPath(fullName, GetLineIndex());
-			assert( cmd != NULL );
+			assert( cmd != nullptr );
 			Broadcast(NewCommand(cmd));
 			}
 		return;
@@ -124,6 +124,6 @@ GDBGetFullPath::HandleSuccess
 	if (!fileOK)
 		{
 		Broadcast(FileNotFound(GetFileName()));
-		(CMGetLink())->RememberFile(GetFileName(), NULL);
+		(CMGetLink())->RememberFile(GetFileName(), nullptr);
 		}
 }

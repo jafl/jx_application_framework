@@ -27,7 +27,7 @@ SyGChooseSaveFile::SyGChooseSaveFile
 	)
 	:
 	JXChooseSaveFile(prefsMgr, id),
-	itsPathDialog(NULL),
+	itsPathDialog(nullptr),
 	itsOpenInNewWindow(kJTrue)
 {
 	JPrefObject::ReadPrefs();
@@ -61,7 +61,7 @@ SyGChooseSaveFile::CreateSaveFileDialog
 {
 	itsSaveDialog =
 		jnew GMSaveFileDialog(supervisor, dirInfo, fileFilter, origName, prompt, message);
-	assert( itsSaveDialog != NULL );
+	assert( itsSaveDialog != nullptr );
 	itsSaveDialog->ShouldSaveHeaders(itsSaveHeaders);
 	return itsSaveDialog;
 }
@@ -84,7 +84,7 @@ SyGChooseSaveFile::CreateChooseFileDialog
 {
 	itsChooseDialog =
 		jnew GMChooseFileDialog(supervisor, dirInfo, fileFilter, allowSelectMultiple);
-	assert( itsChooseDialog != NULL );
+	assert( itsChooseDialog != nullptr );
 	itsChooseDialog->BuildWindow(origName, message);
 	itsChooseDialog->ShouldSaveHeaders(itsSaveHeaders);
 	return itsChooseDialog;
@@ -107,7 +107,7 @@ SyGChooseSaveFile::CreateChoosePathDialog
 {
 	itsPathDialog =
 		jnew SyGChoosePathDialog(supervisor, dirInfo, fileFilter, selectOnlyWritable);
-	assert( itsPathDialog != NULL );
+	assert( itsPathDialog != nullptr );
 	itsPathDialog->BuildWindow(itsOpenInNewWindow, message);
 	return itsPathDialog;
 }
@@ -151,12 +151,12 @@ SyGChooseSaveFile::Receive
 		{
 		const JXDialogDirector::Deactivated* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		if (info->Successful())
 			{
 			itsOpenInNewWindow = itsPathDialog->OpenInNewWindow();
 			}
-		itsPathDialog = NULL;
+		itsPathDialog = nullptr;
 		}
 
 	JXChooseSaveFile::Receive(sender, message);

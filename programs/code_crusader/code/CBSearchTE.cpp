@@ -44,8 +44,8 @@ CBSearchTE::CBSearchTE()
 				jnew CBSearchColormap,
 				1,1,1,1,1, 1000000)
 {
-	assert( TEGetFontManager() != NULL );
-	assert( TEGetColormap() != NULL );
+	assert( TEGetFontManager() != nullptr );
+	assert( TEGetColormap() != nullptr );
 
 	RecalcAll(kJTrue);
 	SetCharacterInWordFunction(CBMIsCharacterInWord);

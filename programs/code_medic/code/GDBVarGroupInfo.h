@@ -30,7 +30,7 @@ struct GDBVarGroupInfo
 
 	const JCharacter* GetName()
 	{
-		return (name == NULL ? "" : name->GetCString());
+		return (name == nullptr ? "" : name->GetCString());
 	};
 };
 

@@ -95,27 +95,27 @@ CBEditCRMDialog::BuildWindow
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 540,370, "");
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	itsPartition =
 		jnew JXVertPartition(heights, elasticIndex, minHeights, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 20,20, 500,305);
-	assert( itsPartition != NULL );
+	assert( itsPartition != nullptr );
 
 	JXTextButton* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::CBEditCRMDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 70,340, 70,20);
-	assert( cancelButton != NULL );
+	assert( cancelButton != nullptr );
 
 	JXTextButton* okButton =
 		jnew JXTextButton(JGetString("okButton::CBEditCRMDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 400,340, 70,20);
-	assert( okButton != NULL );
+	assert( okButton != nullptr );
 
 	itsHelpButton =
 		jnew JXTextButton(JGetString("itsHelpButton::CBEditCRMDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 235,340, 70,20);
-	assert( itsHelpButton != NULL );
+	assert( itsHelpButton != nullptr );
 	itsHelpButton->SetShortcuts(JGetString("itsHelpButton::CBEditCRMDialog::shortcuts::JXLayout"));
 
 // end JXLayout
@@ -141,27 +141,27 @@ CBEditCRMDialog::BuildWindow
 	JXTextButton* newRuleButton =
 		jnew JXTextButton(JGetString("newRuleButton::CBEditCRMDialog::ruleLayout"), compartment,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 440,30, 60,20);
-	assert( newRuleButton != NULL );
+	assert( newRuleButton != nullptr );
 
 	JXTextButton* removeRuleButton =
 		jnew JXTextButton(JGetString("removeRuleButton::CBEditCRMDialog::ruleLayout"), compartment,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 440,60, 60,20);
-	assert( removeRuleButton != NULL );
+	assert( removeRuleButton != nullptr );
 
 	JXScrollbarSet* ruleScrollbarSet =
 		jnew JXScrollbarSet(compartment,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 430,150);
-	assert( ruleScrollbarSet != NULL );
+	assert( ruleScrollbarSet != nullptr );
 
 	JXTextButton* loadRuleFileButton =
 		jnew JXTextButton(JGetString("loadRuleFileButton::CBEditCRMDialog::ruleLayout"), compartment,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 440,100, 60,20);
-	assert( loadRuleFileButton != NULL );
+	assert( loadRuleFileButton != nullptr );
 
 	JXTextButton* saveRuleFileButton =
 		jnew JXTextButton(JGetString("saveRuleFileButton::CBEditCRMDialog::ruleLayout"), compartment,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 440,130, 60,20);
-	assert( saveRuleFileButton != NULL );
+	assert( saveRuleFileButton != nullptr );
 
 	compartment->SetSize(ruleLayout_Frame.width(), ruleLayout_Frame.height());
 
@@ -178,13 +178,13 @@ CBEditCRMDialog::BuildWindow
 						   JXWidget::kHElastic, JXWidget::kVElastic,
 						   0, kColHeaderHeight,
 						   w, encl->GetApertureHeight() - kColHeaderHeight);
-	assert( itsRuleTable != NULL );
+	assert( itsRuleTable != nullptr );
 
 	JXColHeaderWidget* colHeader =
 		jnew JXColHeaderWidget(itsRuleTable, ruleScrollbarSet, encl,
 							  JXWidget::kHElastic, JXWidget::kFixedTop,
 							  0,0, w, kColHeaderHeight);
-	assert( colHeader != NULL );
+	assert( colHeader != nullptr );
 	colHeader->TurnOnColResizing(20);
 	itsRuleTable->SetColTitles(colHeader);
 
@@ -201,22 +201,22 @@ CBEditCRMDialog::BuildWindow
 	JXTextButton* newCRMButton =
 		jnew JXTextButton(JGetString("newCRMButton::CBEditCRMDialog::crmLayout"), compartment,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 440,30, 60,20);
-	assert( newCRMButton != NULL );
+	assert( newCRMButton != nullptr );
 
 	JXTextButton* removeCRMButton =
 		jnew JXTextButton(JGetString("removeCRMButton::CBEditCRMDialog::crmLayout"), compartment,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 440,60, 60,20);
-	assert( removeCRMButton != NULL );
+	assert( removeCRMButton != nullptr );
 
 	JXScrollbarSet* crmScrollbarSet =
 		jnew JXScrollbarSet(compartment,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,20, 430,130);
-	assert( crmScrollbarSet != NULL );
+	assert( crmScrollbarSet != nullptr );
 
 	JXWidgetSet* crmColHeaderEncl =
 		jnew JXWidgetSet(compartment,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 430,20);
-	assert( crmColHeaderEncl != NULL );
+	assert( crmColHeaderEncl != nullptr );
 
 	compartment->SetSize(crmLayout_Frame.width(), crmLayout_Frame.height());
 
@@ -227,13 +227,13 @@ CBEditCRMDialog::BuildWindow
 							   newCRMButton, removeCRMButton,
 							   crmScrollbarSet, crmScrollbarSet->GetScrollEnclosure(),
 							   JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 10,10);
-	assert( itsCRMTable != NULL );
+	assert( itsCRMTable != nullptr );
 	itsCRMTable->FitToEnclosure();
 
 	colHeader =
 		jnew JXColHeaderWidget(itsCRMTable, crmScrollbarSet, crmColHeaderEncl,
 							  JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 10,10);
-	assert( colHeader != NULL );
+	assert( colHeader != nullptr );
 	colHeader->FitToEnclosure();
 	colHeader->SetColTitle(1, "Name");
 }

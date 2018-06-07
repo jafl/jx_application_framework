@@ -36,7 +36,7 @@ CMCommandInput::CMCommandInput
 	const JCoordinate	h
 	)
 	:
-	JXTEBase(kFullEditor, kJFalse, kJFalse, NULL,
+	JXTEBase(kFullEditor, kJFalse, kJFalse, nullptr,
 			 enclosure, hSizing, vSizing, x,y,w,h)
 {
 	CMTextDisplayBase::AdjustFont(this);

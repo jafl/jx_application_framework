@@ -22,7 +22,7 @@ public:
 
 	void	EditFile(const JCharacter* fileName, const JIndex lineIndex = 0) const;
 
-	void	DisplayAbout(const JCharacter* prevVersStr = NULL,
+	void	DisplayAbout(const JCharacter* prevVersStr = nullptr,
 						 const JBoolean init = kJFalse);
 
 	static void					InitStrings();

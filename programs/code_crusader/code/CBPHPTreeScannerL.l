@@ -43,12 +43,12 @@ NSID         ({ID}(\\{ID})*)
 
 	JString phpNamespace, useName;
 	JStringPtrMap<JString> useMap(JPtrArrayT::kDeleteAll);
-	*theClass           = NULL;
+	*theClass           = nullptr;
 	JBoolean isAbstract = kJFalse;
 	JBoolean isFinal    = kJFalse;
 
 	std::ifstream input(fileName);
-	switch_streams(&input, NULL);
+	switch_streams(&input, nullptr);
 %}
 
 namespace{WS} {
@@ -90,13 +90,13 @@ implements{WS} {
 	}
 
 "{" {
-	return JI2B( *theClass != NULL );
+	return JI2B( *theClass != nullptr );
 	}
 
 .|\n	/* ignore */
 
 <*><<EOF>> {
-	return JI2B( *theClass != NULL );
+	return JI2B( *theClass != nullptr );
 	}
 
 
@@ -121,7 +121,7 @@ implements{WS} {
 	}
 
 . {
-	return JI2B( *theClass != NULL );
+	return JI2B( *theClass != nullptr );
 	}
 
 }
@@ -138,7 +138,7 @@ as{WS} {
 
 {NSID} {
 	JString* s = jnew JString(yytext, yyleng);
-	assert( s != NULL );
+	assert( s != nullptr );
 	useMap.SetElement(*s, s, JPtrArrayT::kDelete);
 	useName = *s;
 	}
@@ -158,7 +158,7 @@ as{WS} {
 	}
 
 . {
-	return JI2B( *theClass != NULL );
+	return JI2B( *theClass != nullptr );
 	}
 
 }
@@ -168,7 +168,7 @@ as{WS} {
 
 {ID} {
 	JString* s = jnew JString(yytext, yyleng);
-	assert( s != NULL );
+	assert( s != nullptr );
 	useMap.SetElement(useName, s, JPtrArrayT::kDelete);
 	BEGIN(INITIAL);
 	}
@@ -184,7 +184,7 @@ as{WS} {
 	}
 
 . {
-	return JI2B( *theClass != NULL );
+	return JI2B( *theClass != nullptr );
 	}
 
 }
@@ -204,7 +204,7 @@ as{WS} {
 		}
 
 	*theClass = jnew CBPHPClass(fullName, CBClass::kClassType, fileID, tree, isFinal);
-	assert( *theClass != NULL );
+	assert( *theClass != nullptr );
 
 	if (isAbstract)
 		{
@@ -225,7 +225,7 @@ as{WS} {
 	}
 
 . {
-	return JI2B( *theClass != NULL );
+	return JI2B( *theClass != nullptr );
 	}
 
 }
@@ -237,7 +237,7 @@ as{WS} {
 <INHERIT_STATE>{
 
 {NSID} {
-	if (*theClass == NULL)
+	if (*theClass == nullptr)
 		{
 		return kJFalse;
 		}
@@ -285,7 +285,7 @@ as{WS} {
 	}
 
 . {
-	return JI2B( *theClass != NULL );
+	return JI2B( *theClass != nullptr );
 	}
 
 }

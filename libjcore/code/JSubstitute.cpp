@@ -47,7 +47,7 @@ JSubstitute::JSubstitute()
 
 	for (JIndex i=0; i<kEscapeCount; i++)
 		{
-		itsEscapeTable[i] = NULL;
+		itsEscapeTable[i] = nullptr;
 		}
 }
 
@@ -110,10 +110,10 @@ void
 JSubstitute::AllocateInternals()
 {
 	itsEscapeTable = jnew JString* [ kEscapeCount ];
-	assert(itsEscapeTable != NULL);
+	assert(itsEscapeTable != nullptr);
 
 	itsVarList = jnew JArray<VarInfo>;
-	assert( itsVarList != NULL );
+	assert( itsVarList != nullptr );
 }
 
 /******************************************************************************
@@ -129,18 +129,18 @@ JSubstitute::CopyInternals
 {
 JIndex i;
 
-	assert( itsEscapeTable != NULL && itsVarList != NULL && itsVarList->IsEmpty() );
+	assert( itsEscapeTable != nullptr && itsVarList != nullptr && itsVarList->IsEmpty() );
 
 	for (i=0; i<kEscapeCount; i++)
 		{
-		if (source.itsEscapeTable[i] != NULL)
+		if (source.itsEscapeTable[i] != nullptr)
 			{
 			itsEscapeTable[i] = jnew JString(*(source.itsEscapeTable[i]));
-			assert( itsEscapeTable[i] != NULL );
+			assert( itsEscapeTable[i] != nullptr );
 			}
 		else
 			{
-			itsEscapeTable[i] = NULL;
+			itsEscapeTable[i] = nullptr;
 			}
 		}
 
@@ -151,18 +151,18 @@ JIndex i;
 		const VarInfo origInfo = (source.itsVarList)->GetElement(i);
 
 		newInfo.name = jnew JString(*(origInfo.name));
-		assert( newInfo.name != NULL );
+		assert( newInfo.name != nullptr );
 
-		if (origInfo.regex != NULL)
+		if (origInfo.regex != nullptr)
 			{
 			newInfo.regex = jnew JRegex(*(origInfo.regex));
-			assert( newInfo.regex != NULL );
+			assert( newInfo.regex != nullptr );
 			}
 
-		if (origInfo.value != NULL)
+		if (origInfo.value != nullptr)
 			{
 			newInfo.value = jnew JString(*(origInfo.value));
-			assert( newInfo.value != NULL );
+			assert( newInfo.value != nullptr );
 			}
 
 		itsVarList->AppendElement(newInfo);
@@ -188,7 +188,7 @@ JSubstitute::SetEscape
 	const JUtf8Byte*	value
 	)
 {
-	if (itsEscapeTable[c] != NULL)
+	if (itsEscapeTable[c] != nullptr)
 		{
 		(itsEscapeTable[c])->Set(value);
 		return kJTrue;
@@ -196,7 +196,7 @@ JSubstitute::SetEscape
 	else
 		{
 		itsEscapeTable[c] = jnew JString(value, 0);
-		assert( itsEscapeTable[c] != NULL );
+		assert( itsEscapeTable[c] != nullptr );
 		return kJFalse;
 		}
 }
@@ -215,10 +215,10 @@ JSubstitute::ClearEscape
 	const unsigned char c
 	)
 {
-	if (itsEscapeTable[c] != NULL)
+	if (itsEscapeTable[c] != nullptr)
 		{
 		jdelete itsEscapeTable[c];
-		itsEscapeTable[c] = NULL;
+		itsEscapeTable[c] = nullptr;
 		return kJTrue;
 		}
 	else
@@ -240,7 +240,7 @@ JSubstitute::ClearAllEscapes()
 	for (JIndex i=0; i<kEscapeCount; i++)
 		{
 		jdelete itsEscapeTable[i];
-		itsEscapeTable[i] = NULL;
+		itsEscapeTable[i] = nullptr;
 		}
 }
 
@@ -434,10 +434,10 @@ JSubstitute::DefineVariable
 	if (!SetVariableValue(name, value))
 		{
 		JString* n = jnew JString(name, 0);
-		assert( n != NULL );
+		assert( n != nullptr );
 
 		JString* v = jnew JString(value);
-		assert( v != NULL );
+		assert( v != nullptr );
 
 		itsVarList->AppendElement(VarInfo(n, v));
 		}
@@ -461,7 +461,7 @@ JSubstitute::SetVariableValue
 	for (JIndex i=1; i<=count; i++)
 		{
 		VarInfo info = itsVarList->GetElement(i);
-		if (info.regex == NULL && *(info.name) == name)
+		if (info.regex == nullptr && *(info.name) == name)
 			{
 			*(info.value) = value;
 			return kJTrue;
@@ -485,10 +485,10 @@ JSubstitute::DefineVariables
 	)
 {
 	JString* name = jnew JString(regexPattern, 0);
-	assert( name != NULL );
+	assert( name != nullptr );
 
 	JRegex* regex = jnew JRegex(regexPattern);
-	assert( regex != NULL );
+	assert( regex != nullptr );
 
 	itsVarList->AppendElement(VarInfo(name, regex));
 }
@@ -635,7 +635,7 @@ JSubstitute::ContainsError
 	If ControlEscapes is set, and the backslash is followed by 'c', then
 	the next character is converted to a control character if it is between
 	'A' and '_'.  Otherwise, the '\\c' is removed if IgnoreUnrecognized is
-	not set.  '@' is not included because this would produce NULL, which is
+	not set.  '@' is not included because this would produce nullptr, which is
 	the C string terminator.
 
 	If PureEscapeEngine is not set and a $ is found, the value of the
@@ -657,7 +657,7 @@ JSubstitute::Substitute
 	)
 	const
 {
-	assert( s != NULL );
+	assert( s != nullptr );
 
 	JString varValue;
 
@@ -818,14 +818,14 @@ JSubstitute::Evaluate
 		{
 		const VarInfo info    = itsVarList->GetElement(i);
 		const JSize charCount = info.name->GetCharacterCount();
-		if (info.regex == NULL && s.BeginsWith(*(info.name)) &&
+		if (info.regex == nullptr && s.BeginsWith(*(info.name)) &&
 			charCount > matchCharCount)
 			{
 			varIndex       = i;
 			matchCharCount = charCount;
 			matchByteCount = info.name->GetByteCount();
 			}
-		else if (info.regex != NULL)
+		else if (info.regex != nullptr)
 			{
 			const JStringMatch m = info.regex->MatchForward(s, 1);
 			if (!m.IsEmpty() && m.GetCharacterRange().first == 1 &&

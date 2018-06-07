@@ -168,7 +168,7 @@ private:
 	JIndex				itsLastDrawIndex;
 	JArray<JRect>*		itsTabRects;		// 1 <=> itsFirstDrawIndex
 	JXCardFile*			itsCardFile;
-	JXTextMenu*			itsContextMenu;		// NULL until first used
+	JXTextMenu*			itsContextMenu;		// nullptr until first used
 	JXImage*			itsCloseImage;
 	JXImage*			itsClosePushedImage;
 	JIndex				itsPrevTabIndex;	// 0 => none

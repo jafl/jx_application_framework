@@ -47,7 +47,7 @@ JXDisplayMenu::JXDisplayMenu
 	:
 	JXTextMenu(title, enclosure, hSizing, vSizing, x,y, w,h)
 {
-	itsNewDisplayDialog = NULL;
+	itsNewDisplayDialog = nullptr;
 	BuildMenu();
 }
 
@@ -60,7 +60,7 @@ JXDisplayMenu::JXDisplayMenu
 	:
 	JXTextMenu(owner, itemIndex, enclosure)
 {
-	itsNewDisplayDialog = NULL;
+	itsNewDisplayDialog = nullptr;
 	BuildMenu();
 }
 
@@ -152,7 +152,7 @@ JXDisplayMenu::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		ChooseDisplay(selection->GetIndex());
 		}
 
@@ -168,14 +168,14 @@ JXDisplayMenu::Receive
 		{
 		const JXDialogDirector::Deactivated* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		if (info->Successful())
 			{
 			itsDisplayIndex = itsNewDisplayDialog->GetDisplayIndex();
 			Broadcast(DisplayChanged(itsDisplayIndex));
 			}
 		SetPopupChoice(itsDisplayIndex);
-		itsNewDisplayDialog = NULL;
+		itsNewDisplayDialog = nullptr;
 		}
 
 	else
@@ -202,10 +202,10 @@ JXDisplayMenu::ChooseDisplay
 		}
 	else
 		{
-		assert( itsNewDisplayDialog == NULL );
+		assert( itsNewDisplayDialog == nullptr );
 		JXWindowDirector* supervisor = GetWindow()->GetDirector();
 		itsNewDisplayDialog = jnew JXOpenDisplayDialog(supervisor);
-		assert( itsNewDisplayDialog != NULL );
+		assert( itsNewDisplayDialog != nullptr );
 		ListenTo(itsNewDisplayDialog);
 		itsNewDisplayDialog->BeginDialog();
 		}

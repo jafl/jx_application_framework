@@ -68,7 +68,7 @@ JXImage::JXImage
 		// We need a private GC so we can draw.
 
 		itsGC = jnew JXGC(itsDisplay, itsPixmap);
-		assert( itsGC != NULL );
+		assert( itsGC != nullptr );
 
 		itsGC->SetDrawingColor(initColor);
 		itsGC->FillRect(itsPixmap, 0,0, width, height);
@@ -168,7 +168,7 @@ JXImage::JXImageFromDrawable
 	if (itsDepth != itsDisplay->GetDepth())
 		{
 		itsGC = jnew JXGC(itsDisplay, itsPixmap);
-		assert( itsGC != NULL );
+		assert( itsGC != nullptr );
 		}
 
 	GetGC()->CopyPixels(source, rect.left, rect.top,
@@ -222,7 +222,7 @@ JXImage::JXImage
 	if (itsDepth != itsDisplay->GetDepth())
 		{
 		itsGC = jnew JXGC(itsDisplay, itsPixmap);
-		assert( itsGC != NULL );
+		assert( itsGC != nullptr );
 		}
 }
 
@@ -278,7 +278,7 @@ JXImage::JXImage
 	itsPixmap = bitmap;
 
 	itsGC = jnew JXGC(itsDisplay, itsPixmap);
-	assert( itsGC != NULL );
+	assert( itsGC != nullptr );
 }
 
 /******************************************************************************
@@ -313,7 +313,7 @@ JXImage::JXImage
 	JXImageX(source.itsDisplay, source.itsDepth);
 	itsDefState = source.itsDefState;
 
-	if (source.itsGC != NULL)
+	if (source.itsGC != nullptr)
 		{
 		ForcePrivateGC();
 		}
@@ -323,21 +323,21 @@ JXImage::JXImage
 		itsPixmap = source.CreatePixmap();
 		}
 
-	if (source.itsImage != NULL)
+	if (source.itsImage != nullptr)
 		{
 		Pixmap tempPixmap = source.CreatePixmap();
 
 		itsImage = XGetImage(*itsDisplay, tempPixmap,
 							 0,0, GetWidth(), GetHeight(), AllPlanes, ZPixmap);
-		assert( itsImage != NULL );
+		assert( itsImage != nullptr );
 
 		XFreePixmap(*itsDisplay, tempPixmap);
 		}
 
-	if (source.itsMask != NULL)
+	if (source.itsMask != nullptr)
 		{
 		itsMask = jnew JXImageMask(*(source.itsMask));
-		assert( itsMask != NULL );
+		assert( itsMask != nullptr );
 		}
 }
 
@@ -357,7 +357,7 @@ JXImage::JXImage
 	JXImageX(source.itsDisplay, source.itsDepth);
 	itsDefState = source.itsDefState;
 
-	if (source.itsGC != NULL)
+	if (source.itsGC != nullptr)
 		{
 		ForcePrivateGC();
 		}
@@ -384,10 +384,10 @@ JXImage::JXImage
 		XFreePixmap(*itsDisplay, sourcePixmap);
 		}
 
-	if (source.itsMask != NULL)
+	if (source.itsMask != nullptr)
 		{
 		itsMask = jnew JXImageMask(*(source.itsMask), rect);
-		assert( itsMask != NULL );
+		assert( itsMask != nullptr );
 		}
 }
 
@@ -406,13 +406,13 @@ JXImage::JXImageX
 	)
 {
 	itsDisplay  = display;
-	itsGC       = NULL;
+	itsGC       = nullptr;
 	itsDepth    = (depth > 0 ? depth : itsDisplay->GetDepth());
 
 	itsDefState = kRemoteStorage;
 	itsPixmap   = None;
-	itsImage    = NULL;
-	itsMask     = NULL;
+	itsImage    = nullptr;
+	itsMask     = nullptr;
 }
 
 /******************************************************************************
@@ -427,7 +427,7 @@ JXImage::~JXImage()
 		XFreePixmap(*itsDisplay, itsPixmap);
 		}
 
-	if (itsImage != NULL)
+	if (itsImage != nullptr)
 		{
 		XDestroyImage(itsImage);
 		}
@@ -452,14 +452,14 @@ JXImage::CreateFromGIF
 	)
 {
 	*image = jnew JXImage(display);
-	assert( *image != NULL );
+	assert( *image != nullptr );
 
 	const JError err = (**image).ReadGIF(fileName);
 
 	if (!err.OK())
 		{
 		jdelete *image;
-		*image = NULL;
+		*image = nullptr;
 		}
 	return err;
 }
@@ -493,7 +493,7 @@ JXImage::CreateFromXPM
 	attr.colormap           = colorManager->GetXColormap();
 	attr.depth              = display->GetDepth();
 	attr.color_key          = XPM_COLOR;
-	attr.alloc_pixels       = NULL;
+	attr.alloc_pixels       = nullptr;
 	attr.nalloc_pixels      = 0;
 	attr.alloc_close_colors = kJTrue;	// so we can free all resulting pixels
 	attr.exactColors        = 1;
@@ -529,7 +529,7 @@ JXImage::CreateFromXPM
 			{
 			XFreePixmap(*display, mask_pixmap);
 			}
-		if (attr.alloc_pixels != NULL)
+		if (attr.alloc_pixels != nullptr)
 			{
 			XFreeColors(*display, attr.colormap, attr.alloc_pixels, attr.nalloc_pixels, 0);
 			}
@@ -540,14 +540,14 @@ JXImage::CreateFromXPM
 	// create image and mask
 
 	*image = jnew JXImage(display, image_pixmap);
-	assert( *image != NULL );
+	assert( *image != nullptr );
 
 	XFreePixmap(*display, image_pixmap);
 
 	if (mask_pixmap != None)
 		{
 		JXImageMask* mask = jnew JXImageMask(display, mask_pixmap);
-		assert( mask != NULL );
+		assert( mask != nullptr );
 		(**image).SetMask(mask);
 
 		XFreePixmap(*display, mask_pixmap);
@@ -582,10 +582,10 @@ JXImage::WriteXPM
 	attr.colormap  = itsDisplay->GetColorManager()->GetXColormap();
 
 	int xpmErr;
-	if (itsImage != NULL)
+	if (itsImage != nullptr)
 		{
-		XImage* mask_image = NULL;
-		if (itsMask != NULL)
+		XImage* mask_image = nullptr;
+		if (itsMask != nullptr)
 			{
 			itsMask->ConvertToImage();
 			mask_image = ((JXImage*) itsMask)->itsImage;
@@ -600,7 +600,7 @@ JXImage::WriteXPM
 		assert( itsPixmap != None );
 
 		Pixmap mask_pixmap = None;
-		if (itsMask != NULL)
+		if (itsMask != nullptr)
 			{
 			itsMask->ConvertToPixmap();
 			mask_pixmap = ((JXImage*) itsMask)->itsPixmap;
@@ -637,7 +637,7 @@ JXImage::Copy()
 	const
 {
 	JXImage* obj = jnew JXImage(*this);
-	assert( obj != NULL );
+	assert( obj != nullptr );
 	return obj;
 }
 
@@ -654,7 +654,7 @@ JXImage::GetMask		// virtual
 	const
 {
 	*mask = itsMask;
-	return JConvertToBoolean( itsMask != NULL );
+	return JConvertToBoolean( itsMask != nullptr );
 }
 
 void
@@ -674,7 +674,7 @@ void
 JXImage::ClearMask()
 {
 	jdelete itsMask;
-	itsMask = NULL;
+	itsMask = nullptr;
 }
 
 /******************************************************************************
@@ -704,9 +704,9 @@ JXImage::Draw
 	// intersect gc's clipping and our mask
 
 	JPoint origClipOffset;
-	Region origClipRegion = NULL;
-	JXImageMask* origClipPixmap = NULL;
-	if (itsMask != NULL)
+	Region origClipRegion = nullptr;
+	JXImageMask* origClipPixmap = nullptr;
+	if (itsMask != nullptr)
 		{
 		itsMask->ConvertToPixmap();
 
@@ -716,7 +716,7 @@ JXImage::Draw
 		const JPoint tempClipOffset = origClipOffset - maskOffset;
 		const JRect imageBounds     = GetBounds();
 
-		if (origClipRegion != NULL)
+		if (origClipRegion != nullptr)
 			{
 			JRect r = JXGetRegionBounds(origClipRegion);
 			r.Shift(tempClipOffset);
@@ -730,7 +730,7 @@ JXImage::Draw
 										 *itsMask, JPoint(0,0), imageBounds);
 			gc->SetClipPixmap(maskOffset, mask);
 			}
-		else if (origClipPixmap != NULL)
+		else if (origClipPixmap != nullptr)
 			{
 			JRect r = origClipPixmap->GetBounds();
 			r.Shift(tempClipOffset);
@@ -752,7 +752,7 @@ JXImage::Draw
 
 	// draw the image
 
-	if (itsImage != NULL)
+	if (itsImage != nullptr)
 		{
 		gc->CopyImage(itsImage, srcRect.left, srcRect.top,
 					  srcRect.width(), srcRect.height(),
@@ -767,17 +767,17 @@ JXImage::Draw
 
 	// restore the clipping
 
-	if (itsMask != NULL && origClipRegion != NULL)
+	if (itsMask != nullptr && origClipRegion != nullptr)
 		{
 		gc->SetClipRegion(origClipRegion);
 		XDestroyRegion(origClipRegion);
 		}
-	else if (itsMask != NULL && origClipPixmap != NULL)
+	else if (itsMask != nullptr && origClipPixmap != nullptr)
 		{
 		gc->SetClipPixmap(origClipOffset, *origClipPixmap);
 		jdelete origClipPixmap;
 		}
-	else if (itsMask != NULL)
+	else if (itsMask != nullptr)
 		{
 		gc->ClearClipping();
 		}
@@ -792,8 +792,8 @@ JXImagePainter*
 JXImage::CreatePainter()
 {
 	ConvertToPixmap();
-	JXImagePainter* p = jnew JXImagePainter(this, itsPixmap, GetBounds(), NULL);
-	assert( p != NULL );
+	JXImagePainter* p = jnew JXImagePainter(this, itsPixmap, GetBounds(), nullptr);
+	assert( p != nullptr );
 	return p;
 }
 
@@ -882,7 +882,7 @@ JXImage::GetSystemColor
 	)
 	const
 {
-	if (itsImage == NULL)
+	if (itsImage == nullptr)
 		{
 		ConvertToImage();
 		}
@@ -911,7 +911,7 @@ JXImage::CreatePixmap()
 		GetGC()->CopyPixels(itsPixmap, 0,0, GetWidth(), GetHeight(),
 							  newPixmap, 0,0);
 		}
-	else if (itsImage != NULL)
+	else if (itsImage != nullptr)
 		{
 		GetGC()->CopyImage(itsImage, 0,0, GetWidth(), GetHeight(),
 							 newPixmap, 0,0);
@@ -938,7 +938,7 @@ JXImage::CreateXImage()
 
 	XImage* image = XGetImage(*itsDisplay, itsPixmap,
 							  0,0, GetWidth(), GetHeight(), AllPlanes, ZPixmap);
-	assert( image != NULL );
+	assert( image != nullptr );
 
 	return image;
 }
@@ -952,7 +952,7 @@ const JXGC*
 JXImage::GetGC()
 	const
 {
-	if (itsGC == NULL)
+	if (itsGC == nullptr)
 		{
 		return itsDisplay->GetDefaultGC();
 		}
@@ -970,7 +970,7 @@ JXImage::GetGC()
 void
 JXImage::ForcePrivateGC()
 {
-	if (itsGC == NULL && itsDepth != itsDisplay->GetDepth())
+	if (itsGC == nullptr && itsDepth != itsDisplay->GetDepth())
 		{
 		// We need a drawable of the appropriate depth in order to
 		// create a usable GC.
@@ -981,14 +981,14 @@ JXImage::ForcePrivateGC()
 		assert( tempPixmap != None );
 
 		itsGC = jnew JXGC(itsDisplay, tempPixmap);
-		assert( itsGC != NULL );
+		assert( itsGC != nullptr );
 
 		XFreePixmap(*itsDisplay, tempPixmap);
 		}
-	else if (itsGC == NULL)
+	else if (itsGC == nullptr)
 		{
 		itsGC = jnew JXGC(itsDisplay, itsDisplay->GetRootWindow());
-		assert( itsGC != NULL );
+		assert( itsGC != nullptr );
 		}
 }
 
@@ -1001,7 +1001,7 @@ JXImage::State
 JXImage::GetCurrentState()
 	const
 {
-	if (itsImage != NULL)
+	if (itsImage != nullptr)
 		{
 		return kLocalStorage;
 		}
@@ -1042,13 +1042,13 @@ JXImage::ConvertToPixmap()
 {
 	if (itsPixmap == None)
 		{
-		assert( itsImage != NULL );
+		assert( itsImage != nullptr );
 
 		JXImage* me = const_cast<JXImage*>(this);
 		me->itsPixmap = CreatePixmap();
 
 		XDestroyImage(itsImage);
-		me->itsImage = NULL;
+		me->itsImage = nullptr;
 		}
 }
 
@@ -1061,7 +1061,7 @@ void
 JXImage::ConvertToImage()
 	const
 {
-	if (itsImage == NULL)
+	if (itsImage == nullptr)
 		{
 		assert( itsPixmap != None );
 
@@ -1100,7 +1100,7 @@ JXImage::SetImageData
 	// convert color table to X pixel values
 
 	unsigned long* xColorTable = jnew unsigned long [ colorCount ];
-	assert( xColorTable != NULL );
+	assert( xColorTable != nullptr );
 
 	for (JIndex i=0; i<colorCount; i++)
 		{
@@ -1120,10 +1120,10 @@ JXImage::SetImageData
 
 			if (hasMask && color == maskColor)
 				{
-				if (itsMask == NULL)
+				if (itsMask == nullptr)
 					{
 					itsMask = jnew JXImageMask(itsDisplay, w,h, kJTrue);
-					assert( itsMask != NULL );
+					assert( itsMask != nullptr );
 					}
 				itsMask->RemovePixel(x,y);
 				XPutPixel(itsImage, x,y, 0);
@@ -1156,11 +1156,11 @@ JXImage::PrepareForImageData()
 	const int bitmap_pad = (itsDepth > 16 ? 32 : (itsDepth > 8 ? 16 : 8));
 
 	itsImage = XCreateImage(*itsDisplay, itsDisplay->GetColorManager()->GetVisual(), itsDepth,
-							ZPixmap, 0, NULL, w,h, bitmap_pad, 0);
-	assert( itsImage != NULL );
+							ZPixmap, 0, nullptr, w,h, bitmap_pad, 0);
+	assert( itsImage != nullptr );
 
 	itsImage->data = (char*) malloc(h * itsImage->bytes_per_line);
-	assert( itsImage->data != NULL );
+	assert( itsImage->data != nullptr );
 }
 
 /******************************************************************************
@@ -1173,7 +1173,7 @@ JXImage::ImageDataFinished()
 {
 	ConvertToDefaultState();
 
-	if (itsMask != NULL)
+	if (itsMask != nullptr)
 		{
 		itsMask->ConvertToDefaultState();
 		}

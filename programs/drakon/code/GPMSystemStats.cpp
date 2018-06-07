@@ -46,7 +46,7 @@ GPMSystemStats::GPMSystemStats
 	itsMaxCPU(100)
 {
 	itsCPUHistory = jnew JArray<CPU>();
-	assert( itsCPUHistory != NULL );
+	assert( itsCPUHistory != nullptr );
 
 	ListenTo(itsProcessList);
 }

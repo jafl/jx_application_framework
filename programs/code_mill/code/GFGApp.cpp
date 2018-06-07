@@ -66,7 +66,7 @@ GFGApp::~GFGApp()
 /******************************************************************************
  DisplayAbout
 
-	prevVersStr can be NULL.
+	prevVersStr can be nullptr.
 
  ******************************************************************************/
 
@@ -77,7 +77,7 @@ GFGApp::DisplayAbout
 	)
 {
 	GFGAboutDialog* dlog = jnew GFGAboutDialog(this, prevVersStr);
-	assert( dlog != NULL );
+	assert( dlog != nullptr );
 	dlog->BeginDialog();
 }
 

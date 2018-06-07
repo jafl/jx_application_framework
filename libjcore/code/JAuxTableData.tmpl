@@ -118,7 +118,7 @@ JAuxTableData<T>::Receive
 		{
 		const JTableData::RowsInserted* info =
 			dynamic_cast<const JTableData::RowsInserted*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		JPackedTableData<T>::InsertRows(info->GetFirstIndex(), info->GetCount());
 		}
 
@@ -126,7 +126,7 @@ JAuxTableData<T>::Receive
 		{
 		const JTableData::RowDuplicated* info =
 			dynamic_cast<const JTableData::RowDuplicated*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		JPackedTableData<T>::DuplicateRow(info->GetOrigIndex(), info->GetNewIndex());
 		}
 
@@ -134,7 +134,7 @@ JAuxTableData<T>::Receive
 		{
 		const JTableData::RowsRemoved* info =
 			dynamic_cast<const JTableData::RowsRemoved*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		JPackedTableData<T>::RemoveNextRows(info->GetFirstIndex(), info->GetCount());
 		}
 
@@ -142,7 +142,7 @@ JAuxTableData<T>::Receive
 		{
 		const JTableData::RowMoved* info =
 			dynamic_cast<const JTableData::RowMoved*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		JPackedTableData<T>::MoveRow(info->GetOrigIndex(), info->GetNewIndex());
 		}
 
@@ -152,7 +152,7 @@ JAuxTableData<T>::Receive
 		{
 		const JTableData::ColsInserted* info =
 			dynamic_cast<const JTableData::ColsInserted*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		JPackedTableData<T>::InsertCols(info->GetFirstIndex(), info->GetCount());
 		}
 
@@ -160,7 +160,7 @@ JAuxTableData<T>::Receive
 		{
 		const JTableData::ColDuplicated* info =
 			dynamic_cast<const JTableData::ColDuplicated*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		JPackedTableData<T>::DuplicateCol(info->GetOrigIndex(), info->GetNewIndex());
 		}
 
@@ -168,7 +168,7 @@ JAuxTableData<T>::Receive
 		{
 		const JTableData::ColsRemoved* info =
 			dynamic_cast<const JTableData::ColsRemoved*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		JPackedTableData<T>::RemoveNextCols(info->GetFirstIndex(), info->GetCount());
 		}
 
@@ -176,7 +176,7 @@ JAuxTableData<T>::Receive
 		{
 		const JTableData::ColMoved* info =
 			dynamic_cast<const JTableData::ColMoved*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		JPackedTableData<T>::MoveCol(info->GetOrigIndex(), info->GetNewIndex());
 		}
 
@@ -206,7 +206,7 @@ template <class T>
 void
 JAuxTableData<T>::AdjustToTable()
 {
-	if (itsTable != NULL)
+	if (itsTable != nullptr)
 		{
 		const JSize tableRowCount = itsTable->GetRowCount();
 		const JSize rowCount      = JPackedTableData<T>::GetRowCount();

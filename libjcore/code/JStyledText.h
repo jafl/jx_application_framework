@@ -164,7 +164,7 @@ public:
 
 		CRMRule()
 			:
-			first(NULL), rest(NULL), replace(NULL)
+			first(nullptr), rest(nullptr), replace(nullptr)
 			{ };
 
 		CRMRule(JRegex* f, JRegex* r, JString* repl)
@@ -215,7 +215,7 @@ public:
 	JBoolean		IsEmpty() const;
 	JBoolean		EndsWithNewline() const;
 	const JString&	GetText() const;
-	JBoolean		SetText(const JString& text, const JRunArray<JFont>* style = NULL);
+	JBoolean		SetText(const JString& text, const JRunArray<JFont>* style = nullptr);
 
 	const JRunArray<JFont>&	GetStyles() const;
 	JBoolean				WillPasteStyledText() const;
@@ -334,21 +334,21 @@ public:
 	void		ClearLastSaveLocation();
 
 	JBoolean	Copy(const TextRange& range,
-					 JString* text, JRunArray<JFont>* style = NULL) const;
+					 JString* text, JRunArray<JFont>* style = nullptr) const;
 	TextRange	Paste(const TextRange& range,
-					  const JString& text, const JRunArray<JFont>* style = NULL);
+					  const JString& text, const JRunArray<JFont>* style = nullptr);
 
 	JBoolean	MoveText(const TextRange& srcRange, const TextIndex& origDestIndex,
 						 const JBoolean copy, TextRange* newRange);
 
 	TextIndex	BackwardDelete(const TextIndex&	lineStart, const TextIndex&	caretIndex,
 							   const JBoolean deleteToTabStop,
-							   JString* returnText = NULL, JRunArray<JFont>* returnStyle = NULL,
-							   JUndo** undo = NULL);
+							   JString* returnText = nullptr, JRunArray<JFont>* returnStyle = nullptr,
+							   JUndo** undo = nullptr);
 	void		ForwardDelete(const TextIndex& lineStart, const TextIndex& caretIndex,
 							  const JBoolean deleteToTabStop,
-							  JString* returnText = NULL, JRunArray<JFont>* returnStyle = NULL,
-							  JUndo** undo = NULL);
+							  JString* returnText = nullptr, JRunArray<JFont>* returnStyle = nullptr,
+							  JUndo** undo = nullptr);
 	void		DeleteText(const TextRange& range);
 
 	JUndo*		InsertCharacter(const TextRange& replaceRange,
@@ -357,7 +357,7 @@ public:
 	void		InsertSpacesForTab(const TextIndex& lineStart, const TextIndex& caretIndex);
 
 	static JBoolean	ContainsIllegalChars(const JString& text);
-	static JBoolean	RemoveIllegalChars(JString* text, JRunArray<JFont>* style = NULL);
+	static JBoolean	RemoveIllegalChars(JString* text, JRunArray<JFont>* style = nullptr);
 
 	JBoolean	CleanRightMargin(const JBoolean coerce, JCharacterRange* reformatRange);
 
@@ -392,7 +392,9 @@ protected:
 
 	void	SetFont(const TextRange& range, const JRunArray<JFont>& f);
 
-	void	BroadcastTextChanged(const TextRange& range, const JBoolean deletion,
+	void	BroadcastTextChanged(const TextRange& range,
+								 const JInteger charDelta, const JInteger byteDelta,
+								 const JBoolean deletion,
 								 const JBoolean adjustStyles = kJTrue);
 
 	virtual JBoolean	NeedsToFilterText(const JString& text, const JRunArray<JFont>& style) const;
@@ -423,8 +425,8 @@ private:
 
 	JFont	itsDefaultFont;
 
-	JSTUndoBase*			itsUndo;				// can be NULL
-	JPtrArray<JSTUndoBase>*	itsUndoList;			// NULL if not multiple undo
+	JSTUndoBase*			itsUndo;				// can be nullptr
+	JPtrArray<JSTUndoBase>*	itsUndoList;			// nullptr if not multiple undo
 	JIndex					itsFirstRedoIndex;		// range [1:count+1]
 	JInteger				itsLastSaveRedoIndex;	// index where text was saved -- can be outside range of itsUndoList!
 	UndoState				itsUndoState;
@@ -435,7 +437,7 @@ private:
 	JSize	itsCRMLineWidth;
 	JSize	itsCRMTabCharCount;
 
-	CRMRuleList*	itsCRMRuleList;		// can be NULL
+	CRMRuleList*	itsCRMRuleList;		// can be nullptr
 	JBoolean		itsOwnsCRMRulesFlag;
 
 private:
@@ -513,12 +515,14 @@ public:
 	{
 	public:
 
-		TextChanged(const TextRange& r, const TextRange& rr, const JBoolean del)
+		TextChanged(const TextRange& r, const TextRange& rr,
+					const JInteger cd, const JInteger bd)
 			:
 			JBroadcaster::Message(kTextChanged),
 			itsRange(r),
 			itsRedrawRange(rr),
-			itsDeletionFlag(del)
+			itsCharDelta(cd),
+			itsByteDelta(bd)
 			{ };
 
 		const TextRange&
@@ -533,17 +537,24 @@ public:
 			return itsRedrawRange;
 		}
 
-		const JBoolean
-		IsDeletion() const
+		const JInteger
+		GetCharDelta() const
 		{
-			return itsDeletionFlag;
+			return itsCharDelta;
+		}
+
+		const JInteger
+		GetByteDelta() const
+		{
+			return itsByteDelta;
 		}
 
 	private:
 
 		const TextRange	itsRange;
 		const TextRange	itsRedrawRange;		// may be larger than itsRange
-		const JBoolean	itsDeletionFlag;
+		const JInteger	itsCharDelta;
+		const JInteger	itsByteDelta;
 	};
 
 	class DefaultFontChanged : public JBroadcaster::Message
@@ -643,7 +654,7 @@ inline JBoolean
 JStyledText::HasSingleUndo()
 	const
 {
-	return JI2B( itsUndo != NULL );
+	return JI2B( itsUndo != nullptr );
 }
 
 inline JBoolean
@@ -655,8 +666,8 @@ JStyledText::HasMultipleUndo
 	const
 {
 	*canUndo = JI2B( itsFirstRedoIndex > 1 );
-	*canRedo = JI2B( itsUndoList != NULL && itsFirstRedoIndex <= itsUndoList->GetElementCount() );
-	return JI2B( itsUndoList != NULL );
+	*canRedo = JI2B( itsUndoList != nullptr && itsFirstRedoIndex <= itsUndoList->GetElementCount() );
+	return JI2B( itsUndoList != nullptr );
 }
 
 /******************************************************************************
@@ -680,7 +691,7 @@ inline JBoolean
 JStyledText::IsAtLastSaveLocation()
 	const
 {
-	return JI2B( itsUndoList != NULL &&
+	return JI2B( itsUndoList != nullptr &&
 				 itsLastSaveRedoIndex > 0 &&
 				 JIndex(itsLastSaveRedoIndex) == itsFirstRedoIndex );
 }
@@ -790,7 +801,7 @@ JStyledText::GetCRMRuleList
 	const
 {
 	*ruleList = itsCRMRuleList;
-	return JI2B( itsCRMRuleList != NULL );
+	return JI2B( itsCRMRuleList != nullptr );
 }
 
 /******************************************************************************

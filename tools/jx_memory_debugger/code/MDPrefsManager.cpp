@@ -30,7 +30,7 @@ MDPrefsManager::MDPrefsManager
 	)
 	:
 	JXPrefsManager(kCurrentPrefsFileVersion, kJTrue),
-	itsPrefsDialog(NULL)
+	itsPrefsDialog(nullptr)
 {
 	*isNew = JPrefsManager::UpgradeData();
 
@@ -103,12 +103,12 @@ MDPrefsManager::GetPrevVersionStr()
 void
 MDPrefsManager::EditPrefs()
 {
-	assert( itsPrefsDialog == NULL );
+	assert( itsPrefsDialog == nullptr );
 
 	const JString openCmd = GetOpenFileCommand();
 
 	itsPrefsDialog = jnew MDPrefsDialog(JXGetApplication(), openCmd);
-	assert( itsPrefsDialog != NULL );
+	assert( itsPrefsDialog != nullptr );
 	ListenTo(itsPrefsDialog);
 	itsPrefsDialog->BeginDialog();
 }
@@ -261,7 +261,7 @@ MDPrefsManager::Receive
 		{
 		const JXDialogDirector::Deactivated* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		if (info->Successful())
 			{
 			JString openCmd;
@@ -269,7 +269,7 @@ MDPrefsManager::Receive
 
 			SetOpenFileCommand(openCmd);
 			}
-		itsPrefsDialog = NULL;
+		itsPrefsDialog = nullptr;
 		}
 
 	else

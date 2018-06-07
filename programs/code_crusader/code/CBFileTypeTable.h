@@ -59,11 +59,11 @@ protected:
 
 private:
 
-	JArray<CBPrefsManager::FileTypeInfo>*			itsFileTypeList;	// info.*Regex always NULL
+	JArray<CBPrefsManager::FileTypeInfo>*			itsFileTypeList;	// info.*Regex always nullptr
 	const JArray<CBPrefsManager::MacroSetInfo>&		itsMacroList;
 	const JArray<CBPrefsManager::CRMRuleListInfo>&	itsCRMList;
 
-	JXInputField*	itsTextInput;			// NULL unless editing
+	JXInputField*	itsTextInput;			// nullptr unless editing
 	JFont			itsFont;
 	JRegex*			itsTestRegex;
 

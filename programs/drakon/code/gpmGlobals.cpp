@@ -18,9 +18,9 @@
 
 #include <jAssert.h>
 
-static GPMApp*			theApplication  = NULL;		// owns itself
-static GPMPrefsManager*	thePrefsManager = NULL;
-static GPMMDIServer*	theMDIServer    = NULL;
+static GPMApp*			theApplication  = nullptr;		// owns itself
+static GPMPrefsManager*	thePrefsManager = nullptr;
+static GPMMDIServer*	theMDIServer    = nullptr;
 
 static JSize			theSystemMemory      = 0;
 static const JRegex		totalMemoryPattern   = "^MemTotal:\\s*([0-9]+)";
@@ -46,12 +46,12 @@ GPMCreateGlobals
 
 	JBoolean isNew;
 	thePrefsManager	= jnew GPMPrefsManager(&isNew);
-	assert( thePrefsManager != NULL );
+	assert( thePrefsManager != nullptr );
 
 	JXInitHelp();
 
 	theMDIServer = jnew GPMMDIServer;
-	assert( theMDIServer != NULL );
+	assert( theMDIServer != nullptr );
 
 #ifdef _J_HAS_PROC
 	{
@@ -73,7 +73,7 @@ GPMCreateGlobals
 	int mib[] = { CTL_HW, HW_PHYSMEM };
 	int memPages;
 	size_t len = sizeof(memPages);
-	if (sysctl(mib, 2, &memPages, &len, NULL, 0) == 0)
+	if (sysctl(mib, 2, &memPages, &len, nullptr, 0) == 0)
 		{
 		theSystemMemory = memPages;	// bytes
 		}
@@ -91,13 +91,13 @@ GPMCreateGlobals
 void
 GPMDeleteGlobals()
 {
-	theApplication = NULL;
-	theMDIServer   = NULL;
+	theApplication = nullptr;
+	theMDIServer   = nullptr;
 
 	// this must be last so everybody else can use it to save their setup
 
 	jdelete thePrefsManager;
-	thePrefsManager = NULL;
+	thePrefsManager = nullptr;
 }
 
 /******************************************************************************
@@ -134,7 +134,7 @@ GPMCleanUpBeforeSuddenDeath
 GPMApp*
 GPMGetApplication()
 {
-	assert( theApplication != NULL );
+	assert( theApplication != nullptr );
 	return theApplication;
 }
 
@@ -146,7 +146,7 @@ GPMGetApplication()
 GPMPrefsManager*
 GPMGetPrefsManager()
 {
-	assert( thePrefsManager != NULL );
+	assert( thePrefsManager != nullptr );
 	return thePrefsManager;
 }
 
@@ -158,7 +158,7 @@ GPMGetPrefsManager()
 GPMMDIServer*
 GPMGetMDIServer()
 {
-	assert( theMDIServer != NULL );
+	assert( theMDIServer != nullptr );
 	return theMDIServer;
 }
 

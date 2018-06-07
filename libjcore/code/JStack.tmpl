@@ -33,7 +33,7 @@ JStack<T,S>::JStack()
 	JContainer()
 {
 	itsElements = jnew S;
-	assert( itsElements != NULL );
+	assert( itsElements != nullptr );
 
 	InstallOrderedSet(itsElements);
 }
@@ -52,7 +52,7 @@ JStack<T,S>::JStack
 	JContainer(source)
 {
 	itsElements = jnew S(*(source.itsElements));
-	assert( itsElements != NULL );
+	assert( itsElements != nullptr );
 
 	InstallOrderedSet(itsElements);
 }

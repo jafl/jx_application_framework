@@ -63,9 +63,9 @@ JPlotFitLinearEq::JPlotFitLinearEqX
 	JPlotDataBase* 	fitData
 	)
 {
-	itsPowers		= NULL;
-	itsParameters 	= NULL;
-	itsErrors		= NULL;
+	itsPowers		= nullptr;
+	itsParameters 	= nullptr;
+	itsErrors		= nullptr;
 }
 
 /******************************************************************************
@@ -80,7 +80,7 @@ JPlotFitLinearEq::InitializePolynomial
 	)
 {
 	itsPowers			= jnew JArray<JIndex>(powers);
-	assert(itsPowers != NULL);
+	assert(itsPowers != nullptr);
 	const JSize count	= itsPowers->GetElementCount();
 	SetParameterCount(count);
 	SetHasGoodnessOfFit(kJTrue);
@@ -107,9 +107,9 @@ JPlotFitLinearEq::InitializePolynomial
 	SetFunctionString(name);
 
 	itsParameters	= jnew JVector(count);
-	assert(itsParameters != NULL);
+	assert(itsParameters != nullptr);
 	itsErrors		= jnew JVector(count);
-	assert(itsErrors != NULL);
+	assert(itsErrors != nullptr);
 }
 
 

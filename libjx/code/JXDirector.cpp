@@ -15,7 +15,7 @@
 /******************************************************************************
  Constructor
 
-	supervisor can be NULL, but only JXApplication should do this because
+	supervisor can be nullptr, but only JXApplication should do this because
 	everybody else should be owned by somebody (the application, at least).
 
  ******************************************************************************/
@@ -26,12 +26,12 @@ JXDirector::JXDirector
 	)
 {
 	itsSupervisor   = supervisor;
-	itsSubdirectors = NULL;
+	itsSubdirectors = nullptr;
 	itsActiveFlag   = kJFalse;
 	itsSuspendCount = 0;
 	itsClosingFlag  = kJFalse;
 
-	if (itsSupervisor != NULL)
+	if (itsSupervisor != nullptr)
 		{
 		itsSupervisor->AddDirector(this);
 		itsSuspendCount = itsSupervisor->itsSuspendCount;
@@ -48,9 +48,9 @@ JXDirector::JXDirector
 JXDirector::~JXDirector()
 {
 	assert( itsClosingFlag );
-	assert( itsSubdirectors == NULL );
+	assert( itsSubdirectors == nullptr );
 
-	if (itsSupervisor != NULL)
+	if (itsSupervisor != nullptr)
 		{
 		itsSupervisor->RemoveDirector(this);
 		}
@@ -103,14 +103,14 @@ JXDirector::Close()
 JBoolean
 JXDirector::CloseAllSubdirectors()
 {
-	while (itsSubdirectors != NULL && !itsSubdirectors->IsEmpty())
+	while (itsSubdirectors != nullptr && !itsSubdirectors->IsEmpty())
 		{
 		JXDirector* theDirector = itsSubdirectors->GetFirstElement();
 		if (!theDirector->Close())
 			{
 			return kJFalse;
 			}
-		else if (itsSubdirectors != NULL && !itsSubdirectors->IsEmpty() &&
+		else if (itsSubdirectors != nullptr && !itsSubdirectors->IsEmpty() &&
 				 theDirector == itsSubdirectors->GetFirstElement())
 			{
 			// Since one JXDocument can keep another one open,
@@ -148,7 +148,7 @@ JXDirector::Activate()
 JBoolean
 JXDirector::Deactivate()
 {
-	if (itsActiveFlag && itsSubdirectors != NULL)
+	if (itsActiveFlag && itsSubdirectors != nullptr)
 		{
 		const JSize dirCount = itsSubdirectors->GetElementCount();
 		for (JIndex i=1; i<=dirCount; i++)
@@ -171,7 +171,7 @@ JXDirector::Deactivate()
 void
 JXDirector::Suspend()
 {
-	if (itsSubdirectors != NULL)
+	if (itsSubdirectors != nullptr)
 		{
 		const JSize dirCount = itsSubdirectors->GetElementCount();
 		for (JIndex i=1; i<=dirCount; i++)
@@ -195,7 +195,7 @@ JXDirector::Resume()
 		itsSuspendCount--;
 		}
 
-	if (itsSubdirectors != NULL)
+	if (itsSubdirectors != nullptr)
 		{
 		const JSize dirCount = itsSubdirectors->GetElementCount();
 		for (JIndex i=1; i<=dirCount; i++)
@@ -216,10 +216,10 @@ JXDirector::AddDirector
 	JXDirector* theDirector
 	)
 {
-	if (itsSubdirectors == NULL)
+	if (itsSubdirectors == nullptr)
 		{
 		itsSubdirectors = jnew JPtrArray<JXDirector>(JPtrArrayT::kForgetAll);
-		assert( itsSubdirectors != NULL );
+		assert( itsSubdirectors != nullptr );
 		}
 
 	if (!itsSubdirectors->Includes(theDirector))
@@ -239,13 +239,13 @@ JXDirector::RemoveDirector
 	JXDirector* theDirector
 	)
 {
-	if (itsSubdirectors != NULL)
+	if (itsSubdirectors != nullptr)
 		{
 		itsSubdirectors->Remove(theDirector);
 		if (itsSubdirectors->IsEmpty())
 			{
 			jdelete itsSubdirectors;
-			itsSubdirectors = NULL;
+			itsSubdirectors = nullptr;
 			}
 		DirectorClosed(theDirector);
 		}

@@ -30,7 +30,7 @@ protected:
 private:
 
 	JXWindow*			itsWindow;		// not owned
-	JXDirectSaveAction*	itsAction;		// NULL after first transaction
+	JXDirectSaveAction*	itsAction;		// nullptr after first transaction
 
 private:
 

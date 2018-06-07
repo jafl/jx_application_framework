@@ -213,7 +213,7 @@ JXDNDManager::Receive
 		{
 		const JXDialogDirector::Deactivated* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		if (info->Successful())
 			{
 			*itsUserDropAction = itsChooseDropActionDialog->GetAction();
@@ -222,7 +222,7 @@ JXDNDManager::Receive
 			{
 			*itsUserDropAction = None;
 			}
-		itsChooseDropActionDialog = NULL;
+		itsChooseDropActionDialog = nullptr;
 		}
 
 	else

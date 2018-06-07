@@ -74,40 +74,40 @@ SyGNewGitRemoteDialog::BuildWindow()
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 310,160, "");
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	JXTextButton* okButton =
 		jnew JXTextButton(JGetString("okButton::SyGNewGitRemoteDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 190,130, 60,20);
-	assert( okButton != NULL );
+	assert( okButton != nullptr );
 	okButton->SetShortcuts(JGetString("okButton::SyGNewGitRemoteDialog::shortcuts::JXLayout"));
 
 	JXTextButton* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::SyGNewGitRemoteDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 60,130, 60,20);
-	assert( cancelButton != NULL );
+	assert( cancelButton != nullptr );
 	cancelButton->SetShortcuts(JGetString("cancelButton::SyGNewGitRemoteDialog::shortcuts::JXLayout"));
 
 	itsRemoteURLInputField =
 		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 20,40, 270,20);
-	assert( itsRemoteURLInputField != NULL );
+	assert( itsRemoteURLInputField != nullptr );
 
 	JXStaticText* remoteLabel =
 		jnew JXStaticText(JGetString("remoteLabel::SyGNewGitRemoteDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 20,20, 270,20);
-	assert( remoteLabel != NULL );
+	assert( remoteLabel != nullptr );
 	remoteLabel->SetToLabel();
 
 	itsLocalNameInputField =
 		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 20,90, 270,20);
-	assert( itsLocalNameInputField != NULL );
+	assert( itsLocalNameInputField != nullptr );
 
 	JXStaticText* localLabel =
 		jnew JXStaticText(JGetString("localLabel::SyGNewGitRemoteDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 20,70, 270,20);
-	assert( localLabel != NULL );
+	assert( localLabel != nullptr );
 	localLabel->SetToLabel();
 
 // end JXLayout

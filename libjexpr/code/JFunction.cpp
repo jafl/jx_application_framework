@@ -304,14 +304,14 @@ JFunction::VariablesSwapped
 JFunctionWithArgs*
 JFunction::CastToJFunctionWithArgs()
 {
-	return NULL;
+	return nullptr;
 }
 
 const JFunctionWithArgs*
 JFunction::CastToJFunctionWithArgs()
 	const
 {
-	return NULL;
+	return nullptr;
 }
 
 /******************************************************************************
@@ -324,14 +324,14 @@ JFunction::CastToJFunctionWithArgs()
 JUnaryFunction*
 JFunction::CastToJUnaryFunction()
 {
-	return NULL;
+	return nullptr;
 }
 
 const JUnaryFunction*
 JFunction::CastToJUnaryFunction()
 	const
 {
-	return NULL;
+	return nullptr;
 }
 
 /******************************************************************************
@@ -344,14 +344,14 @@ JFunction::CastToJUnaryFunction()
 JBinaryFunction*
 JFunction::CastToJBinaryFunction()
 {
-	return NULL;
+	return nullptr;
 }
 
 const JBinaryFunction*
 JFunction::CastToJBinaryFunction()
 	const
 {
-	return NULL;
+	return nullptr;
 }
 
 /******************************************************************************
@@ -364,14 +364,14 @@ JFunction::CastToJBinaryFunction()
 JBinaryOperator*
 JFunction::CastToJBinaryOperator()
 {
-	return NULL;
+	return nullptr;
 }
 
 const JBinaryOperator*
 JFunction::CastToJBinaryOperator()
 	const
 {
-	return NULL;
+	return nullptr;
 }
 
 /******************************************************************************
@@ -384,14 +384,14 @@ JFunction::CastToJBinaryOperator()
 JNaryFunction*
 JFunction::CastToJNaryFunction()
 {
-	return NULL;
+	return nullptr;
 }
 
 const JNaryFunction*
 JFunction::CastToJNaryFunction()
 	const
 {
-	return NULL;
+	return nullptr;
 }
 
 /******************************************************************************
@@ -404,14 +404,14 @@ JFunction::CastToJNaryFunction()
 JNaryOperator*
 JFunction::CastToJNaryOperator()
 {
-	return NULL;
+	return nullptr;
 }
 
 const JNaryOperator*
 JFunction::CastToJNaryOperator()
 	const
 {
-	return NULL;
+	return nullptr;
 }
 
 /******************************************************************************
@@ -424,12 +424,12 @@ JFunction::CastToJNaryOperator()
 JFunctionWithVar*
 JFunction::CastToJFunctionWithVar()
 {
-	return NULL;
+	return nullptr;
 }
 
 const JFunctionWithVar*
 JFunction::CastToJFunctionWithVar()
 	const
 {
-	return NULL;
+	return nullptr;
 }

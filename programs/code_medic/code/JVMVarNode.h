@@ -21,7 +21,7 @@ public:
 
 	virtual	~JVMVarNode();
 
-	virtual JString	GetFullName(JBoolean* isPointer = NULL) const;
+	virtual JString	GetFullName(JBoolean* isPointer = nullptr) const;
 
 private:
 

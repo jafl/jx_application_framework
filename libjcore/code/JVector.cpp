@@ -99,7 +99,7 @@ JVector::JVectorX
 	itsDimCount = dimCount;
 
 	itsElements = jnew JFloat [ itsDimCount ];
-	assert( itsElements != NULL );
+	assert( itsElements != nullptr );
 }
 
 /******************************************************************************
@@ -371,7 +371,7 @@ JVector::Set
 /******************************************************************************
  GetMinElement
 
-	Returns the minimum element.  If index != NULL, it contains the index of
+	Returns the minimum element.  If index != nullptr, it contains the index of
 	the element that is returned.
 
  ******************************************************************************/
@@ -379,7 +379,7 @@ JVector::Set
 JFloat
 JVector::GetMinElement
 	(
-	JIndex* index	// can be NULL
+	JIndex* index	// can be nullptr
 	)
 	const
 {
@@ -389,7 +389,7 @@ JVector::GetMinElement
 		if (itsElements[i] < min || i == 0)
 			{
 			min = itsElements[i];
-			if (index != NULL)
+			if (index != nullptr)
 				{
 				*index = i+1;
 				}
@@ -402,7 +402,7 @@ JVector::GetMinElement
 /******************************************************************************
  GetMaxElement
 
-	Returns the maximum element.  If index != NULL, it contains the index of
+	Returns the maximum element.  If index != nullptr, it contains the index of
 	the element that is returned.
 
  ******************************************************************************/
@@ -410,7 +410,7 @@ JVector::GetMinElement
 JFloat
 JVector::GetMaxElement
 	(
-	JIndex* index	// can be NULL
+	JIndex* index	// can be nullptr
 	)
 	const
 {
@@ -420,7 +420,7 @@ JVector::GetMaxElement
 		if (itsElements[i] > max || i == 0)
 			{
 			max = itsElements[i];
-			if (index != NULL)
+			if (index != nullptr)
 				{
 				*index = i+1;
 				}

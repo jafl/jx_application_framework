@@ -10,7 +10,7 @@
 #include "CBSQLCompleter.h"
 #include <jAssert.h>
 
-CBSQLCompleter* CBSQLCompleter::itsSelf = NULL;
+CBSQLCompleter* CBSQLCompleter::itsSelf = nullptr;
 
 static const JCharacter* kKeywordList[] =
 {
@@ -164,12 +164,12 @@ static JBoolean recursiveInstance = kJFalse;
 CBStringCompleter*
 CBSQLCompleter::Instance()
 {
-	if (itsSelf == NULL && !recursiveInstance)
+	if (itsSelf == nullptr && !recursiveInstance)
 		{
 		recursiveInstance = kJTrue;
 
 		itsSelf = jnew CBSQLCompleter;
-		assert( itsSelf != NULL );
+		assert( itsSelf != nullptr );
 
 		recursiveInstance = kJFalse;
 		}
@@ -206,7 +206,7 @@ CBSQLCompleter::CBSQLCompleter()
 
 CBSQLCompleter::~CBSQLCompleter()
 {
-	itsSelf = NULL;
+	itsSelf = nullptr;
 }
 
 /******************************************************************************

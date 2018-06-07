@@ -85,7 +85,7 @@ private:
 	JBoolean			itsHasImagesFlag;
 	JPtrArray<JXImage>*	itsImageList;	// contents not owned
 
-	JXTextMenu*			itsFnMenu;		// NULL unless PrepareMenu() was called; not owned
+	JXTextMenu*			itsFnMenu;		// nullptr unless PrepareMenu() was called; not owned
 	JXMouseButton		itsMenuButton;	// used when item is selected from itsFnMenu
 
 private:

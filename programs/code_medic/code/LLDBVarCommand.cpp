@@ -55,16 +55,16 @@ LLDBVarCommand::HandleSuccess
 	)
 {
 	LLDBLink* link = dynamic_cast<LLDBLink*>(CMGetLink());
-	if (link == NULL)
+	if (link == nullptr)
 		{
-		Broadcast(ValueMessage(kValueFailed, NULL));
+		Broadcast(ValueMessage(kValueFailed, nullptr));
 		return;
 		}
 
 	lldb::SBFrame f = link->GetDebugger()->GetSelectedTarget().GetProcess().GetSelectedThread().GetSelectedFrame();
 	if (!f.IsValid())
 		{
-		Broadcast(ValueMessage(kValueFailed, NULL));
+		Broadcast(ValueMessage(kValueFailed, nullptr));
 		return;
 		}
 
@@ -75,6 +75,6 @@ LLDBVarCommand::HandleSuccess
 		}
 	else
 		{
-		Broadcast(ValueMessage(kValueFailed, NULL));
+		Broadcast(ValueMessage(kValueFailed, nullptr));
 		}
 }

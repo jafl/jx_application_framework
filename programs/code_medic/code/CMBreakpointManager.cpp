@@ -34,19 +34,19 @@ CMBreakpointManager::CMBreakpointManager
 	:
 	itsLink(link),
 	itsCmd(cmd),
-	itsSavedBPList(NULL),
+	itsSavedBPList(nullptr),
 	itsRestoreBreakpointsFlag(kJFalse),
 	itsUpdateWhenStopFlag(kJFalse)
 {
-	assert( itsCmd != NULL );
+	assert( itsCmd != nullptr );
 
 	itsBPList = jnew JPtrArray<CMBreakpoint>(JPtrArrayT::kDeleteAll);
-	assert(itsBPList != NULL);
+	assert(itsBPList != nullptr);
 	itsBPList->SetCompareFunction(CompareBreakpointLocations);
 	itsBPList->SetSortOrder(JListT::kSortAscending);
 
 	itsOtherList = jnew JPtrArray<CMBreakpoint>(JPtrArrayT::kDeleteAll);
-	assert(itsOtherList != NULL);
+	assert(itsOtherList != nullptr);
 
 	ListenTo(itsLink);
 }
@@ -200,7 +200,7 @@ CMBreakpointManager::ReadSetup
 		{
 		jdelete itsSavedBPList;
 		itsSavedBPList = jnew JPtrArray<CMBreakpoint>(JPtrArrayT::kDeleteAll);
-		assert( itsSavedBPList != NULL );
+		assert( itsSavedBPList != nullptr );
 		}
 
 	JString fileName, condition, commands;
@@ -229,7 +229,7 @@ CMBreakpointManager::ReadSetup
 		CMBreakpoint* bp = jnew CMBreakpoint(0, fileName, lineNumber, "", "",
 											enabled, action, condition,
 											ignoreCount);
-		assert( bp != NULL );
+		assert( bp != nullptr );
 		itsSavedBPList->Append(bp);
 
 		// set breakpoint after saving, so name resolution happens first
@@ -289,13 +289,13 @@ CMBreakpointManager::Receive
 		{
 		const CMLink::SymbolsLoaded* info =
 			dynamic_cast<const CMLink::SymbolsLoaded*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		const JSize count = itsBPList->GetElementCount();
 		if (info->Successful() && itsRestoreBreakpointsFlag && count > 0)
 			{
 			jdelete itsSavedBPList;
 			itsSavedBPList = jnew JPtrArray<CMBreakpoint>(JPtrArrayT::kDeleteAll);
-			assert( itsSavedBPList != NULL );
+			assert( itsSavedBPList != nullptr );
 			itsSavedBPList->CopyObjects(*itsBPList, JPtrArrayT::kDeleteAll, kJFalse);
 
 			for (JIndex i=1; i<=count; i++)
@@ -340,7 +340,7 @@ CMBreakpointManager::UpdateBreakpoints
 	itsOtherList->CopyPointers(otherList, JPtrArrayT::kDeleteAll, kJFalse);
 	Broadcast(BreakpointsChanged());
 
-	if (itsSavedBPList != NULL &&
+	if (itsSavedBPList != nullptr &&
 		itsSavedBPList->GetElementCount() == itsBPList->GetElementCount())
 		{
 		const JSize count = itsSavedBPList->GetElementCount();
@@ -371,7 +371,7 @@ CMBreakpointManager::UpdateBreakpoints
 			}
 
 		jdelete itsSavedBPList;
-		itsSavedBPList = NULL;
+		itsSavedBPList = nullptr;
 		}
 }
 
@@ -405,7 +405,7 @@ CMBreakpointManager::BreakpointFileNameInvalid
 	CMBreakpoint* bp
 	)
 {
-	if (itsSavedBPList != NULL)
+	if (itsSavedBPList != nullptr)
 		{
 		itsSavedBPList->Remove(bp);
 		}

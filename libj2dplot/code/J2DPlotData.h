@@ -67,12 +67,12 @@ protected:
 
 private:
 
-	JArray<JFloat>* itsXData;			// NULL if deleted by owner
-	JArray<JFloat>* itsXPErrorData;		// NULL if no error bars
-	JArray<JFloat>* itsXMErrorData;		// NULL if not symmetric errors
-	JArray<JFloat>* itsYData;			// NULL if deleted by owner
-	JArray<JFloat>* itsYPErrorData;		// NULL if no error bars
-	JArray<JFloat>* itsYMErrorData;		// NULL if not symmetric errors
+	JArray<JFloat>* itsXData;			// nullptr if deleted by owner
+	JArray<JFloat>* itsXPErrorData;		// nullptr if no error bars
+	JArray<JFloat>* itsXMErrorData;		// nullptr if not symmetric errors
+	JArray<JFloat>* itsYData;			// nullptr if deleted by owner
+	JArray<JFloat>* itsYPErrorData;		// nullptr if no error bars
+	JArray<JFloat>* itsYMErrorData;		// nullptr if not symmetric errors
 
 	JBoolean	itsIsValidFlag;
 	JBoolean	itsIsListeningFlag;
@@ -97,7 +97,7 @@ inline JBoolean
 J2DPlotData::HasXErrors()
 	const
 {
-	return JI2B(itsXPErrorData != NULL);
+	return JI2B(itsXPErrorData != nullptr);
 }
 
 /*********************************************************************************
@@ -109,7 +109,7 @@ inline JBoolean
 J2DPlotData::HasYErrors()
 	const
 {
-	return JI2B(itsYPErrorData != NULL);
+	return JI2B(itsYPErrorData != nullptr);
 }
 
 /*********************************************************************************
@@ -121,7 +121,7 @@ inline JBoolean
 J2DPlotData::HasSymmetricXErrors()
 	const
 {
-	return JI2B(itsXMErrorData != NULL);
+	return JI2B(itsXMErrorData != nullptr);
 }
 
 /*********************************************************************************
@@ -133,7 +133,7 @@ inline JBoolean
 J2DPlotData::HasSymmetricYErrors()
 	const
 {
-	return JI2B(itsYMErrorData != NULL);
+	return JI2B(itsYMErrorData != nullptr);
 }
 
 /*********************************************************************************
@@ -185,7 +185,7 @@ J2DPlotData::GetXPErrorData
 	const
 {
 	*array = itsXPErrorData;
-	return JI2B( itsXPErrorData != NULL );
+	return JI2B( itsXPErrorData != nullptr );
 }
 
 /*********************************************************************************
@@ -201,7 +201,7 @@ J2DPlotData::GetXMErrorData
 	const
 {
 	*array = itsXMErrorData;
-	return JI2B( itsXMErrorData != NULL );
+	return JI2B( itsXMErrorData != nullptr );
 }
 
 /*********************************************************************************
@@ -217,7 +217,7 @@ J2DPlotData::GetYPErrorData
 	const
 {
 	*array = itsYPErrorData;
-	return JI2B( itsYPErrorData != NULL );
+	return JI2B( itsYPErrorData != nullptr );
 }
 
 /*********************************************************************************
@@ -233,7 +233,7 @@ J2DPlotData::GetYMErrorData
 	const
 {
 	*array = itsYMErrorData;
-	return JI2B( itsYMErrorData != NULL );
+	return JI2B( itsYMErrorData != nullptr );
 }
 
 /*********************************************************************************

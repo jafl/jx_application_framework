@@ -154,7 +154,7 @@ JHashTable<V>::JHashTable
 	:
 	itsLgSize(lgSize),
 	itsMaxIndex( (1UL << itsLgSize) - 1),
-	itsArray(NULL),
+	itsArray(nullptr),
 	itsElementCount(0),
 	itsLoadCount(0),
 	itsResizeFlag(kJTrue),
@@ -168,10 +168,10 @@ JHashTable<V>::JHashTable
 	assert(CHAR_BIT == 8);
 
 	itsArray = jnew JHashRecord<V>[itsMaxIndex+1];
-	assert(itsArray != NULL);
+	assert(itsArray != nullptr);
 
 	itsCursor = jnew JHashCursor<V>(this);
-	assert(itsCursor != NULL);
+	assert(itsCursor != nullptr);
 }
 
 /******************************************************************************
@@ -183,11 +183,11 @@ template <class V>
 JHashTable<V>::~JHashTable()
 {
 	jdelete[] itsArray;
-	itsArray = NULL;
+	itsArray = nullptr;
 	itsMaxIndex = 0;
 
 	jdelete itsCursor;
-	itsCursor = NULL;
+	itsCursor = nullptr;
 }
 
 /******************************************************************************
@@ -367,7 +367,7 @@ JHashTable<V>::SetKeyComparison
 	JBoolean (* const keysEqual)(const V&, const V&)
 	)
 {
-	assert(keysEqual != NULL);
+	assert(keysEqual != nullptr);
 	itsEqual = keysEqual;
 }
 
@@ -414,7 +414,7 @@ JHashTable<V>::ReturnTrue
 	hash function they are using, because nothing is more dangerous than the
 	possibility that more than one hash function could be invoked on one table.
 
-	NULL is not a valid parameter, naturally enough.
+	nullptr is not a valid parameter, naturally enough.
 
  *****************************************************************************/
 
@@ -425,7 +425,7 @@ JHashTable<V>::SetHashFunction
 	JHashValue (* const hashFunction)(const V&)
 	)
 {
-	assert(hashFunction != NULL);
+	assert(hashFunction != nullptr);
 
 	itsHashFunction = hashFunction;
 }
@@ -668,13 +668,13 @@ JHashTable<V>::TryResizeTable
 //std::cout << "Shortcut: just realloc'ing list" << std::endl;
 			// This must be replaced with a true realloc as soon as JMM can do it
 			jdelete[] itsArray;
-			itsArray = NULL;
+			itsArray = nullptr;
 
 			itsLgSize = lgSize;
 			itsMaxIndex = (1UL << itsLgSize) - 1;
 
 			itsArray = jnew JHashRecord<V>[itsMaxIndex+1];
-			assert(itsArray != NULL);
+			assert(itsArray != nullptr);
 
 			itsLoadCount = 0;
 			}

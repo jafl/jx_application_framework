@@ -68,45 +68,45 @@ MDAboutDialog::BuildWindow
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 370,120, "");
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	JXStaticText* textWidget =
 		jnew JXStaticText(JGetString("textWidget::MDAboutDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 70,20, 280,50);
-	assert( textWidget != NULL );
+	assert( textWidget != nullptr );
 
 	JXTextButton* okButton =
 		jnew JXTextButton(JGetString("okButton::MDAboutDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 260,90, 60,20);
-	assert( okButton != NULL );
+	assert( okButton != nullptr );
 	okButton->SetShortcuts(JGetString("okButton::MDAboutDialog::shortcuts::JXLayout"));
 
 	itsHelpButton =
 		jnew JXTextButton(JGetString("itsHelpButton::MDAboutDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 155,90, 60,20);
-	assert( itsHelpButton != NULL );
+	assert( itsHelpButton != nullptr );
 	itsHelpButton->SetShortcuts(JGetString("itsHelpButton::MDAboutDialog::shortcuts::JXLayout"));
 
 	JXImageWidget* imageWidget =
 		jnew JXImageWidget(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 40,40);
-	assert( imageWidget != NULL );
+	assert( imageWidget != nullptr );
 
 	itsCreditsButton =
 		jnew JXTextButton(JGetString("itsCreditsButton::MDAboutDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 50,90, 60,20);
-	assert( itsCreditsButton != NULL );
+	assert( itsCreditsButton != nullptr );
 
 // end JXLayout
 
 	window->SetTitle(JGetString("WindowTitle::MDAboutDialog"));
-	SetButtons(okButton, NULL);
+	SetButtons(okButton, nullptr);
 
 	ListenTo(itsHelpButton);
 	ListenTo(itsCreditsButton);
 
 	JXImage* image = jnew JXImage(GetDisplay(), md_about_icon);
-	assert( image != NULL );
+	assert( image != nullptr );
 	imageWidget->SetImage(image, kJTrue);
 
 	JString text = MDGetVersionStr();

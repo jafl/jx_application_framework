@@ -34,7 +34,7 @@ GXPlotFunctionDialog::GXPlotFunctionDialog
 	:
 	JXDialogDirector(supervisor, kJTrue)
 {
-	itsEditor = NULL;
+	itsEditor = nullptr;
 	BuildWindow();
 	itsList = list;
 	
@@ -65,46 +65,46 @@ GXPlotFunctionDialog::BuildWindow()
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 500,80, "");
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	itsFunctionString =
 		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 80,10, 220,20);
-	assert( itsFunctionString != NULL );
+	assert( itsFunctionString != nullptr );
 
 	JXStaticText* fnLabel =
 		jnew JXStaticText(JGetString("fnLabel::GXPlotFunctionDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 10,10, 70,20);
-	assert( fnLabel != NULL );
+	assert( fnLabel != nullptr );
 	fnLabel->SetToLabel();
 
 	itsEditButton =
 		jnew JXTextButton(JGetString("itsEditButton::GXPlotFunctionDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 310,10, 60,20);
-	assert( itsEditButton != NULL );
+	assert( itsEditButton != nullptr );
 	itsEditButton->SetShortcuts(JGetString("itsEditButton::GXPlotFunctionDialog::shortcuts::JXLayout"));
 
 	JXTextButton* okButton =
 		jnew JXTextButton(JGetString("okButton::GXPlotFunctionDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 315,50, 70,20);
-	assert( okButton != NULL );
+	assert( okButton != nullptr );
 	okButton->SetShortcuts(JGetString("okButton::GXPlotFunctionDialog::shortcuts::JXLayout"));
 
 	JXTextButton* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::GXPlotFunctionDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 115,50, 70,20);
-	assert( cancelButton != NULL );
+	assert( cancelButton != nullptr );
 	cancelButton->SetShortcuts(JGetString("cancelButton::GXPlotFunctionDialog::shortcuts::JXLayout"));
 
 	itsClearButton =
 		jnew JXTextButton(JGetString("itsClearButton::GXPlotFunctionDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 215,50, 70,20);
-	assert( itsClearButton != NULL );
+	assert( itsClearButton != nullptr );
 
 	itsVarMenu =
 		jnew JXTextMenu(JGetString("itsVarMenu::GXPlotFunctionDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 380,10, 110,20);
-	assert( itsVarMenu != NULL );
+	assert( itsVarMenu != nullptr );
 
 // end JXLayout
 
@@ -130,9 +130,9 @@ GXPlotFunctionDialog::Receive
 {
 	if (sender == itsEditButton && message.Is(JXButton::kPushed))
 		{
-		assert (itsEditor == NULL);
+		assert (itsEditor == nullptr);
 		itsEditor = jnew ExprDirector(this, itsList, itsFunctionString->GetText());
-		assert(itsEditor != NULL);
+		assert(itsEditor != nullptr);
 		ListenTo(itsEditor);
 		itsEditor->BeginDialog();
 		}
@@ -144,18 +144,18 @@ GXPlotFunctionDialog::Receive
 		{
 		const JXDialogDirector::Deactivated* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		if (info->Successful())
 			{
 			itsFunctionString->SetText(itsEditor->GetString());
 			}
-		itsEditor = NULL;
+		itsEditor = nullptr;
 		}
 	else if (sender == itsVarMenu && message.Is(JXMenu::kItemSelected))
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		JIndex index = selection->GetIndex();
 		JString str = itsVarMenu->GetItemText(index);
 		itsFunctionString->Paste(str);

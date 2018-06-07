@@ -210,14 +210,14 @@ protected:
 private:
 
 	JString		itsTitle;
-	JXImage*	itsTitleImage;			// can be NULL
+	JXImage*	itsTitleImage;			// can be nullptr
 	JBoolean	itsOwnsTitleImageFlag;	// kJTrue => we delete it
 	JPoint		itsTitlePadding;
-	JString*	itsShortcuts;			// can be NULL
+	JString*	itsShortcuts;			// can be nullptr
 	JIndex		itsULIndex;
 	JXMenuData*	itsBaseItemData;		// derived class owns this
-	JXMenuBar*	itsMenuBar;				// can be NULL; if there is one, it owns us
-	JXMenu*		itsOwner;				// NULL if top level menu
+	JXMenuBar*	itsMenuBar;				// can be nullptr; if there is one, it owns us
+	JXMenu*		itsOwner;				// nullptr if top level menu
 
 	JFont		itsTitleFont;
 	JBoolean	itsShouldBeActiveFlag;	// kJTrue  => last client call was Activate()
@@ -333,7 +333,7 @@ inline JBoolean
 JXMenu::IsOpen()
 	const
 {
-	return JConvertToBoolean( itsMenuDirector != NULL );
+	return JConvertToBoolean( itsMenuDirector != nullptr );
 }
 
 /******************************************************************************
@@ -372,7 +372,7 @@ JXMenu::GetTitleImage
 	const
 {
 	*image = itsTitleImage;
-	return JI2B(itsTitleImage != NULL);
+	return JI2B(itsTitleImage != nullptr);
 }
 
 /******************************************************************************

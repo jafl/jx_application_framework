@@ -17,7 +17,7 @@ main
 
 	JString resultStr;
 
-	if (csf->ChooseFile("Name of file:", NULL, &resultStr))
+	if (csf->ChooseFile("Name of file:", nullptr, &resultStr))
 		{
 		std::cout << resultStr << std::endl;
 		JWaitForReturn();
@@ -29,19 +29,19 @@ main
 		JWaitForReturn();
 		}
 
-	if (csf->ChooseRPath("", "Please select a directory...", NULL, &resultStr))
+	if (csf->ChooseRPath("", "Please select a directory...", nullptr, &resultStr))
 		{
 		std::cout << resultStr << std::endl;
 		JWaitForReturn();
 		}
 
-	if (csf->ChooseRWPath("", "Please select a writable directory:", NULL, &resultStr))
+	if (csf->ChooseRWPath("", "Please select a writable directory:", nullptr, &resultStr))
 		{
 		std::cout << resultStr << std::endl;
 		JWaitForReturn();
 		}
 
-	if (csf->SaveFile("Save file as:", NULL, "junk", &resultStr))
+	if (csf->SaveFile("Save file as:", nullptr, "junk", &resultStr))
 		{
 		std::cout << resultStr << std::endl;
 		JWaitForReturn();

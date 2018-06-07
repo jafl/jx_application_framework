@@ -70,57 +70,57 @@ GXColByIncDialog::BuildWindow()
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 220,190, "");
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	itsBeginning =
 		jnew JXFloatInput(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 95,55, 100,20);
-	assert( itsBeginning != NULL );
+	assert( itsBeginning != nullptr );
 
 	JXTextButton* okButton =
 		jnew JXTextButton(JGetString("okButton::GXColByIncDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 130,160, 70,20);
-	assert( okButton != NULL );
+	assert( okButton != nullptr );
 	okButton->SetShortcuts(JGetString("okButton::GXColByIncDialog::shortcuts::JXLayout"));
 
 	JXTextButton* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::GXColByIncDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 10,160, 70,20);
-	assert( cancelButton != NULL );
+	assert( cancelButton != nullptr );
 	cancelButton->SetShortcuts(JGetString("cancelButton::GXColByIncDialog::shortcuts::JXLayout"));
 
 	itsInc =
 		jnew JXFloatInput(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 95,90, 100,20);
-	assert( itsInc != NULL );
+	assert( itsInc != nullptr );
 
 	JXStaticText* incrLabel =
 		jnew JXStaticText(JGetString("incrLabel::GXColByIncDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 15,90, 70,20);
-	assert( incrLabel != NULL );
+	assert( incrLabel != nullptr );
 	incrLabel->SetToLabel();
 
 	JXStaticText* minLabel =
 		jnew JXStaticText(JGetString("minLabel::GXColByIncDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 15,55, 70,20);
-	assert( minLabel != NULL );
+	assert( minLabel != nullptr );
 	minLabel->SetToLabel();
 
 	itsCount =
 		jnew JXIntegerInput(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 95,125, 100,20);
-	assert( itsCount != NULL );
+	assert( itsCount != nullptr );
 
 	JXStaticText* countLabel =
 		jnew JXStaticText(JGetString("countLabel::GXColByIncDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 15,125, 70,20);
-	assert( countLabel != NULL );
+	assert( countLabel != nullptr );
 	countLabel->SetToLabel();
 
 	itsDestMenu =
 		jnew JXTextMenu(JGetString("itsDestMenu::GXColByIncDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 15,15, 180,30);
-	assert( itsDestMenu != NULL );
+	assert( itsDestMenu != nullptr );
 
 // end JXLayout
 
@@ -167,7 +167,7 @@ GXColByIncDialog::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		itsDestCol = selection->GetIndex();
 		}
 		

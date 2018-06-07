@@ -30,7 +30,7 @@ GFGPrefsManager::GFGPrefsManager
 	:
 	JXPrefsManager(kCurrentPrefsFileVersion, kJTrue)
 {
-	itsDialog = NULL;
+	itsDialog = nullptr;
 	*isNew    = JPrefsManager::UpgradeData();
 
 	JXChooseSaveFile* csf = JXGetChooseSaveFile();
@@ -102,7 +102,7 @@ GFGPrefsManager::GetPrevVersionStr()
 void
 GFGPrefsManager::EditPrefs()
 {
-	assert( itsDialog == NULL );
+	assert( itsDialog == nullptr );
 
 	// replace with whatever is appropriate
 	JString data;
@@ -114,7 +114,7 @@ GFGPrefsManager::EditPrefs()
 			GetConstructorComment(),
 			GetDestructorComment(),
 			GetFunctionComment());
-	assert( itsDialog != NULL );
+	assert( itsDialog != nullptr );
 	ListenTo(itsDialog);
 	itsDialog->BeginDialog();
 }
@@ -135,7 +135,7 @@ GFGPrefsManager::Receive
 		{
 		const JXDialogDirector::Deactivated* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		if (info->Successful())
 			{
 			// replace with whatever is appropriate
@@ -157,7 +157,7 @@ GFGPrefsManager::Receive
 
 			// store data somehow
 			}
-		itsDialog = NULL;
+		itsDialog = nullptr;
 		}
 
 	else
@@ -190,7 +190,7 @@ GFGPrefsManager::GetHeaderComment
 		comment	= JGetString("CLASS_HEADER_COMMENT");
 		}
 		
-	if (classname != NULL)
+	if (classname != nullptr)
 		{
 		JString copyright	= GetCopyright(kJTrue);
 		const JCharacter* map[] =
@@ -388,7 +388,7 @@ GFGPrefsManager::GetSourceComment
 		comment	= JGetString("CLASS_SOURCE_COMMENT");
 		}
 		
-	if (classname != NULL)
+	if (classname != nullptr)
 		{
 		JString copyright	= GetCopyright(kJTrue);
 		const JCharacter* map[] =
@@ -527,7 +527,7 @@ GFGPrefsManager::GetFunctionComment
 		comment	= JGetString("CLASS_FUNCTION_COMMENT");
 		}
 
-	if (fnname != NULL)
+	if (fnname != nullptr)
 		{
 		const JCharacter* map[] =
 			{

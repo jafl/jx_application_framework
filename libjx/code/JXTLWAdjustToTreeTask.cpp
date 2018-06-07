@@ -43,6 +43,6 @@ JXTLWAdjustToTreeTask::~JXTLWAdjustToTreeTask()
 void
 JXTLWAdjustToTreeTask::Perform()
 {
-	itsWidget->itsAdjustToTreeTask = NULL;	// we will now be deleted
+	itsWidget->itsAdjustToTreeTask = nullptr;	// we will now be deleted
 	itsWidget->AdjustToTree();
 }

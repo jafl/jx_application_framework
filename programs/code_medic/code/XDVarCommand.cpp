@@ -29,7 +29,7 @@ XDVarCommand::XDVarCommand
 	SetCommand(cmd);
 
 	itsRootNode = (CMGetLink())->CreateVarNode(kJFalse);
-	assert( itsRootNode != NULL );
+	assert( itsRootNode != nullptr );
 }
 
 /******************************************************************************
@@ -55,7 +55,7 @@ XDVarCommand::HandleSuccess
 {
 	XDLink* link = dynamic_cast<XDLink*>(CMGetLink());
 	xmlNode* root;
-	if (link == NULL || !link->GetParsedData(&root))
+	if (link == nullptr || !link->GetParsedData(&root))
 		{
 		return;
 		}
@@ -68,7 +68,7 @@ XDVarCommand::HandleSuccess
 	else
 		{
 		SetData("<error reading value>");
-		Broadcast(ValueMessage(kValueFailed, NULL));
+		Broadcast(ValueMessage(kValueFailed, nullptr));
 		}
 	itsRootNode->DeleteAllChildren();
 }

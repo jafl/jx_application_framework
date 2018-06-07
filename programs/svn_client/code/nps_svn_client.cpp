@@ -41,7 +41,7 @@ main
 	JBoolean displayAbout;
 	JString prevVersStr;
 	SVNApp* app = jnew SVNApp(&argc, argv, &displayAbout, &prevVersStr);
-	assert( app != NULL );
+	assert( app != nullptr );
 
 	if (displayAbout &&
 		!(JGetUserNotification())->AcceptLicense())

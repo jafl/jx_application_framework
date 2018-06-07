@@ -48,7 +48,7 @@ OTHER_KEYWORD (break|byvalue|case|cast|catch|ClassLoader|clone|Cloneable|Compile
 	JPtrArray<JString> importList(JPtrArrayT::kDeleteAll);
 
 	std::ifstream input(fileName);
-	switch_streams(&input, NULL);
+	switch_streams(&input, nullptr);
 %}
 
 package{WS} {
@@ -201,7 +201,7 @@ implements{WS} {
 
 	CBJavaClass* c = jnew CBJavaClass(fullName, CBClass::kClassType, fileID, tree,
 									  itsPublicFlag, itsFinalFlag);
-	assert( c != NULL );
+	assert( c != nullptr );
 
 	if (itsAbstractFlag)
 		{
@@ -248,7 +248,7 @@ implements{WS} {
 <INHERIT_STATE>{
 
 {NSID} {
-	if (itsCurrentClass == NULL)
+	if (itsCurrentClass == nullptr)
 		{
 		return kJFalse;
 		}

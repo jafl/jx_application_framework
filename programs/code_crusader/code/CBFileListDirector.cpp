@@ -157,7 +157,7 @@ CBFileListDirector::CBFileListDirector
 
 	if (projVers >= 20)
 		{
-		const JBoolean useProjData = JI2B( setInput == NULL || setVers < 71 );
+		const JBoolean useProjData = JI2B( setInput == nullptr || setVers < 71 );
 		if (projVers < 71)
 			{
 			if (useProjData)
@@ -237,7 +237,7 @@ CBFileListDirector::StreamOut
 	)
 	const
 {
-	if (setOutput != NULL)
+	if (setOutput != nullptr)
 		{
 		*setOutput << ' ';
 		GetWindow()->WriteGeometry(*setOutput);
@@ -276,17 +276,17 @@ CBFileListDirector::BuildWindow()
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 340,450, "");
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	JXMenuBar* menuBar =
 		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 340,30);
-	assert( menuBar != NULL );
+	assert( menuBar != nullptr );
 
 	itsToolBar =
 		jnew JXToolBar(CBGetPrefsManager(), kCBFileListToolBarID, menuBar, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 340,420);
-	assert( itsToolBar != NULL );
+	assert( itsToolBar != nullptr );
 
 // end JXLayout
 
@@ -298,7 +298,7 @@ CBFileListDirector::BuildWindow()
 
 	JXDisplay* display = GetDisplay();
 	JXImage* icon      = jnew JXImage(display, jcc_file_list_window);
-	assert( icon != NULL );
+	assert( icon != nullptr );
 	window->SetIcon(icon);
 
 	JPoint desktopLoc;
@@ -312,14 +312,14 @@ CBFileListDirector::BuildWindow()
 	itsFLSet =
 		jnew JXFileListSet(itsToolBar->GetWidgetEnclosure(),
 						  JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 100,100);
-	assert( itsFLSet != NULL );
+	assert( itsFLSet != nullptr );
 	itsFLSet->FitToEnclosure();
 
 	JXScrollbarSet* scrollbarSet = itsFLSet->GetScrollbarSet();
 	itsFLTable =
 		jnew CBFileListTable(scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 							JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 10,10);
-	assert( itsFLTable != NULL );
+	assert( itsFLTable != nullptr );
 	itsFLSet->SetTable(itsFLTable);
 	ListenTo(itsFLTable);
 
@@ -334,12 +334,12 @@ CBFileListDirector::BuildWindow()
 	CBFileHistoryMenu* recentProjectMenu =
 		jnew CBFileHistoryMenu(CBDocumentManager::kProjectFileHistory,
 							  itsFileMenu, kRecentProjectMenuCmd, menuBar);
-	assert( recentProjectMenu != NULL );
+	assert( recentProjectMenu != nullptr );
 
 	CBFileHistoryMenu* recentTextMenu =
 		jnew CBFileHistoryMenu(CBDocumentManager::kTextFileHistory,
 							  itsFileMenu, kRecentTextMenuCmd, menuBar);
-	assert( recentTextMenu != NULL );
+	assert( recentTextMenu != nullptr );
 
 	itsListMenu = menuBar->AppendTextMenu(kListMenuTitleStr);
 	itsListMenu->SetMenuItems(kListMenuStr, "CBFileListDirector");
@@ -366,16 +366,16 @@ CBFileListDirector::BuildWindow()
 	itsProjectMenu->SetItemImage(kSaveAllTextCmd,       jx_file_save_all);
 
 	itsCmdMenu =
-		jnew CBCommandMenu(itsProjDoc, NULL, menuBar,
+		jnew CBCommandMenu(itsProjDoc, nullptr, menuBar,
 						  JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
-	assert( itsCmdMenu != NULL );
+	assert( itsCmdMenu != nullptr );
 	menuBar->AppendMenu(itsCmdMenu);
 	ListenTo(itsCmdMenu);
 
 	CBDocumentMenu* fileListMenu =
 		jnew CBDocumentMenu(kFileListMenuTitleStr, menuBar,
 						   JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
-	assert( fileListMenu != NULL );
+	assert( fileListMenu != nullptr );
 	menuBar->AppendMenu(fileListMenu);
 
 	itsPrefsMenu = menuBar->AppendTextMenu(kPrefsMenuTitleStr);
@@ -440,7 +440,7 @@ CBFileListDirector::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleFileMenu(selection->GetIndex());
 		}
 
@@ -452,7 +452,7 @@ CBFileListDirector::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleListMenu(selection->GetIndex());
 		}
 
@@ -464,7 +464,7 @@ CBFileListDirector::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleProjectMenu(selection->GetIndex());
 		}
 
@@ -476,7 +476,7 @@ CBFileListDirector::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandlePrefsMenu(selection->GetIndex());
 		}
 
@@ -488,7 +488,7 @@ CBFileListDirector::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		(CBGetApplication())->HandleHelpMenu(itsHelpMenu, "CBFileListHelp",
 											 selection->GetIndex());
 		}
@@ -768,7 +768,7 @@ CBFileListDirector::ReceiveWithFeedback
 		{
 		CBCommandMenu::GetTargetInfo* info =
 			dynamic_cast<CBCommandMenu::GetTargetInfo*>(message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		itsFLTable->GetSelection(info->GetFileList());
 		}
 	else

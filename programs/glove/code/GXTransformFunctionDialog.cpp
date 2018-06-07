@@ -35,7 +35,7 @@ GXTransformFunctionDialog::GXTransformFunctionDialog
 	:
 	JXDialogDirector(supervisor, kJTrue)
 {
-	itsEditor = NULL;
+	itsEditor = nullptr;
 	BuildWindow();
 	itsList = list;
 
@@ -78,50 +78,50 @@ GXTransformFunctionDialog::BuildWindow()
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 580,90, "");
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	itsTransformButton =
 		jnew JXTextButton("Transform", window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 130,55, 80,20);
-	assert( itsTransformButton != NULL );
+	assert( itsTransformButton != nullptr );
 	itsTransformButton->SetShortcuts("^M");
 
 	itsCloseButton =
 		jnew JXTextButton("Close", window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 370,55, 80,20);
-	assert( itsCloseButton != NULL );
+	assert( itsCloseButton != nullptr );
 	itsCloseButton->SetShortcuts("^[");
 
 	itsClearButton =
 		jnew JXTextButton("Clear", window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 250,55, 80,20);
-	assert( itsClearButton != NULL );
+	assert( itsClearButton != nullptr );
 
 	itsFunctionString =
 		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 200,20, 200,20);
-	assert( itsFunctionString != NULL );
+	assert( itsFunctionString != nullptr );
 
 	itsEditButton =
 		jnew JXTextButton("Edit", window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 410,20, 50,20);
-	assert( itsEditButton != NULL );
+	assert( itsEditButton != nullptr );
 	itsEditButton->SetShortcuts("#E");
 
 	itsDestMenu =
 		jnew JXTextMenu("Destination:", window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 10,20, 115,20);
-	assert( itsDestMenu != NULL );
+	assert( itsDestMenu != nullptr );
 
 	itsVarMenu =
 		jnew JXTextMenu("Constants", window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 470,20, 90,20);
-	assert( itsVarMenu != NULL );
+	assert( itsVarMenu != nullptr );
 
 	itsColNumber =
 		jnew JXStaticText("", window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 135,20, 65,20);
-	assert( itsColNumber != NULL );
+	assert( itsColNumber != nullptr );
 	itsColNumber->SetToLabel();
 
 // end JXLayout
@@ -151,9 +151,9 @@ GXTransformFunctionDialog::Receive
 {
 	if (sender == itsEditButton && message.Is(JXButton::kPushed))
 		{
-		assert (itsEditor == NULL);
+		assert (itsEditor == nullptr);
 		itsEditor = jnew ExprDirector(this, itsList, itsFunctionString->GetText());
-		assert(itsEditor != NULL);
+		assert(itsEditor != nullptr);
 		ListenTo(itsEditor);
 		itsEditor->BeginDialog();
 		}
@@ -165,18 +165,18 @@ GXTransformFunctionDialog::Receive
 		{
 		const JXDialogDirector::Deactivated* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		if (info->Successful())
 			{
 			itsFunctionString->SetText(itsEditor->GetString());
 			}
-		itsEditor = NULL;
+		itsEditor = nullptr;
 		}
 	else if (sender == itsDestMenu && message.Is(JXMenu::kItemSelected))
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		itsDestCol = selection->GetIndex();
 		JString num(itsDestCol);
 		JString str = "col[" + num + "] = ";
@@ -186,7 +186,7 @@ GXTransformFunctionDialog::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		JIndex index = selection->GetIndex();
 		JString str = itsVarMenu->GetItemText(index);
 		itsFunctionString->Paste(str);
@@ -231,7 +231,7 @@ GXTransformFunctionDialog::OKToDeactivate()
 		{
 		return kJTrue;
 		}
-	JFunction* f = NULL;
+	JFunction* f = nullptr;
 	if (JParseFunction(itsFunctionString->GetText(), itsList, &f))
 		{
 		jdelete f;

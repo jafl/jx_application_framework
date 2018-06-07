@@ -33,7 +33,7 @@ protected:
 
 private:
 
-	SyGFileTreeTable*			itsTable;			// not owned; can be NULL
+	SyGFileTreeTable*			itsTable;			// not owned; can be nullptr
 	JPtrArray<SyGFileTreeNode>	itsNodeList;		// contents not owned
 	JPtrArray<JString>			itsFullNameList;	// store strings so don't need table
 	JSimpleProcess*				itsProcess;

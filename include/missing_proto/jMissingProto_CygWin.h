@@ -14,9 +14,9 @@ mkdtemp
 	)
 {
 	char* p = strstr(tmpl, "XX");
-	if (p == NULL)
+	if (p == nullptr)
 		{
-		return NULL;
+		return nullptr;
 		}
 
 	int len = 2;
@@ -39,7 +39,7 @@ mkdtemp
 			}
 		}
 
-	return NULL;
+	return nullptr;
 }
 
 #endif

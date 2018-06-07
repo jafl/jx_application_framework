@@ -19,7 +19,7 @@ int main()
 
 JTEST(Exercise)
 {
-	JString* stringPtr = NULL;
+	JString* stringPtr = nullptr;
 
 	JPtrArray<JString> a1(JPtrArrayT::kDeleteAll, 1); // Ridiculous block size to really exercise resizer
 	JBroadcastTester snoop1(&a1);
@@ -30,12 +30,12 @@ JTEST(Exercise)
 	for (i=1;i<=5;i++)
 		{
 		stringPtr = jnew JString;
-		assert( stringPtr != NULL );
+		assert( stringPtr != nullptr );
 		stringPtr->Append(JUtf8Character('0' + i));
 		snoop1.Expect(JListT::kElementsInserted);
 		a1.Append(stringPtr);
 		}
-	stringPtr = NULL;
+	stringPtr = nullptr;
 
 	JAssertFalse(a1.IsEmpty());
 	JAssertEqual(5, a1.GetElementCount());
@@ -44,7 +44,7 @@ JTEST(Exercise)
 	a1.SwapElements(2,5);
 
 	stringPtr = jnew JString("1", 0);
-	assert( stringPtr != NULL );
+	assert( stringPtr != nullptr );
 
 	snoop1.Expect(JListT::kElementsInserted);
 	a1.InsertElementAtIndex(3, stringPtr);
@@ -68,7 +68,7 @@ JTEST(Exercise)
 			stringPtr = a1.GetElement(4);
 			a1.Remove(stringPtr);
 			jdelete stringPtr;
-			stringPtr = NULL;
+			stringPtr = nullptr;
 			}
 		}
 	JAssertEqual(5, j);
@@ -91,7 +91,7 @@ JTEST(Exercise)
 		if (*stringPtr == "5")
 			{
 			a1.DeleteElement(4);
-			stringPtr = NULL;
+			stringPtr = nullptr;
 			}
 		}
 	JAssertEqual(5, j);

@@ -49,13 +49,13 @@ SyGFolderDragSource::SyGFolderDragSource
 	itsPathInput(pathInput)
 {
 	JXImage* icon = jnew JXImage(GetDisplay(), jx_folder_small);
-	assert( icon != NULL );
+	assert( icon != nullptr );
 	SetImage(icon, kJTrue);
 
 	SetHint(kHintText);
 
 	itsPathMenu = jnew JXCurrentPathMenu("/", this, kFixedLeft, kFixedTop, 0,0, 10,10);
-	assert( itsPathMenu != NULL );
+	assert( itsPathMenu != nullptr );
 	itsPathMenu->Hide();
 	itsPathMenu->SetToHiddenPopupMenu(kJTrue);
 	*pathMenu = itsPathMenu;
@@ -117,7 +117,7 @@ SyGFolderDragSource::HandleMouseDrag
 		list.Append(&const_cast<JString&>(path));
 
 		JXFileSelection* data = jnew JXFileSelection(GetDisplay(), list);
-		assert( data != NULL );
+		assert( data != nullptr );
 
 		BeginDND(pt, buttonStates, modifiers, data);
 		}

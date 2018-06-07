@@ -127,10 +127,10 @@ private:
 	JRect	itsDecrementPageRect;
 	JRect	itsIncrementPageRect;
 
-	JPtrArray<JXScrolltab>*	itsScrolltabList;				// can be NULL
+	JPtrArray<JXScrolltab>*	itsScrolltabList;				// can be nullptr
 	JBoolean				itsIgnoreScrolltabDeletedFlag;
 
-	JXTextMenu*	itsActionMenu;		// can be NULL
+	JXTextMenu*	itsActionMenu;		// can be nullptr
 
 	JCursorIndex	itsSpeedScrollCursor;
 

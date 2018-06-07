@@ -22,11 +22,11 @@
 #include <stdio.h>
 #include <jAssert.h>
 
-GLFitManager*			itsFitManager	= NULL;
-GLPrefsMgr*				itsPrefsMgr 	= NULL;
-GLPlotApp*				itsApplication 	= NULL;
-static JXPTPrinter*		itsPrinter		= NULL;
-GLMDIServer*			itsMDIServer	= NULL;
+GLFitManager*			itsFitManager	= nullptr;
+GLPrefsMgr*				itsPrefsMgr 	= nullptr;
+GLPlotApp*				itsApplication 	= nullptr;
+static JXPTPrinter*		itsPrinter		= nullptr;
+GLMDIServer*			itsMDIServer	= nullptr;
 
 /******************************************************************************
  InitGLGlobals
@@ -44,20 +44,20 @@ InitGLGlobals
 
 	JBoolean isNew;
 	itsPrefsMgr = jnew GLPrefsMgr(&isNew);
-	assert(itsPrefsMgr != NULL);
+	assert(itsPrefsMgr != nullptr);
 	
 	JXInitHelp();
 
 	itsPrinter = jnew JXPTPrinter();
-	assert(itsPrinter != NULL);
+	assert(itsPrinter != nullptr);
 
 	itsPrefsMgr->ReadPrinterSetup(itsPrinter);
 
 	itsFitManager = jnew GLFitManager();
-	assert(itsFitManager != NULL);
+	assert(itsFitManager != nullptr);
 
 	itsMDIServer	= jnew GLMDIServer(app);
-	assert(itsMDIServer != NULL);
+	assert(itsMDIServer != nullptr);
 
 	return isNew;
 }
@@ -85,7 +85,7 @@ DeleteGLGlobals()
 GLPrefsMgr*
 GetPrefsMgr()
 {
-	assert(itsPrefsMgr != NULL);
+	assert(itsPrefsMgr != nullptr);
 	return itsPrefsMgr;
 }
 
@@ -97,7 +97,7 @@ GetPrefsMgr()
 GLPlotApp*
 GLGetApplication()
 {
-	assert(itsApplication != NULL);
+	assert(itsApplication != nullptr);
 	return itsApplication;
 }
 
@@ -120,7 +120,7 @@ GLGetPTPrinter()
 GLFitManager*
 GetFitManager()
 {
-	assert(itsFitManager != NULL);
+	assert(itsFitManager != nullptr);
 	return itsFitManager;
 }
 
@@ -132,6 +132,6 @@ GetFitManager()
 GLMDIServer*	
 GLGetMDIServer()
 {
-	assert(itsMDIServer != NULL);
+	assert(itsMDIServer != nullptr);
 	return itsMDIServer;
 }

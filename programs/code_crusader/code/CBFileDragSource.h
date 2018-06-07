@@ -45,7 +45,7 @@ protected:
 private:
 
 	CBTextDocument*	itsDoc;			// owns us
-	JXInputField*	itsNameInput;	// NULL => dragging for XDND
+	JXInputField*	itsNameInput;	// nullptr => dragging for XDND
 
 private:
 

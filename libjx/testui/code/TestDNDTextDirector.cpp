@@ -55,7 +55,7 @@ TestDNDTextDirector::~TestDNDTextDirector()
 
  ******************************************************************************/
 
-#define TEXT_RANGE(a,b) text->CharToTextRange(NULL, JCharacterRange(a, b))
+#define TEXT_RANGE(a,b) text->CharToTextRange(nullptr, JCharacterRange(a, b))
 
 void
 TestDNDTextDirector::BuildWindow()
@@ -63,7 +63,7 @@ TestDNDTextDirector::BuildWindow()
 JIndex i;
 
 	JXWindow* window = jnew JXWindow(this, kWindowWidth,kWindowHeight, JString::empty);
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	window->SetTitle(JGetString("WindowTitle::TestDNDTextDirector"));
 
@@ -79,7 +79,7 @@ JIndex i;
 		jnew JXHorizPartition(sizes, 0, minSizes, window,
 							 JXWidget::kHElastic, JXWidget::kVElastic,
 							 0,0, kWindowWidth, kWindowHeight);
-	assert( partition != NULL );
+	assert( partition != nullptr );
 
 	window->SetWMClass("testjx", "TestDNDTextDirector");
 	window->SetMinSize(partition->GetMinTotalSize(), kWindowHeight);
@@ -88,12 +88,12 @@ JIndex i;
 	for (i=1; i<=2; i++)
 		{
 		JXStyledText* text = jnew JXStyledText(kJTrue, kJTrue, GetDisplay()->GetFontManager());
-		assert( text != NULL );
+		assert( text != nullptr );
 
 		JXTextEditorSet* teSet =
 			jnew JXTextEditorSet(text, kJTrue, &te, partition->GetCompartment(i),
 								JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 100,100);
-		assert( teSet != NULL );
+		assert( teSet != nullptr );
 		teSet->FitToEnclosure();
 
 		// create something to drag around

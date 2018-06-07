@@ -18,7 +18,7 @@ public:
 
 	virtual	~MDApp();
 
-	void	DisplayAbout(const JCharacter* prevVersStr = NULL);
+	void	DisplayAbout(const JCharacter* prevVersStr = nullptr);
 	void	OpenFile(const JCharacter* fileName, const JSize lineIndex);
 
 	static const JCharacter*	GetAppSignature();

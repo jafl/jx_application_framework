@@ -62,14 +62,14 @@ SVNWDManager::NewBrowser
 {
 	JString path;
 	if ((JXGetChooseSaveFile())->ChooseRWPath("", JGetString(kNewBrowserInstrID),
-											  NULL, &path))
+											  nullptr, &path))
 		{
 		*dir = OpenDirectory(path);
 		return kJTrue;
 		}
 	else
 		{
-		*dir = NULL;
+		*dir = nullptr;
 		return kJFalse;
 		}
 }
@@ -86,7 +86,7 @@ SVNWDManager::GetBrowser
 	SVNMainDirector**	dir
 	)
 {
-	*dir = NULL;
+	*dir = nullptr;
 
 	JString p1;
 	JBoolean isURL = JIsURL(path);
@@ -108,7 +108,7 @@ SVNWDManager::GetBrowser
 	for (JIndex i=1; i<=windowCount; i++)
 		{
 		SVNMainDirector* d = dynamic_cast<SVNMainDirector*>(windowList.GetElement(i));
-		if (d == NULL)
+		if (d == nullptr)
 			{
 			continue;
 			}
@@ -131,7 +131,7 @@ SVNWDManager::GetBrowser
 			}
 		}
 
-	return JI2B( *dir != NULL );
+	return JI2B( *dir != nullptr );
 }
 
 /******************************************************************************
@@ -146,7 +146,7 @@ SVNWDManager::GetBrowserForExactURL
 	SVNMainDirector**	dir
 	)
 {
-	*dir = NULL;
+	*dir = nullptr;
 
 	JString p1 = url;
 	JStripTrailingDirSeparator(&p1);
@@ -159,14 +159,14 @@ SVNWDManager::GetBrowserForExactURL
 	for (JIndex i=1; i<=windowCount; i++)
 		{
 		SVNMainDirector* d = dynamic_cast<SVNMainDirector*>(windowList.GetElement(i));
-		if (d != NULL && d->GetRepoPath(&p2) && p1 == p2)
+		if (d != nullptr && d->GetRepoPath(&p2) && p1 == p2)
 			{
 			*dir = d;
 			break;
 			}
 		}
 
-	return JI2B( *dir != NULL );
+	return JI2B( *dir != nullptr );
 }
 
 /******************************************************************************
@@ -178,12 +178,12 @@ SVNMainDirector*
 SVNWDManager::OpenDirectory
 	(
 	const JCharacter*	path,
-	JBoolean*			wasOpen		// can be NULL
+	JBoolean*			wasOpen		// can be nullptr
 	)
 {
 	SVNMainDirector* dir;
 	const JBoolean open = GetBrowser(path, &dir);
-	if (wasOpen != NULL)
+	if (wasOpen != nullptr)
 		{
 		*wasOpen = open;
 		}
@@ -191,7 +191,7 @@ SVNWDManager::OpenDirectory
 	if (!open)
 		{
 		dir = jnew SVNMainDirector(JXGetApplication(), path);
-		assert( dir != NULL );
+		assert( dir != nullptr );
 		}
 
 	dir->Activate();
@@ -226,7 +226,7 @@ SVNWDManager::RestoreState
 	for (JIndex i=1; i<=windowCount; i++)
 		{
 		SVNMainDirector* dir = jnew SVNMainDirector(JXGetApplication(), input, vers);
-		assert( dir != NULL );
+		assert( dir != nullptr );
 		dir->Activate();
 		}
 

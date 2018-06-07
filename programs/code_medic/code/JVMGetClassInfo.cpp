@@ -51,7 +51,7 @@ JVMGetClassInfo::Starting()
 
 	const JSize length  = link->GetObjectIDSize();
 	unsigned char* data = (unsigned char*) calloc(length, 1);
-	assert( data != NULL );
+	assert( data != nullptr );
 
 	JVMSocket::Pack(length, itsID, data);
 

@@ -44,7 +44,7 @@ main
 	JBoolean displayAbout;
 	JString prevVersStr;
 	SyGApplication* app = jnew SyGApplication(&argc, argv, &displayAbout, &prevVersStr);
-	assert( app != NULL );
+	assert( app != nullptr );
 
 	if (displayAbout &&
 		!(JGetUserNotification())->AcceptLicense())
@@ -65,7 +65,7 @@ main
 		{
 		JXSplashWindow* w = jnew JXSplashWindow(new_planet_software, SyGGetVersionStr(),
 											   SPLASH_DISPLAY_TIME);
-		assert( w != NULL );
+		assert( w != nullptr );
 		w->Activate();
 		}
 #endif

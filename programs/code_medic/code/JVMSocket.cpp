@@ -36,7 +36,7 @@ JVMSocket::JVMSocket()
 	itsInHandleInputFlag(kJFalse)
 {
 	itsBuffer = jnew JCharacter [ kBufferSize ];
-	assert( itsBuffer != NULL );
+	assert( itsBuffer != nullptr );
 }
 
 /******************************************************************************
@@ -210,7 +210,7 @@ JVMSocket::StartTimer()
 {
 	StopTimer();
 
-	itsTimerID = (reactor())->schedule_timer(this, NULL, ACE_Time_Value(kClientDeadTime));
+	itsTimerID = (reactor())->schedule_timer(this, nullptr, ACE_Time_Value(kClientDeadTime));
 	if (itsTimerID == -1)
 		{
 		std::cerr << "JVMSocket::StartTimer() is unable to schedule timeout" << std::endl;

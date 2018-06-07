@@ -487,7 +487,7 @@ JTEST(ReplaceAllInRange)
 	text.ReplaceAllInRange(TextRange(
 		JCharacterRange(1, text.GetText().GetCharacterCount()),
 		JUtf8ByteRange(1, text.GetText().GetByteCount())),
-		JRegex("e"), kJFalse, JString("\xC3\xA9", 0, kJFalse), NULL, kJFalse);
+		JRegex("e"), kJFalse, JString("\xC3\xA9", 0, kJFalse), nullptr, kJFalse);
 
 	JAssertStringsEqual("Foursc" "\xC3\xB8" "r" "\xC3\xA9" " and s" "\xC3\xA9" "v" "\xC3\xA9" "n y" "\xC3\xA9" "ars ago...", text.GetText());
 
@@ -507,7 +507,7 @@ JTEST(ReplaceAllInRange)
 	text.ReplaceAllInRange(TextRange(
 		JCharacterRange(11, 21),
 		JUtf8ByteRange(12, 22)),
-		JRegex("e"), kJFalse, JString("\xC3\xA9", 0, kJFalse), NULL, kJFalse);
+		JRegex("e"), kJFalse, JString("\xC3\xA9", 0, kJFalse), nullptr, kJFalse);
 
 	JAssertStringsEqual("Foursc" "\xC3\xB8" "re and s" "\xC3\xA9" "v" "\xC3\xA9" "n years ago...", text.GetText());
 
@@ -516,7 +516,7 @@ JTEST(ReplaceAllInRange)
 	text.ReplaceAllInRange(TextRange(
 		JCharacterRange(1, text.GetText().GetCharacterCount()),
 		JUtf8ByteRange(1, text.GetText().GetByteCount())),
-		JRegex(" "), kJFalse, JString("abcd", 0, kJFalse), NULL, kJFalse);
+		JRegex(" "), kJFalse, JString("abcd", 0, kJFalse), nullptr, kJFalse);
 
 	JAssertStringsEqual("Foursc" "\xC3\xB8" "reabcdandabcds" "\xC3\xA9" "v" "\xC3\xA9" "nabcdyearsabcdago...", text.GetText());
 }

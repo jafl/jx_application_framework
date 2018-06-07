@@ -42,7 +42,7 @@ JXRaiseWindowTask::~JXRaiseWindowTask()
 void
 JXRaiseWindowTask::Perform()
 {
-	if (itsWindow != NULL)
+	if (itsWindow != nullptr)
 		{
 		itsWindow->Raise();
 		}

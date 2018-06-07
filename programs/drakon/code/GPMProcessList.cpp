@@ -41,31 +41,31 @@ GPMProcessList::GPMProcessList()
 	itsIsShowingUserOnly(kJTrue),
 	itsUID(getuid())
 #ifdef _J_HAS_PROC
-	,itsDirInfo(NULL)
+	,itsDirInfo(nullptr)
 #endif
 {
 	itsVisibleEntries = jnew JPtrArray<GPMProcessEntry>(JPtrArrayT::kForgetAll);
-	assert(itsVisibleEntries != NULL);
+	assert(itsVisibleEntries != nullptr);
 	itsVisibleEntries->SetCompareFunction(GPMProcessEntry::CompareListPID);
 	InstallOrderedSet(itsVisibleEntries);
 	itsListColType = kListPID;
 	itsTreeColType = kTreeCommand;
 
 	itsAlphaEntries = jnew JPtrArray<GPMProcessEntry>(JPtrArrayT::kForgetAll);
-	assert( itsAlphaEntries != NULL );
+	assert( itsAlphaEntries != nullptr );
 	itsAlphaEntries->SetCompareFunction(GPMProcessEntry::CompareListCommandForIncrSearch);
 
 	itsHiddenEntries = jnew JPtrArray<GPMProcessEntry>(JPtrArrayT::kDeleteAll);
-	assert(itsHiddenEntries != NULL);
+	assert(itsHiddenEntries != nullptr);
 	itsHiddenEntries->SetCompareFunction(GPMProcessEntry::CompareListPID);
 
-	itsRootNode = jnew JTreeNode(NULL);
-	assert( itsRootNode != NULL );
+	itsRootNode = jnew JTreeNode(nullptr);
+	assert( itsRootNode != nullptr );
 	itsRootNode->SetChildCompareFunction(GPMProcessEntry::CompareTreeCommand,
 										 JListT::kSortAscending, kJTrue);
 
 	itsTree = jnew JTree(itsRootNode);
-	assert( itsTree != NULL );
+	assert( itsTree != nullptr );
 
 	Update();
 }
@@ -128,7 +128,7 @@ GPMProcessList::Update()
 
 #ifdef _J_HAS_PROC
 	{
-	if (itsDirInfo == NULL)
+	if (itsDirInfo == nullptr)
 		{
 		JBoolean ok	= JDirInfo::Create("/proc", &itsDirInfo);
 		assert(ok);
@@ -145,7 +145,7 @@ GPMProcessList::Update()
 		if (entry.GetName().IsInteger())
 			{
 			GPMProcessEntry* pentry = jnew GPMProcessEntry(itsTree, entry);
-			assert(pentry != NULL);
+			assert(pentry != nullptr);
 			newEntries.InsertSorted(pentry);
 			}
 		}
@@ -155,7 +155,7 @@ GPMProcessList::Update()
 	int mib[4] = { CTL_KERN, KERN_PROC, KERN_PROC_ALL, 0 };
 
 	size_t len;
-	int result = sysctl(mib, 4, NULL, &len, NULL, 0);
+	int result = sysctl(mib, 4, nullptr, &len, nullptr, 0);
 	if (result != 0)
 		{
 		itsRootNode->DeleteAllChildren();
@@ -165,9 +165,9 @@ GPMProcessList::Update()
 	else
 		{
 		void* buf = malloc(len);
-		assert( buf != NULL );
+		assert( buf != nullptr );
 
-		result = sysctl(mib, 4, buf, &len, NULL, 0);
+		result = sysctl(mib, 4, buf, &len, nullptr, 0);
 		if (result != 0)
 			{
 			itsRootNode->DeleteAllChildren();
@@ -182,7 +182,7 @@ GPMProcessList::Update()
 			for (JIndex i=0; i<count; i++)
 				{
 				GPMProcessEntry* pentry = jnew GPMProcessEntry(itsTree, list[i]);
-				assert( pentry != NULL );
+				assert( pentry != nullptr );
 				newEntries.InsertSorted(pentry);
 				}
 			}
@@ -338,7 +338,7 @@ GPMProcessList::FindProcessEntry
 			}
 		}
 
-	*entry = NULL;
+	*entry = nullptr;
 	return kJFalse;
 }
 
@@ -370,7 +370,7 @@ GPMProcessList::ClosestMatch
 		}
 	else
 		{
-		*entry = NULL;
+		*entry = nullptr;
 		return kJFalse;
 		}
 }

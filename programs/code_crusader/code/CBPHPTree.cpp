@@ -37,7 +37,7 @@ CBPHPTree::CBPHPTree
 	CBTree(StreamInPHPClass, director, kCBPHPFT, marginWidth),
 	CBCtagsUser(kCtagsArgs)
 {
-	itsClassNameLexer = NULL;
+	itsClassNameLexer = nullptr;
 }
 
 CBPHPTree::CBPHPTree
@@ -57,7 +57,7 @@ CBPHPTree::CBPHPTree
 		   StreamInPHPClass, director, kCBPHPFT, marginWidth, dirList),
 	CBCtagsUser(kCtagsArgs)
 {
-	itsClassNameLexer = NULL;
+	itsClassNameLexer = nullptr;
 
 	if (projVers < 81 && !IsEmpty())
 		{
@@ -90,7 +90,7 @@ CBPHPTree::StreamOut
 	)
 	const
 {
-	assert( dirList == NULL );
+	assert( dirList == nullptr );
 	CBTree::StreamOut(projOutput, setOutput, symOutput, dirList);
 }
 
@@ -110,7 +110,7 @@ CBPHPTree::StreamInPHPClass
 	)
 {
 	CBPHPClass* newClass = jnew CBPHPClass(input, vers, tree);
-	assert( newClass != NULL );
+	assert( newClass != nullptr );
 	return newClass;
 }
 
@@ -128,7 +128,7 @@ CBPHPTree::UpdateFinished
 	)
 {
 	jdelete itsClassNameLexer;
-	itsClassNameLexer = NULL;
+	itsClassNameLexer = nullptr;
 
 	DeleteProcess();
 
@@ -149,10 +149,10 @@ CBPHPTree::ParseFile
 	const JFAID_t		id
 	)
 {
-	if (itsClassNameLexer == NULL)
+	if (itsClassNameLexer == nullptr)
 		{
 		itsClassNameLexer = jnew CBPHPTreeScanner;
-		assert( itsClassNameLexer != NULL );
+		assert( itsClassNameLexer != nullptr );
 		}
 
 	// extract info about class

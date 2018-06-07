@@ -50,7 +50,7 @@ public:
 
 		CutBuffer()
 			:
-			buf(NULL), line(kJFalse)
+			buf(nullptr), line(kJFalse)
 			{ };
 
 		~CutBuffer()

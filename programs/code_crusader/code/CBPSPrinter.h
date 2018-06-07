@@ -46,7 +46,7 @@ protected:
 private:
 
 	JSize			itsFontSize;
-	CBTextEditor*	itsTE;			// NULL unless printing; not owned
+	CBTextEditor*	itsTE;			// nullptr unless printing; not owned
 	JString			itsHeaderName;	// only used during printing
 
 	CBPSPrintSetupDialog*	itsCBPrintSetupDialog;

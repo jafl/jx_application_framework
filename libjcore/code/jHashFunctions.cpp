@@ -54,7 +54,7 @@
  JHash7Bit
 
 	A generic hash function for 7-bit character data.  The key may not be
-	NULL.  This function is based on Sedgewick's program 14.1, adapted to
+	nullptr.  This function is based on Sedgewick's program 14.1, adapted to
 	full word-size keys and given a makeover.  It also adds a final call to
 	a fast random number generator to eliminate (I hope) some flaws in
 	Sedgewick's version (otherwise very short strings always have very
@@ -77,7 +77,7 @@ JHash7Bit
 	const JUtf8Byte* const& key
 	)
 {
-	assert(key != NULL);
+	assert(key != nullptr);
 
 	// Any optimizer worth it's salt ought to make this variable free
 	const JUtf8Byte* thisChar = key;
@@ -108,7 +108,7 @@ JHash8Bit
 	const JUtf8Byte* const& key
 	)
 {
-	assert(key != NULL);
+	assert(key != nullptr);
 
 	// Any optimizer worth it's salt ought to make this variable free
 	const JUtf8Byte* thisChar = key;

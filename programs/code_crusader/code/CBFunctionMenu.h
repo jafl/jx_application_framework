@@ -40,7 +40,7 @@ protected:
 
 private:
 
-	JXFileDocument*	itsDoc;					// not owned; can be NULL (Medic)
+	JXFileDocument*	itsDoc;					// not owned; can be nullptr (Medic)
 	CBTextFileType	itsFileType;
 	CBLanguage		itsLang;
 	JXTEBase*		itsTE;					// not owned

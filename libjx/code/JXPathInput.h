@@ -110,8 +110,8 @@ private:
 	JBoolean	itsRequireWriteFlag;
 	JBoolean	itsExpectURLDropFlag;
 
-	JDirInfo*				itsCompleter;		// NULL until first needed
-	JXStringCompletionMenu*	itsCompletionMenu;	// NULL until first needed
+	JDirInfo*				itsCompleter;		// nullptr until first needed
+	JXStringCompletionMenu*	itsCompletionMenu;	// nullptr until first needed
 
 private:
 

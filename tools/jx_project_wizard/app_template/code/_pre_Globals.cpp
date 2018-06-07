@@ -13,9 +13,9 @@
 #include "<PRE>MDIServer.h"
 #include <jAssert.h>
 
-static <PRE>App*			theApplication  = NULL;		// owns itself
-static <PRE>PrefsManager*	thePrefsManager = NULL;
-static <PRE>MDIServer*		theMDIServer    = NULL;
+static <PRE>App*			theApplication  = nullptr;		// owns itself
+static <PRE>PrefsManager*	thePrefsManager = nullptr;
+static <PRE>MDIServer*		theMDIServer    = nullptr;
 
 // string ID's
 
@@ -38,12 +38,12 @@ JBoolean
 
 	JBoolean isNew;
 	thePrefsManager	= jnew <PRE>PrefsManager(&isNew);
-	assert( thePrefsManager != NULL );
+	assert( thePrefsManager != nullptr );
 
 	JXInitHelp();
 
 	theMDIServer = jnew <PRE>MDIServer;
-	assert( theMDIServer != NULL );
+	assert( theMDIServer != nullptr );
 
 	return isNew;
 }
@@ -56,13 +56,13 @@ JBoolean
 void
 <PRE>DeleteGlobals()
 {
-	theApplication = NULL;
-	theMDIServer   = NULL;
+	theApplication = nullptr;
+	theMDIServer   = nullptr;
 
 	// this must be last so everybody else can use it to save their setup
 
 	jdelete thePrefsManager;
-	thePrefsManager = NULL;
+	thePrefsManager = nullptr;
 }
 
 /******************************************************************************
@@ -99,7 +99,7 @@ void
 <PRE>App*
 <PRE>GetApplication()
 {
-	assert( theApplication != NULL );
+	assert( theApplication != nullptr );
 	return theApplication;
 }
 
@@ -111,7 +111,7 @@ void
 <PRE>PrefsManager*
 <PRE>GetPrefsManager()
 {
-	assert( thePrefsManager != NULL );
+	assert( thePrefsManager != nullptr );
 	return thePrefsManager;
 }
 
@@ -123,7 +123,7 @@ void
 <PRE>MDIServer*
 <PRE>GetMDIServer()
 {
-	assert( theMDIServer != NULL );
+	assert( theMDIServer != nullptr );
 	return theMDIServer;
 }
 

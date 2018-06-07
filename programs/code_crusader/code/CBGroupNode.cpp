@@ -29,7 +29,7 @@ CBGroupNode::CBGroupNode
 	:
 	CBProjectNode(tree, kCBGroupNT, kNewGroupName, kJTrue)
 {
-	if (tree != NULL && append)
+	if (tree != nullptr && append)
 		{
 		(tree->GetRoot())->Append(this);
 		}

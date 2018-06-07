@@ -15,8 +15,8 @@
 #include <JXLibVersion.h>
 #include <jAssert.h>
 
-static MDApp*			theApplication  = NULL;		// owns itself
-static MDPrefsManager*	thePrefsManager = NULL;
+static MDApp*			theApplication  = nullptr;		// owns itself
+static MDPrefsManager*	thePrefsManager = nullptr;
 
 // string ID's
 
@@ -39,12 +39,12 @@ MDCreateGlobals
 
 	JBoolean isNew;
 	thePrefsManager	= jnew MDPrefsManager(&isNew);
-	assert( thePrefsManager != NULL );
+	assert( thePrefsManager != nullptr );
 
 	JXInitHelp();
 
 	JXWDManager* wdMgr = jnew JXWDManager(app->GetCurrentDisplay(), kJTrue);
-	assert( wdMgr != NULL );
+	assert( wdMgr != nullptr );
 	// registers itself
 
 	return isNew;
@@ -58,12 +58,12 @@ MDCreateGlobals
 void
 MDDeleteGlobals()
 {
-	theApplication = NULL;
+	theApplication = nullptr;
 
 	// this must be last so everybody else can use it to save their setup
 
 	jdelete thePrefsManager;
-	thePrefsManager = NULL;
+	thePrefsManager = nullptr;
 }
 
 /******************************************************************************
@@ -99,7 +99,7 @@ MDCleanUpBeforeSuddenDeath
 MDApp*
 MDGetApplication()
 {
-	assert( theApplication != NULL );
+	assert( theApplication != nullptr );
 	return theApplication;
 }
 
@@ -111,7 +111,7 @@ MDGetApplication()
 MDPrefsManager*
 MDGetPrefsManager()
 {
-	assert( thePrefsManager != NULL );
+	assert( thePrefsManager != nullptr );
 	return thePrefsManager;
 }
 

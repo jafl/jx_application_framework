@@ -27,7 +27,7 @@ const JFileVersion kCurrentPrefsFileVersion = 0;
 	)
 	:
 	JXPrefsManager(kCurrentPrefsFileVersion, kJTrue),
-	itsPrefsDialog(NULL)
+	itsPrefsDialog(nullptr)
 {
 	*isNew = JPrefsManager::UpgradeData();
 
@@ -100,13 +100,13 @@ JString
 void
 <PRE>PrefsManager::EditPrefs()
 {
-	assert( itsPrefsDialog == NULL );
+	assert( itsPrefsDialog == nullptr );
 
 	// replace with whatever is appropriate
 	JString data;
 
 	itsPrefsDialog = jnew <PRE>PrefsDialog(JXGetApplication(), data);
-	assert( itsPrefsDialog != NULL );
+	assert( itsPrefsDialog != nullptr );
 	ListenTo(itsPrefsDialog);
 	itsPrefsDialog->BeginDialog();
 }
@@ -175,7 +175,7 @@ void
 		{
 		const JXDialogDirector::Deactivated* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		if (info->Successful())
 			{
 			// replace with whatever is appropriate
@@ -185,7 +185,7 @@ void
 
 			// store data somehow
 			}
-		itsPrefsDialog = NULL;
+		itsPrefsDialog = nullptr;
 		}
 
 	else

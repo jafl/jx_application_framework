@@ -71,54 +71,54 @@ CBEditStylerDialog::BuildWindow
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 370,390, "");
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	JXScrollbarSet* scrollbarSet1 =
 		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 20,110, 240,110);
-	assert( scrollbarSet1 != NULL );
+	assert( scrollbarSet1 != nullptr );
 
 	JXTextButton* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::CBEditStylerDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 40,360, 70,20);
-	assert( cancelButton != NULL );
+	assert( cancelButton != nullptr );
 
 	JXTextButton* okButton =
 		jnew JXTextButton(JGetString("okButton::CBEditStylerDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 250,360, 70,20);
-	assert( okButton != NULL );
+	assert( okButton != nullptr );
 
 	JXStaticText* instrText =
 		jnew JXStaticText(JGetString("instrText::CBEditStylerDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,50, 330,50);
-	assert( instrText != NULL );
+	assert( instrText != nullptr );
 
 	JXTextButton* newWordButton =
 		jnew JXTextButton(JGetString("newWordButton::CBEditStylerDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 280,240, 70,20);
-	assert( newWordButton != NULL );
+	assert( newWordButton != nullptr );
 	newWordButton->SetShortcuts(JGetString("newWordButton::CBEditStylerDialog::shortcuts::JXLayout"));
 
 	JXTextButton* removeButton =
 		jnew JXTextButton(JGetString("removeButton::CBEditStylerDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 280,270, 70,20);
-	assert( removeButton != NULL );
+	assert( removeButton != nullptr );
 	removeButton->SetShortcuts(JGetString("removeButton::CBEditStylerDialog::shortcuts::JXLayout"));
 
 	JXScrollbarSet* scrollbarSet2 =
 		jnew JXScrollbarSet(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 20,230, 240,110);
-	assert( scrollbarSet2 != NULL );
+	assert( scrollbarSet2 != nullptr );
 
 	itsActiveCB =
 		jnew JXTextCheckbox(JGetString("itsActiveCB::CBEditStylerDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 80,15, 220,20);
-	assert( itsActiveCB != NULL );
+	assert( itsActiveCB != nullptr );
 
 	itsHelpButton =
 		jnew JXTextButton(JGetString("itsHelpButton::CBEditStylerDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 145,360, 70,20);
-	assert( itsHelpButton != NULL );
+	assert( itsHelpButton != nullptr );
 	itsHelpButton->SetShortcuts(JGetString("itsHelpButton::CBEditStylerDialog::shortcuts::JXLayout"));
 
 // end JXLayout
@@ -136,14 +136,14 @@ CBEditStylerDialog::BuildWindow
 		jnew CBStylerTable(typeNames, typeStyles, scrollbarSet1,
 						  scrollbarSet1->GetScrollEnclosure(),
 						  JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 10,10);
-	assert( itsTypeTable != NULL );
+	assert( itsTypeTable != nullptr );
 	itsTypeTable->FitToEnclosure();
 
 	itsWordTable =
 		jnew CBStylerTable(fileType, wordList, newWordButton, removeButton,
 						  scrollbarSet2, scrollbarSet2->GetScrollEnclosure(),
 						  JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 10,10);
-	assert( itsWordTable != NULL );
+	assert( itsWordTable != nullptr );
 	itsWordTable->FitToEnclosure();
 
 	// adjust window size
@@ -177,7 +177,7 @@ CBEditStylerDialog::BuildWindow
 /******************************************************************************
  GetData
 
-	colorList can be NULL.
+	colorList can be nullptr.
 
  ******************************************************************************/
 

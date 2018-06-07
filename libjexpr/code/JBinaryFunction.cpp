@@ -27,8 +27,8 @@ JBinaryFunction::JBinaryFunction
 	:
 	JFunctionWithArgs(nameIndex, type)
 {
-	itsArg1 = NULL;
-	itsArg2 = NULL;
+	itsArg1 = nullptr;
+	itsArg2 = nullptr;
 }
 
 JBinaryFunction::JBinaryFunction

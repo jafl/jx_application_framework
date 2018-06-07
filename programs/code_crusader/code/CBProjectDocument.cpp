@@ -238,7 +238,7 @@ CBProjectDocument::Create
 	CBProjectDocument** doc
 	)
 {
-	*doc = NULL;
+	*doc = nullptr;
 
 	CBNewProjectCSF csf;
 	JString fullName;
@@ -269,7 +269,7 @@ CBProjectDocument::Create
 
 		*doc = jnew CBProjectDocument(fullName, csf.GetMakefileMethod(),
 									 fromTemplate, tmplFile);
-		assert( *doc != NULL );
+		assert( *doc != nullptr );
 		(**doc).SaveInCurrentFile();
 		(**doc).Activate();
 		return kJTrue;
@@ -354,14 +354,14 @@ CBProjectDocument::Create
 	if ((CBGetDocumentManager())->FileDocumentIsOpen(projName, &baseDoc))
 		{
 		*doc = dynamic_cast<CBProjectDocument*>(baseDoc);
-		if (*doc != NULL && !silent)
+		if (*doc != nullptr && !silent)
 			{
 			(**doc).Activate();
 			}
-		return (*doc != NULL ? kFileReadable : kNotMyFile);
+		return (*doc != nullptr ? kFileReadable : kNotMyFile);
 		}
 
-	*doc = NULL;
+	*doc = nullptr;
 
 	std::ifstream input(projName);
 	JFileVersion vers;
@@ -385,7 +385,7 @@ CBProjectDocument::Create
 		(CBGetApplication())->DisplayBusyCursor();
 
 		*doc = jnew CBProjectDocument(input, projName, setName, symName, silent);
-		assert( *doc != NULL );
+		assert( *doc != nullptr );
 		}
 	else if (status == kNeedNewerVersion)
 		{
@@ -467,7 +467,7 @@ CBProjectDocument::CBProjectDocument
 	JXFileDocument(CBGetApplication(),
 				   fullName, kJTrue, kJFalse, kProjectFileSuffix)
 {
-	std::ifstream* input = NULL;
+	std::ifstream* input = nullptr;
 	JFileVersion tmplVers, projVers;
 	if (fromTemplate)
 		{
@@ -486,27 +486,27 @@ CBProjectDocument::CBProjectDocument
 		{
 		itsFileTree = jnew CBProjectTree(this);
 		}
-	assert( itsFileTree != NULL );
+	assert( itsFileTree != nullptr );
 
 	CBProjectDocumentX(itsFileTree);
 
 	itsBuildMgr = jnew CBBuildManager(this);
-	assert( itsBuildMgr != NULL );
+	assert( itsBuildMgr != nullptr );
 
 	itsAllFileDirector = jnew CBFileListDirector(this);
-	assert( itsAllFileDirector != NULL );
+	assert( itsAllFileDirector != nullptr );
 
 	itsSymbolDirector = jnew CBSymbolDirector(this);
-	assert( itsSymbolDirector != NULL );
+	assert( itsSymbolDirector != nullptr );
 
 	itsCTreeDirector = jnew CBCTreeDirector(this);
-	assert( itsCTreeDirector != NULL );
+	assert( itsCTreeDirector != nullptr );
 
 	itsJavaTreeDirector = jnew CBJavaTreeDirector(this);
-	assert( itsJavaTreeDirector != NULL );
+	assert( itsJavaTreeDirector != nullptr );
 
 	itsPHPTreeDirector = jnew CBPHPTreeDirector(this);
-	assert( itsPHPTreeDirector != NULL );
+	assert( itsPHPTreeDirector != nullptr );
 
 	if (fromTemplate)
 		{
@@ -557,7 +557,7 @@ CBProjectDocument::CBProjectDocument
 	JFileVersion setVers;
 	setStream >> setVers;
 
-	std::istream* setInput = NULL;
+	std::istream* setInput = nullptr;
 	if (setSignature == kSettingFileSignature &&
 		setVers <= kCurrentProjectFileVersion &&
 		setVers >= projVers)
@@ -565,7 +565,7 @@ CBProjectDocument::CBProjectDocument
 		setInput = &setStream;
 		}
 
-	const JBoolean useProjSetData = JI2B( setInput == NULL || setVers < 71 );
+	const JBoolean useProjSetData = JI2B( setInput == nullptr || setVers < 71 );
 
 	// open the symbol file
 
@@ -576,7 +576,7 @@ CBProjectDocument::CBProjectDocument
 	JFileVersion symVers;
 	symStream >> symVers;
 
-	std::istream* symInput = NULL;
+	std::istream* symInput = nullptr;
 	if (symSignature == kSymbolFileSignature &&
 		symVers <= kCurrentProjectFileVersion &&
 		symVers >= projVers)
@@ -584,7 +584,7 @@ CBProjectDocument::CBProjectDocument
 		symInput = &symStream;
 		}
 
-	const JBoolean useProjSymData = JI2B( symInput == NULL || symVers < 71 );
+	const JBoolean useProjSymData = JI2B( symInput == nullptr || symVers < 71 );
 
 	// read in project file tree
 
@@ -601,7 +601,7 @@ CBProjectDocument::CBProjectDocument
 		{
 		itsFileTree = jnew CBProjectTree(this);
 		}
-	assert( itsFileTree != NULL );
+	assert( itsFileTree != nullptr );
 
 	CBProjectDocumentX(itsFileTree);
 
@@ -632,7 +632,7 @@ CBProjectDocument::CBProjectDocument
 		}
 
 	itsBuildMgr = jnew CBBuildManager(projInput, projVers, setInput, setVers, this);
-	assert( itsBuildMgr != NULL );
+	assert( itsBuildMgr != nullptr );
 
 	if (36 <= projVers && projVers < 71)
 		{
@@ -649,19 +649,19 @@ CBProjectDocument::CBProjectDocument
 
 	itsAllFileDirector = jnew CBFileListDirector(projInput, projVers, setInput, setVers,
 												symInput, symVers, this, silent);
-	assert( itsAllFileDirector != NULL );
+	assert( itsAllFileDirector != nullptr );
 
 	// create symbol list
 
 	itsSymbolDirector = jnew CBSymbolDirector(projInput, projVers, setInput, setVers,
 											 symInput, symVers, this, silent);
-	assert( itsSymbolDirector != NULL );
+	assert( itsSymbolDirector != nullptr );
 
 	// read C++ class tree
 
 	itsCTreeDirector = jnew CBCTreeDirector(projInput, projVers, setInput, setVers,
 										   symInput, symVers, this, silent, itsDirList);
-	assert( itsCTreeDirector != NULL );
+	assert( itsCTreeDirector != nullptr );
 	// activates itself
 
 	// read Java class tree
@@ -670,13 +670,13 @@ CBProjectDocument::CBProjectDocument
 		{
 		itsJavaTreeDirector = jnew CBJavaTreeDirector(projInput, projVers, setInput, setVers,
 													 symInput, symVers, this, silent);
-		assert( itsJavaTreeDirector != NULL );
+		assert( itsJavaTreeDirector != nullptr );
 		// activates itself
 		}
 	else
 		{
 		itsJavaTreeDirector = jnew CBJavaTreeDirector(this);
-		assert( itsJavaTreeDirector != NULL );
+		assert( itsJavaTreeDirector != nullptr );
 		(itsJavaTreeDirector->GetTree())->NextUpdateMustReparseAll();
 		}
 
@@ -686,13 +686,13 @@ CBProjectDocument::CBProjectDocument
 		{
 		itsPHPTreeDirector = jnew CBPHPTreeDirector(projInput, projVers, setInput, setVers,
 												   symInput, symVers, this, silent);
-		assert( itsPHPTreeDirector != NULL );
+		assert( itsPHPTreeDirector != nullptr );
 		// activates itself
 		}
 	else
 		{
 		itsPHPTreeDirector = jnew CBPHPTreeDirector(this);
-		assert( itsPHPTreeDirector != NULL );
+		assert( itsPHPTreeDirector != nullptr );
 		(itsPHPTreeDirector->GetTree())->NextUpdateMustReparseAll();
 		}
 
@@ -743,29 +743,29 @@ CBProjectDocument::CBProjectDocumentX
 	itsLastSymbolLoadTime     = 0.0;
 
 	itsDirList = jnew CBDirList;
-	assert( itsDirList != NULL );
+	assert( itsDirList != nullptr );
 	itsDirList->SetBasePath(GetFilePath());
 
 	itsCSF = jnew CBRelPathCSF(this);
-	assert( itsCSF != NULL );
+	assert( itsCSF != nullptr );
 
 	itsCmdMgr = jnew CBCommandManager;
-	assert( itsCmdMgr != NULL );
+	assert( itsCmdMgr != nullptr );
 
 	ListenTo(CBGetPrefsManager());
 
 	itsSaveTask = jnew JXTimerTask(kSafetySavePeriod);
-	assert( itsSaveTask != NULL );
+	assert( itsSaveTask != nullptr );
 	ListenTo(itsSaveTask);
 	itsSaveTask->Start();
 
-	itsUpdateProcess         = NULL;
-	itsUpdateLink            = NULL;
-	itsUpdateStream          = NULL;
-	itsUpdatePG              = NULL;
-	itsWaitForUpdateTask     = NULL;
-	itsDelaySymbolUpdateTask = NULL;
-	itsEditPathsDialog       = NULL;
+	itsUpdateProcess         = nullptr;
+	itsUpdateLink            = nullptr;
+	itsUpdateStream          = nullptr;
+	itsUpdatePG              = nullptr;
+	itsWaitForUpdateTask     = nullptr;
+	itsDelaySymbolUpdateTask = nullptr;
+	itsEditPathsDialog       = nullptr;
 
 	SetSaveNewFilePrompt(kSaveNewFilePrompt);
 
@@ -812,7 +812,7 @@ void
 CBProjectDocument::DeleteUpdateLink()
 {
 	delete itsUpdateLink;
-	itsUpdateLink = NULL;
+	itsUpdateLink = nullptr;
 }
 
 /******************************************************************************
@@ -856,11 +856,11 @@ cbWriteSpace
 	std::ostream* symOutput
 	)
 {
-	if (setOutput != NULL)
+	if (setOutput != nullptr)
 		{
 		*setOutput << ' ';
 		}
-	if (symOutput != NULL)
+	if (symOutput != nullptr)
 		{
 		*symOutput << ' ';
 		}
@@ -879,20 +879,20 @@ CBProjectDocument::WriteTextFile
 	// create the setting and symbol files
 
 	JString setName, symName;
-	std::ostream* setOutput = NULL;
-	std::ostream* symOutput = NULL;
+	std::ostream* setOutput = nullptr;
+	std::ostream* symOutput = nullptr;
 	if (!safetySave)
 		{
 		JBoolean onDisk;
 		setName = GetSettingFileName(GetFullName(&onDisk));
 
 		setOutput = jnew std::ofstream(setName);
-		assert( setOutput != NULL );
+		assert( setOutput != nullptr );
 
 		symName = GetSymbolFileName(GetFullName(&onDisk));
 
 		symOutput = jnew std::ofstream(symName);
-		assert( symOutput != NULL );
+		assert( symOutput != nullptr );
 		}
 
 	WriteFiles(projOutput, setName, setOutput, symName, symOutput);
@@ -919,13 +919,13 @@ CBProjectDocument::WriteFiles
 	projOutput << kProjectFileSignature << ' ';
 	projOutput << kCurrentProjectFileVersion << '\n';
 
-	if (setOutput != NULL)
+	if (setOutput != nullptr)
 		{
 		*setOutput << kSettingFileSignature;
 		*setOutput << ' ' << kCurrentProjectFileVersion;
 		}
 
-	if (symOutput != NULL)
+	if (symOutput != nullptr)
 		{
 		*symOutput << kSymbolFileSignature;
 		*symOutput << ' ' << kCurrentProjectFileVersion;
@@ -936,7 +936,7 @@ CBProjectDocument::WriteFiles
 	projOutput << "# project tree\n";
 	itsFileTree->StreamOut(projOutput);
 
-	if (setOutput != NULL)
+	if (setOutput != nullptr)
 		{
 		*setOutput << ' ';
 		GetWindow()->WriteGeometry(*setOutput);
@@ -951,7 +951,7 @@ CBProjectDocument::WriteFiles
 	cbWriteSpace(projOutput, setOutput, symOutput);
 	itsBuildMgr->StreamOut(projOutput, setOutput);
 
-	if (setOutput != NULL)
+	if (setOutput != nullptr)
 		{
 		*setOutput << ' ' << itsPrintName;
 		}
@@ -966,14 +966,14 @@ CBProjectDocument::WriteFiles
 	itsCTreeDirector->StreamOut(projOutput, setOutput, symOutput, itsDirList);
 
 	cbWriteSpace(projOutput, setOutput, symOutput);
-	itsJavaTreeDirector->StreamOut(projOutput, setOutput, symOutput, NULL);
+	itsJavaTreeDirector->StreamOut(projOutput, setOutput, symOutput, nullptr);
 
 	cbWriteSpace(projOutput, setOutput, symOutput);
-	itsPHPTreeDirector->StreamOut(projOutput, setOutput, symOutput, NULL);
+	itsPHPTreeDirector->StreamOut(projOutput, setOutput, symOutput, nullptr);
 
 	// this must be last so it can be cancelled
 
-	if (setOutput != NULL)
+	if (setOutput != nullptr)
 		{
 		*setOutput << ' ';
 		(CBGetDocumentManager())->WriteForProject(*setOutput);
@@ -981,21 +981,21 @@ CBProjectDocument::WriteFiles
 
 	// clean up -- no problem if settings or symbol table can't be written
 
-	if (setOutput != NULL)
+	if (setOutput != nullptr)
 		{
 		const JBoolean ok = JI2B( setOutput->good() );
 		jdelete setOutput;
-		if (!ok && setName != NULL)
+		if (!ok && setName != nullptr)
 			{
 			JRemoveFile(setName);
 			}
 		}
 
-	if (symOutput != NULL)
+	if (symOutput != nullptr)
 		{
 		const JBoolean ok = JI2B( symOutput->good() );
 		jdelete symOutput;
-		if (!ok && symName != NULL)
+		if (!ok && symName != nullptr)
 			{
 			JRemoveFile(symName);
 			}
@@ -1109,7 +1109,7 @@ CBProjectDocument::ReadTemplate
 	)
 {
 	itsFileTree->CreateFilesForTemplate(input, tmplVers);
-	itsFileTable->ReadSetup(input, projVers, NULL, 0);
+	itsFileTable->ReadSetup(input, projVers, nullptr, 0);
 
 	CBBuildManager::MakefileMethod makefileMethod = CBBuildManager::kManual;
 	if (tmplVers == 2)
@@ -1164,7 +1164,7 @@ CBProjectDocument::WriteTemplate
 	itsFileTree->SaveFilesInTemplate(output);
 
 	output << ' ';
-	itsFileTable->WriteSetup(output, NULL);
+	itsFileTable->WriteSetup(output, nullptr);
 
 	output << ' ';
 	itsDirList->WriteDirectories(output);
@@ -1454,43 +1454,43 @@ CBProjectDocument::BuildWindow
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 510,430, "");
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	JXMenuBar* menuBar =
 		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 450,30);
-	assert( menuBar != NULL );
+	assert( menuBar != nullptr );
 
 	itsToolBar =
 		jnew JXToolBar(CBGetPrefsManager(), kCBProjectToolBarID, menuBar, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 510,380);
-	assert( itsToolBar != NULL );
+	assert( itsToolBar != nullptr );
 
 	itsConfigButton =
 		jnew JXTextButton(JGetString("itsConfigButton::CBProjectDocument::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 450,0, 60,30);
-	assert( itsConfigButton != NULL );
+	assert( itsConfigButton != nullptr );
 
 	itsUpdateContainer =
 		jnew JXWidgetSet(window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 0,410, 510,20);
-	assert( itsUpdateContainer != NULL );
+	assert( itsUpdateContainer != nullptr );
 
 	itsUpdateLabel =
 		jnew JXStaticText(JGetString("itsUpdateLabel::CBProjectDocument::JXLayout"), itsUpdateContainer,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,2, 130,16);
-	assert( itsUpdateLabel != NULL );
+	assert( itsUpdateLabel != nullptr );
 	itsUpdateLabel->SetToLabel();
 
 	itsUpdateCleanUpIndicator =
 		jnew JXProgressIndicator(itsUpdateContainer,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 130,5, 380,10);
-	assert( itsUpdateCleanUpIndicator != NULL );
+	assert( itsUpdateCleanUpIndicator != nullptr );
 
 	itsUpdateCounter =
 		jnew JXStaticText(JGetString("itsUpdateCounter::CBProjectDocument::JXLayout"), itsUpdateContainer,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 130,2, 90,16);
-	assert( itsUpdateCounter != NULL );
+	assert( itsUpdateCounter != nullptr );
 	itsUpdateCounter->SetToLabel();
 
 // end JXLayout
@@ -1501,7 +1501,7 @@ CBProjectDocument::BuildWindow
 
 	JXDisplay* display = GetDisplay();
 	JXImage* icon      = jnew JXImage(display, jcc_project_window);
-	assert( icon != NULL );
+	assert( icon != nullptr );
 	window->SetIcon(icon);
 
 	JPoint desktopLoc;
@@ -1522,18 +1522,18 @@ CBProjectDocument::BuildWindow
 	JXScrollbarSet* scrollbarSet =
 		jnew JXScrollbarSet(itsToolBar->GetWidgetEnclosure(),
 						   JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 100,100);
-	assert( scrollbarSet != NULL );
+	assert( scrollbarSet != nullptr );
 	scrollbarSet->FitToEnclosure();
 
 	JNamedTreeList* treeList = jnew JNamedTreeList(fileList);
-	assert( treeList != NULL );
+	assert( treeList != nullptr );
 
 	itsFileTable =
 		jnew CBProjectTable(this, menuBar, treeList,
 						   scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 						   JXWidget::kHElastic, JXWidget::kVElastic,
 						   0,0, 10,10);
-	assert( itsFileTable != NULL );
+	assert( itsFileTable != nullptr );
 	itsFileTable->FitToEnclosure();
 
 	// menus
@@ -1551,12 +1551,12 @@ CBProjectDocument::BuildWindow
 	CBFileHistoryMenu* recentProjectMenu =
 		jnew CBFileHistoryMenu(CBDocumentManager::kProjectFileHistory,
 							  itsFileMenu, kRecentProjectMenuCmd, menuBar);
-	assert( recentProjectMenu != NULL );
+	assert( recentProjectMenu != nullptr );
 
 	CBFileHistoryMenu* recentTextMenu =
 		jnew CBFileHistoryMenu(CBDocumentManager::kTextFileHistory,
 							  itsFileMenu, kRecentTextMenuCmd, menuBar);
-	assert( recentTextMenu != NULL );
+	assert( recentTextMenu != nullptr );
 
 	itsProjectMenu = menuBar->AppendTextMenu(kProjectMenuTitleStr);
 	itsProjectMenu->SetMenuItems(kProjectMenuStr, "CBProjectDocument");
@@ -1582,16 +1582,16 @@ CBProjectDocument::BuildWindow
 	itsSourceMenu->SetItemImage(kDiffVCSCmd,     jcc_compare_vcs);
 
 	itsCmdMenu =
-		jnew CBCommandMenu(this, NULL, menuBar,
+		jnew CBCommandMenu(this, nullptr, menuBar,
 						  JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
-	assert( itsCmdMenu != NULL );
+	assert( itsCmdMenu != nullptr );
 	menuBar->AppendMenu(itsCmdMenu);
 	ListenTo(itsCmdMenu);
 
 	CBDocumentMenu* fileListMenu =
 		jnew CBDocumentMenu(kFileListMenuTitleStr, menuBar,
 						   JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
-	assert( fileListMenu != NULL );
+	assert( fileListMenu != nullptr );
 	menuBar->AppendMenu(fileListMenu);
 
 	itsPrefsMenu = menuBar->AppendTextMenu(kPrefsMenuTitleStr);
@@ -1620,8 +1620,8 @@ CBProjectDocument::BuildWindow
 	// update pg
 
 	itsUpdatePG = jnew JXProgressDisplay();
-	assert( itsUpdatePG != NULL );
-	itsUpdatePG->SetItems(NULL, itsUpdateCounter, itsUpdateCleanUpIndicator, itsUpdateLabel);
+	assert( itsUpdatePG != nullptr );
+	itsUpdatePG->SetItems(nullptr, itsUpdateCounter, itsUpdateCleanUpIndicator, itsUpdateLabel);
 
 	ShowUpdatePG(kJFalse);
 }
@@ -1646,7 +1646,7 @@ CBProjectDocument::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleFileMenu(selection->GetIndex());
 		}
 
@@ -1658,7 +1658,7 @@ CBProjectDocument::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleProjectMenu(selection->GetIndex());
 		}
 
@@ -1670,7 +1670,7 @@ CBProjectDocument::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleSourceMenu(selection->GetIndex());
 		}
 
@@ -1682,7 +1682,7 @@ CBProjectDocument::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandlePrefsMenu(selection->GetIndex());
 		}
 
@@ -1694,7 +1694,7 @@ CBProjectDocument::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		(CBGetApplication())->HandleHelpMenu(itsHelpMenu, "CBProjectHelp",
 											 selection->GetIndex());
 		}
@@ -1704,7 +1704,7 @@ CBProjectDocument::Receive
 		{
 		const JXDialogDirector::Deactivated* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		if (info->Successful())
 			{
 			CBDirList pathList;
@@ -1715,7 +1715,7 @@ CBProjectDocument::Receive
 				UpdateSymbolDatabase();
 				}
 			}
-		itsEditPathsDialog = NULL;
+		itsEditPathsDialog = nullptr;
 		}
 
 	else if (sender == CBGetPTTextPrinter() &&
@@ -1723,7 +1723,7 @@ CBProjectDocument::Receive
 		{
 		const JPrinter::PrintSetupFinished* info =
 			dynamic_cast<const JPrinter::PrintSetupFinished*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		CBPTPrinter* p = CBGetPTTextPrinter();
 		if (info->Successful())
 			{
@@ -1742,7 +1742,7 @@ CBProjectDocument::Receive
 		{
 		const CBPrefsManager::FileTypesChanged* info =
 			dynamic_cast<const CBPrefsManager::FileTypesChanged*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 
 		if (info->AnyChanged())
 			{
@@ -1837,12 +1837,12 @@ CBProjectDocument::ProcessNodeMessage
 {
 	const JTree::NodeMessage* info =
 		dynamic_cast<const JTree::NodeMessage*>(&message);
-	assert( info != NULL );
+	assert( info != nullptr );
 
 	if ((info->GetNode())->GetDepth() == CBProjectTable::kFileDepth)
 		{
 		const CBProjectNode* node = dynamic_cast<const CBProjectNode*>(info->GetNode());
-		assert( node != NULL );
+		assert( node != nullptr );
 
 		itsBuildMgr->ProjectChanged(node);
 
@@ -1956,7 +1956,7 @@ CBProjectDocument::SaveAsTemplate()
 		origName = JCombinePathAndName(origName, GetFileName());
 
 		JString tmplName;
-		if ((JGetChooseSaveFile())->SaveFile("Save project template as:", NULL,
+		if ((JGetChooseSaveFile())->SaveFile("Save project template as:", nullptr,
 											 origName, &tmplName))
 			{
 			WriteTemplate(tmplName);
@@ -2023,7 +2023,7 @@ CBProjectDocument::HandleProjectMenu
 		}
 	else if (index == kUpdateMakefileCmd)
 		{
-		itsBuildMgr->UpdateMakefile(NULL, NULL, kJTrue);
+		itsBuildMgr->UpdateMakefile(nullptr, nullptr, kJTrue);
 		}
 
 	else if (index == kUpdateSymbolDBCmd)
@@ -2084,10 +2084,10 @@ CBProjectDocument::EditSearchPaths
 	JXDirector* owner
 	)
 {
-	assert( itsEditPathsDialog == NULL );
+	assert( itsEditPathsDialog == nullptr );
 
 	itsEditPathsDialog = jnew CBEditSearchPathsDialog(owner, *itsDirList, itsCSF);
-	assert( itsEditPathsDialog != NULL );
+	assert( itsEditPathsDialog != nullptr );
 	itsEditPathsDialog->BeginDialog();
 	ListenTo(itsEditPathsDialog);
 	return itsEditPathsDialog;
@@ -2293,7 +2293,7 @@ CBProjectDocument::EditProjectPrefs()
 								  CBCompileDocument::WillDoubleSpace(),
 								  CBBuildManager::WillRebuildMakefileDaily(),
 								  CBProjectTable::GetDropFileAction());
-	assert( dlog != NULL );
+	assert( dlog != nullptr );
 	dlog->BeginDialog();
 }
 
@@ -2426,7 +2426,7 @@ CBProjectDocument::ReceiveWithFeedback
 		{
 		CBCommandMenu::GetTargetInfo* info =
 			dynamic_cast<CBCommandMenu::GetTargetInfo*>(message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		itsFileTable->GetSelectedFileNames(info->GetFileList());
 		}
 	else
@@ -2479,7 +2479,7 @@ int
 CBProjectDocument::StartSymbolLoadTimer()
 {
 	itimerval t = { { 0, 0 }, { kSymbolLoadTimerStart, 0 } };
-	return setitimer(ITIMER_PROF, &t, NULL);
+	return setitimer(ITIMER_PROF, &t, nullptr);
 }
 
 /******************************************************************************
@@ -2500,7 +2500,7 @@ CBProjectDocument::StopSymbolLoadTimer
 		}
 
 	bzero(&t, sizeof(t));
-	setitimer(ITIMER_PROF, &t, NULL);
+	setitimer(ITIMER_PROF, &t, nullptr);
 }
 
 /******************************************************************************
@@ -2598,7 +2598,7 @@ CBProjectDocument::SymbolUpdateProgress()
 
 		jdelete itsWaitForUpdateTask;
 		itsWaitForUpdateTask = jnew CBWaitForSymbolUpdateTask(itsUpdateProcess);
-		assert( itsWaitForUpdateTask != NULL );
+		assert( itsWaitForUpdateTask != nullptr );
 		ClearWhenGoingAway(itsWaitForUpdateTask, &itsWaitForUpdateTask);
 		itsWaitForUpdateTask->Go();
 		}
@@ -2629,11 +2629,11 @@ CBProjectDocument::SymbolUpdateProgress()
 			StopSymbolLoadTimer(timerStatus);
 			}
 
-		if (itsWaitForUpdateTask != NULL)
+		if (itsWaitForUpdateTask != nullptr)
 			{
 			itsWaitForUpdateTask->StopWaiting();
 			}
-		itsWaitForUpdateTask = NULL;
+		itsWaitForUpdateTask = nullptr;
 
 		SymbolUpdateFinished();
 		}
@@ -2652,16 +2652,16 @@ CBProjectDocument::SymbolUpdateFinished()
 	DeleteUpdateLink();
 
 	jdelete itsUpdateStream;
-	itsUpdateStream = NULL;
+	itsUpdateStream = nullptr;
 
 	jdelete itsUpdateProcess;
-	itsUpdateProcess = NULL;
+	itsUpdateProcess = nullptr;
 
-	if (itsWaitForUpdateTask != NULL)
+	if (itsWaitForUpdateTask != nullptr)
 		{
 		itsWaitForUpdateTask->StopWaiting();
 		}
-	itsWaitForUpdateTask = NULL;
+	itsWaitForUpdateTask = nullptr;
 }
 
 /******************************************************************************
@@ -2704,7 +2704,7 @@ CBProjectDocument::DelayUpdateSymbolDatabase()
 {
 	jdelete itsDelaySymbolUpdateTask;
 	itsDelaySymbolUpdateTask = jnew CBDelaySymbolUpdateTask(this);
-	assert( itsDelaySymbolUpdateTask != NULL );
+	assert( itsDelaySymbolUpdateTask != nullptr );
 	itsDelaySymbolUpdateTask->Start();
 }
 
@@ -2717,9 +2717,9 @@ void
 CBProjectDocument::CancelUpdateSymbolDatabase()
 {
 	jdelete itsDelaySymbolUpdateTask;
-	itsDelaySymbolUpdateTask = NULL;
+	itsDelaySymbolUpdateTask = nullptr;
 
-	if (itsUpdateLink != NULL)
+	if (itsUpdateLink != nullptr)
 		{
 		itsUpdateProcess->Kill();
 		SymbolUpdateFinished();
@@ -2827,9 +2827,9 @@ CBProjectDocument::UpdateSymbolDatabase()
 		const JString symName = GetSymbolFileName(GetFullName(&onDisk));
 
 		std::ostream* symOutput = jnew std::ofstream(symName);
-		assert( symOutput != NULL );
+		assert( symOutput != nullptr );
 
-		WriteFiles(projOutput, NULL, NULL, symName, symOutput);
+		WriteFiles(projOutput, nullptr, nullptr, symName, symOutput);
 
 		output << kSymbolTableWritten << std::endl;
 		output.close();
@@ -2846,17 +2846,17 @@ CBProjectDocument::UpdateSymbolDatabase()
 		close(fd[1][0]);
 
 		itsUpdateStream = jnew JOutPipeStream(fd[1][1], kJTrue);
-		assert( itsUpdateStream != NULL );
+		assert( itsUpdateStream != nullptr );
 
 		ShowUpdatePG(kJTrue);
 
 		itsUpdateProcess = jnew JProcess(pid);
-		assert( itsUpdateProcess != NULL );
+		assert( itsUpdateProcess != nullptr );
 		ListenTo(itsUpdateProcess);
 		itsUpdateProcess->KillAtExit();
 
 		itsUpdateLink = new CBExecOutputDocument::RecordLink(fd[0][0]);
-		assert( itsUpdateLink != NULL );
+		assert( itsUpdateLink != nullptr );
 		ListenTo(itsUpdateLink);
 		}
 }

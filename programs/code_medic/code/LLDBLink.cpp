@@ -84,15 +84,15 @@ LLDBLink::LLDBLink()
 	:
 	CMLink(kFeatures),
 	SBListener("LLDBLink"),		// without a name, the listener is invalid
-	itsDebugger(NULL),
-	itsStdoutStream(NULL),
-	itsStderrStream(NULL),
-	itsPrompt(NULL)
+	itsDebugger(nullptr),
+	itsStdoutStream(nullptr),
+	itsStderrStream(nullptr),
+	itsPrompt(nullptr)
 {
 	InitFlags();
 
 	itsBPMgr = jnew LLDBBreakpointManager(this);
-	assert( itsBPMgr != NULL );
+	assert( itsBPMgr != nullptr );
 
 	StartDebugger(kJFalse);
 }
@@ -134,7 +134,7 @@ LLDBLink::GetPrompt()
 {
 	jdelete itsPrompt;
 	const_cast<LLDBLink*>(this)->itsPrompt = jnew JString(itsDebugger->GetPrompt());
-	assert( itsPrompt != NULL );
+	assert( itsPrompt != nullptr );
 
 	return *itsPrompt;
 }
@@ -585,7 +585,7 @@ LLDBLink::SetProgram
 		StartListeningForEvents(t.GetBroadcaster(), kLLDBEventMask);
 
 		LLDBSymbolsLoadedTask* task = jnew LLDBSymbolsLoadedTask(fullName);
-		assert( task != NULL );
+		assert( task != nullptr );
 		task->Go();
 		}
 }
@@ -689,7 +689,7 @@ LLDBLink::AttachToProcess
 			const JString fullName = JCombinePathAndName(f.GetDirectory(), f.GetFilename());
 
 			LLDBSymbolsLoadedTask* task = jnew LLDBSymbolsLoadedTask(fullName);
-			assert( task != NULL );
+			assert( task != nullptr );
 			task->Go();
 
 			Broadcast(AttachedToProcess());
@@ -713,7 +713,7 @@ LLDBLink::RunProgram
 		{
 		DetachOrKill(kJFalse);
 
-		JCharacter** lldbArgs = NULL;
+		JCharacter** lldbArgs = nullptr;
 
 		JPtrArray<JString> argList(JPtrArrayT::kDeleteAll);
 		if (strlen(args) > 0)
@@ -721,19 +721,19 @@ LLDBLink::RunProgram
 			JParseArgsForExec(args, &argList);
 
 			lldbArgs = jnew JCharacter*[ argList.GetElementCount()+1 ];
-			assert( lldbArgs != NULL );
+			assert( lldbArgs != nullptr );
 
 			for (JIndex i=1; i<=argList.GetElementCount(); i++)
 				{
 				lldbArgs[ i-1 ] = const_cast<JCharacter*>(argList.GetElement(i)->GetCString());
 				}
 
-			lldbArgs[ argList.GetElementCount() ] = NULL;
+			lldbArgs[ argList.GetElementCount() ] = nullptr;
 			}
 
 		lldb::SBError error;
 		t.Launch(*this, (const char**) lldbArgs, (const char**) environ,
-				 NULL, NULL, NULL, ".", 0, false, error);
+				 nullptr, nullptr, nullptr, ".", 0, false, error);
 
 		jdelete [] lldbArgs;
 		}
@@ -1341,7 +1341,7 @@ LLDBLink::CreateArray2DCommand
 	)
 {
 	CMArray2DCommand* cmd = jnew LLDBArray2DCommand(dir, table, data);
-	assert( cmd != NULL );
+	assert( cmd != nullptr );
 	return cmd;
 }
 
@@ -1359,7 +1359,7 @@ LLDBLink::CreatePlot2DCommand
 	)
 {
 	CMPlot2DCommand* cmd = jnew LLDBPlot2DCommand(dir, x, y);
-	assert( cmd != NULL );
+	assert( cmd != nullptr );
 	return cmd;
 }
 
@@ -1375,7 +1375,7 @@ LLDBLink::CreateDisplaySourceForMain
 	)
 {
 	CMDisplaySourceForMain* cmd = jnew LLDBDisplaySourceForMain(sourceDir);
-	assert( cmd != NULL );
+	assert( cmd != nullptr );
 	return cmd;
 }
 
@@ -1392,7 +1392,7 @@ LLDBLink::CreateGetCompletions
 	)
 {
 	CMGetCompletions* cmd = jnew LLDBGetCompletions(input, history);
-	assert( cmd != NULL );
+	assert( cmd != nullptr );
 	return cmd;
 }
 
@@ -1408,7 +1408,7 @@ LLDBLink::CreateGetFrame
 	)
 {
 	CMGetFrame* cmd = jnew LLDBGetFrame(widget);
-	assert( cmd != NULL );
+	assert( cmd != nullptr );
 	return cmd;
 }
 
@@ -1425,7 +1425,7 @@ LLDBLink::CreateGetStack
 	)
 {
 	CMGetStack* cmd = jnew LLDBGetStack(tree, widget);
-	assert( cmd != NULL );
+	assert( cmd != nullptr );
 	return cmd;
 }
 
@@ -1441,7 +1441,7 @@ LLDBLink::CreateGetThread
 	)
 {
 	CMGetThread* cmd = jnew LLDBGetThread(widget);
-	assert( cmd != NULL );
+	assert( cmd != nullptr );
 	return cmd;
 }
 
@@ -1458,7 +1458,7 @@ LLDBLink::CreateGetThreads
 	)
 {
 	CMGetThreads* cmd = jnew LLDBGetThreads(tree, widget);
-	assert( cmd != NULL );
+	assert( cmd != nullptr );
 	return cmd;
 }
 
@@ -1475,7 +1475,7 @@ LLDBLink::CreateGetFullPath
 	)
 {
 	CMGetFullPath* cmd = jnew LLDBGetFullPath(fileName, lineIndex);
-	assert( cmd != NULL );
+	assert( cmd != nullptr );
 	return cmd;
 }
 
@@ -1491,7 +1491,7 @@ LLDBLink::CreateGetInitArgs
 	)
 {
 	CMGetInitArgs* cmd = jnew LLDBGetInitArgs(argInput);
-	assert( cmd != NULL );
+	assert( cmd != nullptr );
 	return cmd;
 }
 
@@ -1507,7 +1507,7 @@ LLDBLink::CreateGetLocalVars
 	)
 {
 	CMGetLocalVars* cmd = jnew LLDBGetLocalVars(rootNode);
-	assert( cmd != NULL );
+	assert( cmd != nullptr );
 	return cmd;
 }
 
@@ -1523,7 +1523,7 @@ LLDBLink::CreateGetSourceFileList
 	)
 {
 	CMGetSourceFileList* cmd = jnew LLDBGetSourceFileList(fileList);
-	assert( cmd != NULL );
+	assert( cmd != nullptr );
 	return cmd;
 }
 
@@ -1539,7 +1539,7 @@ LLDBLink::CreateVarValueCommand
 	)
 {
 	CMVarCommand* cmd = jnew LLDBVarCommand(expr);
-	assert( cmd != NULL );
+	assert( cmd != nullptr );
 	return cmd;
 }
 
@@ -1559,7 +1559,7 @@ LLDBLink::CreateVarContentCommand
 	s        += ")";
 
 	CMVarCommand* cmd = jnew LLDBVarCommand(s);
-	assert( cmd != NULL );
+	assert( cmd != nullptr );
 	return cmd;
 }
 
@@ -1575,7 +1575,7 @@ LLDBLink::CreateVarNode
 	)
 {
 	CMVarNode* node = jnew LLDBVarNode(shouldUpdate);
-	assert( node != NULL );
+	assert( node != nullptr );
 	return node;
 }
 
@@ -1589,7 +1589,7 @@ LLDBLink::CreateVarNode
 	)
 {
 	CMVarNode* node = jnew LLDBVarNode(parent, name, value);
-	assert( node != NULL );
+	assert( node != nullptr );
 	return node;
 }
 
@@ -1636,7 +1636,7 @@ LLDBLink::CreateGetMemory
 	)
 {
 	CMGetMemory* cmd = jnew LLDBGetMemory(dir);
-	assert( cmd != NULL );
+	assert( cmd != nullptr );
 	return cmd;
 }
 
@@ -1652,7 +1652,7 @@ LLDBLink::CreateGetAssembly
 	)
 {
 	CMGetAssembly* cmd = jnew LLDBGetAssembly(dir);
-	assert( cmd != NULL );
+	assert( cmd != nullptr );
 	return cmd;
 }
 
@@ -1668,7 +1668,7 @@ LLDBLink::CreateGetRegisters
 	)
 {
 	CMGetRegisters* cmd = jnew LLDBGetRegisters(dir);
-	assert( cmd != NULL );
+	assert( cmd != nullptr );
 	return cmd;
 }
 
@@ -1713,7 +1713,7 @@ LLDBLink::SendMedicCommand
 	command->Starting();
 
 	JXUrgentTask* task = jnew LLDBRunBackgroundCommandTask(command);
-	assert( task != NULL );
+	assert( task != nullptr );
 	task->Go();
 }
 
@@ -1730,7 +1730,7 @@ LLDBLink::SendMedicCommandSync
 {
 	HandleCommandRunning(command->GetTransactionID());
 	command->Finished(kJTrue);	// may delete object
-	SetRunningCommand(NULL);
+	SetRunningCommand(nullptr);
 
 	if (!HasForegroundCommands())
 		{
@@ -1778,7 +1778,7 @@ LLDBLink::ProgramStopped
 			}
 		CMLocation location(fullName, line.IsValid() ? line.GetLine() : 0);
 
-		if (f.GetFunctionName() != NULL)
+		if (f.GetFunctionName() != nullptr)
 			{
 			location.SetFunctionName(f.GetFunctionName());
 			}
@@ -1791,7 +1791,7 @@ LLDBLink::ProgramStopped
 			}
 		Broadcast(CMLink::ProgramStopped(location));
 
-		if (msg != NULL)
+		if (msg != nullptr)
 			{
 			*msg = "; file: " + location.GetFileName() + ", line: " + JString(location.GetLineNumber(), JString::kBase10) + ", func: " + location.GetFunctionName() + ", addr: " + location.GetMemoryAddress();
 			}
@@ -1799,7 +1799,7 @@ LLDBLink::ProgramStopped
 		}
 	else
 		{
-		if (msg != NULL)
+		if (msg != nullptr)
 			{
 			msg->Clear();
 			}
@@ -1823,7 +1823,7 @@ LLDBLink::ProgramFinished1()
 
 	lldb::SBProcess p = itsDebugger->GetSelectedTarget().GetProcess();
 	JString reasonStr;
-	if (p.IsValid() && p.GetExitDescription() != NULL)
+	if (p.IsValid() && p.GetExitDescription() != nullptr)
 		{
 		reasonStr  = p.GetExitDescription();
 		reasonStr += "\n\n";
@@ -1941,7 +1941,7 @@ LLDBLink::StartDebugger
 	const JBoolean restart
 	)
 {
-	assert( itsDebugger == NULL );
+	assert( itsDebugger == nullptr );
 
 	itsDebugger = jnew lldb::SBDebugger(lldb::SBDebugger::Create(true, LogLLDBMessage, this));
 	if (itsDebugger->IsValid())
@@ -1949,30 +1949,30 @@ LLDBLink::StartDebugger
 		StartListeningForEvents(itsDebugger->GetCommandInterpreter().GetBroadcaster(), kLLDBEventMask);
 		StartListeningForEventClass(*itsDebugger, lldb::SBThread::GetBroadcasterClassName(), kLLDBEventMask);
 
-		assert( itsStdoutStream == NULL );
-		assert( itsStderrStream == NULL );
+		assert( itsStdoutStream == nullptr );
+		assert( itsStderrStream == nullptr );
 
 #ifdef _J_OSX
 		itsStdoutStream = fwopen(this, ReceiveLLDBMessageLine);
-		assert( itsStdoutStream != NULL );
+		assert( itsStdoutStream != nullptr );
 
 		itsStderrStream = fwopen(this, ReceiveLLDBErrorLine);
-		assert( itsStderrStream != NULL );
+		assert( itsStderrStream != nullptr );
 #else
-		cookie_io_functions_t my_fns = { NULL, ReceiveLLDBMessageLine, NULL, NULL };
+		cookie_io_functions_t my_fns = { nullptr, ReceiveLLDBMessageLine, nullptr, nullptr };
 
 		itsStdoutStream = fopencookie(this, "w", my_fns);
-		assert( itsStdoutStream != NULL );
+		assert( itsStdoutStream != nullptr );
 
 		my_fns.write    = ReceiveLLDBErrorLine;
 		itsStderrStream = fopencookie(this, "w", my_fns);
-		assert( itsStderrStream != NULL );
+		assert( itsStderrStream != nullptr );
 #endif
 
-		setvbuf(itsStdoutStream, NULL, _IOLBF, 0);
+		setvbuf(itsStdoutStream, nullptr, _IOLBF, 0);
 		itsDebugger->SetOutputFileHandle(itsStdoutStream, false);
 
-		setvbuf(itsStderrStream, NULL, _IOLBF, 0);
+		setvbuf(itsStderrStream, nullptr, _IOLBF, 0);
 		itsDebugger->SetErrorFileHandle(itsStderrStream, false);
 
 		const JCharacter* map[] =
@@ -1982,7 +1982,7 @@ LLDBLink::StartDebugger
 		JString msg = JGetString("Welcome::LLDBLink", map, sizeof(map));
 
 		LLDBWelcomeTask* task = jnew LLDBWelcomeTask(msg, restart);
-		assert( task != NULL );
+		assert( task != nullptr );
 		task->Go();
 
 		return kJTrue;
@@ -2005,14 +2005,14 @@ LLDBLink::StopDebugger()
 	DetachOrKill(kJTrue);
 
 	fclose(itsStdoutStream);
-	itsStdoutStream = NULL;
+	itsStdoutStream = nullptr;
 
 	fclose(itsStderrStream);
-	itsStderrStream = NULL;
+	itsStderrStream = nullptr;
 
 	lldb::SBDebugger::Destroy(*itsDebugger);
 	jdelete itsDebugger;
-	itsDebugger = NULL;
+	itsDebugger = nullptr;
 
 	InitFlags();
 }

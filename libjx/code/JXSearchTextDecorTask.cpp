@@ -52,7 +52,7 @@ JXSearchTextDecorTask::~JXSearchTextDecorTask()
 void
 JXSearchTextDecorTask::Perform()
 {
-	if (itsWindow == NULL)
+	if (itsWindow == nullptr)
 		{
 		return;
 		}
@@ -65,6 +65,6 @@ JXSearchTextDecorTask::Perform()
 		jnew JXDownRect(itsWindow, JXWidget::kFixedLeft, JXWidget::kFixedTop,
 						soFrame.left, soFrame.top-6,
 						rfFrame.right-soFrame.left, 2);
-	assert( line != NULL );
+	assert( line != nullptr );
 	line->SetBorderWidth(1);
 }

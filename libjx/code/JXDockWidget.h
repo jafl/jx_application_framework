@@ -90,11 +90,11 @@ private:
 	const JBoolean			itsIsHorizFlag;
 	JXTabGroup*				itsTabGroup;
 	JIndex					itsID;
-	JPtrArray<JXWindow>*	itsWindowList;		// NULL if contains partition
+	JPtrArray<JXWindow>*	itsWindowList;		// nullptr if contains partition
 	JPoint					itsMinSize;
-	JXPartition*			itsChildPartition;	// NULL if contains docked windows
-	JXHintDirector*			itsHintDirector;	// NULL unless showing hint; not owned
-	JXTimerTask*			itsDeleteHintTask;	// NULL unless showing hint
+	JXPartition*			itsChildPartition;	// nullptr if contains docked windows
+	JXHintDirector*			itsHintDirector;	// nullptr unless showing hint; not owned
+	JXTimerTask*			itsDeleteHintTask;	// nullptr unless showing hint
 
 private:
 
@@ -154,7 +154,7 @@ inline JSize
 JXDockWidget::GetWindowCount()
 	const
 {
-	return (itsWindowList == NULL ? 0 : itsWindowList->GetElementCount());
+	return (itsWindowList == nullptr ? 0 : itsWindowList->GetElementCount());
 }
 
 /******************************************************************************
@@ -169,9 +169,9 @@ JXDockWidget::GetWindow
 	JXWindow**		window
 	)
 {
-	if (itsWindowList == NULL)
+	if (itsWindowList == nullptr)
 		{
-		*window = NULL;
+		*window = nullptr;
 		return kJFalse;
 		}
 

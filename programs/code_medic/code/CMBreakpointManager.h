@@ -54,7 +54,7 @@ private:
 	CMLink*						itsLink;
 	CMGetBreakpoints*			itsCmd;
 	JPtrArray<CMBreakpoint>*	itsBPList;
-	JPtrArray<CMBreakpoint>*	itsSavedBPList;		// NULL unless waiting to restore
+	JPtrArray<CMBreakpoint>*	itsSavedBPList;		// nullptr unless waiting to restore
 	JBoolean					itsRestoreBreakpointsFlag;
 	JBoolean					itsUpdateWhenStopFlag;
 	JPtrArray<CMBreakpoint>*	itsOtherList;		// display only

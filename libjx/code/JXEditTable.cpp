@@ -54,8 +54,8 @@ JXEditTable::JXEditTable
 	JXTable(defRowHeight, defColWidth, scrollbarSet,
 			enclosure, hSizing, vSizing, x,y, w,h)
 {
-	itsInputField      = NULL;
-	itsEditMenuHandler = NULL;
+	itsInputField      = nullptr;
+	itsEditMenuHandler = nullptr;
 	WantInput(kJTrue, kJTrue);		// tab moves to next column
 }
 
@@ -100,11 +100,11 @@ JXEditTable::CreateInputField
 {
 	itsInputField = CreateXInputField(cell, cellRect.left, cellRect.top,
 									  cellRect.width(), cellRect.height());
-	assert( itsInputField != NULL );
+	assert( itsInputField != nullptr );
 	itsInputField->SetTable(this);
 	itsInputField->SetFocusColor(GetFocusColor());
 
-	if (itsEditMenuHandler != NULL && itsEditMenuHandler->HasEditMenu())
+	if (itsEditMenuHandler != nullptr && itsEditMenuHandler->HasEditMenu())
 		{
 		itsInputField->ShareEditMenu(itsEditMenuHandler);
 		}
@@ -135,12 +135,12 @@ JXEditTable::CreateInputField
 void
 JXEditTable::DeleteInputField()
 {
-	if (itsInputField != NULL)
+	if (itsInputField != nullptr)
 		{
 		PrepareDeleteXInputField();
 		itsInputField->Hide();
 		JXDeleteObjectTask<JBroadcaster>::Delete(itsInputField);
-		itsInputField = NULL;
+		itsInputField = nullptr;
 		}
 }
 
@@ -156,7 +156,7 @@ JXEditTable::PlaceInputField
 	const JCoordinate y
 	)
 {
-	assert( itsInputField != NULL );
+	assert( itsInputField != nullptr );
 	itsInputField->Place(x,y);
 }
 
@@ -167,7 +167,7 @@ JXEditTable::MoveInputField
 	const JCoordinate dy
 	)
 {
-	assert( itsInputField != NULL );
+	assert( itsInputField != nullptr );
 	itsInputField->Move(dx,dy);
 }
 
@@ -178,7 +178,7 @@ JXEditTable::SetInputFieldSize
 	const JCoordinate h
 	)
 {
-	assert( itsInputField != NULL );
+	assert( itsInputField != nullptr );
 	itsInputField->SetSize(w,h);
 }
 
@@ -189,7 +189,7 @@ JXEditTable::ResizeInputField
 	const JCoordinate dh
 	)
 {
-	assert( itsInputField != NULL );
+	assert( itsInputField != nullptr );
 	itsInputField->AdjustSize(dw,dh);
 }
 
@@ -310,13 +310,13 @@ JXTEBase*
 JXEditTable::GetEditMenuHandler()
 	const
 {
-	if (itsEditMenuHandler == NULL)
+	if (itsEditMenuHandler == nullptr)
 		{
 		JXEditTable* me = const_cast<JXEditTable*>(this);
 		me->itsEditMenuHandler =
 			jnew JXInputField(me, JXWidget::kFixedLeft, JXWidget::kFixedTop,
 							 0,0, 10,10);
-		assert( itsEditMenuHandler != NULL );
+		assert( itsEditMenuHandler != nullptr );
 		itsEditMenuHandler->Hide();
 		}
 
@@ -340,7 +340,7 @@ JXEditTable::GetMin1DVisibleWidth
 	JPoint editCell;
 	if (GetEditedCell(&editCell) && editCell == cell)
 		{
-		assert( itsInputField != NULL );
+		assert( itsInputField != nullptr );
 
 		JIndex i;
 		if (itsInputField->GetCaretLocation(&i))

@@ -15,8 +15,8 @@
 /******************************************************************************
  Constructor
 
-	tree can be NULL.  By not providing a constructor that takes a parent,
-	we allow tree to be NULL, and we allow JNamedTreeList to keep a sorted
+	tree can be nullptr.  By not providing a constructor that takes a parent,
+	we allow tree to be nullptr, and we allow JNamedTreeList to keep a sorted
 	list of nodes.
 
  ******************************************************************************/
@@ -120,7 +120,7 @@ JNamedTreeNode::FindNamedChild
 			}
 		}
 
-	*node = NULL;
+	*node = nullptr;
 	return kJFalse;
 }
 
@@ -133,7 +133,7 @@ JNamedTreeNode*
 JNamedTreeNode::GetNamedParent()
 {
 	JNamedTreeNode* node = dynamic_cast<JNamedTreeNode*>(GetParent());
-	assert (node != NULL);
+	assert (node != nullptr);
 	return node;
 }
 
@@ -142,7 +142,7 @@ JNamedTreeNode::GetNamedParent()
 	const
 {
 	const JNamedTreeNode* node = dynamic_cast<const JNamedTreeNode*>(GetParent());
-	assert (node != NULL);
+	assert (node != nullptr);
 	return node;
 }
 
@@ -156,12 +156,12 @@ JNamedTreeNode::GetNamedParent
 	if (GetParent(&p))
 		{
 		*parent = dynamic_cast<JNamedTreeNode*>(p);
-		assert( *parent != NULL );
+		assert( *parent != nullptr );
 		return kJTrue;
 		}
 	else
 		{
-		*parent = NULL;
+		*parent = nullptr;
 		return kJFalse;
 		}
 }
@@ -177,12 +177,12 @@ JNamedTreeNode::GetNamedParent
 	if (GetParent(&p))
 		{
 		*parent = dynamic_cast<const JNamedTreeNode*>(p);
-		assert( *parent != NULL );
+		assert( *parent != nullptr );
 		return kJTrue;
 		}
 	else
 		{
-		*parent = NULL;
+		*parent = nullptr;
 		return kJFalse;
 		}
 }
@@ -199,7 +199,7 @@ JNamedTreeNode::GetNamedChild
 	)
 {
 	JNamedTreeNode* node = dynamic_cast<JNamedTreeNode*>(GetChild(index));
-	assert (node != NULL);
+	assert (node != nullptr);
 	return node;
 }
 
@@ -211,7 +211,7 @@ JNamedTreeNode::GetNamedChild
 	const
 {
 	const JNamedTreeNode* node = dynamic_cast<const JNamedTreeNode*>(GetChild(index));
-	assert (node != NULL);
+	assert (node != nullptr);
 	return node;
 }
 

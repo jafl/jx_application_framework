@@ -40,7 +40,7 @@ FitParmsDir::FitParmsDir
 	ListenTo(itsFits);
 	
 	JXWindow* window = jnew JXWindow(this, 260,240, "Fit Parameters");
-    assert( window != NULL );
+    assert( window != nullptr );
     
     window->LockCurrentSize();
 	
@@ -53,13 +53,13 @@ FitParmsDir::FitParmsDir
 		jnew FitParmsTable(scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 			JXWidget::kHElastic, JXWidget::kVElastic, 
 			0,0,260,190);
-	assert (itsTable != NULL);
+	assert (itsTable != nullptr);
 	
 	itsFitMenu = 
 		jnew JXTextMenu(kFitMenuTitleStr, window, 
 			JXWidget::kHElastic, JXWidget::kVElastic, 
 			10, 210, 90, 20);
-	assert( itsFitMenu != NULL );
+	assert( itsFitMenu != nullptr );
 	itsFitMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsFitMenu);
 	UpdateFitMenu();
@@ -68,7 +68,7 @@ FitParmsDir::FitParmsDir
 		jnew JXTextButton("Close", window,
 			JXWidget::kHElastic, JXWidget::kVElastic, 
 			90, 210, 70, 20);
-	assert( itsCloseButton != NULL );
+	assert( itsCloseButton != nullptr );
 	itsCloseButton->SetShortcuts("#W");
 	ListenTo(itsCloseButton);
 	
@@ -76,7 +76,7 @@ FitParmsDir::FitParmsDir
 		jnew JXTextButton("Session", window,
 			JXWidget::kHElastic, JXWidget::kVElastic, 
 			180, 210, 70, 20);
-	assert( itsSessionButton != NULL );
+	assert( itsSessionButton != nullptr );
 	ListenTo(itsSessionButton);
 	
 }
@@ -137,7 +137,7 @@ FitParmsDir::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleFitMenu(selection->GetIndex());
 		}
 		

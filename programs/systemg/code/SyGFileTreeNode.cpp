@@ -47,7 +47,7 @@ SyGFileTreeNode::CreateChild
 	)
 {
 	JFSFileTreeNode* node = jnew SyGFileTreeNode(entry);
-	assert( node != NULL);
+	assert( node != nullptr);
 	return node;
 }
 
@@ -93,7 +93,7 @@ SyGFileTree*
 SyGFileTreeNode::GetSyGFileTree()
 {
 	SyGFileTree* tree = dynamic_cast<SyGFileTree*>(GetTree());
-	assert (tree != NULL);
+	assert (tree != nullptr);
 	return tree;
 }
 
@@ -102,7 +102,7 @@ SyGFileTreeNode::GetSyGFileTree()
 	const
 {
 	const SyGFileTree* tree = dynamic_cast<const SyGFileTree*>(GetTree());
-	assert (tree != NULL);
+	assert (tree != nullptr);
 	return tree;
 }
 
@@ -116,7 +116,7 @@ SyGFileTreeNode::GetSyGParent()
 {
 	JTreeNode* p       = GetParent();
 	SyGFileTreeNode* n = dynamic_cast<SyGFileTreeNode*>(p);
-	assert( n != NULL );
+	assert( n != nullptr );
 	return n;
 }
 
@@ -126,7 +126,7 @@ SyGFileTreeNode::GetSyGParent()
 {
 	const JTreeNode* p       = GetParent();
 	const SyGFileTreeNode* n = dynamic_cast<const SyGFileTreeNode*>(p);
-	assert( n != NULL );
+	assert( n != nullptr );
 	return n;
 }
 
@@ -140,12 +140,12 @@ SyGFileTreeNode::GetSyGParent
 	if (GetParent(&p))
 		{
 		*parent = dynamic_cast<SyGFileTreeNode*>(p);
-		assert( *parent != NULL );
+		assert( *parent != nullptr );
 		return kJTrue;
 		}
 	else
 		{
-		*parent = NULL;
+		*parent = nullptr;
 		return kJFalse;
 		}
 }
@@ -161,12 +161,12 @@ SyGFileTreeNode::GetSyGParent
 	if (GetParent(&p))
 		{
 		*parent = dynamic_cast<const SyGFileTreeNode*>(p);
-		assert( *parent != NULL );
+		assert( *parent != nullptr );
 		return kJTrue;
 		}
 	else
 		{
-		*parent = NULL;
+		*parent = nullptr;
 		return kJFalse;
 		}
 }
@@ -183,7 +183,7 @@ SyGFileTreeNode::GetSyGChild
 	)
 {
 	SyGFileTreeNode* node = dynamic_cast<SyGFileTreeNode*>(GetChild(index));
-	assert (node != NULL);
+	assert (node != nullptr);
 	return node;
 }
 
@@ -195,6 +195,6 @@ SyGFileTreeNode::GetSyGChild
 	const
 {
 	const SyGFileTreeNode* node = dynamic_cast<const SyGFileTreeNode*>(GetChild(index));
-	assert (node != NULL);
+	assert (node != nullptr);
 	return node;
 }

@@ -105,12 +105,12 @@ private:
 	JArray<JSize>*	itsMinColWidths;		// minimum width of each column
 	JIndex			itsElasticColIndex;		// column that can expand to fill aperture width
 
-	JXTLWAdjustToTreeTask*	itsAdjustToTreeTask;	// can be NULL
+	JXTLWAdjustToTreeTask*	itsAdjustToTreeTask;	// can be nullptr
 
 	// used during node move
 
 	JPtrArray<JTreeNode>*	itsReselectNodeList;	// contents owned by JTree
-	JString*				itsSavedScrollSetup;	// NULL except during move
+	JString*				itsSavedScrollSetup;	// nullptr except during move
 
 	// used while dragging
 

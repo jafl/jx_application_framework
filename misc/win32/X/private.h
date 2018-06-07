@@ -39,7 +39,7 @@ struct xWindowProperty
 	Free()
 	{
 		free(data);
-		data   = NULL;
+		data   = nullptr;
 		length = 0;
 		type   = None;
 	};
@@ -65,7 +65,7 @@ void		xCloseAllTemporary();
 
 XID			xAllocateID(Display* display, const xHandleType type, void* handle);
 void		xFreeID(Display* display, const XID id);
-bool		xFindID(const XID id, Display** display, xItem* item = NULL, const BOOL remove = FALSE);
+bool		xFindID(const XID id, Display** display, xItem* item = nullptr, const BOOL remove = FALSE);
 bool		xFindID(Display* display, const XID id, xItem* item, const BOOL remove = FALSE);
 bool		xFindAtom(Display* display, const char* name, xItem* item, const BOOL remove = FALSE);
 

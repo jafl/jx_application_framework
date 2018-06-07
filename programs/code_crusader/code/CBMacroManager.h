@@ -26,7 +26,7 @@ public:
 
 		MacroInfo()
 			:
-			macro(NULL), script(NULL)
+			macro(nullptr), script(nullptr)
 		{ };
 
 		MacroInfo(JString* m, JString* s)

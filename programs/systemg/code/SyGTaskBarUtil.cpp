@@ -24,20 +24,20 @@
 #include <jAssert.h>
 
 // owned by JXImageCache
-static JXImage* theHDSmallIcon  = NULL;
-static JXImage* theZipSmallIcon = NULL;
-static JXImage* theFDSmallIcon  = NULL;
-static JXImage* theCDSmallIcon  = NULL;
+static JXImage* theHDSmallIcon  = nullptr;
+static JXImage* theZipSmallIcon = nullptr;
+static JXImage* theFDSmallIcon  = nullptr;
+static JXImage* theCDSmallIcon  = nullptr;
 
 // owned by JXImageCache
-static JXImage* theTrashEmptySmallIcon         = NULL;
-static JXImage* theTrashEmptySelectedSmallIcon = NULL;
-static JXImage* theTrashFullSmallIcon          = NULL;
-static JXImage* theTrashFullSelectedSmallIcon  = NULL;
+static JXImage* theTrashEmptySmallIcon         = nullptr;
+static JXImage* theTrashEmptySelectedSmallIcon = nullptr;
+static JXImage* theTrashFullSmallIcon          = nullptr;
+static JXImage* theTrashFullSelectedSmallIcon  = nullptr;
 
 #if defined JX_FVWM2_TASKBAR
 
-static JDirInfo* theTrashDirInfo = NULL;
+static JDirInfo* theTrashDirInfo = nullptr;
 
 #endif
 
@@ -112,8 +112,8 @@ JIndex i;
 		output << std::endl;
 		}
 
-	const JCharacter* argv[] = { "mv", "-f", tmpName, fileName, NULL };
-	err = JExecute(argv, sizeof(argv), NULL);
+	const JCharacter* argv[] = { "mv", "-f", tmpName, fileName, nullptr };
+	err = JExecute(argv, sizeof(argv), nullptr);
 	err.ReportIfError();
 }
 
@@ -151,13 +151,13 @@ SyGReadTaskBarSetup
 		}
 
 	time_t t;
-	if (modTime != NULL &&
+	if (modTime != nullptr &&
 		(JGetModificationTime(fileName, &t)).OK() &&
 		t == *modTime)
 		{
 		return kJFalse;
 		}
-	if (modTime != NULL)
+	if (modTime != nullptr)
 		{
 		*modTime = t;
 		}
@@ -211,7 +211,7 @@ SyGReadTaskBarSetup
 JBoolean
 SyGTBTrashDirectoryIsEmpty()
 {
-	if (theTrashDirInfo != NULL)
+	if (theTrashDirInfo != nullptr)
 		{
 		theTrashDirInfo->Update();
 		return theTrashDirInfo->IsEmpty();
@@ -313,9 +313,9 @@ SyGGetMountPointSmallIcon
 		}
 	else
 		{
-		*image = NULL;
+		*image = nullptr;
 		}
-	return JNegate(*image == NULL);
+	return JNegate(*image == nullptr);
 }
 
 /******************************************************************************

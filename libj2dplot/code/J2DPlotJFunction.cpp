@@ -37,7 +37,7 @@ J2DPlotJFunction::Create
 		}
 	else
 		{
-		*plotfunction = NULL;
+		*plotfunction = nullptr;
 		return kJFalse;
 		}
 }
@@ -164,7 +164,7 @@ J2DPlotJFunction::Receive
 		{
 		const JVariableList::VarInserted* info =
 			dynamic_cast<const JVariableList::VarInserted*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		info->AdjustIndex(&itsXIndex);
 		}
 
@@ -172,7 +172,7 @@ J2DPlotJFunction::Receive
 		{
 		const JVariableList::VarRemoved* info =
 			dynamic_cast<const JVariableList::VarRemoved*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		const JBoolean ok = info->AdjustIndex(&itsXIndex);
 		assert( ok );	// client must ensure this
 		}
@@ -181,7 +181,7 @@ J2DPlotJFunction::Receive
 		{
 		const JVariableList::VarMoved* info =
 			dynamic_cast<const JVariableList::VarMoved*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		info->AdjustIndex(&itsXIndex);
 		}
 
@@ -189,7 +189,7 @@ J2DPlotJFunction::Receive
 		{
 		const JVariableList::VarValueChanged* info =
 			dynamic_cast<const JVariableList::VarValueChanged*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		if (info->GetVarIndex() != itsXIndex)
 			{
 			UpdateFunction();

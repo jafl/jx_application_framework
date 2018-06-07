@@ -30,7 +30,7 @@ JPlotFitFunction::JPlotFitFunction
 	:
 	JPlotFunctionBase(JPlotDataBase::kScatterPlot, plot, xMin, xMax),
 	JFitBase(),
-	itsDiffData(NULL)
+	itsDiffData(nullptr)
 {
 	itsData = fitData;
 	itsHasXErrors = kJFalse;
@@ -123,7 +123,7 @@ J2DPlotData*
 JPlotFitFunction::GetDiffData()
 	const
 {
-	assert(itsDiffData != NULL);
+	assert(itsDiffData != nullptr);
 	return itsDiffData;
 }
 
@@ -138,7 +138,7 @@ JPlotFitFunction::SetDiffData
 	J2DPlotData* data
 	)
 {
-	if (itsDiffData != NULL)
+	if (itsDiffData != nullptr)
 		{
 		jdelete itsDiffData;
 		}

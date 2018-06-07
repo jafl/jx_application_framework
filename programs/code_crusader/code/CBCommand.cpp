@@ -4,7 +4,7 @@
 	Executes a sequence of commands from CBCommandManager.
 
 	If multiple sequences of commands are to be executed, each sequence is
-	delimited by a blank (NULL) command.  This allows us to skip to the
+	delimited by a blank (nullptr) command.  This allows us to skip to the
 	next complete sequence if a command returns an error.
 
 	BASE CLASS = virtual JBroadcaster
@@ -56,25 +56,25 @@ CBCommand::CBCommand
 	:
 	itsProjDoc(projDoc),
 	itsCmdPath(path),
-	itsOutputDoc(NULL),
+	itsOutputDoc(nullptr),
 	itsBeepFlag(beepWhenFinished),
 	itsRefreshCVSStatusFlag(refreshCVSStatusWhenFinished),
 	itsUpdateSymbolDatabaseFlag(kJFalse),
 	itsInQueueFlag(kJFalse),
 	itsSuccessFlag(kJTrue),
 	itsCancelledFlag(kJFalse),
-	itsMakeDependCmd(NULL),
-	itsBuildOutputDoc(NULL),
-	itsRunOutputDoc(NULL),
-	itsParent(NULL),
+	itsMakeDependCmd(nullptr),
+	itsBuildOutputDoc(nullptr),
+	itsRunOutputDoc(nullptr),
+	itsParent(nullptr),
 	itsCallParentProcessFinishedFlag(kJTrue)
 {
 	assert( JIsAbsolutePath(path) );
 
 	itsCmdList = jnew JArray<CmdInfo>;
-	assert( itsCmdList != NULL );
+	assert( itsCmdList != nullptr );
 
-	if (itsProjDoc != NULL)
+	if (itsProjDoc != nullptr)
 		{
 		ClearWhenGoingAway(itsProjDoc, &itsProjDoc);
 		}
@@ -87,11 +87,11 @@ CBCommand::CBCommand
 
 CBCommand::~CBCommand()
 {
-	if (itsParent != NULL && itsParent->itsBuildOutputDoc == NULL)
+	if (itsParent != nullptr && itsParent->itsBuildOutputDoc == nullptr)
 		{
 		itsParent->itsBuildOutputDoc = itsBuildOutputDoc;
 		}
-	if (itsParent != NULL && itsParent->itsRunOutputDoc == NULL)
+	if (itsParent != nullptr && itsParent->itsRunOutputDoc == nullptr)
 		{
 		itsParent->itsRunOutputDoc = itsRunOutputDoc;
 		}
@@ -103,7 +103,7 @@ CBCommand::~CBCommand()
 
 	// only refresh CVS status when all finished, since may be expensive
 
-	if (itsParent != NULL && itsRefreshCVSStatusFlag)
+	if (itsParent != nullptr && itsRefreshCVSStatusFlag)
 		{
 		itsParent->itsRefreshCVSStatusFlag = kJTrue;
 		}
@@ -112,7 +112,7 @@ CBCommand::~CBCommand()
 		(CBGetDocumentManager())->RefreshCVSStatus();
 		}
 
-	if (itsParent != NULL && itsCallParentProcessFinishedFlag)
+	if (itsParent != nullptr && itsCallParentProcessFinishedFlag)
 		{
 		itsParent->ProcessFinished(itsSuccessFlag, itsCancelledFlag);
 		}
@@ -126,7 +126,7 @@ CBCommand::~CBCommand()
 		}
 	jdelete itsCmdList;
 
-	if (itsParent == NULL)
+	if (itsParent == nullptr)
 		{
 		FinishWindow(&itsBuildOutputDoc);
 		FinishWindow(&itsRunOutputDoc);
@@ -143,7 +143,7 @@ CBCommand::DeleteThis()
 {
 	JXDeleteObjectTask<CBCommand>::Delete(this);
 
-	if (itsParent == NULL)
+	if (itsParent == nullptr)
 		{
 		FinishWindow(&itsBuildOutputDoc);
 		FinishWindow(&itsRunOutputDoc);
@@ -161,10 +161,10 @@ CBCommand::FinishWindow
 	CBExecOutputDocument** doc
 	)
 {
-	if (*doc != NULL)
+	if (*doc != nullptr)
 		{
 		(**doc).DecrementUseCount();
-		*doc = NULL;
+		*doc = nullptr;
 		}
 }
 
@@ -209,15 +209,15 @@ CBCommand::Add
 			if (!cmd.IsEmpty())
 				{
 				JString* s = jnew JString(cmd);
-				assert( s != NULL );
-				itsCmdList->AppendElement(CmdInfo(s, NULL, NULL, kJFalse));
+				assert( s != nullptr );
+				itsCmdList->AppendElement(CmdInfo(s, nullptr, nullptr, kJFalse));
 				cmd.Clear();
 				}
 			}
 		else if (!arg->IsEmpty() && arg->GetFirstCharacter() == '&' &&
 				 cmd.IsEmpty())
 			{
-			if (cmdList == NULL)
+			if (cmdList == nullptr)
 				{
 				(JGetUserNotification())->ReportError(JGetString(kCmdsNotAllowedID));
 				return kJFalse;
@@ -242,18 +242,18 @@ CBCommand::Add
 			cmdList->Append(cmdName);
 
 			CBCommandManager* mgr =
-				(itsProjDoc != NULL ? itsProjDoc->GetCommandManager() : CBGetCommandManager());
+				(itsProjDoc != nullptr ? itsProjDoc->GetCommandManager() : CBGetCommandManager());
 			CBCommand* cmdObj;
 			CBCommandManager::CmdInfo* cmdInfo;
-			if ((textDoc != NULL &&
+			if ((textDoc != nullptr &&
 				 mgr->Prepare(cmdName, itsProjDoc, textDoc,
 							  &cmdObj, &cmdInfo, cmdList)) ||
-				(fullNameList != NULL && lineIndexList != NULL &&
+				(fullNameList != nullptr && lineIndexList != nullptr &&
 				 mgr->Prepare(cmdName, itsProjDoc, *fullNameList, *lineIndexList,
 							  &cmdObj, &cmdInfo, cmdList)))
 				{
 				cmdObj->SetParent(this);
-				itsCmdList->AppendElement(CmdInfo(NULL, cmdObj, cmdInfo, kJFalse));
+				itsCmdList->AppendElement(CmdInfo(nullptr, cmdObj, cmdInfo, kJFalse));
 
 				i++;
 				while (*(argList.GetElement(i)) != ";")
@@ -293,10 +293,10 @@ CBCommand::Add
 	subCmd->SetParent(this);
 
 	CBCommandManager::CmdInfo* info = jnew CBCommandManager::CmdInfo;
-	assert( info != NULL );
+	assert( info != nullptr );
 	*info = cmdInfo.Copy();
 
-	itsCmdList->AppendElement(CmdInfo(NULL, subCmd, info, kJFalse));
+	itsCmdList->AppendElement(CmdInfo(nullptr, subCmd, info, kJFalse));
 }
 
 /******************************************************************************
@@ -358,16 +358,16 @@ CBCommand::Start
 	)
 {
 	CBCommandManager* mgr =
-		(itsProjDoc != NULL ? itsProjDoc->GetCommandManager() : CBGetCommandManager());
+		(itsProjDoc != nullptr ? itsProjDoc->GetCommandManager() : CBGetCommandManager());
 
 	if (info.isMake)
 		{
 		itsUpdateSymbolDatabaseFlag = kJTrue;
 
 		CBCommand* p = itsParent;
-		while (p != NULL)
+		while (p != nullptr)
 			{
-			if (p->itsBuildOutputDoc != NULL)
+			if (p->itsBuildOutputDoc != nullptr)
 				{
 				itsOutputDoc = p->itsBuildOutputDoc;
 				break;
@@ -375,7 +375,7 @@ CBCommand::Start
 			p = p->itsParent;
 			}
 
-		if (itsOutputDoc == NULL)
+		if (itsOutputDoc == nullptr)
 			{
 			itsOutputDoc = mgr->GetCompileDoc(itsProjDoc);
 			itsOutputDoc->IncrementUseCount();
@@ -387,9 +387,9 @@ CBCommand::Start
 	else if (info.useWindow)
 		{
 		CBCommand* p = itsParent;
-		while (p != NULL)
+		while (p != nullptr)
 			{
-			if (p->itsRunOutputDoc != NULL)
+			if (p->itsRunOutputDoc != nullptr)
 				{
 				itsOutputDoc = p->itsRunOutputDoc;
 				break;
@@ -397,7 +397,7 @@ CBCommand::Start
 			p = p->itsParent;
 			}
 
-		if (itsOutputDoc == NULL)
+		if (itsOutputDoc == nullptr)
 			{
 			itsOutputDoc = mgr->GetOutputDoc();
 			itsOutputDoc->IncrementUseCount();
@@ -435,7 +435,7 @@ CBCommand::Start
 	// after saving all files, update Makefile
 
 	JBoolean waitForMakeDepend = kJFalse;
-	if (info.isMake && itsProjDoc != NULL)
+	if (info.isMake && itsProjDoc != nullptr)
 		{
 		waitForMakeDepend =
 			(itsProjDoc->GetBuildManager())->UpdateMakefile(itsOutputDoc, &itsMakeDependCmd);
@@ -443,9 +443,9 @@ CBCommand::Start
 
 	if (waitForMakeDepend)
 		{
-		if (itsMakeDependCmd != NULL)
+		if (itsMakeDependCmd != nullptr)
 			{
-			itsCmdList->PrependElement(CmdInfo(NULL, itsMakeDependCmd, NULL, kJTrue));
+			itsCmdList->PrependElement(CmdInfo(nullptr, itsMakeDependCmd, nullptr, kJTrue));
 			ListenTo(itsMakeDependCmd);		// many may need to hear; can't use SetParent()
 			return kJTrue;
 			}
@@ -457,7 +457,7 @@ CBCommand::Start
 		}
 	else if (StartProcess())
 		{
-		if (itsOutputDoc != NULL && info.raiseWindowWhenStart)
+		if (itsOutputDoc != nullptr && info.raiseWindowWhenStart)
 			{
 			itsOutputDoc->Activate();
 			}
@@ -481,10 +481,10 @@ CBCommand::StartMakeProcess
 	CBExecOutputDocument* outputDoc
 	)
 {
-	assert( itsProjDoc != NULL );
+	assert( itsProjDoc != nullptr );
 
 	itsOutputDoc = outputDoc;
-	if (itsOutputDoc == NULL)
+	if (itsOutputDoc == nullptr)
 		{
 		itsOutputDoc = (itsProjDoc->GetCommandManager())->GetCompileDoc(itsProjDoc);
 		itsOutputDoc->IncrementUseCount();
@@ -505,7 +505,7 @@ void
 CBCommand::SetCompileDocStrings()
 {
 	itsWindowTitle = JGetString(kCompileWindowTitlePrefixID);
-	if (itsProjDoc != NULL)
+	if (itsProjDoc != nullptr)
 		{
 		itsWindowTitle += itsProjDoc->GetName();
 		}
@@ -532,7 +532,7 @@ CBCommand::StartProcess()
 		}
 	if (itsCmdList->IsEmpty())
 		{
-		if (itsBeepFlag && itsParent == NULL)
+		if (itsBeepFlag && itsParent == nullptr)
 			{
 			((JXGetApplication())->GetCurrentDisplay())->Beep();
 			}
@@ -543,7 +543,7 @@ CBCommand::StartProcess()
 	// check if we can use the window
 
 	itsInQueueFlag = kJFalse;
-	if (itsOutputDoc != NULL && itsOutputDoc->ProcessRunning())
+	if (itsOutputDoc != nullptr && itsOutputDoc->ProcessRunning())
 		{
 		itsInQueueFlag = kJTrue;
 		ListenTo(itsOutputDoc);
@@ -553,7 +553,7 @@ CBCommand::StartProcess()
 	// check if need to run a subroutine
 
 	CmdInfo info = itsCmdList->GetElement(1);
-	if (info.cmdObj != NULL)
+	if (info.cmdObj != nullptr)
 		{
 		StopListening(itsOutputDoc);	// wait for CBCommand to notify us
 		const JBoolean result = (info.cmdObj)->Start(*(info.cmdInfo));
@@ -564,19 +564,19 @@ CBCommand::StartProcess()
 
 	// start process
 
-	assert( info.cmd != NULL );
+	assert( info.cmd != nullptr );
 
 	JShouldIncludeCWDOnPath(kJTrue);
 
 	JProcess* p;
 	int toFD, fromFD;
 	JError execErr = JNoError();
-	if (itsOutputDoc != NULL)
+	if (itsOutputDoc != nullptr)
 		{
 		execErr = JProcess::Create(&p, itsCmdPath, *(info.cmd),
 								   kJCreatePipe, &toFD,
 								   kJCreatePipe, &fromFD,
-								   kJAttachToFromFD, NULL);
+								   kJAttachToFromFD, nullptr);
 		}
 	else
 		{
@@ -594,7 +594,7 @@ CBCommand::StartProcess()
 		return kJFalse;
 		}
 
-	if (itsOutputDoc != NULL)
+	if (itsOutputDoc != nullptr)
 		{
 		itsOutputDoc->SetConnection(p, fromFD, toFD, itsWindowTitle, itsDontCloseMsg,
 									itsCmdPath, *(info.cmd), kJTrue);
@@ -685,7 +685,7 @@ CBCommand::Receive
 		{
 		const JProcess::Finished* info =
 			dynamic_cast<const JProcess::Finished*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		const JBoolean cancelled = JI2B(info->GetReason() != kJChildFinished);
 		ProcessFinished(JI2B(info->Successful() && !cancelled), cancelled);
 		}
@@ -693,8 +693,8 @@ CBCommand::Receive
 		{
 		const CBCommand::Finished* info =
 			dynamic_cast<const CBCommand::Finished*>(&message);
-		assert( info != NULL );
-		itsMakeDependCmd         = NULL;
+		assert( info != nullptr );
+		itsMakeDependCmd         = nullptr;
 		const JBoolean cancelled = info->Cancelled();
 		ProcessFinished(JI2B(info->Successful() && !cancelled), cancelled);
 		}
@@ -720,7 +720,7 @@ CBCommand::ReceiveWithFeedback
 		{
 		CBExecOutputDocument::Finished* info =
 			dynamic_cast<CBExecOutputDocument::Finished*>(message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		ProcessFinished(info->Successful(), info->Cancelled());
 		}
 	else
@@ -743,7 +743,7 @@ JBoolean
 CBCommand::CmdInfo::IsEndOfSequence()
 	const
 {
-	return JI2B( cmd == NULL && cmdObj == NULL );
+	return JI2B( cmd == nullptr && cmdObj == nullptr );
 }
 
 /******************************************************************************
@@ -755,7 +755,7 @@ JBoolean
 CBCommand::CmdInfo::IsSubroutine()
 	const
 {
-	return JI2B( cmd == NULL && cmdObj != NULL );
+	return JI2B( cmd == nullptr && cmdObj != nullptr );
 }
 
 /******************************************************************************
@@ -770,19 +770,19 @@ CBCommand::CmdInfo::Free
 	)
 {
 	jdelete cmd;
-	cmd = NULL;
+	cmd = nullptr;
 
-	if (deleteCmdObj && cmdObj != NULL)
+	if (deleteCmdObj && cmdObj != nullptr)
 		{
 		cmdObj->itsCallParentProcessFinishedFlag = kJFalse;
 		jdelete cmdObj;
-		cmdObj = NULL;
+		cmdObj = nullptr;
 		}
 
-	if (cmdInfo != NULL)
+	if (cmdInfo != nullptr)
 		{
 		cmdInfo->Free();
 		jdelete cmdInfo;
-		cmdInfo = NULL;
+		cmdInfo = nullptr;
 		}
 }

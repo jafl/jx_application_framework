@@ -36,21 +36,21 @@ JDirInfo::BuildInfo1
 	// scan directory
 
 	DIR* dir = opendir(".");
-	assert( dir != NULL );
+	assert( dir != nullptr );
 
-	struct dirent* data = NULL;
+	struct dirent* data = nullptr;
 	#if defined J_USE_READDIR_R || defined J_USE_POSIX_READDIR_R
 	data = (struct dirent*) calloc(1, sizeof(struct dirent) + _POSIX_PATH_MAX);
-	assert( data != NULL );
+	assert( data != nullptr );
 	#endif
 
 	struct dirent* direntry;
 	#ifdef J_USE_POSIX_READDIR_R
-	while (readdir_r(dir, data, &direntry) == 0 && direntry != NULL)
+	while (readdir_r(dir, data, &direntry) == 0 && direntry != nullptr)
 	#elif defined J_USE_READDIR_R
-	while ((direntry = readdir_r(dir, data)) != NULL)
+	while ((direntry = readdir_r(dir, data)) != nullptr)
 	#else
-	while ((direntry = readdir(dir)) != NULL)
+	while ((direntry = readdir(dir)) != nullptr)
 	#endif
 		{
 		if (strcmp(direntry->d_name, "." ) == 0 ||
@@ -60,7 +60,7 @@ JDirInfo::BuildInfo1
 			}
 
 		JDirEntry* newEntry = jnew JDirEntry(itsCWD, JString(direntry->d_name, 0, kJFalse));
-		assert( newEntry != NULL );
+		assert( newEntry != nullptr );
 		if (MatchesContentFilter(*newEntry))
 			{
 			itsDirEntries->InsertSorted(newEntry, kJTrue);

@@ -73,14 +73,14 @@ private:
 		JUnsignedOffset	offset;				// offset of data from start of file
 		JFAID			id;					// unique id for element
 		ElementType		type;				// data or embedded file
-		JFileArray*		theEmbeddedFile;	// NULL or pointer to open JFileArray object
+		JFileArray*		theEmbeddedFile;	// nullptr or pointer to open JFileArray object
 
 		ElementInfo()
 			:
 			offset( 0 ),
 			id( JFAID::kInvalidID ),
 			type( kData ),
-			theEmbeddedFile( NULL )
+			theEmbeddedFile( nullptr )
 			{ };
 
 		ElementInfo
@@ -93,7 +93,7 @@ private:
 			offset( anOffset ),
 			id( anID ),
 			type( aType ),
-			theEmbeddedFile( NULL )
+			theEmbeddedFile( nullptr )
 			{ };
 	};
 

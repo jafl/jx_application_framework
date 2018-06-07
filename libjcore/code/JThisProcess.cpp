@@ -84,7 +84,7 @@
 #include <jErrno.h>
 #include <jAssert.h>
 
-JThisProcess* JThisProcess::itsSelf = NULL;
+JThisProcess* JThisProcess::itsSelf = nullptr;
 
 JPtrArray<JProcess> JThisProcess::theQuitList(JPtrArrayT::kForgetAll);
 JPtrArray<JProcess> JThisProcess::theKillList(JPtrArrayT::kForgetAll);
@@ -143,12 +143,12 @@ static JBoolean recursiveInstance = kJFalse;
 JThisProcess*
 JThisProcess::Instance()
 {
-	if (itsSelf == NULL && !recursiveInstance)
+	if (itsSelf == nullptr && !recursiveInstance)
 		{
 		recursiveInstance = kJTrue;
 
 		itsSelf = jnew JThisProcess;
-		assert( itsSelf != NULL );
+		assert( itsSelf != nullptr );
 
 		recursiveInstance = kJFalse;
 		}
@@ -192,7 +192,7 @@ JThisProcess::JThisProcess()
 
 JThisProcess::~JThisProcess()
 {
-	itsSelf = NULL;
+	itsSelf = nullptr;
 }
 
 /******************************************************************************
@@ -206,7 +206,7 @@ JThisProcess::BroadcastSignal
 	const int sig
 	)
 {
-	const JUtf8Byte* signalType = NULL;
+	const JUtf8Byte* signalType = nullptr;
 	if (sig == SIGILL)
 		{
 		signalType = kIllegalInstruction;
@@ -314,7 +314,7 @@ JThisProcess::ShouldCatchSignal
 	else
 		{
 		(p->itsSignalSet).sig_del(sig);
-		(ACE_Reactor::instance())->remove_handler(sig, (ACE_Sig_Action*) NULL);
+		(ACE_Reactor::instance())->remove_handler(sig, (ACE_Sig_Action*) nullptr);
 		}
 }
 
@@ -332,7 +332,7 @@ JThisProcess::CheckForSignals()
 {
 	JBoolean requestQuit = kJFalse;
 
-	if (pendingSignalCount > 0 && itsSelf != NULL)
+	if (pendingSignalCount > 0 && itsSelf != nullptr)
 		{
 		for (JIndex i=0; i < (JSize) pendingSignalCount; i++)
 			{
@@ -553,7 +553,7 @@ JThisProcess::Fork
 	*pid = result;
 	if (*pid == 0)		// child
 		{
-		itsSelf = NULL;
+		itsSelf = nullptr;
 		Initialize();
 
 		ACE_OS::setpgid(0, 0);	// sets our process group id to our process id -- required by JProcess
@@ -639,7 +639,7 @@ JThisProcess::CheckACEReactor()
 //	ACE_Reactor::run_event_loop(timeout);	// locks up when child process exits
 
 	(ACE_Reactor::instance())->handle_events(timeout);
-	ACE_Reactor::check_reconfiguration(NULL);
+	ACE_Reactor::check_reconfiguration(nullptr);
 }
 
 /******************************************************************************

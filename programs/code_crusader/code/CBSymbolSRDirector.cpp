@@ -140,17 +140,17 @@ CBSymbolSRDirector::BuildWindow
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 400,230, "");
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	JXScrollbarSet* scrollbarSet =
 		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 400,200);
-	assert( scrollbarSet != NULL );
+	assert( scrollbarSet != nullptr );
 
 	JXMenuBar* menuBar =
 		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 400,30);
-	assert( menuBar != NULL );
+	assert( menuBar != nullptr );
 
 // end JXLayout
 
@@ -165,7 +165,7 @@ CBSymbolSRDirector::BuildWindow
 		jnew CBSymbolTable(itsMainSymDir, symbolList,
 						  scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 						  JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 10,10);
-	assert( itsSymbolTable != NULL );
+	assert( itsSymbolTable != nullptr );
 	itsSymbolTable->FitToEnclosure();
 
 	itsActionsMenu = menuBar->AppendTextMenu(kActionsMenuTitleStr);
@@ -178,9 +178,9 @@ CBSymbolSRDirector::BuildWindow
 	itsActionsMenu->SetItemImage(kShowPHPTreeCmd,  jcc_show_php_tree);
 
 	itsCmdMenu =
-		jnew CBCommandMenu(itsProjDoc, NULL, menuBar,
+		jnew CBCommandMenu(itsProjDoc, nullptr, menuBar,
 						  JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
-	assert( itsCmdMenu != NULL );
+	assert( itsCmdMenu != nullptr );
 	menuBar->AppendMenu(itsCmdMenu);
 	ListenTo(itsCmdMenu);
 }
@@ -205,7 +205,7 @@ CBSymbolSRDirector::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleActionsMenu(selection->GetIndex());
 		}
 
@@ -231,7 +231,7 @@ CBSymbolSRDirector::ReceiveWithFeedback
 		{
 		CBCommandMenu::GetTargetInfo* info =
 			dynamic_cast<CBCommandMenu::GetTargetInfo*>(message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		itsSymbolTable->GetFileNamesForSelection(info->GetFileList(),
 												 info->GetLineIndexList());
 		}

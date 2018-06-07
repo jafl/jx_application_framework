@@ -54,7 +54,7 @@ private:
 
 	JFloatTableData*		itsFloatData;			// we don't own this
 	JFloatBufferTableData*	itsFloatBufferData;
-	JXFloatInput*			itsFloatInputField;		// NULL if not editing
+	JXFloatInput*			itsFloatInputField;		// nullptr if not editing
 
 private:
 
@@ -90,7 +90,7 @@ JXFloatTable::GetInputField
 	const
 {
 	*widget = itsFloatInputField;
-	return JI2B(*widget != NULL);
+	return JI2B(*widget != nullptr);
 }
 
 #endif

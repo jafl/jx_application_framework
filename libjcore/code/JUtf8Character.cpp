@@ -307,7 +307,7 @@ JUtf8Character::Utf8ToUtf32
 {
 	JSize byteCount;
 	const JBoolean ok = GetCharacterByteCount(bytes, &byteCount);
-	if (returnByteCount != NULL)
+	if (returnByteCount != nullptr)
 		{
 		*returnByteCount = byteCount;
 		}
@@ -452,7 +452,7 @@ JUtf8Character::AllocateBytes()
 	const
 {
 	JUtf8Byte* s = jnew JUtf8Byte[ itsByteCount+1 ];
-	assert( s != NULL );
+	assert( s != nullptr );
 	memcpy(s, itsBytes, itsByteCount);
 	s[ itsByteCount ] = '\0';
 	return s;

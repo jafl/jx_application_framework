@@ -23,7 +23,7 @@
 #include <jStreamUtil.h>
 #include <jAssert.h>
 
-JXFSBindingManager* JXFSBindingManager::itsSelf = NULL;
+JXFSBindingManager* JXFSBindingManager::itsSelf = nullptr;
 
 const Time kUpdateInterval = 1000;	// milliseconds
 
@@ -43,13 +43,13 @@ static JBoolean initSelf = kJFalse;
 JXFSBindingManager*
 JXFSBindingManager::Instance()
 {
-	if (itsSelf == NULL && !initSelf)
+	if (itsSelf == nullptr && !initSelf)
 		{
 		initSelf = kJTrue;
 
 		const JCharacter* needUserCheck;
 		itsSelf = jnew JXFSBindingManager(&needUserCheck);
-		assert( itsSelf != NULL );
+		assert( itsSelf != nullptr );
 
 		initSelf = kJFalse;
 
@@ -73,7 +73,7 @@ void
 JXFSBindingManager::Destroy()
 {
 	jdelete itsSelf;
-	itsSelf = NULL;
+	itsSelf = nullptr;
 
 	initSelf = kJFalse;
 }
@@ -88,20 +88,20 @@ JXFSBindingManager::JXFSBindingManager
 	const JCharacter** needUserCheck
 	)
 {
-	itsRunFileDialog   = NULL;
-	itsFileList        = NULL;
-	itsRunScriptDialog = NULL;
-	itsEditDialog      = NULL;
+	itsRunFileDialog   = nullptr;
+	itsFileList        = nullptr;
+	itsRunScriptDialog = nullptr;
+	itsEditDialog      = nullptr;
 
 	itsBindingList = JFSBindingList::Create(needUserCheck);
 
 	itsUpdateBindingListTask = jnew JXTimerTask(kUpdateInterval);
-	assert( itsUpdateBindingListTask != NULL );
+	assert( itsUpdateBindingListTask != nullptr );
 	itsUpdateBindingListTask->Start();
 	ListenTo(itsUpdateBindingListTask);
 
 	itsRunCmdDialog = jnew JXFSRunCommandDialog;
-	assert( itsRunCmdDialog != NULL );
+	assert( itsRunCmdDialog != nullptr );
 
 	(JXGetHelpManager())->RegisterSection(kJFSBindingEditorHelpName);
 	(JXGetHelpManager())->RegisterSection(kJFSRunCommandHelpName);
@@ -132,10 +132,10 @@ JXFSBindingManager::EditBindings()
 {
 	JXFSBindingManager* me = Instance();
 
-	if (me->itsEditDialog == NULL)
+	if (me->itsEditDialog == nullptr)
 		{
 		me->itsEditDialog = jnew JXFSEditBindingsDialog(me->itsBindingList);
-		assert( me->itsEditDialog != NULL );
+		assert( me->itsEditDialog != nullptr );
 		me->ListenTo(me->itsEditDialog);
 		}
 
@@ -185,10 +185,10 @@ JXFSBindingManager::Exec
 	cmd.Prepend("./");
 	#endif
 
-	if (askForArgs && me->itsRunScriptDialog == NULL)
+	if (askForArgs && me->itsRunScriptDialog == nullptr)
 		{
 		me->itsRunScriptDialog = jnew JXFSRunScriptDialog(cmd);
-		assert( me->itsRunScriptDialog != NULL );
+		assert( me->itsRunScriptDialog != nullptr );
 		me->ListenTo(me->itsRunScriptDialog);
 		me->itsRunScriptDialog->BeginDialog();
 		}
@@ -220,10 +220,10 @@ JXFSBindingManager::Exec
 
 	JXFSBindingManager* me = Instance();
 
-	if (me->itsFileList == NULL)
+	if (me->itsFileList == nullptr)
 		{
 		me->itsFileList = jnew JPtrArray<JFSBinding>(JPtrArrayT::kDeleteAll);
-		assert( me->itsFileList != NULL );
+		assert( me->itsFileList != nullptr );
 		me->itsFileList->SetCompareFunction(ComparePatterns);
 		}
 
@@ -233,7 +233,7 @@ JXFSBindingManager::Exec
 		const JString* fileName = fileList.GetElement(i);
 
 		JFSBinding* f = jnew JFSBinding(*fileName, "", JFSBinding::kRunPlain, kJTrue, kJFalse);
-		assert( f != NULL );
+		assert( f != nullptr );
 		if (!me->itsFileList->InsertSorted(f, kJFalse))
 			{
 			jdelete f;
@@ -253,7 +253,7 @@ inline JBoolean
 JXFSBindingManager::HasFiles()
 	const
 {
-	return JI2B( itsFileList != NULL && !itsFileList->IsEmpty() );
+	return JI2B( itsFileList != nullptr && !itsFileList->IsEmpty() );
 }
 
 /******************************************************************************
@@ -264,7 +264,7 @@ JXFSBindingManager::HasFiles()
 void
 JXFSBindingManager::ProcessFiles()
 {
-	if (!HasFiles() || itsRunFileDialog != NULL)
+	if (!HasFiles() || itsRunFileDialog != nullptr)
 		{
 		return;
 		}
@@ -290,10 +290,10 @@ JXFSBindingManager::ProcessFiles()
 			}
 		else if (cmd.IsEmpty())
 			{
-			assert( itsRunFileDialog == NULL );
+			assert( itsRunFileDialog == nullptr );
 			itsRunFileDialog =
 				jnew JXFSRunFileDialog(fileName, JNegate(count > 1 && itsIgnoreBindingsFlag));
-			assert( itsRunFileDialog != NULL );
+			assert( itsRunFileDialog != nullptr );
 			ListenTo(itsRunFileDialog);
 			itsRunFileDialog->BeginDialog();
 			itsRunFileIndex = i;
@@ -360,7 +360,7 @@ JXFSBindingManager::ProcessFiles()
 		}
 
 	jdelete itsFileList;
-	itsFileList = NULL;
+	itsFileList = nullptr;
 }
 
 /******************************************************************************
@@ -467,7 +467,7 @@ JXFSBindingManager::Exec
 
 	if (type == JFSBinding::kRunInShell || type == JFSBinding::kRunInWindow ||
 		(me->itsBindingList->WillAutoUseShellCommand() &&
-		 strpbrk(origCmd, kShellMetaCharList) != NULL))
+		 strpbrk(origCmd, kShellMetaCharList) != nullptr))
 		{
 		u   = cmd;
 		q   = JPrepArgForExec(cmd);
@@ -537,14 +537,14 @@ JXFSBindingManager::Receive
 {
 	if (sender == itsEditDialog && message.Is(JXDialogDirector::kDeactivated))
 		{
-		itsEditDialog = NULL;
+		itsEditDialog = nullptr;
 		}
 
 	else if (sender == itsRunFileDialog && message.Is(JXDialogDirector::kDeactivated))
 		{
 		const JXDialogDirector::Deactivated* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-		assert(info != NULL);
+		assert(info != nullptr);
 		if (info->Successful())
 			{
 			assert( HasFiles() );
@@ -574,14 +574,14 @@ JXFSBindingManager::Receive
 				SaveBinding(f->GetPattern(), cmd, type, singleFile);
 				}
 
-			itsRunFileDialog = NULL;
+			itsRunFileDialog = nullptr;
 			ProcessFiles();
 			}
 		else
 			{
 			jdelete itsFileList;
-			itsFileList      = NULL;
-			itsRunFileDialog = NULL;
+			itsFileList      = nullptr;
+			itsRunFileDialog = nullptr;
 			}
 		}
 
@@ -589,23 +589,23 @@ JXFSBindingManager::Receive
 		{
 		const JXDialogDirector::Deactivated* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-		assert(info != NULL);
+		assert(info != nullptr);
 		if (info->Successful())
 			{
 			JFSBinding::CommandType type;
 			const JString& cmd = itsRunScriptDialog->GetCommand(&type);
 			Exec(itsScriptPath, cmd, type);
 			}
-		itsRunScriptDialog = NULL;
+		itsRunScriptDialog = nullptr;
 		}
 
 	else if (sender == itsUpdateBindingListTask && message.Is(JXTimerTask::kTimerWentOff))
 		{
-		if (itsEditDialog == NULL && itsRunFileDialog == NULL)
+		if (itsEditDialog == nullptr && itsRunFileDialog == nullptr)
 			{
 			itsBindingList->RevertIfModified();
 			}
-		else if (itsEditDialog != NULL)
+		else if (itsEditDialog != nullptr)
 			{
 			itsEditDialog->CheckIfNeedRevert();
 			}
@@ -641,7 +641,7 @@ JXFSBindingManager::SaveBinding
 		itsBindingList->SetCommand(suffix, cmd, type, singleFile);
 		itsBindingList->Save();						// ignore error:  no point in complaining
 
-		if (itsEditDialog != NULL)
+		if (itsEditDialog != nullptr)
 			{
 			itsEditDialog->AddBinding(suffix, cmd, type, singleFile);
 			}

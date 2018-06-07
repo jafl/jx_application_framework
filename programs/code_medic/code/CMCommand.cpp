@@ -57,7 +57,7 @@ CMCommand::CMCommand
 	)
 	:
 	itsCommandString(cmd),
-	itsResultList(NULL),
+	itsResultList(nullptr),
 	itsID(0),
 	itsState(kUnassigned),
 	itsDeleteFlag(oneShot),
@@ -74,7 +74,7 @@ CMCommand::CMCommand
 	)
 	:
 	itsCommandString(cmd),
-	itsResultList(NULL),
+	itsResultList(nullptr),
 	itsID(0),
 	itsState(kUnassigned),
 	itsDeleteFlag(oneShot),
@@ -195,10 +195,10 @@ const JPtrArray<JString>&
 CMCommand::GetResults()
 	const
 {
-	if (itsResultList == NULL)
+	if (itsResultList == nullptr)
 		{
 		const_cast<CMCommand*>(this)->itsResultList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
-		assert( itsResultList != NULL );
+		assert( itsResultList != nullptr );
 		}
 
 	return *itsResultList;
@@ -208,7 +208,7 @@ const JString&
 CMCommand::GetLastResult()
 	const
 {
-	return (itsResultList != NULL ? *(itsResultList->LastElement()) : theEmptyResult);
+	return (itsResultList != nullptr ? *(itsResultList->LastElement()) : theEmptyResult);
 }
 
 void
@@ -217,10 +217,10 @@ CMCommand::SaveResult
 	const JCharacter* data
 	)
 {
-	if (itsResultList == NULL)
+	if (itsResultList == nullptr)
 		{
 		itsResultList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
-		assert( itsResultList != NULL );
+		assert( itsResultList != nullptr );
 		}
 
 	itsResultList->Append(data);

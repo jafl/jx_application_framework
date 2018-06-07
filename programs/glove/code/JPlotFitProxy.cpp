@@ -29,7 +29,7 @@ JPlotFitProxy::JPlotFitProxy
 	)
 	:
 	JPlotFitFunction(plot, fitData, 0, 0),
-	itsErrors(NULL),
+	itsErrors(nullptr),
 	itsHasGOF(fit->HasParameterErrors()),
 	itsGOFName(fit->HasGoodnessOfFit()),
 	itsFnString(fit->GetFitFunctionString())
@@ -40,7 +40,7 @@ JPlotFitProxy::JPlotFitProxy
 		fit->GetGoodnessOfFit(&itsGOF);
 		}
 	itsParms	= jnew GVarList();
-	assert(itsParms != NULL);
+	assert(itsParms != nullptr);
 	itsParms->AddVariable("x", 0);
 	const JSize count	= fit->GetParameterCount();
 	SetParameterCount(count);
@@ -59,7 +59,7 @@ JPlotFitProxy::JPlotFitProxy
 		{
 		SetHasParameterErrors(kJTrue);
 		itsErrors	= jnew JArray<JFloat>;
-		assert(itsErrors != NULL);
+		assert(itsErrors != nullptr);
 		for (JIndex i = 1; i <= count; i++)
 			{
 			JFloat value;
@@ -89,7 +89,7 @@ JPlotFitProxy::JPlotFitProxy
 	JFloat xMax;
 	fit->GetXRange(&xMin, &xMax);
 	SetXRange(xMin, xMax);
-	itsFn	= NULL;
+	itsFn	= nullptr;
 	JParseFunction(itsFnString, itsParms, &itsFn);
 	SetHasGoodnessOfFit(itsHasGOF);
 }
@@ -102,7 +102,7 @@ JPlotFitProxy::JPlotFitProxy
 	)
 	:
 	JPlotFitFunction(plot, fitData, 0, 0),
-	itsErrors(NULL)
+	itsErrors(nullptr)
 {
 	is >> itsHasGOF;
 	if (itsHasGOF)
@@ -112,7 +112,7 @@ JPlotFitProxy::JPlotFitProxy
 		}
 
 	itsParms	= jnew GVarList();
-	assert(itsParms != NULL);
+	assert(itsParms != nullptr);
 	itsParms->AddVariable("x", 0);
 
 	JSize count;
@@ -135,7 +135,7 @@ JPlotFitProxy::JPlotFitProxy
 		{
 		SetHasParameterErrors(kJTrue);
 		itsErrors	= jnew JArray<JFloat>;
-		assert(itsErrors != NULL);
+		assert(itsErrors != nullptr);
 		for (JIndex i = 1; i <= count; i++)
 			{
 			JFloat value;
@@ -154,7 +154,7 @@ JPlotFitProxy::JPlotFitProxy
 
 	is >> itsFnString;
 	
-	itsFn	= NULL;
+	itsFn	= nullptr;
 	JParseFunction(itsFnString, itsParms, &itsFn);
 	SetHasGoodnessOfFit(itsHasGOF);
 
@@ -278,7 +278,7 @@ JPlotFitProxy::GetParameterError
 		return kJFalse;
 		}
 
-	assert(itsErrors != NULL);
+	assert(itsErrors != nullptr);
 	if (index > itsErrors->GetElementCount())
 		{
 		return kJFalse;

@@ -61,85 +61,85 @@ JXEditWWWPrefsDialog::BuildWindow
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 520,290, JString::empty);
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	itsShowURLCmdInput =
 		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 250,20, 250,20);
-	assert( itsShowURLCmdInput != NULL );
+	assert( itsShowURLCmdInput != nullptr );
 
 	itsShowFileContentCmdInput =
 		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 250,80, 250,20);
-	assert( itsShowFileContentCmdInput != NULL );
+	assert( itsShowFileContentCmdInput != nullptr );
 
 	itsShowFileLocationCmdInput =
 		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 250,140, 250,20);
-	assert( itsShowFileLocationCmdInput != NULL );
+	assert( itsShowFileLocationCmdInput != nullptr );
 
 	itsComposeMailCmdInput =
 		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 250,200, 250,20);
-	assert( itsComposeMailCmdInput != NULL );
+	assert( itsComposeMailCmdInput != nullptr );
 
 	JXTextButton* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::JXEditWWWPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 120,260, 70,20);
-	assert( cancelButton != NULL );
+	assert( cancelButton != nullptr );
 
 	JXTextButton* okButton =
 		jnew JXTextButton(JGetString("okButton::JXEditWWWPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 330,260, 70,20);
-	assert( okButton != NULL );
+	assert( okButton != nullptr );
 	okButton->SetShortcuts(JGetString("okButton::JXEditWWWPrefsDialog::shortcuts::JXLayout"));
 
 	JXStaticText* urlVarHint =
 		jnew JXStaticText(JGetString("urlVarHint::JXEditWWWPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 250,40, 250,20);
-	assert( urlVarHint != NULL );
+	assert( urlVarHint != nullptr );
 	urlVarHint->SetToLabel();
 
 	JXStaticText* urlLabel =
 		jnew JXStaticText(JGetString("urlLabel::JXEditWWWPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 230,20);
-	assert( urlLabel != NULL );
+	assert( urlLabel != nullptr );
 	urlLabel->SetToLabel();
 
 	JXStaticText* mailLabel =
 		jnew JXStaticText(JGetString("mailLabel::JXEditWWWPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,200, 230,20);
-	assert( mailLabel != NULL );
+	assert( mailLabel != nullptr );
 	mailLabel->SetToLabel();
 
 	JXStaticText* mailVarHint =
 		jnew JXStaticText(JGetString("mailVarHint::JXEditWWWPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 250,220, 250,20);
-	assert( mailVarHint != NULL );
+	assert( mailVarHint != nullptr );
 	mailVarHint->SetToLabel();
 
 	JXStaticText* file1VarHint =
 		jnew JXStaticText(JGetString("file1VarHint::JXEditWWWPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 250,100, 250,20);
-	assert( file1VarHint != NULL );
+	assert( file1VarHint != nullptr );
 	file1VarHint->SetToLabel();
 
 	JXStaticText* file1Label =
 		jnew JXStaticText(JGetString("file1Label::JXEditWWWPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,80, 230,20);
-	assert( file1Label != NULL );
+	assert( file1Label != nullptr );
 	file1Label->SetToLabel();
 
 	JXStaticText* file2VarHint =
 		jnew JXStaticText(JGetString("file2VarHint::JXEditWWWPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 250,160, 250,20);
-	assert( file2VarHint != NULL );
+	assert( file2VarHint != nullptr );
 	file2VarHint->SetToLabel();
 
 	JXStaticText* file2Label =
 		jnew JXStaticText(JGetString("file2Label::JXEditWWWPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,140, 230,20);
-	assert( file2Label != NULL );
+	assert( file2Label != nullptr );
 	file2Label->SetToLabel();
 
 // end JXLayout

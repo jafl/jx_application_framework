@@ -153,7 +153,7 @@ JOpenScratchFile()
 	assert( fd != EOF );
 
 	std::fstream* theFile = jnew std::fstream(fd);
-	assert( theFile != NULL );
+	assert( theFile != nullptr );
 	assert( theFile->good() );
 
 	return theFile;
@@ -174,7 +174,7 @@ JCloseScratchFile
 {
 	(**theFile).close();
 	jdelete *theFile;
-	*theFile = NULL;
+	*theFile = nullptr;
 }
 
 #endif

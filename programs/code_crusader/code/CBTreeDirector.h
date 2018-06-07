@@ -132,7 +132,7 @@ private:
 	JXTextMenu*		itsPrefsMenu;
 	JXTextMenu*		itsHelpMenu;
 
-	JXGetStringDialog*	itsFindFnDialog;	// usually NULL
+	JXGetStringDialog*	itsFindFnDialog;	// usually nullptr
 
 	const JCharacter*	itsWindowTitleSuffix;
 	const JCharacter*	itsWindowHelpName;

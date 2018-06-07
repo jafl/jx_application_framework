@@ -46,7 +46,7 @@ JXWindowIcon::JXWindowIcon
 	JXWidget(enclosure, hSizing, vSizing, x,y, w,h),
 	itsMainWindow(mainWindow)
 {
-	itsNormalImage = itsDropImage = NULL;	// makes SetIcons() safe
+	itsNormalImage = itsDropImage = nullptr;	// makes SetIcons() safe
 	SetIcons(normalImage, dropImage);
 }
 

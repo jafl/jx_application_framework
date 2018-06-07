@@ -58,7 +58,7 @@ JTree::SetRoot
 	JTreeNode* root
 	)
 {
-	assert( root != NULL );
+	assert( root != nullptr );
 
 	itsRoot = root;
 	itsRoot->ShouldBeOpenable(kJTrue);

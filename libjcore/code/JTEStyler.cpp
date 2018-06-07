@@ -90,15 +90,15 @@ JTEStyler::JTEStyler()
 {
 	itsActiveFlag  = kJTrue;
 
-	itsTE          = NULL;
-	itsFontMgr     = NULL;
-	itsText        = NULL;
-	itsStyles      = NULL;
-	itsDefFont     = NULL;
-	itsRecalcRange = NULL;
-	itsRedrawRange = NULL;
+	itsTE          = nullptr;
+	itsFontMgr     = nullptr;
+	itsText        = nullptr;
+	itsStyles      = nullptr;
+	itsDefFont     = nullptr;
+	itsRecalcRange = nullptr;
+	itsRedrawRange = nullptr;
 
-	itsTokenStartList   = NULL;
+	itsTokenStartList   = nullptr;
 	itsTokenStartFactor = kDecimationFactor;
 }
 
@@ -271,16 +271,16 @@ JTEStyler::UpdateStyles
 	std::cout << "JTEStyler: " << timer.PrintTimeInterval() << std::endl;
 	#endif
 
-	itsTE             = NULL;
-	itsFontMgr        = NULL;
-	itsText           = NULL;
-	itsStyles         = NULL;
-	itsRecalcRange    = NULL;
-	itsRedrawRange    = NULL;
-	itsTokenStartList = NULL;
+	itsTE             = nullptr;
+	itsFontMgr        = nullptr;
+	itsText           = nullptr;
+	itsStyles         = nullptr;
+	itsRecalcRange    = nullptr;
+	itsRedrawRange    = nullptr;
+	itsTokenStartList = nullptr;
 
 	jdelete itsDefFont;
-	itsDefFont = NULL;
+	itsDefFont = nullptr;
 }
 
 /******************************************************************************
@@ -443,7 +443,7 @@ JArray<JTEStyler::TokenData>*
 JTEStyler::NewTokenStartList()
 {
 	JArray<TokenData>* list = jnew JArray<TokenData>(kListBlockSize);
-	assert( list != NULL );
+	assert( list != nullptr );
 	list->SetSortOrder(JListT::kSortAscending);
 	list->SetCompareFunction(CompareTokenStarts);
 	return list;
@@ -515,7 +515,7 @@ JTEStyler::AdjustStyle
 	)
 {
 	assert( range.last < itsTokenStart );
-	assert( itsRecalcRange != NULL );
+	assert( itsRecalcRange != nullptr );
 
 	*itsRecalcRange += range;
 

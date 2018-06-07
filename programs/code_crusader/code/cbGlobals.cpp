@@ -26,23 +26,23 @@
 #include <JXImage.h>
 #include <jAssert.h>
 
-static CBApp*				theApplication       = NULL;	// owns itself
-static CBDocumentManager*	theDocManager        = NULL;	// owned by JX
-static CBPrefsManager*		thePrefsManager      = NULL;
-static CBMDIServer*			theMDIServer         = NULL;	// owned by JX
+static CBApp*				theApplication       = nullptr;	// owns itself
+static CBDocumentManager*	theDocManager        = nullptr;	// owned by JX
+static CBPrefsManager*		thePrefsManager      = nullptr;
+static CBMDIServer*			theMDIServer         = nullptr;	// owned by JX
 
-static CBSearchTextDialog*	theSearchTextDialog  = NULL;	// owned by JXGetPersistentWindowOwner()
-static CBRunTEScriptDialog*	theRunTEScriptDialog = NULL;	// owned by JXGetPersistentWindowOwner()
-static CBViewManPageDialog*	theViewManPageDialog = NULL;	// owned by JXGetPersistentWindowOwner()
-static CBFindFileDialog*	theFindFileDialog    = NULL;	// owned by JXGetPersistentWindowOwner()
-static CBDiffFileDialog*	theDiffFileDialog    = NULL;	// owned by JXGetPersistentWindowOwner()
+static CBSearchTextDialog*	theSearchTextDialog  = nullptr;	// owned by JXGetPersistentWindowOwner()
+static CBRunTEScriptDialog*	theRunTEScriptDialog = nullptr;	// owned by JXGetPersistentWindowOwner()
+static CBViewManPageDialog*	theViewManPageDialog = nullptr;	// owned by JXGetPersistentWindowOwner()
+static CBFindFileDialog*	theFindFileDialog    = nullptr;	// owned by JXGetPersistentWindowOwner()
+static CBDiffFileDialog*	theDiffFileDialog    = nullptr;	// owned by JXGetPersistentWindowOwner()
 
-static CBCommandManager*	theCmdManager        = NULL;
-static CBFnMenuUpdater*		theFnMenuUpdater     = NULL;
-static CBSymbolTypeList*	theSymbolTypeList    = NULL;
+static CBCommandManager*	theCmdManager        = nullptr;
+static CBFnMenuUpdater*		theFnMenuUpdater     = nullptr;
+static CBSymbolTypeList*	theSymbolTypeList    = nullptr;
 
-static CBPTPrinter*			thePTTextPrinter     = NULL;
-static CBPSPrinter*			thePSTextPrinter     = NULL;
+static CBPTPrinter*			thePTTextPrinter     = nullptr;
+static CBPSPrinter*			thePSTextPrinter     = nullptr;
 
 static const JCharacter* kProjectWindowClass       = "Code_Crusader_Project";
 static const JCharacter* kSymbolWindowClass        = "Code_Crusader_Symbol_List";
@@ -55,14 +55,14 @@ static const JCharacter* kSearchOutputWindowClass  = "Code_Crusader_Editor_Searc
 static const JCharacter* kShellWindowClass         = "Code_Crusader_Editor_Shell";
 
 // owned by JXImageCache
-static JXImage* theFileIcon           = NULL;
-static JXImage* theWritableFileIcon   = NULL;
-static JXImage* theSourceIcon         = NULL;
-static JXImage* theWritableSourceIcon = NULL;
-static JXImage* theLibraryIcon        = NULL;
-static JXImage* theProjectIcon        = NULL;
-static JXImage* theActiveProjectIcon  = NULL;
-static JXImage* theActiveListIcon     = NULL;
+static JXImage* theFileIcon           = nullptr;
+static JXImage* theWritableFileIcon   = nullptr;
+static JXImage* theSourceIcon         = nullptr;
+static JXImage* theWritableSourceIcon = nullptr;
+static JXImage* theLibraryIcon        = nullptr;
+static JXImage* theProjectIcon        = nullptr;
+static JXImage* theActiveProjectIcon  = nullptr;
+static JXImage* theActiveListIcon     = nullptr;
 
 static JBoolean theIsUpdateThread = kJFalse;
 
@@ -102,37 +102,37 @@ CBCreateGlobals
 
 	JBoolean isNew;
 	thePrefsManager = jnew CBPrefsManager(&isNew);
-	assert( thePrefsManager != NULL );
+	assert( thePrefsManager != nullptr );
 
 	JXInitHelp();
 
 	theDocManager = jnew CBDocumentManager;
-	assert( theDocManager != NULL );
+	assert( theDocManager != nullptr );
 
 	if (useMDI)
 		{
 		CBDockManager* dockManager = jnew CBDockManager();
-		assert( dockManager != NULL );
+		assert( dockManager != nullptr );
 		dockManager->JPrefObject::ReadPrefs();
 
 		theMDIServer = jnew CBMDIServer;
-		assert( theMDIServer != NULL );
+		assert( theMDIServer != nullptr );
 		}
 
 	theSearchTextDialog = CBSearchTextDialog::Create();
-	assert( theSearchTextDialog != NULL );
+	assert( theSearchTextDialog != nullptr );
 
 	theRunTEScriptDialog = jnew CBRunTEScriptDialog(JXGetPersistentWindowOwner());
-	assert( theRunTEScriptDialog != NULL );
+	assert( theRunTEScriptDialog != nullptr );
 
 	theViewManPageDialog = jnew CBViewManPageDialog(JXGetPersistentWindowOwner());
-	assert( theViewManPageDialog != NULL );
+	assert( theViewManPageDialog != nullptr );
 
 	theFindFileDialog = jnew CBFindFileDialog(JXGetPersistentWindowOwner());
-	assert( theFindFileDialog != NULL );
+	assert( theFindFileDialog != nullptr );
 
 	theDiffFileDialog = jnew CBDiffFileDialog(JXGetPersistentWindowOwner());
-	assert( theDiffFileDialog != NULL );
+	assert( theDiffFileDialog != nullptr );
 
 	// widgets hidden in permanent window
 
@@ -143,26 +143,26 @@ CBCreateGlobals
 	// global commands
 
 	theCmdManager = jnew CBCommandManager(theDocManager);
-	assert( theCmdManager != NULL );
+	assert( theCmdManager != nullptr );
 	theCmdManager->JPrefObject::ReadPrefs();
 
 	// fn menu updater
 
 	theFnMenuUpdater = jnew CBFnMenuUpdater;
-	assert( theFnMenuUpdater != NULL );
+	assert( theFnMenuUpdater != nullptr );
 
 	// symbol type list
 
 	theSymbolTypeList = jnew CBSymbolTypeList(permWindow->GetColormap());
-	assert( theSymbolTypeList != NULL );
+	assert( theSymbolTypeList != nullptr );
 
 	// printers
 
 	thePTTextPrinter = jnew CBPTPrinter;
-	assert( thePTTextPrinter != NULL );
+	assert( thePTTextPrinter != nullptr );
 
 	thePSTextPrinter = jnew CBPSPrinter(permWindow->GetDisplay());
-	assert( thePSTextPrinter != NULL );
+	assert( thePSTextPrinter != nullptr );
 
 	return isNew;
 }
@@ -183,34 +183,34 @@ CBDeleteGlobals()
 		dockMgr->JPrefObject::WritePrefs();
 		}
 
-	if (theMDIServer != NULL)
+	if (theMDIServer != nullptr)
 		{
 		theMDIServer->JPrefObject::WritePrefs();
 		}
 
 	CBDeleteIcons();
 
-	theApplication = NULL;
-	theDocManager  = NULL;
-	theMDIServer   = NULL;
+	theApplication = nullptr;
+	theDocManager  = nullptr;
+	theMDIServer   = nullptr;
 
 	theCmdManager->JPrefObject::WritePrefs();
 	jdelete theCmdManager;
-	theCmdManager = NULL;
+	theCmdManager = nullptr;
 
 	jdelete theFnMenuUpdater;
-	theFnMenuUpdater = NULL;
+	theFnMenuUpdater = nullptr;
 
 	jdelete theSymbolTypeList;
-	theSymbolTypeList = NULL;
+	theSymbolTypeList = nullptr;
 
 	// printers
 
 	jdelete thePTTextPrinter;
-	thePTTextPrinter = NULL;
+	thePTTextPrinter = nullptr;
 
 	jdelete thePSTextPrinter;
-	thePSTextPrinter = NULL;
+	thePSTextPrinter = nullptr;
 
 	CBShutdownCompleters();
 	CBShutdownStylers();
@@ -223,16 +223,16 @@ CBDeleteGlobals()
 	theFindFileDialog->JPrefObject::WritePrefs();
 	theDiffFileDialog->JPrefObject::WritePrefs();
 
-	theSearchTextDialog  = NULL;
-	theRunTEScriptDialog = NULL;
-	theViewManPageDialog = NULL;
-	theFindFileDialog    = NULL;
-	theDiffFileDialog    = NULL;
+	theSearchTextDialog  = nullptr;
+	theRunTEScriptDialog = nullptr;
+	theViewManPageDialog = nullptr;
+	theFindFileDialog    = nullptr;
+	theDiffFileDialog    = nullptr;
 
 	// this must be last so everybody else can use it to save their setup
 
 	jdelete thePrefsManager;
-	thePrefsManager = NULL;
+	thePrefsManager = nullptr;
 }
 
 /******************************************************************************
@@ -261,7 +261,7 @@ CBCleanUpBeforeSuddenDeath
 
 		theDocManager->JPrefObject::WritePrefs();
 
-		if (theMDIServer != NULL)
+		if (theMDIServer != nullptr)
 			{
 			theMDIServer->JPrefObject::WritePrefs();
 			}
@@ -283,7 +283,7 @@ CBCleanUpBeforeSuddenDeath
 CBApp*
 CBGetApplication()
 {
-	assert( theApplication != NULL );
+	assert( theApplication != nullptr );
 	return theApplication;
 }
 
@@ -317,7 +317,7 @@ CBSetUpdateThread()
 CBDocumentManager*
 CBGetDocumentManager()
 {
-	assert( theDocManager != NULL );
+	assert( theDocManager != nullptr );
 	return theDocManager;
 }
 
@@ -329,7 +329,7 @@ CBGetDocumentManager()
 CBPrefsManager*
 CBGetPrefsManager()
 {
-	assert( thePrefsManager != NULL );
+	assert( thePrefsManager != nullptr );
 	return thePrefsManager;
 }
 
@@ -345,7 +345,7 @@ CBGetMDIServer
 	)
 {
 	*mdi = theMDIServer;
-	return JI2B( theMDIServer != NULL );
+	return JI2B( theMDIServer != nullptr );
 }
 
 /******************************************************************************
@@ -356,7 +356,7 @@ CBGetMDIServer
 CBSearchTextDialog*
 CBGetSearchTextDialog()
 {
-	assert( theSearchTextDialog != NULL );
+	assert( theSearchTextDialog != nullptr );
 	return theSearchTextDialog;
 }
 
@@ -368,7 +368,7 @@ CBGetSearchTextDialog()
 CBRunTEScriptDialog*
 CBGetRunTEScriptDialog()
 {
-	assert( theRunTEScriptDialog != NULL );
+	assert( theRunTEScriptDialog != nullptr );
 	return theRunTEScriptDialog;
 }
 
@@ -380,7 +380,7 @@ CBGetRunTEScriptDialog()
 CBViewManPageDialog*
 CBGetViewManPageDialog()
 {
-	assert( theViewManPageDialog != NULL );
+	assert( theViewManPageDialog != nullptr );
 	return theViewManPageDialog;
 }
 
@@ -392,7 +392,7 @@ CBGetViewManPageDialog()
 CBFindFileDialog*
 CBGetFindFileDialog()
 {
-	assert( theFindFileDialog != NULL );
+	assert( theFindFileDialog != nullptr );
 	return theFindFileDialog;
 }
 
@@ -404,7 +404,7 @@ CBGetFindFileDialog()
 CBDiffFileDialog*
 CBGetDiffFileDialog()
 {
-	assert( theDiffFileDialog != NULL );
+	assert( theDiffFileDialog != nullptr );
 	return theDiffFileDialog;
 }
 
@@ -416,7 +416,7 @@ CBGetDiffFileDialog()
 CBCommandManager*
 CBGetCommandManager()
 {
-	assert( theCmdManager != NULL );
+	assert( theCmdManager != nullptr );
 	return theCmdManager;
 }
 
@@ -428,7 +428,7 @@ CBGetCommandManager()
 CBFnMenuUpdater*
 CBGetFnMenuUpdater()
 {
-	assert( theFnMenuUpdater != NULL );
+	assert( theFnMenuUpdater != nullptr );
 	return theFnMenuUpdater;
 }
 
@@ -440,7 +440,7 @@ CBGetFnMenuUpdater()
 CBSymbolTypeList*
 CBGetSymbolTypeList()
 {
-	assert( theSymbolTypeList != NULL );
+	assert( theSymbolTypeList != nullptr );
 	return theSymbolTypeList;
 }
 
@@ -452,7 +452,7 @@ CBGetSymbolTypeList()
 CBPTPrinter*
 CBGetPTTextPrinter()
 {
-	assert( thePTTextPrinter != NULL );
+	assert( thePTTextPrinter != nullptr );
 	return thePTTextPrinter;
 }
 
@@ -464,7 +464,7 @@ CBGetPTTextPrinter()
 CBPSPrinter*
 CBGetPSTextPrinter()
 {
-	assert( thePSTextPrinter != NULL );
+	assert( thePSTextPrinter != nullptr );
 	return thePSTextPrinter;
 }
 

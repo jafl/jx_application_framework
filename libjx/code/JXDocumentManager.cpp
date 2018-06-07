@@ -93,26 +93,26 @@ JXDocumentManager::JXDocumentManager
 	itsWantShortcutFlag( wantShortcuts )
 {
 	itsDocList = jnew JArray<DocInfo>;
-	assert( itsDocList != NULL );
+	assert( itsDocList != nullptr );
 	itsDocList->SetCompareFunction(CompareDocNames);
 	itsDocList->SetSortOrder(JListT::kSortAscending);
 
 	itsNewDocCount = 0;
 
 	itsFileMap = jnew JArray<FileMap>;
-	assert( itsFileMap != NULL );
+	assert( itsFileMap != nullptr );
 
 	itsPerformSafetySaveFlag = kJTrue;
 
 	itsSafetySaveTask = jnew JXTimerTask(kDefaultSafetySavePeriod);
-	assert( itsSafetySaveTask != NULL );
+	assert( itsSafetySaveTask != nullptr );
 	ListenTo(itsSafetySaveTask);
 
-	itsUpdateDocMenuTask = NULL;
+	itsUpdateDocMenuTask = nullptr;
 
 	JXDisplay* d = (JXGetApplication())->GetCurrentDisplay();
 	itsDefaultMenuIcon = jnew JXImage(d, jx_plain_file_small);
-	assert( itsDefaultMenuIcon != NULL );
+	assert( itsDefaultMenuIcon != nullptr );
 
 	JXSetDocumentManager(this);
 }
@@ -256,10 +256,10 @@ JXDocumentManager::DocumentDeleted
 void
 JXDocumentManager::DocumentMenusNeedUpdate()
 {
-	if (itsUpdateDocMenuTask == NULL)
+	if (itsUpdateDocMenuTask == nullptr)
 		{
 		itsUpdateDocMenuTask = jnew JXUpdateDocMenuTask(this);
-		assert( itsUpdateDocMenuTask != NULL );
+		assert( itsUpdateDocMenuTask != nullptr );
 		itsUpdateDocMenuTask->Go();
 		}
 }
@@ -390,7 +390,7 @@ JXDocumentManager::FileDocumentIsOpen
 	)
 	const
 {
-	*doc = NULL;
+	*doc = nullptr;
 
 	// check that the file exists
 
@@ -406,7 +406,7 @@ JXDocumentManager::FileDocumentIsOpen
 		{
 		const DocInfo info            = itsDocList->GetElement(i);
 		const JXFileDocument* fileDoc = dynamic_cast<const JXFileDocument*>(info.doc);
-		if (fileDoc != NULL)
+		if (fileDoc != nullptr)
 			{
 			JBoolean onDisk;
 			const JString docName = fileDoc->GetFullName(&onDisk);
@@ -505,9 +505,9 @@ JXDocumentManager::FindFile
 
 			FileMap map;
 			map.oldName = jnew JString(fileName);
-			assert( map.oldName != NULL );
+			assert( map.oldName != nullptr );
 			map.newName = jnew JString(trueName);
-			assert( map.newName != NULL );
+			assert( map.newName != nullptr );
 			itsFileMap->AppendElement(map);
 
 			*newFileName = trueName;
@@ -686,7 +686,7 @@ JXDocumentManager::GetDocument
 		}
 	else
 		{
-		*doc = NULL;
+		*doc = nullptr;
 		return kJFalse;
 		}
 }

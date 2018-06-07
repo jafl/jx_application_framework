@@ -41,7 +41,7 @@ CBStylerTable::CBStylerTable
 	JXStringTable(jnew JStringTableData,
 				  scrollbarSet, enclosure, hSizing,vSizing, x,y, w,h)
 {
-	CBStylerTableX(kCBUnknownFT, kJFalse, NULL, NULL);
+	CBStylerTableX(kCBUnknownFT, kJFalse, nullptr, nullptr);
 
 	JStringTableData* data = GetStringData();
 	data->AppendCols(1);
@@ -111,13 +111,13 @@ CBStylerTable::CBStylerTableX
 	itsAllowEditFlag = allowEdit;
 
 	itsAddRowButton = addRowButton;
-	if (itsAddRowButton != NULL)
+	if (itsAddRowButton != nullptr)
 		{
 		ListenTo(itsAddRowButton);
 		}
 
 	itsRemoveButton = removeButton;
-	if (itsRemoveButton != NULL)
+	if (itsRemoveButton != nullptr)
 		{
 		ListenTo(itsRemoveButton);
 		}
@@ -138,7 +138,7 @@ CBStylerTable::CBStylerTableX
 	SetSelectionColor(prefsMgr->GetColor(CBMPrefsManager::kSelColorIndex));
 
 	itsStyleMenu = jnew CBStylerTableMenu(this, kFixedLeft, kFixedTop, 0,0, 10,10);
-	assert( itsStyleMenu != NULL );
+	assert( itsStyleMenu != nullptr );
 }
 
 /******************************************************************************
@@ -154,7 +154,7 @@ CBStylerTable::~CBStylerTable()
 /******************************************************************************
  GetData
 
-	colorList can be NULL.
+	colorList can be nullptr.
 
  ******************************************************************************/
 
@@ -426,11 +426,11 @@ CBStylerTable::RemoveSelection()
 void
 CBStylerTable::UpdateButtons()
 {
-	if (itsRemoveButton != NULL && (GetTableSelection()).HasSelection())
+	if (itsRemoveButton != nullptr && (GetTableSelection()).HasSelection())
 		{
 		itsRemoveButton->Activate();
 		}
-	else if (itsRemoveButton != NULL)
+	else if (itsRemoveButton != nullptr)
 		{
 		itsRemoveButton->Deactivate();
 		}
@@ -476,6 +476,6 @@ CBStylerTable::CreateStringTableInput
 
 	CBStylerTableInput* obj =
 		jnew CBStylerTableInput(itsFileType, this, hSizing, vSizing, x,y, w,h);
-	assert( obj != NULL );
+	assert( obj != nullptr );
 	return obj;
 }

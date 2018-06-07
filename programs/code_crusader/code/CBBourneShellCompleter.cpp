@@ -10,7 +10,7 @@
 #include "CBBourneShellCompleter.h"
 #include <jAssert.h>
 
-CBBourneShellCompleter* CBBourneShellCompleter::itsSelf = NULL;
+CBBourneShellCompleter* CBBourneShellCompleter::itsSelf = nullptr;
 
 static const JCharacter* kKeywordList[] =
 {
@@ -38,12 +38,12 @@ static JBoolean recursiveInstance = kJFalse;
 CBStringCompleter*
 CBBourneShellCompleter::Instance()
 {
-	if (itsSelf == NULL && !recursiveInstance)
+	if (itsSelf == nullptr && !recursiveInstance)
 		{
 		recursiveInstance = kJTrue;
 
 		itsSelf = jnew CBBourneShellCompleter;
-		assert( itsSelf != NULL );
+		assert( itsSelf != nullptr );
 
 		recursiveInstance = kJFalse;
 		}
@@ -80,7 +80,7 @@ CBBourneShellCompleter::CBBourneShellCompleter()
 
 CBBourneShellCompleter::~CBBourneShellCompleter()
 {
-	itsSelf = NULL;
+	itsSelf = nullptr;
 }
 
 /******************************************************************************

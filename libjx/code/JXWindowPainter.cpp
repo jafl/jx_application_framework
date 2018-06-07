@@ -26,7 +26,7 @@
 /******************************************************************************
  Constructor
 
-	defaultClipRegion can be NULL
+	defaultClipRegion can be nullptr
 
  ******************************************************************************/
 
@@ -40,23 +40,23 @@ JXWindowPainter::JXWindowPainter
 	:
 	JPainter((gc->GetDisplay())->GetFontManager(), defaultClipRect)
 {
-	assert( gc != NULL );
+	assert( gc != nullptr );
 
 	itsDisplay        = gc->GetDisplay();
 	itsDrawable       = drawable;
 	itsGC             = gc;
-	itsFontDrawable   = NULL;
-	itsFontClipRegion = NULL;
+	itsFontDrawable   = nullptr;
+	itsFontClipRegion = nullptr;
 
-	if (defaultClipRegion != NULL)
+	if (defaultClipRegion != nullptr)
 		{
 		itsDefClipRegion = JXCopyRegion(defaultClipRegion);
 		itsClipRegion    = JXCopyRegion(defaultClipRegion);
 		}
 	else
 		{
-		itsDefClipRegion = NULL;
-		itsClipRegion    = NULL;
+		itsDefClipRegion = nullptr;
+		itsClipRegion    = nullptr;
 		}
 
 	itsResetShouldClearClipRegionFlag = kJTrue;
@@ -71,19 +71,19 @@ JXWindowPainter::JXWindowPainter
 
 JXWindowPainter::~JXWindowPainter()
 {
-	if (itsClipRegion != NULL)
+	if (itsClipRegion != nullptr)
 		{
 		XDestroyRegion(itsClipRegion);
 		}
-	if (itsDefClipRegion != NULL)
+	if (itsDefClipRegion != nullptr)
 		{
 		XDestroyRegion(itsDefClipRegion);
 		}
-	if (itsFontDrawable != NULL)
+	if (itsFontDrawable != nullptr)
 		{
 		XftDrawDestroy(itsFontDrawable);
 		}
-	if (itsFontClipRegion != NULL)
+	if (itsFontClipRegion != nullptr)
 		{
 		XDestroyRegion(itsFontClipRegion);
 		}
@@ -110,7 +110,7 @@ XftDraw*
 JXWindowPainter::GetFontDrawable()
 	const
 {
-	if (itsFontDrawable == NULL)
+	if (itsFontDrawable == nullptr)
 		{
 		const_cast<JXWindowPainter*>(this)->itsFontDrawable =
 			XftDrawCreate(*itsDisplay, itsDrawable,
@@ -138,13 +138,13 @@ JXWindowPainter::Reset()
 {
 	if (itsResetShouldClearClipRegionFlag)
 		{
-		if (itsClipRegion != NULL)
+		if (itsClipRegion != nullptr)
 			{
 			XDestroyRegion(itsClipRegion);
-			itsClipRegion = NULL;
+			itsClipRegion = nullptr;
 			}
 
-		if (itsDefClipRegion != NULL)
+		if (itsDefClipRegion != nullptr)
 			{
 			itsClipRegion = JXCopyRegion(itsDefClipRegion);
 			}
@@ -203,13 +203,13 @@ JXWindowPainter::SetDefaultClipRegion
 	const Region region
 	)
 {
-	if (itsDefClipRegion != NULL)
+	if (itsDefClipRegion != nullptr)
 		{
 		XDestroyRegion(itsDefClipRegion);
-		itsDefClipRegion = NULL;
+		itsDefClipRegion = nullptr;
 		}
 
-	if (region != NULL)
+	if (region != nullptr)
 		{
 		itsDefClipRegion = JXCopyRegion(region);
 		}
@@ -230,7 +230,7 @@ JXWindowPainter::CalcClipRegion
 	const Region region
 	)
 {
-	if (itsClipRegion != NULL)
+	if (itsClipRegion != nullptr)
 		{
 		XDestroyRegion(itsClipRegion);
 		}
@@ -238,7 +238,7 @@ JXWindowPainter::CalcClipRegion
 	const JPoint& o = GetOrigin();
 	XOffsetRegion(region, o.x, o.y);		// to global coords
 
-	if (itsDefClipRegion != NULL)
+	if (itsDefClipRegion != nullptr)
 		{
 		itsClipRegion = XCreateRegion();
 		XIntersectRegion(region, itsDefClipRegion, itsClipRegion);
@@ -259,18 +259,18 @@ JXWindowPainter::CalcClipRegion
 void
 JXWindowPainter::ResetClipRegion()
 {
-	if (itsClipRegion != NULL)
+	if (itsClipRegion != nullptr)
 		{
 		XDestroyRegion(itsClipRegion);
 		}
 
-	if (itsDefClipRegion != NULL)
+	if (itsDefClipRegion != nullptr)
 		{
 		itsClipRegion = JXCopyRegion(itsDefClipRegion);
 		}
 	else
 		{
-		itsClipRegion = NULL;
+		itsClipRegion = nullptr;
 		}
 
 	// update the clipping of GC
@@ -291,10 +291,10 @@ JXWindowPainter::SetClipRect
 	const JRect& userRect
 	)
 {
-	if (itsFontClipRegion != NULL)
+	if (itsFontClipRegion != nullptr)
 		{
 		XDestroyRegion(itsFontClipRegion);
-		itsFontClipRegion = NULL;
+		itsFontClipRegion = nullptr;
 		}
 
 	const JRect r        = JPainter::SetClipRect(userRect);
@@ -304,7 +304,7 @@ JXWindowPainter::SetClipRect
 		JRect rG = r;
 		rG.Shift(GetOrigin());		// to global
 
-		if (itsClipRegion != NULL)
+		if (itsClipRegion != nullptr)
 			{
 			XRectangle xrect  = JXJToXRect(rG);
 			Region clipRegion = XCreateRegion();
@@ -325,7 +325,7 @@ JXWindowPainter::SetClipRect
 		itsFontClipRegion = JXRectangleRegion(r);
 		}
 
-	if (itsFontDrawable != NULL)
+	if (itsFontDrawable != nullptr)
 		{
 		XftDrawSetClip(itsFontDrawable, itsFontClipRegion);
 		}
@@ -467,7 +467,7 @@ JXWindowPainter::String
 
 	// we have to do it pixel by pixel
 
-	JXImage* srcImage = NULL;
+	JXImage* srcImage = nullptr;
 	const JPoint& o   = GetOrigin();
 
 	JCoordinate ascent, descent;
@@ -500,11 +500,11 @@ JXWindowPainter::String
 		srcImage = jnew JXImage(itsDisplay, itsDrawable,
 							   JRect(y0+dx, x0-dy - lineHeight, y0+dx + stringWidth + 1, x0-dy + 1));
 		}
-	assert( srcImage != NULL );
+	assert( srcImage != nullptr );
 
 	JXImage* tempImage = jnew JXImage(itsDisplay, stringWidth, lineHeight, 0, 0,
 									 JXImage::kLocalStorage);
-	assert( tempImage != NULL );
+	assert( tempImage != nullptr );
 
 	// transfer the source
 
@@ -811,7 +811,7 @@ JXWindowPainter::Image
 	)
 {
 	const JXImage* ximage = dynamic_cast<const JXImage*>(&image);
-	assert( ximage != NULL );
+	assert( ximage != nullptr );
 
 	JRect destRectG = destRect;
 	destRectG.Shift(GetOrigin());

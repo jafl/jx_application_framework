@@ -54,35 +54,35 @@ DHStringInputDialog::BuildWindow()
 {
 	// Create the window and pass it to the director.
 	JXWindow* window = jnew JXWindow(this, 280,90, "Change Text");
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	// Create the cancel button.
 	JXTextButton* cancelButton =
 		jnew JXTextButton("Cancel", window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 70,60, 50,20);
-	assert( cancelButton != NULL );
+	assert( cancelButton != nullptr );
 
 	// Create the OK button.
 	JXTextButton* okButton =
 		jnew JXTextButton("OK", window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 150,60, 50,20);
-	assert( okButton != NULL );
+	assert( okButton != nullptr );
 	okButton->SetShortcuts("^M");
 
 	// Create the string input field.
 	itsText =
 		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 100,20, 150,20);
-	assert( itsText != NULL );
+	assert( itsText != nullptr );
 
 	// Create a label for the input field.
 	JXStaticText* obj1 =
 		jnew JXStaticText("New Text:", window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 30,20, 65,20);
-	assert( obj1 != NULL );
+	assert( obj1 != nullptr );
 
 	// The dialog director needs to know what its cancel and OK buttons are.
-	// The OK button must exist. The Cancel button may be NULL.
+	// The OK button must exist. The Cancel button may be nullptr.
 	SetButtons(okButton, cancelButton);
 
 	// Set it such that the input can only be 30 characters or less.

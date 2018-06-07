@@ -72,7 +72,7 @@ JXWidget::JXWidget
 	:
 	JXContainer(enclosure->GetWindow(), enclosure)
 {
-	assert( enclosure != NULL );
+	assert( enclosure != nullptr );
 	assert( w > 0 && h > 0 );
 
 	itsHSizing     = hSizing;
@@ -80,7 +80,7 @@ JXWidget::JXWidget
 	itsBorderWidth = 0;
 	itsBackColor   = JColorManager::GetDefaultBackColor();
 	itsFocusColor  = JColorManager::GetDefaultFocusColor();
-	itsDragPainter = NULL;
+	itsDragPainter = nullptr;
 
 	itsAllowUnboundedScrollingFlag = kJFalse;
 
@@ -675,7 +675,7 @@ JXWidget::BoundsMoved
 	const JCoordinate dy
 	)
 {
-	if (itsDragPainter != NULL)
+	if (itsDragPainter != nullptr)
 		{
 		itsDragPainter->ShiftOrigin(dx,dy);
 		}
@@ -1229,7 +1229,7 @@ JXWidget::CreateDragPainter
 	)
 {
 	assert( GetWindow()->IsVisible() );
-	assert( itsDragPainter == NULL );
+	assert( itsDragPainter == nullptr );
 
 	JRect clipRect;
 	const JBoolean visible =
@@ -1237,7 +1237,7 @@ JXWidget::CreateDragPainter
 	assert( visible );
 
 	itsDragPainter = jnew JXDragPainter(GetDisplay(), GetWindow(), clipRect);
-	assert( itsDragPainter != NULL );
+	assert( itsDragPainter != nullptr );
 
 	itsDragPainter->SetOrigin(itsBoundsG.left, itsBoundsG.top);
 	itsDragPainter->ResetClipRect();	// do this last so clipRect matches with new origin
@@ -1259,7 +1259,7 @@ JXWidget::GetDragPainter
 	const
 {
 	*p = itsDragPainter;
-	return JI2B(itsDragPainter != NULL);
+	return JI2B(itsDragPainter != nullptr);
 }
 
 /******************************************************************************
@@ -1271,7 +1271,7 @@ void
 JXWidget::DeleteDragPainter()
 {
 	jdelete itsDragPainter;
-	itsDragPainter = NULL;
+	itsDragPainter = nullptr;
 }
 
 /******************************************************************************
@@ -1349,7 +1349,7 @@ JXWidget::GetSelectionData
 	transfer.
 
 	If it is not a drop, or the drop target is not within the same
-	application, target is NULL.
+	application, target is nullptr.
 
  ******************************************************************************/
 
@@ -1390,7 +1390,7 @@ JXWidget::DNDCompletelyFinished()
 	This is called repeatedly on the drag source so the drop action can be
 	changed based on the current target, buttons, and modifier keys.
 
-	If the drop target is not within the same application, target is NULL.
+	If the drop target is not within the same application, target is nullptr.
 
 	The default is to return the default action: copy.
 
@@ -1443,7 +1443,7 @@ JXWidget::GetDNDAskActions
 
 	This is called on the source when the target indicates whether or not
 	it will accept the drop.  If !dropAccepted, the action is undefined.
-	If the drop target is not within the same application, target is NULL.
+	If the drop target is not within the same application, target is nullptr.
 
 	The default implementation is to display the appropriate default
 	cursor provided by JXDNDManager.

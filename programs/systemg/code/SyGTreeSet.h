@@ -69,7 +69,7 @@ private:
 
 	SyGFileTree*			itsFileTree;
 	JXMenuBar*				itsMenuBar;
-	JXTextButton*			itsEmptyButton;		// NULL unless is trash can
+	JXTextButton*			itsEmptyButton;		// nullptr unless is trash can
 	JXStaticText*			itsFilterLabel;
 	SyGFilterInput*			itsFilterInput;
 	JXStringHistoryMenu*	itsFilterHistory;

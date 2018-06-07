@@ -27,12 +27,12 @@ J2DPlotData::Create
 	if (OKToCreate(x,y))
 		{
 		*plotData = jnew J2DPlotData(x,y,listen);
-		assert( *plotData != NULL );
+		assert( *plotData != nullptr );
 		return kJTrue;
 		}
 	else
 		{
-		*plotData = NULL;
+		*plotData = nullptr;
 		return kJFalse;
 		}
 }
@@ -74,25 +74,25 @@ J2DPlotData::J2DPlotData
 	if (listen)
 		{
 		itsXData = const_cast< JArray<JFloat>* >(&x);
-		assert( itsXData != NULL );
+		assert( itsXData != nullptr );
 		ListenTo(itsXData);
 
 		itsYData = const_cast< JArray<JFloat>* >(&y);
-		assert( itsYData != NULL );
+		assert( itsYData != nullptr );
 		ListenTo(itsYData);
 		}
 	else
 		{
 		itsXData = jnew JArray<JFloat>(x);
-		assert( itsXData != NULL );
+		assert( itsXData != nullptr );
 		itsYData = jnew JArray<JFloat>(y);
-		assert( itsYData != NULL );
+		assert( itsYData != nullptr );
 		}
 
-	itsXPErrorData = NULL;
-	itsXMErrorData = NULL;
-	itsYPErrorData = NULL;
-	itsYMErrorData = NULL;
+	itsXPErrorData = nullptr;
+	itsXMErrorData = nullptr;
+	itsYPErrorData = nullptr;
+	itsYMErrorData = nullptr;
 
 	itsIsValidFlag     = kJTrue;
 	itsIsListeningFlag = listen;
@@ -137,10 +137,10 @@ J2DPlotData::GetElement
 	data->x = itsXData->GetElement(index);
 	data->y = itsYData->GetElement(index);
 
-	if (itsXPErrorData != NULL)
+	if (itsXPErrorData != nullptr)
 		{
 		data->xerr = itsXPErrorData->GetElement(index);
-		if (itsXMErrorData != NULL)
+		if (itsXMErrorData != nullptr)
 			{
 			data->xmerr = itsXMErrorData->GetElement(index);
 			}
@@ -155,10 +155,10 @@ J2DPlotData::GetElement
 		data->xmerr = 0;
 		}
 
-	if (itsYPErrorData != NULL)
+	if (itsYPErrorData != nullptr)
 		{
 		data->yerr = itsYPErrorData->GetElement(index);
-		if (itsYMErrorData != NULL)
+		if (itsYMErrorData != nullptr)
 			{
 			data->ymerr = itsYMErrorData->GetElement(index);
 			}
@@ -278,36 +278,36 @@ J2DPlotData::IgnoreDataChanges()
 		{
 		StopListening(itsXData);
 		itsXData = jnew JArray<JFloat>(*itsXData);
-		assert( itsXData != NULL );
+		assert( itsXData != nullptr );
 
-		if (itsXPErrorData != NULL)
+		if (itsXPErrorData != nullptr)
 			{
 			StopListening(itsXPErrorData);
 			itsXPErrorData = jnew JArray<JFloat>(*itsXPErrorData);
-			assert( itsXPErrorData != NULL );
+			assert( itsXPErrorData != nullptr );
 			}
-		if (itsXMErrorData != NULL)
+		if (itsXMErrorData != nullptr)
 			{
 			StopListening(itsXMErrorData);
 			itsXMErrorData = jnew JArray<JFloat>(*itsXMErrorData);
-			assert( itsXMErrorData != NULL );
+			assert( itsXMErrorData != nullptr );
 			}
 
 		StopListening(itsYData);
 		itsYData = jnew JArray<JFloat>(*itsYData);
-		assert( itsYData != NULL );
+		assert( itsYData != nullptr );
 
-		if (itsYPErrorData != NULL)
+		if (itsYPErrorData != nullptr)
 			{
 			StopListening(itsYPErrorData);
 			itsYPErrorData = jnew JArray<JFloat>(*itsYPErrorData);
-			assert( itsYPErrorData != NULL );
+			assert( itsYPErrorData != nullptr );
 			}
-		if (itsYMErrorData != NULL)
+		if (itsYMErrorData != nullptr)
 			{
 			StopListening(itsYMErrorData);
 			itsYMErrorData = jnew JArray<JFloat>(*itsYMErrorData);
-			assert( itsYMErrorData != NULL );
+			assert( itsYMErrorData != nullptr );
 			}
 
 		itsIsListeningFlag = kJFalse;
@@ -332,26 +332,26 @@ J2DPlotData::SetXErrors
 
 	if (itsIsListeningFlag)
 		{
-		if (itsXPErrorData != NULL)
+		if (itsXPErrorData != nullptr)
 			{
 			StopListening(itsXPErrorData);
 			}
-		if (itsXMErrorData != NULL)
+		if (itsXMErrorData != nullptr)
 			{
 			StopListening(itsXMErrorData);
 			}
 		itsXPErrorData = const_cast< JArray<JFloat>* >(&xErr);
-		itsXMErrorData = NULL;
+		itsXMErrorData = nullptr;
 		ClearWhenGoingAway(itsXPErrorData, &itsXPErrorData);
 		}
 	else
 		{
 		jdelete itsXMErrorData;
-		itsXMErrorData = NULL;
+		itsXMErrorData = nullptr;
 
 		jdelete itsXPErrorData;
 		itsXPErrorData = jnew JArray<JFloat>(xErr);
-		assert( itsXPErrorData != NULL );
+		assert( itsXPErrorData != nullptr );
 		}
 
 	BroadcastCurveChanged();
@@ -378,11 +378,11 @@ J2DPlotData::SetXErrors
 
 	if (itsIsListeningFlag)
 		{
-		if (itsXPErrorData != NULL)
+		if (itsXPErrorData != nullptr)
 			{
 			StopListening(itsXPErrorData);
 			}
-		if (itsXMErrorData != NULL)
+		if (itsXMErrorData != nullptr)
 			{
 			StopListening(itsXMErrorData);
 			}
@@ -395,11 +395,11 @@ J2DPlotData::SetXErrors
 		{
 		jdelete itsXPErrorData;
 		itsXPErrorData = jnew JArray<JFloat>(xPErr);
-		assert( itsXPErrorData != NULL );
+		assert( itsXPErrorData != nullptr );
 
 		jdelete itsXMErrorData;
 		itsXMErrorData = jnew JArray<JFloat>(xMErr);
-		assert( itsXMErrorData != NULL );
+		assert( itsXMErrorData != nullptr );
 		}
 
 	BroadcastCurveChanged();
@@ -424,26 +424,26 @@ J2DPlotData::SetYErrors
 
 	if (itsIsListeningFlag)
 		{
-		if (itsYPErrorData != NULL)
+		if (itsYPErrorData != nullptr)
 			{
 			StopListening(itsYPErrorData);
 			}
-		if (itsYMErrorData != NULL)
+		if (itsYMErrorData != nullptr)
 			{
 			StopListening(itsYMErrorData);
 			}
 		itsYPErrorData = const_cast< JArray<JFloat>* >(&yErr);
-		itsYMErrorData = NULL;
+		itsYMErrorData = nullptr;
 		ClearWhenGoingAway(itsYPErrorData, &itsYPErrorData);
 		}
 	else
 		{
 		jdelete itsYMErrorData;
-		itsYMErrorData = NULL;
+		itsYMErrorData = nullptr;
 
 		jdelete itsYPErrorData;
 		itsYPErrorData = jnew JArray<JFloat>(yErr);
-		assert( itsYPErrorData != NULL );
+		assert( itsYPErrorData != nullptr );
 		}
 
 	BroadcastCurveChanged();
@@ -470,11 +470,11 @@ J2DPlotData::SetYErrors
 
 	if (itsIsListeningFlag)
 		{
-		if (itsYPErrorData != NULL)
+		if (itsYPErrorData != nullptr)
 			{
 			StopListening(itsYPErrorData);
 			}
-		if (itsYMErrorData != NULL)
+		if (itsYMErrorData != nullptr)
 			{
 			StopListening(itsYMErrorData);
 			}
@@ -487,11 +487,11 @@ J2DPlotData::SetYErrors
 		{
 		jdelete itsYPErrorData;
 		itsYPErrorData = jnew JArray<JFloat>(yPErr);
-		assert( itsYPErrorData != NULL );
+		assert( itsYPErrorData != nullptr );
 
 		jdelete itsYMErrorData;
 		itsYMErrorData = jnew JArray<JFloat>(yMErr);
-		assert( itsYMErrorData != NULL );
+		assert( itsYMErrorData != nullptr );
 		}
 
 	BroadcastCurveChanged();
@@ -548,8 +548,8 @@ J2DPlotData::ReceiveGoingAway
 {
 	if (sender == itsXData || sender == itsYData)
 		{
-		itsXData = NULL;
-		itsYData = NULL;
+		itsXData = nullptr;
+		itsYData = nullptr;
 		ValidateCurve();
 		}
 	else
@@ -566,7 +566,7 @@ J2DPlotData::ReceiveGoingAway
 void
 J2DPlotData::ValidateCurve()
 {
-	if (itsXData == NULL || itsYData == NULL)
+	if (itsXData == nullptr || itsYData == nullptr)
 		{
 		itsIsValidFlag = kJFalse;
 		SetElementCount(0);
@@ -577,23 +577,23 @@ J2DPlotData::ValidateCurve()
 	const JSize yCount = itsYData->GetElementCount();
 	itsIsValidFlag = JI2B(xCount == yCount);
 
-	if (itsXPErrorData != NULL &&
+	if (itsXPErrorData != nullptr &&
 		itsXPErrorData->GetElementCount() != xCount)
 		{
 		itsIsValidFlag = kJFalse;
 		}
-	if (itsXMErrorData != NULL &&
+	if (itsXMErrorData != nullptr &&
 		itsXMErrorData->GetElementCount() != xCount)
 		{
 		itsIsValidFlag = kJFalse;
 		}
 
-	if (itsYPErrorData != NULL &&
+	if (itsYPErrorData != nullptr &&
 		itsYPErrorData->GetElementCount() != xCount)
 		{
 		itsIsValidFlag = kJFalse;
 		}
-	if (itsYMErrorData != NULL &&
+	if (itsYMErrorData != nullptr &&
 		itsYMErrorData->GetElementCount() != xCount)
 		{
 		itsIsValidFlag = kJFalse;

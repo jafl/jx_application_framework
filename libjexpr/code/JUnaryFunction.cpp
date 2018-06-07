@@ -27,7 +27,7 @@ JUnaryFunction::JUnaryFunction
 	:
 	JFunctionWithArgs(nameIndex, type)
 {
-	itsArg = NULL;
+	itsArg = nullptr;
 }
 
 JUnaryFunction::JUnaryFunction

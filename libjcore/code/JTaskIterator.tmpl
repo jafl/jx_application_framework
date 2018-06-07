@@ -74,7 +74,7 @@ JTaskIterator<T>::OrderedSetChanged
 		{
 		const JListT::ElementsInserted* info =
 			dynamic_cast<const JListT::ElementsInserted*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		if (JListIterator<T*>::GetCursor() == 0 && info->GetFirstIndex() == 1)
 			{
 			JListIterator<T*>::MoveTo(kJIteratorStartAfter, info->GetCount());

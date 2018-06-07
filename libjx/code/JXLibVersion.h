@@ -186,7 +186,7 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //		Added Go().
 //	JXScrollableWidget:
 //		Sets back color = focus color if it has scrollbars.
-//		Fixed crash in ScrollForWheel() when side-scrolling and hScrollbar is NULL.
+//		Fixed crash in ScrollForWheel() when side-scrolling and hScrollbar is nullptr.
 //	JXInputField:
 //		Added context menu for basic commands.
 //	JXFileDocument:
@@ -393,7 +393,7 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //	JXImageWidget:
 //		Added SetXPM().
 //	JXScrollbarSet:
-//		Destructor now sets member pointers to NULL to avoid giving out
+//		Destructor now sets member pointers to nullptr to avoid giving out
 //			deleted pointers in Get*Scrollbar().
 //	Created JXTipOfTheDay.
 //	JXFileInput:
@@ -1160,7 +1160,7 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //			were turned off.
 //	JXFontManager:
 //		Fixed bug in GetMonospaceFontNames() to avoid crash if XLoadQueryFont()
-//			returns NULL.
+//			returns nullptr.
 
 // version 1.1.19:
 //	Removed JX*TableInput and moved functionality into JXInputField so now
@@ -1236,7 +1236,7 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //		JXPack/UnpackFileNames() uses text/uri-list format.
 //		JXUnpackFileNames() unpacks anything, not just files.
 //		Generalized JXPack/UnpackStrings() to use arbitrary separator.
-//			The default is NULL.
+//			The default is nullptr.
 //	JXScrollableWidget:
 //		Meta-End, Meta-Page-Up/Down scroll horizontally.
 //		Added Read/WriteScrollSetup() and SkipScrollSetup().
@@ -1447,7 +1447,7 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //	Created JXTimerTask.
 //	jXUtil:
 //		Added JXPackStrings(), JXUnpackStrings() for converting to and from
-//			the standard X format of NULL separation.
+//			the standard X format of nullptr separation.
 //	JXTextRadioButton:
 //		Added GetPreferredWidth().
 //	JXStaticText:
@@ -1635,7 +1635,7 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 
 // version 1.1.12:
 //	JXTEBase:
-//		FilterSelectionData() now removes illegal characters such as NULL's
+//		FilterSelectionData() now removes illegal characters such as nullptr's
 //			via JTextEditor::RemoveIllegalChars().
 //		Now treats keypad arrows the same as the "normal" arrows.
 //	JXWindow:
@@ -1749,7 +1749,7 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //			window contains a JXTextEditor.  "Meta-tab" is not available,
 //			since JXWindow catches it.
 //	JXScrollableWidget:
-//		Only calls WantInput(kJTrue,kJFalse) if the scrollbar set is not NULL.
+//		Only calls WantInput(kJTrue,kJFalse) if the scrollbar set is not nullptr.
 //			If you need input and you don't have a scrollbar set, you now
 //			have to call WantInput() yourself.
 

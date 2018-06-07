@@ -69,7 +69,7 @@ JRoundToInt::Copy()
 	const
 {
 	JRoundToInt* newFunction = jnew JRoundToInt(*this);
-	assert( newFunction != NULL );
+	assert( newFunction != nullptr );
 	return newFunction;
 }
 

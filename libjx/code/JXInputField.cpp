@@ -79,7 +79,7 @@ JXInputField::JXInputField
 	)
 	:
 	JXTEBase(kFullEditor, jnew StyledText(kJFalse, enclosure->GetFontManager()),
-			 kJTrue, kJTrue, NULL,
+			 kJTrue, kJTrue, nullptr,
 			 enclosure, hSizing, vSizing, x,y, w,h)
 {
 	JXInputFieldX();
@@ -99,7 +99,7 @@ JXInputField::JXInputField
 	)
 	:
 	JXTEBase(kFullEditor, jnew StyledText(acceptNewline, enclosure->GetFontManager()),
-			 kJTrue, !wordWrap, NULL,
+			 kJTrue, !wordWrap, nullptr,
 			 enclosure, hSizing, vSizing, x,y, w,h)
 {
 	JXInputFieldX();
@@ -119,7 +119,7 @@ JXInputField::JXInputField
 	const JCoordinate	h
 	)
 	:
-	JXTEBase(kFullEditor, text, kJTrue, kJTrue, NULL,
+	JXTEBase(kFullEditor, text, kJTrue, kJTrue, nullptr,
 			 enclosure, hSizing, vSizing, x,y, w,h)
 {
 	JXInputFieldX();
@@ -133,8 +133,8 @@ JXInputField::JXInputFieldX()
 	itsMinLength = 0;
 	itsMaxLength = 0;
 
-	itsContextMenu = NULL;
-	itsTable       = NULL;
+	itsContextMenu = nullptr;
+	itsTable       = nullptr;
 
 	TESetLeftMarginWidth(kMinLeftMarginWidth);
 }
@@ -173,7 +173,7 @@ JXInputField::SetTable
 	JXEditTable* table
 	)
 {
-	assert( itsTable == NULL && table != NULL );
+	assert( itsTable == nullptr && table != nullptr );
 
 	itsTable = table;
 	WantInput(kJTrue, kJTrue);
@@ -325,7 +325,7 @@ JXInputField::OKToUnfocus()
 		{
 		return kJFalse;
 		}
-	else if (itsTable != NULL)
+	else if (itsTable != nullptr)
 		{
 		return itsTable->EndEditing();
 		}
@@ -347,7 +347,7 @@ JXInputField::DrawBorder
 	const JRect&		frame
 	)
 {
-	if (itsTable != NULL)
+	if (itsTable != nullptr)
 		{
 		if (IsDNDTarget())
 			{
@@ -513,12 +513,12 @@ JXInputField::HandleKeyPress
 	const JXKeyModifiers&	modifiers
 	)
 {
-	if (itsTable != NULL && itsTable->WantsInputFieldKey(key, modifiers))
+	if (itsTable != nullptr && itsTable->WantsInputFieldKey(key, modifiers))
 		{
 		itsTable->HandleKeyPress(key, modifiers);
 		return;
 		}
-	else if (itsTable != NULL)
+	else if (itsTable != nullptr)
 		{
 		JPoint cell;
 		const JBoolean ok = itsTable->GetEditedCell(&cell);
@@ -565,7 +565,7 @@ JXInputField::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleContextMenu(selection->GetIndex());
 		}
 
@@ -583,10 +583,10 @@ JXInputField::Receive
 void
 JXInputField::CreateContextMenu()
 {
-	if (itsContextMenu == NULL)
+	if (itsContextMenu == nullptr)
 		{
 		itsContextMenu = jnew JXTextMenu(JString::empty, this, kFixedLeft, kFixedTop, 0,0, 10,10);
-		assert( itsContextMenu != NULL );
+		assert( itsContextMenu != nullptr );
 		if (JXMenu::GetDefaultStyle() == JXMenu::kMacintoshStyle)
 			{
 			itsContextMenu->SetMenuItems(kMacContextMenuStr, "JXInputField");
@@ -752,7 +752,7 @@ JXInputField::StyledText::NeedsToFilterText
 	Derived classes can override this to enforce restrictions on the text.
 	Return kJFalse if the text cannot be used at all.
 
-	*** Note that style may be NULL or empty if the data was plain text.
+	*** Note that style may be nullptr or empty if the data was plain text.
 
  ******************************************************************************/
 

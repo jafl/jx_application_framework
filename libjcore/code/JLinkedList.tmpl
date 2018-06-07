@@ -30,8 +30,8 @@ JLinkedList<T>::JLinkedList()
 	:
 	JList<T>()
 {
-	itsFirstElement = NULL;
-	itsLastElement  = NULL;
+	itsFirstElement = nullptr;
+	itsLastElement  = nullptr;
 }
 
 /******************************************************************************
@@ -47,8 +47,8 @@ JLinkedList<T>::JLinkedList
 	:
 	JList<T>(source)
 {
-	itsFirstElement = NULL;
-	itsLastElement  = NULL;
+	itsFirstElement = nullptr;
+	itsLastElement  = nullptr;
 	CopyList(source);
 }
 
@@ -106,23 +106,23 @@ JLinkedList<T>::CopyList
 	const JLinkedList<T>& source
 	)
 {
-	assert( itsFirstElement == NULL );
-	assert( itsLastElement  == NULL );
+	assert( itsFirstElement == nullptr );
+	assert( itsLastElement  == nullptr );
 
 	JLinkedListElement<T>* sourceElement = source.itsFirstElement;
-	JLinkedListElement<T>* prevElement = NULL;
+	JLinkedListElement<T>* prevElement = nullptr;
 	JLinkedListElement<T>* newElement;
 
-	while (sourceElement != NULL)
+	while (sourceElement != nullptr)
 		{
 		newElement = jnew JLinkedListElement<T>;		// create new element
-		assert( newElement != NULL );
+		assert( newElement != nullptr );
 
 		newElement->prevElement = prevElement;		// link to previous element
 		newElement->data = sourceElement->data;		// copy data
-		newElement->nextElement = NULL;				// no initial link
+		newElement->nextElement = nullptr;				// no initial link
 
-		if (prevElement != NULL)
+		if (prevElement != nullptr)
 			{
 			prevElement->nextElement = newElement;	// set up link from previous element
 			}
@@ -196,7 +196,7 @@ JLinkedList<T>::CreateElement
 		}
 
 	JLinkedListElement<T>* newElement = jnew JLinkedListElement<T>;
-	assert( newElement != NULL );
+	assert( newElement != nullptr );
 
 	LinkInElement(*trueIndex, newElement);
 
@@ -282,7 +282,7 @@ JLinkedList<T>::RemoveAll()
 
 	The public member RemoveElement handles broadcasting the change.
 
-	If origElement != NULL, it is assumed to be the first element to delete.
+	If origElement != nullptr, it is assumed to be the first element to delete.
 
  ******************************************************************************/
 
@@ -316,8 +316,8 @@ JLinkedList<T>::DeleteAll()
 {
 	DeleteChain(itsFirstElement);
 
-	itsFirstElement = NULL;
-	itsLastElement  = NULL;
+	itsFirstElement = nullptr;
+	itsLastElement  = nullptr;
 	JCollection::SetElementCount(0);
 }
 
@@ -335,7 +335,7 @@ JLinkedList<T>::DeleteChain
 	JLinkedListElement<T>* firstElement
 	)
 {
-	while (firstElement != NULL)
+	while (firstElement != nullptr)
 		{
 		JLinkedListElement<T>* nextElement = firstElement->nextElement;
 		jdelete firstElement;
@@ -468,7 +468,7 @@ JLinkedList<T>::NewIterator
 	)
 {
 	JLinkedListIterator<T>* iter = jnew JLinkedListIterator<T>(this, start, index);
-	assert( iter != NULL );
+	assert( iter != nullptr );
 	return iter;
 }
 
@@ -482,7 +482,7 @@ JLinkedList<T>::NewIterator
 	const
 {
 	JLinkedListIterator<T>* iter = jnew JLinkedListIterator<T>(*this, start, index);
-	assert( iter != NULL );
+	assert( iter != nullptr );
 	return iter;
 }
 
@@ -527,14 +527,14 @@ JLinkedList<T>::LinkInElement
 
 	if (JCollection::IsEmpty())
 		{
-		theElement->prevElement = NULL;
-		theElement->nextElement = NULL;
+		theElement->prevElement = nullptr;
+		theElement->nextElement = nullptr;
 		itsFirstElement = theElement;
 		itsLastElement  = theElement;
 		}
 	else if (index == 1)
 		{
-		theElement->prevElement = NULL;
+		theElement->prevElement = nullptr;
 		theElement->nextElement = itsFirstElement;
 		itsFirstElement->prevElement = theElement;
 		itsFirstElement = theElement;
@@ -542,7 +542,7 @@ JLinkedList<T>::LinkInElement
 	else if (index == JCollection::GetElementCount()+1)
 		{
 		theElement->prevElement = itsLastElement;
-		theElement->nextElement = NULL;
+		theElement->nextElement = nullptr;
 		itsLastElement->nextElement = theElement;
 		itsLastElement = theElement;
 		}
@@ -566,7 +566,7 @@ JLinkedList<T>::LinkInElement
 
 	Unlink the specified elements from the list and return the first one.
 
-	If origElement != NULL, it is assumed to be the first element to remove.
+	If origElement != nullptr, it is assumed to be the first element to remove.
 
  ******************************************************************************/
 
@@ -582,15 +582,15 @@ JLinkedList<T>::UnlinkNextElements
 	const JSize lastIndex = firstIndex + count-1;
 	assert( JCollection::IndexValid(firstIndex) && JCollection::IndexValid(lastIndex) );
 
-	JLinkedListElement<T>* result = NULL;
+	JLinkedListElement<T>* result = nullptr;
 
 	const JSize elementCount = JCollection::GetElementCount();
 
 	if (elementCount == count)
 		{
 		result          = itsFirstElement;
-		itsFirstElement = NULL;
-		itsLastElement  = NULL;
+		itsFirstElement = nullptr;
+		itsLastElement  = nullptr;
 		}
 	else if (firstIndex == 1)
 		{
@@ -599,8 +599,8 @@ JLinkedList<T>::UnlinkNextElements
 			{
 			itsFirstElement = itsFirstElement->nextElement;
 			}
-		(itsFirstElement->prevElement)->nextElement = NULL;
-		itsFirstElement->prevElement                = NULL;
+		(itsFirstElement->prevElement)->nextElement = nullptr;
+		itsFirstElement->prevElement                = nullptr;
 		}
 	else if (lastIndex == elementCount)
 		{
@@ -609,13 +609,13 @@ JLinkedList<T>::UnlinkNextElements
 			itsLastElement = itsLastElement->prevElement;
 			}
 		result                      = itsLastElement->nextElement;
-		result->prevElement         = NULL;
-		itsLastElement->nextElement = NULL;
+		result->prevElement         = nullptr;
+		itsLastElement->nextElement = nullptr;
 		}
 	else
 		{
 		JLinkedListElement<T>* prevElement;
-		if (origElement != NULL)
+		if (origElement != nullptr)
 			{
 			prevElement = origElement->prevElement;
 			}
@@ -627,13 +627,13 @@ JLinkedList<T>::UnlinkNextElements
 		JLinkedListElement<T>* theElement = prevElement->nextElement;
 
 		result              = theElement;
-		result->prevElement = NULL;
+		result->prevElement = nullptr;
 
 		for (JIndex i=1; i<=count; i++)
 			{
 			theElement = theElement->nextElement;
 			}
-		(theElement->prevElement)->nextElement = NULL;
+		(theElement->prevElement)->nextElement = nullptr;
 
 		prevElement->nextElement = theElement;
 		theElement->prevElement  = prevElement;

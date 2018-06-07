@@ -51,7 +51,7 @@ JXToolBarButton::JXToolBarButton
 	itsIsCheckedFlag(kJFalse),
 	itsType(type),
 	itsFont(GetFontManager()->GetDefaultFont()),
-	itsImage(NULL)
+	itsImage(nullptr)
 {
 	JBoolean invalid;
 	NeedsGeometryAdjustment(&invalid);	// gets actual font to use
@@ -108,11 +108,11 @@ JXToolBarButton::Draw
 {
 	const JRect bounds = GetBounds();
 
-	if (itsType == kImage && itsImage != NULL)
+	if (itsType == kImage && itsImage != nullptr)
 		{
 		p.Image(*itsImage, itsImage->GetBounds(), bounds);
 		}
-	else if (itsType == kText || itsImage == NULL)
+	else if (itsType == kText || itsImage == nullptr)
 		{
 		p.SetFont(GetLabelFont());
 		p.JPainter::String(bounds, itsLabel,
@@ -120,7 +120,7 @@ JXToolBarButton::Draw
 		}
 	else
 		{
-		assert(itsImage != NULL);
+		assert(itsImage != nullptr);
 
 		JRect ri = bounds;
 		ri.right = bounds.left + bounds.height();
@@ -220,7 +220,7 @@ JXToolBarButton::NeedsGeometryAdjustment
 
 	itsMenu->GetItemImage(itemIndex, &itsImage);
 
-	if (itsType == kImage && itsImage != NULL)
+	if (itsType == kImage && itsImage != nullptr)
 		{
 		JString hint = itsLabel;
 		JString shortCut;
@@ -236,7 +236,7 @@ JXToolBarButton::NeedsGeometryAdjustment
 		itsFont                 = itsMenu->GetItemFont(itemIndex);
 		const JCoordinate width = itsFont.GetStringWidth(GetFontManager(), itsLabel);
 		const JCoordinate newWidth =
-			(itsType == kText || itsImage == NULL) ?
+			(itsType == kText || itsImage == nullptr) ?
 				width + 2*kLabelBuffer :
 				width + 2*kDualBuffer + GetFrameHeight();
 

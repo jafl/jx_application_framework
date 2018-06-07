@@ -39,7 +39,7 @@ JXSharedPrefObject::JXSharedPrefObject
 	itsLatestVersionID(latestVersID)
 {
 	itsVersionList = jnew JArray<VersionInfo>(versCount);
-	assert( itsVersionList != NULL );
+	assert( itsVersionList != nullptr );
 
 	for (JIndex i=0; i<versCount; i++)
 		{

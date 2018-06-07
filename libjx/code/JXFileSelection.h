@@ -43,7 +43,7 @@ protected:
 
 private:
 
-	JPtrArray<JString>*	itsList;		// NULL until after Resolve()
+	JPtrArray<JString>*	itsList;		// nullptr until after Resolve()
 	JString*			itsBuffer;
 
 private:
@@ -71,7 +71,7 @@ JXFileSelection::GetData
 	const
 {
 	*list = itsList;
-	return JI2B( itsList != NULL );
+	return JI2B( itsList != nullptr );
 }
 
 #endif

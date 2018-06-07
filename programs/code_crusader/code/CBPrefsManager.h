@@ -204,24 +204,24 @@ public:
 	struct FileTypeInfo
 	{
 		JString*				suffix;
-		JRegex*					nameRegex;		// can be NULL
-		JRegex*					contentRegex;	// can be NULL
+		JRegex*					nameRegex;		// can be nullptr
+		JRegex*					contentRegex;	// can be nullptr
 		JIndexRange				literalRange;	// initially nothing
 		CBTextFileType			type;
 		JIndex					macroID;		// MacroSetInfo::id
 		JIndex					crmID;			// CRMRuleListInfo::id
 		JBoolean				isUserScript;	// kJTrue if relative to ~/.jxcb/scripts/
-		JString*				scriptPath;		// NULL if none; *relative*
+		JString*				scriptPath;		// nullptr if none; *relative*
 		JBoolean				wordWrap;
 		JString*				complSuffix;
-		JString*				editCmd;		// NULL if type != kCBExternalFT
+		JString*				editCmd;		// nullptr if type != kCBExternalFT
 
 		FileTypeInfo()
 			:
-			suffix(NULL), nameRegex(NULL), contentRegex(NULL), type(kCBUnknownFT),
+			suffix(nullptr), nameRegex(nullptr), contentRegex(nullptr), type(kCBUnknownFT),
 			macroID(kCBEmptyMacroID), crmID(kCBEmptyCRMRuleListID),
-			isUserScript(kJTrue), scriptPath(NULL),
-			wordWrap(kJTrue), complSuffix(NULL), editCmd(NULL)
+			isUserScript(kJTrue), scriptPath(nullptr),
+			wordWrap(kJTrue), complSuffix(nullptr), editCmd(nullptr)
 		{ };
 
 		FileTypeInfo(JString* s, JRegex* nr, JRegex* cr, const CBTextFileType t,
@@ -253,8 +253,8 @@ public:
 
 		MacroSetInfo()
 			:
-			id(kCBEmptyMacroID), name(NULL),
-			action(NULL), macro(NULL)
+			id(kCBEmptyMacroID), name(nullptr),
+			action(nullptr), macro(nullptr)
 		{ };
 
 		MacroSetInfo(const JPrefID& i, JString* n,
@@ -282,7 +282,7 @@ public:
 
 		CRMRuleListInfo()
 			:
-			id(kCBEmptyCRMRuleListID), name(NULL), list(NULL)
+			id(kCBEmptyCRMRuleListID), name(nullptr), list(nullptr)
 		{ };
 
 		CRMRuleListInfo(const JPrefID& i, JString* n,

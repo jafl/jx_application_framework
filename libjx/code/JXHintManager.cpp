@@ -31,10 +31,10 @@ JXHintManager::JXHintManager
 	itsText(text),
 	itsActiveFlag(kJTrue),
 	itsStartTime(0),
-	itsDirOwner(NULL),
-	itsDirector(NULL)
+	itsDirOwner(nullptr),
+	itsDirector(nullptr)
 {
-	assert( itsWidget != NULL );
+	assert( itsWidget != nullptr );
 }
 
 /******************************************************************************
@@ -86,12 +86,12 @@ JXHintManager::HandleMouseHere
 	if (itsActiveFlag)
 		{
 		const Time t = (JXGetApplication())->GetCurrentTime();
-		if (itsDirector == NULL && pt == itsPrevPt &&
+		if (itsDirector == nullptr && pt == itsPrevPt &&
 			t - itsStartTime > kHintWaitDelay)
 			{
 			CreateHintWindow(rect);
 			}
-		else if (itsDirector == NULL && pt != itsPrevPt)
+		else if (itsDirector == nullptr && pt != itsPrevPt)
 			{
 			itsStartTime = t;
 			itsPrevPt    = pt;
@@ -127,16 +127,16 @@ JXHintManager::HandleMouseLeave()
 void
 JXHintManager::CreateHintWindow()
 {
-	if (itsDirOwner == NULL)
+	if (itsDirOwner == nullptr)
 		{
-		itsDirOwner = jnew JXDirector(NULL);
-		assert( itsDirOwner != NULL );
+		itsDirOwner = jnew JXDirector(nullptr);
+		assert( itsDirOwner != nullptr );
 		}
 
-	if (itsDirector == NULL)
+	if (itsDirector == nullptr)
 		{
 		itsDirector = jnew JXHintDirector(itsDirOwner, itsWidget, itsText);
-		assert( itsDirector != NULL );
+		assert( itsDirector != nullptr );
 		itsDirector->Activate();
 		}
 
@@ -149,16 +149,16 @@ JXHintManager::CreateHintWindow
 	const JRect& rect
 	)
 {
-	if (itsDirOwner == NULL)
+	if (itsDirOwner == nullptr)
 		{
-		itsDirOwner = jnew JXDirector(NULL);
-		assert( itsDirOwner != NULL );
+		itsDirOwner = jnew JXDirector(nullptr);
+		assert( itsDirOwner != nullptr );
 		}
 
-	if (itsDirector == NULL)
+	if (itsDirector == nullptr)
 		{
 		itsDirector = jnew JXHintDirector(itsDirOwner, itsWidget, rect, itsText);
-		assert( itsDirector != NULL );
+		assert( itsDirector != nullptr );
 		itsDirector->Activate();
 		}
 
@@ -173,12 +173,12 @@ JXHintManager::CreateHintWindow
 void
 JXHintManager::DestroyWindow()
 {
-	if (itsDirOwner != NULL)
+	if (itsDirOwner != nullptr)
 		{
 		itsDirOwner->Close();
-		itsDirOwner = NULL;
-		itsDirector = NULL;
+		itsDirOwner = nullptr;
+		itsDirector = nullptr;
 
-		(itsWidget->GetWindow())->SetCurrentHintManager(NULL);
+		(itsWidget->GetWindow())->SetCurrentHintManager(nullptr);
 		}
 }

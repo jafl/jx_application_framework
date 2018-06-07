@@ -56,15 +56,15 @@ private:
 
 	struct Node
 	{
-		JExprNodeType	type;	// determines which of d or f is not NULL
+		JExprNodeType	type;	// determines which of d or f is not nullptr
 		JDecision*		d;
 		JFunction*		f;
 		JIndex			parent;
 
 		Node()
 		:
-		d( NULL ),
-		f( NULL ),
+		d( nullptr ),
+		f( nullptr ),
 		parent( 0 )
 		{ };
 	};

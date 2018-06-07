@@ -103,7 +103,7 @@ INETConnect
 	// This is the stream from which we will read and to which we will write.
 
 	ACE_SOCK_Stream* socket = new ACE_SOCK_Stream;
-	assert( socket != NULL );
+	assert( socket != nullptr );
 
 	// Try to get a connection to the server.  If we pass maxWait = {0,0},
 	// then we have to expect a return value of -1 and jerrno() == EWOULDBLOCK.
@@ -151,7 +151,7 @@ UNIXConnect
 	// This is the stream from which we will read and to which we will write.
 
 	ACE_LSOCK_Stream* socket = new ACE_LSOCK_Stream;
-	assert( socket != NULL );
+	assert( socket != nullptr );
 
 	// Try to get a connection to the server.  If we pass maxWait = {0,0},
 	// then we have to expect a return value of -1 and jerrno() == EWOULDBLOCK.

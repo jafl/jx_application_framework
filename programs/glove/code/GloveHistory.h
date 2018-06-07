@@ -48,8 +48,8 @@ private:
 
 	// owned by the menu bar
 
-	JXXFontMenu*	itsFontMenu;	// NULL if no fonts are available
-	JXFontSizeMenu*	itsSizeMenu;	// NULL if fonts other than Courier are available
+	JXXFontMenu*	itsFontMenu;	// nullptr if no fonts are available
+	JXFontSizeMenu*	itsSizeMenu;	// nullptr if fonts other than Courier are available
 
 private:
 

@@ -115,7 +115,7 @@ JIndex i;
 	// editor settings
 
 	CBTextDocument* doc = jnew CBTextDocument;
-	assert( doc != NULL );
+	assert( doc != nullptr );
 
 	CBTextEditor* te         = doc->GetTextEditor();
 	CBFnMenuUpdater* updater = CBMGetFnMenuUpdater();
@@ -127,7 +127,7 @@ JIndex i;
 	output << ' ' << doc->WillOpenComplFileOnTop();
 
 	doc->Close();
-	doc = NULL;
+	doc = nullptr;
 
 	// default text colors
 
@@ -839,7 +839,7 @@ CMSourceWindowManager*
 CBMGetDocumentManager()
 {
 	assert( 0 );
-	return NULL;
+	return nullptr;
 }
 
 /******************************************************************************
@@ -912,7 +912,7 @@ CBMGetStringList
 		assert( found );
 
 		JString* str = jnew JString(text.GetSubstring(1, endIndex-1));
-		assert( str != NULL );
+		assert( str != nullptr );
 		list->Append(str);
 
 		text.RemoveSubstring(1,endIndex);

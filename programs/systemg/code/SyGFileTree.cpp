@@ -62,7 +62,7 @@ SyGFileTree::Update
 	JFSFileTreeNodeBase**	updateNode
 	)
 {
-	if (force || updateNode == NULL || *updateNode == NULL)
+	if (force || updateNode == nullptr || *updateNode == nullptr)
 		{
 		return GetSyGRoot()->Update(force, updateNode);
 		}
@@ -146,7 +146,7 @@ SyGFileTreeNode*
 SyGFileTree::GetSyGRoot()
 {
 	SyGFileTreeNode* root = dynamic_cast<SyGFileTreeNode*>(GetRoot());
-	assert( root != NULL );
+	assert( root != nullptr );
 	return root;
 }
 
@@ -155,7 +155,7 @@ SyGFileTree::GetSyGRoot()
 	const
 {
 	const SyGFileTreeNode* root = dynamic_cast<const SyGFileTreeNode*>(GetRoot());
-	assert( root != NULL );
+	assert( root != nullptr );
 	return root;
 }
 

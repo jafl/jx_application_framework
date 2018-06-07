@@ -25,10 +25,10 @@ main
 	)
 {
 	JXApplication* app = jnew JXApplication(&argc, argv, "testjexpr", kDefaultStringData);
-	assert( app != NULL );
+	assert( app != nullptr );
 
 	TestExprDirector* mainDir = jnew TestExprDirector(app);
-	assert( mainDir != NULL );
+	assert( mainDir != nullptr );
 
 	mainDir->Activate();
 	app->Run();

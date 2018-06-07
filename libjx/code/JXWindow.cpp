@@ -96,14 +96,14 @@ JXWindow::JXWindow
 	const JBoolean		isOverlay
 	)
 	:
-	JXContainer((JXGetApplication())->GetCurrentDisplay(), this, NULL),
+	JXContainer((JXGetApplication())->GetCurrentDisplay(), this, nullptr),
 	itsDirector(director),
-	itsIconDir(NULL),
-	itsMainWindow(NULL),
+	itsIconDir(nullptr),
+	itsMainWindow(nullptr),
 	itsIsOverlayFlag(isOverlay),
 	itsBufferPixmap(None),
 	itsTitle(title),
-	itsIcon(NULL),
+	itsIcon(nullptr),
 	itsBounds(0, 0, h, w),
 	itsHasBeenVisibleFlag(kJFalse),
 	itsUpdateRegion(XCreateRegion()),
@@ -119,7 +119,7 @@ JXWindow::JXWindow
 	itsHasMaxSizeFlag(kJFalse),
 	itsCloseAction(kCloseDirector),
 	itsCursorIndex(kJXDefaultCursor),
-	itsMouseContainer(NULL),
+	itsMouseContainer(nullptr),
 	itsIsDraggingFlag(kJFalse),
 	itsProcessDragFlag(kJFalse),
 	itsCursorLeftFlag(kJFalse),
@@ -127,30 +127,30 @@ JXWindow::JXWindow
 	itsButtonPressReceiver(this),
 	itsPointerGrabbedFlag(kJFalse),
 	itsBPRChangedFlag(kJFalse),
-	itsFocusWidget(NULL),
-	itsCurrHintMgr(NULL),
+	itsFocusWidget(nullptr),
+	itsCurrHintMgr(nullptr),
 	itsRootChild(None),
-	itsPrevMouseContainer(NULL),
+	itsPrevMouseContainer(nullptr),
 	itsFirstClick(kJXNoButton, 0, JPoint(-1,-1)),
 	itsSecondClick(kJXNoButton, 0, JPoint(-1,-1)),
 	itsClickCount(1),
 	itsIsDockedFlag(kJFalse),
 	itsDockXWindow(None),
-	itsDockWidget(NULL),
-	itsDockingTask(NULL),
-	itsChildWindowList(NULL),
-	itsExpandTask(NULL)
+	itsDockWidget(nullptr),
+	itsDockingTask(nullptr),
+	itsChildWindowList(nullptr),
+	itsExpandTask(nullptr)
 {
-	assert( director != NULL );
+	assert( director != nullptr );
 
 	AdjustTitle();
 
 	itsShortcuts = jnew JArray<Shortcut>;
-	assert( itsShortcuts != NULL );
+	assert( itsShortcuts != nullptr );
 	itsShortcuts->SetCompareFunction(CompareShortcuts);
 
 	itsFocusList = jnew JPtrArray<JXWidget>(JPtrArrayT::kForgetAll);
-	assert( itsFocusList != NULL );
+	assert( itsFocusList != nullptr );
 
 	// get display/colormap for this window
 
@@ -198,7 +198,7 @@ JXWindow::JXWindow
 	wmHints.input         = True;
 
 	XSetWMProperties(*itsDisplay, itsXWindow, &windowName, &windowName,
-					 NULL, 0, &sizeHints, &wmHints, NULL);
+					 nullptr, 0, &sizeHints, &wmHints, nullptr);
 
 	XFree(windowName.value);
 
@@ -226,7 +226,7 @@ JXWindow::JXWindow
 	// create GC to use when drawing
 
 	itsGC = jnew JXGC(itsDisplay, itsXWindow);
-	assert( itsGC != NULL );
+	assert( itsGC != nullptr );
 
 	// notify the display that we exist
 
@@ -238,7 +238,7 @@ JXWindow::JXWindow
 	if (!isOverlay)
 		{
 		itsExpandTask = jnew JXExpandWindowToFitContentTask(this);
-		assert( itsExpandTask != NULL );
+		assert( itsExpandTask != nullptr );
 		itsExpandTask->Go();
 
 		const JXKeyModifiers& mod = itsDisplay->GetLatestKeyModifiers();
@@ -262,7 +262,7 @@ JXWindow::~JXWindow()
 
 	itsDisplay->WindowDeleted(this);
 
-	if (itsIsDockedFlag && itsDockWidget != NULL)
+	if (itsIsDockedFlag && itsDockWidget != nullptr)
 		{
 		(itsDockWidget->GetDockDirector())->ClearFocusWindow(this);
 		}
@@ -515,7 +515,7 @@ JXWindow::Activate()
 			{
 			Raise();
 			}
-		if (itsFocusWidget == NULL)
+		if (itsFocusWidget == nullptr)
 			{
 			SwitchFocus(kJFalse);
 			}
@@ -531,7 +531,7 @@ void
 JXWindow::Resume()
 {
 	JXContainer::Resume();
-	if (IsActive() && itsFocusWidget == NULL)
+	if (IsActive() && itsFocusWidget == nullptr)
 		{
 		SwitchFocus(kJFalse);
 		}
@@ -545,16 +545,16 @@ JXWindow::Resume()
 void
 JXWindow::Show()
 {
-	if (itsExpandTask != NULL)
+	if (itsExpandTask != nullptr)
 		{
 		itsExpandTask->ShowAfterFTC();
 		return;
 		}
 
-	if (!IsVisible() && (itsDockingTask == NULL || itsDockingTask->IsDone()))
+	if (!IsVisible() && (itsDockingTask == nullptr || itsDockingTask->IsDone()))
 		{
 		JXContainer::Show();
-		if (itsFocusWidget == NULL)
+		if (itsFocusWidget == nullptr)
 			{
 			SwitchFocus(kJFalse);
 			}
@@ -605,7 +605,7 @@ JXWindow::Hide()
 			// toss the MapNotify event -- avoids error from XSetInputFocus()
 
 			XEvent xEvent;
-			XIfEvent(*itsDisplay, &xEvent, GetNextMapNotifyEvent, NULL);
+			XIfEvent(*itsDisplay, &xEvent, GetNextMapNotifyEvent, nullptr);
 			itsIsIconifiedFlag = kJFalse;
 			Broadcast(Deiconified());
 			}
@@ -848,7 +848,7 @@ JXWindow::SetWindowStateHint
 	XWMHints wmHints;
 
 	XWMHints* origHints = XGetWMHints(*itsDisplay, itsXWindow);
-	if (origHints != NULL)
+	if (origHints != nullptr)
 		{
 		wmHints = *origHints;
 		XFree(origHints);
@@ -1036,13 +1036,13 @@ JXWindow::UpdateForScroll
 	if (dest.top > ap.top)
 		{
 		r.bottom = dest.top;
-		JXWindowPainter p(itsGC, drawable, r, NULL);
+		JXWindowPainter p(itsGC, drawable, r, nullptr);
 		DrawAll(p, r);
 		}
 	else if (dest.bottom < ap.bottom)
 		{
 		r.top = dest.bottom;
-		JXWindowPainter p(itsGC, drawable, r, NULL);
+		JXWindowPainter p(itsGC, drawable, r, nullptr);
 		DrawAll(p, r);
 		}
 	if (r.height() != ap.height())
@@ -1057,13 +1057,13 @@ JXWindow::UpdateForScroll
 	if (dest.left > ap.left)
 		{
 		r.right = dest.left;
-		JXWindowPainter p(itsGC, drawable, r, NULL);
+		JXWindowPainter p(itsGC, drawable, r, nullptr);
 		DrawAll(p, r);
 		}
 	else if (dest.right < ap.right)
 		{
 		r.left = dest.right;
-		JXWindowPainter p(itsGC, drawable, r, NULL);
+		JXWindowPainter p(itsGC, drawable, r, nullptr);
 		DrawAll(p, r);
 		}
 	if (r.width() != ap.width())
@@ -1282,11 +1282,11 @@ JXWindow::WaitForWM
 	JXWindow*	w
 	)
 {
-	const time_t start = time(NULL);
+	const time_t start = time(nullptr);
 	while (XPending(*d) > 0)
 		{
 		(JXGetApplication())->HandleOneEventForWindow(w);
-		if (time(NULL) - start > 2)	// sometimes we get events for other windows
+		if (time(nullptr) - start > 2)	// sometimes we get events for other windows
 			{
 			break;
 			}
@@ -1343,12 +1343,12 @@ JXWindow::AnalyzeWindowManager
 	// create a test window
 
 	JXWindowDirector* dir = jnew JXWindowDirector(JXGetApplication());
-	assert( dir != NULL );
+	assert( dir != nullptr );
 
 	JXWindow* w = jnew JXWindow(dir, 100, 100, JString("Testing Window Manager", 0, kJFalse));
-	assert( w != NULL );
+	assert( w != nullptr );
 	jdelete w->itsExpandTask;
-	w->itsExpandTask = NULL;
+	w->itsExpandTask = nullptr;
 
 	// test placing visible window (fvwm2)
 
@@ -2160,7 +2160,7 @@ JXWindow::SetIcon
 	// get current hints
 
 	XWMHints* origHints = XGetWMHints(*itsDisplay, itsXWindow);
-	if (origHints != NULL)
+	if (origHints != nullptr)
 		{
 		wmHints = *origHints;
 		XFree(origHints);
@@ -2168,11 +2168,11 @@ JXWindow::SetIcon
 
 	// set new icon
 
-	if (itsIconDir != NULL)
+	if (itsIconDir != nullptr)
 		{
 		const JBoolean ok = itsIconDir->Close();
 		assert( ok );
-		itsIconDir = NULL;
+		itsIconDir = nullptr;
 		}
 
 	jdelete itsIcon;
@@ -2224,7 +2224,7 @@ JXWindow::SetIcon
 	// get current hints
 
 	XWMHints* origHints = XGetWMHints(*itsDisplay, itsXWindow);
-	if (origHints != NULL)
+	if (origHints != nullptr)
 		{
 		wmHints = *origHints;
 		XFree(origHints);
@@ -2233,12 +2233,12 @@ JXWindow::SetIcon
 	// set new icon
 
 	jdelete itsIcon;
-	itsIcon = NULL;
+	itsIcon = nullptr;
 
-	if (itsIconDir == NULL)
+	if (itsIconDir == nullptr)
 		{
 		itsIconDir = jnew JXIconDirector(itsDirector, normalIcon, dropIcon);
-		assert( itsIconDir != NULL );
+		assert( itsIconDir != nullptr );
 		(itsIconDir->GetWindow())->itsMainWindow = this;
 		}
 	else
@@ -2266,14 +2266,14 @@ JXWindow::GetIconWidget
 	)
 	const
 {
-	if (itsIconDir != NULL)
+	if (itsIconDir != nullptr)
 		{
 		*widget = itsIconDir->GetIconWidget();
 		return kJTrue;
 		}
 	else
 		{
-		*widget = NULL;
+		*widget = nullptr;
 		return kJFalse;
 		}
 }
@@ -2429,7 +2429,7 @@ JXWindow::ReadGeometry
 	input >> desktopLoc >> w >> h >> iconified;
 
 	int dockIt         = -1;
-	JXDockWidget* dock = NULL;
+	JXDockWidget* dock = nullptr;
 	if (!skipDocking && vers >= 1)
 		{
 		JIndex id;
@@ -2471,7 +2471,7 @@ JXWindow::ReadGeometry
 			Deiconify();
 			}
 		}
-	else if (dockIt == 1 && dock != NULL && dock->WindowWillFit(this))
+	else if (dockIt == 1 && dock != nullptr && dock->WindowWillFit(this))
 		{
 		jdelete itsDockingTask;	// automatically cleared
 		if (dock->Dock(this))
@@ -2554,7 +2554,7 @@ JXWindow::WriteGeometry
 		output << ' ' << itsIsIconifiedFlag;
 		}
 
-	output << ' ' << (itsDockWidget != NULL ? itsDockWidget->GetID() :
+	output << ' ' << (itsDockWidget != nullptr ? itsDockWidget->GetID() :
 											  JXDockManager::kInvalidDockID);
 
 	JXDockManager* mgr;
@@ -2666,7 +2666,7 @@ JXWindow::HandleEvent
 		// we have been deleted -- primarily for Netscape plug-in
 
 		itsXWindow     = None;
-		itsFocusWidget = NULL;		// too late to validate
+		itsFocusWidget = nullptr;		// too late to validate
 		itsDirector->Close();		// deletes us
 		}
 	else if (xEvent.type == DestroyNotify)
@@ -2839,8 +2839,8 @@ JXWindow::HandleLeaveNotify
 {
 	if (JXButtonStates::AllOff(xEvent.state))
 		{
-		SetMouseContainer(NULL, JPoint(xEvent.x, xEvent.y), xEvent.state);
-		itsDisplay->SetMouseContainer(NULL);
+		SetMouseContainer(nullptr, JPoint(xEvent.x, xEvent.y), xEvent.state);
+		itsDisplay->SetMouseContainer(nullptr);
 		}
 	else	// cursor grabbed
 		{
@@ -2875,7 +2875,7 @@ JXWindow::HandleMotionNotify
 		{
 		const JBoolean isDrag = !JXButtonStates::AllOff(xEvent.state);
 		if (itsIsDraggingFlag && isDrag &&			// otherwise wait for ButtonPress
-			itsProcessDragFlag && itsMouseContainer != NULL)
+			itsProcessDragFlag && itsMouseContainer != nullptr)
 			{
 			JXDisplay* display = itsDisplay;	// need local copy, since we might be deleted
 			Display* xDisplay  = *display;
@@ -2955,7 +2955,7 @@ JXWindow::HandleButtonPress
 		Update();
 		}
 
-	else if (itsIsDraggingFlag && itsProcessDragFlag && itsMouseContainer != NULL)
+	else if (itsIsDraggingFlag && itsProcessDragFlag && itsMouseContainer != nullptr)
 		{
 		const JPoint pt = itsMouseContainer->GlobalToLocal(xEvent.x, xEvent.y);
 		itsMouseContainer->MouseDown(pt, currButton, 1,
@@ -2969,7 +2969,7 @@ JXWindow::HandleButtonPress
 	if ((JXGetApplication())->HadBlockingWindow())
 		{
 		itsCleanAfterBlockFlag = kJTrue;
-		if (itsIsDraggingFlag && itsProcessDragFlag && itsMouseContainer != NULL)
+		if (itsIsDraggingFlag && itsProcessDragFlag && itsMouseContainer != nullptr)
 			{
 			EndDrag(itsMouseContainer, JPoint(xEvent.x, xEvent.y),
 					JXButtonStates(state), JXKeyModifiers(itsDisplay, state));
@@ -2995,7 +2995,7 @@ JXWindow::CountClicks
 	const JPoint&	pt
 	)
 {
-	assert( itsMouseContainer != NULL && container == itsMouseContainer );
+	assert( itsMouseContainer != nullptr && container == itsMouseContainer );
 
 	itsSecondClick.pt = pt;
 
@@ -3011,7 +3011,7 @@ JXWindow::CountClicks
 		itsClickCount = 1;
 		}
 
-	// set it here so it stays NULL until after we check it the first time
+	// set it here so it stays nullptr until after we check it the first time
 
 	itsPrevMouseContainer = itsMouseContainer;
 
@@ -3043,7 +3043,7 @@ JXWindow::HandleButtonRelease
 	const JXMouseButton currButton = (JXMouseButton) xEvent.button;
 	const unsigned int state = JXButtonStates::SetState(xEvent.state, currButton, kJFalse);
 
-	if (itsProcessDragFlag && itsMouseContainer != NULL)
+	if (itsProcessDragFlag && itsMouseContainer != nullptr)
 		{
 		JXDisplay* display = itsDisplay;	// need local copy, since we might be deleted
 		Display* xDisplay  = *display;
@@ -3071,11 +3071,11 @@ JXWindow::HandleButtonRelease
 			{
 			// balance XGrabPointer() in BeginDrag()
 			XUngrabPointer(*itsDisplay, xEvent.time);
-			itsDisplay->SetMouseGrabber(NULL);
+			itsDisplay->SetMouseGrabber(nullptr);
 			}
 		if (itsCursorLeftFlag)
 			{
-			SetMouseContainer(NULL, JPoint(xEvent.x, xEvent.y), state);
+			SetMouseContainer(nullptr, JPoint(xEvent.x, xEvent.y), state);
 			}
 		}
 
@@ -3085,7 +3085,7 @@ JXWindow::HandleButtonRelease
 	else if ((JXGetApplication())->HadBlockingWindow() && !itsCleanAfterBlockFlag)
 		{
 		itsCleanAfterBlockFlag = kJTrue;
-		if (itsIsDraggingFlag && itsProcessDragFlag && itsMouseContainer != NULL)
+		if (itsIsDraggingFlag && itsProcessDragFlag && itsMouseContainer != nullptr)
 			{
 			EndDrag(itsMouseContainer, JPoint(xEvent.x, xEvent.y),
 					JXButtonStates(state), JXKeyModifiers(itsDisplay, state));
@@ -3110,21 +3110,21 @@ JXWindow::SetMouseContainer
 	const unsigned int	state
 	)
 {
-	if (obj != NULL)
+	if (obj != nullptr)
 		{
 		itsDisplay->SetMouseContainer(this);	// may not get EnterNotify
 		}
 
 	if (itsMouseContainer != obj)
 		{
-		if (itsMouseContainer != NULL)
+		if (itsMouseContainer != nullptr)
 			{
 			itsMouseContainer->MouseLeave();
 			itsMouseContainer->DeactivateCursor();
 			}
 
 		itsMouseContainer = obj;
-		if (itsMouseContainer != NULL)
+		if (itsMouseContainer != nullptr)
 			{
 			itsMouseContainer->ActivateCursor(ptG, JXKeyModifiers(itsDisplay, state));
 			itsMouseContainer->MouseEnter();
@@ -3241,7 +3241,7 @@ JXWindow::EndDrag
 		}
 
 	XUngrabPointer(*itsDisplay, CurrentTime);
-	itsDisplay->SetMouseGrabber(NULL);
+	itsDisplay->SetMouseGrabber(nullptr);
 }
 
 /******************************************************************************
@@ -3293,7 +3293,7 @@ JXWindow::UngrabPointer
 		itsPointerGrabbedFlag  = kJFalse;
 		itsButtonPressReceiver = this;
 		itsBPRChangedFlag      = kJTrue;		// notify BeginDrag()
-		itsDisplay->SetMouseGrabber(NULL);
+		itsDisplay->SetMouseGrabber(nullptr);
 		}
 }
 
@@ -3309,12 +3309,12 @@ JXWindow::HandleFocusIn
 	)
 {
 	itsHasFocusFlag = kJTrue;
-	if (itsFocusWidget != NULL)
+	if (itsFocusWidget != nullptr)
 		{
 		itsFocusWidget->HandleWindowFocusEvent();
 		}
 
-	if (itsIsDockedFlag && itsDockWidget != NULL)
+	if (itsIsDockedFlag && itsDockWidget != nullptr)
 		{
 		(itsDockWidget->GetDockDirector())->SetFocusWindow(this);
 		}
@@ -3334,12 +3334,12 @@ JXWindow::HandleFocusOut
 	)
 {
 	itsHasFocusFlag = kJFalse;
-	if (itsFocusWidget != NULL)
+	if (itsFocusWidget != nullptr)
 		{
 		itsFocusWidget->HandleWindowUnfocusEvent();
 		}
 
-	if (itsIsDockedFlag && itsDockWidget != NULL)
+	if (itsIsDockedFlag && itsDockWidget != nullptr)
 		{
 		(itsDockWidget->GetDockDirector())->ClearFocusWindow(this);
 		}
@@ -3362,7 +3362,7 @@ JXWindow::HandleKeyPress
 		{
 		return;
 		}
-	if (itsMainWindow != NULL)	// send keypresses to main window, not icon
+	if (itsMainWindow != nullptr)	// send keypresses to main window, not icon
 		{
 		itsMainWindow->HandleKeyPress(xEvent);
 		return;
@@ -3371,7 +3371,7 @@ JXWindow::HandleKeyPress
 	JUtf8Byte buffer[10];
 	KeySym keySym;
 	JSize charCount =
-		XLookupString(const_cast<XKeyEvent*>(&(xEvent.xkey)), buffer, 10, &keySym, NULL);
+		XLookupString(const_cast<XKeyEvent*>(&(xEvent.xkey)), buffer, 10, &keySym, nullptr);
 	if (charCount == 0)
 		{
 		buffer[0] = '\0';
@@ -3464,7 +3464,7 @@ JXWindow::HandleKeyPress
 	// We check WillAcceptFocus() because we don't want to send keypresses
 	// to invisible or inactive widgets.
 
-	else if (keySym == XK_Tab && itsFocusWidget != NULL &&
+	else if (keySym == XK_Tab && itsFocusWidget != nullptr &&
 			 itsFocusWidget->WillAcceptFocus() &&
 			 (( modsOff && itsFocusWidget->WantsTab()) ||
 			  (!modsOff && itsFocusWidget->WantsModifiedTab())))
@@ -3493,7 +3493,7 @@ JXWindow::HandleKeyPress
 		{
 		itsDockWidget->ShowNextWindow();
 		}
-	else if (itsFocusWidget != NULL && itsFocusWidget->WillAcceptFocus())
+	else if (itsFocusWidget != nullptr && itsFocusWidget->WillAcceptFocus())
 		{
 		DeactivateHint();
 
@@ -3575,10 +3575,10 @@ JXWindow::TossKeyRepeatEvents
 void
 JXWindow::DeactivateHint()
 {
-	if (itsCurrHintMgr != NULL)
+	if (itsCurrHintMgr != nullptr)
 		{
 		itsCurrHintMgr->Deactivate();
-		itsCurrHintMgr = NULL;
+		itsCurrHintMgr = nullptr;
 		}
 }
 
@@ -3598,7 +3598,7 @@ JXWindow::RegisterFocusWidget
 		itsFocusList->Append(widget);
 		if (itsFocusList->GetElementCount() == 1)
 			{
-			assert( itsFocusWidget == NULL );
+			assert( itsFocusWidget == nullptr );
 			SwitchFocus(kJFalse);
 			}
 		}
@@ -3620,7 +3620,7 @@ JXWindow::UnregisterFocusWidget
 		itsFocusList->Remove(widget);
 		if (widget == itsFocusWidget)
 			{
-			itsFocusWidget = NULL;
+			itsFocusWidget = nullptr;
 			SwitchFocus(kJFalse);
 			}
 		}
@@ -3667,7 +3667,7 @@ JXWindow::SwitchFocusToFirstWidgetWithAncestor
 	JXContainer* ancestor
 	)
 {
-	JXWidget* firstWidget = NULL;
+	JXWidget* firstWidget = nullptr;
 
 	const JSize count = itsFocusList->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
@@ -3681,7 +3681,7 @@ JXWindow::SwitchFocusToFirstWidgetWithAncestor
 			}
 		}
 
-	if (firstWidget == NULL || itsFocusWidget == firstWidget)
+	if (firstWidget == nullptr || itsFocusWidget == firstWidget)
 		{
 		return kJTrue;
 		}
@@ -3706,7 +3706,7 @@ JBoolean
 JXWindow::OKToUnfocusCurrentWidget()
 	const
 {
-	if (itsFocusWidget == NULL ||
+	if (itsFocusWidget == nullptr ||
 		itsFocusWidget->OKToUnfocus())
 		{
 		return kJTrue;
@@ -3725,7 +3725,7 @@ JXWindow::OKToUnfocusCurrentWidget()
 JBoolean
 JXWindow::UnfocusCurrentWidget()
 {
-	if (itsFocusWidget == NULL)
+	if (itsFocusWidget == nullptr)
 		{
 		return kJTrue;
 		}
@@ -3750,10 +3750,10 @@ JXWindow::UnfocusCurrentWidget()
 void
 JXWindow::KillFocus()
 {
-	if (itsFocusWidget != NULL)
+	if (itsFocusWidget != nullptr)
 		{
 		JXWidget* origWidget = itsFocusWidget;
-		itsFocusWidget = NULL;		// clear this first
+		itsFocusWidget = nullptr;		// clear this first
 		origWidget->NotifyFocusLost();
 		}
 }
@@ -3769,7 +3769,7 @@ JXWindow::SwitchFocusToWidget
 	JXWidget* widget
 	)
 {
-	if (itsExpandTask != NULL)
+	if (itsExpandTask != nullptr)
 		{
 		itsExpandTask->FocusAfterFTC(widget);
 		return kJTrue;
@@ -3804,16 +3804,16 @@ JXWindow::SwitchFocus
 	if (itsFocusList->IsEmpty())
 		{
 		// nothing to do
-		assert( itsFocusWidget == NULL );
+		assert( itsFocusWidget == nullptr );
 		}
-	else if (itsFocusWidget == NULL && backward)
+	else if (itsFocusWidget == nullptr && backward)
 		{
 		if (FindPrevFocusWidget(0, &itsFocusWidget))
 			{
 			itsFocusWidget->Focus(0);
 			}
 		}
-	else if (itsFocusWidget == NULL)
+	else if (itsFocusWidget == nullptr)
 		{
 		if (FindNextFocusWidget(0, &itsFocusWidget))
 			{
@@ -3853,10 +3853,10 @@ JXWindow::SwitchFocus
 			}
 		else
 			{
-			widget = NULL;
+			widget = nullptr;
 			}
 
-		if (widget != NULL)
+		if (widget != nullptr)
 			{
 			itsFocusWidget = widget;
 			itsFocusWidget->Focus(0);
@@ -3868,7 +3868,7 @@ JXWindow::SwitchFocus
  FindNextFocusWidget (private)
 
 	Look forward in the list to find a widget after the specified one.
-	If nothing can be found, sets *widget = NULL and returns kJFalse.
+	If nothing can be found, sets *widget = nullptr and returns kJFalse.
 
 	(startIndex == 0) => start at beginning of list
 
@@ -3882,7 +3882,7 @@ JXWindow::FindNextFocusWidget
 	)
 	const
 {
-	*focusWidget = NULL;
+	*focusWidget = nullptr;
 
 	const JSize count = itsFocusList->GetElementCount();
 	if (count == 0)
@@ -3927,7 +3927,7 @@ JXWindow::FindNextFocusWidget
  FindPrevFocusWidget (private)
 
 	Look backwards in the list to find a widget in front of the specified one.
-	If nothing can be found, sets *widget = NULL and returns kJFalse.
+	If nothing can be found, sets *widget = nullptr and returns kJFalse.
 
 	(startIndex == 0) => start at end of list
 
@@ -3941,7 +3941,7 @@ JXWindow::FindPrevFocusWidget
 	)
 	const
 {
-	*focusWidget = NULL;
+	*focusWidget = nullptr;
 
 	const JSize count = itsFocusList->GetElementCount();
 	if (count == 0)
@@ -4177,7 +4177,7 @@ JXWindow::InstallShortcuts
 			modifiers.SetState(kJXMetaKeyIndex, kJFalse);
 			}
 		else if (c == 'F' &&
-				 (fnIndex = strtoul(list.GetBytes() + iter.GetNextByteIndex(), NULL, 10)) > 0 &&
+				 (fnIndex = strtoul(list.GetBytes() + iter.GetNextByteIndex(), nullptr, 10)) > 0 &&
 				 fnIndex <= 35)
 			{
 			InstallShortcut(widget, XK_F1 + fnIndex-1, modifiers);
@@ -4201,7 +4201,7 @@ JXWindow::InstallShortcuts
 	We perform a case-insensitive search first for "^c", then " c",
 	then "[^a-z]c", and finally anywhere.
 
-	For convenience, list can be NULL.
+	For convenience, list can be nullptr.
 
  ******************************************************************************/
 
@@ -4212,7 +4212,7 @@ JXWindow::GetULShortcutIndex
 	const JString*	list
 	)
 {
-	if (label.IsEmpty() || list == NULL || list->IsEmpty())
+	if (label.IsEmpty() || list == nullptr || list->IsEmpty())
 		{
 		return 0;
 		}
@@ -4395,18 +4395,18 @@ JXWindow::IsShortcut
 
 //	printf("IsShortcut: newState: %X\n\n", state);
 
-	Shortcut target(NULL, key, state);
+	Shortcut target(nullptr, key, state);
 	JIndex i;
 	const JBoolean found = itsShortcuts->SearchSorted(target, JListT::kAnyMatch, &i);
 
 	if (found)
 		{
 		const Shortcut s = itsShortcuts->GetElement(i);
-		if (s.widget != NULL && (s.widget)->WillAcceptShortcut())
+		if (s.widget != nullptr && (s.widget)->WillAcceptShortcut())
 			{
 			(s.widget)->HandleShortcut(s.key, modifiers);
 			}
-		else if (s.menu != NULL)
+		else if (s.menu != nullptr)
 			{
 			(s.menu)->HandleNMShortcut(s.menuItem, modifiers);
 			}
@@ -4712,14 +4712,14 @@ JXWindow::GetDockWindow
 	)
 	const
 {
-	if (itsDockWidget != NULL)
+	if (itsDockWidget != nullptr)
 		{
 		*window = itsDockWidget->JXContainer::GetWindow();
 		return kJTrue;
 		}
 	else
 		{
-		*window = NULL;
+		*window = nullptr;
 		return kJFalse;
 		}
 }
@@ -4727,7 +4727,7 @@ JXWindow::GetDockWindow
 /******************************************************************************
  Dock
 
-	dock can be NULL.  We take an X Window instead of a JXWindow in order to
+	dock can be nullptr.  We take an X Window instead of a JXWindow in order to
 	allow JXWindows to be docked in other program's windows.
 
 	geom must be in the local coordinates of parent.
@@ -4744,9 +4744,9 @@ JXWindow::Dock
 	const JRect&	geom
 	)
 {
-	if (itsIsOverlayFlag || itsMainWindow != NULL ||
+	if (itsIsOverlayFlag || itsMainWindow != nullptr ||
 		geom.width() < itsMinSize.x || geom.height() < itsMinSize.y ||
-		itsDockingTask != NULL)
+		itsDockingTask != nullptr)
 		{
 		return kJFalse;
 		}
@@ -4762,7 +4762,7 @@ JXWindow::Dock
 		}
 
 	itsDockingTask = jnew JXDockWindowTask(this, parent, JPoint(geom.left, geom.top), dock);
-	assert( itsDockingTask != NULL );
+	assert( itsDockingTask != nullptr );
 	itsDockingTask->Start();
 	ClearWhenGoingAway(itsDockingTask, &itsDockingTask);
 
@@ -4791,7 +4791,7 @@ JXWindow::Undock()
 
 	const JBoolean wasVisible = IsVisible();
 
-	if (itsDockWidget != NULL)
+	if (itsDockWidget != nullptr)
 		{
 		(itsDockWidget->GetDockDirector())->ClearFocusWindow(this);
 		}
@@ -4804,7 +4804,7 @@ JXWindow::Undock()
 
 	itsIsDockedFlag = kJFalse;
 	itsDockXWindow  = None;
-	itsDockWidget   = NULL;
+	itsDockWidget   = nullptr;
 	itsRootChild    = None;	// don't wait for ReparentNotify
 	jdelete itsDockingTask;	// automatically cleared
 
@@ -4815,7 +4815,7 @@ JXWindow::Undock()
 	if (wasVisible)
 		{
 		JXRaiseWindowTask* task = jnew JXRaiseWindowTask(this);
-		assert( task != NULL );
+		assert( task != nullptr );
 		task->Go();
 		}
 
@@ -4830,7 +4830,7 @@ JXWindow::Undock()
 void
 JXWindow::UndockAllChildWindows()
 {
-	if (itsChildWindowList != NULL)
+	if (itsChildWindowList != nullptr)
 		{
 		const JSize count = itsChildWindowList->GetElementCount();
 		for (JIndex i=1; i<=count; i++)
@@ -4857,13 +4857,13 @@ JXWindow::UpdateChildWindowList
 	const JBoolean	add
 	)
 {
-	if (add && itsChildWindowList == NULL)
+	if (add && itsChildWindowList == nullptr)
 		{
 		itsChildWindowList = jnew JArray<ChildWindowInfo>;
-		assert( itsChildWindowList != NULL );
+		assert( itsChildWindowList != nullptr );
 		}
 
-	if (itsChildWindowList != NULL)
+	if (itsChildWindowList != nullptr)
 		{
 		// check if xWindow is already in the list
 
@@ -4901,7 +4901,7 @@ JXWindow::UpdateChildWindowList
 		if (itsChildWindowList->IsEmpty())
 			{
 			jdelete itsChildWindowList;
-			itsChildWindowList = NULL;
+			itsChildWindowList = nullptr;
 			}
 		}
 }
@@ -4918,7 +4918,7 @@ JXWindow::SetChildWindowGeometry
 	const JRect&	geom
 	)
 {
-	if (itsChildWindowList != NULL)
+	if (itsChildWindowList != nullptr)
 		{
 		const JSize count = itsChildWindowList->GetElementCount();
 		for (JIndex i=1; i<=count; i++)
@@ -4945,7 +4945,7 @@ JXWindow::SetChildWindowGeometry
 void
 JXWindow::UpdateChildWindowGeometry()
 {
-	if (itsChildWindowList != NULL)
+	if (itsChildWindowList != nullptr)
 		{
 		const JSize count = itsChildWindowList->GetElementCount();
 		for (JIndex i=1; i<=count; i++)
@@ -4972,7 +4972,7 @@ JXWindow::SetChildWindowVisible
 	const JBoolean	visible
 	)
 {
-	if (itsChildWindowList != NULL)
+	if (itsChildWindowList != nullptr)
 		{
 		const JSize count = itsChildWindowList->GetElementCount();
 		for (JIndex i=1; i<=count; i++)

@@ -123,8 +123,8 @@ JXFSDirMenu::JXFSDirMenu
 	:
 	JXTextMenu(parent, itemIndex, parent->GetEnclosure()),
 	itsPath(path),
-	itsDirInfo(NULL),
-	itsEntries(NULL),
+	itsDirInfo(nullptr),
+	itsEntries(nullptr),
 	itsParent(parent),
 	itsEmptyMsg(parent->itsEmptyMsg),
 	itsFileIcon(parent->itsFileIcon),
@@ -140,21 +140,21 @@ JXFSDirMenu::JXFSDirMenu
 void
 JXFSDirMenu::JXFSDirMenuX()
 {
-	itsDirInfo = NULL;
-	itsEntries = NULL;
-	itsParent  = NULL;
+	itsDirInfo = nullptr;
+	itsEntries = nullptr;
+	itsParent  = nullptr;
 
 	itsFileIcon = jnew JXImage(GetDisplay(), jx_plain_file_small);
-	assert( itsFileIcon != NULL );
+	assert( itsFileIcon != nullptr );
 
 	itsFolderIcon = jnew JXImage(GetDisplay(), jx_folder_small);
-	assert( itsFolderIcon != NULL );
+	assert( itsFolderIcon != nullptr );
 
 	itsExecIcon = jnew JXImage(GetDisplay(), jx_executable_small);
-	assert( itsExecIcon != NULL );
+	assert( itsExecIcon != nullptr );
 
 	itsUnknownIcon = jnew JXImage(GetDisplay(), jx_unknown_file_small);
-	assert( itsUnknownIcon != NULL );
+	assert( itsUnknownIcon != nullptr );
 
 	JXFSDirMenuX1();
 }
@@ -182,7 +182,7 @@ JXFSDirMenu::~JXFSDirMenu()
 	jdelete itsDirInfo;
 	jdelete itsEntries;
 
-	if (itsParent == NULL)
+	if (itsParent == nullptr)
 		{
 		jdelete itsFileIcon;
 		jdelete itsFolderIcon;
@@ -205,7 +205,7 @@ JXFSDirMenu::GetDirInfo
 	JDirInfo** info
 	)
 {
-	if (itsDirInfo == NULL)
+	if (itsDirInfo == nullptr)
 		{
 		if (itsPath.IsEmpty())
 			{
@@ -216,7 +216,7 @@ JXFSDirMenu::GetDirInfo
 		}
 
 	*info = itsDirInfo;
-	return JI2B(*info != NULL);
+	return JI2B(*info != nullptr);
 }
 
 /******************************************************************************
@@ -235,10 +235,10 @@ JXFSDirMenu::SetFileList
 		return;
 		}
 
-	if (itsEntries == NULL)
+	if (itsEntries == nullptr)
 		{
 		itsEntries = jnew JPtrArray<JDirEntry>(JPtrArrayT::kDeleteAll);
-		assert( itsEntries != NULL );
+		assert( itsEntries != nullptr );
 		}
 	else
 		{
@@ -251,7 +251,7 @@ JXFSDirMenu::SetFileList
 	for (JIndex i = 1; i <= count; i++)
 		{
 		JDirEntry* entry = jnew JDirEntry(*(fileNameList.GetElement(i)));
-		assert( entry != NULL );
+		assert( entry != nullptr );
 		itsEntries->Append(entry);
 		AppendEntry(*entry);
 		}
@@ -270,7 +270,7 @@ JXFSDirMenu::SetFileIcon
 {
 	jdelete itsFileIcon;
 	itsFileIcon = jnew JXImage(image);
-	assert( itsFileIcon != NULL );
+	assert( itsFileIcon != nullptr );
 }
 
 void
@@ -281,7 +281,7 @@ JXFSDirMenu::SetFileIcon
 {
 	jdelete itsFileIcon;
 	itsFileIcon = jnew JXImage(GetDisplay(), data);
-	assert( itsFileIcon != NULL );
+	assert( itsFileIcon != nullptr );
 }
 
 /******************************************************************************
@@ -297,7 +297,7 @@ JXFSDirMenu::SetExecIcon
 {
 	jdelete itsExecIcon;
 	itsExecIcon = jnew JXImage(image);
-	assert( itsExecIcon != NULL );
+	assert( itsExecIcon != nullptr );
 }
 
 void
@@ -308,7 +308,7 @@ JXFSDirMenu::SetExecIcon
 {
 	jdelete itsExecIcon;
 	itsExecIcon = jnew JXImage(GetDisplay(), data);
-	assert( itsExecIcon != NULL );
+	assert( itsExecIcon != nullptr );
 }
 
 /******************************************************************************
@@ -346,12 +346,12 @@ JXFSDirMenu::Receive
 		{
 		const JXMenu::ItemSelected* info =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert(info != NULL);
-		if (itsEntries != NULL)
+		assert(info != nullptr);
+		if (itsEntries != nullptr)
 			{
 			BroadcastIfTopLevel(itsEntries->GetElement(info->GetIndex())->GetFullName());
 			}
-		else if (itsDirInfo != NULL)
+		else if (itsDirInfo != nullptr)
 			{
 			BroadcastIfTopLevel(itsDirInfo->GetEntry(info->GetIndex()).GetFullName());
 			}
@@ -370,15 +370,15 @@ JXFSDirMenu::Receive
 void
 JXFSDirMenu::UpdateSelf()
 {
-	if (itsEntries != NULL)
+	if (itsEntries != nullptr)
 		{
 		return;
 		}
 
-	if (itsDirInfo == NULL)
+	if (itsDirInfo == nullptr)
 		{
 		JBoolean ok;
-		if (itsParent != NULL && itsParent->itsDirInfo != NULL)
+		if (itsParent != nullptr && itsParent->itsDirInfo != nullptr)
 			{
 			// copy options
 
@@ -397,7 +397,7 @@ JXFSDirMenu::UpdateSelf()
 		}
 	else
 		{
-		if (itsParent != NULL && itsParent->itsDirInfo != NULL)
+		if (itsParent != nullptr && itsParent->itsDirInfo != nullptr)
 			{
 			itsDirInfo->CopySettings(*(itsParent->itsDirInfo));
 			}
@@ -452,7 +452,7 @@ JXFSDirMenu::AppendEntry
 			JSplitPathAndName(*link, &path, &name);
 			}
 
-		AppendItem(name, kPlainType, NULL, path);
+		AppendItem(name, kPlainType, nullptr, path);
 		}
 	else
 		{
@@ -466,7 +466,7 @@ JXFSDirMenu::AppendEntry
 		if (entry.IsReadable())
 			{
 			JXFSDirMenu* menu = jnew JXFSDirMenu(entry.GetFullName(), this, i);
-			assert( menu != NULL );
+			assert( menu != nullptr );
 			}
 		else
 			{
@@ -515,7 +515,7 @@ JXFSDirMenu::BroadcastIfTopLevel
 	const JString& filename
 	)
 {
-	if (itsParent == NULL)
+	if (itsParent == nullptr)
 		{
 		Broadcast(FileSelected(filename));
 		}

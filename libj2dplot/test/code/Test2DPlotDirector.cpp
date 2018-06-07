@@ -71,28 +71,28 @@ Test2DPlotDirector::BuildWindow()
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 600,400, JString::empty);
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	JXMenuBar* menuBar =
 		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 600,30);
-	assert( menuBar != NULL );
+	assert( menuBar != nullptr );
 
 	itsPlotWidget =
 		jnew JX2DPlotWidget(menuBar, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 600,370);
-	assert( itsPlotWidget != NULL );
+	assert( itsPlotWidget != nullptr );
 
 // end JXLayout
 
 	window->SetMinSize(300, 200);
 
 	itsPSPrinter = jnew JXPSPrinter(GetDisplay());
-	assert( itsPSPrinter != NULL );
+	assert( itsPSPrinter != nullptr );
 	itsPlotWidget->SetPSPrinter(itsPSPrinter);
 
 	itsEPSPrinter = jnew JX2DPlotEPSPrinter(GetDisplay());
-	assert( itsEPSPrinter != NULL );
+	assert( itsEPSPrinter != nullptr );
 	itsPlotWidget->SetEPSPrinter(itsEPSPrinter);
 
 	ListenTo(itsPlotWidget);
@@ -132,7 +132,7 @@ Test2DPlotDirector::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleActionsMenu(selection->GetIndex());
 		}
 

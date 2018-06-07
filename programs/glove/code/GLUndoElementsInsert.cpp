@@ -59,7 +59,7 @@ GLUndoElementsInsert::Undo()
 
 	GLUndoElementsCut* undo =
 		jnew GLUndoElementsCut(GetTable(), GetStartCell(), GetEndCell(), GetType());
-	assert(undo != NULL);
+	assert(undo != nullptr);
 	
 	GRaggedFloatTableData* data 		= GetData();
 	JPoint start 						= GetStartCell();

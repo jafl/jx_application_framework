@@ -113,21 +113,21 @@ SVNRepoView::SVNRepoView
 	JXNamedTreeListWidget(BuildTreeList(repoPath, repoRevision), scrollbarSet, enclosure, hSizing, vSizing, x, y, w, h),
 	SVNTabBase(director),
 	itsEditMenu(editMenu),
-	itsContextMenu(NULL),
-	itsCreateDirectoryDialog(NULL),
-	itsDuplicateItemDialog(NULL),
-	itsCopyItemDialog(NULL),
-	itsCopyItemDestNode(NULL),
-	itsEditTask(NULL),
-	itsSortNode(NULL)
+	itsContextMenu(nullptr),
+	itsCreateDirectoryDialog(nullptr),
+	itsDuplicateItemDialog(nullptr),
+	itsCopyItemDialog(nullptr),
+	itsCopyItemDestNode(nullptr),
+	itsEditTask(nullptr),
+	itsSortNode(nullptr)
 {
 	itsRepoTreeList = dynamic_cast<SVNRepoTreeList*>(GetTreeList());
-	assert( itsRepoTreeList != NULL );
+	assert( itsRepoTreeList != nullptr );
 
 	itsRepoTree = itsRepoTreeList->GetRepoTree();
 
 	itsRefreshTask = jnew JXTimerTask(kRefreshInterval);
-	assert( itsRefreshTask != NULL );
+	assert( itsRefreshTask != nullptr );
 	itsRefreshTask->Start();
 	ListenTo(itsRefreshTask);
 
@@ -169,15 +169,15 @@ SVNRepoView::BuildTreeList
 	)
 {
 	SVNRepoTreeNode* root =
-		jnew SVNRepoTreeNode(NULL, repoPath, repoRevision, "",
+		jnew SVNRepoTreeNode(nullptr, repoPath, repoRevision, "",
 							SVNRepoTreeNode::kDirectory, 0, 0, "", 0);
-	assert( root != NULL );
+	assert( root != nullptr );
 
 	SVNRepoTree* tree = jnew SVNRepoTree(root);
-	assert( tree != NULL );
+	assert( tree != nullptr );
 
 	SVNRepoTreeList* list = jnew SVNRepoTreeList(tree);
-	assert( list != NULL );
+	assert( list != nullptr );
 
 	return list;
 }
@@ -423,7 +423,7 @@ SVNRepoView::Receive
 			{
 			const JXMenu::ItemSelected* selection =
 				dynamic_cast<const JXMenu::ItemSelected*>(&message);
-			assert( selection != NULL );
+			assert( selection != nullptr );
 			HandleEditMenu(selection->GetIndex());
 			}
 		}
@@ -436,7 +436,7 @@ SVNRepoView::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleContextMenu(selection->GetIndex());
 		}
 
@@ -449,43 +449,43 @@ SVNRepoView::Receive
 		{
 		const JXDialogDirector::Deactivated* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 
 		if (info->Successful())
 			{
 			CreateDirectory1();
 			}
 
-		itsCreateDirectoryDialog = NULL;
+		itsCreateDirectoryDialog = nullptr;
 		}
 
 	else if (sender == itsDuplicateItemDialog && message.Is(JXDialogDirector::kDeactivated))
 		{
 		const JXDialogDirector::Deactivated* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 
 		if (info->Successful())
 			{
 			DuplicateItem1();
 			}
 
-		itsDuplicateItemDialog = NULL;
+		itsDuplicateItemDialog = nullptr;
 		}
 
 	else if (sender == itsCopyItemDialog && message.Is(JXDialogDirector::kDeactivated))
 		{
 		const JXDialogDirector::Deactivated* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 
 		if (info->Successful())
 			{
 			CopyItem();
 			}
 
-		itsCopyItemDialog   = NULL;
-		itsCopyItemDestNode = NULL;
+		itsCopyItemDialog   = nullptr;
+		itsCopyItemDestNode = nullptr;
 		}
 
 	else
@@ -580,7 +580,7 @@ SVNRepoView::CopySelectedFiles
 		}
 
 	JXTextSelection* data = jnew JXTextSelection(GetDisplay(), list);
-	assert( data != NULL );
+	assert( data != nullptr );
 
 	GetSelectionManager()->SetData(kJXClipboardName, data);
 }
@@ -660,7 +660,7 @@ SVNRepoView::ExtractInputData
 	const JString newName = input->GetText();	// copy since need after input field gone
 	const JBoolean sort   = (GetDisplay()->GetLatestButtonStates()).AllOff();
 	const JError err      = node->Rename(newName, sort);
-	input                 = NULL;				// nodes sorted => CancelEditing()
+	input                 = nullptr;				// nodes sorted => CancelEditing()
 	if (!err.OK())
 		{
 		(JGetStringManager())->ReportError("RenameError::SVNRepoView", err);
@@ -689,7 +689,7 @@ SVNRepoView::HandleMouseHere
 	const JXKeyModifiers&	modifiers
 	)
 {
-	if (itsEditTask != NULL && JMouseMoved(itsStartPt, pt))
+	if (itsEditTask != nullptr && JMouseMoved(itsStartPt, pt))
 		{
 		itsEditTask->Perform();
 		}
@@ -720,7 +720,7 @@ SVNRepoView::HandleMouseDown
 	itsWaitingToEditFlag   = kJFalse;
 
 	jdelete itsEditTask;
-	itsEditTask	= NULL;
+	itsEditTask	= nullptr;
 
 	JPoint cell;
 	NodePart part;
@@ -830,7 +830,7 @@ SVNRepoView::HandleMouseDrag
 	const JXKeyModifiers&	modifiers
 	)
 {
-	JPainter* p = NULL;
+	JPainter* p = nullptr;
 	if (GetDragPainter(&p))
 		{
 		if (pt != itsPrevPt)
@@ -871,7 +871,7 @@ SVNRepoView::HandleMouseDrag
 					}
 
 				SVNRepoDragData* data = jnew SVNRepoDragData(GetDisplay(), itsDNDDataType, uri);
-				assert(data != NULL);
+				assert(data != nullptr);
 
 				itsDNDCursorType = (type == SVNRepoTreeNode::kDirectory ? kDNDDirCursor : kDNDFileCursor);
 				BeginDND(pt, buttonStates, modifiers, data);
@@ -900,7 +900,7 @@ SVNRepoView::HandleMouseUp
 {
 	JTableSelection& s = GetTableSelection();
 
-	JPainter* p = NULL;
+	JPainter* p = nullptr;
 	if (GetDragPainter(&p))
 		{
 		const JRect selRect = JRect(itsStartPt, itsPrevPt);
@@ -950,9 +950,9 @@ SVNRepoView::HandleMouseUp
 			s.ClearSelection();
 			s.SelectCell(itsEditCell);
 
-			assert( itsEditTask == NULL );
+			assert( itsEditTask == nullptr );
 			itsEditTask = jnew SVNBeginEditingTask(this, itsEditCell);
-			assert( itsEditTask != NULL );
+			assert( itsEditTask != nullptr );
 			itsEditTask->Start();
 			}
 		}
@@ -970,10 +970,10 @@ SVNRepoView::HandleMouseUp
 		JXNamedTreeListWidget::HandleMouseUp(pt, button, buttonStates, modifiers);
 		}
 
-	if (itsSortNode != NULL)
+	if (itsSortNode != nullptr)
 		{
 		itsSortNode->SortChildren();
-		itsSortNode = NULL;
+		itsSortNode = nullptr;
 		}
 
 	itsWaitingToEditFlag = kJFalse;
@@ -1096,7 +1096,7 @@ SVNRepoView::HandleDNDDrop
 	JIndex dndIndex                = 0;
 	const Window dragWindow        = dndMgr->GetDraggerWindow();
 
-	unsigned char* data = NULL;
+	unsigned char* data = nullptr;
 	JSize dataLength;
 	Atom returnType;
 	JXSelectionManager::DeleteMethod delMethod;
@@ -1118,20 +1118,20 @@ SVNRepoView::HandleDNDDrop
 				JStripTrailingDirSeparator(&initialName);
 				}
 
-			assert( itsCopyItemDestNode == NULL );
+			assert( itsCopyItemDestNode == nullptr );
 
 			itsCopyItemDestNode =
 				GetDNDTargetIndex(&dndIndex) ?
 				itsRepoTreeList->GetRepoNode(dndIndex) :
 				itsRepoTree->GetRepoRoot();
 
-			assert( itsCopyItemDialog == NULL );
+			assert( itsCopyItemDialog == nullptr );
 
 			itsCopyItemDialog =
 				jnew JXGetStringDialog(
 					GetDirector(), JGetString("CopyItemWindowTitle::SVNRepoView"),
 					JGetString("CopyItemPrompt::SVNRepoView"), initialName);
-			assert( itsCopyItemDialog != NULL );
+			assert( itsCopyItemDialog != nullptr );
 			(itsCopyItemDialog->GetInputField())->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
 			ListenTo(itsCopyItemDialog);
 			itsCopyItemDialog->BeginDialog();
@@ -1168,7 +1168,7 @@ SVNRepoView::GetDNDAction
 
 	This is called when the target indicates whether or not it will accept
 	the drop.  If !dropAccepted, the action is undefined.  If the drop target
-	is not within the same application, target is NULL.
+	is not within the same application, target is nullptr.
 
  ******************************************************************************/
 
@@ -1260,10 +1260,10 @@ SVNRepoView::HandleKeyPress
 void
 SVNRepoView::CreateContextMenu()
 {
-	if (itsContextMenu == NULL)
+	if (itsContextMenu == nullptr)
 		{
 		itsContextMenu = jnew JXTextMenu("", this, kFixedLeft, kFixedTop, 0,0, 10,10);
-		assert( itsContextMenu != NULL );
+		assert( itsContextMenu != nullptr );
 		itsContextMenu->SetMenuItems(kContextMenuStr, "SVNRepoView");
 		itsContextMenu->SetUpdateAction(JXMenu::kDisableNone);
 		itsContextMenu->SetToHiddenPopupMenu();
@@ -1588,13 +1588,13 @@ SVNRepoView::CreateDirectory()
 		parentNode = itsRepoTree->GetRepoRoot();
 		}
 
-	assert( itsCreateDirectoryDialog == NULL );
+	assert( itsCreateDirectoryDialog == nullptr );
 
 	itsCreateDirectoryDialog =
 		jnew SVNCreateRepoDirectoryDialog(
 			GetDirector(), JGetString("CreateDirectoryWindowTitle::SVNRepoView"),
 			JGetString("CreateDirectoryPrompt::SVNRepoView"), "", parentNode);
-	assert( itsCreateDirectoryDialog != NULL );
+	assert( itsCreateDirectoryDialog != nullptr );
 	ListenTo(itsCreateDirectoryDialog);
 	itsCreateDirectoryDialog->BeginDialog();
 	return kJTrue;
@@ -1610,7 +1610,7 @@ static const JCharacter* kSVNCreateDirectoryCmd = "svn mkdir $path";
 JBoolean
 SVNRepoView::CreateDirectory1()
 {
-	assert( itsCreateDirectoryDialog != NULL );
+	assert( itsCreateDirectoryDialog != nullptr );
 
 	SVNRepoTreeNode* parentNode = itsCreateDirectoryDialog->GetParentNode();
 	const JString& newName      = itsCreateDirectoryDialog->GetString();
@@ -1656,13 +1656,13 @@ SVNRepoView::DuplicateItem()
 		initialName = srcNode->GetName() + JGetString("DuplicateItemSuffix::SVNRepoView");
 		}
 
-	assert( itsDuplicateItemDialog == NULL );
+	assert( itsDuplicateItemDialog == nullptr );
 
 	itsDuplicateItemDialog =
 		jnew SVNDuplicateRepoItemDialog(
 			GetDirector(), JGetString("DuplicateItemWindowTitle::SVNRepoView"),
 			JGetString("DuplicateItemPrompt::SVNRepoView"), initialName, srcNode);
-	assert( itsDuplicateItemDialog != NULL );
+	assert( itsDuplicateItemDialog != nullptr );
 	ListenTo(itsDuplicateItemDialog);
 	itsDuplicateItemDialog->BeginDialog();
 	return kJTrue;

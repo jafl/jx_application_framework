@@ -12,7 +12,7 @@
 #include "CBRubyCompleter.h"
 #include <jAssert.h>
 
-CBRubyCompleter* CBRubyCompleter::itsSelf = NULL;
+CBRubyCompleter* CBRubyCompleter::itsSelf = nullptr;
 
 static const JCharacter* kKeywordList[] =
 {
@@ -63,12 +63,12 @@ static JBoolean recursiveInstance = kJFalse;
 CBStringCompleter*
 CBRubyCompleter::Instance()
 {
-	if (itsSelf == NULL && !recursiveInstance)
+	if (itsSelf == nullptr && !recursiveInstance)
 		{
 		recursiveInstance = kJTrue;
 
 		itsSelf = jnew CBRubyCompleter;
-		assert( itsSelf != NULL );
+		assert( itsSelf != nullptr );
 
 		recursiveInstance = kJFalse;
 		}
@@ -105,7 +105,7 @@ CBRubyCompleter::CBRubyCompleter()
 
 CBRubyCompleter::~CBRubyCompleter()
 {
-	itsSelf = NULL;
+	itsSelf = nullptr;
 }
 
 /******************************************************************************

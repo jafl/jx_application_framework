@@ -133,15 +133,15 @@ protected:
 private:
 
 	JXDisplay*	itsDisplay;		// we don't own this
-	JXGC*		itsGC;			// NULL if using display's default GC
+	JXGC*		itsGC;			// nullptr if using display's default GC
 	JSize		itsDepth;
 
 	State			itsDefState;
 	Drawable		itsPixmap;
 	XImage*			itsImage;
-	JXImageMask*	itsMask;	// can be NULL
+	JXImageMask*	itsMask;	// can be nullptr
 
-	JArray<JColorID>*	itsColorList;		// can be NULL
+	JArray<JColorID>*	itsColorList;		// can be nullptr
 
 private:
 
@@ -189,7 +189,7 @@ inline JBoolean
 JXImage::HasMask()
 	const
 {
-	return JConvertToBoolean( itsMask != NULL );
+	return JConvertToBoolean( itsMask != nullptr );
 }
 
 /******************************************************************************
@@ -205,7 +205,7 @@ JXImage::GetMask
 	const
 {
 	*mask = itsMask;
-	return JConvertToBoolean( itsMask != NULL );
+	return JConvertToBoolean( itsMask != nullptr );
 }
 
 /******************************************************************************

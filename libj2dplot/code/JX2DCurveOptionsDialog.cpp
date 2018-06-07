@@ -41,28 +41,28 @@ JX2DCurveOptionsDialog::JX2DCurveOptionsDialog
 	assert( array.IndexValid(startIndex) );
 
 	itsCurveInfo = jnew JArray<J2DCurveInfo>;
-	assert(itsCurveInfo != NULL);
+	assert(itsCurveInfo != nullptr);
 
 	const JSize count = array.GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
 		J2DCurveInfo info = array.GetElement(i);
 		info.name = jnew JString(*info.name);
-		assert(info.name != NULL);
+		assert(info.name != nullptr);
 		itsCurveInfo->AppendElement(info);
 		}
 
 	itsHasXErrors = jnew JArray<JBoolean>(hasXErrors);
-	assert( itsHasXErrors != NULL );
+	assert( itsHasXErrors != nullptr );
 
 	itsHasYErrors = jnew JArray<JBoolean>(hasYErrors);
-	assert( itsHasYErrors != NULL );
+	assert( itsHasYErrors != nullptr );
 
 	itsIsFunction = jnew JArray<JBoolean>(isFunction);
-	assert( itsIsFunction != NULL );
+	assert( itsIsFunction != nullptr );
 
 	itsIsScatter = jnew JArray<JBoolean>(isScatter);
-	assert( itsIsScatter != NULL );
+	assert( itsIsScatter != nullptr );
 
 	BuildWindow();
 }
@@ -98,76 +98,76 @@ JX2DCurveOptionsDialog::BuildWindow()
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 370,260, JString::empty);
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	JXScrollbarSet* scrollbarSet =
 		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 10,10, 140,240);
-	assert( scrollbarSet != NULL );
+	assert( scrollbarSet != nullptr );
 
 	itsCurveStyleRG =
 		jnew JXRadioGroup(window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 170,50, 184,104);
-	assert( itsCurveStyleRG != NULL );
+	assert( itsCurveStyleRG != nullptr );
 
 	itsShowCurveCB =
 		jnew JXTextCheckbox(JGetString("itsShowCurveCB::JX2DCurveOptionsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 180,20, 100,20);
-	assert( itsShowCurveCB != NULL );
+	assert( itsShowCurveCB != nullptr );
 	itsShowCurveCB->SetShortcuts(JGetString("itsShowCurveCB::JX2DCurveOptionsDialog::shortcuts::JXLayout"));
 
 	itsShowLinesRB =
 		jnew JXTextRadioButton(kShowLines, JGetString("itsShowLinesRB::JX2DCurveOptionsDialog::JXLayout"), itsCurveStyleRG,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,50, 170,20);
-	assert( itsShowLinesRB != NULL );
+	assert( itsShowLinesRB != nullptr );
 	itsShowLinesRB->SetShortcuts(JGetString("itsShowLinesRB::JX2DCurveOptionsDialog::shortcuts::JXLayout"));
 
 	itsShowBothRB =
 		jnew JXTextRadioButton(kShowBoth, JGetString("itsShowBothRB::JX2DCurveOptionsDialog::JXLayout"), itsCurveStyleRG,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,70, 170,20);
-	assert( itsShowBothRB != NULL );
+	assert( itsShowBothRB != nullptr );
 	itsShowBothRB->SetShortcuts(JGetString("itsShowBothRB::JX2DCurveOptionsDialog::shortcuts::JXLayout"));
 
 	itsShowSymbolsRB =
 		jnew JXTextRadioButton(kShowSymbols, JGetString("itsShowSymbolsRB::JX2DCurveOptionsDialog::JXLayout"), itsCurveStyleRG,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,30, 170,20);
-	assert( itsShowSymbolsRB != NULL );
+	assert( itsShowSymbolsRB != nullptr );
 	itsShowSymbolsRB->SetShortcuts(JGetString("itsShowSymbolsRB::JX2DCurveOptionsDialog::shortcuts::JXLayout"));
 
 	itsShowPointsRB =
 		jnew JXTextRadioButton(kShowPoints, JGetString("itsShowPointsRB::JX2DCurveOptionsDialog::JXLayout"), itsCurveStyleRG,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,10, 170,20);
-	assert( itsShowPointsRB != NULL );
+	assert( itsShowPointsRB != nullptr );
 	itsShowPointsRB->SetShortcuts(JGetString("itsShowPointsRB::JX2DCurveOptionsDialog::shortcuts::JXLayout"));
 
 	JXTextButton* okButton =
 		jnew JXTextButton(JGetString("okButton::JX2DCurveOptionsDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 280,230, 70,20);
-	assert( okButton != NULL );
+	assert( okButton != nullptr );
 	okButton->SetShortcuts(JGetString("okButton::JX2DCurveOptionsDialog::shortcuts::JXLayout"));
 
 	itsCancelButton =
 		jnew JXTextButton(JGetString("itsCancelButton::JX2DCurveOptionsDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 170,230, 70,20);
-	assert( itsCancelButton != NULL );
+	assert( itsCancelButton != nullptr );
 	itsCancelButton->SetShortcuts(JGetString("itsCancelButton::JX2DCurveOptionsDialog::shortcuts::JXLayout"));
 
 	itsShowXErrorsCB =
 		jnew JXTextCheckbox(JGetString("itsShowXErrorsCB::JX2DCurveOptionsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 180,170, 110,20);
-	assert( itsShowXErrorsCB != NULL );
+	assert( itsShowXErrorsCB != nullptr );
 	itsShowXErrorsCB->SetShortcuts(JGetString("itsShowXErrorsCB::JX2DCurveOptionsDialog::shortcuts::JXLayout"));
 
 	itsShowYErrorsCB =
 		jnew JXTextCheckbox(JGetString("itsShowYErrorsCB::JX2DCurveOptionsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 180,190, 110,20);
-	assert( itsShowYErrorsCB != NULL );
+	assert( itsShowYErrorsCB != nullptr );
 	itsShowYErrorsCB->SetShortcuts(JGetString("itsShowYErrorsCB::JX2DCurveOptionsDialog::shortcuts::JXLayout"));
 
 // end JXLayout
 
 	window->SetTitle(JGetString("WindowTitle::JX2DCurveOptionsDialog"));
-	SetButtons(okButton, NULL);
+	SetButtons(okButton, nullptr);
 
 	ListenTo(itsCancelButton);
 
@@ -175,7 +175,7 @@ JX2DCurveOptionsDialog::BuildWindow()
 		jnew JX2DCurveNameList(*itsCurveInfo, itsCurrentIndex,
 				scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 				JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 10,10);
-	assert( itsNameList != NULL );
+	assert( itsNameList != nullptr );
 	itsNameList->FitToEnclosure();
 	ListenTo(itsNameList);
 
@@ -198,7 +198,7 @@ JX2DCurveOptionsDialog::Receive
 		{
 		const JX2DCurveNameList::NameSelected* info =
 			dynamic_cast<const JX2DCurveNameList::NameSelected*>(&message);
-		assert(info != NULL);
+		assert(info != nullptr);
 		SaveSettings();
 		itsCurrentIndex = info->GetIndex();
 		AdjustWidgets();

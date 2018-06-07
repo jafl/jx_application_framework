@@ -55,108 +55,108 @@ CBEditMiscPrefsDialog::BuildWindow()
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 370,390, "");
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	JXStaticText* warnTitle =
 		jnew JXStaticText(JGetString("warnTitle::CBEditMiscPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 220,170, 80,20);
-	assert( warnTitle != NULL );
+	assert( warnTitle != nullptr );
 	warnTitle->SetToLabel();
 
 	itsSaveAllCB =
 		jnew JXTextCheckbox(JGetString("itsSaveAllCB::CBEditMiscPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 230,260, 120,20);
-	assert( itsSaveAllCB != NULL );
+	assert( itsSaveAllCB != nullptr );
 
 	itsCloseAllCB =
 		jnew JXTextCheckbox(JGetString("itsCloseAllCB::CBEditMiscPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 230,290, 120,20);
-	assert( itsCloseAllCB != NULL );
+	assert( itsCloseAllCB != nullptr );
 
 	itsQuitCB =
 		jnew JXTextCheckbox(JGetString("itsQuitCB::CBEditMiscPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 230,320, 120,20);
-	assert( itsQuitCB != NULL );
+	assert( itsQuitCB != nullptr );
 
 	JXTextButton* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::CBEditMiscPrefsDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 70,360, 70,20);
-	assert( cancelButton != NULL );
+	assert( cancelButton != nullptr );
 
 	JXTextButton* okButton =
 		jnew JXTextButton(JGetString("okButton::CBEditMiscPrefsDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 230,360, 70,20);
-	assert( okButton != NULL );
+	assert( okButton != nullptr );
 	okButton->SetShortcuts(JGetString("okButton::CBEditMiscPrefsDialog::shortcuts::JXLayout"));
 
 	JXStaticText* noArgsTitle =
 		jnew JXStaticText(JGetString("noArgsTitle::CBEditMiscPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,170, 180,20);
-	assert( noArgsTitle != NULL );
+	assert( noArgsTitle != nullptr );
 	noArgsTitle->SetToLabel();
 
 	itsNewEditorCB =
 		jnew JXTextCheckbox(JGetString("itsNewEditorCB::CBEditMiscPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 30,200, 150,20);
-	assert( itsNewEditorCB != NULL );
+	assert( itsNewEditorCB != nullptr );
 
 	itsNewProjectCB =
 		jnew JXTextCheckbox(JGetString("itsNewProjectCB::CBEditMiscPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 30,230, 150,20);
-	assert( itsNewProjectCB != NULL );
+	assert( itsNewProjectCB != nullptr );
 
 	itsChooseFileCB =
 		jnew JXTextCheckbox(JGetString("itsChooseFileCB::CBEditMiscPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 30,310, 150,20);
-	assert( itsChooseFileCB != NULL );
+	assert( itsChooseFileCB != nullptr );
 
 	itsReopenLastCB =
 		jnew JXTextCheckbox(JGetString("itsReopenLastCB::CBEditMiscPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 30,260, 150,20);
-	assert( itsReopenLastCB != NULL );
+	assert( itsReopenLastCB != nullptr );
 
 	JXStaticText* firstTimeHint =
 		jnew JXStaticText(JGetString("firstTimeHint::CBEditMiscPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 50,280, 100,20);
-	assert( firstTimeHint != NULL );
+	assert( firstTimeHint != nullptr );
 	firstTimeHint->SetToLabel();
 
 	itsCopyWhenSelectCB =
 		jnew JXTextCheckbox(JGetString("itsCopyWhenSelectCB::CBEditMiscPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,70, 330,20);
-	assert( itsCopyWhenSelectCB != NULL );
+	assert( itsCopyWhenSelectCB != nullptr );
 
 	itsCloseUnsavedCB =
 		jnew JXTextCheckbox(JGetString("itsCloseUnsavedCB::CBEditMiscPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 230,230, 120,20);
-	assert( itsCloseUnsavedCB != NULL );
+	assert( itsCloseUnsavedCB != nullptr );
 
 	itsMacStyleCB =
 		jnew JXTextCheckbox(JGetString("itsMacStyleCB::CBEditMiscPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 330,20);
-	assert( itsMacStyleCB != NULL );
+	assert( itsMacStyleCB != nullptr );
 
 	JXStaticText* restartHint =
 		jnew JXStaticText(JGetString("restartHint::CBEditMiscPrefsDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 40,40, 290,20);
-	assert( restartHint != NULL );
+	assert( restartHint != nullptr );
 	restartHint->SetFontSize(JGetDefaultFontSize()-2);
 	restartHint->SetToLabel();
 
 	itsOpenOldProjCB =
 		jnew JXTextCheckbox(JGetString("itsOpenOldProjCB::CBEditMiscPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 230,200, 120,20);
-	assert( itsOpenOldProjCB != NULL );
+	assert( itsOpenOldProjCB != nullptr );
 
 	itsFocusInDockCB =
 		jnew JXTextCheckbox(JGetString("itsFocusInDockCB::CBEditMiscPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,130, 330,20);
-	assert( itsFocusInDockCB != NULL );
+	assert( itsFocusInDockCB != nullptr );
 
 	itsMiddleButtonPasteCB =
 		jnew JXTextCheckbox(JGetString("itsMiddleButtonPasteCB::CBEditMiscPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,100, 330,20);
-	assert( itsMiddleButtonPasteCB != NULL );
+	assert( itsMiddleButtonPasteCB != nullptr );
 
 // end JXLayout
 
@@ -197,7 +197,7 @@ CBEditMiscPrefsDialog::BuildWindow()
 	JXAtLeastOneCBGroup* group =
 		jnew JXAtLeastOneCBGroup(4, itsNewEditorCB, itsNewProjectCB,
 								itsReopenLastCB, itsChooseFileCB);
-	assert( group != NULL );
+	assert( group != nullptr );
 }
 
 /******************************************************************************
@@ -216,7 +216,7 @@ CBEditMiscPrefsDialog::Receive
 		{
 		const JXDialogDirector::Deactivated* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		if (info->Successful())
 			{
 			UpdateSettings();

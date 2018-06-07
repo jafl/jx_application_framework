@@ -18,7 +18,7 @@ public:
 
 	virtual ~CBSymbolUpdatePG();
 
-	virtual JBoolean	IncrementProgress(const JCharacter* message = NULL);
+	virtual JBoolean	IncrementProgress(const JCharacter* message = nullptr);
 	virtual JBoolean	IncrementProgress(const JSize delta);
 	virtual JBoolean	IncrementProgress(const JCharacter* message,
 										  const JSize delta);

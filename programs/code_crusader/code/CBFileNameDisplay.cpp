@@ -45,9 +45,9 @@ CBFileNameDisplay::CBFileNameDisplay
 	:
 	JXFileInput(enclosure, hSizing, vSizing, x,y, w,h)
 {
-	assert( dragSource != NULL );	// force ordering of JXLayout code
+	assert( dragSource != nullptr );	// force ordering of JXLayout code
 
-	itsTE             = NULL;
+	itsTE             = nullptr;
 	itsUnfocusAction  = kCancel;
 	itsDoc            = doc;
 	itsDragSource     = dragSource;
@@ -186,7 +186,7 @@ CBFileNameDisplay::HandleUnfocusEvent()
 		}
 
 	UpdateDisplay(kJFalse);			// take control of text style
-	itsDragSource->ProvideDirectSave(NULL);
+	itsDragSource->ProvideDirectSave(nullptr);
 }
 
 /******************************************************************************

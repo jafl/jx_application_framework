@@ -33,7 +33,7 @@ GLUndoElementsChange::GLUndoElementsChange
 	GLUndoElementsBase(table, start, end, type)
 {
 	itsValues = jnew JPtrArray<JArray<JFloat> >(JPtrArrayT::kDeleteAll);
-	assert(itsValues != NULL);
+	assert(itsValues != nullptr);
 
 	GRaggedFloatTableData* data = GetData();
 
@@ -53,7 +53,7 @@ GLUndoElementsChange::GLUndoElementsChange
 	for (JSize i = colstart; i <= colend; i++)
 		{
 		JArray<JFloat>* col = jnew JArray<JFloat>;
-		assert(col != NULL);
+		assert(col != nullptr);
 		itsValues->Append(col);
 		
 		JIndex rowstart;
@@ -105,7 +105,7 @@ GLUndoElementsChange::Undo()
 
 	GLUndoElementsChange* undo =
 		jnew GLUndoElementsChange(GetTable(), GetStartCell(), GetEndCell(), GetType());
-	assert(undo != NULL);
+	assert(undo != nullptr);
 	
 	GRaggedFloatTableData* data 		= GetData();
 	JPoint start 						= GetStartCell();

@@ -17,7 +17,7 @@
 #include <JXColorManager.h>
 #include <jAssert.h>
 
-CBRubyStyler* CBRubyStyler::itsSelf = NULL;
+CBRubyStyler* CBRubyStyler::itsSelf = nullptr;
 
 const JFileVersion kCurrentTypeListVersion = 1;
 
@@ -68,12 +68,12 @@ static JBoolean recursiveInstance = kJFalse;
 CBStylerBase*
 CBRubyStyler::Instance()
 {
-	if (itsSelf == NULL && !recursiveInstance)
+	if (itsSelf == nullptr && !recursiveInstance)
 		{
 		recursiveInstance = kJTrue;
 
 		itsSelf = jnew CBRubyStyler;
-		assert( itsSelf != NULL );
+		assert( itsSelf != nullptr );
 
 		recursiveInstance = kJFalse;
 		}
@@ -137,7 +137,7 @@ CBRubyStyler::CBRubyStyler()
 CBRubyStyler::~CBRubyStyler()
 {
 	JPrefObject::WritePrefs();
-	itsSelf = NULL;
+	itsSelf = nullptr;
 }
 
 /******************************************************************************

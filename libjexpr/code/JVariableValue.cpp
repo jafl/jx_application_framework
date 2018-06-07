@@ -18,7 +18,7 @@
 /******************************************************************************
  Constructor
 
-	arrayIndex can be NULL
+	arrayIndex can be nullptr
 
  ******************************************************************************/
 
@@ -70,7 +70,7 @@ JVariableValue::Copy()
 	const
 {
 	JVariableValue* newFunction = jnew JVariableValue(*this);
-	assert( newFunction != NULL );
+	assert( newFunction != nullptr );
 	return newFunction;
 }
 

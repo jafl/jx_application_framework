@@ -39,7 +39,7 @@ CMPipe<ACE_PEER_STREAM_2>::CMPipe
 	CMPipeX();
 
 	ACE_Svc_Handler<ACE_PEER_STREAM_2,ACE_SYNCH>::set_handle(fd);
-	ACE_Svc_Handler<ACE_PEER_STREAM_2,ACE_SYNCH>::open(NULL);
+	ACE_Svc_Handler<ACE_PEER_STREAM_2,ACE_SYNCH>::open(nullptr);
 }
 
 // private
@@ -51,7 +51,7 @@ CMPipe<ACE_PEER_STREAM_2>::CMPipeX()
 	itsBufferSize = CMPipeT::kDefaultBufferSize;
 
 	itsBuffer = jnew JCharacter [ itsBufferSize ];
-	assert( itsBuffer != NULL );
+	assert( itsBuffer != nullptr );
 
 	itsInHandleInputFlag = kJFalse;
 }
@@ -79,7 +79,7 @@ CMPipe<ACE_PEER_STREAM_2>::Read
 	JString* buffer
 	)
 {
-	assert( buffer != NULL );
+	assert( buffer != nullptr );
 	*buffer = itsData;
 	itsData.Clear();
 }

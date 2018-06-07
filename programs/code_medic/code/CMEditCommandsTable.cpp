@@ -136,7 +136,7 @@ CMEditCommandsTable::TableDrawCell
 		{
 		itsMinColWidth = w;
 		CMUpdateCommandsTableWidth* task = jnew CMUpdateCommandsTableWidth(this);
-		assert( task != NULL );
+		assert( task != nullptr );
 		task->Go();
 		}
 
@@ -203,7 +203,7 @@ CMEditCommandsTable::CreateXInputField
 		jnew JXInputField(this, kFixedLeft, kFixedTop,
 			x+kHMarginWidth, y,
 			w - kHMarginWidth, h);
-	assert(itsCmdInput != NULL);
+	assert(itsCmdInput != nullptr);
 
 	itsCmdInput->SetText(itsDialog->GetString(cell.y));
 	itsRemoveButton->Activate();
@@ -219,7 +219,7 @@ CMEditCommandsTable::CreateXInputField
 void
 CMEditCommandsTable::PrepareDeleteXInputField()
 {
-	itsCmdInput	= NULL;
+	itsCmdInput	= nullptr;
 	itsRemoveButton->Deactivate();
 }
 

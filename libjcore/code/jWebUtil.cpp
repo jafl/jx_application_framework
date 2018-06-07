@@ -178,7 +178,7 @@ JCheckForNewerVersion
 		}
 
 	VersionSocket* socket = new VersionSocket(host, path, prefsMgr, prefID);
-	assert( socket != NULL );
+	assert( socket != nullptr );
 
 	const JString vers = socket->GetLatestVersion();
 	if (socket->TimeToRemind())
@@ -200,7 +200,7 @@ JCheckForNewerVersion
 		ACE_INET_Addr addr(port, host.GetBytes());
 
 		VersionConnector* connector = new VersionConnector;
-		assert( connector != NULL );
+		assert( connector != nullptr );
 
 		if (connector->connect(socket, addr, ACE_Synch_Options::asynch) == -1 &&
 			jerrno() != EAGAIN)

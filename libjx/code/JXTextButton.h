@@ -54,7 +54,7 @@ protected:
 private:
 
 	JString		itsLabel;
-	JString*	itsShortcuts;	// can be NULL
+	JString*	itsShortcuts;	// can be nullptr
 	JIndex		itsULIndex;
 	JFont		itsFont;
 	JColorID	itsPushedColor;

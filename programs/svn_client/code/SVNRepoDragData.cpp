@@ -76,7 +76,7 @@ SVNRepoDragData::ConvertData
 		*bitsPerBlock = 8;
 		*dataLength   = itsURI.GetLength();
 		*data         = jnew unsigned char[ *dataLength ];
-		if (*data != NULL)
+		if (*data != nullptr)
 			{
 			memcpy(*data, itsURI.GetCString(), *dataLength);
 			return kJTrue;
@@ -84,7 +84,7 @@ SVNRepoDragData::ConvertData
 		}
 
 	*bitsPerBlock = 8;
-	*data         = NULL;
+	*data         = nullptr;
 	*dataLength   = 0;
 	*returnType   = None;
 	return kJFalse;

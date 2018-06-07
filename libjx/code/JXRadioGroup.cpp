@@ -44,9 +44,9 @@ JXRadioGroup::JXRadioGroup
 	JXWidget(enclosure, hSizing, vSizing, x,y, w,h)
 {
 	itsButtons = jnew JPtrArray<JXRadioButton>(JPtrArrayT::kForgetAll);
-	assert( itsButtons != NULL );
+	assert( itsButtons != nullptr );
 
-	itsSelection = NULL;
+	itsSelection = nullptr;
 
 	SetBorderWidth(kFrameDownWidth + kFrameUpWidth);
 }
@@ -70,7 +70,7 @@ JIndex
 JXRadioGroup::GetSelectedItem()
 	const
 {
-	assert( itsSelection != NULL );
+	assert( itsSelection != nullptr );
 	return itsSelection->GetID();
 }
 
@@ -85,11 +85,11 @@ JXRadioGroup::SelectItem
 	const JIndex id
 	)
 {
-	assert( itsSelection != NULL );
+	assert( itsSelection != nullptr );
 
 	if (id != itsSelection->GetID())
 		{
-		JXRadioButton* newButton = NULL;
+		JXRadioButton* newButton = nullptr;
 		const JSize count = itsButtons->GetElementCount();
 		for (JIndex i=1; i<=count; i++)
 			{
@@ -100,7 +100,7 @@ JXRadioGroup::SelectItem
 				break;
 				}
 			}
-		assert( newButton != NULL );
+		assert( newButton != nullptr );
 
 		NewSelection(newButton);
 		}
@@ -117,11 +117,11 @@ JXRadioGroup::NewSelection
 	JXRadioButton* button
 	)
 {
-	assert( button != NULL );
+	assert( button != nullptr );
 
 	if (itsSelection != button)
 		{
-		if (itsSelection != NULL)
+		if (itsSelection != nullptr)
 			{
 			itsSelection->Deselect();
 			}
@@ -157,7 +157,7 @@ JXRadioGroup::GetRadioButton
 			}
 		}
 
-	*rb = NULL;
+	*rb = nullptr;
 	return kJFalse;
 }
 
@@ -175,7 +175,7 @@ JXRadioGroup::NewButton
 	)
 {
 	itsButtons->Append(button);
-	if (itsSelection == NULL)
+	if (itsSelection == nullptr)
 		{
 		NewSelection(button);
 		}

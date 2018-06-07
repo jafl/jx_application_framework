@@ -44,11 +44,11 @@ JXColorWheel::JXColorWheel
 	)
 	:
 	JXWidget(enclosure, hSizing, vSizing, x,y, w,h),
-	itsImage(NULL)
+	itsImage(nullptr)
 {
 	itsBrightnessSlider =
 		jnew JXSlider(this, kFixedRight, kVElastic, w-kSliderWidth,0, kSliderWidth,h);
-	assert( itsBrightnessSlider != NULL );
+	assert( itsBrightnessSlider != nullptr );
 	itsBrightnessSlider->SetMinValue(0);
 	itsBrightnessSlider->SetMaxValue(kJMaxHSBValue);
 	ListenTo(itsBrightnessSlider);
@@ -119,7 +119,7 @@ JXColorWheel::Draw
 	const JCoordinate max    = JMin(bounds.height(), bounds.width() - kSliderWidth - kSliderMargin);
 	const JCoordinate size   = max - 2*kWheelMargin - 1;
 	const JCoordinate center = size/2 + kWheelMargin;
-	if (itsImage == NULL || itsImage->GetWidth() != max || itsColor.brightness != itsLastDrawBrightness)
+	if (itsImage == nullptr || itsImage->GetWidth() != max || itsColor.brightness != itsLastDrawBrightness)
 		{
 		p.SetFilling(kJTrue);
 		p.SetPenColor(black);
@@ -132,7 +132,7 @@ JXColorWheel::Draw
 
 		jdelete itsImage;
 		itsImage = jnew JXImage(GetDisplay(), p.GetDrawable(), r);
-		assert( itsImage != NULL );
+		assert( itsImage != nullptr );
 
 		itsLastDrawBrightness = itsColor.brightness;
 		for (JCoordinate x=0; x<max; x++)
@@ -185,7 +185,7 @@ JXColorWheel::SetColor
 	const JPoint& pt
 	)
 {
-	if (itsImage == NULL)
+	if (itsImage == nullptr)
 		{
 		Redraw();
 		}

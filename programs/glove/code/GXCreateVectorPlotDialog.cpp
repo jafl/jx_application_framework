@@ -74,54 +74,54 @@ GXCreateVectorPlotDialog::BuildWindow
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 380,160, "");
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	itsX1Menu =
 		jnew JXTextMenu("X1", window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 10,40, 160,30);
-	assert( itsX1Menu != NULL );
+	assert( itsX1Menu != nullptr );
 
 	itsY1Menu =
 		jnew JXTextMenu("Y1", window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 200,40, 170,30);
-	assert( itsY1Menu != NULL );
+	assert( itsY1Menu != nullptr );
 
 	itsX2Menu =
 		jnew JXTextMenu("DX", window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 10,80, 160,30);
-	assert( itsX2Menu != NULL );
+	assert( itsX2Menu != nullptr );
 
 	itsY2Menu =
 		jnew JXTextMenu("DY", window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 200,80, 170,30);
-	assert( itsY2Menu != NULL );
+	assert( itsY2Menu != nullptr );
 
 	JXTextButton* okButton =
 		jnew JXTextButton("OK", window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 280,130, 70,20);
-	assert( okButton != NULL );
+	assert( okButton != nullptr );
 	okButton->SetShortcuts("^M");
 
 	JXTextButton* cancelButton =
 		jnew JXTextButton("Cancel", window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 190,130, 70,20);
-	assert( cancelButton != NULL );
+	assert( cancelButton != nullptr );
 	cancelButton->SetShortcuts("^[");
 
 	itsPlotsMenu =
 		jnew JXTextMenu("Plot:", window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 10,120, 130,30);
-	assert( itsPlotsMenu != NULL );
+	assert( itsPlotsMenu != nullptr );
 
 	itsLabelInput =
 		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 115,10, 200,20);
-	assert( itsLabelInput != NULL );
+	assert( itsLabelInput != nullptr );
 
 	JXStaticText* obj1 =
 		jnew JXStaticText("Label:", window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 65,13, 45,15);
-	assert( obj1 != NULL );
+	assert( obj1 != nullptr );
 	obj1->SetToLabel();
 
 // end JXLayout
@@ -238,7 +238,7 @@ GXCreateVectorPlotDialog::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		itsStartX1 = selection->GetIndex();
 		}
 
@@ -246,7 +246,7 @@ GXCreateVectorPlotDialog::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		itsStartX2 = selection->GetIndex();
 		}
 
@@ -254,7 +254,7 @@ GXCreateVectorPlotDialog::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		itsStartY1 = selection->GetIndex();
 		}
 
@@ -262,7 +262,7 @@ GXCreateVectorPlotDialog::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		itsStartY2 = selection->GetIndex();
 		}
 
@@ -270,7 +270,7 @@ GXCreateVectorPlotDialog::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		itsPlotIndex = selection->GetIndex();
 		}
 

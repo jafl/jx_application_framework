@@ -23,7 +23,7 @@ CMThreadNode::CMThreadNode
 	const JIndex		lineIndex
 	)
 	:
-	JNamedTreeNode(NULL, name, kJFalse),
+	JNamedTreeNode(nullptr, name, kJFalse),
 	itsID(id),
 	itsFileName(fileName),
 	itsLineIndex(lineIndex)

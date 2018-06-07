@@ -152,7 +152,7 @@ protected:
 	JBoolean		BeginDND(const JPoint& pt, const JXButtonStates& buttonStates,
 							 const JXKeyModifiers& modifiers,
 							 JXSelectionData* data,
-							 JXDNDManager::TargetFinder* targetFinder = NULL);
+							 JXDNDManager::TargetFinder* targetFinder = nullptr);
 	virtual void	DNDInit(const JPoint& pt, const JXButtonStates& buttonStates,
 							const JXKeyModifiers& modifiers);
 	virtual void	GetSelectionData(JXSelectionData* data, const JString& id);
@@ -298,7 +298,7 @@ JXWidget::GetDragPainter
 	const
 {
 	*p = itsDragPainter;
-	return JI2B(itsDragPainter != NULL);
+	return JI2B(itsDragPainter != nullptr);
 }
 
 /******************************************************************************

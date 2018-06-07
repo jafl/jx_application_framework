@@ -38,11 +38,11 @@ JSetFStreamLength
 {
 	originalStream.close();
 
-	HANDLE h = CreateFile(fileName, GENERIC_READ | GENERIC_WRITE, 0, NULL,
-						  OPEN_EXISTING, 0, NULL);
+	HANDLE h = CreateFile(fileName, GENERIC_READ | GENERIC_WRITE, 0, nullptr,
+						  OPEN_EXISTING, 0, nullptr);
 	assert( h != INVALID_HANDLE_VALUE );
 
-	const DWORD result = SetFilePointer(h, newLength, NULL, FILE_BEGIN);
+	const DWORD result = SetFilePointer(h, newLength, nullptr, FILE_BEGIN);
 	assert( result != INVALID_SET_FILE_POINTER );
 
 	const BOOL success = SetEndOfFile(h);
@@ -53,7 +53,7 @@ JSetFStreamLength
 	// open a new stream for the file and return a pointer to it
 
 	std::fstream* newStream = new std::fstream(fileName, io_mode);
-	assert( newStream != NULL );
+	assert( newStream != nullptr );
 
 	return newStream;
 }

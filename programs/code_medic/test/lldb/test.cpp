@@ -133,7 +133,7 @@ int main()
 
 	std::cout <<"bkpt count:" << t.GetNumBreakpoints() << std::endl;
 
-	SBProcess p = t.LaunchSimple(NULL, (const char**) environ, ".");
+	SBProcess p = t.LaunchSimple(nullptr, (const char**) environ, ".");
 	std::cout << "process: " << p.IsValid() << std::endl;
 	std::cout << "pid: " << p.GetProcessID() << std::endl;
 	std::cout << "plugin: " << p.GetPluginName() << std::endl;

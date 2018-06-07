@@ -196,7 +196,7 @@ CMBreakpoint::Receive
 		{
 		const CMGetFullPath::FileFound* info =
 			dynamic_cast<const CMGetFullPath::FileFound*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		itsLocation.SetFileName(info->GetFullName());
 		(CMGetLink()->GetBreakpointManager())->BreakpointFileNameResolved(this);
 		}
@@ -208,7 +208,7 @@ CMBreakpoint::Receive
 		{
 		const CMGetFullPath::NewCommand* info =
 			dynamic_cast<const CMGetFullPath::NewCommand*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		ListenTo(info->GetNewCommand());
 		}
 	else

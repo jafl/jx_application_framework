@@ -121,7 +121,7 @@ private:
 	JString	itsTitle;
 
 	JSize			itsDashOffset;
-	JArray<JSize>*	itsDashList;		// can be NULL
+	JArray<JSize>*	itsDashList;		// can be nullptr
 
 	// used only during printing
 

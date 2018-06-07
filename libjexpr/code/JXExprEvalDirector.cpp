@@ -66,19 +66,19 @@ JXExprEvalDirector::BuildWindow
 	)
 {
 	JXWindow* window = jnew JXWindow(this, 200,40, "");
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	itsTextDisplay =
-		jnew JXStaticText("", kJFalse, kJTrue, NULL, window,
+		jnew JXStaticText("", kJFalse, kJTrue, nullptr, window,
 						 JXWidget::kHElastic, JXWidget::kVElastic,
 						 10,10, 140,20);
-	assert( itsTextDisplay != NULL );
+	assert( itsTextDisplay != nullptr );
 
 	itsCloseButton =
 		jnew JXTextButton("Close", window,
 						 JXWidget::kFixedRight, JXWidget::kFixedTop,
 						 150,10, 40,20);
-	assert( itsCloseButton != NULL );
+	assert( itsCloseButton != nullptr );
 	itsCloseButton->SetShortcuts("#W^[");
 
 	ListenTo(itsCloseButton);

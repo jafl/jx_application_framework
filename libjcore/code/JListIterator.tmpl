@@ -91,7 +91,7 @@ JListIterator<T>::JListIterator
 	)
 {
 	itsConstOrderedSet = &theOrderedSet;
-	itsOrderedSet      = NULL;
+	itsOrderedSet      = nullptr;
 
 	JOrderedSetIteratorX(start, index);
 }
@@ -120,7 +120,7 @@ JListIterator<T>::JOrderedSetIteratorX
 	const JIndex			index
 	)
 {
-	itsNextIterator = NULL;
+	itsNextIterator = nullptr;
 	AddToIteratorList();
 
 	MoveTo(start, index);
@@ -140,7 +140,7 @@ JListIterator<T>::JListIterator
 	itsConstOrderedSet = source.itsConstOrderedSet;
 	itsOrderedSet      = source.itsOrderedSet;
 	itsCursorPosition  = source.itsCursorPosition;
-	itsNextIterator    = NULL;
+	itsNextIterator    = nullptr;
 
 	AddToIteratorList();
 }
@@ -289,7 +289,7 @@ JListIterator<T>::SetPrev
 	const T& data
 	)
 {
-	if (itsOrderedSet == NULL || AtBeginning())
+	if (itsOrderedSet == nullptr || AtBeginning())
 		{
 		return kJFalse;
 		}
@@ -313,7 +313,7 @@ JListIterator<T>::SetNext
 	const T& data
 	)
 {
-	if (itsOrderedSet == NULL || AtEnd())
+	if (itsOrderedSet == nullptr || AtEnd())
 		{
 		return kJFalse;
 		}
@@ -334,7 +334,7 @@ template <class T>
 JBoolean
 JListIterator<T>::RemovePrev()
 {
-	if (itsOrderedSet == NULL || AtBeginning())
+	if (itsOrderedSet == nullptr || AtBeginning())
 		{
 		return kJFalse;
 		}
@@ -355,7 +355,7 @@ template <class T>
 JBoolean
 JListIterator<T>::RemoveNext()
 {
-	if (itsOrderedSet == NULL || AtEnd())
+	if (itsOrderedSet == nullptr || AtEnd())
 		{
 		return kJFalse;
 		}
@@ -377,7 +377,7 @@ JListIterator<T>::MoveTo
 	const JIndex			index
 	)
 {
-	if (itsConstOrderedSet == NULL)
+	if (itsConstOrderedSet == nullptr)
 		{
 		return;
 		}
@@ -415,7 +415,7 @@ template <class T>
 JBoolean
 JListIterator<T>::AtBeginning()
 {
-	return JConvertToBoolean( itsConstOrderedSet == NULL || itsCursorPosition == 0 );
+	return JConvertToBoolean( itsConstOrderedSet == nullptr || itsCursorPosition == 0 );
 }
 
 /******************************************************************************
@@ -430,7 +430,7 @@ template <class T>
 JBoolean
 JListIterator<T>::AtEnd()
 {
-	return JConvertToBoolean( itsConstOrderedSet == NULL ||
+	return JConvertToBoolean( itsConstOrderedSet == nullptr ||
 							  itsCursorPosition >= itsConstOrderedSet->GetElementCount() );
 }
 
@@ -458,7 +458,7 @@ JListIterator<T>::GetOrderedSet
 	const
 {
 	*obj = itsOrderedSet;
-	return JConvertToBoolean( itsOrderedSet != NULL );
+	return JConvertToBoolean( itsOrderedSet != nullptr );
 }
 
 /******************************************************************************
@@ -504,7 +504,7 @@ template <class T>
 void
 JListIterator<T>::AddToIteratorList()
 {
-	if (itsConstOrderedSet != NULL)
+	if (itsConstOrderedSet != nullptr)
 		{
 		JList<T>* set   = const_cast<JList<T>*>(itsConstOrderedSet);
 		itsNextIterator       = set->itsFirstIterator;
@@ -523,7 +523,7 @@ template <class T>
 void
 JListIterator<T>::RemoveFromIteratorList()
 {
-	if (itsConstOrderedSet == NULL)
+	if (itsConstOrderedSet == nullptr)
 		{
 		return;
 		}
@@ -539,7 +539,7 @@ JListIterator<T>::RemoveFromIteratorList()
 		JListIterator<T>* prevIterator = firstIterator;
 		JListIterator<T>* currIterator = firstIterator->itsNextIterator;
 
-		while (currIterator != NULL)
+		while (currIterator != nullptr)
 			{
 			if (currIterator == this)
 				{
@@ -573,7 +573,7 @@ JListIterator<T>::OrderedSetChanged
 		{
 		const JListT::ElementsInserted* info =
 			dynamic_cast<const JListT::ElementsInserted*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		if (itsCursorPosition >= info->GetFirstIndex())
 			{
 			itsCursorPosition += info->GetCount();
@@ -583,7 +583,7 @@ JListIterator<T>::OrderedSetChanged
 		{
 		const JListT::ElementsRemoved* info =
 			dynamic_cast<const JListT::ElementsRemoved*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		if (itsCursorPosition > info->GetLastIndex())
 			{
 			itsCursorPosition -= info->GetCount();
@@ -599,12 +599,12 @@ JListIterator<T>::OrderedSetChanged
 		}
 	else if (message.Is(JListT::kGoingAway))
 		{
-		itsConstOrderedSet = NULL;
-		itsOrderedSet      = NULL;
+		itsConstOrderedSet = nullptr;
+		itsOrderedSet      = nullptr;
 		itsCursorPosition  = 0;
 		}
 
-	if (itsNextIterator != NULL)
+	if (itsNextIterator != nullptr)
 		{
 		itsNextIterator->OrderedSetChanged(message);
 		}

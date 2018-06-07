@@ -75,10 +75,10 @@ private:
 	struct BaseItemData
 	{
 		JBoolean			enabled;
-		JString*			shortcuts;	// can be NULL
-		JString*			id;			// can be NULL
+		JString*			shortcuts;	// can be nullptr
+		JString*			id;			// can be nullptr
 
-		JXMenu*				submenu;	// this overrides isCheckbox; we own it; can be NULL
+		JXMenu*				submenu;	// this overrides isCheckbox; we own it; can be nullptr
 
 		JXMenu::ItemType	type;
 		JBoolean			isChecked;	// only used when menu is visible
@@ -86,9 +86,9 @@ private:
 		BaseItemData()
 			:
 			enabled( kJTrue ),
-			shortcuts( NULL ),
-			id( NULL ),
-			submenu( NULL ),
+			shortcuts( nullptr ),
+			id( nullptr ),
+			submenu( nullptr ),
 			type( JXMenu::kPlainType ),
 			isChecked( kJFalse )
 		{ };
@@ -233,7 +233,7 @@ JXMenuData::HasSubmenu
 	const
 {
 	const BaseItemData itemData = itsBaseItemData->GetElement(index);
-	return JConvertToBoolean( itemData.submenu != NULL );
+	return JConvertToBoolean( itemData.submenu != nullptr );
 }
 
 /******************************************************************************
@@ -251,7 +251,7 @@ JXMenuData::GetSubmenu
 {
 	const BaseItemData itemData = itsBaseItemData->GetElement(index);
 	*menu = itemData.submenu;
-	return JConvertToBoolean( itemData.submenu != NULL );
+	return JConvertToBoolean( itemData.submenu != nullptr );
 }
 
 /******************************************************************************
@@ -268,7 +268,7 @@ JXMenuData::GetItemShortcuts
 	const
 {
 	*shortcuts = (itsBaseItemData->GetElement(index)).shortcuts;
-	return JI2B(*shortcuts != NULL);
+	return JI2B(*shortcuts != nullptr);
 }
 
 /******************************************************************************
@@ -285,7 +285,7 @@ JXMenuData::GetItemID
 	const
 {
 	*id = (itsBaseItemData->GetElement(index)).id;
-	return JI2B(*id != NULL);
+	return JI2B(*id != nullptr);
 }
 
 #endif

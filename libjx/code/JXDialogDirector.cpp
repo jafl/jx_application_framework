@@ -65,8 +65,8 @@ JXDialogDirector::JXDialogDirector
 {
 	itsAutoGeomFlag = modal;
 	itsCancelFlag   = kJFalse;
-	itsOKButton     = NULL;
-	itsCancelButton = NULL;
+	itsOKButton     = nullptr;
+	itsCancelButton = nullptr;
 }
 
 /******************************************************************************
@@ -81,8 +81,8 @@ JXDialogDirector::~JXDialogDirector()
 /******************************************************************************
  SetButtons
 
-	If the window is not modal, okButton and cancelButton can be NULL.
-	If the window is modal, okButton must not be NULL.
+	If the window is not modal, okButton and cancelButton can be nullptr.
+	If the window is modal, okButton must not be nullptr.
 
  ******************************************************************************/
 
@@ -93,10 +93,10 @@ JXDialogDirector::SetButtons
 	JXButton* cancelButton
 	)
 {
-	assert( !itsModalFlag || okButton != NULL );
+	assert( !itsModalFlag || okButton != nullptr );
 
 	JXWindow* window = GetWindow();
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	if (itsModalFlag)
 		{
@@ -104,13 +104,13 @@ JXDialogDirector::SetButtons
 		}
 
 	itsOKButton = okButton;
-	if (itsOKButton != NULL)
+	if (itsOKButton != nullptr)
 		{
 		ListenTo(itsOKButton);
 		}
 
 	itsCancelButton = cancelButton;
-	if (itsCancelButton != NULL)
+	if (itsCancelButton != nullptr)
 		{
 		ListenTo(itsCancelButton);
 		window->InstallShortcuts(itsCancelButton, JGetString("CancelShortcut::JXGlobal"));
@@ -127,10 +127,10 @@ JXDialogDirector::Activate()
 {
 	if (!IsActive())
 		{
-		assert( !itsModalFlag || itsOKButton != NULL );
+		assert( !itsModalFlag || itsOKButton != nullptr );
 
 		JXWindow* window = GetWindow();
-		assert( window != NULL );
+		assert( window != nullptr );
 		window->SetCloseAction(JXWindow::kDeactivateDirector);
 		window->ShouldFocusWhenShow(kJTrue);
 
@@ -139,7 +139,7 @@ JXDialogDirector::Activate()
 			{
 			JXWindowDirector* windowDir =
 				dynamic_cast<JXWindowDirector*>(supervisor);
-			assert( windowDir != NULL );
+			assert( windowDir != nullptr );
 			window->SetTransientFor(windowDir);
 			}
 

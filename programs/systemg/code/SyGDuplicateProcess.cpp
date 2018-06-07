@@ -31,7 +31,7 @@ SyGDuplicateProcess::Duplicate
 	)
 {
 	SyGDuplicateProcess* p = jnew SyGDuplicateProcess(table, nodeList);
-	assert( p != NULL );
+	assert( p != nullptr );
 }
 
 /******************************************************************************
@@ -48,7 +48,7 @@ SyGDuplicateProcess::SyGDuplicateProcess
 	itsTable(table),
 	itsNodeList(JPtrArrayT::kForgetAll),
 	itsFullNameList(JPtrArrayT::kDeleteAll),
-	itsProcess(NULL),
+	itsProcess(nullptr),
 	itsShouldEditFlag(JI2B(nodeList.GetElementCount() == 1))
 {
 	(itsTable->GetTableSelection()).ClearSelection();
@@ -73,7 +73,7 @@ SyGDuplicateProcess::SyGDuplicateProcess
 
 SyGDuplicateProcess::~SyGDuplicateProcess()
 {
-	assert( itsProcess == NULL );
+	assert( itsProcess == nullptr );
 }
 
 /******************************************************************************
@@ -92,11 +92,11 @@ SyGDuplicateProcess::Receive
 		{
 		const JProcess::Finished* info =
 			dynamic_cast<const JProcess::Finished*>(&message);
-		if (info->Successful() && itsTable != NULL && !itsTable->IsEditing())
+		if (info->Successful() && itsTable != nullptr && !itsTable->IsEditing())
 			{
 			SyGFileTreeNode* node   = itsNodeList.FirstElement();
-			SyGFileTreeNode* parent = NULL;
-			if (node != NULL)
+			SyGFileTreeNode* parent = nullptr;
+			if (node != nullptr)
 				{
 				parent = node->GetSyGParent();
 				}
@@ -110,7 +110,7 @@ SyGDuplicateProcess::Receive
 			}
 
 		JXDeleteObjectTask<JBroadcaster>::Delete(itsProcess);
-		itsProcess = NULL;
+		itsProcess = nullptr;
 		itsNodeList.RemoveElement(1);
 		ProcessNextFile();
 		}
@@ -179,7 +179,7 @@ SyGDuplicateProcess::ProcessNextFile()
 
 	JSplitPathAndName(name, &path, &itsCurrentName);
 
-	const JCharacter* argv[] = { "cp", "-Rdf", *origName, name, NULL };
+	const JCharacter* argv[] = { "cp", "-Rdf", *origName, name, nullptr };
 
 	JVCSType type;
 	if (JIsManagedByVCS(*origName, &type) && type == kJSVNType)
@@ -199,7 +199,7 @@ SyGDuplicateProcess::ProcessNextFile()
 		}
 	else
 		{
-		itsProcess = NULL;
+		itsProcess = nullptr;
 		itsNodeList.RemoveElement(1);
 		ProcessNextFile();
 		}

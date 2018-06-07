@@ -219,7 +219,7 @@ CBTextEditor::CBTextEditor
 	editMenu->ShowSeparatorAfter(editCount);
 
 	itsExecScriptCmdIndex = editCount + 1;
-	editMenu->AppendItem(kExecScriptStr, JXMenu::kPlainType, NULL,
+	editMenu->AppendItem(kExecScriptStr, JXMenu::kPlainType, nullptr,
 						 kExecScriptNMShortcutStr, kExecScriptAction);
 	editMenu->SetItemImage(itsExecScriptCmdIndex, jx_run_script);
 
@@ -239,9 +239,9 @@ CBTextEditor::CBTextEditor
 
 	// create menus when needed
 
-	itsFnMenu         = NULL;
-	itsCompletionMenu = NULL;
-	itsContextMenu    = NULL;
+	itsFnMenu         = nullptr;
+	itsCompletionMenu = nullptr;
+	itsContextMenu    = nullptr;
 
 	// font
 
@@ -443,7 +443,7 @@ CBTextEditor::Receive
 		{
 		const JXFileDocument::NameChanged* info =
 			dynamic_cast<const JXFileDocument::NameChanged*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		UpdateWritable(info->GetFullName());
 		}
 
@@ -455,7 +455,7 @@ CBTextEditor::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleContextMenu(selection->GetIndex());
 		}
 
@@ -463,7 +463,7 @@ CBTextEditor::Receive
 		{
 		const JXFSDirMenu::FileSelected* info =
 			dynamic_cast<const JXFSDirMenu::FileSelected*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		JBoolean onDisk;
 		const JString fullName = itsDoc->GetFullName(&onDisk);
 		if (onDisk)
@@ -490,7 +490,7 @@ CBTextEditor::Receive
 			{
 			const JXMenu::ItemSelected* selection =
 				dynamic_cast<const JXMenu::ItemSelected*>(&message);
-			assert( selection != NULL );
+			assert( selection != nullptr );
 			if (HandleCustomEditMenuItems(selection->GetIndex()))
 				{
 				return;
@@ -505,7 +505,7 @@ CBTextEditor::Receive
 			{
 			const JXMenu::ItemSelected* selection =
 				dynamic_cast<const JXMenu::ItemSelected*>(&message);
-			assert( selection != NULL );
+			assert( selection != nullptr );
 			if (HandleCustomSearchMenuItems(selection->GetIndex()))
 				{
 				return;
@@ -516,7 +516,7 @@ CBTextEditor::Receive
 				 (message.Is(kTextSet) ||
 				  message.Is(kTextChanged)))
 			{
-			if (itsFnMenu != NULL)
+			if (itsFnMenu != nullptr)
 				{
 				itsFnMenu->TextChanged(itsDoc->GetFileType(), "");
 				}
@@ -793,7 +793,7 @@ CBTextEditor::HandleContextMenu
 			SetCaretLocation(r.last+1);
 			}
 
-		CBStringCompleter* completer = NULL;
+		CBStringCompleter* completer = nullptr;
 		if (itsDoc->GetStringCompleter(&completer))
 			{
 			itsCompletionMenu->ClearRequestCount();
@@ -809,7 +809,7 @@ CBTextEditor::HandleContextMenu
 			SetCaretLocation(r.last+1);
 			}
 
-		CBMacroManager* macroMgr = NULL;
+		CBMacroManager* macroMgr = nullptr;
 		if (itsDoc->GetMacroManager(&macroMgr))
 			{
 			macroMgr->Perform(GetInsertionIndex(), itsDoc);
@@ -963,7 +963,7 @@ CBTextEditor::HandleMouseDown
 	)
 {
 	(CBGetDocumentManager())->SetActiveTextDocument(itsDoc);
-	if (itsCompletionMenu != NULL)
+	if (itsCompletionMenu != nullptr)
 		{
 		itsCompletionMenu->ClearRequestCount();
 		}
@@ -1048,10 +1048,10 @@ CBTextEditor::HandleMouseUp
 void
 CBTextEditor::CreateContextMenu()
 {
-	if (itsContextMenu == NULL)
+	if (itsContextMenu == nullptr)
 		{
 		itsContextMenu = jnew JXTextMenu("", this, kFixedLeft, kFixedTop, 0,0, 10,10);
-		assert( itsContextMenu != NULL );
+		assert( itsContextMenu != nullptr );
 		itsContextMenu->SetMenuItems(kContextMenuStr, "CBTextEditor");
 		itsContextMenu->SetUpdateAction(JXMenu::kDisableNone);
 		itsContextMenu->SetToHiddenPopupMenu();
@@ -1084,7 +1084,7 @@ CBTextEditor::CreateScriptMenu
 {
 	CBTEScriptMenu* menu =
 		jnew CBTEScriptMenu(this, itsScriptPath, parent, index, parent->GetEnclosure());
-	assert( menu != NULL );
+	assert( menu != nullptr );
 	ListenTo(menu);
 
 	JXTextMenu* editMenu;
@@ -1117,10 +1117,10 @@ CBTextEditor::HandleKeyPress
 	const JBoolean metaOn    = modifiers.meta();
 	const JBoolean shiftOn   = modifiers.shift();
 
-	CBStringCompleter* completer = NULL;
+	CBStringCompleter* completer = nullptr;
 	JBoolean clearRequestCount   = kJTrue;
 
-	CBMacroManager* macroMgr = NULL;
+	CBMacroManager* macroMgr = nullptr;
 	JIndex caretIndex        = 0;
 
 	const Type type = GetType();
@@ -1185,7 +1185,7 @@ CBTextEditor::HandleKeyPress
 
 	else
 		{
-		const CRMRuleList* ruleList = NULL;
+		const CRMRuleList* ruleList = nullptr;
 		if ((key == '\r' || key == '\n') && shiftOn &&
 			GetCRMRuleList(&ruleList))
 			{
@@ -1200,7 +1200,7 @@ CBTextEditor::HandleKeyPress
 		JXTEBase::HandleKeyPress(key, modifiers);
 		itsColInput->ShouldOptimizeUpdate(kJFalse);
 
-		if (ruleList != NULL)
+		if (ruleList != nullptr)
 			{
 			SetCRMRuleList(const_cast<CRMRuleList*>(ruleList), kJFalse);
 			}
@@ -1220,7 +1220,7 @@ CBTextEditor::HandleKeyPress
 			}
 		}
 
-	if (clearRequestCount && itsCompletionMenu != NULL)
+	if (clearRequestCount && itsCompletionMenu != nullptr)
 		{
 		itsCompletionMenu->ClearRequestCount();
 		}
@@ -1239,7 +1239,7 @@ CBTextEditor::HandleShortcut
 	)
 {
 	(CBGetDocumentManager())->SetActiveTextDocument(itsDoc);
-	if (itsCompletionMenu != NULL)
+	if (itsCompletionMenu != nullptr)
 		{
 		itsCompletionMenu->ClearRequestCount();
 		}
@@ -1259,13 +1259,13 @@ CBTextEditor::FileTypeChanged
 {
 	if ((CBGetFnMenuUpdater())->CanCreateMenu(type))
 		{
-		if (itsFnMenu == NULL)
+		if (itsFnMenu == nullptr)
 			{
 			JXMenuBar* menuBar = itsDoc->GetMenuBar();
 
 			itsFnMenu = jnew CBFunctionMenu(itsDoc, type, this, menuBar,
 										   kFixedLeft, kFixedTop, 0,0, 10,10);
-			assert( itsFnMenu != NULL );
+			assert( itsFnMenu != nullptr );
 
 			JXTextMenu* searchMenu;
 			const JBoolean ok = GetSearchReplaceMenu(&searchMenu);
@@ -1281,19 +1281,19 @@ CBTextEditor::FileTypeChanged
 	else
 		{
 		jdelete itsFnMenu;
-		itsFnMenu = NULL;
+		itsFnMenu = nullptr;
 		}
 
-	CBStringCompleter* completer = NULL;
+	CBStringCompleter* completer = nullptr;
 	if (itsDoc->GetStringCompleter(&completer))
 		{
 		itsCompletionMenu = jnew JXStringCompletionMenu(this, kJTrue);
-		assert( itsCompletionMenu != NULL );
+		assert( itsCompletionMenu != nullptr );
 		}
 	else
 		{
 		jdelete itsCompletionMenu;
-		itsCompletionMenu = NULL;
+		itsCompletionMenu = nullptr;
 		}
 }
 
@@ -1379,7 +1379,7 @@ CBTextEditor::FindSelectedSymbol
 	)
 {
 	JString str;
-	CBProjectDocument* projDoc = NULL;
+	CBProjectDocument* projDoc = nullptr;
 
 	JBoolean onDisk;
 	JString fullName = itsDoc->GetFullName(&onDisk);
@@ -1430,7 +1430,7 @@ CBTextEditor::DisplayManPage()
 			manIndex = text.GetCharacter(endIndex + matchRange.GetLength() - 1);
 			}
 
-		CBManPageDocument::Create(NULL, fnName, manIndex);
+		CBManPageDocument::Create(nullptr, fnName, manIndex);
 		}
 }
 
@@ -1733,7 +1733,7 @@ CBTextEditor::xAdjustStylesBeforeRecalc
 	const JBoolean		deletion
 	)
 {
-	CBStylerBase* styler = NULL;
+	CBStylerBase* styler = nullptr;
 	if (GetTextLength() < CBDocumentManager::kMinWarnFileSize &&
 		itsDoc->GetStyler(&styler))
 		{

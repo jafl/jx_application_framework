@@ -49,7 +49,7 @@ JXFontSizeMenu::JXFontSizeMenu
 	:
 	JXTextMenu(title, enclosure, hSizing, vSizing, x,y, w,h)
 {
-	JXFontSizeMenuX(NULL);
+	JXFontSizeMenuX(nullptr);
 	BuildMenu(fontName);
 	SetFontSize(JFontManager::GetDefaultFontSize());
 }
@@ -64,7 +64,7 @@ JXFontSizeMenu::JXFontSizeMenu
 	:
 	JXTextMenu(owner, itemIndex, enclosure)
 {
-	JXFontSizeMenuX(NULL);
+	JXFontSizeMenuX(nullptr);
 	BuildMenu(fontName);
 	SetFontSize(JFontManager::GetDefaultFontSize());
 }
@@ -115,13 +115,13 @@ JXFontSizeMenu::JXFontSizeMenuX
 	)
 {
 	itsFontNameMenu = fontMenu;
-	if (itsFontNameMenu != NULL)
+	if (itsFontNameMenu != nullptr)
 		{
 		ListenTo(itsFontNameMenu);
 		}
 
 	itsBroadcastChangeFlag = kJTrue;
-	itsChooseSizeDialog    = NULL;
+	itsChooseSizeDialog    = nullptr;
 }
 
 /******************************************************************************
@@ -300,7 +300,7 @@ JXFontSizeMenu::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		ChooseFontSize(selection->GetIndex());
 		}
 
@@ -309,7 +309,7 @@ JXFontSizeMenu::Receive
 		{
 		const JXDialogDirector::Deactivated* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		if (info->Successful())
 			{
 			SetFontSize(itsChooseSizeDialog->GetFontSize());
@@ -318,7 +318,7 @@ JXFontSizeMenu::Receive
 			{
 			SetPopupChoice(itsCurrIndex);	// revert displayed string
 			}
-		itsChooseSizeDialog = NULL;
+		itsChooseSizeDialog = nullptr;
 		}
 
 	else
@@ -348,10 +348,10 @@ JXFontSizeMenu::ChooseFontSize
 		}
 	else
 		{
-		assert( itsChooseSizeDialog == NULL );
+		assert( itsChooseSizeDialog == nullptr );
 		JXWindowDirector* supervisor = GetWindow()->GetDirector();
 		itsChooseSizeDialog = jnew JXChooseFontSizeDialog(supervisor, itsFontSize);
-		assert( itsChooseSizeDialog != NULL );
+		assert( itsChooseSizeDialog != nullptr );
 		ListenTo(itsChooseSizeDialog);
 		itsChooseSizeDialog->BeginDialog();
 		}

@@ -31,18 +31,18 @@ JMMHashTable::JMMHashTable
 	)
 	:
 	JMMTable(manager),
-	itsAllocatedTable(NULL),
+	itsAllocatedTable(nullptr),
 	itsAllocatedBytes(0),
-	itsDeletedTable(NULL),
+	itsDeletedTable(nullptr),
 	itsDeletedCount(0)
 {
 	itsAllocatedTable = jnew JHashTable<JMMRecord>(kInitialSize);
-	assert(itsAllocatedTable != NULL);
+	assert(itsAllocatedTable != nullptr);
 
 	if (recordDelete)
 		{
 		itsDeletedTable = jnew JHashTable<JMMRecord>(kInitialSize);
-		assert(itsDeletedTable != NULL);
+		assert(itsDeletedTable != nullptr);
 		}
 }
 
@@ -54,10 +54,10 @@ JMMHashTable::JMMHashTable
 JMMHashTable::~JMMHashTable()
 {
 	jdelete itsAllocatedTable;
-	itsAllocatedTable = NULL;
+	itsAllocatedTable = nullptr;
 
 	jdelete itsDeletedTable;
-	itsDeletedTable = NULL;
+	itsDeletedTable = nullptr;
 }
 
 /******************************************************************************
@@ -92,7 +92,7 @@ JMMHashTable::GetAllocatedBytes() const
 JSize
 JMMHashTable::GetDeletedCount() const
 {
-	if (itsDeletedTable != NULL)
+	if (itsDeletedTable != nullptr)
 		{
 		return itsDeletedTable->GetElementCount();
 		}
@@ -222,12 +222,12 @@ JMMHashTable::StreamAllocationSizeHistogram
 void
 JMMHashTable::_CancelRecordDeallocated()
 {
-	if (itsDeletedTable != NULL)
+	if (itsDeletedTable != nullptr)
 		{
 		itsDeletedCount = itsDeletedTable->GetElementCount();
 
 		jdelete itsDeletedTable;
-		itsDeletedTable = NULL;
+		itsDeletedTable = nullptr;
 		}
 }
 
@@ -296,7 +296,7 @@ JMMHashTable::_SetRecordDeleted
 			}
 
 		allocCursor.Remove();
-		if (itsDeletedTable != NULL)
+		if (itsDeletedTable != nullptr)
 			{
 			JHashCursor<JMMRecord> deallocCursor(itsDeletedTable, reinterpret_cast<JHashValue>(block) );
 			deallocCursor.ForceNextOpen();
@@ -312,7 +312,7 @@ JMMHashTable::_SetRecordDeleted
 		}
 	else
 		{
-		if (itsDeletedTable == NULL)
+		if (itsDeletedTable == nullptr)
 			{
 			NotifyUnallocatedDeletion(file, line, isArray);
 			}

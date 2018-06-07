@@ -50,7 +50,7 @@ JVersionSocket<ACE_PEER_STREAM_2>::JVersionSocket
 	itsNextServerTime(0)
 {
 	itsReminderList = jnew JArray<time_t>;
-	assert( itsReminderList != NULL );
+	assert( itsReminderList != nullptr );
 
 	JPrefObject::ReadPrefs();
 
@@ -70,7 +70,7 @@ JVersionSocket<ACE_PEER_STREAM_2>::JVersionSocket
 template <ACE_PEER_STREAM_1>
 JVersionSocket<ACE_PEER_STREAM_2>::JVersionSocket()
 	:
-	JPrefObject(NULL, 0)
+	JPrefObject(nullptr, 0)
 {
 	assert( 0 );
 }
@@ -185,7 +185,7 @@ JVersionSocket<ACE_PEER_STREAM_2>::CheckVersion
 	const JString& vers
 	)
 {
-	const time_t now  = time(NULL);
+	const time_t now  = time(nullptr);
 	itsNextServerTime = now + kServerCheckInterval;
 
 	if (vers == JGetString("VERSION"))
@@ -217,7 +217,7 @@ JBoolean
 JVersionSocket<ACE_PEER_STREAM_2>::TimeToCheck()
 	const
 {
-	return JI2B(time(NULL) > itsNextServerTime);
+	return JI2B(time(nullptr) > itsNextServerTime);
 }
 
 /******************************************************************************
@@ -231,7 +231,7 @@ JVersionSocket<ACE_PEER_STREAM_2>::TimeToRemind()
 {
 	JBoolean remind = kJFalse;
 
-	const time_t now = time(NULL);
+	const time_t now = time(nullptr);
 	while (!itsReminderList->IsEmpty())
 		{
 		const time_t t = itsReminderList->GetFirstElement();

@@ -34,7 +34,7 @@ protected:
 private:
 
 	JString			itsData;
-	CBCommandTable*	itsTable;	// not owned; can be NULL
+	CBCommandTable*	itsTable;	// not owned; can be nullptr
 	JIndex			itsSrcRowIndex;
 
 	Atom	itsCBCommandXAtom;

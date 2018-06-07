@@ -60,7 +60,7 @@ CBLibraryNode::CBLibraryNodeX()
 {
 	itsIncludeInDepListFlag = kJTrue;
 	itsShouldBuildFlag      = kJTrue;
-	itsSubprojDialog        = NULL;
+	itsSubprojDialog        = nullptr;
 }
 
 /******************************************************************************
@@ -170,7 +170,7 @@ CBLibraryNode::BuildMakeFiles
 
 	CBFileNodeBase::BuildMakeFiles(text,
 								   (itsShouldBuildFlag && projExists) ?
-										NULL : invalidList,
+										nullptr : invalidList,
 								   libFileList, libProjPathList);
 }
 
@@ -182,7 +182,7 @@ CBLibraryNode::BuildMakeFiles
 void
 CBLibraryNode::EditSubprojectConfig()
 {
-	assert( itsSubprojDialog == NULL );
+	assert( itsSubprojDialog == nullptr );
 
 	CBProjectDocument* doc = GetProjectDoc();
 
@@ -190,7 +190,7 @@ CBLibraryNode::EditSubprojectConfig()
 		jnew CBSubprojectConfigDialog(doc, itsIncludeInDepListFlag,
 									 itsProjFileName, itsShouldBuildFlag,
 									 doc->GetRelPathCSF());
-	assert( itsSubprojDialog != NULL );
+	assert( itsSubprojDialog != nullptr );
 	itsSubprojDialog->BeginDialog();
 	ListenTo(itsSubprojDialog);
 }
@@ -203,7 +203,7 @@ CBLibraryNode::EditSubprojectConfig()
 void
 CBLibraryNode::UpdateSubprojectConfig()
 {
-	assert( itsSubprojDialog != NULL );
+	assert( itsSubprojDialog != nullptr );
 
 	JBoolean include, build;
 	itsSubprojDialog->GetConfig(&include, &itsProjFileName, &build);
@@ -238,7 +238,7 @@ CBLibraryNode::OpenProject
 		{
 		CBProjectDocument* doc;
 		CBProjectDocument::Create(fullName, silent, &doc);
-		return JI2B( doc != NULL );
+		return JI2B( doc != nullptr );
 		}
 	else
 		{
@@ -263,12 +263,12 @@ CBLibraryNode::Receive
 		{
 		const JXDialogDirector::Deactivated* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		if (info->Successful())
 			{
 			UpdateSubprojectConfig();
 			}
-		itsSubprojDialog = NULL;
+		itsSubprojDialog = nullptr;
 		}
 
 	else

@@ -59,32 +59,32 @@ TestExprDirector::BuildWindow()
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 150,150, JString::empty);
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	itsTestFEditButton =
 		jnew JXTextButton(JGetString("itsTestFEditButton::TestExprDirector::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,0, 150,30);
-	assert( itsTestFEditButton != NULL );
+	assert( itsTestFEditButton != nullptr );
 
 	itsTestDParseButton =
 		jnew JXTextButton(JGetString("itsTestDParseButton::TestExprDirector::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,60, 150,30);
-	assert( itsTestDParseButton != NULL );
+	assert( itsTestDParseButton != nullptr );
 
 	itsTestFEqButton =
 		jnew JXTextButton(JGetString("itsTestFEqButton::TestExprDirector::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,90, 150,30);
-	assert( itsTestFEqButton != NULL );
+	assert( itsTestFEqButton != nullptr );
 
 	itsTestDEqButton =
 		jnew JXTextButton(JGetString("itsTestDEqButton::TestExprDirector::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,120, 150,30);
-	assert( itsTestDEqButton != NULL );
+	assert( itsTestDEqButton != nullptr );
 
 	itsTestCFEditButton =
 		jnew JXTextButton(JGetString("itsTestCFEditButton::TestExprDirector::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,30, 150,30);
-	assert( itsTestCFEditButton != NULL );
+	assert( itsTestCFEditButton != nullptr );
 
 // end JXLayout
 
@@ -143,11 +143,11 @@ TestExprDirector::TestFunctionEditor
 	)
 {
 	JString fileName;
-	if ((JGetChooseSaveFile())->ChooseFile("Input file:", NULL, &fileName))
+	if ((JGetChooseSaveFile())->ChooseFile("Input file:", nullptr, &fileName))
 		{
 		TestFEditDirector* dir =
 			jnew TestFEditDirector(this, fileName, useComplex);
-		assert( dir != NULL );
+		assert( dir != nullptr );
 		dir->Activate();
 		}
 }
@@ -161,7 +161,7 @@ void
 TestExprDirector::TestDecisionParser()
 {
 	JString fileName;
-	if (!(JGetChooseSaveFile())->ChooseFile("Input file:", NULL, &fileName))
+	if (!(JGetChooseSaveFile())->ChooseFile("Input file:", nullptr, &fileName))
 		{
 		return;
 		}
@@ -177,12 +177,12 @@ TestExprDirector::TestDecisionParser()
 			break;
 			}
 
-		JDecision* theDecision = NULL;
+		JDecision* theDecision = nullptr;
 		if (!GetDecision(input, &theVarList, &theDecision))
 			{
 			break;
 			}
-		else if (theDecision != NULL)
+		else if (theDecision != nullptr)
 			{
 			theDecision->Print(std::cout);
 			std::cout << std::endl;

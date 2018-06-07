@@ -49,7 +49,7 @@ main
 
 	GLPlotApp* app =
 		jnew GLPlotApp(&argc, argv, &displayAbout, &prevVersStr);
-	assert( app != NULL );
+	assert( app != nullptr );
 
 	if (displayAbout &&
 		!(JGetUserNotification())->AcceptLicense())

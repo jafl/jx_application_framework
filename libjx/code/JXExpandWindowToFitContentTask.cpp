@@ -25,7 +25,7 @@ JXExpandWindowToFitContentTask::JXExpandWindowToFitContentTask
 	:
 	itsWindow(window),
 	itShowWindowAfterFTCFlag(kJFalse),
-	itsFocusWidget(NULL)
+	itsFocusWidget(nullptr)
 {
 	ClearWhenGoingAway(itsWindow, &itsWindow);
 }
@@ -47,16 +47,16 @@ JXExpandWindowToFitContentTask::~JXExpandWindowToFitContentTask()
 void
 JXExpandWindowToFitContentTask::Perform()
 {
-	if (itsWindow != NULL)
+	if (itsWindow != nullptr)
 		{
-		itsWindow->itsExpandTask = NULL;
+		itsWindow->itsExpandTask = nullptr;
 		itsWindow->ExpandToFitContent();
 
 		// modal dialogs must be realigned after FTC
 
 		JXWindowDirector* dir = itsWindow->GetDirector();
 		JXDialogDirector* dlog = dynamic_cast<JXDialogDirector*>(dir);
-		if (dlog != NULL && dlog->IsModal())
+		if (dlog != nullptr && dlog->IsModal())
 			{
 			itsWindow->PlaceAsDialogWindow();
 			}
@@ -65,7 +65,7 @@ JXExpandWindowToFitContentTask::Perform()
 			{
 			itsWindow->Show();
 
-			if (itsFocusWidget != NULL)
+			if (itsFocusWidget != nullptr)
 				{
 				itsFocusWidget->Focus();
 				}

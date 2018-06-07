@@ -147,15 +147,15 @@ JTable::JTable
 	itsDefColWidth  = defColWidth;
 
 	itsRowHeights = jnew JRunArray<JCoordinate>;
-	assert( itsRowHeights != NULL );
+	assert( itsRowHeights != nullptr );
 
 	itsColWidths = jnew JRunArray<JCoordinate>;
-	assert( itsColWidths != NULL );
+	assert( itsColWidths != nullptr );
 
-	itsTableData = NULL;
+	itsTableData = nullptr;
 
 	itsAuxDataList = jnew JPtrArray<JBroadcaster>(JPtrArrayT::kForgetAll);
-	assert( itsAuxDataList != NULL );
+	assert( itsAuxDataList != nullptr );
 
 	itsIsEditingFlag = kJFalse;
 
@@ -163,11 +163,11 @@ JTable::JTable
 	itsAllowSelectMultipleFlag = kJFalse;
 	itsAllowSelectDiscontFlag  = kJFalse;
 
-	itsRowHdrTable = NULL;
-	itsColHdrTable = NULL;
+	itsRowHdrTable = nullptr;
+	itsColHdrTable = nullptr;
 
 	itsTableSelection = jnew JTableSelection(this);		// calls RegisterAuxData()
-	assert( itsTableSelection != NULL );
+	assert( itsTableSelection != nullptr );
 }
 
 /******************************************************************************
@@ -199,14 +199,14 @@ JTable::SetTableData
 
 	if (data != itsTableData)
 		{
-		if (itsTableData != NULL)
+		if (itsTableData != nullptr)
 			{
 			StopListening(itsTableData);
 			}
 
 		itsTableData = data;
 
-		if (itsTableData != NULL)
+		if (itsTableData != nullptr)
 			{
 			ListenTo(itsTableData);
 			}
@@ -225,7 +225,7 @@ JTable::AdjustToTableData()
 {
 	Broadcast(PrepareForTableDataChange());
 
-	if (itsTableData != NULL)
+	if (itsTableData != nullptr)
 		{
 		const JSize dataRowCount = itsTableData->GetRowCount();
 		if (GetRowCount() < dataRowCount)
@@ -681,7 +681,7 @@ JTable::Paginate
 
 	*printRowHeader = kJFalse;
 	if (userPrintRowHeader &&
-		itsRowHdrTable != NULL && itsRowHdrTable->itsWidth < pageWidth)
+		itsRowHdrTable != nullptr && itsRowHdrTable->itsWidth < pageWidth)
 		{
 		pageWidth      -= itsRowHdrTable->itsWidth;
 		*printRowHeader = kJTrue;
@@ -689,7 +689,7 @@ JTable::Paginate
 
 	*printColHeader = kJFalse;
 	if (userPrintColHeader &&
-		itsColHdrTable != NULL && itsColHdrTable->itsHeight < pageHeight)
+		itsColHdrTable != nullptr && itsColHdrTable->itsHeight < pageHeight)
 		{
 		pageHeight     -= itsColHdrTable->itsHeight;
 		*printColHeader = kJTrue;
@@ -1026,14 +1026,14 @@ JTable::Print
 	JRect r(0, 0, itsHeight, itsWidth);
 
 	JBoolean printRowHeader = kJFalse;
-	if (userPrintRowHeader && itsRowHdrTable != NULL)
+	if (userPrintRowHeader && itsRowHdrTable != nullptr)
 		{
 		r.right       += itsRowHdrTable->itsWidth;
 		printRowHeader = kJTrue;
 		}
 
 	JBoolean printColHeader = kJFalse;
-	if (userPrintColHeader && itsColHdrTable != NULL)
+	if (userPrintColHeader && itsColHdrTable != nullptr)
 		{
 		r.bottom      += itsColHdrTable->itsHeight;
 		printColHeader = kJTrue;
@@ -1128,9 +1128,9 @@ JTable::DrawForPrint
 	assert( !itsIsEditingFlag );
 
 	const JBoolean printRowHeader =
-		JI2B(userPrintRowHeader && itsRowHdrTable != NULL);
+		JI2B(userPrintRowHeader && itsRowHdrTable != nullptr);
 	const JBoolean printColHeader =
-		JI2B(userPrintColHeader && itsColHdrTable != NULL);
+		JI2B(userPrintColHeader && itsColHdrTable != nullptr);
 
 	PrintEPS1(p, topLeft, printRowHeader, printColHeader);
 }
@@ -1159,7 +1159,7 @@ JTable::InsertRows
 	// update aux data (e.g. selection) if we don't have table data
 
 	JTableData::RowsInserted auxMessage(trueIndex, count);
-	if (itsTableData == NULL)
+	if (itsTableData == nullptr)
 		{
 		Broadcast(PrepareForTableDataMessage(auxMessage));
 		}
@@ -1186,7 +1186,7 @@ JTable::InsertRows
 	TableHeightChanged(GetRowTop(trueIndex), h);
 	TableAdjustBounds(0, h);
 	Broadcast(msg);
-	if (itsTableData == NULL)
+	if (itsTableData == nullptr)
 		{
 		Broadcast(auxMessage);
 		}
@@ -1330,7 +1330,7 @@ JTable::RemoveNextRows
 	// update aux data (e.g. selection) if we don't have table data
 
 	JTableData::RowsRemoved auxMessage(firstIndex, count);
-	if (itsTableData == NULL)
+	if (itsTableData == nullptr)
 		{
 		Broadcast(PrepareForTableDataMessage(auxMessage));
 		}
@@ -1343,7 +1343,7 @@ JTable::RemoveNextRows
 	TableHeightChanged(removedY, -removedHeight);
 	TableAdjustBounds(0, -removedHeight);
 	Broadcast(RowsRemoved(firstIndex, count));
-	if (itsTableData == NULL)
+	if (itsTableData == nullptr)
 		{
 		Broadcast(auxMessage);
 		}
@@ -1376,7 +1376,7 @@ JTable::RemoveAllRows()
 	// update aux data (e.g. selection) if we don't have table data
 
 	JTableData::RowsRemoved auxMessage(1, GetRowCount());
-	if (itsTableData == NULL)
+	if (itsTableData == nullptr)
 		{
 		Broadcast(PrepareForTableDataMessage(auxMessage));
 		}
@@ -1387,7 +1387,7 @@ JTable::RemoveAllRows()
 	itsHeight = 0;
 	TableSetBounds(itsWidth, 0);
 	Broadcast(RowsRemoved(1, auxMessage.GetCount()));
-	if (itsTableData == NULL)
+	if (itsTableData == nullptr)
 		{
 		Broadcast(auxMessage);
 		}
@@ -1408,7 +1408,7 @@ JTable::MoveRow
 	// update aux data (e.g. selection) if we don't have table data
 
 	JTableData::RowMoved auxMessage(origIndex, newIndex);
-	if (itsTableData == NULL)
+	if (itsTableData == nullptr)
 		{
 		Broadcast(PrepareForTableDataMessage(auxMessage));
 		}
@@ -1421,7 +1421,7 @@ JTable::MoveRow
 	JRect cellRect(JPoint(1, origIndex), JPoint(GetColCount(), newIndex));
 	TableRefreshCellRect(cellRect);
 	Broadcast(RowMoved(origIndex, newIndex));
-	if (itsTableData == NULL)
+	if (itsTableData == nullptr)
 		{
 		Broadcast(auxMessage);
 		}
@@ -1472,7 +1472,7 @@ JTable::InsertCols
 	// update aux data (e.g. selection) if we don't have table data
 
 	JTableData::ColsInserted auxMessage(trueIndex, count);
-	if (itsTableData == NULL)
+	if (itsTableData == nullptr)
 		{
 		Broadcast(PrepareForTableDataMessage(auxMessage));
 		}
@@ -1499,7 +1499,7 @@ JTable::InsertCols
 	TableWidthChanged(GetColLeft(trueIndex), w);
 	TableAdjustBounds(w, 0);
 	Broadcast(msg);
-	if (itsTableData == NULL)
+	if (itsTableData == nullptr)
 		{
 		Broadcast(auxMessage);
 		}
@@ -1614,7 +1614,7 @@ JTable::RemoveNextCols
 	// update aux data (e.g. selection) if we don't have table data
 
 	JTableData::ColsRemoved auxMessage(firstIndex, count);
-	if (itsTableData == NULL)
+	if (itsTableData == nullptr)
 		{
 		Broadcast(PrepareForTableDataMessage(auxMessage));
 		}
@@ -1627,7 +1627,7 @@ JTable::RemoveNextCols
 	TableWidthChanged(removedX, -removedWidth);
 	TableAdjustBounds(-removedWidth, 0);
 	Broadcast(ColsRemoved(firstIndex, count));
-	if (itsTableData == NULL)
+	if (itsTableData == nullptr)
 		{
 		Broadcast(auxMessage);
 		}
@@ -1660,7 +1660,7 @@ JTable::RemoveAllCols()
 	// update aux data (e.g. selection) if we don't have table data
 
 	JTableData::ColsRemoved auxMessage(1, GetColCount());
-	if (itsTableData == NULL)
+	if (itsTableData == nullptr)
 		{
 		Broadcast(PrepareForTableDataMessage(auxMessage));
 		}
@@ -1671,7 +1671,7 @@ JTable::RemoveAllCols()
 	itsWidth = 0;
 	TableSetBounds(0, itsHeight);
 	Broadcast(ColsRemoved(1, auxMessage.GetCount()));
-	if (itsTableData == NULL)
+	if (itsTableData == nullptr)
 		{
 		Broadcast(auxMessage);
 		}
@@ -1692,7 +1692,7 @@ JTable::MoveCol
 	// update aux data (e.g. selection) if we don't have table data
 
 	JTableData::ColMoved auxMessage(origIndex, newIndex);
-	if (itsTableData == NULL)
+	if (itsTableData == nullptr)
 		{
 		Broadcast(PrepareForTableDataMessage(auxMessage));
 		}
@@ -1705,7 +1705,7 @@ JTable::MoveCol
 	JRect cellRect(JPoint(origIndex, 1), JPoint(newIndex, GetRowCount()));
 	TableRefreshCellRect(cellRect);
 	Broadcast(ColMoved(origIndex, newIndex));
-	if (itsTableData == NULL)
+	if (itsTableData == nullptr)
 		{
 		Broadcast(auxMessage);
 		}
@@ -2551,7 +2551,7 @@ JTable::Receive
 		{
 		const JTableData::RectChanged* info =
 			dynamic_cast<const JTableData::RectChanged*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		const JRect& r = info->GetRect();
 		if (sender == const_cast<JTableData*>(itsTableData) &&
 			itsIsEditingFlag && r.Contains(itsEditCell))
@@ -2568,7 +2568,7 @@ JTable::Receive
 		{
 		const JTableData::RowsInserted* info =
 			dynamic_cast<const JTableData::RowsInserted*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		InsertRows(info->GetFirstIndex(), info->GetCount());
 		}
 
@@ -2577,7 +2577,7 @@ JTable::Receive
 		{
 		const JTableData::RowDuplicated* info =
 			dynamic_cast<const JTableData::RowDuplicated*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		InsertRows(info->GetNewIndex(), 1);
 		}
 
@@ -2586,7 +2586,7 @@ JTable::Receive
 		{
 		const JTableData::RowsRemoved* info =
 			dynamic_cast<const JTableData::RowsRemoved*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		RemoveNextRows(info->GetFirstIndex(), info->GetCount());
 		}
 
@@ -2595,7 +2595,7 @@ JTable::Receive
 		{
 		const JTableData::RowMoved* info =
 			dynamic_cast<const JTableData::RowMoved*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		MoveRow(info->GetOrigIndex(), info->GetNewIndex());
 		}
 
@@ -2606,7 +2606,7 @@ JTable::Receive
 		{
 		const JTableData::ColsInserted* info =
 			dynamic_cast<const JTableData::ColsInserted*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		InsertCols(info->GetFirstIndex(), info->GetCount());
 		}
 
@@ -2615,7 +2615,7 @@ JTable::Receive
 		{
 		const JTableData::ColDuplicated* info =
 			dynamic_cast<const JTableData::ColDuplicated*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		InsertCols(info->GetNewIndex(), 1);
 		}
 
@@ -2624,7 +2624,7 @@ JTable::Receive
 		{
 		const JTableData::ColsRemoved* info =
 			dynamic_cast<const JTableData::ColsRemoved*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		RemoveNextCols(info->GetFirstIndex(), info->GetCount());
 		}
 
@@ -2633,7 +2633,7 @@ JTable::Receive
 		{
 		const JTableData::ColMoved* info =
 			dynamic_cast<const JTableData::ColMoved*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		MoveCol(info->GetOrigIndex(), info->GetNewIndex());
 		}
 

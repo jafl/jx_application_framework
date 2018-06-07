@@ -49,7 +49,7 @@ GDBVarTreeScanner::LexerInput
 	FlexLexerInputSize	flexBufSize
 	)
 {
-	assert(flexBuf != NULL);
+	assert(flexBuf != nullptr);
 	assert(flexBufSize > 0);
 
 	const FlexLexerInputSize charLeft = itsInputBuffer.GetLength() - itsBytesRead;

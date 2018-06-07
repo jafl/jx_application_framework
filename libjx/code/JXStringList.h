@@ -61,7 +61,7 @@ private:
 	JStyleTableData*			itsStyles;
 	JCoordinate					itsMinColWidth;
 
-	JAliasArray<JString*>*	itsSortedList;	// NULL if itsList == NULL
+	JAliasArray<JString*>*	itsSortedList;	// nullptr if itsList == nullptr
 	JString					itsKeyBuffer;
 
 private:

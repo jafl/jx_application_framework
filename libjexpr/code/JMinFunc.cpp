@@ -60,7 +60,7 @@ JMinFunc::Copy()
 	const
 {
 	JMinFunc* newFunction = jnew JMinFunc(*this);
-	assert( newFunction != NULL );
+	assert( newFunction != nullptr );
 	return newFunction;
 }
 

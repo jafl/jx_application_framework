@@ -37,7 +37,7 @@ JXEPSPrintSetupDialog::Create
 	)
 {
 	JXEPSPrintSetupDialog* dlog = jnew JXEPSPrintSetupDialog;
-	assert( dlog != NULL );
+	assert( dlog != nullptr );
 	dlog->BuildWindow(fileName, printPreview, bw);
 	return dlog;
 }
@@ -78,38 +78,38 @@ JXEPSPrintSetupDialog::BuildWindow
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 370,130, JString::empty);
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	itsChooseFileButton =
 		jnew JXTextButton(JGetString("itsChooseFileButton::JXEPSPrintSetupDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 80,20);
-	assert( itsChooseFileButton != NULL );
+	assert( itsChooseFileButton != nullptr );
 
 	JXTextButton* okButton =
 		jnew JXTextButton(JGetString("okButton::JXEPSPrintSetupDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 230,100, 70,20);
-	assert( okButton != NULL );
+	assert( okButton != nullptr );
 	okButton->SetShortcuts(JGetString("okButton::JXEPSPrintSetupDialog::shortcuts::JXLayout"));
 
 	JXTextButton* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::JXEPSPrintSetupDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 80,100, 70,20);
-	assert( cancelButton != NULL );
+	assert( cancelButton != nullptr );
 
 	itsBWCheckbox =
 		jnew JXTextCheckbox(JGetString("itsBWCheckbox::JXEPSPrintSetupDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 190,60, 150,20);
-	assert( itsBWCheckbox != NULL );
+	assert( itsBWCheckbox != nullptr );
 
 	itsPreviewCheckbox =
 		jnew JXTextCheckbox(JGetString("itsPreviewCheckbox::JXEPSPrintSetupDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 30,60, 130,20);
-	assert( itsPreviewCheckbox != NULL );
+	assert( itsPreviewCheckbox != nullptr );
 
 	itsFileInput =
 		jnew JXFileInput(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 100,20, 250,20);
-	assert( itsFileInput != NULL );
+	assert( itsFileInput != nullptr );
 
 // end JXLayout
 
@@ -159,7 +159,7 @@ JXEPSPrintSetupDialog::SetObjects
 	if (itsFileInput->GetText()->IsEmpty())
 		{
 		JXChooseEPSDestFileTask* task = jnew JXChooseEPSDestFileTask(this);
-		assert( task != NULL );
+		assert( task != nullptr );
 		task->Go();
 		}
 

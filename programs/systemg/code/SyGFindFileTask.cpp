@@ -36,7 +36,7 @@ SyGFindFileTask::Create
 	JProcess* p;
 	int outFD, errFD;
 	const JError err = JProcess::Create(&p, path, cmd,
-										kJIgnoreConnection, NULL,
+										kJIgnoreConnection, nullptr,
 										kJCreatePipe, &outFD,
 										kJCreatePipe, &errFD);
 	if (err.OK())
@@ -45,13 +45,13 @@ SyGFindFileTask::Create
 		relPath.RemoveSubstring(1, dir->GetDirectory().GetLength());
 
 		*task = jnew SyGFindFileTask(dir, relPath, p, outFD, errFD);
-		assert( *task != NULL );
+		assert( *task != nullptr );
 		return kJTrue;
 		}
 	else
 		{
 		err.ReportIfError();
-		*task = NULL;
+		*task = nullptr;
 		return kJFalse;
 		}
 }
@@ -75,11 +75,11 @@ SyGFindFileTask::SyGFindFileTask
 	itsFoundFilesFlag(kJFalse)
 {
 	itsMessageLink = new RecordLink(outFD);
-	assert( itsMessageLink != NULL );
+	assert( itsMessageLink != nullptr );
 	ListenTo(itsMessageLink);
 
 	itsErrorLink = new RecordLink(errFD);
-	assert( itsErrorLink != NULL );
+	assert( itsErrorLink != nullptr );
 	ListenTo(itsErrorLink);
 
 	itsProcess->ShouldDeleteWhenFinished();
@@ -87,7 +87,7 @@ SyGFindFileTask::SyGFindFileTask
 	ListenTo(itsDirector);
 
 	itsPathList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
-	assert( itsPathList != NULL );
+	assert( itsPathList != nullptr );
 
 	SplitPath(relPath, itsPathList);
 
@@ -101,7 +101,7 @@ SyGFindFileTask::SyGFindFileTask
 
 SyGFindFileTask::~SyGFindFileTask()
 {
-	if (itsProcess != NULL)
+	if (itsProcess != nullptr)
 		{
 		StopListening(itsProcess);
 		itsProcess->Kill();
@@ -156,7 +156,7 @@ SyGFindFileTask::ReceiveGoingAway
 		}
 	else if (sender == itsProcess)
 		{
-		itsProcess = NULL;
+		itsProcess = nullptr;
 		DisplayErrors();
 		jdelete this;
 		}
@@ -174,7 +174,7 @@ SyGFindFileTask::ReceiveGoingAway
 void
 SyGFindFileTask::ReceiveMessageLine()
 {
-	assert( itsMessageLink != NULL );
+	assert( itsMessageLink != nullptr );
 
 	JString path;
 	const JBoolean ok = itsMessageLink->GetNextMessage(&path);
@@ -212,7 +212,7 @@ SyGFindFileTask::ReceiveMessageLine()
 void
 SyGFindFileTask::ReceiveErrorLine()
 {
-	assert( itsErrorLink != NULL );
+	assert( itsErrorLink != nullptr );
 
 	JString line;
 	const JBoolean ok = itsErrorLink->GetNextMessage(&line);

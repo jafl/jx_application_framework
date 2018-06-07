@@ -52,7 +52,7 @@ WidgetDir::BuildWindow()
 {
 	// Create the window
 	JXWindow* window = jnew JXWindow(this, 300,200, "Test Widget Program");
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	// Set sizing
 	window->SetMinSize(300,200);
@@ -62,5 +62,5 @@ WidgetDir::BuildWindow()
 	Widget* widget =
 		jnew Widget(window, JXWidget::kHElastic, JXWidget::kVElastic,
 			0, 0, 300, 200);
-	assert( widget != NULL );
+	assert( widget != nullptr );
 }

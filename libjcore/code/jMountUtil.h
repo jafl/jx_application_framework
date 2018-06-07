@@ -41,7 +41,7 @@ struct JMountPoint
 
 	JMountPoint()
 		:
-		path(NULL), type(kJHardDisk), device(0), devicePath(NULL), fsType(kOtherFSType)
+		path(nullptr), type(kJHardDisk), device(0), devicePath(nullptr), fsType(kOtherFSType)
 	{ };
 
 	JMountPoint(JString* p, const JMountType t, const dev_t d, JString* dp, const JFileSystemType fst)
@@ -57,7 +57,7 @@ union JMountState
 
 	JMountState()
 		:
-		mountCmdOutput(NULL)	// can only init one member, and ptr is critical
+		mountCmdOutput(nullptr)	// can only init one member, and ptr is critical
 	{ };
 
 	~JMountState();
@@ -86,9 +86,9 @@ JBoolean	JGetUserMountPointList(JMountPointList* list, JMountState* state);
 JMountType	JGetUserMountPointType(const JString& path,
 								   const JString& device, const JString& fsType);
 JBoolean	JIsMounted(const JString& path,
-					   JBoolean* writable = NULL, JBoolean* isTop = NULL,
-					   JString* device = NULL,
-					   JFileSystemType* fsType = NULL, JString* fsTypeString = NULL);
+					   JBoolean* writable = nullptr, JBoolean* isTop = nullptr,
+					   JString* device = nullptr,
+					   JFileSystemType* fsType = nullptr, JString* fsTypeString = nullptr);
 JBoolean	JFindUserMountPoint(const JString& path, const JMountPointList& list,
 								JIndex* index);
 

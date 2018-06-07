@@ -85,7 +85,7 @@ JStringManager::JStringManager()
 	itsBCP47Locale("en-US", 0)		// need something as default, until we load
 {
 	itsReplaceEngine = jnew JSubstitute;
-	assert( itsReplaceEngine != NULL );
+	assert( itsReplaceEngine != nullptr );
 }
 
 /******************************************************************************
@@ -115,7 +115,7 @@ JStringManager::Get
 	const JString* s;
 	if (GetElement(JString(id, 0, kJFalse), &s))
 		{
-		assert( s != NULL );
+		assert( s != nullptr );
 		}
 	else
 		{
@@ -260,7 +260,7 @@ JStringManager::Register
 	std::ofstream tempFile(tempFileName.GetBytes());
 
 	JIndex i = 0;
-	while (defaultData[i] != NULL)
+	while (defaultData[i] != nullptr)
 		{
 		tempFile.write(defaultData[i], strlen(defaultData[i]));
 		i++;
@@ -394,7 +394,7 @@ JStringManager::MergeFile
 			}
 
 		JString* s = jnew JString;
-		assert( s != NULL );
+		assert( s != nullptr );
 
 		input >> *s;
 		if (input.eof() || input.fail())

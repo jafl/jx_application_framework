@@ -27,11 +27,11 @@ main
 	// Create the application object - one per program
 	JXApplication* app = 
 		jnew JXApplication(&argc, argv, kAppSignature, kTutorialStringData);
-	assert( app != NULL );
+	assert( app != nullptr );
 
 	// Create the window director
 	PrintWidgetDir* mainDir = jnew PrintWidgetDir(app);
-	assert( mainDir != NULL );
+	assert( mainDir != nullptr );
 
 	// Activate the window director
 	mainDir->Activate();

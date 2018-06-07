@@ -88,7 +88,7 @@ MDRecord::CompareFileName
 	)
 {
 	const JCharacter* s1 = strrchr(r1->itsNewFile, ACE_DIRECTORY_SEPARATOR_CHAR);
-	if (s1 == NULL)
+	if (s1 == nullptr)
 		{
 		s1 = r1->GetNewFile();
 		}
@@ -98,7 +98,7 @@ MDRecord::CompareFileName
 		}
 
 	const JCharacter* s2 = strrchr(r2->itsNewFile, ACE_DIRECTORY_SEPARATOR_CHAR);
-	if (s2 == NULL)
+	if (s2 == nullptr)
 		{
 		s2 = r2->GetNewFile();
 		}

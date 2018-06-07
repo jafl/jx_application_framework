@@ -56,7 +56,7 @@ private:
 
 		IconData()
 			:
-			image( NULL ), ownsImage( kJTrue )
+			image( nullptr ), ownsImage( kJTrue )
 		{ };
 
 		IconData(JXImage* i, const JBoolean own)

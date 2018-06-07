@@ -347,7 +347,7 @@ public:
 		void Clean()
 		{
 			jdelete name;
-			name = NULL;
+			name = nullptr;
 		}
 	};
 
@@ -364,10 +364,10 @@ public:
 		void Clean()
 		{
 			jdelete name;
-			name = NULL;
+			name = nullptr;
 
 			jdelete path;
-			path = NULL;
+			path = nullptr;
 
 			const JSize count = methods->GetElementCount();
 			for (JIndex i=1; i<=count; i++)
@@ -376,7 +376,7 @@ public:
 				}
 
 			jdelete methods;
-			methods = NULL;
+			methods = nullptr;
 		}
 	};
 
@@ -393,10 +393,10 @@ public:
 private:
 
 	JVMAcceptor*			itsAcceptor;
-	JVMSocket*				itsDebugLink;	// NULL if not connected to JVM
-	JProcess*				itsProcess;		// NULL unless we started the JVM
-	ProcessLink*			itsOutputLink;	// NULL unless we started the JVM
-	ProcessLink*			itsInputLink;	// NULL unless we started the JVM
+	JVMSocket*				itsDebugLink;	// nullptr if not connected to JVM
+	JProcess*				itsProcess;		// nullptr unless we started the JVM
+	ProcessLink*			itsOutputLink;	// nullptr unless we started the JVM
+	ProcessLink*			itsInputLink;	// nullptr unless we started the JVM
 	JVMBreakpointManager*	itsBPMgr;
 
 	JString itsJVMCWD;
@@ -532,7 +532,7 @@ JVMLink::GetLatestMessageFromJVM
 	const
 {
 	*msg = itsLatestMsg;
-	return JI2B(itsLatestMsg != NULL);
+	return JI2B(itsLatestMsg != nullptr);
 }
 
 /******************************************************************************

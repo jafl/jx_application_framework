@@ -38,7 +38,7 @@ CBDockManager::CBDockManager()
 {
 	JXDisplay* display = (JXGetApplication())->GetCurrentDisplay();
 	JXImage* icon      = jnew JXImage(display, jcc_project_window);
-	assert( icon != NULL );
+	assert( icon != nullptr );
 	SetIcon(icon);
 }
 
@@ -95,18 +95,18 @@ CBDockManager::DockAll()
 	v->SetCompartmentSize(2, 2*v->GetCompartmentSize(2)/3);
 
 	JXDockWidget* dock1 = h->GetDockWidget(1);
-	assert( dock1 != NULL );
+	assert( dock1 != nullptr );
 	SetDefaultDock(CBGetProjectWindowClass(),  dock1);
 	SetDefaultDock(CBGetSymbolWindowClass(),   dock1);
 	SetDefaultDock(CBGetFileListWindowClass(), dock1);
 
 	JXDockWidget* dock2 = h->GetDockWidget(2);
-	assert( dock2 != NULL );
+	assert( dock2 != nullptr );
 	SetDefaultDock(CBGetEditorWindowClass(), dock2);
 	SetDefaultDock(CBGetTreeWindowClass(),   dock2);
 
 	JXDockWidget* dock3 = v->GetDockWidget(2);
-	assert( dock3 != NULL );
+	assert( dock3 != nullptr );
 	SetDefaultDock(CBGetExecOutputWindowClass(),    dock3);
 	SetDefaultDock(CBGetCompileOutputWindowClass(), dock3);
 	SetDefaultDock(CBGetSearchOutputWindowClass(),  dock3);

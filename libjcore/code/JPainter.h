@@ -194,7 +194,7 @@ private:
 
 	JBoolean		itsDrawDashedLinesFlag;
 	JSize			itsDashOffset;
-	JArray<JSize>*	itsDashList;			// can be NULL
+	JArray<JSize>*	itsDashList;			// can be nullptr
 
 	JFontManager*	itsFontManager;
 
@@ -375,7 +375,7 @@ inline JBoolean
 JPainter::LinesAreDashed()
 	const
 {
-	return JConvertToBoolean( itsDrawDashedLinesFlag && itsDashList != NULL );
+	return JConvertToBoolean( itsDrawDashedLinesFlag && itsDashList != nullptr );
 }
 
 inline void
@@ -397,7 +397,7 @@ JPainter::GetDashList
 {
 	*dashList   = itsDashList;
 	*dashOffset = itsDashOffset;
-	return JConvertToBoolean( *dashList != NULL );
+	return JConvertToBoolean( *dashList != nullptr );
 }
 
 /******************************************************************************

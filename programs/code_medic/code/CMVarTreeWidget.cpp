@@ -114,7 +114,7 @@ CMVarTreeWidget::CMVarTreeWidget
 
 	itsBasePopupMenu =
 		jnew JXTextMenu(kBaseMenuTitleStr, this, kFixedLeft, kFixedTop, 0,0, 10, 10);
-	assert( itsBasePopupMenu != NULL );
+	assert( itsBasePopupMenu != nullptr );
 	itsBasePopupMenu->SetMenuItems(kBaseMenuStr, "CMVarTreeWidget");
 	itsBasePopupMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsBasePopupMenu->SetToHiddenPopupMenu();
@@ -165,7 +165,7 @@ CMVarTreeWidget::NewExpression
 	CMVarNode* node =
 		(CMGetLink())->CreateVarNode((GetTreeList()->GetTree())->GetRoot(),
 									 expr1, expr1, "");
-	assert( node != NULL );
+	assert( node != nullptr );
 	if (JString::IsEmpty(expr))
 		{
 		node->SetName("");		// compensate for ctor using " " instead of ""
@@ -195,7 +195,7 @@ CMVarTreeWidget::DisplayExpression
 	)
 {
 	CMVarNode* node = (CMGetLink())->CreateVarNode(itsTree->GetRoot(), expr, expr, "");
-	assert ( node != NULL );
+	assert ( node != nullptr );
 	ShowNode(node);
 	return node;
 }
@@ -234,7 +234,7 @@ CMVarTreeWidget::WatchExpression()
 		{
 		CMVarNode* node =
 			dynamic_cast<CMVarNode*>(GetTreeList()->GetNode(cell.y));
-		assert( node != NULL );
+		assert( node != nullptr );
 
 		expr = node->GetFullName();
 		(CMGetLink())->WatchExpression(expr);
@@ -258,7 +258,7 @@ CMVarTreeWidget::WatchLocation()
 		{
 		CMVarNode* node =
 			dynamic_cast<CMVarNode*>(GetTreeList()->GetNode(cell.y));
-		assert( node != NULL );
+		assert( node != nullptr );
 
 		expr = node->GetFullName();
 		(CMGetLink())->WatchLocation(expr);
@@ -284,7 +284,7 @@ CMVarTreeWidget::DisplayAsCString()
 		{
 		CMVarNode* node =
 			dynamic_cast<CMVarNode*>(GetTreeList()->GetNode(cell.y));
-		assert( node != NULL );
+		assert( node != nullptr );
 
 		expr = node->GetFullName();
 		expr.Prepend("(char*)(");
@@ -318,7 +318,7 @@ CMVarTreeWidget::Display1DArray()
 		{
 		CMVarNode* node =
 			dynamic_cast<CMVarNode*>(GetTreeList()->GetNode(cell.y));
-		assert( node != NULL );
+		assert( node != nullptr );
 
 		expr = node->GetFullName();
 		itsDir->Display1DArray(expr);
@@ -342,7 +342,7 @@ CMVarTreeWidget::Plot1DArray()
 		{
 		CMVarNode* node =
 			dynamic_cast<CMVarNode*>(GetTreeList()->GetNode(cell.y));
-		assert( node != NULL );
+		assert( node != nullptr );
 
 		expr = node->GetFullName();
 		itsDir->Plot1DArray(expr);
@@ -366,7 +366,7 @@ CMVarTreeWidget::Display2DArray()
 		{
 		CMVarNode* node =
 			dynamic_cast<CMVarNode*>(GetTreeList()->GetNode(cell.y));
-		assert( node != NULL );
+		assert( node != nullptr );
 
 		expr = node->GetFullName();
 		itsDir->Display2DArray(expr);
@@ -389,25 +389,25 @@ CMVarTreeWidget::ExamineMemory
 	JTableSelectionIterator iter(&(GetTableSelection()));
 	JPoint cell;
 	JString expr;
-	CMMemoryDir* dir = NULL;
+	CMMemoryDir* dir = nullptr;
 	while (iter.Next(&cell))
 		{
 		CMVarNode* node =
 			dynamic_cast<CMVarNode*>(GetTreeList()->GetNode(cell.y));
-		assert( node != NULL );
+		assert( node != nullptr );
 
 		expr = node->GetFullName();
 
 		dir = jnew CMMemoryDir(itsDir, expr);
-		assert(dir != NULL);
+		assert(dir != nullptr);
 		dir->SetDisplayType(type);
 		dir->Activate();
 		}
 
-	if (dir == NULL)
+	if (dir == nullptr)
 		{
 		dir = jnew CMMemoryDir(itsDir, "");
-		assert(dir != NULL);
+		assert(dir != nullptr);
 		dir->SetDisplayType(type);
 		dir->Activate();
 		}
@@ -428,7 +428,7 @@ CMVarTreeWidget::ReadSetup
 	)
 {
 	CMVarNode* root = dynamic_cast<CMVarNode*>(itsTree->GetRoot());
-	assert( root != NULL );
+	assert( root != nullptr );
 
 	root->DeleteAllChildren();
 
@@ -459,7 +459,7 @@ CMVarTreeWidget::WriteSetup
 	const
 {
 	CMVarNode* root = dynamic_cast<CMVarNode*>(itsTree->GetRoot());
-	assert( root != NULL );
+	assert( root != nullptr );
 
 	const JSize count = root->GetChildCount();
 	output << ' ' << count;
@@ -523,7 +523,7 @@ CMVarTreeWidget::IsEditable
 {
 	const CMVarNode* node =
 		dynamic_cast<const CMVarNode*>(GetTreeList()->GetNode(cell.y));
-	assert( node != NULL );
+	assert( node != nullptr );
 
 	return JI2B(JXTreeListWidget::IsEditable(cell) &&
 				((JIndex(cell.x) == GetNodeColIndex() &&
@@ -552,7 +552,7 @@ CMVarTreeWidget::TableDrawCell
 
 		CMVarNode* node =
 			dynamic_cast<CMVarNode*>(GetTreeList()->GetNode(cell.y));
-		assert( node != NULL );
+		assert( node != nullptr );
 
 		JFont font = GetFont();
 		font.SetStyle(node->GetFontStyle(GetColormap()));
@@ -581,7 +581,7 @@ CMVarTreeWidget::GetMinCellWidth
 		{
 		const CMVarNode* node =
 			dynamic_cast<const CMVarNode*>(GetTreeList()->GetNode(cell.y));
-		assert( node != NULL );
+		assert( node != nullptr );
 
 		return kHMargin + GetFont().GetStringWidth(node->GetValue());
 		}
@@ -650,7 +650,7 @@ CMVarTreeWidget::HandleMouseDown
 		else
 			{
 			const CMVarNode* varNode = dynamic_cast<const CMVarNode*>(node);
-			assert( varNode != NULL );
+			assert( varNode != nullptr );
 			const JString expr = varNode->GetFullName();
 			if (itsIsMainDisplayFlag)
 				{
@@ -811,7 +811,7 @@ CMVarTreeWidget::CreateXInputField
 		{
 		CMVarNode* node =
 			dynamic_cast<CMVarNode*>(GetTreeList()->GetNode(cell.y));
-		assert( node != NULL );
+		assert( node != nullptr );
 		input->SetText(node->GetValue());
 		}
 
@@ -833,14 +833,14 @@ CMVarTreeWidget::ExtractInputData
 	const JPoint& cell
 	)
 {
-	JXInputField* input = NULL;
+	JXInputField* input = nullptr;
 	const JBoolean ok = GetXInputField(&input);
 	assert( ok );
 	const JString& text = input->GetText();
 
 	CMVarNode* node =
 		dynamic_cast<CMVarNode*>(GetTreeList()->GetNode(cell.y));
-	assert( node != NULL );
+	assert( node != nullptr );
 
 	if (JIndex(cell.x) == GetNodeColIndex() &&
 		JXNamedTreeListWidget::ExtractInputData(cell))
@@ -919,7 +919,7 @@ CMVarTreeWidget::Receive
 			{
 			const JXMenu::ItemSelected* selection =
 				dynamic_cast<const JXMenu::ItemSelected*>(&message);
-			assert( selection != NULL );
+			assert( selection != nullptr );
 			HandleEditMenu(selection->GetIndex());
 			}
 		}
@@ -937,7 +937,7 @@ CMVarTreeWidget::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleBaseMenu(selection->GetIndex());
 		}
 
@@ -959,7 +959,7 @@ CMVarTreeWidget::Receive
 
 			const JTableData::RectChanged* selection =
 				dynamic_cast<const JTableData::RectChanged*>(&message);
-			assert( selection != NULL );
+			assert( selection != nullptr );
 			JRect r = selection->GetRect();
 			r.right = kValueColIndex;
 			TableRefreshCellRect(r);
@@ -1017,7 +1017,7 @@ CMVarTreeWidget::FlushOldData()
 	for (JIndex i=1; i<=count; i++)
 		{
 		CMVarNode* child = dynamic_cast<CMVarNode*>(root->GetChild(i));
-		assert( child != NULL );
+		assert( child != nullptr );
 		child->DeleteAllChildren();
 		child->SetValue("");
 		}
@@ -1113,7 +1113,7 @@ CMVarTreeWidget::CopySelectedItems
 			{
 			const CMVarNode* node =
 				dynamic_cast<const CMVarNode*>(GetTreeList()->GetNode(cell.y));
-			assert( node != NULL );
+			assert( node != nullptr );
 			if (copyValue)
 				{
 				list.Append(node->GetValue());
@@ -1129,7 +1129,7 @@ CMVarTreeWidget::CopySelectedItems
 			}
 
 		JXTextSelection* data = jnew JXTextSelection(GetDisplay(), list);
-		assert( data != NULL );
+		assert( data != nullptr );
 
 		GetSelectionManager()->SetData(kJXClipboardName, data);
 		}
@@ -1154,7 +1154,7 @@ CMVarTreeWidget::UpdateBaseMenu
 		{
 		const CMVarNode* node =
 			dynamic_cast<const CMVarNode*>(GetTreeList()->GetNode(cell.y));
-		assert( node != NULL );
+		assert( node != nullptr );
 		const JInteger b = node->GetBase();
 
 		if (base >= 0 && b != base)
@@ -1206,7 +1206,7 @@ CMVarTreeWidget::HandleBaseMenu
 		{
 		CMVarNode* node =
 			dynamic_cast<CMVarNode*>(GetTreeList()->GetNode(cell.y));
-		assert( node != NULL );
+		assert( node != nullptr );
 		node->SetBase(base);
 		}
 }

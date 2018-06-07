@@ -118,7 +118,7 @@ CBFnListDirector::CBFnListDirectorX
 	const JBoolean		willBeKept
 	)
 {
-	assert( itsFnListWidget != NULL );
+	assert( itsFnListWidget != nullptr );
 	itsFnListWidget->FitToEnclosure();
 	if (willBeKept)
 		{
@@ -220,17 +220,17 @@ CBFnListDirector::BuildWindow()
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 170,250, "");
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	JXScrollbarSet* scrollbarSet =
 		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 170,220);
-	assert( scrollbarSet != NULL );
+	assert( scrollbarSet != nullptr );
 
 	JXMenuBar* menuBar =
 		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 170,30);
-	assert( menuBar != NULL );
+	assert( menuBar != nullptr );
 
 // end JXLayout
 
@@ -263,7 +263,7 @@ CBFnListDirector::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleActionsMenu(selection->GetIndex());
 		}
 
@@ -272,7 +272,7 @@ CBFnListDirector::Receive
 		{
 		const JPrinter::PrintSetupFinished* info =
 			dynamic_cast<const JPrinter::PrintSetupFinished*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		if (info->Successful())
 			{
 			itsFnListWidget->Print(*itsPrinter);
@@ -313,7 +313,7 @@ CBFnListDirector::UpdateActionsMenu()
 	itsActionsMenu->EnableItem(kUpdateCmd);
 	itsActionsMenu->EnableItem(kShowTreeCmd);
 
-	if (itsPrinter != NULL)
+	if (itsPrinter != nullptr)
 		{
 		itsActionsMenu->EnableItem(kPageSetupCmd);
 		itsActionsMenu->EnableItem(kPrintCmd);
@@ -356,11 +356,11 @@ CBFnListDirector::HandleActionsMenu
 		itsDirector->Activate();
 		}
 
-	else if (index == kPageSetupCmd && itsPrinter != NULL)
+	else if (index == kPageSetupCmd && itsPrinter != nullptr)
 		{
 		itsPrinter->BeginUserPageSetup();
 		}
-	else if (index == kPrintCmd && itsPrinter != NULL)
+	else if (index == kPrintCmd && itsPrinter != nullptr)
 		{
 		itsPrinter->BeginUserPrintSetup();
 		ListenTo(itsPrinter);

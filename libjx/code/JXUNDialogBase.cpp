@@ -118,7 +118,7 @@ JXUNDialogBase::Init
 	// display the icon
 
 	JXImage* image = jnew JXImage(GetDisplay(), xpm);
-	assert( image != NULL );
+	assert( image != nullptr );
 	image->SetDefaultState(JXImage::kRemoteStorage);
 	image->ConvertToDefaultState();
 	icon->SetImage(image, kJTrue);

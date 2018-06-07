@@ -34,7 +34,7 @@ JPlotFunctionBase::JPlotFunctionBase
 	itsXMax = JMax(xMin, xMax);
 
 	itsValues = jnew JArray<Point>(kDefSampleCount);
-	assert( itsValues != NULL );
+	assert( itsValues != nullptr );
 
 	ListenTo(itsPlot);
 }

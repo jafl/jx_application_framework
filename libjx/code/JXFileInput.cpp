@@ -41,8 +41,8 @@ JXFileInput::JXFileInput
 	:
 	JXInputField(jnew StyledText(this, enclosure->GetFontManager()),
 				 enclosure, hSizing, vSizing, x,y, w,h),
-	itsCompleter(NULL),
-	itsCompletionMenu(NULL)
+	itsCompleter(nullptr),
+	itsCompletionMenu(nullptr)
 {
 	itsAllowInvalidFileFlag = kJFalse;
 	itsRequireReadFlag      = kJTrue;
@@ -240,7 +240,7 @@ JXFileInput::InputValid()
 		}
 
 	JString fullName;
-	const JUtf8Byte* errID = NULL;
+	const JUtf8Byte* errID = nullptr;
 	if (JIsRelativePath(text) && !HasBasePath())
 		{
 		errID = "NoRelPath::JXFileInput";
@@ -281,7 +281,7 @@ JXFileInput::InputValid()
 	Draw the entire text red if the file is invalid.  This is provided
 	so tables can draw the text the same way as the input field.
 
-	base can be NULL.  If you use JXFileInput for relative paths, basePath
+	base can be nullptr.  If you use JXFileInput for relative paths, basePath
 	should be the path passed to SetBasePath().
 
  ******************************************************************************/
@@ -512,7 +512,7 @@ JXFileInput::GetTextForChooseFile()
 /******************************************************************************
  ChooseFile
 
-	instr can be NULL, just like in JChooseSaveFile::ChooseFile().
+	instr can be nullptr, just like in JChooseSaveFile::ChooseFile().
 
  ******************************************************************************/
 
@@ -539,7 +539,7 @@ JXFileInput::ChooseFile
 /******************************************************************************
  SaveFile
 
-	instr can be NULL, just like in JChooseSaveFile::SaveFile().
+	instr can be nullptr, just like in JChooseSaveFile::SaveFile().
 
  ******************************************************************************/
 
@@ -591,7 +591,7 @@ JXFileInput::HandleKeyPress
 {
 	if (key == '\t')
 		{
-		if (itsCompleter == NULL)
+		if (itsCompleter == nullptr)
 			{
 			if (!JDirInfo::Create(JGetRootDirectory(), &itsCompleter))
 				{
@@ -608,7 +608,7 @@ JXFileInput::HandleKeyPress
 		}
 	else
 		{
-		if (itsCompletionMenu != NULL)
+		if (itsCompletionMenu != nullptr)
 			{
 			itsCompletionMenu->ClearRequestCount();
 			}
@@ -631,7 +631,7 @@ JXFileInput::HandleMouseDown
 	const JXKeyModifiers&	modifiers
 	)
 {
-	if (itsCompletionMenu != NULL)
+	if (itsCompletionMenu != nullptr)
 		{
 		itsCompletionMenu->ClearRequestCount();
 		}

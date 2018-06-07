@@ -29,7 +29,7 @@ public:
 private:
 
 	SVNRepoView*		itsView;	// owns us
-	SVNRepoTreeNode*	itsNode;	// not owned; NULL if dead
+	SVNRepoTreeNode*	itsNode;	// not owned; nullptr if dead
 
 private:
 

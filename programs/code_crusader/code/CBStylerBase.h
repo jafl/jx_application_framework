@@ -71,7 +71,7 @@ private:
 	JStringMap<JFontStyle>*	itsWordStyles;
 
 	const JCharacter*		itsDialogTitle;			// not owned
-	CBEditStylerDialog*		itsEditDialog;			// can be NULL
+	CBEditStylerDialog*		itsEditDialog;			// can be nullptr
 	JString					itsDialogGeom;
 
 private:

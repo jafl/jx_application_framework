@@ -37,7 +37,7 @@ public:
 public:
 
 	JXDockManager(JXDisplay* display, const JString& title,
-				  JPrefsManager* prefsMgr = NULL,
+				  JPrefsManager* prefsMgr = nullptr,
 				  const JPrefID& id = JFAID::kInvalidID);
 
 	virtual ~JXDockManager();

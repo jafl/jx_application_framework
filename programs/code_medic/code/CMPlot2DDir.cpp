@@ -174,18 +174,18 @@ CMPlot2DDir::CMPlot2DDirX1
 	itsWaitingForReloadFlag = kJFalse;
 
 	itsExprData = jnew JStringTableData;
-	assert( itsExprData != NULL );
+	assert( itsExprData != nullptr );
 
 	itsExprData->AppendCols(CMPlot2DExprTable::kColCount);
 
 	itsUpdateCmdList = jnew JPtrArray<CMPlot2DCommand>(JPtrArrayT::kDeleteAll);
-	assert( itsUpdateCmdList != NULL );
+	assert( itsUpdateCmdList != nullptr );
 
 	itsXData = jnew JPtrArray<JArray<JFloat> >(JPtrArrayT::kDeleteAll);
-	assert( itsXData != NULL );
+	assert( itsXData != nullptr );
 
 	itsYData = jnew JPtrArray<JArray<JFloat> >(JPtrArrayT::kDeleteAll);
-	assert( itsYData != NULL );
+	assert( itsYData != nullptr );
 }
 
 void
@@ -282,37 +282,37 @@ CMPlot2DDir::BuildWindow()
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 570,500, "");
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	JXMenuBar* menuBar =
 		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 570,30);
-	assert( menuBar != NULL );
+	assert( menuBar != nullptr );
 
 	JXScrollbarSet* scrollbarSet =
 		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,30, 480,100);
-	assert( scrollbarSet != NULL );
+	assert( scrollbarSet != nullptr );
 
 	itsPlotWidget =
 		jnew JX2DPlotWidget(menuBar, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,130, 570,370);
-	assert( itsPlotWidget != NULL );
+	assert( itsPlotWidget != nullptr );
 
 	itsAddPlotButton =
 		jnew JXTextButton(JGetString("itsAddPlotButton::CMPlot2DDir::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 490,40, 70,20);
-	assert( itsAddPlotButton != NULL );
+	assert( itsAddPlotButton != nullptr );
 
 	itsDuplicatePlotButton =
 		jnew JXTextButton(JGetString("itsDuplicatePlotButton::CMPlot2DDir::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 490,70, 70,20);
-	assert( itsDuplicatePlotButton != NULL );
+	assert( itsDuplicatePlotButton != nullptr );
 
 	itsRemovePlotButton =
 		jnew JXTextButton(JGetString("itsRemovePlotButton::CMPlot2DDir::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 490,100, 70,20);
-	assert( itsRemovePlotButton != NULL );
+	assert( itsRemovePlotButton != nullptr );
 
 // end JXLayout
 
@@ -324,7 +324,7 @@ CMPlot2DDir::BuildWindow()
 
 	JXDisplay* display = GetDisplay();
 	JXImage* icon      = jnew JXImage(display, medic_2d_plot_window);
-	assert( icon != NULL );
+	assert( icon != nullptr );
 	window->SetIcon(icon);
 
 	JXContainer* encl = scrollbarSet->GetScrollEnclosure();
@@ -336,13 +336,13 @@ CMPlot2DDir::BuildWindow()
 					JXWidget::kHElastic, JXWidget::kVElastic,
 					0, kColHeaderHeight,
 					w, encl->GetApertureHeight() - kColHeaderHeight);
-	assert( itsExprTable != NULL );
+	assert( itsExprTable != nullptr );
 
 	itsColHeader =
 		jnew JXColHeaderWidget(itsExprTable, scrollbarSet, encl,
 					JXWidget::kHElastic, JXWidget::kFixedTop,
 					0,0, w, kColHeaderHeight);
-	assert( itsColHeader != NULL );
+	assert( itsColHeader != nullptr );
 
 	itsExprTable->ConfigureColHeader(itsColHeader);
 
@@ -379,7 +379,7 @@ CMPlot2DDir::BuildWindow()
 	JXWDMenu* wdMenu =
 		jnew JXWDMenu(kWindowsMenuTitleStr, menuBar,
 					 JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
-	assert( wdMenu != NULL );
+	assert( wdMenu != nullptr );
 	menuBar->AppendMenu(wdMenu);
 
 	itsHelpMenu = menuBar->AppendTextMenu(kHelpMenuTitleStr);
@@ -456,21 +456,21 @@ CMPlot2DDir::Receive
 		{
 		const JTableData::RowsInserted* info =
 			dynamic_cast<const JTableData::RowsInserted*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		Update(info->GetFirstIndex(), info->GetLastIndex());	// only append
 		}
 	else if (sender == itsExprData && message.Is(JTableData::kRowDuplicated))
 		{
 		const JTableData::RowDuplicated* info =
 			dynamic_cast<const JTableData::RowDuplicated*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		Update(info->GetNewIndex(), info->GetNewIndex());
 		}
 	else if (sender == itsExprData && message.Is(JTableData::kRowsRemoved))
 		{
 		const JTableData::RowsRemoved* info =
 			dynamic_cast<const JTableData::RowsRemoved*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 
 		StopListening(itsPlotWidget);
 		for (JIndex i=info->GetLastIndex(); i>=info->GetFirstIndex(); i--)
@@ -484,7 +484,7 @@ CMPlot2DDir::Receive
 		{
 		const JTableData::RectChanged* info =
 			dynamic_cast<const JTableData::RectChanged*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		const JRect& r = info->GetRect();
 		Update(r.top, r.bottom-1);
 		}
@@ -498,7 +498,7 @@ CMPlot2DDir::Receive
 		{
 		const J2DPlotWidget::CurveRemoved* info =
 			dynamic_cast<const J2DPlotWidget::CurveRemoved*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		const JIndex index = info->GetIndex();
 
 		StopListening(itsExprData);
@@ -553,7 +553,7 @@ CMPlot2DDir::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleFileMenu(selection->GetIndex());
 		}
 
@@ -565,7 +565,7 @@ CMPlot2DDir::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleActionMenu(selection->GetIndex());
 		}
 
@@ -573,7 +573,7 @@ CMPlot2DDir::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleHelpMenu(selection->GetIndex());
 		}
 
@@ -673,11 +673,11 @@ CMPlot2DDir::Update
 		else
 			{
 			JArray<JFloat>* x = jnew JArray<JFloat>(100);
-			assert( x != NULL );
+			assert( x != nullptr );
 			itsXData->Append(x);
 
 			JArray<JFloat>* y = jnew JArray<JFloat>(100);
-			assert( y != NULL );
+			assert( y != nullptr );
 			itsYData->Append(y);
 
 			JIndex j;

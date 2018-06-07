@@ -40,7 +40,7 @@ JDirInfo::BuildInfo1
 			}
 
 		JDirEntry* newEntry = new JDirEntry(*itsCWD, findData.cFileName);
-		assert( newEntry != NULL );
+		assert( newEntry != nullptr );
 		if (MatchesContentFilter(*newEntry))
 			{
 			itsDirEntries->InsertSorted(newEntry, kJTrue);

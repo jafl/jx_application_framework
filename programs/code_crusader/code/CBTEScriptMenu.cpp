@@ -116,7 +116,7 @@ CBTEScriptMenu::Receive
 		{
 		const JXMenu::ItemSelected* info =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert(info != NULL);
+		assert(info != nullptr);
 		if (HandleSelection(info->GetIndex()))
 			{
 			return;
@@ -190,7 +190,7 @@ CBTEScriptMenu::HandleSelection
 			origName         = JCombinePathAndName(origName, "script");
 
 			JString fullName;
-			if ((JGetChooseSaveFile())->SaveFile(JGetString(kSavePromptID), NULL,
+			if ((JGetChooseSaveFile())->SaveFile(JGetString(kSavePromptID), nullptr,
 												 origName, &fullName))
 				{
 				std::ofstream output(fullName);

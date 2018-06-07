@@ -70,8 +70,8 @@ private:
 	JBoolean		itsSingleFileFlag;
 	const JBoolean	itsIsSystemFlag;
 
-	JRegex*			itsNameRegex;		// can be NULL
-	JRegex*			itsContentRegex;	// can be NULL
+	JRegex*			itsNameRegex;		// can be nullptr
+	JRegex*			itsContentRegex;	// can be nullptr
 	JString			itsLiteralPrefix;	// optimization
 
 private:
@@ -198,7 +198,7 @@ inline JBoolean
 JFSBinding::IsContentBinding()
 	const
 {
-	return JI2B(itsContentRegex != NULL);
+	return JI2B(itsContentRegex != nullptr);
 }
 
 /******************************************************************************

@@ -22,7 +22,7 @@ public:
 	JXCheckboxListDialog(JXDirector* supervisor,
 						 const JString& windowTitle, const JString& prompt,
 						 const JPtrArray<JString>& choiceList,
-						 const JPtrArray<JString>* shortcutList = NULL);
+						 const JPtrArray<JString>* shortcutList = nullptr);
 
 	virtual ~JXCheckboxListDialog();
 

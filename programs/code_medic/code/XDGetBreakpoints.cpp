@@ -51,7 +51,7 @@ XDGetBreakpoints::HandleSuccess
 {
 	XDLink* link = dynamic_cast<XDLink*>(CMGetLink());
 	xmlNode* root;
-	if (link == NULL || !link->GetParsedData(&root))
+	if (link == nullptr || !link->GetParsedData(&root))
 		{
 		return;
 		}
@@ -66,7 +66,7 @@ XDGetBreakpoints::HandleSuccess
 
 	xmlNode* node = root->children;
 	JString type, idStr, fileName, lineStr, state;
-	while (node != NULL)
+	while (node != nullptr)
 		{
 		type = JGetXMLNodeAttr(node, "type");
 		if (type == "line")
@@ -94,7 +94,7 @@ XDGetBreakpoints::HandleSuccess
 			CMBreakpoint* bp =
 				jnew CMBreakpoint(bpIndex, fileName, lineNumber, "", "",
 								 enabled, CMBreakpoint::kKeepBreakpoint, "", 0);
-			assert( bp != NULL );
+			assert( bp != nullptr );
 			bpList.InsertSorted(bp);
 
 			if (true)	// no way to know if it is temporary -- may be deleted or other status change

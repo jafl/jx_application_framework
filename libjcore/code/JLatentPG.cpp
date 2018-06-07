@@ -103,7 +103,7 @@ JLatentPG::SetPG
 	)
 {
 	assert( !ProcessRunning() );
-	assert( pg != NULL && !pg->ProcessRunning() );
+	assert( pg != nullptr && !pg->ProcessRunning() );
 
 	if (itsOwnsPGFlag)
 		{
@@ -133,7 +133,7 @@ JLatentPG::ProcessBeginning
 									   allowCancel, allowBackground);
 
 	itsMessage   = message;
-	itsStartTime = time(NULL);
+	itsStartTime = time(nullptr);
 	itsCounter   = 0;
 
 	if (itsMaxSilentTime == 0)
@@ -249,7 +249,7 @@ JLatentPG::IncrementProgress
 		result     = itsPG->IncrementProgress(message);
 		itsCounter = 0;
 		}
-	else if (pgRunning && message != NULL)
+	else if (pgRunning && message != nullptr)
 		{
 		const JSize delta = GetCurrentStepCount() - itsPG->GetCurrentStepCount();
 		if (delta > 1)
@@ -335,7 +335,7 @@ JLatentPG::TimeToStart()
 	const
 {
 	return (itsCounter % itsScaleFactor == 0 &&				// avoid calling time() too often
-			time(NULL) - itsStartTime >= itsMaxSilentTime &&
+			time(nullptr) - itsStartTime >= itsMaxSilentTime &&
 			(GetCurrentProcessType() == kVariableLengthProcess ||
 			 GetCurrentStepCount() < GetMaxStepCount()));
 }

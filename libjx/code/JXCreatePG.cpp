@@ -36,6 +36,6 @@ JProgressDisplay*
 JXCreatePG::New()
 {
 	JProgressDisplay* pg = jnew JXStandAlonePG;
-	assert( pg != NULL );
+	assert( pg != nullptr );
 	return pg;
 }

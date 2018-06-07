@@ -10,7 +10,7 @@
 #include "CBFortranCompleter.h"
 #include <jAssert.h>
 
-CBFortranCompleter* CBFortranCompleter::itsSelf = NULL;
+CBFortranCompleter* CBFortranCompleter::itsSelf = nullptr;
 
 static const JCharacter* kKeywordList[] =
 {
@@ -589,12 +589,12 @@ static JBoolean recursiveInstance = kJFalse;
 CBStringCompleter*
 CBFortranCompleter::Instance()
 {
-	if (itsSelf == NULL && !recursiveInstance)
+	if (itsSelf == nullptr && !recursiveInstance)
 		{
 		recursiveInstance = kJTrue;
 
 		itsSelf = jnew CBFortranCompleter;
-		assert( itsSelf != NULL );
+		assert( itsSelf != nullptr );
 
 		recursiveInstance = kJFalse;
 		}
@@ -631,7 +631,7 @@ CBFortranCompleter::CBFortranCompleter()
 
 CBFortranCompleter::~CBFortranCompleter()
 {
-	itsSelf = NULL;
+	itsSelf = nullptr;
 }
 
 /******************************************************************************

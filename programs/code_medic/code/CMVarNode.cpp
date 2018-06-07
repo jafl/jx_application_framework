@@ -27,7 +27,7 @@ CMVarNode::CMVarNode				// root node
 	const JBoolean shouldUpdate		// kJFalse for Local Variables
 	)
 	:
-	JNamedTreeNode(NULL, ""),
+	JNamedTreeNode(nullptr, ""),
 	itsShouldListenToLinkFlag(shouldUpdate)
 {
 	VarTreeNodeX();
@@ -46,19 +46,19 @@ CMVarNode::CMVarNode
 	const JCharacter*	value
 	)
 	:
-	JNamedTreeNode(NULL, JString::IsEmpty(name) ? " " : name, kJFalse),
+	JNamedTreeNode(nullptr, JString::IsEmpty(name) ? " " : name, kJFalse),
 	itsShouldListenToLinkFlag(kJFalse),
 	itsValue(value)
 {
 	VarTreeNodeX();
 
-	if (parent != NULL)
+	if (parent != nullptr)
 		{
 		parent->Append(this);
 		if (parent->IsRoot() && !JString::IsEmpty(name))
 			{
 			CMInitVarNodeTask* task = jnew CMInitVarNodeTask(this);
-			assert( task != NULL );
+			assert( task != nullptr );
 			task->Go();
 			}
 		}
@@ -69,18 +69,18 @@ CMVarNode::CMVarNode
 void
 CMVarNode::VarTreeNodeX()
 {
-	itsValueCommand		= NULL;
+	itsValueCommand		= nullptr;
 	itsIsPointerFlag	= kJFalse;
 	itsValidFlag		= !itsValue.IsEmpty();
 	itsNewValueFlag		= kJFalse;
-	itsContentCommand	= NULL;
+	itsContentCommand	= nullptr;
 
 	itsShouldUpdateFlag = kJFalse;	// window is always initially hidden
 	itsNeedsUpdateFlag  = kJFalse;
 
 	itsBase               = 0;
 	itsCanConvertBaseFlag = kJFalse;
-	itsOrigValue          = NULL;
+	itsOrigValue          = nullptr;
 	ConvertToBase();
 }
 
@@ -111,7 +111,7 @@ CMVarNode::SetValue
 	itsValue        = value;	// set *after* checking value
 
 	itsValue.TrimWhitespace();
-	if (itsOrigValue != NULL)
+	if (itsOrigValue != nullptr)
 		{
 		itsOrigValue->Clear();
 		}
@@ -158,7 +158,7 @@ void
 CMVarNode::ConvertToBase()
 {
 	itsCanConvertBaseFlag = kJFalse;
-	if (itsOrigValue != NULL && !itsOrigValue->IsEmpty())
+	if (itsOrigValue != nullptr && !itsOrigValue->IsEmpty())
 		{
 		JTree* tree;
 		if (itsValue != *itsOrigValue && GetTree(&tree))
@@ -202,7 +202,7 @@ CMVarNode::ConvertToBase()
 			// save value for when base reset to "default"
 
 			itsOrigValue = jnew JString(itsValue);
-			assert( itsOrigValue != NULL );
+			assert( itsOrigValue != nullptr );
 
 			// replace only the value, preserving whatever else is there
 
@@ -406,7 +406,7 @@ CMVarNode::Receive
 			CMVarNode* child = (CMGetLink())->CreateVarNode(this, root->GetName(),
 															root->GetFullName(),
 															root->GetValue());
-			assert( child != NULL );
+			assert( child != nullptr );
 			child->MakePointer(root->itsIsPointerFlag);
 			}
 
@@ -426,7 +426,7 @@ CMVarNode::Receive
 		{
 		DeleteAllChildren();
 		CMVarNode* child = (CMGetLink())->CreateVarNode(this, "", "", itsContentCommand->GetData());
-		assert( child != NULL );
+		assert( child != nullptr );
 		child->SetValid(kJFalse);
 		}
 
@@ -821,7 +821,7 @@ CMVarNode::GetVarParent()
 {
 	JTreeNode* p = GetParent();
 	CMVarNode* n = dynamic_cast<CMVarNode*>(p);
-	assert( n != NULL );
+	assert( n != nullptr );
 	return n;
 }
 
@@ -831,7 +831,7 @@ CMVarNode::GetVarParent()
 {
 	const JTreeNode* p = GetParent();
 	const CMVarNode* n = dynamic_cast<const CMVarNode*>(p);
-	assert( n != NULL );
+	assert( n != nullptr );
 	return n;
 }
 
@@ -845,12 +845,12 @@ CMVarNode::GetVarParent
 	if (GetParent(&p))
 		{
 		*parent = dynamic_cast<CMVarNode*>(p);
-		assert( *parent != NULL );
+		assert( *parent != nullptr );
 		return kJTrue;
 		}
 	else
 		{
-		*parent = NULL;
+		*parent = nullptr;
 		return kJFalse;
 		}
 }
@@ -866,12 +866,12 @@ CMVarNode::GetVarParent
 	if (GetParent(&p))
 		{
 		*parent = dynamic_cast<const CMVarNode*>(p);
-		assert( *parent != NULL );
+		assert( *parent != nullptr );
 		return kJTrue;
 		}
 	else
 		{
-		*parent = NULL;
+		*parent = nullptr;
 		return kJFalse;
 		}
 }
@@ -888,7 +888,7 @@ CMVarNode::GetVarChild
 	)
 {
 	CMVarNode* node = dynamic_cast<CMVarNode*>(GetChild(index));
-	assert (node != NULL);
+	assert (node != nullptr);
 	return node;
 }
 
@@ -900,7 +900,7 @@ CMVarNode::GetVarChild
 	const
 {
 	const CMVarNode* node = dynamic_cast<const CMVarNode*>(GetChild(index));
-	assert (node != NULL);
+	assert (node != nullptr);
 	return node;
 }
 
@@ -943,7 +943,7 @@ CMVarNode::GetFullNameForCFamilyLanguage
 		}
 	else if (name.BeginsWith("<"))
 		{
-		if (isPointer != NULL)
+		if (isPointer != nullptr)
 			{
 			*isPointer = parent->IsPointer();
 			}

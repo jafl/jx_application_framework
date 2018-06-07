@@ -344,7 +344,7 @@ JTextEditor::CRMMatchPrefix
 {
 	JIndexRange matchRange;
 
-	if (itsCRMRuleList != NULL && *ruleIndex > 0)
+	if (itsCRMRuleList != nullptr && *ruleIndex > 0)
 		{
 		const CRMRule rule = itsCRMRuleList->GetElement(*ruleIndex);
 		if ((rule.rest)->MatchWithin(*itsBuffer, textRange, &matchRange) &&
@@ -355,7 +355,7 @@ JTextEditor::CRMMatchPrefix
 		}
 
 	JIndexRange range;
-	if (itsCRMRuleList != NULL)
+	if (itsCRMRuleList != nullptr)
 		{
 		const JSize count = itsCRMRuleList->GetElementCount();
 		for (JIndex i=1; i<=count; i++)
@@ -376,7 +376,7 @@ JTextEditor::CRMMatchPrefix
 	const JBoolean defMatch =
 		defaultCRMPrefixRegex.MatchWithin(*itsBuffer, textRange, &range);
 	assert( defMatch && range.first == textRange.first );
-	if (range.last >= matchRange.last || itsCRMRuleList == NULL)
+	if (range.last >= matchRange.last || itsCRMRuleList == nullptr)
 		{
 		matchRange = range;
 		*ruleIndex = 0;
@@ -400,7 +400,7 @@ JTextEditor::CRMLineMatchesRest
 	)
 	const
 {
-	if (itsCRMRuleList != NULL)
+	if (itsCRMRuleList != nullptr)
 		{
 		JIndexRange matchRange;
 		const JSize count = itsCRMRuleList->GetElementCount();
@@ -477,7 +477,7 @@ JTextEditor::CRMBuildRestPrefix
 	const
 {
 	JString s = firstLinePrefix;
-	if (itsCRMRuleList != NULL && ruleIndex > 0)
+	if (itsCRMRuleList != nullptr && ruleIndex > 0)
 		{
 		JArray<JIndexRange> matchList;
 		const CRMRule rule   = itsCRMRuleList->GetElement(ruleIndex);

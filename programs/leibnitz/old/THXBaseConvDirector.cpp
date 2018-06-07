@@ -114,49 +114,49 @@ THXBaseConvDirector::BuildWindow()
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 300,130, "");
-	assert( window != NULL );
+	assert( window != nullptr );
 	SetWindow(window);
 
 	itsCloseButton =
 		jnew JXTextButton("Close", window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 180,100, 60,20);
-	assert( itsCloseButton != NULL );
+	assert( itsCloseButton != nullptr );
 	itsCloseButton->SetShortcuts("#W^[");
 
 	itsFromValue =
 		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 110,20, 70,20);
-	assert( itsFromValue != NULL );
+	assert( itsFromValue != nullptr );
 
 	JXStaticText* obj1 =
 		jnew JXStaticText("Convert from:", window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 90,20);
-	assert( obj1 != NULL );
+	assert( obj1 != nullptr );
 
 	itsHelpButton =
 		jnew JXTextButton("Help", window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 60,100, 60,20);
-	assert( itsHelpButton != NULL );
+	assert( itsHelpButton != nullptr );
 
 	itsFromBase =
 		jnew THXBaseConvMenu(window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 190,15, 90,30);
-	assert( itsFromBase != NULL );
+	assert( itsFromBase != nullptr );
 
 	JXStaticText* obj2 =
 		jnew JXStaticText("Result:", window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,60, 90,20);
-	assert( obj2 != NULL );
+	assert( obj2 != nullptr );
 
 	itsToBase =
 		jnew THXBaseConvMenu(window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 190,55, 90,30);
-	assert( itsToBase != NULL );
+	assert( itsToBase != nullptr );
 
 	itsToValue =
-		jnew JXStaticText("", kJFalse, kJTrue, NULL, window,
+		jnew JXStaticText("", kJFalse, kJTrue, nullptr, window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 110,60, 70,20);
-	assert( itsToValue != NULL );
+	assert( itsToValue != nullptr );
 
 // end JXLayout
 
@@ -169,7 +169,7 @@ THXBaseConvDirector::BuildWindow()
 
 	JXDisplay* display = GetDisplay();
 	JXImage* icon      = jnew JXImage(display, display->GetColormap(), thx_base_conv_window);
-	assert( icon != NULL );
+	assert( icon != nullptr );
 	window->SetIcon(icon);
 
 	itsFromValue->ShouldBroadcastAllTextChanged(kJTrue);		// want every keypress

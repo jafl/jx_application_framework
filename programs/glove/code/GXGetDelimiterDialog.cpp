@@ -96,84 +96,84 @@ GXGetDelimiterDialog::BuildWindow()
 // begin JXLayout
 
     JXWindow* window = jnew JXWindow(this, 330,360, "");
-    assert( window != NULL );
+    assert( window != nullptr );
 
     JXScrollbarSet* scollbarSet =
         jnew JXScrollbarSet( window,
                     JXWidget::kHElastic, JXWidget::kVElastic, 10,220, 310,100);
-    assert( scollbarSet != NULL );
+    assert( scollbarSet != nullptr );
 
     JXTextButton* okButton =
         jnew JXTextButton("OK", window,
                     JXWidget::kFixedRight, JXWidget::kFixedBottom, 210,330, 70,20);
-    assert( okButton != NULL );
+    assert( okButton != nullptr );
     okButton->SetShortcuts("^M");
 
     JXTextButton* cancelButton =
         jnew JXTextButton("Cancel", window,
                     JXWidget::kFixedLeft, JXWidget::kFixedBottom, 50,330, 70,20);
-    assert( cancelButton != NULL );
+    assert( cancelButton != nullptr );
     cancelButton->SetShortcuts("^[");
 
     itsRG =
         jnew JXRadioGroup(window,
                     JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,10, 215,110);
-    assert( itsRG != NULL );
+    assert( itsRG != nullptr );
 
     rb[0] =
         jnew JXTextRadioButton(1, "White space", itsRG,
                     JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,10, 120,20);
-    assert( rb[0] != NULL );
+    assert( rb[0] != nullptr );
 
     rb[1] =
         jnew JXTextRadioButton(2, "Space", itsRG,
                     JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,30, 120,20);
-    assert( rb[1] != NULL );
+    assert( rb[1] != nullptr );
 
     rb[2] =
         jnew JXTextRadioButton(3, "Tab", itsRG,
                     JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,50, 120,20);
-    assert( rb[2] != NULL );
+    assert( rb[2] != nullptr );
 
     rb[3] =
         jnew JXTextRadioButton(4, "Character", itsRG,
                     JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,70, 100,20);
-    assert( rb[3] != NULL );
+    assert( rb[3] != nullptr );
 
     itsCharInput =
         jnew JXInputField(itsRG,
                     JXWidget::kFixedLeft, JXWidget::kFixedTop, 125,70, 40,20);
-    assert( itsCharInput != NULL );
+    assert( itsCharInput != nullptr );
 
     JXStaticText* helplabel =
         jnew JXStaticText("", window,
                     JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,200, 310,20);
-    assert( helplabel != NULL );
+    assert( helplabel != nullptr );
 
     itsSkipCB =
         jnew JXTextCheckbox("Skip first", window,
                     JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,140, 80,20);
-    assert( itsSkipCB != NULL );
+    assert( itsSkipCB != nullptr );
 
     itsCommentCB =
         jnew JXTextCheckbox("Skip lines beginning with", window,
                     JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,160, 170,20);
-    assert( itsCommentCB != NULL );
+    assert( itsCommentCB != nullptr );
 
     itsSkipCountInput =
         jnew JXIntegerInput(window,
                     JXWidget::kFixedLeft, JXWidget::kFixedTop, 90,140, 40,20);
-    assert( itsSkipCountInput != NULL );
+    assert( itsSkipCountInput != nullptr );
 
     JXStaticText* obj1 =
         jnew JXStaticText("lines.", window,
                     JXWidget::kFixedLeft, JXWidget::kFixedTop, 135,143, 60,20);
-    assert( obj1 != NULL );
+    assert( obj1 != nullptr );
 
     itsCommentInput =
         jnew JXInputField(window,
                     JXWidget::kFixedLeft, JXWidget::kFixedTop, 180,160, 50,20);
-    assert( itsCommentInput != NULL );
+    assert( itsCommentInput != nullptr );
     itsCommentInput->SetFontSize(10);
 
 // end JXLayout
@@ -187,7 +187,7 @@ GXGetDelimiterDialog::BuildWindow()
 		jnew JXStaticText("", kJFalse, kJFalse, 
 			scollbarSet, scollbarSet->GetScrollEnclosure(), 
 			JXWidget::kHElastic, JXWidget::kVElastic, 10,60, 310,90);
-	assert(itsFileText != NULL);
+	assert(itsFileText != nullptr);
 	itsFileText->FitToEnclosure();
 
 	itsCharInput->Deactivate();

@@ -30,7 +30,7 @@ JXXToJRect
 Region		JXRectangleRegion(XRectangle* rectangle);
 Region		JXRectangleRegion(const JRect& rect);
 JRect		JXGetRegionBounds(Region region);
-JBoolean	JXRegionIsRectangle(Region region, JRect* rect = NULL);
+JBoolean	JXRegionIsRectangle(Region region, JRect* rect = nullptr);
 
 Region	JXCopyRegion(Region region);
 void	JXIntersectRectWithRegion(XRectangle* rectangle, Region src_region,

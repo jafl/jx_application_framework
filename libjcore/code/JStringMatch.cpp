@@ -31,8 +31,8 @@ JStringMatch::JStringMatch
 	)
 	:
 	itsTarget(target),
-	itsRegex(NULL),
-	itsSubmatchList(NULL)
+	itsRegex(nullptr),
+	itsSubmatchList(nullptr)
 {
 }
 
@@ -64,8 +64,8 @@ JStringMatch::JStringMatch
 	)
 	:
 	itsTarget(source.itsTarget),
-	itsRegex(NULL),
-	itsSubmatchList(NULL)
+	itsRegex(nullptr),
+	itsSubmatchList(nullptr)
 {
 	*this = source;
 }
@@ -102,15 +102,15 @@ JStringMatch::operator=
 	itsCharacterRange = source.itsCharacterRange;
 	itsRegex = source.itsRegex;
 
-	if (source.itsSubmatchList == NULL)
+	if (source.itsSubmatchList == nullptr)
 		{
 		jdelete itsSubmatchList;
-		itsSubmatchList = NULL;
+		itsSubmatchList = nullptr;
 		}
-	else if (itsSubmatchList == NULL)
+	else if (itsSubmatchList == nullptr)
 		{
 		itsSubmatchList = jnew JArray<JUtf8ByteRange>(*(source.itsSubmatchList));
-		assert( itsSubmatchList != NULL );
+		assert( itsSubmatchList != nullptr );
 		}
 	else
 		{
@@ -204,7 +204,7 @@ JStringMatch::GetCharacterRange
 		ComputeCharacterRange();
 		return itsCharacterRange;
 		}
-	else if (itsSubmatchList != NULL && itsSubmatchList->IndexValid(submatchIndex))
+	else if (itsSubmatchList != nullptr && itsSubmatchList->IndexValid(submatchIndex))
 		{
 		const JUtf8ByteRange ur = itsSubmatchList->GetElement(submatchIndex);
 
@@ -235,7 +235,7 @@ JStringMatch::GetSubstring
 	)
 	const
 {
-	if (itsSubmatchList != NULL && itsSubmatchList->IndexValid(index))
+	if (itsSubmatchList != nullptr && itsSubmatchList->IndexValid(index))
 		{
 		const JUtf8ByteRange r = itsSubmatchList->GetElement(index);
 		if (!r.IsEmpty())
@@ -260,7 +260,7 @@ JStringMatch::GetSubstring
 	const
 {
 	JIndex i;
-	if (itsRegex != NULL && itsRegex->GetSubexpressionIndex(name, &i))
+	if (itsRegex != nullptr && itsRegex->GetSubexpressionIndex(name, &i))
 		{
 		return GetSubstring(i);
 		}

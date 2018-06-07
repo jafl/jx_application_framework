@@ -14,9 +14,9 @@
 #include "mdHelpText.h"
 #include <jAssert.h>
 
-static MDApp*			theApplication  = NULL;		// owns itself
-static MDPrefsManager*	thePrefsManager = NULL;
-static MDMDIServer*		theMDIServer    = NULL;
+static MDApp*			theApplication  = nullptr;		// owns itself
+static MDPrefsManager*	thePrefsManager = nullptr;
+static MDMDIServer*		theMDIServer    = nullptr;
 
 // string ID's
 
@@ -39,12 +39,12 @@ MDCreateGlobals
 
 	JBoolean isNew;
 	thePrefsManager	= jnew MDPrefsManager(&isNew);
-	assert( thePrefsManager != NULL );
+	assert( thePrefsManager != nullptr );
 
 	JXInitHelp();
 
 	theMDIServer = jnew MDMDIServer;
-	assert( theMDIServer != NULL );
+	assert( theMDIServer != nullptr );
 
 	return isNew;
 }
@@ -57,13 +57,13 @@ MDCreateGlobals
 void
 MDDeleteGlobals()
 {
-	theApplication = NULL;
-	theMDIServer   = NULL;
+	theApplication = nullptr;
+	theMDIServer   = nullptr;
 
 	// this must be last so everybody else can use it to save their setup
 
 	jdelete thePrefsManager;
-	thePrefsManager = NULL;
+	thePrefsManager = nullptr;
 }
 
 /******************************************************************************
@@ -100,7 +100,7 @@ MDCleanUpBeforeSuddenDeath
 MDApp*
 MDGetApplication()
 {
-	assert( theApplication != NULL );
+	assert( theApplication != nullptr );
 	return theApplication;
 }
 
@@ -112,7 +112,7 @@ MDGetApplication()
 MDPrefsManager*
 MDGetPrefsManager()
 {
-	assert( thePrefsManager != NULL );
+	assert( thePrefsManager != nullptr );
 	return thePrefsManager;
 }
 
@@ -124,7 +124,7 @@ MDGetPrefsManager()
 MDMDIServer*
 MDGetMDIServer()
 {
-	assert( theMDIServer != NULL );
+	assert( theMDIServer != nullptr );
 	return theMDIServer;
 }
 

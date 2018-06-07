@@ -247,7 +247,7 @@ JXExprEditor::JXExprEditor
 				JXScrollableWidget::GetColormap())
 {
 	JXExprEditorX();
-	CreateMenus(menuBar, NULL);
+	CreateMenus(menuBar, nullptr);
 }
 
 JXExprEditor::JXExprEditor
@@ -318,7 +318,7 @@ JXExprEditor::JXExprEditorX()
 	assert( GetWindow()->GetColormap() == GetDisplay()->GetColormap() );
 
 	itsEPSPrinter = jnew JXEPSPrinter(GetDisplay());
-	assert( itsEPSPrinter != NULL );
+	assert( itsEPSPrinter != nullptr );
 	ListenTo(itsEPSPrinter);
 
 	// ensure that we have a JFunction to display
@@ -355,7 +355,7 @@ JXExprEditor::CreateMenus
 	JXTextMenu*	editMenu
 	)
 {
-	if (editMenu != NULL)
+	if (editMenu != nullptr)
 		{
 		itsEditMenu = editMenu;
 		}
@@ -394,7 +394,7 @@ JXExprEditor::CreateMenus
 	ListenTo(itsMathMenu);
 
 	itsFunctionMenu = jnew JXTextMenu(itsMathMenu, kApplyFnToSelIndex, menuBar);
-	assert( itsFunctionMenu != NULL );
+	assert( itsFunctionMenu != nullptr );
 	itsFunctionMenu->SetMenuItems(kFunctionMenuStr);
 	itsFunctionMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsFunctionMenu);
@@ -757,7 +757,7 @@ JXExprEditor::AdjustCursor
 void
 JXExprEditor::UpdateEditMenu()
 {
-	const JArray<JBoolean> enableFlags = GetCmdStatus(NULL);
+	const JArray<JBoolean> enableFlags = GetCmdStatus(nullptr);
 
 	const JSize count = itsEditMenu->GetItemCount();
 	for (JIndex i=1; i<=count; i++)
@@ -958,7 +958,7 @@ JXExprEditor::EvaluateSelection()
 	JXExprEvalDirector* newDir =
 		jnew JXExprEvalDirector(GetWindow()->GetDirector(),
 							   GetVariableList(), *f);
-	assert( newDir != NULL );
+	assert( newDir != nullptr );
 	newDir->Activate();
 }
 
@@ -976,7 +976,7 @@ JXExprEditor::EvaluateSelection()
 void
 JXExprEditor::UpdateFontMenu()
 {
-	const JArray<JBoolean> enableFlags = GetCmdStatus(NULL);
+	const JArray<JBoolean> enableFlags = GetCmdStatus(nullptr);
 	JIndex activeIndex = 0;
 	for (JIndex i=1; i<=kFontMenuItemCount; i++)
 		{
@@ -1048,7 +1048,7 @@ JXExprEditor::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleEditMenu(selection->GetIndex());
 		}
 
@@ -1062,7 +1062,7 @@ JXExprEditor::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleMathMenu(selection->GetIndex());
 		}
 
@@ -1076,7 +1076,7 @@ JXExprEditor::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleFunctionMenu(selection->GetIndex());
 		}
 
@@ -1090,7 +1090,7 @@ JXExprEditor::Receive
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != NULL );
+		assert( selection != nullptr );
 		HandleFontMenu(selection->GetIndex());
 		}
 
@@ -1099,7 +1099,7 @@ JXExprEditor::Receive
 		{
 		const JPrinter::PrintSetupFinished* info =
 			dynamic_cast<const JPrinter::PrintSetupFinished*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		if (info->Successful())
 			{
 			Print(*itsEPSPrinter);
@@ -1127,7 +1127,7 @@ JXExprEditor::EIPClipboardChanged()
 		const JString text = f->Print();
 
 		JXTextSelection* data = jnew JXTextSelection(GetDisplay(), text);
-		assert( data != NULL );
+		assert( data != nullptr );
 
 		GetSelectionManager()->SetData(kJXClipboardName, data);
 		}
@@ -1184,7 +1184,7 @@ JXExprEditor::EIPGetExternalClipboard
 			}
 
 		Atom returnType;
-		unsigned char* data = NULL;
+		unsigned char* data = nullptr;
 		JSize dataLength;
 		JXSelectionManager::DeleteMethod delMethod;
 		if (canGetText &&

@@ -31,8 +31,8 @@ JPlotFitModule::JPlotFitModule
 	)
 	:
 	JPlotFitBase(plot, fitData, xMin, xMax),
-	itsModule(NULL),
-	itsErrors(NULL)
+	itsModule(nullptr),
+	itsErrors(nullptr)
 {
 }
 
@@ -47,8 +47,8 @@ JPlotFitModule::JPlotFitModule
 	)
 	:
 	JPlotFitBase(plot, fitData, xmin, xmax, ymin, ymax),
-	itsModule(NULL),
-	itsErrors(NULL)
+	itsModule(nullptr),
+	itsErrors(nullptr)
 {
 }
 
@@ -74,7 +74,7 @@ JPlotFitModule::SetCurrentParameters
 	const JVector& p
 	)
 {
-	assert(itsModule != NULL);
+	assert(itsModule != nullptr);
 
 	itsModule->SetCurrentParameters(p);
 	*itsParameters	= p;
@@ -105,7 +105,7 @@ JPlotFitModule::FunctionN
 	const JFloat x
 	)
 {
-	assert(itsModule != NULL);
+	assert(itsModule != nullptr);
 	return itsModule->Function(x);
 }
 
@@ -120,7 +120,7 @@ JPlotFitModule::FunctionNPrimed
 	const JFloat x
 	)
 {
-	assert(itsModule != NULL);
+	assert(itsModule != nullptr);
 	if (!itsModule->HasFPrimed())
 		{
 		return JPlotFitBase::FunctionNPrimed(x);
@@ -142,10 +142,10 @@ JPlotFitModule::SetFitModule
 	itsModule	= fit;
 	const JSize count	= itsModule->GetParameterCount();
 	itsParameters		= jnew JVector(count);
-	assert(itsParameters != NULL);
+	assert(itsParameters != nullptr);
 	SetParameterCount(count);
 	itsErrors	= jnew JVector(count);
-	assert(itsErrors != NULL);
+	assert(itsErrors != nullptr);
 	SetFunctionString(itsModule->GetFunctionalForm());
 }
 
@@ -197,7 +197,7 @@ JPlotFitModule::GetParameterName
 	)
 	const
 {
-	assert(itsModule != NULL);
+	assert(itsModule != nullptr);
 	if (index > itsModule->GetParameterCount() || index < 1)
 		{
 		return kJFalse;

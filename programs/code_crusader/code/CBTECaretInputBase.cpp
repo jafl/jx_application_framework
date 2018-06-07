@@ -43,7 +43,7 @@ CBTECaretInputBase::CBTECaretInputBase
 	:
 	JXIntegerInput(enclosure, hSizing, vSizing, x,y, w,h)
 {
-	itsTE                 = NULL;
+	itsTE                 = nullptr;
 	itsOrigValue          = 0;
 	itsShouldActFlag      = kJFalse;
 	itsOptimizeUpdateFlag = kJFalse;
@@ -167,7 +167,7 @@ CBTECaretInputBase::Receive
 		{
 		const JTextEditor::CaretLocationChanged* info =
 			dynamic_cast<const JTextEditor::CaretLocationChanged*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		if (itsOptimizeUpdateFlag)
 			{
 			GetWindow()->Update();	// avoid redrawing everything in between

@@ -59,7 +59,7 @@ JMatrix::JMatrixX
 	itsColCount = colCount;
 
 	itsElements = jnew JFloat [ itsRowCount * itsColCount ];
-	assert( itsElements != NULL );
+	assert( itsElements != nullptr );
 }
 
 /******************************************************************************

@@ -24,7 +24,7 @@ main
 		"--sort=no",
 		"--extra=q",
 //		"--c-types=f",
-		NULL
+		nullptr
 		};
 
 	int toFD[2], fromFD[2];

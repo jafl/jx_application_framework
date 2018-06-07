@@ -20,10 +20,10 @@
 JXMenuManager::JXMenuManager()
 {
 	itsOpenMenuList = jnew JPtrArray<JXMenu>(JPtrArrayT::kForgetAll);
-	assert( itsOpenMenuList != NULL );
+	assert( itsOpenMenuList != nullptr );
 
 	itsOpenWindowList = jnew JPtrArray<JXWindow>(JPtrArrayT::kForgetAll);
-	assert( itsOpenWindowList != NULL );
+	assert( itsOpenWindowList != nullptr );
 }
 
 /******************************************************************************

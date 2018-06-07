@@ -162,7 +162,7 @@ private:
 private:
 
 	XDAcceptor*				itsAcceptor;
-	XDSocket*				itsLink;		// NULL if not connected to debugger
+	XDSocket*				itsLink;		// nullptr if not connected to debugger
 	XDBreakpointManager*	itsBPMgr;
 
 	JString		itsIDEKey;
@@ -234,7 +234,7 @@ XDLink::GetParsedData
 	)
 {
 	*root = itsParsedDataRoot;
-	return JI2B(itsParsedDataRoot != NULL);
+	return JI2B(itsParsedDataRoot != nullptr);
 }
 
 /******************************************************************************

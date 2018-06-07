@@ -57,7 +57,7 @@ CMDeselectLineTask::Perform
 		!(itsTable->itsLineMenu)->IsOpen())
 		{
 		(itsTable->GetTableSelection()).ClearSelection();
-		itsTable->itsDeselectTask = NULL;
+		itsTable->itsDeselectTask = nullptr;
 		jdelete this;
 		}
 }

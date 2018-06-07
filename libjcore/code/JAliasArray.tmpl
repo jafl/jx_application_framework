@@ -40,8 +40,8 @@ JAliasArray<T>::JAliasArray
 	:
 	JCollection(),
 	itsData(data),
-	itsCompareFn(NULL),
-	itsCompareObj(NULL)
+	itsCompareFn(nullptr),
+	itsCompareObj(nullptr)
 {
 	JAliasArrayX1(order);
 	SetCompareFunction(compareFn);
@@ -58,8 +58,8 @@ JAliasArray<T>::JAliasArray
 	:
 	JCollection(),
 	itsData(data),
-	itsCompareFn(NULL),
-	itsCompareObj(NULL)
+	itsCompareFn(nullptr),
+	itsCompareObj(nullptr)
 {
 	JAliasArrayX1(order);
 	SetCompareObject(compareObj);
@@ -75,10 +75,10 @@ JAliasArray<T>::JAliasArrayX1
 	const JListT::SortOrder order
 	)
 {
-	assert( itsData != NULL );
+	assert( itsData != nullptr );
 
 	itsIndexArray = jnew JArray<JIndex>(100);
-	assert( itsIndexArray != NULL );
+	assert( itsIndexArray != nullptr );
 	itsIndexArray->SetSortOrder(order);
 }
 
@@ -117,7 +117,7 @@ template <class T>
 JList<T>*
 JAliasArray<T>::GetData()
 {
-	assert( itsData != NULL );
+	assert( itsData != nullptr );
 
 	return itsData;
 }
@@ -127,7 +127,7 @@ const JList<T>&
 JAliasArray<T>::GetData()
 	const
 {
-	assert( itsData != NULL );
+	assert( itsData != nullptr );
 
 	return *itsData;
 }
@@ -181,7 +181,7 @@ JAliasArray<T>::GetElement
 	)
 	const
 {
-	assert( itsData != NULL );
+	assert( itsData != nullptr );
 
 	return itsData->GetElement(GetElementIndex(index));
 }
@@ -199,7 +199,7 @@ JAliasArray<T>::SetElement
 	const T&		data
 	)
 {
-	assert( itsData != NULL );
+	assert( itsData != nullptr );
 
 	itsData->SetElement(GetElementIndex(index), data);
 }
@@ -214,7 +214,7 @@ const T
 JAliasArray<T>::GetFirstElement()
 	const
 {
-	assert( itsData != NULL );
+	assert( itsData != nullptr );
 
 	return itsData->GetElement(GetElementIndex(1));
 }
@@ -229,7 +229,7 @@ const T
 JAliasArray<T>::GetLastElement()
 	const
 {
-	assert( itsData != NULL );
+	assert( itsData != nullptr );
 
 	return itsData->GetElement(GetElementIndex(GetElementCount()));
 }
@@ -247,7 +247,7 @@ JAliasArray<T>::GetElementFromEnd
 	)
 	const
 {
-	assert( itsData != NULL );
+	assert( itsData != nullptr );
 
 	return itsData->GetElement(GetElementIndex(GetIndexFromEnd(index)));
 }
@@ -265,7 +265,7 @@ JAliasArray<T>::SetElementFromEnd
 	const T&		data
 	)
 {
-	assert( itsData != NULL );
+	assert( itsData != nullptr );
 	assert( IndexValid(index) );	// avoid wrap of unsigned value
 
 	itsData->SetElement(GetElementIndex(GetIndexFromEnd(index)), data);
@@ -287,7 +287,7 @@ public:
 		(
 		const JList<T>&			data,
 		const JElementComparison<T>&	compareObj,
-		const T*						searchData = NULL
+		const T*						searchData = nullptr
 		)
 		:
 		itsData(data),
@@ -300,7 +300,7 @@ public:
 	virtual JListT::CompareResult
 	Compare(const JIndex& i1, const JIndex& i2) const
 	{
-		if (itsSearchData == NULL || (i1 > 0 && i2 > 0))
+		if (itsSearchData == nullptr || (i1 > 0 && i2 > 0))
 			{
 			return itsCompareObj.Compare(itsData.GetElement(i1), itsData.GetElement(i2));
 			}
@@ -318,7 +318,7 @@ public:
 	Copy() const
 	{
 		JCompareAliasWrapper<T>* copy = jnew JCompareAliasWrapper<T>(itsData, itsCompareObj, itsSearchData);
-		assert( copy != NULL );
+		assert( copy != nullptr );
 		return copy;
 	}
 
@@ -343,7 +343,7 @@ JAliasArray<T>::GetCompareFunction
 	const
 {
 	*compareFn = itsCompareFn;
-	return JI2B( itsCompareFn != NULL );
+	return JI2B( itsCompareFn != nullptr );
 }
 
 template <class T>
@@ -353,14 +353,14 @@ JAliasArray<T>::SetCompareFunction
 	JListT::CompareResult (*compareFn)(const T&, const T&)
 	)
 {
-	assert( itsData != NULL );
-	assert( compareFn != NULL );
+	assert( itsData != nullptr );
+	assert( compareFn != nullptr );
 
 	itsCompareFn = compareFn;
 
 	jdelete itsCompareObj;
 	itsCompareObj = jnew JCompareFnWrapper<T>(itsCompareFn);
-	assert( itsCompareObj != NULL );
+	assert( itsCompareObj != nullptr );
 
 	itsIndexArray->SetCompareObject(JCompareAliasWrapper<T>(*itsData, *itsCompareObj));
 	itsIndexArray->Sort();
@@ -386,9 +386,9 @@ JAliasArray<T>::SetCompareObject
 	const JElementComparison<T>& compareObj
 	)
 {
-	assert( itsData != NULL );
+	assert( itsData != nullptr );
 
-	itsCompareFn = NULL;
+	itsCompareFn = nullptr;
 
 	jdelete itsCompareObj;
 	itsCompareObj = compareObj.Copy();
@@ -472,7 +472,7 @@ JAliasArray<T>::SearchSorted1
 	)
 	const
 {
-	assert( itsData != NULL );
+	assert( itsData != nullptr );
 
 	itsIndexArray->SetCompareObject(JCompareAliasWrapper<T>(*itsData, *itsCompareObj, &target));
 	const JIndex i = itsIndexArray->SearchSorted1(0, which, found);
@@ -507,7 +507,7 @@ JAliasArray<T>::Receive
 		{
 		const JListT::ElementsInserted* m =
 			dynamic_cast<const JListT::ElementsInserted*>(&message);
-		assert( m != NULL );
+		assert( m != nullptr );
 		ADJUST_INDEX(m);
 
 		for (JIndex i = m->GetFirstIndex(); i <= m->GetLastIndex(); i++)
@@ -521,7 +521,7 @@ JAliasArray<T>::Receive
 		{
 		const JListT::ElementsRemoved* m =
 			dynamic_cast<const JListT::ElementsRemoved*>(&message);
-		assert( m != NULL );
+		assert( m != nullptr );
 
 		const JSize count = itsIndexArray->GetElementCount();
 		for (JIndex i=count; i>=1; i--)
@@ -543,14 +543,14 @@ JAliasArray<T>::Receive
 		{
 		const JListT::ElementMoved* m =
 			dynamic_cast<const JListT::ElementMoved*>(&message);
-		assert( m != NULL );
+		assert( m != nullptr );
 		ADJUST_INDEX(m);
 		}
 	else if (sender == itsData && message.Is(JListT::kElementsSwapped))
 		{
 		const JListT::ElementsSwapped* m =
 			dynamic_cast<const JListT::ElementsSwapped*>(&message);
-		assert( m != NULL );
+		assert( m != nullptr );
 		ADJUST_INDEX(m);
 		}
 	else if (sender == itsData && message.Is(JListT::kElementChanged))
@@ -559,7 +559,7 @@ JAliasArray<T>::Receive
 
 		const JListT::ElementChanged* m =
 			dynamic_cast<const JListT::ElementChanged*>(&message);
-		assert( m != NULL );
+		assert( m != nullptr );
 
 		const JSize count = itsIndexArray->GetElementCount();
 		for (JIndex i=1; i<=count; i++)
@@ -600,7 +600,7 @@ JAliasArray<T>::ReceiveGoingAway
 {
 	if (sender == itsData)
 		{
-		itsData = NULL;
+		itsData = nullptr;
 		}
 	else
 		{

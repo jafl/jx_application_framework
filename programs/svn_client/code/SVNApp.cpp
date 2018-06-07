@@ -85,7 +85,7 @@ SVNApp::Close()
 /******************************************************************************
  DisplayAbout
 
-	prevVersStr can be NULL.
+	prevVersStr can be nullptr.
 
  ******************************************************************************/
 
@@ -96,7 +96,7 @@ SVNApp::DisplayAbout
 	)
 {
 	SVNAboutDialog* dlog = jnew SVNAboutDialog(this, prevVersStr);
-	assert( dlog != NULL );
+	assert( dlog != nullptr );
 	dlog->BeginDialog();
 }
 

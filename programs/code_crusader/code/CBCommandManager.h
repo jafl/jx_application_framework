@@ -47,11 +47,11 @@ public:
 
 		CmdInfo()
 			:
-			path(NULL), cmd(NULL), name(NULL),
+			path(nullptr), cmd(nullptr), name(nullptr),
 			isMake(kJFalse), isVCS(kJFalse), saveAll(kJFalse),
 			oneAtATime(kJTrue), useWindow(kJTrue),
 			raiseWindowWhenStart(kJFalse), beepWhenFinished(kJFalse),
-			menuText(NULL), menuShortcut(NULL), menuID(NULL), separator(kJFalse)
+			menuText(nullptr), menuShortcut(nullptr), menuID(nullptr), separator(kJFalse)
 		{ };
 
 		CmdInfo(JString* p, JString* c, JString* cn,
@@ -89,7 +89,7 @@ public:
 
 public:
 
-	CBCommandManager(CBDocumentManager* docMgr = NULL);
+	CBCommandManager(CBDocumentManager* docMgr = nullptr);
 
 	virtual	~CBCommandManager();
 
@@ -146,7 +146,7 @@ public:
 
 	static JBoolean	ReadCommands(std::istream& input,
 								 JString* makeDependCmd, CmdList* cmdList,
-								 JFileVersion* returnVers = NULL);
+								 JFileVersion* returnVers = nullptr);
 
 	void	ConvertCompileDialog(std::istream& input, const JFileVersion vers,
 								 CBBuildManager* buildMgr,

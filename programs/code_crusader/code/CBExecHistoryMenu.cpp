@@ -57,7 +57,7 @@ void
 CBExecHistoryMenu::CBExecHistoryMenuX()
 {
 	JXImage* icon = jnew JXImage(GetDisplay(), jx_executable_small);
-	assert( icon != NULL );
+	assert( icon != nullptr );
 	SetDefaultIcon(icon, kJTrue);
 }
 

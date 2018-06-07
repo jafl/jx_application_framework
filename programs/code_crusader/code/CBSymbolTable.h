@@ -71,8 +71,8 @@ private:
 	CBSymbolList*		itsSymbolList;				// not owned
 	JArray<JIndex>*		itsVisibleList;				// index of each visible symbol
 	JBoolean			itsVisibleListLockedFlag;	// kJTrue => RebuildTable() doesn't change it
-	JRegex*				itsNameFilter;				// NULL if not used
-	JString*			itsNameLiteral;				// NULL if not used
+	JRegex*				itsNameFilter;				// nullptr if not used
+	JString*			itsNameLiteral;				// nullptr if not used
 
 	JSize			itsMaxStringWidth;
 	mutable JString	itsKeyBuffer;

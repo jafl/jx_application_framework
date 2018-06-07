@@ -213,9 +213,9 @@ JPtrArray<T>::CopyObjects
 	for (JIndex i=1; i<=count; i++)
 		{
 		const T* ptr = source.GetElement(i);
-		if (ptr == NULL)
+		if (ptr == nullptr)
 			{
-			Append(NULL);
+			Append(nullptr);
 			}
 		else
 			{
@@ -251,7 +251,7 @@ JPtrArray<T>::InsertAtIndex
 	)
 {
 	T* ptr = jnew T(data);
-	assert( ptr != NULL );
+	assert( ptr != nullptr );
 	InsertAtIndex(index, ptr);
 }
 
@@ -278,7 +278,7 @@ JPtrArray<T>::Prepend
 	)
 {
 	T* ptr = jnew T(data);
-	assert( ptr != NULL );
+	assert( ptr != nullptr );
 	Prepend(ptr);
 }
 
@@ -305,7 +305,7 @@ JPtrArray<T>::Append
 	)
 {
 	T* ptr = jnew T(data);
-	assert( ptr != NULL );
+	assert( ptr != nullptr );
 	Append(ptr);
 }
 
@@ -346,7 +346,7 @@ JPtrArray<T>::InsertBefore
 	)
 {
 	T* ptr = jnew T(data);
-	assert( ptr != NULL );
+	assert( ptr != nullptr );
 	InsertBefore(beforePtr, ptr);
 }
 
@@ -387,7 +387,7 @@ JPtrArray<T>::InsertAfter
 	)
 {
 	T* ptr = jnew T(data);
-	assert( ptr != NULL );
+	assert( ptr != nullptr );
 	InsertAfter(afterPtr, ptr);
 }
 
@@ -433,7 +433,7 @@ JPtrArray<T>::SetElement
 	)
 {
 	T* ptr = jnew T(data);
-	assert( ptr != NULL );
+	assert( ptr != nullptr );
 	SetElement(index, ptr, action);
 }
 
@@ -452,7 +452,7 @@ JPtrArray<T>::SetToNull
 	const JPtrArrayT::SetElementAction	action
 	)
 {
-	SetElement(index, static_cast<T*>(NULL), action);
+	SetElement(index, static_cast<T*>(nullptr), action);
 }
 
 /******************************************************************************

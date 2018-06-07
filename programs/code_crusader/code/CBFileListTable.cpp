@@ -52,9 +52,9 @@ CBFileListTable::CBFileListTable
 	JXFileListTable(scrollbarSet, enclosure, hSizing,vSizing, x,y, w,h)
 {
 	itsFileInfo = jnew JArray<FileInfo>(100);
-	assert( itsFileInfo != NULL );
+	assert( itsFileInfo != nullptr );
 
-	itsFileUsage              = NULL;
+	itsFileUsage              = nullptr;
 	itsReparseAllFlag         = kJFalse;
 	itsChangedDuringParseFlag = kJFalse;
 	itsLastUniqueID           = JFAID::kMinID;
@@ -153,7 +153,7 @@ JIndex i;
 			}
 		}
 
-	itsFileUsage = NULL;
+	itsFileUsage = nullptr;
 
 	// remove non-existent files
 
@@ -562,16 +562,16 @@ CBFileListTable::Receive
 		{
 		const JListT::ElementsInserted* info =
 			dynamic_cast<const JListT::ElementsInserted*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		FilesAdded(*info);
 		}
 	else if (sender == GetFullNameDataList() && message.Is(JListT::kElementsRemoved))
 		{
 		const JListT::ElementsRemoved* info =
 			dynamic_cast<const JListT::ElementsRemoved*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		itsFileInfo->RemoveElements(*info);
-		if (itsFileUsage != NULL)
+		if (itsFileUsage != nullptr)
 			{
 			itsFileUsage->RemoveElements(*info);
 			}
@@ -581,9 +581,9 @@ CBFileListTable::Receive
 		{
 		const JListT::ElementMoved* info =
 			dynamic_cast<const JListT::ElementMoved*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		itsFileInfo->MoveElementToIndexWithMsg(*info);
-		if (itsFileUsage != NULL)
+		if (itsFileUsage != nullptr)
 			{
 			itsFileUsage->MoveElementToIndexWithMsg(*info);
 			}
@@ -592,9 +592,9 @@ CBFileListTable::Receive
 		{
 		const JListT::ElementsSwapped* info =
 			dynamic_cast<const JListT::ElementsSwapped*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		itsFileInfo->SwapElementsWithMsg(*info);
-		if (itsFileUsage != NULL)
+		if (itsFileUsage != nullptr)
 			{
 			itsFileUsage->SwapElementsWithMsg(*info);
 			}
@@ -608,7 +608,7 @@ CBFileListTable::Receive
 		{
 		const JListT::ElementChanged* info =
 			dynamic_cast<const JListT::ElementChanged*>(&message);
-		assert( info != NULL );
+		assert( info != nullptr );
 		UpdateFileInfo(info->GetFirstIndex());
 		}
 
@@ -635,7 +635,7 @@ CBFileListTable::FilesAdded
 		assert_ok( err );
 
 		itsFileInfo->InsertElementAtIndex(i, FileInfo(GetUniqueID(), t));
-		if (itsFileUsage != NULL)
+		if (itsFileUsage != nullptr)
 			{
 			itsFileUsage->InsertElementAtIndex(i, kJTrue);
 			}
@@ -664,7 +664,7 @@ CBFileListTable::UpdateFileInfo
 	assert_ok( err );
 
 	itsFileInfo->SetElement(index, info);
-	if (itsFileUsage != NULL)
+	if (itsFileUsage != nullptr)
 		{
 		itsFileUsage->SetElement(index, kJTrue);
 		}
@@ -686,7 +686,7 @@ CBFileListTable::ReadSetup
 {
 	std::istream* input          = (projVers <= 41 ? &projInput : symInput);
 	const JFileVersion vers = (projVers <= 41 ? projVers   : symVers);
-	if (vers < 40 || input == NULL)
+	if (vers < 40 || input == nullptr)
 		{
 		itsReparseAllFlag = kJTrue;
 		}
@@ -750,7 +750,7 @@ CBFileListTable::WriteSetup
 	)
 	const
 {
-	if (symOutput != NULL)
+	if (symOutput != nullptr)
 		{
 		const JSize fileCount = itsFileInfo->GetElementCount();
 		*symOutput << ' ' << fileCount;

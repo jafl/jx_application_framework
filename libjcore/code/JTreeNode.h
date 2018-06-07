@@ -85,9 +85,9 @@ protected:
 
 private:
 
-	JTree*					itsTree;			// not owned; can be NULL
-	JTreeNode*				itsParent;			// owns us; can be NULL
-	JPtrArray<JTreeNode>*	itsChildren;		// can be NULL
+	JTree*					itsTree;			// not owned; can be nullptr
+	JTreeNode*				itsParent;			// owns us; can be nullptr
+	JPtrArray<JTreeNode>*	itsChildren;		// can be nullptr
 	JBoolean				itsIsOpenableFlag;
 	JBoolean				itsIsDestructingFlag;
 
@@ -119,7 +119,7 @@ inline JBoolean
 JTreeNode::HasTree()
 	const
 {
-	return JI2B( itsTree != NULL );
+	return JI2B( itsTree != nullptr );
 }
 
 /******************************************************************************
@@ -134,7 +134,7 @@ JTreeNode::GetTree
 	)
 {
 	*tree = itsTree;
-	return JI2B( itsTree != NULL );
+	return JI2B( itsTree != nullptr );
 }
 
 inline JBoolean
@@ -145,7 +145,7 @@ JTreeNode::GetTree
 	const
 {
 	*tree = itsTree;
-	return JI2B( itsTree != NULL );
+	return JI2B( itsTree != nullptr );
 }
 
 /******************************************************************************
@@ -157,7 +157,7 @@ inline JSize
 JTreeNode::GetDepth()
 	const
 {
-	return ((IsRoot() || itsParent == NULL) ? 0 : itsParent->GetDepth() + 1);
+	return ((IsRoot() || itsParent == nullptr) ? 0 : itsParent->GetDepth() + 1);
 }
 
 /******************************************************************************
@@ -169,7 +169,7 @@ inline JBoolean
 JTreeNode::HasParent()
 	const
 {
-	return JI2B( itsParent != NULL );
+	return JI2B( itsParent != nullptr );
 }
 
 /******************************************************************************
@@ -184,7 +184,7 @@ JTreeNode::GetParent
 	)
 {
 	*parent = itsParent;
-	return JI2B( itsParent != NULL );
+	return JI2B( itsParent != nullptr );
 }
 
 inline JBoolean
@@ -195,7 +195,7 @@ JTreeNode::GetParent
 	const
 {
 	*parent = itsParent;
-	return JI2B( itsParent != NULL );
+	return JI2B( itsParent != nullptr );
 }
 
 /******************************************************************************
@@ -207,7 +207,7 @@ inline JBoolean
 JTreeNode::HasChildren()
 	const
 {
-	return JI2B( itsChildren != NULL );
+	return JI2B( itsChildren != nullptr );
 }
 
 /******************************************************************************
@@ -219,7 +219,7 @@ inline JSize
 JTreeNode::GetChildCount()
 	const
 {
-	return (itsChildren != NULL ? itsChildren->GetElementCount() : 0);
+	return (itsChildren != nullptr ? itsChildren->GetElementCount() : 0);
 }
 
 /******************************************************************************
@@ -299,7 +299,7 @@ JTreeNode::FindChild
 	const
 {
 	*index = 0;
-	return JI2B( itsChildren != NULL && itsChildren->Find(child, index) );
+	return JI2B( itsChildren != nullptr && itsChildren->Find(child, index) );
 }
 
 /******************************************************************************
@@ -314,7 +314,7 @@ JTreeNode::ChildIndexValid
 	)
 	const
 {
-	return (itsChildren != NULL ? itsChildren->IndexValid(index) : kJFalse);
+	return (itsChildren != nullptr ? itsChildren->IndexValid(index) : kJFalse);
 }
 
 /******************************************************************************
@@ -344,7 +344,7 @@ JTreeNode::GetChildCompareFunction
 {
 	*compareFn = itsCompareFn;
 	*order     = itsSortOrder;
-	return JI2B( itsCompareFn != NULL );
+	return JI2B( itsCompareFn != nullptr );
 }
 
 #endif

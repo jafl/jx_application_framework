@@ -33,7 +33,7 @@ CBPTPrinter::CBPTPrinter()
 	JPrefObject(CBGetPrefsManager(), kCBPrintPlainTextID)
 {
 	itsPrintHeaderFlag    = kJTrue;
-	itsCBPrintSetupDialog = NULL;
+	itsCBPrintSetupDialog = nullptr;
 
 	JPrefObject::ReadPrefs();
 }
@@ -64,7 +64,7 @@ CBPTPrinter::CreatePrintSetupDialog
 	const JBoolean		printLineNumbers
 	)
 {
-	assert( itsCBPrintSetupDialog == NULL );
+	assert( itsCBPrintSetupDialog == nullptr );
 
 	itsCBPrintSetupDialog =
 		CBPTPrintSetupDialog::Create(destination, printCmd, fileName,
@@ -87,7 +87,7 @@ CBPTPrinter::EndUserPrintSetup
 	JBoolean*						changed
 	)
 {
-	assert( itsCBPrintSetupDialog != NULL );
+	assert( itsCBPrintSetupDialog != nullptr );
 
 	const JBoolean ok = JXPTPrinter::EndUserPrintSetup(message, changed);
 	if (ok)
@@ -103,7 +103,7 @@ CBPTPrinter::EndUserPrintSetup
 			}
 		}
 
-	itsCBPrintSetupDialog = NULL;
+	itsCBPrintSetupDialog = nullptr;
 	return ok;
 }
 

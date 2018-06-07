@@ -30,18 +30,18 @@ JMMArrayTable::JMMArrayTable
 	)
 	:
 	JMMTable(manager),
-	itsAllocatedTable(NULL),
+	itsAllocatedTable(nullptr),
 	itsAllocatedBytes(0),
-	itsDeletedTable(NULL),
+	itsDeletedTable(nullptr),
 	itsDeletedCount(0)
 {
 	itsAllocatedTable = jnew JArray<JMMRecord>(blockSize);
-	assert(itsAllocatedTable != NULL);
+	assert(itsAllocatedTable != nullptr);
 
 	if (recordDelete)
 		{
 		itsDeletedTable = jnew JArray<JMMRecord>(blockSize);
-		assert(itsDeletedTable != NULL);
+		assert(itsDeletedTable != nullptr);
 		}
 }
 
@@ -53,10 +53,10 @@ JMMArrayTable::JMMArrayTable
 JMMArrayTable::~JMMArrayTable()
 {
 	jdelete itsAllocatedTable;
-	itsAllocatedTable = NULL;
+	itsAllocatedTable = nullptr;
 
 	jdelete itsDeletedTable;
-	itsDeletedTable = NULL;
+	itsDeletedTable = nullptr;
 }
 
 /******************************************************************************
@@ -91,7 +91,7 @@ JMMArrayTable::GetAllocatedBytes() const
 JSize
 JMMArrayTable::GetDeletedCount() const
 {
-	if (itsDeletedTable != NULL)
+	if (itsDeletedTable != nullptr)
 		{
 		return itsDeletedTable->GetElementCount();
 		}
@@ -215,12 +215,12 @@ JMMArrayTable::StreamAllocationSizeHistogram
 void
 JMMArrayTable::_CancelRecordDeallocated()
 {
-	if (itsDeletedTable != NULL)
+	if (itsDeletedTable != nullptr)
 		{
 		itsDeletedCount = itsDeletedTable->GetElementCount();
 
 		jdelete itsDeletedTable;
-		itsDeletedTable = NULL;
+		itsDeletedTable = nullptr;
 		}
 }
 
@@ -296,7 +296,7 @@ JMMArrayTable::_SetRecordDeleted
 			}
 
 		itsAllocatedTable->RemoveElement(index);
-		if (itsDeletedTable != NULL)
+		if (itsDeletedTable != nullptr)
 			{
 			itsDeletedTable->AppendElement(thisRecord);
 			}
@@ -369,7 +369,7 @@ JMMArrayTable::FindDeletedBlock
 	)
 	const
 {
-	if (itsDeletedTable != NULL)
+	if (itsDeletedTable != nullptr)
 		{
 		JSize deletedCount = itsDeletedTable->GetElementCount();
 		for (JSize i=deletedCount;i>=1;i--)

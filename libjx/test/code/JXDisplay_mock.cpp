@@ -18,13 +18,13 @@ JXDisplay::JXDisplay
 	const JBoolean isOSX
 	)
 	:
-	itsXDisplay(NULL),
-	itsColorManager(NULL),
+	itsXDisplay(nullptr),
+	itsColorManager(nullptr),
 	itsMaxStringByteCount(1024),
 	itsIsOSXFlag(isOSX),
-	itsBounds(NULL),
+	itsBounds(nullptr),
 	itsLatestKeyModifiers(this),
-	itsModifierKeymap(NULL)
+	itsModifierKeymap(nullptr)
 {
 	for (JIndex i=0; i<=kXModifierCount; i++)
 		{

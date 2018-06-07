@@ -113,7 +113,7 @@ JTextProgressDisplay::ProcessBeginning
 	Update the display to show that progress is being made.
 	Returns kJFalse if process was cancelled by user.
 
-	If the current process is of variable length and the message is not NULL,
+	If the current process is of variable length and the message is not nullptr,
 	then it is displayed in place of the usual iteration count.
 
  ******************************************************************************/
@@ -164,7 +164,7 @@ JTextProgressDisplay::IncrementProgress
 	Update the display to show that progress is being made.
 	Returns kJFalse if process was cancelled by user.
 
-	If the current process is of variable length and the message is not NULL,
+	If the current process is of variable length and the message is not nullptr,
 	then it is displayed in place of the usual iteration count.
 
  ******************************************************************************/

@@ -29,7 +29,7 @@ GLPolyFitDescription::GLPolyFitDescription
 	GLFitDescription(kPolynomial, "", name)
 {
 	itsPowers	= jnew JArray<JIndex>(powers);
-	assert(itsPowers != NULL);
+	assert(itsPowers != nullptr);
 
 	GLPolyFitDescriptionX();
 }
@@ -42,7 +42,7 @@ GLPolyFitDescription::GLPolyFitDescription
 	GLFitDescription(kPolynomial, "", "")
 {
 	itsPowers	= jnew JArray<JIndex>;
-	assert(itsPowers != NULL);
+	assert(itsPowers != nullptr);
 
 	JFileVersion version;
 	is >> version;

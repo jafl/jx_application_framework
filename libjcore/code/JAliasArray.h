@@ -64,11 +64,11 @@ protected:
 
 private:
 
-	JList<T>*	itsData;		// not owned; die if NULL
+	JList<T>*	itsData;		// not owned; die if nullptr
 	JArray<JIndex>*	itsIndexArray;
 
-	JListT::CompareResult	(*itsCompareFn)(const T&, const T&);	// can be NULL
-	JElementComparison<T>*		itsCompareObj;							// can be NULL
+	JListT::CompareResult	(*itsCompareFn)(const T&, const T&);	// can be nullptr
+	JElementComparison<T>*		itsCompareObj;							// can be nullptr
 
 private:
 

@@ -83,7 +83,7 @@ CBJavaTreeDirector::CBJavaTreeDirector
 				   kWindowTitleSuffix, "CBJavaTreeHelp", jcc_java_tree_window,
 				   kTreeMenuTitleStr, kTreeMenuStr, "CBJavaTreeDirector",
 				   kCBJavaTreeToolBarID, InitJavaTreeToolBar,
-				   NULL, kJFalse)
+				   nullptr, kJFalse)
 {
 	CBJavaTreeDirectorX();
 }
@@ -94,7 +94,7 @@ void
 CBJavaTreeDirector::CBJavaTreeDirectorX()
 {
 	itsJavaTree = dynamic_cast<CBJavaTree*>(GetTree());
-	assert( itsJavaTree != NULL );
+	assert( itsJavaTree != nullptr );
 }
 
 /******************************************************************************
@@ -241,10 +241,10 @@ CBJavaTreeDirector::NewJavaTree
 	// dynamic_cast<> doesn't work because object is not fully constructed
 
 	CBJavaTreeDirector* javaTreeDir = static_cast<CBJavaTreeDirector*>(director);
-	assert( javaTreeDir != NULL );
+	assert( javaTreeDir != nullptr );
 
 	CBJavaTree* tree = jnew CBJavaTree(javaTreeDir, marginWidth);
-	assert( tree != NULL );
+	assert( tree != nullptr );
 	return tree;
 }
 
@@ -267,17 +267,17 @@ CBJavaTreeDirector::StreamInJavaTree
 	CBDirList*			dirList
 	)
 {
-	assert( dirList == NULL );
+	assert( dirList == nullptr );
 
 	// dynamic_cast<> doesn't work because object is not fully constructed
 
 	CBJavaTreeDirector* javaTreeDir = static_cast<CBJavaTreeDirector*>(director);
-	assert( javaTreeDir != NULL );
+	assert( javaTreeDir != nullptr );
 
 	CBJavaTree* tree = jnew CBJavaTree(projInput, projVers,
 									  setInput, setVers, symInput, symVers,
 									  javaTreeDir, marginWidth, dirList);
-	assert( tree != NULL );
+	assert( tree != nullptr );
 	return tree;
 }
 

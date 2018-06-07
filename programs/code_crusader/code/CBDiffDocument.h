@@ -28,26 +28,26 @@ public:
 								const JCharacter* name1, const JFontStyle& removeStyle,
 								const JCharacter* name2, const JFontStyle& insertStyle,
 								const JBoolean silent = kJFalse,
-								CBDiffDocument* origDoc = NULL);
+								CBDiffDocument* origDoc = nullptr);
 	static JError	CreateCVS(const JCharacter* fullName, const JCharacter* getCmd,
 							  const JCharacter* diffCmd, const JFontStyle& defStyle,
 							  const JCharacter* name1, const JFontStyle& removeStyle,
 							  const JCharacter* name2, const JFontStyle& insertStyle,
 							  const JBoolean silent = kJFalse,
-							  CBDiffDocument* origDoc = NULL);
+							  CBDiffDocument* origDoc = nullptr);
 	static JError	CreateSVN(const JCharacter* fullName, const JCharacter* getCmd,
 							  const JCharacter* diffCmd, const JFontStyle& defStyle,
 							  const JCharacter* name1, const JFontStyle& removeStyle,
 							  const JCharacter* name2, const JFontStyle& insertStyle,
 							  const JBoolean silent = kJFalse,
-							  CBDiffDocument* origDoc = NULL);
+							  CBDiffDocument* origDoc = nullptr);
 	static JError	CreateGit(const JCharacter* fullName,
 							  const JCharacter* get1Cmd, const JCharacter* get2Cmd,
 							  const JCharacter* diffCmd, const JFontStyle& defStyle,
 							  const JCharacter* name1, const JFontStyle& removeStyle,
 							  const JCharacter* name2, const JFontStyle& insertStyle,
 							  const JBoolean silent = kJFalse,
-							  CBDiffDocument* origDoc = NULL);
+							  CBDiffDocument* origDoc = nullptr);
 
 	virtual ~CBDiffDocument();
 

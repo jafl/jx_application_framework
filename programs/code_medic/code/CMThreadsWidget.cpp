@@ -56,7 +56,7 @@ CMThreadsWidget::CMThreadsWidget
 	itsChangingThreadFlag(kJFalse),
 	itsSelectingThreadFlag(kJFalse),
 	itsFlushWhenRunFlag(kJTrue),
-	itsOpenIDList(NULL)
+	itsOpenIDList(nullptr)
 {
 	itsLink = CMGetLink();
 	ListenTo(itsLink);
@@ -121,7 +121,7 @@ CMThreadsWidget::SelectThread1
 		{
 		const CMThreadNode* node =
 			dynamic_cast<const CMThreadNode*>(root->GetChild(i));
-		assert( node != NULL );
+		assert( node != nullptr );
 
 		if (node->GetID() == id)
 			{
@@ -199,7 +199,7 @@ CMThreadsWidget::HandleMouseDown
 			const JTreeNode* node = GetTreeList()->GetNode(cell.y);
 			const CMThreadNode* threadNode =
 				dynamic_cast<const CMThreadNode*>(node);
-			assert( threadNode != NULL );
+			assert( threadNode != nullptr );
 
 			JString fileName;
 			JIndex lineIndex;
@@ -399,7 +399,7 @@ CMThreadsWidget::Receive
 //		is loaded, even if the program doesn't use threads.
 //
 //		CMCheckForThreads* cmd = jnew CMCheckForThreads(itsThreadDir);
-//		assert( cmd != NULL );
+//		assert( cmd != nullptr );
 //		cmd->Send();
 		}
 
@@ -420,7 +420,7 @@ CMThreadsWidget::Receive
 			const JTreeNode* node = GetTreeList()->GetNode(cell.y);
 			const CMThreadNode* threadNode =
 				dynamic_cast<const CMThreadNode*>(node);
-			assert( threadNode != NULL );
+			assert( threadNode != nullptr );
 
 			itsChangingThreadFlag = kJTrue;
 			itsLink->SwitchToThread(threadNode->GetID());
@@ -456,7 +456,7 @@ CMThreadsWidget::ReceiveGoingAway
 		itsGetCurrentThreadCmd = itsLink->CreateGetThread(this);
 
 		jdelete itsOpenIDList;
-		itsOpenIDList = NULL;
+		itsOpenIDList = nullptr;
 		}
 	else
 		{
@@ -537,10 +537,10 @@ CMThreadsWidget::FlushOldData()
 void
 CMThreadsWidget::SaveOpenNodes()
 {
-	if (itsOpenIDList == NULL)
+	if (itsOpenIDList == nullptr)
 		{
 		itsOpenIDList = jnew JArray<JUInt64>();
-		assert( itsOpenIDList != NULL );
+		assert( itsOpenIDList != nullptr );
 		itsOpenIDList->SetCompareFunction(JCompareUInt64);
 		}
 	else
@@ -572,7 +572,7 @@ CMThreadsWidget::SaveOpenNodes1
 		if (list->IsOpen(child))
 			{
 			CMThreadNode* threadNode = dynamic_cast<CMThreadNode*>(child);
-			assert( threadNode != NULL );
+			assert( threadNode != nullptr );
 			itsOpenIDList->InsertSorted(threadNode->GetID());
 			}
 
@@ -618,7 +618,7 @@ CMThreadsWidget::FinishedLoading
 	const JIndex currentID
 	)
 {
-	if (itsOpenIDList != NULL)
+	if (itsOpenIDList != nullptr)
 		{
 		RestoreOpenNodes(itsTree->GetRoot());
 		RestoreDisplayState(itsDisplayState);

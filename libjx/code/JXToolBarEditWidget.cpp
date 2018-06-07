@@ -51,13 +51,13 @@ JXToolBarEditWidget::JXToolBarEditWidget
 	JXNamedTreeListWidget(treeList, scrollbarSet, enclosure, hSizing, vSizing, x,y, w,h)
 {
 	itsMenuImage = jnew JXImage(GetDisplay(), jx_toolbar_menu_node);
-	assert(itsMenuImage != NULL);
+	assert(itsMenuImage != nullptr);
 
 	itsCheckedItemImage = jnew JXImage(GetDisplay(), jx_toolbar_checked);
-	assert(itsCheckedItemImage != NULL);
+	assert(itsCheckedItemImage != nullptr);
 
 	itsUncheckedItemImage = jnew JXImage(GetDisplay(), jx_toolbar_unchecked);
-	assert(itsUncheckedItemImage != NULL);
+	assert(itsUncheckedItemImage != nullptr);
 }
 
 /******************************************************************************
@@ -93,7 +93,7 @@ JXToolBarEditWidget::GetImage
 		}
 
 	const JXToolBarNode* tbnode = dynamic_cast<const JXToolBarNode*>(node);
-	assert( tbnode != NULL );
+	assert( tbnode != nullptr );
 
 	*image = tbnode->IsChecked() ? itsCheckedItemImage : itsUncheckedItemImage;
 	return kJTrue;
@@ -121,7 +121,7 @@ JXToolBarEditWidget::HandleMouseDown
 		if (cell.x == 2 && button == kJXLeftButton && !node->IsOpenable())
 			{
 			JXToolBarNode* tbnode = dynamic_cast<JXToolBarNode*>(node);
-			assert(tbnode != NULL);
+			assert(tbnode != nullptr);
 			tbnode->ToggleChecked();
 			}
 		else

@@ -37,9 +37,9 @@ private:
 
 	ProcessLink*	itsLink;
 
-	JProcess*		itsCTagsProcess;			// can be NULL
+	JProcess*		itsCTagsProcess;			// can be nullptr
 
-	JOutPipeStream*	itsOutputLink;				// NULL if process not started
+	JOutPipeStream*	itsOutputLink;				// nullptr if process not started
 	int				itsInputFD;					// -1 if process not started
 
 	GFGClass*		itsClassList;

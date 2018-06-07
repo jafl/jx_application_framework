@@ -52,7 +52,7 @@ protected:
 private:
 
 	JStringTableData*	itsStringData;			// we don't own this
-	JXInputField*		itsStringInputField;	// NULL if not editing
+	JXInputField*		itsStringInputField;	// nullptr if not editing
 
 private:
 
@@ -88,7 +88,7 @@ JXStringTable::GetInputField
 	const
 {
 	*widget = itsStringInputField;
-	return JI2B(*widget != NULL);
+	return JI2B(*widget != nullptr);
 }
 
 #endif

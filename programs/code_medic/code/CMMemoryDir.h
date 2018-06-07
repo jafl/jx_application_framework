@@ -67,7 +67,7 @@ private:
 	JString				itsExpr;
 	DisplayType			itsDisplayType;
 	JSize				itsItemCount;
-	CMGetMemory*		itsCmd;			// can be NULL
+	CMGetMemory*		itsCmd;			// can be nullptr
 	JBoolean			itsShouldUpdateFlag;
 	JBoolean			itsNeedsUpdateFlag;
 	JBoolean			itsWaitingForReloadFlag;

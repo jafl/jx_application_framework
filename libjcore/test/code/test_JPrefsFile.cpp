@@ -35,7 +35,7 @@ int main()
 		JPrefsFile::Create(kTestFileName, &prefsFile);
 	assert( err.OK() );
 	gPrefsFile = prefsFile;
-	assert( gPrefsFile != NULL );
+	assert( gPrefsFile != nullptr );
 
 	long i;
 	std::cout << "Enter 0 for testing new file, 1 for testing existing file: ";

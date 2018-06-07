@@ -65,7 +65,7 @@ public:
 	static JBoolean	GetPrevCharacterByteCount(const JUtf8Byte* lastByte, JSize* byteCount);
 
 	static JUtf8Character	Utf32ToUtf8(const JUInt32 c);
-	static JUInt32			Utf8ToUtf32(const JUtf8Byte* c, JSize* returnByteCount = NULL);
+	static JUInt32			Utf8ToUtf32(const JUtf8Byte* c, JSize* returnByteCount = nullptr);
 
 private:
 

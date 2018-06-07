@@ -56,7 +56,7 @@ XDGetContextVars::HandleSuccess
 {
 	XDLink* link = dynamic_cast<XDLink*>(CMGetLink());
 	xmlNode* root;
-	if (link == NULL || !link->GetParsedData(&root))
+	if (link == nullptr || !link->GetParsedData(&root))
 		{
 		return;
 		}
@@ -79,14 +79,14 @@ XDGetContextVars::BuildTree
 {
 	xmlNode* node = root->children;
 	JString name, fullName, type, value;
-	while (node != NULL)
+	while (node != nullptr)
 		{
 		name     = JGetXMLNodeAttr(node, (depth == 1 ? "fullname" : "name"));
 		fullName = JGetXMLNodeAttr(node, "fullname");
 		type     = JGetXMLNodeAttr(node, "type");
 
 		CMVarNode* n;
-		if (node->children != NULL && node->children->type == XML_TEXT_NODE)
+		if (node->children != nullptr && node->children->type == XML_TEXT_NODE)
 			{
 			value = (char*) node->children->content;
 
@@ -111,20 +111,20 @@ XDGetContextVars::BuildTree
 				value.AppendCharacter('"');
 				}
 
-			n = (CMGetLink())->CreateVarNode(NULL, name, fullName, value);
-			assert( n != NULL );
+			n = (CMGetLink())->CreateVarNode(nullptr, name, fullName, value);
+			assert( n != nullptr );
 			}
 		else
 			{
-			n = (CMGetLink())->CreateVarNode(NULL, name, fullName, "");
-			assert( n != NULL );
+			n = (CMGetLink())->CreateVarNode(nullptr, name, fullName, "");
+			assert( n != nullptr );
 
 			if (type == "array" && JGetXMLNodeAttr(node, "children") == "1")
 				{
 				n->MakePointer(kJTrue);
 				}
 
-			if (node->children != NULL && node->children->type == XML_ELEMENT_NODE)
+			if (node->children != nullptr && node->children->type == XML_ELEMENT_NODE)
 				{
 				BuildTree(depth+1, node, n);
 				}

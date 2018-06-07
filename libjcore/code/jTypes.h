@@ -14,8 +14,8 @@
 #include <float.h>
 #include <iostream> // templates
 
-#ifndef NULL
-#define NULL	0L
+#ifdef NULL
+#undef NULL		// force use of nullptr
 #endif
 
 	// general types

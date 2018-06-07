@@ -41,15 +41,15 @@ JXFloatTable::JXFloatTable
 	:
 	JXStyleTable(scrollbarSet, enclosure, hSizing,vSizing, x,y, w,h)
 {
-	assert( data != NULL );
+	assert( data != nullptr );
 
 	itsFloatData = data;
 
 	itsFloatBufferData = jnew JFloatBufferTableData(data, precision);
-	assert( itsFloatBufferData != NULL );
+	assert( itsFloatBufferData != nullptr );
 	SetTableData(itsFloatBufferData);
 
-	itsFloatInputField = NULL;
+	itsFloatInputField = nullptr;
 }
 
 /******************************************************************************
@@ -107,11 +107,11 @@ JXFloatTable::CreateXInputField
 	const JCoordinate	h
 	)
 {
-	assert( itsFloatInputField == NULL );
+	assert( itsFloatInputField == nullptr );
 
 	itsFloatInputField =
 		CreateFloatTableInput(cell, this, kFixedLeft, kFixedTop, x,y, w,h);
-	assert( itsFloatInputField != NULL );
+	assert( itsFloatInputField != nullptr );
 
 	JFont font = GetFont();
 	font.SetStyle(GetCellStyle(cell));
@@ -143,7 +143,7 @@ JXFloatTable::CreateFloatTableInput
 	)
 {
 	JXFloatInput* obj = jnew JXFloatInput(enclosure, hSizing, vSizing, x,y, w,h);
-	assert( obj != NULL );
+	assert( obj != nullptr );
 	return obj;
 }
 
@@ -163,7 +163,7 @@ JXFloatTable::ExtractInputData
 	const JPoint& cell
 	)
 {
-	assert( itsFloatInputField != NULL );
+	assert( itsFloatInputField != nullptr );
 
 	if (itsFloatInputField->InputValid())
 		{
@@ -187,5 +187,5 @@ JXFloatTable::ExtractInputData
 void
 JXFloatTable::PrepareDeleteXInputField()
 {
-	itsFloatInputField = NULL;
+	itsFloatInputField = nullptr;
 }

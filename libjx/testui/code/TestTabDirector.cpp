@@ -56,7 +56,7 @@ void
 TestTabDirector::BuildWindow()
 {
 	JXWindow* window = jnew JXWindow(this, 300,300, JString::empty);
-	assert( window != NULL );
+	assert( window != nullptr );
 
 	window->SetTitle(JGetString("WindowTitle::TestTabDirector"));
 	window->SetWMClass("testjx", "TestTabDirector");
@@ -64,7 +64,7 @@ TestTabDirector::BuildWindow()
 
 	itsTabGroup = jnew JXTabGroup(window, JXWidget::kHElastic, JXWidget::kVElastic,
 								 5, 5, 290, 290);
-	assert( itsTabGroup != NULL );
+	assert( itsTabGroup != nullptr );
 
 	JXContainer* card3 = itsTabGroup->AppendTab(JGetString("Tab3Label::TestTabDirector"));
 	JXContainer* card1 = itsTabGroup->PrependTab(JGetString("Tab1Label::TestTabDirector"));
@@ -75,7 +75,7 @@ TestTabDirector::BuildWindow()
 	itsFontMenu =
 		jnew JXFontNameMenu(JGetString("FontMenuTitle::TestTabDirector"), card1,
 						   JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 50,30);
-	assert( itsFontMenu != NULL );
+	assert( itsFontMenu != nullptr );
 	itsFontMenu->SetFontName(itsTabGroup->GetFont().GetName());
 	itsFontMenu->SetToPopupChoice();
 	ListenTo(itsFontMenu);
@@ -85,37 +85,37 @@ TestTabDirector::BuildWindow()
 	itsSizeMenu =
 		jnew JXFontSizeMenu(fontName, JGetString("SizeMenuTitle::TestTabDirector"), card1,
 						   JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,60, 50,30);
-	assert( itsSizeMenu != NULL );
+	assert( itsSizeMenu != nullptr );
 	itsSizeMenu->SetToPopupChoice();
 	ListenTo(itsSizeMenu);
 
 	itsEdgeRG = jnew JXRadioGroup(card1, JXWidget::kFixedLeft, JXWidget::kFixedTop,
 								 20,100, 100,140);
-	assert( itsEdgeRG != NULL );
+	assert( itsEdgeRG != nullptr );
 
 	JXTextRadioButton* rb1 =
 		jnew JXTextRadioButton(JXTabGroup::kTop, JGetString("TopRBLabel::TestTabDirector"), itsEdgeRG,
 							  JXWidget::kFixedLeft, JXWidget::kFixedTop,
 							  10,10, 80,20);
-	assert( rb1 != NULL );
+	assert( rb1 != nullptr );
 
 	JXTextRadioButton* rb2 =
 		jnew JXTextRadioButton(JXTabGroup::kLeft, JGetString("LeftRBLabel::TestTabDirector"), itsEdgeRG,
 							  JXWidget::kFixedLeft, JXWidget::kFixedTop,
 							  10,40, 80,20);
-	assert( rb2 != NULL );
+	assert( rb2 != nullptr );
 
 	JXTextRadioButton* rb3 =
 		jnew JXTextRadioButton(JXTabGroup::kBottom, JGetString("BottomRBLabel::TestTabDirector"), itsEdgeRG,
 							  JXWidget::kFixedLeft, JXWidget::kFixedTop,
 							  10,70, 80,20);
-	assert( rb3 != NULL );
+	assert( rb3 != nullptr );
 
 	JXTextRadioButton* rb4 =
 		jnew JXTextRadioButton(JXTabGroup::kRight, JGetString("RightRBLabel::TestTabDirector"), itsEdgeRG,
 							  JXWidget::kFixedLeft, JXWidget::kFixedTop,
 							  10,100, 80,20);
-	assert( rb4 != NULL );
+	assert( rb4 != nullptr );
 
 	itsEdgeRG->SelectItem(itsTabGroup->GetTabEdge());
 	ListenTo(itsEdgeRG);
@@ -126,13 +126,13 @@ TestTabDirector::BuildWindow()
 		jnew JXTextButton(JGetString("NewTabButtonLabel::TestTabDirector"), card2,
 						 JXWidget::kFixedLeft, JXWidget::kFixedBottom,
 						 20, 20, 200, 30);
-	assert( itsAddTabButton != NULL );
+	assert( itsAddTabButton != nullptr );
 	ListenTo(itsAddTabButton);
 
 	JXIntegerInput* input =
 		jnew JXIntegerInput(card2, JXWidget::kHElastic, JXWidget::kFixedTop,
 						   20, 60, 250, 20);
-	assert( input != NULL );
+	assert( input != nullptr );
 	input->SetLimits(-10, 10);
 	input->SetValue(0);
 
@@ -141,13 +141,13 @@ TestTabDirector::BuildWindow()
 	itsMonoFontSample =
 		jnew JXInputField(card3, JXWidget::kHElastic, JXWidget::kFixedTop,
 						 20, 20, 250, 20);
-	assert( itsMonoFontSample != NULL );
+	assert( itsMonoFontSample != nullptr );
 	itsMonoFontSample->GetText()->SetText(JGetString("SampleText::TestTabDirector"));
 
 	itsMonoFont =
 		jnew JXChooseMonoFont(card3, JXWidget::kHElastic, JXWidget::kFixedTop,
 							 20, 50, 300, 100);
-	assert( itsMonoFont != NULL );
+	assert( itsMonoFont != nullptr );
 	ListenTo(itsMonoFont);
 
 	UpdateFontSample();
@@ -176,7 +176,7 @@ TestTabDirector::Receive
 			jnew JXTextButton(JGetString("RemoveTabButtonLabel::TestTabDirector"), card,
 							 JXWidget::kFixedRight, JXWidget::kFixedTop,
 							 20,20, 200, 30);
-		assert( removeButton != NULL );
+		assert( removeButton != nullptr );
 		ListenTo(removeButton);
 		}
 	else if (message.Is(JXButton::kPushed))

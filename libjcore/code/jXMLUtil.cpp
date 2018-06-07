@@ -23,7 +23,7 @@ JGetXMLChildNode
 	)
 {
 	xmlNode* child = node->children;
-	while (child != NULL)
+	while (child != nullptr)
 	{
 		if (strcmp((char*) child->name, childName) == 0)
 		{
@@ -50,7 +50,7 @@ JGetXMLNodeAttr
 	JString value;
 
 	xmlAttr* attr = node->properties;
-	while (attr != NULL)
+	while (attr != nullptr)
 	{
 		if (strcmp((char*) attr->name, attrName) == 0)
 		{

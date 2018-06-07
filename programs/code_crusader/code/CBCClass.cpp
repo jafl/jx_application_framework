@@ -214,7 +214,7 @@ CBCClass::FindDefinition
 	const
 {
 	CBDocumentManager* docMgr = CBGetDocumentManager();
-	CBTextDocument* doc       = NULL;
+	CBTextDocument* doc       = nullptr;
 
 	// look for it in the source file
 
@@ -234,7 +234,7 @@ CBCClass::FindDefinition
 		docMgr->OpenTextDocument(headerName, lineIndex, &doc);
 		}
 
-	if (doc != NULL)
+	if (doc != nullptr)
 		{
 		(doc->GetTextEditor())->ScrollForDefinition(kCBCLang);
 		return kJTrue;
@@ -319,7 +319,7 @@ CBCClass::NewGhost
 	)
 {
 	CBCClass* newClass = jnew CBCClass(name, kGhostType, JFAID::kInvalidID, tree);
-	assert( newClass != NULL );
+	assert( newClass != nullptr );
 	return newClass;
 }
 

@@ -49,10 +49,10 @@ CBWaitForSymbolUpdateTask::~CBWaitForSymbolUpdateTask()
 void
 CBWaitForSymbolUpdateTask::Perform()
 {
-	const time_t start = time(NULL);
-	while (itsKeepWaitingFlag && itsProcess != NULL)
+	const time_t start = time(nullptr);
+	while (itsKeepWaitingFlag && itsProcess != nullptr)
 		{
-		if (time(NULL) - start > 30)
+		if (time(nullptr) - start > 30)
 			{
 			itsProcess->Kill();
 			break;

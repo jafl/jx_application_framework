@@ -142,7 +142,7 @@ CBFileNodeBase::GetFullName
 	const
 {
 	const CBProjectTree* projTree = dynamic_cast<const CBProjectTree*>(GetTree());
-	assert( projTree != NULL );
+	assert( projTree != nullptr );
 
 	const JString& basePath = (projTree->GetProjectDoc())->GetFilePath();
 	return JI2B(!JString::IsEmpty(fileName) &&
@@ -170,7 +170,7 @@ CBFileNodeBase::FindFile1
 		}
 	else
 		{
-		*node = NULL;
+		*node = nullptr;
 		return kJFalse;
 		}
 }
@@ -208,7 +208,7 @@ CBFileNodeBase::BuildMakeFiles
 	if (IncludedInMakefile())
 		{
 		JString fullName;
-		if (invalidList == NULL || GetFullName(&fullName))
+		if (invalidList == nullptr || GetFullName(&fullName))
 			{
 			JString root, suffix;
 			JSplitRootAndSuffix(itsFileName, &root, &suffix);
@@ -410,7 +410,7 @@ CBFileNodeBase::FileRenamed
 		assert( ok );
 		if (s == origFullName)
 			{
-			s = CBRelPathCSF::ConvertToRelativePath(newFullName, NULL, type);
+			s = CBRelPathCSF::ConvertToRelativePath(newFullName, nullptr, type);
 			SetFileName(s);
 			}
 		}
@@ -419,7 +419,7 @@ CBFileNodeBase::FileRenamed
 		assert( type == CBRelPathCSF::kProjectRelative );
 
 		const CBProjectTree* projTree = dynamic_cast<const CBProjectTree*>(GetTree());
-		assert( projTree != NULL );
+		assert( projTree != nullptr );
 
 		const JString& basePath = (projTree->GetProjectDoc())->GetFilePath();
 		JString s               = JConvertToRelativePath(origFullName, basePath);
@@ -484,7 +484,7 @@ CBFileNodeBase::New
 	const JString&	fileName
 	)
 {
-	CBFileNodeBase* node = NULL;
+	CBFileNodeBase* node = nullptr;
 
 	const CBTextFileType type = CBGetPrefsManager()->GetFileType(fileName);
 	if (CBIsLibrary(type))
@@ -495,7 +495,7 @@ CBFileNodeBase::New
 		{
 		node = jnew CBFileNode(tree, fileName);
 		}
-	assert( node != NULL );
+	assert( node != nullptr );
 
 	return node;
 }

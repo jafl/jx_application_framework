@@ -18,24 +18,24 @@ void	JCopyBinaryData(std::istream& input, std::ostream& output, const JSize byte
 
 JString	JRead(std::istream& input, const JSize count);
 JString	JReadUntil(std::istream& input, const JUtf8Byte delimiter,
-				   JBoolean* foundDelimiter = NULL);
-JString	JReadUntilws(std::istream& input, JBoolean* foundws = NULL);
-JString	JReadLine(std::istream& input, JBoolean* foundNewLine = NULL);
+				   JBoolean* foundDelimiter = nullptr);
+JString	JReadUntilws(std::istream& input, JBoolean* foundws = nullptr);
+JString	JReadLine(std::istream& input, JBoolean* foundNewLine = nullptr);
 void	JReadAll(std::istream& input, JString* str);
 
 JBoolean JReadUntil(std::istream& input, const JSize delimiterCount,
 					const JUtf8Byte* delimiters, JString* str,
-					JUtf8Byte* delimiter = NULL);
+					JUtf8Byte* delimiter = nullptr);
 
 void JIgnoreUntil(std::istream& input, const JUtf8Byte delimiter,
-				  JBoolean* foundDelimiter = NULL);
+				  JBoolean* foundDelimiter = nullptr);
 void JIgnoreUntil(std::istream& input, const JUtf8Byte* delimiter,
-				  JBoolean* foundDelimiter = NULL);
+				  JBoolean* foundDelimiter = nullptr);
 
 JBoolean JIgnoreUntil(std::istream& input, const JSize delimiterCount,
-					  const JUtf8Byte* delimiters, JUtf8Byte* delimiter = NULL);
+					  const JUtf8Byte* delimiters, JUtf8Byte* delimiter = nullptr);
 
-void JIgnoreLine(std::istream& input, JBoolean* foundNewLine = NULL);
+void JIgnoreLine(std::istream& input, JBoolean* foundNewLine = nullptr);
 
 void		JEncodeBase64(std::istream& input, std::ostream& output);
 JBoolean	JDecodeBase64(std::istream& input, std::ostream& output);
@@ -44,21 +44,21 @@ JBoolean	JDecodeBase64(std::istream& input, std::ostream& output);
 
 JString		JRead(const int input, const JSize count);
 JString		JReadUntil(const int input, const JUtf8Byte delimiter,
-					   JBoolean* foundDelimiter = NULL);
+					   JBoolean* foundDelimiter = nullptr);
 JBoolean	JReadAll(const int input, JString* str,
 					 const JBoolean closeInput = kJTrue);
 
 JBoolean JReadUntil(const int input, const JSize delimiterCount,
 					const JUtf8Byte* delimiters, JString* str,
-					JUtf8Byte* delimiter = NULL);
+					JUtf8Byte* delimiter = nullptr);
 
 void JIgnoreUntil(const int input, const JUtf8Byte delimiter,
-				  JBoolean* foundDelimiter = NULL);
+				  JBoolean* foundDelimiter = nullptr);
 void JIgnoreUntil(const int input, const JUtf8Byte* delimiter,
-				  JBoolean* foundDelimiter = NULL);
+				  JBoolean* foundDelimiter = nullptr);
 
 JBoolean JIgnoreUntil(const int input, const JSize delimiterCount,
-					  const JUtf8Byte* delimiters, JUtf8Byte* delimiter = NULL);
+					  const JUtf8Byte* delimiters, JUtf8Byte* delimiter = nullptr);
 
 JBoolean	JWaitForInput(const int input, const time_t timeout);
 

@@ -23,7 +23,7 @@ public:
 			   const JCharacter* fileFilter, const JCharacter* templateFile,
 			   const CBBuildManager::MakefileMethod method,
 			   const JCharacter* origName, const JCharacter* prompt,
-			   const JCharacter* message = NULL);
+			   const JCharacter* message = nullptr);
 
 	virtual ~CBNewProjectSaveFileDialog();
 
@@ -54,7 +54,7 @@ private:
 private:
 
 	void	BuildWindow(const JCharacter* origName, const JCharacter* prompt,
-						const JCharacter* message = NULL);
+						const JCharacter* message = nullptr);
 	void	UpdateMakefileMethod();
 
 	void	BuildTemplateMenu(const JCharacter* templateFile);

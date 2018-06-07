@@ -120,7 +120,7 @@ public:
 
 		Token()
 			:
-			type(kEOF), range(), language(NULL)
+			type(kEOF), range(), language(nullptr)
 			{ };
 
 		Token(const TokenType t, const JIndexRange& r, const JString* l)
@@ -206,7 +206,7 @@ CBHTMLScanner::ThisToken
 	const TokenType type
 	)
 {
-	return Token(type, itsCurrentRange, NULL);
+	return Token(type, itsCurrentRange, nullptr);
 }
 
 /******************************************************************************

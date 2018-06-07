@@ -39,7 +39,7 @@ THXKeyPad::THXKeyPad
 	:
 	JXWidgetSet(enclosure, hSizing, vSizing, x,y, w,h)
 {
-	itsExpr = NULL;
+	itsExpr = nullptr;
 	CreateButtons();
 
 	SetNeedsInternalFTC();
@@ -71,97 +71,97 @@ THXKeyPad::CreateButtons()
 	itsDigitButton[7] =
 		jnew JXTextButton(JGetString("itsDigitButton[7]::THXKeyPad::kpLayout"), this,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,0, 20,20);
-	assert( itsDigitButton[7] != NULL );
+	assert( itsDigitButton[7] != nullptr );
 
 	itsDigitButton[8] =
 		jnew JXTextButton(JGetString("itsDigitButton[8]::THXKeyPad::kpLayout"), this,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,0, 20,20);
-	assert( itsDigitButton[8] != NULL );
+	assert( itsDigitButton[8] != nullptr );
 
 	itsDigitButton[9] =
 		jnew JXTextButton(JGetString("itsDigitButton[9]::THXKeyPad::kpLayout"), this,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 40,0, 20,20);
-	assert( itsDigitButton[9] != NULL );
+	assert( itsDigitButton[9] != nullptr );
 
 	itsDigitButton[4] =
 		jnew JXTextButton(JGetString("itsDigitButton[4]::THXKeyPad::kpLayout"), this,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,20, 20,20);
-	assert( itsDigitButton[4] != NULL );
+	assert( itsDigitButton[4] != nullptr );
 
 	itsDigitButton[5] =
 		jnew JXTextButton(JGetString("itsDigitButton[5]::THXKeyPad::kpLayout"), this,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 20,20);
-	assert( itsDigitButton[5] != NULL );
+	assert( itsDigitButton[5] != nullptr );
 
 	itsDigitButton[6] =
 		jnew JXTextButton(JGetString("itsDigitButton[6]::THXKeyPad::kpLayout"), this,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 40,20, 20,20);
-	assert( itsDigitButton[6] != NULL );
+	assert( itsDigitButton[6] != nullptr );
 
 	itsDigitButton[1] =
 		jnew JXTextButton(JGetString("itsDigitButton[1]::THXKeyPad::kpLayout"), this,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,40, 20,20);
-	assert( itsDigitButton[1] != NULL );
+	assert( itsDigitButton[1] != nullptr );
 
 	itsDigitButton[2] =
 		jnew JXTextButton(JGetString("itsDigitButton[2]::THXKeyPad::kpLayout"), this,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,40, 20,20);
-	assert( itsDigitButton[2] != NULL );
+	assert( itsDigitButton[2] != nullptr );
 
 	itsDigitButton[3] =
 		jnew JXTextButton(JGetString("itsDigitButton[3]::THXKeyPad::kpLayout"), this,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 40,40, 20,20);
-	assert( itsDigitButton[3] != NULL );
+	assert( itsDigitButton[3] != nullptr );
 
 	itsDigitButton[0] =
 		jnew JXTextButton(JGetString("itsDigitButton[0]::THXKeyPad::kpLayout"), this,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,60, 20,20);
-	assert( itsDigitButton[0] != NULL );
+	assert( itsDigitButton[0] != nullptr );
 
 	itsOpButton[kPtOpIndex] =
 		jnew JXTextButton(JGetString("itsOpButton[kPtOpIndex]::THXKeyPad::kpLayout"), this,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,60, 20,20);
-	assert( itsOpButton[kPtOpIndex] != NULL );
+	assert( itsOpButton[kPtOpIndex] != nullptr );
 
 	itsOpButton[kExpOpIndex] =
 		jnew JXTextButton(JGetString("itsOpButton[kExpOpIndex]::THXKeyPad::kpLayout"), this,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 40,60, 20,20);
-	assert( itsOpButton[kExpOpIndex] != NULL );
+	assert( itsOpButton[kExpOpIndex] != nullptr );
 
 	itsClearAllButton =
 		jnew JXTextButton(JGetString("itsClearAllButton::THXKeyPad::kpLayout"), this,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,140, 60,20);
-	assert( itsClearAllButton != NULL );
+	assert( itsClearAllButton != nullptr );
 
 	itsOpButton[kClearOpIndex] =
 		jnew JXTextButton(JGetString("itsOpButton[kClearOpIndex]::THXKeyPad::kpLayout"), this,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,120, 60,20);
-	assert( itsOpButton[kClearOpIndex] != NULL );
+	assert( itsOpButton[kClearOpIndex] != nullptr );
 
 	itsOpButton[kEvalOpIndex] =
 		jnew JXTextButton(JGetString("itsOpButton[kEvalOpIndex]::THXKeyPad::kpLayout"), this,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 40,80, 20,40);
-	assert( itsOpButton[kEvalOpIndex] != NULL );
+	assert( itsOpButton[kEvalOpIndex] != nullptr );
 
 	itsOpButton[kMultiplyOpIndex] =
 		jnew JXTextButton(JGetString("itsOpButton[kMultiplyOpIndex]::THXKeyPad::kpLayout"), this,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,100, 20,20);
-	assert( itsOpButton[kMultiplyOpIndex] != NULL );
+	assert( itsOpButton[kMultiplyOpIndex] != nullptr );
 
 	itsOpButton[kDivideOpIndex] =
 		jnew JXTextButton(JGetString("itsOpButton[kDivideOpIndex]::THXKeyPad::kpLayout"), this,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,100, 20,20);
-	assert( itsOpButton[kDivideOpIndex] != NULL );
+	assert( itsOpButton[kDivideOpIndex] != nullptr );
 
 	itsOpButton[kAddOpIndex] =
 		jnew JXTextButton(JGetString("itsOpButton[kAddOpIndex]::THXKeyPad::kpLayout"), this,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,80, 20,20);
-	assert( itsOpButton[kAddOpIndex] != NULL );
+	assert( itsOpButton[kAddOpIndex] != nullptr );
 
 	itsOpButton[kSubtractOpIndex] =
 		jnew JXTextButton(JGetString("itsOpButton[kSubtractOpIndex]::THXKeyPad::kpLayout"), this,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,80, 20,20);
-	assert( itsOpButton[kSubtractOpIndex] != NULL );
+	assert( itsOpButton[kSubtractOpIndex] != nullptr );
 
 	this->SetSize(kpLayout_Frame.width(), kpLayout_Frame.height());
 
@@ -222,7 +222,7 @@ THXKeyPad::HandleButton
 JIndex i;
 JXKeyModifiers modifiers(GetDisplay());
 
-	if (itsExpr == NULL || !itsExpr->Focus())
+	if (itsExpr == nullptr || !itsExpr->Focus())
 		{
 		return kJFalse;
 		}
