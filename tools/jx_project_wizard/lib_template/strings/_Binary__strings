@@ -1,8 +1,8 @@
 0
 
-VERSION		"<Version>"
+VERSION		"{Version}"
 COPYRIGHT
-"Copyright (C) <Year> by <Company>
+"Copyright (C) {Year} by {Company}
 
-<URL>
-<EMail>"
+{URL}
+{EMail}"

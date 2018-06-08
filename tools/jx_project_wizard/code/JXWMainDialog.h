@@ -27,8 +27,8 @@ public:
 
 protected:
 
-	virtual void	ReadPrefs(std::istream& input);
-	virtual void	WritePrefs(std::ostream& output) const;
+	virtual void	ReadPrefs(std::istream& input) override;
+	virtual void	WritePrefs(std::ostream& output) const override;
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
@@ -61,9 +61,9 @@ private:
 
 	void		BuildWindow(const JSize argc, char** argv);
 	JBoolean	WriteTemplate();
-	void		CopyAndAdjustTemplateFiles(const JCharacter* sourceDir,
-										   const JCharacter* targetDir,
-										   const JCharacter** value);
+	void		CopyAndAdjustTemplateFiles(const JString& sourceDir,
+										   const JString& targetDir,
+										   const JPtrArray<JString>& value);
 
 	void	UpdatePath(JString* s);
 

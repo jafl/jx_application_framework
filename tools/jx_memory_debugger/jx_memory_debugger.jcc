@@ -88,10 +88,6 @@ F
 T
 1 "help"
 T
-2 "mdHelpText.h"
-F
-"./code/mdHelpText.h"
-T
 2 "mdTOCHelpText"
 F
 "./strings/mdTOCHelpText"

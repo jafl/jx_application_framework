@@ -20,7 +20,7 @@ class JXWMainDialog;
 JXWApp*				JXWGetApplication();
 JXWPrefsManager*	JXWGetPrefsManager();
 
-const JCharacter*	JXWGetVersionNumberStr();
+const JUtf8Byte*	JXWGetVersionNumberStr();
 JString				JXWGetVersionStr();
 
 	// called by JXWApp

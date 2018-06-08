@@ -514,7 +514,7 @@ resize: FL_RESIZE_ALL
 gravity: FL_North FL_NoGravity
 name: itsTmplDirHistory
 callback: 
-argument: kHistoryLength, ""
+argument: kHistoryLength, JString::empty
 
 --------------------
 class: FL_TEXT

@@ -1,5 +1,5 @@
-Move <Binary>_constants to include/make/
+Move {Binary}_constants to include/make/
 
-Create a symbolic link "<Binary>" in include/ that points to "../lib<Binary>/code"
+Create a symbolic link "{Binary}" in include/ that points to "../lib{Binary}/code"
 
-Create symbolic links in lib/ to point to the libraries in lib<Binary>/
+Create symbolic links in lib/ to point to the libraries in lib{Binary}/

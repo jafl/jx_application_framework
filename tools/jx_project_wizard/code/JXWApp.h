@@ -18,8 +18,8 @@ public:
 
 	virtual ~JXWApp();
 
-	static const JCharacter*	GetAppSignature();
-	static void					InitStrings();
+	static const JUtf8Byte*	GetAppSignature();
+	static void				InitStrings();
 
 protected:
 

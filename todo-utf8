@@ -2,6 +2,12 @@ validate contents of TextChanged messages
 
 call FilterText after set font or font name or SetAllFontAndName
 
+for (int& x : my_array)
+	It will work for C-style arrays, initializer lists, and any type that has begin() and end() functions defined for it that return iterators. All the standard library containers that have begin/end pairs will work with the range-based for statement.
+
+map, reduce
+	[](int x, int y) -> int { return x + y; }
+
 
 finish JTextEditor tests
 	GetCmdStatus
@@ -143,6 +149,11 @@ leibnitz - symbol font
 	transform to unicode and use X11 utf8 string width/drawing functions
 
 jx_memory_debugger
+	convert help to online
+
+jx_project_wizard
+	convert logic to use JSubstitute - need way to specify case match?
+	convert app_template to { }
 	convert help to online
 
 -----

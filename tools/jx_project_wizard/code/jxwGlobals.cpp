@@ -18,10 +18,6 @@ static JXWApp*			theApplication  = nullptr;		// owns itself
 static JXWPrefsManager*	thePrefsManager = nullptr;
 static JXWMainDialog*	theMainDialog   = nullptr;
 
-// string ID's
-
-static const JCharacter* kDescriptionID = "Description::jxwGlobals";
-
 /******************************************************************************
  JXWCreateGlobals
 
@@ -133,7 +129,7 @@ JXWGetPrefsManager()
 
  ******************************************************************************/
 
-const JCharacter*
+const JUtf8Byte*
 JXWGetVersionNumberStr()
 {
 	return kCurrentJXLibVersionStr;
@@ -147,10 +143,10 @@ JXWGetVersionNumberStr()
 JString
 JXWGetVersionStr()
 {
-	const JCharacter* map[] =
+	const JUtf8Byte* map[] =
 		{
 		"version",   JXWGetVersionNumberStr(),
-		"copyright", JGetString("COPYRIGHT")
+		"copyright", JGetString("COPYRIGHT").GetBytes()
 		};
-	return JGetString(kDescriptionID, map, sizeof(map));
+	return JGetString("Description::jxwGlobals", map, sizeof(map));
 }

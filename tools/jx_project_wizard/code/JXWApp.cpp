@@ -12,7 +12,7 @@
 #include "jxwGlobals.h"
 #include <jAssert.h>
 
-static const JCharacter* kAppSignature = "jxwizard";
+static const JUtf8Byte* kAppSignature = "jxwizard";
 
 /******************************************************************************
  Constructor
@@ -74,7 +74,7 @@ JXWApp::CleanUpBeforeSuddenDeath
 
  ******************************************************************************/
 
-const JCharacter*
+const JUtf8Byte*
 JXWApp::GetAppSignature()
 {
 	return kAppSignature;

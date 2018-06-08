@@ -1,4 +1,4 @@
-jx_browser_data 86
+jx_browser_data 87
 # project tree
 0 "root"
 T
@@ -29,10 +29,6 @@ F
 F
 T
 1 "help"
-T
-2 "jxwHelpText.h"
-F
-"./code/jxwHelpText.h"
 T
 2 "jxwTOCHelpText"
 F

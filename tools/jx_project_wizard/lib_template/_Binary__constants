@@ -4,17 +4,17 @@
 # version numbers
 #
 
-<Binary>_VERSION     := 0.0.1
-<Binary>_LIB_VERSION := 0_0_1
+{Binary}_VERSION     := 0.0.1
+{Binary}_LIB_VERSION := 0_0_1
 
 #
 # library names
 #
 
-l<Binary> := -l<Binary>-${<Binary>_LIB_VERSION}
+l{Binary} := -l{Binary}-${{Binary}_LIB_VERSION}
 
 #
 # String data files
 #
 
-J_STRING_FILES += ${JX_ROOT}/lib<Binary>/<Binary>_strings
+J_STRING_FILES += ${JX_ROOT}/lib{Binary}/{Binary}_strings
