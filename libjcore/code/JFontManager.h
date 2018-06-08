@@ -93,6 +93,8 @@ private:
 
 private:
 
+	static void	CleanUp();
+
 	// not allowed
 
 	JFontManager(const JFontManager& source);

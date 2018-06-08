@@ -54,6 +54,7 @@
 
 #include <JFontManager.h>
 #include <jGlobals.h>
+#include <stdlib.h>
 #include <stdarg.h>
 #include <jAssert.h>
 
@@ -207,7 +208,7 @@ JFontManager::GetFontName
 
  ******************************************************************************/
 
-void
+static void
 jParseSize
 	(
 	JStringManager*		stringMgr,
@@ -262,4 +263,24 @@ JFontManager::Init
 		}
 
 	jParseSize(stringMgr, "SIZE::MONO::FONT", &theDefaultMonospaceFontSize);
+
+	// clean up
+
+	atexit(CleanUp);
+}
+
+/******************************************************************************
+ CleanUp (static private)
+
+ ******************************************************************************/
+
+void
+JFontManager::CleanUp()
+{
+	const JSize count = theFontList.GetElementCount();
+	for (JIndex i=1; i<=count; i++)
+		{
+		Font f = theFontList.GetElement(i);
+		jdelete f.name;
+		}
 }
