@@ -35,7 +35,7 @@ public:
 	void	AddDirectories(const JPtrArray<JString>& list);
 	void	GetPathList(CBDirList* pathList) const;
 
-	virtual JBoolean	IsEditable(const JPoint& cell) const;
+	virtual JBoolean	IsEditable(const JPoint& cell) const override;
 
 protected:
 
@@ -44,12 +44,12 @@ protected:
 									const JXButtonStates& buttonStates,
 									const JXKeyModifiers& modifiers) override;
 
-	virtual void			TableDrawCell(JPainter& p, const JPoint& cell, const JRect& rect);
+	virtual void			TableDrawCell(JPainter& p, const JPoint& cell, const JRect& rect) override;
 	virtual JXInputField*	CreateXInputField(const JPoint& cell,
 											  const JCoordinate x, const JCoordinate y,
-											  const JCoordinate w, const JCoordinate h);
-	virtual JBoolean		ExtractInputData(const JPoint& cell);
-	virtual void			PrepareDeleteXInputField();
+											  const JCoordinate w, const JCoordinate h) override;
+	virtual JBoolean		ExtractInputData(const JPoint& cell) override;
+	virtual void			PrepareDeleteXInputField() override;
 
 	virtual JBoolean	WillAcceptDrop(const JArray<Atom>& typeList, Atom* action,
 									   const JPoint& pt, const Time time,
@@ -77,6 +77,8 @@ private:
 
 	void	ChoosePath();
 	void	UpdateButtons();
+
+	JBoolean	PrivateHandleDNDDrop(const Time time, const Atom type);
 
 	// not allowed
 

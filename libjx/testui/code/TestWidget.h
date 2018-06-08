@@ -138,7 +138,8 @@ private:
 	void	PrintSelectionTargets(const Time time);
 	void	PrintSelectionText(const Atom selectionName, const Time time,
 							   const Atom type) const;
-	void	PrintFileNames(const Atom selectionName, const Time time) const;
+	void	PrintFileNames(const Atom selectionName, const Time time,
+						   const Atom type) const;
 
 	// not allowed
 

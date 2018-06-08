@@ -50,6 +50,7 @@ static const JUtf8Byte* kAtomNames[ JXSelectionManager::kAtomCount ] =
 	"text/plain;charset=utf-8",
 	"text/plain",
 	"text/uri-list;charset=utf-8",
+	"text/uri-list",
 	"DELETE",						// returns type "nullptr"
 	"nullptr",
 	"CLIPBOARD"
@@ -311,7 +312,9 @@ JXSelectionManager::GetData
 			}
 		}
 
-	if (success && *returnType == itsAtoms[ kURLAtomIndex ])
+	if (success &&
+		(*returnType == itsAtoms[ kURLAtomIndex ] ||
+		 *returnType == itsAtoms[ kURLNoCharsetAtomIndex ]))
 		{
 		const Window srcWindow = XGetSelectionOwner(*itsDisplay, selectionName);
 		JString newData;

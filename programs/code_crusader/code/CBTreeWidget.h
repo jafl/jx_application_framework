@@ -134,6 +134,8 @@ private:
 	void	ExpectPopupFnMenu(const JPoint& pt, const JXMouseButton button,
 							  CBClass* theClass);
 
+	JBoolean	PrivateHandleDNDDrop(const Time time, const Atom type);
+
 	// not allowed
 
 	CBTreeWidget(const CBTreeWidget& source);

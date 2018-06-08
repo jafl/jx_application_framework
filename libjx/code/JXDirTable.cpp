@@ -800,12 +800,14 @@ JXDirTable::WillAcceptDrop
 
 	// we accept drops of type text/uri-list
 
-	const Atom urlXAtom = GetSelectionManager()->GetURLXAtom();
+	const Atom urlXAtom1 = GetSelectionManager()->GetURLXAtom(),
+			   urlXAtom2 = GetSelectionManager()->GetURLNoCharsetXAtom();
 
 	const JSize typeCount = typeList.GetElementCount();
 	for (JIndex i=1; i<=typeCount; i++)
 		{
-		if (typeList.GetElement(i) == urlXAtom)
+		const Atom a = typeList.GetElement(i);
+		if (a == urlXAtom1 || a == urlXAtom2)
 			{
 			*action = GetDNDManager()->GetDNDActionPrivateXAtom();
 			return kJTrue;
@@ -837,75 +839,96 @@ JXDirTable::HandleDNDDrop
 {
 	JXSelectionManager* selMgr = GetSelectionManager();
 
+	if (!PrivateHandleDNDDrop(time, selMgr->GetURLXAtom()))
+		{
+		PrivateHandleDNDDrop(time, selMgr->GetURLNoCharsetXAtom());
+		}
+}
+
+JBoolean
+JXDirTable::PrivateHandleDNDDrop
+	(
+	const Time	time,
+	const Atom	type
+	)
+{
+	JXSelectionManager* selMgr = GetSelectionManager();
+
 	Atom returnType;
 	unsigned char* data;
 	JSize dataLength;
 	JXSelectionManager::DeleteMethod delMethod;
-	if (selMgr->GetData(GetDNDManager()->GetDNDSelectionName(),
-						time, selMgr->GetURLXAtom(),
-						&returnType, &data, &dataLength, &delMethod))
+	if (!selMgr->GetData(GetDNDManager()->GetDNDSelectionName(),
+						 time, type,
+						 &returnType, &data, &dataLength, &delMethod))
 		{
-		if (returnType == selMgr->GetURLXAtom())
-			{
-			JPtrArray<JString> fileNameList(JPtrArrayT::kDeleteAll),
-							   urlList(JPtrArrayT::kDeleteAll);
-			JXUnpackFileNames((char*) data, dataLength, &fileNameList, &urlList);
+		return kJFalse;
+		}
 
-			const JSize fileCount = fileNameList.GetElementCount();
-			if (fileCount > 0)
+	if (returnType != type)
+		{
+		selMgr->DeleteData(&data, delMethod);
+		return kJFalse;
+		}
+
+	JPtrArray<JString> fileNameList(JPtrArrayT::kDeleteAll),
+					   urlList(JPtrArrayT::kDeleteAll);
+	JXUnpackFileNames((char*) data, dataLength, &fileNameList, &urlList);
+
+	const JSize fileCount = fileNameList.GetElementCount();
+	if (fileCount > 0)
+		{
+		const JString* entryName = fileNameList.GetFirstElement();
+		JString path, name;
+		if (JDirectoryExists(*entryName))
+			{
+			path = *entryName;
+			}
+		else if (JFileExists(*entryName))
+			{
+			JSplitPathAndName(*entryName, &path, &name);
+			}
+
+		const JError err = itsDirInfo->GoTo(path);
+		err.ReportIfError();
+		if (err.OK() && !name.IsEmpty())
+			{
+			JTableSelection& s = GetTableSelection();
+			s.ClearSelection();
+			for (JIndex i=1; i<=fileCount; i++)
 				{
-				const JString* entryName = fileNameList.GetFirstElement();
-				JString path, name;
-				if (JDirectoryExists(*entryName))
-					{
-					path = *entryName;
-					}
-				else if (JFileExists(*entryName))
+				entryName = fileNameList.GetElement(i);
+				if (JFileExists(*entryName))
 					{
 					JSplitPathAndName(*entryName, &path, &name);
-					}
-
-				const JError err = itsDirInfo->GoTo(path);
-				err.ReportIfError();
-				if (err.OK() && !name.IsEmpty())
-					{
-					JTableSelection& s = GetTableSelection();
-					s.ClearSelection();
-					for (JIndex i=1; i<=fileCount; i++)
+					JIndex index;
+					if (itsDirInfo->FindEntry(name, &index) &&
+						ItemIsActive(index))
 						{
-						entryName = fileNameList.GetElement(i);
-						if (JFileExists(*entryName))
+						GetWindow()->Raise();
+						if (!s.HasSelection())
 							{
-							JSplitPathAndName(*entryName, &path, &name);
-							JIndex index;
-							if (itsDirInfo->FindEntry(name, &index) &&
-								ItemIsActive(index))
-								{
-								GetWindow()->Raise();
-								if (!s.HasSelection())
-									{
-									const JBoolean ok = SelectSingleEntry(index);
-									assert( ok );
-									}
-								else
-									{
-									s.SelectRow(index);
-									s.ClearBoat();
-									s.ClearAnchor();
-									}
-								if (!itsAllowSelectMultipleFlag)
-									{
-									break;
-									}
-								}
+							const JBoolean ok = SelectSingleEntry(index);
+							assert( ok );
+							}
+						else
+							{
+							s.SelectRow(index);
+							s.ClearBoat();
+							s.ClearAnchor();
+							}
+						if (!itsAllowSelectMultipleFlag)
+							{
+							break;
 							}
 						}
 					}
 				}
 			}
-
-		selMgr->DeleteData(&data, delMethod);
 		}
+
+	selMgr->DeleteData(&data, delMethod);
+	return kJTrue;
 }
 
 /******************************************************************************

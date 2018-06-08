@@ -146,12 +146,14 @@ SyGTrashButton::WillAcceptDrop
 		return kJFalse;
 		}
 
-	const Atom urlXAtom = GetSelectionManager()->GetURLXAtom();
+	const Atom urlXAtom1 = GetSelectionManager()->GetURLXAtom(),
+			   urlXAtom2 = GetSelectionManager()->GetURLNoCharsetXAtom();
 
 	const JSize typeCount = typeList.GetElementCount();
 	for (JIndex i=1; i<=typeCount; i++)
 		{
-		if (typeList.GetElement(i) == urlXAtom)
+		const Atom a = typeList.GetElement(i);
+		if (a == urlXAtom1 || a == urlXAtom2)
 			{
 			*action = GetDNDManager()->GetDNDActionPrivateXAtom();
 			return kJTrue;
@@ -223,19 +225,37 @@ SyGTrashButton::MoveFilesToTrash
 		return;
 		}
 
+	JXSelectionManager* selManager = display->GetSelectionManager();
+
+	if (!PrivateMoveFilesToTrash(time, selManager->GetURLXAtom(), source))
+		{
+		PrivateMoveFilesToTrash(time, selManager->GetURLNoCharsetXAtom(), source);
+		}
+}
+
+JBoolean
+SyGTrashButton::PrivateMoveFilesToTrash
+	(
+	const Time		time,
+	const Atom		type,
+	const JXWidget*	source
+	)
+{
 	JXDisplay* display             = (JXGetApplication())->GetCurrentDisplay();
 	JXSelectionManager* selManager = display->GetSelectionManager();
 	JXDNDManager* dndMgr           = display->GetDNDManager();
 	const Atom dndSelectionName    = dndMgr->GetDNDSelectionName();
 
+	JBoolean ok = kJFalse;
+
 	unsigned char* data = nullptr;
 	JSize dataLength;
 	Atom returnType;
 	JXSelectionManager::DeleteMethod delMethod;
-	if (selManager->GetData(dndSelectionName, time, selManager->GetURLXAtom(),
+	if (selManager->GetData(dndSelectionName, time, type,
 							&returnType, &data, &dataLength, &delMethod))
 		{
-		if (returnType == selManager->GetURLXAtom())
+		if (returnType == type)
 			{
 			JPtrArray<JString>* fileNameList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 			assert( fileNameList != nullptr );
@@ -244,10 +264,12 @@ SyGTrashButton::MoveFilesToTrash
 
 			SyGMoveToTrashProcess::Move(srcTable, fileNameList);
 			JXReportUnreachableHosts(urlList);
+			ok = kJTrue;
 			}
 
 		selManager->DeleteData(&data, delMethod);
 		}
 
 	SyGSetDNDSource(nullptr);
+	return ok;
 }

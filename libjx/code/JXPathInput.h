@@ -115,8 +115,8 @@ private:
 
 private:
 
-	JBoolean		GetDroppedDirectory(const Time time, const JBoolean reportErrors,
-										JString* dirName);
+	JBoolean	GetDroppedDirectory(const Time time, const Atom type,
+									const JBoolean reportErrors, JString* dirName);
 
 	// not allowed
 

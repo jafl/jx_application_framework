@@ -335,14 +335,16 @@ JXFileInput::WillAcceptDrop
 {
 	itsExpectURLDropFlag = kJFalse;
 
-	const Atom urlXAtom = GetSelectionManager()->GetURLXAtom();
+	const Atom urlXAtom1 = GetSelectionManager()->GetURLXAtom(),
+			   urlXAtom2 = GetSelectionManager()->GetURLNoCharsetXAtom();
 
 	JString fileName;
 	const JSize typeCount = typeList.GetElementCount();
 	for (JIndex i=1; i<=typeCount; i++)
 		{
-		if (typeList.GetElement(i) == urlXAtom &&
-			GetDroppedFileName(time, kJFalse, &fileName))
+		const Atom a = typeList.GetElement(i);
+		if ((a == urlXAtom1 || a == urlXAtom2) &&
+			GetDroppedFileName(time, a, kJFalse, &fileName))
 			{
 			*action = GetDNDManager()->GetDNDActionPrivateXAtom();
 			itsExpectURLDropFlag = kJTrue;
@@ -430,7 +432,9 @@ JXFileInput::HandleDNDDrop
 		{
 		JXInputField::HandleDNDDrop(pt, typeList, action, time, source);
 		}
-	else if (Focus() && GetDroppedFileName(time, kJTrue, &fileName))
+	else if (Focus() &&
+			 (GetDroppedFileName(time, GetSelectionManager()->GetURLXAtom(), kJTrue, &fileName) ||
+			  GetDroppedFileName(time, GetSelectionManager()->GetURLNoCharsetXAtom(), kJTrue, &fileName)))
 		{
 		GetText()->SetText(fileName);
 		}
@@ -445,6 +449,7 @@ JBoolean
 JXFileInput::GetDroppedFileName
 	(
 	const Time		time,
+	const Atom		type,
 	const JBoolean	reportErrors,
 	JString*		fileName
 	)
@@ -458,10 +463,10 @@ JXFileInput::GetDroppedFileName
 	JSize dataLength;
 	JXSelectionManager::DeleteMethod delMethod;
 	if (selMgr->GetData(GetDNDManager()->GetDNDSelectionName(),
-						time, selMgr->GetURLXAtom(),
+						time, type,
 						&returnType, &data, &dataLength, &delMethod))
 		{
-		if (returnType == selMgr->GetURLXAtom())
+		if (returnType == type)
 			{
 			JPtrArray<JString> fileNameList(JPtrArrayT::kDeleteAll),
 							   urlList(JPtrArrayT::kDeleteAll);
@@ -736,7 +741,7 @@ JXFileInput::StyledText::AdjustStylesBeforeBroadcast
 			}
 		}
 
-	*redrawRange = JStyledText::TextRange(
+	*recalcRange = *redrawRange = JStyledText::TextRange(
 		JCharacterRange(1, totalLength),
 		JUtf8ByteRange(1, text.GetByteCount()));
 }

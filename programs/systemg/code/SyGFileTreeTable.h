@@ -310,6 +310,7 @@ private:
 	void	HandleContextMenu(const JIndex index);
 
 	void		ChooseDNDCursors();
+	JBoolean	HandleFileDrop(const Time time, const Atom type, const JXWidget* source);
 	JBoolean	GetTrueDropAction(Atom* action);
 
 	JIndex		GetNearestDirIndex(const JIndex index, const JBoolean requireWritable);

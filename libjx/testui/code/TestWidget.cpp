@@ -1003,7 +1003,8 @@ TestWidget::WillAcceptDrop
 		const Atom type = typeList.GetElement(i);
 		std::cout << XGetAtomName(*display, type) << std::endl;
 
-		if (type == GetSelectionManager()->GetURLXAtom())
+		if (type == GetSelectionManager()->GetURLXAtom() ||
+			type == GetSelectionManager()->GetURLNoCharsetXAtom())
 			{
 			hasURIList = kJTrue;
 			}
@@ -1076,7 +1077,7 @@ TestWidget::HandleDNDDrop
 
 //	(JGetUserNotification())->DisplayMessage("testing");
 
-	Atom textType = None;
+	Atom textType = None, urlType = None;
 	JBoolean url  = kJFalse;
 	const JSize typeCount = typeList.GetElementCount();
 	for (JIndex i=1; i<=typeCount; i++)
@@ -1087,9 +1088,10 @@ TestWidget::HandleDNDDrop
 			{
 			textType = type;
 			}
-		else if (type == selMgr->GetURLXAtom())
+		else if (type == selMgr->GetURLXAtom() ||
+				 type == selMgr->GetURLNoCharsetXAtom())
 			{
-			url = kJTrue;
+			urlType = type;
 			}
 		}
 	std::cout << std::endl;
@@ -1099,9 +1101,9 @@ TestWidget::HandleDNDDrop
 		PrintSelectionText(GetDNDManager()->GetDNDSelectionName(), time, textType);
 		}
 
-	if (url)
+	if (urlType != None)
 		{
-		PrintFileNames(GetDNDManager()->GetDNDSelectionName(), time);
+		PrintFileNames(GetDNDManager()->GetDNDSelectionName(), time, urlType);
 		}
 }
 
@@ -1214,7 +1216,8 @@ void
 TestWidget::PrintFileNames
 	(
 	const Atom selectionName,
-	const Time time
+	const Time time,
+	const Atom type
 	)
 	const
 {
@@ -1224,10 +1227,10 @@ TestWidget::PrintFileNames
 	unsigned char* data;
 	JSize dataLength;
 	JXSelectionManager::DeleteMethod delMethod;
-	if (selMgr->GetData(selectionName, time, selMgr->GetURLXAtom(),
+	if (selMgr->GetData(selectionName, time, type,
 						&returnType, &data, &dataLength, &delMethod))
 		{
-		if (returnType == selMgr->GetURLXAtom())
+		if (returnType == type)
 			{
 			JPtrArray<JString> fileNameList(JPtrArrayT::kDeleteAll),
 							   urlList(JPtrArrayT::kDeleteAll);

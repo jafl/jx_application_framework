@@ -1578,12 +1578,14 @@ CBProjectTable::WillAcceptDrop
 		return kJTrue;
 		}
 
-	const Atom urlXAtom = GetSelectionManager()->GetURLXAtom();
+	const Atom urlXAtom1 = GetSelectionManager()->GetURLXAtom(),
+			   urlXAtom2 = GetSelectionManager()->GetURLNoCharsetXAtom();
 
 	const JSize typeCount = typeList.GetElementCount();
 	for (JIndex i=1; i<=typeCount; i++)
 		{
-		if (typeList.GetElement(i) == urlXAtom)
+		const Atom a = typeList.GetElement(i);
+		if (a == urlXAtom1 || a == urlXAtom2)
 			{
 			*action = GetDNDManager()->GetDNDActionPrivateXAtom();
 			return kJTrue;
@@ -1788,95 +1790,120 @@ CBProjectTable::HandleDNDDrop
 		}
 	else if (source != this)
 		{
-		JXSelectionManager* selMgr = GetSelectionManager();
-		JXDNDManager* dndMgr       = GetDNDManager();
-
-		Atom returnType;
-		unsigned char* data;
-		JSize dataLength;
-		JXSelectionManager::DeleteMethod delMethod;
-		if (selMgr->GetData(dndMgr->GetDNDSelectionName(),
-							time, selMgr->GetURLXAtom(),
-							&returnType, &data, &dataLength, &delMethod))
+		if (!PrivateHandleDNDDrop(time, GetSelectionManager()->GetURLXAtom()))
 			{
-			if (returnType == selMgr->GetURLXAtom())
-				{
-				JPtrArray<JString> fileNameList(JPtrArrayT::kDeleteAll),
-								   urlList(JPtrArrayT::kDeleteAll),
-								   pathList(JPtrArrayT::kDeleteAll);
-				JXUnpackFileNames((char*) data, dataLength, &fileNameList, &urlList);
-
-				const JSize fileCount = fileNameList.GetElementCount();
-
-				// insert files and directories into tree
-
-				for (JIndex i=fileCount; i>=1; i--)
-					{
-					JString* fullName = fileNameList.GetElement(i);
-					if (JDirectoryExists(*fullName))
-						{
-						fileNameList.RemoveElement(i);
-						pathList.AppendElement(fullName);
-						}
-					else if (!JFileExists(*fullName))
-						{
-						fileNameList.DeleteElement(i);
-						}
-					}
-
-				if (fileNameList.IsEmpty() && pathList.IsEmpty() && urlList.IsEmpty())
-					{
-					(JGetUserNotification())->ReportError(
-						"You can only drop files and/or directories.");
-					}
-				else if (fileNameList.IsEmpty() && pathList.IsEmpty())
-					{
-					JXReportUnreachableHosts(urlList);
-					}
-				else if (itsDropFileAction == kAskPathType)
-					{
-					JArray<Atom> actionList;
-					actionList.AppendElement(CBRelPathCSF::kAbsolutePath);
-					actionList.AppendElement(CBRelPathCSF::kProjectRelative);
-					actionList.AppendElement(CBRelPathCSF::kHomeRelative);
-
-					JPtrArray<JString> descriptionList(JPtrArrayT::kForgetAll);
-					JString absPathText = "Add files using absolute path";
-					JString projRelText = "Add files using path relative to project file";
-					JString homeRelText = "Add files using path relative to home directory";
-					descriptionList.Append(&absPathText);
-					descriptionList.Append(&projRelText);
-					descriptionList.Append(&homeRelText);
-
-					Atom action = CBRelPathCSF::kProjectRelative;
-					if (dndMgr->ChooseDropAction(actionList, descriptionList, &action))
-						{
-						InsertExtDroppedFiles(fileNameList, (CBRelPathCSF::PathType) action);
-
-						const JSize pathCount = pathList.GetElementCount();
-						for (JIndex i=1; i<=pathCount; i++)
-							{
-							AddDirectoryTree(*(pathList.GetElement(i)), (CBRelPathCSF::PathType) action);
-							}
-						}
-					}
-				else
-					{
-					InsertExtDroppedFiles(fileNameList, (CBRelPathCSF::PathType) itsDropFileAction);
-
-					const JSize pathCount = pathList.GetElementCount();
-					for (JIndex i=1; i<=pathCount; i++)
-						{
-						AddDirectoryTree(*(pathList.GetElement(i)), (CBRelPathCSF::PathType) itsDropFileAction);
-						}
-					}
-				}
-
-			selMgr->DeleteData(&data, delMethod);
+			PrivateHandleDNDDrop(time, GetSelectionManager()->GetURLNoCharsetXAtom());
 			}
 		}
 
 	HandleDNDLeave();
+}
+
+/******************************************************************************
+ PrivateHandleDNDDrop (private)
+
+ ******************************************************************************/
+
+JBoolean
+CBProjectTable::PrivateHandleDNDDrop
+	(
+	const Time	time,
+	const Atom	type
+	)
+{
+	JXSelectionManager* selMgr = GetSelectionManager();
+	JXDNDManager* dndMgr       = GetDNDManager();
+
+	Atom returnType;
+	unsigned char* data;
+	JSize dataLength;
+	JXSelectionManager::DeleteMethod delMethod;
+	if (!selMgr->GetData(dndMgr->GetDNDSelectionName(),
+						 time, type,
+						 &returnType, &data, &dataLength, &delMethod))
+		{
+		return kJFalse;
+		}
+
+	if (returnType == type)
+		{
+		selMgr->DeleteData(&data, delMethod);
+		return kJFalse;
+		}
+
+	JPtrArray<JString> fileNameList(JPtrArrayT::kDeleteAll),
+					   urlList(JPtrArrayT::kDeleteAll),
+					   pathList(JPtrArrayT::kDeleteAll);
+	JXUnpackFileNames((char*) data, dataLength, &fileNameList, &urlList);
+
+	const JSize fileCount = fileNameList.GetElementCount();
+
+	// insert files and directories into tree
+
+	for (JIndex i=fileCount; i>=1; i--)
+		{
+		JString* fullName = fileNameList.GetElement(i);
+		if (JDirectoryExists(*fullName))
+			{
+			fileNameList.RemoveElement(i);
+			pathList.AppendElement(fullName);
+			}
+		else if (!JFileExists(*fullName))
+			{
+			fileNameList.DeleteElement(i);
+			}
+		}
+
+	if (fileNameList.IsEmpty() && pathList.IsEmpty() && urlList.IsEmpty())
+		{
+		(JGetUserNotification())->ReportError(
+			"You can only drop files and/or directories.");
+		}
+	else if (fileNameList.IsEmpty() && pathList.IsEmpty())
+		{
+		JXReportUnreachableHosts(urlList);
+		}
+	else if (itsDropFileAction == kAskPathType)
+		{
+		JArray<Atom> actionList;
+		actionList.AppendElement(CBRelPathCSF::kAbsolutePath);
+		actionList.AppendElement(CBRelPathCSF::kProjectRelative);
+		actionList.AppendElement(CBRelPathCSF::kHomeRelative);
+
+		JPtrArray<JString> descriptionList(JPtrArrayT::kForgetAll);
+		JString absPathText = "Add files using absolute path";
+		JString projRelText = "Add files using path relative to project file";
+		JString homeRelText = "Add files using path relative to home directory";
+		descriptionList.Append(&absPathText);
+		descriptionList.Append(&projRelText);
+		descriptionList.Append(&homeRelText);
+
+		Atom action = CBRelPathCSF::kProjectRelative;
+		if (dndMgr->ChooseDropAction(actionList, descriptionList, &action))
+			{
+			InsertExtDroppedFiles(fileNameList, (CBRelPathCSF::PathType) action);
+
+			const JSize pathCount = pathList.GetElementCount();
+			for (JIndex i=1; i<=pathCount; i++)
+				{
+				AddDirectoryTree(*(pathList.GetElement(i)), (CBRelPathCSF::PathType) action);
+				}
+			}
+		}
+	else
+		{
+		InsertExtDroppedFiles(fileNameList, (CBRelPathCSF::PathType) itsDropFileAction);
+
+		const JSize pathCount = pathList.GetElementCount();
+		for (JIndex i=1; i<=pathCount; i++)
+			{
+			AddDirectoryTree(*(pathList.GetElement(i)), (CBRelPathCSF::PathType) itsDropFileAction);
+			}
+		}
+	}
+
+	selMgr->DeleteData(&data, delMethod);
+	return kJTrue;
 }
 
 /******************************************************************************

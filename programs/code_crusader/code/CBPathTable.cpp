@@ -479,12 +479,14 @@ CBPathTable::WillAcceptDrop
 	const JXWidget*		source
 	)
 {
-	const Atom urlXAtom = GetSelectionManager()->GetURLXAtom();
+	const Atom urlXAtom1 = GetSelectionManager()->GetURLXAtom(),
+			   urlXAtom2 = GetSelectionManager()->GetURLNoCharsetXAtom();
 
 	const JSize typeCount = typeList.GetElementCount();
 	for (JIndex i=1; i<=typeCount; i++)
 		{
-		if (typeList.GetElement(i) == urlXAtom)
+		const Atom a = typeList.GetElement(i);
+		if (a == urlXAtom1 || a == urlXAtom2)
 			{
 			*action = GetDNDManager()->GetDNDActionPrivateXAtom();
 			return kJTrue;
@@ -516,23 +518,43 @@ CBPathTable::HandleDNDDrop
 {
 	JXSelectionManager* selMgr = GetSelectionManager();
 
+	if (!PrivateHandleDNDDrop(time, selMgr->GetURLXAtom()))
+		{
+		PrivateHandleDNDDrop(time, selMgr->GetURLNoCharsetXAtom());
+		}
+}
+
+JBoolean
+CBPathTable::PrivateHandleDNDDrop
+	(
+	const Time time,
+	const Atom type
+	)
+{
+	JXSelectionManager* selMgr = GetSelectionManager();
+
+	JBoolean ok = kJFalse;
+
 	Atom returnType;
 	unsigned char* data;
 	JSize dataLength;
 	JXSelectionManager::DeleteMethod delMethod;
 	if (selMgr->GetData(GetDNDManager()->GetDNDSelectionName(),
-						time, selMgr->GetURLXAtom(),
+						time, type,
 						&returnType, &data, &dataLength, &delMethod))
 		{
-		if (returnType == selMgr->GetURLXAtom())
+		if (returnType == type)
 			{
 			JPtrArray<JString> fileNameList(JPtrArrayT::kDeleteAll),
 							   urlList(JPtrArrayT::kDeleteAll);
 			JXUnpackFileNames((char*) data, dataLength, &fileNameList, &urlList);
 			AddDirectories(fileNameList);
 			JXReportUnreachableHosts(urlList);
+			ok = kJTrue;
 			}
 
 		selMgr->DeleteData(&data, delMethod);
 		}
+
+	return ok;
 }

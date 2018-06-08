@@ -87,6 +87,7 @@ JXFileSelection::AddTypes
 	)
 {
 	AddType(GetSelectionManager()->GetURLXAtom());
+	AddType(GetSelectionManager()->GetURLNoCharsetXAtom());
 }
 
 /******************************************************************************
@@ -157,13 +158,13 @@ JXFileSelection::ConvertData
 {
 	*bitsPerBlock = 8;
 
-	const Atom urlAtom = GetSelectionManager()->GetURLXAtom();
-
-	if (requestType == urlAtom && itsList != nullptr && !itsList->IsEmpty())
+	if ((requestType == GetSelectionManager()->GetURLXAtom() ||
+		 requestType == GetSelectionManager()->GetURLNoCharsetXAtom()) &&
+		itsList != nullptr && !itsList->IsEmpty())
 		{
 		CreateBuffer();
 
-		*returnType = urlAtom;
+		*returnType = requestType;
 		*dataLength = itsBuffer->GetByteCount();
 		*data       = (unsigned char*) itsBuffer->AllocateBytes();
 		return kJTrue;
@@ -221,7 +222,8 @@ JXFileSelection::GetFileList
 	JPtrArray<JString>*	urlList
 	)
 {
-	const Atom urlXAtom = selMgr->GetURLXAtom();
+	const Atom urlXAtom1 = selMgr->GetURLXAtom(),
+			   urlXAtom2 = selMgr->GetURLNoCharsetXAtom();
 
 	JBoolean ok = kJFalse;
 
@@ -231,16 +233,17 @@ JXFileSelection::GetFileList
 		const JSize count = typeList.GetElementCount();
 		for (JIndex i=1; i<=count; i++)
 			{
-			if (typeList.GetElement(i) == urlXAtom)
+			const Atom a = typeList.GetElement(i);
+			if (a == urlXAtom1 || a == urlXAtom2)
 				{
 				Atom returnType;
 				unsigned char* data;
 				JSize dataLength;
 				JXSelectionManager::DeleteMethod delMethod;
-				if (selMgr->GetData(selectionName, time, urlXAtom,
+				if (selMgr->GetData(selectionName, time, a,
 									&returnType, &data, &dataLength, &delMethod))
 					{
-					if (returnType == urlXAtom)
+					if (returnType == a)
 						{
 						JXUnpackFileNames((char*) data, dataLength, fileNameList, urlList);
 						ok = kJTrue;

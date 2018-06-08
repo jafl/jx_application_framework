@@ -57,6 +57,7 @@ public:
 	Atom	GetMimePlainTextXAtom() const;
 	Atom	GetMimePlainTextNoCharsetXAtom() const;
 	Atom	GetURLXAtom() const;
+	Atom	GetURLNoCharsetXAtom() const;
 
 	Atom	GetDeleteSelectionXAtom() const;
 	Atom	GetNULLXAtom() const;
@@ -82,6 +83,7 @@ public:		// kAtomCount required at global scope
 		kMimePlainTextAtomIndex,
 		kMimePlainTextNoCharsetAtomIndex,
 		kURLAtomIndex,
+		kURLNoCharsetAtomIndex,
 		kDeleteSelectionAtomIndex,
 		kNULLAtomIndex,
 		kGnomeClipboardAtomIndex,
@@ -201,6 +203,13 @@ JXSelectionManager::GetURLXAtom()
 	const
 {
 	return itsAtoms[ kURLAtomIndex ];
+}
+
+inline Atom
+JXSelectionManager::GetURLNoCharsetXAtom()
+	const
+{
+	return itsAtoms[ kURLNoCharsetAtomIndex ];
 }
 
 inline Atom

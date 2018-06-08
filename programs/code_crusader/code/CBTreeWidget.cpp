@@ -653,12 +653,14 @@ CBTreeWidget::WillAcceptDrop
 
 	// we accept drops of type text/uri-list
 
-	const Atom urlXAtom = GetSelectionManager()->GetURLXAtom();
+	const Atom urlXAtom1 = GetSelectionManager()->GetURLXAtom(),
+			   urlXAtom2 = GetSelectionManager()->GetURLNoCharsetXAtom();
 
 	const JSize typeCount = typeList.GetElementCount();
 	for (JIndex i=1; i<=typeCount; i++)
 		{
-		if (typeList.GetElement(i) == urlXAtom)
+		const Atom a = typeList.GetElement(i);
+		if (a == urlXAtom1 || a == urlXAtom2)
 			{
 			*action = GetDNDManager()->GetDNDActionPrivateXAtom();
 			return kJTrue;
@@ -690,50 +692,76 @@ CBTreeWidget::HandleDNDDrop
 {
 	JXSelectionManager* selMgr = GetSelectionManager();
 
+	if (!PrivateHandleDNDDrop(time, selMgr->GetURLXAtom()))
+		{
+		PrivateHandleDNDDrop(time, selMgr->GetURLNoCharsetXAtom());
+		}
+}
+
+/******************************************************************************
+ PrivateHandleDNDDrop (private)
+
+ ******************************************************************************/
+
+JBoolean
+CBTreeWidget::PrivateHandleDNDDrop
+	(
+	const Time	time,
+	const Atom	type
+	)
+{
+	JXSelectionManager* selMgr = GetSelectionManager();
+
 	Atom returnType;
 	unsigned char* data;
 	JSize dataLength;
 	JXSelectionManager::DeleteMethod delMethod;
-	if (selMgr->GetData(GetDNDManager()->GetDNDSelectionName(),
-						time, selMgr->GetURLXAtom(),
-						&returnType, &data, &dataLength, &delMethod))
+	if (!selMgr->GetData(GetDNDManager()->GetDNDSelectionName(),
+						 time, type,
+						 &returnType, &data, &dataLength, &delMethod))
 		{
-		if (returnType == selMgr->GetURLXAtom())
-			{
-			JPtrArray<JString> dirList(JPtrArrayT::kDeleteAll),
-							   urlList(JPtrArrayT::kDeleteAll);
-			JXUnpackFileNames((char*) data, dataLength, &dirList, &urlList);
-
-			const JSize fileCount = dirList.GetElementCount();
-			for (JIndex i=fileCount; i>=1; i--)
-				{
-				const JString* name = dirList.GetElement(i);
-				if (!JDirectoryExists(*name))
-					{
-					dirList.DeleteElement(i);
-					}
-				}
-
-			if (dirList.IsEmpty() && urlList.IsEmpty())
-				{
-				(JGetUserNotification())->ReportError(
-					"You can only drop directories on the class tree, "
-					"not individual files.");
-				}
-			else if (dirList.IsEmpty())
-				{
-				JXReportUnreachableHosts(urlList);
-				}
-			else
-				{
-				CBEditSearchPathsDialog* dlog =
-					(itsDirector->GetProjectDoc())->EditSearchPaths(itsDirector);
-				dlog->AddDirectories(dirList);
-				}
-			}
-
-		selMgr->DeleteData(&data, delMethod);
+		return kJFalse;
 		}
+
+	if (returnType == type)
+		{
+		selMgr->DeleteData(&data, delMethod);
+		return kJFalse;
+		}
+
+	JPtrArray<JString> dirList(JPtrArrayT::kDeleteAll),
+					   urlList(JPtrArrayT::kDeleteAll);
+	JXUnpackFileNames((char*) data, dataLength, &dirList, &urlList);
+
+	const JSize fileCount = dirList.GetElementCount();
+	for (JIndex i=fileCount; i>=1; i--)
+		{
+		const JString* name = dirList.GetElement(i);
+		if (!JDirectoryExists(*name))
+			{
+			dirList.DeleteElement(i);
+			}
+		}
+
+	if (dirList.IsEmpty() && urlList.IsEmpty())
+		{
+		(JGetUserNotification())->ReportError(
+			"You can only drop directories on the class tree, "
+			"not individual files.");
+		}
+	else if (dirList.IsEmpty())
+		{
+		JXReportUnreachableHosts(urlList);
+		}
+	else
+		{
+		CBEditSearchPathsDialog* dlog =
+			(itsDirector->GetProjectDoc())->EditSearchPaths(itsDirector);
+		dlog->AddDirectories(dirList);
+		}
+
+	selMgr->DeleteData(&data, delMethod);
+	return kJTrue;
 }
 
 /******************************************************************************
