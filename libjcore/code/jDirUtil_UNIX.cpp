@@ -1036,15 +1036,16 @@ JGetPrefsDirectory
 
  ******************************************************************************/
 
-static JBoolean theTempPathInitFlag = kJFalse;
-static JString theTempPath;
-
 JBoolean
 JGetTempDirectory
 	(
 	JString* tempDir
 	)
 {
+	// inside function to ensure initialization
+	static JBoolean theTempPathInitFlag = kJFalse;
+	static JString theTempPath;
+
 	if (!theTempPathInitFlag)
 		{
 		JUtf8Byte* path = getenv("TMPDIR");
@@ -1078,10 +1079,6 @@ JGetTempDirectory
 
  ******************************************************************************/
 
-static const JString theTmpDirForError("/tmp", kJFalse);
-static const JString theTmpDirPrefix("temp_dir_", kJFalse);
-static const JString theTmpDirTemplate("XXXXXX", kJFalse);
-
 JError
 JCreateTempDirectory
 	(
@@ -1090,6 +1087,11 @@ JCreateTempDirectory
 	JString*		fullName
 	)
 {
+	// inside function to ensure initialization
+	static const JString theTmpDirForError("/tmp", kJFalse);
+	static const JString theTmpDirPrefix("temp_dir_", kJFalse);
+	static const JString theTmpDirTemplate("XXXXXX", kJFalse);
+
 	JString p;
 	if (!JString::IsEmpty(path))
 		{
@@ -1266,15 +1268,16 @@ JGetTrueName
 
  ******************************************************************************/
 
-static const JRegex trailingDotPattern = "(?:/\\.)+$";
-static const JRegex multiSlashPattern  = "(?<!:)/{2,}";
-
 void
 JCleanPath
 	(
 	JString* path
 	)
 {
+	// inside function to ensure initialization
+	static const JRegex trailingDotPattern = "(?:/\\.)+$";
+	static const JRegex multiSlashPattern  = "(?<!:)/{2,}";
+
 	JStringIterator iter(path);
 	while (iter.Next(multiSlashPattern))
 		{

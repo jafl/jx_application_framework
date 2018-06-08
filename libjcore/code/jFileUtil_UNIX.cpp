@@ -237,10 +237,6 @@ JKillFile
 
  ******************************************************************************/
 
-static const JString theTmpDirForError("/tmp", kJFalse);
-static const JString theTmpFilePrefix("temp_file_", kJFalse);
-static const JString theTmpFileTemplate("XXXXXX", kJFalse);
-
 JError
 JCreateTempFile
 	(
@@ -249,6 +245,11 @@ JCreateTempFile
 	JString*		fullName
 	)
 {
+	// inside function to ensure initialization
+	static const JString theTmpDirForError("/tmp", kJFalse);
+	static const JString theTmpFilePrefix("temp_file_", kJFalse);
+	static const JString theTmpFileTemplate("XXXXXX", kJFalse);
+
 	JString p;
 	if (!JString::IsEmpty(path))
 		{
