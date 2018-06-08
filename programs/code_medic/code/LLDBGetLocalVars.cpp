@@ -92,6 +92,11 @@ LLDBGetLocalVars::HandleSuccess
 
 	for (JIndex i=1; i<=origCount; i++)
 		{
+		if (vars.GetValueAtIndex(i-1).GetName() == NULL)
+			{
+			continue;
+			}
+
 		if ((itsRootNode->GetVarChild(i))->GetName() !=
 			vars.GetValueAtIndex(i-1).GetName())
 			{
