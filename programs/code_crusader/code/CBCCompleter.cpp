@@ -25,12 +25,14 @@ static const JCharacter* kKeywordList[] =
 
 	// C++
 
-	"and", "and_eq", "asm", "bitand", "bitor", "bool", "catch", "class", "compl",
-	"const_cast", "delete", "dynamic_cast", "explicit", "export", "false",
-	"friend", "inline", "mutable", "namespace", "new", "not", "not_eq",
-	"operator", "or", "or_eq", "overload", "private", "protected", "public",
-	"reinterpret_cast", "static_cast", "template", "this", "throw", "true",
-	"try", "typeid", "typename", "using", "virtual", "wchar_t", "xor", "xor_eq",
+	"and", "and_eq", "asm", "bitand", "bitor", "bool", "catch", "class",
+	"compl", "const_cast", "delete", "dynamic_cast", "explicit", "export",
+	"false", "final", "friend", "inline", "mutable", "namespace", "new",
+	"noexcept", "not", "not_eq", "nullptr", "operator", "or", "or_eq",
+	"overload", "override", "private", "protected", "public",
+	"reinterpret_cast", "static_cast", "template", "this", "thread_local",
+	"throw", "true", "try", "typeid", "typename", "using", "virtual",
+	"wchar_t", "xor", "xor_eq",
 
 	// preprocessor
 
