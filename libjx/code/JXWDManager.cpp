@@ -153,7 +153,7 @@ JXWDManager::DirectorCreated
 	WindowInfo info(dir);
 
 	JIndex insertionIndex = 0;
-	if (shortcut != nullptr)
+	if (!shortcut.IsEmpty())
 		{
 		info.shortcutStr = jnew JString(shortcut);
 		assert( info.shortcutStr != nullptr );
