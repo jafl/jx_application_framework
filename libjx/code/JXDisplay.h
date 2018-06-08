@@ -91,7 +91,7 @@ public:
 
 	JBoolean	Close();
 
-	explicit operator Display*() const;
+	operator Display*() const;
 
 	const JString&	GetName() const;
 	Display*		GetXDisplay() const;

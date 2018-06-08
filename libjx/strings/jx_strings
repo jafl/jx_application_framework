@@ -16,6 +16,11 @@ DirectoryDoesNotExist::JXGlobal	"This directory does not exist."
 DirNotWritable::JXGlobal		"You do not have write access to this directory."
 FileNotWritable::JXGlobal		"You do not have write access to this file."
 
+FileMenuTitle::JXGlobal		"File"
+WindowsMenuTitle::JXGlobal	"Windows"
+PrefsMenuTitle::JXGlobal	"Preferences"
+HelpMenuTitle::JXGlobal		"Help"
+
 # JXApplication
 
 DisplayConnectError	"Unable to connect to $name"

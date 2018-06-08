@@ -132,7 +132,7 @@ TestTextEditDocument::BuildWindow
 	itsTextEditor->FitToEnclosure();
 	ListenTo(itsTextEditor->GetText());
 
-	itsFileMenu = menuBar->PrependTextMenu(JGetString("FileMenuTitle::TestTextEditDocument"));
+	itsFileMenu = menuBar->PrependTextMenu(JGetString("FileMenuTitle::JXGlobal"));
 	itsFileMenu->SetShortcuts(JGetString("FileMenuShortcut::TestTextEditDocument"));
 	itsFileMenu->SetMenuItems(kFileMenuStr);
 	itsFileMenu->SetUpdateAction(JXMenu::kDisableNone);

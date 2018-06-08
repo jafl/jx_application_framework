@@ -1,9 +1,12 @@
-0
+1
 
 DefaultTitle::J2DPlotWidget			"Title"
 DefaultXLabel::J2DPlotWidget		"X Label"
 DefaultYLabel::J2DPlotWidget		"Y Label"
 CannotRemoveCurve::J2DPlotWidget	"This curve can not be removed."
+
+OptionsMenuTitle::JX2DPlotWidget	"Options"
+CursorMenuTitle::JX2DPlotWidget		"Cursors"
 
 TooSmall::JX2DPlotPrintEPSDialog	"The width or height that you have entered is too small."
 

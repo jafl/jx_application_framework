@@ -19,7 +19,6 @@
 
 // Actions menu
 
-static const JCharacter* kActionsMenuTitleStr = "Actions";
 static const JCharacter* kActionsMenuStr =
 	"    PostScript page setup..."
 	"  | Print PostScript...      %k Meta-P"
@@ -97,7 +96,7 @@ Test2DPlotDirector::BuildWindow()
 
 	ListenTo(itsPlotWidget);
 
-	itsActionsMenu = menuBar->PrependTextMenu(kActionsMenuTitleStr);
+	itsActionsMenu = menuBar->PrependTextMenu(JGetString("ActionsMenuTitle::Test2DPlotDirector"));
 	itsActionsMenu->SetMenuItems(kActionsMenuStr);
 	itsActionsMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsActionsMenu);

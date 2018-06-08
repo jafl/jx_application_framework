@@ -24,7 +24,7 @@ public:
 
 	virtual ~JXColorManager();
 
-	explicit operator Colormap() const;
+	operator Colormap() const;
 
 	JXDisplay*	GetDisplay();
 	Colormap	GetXColormap();

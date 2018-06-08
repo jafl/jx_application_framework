@@ -44,7 +44,6 @@ const JFileVersion kCurrentSetupVersion = 3;	// must begin with digit >= 2
 
 // Options menu
 
-static const JString& kOptionsMenuTitleStr = JString("Options", kJFalse);
 static const JUtf8Byte* kOptionsMenuStr =
 	"    Change scale..."
 	"  | Reset scale"
@@ -75,7 +74,6 @@ enum
 
 // Cursor menu
 
-static const JString kCursorMenuTitleStr = JString("Cursors", kJFalse);
 static const JUtf8Byte* kCursorMenuStr =
 	"    X cursor     %b"
 	"  | Y cursor     %b"
@@ -144,7 +142,7 @@ JX2DPlotWidget::JX2DPlotWidget
 {
 	JX2DPlotWidgetX();
 
-	itsOptionsMenu = menuBar->AppendTextMenu(kOptionsMenuTitleStr);
+	itsOptionsMenu = menuBar->AppendTextMenu(JGetString("OptionsMenuTitle::JX2DPlotWidget"));
 	assert( itsOptionsMenu != nullptr );
 	itsOptionsMenu->SetMenuItems(kOptionsMenuStr);
 	itsOptionsMenu->SetUpdateAction(JXMenu::kDisableNone);
@@ -155,7 +153,7 @@ JX2DPlotWidget::JX2DPlotWidget
 	itsRemoveCurveMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsRemoveCurveMenu);
 
-	itsCursorMenu = menuBar->AppendTextMenu(kCursorMenuTitleStr);
+	itsCursorMenu = menuBar->AppendTextMenu(JGetString("CursorMenuTitle::JX2DPlotWidget"));
 	itsCursorMenu->SetMenuItems(kCursorMenuStr);
 	itsCursorMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsCursorMenu);

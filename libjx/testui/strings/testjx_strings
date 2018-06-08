@@ -230,7 +230,6 @@ ProcessText::TestPGTask	"Crunching numbers..."
 # TestTextEditDocument
 
 FilesMenuTitle::TestTextEditDocument	"Files"
-FileMenuTitle::TestTextEditDocument		"File"
 FileMenuShortcut::TestTextEditDocument	"#F"
 ChooseFilesPrompt::TestTextEditDocument	"Files to open:"
 OpenFilesProgress::TestTextEditDocument	"Opening files..."
