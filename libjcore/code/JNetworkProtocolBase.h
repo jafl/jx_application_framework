@@ -65,7 +65,7 @@ public:
 
 		void CleanOut()
 		{
-			jdelete data;
+			jdelete [] data;
 			data = nullptr;
 		}
 	};
