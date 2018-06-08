@@ -4278,7 +4278,7 @@ JStyledText::GetConstIterator
 	)
 	const
 {
-	JString* s = jnew JString(itsText, kJFalse);
+	JString* s = new(kJTrue) JString(itsText, kJFalse);
 	assert( s != nullptr );
 
 	JStringIterator* iter = jnew JStringIterator(*s);

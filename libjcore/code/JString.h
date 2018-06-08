@@ -74,6 +74,7 @@ public:
 
 	static void* operator new(size_t sz) noexcept;
 	static void* operator new(size_t size, const JUtf8Byte* file, const JUInt32 line) noexcept;
+	static void* operator new(size_t sz, const JBoolean forceShallow) noexcept;
 
 	const JString& operator=(const JString& str);
 	const JString& operator=(const JUtf8Byte* str);

@@ -418,6 +418,19 @@ JString::operator new
 	return memory;
 }
 
+void*
+JString::operator new
+	(
+	std::size_t		sz,
+	const JBoolean	forceShallow
+	)
+	noexcept
+{
+	void* memory = ::operator new(sz);
+	theCurrentlyConstructingObject = NULL;
+	return memory;
+}
+
 /******************************************************************************
  Set
 
