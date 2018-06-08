@@ -94,7 +94,7 @@ CBTELineIndexInput::HandleKeyPress
 		JInteger value;
 		if (JXIntegerInput::GetValue(&value))
 			{
-			const JString s(te->CRLineIndexToVisualLineIndex(value), JString::kBase10);
+			const JString s((JUInt64) te->CRLineIndexToVisualLineIndex(value));
 			SetText(s);
 			}
 
@@ -116,7 +116,7 @@ CBTELineIndexInput::HandleKeyPress
 			}
 		if (s == "$")
 			{
-			SetText(JString(GetTE()->GetLineCount()+1, JString::kBase10));
+			SetText(JString((JUInt64) GetTE()->GetLineCount()+1));
 			GoToEndOfLine();
 			}
 		}

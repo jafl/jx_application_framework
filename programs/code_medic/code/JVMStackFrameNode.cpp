@@ -97,9 +97,9 @@ JVMStackFrameNode::UpdateNodeName()
 
 	if (GetName().IsEmpty())
 		{
-		c = JString(itsClassID, JString::kBase10) + ":" +
-			JString(itsMethodID, JString::kBase10) + ":" +
-			JString(itsCodeOffset, JString::kBase16);
+		c = JString((JUInt64) itsClassID) + ":" +
+			JString((JUInt64) itsMethodID) + ":" +
+			JString((JUInt64) itsCodeOffset);
 		SetName(c);
 		}
 	return kJFalse;

@@ -36,7 +36,7 @@ JXPTPrinter::JXPTPrinter()
 	:
 	JPTPrinter(),
 	itsDestination(kPrintToPrinter),
-	itsPrintCmd("lpr", 0, kJFalse),
+	itsPrintCmd("lpr", kJFalse),
 	itsPageSetupDialog(nullptr),
 	itsPrintSetupDialog(nullptr)
 {

@@ -22,7 +22,7 @@ JTEST(ReadWritePtrArray)
 	JPtrArray<JString> list1(JPtrArrayT::kDeleteAll),
 					   list2(JPtrArrayT::kDeleteAll);
 
-	list2.Append(JString("foobar", 0, kJFalse));
+	list2.Append(JString("foobar", kJFalse));
 
 	std::stringstream io1;
 	io1 << list1;
@@ -30,7 +30,7 @@ JTEST(ReadWritePtrArray)
 	io1 >> list2;
 	JAssertTrue(list2.IsEmpty());
 
-	list1.Append(JString("foobar", 0, kJFalse));
+	list1.Append(JString("foobar", kJFalse));
 	std::stringstream io2;
 	io2 << list1;
 	io2.seekg(0);
@@ -38,7 +38,7 @@ JTEST(ReadWritePtrArray)
 	JAssertEqual(1, list2.GetElementCount());
 	JAssertStringsEqual("foobar", *(list2.GetElement(1)));
 
-	list1.Prepend(JString("barbaz", 0, kJFalse));
+	list1.Prepend(JString("barbaz", kJFalse));
 
 	std::stringstream io3;
 	io3 << list1;
@@ -54,12 +54,12 @@ JTEST(ReadWritePtrMap)
 	JStringPtrMap<JString> map1(JPtrArrayT::kDeleteAll),
 						   map2(JPtrArrayT::kDeleteAll);
 
-	const JString key1("a", 0, kJFalse),
-				  key2("z", 0, kJFalse);
+	const JString key1("a", kJFalse),
+				  key2("z", kJFalse);
 
 	JString* s;
 
-	map2.SetNewElement(key1, JString("foobar", 0, kJFalse));
+	map2.SetNewElement(key1, JString("foobar", kJFalse));
 
 	std::stringstream io1;
 	io1 << map1;
@@ -67,7 +67,7 @@ JTEST(ReadWritePtrMap)
 	io1 >> map2;
 	JAssertTrue(map2.IsEmpty());
 
-	map1.SetNewElement(key1, JString("foobar", 0, kJFalse));
+	map1.SetNewElement(key1, JString("foobar", kJFalse));
 	std::stringstream io2;
 	io2 << map1;
 	io2.seekg(0);
@@ -76,7 +76,7 @@ JTEST(ReadWritePtrMap)
 	JAssertTrue(map2.GetElement(key1, &s));
 	JAssertStringsEqual("foobar", *s);
 
-	map1.SetNewElement(key2, JString("barbaz", 0, kJFalse));
+	map1.SetNewElement(key2, JString("barbaz", kJFalse));
 
 	std::stringstream io3;
 	io3 << map1;
@@ -97,27 +97,27 @@ JTEST(JSameStrings)
 	JAssertTrue(JSameStrings(list1, list2, kJFalse));
 	JAssertTrue(JSameStrings(list1, list2, kJTrue));
 
-	list1.Append(JString("foobar", 0, kJFalse));
+	list1.Append(JString("foobar", kJFalse));
 	JAssertFalse(JSameStrings(list1, list2, kJFalse));
 	JAssertFalse(JSameStrings(list1, list2, kJTrue));
 
-	list2.Append(JString("barbaz", 0, kJFalse));
+	list2.Append(JString("barbaz", kJFalse));
 	JAssertFalse(JSameStrings(list1, list2, kJFalse));
 	JAssertFalse(JSameStrings(list1, list2, kJTrue));
 
-	list2.SetElement(1, JString("foobar", 0, kJFalse), JPtrArrayT::kDelete);
+	list2.SetElement(1, JString("foobar", kJFalse), JPtrArrayT::kDelete);
 	JAssertTrue(JSameStrings(list1, list2, kJFalse));
 	JAssertTrue(JSameStrings(list1, list2, kJTrue));
 
-	list1.Append(JString("barbaz", 0, kJFalse));
+	list1.Append(JString("barbaz", kJFalse));
 	JAssertFalse(JSameStrings(list1, list2, kJFalse));
 	JAssertFalse(JSameStrings(list1, list2, kJTrue));
 
-	list2.Append(JString("barbaz", 0, kJFalse));
+	list2.Append(JString("barbaz", kJFalse));
 	JAssertTrue(JSameStrings(list1, list2, kJFalse));
 	JAssertTrue(JSameStrings(list1, list2, kJTrue));
 
-	list2.SetElement(1, JString("FOOBAR", 0, kJFalse), JPtrArrayT::kDelete);
+	list2.SetElement(1, JString("FOOBAR", kJFalse), JPtrArrayT::kDelete);
 	JAssertTrue(JSameStrings(list1, list2, kJFalse));
 	JAssertFalse(JSameStrings(list1, list2, kJTrue));
 }
@@ -128,10 +128,10 @@ JTEST(Join)
 
 	JAssertStringsEqual("", list.Join(","));
 
-	list.Append(JString("foobar", 0, kJFalse));
+	list.Append(JString("foobar", kJFalse));
 	JAssertStringsEqual("foobar", list.Join(","));
 
-	list.Append(JString("barbaz", 0, kJFalse));
+	list.Append(JString("barbaz", kJFalse));
 	JAssertStringsEqual("foobar,barbaz", list.Join(","));
 
 	JAssertStringsEqual("foobarbarbaz", list.Join(""));

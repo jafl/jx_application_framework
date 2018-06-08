@@ -50,8 +50,8 @@ const JUtf8Byte kEndOfMessage = '\0';
 
 const JUtf8Byte* JMDIServer::kQuitOptionName = "--quit";
 
-static const JString kServerReadyMsg("JMDIServer ready", 0, kJFalse);
-static const JString kServerBusyMsg ("JMDIServer busy",  0, kJFalse);
+static const JString kServerReadyMsg("JMDIServer ready", kJFalse);
+static const JString kServerBusyMsg ("JMDIServer busy",  kJFalse);
 
 /******************************************************************************
  Constructor
@@ -184,7 +184,7 @@ JMDIServer::WillBeMDIServer
 
 	for (int i=0; i<argc; i++)
 		{
-		SendLine(socket, JString(argv[i], 0, kJFalse));
+		SendLine(socket, JString(argv[i], kJFalse));
 		}
 
 	WaitForFinished(socket, receivedFinishedFlag);
@@ -212,7 +212,7 @@ JMDIServer::HandleCmdLineOptions
 	JPtrArray<JString> argList(JPtrArrayT::kDeleteAll);
 	for (JIndex i=0; i < (JIndex) argc; i++)
 		{
-		argList.Append(JString(argv[i], 0, kJFalse));
+		argList.Append(JString(argv[i], kJFalse));
 		}
 
 	HandleMDIRequest(dir, argList);

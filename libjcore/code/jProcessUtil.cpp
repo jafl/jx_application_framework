@@ -122,7 +122,7 @@ JParseArgsForExec
 				}
 			if (c == ';')
 				{
-				argList->Append(JString(";", 0, kJFalse));
+				argList->Append(JString(";", kJFalse));
 				}
 			iter.BeginMatch();
 			}
@@ -449,7 +449,7 @@ JExecute
 	assert( (errAction != kJCreatePipe && errAction != kJAttachToFD) ||
 			errFD != nullptr );
 
-	const JString origProgName(argv[0], 0, kJFalse);
+	const JString origProgName(argv[0], kJFalse);
 	JString progName;
 	if (!JProgramAvailable(origProgName, &progName))
 		{
@@ -762,7 +762,7 @@ JPrintChildExitReason
 		}
 	else if (reason == kJChildFinished)
 		{
-		const JString errValue(result, JString::kBase10);
+		const JString errValue((JUInt64) result);
 		const JUtf8Byte* map[] =
 			{
 			"code", errValue.GetBytes()

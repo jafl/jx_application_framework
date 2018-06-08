@@ -64,7 +64,7 @@ static const int defaultCFlags = PCRE_MULTILINE | PCRE_UTF8;
 static const int defaultEFlags = 0;
 
 // JAFL 5/11/98
-const JString JRegex::theSpecialCharList(".[]\\?*+{}|()^$", 0, kJFalse);
+const JString JRegex::theSpecialCharList(".[]\\?*+{}|()^$", kJFalse);
 
 /******************************************************************************
  Constructor

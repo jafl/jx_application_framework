@@ -221,7 +221,7 @@ public:
 		:
 		Base(link)
 	{
-		link->SendMessage(JString(message[0], 0, kJFalse));
+		link->SendMessage(JString(message[0], kJFalse));
 	};
 
 private:
@@ -245,7 +245,7 @@ private:
 
 		JAssertStringsEqual(message[ itsState ], msg);
 		itsState++;
-		itsLink->SendMessage(JString(message[ itsState ], 0, kJFalse));
+		itsLink->SendMessage(JString(message[ itsState ], kJFalse));
 
 		if (message[ itsState+1 ] == nullptr)
 			{

@@ -157,7 +157,7 @@ JString
 JXInputField::ToString()
 	const
 {
-	return JXTEBase::ToString() + JString(": ", 0, kJFalse) + GetText().GetText();
+	return JXTEBase::ToString() + JString(": ", kJFalse) + GetText().GetText();
 }
 
 /******************************************************************************

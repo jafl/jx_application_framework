@@ -116,7 +116,7 @@ JStringPtrMap<V>::GetElement
 	V**              ptr
 	)
 {
-	return JStringMap<V*>::GetElement(JString(key, 0, kJFalse), ptr);
+	return JStringMap<V*>::GetElement(JString(key, kJFalse), ptr);
 }
 
 template <class V>
@@ -139,7 +139,7 @@ JStringPtrMap<V>::GetElement
 	)
 	const
 {
-	return JStringMap<V*>::GetElement(JString(key, 0, kJFalse), const_cast<V**>(ptr));
+	return JStringMap<V*>::GetElement(JString(key, kJFalse), const_cast<V**>(ptr));
 }
 
 template <class V>
@@ -173,7 +173,7 @@ JStringPtrMap<V>::SetElement
 	)
 {
 	JBoolean existed;
-	return JStringMap<V*>::SetElement(JString(key, 0, kJFalse), ptr, action, type, &existed);
+	return JStringMap<V*>::SetElement(JString(key, kJFalse), ptr, action, type, &existed);
 }
 
 template <class V>
@@ -198,7 +198,7 @@ JStringPtrMap<V>::SetNewElement
 	V*               ptr
 	)
 {
-	return JStringMap<V*>::SetNewElement(JString(key, 0, kJFalse), ptr);
+	return JStringMap<V*>::SetNewElement(JString(key, kJFalse), ptr);
 }
 
 template <class V>
@@ -221,7 +221,7 @@ JStringPtrMap<V>::SetOldElement
 	const JPtrArrayT::SetElementAction action
 	)
 {
-	return SetElement(JString(key, 0, kJFalse), ptr, action, JStringMapT::kIfOld);
+	return SetElement(JString(key, kJFalse), ptr, action, JStringMapT::kIfOld);
 }
 
 template <class V>
@@ -246,7 +246,7 @@ JStringPtrMap<V>::SetContains
 	)
 {
 	JBoolean existed;
-	JStringMap<V*>::SetElement(JString(key, 0, kJFalse), ptr, action, JStringMapT::kAlways, &existed);
+	JStringMap<V*>::SetElement(JString(key, kJFalse), ptr, action, JStringMapT::kAlways, &existed);
 	return existed;
 }
 
@@ -276,7 +276,7 @@ JStringPtrMap<V>::DeleteElement
 	const JUtf8Byte* key
 	)
 {
-	return JStringMap<V*>::RemoveElement(JString(key, 0, kJFalse), JPtrArrayT::kDelete);
+	return JStringMap<V*>::RemoveElement(JString(key, kJFalse), JPtrArrayT::kDelete);
 }
 
 template <class V>
@@ -301,7 +301,7 @@ JStringPtrMap<V>::DeleteElementAsArray
 	const JUtf8Byte* key
 	)
 {
-	return JStringMap<V*>::RemoveElement(JString(key, 0, kJFalse), JPtrArrayT::kDeleteAsArray);
+	return JStringMap<V*>::RemoveElement(JString(key, kJFalse), JPtrArrayT::kDeleteAsArray);
 }
 
 template <class V>

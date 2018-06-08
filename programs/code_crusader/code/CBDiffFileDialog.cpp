@@ -1413,7 +1413,7 @@ CBDiffFileDialog::GetPreviousCVSRevision
 	if (j > 1)
 		{
 		rev->RemoveSubstring(i+1, rev->GetLength());
-		*rev += JString(j-1, JString::kBase10);
+		*rev += JString((JUInt64) j-1);
 		return kJTrue;
 		}
 
@@ -1691,7 +1691,7 @@ CBDiffFileDialog::GetPreviousSVNRevision
 		}
 	else
 		{
-		*rev = JString(r-1, JString::kBase10);
+		*rev = JString((JUInt64) r-1);
 		return kJTrue;
 		}
 }

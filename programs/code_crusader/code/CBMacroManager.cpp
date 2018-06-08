@@ -164,7 +164,7 @@ CBMacroManager::Perform
 	const JIndex lineIndex = te->GetLineForChar(charIndex);
 	const JIndex lineStart = te->GetLineStart(lineIndex);
 
-	const JString lineIndexStr(lineIndex, JString::kBase10);
+	const JString lineIndexStr((JUInt64) lineIndex);
 
 	JString lineStr;
 	if (charIndex > lineStart)

@@ -237,9 +237,9 @@ JKillFile
 
  ******************************************************************************/
 
-static const JString theTmpDirForError("/tmp", 0, kJFalse);
-static const JString theTmpFilePrefix("temp_file_", 0, kJFalse);
-static const JString theTmpFileTemplate("XXXXXX", 0, kJFalse);
+static const JString theTmpDirForError("/tmp", kJFalse);
+static const JString theTmpFilePrefix("temp_file_", kJFalse);
+static const JString theTmpFileTemplate("XXXXXX", kJFalse);
 
 JError
 JCreateTempFile

@@ -22,8 +22,8 @@ TestFontManager::TestFontManager()
 	itsFontNames = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 	assert( itsFontNames != nullptr );
 
-	itsFontNames->Append(JString("Courier", 0, kJFalse));
-	itsFontNames->Append(JString("Times", 0, kJFalse));
+	itsFontNames->Append(JString("Courier", kJFalse));
+	itsFontNames->Append(JString("Times", kJFalse));
 }
 
 /******************************************************************************

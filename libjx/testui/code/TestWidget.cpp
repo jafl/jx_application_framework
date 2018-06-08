@@ -466,7 +466,7 @@ JIndex i;
 	p.Line(ap.topLeft(), ap.bottomRight());
 	p.Line(ap.topRight(), ap.bottomLeft());
 
-	const JString timesFontName("Times", 0, kJFalse);
+	const JString timesFontName("Times", kJFalse);
 
 	p.SetLineWidth(2);
 	p.SetFontName(timesFontName);
@@ -478,7 +478,7 @@ JIndex i;
 	p.SetPenColor(JColorManager::GetRedColor());
 	p.Rect(its2Rect);
 	p.SetFontStyle(JColorManager::GetRedColor());
-	p.String(its2Rect.topLeft(), JString("2", 0, kJFalse),
+	p.String(its2Rect.topLeft(), JString("2", kJFalse),
 			 its2Rect.width(),  JPainter::kHAlignCenter,
 			 its2Rect.height(), JPainter::kVAlignCenter);
 
@@ -486,7 +486,7 @@ JIndex i;
 	p.SetPenColor(JColorManager::GetBlueColor());
 	p.Rect(its3Rect);
 	p.SetFontStyle(JColorManager::GetBlueColor());
-	p.String(its3Rect.topLeft(), JString("3", 0, kJFalse),
+	p.String(its3Rect.topLeft(), JString("3", kJFalse),
 			 its3Rect.width(),  JPainter::kHAlignCenter,
 			 its3Rect.height(), JPainter::kVAlignCenter);
 
@@ -510,7 +510,7 @@ JIndex i;
 
 	p.ShiftOrigin(2,0);
 
-	const JString helloStr("Hello", 0, kJFalse);
+	const JString helloStr("Hello", kJFalse);
 
 	JPoint textPt(40,30);
 	p.String(  0.0, textPt, helloStr);
@@ -671,7 +671,7 @@ JIndex i;
 	p.Line(100,112, 200,112);
 
 	p.SetFontStyle(JFontStyle(kJFalse, kJFalse, 1, kJFalse));
-	p.String(130,155, JString("underline without dashes", 0, kJFalse));
+	p.String(130,155, JString("underline without dashes", kJFalse));
 
 	p.SetDashList(dashList, 3);		// test offset
 	p.Line(100,116, 200,116);

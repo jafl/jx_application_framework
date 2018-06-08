@@ -104,7 +104,7 @@ JGetUniqueDirEntryName
 		name = prefix;
 		if (i > 1)
 			{
-			name += JString(i, JString::kBase10);
+			name += JString((JUInt64) i);
 			}
 		if (!JString::IsEmpty(nameSuffix))
 			{

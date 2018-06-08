@@ -118,7 +118,7 @@ JXPGMessageDirector::AddMessageLine
 
 	if (!itsMessageText->GetText()->IsEmpty())
 		{
-		itsMessageText->Paste(JString("\n", 0, kJFalse));
+		itsMessageText->Paste(JString("\n", kJFalse));
 		}
 
 	itsMessageText->Paste(text);

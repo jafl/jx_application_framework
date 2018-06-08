@@ -87,7 +87,7 @@ LLDBGetStack::HandleSuccess
 		{
 		lldb::SBFrame f = t.GetFrameAtIndex(i);
 
-		frameName = JString(i, JString::kBase10);
+		frameName = JString((JUInt64) i);
 		while (frameName.GetLength() < kFrameIndexWidth)
 			{
 			frameName.PrependCharacter('0');

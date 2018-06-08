@@ -350,7 +350,7 @@ CBExecOutputDocument::SetConnection
 			{
 			te->Paste("\n");
 			te->Paste(JGetString("ProcessID::CBExecOutputDocument"));
-			te->Paste(JString(p->GetPID(), JString::kBase10));
+			te->Paste(JString((JUInt64) p->GetPID()));
 			}
 
 		te->Paste("\n\n");
@@ -722,7 +722,7 @@ CBExecOutputDocument::ProcessFinished
 			const JCharacter* path = itsPath;
 			#endif
 
-			const JString coreName = "core." + JString(pid, JString::kBase10);
+			const JString coreName = "core." + JString((JUInt64) pid);
 			const JString coreFull = JCombinePathAndName(path, coreName);
 			if (JFileExists(coreFull))
 				{

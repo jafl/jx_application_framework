@@ -926,7 +926,7 @@ JGetHomeDirectory
 	JUtf8Byte* envHomeDir = getenv("HOME");
 	if (!JString::IsEmpty(envHomeDir))
 		{
-		const JString dir = JString(envHomeDir, 0, kJFalse);
+		const JString dir = JString(envHomeDir, kJFalse);
 		if (JDirectoryExists(dir))
 			{
 			*homeDir = dir;
@@ -951,7 +951,7 @@ JGetHomeDirectory
 
 	if (pw != nullptr)
 		{
-		const JString dir = JString(pw->pw_dir, 0, kJFalse);
+		const JString dir = JString(pw->pw_dir, kJFalse);
 		if (JDirectoryExists(dir))
 			{
 			*homeDir = dir;
@@ -983,7 +983,7 @@ JGetHomeDirectory
 	struct passwd* pw = getpwnam(user.GetBytes());
 	if (pw != nullptr)
 		{
-		const JString dir = JString(pw->pw_dir, 0, kJFalse);
+		const JString dir = JString(pw->pw_dir, kJFalse);
 		if (JDirectoryExists(dir))
 			{
 			*homeDir = dir;
@@ -1048,11 +1048,11 @@ JGetTempDirectory
 	if (!theTempPathInitFlag)
 		{
 		JUtf8Byte* path = getenv("TMPDIR");
-		if (!JString::IsEmpty(path) && JDirectoryWritable(JString(path, 0, kJFalse)))
+		if (!JString::IsEmpty(path) && JDirectoryWritable(JString(path, kJFalse)))
 			{
 			theTempPath.Set(path);
 			}
-		else if (P_tmpdir != nullptr && JDirectoryWritable(JString(P_tmpdir, 0, kJFalse)))
+		else if (P_tmpdir != nullptr && JDirectoryWritable(JString(P_tmpdir, kJFalse)))
 			{
 			theTempPath.Set(P_tmpdir);
 			}
@@ -1078,9 +1078,9 @@ JGetTempDirectory
 
  ******************************************************************************/
 
-static const JString theTmpDirForError("/tmp", 0, kJFalse);
-static const JString theTmpDirPrefix("temp_dir_", 0, kJFalse);
-static const JString theTmpDirTemplate("XXXXXX", 0, kJFalse);
+static const JString theTmpDirForError("/tmp", kJFalse);
+static const JString theTmpDirPrefix("temp_dir_", kJFalse);
+static const JString theTmpDirTemplate("XXXXXX", kJFalse);
 
 JError
 JCreateTempDirectory

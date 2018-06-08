@@ -35,7 +35,7 @@ JTEST(LayoutBreakCROnly)
 /*32*/	"our fathers brought forth on this continent,\n"
 /*77*/	"a new nation,\n"
 /*91*/	"conceived in Liberty,\n"
-/*113*/	"and dedicated to the proposition that all men are created equal.\n", 0, kJFalse));
+/*113*/	"and dedicated to the proposition that all men are created equal.\n", kJFalse));
 
 	TextEditor te(&text, kJTrue, 50);
 /*
@@ -290,7 +290,7 @@ JTEST(LayoutBreakWidth)
 		"our fathers brought forth on this continent,\n"
 		"a new nation,\n"
 		"conceived in Liberty,\n"
-		"and dedicated to the proposition that all men are created equal.\n", 0, kJFalse));
+		"and dedicated to the proposition that all men are created equal.\n", kJFalse));
 
 	TextEditor te(&text, kJFalse, 100);
 
@@ -310,7 +310,7 @@ JTEST(LayoutBreakWidth)
 
 	JAssertEqual(1, te.CalcCaretCharLocation(JPoint(0,0)));
 
-	text.SetText(JString("foo\n ", 0, kJFalse));
+	text.SetText(JString("foo\n ", kJFalse));
 
 	JAssertEqual(2, te.GetLineCount());
 	JAssertEqual(14, te.GetHeight());
@@ -325,7 +325,7 @@ JTEST(LayoutBreakWidth)
 	JAssertEqual(1, te.GetLineCharLength(2));
 	JAssertEqual(5, te.GetLineCharEnd(2));
 
-	text.SetText(JString("foo", 0, kJFalse));
+	text.SetText(JString("foo", kJFalse));
 
 	JAssertEqual(4, te.CalcCaretCharLocation(JPoint(100,0)));
 }
@@ -346,7 +346,7 @@ JTEST(KeyPress)
 JTEST(SearchTextForward)
 {
 	StyledText text;
-	text.SetText(JString("Foursc" "\xC3\xB8" "re and seven years ago...", 0, kJFalse));
+	text.SetText(JString("Foursc" "\xC3\xB8" "re and seven years ago...", kJFalse));
 
 	TextEditor te(&text, kJTrue, 50);
 
@@ -428,7 +428,7 @@ JTEST(SearchTextForward)
 JTEST(SearchTextBackward)
 {
 	StyledText text;
-	text.SetText(JString("Fourscore and seve" "\xC3\xB1" " years ago...", 0, kJFalse));
+	text.SetText(JString("Fourscore and seve" "\xC3\xB1" " years ago...", kJFalse));
 
 	TextEditor te(&text, kJFalse, 50);
 	te.SetCaretLocation(text.GetText().GetCharacterCount() + 1);
@@ -500,7 +500,7 @@ JTEST(SearchTextBackward)
 JTEST(ReplaceSelection)
 {
 	StyledText text;
-	text.SetText(JString("Foursc" "\xC3\xB8" "re and seven years ago...", 0, kJFalse));
+	text.SetText(JString("Foursc" "\xC3\xB8" "re and seven years ago...", kJFalse));
 
 	TextEditor te(&text, kJFalse, 50);
 
@@ -509,7 +509,7 @@ JTEST(ReplaceSelection)
 	JAssertTrue(te.HasSelection());
 
 	JString s;
-	te.TestReplaceSelection(m1, JString("s" "\xC3\xA7" "or" "\xC3\xA9", 0, kJFalse), nullptr, kJFalse);
+	te.TestReplaceSelection(m1, JString("s" "\xC3\xA7" "or" "\xC3\xA9", kJFalse), nullptr, kJFalse);
 	JAssertStringsEqual("Fours" "\xC3\xA7" "or" "\xC3\xA9" " and seven years ago...", te.GetText()->GetText());
 	JAssertTrue(te.GetSelection(&s));
 	JAssertStringsEqual("s" "\xC3\xA7" "or" "\xC3\xA9", s);
@@ -528,20 +528,20 @@ JTEST(ReplaceSelection)
 JTEST(ReplaceAll)
 {
 	StyledText text;
-	text.SetText(JString("Fourscore and seven years ago...", 0, kJFalse));
+	text.SetText(JString("Fourscore and seven years ago...", kJFalse));
 	const JSize charCount = text.GetText().GetCharacterCount();
 
 	TextEditor te(&text, kJTrue, 50);
 
 	JBoolean found = te.ReplaceAll(
 		JRegex("e"), kJTrue,
-		JString("\xC3\xA9", 0, kJFalse), nullptr, kJFalse, kJFalse);
+		JString("\xC3\xA9", kJFalse), nullptr, kJFalse, kJFalse);
 	JAssertFalse(found);
 	JAssertStringsEqual("Fourscore and seven years ago...", text.GetText());
 
 	found = te.ReplaceAll(
 		JRegex("e"), kJFalse,
-		JString("\xC3\xA9", 0, kJFalse), nullptr, kJFalse, kJFalse);
+		JString("\xC3\xA9", kJFalse), nullptr, kJFalse, kJFalse);
 	JAssertTrue(found);
 	JAssertStringsEqual("Fourscor\xC3\xA9 and s\xC3\xA9" "v\xC3\xA9" "n y\xC3\xA9" "ars ago...", text.GetText());
 	JAssertEqual(charCount, text.GetText().GetCharacterCount());
@@ -550,12 +550,12 @@ JTEST(ReplaceAll)
 	r1.SetCaseSensitive(kJFalse);
 	found = te.ReplaceAll(
 		r1, kJTrue,
-		JString("five", 0, kJFalse), nullptr, kJTrue, kJFalse);
+		JString("five", kJFalse), nullptr, kJTrue, kJFalse);
 	JAssertFalse(found);	// caret at end
 
 	found = te.ReplaceAll(
 		r1, kJFalse,
-		JString("five", 0, kJFalse), nullptr, kJTrue, kJFalse);
+		JString("five", kJFalse), nullptr, kJTrue, kJFalse);
 	JAssertTrue(found);
 	JAssertStringsEqual("Fivescor\xC3\xA9 and s" "\xC3\xA9" "v\xC3\xA9" "n y\xC3\xA9" "ars ago...", text.GetText());
 
@@ -563,21 +563,21 @@ JTEST(ReplaceAll)
 
 	found = te.ReplaceAll(
 		JRegex("a([^\\s]+)"), kJFalse,
-		JString("fou$1", 0, kJFalse), &interp, kJFalse, kJFalse);
+		JString("fou$1", kJFalse), &interp, kJFalse, kJFalse);
 	JAssertTrue(found);
 	JAssertStringsEqual("Fivescor\xC3\xA9 found s\xC3\xA9" "v\xC3\xA9" "n y\xC3\xA9" "fours fougo...", text.GetText());
 
 	te.SetSelection(JCharacterRange(15, 22));
 	found = te.ReplaceAll(
 		JRegex("\xC3\xA9"), kJFalse,
-		JString("e", 0, kJFalse), nullptr, kJFalse, kJTrue);
+		JString("e", kJFalse), nullptr, kJFalse, kJTrue);
 	JAssertTrue(found);
 	JAssertStringsEqual("Fivescor\xC3\xA9 found seven y\xC3\xA9" "fours fougo...", text.GetText());
 
 	te.SetSelection(JCharacterRange(text.GetText().GetCharacterCount() - 5, text.GetText().GetCharacterCount()));
 	found = te.ReplaceAll(
 		JRegex("o"), kJFalse,
-		JString("\xC3\xB8", 0, kJFalse), nullptr, kJFalse, kJTrue);
+		JString("\xC3\xB8", kJFalse), nullptr, kJFalse, kJTrue);
 	JAssertTrue(found);
 	JAssertStringsEqual("Fivescor\xC3\xA9 found seven y\xC3\xA9" "fours foug\xC3\xB8...", text.GetText());
 }
@@ -620,14 +620,14 @@ JTEST(SearchStyle)
 
 	TextEditor te(&text, kJFalse, 50);
 	te.SetCurrentFontSize(20);
-	te.Paste(JString("b" "\xC3\xAE" "g", 0, kJFalse));
+	te.Paste(JString("b" "\xC3\xAE" "g", kJFalse));
 	te.SetCurrentFontSize(JFontManager::GetDefaultFontSize());
 	te.SetCurrentFontBold(kJTrue);
-	te.Paste(JString("b" "\xC3\xB8" "ld", 0, kJFalse));
+	te.Paste(JString("b" "\xC3\xB8" "ld", kJFalse));
 	te.SetCurrentFontBold(kJFalse);
-	te.Paste(JString("normal", 0, kJFalse));
+	te.Paste(JString("normal", kJFalse));
 	te.SetCurrentFontUnderline(2);
-	te.Paste(JString("double underline", 0, kJFalse));
+	te.Paste(JString("double underline", kJFalse));
 	te.SetCurrentFontUnderline(0);
 
 	te.SetCaretLocation(1);
@@ -720,7 +720,7 @@ JTEST(SearchStyle)
 JTEST(Selection)
 {
 	StyledText text;
-	text.SetText(JString("\xC3\xA1" "bcd\n1234\nwxzy", 0, kJFalse));
+	text.SetText(JString("\xC3\xA1" "bcd\n1234\nwxzy", kJFalse));
 
 	TextEditor te(&text, kJTrue, 50);
 
@@ -729,7 +729,7 @@ JTEST(Selection)
 	JAssertStringsEqual("1234\nwxzy", text.GetText());
 
 	te.SetCaretLocation(10);
-	te.Paste(JString("\n", 0, kJFalse));
+	te.Paste(JString("\n", kJFalse));
 	te.Paste();
 	JAssertStringsEqual("1234\nwxzy\n" "\xC3\xA1" "bcd\n", text.GetText());
 
@@ -745,7 +745,7 @@ JTEST(Selection)
 JTEST(TabSelection)
 {
 	StyledText text;
-	text.SetText(JString("\xC3\xA1" "bcd\n1234\nwxzy", 0, kJFalse));
+	text.SetText(JString("\xC3\xA1" "bcd\n1234\nwxzy", kJFalse));
 
 	TextEditor te(&text, kJFalse, 50);
 
@@ -773,7 +773,7 @@ JTEST(TabSelection)
 JTEST(TabSelectionMixed)
 {
 	StyledText text;
-	text.SetText(JString("\t" "\xC3\xA1" "bcd\n  \t1234\n\twxzy", 0, kJFalse));
+	text.SetText(JString("\t" "\xC3\xA1" "bcd\n  \t1234\n\twxzy", kJFalse));
 
 	TextEditor te(&text, kJFalse, 50);
 
@@ -788,7 +788,7 @@ JTEST(TabSelectionMixed)
 	JAssertStringsEqual("\xC3\xA1" "bcd\n1234\nwxzy", text.GetText());
 
 
-	text.SetText(JString("  " "\xC3\xA1" "bcd\n   1234\n    wxzy", 0, kJFalse));
+	text.SetText(JString("  " "\xC3\xA1" "bcd\n   1234\n    wxzy", kJFalse));
 
 	te.SelectAll();
 	te.TabSelectionLeft(1);
@@ -801,17 +801,17 @@ JTEST(SetAllFontNameAndSize)
 
 	TextEditor te(&text, kJFalse, 50);
 	te.SetCurrentFontSize(20);
-	te.Paste(JString("b" "\xC3\xAE" "g", 0, kJFalse));
+	te.Paste(JString("b" "\xC3\xAE" "g", kJFalse));
 	te.SetCurrentFontSize(JFontManager::GetDefaultFontSize());
 	te.SetCurrentFontBold(kJTrue);
-	te.Paste(JString("b" "\xC3\xB8" "ld", 0, kJFalse));
+	te.Paste(JString("b" "\xC3\xB8" "ld", kJFalse));
 	te.SetCurrentFontBold(kJFalse);
-	te.Paste(JString("normal", 0, kJFalse));
+	te.Paste(JString("normal", kJFalse));
 	te.SetCurrentFontUnderline(2);
-	te.Paste(JString("double underline", 0, kJFalse));
+	te.Paste(JString("double underline", kJFalse));
 	te.SetCurrentFontUnderline(0);
 
-	te.SetAllFontNameAndSize(JString("foobar", 0, kJFalse), 15);
+	te.SetAllFontNameAndSize(JString("foobar", kJFalse), 15);
 
 	JFont f = text.GetStyles().GetElement(2);
 	JAssertStringsEqual("foobar", f.GetName());

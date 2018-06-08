@@ -220,7 +220,7 @@ JXSaveFileDialog::BuildWindow
 	assert( newDirButton != nullptr );
 
 	JXCurrentPathMenu* currPathMenu =
-		jnew JXCurrentPathMenu(JString("/", 0, kJFalse), window,
+		jnew JXCurrentPathMenu(JString("/", kJFalse), window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 20,110, 180,20);
 	assert( currPathMenu != nullptr );
 

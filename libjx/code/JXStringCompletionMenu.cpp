@@ -37,7 +37,7 @@ JXStringCompletionMenu::JXStringCompletionMenu
 	const JBoolean	allowTabChar
 	)
 	:
-	JXTextMenu(JString("*", 0, kJFalse), te, kFixedLeft, kFixedTop, 0,0, 10,10),
+	JXTextMenu(JString("*", kJFalse), te, kFixedLeft, kFixedTop, 0,0, 10,10),
 	itsAllowTabChar(allowTabChar)
 {
 	itsTE           = te;
@@ -84,7 +84,7 @@ JXStringCompletionMenu::AddString
 		JString shortcut;
 		if (i <= 10)
 			{
-			shortcut = JString(i%10, JString::kBase10);
+			shortcut = JString((JUInt64) i%10);
 			}
 		else if (i <= 36)
 			{

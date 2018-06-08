@@ -186,8 +186,8 @@ JTEST(Variables)
 	JString oldString, newString;
 
 	JSubstitute sub;
-	sub.DefineVariable("a", JString("x", 0, kJFalse));
-	sub.DefineVariable("b", JString("y", 0, kJFalse));
+	sub.DefineVariable("a", JString("x", kJFalse));
+	sub.DefineVariable("b", JString("y", kJFalse));
 
 	oldString = "a$aab$bb";
 	newString = oldString;
@@ -207,8 +207,8 @@ JTEST(ContainsError)
 {
 	JSubstitute sub;
 	sub.UseControlEscapes();
-	sub.DefineVariable("a", JString("x", 0, kJFalse));
-	sub.DefineVariable("b", JString("y", 0, kJFalse));
+	sub.DefineVariable("a", JString("x", kJFalse));
+	sub.DefineVariable("b", JString("y", kJFalse));
 
 	JString s;
 	JCharacterRange r;

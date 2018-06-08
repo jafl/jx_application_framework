@@ -107,7 +107,7 @@ GDBVarTreeParser::AppendAsArrayElement
 	)
 	const
 {
-	const JString name = "[" + JString(list->GetElementCount(), JString::kBase10) + "]";
+	const JString name = "[" + JString((JUInt64) list->GetElementCount()) + "]";
 	node->SetName(name);
 	list->Append(node);
 }
@@ -126,7 +126,7 @@ GDBVarTreeParser::AppendAsArrayElement
 	)
 	const
 {
-	const JString name = "[" + JString(list->GetElementCount(), JString::kBase10) + "]";
+	const JString name = "[" + JString((JUInt64) list->GetElementCount()) + "]";
 
 	CMVarNode* node = (CMGetLink())->CreateVarNode(nullptr, name, nullptr, groupLabel);
 	assert( node != nullptr );

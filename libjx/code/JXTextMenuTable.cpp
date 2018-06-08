@@ -18,7 +18,7 @@
 #include <JXDisplay.h>
 #include <jAssert.h>
 
-static const JString kOSXSymbolFontName("Apple Symbols", 0, kJFalse);
+static const JString kOSXSymbolFontName("Apple Symbols", kJFalse);
 
 /******************************************************************************
  Constructor

@@ -315,9 +315,9 @@ JXFontManager::GetXFontNames
 	for (int i=0; i<nameCount; i++)
 		{
 		if (strcmp(nameList[i], "nil") != 0 &&
-			regex.Match(JString(nameList[i], 0, kJFalse)))
+			regex.Match(JString(nameList[i], kJFalse)))
 			{
-			JString name(nameList[i], 0, kJFalse);
+			JString name(nameList[i], kJFalse);
 			JBoolean isDuplicate;
 			const JIndex index = fontNames->GetInsertionSortIndex(&name, &isDuplicate);
 			if (!isDuplicate)
@@ -480,7 +480,7 @@ JXFontManager::GetSubstituteFontName
 	JFont f1 = f;
 	for (int i=0; i<kFallbackFontCount; i++)
 		{
-		f1.SetName(JString(kFallbackFontNames[i], 0, kJFalse));
+		f1.SetName(JString(kFallbackFontNames[i], kJFalse));
 		if (HasGlyphForCharacter(f1.GetID(), c))
 			{
 			name->Set(kFallbackFontNames[i]);
@@ -777,7 +777,7 @@ JXFontManager::BuildStdFontName
 {
 	// any foundry
 
-	JString xFontStr("-*-", 0, kJFalse);
+	JString xFontStr("-*-", kJFalse);
 
 	// given name
 
@@ -819,7 +819,7 @@ JXFontManager::BuildStdFontName
 	if (pixelSize > 0)
 		{
 		xFontStr.Append("-");
-		xFontStr.Append( JString(pixelSize, JString::kBase10) );
+		xFontStr.Append( JString((JUInt64) pixelSize) );
 		}
 	else
 		{
@@ -831,7 +831,7 @@ JXFontManager::BuildStdFontName
 	if (pointSize > 0)
 		{
 		xFontStr.Append("-");
-		xFontStr.Append( JString(10*(pointSize+2), JString::kBase10) );
+		xFontStr.Append( JString((JUInt64) 10*(pointSize+2)) );
 		}
 	else
 		{
@@ -848,7 +848,7 @@ JXFontManager::BuildStdFontName
 	if (pixelWidth > 0)
 		{
 		xFontStr.Append("-");
-		xFontStr.Append( JString(10*pixelWidth, JString::kBase10) );
+		xFontStr.Append( JString((JUInt64) 10*pixelWidth) );
 		}
 	else
 		{
@@ -894,7 +894,7 @@ JXFontManager::BuildTrueTypeFontName
 	// size
 
 	xFontStr->Append("-");
-	xFontStr->Append( JString(size, JString::kBase10) );
+	xFontStr->Append( JString((JUInt64) size) );
 
 	// regular or boldface
 

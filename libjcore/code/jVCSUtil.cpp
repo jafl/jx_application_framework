@@ -19,11 +19,11 @@
 #include <jGlobals.h>
 #include <jAssert.h>
 
-static const JString kGitDirName        (".git",    0, kJFalse);
-static const JString kSubversionDirName (".svn",    0, kJFalse);
-static const JString kSubversionFileName("entries", 0, kJFalse);
-static const JString kCVSDirName        ("CVS",     0, kJFalse);
-static const JString kSCCSDirName       ("SCCS",    0, kJFalse);
+static const JString kGitDirName        (".git",    kJFalse);
+static const JString kSubversionDirName (".svn",    kJFalse);
+static const JString kSubversionFileName("entries", kJFalse);
+static const JString kCVSDirName        ("CVS",     kJFalse);
+static const JString kSCCSDirName       ("SCCS",    kJFalse);
 
 static const JUtf8Byte* kDirName[] =
 {
@@ -223,7 +223,7 @@ JEditVCS
 
  ******************************************************************************/
 
-static const JString kMoveFileCmd("mv", 0, kJFalse);
+static const JString kMoveFileCmd("mv", kJFalse);
 
 JError
 JRenameVCS
@@ -417,8 +417,8 @@ JRemoveVCS
 
  ******************************************************************************/
 
-static const JString kCVSName1("Root",       0, kJFalse);
-static const JString kCVSName2("Repository", 0, kJFalse);
+static const JString kCVSName1("Root",       kJFalse);
+static const JString kCVSName2("Repository", kJFalse);
 
 JBoolean
 JGetVCSRepositoryPath
@@ -550,7 +550,7 @@ JGetSVNEntryType
 
  ******************************************************************************/
 
-static const JString kCVSIgnoreName(".cvsignore", 0, kJFalse);
+static const JString kCVSIgnoreName(".cvsignore", kJFalse);
 
 void
 JUpdateCVSIgnore

@@ -939,7 +939,7 @@ CMVarNode::GetFullNameForCFamilyLanguage
 			str.PrependCharacter('(');
 			str.AppendCharacter(')');
 			}
-		str += "[" + JString(i-1, JString::kBase10) + "]";
+		str += "[" + JString((JUInt64) i-1) + "]";
 		}
 	else if (name.BeginsWith("<"))
 		{

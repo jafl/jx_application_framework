@@ -71,7 +71,7 @@ LLDBGetMemory::HandleSuccess
 	const JString& expr = GetDirector()->GetExpression(&type, &count);
 
 	JString cmd = "memory read -g ";
-	cmd        += JString(count, JString::kBase10);
+	cmd        += JString((JUInt64) count);
 	cmd        += kCommandName[ type-1 ];
 	cmd        += " ";
 	cmd        += expr;

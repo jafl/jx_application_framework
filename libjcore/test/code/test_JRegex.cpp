@@ -79,13 +79,13 @@ JTEST(Assignment)
 	regexList[1] = &regex2;
 	for (JIndex i=0; i<2; i++)
 		{
-		JAssertFalse(regexList[i]->Match(JString("qqqqqa+x*b+qqqqqq", 0, kJFalse)));
-		JAssertFalse(regexList[i]->Match(JString("a+xxxxb+", 0, kJFalse)));
-		JAssertTrue(regexList[i]->Match(JString("axxxb", 0, kJFalse)));
-		JAssertFalse(regexList[i]->Match(JString("xxxxxxxxb", 0, kJFalse)));
-		JAssertTrue(regexList[i]->Match(JString("aaabb", 0, kJFalse)));
-		JAssertFalse(regexList[i]->Match(JString("aaaxxx", 0, kJFalse)));
-		JAssertTrue(regexList[i]->Match(JString("aaaabbb", 0, kJFalse)));
+		JAssertFalse(regexList[i]->Match(JString("qqqqqa+x*b+qqqqqq", kJFalse)));
+		JAssertFalse(regexList[i]->Match(JString("a+xxxxb+", kJFalse)));
+		JAssertTrue(regexList[i]->Match(JString("axxxb", kJFalse)));
+		JAssertFalse(regexList[i]->Match(JString("xxxxxxxxb", kJFalse)));
+		JAssertTrue(regexList[i]->Match(JString("aaabb", kJFalse)));
+		JAssertFalse(regexList[i]->Match(JString("aaaxxx", kJFalse)));
+		JAssertTrue(regexList[i]->Match(JString("aaaabbb", kJFalse)));
 		}
 }
 
@@ -445,7 +445,7 @@ JTEST(Split)
 {
 	JPtrArray<JString> list(JPtrArrayT::kDeleteAll);
 
-	JString s("  foo bar  baz ", 0, kJFalse);
+	JString s("  foo bar  baz ", kJFalse);
 
 	JRegex regex("\\s+");
 	s.Split(regex, &list);
@@ -519,7 +519,7 @@ JTEST(BackslashForLiteral)
 	JAssertFalse(JRegex::NeedsBackslashToBeLiteral(JUtf8Character("\xE2\x9C\x94")));
 
 	const JString s = JRegex::BackslashForLiteral(
-		JString(".[foo]\\?*^${\xE2\x9C\x94}|()83", 0, kJFalse));
+		JString(".[foo]\\?*^${\xE2\x9C\x94}|()83", kJFalse));
 	JAssertStringsEqual("\\.\\[foo\\]\\\\\\?\\*\\^\\$\\{\xE2\x9C\x94\\}\\|\\(\\)83", s);
 }
 
@@ -549,5 +549,5 @@ JTEST(Null)
 	r.SetPatternOrDie(pattern);
 	JAssertEqual(5, r.GetPattern().GetByteCount());
 	JAssertEqual(0, memcmp("\n|\\x0", r.GetPattern().GetBytes(), 3));
-	JAssertTrue(r.Match(JString("abcd\n", 0, kJFalse)));
+	JAssertTrue(r.Match(JString("abcd\n", kJFalse)));
 }

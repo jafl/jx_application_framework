@@ -172,7 +172,7 @@ CMLineAddressTable::GetLongestLineText
 	const
 {
 	return !itsLineTextList->IsEmpty() ?
-		*(itsLineTextList->LastElement()) : JString(lineCount, JString::kBase10);
+		*(itsLineTextList->LastElement()) : JString((JUInt64) lineCount);
 }
 
 /******************************************************************************

@@ -451,7 +451,7 @@ void
 JXToolBar::BuildTree()
 {
 	assert(itsMenuTree == nullptr);
-	JNamedTreeNode* base = jnew JNamedTreeNode(nullptr, JString("BASE", 0, kJFalse));
+	JNamedTreeNode* base = jnew JNamedTreeNode(nullptr, JString("BASE", kJFalse));
 	assert(base != nullptr);
 	itsMenuTree = jnew JTree(base);
 	assert(itsMenuTree != nullptr);

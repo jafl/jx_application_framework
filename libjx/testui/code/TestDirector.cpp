@@ -210,7 +210,7 @@ TestDirector::TestDirector
 		itsWindowSnooper = nullptr;
 		}
 
-	if (isMaster && JFileExists(JString(kWindowGeomFileName, 0, kJFalse)))
+	if (isMaster && JFileExists(JString(kWindowGeomFileName, kJFalse)))
 		{
 		std::ifstream input(kWindowGeomFileName);
 		window->ReadGeometry(input);
@@ -864,7 +864,7 @@ TestDirector::HandleTestMenu
 		{
 		pid_t pid;
 		std::cout << std::endl;
-		const JError err = JExecute(JString("ls", 0, kJFalse), &pid);
+		const JError err = JExecute(JString("ls", kJFalse), &pid);
 		std::cout << std::endl;
 		if (err.OK())
 			{

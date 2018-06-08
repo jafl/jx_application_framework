@@ -381,7 +381,7 @@ JFileArray::OKToCreateEmbedded
 			}
 		else if (!fileIndex->EmbeddedFileIsClosed(index))
 			{
-			return FileAlreadyOpen(JString("embedded file", 0, kJFalse));
+			return FileAlreadyOpen(JString("embedded file", kJFalse));
 			}
 		}
 

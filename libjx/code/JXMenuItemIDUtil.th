@@ -87,6 +87,6 @@ JIndex i;
 		}
 	else
 		{
-		return MenuVar->ItemIDToIndex(JString(cmdID, 0, kJFalse), index);
+		return MenuVar->ItemIDToIndex(JString(cmdID, kJFalse), index);
 		}
 }

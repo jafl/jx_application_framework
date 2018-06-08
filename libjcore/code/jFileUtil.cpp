@@ -160,7 +160,7 @@ JPrintFileSize
 {
 	if (size < 8192)
 		{
-		return JString(size, JString::kBase10);
+		return JString((JUInt64) size);
 		}
 	else if (size < 1048576)
 		{

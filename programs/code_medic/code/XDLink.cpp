@@ -1501,7 +1501,7 @@ XDLink::SendMedicCommand
 	command->Starting();
 
 	JString arg = " -i ";
-	arg        += JString(command->GetTransactionID(), JString::kBase10);
+	arg        += JString((JUInt64) command->GetTransactionID());
 
 	JString s = command->GetCommand();
 	JIndex i;
@@ -1569,10 +1569,10 @@ XDLink::StartDebugger()
 		assert( itsAcceptor != nullptr );
 		}
 
-	const JString portStr(kXdebugPort, JString::kBase10);
+	const JString portStr((JUInt64) kXdebugPort);
 	if (itsAcceptor->open(ACE_INET_Addr(kXdebugPort)) == -1)
 		{
-		const JString errStr(jerrno(), JString::kBase10);
+		const JString errStr((JUInt64) jerrno());
 
 		const JCharacter* map[] =
 			{

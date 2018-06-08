@@ -176,7 +176,7 @@ JXStandAlonePG::ProcessContinuing()
 
 	if (itsStepCount == 0)
 		{
-		const JString s(GetCurrentStepCount(), JString::kBase10);
+		const JString s((JUInt64) GetCurrentStepCount());
 		itsProgressDirector->ProcessContinuing(s);
 		}
 	else

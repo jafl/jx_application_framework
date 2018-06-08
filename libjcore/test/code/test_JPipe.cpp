@@ -60,7 +60,7 @@ JTEST(Output)
 	pid_t childPID;
 	int toFD;
 	int fromFD;
-	JError err = JExecute(JString("grep junk", 0, kJFalse), &childPID,
+	JError err = JExecute(JString("grep junk", kJFalse), &childPID,
 						  kJCreatePipe, &toFD,
 						  kJCreatePipe, &fromFD);
 	JAssertOK(err);

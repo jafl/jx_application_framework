@@ -130,7 +130,7 @@ JXDisplay::Create
 	Display* xDisplay = XOpenDisplay(name);
 	if (xDisplay != nullptr)
 		{
-		*display = jnew JXDisplay(JString(XDisplayName(name), 0, kJFalse), xDisplay);
+		*display = jnew JXDisplay(JString(XDisplayName(name), kJFalse), xDisplay);
 		return JConvertToBoolean( *display != nullptr );
 		}
 	else
@@ -1531,7 +1531,7 @@ JXDisplay::CheckForXErrors()
 				XGetErrorText(error.display, error.error_code, str, 80);
 				std::cerr << "Error code: " << str << std::endl;
 
-				JString reqCodeStr(error.request_code, JString::kBase10);
+				JString reqCodeStr((JUInt64) error.request_code);
 				XGetErrorDatabaseText(error.display, "XRequest", reqCodeStr.GetBytes(), "unknown", str, 80);
 				std::cerr << "Offending request: " << str << std::endl;
 

@@ -220,7 +220,7 @@ JXSelectionManager::GetData
 		{
 		JProcess* p;
 		int fd;
-		if (JProcess::Create(&p, JString("pbpaste", 0, kJFalse),
+		if (JProcess::Create(&p, JString("pbpaste", kJFalse),
 							 kJIgnoreConnection, nullptr, kJCreatePipe, &fd).OK())
 			{
 			JString clipdata;
@@ -1163,7 +1163,7 @@ JXSelectionManager::SetData
 				{
 				JProcess* p;
 				int fd;
-				if (JProcess::Create(&p, JString("pbcopy", 0, kJFalse),
+				if (JProcess::Create(&p, JString("pbcopy", kJFalse),
 									 kJCreatePipe, &fd).OK())
 					{
 					write(fd, clipdata, dataLength);

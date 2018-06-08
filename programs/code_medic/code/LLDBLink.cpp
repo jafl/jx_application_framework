@@ -442,12 +442,12 @@ LLDBLink::HandleLLDBEvent
 
 	JString msg = eventClass;
 	msg        += ":";
-	msg        += JString(eventType, JString::kBase10);
+	msg        += JString((JUInt64) eventType);
 
 	if (lldb::SBProcess::EventIsProcessEvent(e))
 		{
 		const lldb::StateType state = lldb::SBProcess::GetStateFromEvent(e);
-		msg += "; process state: " + JString(state, JString::kBase10) + ", " + JString(lldb::SBProcess::GetRestartedFromEvent(e), JString::kBase10);
+		msg += "; process state: " + JString((JUInt64) state) + ", " + JString(lldb::SBProcess::GetRestartedFromEvent(e), JString::kBase10);
 
 		if (state == lldb::eStateRunning ||
 			state == lldb::eStateStepping)
@@ -496,12 +496,12 @@ LLDBLink::HandleLLDBEvent
 		}
 	else if (lldb::SBBreakpoint::EventIsBreakpointEvent(e))
 		{
-		msg += "; bkpt event type: " + JString(lldb::SBBreakpoint::GetBreakpointEventTypeFromEvent(e), JString::kBase10);
+		msg += "; bkpt event type: " + JString((JUInt64) lldb::SBBreakpoint::GetBreakpointEventTypeFromEvent(e));
 		Broadcast(BreakpointsChanged());
 		}
 	else if (lldb::SBWatchpoint::EventIsWatchpointEvent(e))
 		{
-		msg += "; watch event type: " + JString(lldb::SBWatchpoint::GetWatchpointEventTypeFromEvent(e), JString::kBase10);
+		msg += "; watch event type: " + JString((JUInt64) lldb::SBWatchpoint::GetWatchpointEventTypeFromEvent(e));
 		Broadcast(BreakpointsChanged());
 		}
 	else if (lldb::SBCommandInterpreter::EventIsCommandInterpreterEvent(e))
@@ -1189,7 +1189,7 @@ LLDBLink::SetExecutionPoint
 		JString cmd = "_regexp-jump ";
 		cmd        += fileName;
 		cmd        += ":";
-		cmd        += JString(lineIndex, JString::kBase10);
+		cmd        += JString((JUInt64) lineIndex);
 		itsDebugger->HandleCommand(cmd);
 		}
 }
@@ -1793,7 +1793,10 @@ LLDBLink::ProgramStopped
 
 		if (msg != nullptr)
 			{
-			*msg = "; file: " + location.GetFileName() + ", line: " + JString(location.GetLineNumber(), JString::kBase10) + ", func: " + location.GetFunctionName() + ", addr: " + location.GetMemoryAddress();
+			*msg =  "; file: " + location.GetFileName() +
+					", line: " + JString((JUInt64) location.GetLineNumber()) +
+					", func: " + location.GetFunctionName() +
+					", addr: " + location.GetMemoryAddress();
 			}
 		return kJTrue;
 		}

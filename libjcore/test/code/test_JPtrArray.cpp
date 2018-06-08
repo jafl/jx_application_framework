@@ -165,7 +165,7 @@ JTEST(Exercise)
 	JAssertEqual(4, j);
 	}
 
-	JString target("3", 0, kJFalse);
+	JString target("3", kJFalse);
 	JAssertTrue(a2.SearchSorted(&target, JListT::kAnyMatch, &index));
 	JAssertEqual(3, index);
 

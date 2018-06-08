@@ -231,10 +231,10 @@ JTEST(Markdown)
 {
 	JStyledText st(kJFalse, kJTrue);
 
-	JReadLimitedMarkdown(JString("hello", 0, kJFalse), &st);
+	JReadLimitedMarkdown(JString("hello", kJFalse), &st);
 	JAssertStringsEqual("hello", st.GetText());
 
-	JReadLimitedMarkdown(JString("hello *bold* -italic- _under_ `get_file_n-a-m-e` by*e*!", 0, kJFalse), &st);
+	JReadLimitedMarkdown(JString("hello *bold* -italic- _under_ `get_file_n-a-m-e` by*e*!", kJFalse), &st);
 	JAssertStringsEqual("hello bold italic under get_file_n-a-m-e by*e*!", st.GetText());
 //                              ^      ^     ^     ^               ^
 
@@ -263,7 +263,7 @@ JTEST(Markdown)
 	JAssertEqual(0, st.GetStyles().GetElement(42).GetStyle().underlineCount);
 	JAssertStringsEqual(JFontManager::GetDefaultFontName(), st.GetStyles().GetElement(42).GetName());
 /*
-	JReadLimitedMarkdown(JString("_w*b*w_ _*b`t`b*_", 0, kJFalse), &st);
+	JReadLimitedMarkdown(JString("_w*b*w_ _*b`t`b*_", kJFalse), &st);
 	JAssertStringsEqual("wbw btb", st.GetText());
 	JAssertFalse(st.GetStyles().GetElement(1).GetStyle().bold);
 	JAssertTrue(st.GetStyles().GetElement(1).GetStyle().italic);

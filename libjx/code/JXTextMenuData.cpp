@@ -261,7 +261,7 @@ JXTextMenuData::InsertMenuItems
 	JStringManager* strMgr = JGetStringManager();
 
 	JPtrArray<JString> itemList(JPtrArrayT::kDeleteAll);
-	JString(menuStr, 0, kJFalse).Split("|", &itemList);
+	JString(menuStr, kJFalse).Split("|", &itemList);
 
 	const JSize itemCount = itemList.GetElementCount();
 	JString itemText, shortcuts, nmShortcut, id, strID, id1;

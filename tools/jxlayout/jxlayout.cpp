@@ -40,49 +40,49 @@ static const JUtf8Byte* kBackupSuffix = "~";
 static const JUtf8Byte* kBeginCodeDelimiterPrefix = "// begin ";
 static const JUtf8Byte* kEndCodeDelimiterPrefix   = "// end ";
 
-static const JString kDefaultDelimTag("JXLayout", 0, kJFalse);
-static const JString kCustomTagMarker("__",       0, kJFalse);
+static const JString kDefaultDelimTag("JXLayout", kJFalse);
+static const JString kCustomTagMarker("__",       kJFalse);
 
-static const JString kDefTopEnclVarName("window", 0, kJFalse);
+static const JString kDefTopEnclVarName("window", kJFalse);
 
 // Data files (search for at startup)
 
-static const JString kMainConfigFileDir   (CONFIG_FILE_DIR, 0, kJFalse);
-static const JString kEnvUserConfigFileDir("JXLAYOUTDIR",   0, kJFalse);
+static const JString kMainConfigFileDir   (CONFIG_FILE_DIR, kJFalse);
+static const JString kEnvUserConfigFileDir("JXLAYOUTDIR",   kJFalse);
 
-static JString classMapFile      ("class_map",        0, kJFalse);
-static JString optionMapFile     ("option_map",       0, kJFalse);
-static JString needFontListFile  ("need_font_list",   0, kJFalse);
-static JString needStringListFile("need_string_list", 0, kJFalse);
-static JString needCreateListFile("need_create_list", 0, kJFalse);
+static JString classMapFile      ("class_map",        kJFalse);
+static JString optionMapFile     ("option_map",       kJFalse);
+static JString needFontListFile  ("need_font_list",   kJFalse);
+static JString needStringListFile("need_string_list", kJFalse);
+static JString needCreateListFile("need_create_list", kJFalse);
 
 // Form fields
 
-static const JString kBeginFormLine     ("=============== FORM ===============", 0, kJFalse);
-static const JString kFormNameMarker    ("Name:",              0, kJFalse);
-static const JString kFormWidthMarker   ("Width:",             0, kJFalse);
-static const JString kFormHeightMarker  ("Height:",            0, kJFalse);
-static const JString kFormObjCountMarker("Number of Objects:", 0, kJFalse);
+static const JString kBeginFormLine     ("=============== FORM ===============", kJFalse);
+static const JString kFormNameMarker    ("Name:",              kJFalse);
+static const JString kFormWidthMarker   ("Width:",             kJFalse);
+static const JString kFormHeightMarker  ("Height:",            kJFalse);
+static const JString kFormObjCountMarker("Number of Objects:", kJFalse);
 
 // Object fields
 
-static const JString kBeginObjLine     ("--------------------", 0, kJFalse);
-static const JString kObjClassMarker   ("class:",     0, kJFalse);
-static const JString kObjTypeMarker    ("type:",      0, kJFalse);
-static const JString kObjRectMarker    ("box:",       0, kJFalse);
-static const JString kObjBoxTypeMarker ("boxtype:",   0, kJFalse);
-static const JString kObjColorsMarker  ("colors:",    0, kJFalse);
-static const JString kObjLAlignMarker  ("alignment:", 0, kJFalse);
-static const JString kObjLStyleMarker  ("style:",     0, kJFalse);
-static const JString kObjLSizeMarker   ("size:",      0, kJFalse);
-static const JString kObjLColorMarker  ("lcol:",      0, kJFalse);
-static const JString kObjLabelMarker   ("label:",     0, kJFalse);
-static const JString kObjShortcutMarker("shortcut:",  0, kJFalse);
-static const JString kObjResizeMarker  ("resize:",    0, kJFalse);
-static const JString kObjGravityMarker ("gravity:",   0, kJFalse);
-static const JString kObjNameMarker    ("name:",      0, kJFalse);
-static const JString kObjCallbackMarker("callback:",  0, kJFalse);
-static const JString kObjCBArgMarker   ("argument:",  0, kJFalse);
+static const JString kBeginObjLine     ("--------------------", kJFalse);
+static const JString kObjClassMarker   ("class:",     kJFalse);
+static const JString kObjTypeMarker    ("type:",      kJFalse);
+static const JString kObjRectMarker    ("box:",       kJFalse);
+static const JString kObjBoxTypeMarker ("boxtype:",   kJFalse);
+static const JString kObjColorsMarker  ("colors:",    kJFalse);
+static const JString kObjLAlignMarker  ("alignment:", kJFalse);
+static const JString kObjLStyleMarker  ("style:",     kJFalse);
+static const JString kObjLSizeMarker   ("size:",      kJFalse);
+static const JString kObjLColorMarker  ("lcol:",      kJFalse);
+static const JString kObjLabelMarker   ("label:",     kJFalse);
+static const JString kObjShortcutMarker("shortcut:",  kJFalse);
+static const JString kObjResizeMarker  ("resize:",    kJFalse);
+static const JString kObjGravityMarker ("gravity:",   kJFalse);
+static const JString kObjNameMarker    ("name:",      kJFalse);
+static const JString kObjCallbackMarker("callback:",  kJFalse);
+static const JString kObjCBArgMarker   ("argument:",  kJFalse);
 
 // Options for each object
 
@@ -1078,7 +1078,7 @@ GetTempVarName
 		}
 	suffix.Prepend("_");
 
-	const JString prefix("obj", 0, kJFalse);
+	const JString prefix("obj", kJFalse);
 	const JSize count = objNames.GetElementCount();
 	for (JIndex i=1; i<=INT_MAX; i++)
 		{
@@ -1405,7 +1405,7 @@ ApplyOptions
 			id.Print(output);
 			output << "\"));" << std::endl;
 
-			stringMgr->SetElement(id, JString("Times", 0, kJFalse), JPtrArrayT::kDelete);
+			stringMgr->SetElement(id, JString("Times", kJFalse), JPtrArrayT::kDelete);
 			}
 
 		if (flSize != "FL_NORMAL_SIZE")
@@ -1891,7 +1891,7 @@ FindConfigFile
 	char* envStr = getenv(kEnvUserConfigFileDir.GetBytes());
 	if (envStr != nullptr && envStr[0] != '\0')
 		{
-		JString otherFileName = JCombinePathAndName(JString(envStr, 0, kJFalse), *configFileName);
+		JString otherFileName = JCombinePathAndName(JString(envStr, kJFalse), *configFileName);
 		if (JFileExists(otherFileName))
 			{
 			*configFileName = otherFileName;

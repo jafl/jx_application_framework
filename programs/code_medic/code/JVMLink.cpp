@@ -1338,7 +1338,7 @@ JVMLink::RunProgram
 		strstr(itsJVMExecArgs, "-Xrunjdwp")      == nullptr)
 		{
 		cmd += " -agentlib:jdwp=transport=dt_socket,address=localhost:";
-		cmd += JString(kJavaPort, JString::kBase10);
+		cmd += JString((JUInt64) kJavaPort);
 		}
 
 	cmd += " ";
@@ -2263,10 +2263,10 @@ JVMLink::StartDebugger()
 		assert( itsAcceptor != nullptr );
 		}
 
-	const JString portStr(kJavaPort, JString::kBase10);
+	const JString portStr((JUInt64) kJavaPort);
 	if (itsAcceptor->open(ACE_INET_Addr(kJavaPort)) == -1)
 		{
-		const JString errStr(jerrno(), JString::kBase10);
+		const JString errStr((JUInt64) jerrno());
 
 		const JCharacter* map[] =
 			{

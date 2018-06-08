@@ -60,7 +60,7 @@ JXHelpManager::ShowSection
 	JString url(name, 0);
 	if (!url.Contains("://"))
 		{
-		url = JGetString("HELP_URL") + JString("#", 0, kJFalse) + url;
+		url = JGetString("HELP_URL") + JString("#", kJFalse) + url;
 		}
 
 	JGetWebBrowser()->ShowURL(url);

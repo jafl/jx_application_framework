@@ -71,7 +71,7 @@ CMLineNumberTable::GetLineText
 	)
 	const
 {
-	return JString(lineIndex, JString::kBase10);
+	return JString((JUInt64) lineIndex);
 }
 
 /******************************************************************************
@@ -86,7 +86,7 @@ CMLineNumberTable::GetLongestLineText
 	)
 	const
 {
-	return JString(lineCount, JString::kBase10);
+	return JString((JUInt64) lineCount);
 }
 
 /******************************************************************************

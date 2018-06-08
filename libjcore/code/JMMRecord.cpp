@@ -180,10 +180,10 @@ JMMRecord::StreamForDebug
 {
 	output << ! IsDeleted();
 	output << ' ' << ArrayNew();
-	output << ' ' << JString(itsNewFile, 0, kJFalse);
+	output << ' ' << JString(itsNewFile, kJFalse);
 	output << ' ' << itsNewLine;
 	output << ' ' << itsSize;
-	output << ' ' << JString((JUtf8Byte*) itsAddress, 0, kJFalse);
+	output << ' ' << JString((JUtf8Byte*) itsAddress, kJFalse);
 }
 
 #if 0

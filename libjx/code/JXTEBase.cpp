@@ -653,11 +653,11 @@ JXTEBase::GetDNDAskActions
 	askActionList->AppendElement(dndMgr->GetDNDActionCopyXAtom());
 	askActionList->AppendElement(dndMgr->GetDNDActionMoveXAtom());
 
-	JString* s = jnew JString("CopyDescription::JXTEBase", 0, kJFalse);
+	JString* s = jnew JString("CopyDescription::JXTEBase", kJFalse);
 	assert( s != nullptr );
 	askDescriptionList->Append(s);
 
-	s = jnew JString("MoveDescription::JXTEBase", 0, kJFalse);
+	s = jnew JString("MoveDescription::JXTEBase", kJFalse);
 	assert( s != nullptr );
 	askDescriptionList->Append(s);
 }

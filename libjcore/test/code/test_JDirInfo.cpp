@@ -19,7 +19,7 @@ int main()
 
 JTEST(Exercise)
 {
-	const JString path("/tmp/test_JDirInfo/", 0, kJFalse);
+	const JString path("/tmp/test_JDirInfo/", kJFalse);
 	JAssertOK(JCreateDirectory(path));
 	JAssertOK(JChangeDirectory(path));
 
@@ -38,7 +38,7 @@ JTEST(Exercise)
 	system("mkdir bar");
 	system("mkdir baz");
 
-	JAssertTrue(JDirInfo::Empty(JString("bar", 0, kJFalse)));
+	JAssertTrue(JDirInfo::Empty(JString("bar", kJFalse)));
 
 	info->ForceUpdate();
 	JAssertEqual(5, info->GetEntryCount());
@@ -51,7 +51,7 @@ JTEST(Exercise)
 	JAssertEqual(2, info->GetEntryCount());
 	info->ShowFiles(kJTrue);
 
-	info->SetWildcardFilter(JString("*oob*", 0, kJFalse));
+	info->SetWildcardFilter(JString("*oob*", kJFalse));
 	JAssertTrue(info->HasWildcardFilter());
 	JAssertEqual(4, info->GetEntryCount());		// 2 files + 2 dirs
 	info->ShouldApplyWildcardFilterToDirs();
@@ -60,7 +60,7 @@ JTEST(Exercise)
 	JAssertFalse(info->HasWildcardFilter());
 	info->ShouldApplyWildcardFilterToDirs(kJFalse);
 
-	JAssertOK(info->GoDown(JString("bar", 0, kJFalse)));
+	JAssertOK(info->GoDown(JString("bar", kJFalse)));
 	JAssertTrue(info->DirectoryExists());
 	JAssertEqual(0, info->GetEntryCount());
 	JAssertOK(info->GoUp());
@@ -70,9 +70,9 @@ JTEST(Exercise)
 	info->ForceUpdate();
 	JAssertEqual(6, info->GetEntryCount());
 
-	info->SetWildcardFilter(JString("*oof*", 0, kJFalse));
+	info->SetWildcardFilter(JString("*oof*", kJFalse));
 	JIndex i;
-	JAssertTrue(info->FindEntry(JString("zaboof", 0, kJFalse), &i));
+	JAssertTrue(info->FindEntry(JString("zaboof", kJFalse), &i));
 	const JDirEntry& e1 = info->GetEntry(i);
 	JAssertTrue(e1.IsFile());
 	JAssertTrue(e1.IsLink());
@@ -89,15 +89,15 @@ JTEST(Exercise)
 	JAssertEqual(0, e2.GetSize());
 	info->ClearWildcardFilter();
 
-	JAssertTrue(info->ClosestMatch(JString("za", 0, kJFalse), &i));
+	JAssertTrue(info->ClosestMatch(JString("za", kJFalse), &i));
 	const JDirEntry& e3 = info->GetEntry(i);
 	JAssertStringsEqual("zaboof", e3.GetName());
 
-	JAssertTrue(info->ClosestMatch(JString("dx", 0, kJFalse), &i));
+	JAssertTrue(info->ClosestMatch(JString("dx", kJFalse), &i));
 	const JDirEntry& e4 = info->GetEntry(i);
 	JAssertStringsEqual("foobar", e4.GetName());
 
-	JAssertTrue(info->ClosestMatch(JString("fook", 0, kJFalse), &i));
+	JAssertTrue(info->ClosestMatch(JString("fook", kJFalse), &i));
 	const JDirEntry& e5 = info->GetEntry(i);
 	JAssertStringsEqual("fooshug", e5.GetName());
 

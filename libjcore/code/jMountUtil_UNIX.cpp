@@ -50,16 +50,16 @@
 #include <jAssert.h>
 
 #if defined JMOUNT_OSX
-static const JString kMountCmd("mount", 0, kJFalse);
+static const JString kMountCmd("mount", kJFalse);
 #elif defined JMOUNT_BSD
-static const JString kAvailInfoName(_PATH_FSTAB, 0, kJFalse);
+static const JString kAvailInfoName(_PATH_FSTAB, kJFalse);
 #elif defined JMOUNT_SYSV
-static const JString kAvailInfoName(VFSTAB, 0, kJFalse);
+static const JString kAvailInfoName(VFSTAB, kJFalse);
 static const JUtf8Byte* kMountedInfoName = MNTTAB;
 #elif defined _J_CYGWIN
 static const JUtf8Byte* kMountedInfoName = MOUNTED;
 #else
-static const JString kAvailInfoName(_PATH_FSTAB, 0, kJFalse);
+static const JString kAvailInfoName(_PATH_FSTAB, kJFalse);
 static const JUtf8Byte* kMountedInfoName = _PATH_MOUNTED;
 #endif
 
@@ -982,13 +982,13 @@ jTranslateLocalToRemote1
 	JString*			remotePath
 	)
 {
-	const JString dir(mountDir, 0, kJFalse);
+	const JString dir(mountDir, kJFalse);
 	if (!JIsSamePartition(localPath, dir))
 		{
 		return kJFalse;
 		}
 
-	const JString dev(mountDev, 0, kJFalse);
+	const JString dev(mountDev, kJFalse);
 	JStringIterator iter(dev);
 	iter.BeginMatch();
 	if (iter.Next(":/") && iter.GetPrevCharacterIndex() > 2)
@@ -1156,7 +1156,7 @@ jTranslateRemoteToLocal1
 	JString*			localPath
 	)
 {
-	const JString dev(mountDev, 0, kJFalse);
+	const JString dev(mountDev, kJFalse);
 	JStringIterator iter(dev);
 	iter.BeginMatch();
 	if (iter.Next(":/") && iter.GetPrevCharacterIndex() > 2)
@@ -1178,7 +1178,7 @@ jTranslateRemoteToLocal1
 			iter2.BeginMatch();
 			iter2.MoveTo(kJIteratorStartAfter, p.GetCharacterCount()-1);
 			iter2.FinishMatch();
-			iter2.ReplaceLastMatch(JString(mountDir, 0, kJFalse));
+			iter2.ReplaceLastMatch(JString(mountDir, kJFalse));
 
 			JCleanPath(localPath);
 			return kJTrue;

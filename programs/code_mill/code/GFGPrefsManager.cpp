@@ -285,7 +285,7 @@ GFGPrefsManager::GetYear()
 
 		struct tm* local_time	= localtime(&now);
 
-		return JString(local_time->tm_year + 1900, JString::kBase10);
+		return JString((JUInt64) local_time->tm_year + 1900);
 		}
 }
 

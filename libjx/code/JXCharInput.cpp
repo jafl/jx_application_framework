@@ -29,7 +29,7 @@ JXCharInput::JXCharInput
 	:
 	JXInputField(enclosure, hSizing, vSizing, x,y, w,h)
 {
-	GetText()->SetText(JString(" ", 0, kJFalse));
+	GetText()->SetText(JString(" ", kJFalse));
 	SetLengthLimits(1,1);
 }
 
@@ -67,7 +67,7 @@ JXCharInput::SetCharacter
 	const JUtf8Character c
 	)
 {
-	GetText()->SetText(JString(c.GetBytes(), 0, kJFalse));
+	GetText()->SetText(JString(c.GetBytes(), kJFalse));
 }
 
 /******************************************************************************

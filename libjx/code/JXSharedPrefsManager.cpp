@@ -36,8 +36,8 @@
 #include <sstream>
 #include <jAssert.h>
 
-static const JString kDataFileRoot  ("jx/globals", 0, kJFalse);
-static const JString kSignalFileName("~/.jx/globals.signal", 0, kJFalse);
+static const JString kDataFileRoot  ("jx/globals", kJFalse);
+static const JString kSignalFileName("~/.jx/globals.signal", kJFalse);
 
 const JSize kUpdateInterval = 1000;		// milliseconds
 

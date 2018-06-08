@@ -390,7 +390,7 @@ CMBreakpointTable::TableDrawCell
 			const JSize line = bp->GetLineNumber();
 			if (line > 0)
 				{
-				s      = JString(line, JString::kBase10);
+				s      = JString((JUInt64) line);
 				hAlign = JPainter::kHAlignRight;
 				}
 			}
@@ -404,7 +404,7 @@ CMBreakpointTable::TableDrawCell
 			}
 		else if (cell.x == kIgnoreCountColumn)
 			{
-			s      = JString(bp->GetIgnoreCount(), JString::kBase10);
+			s      = JString((JUInt64) bp->GetIgnoreCount());
 			hAlign = JPainter::kHAlignRight;
 			}
 		else if (cell.x == kConditionColumn)

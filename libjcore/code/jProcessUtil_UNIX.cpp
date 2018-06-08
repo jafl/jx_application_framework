@@ -172,7 +172,7 @@ JGetPGID
 	jclear_errno();
 
 	JString fileName = "/proc/";
-	fileName += JString(pid, JString::kBase10);
+	fileName += JString((JUInt64) pid);
 	fileName += "/status";
 
 	FILE* statusFile = nullptr;

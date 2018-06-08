@@ -101,7 +101,7 @@ JStringMap<V>::Contains
 	)
 	const
 {
-	return Contains(JString(key, 0, kJFalse));
+	return Contains(JString(key, kJFalse));
 }
 
 /******************************************************************************
@@ -118,7 +118,7 @@ JStringMap<V>::GetElement
 	)
 	const
 {
-	return GetElement(JString(key, 0, kJFalse), value);
+	return GetElement(JString(key, kJFalse), value);
 }
 
 /******************************************************************************
@@ -153,7 +153,7 @@ JStringMap<V>::SetElement
 	)
 {
 	JBoolean existed;
-	return SetElement(JString(key, 0, kJFalse), value, JPtrArrayT::kForget, type, &existed);
+	return SetElement(JString(key, kJFalse), value, JPtrArrayT::kForget, type, &existed);
 }
 
 template <class V>
@@ -185,7 +185,7 @@ JStringMap<V>::SetNewElement
 	const V&         value
 	)
 {
-	return SetElement(JString(key, 0, kJFalse), value, JStringMapT::kIfNew);
+	return SetElement(JString(key, kJFalse), value, JStringMapT::kIfNew);
 }
 
 template <class V>
@@ -215,7 +215,7 @@ JStringMap<V>::SetOldElement
 	const V&         value
 	)
 {
-	return SetElement(JString(key, 0, kJFalse), value, JStringMapT::kIfOld);
+	return SetElement(JString(key, kJFalse), value, JStringMapT::kIfOld);
 }
 
 template <class V>
@@ -246,7 +246,7 @@ JStringMap<V>::SetContains
 	)
 {
 	JBoolean existed;
-	SetElement(JString(key, 0, kJFalse), value, JPtrArrayT::kForget, JStringMapT::kAlways, &existed);
+	SetElement(JString(key, kJFalse), value, JPtrArrayT::kForget, JStringMapT::kAlways, &existed);
 	return existed;
 }
 
@@ -275,7 +275,7 @@ JStringMap<V>::RemoveElement
 	const JUtf8Byte* key
 	)
 {
-	return RemoveElement(JString(key, 0, kJFalse), JPtrArrayT::kForget);
+	return RemoveElement(JString(key, kJFalse), JPtrArrayT::kForget);
 }
 
 template <class V>

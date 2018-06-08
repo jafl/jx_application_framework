@@ -66,7 +66,7 @@ GDBGetAssembly::Starting()
 		cmd += " -f ";
 		cmd += name;
 		cmd += " -l ";
-		cmd += JString(loc.GetLineNumber(), JString::kBase10);
+		cmd += JString((JUInt64) loc.GetLineNumber());
 		}
 
 	cmd += " -- 0";

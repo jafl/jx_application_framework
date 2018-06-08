@@ -21,8 +21,8 @@
 #include <jFileUtil.h>
 #include <jAssert.h>
 
-static const JString kOurFile     ("about_owner_docs", 0, kJFalse);
-static const JString kRequiredFile("about_owned_docs", 0, kJFalse);
+static const JString kOurFile     ("about_owner_docs", kJFalse);
+static const JString kRequiredFile("about_owned_docs", kJFalse);
 
 /******************************************************************************
  Constructor

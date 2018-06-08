@@ -58,8 +58,8 @@
 #include <strstream>
 #include <jAssert.h>
 
-static const JString theDataDirName("string_data", 0, kJFalse);
-static const JString theDefaultFileName("default", 0, kJFalse);
+static const JString theDataDirName("string_data", kJFalse);
+static const JString theDefaultFileName("default", kJFalse);
 JBoolean JStringManager::thePseudotranslationFlag = kJFalse;
 
 // non-overridable strings
@@ -103,7 +103,7 @@ JStringManager::~JStringManager()
 
  *****************************************************************************/
 
-static const JString theMissingString("<string not found>", 0, kJFalse);
+static const JString theMissingString("<string not found>", kJFalse);
 
 const JString&
 JStringManager::Get
@@ -113,7 +113,7 @@ JStringManager::Get
 	const
 {
 	const JString* s;
-	if (GetElement(JString(id, 0, kJFalse), &s))
+	if (GetElement(JString(id, kJFalse), &s))
 		{
 		assert( s != nullptr );
 		}
@@ -226,7 +226,7 @@ JStringManager::Replace
 	const JSize count = size/(2*sizeof(JUtf8Byte*));
 	for (JIndex i=0; i<count; i++)
 		{
-		r->DefineVariable(map[2*i], JString(map[2*i+1], 0, kJFalse));
+		r->DefineVariable(map[2*i], JString(map[2*i+1], kJFalse));
 		}
 
 	r->Substitute(str);
@@ -294,7 +294,7 @@ JStringManager::Register
 		const JString& language = *localeParts.GetElement(1);
 
 		JString path[2];
-		JGetDataDirectories(JString(signature, 0, kJFalse), theDataDirName, path, path+1);
+		JGetDataDirectories(JString(signature, kJFalse), theDataDirName, path, path+1);
 
 		// merge system first, then user
 

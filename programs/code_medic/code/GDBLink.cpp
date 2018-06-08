@@ -966,7 +966,7 @@ GDBLink::AttachToProcess
 	DetachOrKill();
 
 	JString cmd = "attach ";
-	cmd        += JString(pid, JString::kBase10);
+	cmd        += JString((JUInt64) pid);
 	Send(cmd);
 }
 
@@ -1019,7 +1019,7 @@ GDBLink::ShowBreakpointInfo
 		}
 
 	JString cmd = "echo \\n\ninfo breakpoint ";
-	cmd        += JString(debuggerIndex, JString::kBase10);
+	cmd        += JString((JUInt64) debuggerIndex);
 	cmd        += "\necho \\n";
 	SendWhenStopped(cmd);
 }
@@ -1050,7 +1050,7 @@ GDBLink::SetBreakpoint
 	#ifdef _J_OLD_OSX
 	cmd += "-l -1 ";
 	#endif
-	cmd += name + ":" + JString(lineIndex, JString::kBase10);
+	cmd += name + ":" + JString((JUInt64) lineIndex);
 	SendWhenStopped(cmd);
 }
 
@@ -1097,7 +1097,7 @@ GDBLink::RemoveBreakpoint
 		itsContinueCount = 2;
 		}
 
-	const JString cmd = "delete " + JString(debuggerIndex, JString::kBase10);
+	const JString cmd = "delete " + JString((JUInt64) debuggerIndex);
 	SendWhenStopped(cmd);
 }
 
@@ -1121,7 +1121,7 @@ GDBLink::RemoveAllBreakpointsOnLine
 		itsContinueCount = 2;
 		}
 
-	const JString cmd = "clear " + name + ":" + JString(lineIndex, JString::kBase10);
+	const JString cmd = "clear " + name + ":" + JString((JUInt64) lineIndex);
 	SendWhenStopped(cmd);
 }
 
@@ -1181,7 +1181,7 @@ GDBLink::SetBreakpointEnabled
 
 	const JString cmd =
 		(enabled ? "enable " : "disable ") + 
-		((once ? "once " : "" ) + JString(debuggerIndex, JString::kBase10));
+		((once ? "once " : "" ) + JString((JUInt64) debuggerIndex));
 	SendWhenStopped(cmd);
 }
 
@@ -1202,7 +1202,7 @@ GDBLink::SetBreakpointCondition
 		itsContinueCount = 2;
 		}
 
-	const JString cmd = "condition " + JString(debuggerIndex, JString::kBase10) + " " + condition;
+	const JString cmd = "condition " + JString((JUInt64) debuggerIndex) + " " + condition;
 	SendWhenStopped(cmd);
 }
 
@@ -1222,7 +1222,7 @@ GDBLink::RemoveBreakpointCondition
 		itsContinueCount = 2;
 		}
 
-	const JString cmd = "condition " + JString(debuggerIndex, JString::kBase10);
+	const JString cmd = "condition " + JString((JUInt64) debuggerIndex);
 	SendWhenStopped(cmd);
 }
 
@@ -1243,7 +1243,7 @@ GDBLink::SetBreakpointIgnoreCount
 		itsContinueCount = 2;
 		}
 
-	const JString cmd = "ignore " + JString(debuggerIndex, JString::kBase10) + " " + JString(count, JString::kBase10);
+	const JString cmd = "ignore " + JString((JUInt64) debuggerIndex) + " " + JString((JUInt64) count);
 	SendWhenStopped(cmd);
 }
 
@@ -1305,7 +1305,7 @@ GDBLink::SwitchToThread
 		itsPrintingOutputFlag = kJFalse;
 
 		JString cmd = "thread ";
-		cmd        += JString(id, JString::kBase10);
+		cmd        += JString((JUInt64) id);
 		Send(cmd);
 		}
 }
@@ -1326,7 +1326,7 @@ GDBLink::SwitchToFrame
 		itsPrintingOutputFlag = kJFalse;
 
 		JString cmd = "frame ";
-		cmd        += JString(id, JString::kBase10);
+		cmd        += JString((JUInt64) id);
 		Send(cmd);
 		}
 }
@@ -1392,7 +1392,7 @@ GDBLink::RunUntil
 		JString path, name;
 		JSplitPathAndName(fileName, &path, &name);
 
-		const JString cmd = "until " + name + ":" + JString(lineIndex, JString::kBase10);
+		const JString cmd = "until " + name + ":" + JString((JUInt64) lineIndex);
 		Send(cmd);
 		}
 }
@@ -1414,7 +1414,7 @@ GDBLink::SetExecutionPoint
 		JString path, name;
 		JSplitPathAndName(fileName, &path, &name);
 
-		const JString loc = name + ":" + JString(lineIndex, JString::kBase10);
+		const JString loc = name + ":" + JString((JUInt64) lineIndex);
 
 		JString cmd = "tbreak " + loc;
 		SendRaw(cmd);
@@ -2118,7 +2118,7 @@ GDBLink::SendPing()
 		{
 		itsPingID++;
 		}
-	const JString idStr(itsPingID, JString::kBase10);
+	const JString idStr((JUInt64) itsPingID);
 	const JCharacter* map[] =
 		{
 		"id", idStr
@@ -2259,7 +2259,7 @@ GDBLink::SendMedicCommand
 		itsContinueCount = 1;	// only at final prompt will itsForegroundQ be empty
 		}
 
-	const JString id(command->GetTransactionID(), JString::kBase10);
+	const JString id((JUInt64) command->GetTransactionID());
 
 	const JCharacter *startId, *endId;
 	if (command->WillIgnoreResult())

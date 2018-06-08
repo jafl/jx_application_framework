@@ -60,8 +60,8 @@ static const JUtf8Byte* kObjDirArg   = "--obj-dir";
 static const JUtf8Byte* kNoStdIncArg = "--no-std-inc";
 static const JUtf8Byte* kAutoGenArg  = "--assume-autogen";
 
-static const JString kCurrentDir   ("./", 0, kJFalse);
-static const JString kSysIncludeDir("/usr/include/", 0, kJFalse);
+static const JString kCurrentDir   ("./", kJFalse);
+static const JString kSysIncludeDir("/usr/include/", kJFalse);
 
 static const JUtf8Byte* kDontInterpretFlag = "literal: ";
 const JSize kDontInterpretFlagLen          = strlen(kDontInterpretFlag);
@@ -964,7 +964,7 @@ GetOutputSuffix
 			}
 		}
 
-	return JString(kDefOutputSuffix, 0, kJFalse);
+	return JString(kDefOutputSuffix, kJFalse);
 }
 
 /******************************************************************************
@@ -1078,7 +1078,7 @@ GetOptions
 			{
 			JCheckForValues(1, &index, argc, argv);
 
-			JString arg(argv[index], 0, kJFalse);
+			JString arg(argv[index], kJFalse);
 			JStringIterator iter(arg);
 			if (iter.Next(suffixMapPattern))
 				{
@@ -1105,7 +1105,7 @@ GetOptions
 			JStringIterator iter1(&p, kJIteratorStartAtEnd);
 			iter1.SkipPrev(2);
 
-			JStringIterator iter2(JString(argv[index], 0, kJFalse));
+			JStringIterator iter2(JString(argv[index], kJFalse));
 			while (iter2.Next(noParsePattern))
 				{
 				JString s = iter2.GetLastMatch().GetSubstring(1);
@@ -1469,7 +1469,7 @@ CalcDepend
 
 	JIndex i = startArg;
 
-	const JString makefileName(argv[i], 0, kJFalse);
+	const JString makefileName(argv[i], kJFalse);
 	i++;
 
 	while (i < argc-1 && strcmp(argv[i], "--") != 0)
@@ -1522,7 +1522,7 @@ CalcDepend
 		else if (argv[i][0] == '-' && argv[i][1] == 'I' &&
 				 argv[i][2] != '\0' && argv[i][2] != '-')
 			{
-			if (JDirectoryReadable(JString(argv[i]+2, 0, kJFalse)))
+			if (JDirectoryReadable(JString(argv[i]+2, kJFalse)))
 				{
 				path = jnew JString(argv[i]+2, 0);		// strip off "-I"
 				assert( path != nullptr );

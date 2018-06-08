@@ -44,7 +44,7 @@ const JFileVersion kCurrentSetupVersion = 3;	// must begin with digit >= 2
 
 // Options menu
 
-static const JString& kOptionsMenuTitleStr = JString("Options", 0, kJFalse);
+static const JString& kOptionsMenuTitleStr = JString("Options", kJFalse);
 static const JUtf8Byte* kOptionsMenuStr =
 	"    Change scale..."
 	"  | Reset scale"
@@ -75,7 +75,7 @@ enum
 
 // Cursor menu
 
-static const JString kCursorMenuTitleStr = JString("Cursors", 0, kJFalse);
+static const JString kCursorMenuTitleStr = JString("Cursors", kJFalse);
 static const JUtf8Byte* kCursorMenuStr =
 	"    X cursor     %b"
 	"  | Y cursor     %b"
@@ -1127,7 +1127,7 @@ JIndex i;
 	for (i=1; i<=xCount; i++)
 		{
 		JString str("x", 0);
-		str += JString(i);
+		str += JString((JUInt64) i);
 		itsMarkMenu->AppendItem(str);
 		}
 
@@ -1139,7 +1139,7 @@ JIndex i;
 	for (i=1; i<=yCount; i++)
 		{
 		JString str("y", 0);
-		str += JString(i);
+		str += JString((JUInt64) i);
 		itsMarkMenu->AppendItem(str);
 		}
 }

@@ -423,7 +423,7 @@ JXFileListTable::FilterFile
 		info.nameIndex = 1;
 		}
 
-	if (itsRegex == nullptr || itsRegex->Match(JString(fullName->GetBytes() + info.nameIndex-1, 0, kJFalse)))
+	if (itsRegex == nullptr || itsRegex->Match(JString(fullName->GetBytes() + info.nameIndex-1, kJFalse)))
 		{
 		const JString fileName(*fullName, JCharacterRange(info.nameIndex, fullName->GetCharacterCount()));
 		itsVisibleList->SetCompareObject(PrefixMatch(fileName, *itsFileList));
@@ -851,7 +851,7 @@ JXFileListTable::TableDrawCell
 
 	r = rect;
 	r.left += kIconWidth + kHMarginWidth;
-	p.String(r, JString(s, 0, kJFalse), JPainter::kHAlignLeft, JPainter::kVAlignCenter);
+	p.String(r, JString(s, kJFalse), JPainter::kHAlignLeft, JPainter::kVAlignCenter);
 }
 
 /******************************************************************************

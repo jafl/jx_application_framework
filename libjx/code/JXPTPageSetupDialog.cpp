@@ -298,7 +298,7 @@ JXPTPageSetupDialog::PrintTestPage()
 				}
 			output.close();
 
-			const JString sysCmd  = itsPrintCmd->GetText()->GetText() + JString(" ", 0, kJFalse) + JPrepArgForExec(fileName);
+			const JString sysCmd  = itsPrintCmd->GetText()->GetText() + JString(" ", kJFalse) + JPrepArgForExec(fileName);
 			err = JExecute(sysCmd, nullptr);
 			err.ReportIfError();
 

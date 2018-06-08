@@ -61,7 +61,7 @@ JPrintTimeInterval
 {
 	if (delta < 60)
 		{
-		return JString(delta, JString::kBase10) + " sec";
+		return JString((JUInt64) delta) + " sec";
 		}
 	else if (delta < 60*60)
 		{

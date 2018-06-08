@@ -428,7 +428,7 @@ CBSearchDocument::AppendText
 
 			JString fileStr = fileName;
 			fileStr.AppendCharacter(':');
-			fileStr += JString(lineIndex, JString::kBase10);
+			fileStr += JString((JUInt64) lineIndex);
 
 			te->SetCaretLocation(startIndex);
 			te->Paste(fileStr);

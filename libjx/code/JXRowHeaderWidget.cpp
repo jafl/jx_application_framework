@@ -215,7 +215,7 @@ JXRowHeaderWidget::TableDrawCell
 		}
 	if (!hasTitle)
 		{
-		str = JString(cell.y, JString::kBase10);
+		str = JString((JUInt64) cell.y);
 		}
 
 	const JFont font = GetFontManager()->GetFont(

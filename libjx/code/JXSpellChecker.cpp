@@ -59,13 +59,13 @@ JXSpellChecker::JXSpellChecker()
 		}
 
 	int toFD, fromFD;
-	JError err = JProcess::Create(&itsProcess, JString("aspell -a", 0, kJFalse),
+	JError err = JProcess::Create(&itsProcess, JString("aspell -a", kJFalse),
 								  kJCreatePipe, &toFD,
 								  kJCreatePipe, &fromFD,
 								  kJTossOutput, nullptr);
 	if (!err.OK())
 		{
-		err = JProcess::Create(&itsProcess, JString("ispell -a", 0, kJFalse),
+		err = JProcess::Create(&itsProcess, JString("ispell -a", kJFalse),
 							   kJCreatePipe, &toFD,
 							   kJCreatePipe, &fromFD,
 							   kJTossOutput, nullptr);
