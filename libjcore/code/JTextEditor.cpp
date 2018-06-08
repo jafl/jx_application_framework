@@ -3624,6 +3624,8 @@ JTextEditor::LocateTab
 			iter->SkipPrev();
 			*tabCharIndex    = iter->GetNextCharacterIndex();
 			*pretabByteIndex = (iter->AtBeginning() ? 0 : iter->GetPrevByteIndex());
+
+			itsText->DisposeConstIterator(iter);
 			return kJTrue;
 			}
 		i++;
@@ -3631,6 +3633,8 @@ JTextEditor::LocateTab
 
 	*tabCharIndex    = 0;
 	*pretabByteIndex = iter->GetPrevByteIndex();
+
+	itsText->DisposeConstIterator(iter);
 	return kJFalse;
 }
 
