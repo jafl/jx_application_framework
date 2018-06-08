@@ -244,7 +244,7 @@ const JSize kDisconnectStrLength       = strlen(kDisconnectStr);
 	const unsigned char defaultDeallocateGarbage = 0xD7; // D for Delete   :-)
 
 // Static member data
-	static const JSize theStackMax = 15;
+	static const JSize theStackMax = 50;
 
 	JBoolean  JMemoryManager::theConstructingFlag = kJFalse;
 	JMMRecord JMemoryManager::theAllocStack[theStackMax];
@@ -423,6 +423,7 @@ JMemoryManager::Instance()
 
 		if (!JString::IsEmpty(pipeName))
 			{
+std::cout << "connection: " << pipeName << std::endl;
 			manager->ConnectToDebugger(pipeName);
 			ACE_Object_Manager::at_exit(nullptr, ::JMMHandleACEExit, nullptr);
 
@@ -860,15 +861,8 @@ JMMHandleExit()
 void
 JMemoryManager::HandleExit()
 {
-	if (itsLink != nullptr)
-		{
-		HandleACEExit();
-		}
-
-	if (itsExitStatsStream != nullptr)
-		{
-		WriteExitStats();
-		}
+	HandleACEExit();
+	WriteExitStats();
 
 	if (itsPrintExitStatsFlag)
 		{
@@ -929,6 +923,7 @@ JMemoryManager::ConnectToDebugger
 		}
 	else
 		{
+std::cout << "success connect" << std::endl;
 		SetProtocol(itsLink);
 		ListenTo(itsLink);
 		ClearWhenGoingAway(itsLink, &itsLink);
@@ -1066,22 +1061,24 @@ void
 JMemoryManager::SendExitStats()
 	const
 {
-	if (!itsExitStatsFileName->IsEmpty())
+	if (itsExitStatsFileName == nullptr || itsExitStatsFileName->IsEmpty())
 		{
-		std::ostringstream output;
-		output << kJMemoryManagerDebugVersion;
-		output << ' ' << kExitStatsMessage;
-		output << ' ' << *itsExitStatsFileName;
-
-		SendDebugMessage(output);
-
-		theInternalFlag = kJTrue;
-
-		itsExitStatsStream = new std::ofstream(itsExitStatsFileName->GetBytes());
-		assert( itsExitStatsStream != nullptr );
-
-		theInternalFlag = kJFalse;
+		return;
 		}
+
+	std::ostringstream output;
+	output << kJMemoryManagerDebugVersion;
+	output << ' ' << kExitStatsMessage;
+	output << ' ' << *itsExitStatsFileName;
+
+	SendDebugMessage(output);
+
+	theInternalFlag = kJTrue;
+
+	itsExitStatsStream = new std::ofstream(itsExitStatsFileName->GetBytes());
+	assert( itsExitStatsStream != nullptr );
+
+	theInternalFlag = kJFalse;
 }
 
 /******************************************************************************
@@ -1096,6 +1093,11 @@ void
 JMemoryManager::WriteExitStats()
 	const
 {
+	if (itsExitStatsStream == nullptr)
+		{
+		return;
+		}
+
 	*itsExitStatsStream << ' ';
 	WriteRunningStats(*itsExitStatsStream);
 
@@ -1171,7 +1173,7 @@ JMemoryManager::SetProtocol
 	DebugLink* link
 	)
 {
-	link->SetProtocol("\0", 1, kDisconnectStr, kDisconnectStrLength);
+	link->SetProtocol("\1", 1, kDisconnectStr, kDisconnectStrLength);
 }
 
 /******************************************************************************
