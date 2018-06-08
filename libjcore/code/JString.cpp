@@ -4,12 +4,6 @@
 	This class was not designed to be a base class!  If you need to override it,
 	be sure to make the destructor virtual.
 
-	In order to prevent unwanted construction of temporary JString's, the
-	ctor [JString(const JUtf8Byte* str)] is not provided.  Use
-	[JString(const JUtf8Byte* str, 0)] intead.  If the data is from a
-	character constant, use [JString(const JUtf8Byte* str, 0, kJFalse)] to
-	avoid duplicating the data.
-
 	Note that operator== is case sensitive, as one would expect.  To avoid the
 	UNIX method of sorting capitalized names separately in front of lowercase
 	names, operator< and operator> are not case sensitive.  One should therefore
@@ -21,7 +15,7 @@
 
 	By default, JString normalizes all text, so comparing strings is sane.
 	In certain cases, however, this behavior is not desirable, e.g., when
-	the string contains NULL.  The default constructor accepts an optional
+	the string contains nullptr.  The default constructor accepts an optional
 	"normalize" flag to disable normalization.  This can only be set in the
 	constructor and cannot be changed afterwards.
 
@@ -46,7 +40,9 @@
 #include <jAssert.h>
 
 JSize JString::theDefaultBlockSize = 256;
-const JString JString::empty("", 0, kJFalse);
+const JString JString::empty("", kJFalse);
+
+static thread_local JString* theCurrentlyConstructingObject;
 
 // private routines
 
@@ -69,32 +65,14 @@ JString::JString
 	itsCharacterCount(0),
 	itsAllocCount(theDefaultBlockSize),
 	itsBlockSize(theDefaultBlockSize),
-	itsUCaseMap(NULL),
-	itsIterator(NULL)
+	itsUCaseMap(nullptr),
+	itsIterator(nullptr)
 {
 	itsBytes = jnew JUtf8Byte [ itsAllocCount+1 ];
-	assert( itsBytes != NULL );
+	assert( itsBytes != nullptr );
 	itsBytes[0] = '\0';
-}
 
-JString::JString
-	(
-	const JString&			str,
-	const JCharacterRange&	charRange
-	)
-	:
-	itsOwnerFlag(kJTrue),
-	itsNormalizeFlag(kJTrue),
-	itsBytes(NULL),		// makes delete [] safe inside CopyToPrivateBuffer
-	itsByteCount(0),
-	itsCharacterCount(0),
-	itsAllocCount(0),
-	itsBlockSize(theDefaultBlockSize),
-	itsUCaseMap(NULL),
-	itsIterator(NULL)
-{
-	JUtf8ByteRange byteRange = str.CharacterToUtf8ByteRange(charRange);
-	CopyToPrivateBuffer(str.itsBytes + byteRange.first-1, byteRange.GetCount());
+	theCurrentlyConstructingObject = NULL;
 }
 
 JString::JString
@@ -105,15 +83,15 @@ JString::JString
 	:
 	itsOwnerFlag(kJTrue),
 	itsNormalizeFlag(source.itsNormalizeFlag),
-	itsBytes(NULL),		// makes delete [] safe inside CopyToPrivateBuffer
+	itsBytes(nullptr),		// makes delete [] safe inside CopyToPrivateBuffer
 	itsByteCount(0),
 	itsCharacterCount(0),
 	itsAllocCount(0),
 	itsBlockSize(source.itsBlockSize),
-	itsUCaseMap(NULL),
-	itsIterator(NULL)
+	itsUCaseMap(nullptr),
+	itsIterator(nullptr)
 {
-	if (copy)
+	if (copy || this == theCurrentlyConstructingObject)
 		{
 		CopyToPrivateBuffer(source.itsBytes, source.itsByteCount);
 		}
@@ -124,6 +102,51 @@ JString::JString
 		itsByteCount      = source.itsByteCount;
 		itsCharacterCount = source.itsCharacterCount;
 		}
+
+	theCurrentlyConstructingObject = NULL;
+}
+
+JString::JString
+	(
+	const JString&			str,
+	const JCharacterRange&	charRange,
+	const JBoolean			copy
+	)
+	:
+	itsOwnerFlag(kJTrue),
+	itsNormalizeFlag(kJTrue),
+	itsBytes(nullptr),		// makes delete [] safe inside CopyToPrivateBuffer
+	itsByteCount(0),
+	itsCharacterCount(0),
+	itsAllocCount(0),
+	itsBlockSize(theDefaultBlockSize),
+	itsUCaseMap(nullptr),
+	itsIterator(nullptr)
+{
+	const JUtf8ByteRange byteRange = str.CharacterToUtf8ByteRange(charRange);
+	if (copy || this == theCurrentlyConstructingObject)
+		{
+		CopyToPrivateBuffer(str.itsBytes + byteRange.first-1, byteRange.GetCount());
+		}
+	else
+		{
+		itsOwnerFlag      = kJFalse;
+		itsBytes          = const_cast<JUtf8Byte*>(str.GetRawBytes() + byteRange.first-1);	// we promise not to modify it
+		itsByteCount      = byteRange.GetCount();
+		itsCharacterCount = charRange.GetCount();
+		}
+
+	theCurrentlyConstructingObject = NULL;
+}
+
+JString::JString
+	(
+	const JUtf8Byte*	str,
+	const JBoolean		copy
+	)
+	:
+	JString(str, 0, copy)
+{
 }
 
 JString::JString
@@ -135,13 +158,13 @@ JString::JString
 	:
 	itsOwnerFlag(kJTrue),
 	itsNormalizeFlag(kJTrue),
-	itsBytes(NULL),		// makes delete [] safe inside CopyToPrivateBuffer
+	itsBytes(nullptr),		// makes delete [] safe inside CopyToPrivateBuffer
 	itsByteCount(0),
 	itsCharacterCount(0),
 	itsAllocCount(0),
 	itsBlockSize(theDefaultBlockSize),
-	itsUCaseMap(NULL),
-	itsIterator(NULL)
+	itsUCaseMap(nullptr),
+	itsIterator(nullptr)
 {
 	JSize byteCount = origByteCount;
 	if (byteCount == 0)
@@ -149,9 +172,9 @@ JString::JString
 		byteCount = strlen(str);
 		}
 
-	if (copy)
+	if (copy || this == theCurrentlyConstructingObject)
 		{
-		CopyToPrivateBuffer(byteCount > 0 ? str : "", byteCount);	// allow (NULL,0)
+		CopyToPrivateBuffer(byteCount > 0 ? str : "", byteCount);	// allow (nullptr,0)
 		}
 	else
 		{
@@ -160,6 +183,8 @@ JString::JString
 		itsByteCount      = byteCount;
 		itsCharacterCount = CountCharacters(itsBytes, itsByteCount);
 		}
+
+	theCurrentlyConstructingObject = NULL;
 }
 
 JString::JString
@@ -171,15 +196,15 @@ JString::JString
 	:
 	itsOwnerFlag(kJTrue),
 	itsNormalizeFlag(kJTrue),
-	itsBytes(NULL),		// makes delete [] safe inside CopyToPrivateBuffer
+	itsBytes(nullptr),		// makes delete [] safe inside CopyToPrivateBuffer
 	itsByteCount(0),
 	itsCharacterCount(0),
 	itsAllocCount(0),
 	itsBlockSize(theDefaultBlockSize),
-	itsUCaseMap(NULL),
-	itsIterator(NULL)
+	itsUCaseMap(nullptr),
+	itsIterator(nullptr)
 {
-	if (copy)
+	if (copy || this == theCurrentlyConstructingObject)
 		{
 		CopyToPrivateBuffer(str + range.first-1, range.GetCount());
 		}
@@ -190,6 +215,17 @@ JString::JString
 		itsByteCount      = range.GetCount();
 		itsCharacterCount = CountCharacters(itsBytes, itsByteCount);
 		}
+
+	theCurrentlyConstructingObject = NULL;
+}
+
+JString::JString
+	(
+	const std::string& s
+	)
+	:
+	JString(s, JUtf8ByteRange())
+{
 }
 
 JString::JString
@@ -200,13 +236,13 @@ JString::JString
 	:
 	itsOwnerFlag(kJTrue),
 	itsNormalizeFlag(kJTrue),
-	itsBytes(NULL),		// makes delete [] safe inside CopyToPrivateBuffer
+	itsBytes(nullptr),		// makes delete [] safe inside CopyToPrivateBuffer
 	itsByteCount(0),
 	itsCharacterCount(0),
 	itsAllocCount(0),
 	itsBlockSize(theDefaultBlockSize),
-	itsUCaseMap(NULL),
-	itsIterator(NULL)
+	itsUCaseMap(nullptr),
+	itsIterator(nullptr)
 {
 	if (range.IsNothing())
 		{
@@ -216,6 +252,17 @@ JString::JString
 		{
 		CopyToPrivateBuffer(s.data() + range.first-1, range.GetCount());
 		}
+
+	theCurrentlyConstructingObject = NULL;
+}
+
+JString::JString
+	(
+	const JUtf8Character& c
+	)
+	:
+	JString(c.GetBytes())
+{
 }
 
 JString::JString
@@ -227,13 +274,13 @@ JString::JString
 	:
 	itsOwnerFlag(kJTrue),
 	itsNormalizeFlag(kJTrue),
-	itsBytes(NULL),		// makes delete [] safe inside CopyToPrivateBuffer
+	itsBytes(nullptr),		// makes delete [] safe inside CopyToPrivateBuffer
 	itsByteCount(0),
 	itsCharacterCount(0),
 	itsAllocCount(0),
 	itsBlockSize(theDefaultBlockSize),
-	itsUCaseMap(NULL),
-	itsIterator(NULL)
+	itsUCaseMap(nullptr),
+	itsIterator(nullptr)
 {
 	if (number == 0)
 		{
@@ -281,6 +328,8 @@ JString::JString
 		ToUpper();
 		Prepend("0x");
 		}
+
+	theCurrentlyConstructingObject = NULL;
 }
 
 JString::JString
@@ -298,42 +347,21 @@ JString::JString
 	itsCharacterCount(0),
 	itsAllocCount(theDefaultBlockSize),
 	itsBlockSize(theDefaultBlockSize),
-	itsUCaseMap(NULL),
-	itsIterator(NULL)
+	itsUCaseMap(nullptr),
+	itsIterator(nullptr)
 {
 	assert( precision >= -1 );
 
 	itsBytes = jnew JUtf8Byte [ itsAllocCount+1 ];
-	assert( itsBytes != NULL );
+	assert( itsBytes != nullptr );
 	double2str(number, precision, sigDigitCount,
 			   (expDisplay == kUseGivenExponent ? exponent : expDisplay),
 			   itsBytes);
 
 	itsByteCount      = strlen(itsBytes);
 	itsCharacterCount = CountCharacters(itsBytes, itsByteCount);
-}
 
-/******************************************************************************
- Copy constructor
-
- ******************************************************************************/
-
-JString::JString
-	(
-	const JString& source
-	)
-	:
-	itsOwnerFlag(kJTrue),
-	itsNormalizeFlag(source.itsNormalizeFlag),
-	itsBytes(NULL),		// makes delete [] safe inside CopyToPrivateBuffer
-	itsByteCount(0),
-	itsCharacterCount(0),
-	itsAllocCount(0),
-	itsBlockSize(source.itsBlockSize),
-	itsUCaseMap(NULL),
-	itsIterator(NULL)
-{
-	CopyToPrivateBuffer(source.itsBytes, source.itsByteCount);
+	theCurrentlyConstructingObject = NULL;
 }
 
 /******************************************************************************
@@ -350,10 +378,44 @@ JString::~JString()
 
 	ucasemap_close(itsUCaseMap);
 
-	if (itsIterator != NULL)
+	if (itsIterator != nullptr)
 		{
 		itsIterator->Invalidate();
 		}
+}
+
+/******************************************************************************
+ Allocation
+
+	If a JString is constructed on the heap, we need to cancel out the Name
+	Return Value Optimization to ensure that we own the data.
+
+ ******************************************************************************/
+
+void*
+JString::operator new
+	(
+	size_t sz
+	)
+	noexcept
+{
+	void* memory = ::operator new(sz);
+	theCurrentlyConstructingObject = static_cast<JString*>(memory);
+	return memory;
+}
+
+void*
+JString::operator new
+	(
+	std::size_t			sz,
+	const JUtf8Byte*	file,
+	const JUInt32		line
+	)
+	noexcept
+{
+	void* memory = ::operator new(sz, file,line);
+	theCurrentlyConstructingObject = static_cast<JString*>(memory);
+	return memory;
 }
 
 /******************************************************************************
@@ -374,7 +436,7 @@ JString::Set
 	else if (itsBytes != str.itsBytes || itsByteCount != str.itsByteCount)
 		{
 		JUtf8Byte* s  = itsBytes;
-		itsBytes      = NULL;
+		itsBytes      = nullptr;
 		itsByteCount  = 0;
 		itsAllocCount = 0;
 		CopyToPrivateBuffer(str.itsBytes, str.itsByteCount);
@@ -401,7 +463,7 @@ JString::Set
 	else if (itsBytes != str.itsBytes || itsByteCount != byteRange.GetCount())
 		{
 		JUtf8Byte* s  = itsBytes;
-		itsBytes      = NULL;
+		itsBytes      = nullptr;
 		itsByteCount  = 0;
 		itsAllocCount = 0;
 		CopyToPrivateBuffer(str.itsBytes + byteRange.first-1, byteRange.GetCount());
@@ -430,7 +492,7 @@ JString::CopyToPrivateBuffer
 	const JBoolean		invalidateIterator
 	)
 {
-	assert( itsBytes == NULL || !(itsBytes <= str && str < itsBytes + itsByteCount) );
+	assert( itsBytes == nullptr || !(itsBytes <= str && str < itsBytes + itsByteCount) );
 
 	// ensure sufficient space
 
@@ -439,7 +501,7 @@ JString::CopyToPrivateBuffer
 		itsAllocCount = byteCount + itsBlockSize;
 
 		JUtf8Byte* newString = jnew JUtf8Byte [ itsAllocCount + 1 ];
-		assert( newString != NULL );
+		assert( newString != nullptr );
 
 		if (itsOwnerFlag)
 			{
@@ -451,7 +513,7 @@ JString::CopyToPrivateBuffer
 
 	// copy normalized characters to the new string
 
-	if (str != NULL)
+	if (str != nullptr)
 		{
 		if (itsNormalizeFlag)
 			{
@@ -472,7 +534,7 @@ JString::CopyToPrivateBuffer
 		itsCharacterCount = 0;
 		}
 
-	if (invalidateIterator && itsIterator != NULL)
+	if (invalidateIterator && itsIterator != nullptr)
 		{
 		itsIterator->Invalidate();
 		}
@@ -490,9 +552,9 @@ JString::SetIterator
 	)
 	const
 {
-	if (iter != NULL)
+	if (iter != nullptr)
 		{
-		assert( itsIterator == NULL );
+		assert( itsIterator == nullptr );
 		}
 
 	const_cast<JString*>(this)->itsIterator = iter;
@@ -512,7 +574,7 @@ JString::GetBytes()
 		JString* self = const_cast<JString*>(this);		// does not violate conceptual constness
 
 		const JUtf8Byte* bytes = itsBytes;
-		self->itsBytes = NULL;	// don't confuse CopyToPrivateBuffer()
+		self->itsBytes = nullptr;	// don't confuse CopyToPrivateBuffer()
 		self->CopyToPrivateBuffer(bytes, itsByteCount, kJFalse);
 		}
 	return itsBytes;
@@ -561,7 +623,7 @@ JString::AllocateBytes()
 	const
 {
 	JUtf8Byte* str = jnew JUtf8Byte [ itsByteCount + 1 ];
-	assert( str != NULL );
+	assert( str != nullptr );
 
 	memcpy(str, itsBytes, itsByteCount);
 	str[ itsByteCount ] = 0;	// in case we are not owner
@@ -585,7 +647,7 @@ JString::Prepend
 	r.SetToEmptyAt(1);
 	ReplaceBytes(r, str, byteCount);
 
-	if (itsIterator != NULL)
+	if (itsIterator != nullptr)
 		{
 		itsIterator->Invalidate();
 		}
@@ -607,7 +669,7 @@ JString::Append
 	r.SetToEmptyAt(itsByteCount+1);
 	ReplaceBytes(r, str, byteCount);
 
-	if (itsIterator != NULL)
+	if (itsIterator != nullptr)
 		{
 		itsIterator->Invalidate();
 		}
@@ -618,7 +680,7 @@ JString::Append
 
 	Replace the specified range with the given bytes.
 
-	It is safe to pass in "NULL, 0" for the insertion, to do a remove.
+	It is safe to pass in "nullptr, 0" for the insertion, to do a remove.
 
  ******************************************************************************/
 
@@ -639,7 +701,7 @@ JString::ReplaceBytes
 		return;
 		}
 
-	JUtf8Byte* normalizedInsertBytes = NULL;
+	JUtf8Byte* normalizedInsertBytes = nullptr;
 	JSize normalizedInsertByteCount  = insertByteCount;
 	if (insertByteCount > 0 && itsNormalizeFlag)
 		{
@@ -672,7 +734,7 @@ JString::ReplaceBytes
 		// allocate space for the result
 
 		JUtf8Byte* newString = jnew JUtf8Byte[ itsAllocCount+1 ];
-		assert( newString != NULL );
+		assert( newString != nullptr );
 
 		// place the characters in front and behind
 
@@ -752,7 +814,7 @@ JString::Clear()
 		// call to new doesn't work.
 
 		itsBytes = jnew JUtf8Byte [ itsAllocCount + 1 ];
-		assert( itsBytes != NULL );
+		assert( itsBytes != nullptr );
 		itsOwnerFlag = kJTrue;
 		}
 
@@ -762,7 +824,7 @@ JString::Clear()
 	itsByteCount      = 0;
 	itsCharacterCount = 0;
 
-	if (itsIterator != NULL)
+	if (itsIterator != nullptr)
 		{
 		itsIterator->Invalidate();
 		}
@@ -834,7 +896,7 @@ JString::TrimWhitespace()
 		// allocate space for the new string + termination
 
 		JUtf8Byte* newString = jnew JUtf8Byte[ itsAllocCount+1 ];
-		assert( newString != NULL );
+		assert( newString != nullptr );
 
 		// copy the non-blank characters to the new string
 
@@ -863,7 +925,7 @@ JString::TrimWhitespace()
 	itsByteCount          = newLength;
 	itsCharacterCount    -= wsCount;
 
-	if (itsIterator != NULL)
+	if (itsIterator != nullptr)
 		{
 		itsIterator->Invalidate();
 		}
@@ -913,10 +975,10 @@ JString::FoldCase
 
 	UErrorCode err;
 
-	if (itsUCaseMap == NULL)
+	if (itsUCaseMap == nullptr)
 		{
 		err         = U_ZERO_ERROR;
-		itsUCaseMap = ucasemap_open(NULL, U_FOLD_CASE_DEFAULT, &err);
+		itsUCaseMap = ucasemap_open(nullptr, U_FOLD_CASE_DEFAULT, &err);
 		assert( err == U_ZERO_ERROR );
 		}
 
@@ -924,11 +986,11 @@ JString::FoldCase
 	err = U_ZERO_ERROR;
 	if (upper)
 		{
-		newLength = ucasemap_utf8ToUpper(itsUCaseMap, NULL, 0, itsBytes, itsByteCount, &err);
+		newLength = ucasemap_utf8ToUpper(itsUCaseMap, nullptr, 0, itsBytes, itsByteCount, &err);
 		}
 	else
 		{
-		newLength = ucasemap_utf8ToLower(itsUCaseMap, NULL, 0, itsBytes, itsByteCount, &err);
+		newLength = ucasemap_utf8ToLower(itsUCaseMap, nullptr, 0, itsBytes, itsByteCount, &err);
 		}
 	assert( err == U_BUFFER_OVERFLOW_ERROR );
 
@@ -937,7 +999,7 @@ JString::FoldCase
 	// allocate space for the result
 
 	JUtf8Byte* newString = jnew JUtf8Byte[ itsAllocCount+1 ];
-	assert( newString != NULL );
+	assert( newString != nullptr );
 
 	// get the new string
 
@@ -961,7 +1023,7 @@ JString::FoldCase
 	itsBytes     = newString;
 	itsOwnerFlag = kJTrue;
 
-	if (itsIterator != NULL)
+	if (itsIterator != nullptr)
 		{
 		itsIterator->Invalidate();
 		}
@@ -1012,8 +1074,8 @@ JString::SearchForward
 	// search forward for a match
 
 	UErrorCode err  = U_ZERO_ERROR;
-	UCollator* coll = ucol_open(NULL, &err);
-	if (coll == NULL)
+	UCollator* coll = ucol_open(nullptr, &err);
+	if (coll == nullptr)
 		{
 		return kJFalse;
 		}
@@ -1095,8 +1157,8 @@ JString::SearchBackward
 	// search backward for a match
 
 	UErrorCode err  = U_ZERO_ERROR;
-	UCollator* coll = ucol_open(NULL, &err);
-	if (coll == NULL)
+	UCollator* coll = ucol_open(nullptr, &err);
+	if (coll == nullptr)
 		{
 		return kJFalse;
 		}
@@ -1492,7 +1554,7 @@ JString::Read
 		// If new fails, we still have the old string data.
 
 		JUtf8Byte* newString = jnew JUtf8Byte [ itsAllocCount + 1 ];
-		assert( newString != NULL );
+		assert( newString != nullptr );
 
 		// now it's safe to throw out the old data
 
@@ -1523,7 +1585,7 @@ JString::Read
 	itsByteCount      = p - itsBytes;
 	itsCharacterCount = CountCharacters(itsBytes, itsByteCount);
 
-	if (itsIterator != NULL)
+	if (itsIterator != nullptr)
 		{
 		itsIterator->Invalidate();
 		}
@@ -1805,8 +1867,8 @@ JString::Compare
 	)
 {
 	UErrorCode err  = U_ZERO_ERROR;
-	UCollator* coll = ucol_open(NULL, &err);
-	if (coll == NULL)
+	UCollator* coll = ucol_open(nullptr, &err);
+	if (coll == nullptr)
 		{
 		return 0;
 		}
@@ -1839,8 +1901,8 @@ JString::CompareMaxNBytes
 	)
 {
 	UErrorCode err  = U_ZERO_ERROR;
-	UCollator* coll = ucol_open(NULL, &err);
-	if (coll == NULL)
+	UCollator* coll = ucol_open(nullptr, &err);
+	if (coll == nullptr)
 		{
 		return 0;
 		}
@@ -1887,8 +1949,8 @@ JString::CalcCharacterMatchLength
 	)
 {
 	UErrorCode err  = U_ZERO_ERROR;
-	UCollator* coll = ucol_open(NULL, &err);
-	if (coll == NULL)
+	UCollator* coll = ucol_open(nullptr, &err);
+	if (coll == nullptr)
 		{
 		return 0;
 		}
@@ -1946,7 +2008,7 @@ JString::Normalize
 	)
 {
 	*destination = jnew JUtf8Byte[ 2*byteCount+1 ];		// 2x is paranoia
-	assert( *destination != NULL );
+	assert( *destination != nullptr );
 
 	return CopyNormalizedBytes(source, byteCount,
 							   *destination, 2*byteCount);
@@ -1963,7 +2025,7 @@ JString::Normalize
 	Because of normalization, this may be less than the number of input
 	bytes processed.
 
-	destination is guaranteed to be NULL terminated.  The name capacity
+	destination is guaranteed to be nullptr terminated.  The name capacity
 	should remind you that there must also be room for a null terminator -
 	at most capacity-1 bytes are actually inserted.
 
@@ -2043,7 +2105,7 @@ JString::MatchCase
 		MatchCase(source.itsBytes, source.CharacterToUtf8ByteRange(sourceRange),
 				  JUtf8ByteRange(1, itsByteCount));
 
-	if (changed && itsIterator != NULL)
+	if (changed && itsIterator != nullptr)
 		{
 		itsIterator->Invalidate();
 		}
@@ -2062,7 +2124,7 @@ JString::MatchCase
 		MatchCase(source.itsBytes, source.CharacterToUtf8ByteRange(sourceRange),
 				  CharacterToUtf8ByteRange(destRange));
 
-	if (changed && itsIterator != NULL)
+	if (changed && itsIterator != nullptr)
 		{
 		itsIterator->Invalidate();
 		}
@@ -2079,7 +2141,7 @@ JString::MatchCase
 	const JBoolean changed =
 		MatchCase(source, sourceRange, JUtf8ByteRange(1, itsByteCount));
 
-	if (changed && itsIterator != NULL)
+	if (changed && itsIterator != nullptr)
 		{
 		itsIterator->Invalidate();
 		}
@@ -2097,7 +2159,7 @@ JString::MatchCase
 	const JBoolean changed =
 		MatchCase(source, sourceRange, CharacterToUtf8ByteRange(destRange));
 
-	if (changed && itsIterator != NULL)
+	if (changed && itsIterator != nullptr)
 		{
 		itsIterator->Invalidate();
 		}
@@ -2114,7 +2176,7 @@ JString::MatchCase
 	const JBoolean changed =
 		MatchCase(source.data(), sourceRange, JUtf8ByteRange(1, itsByteCount));
 
-	if (changed && itsIterator != NULL)
+	if (changed && itsIterator != nullptr)
 		{
 		itsIterator->Invalidate();
 		}
@@ -2132,7 +2194,7 @@ JString::MatchCase
 	const JBoolean changed =
 		MatchCase(source.data(), sourceRange, CharacterToUtf8ByteRange(destRange));
 
-	if (changed && itsIterator != NULL)
+	if (changed && itsIterator != nullptr)
 		{
 		itsIterator->Invalidate();
 		}

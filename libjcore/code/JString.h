@@ -55,22 +55,25 @@ public:
 public:
 
 	JString(const JBoolean normalize = kJTrue);
-	JString(const JString& str);
-	JString(const JString& str, const JBoolean copy);
-	JString(const JString& str, const JCharacterRange& range);
-//	JString(const JUtf8Byte* str, const JBoolean copy = kJTrue);	// prevent automatic construction
+	JString(const JString& str, const JBoolean copy = kJTrue);
+	JString(const JString& str, const JCharacterRange& range, const JBoolean copy = kJTrue);
 	JString(const JUtf8Byte* str, const JSize byteCount, const JBoolean copy = kJTrue);
 	JString(const JUtf8Byte* str, const JUtf8ByteRange& range, const JBoolean copy = kJTrue);
-//	JString(const std::string& str);	// prevent sneaky automatic construction from char*
 	JString(const std::string& str, const JUtf8ByteRange& range);
-//	JString(const JUtf8Character& c);	// prevent sneaky, incorrect, automatic construction from char*
 
-	JString(const JUInt64 number, const Base base, const JBoolean pad = kJFalse);
-	JString(const JFloat number, const JInteger precision,
-			const ExponentDisplay expDisplay = kStandardExponent,
-			const JInteger exponent = 0, const JInteger sigDigitCount = 0);
+	explicit JString(const JUtf8Byte* str, const JBoolean copy = kJTrue);
+	explicit JString(const std::string& str);	// prevent sneaky automatic construction from char*
+	explicit JString(const JUtf8Character& c);	// prevent sneaky, incorrect, automatic construction from char*
+
+	explicit JString(const JUInt64 number, const Base base = kBase10, const JBoolean pad = kJFalse);
+	explicit JString(const JFloat number, const JInteger precision = kPrecisionAsNeeded,
+					 const ExponentDisplay expDisplay = kStandardExponent,
+					 const JInteger exponent = 0, const JInteger sigDigitCount = 0);
 
 	~JString();
+
+	static void* operator new(size_t sz) noexcept;
+	static void* operator new(size_t size, const JUtf8Byte* file, const JUInt32 line) noexcept;
 
 	const JString& operator=(const JString& str);
 	const JString& operator=(const JUtf8Byte* str);
@@ -110,7 +113,7 @@ public:
 	const JUtf8Byte*	GetBytes() const;
 	JUtf8Byte*			AllocateBytes() const;	// client must call delete [] when finished with it
 	JBoolean			IsOwner() const;		// primarily for debugging
-	const JUtf8Byte*	GetRawBytes() const;	// NOT guaranteed to be NULL terminated
+	const JUtf8Byte*	GetRawBytes() const;	// NOT guaranteed to be nullptr terminated
 
 	JBoolean	BeginsWith(const JString& str, const JBoolean caseSensitive = kJTrue) const;
 	JBoolean	BeginsWith(const JString& str, const JCharacterRange& range, const JBoolean caseSensitive = kJTrue) const;
@@ -313,7 +316,7 @@ inline JBoolean
 JString::IsOwner()
 	const
 {
-	return itsOwnerFlag;
+	return JI2B( itsOwnerFlag );
 }
 
 /******************************************************************************
@@ -331,7 +334,7 @@ JString::IsAscii()
 /******************************************************************************
  GetRawBytes
 
-	*** NOT guaranteed to be NULL terminated
+	*** NOT guaranteed to be nullptr terminated
 
  ******************************************************************************/
 
@@ -365,7 +368,7 @@ JString::IsEmpty
 	const JUtf8Byte* s
 	)
 {
-	return JI2B( s == NULL || s[0] == '\0' );
+	return JI2B( s == nullptr || s[0] == '\0' );
 }
 
 inline JBoolean
@@ -374,7 +377,7 @@ JString::IsEmpty
 	const JString* s
 	)
 {
-	return JI2B( s == NULL || s->IsEmpty() );
+	return JI2B( s == nullptr || s->IsEmpty() );
 }
 
 /******************************************************************************
@@ -1704,7 +1707,7 @@ JString::Split
 	)
 	const
 {
-	Split(JString(separator, 0, kJFalse), partList, limit, includeSeparators);
+	Split(JString(separator, kJFalse), partList, limit, includeSeparators);
 }
 
 /******************************************************************************

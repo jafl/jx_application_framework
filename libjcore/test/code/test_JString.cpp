@@ -13,6 +13,7 @@
 #include <fstream>
 #include <string>
 #include <locale.h>
+#include <stdlib.h>
 #include <jAssert.h>
 
 int main()
@@ -64,13 +65,13 @@ JTEST(Construction)
 	JString s1;
 	JAssertStringsEqual("", s1);
 
-	JAssertTrue(JString::IsEmpty((JUtf8Byte*) NULL));
+	JAssertTrue(JString::IsEmpty((JUtf8Byte*) nullptr));
 	JAssertTrue(JString::IsEmpty(""));
 	JAssertTrue(s1.IsEmpty());
-	JAssertTrue(JString::IsEmpty((JString*) NULL));
+	JAssertTrue(JString::IsEmpty((JString*) nullptr));
 	JAssertTrue(JString::IsEmpty(&s1));
 
-	JString s2("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", 0);
+	JString s2("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94");
 	JAssertEqual(19, s2.GetByteCount());
 	JAssertEqual(14, s2.GetCharacterCount());
 	JAssertStringsEqual("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", s2);
@@ -105,7 +106,7 @@ JTEST(Construction)
 
 	std::string ss1("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94");
 
-	JString s14(ss1, JUtf8ByteRange());
+	JString s14(ss1);
 	JAssertEqual(19, s14.GetByteCount());
 	JAssertEqual(14, s14.GetCharacterCount());
 	JAssertStringsEqual("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", s14);
@@ -130,11 +131,15 @@ JTEST(Construction)
 	JAssertEqual(7, s13.GetByteCount());
 	JAssertEqual(3, s13.GetCharacterCount());
 	JAssertStringsEqual("\xC3\x85\xC3\xA5\xE2\x9C\x94", s13);
+
+	JString s15(JUtf8Character("\xC3\x85"));
+	JAssertEqual(2, s15.GetByteCount());
+	JAssertStringsEqual("\xC3\x85", s15);
 }
 
 JTEST(LazyConstruction)
 {
-	JString s2("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", 0, kJFalse);
+	JString s2("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", kJFalse);
 	JAssertFalse(s2.IsOwner());
 	JAssertEqual(19, s2.GetByteCount());
 	JAssertEqual(14, s2.GetCharacterCount());
@@ -176,7 +181,7 @@ JTEST(LazyConstruction)
 
 	JString s14("\xC3\x86\xCE\xA6\xCE\xA3", 0);
 	JAssertTrue(s14.IsOwner());
-	JString s15(s14.GetBytes(), 0, kJFalse);
+	JString s15(s14.GetBytes(), kJFalse);
 	JAssertFalse(s15.IsOwner());
 	s15.ToLower();
 	JAssertStringsEqual("\xC3\x86\xCE\xA6\xCE\xA3", s14);
@@ -195,6 +200,67 @@ JTEST(LazyConstruction)
 	JAssertFalse(s17.IsOwner());
 	JAssertStringsEqual("efg", s17.GetBytes());
 	JAssertFalse(s17.IsOwner());
+}
+
+JString TestNameReturnValueOptimization()
+{
+	return JString("fleem", 4, kJFalse);
+}
+
+JTEST(Allocation)
+{
+	JString s0 = JString("foobar", 3, kJFalse);
+
+	const JUtf8Byte* p1 = s0.GetRawBytes();
+	const JUtf8Byte* p2 = s0.GetBytes();
+	JAssertFalse(((void*) p1) == ((void*) p2));
+	JAssertEqual(3, s0.GetCharacterCount());
+
+	JString* s = jnew JString("foobar", 3, kJFalse);
+	assert( s != nullptr );
+
+	p1 = s->GetRawBytes();
+	p2 = s->GetBytes();
+	JAssertEqual((void*) p1, (void*) p2);
+	JAssertEqual(3, s->GetCharacterCount());
+
+	sranddev();
+	if (rand() < RAND_MAX/2)	// try to force processor to pre-execute 2 branches
+		{
+		JString* s1 = jnew JString(TestNameReturnValueOptimization());
+		assert( s1 != nullptr );
+
+		JString* s2 = new JString(TestNameReturnValueOptimization());
+		assert( s2 != nullptr );
+
+		p1 = s1->GetRawBytes();
+		p2 = s1->GetBytes();
+		JAssertEqual((void*) p1, (void*) p2);
+		JAssertEqual(4, s1->GetCharacterCount());
+
+		p1 = s2->GetRawBytes();
+		p2 = s2->GetBytes();
+		JAssertEqual((void*) p1, (void*) p2);
+		JAssertEqual(4, s2->GetCharacterCount());
+		}
+	else
+		{
+		JString* s3 = jnew JString(TestNameReturnValueOptimization());
+		assert( s3 != nullptr );
+
+		JString* s4 = new JString(TestNameReturnValueOptimization());
+		assert( s4 != nullptr );
+
+		p1 = s3->GetRawBytes();
+		p2 = s3->GetBytes();
+		JAssertEqual((void*) p1, (void*) p2);
+		JAssertEqual(4, s3->GetCharacterCount());
+
+		p1 = s4->GetRawBytes();
+		p2 = s4->GetBytes();
+		JAssertEqual((void*) p1, (void*) p2);
+		JAssertEqual(4, s4->GetCharacterCount());
+		}
 }
 
 JTEST(Set)
@@ -311,7 +377,7 @@ JTEST(IsValid)
 
 JTEST(IntegerConversion)
 {
-	JString s1(42, JString::kBase10);
+	JString s1((JUInt64) 42);
 	JAssertStringsEqual("42", s1);
 	JAssertTrue(s1.IsFloat());
 	JAssertTrue(s1.IsInteger());
@@ -361,10 +427,10 @@ JTEST(IntegerConversion)
 
 JTEST(FloatConversion)
 {
-	JString s1(42, JString::kPrecisionAsNeeded);
+	JString s1((JUInt64) 42);
 	JAssertStringsEqual("42", s1);
 
-	JString s2(42.7, JString::kPrecisionAsNeeded);
+	JString s2(42.7);
 	JAssertStringsEqual("42.7", s2);
 
 	JFloat f;
@@ -377,7 +443,7 @@ JTEST(FloatConversion)
 	JUInt u;
 	JAssertFalse(s2.ConvertToUInt(&u));
 
-	JString s3(-1.3e5, JString::kPrecisionAsNeeded);
+	JString s3(-1.3e5);
 	JAssertStringsEqual("-130000", s3);
 
 	JAssertTrue(s3.ConvertToFloat(&f));
@@ -388,7 +454,7 @@ JTEST(FloatConversion)
 
 	JAssertFalse(s3.ConvertToUInt(&u));
 
-	JString s4(1.3e20, JString::kPrecisionAsNeeded);
+	JString s4(1.3e20);
 	JAssertStringsEqual("1.3e+20", s4);
 
 	JString s5(1.57e5, 2, JString::kUseGivenExponent, 2, 2);
@@ -478,7 +544,7 @@ JTEST(Get)
 	JUtf8Byte* s1 = s.AllocateBytes();
 	JAssertStringsEqual(s, s1);
 	delete [] s1;
-	s1 = NULL;
+	s1 = nullptr;
 
 	std::cout << "expect invalid:  f8 9c 94" << std::endl;
 
@@ -711,8 +777,8 @@ JTEST(Split)
 {
 	JPtrArray<JString> list(JPtrArrayT::kDeleteAll);
 
-	JString s("|foo|bar|baz|", 0, kJFalse);
-	JString separator("|", 0, kJFalse);
+	JString s("|foo|bar|baz|", kJFalse);
+	JString separator("|", kJFalse);
 
 	s.Split(separator, &list);
 	JAssertEqual(4, list.GetElementCount());

@@ -1,5 +1,3 @@
-makemake - MM_ALL_SOURCES suffixes are garbage
-
 validate contents of TextChanged messages
 
 call FilterText after set font or font name or SetAllFontAndName
