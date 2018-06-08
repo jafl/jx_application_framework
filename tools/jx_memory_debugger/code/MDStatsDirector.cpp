@@ -772,7 +772,7 @@ mdSetValue
 	JString s;
 	if (raw)
 		{
-		s = JString(value, JString::kBase10);
+		s = JString((JUInt64) value);
 		}
 	else
 		{

@@ -248,7 +248,7 @@ GPMProcessTable::TableDrawCell
 		}
 	else if (cell.x == GPMProcessList::kListPID)
 		{
-		str	= JString(entry.GetPID(), JString::kBase10);
+		str	= JString((JUInt64) entry.GetPID());
 		}
 	else if (cell.x == GPMProcessList::kListUser)
 		{
@@ -257,27 +257,27 @@ GPMProcessTable::TableDrawCell
 		}
 /*	else if (cell.x == GPMProcessList::kListPPID)
 		{
-		str	= JString(entry.GetPPID(), JString::kBase10);
+		str	= JString((JUInt64) entry.GetPPID());
 		}
 	else if (cell.x == GPMProcessList::kListPriority)
 		{
-		str	= JString(entry.GetPriority(), JString::kBase10);
+		str	= JString((JUInt64) entry.GetPriority());
 		}
 */	else if (cell.x == GPMProcessList::kListNice)
 		{
-		str	= JString(entry.GetNice(), JString::kBase10);
+		str	= JString((JUInt64) entry.GetNice());
 		}
 	else if (cell.x == GPMProcessList::kListSize)
 		{
-		str	= JString(entry.GetSize(), JString::kBase10);
+		str	= JString((JUInt64) entry.GetSize());
 		}
 /*	else if (cell.x == GPMProcessList::kListResident)
 		{
-		str	= JString(entry.GetResident(), JString::kBase10);
+		str	= JString((JUInt64) entry.GetResident());
 		}
 	else if (cell.x == GPMProcessList::kListShare)
 		{
-		str	= JString(entry.GetShare(), JString::kBase10);
+		str	= JString((JUInt64) entry.GetShare());
 		}
 */	else if (cell.x == GPMProcessList::kListCPU)
 		{
@@ -289,7 +289,7 @@ GPMProcessTable::TableDrawCell
 		}
 	else if (cell.x == GPMProcessList::kListTime)
 		{
-		str	= JString(entry.GetTime(), JString::kBase10);
+		str	= JString((JUInt64) entry.GetTime());
 		}
 	else if (cell.x == GPMProcessList::kListCommand)
 		{
@@ -605,9 +605,9 @@ GPMProcessTable::HandleContextMenu
 	else
 		{
 		JString cmd = "xterm -title 'Drakon sudo' -e /bin/sh -c 'sudo -k ; sudo kill -";
-		cmd        += JString(sigValue, JString::kBase10);
+		cmd        += JString((JUInt64) sigValue);
 		cmd        += " ";
-		cmd        += JString(pid, JString::kBase10);
+		cmd        += JString((JUInt64) pid);
 		cmd        += "'";
 		JSimpleProcess::Create(cmd, kJTrue);
 		}

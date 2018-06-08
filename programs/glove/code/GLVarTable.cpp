@@ -89,7 +89,7 @@ GLVarTable::NewConstant()
 	JIndex index;
 	do
 		{
-		parm	= "a" + JString(parmIndex, JString::kBase10);
+		parm	= "a" + JString((JUInt64) parmIndex);
 		parmIndex ++;
 		}
 	while (itsVarList->ParseVariableName(parm, parm.GetLength(), &index));

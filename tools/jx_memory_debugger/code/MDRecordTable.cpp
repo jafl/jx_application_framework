@@ -179,12 +179,12 @@ MDRecordTable::TableDrawCell
 		}
 	else if (cell.x == MDRecordList::kRecordLine)
 		{
-		str	   = JString(record.GetNewLine(), JString::kBase10);
+		str	   = JString((JUInt64) record.GetNewLine());
 		halign = JPainter::kHAlignRight;
 		}
 	else if (cell.x == MDRecordList::kRecordSize)
 		{
-		str    = JString(record.GetSize(), JString::kBase10);
+		str    = JString((JUInt64) record.GetSize());
 		halign = JPainter::kHAlignRight;
 		}
 	else if (cell.x == MDRecordList::kRecordArray)

@@ -123,7 +123,7 @@ MDSizeHistogram::Draw
 		r1.left += numberColWidth;
 
 		r2.Shift(numberColWidth, 0);
-		const JString s2(itsHisto[i], JString::kBase10);
+		const JString s2((JUInt64) itsHisto[i]);
 		p.JPainter::String(r2, s2, JPainter::kHAlignRight);
 
 		if (total > 0 && itsHisto[i] > 0)

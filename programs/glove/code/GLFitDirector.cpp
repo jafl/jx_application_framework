@@ -1318,7 +1318,7 @@ GLFitDirector::Print()
 			itsPrinter->String(kLeftMargin, kPlotSep, str);
 
 			str = "Normalized chi-squared (chi^2/n-";
-			str += JString(fd.GetParameterCount(), JString::kBase10) + "): ";
+			str += JString((JUInt64) fd.GetParameterCount()) + "): ";
 			str += itsChiSq->GetText();
 			itsPrinter->String(kLeftMargin, kPlotSep*2, str);
 

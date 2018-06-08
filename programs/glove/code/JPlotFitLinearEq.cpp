@@ -87,7 +87,7 @@ JPlotFitLinearEq::InitializePolynomial
 	JString name;
 	for (JIndex i = 1; i <= count; i++)
 		{
-		JString parm	= "a" + JString(i - 1, JString::kBase10);
+		JString parm	= "a" + JString((JUInt64) i - 1);
 		JString xTerm;
 		JIndex power	= itsPowers->GetElement(i);
 		if (power > 0)
@@ -194,7 +194,7 @@ JPlotFitLinearEq::GetParameterName
 		{
 		return kJFalse;
 		}
-	*name = "a" + JString(index - 1, JString::kBase10);
+	*name = "a" + JString((JUInt64) index - 1);
 	return kJTrue;
 }
 

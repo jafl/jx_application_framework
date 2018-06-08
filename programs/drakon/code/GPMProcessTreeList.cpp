@@ -188,7 +188,7 @@ GPMProcessTreeList::TableDrawCell
 		}
 	else if (cell.x == GPMProcessList::kTreePID)
 		{
-		str	= JString(entry.GetPID(), JString::kBase10);
+		str	= JString((JUInt64) entry.GetPID());
 		}
 	else if (cell.x == GPMProcessList::kTreeUser)
 		{
@@ -197,27 +197,27 @@ GPMProcessTreeList::TableDrawCell
 		}
 /*	else if (cell.x == GPMProcessList::kTreePPID)
 		{
-		str	= JString(entry.GetPPID(), JString::kBase10);
+		str	= JString((JUInt64) entry.GetPPID());
 		}
 	else if (cell.x == GPMProcessList::kTreePriority)
 		{
-		str	= JString(entry.GetPriority(), JString::kBase10);
+		str	= JString((JUInt64) entry.GetPriority());
 		}
 */	else if (cell.x == GPMProcessList::kTreeNice)
 		{
-		str	= JString(entry.GetNice(), JString::kBase10);
+		str	= JString((JUInt64) entry.GetNice());
 		}
 	else if (cell.x == GPMProcessList::kTreeSize)
 		{
-		str	= JString(entry.GetSize(), JString::kBase10);
+		str	= JString((JUInt64) entry.GetSize());
 		}
 /*	else if (cell.x == GPMProcessList::kTreeResident)
 		{
-		str	= JString(entry.GetResident(), JString::kBase10);
+		str	= JString((JUInt64) entry.GetResident());
 		}
 	else if (cell.x == GPMProcessList::kTreeShare)
 		{
-		str	= JString(entry.GetShare(), JString::kBase10);
+		str	= JString((JUInt64) entry.GetShare());
 		}
 */	else if (cell.x == GPMProcessList::kTreeCPU)
 		{
@@ -229,7 +229,7 @@ GPMProcessTreeList::TableDrawCell
 		}
 	else if (cell.x == GPMProcessList::kTreeTime)
 		{
-		str	= JString(entry.GetTime(), JString::kBase10);
+		str	= JString((JUInt64) entry.GetTime());
 		}
 
 	JRect r  = rect;

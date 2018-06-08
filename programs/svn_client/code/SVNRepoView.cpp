@@ -323,7 +323,7 @@ SVNRepoView::GetCellString
 		}
 	else if (cell.x == kRevColIndex)
 		{
-		return JString(node->GetRevision(), JString::kBase10);
+		return JString((JUInt64) node->GetRevision());
 		}
 	else if (cell.x == kAgeColIndex)
 		{

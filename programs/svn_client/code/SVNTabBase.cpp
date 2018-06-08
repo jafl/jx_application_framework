@@ -189,9 +189,9 @@ SVNTabBase::ComparePrev
 		JUInt rev;
 		if (s.ConvertToUInt(&rev) && rev > 0)
 			{
-			r  = JString(rev-1, JString::kBase10);
+			r  = JString((JUInt64) rev-1);
 			r += ":";
-			r += JString(rev, JString::kBase10);
+			r += JString((JUInt64) rev);
 			}
 		else
 			{
@@ -272,9 +272,9 @@ SVNTabBase::ExecuteDiff
 		if (customPrev)
 			{
 			const JIndex j = revList.GetElement(i);
-			r  = JString(j-1, JString::kBase10);
+			r  = JString((JUInt64) j-1);
 			r += ":";
-			r += JString(j, JString::kBase10);
+			r += JString((JUInt64) j);
 			subst.DefineVariable("rev_option", r);
 			}
 
@@ -324,9 +324,9 @@ SVNTabBase::ExecuteJCCDiff
 		if (customPrev)
 			{
 			const JIndex j = revList.GetElement(i);
-			s  = JString(j-1, JString::kBase10);
+			s  = JString((JUInt64) j-1);
 			s += ":";
-			s += JString(j, JString::kBase10);
+			s += JString((JUInt64) j);
 			}
 		else
 			{

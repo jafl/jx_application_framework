@@ -447,7 +447,7 @@ LLDBLink::HandleLLDBEvent
 	if (lldb::SBProcess::EventIsProcessEvent(e))
 		{
 		const lldb::StateType state = lldb::SBProcess::GetStateFromEvent(e);
-		msg += "; process state: " + JString((JUInt64) state) + ", " + JString(lldb::SBProcess::GetRestartedFromEvent(e), JString::kBase10);
+		msg += "; process state: " + JString((JUInt64) state) + ", " + JString((JUInt64) lldb::SBProcess::GetRestartedFromEvent(e));
 
 		if (state == lldb::eStateRunning ||
 			state == lldb::eStateStepping)

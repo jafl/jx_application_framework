@@ -100,7 +100,7 @@ MDApp::OpenFile
 
 	JString cmd = (MDGetPrefsManager())->GetOpenFileCommand();
 
-	JString lineStr(lineIndex, JString::kBase10);
+	JString lineStr((JUInt64) lineIndex);
 
 	JSubstitute subst;
 	subst.DefineVariable("f", fileName);

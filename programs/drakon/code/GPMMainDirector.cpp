@@ -570,9 +570,9 @@ GPMMainDirector::HandleProcessMenu
 		else
 			{
 			JString cmd = "xterm -title 'Drakon sudo' -e /bin/sh -c 'sudo -k ; sudo kill -";
-			cmd        += JString(sigValue, JString::kBase10);
+			cmd        += JString((JUInt64) sigValue);
 			cmd        += " ";
-			cmd        += JString(pid, JString::kBase10);
+			cmd        += JString((JUInt64) pid);
 			cmd        += "'";
 			JSimpleProcess::Create(cmd, kJTrue);
 			}
