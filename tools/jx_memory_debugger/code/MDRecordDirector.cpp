@@ -10,7 +10,6 @@
 #include "MDRecordDirector.h"
 #include "MDRecordTable.h"
 #include "MDHeaderWidget.h"
-#include "mdHelpText.h"
 #include "mdGlobals.h"
 #include "mdActionDefs.h"
 #include <JXMacWinPrefsDialog.h>
@@ -31,8 +30,7 @@
 
 // File menu
 
-static const JCharacter* kFileMenuTitleStr = "File";
-static const JCharacter* kFileMenuStr =
+static const JUtf8Byte* kFileMenuStr =
 	"    Open selected items %k Return. %i" kMDOpenFilesAction
 	"%l| Page setup..."
 	"  | Print...            %k Meta-P  %i" kJXPrintAction
@@ -48,14 +46,9 @@ enum
 	kQuitCmd
 };
 
-// Windows menu
-
-static const JCharacter* kWindowsMenuTitleStr = "Windows";
-
 // Preferences menu
 
-static const JCharacter* kPrefsMenuTitleStr = "Preferences";
-static const JCharacter* kPrefsMenuStr =
+static const JUtf8Byte* kPrefsMenuStr =
 	"    Edit preferences..."
 	"  | Edit tool bar..."
 	"  | Mac/Win/X emulation..."
@@ -71,8 +64,7 @@ enum
 
 // Help menu
 
-static const JCharacter* kHelpMenuTitleStr = "Help";
-static const JCharacter* kHelpMenuStr =
+static const JUtf8Byte* kHelpMenuStr =
 	"    About"
 	"%l| Table of Contents       %i" kJXHelpTOCAction
 	"  | Overview"
@@ -99,9 +91,9 @@ enum
 
 MDRecordDirector::MDRecordDirector
 	(
-	JXDirector*			supervisor,
-	MDRecordList*		recordList,
-	const JCharacter*	windowTitle
+	JXDirector*		supervisor,
+	MDRecordList*	recordList,
+	const JString&	windowTitle
 	)
 	:
 	JXWindowDirector(supervisor),
@@ -146,13 +138,13 @@ MDRecordDirector::~MDRecordDirector()
 void
 MDRecordDirector::BuildWindow
 	(
-	MDRecordList*		recordList,
-	const JCharacter*	windowTitle
+	MDRecordList*	recordList,
+	const JString&	windowTitle
 	)
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 500,400, "");
+	JXWindow* window = jnew JXWindow(this, 500,400, JString::empty);
 	assert( window != nullptr );
 
 	JXMenuBar* menuBar =
@@ -203,7 +195,7 @@ MDRecordDirector::BuildWindow
 
 	// menus
 
-	itsFileMenu = menuBar->AppendTextMenu(kFileMenuTitleStr);
+	itsFileMenu = menuBar->AppendTextMenu(JGetString("FileMenuTitle::JXGlobal"));
 	itsFileMenu->SetMenuItems(kFileMenuStr, "MDRecordDirector");
 	itsFileMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsFileMenu);
@@ -211,17 +203,17 @@ MDRecordDirector::BuildWindow
 	(itsRecordTable->GetEditMenuHandler())->AppendEditMenu(menuBar);
 
 	JXWDMenu* windowsMenu =
-		jnew JXWDMenu(kWindowsMenuTitleStr, menuBar,
+		jnew JXWDMenu(JGetString("WindowsMenuTitle::JXGlobal"), menuBar,
 					 JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
 	assert( windowsMenu != nullptr );
 	menuBar->AppendMenu(windowsMenu);
 
-	itsPrefsMenu = menuBar->AppendTextMenu(kPrefsMenuTitleStr);
+	itsPrefsMenu = menuBar->AppendTextMenu(JGetString("PrefsMenuTitle::JXGlobal"));
 	itsPrefsMenu->SetMenuItems(kPrefsMenuStr, "MDRecordDirector");
 	itsPrefsMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsPrefsMenu);
 
-	itsHelpMenu = menuBar->AppendTextMenu(kHelpMenuTitleStr);
+	itsHelpMenu = menuBar->AppendTextMenu(JGetString("HelpMenuTitle::JXGlobal"));
 	itsHelpMenu->SetMenuItems(kHelpMenuStr, "MDRecordDirector");
 	itsHelpMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsHelpMenu);
@@ -438,23 +430,23 @@ MDRecordDirector::HandleHelpMenu
 
 	else if (index == kTOCCmd)
 		{
-		(JXGetHelpManager())->ShowSection(kMDTOCHelpName);
+		(JXGetHelpManager())->ShowTOC();
 		}
 	else if (index == kOverviewCmd)
 		{
-		(JXGetHelpManager())->ShowSection(kMDOverviewHelpName);
+		(JXGetHelpManager())->ShowSection("MDOverviewHelp");
 		}
 	else if (index == kThisWindowCmd)
 		{
-		(JXGetHelpManager())->ShowSection(kMDRecordHelpName);
+		(JXGetHelpManager())->ShowSection("MDRecordHelp");
 		}
 
 	else if (index == kChangesCmd)
 		{
-		(JXGetHelpManager())->ShowSection(kMDChangeLogName);
+		(JXGetHelpManager())->ShowChangeLog();
 		}
 	else if (index == kCreditsCmd)
 		{
-		(JXGetHelpManager())->ShowSection(kMDCreditsName);
+		(JXGetHelpManager())->ShowCredits();
 		}
 }

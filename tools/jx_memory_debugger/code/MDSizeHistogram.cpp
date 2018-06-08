@@ -107,7 +107,7 @@ MDSizeHistogram::Draw
 
 	p.SetFontStyle(JFontStyle());
 	p.SetFilling(kJTrue);
-	p.SetPenColor((p.GetColormap())->GetGrayColor(50));
+	p.SetPenColor(JColorManager::GetGrayColor(50));
 
 	JIndex exp   = 32 - (JMemoryManager::kHistogramSlotCount - 1);
 	JFloat total = itsTotal;

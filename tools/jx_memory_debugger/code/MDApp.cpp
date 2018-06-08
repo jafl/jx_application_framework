@@ -16,7 +16,7 @@
 #include <JMemoryManager.h>
 #include <jAssert.h>
 
-static const JCharacter* kAppSignature = "jx_memory_debugger";
+static const JUtf8Byte* kAppSignature = "jx_memory_debugger";
 
 /******************************************************************************
  Constructor
@@ -73,7 +73,7 @@ MDApp::~MDApp()
 void
 MDApp::DisplayAbout
 	(
-	const JCharacter* prevVersStr
+	const JString& prevVersStr
 	)
 {
 	MDAboutDialog* dlog = jnew MDAboutDialog(this, prevVersStr);
@@ -89,11 +89,11 @@ MDApp::DisplayAbout
 void
 MDApp::OpenFile
 	(
-	const JCharacter*	fileName,
-	const JSize			lineIndex
+	const JString&	fileName,
+	const JSize		lineIndex
 	)
 {
-	if (strcmp(fileName, JMemoryManager::kUnknownFile) == 0)
+	if (fileName == JMemoryManager::kUnknownFile)
 		{
 		return;
 		}
@@ -138,7 +138,7 @@ MDApp::CleanUpBeforeSuddenDeath
 
  ******************************************************************************/
 
-const JCharacter*
+const JUtf8Byte*
 MDApp::GetAppSignature()
 {
 	return kAppSignature;

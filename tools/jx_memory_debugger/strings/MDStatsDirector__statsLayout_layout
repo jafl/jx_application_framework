@@ -1,4 +1,4 @@
-0
+1
 argsLabel::MDStatsDirector::statsLayout "Args:"
 itsChooseProgramButton::MDStatsDirector::shortcuts::statsLayout "#O"
 bytesLabel::MDStatsDirector::statsLayout "Bytes:"

@@ -16,7 +16,7 @@ class MDAboutDialog : public JXDialogDirector
 {
 public:
 
-	MDAboutDialog(JXDirector* supervisor, const JCharacter* prevVersStr);
+	MDAboutDialog(JXDirector* supervisor, const JString& prevVersStr);
 
 	virtual	~MDAboutDialog();
 
@@ -37,7 +37,7 @@ private:
 
 private:
 
-	void	BuildWindow(const JCharacter* prevVersStr);
+	void	BuildWindow(const JString& prevVersStr);
 
 	// not allowed
 

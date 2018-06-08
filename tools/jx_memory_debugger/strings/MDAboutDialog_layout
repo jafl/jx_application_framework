@@ -1,4 +1,4 @@
-0
+1
 itsHelpButton::MDAboutDialog::JXLayout "Help"
 textWidget::MDAboutDialog::JXLayout ""
 okButton::MDAboutDialog::JXLayout "OK"

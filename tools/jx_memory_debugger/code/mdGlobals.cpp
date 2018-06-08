@@ -10,17 +10,12 @@
 #include "mdGlobals.h"
 #include "MDApp.h"
 #include "MDPrefsManager.h"
-#include "mdHelpText.h"
 #include <JXWDManager.h>
 #include <JXLibVersion.h>
 #include <jAssert.h>
 
 static MDApp*			theApplication  = nullptr;		// owns itself
 static MDPrefsManager*	thePrefsManager = nullptr;
-
-// string ID's
-
-static const JCharacter* kDescriptionID = "Description::mdGlobals";
 
 /******************************************************************************
  MDCreateGlobals
@@ -120,7 +115,7 @@ MDGetPrefsManager()
 
  ******************************************************************************/
 
-const JCharacter*
+const JUtf8Byte*
 MDGetVersionNumberStr()
 {
 	return kCurrentJXLibVersionStr;
@@ -134,12 +129,12 @@ MDGetVersionNumberStr()
 JString
 MDGetVersionStr()
 {
-	const JCharacter* map[] =
+	const JUtf8Byte* map[] =
 		{
 		"version",   MDGetVersionNumberStr(),
-		"copyright", JGetString("COPYRIGHT")
+		"copyright", JGetString("COPYRIGHT").GetBytes()
 		};
-	return JGetString(kDescriptionID, map, sizeof(map));
+	return JGetString("Description::mdGlobals", map, sizeof(map));
 }
 
 /******************************************************************************
@@ -147,13 +142,13 @@ MDGetVersionStr()
 
  ******************************************************************************/
 
-const JCharacter*
+const JUtf8Byte*
 MDGetWMClassInstance()
 {
 	return "jx_memory_debugger";
 }
 
-const JCharacter*
+const JUtf8Byte*
 MDGetMainWindowClass()
 {
 	return "jx_memory_debugger_Main_Window";

@@ -16,7 +16,7 @@ class MDRecord : public JBroadcaster
 public:
 
 	MDRecord();
-	MDRecord(const JCharacter* fileName);
+	MDRecord(const JString& fileName);
 	MDRecord(std::istream& input);	// version must already be checked
 
 	~MDRecord();

@@ -12,11 +12,9 @@
 #include <jXPainterUtil.h>
 #include <jXConstants.h>
 #include <JFontManager.h>
-#include <JXColorManager.h>
+#include <JColorManager.h>
 #include <jGlobals.h>
 #include <jAssert.h>
-
-const JSize kFontSize = 9;
 
 /******************************************************************************
  Constructor
@@ -40,12 +38,12 @@ MDHeaderWidget::MDHeaderWidget
 	JXColHeaderWidget(table, scrollbarSet, enclosure, hSizing,vSizing, x,y, w,h),
 	itsList(list)
 {
-	SetColTitle(1, "!");
-	SetColTitle(2, "File");
-	SetColTitle(3, "Line");
-	SetColTitle(4, "Size");
-	SetColTitle(5, "");
-	SetColTitle(6, "Data");
+	SetColTitle(1, JGetString("StateColTitle::MDHeaderWidget"));
+	SetColTitle(2, JGetString("FileColTitle::MDHeaderWidget"));
+	SetColTitle(3, JGetString("LineColTitle::MDHeaderWidget"));
+	SetColTitle(4, JGetString("SizeColTitle::MDHeaderWidget"));
+	SetColTitle(5, JString::empty);
+	SetColTitle(6, JGetString("DateColTitle::MDHeaderWidget"));
 
 	TurnOnColResizing();
 }
@@ -84,8 +82,8 @@ MDHeaderWidget::TableDrawCell
 		}
 
 	const JFont font = GetFontManager()->GetFont(
-		JGetDefaultFontName(), kFontSize,
-		JFontStyle(kJTrue, kJFalse, underLines, kJFalse, (p.GetColormap())->GetBlackColor()));
+		JFontManager::GetDefaultFontName(), JFontManager::GetDefaultRowColHeaderFontSize(),
+		JFontStyle(kJTrue, kJFalse, underLines, kJFalse, JColorManager::GetBlackColor()));
 	p.SetFont(font);
 	p.String(rect, str, JPainter::kHAlignCenter, JPainter::kVAlignCenter);
 }

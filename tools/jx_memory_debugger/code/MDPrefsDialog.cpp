@@ -54,7 +54,7 @@ MDPrefsDialog::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 420,100, "");
+	JXWindow* window = jnew JXWindow(this, 420,100, JString::empty);
 	assert( window != nullptr );
 
 	JXTextButton* cancelButton =
@@ -79,7 +79,7 @@ MDPrefsDialog::BuildWindow
 		jnew JXStaticText(JGetString("openFileHint::MDPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 130,40, 270,20);
 	assert( openFileHint != nullptr );
-	openFileHint->SetFontSize(JGetDefaultFontSize()-2);
+	openFileHint->SetFontSize(JFontManager::GetDefaultFontSize()-2);
 	openFileHint->SetToLabel();
 
 	itsOpenFileInput =
@@ -92,7 +92,7 @@ MDPrefsDialog::BuildWindow
 	window->SetTitle(JGetString("WindowTitle::MDPrefsDialog"));
 	SetButtons(okButton, cancelButton);
 
-	itsOpenFileInput->SetText(openCmd);
+	itsOpenFileInput->GetText()->SetText(openCmd);
 	itsOpenFileInput->SetIsRequired();
 	itsOpenFileInput->SetFont(window->GetFontManager()->GetDefaultMonospaceFont());
 }
@@ -109,5 +109,5 @@ MDPrefsDialog::GetValues
 	)
 	const
 {
-	*openCmd = itsOpenFileInput->GetText();
+	*openCmd = itsOpenFileInput->GetText()->GetText();
 }

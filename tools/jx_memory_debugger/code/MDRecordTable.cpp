@@ -15,11 +15,11 @@
 #include <JXWindow.h>
 #include <JXMenuBar.h>
 #include <JXStaticText.h>
-#include <JXColorManager.h>
 #include <JXDeleteObjectTask.h>
 #include <JPainter.h>
 #include <JPagePrinter.h>
 #include <JTableSelection.h>
+#include <JColorManager.h>
 #include <jASCIIConstants.h>
 #include <jTime.h>
 #include <jAssert.h>
@@ -61,8 +61,8 @@ MDRecordTable::MDRecordTable
 	SetColWidth(MDRecordList::kRecordSize,  50);
 	SetColWidth(MDRecordList::kRecordArray, 20);
 
-	SetRowBorderInfo(0, GetColormap()->GetBlackColor());
-	SetColBorderInfo(0, GetColormap()->GetBlackColor());
+	SetRowBorderInfo(0, JColorManager::GetBlackColor());
+	SetColBorderInfo(0, JColorManager::GetBlackColor());
 
 	ListenTo(itsRecordList);
 	UpdateTable();
@@ -160,7 +160,7 @@ MDRecordTable::TableDrawCell
 	const JRect&	rect
 	)
 {
-	DrawRowBackground(p, cell, rect, (p.GetColormap())->GetGrayColor(95));
+	DrawRowBackground(p, cell, rect, JColorManager::GetGrayColor(95));
 	HilightIfSelected(p, cell, rect);
 
 	const MDRecord& record = *(itsRecordList->GetRecord(cell.y));
@@ -364,7 +364,7 @@ MDRecordTable::HandleKeyPress
 
 	else if (JXIsPrint(key) && !modifiers.control() && !modifiers.meta())
 		{
-		itsKeyBuffer.AppendCharacter(key);
+		itsKeyBuffer.Append(JUtf8Character(key));
 
 		MDRecord* record;
 		JIndex index;
@@ -565,7 +565,7 @@ MDRecordTable::DrawPrintFooter
 	)
 {
 	JRect pageRect = p.GetPageRect();
-	const JString pageNumberStr = "Page " + JString(p.GetPageIndex());
+	const JString pageNumberStr = "Page " + JString((JUInt64) p.GetPageIndex());
 	p.String(pageRect.left, pageRect.bottom - footerHeight, pageNumberStr,
 			 pageRect.width(), JPainter::kHAlignCenter,
 			 footerHeight, JPainter::kVAlignBottom);

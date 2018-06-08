@@ -28,13 +28,13 @@ public:
 	JBoolean	GetSelectedRecord(const MDRecord** entry) const;
 	void		OpenSelectedFiles() const;
 
-	virtual JBoolean	IsEditable(const JPoint& cell) const;
+	virtual JBoolean	IsEditable(const JPoint& cell) const override;
 
 	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers) override;
 
 protected:
 
-	virtual void	TableDrawCell(JPainter& p, const JPoint& cell, const JRect& rect);
+	virtual void	TableDrawCell(JPainter& p, const JPoint& cell, const JRect& rect) override;
 
 	virtual void	HandleFocusEvent() override;
 	virtual void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
@@ -44,14 +44,14 @@ protected:
 
 	virtual JXInputField*	CreateXInputField(const JPoint& cell,
 											  const JCoordinate x, const JCoordinate y,
-											  const JCoordinate w, const JCoordinate h);
-	virtual JBoolean		ExtractInputData(const JPoint& cell);
-	virtual void			PrepareDeleteXInputField();
+											  const JCoordinate w, const JCoordinate h) override;
+	virtual JBoolean		ExtractInputData(const JPoint& cell) override;
+	virtual void			PrepareDeleteXInputField() override;
 
-	virtual JCoordinate	GetPrintHeaderHeight(JPagePrinter& p) const;
-	virtual JCoordinate	GetPrintFooterHeight(JPagePrinter& p) const;
-	virtual void		DrawPrintHeader(JPagePrinter& p, const JCoordinate headerHeight);
-	virtual void		DrawPrintFooter(JPagePrinter& p, const JCoordinate footerHeight);
+	virtual JCoordinate	GetPrintHeaderHeight(JPagePrinter& p) const override;
+	virtual JCoordinate	GetPrintFooterHeight(JPagePrinter& p) const override;
+	virtual void		DrawPrintHeader(JPagePrinter& p, const JCoordinate headerHeight) override;
+	virtual void		DrawPrintFooter(JPagePrinter& p, const JCoordinate footerHeight) override;
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 

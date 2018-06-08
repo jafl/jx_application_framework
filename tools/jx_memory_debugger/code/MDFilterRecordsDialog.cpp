@@ -51,7 +51,7 @@ MDFilterRecordsDialog::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 420,120, "");
+	JXWindow* window = jnew JXWindow(this, 420,120, JString::empty);
 	assert( window != nullptr );
 
 	JXTextButton* cancelButton =
@@ -96,10 +96,10 @@ MDFilterRecordsDialog::BuildWindow()
 	assert( cbGroup != nullptr );
 
 	ListenTo(itsFileCB);
-	ListenTo(itsFileInput);
+	ListenTo(itsFileInput->GetText());
 
 	ListenTo(itsSizeCB);
-	ListenTo(itsSizeInput);
+	ListenTo(itsSizeInput->GetText());
 	itsSizeInput->SetLowerLimit(0);
 }
 
@@ -122,7 +122,7 @@ MDFilterRecordsDialog::Receive
 			itsSizeInput->Focus();
 			}
 		}
-	else if (sender == itsSizeInput && message.Is(JTextEditor::kTextChanged))
+	else if (sender == itsSizeInput->GetText() && message.Is(JStyledText::kTextChanged))
 		{
 		itsSizeCB->SetState(kJTrue);
 		}
@@ -134,7 +134,7 @@ MDFilterRecordsDialog::Receive
 			itsFileInput->Focus();
 			}
 		}
-	else if (sender == itsFileInput && message.Is(JTextEditor::kTextChanged))
+	else if (sender == itsFileInput->GetText() && message.Is(JStyledText::kTextChanged))
 		{
 		itsFileCB->SetState(kJTrue);
 		}
@@ -168,7 +168,7 @@ MDFilterRecordsDialog::BuildFilter
 	if (itsFileCB->IsChecked())
 		{
 		jdelete filter->fileName;
-		filter->fileName = jnew JString(itsFileInput->GetText());
+		filter->fileName = jnew JString(itsFileInput->GetText()->GetText());
 		assert( filter->fileName != nullptr );
 		}
 }

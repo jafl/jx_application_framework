@@ -13,7 +13,6 @@
 #include "MDRecordDirector.h"
 #include "MDRecordList.h"
 #include "MDRecord.h"
-#include "mdHelpText.h"
 #include "mdGlobals.h"
 #include "mdActionDefs.h"
 #include <JXMacWinPrefsDialog.h>
@@ -45,8 +44,7 @@ const JSize kRefreshInterval = 1;		// seconds
 
 // File menu
 
-static const JCharacter* kFileMenuTitleStr = "File";
-static const JCharacter* kFileMenuStr =
+static const JUtf8Byte* kFileMenuStr =
 	"    Get allocated records           %i" kMDGetRecords
 	"%l| Quit                  %k Meta-Q %i" kJXQuitAction;
 
@@ -56,14 +54,9 @@ enum
 	kQuitCmd
 };
 
-// Windows menu
-
-static const JCharacter* kWindowsMenuTitleStr = "Windows";
-
 // Preferences menu
 
-static const JCharacter* kPrefsMenuTitleStr = "Preferences";
-static const JCharacter* kPrefsMenuStr =
+static const JUtf8Byte* kPrefsMenuStr =
 	"    Edit preferences..."
 	"  | Edit tool bar..."
 	"  | Mac/Win/X emulation..."
@@ -79,8 +72,7 @@ enum
 
 // Help menu
 
-static const JCharacter* kHelpMenuTitleStr = "Help";
-static const JCharacter* kHelpMenuStr =
+static const JUtf8Byte* kHelpMenuStr =
 	"    About"
 	"%l| Table of Contents       %i" kJXHelpTOCAction
 	"  | Overview"
@@ -249,7 +241,7 @@ MDStatsDirector::OpenDebugAcceptor()
 	assert( itsAcceptor != nullptr );
 
 	JRemoveFile(itsSocketName);
-	ACE_UNIX_Addr addr(itsSocketName);
+	ACE_UNIX_Addr addr(itsSocketName.GetBytes());
 	if (itsAcceptor->open(addr) == -1)
 		{
 		std::cerr << "error trying to create socket: " << jerrno() << std::endl;
@@ -286,7 +278,7 @@ MDStatsDirector::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 500,300, "");
+	JXWindow* window = jnew JXWindow(this, 500,300, JString::empty);
 	assert( window != nullptr );
 
 	JXMenuBar* menuBar =
@@ -358,7 +350,7 @@ MDStatsDirector::BuildWindow()
 	blocksLabel->SetToLabel();
 
 	itsAllocatedBlocksDisplay =
-		jnew JXStaticText("", kJFalse, kJTrue, nullptr, statsEncl,
+		jnew JXStaticText(JString::empty, kJFalse, kJTrue, NULL, statsEncl,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 60,60, 90,20);
 	assert( itsAllocatedBlocksDisplay != nullptr );
 
@@ -369,7 +361,7 @@ MDStatsDirector::BuildWindow()
 	bytesLabel->SetToLabel();
 
 	itsAllocatedBytesDisplay =
-		jnew JXStaticText("", kJFalse, kJTrue, nullptr, statsEncl,
+		jnew JXStaticText(JString::empty, kJFalse, kJTrue, NULL, statsEncl,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 210,60, 90,20);
 	assert( itsAllocatedBytesDisplay != nullptr );
 
@@ -380,7 +372,7 @@ MDStatsDirector::BuildWindow()
 	deallocLabel->SetToLabel();
 
 	itsDeallocatedBlocksDisplay =
-		jnew JXStaticText("", kJFalse, kJTrue, nullptr, statsEncl,
+		jnew JXStaticText(JString::empty, kJFalse, kJTrue, NULL, statsEncl,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 390,60, 90,20);
 	assert( itsDeallocatedBlocksDisplay != nullptr );
 
@@ -408,15 +400,14 @@ MDStatsDirector::BuildWindow()
 	assert( itsAllocatedHisto != nullptr );
 	itsAllocatedHisto->FitToEnclosure();
 
-	itsProgramInput->ShouldBroadcastAllTextChanged(kJTrue);
-	ListenTo(itsProgramInput);
+	ListenTo(itsProgramInput->GetText());
 
 	ListenTo(itsChooseProgramButton);
 	ListenTo(itsRunProgramButton);
 
 	// menus
 
-	itsFileMenu = menuBar->AppendTextMenu(kFileMenuTitleStr);
+	itsFileMenu = menuBar->AppendTextMenu(JGetString("FileMenuTitle::JXGlobal"));
 	itsFileMenu->SetMenuItems(kFileMenuStr, "MDStatsDirector");
 	itsFileMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsFileMenu);
@@ -428,17 +419,17 @@ MDStatsDirector::BuildWindow()
 	itsDeallocatedBlocksDisplay->ShareEditMenu(itsProgramInput);
 
 	JXWDMenu* windowsMenu =
-		jnew JXWDMenu(kWindowsMenuTitleStr, menuBar,
+		jnew JXWDMenu(JGetString("WindowsMenuTitle::JXGlobal"), menuBar,
 					 JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
 	assert( windowsMenu != nullptr );
 	menuBar->AppendMenu(windowsMenu);
 
-	itsPrefsMenu = menuBar->AppendTextMenu(kPrefsMenuTitleStr);
+	itsPrefsMenu = menuBar->AppendTextMenu(JGetString("PrefsMenuTitle::JXGlobal"));
 	itsPrefsMenu->SetMenuItems(kPrefsMenuStr, "MDStatsDirector");
 	itsPrefsMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsPrefsMenu);
 
-	itsHelpMenu = menuBar->AppendTextMenu(kHelpMenuTitleStr);
+	itsHelpMenu = menuBar->AppendTextMenu(JGetString("HelpMenuTitle::JXGlobal"));
 	itsHelpMenu->SetMenuItems(kHelpMenuStr, "MDStatsDirector");
 	itsHelpMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsHelpMenu);
@@ -471,7 +462,7 @@ MDStatsDirector::BuildWindow()
 void
 MDStatsDirector::UpdateDisplay()
 {
-	itsRunProgramButton->SetActive(!itsProgramInput->IsEmpty());
+	itsRunProgramButton->SetActive(!itsProgramInput->GetText()->IsEmpty());
 }
 
 /******************************************************************************
@@ -515,9 +506,9 @@ MDStatsDirector::Receive
 		RunProgram();
 		}
 
-	else if (sender == itsProgramInput &&
-			 (message.Is(JTextEditor::kTextSet) ||
-			  message.Is(JTextEditor::kTextChanged)))
+	else if (sender == itsProgramInput->GetText() &&
+			 (message.Is(JStyledText::kTextSet) ||
+			  message.Is(JStyledText::kTextChanged)))
 		{
 		UpdateDisplay();
 		}
@@ -587,9 +578,9 @@ void
 MDStatsDirector::ChooseProgram()
 {
 	JString fullName;
-	if ((JXGetChooseSaveFile())->ChooseFile("", nullptr, itsProgramInput->GetText(), &fullName))
+	if ((JXGetChooseSaveFile())->ChooseFile(JString::empty, JString::empty, itsProgramInput->GetText()->GetText(), &fullName))
 		{
-		itsProgramInput->SetText(fullName);
+		itsProgramInput->GetText()->SetText(fullName);
 		}
 }
 
@@ -601,20 +592,20 @@ MDStatsDirector::ChooseProgram()
 void
 MDStatsDirector::RunProgram()
 {
-	if (itsProgramInput->IsEmpty())
+	if (itsProgramInput->GetText()->IsEmpty())
 		{
 		return;
 		}
 
 	OpenDebugAcceptor();
 
-	setenv("JMM_PIPE",             itsSocketName, 1);
-	setenv("JMM_RECORD_ALLOCATED", "yes",         1);
-	setenv("JMM_BROADCAST_ERRORS", "yes",         1);
-	setenv("JMM_NO_PRINT_ERRORS",  "yes",         1);
-	setenv("MALLOC_CHECK_",        "2",           1);
+	setenv("JMM_PIPE",             itsSocketName.GetBytes(), 1);
+	setenv("JMM_RECORD_ALLOCATED", "yes",                    1);
+	setenv("JMM_BROADCAST_ERRORS", "yes",                    1);
+	setenv("JMM_NO_PRINT_ERRORS",  "yes",                    1);
+	setenv("MALLOC_CHECK_",        "2",                      1);
 
-	JCharacter* v = getenv("JMM_INITIALIZE");
+	JUtf8Byte* v = getenv("JMM_INITIALIZE");
 	if (v == nullptr || JString::Compare(v, "no", kJFalse) == 0)
 		{
 		setenv("JMM_INITIALIZE", "default", 1);
@@ -626,9 +617,9 @@ MDStatsDirector::RunProgram()
 		setenv("JMM_SHRED", "default", 1);
 		}
 
-	JString cmd = itsProgramInput->GetText();
+	JString cmd = itsProgramInput->GetText()->GetText();
 	cmd        += " ";
-	cmd        += itsArgsInput->GetText();
+	cmd        += itsArgsInput->GetText()->GetText();
 
 	const JError err = JProcess::Create(&itsProcess, cmd);
 	if (err.OK())
@@ -640,11 +631,11 @@ MDStatsDirector::RunProgram()
 		itsProgramInput->Deactivate();
 		itsArgsInput->Deactivate();
 		itsAllocatedBlocksDisplay->SetBackColor(itsAllocatedBlocksDisplay->GetFocusColor());
-		itsAllocatedBlocksDisplay->SetText("");
+		itsAllocatedBlocksDisplay->GetText()->SetText(JString::empty);
 		itsAllocatedBytesDisplay->SetBackColor(itsAllocatedBytesDisplay->GetFocusColor());
-		itsAllocatedBytesDisplay->SetText("");
+		itsAllocatedBytesDisplay->GetText()->SetText(JString::empty);
 		itsDeallocatedBlocksDisplay->SetBackColor(itsDeallocatedBlocksDisplay->GetFocusColor());
-		itsDeallocatedBlocksDisplay->SetText("");
+		itsDeallocatedBlocksDisplay->GetText()->SetText(JString::empty);
 		ListenTo(itsProcess);
 		}
 	else
@@ -690,7 +681,7 @@ MDStatsDirector::SendRequest
 	)
 {
 	std::string s = data.str();
-	itsLink->SendMessage(s.c_str(), s.length());
+	itsLink->SendMessage(JString(s));
 }
 
 /******************************************************************************
@@ -707,7 +698,7 @@ MDStatsDirector::HandleResponse()
 	const JBoolean ok = itsLink->GetNextMessage(&text);
 	assert( ok );
 
-	std::string s(text, text.GetLength());
+	std::string s(text.GetBytes(), text.GetByteCount());
 	std::istringstream input(s);
 
 	JFileVersion vers;
@@ -778,7 +769,7 @@ mdSetValue
 		{
 		s = JPrintFileSize(value);
 		}
-	field->SetText(s);
+	field->GetText()->SetText(s);
 	if (hadSelection)
 		{
 		field->SelectAll();
@@ -845,7 +836,7 @@ MDStatsDirector::ReadExitStats()
 		return;
 		}
 
-	std::ifstream input(itsExitStatsFile);
+	std::ifstream input(itsExitStatsFile.GetBytes());
 
 	while (1)
 		{
@@ -912,8 +903,8 @@ MDStatsDirector::RequestRecords
 void
 MDStatsDirector::ReceiveRecords
 	(
-	std::istream&			input,
-	const JCharacter*	windowTitle
+	std::istream&	input,
+	const JString&	windowTitle
 	)
 {
 	MDRecordList* list = jnew MDRecordList;
@@ -1067,24 +1058,24 @@ MDStatsDirector::HandleHelpMenu
 
 	else if (index == kTOCCmd)
 		{
-		(JXGetHelpManager())->ShowSection(kMDTOCHelpName);
+		(JXGetHelpManager())->ShowTOC();
 		}
 	else if (index == kOverviewCmd)
 		{
-		(JXGetHelpManager())->ShowSection(kMDOverviewHelpName);
+		(JXGetHelpManager())->ShowSection("MDOverviewHelp");
 		}
 	else if (index == kThisWindowCmd)
 		{
-		(JXGetHelpManager())->ShowSection(kMDMainHelpName);
+		(JXGetHelpManager())->ShowSection("MDMainHelp");
 		}
 
 	else if (index == kChangesCmd)
 		{
-		(JXGetHelpManager())->ShowSection(kMDChangeLogName);
+		(JXGetHelpManager())->ShowChangeLog();
 		}
 	else if (index == kCreditsCmd)
 		{
-		(JXGetHelpManager())->ShowSection(kMDCreditsName);
+		(JXGetHelpManager())->ShowCredits();
 		}
 }
 
@@ -1110,10 +1101,10 @@ MDStatsDirector::ReadPrefs
 
 	JString s;
 	input >> s;
-	itsProgramInput->SetText(s);
+	itsProgramInput->GetText()->SetText(s);
 
 	input >> s;
-	itsArgsInput->SetText(s);
+	itsArgsInput->GetText()->SetText(s);
 }
 
 /******************************************************************************

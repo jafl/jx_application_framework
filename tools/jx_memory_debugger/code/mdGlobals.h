@@ -19,7 +19,7 @@
 MDApp*			MDGetApplication();
 MDPrefsManager*	MDGetPrefsManager();
 
-const JCharacter*	MDGetVersionNumberStr();
+const JUtf8Byte*	MDGetVersionNumberStr();
 JString				MDGetVersionStr();
 
 	// called by MDApp
@@ -30,7 +30,7 @@ void		MDCleanUpBeforeSuddenDeath(const JXDocumentManager::SafetySaveReason reaso
 
 	// called by Directors
 
-const JCharacter*	MDGetWMClassInstance();
-const JCharacter*	MDGetMainWindowClass();
+const JUtf8Byte*	MDGetWMClassInstance();
+const JUtf8Byte*	MDGetMainWindowClass();
 
 #endif

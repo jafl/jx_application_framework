@@ -37,8 +37,8 @@ public:
 
 protected:
 
-	virtual void	ReadPrefs(std::istream& input);
-	virtual void	WritePrefs(std::ostream& output) const;
+	virtual void	ReadPrefs(std::istream& input) override;
+	virtual void	WritePrefs(std::ostream& output) const override;
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
@@ -97,7 +97,7 @@ private:
 	void	ReceiveExitStats(std::istream& input);
 	void	ReadExitStats();
 	void	RequestRecords(const JMemoryManager::RecordFilter& filter);
-	void	ReceiveRecords(std::istream& input, const JCharacter* windowTitle);
+	void	ReceiveRecords(std::istream& input, const JString& windowTitle);
 	void	ReceiveErrorMessage(std::istream& input);
 
 	void	UpdateFileMenu();

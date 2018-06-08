@@ -19,7 +19,7 @@
 
 MDRecordDataField::MDRecordDataField
 	(
-	const JCharacter*	text,
+	const JString&		text,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
@@ -32,7 +32,7 @@ MDRecordDataField::MDRecordDataField
 	JXInputField(enclosure, hSizing, vSizing, x,y, w,h)
 {
 	SetType(kSelectableText);
-	SetText(text);
+	GetText()->SetText(text);
 }
 
 /******************************************************************************

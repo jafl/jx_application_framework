@@ -21,7 +21,7 @@ class MDRecordDirector : public JXWindowDirector
 public:
 
 	MDRecordDirector(JXDirector* supervisor, MDRecordList* recordList,
-					 const JCharacter* windowTitle);
+					 const JString& windowTitle);
 
 	virtual	~MDRecordDirector();
 
@@ -45,7 +45,7 @@ private:
 
 private:
 
-	void	BuildWindow(MDRecordList* recordList, const JCharacter* windowTitle);
+	void	BuildWindow(MDRecordList* recordList, const JString& windowTitle);
 
 	void	UpdateFileMenu();
 	void	HandleFileMenu(const JIndex index);

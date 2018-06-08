@@ -1,4 +1,4 @@
-0
+1
 okButton::MDFilterRecordsDialog::JXLayout "OK"
 itsFileCB::MDFilterRecordsDialog::shortcuts::JXLayout "#F"
 itsSizeCB::MDFilterRecordsDialog::shortcuts::JXLayout "#L"

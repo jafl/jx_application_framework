@@ -13,8 +13,8 @@
 
 // JBroadcaster messages
 
-const JCharacter* MDRecordList::kListChanged      = "ListChanged::MDRecordList";
-const JCharacter* MDRecordList::kPrepareForUpdate = "PrepareForUpdate::MDRecordList";
+const JUtf8Byte* MDRecordList::kListChanged      = "ListChanged::MDRecordList";
+const JUtf8Byte* MDRecordList::kPrepareForUpdate = "PrepareForUpdate::MDRecordList";
 
 /******************************************************************************
  Constructor
@@ -69,8 +69,8 @@ MDRecordList::AddRecord
 JBoolean
 MDRecordList::ClosestMatch
 	(
-	const JCharacter*	prefix,
-	MDRecord**			record
+	const JString&	prefix,
+	MDRecord**		record
 	)
 	const
 {

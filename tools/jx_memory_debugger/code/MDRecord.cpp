@@ -38,7 +38,7 @@ MDRecord::MDRecord
 
 MDRecord::MDRecord
 	(
-	const JCharacter* fileName
+	const JString& fileName
 	)
 	:
 	itsNewFile(fileName)
@@ -87,20 +87,20 @@ MDRecord::CompareFileName
 	MDRecord * const & r2
 	)
 {
-	const JCharacter* s1 = strrchr(r1->itsNewFile, ACE_DIRECTORY_SEPARATOR_CHAR);
+	const JUtf8Byte* s1 = strrchr(r1->itsNewFile.GetBytes(), ACE_DIRECTORY_SEPARATOR_CHAR);
 	if (s1 == nullptr)
 		{
-		s1 = r1->GetNewFile();
+		s1 = r1->GetNewFile().GetBytes();
 		}
 	else
 		{
 		s1++;
 		}
 
-	const JCharacter* s2 = strrchr(r2->itsNewFile, ACE_DIRECTORY_SEPARATOR_CHAR);
+	const JUtf8Byte* s2 = strrchr(r2->itsNewFile.GetBytes(), ACE_DIRECTORY_SEPARATOR_CHAR);
 	if (s2 == nullptr)
 		{
-		s2 = r2->GetNewFile();
+		s2 = r2->GetNewFile().GetBytes();
 		}
 	else
 		{

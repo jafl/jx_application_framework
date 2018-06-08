@@ -73,3 +73,11 @@ Count::MDSizeHistogram	"# of Records"
 # MDFilterRecordsDialog
 
 WindowTitle::MDFilterRecordsDialog	"Filter records"
+
+# MDHeaderWidget
+
+StateColTitle::MDHeaderWidget	"!"
+FileColTitle::MDHeaderWidget	"File"
+LineColTitle::MDHeaderWidget	"Line"
+SizeColTitle::MDHeaderWidget	"Size"
+DateColTitle::MDHeaderWidget	"Data"

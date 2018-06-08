@@ -9,7 +9,6 @@
 
 #include "MDAboutDialog.h"
 #include "mdGlobals.h"
-#include "mdHelpText.h"
 #include <JXWindow.h>
 #include <JXTextButton.h>
 #include <JXStaticText.h>
@@ -17,11 +16,6 @@
 #include <JXImage.h>
 #include <JXHelpManager.h>
 #include <jAssert.h>
-
-// string ID's
-
-static const JCharacter* kUpgradeNoticeID     = "UpgradeNotice::MDAboutDialog";
-static const JCharacter* kChangeButtonLabelID = "ChangeButtonLabel::MDAboutDialog";
 
 /******************************************************************************
  Constructor
@@ -32,8 +26,8 @@ static const JCharacter* kChangeButtonLabelID = "ChangeButtonLabel::MDAboutDialo
 
 MDAboutDialog::MDAboutDialog
 	(
-	JXDirector*			supervisor,
-	const JCharacter*	prevVersStr
+	JXDirector*		supervisor,
+	const JString&	prevVersStr
 	)
 	:
 	JXDialogDirector(supervisor, kJTrue)
@@ -62,12 +56,12 @@ MDAboutDialog::~MDAboutDialog()
 void
 MDAboutDialog::BuildWindow
 	(
-	const JCharacter* prevVersStr
+	const JString& prevVersStr
 	)
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 370,120, "");
+	JXWindow* window = jnew JXWindow(this, 370,120, JString::empty);
 	assert( window != nullptr );
 
 	JXStaticText* textWidget =
@@ -110,18 +104,18 @@ MDAboutDialog::BuildWindow
 	imageWidget->SetImage(image, kJTrue);
 
 	JString text = MDGetVersionStr();
-	if (!JString::IsEmpty(prevVersStr))
+	if (!prevVersStr.IsEmpty())
 		{
-		const JCharacter* map[] =
+		const JUtf8Byte* map[] =
 			{
-			"vers", prevVersStr
+			"vers", prevVersStr.GetBytes()
 			};
-		text += JGetString(kUpgradeNoticeID);
+		text += JGetString("UpgradeNotice::MDAboutDialog");
 		(JGetStringManager())->Replace(&text, map, sizeof(map));
-		itsHelpButton->SetLabel(JGetString(kChangeButtonLabelID));
+		itsHelpButton->SetLabel(JGetString("ChangeButtonLabel::MDAboutDialog"));
 		itsIsUpgradeFlag = kJTrue;
 		}
-	textWidget->SetText(text);
+	textWidget->GetText()->SetText(text);
 
 	const JSize bdh = textWidget->GetBoundsHeight();
 	const JSize aph = textWidget->GetApertureHeight();
@@ -149,18 +143,18 @@ MDAboutDialog::Receive
 		{
 		if (itsIsUpgradeFlag)
 			{
-			(JXGetHelpManager())->ShowSection(kMDChangeLogName);
+			(JXGetHelpManager())->ShowChangeLog();
 			}
 		else
 			{
-			(JXGetHelpManager())->ShowSection(kMDOverviewHelpName);
+			(JXGetHelpManager())->ShowSection("MDOverviewHelp");
 			}
 		EndDialog(kJTrue);
 		}
 
 	else if (sender == itsCreditsButton && message.Is(JXButton::kPushed))
 		{
-		(JXGetHelpManager())->ShowSection(kMDCreditsName);
+		(JXGetHelpManager())->ShowCredits();
 		EndDialog(kJTrue);
 		}
 

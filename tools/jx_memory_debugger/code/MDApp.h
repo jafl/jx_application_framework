@@ -10,6 +10,8 @@
 
 #include <JXApplication.h>
 
+class JString;
+
 class MDApp : public JXApplication
 {
 public:
@@ -18,11 +20,11 @@ public:
 
 	virtual	~MDApp();
 
-	void	DisplayAbout(const JCharacter* prevVersStr = nullptr);
-	void	OpenFile(const JCharacter* fileName, const JSize lineIndex);
+	void	DisplayAbout(const JString& prevVersStr = JString::empty);
+	void	OpenFile(const JString& fileName, const JSize lineIndex);
 
-	static const JCharacter*	GetAppSignature();
-	static void					InitStrings();
+	static const JUtf8Byte*	GetAppSignature();
+	static void				InitStrings();
 
 protected:
 

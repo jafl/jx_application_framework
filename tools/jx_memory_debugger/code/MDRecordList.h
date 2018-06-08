@@ -40,7 +40,7 @@ public:
 	void			AddRecord(MDRecord* record);
 	const MDRecord*	GetRecord(const JIndex index) const;
 	JBoolean		GetRecordIndex(const MDRecord* record, JIndex *index) const;
-	JBoolean		ClosestMatch(const JCharacter* prefix, MDRecord** record) const;
+	JBoolean		ClosestMatch(const JString& prefix, MDRecord** record) const;
 
 	ColumnType	GetSortColumn() const;
 	void		SetSortColumn(const JIndex index);
@@ -60,8 +60,8 @@ private:
 
 public:
 
-	static const JCharacter* kPrepareForUpdate;
-	static const JCharacter* kListChanged;
+	static const JUtf8Byte* kPrepareForUpdate;
+	static const JUtf8Byte* kListChanged;
 
 	class PrepareForUpdate : public JBroadcaster::Message
 		{

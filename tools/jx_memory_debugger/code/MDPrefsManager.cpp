@@ -17,7 +17,7 @@
 
 const JFileVersion kCurrentPrefsFileVersion = 0;
 
-static const JCharacter* kDefaultOpenFileCmd = "jcc $f:$l";
+static const JString kDefaultOpenFileCmd("jcc $f:$l", kJFalse);
 
 /******************************************************************************
  Constructor
