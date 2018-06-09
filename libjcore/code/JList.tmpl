@@ -768,6 +768,27 @@ JList<T>::NewIterator
 }
 
 /******************************************************************************
+ Range-based for loop (virtual)
+
+ ******************************************************************************/
+
+template <class T>
+JListIterator<T>
+JList<T>::begin()
+	const
+{
+	return JListIterator<T>(*this, kJIteratorStartAtBeginning);
+}
+
+template <class T>
+JListIterator<T>
+JList<T>::end()
+	const
+{
+	return JListIterator<T>(*this, kJIteratorStartAtEnd);
+}
+
+/******************************************************************************
  JElementComparison class
 
  ******************************************************************************/

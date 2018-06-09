@@ -24,11 +24,11 @@ class JListIterator
 public:
 
 	JListIterator(const JList<T>& theOrderedSet,
-						const JIteratorPosition start = kJIteratorStartAtBeginning,
-						const JIndex index = 0);
+				  const JIteratorPosition start = kJIteratorStartAtBeginning,
+				  const JIndex index = 0);
 	JListIterator(JList<T>* theOrderedSet,
-						const JIteratorPosition start = kJIteratorStartAtBeginning,
-						const JIndex index = 0);
+				  const JIteratorPosition start = kJIteratorStartAtBeginning,
+				  const JIndex index = 0);
 	JListIterator(const JListIterator<T>& source);
 
 	virtual ~JListIterator();
@@ -51,10 +51,16 @@ public:
 	virtual JBoolean	RemovePrev();
 	virtual JBoolean	RemoveNext();
 
+	// range-based for loop
+
+	T					operator*() const;
+	JListIterator<T>&	operator++();
+	bool				operator!=(const JListIterator<T>& it) const;
+
 protected:
 
 	const JList<T>*	GetConstOrderedSet() const;
-	JBoolean				GetOrderedSet(JList<T>** obj) const;
+	JBoolean		GetOrderedSet(JList<T>** obj) const;
 
 	JCursorPosition	GetCursor() const;
 	void			SetCursor(const JCursorPosition pos);
@@ -63,9 +69,9 @@ protected:
 
 private:
 
-	const JList<T>*	itsConstOrderedSet;		// JList that is being iterated over
+	const JList<T>*		itsConstOrderedSet;		// JList that is being iterated over
 	JList<T>*			itsOrderedSet;			// nullptr if we were passed a const object
-	JCursorPosition			itsCursorPosition;		// Current iterator position
+	JCursorPosition		itsCursorPosition;		// Current iterator position
 
 	JListIterator<T>*	itsNextIterator;		// Next iterator in linked list
 

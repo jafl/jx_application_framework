@@ -1,12 +1,8 @@
+TestTextEditDocument:  use "save location"
+
 validate contents of TextChanged messages
 
 call FilterText after set font or font name or SetAllFontAndName
-
-for (int& x : my_array)
-	It will work for C-style arrays, initializer lists, and any type that has begin() and end() functions defined for it that return iterators. All the standard library containers that have begin/end pairs will work with the range-based for statement.
-
-map, reduce
-	[](int x, int y) -> int { return x + y; }
 
 
 finish JTextEditor tests

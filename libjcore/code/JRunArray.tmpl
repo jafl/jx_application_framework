@@ -1686,4 +1686,25 @@ JRunArray<T>::SetRunInfo
 	itsRuns->SetElement(runIndex, run);
 }
 
+/******************************************************************************
+ Range-based for loop (virtual)
+
+ ******************************************************************************/
+
+template <class T>
+JListIterator<T>
+JRunArray<T>::begin()
+	const
+{
+	return JRunArrayIterator<T>(*this, kJIteratorStartAtBeginning);
+}
+
+template <class T>
+JListIterator<T>
+JRunArray<T>::end()
+	const
+{
+	return JRunArrayIterator<T>(*this, kJIteratorStartAtEnd);
+}
+
 #endif

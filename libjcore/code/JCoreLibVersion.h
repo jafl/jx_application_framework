@@ -78,6 +78,7 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //	*** JString(float) now requires second argument to prevent nullptr from
 //		silently converting to "0"
 //	*** Converted to nullptr.  NULL is forced to be undefined.
+//	Added support for range-based for loops to JList, etc.
 
 // version 3.2.0:
 //	jMountUtil:

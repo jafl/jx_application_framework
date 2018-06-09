@@ -11,6 +11,8 @@
 #include <JRunArray.h>
 #include <JBroadcastTester.h>
 #include <sstream>
+#include <algorithm>
+#include <numeric>
 #include <jAssert.h>
 
 #define verify2(str)	VerifyContents(iter2, str, __LINE__)
@@ -705,4 +707,40 @@ JTEST(Exercise)
 	a2 = a3;
 	a2.AppendSlice(a1, 8, 15);
 	verify2("1 1 1 2 2 2 3 3 3 4 4 4 5 5 5 3 3 4 4 4 5 5 5");
+}
+
+JTEST(RangeBasedForLoop)
+{
+	JRunArray<long> a;
+	a.AppendElement(3);
+	a.AppendElement(2);
+	a.AppendElement(2);
+	a.AppendElement(5);
+
+	long b[4];
+	int j = 0;
+	for (long i : a)
+		{
+		b[j++] = i;
+		}
+
+	JAssertEqual(3, b[0]);
+	JAssertEqual(2, b[1]);
+	JAssertEqual(2, b[2]);
+	JAssertEqual(5, b[3]);
+}
+
+JTEST(FunctionalProgramming)
+{
+	JRunArray<long> a;
+	a.AppendElement(3);
+	a.AppendElement(2);
+	a.AppendElement(5);
+
+	long sum = std::accumulate(a.begin(), a.end(), 0);
+	JAssertEqual(10, sum);
+
+	sum = 0;
+    std::for_each(a.begin(), a.end(), [&sum](long v){ sum += v; });
+	JAssertEqual(10, sum);
 }

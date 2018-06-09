@@ -199,3 +199,22 @@ JTEST(Exercise)
 	JAssertTrue(a1.IsEmpty());
 	JAssertEqual(0, a1.GetElementCount());
 }
+
+JTEST(RangeBasedForLoop)
+{
+	JPtrArray<JString> a(JPtrArrayT::kDeleteAll);
+	a.Append(JString("foo", kJFalse));
+	a.Append(JString("bar", kJFalse));
+	a.Append(JString("baz", kJFalse));
+
+	JString* b[3];
+	int j = 0;
+	for (JString* s : a)
+		{
+		b[j++] = s;
+		}
+
+	JAssertEqual("foo", *b[0]);
+	JAssertEqual("bar", *b[1]);
+	JAssertEqual("baz", *b[2]);
+}

@@ -610,4 +610,42 @@ JListIterator<T>::OrderedSetChanged
 		}
 }
 
+/******************************************************************************
+ Range-based for loop
+
+ ******************************************************************************/
+
+template <class T>
+T
+JListIterator<T>::operator*()
+	const
+{
+	JListIterator<T>* self = const_cast<JListIterator<T>*>(this);	// conceptual constness
+
+	T v;
+	const JBoolean ok = self->Next(&v);
+	assert( ok );
+	self->SkipPrev();		// back to original position
+	return v;
+}
+
+template <class T>
+JListIterator<T>&
+JListIterator<T>::operator++()
+{
+	SkipNext();
+	return *this;
+}
+
+template <class T>
+bool
+JListIterator<T>::operator!=
+	(
+	const JListIterator<T>& iter
+	)
+	const
+{
+	return itsCursorPosition != iter.itsCursorPosition;
+}
+
 #endif

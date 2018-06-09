@@ -726,4 +726,25 @@ JLinkedList<T>::StoreData
 	listElement->data = data;
 }
 
+/******************************************************************************
+ Range-based for loop (virtual)
+
+ ******************************************************************************/
+
+template <class T>
+JListIterator<T>
+JLinkedList<T>::begin()
+	const
+{
+	return JLinkedListIterator<T>(*this, kJIteratorStartAtBeginning);
+}
+
+template <class T>
+JListIterator<T>
+JLinkedList<T>::end()
+	const
+{
+	return JLinkedListIterator<T>(*this, kJIteratorStartAtEnd);
+}
+
 #endif

@@ -346,6 +346,11 @@ public:
 								  const JListT::SearchReturn which,
 								  JBoolean* found) const;
 
+	// range-based for loop
+
+	virtual JListIterator<T>	begin() const;
+	virtual JListIterator<T>	end() const;
+
 protected:
 
 	void	OrderedSetAssigned(const JList<T>& source);

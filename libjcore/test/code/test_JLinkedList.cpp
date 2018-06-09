@@ -10,6 +10,8 @@
 #include <JTestManager.h>
 #include <JLinkedList.h>
 #include <JBroadcastTester.h>
+#include <algorithm>
+#include <numeric>
 #include <jAssert.h>
 
 int main()
@@ -321,4 +323,38 @@ JTEST(SearchSorted1EdgeCases)
 				}
 			}
 		}
+}
+
+JTEST(RangeBasedForLoop)
+{
+	JLinkedList<long> a;
+	a.AppendElement(3);
+	a.AppendElement(2);
+	a.AppendElement(5);
+
+	long b[3];
+	int j = 0;
+	for (long i : a)
+		{
+		b[j++] = i;
+		}
+
+	JAssertEqual(3, b[0]);
+	JAssertEqual(2, b[1]);
+	JAssertEqual(5, b[2]);
+}
+
+JTEST(FunctionalProgramming)
+{
+	JLinkedList<long> a;
+	a.AppendElement(3);
+	a.AppendElement(2);
+	a.AppendElement(5);
+
+	long sum = std::accumulate(a.begin(), a.end(), 0);
+	JAssertEqual(10, sum);
+
+	sum = 0;
+    std::for_each(a.begin(), a.end(), [&sum](long v){ sum += v; });
+	JAssertEqual(10, sum);
 }
