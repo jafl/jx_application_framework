@@ -116,8 +116,7 @@ JBroadcaster::~JBroadcaster()
 		const JSize count = itsSenders->GetElementCount();
 		for (JIndex i=1; i<=count; i++)
 			{
-			JBroadcaster* aSender = itsSenders->GetElement(i);
-			aSender->RemoveRecipient(this);
+			itsSenders->GetElement(i)->RemoveRecipient(this);
 			}
 
 		jdelete itsSenders;
