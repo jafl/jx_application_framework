@@ -1,5 +1,5 @@
 /* XPM */
-static char * medic_finish[] = {
+static const char * medic_finish[] = {
 "15 15 3 1",
 " 	c None",
 ".	c black",

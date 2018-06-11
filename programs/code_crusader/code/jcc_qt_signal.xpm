@@ -1,5 +1,5 @@
 /* XPM */
-static char * jcc_qt_signal[] = {
+static const char * jcc_qt_signal[] = {
 "15 11 2 1",
 " 	c None",
 "*	c #000000000000",

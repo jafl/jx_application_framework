@@ -1,5 +1,5 @@
 /* XPM */
-static char * code_medic_small_xpm[] = {
+static const char * code_medic_small_xpm[] = {
 "16 16 21 1",
 " 	c None",
 ".	c #FF1042",

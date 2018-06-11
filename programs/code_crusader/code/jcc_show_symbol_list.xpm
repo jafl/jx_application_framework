@@ -1,5 +1,5 @@
 /* XPM */
-static char * jcc_show_symbol_list[] = {
+static const char * jcc_show_symbol_list[] = {
 "8 16 2 1",
 " 	c None",
 ".	c black",

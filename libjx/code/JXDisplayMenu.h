@@ -31,7 +31,12 @@ public:
 	JXDisplay*	GetSelectedDisplay() const;
 	JIndex		GetSelectedDisplayIndex() const;
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Woverloaded-virtual"
+
 	void	SetToPopupChoice(const JBoolean isPopup = kJTrue);
+
+#pragma GCC diagnostic pop
 
 protected:
 

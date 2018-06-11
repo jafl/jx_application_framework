@@ -1,5 +1,5 @@
 /* XPM */
-static char * medic_show_current_asm[] = {
+static const char * medic_show_current_asm[] = {
 "10 15 3 1",
 " 	c None",
 ".	c black",

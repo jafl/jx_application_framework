@@ -28,7 +28,12 @@ public:
 	JString		GetFontName() const;
 	JBoolean	SetFontName(const JString& name);
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Woverloaded-virtual"
+
 	void	SetToPopupChoice(const JBoolean isPopup = kJTrue);
+
+#pragma GCC diagnostic pop
 
 protected:
 

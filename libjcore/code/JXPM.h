@@ -12,9 +12,9 @@
 
 struct JXPM
 {
-	char** xpm;		// must be standard xpm format
+	const char** xpm;		// must be standard xpm format
 
-	JXPM(char* data[])
+	JXPM(const char* data[])
 		:
 		xpm(data)
 		{ };

@@ -1,5 +1,5 @@
 /* XPM */
-static char * medic_breakpoints_window[] = {
+static const char * medic_breakpoints_window[] = {
 "30 30 3 1",
 " 	c grey80",
 ".	c black",

@@ -1,5 +1,5 @@
 /* XPM */
-static char * jx_source_file_small[] = {
+static const char * jx_source_file_small[] = {
 "15 15 6 1",
 " 	c None",
 ".	c gray40",

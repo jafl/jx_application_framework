@@ -1,5 +1,5 @@
 /* XPM */
-static char * jx_image_file_selected_small[] = {
+static const char * jx_image_file_selected_small[] = {
 "15 15 7 1",
 " 	c None",
 ".	c gray40",

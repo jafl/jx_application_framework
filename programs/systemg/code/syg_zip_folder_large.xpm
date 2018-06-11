@@ -1,5 +1,5 @@
 /* XPM */
-static char * syg_zip_folder_large[] = {
+static const char * syg_zip_folder_large[] = {
 "32 32 14 1",
 " 	c None",
 ".	c #808080808080",

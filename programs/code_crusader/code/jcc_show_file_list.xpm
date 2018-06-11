@@ -1,5 +1,5 @@
 /* XPM */
-static char * jcc_show_file_list[] = {
+static const char * jcc_show_file_list[] = {
 "15 14 3 1",
 " 	c None",
 ".	c black",

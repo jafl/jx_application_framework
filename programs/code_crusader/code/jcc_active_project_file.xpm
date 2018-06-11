@@ -1,5 +1,5 @@
 /* XPM */
-static char * jcc_active_project_file[] = {
+static const char * jcc_active_project_file[] = {
 "15 17 8 1",
 " 	c white",
 ".	c gray40",

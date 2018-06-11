@@ -21,9 +21,8 @@
 #include <JFontManager.h>
 #include <jAssert.h>
 
-const JCoordinate kLabelBuffer	= 10;
-const JCoordinate kDualBuffer	= 5;
-const Time kHintWaitDelay		= 500;
+const JCoordinate kLabelBuffer = 10;
+const JCoordinate kDualBuffer  = 5;
 
 /******************************************************************************
  Constructor

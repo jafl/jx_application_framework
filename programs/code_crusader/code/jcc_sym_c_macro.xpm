@@ -1,5 +1,5 @@
 /* XPM */
-static char * jcc_sym_c_macro[] = {
+static const char * jcc_sym_c_macro[] = {
 "10 10 2 1",
 " 	c None",
 "*	c #000000000000",

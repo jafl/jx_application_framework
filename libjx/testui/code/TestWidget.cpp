@@ -104,7 +104,7 @@ static const JUtf8Byte* kSecretSubmenuStr =
 // test xpm data
 
 /* XPM */
-static char * macapp_xpm[] = {
+static const char * macapp_xpm[] = {
 "16 16 5 1",
 " 	c None",
 ".	c #5A5A59595A5A",
@@ -131,7 +131,7 @@ static char * macapp_xpm[] = {
 // home symbol
 
 /* XPM */
-static char * home_xpm[] = {
+static const char * home_xpm[] = {
 "16 16 2 1",
 " 	c None",
 "X	c black",
@@ -1078,7 +1078,6 @@ TestWidget::HandleDNDDrop
 //	(JGetUserNotification())->DisplayMessage("testing");
 
 	Atom textType = None, urlType = None;
-	JBoolean url  = kJFalse;
 	const JSize typeCount = typeList.GetElementCount();
 	for (JIndex i=1; i<=typeCount; i++)
 		{
@@ -1120,7 +1119,6 @@ TestWidget::PrintSelectionTargets
 {
 	JXDisplay* display         = GetDisplay();
 	JXSelectionManager* selMgr = GetSelectionManager();
-	JXDNDManager* dndMgr       = GetDNDManager();
 
 	JArray<Atom> typeList;
 	if (selMgr->GetAvailableTypes(kJXClipboardName, time, &typeList))

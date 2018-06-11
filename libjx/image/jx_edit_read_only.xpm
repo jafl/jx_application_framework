@@ -1,5 +1,5 @@
 /* XPM */
-static char * jx_edit_read_only[] = {
+static const char * jx_edit_read_only[] = {
 "14 14 4 1",
 " 	c None",
 "X	c black",

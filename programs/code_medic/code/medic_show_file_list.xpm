@@ -1,5 +1,5 @@
 /* XPM */
-static char * medic_show_file_list[] = {
+static const char * medic_show_file_list[] = {
 "15 15 3 1",
 " 	c None",
 ".	c black",

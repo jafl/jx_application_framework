@@ -1,5 +1,5 @@
 /* XPM */
-static char * group[] = {
+static const char * group[] = {
 "16 16 3 1",
 " 	c None",
 ".	c #861782078617",

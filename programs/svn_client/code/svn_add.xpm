@@ -1,5 +1,5 @@
 /* XPM */
-static char * svn_add[] = {
+static const char * svn_add[] = {
 "10 13 5 1",
 "  c None",
 ". c #000000",

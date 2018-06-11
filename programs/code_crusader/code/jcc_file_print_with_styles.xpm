@@ -1,5 +1,5 @@
 /* XPM */
-static char * jcc_file_print_with_styles[] = {
+static const char * jcc_file_print_with_styles[] = {
 "16 14 7 1",
 "  c None",
 "# c black",

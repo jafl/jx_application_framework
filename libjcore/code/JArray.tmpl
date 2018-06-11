@@ -98,7 +98,7 @@ JArray<T>::operator=
 	JCollection::operator=(source);		// JList::operator= is private
 
 	CopyArray(source);
-	JArray<T>::OrderedSetAssigned(source);
+	JArray<T>::ListAssigned(source);
 
 	return *this;
 }

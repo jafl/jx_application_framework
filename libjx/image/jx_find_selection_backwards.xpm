@@ -1,5 +1,5 @@
 /* XPM */
-static char * jx_find_selection_backwards[] = {
+static const char * jx_find_selection_backwards[] = {
 "16 18 7 1",
 " 	c None",
 ".	c #CCCCCCCCCCCC",

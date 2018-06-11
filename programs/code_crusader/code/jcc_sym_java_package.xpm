@@ -1,5 +1,5 @@
 /* XPM */
-static char * jcc_sym_java_package[] = {
+static const char * jcc_sym_java_package[] = {
 "15 15 2 1",
 " 	c None",
 "*	c #000000000000",

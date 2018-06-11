@@ -31,7 +31,6 @@
 #include <jAssert.h>
 
 const JCoordinate kHMarginWidth = 3;
-const JCoordinate kVMarginWidth = 1;
 
 /******************************************************************************
  Constructor

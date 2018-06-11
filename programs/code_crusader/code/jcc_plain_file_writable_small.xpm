@@ -1,5 +1,5 @@
 /* XPM */
-static char * jcc_plain_file_writable_small[] = {
+static const char * jcc_plain_file_writable_small[] = {
 "21 15 6 1",
 " 	c None",
 ".	c gray40",

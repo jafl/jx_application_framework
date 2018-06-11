@@ -1,5 +1,5 @@
 /* XPM */
-static char * medic_stack_trace_window[] = {
+static const char * medic_stack_trace_window[] = {
 "30 30 7 1",
 " 	c grey80",
 ".	c black",

@@ -85,7 +85,7 @@ JLinkedList<T>::operator=
 	JCollection::operator=(source);		// JList::operator= is private
 
 	CopyList(source);
-	JLinkedList<T>::OrderedSetAssigned(source);
+	JLinkedList<T>::ListAssigned(source);
 
 	return *this;
 }

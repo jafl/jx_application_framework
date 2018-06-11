@@ -1,5 +1,5 @@
 /* XPM */
-static char * jx_help_toc[] = {
+static const char * jx_help_toc[] = {
 "16 14 7 1",
 " 	c None",
 ".	c #000000000000",

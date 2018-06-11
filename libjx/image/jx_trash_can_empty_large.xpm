@@ -1,5 +1,5 @@
 /* XPM */
-static char *jx_trash_can_empty_large[] = {
+static const char *jx_trash_can_empty_large[] = {
 /* width height num_colors chars_per_pixel */
 "    32    32       11            1",
 /* colors */

@@ -1,5 +1,5 @@
 /* XPM */
-static char * gpm_all_processes[] = {
+static const char * gpm_all_processes[] = {
 "16 16 3 1",
 " 	c None",
 ".	c #861782078617",

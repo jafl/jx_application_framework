@@ -1,6 +1,6 @@
 /* XPM */
 /* Rob Colbert <rjcolbert@home.com> */
-static char * jcc_2_xpm[] = {
+static const char * jcc_2_xpm[] = {
 "48 48 1170 2",
 "  	c None",
 ". 	c #505763",

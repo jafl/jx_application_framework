@@ -1,5 +1,5 @@
 /* XPM */
-static char * jcc_sym_c_sharp_struct[] = {
+static const char * jcc_sym_c_sharp_struct[] = {
 "15 15 2 1",
 " 	c None",
 "*	c #800080008000",

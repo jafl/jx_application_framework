@@ -101,8 +101,7 @@ JTEST(Exercise)
 	JAssertTrue(a1.IsEmpty());
 	JAssertEqual(0, a1.GetElementCount());
 
-	long i,j;
-
+	long i;
 	for (i=1;i<=5;i++)
 		{
 		snoop1.Expect(JListT::kElementsInserted);
@@ -741,6 +740,6 @@ JTEST(FunctionalProgramming)
 	JAssertEqual(10, sum);
 
 	sum = 0;
-    std::for_each(a.begin(), a.end(), [&sum](long v){ sum += v; });
+	std::for_each(a.begin(), a.end(), [&sum](long v){ sum += v; });
 	JAssertEqual(10, sum);
 }

@@ -1804,7 +1804,6 @@ JTextEditor::TEDrawLine
 			JRect rect(top+3, left, top+geom.height-2, left);
 			rect.right += rect.height();
 			const JCoordinate xc = rect.xcenter();
-			const JCoordinate yc = rect.ycenter();
 
 			JCoordinate delta = rect.height()/4;
 			if (delta < 1)
@@ -2966,8 +2965,8 @@ JTextEditor::GoToBeginningOfLine()
 
 		TextIndex firstTextChar = firstChar;
 		JString linePrefix;
-		JSize prefixLength;
-		JIndex ruleIndex = 0;
+//		JSize prefixLength;
+//		JIndex ruleIndex = 0;
 		if (lastChar.charIndex < firstChar.charIndex || 0)
 //			!CRMGetPrefix(&firstTextChar, lastChar,
 //						  &linePrefix, &prefixLength, &ruleIndex) ||

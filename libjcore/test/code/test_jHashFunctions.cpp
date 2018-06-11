@@ -34,7 +34,7 @@
 		0xabcdef0f
 		};
 
-	JUtf8Byte* hashStringArg[] =
+	const JUtf8Byte* hashStringArg[] =
 		{
 		"l",
 		"m",

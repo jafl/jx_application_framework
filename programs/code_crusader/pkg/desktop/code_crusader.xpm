@@ -1,6 +1,6 @@
 /* XPM */
 /* John Lindal <jafl@newplanetsoftware.com> */
-static char * swords0[] = {
+static const char * swords0[] = {
 "48 48 5 1",
 " 	c #000000000000",
 ".	c None",

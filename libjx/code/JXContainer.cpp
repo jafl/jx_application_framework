@@ -2286,8 +2286,6 @@ JXContainer::FTCGroupAlignedObjects
 	)
 	const
 {
-	const JBoolean vertical = ! horizontal;
-
 	const JRect targetRect         = target->GetFrameForFTC();
 	const JIntRange targetInterval = ftcGetInterval(targetRect, horizontal);
 

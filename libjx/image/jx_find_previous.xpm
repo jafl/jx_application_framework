@@ -1,5 +1,5 @@
 /* XPM */
-static char * jx_find_previous[] = {
+static const char * jx_find_previous[] = {
 "16 16 7 1",
 " 	c None",
 ".	c #CCCCCCCCCCCC",

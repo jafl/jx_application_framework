@@ -3043,7 +3043,6 @@ JXTEBase::ReplaceAll
 	JString replaceStr;
 	JInterpolate* interpolator;
 	JBoolean entireWord, wrapSearch, preserveCase;
-	JRegex* regex;
 	if (GetType() == kFullEditor &&
 		(JXGetSearchTextDialog())->GetSearchParameters(
 			&searchRegex, &entireWord, &wrapSearch,

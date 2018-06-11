@@ -44,10 +44,6 @@
 #include <sstream>
 #include <jAssert.h>
 
-static const JUtf8Byte* kJXSearchTextHelpName = "JXSearchTextHelp";
-static const JUtf8Byte* kJXRegexHelpName      = "JXRegexHelp";
-static const JUtf8Byte* kJXRegexQRefHelpName  = "JXRegexQRef";
-
 // JTextEditor doesn't broadcast when selection changes (would require optimization)
 const JSize kUpdatePeriod = 200;	// 0.2 second (milliseconds)
 
@@ -69,12 +65,9 @@ const JFileVersion kCurrentSetupVersion = 7;
  ******************************************************************************/
 
 JXSearchTextDialog*
-JXSearchTextDialog::Create
-	(
-	const JUtf8Byte* searchTextHelpName
-	)
+JXSearchTextDialog::Create()
 {
-	JXSearchTextDialog* dlog = jnew JXSearchTextDialog(searchTextHelpName);
+	JXSearchTextDialog* dlog = jnew JXSearchTextDialog();
 	assert( dlog != nullptr );
 	dlog->BuildWindow();
 	dlog->JXSearchTextDialogX();
@@ -86,10 +79,7 @@ JXSearchTextDialog::Create
 
  ******************************************************************************/
 
-JXSearchTextDialog::JXSearchTextDialog
-	(
-	const JUtf8Byte* searchTextHelpName
-	)
+JXSearchTextDialog::JXSearchTextDialog()
 	:
 	JXWindowDirector(JXGetPersistentWindowOwner())
 {
@@ -115,7 +105,6 @@ JXSearchTextDialog::JXSearchTextDialog
 	itsDataWindow    = None;
 
 	JXSetSearchTextDialog(this);
-	SetSearchTextHelpName(searchTextHelpName);
 }
 
 // protected -- must be done after prefs are loaded
@@ -616,20 +605,6 @@ JXSearchTextDialog::SetObjects
 	ListenTo(itsWrapSearchCB);
 	ListenTo(itsEntireWordCB);
 	ListenTo(itsIgnoreCaseCB);
-}
-
-/******************************************************************************
- Set help text
-
- ******************************************************************************/
-
-void
-JXSearchTextDialog::SetSearchTextHelpName
-	(
-	const JUtf8Byte* name
-	)
-{
-	itsSearchTextHelpName = (JString::IsEmpty(name) ? kJXSearchTextHelpName : name);
 }
 
 /******************************************************************************

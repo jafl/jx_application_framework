@@ -1,5 +1,5 @@
 /* XPM */
-static char * jx_file_revert_to_saved[] = {
+static const char * jx_file_revert_to_saved[] = {
 "16 16 6 1",
 "  c None",
 ". c black",

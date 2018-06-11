@@ -42,7 +42,7 @@ JFileArrayIndex::JFileArrayIndex()
 	itsArray = jnew JArray<ElementInfo>;
 	assert( itsArray != nullptr );
 
-	InstallOrderedSet(itsArray);
+	InstallList(itsArray);
 }
 
 /******************************************************************************

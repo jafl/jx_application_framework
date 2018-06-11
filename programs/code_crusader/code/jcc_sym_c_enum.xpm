@@ -1,5 +1,5 @@
 /* XPM */
-static char * jcc_sym_c_enum[] = {
+static const char * jcc_sym_c_enum[] = {
 "12 11 2 1",
 " 	c None",
 "*	c #000000000000",

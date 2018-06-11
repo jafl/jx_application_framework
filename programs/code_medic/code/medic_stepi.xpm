@@ -1,5 +1,5 @@
 /* XPM */
-static char * medic_stepi[] = {
+static const char * medic_stepi[] = {
 "15 15 3 1",
 " 	c None",
 ".	c black",

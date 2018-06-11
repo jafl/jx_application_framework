@@ -27,6 +27,9 @@ public:
 
 private:
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-private-field"
+
 	JString					itsName;
 	void*					itsXDisplay;
 	void*					itsColorManager;
@@ -43,6 +46,9 @@ private:
 	JXButtonStates		itsLatestButtonStates;
 	JXKeyModifiers		itsLatestKeyModifiers;
 	XModifierKeymap*	itsModifierKeymap;
+
+#pragma GCC diagnostic pop
+
 	int					itsJXKeyModifierMapping [ 1+kJXKeyModifierMapCount ];
 };
 

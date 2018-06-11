@@ -1,5 +1,5 @@
 /* XPM */
-static char * jcc_sym_c_sharp_event[] = {
+static const char * jcc_sym_c_sharp_event[] = {
 "15 15 2 1",
 " 	c None",
 "*	c #000000000000",

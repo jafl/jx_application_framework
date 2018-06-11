@@ -44,8 +44,6 @@ static JXDirector*				thePersistentWindowOwner = nullptr;	// can be nullptr
 static JXSearchTextDialog*		theSearchTextDialog      = nullptr;	// can be nullptr
 static JXSpellChecker*			theSpellChecker          = nullptr;
 
-static JXComposeRuleList*		theComposeRuleList       = nullptr;	// can be nullptr
-
 static const JUtf8Byte* kInvisibleWindowClass = "Do_not_display_in_taskbar";
 static const JUtf8Byte* kDockWindowClass      = "JX_Dock";
 

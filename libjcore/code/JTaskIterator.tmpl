@@ -51,7 +51,7 @@ JTaskIterator<T>::JTaskIterator
 }
 
 /******************************************************************************
- OrderedSetChanged (virtual protected)
+ ListChanged (virtual protected)
 
 	When the cursor is at the very front of the list, it must move when
 	items are inserted at the front of the list.  This ensures that the
@@ -61,12 +61,12 @@ JTaskIterator<T>::JTaskIterator
 
 template <class T>
 void
-JTaskIterator<T>::OrderedSetChanged
+JTaskIterator<T>::ListChanged
 	(
 	const JBroadcaster::Message& message
 	)
 {
-	JPtrArrayIterator<T>::OrderedSetChanged(message);
+	JPtrArrayIterator<T>::ListChanged(message);
 
 	// adjust cursor after base class is finished
 

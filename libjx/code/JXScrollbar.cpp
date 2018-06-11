@@ -1256,8 +1256,13 @@ JXScrollbar::HandleActionMenu
 
 static const JUtf8Byte* kSpeedScrollCursorName = "JXScrollbar::SpeedScroll";
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wc++11-narrowing"
+
 #include <jx_speed_scroll_cursor.xbm>
 #include <jx_speed_scroll_cursor_mask.xbm>
+
+#pragma GCC diagnostic pop
 
 static const JXCursor kSpeedScrollCursor =
 {

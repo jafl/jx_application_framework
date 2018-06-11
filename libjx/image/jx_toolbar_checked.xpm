@@ -1,5 +1,5 @@
 /* XPM */
-static char * jx_toolbar_checked[] = {
+static const char * jx_toolbar_checked[] = {
 "14 14 4 1",
 " 	c None",
 ".	c #000000000000",

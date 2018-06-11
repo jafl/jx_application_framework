@@ -1,5 +1,5 @@
 /* XPM */
-static char * jx_edit_redo[] = {
+static const char * jx_edit_redo[] = {
 "15 9 3 1",
 "  c None",
 ". c black",

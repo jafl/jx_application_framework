@@ -407,8 +407,6 @@ JXSelectionManager::RequestData
 {
 	assert( type != None );
 
-	JXDNDManager* dndMgr = itsDisplay->GetDNDManager();
-
 	Time time = origTime;
 	if (time == CurrentTime)
 		{

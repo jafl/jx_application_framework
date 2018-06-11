@@ -57,7 +57,6 @@ JXSearchTextDecorTask::Perform()
 		return;
 		}
 
-	const JRect wFrame  = itsWindow->GetFrameGlobal();
 	const JRect soFrame = itsStayOpenCB->GetFrameGlobal();
 	const JRect rfFrame = itsRetainFocusCB->GetFrameGlobal();
 

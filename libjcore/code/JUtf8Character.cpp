@@ -492,8 +492,8 @@ operator>>
 	JUtf8Character&	c
 	)
 {
-	JUtf8Byte b;
-	input.read(&b, 1);
+	unsigned char b;
+	input.read((char*) &b, 1);
 
 	JSize byteCount;
 	JBoolean ok = kJTrue;

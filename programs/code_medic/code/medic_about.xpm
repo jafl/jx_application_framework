@@ -1,5 +1,5 @@
 /* XPM */
-static char * medic_about[] = {
+static const char * medic_about[] = {
 "40 40 6 1",
 " 	c None",
 ".	c #FFFF10104242",

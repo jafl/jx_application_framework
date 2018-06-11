@@ -11,7 +11,7 @@
 #include <JKLRand.h>
 #include <jAssert.h>
 
-	JInt32 jKLInt32List[] =
+	JUInt32 jKLUInt32List[] =
 		{
 		0x12345678,
 		0x75432777,
@@ -51,12 +51,12 @@ int main()
 
 JTEST(UniformInt32)
 {
-	JKLRand randGen( jKLInt32List[0] );
+	JKLRand randGen( jKLUInt32List[0] );
 	JIndex i = 1;
-	while (jKLInt32List[i] != 0)
+	while (jKLUInt32List[i] != 0)
 		{
-		const JInt32 thisVal = randGen.UniformInt32();
-		JAssertEqual(jKLInt32List[i], thisVal);
+		const JInt32 thisVal = randGen.UniformUInt32();
+		JAssertEqual(jKLUInt32List[i], thisVal);
 		i++;
 		}
 }

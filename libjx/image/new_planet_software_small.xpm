@@ -1,5 +1,5 @@
 /* XPM */
-static char * new_planet_software_small_xpm[] = {
+static const char * new_planet_software_small_xpm[] = {
 "16 16 148 2",
 "  	c None",
 ". 	c #151B1B",

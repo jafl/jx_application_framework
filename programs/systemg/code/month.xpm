@@ -1,5 +1,5 @@
 /* XPM */
-static char *month[] = {
+static const char *month[] = {
 /* width height num_colors chars_per_pixel */
 "    16    15        6            1",
 /* colors */

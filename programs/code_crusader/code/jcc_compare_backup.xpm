@@ -1,5 +1,5 @@
 /* XPM */
-static char * jcc_compare_backup[] = {
+static const char * jcc_compare_backup[] = {
 "16 19 8 1",
 " 	c None",
 ".	c #CCCCCCCCCCCC",

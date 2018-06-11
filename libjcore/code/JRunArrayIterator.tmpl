@@ -278,7 +278,7 @@ JRunArrayIterator<T>::SetPrev
 	)
 {
 	JList<T>* obj;
-	if (!JRunArrayIterator<T>::GetOrderedSet(&obj) || JListIterator<T>::AtBeginning())
+	if (!JRunArrayIterator<T>::GetList(&obj) || JListIterator<T>::AtBeginning())
 		{
 		return kJFalse;
 		}
@@ -306,7 +306,7 @@ JRunArrayIterator<T>::SetNext
 	)
 {
 	JList<T>* obj;
-	if (!JRunArrayIterator<T>::GetOrderedSet(&obj) || JListIterator<T>::AtEnd())
+	if (!JRunArrayIterator<T>::GetList(&obj) || JListIterator<T>::AtEnd())
 		{
 		return kJFalse;
 		}
@@ -331,7 +331,7 @@ JBoolean
 JRunArrayIterator<T>::RemovePrev()
 {
 	JList<T>* obj;
-	if (!JRunArrayIterator<T>::GetOrderedSet(&obj) || JListIterator<T>::AtBeginning())
+	if (!JRunArrayIterator<T>::GetList(&obj) || JListIterator<T>::AtBeginning())
 		{
 		return kJFalse;
 		}
@@ -356,7 +356,7 @@ JBoolean
 JRunArrayIterator<T>::RemoveNext()
 {
 	JList<T>* obj;
-	if (!JRunArrayIterator<T>::GetOrderedSet(&obj) || JListIterator<T>::AtBeginning())
+	if (!JRunArrayIterator<T>::GetList(&obj) || JListIterator<T>::AtBeginning())
 		{
 		return kJFalse;
 		}
@@ -467,7 +467,7 @@ JRunArrayIterator<T>::MoveTo
 }
 
 /******************************************************************************
- OrderedSetChanged (virtual protected)
+ ListChanged (virtual protected)
 
 	Respond to changes in itsRunArray.  We can't optimize anything because
 	inserting and removing elements can merge runs or split a run.  We have
@@ -477,12 +477,12 @@ JRunArrayIterator<T>::MoveTo
 
 template <class T>
 void
-JRunArrayIterator<T>::OrderedSetChanged
+JRunArrayIterator<T>::ListChanged
 	(
 	const JBroadcaster::Message& message
 	)
 {
-	JListIterator<T>::OrderedSetChanged(message);
+	JListIterator<T>::ListChanged(message);
 
 	if (message.Is(JListT::kGoingAway))
 		{

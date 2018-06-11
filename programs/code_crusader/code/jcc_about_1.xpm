@@ -1,5 +1,5 @@
 /* XPM */
-static char * jcc_about_1[] = {
+static const char * jcc_about_1[] = {
 "40 40 6 1",
 " 	c #000000000000",
 ".	c None",

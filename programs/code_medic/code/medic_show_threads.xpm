@@ -1,5 +1,5 @@
 /* XPM */
-static char * medic_show_threads[] = {
+static const char * medic_show_threads[] = {
 "15 15 4 1",
 " 	c None",
 ".	c #000000000000",

@@ -1,5 +1,5 @@
 /* XPM */
-static char * jx_busy_3_small[] = {
+static const char * jx_busy_3_small[] = {
 "16 16 9 1",
 " 	c None",
 ".	c #333333",

@@ -68,8 +68,7 @@ J_RAW_SYSTEM_STUFF := \
   -D_J_OSX -DSIZEOF_LONG=8 -DSIZEOF_INT=4 -DSIZEOF_LONGLONG=8 \
   -DU_CHARSET_IS_UTF8=1 \
   -D_J_LLDB_HAS_SBVALUE_GETSUMMARY \
-  -D_J_HAS_SYSCTL -D_XFT_NO_COMPAT_ -I/usr/X11/include/freetype2 \
-  -Wno-deprecated -Wno-c++11-narrowing
+  -D_J_HAS_SYSCTL -D_XFT_NO_COMPAT_ -I/usr/X11/include/freetype2
 
 #
 # Nothing below this line should ever need to be changed.
@@ -89,7 +88,7 @@ CPPFLAGS  = ${DEPENDFLAGS} \
             ${shell PKG_CONFIG_PATH=${PKG_CONFIG_PATH} \
               pkg-config --cflags icu-i18n libpcre}
 CFLAGS    = ${J_MAKE_NEEDS_OUTPUT_ARG}
-CXXFLAGS  = ${J_MAKE_NEEDS_OUTPUT_ARG} -std=c++11
+CXXFLAGS  = ${J_MAKE_NEEDS_OUTPUT_ARG} -std=c++17
 
 # libraries to link
 

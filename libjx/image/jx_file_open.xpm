@@ -1,5 +1,5 @@
 /* XPM */
-static char * jx_file_open[] = {
+static const char * jx_file_open[] = {
 "17 18 6 1",
 " 	c None",
 ".	c #000000000000",

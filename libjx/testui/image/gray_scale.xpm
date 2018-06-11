@@ -1,5 +1,5 @@
 /* XPM */
-static char *gray_scale[] = {
+static const char *gray_scale[] = {
 /* width height num_colors chars_per_pixel */
 "   256    10      256            2",
 /* colors */

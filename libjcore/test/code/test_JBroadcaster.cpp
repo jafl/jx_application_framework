@@ -80,9 +80,9 @@ JTEST(DiamondVirtualInheritance)
 	A* obj = jnew D();
 	JAssertEqual('D', obj->foo());
 	B* b = dynamic_cast<B*>(obj);
-	JAssertEqual('D', obj->foo());
+	JAssertEqual('D', b->foo());
 	D* d = dynamic_cast<D*>(obj);
-	JAssertEqual('D', obj->foo());
+	JAssertEqual('D', d->foo());
 }
 
 struct PointerSize

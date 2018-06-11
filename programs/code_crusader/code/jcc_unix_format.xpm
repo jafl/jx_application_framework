@@ -1,5 +1,5 @@
 /* XPM */
-static char * jcc_unix_format[] = {
+static const char * jcc_unix_format[] = {
 "20 18 6 1",
 " 	c None",
 "X	c black",

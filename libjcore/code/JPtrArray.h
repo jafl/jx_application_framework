@@ -29,6 +29,9 @@ struct JPtrArrayT
 	};
 };
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Woverloaded-virtual"
+
 template <class T>
 class JPtrArray : public JArray<T*>
 {
@@ -148,6 +151,8 @@ public:
 	JBoolean	DeletePrevAsArray();
 	JBoolean	DeleteNextAsArray();
 };
+
+#pragma GCC diagnostic pop
 
 #include <JPtrArray.tmpl>
 #include <JPtrArrayIterator.tmpl>

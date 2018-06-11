@@ -1,5 +1,5 @@
 /* XPM */
-static char * gpm_slow[] = {
+static const char * gpm_slow[] = {
 "16 16 5 1",
 " 	c None",
 ".	c #000000000000",

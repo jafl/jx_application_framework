@@ -1,5 +1,5 @@
 /* XPM */
-static char * medic_attach_process[] = {
+static const char * medic_attach_process[] = {
 "15 15 6 1",
 " 	c None",
 ".	c gray40",

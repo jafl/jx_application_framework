@@ -1442,7 +1442,7 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //			override both versions.
 //		Added SkipPrev(), SkipNext(), SetPrev(), SetNext(), RemovePrev(), RemoveNext().
 //			Derived classes implement these in an optimal way.
-//		Modified GetOrderedSet() and added GetConstOrderedSet().
+//		Modified GetList() and added GetConstOrderedSet().
 //	JPtrArrayIterator:
 //		Added DeletePrev(), DeleteNext().
 //	JRunArray:
@@ -1585,7 +1585,7 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //	JOrderedSet and derived classes:
 //		Added SetCompareFunction() and removed compare argument from
 //			sorting functions.
-//		All derived classes of JOrderedSet must call OrderedSetAssigned()
+//		All derived classes of JOrderedSet must call ListAssigned()
 //			inside operator= -after- copying the data.
 //			See notes for JOrderedSet<T>::operator=.
 //		Added new message ElementsSwapped.  All derived classes must

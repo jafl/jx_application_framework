@@ -1,5 +1,5 @@
 /* XPM */
-static char * jx_show_whitespace[] = {
+static const char * jx_show_whitespace[] = {
 "14 14 2 1",
 " 	c None",
 "X	c white",

@@ -1,5 +1,5 @@
 /* XPM */
-static char * jcc_sym_member[] = {
+static const char * jcc_sym_member[] = {
 "12 13 2 1",
 " 	c None",
 "*	c black",

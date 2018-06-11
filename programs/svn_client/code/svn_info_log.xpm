@@ -1,5 +1,5 @@
 /* XPM */
-static char * svn_info_log[] = {
+static const char * svn_info_log[] = {
 "14 14 4 1",
 " 	c None",
 ".	c #800080008000",

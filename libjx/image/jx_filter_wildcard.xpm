@@ -1,5 +1,5 @@
 /* XPM */
-static char * jx_filter_wildcard[] = {
+static const char * jx_filter_wildcard[] = {
 "15 11 2 1",
 " 	c None",
 "*	c black",

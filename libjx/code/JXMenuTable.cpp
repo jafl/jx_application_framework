@@ -47,7 +47,6 @@
 
 const JSize kFastScrollFactor    = 3;
 const JCoordinate kMoveSlowDelta = 3;
-const JInteger kWheelLineCount   = 5;
 
 const JCoordinate kCheckboxHalfHeight = 5;	// remember to update kMinRowHeight
 const JCoordinate kRadioboxHalfHeight = 5;
@@ -294,8 +293,7 @@ JXMenuTable::HandleMouseDown
 {
 	itsSwitchingDragFlag = kJFalse;
 
-	const JBoolean ok = GetWindow()->GrabPointer(this);
-//	assert( ok );
+	GetWindow()->GrabPointer(this);
 
 	itsMouseDownPt = pt;
 	itsPrevPt      = JPoint(0,0);
@@ -761,10 +759,8 @@ JXMenuTable::GrabKeyboard()
 {
 	XUngrabKeyboard(*(GetDisplay()), CurrentTime);
 
-	const int status =
-		XGrabKeyboard(*(GetDisplay()), GetWindow()->GetXWindow(), False,
-					  GrabModeAsync, GrabModeAsync, CurrentTime);
-//	assert( status == GrabSuccess );
+	XGrabKeyboard(*(GetDisplay()), GetWindow()->GetXWindow(), False,
+				  GrabModeAsync, GrabModeAsync, CurrentTime);
 
 	GetDisplay()->SetKeyboardGrabber(GetWindow());
 }

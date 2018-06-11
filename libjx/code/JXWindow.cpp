@@ -1363,7 +1363,6 @@ JXWindow::AnalyzeWindowManager
 		WaitForWM(d, w);
 		assert( w->itsIsMappedFlag );
 
-		const JPoint pt = w->GetDesktopLocation();
 		if (JLAbs(w->itsWMFrameLoc.x - p) > kWMFrameSlop ||
 			JLAbs(w->itsWMFrameLoc.y - p) > kWMFrameSlop)
 			{

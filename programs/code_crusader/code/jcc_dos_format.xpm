@@ -1,5 +1,5 @@
 /* XPM */
-static char * jcc_dos_format[] = {
+static const char * jcc_dos_format[] = {
 "20 18 7 1",
 " 	c None",
 "X	c black",

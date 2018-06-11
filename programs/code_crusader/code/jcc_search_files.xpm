@@ -1,5 +1,5 @@
 /* XPM */
-static char * jcc_search_files[] = {
+static const char * jcc_search_files[] = {
 "16 20 8 1",
 " 	c None",
 ".	c #CCCCCCCCCCCC",

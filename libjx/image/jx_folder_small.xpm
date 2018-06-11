@@ -1,5 +1,5 @@
 /* XPM */
-static char * jx_folder_small[] = {
+static const char * jx_folder_small[] = {
 "15 15 6 1",
 " 	c None",
 ".	c #808080808080",

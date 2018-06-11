@@ -1,5 +1,5 @@
 /* XPM */
-static char * jx_toolbar_menu_node[] = {
+static const char * jx_toolbar_menu_node[] = {
 "15 13 4 1",
 " 	c None",
 ".	c #E6E6E6E6E6E6",

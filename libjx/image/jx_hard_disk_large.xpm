@@ -1,5 +1,5 @@
 /* XPM */
-static char *jx_hard_disk_large[] = {
+static const char *jx_hard_disk_large[] = {
 /* width height num_colors chars_per_pixel */
 "    32    32        6            1",
 /* colors */

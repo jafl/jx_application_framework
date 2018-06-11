@@ -1,5 +1,5 @@
 /* XPM */
-static char * svn_remove_force[] = {
+static const char * svn_remove_force[] = {
 "10 13 5 1",
 "  c None",
 ". c #000000",

@@ -1,5 +1,5 @@
 /* XPM */
-static char *jx_spell_check_selection[] = {
+static const char *jx_spell_check_selection[] = {
 /* width height num_colors chars_per_pixel */
 "    17    16        5            1",
 /* colors */

@@ -1,5 +1,5 @@
 /* XPM */
-static char * jx_un_message[] = {
+static const char * jx_un_message[] = {
 "32 32 4 1",
 " 	c black",
 ".	c wheat",

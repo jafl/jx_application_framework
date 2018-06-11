@@ -1,5 +1,5 @@
 /* XPM */
-static char * filter[] = {
+static const char * filter[] = {
 "16 16 5 1",
 ".	c None",
 " 	c #000000000000",

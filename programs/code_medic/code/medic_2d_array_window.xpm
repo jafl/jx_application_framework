@@ -1,5 +1,5 @@
 /* XPM */
-static char * medic_2d_array_window[] = {
+static const char * medic_2d_array_window[] = {
 "30 30 2 1",
 " 	c grey80",
 ".	c black",

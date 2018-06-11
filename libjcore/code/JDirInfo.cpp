@@ -160,7 +160,7 @@ JDirInfo::JDirInfo
 	itsAlphaEntries->SetCompareFunction(JDirEntry::CompareNames);
 	itsAlphaEntries->SetSortOrder(JListT::kSortAscending);
 
-	InstallOrderedSet(itsVisEntries);
+	InstallList(itsVisEntries);
 
 	const JError err = BuildInfo();
 	assert_ok( err );
@@ -201,7 +201,7 @@ JDirInfo::JDirInfo
 	JDirInfoX(source);
 	PrivateCopySettings(source);
 	CopyDirEntries(source);
-	InstallOrderedSet(itsVisEntries);
+	InstallList(itsVisEntries);
 }
 
 JDirInfo::JDirInfo
@@ -222,7 +222,7 @@ JDirInfo::JDirInfo
 
 	JDirInfoX(source);
 	PrivateCopySettings(source);
-	InstallOrderedSet(itsVisEntries);
+	InstallList(itsVisEntries);
 
 	const JError err = BuildInfo();
 	assert_ok( err );
@@ -1122,8 +1122,6 @@ JDirInfo::AppendRegex
 	JString*		regexStr
 	)
 {
-JIndex i;
-
 	JString str = origStr;
 
 	// Convert wildcard multiples (*) to regex multiples (.*)

@@ -1,5 +1,5 @@
 /* XPM */
-static char * jx_edit_copy[] = {
+static const char * jx_edit_copy[] = {
 "15 14 4 1",
 " 	c None",
 ".	c #000000000000",

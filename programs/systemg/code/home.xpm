@@ -1,5 +1,5 @@
 /* XPM */
-static char * home[] = {
+static const char * home[] = {
 "11 13 4 1",
 " 	c None",
 ".	c black",

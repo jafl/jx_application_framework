@@ -1,5 +1,5 @@
 /* XPM */
-static char * jcc_sym_fortran_common_block[] = {
+static const char * jcc_sym_fortran_common_block[] = {
 "15 15 2 1",
 " 	c None",
 ".	c black",

@@ -1,5 +1,5 @@
 /* XPM */
-static char * medic_run_program[] = {
+static const char * medic_run_program[] = {
 "15 15 6 1",
 " 	c None",
 ".	c gray40",

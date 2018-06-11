@@ -1,5 +1,5 @@
 /* XPM */
-static char * jx_unknown_file_selected_small[] = {
+static const char * jx_unknown_file_selected_small[] = {
 "15 15 3 1",
 " 	c None",
 ".	c black",

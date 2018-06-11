@@ -1,5 +1,5 @@
 /* XPM */
-static char * svn_repo_error_small[] = {
+static const char * svn_repo_error_small[] = {
 "15 15 3 1",
 " 	c None",
 ".	c black",

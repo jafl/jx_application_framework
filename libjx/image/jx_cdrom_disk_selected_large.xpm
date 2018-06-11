@@ -1,5 +1,5 @@
 /* XPM */
-static char * jx_cdrom_disk_selected_large[] = {
+static const char * jx_cdrom_disk_selected_large[] = {
 "32 32 17 1",
 " 	c #FFFFFFFFFFFF",
 ".	c #08200C300000",

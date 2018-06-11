@@ -34,8 +34,7 @@
 #include <jGlobals.h>
 #include <jAssert.h>
 
-const JCoordinate kCurrentPrefsVersion	= 1;
-const JIndex kTypeCount					= 3;
+const JCoordinate kCurrentPrefsVersion = 1;
 
 /******************************************************************************
  Constructor

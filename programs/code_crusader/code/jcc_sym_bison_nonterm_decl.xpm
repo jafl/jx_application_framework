@@ -1,5 +1,5 @@
 /* XPM */
-static char * jcc_sym_bison_nonterm_decl[] = {
+static const char * jcc_sym_bison_nonterm_decl[] = {
 "13 14 2 1",
 " 	c None",
 ".	c #800080008000",

@@ -23,26 +23,26 @@ public:
 
 protected:
 
-	void				InstallOrderedSet(JCollection* theOrderedSet);
-	const JCollection*	GetOrderedSet();
+	void				InstallList(JCollection* list);
+	const JCollection*	GetList();
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 
-	JCollection*	itsOrderedSet;
+	JCollection*	itsList;
 };
 
 
 /******************************************************************************
- GetOrderedSet
+ GetList
 
  ******************************************************************************/
 
 inline const JCollection*
-JContainer::GetOrderedSet()
+JContainer::GetList()
 {
-	return itsOrderedSet;
+	return itsList;
 }
 
 #endif

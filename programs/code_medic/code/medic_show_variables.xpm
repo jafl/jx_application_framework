@@ -1,5 +1,5 @@
 /* XPM */
-static char * medic_show_variables[] = {
+static const char * medic_show_variables[] = {
 "10 15 2 1",
 " 	c None",
 ".	c black",

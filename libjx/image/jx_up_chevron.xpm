@@ -1,5 +1,5 @@
 /* XPM */
-static char * jx_up_chevron[] = {
+static const char * jx_up_chevron[] = {
 "8 8 2 1",
 "  c None",
 "* c black",

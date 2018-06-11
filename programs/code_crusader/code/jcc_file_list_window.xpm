@@ -1,5 +1,5 @@
 /* XPM */
-static char * jcc_file_list_window[] = {
+static const char * jcc_file_list_window[] = {
 "30 30 5 1",
 " 	c #CCCCCCCCCCCC",
 ".	c gray40",

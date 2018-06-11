@@ -1,5 +1,5 @@
 /* XPM */
-static char * thx_2D_plot_window[] = {
+static const char * thx_2D_plot_window[] = {
 "30 30 3 1",
 " 	c #FFFFFFFFFFFF",
 ".	c #000000000000",

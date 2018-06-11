@@ -1,5 +1,5 @@
 /* XPM */
-static char * openfolderIcon_xpm[] = {
+static const char * openfolderIcon_xpm[] = {
 "15 15 5 1",
 " 	c None",
 ".	c #636365656363",

@@ -1,5 +1,5 @@
 /* XPM */
-static char * glNonLinearFit[] = {
+static const char * glNonLinearFit[] = {
 "15 15 3 1",
 " 	c #B3B3B3B3B3B3",
 ".	c None",

@@ -1,5 +1,5 @@
 /* XPM */
-static char * jx_edit_coerce_right_margin[] = {
+static const char * jx_edit_coerce_right_margin[] = {
 "20 11 3 1",
 " 	c None",
 "X	c #808080",

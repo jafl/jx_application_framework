@@ -1,5 +1,5 @@
 /* XPM */
-static char *jcc_show_c_tree[] = {
+static const char *jcc_show_c_tree[] = {
 /* width height num_colors chars_per_pixel */
 "    15     9        2            1",
 /* colors */

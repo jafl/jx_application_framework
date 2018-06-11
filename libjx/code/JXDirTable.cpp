@@ -639,9 +639,8 @@ JXDirTable::HandleKeyPress
 	)
 {
 	JPoint topSelCell;
-	JTableSelection& s             = GetTableSelection();
-	const JBoolean hadSelection    = s.GetFirstSelectedCell(&topSelCell);
-	const JBoolean extendSelection = JI2B( modifiers.shift() && itsAllowSelectMultipleFlag );
+	JTableSelection& s          = GetTableSelection();
+	const JBoolean hadSelection = s.GetFirstSelectedCell(&topSelCell);
 
 	if (key == ' ')
 		{

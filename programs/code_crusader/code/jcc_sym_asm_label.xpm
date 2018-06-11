@@ -1,5 +1,5 @@
 /* XPM */
-static char * jcc_sym_asm_label[] = {
+static const char * jcc_sym_asm_label[] = {
 "14 11 2 1",
 " 	c None",
 "*	c #000000000000",

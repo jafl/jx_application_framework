@@ -1,5 +1,5 @@
 /* XPM */
-static char * medic_threads_window[] = {
+static const char * medic_threads_window[] = {
 "30 30 4 1",
 " 	c grey80",
 ".	c black",

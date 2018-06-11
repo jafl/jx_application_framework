@@ -739,10 +739,9 @@ JXFileDocument::SaveInCurrentFile()
 				}
 			}
 
-		JBoolean madeBackupFile = kJFalse;
-		mode_t filePerms        = 0;
-		uid_t ownerID           = (uid_t) -1;
-		gid_t groupID           = (gid_t) -1;
+		mode_t filePerms = 0;
+		uid_t ownerID    = (uid_t) -1;
+		gid_t groupID    = (gid_t) -1;
 		if (itsMakeBackupFileFlag)
 			{
 			const JString backupName  = fullName + kBackupFileSuffix;

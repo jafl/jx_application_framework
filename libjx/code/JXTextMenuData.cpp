@@ -951,7 +951,7 @@ JXTextMenuData::ParseNMShortcut
 			const int k = kNMKeyConv[i].key;
 			if (0 < k && k <= (int) UCHAR_MAX)
 				{
-				const JUtf8Byte s[2] = { k, '\0' };
+				const JUtf8Byte s[2] = { (char) k, '\0' };
 				keyStr = s;
 				break;	// extra processing below
 				}

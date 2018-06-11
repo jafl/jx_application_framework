@@ -7,7 +7,7 @@
 	Efficient interation for JLinkedList objects.
 
 	To do:
-		Optimize OrderedSetChanged() so it doesn't always call FindElement().
+		Optimize ListChanged() so it doesn't always call FindElement().
 
 	Copyright (C) 1996-97 by John Lindal.
 
@@ -244,7 +244,7 @@ JLinkedListIterator<T>::SetPrev
 	)
 {
 	JList<T>* obj;
-	if (!JLinkedListIterator<T>::GetOrderedSet(&obj) || JListIterator<T>::AtBeginning())
+	if (!JLinkedListIterator<T>::GetList(&obj) || JListIterator<T>::AtBeginning())
 		{
 		return kJFalse;
 		}
@@ -269,7 +269,7 @@ JLinkedListIterator<T>::SetNext
 	)
 {
 	JList<T>* obj;
-	if (!JLinkedListIterator<T>::GetOrderedSet(&obj) || JListIterator<T>::AtEnd())
+	if (!JLinkedListIterator<T>::GetList(&obj) || JListIterator<T>::AtEnd())
 		{
 		return kJFalse;
 		}
@@ -293,7 +293,7 @@ JBoolean
 JLinkedListIterator<T>::RemovePrev()
 {
 	JList<T>* obj;
-	if (!JLinkedListIterator<T>::GetOrderedSet(&obj) || JListIterator<T>::AtBeginning())
+	if (!JLinkedListIterator<T>::GetList(&obj) || JListIterator<T>::AtBeginning())
 		{
 		return kJFalse;
 		}
@@ -315,7 +315,7 @@ JBoolean
 JLinkedListIterator<T>::RemoveNext()
 {
 	JList<T>* obj;
-	if (!JLinkedListIterator<T>::GetOrderedSet(&obj) || JListIterator<T>::AtEnd())
+	if (!JLinkedListIterator<T>::GetList(&obj) || JListIterator<T>::AtEnd())
 		{
 		return kJFalse;
 		}
@@ -365,7 +365,7 @@ JLinkedListIterator<T>::MoveTo
 }
 
 /******************************************************************************
- OrderedSetChanged (virtual protected)
+ ListChanged (virtual protected)
 
 	Respond to changes in itsLinkedList.  In order to optimize, we would have
 	to check if prevElement or nextElement was invalid.
@@ -374,12 +374,12 @@ JLinkedListIterator<T>::MoveTo
 
 template <class T>
 void
-JLinkedListIterator<T>::OrderedSetChanged
+JLinkedListIterator<T>::ListChanged
 	(
 	const JBroadcaster::Message& message
 	)
 {
-	JListIterator<T>::OrderedSetChanged(message);
+	JListIterator<T>::ListChanged(message);
 
 	if (message.Is(JListT::kElementsInserted) ||
 		message.Is(JListT::kElementsRemoved) ||

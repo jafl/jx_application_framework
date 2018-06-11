@@ -1,5 +1,5 @@
 /* XPM */
-static char * medic_show_2d_array[] = {
+static const char * medic_show_2d_array[] = {
 "15 11 2 1",
 " 	c None",
 "*	c black",

@@ -1,5 +1,5 @@
 /* XPM */
-static char * svn_about_icon[] = {
+static const char * svn_about_icon[] = {
 "40 40 4 1",
 " 	c None",
 ".	c #000000",

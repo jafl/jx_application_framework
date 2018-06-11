@@ -1,5 +1,5 @@
 /* XPM */
-static char * jcc_view_man_page[] = {
+static const char * jcc_view_man_page[] = {
 "14 14 4 1",
 " 	c None",
 ".	c #800080008000",

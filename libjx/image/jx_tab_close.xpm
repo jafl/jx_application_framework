@@ -1,5 +1,5 @@
 /* XPM */
-static char * jx_tab_close[] = {
+static const char * jx_tab_close[] = {
 "14 14 4 1",
 " 	c None",
 ".	c #A7190F",

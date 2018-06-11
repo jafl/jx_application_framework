@@ -1,5 +1,5 @@
 /* XPM */
-static char * manual[] = {
+static const char * manual[] = {
 "16 14 7 1",
 " 	c None",
 ".	c #000000000000",

@@ -30,7 +30,7 @@
 
 #undef assert
 
-static int __jXUNassert(char*, char*, int);
+static int __jXUNassert(const char*, const char*, int);
 
 #ifdef NDEBUG
 	#define assert(x)	((void) 0)
@@ -265,9 +265,9 @@ JXUserNotification::WaitForResponse()
 int
 __jXUNassert
 	(
-	char*	expr,
-	char*	file,
-	int		line
+	const char*	expr,
+	const char*	file,
+	int			line
 	)
 {
 	fprintf(stderr, "Assertion failed: %s, file %s, line %d\n", expr, file, line);

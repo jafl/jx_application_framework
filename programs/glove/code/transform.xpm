@@ -1,5 +1,5 @@
 /* XPM */
-static char * glv_transform[] = {
+static const char * glv_transform[] = {
 "18 14 2 1",
 " 	c None",
 ".	c #000000000000",

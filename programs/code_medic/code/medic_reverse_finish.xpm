@@ -1,5 +1,5 @@
 /* XPM */
-static char * medic_reverse_finish[] = {
+static const char * medic_reverse_finish[] = {
 "15 15 3 1",
 " 	c None",
 ".	c #000000",

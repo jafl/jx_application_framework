@@ -153,7 +153,6 @@ JVersionSocket<ACE_PEER_STREAM_2>::handle_input
 
 	itsRecvBuffer.Append(buffer, count);
 
-	JIndex i;
 	if (itsRecvBuffer.BeginsWith("HTTP/1.1 200"))
 		{
 		JStringIterator iter(itsRecvBuffer);

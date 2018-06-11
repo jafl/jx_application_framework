@@ -44,8 +44,7 @@
 const Atom kCurrentDNDVersion = 4;
 const Atom kMinDNDVersion     = 3;
 
-const JCoordinate kHysteresisBorderWidth = 50;
-const clock_t kWaitForLastStatusTime     = 10 * CLOCKS_PER_SEC;
+const clock_t kWaitForLastStatusTime = 10 * CLOCKS_PER_SEC;
 
 // atom names
 
@@ -2054,6 +2053,9 @@ static const JUtf8Byte* kDefaultDNDCursorName[] =
 	"JXDNDAskMixedCursor"
 };
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wc++11-narrowing"
+
 // generic
 
 #include <jx_drag_object_cursor.xbm>
@@ -2089,6 +2091,8 @@ static const JUtf8Byte* kDefaultDNDCursorName[] =
 #include <jx_drag_link_file_and_directory_cursor.xbm>
 #include <jx_drag_ask_file_and_directory_cursor.xbm>
 #include <jx_drag_mod_file_and_directory_cursor_mask.xbm>
+
+#pragma GCC diagnostic pop
 
 static const JXCursor kDefaultDNDCursor[] =
 {

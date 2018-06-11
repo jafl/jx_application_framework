@@ -1,5 +1,5 @@
 /* XPM */
-static char * md_about_icon[] = {
+static const char * md_about_icon[] = {
 "40 40 3 1",
 " 	c None",
 ".	c #000000",

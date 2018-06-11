@@ -1,5 +1,5 @@
 /* XPM */
-static char * syg_cdrom_folder_read_only_large[] = {
+static const char * syg_cdrom_folder_read_only_large[] = {
 "32 32 68 1",
 " 	c None",
 ".	c #808080808080",

@@ -28,8 +28,6 @@
 #include <jx_toolbar_checked.xpm>
 #include <jx_toolbar_unchecked.xpm>
 
-const JSize kIdentWidth	= 20;
-
 /******************************************************************************
  Constructor
 

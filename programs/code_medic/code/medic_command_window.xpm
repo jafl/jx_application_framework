@@ -1,5 +1,5 @@
 /* XPM */
-static char * medic_command_window[] = {
+static const char * medic_command_window[] = {
 "30 30 5 1",
 " 	c grey80",
 ".	c red",

@@ -1,5 +1,5 @@
 /* XPM */
-static char * jx_zip_disk_large[] = {
+static const char * jx_zip_disk_large[] = {
 "32 32 7 1",
 " 	c None",
 ".	c black",

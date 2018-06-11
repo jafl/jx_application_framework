@@ -105,11 +105,16 @@ static const JUtf8Byte* kBeachballFrameName[] =
 	"JXBeachballFrame3", "JXBeachballFrame4"
 };
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wc++11-narrowing"
+
 #include <jx_beachball_1_cursor.xbm>
 #include <jx_beachball_2_cursor.xbm>
 #include <jx_beachball_3_cursor.xbm>
 #include <jx_beachball_4_cursor.xbm>
 #include <jx_beachball_cursor_mask.xbm>
+
+#pragma GCC diagnostic pop
 
 static const JXCursor kBeachBallFrames[] =
 {

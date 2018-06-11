@@ -1,5 +1,5 @@
 /* XPM */
-static char * thx_about[] = {
+static const char * thx_about[] = {
 "40 40 2 1",
 " 	c None",
 ".	c #000000000000",

@@ -1,5 +1,5 @@
 /* XPM */
-static char * md_main_window_icon[] = {
+static const char * md_main_window_icon[] = {
 "24 28 3 1",
 " 	c None",
 ".	c #000000",

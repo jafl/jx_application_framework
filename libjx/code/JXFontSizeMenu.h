@@ -44,7 +44,12 @@ public:
 	JSize	GetFontSize() const;
 	void	SetFontSize(const JSize size);
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Woverloaded-virtual"
+
 	void	SetToPopupChoice(const JBoolean isPopup = kJTrue);
+
+#pragma GCC diagnostic pop
 
 protected:
 

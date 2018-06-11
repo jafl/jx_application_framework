@@ -7,8 +7,8 @@
 
  ******************************************************************************/
 
-#ifndef _H_JOrderedSetIterator
-#define _H_JOrderedSetIterator
+#ifndef _H_JListIterator
+#define _H_JListIterator
 
 #include <JCollection.h>
 
@@ -23,10 +23,10 @@ class JListIterator
 
 public:
 
-	JListIterator(const JList<T>& theOrderedSet,
+	JListIterator(const JList<T>& theList,
 				  const JIteratorPosition start = kJIteratorStartAtBeginning,
 				  const JIndex index = 0);
-	JListIterator(JList<T>* theOrderedSet,
+	JListIterator(JList<T>* theList,
 				  const JIteratorPosition start = kJIteratorStartAtBeginning,
 				  const JIndex index = 0);
 	JListIterator(const JListIterator<T>& source);
@@ -59,25 +59,25 @@ public:
 
 protected:
 
-	const JList<T>*	GetConstOrderedSet() const;
-	JBoolean		GetOrderedSet(JList<T>** obj) const;
+	const JList<T>*	GetConstList() const;
+	JBoolean		GetList(JList<T>** obj) const;
 
 	JCursorPosition	GetCursor() const;
 	void			SetCursor(const JCursorPosition pos);
 
-	virtual void	OrderedSetChanged(const JBroadcaster::Message& message);
+	virtual void	ListChanged(const JBroadcaster::Message& message);
 
 private:
 
-	const JList<T>*		itsConstOrderedSet;		// JList that is being iterated over
-	JList<T>*			itsOrderedSet;			// nullptr if we were passed a const object
-	JCursorPosition		itsCursorPosition;		// Current iterator position
+	const JList<T>*		itsConstList;		// JList that is being iterated over
+	JList<T>*			itsList;			// nullptr if we were passed a const object
+	JCursorPosition		itsCursorPosition;	// Current iterator position
 
-	JListIterator<T>*	itsNextIterator;		// Next iterator in linked list
+	JListIterator<T>*	itsNextIterator;	// Next iterator in linked list
 
 private:
 
-	void	JOrderedSetIteratorX(const JIteratorPosition start, const JIndex index);
+	void	JListIteratorX(const JIteratorPosition start, const JIndex index);
 
 	void	AddToIteratorList();
 	void	RemoveFromIteratorList();

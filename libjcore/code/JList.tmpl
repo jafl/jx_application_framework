@@ -1,5 +1,5 @@
-#ifndef _T_JOrderedSet
-#define _T_JOrderedSet
+#ifndef _T_JList
+#define _T_JList
 
 /******************************************************************************
  JList.tmpl
@@ -73,7 +73,7 @@ JList<T>::~JList()
 /******************************************************************************
  Assignment operator (private)
 
-	*** Derived classes must call OrderedSetAssigned() -after- copying data
+	*** Derived classes must call ListAssigned() -after- copying data
 
 	operator= is private to force derived classes to override it
 
@@ -91,13 +91,13 @@ JList<T>::operator=
 }
 
 /******************************************************************************
- OrderedSetAssigned (protected)
+ ListAssigned (protected)
 
  ******************************************************************************/
 
 template <class T>
 void
-JList<T>::OrderedSetAssigned
+JList<T>::ListAssigned
 	(
 	const JList<T>& source
 	)
@@ -303,7 +303,7 @@ JList<T>::NotifyIterators
 {
 	if (itsFirstIterator != nullptr)
 		{
-		itsFirstIterator->OrderedSetChanged(message);
+		itsFirstIterator->ListChanged(message);
 		}
 }
 

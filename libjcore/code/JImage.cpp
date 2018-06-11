@@ -103,7 +103,7 @@ JImage::GetFileType
 
 	const JSize bufSize = 10;
 	char buffer [ bufSize ];
-	const JSize count = fread(buffer, sizeof(char), bufSize, input);
+	fread(buffer, sizeof(char), bufSize, input);
 	fclose(input);
 
 	if (JString::CompareMaxNBytes(buffer, "GIF", 3, kJTrue) == 0)
@@ -354,8 +354,6 @@ JImage::ReadGD
 
 		JColorID* colorTable = jnew JColorID [ colorCount ];
 		assert( colorTable != nullptr );
-
-		const JColorID blackColor = JColorManager::GetBlackColor();
 
 		for (JIndex i=0; i<colorCount; i++)
 			{

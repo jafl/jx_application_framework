@@ -67,7 +67,7 @@ JPrefsManager::JPrefsManager
 	assert( itsData != nullptr );
 	itsData->SetCompareFunction(ComparePrefIDs);
 
-	InstallOrderedSet(itsData);
+	InstallList(itsData);
 }
 
 /******************************************************************************

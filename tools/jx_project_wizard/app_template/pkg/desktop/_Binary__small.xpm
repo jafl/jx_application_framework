@@ -1,5 +1,5 @@
 /* XPM */
-static char * <Binary>_small[] = {
+static const char * <Binary>_small[] = {
 "15 15 3 1",
 " 	c None",
 ".	c #000000000000",

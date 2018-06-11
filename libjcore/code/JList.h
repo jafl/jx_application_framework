@@ -7,8 +7,8 @@
 
  ******************************************************************************/
 
-#ifndef _H_JOrderedSet
-#define _H_JOrderedSet
+#ifndef _H_JList
+#define _H_JList
 
 #include <JCollection.h>
 #include <JListIterator.h>
@@ -353,7 +353,7 @@ public:
 
 protected:
 
-	void	OrderedSetAssigned(const JList<T>& source);
+	void	ListAssigned(const JList<T>& source);
 	void	NotifyIterators(const JBroadcaster::Message& message);
 
 private:

@@ -34,6 +34,9 @@ JXGetInvisibleCursor
 	return display->CreateCustomCursor(kInvisibleCursorName, kInvisibleCursor);
 }
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wc++11-narrowing"
+
 /******************************************************************************
  Hand cursor
 
@@ -240,3 +243,5 @@ JXGetDragFileAndDirectoryCursor
 	return display->CreateCustomCursor(kDragFileAndDirectoryCursorName,
 									   kDragFileAndDirectoryCursor);
 }
+
+#pragma GCC diagnostic pop

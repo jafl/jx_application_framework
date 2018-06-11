@@ -1,5 +1,5 @@
 /* XPM */
-static char * jcc_sym_function[] = {
+static const char * jcc_sym_function[] = {
 "7 12 2 1",
 " 	c None",
 "*	c #000000000000",

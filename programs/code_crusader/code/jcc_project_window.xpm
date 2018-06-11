@@ -1,5 +1,5 @@
 /* XPM */
-static char * jcc_project_window[] = {
+static const char * jcc_project_window[] = {
 "30 30 4 1",
 " 	c #CCCCCCCCCCCC",
 ".	c #000000000000",

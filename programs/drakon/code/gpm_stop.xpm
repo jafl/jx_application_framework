@@ -1,5 +1,5 @@
 /* XPM */
-static char * gpm_stop[] = {
+static const char * gpm_stop[] = {
 "15 15 3 1",
 " 	c None",
 ".	c black",

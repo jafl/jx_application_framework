@@ -1,5 +1,5 @@
 /* XPM */
-static char * drakon_xpm[] = {
+static const char * drakon_xpm[] = {
 "32 32 6 1",
 " 	c None",
 ".	c #666666",

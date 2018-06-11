@@ -757,7 +757,7 @@ JRead
 	assert( buf != nullptr );
 
 	size_t dataLength;
-	ssize_t result = jReadN(input, buf, count, &dataLength);
+	jReadN(input, buf, count, &dataLength);
 
 	JString str(buf, dataLength);
 

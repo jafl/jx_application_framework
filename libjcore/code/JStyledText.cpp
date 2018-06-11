@@ -270,7 +270,6 @@ JStyledText::ReadPlainText
 {
 	JReadFile(fileName, &itsText);
 
-	JIndex i;
 	if (ContainsIllegalChars(itsText))
 		{
 		if (!acceptBinaryFile)
@@ -361,13 +360,13 @@ JStyledText::ConvertFromMacintoshNewlinetoUNIXNewline
 	)
 {
 	JUtf8Byte* s = const_cast<JUtf8Byte*>(text->GetBytes());
-	while (*s > 0)
+	while (*s != 0)
 		{
 		if (*s == kMacintoshNewlineChar)
 			{
 			*s = kUNIXNewlineChar;
 			}
-		*s++;
+		s++;
 		}
 }
 
@@ -495,12 +494,12 @@ JStyledText::ReadPrivateFormat
 
 	// text
 
-	JSize textLength;
-	input >> textLength;
+	JSize charCount;
+	input >> charCount;
 	input.ignore(1);
-	if (textLength > 0)
+	if (charCount > 0)
 		{
-		text->Read(input, textLength);
+		text->Read(input, charCount);
 		}
 
 	// list of font names
@@ -645,7 +644,7 @@ JStyledText::WritePrivateFormat
 
 	// write text efficiently
 
-	output << ' ' << range.byteRange.GetCount() << ' ';
+	output << ' ' << range.charRange.GetCount() << ' ';
 	output.write(text.GetRawBytes() + range.byteRange.first - 1, range.byteRange.GetCount());
 
 	// build lists of font names and colors

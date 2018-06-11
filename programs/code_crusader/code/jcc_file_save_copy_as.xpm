@@ -1,5 +1,5 @@
 /* XPM */
-static char * jcc_file_save_copy_as[] = {
+static const char * jcc_file_save_copy_as[] = {
 "17 14 7 1",
 "  c None",
 "X c black",

@@ -1,5 +1,5 @@
 /* XPM */
-static char * size[] = {
+static const char * size[] = {
 "16 16 5 1",
 " 	c None",
 ".	c #000000000000",

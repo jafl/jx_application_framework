@@ -1,5 +1,5 @@
 /* XPM */
-static char * jx_un_warning[] = {
+static const char * jx_un_warning[] = {
 "32 32 3 1",
 " 	c None",
 ".	c red",

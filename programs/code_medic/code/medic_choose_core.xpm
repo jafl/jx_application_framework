@@ -1,5 +1,5 @@
 /* XPM */
-static char * medic_choose_core[] = {
+static const char * medic_choose_core[] = {
 "14 12 2 1",
 " 	c None",
 ".	c black",

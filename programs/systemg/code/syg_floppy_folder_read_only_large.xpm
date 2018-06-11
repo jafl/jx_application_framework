@@ -1,5 +1,5 @@
 /* XPM */
-static char * syg_floppy_folder_read_only_large[] = {
+static const char * syg_floppy_folder_read_only_large[] = {
 "32 32 13 1",
 " 	c None",
 ".	c #808080808080",

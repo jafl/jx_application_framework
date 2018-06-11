@@ -175,7 +175,6 @@ JMMHashTable::StreamAllocatedForDebug
 	const
 {
 	JConstHashCursor<JMMRecord> cursor(itsAllocatedTable);
-	JSize totalSize = 0;
 	while ( cursor.NextFull() )
 		{
 		const JMMRecord thisRecord = cursor.GetValue();

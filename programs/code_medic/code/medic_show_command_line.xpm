@@ -1,5 +1,5 @@
 /* XPM */
-static char * medic_show_command_line[] = {
+static const char * medic_show_command_line[] = {
 "15 15 6 1",
 " 	c None",
 ".	c red",

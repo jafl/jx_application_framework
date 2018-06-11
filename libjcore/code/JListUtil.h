@@ -7,8 +7,8 @@
 
  ******************************************************************************/
 
-#ifndef _H_JOrderedSetUtil
-#define _H_JOrderedSetUtil
+#ifndef _H_JListUtil
+#define _H_JListUtil
 
 #include <JList.h>
 

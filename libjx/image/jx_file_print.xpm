@@ -1,5 +1,5 @@
 /* XPM */
-static char * jx_file_print[] = {
+static const char * jx_file_print[] = {
 "16 14 6 1",
 "  c None",
 "# c #000000",

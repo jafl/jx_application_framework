@@ -1,5 +1,5 @@
 /* XPM */
-static char * SyGMainIcon[] = {
+static const char * SyGMainIcon[] = {
 "40 40 7 1",
 " 	c None",
 ".	c #861782078617",

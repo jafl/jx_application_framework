@@ -232,7 +232,7 @@ JXMenu::SetBaseItemData
 	assert( itsBaseItemData == nullptr && baseItemData != nullptr );
 
 	itsBaseItemData = baseItemData;
-	ListenTo(itsBaseItemData->GetOrderedSet());
+	ListenTo(itsBaseItemData->GetList());
 }
 
 /******************************************************************************
@@ -248,7 +248,7 @@ JXMenu::ClearBaseItemData()
 {
 	assert( itsBaseItemData != nullptr );
 
-	StopListening(itsBaseItemData->GetOrderedSet());
+	StopListening(itsBaseItemData->GetList());
 	itsBaseItemData = nullptr;
 }
 
@@ -1361,7 +1361,7 @@ void
 JXMenu::Activate()
 {
 	itsShouldBeActiveFlag = kJTrue;
-	if ((itsBaseItemData->GetOrderedSet())->IsEmpty())
+	if ((itsBaseItemData->GetList())->IsEmpty())
 		{
 		return;
 		}
@@ -1444,7 +1444,7 @@ JXMenu::PrivateActivate()
 {
 	JIndex ownerItemIndex;
 	if (itsOwner != nullptr &&
-		!(itsBaseItemData->GetOrderedSet())->IsEmpty() &&
+		!(itsBaseItemData->GetList())->IsEmpty() &&
 		itsOwner->itsBaseItemData->FindSubmenu(this, &ownerItemIndex))
 		{
 		itsOwner->EnableItem(ownerItemIndex);
@@ -1479,7 +1479,7 @@ JXMenu::Receive
 	const Message&	message
 	)
 {
-	const JCollection* array = itsBaseItemData->GetOrderedSet();
+	const JCollection* array = itsBaseItemData->GetList();
 
 	if (sender == const_cast<JCollection*>(array))
 		{

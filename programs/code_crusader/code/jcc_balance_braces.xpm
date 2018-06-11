@@ -1,5 +1,5 @@
 /* XPM */
-static char * jcc_balance_braces[] = {
+static const char * jcc_balance_braces[] = {
 "15 16 3 1",
 " 	c None",
 "X	c black",

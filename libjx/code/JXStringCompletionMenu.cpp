@@ -88,7 +88,7 @@ JXStringCompletionMenu::AddString
 			}
 		else if (i <= 36)
 			{
-			const JUtf8Byte s[] = { 'a' + i - 11, 0 };
+			const JUtf8Byte s[] = { char('a' + i - 11), 0 };
 			shortcut.Set(s);
 			}
 

@@ -1,5 +1,5 @@
 /* XPM */
-static char * gpm_main_window_icon[] = {
+static const char * gpm_main_window_icon[] = {
 "24 28 6 1",
 " 	c None",
 ".	c #666666",

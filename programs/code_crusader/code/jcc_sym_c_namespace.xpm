@@ -1,5 +1,5 @@
 /* XPM */
-static char * jcc_sym_c_namespace[] = {
+static const char * jcc_sym_c_namespace[] = {
 "12 10 2 1",
 " 	c None",
 "*	c #000000000000",

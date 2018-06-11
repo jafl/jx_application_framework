@@ -1,5 +1,5 @@
 /* XPM */
-static char * jcc_sym_c_typedef[] = {
+static const char * jcc_sym_c_typedef[] = {
 "15 15 2 1",
 " 	c None",
 ".	c black",

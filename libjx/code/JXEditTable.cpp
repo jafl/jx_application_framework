@@ -214,8 +214,6 @@ JXEditTable::HandleKeyPress
 	const JBoolean shiftOn = modifiers.shift();
 	const JBoolean metaOn  = modifiers.meta();
 
-	JXWindow* window = GetWindow();
-
 	if (key == kJReturnKey && metaOn)
 		{
 		EndEditing();

@@ -50,7 +50,7 @@ public:
 
 protected:
 
-	virtual void	OrderedSetChanged(const JBroadcaster::Message& message);
+	virtual void	ListChanged(const JBroadcaster::Message& message);
 
 private:
 

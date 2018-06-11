@@ -1,5 +1,5 @@
 /* XPM */
-static char * mode[] = {
+static const char * mode[] = {
 "15 16 4 1",
 " 	c None",
 ".	c #000000000000",

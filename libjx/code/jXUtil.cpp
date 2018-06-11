@@ -45,6 +45,9 @@ JXJToXRect
 
  ******************************************************************************/
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wc++11-narrowing"
+
 Region
 JXRectangleRegion
 	(
@@ -76,6 +79,8 @@ JXRectangleRegion
 	};
 	return XPolygonRegion(xpt, 4, EvenOddRule);
 }
+
+#pragma GCC diagnostic pop
 
 /******************************************************************************
  JXGetRegionBounds
@@ -511,7 +516,6 @@ JXFixBrokenURLs
 	JBoolean changed = kJFalse;
 
 	const JSize count = urlList.GetElementCount();
-	JIndex j;
 	JString srcHost, tmp;
 	for (JIndex i=1; i<=count; i++)
 		{

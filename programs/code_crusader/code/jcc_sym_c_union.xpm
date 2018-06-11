@@ -1,5 +1,5 @@
 /* XPM */
-static char * jcc_sym_c_union[] = {
+static const char * jcc_sym_c_union[] = {
 "14 12 2 1",
 " 	c None",
 ".	c black",

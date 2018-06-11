@@ -1,5 +1,5 @@
 /* XPM */
-static char * jcc_c_tree_window[] = {
+static const char * jcc_c_tree_window[] = {
 "30 30 3 1",
 " 	c #CCCCCCCCCCCC",
 ".	c #000000000000",

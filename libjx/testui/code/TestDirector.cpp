@@ -1070,7 +1070,7 @@ TestDirector::HandleCSFMenu
 			{
 			"result", resultStr.GetBytes()
 			};
-		(JGetUserNotification())->DisplayMessage(JGetString("CSFResult::TestDirector"));
+		(JGetUserNotification())->DisplayMessage(JGetString("CSFResult::TestDirector", map, sizeof(map)));
 		}
 }
 

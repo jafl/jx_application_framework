@@ -40,7 +40,7 @@ public:
 
 public:
 
-	static JXSearchTextDialog*	Create(const JUtf8Byte* searchTextHelpName = nullptr);
+	static JXSearchTextDialog*	Create();
 
 	virtual ~JXSearchTextDialog();
 
@@ -70,12 +70,9 @@ public:
 	void	ReadSetup(std::istream& input);
 	void	WriteSetup(std::ostream& output) const;
 
-	void	SetSearchTextHelpName(const JUtf8Byte* name);
-	void	SetRegexQRefName(const JUtf8Byte* name);
-
 protected:
 
-	JXSearchTextDialog(const JUtf8Byte* searchTextHelpName = nullptr);
+	JXSearchTextDialog();
 
 	void	JXSearchTextDialogX();
 

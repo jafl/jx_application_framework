@@ -51,7 +51,6 @@
 #include <jAssert.h>
 
 const JCoordinate kButConBuffer = 5;
-const JCoordinate kLabelBuffer  = 10;
 
 const JSize kTimerDelay = 1000;
 

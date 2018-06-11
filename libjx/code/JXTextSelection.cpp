@@ -270,7 +270,6 @@ JXTextSelection::ConvertData
 	)
 	const
 {
-	const Atom dndName = GetDNDSelectionName();
 	*bitsPerBlock = 8;
 
 	JXSelectionManager* selMgr = GetSelectionManager();

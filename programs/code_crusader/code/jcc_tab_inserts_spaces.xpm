@@ -1,5 +1,5 @@
 /* XPM */
-static char * jcc_tab_inserts_spaces[] = {
+static const char * jcc_tab_inserts_spaces[] = {
 "14 2 2 1",
 " 	c None",
 "X	c black",

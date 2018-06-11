@@ -1,5 +1,5 @@
 /* XPM */
-static char * syg_home_folder_selected_large[] = {
+static const char * syg_home_folder_selected_large[] = {
 "32 32 8 1",
 " 	c None",
 ".	c #808080808080",

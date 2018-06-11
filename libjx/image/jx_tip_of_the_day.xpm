@@ -1,5 +1,5 @@
 /* XPM */
-static char * jx_tip_of_the_day[] = {
+static const char * jx_tip_of_the_day[] = {
 "23 30 7 1",
 " 	c None",
 "+	c #848200",
