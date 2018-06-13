@@ -119,10 +119,9 @@ JXChooseFileDialog::GetFullNames
 	JPtrArray<JDirEntry> entryList(JPtrArrayT::kDeleteAll);
 	if (GetFileBrowser()->GetSelection(&entryList))
 		{
-		const JSize count = entryList.GetElementCount();
-		for (JIndex i=1; i<=count; i++)
+		for (const JDirEntry* entry : entryList)
 			{
-			JString* s = jnew JString((entryList.GetElement(i))->GetFullName());
+			JString* s = jnew JString(entry->GetFullName());
 			assert( s != nullptr );
 			fullNameList->Append(s);
 			}
@@ -441,10 +440,8 @@ JXChooseFileDialog::OKToDeactivate()
 	JPtrArray<JDirEntry> entryList(JPtrArrayT::kDeleteAll);
 	if (fileBrowser->GetSelection(&entryList))
 		{
-		const JSize count = entryList.GetElementCount();
-		for (JIndex i=1; i<=count; i++)
+		for (JDirEntry* entry : entryList)
 			{
-			JDirEntry* entry = entryList.GetElement(i);
 			entry->ForceUpdate();	// check that link hasn't been broken behind our back
 			if (!entry->IsFile())
 				{

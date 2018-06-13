@@ -339,12 +339,10 @@ JXFileInput::WillAcceptDrop
 			   urlXAtom2 = GetSelectionManager()->GetURLNoCharsetXAtom();
 
 	JString fileName;
-	const JSize typeCount = typeList.GetElementCount();
-	for (JIndex i=1; i<=typeCount; i++)
+	for (const Atom type : typeList)
 		{
-		const Atom a = typeList.GetElement(i);
-		if ((a == urlXAtom1 || a == urlXAtom2) &&
-			GetDroppedFileName(time, a, kJFalse, &fileName))
+		if ((type == urlXAtom1 || type == urlXAtom2) &&
+			GetDroppedFileName(time, type, kJFalse, &fileName))
 			{
 			*action = GetDNDManager()->GetDNDActionPrivateXAtom();
 			itsExpectURLDropFlag = kJTrue;

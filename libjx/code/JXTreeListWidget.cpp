@@ -211,10 +211,8 @@ JXTreeListWidget::SelectNodes
 {
 	JTableSelection& s = GetTableSelection();
 
-	const JSize count = list.GetElementCount();
-	for (JIndex i=1; i<=count; i++)
+	for (const JTreeNode* node : list)
 		{
-		const JTreeNode* node = list.GetElement(i);
 		JIndex index;
 		if (itsTreeList->FindNode(node, &index))
 			{

@@ -175,7 +175,6 @@ static const MenuItemInfo kEditMenuItemInfo[] =
 	{ JTextEditor::kCleanWSAlignSelCmd,    kCleanWSAlignSelAction    },
 	{ JTextEditor::kToggleReadOnlyCmd,     kToggleReadOnlyAction     },
 };
-const JSize kEditMenuItemCount = sizeof(kEditMenuItemInfo)/sizeof(MenuItemInfo);
 
 // used when setting images
 
@@ -222,7 +221,6 @@ static const MenuItemInfo kSearchMenuItemInfo[] =
 	{ JTextEditor::kFindClipboardBackwardCmd, kJXFindClipboardBackwardsAction },
 	{ JTextEditor::kFindClipboardForwardCmd,  kJXFindClipboardForwardAction   }
 };
-const JSize kSearchMenuItemCount = sizeof(kSearchMenuItemInfo)/sizeof(MenuItemInfo);
 
 // used when setting images
 
@@ -286,7 +284,6 @@ static const MenuItemInfo kReplaceMenuItemInfo[] =
 	{ JTextEditor::kReplaceAllCmd,            kJXReplaceAllAction             },
 	{ JTextEditor::kReplaceAllInSelectionCmd, kJXReplaceAllInSelectionAction  }
 };
-const JSize kReplaceMenuItemCount = sizeof(kReplaceMenuItemInfo)/sizeof(MenuItemInfo);
 
 // used when setting images
 
@@ -1706,10 +1703,8 @@ JXTEBase::GetAvailDataTypes
 
 	JXSelectionManager* selMgr = GetSelectionManager();
 
-	const JSize typeCount = typeList.GetElementCount();
-	for (JIndex i=1; i<=typeCount; i++)
+	for (const Atom type : typeList)
 		{
-		const Atom type = typeList.GetElement(i);
 		if (type == selMgr->GetUtf8StringXAtom())
 			{
 			*canGetText = kJTrue;
@@ -2567,14 +2562,14 @@ JXTEBase::HandleEditMenu
 #define IndexToCmdFn EditMenuIndexToCmd
 #define CmdToIndexFn EditMenuCmdToIndex
 #define MenuVar      itsEditMenu
-#define CmdCount     kEditMenuItemCount
+#define CmdType      MenuItemInfo
 #define CmdIDList    kEditMenuItemInfo
 #include <JXMenuItemIDUtil.th>
 #undef ClassName
 #undef IndexToCmdFn
 #undef CmdToIndexFn
 #undef MenuVar
-#undef CmdCount
+#undef CmdType
 #undef CmdIDList
 
 /******************************************************************************
@@ -2638,14 +2633,14 @@ JXTEBase::HandleSearchMenu
 #define IndexToCmdFn SearchMenuIndexToCmd
 #define CmdToIndexFn SearchMenuCmdToIndex
 #define MenuVar      itsSearchMenu
-#define CmdCount     kSearchMenuItemCount
+#define CmdType      MenuItemInfo
 #define CmdIDList    kSearchMenuItemInfo
 #include <JXMenuItemIDUtil.th>
 #undef ClassName
 #undef IndexToCmdFn
 #undef CmdToIndexFn
 #undef MenuVar
-#undef CmdCount
+#undef CmdType
 #undef CmdIDList
 
 /******************************************************************************
@@ -2793,14 +2788,14 @@ JXTEBase::HandleSearchReplaceCmd
 #define IndexToCmdFn SearchReplaceMenuIndexToCmd
 #define CmdToIndexFn SearchReplaceMenuCmdToIndex
 #define MenuVar      itsReplaceMenu
-#define CmdCount     kReplaceMenuItemCount
+#define CmdType      MenuItemInfo
 #define CmdIDList    kReplaceMenuItemInfo
 #include <JXMenuItemIDUtil.th>
 #undef ClassName
 #undef IndexToCmdFn
 #undef CmdToIndexFn
 #undef MenuVar
-#undef CmdCount
+#undef CmdType
 #undef CmdIDList
 
 /******************************************************************************

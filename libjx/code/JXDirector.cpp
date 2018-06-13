@@ -150,10 +150,9 @@ JXDirector::Deactivate()
 {
 	if (itsActiveFlag && itsSubdirectors != nullptr)
 		{
-		const JSize dirCount = itsSubdirectors->GetElementCount();
-		for (JIndex i=1; i<=dirCount; i++)
+		for (JXDirector* dir : *itsSubdirectors)
 			{
-			if (!(itsSubdirectors->GetElement(i))->Deactivate())
+			if (!dir->Deactivate())
 				{
 				return kJFalse;
 				}
@@ -173,10 +172,9 @@ JXDirector::Suspend()
 {
 	if (itsSubdirectors != nullptr)
 		{
-		const JSize dirCount = itsSubdirectors->GetElementCount();
-		for (JIndex i=1; i<=dirCount; i++)
+		for (JXDirector* dir : *itsSubdirectors)
 			{
-			(itsSubdirectors->GetElement(i))->Suspend();
+			dir->Suspend();
 			}
 		}
 	itsSuspendCount++;
@@ -197,10 +195,9 @@ JXDirector::Resume()
 
 	if (itsSubdirectors != nullptr)
 		{
-		const JSize dirCount = itsSubdirectors->GetElementCount();
-		for (JIndex i=1; i<=dirCount; i++)
+		for (JXDirector* dir : *itsSubdirectors)
 			{
-			(itsSubdirectors->GetElement(i))->Resume();
+			dir->Resume();
 			}
 		}
 }

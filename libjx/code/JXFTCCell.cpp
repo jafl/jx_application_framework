@@ -200,10 +200,9 @@ JXFTCCell::Expand
 	BuildChildList();
 	ComputeInvariants();
 
-	const JSize cellCount = itsChildren->GetElementCount();
-	for (JIndex i=1; i<=cellCount; i++)
+	for (JXFTCCell* cell : *itsChildren)
 		{
-		itsChildren->GetElement(i)->Expand(horizontal);
+		cell->Expand(horizontal);
 		}
 
 	if (( itsSyncHorizontalFlag && itsDirection == kHorizontal) ||
@@ -289,9 +288,9 @@ JXFTCCell::ComputeInvariants()
 	itsChildPositions = jnew JArray<JFloat>;
 	assert( itsChildPositions != nullptr );
 
-	for (JIndex i=1; i<=cellCount; i++)
+	for (JXFTCCell* cell : *itsChildren)
 		{
-		const JRect r = itsChildren->GetElement(i)->GetFrameGlobal();
+		const JRect r = cell->GetFrameGlobal();
 
 		const JCoordinate objMin  = (itsSyncHorizontalFlag ? r.left : r.top),
 						  thisMin = (itsSyncHorizontalFlag ? itsFrameG.left : itsFrameG.top),
@@ -362,8 +361,9 @@ JXFTCCell::EnforceSpacing()
 
 		for (JIndex j=i; j<=cellCount; j++)
 			{
-			JXFTCCell* cell = itsChildren->GetElement(j);
-			cell->Move(itsSyncHorizontalFlag ? delta : 0, itsSyncHorizontalFlag ? 0 : delta);
+			itsChildren->GetElement(j)->Move(
+				itsSyncHorizontalFlag ? delta : 0,
+				itsSyncHorizontalFlag ? 0 : delta);
 			}
 		}
 }
@@ -833,10 +833,8 @@ JXFTCCell::SyncSize
 		if ((dw != 0 && itsDirection == kHorizontal) ||
 			(dh != 0 && itsDirection == kVertical))
 			{
-			const JSize cellCount = itsChildren->GetElementCount();
-			for (JIndex i=1; i<=cellCount; i++)
+			for (JXFTCCell* child : *itsChildren)
 				{
-				JXFTCCell* child = itsChildren->GetElement(i);
 				if (child->IsElastic())
 					{
 					if (theDebugFTCFlag)
@@ -882,17 +880,10 @@ JXFTCCell::IsElastic()
 			itsElasticFlag = kTrue;
 			}
 		}
-	else
+	else if (std::any_of(begin(*itsChildren), end(*itsChildren),
+				[] (JXFTCCell* child) { return child->IsElastic(); }))
 		{
-		const JSize cellCount = itsChildren->GetElementCount();
-		for (JIndex i=1; i<=cellCount; i++)
-			{
-			if (itsChildren->GetElement(i)->IsElastic())
-				{
-				itsElasticFlag = kTrue;
-				break;
-				}
-			}
+		itsElasticFlag = kTrue;
 		}
 
 	return JI2B( itsElasticFlag == kTrue );

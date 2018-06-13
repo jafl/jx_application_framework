@@ -802,11 +802,9 @@ JXDirTable::WillAcceptDrop
 	const Atom urlXAtom1 = GetSelectionManager()->GetURLXAtom(),
 			   urlXAtom2 = GetSelectionManager()->GetURLNoCharsetXAtom();
 
-	const JSize typeCount = typeList.GetElementCount();
-	for (JIndex i=1; i<=typeCount; i++)
+	for (const Atom type : typeList)
 		{
-		const Atom a = typeList.GetElement(i);
-		if (a == urlXAtom1 || a == urlXAtom2)
+		if (type == urlXAtom1 || type == urlXAtom2)
 			{
 			*action = GetDNDManager()->GetDNDActionPrivateXAtom();
 			return kJTrue;
@@ -874,8 +872,7 @@ JXDirTable::PrivateHandleDNDDrop
 					   urlList(JPtrArrayT::kDeleteAll);
 	JXUnpackFileNames((char*) data, dataLength, &fileNameList, &urlList);
 
-	const JSize fileCount = fileNameList.GetElementCount();
-	if (fileCount > 0)
+	if (!fileNameList.IsEmpty())
 		{
 		const JString* entryName = fileNameList.GetFirstElement();
 		JString path, name;
@@ -894,33 +891,37 @@ JXDirTable::PrivateHandleDNDDrop
 			{
 			JTableSelection& s = GetTableSelection();
 			s.ClearSelection();
-			for (JIndex i=1; i<=fileCount; i++)
+			for (const JString* entryName : fileNameList)
 				{
-				entryName = fileNameList.GetElement(i);
-				if (JFileExists(*entryName))
+				if (!JFileExists(*entryName))
 					{
-					JSplitPathAndName(*entryName, &path, &name);
-					JIndex index;
-					if (itsDirInfo->FindEntry(name, &index) &&
-						ItemIsActive(index))
-						{
-						GetWindow()->Raise();
-						if (!s.HasSelection())
-							{
-							const JBoolean ok = SelectSingleEntry(index);
-							assert( ok );
-							}
-						else
-							{
-							s.SelectRow(index);
-							s.ClearBoat();
-							s.ClearAnchor();
-							}
-						if (!itsAllowSelectMultipleFlag)
-							{
-							break;
-							}
-						}
+					continue;
+					}
+
+				JSplitPathAndName(*entryName, &path, &name);
+				JIndex index;
+				if (!itsDirInfo->FindEntry(name, &index) ||
+					!ItemIsActive(index))
+					{
+					continue;
+					}
+
+				GetWindow()->Raise();
+				if (!s.HasSelection())
+					{
+					const JBoolean ok = SelectSingleEntry(index);
+					assert( ok );
+					}
+				else
+					{
+					s.SelectRow(index);
+					s.ClearBoat();
+					s.ClearAnchor();
+					}
+
+				if (!itsAllowSelectMultipleFlag)
+					{
+					break;
 					}
 				}
 			}
@@ -949,10 +950,9 @@ JXDirTable::AdjustTableContents()
 	AppendRows(count);
 
 	const JFont& font = JFontManager::GetDefaultFont();
-	for (JIndex i=1; i<=count; i++)
+	for (const JDirEntry* entry : *itsDirInfo)
 		{
-		const JDirEntry& entry = itsDirInfo->GetEntry(i);
-		const JSize w          = font.GetStringWidth(GetFontManager(), entry.GetName());
+		const JSize w = font.GetStringWidth(GetFontManager(), entry->GetName());
 		if (w > itsMaxStringWidth)
 			{
 			itsMaxStringWidth = w;
@@ -970,7 +970,7 @@ JXDirTable::AdjustTableContents()
 
 		for (JIndex i=1; i<=count; i++)
 			{
-			const JDirEntry& entry  = itsDirInfo->GetEntry(i);
+			const JDirEntry& entry = itsDirInfo->GetEntry(i);
 			if (entry.IsBrokenLink() ||
 				(entry.IsDirectory() && (!entry.IsReadable() || !entry.IsExecutable())) ||
 				(entry.IsFile() && (!entry.IsReadable() || !itsAllowSelectFilesFlag)))
@@ -988,11 +988,10 @@ JXDirTable::AdjustTableContents()
 		{
 		// select the items that still exist
 
-		const JSize count = itsReselectNameList->GetElementCount();
-		for (JIndex i=1; i<=count; i++)
+		for (const JString* n : *itsReselectNameList)
 			{
 			JIndex j;
-			if (itsDirInfo->FindEntry(*(itsReselectNameList->GetElement(i)), &j) &&
+			if (itsDirInfo->FindEntry(*n, &j) &&
 				ItemIsActive(j))	// check for active in case of single, broken link
 				{
 				s.SelectRow(j);
@@ -1234,10 +1233,9 @@ JXDirTable::RememberSelections()
 		{
 		itsReselectFlag = kJTrue;
 
-		const JSize count = entryList.GetElementCount();
-		for (JIndex i=1; i<=count; i++)
+		for (const JDirEntry* e : entryList)
 			{
-			itsReselectNameList->Append((entryList.GetElement(i))->GetName());
+			itsReselectNameList->Append(e->GetName());
 			}
 
 		JPoint cell;

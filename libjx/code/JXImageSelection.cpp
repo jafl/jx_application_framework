@@ -270,10 +270,8 @@ JXImageSelection::GetImage
 		{
 		JBoolean xpm=kJFalse, gif=kJFalse, png=kJFalse, jpeg=kJFalse;
 
-		const JSize count = typeList.GetElementCount();
-		for (JIndex i=1; i<=count; i++)
+		for (const Atom type : typeList)
 			{
-			const Atom type = typeList.GetElement(i);
 			xpm  = JI2B( xpm  || type == atoms[ kXPMAtomIndex ]  );
 			gif  = JI2B( gif  || type == atoms[ kGIFAtomIndex ]  );
 			png  = JI2B( png  || type == atoms[ kPNGAtomIndex ]  );

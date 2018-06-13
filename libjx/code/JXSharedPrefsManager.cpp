@@ -569,11 +569,8 @@ JXSharedPrefsManager::PrivateWritePrefs
 
 	const JArray<JXSharedPrefObject::VersionInfo> versList = obj->GetVersionList();
 
-	const JSize versCount = versList.GetElementCount();
-	for (JIndex i=1; i<=versCount; i++)
+	for (const JXSharedPrefObject::VersionInfo& info : versList)
 		{
-		JXSharedPrefObject::VersionInfo info = versList.GetElement(i);
-
 		std::ostringstream data;
 		obj->WritePrefs(data, info.vers);
 		itsFile->SetData(info.id, data);

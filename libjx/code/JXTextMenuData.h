@@ -145,7 +145,7 @@ private:
 
 	JBoolean	ParseNMShortcut(JString* str, int* key,
 								JXKeyModifiers* modifiers);
-	void		AdjustNMShortcutString(JString* str, const JIndex origKeyIndex,
+	void		AdjustNMShortcutString(JString* str, const JUtf8Byte* origStr,
 									   const JXModifierKey newKey);
 
 	void	UpdateItemFonts(const JFont& oldFont, const JFont& newFont);

@@ -152,9 +152,9 @@ JXRadioGroupDialog::BuildWindow
 
 	// all choices should be the same width
 
-	for (JIndex i=1; i<=actionCount; i++)
+	for (JXRadioButton* rb : buttonList)
 		{
-		(buttonList.GetElement(i))->SetSize(wmin, kTextHeight);
+		rb->SetSize(wmin, kTextHeight);
 		}
 
 	wmin += kRGHLMarginWidth + kRGHRMarginWidth;

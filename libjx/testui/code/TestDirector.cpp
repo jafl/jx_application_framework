@@ -448,9 +448,9 @@ JIndex i;
 	itsSmileyMenu->SetUpdateAction(JXMenu::kDisableNone);
 	menuBar->AppendMenu(itsSmileyMenu);
 
-	for (i=0; i<kSmileyBitmapCount; i++)
+	for (JXImage* i : image)
 		{
-		itsSmileyMenu->AppendItem(image[i], kJTrue);
+		itsSmileyMenu->AppendItem(i, kJTrue);
 		}
 
 	// create 2x2 submenu of radio buttons
@@ -459,9 +459,9 @@ JIndex i;
 	assert( itsIconMenu != nullptr );
 	itsIconMenu->SetUpdateAction(JXMenu::kDisableNone);
 
-	for (i=0; i<kSmileyBitmapCount; i++)
+	for (JXImage* i : image)
 		{
-		itsIconMenu->AppendItem(image[i], kJFalse, JXMenu::kRadioType);
+		itsIconMenu->AppendItem(i, kJFalse, JXMenu::kRadioType);
 		}
 
 	itsIconMenuItem = 1;
@@ -475,9 +475,9 @@ JIndex i;
 
 	for (JIndex j=1; j<=3; j++)
 		{
-		for (i=0; i<kSmileyBitmapCount; i++)
+		for (JXImage* i : image)
 			{
-			submenu->AppendItem(image[i], kJFalse);
+			submenu->AppendItem(i, kJFalse);
 			}
 		}
 }

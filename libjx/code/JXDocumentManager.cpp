@@ -127,10 +127,8 @@ JXDocumentManager::~JXDocumentManager()
 	assert( itsDocList->IsEmpty() );
 	jdelete itsDocList;
 
-	const JSize count = itsFileMap->GetElementCount();
-	for (JIndex i=1; i<=count; i++)
+	for (const FileMap& file : *itsFileMap)
 		{
-		FileMap file = itsFileMap->GetElement(i);
 		jdelete file.oldName;
 		jdelete file.newName;
 		}
@@ -156,13 +154,12 @@ JXDocumentManager::DocumentCreated
 
 	// find the first unused shortcut, if any
 
-	const JSize docCount = itsDocList->GetElementCount();
 	for (JInteger i=kFirstShortcut; i<=kLastShortcut; i++)
 		{
 		JBoolean found = kJFalse;
-		for (JIndex j=1; j<=docCount; j++)
+		for (const DocInfo& info : *itsDocList)
 			{
-			if ((itsDocList->GetElement(j)).shortcut == i)
+			if (info.shortcut == i)
 				{
 				found = kJTrue;
 				break;
@@ -325,17 +322,10 @@ JXDocumentManager::OKToCloseDocument
 	)
 	const
 {
-	const JSize count = itsDocList->GetElementCount();
-	for (JIndex i=1; i<=count; i++)
-		{
-		const DocInfo info = itsDocList->GetElement(i);
-		if (info.doc != doc && (info.doc)->NeedDocument(doc))
-			{
-			return kJFalse;
-			}
-		}
-
-	return kJTrue;
+	return JI2B(
+		std::all_of(begin(*itsDocList), end(*itsDocList),
+			[doc] (const DocInfo& info)
+				{ return (info.doc == doc || !(info.doc)->NeedDocument(doc)); }));
 }
 
 /******************************************************************************
@@ -401,10 +391,8 @@ JXDocumentManager::FileDocumentIsOpen
 
 	// search for an open JXFileDocument that uses this file
 
-	const JSize count = itsDocList->GetElementCount();
-	for (JIndex i=1; i<=count; i++)
+	for (const DocInfo& info : *itsDocList)
 		{
-		const DocInfo info            = itsDocList->GetElement(i);
 		const JXFileDocument* fileDoc = dynamic_cast<const JXFileDocument*>(info.doc);
 		if (fileDoc != nullptr)
 			{
@@ -753,10 +741,8 @@ JXDocumentManager::SafetySave
 	const SafetySaveReason reason
 	)
 {
-	const JSize docCount = itsDocList->GetElementCount();
-	for (JIndex i=1; i<=docCount; i++)
+	for (const DocInfo& info : *itsDocList)
 		{
-		DocInfo info = itsDocList->GetElement(i);
 		(info.doc)->SafetySave(reason);
 		}
 }

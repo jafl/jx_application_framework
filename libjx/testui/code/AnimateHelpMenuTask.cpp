@@ -36,7 +36,7 @@ AnimateHelpMenuTask::AnimateHelpMenuTask
 	itsImageList = jnew JPtrArray<JXImage>(JPtrArrayT::kDeleteAll, kHelpIconCount);
 	assert( itsImageList != nullptr );
 
-	JXDisplay* display   = itsMenu->GetDisplay();
+	JXDisplay* display = itsMenu->GetDisplay();
 	for (JIndex i=1; i<=kHelpIconCount; i++)
 		{
 		JColorID fgColor = JColorManager::GetBlackColor();

@@ -52,18 +52,11 @@ JXQuitIfAllDeactTask::Perform
 		JXApplication* app = JXGetApplication();
 
 		const JPtrArray<JXDirector>* list;
-		if (app->GetSubdirectors(&list))
+		if (!app->GetSubdirectors(&list) ||
+			std::all_of(begin(*list), end(*list),
+				[] (JXDirector* dir) { return !dir->IsActive(); }))
 			{
-			const JSize count = list->GetElementCount();
-			for (JIndex i=1; i<=count; i++)
-				{
-				if ((list->GetElement(i))->IsActive())
-					{
-					return;
-					}
-				}
+				app->Quit();
 			}
-
-		app->Quit();
 		}
 }

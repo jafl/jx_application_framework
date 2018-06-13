@@ -10,14 +10,14 @@
 		#define IndexToCmdFn ____
 		#define CmdToIndexFn ____
 		#define MenuVar      ____
-		#define CmdCount     ____
+		#define CmdType      ____
 		#define CmdIDList    ____
 		#include <JXMenuItemIDUtil.th>
 		#undef ClassName
 		#undef IndexToCmdFn
 		#undef CmdToIndexFn
 		#undef MenuVar
-		#undef CmdCount
+		#undef CmdType
 		#undef CmdIDList
 
 	Copyright (C) 1999 by John Lindal.
@@ -40,11 +40,11 @@ ClassName::IndexToCmdFn
 	const JString* id;
 	if (MenuVar->GetItemID(index, &id))
 		{
-		for (JIndex i=0; i<CmdCount; i++)
+		for (const CmdType& info : CmdIDList)
 			{
-			if (CmdIDList[i].id == *id)
+			if (info.id == *id)
 				{
-				*cmd = CmdIDList[i].cmd;
+				*cmd = info.cmd;
 				return kJTrue;
 				}
 			}
@@ -67,16 +67,14 @@ ClassName::CmdToIndexFn
 	)
 	const
 {
-JIndex i;
-
 	*index = 0;
 
 	const JUtf8Byte* cmdID = nullptr;
-	for (i=0; i<CmdCount; i++)
+	for (const CmdType& info : CmdIDList)
 		{
-		if (CmdIDList[i].cmd == cmd)
+		if (info.cmd == cmd)
 			{
-			cmdID = CmdIDList[i].id;
+			cmdID = info.id;
 			break;
 			}
 		}

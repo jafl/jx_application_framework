@@ -454,10 +454,8 @@ JXContainer::FindContainer
 
 	if (itsEnclosedObjs != nullptr)
 		{
-		const JSize objCount = itsEnclosedObjs->GetElementCount();
-		for (JIndex i=1; i<=objCount; i++)
+		for (JXContainer* obj : *itsEnclosedObjs)
 			{
-			JXContainer* obj = itsEnclosedObjs->GetElement(i);
 			if (obj->FindContainer(ptG, container))
 				{
 				return kJTrue;
@@ -494,10 +492,8 @@ JXContainer::DispatchNewMouseEvent
 
 	if (IsActive() && itsEnclosedObjs != nullptr)
 		{
-		const JSize objCount = itsEnclosedObjs->GetElementCount();
-		for (JIndex i=1; i<=objCount; i++)
+		for (JXContainer* obj : *itsEnclosedObjs)
 			{
-			JXContainer* obj = itsEnclosedObjs->GetElement(i);
 			if (obj->IsVisible() &&
 				(obj->GetFrameGlobal()).Contains(ptG))
 				{
@@ -1101,10 +1097,8 @@ JXContainer::DispatchClientMessage
 
 	if (itsEnclosedObjs != nullptr)
 		{
-		const JSize objCount = itsEnclosedObjs->GetElementCount();
-		for (JIndex i=1; i<=objCount; i++)
+		for (JXContainer* obj : *itsEnclosedObjs)
 			{
-			JXContainer* obj = itsEnclosedObjs->GetElement(i);
 			if (obj->DispatchClientMessage(clientMessage))
 				{
 				return kJTrue;
@@ -1152,13 +1146,11 @@ JXContainer::Show()
 		itsVisibleFlag = kJTrue;
 		if (itsEnclosedObjs != nullptr)
 			{
-			const JSize objCount = itsEnclosedObjs->GetElementCount();
-			for (JIndex i=1; i<=objCount; i++)
+			for (JXContainer* obj : *itsEnclosedObjs)
 				{
-				JXContainer* widget = itsEnclosedObjs->GetElement(i);
-				if (widget->itsWasVisibleFlag)
+				if (obj->itsWasVisibleFlag)
 					{
-					widget->Show();
+					obj->Show();
 					}
 				}
 			}
@@ -1203,16 +1195,14 @@ JXContainer::Hide()
 
 		if (itsEnclosedObjs != nullptr)
 			{
-			const JSize objCount = itsEnclosedObjs->GetElementCount();
-			for (JIndex i=1; i<=objCount; i++)
+			for (JXContainer* obj : *itsEnclosedObjs)
 				{
-				JXContainer* widget       = itsEnclosedObjs->GetElement(i);
-				const JBoolean wasVisible = widget->IsVisible();
+				const JBoolean wasVisible = obj->IsVisible();
 				if (wasVisible)
 					{
-					widget->Hide();
+					obj->Hide();
 					}
-				widget->itsWasVisibleFlag = wasVisible;	// must set this after hiding
+				obj->itsWasVisibleFlag = wasVisible;	// must set this after hiding
 				}
 			}
 
@@ -1273,13 +1263,11 @@ JXContainer::Activate()
 		itsActiveFlag = kJTrue;
 		if (itsEnclosedObjs != nullptr)
 			{
-			const JSize objCount = itsEnclosedObjs->GetElementCount();
-			for (JIndex i=1; i<=objCount; i++)
+			for (JXContainer* obj : *itsEnclosedObjs)
 				{
-				JXContainer* widget = itsEnclosedObjs->GetElement(i);
-				if (widget->itsWasActiveFlag)
+				if (obj->itsWasActiveFlag)
 					{
-					widget->Activate();
+					obj->Activate();
 					}
 				}
 			}
@@ -1315,16 +1303,14 @@ JXContainer::Deactivate()
 		{
 		if (itsEnclosedObjs != nullptr)
 			{
-			const JSize objCount = itsEnclosedObjs->GetElementCount();
-			for (JIndex i=1; i<=objCount; i++)
+			for (JXContainer* obj : *itsEnclosedObjs)
 				{
-				JXContainer* widget      = itsEnclosedObjs->GetElement(i);
-				const JBoolean wasActive = widget->itsActiveFlag;
+				const JBoolean wasActive = obj->itsActiveFlag;
 				if (wasActive)
 					{
-					widget->Deactivate();
+					obj->Deactivate();
 					}
-				widget->itsWasActiveFlag = wasActive;	// must set this after deactivating
+				obj->itsWasActiveFlag = wasActive;	// must set this after deactivating
 				}
 			}
 
@@ -1375,10 +1361,9 @@ JXContainer::Suspend()
 {
 	if (itsEnclosedObjs != nullptr)
 		{
-		const JSize objCount = itsEnclosedObjs->GetElementCount();
-		for (JIndex i=1; i<=objCount; i++)
+		for (JXContainer* obj : *itsEnclosedObjs)
 			{
-			(itsEnclosedObjs->GetElement(i))->Suspend();
+			obj->Suspend();
 			}
 		}
 
@@ -1404,10 +1389,9 @@ JXContainer::Resume()
 
 	if (itsEnclosedObjs != nullptr)
 		{
-		const JSize objCount = itsEnclosedObjs->GetElementCount();
-		for (JIndex i=1; i<=objCount; i++)
+		for (JXContainer* obj : *itsEnclosedObjs)
 			{
-			(itsEnclosedObjs->GetElement(i))->Resume();
+			obj->Resume();
 			}
 		}
 
@@ -1485,10 +1469,8 @@ JXContainer::DispatchCursor
 
 	if (IsActive() && itsEnclosedObjs != nullptr)
 		{
-		const JSize objCount = itsEnclosedObjs->GetElementCount();
-		for (JIndex i=1; i<=objCount; i++)
+		for (JXContainer* obj : *itsEnclosedObjs)
 			{
-			JXContainer* obj = itsEnclosedObjs->GetElement(i);
 			if (obj->IsVisible() && (obj->GetFrameGlobal()).Contains(ptG))
 				{
 				obj->DispatchCursor(ptG, modifiers);
@@ -1779,10 +1761,9 @@ JXContainer::NotifyBoundsMoved
 
 		if (itsEnclosedObjs != nullptr)
 			{
-			const JSize objCount = itsEnclosedObjs->GetElementCount();
-			for (JIndex i=1; i<=objCount; i++)
+			for (JXContainer* obj : *itsEnclosedObjs)
 				{
-				(itsEnclosedObjs->GetElement(i))->EnclosingBoundsMoved(dx,dy);
+				obj->EnclosingBoundsMoved(dx,dy);
 				}
 			}
 		}
@@ -1808,10 +1789,9 @@ JXContainer::NotifyBoundsResized
 
 		if (itsEnclosedObjs != nullptr)
 			{
-			const JSize objCount = itsEnclosedObjs->GetElementCount();
-			for (JIndex i=1; i<=objCount; i++)
+			for (JXContainer* obj : *itsEnclosedObjs)
 				{
-				(itsEnclosedObjs->GetElement(i))->EnclosingBoundsResized(dw,dh);
+				obj->EnclosingBoundsResized(dw,dh);
 				}
 			}
 		}

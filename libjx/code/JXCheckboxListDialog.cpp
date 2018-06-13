@@ -112,10 +112,9 @@ JXCheckboxListDialog::SelectItem
 void
 JXCheckboxListDialog::SelectAllItems()
 {
-	const JSize count = itsCBList->GetElementCount();
-	for (JIndex i=1; i<=count; i++)
+	for (JXCheckbox* cb : *itsCBList)
 		{
-		itsCBList->GetElement(i)->SetState(kJTrue);
+		cb->SetState(kJTrue);
 		}
 }
 
@@ -173,9 +172,9 @@ JXCheckboxListDialog::BuildWindow
 
 	// all choices should be the same width
 
-	for (JIndex i=1; i<=actionCount; i++)
+	for (JXCheckbox* cb : *itsCBList)
 		{
-		(itsCBList->GetElement(i))->SetSize(wmin, kTextHeight);
+		cb->SetSize(wmin, kTextHeight);
 		}
 
 	wmin += kCBHLMarginWidth + kCBHRMarginWidth;

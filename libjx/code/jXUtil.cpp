@@ -364,14 +364,15 @@ JXPackFileNames
 {
 	JString data;
 
-	const JSize count = fileNameList.GetElementCount();
-	for (JIndex i=1; i<=count; i++)
+	JBoolean first = kJTrue;
+	for (JString* name : fileNameList)
 		{
-		if (i > 1)
+		if (!first)
 			{
 			data.Append(kURISeparator, kURISeparatorLength);
 			}
-		data.Append(JFileNameToURL(*(fileNameList.GetElement(i))));
+		data.Append(JFileNameToURL(*name));
+		first = kJFalse;
 		}
 
 	return data;
@@ -432,11 +433,8 @@ JXReportUnreachableHosts
 	hostList.SetSortOrder(JListT::kSortAscending);
 	hostList.SetCompareFunction(JCompareStringsCaseInsensitive);
 
-	const JSize urlCount = urlList.GetElementCount();
-	for (JIndex i=1; i<=urlCount; i++)
+	for (JString* url : urlList)
 		{
-		const JString* url = urlList.GetElement(i);
-
 		JStringIterator iter(*url);
 		if (iter.Next(urlPattern))
 			{
@@ -452,14 +450,16 @@ JXReportUnreachableHosts
 	if (!hostList.IsEmpty())
 		{
 		JString hosts;
-		const JSize hostCount = hostList.GetElementCount();
-		for (JIndex i=1; i<=hostCount; i++)
+
+		JBoolean first = kJTrue;
+		for (JString* host : hostList)
 			{
-			if (!hosts.IsEmpty())
+			if (!first)
 				{
 				hosts.Append("\n");
 				}
-			hosts += *(hostList.GetElement(i));
+			hosts += *host;
+			first  = kJFalse;
 			}
 
 		(JGetStringManager())->ReportError(kUnreachableHostsID, hosts);
@@ -515,12 +515,10 @@ JXFixBrokenURLs
 
 	JBoolean changed = kJFalse;
 
-	const JSize count = urlList.GetElementCount();
 	JString srcHost, tmp;
-	for (JIndex i=1; i<=count; i++)
+	for (JString* url : urlList)
 		{
-		JString* url = urlList.GetElement(i);
-			JStringIterator iter(url);
+		JStringIterator iter(url);
 		if (!url->IsEmpty() && url->GetFirstCharacter() != kURICommentMarker &&
 			iter.Next(kInvalidURLHostMarker))
 			{

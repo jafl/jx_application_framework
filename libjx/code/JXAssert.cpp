@@ -102,11 +102,9 @@ JXAssert::Abort()
 void
 JXAssert::UnlockDisplays()
 {
-	const JSize count = itsDisplayList->GetElementCount();
-	for (JIndex i=1; i<=count; i++)
+	for (JXDisplay* display : *itsDisplayList)
 		{
-		JXDisplay* display = itsDisplayList->GetElement(i);
-		Display* xDisplay  = display->GetXDisplay();
+		Display* xDisplay = display->GetXDisplay();
 		XUngrabServer(xDisplay);
 		XUngrabPointer(xDisplay, CurrentTime);
 		XUngrabKeyboard(xDisplay, CurrentTime);

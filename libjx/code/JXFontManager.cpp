@@ -57,8 +57,6 @@ static const JUtf8Byte* kFallbackFontNames[] =
 #endif
 };
 
-const JSize kFallbackFontCount = sizeof(kFallbackFontNames) / sizeof(JUtf8Byte*);
-
 /******************************************************************************
  Init (static)
 
@@ -98,10 +96,8 @@ JXFontManager::JXFontManager
 
 JXFontManager::~JXFontManager()
 {
-	const JSize count = itsFontList->GetElementCount();
-	for (JIndex i=1; i<=count; i++)
+	for (FontInfo info : *itsFontList)
 		{
-		FontInfo info = itsFontList->GetElement(i);
 		info.xfont.Free(itsDisplay);
 		}
 	jdelete itsFontList;
@@ -176,9 +172,9 @@ JXFontManager::GetFontNames
 		}
 	FcFontSetDestroy(set);
 
-	for (int i=0; i<kFallbackFontCount; i++)
+	for (const JUtf8Byte* n : kFallbackFontNames)
 		{
-		name.Set(kFallbackFontNames[i]);
+		name.Set(n);
 		jInsertFontName(fontNames, &name);
 		}
 
@@ -478,12 +474,12 @@ JXFontManager::GetSubstituteFontName
 	)
 {
 	JFont f1 = f;
-	for (int i=0; i<kFallbackFontCount; i++)
+	for (const JUtf8Byte* n : kFallbackFontNames)
 		{
-		f1.SetName(JString(kFallbackFontNames[i], kJFalse));
+		f1.SetName(JString(n, kJFalse));
 		if (HasGlyphForCharacter(f1.GetID(), c))
 			{
-			name->Set(kFallbackFontNames[i]);
+			name->Set(n);
 			return kJTrue;
 			}
 		}

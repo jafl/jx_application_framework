@@ -126,16 +126,9 @@ JBoolean
 JXCheckboxGroup::AllChecked()
 	const
 {
-	const JSize count = GetElementCount();
-	for (JIndex i=1; i<=count; i++)
-		{
-		if (!(itsCBList->GetElement(i))->IsChecked())
-			{
-			return kJFalse;
-			}
-		}
-
-	return kJTrue;
+	return JI2B(
+		std::all_of(begin(*itsCBList), end(*itsCBList),
+			[] (const JXCheckbox* cb) { return cb->IsChecked(); }));
 }
 
 /******************************************************************************
@@ -147,16 +140,9 @@ JBoolean
 JXCheckboxGroup::AllUnchecked()
 	const
 {
-	const JSize count = GetElementCount();
-	for (JIndex i=1; i<=count; i++)
-		{
-		if ((itsCBList->GetElement(i))->IsChecked())
-			{
-			return kJFalse;
-			}
-		}
-
-	return kJTrue;
+	return JI2B(
+		std::all_of(begin(*itsCBList), end(*itsCBList),
+			[] (const JXCheckbox* cb) { return !cb->IsChecked(); }));
 }
 
 /******************************************************************************
@@ -197,7 +183,7 @@ JXCheckboxGroup::CheckboxDisabled
 	const
 {
 	JXCheckbox* cb = itsCBList->GetElement(index);
-	return JConvertToBoolean(!cb->WouldBeVisible() || !cb->WouldBeActive());
+	return JI2B(!cb->WouldBeVisible() || !cb->WouldBeActive());
 }
 
 /******************************************************************************

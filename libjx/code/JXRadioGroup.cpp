@@ -89,20 +89,12 @@ JXRadioGroup::SelectItem
 
 	if (id != itsSelection->GetID())
 		{
-		JXRadioButton* newButton = nullptr;
-		const JSize count = itsButtons->GetElementCount();
-		for (JIndex i=1; i<=count; i++)
-			{
-			JXRadioButton* aButton = itsButtons->GetElement(i);
-			if (aButton->GetID() == id)
-				{
-				newButton = aButton;
-				break;
-				}
-			}
-		assert( newButton != nullptr );
+		JXRadioButton** newButton =
+			std::find_if(begin(*itsButtons), end(*itsButtons),
+				[id] (JXRadioButton* b) { return b->GetID() == id; });
+		assert( newButton != end(*itsButtons) );
 
-		NewSelection(newButton);
+		NewSelection(*newButton);
 		}
 }
 
@@ -146,19 +138,20 @@ JXRadioGroup::GetRadioButton
 	)
 	const
 {
-	const JSize count = itsButtons->GetElementCount();
-	for (JIndex i=1; i<=count; i++)
-		{
-		JXRadioButton* aButton = itsButtons->GetElement(i);
-		if (aButton->GetID() == id)
-			{
-			*rb = aButton;
-			return kJTrue;
-			}
-		}
+	JXRadioButton**	rb1 =
+		std::find_if(begin(*itsButtons), end(*itsButtons),
+			[id] (JXRadioButton* b) { return b->GetID() == id; });
 
-	*rb = nullptr;
-	return kJFalse;
+	if (rb1 == end(*itsButtons))
+		{
+		*rb = nullptr;
+		return kJFalse;
+		}
+	else
+		{
+		*rb = *rb1;
+		return kJTrue;
+		}
 }
 
 /******************************************************************************

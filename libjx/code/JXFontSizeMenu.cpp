@@ -198,13 +198,12 @@ JXFontSizeMenu::BuildMenu
 	JArray<JSize> sizeList;
 	GetFontManager()->GetFontSizes(fontName, &minSize, &maxSize, &sizeList);
 
-	const JSize count = sizeList.GetElementCount();
 	JString id;
-	if (count > 0)
+	if (!sizeList.IsEmpty())
 		{
-		for (JIndex i=1; i<=count; i++)
+		for (const JSize size : sizeList)
 			{
-			const JString itemText(sizeList.GetElement(i), 0, JString::kForceNoExponent);
+			const JString itemText((JUInt64) size);
 			id = itemText + "::JX";
 			AppendItem(itemText, kRadioType, JString::empty, JString::empty, id);
 			}
@@ -216,7 +215,7 @@ JXFontSizeMenu::BuildMenu
 			{
 			for (JSize size=minSize; size<10; size++)
 				{
-				const JString itemText(size, 0, JString::kForceNoExponent);
+				const JString itemText((JUInt64) size);
 				id = itemText + "::JX";
 				AppendItem(itemText, kRadioType, JString::empty, JString::empty, id);
 				}
@@ -224,7 +223,7 @@ JXFontSizeMenu::BuildMenu
 
 		for (JSize size=JMax((JSize) 10, minSize); size<=maxSize; size+=2)
 			{
-			const JString itemText(size, 0, JString::kForceNoExponent);
+			const JString itemText((JUInt64) size);
 			id = itemText + "::JX";
 			AppendItem(itemText, kRadioType, JString::empty, JString::empty, id);
 			}

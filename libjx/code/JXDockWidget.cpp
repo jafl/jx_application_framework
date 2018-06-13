@@ -92,10 +92,8 @@ JXDockWidget::~JXDockWidget()
 		{
 		// can't call UndockAll() because that calls UpdateMinSize()
 
-		const JSize count = itsWindowList->GetElementCount();
-		for (JIndex i=1; i<=count; i++)
+		for (JXWindow* w : *itsWindowList)
 			{
-			JXWindow* w = itsWindowList->GetElement(i);
 			StopListening(w);
 			w->Undock();
 			}
@@ -106,10 +104,8 @@ JXDockWidget::~JXDockWidget()
 		{
 		assert( mode == JXDockManager::kCloseWindows );
 
-		const JSize count = itsWindowList->GetElementCount();
-		for (JIndex i=1; i<=count; i++)
+		for (JXWindow* w : *itsWindowList)
 			{
-			JXWindow* w = itsWindowList->GetElement(i);
 			StopListening(w);
 			w->Close();
 			}
@@ -293,12 +289,10 @@ JXDockWidget::UndockAll()
 {
 	if (itsWindowList != nullptr)
 		{
-		const JSize count = itsWindowList->GetElementCount();
-		for (JIndex i=1; i<=count; i++)
+		for (JXWindow* w : *itsWindowList)
 			{
 			itsTabGroup->DeleteTab(1);
 
-			JXWindow* w = itsWindowList->GetElement(i);
 			StopListening(w);
 			w->Undock();
 			}
@@ -491,41 +485,42 @@ JXDockWidget::WillAcceptDrop
 
 	const Atom minSizeAtom = (JXGetDockManager())->GetDNDMinSizeAtom();
 
-	const JSize typeCount = typeList.GetElementCount();
-	JBoolean acceptDrop   = kJFalse;
-	for (JIndex i=1; i<=typeCount; i++)
+	JBoolean acceptDrop = kJFalse;
+	for (const Atom type : typeList)
 		{
-		if (typeList.GetElement(i) == minSizeAtom)
+		if (type != minSizeAtom)
 			{
-			JXSelectionManager* selMgr = GetSelectionManager();
-			JXDNDManager* dndMgr       = GetDNDManager();
-
-			*action = dndMgr->GetDNDActionPrivateXAtom();
-
-			// check if window will fit
-
-			const Atom selectionName = dndMgr->GetDNDSelectionName();
-			Atom returnType;
-			unsigned char* data;
-			JSize dataLength;
-			JXSelectionManager::DeleteMethod delMethod;
-			if (selMgr->GetData(selectionName, time, minSizeAtom,
-								&returnType, &data, &dataLength, &delMethod))
-				{
-				if (returnType == XA_POINT)
-					{
-					XPoint* minSize = (XPoint*) data;
-					if (GetApertureWidth()  >= minSize->x &&
-						GetApertureHeight() >= minSize->y)
-						{
-						acceptDrop = kJTrue;
-						}
-					}
-				selMgr->DeleteData(&data, delMethod);
-				}
-
-			break;
+			continue;
 			}
+
+		JXSelectionManager* selMgr = GetSelectionManager();
+		JXDNDManager* dndMgr       = GetDNDManager();
+
+		*action = dndMgr->GetDNDActionPrivateXAtom();
+
+		// check if window will fit
+
+		const Atom selectionName = dndMgr->GetDNDSelectionName();
+		Atom returnType;
+		unsigned char* data;
+		JSize dataLength;
+		JXSelectionManager::DeleteMethod delMethod;
+		if (selMgr->GetData(selectionName, time, minSizeAtom,
+							&returnType, &data, &dataLength, &delMethod))
+			{
+			if (returnType == XA_POINT)
+				{
+				XPoint* minSize = (XPoint*) data;
+				if (GetApertureWidth()  >= minSize->x &&
+					GetApertureHeight() >= minSize->y)
+					{
+					acceptDrop = kJTrue;
+					}
+				}
+			selMgr->DeleteData(&data, delMethod);
+			}
+
+		break;
 		}
 
 	if (!acceptDrop && itsHintDirector == nullptr)
@@ -601,10 +596,9 @@ JXDockWidget::HandleDNDLeave()
 {
 	if (itsWindowList != nullptr)
 		{
-		const JSize count = itsWindowList->GetElementCount();
-		for (JIndex i=1; i<=count; i++)
+		for (JXWindow* w : *itsWindowList)
 			{
-			(itsWindowList->GetElement(i))->Refresh();
+			w->Refresh();
 			}
 		}
 }
@@ -650,10 +644,9 @@ JXDockWidget::BoundsMoved
 
 	if (itsWindowList != nullptr)
 		{
-		const JSize count = itsWindowList->GetElementCount();
-		for (JIndex i=1; i<=count; i++)
+		for (JXWindow* w : *itsWindowList)
 			{
-			(itsWindowList->GetElement(i))->UndockedMove(dx, dy);
+			w->UndockedMove(dx, dy);
 			}
 		}
 }
@@ -679,10 +672,9 @@ JXDockWidget::BoundsResized
 
 		const JRect boundsG = GetBoundsGlobal();
 
-		const JSize count = itsWindowList->GetElementCount();
-		for (JIndex i=1; i<=count; i++)
+		for (JXWindow* w : *itsWindowList)
 			{
-			(itsWindowList->GetElement(i))->UndockedSetSize(boundsG.width(), boundsG.height());
+			w->UndockedSetSize(boundsG.width(), boundsG.height());
 			}
 		}
 }
@@ -895,10 +887,9 @@ JXDockWidget::HasWindows()
 			return kJFalse;
 			}
 
-		const JSize count = itsWindowList->GetElementCount();
-		for (JIndex i=1; i<=count; i++)
+		for (JXWindow* w : *itsWindowList)
 			{
-			if ((itsWindowList->GetElement(i))->IsVisible())
+			if (w->IsVisible())
 				{
 				return kJTrue;
 				}
@@ -969,10 +960,9 @@ JXDockWidget::UpdateMinSize()
 
 	if (itsWindowList != nullptr)
 		{
-		const JSize count = itsWindowList->GetElementCount();
-		for (JIndex i=1; i<=count; i++)
+		for (JXWindow* w : *itsWindowList)
 			{
-			const JPoint pt = (itsWindowList->GetElement(i))->GetMinSize();
+			const JPoint pt = w->GetMinSize();
 			itsMinSize.x    = JMax(pt.x, itsMinSize.x);
 			itsMinSize.y    = JMax(pt.y, itsMinSize.y);
 			}

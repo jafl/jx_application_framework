@@ -60,7 +60,6 @@ static const MenuItemInfo kContextMenuItemInfo[] =
 	{ JTextEditor::kDeleteSelCmd, kContextClearAction     },
 	{ JTextEditor::kSelectAllCmd, kContextSelectAllAction }
 };
-const JSize kContextMenuItemCount = sizeof(kContextMenuItemInfo)/sizeof(MenuItemInfo);
 
 /******************************************************************************
  Constructor
@@ -692,14 +691,14 @@ JXInputField::HandleContextMenu
 #define IndexToCmdFn ContextMenuIndexToCmd
 #define CmdToIndexFn ContextMenuCmdToIndex
 #define MenuVar      itsContextMenu
-#define CmdCount     kContextMenuItemCount
+#define CmdType      MenuItemInfo
 #define CmdIDList    kContextMenuItemInfo
 #include <JXMenuItemIDUtil.th>
 #undef ClassName
 #undef IndexToCmdFn
 #undef CmdToIndexFn
 #undef MenuVar
-#undef CmdCount
+#undef CmdType
 #undef CmdIDList
 
 /******************************************************************************

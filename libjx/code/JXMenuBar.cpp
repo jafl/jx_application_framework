@@ -78,10 +78,8 @@ JXMenuBar::JXMenuBar
 
 JXMenuBar::~JXMenuBar()
 {
-	const JSize count = itsMenus->GetElementCount();
-	for (JIndex i=1; i<=count; i++)
+	for (JXMenu* theMenu : *itsMenus)
 		{
-		JXMenu* theMenu = itsMenus->GetElement(i);
 		if (theMenu == itsOverflowMenu)
 			{
 			itsOverflowMenu = nullptr;

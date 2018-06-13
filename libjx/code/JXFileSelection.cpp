@@ -229,20 +229,18 @@ JXFileSelection::GetFileList
 	JArray<Atom> typeList;
 	if (selMgr->GetAvailableTypes(selectionName, CurrentTime, &typeList))
 		{
-		const JSize count = typeList.GetElementCount();
-		for (JIndex i=1; i<=count; i++)
+		for (const Atom type : typeList)
 			{
-			const Atom a = typeList.GetElement(i);
-			if (a == urlXAtom1 || a == urlXAtom2)
+			if (type == urlXAtom1 || type == urlXAtom2)
 				{
 				Atom returnType;
 				unsigned char* data;
 				JSize dataLength;
 				JXSelectionManager::DeleteMethod delMethod;
-				if (selMgr->GetData(selectionName, time, a,
+				if (selMgr->GetData(selectionName, time, type,
 									&returnType, &data, &dataLength, &delMethod))
 					{
-					if (returnType == a)
+					if (returnType == type)
 						{
 						JXUnpackFileNames((char*) data, dataLength, fileNameList, urlList);
 						ok = kJTrue;

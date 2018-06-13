@@ -98,10 +98,8 @@ JXMenuData::DeleteItem
 void
 JXMenuData::DeleteAll()
 {
-	const JSize itemCount = GetElementCount();
-	for (JIndex i=1; i<=itemCount; i++)
+	for (BaseItemData itemData : *itsBaseItemData)
 		{
-		BaseItemData itemData = itsBaseItemData->GetElement(i);
 		CleanOutBaseItem(&itemData);
 		}
 	itsBaseItemData->RemoveAll();
@@ -142,17 +140,11 @@ JBoolean
 JXMenuData::HasCheckboxes()
 	const
 {
-	const JIndex count = GetElementCount();
-	for (JIndex i=1; i<=count; i++)
-		{
-		const BaseItemData itemData = itsBaseItemData->GetElement(i);
-		if (itemData.type == JXMenu::kCheckboxType || itemData.type == JXMenu::kRadioType)
-			{
-			return kJTrue;
-			}
-		}
-
-	return kJFalse;
+	return JI2B(
+		std::any_of(begin(*itsBaseItemData), end(*itsBaseItemData),
+			[] (const BaseItemData& itemData)
+				{ return (itemData.type == JXMenu::kCheckboxType ||
+						  itemData.type == JXMenu::kRadioType); }));
 }
 
 /******************************************************************************
@@ -164,17 +156,10 @@ JBoolean
 JXMenuData::HasSubmenus()
 	const
 {
-	const JIndex count = GetElementCount();
-	for (JIndex i=1; i<=count; i++)
-		{
-		const BaseItemData itemData = itsBaseItemData->GetElement(i);
-		if (itemData.submenu != nullptr)
-			{
-			return kJTrue;
-			}
-		}
-
-	return kJFalse;
+	return JI2B(
+		std::any_of(begin(*itsBaseItemData), end(*itsBaseItemData),
+			[] (const BaseItemData& itemData)
+				{ return itemData.submenu != nullptr; }));
 }
 
 /******************************************************************************

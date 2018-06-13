@@ -226,15 +226,14 @@ JXDockTabGroup::UpdateDockContextMenu()
 
 	JPtrArray<JXDockDirector>* dockList = dockMgr->GetDockList();
 
-	const JSize dockCount = dockList->GetElementCount();
-	for (JIndex i=1; i<=dockCount; i++)
+	for (JXDockDirector* dir : *dockList)
 		{
-		JString itemText = ((dockList->GetElement(i))->GetWindow())->GetTitle();
+		JString itemText = dir->GetWindow()->GetTitle();
 		itemText.Prepend(JGetString("ShowDockPrefix::JXDocktab"));
 		itsDockContextMenu->AppendItem(itemText);
 		}
 
-	itsDockContextMenu->SetItemEnable(kUndockAllCmd, JI2B(dockCount > 0));
+	itsDockContextMenu->SetItemEnable(kUndockAllCmd, !dockList->IsEmpty());
 	itsDockContextMenu->SetItemEnable(kDockAllDefConfigCmd, dockMgr->CanDockAll());
 
 	JXWindow* w;

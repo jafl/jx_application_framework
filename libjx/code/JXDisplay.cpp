@@ -251,10 +251,8 @@ JXDisplay::~JXDisplay()
 	jdelete itsColorManager;
 	jdelete itsBounds;
 
-	const JSize count = itsCursorList->GetElementCount();
-	for (JIndex i=1; i<=count; i++)
+	for (const CursorInfo& info : *itsCursorList)
 		{
-		const CursorInfo info = itsCursorList->GetElement(i);
 		jdelete (info.name);
 		XFreeCursor(itsXDisplay, info.xid);
 		}
@@ -320,10 +318,8 @@ JIndex i;
 
 	// fill in the mapping of X windows to JXWindows
 
-	const JSize windowCount = itsWindowList->GetElementCount();
-	for (i=1; i<=windowCount; i++)
+	for (const WindowInfo& info : *itsWindowList)
 		{
-		const WindowInfo info = itsWindowList->GetElement(i);
 		Window rootChild;
 		if ((info.window)->GetRootChild(&rootChild))
 			{
@@ -342,9 +338,8 @@ JIndex i;
 
 	// raise the windows (first one is on the bottom)
 
-	for (i=1; i<=childCount; i++)
+	for (JXWindow* w : childMapping)
 		{
-		JXWindow* w = childMapping.GetElement(i);
 		if (w != nullptr && w->IsVisible() && !w->IsIconified())
 			{
 			w->Raise();
@@ -364,10 +359,9 @@ JIndex i;
 void
 JXDisplay::HideAllWindows()
 {
-	const JSize count = itsWindowList->GetElementCount();
-	for (JIndex i=1; i<=count; i++)
+	for (const WindowInfo& info : *itsWindowList)
 		{
-		((itsWindowList->GetElement(i)).window)->Hide();
+		info.window->Hide();
 		}
 }
 
@@ -379,10 +373,9 @@ JXDisplay::HideAllWindows()
 void
 JXDisplay::UndockAllWindows()
 {
-	const JSize count = itsWindowList->GetElementCount();
-	for (JIndex i=1; i<=count; i++)
+	for (const WindowInfo& info : *itsWindowList)
 		{
-		((itsWindowList->GetElement(i)).window)->Undock();
+		info.window->Undock();
 		}
 }
 
@@ -567,10 +560,8 @@ JXDisplay::GetBounds()
 	// user's attention.  Treat the screen that contains this location as
 	// the root "window"
 
-	const JSize count = itsBounds->GetElementCount();
-	for (JIndex i=1; i<=count; i++)
+	for (const JRect& r : *itsBounds)
 		{
-		const JRect r = itsBounds->GetElement(i);
 		if (r.Contains(itsLatestMouseLocation))
 			{
 			return r;
@@ -906,11 +897,9 @@ JXDisplay::DisplayCursorInAllWindows
 	const JCursorIndex index
 	)
 {
-	const JSize count = itsWindowList->GetElementCount();
-	for (JIndex i=1; i<=count; i++)
+	for (const WindowInfo& info : *itsWindowList)
 		{
-		WindowInfo info = itsWindowList->GetElement(i);
-		(info.window)->DisplayXCursor(index);
+		info.window->DisplayXCursor(index);
 		}
 
 	// Since this is usually called before a blocking process,
@@ -1101,11 +1090,9 @@ JXDisplay::Update()
 		{
 		itsNeedsUpdateFlag = kJFalse;	// clear first, in case redraw triggers update
 
-		const JSize count = itsWindowList->GetElementCount();
-		for (JIndex i=1; i<=count; i++)
+		for (const WindowInfo& info : *itsWindowList)
 			{
-			const WindowInfo info = itsWindowList->GetElement(i);
-			(info.window)->Update();
+			info.window->Update();
 			}
 		}
 }
@@ -1493,54 +1480,54 @@ JXDisplay::JXErrorHandler
 void
 JXDisplay::CheckForXErrors()
 {
-	if (!theXErrorList.IsEmpty())
+	if (theXErrorList.IsEmpty())
 		{
-		// we need to get count every time since extra XErrors could be generated
-
-		for (JIndex i=1; i<=theXErrorList.GetElementCount(); i++)
-			{
-			const XErrorEvent error = theXErrorList.GetElement(i);
-
-			JXDisplay* display;
-			const JBoolean found = (JXGetApplication())->FindDisplay(error.display, &display);
-			assert( found );
-
-			XError msg(error);
-			display->BroadcastWithFeedback(&msg);
-			if (!msg.WasCaught())
-				{
-				JXWindow* w = nullptr;
-				if (msg.GetType() == BadWindow && msg.GetXID() != None &&
-					!display->FindXWindow(msg.GetXID(), &w))
-					{
-					// not our window -- probably residual from selection or DND
-					continue;
-					}
-				else if (msg.GetType() == BadMatch &&
-						 error.request_code == X_SetInputFocus)
-					{
-					// Never die on anything as silly as an XSetInputFocus() error,
-					// but still useful to know if it happens.
-//					std::cerr << "Illegal call to XSetInputFocus()" << std::endl;
-					continue;
-					}
-
-				std::cerr << "An unexpected XError occurred!" << std::endl;
-
-				char str[80];
-				XGetErrorText(error.display, error.error_code, str, 80);
-				std::cerr << "Error code: " << str << std::endl;
-
-				JString reqCodeStr((JUInt64) error.request_code);
-				XGetErrorDatabaseText(error.display, "XRequest", reqCodeStr.GetBytes(), "unknown", str, 80);
-				std::cerr << "Offending request: " << str << std::endl;
-
-				assert_msg( 0, "unexpected XError" );
-				}
-			}
-
-		theXErrorList.RemoveAll();
+		return;
 		}
+
+	// we need to get count every time since extra XErrors could be generated
+
+	for (const XErrorEvent& error : theXErrorList)
+		{
+		JXDisplay* display;
+		const JBoolean found = (JXGetApplication())->FindDisplay(error.display, &display);
+		assert( found );
+
+		XError msg(error);
+		display->BroadcastWithFeedback(&msg);
+		if (!msg.WasCaught())
+			{
+			JXWindow* w = nullptr;
+			if (msg.GetType() == BadWindow && msg.GetXID() != None &&
+				!display->FindXWindow(msg.GetXID(), &w))
+				{
+				// not our window -- probably residual from selection or DND
+				continue;
+				}
+			else if (msg.GetType() == BadMatch &&
+					 error.request_code == X_SetInputFocus)
+				{
+				// Never die on anything as silly as an XSetInputFocus() error,
+				// but still useful to know if it happens.
+//				std::cerr << "Illegal call to XSetInputFocus()" << std::endl;
+				continue;
+				}
+
+			std::cerr << "An unexpected XError occurred!" << std::endl;
+
+			char str[80];
+			XGetErrorText(error.display, error.error_code, str, 80);
+			std::cerr << "Error code: " << str << std::endl;
+
+			JString reqCodeStr((JUInt64) error.request_code);
+			XGetErrorDatabaseText(error.display, "XRequest", reqCodeStr.GetBytes(), "unknown", str, 80);
+			std::cerr << "Offending request: " << str << std::endl;
+
+			assert_msg( 0, "unexpected XError" );
+			}
+		}
+
+	theXErrorList.RemoveAll();
 }
 
 /******************************************************************************

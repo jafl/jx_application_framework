@@ -47,9 +47,9 @@ JXBusyIconTask::JXBusyIconTask
 	assert( itsImageList != nullptr );
 
 	JXDisplay* display = widget->GetDisplay();
-	for (JIndex i=1; i<=kBusyIconCount; i++)
+	for (const JXPM& xpm : kBusyIcon)
 		{
-		JXImage* icon = jnew JXImage(display, kBusyIcon[i-1]);
+		JXImage* icon = jnew JXImage(display, xpm);
 		assert( icon != nullptr );
 		itsImageList->Append(icon);
 		}

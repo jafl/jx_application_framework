@@ -135,10 +135,8 @@ JXHorizDockPartition::FindDock
 	JXDockWidget**	dock
 	)
 {
-	const JSize count = GetCompartmentCount();
-	for (JIndex i=1; i<=count; i++)
+	for (JXDockWidget* d : *itsDockList)
 		{
-		JXDockWidget* d = itsDockList->GetElement(i);
 		assert( d != nullptr );
 
 		if (d->GetID() == id)
@@ -167,19 +165,9 @@ JBoolean
 JXHorizDockPartition::HasWindows()
 	const
 {
-	const JSize count = GetCompartmentCount();
-	for (JIndex i=1; i<=count; i++)
-		{
-		JXDockWidget* d = itsDockList->GetElement(i);
-		assert( d != nullptr );
-
-		if (d->HasWindows())
-			{
-			return kJTrue;
-			}
-		}
-
-	return kJFalse;
+	return JI2B(
+		std::any_of(begin(*itsDockList), end(*itsDockList),
+			[] (JXDockWidget* d) { return d->HasWindows(); }));
 }
 
 /******************************************************************************
@@ -190,10 +178,8 @@ JXHorizDockPartition::HasWindows()
 JBoolean
 JXHorizDockPartition::CloseAllWindows()
 {
-	const JSize count = GetCompartmentCount();
-	for (JIndex i=1; i<=count; i++)
+	for (JXDockWidget* d : *itsDockList)
 		{
-		JXDockWidget* d = itsDockList->GetElement(i);
 		assert( d != nullptr );
 
 		if (!d->CloseAllWindows())
@@ -213,7 +199,7 @@ JXHorizDockPartition::CloseAllWindows()
 void
 JXHorizDockPartition::ReadSetup
 	(
-	std::istream&			input,
+	std::istream&		input,
 	const JFileVersion	vers
 	)
 {
@@ -282,8 +268,7 @@ JXHorizDockPartition::WriteSetup
 	)
 	const
 {
-	const JSize count = GetCompartmentCount();
-	output << ' ' << count;
+	output << ' ' << GetCompartmentCount();
 
 	WriteGeometry(output);
 
@@ -291,9 +276,8 @@ JXHorizDockPartition::WriteSetup
 	output << ' ' << GetElasticIndex(&elasticIndex);
 	output << ' ' << elasticIndex;
 
-	for (JIndex i=1; i<=count; i++)
+	for (JXDockWidget* dock : *itsDockList)
 		{
-		JXDockWidget* dock = itsDockList->GetElement(i);
 		assert( dock != nullptr );
 
 		output << ' ' << dock->GetID();

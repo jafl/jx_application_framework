@@ -269,14 +269,12 @@ TestTextEditDocument::OpenFiles()
 		pg.RaiseWhenUpdate();
 		pg.FixedLengthProcessBeginning(count, JGetString("OpenFilesProgress::TestTextEditDocument"), kJTrue, kJFalse);
 
-		for (JIndex i=1; i<=count; i++)
+		for (JString* fileName : fullNameList)
 			{
-			const JString& fileName = *(fullNameList.GetElement(i));
-
 			JXFileDocument* doc;
-			if (!(JXGetDocumentManager())->FileDocumentIsOpen(fileName, &doc))
+			if (!(JXGetDocumentManager())->FileDocumentIsOpen(*fileName, &doc))
 				{
-				doc = jnew TestTextEditDocument(GetSupervisor(), fileName);
+				doc = jnew TestTextEditDocument(GetSupervisor(), *fileName);
 				}
 			assert( doc != nullptr );
 			doc->Activate();

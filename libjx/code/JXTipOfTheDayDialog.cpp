@@ -218,10 +218,8 @@ JXTipOfTheDayDialog::ParseTips()
 	JPtrArray<JString> list(JPtrArrayT::kDeleteAll);
 	data.Split(kDelimiter, &list);
 
-	const JSize count = list.GetElementCount();
-	for (JIndex i=1; i<=count; i++)
+	for (JString* s : list)
 		{
-		JString* s = list.GetElement(i);
 		if (!s->IsEmpty())
 			{
 			s->Prepend("\n");

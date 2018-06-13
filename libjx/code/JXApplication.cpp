@@ -193,10 +193,9 @@ JXApplication::~JXApplication()
 void
 JXApplication::Suspend()
 {
-	const JSize count = itsDisplayList->GetElementCount();
-	for (JIndex i=1; i<=count; i++)
+	for (JXDisplay* d : *itsDisplayList)
 		{
-		itsDisplayList->GetElement(i)->GetMenuManager()->CloseCurrentMenus();
+		d->GetMenuManager()->CloseCurrentMenus();
 		}
 
 	JXDirector::Suspend();
@@ -326,10 +325,8 @@ JXApplication::FindDisplay
 	JXDisplay**		display
 	)
 {
-	const JSize count = itsDisplayList->GetElementCount();
-	for (JIndex i=1; i<=count; i++)
+	for (JXDisplay* d : *itsDisplayList)
 		{
-		JXDisplay* d = itsDisplayList->GetElement(i);
 		if (d->GetXDisplay() == xDisplay)
 			{
 			*display = d;
@@ -351,10 +348,9 @@ JXApplication::FindDisplay
 void
 JXApplication::DisplayBusyCursor()
 {
-	const JSize count = itsDisplayList->GetElementCount();
-	for (JIndex i=1; i<=count; i++)
+	for (JXDisplay* d : *itsDisplayList)
 		{
-		(itsDisplayList->GetElement(i))->DisplayCursorInAllWindows(kJXBusyCursor);
+		d->DisplayCursorInAllWindows(kJXBusyCursor);
 		}
 }
 
@@ -368,10 +364,9 @@ JXApplication::DisplayBusyCursor()
 void
 JXApplication::DisplayInactiveCursor()
 {
-	const JSize count = itsDisplayList->GetElementCount();
-	for (JIndex i=1; i<=count; i++)
+	for (JXDisplay* d : *itsDisplayList)
 		{
-		(itsDisplayList->GetElement(i))->DisplayCursorInAllWindows(kJXInactiveCursor);
+		d->DisplayCursorInAllWindows(kJXInactiveCursor);
 		}
 }
 
@@ -383,10 +378,9 @@ JXApplication::DisplayInactiveCursor()
 void
 JXApplication::HideAllWindows()
 {
-	const JSize count = itsDisplayList->GetElementCount();
-	for (JIndex i=1; i<=count; i++)
+	for (JXDisplay* d : *itsDisplayList)
 		{
-		(itsDisplayList->GetElement(i))->HideAllWindows();
+		d->HideAllWindows();
 		}
 }
 
@@ -454,11 +448,9 @@ JXApplication::Close()
 {
 	assert( itsRequestQuitFlag );
 
-	const JSize count = itsDisplayList->GetElementCount();
-	for (JIndex i=1; i<=count; i++)
+	for (JXDisplay* d : *itsDisplayList)
 		{
-		JXDisplay* display = itsDisplayList->GetElement(i);
-		(display->GetMenuManager())->CloseCurrentMenus();
+		d->GetMenuManager()->CloseCurrentMenus();
 		}
 
 	return JXDirector::Close();		// deletes us if successful
@@ -893,10 +885,9 @@ JXApplication::InstallIdleTask
 		// Make sure it isn't stored anywhere else, so PopIdleTaskTask()
 		// doesn't have to worry about duplicates when merging lists.
 
-		const JSize count = itsIdleTaskStack->GetElementCount();
-		for (JIndex i=1; i<=count; i++)
+		for (JPtrArray<JXIdleTask>* list : *itsIdleTaskStack)
 			{
-			(itsIdleTaskStack->GetElement(i))->Remove(newTask);
+			list->Remove(newTask);
 			}
 		}
 }
@@ -916,10 +907,9 @@ JXApplication::RemoveIdleTask
 		{
 		itsIdleTasks->Remove(task);
 
-		const JSize count = itsIdleTaskStack->GetElementCount();
-		for (JIndex i=1; i<=count; i++)
+		for (JPtrArray<JXIdleTask>* list : *itsIdleTaskStack)
 			{
-			(itsIdleTaskStack->GetElement(i))->Remove(task);
+			list->Remove(task);
 			}
 		}
 }

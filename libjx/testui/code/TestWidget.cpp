@@ -353,7 +353,7 @@ TestWidget::Print
 	const JString dateStr = JGetTimeStamp();
 
 	JBoolean cancelled = kJFalse;
-	for (JIndex i=1; i<=3; i++)
+	for (JIndex i : { 1,2,3 })
 		{
 		if (!p.NewPage())
 			{
@@ -997,10 +997,8 @@ TestWidget::WillAcceptDrop
 	std::cout << "Data types available from DND source:" << std::endl;
 	std::cout << std::endl;
 
-	const JSize typeCount = typeList.GetElementCount();
-	for (JIndex i=1; i<=typeCount; i++)
+	for (const Atom type : typeList)
 		{
-		const Atom type = typeList.GetElement(i);
 		std::cout << XGetAtomName(*display, type) << std::endl;
 
 		if (type == GetSelectionManager()->GetURLXAtom() ||
@@ -1078,10 +1076,8 @@ TestWidget::HandleDNDDrop
 //	(JGetUserNotification())->DisplayMessage("testing");
 
 	Atom textType = None, urlType = None;
-	const JSize typeCount = typeList.GetElementCount();
-	for (JIndex i=1; i<=typeCount; i++)
+	for (const Atom type : typeList)
 		{
-		const Atom type = typeList.GetElement(i);
 		std::cout << XGetAtomName(*display, type) << std::endl;
 		if (type == selMgr->GetMimePlainTextXAtom())
 			{
@@ -1127,16 +1123,13 @@ TestWidget::PrintSelectionTargets
 		std::cout << "Data types available from the clipboard:" << std::endl;
 		std::cout << std::endl;
 
-		const JSize typeCount = typeList.GetElementCount();
-		for (JIndex i=1; i<=typeCount; i++)
+		for (const Atom type : typeList)
 			{
-			const Atom type = typeList.GetElement(i);
 			std::cout << XGetAtomName(*display, type) << std::endl;
 			}
 
-		for (JIndex i=1; i<=typeCount; i++)
+		for (const Atom type : typeList)
 			{
-			const Atom type = typeList.GetElement(i);
 			if (type == XA_STRING ||
 				type == selMgr->GetUtf8StringXAtom() ||
 				type == selMgr->GetMimePlainTextXAtom())
@@ -1234,24 +1227,22 @@ TestWidget::PrintFileNames
 							   urlList(JPtrArrayT::kDeleteAll);
 			JXUnpackFileNames((char*) data, dataLength, &fileNameList, &urlList);
 
-			const JSize fileCount = fileNameList.GetElementCount();
-			if (fileCount > 0)
+			if (!fileNameList.IsEmpty())
 				{
 				std::cout << "File/directory names:" << std::endl << std::endl;
-				for (JIndex i=1; i<=fileCount; i++)
+				for (const JString* f : fileNameList)
 					{
-					std::cout << *(fileNameList.GetElement(i)) << std::endl;
+					std::cout << *f << std::endl;
 					}
 				std::cout << std::endl << std::endl;
 				}
 
-			const JSize urlCount = urlList.GetElementCount();
-			if (urlCount > 0)
+			if (!urlList.IsEmpty())
 				{
 				std::cout << "Unconvertable URLs:" << std::endl << std::endl;
-				for (JIndex i=1; i<=urlCount; i++)
+				for (const JString* u : urlList)
 					{
-					std::cout << *(urlList.GetElement(i)) << std::endl;
+					std::cout << *u << std::endl;
 					}
 				std::cout << std::endl << std::endl;
 				}
@@ -1308,23 +1299,23 @@ TestWidget::HandleClientMessage
 	std::cout << "Data:" << std::endl;
 	if (clientMessage.format == 8)
 		{
-		for (JIndex i=0; i<20; i++)
+		for (char c : clientMessage.data.b)
 			{
-			std::cout << clientMessage.data.b[i] << ' ';
+			std::cout << c << ' ';
 			}
 		}
 	else if (clientMessage.format == 16)
 		{
-		for (JIndex i=0; i<10; i++)
+		for (short v : clientMessage.data.s)
 			{
-			std::cout << clientMessage.data.s[i] << ' ';
+			std::cout << v << ' ';
 			}
 		}
 	else
 		{
-		for (JIndex i=0; i<5; i++)
+		for (long v : clientMessage.data.l)
 			{
-			std::cout << clientMessage.data.l[i] << ' ';
+			std::cout << v << ' ';
 			}
 		}
 	std::cout << std::endl << std::endl;
@@ -1639,10 +1630,8 @@ TestWidget::BuildXlsfontsMenu
 	JPtrArray<JString> fontList(JPtrArrayT::kDeleteAll);
 	GetXFontManager()->GetXFontNames(JRegex("^-.*-(courier|helvetica)-.*$"),
 									   &fontList);
-	const JSize fontCount = fontList.GetElementCount();
-	for (JIndex i=1; i<=fontCount; i++)
+	for (const JString* fontName : fontList)
 		{
-		JString* fontName = fontList.GetElement(i);
 		menu->AppendItem(*fontName);
 		}
 

@@ -106,7 +106,7 @@ JXColorManager::InitMasks
 	itsMask[1] = greenMask;
 	itsMask[2] = blueMask;
 
-	for (JIndex i=0; i<3; i++)
+	for (JIndex i : { 0,1,2 })
 		{
 		itsStartIndex[i] = 0;
 		while (itsStartIndex[i] < bitCount &&
@@ -169,7 +169,7 @@ JXColorManager::GetColorID
 	)
 {
 	unsigned long rgb[3];
-	for (JIndex i=0; i<3; i++)
+	for (JIndex i : { 0,1,2 })
 		{
 		rgb[i] = (systemColor & itsMask[i]) >> itsStartIndex[i];
 		if (itsStartIndex[i] > 0)
@@ -205,7 +205,7 @@ JXColorManager::GetXColor
 	const unsigned long rgb[3] = { c.red, c.green, c.blue };
 
 	unsigned long xPixel = 0;
-	for (JIndex i=0; i<3; i++)
+	for (JIndex i : { 0,1,2 })
 		{
 		const short shift = itsEndIndex[i] + 1 - kBitsPerColorComp;
 		if (shift >= 0)

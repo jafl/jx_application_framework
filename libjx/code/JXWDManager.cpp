@@ -199,18 +199,11 @@ JXWDManager::ShortcutUsed
 	const JInteger				shortcutIndex
 	)
 {
-	const JSize count = windowList.GetElementCount();
-	for (JIndex i=1; i<=count; i++)
-		{
-		const WindowInfo info = windowList.GetElement(i);
-		if (info.shortcutStr   == nullptr &&
-			info.shortcutIndex == shortcutIndex)
-			{
-			return kJTrue;
-			}
-		}
-
-	return kJFalse;
+	return JI2B(
+		std::any_of(begin(windowList), end(windowList),
+			[shortcutIndex] (const WindowInfo& info)
+				{ return (info.shortcutStr   == nullptr &&
+						  info.shortcutIndex == shortcutIndex); }));
 }
 
 /******************************************************************************
@@ -300,10 +293,9 @@ JXWDManager::GetDirectors
 	directorList->CleanOut();
 	directorList->SetCleanUpAction(JPtrArrayT::kForgetAll);
 
-	const JSize count = windowList->GetElementCount();
-	for (JIndex i=1; i<=count; i++)
+	for (const WindowInfo& info : *windowList)
 		{
-		directorList->Append(windowList->GetElement(i).dir);
+		directorList->Append(info.dir);
 		}
 }
 
@@ -395,10 +387,8 @@ JXWDManager::UpdateWDMenu1
 {
 	const JXMenu::Style style = JXMenu::GetDefaultStyle();
 
-	const JSize count = windowList.GetElementCount();
-	for (JIndex i=1; i<=count; i++)
+	for (const WindowInfo& info : windowList)
 		{
-		WindowInfo info     = windowList.GetElement(i);
 		const JString& name = (info.dir)->GetName();
 
 		menu->AppendItem(name);

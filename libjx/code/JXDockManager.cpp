@@ -175,10 +175,9 @@ JXDockManager::FindDock
 	JXDockWidget**	dock
 	)
 {
-	const JSize count = itsDockList->GetElementCount();
-	for (JIndex i=1; i<=count; i++)
+	for (JXDockDirector* dir : *itsDockList)
 		{
-		if ((itsDockList->GetElement(i))->FindDock(id, dock))
+		if (dir->FindDock(id, dock))
 			{
 			return kJTrue;
 			}
@@ -203,10 +202,9 @@ JXDockManager::CloseAll()
 	itsNextDockIndex = 1;
 	itsNextDockID    = 1;
 
-	const JSize count = list.GetElementCount();
-	for (JIndex i=1; i<=count; i++)
+	for (JXDockDirector* dir : list)
 		{
-		(list.GetElement(i))->Close();
+		dir->Close();
 		}
 }
 
@@ -310,8 +308,8 @@ JXDockManager::DirectorClosed
 	const JSize count = itsDockList->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		JXDockDirector* dock = itsDockList->GetElement(i);
-		if (theDirector == dock)
+		JXDockDirector* dir = itsDockList->GetElement(i);
+		if (theDirector == dir)
 			{
 			itsDockList->RemoveElement(i);
 			break;
@@ -353,10 +351,10 @@ JXDockManager::ReadSetup
 		{
 		title = GetNewDockTitle();
 
-		JXDockDirector* dock = jnew JXDockDirector(input, vers, title);
-		assert( dock != nullptr );
-		itsDockList->Append(dock);
-		dock->Activate();
+		JXDockDirector* dir = jnew JXDockDirector(input, vers, title);
+		assert( dir != nullptr );
+		itsDockList->Append(dir);
+		dir->Activate();
 		}
 
 	itsWindowTypeMap->RemoveAll();
@@ -400,12 +398,11 @@ JXDockManager::WriteSetup
 {
 	output << ' ' << kCurrentSetupVersion;
 
-	const JSize count = itsDockList->GetElementCount();
-	output << ' ' << count;
+	output << ' ' << itsDockList->GetElementCount();
 
-	for (JIndex i=1; i<=count; i++)
+	for (JXDockDirector* dir : *itsDockList)
 		{
-		(itsDockList->GetElement(i))->StreamOut(output);
+		dir->StreamOut(output);
 		}
 
 	JStringMapCursor<JIndex> cursor(itsWindowTypeMap);

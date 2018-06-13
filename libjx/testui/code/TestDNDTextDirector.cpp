@@ -60,8 +60,6 @@ TestDNDTextDirector::~TestDNDTextDirector()
 void
 TestDNDTextDirector::BuildWindow()
 {
-JIndex i;
-
 	JXWindow* window = jnew JXWindow(this, kWindowWidth,kWindowHeight, JString::empty);
 	assert( window != nullptr );
 
@@ -69,7 +67,7 @@ JIndex i;
 
 	JArray<JCoordinate> sizes;
 	JArray<JCoordinate> minSizes;
-	for (i=1; i<=2; i++)
+	for (JIndex i=1; i<=2; i++)
 		{
 		sizes.AppendElement(kInitWidth);
 		minSizes.AppendElement(kMinWidth);
@@ -85,7 +83,7 @@ JIndex i;
 	window->SetMinSize(partition->GetMinTotalSize(), kWindowHeight);
 
 	JXTextEditor* te;
-	for (i=1; i<=2; i++)
+	for (JIndex i : { 1,2})
 		{
 		JXStyledText* text = jnew JXStyledText(kJTrue, kJTrue, GetDisplay()->GetFontManager());
 		assert( text != nullptr );

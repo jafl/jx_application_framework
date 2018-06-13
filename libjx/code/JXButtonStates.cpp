@@ -55,14 +55,9 @@ JBoolean
 JXButtonStates::AllOff()
 	const
 {
-	for (JIndex i=0; i<kXButtonCount; i++)
-		{
-		if (itsState[i])
-			{
-			return kJFalse;
-			}
-		}
-	return kJTrue;
+	return JI2B(
+		std::all_of(std::begin(itsState), std::end(itsState),
+					[] (const JBoolean v) { return !v; }));
 }
 
 /******************************************************************************
@@ -94,13 +89,14 @@ unsigned int
 JXButtonStates::GetState()
 	const
 {
-	unsigned int state = 0;
-	for (JIndex i=0; i<kXButtonCount; i++)
+	unsigned int state = 0, i = 0;
+	for (const JBoolean b : itsState)
 		{
-		if (itsState[i])
+		if (b)
 			{
 			state |= (1L << (i+8));		// use the same bits as X
 			}
+		i++;
 		}
 	return state;
 }
@@ -132,10 +128,7 @@ JXButtonStates::SetState
 void
 JXButtonStates::Clear()
 {
-	for (JIndex i=0; i<kXButtonCount; i++)
-		{
-		itsState[i] = kJFalse;
-		}
+	std::fill(std::begin(itsState), std::end(itsState), kJFalse);
 }
 
 /******************************************************************************

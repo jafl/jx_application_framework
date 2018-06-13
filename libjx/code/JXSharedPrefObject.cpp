@@ -79,10 +79,8 @@ JXSharedPrefObject::GetPrefID
 	)
 	const
 {
-	const JSize count = itsVersionList->GetElementCount();
-	for (JIndex i=1; i<=count; i++)
+	for (const VersionInfo& info : *itsVersionList)
 		{
-		const VersionInfo info = itsVersionList->GetElement(i);
 		if (vers == info.vers)
 			{
 			return info.id;

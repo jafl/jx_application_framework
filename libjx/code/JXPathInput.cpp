@@ -361,12 +361,10 @@ JXPathInput::WillAcceptDrop
 			   urlXAtom2 = GetSelectionManager()->GetURLNoCharsetXAtom();
 
 	JString dirName;
-	const JSize typeCount = typeList.GetElementCount();
-	for (JIndex i=1; i<=typeCount; i++)
+	for (const Atom type : typeList)
 		{
-		const Atom a = typeList.GetElement(i);
-		if ((a == urlXAtom1 || a == urlXAtom2) &&
-			GetDroppedDirectory(time, a, kJFalse, &dirName))
+		if ((type == urlXAtom1 || type == urlXAtom2) &&
+			GetDroppedDirectory(time, type, kJFalse, &dirName))
 			{
 			*action = GetDNDManager()->GetDNDActionPrivateXAtom();
 			itsExpectURLDropFlag = kJTrue;

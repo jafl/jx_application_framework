@@ -222,10 +222,8 @@ JXFileListTable::RemoveFiles
 {
 	ClearSelection();
 
-	const JSize count = fileList.GetElementCount();
-	for (JIndex i=1; i<=count; i++)
+	for (JString* s : fileList)
 		{
-		JString* s = const_cast<JString*>(fileList.GetElement(i));
 		JIndex index;
 		if (itsFileList->SearchSorted(s, JListT::kAnyMatch, &index))
 			{
@@ -1458,11 +1456,9 @@ JXFileListTable::WillAcceptDrop
 	const Atom urlXAtom1 = GetSelectionManager()->GetURLXAtom(),
 			   urlXAtom2 = GetSelectionManager()->GetURLNoCharsetXAtom();
 
-	const JSize typeCount = typeList.GetElementCount();
-	for (JIndex i=1; i<=typeCount; i++)
+	for (const Atom type : typeList)
 		{
-		const Atom a = typeList.GetElement(i);
-		if (a == urlXAtom1 || a == urlXAtom2)
+		if (type == urlXAtom1 || type == urlXAtom2)
 			{
 			*action = GetDNDManager()->GetDNDActionPrivateXAtom();
 			return kJTrue;
@@ -1497,10 +1493,9 @@ JXFileListTable::HandleDNDDrop
 	if (JXFileSelection::GetFileList(GetDNDManager()->GetDNDSelectionName(), time,
 									 GetDisplay(), &fileNameList, &urlList))
 		{
-		const JSize fileCount = fileNameList.GetElementCount();
-		for (JIndex i=1; i<=fileCount; i++)
+		for (JString* fileName : fileNameList)
 			{
-			AddFile(*(fileNameList.GetElement(i)));
+			AddFile(*fileName);
 			}
 		JXReportUnreachableHosts(urlList);
 		}

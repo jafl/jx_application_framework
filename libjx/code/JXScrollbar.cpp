@@ -260,11 +260,9 @@ JXScrollbar::DrawHoriz
 
 	if (itsScrolltabList != nullptr)
 		{
-		const JSize tabCount = itsScrolltabList->GetElementCount();
-		for (JIndex i=1; i<=tabCount; i++)
+		for (JXScrolltab* tab : *itsScrolltabList)
 			{
-			(itsScrolltabList->GetElement(i))->
-				PlaceHoriz(minThumbLoc, maxThumbLoc, thumbLocScale);
+			tab->PlaceHoriz(minThumbLoc, maxThumbLoc, thumbLocScale);
 			}
 		}
 }
@@ -369,11 +367,9 @@ JXScrollbar::DrawVert
 
 	if (itsScrolltabList != nullptr)
 		{
-		const JSize tabCount = itsScrolltabList->GetElementCount();
-		for (JIndex i=1; i<=tabCount; i++)
+		for (JXScrolltab* tab : *itsScrolltabList)
 			{
-			(itsScrolltabList->GetElement(i))->
-				PlaceVert(minThumbLoc, maxThumbLoc, thumbLocScale);
+			tab->PlaceVert(minThumbLoc, maxThumbLoc, thumbLocScale);
 			}
 		}
 }
@@ -920,10 +916,8 @@ JXScrollbar::PrepareForHigherMaxValue
 {
 	if (itsScrolltabList != nullptr && length > 0)
 		{
-		const JSize tabCount = itsScrolltabList->GetElementCount();
-		for (JIndex i=1; i<=tabCount; i++)
+		for (JXScrolltab* tab : *itsScrolltabList)
 			{
-			JXScrolltab* tab = itsScrolltabList->GetElement(i);
 			if (tab->GetValue() >= start)
 				{
 				tab->AdjustValue(length);
@@ -949,10 +943,8 @@ JXScrollbar::PrepareForScaledMaxValue
 {
 	if (itsScrolltabList != nullptr && scaleFactor != 1.0)
 		{
-		const JSize tabCount = itsScrolltabList->GetElementCount();
-		for (JIndex i=1; i<=tabCount; i++)
+		for (JXScrolltab* tab : *itsScrolltabList)
 			{
-			JXScrolltab* tab = itsScrolltabList->GetElement(i);
 			tab->ScaleValue(scaleFactor);
 			}
 		}
@@ -998,10 +990,8 @@ JIndex i;
 		PrepareForHigherMaxValue(newStart, length);	// consider moving strip to end
 
 		const JCoordinate delta = newStart - origStart;
-		const JSize saveCount   = savedTabList.GetElementCount();
-		for (i=1; i<=saveCount; i++)
+		for (JXScrolltab* tab : savedTabList)
 			{
-			JXScrolltab* tab = savedTabList.GetElement(i);
 			tab->AdjustValue(delta);
 			itsScrolltabList->InsertSorted(tab);
 			}
@@ -1146,12 +1136,11 @@ JXScrollbar::WriteSetup
 
 	if (itsScrolltabList != nullptr)
 		{
-		const JSize tabCount = itsScrolltabList->GetElementCount();
-		output << ' ' << tabCount;
+		output << ' ' << itsScrolltabList->GetElementCount();
 
-		for (JIndex i=1; i<=tabCount; i++)
+		for (JXScrolltab* tab : *itsScrolltabList)
 			{
-			output << ' ' << (itsScrolltabList->GetElement(i))->GetValue();
+			output << ' ' << tab->GetValue();
 			}
 		}
 	else

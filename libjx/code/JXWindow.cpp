@@ -3666,27 +3666,21 @@ JXWindow::SwitchFocusToFirstWidgetWithAncestor
 	JXContainer* ancestor
 	)
 {
-	JXWidget* firstWidget = nullptr;
-
-	const JSize count = itsFocusList->GetElementCount();
-	for (JIndex i=1; i<=count; i++)
-		{
-		JXWidget* widget = itsFocusList->GetElement(i);
-		if (widget->WillAcceptFocus() &&
-			ancestor->IsAncestor(widget))
+	JXWidget** firstWidget =
+		std::find_if(begin(*itsFocusList), end(*itsFocusList),
+			[ancestor] (JXWidget* widget)
 			{
-			firstWidget = widget;
-			break;
-			}
-		}
+				return (widget->WillAcceptFocus() &&
+						ancestor->IsAncestor(widget));
+			});
 
-	if (firstWidget == nullptr || itsFocusWidget == firstWidget)
+	if (firstWidget == end(*itsFocusList) || itsFocusWidget == *firstWidget)
 		{
 		return kJTrue;
 		}
 	else if (UnfocusCurrentWidget())
 		{
-		itsFocusWidget = firstWidget;
+		itsFocusWidget = *firstWidget;
 		itsFocusWidget->Focus(0);
 		return kJTrue;
 		}
@@ -4831,10 +4825,8 @@ JXWindow::UndockAllChildWindows()
 {
 	if (itsChildWindowList != nullptr)
 		{
-		const JSize count = itsChildWindowList->GetElementCount();
-		for (JIndex i=1; i<=count; i++)
+		for (const ChildWindowInfo& info : *itsChildWindowList)
 			{
-			ChildWindowInfo info = itsChildWindowList->GetElement(i);
 			JXWindow* w;
 			if (itsDisplay->FindXWindow(info.xWindow, &w))
 				{
@@ -4946,10 +4938,8 @@ JXWindow::UpdateChildWindowGeometry()
 {
 	if (itsChildWindowList != nullptr)
 		{
-		const JSize count = itsChildWindowList->GetElementCount();
-		for (JIndex i=1; i<=count; i++)
+		for (const ChildWindowInfo& info : *itsChildWindowList)
 			{
-			ChildWindowInfo info = itsChildWindowList->GetElement(i);
 			JXWindow* w;
 			if (itsDisplay->FindXWindow(info.xWindow, &w))
 				{

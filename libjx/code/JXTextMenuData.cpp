@@ -135,10 +135,8 @@ JXTextMenuData::DeleteItem
 void
 JXTextMenuData::DeleteAll()
 {
-	const JSize itemCount = itsTextItemData->GetElementCount();
-	for (JIndex i=1; i<=itemCount; i++)
+	for (TextItemData itemData : *itsTextItemData)
 		{
-		TextItemData itemData = itsTextItemData->GetElement(i);
 		CleanOutTextItem(&itemData);
 		}
 	itsTextItemData->RemoveAll();
@@ -855,8 +853,6 @@ static const JXTMKeySymConversion kNMKeyConv[] =
 	{"page down", XK_Page_Down}
 };
 
-const JSize kNMKeyConvCount = sizeof(kNMKeyConv)/sizeof(JXTMKeySymConversion);
-
 JBoolean
 JXTextMenuData::ParseNMShortcut
 	(
@@ -874,23 +870,23 @@ JXTextMenuData::ParseNMShortcut
 	while (1)
 		{
 		JBoolean found = kJFalse;
-		for (JIndex i=0; i<kNMModConvCount; i++)
+		for (const JXTMModifierConversion& conv : kNMModConv)
 			{
-			if (keyStr.BeginsWith(kNMModConv[i].str) &&
-				keyStr.GetByteCount() > kNMModConv[i].strLength)
+			if (keyStr.BeginsWith(conv.str) &&
+				keyStr.GetByteCount() > conv.strLength)
 				{
-				const JXModifierKey key = JXMenu::AdjustNMShortcutModifier(kNMModConv[i].key);
+				const JXModifierKey key = JXMenu::AdjustNMShortcutModifier(conv.key);
 				if (!modifiers->Available(key))
 					{
 					return kJFalse;
 					}
 
-				if (key != kNMModConv[i].key)
+				if (key != conv.key)
 					{
-					AdjustNMShortcutString(str, i, key);
+					AdjustNMShortcutString(str, conv.str, key);
 					}
 
-				iter.SkipNext(kNMModConv[i].strLength);
+				iter.SkipNext(conv.strLength);
 				iter.RemoveAllPrev();
 				modifiers->SetState(key, kJTrue);
 				found = kJTrue;
@@ -944,11 +940,11 @@ JXTextMenuData::ParseNMShortcut
 
 	// translate known name to single character
 
-	for (JIndex i=0; i<kNMKeyConvCount; i++)
+	for (const JXTMKeySymConversion& conv : kNMKeyConv)
 		{
-		if (JString::Compare(keyStr, kNMKeyConv[i].str, kJFalse) == 0)
+		if (JString::Compare(keyStr, conv.str, kJFalse) == 0)
 			{
-			const int k = kNMKeyConv[i].key;
+			const int k = conv.key;
 			if (0 < k && k <= (int) UCHAR_MAX)
 				{
 				const JUtf8Byte s[2] = { (char) k, '\0' };
@@ -1003,7 +999,7 @@ void
 JXTextMenuData::AdjustNMShortcutString
 	(
 	JString*			str,
-	const JIndex		origKeyIndex,
+	const JUtf8Byte*	origStr,
 	const JXModifierKey	newKey
 	)
 {
@@ -1026,7 +1022,7 @@ JXTextMenuData::AdjustNMShortcutString
 		}
 
 	JStringIterator iter(str);
-	while (iter.Next(kNMModConv[origKeyIndex].str))
+	while (iter.Next(origStr))
 		{
 		iter.ReplaceLastMatch(kNMModConv[newKeyIndex].str);
 		}

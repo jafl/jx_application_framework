@@ -667,11 +667,9 @@ JXDNDManager::DraggerCanProvideText()
 		}
 
 	const Atom textAtom = (itsDisplay->GetSelectionManager())->GetMimePlainTextXAtom();
-
-	const JSize count = itsDraggerTypeList->GetElementCount();
-	for (JIndex i=1; i<=count; i++)
+	for (const Atom a : *itsDraggerTypeList)
 		{
-		if (itsDraggerTypeList->GetElement(i) == textAtom)
+		if (a == textAtom)
 			{
 			return kJTrue;
 			}
