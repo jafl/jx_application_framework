@@ -1687,24 +1687,28 @@ JRunArray<T>::SetRunInfo
 }
 
 /******************************************************************************
- Range-based for loop (virtual)
+ Range-based for loop
 
  ******************************************************************************/
 
 template <class T>
 JListIterator<T>
-JRunArray<T>::begin()
-	const
+begin
+	(
+	const JRunArray<T>& a
+	)
 {
-	return JRunArrayIterator<T>(*this, kJIteratorStartAtBeginning);
+	return JRunArrayIterator<T>(a, kJIteratorStartAtBeginning);
 }
 
 template <class T>
 JListIterator<T>
-JRunArray<T>::end()
-	const
+end
+	(
+	const JRunArray<T>& a
+	)
 {
-	return JRunArrayIterator<T>(*this, kJIteratorStartAtEnd);
+	return JRunArrayIterator<T>(a, kJIteratorStartAtEnd);
 }
 
 #endif

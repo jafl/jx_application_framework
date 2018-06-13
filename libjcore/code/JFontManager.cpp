@@ -277,10 +277,8 @@ JFontManager::Init
 void
 JFontManager::CleanUp()
 {
-	const JSize count = theFontList.GetElementCount();
-	for (JIndex i=1; i<=count; i++)
+	for (const Font& f : theFontList)
 		{
-		Font f = theFontList.GetElement(i);
 		jdelete f.name;
 		}
 }

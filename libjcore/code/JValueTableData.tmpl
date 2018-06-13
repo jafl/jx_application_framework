@@ -55,10 +55,9 @@ JValueTableData<S,T>::JValueTableData
 	itsCols = jnew JPtrArray< S >(JPtrArrayT::kDeleteAll);
 	assert( itsCols != nullptr );
 
-	const JSize count = (source.itsCols)->GetElementCount();
-	for (JIndex i=1; i<=count; i++)
+	for (S* col : *source.itsCols)
 		{
-		itsCols->Append(*((source.itsCols)->GetElement(i)));
+		itsCols->Append(*col);
 		}
 }
 
@@ -280,8 +279,8 @@ template <class S, class T>
 void
 JValueTableData<S,T>::InsertRows
 	(
-	const JIndex			index,
-	const JSize				count,
+	const JIndex	index,
+	const JSize		count,
 	const JList<T>*	initData
 	)
 {
@@ -322,7 +321,7 @@ template <class S, class T>
 void
 JValueTableData<S,T>::PrependRows
 	(
-	const JSize				count,
+	const JSize		count,
 	const JList<T>*	initData
 	)
 {
@@ -333,7 +332,7 @@ template <class S, class T>
 void
 JValueTableData<S,T>::AppendRows
 	(
-	const JSize				count,
+	const JSize		count,
 	const JList<T>*	initData
 	)
 {
@@ -355,10 +354,8 @@ JValueTableData<S,T>::DuplicateRow
 {
 	const JIndex trueIndex = JMin(newIndex, GetRowCount()+1);
 
-	const JSize colCount = GetColCount();
-	for (JIndex i=1; i<=colCount; i++)
+	for (S* colData : *itsCols)
 		{
-		S* colData = itsCols->GetElement(i);
 		const T element = colData->GetElement(origIndex);
 		colData->InsertElementAtIndex(trueIndex, element);
 		}
@@ -401,10 +398,8 @@ JValueTableData<S,T>::RemoveNextRows
 		}
 	else
 		{
-		const JSize colCount = GetColCount();
-		for (JIndex i=1; i<=colCount; i++)
+		for (S* colData : *itsCols)
 			{
-			S* colData = itsCols->GetElement(i);
 			colData->RemoveNextElements(firstIndex, count);
 			}
 
@@ -438,10 +433,8 @@ template <class S, class T>
 void
 JValueTableData<S,T>::RemoveAllRows()
 {
-	const JSize colCount = GetColCount();
-	for (JIndex i=1; i<=colCount; i++)
+	for (S* colData : *itsCols)
 		{
-		S* colData = itsCols->GetElement(i);
 		colData->RemoveAll();
 		}
 
@@ -465,10 +458,8 @@ JValueTableData<S,T>::MoveRow
 {
 	if (origIndex != newIndex)
 		{
-		const JSize colCount = GetColCount();
-		for (JIndex i=1; i<=colCount; i++)
+		for (S* colData : *itsCols)
 			{
-			S* colData = itsCols->GetElement(i);
 			colData->MoveElementToIndex(origIndex, newIndex);
 			}
 
@@ -485,8 +476,8 @@ template <class S, class T>
 void
 JValueTableData<S,T>::InsertCols
 	(
-	const JIndex			index,
-	const JSize				count,
+	const JIndex	index,
+	const JSize		count,
 	const JList<T>*	initData
 	)
 {

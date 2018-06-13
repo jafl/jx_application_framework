@@ -8,7 +8,6 @@
 .cpp ./code/JBooleanIO
 .cpp ./code/JRTTIBase
 .cpp ./code/JBroadcaster
-.cpp ./code/JBroadcastSnooper
 .cpp ./code/JError
 .cpp ./code/JStdError
 .cpp ./code/JErrorState
@@ -129,6 +128,7 @@
 .cpp ./code/JMMTable
 .cpp ./code/JTestManager
 .cpp ./code/JBroadcastTester
+.cpp ./code/JBroadcastSnooper
 .cpp ./code/JMDIServer
 .cpp ./code/jMouseUtil
 .cpp ./code/JStopWatch

@@ -128,10 +128,8 @@ JMMArrayTable::PrintAllocated
 
 	std::cout << "\nAllocated user memory:" << std::endl;
 
-	const JSize count = itsAllocatedTable->GetElementCount();
-	for (JIndex i=1;i<=count;i++)
+	for (const JMMRecord& thisRecord : *itsAllocatedTable)
 		{
-		const JMMRecord thisRecord = itsAllocatedTable->GetElement(i);
 		if ( !thisRecord.IsManagerMemory() )
 			{
 			PrintAllocatedRecord(thisRecord);
@@ -144,9 +142,8 @@ JMMArrayTable::PrintAllocated
 			 << "\nand *should* still be allocated--please report all cases of user"
 			 << "\nallocated memory showing up on this list!" << std::endl;
 
-		for (JIndex i=1;i<=count;i++)
+		for (const JMMRecord& thisRecord : *itsAllocatedTable)
 			{
-			const JMMRecord thisRecord = itsAllocatedTable->GetElement(i);
 			if ( thisRecord.IsManagerMemory() )
 				{
 				PrintAllocatedRecord(thisRecord);

@@ -108,6 +108,11 @@ public:
 
 	static JBoolean	Empty(const JString& dirName);
 
+	// range-based for loop
+
+	JDirEntry**	begin() const;
+	JDirEntry**	end() const;
+
 protected:
 
 	JDirInfo(const JString& dirName);
@@ -374,6 +379,25 @@ JDirInfo::ShouldSwitchToValidDirectory
 		{
 		ForceUpdate();
 		}
+}
+
+/******************************************************************************
+ Range-based for loop
+
+ ******************************************************************************/
+
+inline JDirEntry**
+JDirInfo::begin()
+	const
+{
+	return ::begin(*itsVisEntries);
+}
+
+inline JDirEntry**
+JDirInfo::end()
+	const
+{
+	return ::end(*itsVisEntries);
 }
 
 #endif

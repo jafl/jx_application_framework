@@ -102,10 +102,10 @@ JTEST(Exercise)
 	JAssertEqual(0, a1.GetElementCount());
 
 	long i;
-	for (i=1;i<=5;i++)
+	for (long j : { 1,2,3,4,5 })
 		{
 		snoop1.Expect(JListT::kElementsInserted);
-		a1.AppendElement(i);
+		a1.AppendElement(j);
 		}
 	// 1 2 3 4 5
 
@@ -246,15 +246,12 @@ JTEST(Exercise)
 	const long eCount = sizeof(element)/sizeof(long);
 
 	JBoolean isDuplicate;
-	long k = 0;
 	for (i=0; i<eCount; i++)
 		{
 		const JIndex j = a2.GetInsertionSortIndex(element[i], &isDuplicate);
 		a2.InsertElementAtIndex(j, element[i]);
-		JAssertEqual(expect[k], isDuplicate);
-		k++;
+		JAssertEqual(expect[i], isDuplicate);
 		}
-	JAssertEqual(4, k);
 	}
 
 // test binary search (sorted ascending)
@@ -736,10 +733,10 @@ JTEST(FunctionalProgramming)
 	a.AppendElement(2);
 	a.AppendElement(5);
 
-	long sum = std::accumulate(a.begin(), a.end(), 0);
+	long sum = std::accumulate(begin(a), end(a), 0);
 	JAssertEqual(10, sum);
 
 	sum = 0;
-	std::for_each(a.begin(), a.end(), [&sum](long v){ sum += v; });
+	std::for_each(begin(a), end(a), [&sum](long v){ sum += v; });
 	JAssertEqual(10, sum);
 }

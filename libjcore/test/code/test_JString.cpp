@@ -961,16 +961,15 @@ JTEST(CopyNormalizedBytes)
 
 	const JUtf8Byte* stringList[] = {"", "1", "12345678", "123456789",
 									 "1234567890", "123456789abcdef0"};
-	const JSize kTestMax = sizeof(stringList) / sizeof(JUtf8Byte*);
 
-	for (JIndex testnum=0; testnum<kTestMax; testnum++)
+	for (const JUtf8Byte* test : stringList)
 		{
-		const JSize srcLength = strlen(stringList[testnum]);
+		const JSize srcLength = strlen(test);
 		const JBoolean allCopied = JI2B(
-			JString::CopyNormalizedBytes(stringList[testnum], srcLength, string, kStringLength) == srcLength);
+			JString::CopyNormalizedBytes(test, srcLength, string, kStringLength) == srcLength);
 
-		JAssertEqualWithMessage(!strcmp(string, stringList[testnum]), allCopied, stringList[testnum]);
-		JAssertEqualWithMessage(0, JString::CompareMaxNBytes(string, stringList[testnum], kStringLength-1), stringList[testnum]);
+		JAssertEqualWithMessage(!strcmp(string, test), allCopied, test);
+		JAssertEqualWithMessage(0, JString::CompareMaxNBytes(string, test, kStringLength-1), test);
 		JAssertEqualWithMessage(JMin(kStringLength-1, srcLength), strlen(string), string);
 		}
 }

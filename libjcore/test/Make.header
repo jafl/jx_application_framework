@@ -45,7 +45,7 @@ TESTS := \
   test_JHashTable test_JStringMap test_JStringPtrMap \
   test_jFileUtil test_jFStreamUtil test_JDirInfo \
   test_jProcessUtil test_jVCSUtil test_jWebUtil test_jTime \
-  test_JPipe
+  test_JPipe test_JFileArray
 
 #####
 

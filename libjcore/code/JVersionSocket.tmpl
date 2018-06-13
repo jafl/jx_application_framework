@@ -312,12 +312,11 @@ JVersionSocket<ACE_PEER_STREAM_2>::WritePrefs
 	output << ' ' << itsVersion;
 	output << ' ' << itsNextServerTime;
 
-	const JSize count = itsReminderList->GetElementCount();
-	output << ' ' << count;
+	output << ' ' << itsReminderList->GetElementCount();
 
-	for (JIndex i=1; i<=count; i++)
+	for (const time_t t : *itsReminderList)
 		{
-		output << ' ' << itsReminderList->GetElement(i);
+		output << ' ' << t;
 		}
 }
 

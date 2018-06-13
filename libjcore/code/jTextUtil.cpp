@@ -329,11 +329,9 @@ JPasteUNIXTerminalOutput
 
 	JPtrArray<JString> cmdList(JPtrArrayT::kDeleteAll);
 
-	const JSize chunkCount = chunkList.GetElementCount();
-	for (JIndex i=1; i<=chunkCount; i++)
+	for (const JString* chunk : chunkList)
 		{
-		JString* chunk = chunkList.GetElement(i);
-		JStringMatch m = theUNIXTerminalFormatPattern.Match(*chunk, kJTrue);
+		const JStringMatch m = theUNIXTerminalFormatPattern.Match(*chunk, kJTrue);
 		if (m.IsEmpty())
 			{
 			buffer += *chunk;
@@ -342,11 +340,10 @@ JPasteUNIXTerminalOutput
 
 		m.GetSubstring(1).Split(";", &cmdList);
 
-		const JSize cmdCcount = cmdList.GetElementCount();
-		for (JIndex i=1; i<=cmdCcount; i++)
+		for (const JString* cmd : cmdList)
 			{
 			JUInt cmdID;
-			if (!cmdList.GetElement(i)->ConvertToUInt(&cmdID))
+			if (!cmd->ConvertToUInt(&cmdID))
 				{
 				continue;
 				}

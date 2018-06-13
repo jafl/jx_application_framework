@@ -383,26 +383,23 @@ JSearchSubdirs_private
 		return kJFalse;
 		}
 
-	JBoolean found    = kJFalse;
-	const JSize count = info->GetEntryCount();
+	JBoolean found = kJFalse;
 
 	// check each entry (if case sensitive, the initial check is enough)
 
 	if (!caseSensitive)
 		{
-		for (JIndex i=1; i<=count; i++)
+		for (const JDirEntry* entry : *info)
 			{
-			const JDirEntry& entry = info->GetEntry(i);
-
-			if ((( isFile && entry.IsFile()) ||
-				 (!isFile && entry.IsDirectory())) &&
-				JString::Compare(name, entry.GetName(), caseSensitive) == 0)
+			if ((( isFile && entry->IsFile()) ||
+				 (!isFile && entry->IsDirectory())) &&
+				JString::Compare(name, entry->GetName(), caseSensitive) == 0)
 				{
 				const JBoolean ok = JGetTrueName(startPath, path);
 				assert( ok );
 				if (newName != nullptr)
 					{
-					*newName = entry.GetName();
+					*newName = entry->GetName();
 					}
 				found = kJTrue;
 				break;
@@ -420,13 +417,11 @@ JSearchSubdirs_private
 
 	if (!found && !(*cancelled))
 		{
-		for (JIndex i=1; i<=count; i++)
+		for (const JDirEntry* entry : *info)
 			{
-			const JDirEntry& entry = info->GetEntry(i);
-
-			if (entry.IsDirectory() && !entry.IsLink())
+			if (entry->IsDirectory() && !entry->IsLink())
 				{
-				const JString& newPath = entry.GetFullName();
+				const JString& newPath = entry->GetFullName();
 				if (JSearchSubdirs_private(newPath, name, isFile,
 										   caseSensitive, path, newName,
 										   pg, cancelled))

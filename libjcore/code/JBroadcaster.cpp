@@ -113,10 +113,9 @@ JBroadcaster::~JBroadcaster()
 
 	if (itsSenders != nullptr)
 		{
-		const JSize count = itsSenders->GetElementCount();
-		for (JIndex i=1; i<=count; i++)
+		for (JBroadcaster* sender : *itsSenders)
 			{
-			itsSenders->GetElement(i)->RemoveRecipient(this);
+			sender->RemoveRecipient(this);
 			}
 
 		jdelete itsSenders;

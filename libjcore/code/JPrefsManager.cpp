@@ -81,10 +81,8 @@ JPrefsManager::~JPrefsManager()
 {
 	jdelete itsFileName;
 
-	const JSize count = itsData->GetElementCount();
-	for (JIndex i=1; i<=count; i++)
+	for (const PrefItem& item : *itsData)
 		{
-		PrefItem item = itsData->GetElement(i);
 		jdelete item.data;
 		}
 	jdelete itsData;
@@ -251,11 +249,9 @@ JPrefsManager::SaveToDisk()
 
 	file->SetVersion(itsCurrentFileVersion);
 
-	const JSize count = itsData->GetElementCount();
-	for (JIndex i=1; i<=count; i++)
+	for (const PrefItem& item : *itsData)
 		{
-		const PrefItem item = itsData->GetElement(i);
-		file->SetData(item.id, *(item.data));
+		file->SetData(item.id, *item.data);
 		}
 
 	jdelete file;

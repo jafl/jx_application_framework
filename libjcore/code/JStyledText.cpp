@@ -690,22 +690,20 @@ JStyledText::WritePrivateFormat
 
 	// write list of font names
 
-	const JSize fontCount = fontNameList.GetElementCount();
-	output << ' ' << fontCount;
+	output << ' ' << fontNameList.GetElementCount();
 
-	for (i=1; i<=fontCount; i++)
+	for (const JString* fontName : fontNameList)
 		{
-		output << ' ' << *(fontNameList.GetElement(i));
+		output << ' ' << *fontName;
 		}
 
 	// write list of rgb values
 
-	const JSize colorCount = colorList.GetElementCount();
-	output << ' ' << colorCount;
+	output << ' ' << colorList.GetElementCount();
 
-	for (i=1; i<=colorCount; i++)
+	for (JColorID id : colorList)
 		{
-		output << ' ' << JColorManager::GetRGB(colorList.GetElement(i));
+		output << ' ' << JColorManager::GetRGB(id);
 		}
 
 	// write styles
@@ -1573,10 +1571,9 @@ JStyledText::SetAllFontNameAndSize
 
 	if (itsUndoList != nullptr)
 		{
-		const JSize undoCount = itsUndoList->GetElementCount();
-		for (JIndex i=1; i<=undoCount; i++)
+		for (JSTUndoBase* u : *itsUndoList)
 			{
-			(itsUndoList->GetElement(i))->SetFont(name, size);
+			u->SetFont(name, size);
 			}
 		}
 	else if (itsUndo != nullptr)
@@ -3053,10 +3050,8 @@ JStyledText::CRMRuleList::CRMRuleList
 	:
 	JArray<CRMRule>()
 {
-	const JSize count = source.GetElementCount();
-	for (JIndex i=1; i<=count; i++)
+	for (const CRMRule& r : source)
 		{
-		const CRMRule r = source.GetElement(i);
 		AppendElement(
 			CRMRule((r.first)->GetPattern(), (r.rest)->GetPattern(),
 					*r.replace));
@@ -3066,10 +3061,8 @@ JStyledText::CRMRuleList::CRMRuleList
 void
 JStyledText::CRMRuleList::DeleteAll()
 {
-	const JSize count = GetElementCount();
-	for (JIndex i=1; i<=count; i++)
+	for (const CRMRule& r : *this)
 		{
-		CRMRule r = GetElement(i);
 		jdelete r.first;
 		jdelete r.rest;
 		jdelete r.replace;

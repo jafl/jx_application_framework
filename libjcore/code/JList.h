@@ -252,7 +252,7 @@ public:
 	virtual ~JElementComparison();
 
 	virtual JListT::CompareResult	Compare(const T&, const T&) const = 0;
-	virtual JElementComparison<T>*		Copy() const = 0;
+	virtual JElementComparison<T>*	Copy() const = 0;
 };
 
 template <class T>
@@ -264,7 +264,7 @@ public:
 	virtual ~JCompareFnWrapper();
 
 	virtual JListT::CompareResult	Compare(const T&, const T&) const;
-	virtual JElementComparison<T>*		Copy() const;
+	virtual JElementComparison<T>*	Copy() const;
 
 private:
 
@@ -345,11 +345,6 @@ public:
 	virtual JIndex	SearchSorted1(const T& target,
 								  const JListT::SearchReturn which,
 								  JBoolean* found) const;
-
-	// range-based for loop
-
-	virtual JListIterator<T>	begin() const;
-	virtual JListIterator<T>	end() const;
 
 protected:
 

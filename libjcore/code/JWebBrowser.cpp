@@ -136,21 +136,20 @@ JWebBrowser::ShowFileLocations
 		return;
 		}
 
-	const JSize count = fileList.GetElementCount();
 	if (itsShowFileLocationCmd.Contains("$"))
 		{
-		for (JIndex i=1; i<=count; i++)
+		for (const JString* f : fileList)
 			{
-			ShowFileLocation(*(fileList.GetElement(i)));
+			ShowFileLocation(*f);
 			}
 		}
 	else
 		{
 		JString s = itsShowFileLocationCmd;
-		for (JIndex i=1; i<=count; i++)
+		for (const JString* f : fileList)
 			{
 			s += " ";
-			s += JPrepArgForExec(*(fileList.GetElement(i)));
+			s += JPrepArgForExec(*f);
 			}
 
 		JSimpleProcess::Create(s, kJTrue);

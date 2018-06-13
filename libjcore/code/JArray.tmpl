@@ -780,4 +780,29 @@ JArray<T>::ResizeMemoryAllocation
 		}
 }
 
+/******************************************************************************
+ Range-based for loop
+
+ ******************************************************************************/
+
+template <class T>
+const T*
+begin
+	(
+	const JArray<T>& a
+	)
+{
+	return a.GetCArray();
+}
+
+template <class T>
+const T*
+end
+	(
+	const JArray<T>& a
+	)
+{
+	return (a.GetCArray() + a.GetElementCount());
+}
+
 #endif

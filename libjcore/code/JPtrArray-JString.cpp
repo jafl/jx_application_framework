@@ -56,12 +56,11 @@ operator<<
 	const JPtrArray<JString>&	list
 	)
 {
-	const JSize count = list.GetElementCount();
-	output << ' ' << count;
+	output << ' ' << list.GetElementCount();
 
-	for (JIndex i=1; i<=count; i++)
+	for (JString* s : list)
 		{
-		output << ' ' << *(list.GetElement(i));
+		output << ' ' << *s;
 		}
 
 	output << ' ';

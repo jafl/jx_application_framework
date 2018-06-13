@@ -7,153 +7,76 @@
 
  ******************************************************************************/
 
+#include <JTestManager.h>
 #include <JFileArray.h>
-#include <JString.h>
-#include <jCommandLine.h>
-#include <JBroadcastSnooper.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include <JBroadcastTester.h>
+#include <jFileUtil.h>
 #include <jAssert.h>
 
 const JFileVersion	kVersionOfExistingFile = 5;
 const JFAID_t		kEmbeddedFileID        = 10;
 
-static const JCharacter* kTestFileName      = "file_array_test.dat";
-static const JCharacter* kTestFileSignature = "jfilearray_test_sig";
-
-void NewFileTest(JFileArray& a, long objectIndex, long embeddedFileCount);
-void OldFileTest(JFileArray& a);
+static const JString kTestFileName("/tmp/file_array_test.dat", kJFalse);
+static const JUtf8Byte* kTestFileSignature = "jfilearray_test_sig";
 
 int main()
 {
-	long i;
-
-	std::cout << "Enter 0 for testing new file, 1 for testing existing file: ";
-	std::cin >> i;
-	JInputFinished();
-
-	{																// constructor
-	JFileArray* a1;
-	JError createErr = JFileArray::Create(kTestFileName, kTestFileSignature, &a1);
-	if (createErr == JFileArray::kWrongSignature)
-		{
-		std::cerr << "The file has the wrong signature." << std::endl;
-		return 1;
-		}
-	else if (createErr == JFileArray::kFileAlreadyOpen)
-		{
-		std::cerr << "The file has already been opened by another program." << std::endl;
-		return 1;
-		}
-	assert( createErr.OK() );
-	jdelete a1;
-	}
-
-JFileArray* a1;											// constructor on empty file
-JError createErr = JFileArray::Create(kTestFileName, kTestFileSignature, &a1);
-assert( createErr.OK() );
-
-	std::cout << std::endl << "file array a1 created" << std::endl;
-
-JBroadcastSnooper snoop1(a1);
-
-	std::cout << "a1 address: " << (void*) a1 << std::endl << std::endl;
-
-JFileArray* a2;														// constructor
-createErr = JFileArray::Create(a1, kEmbeddedFileID, &a2);
-assert( createErr.OK() );
-
-	std::cout << std::endl << "file array a2 created" << std::endl;
-
-JBroadcastSnooper snoop2(a2);
-
-	std::cout << "a2 address: " << (void*) a2 << std::endl << std::endl;
-
-	JWaitForReturn();
-
-	// run the requested tests
-
-	if (i==0)
-		{
-		NewFileTest(*a2,2,0);	// test the embedded file first
-		JWaitForReturn();
-		NewFileTest(*a1,1,1);
-		}
-	else if (i==1)
-		{
-		OldFileTest(*a1);
-		JWaitForReturn();
-		OldFileTest(*a2);
-		}
-	else
-		{
-		std::cout << "arf!";
-		}
-
-	jdelete a2;	// delete embedded first
-	jdelete a1;
-
-	return 0;
+	return JTestManager::Execute();
 }
-
-
 
 void NewFileTest
 	(
 	JFileArray&	a,
-	long		objectIndex,
-	long		embeddedFileCount
+	const long	removeIndex,
+	const long	embeddedFileCount
 	)
 {
-	std::cout << "array itemCount should be " << embeddedFileCount << std::endl;
-	std::cout << "array itemCount = " << a.GetElementCount() << std::endl << std::endl;
+	JBroadcastTester snoop(&a);
 
-	JFileVersion vers = a.GetVersion();
-
-	if (vers == kVersionOfExistingFile)
-		{
-		std::cout << "You asked to test a new file." << std::endl;
-		std::cout << "Please delete the existing file first." << std::endl;
-		return;
-		}
+	JAssertEqual(embeddedFileCount, a.GetElementCount());
+	JAssertFalse(a.GetVersion() == kVersionOfExistingFile);
 
 	a.SetVersion(kVersionOfExistingFile);
+	JAssertTrue(a.GetVersion() == kVersionOfExistingFile);
 
-	std::cout << "array version = " << a.GetVersion() << std::endl;
 
+	snoop.Expect(JFileArray::kElementInserted);
 	{
 	std::ostringstream dataStream;
-	JString    elementData = "This was the first element that was added to the file.";
+	JString elementData("This was the first element that was added to the file.", kJFalse);
 
 	dataStream << elementData;
 	a.AppendElement(dataStream);
 	}
+	JAssertEqual(1+embeddedFileCount, a.GetElementCount());
 
+
+	snoop.Expect(JFileArray::kElementInserted);
 	{
 	std::ostringstream dataStream;
-	JString    elementData = "This was the second element that was added to the file.";
+	JString elementData("This was the second element that was added to the file.", kJFalse);
 
 	dataStream << elementData;
 	a.PrependElement(dataStream);
 	}
+	JAssertEqual(2+embeddedFileCount, a.GetElementCount());
 
-	{
-	// we can't remove the embedded file, and we can't remove a non-existent element
 
-	JFAIndex index = 3 - objectIndex + 1;
-	a.RemoveElement(index);
-	}
+	snoop.Expect(JFileArray::kElementRemoved);
+	a.RemoveElement(JFAIndex(removeIndex));
+	JAssertEqual(1+embeddedFileCount, a.GetElementCount());
 
+
+	snoop.Expect(JFileArray::kElementInserted);
 	{
 	std::ostringstream dataStream;
-	JString    elementData = "This was the third element that was added to the file";
+	JString elementData("This was the third element that was added to the file", kJFalse);
 
 	dataStream << elementData;
 	a.PrependElement(dataStream);
 	}
+	JAssertEqual(2+embeddedFileCount, a.GetElementCount());
 
-	std::cout << "array itemCount should be " << 2+embeddedFileCount << std::endl;
-	std::cout << "array itemCount = " << a.GetElementCount() << std::endl << std::endl;
 
 	{
 	JFAID id = 3;
@@ -163,98 +86,134 @@ void NewFileTest
 	std::istringstream dataStream(data);
 	JString elementData;
 	dataStream >> elementData;
-	std::cout << "Element with id 3 is: " << elementData << std::endl;
+	JAssertStringsEqual(
+		embeddedFileCount > 0 ?
+			"This was the second element that was added to the file." :
+			"This was the third element that was added to the file",
+		elementData);
 	}
 
+
+	snoop.Expect(JFileArray::kElementMoved);
 	a.MoveElementToIndex(1,2);
 
+
+	snoop.Expect(JFileArray::kElementChanged);
 	{
 	JFAIndex index = 1;
 
 	std::ostringstream dataStream;
-	JString    elementData = "1st element shortended";
+	JString elementData("1st element shortended", kJFalse);
 
 	dataStream << elementData;
 	a.SetElement(index,dataStream);
 	}
 
+
+	snoop.Expect(JFileArray::kElementChanged);
 	{
 	JFAIndex index = 2;
 
 	std::ostringstream dataStream;
-	JString    elementData = "2nd element shortended";
+	JString elementData("2nd element shortended", kJFalse);
 
 	dataStream << elementData;
 	a.SetElement(index,dataStream);
 	}
 
+
+	snoop.Expect(JFileArray::kElementChanged);
 	{
 	JFAIndex index = 1;
 
 	std::ostringstream dataStream;
-	JString    elementData = "Now the first element is really, really long!!!";
+	JString elementData("Now the first element is really, really long!!!", kJFalse);
 
 	dataStream << elementData;
 	a.SetElement(index,dataStream);
 	}
 
+
+	snoop.Expect(JFileArray::kElementChanged);
 	{
 	JFAIndex index = 2;
 
 	std::ostringstream dataStream;
-	JString    elementData = "Now the second element is also very much longer!!!";
+	JString elementData("Now the second element is also very much longer!!!", kJFalse);
 
 	dataStream << elementData;
 	a.SetElement(index,dataStream);
 	}
 
+
+	snoop.Expect(JFileArray::kElementsSwapped);
 	a.SwapElements(1,2);
 }
 
-
-
 void OldFileTest
 	(
-	JFileArray& a
+	const JFileArray&	a,
+	const long			embeddedFileCount
 	)
 {
-	std::cout << "array itemCount = " << a.GetElementCount() << std::endl << std::endl;
-
-	JFileVersion vers = a.GetVersion();
-
-	if (vers != kVersionOfExistingFile)
-		{
-		std::cout << "You asked to test an existing file." << std::endl;
-		std::cout << "Please run the new file test first." << std::endl;
-		return;
-		}
-
-	{
-	const JSize elementCount = a.GetElementCount();
+	JAssertEqual(2+embeddedFileCount, a.GetElementCount());
+	JAssertTrue(a.GetVersion() == kVersionOfExistingFile);
 
 	JString elementData;
 
-	for (JIndex i=1; i<=elementCount; i++)
+	for (JIndex i : { 1,2 })
 		{
 		JFAIndex index = i;
 		JFAID    id;
-		const JBoolean ok = a.IndexToID(index, &id);
-		assert( ok );
+		JAssertTrue(a.IndexToID(index, &id));
+		JAssertEqual(4-i+embeddedFileCount, id.GetID());
 
-		if (id.GetID() != kEmbeddedFileID)
-			{
-			std::string data;
-			a.GetElement(index, &data);
+		std::string data;
+		a.GetElement(index, &data);
 
-			std::istringstream dataStream(data);
-			dataStream >> elementData;
-			std::cout << "Element " << i << " has id = " << id.GetID() << std::endl;
-			std::cout << "Element " << i << " is: " << elementData << std::endl << std::endl;
-			}
-		else
-			{
-			std::cout << "Element " << i << " is an embedded file." << std::endl;
-			}
+		std::istringstream dataStream(data);
+		dataStream >> elementData;
+
+		JAssertEqual(
+			i == 1 ?
+				"Now the second element is also very much longer!!!" :
+				"Now the first element is really, really long!!!",
+			elementData);
 		}
-	}
+}
+
+JTEST(Exercise)
+{
+	JRemoveFile(kTestFileName);
+
+	// constructor creating file
+
+	JFileArray* a1;
+	JError err = JFileArray::Create(kTestFileName, kTestFileSignature, &a1);
+	JAssertOK(err);
+	jdelete a1;
+
+	// constructor with empty file
+
+	err = JFileArray::Create(kTestFileName, kTestFileSignature, &a1);
+	JAssertOK(err);
+
+	// embedded file
+
+	JFileArray* a2;
+	err = JFileArray::Create(a1, kEmbeddedFileID, &a2);
+	JAssertOK(err);
+
+	// exercise both files
+
+	NewFileTest(*a2,2,0);	// test the embedded file first
+	NewFileTest(*a1,3,1);
+
+	OldFileTest(*a1, 1);
+	OldFileTest(*a2, 0);
+
+	jdelete a2;				// delete embedded first
+	jdelete a1;
+
+	JRemoveFile(kTestFileName);
 }

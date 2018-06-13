@@ -61,11 +61,6 @@ public:
 		NewIterator(const JIteratorPosition start = kJIteratorStartAtBeginning,
 					const JIndex index = 0) const override;
 
-	// range-based for loop
-
-	virtual JListIterator<T>	begin() const override;
-	virtual JListIterator<T>	end() const override;
-
 protected:
 
 	const T&	ProtectedGetElement(const JIndex index) const;

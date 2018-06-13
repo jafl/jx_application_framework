@@ -768,24 +768,28 @@ JList<T>::NewIterator
 }
 
 /******************************************************************************
- Range-based for loop (virtual)
+ Range-based for loop
 
  ******************************************************************************/
 
 template <class T>
 JListIterator<T>
-JList<T>::begin()
-	const
+begin
+	(
+	const JList<T>& list
+	)
 {
-	return JListIterator<T>(*this, kJIteratorStartAtBeginning);
+	return JListIterator<T>(list, kJIteratorStartAtBeginning);
 }
 
 template <class T>
 JListIterator<T>
-JList<T>::end()
-	const
+end
+	(
+	const JList<T>& list
+	)
 {
-	return JListIterator<T>(*this, kJIteratorStartAtEnd);
+	return JListIterator<T>(list, kJIteratorStartAtEnd);
 }
 
 /******************************************************************************

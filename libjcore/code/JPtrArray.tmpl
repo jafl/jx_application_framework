@@ -171,10 +171,9 @@ JPtrArray<T>::CopyPointers
 		}
 	itsCleanUpAction = action;
 
-	const JSize count = source.GetElementCount();
-	for (JIndex i=1; i<=count; i++)
+	for (T* ptr : source)
 		{
-		Append(const_cast<T*>(source.GetElement(i)));
+		Append(ptr);
 		}
 
 	return *this;
@@ -209,10 +208,8 @@ JPtrArray<T>::CopyObjects
 		}
 	itsCleanUpAction = action;
 
-	const JSize count = source.GetElementCount();
-	for (JIndex i=1; i<=count; i++)
+	for (const T* ptr : source)
 		{
-		const T* ptr = source.GetElement(i);
 		if (ptr == nullptr)
 			{
 			Append(nullptr);
@@ -502,10 +499,9 @@ template <class T>
 void
 JPtrArray<T>::DeleteAll()
 {
-	const JSize elementCount = this->JCollection::GetElementCount();
-	for (JIndex i=1; i<=elementCount; i++)
+	for (T* ptr : *this)
 		{
-		jdelete JArray<T*>::GetElement(i);
+		jdelete ptr;
 		}
 	JArray<T*>::RemoveAll();
 }
@@ -535,10 +531,9 @@ template <class T>
 void
 JPtrArray<T>::DeleteAllAsArrays()
 {
-	const JSize elementCount = this->JCollection::GetElementCount();
-	for (JIndex i=1; i<=elementCount; i++)
+	for (T* ptr : *this)
 		{
-		jdelete [] JArray<T*>::GetElement(i);
+		jdelete [] ptr;
 		}
 	JArray<T*>::RemoveAll();
 }
@@ -625,14 +620,16 @@ JPtrArray<T>::Join
 {
 	T s;
 
-	const JSize count = JCollection::GetElementCount();
-	for (JIndex i=1; i<=count; i++)
+	JBoolean first = kJTrue;
+	for (T* s1 : *this)
 		{
-		if (i > 1)
+		if (!first)
 			{
 			s += separator;
 			}
-		s += *(JArray<T*>::GetElement(i));
+
+		s    += *s1;
+		first = kJFalse;
 		}
 
 	return s;
@@ -663,6 +660,31 @@ JPtrArray<T>::SetCleanUpAction
 	)
 {
 	itsCleanUpAction = action;
+}
+
+/******************************************************************************
+ Range-based for loop
+
+ ******************************************************************************/
+
+template <class T>
+T**
+begin
+	(
+	JPtrArray<T>& a
+	)
+{
+	return const_cast<T**>(a.GetCArray());
+}
+
+template <class T>
+T**
+end
+	(
+	JPtrArray<T>& a
+	)
+{
+	return const_cast<T**>(a.GetCArray() + a.GetElementCount());
 }
 
 #endif

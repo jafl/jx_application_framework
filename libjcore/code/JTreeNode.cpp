@@ -106,10 +106,9 @@ JTreeNode::SetTree
 		itsTree = tree;
 		if (itsChildren != nullptr)
 			{
-			const JSize count = itsChildren->GetElementCount();
-			for (JIndex i=1; i<=count; i++)
+			for (JTreeNode* n : *itsChildren)
 				{
-				(itsChildren->GetElement(i))->SetTree(tree);
+				n->SetTree(tree);
 				}
 			}
 		}
@@ -242,10 +241,9 @@ JTreeNode::GetDescendantCount()
 	JSize count = 0;
 	if (itsChildren != nullptr)
 		{
-		const JSize childCount = itsChildren->GetElementCount();
-		for (JIndex i=1; i<=childCount; i++)
+		for (const JTreeNode* n : *itsChildren)
 			{
-			count += 1 + (itsChildren->GetElement(i))->GetDescendantCount();
+			count += 1 + n->GetDescendantCount();
 			}
 		}
 
@@ -270,10 +268,8 @@ JTreeNode::CollectDescendants
 		{
 		list->SetCleanUpAction(JPtrArrayT::kForgetAll);
 
-		const JSize count = itsChildren->GetElementCount();
-		for (JIndex i=1; i<=count; i++)
+		for (JTreeNode* child : *itsChildren)
 			{
-			JTreeNode* child = itsChildren->GetElement(i);
 			list->Append(child);
 			child->CollectDescendants(list);
 			}
@@ -417,12 +413,11 @@ JTreeNode::SetChildCompareFunction
 			}
 		}
 
-	if (propagate)
+	if (propagate && itsChildren != nullptr)
 		{
-		const JSize count = GetChildCount();
-		for (JIndex i=1; i<=count; i++)
+		for (JTreeNode* n : *itsChildren)
 			{
-			(GetChild(i))->SetChildCompareFunction(compareFn, order, kJTrue);
+			n->SetChildCompareFunction(compareFn, order, kJTrue);
 			}
 		}
 }
@@ -453,12 +448,11 @@ JTreeNode::SortChildren
 			}
 		}
 
-	if (propagate)
+	if (propagate && itsChildren != nullptr)
 		{
-		const JSize count = GetChildCount();
-		for (JIndex i=1; i<=count; i++)
+		for (JTreeNode* n : *itsChildren)
 			{
-			(GetChild(i))->SortChildren(propagate);
+			n->SortChildren(propagate);
 			}
 		}
 }
@@ -628,10 +622,9 @@ JTreeNode::DeleteAllChildren()
 {
 	if (itsChildren != nullptr)
 		{
-		const JSize count = itsChildren->GetElementCount();
-		for (JIndex i=count; i>=1; i--)
+		for (JTreeNode* n : *itsChildren)
 			{
-			jdelete itsChildren->GetElement(i);
+			jdelete n;
 			}
 
 		jdelete itsChildren;

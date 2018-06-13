@@ -48,10 +48,10 @@ JTEST(Exercise)
 	JAssertEqual(0, a1.GetElementCount());
 
 	long i;
-	for (i=1;i<=5;i++)
+	for (long j : { 1,2,3,4,5 })
 		{
 		snoop1.Expect(JListT::kElementsInserted);
-		a1.AppendElement(i);
+		a1.AppendElement(j);
 		}
 
 	JAssertFalse(a1.IsEmpty());
@@ -166,14 +166,12 @@ JTEST(Exercise)
 	const long eCount = sizeof(element)/sizeof(long);
 
 	JBoolean isDuplicate;
-	long k = 0;
 	for (i=0; i<eCount; i++)
 		{
 		const JIndex j =
 			a2.GetInsertionSortIndex(element[i], &isDuplicate);
 		a2.InsertElementAtIndex(j, element[i]);
-		JAssertEqual(expect[k], isDuplicate);
-		k++;
+		JAssertEqual(expect[i], isDuplicate);
 		}
 	}
 
@@ -276,11 +274,13 @@ JTEST(SearchSorted1EdgeCases)
 
 	a3.SetCompareFunction(CompareLongs);
 
-	for (int i=0; i<2; i++)
+	for (const JListT::SortOrder o : order)
 		{
-		a3.SetSortOrder(order[i]);
+		a3.SetSortOrder(o);
+		const JBoolean asc = JI2B(o == JListT::kSortAscending);
 
-		for (int j=0; j<3; j++)
+		long j = 0;
+		for (const JListT::SearchReturn s : search)
 			{
 			int k;
 			JBoolean found;
@@ -289,38 +289,39 @@ JTEST(SearchSorted1EdgeCases)
 			a3.AppendElement(1);
 			for (k=0; k<=2; k++)
 				{
-				const JIndex index = a3.SearchSorted1(k, search[j], &found);
+				const JIndex index = a3.SearchSorted1(k, s, &found);
 				JAssertTrue(
-					found == found1[i==0 ? k : 2-k] &&
-					index == index1[i==0 ? k : 2-k] );
+					found == found1[asc ? k : 2-k] &&
+					index == index1[asc ? k : 2-k] );
 				}
 
-			if (order[i] == JListT::kSortAscending)
+			if (asc)
 				{
 				a3.AppendElement(3);
 				}
 			else
 				{
-				assert( order[i] == JListT::kSortDescending );
 				a3.PrependElement(3);
 				}
 			for (k=0; k<=4; k++)
 				{
-				const JIndex index = a3.SearchSorted1(k, search[j], &found);
+				const JIndex index = a3.SearchSorted1(k, s, &found);
 				JAssertTrue(
-					found == found2[i==0 ? k : 4-k] &&
-					index == index2[i==0 ? k : 4-k] );
+					found == found2[asc ? k : 4-k] &&
+					index == index2[asc ? k : 4-k] );
 				}
 
 			a3.SetElement(1,1);
 			a3.SetElement(2,1);
 			for (k=0; k<=2; k++)
 				{
-				const JIndex index = a3.SearchSorted1(k, search[j], &found);
+				const JIndex index = a3.SearchSorted1(k, s, &found);
 				JAssertTrue(
-					found == found2_same[j][i==0 ? k : 2-k] &&
-					index == index2_same[j][i==0 ? k : 2-k] );
+					found == found2_same[j][asc ? k : 2-k] &&
+					index == index2_same[j][asc ? k : 2-k] );
 				}
+
+			j++;
 			}
 		}
 }
@@ -351,10 +352,10 @@ JTEST(FunctionalProgramming)
 	a.AppendElement(2);
 	a.AppendElement(5);
 
-	long sum = std::accumulate(a.begin(), a.end(), 0);
+	long sum = std::accumulate(begin(a), end(a), 0);
 	JAssertEqual(10, sum);
 
 	sum = 0;
-    std::for_each(a.begin(), a.end(), [&sum](long v){ sum += v; });
+	std::for_each(begin(a), end(a), [&sum](long v){ sum += v; });
 	JAssertEqual(10, sum);
 }

@@ -20,10 +20,6 @@ T
 F
 "./code/JBroadcaster.cpp"
 T
-2 "JBroadcastSnooper.cpp"
-F
-"./code/JBroadcastSnooper.cpp"
-T
 2 "JError.cpp"
 F
 "./code/JError.cpp"
@@ -705,6 +701,10 @@ T
 2 "JBroadcastTester.cpp"
 F
 "./code/JBroadcastTester.cpp"
+T
+2 "JBroadcastSnooper.cpp"
+F
+"./code/JBroadcastSnooper.cpp"
 F
 T
 1 "misc"

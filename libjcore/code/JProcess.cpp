@@ -386,10 +386,8 @@ JProcess::CheckForFinishedChild
 				i++;
 				}
 
-			const JSize bcastCount = list.GetElementCount();
-			for (i=1; i<=bcastCount; i++)
+			for (JProcess* p : list)
 				{
-				JProcess* p               = list.GetElement(i);
 				const JBoolean autoDelete = p->itsAutoDeleteFlag;	// save since Broadcast() might delete it -- in which case, the flag must be kJFalse!
 				p->itsIsFinishedFlag      = kJTrue;
 				p->itsFinishedStatus      = status;

@@ -892,14 +892,12 @@ JProgramAvailable
 	JPtrArray<JString> pathList(JPtrArrayT::kDeleteAll);
 	path.Split(r, &pathList);
 
-	const JSize pathCount = pathList.GetElementCount();
-	for (JIndex i=1; i<=pathCount; i++)
+	for (const JString* dir : pathList)
 		{
-		const JString& dir = *(pathList.GetElement(i));
-		fullName = JCombinePathAndName(dir, programName);
+		fullName = JCombinePathAndName(*dir, programName);
 		if (JFileExists(fullName) && JFileExecutable(fullName))
 			{
-			if (dir == ".")
+			if (*dir == ".")
 				{
 				fixedName->Prepend("./");	// in case we added this to PATH
 				}

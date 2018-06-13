@@ -436,17 +436,9 @@ JBoolean
 JFileArrayIndex::AllEmbeddedFilesAreClosed()
 	const
 {
-	const JSize elementCount = GetElementCount();
-	for (JIndex i=1; i<=elementCount; i++)
-		{
-		const ElementInfo elementInfo = itsArray->GetElement(i);
-		if (elementInfo.theEmbeddedFile != nullptr)
-			{
-			return kJFalse;
-			}
-		}
-
-	return kJTrue;
+	return JI2B(
+		std::all_of(begin(*itsArray), end(*itsArray),
+			[] (ElementInfo e) { return e.theEmbeddedFile == nullptr; }));
 }
 
 /******************************************************************************
@@ -462,13 +454,11 @@ JFileArrayIndex::ReplaceEmbeddedFileStreams
 	std::fstream* newStream
 	)
 {
-	const JSize elementCount = GetElementCount();
-	for (JIndex i=1; i<=elementCount; i++)
+	for (const ElementInfo& e : *itsArray)
 		{
-		const ElementInfo elementInfo = itsArray->GetElement(i);
-		if (elementInfo.theEmbeddedFile != nullptr)
+		if (e.theEmbeddedFile != nullptr)
 			{
-			(elementInfo.theEmbeddedFile)->ReplaceStream(newStream);
+			e.theEmbeddedFile->ReplaceStream(newStream);
 			}
 		}
 }
@@ -485,7 +475,7 @@ JFileArrayIndex::ReplaceEmbeddedFileStreams
 void
 JFileArrayIndex::ReadIndex
 	(
-	const JSize	elementCount,
+	const JSize		elementCount,
 	std::istream&	input
 	)
 {
@@ -538,17 +528,14 @@ JFileArrayIndex::WriteIndex
 	std::ostream& output
 	)
 {
-	const JSize elementCount = GetElementCount();
-	for (JIndex i=1; i<=elementCount; i++)
+	for (const ElementInfo& e : *itsArray)
 		{
-		ElementInfo elementInfo = itsArray->GetElement(i);
+		JFileArray::WriteUnsignedLong(output, e.offset);
 
-		JFileArray::WriteUnsignedLong(output, elementInfo.offset);
-
-		const JFAID_t id = (elementInfo.id).GetID();
+		const JFAID_t id = e.id.GetID();
 		JFileArray::WriteUnsignedLong(output, id);
 
-		const unsigned long type = elementInfo.type;
+		const unsigned long type = e.type;
 		JFileArray::WriteUnsignedLong(output, type);
 		}
 }

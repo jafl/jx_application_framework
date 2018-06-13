@@ -1396,10 +1396,8 @@ JMountPointList::CleanOut()
 void
 JMountPointList::DeleteAll()
 {
-	const JSize count = GetElementCount();
-	for (JIndex i=1; i<=count; i++)
+	for (const JMountPoint& info : *this)
 		{
-		JMountPoint info = GetElement(i);
 		jdelete info.path;
 		jdelete info.devicePath;
 		}

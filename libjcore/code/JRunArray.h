@@ -132,11 +132,6 @@ public:
 	JBoolean	FindRun(const JIndex origIndex, const JIndex newIndex,
 						JIndex* runIndex, JIndex* firstIndexInRun) const;
 
-	// range-based for loop
-
-	virtual JListIterator<T>	begin() const override;
-	virtual JListIterator<T>	end() const override;
-
 private:
 
 	JArray< JRunArrayElement<T> >*	itsRuns;	// JArray object that stores the data

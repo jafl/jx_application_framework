@@ -175,11 +175,9 @@ JTreeList::Close
 			JPtrArray<JTreeNode> nodeList(JPtrArrayT::kDeleteAll, 100);
 			const_cast<JTreeNode*>(node)->CollectDescendants(&nodeList);
 
-			const JSize count = nodeList.GetElementCount();
-			for (JIndex i=1; i<=count; i++)
+			JIndex j;
+			for (const JTreeNode* n : nodeList)
 				{
-				const JTreeNode* n = nodeList.GetElement(i);
-				JIndex j;
 				if (FindNode(n, &j))
 					{
 					RemoveElement(j);
@@ -360,10 +358,9 @@ JTreeList::CloseDescendants
 	JPtrArray<JTreeNode> nodeList(JPtrArrayT::kDeleteAll, 100);
 	const_cast<JTreeNode*>(node)->CollectDescendants(&nodeList);
 
-	const JSize count = nodeList.GetElementCount();
-	for (JIndex i=1; i<=count; i++)
+	for (const JTreeNode* n : nodeList)
 		{
-		itsOpenNodeList->Remove(nodeList.GetElement(i));
+		itsOpenNodeList->Remove(n);
 		}
 }
 

@@ -40,6 +40,7 @@
 
 #include <JPartition.h>
 #include <jStreamUtil.h>
+#include <numeric>
 #include <jAssert.h>
 
 const JCoordinate kDragRegionHalfSize = JPartition::kDragRegionSize/2;
@@ -169,15 +170,8 @@ JCoordinate
 JPartition::GetMinTotalSize()
 	const
 {
-	const JSize compartmentCount = GetCompartmentCount();
-
-	JCoordinate minSize = kDragRegionSize * (compartmentCount-1);
-	for (JIndex i=1; i<=compartmentCount; i++)
-		{
-		minSize += GetMinCompartmentSize(i);
-		}
-
-	return minSize;
+	return std::accumulate(begin(*itsMinSizes), end(*itsMinSizes),
+						   kDragRegionSize * (GetCompartmentCount()-1));
 }
 
 /******************************************************************************
@@ -663,12 +657,10 @@ JIndex i;
 void
 JPartition::PTBoundsChanged()
 {
-	const JSize compartmentCount = GetCompartmentCount();
-	JCoordinate delta = GetTotalSize() - kDragRegionSize * (compartmentCount-1);
-	for (JIndex i=1; i<=compartmentCount; i++)
-		{
-		delta -= GetCompartmentSize(i);
-		}
+	JCoordinate delta =
+		GetTotalSize() -
+		kDragRegionSize * (GetCompartmentCount()-1) -
+		std::accumulate(begin(*itsSizes), end(*itsSizes), 0);
 
 	if (delta != 0)
 		{
@@ -771,17 +763,13 @@ JPartition::WriteGeometry
 	)
 	const
 {
-JIndex i;
-
-	const JSize count = GetCompartmentCount();
-
 	output << ' ' << kCurrentGeometryDataVersion;
-	output << ' ' << count;
+	output << ' ' << GetCompartmentCount();
 	output << ' ' << GetTotalSize();
 
-	for (i=1; i<=count; i++)
+	for (JCoordinate v : *itsSizes)
 		{
-		output << ' ' << itsSizes->GetElement(i);
+		output << ' ' << v;
 		}
 
 	output << kGeometryDataEndDelimiter;

@@ -93,10 +93,8 @@ jCompareUIDs
 static void
 jCleanUserInfoMap()
 {
-	const JSize count = theUserInfoMap.GetElementCount();
-	for (JIndex i=1; i<=count; i++)
+	for (jUIDInfo info : theUserInfoMap)
 		{
-		jUIDInfo info = theUserInfoMap.GetElement(i);
 		info.Free();
 		}
 }

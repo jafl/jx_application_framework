@@ -307,7 +307,7 @@ void
 JMMTable::StreamHistogram
 	(
 	std::ostream&	output,
-	const JSize	histo[ JMemoryManager::kHistogramSlotCount ]
+	const JSize		histo[ JMemoryManager::kHistogramSlotCount ]
 	)
 	const
 {

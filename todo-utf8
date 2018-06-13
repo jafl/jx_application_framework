@@ -78,7 +78,6 @@ unit test every function that uses JStringIterator or Split
 	libjfs
 
 unit tests
-	JFileArray
 	JPrefsFile
 
 	JPTPrinter

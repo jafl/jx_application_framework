@@ -697,13 +697,13 @@ JPSPrinterBase::PSColorImageNoMask
 			{
 			const JColorID color = image.GetColor(x,y);
 			PSConvertToRGB(color, &(c[0]), &(c[1]), &(c[2]));
-			for (JIndex i=0; i<=2; i++)
+			for (JSize v : c)
 				{
-				if (c[i] <= 0x0F)
+				if (v <= 0x0F)
 					{
 					*itsFile << '0';	// must print two characters
 					}
-				*itsFile << c[i];
+				*itsFile << v;
 				}
 			lineLength += 6;
 			if (lineLength >= 252)

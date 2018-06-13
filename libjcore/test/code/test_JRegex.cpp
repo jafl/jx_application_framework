@@ -77,7 +77,7 @@ JTEST(Assignment)
 
 	regexList[0] = &regex;
 	regexList[1] = &regex2;
-	for (JIndex i=0; i<2; i++)
+	for (JIndex i : { 0,1 })
 		{
 		JAssertFalse(regexList[i]->Match(JString("qqqqqa+x*b+qqqqqq", kJFalse)));
 		JAssertFalse(regexList[i]->Match(JString("a+xxxxb+", kJFalse)));

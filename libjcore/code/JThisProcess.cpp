@@ -114,7 +114,7 @@ const JUtf8Byte* JThisProcess::kUnrecognized          = "Unrecognized::JThisProc
 
 // static data
 
-const int kSignalValue[] =
+static const int kSignalValue[] =
 {
 	SIGPIPE,
 	SIGTERM, SIGQUIT, SIGINT,
@@ -122,8 +122,6 @@ const int kSignalValue[] =
 	SIGTTIN, SIGTTOU,
 	SIGALRM, SIGUSR1, SIGUSR2
 };
-
-const JSize kSignalCount = sizeof(kSignalValue)/sizeof(int);
 
 // Interrupt routine
 
@@ -173,9 +171,9 @@ JThisProcess::JThisProcess()
 
 	// install handlers
 
-	for (JIndex i=0; i<kSignalCount; i++)
+	for (const int s : kSignalValue)
 		{
-		itsSignalSet.sig_add(kSignalValue[i]);
+		itsSignalSet.sig_add(s);
 		}
 
 	(ACE_Reactor::instance())->register_handler(itsSignalSet, this);
@@ -604,19 +602,15 @@ JThisProcess::Abort()
 void
 JThisProcess::CleanUpProcesses()
 {
-JIndex i;
-
-	const JSize quitCount = theQuitList.GetElementCount();
-	for (i=1; i<=quitCount; i++)
+	for (JProcess* p : theQuitList)
 		{
-		(theQuitList.GetElement(i))->Quit();
+		p->Quit();
 		}
 	theQuitList.RemoveAll();
 
-	const JSize killCount = theKillList.GetElementCount();
-	for (i=1; i<=killCount; i++)
+	for (JProcess* p : theKillList)
 		{
-		(theKillList.GetElement(i))->Kill();
+		p->Kill();
 		}
 	theKillList.RemoveAll();
 }

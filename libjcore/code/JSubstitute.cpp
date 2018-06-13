@@ -144,12 +144,9 @@ JIndex i;
 			}
 		}
 
-	const JSize varCount = (source.itsVarList)->GetElementCount();
 	VarInfo newInfo;
-	for (i=1; i<=varCount; i++)
+	for (const VarInfo& origInfo : *source.itsVarList)
 		{
-		const VarInfo origInfo = (source.itsVarList)->GetElement(i);
-
 		newInfo.name = jnew JString(*(origInfo.name));
 		assert( newInfo.name != nullptr );
 
@@ -457,10 +454,8 @@ JSubstitute::SetVariableValue
 	const JString&		value
 	)
 {
-	const JSize count = itsVarList->GetElementCount();
-	for (JIndex i=1; i<=count; i++)
+	for (const VarInfo& info : *itsVarList)
 		{
-		VarInfo info = itsVarList->GetElement(i);
 		if (info.regex == nullptr && *(info.name) == name)
 			{
 			*(info.value) = value;
@@ -529,10 +524,8 @@ JSubstitute::UndefineVariable
 void
 JSubstitute::UndefineAllVariables()
 {
-	const JSize count = itsVarList->GetElementCount();
-	for (JIndex i=1; i<=count; i++)
+	for (const VarInfo& info : *itsVarList)
 		{
-		VarInfo info = itsVarList->GetElement(i);
 		jdelete info.name;
 		jdelete info.regex;
 		jdelete info.value;

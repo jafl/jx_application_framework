@@ -22,7 +22,7 @@ JTEST(Long)
 	JStack<long, JArray<long> > a1;
 	JAssertEqual(0, a1.GetElementCount());
 
-	for (long i=1; i<=5; i++)
+	for (long i : { 1,2,3,4,5 })
 		{
 		a1.Push(i);
 		}

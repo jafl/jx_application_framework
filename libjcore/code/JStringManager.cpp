@@ -299,23 +299,23 @@ JStringManager::Register
 		// merge system first, then user
 
 		JString name;
-		for (JIndex i=0; i<2; i++)
+		for (const JString& p : path)
 			{
-			if (!path[i].IsEmpty() && JDirectoryReadable(path[i]))
+			if (!p.IsEmpty() && JDirectoryReadable(p))
 				{
-				name = JCombinePathAndName(path[i], locale);
+				name = JCombinePathAndName(p, locale);
 				if (MergeFile(name))
 					{
 					continue;
 					}
 
-				name = JCombinePathAndName(path[i], language);
+				name = JCombinePathAndName(p, language);
 				if (MergeFile(name))
 					{
 					continue;
 					}
 
-				name = JCombinePathAndName(path[i], theDefaultFileName);
+				name = JCombinePathAndName(p, theDefaultFileName);
 				if (MergeFile(name))
 					{
 					continue;
@@ -511,8 +511,6 @@ static const Pseudotranslation kPseudotranslateList[] =
 	{ '?', "\xC2\xBF" }
 };
 
-const JSize kPseudotranslateCount = sizeof(kPseudotranslateList)/sizeof(Pseudotranslation);
-
 void
 JStringManager::Pseudotranslate
 	(
@@ -523,11 +521,11 @@ JStringManager::Pseudotranslate
 	JUtf8Character c;
 	while (iter.Next(&c))
 		{
-		for (JIndex j=0; j<kPseudotranslateCount; j++)
+		for (const Pseudotranslation& t : kPseudotranslateList)
 			{
-			if (c == kPseudotranslateList[j].c)
+			if (c == t.c)
 				{
-				iter.Insert(kPseudotranslateList[j].s);
+				iter.Insert(t.s);
 				iter.SkipNext();
 				}
 			}
