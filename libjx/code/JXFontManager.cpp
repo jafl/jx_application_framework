@@ -34,7 +34,7 @@ static const JRegex nxmRegex = "^([0-9]+)x([0-9]+)$";
 
 static const JUtf8Byte* kDefaultFontName =
 	#ifdef _J_OSX
-	"Arial Unicode MS";
+	"Arial";
 	#else
 	nullptr;
 	#endif
@@ -49,9 +49,9 @@ static const JUtf8Byte* kMonospaceFontName =
 static const JUtf8Byte* kFallbackFontNames[] =
 {
 #ifdef _J_OSX
+	"Mshtakan",			// Armenian
 	"Arial Unicode MS",	// Arabic, Armenian, CJK, Cyrillic, Greek, Hebrew
-	"Arial",			// Latin, some Cyrillic, some Arabic
-	"Mshtakan"
+	"Arial"				// Latin, some Cyrillic, some Arabic
 #else
 	?
 #endif
