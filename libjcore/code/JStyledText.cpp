@@ -613,7 +613,7 @@ JStyledText::WritePrivateFormat
 
 	if (charRange.first == 1 && charRange.last == text.GetCharacterCount())
 		{
-		range.byteRange.Set(1, text.GetCharacterCount());
+		range.byteRange.Set(1, text.GetByteCount());
 		}
 	else
 		{
