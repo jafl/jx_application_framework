@@ -134,12 +134,12 @@ private:
 	void	GetNewSize();
 	void	ChangeSize();
 
-	void	BuildXlsfontsMenu(JXMenu* owner, JXContainer* enclosure);
-	void	PrintSelectionTargets(const Time time);
-	void	PrintSelectionText(const Atom selectionName, const Time time,
+	void		BuildXlsfontsMenu(JXMenu* owner, JXContainer* enclosure);
+	void		PrintSelectionTargets(const Time time);
+	JBoolean	PrintSelectionText(const Atom selectionName, const Time time,
+								   const Atom type) const;
+	void		PrintFileNames(const Atom selectionName, const Time time,
 							   const Atom type) const;
-	void	PrintFileNames(const Atom selectionName, const Time time,
-						   const Atom type) const;
 
 	// not allowed
 

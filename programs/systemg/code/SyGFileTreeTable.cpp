@@ -1514,15 +1514,14 @@ SyGFileTreeTable::WillAcceptDrop
 		return kJFalse;
 		}
 
-	const Atom urlXAtom1 = GetSelectionManager()->GetURLXAtom(),
-			   urlXAtom2 = GetSelectionManager()->GetURLNoCharsetXAtom(),
-			   xdsXAtom  = GetDNDManager()->GetDNDDirectSave0XAtom();
+	const Atom urlXAtom = GetSelectionManager()->GetURLXAtom(),
+			   xdsXAtom = GetDNDManager()->GetDNDDirectSave0XAtom();
 
 	const JSize typeCount = typeList.GetElementCount();
 	for (JIndex i=1; i<=typeCount; i++)
 		{
 		const Atom type = typeList.GetElement(i);
-		if (type == urlXAtom1 || type == urlXAtom2 || type == xdsXAtom)
+		if (type == urlXAtom || type == xdsXAtom)
 			{
 			if (SyGIsTrashDirectory(itsFileTree->GetDirectory()))
 				{
@@ -1686,9 +1685,53 @@ SyGFileTreeTable::HandleDNDDrop
 		}
 	else if (GetTrueDropAction(&realAction))
 		{
-		if (!HandleFileDrop(time, selManager->GetURLXAtom(), source))
+		unsigned char* data = nullptr;
+		JSize dataLength;
+		Atom returnType;
+		JXSelectionManager::DeleteMethod delMethod;
+		if (selManager->GetData(dndName, time, selManager->GetURLXAtom(),
+								&returnType, &data, &dataLength, &delMethod))
 			{
-			HandleFileDrop(time, selManager->GetURLNoCharsetXAtom(), source);
+			if (returnType == selManager->GetURLXAtom())
+				{
+				JPtrArray<JString>* fileNameList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
+				assert( fileNameList != nullptr );
+				JPtrArray<JString> urlList(JPtrArrayT::kDeleteAll);
+				JXUnpackFileNames((char*) data, dataLength, fileNameList, &urlList);
+
+				SyGFileTreeTable* srcTable = nullptr;
+				SyGGetDNDSource(source, &srcTable);
+
+				SyGFileTreeNode* destNode =
+					GetDNDTargetIndex(&dndIndex) ?
+					itsFileTreeList->GetSyGNode(dndIndex) :
+					itsFileTree->GetSyGRoot();
+
+				if (realAction == dndMgr->GetDNDActionLinkXAtom())
+					{
+					(GetTableSelection()).ClearSelection();
+
+					const JSize count = fileNameList->GetElementCount();
+					for (JIndex i=1; i<=count; i++)
+						{
+						MakeLinkToFile(*(fileNameList->GetElement(i)), destNode, kJTrue);
+						}
+
+					jdelete fileNameList;
+					}
+				else if (realAction == dndMgr->GetDNDActionMoveXAtom())
+					{
+					SyGCopyProcess::Move(srcTable, fileNameList, this, destNode);
+					}
+				else
+					{
+					SyGCopyProcess::Copy(srcTable, fileNameList, this, destNode);
+					}
+
+				JXReportUnreachableHosts(urlList);
+				}
+
+			selManager->DeleteData(&data, delMethod);
 			}
 		}
 
@@ -1712,59 +1755,6 @@ SyGFileTreeTable::HandleFileDrop
 	const JXWidget*	source
 	)
 {
-	unsigned char* data = nullptr;
-	JSize dataLength;
-	Atom returnType;
-	JXSelectionManager::DeleteMethod delMethod;
-	if (!selManager->GetData(dndName, time, type,
-							 &returnType, &data, &dataLength, &delMethod))
-		{
-		return kJFalse;
-		}
-
-	if (returnType != type)
-		{
-		selManager->DeleteData(&data, delMethod);
-		return kJFalse;
-		}
-
-	JPtrArray<JString>* fileNameList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
-	assert( fileNameList != nullptr );
-	JPtrArray<JString> urlList(JPtrArrayT::kDeleteAll);
-	JXUnpackFileNames((char*) data, dataLength, fileNameList, &urlList);
-
-	SyGFileTreeTable* srcTable = nullptr;
-	SyGGetDNDSource(source, &srcTable);
-
-	SyGFileTreeNode* destNode =
-		GetDNDTargetIndex(&dndIndex) ?
-		itsFileTreeList->GetSyGNode(dndIndex) :
-		itsFileTree->GetSyGRoot();
-
-	if (realAction == dndMgr->GetDNDActionLinkXAtom())
-		{
-		(GetTableSelection()).ClearSelection();
-
-		const JSize count = fileNameList->GetElementCount();
-		for (JIndex i=1; i<=count; i++)
-			{
-			MakeLinkToFile(*(fileNameList->GetElement(i)), destNode, kJTrue);
-			}
-
-		jdelete fileNameList;
-		}
-	else if (realAction == dndMgr->GetDNDActionMoveXAtom())
-		{
-		SyGCopyProcess::Move(srcTable, fileNameList, this, destNode);
-		}
-	else
-		{
-		SyGCopyProcess::Copy(srcTable, fileNameList, this, destNode);
-		}
-
-	JXReportUnreachableHosts(urlList);
-
-	selManager->DeleteData(&data, delMethod);
 	return kJTrue;
 }
 

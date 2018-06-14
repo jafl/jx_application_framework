@@ -118,8 +118,8 @@ private:
 
 private:
 
-	JBoolean	GetDroppedFileName(const Time time, const Atom type,
-								   const JBoolean reportErrors, JString* fileName);
+	JBoolean	GetDroppedFileName(const Time time, const JBoolean reportErrors,
+								   JString* fileName);
 
 	// not allowed
 

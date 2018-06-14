@@ -242,8 +242,6 @@ private:
 							 const CBRelPathCSF::PathType pathType,
 							 JBoolean* changed);
 
-	JBoolean	PrivateHandleDNDDrop(const Time time, const Atom type);
-
 	// not allowed
 
 	CBProjectTable(const CBProjectTable& source);

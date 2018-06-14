@@ -1703,16 +1703,19 @@ JXTEBase::GetAvailDataTypes
 
 	JXSelectionManager* selMgr = GetSelectionManager();
 
+	JBoolean utf8 = kJFalse;
 	for (const Atom type : typeList)
 		{
-		if (type == selMgr->GetUtf8StringXAtom())
+		if (type == selMgr->GetUtf8StringXAtom() ||
+			type == selMgr->GetMimePlainTextUTF8XAtom())
 			{
 			*canGetText = kJTrue;
 			*textType   = type;
-			break;
+			utf8        = kJTrue;
 			}
-		else if (type == XA_STRING ||
-				 type == selMgr->GetMimePlainTextXAtom())
+		else if (!utf8 &&
+				 (type == XA_STRING ||
+				  type == selMgr->GetMimePlainTextXAtom()))
 			{
 			*canGetText = kJTrue;
 			*textType   = type;
@@ -1815,9 +1818,10 @@ JXTEBase::GetSelectionData
 			selMgr->GetData(selectionName, time, textType,
 							&textReturnType, &data, &dataLength, &delMethod))
 			{
-			if (textReturnType == selMgr->GetUtf8StringXAtom() ||
-				textReturnType == XA_STRING ||
-				textReturnType == selMgr->GetMimePlainTextXAtom())
+			if (textReturnType == XA_STRING ||
+				textReturnType == selMgr->GetUtf8StringXAtom() ||
+				textReturnType == selMgr->GetMimePlainTextXAtom() ||
+				textReturnType == selMgr->GetMimePlainTextUTF8XAtom())
 				{
 				gotData = kJTrue;
 				text->Set(reinterpret_cast<JUtf8Byte*>(data), dataLength);

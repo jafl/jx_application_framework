@@ -799,12 +799,11 @@ JXDirTable::WillAcceptDrop
 
 	// we accept drops of type text/uri-list
 
-	const Atom urlXAtom1 = GetSelectionManager()->GetURLXAtom(),
-			   urlXAtom2 = GetSelectionManager()->GetURLNoCharsetXAtom();
+	const Atom urlXAtom = GetSelectionManager()->GetURLXAtom();
 
 	for (const Atom type : typeList)
 		{
-		if (type == urlXAtom1 || type == urlXAtom2)
+		if (type == urlXAtom)
 			{
 			*action = GetDNDManager()->GetDNDActionPrivateXAtom();
 			return kJTrue;
@@ -836,36 +835,21 @@ JXDirTable::HandleDNDDrop
 {
 	JXSelectionManager* selMgr = GetSelectionManager();
 
-	if (!PrivateHandleDNDDrop(time, selMgr->GetURLXAtom()))
-		{
-		PrivateHandleDNDDrop(time, selMgr->GetURLNoCharsetXAtom());
-		}
-}
-
-JBoolean
-JXDirTable::PrivateHandleDNDDrop
-	(
-	const Time	time,
-	const Atom	type
-	)
-{
-	JXSelectionManager* selMgr = GetSelectionManager();
-
 	Atom returnType;
 	unsigned char* data;
 	JSize dataLength;
 	JXSelectionManager::DeleteMethod delMethod;
 	if (!selMgr->GetData(GetDNDManager()->GetDNDSelectionName(),
-						 time, type,
+						 time, selMgr->GetURLXAtom(),
 						 &returnType, &data, &dataLength, &delMethod))
 		{
-		return kJFalse;
+		return;
 		}
 
-	if (returnType != type)
+	if (returnType != selMgr->GetURLXAtom())
 		{
 		selMgr->DeleteData(&data, delMethod);
-		return kJFalse;
+		return;
 		}
 
 	JPtrArray<JString> fileNameList(JPtrArrayT::kDeleteAll),
@@ -928,7 +912,6 @@ JXDirTable::PrivateHandleDNDDrop
 		}
 
 	selMgr->DeleteData(&data, delMethod);
-	return kJTrue;
 }
 
 /******************************************************************************

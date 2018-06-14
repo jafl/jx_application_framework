@@ -1453,12 +1453,11 @@ JXFileListTable::WillAcceptDrop
 
 	// we accept drops of type text/uri-list
 
-	const Atom urlXAtom1 = GetSelectionManager()->GetURLXAtom(),
-			   urlXAtom2 = GetSelectionManager()->GetURLNoCharsetXAtom();
+	const Atom urlXAtom = GetSelectionManager()->GetURLXAtom();
 
 	for (const Atom type : typeList)
 		{
-		if (type == urlXAtom1 || type == urlXAtom2)
+		if (type == urlXAtom)
 			{
 			*action = GetDNDManager()->GetDNDActionPrivateXAtom();
 			return kJTrue;

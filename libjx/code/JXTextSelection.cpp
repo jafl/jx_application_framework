@@ -108,6 +108,7 @@ JXTextSelection::AddTypes
 	JXSelectionManager* selMgr = GetSelectionManager();
 
 	AddType(selMgr->GetMimePlainTextXAtom());
+	AddType(selMgr->GetMimePlainTextUTF8XAtom());
 	itsStyledText0XAtom = AddType(kStyledText0XAtomName);
 
 	if (selectionName != GetDNDSelectionName())
@@ -277,7 +278,8 @@ JXTextSelection::ConvertData
 
 	if ((requestType == XA_STRING ||
 		 requestType == selMgr->GetUtf8StringXAtom() ||
-		 requestType == selMgr->GetMimePlainTextXAtom()) &&
+		 requestType == selMgr->GetMimePlainTextXAtom() ||
+		 requestType == selMgr->GetMimePlainTextUTF8XAtom()) &&
 		itsText != nullptr)
 		{
 		*returnType = requestType;

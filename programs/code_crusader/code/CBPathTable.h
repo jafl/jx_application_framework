@@ -78,8 +78,6 @@ private:
 	void	ChoosePath();
 	void	UpdateButtons();
 
-	JBoolean	PrivateHandleDNDDrop(const Time time, const Atom type);
-
 	// not allowed
 
 	CBPathTable(const CBPathTable& source);

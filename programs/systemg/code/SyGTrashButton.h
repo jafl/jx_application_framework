@@ -42,9 +42,6 @@ protected:
 
 private:
 
-	JBoolean	PrivateMoveFilesToTrash(const Time time, const Atom type,
-										const JXWidget* source;)
-
 	// not allowed
 
 	SyGTrashButton(const SyGTrashButton& source);

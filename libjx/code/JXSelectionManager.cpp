@@ -47,9 +47,8 @@ static const JUtf8Byte* kAtomNames[ JXSelectionManager::kAtomCount ] =
 	"TIMESTAMP",					// returns type XA_INTEGER
 	"UTF8_STRING",
 	"MULTIPLE",						// several formats at once
-	"text/plain;charset=utf-8",
 	"text/plain",
-	"text/uri-list;charset=utf-8",
+	"text/plain;charset=utf-8",
 	"text/uri-list",
 	"DELETE",						// returns type "nullptr"
 	"nullptr",
@@ -312,9 +311,7 @@ JXSelectionManager::GetData
 			}
 		}
 
-	if (success &&
-		(*returnType == itsAtoms[ kURLAtomIndex ] ||
-		 *returnType == itsAtoms[ kURLNoCharsetAtomIndex ]))
+	if (success && *returnType == itsAtoms[ kURLAtomIndex ])
 		{
 		const Window srcWindow = XGetSelectionOwner(*itsDisplay, selectionName);
 		JString newData;

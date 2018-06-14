@@ -335,14 +335,12 @@ JXFileInput::WillAcceptDrop
 {
 	itsExpectURLDropFlag = kJFalse;
 
-	const Atom urlXAtom1 = GetSelectionManager()->GetURLXAtom(),
-			   urlXAtom2 = GetSelectionManager()->GetURLNoCharsetXAtom();
+	const Atom urlXAtom = GetSelectionManager()->GetURLXAtom();
 
 	JString fileName;
 	for (const Atom type : typeList)
 		{
-		if ((type == urlXAtom1 || type == urlXAtom2) &&
-			GetDroppedFileName(time, type, kJFalse, &fileName))
+		if (type == urlXAtom && GetDroppedFileName(time, kJFalse, &fileName))
 			{
 			*action = GetDNDManager()->GetDNDActionPrivateXAtom();
 			itsExpectURLDropFlag = kJTrue;
@@ -430,9 +428,7 @@ JXFileInput::HandleDNDDrop
 		{
 		JXInputField::HandleDNDDrop(pt, typeList, action, time, source);
 		}
-	else if (Focus() &&
-			 (GetDroppedFileName(time, GetSelectionManager()->GetURLXAtom(), kJTrue, &fileName) ||
-			  GetDroppedFileName(time, GetSelectionManager()->GetURLNoCharsetXAtom(), kJTrue, &fileName)))
+	else if (Focus() && GetDroppedFileName(time, kJTrue, &fileName))
 		{
 		GetText()->SetText(fileName);
 		}
@@ -447,7 +443,6 @@ JBoolean
 JXFileInput::GetDroppedFileName
 	(
 	const Time		time,
-	const Atom		type,
 	const JBoolean	reportErrors,
 	JString*		fileName
 	)
@@ -461,10 +456,10 @@ JXFileInput::GetDroppedFileName
 	JSize dataLength;
 	JXSelectionManager::DeleteMethod delMethod;
 	if (selMgr->GetData(GetDNDManager()->GetDNDSelectionName(),
-						time, type,
+						time, selMgr->GetURLXAtom(),
 						&returnType, &data, &dataLength, &delMethod))
 		{
-		if (returnType == type)
+		if (returnType == selMgr->GetURLXAtom())
 			{
 			JPtrArray<JString> fileNameList(JPtrArrayT::kDeleteAll),
 							   urlList(JPtrArrayT::kDeleteAll);

@@ -87,7 +87,6 @@ JXFileSelection::AddTypes
 	)
 {
 	AddType(GetSelectionManager()->GetURLXAtom());
-	AddType(GetSelectionManager()->GetURLNoCharsetXAtom());
 }
 
 /******************************************************************************
@@ -157,8 +156,7 @@ JXFileSelection::ConvertData
 {
 	*bitsPerBlock = 8;
 
-	if ((requestType == GetSelectionManager()->GetURLXAtom() ||
-		 requestType == GetSelectionManager()->GetURLNoCharsetXAtom()) &&
+	if (requestType == GetSelectionManager()->GetURLXAtom() &&
 		itsList != nullptr && !itsList->IsEmpty())
 		{
 		CreateBuffer();
@@ -221,8 +219,7 @@ JXFileSelection::GetFileList
 	JPtrArray<JString>*	urlList
 	)
 {
-	const Atom urlXAtom1 = selMgr->GetURLXAtom(),
-			   urlXAtom2 = selMgr->GetURLNoCharsetXAtom();
+	const Atom urlXAtom = selMgr->GetURLXAtom();
 
 	JBoolean ok = kJFalse;
 
@@ -231,7 +228,7 @@ JXFileSelection::GetFileList
 		{
 		for (const Atom type : typeList)
 			{
-			if (type == urlXAtom1 || type == urlXAtom2)
+			if (type == urlXAtom)
 				{
 				Atom returnType;
 				unsigned char* data;

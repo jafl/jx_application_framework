@@ -357,14 +357,12 @@ JXPathInput::WillAcceptDrop
 {
 	itsExpectURLDropFlag = kJFalse;
 
-	const Atom urlXAtom1 = GetSelectionManager()->GetURLXAtom(),
-			   urlXAtom2 = GetSelectionManager()->GetURLNoCharsetXAtom();
+	const Atom urlXAtom = GetSelectionManager()->GetURLXAtom();
 
 	JString dirName;
 	for (const Atom type : typeList)
 		{
-		if ((type == urlXAtom1 || type == urlXAtom2) &&
-			GetDroppedDirectory(time, type, kJFalse, &dirName))
+		if (type == urlXAtom && GetDroppedDirectory(time, kJFalse, &dirName))
 			{
 			*action = GetDNDManager()->GetDNDActionPrivateXAtom();
 			itsExpectURLDropFlag = kJTrue;
@@ -452,9 +450,7 @@ JXPathInput::HandleDNDDrop
 		{
 		JXInputField::HandleDNDDrop(pt, typeList, action, time, source);
 		}
-	else if (Focus() &&
-			 (GetDroppedDirectory(time, GetSelectionManager()->GetURLXAtom(), kJTrue, &dirName) ||
-			  GetDroppedDirectory(time, GetSelectionManager()->GetURLNoCharsetXAtom(), kJTrue, &dirName)))
+	else if (Focus() && GetDroppedDirectory(time, kJTrue, &dirName))
 		{
 		GetText()->SetText(dirName);
 		}
@@ -469,7 +465,6 @@ JBoolean
 JXPathInput::GetDroppedDirectory
 	(
 	const Time		time,
-	const Atom		type,
 	const JBoolean	reportErrors,
 	JString*		dirName
 	)
@@ -483,10 +478,10 @@ JXPathInput::GetDroppedDirectory
 	JSize dataLength;
 	JXSelectionManager::DeleteMethod delMethod;
 	if (selMgr->GetData(GetDNDManager()->GetDNDSelectionName(),
-						time, type,
+						time, GetSelectionManager()->GetURLXAtom(),
 						&returnType, &data, &dataLength, &delMethod))
 		{
-		if (returnType == type)
+		if (returnType == GetSelectionManager()->GetURLXAtom())
 			{
 			JPtrArray<JString> fileNameList(JPtrArrayT::kDeleteAll),
 							   urlList(JPtrArrayT::kDeleteAll);

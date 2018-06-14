@@ -1001,8 +1001,7 @@ TestWidget::WillAcceptDrop
 		{
 		std::cout << XGetAtomName(*display, type) << std::endl;
 
-		if (type == GetSelectionManager()->GetURLXAtom() ||
-			type == GetSelectionManager()->GetURLNoCharsetXAtom())
+		if (type == GetSelectionManager()->GetURLXAtom())
 			{
 			hasURIList = kJTrue;
 			}
@@ -1030,8 +1029,12 @@ TestWidget::WillAcceptDrop
 		std::cout << "Accepting the drop" << std::endl;
 		std::cout << std::endl;
 
-		PrintSelectionText(dndMgr->GetDNDSelectionName(), time,
-						   GetSelectionManager()->GetMimePlainTextXAtom());
+		if (!PrintSelectionText(dndMgr->GetDNDSelectionName(), time,
+								GetSelectionManager()->GetMimePlainTextXAtom()))
+			{
+			PrintSelectionText(dndMgr->GetDNDSelectionName(), time,
+							   GetSelectionManager()->GetMimePlainTextUTF8XAtom());
+			}
 		return kJTrue;
 		}
 	else
@@ -1041,8 +1044,12 @@ TestWidget::WillAcceptDrop
 		std::cout << "Action: " << XGetAtomName(*display, *action) << std::endl;
 		std::cout << std::endl;
 
-		PrintSelectionText(dndMgr->GetDNDSelectionName(), time,
-						   GetSelectionManager()->GetMimePlainTextXAtom());
+		if (!PrintSelectionText(dndMgr->GetDNDSelectionName(), time,
+								GetSelectionManager()->GetMimePlainTextXAtom()))
+			{
+			PrintSelectionText(dndMgr->GetDNDSelectionName(), time,
+							   GetSelectionManager()->GetMimePlainTextUTF8XAtom());
+			}
 
 		return kJFalse;
 		}
@@ -1079,12 +1086,12 @@ TestWidget::HandleDNDDrop
 	for (const Atom type : typeList)
 		{
 		std::cout << XGetAtomName(*display, type) << std::endl;
-		if (type == selMgr->GetMimePlainTextXAtom())
+		if (type == selMgr->GetMimePlainTextXAtom() ||
+			type == selMgr->GetMimePlainTextUTF8XAtom())
 			{
 			textType = type;
 			}
-		else if (type == selMgr->GetURLXAtom() ||
-				 type == selMgr->GetURLNoCharsetXAtom())
+		else if (type == selMgr->GetURLXAtom())
 			{
 			urlType = type;
 			}
@@ -1132,7 +1139,8 @@ TestWidget::PrintSelectionTargets
 			{
 			if (type == XA_STRING ||
 				type == selMgr->GetUtf8StringXAtom() ||
-				type == selMgr->GetMimePlainTextXAtom())
+				type == selMgr->GetMimePlainTextXAtom() ||
+				type == selMgr->GetMimePlainTextUTF8XAtom())
 				{
 				std::cout << std::endl;
 				PrintSelectionText(kJXClipboardName, time, type);
@@ -1152,7 +1160,7 @@ TestWidget::PrintSelectionTargets
 
  ******************************************************************************/
 
-void
+JBoolean
 TestWidget::PrintSelectionText
 	(
 	const Atom selectionName,
@@ -1173,7 +1181,8 @@ TestWidget::PrintSelectionText
 		{
 		if (returnType == XA_STRING ||
 			returnType == selMgr->GetUtf8StringXAtom() ||
-			returnType == selMgr->GetMimePlainTextXAtom())
+			returnType == selMgr->GetMimePlainTextXAtom() ||
+			returnType == selMgr->GetMimePlainTextUTF8XAtom())
 			{
 			std::cout << "Data is available as " << XGetAtomName(*display, type) << ":" << std::endl << std::endl;
 			std::cout << "====================" << std::endl;
@@ -1191,10 +1200,12 @@ TestWidget::PrintSelectionText
 			}
 
 		selMgr->DeleteData(&data, delMethod);
+		return kJTrue;
 		}
 	else
 		{
 		std::cout << "Data could not be retrieved as " << XGetAtomName(*display, type) << "." << std::endl << std::endl;
+		return kJFalse;
 		}
 }
 

@@ -119,8 +119,7 @@ private:
 
 private:
 
-	void		HandleDoubleClick(const JIndex index);
-	JBoolean	PrivateHandleDNDDrop(const Time time, const Atom type);
+	void	HandleDoubleClick(const JIndex index);
 
 	void	AdjustTableContents();
 	void	RememberSelections();

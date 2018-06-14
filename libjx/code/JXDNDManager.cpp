@@ -666,10 +666,13 @@ JXDNDManager::DraggerCanProvideText()
 		return kJFalse;
 		}
 
-	const Atom textAtom = (itsDisplay->GetSelectionManager())->GetMimePlainTextXAtom();
-	for (const Atom a : *itsDraggerTypeList)
+	JXSelectionManager* selMgr = itsDisplay->GetSelectionManager();
+
+	const Atom textAtom1 = selMgr->GetMimePlainTextXAtom(),
+			   textAtom2 = selMgr->GetMimePlainTextUTF8XAtom();
+	for (const Atom type : *itsDraggerTypeList)
 		{
-		if (a == textAtom)
+		if (type == textAtom1 || type == textAtom2)
 			{
 			return kJTrue;
 			}

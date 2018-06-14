@@ -1183,7 +1183,7 @@ JXSearchTextDialog::GetXSearch()
 
 	JXDisplay* display       = GetDisplay();
 	const Atom plainTextAtom = display->GetSelectionManager()->GetMimePlainTextXAtom();
-	const Atom noCharsetAtom = display->GetSelectionManager()->GetMimePlainTextNoCharsetXAtom();
+	const Atom utf8Atom      = display->GetSelectionManager()->GetMimePlainTextUTF8XAtom();
 
 	Atom actualType;
 	int actualFormat;
@@ -1212,14 +1212,14 @@ JXSearchTextDialog::GetXSearch()
 			std::istringstream input(s);
 			ReadXSearch(input, vers);
 			}
-		else if (actualType == noCharsetAtom)
+		else if (actualType == utf8Atom)
 			{
 			XGetWindowProperty(*display, itsDataWindow, requestType,
-							   0, LONG_MAX, False, noCharsetAtom,
+							   0, LONG_MAX, False, utf8Atom,
 							   &actualType, &actualFormat,
 							   &itemCount, &remainingBytes, &data);
 
-			if (actualType == noCharsetAtom && actualFormat == 8 && itemCount > 0)
+			if (actualType == utf8Atom && actualFormat == 8 && itemCount > 0)
 				{
 				const std::string s(reinterpret_cast<char*>(data), itemCount);
 				std::istringstream input(s);
