@@ -622,9 +622,10 @@ JTreeNode::DeleteAllChildren()
 {
 	if (itsChildren != nullptr)
 		{
-		for (JTreeNode* n : *itsChildren)
+		const JSize count = itsChildren->GetElementCount();
+		for (JIndex i=count; i>=1; i--)
 			{
-			jdelete n;
+			jdelete itsChildren->GetElement(i);
 			}
 
 		jdelete itsChildren;
