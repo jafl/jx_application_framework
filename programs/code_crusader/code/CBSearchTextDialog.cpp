@@ -1246,8 +1246,8 @@ CBSearchTextDialog::WritePrefs
 
 	output << ' ' << itsRecurseDirCB->IsChecked();
 	output << ' ' << itsInvertFileFilterCB->IsChecked();
-	output << ' ' << itsDirInput->GetText();
-	output << ' ' << itsFileFilterInput->GetText();
+	output << ' ' << itsDirInput->GetText()->GetText();
+	output << ' ' << itsFileFilterInput->GetText()->GetText();
 
 	output << ' ';
 	itsDirHistory->WriteSetup(output);
@@ -1255,7 +1255,7 @@ CBSearchTextDialog::WritePrefs
 	output << ' ';
 	itsFileFilterHistory->WriteSetup(output);
 
-	output << ' ' << itsPathFilterInput->GetText();
+	output << ' ' << itsPathFilterInput->GetText()->GetText();
 	output << ' ' << kJFalse;	// placeholder for invert, if we ever find a use
 	output << ' ';
 	itsPathFilterHistory->WriteSetup(output);

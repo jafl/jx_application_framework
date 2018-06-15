@@ -435,11 +435,11 @@ JXFileListSet::WriteSetup
 
 	output << ' ' << (long) itsFilterType;
 
-	output << ' ' << itsWildcardInput->GetText();
+	output << ' ' << itsWildcardInput->GetText()->GetText();
 	output << ' ';
 	itsWildcardMenu->WriteSetup(output);
 
-	output << ' ' << itsRegexInput->GetText();
+	output << ' ' << itsRegexInput->GetText()->GetText();
 	output << ' ';
 	itsRegexMenu->WriteSetup(output);
 
