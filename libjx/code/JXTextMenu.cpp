@@ -9,12 +9,12 @@
 
  ******************************************************************************/
 
-#include <JXTextMenu.h>
-#include <JXTextMenuData.h>
-#include <JXTextMenuDirector.h>
-#include <JXDisplay.h>
-#include <JXImageCache.h>
-#include <JXImage.h>
+#include "JXTextMenu.h"
+#include "JXTextMenuData.h"
+#include "JXTextMenuDirector.h"
+#include "JXDisplay.h"
+#include "JXImageCache.h"
+#include "JXImage.h"
 #include <JStringIterator.h>
 #include <jAssert.h>
 

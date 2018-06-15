@@ -10,7 +10,7 @@
 #ifndef _H_JXTextMenuData
 #define _H_JXTextMenuData
 
-#include <JXMenuData.h>
+#include "JXMenuData.h"
 #include <JFontStyle.h>
 #include <JRunArray.h>
 

@@ -7,19 +7,19 @@
 
  ******************************************************************************/
 
-#include <jGlobals.h>
-#include <jStringData.h>
-#include <JTextUserNotification.h>
-#include <JTextChooseSaveFile.h>
-#include <JCreateTextPG.h>
-#include <JThisProcess.h>
-#include <JWebBrowser.h>
-#include <jDirUtil.h>
-#include <jFileUtil.h>
+#include "jGlobals.h"
+#include "jStringData.h"
+#include "JTextUserNotification.h"
+#include "JTextChooseSaveFile.h"
+#include "JCreateTextPG.h"
+#include "JThisProcess.h"
+#include "JWebBrowser.h"
+#include "jDirUtil.h"
+#include "jFileUtil.h"
 #include <stdlib.h>
 #include <locale.h>
 #include <ace/OS_NS_sys_socket.h>
-#include <jAssert.h>
+#include "jAssert.h"
 
 static JAssertBase*				theAssertHandler    = nullptr;
 

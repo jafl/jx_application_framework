@@ -10,8 +10,8 @@
 
  ******************************************************************************/
 
-#include <JXFloatTable.h>
-#include <JXFloatInput.h>
+#include "JXFloatTable.h"
+#include "JXFloatInput.h"
 #include <JFloatTableData.h>
 #include <JFloatBufferTableData.h>
 #include <JPainter.h>

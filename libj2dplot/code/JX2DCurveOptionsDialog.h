@@ -9,7 +9,7 @@
 #define _H_JX2DCurveOptionsDialog
 
 #include <JXDialogDirector.h>
-#include <J2DCurveInfo.h>
+#include "J2DCurveInfo.h"
 
 class JString;
 class JXTextButton;

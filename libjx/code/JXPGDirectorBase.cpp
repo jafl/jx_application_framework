@@ -7,10 +7,10 @@
 
  ******************************************************************************/
 
-#include <JXPGDirectorBase.h>
-#include <JXWindow.h>
-#include <JXStaticText.h>
-#include <JXButton.h>
+#include "JXPGDirectorBase.h"
+#include "JXWindow.h"
+#include "JXStaticText.h"
+#include "JXButton.h"
 #include <jGlobals.h>
 #include <jAssert.h>
 

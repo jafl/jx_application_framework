@@ -7,7 +7,7 @@
 
  ******************************************************************************/
 
-#include <JX2DPlotLabelDialog.h>
+#include "JX2DPlotLabelDialog.h"
 #include <JXFontNameMenu.h>
 #include <JXFontSizeMenu.h>
 #include <JXWindow.h>

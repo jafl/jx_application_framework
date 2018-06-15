@@ -8,7 +8,7 @@
 		#define LocalVarName   ____
 		#define GetElementName ____
 		#define SetElementName ____
-		#include <JStyledTextSetFont.th>
+		#include "JStyledTextSetFont.th"
 		#undef LocalVarName
 		#undef GetElementName
 		#undef SetElementName

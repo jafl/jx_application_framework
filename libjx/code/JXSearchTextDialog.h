@@ -8,7 +8,7 @@
 #ifndef _H_JXSearchTextDialog
 #define _H_JXSearchTextDialog
 
-#include <JXWindowDirector.h>
+#include "JXWindowDirector.h"
 #include <JUtf8Character.h>
 #include <X11/X.h>
 

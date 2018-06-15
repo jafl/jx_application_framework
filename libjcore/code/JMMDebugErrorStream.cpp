@@ -13,9 +13,9 @@
 
  *****************************************************************************/
 
-#include <JMMDebugErrorStream.h>
-#include <JMemoryManager.h>
-#include <jAssert.h>
+#include "JMMDebugErrorStream.h"
+#include "JMemoryManager.h"
+#include "jAssert.h"
 
 /******************************************************************************
  Constructor

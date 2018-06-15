@@ -10,7 +10,7 @@
 #ifndef _H_JXPasswordInput
 #define _H_JXPasswordInput
 
-#include <JXInputField.h>
+#include "JXInputField.h"
 
 class JXPasswordInput : public JXInputField
 {

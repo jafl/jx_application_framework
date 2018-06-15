@@ -7,11 +7,11 @@
 
  ******************************************************************************/
 
-#include <JXMenuDirector.h>
-#include <JXDisplay.h>
-#include <JXWindow.h>
-#include <JXMenu.h>
-#include <JXMenuTable.h>
+#include "JXMenuDirector.h"
+#include "JXDisplay.h"
+#include "JXWindow.h"
+#include "JXMenu.h"
+#include "JXMenuTable.h"
 #include <jAssert.h>
 
 /******************************************************************************

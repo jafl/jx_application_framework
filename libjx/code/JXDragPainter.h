@@ -10,7 +10,7 @@
 #ifndef _H_JXDragPainter
 #define _H_JXDragPainter
 
-#include <JXWindowPainter.h>
+#include "JXWindowPainter.h"
 
 class JXWindow;
 

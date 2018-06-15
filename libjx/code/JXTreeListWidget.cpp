@@ -24,14 +24,14 @@
 
  ******************************************************************************/
 
-#include <JXTreeListWidget.h>
-#include <JXTLWAdjustToTreeTask.h>
-#include <jXGlobals.h>
+#include "JXTreeListWidget.h"
+#include "JXTLWAdjustToTreeTask.h"
+#include "jXGlobals.h"
 #include <JTree.h>
 #include <JTreeList.h>
 #include <JTreeNode.h>
 #include <JPainter.h>
-#include <JXColorManager.h>
+#include "JXColorManager.h"
 #include <JTableSelection.h>
 #include <JMinMax.h>
 #include <jASCIIConstants.h>

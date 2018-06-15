@@ -10,7 +10,7 @@
 #ifndef _H_JXCursorAnimator
 #define _H_JXCursorAnimator
 
-#include <JXCursor.h>
+#include "JXCursor.h"
 #include <JArray.h>
 #include <X11/Xlib.h>
 

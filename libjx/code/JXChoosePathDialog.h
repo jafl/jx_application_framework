@@ -10,7 +10,7 @@
 #ifndef _H_JXChoosePathDialog
 #define _H_JXChoosePathDialog
 
-#include <JXCSFDialogBase.h>
+#include "JXCSFDialogBase.h"
 
 class JXChoosePathDialog : public JXCSFDialogBase
 {

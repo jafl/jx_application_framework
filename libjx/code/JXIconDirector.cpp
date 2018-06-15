@@ -10,11 +10,11 @@
 
  ******************************************************************************/
 
-#include <JXIconDirector.h>
-#include <JXDisplay.h>
-#include <JXWindow.h>
-#include <JXWindowIcon.h>
-#include <JXImage.h>
+#include "JXIconDirector.h"
+#include "JXDisplay.h"
+#include "JXWindow.h"
+#include "JXWindowIcon.h"
+#include "JXImage.h"
 #include <jAssert.h>
 
 /******************************************************************************

@@ -10,8 +10,8 @@
 #ifndef _H_JSliderBase
 #define _H_JSliderBase
 
-#include <JBroadcaster.h>
-#include <JRect.h>
+#include "JBroadcaster.h"
+#include "JRect.h"
 
 class JSliderBase : virtual public JBroadcaster
 {

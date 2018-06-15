@@ -9,11 +9,11 @@
 
  ******************************************************************************/
 
-#include <JXChooseMonoFont.h>
-#include <JXXFontMenu.h>
-#include <JXFontSizeMenu.h>
-#include <JXDisplay.h>
-#include <jXConstants.h>
+#include "JXChooseMonoFont.h"
+#include "JXXFontMenu.h"
+#include "JXFontSizeMenu.h"
+#include "JXDisplay.h"
+#include "jXConstants.h"
 #include <JRegex.h>
 #include <stdlib.h>
 #include <jGlobals.h>

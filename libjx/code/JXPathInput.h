@@ -11,7 +11,7 @@
 #ifndef _H_JXPathInput
 #define _H_JXPathInput
 
-#include <JXInputField.h>
+#include "JXInputField.h"
 
 class JDirInfo;
 class JXStringCompletionMenu;

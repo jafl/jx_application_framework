@@ -7,12 +7,12 @@
 
  ******************************************************************************/
 
-#include <JXGoToLineDialog.h>
-#include <JXWindow.h>
-#include <JXTextButton.h>
-#include <JXIntegerInput.h>
-#include <JXTextCheckbox.h>
-#include <JXStaticText.h>
+#include "JXGoToLineDialog.h"
+#include "JXWindow.h"
+#include "JXTextButton.h"
+#include "JXIntegerInput.h"
+#include "JXTextCheckbox.h"
+#include "JXStaticText.h"
 #include <jGlobals.h>
 #include <jAssert.h>
 

@@ -7,13 +7,13 @@
 
  ******************************************************************************/
 
-#include <JXUNDialogBase.h>
-#include <JXUserNotification.h>
-#include <JXDisplay.h>
-#include <JXWindow.h>
-#include <JXStaticText.h>
-#include <JXImageWidget.h>
-#include <JXImage.h>
+#include "JXUNDialogBase.h"
+#include "JXUserNotification.h"
+#include "JXDisplay.h"
+#include "JXWindow.h"
+#include "JXStaticText.h"
+#include "JXImageWidget.h"
+#include "JXImage.h"
 #include <jAssert.h>
 
 /******************************************************************************

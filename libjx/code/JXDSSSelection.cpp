@@ -10,12 +10,12 @@
 
  ******************************************************************************/
 
-#include <JXDSSSelection.h>
-#include <JXDirectSaveAction.h>
-#include <JXDNDManager.h>
-#include <JXDisplay.h>
-#include <JXWindow.h>
-#include <jXUtil.h>
+#include "JXDSSSelection.h"
+#include "JXDirectSaveAction.h"
+#include "JXDNDManager.h"
+#include "JXDisplay.h"
+#include "JXWindow.h"
+#include "jXUtil.h"
 #include <jGlobals.h>
 #include <jAssert.h>
 

@@ -10,9 +10,9 @@
 #ifndef _H_JEPSPrinter
 #define _H_JEPSPrinter
 
-#include <JPainter.h>
-#include <JPrinter.h>
-#include <JPSPrinterBase.h>
+#include "JPainter.h"
+#include "JPrinter.h"
+#include "JPSPrinterBase.h"
 
 class JEPSPrinter : public JPainter, public JPrinter, public JPSPrinterBase
 {

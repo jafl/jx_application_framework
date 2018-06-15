@@ -10,10 +10,10 @@
 #ifndef _H_JXImageButton
 #define _H_JXImageButton
 
-#include <JXButton.h>
-#include <jXConstants.h>		// need definition of kJXTransparentColor
+#include "JXButton.h"
+#include "jXConstants.h"		// need definition of kJXTransparentColor
 #include <JConstBitmap.h>
-#include <JXPM.h>
+#include "JXPM.h"
 
 class JXImage;
 

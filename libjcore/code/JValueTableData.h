@@ -10,8 +10,8 @@
 #ifndef _H_JValueTableData
 #define _H_JValueTableData
 
-#include <JTableData.h>
-#include <JPtrArray.h>
+#include "JTableData.h"
+#include "JPtrArray.h"
 
 template <class S, class T>
 class JValueTableData : public JTableData
@@ -71,6 +71,6 @@ private:
 	const JValueTableData<S,T>& operator=(const JValueTableData<S,T>& source);
 };
 
-#include <JValueTableData.tmpl>
+#include "JValueTableData.tmpl"
 
 #endif

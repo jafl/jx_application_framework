@@ -10,10 +10,10 @@
 #ifndef _H_JXDisplay
 #define _H_JXDisplay
 
-#include <JXCursor.h>
+#include "JXCursor.h"
 #include <JArray.h>
-#include <jXEventUtil.h>
-#include <JXKeyModifiers.h>	// need defn of kJXKeyModifierMapCount
+#include "jXEventUtil.h"
+#include "JXKeyModifiers.h"	// need defn of kJXKeyModifierMapCount
 #include <JRect.h>
 #include <JString.h>
 

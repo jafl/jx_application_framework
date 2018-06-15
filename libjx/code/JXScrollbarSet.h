@@ -10,7 +10,7 @@
 #ifndef _H_JXScrollbarSet
 #define _H_JXScrollbarSet
 
-#include <JXWidgetSet.h>
+#include "JXWidgetSet.h"
 
 class JXScrollbar;
 

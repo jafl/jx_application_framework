@@ -5,12 +5,12 @@
 
  ******************************************************************************/
 
-#include <JDirInfo.h>
-#include <JProgressDisplay.h>
-#include <JStdError.h>
-#include <jMountUtil.h>
+#include "JDirInfo.h"
+#include "JProgressDisplay.h"
+#include "JStdError.h"
+#include "jMountUtil.h"
 #include <dirent.h>
-#include <jAssert.h>
+#include "jAssert.h"
 
 /*****************************************************************************
  BuildInfo1 (private)

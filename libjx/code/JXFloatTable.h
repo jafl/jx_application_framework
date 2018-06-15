@@ -10,7 +10,7 @@
 #ifndef _H_JXFloatTable
 #define _H_JXFloatTable
 
-#include <JXStyleTable.h>
+#include "JXStyleTable.h"
 #include <JAuxTableData.h>
 #include <JFontStyle.h>
 

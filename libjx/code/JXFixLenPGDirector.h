@@ -11,7 +11,7 @@
 #ifndef _H_JXFixLenPGDirector
 #define _H_JXFixLenPGDirector
 
-#include <JXPGDirectorBase.h>
+#include "JXPGDirectorBase.h"
 
 class JXProgressDisplay;
 

@@ -32,15 +32,15 @@
 
  ******************************************************************************/
 
-#include <JXMenuTable.h>
-#include <JXMenuData.h>
-#include <JXMenuManager.h>
-#include <JXMenuDirector.h>
-#include <JXDisplay.h>
-#include <JXWindow.h>
-#include <JXWindowPainter.h>
-#include <JXColorManager.h>
-#include <jXPainterUtil.h>
+#include "JXMenuTable.h"
+#include "JXMenuData.h"
+#include "JXMenuManager.h"
+#include "JXMenuDirector.h"
+#include "JXDisplay.h"
+#include "JXWindow.h"
+#include "JXWindowPainter.h"
+#include "JXColorManager.h"
+#include "jXPainterUtil.h"
 #include <jMouseUtil.h>
 #include <jASCIIConstants.h>
 #include <jAssert.h>

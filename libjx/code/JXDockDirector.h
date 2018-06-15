@@ -10,7 +10,7 @@
 #ifndef _H_JXDockDirector
 #define _H_JXDockDirector
 
-#include <JXWindowDirector.h>
+#include "JXWindowDirector.h"
 
 class JXHorizDockPartition;
 class JXVertDockPartition;

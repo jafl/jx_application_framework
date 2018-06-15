@@ -10,7 +10,7 @@
 #ifndef _H_JAuxTableData
 #define _H_JAuxTableData
 
-#include <JPackedTableData.h>
+#include "JPackedTableData.h"
 
 class JTable;
 
@@ -45,6 +45,6 @@ private:
 	const JAuxTableData<T>& operator=(const JAuxTableData<T>& source);
 };
 
-#include <JAuxTableData.tmpl>
+#include "JAuxTableData.tmpl"
 
 #endif

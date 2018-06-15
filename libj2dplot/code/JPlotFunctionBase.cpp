@@ -7,8 +7,8 @@
 
  ********************************************************************************/
 
-#include <JPlotFunctionBase.h>
-#include <J2DPlotWidget.h>
+#include "JPlotFunctionBase.h"
+#include "J2DPlotWidget.h"
 #include <JMinMax.h>
 #include <jAssert.h>
 

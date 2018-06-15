@@ -10,8 +10,8 @@
 #ifndef _H_JXPSPrintSetupDialog
 #define _H_JXPSPrintSetupDialog
 
-#include <JXDialogDirector.h>
-#include <JXPSPrinter.h>		// need definition of enums
+#include "JXDialogDirector.h"
+#include "JXPSPrinter.h"		// need definition of enums
 
 class JXTextButton;
 class JXStaticText;

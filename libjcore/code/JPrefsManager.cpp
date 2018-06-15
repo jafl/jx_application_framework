@@ -26,12 +26,12 @@
 
  ******************************************************************************/
 
-#include <JPrefsManager.h>
-#include <JPrefsFile.h>
-#include <jFileUtil.h>
-#include <jSysUtil.h>
-#include <jGlobals.h>
-#include <jAssert.h>
+#include "JPrefsManager.h"
+#include "JPrefsFile.h"
+#include "jFileUtil.h"
+#include "jSysUtil.h"
+#include "jGlobals.h"
+#include "jAssert.h"
 
 // JBroadcaster messages
 

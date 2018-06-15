@@ -11,7 +11,7 @@
 #define _H_JXMenuData
 
 #include <JContainer.h>
-#include <JXMenu.h>		// need defn of ItemType, UpdateAction
+#include "JXMenu.h"		// need defn of ItemType, UpdateAction
 #include <JArray.h>
 
 class JString;

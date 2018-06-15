@@ -10,7 +10,7 @@
 #ifndef _H_JXErrorDialog
 #define _H_JXErrorDialog
 
-#include <JXUNDialogBase.h>
+#include "JXUNDialogBase.h"
 
 class JXErrorDialog : public JXUNDialogBase
 {

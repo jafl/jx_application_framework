@@ -10,7 +10,7 @@
 #ifndef _H_JXFileNameDisplay
 #define _H_JXFileNameDisplay
 
-#include <JXStaticText.h>
+#include "JXStaticText.h"
 
 class JXFileNameDisplay : public JXStaticText
 {

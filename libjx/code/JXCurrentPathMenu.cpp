@@ -15,7 +15,7 @@
  ******************************************************************************/
 
 #include "JXCurrentPathMenu.h"
-#include <JXImage.h>
+#include "JXImage.h"
 #include <jDirUtil.h>
 #include <jAssert.h>
 

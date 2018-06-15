@@ -10,7 +10,7 @@
 #ifndef _H_JXDownRect
 #define _H_JXDownRect
 
-#include <JXDecorRect.h>
+#include "JXDecorRect.h"
 
 class JXDownRect : public JXDecorRect
 {

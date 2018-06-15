@@ -9,14 +9,14 @@
 
  ******************************************************************************/
 
-#include <JXColHeaderWidget.h>
-#include <JXWindow.h>
-#include <JXScrollbarSet.h>
-#include <JXScrollbar.h>
-#include <JXDragPainter.h>
-#include <jXPainterUtil.h>
-#include <JXFontManager.h>
-#include <jXGlobals.h>
+#include "JXColHeaderWidget.h"
+#include "JXWindow.h"
+#include "JXScrollbarSet.h"
+#include "JXScrollbar.h"
+#include "JXDragPainter.h"
+#include "jXPainterUtil.h"
+#include "JXFontManager.h"
+#include "jXGlobals.h"
 #include <JColorManager.h>
 #include <jAssert.h>
 

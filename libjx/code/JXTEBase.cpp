@@ -24,26 +24,26 @@
 
  ******************************************************************************/
 
-#include <JXTEBase.h>
-#include <JXSearchTextDialog.h>
-#include <JXTEBlinkCaretTask.h>
-#include <JXGoToLineDialog.h>
-#include <JXDisplay.h>
-#include <JXWindow.h>
-#include <JXMenuBar.h>
-#include <JXTextMenu.h>
-#include <JXScrollbar.h>
-#include <JXWindowPainter.h>
-#include <JXPSPrinter.h>
-#include <JXPTPrinter.h>
-#include <JXSpellChecker.h>
-#include <JXSelectionManager.h>
-#include <JXDNDManager.h>
-#include <JXTextSelection.h>
-#include <JXColorManager.h>
-#include <jXGlobals.h>
-#include <jXActionDefs.h>
-#include <jXKeysym.h>
+#include "JXTEBase.h"
+#include "JXSearchTextDialog.h"
+#include "JXTEBlinkCaretTask.h"
+#include "JXGoToLineDialog.h"
+#include "JXDisplay.h"
+#include "JXWindow.h"
+#include "JXMenuBar.h"
+#include "JXTextMenu.h"
+#include "JXScrollbar.h"
+#include "JXWindowPainter.h"
+#include "JXPSPrinter.h"
+#include "JXPTPrinter.h"
+#include "JXSpellChecker.h"
+#include "JXSelectionManager.h"
+#include "JXDNDManager.h"
+#include "JXTextSelection.h"
+#include "JXColorManager.h"
+#include "jXGlobals.h"
+#include "jXActionDefs.h"
+#include "jXKeysym.h"
 
 #include <JFontManager.h>
 #include <JRegex.h>
@@ -2568,7 +2568,7 @@ JXTEBase::HandleEditMenu
 #define MenuVar      itsEditMenu
 #define CmdType      MenuItemInfo
 #define CmdIDList    kEditMenuItemInfo
-#include <JXMenuItemIDUtil.th>
+#include "JXMenuItemIDUtil.th"
 #undef ClassName
 #undef IndexToCmdFn
 #undef CmdToIndexFn
@@ -2639,7 +2639,7 @@ JXTEBase::HandleSearchMenu
 #define MenuVar      itsSearchMenu
 #define CmdType      MenuItemInfo
 #define CmdIDList    kSearchMenuItemInfo
-#include <JXMenuItemIDUtil.th>
+#include "JXMenuItemIDUtil.th"
 #undef ClassName
 #undef IndexToCmdFn
 #undef CmdToIndexFn
@@ -2794,7 +2794,7 @@ JXTEBase::HandleSearchReplaceCmd
 #define MenuVar      itsReplaceMenu
 #define CmdType      MenuItemInfo
 #define CmdIDList    kReplaceMenuItemInfo
-#include <JXMenuItemIDUtil.th>
+#include "JXMenuItemIDUtil.th"
 #undef ClassName
 #undef IndexToCmdFn
 #undef CmdToIndexFn

@@ -7,17 +7,17 @@
 
  ******************************************************************************/
 
-#include <jVCSUtil.h>
-#include <JRegex.h>
-#include <JSimpleProcess.h>
-#include <jFileUtil.h>
-#include <jStreamUtil.h>
-#include <jFStreamUtil.h>
-#include <jXMLUtil.h>
+#include "jVCSUtil.h"
+#include "JRegex.h"
+#include "JSimpleProcess.h"
+#include "jFileUtil.h"
+#include "jStreamUtil.h"
+#include "jFStreamUtil.h"
+#include "jXMLUtil.h"
 #include <libxml/parser.h>
 #include <strstream>
-#include <jGlobals.h>
-#include <jAssert.h>
+#include "jGlobals.h"
+#include "jAssert.h"
 
 static const JString kGitDirName        (".git",    kJFalse);
 static const JString kSubversionDirName (".svn",    kJFalse);

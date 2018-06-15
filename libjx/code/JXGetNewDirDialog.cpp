@@ -7,10 +7,10 @@
 
  ******************************************************************************/
 
-#include <JXGetNewDirDialog.h>
-#include <JXInputField.h>
-#include <JXChooseSaveFile.h>
-#include <jXGlobals.h>
+#include "JXGetNewDirDialog.h"
+#include "JXInputField.h"
+#include "JXChooseSaveFile.h"
+#include "jXGlobals.h"
 #include <jDirUtil.h>
 #include <jAssert.h>
 

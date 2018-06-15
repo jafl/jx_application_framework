@@ -15,11 +15,11 @@
 
  ******************************************************************************/
 
-#include <JXDisplayMenu.h>
-#include <JXOpenDisplayDialog.h>
-#include <JXDisplay.h>
-#include <JXWindow.h>
-#include <jXGlobals.h>
+#include "JXDisplayMenu.h"
+#include "JXOpenDisplayDialog.h"
+#include "JXDisplay.h"
+#include "JXWindow.h"
+#include "jXGlobals.h"
 #include <JString.h>
 #include <jAssert.h>
 

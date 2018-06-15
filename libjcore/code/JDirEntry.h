@@ -10,11 +10,11 @@
 #ifndef _H_JDirEntry
 #define _H_JDirEntry
 
-#include <JList.h>
-#include <JError.h>
-#include <JString.h>
+#include "JList.h"
+#include "JError.h"
+#include "JString.h"
 #include <sys/stat.h>
-#include <jMissingProto.h>
+#include "jMissingProto.h"
 
 #if defined WIN32 && !defined GetUserName
 #define GetUserName	GetUserNameA

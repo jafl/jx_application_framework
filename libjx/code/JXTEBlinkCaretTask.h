@@ -8,7 +8,7 @@
 #ifndef _H_JXTEBlinkCaretTask
 #define _H_JXTEBlinkCaretTask
 
-#include <JXIdleTask.h>
+#include "JXIdleTask.h"
 
 class JXTEBase;
 

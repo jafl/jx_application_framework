@@ -10,11 +10,11 @@
 
  ******************************************************************************/
 
-#include <JXCheckboxListDialog.h>
-#include <JXWindow.h>
-#include <JXTextButton.h>
-#include <JXTextCheckbox.h>
-#include <JXStaticText.h>
+#include "JXCheckboxListDialog.h"
+#include "JXWindow.h"
+#include "JXTextButton.h"
+#include "JXTextCheckbox.h"
+#include "JXStaticText.h"
 #include <jGlobals.h>
 #include <JMinMax.h>
 #include <jAssert.h>

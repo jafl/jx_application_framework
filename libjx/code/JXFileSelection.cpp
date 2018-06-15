@@ -9,9 +9,9 @@
 
  ******************************************************************************/
 
-#include <JXFileSelection.h>
-#include <JXDisplay.h>
-#include <jXUtil.h>
+#include "JXFileSelection.h"
+#include "JXDisplay.h"
+#include "jXUtil.h"
 #include <jDirUtil.h>
 #include <jAssert.h>
 

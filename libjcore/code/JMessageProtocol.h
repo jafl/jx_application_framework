@@ -8,9 +8,9 @@
 #ifndef _H_JMessageProtocol
 #define _H_JMessageProtocol
 
-#include <JNetworkProtocolBase.h>
-#include <JPtrArray-JString.h>
-#include <JRegex.h>
+#include "JNetworkProtocolBase.h"
+#include "JPtrArray-JString.h"
+#include "JRegex.h"
 
 class JMessageProtocolT
 {
@@ -146,6 +146,6 @@ private:
 	JMessageProtocol& operator=(const JMessageProtocol& source);
 };
 
-#include <JMessageProtocol.tmpl>
+#include "JMessageProtocol.tmpl"
 
 #endif

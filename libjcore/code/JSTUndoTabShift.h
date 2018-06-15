@@ -8,7 +8,7 @@
 #ifndef _H_JTEUndoTabShift
 #define _H_JTEUndoTabShift
 
-#include <JSTUndoPaste.h>
+#include "JSTUndoPaste.h"
 
 class JSTUndoTabShift : public JSTUndoPaste
 {

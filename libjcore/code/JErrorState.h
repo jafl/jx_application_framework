@@ -12,7 +12,7 @@
 #ifndef _H_JErrorState
 #define _H_JErrorState
 
-#include <JError.h>
+#include "JError.h"
 
 class JErrorState
 {

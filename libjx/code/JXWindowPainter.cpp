@@ -12,13 +12,13 @@
 
  ******************************************************************************/
 
-#include <JXWindowPainter.h>
-#include <JXDisplay.h>
-#include <JXGC.h>
-#include <JXColorManager.h>
-#include <JXImage.h>
-#include <JXImagePainter.h>
-#include <jXUtil.h>
+#include "JXWindowPainter.h"
+#include "JXDisplay.h"
+#include "JXGC.h"
+#include "JXColorManager.h"
+#include "JXImage.h"
+#include "JXImagePainter.h"
+#include "jXUtil.h"
 #include <JStringIterator.h>
 #include <JStringMatch.h>
 #include <jAssert.h>

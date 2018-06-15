@@ -10,7 +10,7 @@
 #ifndef _H_JXStaticText
 #define _H_JXStaticText
 
-#include <JXTEBase.h>
+#include "JXTEBase.h"
 
 class JXStaticText : public JXTEBase
 {

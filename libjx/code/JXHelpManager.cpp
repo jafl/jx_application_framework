@@ -10,7 +10,7 @@
 
  ******************************************************************************/
 
-#include <JXHelpManager.h>
+#include "JXHelpManager.h"
 #include <JWebBrowser.h>
 #include <jGlobals.h>
 #include <jAssert.h>

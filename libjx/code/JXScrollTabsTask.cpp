@@ -7,8 +7,8 @@
 
  ******************************************************************************/
 
-#include <JXScrollTabsTask.h>
-#include <JXTabGroup.h>
+#include "JXScrollTabsTask.h"
+#include "JXTabGroup.h"
 
 /******************************************************************************
  Constructor

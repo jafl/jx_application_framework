@@ -48,15 +48,15 @@
 
  ******************************************************************************/
 
-#include <JXDocumentManager.h>
-#include <JXFileDocument.h>
-#include <JXDocumentMenu.h>
-#include <JXUpdateDocMenuTask.h>
-#include <JXTimerTask.h>
-#include <JXImage.h>
-#include <JXDisplay.h>
-#include <JXColorManager.h>
-#include <jXGlobals.h>
+#include "JXDocumentManager.h"
+#include "JXFileDocument.h"
+#include "JXDocumentMenu.h"
+#include "JXUpdateDocMenuTask.h"
+#include "JXTimerTask.h"
+#include "JXImage.h"
+#include "JXDisplay.h"
+#include "JXColorManager.h"
+#include "jXGlobals.h"
 #include <JStringIterator.h>
 #include <jFileUtil.h>
 #include <jDirUtil.h>

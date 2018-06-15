@@ -29,14 +29,14 @@
 
  ******************************************************************************/
 
-#include <JXScrollbar.h>
-#include <JXScrolltab.h>
-#include <JXDisplay.h>
-#include <JXWindow.h>
-#include <JXTextMenu.h>
-#include <JXWindowPainter.h>
-#include <JXColorManager.h>
-#include <jXPainterUtil.h>
+#include "JXScrollbar.h"
+#include "JXScrolltab.h"
+#include "JXDisplay.h"
+#include "JXWindow.h"
+#include "JXTextMenu.h"
+#include "JXWindowPainter.h"
+#include "JXColorManager.h"
+#include "jXPainterUtil.h"
 #include <jStreamUtil.h>
 #include <JMinMax.h>
 #include <jTime.h>

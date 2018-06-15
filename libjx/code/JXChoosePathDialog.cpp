@@ -10,20 +10,20 @@
 
  ******************************************************************************/
 
-#include <JXChoosePathDialog.h>
-#include <JXDirTable.h>
-#include <JXCurrentPathMenu.h>
+#include "JXChoosePathDialog.h"
+#include "JXDirTable.h"
+#include "JXCurrentPathMenu.h"
 #include <JDirInfo.h>
-#include <JXNewDirButton.h>
+#include "JXNewDirButton.h"
 
-#include <JXWindow.h>
-#include <JXStaticText.h>
-#include <JXTextButton.h>
-#include <JXTextCheckbox.h>
-#include <JXPathInput.h>
-#include <JXPathHistoryMenu.h>
-#include <JXScrollbarSet.h>
-#include <jXGlobals.h>
+#include "JXWindow.h"
+#include "JXStaticText.h"
+#include "JXTextButton.h"
+#include "JXTextCheckbox.h"
+#include "JXPathInput.h"
+#include "JXPathHistoryMenu.h"
+#include "JXScrollbarSet.h"
+#include "jXGlobals.h"
 
 #include <JTableSelection.h>
 #include <JUserNotification.h>

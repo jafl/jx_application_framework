@@ -8,7 +8,7 @@
 #ifndef _H_JXProgressTask
 #define _H_JXProgressTask
 
-#include <JXIdleTask.h>
+#include "JXIdleTask.h"
 #include <JBroadcaster.h>
 
 class JString;

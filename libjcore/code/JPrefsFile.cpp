@@ -35,11 +35,11 @@
 
  ******************************************************************************/
 
-#include <JPrefsFile.h>
-#include <JFileArrayIndex.h>
-#include <JString.h>
-#include <jDirUtil.h>
-#include <jAssert.h>
+#include "JPrefsFile.h"
+#include "JFileArrayIndex.h"
+#include "JString.h"
+#include "jDirUtil.h"
+#include "jAssert.h"
 
 // JError types
 

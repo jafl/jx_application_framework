@@ -7,9 +7,9 @@
 
  ******************************************************************************/
 
-#include <JXBusyIconTask.h>
-#include <JXImageWidget.h>
-#include <JXImage.h>
+#include "JXBusyIconTask.h"
+#include "JXImageWidget.h"
+#include "JXImage.h"
 #include <jAssert.h>
 
 #include <jx_busy_1_small.xpm>

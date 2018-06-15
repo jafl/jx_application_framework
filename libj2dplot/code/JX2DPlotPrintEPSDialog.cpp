@@ -7,8 +7,8 @@
 
  ******************************************************************************/
 
-#include <JX2DPlotPrintEPSDialog.h>
-#include <J2DPlotWidget.h>
+#include "JX2DPlotPrintEPSDialog.h"
+#include "J2DPlotWidget.h"
 #include <JPSPrinter.h>
 #include <JXWindow.h>
 #include <JXTextButton.h>

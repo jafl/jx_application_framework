@@ -8,7 +8,7 @@
 #ifndef _H_JXHorizDockPartition
 #define _H_JXHorizDockPartition
 
-#include <JXHorizPartition.h>
+#include "JXHorizPartition.h"
 
 class JXTextMenu;
 class JXDockDirector;

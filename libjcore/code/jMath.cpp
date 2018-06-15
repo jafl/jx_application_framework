@@ -7,10 +7,10 @@
 
  ******************************************************************************/
 
-#include <jMath.h>
+#include "jMath.h"
 #include <limits.h>
-#include <jErrno.h>
-#include <jAssert.h>
+#include "jErrno.h"
+#include "jAssert.h"
 
 /******************************************************************************
  JRound

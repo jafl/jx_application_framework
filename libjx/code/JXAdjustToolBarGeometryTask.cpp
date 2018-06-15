@@ -7,8 +7,8 @@
 
  ******************************************************************************/
 
-#include <JXAdjustToolBarGeometryTask.h>
-#include <JXToolBar.h>
+#include "JXAdjustToolBarGeometryTask.h"
+#include "JXToolBar.h"
 
 /******************************************************************************
  Constructor

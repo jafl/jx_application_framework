@@ -8,7 +8,7 @@
 #ifndef _H_JXScrollbar
 #define _H_JXScrollbar
 
-#include <JXWidget.h>
+#include "JXWidget.h"
 #include <jMath.h>
 
 class JPainter;

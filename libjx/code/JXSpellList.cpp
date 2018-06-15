@@ -7,9 +7,9 @@
 
  ******************************************************************************/
 
-#include <JXSpellList.h>
-#include <JXColorManager.h>
-#include <jXGlobals.h>
+#include "JXSpellList.h"
+#include "JXColorManager.h"
+#include "jXGlobals.h"
 #include <JTableSelection.h>
 #include <jAssert.h>
 

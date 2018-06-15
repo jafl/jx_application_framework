@@ -13,7 +13,6 @@
 #include "TestMDIServer.h"
 #include "testjxStringData.h"
 #include "testjxGlobals.h"
-#include <JString.h>
 #include <JThisProcess.h>
 #include <JOutPipeStream.h>
 #include <jSysUtil.h>

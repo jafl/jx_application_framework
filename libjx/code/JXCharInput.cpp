@@ -7,8 +7,8 @@
 
  ******************************************************************************/
 
-#include <JXCharInput.h>
-#include <JXEditTable.h>
+#include "JXCharInput.h"
+#include "JXEditTable.h"
 #include <jAssert.h>
 
 /******************************************************************************

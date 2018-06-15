@@ -8,7 +8,7 @@
 #ifndef _H_JXTextSelection
 #define _H_JXTextSelection
 
-#include <JXSelectionManager.h>
+#include "JXSelectionManager.h"
 #include <JTextEditor.h>
 
 class JXTextSelection : public JXSelectionData

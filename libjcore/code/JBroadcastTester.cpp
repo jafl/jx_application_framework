@@ -9,8 +9,8 @@
 
  ******************************************************************************/
 
-#include <JBroadcastTester.h>
-#include <JTestManager.h>
+#include "JBroadcastTester.h"
+#include "JTestManager.h"
 
 /******************************************************************************
  Constructor

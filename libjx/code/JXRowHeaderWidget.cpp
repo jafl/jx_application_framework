@@ -14,15 +14,15 @@
 
  ******************************************************************************/
 
-#include <JXRowHeaderWidget.h>
-#include <JXWindow.h>
-#include <JXScrollbarSet.h>
-#include <JXScrollbar.h>
-#include <JXDragPainter.h>
-#include <JXFontManager.h>
-#include <JXColorManager.h>
-#include <jXPainterUtil.h>
-#include <jXGlobals.h>
+#include "JXRowHeaderWidget.h"
+#include "JXWindow.h"
+#include "JXScrollbarSet.h"
+#include "JXScrollbar.h"
+#include "JXDragPainter.h"
+#include "JXFontManager.h"
+#include "JXColorManager.h"
+#include "jXPainterUtil.h"
+#include "jXGlobals.h"
 #include <JString.h>
 #include <jAssert.h>
 

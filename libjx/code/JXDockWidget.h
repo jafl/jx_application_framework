@@ -8,7 +8,7 @@
 #ifndef _H_JXDockWidget
 #define _H_JXDockWidget
 
-#include <JXWidgetSet.h>
+#include "JXWidgetSet.h"
 
 class JXWindowDirector;
 class JXDockDirector;

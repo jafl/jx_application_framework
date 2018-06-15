@@ -10,7 +10,7 @@
 #ifndef _H_JXVertPartition
 #define _H_JXVertPartition
 
-#include <JXPartition.h>
+#include "JXPartition.h"
 
 class JXVertPartition : public JXPartition
 {

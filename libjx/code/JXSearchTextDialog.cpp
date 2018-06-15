@@ -20,23 +20,23 @@
 
  ******************************************************************************/
 
-#include <JXSearchTextDialog.h>
-#include <JXSearchTextButton.h>
-#include <JXDisplay.h>
-#include <JXWindow.h>
-#include <JXStaticText.h>
-#include <JXInputField.h>
-#include <JXTextButton.h>
-#include <JXTextCheckbox.h>
-#include <JXRadioGroup.h>
-#include <JXTextRadioButton.h>
-#include <JXStringHistoryMenu.h>
-#include <JXTimerTask.h>
-#include <JXMenu.h>
-#include <JXSearchTextDecorTask.h>
-#include <JXFontManager.h>
-#include <JXColorManager.h>
-#include <jXGlobals.h>
+#include "JXSearchTextDialog.h"
+#include "JXSearchTextButton.h"
+#include "JXDisplay.h"
+#include "JXWindow.h"
+#include "JXStaticText.h"
+#include "JXInputField.h"
+#include "JXTextButton.h"
+#include "JXTextCheckbox.h"
+#include "JXRadioGroup.h"
+#include "JXTextRadioButton.h"
+#include "JXStringHistoryMenu.h"
+#include "JXTimerTask.h"
+#include "JXMenu.h"
+#include "JXSearchTextDecorTask.h"
+#include "JXFontManager.h"
+#include "JXColorManager.h"
+#include "jXGlobals.h"
 #include <JWebBrowser.h>
 #include <JRegex.h>
 #include <JInterpolate.h>

@@ -25,6 +25,6 @@ T JMax(const T v1, const T v2, Args... more);
 template <class T>
 T JLimit(const T min, const T v, const T max);
 
-#include <JMinMax.tmpl>
+#include "JMinMax.tmpl"
 
 #endif

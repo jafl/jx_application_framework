@@ -9,14 +9,14 @@
 
  ******************************************************************************/
 
-#include <JXInputField.h>
-#include <JXTextMenu.h>
-#include <JXEditTable.h>
-#include <JXWindowPainter.h>
-#include <JXColorManager.h>
-#include <jXConstants.h>
-#include <jXGlobals.h>
-#include <jXKeysym.h>
+#include "JXInputField.h"
+#include "JXTextMenu.h"
+#include "JXEditTable.h"
+#include "JXWindowPainter.h"
+#include "JXColorManager.h"
+#include "jXConstants.h"
+#include "jXGlobals.h"
+#include "jXKeysym.h"
 #include <JStringIterator.h>
 #include <jAssert.h>
 
@@ -693,7 +693,7 @@ JXInputField::HandleContextMenu
 #define MenuVar      itsContextMenu
 #define CmdType      MenuItemInfo
 #define CmdIDList    kContextMenuItemInfo
-#include <JXMenuItemIDUtil.th>
+#include "JXMenuItemIDUtil.th"
 #undef ClassName
 #undef IndexToCmdFn
 #undef CmdToIndexFn

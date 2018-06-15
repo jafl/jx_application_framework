@@ -7,7 +7,7 @@
 
  ********************************************************************************/
 
-#include <J2DVectorData.h>
+#include "J2DVectorData.h"
 #include <JMinMax.h>
 #include <jAssert.h>
 

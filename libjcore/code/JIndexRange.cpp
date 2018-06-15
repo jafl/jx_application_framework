@@ -20,9 +20,9 @@
 
  *****************************************************************************/
 
-#include <JIndexRange.h>
-#include <JMinMax.h>
-#include <jAssert.h>
+#include "JIndexRange.h"
+#include "JMinMax.h"
+#include "jAssert.h"
 
 /******************************************************************************
  operator+= (covering)

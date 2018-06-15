@@ -9,9 +9,9 @@
 
  ******************************************************************************/
 
-#include <JXSliderBase.h>
-#include <JXWindowPainter.h>
-#include <jXPainterUtil.h>
+#include "JXSliderBase.h"
+#include "JXWindowPainter.h"
+#include "jXPainterUtil.h"
 #include <jAssert.h>
 
 /******************************************************************************

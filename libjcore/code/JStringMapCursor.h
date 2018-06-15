@@ -12,8 +12,8 @@
 
  *****************************************************************************/
 
-#include <JConstHashCursor.h>
-#include <JStrValue.h>
+#include "JConstHashCursor.h"
+#include "JStrValue.h"
 
 template <class V> class JStringMap;
 

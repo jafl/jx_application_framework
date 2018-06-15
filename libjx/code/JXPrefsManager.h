@@ -9,7 +9,7 @@
 #define _H_JXPrefsManager
 
 #include <JPrefsManager.h>
-#include <JXDocumentManager.h>	// need definition of SafetySaveReason
+#include "JXDocumentManager.h"	// need definition of SafetySaveReason
 
 class JXPrefsManager : public JPrefsManager
 {

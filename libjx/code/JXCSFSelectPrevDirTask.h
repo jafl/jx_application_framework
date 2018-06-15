@@ -10,7 +10,7 @@
 #ifndef _H_JXCSFSelectPrevDirTask
 #define _H_JXCSFSelectPrevDirTask
 
-#include <JXUrgentTask.h>
+#include "JXUrgentTask.h"
 #include <JBroadcaster.h>
 #include <JString.h>
 

@@ -10,8 +10,8 @@
 #ifndef _H_JPagePrinter
 #define _H_JPagePrinter
 
-#include <JPainter.h>
-#include <JPrinter.h>
+#include "JPainter.h"
+#include "JPrinter.h"
 
 class JPagePrinter : public JPainter, public JPrinter
 {

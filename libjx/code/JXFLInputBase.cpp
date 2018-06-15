@@ -9,12 +9,12 @@
 
  ******************************************************************************/
 
-#include <JXFLInputBase.h>
-#include <JXFileListTable.h>
-#include <JXFileListSet.h>
-#include <JXWindow.h>
-#include <JXStringHistoryMenu.h>
-#include <JXFontManager.h>
+#include "JXFLInputBase.h"
+#include "JXFileListTable.h"
+#include "JXFileListSet.h"
+#include "JXWindow.h"
+#include "JXStringHistoryMenu.h"
+#include "JXFontManager.h"
 #include <jASCIIConstants.h>
 #include <jGlobals.h>
 #include <jAssert.h>

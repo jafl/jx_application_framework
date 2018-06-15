@@ -22,10 +22,10 @@
 
  ******************************************************************************/
 
-#include <JXWindowDirector.h>
-#include <JXDisplay.h>
-#include <JXWindow.h>
-#include <JXWDManager.h>
+#include "JXWindowDirector.h"
+#include "JXDisplay.h"
+#include "JXWindow.h"
+#include "JXWDManager.h"
 #include <JString.h>
 #include <jAssert.h>
 

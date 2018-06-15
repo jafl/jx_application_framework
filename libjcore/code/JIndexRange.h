@@ -8,7 +8,7 @@
 #ifndef _H_JIndexRange
 #define _H_JIndexRange
 
-#include <jTypes.h>
+#include "jTypes.h"
 #include <sys/types.h>
 
 class JIndexRange

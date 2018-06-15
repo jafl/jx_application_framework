@@ -9,10 +9,10 @@
 
  ******************************************************************************/
 
-#include <JXImageSelection.h>
-#include <JXDisplay.h>
-#include <JXSelectionManager.h>
-#include <JXImage.h>
+#include "JXImageSelection.h"
+#include "JXDisplay.h"
+#include "JXSelectionManager.h"
+#include "JXImage.h"
 #include <jStreamUtil.h>
 #include <jFStreamUtil.h>
 #include <jFileUtil.h>

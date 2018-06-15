@@ -10,7 +10,7 @@
 #ifndef _H_JStdError
 #define _H_JStdError
 
-#include <JError.h>
+#include "JError.h"
 
 // Types
 

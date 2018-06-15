@@ -29,7 +29,7 @@ public:
 };
 
 
-#include <jTypes.h>
+#include "jTypes.h"
 
 
 template <class V>

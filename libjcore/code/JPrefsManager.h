@@ -10,10 +10,10 @@
 #ifndef _H_JPrefsManager
 #define _H_JPrefsManager
 
-#include <JContainer.h>
-#include <JPrefsFile.h>		// need definition of JPrefID
-#include <JArray.h>
-#include <JError.h>
+#include "JContainer.h"
+#include "JPrefsFile.h"		// need definition of JPrefID
+#include "JArray.h"
+#include "JError.h"
 
 class JString;
 class JPrefsFile;

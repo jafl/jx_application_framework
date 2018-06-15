@@ -9,13 +9,13 @@
 
  ******************************************************************************/
 
-#include <JXTextMenuData.h>
-#include <JXTextMenu.h>
-#include <JXTextMenuTable.h>
-#include <JXWindow.h>
-#include <JXImage.h>
-#include <jXGlobals.h>
-#include <jXKeysym.h>
+#include "JXTextMenuData.h"
+#include "JXTextMenu.h"
+#include "JXTextMenuTable.h"
+#include "JXWindow.h"
+#include "JXImage.h"
+#include "jXGlobals.h"
+#include "jXKeysym.h"
 #include <JFontManager.h>
 #include <JStringIterator.h>
 #include <JStringMatch.h>

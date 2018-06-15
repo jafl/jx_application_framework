@@ -9,9 +9,9 @@
 
  ******************************************************************************/
 
-#include <JXRestorePartitionGeometry.h>
-#include <JXHorizPartition.h>
-#include <JXVertPartition.h>
+#include "JXRestorePartitionGeometry.h"
+#include "JXHorizPartition.h"
+#include "JXVertPartition.h"
 
 /******************************************************************************
  Constructor

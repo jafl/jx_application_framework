@@ -8,7 +8,7 @@
 #ifndef _H_JColorManager
 #define _H_JColorManager
 
-#include <jColor.h>
+#include "jColor.h"
 
 class JString;
 

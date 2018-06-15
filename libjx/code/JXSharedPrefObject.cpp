@@ -16,9 +16,9 @@
 
  ******************************************************************************/
 
-#include <JXSharedPrefObject.h>
-#include <JXSharedPrefsManager.h>
-#include <jXGlobals.h>
+#include "JXSharedPrefObject.h"
+#include "JXSharedPrefsManager.h"
+#include "jXGlobals.h"
 #include <sstream>
 #include <jAssert.h>
 

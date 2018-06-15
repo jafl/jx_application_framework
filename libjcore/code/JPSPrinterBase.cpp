@@ -40,16 +40,16 @@
 
  ******************************************************************************/
 
-#include <JPSPrinterBase.h>
-#include <JImage.h>
-#include <JImageMask.h>
-#include <jFileUtil.h>
-#include <JFontManager.h>
-#include <JColorManager.h>
-#include <JStringIterator.h>
-#include <jTime.h>
+#include "JPSPrinterBase.h"
+#include "JImage.h"
+#include "JImageMask.h"
+#include "jFileUtil.h"
+#include "JFontManager.h"
+#include "JColorManager.h"
+#include "JStringIterator.h"
+#include "jTime.h"
 #include <stdlib.h>
-#include <jAssert.h>
+#include "jAssert.h"
 
 /******************************************************************************
  Constructor

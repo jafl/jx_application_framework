@@ -10,7 +10,7 @@
 #ifndef _H_JXFontSizeMenu
 #define _H_JXFontSizeMenu
 
-#include <JXTextMenu.h>
+#include "JXTextMenu.h"
 
 class JXFontNameMenu;
 class JXChooseFontSizeDialog;

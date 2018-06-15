@@ -14,13 +14,13 @@
 
  ******************************************************************************/
 
-#include <JXDockManager.h>
-#include <JXDockDirector.h>
-#include <JXDockWidget.h>
-#include <JXDockWindowTask.h>
-#include <JXDisplay.h>
-#include <JXImage.h>
-#include <jXGlobals.h>
+#include "JXDockManager.h"
+#include "JXDockDirector.h"
+#include "JXDockWidget.h"
+#include "JXDockWindowTask.h"
+#include "JXDisplay.h"
+#include "JXImage.h"
+#include "jXGlobals.h"
 #include <jAssert.h>
 
 const JFileVersion kCurrentSetupVersion = 3;

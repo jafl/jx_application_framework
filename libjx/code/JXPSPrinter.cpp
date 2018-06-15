@@ -9,11 +9,11 @@
 
  ******************************************************************************/
 
-#include <JXPSPrinter.h>
-#include <JXPSPageSetupDialog.h>
-#include <JXPSPrintSetupDialog.h>
-#include <JXDisplay.h>
-#include <jXGlobals.h>
+#include "JXPSPrinter.h"
+#include "JXPSPageSetupDialog.h"
+#include "JXPSPrintSetupDialog.h"
+#include "JXDisplay.h"
+#include "jXGlobals.h"
 #include <jFileUtil.h>
 #include <jProcessUtil.h>
 #include <jStreamUtil.h>

@@ -7,15 +7,15 @@
 
  ******************************************************************************/
 
-#include <JXPGMessageDirector.h>
-#include <JXDisplay.h>
-#include <JXWindow.h>
-#include <JXTextButton.h>
-#include <JXStaticText.h>
-#include <JXScrollbarSet.h>
-#include <JXFontManager.h>
-#include <JXPTPrinter.h>
-#include <jXGlobals.h>
+#include "JXPGMessageDirector.h"
+#include "JXDisplay.h"
+#include "JXWindow.h"
+#include "JXTextButton.h"
+#include "JXStaticText.h"
+#include "JXScrollbarSet.h"
+#include "JXFontManager.h"
+#include "JXPTPrinter.h"
+#include "jXGlobals.h"
 #include <jFStreamUtil.h>
 #include <jAssert.h>
 

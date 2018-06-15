@@ -10,9 +10,9 @@
 #ifndef _H_JXWidget
 #define _H_JXWidget
 
-#include <JXContainer.h>
-#include <JXSelectionManager.h>		// need defn of Data
-#include <JXDNDManager.h>			// need defn of TargetFinder
+#include "JXContainer.h"
+#include "JXSelectionManager.h"		// need defn of Data
+#include "JXDNDManager.h"			// need defn of TargetFinder
 #include <jColor.h>
 
 class JString;

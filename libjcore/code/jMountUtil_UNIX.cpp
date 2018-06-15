@@ -7,13 +7,13 @@
 
  ******************************************************************************/
 
-#include <jMountUtil.h>
-#include <jDirUtil.h>
-#include <JThisProcess.h>
-#include <JRegex.h>
-#include <JStringIterator.h>
-#include <JStringMatch.h>
-#include <jSysUtil.h>
+#include "jMountUtil.h"
+#include "jDirUtil.h"
+#include "JThisProcess.h"
+#include "JRegex.h"
+#include "JStringIterator.h"
+#include "JStringMatch.h"
+#include "jSysUtil.h"
 
 #if defined __OpenBSD__
 // Unfortunately, <sys/mount.h> does not compile cleanly with C++ due to
@@ -23,9 +23,9 @@
 #endif
 
 #if defined _J_OSX
-	#include <JProcess.h>
-	#include <jStreamUtil.h>
-	#include <JRegex.h>
+	#include "JProcess.h"
+	#include "jStreamUtil.h"
+	#include "JRegex.h"
 	#include <sys/param.h>
 	#include <sys/ucred.h>
 	#include <sys/mount.h>
@@ -47,7 +47,7 @@
 	#include <mntent.h>
 #endif
 
-#include <jAssert.h>
+#include "jAssert.h"
 
 #if defined JMOUNT_OSX
 static const JString kMountCmd("mount", kJFalse);

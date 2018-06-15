@@ -10,7 +10,7 @@
 #ifndef _H_JMDIServer
 #define _H_JMDIServer
 
-#include <JPtrArray.h>
+#include "JPtrArray.h"
 
 class JString;
 class ACE_LSOCK_Acceptor;

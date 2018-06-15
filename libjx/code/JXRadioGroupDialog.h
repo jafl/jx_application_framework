@@ -10,7 +10,7 @@
 #ifndef _H_JXRadioGroupDialog
 #define _H_JXRadioGroupDialog
 
-#include <JXDialogDirector.h>
+#include "JXDialogDirector.h"
 #include <JPtrArray-JString.h>
 
 class JXRadioGroup;

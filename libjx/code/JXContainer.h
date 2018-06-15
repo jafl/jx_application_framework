@@ -11,8 +11,8 @@
 #define _H_JXContainer
 
 #include <JBroadcaster.h>
-#include <jXEventUtil.h>
-#include <JXCursor.h>
+#include "jXEventUtil.h"
+#include "JXCursor.h"
 #include <JPtrArray.h>
 #include <JRect.h>
 #include <jColor.h>

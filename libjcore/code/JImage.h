@@ -10,10 +10,10 @@
 #ifndef _H_JImage
 #define _H_JImage
 
-#include <JRect.h>
-#include <jColor.h>
-#include <JError.h>
-#include <JXPM.h>
+#include "JRect.h"
+#include "jColor.h"
+#include "JError.h"
+#include "JXPM.h"
 #include <gd.h>
 
 class JImageMask;

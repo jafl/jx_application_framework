@@ -18,8 +18,8 @@
 
  ******************************************************************************/
 
-#include <JXFileHistoryMenu.h>
-#include <JXImage.h>
+#include "JXFileHistoryMenu.h"
+#include "JXImage.h"
 #include <JString.h>
 #include <jFileUtil.h>
 #include <jDirUtil.h>

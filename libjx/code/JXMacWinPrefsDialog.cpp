@@ -8,12 +8,12 @@
  ******************************************************************************/
 
 #include "JXMacWinPrefsDialog.h"
-#include <JXWindow.h>
-#include <JXMenu.h>
-#include <JXStaticText.h>
-#include <JXTextButton.h>
-#include <JXTextCheckbox.h>
-#include <jXGlobals.h>
+#include "JXWindow.h"
+#include "JXMenu.h"
+#include "JXStaticText.h"
+#include "JXTextButton.h"
+#include "JXTextCheckbox.h"
+#include "jXGlobals.h"
 #include <JFontManager.h>
 #include <jAssert.h>
 

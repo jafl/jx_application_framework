@@ -8,7 +8,7 @@
 #ifndef _H_JAsynchDataReceiver
 #define _H_JAsynchDataReceiver
 
-#include <JPtrArray-JString.h>
+#include "JPtrArray-JString.h"
 #include <ace/Svc_Handler.h>
 #include <ace/Synch_Traits.h>
 
@@ -88,6 +88,6 @@ private:
 	JAsynchDataReceiver& operator=(const JAsynchDataReceiver& source);
 };
 
-#include <JAsynchDataReceiver.tmpl>
+#include "JAsynchDataReceiver.tmpl"
 
 #endif

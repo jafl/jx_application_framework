@@ -10,8 +10,8 @@
 #ifndef _H_JImageMask
 #define _H_JImageMask
 
-#include <jTypes.h>
-#include <jColor.h>
+#include "jTypes.h"
+#include "jColor.h"
 
 class JImage;
 

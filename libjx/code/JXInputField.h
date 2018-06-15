@@ -10,8 +10,8 @@
 #ifndef _H_JXInputField
 #define _H_JXInputField
 
-#include <JXTEBase.h>
-#include <JXStyledText.h>
+#include "JXTEBase.h"
+#include "JXStyledText.h"
 
 class JXTextMenu;
 class JXEditTable;

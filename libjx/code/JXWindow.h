@@ -10,8 +10,8 @@
 #ifndef _H_JXWindow
 #define _H_JXWindow
 
-#include <JXContainer.h>
-#include <JXCursor.h>
+#include "JXContainer.h"
+#include "JXCursor.h"
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 #include <JString.h>

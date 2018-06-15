@@ -10,7 +10,7 @@
 #ifndef _H_JXPGDirectorBase
 #define _H_JXPGDirectorBase
 
-#include <JXWindowDirector.h>
+#include "JXWindowDirector.h"
 
 class JXWindow;
 class JXStaticText;

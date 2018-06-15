@@ -10,7 +10,7 @@
 #ifndef _H_JXTextRadioButton
 #define _H_JXTextRadioButton
 
-#include <JXRadioButton.h>
+#include "JXRadioButton.h"
 #include <JString.h>
 #include <JFont.h>
 

@@ -10,11 +10,11 @@
 #ifndef _H_JPSPrinterBase
 #define _H_JPSPrinterBase
 
-#include <JFont.h>
-#include <JRect.h>
-#include <JPolygon.h>
-#include <JString.h>
-#include <jFStreamUtil.h>
+#include "JFont.h"
+#include "JRect.h"
+#include "JPolygon.h"
+#include "JString.h"
+#include "jFStreamUtil.h"
 
 class JString;
 class JFontManager;

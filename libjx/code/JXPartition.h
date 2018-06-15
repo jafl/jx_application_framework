@@ -10,7 +10,7 @@
 #ifndef _H_JXPartition
 #define _H_JXPartition
 
-#include <JXWidgetSet.h>
+#include "JXWidgetSet.h"
 #include <JPartition.h>
 
 class JXPartition : public JXWidgetSet, public JPartition

@@ -10,10 +10,10 @@
 
  ******************************************************************************/
 
-#include <JXSearchTextDecorTask.h>
-#include <JXWindow.h>
-#include <JXTextCheckbox.h>
-#include <JXDownRect.h>
+#include "JXSearchTextDecorTask.h"
+#include "JXWindow.h"
+#include "JXTextCheckbox.h"
+#include "JXDownRect.h"
 #include <jAssert.h>
 
 /******************************************************************************

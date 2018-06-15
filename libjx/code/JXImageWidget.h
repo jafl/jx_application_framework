@@ -10,8 +10,8 @@
 #ifndef _H_JXImageWidget
 #define _H_JXImageWidget
 
-#include <JXScrollableWidget.h>
-#include <jXConstants.h>
+#include "JXScrollableWidget.h"
+#include "jXConstants.h"
 #include <JConstBitmap.h>
 #include "JXPM.h"
 

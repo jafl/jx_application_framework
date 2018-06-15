@@ -6,7 +6,7 @@
 	To use this file:
 
 		#define LabelVarName ____
-		#include <JXUpdateShortcutIndex.th>
+		#include "JXUpdateShortcutIndex.th"
 		#undef LabelVarName
 
 	Copyright (C) 1996 by John Lindal.

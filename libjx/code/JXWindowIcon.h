@@ -10,7 +10,7 @@
 #ifndef _H_JXWindowIcon
 #define _H_JXWindowIcon
 
-#include <JXWidget.h>
+#include "JXWidget.h"
 
 class JXImage;
 

@@ -9,9 +9,9 @@
 
  ******************************************************************************/
 
-#include <JXImageMenuData.h>
-#include <JXImageMenuTable.h>
-#include <JXImage.h>
+#include "JXImageMenuData.h"
+#include "JXImageMenuTable.h"
+#include "JXImage.h"
 #include <JMinMax.h>
 #include <jAssert.h>
 

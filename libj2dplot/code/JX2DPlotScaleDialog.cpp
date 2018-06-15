@@ -7,7 +7,7 @@
 
  ******************************************************************************/
 
-#include <JX2DPlotScaleDialog.h>
+#include "JX2DPlotScaleDialog.h"
 #include <JXWindow.h>
 #include <JXTextButton.h>
 #include <JXFloatInput.h>
@@ -15,7 +15,7 @@
 #include <JXStaticText.h>
 #include <JXTextRadioButton.h>
 #include <JXColorManager.h>
-#include <J2DPlotWidget.h>
+#include "J2DPlotWidget.h"
 #include <jGlobals.h>
 #include <JMinMax.h>
 #include <jAssert.h>

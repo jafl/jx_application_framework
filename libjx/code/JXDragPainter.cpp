@@ -13,10 +13,10 @@
 
  ******************************************************************************/
 
-#include <JXDragPainter.h>
-#include <JXDisplay.h>
-#include <JXWindow.h>
-#include <JXGC.h>
+#include "JXDragPainter.h"
+#include "JXDisplay.h"
+#include "JXWindow.h"
+#include "JXGC.h"
 #include <string.h>
 #include <jMath.h>
 #include <jAssert.h>

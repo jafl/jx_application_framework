@@ -10,7 +10,7 @@
 #ifndef _H_JXFLRegexInput
 #define _H_JXFLRegexInput
 
-#include <JXFLInputBase.h>
+#include "JXFLInputBase.h"
 
 class JXFLRegexInput : public JXFLInputBase
 {

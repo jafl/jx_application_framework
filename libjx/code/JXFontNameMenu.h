@@ -10,7 +10,7 @@
 #ifndef _H_JXFontNameMenu
 #define _H_JXFontNameMenu
 
-#include <JXTextMenu.h>
+#include "JXTextMenu.h"
 
 class JXFontNameMenu : public JXTextMenu
 {

@@ -12,11 +12,11 @@
 
  *****************************************************************************/
 
-#include <JHashTable.h>
-#include <JStringMapCursor.h>
-#include <JStrValue.h>
-#include <JString.h>
-#include <JPtrArray.h>	// need definition of CleanUpAction, SetElementAction
+#include "JHashTable.h"
+#include "JStringMapCursor.h"
+#include "JStrValue.h"
+#include "JString.h"
+#include "JPtrArray.h"	// need definition of CleanUpAction, SetElementAction
 
 struct JStringMapT
 {
@@ -300,7 +300,7 @@ JStringMap<V>::RemoveAll()
 	RemoveAll(JPtrArrayT::kForget);
 }
 
-#include <JStringMap.tmpl>
-#include <JStringMapCursor.tmpl>
+#include "JStringMap.tmpl"
+#include "JStringMapCursor.tmpl"
 
 #endif

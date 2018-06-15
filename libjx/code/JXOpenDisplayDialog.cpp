@@ -7,8 +7,8 @@
 
  ******************************************************************************/
 
-#include <JXOpenDisplayDialog.h>
-#include <jXGlobals.h>
+#include "JXOpenDisplayDialog.h"
+#include "jXGlobals.h"
 #include <jAssert.h>
 
 /******************************************************************************

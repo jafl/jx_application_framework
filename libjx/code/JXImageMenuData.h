@@ -8,7 +8,7 @@
 #ifndef _H_JXImageMenuData
 #define _H_JXImageMenuData
 
-#include <JXMenuData.h>
+#include "JXMenuData.h"
 #include <JArray.h>
 
 class JXImage;

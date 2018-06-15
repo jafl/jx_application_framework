@@ -84,16 +84,16 @@
 
  ******************************************************************************/
 
-#include <JFileArray.h>
-#include <JFileArrayIndex.h>
-#include <JString.h>
-#include <JListUtil.h>
-#include <jFStreamUtil.h>
-#include <jStreamUtil.h>
-#include <jFileUtil.h>
-#include <jDirUtil.h>
-#include <JMinMax.h>
-#include <jAssert.h>
+#include "JFileArray.h"
+#include "JFileArrayIndex.h"
+#include "JString.h"
+#include "JListUtil.h"
+#include "jFStreamUtil.h"
+#include "jStreamUtil.h"
+#include "jFileUtil.h"
+#include "jDirUtil.h"
+#include "JMinMax.h"
+#include "jAssert.h"
 
 const JFileVersion JFileArray::kInitialVersion = 0;
 const JIndex JFAIndex::kInvalidIndex           = 0;

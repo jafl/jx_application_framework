@@ -9,11 +9,11 @@
 
  ******************************************************************************/
 
-#include <JXTable.h>
-#include <JXDisplay.h>
-#include <JXWindow.h>
-#include <JXWindowPainter.h>
-#include <JXScrollbar.h>
+#include "JXTable.h"
+#include "JXDisplay.h"
+#include "JXWindow.h"
+#include "JXWindowPainter.h"
+#include "JXScrollbar.h"
 #include <JTableSelection.h>
 #include <JColorManager.h>
 #include <jAssert.h>

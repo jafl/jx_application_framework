@@ -5,10 +5,10 @@
 
  ******************************************************************************/
 
-#include <J2DPlotWidget.h>
-#include <JPlotDataBase.h>
-#include <J2DPlotData.h>
-#include <J2DDataRect.h>
+#include "J2DPlotWidget.h"
+#include "JPlotDataBase.h"
+#include "J2DPlotData.h"
+#include "J2DDataRect.h"
 #include <JRegex.h>
 #include <JStringIterator.h>
 #include <JPagePrinter.h>
@@ -2332,9 +2332,8 @@ J2DPlotWidget::DrawXTicks
 	JSize		tickCount
 	)
 {
-	JSize labelHeight = p.GetLineHeight();
-	JFloat axisTemp   = itsXScale[kMin];
-	JFloat axisMin    = itsXScale[kMin];
+	JFloat axisTemp = itsXScale[kMin];
+	JFloat axisMin  = itsXScale[kMin];
 
 	if (itsUseRealXStart)
 		{
@@ -2477,10 +2476,8 @@ J2DPlotWidget::DrawYTicks
 	const JSize			tickCount
 	)
 {
-	// y axis
-	JSize labelHeight = p.GetLineHeight();
-	JFloat axisTemp   = itsYScale[kMin];
-	JFloat axisMin    = itsYScale[kMin];
+	JFloat axisTemp = itsYScale[kMin];
+	JFloat axisMin  = itsYScale[kMin];
 	if (itsUseRealYStart)
 		{
 		axisTemp = itsYScale[kStart];

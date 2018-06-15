@@ -8,9 +8,9 @@
 #ifndef _H_JXToolBar
 #define _H_JXToolBar
 
-#include <JXWidgetSet.h>
+#include "JXWidgetSet.h"
 #include <JPrefObject.h>
-#include <JXToolBarButton.h>	// need defn of Type
+#include "JXToolBarButton.h"	// need defn of Type
 
 class JTree;
 class JTreeNode;

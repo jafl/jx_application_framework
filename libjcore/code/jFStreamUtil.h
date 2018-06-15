@@ -10,7 +10,7 @@
 #ifndef _H_jFStreamUtil
 #define _H_jFStreamUtil
 
-#include <jTypes.h>
+#include "jTypes.h"
 #include <fstream> // templates
 
 class JString;

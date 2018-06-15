@@ -10,7 +10,7 @@
 #ifndef _H_JXImagePainter
 #define _H_JXImagePainter
 
-#include <JXWindowPainter.h>
+#include "JXWindowPainter.h"
 #include <JBroadcaster.h>
 
 class JXImagePainter : public JXWindowPainter, virtual public JBroadcaster

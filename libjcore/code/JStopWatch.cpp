@@ -5,7 +5,7 @@
 
 	Typical usage:
 
-		#include <JStopWatch.h>
+		#include "JStopWatch.h"
 		...
 		JStopWatch timer;
 		timer.StartTimer();
@@ -19,9 +19,9 @@
 
  ******************************************************************************/
 
-#include <JStopWatch.h>
-#include <JString.h>
-#include <jAssert.h>
+#include "JStopWatch.h"
+#include "JString.h"
+#include "jAssert.h"
 
 /******************************************************************************
  Constructor

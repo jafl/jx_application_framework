@@ -10,11 +10,11 @@
 
  ******************************************************************************/
 
-#include <JXEPSPrinter.h>
-#include <JXEPSPrintSetupDialog.h>
-#include <JXDisplay.h>
-#include <JXImage.h>
-#include <JXImagePainter.h>
+#include "JXEPSPrinter.h"
+#include "JXEPSPrintSetupDialog.h"
+#include "JXDisplay.h"
+#include "JXImage.h"
+#include "JXImagePainter.h"
 #include <JColorManager.h>
 #include <jStreamUtil.h>
 #include <jAssert.h>

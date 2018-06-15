@@ -10,12 +10,12 @@
 
  ******************************************************************************/
 
-#include <JXRadioGroupDialog.h>
-#include <JXWindow.h>
-#include <JXTextButton.h>
-#include <JXRadioGroup.h>
-#include <JXTextRadioButton.h>
-#include <JXStaticText.h>
+#include "JXRadioGroupDialog.h"
+#include "JXWindow.h"
+#include "JXTextButton.h"
+#include "JXRadioGroup.h"
+#include "JXTextRadioButton.h"
+#include "JXStaticText.h"
 #include <jGlobals.h>
 #include <JMinMax.h>
 #include <jAssert.h>

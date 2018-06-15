@@ -8,7 +8,7 @@
 #ifndef _H_JXPGMessageDirector
 #define _H_JXPGMessageDirector
 
-#include <JXWindowDirector.h>
+#include "JXWindowDirector.h"
 
 class JXTextButton;
 class JXStaticText;

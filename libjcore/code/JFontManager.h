@@ -10,9 +10,9 @@
 #ifndef _H_JFontManager
 #define _H_JFontManager
 
-#include <JPtrArray-JString.h>
-#include <JStringMap.h>
-#include <JFont.h>
+#include "JPtrArray-JString.h"
+#include "JStringMap.h"
+#include "JFont.h"
 
 const JFontID kInvalidFontID = 0;
 

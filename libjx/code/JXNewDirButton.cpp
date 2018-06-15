@@ -7,10 +7,10 @@
 
  ******************************************************************************/
 
-#include <JXNewDirButton.h>
-#include <JXFontManager.h>
-#include <JXWindowPainter.h>
-#include <JXImage.h>
+#include "JXNewDirButton.h"
+#include "JXFontManager.h"
+#include "JXWindowPainter.h"
+#include "JXImage.h"
 #include <jMath.h>
 #include <jGlobals.h>
 #include <jAssert.h>

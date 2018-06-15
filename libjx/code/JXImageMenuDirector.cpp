@@ -7,9 +7,9 @@
 
  ******************************************************************************/
 
-#include <JXImageMenuDirector.h>
-#include <JXWindow.h>
-#include <JXImageMenuTable.h>
+#include "JXImageMenuDirector.h"
+#include "JXWindow.h"
+#include "JXImageMenuTable.h"
 #include <jAssert.h>
 
 /******************************************************************************

@@ -39,17 +39,17 @@
 
  ******************************************************************************/
 
-#include <JXContainer.h>
-#include <JXDisplay.h>
-#include <JXWindow.h>
-#include <JXWindowPainter.h>
-#include <JXCursorAnimator.h>
-#include <JXCursorAnimationTask.h>
-#include <JXDNDManager.h>
-#include <JXHintManager.h>
-#include <JXFTCCell.h>
-#include <jXUtil.h>
-#include <jXGlobals.h>
+#include "JXContainer.h"
+#include "JXDisplay.h"
+#include "JXWindow.h"
+#include "JXWindowPainter.h"
+#include "JXCursorAnimator.h"
+#include "JXCursorAnimationTask.h"
+#include "JXDNDManager.h"
+#include "JXHintManager.h"
+#include "JXFTCCell.h"
+#include "jXUtil.h"
+#include "jXGlobals.h"
 #include <JListUtil.h>
 #include <sstream>
 #include <jAssert.h>
@@ -1927,7 +1927,7 @@ JXContainer::IsMenuTable()
 	return kJFalse;
 }
 
-#include <JXFTCCell.h>
+#include "JXFTCCell.h"
 #include <JIntRange.h>
 
 /******************************************************************************

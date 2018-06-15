@@ -12,8 +12,8 @@
 
  *****************************************************************************/
 
-#include <JStringMap.h>
-#include <JStringPtrMapCursor.h>
+#include "JStringMap.h"
+#include "JStringPtrMapCursor.h"
 
 template <class V>
 class JStringPtrMap : public JStringMap<V*>
@@ -365,7 +365,7 @@ JStringPtrMap<V>::SetCleanUpAction
 	itsCleanUpAction = action;
 }
 
-#include <JStringPtrMap.tmpl>
-#include <JStringPtrMapCursor.tmpl>
+#include "JStringPtrMap.tmpl"
+#include "JStringPtrMapCursor.tmpl"
 
 #endif

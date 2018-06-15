@@ -10,13 +10,13 @@
 
  ******************************************************************************/
 
-#include <JXDockTabGroup.h>
-#include <JXDockManager.h>
-#include <JXDockDirector.h>
-#include <JXDockWidget.h>
-#include <JXWindow.h>
-#include <JXTextMenu.h>
-#include <jXGlobals.h>
+#include "JXDockTabGroup.h"
+#include "JXDockManager.h"
+#include "JXDockDirector.h"
+#include "JXDockWidget.h"
+#include "JXWindow.h"
+#include "JXTextMenu.h"
+#include "jXGlobals.h"
 #include <jAssert.h>
 
 // Context menu -- remember to update JXDocktab

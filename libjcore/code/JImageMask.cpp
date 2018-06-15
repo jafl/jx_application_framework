@@ -9,9 +9,9 @@
 
  ******************************************************************************/
 
-#include <JImageMask.h>
-#include <JImage.h>
-#include <jAssert.h>
+#include "JImageMask.h"
+#include "JImage.h"
+#include "jAssert.h"
 
 /******************************************************************************
  Constructor

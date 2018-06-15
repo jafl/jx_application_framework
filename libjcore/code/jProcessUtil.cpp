@@ -7,28 +7,28 @@
 
  ******************************************************************************/
 
-#include <jProcessUtil.h>
-#include <JThisProcess.h>
-#include <JPtrArray-JString.h>
-#include <JProcessError.h>
-#include <JRegex.h>
-#include <JStringIterator.h>
-#include <JStringMatch.h>
-#include <JStdError.h>
-#include <jStreamUtil.h>
-#include <JMinMax.h>
-#include <jGlobals.h>
+#include "jProcessUtil.h"
+#include "JThisProcess.h"
+#include "JPtrArray-JString.h"
+#include "JProcessError.h"
+#include "JRegex.h"
+#include "JStringIterator.h"
+#include "JStringMatch.h"
+#include "JStdError.h"
+#include "jStreamUtil.h"
+#include "JMinMax.h"
+#include "jGlobals.h"
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include <jSignal.h>
-#include <jFileUtil.h>
-#include <jDirUtil.h>
-#include <jSysUtil.h>
+#include "jSignal.h"
+#include "jFileUtil.h"
+#include "jDirUtil.h"
+#include "jSysUtil.h"
 #include <ace/OS_NS_sys_wait.h>
-#include <jErrno.h>
-#include <jMissingProto.h>
-#include <jAssert.h>
+#include "jErrno.h"
+#include "jMissingProto.h"
+#include "jAssert.h"
 
 static JBoolean theIncludeCWDOnPathFlag = kJFalse;
 

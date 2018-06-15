@@ -8,11 +8,11 @@
 #ifndef _H_JStyledText
 #define _H_JStyledText
 
-#include <JBroadcaster.h>
-#include <JFont.h>
-#include <JRunArray.h>
-#include <JPtrArray-JString.h>
-#include <JStringMatch.h>
+#include "JBroadcaster.h"
+#include "JFont.h"
+#include "JRunArray.h"
+#include "JPtrArray-JString.h"
+#include "JStringMatch.h"
 
 class JRegex;
 class JInterpolate;

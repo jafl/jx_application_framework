@@ -9,9 +9,9 @@
 
  ******************************************************************************/
 
-#include <JXStyleTable.h>
-#include <JXInputField.h>
-#include <JXColorManager.h>
+#include "JXStyleTable.h"
+#include "JXInputField.h"
+#include "JXColorManager.h"
 #include <JStyleTableData.h>
 #include <JFontManager.h>
 #include <jAssert.h>

@@ -10,9 +10,9 @@
 
  ******************************************************************************/
 
-#include <JSTUndoMove.h>
-#include <JStyledText.h>
-#include <jAssert.h>
+#include "JSTUndoMove.h"
+#include "JStyledText.h"
+#include "jAssert.h"
 
 /******************************************************************************
  Constructor

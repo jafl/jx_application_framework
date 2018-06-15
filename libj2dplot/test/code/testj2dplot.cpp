@@ -11,10 +11,10 @@
 #include "Test2DPlotDirector.h"
 #include "testj2dplotStringData.h"
 #include <JXApplication.h>
-#include <JX2DPlotWidget.h>
-#include <J2DPlotData.h>
-#include <J2DVectorData.h>
-#include <J2DPlotLibVersion.h>
+#include "JX2DPlotWidget.h"
+#include "J2DPlotData.h"
+#include "J2DVectorData.h"
+#include "J2DPlotLibVersion.h"
 #include <JKLRand.h>
 #include <jMath.h>
 #include <string.h>

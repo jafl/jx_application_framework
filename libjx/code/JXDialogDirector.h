@@ -10,7 +10,7 @@
 #ifndef _H_JXDialogDirector
 #define _H_JXDialogDirector
 
-#include <JXWindowDirector.h>
+#include "JXWindowDirector.h"
 
 class JXButton;
 

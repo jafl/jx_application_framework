@@ -10,19 +10,19 @@
 
  ******************************************************************************/
 
-#include <JXPTPrintSetupDialog.h>
-#include <JXPSPrintSetupDialog.h>
-#include <JXAdjustPrintSetupLayoutTask.h>
-#include <JXWindow.h>
-#include <JXTextButton.h>
-#include <JXStaticText.h>
-#include <JXIntegerInput.h>
-#include <JXFileInput.h>
-#include <JXTextCheckbox.h>
-#include <JXRadioGroup.h>
-#include <JXTextRadioButton.h>
-#include <JXChooseSaveFile.h>
-#include <jXGlobals.h>
+#include "JXPTPrintSetupDialog.h"
+#include "JXPSPrintSetupDialog.h"
+#include "JXAdjustPrintSetupLayoutTask.h"
+#include "JXWindow.h"
+#include "JXTextButton.h"
+#include "JXStaticText.h"
+#include "JXIntegerInput.h"
+#include "JXFileInput.h"
+#include "JXTextCheckbox.h"
+#include "JXRadioGroup.h"
+#include "JXTextRadioButton.h"
+#include "JXChooseSaveFile.h"
+#include "jXGlobals.h"
 #include <JString.h>
 #include <jAssert.h>
 

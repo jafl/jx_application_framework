@@ -9,7 +9,7 @@
 #define _H_JXWebBrowser
 
 #include <JWebBrowser.h>
-#include <JXSharedPrefObject.h>
+#include "JXSharedPrefObject.h"
 
 class JXEditWWWPrefsDialog;
 

@@ -5,9 +5,9 @@
 
  ******************************************************************************/
 
-#include <JCreateTextPG.h>
-#include <JTextProgressDisplay.h>
-#include <jAssert.h>
+#include "JCreateTextPG.h"
+#include "JTextProgressDisplay.h"
+#include "jAssert.h"
 
 /******************************************************************************
  Constructor

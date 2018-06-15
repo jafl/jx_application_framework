@@ -18,12 +18,12 @@
 
  ******************************************************************************/
 
-#include <JNetworkProtocolBase.h>
-#include <JString.h>
+#include "JNetworkProtocolBase.h"
+#include "JString.h"
 #include <sys/types.h>
 #include <sys/socket.h>
-#include <jErrno.h>
-#include <jAssert.h>
+#include "jErrno.h"
+#include "jAssert.h"
 
 #ifdef IP_MAXPACKET
 const JSize kDefaultBlockSize = IP_MAXPACKET;	// bytes

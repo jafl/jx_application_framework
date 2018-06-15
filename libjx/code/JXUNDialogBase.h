@@ -10,8 +10,8 @@
 #ifndef _H_JXUNDialogBase
 #define _H_JXUNDialogBase
 
-#include <JXDialogDirector.h>
-#include <JXPM.h>
+#include "JXDialogDirector.h"
+#include "JXPM.h"
 
 class JXWindow;
 class JXStaticText;

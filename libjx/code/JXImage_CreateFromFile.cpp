@@ -7,8 +7,8 @@
 
  ******************************************************************************/
 
-#include <JXImage.h>
-#include <JXColorManager.h>
+#include "JXImage.h"
+#include "JXColorManager.h"
 #include <jAssert.h>
 
 /******************************************************************************

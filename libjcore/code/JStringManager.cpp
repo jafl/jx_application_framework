@@ -47,16 +47,16 @@
 
  *****************************************************************************/
 
-#include <JStringManager.h>
-#include <JStringPtrMapCursor.h>
-#include <JSubstitute.h>
-#include <JStringIterator.h>
-#include <jDirUtil.h>
-#include <jStreamUtil.h>
-#include <jGlobals.h>
+#include "JStringManager.h"
+#include "JStringPtrMapCursor.h"
+#include "JSubstitute.h"
+#include "JStringIterator.h"
+#include "jDirUtil.h"
+#include "jStreamUtil.h"
+#include "jGlobals.h"
 #include <fstream>
 #include <strstream>
-#include <jAssert.h>
+#include "jAssert.h"
 
 static const JString theDataDirName("string_data", kJFalse);
 static const JString theDefaultFileName("default", kJFalse);

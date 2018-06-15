@@ -11,17 +11,17 @@
 
  ******************************************************************************/
 
-#include <JDirEntry.h>
-#include <jDirUtil.h>
-#include <jSysUtil.h>
-#include <JPtrArray-JString.h>
-#include <JListUtil.h>
-#include <JRegex.h>
+#include "JDirEntry.h"
+#include "jDirUtil.h"
+#include "jSysUtil.h"
+#include "JPtrArray-JString.h"
+#include "JListUtil.h"
+#include "JRegex.h"
 #include <unistd.h>
 #include <utime.h>
-#include <jFStreamUtil.h>
-#include <jMissingProto.h>
-#include <jAssert.h>
+#include "jFStreamUtil.h"
+#include "jMissingProto.h"
+#include "jAssert.h"
 
 /******************************************************************************
  Constructor

@@ -26,13 +26,13 @@
 
  ******************************************************************************/
 
-#include <JXDNDManager.h>
-#include <JXDNDChooseDropActionDialog.h>
-#include <JXDisplay.h>
-#include <JXWindow.h>
-#include <JXWidget.h>
-#include <jXGlobals.h>
-#include <jXUtil.h>
+#include "JXDNDManager.h"
+#include "JXDNDChooseDropActionDialog.h"
+#include "JXDisplay.h"
+#include "JXWindow.h"
+#include "JXWidget.h"
+#include "jXGlobals.h"
+#include "jXUtil.h"
 #include <JMinMax.h>
 #include <jTime.h>
 #include <jAssert.h>

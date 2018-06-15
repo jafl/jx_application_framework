@@ -9,8 +9,8 @@
 
  ******************************************************************************/
 
-#include <JXUrgentTask.h>
-#include <jXGlobals.h>
+#include "JXUrgentTask.h"
+#include "jXGlobals.h"
 
 /******************************************************************************
  Constructor

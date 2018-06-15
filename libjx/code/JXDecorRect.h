@@ -10,7 +10,7 @@
 #ifndef _H_JXDecorRect
 #define _H_JXDecorRect
 
-#include <JXWidget.h>
+#include "JXWidget.h"
 
 class JXDecorRect : public JXWidget
 {

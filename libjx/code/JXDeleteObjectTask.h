@@ -8,7 +8,7 @@
 #ifndef _H_JXDeleteObjectTask
 #define _H_JXDeleteObjectTask
 
-#include <JXIdleTask.h>
+#include "JXIdleTask.h"
 #include <JBroadcaster.h>
 
 template <class T>
@@ -40,6 +40,6 @@ private:
 	const JXDeleteObjectTask& operator=(const JXDeleteObjectTask& source);
 };
 
-#include <JXDeleteObjectTask.tmpl>
+#include "JXDeleteObjectTask.tmpl"
 
 #endif

@@ -13,10 +13,10 @@
 
  ******************************************************************************/
 
-#include <JColorManager.h>
-#include <JMinMax.h>
-#include <jMath.h>
-#include <jAssert.h>
+#include "JColorManager.h"
+#include "JMinMax.h"
+#include "jMath.h"
+#include "jAssert.h"
 
 /******************************************************************************
  Routines for JRGB

@@ -8,10 +8,10 @@
 #ifndef _H_JTable
 #define _H_JTable
 
-#include <JRunArray.h>
-#include <JPtrArray-JString.h>
-#include <JRect.h>
-#include <jColor.h>
+#include "JRunArray.h"
+#include "JPtrArray-JString.h"
+#include "JRect.h"
+#include "jColor.h"
 
 class JTableData;
 class JTableSelection;

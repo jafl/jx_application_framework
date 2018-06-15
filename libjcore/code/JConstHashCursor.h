@@ -12,10 +12,10 @@
 
  *****************************************************************************/
 
-#include <jTypes.h>
+#include "jTypes.h"
 
-#include <jHashFunctions.h>
-#include <JHashRecord.h>
+#include "jHashFunctions.h"
+#include "JHashRecord.h"
 
 	// Inclusion would cause a circular dependancy
 	template <class V> class JHashTable;

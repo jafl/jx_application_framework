@@ -10,15 +10,15 @@
 
  ******************************************************************************/
 
-#include <JXDirectSaveSource.h>
-#include <JXDSSSelection.h>
-#include <JXDSSFinishSaveTask.h>
-#include <JXDNDManager.h>
-#include <JXSelectionManager.h>
-#include <JXDisplay.h>
-#include <JXWindow.h>
-#include <JXInputField.h>
-#include <JXImage.h>
+#include "JXDirectSaveSource.h"
+#include "JXDSSSelection.h"
+#include "JXDSSFinishSaveTask.h"
+#include "JXDNDManager.h"
+#include "JXSelectionManager.h"
+#include "JXDisplay.h"
+#include "JXWindow.h"
+#include "JXInputField.h"
+#include "JXImage.h"
 #include <jGlobals.h>
 #include <jAssert.h>
 

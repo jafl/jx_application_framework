@@ -7,15 +7,15 @@
 
  ******************************************************************************/
 
-#include <jStreamUtil.h>
-#include <JString.h>
-#include <jFileUtil.h>
-#include <jFStreamUtil.h>
-#include <jErrno.h>
+#include "jStreamUtil.h"
+#include "JString.h"
+#include "jFileUtil.h"
+#include "jFStreamUtil.h"
+#include "jErrno.h"
 #include <poll.h>
 #include <string.h>
 #include <limits.h>
-#include <jAssert.h>
+#include "jAssert.h"
 
 /******************************************************************************
  JCopyBinaryData

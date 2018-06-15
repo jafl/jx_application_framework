@@ -7,13 +7,13 @@
 
  *****************************************************************************/
 
-#include <JXSpellChecker.h>
-#include <JXSpellCheckerDialog.h>
-#include <JXSharedPrefsManager.h>
-#include <JXWindowDirector.h>
-#include <JXWindow.h>
-#include <JXTEBase.h>
-#include <jXGlobals.h>
+#include "JXSpellChecker.h"
+#include "JXSpellCheckerDialog.h"
+#include "JXSharedPrefsManager.h"
+#include "JXWindowDirector.h"
+#include "JXWindow.h"
+#include "JXTEBase.h"
+#include "jXGlobals.h"
 #include <JProcess.h>
 #include <JOutPipeStream.h>
 #include <JStringIterator.h>

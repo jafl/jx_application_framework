@@ -10,7 +10,7 @@
 #ifndef _H_JXCheckboxListDialog
 #define _H_JXCheckboxListDialog
 
-#include <JXDialogDirector.h>
+#include "JXDialogDirector.h"
 #include <JPtrArray-JString.h>
 
 class JXCheckbox;

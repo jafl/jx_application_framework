@@ -10,7 +10,7 @@
 #ifndef _H_JPtrArray
 #define _H_JPtrArray
 
-#include <JArray.h>
+#include "JArray.h"
 
 struct JPtrArrayT
 {
@@ -154,7 +154,7 @@ public:
 
 #pragma GCC diagnostic pop
 
-#include <JPtrArray.tmpl>
-#include <JPtrArrayIterator.tmpl>
+#include "JPtrArray.tmpl"
+#include "JPtrArrayIterator.tmpl"
 
 #endif

@@ -8,7 +8,7 @@
 #ifndef _H_JIntRange
 #define _H_JIntRange
 
-#include <jTypes.h>
+#include "jTypes.h"
 
 class JIntRange
 {

@@ -26,25 +26,25 @@
 
  *****************************************************************************/
 
-#include <JXToolBar.h>
-#include <JXToolBarEditDir.h>
-#include <JXToolBarNode.h>
-#include <JXAdjustToolBarGeometryTask.h>
+#include "JXToolBar.h"
+#include "JXToolBarEditDir.h"
+#include "JXToolBarNode.h"
+#include "JXAdjustToolBarGeometryTask.h"
 
 #include <JTree.h>
 #include <JNamedTreeNode.h>
 
-#include <JXFontManager.h>
-#include <JXTextMenu.h>
-#include <JXTextMenuData.h>
-#include <JXImage.h>
-#include <JXTimerTask.h>
-#include <JXApplication.h>
-#include <JXDisplay.h>
-#include <JXWindow.h>
-#include <JXDirector.h>
-#include <JXMenuBar.h>
-#include <jXGlobals.h>
+#include "JXFontManager.h"
+#include "JXTextMenu.h"
+#include "JXTextMenuData.h"
+#include "JXImage.h"
+#include "JXTimerTask.h"
+#include "JXApplication.h"
+#include "JXDisplay.h"
+#include "JXWindow.h"
+#include "JXDirector.h"
+#include "JXMenuBar.h"
+#include "jXGlobals.h"
 
 #include <JString.h>
 #include <sstream>

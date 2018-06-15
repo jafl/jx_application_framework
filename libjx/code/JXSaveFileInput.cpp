@@ -10,7 +10,7 @@
 
  ******************************************************************************/
 
-#include <JXSaveFileInput.h>
+#include "JXSaveFileInput.h"
 #include <JStringIterator.h>
 #include <jFileUtil.h>
 #include <jAssert.h>

@@ -15,20 +15,20 @@
 
  ******************************************************************************/
 
-#include <JXApplication.h>
-#include <JXDisplay.h>
-#include <JXWindow.h>
-#include <JXIdleTask.h>
-#include <JXQuitIfAllDeactTask.h>
-#include <JXUrgentTask.h>
-#include <JXMenuManager.h>
-#include <JXHelpManager.h>
-#include <JXDocumentManager.h>
-#include <JXSharedPrefsManager.h>
-#include <JXMDIServer.h>
-#include <JXAssert.h>
-#include <jXEventUtil.h>
-#include <jXGlobals.h>
+#include "JXApplication.h"
+#include "JXDisplay.h"
+#include "JXWindow.h"
+#include "JXIdleTask.h"
+#include "JXQuitIfAllDeactTask.h"
+#include "JXUrgentTask.h"
+#include "JXMenuManager.h"
+#include "JXHelpManager.h"
+#include "JXDocumentManager.h"
+#include "JXSharedPrefsManager.h"
+#include "JXMDIServer.h"
+#include "JXAssert.h"
+#include "jXEventUtil.h"
+#include "jXGlobals.h"
 
 #include <JThisProcess.h>
 #include <ace/Reactor.h>

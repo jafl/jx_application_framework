@@ -11,7 +11,7 @@
 #define _H_jSignal
 
 #include <signal.h>
-#include <jMissingProto.h>
+#include "jMissingProto.h"
 
 #ifdef __cplusplus
 extern "C" {

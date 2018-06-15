@@ -7,15 +7,15 @@
 
  *****************************************************************************/
 
-#include <JXFileListSet.h>
-#include <JXFileListTable.h>
-#include <JXFLRegexInput.h>
-#include <JXFLWildcardInput.h>
-#include <JXWindow.h>
-#include <JXStaticText.h>
-#include <JXStringHistoryMenu.h>
-#include <JXScrollbarSet.h>
-#include <JXMenuBar.h>
+#include "JXFileListSet.h"
+#include "JXFileListTable.h"
+#include "JXFLRegexInput.h"
+#include "JXFLWildcardInput.h"
+#include "JXWindow.h"
+#include "JXStaticText.h"
+#include "JXStringHistoryMenu.h"
+#include "JXScrollbarSet.h"
+#include "JXMenuBar.h"
 #include <jGlobals.h>
 #include <jAssert.h>
 

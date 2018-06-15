@@ -11,9 +11,9 @@
 
  ******************************************************************************/
 
-#include <JFileArrayIndex.h>
-#include <JFileArray.h>
-#include <jAssert.h>
+#include "JFileArrayIndex.h"
+#include "JFileArray.h"
+#include "jAssert.h"
 
 // size of data stored in index section of file
 

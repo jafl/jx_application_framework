@@ -10,7 +10,7 @@
 #ifndef _H_JXRadioGroup
 #define _H_JXRadioGroup
 
-#include <JXWidget.h>
+#include "JXWidget.h"
 #include <JPtrArray.h>
 
 class JXRadioButton;

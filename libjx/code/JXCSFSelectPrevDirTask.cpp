@@ -7,8 +7,8 @@
 
  ******************************************************************************/
 
-#include <JXCSFSelectPrevDirTask.h>
-#include <JXDirTable.h>
+#include "JXCSFSelectPrevDirTask.h"
+#include "JXDirTable.h"
 #include <JDirInfo.h>
 #include <jAssert.h>
 

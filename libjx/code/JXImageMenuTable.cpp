@@ -9,11 +9,11 @@
 
  ******************************************************************************/
 
-#include <JXImageMenuTable.h>
-#include <JXImageMenuData.h>
-#include <JXWindowPainter.h>
-#include <jXPainterUtil.h>
-#include <JXImage.h>
+#include "JXImageMenuTable.h"
+#include "JXImageMenuData.h"
+#include "JXWindowPainter.h"
+#include "jXPainterUtil.h"
+#include "JXImage.h"
 #include <jAssert.h>
 
 /******************************************************************************

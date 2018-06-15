@@ -15,17 +15,17 @@
 
  ******************************************************************************/
 
-#include <JXTabGroup.h>
-#include <JXCardFile.h>
-#include <JXScrollTabsTask.h>
-#include <JXTextMenu.h>
-#include <JXWindow.h>
-#include <JXWindowPainter.h>
-#include <jXPainterUtil.h>
-#include <JXFontManager.h>
-#include <JXColorManager.h>
-#include <JXImage.h>
-#include <jXGlobals.h>
+#include "JXTabGroup.h"
+#include "JXCardFile.h"
+#include "JXScrollTabsTask.h"
+#include "JXTextMenu.h"
+#include "JXWindow.h"
+#include "JXWindowPainter.h"
+#include "jXPainterUtil.h"
+#include "JXFontManager.h"
+#include "JXColorManager.h"
+#include "JXImage.h"
+#include "jXGlobals.h"
 #include <jStreamUtil.h>
 #include <jTime.h>
 #include <jAssert.h>

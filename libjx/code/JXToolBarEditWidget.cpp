@@ -7,19 +7,19 @@
 
  *****************************************************************************/
 
-#include <JXToolBarEditWidget.h>
-#include <JXToolBarNode.h>
-#include <JXDirector.h>
-#include <JXWindow.h>
-#include <JXMenuBar.h>
-#include <JXTextMenu.h>
-#include <JXWindowPainter.h>
-#include <JXSelectionManager.h>
-#include <JXDNDManager.h>
-#include <JXChooseSaveFile.h>
-#include <JXDisplay.h>
-#include <JXColorManager.h>
-#include <JXImage.h>
+#include "JXToolBarEditWidget.h"
+#include "JXToolBarNode.h"
+#include "JXDirector.h"
+#include "JXWindow.h"
+#include "JXMenuBar.h"
+#include "JXTextMenu.h"
+#include "JXWindowPainter.h"
+#include "JXSelectionManager.h"
+#include "JXDNDManager.h"
+#include "JXChooseSaveFile.h"
+#include "JXDisplay.h"
+#include "JXColorManager.h"
+#include "JXImage.h"
 #include <JTreeList.h>
 #include <JTableSelection.h>
 #include <jAssert.h>

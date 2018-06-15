@@ -13,11 +13,11 @@
  *****************************************************************************/
 
 // Superclass header
-#include <JMMRecord.h>
+#include "JMMRecord.h"
 
 #include <ace/UNIX_Addr.h>
 #include <ace/LSOCK_Stream.h>
-#include <JMessageProtocol.h>	// template; requires ace includes
+#include "JMessageProtocol.h"	// template; requires ace includes
 #include <sstream>
 
 #include <stdlib.h> // For size_t

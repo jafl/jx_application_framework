@@ -10,8 +10,8 @@
 
  ******************************************************************************/
 
-#include <JXTextSelection.h>
-#include <JXDisplay.h>
+#include "JXTextSelection.h"
+#include "JXDisplay.h"
 #include <sstream>
 #include <jAssert.h>
 

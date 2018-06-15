@@ -10,9 +10,9 @@
 #ifndef _H_JFont
 #define _H_JFont
 
-#include <JFontStyle.h>
-#include <JUtf8Character.h>
-#include <JRunArray.h>
+#include "JFontStyle.h"
+#include "JUtf8Character.h"
+#include "JRunArray.h"
 
 class JString;
 class JFontManager;

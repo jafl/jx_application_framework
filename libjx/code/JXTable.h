@@ -8,7 +8,7 @@
 #ifndef _H_JXTable
 #define _H_JXTable
 
-#include <JXScrollableWidget.h>
+#include "JXScrollableWidget.h"
 #include <JTable.h>
 
 class JXTable : public JXScrollableWidget, public JTable

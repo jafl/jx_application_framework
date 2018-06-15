@@ -11,8 +11,8 @@
 
  ******************************************************************************/
 
-#include <JXAtMostOneCBGroup.h>
-#include <JXCheckbox.h>
+#include "JXAtMostOneCBGroup.h"
+#include "JXCheckbox.h"
 #include <JMinMax.h>
 #include <stdarg.h>
 #include <jAssert.h>

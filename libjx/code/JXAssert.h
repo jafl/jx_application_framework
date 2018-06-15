@@ -12,7 +12,7 @@
 
 #include <JAssertBase.h>
 #include <JPtrArray.h>
-#include <JXDisplay.h>	// for Windows template compile
+#include "JXDisplay.h"	// for Windows template compile
 
 class JXApplication;
 

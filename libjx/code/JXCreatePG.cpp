@@ -5,8 +5,8 @@
 
  ******************************************************************************/
 
-#include <JXCreatePG.h>
-#include <JXStandAlonePG.h>
+#include "JXCreatePG.h"
+#include "JXStandAlonePG.h"
 #include <jAssert.h>
 
 /******************************************************************************

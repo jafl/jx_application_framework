@@ -20,14 +20,14 @@
 
  ******************************************************************************/
 
-#include <JXMenuBar.h>
-#include <JXTextMenu.h>
-#include <JXDocktab.h>
-#include <JXImage.h>
-#include <JXWindowPainter.h>
-#include <jXPainterUtil.h>
-#include <jXConstants.h>
-#include <jXGlobals.h>
+#include "JXMenuBar.h"
+#include "JXTextMenu.h"
+#include "JXDocktab.h"
+#include "JXImage.h"
+#include "JXWindowPainter.h"
+#include "jXPainterUtil.h"
+#include "jXConstants.h"
+#include "jXGlobals.h"
 #include <jAssert.h>
 
 #include <jx_down_chevron.xpm>

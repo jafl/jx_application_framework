@@ -9,10 +9,10 @@
 
  ******************************************************************************/
 
-#include <JSTUndoTyping.h>
-#include <JStringIterator.h>
-#include <JStringMatch.h>
-#include <jAssert.h>
+#include "JSTUndoTyping.h"
+#include "JStringIterator.h"
+#include "JStringMatch.h"
+#include "jAssert.h"
 
 /******************************************************************************
  Constructor

@@ -11,10 +11,10 @@
 
  ******************************************************************************/
 
-#include <JXAskInitDockAll.h>
-#include <JXDockManager.h>
-#include <JXDirector.h>
-#include <jXGlobals.h>
+#include "JXAskInitDockAll.h"
+#include "JXDockManager.h"
+#include "JXDirector.h"
+#include "jXGlobals.h"
 #include <jAssert.h>
 
 /******************************************************************************

@@ -22,9 +22,9 @@
 
  ******************************************************************************/
 
-#include <JContainer.h>
-#include <JList.h>
-#include <jAssert.h>
+#include "JContainer.h"
+#include "JList.h"
+#include "jAssert.h"
 
 /******************************************************************************
  Constructor

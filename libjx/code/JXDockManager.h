@@ -8,12 +8,12 @@
 #ifndef _H_JXDockManager
 #define _H_JXDockManager
 
-#include <JXDirector.h>
+#include "JXDirector.h"
 #include <JPrefObject.h>
 #include <JStringMap.h>
 #include <JString.h>
 #include <JMinMax.h>
-#include <JXDockDirector.h>		// for Windows template compile
+#include "JXDockDirector.h"		// for Windows template compile
 #include <X11/Xlib.h>
 
 class JXDisplay;

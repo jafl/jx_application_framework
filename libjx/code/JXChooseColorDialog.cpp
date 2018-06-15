@@ -7,14 +7,14 @@
 
  ******************************************************************************/
 
-#include <JXChooseColorDialog.h>
-#include <JXWindow.h>
-#include <JXTextButton.h>
-#include <JXColorWheel.h>
-#include <JXSlider.h>
-#include <JXIntegerInput.h>
-#include <JXFlatRect.h>
-#include <JXStaticText.h>
+#include "JXChooseColorDialog.h"
+#include "JXWindow.h"
+#include "JXTextButton.h"
+#include "JXColorWheel.h"
+#include "JXSlider.h"
+#include "JXIntegerInput.h"
+#include "JXFlatRect.h"
+#include "JXStaticText.h"
 #include <JColorManager.h>
 #include <jMath.h>
 #include <jGlobals.h>

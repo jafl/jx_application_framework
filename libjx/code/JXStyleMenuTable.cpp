@@ -7,8 +7,8 @@
 
  ******************************************************************************/
 
-#include <JXStyleMenuTable.h>
-#include <JXStyleMenu.h>
+#include "JXStyleMenuTable.h"
+#include "JXStyleMenu.h"
 #include <JPainter.h>
 #include <jAssert.h>
 

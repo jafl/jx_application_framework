@@ -7,10 +7,10 @@
 
  ******************************************************************************/
 
-#include <JComplex.h>
-#include <JString.h>
-#include <jMath.h>
-#include <jAssert.h>
+#include "JComplex.h"
+#include "JString.h"
+#include "jMath.h"
+#include "jAssert.h"
 
 using namespace std;
 

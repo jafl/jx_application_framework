@@ -7,8 +7,8 @@
 
  ******************************************************************************/
 
-#include <JXTLWAdjustToTreeTask.h>
-#include <JXTreeListWidget.h>
+#include "JXTLWAdjustToTreeTask.h"
+#include "JXTreeListWidget.h"
 
 /******************************************************************************
  Constructor

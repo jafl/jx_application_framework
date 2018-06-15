@@ -7,9 +7,9 @@
 
  ******************************************************************************/
 
-#include <JTree.h>
-#include <JTreeNode.h>
-#include <jAssert.h>
+#include "JTree.h"
+#include "JTreeNode.h"
+#include "jAssert.h"
 
 const JUtf8Byte* JTree::kNewRoot            = "NewRoot::JTree";
 const JUtf8Byte* JTree::kNodeInserted       = "NodeInserted::JTree";

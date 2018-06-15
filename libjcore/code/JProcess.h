@@ -10,10 +10,10 @@
 #ifndef _H_JProcess
 #define _H_JProcess
 
-#include <JBroadcaster.h>
-#include <JPtrArray.h>
-#include <jProcessUtil.h>
-#include <jSignal.h>
+#include "JBroadcaster.h"
+#include "JPtrArray.h"
+#include "jProcessUtil.h"
+#include "jSignal.h"
 #include <unistd.h>
 
 class JString;

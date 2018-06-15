@@ -62,8 +62,8 @@
 
  ******************************************************************************/
 
-#include <JProgressDisplay.h>
-#include <jAssert.h>
+#include "JProgressDisplay.h"
+#include "jAssert.h"
 
 /******************************************************************************
  Constructor

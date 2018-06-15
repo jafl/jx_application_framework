@@ -14,9 +14,9 @@
 
  ******************************************************************************/
 
-#include <JXStaticText.h>
-#include <JXStyledText.h>
-#include <jXConstants.h>
+#include "JXStaticText.h"
+#include "JXStyledText.h"
+#include "jXConstants.h"
 #include <strstream>
 #include <jAssert.h>
 

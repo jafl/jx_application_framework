@@ -10,15 +10,15 @@
 
  ******************************************************************************/
 
-#include <JXPTPageSetupDialog.h>
-#include <JXPTPrinter.h>
-#include <JXWindow.h>
-#include <JXTextButton.h>
-#include <JXTextCheckbox.h>
-#include <JXIntegerInput.h>
-#include <JXStaticText.h>
-#include <JXChooseSaveFile.h>
-#include <jXGlobals.h>
+#include "JXPTPageSetupDialog.h"
+#include "JXPTPrinter.h"
+#include "JXWindow.h"
+#include "JXTextButton.h"
+#include "JXTextCheckbox.h"
+#include "JXIntegerInput.h"
+#include "JXStaticText.h"
+#include "JXChooseSaveFile.h"
+#include "jXGlobals.h"
 #include <JString.h>
 #include <jProcessUtil.h>
 #include <jFileUtil.h>

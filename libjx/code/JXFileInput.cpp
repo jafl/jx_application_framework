@@ -9,15 +9,15 @@
 
  ******************************************************************************/
 
-#include <JXFileInput.h>
-#include <JXSelectionManager.h>
-#include <JXDNDManager.h>
-#include <JXPathInput.h>
-#include <JXStringCompletionMenu.h>
-#include <JXFontManager.h>
-#include <JXColorManager.h>
-#include <jXGlobals.h>
-#include <jXUtil.h>
+#include "JXFileInput.h"
+#include "JXSelectionManager.h"
+#include "JXDNDManager.h"
+#include "JXPathInput.h"
+#include "JXStringCompletionMenu.h"
+#include "JXFontManager.h"
+#include "JXColorManager.h"
+#include "jXGlobals.h"
+#include "jXUtil.h"
 #include <JDirInfo.h>
 #include <jFileUtil.h>
 #include <jDirUtil.h>

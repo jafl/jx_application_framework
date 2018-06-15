@@ -10,7 +10,7 @@
 #ifndef _H_JXPSPageSetupDialog
 #define _H_JXPSPageSetupDialog
 
-#include <JXDialogDirector.h>
+#include "JXDialogDirector.h"
 #include <JPSPrinter.h>		// need definition of enums
 
 class JXPSPrinter;

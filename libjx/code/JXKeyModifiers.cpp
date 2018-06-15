@@ -7,8 +7,8 @@
 
  ******************************************************************************/
 
-#include <JXKeyModifiers.h>
-#include <JXDisplay.h>
+#include "JXKeyModifiers.h"
+#include "JXDisplay.h"
 #include <jAssert.h>
 
 /******************************************************************************

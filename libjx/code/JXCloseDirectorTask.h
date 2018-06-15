@@ -8,7 +8,7 @@
 #ifndef _H_JXCloseDirectorTask
 #define _H_JXCloseDirectorTask
 
-#include <JXIdleTask.h>
+#include "JXIdleTask.h"
 
 class JXDirector;
 

@@ -7,10 +7,10 @@
 
  ******************************************************************************/
 
-#include <JTextProgressDisplay.h>
-#include <JString.h>
-#include <jMath.h>
-#include <jAssert.h>
+#include "JTextProgressDisplay.h"
+#include "JString.h"
+#include "jMath.h"
+#include "jAssert.h"
 
 // Interrupt routine
 

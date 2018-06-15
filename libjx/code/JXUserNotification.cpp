@@ -15,14 +15,14 @@
 
  ******************************************************************************/
 
-#include <JXUserNotification.h>
-#include <JXMessageDialog.h>
-#include <JXErrorDialog.h>
-#include <JXWarningDialog.h>
-#include <JXOKToCloseDialog.h>
-#include <JXAcceptLicenseDialog.h>
-#include <JXWindow.h>
-#include <jXGlobals.h>
+#include "JXUserNotification.h"
+#include "JXMessageDialog.h"
+#include "JXErrorDialog.h"
+#include "JXWarningDialog.h"
+#include "JXOKToCloseDialog.h"
+#include "JXAcceptLicenseDialog.h"
+#include "JXWindow.h"
+#include "jXGlobals.h"
 #include <JString.h>
 #include <stdio.h>
 #include <stdlib.h>

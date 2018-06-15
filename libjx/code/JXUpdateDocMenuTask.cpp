@@ -7,8 +7,8 @@
 
  ******************************************************************************/
 
-#include <JXUpdateDocMenuTask.h>
-#include <JXDocumentManager.h>
+#include "JXUpdateDocMenuTask.h"
+#include "JXDocumentManager.h"
 
 /******************************************************************************
  Constructor

@@ -9,10 +9,10 @@
 
  ******************************************************************************/
 
-#include <JXScrolltab.h>
-#include <JXScrollbar.h>
-#include <JXTextMenu.h>
-#include <JXColorManager.h>
+#include "JXScrolltab.h"
+#include "JXScrollbar.h"
+#include "JXTextMenu.h"
+#include "JXColorManager.h"
 #include <jMath.h>
 #include <jAssert.h>
 

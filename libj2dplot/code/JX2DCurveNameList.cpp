@@ -7,7 +7,7 @@
 
  *****************************************************************************/
 
-#include <JX2DCurveNameList.h>
+#include "JX2DCurveNameList.h"
 #include <JXInputField.h>
 #include <JFontManager.h>
 #include <JColorManager.h>

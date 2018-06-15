@@ -36,4 +36,4 @@ int JAssert(const char*, const char*, const int, const char* message);
 
 // memory manager - outside include fence
 
-#include <jNew.h>
+#include "jNew.h"

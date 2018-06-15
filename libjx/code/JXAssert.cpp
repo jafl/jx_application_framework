@@ -9,9 +9,9 @@
 
  *****************************************************************************/
 
-#include <JXAssert.h>
-#include <JXApplication.h>
-#include <JXDisplay.h>
+#include "JXAssert.h"
+#include "JXApplication.h"
+#include "JXDisplay.h"
 #include <X11/Xlib.h>
 #include <stdio.h>
 #include <jAssert.h>

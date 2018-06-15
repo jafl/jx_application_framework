@@ -7,12 +7,12 @@
 
  ******************************************************************************/
 
-#include <JXGetStringDialog.h>
-#include <JXWindow.h>
-#include <JXStaticText.h>
-#include <JXTextButton.h>
-#include <JXPasswordInput.h>
-#include <jXGlobals.h>
+#include "JXGetStringDialog.h"
+#include "JXWindow.h"
+#include "JXStaticText.h"
+#include "JXTextButton.h"
+#include "JXPasswordInput.h"
+#include "jXGlobals.h"
 #include <jAssert.h>
 
 /******************************************************************************

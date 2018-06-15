@@ -7,14 +7,14 @@
 
  ******************************************************************************/
 
-#include <jDirUtil.h>
-#include <jFileUtil.h>
-#include <JDirInfo.h>
-#include <JLatentPG.h>
-#include <JStringIterator.h>
-#include <jGlobals.h>
+#include "jDirUtil.h"
+#include "jFileUtil.h"
+#include "JDirInfo.h"
+#include "JLatentPG.h"
+#include "JStringIterator.h"
+#include "jGlobals.h"
 #include <limits.h>
-#include <jAssert.h>
+#include "jAssert.h"
 
 /******************************************************************************
  JIsRelativePath

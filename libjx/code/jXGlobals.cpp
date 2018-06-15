@@ -7,21 +7,21 @@
 
  ******************************************************************************/
 
-#include <jXGlobals.h>
-#include <JXUserNotification.h>
-#include <JXChooseSaveFile.h>
-#include <JXCreatePG.h>
-#include <JXSearchTextDialog.h>
-#include <JXSpellChecker.h>
-#include <JXHelpManager.h>
-#include <JXDocumentManager.h>
-#include <JXDockManager.h>
-#include <JXMDIServer.h>
-#include <JXWebBrowser.h>
-#include <JXDisplay.h>
-#include <JXAssert.h>
-#include <JXSharedPrefsManager.h>
-#include <JXFontManager.h>
+#include "jXGlobals.h"
+#include "JXUserNotification.h"
+#include "JXChooseSaveFile.h"
+#include "JXCreatePG.h"
+#include "JXSearchTextDialog.h"
+#include "JXSpellChecker.h"
+#include "JXHelpManager.h"
+#include "JXDocumentManager.h"
+#include "JXDockManager.h"
+#include "JXMDIServer.h"
+#include "JXWebBrowser.h"
+#include "JXDisplay.h"
+#include "JXAssert.h"
+#include "JXSharedPrefsManager.h"
+#include "JXFontManager.h"
 #include <jStreamUtil.h>
 #include <jDirUtil.h>
 #include <X11/Xlib.h>

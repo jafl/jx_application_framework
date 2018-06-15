@@ -5,10 +5,10 @@
 
  ******************************************************************************/
 
-#include <jGlobals.h>
-#include <jDirUtil.h>
-#include <jFileUtil.h>
-#include <jAssert.h>
+#include "jGlobals.h"
+#include "jDirUtil.h"
+#include "jFileUtil.h"
+#include "jAssert.h"
 
 /******************************************************************************
  JGetDataDirectories

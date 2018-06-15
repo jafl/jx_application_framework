@@ -10,7 +10,7 @@
 #ifndef _H_jCommandLine
 #define _H_jCommandLine
 
-#include <jTypes.h>
+#include "jTypes.h"
 
 void JWaitForReturn();
 void JInputFinished();

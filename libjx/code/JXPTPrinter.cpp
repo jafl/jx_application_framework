@@ -9,9 +9,9 @@
 
  ******************************************************************************/
 
-#include <JXPTPrinter.h>
-#include <JXPTPageSetupDialog.h>
-#include <JXPTPrintSetupDialog.h>
+#include "JXPTPrinter.h"
+#include "JXPTPageSetupDialog.h"
+#include "JXPTPrintSetupDialog.h"
 #include <JString.h>
 #include <jProcessUtil.h>
 #include <jStreamUtil.h>

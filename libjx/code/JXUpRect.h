@@ -10,7 +10,7 @@
 #ifndef _H_JXUpRect
 #define _H_JXUpRect
 
-#include <JXDecorRect.h>
+#include "JXDecorRect.h"
 
 class JXUpRect : public JXDecorRect
 {

@@ -9,7 +9,7 @@
 #ifndef _H_JInterpolate
 #define _H_JInterpolate
 
-#include <JSubstitute.h>
+#include "JSubstitute.h"
 
 class JStringMatch;
 

@@ -10,10 +10,10 @@
 
  ******************************************************************************/
 
-#include <JXStringCompletionMenu.h>
-#include <JXTEBase.h>
-#include <JXFontManager.h>
-#include <jXConstants.h>
+#include "JXStringCompletionMenu.h"
+#include "JXTEBase.h"
+#include "JXFontManager.h"
+#include "jXConstants.h"
 #include <JStringIterator.h>
 #include <jGlobals.h>
 #include <jAssert.h>

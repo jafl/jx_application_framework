@@ -7,13 +7,13 @@
 
  ******************************************************************************/
 
-#include <JXDockDirector.h>
-#include <JXDockManager.h>
-#include <JXWindow.h>
-#include <JXHorizDockPartition.h>
-#include <JXVertDockPartition.h>
-#include <JXDockWidget.h>
-#include <jXGlobals.h>
+#include "JXDockDirector.h"
+#include "JXDockManager.h"
+#include "JXWindow.h"
+#include "JXHorizDockPartition.h"
+#include "JXVertDockPartition.h"
+#include "JXDockWidget.h"
+#include "jXGlobals.h"
 #include <jAssert.h>
 
 /******************************************************************************

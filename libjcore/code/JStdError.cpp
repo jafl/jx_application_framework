@@ -9,9 +9,9 @@
 
  *****************************************************************************/
 
-#include <JStdError.h>
-#include <jGlobals.h>
-#include <jAssert.h>
+#include "JStdError.h"
+#include "jGlobals.h"
+#include "jAssert.h"
 
 // Types
 

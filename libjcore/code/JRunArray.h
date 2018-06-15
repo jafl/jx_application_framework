@@ -10,9 +10,9 @@
 #ifndef _H_JRunArray
 #define _H_JRunArray
 
-#include <JArray.h>
-#include <JRunArrayIterator.h>
-#include <JIndexRange.h>
+#include "JArray.h"
+#include "JRunArrayIterator.h"
+#include "JIndexRange.h"
 
 template <class T>
 class JRunArrayElement
@@ -178,7 +178,7 @@ private:
 	static int	QuickSortCompareRuns(const void* p1, const void* p2);
 };
 
-#include <JRunArray.tmpl>
-#include <JRunArrayIterator.tmpl>
+#include "JRunArray.tmpl"
+#include "JRunArrayIterator.tmpl"
 
 #endif

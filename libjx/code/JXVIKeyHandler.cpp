@@ -9,12 +9,12 @@
 
  ******************************************************************************/
 
-#include <JXVIKeyHandler.h>
-#include <JXTEBase.h>
-#include <JXSearchTextDialog.h>
-#include <JXScrollbar.h>
-#include <jXEventUtil.h>
-#include <jXGlobals.h>
+#include "JXVIKeyHandler.h"
+#include "JXTEBase.h"
+#include "JXSearchTextDialog.h"
+#include "JXScrollbar.h"
+#include "jXEventUtil.h"
+#include "jXGlobals.h"
 #include <jAssert.h>
 
 /******************************************************************************

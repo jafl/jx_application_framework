@@ -10,8 +10,8 @@
 #ifndef _H_JError
 #define _H_JError
 
-#include <JBroadcaster.h>
-#include <JString.h>
+#include "JBroadcaster.h"
+#include "JString.h"
 
 #if defined WIN32 && !defined GetMessage
 #define GetMessage	GetMessageA

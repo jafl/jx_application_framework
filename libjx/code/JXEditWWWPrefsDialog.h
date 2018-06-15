@@ -10,7 +10,7 @@
 #ifndef _H_JXEditWWWPrefsDialog
 #define _H_JXEditWWWPrefsDialog
 
-#include <JXDialogDirector.h>
+#include "JXDialogDirector.h"
 
 class JString;
 class JXInputField;

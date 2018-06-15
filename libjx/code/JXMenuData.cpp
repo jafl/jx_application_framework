@@ -12,7 +12,7 @@
 
  ******************************************************************************/
 
-#include <JXMenuData.h>
+#include "JXMenuData.h"
 #include <JString.h>
 #include <jAssert.h>
 

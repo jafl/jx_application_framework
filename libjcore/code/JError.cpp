@@ -39,9 +39,9 @@
 
  *****************************************************************************/
 
-#include <JError.h>
-#include <jGlobals.h>
-#include <jAssert.h>
+#include "JError.h"
+#include "jGlobals.h"
+#include "jAssert.h"
 
 /******************************************************************************
  Constructor

@@ -11,8 +11,8 @@
 
  ******************************************************************************/
 
-#include <JXCloseDirectorTask.h>
-#include <JXDirector.h>
+#include "JXCloseDirectorTask.h"
+#include "JXDirector.h"
 #include <jAssert.h>
 
 /******************************************************************************

@@ -10,7 +10,7 @@
 #ifndef _H_JTextChooseSaveFile
 #define _H_JTextChooseSaveFile
 
-#include <JChooseSaveFile.h>
+#include "JChooseSaveFile.h"
 
 class JTextChooseSaveFile : public JChooseSaveFile
 {

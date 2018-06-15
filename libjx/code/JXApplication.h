@@ -10,12 +10,12 @@
 #ifndef _H_JXApplication
 #define _H_JXApplication
 
-#include <JXDirector.h>
-#include <JXDocumentManager.h>	// need definition of SafetySaveReason
+#include "JXDirector.h"
+#include "JXDocumentManager.h"	// need definition of SafetySaveReason
 #include <JPtrArray-JString.h>
-#include <JXDisplay.h>			// for Windows template compile
-#include <JXIdleTask.h>			// for Windows template compile
-#include <JXUrgentTask.h>		// for Windows template compile
+#include "JXDisplay.h"			// for Windows template compile
+#include "JXIdleTask.h"			// for Windows template compile
+#include "JXUrgentTask.h"		// for Windows template compile
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 

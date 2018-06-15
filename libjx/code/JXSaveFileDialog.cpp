@@ -10,22 +10,22 @@
 
  ******************************************************************************/
 
-#include <JXSaveFileDialog.h>
-#include <JXDirTable.h>
-#include <JXCurrentPathMenu.h>
+#include "JXSaveFileDialog.h"
+#include "JXDirTable.h"
+#include "JXCurrentPathMenu.h"
 #include <JDirInfo.h>
-#include <JXNewDirButton.h>
-#include <JXDirectSaveSource.h>
+#include "JXNewDirButton.h"
+#include "JXDirectSaveSource.h"
 
-#include <JXWindow.h>
-#include <JXStaticText.h>
-#include <JXTextButton.h>
-#include <JXTextCheckbox.h>
-#include <JXSaveFileInput.h>
-#include <JXPathInput.h>
-#include <JXPathHistoryMenu.h>
-#include <JXScrollbarSet.h>
-#include <jXGlobals.h>
+#include "JXWindow.h"
+#include "JXStaticText.h"
+#include "JXTextButton.h"
+#include "JXTextCheckbox.h"
+#include "JXSaveFileInput.h"
+#include "JXPathInput.h"
+#include "JXPathHistoryMenu.h"
+#include "JXScrollbarSet.h"
+#include "jXGlobals.h"
 
 #include <JString.h>
 #include <JTableSelection.h>

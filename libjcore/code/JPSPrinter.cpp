@@ -9,12 +9,12 @@
 
  ******************************************************************************/
 
-#include <JPSPrinter.h>
-#include <JString.h>
-#include <JLatentPG.h>
-#include <jStreamUtil.h>
-#include <jGlobals.h>
-#include <jAssert.h>
+#include "JPSPrinter.h"
+#include "JString.h"
+#include "JLatentPG.h"
+#include "jStreamUtil.h"
+#include "jGlobals.h"
+#include "jAssert.h"
 
 // setup information
 

@@ -11,20 +11,20 @@
 
  ******************************************************************************/
 
-#include <JXFileListTable.h>
-#include <JXWindow.h>
-#include <JXWindowPainter.h>
-#include <JXImage.h>
-#include <JXColorManager.h>
-#include <JXTEBase.h>
-#include <JXTextMenu.h>
-#include <JXSelectionManager.h>
-#include <JXTextSelection.h>
-#include <JXDNDManager.h>
-#include <JXFileSelection.h>
-#include <JXWebBrowser.h>
-#include <jXUtil.h>
-#include <jXGlobals.h>
+#include "JXFileListTable.h"
+#include "JXWindow.h"
+#include "JXWindowPainter.h"
+#include "JXImage.h"
+#include "JXColorManager.h"
+#include "JXTEBase.h"
+#include "JXTextMenu.h"
+#include "JXSelectionManager.h"
+#include "JXTextSelection.h"
+#include "JXDNDManager.h"
+#include "JXFileSelection.h"
+#include "JXWebBrowser.h"
+#include "jXUtil.h"
+#include "jXGlobals.h"
 
 #include <JTableSelection.h>
 #include <JFontManager.h>

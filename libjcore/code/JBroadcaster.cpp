@@ -26,12 +26,12 @@
 
  ******************************************************************************/
 
-#include <JBroadcaster.h>
-#include <JPtrArray-JString.h>
-#include <JTaskIterator.h>
+#include "JBroadcaster.h"
+#include "JPtrArray-JString.h"
+#include "JTaskIterator.h"
 #include <sstream>
 #include <typeinfo>
-#include <jAssert.h>
+#include "jAssert.h"
 
 // A derived class is needed because of cross-dependencies between JBroadcaster
 // and JCollection.  Typedefs cannot be forward declared in header files, and

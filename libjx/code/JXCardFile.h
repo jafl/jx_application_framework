@@ -10,7 +10,7 @@
 #ifndef _H_JXCardFile
 #define _H_JXCardFile
 
-#include <JXWidgetSet.h>
+#include "JXWidgetSet.h"
 
 class JXCardFile : public JXWidgetSet
 {

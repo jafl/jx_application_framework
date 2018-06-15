@@ -7,8 +7,8 @@
 
  ******************************************************************************/
 
-#include <JXUpdateWDMenuTask.h>
-#include <JXWDManager.h>
+#include "JXUpdateWDMenuTask.h"
+#include "JXWDManager.h"
 
 /******************************************************************************
  Constructor

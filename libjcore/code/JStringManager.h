@@ -8,7 +8,7 @@
 #ifndef _H_JStringManager
 #define _H_JStringManager
 
-#include <JStringPtrMap.h>
+#include "JStringPtrMap.h"
 
 class JError;
 class JString;

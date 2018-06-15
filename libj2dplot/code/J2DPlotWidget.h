@@ -13,7 +13,7 @@
 #include <JRect.h>
 #include <JPtrArray-JString.h>
 #include <JFontStyle.h>
-#include <J2DCurveInfo.h>
+#include "J2DCurveInfo.h"
 
 class JPainter;
 class JPagePrinter;

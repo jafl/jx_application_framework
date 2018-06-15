@@ -7,11 +7,11 @@
 
  ******************************************************************************/
 
-#include <JXImageCheckbox.h>
-#include <JXImage.h>
-#include <JXWindowPainter.h>
-#include <JXColorManager.h>
-#include <jXPainterUtil.h>
+#include "JXImageCheckbox.h"
+#include "JXImage.h"
+#include "JXWindowPainter.h"
+#include "JXColorManager.h"
+#include "jXPainterUtil.h"
 #include <jAssert.h>
 
 /******************************************************************************

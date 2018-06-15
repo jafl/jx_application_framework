@@ -9,15 +9,15 @@
 
  *****************************************************************************/
 
-#include <JXToolBar.h>
-#include <JXToolBarButton.h>
-#include <JXHintDirector.h>
-#include <JXTextMenu.h>
-#include <JXImage.h>
-#include <JXColorManager.h>
-#include <JXWindowPainter.h>
-#include <jXGlobals.h>
-#include <jXPainterUtil.h>
+#include "JXToolBar.h"
+#include "JXToolBarButton.h"
+#include "JXHintDirector.h"
+#include "JXTextMenu.h"
+#include "JXImage.h"
+#include "JXColorManager.h"
+#include "JXWindowPainter.h"
+#include "jXGlobals.h"
+#include "jXPainterUtil.h"
 #include <JFontManager.h>
 #include <jAssert.h>
 

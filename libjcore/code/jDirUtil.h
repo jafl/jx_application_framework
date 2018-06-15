@@ -10,12 +10,12 @@
 #ifndef _H_jDirUtil
 #define _H_jDirUtil
 
-#include <JStdError.h>
+#include "JStdError.h"
 #include <time.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <ace/Default_Constants.h>
-#include <jFileUtil.h>	// for convenience
+#include "jFileUtil.h"	// for convenience
 
 class JString;
 class JProgressDisplay;

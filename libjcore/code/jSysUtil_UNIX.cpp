@@ -7,16 +7,16 @@
 
  ******************************************************************************/
 
-#include <jSysUtil.h>
-#include <JStdError.h>
-#include <jErrno.h>
-#include <JListUtil.h>
-#include <jGlobals.h>
+#include "jSysUtil.h"
+#include "JStdError.h"
+#include "jErrno.h"
+#include "JListUtil.h"
+#include "jGlobals.h"
 #include <unistd.h>
 #include <sys/stat.h>
 #include <grp.h>
 #include <pwd.h>
-#include <jAssert.h>
+#include "jAssert.h"
 
 /*******************************************************************************
  JUserIsAdmin

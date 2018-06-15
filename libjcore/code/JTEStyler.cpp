@@ -49,14 +49,14 @@
 
  ******************************************************************************/
 
-#include <JTEStyler.h>
-#include <JFontManager.h>
-#include <JListUtil.h>
-#include <JMinMax.h>
-#include <jStreamUtil.h>
-#include <JStopWatch.h>
+#include "JTEStyler.h"
+#include "JFontManager.h"
+#include "JListUtil.h"
+#include "JMinMax.h"
+#include "jStreamUtil.h"
+#include "JStopWatch.h"
 #include <strstream>
-#include <jAssert.h>
+#include "jAssert.h"
 
 const JSize kDecimationFactor = 50;
 const JSize kListBlockSize    = 50;

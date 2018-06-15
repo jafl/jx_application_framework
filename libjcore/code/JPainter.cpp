@@ -51,12 +51,12 @@
 
  ******************************************************************************/
 
-#include <JPainter.h>
-#include <JFontManager.h>
-#include <JColorManager.h>
-#include <JString.h>
-#include <jGlobals.h>
-#include <jAssert.h>
+#include "JPainter.h"
+#include "JFontManager.h"
+#include "JColorManager.h"
+#include "JString.h"
+#include "jGlobals.h"
+#include "jAssert.h"
 
 /******************************************************************************
  Constructor

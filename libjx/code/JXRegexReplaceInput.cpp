@@ -10,7 +10,7 @@
 
  ******************************************************************************/
 
-#include <JXRegexReplaceInput.h>
+#include "JXRegexReplaceInput.h"
 #include <JInterpolate.h>
 #include <jAssert.h>
 

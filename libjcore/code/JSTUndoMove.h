@@ -10,7 +10,7 @@
 #ifndef _H_JTEUndoMove
 #define _H_JTEUndoMove
 
-#include <JSTUndoBase.h>
+#include "JSTUndoBase.h"
 
 class JSTUndoMove : public JSTUndoBase
 {

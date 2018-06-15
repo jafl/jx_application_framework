@@ -10,7 +10,7 @@
 #ifndef _H_JXAtLeastOneCBGroup
 #define _H_JXAtLeastOneCBGroup
 
-#include <JXCheckboxGroup.h>
+#include "JXCheckboxGroup.h"
 
 class JXCheckbox;
 

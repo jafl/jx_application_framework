@@ -8,7 +8,7 @@
 #ifndef _H_JVIKeyHandler
 #define _H_JVIKeyHandler
 
-#include <JTEKeyHandler.h>
+#include "JTEKeyHandler.h"
 
 class JTEDefaultKeyHandler;
 

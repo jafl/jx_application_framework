@@ -7,7 +7,7 @@
 
  ******************************************************************************/
 
-#include <JX2DPlotRangeDialog.h>
+#include "JX2DPlotRangeDialog.h"
 #include <JXWindow.h>
 #include <JXTextButton.h>
 #include <JXFloatInput.h>

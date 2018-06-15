@@ -15,8 +15,8 @@
 
  ******************************************************************************/
 
-#include <JXCardFile.h>
-#include <JXWindow.h>
+#include "JXCardFile.h"
+#include "JXWindow.h"
 #include <jAssert.h>
 
 // JBroadcaster message types

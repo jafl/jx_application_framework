@@ -8,7 +8,7 @@
 #ifndef _H_JAliasArray
 #define _H_JAliasArray
 
-#include <JArray.h>
+#include "JArray.h"
 
 template <class T>
 class JAliasArray : public JCollection
@@ -81,6 +81,6 @@ private:
 	const JAliasArray<T>& operator=(const JAliasArray<T>& source);
 };
 
-#include <JAliasArray.tmpl>
+#include "JAliasArray.tmpl"
 
 #endif

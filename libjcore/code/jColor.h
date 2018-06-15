@@ -8,8 +8,8 @@
 #ifndef _H_JColor
 #define _H_JColor
 
-#include <JList.h>
-#include <jMath.h>
+#include "JList.h"
+#include "jMath.h"
 
 struct JHSB;
 

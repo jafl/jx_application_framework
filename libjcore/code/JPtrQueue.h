@@ -10,8 +10,8 @@
 #ifndef _H_JPtrQueue
 #define _H_JPtrQueue
 
-#include <JQueue.h>
-#include <JPtrArray.h>
+#include "JQueue.h"
+#include "JPtrArray.h"
 
 template <class T, class S>
 class JPtrQueue : public JQueue<T*,S>
@@ -49,6 +49,6 @@ private:
 	const JPtrQueue<T,S>& operator=(const JPtrQueue<T,S>& source);
 };
 
-#include <JPtrQueue.tmpl>
+#include "JPtrQueue.tmpl"
 
 #endif

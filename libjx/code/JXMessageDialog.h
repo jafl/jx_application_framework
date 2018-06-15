@@ -10,7 +10,7 @@
 #ifndef _H_JXMessageDialog
 #define _H_JXMessageDialog
 
-#include <JXUNDialogBase.h>
+#include "JXUNDialogBase.h"
 
 class JXMessageDialog : public JXUNDialogBase
 {

@@ -10,7 +10,7 @@
 #ifndef _H_JXButton
 #define _H_JXButton
 
-#include <JXWidget.h>
+#include "JXWidget.h"
 
 class JXButton : public JXWidget
 {

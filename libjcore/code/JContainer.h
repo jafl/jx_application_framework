@@ -10,7 +10,7 @@
 #ifndef _H_JContainer
 #define _H_JContainer
 
-#include <JCollection.h>
+#include "JCollection.h"
 
 class JContainer : public JCollection
 {

@@ -7,8 +7,8 @@
 
  ******************************************************************************/
 
-#include <JXCursorAnimationTask.h>
-#include <JXCursorAnimator.h>
+#include "JXCursorAnimationTask.h"
+#include "JXCursorAnimator.h"
 
 /******************************************************************************
  Constructor

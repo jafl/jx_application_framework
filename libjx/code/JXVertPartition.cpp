@@ -10,11 +10,11 @@
 
  ******************************************************************************/
 
-#include <JXVertPartition.h>
-#include <JXRestorePartitionGeometry.h>
-#include <JXDragPainter.h>
-#include <JXColorManager.h>
-#include <JXCursor.h>
+#include "JXVertPartition.h"
+#include "JXRestorePartitionGeometry.h"
+#include "JXDragPainter.h"
+#include "JXColorManager.h"
+#include "JXCursor.h"
 #include <jAssert.h>
 
 /******************************************************************************

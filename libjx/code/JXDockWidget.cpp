@@ -9,24 +9,24 @@
 
  ******************************************************************************/
 
-#include <JXDockWidget.h>
-#include <JXDockManager.h>
-#include <JXDockDirector.h>
-#include <JXHorizDockPartition.h>
-#include <JXVertDockPartition.h>
-#include <JXDockDragData.h>
-#include <JXUpdateMinSizeTask.h>
-#include <JXFileDocument.h>
-#include <JXDisplay.h>
-#include <JXWindow.h>
-#include <JXPartition.h>
-#include <JXTabGroup.h>
-#include <JXHintDirector.h>
-#include <JXTimerTask.h>
-#include <JXWindowPainter.h>
-#include <JXGC.h>
-#include <jXPainterUtil.h>
-#include <jXGlobals.h>
+#include "JXDockWidget.h"
+#include "JXDockManager.h"
+#include "JXDockDirector.h"
+#include "JXHorizDockPartition.h"
+#include "JXVertDockPartition.h"
+#include "JXDockDragData.h"
+#include "JXUpdateMinSizeTask.h"
+#include "JXFileDocument.h"
+#include "JXDisplay.h"
+#include "JXWindow.h"
+#include "JXPartition.h"
+#include "JXTabGroup.h"
+#include "JXHintDirector.h"
+#include "JXTimerTask.h"
+#include "JXWindowPainter.h"
+#include "JXGC.h"
+#include "jXPainterUtil.h"
+#include "jXGlobals.h"
 #include <jAssert.h>
 
 const Time kDeleteHintDelay = 10000;	// 10 sec (ms)

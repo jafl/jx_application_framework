@@ -8,7 +8,7 @@
 #ifndef _H_JXSpellCheckerDialog
 #define _H_JXSpellCheckerDialog
 
-#include <JXDialogDirector.h>
+#include "JXDialogDirector.h"
 #include <JStyledText.h>
 
 class JXTextButton;

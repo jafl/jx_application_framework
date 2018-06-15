@@ -27,9 +27,9 @@
 
  ******************************************************************************/
 
-#include <JXFileDocument.h>
-#include <JXWindow.h>
-#include <jXGlobals.h>
+#include "JXFileDocument.h"
+#include "JXWindow.h"
+#include "jXGlobals.h"
 #include <JString.h>
 #include <jFStreamUtil.h>
 #include <jStreamUtil.h>

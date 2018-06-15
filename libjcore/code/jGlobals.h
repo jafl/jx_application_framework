@@ -10,11 +10,11 @@
 
 // we include these for convenience
 
-#include <JAssertBase.h>
-#include <JUserNotification.h>
-#include <JChooseSaveFile.h>
-#include <JCreateProgressDisplay.h>
-#include <JStringManager.h>
+#include "JAssertBase.h"
+#include "JUserNotification.h"
+#include "JChooseSaveFile.h"
+#include "JCreateProgressDisplay.h"
+#include "JStringManager.h"
 
 class JFontManager;
 class JWebBrowser;

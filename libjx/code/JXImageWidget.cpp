@@ -9,12 +9,12 @@
 
  ******************************************************************************/
 
-#include <JXImageWidget.h>
-#include <JXAdjustIWBoundsTask.h>
-#include <JXWindowPainter.h>
-#include <JXImage.h>
-#include <JXColorManager.h>
-#include <jXGlobals.h>
+#include "JXImageWidget.h"
+#include "JXAdjustIWBoundsTask.h"
+#include "JXWindowPainter.h"
+#include "JXImage.h"
+#include "JXColorManager.h"
+#include "jXGlobals.h"
 #include <jAssert.h>
 
 /******************************************************************************

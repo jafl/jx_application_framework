@@ -8,8 +8,8 @@
 #ifndef _H_JVersionSocket
 #define _H_JVersionSocket
 
-#include <JPrefObject.h>
-#include <JString.h>
+#include "JPrefObject.h"
+#include "JString.h"
 #include <ace/Svc_Handler.h>
 #include <ace/Synch_Traits.h>
 
@@ -70,6 +70,6 @@ JVersionSocket<ACE_PEER_STREAM_2>::GetLatestVersion()
 	return itsVersion;
 }
 
-#include <JVersionSocket.tmpl>
+#include "JVersionSocket.tmpl"
 
 #endif

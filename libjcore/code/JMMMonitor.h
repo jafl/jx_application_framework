@@ -13,9 +13,9 @@
 #define _H_JMMMonitor
 
 // Superclass Header
-#include <JBroadcaster.h>
+#include "JBroadcaster.h"
 
-#include <jTypes.h>
+#include "jTypes.h"
 
 	class JMMRecord;
 

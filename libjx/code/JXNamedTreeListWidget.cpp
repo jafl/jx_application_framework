@@ -23,10 +23,10 @@
 
  ******************************************************************************/
 
-#include <JXNamedTreeListWidget.h>
-#include <JXInputField.h>
-#include <JXFontManager.h>
-#include <JXImage.h>
+#include "JXNamedTreeListWidget.h"
+#include "JXInputField.h"
+#include "JXFontManager.h"
+#include "JXImage.h"
 #include <JNamedTreeList.h>
 #include <JNamedTreeNode.h>
 #include <JPainter.h>

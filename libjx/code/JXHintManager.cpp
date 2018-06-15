@@ -7,10 +7,10 @@
 
  ******************************************************************************/
 
-#include <JXHintManager.h>
-#include <JXHintDirector.h>
-#include <JXWindow.h>
-#include <jXGlobals.h>
+#include "JXHintManager.h"
+#include "JXHintDirector.h"
+#include "JXWindow.h"
+#include "jXGlobals.h"
 #include <JString.h>
 #include <jAssert.h>
 

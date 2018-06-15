@@ -9,10 +9,10 @@
 
  ******************************************************************************/
 
-#include <JXDockDragData.h>
-#include <JXDockManager.h>
-#include <JXWindow.h>
-#include <jXGlobals.h>
+#include "JXDockDragData.h"
+#include "JXDockManager.h"
+#include "JXWindow.h"
+#include "jXGlobals.h"
 #include <jAssert.h>
 
 /******************************************************************************

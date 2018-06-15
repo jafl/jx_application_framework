@@ -12,7 +12,7 @@
 
 #include <JPainter.h>
 #include <JFontStyle.h>		// for convenience
-#include <jXConstants.h>
+#include "jXConstants.h"
 
 // frame
 

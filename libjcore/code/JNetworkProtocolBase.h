@@ -10,7 +10,7 @@
 
 #include <ace/Svc_Handler.h>
 #include <ace/Synch_Traits.h>
-#include <JLinkedList.h>
+#include "JLinkedList.h"
 
 class JString;
 
@@ -83,6 +83,6 @@ private:
 	JNetworkProtocolBase& operator=(const JNetworkProtocolBase& source);
 };
 
-#include <JNetworkProtocolBase.tmpl>
+#include "JNetworkProtocolBase.tmpl"
 
 #endif

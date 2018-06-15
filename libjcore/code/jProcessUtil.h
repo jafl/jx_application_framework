@@ -10,8 +10,8 @@
 #ifndef _H_jProcessUtil
 #define _H_jProcessUtil
 
-#include <JPtrArray.h>
-#include <JProcessError.h>
+#include "JPtrArray.h"
+#include "JProcessError.h"
 #include <unistd.h>
 #include <sys/types.h>
 #include <ace/Basic_Types.h>

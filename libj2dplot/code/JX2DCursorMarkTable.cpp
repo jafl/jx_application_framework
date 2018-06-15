@@ -7,12 +7,12 @@
 
  ******************************************************************************/
 
-#include <JX2DCursorMarkTable.h>
+#include "JX2DCursorMarkTable.h"
 
 #include <JXWindowDirector.h>
 #include <JXWindow.h>
 
-#include <J2DPlotWidget.h>
+#include "J2DPlotWidget.h"
 
 #include <JPagePrinter.h>
 #include <JFontManager.h>

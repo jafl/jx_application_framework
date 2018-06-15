@@ -12,9 +12,9 @@
 
  ******************************************************************************/
 
-#include <JRect.h>
-#include <JMinMax.h>
-#include <jAssert.h>
+#include "JRect.h"
+#include "JMinMax.h"
+#include "jAssert.h"
 
 /******************************************************************************
  JIntersection

@@ -9,7 +9,7 @@
 
  ******************************************************************************/
 
-#include <JXFLWildcardInput.h>
+#include "JXFLWildcardInput.h"
 #include <JDirInfo.h>
 #include <JString.h>
 #include <jAssert.h>

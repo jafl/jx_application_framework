@@ -9,10 +9,10 @@
 
  ******************************************************************************/
 
-#include <JXImageButton.h>
-#include <JXWindowPainter.h>
-#include <JXImage.h>
-#include <JXColorManager.h>
+#include "JXImageButton.h"
+#include "JXWindowPainter.h"
+#include "JXImage.h"
+#include "JXColorManager.h"
 #include <jAssert.h>
 
 /******************************************************************************

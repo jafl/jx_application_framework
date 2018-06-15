@@ -10,7 +10,7 @@
 #ifndef _H_JXLinkText
 #define _H_JXLinkText
 
-#include <JXTEBase.h>
+#include "JXTEBase.h"
 
 class JXLinkText : public JXTEBase
 {

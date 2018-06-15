@@ -9,10 +9,10 @@
 
  ******************************************************************************/
 
-#include <JXButton.h>
-#include <JXWindow.h>
-#include <JXWindowPainter.h>
-#include <jXPainterUtil.h>
+#include "JXButton.h"
+#include "JXWindow.h"
+#include "JXWindowPainter.h"
+#include "jXPainterUtil.h"
 #include <JColorManager.h>
 #include <JString.h>
 

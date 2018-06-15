@@ -12,10 +12,10 @@
 
  *****************************************************************************/
 
-#include <JHashRecord.h>
-#include <JHashCursor.h>
+#include "JHashRecord.h"
+#include "JHashCursor.h"
 
-//#include <JHashTableCursor.h>
+//#include "JHashTableCursor.h"
 
 	// This value comes from Sedgewick, should ensure less than five probes on average
 	// for a search miss and fewer for a hit.
@@ -511,9 +511,9 @@ JHashTable<V>::HashToIndex
 	return hash & itsMaxIndex;
 }
 
-#include <JHashTable.tmpl>
-#include <JHashRecord.tmpl>
-#include <JHashCursor.tmpl>
-#include <JConstHashCursor.tmpl>
+#include "JHashTable.tmpl"
+#include "JHashRecord.tmpl"
+#include "JHashCursor.tmpl"
+#include "JConstHashCursor.tmpl"
 
 #endif

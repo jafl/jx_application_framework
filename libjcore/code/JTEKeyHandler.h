@@ -8,7 +8,7 @@
 #ifndef _H_JTEKeyHandler
 #define _H_JTEKeyHandler
 
-#include <JTextEditor.h>
+#include "JTextEditor.h"
 
 class JTEKeyHandler
 {

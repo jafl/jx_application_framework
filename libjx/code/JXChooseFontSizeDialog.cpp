@@ -7,11 +7,11 @@
 
  ******************************************************************************/
 
-#include <JXChooseFontSizeDialog.h>
-#include <JXWindow.h>
-#include <JXTextButton.h>
-#include <JXIntegerInput.h>
-#include <JXStaticText.h>
+#include "JXChooseFontSizeDialog.h"
+#include "JXWindow.h"
+#include "JXTextButton.h"
+#include "JXIntegerInput.h"
+#include "JXStaticText.h"
 #include <jGlobals.h>
 #include <jAssert.h>
 

@@ -10,7 +10,7 @@
 #ifndef _H_JXFileDocument
 #define _H_JXFileDocument
 
-#include <JXDocument.h>
+#include "JXDocument.h"
 #include <JString.h>
 #include <JError.h>
 #include <jTime.h>

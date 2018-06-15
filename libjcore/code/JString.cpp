@@ -25,19 +25,19 @@
 
  ******************************************************************************/
 
-#include <JString.h>
-#include <JStringIterator.h>
-#include <JStringMatch.h>
-#include <jStreamUtil.h>
-#include <jMath.h>
-#include <JMinMax.h>
+#include "JString.h"
+#include "JStringIterator.h"
+#include "JStringMatch.h"
+#include "jStreamUtil.h"
+#include "jMath.h"
+#include "JMinMax.h"
 #include <stdlib.h>
 #include <sstream>
 #include <strstream>
 #include <iomanip>
 #include <unicode/ucol.h>
-#include <jErrno.h>
-#include <jAssert.h>
+#include "jErrno.h"
+#include "jAssert.h"
 
 JSize JString::theDefaultBlockSize = 256;
 const JString JString::empty("", kJFalse);
@@ -2348,11 +2348,11 @@ JString::MatchCase
  *****************************************************************************/
 
 #define Separator JString
-#include <JStringSplit.th>
+#include "JStringSplit.th"
 #undef Separator
 
 #define Separator JRegex
-#include <JStringSplit.th>
+#include "JStringSplit.th"
 #undef Separator
 
 /******************************************************************************

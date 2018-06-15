@@ -126,27 +126,27 @@
 
  ******************************************************************************/
 
-#include <JTextEditor.h>
-#include <JTEDefaultKeyHandler.h>
-#include <JPagePrinter.h>
-#include <JFontManager.h>
-#include <JListUtil.h>
-#include <JUndo.h>
-#include <JRunArrayIterator.h>
-#include <JRegex.h>
-#include <JStringIterator.h>
-#include <JStringMatch.h>
-#include <JLatentPG.h>
-#include <JMinMax.h>
-#include <jTextUtil.h>
-#include <jASCIIConstants.h>
-#include <jFStreamUtil.h>
-#include <jStreamUtil.h>
-#include <jMouseUtil.h>
-#include <jFileUtil.h>
-#include <jTime.h>
-#include <jGlobals.h>
-#include <jAssert.h>
+#include "JTextEditor.h"
+#include "JTEDefaultKeyHandler.h"
+#include "JPagePrinter.h"
+#include "JFontManager.h"
+#include "JListUtil.h"
+#include "JUndo.h"
+#include "JRunArrayIterator.h"
+#include "JRegex.h"
+#include "JStringIterator.h"
+#include "JStringMatch.h"
+#include "JLatentPG.h"
+#include "JMinMax.h"
+#include "jTextUtil.h"
+#include "jASCIIConstants.h"
+#include "jFStreamUtil.h"
+#include "jStreamUtil.h"
+#include "jMouseUtil.h"
+#include "jFileUtil.h"
+#include "jTime.h"
+#include "jGlobals.h"
+#include "jAssert.h"
 
 typedef JStyledText::TextIndex TextIndex;
 typedef JStyledText::TextCount TextCount;

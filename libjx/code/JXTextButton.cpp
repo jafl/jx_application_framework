@@ -9,12 +9,12 @@
 
  ******************************************************************************/
 
-#include <JXTextButton.h>
-#include <JXWindow.h>
-#include <JXWindowPainter.h>
-#include <JXFontManager.h>
-#include <JXColorManager.h>
-#include <jXGlobals.h>
+#include "JXTextButton.h"
+#include "JXWindow.h"
+#include "JXWindowPainter.h"
+#include "JXFontManager.h"
+#include "JXColorManager.h"
+#include "jXGlobals.h"
 #include <JStringIterator.h>
 #include <jAssert.h>
 

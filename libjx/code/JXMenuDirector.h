@@ -10,7 +10,7 @@
 #ifndef _H_JXMenuDirector
 #define _H_JXMenuDirector
 
-#include <JXWindowDirector.h>
+#include "JXWindowDirector.h"
 #include <JRect.h>
 
 class JXMenu;

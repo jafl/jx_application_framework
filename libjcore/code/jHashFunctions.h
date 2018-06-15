@@ -12,8 +12,8 @@
 
  *****************************************************************************/
 
-#include <jRand.h>
-#include <jTypes.h>
+#include "jRand.h"
+#include "jTypes.h"
 
 	JHashValue JHash7Bit(const JUtf8Byte* const& key);
 	JHashValue JHash8Bit(const JUtf8Byte* const& key);

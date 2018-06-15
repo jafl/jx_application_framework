@@ -7,9 +7,9 @@
 
  ******************************************************************************/
 
-#include <JXTEBlinkCaretTask.h>
-#include <JXTEBase.h>
-#include <JXWindow.h>
+#include "JXTEBlinkCaretTask.h"
+#include "JXTEBase.h"
+#include "JXWindow.h"
 #include <jAssert.h>
 
 const Time kHalfPeriod = 600;	// 0.6 seconds (milliseconds)

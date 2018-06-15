@@ -8,7 +8,7 @@
 #ifndef _H_JConstBitmap
 #define _H_JConstBitmap
 
-#include <jTypes.h>
+#include "jTypes.h"
 
 struct JConstBitmap
 {

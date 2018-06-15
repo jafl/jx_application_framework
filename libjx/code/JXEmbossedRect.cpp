@@ -9,9 +9,9 @@
 
  ******************************************************************************/
 
-#include <JXEmbossedRect.h>
-#include <JXWindowPainter.h>
-#include <jXPainterUtil.h>
+#include "JXEmbossedRect.h"
+#include "JXWindowPainter.h"
+#include "jXPainterUtil.h"
 
 /******************************************************************************
  Constructor

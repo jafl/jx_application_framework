@@ -10,13 +10,13 @@
 
  ******************************************************************************/
 
-#include <JMatrix.h>
-#include <JVector.h>
-#include <jStreamUtil.h>
-#include <jMath.h>
+#include "JMatrix.h"
+#include "JVector.h"
+#include "jStreamUtil.h"
+#include "jMath.h"
 #include <string.h>
 #include <stdarg.h>
-#include <jAssert.h>
+#include "jAssert.h"
 
 /******************************************************************************
  Constructor

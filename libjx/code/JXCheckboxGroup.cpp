@@ -17,9 +17,9 @@
 
  ******************************************************************************/
 
-#include <JXCheckboxGroup.h>
-#include <JXCheckbox.h>
-#include <JXDeleteObjectTask.h>
+#include "JXCheckboxGroup.h"
+#include "JXCheckbox.h"
+#include "JXDeleteObjectTask.h"
 #include <jAssert.h>
 
 /******************************************************************************

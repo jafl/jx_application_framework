@@ -10,7 +10,7 @@
 #ifndef _H_JPlotFunctionBase
 #define _H_JPlotFunctionBase
 
-#include <JPlotDataBase.h>
+#include "JPlotDataBase.h"
 #include <JArray.h>
 
 class JString;

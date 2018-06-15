@@ -11,11 +11,11 @@
 
  ******************************************************************************/
 
-#include <JXColorWheel.h>
-#include <JXWindow.h>
-#include <JXSlider.h>
-#include <JXImage.h>
-#include <JXWindowPainter.h>
+#include "JXColorWheel.h"
+#include "JXWindow.h"
+#include "JXSlider.h"
+#include "JXImage.h"
+#include "JXWindowPainter.h"
 #include <JColorManager.h>
 #include <jAssert.h>
 

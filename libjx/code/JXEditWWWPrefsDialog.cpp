@@ -7,12 +7,12 @@
 
  ******************************************************************************/
 
-#include <JXEditWWWPrefsDialog.h>
-#include <JXWindow.h>
-#include <JXTextButton.h>
-#include <JXStaticText.h>
-#include <JXInputField.h>
-#include <JXFontManager.h>
+#include "JXEditWWWPrefsDialog.h"
+#include "JXWindow.h"
+#include "JXTextButton.h"
+#include "JXStaticText.h"
+#include "JXInputField.h"
+#include "JXFontManager.h"
 #include <jGlobals.h>
 #include <jAssert.h>
 

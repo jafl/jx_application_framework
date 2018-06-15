@@ -10,8 +10,8 @@
 #ifndef _H_JStack
 #define _H_JStack
 
-#include <JContainer.h>
-#include <JListIterator.h>	// template
+#include "JContainer.h"
+#include "JListIterator.h"	// template
 
 template <class T, class S>
 class JStack : public JContainer
@@ -48,6 +48,6 @@ private:
 	S*	itsElements;
 };
 
-#include <JStack.tmpl>
+#include "JStack.tmpl"
 
 #endif

@@ -10,7 +10,7 @@
 #ifndef _H_JXStringCompletionMenu
 #define _H_JXStringCompletionMenu
 
-#include <JXTextMenu.h>
+#include "JXTextMenu.h"
 
 class JXTEBase;
 

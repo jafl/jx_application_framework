@@ -6,7 +6,7 @@
  *****************************************************************************/
 
 #include "JXToolBarNode.h"
-#include <JXTextMenu.h>
+#include "JXTextMenu.h"
 #include <JTree.h>
 #include <jAssert.h>
 

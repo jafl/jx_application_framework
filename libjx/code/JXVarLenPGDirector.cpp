@@ -8,11 +8,11 @@
 
  ******************************************************************************/
 
-#include <JXVarLenPGDirector.h>
-#include <JXProgressDisplay.h>
-#include <JXWindow.h>
-#include <JXTextButton.h>
-#include <JXStaticText.h>
+#include "JXVarLenPGDirector.h"
+#include "JXProgressDisplay.h"
+#include "JXWindow.h"
+#include "JXTextButton.h"
+#include "JXStaticText.h"
 #include <jGlobals.h>
 #include <jAssert.h>
 

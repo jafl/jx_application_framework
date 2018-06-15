@@ -10,7 +10,7 @@
 #ifndef _H_JXMenu
 #define _H_JXMenu
 
-#include <JXWidget.h>
+#include "JXWidget.h"
 #include <JString.h>
 #include <JFont.h>
 

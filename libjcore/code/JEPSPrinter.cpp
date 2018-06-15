@@ -29,13 +29,13 @@
 
  ******************************************************************************/
 
-#include <JEPSPrinter.h>
-#include <JImage.h>
-#include <JString.h>
-#include <jStreamUtil.h>
-#include <jMath.h>
-#include <jGlobals.h>
-#include <jAssert.h>
+#include "JEPSPrinter.h"
+#include "JImage.h"
+#include "JString.h"
+#include "jStreamUtil.h"
+#include "jMath.h"
+#include "jGlobals.h"
+#include "jAssert.h"
 
 // setup information
 

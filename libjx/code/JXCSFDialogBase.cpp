@@ -12,25 +12,25 @@
 
  ******************************************************************************/
 
-#include <JXCSFDialogBase.h>
-#include <JXDirTable.h>
-#include <JXCurrentPathMenu.h>
+#include "JXCSFDialogBase.h"
+#include "JXDirTable.h"
+#include "JXCurrentPathMenu.h"
 #include <JDirInfo.h>
-#include <JXNewDirButton.h>
-#include <JXGetNewDirDialog.h>
-#include <JXCSFSelectPrevDirTask.h>
+#include "JXNewDirButton.h"
+#include "JXGetNewDirDialog.h"
+#include "JXCSFSelectPrevDirTask.h"
 
-#include <JXWindow.h>
-#include <JXStaticText.h>
-#include <JXTextButton.h>
-#include <JXTextCheckbox.h>
-#include <JXPathInput.h>
-#include <JXPathHistoryMenu.h>
-#include <JXScrollbarSet.h>
-#include <JXScrollbar.h>
-#include <JXChooseSaveFile.h>
-#include <JXFontManager.h>
-#include <jXGlobals.h>
+#include "JXWindow.h"
+#include "JXStaticText.h"
+#include "JXTextButton.h"
+#include "JXTextCheckbox.h"
+#include "JXPathInput.h"
+#include "JXPathHistoryMenu.h"
+#include "JXScrollbarSet.h"
+#include "JXScrollbar.h"
+#include "JXChooseSaveFile.h"
+#include "JXFontManager.h"
+#include "jXGlobals.h"
 
 #include <JStringIterator.h>
 #include <jDirUtil.h>

@@ -13,10 +13,10 @@
 
  ******************************************************************************/
 
-#include <JXFontNameMenu.h>
-#include <JXFontManager.h>
-#include <JXDisplay.h>
-#include <jXGlobals.h>
+#include "JXFontNameMenu.h"
+#include "JXFontManager.h"
+#include "JXDisplay.h"
+#include "jXGlobals.h"
 #include <jAssert.h>
 
 // JBroadcaster message types

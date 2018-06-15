@@ -8,7 +8,7 @@
 #ifndef _H_JXGetStringDialog
 #define _H_JXGetStringDialog
 
-#include <JXDialogDirector.h>
+#include "JXDialogDirector.h"
 #include <JString.h>
 
 class JXInputField;

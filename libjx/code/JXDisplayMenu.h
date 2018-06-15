@@ -10,7 +10,7 @@
 #ifndef _H_JXDisplayMenu
 #define _H_JXDisplayMenu
 
-#include <JXTextMenu.h>
+#include "JXTextMenu.h"
 
 class JXOpenDisplayDialog;
 

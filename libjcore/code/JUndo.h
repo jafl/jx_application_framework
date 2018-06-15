@@ -10,7 +10,7 @@
 #ifndef _H_JUndo
 #define _H_JUndo
 
-#include <jTypes.h>
+#include "jTypes.h"
 
 class JUndo
 {

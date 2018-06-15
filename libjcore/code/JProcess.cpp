@@ -12,8 +12,8 @@
 
  *****************************************************************************/
 
-#include <JThisProcess.h>
-#include <jAssert.h>
+#include "JThisProcess.h"
+#include "jAssert.h"
 
 // JBroadcaster message types
 

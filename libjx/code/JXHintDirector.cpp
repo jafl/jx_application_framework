@@ -10,13 +10,13 @@
 
  ******************************************************************************/
 
-#include <JXHintDirector.h>
-#include <JXDisplay.h>
-#include <JXWindow.h>
-#include <JXBorderRect.h>
-#include <JXStaticText.h>
-#include <JXFontManager.h>
-#include <JXColorManager.h>
+#include "JXHintDirector.h"
+#include "JXDisplay.h"
+#include "JXWindow.h"
+#include "JXBorderRect.h"
+#include "JXStaticText.h"
+#include "JXFontManager.h"
+#include "JXColorManager.h"
 #include <jAssert.h>
 
 const JCoordinate kHMargin = 3;

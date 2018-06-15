@@ -10,10 +10,10 @@
 #ifndef _H_JSimpleProcess
 #define _H_JSimpleProcess
 
-#include <JProcess.h>
+#include "JProcess.h"
 #include <ace/LSOCK_Stream.h>
 #include <ace/UNIX_Addr.h>
-#include <JMessageProtocol.h>	// template; requires ace includes
+#include "JMessageProtocol.h"	// template; requires ace includes
 
 class JSimpleProcess : public JProcess
 {

@@ -10,7 +10,7 @@
 #ifndef _H_JXAnimationTask
 #define _H_JXAnimationTask
 
-#include <JXIdleTask.h>
+#include "JXIdleTask.h"
 #include <JKLRand.h>
 
 class JXImage;

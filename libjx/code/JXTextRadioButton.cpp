@@ -7,13 +7,13 @@
 
  ******************************************************************************/
 
-#include <JXTextRadioButton.h>
-#include <JXWindow.h>
-#include <JXWindowPainter.h>
-#include <jXPainterUtil.h>
-#include <JXFontManager.h>
-#include <JXColorManager.h>
-#include <jXGlobals.h>
+#include "JXTextRadioButton.h"
+#include "JXWindow.h"
+#include "JXWindowPainter.h"
+#include "jXPainterUtil.h"
+#include "JXFontManager.h"
+#include "JXColorManager.h"
+#include "jXGlobals.h"
 #include <jAssert.h>
 
 const JCoordinate kMarginWidth   = 5;
@@ -101,7 +101,7 @@ JXTextRadioButton::SetShortcuts
 	JXRadioButton::SetShortcuts(list);
 
 	#define LabelVarName	itsLabel
-	#include <JXUpdateShortcutIndex.th>
+	#include "JXUpdateShortcutIndex.th"
 	#undef LabelVarName
 }
 

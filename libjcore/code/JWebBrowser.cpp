@@ -9,12 +9,12 @@
 
  ******************************************************************************/
 
-#include <JWebBrowser.h>
-#include <JSimpleProcess.h>
-#include <JStringIterator.h>
-#include <jFileUtil.h>
-#include <jGlobals.h>
-#include <jAssert.h>
+#include "JWebBrowser.h"
+#include "JSimpleProcess.h"
+#include "JStringIterator.h"
+#include "jFileUtil.h"
+#include "jGlobals.h"
+#include "jAssert.h"
 
 // If you change the variable names, update JXHelpManager::WriteSetupV3()
 // to convert them back to u,f,a.

@@ -10,7 +10,7 @@
 #ifndef _H_jStreamUtil
 #define _H_jStreamUtil
 
-#include <jTypes.h>
+#include "jTypes.h"
 
 class JString;
 

@@ -10,7 +10,7 @@
 #ifndef _H_JXGoToLineDialog
 #define _H_JXGoToLineDialog
 
-#include <JXDialogDirector.h>
+#include "JXDialogDirector.h"
 
 class JXIntegerInput;
 class JXTextCheckbox;

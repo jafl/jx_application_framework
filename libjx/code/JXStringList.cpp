@@ -19,10 +19,10 @@
 
  ******************************************************************************/
 
-#include <JXStringList.h>
-#include <JXWindow.h>
-#include <JXColorManager.h>
-#include <jXGlobals.h>
+#include "JXStringList.h"
+#include "JXWindow.h"
+#include "JXColorManager.h"
+#include "jXGlobals.h"
 #include <JStyleTableData.h>
 #include <JTableSelection.h>
 #include <JPainter.h>

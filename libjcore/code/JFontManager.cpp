@@ -52,11 +52,11 @@
 
  ******************************************************************************/
 
-#include <JFontManager.h>
-#include <jGlobals.h>
+#include "JFontManager.h"
+#include "jGlobals.h"
 #include <stdlib.h>
 #include <stdarg.h>
-#include <jAssert.h>
+#include "jAssert.h"
 
 JString	JFontManager::theDefaultFontName("Helvetica", kJFalse);
 JSize	JFontManager::theDefaultFontSize    = 10;

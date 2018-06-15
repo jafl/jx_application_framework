@@ -9,9 +9,9 @@
 
  ******************************************************************************/
 
-#include <JXImageCache.h>
-#include <JXDisplay.h>
-#include <JXImage.h>
+#include "JXImageCache.h"
+#include "JXDisplay.h"
+#include "JXImage.h"
 #include <jAssert.h>
 
 /******************************************************************************

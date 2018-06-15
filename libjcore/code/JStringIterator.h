@@ -8,7 +8,7 @@
 #ifndef _H_JStringIterator
 #define _H_JStringIterator
 
-#include <JString.h>
+#include "JString.h"
 
 class JStringMatch;
 class JRegex;

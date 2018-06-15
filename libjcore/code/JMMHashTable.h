@@ -12,8 +12,8 @@
 
  *****************************************************************************/
 
-#include <JMMTable.h>
-#include <JHashTable.h>
+#include "JMMTable.h"
+#include "JHashTable.h"
 
 class JMMHashTable : public JMMTable
 {

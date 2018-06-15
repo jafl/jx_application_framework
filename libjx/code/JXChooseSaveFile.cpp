@@ -9,12 +9,12 @@
 
  ******************************************************************************/
 
-#include <JXChooseSaveFile.h>
-#include <JXChooseFileDialog.h>
-#include <JXChoosePathDialog.h>
-#include <JXSaveFileDialog.h>
-#include <JXWindow.h>
-#include <jXGlobals.h>
+#include "JXChooseSaveFile.h"
+#include "JXChooseFileDialog.h"
+#include "JXChoosePathDialog.h"
+#include "JXSaveFileDialog.h"
+#include "JXWindow.h"
+#include "jXGlobals.h"
 #include <JDirInfo.h>
 #include <jDirUtil.h>
 #include <sstream>

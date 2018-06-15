@@ -12,9 +12,9 @@
  *****************************************************************************/
 
 //Class Header
-#include <JMMTable.h>
-#include <JMemoryManager.h>
-#include <jAssert.h>
+#include "JMMTable.h"
+#include "JMemoryManager.h"
+#include "jAssert.h"
 
 /******************************************************************************
  Constructor

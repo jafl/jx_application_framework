@@ -7,8 +7,8 @@
 
  ******************************************************************************/
 
-#include <JPtrArray-JString.h>
-#include <jAssert.h>
+#include "JPtrArray-JString.h"
+#include "jAssert.h"
 
 /******************************************************************************
  Stream operators: JPtrArray<JString>

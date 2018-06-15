@@ -9,10 +9,10 @@
 
  ******************************************************************************/
 
-#include <JXImageMenu.h>
-#include <JXImageMenuData.h>
-#include <JXImageMenuDirector.h>
-#include <JXImage.h>
+#include "JXImageMenu.h"
+#include "JXImageMenuData.h"
+#include "JXImageMenuDirector.h"
+#include "JXImage.h"
 #include <jAssert.h>
 
 /******************************************************************************

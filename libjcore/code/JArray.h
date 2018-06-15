@@ -10,7 +10,7 @@
 #ifndef _H_JArray
 #define _H_JArray
 
-#include <JList.h>
+#include "JList.h"
 
 template <class T>
 class JArray : public JList<T>
@@ -80,6 +80,6 @@ private:
 	void	ResizeMemoryAllocation(const JSize newSlotCount);
 };
 
-#include <JArray.tmpl>
+#include "JArray.tmpl"
 
 #endif

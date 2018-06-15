@@ -9,7 +9,7 @@
 
  ******************************************************************************/
 
-#include <JXTimerTask.h>
+#include "JXTimerTask.h"
 #include <jAssert.h>
 
 const JUtf8Byte* JXTimerTask::kTimerWentOff = "TimerWentOff::JXTimerTask";

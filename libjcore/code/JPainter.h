@@ -10,9 +10,9 @@
 #ifndef _H_JPainter
 #define _H_JPainter
 
-#include <JRect.h>
-#include <JPolygon.h>
-#include <JFont.h>
+#include "JRect.h"
+#include "JPolygon.h"
+#include "JFont.h"
 
 class JString;
 class JFontManager;

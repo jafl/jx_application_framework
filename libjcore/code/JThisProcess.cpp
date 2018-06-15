@@ -75,14 +75,14 @@
 
  *****************************************************************************/
 
-#include <JThisProcess.h>
+#include "JThisProcess.h"
 #include <ace/Reactor.h>
-#include <JString.h>
-#include <JMinMax.h>
-#include <JStdError.h>
+#include "JString.h"
+#include "JMinMax.h"
+#include "JStdError.h"
 #include <stdlib.h>
-#include <jErrno.h>
-#include <jAssert.h>
+#include "jErrno.h"
+#include "jAssert.h"
 
 JThisProcess* JThisProcess::itsSelf = nullptr;
 

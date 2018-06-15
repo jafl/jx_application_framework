@@ -9,11 +9,11 @@
 
  ******************************************************************************/
 
-#include <JXWindowIcon.h>
-#include <JXDisplay.h>
-#include <JXWindow.h>
-#include <JXWindowPainter.h>
-#include <JXImageMask.h>
+#include "JXWindowIcon.h"
+#include "JXDisplay.h"
+#include "JXWindow.h"
+#include "JXWindowPainter.h"
+#include "JXImageMask.h"
 #include <X11/extensions/shape.h>
 #include <jAssert.h>
 

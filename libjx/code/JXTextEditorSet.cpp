@@ -9,10 +9,10 @@
 
  ******************************************************************************/
 
-#include <JXTextEditorSet.h>
-#include <JXTextEditor.h>
-#include <JXMenuBar.h>
-#include <JXScrollbarSet.h>
+#include "JXTextEditorSet.h"
+#include "JXTextEditor.h"
+#include "JXMenuBar.h"
+#include "JXScrollbarSet.h"
 #include <jAssert.h>
 
 /******************************************************************************

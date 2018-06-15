@@ -8,7 +8,7 @@
 #ifndef _H_JXTabGroup
 #define _H_JXTabGroup
 
-#include <JXCardFile.h>
+#include "JXCardFile.h"
 #include <JPtrArray-JString.h>
 #include <JFont.h>
 

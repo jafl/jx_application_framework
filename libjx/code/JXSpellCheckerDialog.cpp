@@ -7,16 +7,16 @@
 
  ******************************************************************************/
 
-#include <JXSpellCheckerDialog.h>
-#include <JXSpellChecker.h>
-#include <JXWindow.h>
-#include <JXTextButton.h>
-#include <JXInputField.h>
-#include <JXStaticText.h>
-#include <JXSpellList.h>
-#include <JXScrollbarSet.h>
-#include <JXColorManager.h>
-#include <jXGlobals.h>
+#include "JXSpellCheckerDialog.h"
+#include "JXSpellChecker.h"
+#include "JXWindow.h"
+#include "JXTextButton.h"
+#include "JXInputField.h"
+#include "JXStaticText.h"
+#include "JXSpellList.h"
+#include "JXScrollbarSet.h"
+#include "JXColorManager.h"
+#include "jXGlobals.h"
 #include <JRegex.h>
 #include <JUserNotification.h>
 #include <jAssert.h>

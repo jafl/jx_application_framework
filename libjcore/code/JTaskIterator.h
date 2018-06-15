@@ -8,7 +8,7 @@
 #ifndef _H_JTaskIterator
 #define _H_JTaskIterator
 
-#include <JPtrArray.h>
+#include "JPtrArray.h"
 
 template <class T>
 class JTaskIterator : public JPtrArrayIterator<T>
@@ -27,6 +27,6 @@ protected:
 	virtual void	ListChanged(const JBroadcaster::Message& message);
 };
 
-#include <JTaskIterator.tmpl>
+#include "JTaskIterator.tmpl"
 
 #endif

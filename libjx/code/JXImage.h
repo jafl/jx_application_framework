@@ -14,7 +14,7 @@
 #include <JConstBitmap.h>
 #include <JBroadcaster.h>
 #include <JArray.h>
-#include <jXConstants.h>
+#include "jXConstants.h"
 #include <X11/Xlib.h>
 
 class JXDisplay;

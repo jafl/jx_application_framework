@@ -11,7 +11,7 @@
 #define _H_JComplex
 
 #include <complex>
-#include <jTypes.h>
+#include "jTypes.h"
 
 typedef std::complex<double>	JComplex;
 

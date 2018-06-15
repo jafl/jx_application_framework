@@ -10,9 +10,9 @@
 #ifndef _H_JXImageMask
 #define _H_JXImageMask
 
-#include <JXImage.h>
+#include "JXImage.h"
 #include <JImageMask.h>
-#include <jXConstants.h>		// need definition of kJXTransparentColor
+#include "jXConstants.h"		// need definition of kJXTransparentColor
 
 class JXWindowIcon;
 

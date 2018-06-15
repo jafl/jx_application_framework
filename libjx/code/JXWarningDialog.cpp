@@ -7,12 +7,12 @@
 
  ******************************************************************************/
 
-#include <JXWarningDialog.h>
-#include <JXWindow.h>
-#include <JXTextButton.h>
-#include <JXStaticText.h>
-#include <JXImageWidget.h>
-#include <JXImage.h>
+#include "JXWarningDialog.h"
+#include "JXWindow.h"
+#include "JXTextButton.h"
+#include "JXStaticText.h"
+#include "JXImageWidget.h"
+#include "JXImage.h"
 #include <jGlobals.h>
 #include <jAssert.h>
 

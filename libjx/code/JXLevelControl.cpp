@@ -9,9 +9,9 @@
 
  ******************************************************************************/
 
-#include <JXLevelControl.h>
-#include <JXWindowPainter.h>
-#include <jXPainterUtil.h>
+#include "JXLevelControl.h"
+#include "JXWindowPainter.h"
+#include "jXPainterUtil.h"
 #include <JColorManager.h>
 #include <jAssert.h>
 

@@ -9,9 +9,9 @@
 
  ******************************************************************************/
 
-#include <JXStringTable.h>
-#include <JXInputField.h>
-#include <JXFontManager.h>
+#include "JXStringTable.h"
+#include "JXInputField.h"
+#include "JXFontManager.h"
 #include <JStringTableData.h>
 #include <JPainter.h>
 #include <JString.h>

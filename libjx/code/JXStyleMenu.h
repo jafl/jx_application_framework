@@ -10,7 +10,7 @@
 #ifndef _H_JXStyleMenu
 #define _H_JXStyleMenu
 
-#include <JXTextMenu.h>
+#include "JXTextMenu.h"
 
 class JXStyleMenuTable;
 class JXChooseColorDialog;

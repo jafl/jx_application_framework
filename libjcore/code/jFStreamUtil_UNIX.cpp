@@ -8,12 +8,12 @@
 
  ******************************************************************************/
 
-#include <jFStreamUtil.h>
-#include <JString.h>
+#include "jFStreamUtil.h"
+#include "JString.h"
 #include <fcntl.h>
 #include <unistd.h>
-#include <jMissingProto.h>
-#include <jAssert.h>
+#include "jMissingProto.h"
+#include "jAssert.h"
 
 /******************************************************************************
  JSetFStreamLength

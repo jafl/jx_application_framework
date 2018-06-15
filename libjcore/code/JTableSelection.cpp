@@ -9,10 +9,10 @@
 
  ******************************************************************************/
 
-#include <JTableSelection.h>
-#include <JTable.h>
-#include <JMinMax.h>
-#include <jAssert.h>
+#include "JTableSelection.h"
+#include "JTable.h"
+#include "JMinMax.h"
+#include "jAssert.h"
 
 /******************************************************************************
  Constructor

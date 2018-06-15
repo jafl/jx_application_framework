@@ -8,7 +8,7 @@
 #ifndef _H_JXCheckModTimeTask
 #define _H_JXCheckModTimeTask
 
-#include <JXIdleTask.h>
+#include "JXIdleTask.h"
 #include <JBroadcaster.h>
 #include <JString.h>
 

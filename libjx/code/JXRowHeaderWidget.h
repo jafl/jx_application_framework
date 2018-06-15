@@ -10,7 +10,7 @@
 #ifndef _H_JXRowHeaderWidget
 #define _H_JXRowHeaderWidget
 
-#include <JXEditTable.h>
+#include "JXEditTable.h"
 
 class JXScrollbar;
 

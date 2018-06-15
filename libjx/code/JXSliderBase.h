@@ -10,7 +10,7 @@
 #ifndef _H_JXSliderBase
 #define _H_JXSliderBase
 
-#include <JXWidget.h>
+#include "JXWidget.h"
 #include <JSliderBase.h>
 
 class JXSliderBase : public JXWidget, public JSliderBase

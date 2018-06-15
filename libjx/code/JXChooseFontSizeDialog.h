@@ -10,7 +10,7 @@
 #ifndef _H_JXChooseFontSizeDialog
 #define _H_JXChooseFontSizeDialog
 
-#include <JXDialogDirector.h>
+#include "JXDialogDirector.h"
 
 class JXIntegerInput;
 

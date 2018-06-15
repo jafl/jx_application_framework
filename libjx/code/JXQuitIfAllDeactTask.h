@@ -8,7 +8,7 @@
 #ifndef _H_JXQuitIfAllDeactTask
 #define _H_JXQuitIfAllDeactTask
 
-#include <JXIdleTask.h>
+#include "JXIdleTask.h"
 
 class JXQuitIfAllDeactTask : public JXIdleTask
 {

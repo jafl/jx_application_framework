@@ -10,7 +10,7 @@
 #ifndef _H_JXToolBarButton
 #define _H_JXToolBarButton
 
-#include <JXButton.h>
+#include "JXButton.h"
 #include <JString.h>
 #include <JFont.h>
 

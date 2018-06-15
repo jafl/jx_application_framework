@@ -9,13 +9,13 @@
 
  ******************************************************************************/
 
-#include <JXTextMenuTable.h>
-#include <JXTextMenuData.h>
-#include <JXWindowPainter.h>
-#include <jXPainterUtil.h>
-#include <JXImage.h>
-#include <JXColorManager.h>
-#include <JXDisplay.h>
+#include "JXTextMenuTable.h"
+#include "JXTextMenuData.h"
+#include "JXWindowPainter.h"
+#include "jXPainterUtil.h"
+#include "JXImage.h"
+#include "JXColorManager.h"
+#include "JXDisplay.h"
 #include <jAssert.h>
 
 static const JString kOSXSymbolFontName("Apple Symbols", kJFalse);

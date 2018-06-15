@@ -29,21 +29,21 @@
 
  ******************************************************************************/
 
-#include <JXMenu.h>
-#include <JXMenuData.h>
-#include <JXMenuDirector.h>
-#include <JXMenuTable.h>
-#include <JXMenuBar.h>
-#include <JXMenuManager.h>
+#include "JXMenu.h"
+#include "JXMenuData.h"
+#include "JXMenuDirector.h"
+#include "JXMenuTable.h"
+#include "JXMenuBar.h"
+#include "JXMenuManager.h"
 
-#include <JXDisplay.h>
-#include <JXWindowDirector.h>
-#include <JXWindowPainter.h>
-#include <JXWindow.h>
-#include <JXImage.h>
-#include <JXColorManager.h>
-#include <jXPainterUtil.h>
-#include <jXGlobals.h>
+#include "JXDisplay.h"
+#include "JXWindowDirector.h"
+#include "JXWindowPainter.h"
+#include "JXWindow.h"
+#include "JXImage.h"
+#include "JXColorManager.h"
+#include "jXPainterUtil.h"
+#include "jXGlobals.h"
 
 #include <JFontManager.h>
 #include <JStringIterator.h>
@@ -391,7 +391,7 @@ JXMenu::SetShortcuts
 	w->InstallShortcuts(this, list);
 
 	#define LabelVarName	itsTitle
-	#include <JXUpdateShortcutIndex.th>
+	#include "JXUpdateShortcutIndex.th"
 	#undef LabelVarName
 
 	Refresh();

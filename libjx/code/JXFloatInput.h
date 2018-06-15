@@ -10,7 +10,7 @@
 #ifndef _H_JXFloatInput
 #define _H_JXFloatInput
 
-#include <JXInputField.h>
+#include "JXInputField.h"
 
 class JXFloatInput : public JXInputField
 {

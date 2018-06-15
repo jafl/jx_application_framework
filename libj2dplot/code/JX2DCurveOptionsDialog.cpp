@@ -7,8 +7,8 @@
 
  ******************************************************************************/
 
-#include <JX2DCurveOptionsDialog.h>
-#include <JX2DCurveNameList.h>
+#include "JX2DCurveOptionsDialog.h"
+#include "JX2DCurveNameList.h"
 #include <JXWindow.h>
 #include <JXTextButton.h>
 #include <JXRadioGroup.h>

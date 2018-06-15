@@ -22,13 +22,13 @@
 
  ******************************************************************************/
 
-#include <JXProgressDisplay.h>
-#include <JXPGMessageDirector.h>
-#include <JXWindow.h>
-#include <JXTextButton.h>
-#include <JXStaticText.h>
-#include <JXProgressIndicator.h>
-#include <jXGlobals.h>
+#include "JXProgressDisplay.h"
+#include "JXPGMessageDirector.h"
+#include "JXWindow.h"
+#include "JXTextButton.h"
+#include "JXStaticText.h"
+#include "JXProgressIndicator.h"
+#include "jXGlobals.h"
 #include <jAssert.h>
 
 // JBroadcaster message types

@@ -11,10 +11,10 @@
 
  ******************************************************************************/
 
-#include <JXDocumentMenu.h>
-#include <JXDocumentManager.h>
-#include <JXDocument.h>
-#include <jXGlobals.h>
+#include "JXDocumentMenu.h"
+#include "JXDocumentManager.h"
+#include "JXDocument.h"
+#include "jXGlobals.h"
 #include <jAssert.h>
 
 /******************************************************************************

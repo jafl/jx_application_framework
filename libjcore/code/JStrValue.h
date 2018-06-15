@@ -12,7 +12,7 @@
 
  *****************************************************************************/
 
-#include <JString.h>
+#include "JString.h"
 
 template <class V>
 class JStrValue

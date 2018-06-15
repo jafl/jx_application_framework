@@ -10,9 +10,9 @@
 #ifndef _H_JList
 #define _H_JList
 
-#include <JCollection.h>
-#include <JListIterator.h>
-#include <JIndexRange.h>
+#include "JCollection.h"
+#include "JListIterator.h"
+#include "JIndexRange.h"
 
 // namespace to own JBroadcaster messages, etc (template is unnecessary)
 
@@ -366,7 +366,7 @@ private:
 	const JList<T>& operator=(const JList<T>& source);
 };
 
-#include <JList.tmpl>
-#include <JListIterator.tmpl>
+#include "JList.tmpl"
+#include "JListIterator.tmpl"
 
 #endif

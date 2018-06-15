@@ -10,8 +10,8 @@
 
  ******************************************************************************/
 
-#include <JXStyleTableMenu.h>
-#include <JXStyleTable.h>
+#include "JXStyleTableMenu.h"
+#include "JXStyleTable.h"
 #include <jAssert.h>
 
 /******************************************************************************

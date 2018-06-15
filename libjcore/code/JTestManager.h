@@ -8,7 +8,7 @@
 #ifndef _H_JUnitTestManager
 #define _H_JUnitTestManager
 
-#include <JString.h>
+#include "JString.h"
 #include <sstream>
 #include <math.h>
 

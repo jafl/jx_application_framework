@@ -10,11 +10,11 @@
 
  *****************************************************************************/
 
-#include <JFileID.h>
-#include <JString.h>
+#include "JFileID.h"
+#include "JString.h"
 #include <sys/stat.h>
 #include <ace/OS_NS_sys_stat.h>
-#include <jAssert.h>
+#include "jAssert.h"
 
 /******************************************************************************
  Constructor

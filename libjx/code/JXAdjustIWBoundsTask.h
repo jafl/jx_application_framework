@@ -10,7 +10,7 @@
 #ifndef _H_JXAdjustIWBoundsTask
 #define _H_JXAdjustIWBoundsTask
 
-#include <JXUrgentTask.h>
+#include "JXUrgentTask.h"
 
 class JXImageWidget;
 

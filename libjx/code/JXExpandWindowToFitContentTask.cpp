@@ -7,10 +7,10 @@
 
  ******************************************************************************/
 
-#include <JXExpandWindowToFitContentTask.h>
-#include <JXWindow.h>
-#include <JXDialogDirector.h>
-#include <JXWidget.h>
+#include "JXExpandWindowToFitContentTask.h"
+#include "JXWindow.h"
+#include "JXDialogDirector.h"
+#include "JXWidget.h"
 #include <jAssert.h>
 
 /******************************************************************************

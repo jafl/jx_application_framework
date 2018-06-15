@@ -10,7 +10,7 @@
 #ifndef _H_JProgressDisplay
 #define _H_JProgressDisplay
 
-#include <JString.h>
+#include "JString.h"
 
 class JProgressDisplay
 {

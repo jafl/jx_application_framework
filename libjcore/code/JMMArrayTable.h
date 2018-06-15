@@ -10,8 +10,8 @@
 
  *****************************************************************************/
 
-#include <JMMTable.h>
-#include <JArray.h>
+#include "JMMTable.h"
+#include "JArray.h"
 
 class JMMArrayTable : public JMMTable
 {

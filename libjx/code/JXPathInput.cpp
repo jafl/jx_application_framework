@@ -10,14 +10,14 @@
 
  ******************************************************************************/
 
-#include <JXPathInput.h>
-#include <JXSelectionManager.h>
-#include <JXDNDManager.h>
-#include <JXStringCompletionMenu.h>
-#include <JXFontManager.h>
-#include <JXColorManager.h>
-#include <jXGlobals.h>
-#include <jXUtil.h>
+#include "JXPathInput.h"
+#include "JXSelectionManager.h"
+#include "JXDNDManager.h"
+#include "JXStringCompletionMenu.h"
+#include "JXFontManager.h"
+#include "JXColorManager.h"
+#include "jXGlobals.h"
+#include "jXUtil.h"
 #include <JStringIterator.h>
 #include <JDirInfo.h>
 #include <jDirUtil.h>

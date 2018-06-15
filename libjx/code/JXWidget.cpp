@@ -41,12 +41,12 @@
 
  ******************************************************************************/
 
-#include <JXWidget.h>
-#include <JXWindow.h>
-#include <JXDisplay.h>
-#include <JXDragPainter.h>
-#include <JXDNDManager.h>
-#include <JXColorManager.h>
+#include "JXWidget.h"
+#include "JXWindow.h"
+#include "JXDisplay.h"
+#include "JXDragPainter.h"
+#include "JXDNDManager.h"
+#include "JXColorManager.h"
 #include <jAssert.h>
 
 // JBroadcaster message types

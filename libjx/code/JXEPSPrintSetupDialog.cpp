@@ -10,16 +10,16 @@
 
  ******************************************************************************/
 
-#include <JXEPSPrintSetupDialog.h>
-#include <JXEPSPrinter.h>
-#include <JXPSPrintSetupDialog.h>
-#include <JXChooseEPSDestFileTask.h>
-#include <JXWindow.h>
-#include <JXTextButton.h>
-#include <JXStaticText.h>
-#include <JXTextCheckbox.h>
-#include <JXFileInput.h>
-#include <jXGlobals.h>
+#include "JXEPSPrintSetupDialog.h"
+#include "JXEPSPrinter.h"
+#include "JXPSPrintSetupDialog.h"
+#include "JXChooseEPSDestFileTask.h"
+#include "JXWindow.h"
+#include "JXTextButton.h"
+#include "JXStaticText.h"
+#include "JXTextCheckbox.h"
+#include "JXFileInput.h"
+#include "jXGlobals.h"
 #include <jFileUtil.h>
 #include <jAssert.h>
 

@@ -9,18 +9,18 @@
 
  ******************************************************************************/
 
-#include <JPTPrinter.h>
-#include <JLatentPG.h>
-#include <JStringIterator.h>
-#include <JStringMatch.h>
-#include <jFStreamUtil.h>
-#include <jStreamUtil.h>
-#include <jASCIIConstants.h>
-#include <jFileUtil.h>
-#include <jGlobals.h>
+#include "JPTPrinter.h"
+#include "JLatentPG.h"
+#include "JStringIterator.h"
+#include "JStringMatch.h"
+#include "jFStreamUtil.h"
+#include "jStreamUtil.h"
+#include "jASCIIConstants.h"
+#include "jFileUtil.h"
+#include "jGlobals.h"
 #include <sstream>
 #include <stdio.h>
-#include <jAssert.h>
+#include "jAssert.h"
 
 const JUtf8Byte* kLineNumberMarginStr = "  ";
 const JSize kLineNumberMarginWidth     = 2;

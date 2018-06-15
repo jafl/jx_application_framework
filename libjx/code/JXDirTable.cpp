@@ -11,18 +11,18 @@
 
  ******************************************************************************/
 
-#include <JXDirTable.h>
+#include "JXDirTable.h"
 #include <JDirInfo.h>
 
-#include <JXWindow.h>
-#include <JXWindowPainter.h>
-#include <JXImage.h>
-#include <JXColorManager.h>
-#include <JXSelectionManager.h>
-#include <JXDNDManager.h>
-#include <JXTimerTask.h>
-#include <jXGlobals.h>
-#include <jXUtil.h>
+#include "JXWindow.h"
+#include "JXWindowPainter.h"
+#include "JXImage.h"
+#include "JXColorManager.h"
+#include "JXSelectionManager.h"
+#include "JXDNDManager.h"
+#include "JXTimerTask.h"
+#include "jXGlobals.h"
+#include "jXUtil.h"
 
 #include <JTableSelection.h>
 #include <JString.h>

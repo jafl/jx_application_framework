@@ -10,10 +10,10 @@
 
  ******************************************************************************/
 
-#include <JXHorizPartition.h>
-#include <JXRestorePartitionGeometry.h>
-#include <JXDragPainter.h>
-#include <JXCursor.h>
+#include "JXHorizPartition.h"
+#include "JXRestorePartitionGeometry.h"
+#include "JXDragPainter.h"
+#include "JXCursor.h"
 #include <JColorManager.h>
 #include <jAssert.h>
 

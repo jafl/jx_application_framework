@@ -56,12 +56,12 @@
 
  ******************************************************************************/
 
-#include <JXDocument.h>
-#include <JXDocumentManager.h>
-#include <JXWDManager.h>
-#include <JXDisplay.h>
-#include <JXWindow.h>
-#include <jXGlobals.h>
+#include "JXDocument.h"
+#include "JXDocumentManager.h"
+#include "JXWDManager.h"
+#include "JXDisplay.h"
+#include "JXWindow.h"
+#include "jXGlobals.h"
 #include <jAssert.h>
 
 /******************************************************************************

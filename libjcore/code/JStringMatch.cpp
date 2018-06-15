@@ -11,9 +11,9 @@
 
  ******************************************************************************/
 
-#include <JStringMatch.h>
-#include <JRegex.h>
-#include <jAssert.h>
+#include "JStringMatch.h"
+#include "JRegex.h"
+#include "jAssert.h"
 
 /******************************************************************************
  Constructor

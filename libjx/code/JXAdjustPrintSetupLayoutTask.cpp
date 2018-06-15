@@ -9,9 +9,9 @@
 
  ******************************************************************************/
 
-#include <JXAdjustPrintSetupLayoutTask.h>
-#include <JXDirector.h>
-#include <JXWidget.h>
+#include "JXAdjustPrintSetupLayoutTask.h"
+#include "JXDirector.h"
+#include "JXWidget.h"
 
 /******************************************************************************
  Constructor

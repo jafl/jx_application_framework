@@ -10,10 +10,10 @@
 #ifndef _H_jFileUtil
 #define _H_jFileUtil
 
-#include <JError.h>
-#include <jTime.h>
+#include "JError.h"
+#include "jTime.h"
 #include <stdio.h>
-#include <jDirUtil.h>	// for convenience
+#include "jDirUtil.h"	// for convenience
 
 class JString;
 class JProcess;

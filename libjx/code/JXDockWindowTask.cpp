@@ -11,13 +11,13 @@
 
  ******************************************************************************/
 
-#include <JXDockWindowTask.h>
-#include <JXDockWidget.h>
-#include <JXTabGroup.h>
-#include <JXDisplay.h>
-#include <JXWindowDirector.h>
-#include <JXWindow.h>
-#include <jXGlobals.h>
+#include "JXDockWindowTask.h"
+#include "JXDockWidget.h"
+#include "JXTabGroup.h"
+#include "JXDisplay.h"
+#include "JXWindowDirector.h"
+#include "JXWindow.h"
+#include "jXGlobals.h"
 #include <jAssert.h>
 
 enum

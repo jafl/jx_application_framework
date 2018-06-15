@@ -8,7 +8,7 @@
 #ifndef _H_jSysUtil
 #define _H_jSysUtil
 
-#include <JError.h>
+#include "JError.h"
 #include <unistd.h>
 #include <sys/types.h>
 #include <ace/OS_NS_sys_stat.h>

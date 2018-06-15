@@ -13,12 +13,12 @@
 
  ******************************************************************************/
 
-#include <JXFontSizeMenu.h>
-#include <JXFontNameMenu.h>
-#include <JXChooseFontSizeDialog.h>
-#include <JXWindow.h>
-#include <jXConstants.h>
-#include <jXActionDefs.h>
+#include "JXFontSizeMenu.h"
+#include "JXFontNameMenu.h"
+#include "JXChooseFontSizeDialog.h"
+#include "JXWindow.h"
+#include "jXConstants.h"
+#include "jXActionDefs.h"
 #include <JFontManager.h>
 #include <jMath.h>
 #include <jGlobals.h>

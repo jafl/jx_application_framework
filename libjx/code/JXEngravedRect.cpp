@@ -9,9 +9,9 @@
 
  ******************************************************************************/
 
-#include <JXEngravedRect.h>
-#include <JXWindowPainter.h>
-#include <jXPainterUtil.h>
+#include "JXEngravedRect.h"
+#include "JXWindowPainter.h"
+#include "jXPainterUtil.h"
 
 /******************************************************************************
  Constructor

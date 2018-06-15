@@ -10,8 +10,8 @@
 
  ******************************************************************************/
 
-#include <JXPathHistoryMenu.h>
-#include <JXImage.h>
+#include "JXPathHistoryMenu.h"
+#include "JXImage.h"
 #include <jDirUtil.h>
 #include <jMountUtil.h>
 #include <jAssert.h>

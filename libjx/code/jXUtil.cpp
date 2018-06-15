@@ -5,9 +5,9 @@
 
  ******************************************************************************/
 
-#include <jXUtil.h>
-#include <JXDisplay.h>
-#include <JXImageMask.h>
+#include "jXUtil.h"
+#include "JXDisplay.h"
+#include "JXImageMask.h"
 #include <X11/Xatom.h>
 #include <JStringIterator.h>
 #include <JStringMatch.h>

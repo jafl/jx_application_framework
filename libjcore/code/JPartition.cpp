@@ -38,10 +38,10 @@
 
  ******************************************************************************/
 
-#include <JPartition.h>
-#include <jStreamUtil.h>
+#include "JPartition.h"
+#include "jStreamUtil.h"
 #include <numeric>
-#include <jAssert.h>
+#include "jAssert.h"
 
 const JCoordinate kDragRegionHalfSize = JPartition::kDragRegionSize/2;
 

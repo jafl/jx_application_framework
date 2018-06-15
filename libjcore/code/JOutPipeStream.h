@@ -10,7 +10,7 @@
 #ifndef _H_JOutPipeStream
 #define _H_JOutPipeStream
 
-#include <JOutPipeStreambuf.h>
+#include "JOutPipeStreambuf.h"
 
 class JOutPipeStream : public std::ostream
 {

@@ -10,8 +10,8 @@
 #ifndef _H_JPackedTableData
 #define _H_JPackedTableData
 
-#include <JTableData.h>
-#include <JRunArray.h>
+#include "JTableData.h"
+#include "JRunArray.h"
 
 class JTable;
 
@@ -100,6 +100,6 @@ private:
 	const JPackedTableData<T>& operator=(const JPackedTableData<T>& source);
 };
 
-#include <JPackedTableData.tmpl>
+#include "JPackedTableData.tmpl"
 
 #endif

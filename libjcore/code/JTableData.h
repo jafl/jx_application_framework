@@ -10,8 +10,8 @@
 #ifndef _H_JTableData
 #define _H_JTableData
 
-#include <JBroadcaster.h>
-#include <JRect.h>
+#include "JBroadcaster.h"
+#include "JRect.h"
 
 class JTableData : virtual public JBroadcaster
 {

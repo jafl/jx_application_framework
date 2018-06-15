@@ -8,8 +8,8 @@
 #ifndef _H_JStringMatch
 #define _H_JStringMatch
 
-#include <JString.h>
-#include <JArray.h>
+#include "JString.h"
+#include "JArray.h"
 
 class JRegex;
 

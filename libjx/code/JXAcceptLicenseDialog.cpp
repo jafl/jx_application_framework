@@ -7,11 +7,11 @@
 
  ******************************************************************************/
 
-#include <JXAcceptLicenseDialog.h>
-#include <JXWindow.h>
-#include <JXTextButton.h>
-#include <JXScrollbarSet.h>
-#include <JXStaticText.h>
+#include "JXAcceptLicenseDialog.h"
+#include "JXWindow.h"
+#include "JXTextButton.h"
+#include "JXScrollbarSet.h"
+#include "JXStaticText.h"
 #include <jGlobals.h>
 #include <jAssert.h>
 

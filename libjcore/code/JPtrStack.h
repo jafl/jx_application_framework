@@ -10,8 +10,8 @@
 #ifndef _H_JPtrStack
 #define _H_JPtrStack
 
-#include <JStack.h>
-#include <JPtrArray.h>
+#include "JStack.h"
+#include "JPtrArray.h"
 
 template <class T, class S>
 class JPtrStack : public JStack<T*,S>
@@ -49,6 +49,6 @@ private:
 	const JPtrStack<T,S>& operator=(const JPtrStack<T,S>& source);
 };
 
-#include <JPtrStack.tmpl>
+#include "JPtrStack.tmpl"
 
 #endif

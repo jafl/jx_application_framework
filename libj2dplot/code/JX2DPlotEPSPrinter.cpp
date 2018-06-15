@@ -7,9 +7,9 @@
 
  ******************************************************************************/
 
-#include <JX2DPlotEPSPrinter.h>
+#include "JX2DPlotEPSPrinter.h"
 #include <JPSPrinter.h>
-#include <J2DPlotWidget.h>
+#include "J2DPlotWidget.h"
 #include <jStreamUtil.h>
 #include <jAssert.h>
 

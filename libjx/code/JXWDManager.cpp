@@ -18,15 +18,15 @@
 
  ******************************************************************************/
 
-#include <JXWDManager.h>
-#include <JXWindowDirector.h>
-#include <JXWDMenu.h>
-#include <JXUpdateWDMenuTask.h>
-#include <JXDisplay.h>
-#include <JXImage.h>
-#include <JXColorManager.h>
-#include <jXGlobals.h>
-#include <jXActionDefs.h>
+#include "JXWDManager.h"
+#include "JXWindowDirector.h"
+#include "JXWDMenu.h"
+#include "JXUpdateWDMenuTask.h"
+#include "JXDisplay.h"
+#include "JXImage.h"
+#include "JXColorManager.h"
+#include "jXGlobals.h"
+#include "jXActionDefs.h"
 #include <JStringIterator.h>
 #include <jAssert.h>
 

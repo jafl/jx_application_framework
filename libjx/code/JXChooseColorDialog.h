@@ -10,7 +10,7 @@
 #ifndef _H_JXChooseColorDialog
 #define _H_JXChooseColorDialog
 
-#include <JXDialogDirector.h>
+#include "JXDialogDirector.h"
 #include <jColor.h>
 
 class JXSlider;

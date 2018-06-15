@@ -10,8 +10,8 @@
 
  ******************************************************************************/
 
-#include <JBroadcastSnooper.h>
-#include <jAssert.h>
+#include "JBroadcastSnooper.h"
+#include "jAssert.h"
 
 /******************************************************************************
  Constructor

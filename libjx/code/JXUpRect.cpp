@@ -9,10 +9,10 @@
 
  ******************************************************************************/
 
-#include <JXUpRect.h>
-#include <JXWindowPainter.h>
-#include <jXPainterUtil.h>
-#include <jXConstants.h>
+#include "JXUpRect.h"
+#include "JXWindowPainter.h"
+#include "jXPainterUtil.h"
+#include "jXConstants.h"
 
 /******************************************************************************
  Constructor

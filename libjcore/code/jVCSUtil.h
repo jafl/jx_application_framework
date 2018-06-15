@@ -8,7 +8,7 @@
 #ifndef _H_jVCSUtil
 #define _H_jVCSUtil
 
-#include <JError.h>
+#include "JError.h"
 
 class JString;
 class JProcess;

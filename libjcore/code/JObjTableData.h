@@ -10,8 +10,8 @@
 #ifndef _H_JObjTableData
 #define _H_JObjTableData
 
-#include <JTableData.h>
-#include <JPtrArray.h>
+#include "JTableData.h"
+#include "JPtrArray.h"
 
 template <class T>
 class JObjTableData : public JTableData
@@ -67,6 +67,6 @@ private:
 	const JObjTableData<T>& operator=(const JObjTableData<T>& source);
 };
 
-#include <JObjTableData.tmpl>
+#include "JObjTableData.tmpl"
 
 #endif

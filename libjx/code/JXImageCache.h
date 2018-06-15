@@ -9,7 +9,7 @@
 #define _H_JXImageCache
 
 #include <JStringPtrMap.h>
-#include <JXPM.h>
+#include "JXPM.h"
 
 class JString;
 class JXDisplay;

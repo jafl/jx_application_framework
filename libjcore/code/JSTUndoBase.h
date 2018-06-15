@@ -8,8 +8,8 @@
 #ifndef _H_JTEUndoBase
 #define _H_JTEUndoBase
 
-#include <JUndo.h>
-#include <JStyledText.h>	// need struct definitions
+#include "JUndo.h"
+#include "JStyledText.h"	// need struct definitions
 
 class JSTUndoBase : public JUndo
 {

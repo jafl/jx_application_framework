@@ -9,7 +9,7 @@
 #define _H_JX2DPlotLabelDialog
 
 #include <JXDialogDirector.h>
-#include <J2DPlotWidget.h>
+#include "J2DPlotWidget.h"
 
 class JString;
 class JXInputField;

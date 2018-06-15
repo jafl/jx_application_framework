@@ -13,12 +13,12 @@
  *****************************************************************************/
 
 // Superclass header
-#include <JConstHashCursor.h>
+#include "JConstHashCursor.h"
 
-#include <jTypes.h>
+#include "jTypes.h"
 
-#include <jHashFunctions.h>
-#include <JHashRecord.h>
+#include "jHashFunctions.h"
+#include "JHashRecord.h"
 
 	// forward declaration is necessary to avoid #include loop -- JAFL 5/25/98
 	template <class V> class JHashTable;

@@ -5,15 +5,15 @@
 
  ******************************************************************************/
 
-#include <JX2DPlotWidget.h>
-#include <JX2DPlotLabelDialog.h>
-#include <JX2DPlotScaleDialog.h>
-#include <JX2DPlotRangeDialog.h>
-#include <JX2DCurveOptionsDialog.h>
-#include <JX2DCursorMarkTableDir.h>
-#include <JX2DCursorMarkTable.h>
-#include <JX2DPlotEPSPrinter.h>
-#include <JPlotDataBase.h>
+#include "JX2DPlotWidget.h"
+#include "JX2DPlotLabelDialog.h"
+#include "JX2DPlotScaleDialog.h"
+#include "JX2DPlotRangeDialog.h"
+#include "JX2DCurveOptionsDialog.h"
+#include "JX2DCursorMarkTableDir.h"
+#include "JX2DCursorMarkTable.h"
+#include "JX2DPlotEPSPrinter.h"
+#include "JPlotDataBase.h"
 
 #include <JXWindowPainter.h>
 #include <JXWindowDirector.h>

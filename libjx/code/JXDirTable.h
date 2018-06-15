@@ -9,7 +9,7 @@
 #ifndef _H_JXDirTable
 #define _H_JXDirTable
 
-#include <JXTable.h>
+#include "JXTable.h"
 
 class JString;
 class JDirInfo;

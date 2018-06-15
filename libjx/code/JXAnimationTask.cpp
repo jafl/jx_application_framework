@@ -28,9 +28,9 @@
 
  ******************************************************************************/
 
-#include <JXAnimationTask.h>
-#include <JXImageWidget.h>
-#include <JXImage.h>
+#include "JXAnimationTask.h"
+#include "JXImageWidget.h"
+#include "JXImage.h"
 #include <jAssert.h>
 
 /******************************************************************************

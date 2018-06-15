@@ -8,7 +8,7 @@
 #ifndef _H_JXUpdateWDMenuTask
 #define _H_JXUpdateWDMenuTask
 
-#include <JXUrgentTask.h>
+#include "JXUrgentTask.h"
 
 class JXWDManager;
 

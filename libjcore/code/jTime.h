@@ -10,7 +10,7 @@
 #ifndef _H_jTime
 #define _H_jTime
 
-#include <jTypes.h>
+#include "jTypes.h"
 #include <time.h>
 
 #if defined _J_UNIX && SIZEOF_LONG == 4

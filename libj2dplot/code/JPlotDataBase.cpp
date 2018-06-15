@@ -7,7 +7,7 @@
 
  ********************************************************************************/
 
-#include <JPlotDataBase.h>
+#include "JPlotDataBase.h"
 #include <jAssert.h>
 
 const JUtf8Byte* JPlotDataBase::kCurveChanged = "CurveChanged::JPlotDataBase";

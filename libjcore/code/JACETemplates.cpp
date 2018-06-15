@@ -5,8 +5,8 @@
 
  ******************************************************************************/
 
-#include <JMessageProtocol.h>
-#include <JAsynchDataReceiver.h>
+#include "JMessageProtocol.h"
+#include "JAsynchDataReceiver.h"
 
 // Protocol definitions
 

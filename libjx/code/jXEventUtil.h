@@ -12,8 +12,8 @@
 
 #include <JUtf8Character.h>
 #include <JPoint.h>
-#include <JXButtonStates.h>
-#include <JXKeyModifiers.h>
+#include "JXButtonStates.h"
+#include "JXKeyModifiers.h"
 
 class JXDisplay;
 

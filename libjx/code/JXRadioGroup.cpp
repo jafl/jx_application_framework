@@ -11,10 +11,10 @@
 
  ******************************************************************************/
 
-#include <JXRadioGroup.h>
-#include <JXRadioButton.h>
-#include <JXWindowPainter.h>
-#include <jXPainterUtil.h>
+#include "JXRadioGroup.h"
+#include "JXRadioButton.h"
+#include "JXWindowPainter.h"
+#include "jXPainterUtil.h"
 #include <jAssert.h>
 
 const JSize kFrameDownWidth    = 1;

@@ -10,8 +10,8 @@
 #ifndef _H_JQueue
 #define _H_JQueue
 
-#include <JContainer.h>
-#include <JListIterator.h>	// template
+#include "JContainer.h"
+#include "JListIterator.h"	// template
 
 template <class T, class S>
 class JQueue : public JContainer
@@ -48,6 +48,6 @@ private:
 	S*	itsElements;
 };
 
-#include <JQueue.tmpl>
+#include "JQueue.tmpl"
 
 #endif

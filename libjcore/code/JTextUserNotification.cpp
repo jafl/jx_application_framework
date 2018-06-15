@@ -7,9 +7,9 @@
 
  ******************************************************************************/
 
-#include <JTextUserNotification.h>
-#include <jCommandLine.h>
-#include <jGlobals.h>
+#include "JTextUserNotification.h"
+#include "jCommandLine.h"
+#include "jGlobals.h"
 
 /******************************************************************************
  Constructor

@@ -7,8 +7,8 @@
 
  ******************************************************************************/
 
-#include <JXRaiseWindowTask.h>
-#include <JXWindow.h>
+#include "JXRaiseWindowTask.h"
+#include "JXWindow.h"
 
 /******************************************************************************
  Constructor

@@ -9,9 +9,9 @@
 
  ******************************************************************************/
 
-#include <JTestManager.h>
-#include <JError.h>
-#include <jAssert.h>
+#include "JTestManager.h"
+#include "JError.h"
+#include "jAssert.h"
 
 static JTestManager* theManager = nullptr;
 

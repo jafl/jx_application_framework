@@ -8,7 +8,7 @@
 #ifndef _H_JXOpenDisplayDialog
 #define _H_JXOpenDisplayDialog
 
-#include <JXGetStringDialog.h>
+#include "JXGetStringDialog.h"
 
 class JXOpenDisplayDialog : public JXGetStringDialog
 {

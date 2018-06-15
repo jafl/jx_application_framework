@@ -10,7 +10,7 @@
 #ifndef _H_J2DVectorData
 #define _H_J2DVectorData
 
-#include <JPlotDataBase.h>
+#include "JPlotDataBase.h"
 #include <JArray.h>
 
 class J2DVectorData : public JPlotDataBase
@@ -29,8 +29,8 @@ public:
 
 	virtual ~J2DVectorData();
 
-	virtual void		GetElement(const JIndex index, J2DDataPoint* data) const;
-	virtual void		GetElement(const JIndex index, J2DVectorPoint* data) const;
+	virtual void		GetElement(const JIndex index, J2DDataPoint* data) const override;
+	virtual void		GetElement(const JIndex index, J2DVectorPoint* data) const override;
 
 	virtual void		GetXRange(JFloat* min, JFloat* max) const override;
 	virtual JBoolean	GetYRange(const JFloat xMin, const JFloat xMax,

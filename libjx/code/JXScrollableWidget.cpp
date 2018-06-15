@@ -19,17 +19,17 @@
 
  ******************************************************************************/
 
-#include <JXScrollableWidget.h>
-#include <JXAdjustScrollbarTask.h>
-#include <JXScrollbarSet.h>
-#include <JXScrollbar.h>
-#include <JXMenu.h>
-#include <JXWindow.h>
-#include <JXWindowPainter.h>
-#include <JXColorManager.h>
-#include <jXPainterUtil.h>
-#include <jXKeysym.h>
-#include <jXGlobals.h>
+#include "JXScrollableWidget.h"
+#include "JXAdjustScrollbarTask.h"
+#include "JXScrollbarSet.h"
+#include "JXScrollbar.h"
+#include "JXMenu.h"
+#include "JXWindow.h"
+#include "JXWindowPainter.h"
+#include "JXColorManager.h"
+#include "jXPainterUtil.h"
+#include "jXKeysym.h"
+#include "jXGlobals.h"
 #include <JMinMax.h>
 #include <jMath.h>
 #include <jASCIIConstants.h>

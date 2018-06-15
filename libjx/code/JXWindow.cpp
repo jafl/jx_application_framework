@@ -10,30 +10,30 @@
 
  ******************************************************************************/
 
-#include <JXWindow.h>
-#include <JXWindowDirector.h>
-#include <JXMenuManager.h>
-#include <JXDNDManager.h>
-#include <JXHintManager.h>
-#include <JXRaiseWindowTask.h>
-#include <JXExpandWindowToFitContentTask.h>
-#include <JXTextMenu.h>
-#include <JXDisplay.h>
-#include <JXGC.h>
-#include <JXColorManager.h>
-#include <JXWindowPainter.h>
-#include <JXIconDirector.h>
-#include <JXWindowIcon.h>
-#include <JXImageMask.h>
-#include <JXDockManager.h>
-#include <JXDockDirector.h>
-#include <JXDockWidget.h>
-#include <JXDockWindowTask.h>
-#include <jXUtil.h>
-#include <jXGlobals.h>
+#include "JXWindow.h"
+#include "JXWindowDirector.h"
+#include "JXMenuManager.h"
+#include "JXDNDManager.h"
+#include "JXHintManager.h"
+#include "JXRaiseWindowTask.h"
+#include "JXExpandWindowToFitContentTask.h"
+#include "JXTextMenu.h"
+#include "JXDisplay.h"
+#include "JXGC.h"
+#include "JXColorManager.h"
+#include "JXWindowPainter.h"
+#include "JXIconDirector.h"
+#include "JXWindowIcon.h"
+#include "JXImageMask.h"
+#include "JXDockManager.h"
+#include "JXDockDirector.h"
+#include "JXDockWidget.h"
+#include "JXDockWindowTask.h"
+#include "jXUtil.h"
+#include "jXGlobals.h"
 
 #include <X11/Xatom.h>
-#include <jXKeysym.h>
+#include "jXKeysym.h"
 
 #include <JThisProcess.h>
 #include <JStringIterator.h>

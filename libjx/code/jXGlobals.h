@@ -11,8 +11,8 @@
 // we include these for convenience
 
 #include <jGlobals.h>
-#include <jXConstants.h>
-#include <JXApplication.h>
+#include "jXConstants.h"
+#include "JXApplication.h"
 
 class JXDocumentManager;
 class JXHelpManager;

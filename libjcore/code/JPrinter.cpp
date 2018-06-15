@@ -11,7 +11,7 @@
 
  ******************************************************************************/
 
-#include <JPrinter.h>
+#include "JPrinter.h"
 
 // JBroadcaster message types
 

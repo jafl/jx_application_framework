@@ -26,12 +26,12 @@
 
  ******************************************************************************/
 
-#include <JXStyleMenu.h>
-#include <JXStyleMenuDirector.h>
-#include <JXChooseColorDialog.h>
-#include <JXWindow.h>
-#include <JXColorManager.h>
-#include <jXActionDefs.h>
+#include "JXStyleMenu.h"
+#include "JXStyleMenuDirector.h"
+#include "JXChooseColorDialog.h"
+#include "JXWindow.h"
+#include "JXColorManager.h"
+#include "jXActionDefs.h"
 #include <jGlobals.h>
 #include <jAssert.h>
 

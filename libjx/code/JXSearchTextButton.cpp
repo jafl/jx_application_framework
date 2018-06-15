@@ -10,10 +10,10 @@
 
  ******************************************************************************/
 
-#include <JXSearchTextButton.h>
-#include <JXWindowPainter.h>
-#include <jXPainterUtil.h>
-#include <JXColorManager.h>
+#include "JXSearchTextButton.h"
+#include "JXWindowPainter.h"
+#include "jXPainterUtil.h"
+#include "JXColorManager.h"
 #include <jAssert.h>
 
 const JCoordinate kArrowHalfWidth  = 2;

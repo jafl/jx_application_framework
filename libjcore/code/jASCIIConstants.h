@@ -10,7 +10,7 @@
 #ifndef _H_jASCIIConstants
 #define _H_jASCIIConstants
 
-#include <jTypes.h>
+#include "jTypes.h"
 
 const int kJMinASCIICharacter = 0;
 const int kJMaxASCIICharacter = 127;

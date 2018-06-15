@@ -7,15 +7,15 @@
 
  ******************************************************************************/
 
-#include <JXSplashWindow.h>
-#include <JXDisplay.h>
-#include <JXWindow.h>
-#include <JXEmbossedRect.h>
-#include <JXStaticText.h>
-#include <JXImageWidget.h>
-#include <JXImage.h>
-#include <JXTimerTask.h>
-#include <jXGlobals.h>
+#include "JXSplashWindow.h"
+#include "JXDisplay.h"
+#include "JXWindow.h"
+#include "JXEmbossedRect.h"
+#include "JXStaticText.h"
+#include "JXImageWidget.h"
+#include "JXImage.h"
+#include "JXTimerTask.h"
+#include "jXGlobals.h"
 #include <jAssert.h>
 
 /******************************************************************************

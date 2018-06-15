@@ -10,7 +10,7 @@
 
  ******************************************************************************/
 
-#include <JXStyledText.h>
+#include "JXStyledText.h"
 #include <JStringIterator.h>
 #include <JFontManager.h>
 #include <jAssert.h>

@@ -10,13 +10,13 @@
 
  ******************************************************************************/
 
-#include <JXHorizDockPartition.h>
-#include <JXVertDockPartition.h>
-#include <JXDockDirector.h>
-#include <JXDockWidget.h>
-#include <JXWindow.h>
-#include <JXTextMenu.h>
-#include <JXDockTabGroup.h>
+#include "JXHorizDockPartition.h"
+#include "JXVertDockPartition.h"
+#include "JXDockDirector.h"
+#include "JXDockWidget.h"
+#include "JXWindow.h"
+#include "JXTextMenu.h"
+#include "JXDockTabGroup.h"
 #include <jGlobals.h>
 #include <jAssert.h>
 

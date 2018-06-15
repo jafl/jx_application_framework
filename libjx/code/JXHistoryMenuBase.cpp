@@ -25,9 +25,9 @@
 
  ******************************************************************************/
 
-#include <JXHistoryMenuBase.h>
-#include <JXImage.h>
-#include <JXInputField.h>
+#include "JXHistoryMenuBase.h"
+#include "JXImage.h"
+#include "JXInputField.h"
 #include <jAssert.h>
 
 // setup information

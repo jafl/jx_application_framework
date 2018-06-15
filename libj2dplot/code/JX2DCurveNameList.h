@@ -9,7 +9,7 @@
 #define _H_JX2DCurveNameList
 
 #include <JXEditTable.h>
-#include <J2DCurveInfo.h>
+#include "J2DCurveInfo.h"
 
 class JXInputField;
 

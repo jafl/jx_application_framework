@@ -9,8 +9,8 @@
 
  ******************************************************************************/
 
-#include <JXDNDChooseDropActionDialog.h>
-#include <jXGlobals.h>
+#include "JXDNDChooseDropActionDialog.h"
+#include "jXGlobals.h"
 #include <jAssert.h>
 
 /******************************************************************************

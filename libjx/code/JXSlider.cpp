@@ -9,10 +9,10 @@
 
  ******************************************************************************/
 
-#include <JXSlider.h>
-#include <JXWindowPainter.h>
-#include <JXColorManager.h>
-#include <jXPainterUtil.h>
+#include "JXSlider.h"
+#include "JXWindowPainter.h"
+#include "JXColorManager.h"
+#include "jXPainterUtil.h"
 #include <jAssert.h>
 
 const JSize kThumbHalfSize  = 5;

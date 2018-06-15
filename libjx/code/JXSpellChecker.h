@@ -8,7 +8,7 @@
 #ifndef _H_JXSpellChecker
 #define _H_JXSpellChecker
 
-#include <JXSharedPrefObject.h>
+#include "JXSharedPrefObject.h"
 #include <JPtrArray-JString.h>
 #include <JRect.h>
 

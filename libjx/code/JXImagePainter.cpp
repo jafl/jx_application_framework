@@ -11,9 +11,9 @@
 
  ******************************************************************************/
 
-#include <JXImagePainter.h>
-#include <JXImage.h>
-#include <JXGC.h>
+#include "JXImagePainter.h"
+#include "JXImage.h"
+#include "JXGC.h"
 #include <jAssert.h>
 
 /******************************************************************************

@@ -10,8 +10,8 @@
 #ifndef _H_JLinkedList
 #define _H_JLinkedList
 
-#include <JList.h>
-#include <JLinkedListIterator.h>
+#include "JList.h"
+#include "JLinkedListIterator.h"
 
 template <class T>
 class JLinkedListElement
@@ -97,7 +97,7 @@ private:
 									   JLinkedListElement<T>* origElement);
 };
 
-#include <JLinkedList.tmpl>
-#include <JLinkedListIterator.tmpl>
+#include "JLinkedList.tmpl"
+#include "JLinkedListIterator.tmpl"
 
 #endif

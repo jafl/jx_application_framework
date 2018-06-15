@@ -10,12 +10,12 @@
 
  ******************************************************************************/
 
-#include <JXFTCCell.h>
-#include <JXDisplay.h>
-#include <JXWindow.h>
-#include <JXWidget.h>
-#include <JXDragPainter.h>
-#include <JXDNDManager.h>
+#include "JXFTCCell.h"
+#include "JXDisplay.h"
+#include "JXWindow.h"
+#include "JXWidget.h"
+#include "JXDragPainter.h"
+#include "JXDNDManager.h"
 #include <JColorManager.h>
 #include <JListUtil.h>
 #include <sstream>

@@ -10,7 +10,7 @@
 #ifndef _H_JXTEBase
 #define _H_JXTEBase
 
-#include <JXScrollableWidget.h>
+#include "JXScrollableWidget.h"
 #include <JTextEditor.h>
 #include <JError.h>
 

@@ -6,7 +6,7 @@
 	To use this file:
 
 		#define Separator ____
-		#include <JStringSplit.th>
+		#include "JStringSplit.th"
 		#undef Separator
 
 	Copyright (C) 2017 by John Lindal.

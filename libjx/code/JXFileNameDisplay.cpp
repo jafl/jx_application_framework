@@ -10,8 +10,8 @@
 
  ******************************************************************************/
 
-#include <JXFileNameDisplay.h>
-#include <JXFontManager.h>
+#include "JXFileNameDisplay.h"
+#include "JXFontManager.h"
 #include <jGlobals.h>
 #include <jAssert.h>
 

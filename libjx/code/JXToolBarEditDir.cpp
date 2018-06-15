@@ -9,25 +9,25 @@
 
  *****************************************************************************/
 
-#include <JXToolBarEditDir.h>
+#include "JXToolBarEditDir.h"
 #include <JTree.h>
-#include <JXToolBarNode.h>
-#include <JXToolBarEditWidget.h>
+#include "JXToolBarNode.h"
+#include "JXToolBarEditWidget.h"
 #include <JNamedTreeList.h>
 
-#include <JXToolBar.h>
+#include "JXToolBar.h"
 
-#include <JXWindow.h>
-#include <JXStaticText.h>
-#include <JXMenuBar.h>
-#include <JXScrollbarSet.h>
-#include <JXApplication.h>
-#include <JXTextButton.h>
-#include <JXDocumentManager.h>
-#include <JXDocumentMenu.h>
-#include <JXImage.h>
-#include <JXTextCheckbox.h>
-#include <JXAtLeastOneCBGroup.h>
+#include "JXWindow.h"
+#include "JXStaticText.h"
+#include "JXMenuBar.h"
+#include "JXScrollbarSet.h"
+#include "JXApplication.h"
+#include "JXTextButton.h"
+#include "JXDocumentManager.h"
+#include "JXDocumentMenu.h"
+#include "JXImage.h"
+#include "JXTextCheckbox.h"
+#include "JXAtLeastOneCBGroup.h"
 
 #include <JChooseSaveFile.h>
 #include <JFileArray.h>

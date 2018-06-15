@@ -10,7 +10,7 @@
 #ifndef _H_JXDNDChooseDropActionDialog
 #define _H_JXDNDChooseDropActionDialog
 
-#include <JXRadioGroupDialog.h>
+#include "JXRadioGroupDialog.h"
 #include <X11/X.h>
 
 class JXDNDChooseDropActionDialog : public JXRadioGroupDialog

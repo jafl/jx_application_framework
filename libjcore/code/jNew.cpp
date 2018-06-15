@@ -11,10 +11,10 @@
 
  *****************************************************************************/
 
-#include <JMemoryManager.h>
+#include "JMemoryManager.h"
 
 // Module header
-#include <jNew.h>
+#include "jNew.h"
 
 /******************************************************************************
  operator new

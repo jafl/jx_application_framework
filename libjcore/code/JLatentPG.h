@@ -10,9 +10,9 @@
 #ifndef _H_JLatentPG
 #define _H_JLatentPG
 
-#include <JProgressDisplay.h>
-#include <JString.h>
-#include <jTime.h>
+#include "JProgressDisplay.h"
+#include "JString.h"
+#include "jTime.h"
 
 class JLatentPG : public JProgressDisplay
 {

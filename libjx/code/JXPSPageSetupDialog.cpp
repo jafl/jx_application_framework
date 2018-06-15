@@ -10,15 +10,15 @@
 
  ******************************************************************************/
 
-#include <JXPSPageSetupDialog.h>
-#include <JXPSPrinter.h>
-#include <JXWindow.h>
-#include <JXTextButton.h>
-#include <JXStaticText.h>
-#include <JXTextMenu.h>
-#include <JXRadioGroup.h>
-#include <JXImageRadioButton.h>
-#include <jXGlobals.h>
+#include "JXPSPageSetupDialog.h"
+#include "JXPSPrinter.h"
+#include "JXWindow.h"
+#include "JXTextButton.h"
+#include "JXStaticText.h"
+#include "JXTextMenu.h"
+#include "JXRadioGroup.h"
+#include "JXImageRadioButton.h"
+#include "jXGlobals.h"
 #include <JString.h>
 #include <JConstBitmap.h>
 #include <jAssert.h>

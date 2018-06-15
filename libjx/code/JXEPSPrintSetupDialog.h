@@ -10,7 +10,7 @@
 #ifndef _H_JXEPSPrintSetupDialog
 #define _H_JXEPSPrintSetupDialog
 
-#include <JXDialogDirector.h>
+#include "JXDialogDirector.h"
 
 class JXEPSPrinter;
 class JXTextButton;
