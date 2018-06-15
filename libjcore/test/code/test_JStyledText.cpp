@@ -278,7 +278,11 @@ JTEST(WritePlainText)
 	JRemoveFile(fileName);
 }
 
-JTEST(ReadWritePrivateFormat)
+void
+TestReadWritePrivateFormat
+	(
+	const JBoolean longVersion
+	)
 {
 	StyledText text;
 	text.SetText(JString("\xC3\x86" "bcd", kJFalse));
@@ -292,7 +296,15 @@ JTEST(ReadWritePrivateFormat)
 
 	{
 	std::ofstream output(fileName.GetBytes());
-	text.WritePrivateFormat(output);
+	if (longVersion)
+		{
+		text.WritePrivateFormat(output, 1, text.GetText(), text.GetStyles(),
+								JCharacterRange(1,4));
+		}
+	else
+		{
+		text.WritePrivateFormat(output);
+		}
 	}
 
 	StyledText buf2;
@@ -335,6 +347,12 @@ JTEST(ReadWritePrivateFormat)
 	JAssertFalse(f.GetStyle().bold);
 	JAssertFalse(f.GetStyle().italic);
 	JAssertEqual(0, f.GetStyle().underlineCount);
+}
+
+JTEST(ReadWritePrivateFormat)
+{
+	TestReadWritePrivateFormat(kJFalse);
+	TestReadWritePrivateFormat(kJTrue);
 }
 
 JTEST(SearchTextForward)
