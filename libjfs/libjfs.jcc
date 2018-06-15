@@ -71,18 +71,6 @@ T
 2 "jfs_strings"
 F
 "./strings/jfs_strings"
-T
-2 "JFSBindingEditorHelpText"
-F
-"./strings/JFSBindingEditorHelpText"
-T
-2 "JFSRunCommandHelpText"
-F
-"./strings/JFSRunCommandHelpText"
-T
-2 "JFSRunFileHelpText"
-F
-"./strings/JFSRunFileHelpText"
 F
 T
 1 "layout"

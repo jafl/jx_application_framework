@@ -24,7 +24,7 @@
 
 JXFSRunScriptDialog::JXFSRunScriptDialog
 	(
-	const JCharacter* cmd
+	const JString& cmd
 	)
 	:
 	JXDialogDirector(JXGetApplication(), kJTrue)
@@ -55,7 +55,7 @@ JXFSRunScriptDialog::GetCommand
 {
 	*type = JFSBinding::GetCommandType(itsUseShellCB->IsChecked(),
 									   itsUseWindowCB->IsChecked());
-	return itsCmdInput->GetText();
+	return itsCmdInput->GetText()->GetText();
 }
 
 /******************************************************************************
@@ -82,7 +82,7 @@ JXFSRunScriptDialog::Activate()
 void
 JXFSRunScriptDialog::BuildWindow
 	(
-	const JCharacter* cmd
+	const JString& cmd
 	)
 {
 // begin JXLayout
@@ -126,12 +126,12 @@ JXFSRunScriptDialog::BuildWindow
 
 // end JXLayout
 
-	window->SetTitle("Run script");
+	window->SetTitle(JGetString("WindowTitle::JXFSRunScriptDialog"));
 	SetButtons(runButton, cancelButton);
 
 	JString s = cmd;
-	s.AppendCharacter(' ');
-	itsCmdInput->SetText(s);
+	s.Append(" ");
+	itsCmdInput->GetText()->SetText(s);
 	itsCmdInput->SetIsRequired();
 	itsCmdInput->SetFont(window->GetFontManager()->GetDefaultMonospaceFont());
 }

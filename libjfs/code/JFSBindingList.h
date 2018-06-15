@@ -17,28 +17,28 @@ class JFSBindingList : public JContainer
 {
 public:
 
-	static JFSBindingList*	Create(const JCharacter** needUserCheck);
+	static JFSBindingList*	Create(JString* needUserCheck);
 
 	virtual	~JFSBindingList();
 
 	const JFSBinding*	GetBinding(const JIndex index) const;
-	JBoolean			GetBinding(const JCharacter* fileName,
+	JBoolean			GetBinding(const JString& fileName,
 								   const JFSBinding** binding);
 
-	JIndex		AddBinding(const JCharacter* pattern, const JCharacter* cmd,
+	JIndex		AddBinding(const JString& pattern, const JString& cmd,
 						   const JFSBinding::CommandType type,
 						   const JBoolean singleFile,
 						   const JBoolean isSystem = kJFalse);
 	JBoolean	DeleteBinding(const JIndex index);
 
-	JBoolean	SetPattern(const JIndex index, const JCharacter* pattern,
+	JBoolean	SetPattern(const JIndex index, const JString& pattern,
 						   JIndex* newIndex);
-	JBoolean	SetCommand(const JIndex index, const JCharacter* cmd);
+	JBoolean	SetCommand(const JIndex index, const JString& cmd);
 	JBoolean	SetCommandType(const JIndex index, const JFSBinding::CommandType type);
 	JBoolean	SetSingleFile(const JIndex index, const JBoolean singleFile);
 	void		ToggleSingleFile(const JIndex index);
 
-	void		SetCommand(const JCharacter* pattern, const JCharacter* cmd,
+	void		SetCommand(const JString& pattern, const JString& cmd,
 						   const JFSBinding::CommandType type,
 						   const JBoolean singleFile);
 
@@ -46,29 +46,29 @@ public:
 	void		ShouldUseDefaultCommand(const JBoolean use);
 
 	const JFSBinding*	GetDefaultCommand() const;
-	void				SetDefaultCommand(const JCharacter* cmd,
+	void				SetDefaultCommand(const JString& cmd,
 										  const JFSBinding::CommandType type,
 										  const JBoolean singleFile);
 
 	const JString&	GetShellCommand() const;
-	void			SetShellCommand(const JCharacter* cmd);
+	void			SetShellCommand(const JString& cmd);
 
 	const JString&	GetWindowCommand() const;
-	void			SetWindowCommand(const JCharacter* cmd);
+	void			SetWindowCommand(const JString& cmd);
 
 	JBoolean	WillAutoUseShellCommand() const;
 	void		ShouldAutoUseShellCommand(const JBoolean use);
 
-	JError				Save();
-	JBoolean			NeedsRevert() const;
-	const JCharacter*	Revert();
-	void				RevertIfModified();
+	JError		Save();
+	JBoolean	NeedsRevert() const;
+	JString		Revert();
+	void		RevertIfModified();
 
 	static void	CleanFileName(JString* s);
 
 protected:
 
-	JFSBindingList(const JCharacter* signalFileName, const JCharacter** needUserCheck);
+	JFSBindingList(const JString& signalFileName, JString* needUserCheck);
 
 private:
 
@@ -168,7 +168,7 @@ JFSBindingList::GetShellCommand()
 inline void
 JFSBindingList::SetShellCommand
 	(
-	const JCharacter* cmd
+	const JString& cmd
 	)
 {
 	itsShellCmd = cmd;
@@ -189,7 +189,7 @@ JFSBindingList::GetWindowCommand()
 inline void
 JFSBindingList::SetWindowCommand
 	(
-	const JCharacter* cmd
+	const JString& cmd
 	)
 {
 	itsWindowCmd = cmd;

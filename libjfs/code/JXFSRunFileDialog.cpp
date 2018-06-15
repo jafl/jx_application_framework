@@ -28,17 +28,10 @@
 
 const JSize kHistoryLength = 20;
 
-static const JCharacter* kHelpSectionName = "JFSRunFileHelp";
-
 // setup information
 
-static const JCharacter* kPrefsFileRoot = "jx/jfs/run_file_dialog";
+static const JString kPrefsFileRoot("jx/jfs/run_file_dialog", kJFalse);
 const JFileVersion kCurrentPrefsVersion = 0;
-
-// string ID's
-
-static const JCharacter* kRunWithFileID  = "RunWithFile::JXFSRunFileDialog";
-static const JCharacter* kRunWithFilesID = "RunWithFiles::JXFSRunFileDialog";
 
 /******************************************************************************
  Constructor
@@ -47,8 +40,8 @@ static const JCharacter* kRunWithFilesID = "RunWithFiles::JXFSRunFileDialog";
 
 JXFSRunFileDialog::JXFSRunFileDialog
 	(
-	const JCharacter*	fileName,
-	const JBoolean		allowSaveCmd
+	const JString&	fileName,
+	const JBoolean	allowSaveCmd
 	)
 	:
 	JXDialogDirector(JXGetApplication(), kJTrue)
@@ -84,7 +77,7 @@ JXFSRunFileDialog::OKToDeactivate()
 		}
 	else
 		{
-		itsCmdHistoryMenu->AddCommand(itsCmdInput->GetText(),
+		itsCmdHistoryMenu->AddCommand(itsCmdInput->GetText()->GetText(),
 									  itsUseShellCB->IsChecked(),
 									  itsUseWindowCB->IsChecked(),
 									  itsSingleFileCB->IsChecked());
@@ -114,7 +107,7 @@ JXFSRunFileDialog::GetCommand
 	*singleFile  = itsSingleFileCB->IsChecked();
 	*saveBinding = itsSaveBindingCB->IsChecked();
 
-	return itsCmdInput->GetText();
+	return itsCmdInput->GetText()->GetText();
 }
 
 /******************************************************************************
@@ -125,8 +118,8 @@ JXFSRunFileDialog::GetCommand
 void
 JXFSRunFileDialog::BuildWindow
 	(
-	const JCharacter*	fileName,
-	const JBoolean		allowSaveCmd
+	const JString&	fileName,
+	const JBoolean	allowSaveCmd
 	)
 {
 // begin JXLayout
@@ -169,7 +162,7 @@ JXFSRunFileDialog::BuildWindow
 	itsOKButton->SetShortcuts(JGetString("itsOKButton::JXFSRunFileDialog::shortcuts::JXLayout"));
 
 	itsCmdHistoryMenu =
-		jnew JXFSCommandHistoryMenu(kHistoryLength, "", window,
+		jnew JXFSCommandHistoryMenu(kHistoryLength, JString::empty, window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 320,40, 30,20);
 	assert( itsCmdHistoryMenu != nullptr );
 
@@ -200,7 +193,7 @@ JXFSRunFileDialog::BuildWindow
 		jnew JXStaticText(JGetString("cmdHint::JXFSRunFileDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 20,60, 340,20);
 	assert( cmdHint != nullptr );
-	cmdHint->SetFontSize(JGetDefaultFontSize()-2);
+	cmdHint->SetFontSize(JFontManager::GetDefaultFontSize()-2);
 	cmdHint->SetToLabel();
 
 	itsSingleFileCB =
@@ -213,7 +206,7 @@ JXFSRunFileDialog::BuildWindow
 
 	SetButtons(itsOKButton, cancelButton);
 
-	window->SetTitle("Run command with file");
+	window->SetTitle(JGetString("WindowTitle::JXFSRunFileDialog"));
 	window->LockCurrentMinSize();
 	UseModalPlacement(kJFalse);
 	ftcContainer->SetNeedsInternalFTC();
@@ -222,9 +215,8 @@ JXFSRunFileDialog::BuildWindow
 	ListenTo(itsHelpButton);
 	ListenTo(itsCmdHistoryMenu);
 
-	itsCmdInput->ShouldBroadcastAllTextChanged(kJTrue);
-	itsCmdInput->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
-	ListenTo(itsCmdInput);
+	itsCmdInput->GetText()->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
+	ListenTo(itsCmdInput->GetText());
 
 	itsCmdInput->SetFont(window->GetFontManager()->GetDefaultMonospaceFont());
 	itsCmdHistoryMenu->SetDefaultFont(window->GetFontManager()->GetDefaultMonospaceFont(), kJTrue);
@@ -245,17 +237,17 @@ JXFSRunFileDialog::BuildWindow
 	JString promptStr;
 	if (allowSaveCmd)
 		{
-		const JCharacter* map[] =
+		const JUtf8Byte* map[] =
 			{
-			"name", name.GetCString()
+			"name", name.GetBytes()
 			};
-		promptStr = JGetString(kRunWithFileID, map, sizeof(map));
+		promptStr = JGetString("RunWithFile::JXFSRunFileDialog", map, sizeof(map));
 		}
 	else
 		{
-		promptStr = JGetString(kRunWithFilesID);
+		promptStr = JGetString("RunWithFiles::JXFSRunFileDialog");
 		}
-	prompt->SetText(promptStr);
+	prompt->GetText()->SetText(promptStr);
 
 	// read previous window geometry
 
@@ -283,7 +275,7 @@ JXFSRunFileDialog::BuildWindow
 void
 JXFSRunFileDialog::UpdateDisplay()
 {
-	if (itsCmdInput->IsEmpty())
+	if (itsCmdInput->GetText()->IsEmpty())
 		{
 		itsOKButton->Deactivate();
 		}
@@ -317,12 +309,12 @@ JXFSRunFileDialog::Receive
 
 	else if (sender == itsHelpButton && message.Is(JXButton::kPushed))
 		{
-		(JXGetHelpManager())->ShowSection(kHelpSectionName);
+		(JXGetHelpManager())->ShowSection(JGetString("HelpLink::JXFSRunFileDialog").GetBytes());
 		}
 
-	else if (sender == itsCmdInput &&
-			 (message.Is(JTextEditor::kTextSet) ||
-			  message.Is(JTextEditor::kTextChanged)))
+	else if (sender == itsCmdInput->GetText() &&
+			 (message.Is(JStyledText::kTextSet) ||
+			  message.Is(JStyledText::kTextChanged)))
 		{
 		UpdateDisplay();
 		}
@@ -356,7 +348,7 @@ JXFSRunFileDialog::HandleHistoryMenu
 	const JString& cmd = menu->GetCommand(message, &type, &singleFile);
 
 	cmdInput->Focus();
-	cmdInput->SetText(cmd);
+	cmdInput->GetText()->SetText(cmd);
 	cmdInput->SelectAll();
 
 	shellCB->SetState(kJFalse);
@@ -388,12 +380,14 @@ JXFSRunFileDialog::HandleChooseCmdButton
 	)
 {
 	JString fullName;
-	if ((JGetChooseSaveFile())->ChooseFile("Select program", "", &fullName))
+	if ((JGetChooseSaveFile())->ChooseFile(
+			JGetString("ChooseCmdPrompt::JXFSRunFileDialog"),
+			JString::empty, &fullName))
 		{
 		JString path, name;
 		JSplitPathAndName(fullName, &path, &name);
-		name.AppendCharacter(' ');
-		cmdInput->SetText(name);
+		name.Append(" ");
+		cmdInput->GetText()->SetText(name);
 		cmdInput->GoToEndOfLine();
 		}
 }
@@ -476,7 +470,7 @@ JXFSRunFileDialog::ReadSetup
 	JBoolean checked;
 
 	input >> s;
-	itsCmdInput->SetText(s);
+	itsCmdInput->GetText()->SetText(s);
 
 	itsCmdHistoryMenu->ReadSetup(input);
 
@@ -504,7 +498,7 @@ JXFSRunFileDialog::WriteSetup
 {
 	GetWindow()->WriteGeometry(output);
 
-	output << ' ' << itsCmdInput->GetText();
+	output << ' ' << itsCmdInput->GetText()->GetText();
 
 	output << ' ';
 	itsCmdHistoryMenu->WriteSetup(output);

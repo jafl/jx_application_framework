@@ -11,7 +11,7 @@
 #include "JFSFileTreeNodeBase.h"
 #include <jAssert.h>
 
-const JCharacter* JFSFileTree::kDirectoryRenamed = "DirectoryRenamed::JFSFileTree";
+const JUtf8Byte* JFSFileTree::kDirectoryRenamed = "DirectoryRenamed::JFSFileTree";
 
 /******************************************************************************
  Constructor

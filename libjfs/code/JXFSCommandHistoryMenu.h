@@ -16,7 +16,7 @@ class JXFSCommandHistoryMenu : public JXHistoryMenuBase
 public:
 
 	JXFSCommandHistoryMenu(const JSize historyLength,
-						  const JCharacter* title, JXContainer* enclosure,
+						  const JString& title, JXContainer* enclosure,
 						  const HSizingOption hSizing, const VSizingOption vSizing,
 						  const JCoordinate x, const JCoordinate y,
 						  const JCoordinate w, const JCoordinate h);
@@ -27,7 +27,7 @@ public:
 
 	virtual ~JXFSCommandHistoryMenu();
 
-	void	AddCommand(const JCharacter* cmd,
+	void	AddCommand(const JString& cmd,
 					   const JBoolean isShell, const JBoolean inWindow,
 					   const JBoolean singleFile);
 

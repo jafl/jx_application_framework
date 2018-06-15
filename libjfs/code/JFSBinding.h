@@ -26,7 +26,7 @@ public:
 
 public:
 
-	JFSBinding(const JCharacter* pattern, const JCharacter* cmd,
+	JFSBinding(const JString& pattern, const JString& cmd,
 			   const CommandType type, const JBoolean singleFile,
 			   const JBoolean isSystem);
 	JFSBinding(std::istream& input, const JFileVersion vers, const JBoolean isSystem,
@@ -38,10 +38,10 @@ public:
 	JBoolean		Match(const JString& fileName, const JString& content) const;
 
 	const JString&	GetPattern() const;
-	void			SetPattern(const JCharacter* pattern);
+	void			SetPattern(const JString& pattern);
 
 	const JString&	GetCommand(CommandType* type, JBoolean* singleFile) const;
-	void			SetCommand(const JCharacter* cmd, const CommandType type,
+	void			SetCommand(const JString& cmd, const CommandType type,
 							   const JBoolean singleFile);
 
 	CommandType		GetCommandType() const;
@@ -109,7 +109,7 @@ JFSBinding::GetPattern()
 inline void
 JFSBinding::SetPattern
 	(
-	const JCharacter* pattern
+	const JString& pattern
 	)
 {
 	itsPattern = pattern;
@@ -137,7 +137,7 @@ JFSBinding::GetCommand
 inline void
 JFSBinding::SetCommand
 	(
-	const JCharacter*	cmd,
+	const JString&		cmd,
 	const CommandType	type,
 	const JBoolean		singleFile
 	)

@@ -37,7 +37,7 @@ public:
 
 	// JBroadcaster messages
 
-	static const JCharacter* kDirectoryRenamed;
+	static const JUtf8Byte* kDirectoryRenamed;
 
 	class DirectoryRenamed : public JBroadcaster::Message
 		{

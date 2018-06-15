@@ -21,15 +21,10 @@
 #include <JString.h>
 #include <jFileUtil.h>
 #include <jDirUtil.h>
+#include <jGlobals.h>
 #include <jAssert.h>
 
 #include <jx_executable_small.xpm>
-
-static const JCharacter* kRunSingleStr         = " (one at a time) ";
-static const JCharacter* kRunInShellStr        = " (shell) ";
-static const JCharacter* kRunInWindowStr       = " (window) ";
-static const JCharacter* kRunInShellSingleStr  = " (shell, one at a time) ";
-static const JCharacter* kRunInWindowSingleStr = " (window, one at a time) ";
 
 /******************************************************************************
  Constructor
@@ -39,7 +34,7 @@ static const JCharacter* kRunInWindowSingleStr = " (window, one at a time) ";
 JXFSCommandHistoryMenu::JXFSCommandHistoryMenu
 	(
 	const JSize			historyLength,
-	const JCharacter*	title,
+	const JString&		title,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
@@ -124,29 +119,29 @@ JXFSCommandHistoryMenu::GetCommand
 		*type       = JFSBinding::kRunPlain;
 		*singleFile = kJFalse;
 		}
-	else if (typeStr == kRunInShellStr)
+	else if (typeStr == JGetString("RunInShell::JXFSCommandHistoryMenu"))
 		{
 		*type       = JFSBinding::kRunInShell;
 		*singleFile = kJFalse;
 		}
-	else if (typeStr == kRunInShellSingleStr)
+	else if (typeStr == JGetString("RunInShellSingle::JXFSCommandHistoryMenu"))
 		{
 		*type       = JFSBinding::kRunInShell;
 		*singleFile = kJTrue;
 		}
-	else if (typeStr == kRunInWindowStr)
+	else if (typeStr == JGetString("RunInWindow::JXFSCommandHistoryMenu"))
 		{
 		*type       = JFSBinding::kRunInWindow;
 		*singleFile = kJFalse;
 		}
-	else if (typeStr == kRunInWindowSingleStr)
+	else if (typeStr == JGetString("RunInWindowSingle::JXFSCommandHistoryMenu"))
 		{
 		*type       = JFSBinding::kRunInWindow;
 		*singleFile = kJTrue;
 		}
 	else
 		{
-		assert( typeStr == kRunSingleStr );
+		assert( typeStr == JGetString("RunSingle::JXFSCommandHistoryMenu") );
 
 		*type       = JFSBinding::kRunPlain;
 		*singleFile = kJTrue;
@@ -163,38 +158,38 @@ JXFSCommandHistoryMenu::GetCommand
 void
 JXFSCommandHistoryMenu::AddCommand
 	(
-	const JCharacter*	cmd,
-	const JBoolean		inShell,
-	const JBoolean		inWindow,
-	const JBoolean		singleFile
+	const JString&	cmd,
+	const JBoolean	inShell,
+	const JBoolean	inWindow,
+	const JBoolean	singleFile
 	)
 {
-	if (JString::IsEmpty(cmd))
+	if (cmd.IsEmpty())
 		{
 		return;
 		}
 
-	const JCharacter* type = "";
+	const JUtf8Byte* type = nullptr;
 	if (inWindow && singleFile)
 		{
-		type = kRunInWindowSingleStr;
+		type = "RunInWindowSingle::JXFSCommandHistoryMenu";
 		}
 	else if (inWindow)
 		{
-		type = kRunInWindowStr;
+		type = "RunInWindow::JXFSCommandHistoryMenu";
 		}
 	else if (inShell && singleFile)
 		{
-		type = kRunInShellSingleStr;
+		type = "RunInShellSingle::JXFSCommandHistoryMenu";
 		}
 	else if (inShell)
 		{
-		type = kRunInShellStr;
+		type = "RunInShell::JXFSCommandHistoryMenu";
 		}
 	else if (singleFile)
 		{
-		type = kRunSingleStr;
+		type = "RunSingle::JXFSCommandHistoryMenu";
 		}
 
-	AddItem(cmd, type);
+	AddItem(cmd, JGetString(type));
 }

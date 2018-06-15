@@ -35,12 +35,12 @@ public:
 	void	SyncWithBindingList();
 
 	virtual void		HandleKeyPress(const int key, const JXKeyModifiers& modifiers) override;
-	virtual JBoolean	IsEditable(const JPoint& cell) const;
+	virtual JBoolean	IsEditable(const JPoint& cell) const override;
 
 protected:
 
 	virtual void	TableDrawCell(JPainter& p, const JPoint& cell,
-								  const JRect& rect);
+								  const JRect& rect) override;
 
 	virtual void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
 									const JSize clickCount,
@@ -49,9 +49,9 @@ protected:
 
 	virtual JXInputField*	CreateXInputField(const JPoint& cell,
 									const JCoordinate x, const JCoordinate y,
-									const JCoordinate w, const JCoordinate h);
-	virtual JBoolean		ExtractInputData(const JPoint& cell);
-	virtual void			PrepareDeleteXInputField();
+									const JCoordinate w, const JCoordinate h) override;
+	virtual JBoolean		ExtractInputData(const JPoint& cell) override;
+	virtual void			PrepareDeleteXInputField() override;
 
 	virtual void	ApertureResized(const JCoordinate dw, const JCoordinate dh) override;
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
@@ -87,7 +87,7 @@ public:
 
 	// JBroadcaster messages
 
-	static const JCharacter* kDataChanged;
+	static const JUtf8Byte* kDataChanged;
 
 	class DataChanged : public JBroadcaster::Message
 		{

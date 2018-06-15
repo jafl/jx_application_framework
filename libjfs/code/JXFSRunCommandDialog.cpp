@@ -32,15 +32,13 @@
 
 const JSize kHistoryLength = 20;
 
-static const JCharacter* kHelpSectionName = "JFSRunCommandHelp";
-
 // setup information
 
-static const JCharacter* kPrefsFileRoot = "jx/jfs/run_cmd_dialog";
+static const JString kPrefsFileRoot("jx/jfs/run_cmd_dialog", kJFalse);
 const JFileVersion kCurrentPrefsVersion = 0;
 
-static const JCharacter* kSignalFileName = "~/.jx/jfs/run_cmd_dialog.signal";
-const Time kUpdateInterval               = 1000;	// milliseconds
+static const JString kSignalFileName("~/.jx/jfs/run_cmd_dialog.signal", kJFalse);
+const Time kUpdateInterval = 1000;	// milliseconds
 
 /******************************************************************************
  Constructor
@@ -85,10 +83,10 @@ JXFSRunCommandDialog::~JXFSRunCommandDialog()
 void
 JXFSRunCommandDialog::SetPath
 	(
-	const JCharacter* path
+	const JString& path
 	)
 {
-	itsPathInput->SetText(path);
+	itsPathInput->GetText()->SetText(path);
 }
 
 /******************************************************************************
@@ -156,7 +154,7 @@ JXFSRunCommandDialog::BuildWindow()
 	itsRunButton->SetShortcuts(JGetString("itsRunButton::JXFSRunCommandDialog::shortcuts::JXLayout"));
 
 	itsCmdHistoryMenu =
-		jnew JXFSCommandHistoryMenu(kHistoryLength, "", window,
+		jnew JXFSCommandHistoryMenu(kHistoryLength, JString::empty, window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 310,90, 30,20);
 	assert( itsCmdHistoryMenu != nullptr );
 
@@ -199,13 +197,13 @@ JXFSRunCommandDialog::BuildWindow()
 	assert( itsPathInput != nullptr );
 
 	itsPathHistoryMenu =
-		jnew JXPathHistoryMenu(kHistoryLength, "", window,
+		jnew JXPathHistoryMenu(kHistoryLength, JString::empty, window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 310,40, 30,20);
 	assert( itsPathHistoryMenu != nullptr );
 
 // end JXLayout
 
-	window->SetTitle("Run command");
+	window->SetTitle(JGetString("WindowTitle::JXFSRunCommandDialog"));
 	window->SetCloseAction(JXWindow::kDeactivateDirector);
 	window->LockCurrentMinSize();
 	window->ShouldFocusWhenShow(kJTrue);
@@ -220,15 +218,13 @@ JXFSRunCommandDialog::BuildWindow()
 	ListenTo(itsCmdHistoryMenu);
 
 	itsPathInput->ShouldAllowInvalidPath();
-	itsPathInput->ShouldBroadcastAllTextChanged(kJTrue);
-	ListenTo(itsPathInput);
+	ListenTo(itsPathInput->GetText());
 
 	const JFont& font = window->GetFontManager()->GetDefaultMonospaceFont();
 	itsPathHistoryMenu->SetDefaultFont(font, kJTrue);
 
-	itsCmdInput->ShouldBroadcastAllTextChanged(kJTrue);
-	itsCmdInput->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
-	ListenTo(itsCmdInput);
+	itsCmdInput->GetText()->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
+	ListenTo(itsCmdInput->GetText());
 
 	itsCmdInput->SetFont(font);
 	itsCmdHistoryMenu->SetDefaultFont(font, kJTrue);
@@ -252,7 +248,7 @@ void
 JXFSRunCommandDialog::UpdateDisplay()
 {
 	JString p;
-	if (!itsCmdInput->IsEmpty() && itsPathInput->GetPath(&p))
+	if (!itsCmdInput->GetText()->IsEmpty() && itsPathInput->GetPath(&p))
 		{
 		itsRunButton->Activate();
 		}
@@ -288,7 +284,7 @@ JXFSRunCommandDialog::Receive
 		}
 	else if (sender == itsHelpButton && message.Is(JXButton::kPushed))
 		{
-		(JXGetHelpManager())->ShowSection(kHelpSectionName);
+		(JXGetHelpManager())->ShowSection(JGetString("HelpLink::JXFSRunCommandDialog").GetBytes());
 		}
 
 	else if (sender == itsPathHistoryMenu && message.Is(JXMenu::kItemSelected))
@@ -297,7 +293,7 @@ JXFSRunCommandDialog::Receive
 		}
 	else if (sender == itsChoosePathButton && message.Is(JXButton::kPushed))
 		{
-		itsPathInput->ChoosePath("", nullptr);
+		itsPathInput->ChoosePath(JString::empty);
 		}
 
 	else if (sender == itsCmdHistoryMenu && message.Is(JXMenu::kItemSelected))
@@ -310,9 +306,10 @@ JXFSRunCommandDialog::Receive
 		JXFSRunFileDialog::HandleChooseCmdButton(itsCmdInput);
 		}
 
-	else if ((sender == itsCmdInput || sender == itsPathInput) &&
-			 (message.Is(JTextEditor::kTextSet) ||
-			  message.Is(JTextEditor::kTextChanged)))
+	else if ((sender == itsCmdInput->GetText() ||
+			  sender == itsPathInput->GetText()) &&
+			 (message.Is(JStyledText::kTextSet) ||
+			  message.Is(JStyledText::kTextChanged)))
 		{
 		UpdateDisplay();
 		}
@@ -349,12 +346,12 @@ JXFSRunCommandDialog::Exec()
 								   itsUseWindowCB->IsChecked());
 
 	const JError err =
-		(JXFSBindingManager::Instance())->Exec(path, itsCmdInput->GetText(), type);
+		(JXFSBindingManager::Instance())->Exec(path, itsCmdInput->GetText()->GetText(), type);
 
 	if (err.OK())
 		{
-		itsPathHistoryMenu->AddString(itsPathInput->GetText());
-		itsCmdHistoryMenu->AddCommand(itsCmdInput->GetText(),
+		itsPathHistoryMenu->AddString(itsPathInput->GetText()->GetText());
+		itsCmdHistoryMenu->AddCommand(itsCmdInput->GetText()->GetText(),
 									  itsUseShellCB->IsChecked(),
 									  itsUseWindowCB->IsChecked(),
 									  kJFalse);
@@ -427,7 +424,7 @@ JXFSRunCommandDialog::WriteSetup()
 		file->SetData(kCurrentPrefsVersion, data);
 		jdelete file;
 
-		std::ofstream touch(itsSignalTask->GetFileName());
+		std::ofstream touch(itsSignalTask->GetFileName().GetBytes());
 		touch.close();
 		itsSignalTask->UpdateModTime();
 		}
@@ -454,12 +451,12 @@ JXFSRunCommandDialog::ReadSetup
 	JBoolean checked;
 
 	input >> s;
-	itsPathInput->SetText(s);
+	itsPathInput->GetText()->SetText(s);
 
 	itsPathHistoryMenu->ReadSetup(input);
 
 	input >> s;
-	itsCmdInput->SetText(s);
+	itsCmdInput->GetText()->SetText(s);
 
 	itsCmdHistoryMenu->ReadSetup(input);
 
@@ -525,12 +522,12 @@ JXFSRunCommandDialog::WriteSetup
 {
 	GetWindow()->WriteGeometry(output);
 
-	output << ' ' << itsPathInput->GetText();
+	output << ' ' << itsPathInput->GetText()->GetText();
 
 	output << ' ';
 	itsPathHistoryMenu->WriteSetup(output);
 
-	output << ' ' << itsCmdInput->GetText();
+	output << ' ' << itsCmdInput->GetText()->GetText();
 
 	output << ' ';
 	itsCmdHistoryMenu->WriteSetup(output);

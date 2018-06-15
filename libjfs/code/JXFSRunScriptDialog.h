@@ -19,7 +19,7 @@ class JXFSRunScriptDialog : public JXDialogDirector
 {
 public:
 
-	JXFSRunScriptDialog(const JCharacter* cmd);
+	JXFSRunScriptDialog(const JString& cmd);
 
 	virtual ~JXFSRunScriptDialog();
 
@@ -39,7 +39,7 @@ private:
 
 private:
 
-	void	BuildWindow(const JCharacter* cmd);
+	void	BuildWindow(const JString& cmd);
 
 	// not allowed
 

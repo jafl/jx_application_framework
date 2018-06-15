@@ -29,19 +29,19 @@ public:
 
 	virtual	~JXFSBindingManager();
 
-	static void		Exec(const JCharacter* path);
-	static void		Exec(const JCharacter* fullProgramName,
+	static void		Exec(const JString& path);
+	static void		Exec(const JString& fullProgramName,
 						 const JBoolean askForArgs);
 	static void		Exec(const JPtrArray<JString>& fileList,
 						 const JBoolean ignoreBindings = kJFalse);
-	static JError	Exec(const JCharacter* path, const JCharacter* cmd,
+	static JError	Exec(const JString& path, const JString& cmd,
 						 const JFSBinding::CommandType type);
 
 	static void	EditBindings();
 
 protected:
 
-	JXFSBindingManager(const JCharacter** needUserCheck);
+	JXFSBindingManager(JString* needUserCheck);
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
@@ -69,9 +69,9 @@ private:
 	JBoolean	HasFiles() const;
 	void		ProcessFiles();
 	void		Exec(const JIndex startIndex, const JIndex endIndex);
-	static void	BuildCommand(JString* cmd, const JCharacter* q, const JCharacter* u,
-							 const JCharacter* qf, const JCharacter* uf);
-	void		SaveBinding(const JCharacter* fileName, const JCharacter* cmd,
+	static void	BuildCommand(JString* cmd, const JString& q, const JString& u,
+							 const JString& qf, const JString& uf);
+	void		SaveBinding(const JString& fileName, const JString& cmd,
 							const JFSBinding::CommandType type,
 							const JBoolean singleFile);
 

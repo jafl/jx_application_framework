@@ -23,30 +23,30 @@ public:
 	virtual ~JFSFileTreeNode();
 
 	JError				GoUp();
-	JError				GoTo(const JCharacter* path);
-	JError				Rename(const JCharacter* newName,
+	JError				GoTo(const JString& path);
+	JError				Rename(const JString& newName,
 							   const JBoolean sort = kJTrue);
 	virtual JBoolean	Update(const JBoolean force = kJFalse,
-							   JFSFileTreeNodeBase** updateNode = nullptr);
+							   JFSFileTreeNodeBase** updateNode = nullptr) override;
 	void				UpdatePath(const Message& message);
 	void				UpdatePath(const JString& oldPath, const JString& newPath);
 
 	JDirEntry*			GetDirEntry();
 	const JDirEntry*	GetDirEntry() const;
 
-	virtual JBoolean	GetDirInfo(JDirInfo** info);
-	virtual JBoolean	GetDirInfo(const JDirInfo** info) const;
+	virtual JBoolean	GetDirInfo(JDirInfo** info) override;
+	virtual JBoolean	GetDirInfo(const JDirInfo** info) const override;
 
 	JBoolean		CanHaveChildren() const;
 	static JBoolean	CanHaveChildren(const JDirEntry& entry);
-	static JBoolean	CanHaveChildren(const JCharacter* path);
+	static JBoolean	CanHaveChildren(const JString& path);
 
 	JFSFileTreeNode*		GetFSChild(const JIndex index);
 	const JFSFileTreeNode*	GetFSChild(const JIndex index) const;
 
 protected:
 
-	virtual JBoolean			OKToOpen() const;
+	virtual JBoolean			OKToOpen() const override;
 	virtual JFSFileTreeNode*	CreateChild(JDirEntry* entry);
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
@@ -76,7 +76,7 @@ private:
 
 	void		UpdateChildren();
 	void		UpdateAfterGo();
-	void		UpdatePath(const JCharacter* fullName,
+	void		UpdatePath(const JString& fullName,
 						   const JString& oldPath, const JString& newPath);
 
 	static JListT::CompareResult

@@ -23,7 +23,7 @@ JFSFileTreeNodeBase::JFSFileTreeNodeBase
 	const JBoolean isOpenable
 	)
 	:
-	JNamedTreeNode(nullptr, "", isOpenable)
+	JNamedTreeNode(nullptr, JString::empty, isOpenable)
 {
 }
 

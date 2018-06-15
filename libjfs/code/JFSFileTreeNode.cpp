@@ -25,6 +25,7 @@
 #include "JFSFileTreeNode.h"
 #include "JFSFileTree.h"
 #include <JPtrArray-JString.h>
+#include <JStringIterator.h>
 #include <JDirInfo.h>
 #include <jDirUtil.h>
 #include <jVCSUtil.h>
@@ -87,7 +88,7 @@ JFSFileTreeNode::GoUp()
 JError
 JFSFileTreeNode::GoTo
 	(
-	const JCharacter* path
+	const JString& path
 	)
 {
 	assert( IsRoot() && itsDirInfo != nullptr );
@@ -134,8 +135,8 @@ JFSFileTreeNode::UpdateAfterGo()
 JError
 JFSFileTreeNode::Rename
 	(
-	const JCharacter*	newName,
-	const JBoolean		sort
+	const JString&	newName,
+	const JBoolean	sort
 	)
 {
 	if (newName == GetName())
@@ -215,7 +216,12 @@ JFSFileTreeNode::UpdatePath
 		{
 		const JBoolean setName = JI2B(fullName == oldPath);
 
-		fullName.ReplaceSubstring(1, strlen(oldPath), newPath);
+		JStringIterator iter(&fullName);
+		iter.BeginMatch();
+		iter.SkipNext(oldPath.GetCharacterCount());
+		iter.FinishMatch();
+		iter.ReplaceLastMatch(newPath);
+
 		UpdatePath(fullName, oldPath, newPath);
 
 		if (setName)
@@ -239,9 +245,9 @@ JFSFileTreeNode::UpdatePath
 void
 JFSFileTreeNode::UpdatePath
 	(
-	const JCharacter*	fullName,
-	const JString&		oldPath,
-	const JString&		newPath
+	const JString&	fullName,
+	const JString&	oldPath,
+	const JString&	newPath
 	)
 {
 	jdelete itsDirEntry;
@@ -287,7 +293,7 @@ JFSFileTreeNode::CanHaveChildren
 JBoolean
 JFSFileTreeNode::CanHaveChildren
 	(
-	const JCharacter* path
+	const JString& path
 	)
 {
 	return JI2B(JDirectoryReadable(path) &&
@@ -333,10 +339,9 @@ JFSFileTreeNode::BuildChildList()
 		{
 		DeleteAllChildren();
 
-		const JSize childCount = itsDirInfo->GetElementCount();
-		for (JIndex i=1; i<=childCount; i++)
+		for (JDirEntry* e : *itsDirInfo)
 			{
-			JDirEntry* entry = jnew JDirEntry(itsDirInfo->GetEntry(i));
+			JDirEntry* entry = jnew JDirEntry(*e);
 			assert( entry != nullptr );
 			InsertSorted(CreateChild(entry));
 			}
@@ -573,10 +578,9 @@ JFSFileTreeNode::UpdateChildren()
 	JPtrArray<JTreeNode> newChildren(JPtrArrayT::kForgetAll);
 	newChildren.SetCompareFunction(CompareTypeAndName);
 
-	const JSize childCount = itsDirInfo->GetElementCount();
-	for (JIndex i=1; i<=childCount; i++)
+	for (JDirEntry* e : *itsDirInfo)
 		{
-		JDirEntry* entry = jnew JDirEntry(itsDirInfo->GetEntry(i));
+		JDirEntry* entry = jnew JDirEntry(*e);
 		assert( entry != nullptr );
 		newChildren.InsertSorted(CreateChild(entry));
 		}
@@ -600,10 +604,9 @@ JFSFileTreeNode::UpdateChildren()
 
 	// save remaining new entries
 
-	const JSize leftOverCount = newChildren.GetElementCount();
-	for (JIndex i=1; i<=leftOverCount; i++)
+	for (JTreeNode* n : newChildren)
 		{
-		InsertSorted(newChildren.GetElement(i));
+		InsertSorted(n);
 		}
 
 	// re-sort since mod time, size, etc. of *pre-existing* children may have changed

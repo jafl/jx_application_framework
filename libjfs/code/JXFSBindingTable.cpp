@@ -39,19 +39,11 @@ const JCoordinate kInitColWidth[] =
 	80, 100, 50, 85
 };
 
-static const JCharacter* kColTitle[] =
-{
-	"File type",
-	"Command",
-	"Type",
-	"One at a time"
-};
-
 const JSize kColCount = sizeof(kInitColWidth) / sizeof(JCoordinate);
 
 // Type menu
 
-static const JCharacter* kTypeMenuStr =
+static const JUtf8Byte* kTypeMenuStr =
 	"  Plain %r"
 	"| Shell %r"
 	"| Window %r";
@@ -79,13 +71,7 @@ static const JIndex kCmdTypeToMenuIndex[] =
 
 // JBroadcaster messages
 
-const JCharacter* JXFSBindingTable::kDataChanged = "JXFSBindingTable::kDataChanged";
-
-// string ID's
-
-static const JCharacter* kCantRemoveSystemBindingID = "CantRemoveSystemBinding::JXFSBindingTable";
-static const JCharacter* kReplacedBySystemID        = "ReplacedBySystem::JXFSBindingTable";
-static const JCharacter* kPatternUsedID             = "PatternUsed::JXFSBindingTable";
+const JUtf8Byte* JXFSBindingTable::kDataChanged = "JXFSBindingTable::kDataChanged";
 
 /******************************************************************************
  Constructor
@@ -117,9 +103,11 @@ JXFSBindingTable::JXFSBindingTable
 {
 	// row height
 
+	JFontManager* fontMgr = GetFontManager();
+
 	const JSize rowHeight = 2*kVMarginWidth + JMax(
-		GetFontManager()->GetDefaultFont().GetLineHeight(),
-		GetFontManager()->GetDefaultMonospaceFont().GetLineHeight());
+		fontMgr->GetDefaultFont().GetLineHeight(fontMgr),
+		fontMgr->GetDefaultMonospaceFont().GetLineHeight(fontMgr));
 	SetDefaultRowHeight(rowHeight);
 
 	// buttons
@@ -130,7 +118,7 @@ JXFSBindingTable::JXFSBindingTable
 
 	// type menu
 
-	itsTypeMenu = jnew JXTextMenu("", this, kFixedLeft, kFixedTop, 0,0, 10,10);
+	itsTypeMenu = jnew JXTextMenu(JString::empty, this, kFixedLeft, kFixedTop, 0,0, 10,10);
 	assert( itsTypeMenu != nullptr );
 	itsTypeMenu->Hide();
 	itsTypeMenu->SetToHiddenPopupMenu(kJTrue);
@@ -145,9 +133,9 @@ JXFSBindingTable::JXFSBindingTable
 
 	// data
 
-	for (JIndex i=1; i<=kColCount; i++)
+	for (const JCoordinate w : kInitColWidth)
 		{
-		AppendCols(1, kInitColWidth[i-1]);
+		AppendCols(1, w);
 		}
 	UpdateColWidths();
 
@@ -351,19 +339,19 @@ JXFSBindingTable::CreateXInputField
 	const JFSBinding* b = itsBindingList->GetBinding(cell.y);
 	if (cell.x == kPatternColumn)
 		{
-		itsTextInput->SetText(b->GetPattern());
+		itsTextInput->GetText()->SetText(b->GetPattern());
 		}
 	else if (cell.x == kCommandColumn)
 		{
 		JFSBinding::CommandType type;
 		JBoolean singleFile;
 		const JString& cmd = b->GetCommand(&type, &singleFile);
-		itsTextInput->SetText(cmd);
+		itsTextInput->GetText()->SetText(cmd);
 		}
 
 	itsTextInput->SetFont(GetFontManager()->GetDefaultMonospaceFont());
 	itsTextInput->SetIsRequired();
-	ListenTo(itsTextInput);
+	ListenTo(itsTextInput->GetText());
 	return itsTextInput;
 }
 
@@ -380,7 +368,7 @@ JXFSBindingTable::ExtractInputData
 {
 	assert( itsTextInput != nullptr );
 
-	const JString& s = itsTextInput->GetText();
+	const JString& s = itsTextInput->GetText()->GetText();
 	JBoolean ok      = itsTextInput->InputValid();
 
 	if (ok && cell.x == kPatternColumn)
@@ -407,11 +395,11 @@ JXFSBindingTable::ExtractInputData
 			{
 			ok = kJFalse;
 
-			const JCharacter* map[] =
+			const JUtf8Byte* map[] =
 				{
-				"pattern", s.GetCString()
+				"pattern", s.GetBytes()
 				};
-			const JString msg = JGetString(kPatternUsedID, map, sizeof(map));
+			const JString msg = JGetString("PatternUsed::JXFSBindingTable", map, sizeof(map));
 			(JGetUserNotification())->ReportError(msg);
 			}
 		}
@@ -494,7 +482,7 @@ JXFSBindingTable::Receive
 			{
 			UpdateButtons();
 			}
-		else if (message.Is(JTextEditor::kTextChanged))
+		else if (message.Is(JStyledText::kTextChanged))
 			{
 			Broadcast(DataChanged());
 			}
@@ -519,7 +507,7 @@ JXFSBindingTable::AddPattern()
 		const JString& cmd = b->GetCommand(&type, &singleFile);
 
 		const JIndex rowIndex =
-			itsBindingList->AddBinding("", cmd, type, singleFile);
+			itsBindingList->AddBinding(JString::empty, cmd, type, singleFile);
 		InsertRows(rowIndex, 1);
 		BeginEditing(JPoint(kPatternColumn, rowIndex));
 		Broadcast(DataChanged());
@@ -539,7 +527,7 @@ JXFSBindingTable::RemovePattern()
 		{
 		if ((itsBindingList->GetBinding(cell.y))->IsSystemBinding())
 			{
-			JGetUserNotification()->ReportError(JGetString(kCantRemoveSystemBindingID));
+			JGetUserNotification()->ReportError(JGetString("CantRemoveSystemBinding::JXFSBindingTable"));
 			}
 		else
 			{
@@ -552,7 +540,7 @@ JXFSBindingTable::RemovePattern()
 				{
 				TableRefreshRow(cell.y);
 				GetWindow()->Update();
-				(JGetUserNotification())->DisplayMessage(JGetString(kReplacedBySystemID));
+				(JGetUserNotification())->DisplayMessage(JGetString("ReplacedBySystem::JXFSBindingTable"));
 				}
 			UpdateButtons();
 			Broadcast(DataChanged());
@@ -578,7 +566,7 @@ JXFSBindingTable::DuplicatePattern()
 		const JString& cmd = b->GetCommand(&type, &singleFile);
 
 		const JIndex rowIndex =
-			itsBindingList->AddBinding("", cmd, type, singleFile);
+			itsBindingList->AddBinding(JString::empty, cmd, type, singleFile);
 		InsertRows(rowIndex, 1);
 		BeginEditing(JPoint(kPatternColumn, rowIndex));
 		Broadcast(DataChanged());
@@ -723,8 +711,8 @@ JXFSBindingTable::SetColTitles
 	)
 	const
 {
-	for (JIndex i=1; i<=kColCount; i++)
-		{
-		widget->SetColTitle(i, kColTitle[i-1]);
-		}
+	widget->SetColTitle(1, JGetString("FileColTitle::JXFSBindingTable"));
+	widget->SetColTitle(1, JGetString("CommandColTitle::JXFSBindingTable"));
+	widget->SetColTitle(1, JGetString("TypeColTitle::JXFSBindingTable"));
+	widget->SetColTitle(1, JGetString("OneAtATime::JXFSBindingTable"));
 }

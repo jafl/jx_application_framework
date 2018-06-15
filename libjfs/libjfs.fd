@@ -539,7 +539,7 @@ resize: FL_RESIZE_ALL
 gravity: FL_NorthEast FL_NoGravity
 name: itsCmdHistoryMenu
 callback: 
-argument: kHistoryLength, ""
+argument: kHistoryLength, JString::empty
 
 --------------------
 class: FL_BUTTON
@@ -797,7 +797,7 @@ resize: FL_RESIZE_ALL
 gravity: FL_NorthEast FL_NoGravity
 name: itsCmdHistoryMenu
 callback: 
-argument: kHistoryLength, ""
+argument: kHistoryLength, JString::empty
 
 --------------------
 class: FL_BUTTON
@@ -941,7 +941,7 @@ resize: FL_RESIZE_ALL
 gravity: FL_NorthEast FL_NoGravity
 name: itsPathHistoryMenu
 callback: 
-argument: kHistoryLength, ""
+argument: kHistoryLength, JString::empty
 
 =============== FORM ===============
 Name: JXFSRunScriptDialog

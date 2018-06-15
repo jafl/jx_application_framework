@@ -10,6 +10,8 @@
 #include "JFSBindingList.h"
 #include "JFSBinding.h"
 #include <JPrefsFile.h>
+#include <JStringIterator.h>
+#include <JRegex.h>
 #include <jStreamUtil.h>
 #include <jFileUtil.h>
 #include <jDirUtil.h>
@@ -18,14 +20,14 @@
 #include <jAssert.h>
 
 #ifdef _J_OSX
-static const JCharacter* kGlobalBindingsFile = "/usr/local/lib/jx/jfs/file_bindings";
+static const JUtf8Byte* kGlobalBindingsFile = "/usr/local/lib/jx/jfs/file_bindings";
 #else
-static const JCharacter* kGlobalBindingsFile = "/usr/lib/jx/jfs/file_bindings";
+static const JUtf8Byte* kGlobalBindingsFile = "/usr/lib/jx/jfs/file_bindings";
 #endif
 
-static const JCharacter* kUserExtensionBindingRoot     = "jx/jfs/file_bindings";
-static const JCharacter* kOrigUserExtensionBindingFile = "~/.systemG.filebindings";
-static const JCharacter* kSignalFileName               = "~/.jx/jfs/file_bindings.signal";
+static const JString kUserExtensionBindingRoot("jx/jfs/file_bindings", kJFalse);
+static const JString kOrigUserExtensionBindingFile("~/.systemG.filebindings", kJFalse);
+static const JString kSignalFileName("~/.jx/jfs/file_bindings.signal", kJFalse);
 
 const JFileVersion kCurrentBindingVersion = 2;
 
@@ -38,12 +40,12 @@ const JFileVersion kCurrentBindingVersion = 2;
 	// version 1 0:
 	//	Prepended version and write_version
 
-static const JCharacter* kDefaultCmd          = "jcc";
+static const JString kDefaultCmd("jcc", kJFalse);
 const JFSBinding::CommandType kDefaultCmdType = JFSBinding::kRunPlain;
 const JBoolean kDefaultSingleFile             = kJFalse;
 
-static const JCharacter* kDefaultShellCmd  = "/bin/sh -c $q";
-static const JCharacter* kDefaultWindowCmd = "xterm -title $q -n $q -e $u";
+static const JUtf8Byte* kDefaultShellCmd  = "/bin/sh -c $q";
+static const JUtf8Byte* kDefaultWindowCmd = "xterm -title $q -n $q -e $u";
 
 const JSize kContentLength = 1024;
 
@@ -55,7 +57,7 @@ const JSize kContentLength = 1024;
 JFSBindingList*
 JFSBindingList::Create
 	(
-	const JCharacter** needUserCheck
+	JString* needUserCheck
 	)
 {
 	JString signalFileName, path, name;
@@ -70,7 +72,7 @@ JFSBindingList::Create
 			}
 		}
 
-	JFSBindingList* list = jnew JFSBindingList("", needUserCheck);
+	JFSBindingList* list = jnew JFSBindingList(JString::empty, needUserCheck);
 	assert( list != nullptr );
 	return list;
 }
@@ -82,8 +84,8 @@ JFSBindingList::Create
 
 JFSBindingList::JFSBindingList
 	(
-	const JCharacter*	signalFileName,
-	const JCharacter**	needUserCheck
+	const JString&	signalFileName,
+	JString*		needUserCheck
 	)
 	:
 	JContainer(),
@@ -103,7 +105,7 @@ JFSBindingList::JFSBindingList
 	assert( itsOverriddenList != nullptr );
 	itsOverriddenList->SetCompareFunction(JFSBinding::ComparePatterns);
 
-	InstallOrderedSet(itsBindingList);
+	InstallList(itsBindingList);
 
 	*needUserCheck = Revert();
 }
@@ -132,8 +134,8 @@ JFSBindingList::~JFSBindingList()
 JIndex
 JFSBindingList::AddBinding
 	(
-	const JCharacter*				pattern,
-	const JCharacter*				cmd,
+	const JString&					pattern,
+	const JString&					cmd,
 	const JFSBinding::CommandType	type,
 	const JBoolean					singleFile,
 	const JBoolean					isSystem
@@ -237,9 +239,9 @@ JFSBindingList::DeleteBinding
 JBoolean
 JFSBindingList::SetPattern
 	(
-	const JIndex		index,
-	const JCharacter*	pattern,
-	JIndex*				newIndex
+	const JIndex	index,
+	const JString&	pattern,
+	JIndex*			newIndex
 	)
 {
 	*newIndex = index;
@@ -250,7 +252,7 @@ JFSBindingList::SetPattern
 		return kJTrue;
 		}
 
-	JFSBinding temp(pattern, "", JFSBinding::kRunPlain, kJFalse, kJFalse);
+	JFSBinding temp(pattern, JString::empty, JFSBinding::kRunPlain, kJFalse, kJFalse);
 	JIndex fIndex;
 	if (itsBindingList->SearchSorted(&temp, JListT::kAnyMatch, &fIndex))
 		{
@@ -288,8 +290,8 @@ JFSBindingList::SetPattern
 JBoolean
 JFSBindingList::SetCommand
 	(
-	const JIndex		index,
-	const JCharacter*	cmd
+	const JIndex	index,
+	const JString&	cmd
 	)
 {
 	JFSBinding* b = itsBindingList->GetElement(index);
@@ -396,8 +398,8 @@ JFSBindingList::SetSingleFile
 void
 JFSBindingList::SetCommand
 	(
-	const JCharacter*				pattern,
-	const JCharacter*				cmd,
+	const JString&					pattern,
+	const JString&					cmd,
 	const JFSBinding::CommandType	type,
 	const JBoolean					singleFile
 	)
@@ -447,14 +449,14 @@ JFSBindingList::GetDefaultCommand()
 void
 JFSBindingList::SetDefaultCommand
 	(
-	const JCharacter*				cmd,
+	const JString&					cmd,
 	const JFSBinding::CommandType	type,
 	const JBoolean					singleFile
 	)
 {
 	if (itsUserDefault == nullptr)
 		{
-		itsUserDefault = jnew JFSBinding("", cmd, type, singleFile, kJFalse);
+		itsUserDefault = jnew JFSBinding(JString::empty, cmd, type, singleFile, kJFalse);
 		assert( itsUserDefault != nullptr );
 		}
 	else
@@ -471,7 +473,7 @@ JFSBindingList::SetDefaultCommand
 JBoolean
 JFSBindingList::GetBinding
 	(
-	const JCharacter*	origFileName,
+	const JString&		origFileName,
 	const JFSBinding**	binding
 	)
 {
@@ -483,22 +485,21 @@ JFSBindingList::GetBinding
 	// read content
 
 	JString content;
-	std::ifstream input(origFileName);
+	std::ifstream input(origFileName.GetBytes());
 	content.Read(input, kContentLength);
 	input.close();
 
 	// scan bindings for match -- check content types first
 
-	const JSize count = GetElementCount();
-	for (JIndex j=0; j<=1; j++)
+	for (JIndex j : { 0,1 })
 		{
 		const JBoolean isContent = JNegate(j);
-		for (JIndex i=1; i<=count; i++)
+		for (const JFSBinding* b : *itsBindingList)
 			{
-			*binding = GetBinding(i);
-			if ((**binding).IsContentBinding() == isContent &&
-				(**binding).Match(fileName, content))
+			if (b->IsContentBinding() == isContent &&
+				b->Match(fileName, content))
 				{
+				*binding = b;
 				return kJTrue;
 				}
 			}
@@ -527,15 +528,18 @@ JFSBindingList::GetBinding
 
  *****************************************************************************/
 
+static const JRegex fileNamePattern = "[~#]+$";
+
 void
 JFSBindingList::CleanFileName
 	(
 	JString* s
 	)
 {
-	while (s->EndsWith("~") || s->EndsWith("#"))
+	JStringIterator iter(s);
+	if (iter.Next(fileNamePattern))
 		{
-		s->RemoveSubstring(s->GetLength(), s->GetLength());
+		iter.RemoveLastMatch();
 		}
 }
 
@@ -591,10 +595,10 @@ JFSBindingList::RevertIfModified()
 
  ******************************************************************************/
 
-const JCharacter*
+JString
 JFSBindingList::Revert()
 {
-	const JCharacter* userMsg = "";
+	JString userMsg;
 
 	// toss everything
 
@@ -629,7 +633,7 @@ JFSBindingList::Revert()
 			if (JExpandHomeDirShortcut(kOrigUserExtensionBindingFile, &origUserFile) &&
 				JFileReadable(origUserFile))
 				{
-				std::ifstream userInput(origUserFile);
+				std::ifstream userInput(origUserFile.GetBytes());
 				if (userInput.good())
 					{
 					Load(userInput, kJFalse);
@@ -663,11 +667,11 @@ JFSBindingList::Revert()
 	if (IsEmpty())		// nothing loaded
 		{
 #ifdef _J_OSX
-		const JCharacter* data = JGetString("DefaultBindingList-OSX::JFSBindingList");
+		const JString& data = JGetString("DefaultBindingList-OSX::JFSBindingList");
 #else
-		const JCharacter* data = JGetString("DefaultBindingList::JFSBindingList");
+		const JString& data = JGetString("DefaultBindingList::JFSBindingList");
 #endif
-		const std::string s(data, strlen(data));
+		const std::string s(data.GetBytes(), data.GetByteCount());
 		std::istringstream input(s);
 		Load(input, kJFalse);
 		}
@@ -783,10 +787,8 @@ JFSBindingList::Save()
 			data << *itsUserDefault << '\n';
 			}
 
-		const JSize count = GetElementCount();
-		for (JIndex i=1; i<=count; i++)
+		for (const JFSBinding* b : *itsBindingList)
 			{
-			const JFSBinding* b = GetBinding(i);
 			if (!b->IsSystemBinding())
 				{
 				data << *b << '\n';
@@ -796,7 +798,7 @@ JFSBindingList::Save()
 		file->SetData(kCurrentBindingVersion, data);
 		jdelete file;
 
-		std::ofstream touch(itsSignalFileName);
+		std::ofstream touch(itsSignalFileName.GetBytes());
 		touch.close();
 		JGetModificationTime(itsSignalFileName, &itsSignalModTime);
 		}

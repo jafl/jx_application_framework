@@ -24,25 +24,19 @@
 #include <sstream>
 #include <jAssert.h>
 
-static const JCharacter* kHelpSectionName = "JFSBindingEditorHelp";
-
 const JCoordinate kHeaderHeight = 20;
 
 // setup information
 
-static const JCharacter* kPrefsFileRoot = "jx/jfs/edit_bindings_dialog";
+static const JString kPrefsFileRoot("jx/jfs/edit_bindings_dialog", kJFalse);
 const JFileVersion kCurrentPrefsVersion = 0;
-
-// string ID's
-
-static const JCharacter* kWarnOverwriteID = "WarnOverwrite::JXFSEditBindingsDialog";
 
 /******************************************************************************
  Constructor
 
  ******************************************************************************/
 
-static const JCharacter* kUserMsg = nullptr;
+static JString kUserMsg;
 
 JXFSEditBindingsDialog::JXFSEditBindingsDialog
 	(
@@ -92,7 +86,7 @@ JXFSEditBindingsDialog::OKToDeactivate()
 	if (itsNeedsSaveFlag)
 		{
 		const JUserNotification::CloseAction action =
-			JGetUserNotification()->OKToClose("Save bindings before closing?");
+			JGetUserNotification()->OKToClose(JGetString("OKToClose::JXFSEditBindingsDialog"));
 		if (action == JUserNotification::kDontClose)
 			{
 			return kJFalse;
@@ -120,18 +114,18 @@ JXFSEditBindingsDialog::CheckData()
 		return kJFalse;
 		}
 
-	if (!(itsShellCmd->GetText()).Contains("$q") &&
-		!(itsShellCmd->GetText()).Contains("$u"))
+	if (!(itsShellCmd->GetText()->GetText()).Contains("$q") &&
+		!(itsShellCmd->GetText()->GetText()).Contains("$u"))
 		{
 		itsShellCmd->Focus();
-		(JGetUserNotification())->ReportError("You must specify either $q or $u");
+		(JGetUserNotification())->ReportError(JGetString("MissingUorQ::JXFSEditBindingsDialog"));
 		return kJFalse;
 		}
-	else if (!(itsWindowCmd->GetText()).Contains("$q") &&
-			 !(itsWindowCmd->GetText()).Contains("$u"))
+	else if (!(itsWindowCmd->GetText()->GetText()).Contains("$q") &&
+			 !(itsWindowCmd->GetText()->GetText()).Contains("$u"))
 		{
 		itsWindowCmd->Focus();
-		(JGetUserNotification())->ReportError("You must specify either $q or $u");
+		(JGetUserNotification())->ReportError(JGetString("MissingUorQ::JXFSEditBindingsDialog"));
 		return kJFalse;
 		}
 
@@ -195,7 +189,7 @@ JXFSEditBindingsDialog::BuildWindow()
 		jnew JXStaticText(JGetString("cmdHint1::JXFSEditBindingsDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 130,370, 360,20);
 	assert( cmdHint1 != nullptr );
-	cmdHint1->SetFontSize(JGetDefaultFontSize()-2);
+	cmdHint1->SetFontSize(JFontManager::GetDefaultFontSize()-2);
 	cmdHint1->SetToLabel();
 
 	itsDefCmd =
@@ -218,7 +212,7 @@ JXFSEditBindingsDialog::BuildWindow()
 		jnew JXStaticText(JGetString("cmdHint2::JXFSEditBindingsDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 140,270, 350,20);
 	assert( cmdHint2 != nullptr );
-	cmdHint2->SetFontSize(JGetDefaultFontSize()-2);
+	cmdHint2->SetFontSize(JFontManager::GetDefaultFontSize()-2);
 	cmdHint2->SetToLabel();
 
 	JXStaticText* windowCmdLabel =
@@ -265,7 +259,7 @@ JXFSEditBindingsDialog::BuildWindow()
 
 // end JXLayout
 
-	window->SetTitle("Edit file bindings");
+	window->SetTitle(JGetString("WindowTitle::JXFSEditBindingsDialog"));
 	window->LockCurrentMinSize();
 
 	// table
@@ -297,15 +291,12 @@ JXFSEditBindingsDialog::BuildWindow()
 
 	itsDefCmd->SetFont(font);
 	itsDefCmd->SetIsRequired();
-	itsDefCmd->ShouldBroadcastAllTextChanged(kJTrue);
 
 	itsShellCmd->SetFont(font);
 	itsShellCmd->SetIsRequired();
-	itsShellCmd->ShouldBroadcastAllTextChanged(kJTrue);
 
 	itsWindowCmd->SetFont(font);
 	itsWindowCmd->SetIsRequired();
-	itsWindowCmd->ShouldBroadcastAllTextChanged(kJTrue);
 
 	Revert(kJFalse);
 
@@ -315,12 +306,12 @@ JXFSEditBindingsDialog::BuildWindow()
 	ListenTo(itsHelpButton);
 
 	ListenTo(itsUseDefaultCB);
-	ListenTo(itsDefCmd);
+	ListenTo(itsDefCmd->GetText());
 	ListenTo(itsDefShellCB);
 	ListenTo(itsDefWindowCB);
 	ListenTo(itsDefSingleCB);
-	ListenTo(itsShellCmd);
-	ListenTo(itsWindowCmd);
+	ListenTo(itsShellCmd->GetText());
+	ListenTo(itsWindowCmd->GetText());
 	ListenTo(itsAutoShellCB);
 
 	if (!ReadSetup())
@@ -356,14 +347,14 @@ JXFSEditBindingsDialog::Receive
 
 	else if (sender == itsHelpButton && message.Is(JXButton::kPushed))
 		{
-		JXGetHelpManager()->ShowSection(kHelpSectionName);
+		JXGetHelpManager()->ShowSection(JGetString("HelpLink::JXFSEditBindingsDialog").GetBytes());
 		}
 
 	else if (sender == itsTable && message.Is(JXFSBindingTable::kDataChanged))
 		{
 		NeedsSave();
 		}
-	else if (message.Is(JTextEditor::kTextChanged) ||
+	else if (message.Is(JStyledText::kTextChanged) ||
 			 message.Is(JXCheckbox::kPushed))
 		{
 		NeedsSave();
@@ -414,20 +405,20 @@ JXFSEditBindingsDialog::Save
 {
 	if (!CheckData() ||
 		(askReplace && itsBindingList->NeedsRevert() &&
-		 !(JGetUserNotification())->AskUserYes(JGetString(kWarnOverwriteID))))
+		 !(JGetUserNotification())->AskUserYes(JGetString("WarnOverwrite::JXFSEditBindingsDialog"))))
 		{
 		return kJFalse;
 		}
 
 	itsBindingList->ShouldUseDefaultCommand(itsUseDefaultCB->IsChecked());
 
-	itsBindingList->SetDefaultCommand(itsDefCmd->GetText(),
+	itsBindingList->SetDefaultCommand(itsDefCmd->GetText()->GetText(),
 									  JFSBinding::GetCommandType(itsDefShellCB->IsChecked(),
 																 itsDefWindowCB->IsChecked()),
 									  itsDefSingleCB->IsChecked());
 
-	itsBindingList->SetShellCommand(itsShellCmd->GetText());
-	itsBindingList->SetWindowCommand(itsWindowCmd->GetText());
+	itsBindingList->SetShellCommand(itsShellCmd->GetText()->GetText());
+	itsBindingList->SetWindowCommand(itsWindowCmd->GetText()->GetText());
 	itsBindingList->ShouldAutoUseShellCommand(itsAutoShellCB->IsChecked());
 
 	const JError err = itsBindingList->Save();
@@ -452,8 +443,8 @@ JXFSEditBindingsDialog::Save
 void
 JXFSEditBindingsDialog::AddBinding
 	(
-	const JCharacter*				suffix,
-	const JCharacter*				cmd,
+	const JString&					suffix,
+	const JString&					cmd,
 	const JFSBinding::CommandType	type,
 	const JBoolean					singleFile
 	)
@@ -505,14 +496,14 @@ JXFSEditBindingsDialog::Revert
 	const JFSBinding* b = itsBindingList->GetDefaultCommand();
 	JFSBinding::CommandType type;
 	JBoolean singleFile;
-	itsDefCmd->SetText(b->GetCommand(&type, &singleFile));
+	itsDefCmd->GetText()->SetText(b->GetCommand(&type, &singleFile));
 
 	itsDefShellCB->SetState(JI2B( type == JFSBinding::kRunInShell ));
 	itsDefWindowCB->SetState(JI2B( type == JFSBinding::kRunInWindow ));
 	itsDefSingleCB->SetState(singleFile);
 
-	itsShellCmd->SetText(itsBindingList->GetShellCommand());
-	itsWindowCmd->SetText(itsBindingList->GetWindowCommand());
+	itsShellCmd->GetText()->SetText(itsBindingList->GetShellCommand());
+	itsWindowCmd->GetText()->SetText(itsBindingList->GetWindowCommand());
 
 	itsAutoShellCB->SetState(itsBindingList->WillAutoUseShellCommand());
 

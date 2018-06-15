@@ -17,6 +17,9 @@ class JXInputField;
 class JFSBindingList;
 class JXFSBindingTable;
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Woverloaded-virtual"
+
 class JXFSEditBindingsDialog : public JXDialogDirector
 {
 public:
@@ -26,13 +29,13 @@ public:
 	virtual	~JXFSEditBindingsDialog();
 
 	void	CheckIfNeedRevert();
-	void	AddBinding(const JCharacter* suffix, const JCharacter* cmd,
+	void	AddBinding(const JString& suffix, const JString& cmd,
 					   const JFSBinding::CommandType type,
 					   const JBoolean singleFile);
 
 protected:
 
-	virtual JBoolean	OKToDeactivate();
+	virtual JBoolean	OKToDeactivate() override;
 	virtual void		Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
@@ -79,5 +82,7 @@ private:
 	JXFSEditBindingsDialog(const JXFSEditBindingsDialog& source);
 	const JXFSEditBindingsDialog& operator=(const JXFSEditBindingsDialog& source);
 };
+
+#pragma GCC diagnostic pop
 
 #endif

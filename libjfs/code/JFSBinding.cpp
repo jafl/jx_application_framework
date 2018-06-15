@@ -9,14 +9,15 @@
 
 #include "JFSBinding.h"
 #include <JRegex.h>
+#include <JStringIterator.h>
 #include <JSubstitute.h>
 #include <JDirInfo.h>
 #include <jStreamUtil.h>
 #include <jAssert.h>
 
-static const JCharacter* kOrigDefaultMarker  = "<default>";
-static const JCharacter* kNameRegexMarker    = "*";
-static const JCharacter* kContentRegexMarker = "^";
+static const JUtf8Byte* kOrigDefaultMarker  = "<default>";
+static const JUtf8Byte* kNameRegexMarker    = "*";
+static const JUtf8Byte* kContentRegexMarker = "^";
 
 /******************************************************************************
  Constructor
@@ -25,8 +26,8 @@ static const JCharacter* kContentRegexMarker = "^";
 
 JFSBinding::JFSBinding
 	(
-	const JCharacter*	pattern,
-	const JCharacter*	cmd,
+	const JString&		pattern,
+	const JString&		cmd,
 	const CommandType	type,
 	const JBoolean		singleFile,
 	const JBoolean		isSystem
@@ -213,7 +214,7 @@ JFSBinding::WillBeRegex
 void
 JFSBinding::CalcLiteralPrefix()
 {
-	const JCharacter* s = itsPattern.GetCString();
+	const JUtf8Byte* s = itsPattern.GetBytes();
 
 	JIndex i = 1;	// skip leading ^
 	while (s[i] != '\0' && s[i] != '\\' &&
@@ -227,7 +228,7 @@ JFSBinding::CalcLiteralPrefix()
 		i--;
 		}
 
-	itsLiteralPrefix = itsPattern.GetSubstring(JIndexRange(2, i));
+	itsLiteralPrefix.Set(itsPattern, JCharacterRange(2, i));
 }
 
 /******************************************************************************
@@ -241,16 +242,16 @@ JFSBinding::ConvertCommand
 	JString* cmd
 	)
 {
-	JIndex i=1;
-	while (cmd->LocateNextSubstring("\"$f\"", &i))
+	JStringIterator iter(cmd);
+	while (iter.Next("\"$f\""))
 		{
-		cmd->ReplaceSubstring(i,i+3, "$q");
+		iter.ReplaceLastMatch("$q");
 		}
 
-	i=1;
-	while (cmd->LocateNextSubstring("$f", &i))
+	iter.MoveTo(kJIteratorStartAtBeginning, 0);
+	while (iter.Next("$f"))
 		{
-		cmd->ReplaceSubstring(i,i+1, "$u");
+		iter.ReplaceLastMatch("$u");
 		}
 }
 
@@ -328,9 +329,9 @@ operator<<
 
  ******************************************************************************/
 
-const JCharacter kPlainMarker  = 'p';
-const JCharacter kShellMarker  = 's';
-const JCharacter kWindowMarker = 'w';
+const JUtf8Byte kPlainMarker  = 'p';
+const JUtf8Byte kShellMarker  = 's';
+const JUtf8Byte kWindowMarker = 'w';
 
 std::istream&
 operator>>
@@ -341,7 +342,7 @@ operator>>
 {
 	input >> std::ws;
 
-	JCharacter c;
+	JUtf8Byte c;
 	input.get(c);
 
 	if (c == kPlainMarker)
@@ -368,7 +369,7 @@ operator>>
 std::ostream&
 operator<<
 	(
-	std::ostream&						output,
+	std::ostream&					output,
 	const JFSBinding::CommandType	type
 	)
 {

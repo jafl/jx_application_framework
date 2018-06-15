@@ -27,12 +27,6 @@ JXFSBindingManager* JXFSBindingManager::itsSelf = nullptr;
 
 const Time kUpdateInterval = 1000;	// milliseconds
 
-static const JCharacter* kJFSBindingEditorHelpName = "JFSBindingEditorHelp";
-static const JCharacter* kJFSRunCommandHelpName    = "JFSRunCommandHelp";
-static const JCharacter* kJFSRunFileHelpName       = "JFSRunFileHelp";
-static const JCharacter* kJXRegexHelpName          = "JXRegexHelp";
-static const JCharacter* kJXRegexQRefHelpName      = "JXRegexQRef";
-
 /******************************************************************************
  Instance (static)
 
@@ -47,13 +41,13 @@ JXFSBindingManager::Instance()
 		{
 		initSelf = kJTrue;
 
-		const JCharacter* needUserCheck;
+		JString needUserCheck;
 		itsSelf = jnew JXFSBindingManager(&needUserCheck);
 		assert( itsSelf != nullptr );
 
 		initSelf = kJFalse;
 
-		if (!JString::IsEmpty(needUserCheck))
+		if (!needUserCheck.IsEmpty())
 			{
 			EditBindings();
 			(JGetUserNotification())->DisplayMessage(needUserCheck);
@@ -85,7 +79,7 @@ JXFSBindingManager::Destroy()
 
 JXFSBindingManager::JXFSBindingManager
 	(
-	const JCharacter** needUserCheck
+	JString* needUserCheck
 	)
 {
 	itsRunFileDialog   = nullptr;
@@ -102,12 +96,6 @@ JXFSBindingManager::JXFSBindingManager
 
 	itsRunCmdDialog = jnew JXFSRunCommandDialog;
 	assert( itsRunCmdDialog != nullptr );
-
-	(JXGetHelpManager())->RegisterSection(kJFSBindingEditorHelpName);
-	(JXGetHelpManager())->RegisterSection(kJFSRunCommandHelpName);
-	(JXGetHelpManager())->RegisterSection(kJFSRunFileHelpName);
-	(JXGetHelpManager())->RegisterSection(kJXRegexHelpName);
-	(JXGetHelpManager())->RegisterSection(kJXRegexQRefHelpName);
 }
 
 /******************************************************************************
@@ -152,7 +140,7 @@ JXFSBindingManager::EditBindings()
 void
 JXFSBindingManager::Exec
 	(
-	const JCharacter* path
+	const JString& path
 	)
 {
 	JXFSBindingManager* me = Instance();
@@ -172,8 +160,8 @@ JXFSBindingManager::Exec
 void
 JXFSBindingManager::Exec
 	(
-	const JCharacter*	fullProgramName,
-	const JBoolean		askForArgs
+	const JString&	fullProgramName,
+	const JBoolean	askForArgs
 	)
 {
 	JXFSBindingManager* me = Instance();
@@ -227,12 +215,9 @@ JXFSBindingManager::Exec
 		me->itsFileList->SetCompareFunction(ComparePatterns);
 		}
 
-	const JSize count = fileList.GetElementCount();
-	for (JIndex i=1; i<=count; i++)
+	for (const JString* fileName : fileList)
 		{
-		const JString* fileName = fileList.GetElement(i);
-
-		JFSBinding* f = jnew JFSBinding(*fileName, "", JFSBinding::kRunPlain, kJTrue, kJFalse);
+		JFSBinding* f = jnew JFSBinding(*fileName, JString::empty, JFSBinding::kRunPlain, kJTrue, kJFalse);
 		assert( f != nullptr );
 		if (!me->itsFileList->InsertSorted(f, kJFalse))
 			{
@@ -271,10 +256,9 @@ JXFSBindingManager::ProcessFiles()
 
 	// check for file with no command
 
-	JSize count = itsFileList->GetElementCount();
-	for (JIndex i=1; i<=count; i++)
+	JIndex i = 1;
+	for (JFSBinding* f : *itsFileList)
 		{
-		JFSBinding* f           = itsFileList->GetElement(i);
 		const JString& fileName = f->GetPattern();
 
 		JFSBinding::CommandType type;
@@ -292,37 +276,39 @@ JXFSBindingManager::ProcessFiles()
 			{
 			assert( itsRunFileDialog == nullptr );
 			itsRunFileDialog =
-				jnew JXFSRunFileDialog(fileName, JNegate(count > 1 && itsIgnoreBindingsFlag));
+				jnew JXFSRunFileDialog(fileName,
+					JNegate(itsFileList->GetElementCount() > 1 && itsIgnoreBindingsFlag));
 			assert( itsRunFileDialog != nullptr );
 			ListenTo(itsRunFileDialog);
 			itsRunFileDialog->BeginDialog();
 			itsRunFileIndex = i;
 			return;
 			}
+
+		i++;
 		}
 
 	// exec one-at-a-time cmds
 
 	(JXGetApplication())->DisplayBusyCursor();
 
-	for (JIndex i=1; i<=count; i++)
+	for (JFSBinding* f : *itsFileList)
 		{
 		JFSBinding::CommandType t;
 		JBoolean singleFile;
-		(itsFileList->GetElement(i))->GetCommand(&t, &singleFile);
+		f->GetCommand(&t, &singleFile);
 
 		if (singleFile)
 			{
 			Exec(i, i);
 			itsFileList->DeleteElement(i);
-			count--;
 			i--;	// compensate for shift
 			}
 		}
 
 	// group remaining files and exec
 
-	if (count > 0)
+	if (!itsFileList->IsEmpty())
 		{
 		itsFileList->SetCompareFunction(CompareCommands);
 		itsFileList->Sort();
@@ -331,11 +317,8 @@ JXFSBindingManager::ProcessFiles()
 		JString cmd;
 		JFSBinding::CommandType type = JFSBinding::kRunPlain;
 
-		for (JIndex i=1; i<=count; i++)
+		for (JFSBinding* f : *itsFileList)
 			{
-			JFSBinding* f           = itsFileList->GetElement(i);
-			const JString& fileName = f->GetPattern();
-
 			JFSBinding::CommandType t;
 			JBoolean singleFile;
 			const JString& c = f->GetCommand(&t, &singleFile);
@@ -356,7 +339,7 @@ JXFSBindingManager::ProcessFiles()
 				}
 			}
 
-		Exec(startIndex, count);
+		Exec(startIndex, itsFileList->GetElementCount());
 		}
 
 	jdelete itsFileList;
@@ -449,13 +432,13 @@ JXFSBindingManager::Exec
 
  ******************************************************************************/
 
-static const JCharacter* kShellMetaCharList = "|&;()<>$`'!{}*?@#~[]%";
+static const JUtf8Byte* kShellMetaCharList = "|&;()<>$`'!{}*?@#~[]%";
 
 JError
 JXFSBindingManager::Exec
 	(
-	const JCharacter*				path,
-	const JCharacter*				origCmd,
+	const JString&					path,
+	const JString&					origCmd,
 	const JFSBinding::CommandType	type
 	)
 {
@@ -467,12 +450,12 @@ JXFSBindingManager::Exec
 
 	if (type == JFSBinding::kRunInShell || type == JFSBinding::kRunInWindow ||
 		(me->itsBindingList->WillAutoUseShellCommand() &&
-		 strpbrk(origCmd, kShellMetaCharList) != nullptr))
+		 strpbrk(origCmd.GetBytes(), kShellMetaCharList) != nullptr))
 		{
 		u   = cmd;
 		q   = JPrepArgForExec(cmd);
 		cmd = me->itsBindingList->GetShellCommand();
-		BuildCommand(&cmd, q, u, "", "");
+		BuildCommand(&cmd, q, u, JString::empty, JString::empty);
 		}
 
 	// build window command
@@ -482,7 +465,7 @@ JXFSBindingManager::Exec
 		u   = cmd;
 		q   = JPrepArgForExec(cmd);
 		cmd = me->itsBindingList->GetWindowCommand();
-		BuildCommand(&cmd, q, u, "", "");
+		BuildCommand(&cmd, q, u, JString::empty, JString::empty);
 		}
 
 	// exec command
@@ -498,21 +481,21 @@ JXFSBindingManager::Exec
 void
 JXFSBindingManager::BuildCommand
 	(
-	JString*			cmd,
-	const JCharacter*	q,
-	const JCharacter*	u,
-	const JCharacter*	qf,
-	const JCharacter*	uf
+	JString*		cmd,
+	const JString&	q,
+	const JString&	u,
+	const JString&	qf,
+	const JString&	uf
 	)
 {
 	if (cmd->Contains("$"))
 		{
-		const JCharacter* map[] =
+		const JUtf8Byte* map[] =
 			{
-			"q",  q,
-			"u",  u,
-			"qf", qf,
-			"uf", uf
+			"q",  q.GetBytes(),
+			"u",  u.GetBytes(),
+			"qf", qf.GetBytes(),
+			"uf", uf.GetBytes()
 			};
 		(JGetStringManager())->Replace(cmd, map, sizeof(map));
 		}
@@ -555,10 +538,8 @@ JXFSBindingManager::Receive
 
 			if (itsIgnoreBindingsFlag && itsRunFileIndex == 1)
 				{
-				JSize count = itsFileList->GetElementCount();
-				for (JIndex i=1; i<=count; i++)
+				for (JFSBinding* f : *itsFileList)
 					{
-					JFSBinding* f = itsFileList->GetElement(i);
 					f->SetCommand(cmd, type, singleFile);
 					}
 				}
@@ -625,8 +606,8 @@ JXFSBindingManager::Receive
 void
 JXFSBindingManager::SaveBinding
 	(
-	const JCharacter*				fileName,
-	const JCharacter*				cmd,
+	const JString&					fileName,
+	const JString&					cmd,
 	const JFSBinding::CommandType	type,
 	const JBoolean					singleFile
 	)
@@ -635,7 +616,7 @@ JXFSBindingManager::SaveBinding
 	if (JSplitRootAndSuffix(fileName, &root, &suffix))
 		{
 		JFSBindingList::CleanFileName(&suffix);		// ignore # and ~ on end
-		suffix.PrependCharacter('.');
+		suffix.Prepend(".");
 
 		itsBindingList->RevertIfModified();			// make sure we Save() latest
 		itsBindingList->SetCommand(suffix, cmd, type, singleFile);

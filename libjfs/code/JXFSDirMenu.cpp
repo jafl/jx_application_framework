@@ -30,12 +30,12 @@
 #include <jx_executable_small.xpm>
 #include <jx_unknown_file_small.xpm>
 
-static const JCharacter* kEmptyMenuText       = "No files";
-static const JCharacter* kEmptyMenuTextSuffix = " %d";
+static const JUtf8Byte* kEmptyMenuText       = "No files";
+static const JUtf8Byte* kEmptyMenuTextSuffix = " %d";
 
 // JBroadcaster message types
 
-const JCharacter* JXFSDirMenu::kFileSelected = "kFileSelected::JXFSDirMenu";
+const JUtf8Byte* JXFSDirMenu::kFileSelected = "kFileSelected::JXFSDirMenu";
 
 /******************************************************************************
  Constructor
@@ -44,8 +44,8 @@ const JCharacter* JXFSDirMenu::kFileSelected = "kFileSelected::JXFSDirMenu";
 
 JXFSDirMenu::JXFSDirMenu
 	(
-	const JCharacter*	path,
-	const JCharacter*	title,
+	const JString&		path,
+	const JString&		title,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
@@ -64,10 +64,10 @@ JXFSDirMenu::JXFSDirMenu
 
 JXFSDirMenu::JXFSDirMenu
 	(
-	const JCharacter*	path,
-	JXMenu*				owner,
-	const JIndex		itemIndex,
-	JXContainer*		enclosure
+	const JString&	path,
+	JXMenu*			owner,
+	const JIndex	itemIndex,
+	JXContainer*	enclosure
 	)
 	:
 	JXTextMenu(owner, itemIndex, enclosure),
@@ -80,7 +80,7 @@ JXFSDirMenu::JXFSDirMenu
 JXFSDirMenu::JXFSDirMenu
 	(
 	const JPtrArray<JString>&	fileNameList,
-	const JCharacter*			title,
+	const JString&				title,
 	JXContainer*				enclosure,
 	const HSizingOption			hSizing,
 	const VSizingOption			vSizing,
@@ -116,9 +116,9 @@ JXFSDirMenu::JXFSDirMenu
 
 JXFSDirMenu::JXFSDirMenu
 	(
-	const JCharacter*	path,
-	JXFSDirMenu*		parent,
-	const JIndex		itemIndex
+	const JString&	path,
+	JXFSDirMenu*	parent,
+	const JIndex	itemIndex
 	)
 	:
 	JXTextMenu(parent, itemIndex, parent->GetEnclosure()),
@@ -246,11 +246,11 @@ JXFSDirMenu::SetFileList
 		}
 
 	RemoveAllItems();
-	const JSize count = fileNameList.GetElementCount();
+
 	JString fullName;
-	for (JIndex i = 1; i <= count; i++)
+	for (JString* f : fileNameList)
 		{
-		JDirEntry* entry = jnew JDirEntry(*(fileNameList.GetElement(i)));
+		JDirEntry* entry = jnew JDirEntry(*f);
 		assert( entry != nullptr );
 		itsEntries->Append(entry);
 		AppendEntry(*entry);
@@ -319,7 +319,7 @@ JXFSDirMenu::SetExecIcon
 void
 JXFSDirMenu::SetEmptyMessage
 	(
-	const JCharacter* msg
+	const JString& msg
 	)
 {
 	itsEmptyMsg = msg;
@@ -411,17 +411,16 @@ JXFSDirMenu::UpdateSelf()
 	else
 		{
 		RemoveAllItems();
-		const JSize count = itsDirInfo->GetEntryCount();
-		for (JIndex i = 1; i <= count; i++)
+
+		for (const JDirEntry* entry : *itsDirInfo)
 			{
-			const JDirEntry& entry = itsDirInfo->GetEntry(i);
-			if (itsDeleteBrokenLinksFlag && entry.IsBrokenLink())
+			if (itsDeleteBrokenLinksFlag && entry->IsBrokenLink())
 				{
-				JRemoveFile(entry.GetFullName());
+				JRemoveFile(entry->GetFullName());
 				}
 			else
 				{
-				AppendEntry(entry);
+				AppendEntry(*entry);
 				}
 			}
 
@@ -452,7 +451,7 @@ JXFSDirMenu::AppendEntry
 			JSplitPathAndName(*link, &path, &name);
 			}
 
-		AppendItem(name, kPlainType, nullptr, path);
+		AppendItem(name, kPlainType, JString::empty, path);
 		}
 	else
 		{
@@ -501,7 +500,7 @@ JXFSDirMenu::ClearMenu()
 {
 	JString s  = itsEmptyMsg;
 	s         += kEmptyMenuTextSuffix;
-	SetMenuItems(s);
+	SetMenuItems(s.GetBytes());
 }
 
 /******************************************************************************

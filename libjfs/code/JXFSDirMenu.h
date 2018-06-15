@@ -18,17 +18,17 @@ class JXFSDirMenu : public JXTextMenu
 {
 public:
 
-	JXFSDirMenu(const JCharacter* path,
-				const JCharacter* title, JXContainer* enclosure,
+	JXFSDirMenu(const JString& path,
+				const JString& title, JXContainer* enclosure,
 				const HSizingOption hSizing, const VSizingOption vSizing,
 				const JCoordinate x, const JCoordinate y,
 				const JCoordinate w, const JCoordinate h);
 
-	JXFSDirMenu(const JCharacter* path,
+	JXFSDirMenu(const JString& path,
 				JXMenu* owner, const JIndex itemIndex, JXContainer* enclosure);
 
 	JXFSDirMenu(const JPtrArray<JString>& fileNameList,
-				const JCharacter* title, JXContainer* enclosure,
+				const JString& title, JXContainer* enclosure,
 				const HSizingOption hSizing, const VSizingOption vSizing,
 				const JCoordinate x, const JCoordinate y,
 				const JCoordinate w, const JCoordinate h);
@@ -54,11 +54,11 @@ public:
 	void	SetExecIcon(const JXImage& image);
 	void	SetExecIcon(const JXPM& data);
 
-	void	SetEmptyMessage(const JCharacter* msg);
+	void	SetEmptyMessage(const JString& msg);
 
 protected:
 
-	JXFSDirMenu(const JCharacter* path,
+	JXFSDirMenu(const JString& path,
 				JXFSDirMenu* parent, const JIndex itemIndex);
 
 	void	ClearMenu();
@@ -96,7 +96,7 @@ private:
 
 public:
 
-	static const JCharacter* kFileSelected;
+	static const JUtf8Byte* kFileSelected;
 
 	class FileSelected : public JBroadcaster::Message
 		{

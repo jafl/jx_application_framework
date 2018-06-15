@@ -21,7 +21,7 @@ class JXFSRunFileDialog : public JXDialogDirector
 {
 public:
 
-	JXFSRunFileDialog(const JCharacter* fileName, const JBoolean allowSaveCmd);
+	JXFSRunFileDialog(const JString& fileName, const JBoolean allowSaveCmd);
 
 	virtual ~JXFSRunFileDialog();
 
@@ -36,7 +36,7 @@ public:
 protected:
 
 	virtual void		Receive(JBroadcaster* sender, const Message& message) override;
-	virtual JBoolean	OKToDeactivate();
+	virtual JBoolean	OKToDeactivate() override;
 
 private:
 
@@ -56,7 +56,7 @@ private:
 
 private:
 
-	void		BuildWindow(const JCharacter* fileName, const JBoolean allowSaveCmd);
+	void		BuildWindow(const JString& fileName, const JBoolean allowSaveCmd);
 	void		UpdateDisplay();
 
 	JBoolean	ReadSetup();

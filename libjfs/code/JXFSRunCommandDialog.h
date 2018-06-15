@@ -29,7 +29,7 @@ public:
 
 	virtual void	Activate() override;
 
-	void	SetPath(const JCharacter* path);
+	void	SetPath(const JString& path);
 
 	JBoolean	ReadSetup(const JBoolean update);
 	void		WriteSetup();

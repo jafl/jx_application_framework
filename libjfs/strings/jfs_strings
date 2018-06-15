@@ -9,9 +9,19 @@ $f has been replaced by $u and $q, as explained in the on-line help.  Several ot
 
 # JXFSEditBindingsDialog
 
+WindowTitle::JXFSEditBindingsDialog	"Edit file bindings"
+OKToClose::JXFSEditBindingsDialog	"Save bindings before closing?"
+MissingUorQ::JXFSEditBindingsDialog	"You must specify either $q or $u"
+HelpLink::JXFSEditBindingsDialog	"http://libjx.sourceforge.net/help/jfs.html"
+
 WarnOverwrite::JXFSEditBindingsDialog	"The bindings stored on disk have been modified by another program.  Are you sure that you want to replace them with the contents of this editor window?"
 
 # JXFSBindingTable
+
+FileColTitle::JXFSBindingTable		"File type"
+CommandColTitle::JXFSBindingTable	"Command"
+TypeColTitle::JXFSBindingTable		"Type"
+OneAtATime::JXFSBindingTable		"One at a time"
 
 CantRemoveSystemBinding::JXFSBindingTable
 "This is a system entry and cannot be removed."
@@ -22,10 +32,30 @@ ReplacedBySystem::JXFSBindingTable
 PatternUsed::JXFSBindingTable
 "Pattern \"$pattern\" is already in the list."
 
+# JXFSRunCommandDialog
+
+WindowTitle::JXFSRunCommandDialog	"Run command"
+HelpLink::JXFSRunCommandDialog		"http://libjx.sourceforge.net/help/jfs.html#RunCommand"
+
 # JXFSRunFileDialog
 
-RunWithFile::JXFSRunFileDialog	"Command to run for $name:"
-RunWithFiles::JXFSRunFileDialog	"Command to run on the selected file(s):"
+WindowTitle::JXFSRunFileDialog		"Run command with file"
+RunWithFile::JXFSRunFileDialog		"Command to run for $name:"
+RunWithFiles::JXFSRunFileDialog		"Command to run on the selected file(s):"
+ChooseCmdPrompt::JXFSRunFileDialog	"Select program"
+HelpLink::JXFSRunFileDialog			"http://libjx.sourceforge.net/help/jfs.html#RunFile"
+
+# JXFSRunScriptDialog
+
+WindowTitle::JXFSRunScriptDialog	"Run script"
+
+# JXFSCommandHistoryMenu
+
+RunSingle::JXFSCommandHistoryMenu			" (one at a time) "
+RunInShell::JXFSCommandHistoryMenu			" (shell) "
+RunInWindow::JXFSCommandHistoryMenu			" (window) "
+RunInShellSingle::JXFSCommandHistoryMenu	" (shell, one at a time) "
+RunInWindowSingle::JXFSCommandHistoryMenu	" (window, one at a time) "
 
 # default binding list
 
