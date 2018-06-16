@@ -75,7 +75,7 @@ LLDBGetSourceFileList::HandleSuccess
 			{
 			lldb::SBModule m   = t.GetModuleAtIndex(i);
 			const JSize uCount = m.GetNumCompileUnits();
-			for (JIndex j=0; j<uCount; j++)
+			for (JUnsignedOffset j=0; j<uCount; j++)
 				{
 				lldb::SBCompileUnit u = m.GetCompileUnitAtIndex(j);
 				lldb::SBFileSpec f    = u.GetFileSpec();

@@ -213,7 +213,7 @@ JReadUntil
 			break;
 			}
 
-		for (JIndex j=0; j<delimiterCount; j++)
+		for (JUnsignedOffset j=0; j<delimiterCount; j++)
 			{
 			if (c == delimiters[j])
 				{
@@ -898,7 +898,7 @@ JReadUntil
 			return kJFalse;
 			}
 
-		for (JIndex j=0; j<delimiterCount; j++)
+		for (JUnsignedOffset j=0; j<delimiterCount; j++)
 			{
 			if (c == delimiters[j])
 				{

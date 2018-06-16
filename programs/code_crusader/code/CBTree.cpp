@@ -1227,7 +1227,6 @@ CBTree::ArrangeRoots
 					{
 					// try adding this root to the end of the subset
 
-					JIndex i;
 					JSize newLinkLength = subset->linkLength;
 
 					// add length of links from new root
@@ -1237,7 +1236,7 @@ CBTree::ArrangeRoots
 					const JCoordinate newHeight = rootInfo->h;
 					const JSize linkCount       = (rootInfo->connList)->GetElementCount();
 					const RootConn* connInfo    = (rootInfo->connList)->GetCArray();
-					for (i=0; i<linkCount; i++)
+					for (JUnsignedOffset i=0; i<linkCount; i++)
 						{
 						if ((subset->content)->GetElement(connInfo[i].otherRoot))
 							{

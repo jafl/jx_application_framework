@@ -123,7 +123,7 @@ LLDBGetAssembly::HandleSuccess
 			if (offsetPattern.Match(*s, &r))
 				{
 				const JSize pad = maxOffsetLength - r.GetLength();
-				for (JIndex j=0; j<pad; j++)
+				for (JUnsignedOffset j=0; j<pad; j++)
 					{
 					s->InsertCharacter('0', r.first+2);
 					}

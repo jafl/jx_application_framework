@@ -80,8 +80,6 @@ TestData
 	Test2DPlotDirector* dir
 	)
 {
-JIndex i;
-
 	JX2DPlotWidget* plot = dir->GetPlotWidget();
 	plot->ShowLegend();
 
@@ -89,7 +87,7 @@ JIndex i;
 	JKLRand r;
 
 	JFloat delta = kJPi/50.0;
-	for (i=0; i<=100; i++)
+	for (JUInt32 i=0; i<=100; i++)
 		{
 		x.AppendElement(i*delta);
 		y.AppendElement(sin(i*delta));
@@ -114,7 +112,7 @@ JIndex i;
 	y.RemoveAll();
 
 	delta = kJPi/5000.0;
-	for (i=0; i<=10000; i++)
+	for (JUInt32 i=0; i<=10000; i++)
 		{
 		x.AppendElement(i*delta);
 		y.AppendElement(cos(i*delta));
@@ -138,15 +136,13 @@ TestLogData
 	Test2DPlotDirector* dir
 	)
 {
-JIndex i;
-
 	JX2DPlotWidget* plot = dir->GetPlotWidget();
 	plot->ShowLegend();
 
 	JArray<JFloat> x(1000),y(1000);
 
 	const JFloat delta = 0.1;
-	for (i=1; i<=100; i++)
+	for (JUInt32 i=1; i<=100; i++)
 		{
 		x.AppendElement(i*delta);
 		y.AppendElement(pow(2, i*delta));
@@ -157,7 +153,7 @@ JIndex i;
 	x.RemoveAll();
 	y.RemoveAll();
 
-	for (i=0; i<=100; i++)
+	for (JUInt32 i=0; i<=100; i++)
 		{
 		x.AppendElement(i*delta);
 		y.AppendElement((i*delta)*(i*delta));
@@ -189,7 +185,7 @@ TestVector
 	assert( data != nullptr );
 
 	const JFloat delta = kJPi/4.0;
-	for (JIndex i=0; i<8; i++)
+	for (JUnsignedOffset i=0; i<8; i++)
 		{
 		const JFloat x = cos(i*delta);
 		const JFloat y = sin(i*delta);

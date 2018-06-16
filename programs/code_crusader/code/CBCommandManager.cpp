@@ -1625,7 +1625,7 @@ CBCommandManager::UpdateFileMarkers
 
 	// convert variable names
 
-	for (JIndex j=0; j<kVarCount; j++)
+	for (JUnsignedOffset j=0; j<kVarCount; j++)
 		{
 		JIndex i = 1;
 		while (s->LocateNextSubstring(kOldVar[j], &i))

@@ -595,7 +595,7 @@ JXWMainDialog::CopyAndAdjustTemplateFiles
 			JString data;
 			JReadFile(entry.GetFullName(), &data);
 
-			for (JIndex j=0; j<kTagCount; j++)
+			for (JUnsignedOffset j=0; j<kTagCount; j++)
 				{
 				const JBoolean isPrefix = JI2B( j == kPrefix );
 

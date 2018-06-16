@@ -170,14 +170,12 @@ THXKeyPad::CreateButtons()
 	itsOpButton[kMultiplyOpIndex]->SetLabel("\xD7");
 	itsOpButton[kDivideOpIndex]->SetLabel("\xF7");
 
-JIndex i;
-
-	for (i=0; i<10; i++)
+	for (JUnsignedOffset i=0; i<10; i++)
 		{
 		ListenTo(itsDigitButton[i]);
 		}
 
-	for (i=0; i<kOpCount; i++)
+	for (JUnsignedOffset i=0; i<kOpCount; i++)
 		{
 		ListenTo(itsOpButton[i]);
 		}
@@ -219,7 +217,6 @@ THXKeyPad::HandleButton
 	)
 	const
 {
-JIndex i;
 JXKeyModifiers modifiers(GetDisplay());
 
 	if (itsExpr == nullptr || !itsExpr->Focus())
@@ -227,7 +224,7 @@ JXKeyModifiers modifiers(GetDisplay());
 		return kJFalse;
 		}
 
-	for (i=0; i<10; i++)
+	for (JUnsignedOffset i=0; i<10; i++)
 		{
 		if (sender == itsDigitButton[i])
 			{
@@ -248,7 +245,7 @@ JXKeyModifiers modifiers(GetDisplay());
 			}
 		}
 
-	for (i=0; i<kOpCount; i++)
+	for (JUnsignedOffset i=0; i<kOpCount; i++)
 		{
 		if (sender == itsOpButton[i])
 			{

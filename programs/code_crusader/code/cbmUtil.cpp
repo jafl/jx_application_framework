@@ -195,8 +195,6 @@ CBMReadSharedPrefs
 	JPtrArray<JString>*	phpSuffixList
 	)
 {
-JIndex i;
-
 	JString fileName;
 	if (!CBMGetSharedPrefsFileName(&fileName))
 		{
@@ -255,7 +253,7 @@ JIndex i;
 		assert( colorCount == userColorCount );
 		}
 
-	for (i=0; i<colorCount; i++)
+	for (JUnsignedOffset i=0; i<colorCount; i++)
 		{
 		input >> colorList[i];
 		}

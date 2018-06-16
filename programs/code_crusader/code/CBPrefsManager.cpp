@@ -226,10 +226,8 @@ CBPrefsManager::UpdateFileTypes
 	const CBEditFileTypesDialog& dlog
 	)
 {
-JIndex i;
-
 	JPtrArray< JPtrArray<JString> > origSuffixList(JPtrArrayT::kDeleteAll);
-	for (i=0; i<kCBFTCount; i++)
+	for (JUnsignedOffset i=0; i<kCBFTCount; i++)
 		{
 		JPtrArray<JString>* list = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 		assert( list != nullptr );
@@ -246,7 +244,7 @@ JIndex i;
 
 	FileTypesChanged msg;
 	JPtrArray<JString> suffixes(JPtrArrayT::kDeleteAll);
-	for (i=0; i<kCBFTCount; i++)
+	for (JUnsignedOffset i=0; i<kCBFTCount; i++)
 		{
 		GetFileSuffixes((CBTextFileType) i, &suffixes);
 
@@ -344,14 +342,12 @@ cbAddNewSuffixes
 	const JArray<CBPrefsManager::CRMRuleListInfo>&	crmList
 	)
 {
-JIndex i;
-
 	const JSize newCount = newSize / sizeof(CBNewSuffixInfo);
 
 	// if suffix already exists, don't change it
 
 	const JSize ftCount = fileTypeList->GetElementCount();
-	for (i=0; i<newCount; i++)
+	for (JUnsignedOffset i=0; i<newCount; i++)
 		{
 		for (JIndex j=1; j<=ftCount; j++)
 			{
@@ -373,7 +369,7 @@ JIndex i;
 
 	const JIndex crmID = CBPrefsManager::FindCRMRuleListName(crmName, crmList);
 
-	for (i=0; i<newCount; i++)
+	for (JUnsignedOffset i=0; i<newCount; i++)
 		{
 		if (!newInfo[i].found)
 			{
@@ -411,10 +407,8 @@ cbAddNewExternalSuffixes
 	JArray<CBPrefsManager::FileTypeInfo>*	fileTypeList
 	)
 {
-JIndex i;
-
 	const JSize ftCount = fileTypeList->GetElementCount();
-	for (i=0; i<newCount; i++)
+	for (JUnsignedOffset i=0; i<newCount; i++)
 		{
 		for (JIndex j=1; j<=ftCount; j++)
 			{
@@ -427,7 +421,7 @@ JIndex i;
 			}
 		}
 
-	for (i=0; i<newCount; i++)
+	for (JUnsignedOffset i=0; i<newCount; i++)
 		{
 		if (!newInfo[i].found)
 			{
@@ -501,7 +495,7 @@ CBPrefsManager::UpgradeData
 	if (!isNew && currentVersion < 6)
 		{
 		const JIndex origID[] = { 2, 3, 16, 17 };
-		for (JIndex i=0; i<4; i++)
+		for (JUnsignedOffset i=0; i<4; i++)
 			{
 			GetData(origID[i], &data);
 			RemoveData(origID[i]);
@@ -1255,14 +1249,13 @@ const JSize kOrigFileTypeCount = sizeof(kOrigFileType)/sizeof(CBTextFileType);
 void
 CBPrefsManager::ConvertFromSuffixLists()
 {
-JIndex i;
 std::string data;
 
 	assert( itsMacroList == nullptr && itsFileTypeList == nullptr );
 
 	itsMacroList = CreateMacroList();
 
-	for (i=0; i<kOrigMacroCount; i++)
+	for (JUnsignedOffset i=0; i<kOrigMacroCount; i++)
 		{
 		CBCharActionManager* actionMgr = jnew CBCharActionManager;
 		assert( actionMgr != nullptr );
@@ -1313,7 +1306,7 @@ std::string data;
 	itsFileTypeList = CreateFileTypeList();
 
 	JPtrArray<JString> suffixList(JPtrArrayT::kForgetAll);
-	for (i=0; i<kOrigFileTypeCount; i++)
+	for (JUnsignedOffset i=0; i<kOrigFileTypeCount; i++)
 		{
 		GetStringList(10000+i, &suffixList);
 		RemoveData(10000+i);
@@ -1544,7 +1537,7 @@ CBPrefsManager::InitComplementSuffix
 {
 	assert( kInitCSourceSuffixCount == kInitCHeaderSuffixCount );
 
-	for (JIndex i=0; i<kInitCSourceSuffixCount; i++)
+	for (JUnsignedOffset i=0; i<kInitCSourceSuffixCount; i++)
 		{
 		if (suffix == kInitCSourceSuffix[i])
 			{
@@ -2278,15 +2271,13 @@ const JSize kFTRegexCount = sizeof(kFTRegexInfo)/sizeof(FTRegexInfo);
 void
 CBPrefsManager::CreateCRMRuleLists()
 {
-JIndex i;
-
 	assert( itsCRMList == nullptr );
 
 	// create CRM rule lists
 
 	itsCRMList = CreateCRMList();
 
-	for (i=0; i<kInitCRMCount; i++)
+	for (JUnsignedOffset i=0; i<kInitCRMCount; i++)
 		{
 		JString* name = jnew JString(kInitCRM[i].name);
 		assert( name != nullptr );
@@ -2294,7 +2285,7 @@ JIndex i;
 		JTextEditor::CRMRuleList* ruleList = jnew JTextEditor::CRMRuleList;
 		assert( ruleList != nullptr );
 
-		for (JIndex j=0; j<kInitCRM[i].count; j++)
+		for (JUnsignedOffset j=0; j<kInitCRM[i].count; j++)
 			{
 			ruleList->AppendElement(JTextEditor::CRMRule(
 				kInitCRM[i].first[j], kInitCRM[i].rest[j], kInitCRM[i].replace[j]));
@@ -2307,7 +2298,7 @@ JIndex i;
 	// set CRM rule list for each original suffix
 
 	const JSize ftCount = itsFileTypeList->GetElementCount();
-	for (i=1; i<=ftCount; i++)
+	for (JIndex i=1; i<=ftCount; i++)
 		{
 		FileTypeInfo info = itsFileTypeList->GetElement(i);
 		if (*(info.suffix) == ".c" ||
@@ -2325,7 +2316,7 @@ JIndex i;
 
 	// add content regex file types
 
-	for (i=0; i<kFTRegexCount; i++)
+	for (JUnsignedOffset i=0; i<kFTRegexCount; i++)
 		{
 		JString* suffix = jnew JString(kFTRegexInfo[i].pattern);
 		assert( suffix != nullptr );
@@ -3233,7 +3224,7 @@ CBPrefsManager::GetDefaultComplementSuffix
 			name.EndsWith(*(info.suffix)) &&
 			name.GetLength() > (info.suffix)->GetLength())
 			{
-			for (JIndex j=0; j<kDefComplSuffixCount; j++)
+			for (JUnsignedOffset j=0; j<kDefComplSuffixCount; j++)
 				{
 				if (info.type == kDefComplSuffixType[j] && (info.complSuffix)->IsEmpty())
 					{

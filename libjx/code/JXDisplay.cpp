@@ -325,7 +325,7 @@ JIndex i;
 			{
 			// find the ancestor in the list of top level windows
 
-			for (JIndex j=0; j<childCount; j++)
+			for (JUnsignedOffset j=0; j<childCount; j++)
 				{
 				if (childList[j] == rootChild)
 					{
@@ -741,7 +741,7 @@ JXDisplay::KeycodeToModifier
 		const KeyCode* modifier =
 			itsModifierKeymap->modifiermap + i * maxKeyPerMod;
 
-		for (JIndex j=0; j<maxKeyPerMod; j++)
+		for (JUnsignedOffset j=0; j<maxKeyPerMod; j++)
 			{
 			if (modifier[j] == keycode)
 				{

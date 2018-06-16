@@ -114,7 +114,7 @@ JMDIServer::WillBeMDIServer
 	const JString socketName = GetMDISocketName(signature);
 	if (!JUNIXSocketExists(socketName))
 		{
-		for (int i=0; i<argc; i++)
+		for (JUnsignedOffset i=0; i<argc; i++)
 			{
 			if (strcmp(argv[i], JMDIServer::kQuitOptionName) == 0)
 				{
@@ -182,7 +182,7 @@ JMDIServer::WillBeMDIServer
 	const JString dir = JGetCurrentDirectory();
 	SendLine(socket, dir);
 
-	for (int i=0; i<argc; i++)
+	for (JUnsignedOffset i=0; i<argc; i++)
 		{
 		SendLine(socket, JString(argv[i], kJFalse));
 		}

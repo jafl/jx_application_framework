@@ -95,7 +95,7 @@ JTestManager::Execute()
 void
 JTestManager::ExecuteTests()
 {
-	for (JIndex i=0; i<itsTestCount; i++)
+	for (JUnsignedOffset i=0; i<itsTestCount; i++)
 		{
 		itsCurrentTestName = itsNames[i];
 		itsTests[i]();

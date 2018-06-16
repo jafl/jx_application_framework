@@ -574,8 +574,6 @@ JImage::ReadFromJXPM
 	const JXPM& pixmap
 	)
 {
-JIndex i;
-
 	// decode width and height
 
 	JSize colorCount, imageCharSize;
@@ -587,7 +585,7 @@ JIndex i;
 	// init color table (never more than 255 unique colors)
 
 	unsigned char charToCTIndex[256];	// maps XPM chars to color table indices
-	for (i=0; i<256; i++)
+	for (JUnsignedOffset i=0; i<256; i++)
 		{
 		charToCTIndex[i] = 0;
 		}
@@ -691,7 +689,7 @@ JImage::AllocateImageData
 		return JNoProcessMemory();
 		}
 
-	for (JIndex i=0; i<w; i++)
+	for (JCoordinate i=0; i<w; i++)
 		{
 		(*cols)[i] = *data + i*h;
 		}

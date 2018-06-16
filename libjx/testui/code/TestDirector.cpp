@@ -418,8 +418,6 @@ TestDirector::BuildIconMenus
 	JXMenuBar*	menuBar
 	)
 {
-JIndex i;
-
 	// create icons
 
 	JXDisplay* display = window->GetDisplay();
@@ -433,7 +431,7 @@ JIndex i;
 	};
 
 	JXImage* image[kSmileyBitmapCount];
-	for (i=0; i<kSmileyBitmapCount; i++)
+	for (JUnsignedOffset i=0; i<kSmileyBitmapCount; i++)
 		{
 		image[i] = jnew JXImage(display, kSmileyBitmap[i], kSmileyColor[i]);
 		assert( image[i] != nullptr );

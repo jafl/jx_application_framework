@@ -105,7 +105,7 @@ TestPopupChoiceDialog::BuildWindow()
 	};
 
 	JXImage* titleImage = nullptr;
-	for (JIndex i=0; i<kSmileyBitmapCount; i++)
+	for (JUnsignedOffset i=0; i<kSmileyBitmapCount; i++)
 		{
 		JXImage* image = jnew JXImage(display, kSmileyBitmap[i], kSmileyColor[i]);
 		assert( image != nullptr );

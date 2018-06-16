@@ -142,7 +142,7 @@ SVNPropertiesList::StyleLine
 	const JFontStyle&	removeStyle
 	)
 {
-	for (JSize i=0; i<kSpecialPropertyCount; i++)
+	for (JUnsignedOffset i=0; i<kSpecialPropertyCount; i++)
 		{
 		if (line == kSpecialPropertyList[i])
 			{

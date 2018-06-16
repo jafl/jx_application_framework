@@ -855,7 +855,7 @@ LLDBLink::RemoveAllBreakpointsOnLine
 		lldb::SBBreakpoint b = t.GetBreakpointAtIndex(i);
 
 		const JSize locCount = b.GetNumLocations();
-		for (JIndex j=0; j<locCount; j++)
+		for (JUnsignedOffset j=0; j<locCount; j++)
 			{
 			lldb::SBAddress a   = b.GetLocationAtIndex(j).GetAddress();
 			lldb::SBLineEntry e = a.GetLineEntry();
@@ -894,7 +894,7 @@ LLDBLink::RemoveAllBreakpointsAtAddress
 		lldb::SBBreakpoint b = t.GetBreakpointAtIndex(i);
 
 		const JSize locCount = b.GetNumLocations();
-		for (JIndex j=0; j<locCount; j++)
+		for (JUnsignedOffset j=0; j<locCount; j++)
 			{
 			lldb::SBAddress a = b.GetLocationAtIndex(j).GetAddress();
 			if (a.GetLoadAddress(t) == addr)

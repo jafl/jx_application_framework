@@ -3672,8 +3672,6 @@ J2DPlotWidget::PWWriteCurveSetup
 	)
 	const
 {
-JIndex i;
-
 	output << ' ' << kCurrentCurveSetupVersion;
 
 	// write sizes first so they can be checked immediately when reading
@@ -3688,7 +3686,7 @@ JIndex i;
 
 	// write curve info
 
-	for (i=1; i<=curveCount; i++)
+	for (JIndex i=1; i<=curveCount; i++)
 		{
 		J2DCurveInfo info = itsCurveInfo->GetElement(i);
 		output << ' ' << info;
@@ -3696,12 +3694,12 @@ JIndex i;
 
 	// must be able to restore color and symbol usage
 
-	for (i=1; i<=colorCount; i++)
+	for (JIndex i=1; i<=colorCount; i++)
 		{
 		output << ' ' << itsColorUsage->GetElement(i);
 		}
 
-	for (i=0; i<kSymbolCount; i++)
+	for (JUnsignedOffset i=0; i<kSymbolCount; i++)
 		{
 		output << ' ' << itsSymbolUsage[i];
 		}
@@ -3730,8 +3728,6 @@ J2DPlotWidget::PWReadCurveSetup
 	std::istream& input
 	)
 {
-JIndex i;
-
 	JFileVersion vers;
 	input >> vers;
 	assert( vers <= kCurrentCurveSetupVersion );
@@ -3783,7 +3779,7 @@ JIndex i;
 			}
 		}
 
-	for (i=0; i<symbolCount; i++)
+	for (JUnsignedOffset i=0; i<symbolCount; i++)
 		{
 		input >> usage;
 		if (setData)
@@ -3793,7 +3789,7 @@ JIndex i;
 		}
 	if (setData)
 		{
-		for (i=symbolCount; i<kSymbolCount; i++)
+		for (JUnsignedOffset i=symbolCount; i<kSymbolCount; i++)
 			{
 			itsSymbolUsage[i] = 0;
 			}

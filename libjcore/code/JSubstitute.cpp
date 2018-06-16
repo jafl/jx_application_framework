@@ -127,11 +127,9 @@ JSubstitute::CopyInternals
 	const JSubstitute& source
 	)
 {
-JIndex i;
-
 	assert( itsEscapeTable != nullptr && itsVarList != nullptr && itsVarList->IsEmpty() );
 
-	for (i=0; i<kEscapeCount; i++)
+	for (JUnsignedOffset i=0; i<kEscapeCount; i++)
 		{
 		if (source.itsEscapeTable[i] != nullptr)
 			{
@@ -234,7 +232,7 @@ JSubstitute::ClearEscape
 void
 JSubstitute::ClearAllEscapes()
 {
-	for (JIndex i=0; i<kEscapeCount; i++)
+	for (JUnsignedOffset i=0; i<kEscapeCount; i++)
 		{
 		jdelete itsEscapeTable[i];
 		itsEscapeTable[i] = nullptr;
