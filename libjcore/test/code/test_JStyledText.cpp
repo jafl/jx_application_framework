@@ -279,69 +279,46 @@ JTEST(WritePlainText)
 }
 
 void
-TestReadWritePrivateFormat
+TestReadPrivateFormat
 	(
-	const JBoolean longVersion
+	const JString& fileName
 	)
 {
 	StyledText text;
-	text.SetText(JString("\xC3\x86" "bcd", kJFalse));
-	text.SetFontName(TextRange(JCharacterRange(2,2), JUtf8ByteRange(3,3)), JString("foo", kJFalse), kJTrue);
-	text.SetFontSize(TextRange(JCharacterRange(2,3), JUtf8ByteRange(3,4)), 2*JFontManager::GetDefaultFontSize(), kJTrue);
-	text.SetFontBold(TextRange(JCharacterRange(1,2), JUtf8ByteRange(1,3)), kJTrue, kJTrue);
-	JAssertEqual(4, text.GetStyles().GetRunCount());
-
-	JString fileName;
-	JAssertOK(JCreateTempFile(&fileName));
-
 	{
-	std::ofstream output(fileName.GetBytes());
-	if (longVersion)
-		{
-		text.WritePrivateFormat(output, 1, text.GetText(), text.GetStyles(),
-								JCharacterRange(1,4));
-		}
-	else
-		{
-		text.WritePrivateFormat(output);
-		}
-	}
-
-	StyledText buf2;
-	{
-	JBroadcastTester bcastTest(&buf2);
+	JBroadcastTester bcastTest(&text);
 	bcastTest.Expect(JStyledText::kWillBeBusy);
 	bcastTest.Expect(JStyledText::kTextSet);
 
 	std::ifstream input(fileName.GetBytes());
-	buf2.ReadPrivateFormat(input);
+	text.ReadPrivateFormat(input);
 	}
 
-	JAssertStringsEqual("\xC3\x86" "bcd", buf2.GetText());
-	JAssertEqual(4, buf2.GetStyles().GetRunCount());
+	JAssertStringsEqual("\xC3\x86" "bcd", text.GetText());
+	JAssertEqual(4, text.GetStyles().GetRunCount());
 
-	JFont f = buf2.GetFont(1);
+	JFont f = text.GetFont(1);
 	JAssertStringsEqual(JFontManager::GetDefaultFontName(), f.GetName());
 	JAssertEqual(JFontManager::GetDefaultFontSize(), f.GetSize());
 	JAssertTrue(f.GetStyle().bold);
 	JAssertFalse(f.GetStyle().italic);
 	JAssertEqual(0, f.GetStyle().underlineCount);
 
-	f = buf2.GetFont(2);
+	f = text.GetFont(2);
 	JAssertStringsEqual("foo", f.GetName());
 	JAssertEqual(2*JFontManager::GetDefaultFontSize(), f.GetSize());
 	JAssertTrue(f.GetStyle().bold);
 	JAssertFalse(f.GetStyle().italic);
 	JAssertEqual(0, f.GetStyle().underlineCount);
 
-	f = buf2.GetFont(3);
+	f = text.GetFont(3);
 	JAssertStringsEqual(JFontManager::GetDefaultFontName(), f.GetName());
 	JAssertEqual(2*JFontManager::GetDefaultFontSize(), f.GetSize());
 	JAssertFalse(f.GetStyle().bold);
 	JAssertFalse(f.GetStyle().italic);
 	JAssertEqual(0, f.GetStyle().underlineCount);
 
-	f = buf2.GetFont(4);
+	f = text.GetFont(4);
 	JAssertStringsEqual(JFontManager::GetDefaultFontName(), f.GetName());
 	JAssertEqual(JFontManager::GetDefaultFontSize(), f.GetSize());
 	JAssertFalse(f.GetStyle().bold);
@@ -351,8 +328,44 @@ TestReadWritePrivateFormat
 
 JTEST(ReadWritePrivateFormat)
 {
-	TestReadWritePrivateFormat(kJFalse);
-	TestReadWritePrivateFormat(kJTrue);
+	StyledText text1;
+	text1.SetText(JString("\xC3\x86" "bcd", kJFalse));
+	text1.SetFontName(TextRange(JCharacterRange(2,2), JUtf8ByteRange(3,3)), JString("foo", kJFalse), kJTrue);
+	text1.SetFontSize(TextRange(JCharacterRange(2,3), JUtf8ByteRange(3,4)), 2*JFontManager::GetDefaultFontSize(), kJTrue);
+	text1.SetFontBold(TextRange(JCharacterRange(1,2), JUtf8ByteRange(1,3)), kJTrue, kJTrue);
+	JAssertEqual(4, text1.GetStyles().GetRunCount());
+
+	JString fileName;
+	JAssertOK(JCreateTempFile(&fileName));
+
+	{
+	std::ofstream output(fileName.GetBytes());
+	text1.WritePrivateFormat(output);
+	}
+	TestReadPrivateFormat(fileName);
+
+	{
+	std::ofstream output(fileName.GetBytes());
+	text1.WritePrivateFormat(output, 1, text1.GetText(), text1.GetStyles(),
+							 JCharacterRange(1,4));
+	}
+	TestReadPrivateFormat(fileName);
+
+	StyledText text2;
+	text2.SetText(JString("zing\xC3\xA5\xE2\x9C\x94 \xC3\x86" "bcd goop", kJFalse));
+	text2.SetFontName(TextRange(JCharacterRange(9,9), JUtf8ByteRange(13,13)), JString("foo", kJFalse), kJTrue);
+	text2.SetFontSize(TextRange(JCharacterRange(9,10), JUtf8ByteRange(13,14)), 2*JFontManager::GetDefaultFontSize(), kJTrue);
+	text2.SetFontBold(TextRange(JCharacterRange(8,9), JUtf8ByteRange(11,13)), kJTrue, kJTrue);
+	JAssertEqual(5, text2.GetStyles().GetRunCount());
+
+	{
+	std::ofstream output(fileName.GetBytes());
+	text2.WritePrivateFormat(output, 1, text2.GetText(), text2.GetStyles(),
+							 JCharacterRange(8,11));
+	}
+	TestReadPrivateFormat(fileName);
+
+	JRemoveFile(fileName);
 }
 
 JTEST(SearchTextForward)
