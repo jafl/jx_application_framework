@@ -224,7 +224,7 @@ JStringManager::Replace
 	JSubstitute* r = GetReplaceEngine();
 
 	const JSize count = size/(2*sizeof(JUtf8Byte*));
-	for (JIndex i=0; i<count; i++)
+	for (JUnsignedOffset i=0; i<count; i++)
 		{
 		r->DefineVariable(map[2*i], JString(map[2*i+1], kJFalse));
 		}
@@ -431,7 +431,7 @@ JStringManager::CanOverride
 	const JString& id
 	)
 {
-	for (JIndex i=0; i<kNoOverrideIDCount; i++)
+	for (JUnsignedOffset i=0; i<kNoOverrideIDCount; i++)
 		{
 		if (id == kNoOverrideID[i])
 			{
@@ -454,9 +454,21 @@ JStringManager::WriteFile
 	)
 	const
 {
-	output << (long) kUTF8Format << std::endl;
-
 	JStringPtrMapCursor<JString> cursor(const_cast<JStringManager*>(this));
+
+	JBoolean ascii = kJTrue;
+	while (cursor.Next())
+		{
+		if (!cursor.GetValue()->IsAscii())
+			{
+			ascii = kJFalse;
+			break;
+			}
+		}
+
+	output << (long) (ascii ? kASCIIFormat: kUTF8Format) << std::endl;
+
+	cursor.Reset();
 	while (cursor.Next())
 		{
 		cursor.GetKey().Print(output);
