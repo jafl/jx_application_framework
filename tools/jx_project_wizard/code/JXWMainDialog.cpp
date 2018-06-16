@@ -396,7 +396,7 @@ JXWMainDialog::WriteTemplate()
 		};
 	const JSize inputCount = sizeof(input)/sizeof(JXInputField*);
 
-	for (JIndex i=0; i<inputCount; i++)
+	for (JUnsignedOffset i=0; i<inputCount; i++)
 		{
 		input[i]->SetIsRequired(kJTrue);
 		const JBoolean ok = input[i]->InputValid();

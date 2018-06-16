@@ -180,7 +180,7 @@ JMatrix::operator-()
 	JMatrix mx(itsRowCount, itsColCount);
 
 	const JSize count = GetElementCount();
-	for (JIndex i=0; i<count; i++)
+	for (JUnsignedOffset i=0; i<count; i++)
 		{
 		mx.itsElements[i] = -itsElements[i];
 		}
@@ -204,7 +204,7 @@ JMatrix::operator+=
 	assert( JDimensionsEqual(*this, mx) );
 
 	const JSize count = GetElementCount();
-	for (JIndex i=0; i<count; i++)
+	for (JUnsignedOffset i=0; i<count; i++)
 		{
 		itsElements[i] += mx.itsElements[i];
 		}
@@ -228,7 +228,7 @@ JMatrix::operator-=
 	assert( JDimensionsEqual(*this, mx) );
 
 	const JSize count = GetElementCount();
-	for (JIndex i=0; i<count; i++)
+	for (JUnsignedOffset i=0; i<count; i++)
 		{
 		itsElements[i] -= mx.itsElements[i];
 		}
@@ -250,7 +250,7 @@ JMatrix::operator*=
 	)
 {
 	const JSize count = GetElementCount();
-	for (JIndex i=0; i<count; i++)
+	for (JUnsignedOffset i=0; i<count; i++)
 		{
 		itsElements[i] *= s;
 		}
@@ -274,7 +274,7 @@ JMatrix::operator/=
 	assert( s != 0.0 );
 
 	const JSize count = GetElementCount();
-	for (JIndex i=0; i<count; i++)
+	for (JUnsignedOffset i=0; i<count; i++)
 		{
 		itsElements[i] /= s;
 		}
@@ -296,7 +296,7 @@ JMatrix::SetAllElements
 	)
 {
 	const JSize count = GetElementCount();
-	for (JIndex i=0; i<count; i++)
+	for (JUnsignedOffset i=0; i<count; i++)
 		{
 		itsElements[i] = value;
 		}

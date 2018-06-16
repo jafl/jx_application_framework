@@ -125,7 +125,7 @@ CBJavaScriptStyler::CBJavaScriptStyler()
 
 	SetTypeStyle(kError                - kWhitespace, JFontStyle(red));
 
-	for (JIndex i=0; i<kUnusedKeywordCount; i++)
+	for (JUnsignedOffset i=0; i<kUnusedKeywordCount; i++)
 		{
 		SetWordStyle(kUnusedKeyword[i], JFontStyle(red));
 		}

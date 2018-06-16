@@ -26,7 +26,7 @@ JXDisplay::JXDisplay
 	itsLatestKeyModifiers(this),
 	itsModifierKeymap(nullptr)
 {
-	for (JIndex i=0; i<=kXModifierCount; i++)
+	for (JUnsignedOffset i=0; i<=kXModifierCount; i++)
 		{
 		itsJXKeyModifierMapping[i] = i;
 		}

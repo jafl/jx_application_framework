@@ -1035,7 +1035,7 @@ ParseGravity
 	JString*		vSizing
 	)
 {
-	for (JIndex i=0; i<kGravityCount; i++)
+	for (JUnsignedOffset i=0; i<kGravityCount; i++)
 		{
 		const JIndex j = 3*i;
 		if (gravity == kGravityMap[j])
@@ -1578,7 +1578,7 @@ ConvertXFormsFontSize
 	JString*		jxSize
 	)
 {
-	for (JIndex i=0; i<kFontSizeTableSize; i++)
+	for (JUnsignedOffset i=0; i<kFontSizeTableSize; i++)
 		{
 		if (kFontSizeTable[i].flSize == flSize)
 			{
@@ -1602,7 +1602,7 @@ ConvertXFormsColor
 	JString*		jxColor
 	)
 {
-	for (JIndex i=0; i<kColorTableSize; i++)
+	for (JUnsignedOffset i=0; i<kColorTableSize; i++)
 		{
 		if (kColorTable[i].flColor == flColor)
 			{

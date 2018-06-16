@@ -313,7 +313,7 @@ JMMTable::StreamHistogram
 {
 	output << JMemoryManager::kHistogramSlotCount;
 
-	for (JIndex i=0; i<JMemoryManager::kHistogramSlotCount; i++)
+	for (JUnsignedOffset i=0; i<JMemoryManager::kHistogramSlotCount; i++)
 		{
 		output << ' ' << histo[i];
 		}

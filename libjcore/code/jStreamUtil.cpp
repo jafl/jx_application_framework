@@ -420,7 +420,7 @@ JIgnoreUntil
 			break;
 			}
 
-		for (JIndex i=0; i<delimiterCount; i++)
+		for (JUnsignedOffset i=0; i<delimiterCount; i++)
 			{
 			if (c == delimiters[i])
 				{
@@ -579,7 +579,7 @@ JDecodeBase64
 		{
 		memset(kBase64Decoding, 0xFF, sizeof(kBase64Decoding));
 
-		for (JIndex i=0; i<64; i++)
+		for (JUnsignedOffset i=0; i<64; i++)
 			{
 			kBase64Decoding[ (unsigned char) kBase64Encoding[i] ] = i;
 			}
@@ -1047,7 +1047,7 @@ JIgnoreUntil
 			return kJFalse;
 			}
 
-		for (JIndex i=0; i<delimiterCount; i++)
+		for (JUnsignedOffset i=0; i<delimiterCount; i++)
 			{
 			if (c == delimiters[i])
 				{

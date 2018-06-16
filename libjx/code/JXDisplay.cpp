@@ -736,7 +736,7 @@ JXDisplay::KeycodeToModifier
 		}
 
 	const JSize maxKeyPerMod = itsModifierKeymap->max_keypermod;
-	for (JIndex i=0; i<kXModifierCount; i++)
+	for (JUnsignedOffset i=0; i<kXModifierCount; i++)
 		{
 		const KeyCode* modifier =
 			itsModifierKeymap->modifiermap + i * maxKeyPerMod;

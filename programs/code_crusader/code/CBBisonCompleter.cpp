@@ -134,7 +134,7 @@ CBBisonCompleter::UpdateWordList()
 
 	const JCharacter** cWordList;
 	const JSize count = CBCCompleter::GetDefaultWordList(&cWordList);
-	for (JIndex i=0; i<count; i++)
+	for (JUnsignedOffset i=0; i<count; i++)
 		{
 		Add(cWordList[i]);
 		}

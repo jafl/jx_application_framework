@@ -196,11 +196,11 @@ CBHTMLStyler::CBHTMLStyler()
 	InitJavaScriptTypeStyles();
 
 	const JColorID red = colormap->GetRedColor();
-	for (JIndex i=0; i<kUnusedJavaKeywordCount; i++)
+	for (JUnsignedOffset i=0; i<kUnusedJavaKeywordCount; i++)
 		{
 		SetWordStyle(kUnusedJavaKeyword[i], JFontStyle(red));
 		}
-	for (JIndex i=0; i<kUnusedJSKeywordCount; i++)
+	for (JUnsignedOffset i=0; i<kUnusedJSKeywordCount; i++)
 		{
 		SetWordStyle(kUnusedJSKeyword[i], JFontStyle(red));
 		}

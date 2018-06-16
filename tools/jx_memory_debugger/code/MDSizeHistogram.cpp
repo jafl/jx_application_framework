@@ -111,7 +111,7 @@ MDSizeHistogram::Draw
 
 	JIndex exp   = 32 - (JMemoryManager::kHistogramSlotCount - 1);
 	JFloat total = itsTotal;
-	for (JIndex i=0; i<JMemoryManager::kHistogramSlotCount; i++)
+	for (JUnsignedOffset i=0; i<JMemoryManager::kHistogramSlotCount; i++)
 		{
 		r1 = r;
 

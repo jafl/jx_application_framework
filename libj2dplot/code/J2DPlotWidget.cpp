@@ -91,7 +91,7 @@ J2DPlotWidget::J2DPlotWidget
 	itsCurves = jnew JPtrArray<JPlotDataBase>(JPtrArrayT::kForgetAll);
 	assert(itsCurves != nullptr);
 
-	for (JIndex i=0; i<kSymbolCount; i++)
+	for (JUnsignedOffset i=0; i<kSymbolCount; i++)
 		{
 		itsSymbolUsage[i] = 0;
 		}

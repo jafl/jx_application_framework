@@ -127,7 +127,7 @@ CBGetComplementType
 	CBTextFileType*			outputType
 	)
 {
-	for (JIndex i=0; i<kComplMapCount; i++)
+	for (JUnsignedOffset i=0; i<kComplMapCount; i++)
 		{
 		if (inputType == kComplMap[i].t1)
 			{
@@ -171,7 +171,7 @@ CBGetComplementFileTypeName
 	const CBTextFileType type
 	)
 {
-	for (JIndex i=0; i<kComplNameCount; i++)
+	for (JUnsignedOffset i=0; i<kComplNameCount; i++)
 		{
 		if (type == kComplName[i].type)
 			{
@@ -358,7 +358,7 @@ CBGetStyler
 void
 CBShutdownStylers()
 {
-	for (JIndex i=0; i<kLang2StylerCount; i++)
+	for (JUnsignedOffset i=0; i<kLang2StylerCount; i++)
 		{
 		if (kLang2Styler[i].destroy != nullptr)
 			{
@@ -455,7 +455,7 @@ CBGetCompleter
 void
 CBShutdownCompleters()
 {
-	for (JIndex i=0; i<kLang2CompleterCount; i++)
+	for (JUnsignedOffset i=0; i<kLang2CompleterCount; i++)
 		{
 		if (kLang2Completer[i].destroy != nullptr)
 			{

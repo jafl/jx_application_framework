@@ -636,7 +636,7 @@ JIsMounted
 	const JSize count = getmntinfo(&info, MNT_WAIT);
 
 	JString p;
-	for (JIndex i=0; i<count; i++)
+	for (JUnsignedOffset i=0; i<count; i++)
 		{
 		if (strcmp(info[i].f_mntonname, "/") != 0 &&
 			stat(info[i].f_mntonname, &stbuf2) == 0 &&
@@ -1050,7 +1050,7 @@ JTranslateLocalToRemote
 	const JSize count = getmntinfo(&info, MNT_WAIT);
 
 	JBoolean found = kJFalse;
-	for (JIndex i=0; i<count; i++)
+	for (JUnsignedOffset i=0; i<count; i++)
 		{
 		if (jTranslateLocalToRemote1(localPath, info[i].f_mntfromname,
 									 info[i].f_mntonname,
@@ -1204,7 +1204,7 @@ JTranslateRemoteToLocal
 	const JSize count = getmntinfo(&info, MNT_WAIT);
 
 	JBoolean found = kJFalse;
-	for (JIndex i=0; i<count; i++)
+	for (JUnsignedOffset i=0; i<count; i++)
 		{
 		if (jTranslateRemoteToLocal1(hostStr, remotePath, info[i].f_mntfromname,
 									 info[i].f_mntonname, localPath))

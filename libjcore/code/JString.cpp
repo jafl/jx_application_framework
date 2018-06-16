@@ -1718,7 +1718,7 @@ JString::PrintHex
 	)
 	const
 {
-	for (JIndex i=0; i<itsByteCount; i++)
+	for (JUnsignedOffset i=0; i<itsByteCount; i++)
 		{
 		output << std::hex << (int) (unsigned char) itsBytes[i] << std::dec << ' ';
 		}
@@ -1926,7 +1926,7 @@ JString::CompareMaxNBytes
 		}
 
 	JSize M = N;
-	for (JIndex i=0; i<N; i++)
+	for (JUnsignedOffset i=0; i<N; i++)
 		{
 		if (s1[i] == 0 || s2[i] == 0)
 			{

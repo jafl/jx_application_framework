@@ -798,7 +798,7 @@ MDStatsDirector::ReceiveRunningStats
 	assert( count == JMemoryManager::kHistogramSlotCount );
 
 	JSize histo[ JMemoryManager::kHistogramSlotCount ];
-	for (JIndex i=0; i<count; i++)
+	for (JUnsignedOffset i=0; i<count; i++)
 		{
 		input >> histo[i];
 		}

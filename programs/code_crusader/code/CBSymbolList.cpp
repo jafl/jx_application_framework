@@ -147,7 +147,7 @@ CBSymbolList::IsUniqueClassName
 	const SymbolInfo* sym = itsSymbolList->GetCArray();
 
 	JBoolean found = kJFalse;
-	for (JIndex i=0; i<symCount; i++)
+	for (JUnsignedOffset i=0; i<symCount; i++)
 		{
 		if (IsClass(sym[i].type) &&
 			JString::Compare(*(sym[i].name), name, CBIsCaseSensitive(sym[i].lang)) == 0)

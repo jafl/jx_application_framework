@@ -277,7 +277,7 @@ THXBaseConvDirector::Convert
 	JXInputField* input = nullptr;
 	JSize base          = 0;
 
-	for (JIndex i=0; i<kTHXBaseCount; i++)
+	for (JUnsignedOffset i=0; i<kTHXBaseCount; i++)
 		{
 		if (sender == itsInput[i])
 			{
@@ -295,7 +295,7 @@ THXBaseConvDirector::Convert
 	JUInt value;
 	if (!(input->GetText()).ConvertToUInt(&value, base))
 		{
-		for (JIndex i=0; i<kTHXBaseCount; i++)
+		for (JUnsignedOffset i=0; i<kTHXBaseCount; i++)
 			{
 			if (itsInput[i] != input)
 				{
@@ -305,7 +305,7 @@ THXBaseConvDirector::Convert
 		return;
 		}
 
-	for (JIndex i=0; i<kTHXBaseCount; i++)
+	for (JUnsignedOffset i=0; i<kTHXBaseCount; i++)
 		{
 		if (itsInput[i] != input)
 			{

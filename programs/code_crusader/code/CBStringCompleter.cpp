@@ -97,7 +97,7 @@ CBStringCompleter::Reset()
 {
 	RemoveAll();
 
-	for (JIndex i=0; i<itsPredefKeywordCount; i++)
+	for (JUnsignedOffset i=0; i<itsPredefKeywordCount; i++)
 		{
 		Add(itsPrefefKeywordList[i]);
 		}

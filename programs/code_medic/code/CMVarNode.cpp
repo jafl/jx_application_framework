@@ -214,7 +214,7 @@ CMVarNode::ConvertToBase()
 				vStr += " '";
 
 				JBoolean found = kJFalse;
-				for (JIndex i=0; i<kSpecialCharCount; i++)
+				for (JUnsignedOffset i=0; i<kSpecialCharCount; i++)
 					{
 					if (JCharacter(v) == kSpecialCharInfo[i].c)
 						{

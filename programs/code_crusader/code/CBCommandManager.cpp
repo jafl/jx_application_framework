@@ -1337,7 +1337,7 @@ const JSize kDefCmdCount = sizeof(kDefCmd) / sizeof(DefCmd);
 void
 CBCommandManager::InitCommandList()
 {
-	for (JIndex i=0; i<kDefCmdCount; i++)
+	for (JUnsignedOffset i=0; i<kDefCmdCount; i++)
 		{
 		AppendCommand(kDefCmd[i].path, kDefCmd[i].cmd, kDefCmd[i].name,
 					  kDefCmd[i].isMake, kDefCmd[i].isVCS, kDefCmd[i].saveAll,

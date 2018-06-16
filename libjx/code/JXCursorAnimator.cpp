@@ -135,7 +135,7 @@ JXCursorAnimator::InitFrames
 	itsFrames = jnew JArray<JCursorIndex>(kBeachBallFrameCount);
 	assert( itsFrames != nullptr );
 
-	for (JIndex i=0; i<kBeachBallFrameCount; i++)
+	for (JUnsignedOffset i=0; i<kBeachBallFrameCount; i++)
 		{
 		const JCursorIndex cursIndex =
 			display->CreateCustomCursor(kBeachballFrameName[i],

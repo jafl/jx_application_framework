@@ -213,7 +213,7 @@ CBSymbolTypeList::FindType
 	const SymbolTypeInfo* info = itsSymbolTypeList->GetCArray();
 
 	const JSize count = itsSymbolTypeList->GetElementCount();
-	for (JIndex i=0; i<count; i++)
+	for (JUnsignedOffset i=0; i<count; i++)
 		{
 		if (info[i].type == type)
 			{

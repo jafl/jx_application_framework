@@ -193,7 +193,7 @@ JUtf8Character::GetCharacterByteCount
 	if (!ok)
 		{
 		std::cerr << "Invalid UTF-8 byte sequence: " << std::hex;
-		for (JIndex i=0; i<*byteCount; i++)
+		for (JUnsignedOffset i=0; i<*byteCount; i++)
 			{
 			std::cerr << (int) c[i] << ' ';
 			}
@@ -473,7 +473,7 @@ JUtf8Character::PrintHex
 	const
 {
 	output << std::hex;
-	for (JIndex i=0; i<itsByteCount; i++)
+	for (JUnsignedOffset i=0; i<itsByteCount; i++)
 		{
 		output << (int) (unsigned char) itsBytes[i] << ' ';
 		}

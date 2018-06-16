@@ -332,7 +332,7 @@ JThisProcess::CheckForSignals()
 
 	if (pendingSignalCount > 0 && itsSelf != nullptr)
 		{
-		for (JIndex i=0; i < (JSize) pendingSignalCount; i++)
+		for (JUnsignedOffset i=0; i < (JSize) pendingSignalCount; i++)
 			{
 			// this is safe since extra signals are simply appended to the list
 

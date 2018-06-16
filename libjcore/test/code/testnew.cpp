@@ -46,7 +46,7 @@ main()
 	const JSize blockSize = 4;
 	aLong = jnew long[blockSize];
 	std::cout << std::setbase(16) << "\n   Block of longs initialized to: ";
-	for (JIndex i=0;i<blockSize;i++)
+	for (JUnsignedOffset i=0;i<blockSize;i++)
 		{
 		std::cout << aLong[i];
 		}
@@ -54,7 +54,7 @@ main()
 	jdelete[] aLong;
 	std::cout << "\n   Testing shredding value (slightly dangerous!)" << std::endl;
 	std::cout << std::setbase(16) << "\n   Block of longs shredded to: ";
-	for (JIndex i=0;i<blockSize;i++)
+	for (JUnsignedOffset i=0;i<blockSize;i++)
 		{
 		std::cout << aLong[i];
 		}

@@ -138,7 +138,7 @@ TestTextEditor::UpdateCustomEditMenuItems()
 		}
 
 	const JSize undoDepth = GetText()->GetUndoDepth();
-	for (JIndex i=0; i<kUndoDepthCount; i++)
+	for (JUnsignedOffset i=0; i<kUndoDepthCount; i++)
 		{
 		const JIndex itemIndex = itsFirstUndoDepthCmdIndex + i;
 		editMenu->EnableItem(itemIndex);

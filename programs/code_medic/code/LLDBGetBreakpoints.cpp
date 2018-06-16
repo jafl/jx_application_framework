@@ -73,7 +73,7 @@ LLDBGetBreakpoints::HandleSuccess
 
 	JSize count = t.GetNumBreakpoints();
 	JString func, addr, cond;
-	for (JIndex i=0; i<count; i++)
+	for (JUnsignedOffset i=0; i<count; i++)
 		{
 		lldb::SBBreakpoint b = t.GetBreakpointAtIndex(i);
 		if (!b.IsValid() || b.GetNumLocations() == 0)
@@ -148,7 +148,7 @@ LLDBGetBreakpoints::HandleSuccess
 		(CMGetLink()->GetBreakpointManager())->SetUpdateWhenStop(kJTrue);
 		}
 
-	for (JIndex i=0; i<count; i++)
+	for (JUnsignedOffset i=0; i<count; i++)
 		{
 		lldb::SBWatchpoint w = t.GetWatchpointAtIndex(i);
 

@@ -1173,7 +1173,7 @@ CMVarTreeWidget::UpdateBaseMenu
 		{
 		menu->EnableAll();
 
-		for (JIndex i=0; i<kBaseCount; i++)
+		for (JUnsignedOffset i=0; i<kBaseCount; i++)
 			{
 			if (JSize(base) == kMenuIndexToBase[i])
 				{

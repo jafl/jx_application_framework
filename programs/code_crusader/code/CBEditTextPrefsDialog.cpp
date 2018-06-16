@@ -435,7 +435,7 @@ CBEditTextPrefsDialog::BuildWindow
 
 	CBPrefsManager* prefsMgr = CBGetPrefsManager();
 	JXColorManager* colormap     = GetColormap();
-	for (JIndex i=0; i<CBPrefsManager::kColorCount; i++)
+	for (JUnsignedOffset i=0; i<CBPrefsManager::kColorCount; i++)
 		{
 		itsColor[i] = prefsMgr->GetColor(i+1);
 		ListenTo(itsColorButton[i]);
@@ -707,7 +707,7 @@ CBEditTextPrefsDialog::HandleColorButton
 	)
 {
 	itsChooseColorIndex = 0;
-	for (JIndex i=0; i<CBPrefsManager::kColorCount; i++)
+	for (JUnsignedOffset i=0; i<CBPrefsManager::kColorCount; i++)
 		{
 		if (sender == itsColorButton[i])
 			{

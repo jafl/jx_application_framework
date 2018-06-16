@@ -161,7 +161,7 @@ CBPHPCompleter::UpdateWordList()
 
 	const JCharacter** htmlWordList;
 	JSize count = CBHTMLCompleter::GetDefaultWordList(&htmlWordList);
-	for (JIndex i=0; i<count; i++)
+	for (JUnsignedOffset i=0; i<count; i++)
 		{
 		Add(htmlWordList[i]);
 		}
@@ -172,7 +172,7 @@ CBPHPCompleter::UpdateWordList()
 
 	const JCharacter** jsWordList;
 	count = CBJavaScriptCompleter::GetDefaultWordList(&jsWordList);
-	for (JIndex i=0; i<count; i++)
+	for (JUnsignedOffset i=0; i<count; i++)
 		{
 		Add(jsWordList[i]);
 		}

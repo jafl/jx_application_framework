@@ -78,7 +78,7 @@ LLDBGetThreads::HandleSuccess
 	const JSize count = p.GetNumThreads();
 	JString fileName, name, indexStr;
 	JArray<JIndexRange> matchList;
-	for (JIndex i=0; i<count; i++)
+	for (JUnsignedOffset i=0; i<count; i++)
 		{
 		lldb::SBThread t = p.GetThreadAtIndex(i);
 		lldb::SBFrame f  = t.GetSelectedFrame();

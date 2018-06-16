@@ -387,7 +387,7 @@ public:
 				:
 				JBroadcaster::Message(kFileTypesChanged)
 			{
-				for (JIndex i=0; i<kCBFTCount; i++)
+				for (JUnsignedOffset i=0; i<kCBFTCount; i++)
 					{
 					itsStatus[i] = kJFalse;
 					}
@@ -404,7 +404,7 @@ public:
 			Changed(JBoolean (*typeCheckFn)(const CBTextFileType type))
 				const
 			{
-				for (JIndex i=0; i<kCBFTCount; i++)
+				for (JUnsignedOffset i=0; i<kCBFTCount; i++)
 					{
 					if (itsStatus[i] && typeCheckFn((CBTextFileType) i))
 						{
@@ -418,7 +418,7 @@ public:
 			AnyChanged()
 				const
 			{
-				for (JIndex i=0; i<kCBFTCount; i++)
+				for (JUnsignedOffset i=0; i<kCBFTCount; i++)
 					{
 					if (itsStatus[i])
 						{

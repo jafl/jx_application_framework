@@ -380,7 +380,7 @@ PrintGIFInfo
 	std::cout << "Index\tRed\tGreen\tBlue" << std::endl;
 
 	const JSize colorCount = gdImageColorsTotal(image);
-	for (JIndex i=0; i<colorCount; i++)
+	for (JUnsignedOffset i=0; i<colorCount; i++)
 		{
 		std::cout << i;
 		std::cout << '\t' << gdImageRed  (image, i);

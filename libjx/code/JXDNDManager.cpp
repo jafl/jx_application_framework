@@ -767,7 +767,7 @@ JXDNDManager::GetAskActions
 		if (actualType == XA_ATOM && actualFormat == 32 && itemCount > 0)
 			{
 			Atom* data = reinterpret_cast<Atom*>(rawData);
-			for (JIndex i=0; i<itemCount; i++)
+			for (JUnsignedOffset i=0; i<itemCount; i++)
 				{
 				actionList->AppendElement(data[i]);
 				}
@@ -1463,7 +1463,7 @@ JXDNDManager::HandleDNDEnter
 			if (actualType == XA_ATOM && actualFormat == 32 && itemCount > 0)
 				{
 				Atom* data = reinterpret_cast<Atom*>(rawData);
-				for (JIndex i=0; i<itemCount; i++)
+				for (JUnsignedOffset i=0; i<itemCount; i++)
 					{
 					itsDraggerTypeList->AppendElement(data[i]);
 					}
@@ -2144,7 +2144,7 @@ JXDNDManager::InitCursors()
 {
 	assert( sizeof(kDefaultDNDCursorName)/sizeof(JUtf8Byte*) == kDefDNDCursorCount );
 
-	for (JIndex i=0; i<kDefDNDCursorCount; i++)
+	for (JUnsignedOffset i=0; i<kDefDNDCursorCount; i++)
 		{
 		itsDefDNDCursor[i] =
 			itsDisplay->CreateCustomCursor(kDefaultDNDCursorName[i], kDefaultDNDCursor[i]);

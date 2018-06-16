@@ -1191,7 +1191,7 @@ JXFileListTable::SetEditMenuProvider
 #define ADJUST_INDEX(m) \
 	const JSize count = itsVisibleList->GetElementCount(); \
 	VisInfo* info     = const_cast<VisInfo*>(itsVisibleList->GetCArray()); \
-	for (JIndex i=0; i<count; i++) \
+	for (JUnsignedOffset i=0; i<count; i++) \
 		{ \
 		m->AdjustIndex(&(info[i].fileIndex)); \
 		}

@@ -395,7 +395,7 @@ SyGFindFileDialog::SearchExpr
 
 	const JCharacter** vcsDirName;
 	const JSize vcsDirNameCount = JGetVCSDirectoryNames(&vcsDirName);
-	for (JIndex i=0; i<vcsDirNameCount; i++)
+	for (JUnsignedOffset i=0; i<vcsDirNameCount; i++)
 		{
 		e += " -a ! -path */";
 		e += vcsDirName[i];

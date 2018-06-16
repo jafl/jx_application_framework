@@ -570,7 +570,7 @@ CMPrefsManager::GetFileType
 	const
 {
 	JPtrArray<JString> suffixList(JPtrArrayT::kDeleteAll);
-	for (JIndex i=0; i<kSuffixTypeMapCount; i++)
+	for (JUnsignedOffset i=0; i<kSuffixTypeMapCount; i++)
 		{
 		if (GetSuffixes(kSuffixTypeMap[i].id, &suffixList))
 			{
@@ -938,7 +938,7 @@ CMPrefsManager::ReadColors()
 		dataStream >> vers;
 		assert( vers <= kCurrentTextColorVers );
 
-		for (JIndex i=0; i<kColorCount; i++)
+		for (JUnsignedOffset i=0; i<kColorCount; i++)
 			{
 			dataStream >> color[i];
 			}
@@ -959,7 +959,7 @@ CMPrefsManager::SetColorList
 	JBoolean ok[ kColorCount ];
 	if (hasColors)
 		{
-		for (JIndex i=0; i<kColorCount; i++)
+		for (JUnsignedOffset i=0; i<kColorCount; i++)
 			{
 			itsColor[i] = colormap->GetColor(colorList[i]);
 			ok[i]       = kJTrue;
@@ -967,7 +967,7 @@ CMPrefsManager::SetColorList
 		}
 	else
 		{
-		for (JIndex i=0; i<kColorCount; i++)
+		for (JUnsignedOffset i=0; i<kColorCount; i++)
 			{
 			ok[i] = kJFalse;
 			}
@@ -986,7 +986,7 @@ CMPrefsManager::SetColorList
 		};
 	assert( sizeof(defaultColor)/sizeof(JColorID) == kColorCount );
 
-	for (JIndex i=0; i<kColorCount; i++)
+	for (JUnsignedOffset i=0; i<kColorCount; i++)
 		{
 		if (!ok[i])
 			{
@@ -1003,7 +1003,7 @@ CMPrefsManager::WriteColors()
 	std::ostringstream data;
 	data << kCurrentTextColorVers;
 
-	for (JIndex i=0; i<kColorCount; i++)
+	for (JUnsignedOffset i=0; i<kColorCount; i++)
 		{
 		data << ' ' << colormap->GetRGB(itsColor[i]);
 		}

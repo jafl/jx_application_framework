@@ -415,7 +415,7 @@ JStyledText::WritePlainText
 	const JUtf8Byte* text = itsText.GetBytes();
 	const JSize byteCount = itsText.GetByteCount();
 	JIndex start          = 0;
-	for (JIndex i=0; i<byteCount; i++)
+	for (JUnsignedOffset i=0; i<byteCount; i++)
 		{
 		if (text[i] == kUNIXNewlineChar)
 			{

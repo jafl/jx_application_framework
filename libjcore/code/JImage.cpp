@@ -355,7 +355,7 @@ JImage::ReadGD
 		JColorID* colorTable = jnew JColorID [ colorCount ];
 		assert( colorTable != nullptr );
 
-		for (JIndex i=0; i<colorCount; i++)
+		for (JUnsignedOffset i=0; i<colorCount; i++)
 			{
 			if (!hasMask || i != (JIndex) maskColor)
 				{
@@ -600,7 +600,7 @@ JImage::ReadFromJXPM
 	JBoolean hasMask        = kJFalse;
 	unsigned long maskColor = 0;
 
-	for (i=1; i<=colorCount; i++)
+	for (JIndex i=1; i<=colorCount; i++)
 		{
 		charToCTIndex[ (unsigned char) pixmap.xpm[i][0] ] = (unsigned char) i-1;
 

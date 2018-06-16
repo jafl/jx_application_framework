@@ -40,7 +40,7 @@ JVector::JVector
 
 	JVectorX(dimCount);
 
-	for (JIndex i=0; i<itsDimCount; i++)
+	for (JUnsignedOffset i=0; i<itsDimCount; i++)
 		{
 		itsElements[i] = fillValue;
 		}
@@ -56,7 +56,7 @@ JVector::JVector
 
 	JVectorX(dimCount);
 
-	for (JIndex i=0; i<itsDimCount; i++)
+	for (JUnsignedOffset i=0; i<itsDimCount; i++)
 		{
 		itsElements[i] = values[i];
 		}
@@ -216,7 +216,7 @@ JVector::operator-()
 {
 	JVector resultVector(itsDimCount);
 
-	for (JIndex i=0; i<itsDimCount; i++)
+	for (JUnsignedOffset i=0; i<itsDimCount; i++)
 		{
 		resultVector.itsElements[i] = - itsElements[i];
 		}
@@ -237,7 +237,7 @@ JVector::operator+=
 {
 	assert( JDimensionsEqual(*this, v) );
 
-	for (JIndex i=0; i<itsDimCount; i++)
+	for (JUnsignedOffset i=0; i<itsDimCount; i++)
 		{
 		itsElements[i] += v.itsElements[i];
 		}
@@ -260,7 +260,7 @@ JVector::operator-=
 {
 	assert( JDimensionsEqual(*this, v) );
 
-	for (JIndex i=0; i<itsDimCount; i++)
+	for (JUnsignedOffset i=0; i<itsDimCount; i++)
 		{
 		itsElements[i] -= v.itsElements[i];
 		}
@@ -281,7 +281,7 @@ JVector::operator*=
 	const JFloat s
 	)
 {
-	for (JIndex i=0; i<itsDimCount; i++)
+	for (JUnsignedOffset i=0; i<itsDimCount; i++)
 		{
 		itsElements[i] *= s;
 		}
@@ -304,7 +304,7 @@ JVector::operator/=
 {
 	assert( s != 0.0 );
 
-	for (JIndex i=0; i<itsDimCount; i++)
+	for (JUnsignedOffset i=0; i<itsDimCount; i++)
 		{
 		itsElements[i] /= s;
 		}
@@ -325,7 +325,7 @@ JVector::SetAllElements
 	const JFloat value
 	)
 {
-	for (JIndex i=0; i<itsDimCount; i++)
+	for (JUnsignedOffset i=0; i<itsDimCount; i++)
 		{
 		itsElements[i] = value;
 		}
@@ -384,7 +384,7 @@ JVector::GetMinElement
 	const
 {
 	JFloat min = 0.0;
-	for (JIndex i=0; i<itsDimCount; i++)
+	for (JUnsignedOffset i=0; i<itsDimCount; i++)
 		{
 		if (itsElements[i] < min || i == 0)
 			{
@@ -415,7 +415,7 @@ JVector::GetMaxElement
 	const
 {
 	JFloat max = 0.0;
-	for (JIndex i=0; i<itsDimCount; i++)
+	for (JUnsignedOffset i=0; i<itsDimCount; i++)
 		{
 		if (itsElements[i] > max || i == 0)
 			{
@@ -443,7 +443,7 @@ JVector::GetLength()
 {
 	JFloat normSq = 0.0;
 
-	for (JIndex i=0; i<itsDimCount; i++)
+	for (JUnsignedOffset i=0; i<itsDimCount; i++)
 		{
 		normSq += itsElements[i] * itsElements[i];
 		}
@@ -462,7 +462,7 @@ JVector::Transpose()
 {
 	JMatrix vt(1, itsDimCount);
 
-	for (JIndex i=0; i<itsDimCount; i++)
+	for (JUnsignedOffset i=0; i<itsDimCount; i++)
 		{
 		vt.SetElement(1,i+1, itsElements[i]);
 		}

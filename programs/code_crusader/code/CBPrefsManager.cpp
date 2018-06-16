@@ -2499,7 +2499,7 @@ CBPrefsManager::ReadColors()
 		assert( vers <= kCurrentTextColorVers );
 
 		JRGB color[ kColorCount ];
-		for (JIndex i=0; i<kColorCount; i++)
+		for (JUnsignedOffset i=0; i<kColorCount; i++)
 			{
 			if (vers == 0 && i == kRightMarginColorIndex-1)
 				{
@@ -2515,7 +2515,7 @@ CBPrefsManager::ReadColors()
 		}
 	else
 		{
-		for (JIndex i=0; i<kColorCount; i++)
+		for (JUnsignedOffset i=0; i<kColorCount; i++)
 			{
 			ok[i] = kJFalse;
 			}
@@ -2534,7 +2534,7 @@ CBPrefsManager::ReadColors()
 		};
 	assert( sizeof(defaultColor)/sizeof(JColorID) == kColorCount );
 
-	for (JIndex i=0; i<kColorCount; i++)
+	for (JUnsignedOffset i=0; i<kColorCount; i++)
 		{
 		if (!ok[i])
 			{
@@ -2551,7 +2551,7 @@ CBPrefsManager::WriteColors()
 	std::ostringstream data;
 	data << kCurrentTextColorVers;
 
-	for (JIndex i=0; i<kColorCount; i++)
+	for (JUnsignedOffset i=0; i<kColorCount; i++)
 		{
 		data << ' ' << colormap->GetRGB(itsColor[i]);
 		}

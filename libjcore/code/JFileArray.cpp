@@ -1427,7 +1427,7 @@ JFileArray::ReadUnsignedLong
 	assert( sizeof(unsigned long) >= kUnsignedLongLength );
 
 	unsigned long result = 0;
-	for (JIndex i=0; i<kUnsignedLongLength; i++)
+	for (JUnsignedOffset i=0; i<kUnsignedLongLength; i++)
 		{
 		char c;
 		input.read(&c,1);
@@ -1454,7 +1454,7 @@ JFileArray::WriteUnsignedLong
 {
 	assert( sizeof(unsigned long) >= kUnsignedLongLength );
 
-	for (JIndex i=0; i<kUnsignedLongLength; i++)
+	for (JUnsignedOffset i=0; i<kUnsignedLongLength; i++)
 		{
 		const char c = (char) ((value >> (8*i)) & 0x000000FF);
 		output.write(&c,1);

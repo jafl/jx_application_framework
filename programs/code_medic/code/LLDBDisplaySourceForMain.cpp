@@ -102,7 +102,7 @@ LLDBDisplaySourceForMain::HandleSuccess
 
 				const lldb::addr_t target = ctx.GetSymbol().GetStartAddress().GetFileAddress();
 				const JSize count         = unit.GetNumLineEntries();
-				for (JIndex i=0; i<count; i++)
+				for (JUnsignedOffset i=0; i<count; i++)
 					{
 					lldb::SBLineEntry e = unit.GetLineEntryAtIndex(i);
 					if (e.GetStartAddress().GetFileAddress() == target)

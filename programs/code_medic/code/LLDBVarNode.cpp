@@ -160,7 +160,7 @@ LLDBVarNode::BuildTree
 	if (v.MightHaveChildren())
 		{
 		const JSize count = v.GetNumChildren();
-		for (JIndex i=0; i<count; i++)
+		for (JUnsignedOffset i=0; i<count; i++)
 			{
 			lldb::SBValue child = v.GetChildAtIndex(i, lldb::eDynamicDontRunTarget, true);
 			if (child.IsValid())

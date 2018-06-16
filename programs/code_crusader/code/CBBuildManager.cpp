@@ -1645,7 +1645,7 @@ CBBuildManager::GetMakefileNames
 	)
 {
 	JString name;
-	for (JIndex i=0; i<kMakefileNameCount; i++)
+	for (JUnsignedOffset i=0; i<kMakefileNameCount; i++)
 		{
 		name = JCombinePathAndName(path, kMakefileName[i]);
 		list->Append(name);

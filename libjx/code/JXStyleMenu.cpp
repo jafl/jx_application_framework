@@ -424,7 +424,7 @@ JXStyleMenu::ColorToIndex
 	)
 	const
 {
-	for (JIndex i=0; i<kColorCount-1; i++)
+	for (JUnsignedOffset i=0; i<kColorCount-1; i++)
 		{
 		if (itsColorList[i] == color)
 			{

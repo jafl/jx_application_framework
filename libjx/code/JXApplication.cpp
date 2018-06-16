@@ -723,7 +723,7 @@ JXApplication::GetNextWindowEvent
 	const Window currWindow = (event->xany).window;
 
 	Window* eventWindow = reinterpret_cast<Window*>(arg);
-	for (JIndex i=0; i<kEventWindowCount; i++)
+	for (JUnsignedOffset i=0; i<kEventWindowCount; i++)
 		{
 		if (currWindow == eventWindow[i])
 			{

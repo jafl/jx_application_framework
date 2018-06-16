@@ -114,7 +114,7 @@ JXButtonStates::SetState
 	const unsigned int state
 	)
 {
-	for (JIndex i=0; i<kXButtonCount; i++)
+	for (JUnsignedOffset i=0; i<kXButtonCount; i++)
 		{
 		itsState[i] = JConvertToBoolean( (state & (1L << (i+8))) != 0 );
 		}

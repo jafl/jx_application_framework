@@ -162,7 +162,7 @@ JXKeyModifiers::SetState
 void
 JXKeyModifiers::Clear()
 {
-	for (JIndex i=0; i<=kXModifierCount; i++)
+	for (JUnsignedOffset i=0; i<=kXModifierCount; i++)
 		{
 		itsState[i] = kJFalse;
 		}

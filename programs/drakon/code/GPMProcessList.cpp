@@ -179,7 +179,7 @@ GPMProcessList::Update()
 			kinfo_proc* list = (kinfo_proc*) buf;
 
 			const JSize count = len / sizeof(kinfo_proc);
-			for (JIndex i=0; i<count; i++)
+			for (JUnsignedOffset i=0; i<count; i++)
 				{
 				GPMProcessEntry* pentry = jnew GPMProcessEntry(itsTree, list[i]);
 				assert( pentry != nullptr );

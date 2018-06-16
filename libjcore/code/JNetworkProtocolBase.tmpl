@@ -138,7 +138,7 @@ JNetworkProtocolBase<ACE_PEER_STREAM_2>::Send
 		}
 	else
 		{
-		for (JIndex i=0; i<count; i++)
+		for (JUnsignedOffset i=0; i<count; i++)
 			{
 			Send((char*) data[i].iov_base, data[i].iov_len);
 			}

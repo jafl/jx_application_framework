@@ -83,7 +83,7 @@ LLDBGetStack::HandleSuccess
 	const JSize frameCount = t.GetNumFrames();
 	JString frameName, fileName;
 	JBoolean selectNextFrame = kJFalse;
-	for (JIndex i=0; i<frameCount; i++)
+	for (JUnsignedOffset i=0; i<frameCount; i++)
 		{
 		lldb::SBFrame f = t.GetFrameAtIndex(i);
 
@@ -134,7 +134,7 @@ LLDBGetStack::HandleSuccess
 			continue;
 			}
 
-		for (JIndex i=0; i<args.GetSize(); i++)
+		for (JUnsignedOffset i=0; i<args.GetSize(); i++)
 			{
 			lldb::SBValue v = args.GetValueAtIndex(i);
 

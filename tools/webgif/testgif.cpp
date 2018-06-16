@@ -78,7 +78,7 @@ CreateGIF
 
 		gdImageLine(image, x,0, x,kImageHeight-1, colorIndex);
 
-		for (JIndex i=0; i<3; i++)
+		for (JUnsignedOffset i=0; i<3; i++)
 			{
 			if (incr[i])
 				{

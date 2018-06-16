@@ -305,7 +305,7 @@ JHashTable<V>::IsOK() const
 
 	// Someday could use JMemoryManager services to test that itsMaxIndex is correct.
 
-	for (JIndex i=0;i<=itsMaxIndex;i++)
+	for (JUnsignedOffset i=0;i<=itsMaxIndex;i++)
 		{
 		const JHashRecord<V>& thisRecord = itsArray[i];
 		if ( !thisRecord.IsEmpty() )
@@ -884,7 +884,7 @@ template <class V>
 void
 JHashTable<V>::_MarkAllEmpty()
 {
-	for (JIndex i=0;i<=itsMaxIndex;i++)
+	for (JUnsignedOffset i=0;i<=itsMaxIndex;i++)
 		{
 		itsArray[i].MarkEmpty();
 		}

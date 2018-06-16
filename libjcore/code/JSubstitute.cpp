@@ -45,7 +45,7 @@ JSubstitute::JSubstitute()
 
 	AllocateInternals();
 
-	for (JIndex i=0; i<kEscapeCount; i++)
+	for (JUnsignedOffset i=0; i<kEscapeCount; i++)
 		{
 		itsEscapeTable[i] = nullptr;
 		}

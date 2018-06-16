@@ -3498,7 +3498,7 @@ JXWindow::HandleKeyPress
 
 		if (charCount > 0)
 			{
-			for (JIndex i=0; i<charCount; i++)
+			for (JUnsignedOffset i=0; i<charCount; i++)
 				{
 				itsFocusWidget->HandleKeyPress((unsigned char) buffer[i], modifiers);
 				if (charCount > 1 && i < charCount-1 &&

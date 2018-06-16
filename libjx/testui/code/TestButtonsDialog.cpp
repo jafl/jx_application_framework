@@ -264,7 +264,7 @@ TestButtonsDialog::BuildWindow()
 		"ImageRB4Hint::TestButtonsDialog"
 	};
 
-	for (JIndex i=0; i<kSmileyBitmapCount; i++)
+	for (JUnsignedOffset i=0; i<kSmileyBitmapCount; i++)
 		{
 		brb[i]->SetBitmap(kSmileyBitmap[i], kRadioButtonColor[i]);
 		brb[i]->SetHint(JGetString(kRadioButtonHintID[i]));

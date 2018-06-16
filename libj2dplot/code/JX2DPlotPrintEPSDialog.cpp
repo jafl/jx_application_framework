@@ -108,7 +108,7 @@ JX2DPlotPrintEPSDialog::JX2DPlotPrintEPSDialog()
 		{
 		assert( kPredefSizeCount == 4 );
 
-		for (JIndex i=0; i<kPaperTypeCount; i++)
+		for (JUnsignedOffset i=0; i<kPaperTypeCount; i++)
 			{
 			const JCoordinate w = JPSPrinter::GetPaperWidth(kPaperType[i]);
 			const JCoordinate h = JPSPrinter::GetPaperHeight(kPaperType[i]);

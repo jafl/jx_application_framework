@@ -340,7 +340,7 @@ SyGFileTreeTable::SyGFileTreeTable
 	itsIconWidget				= nullptr;
 	itsWindowIconType			= 0;
 
-	for (JIndex i=0; i<5; i++)
+	for (JUnsignedOffset i=0; i<5; i++)
 		{
 		itsVisibleCols[i] = kJFalse;
 		}
@@ -3202,7 +3202,7 @@ SyGFileTreeTable::FormatDisk()
 		assert( itsChooseDiskFormatDialog == nullptr );
 
 		JPtrArray<JString> choiceList(JPtrArrayT::kDeleteAll);
-		for (JIndex i=0; i<kFormatCount; i++)
+		for (JUnsignedOffset i=0; i<kFormatCount; i++)
 			{
 			choiceList.Append(kFormatName[i]);
 			}

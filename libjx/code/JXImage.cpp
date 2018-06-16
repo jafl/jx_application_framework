@@ -1102,7 +1102,7 @@ JXImage::SetImageData
 	unsigned long* xColorTable = jnew unsigned long [ colorCount ];
 	assert( xColorTable != nullptr );
 
-	for (JIndex i=0; i<colorCount; i++)
+	for (JUnsignedOffset i=0; i<colorCount; i++)
 		{
 		if (!hasMask || i != maskColor)
 			{

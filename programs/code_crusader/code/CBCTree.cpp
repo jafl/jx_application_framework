@@ -484,7 +484,7 @@ CBCTree::ParseInheritance
 		// get type of inheritance (public, protected, private)
 
 		CBClass::InheritType inheritType = CBClass::kInheritPrivate;
-		for (JIndex i=0; i<kInheritAccessCount; i++)
+		for (JUnsignedOffset i=0; i<kInheritAccessCount; i++)
 			{
 			if (inheritance->BeginsWith(kInheritAccess[i].str))
 				{
@@ -696,7 +696,7 @@ CBCTree::ParseFnAccessLevel
 	CBClass::FnAccessLevel newLevel = currLevel;
 
 	JIndex maxKWIndex = 0;
-	for (JIndex i=0; i<kFnAccessCount; i++)
+	for (JUnsignedOffset i=0; i<kFnAccessCount; i++)
 		{
 		JIndex kwIndex = endIndex;
 		if (buffer.LocatePrevSubstring(kFnAccess[i].str, &kwIndex) &&

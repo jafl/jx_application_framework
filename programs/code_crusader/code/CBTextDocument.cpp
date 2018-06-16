@@ -319,7 +319,7 @@ CBTextDocument::CBTextDocumentX1
 
 	itsTabWidthDialog = nullptr;
 
-	for (JIndex i=0; i<kSettingCount; i++)
+	for (JUnsignedOffset i=0; i<kSettingCount; i++)
 		{
 		itsOverrideFlag[i] = kJFalse;
 		}

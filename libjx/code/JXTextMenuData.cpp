@@ -906,7 +906,7 @@ JXTextMenuData::ParseNMShortcut
 		{
 		JStringIterator iter(str);
 
-		for (JIndex i=0; i<kOSXModifierCount; i++)
+		for (JUnsignedOffset i=0; i<kOSXModifierCount; i++)
 			{
 			iter.MoveTo(kJIteratorStartAtBeginning, 0);
 			while (iter.Next(kNMModConv[i].str))
@@ -1006,7 +1006,7 @@ JXTextMenuData::AdjustNMShortcutString
 	JBoolean found     = kJFalse;
 	JIndex newKeyIndex = 0;
 
-	for (JIndex i=0; i<kNMModConvCount; i++)
+	for (JUnsignedOffset i=0; i<kNMModConvCount; i++)
 		{
 		if (newKey == kNMModConv[i].key)
 			{

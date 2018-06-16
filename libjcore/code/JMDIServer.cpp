@@ -210,7 +210,7 @@ JMDIServer::HandleCmdLineOptions
 	const JString dir = JGetCurrentDirectory();
 
 	JPtrArray<JString> argList(JPtrArrayT::kDeleteAll);
-	for (JIndex i=0; i < (JIndex) argc; i++)
+	for (JUnsignedOffset i=0; i < (JIndex) argc; i++)
 		{
 		argList.Append(JString(argv[i], kJFalse));
 		}

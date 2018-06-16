@@ -292,7 +292,7 @@ CBSearchTE::IsKnownBinaryFile
 		return kJTrue;
 		}
 
-	for (JIndex i=0; i<kSuffixCount; i++)
+	for (JUnsignedOffset i=0; i<kSuffixCount; i++)
 		{
 		if (fileName.EndsWith(kSuffix[i]))
 			{
