@@ -174,7 +174,7 @@ CBJavaTree::ParseFile
 		newClass->AddParent(CBClass::kInheritPublic, "java.lang.Object");
 		}
 */
-	// extract functions via ctags - TODO: don't attach everything to root class
+	// extract functions via ctags
 
 	JString data;
 	CBLanguage lang;

@@ -1,6 +1,9 @@
 validate contents of TextChanged messages
+	broadcast char/byte delta with TextChanged, to allow adjusting selection/caret
 
 call FilterText after set font or font name or SetAllFontAndName
+
+fix jStreamUtil TODO's
 
 
 finish JTextEditor tests
@@ -10,7 +13,6 @@ finish JTextEditor tests
 	2 TE's for 1 ST
 
 JStyledTextBuffer
-	broadcast char/byte delta with TextChanged, to allow adjusting selection/caret
 	need smarter update during indent/outdent, to maintain caret location
 	AutoIndent
 	CleanRightMargin
@@ -24,11 +26,9 @@ JTextEditor:
 	dropOnSelf crashed
 	"Replace All" did nothing when something was selected
 
+
 JXFontManager
 	some characters extend above line height
-
-TestTabDirector
-	created tabs:  horiz button padding is zero
 
 XIM to type utf-8 characters
 
@@ -39,8 +39,6 @@ put back
 implement flex/bison parser for libjexpr
 
 -----
-
-fix TODO's
 
 test
 	man pages
@@ -90,10 +88,6 @@ unit tests
 	JStringManager
 	JTEHTMLScanner
 	JTEKeyHandler
-	JTEUndoBase
-	JTEUndoStyle
-	JTEUndoTabShift
-	JTEUndoTextBase
 	JVIKeyHandler
 	JVersionSocket
 	JWebBrowser

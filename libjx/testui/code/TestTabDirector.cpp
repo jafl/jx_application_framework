@@ -178,6 +178,8 @@ TestTabDirector::Receive
 							 20,20, 200, 30);
 		assert( removeButton != nullptr );
 		ListenTo(removeButton);
+
+		card->ExpandToFitContent();
 		}
 	else if (message.Is(JXButton::kPushed))
 		{
