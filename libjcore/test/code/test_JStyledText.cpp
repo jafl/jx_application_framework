@@ -485,7 +485,23 @@ JTEST(ReplaceMatch)
 	text.SetText(JString("Foursc" "\xC3\xB8" "re and seven years ago...", kJFalse));
 
 	JBroadcastTester bcastTest(&text);
-	bcastTest.Expect(JStyledText::kTextChanged);
+	bcastTest.Expect(JStyledText::kTextChanged,
+		[] (const JBroadcaster::Message& m)
+		{
+			const JStyledText::TextChanged* tc =
+				dynamic_cast<const JStyledText::TextChanged*>(&m);
+			JAssertNotNull(tc);
+			JAssertEqual(5, tc->GetRange().charRange.first);
+			JAssertEqual(9, tc->GetRange().charRange.last);
+			JAssertEqual(5, tc->GetRange().byteRange.first);
+			JAssertEqual(10, tc->GetRange().byteRange.last);
+			JAssertEqual(0, tc->GetRedrawRange().charRange.first);
+			JAssertEqual(0, tc->GetRedrawRange().charRange.last);
+			JAssertEqual(0, tc->GetRedrawRange().byteRange.first);
+			JAssertEqual(0, tc->GetRedrawRange().byteRange.last);
+			JAssertEqual(0, tc->GetCharDelta());
+			JAssertEqual(0, tc->GetByteDelta());
+		});
 
 	const TextIndex first(1,1);
 
@@ -533,7 +549,23 @@ JTEST(ReplaceAllInRange)
 	JAssertTrue(text.HasSingleUndo());
 	JAssertFalse(text.HasMultipleUndo(&canUndo, &canRedo));
 
-	bcastTest.Expect(JStyledText::kTextChanged);
+	bcastTest.Expect(JStyledText::kTextChanged,
+		[] (const JBroadcaster::Message& m)
+		{
+			const JStyledText::TextChanged* tc =
+				dynamic_cast<const JStyledText::TextChanged*>(&m);
+			JAssertNotNull(tc);
+			JAssertEqual(11, tc->GetRange().charRange.first);
+			JAssertEqual(21, tc->GetRange().charRange.last);
+			JAssertEqual(12, tc->GetRange().byteRange.first);
+			JAssertEqual(24, tc->GetRange().byteRange.last);
+			JAssertEqual(0, tc->GetRedrawRange().charRange.first);
+			JAssertEqual(0, tc->GetRedrawRange().charRange.last);
+			JAssertEqual(0, tc->GetRedrawRange().byteRange.first);
+			JAssertEqual(0, tc->GetRedrawRange().byteRange.last);
+			JAssertEqual(0, tc->GetCharDelta());
+			JAssertEqual(2, tc->GetByteDelta());
+		});
 
 	text.ReplaceAllInRange(TextRange(
 		JCharacterRange(11, 21),

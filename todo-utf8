@@ -3,7 +3,7 @@ validate contents of TextChanged messages
 
 call FilterText after set font or font name or SetAllFontAndName
 
-fix jStreamUtil TODO's
+fix jStreamUtil.cpp TODO's
 
 
 finish JTextEditor tests

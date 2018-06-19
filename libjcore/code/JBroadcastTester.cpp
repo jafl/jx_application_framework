@@ -34,7 +34,7 @@ JBroadcastTester::JBroadcastTester
 
 JBroadcastTester::~JBroadcastTester()
 {
-	JAssertEqualWithMessage(0, itsExpectedMessageTypes.GetElementCount(),
+	JAssertEqualWithMessage(0, itsExpectedMessages.GetElementCount(),
 							"expected more JBroadcaster messages");
 }
 
@@ -46,10 +46,14 @@ JBroadcastTester::~JBroadcastTester()
 void
 JBroadcastTester::Expect
 	(
-	const JUtf8Byte* type
+	const JUtf8Byte*					type,
+	std::function<void(const Message&)>	validator
 	)
 {
-	itsExpectedMessageTypes.Append(type);
+	Validation v;
+	v.type      = type;
+	v.validator = validator;
+	itsExpectedMessages.Append(v);
 }
 
 /******************************************************************************
@@ -66,12 +70,18 @@ JBroadcastTester::Receive
 	const Message&	message
 	)
 {
-	const JBoolean empty = itsExpectedMessageTypes.IsEmpty();
+	const JBoolean empty = itsExpectedMessages.IsEmpty();
 	JAssertFalseWithMessage(empty, message.GetType());
 
 	if (!empty)
 		{
-		JAssertStringsEqual(itsExpectedMessageTypes.GetNext(), message.GetType());
+		const Validation v = itsExpectedMessages.GetNext();
+		JAssertStringsEqual(v.type, message.GetType());
+
+		if (v.validator != nullptr)
+			{
+			v.validator(message);
+			}
 		}
 }
 
@@ -98,5 +108,5 @@ JBroadcastTester::ReceiveGoingAway
 	)
 {
 	JAssertTrue(itsExpectGoingAwayFlag);
-	JAssertTrue(itsExpectedMessageTypes.IsEmpty());
+	JAssertTrue(itsExpectedMessages.IsEmpty());
 }

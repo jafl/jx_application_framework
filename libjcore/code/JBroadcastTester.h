@@ -13,6 +13,7 @@
 #include "JBroadcaster.h"
 #include "JQueue.h"
 #include "JArray.h"
+#include <functional>
 
 class JBroadcastTester : virtual public JBroadcaster
 {
@@ -22,7 +23,7 @@ public:
 
 	virtual ~JBroadcastTester();
 
-	void	Expect(const JUtf8Byte* type);
+	void	Expect(const JUtf8Byte* type, std::function<void(const Message&)> validator = nullptr);
 	void	ExpectGoingAway();
 
 protected:
@@ -30,10 +31,18 @@ protected:
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 	virtual void	ReceiveGoingAway(JBroadcaster* sender) override;
 
+public:
+
+	struct Validation
+	{
+		const JUtf8Byte*					type;
+		std::function<void(const Message&)>	validator;
+	};
+
 private:
 
-	JQueue<const JUtf8Byte*, JArray<const JUtf8Byte*> >	itsExpectedMessageTypes;
-	JBoolean											itsExpectGoingAwayFlag;
+	JQueue<Validation, JArray<Validation> >	itsExpectedMessages;
+	JBoolean								itsExpectGoingAwayFlag;
 };
 
 #endif
