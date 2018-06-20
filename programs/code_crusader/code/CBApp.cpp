@@ -25,11 +25,15 @@
 #include <jXActionDefs.h>
 #include <JLatentPG.h>
 #include <jFileUtil.h>
-#include <jDirUtil.h>
+#include <jStreamUtil.h>
 #include <jAssert.h>
 
 #ifdef _J_UNIX
-static const JCharacter* kSysIncludeDir = "/usr/include/";
+static const JCharacter* kSysIncludeDir[] =
+{
+	"/usr/include/",
+	"/usr/local/include/"
+};
 #endif
 
 // Application signature (MDI, prefs)
@@ -80,6 +84,9 @@ CBApp::CBApp
 {
 	itsWarnBeforeQuitFlag = kJFalse;
 
+	itsSystemIncludeDirs = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
+	assert( itsSystemIncludeDirs != NULL );
+
 	*displayAbout = CBCreateGlobals(this, useMDI);
 	SetPrefInfo(CBGetPrefsManager(), kCBAppID);
 	JPrefObject::ReadPrefs();
@@ -101,6 +108,8 @@ CBApp::CBApp
 		prevVersStr->Clear();
 		}
 
+	GetSystemIncludeDirectories();
+
 	// Write shared prefs, if they don't exist.
 	// (must be done after everything created)
 
@@ -114,6 +123,8 @@ CBApp::CBApp
 
 CBApp::~CBApp()
 {
+	jdelete itsSystemIncludeDirs;
+
 	JPrefObject::WritePrefs();
 	CBDeleteGlobals();
 }
@@ -342,7 +353,8 @@ CBApp::FindFile
 		{
 		CBDirInfoList searchPaths;
 		CollectSearchPaths(&searchPaths);
-		const JSize dirCount = searchPaths.GetElementCount();
+		const JSize dirCount = searchPaths.GetElementCount(),
+					sysCount = itsSystemIncludeDirs->GetElementCount();
 
 		JBoolean found = kJFalse;
 
@@ -350,13 +362,12 @@ CBApp::FindFile
 		JString msg = "Searching for \"";
 		msg += fileName;
 		msg += "\"...";
-		pg.FixedLengthProcessBeginning(dirCount+1, msg, kJTrue, kJFalse);
+		pg.FixedLengthProcessBeginning(dirCount+sysCount, msg, kJTrue, kJFalse);
 
 		JString path, newName;
 		for (JIndex i=1; i<=dirCount; i++)
 			{
 			const CBDirInfo info = searchPaths.GetElement(i);
-			JBoolean cancelled1;
 			if (!info.recurse)
 				{
 				*fullName = JCombinePathAndName(*(info.path), fileName);
@@ -367,15 +378,14 @@ CBApp::FindFile
 					}
 				}
 			else if (JSearchSubdirs(*(info.path), fileName, kJTrue, caseSensitive,
-									&path, &newName, NULL, &cancelled1))
+									&path, &newName, NULL, &cancelled))
 				{
 				*fullName = JCombinePathAndName(path, newName);
 				found     = kJTrue;
 				break;
 				}
-			else if (cancelled1)
+			else if (cancelled)
 				{
-				cancelled = kJTrue;
 				break;
 				}
 
@@ -388,17 +398,29 @@ CBApp::FindFile
 
 		if (!found && !cancelled)
 			{
-			// We have to search /usr/include last because this is always the
-			// last thing on the compiler search path.
+			// We have to search system paths last because these are always
+			// last on the compiler search path.
 
-			if (JSearchSubdirs(kSysIncludeDir, fileName, kJTrue, caseSensitive,
-							   &path, &newName, NULL, &cancelled))
+			for (JIndex i=1; i<=sysCount; i++)
 				{
-				*fullName = JCombinePathAndName(path, newName);
-				found     = kJTrue;
-				}
+				if (JSearchSubdirs(*itsSystemIncludeDirs->GetElement(i), fileName, kJTrue, caseSensitive,
+								   &path, &newName, NULL, &cancelled))
+					{
+					*fullName = JCombinePathAndName(path, newName);
+					found     = kJTrue;
+					break;
+					}
+				else if (cancelled)
+					{
+					break;
+					}
 
-			pg.IncrementProgress();
+				if (!pg.IncrementProgress())
+					{
+					cancelled = kJTrue;
+					break;
+					}
+				}
 			}
 
 		pg.ProcessFinished();
@@ -419,6 +441,50 @@ CBApp::FindFile
 
 	fullName->Clear();
 	return kJFalse;
+}
+
+/******************************************************************************
+ GetSystemIncludeDirectories (private)
+
+ ******************************************************************************/
+
+void
+CBApp::GetSystemIncludeDirectories()
+{
+	int pid, fd, inFD;
+	const JError err = JExecute("gcc -Wp,-v -x c++ -fsyntax-only -", &pid,
+								kJCreatePipe, &inFD,
+								kJCreatePipe, &fd,
+								kJAttachToFromFD);
+	if (!err.OK())
+		{
+		for (const JCharacter* s : kSysIncludeDir)
+			{
+			itsSystemIncludeDirs->Append(s);
+			}
+		return;
+		}
+
+	close(inFD);
+
+	JString s;
+	while (1)
+		{
+		s = JReadUntil(fd, '\n');
+		if (s.IsEmpty())
+			{
+			break;
+			}
+
+		if (s.GetFirstCharacter() == ' ')
+			{
+			s.RemoveSubstring(1,1);
+			if (!s.Contains(" "))
+				{
+				itsSystemIncludeDirs->Append(s);
+				}
+			}
+		}
 }
 
 /******************************************************************************

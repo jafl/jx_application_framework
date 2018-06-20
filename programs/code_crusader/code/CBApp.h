@@ -63,10 +63,12 @@ protected:
 
 private:
 
-	JBoolean	itsWarnBeforeQuitFlag;
+	JBoolean			itsWarnBeforeQuitFlag;
+	JPtrArray<JString>*	itsSystemIncludeDirs;
 
 private:
 
+	void	GetSystemIncludeDirectories();
 	void	CollectSearchPaths(CBDirInfoList* searchPaths) const;
 
 	// not allowed
