@@ -187,7 +187,7 @@ JLinkedList<T>::CreateElement
 {
 	assert(index > 0);
 
-	const JSize elementCount = JCollection::GetElementCount();
+	const JSize elementCount = this->GetElementCount();
 
 	*trueIndex = index;
 	if (*trueIndex > elementCount)
@@ -584,7 +584,7 @@ JLinkedList<T>::UnlinkNextElements
 
 	JLinkedListElement<T>* result = nullptr;
 
-	const JSize elementCount = JCollection::GetElementCount();
+	const JSize elementCount = this->GetElementCount();
 
 	if (elementCount == count)
 		{
@@ -677,7 +677,7 @@ JLinkedList<T>::FindElement
 {
 	assert( JCollection::IndexValid(index) );
 
-	const JSize elementCount = JCollection::GetElementCount();
+	const JSize elementCount = this->GetElementCount();
 	if (index < elementCount/2)
 		{
 		JLinkedListElement<T>* listElement = itsFirstElement;

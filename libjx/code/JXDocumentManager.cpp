@@ -59,7 +59,7 @@
 #include "jXGlobals.h"
 #include <JStringIterator.h>
 #include <jFileUtil.h>
-#include <jDirUtil.h>
+#include <algorithm>
 #include <jAssert.h>
 
 #include <jx_plain_file_small.xpm>

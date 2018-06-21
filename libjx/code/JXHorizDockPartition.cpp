@@ -18,6 +18,7 @@
 #include "JXTextMenu.h"
 #include "JXDockTabGroup.h"
 #include <jGlobals.h>
+#include <algorithm>
 #include <jAssert.h>
 
 // Docking menu

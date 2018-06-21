@@ -221,7 +221,7 @@ JXTextSelection::SetData
 
 	SetTextEditor(nullptr, JCharacterRange());
 
-	*itsText = list.Join("\n");
+	*itsText = JStringJoin("\n", list);
 	if (list.GetElementCount() > 1)
 		{
 		itsText->Append("\n");

@@ -35,7 +35,7 @@ JXGetInvisibleCursor
 }
 
 #pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wc++11-narrowing"
+#pragma GCC diagnostic ignored "-Wnarrowing"
 
 /******************************************************************************
  Hand cursor

@@ -213,13 +213,6 @@ JTEST(Exercise)
 		hashList[i] = gRand.UniformInt32();
 		}
 
-	// Generate key list
-	const JUtf8Byte* keyList[kElementNum];
-	for (i=0;i<kElementNum;i++)
-		{
-		keyList[i] = "Lazy key";
-		}
-
 	// Generate value list
 	JStrValue<int> valueList[kElementNum];
 	for (i=0;i<kElementNum;i++)

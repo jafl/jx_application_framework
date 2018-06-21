@@ -27,8 +27,10 @@ public:
 
 private:
 
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wunused-private-field"
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused-private-field"
+#endif
 
 	JString					itsName;
 	void*					itsXDisplay;
@@ -47,7 +49,9 @@ private:
 	JXKeyModifiers		itsLatestKeyModifiers;
 	XModifierKeymap*	itsModifierKeymap;
 
-#pragma GCC diagnostic pop
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 
 	int					itsJXKeyModifierMapping [ 1+kJXKeyModifierMapCount ];
 };

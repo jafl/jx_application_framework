@@ -2,13 +2,13 @@
 
 @test_jXUtil
 ${CODEDIR}/test_jXUtil
-literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
 literal: ${JLIBDIR}/libjx-${JX_LIB_VERSION}.a
+literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
 
 @test_jXEventUtil
 ${CODEDIR}/test_jXEventUtil
-literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
 literal: ${JLIBDIR}/libjx-${JX_LIB_VERSION}.a
+literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
 
 @test_JXTextMenuData
 ${CODEDIR}/test_JXTextMenuData

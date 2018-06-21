@@ -15,7 +15,6 @@
 #include "jFStreamUtil.h"
 #include "jXMLUtil.h"
 #include <libxml/parser.h>
-#include <strstream>
 #include "jGlobals.h"
 #include "jAssert.h"
 
@@ -157,28 +156,17 @@ JIsManagedByVCS
 	JBoolean isManaged = kJFalse;
 	if (type == kJSVNType)
 		{
-		JString path, name, entriesFileName, data, pattern;
+		JString path, name, entriesFileName;
 		JSplitPathAndName(fullName, &path, &name);
 		entriesFileName = JCombinePathAndName(path, kSubversionDirName);
 		entriesFileName = JCombinePathAndName(entriesFileName, kSubversionFileName);
-		JReadFile(entriesFileName, &data);
 
-		if (data.BeginsWith("<?xml"))
+		ifstream input(entriesFileName.GetBytes());
+		const JString version = JReadLine(input);
+		if (version == "8" || version == "9" || version == "10")
 			{
-			pattern = "<entry[^>]+name=\"" + JRegex::BackslashForLiteral(name) + "\"(.|\n)*?>";
-			const JRegex r(pattern);
-			isManaged = r.Match(data);
-			}
-		else
-			{
-			std::istrstream input(data.GetBytes(), data.GetByteCount());
-
-			const JString version = JReadLine(input);
-			if (version == "8" || version == "9" || version == "10")
-				{
-				pattern = "\n\f\n" + name + "\n";
-				JIgnoreUntil(input, pattern.GetBytes(), &isManaged);
-				}
+			const JString pattern = "\n\f\n" + name + "\n";
+			JIgnoreUntil(input, pattern.GetBytes(), &isManaged);
 			}
 		}
 	else if (type == kJGitType)

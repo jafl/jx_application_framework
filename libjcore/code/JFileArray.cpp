@@ -256,7 +256,7 @@ JFileArray::OKToCreateBase
 					}
 				}
 
-			if (kDeleteIfWaitTimeout)
+			if (action == kDeleteIfWaitTimeout)
 				{
 				return JRemoveFile(fileName);
 				}

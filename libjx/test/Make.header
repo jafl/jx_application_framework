@@ -29,6 +29,7 @@ DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} \
 
 # make variables
 
+CPPFLAGS  += -Wno-sign-compare
 LOADLIBES := ${J_IMG_LIBS} ${J_ACE_LIBS} ${J_X11_LIBS} ${J_GCC_LIBS}
 LDFLAGS   := 
 

@@ -247,3 +247,45 @@ JCompareStringsCaseInsensitive
 		return JListT::kFirstEqualSecond;
 		}
 }
+
+/******************************************************************************
+ Join
+
+	It would be nice if this were a member function of JPtrArray, but it is
+	only for strings, and g++ 7 complains when T is an abstract base class.
+
+ ******************************************************************************/
+
+JString
+JStringJoin
+	(
+	const JString&				separator,
+	const JPtrArray<JString>&	list
+	)
+{
+	return JStringJoin(separator.GetBytes(), list);
+}
+
+JString
+JStringJoin
+	(
+	const JUtf8Byte*			separator,
+	const JPtrArray<JString>&	list
+	)
+{
+	JString s;
+
+	JBoolean first = kJTrue;
+	for (JString* s1 : list)
+		{
+		if (!first)
+			{
+			s += separator;
+			}
+
+		s    += *s1;
+		first = kJFalse;
+		}
+
+	return s;
+}

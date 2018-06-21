@@ -46,7 +46,7 @@ JXJToXRect
  ******************************************************************************/
 
 #pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wc++11-narrowing"
+#pragma GCC diagnostic ignored "-Wnarrowing"
 
 Region
 JXRectangleRegion
@@ -322,7 +322,7 @@ JXPackStrings
 	)
 {
 	const JString s(separator, sepLength, kJFalse);
-	return strList.Join(s);
+	return JStringJoin(s, strList);
 }
 
 void

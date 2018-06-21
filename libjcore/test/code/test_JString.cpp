@@ -224,7 +224,7 @@ JTEST(Allocation)
 	JAssertEqual((void*) p1, (void*) p2);
 	JAssertEqual(3, s->GetCharacterCount());
 
-	sranddev();
+	srand(time(NULL));
 	if (rand() < RAND_MAX/2)	// try to force processor to pre-execute 2 branches
 		{
 		JString* s1 = jnew JString(TestNameReturnValueOptimization());
@@ -918,8 +918,7 @@ JTEST(MemoryStreaming)
 	std::ostringstream out;
 	out << s1;
 
-	const std::string data = out.str();
-	std::istringstream in(data.c_str(), data.length());
+	std::istringstream in(out.str());
 
 	JString s2;
 	in >> s2;

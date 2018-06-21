@@ -13,6 +13,7 @@
 
 #include "JFileArrayIndex.h"
 #include "JFileArray.h"
+#include <algorithm>
 #include "jAssert.h"
 
 // size of data stored in index section of file

@@ -106,7 +106,7 @@ static const JUtf8Byte* kBeachballFrameName[] =
 };
 
 #pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wc++11-narrowing"
+#pragma GCC diagnostic ignored "-Wnarrowing"
 
 #include <jx_beachball_1_cursor.xbm>
 #include <jx_beachball_2_cursor.xbm>

@@ -3747,7 +3747,7 @@ J2DPlotWidget::PWReadCurveSetup
 	// curve info
 
 	JString name;
-	for (i=1; i<=curveCount; i++)
+	for (JIndex i=1; i<=curveCount; i++)
 		{
 		J2DCurveInfo info;
 		info.name = jnew JString;
@@ -3763,7 +3763,7 @@ J2DPlotWidget::PWReadCurveSetup
 	// restore color and symbol usage
 
 	JSize usage;
-	for (i=1; i<=colorCount; i++)
+	for (JIndex i=1; i<=colorCount; i++)
 		{
 		input >> usage;
 		if (setData)
@@ -3773,7 +3773,7 @@ J2DPlotWidget::PWReadCurveSetup
 		}
 	if (setData)
 		{
-		for (i=colorCount+1; i<=origColorCount; i++)
+		for (JIndex i=colorCount+1; i<=origColorCount; i++)
 			{
 			itsColorUsage->SetElement(i, 0);
 			}

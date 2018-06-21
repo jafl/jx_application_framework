@@ -55,7 +55,6 @@
 #include "jStreamUtil.h"
 #include "jGlobals.h"
 #include <fstream>
-#include <strstream>
 #include "jAssert.h"
 
 static const JString theDataDirName("string_data", kJFalse);

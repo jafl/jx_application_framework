@@ -715,7 +715,7 @@ JXInputField::GetFTCMinContentSize
 {
 	if (!horizontal)
 		{
-		const JSize lineHeight = GetLineHeight(1);
+		const JCoordinate lineHeight = GetLineHeight(1);
 		if (GetApertureHeight() < lineHeight)
 			{
 			return lineHeight;

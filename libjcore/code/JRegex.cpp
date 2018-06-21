@@ -642,7 +642,7 @@ JRegex::Match
 			list = jnew JArray<JUtf8ByteRange>;
 			assert( list != nullptr );
 
-			for (JIndex i=1; i<nmatch; i++)
+			for (JIndex i=1; i<JSize(nmatch); i++)
 				{
 				list->AppendElement(jMakeRange(pmatch[i]));
 				}

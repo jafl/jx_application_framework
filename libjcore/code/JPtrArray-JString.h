@@ -27,4 +27,7 @@ JCompareStringsCaseSensitive(JString* const &, JString* const &);
 JListT::CompareResult
 JCompareStringsCaseInsensitive(JString* const &, JString* const &);
 
+JString	JStringJoin(const JUtf8Byte* separator, const JPtrArray<JString>& list);
+JString	JStringJoin(const JString& separator, const JPtrArray<JString>& list);
+
 #endif

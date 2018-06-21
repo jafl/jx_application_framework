@@ -595,47 +595,6 @@ JPtrArray<T>::Find
 }
 
 /******************************************************************************
- Join
-
- ******************************************************************************/
-
-template <class T>
-T
-JPtrArray<T>::Join
-	(
-	const T& separator
-	)
-	const
-{
-	return Join(separator.GetBytes());
-}
-
-template <class T>
-T
-JPtrArray<T>::Join
-	(
-	const JUtf8Byte* separator
-	)
-	const
-{
-	T s;
-
-	JBoolean first = kJTrue;
-	for (T* s1 : *this)
-		{
-		if (!first)
-			{
-			s += separator;
-			}
-
-		s    += *s1;
-		first = kJFalse;
-		}
-
-	return s;
-}
-
-/******************************************************************************
  Clean up action
 
 	What to do when the destructor is called.  This is especially useful
