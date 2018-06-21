@@ -25,6 +25,8 @@ JTextEditor:
 		treats ending newline line as part of selection
 	dropOnSelf crashed
 	"Replace All" did nothing when something was selected
+	don't change insertion font when glyphs are rendered with different font
+		use isExact to tell which glyphs are substitutions?
 
 
 JXFontManager

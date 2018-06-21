@@ -321,7 +321,7 @@ JXPackStrings
 	const JSize					sepLength
 	)
 {
-	JString s(separator, sepLength, kJFalse);
+	const JString s(separator, sepLength, kJFalse);
 	return strList.Join(s);
 }
 
