@@ -87,7 +87,7 @@ CXXFLAGS  = ${J_MAKE_NEEDS_OUTPUT_ARG}
 
 # libraries to link
 
-J_GCC_LIBS  := -lpcre
+J_GCC_LIBS  := -lpcre -licu-i18n
 J_ACE_LIBS  := -L${JX_ROOT}/lib -lACE
 J_X11_LIBS  := -L${JX_ROOT}/lib ${J_X11_LIB_DIR} -lfontconfig -lXext -lXft -lXpm -lX11
 
