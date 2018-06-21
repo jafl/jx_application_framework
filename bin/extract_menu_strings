@@ -57,7 +57,7 @@ sub ParseMenuDef($$$$)
 				}
 			}
 		elsif (/%i/ &&
-			   !($input_file_name =~ m|/JXTextMenuData\.cc$| &&
+			   !($input_file_name =~ m|/JXTextMenuData\.cpp$| &&
 				 ($. == 328 || $. == 414)))
 			{
 			print STDERR $input_file_name.":$.\n$_\n\n";
