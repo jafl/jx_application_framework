@@ -235,14 +235,17 @@ JGetUserMountPointList
 		ACE_stat stbuf;
 		while (const fstab* info = getfsent())
 			{
-			if (JIsRootDirectory(info->fs_file) ||
+			if (JIsRootDirectory(JString(info->fs_file, kJFalse)) ||
 				strcmp(info->fs_type, FSTAB_SW) == 0)	// swap partition
 				{
 				continue;
 				}
 
-			const JMountType type =
-				JGetUserMountPointType(info->fs_file, info->fs_spec, info->fs_vfstype);
+			const JMountType type = JGetUserMountPointType(
+				JString(info->fs_file, kJFalse),
+				JString(info->fs_spec, kJFalse),
+				JString(info->fs_vfstype, kJFalse));
+
 			if (type == kJUnknownMountType ||
 				ACE_OS::stat(info->fs_file, &stbuf) != 0)
 				{
@@ -316,8 +319,11 @@ JGetUserMountPointList
 				continue;
 				}
 
-			const JMountType type =
-				JGetUserMountPointType(info.vfs_mountp, info.vfs_special, info.vfs_fstype);
+			const JMountType type = JGetUserMountPointType(
+				JString(info.vfs_mountp, kJFalse),
+				JString(info.vfs_special, kJFalse),
+				JString(info.vfs_fstype, kJFalse));
+
 			if (type == kJUnknownMountType ||
 				ACE_OS::stat(info.vfs_mountp, &stbuf) != 0)
 				{
@@ -468,19 +474,16 @@ JGetUserMountPointType
 	const JString& fsType
 	)
 {
-	if (strstr(fsType, "cd9660") != nullptr)
+	if (fsType.Contains("cd9660"))
 		{
 		return kJCDROM;
 		}
-	else if (strncmp("/dev/ad", device, 7) == 0)		// IDE
+	else if (device.BeginsWith("/dev/ad") ||	// IDE
+			 device.BeginsWith("/dev/da"))		// SCSI
 		{
 		return kJHardDisk;
 		}
-	else if (strncmp("/dev/da", device, 7) == 0)		// SCSI
-		{
-		return kJHardDisk;
-		}
-	else if (strncmp("/dev/fd", device, 7) == 0)
+	else if (device.BeginsWith("/dev/fd"))
 		{
 		return kJFloppyDisk;
 		}
@@ -504,15 +507,15 @@ JGetUserMountPointType
 	const JString& fsType
 	)
 {
-	if (strstr(fsType, "iso9660") != nullptr)
+	if (fsType.Contains("iso9660"))
 		{
 		return kJCDROM;
 		}
-	else if (strstr(fsType, "ufs") != nullptr)
+	else if (fsType.Contains("ufs"))
 		{
 		return kJHardDisk;
 		}
-	else if (strncmp("/dev/fd", device, 7) == 0)
+	else if (device.BeginsWith("/dev/fd"))
 		{
 		return kJFloppyDisk;
 		}
