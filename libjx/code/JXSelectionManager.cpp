@@ -30,6 +30,8 @@
 #include <X11/Xlib.h>
 #include <jAssert.h>
 
+#define XQUARTZ_BUG 0
+
 #define JXSEL_DEBUG_MSGS		0	// boolean
 #define JXSEL_DEBUG_ONLY_RESULT 0	// boolean
 #define JXSEL_MICRO_TRANSFER	0	// boolean
@@ -215,7 +217,7 @@ JXSelectionManager::GetData
 	)
 {
 	// until XQuartz fixes https://bugs.freedesktop.org/show_bug.cgi?id=92650
-
+#if XQUARTZ_BUG
 	if (itsDisplay->IsOSX() && requestType == GetUtf8StringXAtom())
 		{
 		JProcess* p;
@@ -234,7 +236,7 @@ JXSelectionManager::GetData
 			return kJTrue;
 			}
 		}
-
+#endif
 	// Check if this application owns the selection.
 
 	JXSelectionData* localData = nullptr;
@@ -1150,7 +1152,7 @@ JXSelectionManager::SetData
 			{
 			XSetSelectionOwner(*itsDisplay, itsAtoms[ kGnomeClipboardAtomIndex ], itsDataWindow, lastEventTime);
 			}
-
+#if XQUARTZ_BUG
 		if (itsDisplay->IsOSX())	// until XQuartz fixes https://bugs.freedesktop.org/show_bug.cgi?id=92650
 			{
 			Atom returnType;
@@ -1172,7 +1174,7 @@ JXSelectionManager::SetData
 				jdelete [] clipdata;
 				}
 			}
-
+#endif
 		data->SetSelectionInfo(selectionName, lastEventTime);
 		itsDataList->Append(data);
 		return kJTrue;
