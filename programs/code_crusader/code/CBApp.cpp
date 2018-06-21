@@ -464,7 +464,7 @@ CBApp::GetSystemIncludeDirectories()
 		return;
 		}
 
-	close(inFD);
+	close(inFD);	// must pass open fd to process and then explicitly close, to avoid a long wait
 
 	JString s;
 	while (1)

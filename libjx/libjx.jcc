@@ -1094,6 +1094,7 @@ F
 # search paths
 T "../include/jcore/" T
 T "./code/" T
+T "./test/" T
 F
 # C preprocessor
 F
