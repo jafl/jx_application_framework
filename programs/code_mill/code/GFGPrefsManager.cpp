@@ -5,7 +5,7 @@
 
 	BASE CLASS = public JXPrefsManager
 
-	Copyright (C) 2002 by New Planet Software.
+	Copyright (C) 2002 by Glenn W. Bach.
 
  *****************************************************************************/
 

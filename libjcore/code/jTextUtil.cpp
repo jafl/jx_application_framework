@@ -1,5 +1,5 @@
 /******************************************************************************
- jTextUtils.cc
+ jTextUtils.cpp
 
 	Utilities for text & JTextEditor.
 

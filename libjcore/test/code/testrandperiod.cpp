@@ -1,5 +1,5 @@
 /******************************************************************************
- testrandperiod.cc
+ testrandperiod.cpp
 
 	Tests the period of the JKLRandInt Knuth-Morris random number generator.
 	Because this takes so long it won't be run very often, it is a program of

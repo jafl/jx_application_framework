@@ -1,5 +1,5 @@
 /******************************************************************************
- test_jFileUtils.cc
+ test_jFileUtils.cpp
 
 	Program to test file & directory utils.
 

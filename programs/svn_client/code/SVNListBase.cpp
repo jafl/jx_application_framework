@@ -1,5 +1,5 @@
 /******************************************************************************
- SVNListBase.cc
+ SVNListBase.cpp
 
 	BASE CLASS = JXStringList, SVNTabBase
 

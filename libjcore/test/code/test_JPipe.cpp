@@ -1,5 +1,5 @@
 /******************************************************************************
- test_JPipe.cc
+ test_JPipe.cpp
 
 	Program to test UNIX pipes.
 

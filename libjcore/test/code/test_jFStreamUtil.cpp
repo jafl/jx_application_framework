@@ -1,5 +1,5 @@
 /******************************************************************************
- test_jFStreamUtil.cc
+ test_jFStreamUtil.cpp
 
 	Program to test fstream utilities.
 

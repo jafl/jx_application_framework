@@ -1,5 +1,5 @@
 /******************************************************************************
- MDRecord.cc
+ MDRecord.cpp
 
 	BASE CLASS = JBroadcaster
 

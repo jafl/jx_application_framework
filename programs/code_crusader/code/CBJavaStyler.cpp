@@ -20,7 +20,7 @@ CBJavaStyler* CBJavaStyler::itsSelf = nullptr;
 
 const JFileVersion kCurrentTypeListVersion = 1;
 
-	// Remember to increment kCurrentSharedPrefsVersion in cbmUtil.cc
+	// Remember to increment kCurrentSharedPrefsVersion in cbmUtil.cpp
 
 static const JCharacter* kTypeNames[] =
 {

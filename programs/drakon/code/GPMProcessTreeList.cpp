@@ -1,5 +1,5 @@
 /******************************************************************************
- GPMProcessTreeList.cc
+ GPMProcessTreeList.cpp
 
 	BASE CLASS = JXNamedTreeListWidget
 

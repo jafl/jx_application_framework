@@ -16,7 +16,7 @@
 
 // These define the menu title and the menu items.
 // The '|' separates menu items.  The complete syntax
-// is described in JXTextMenuData.cc in SetMenuItems()
+// is described in JXTextMenuData.cpp in SetMenuItems()
 // and ParseMenuItemStr().
 
 static const JCharacter* kTextMenuTitleStr = "Text";

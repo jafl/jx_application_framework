@@ -1,5 +1,5 @@
 /******************************************************************************
- test_JTextEditor.cc
+ test_JTextEditor.cpp
 
 	Program to test JTextEditor class.
 

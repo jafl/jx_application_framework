@@ -1,5 +1,5 @@
 /******************************************************************************
- testrand.cc
+ test_JKLRand.cpp
 
 	Test random number code.
 

@@ -1,5 +1,5 @@
 /******************************************************************************
- nps_svn_client.cc
+ nps_svn_client.cpp
 
 	Copyright (C) 2008 by John Lindal.
 

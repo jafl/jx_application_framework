@@ -1,5 +1,5 @@
 /******************************************************************************
- MDFilterRecordsDialog.cc
+ MDFilterRecordsDialog.cpp
 
 	BASE CLASS = JXDialogDirector
 

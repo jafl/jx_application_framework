@@ -1,5 +1,5 @@
 /******************************************************************************
- test_JRegex.cc
+ test_JRegex.cpp
 
 	A test program for JRegex.  Designed to test JRegex code, not PCRE.
 

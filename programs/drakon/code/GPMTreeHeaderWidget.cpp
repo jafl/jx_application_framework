@@ -1,5 +1,5 @@
 /******************************************************************************
- GPMTreeHeaderWidget.cc
+ GPMTreeHeaderWidget.cpp
 
 	BASE CLASS = JXColHeaderWidget
 

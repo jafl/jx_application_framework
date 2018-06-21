@@ -1,5 +1,5 @@
 /******************************************************************************
- test_JInterpolate.cc
+ test_JInterpolate.cpp
 
 	A test program for JInterpolate.
 

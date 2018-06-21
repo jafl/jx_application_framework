@@ -1,5 +1,5 @@
 /******************************************************************************
- SVNPrefsDialog.cc
+ SVNPrefsDialog.cpp
 
 	BASE CLASS = JXDialogDirector
 

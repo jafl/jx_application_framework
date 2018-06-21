@@ -1,5 +1,5 @@
 /******************************************************************************
- test_jXEventUtil.cc
+ test_jXEventUtil.cpp
 
 	Test X event utility functions.
 

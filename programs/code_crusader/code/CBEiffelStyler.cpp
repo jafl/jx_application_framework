@@ -21,7 +21,7 @@ CBEiffelStyler* CBEiffelStyler::itsSelf = nullptr;
 
 const JFileVersion kCurrentTypeListVersion = 3;
 
-	// Remember to increment kCurrentSharedPrefsVersion in cbmUtil.cc
+	// Remember to increment kCurrentSharedPrefsVersion in cbmUtil.cpp
 
 	// version 1 removes 20 separate categories (11-30) for operators
 	// version 2 inserts kBuiltInDataType after kReservedCPPKeyword (4)

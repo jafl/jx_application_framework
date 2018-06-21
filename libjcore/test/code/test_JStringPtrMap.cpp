@@ -1,5 +1,5 @@
 /******************************************************************************
- tesptrtmap.cc
+ test_JStringPtrMap.cpp
 
 	Test code for the JStringPtrMap class and related code.
 

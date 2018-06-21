@@ -1,5 +1,5 @@
 /******************************************************************************
- THXPrefsManager.cc
+ THXPrefsManager.cpp
 
 	Exists to keep JCheckForNewerVersion() happy.
 

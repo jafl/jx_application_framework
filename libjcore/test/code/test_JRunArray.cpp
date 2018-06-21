@@ -1,5 +1,5 @@
 /******************************************************************************
- test_JRunArray.cc
+ test_JRunArray.cpp
 
 	Program to test JRunArray and JRunArrayIterator classes.
 

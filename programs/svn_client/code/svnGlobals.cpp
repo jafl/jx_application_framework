@@ -1,5 +1,5 @@
 /******************************************************************************
- svnGlobals.cc
+ svnGlobals.cpp
 
 	Access to global objects and factories.
 

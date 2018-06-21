@@ -1,5 +1,5 @@
 /******************************************************************************
- test_JXTextMenuData.cc
+ test_JXTextMenuData.cpp
 
 	Test text menu parsing functions.
 

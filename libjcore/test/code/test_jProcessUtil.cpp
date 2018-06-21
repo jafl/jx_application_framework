@@ -1,5 +1,5 @@
 /******************************************************************************
- test_jProcessUtil.cc
+ test_jProcessUtil.cpp
 
 	Program to test process utilities.
 

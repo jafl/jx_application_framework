@@ -1,5 +1,5 @@
 /******************************************************************************
- MDStatsDirector.cc
+ MDStatsDirector.cpp
 
 	BASE CLASS = public JXWindowDirector, public JPrefObject
 

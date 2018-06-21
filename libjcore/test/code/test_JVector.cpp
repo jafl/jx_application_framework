@@ -1,5 +1,5 @@
 /******************************************************************************
- test_JVector.cc
+ test_JVector.cpp
 
 	Program to test JVector class.
 

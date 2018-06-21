@@ -1,5 +1,5 @@
 /******************************************************************************
- GPMProcessEntry.cc
+ GPMProcessEntry.cpp
 
 	BASE CLASS = JNamedTreeNode
 

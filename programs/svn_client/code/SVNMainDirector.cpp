@@ -1,5 +1,5 @@
 /******************************************************************************
- SVNMainDirector.cc
+ SVNMainDirector.cpp
 
 	BASE CLASS = public JXWindowDirector
 

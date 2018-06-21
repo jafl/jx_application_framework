@@ -1,5 +1,5 @@
 /******************************************************************************
- test_jListUtil.cc
+ test_jListUtil.cpp
 
 	Program to test jListUtil.
 

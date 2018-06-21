@@ -1,5 +1,5 @@
 /******************************************************************************
- JXSpellChecker.cc
+ JXSpellChecker.cpp
 
 	BASE CLASS = JXSharedPrefObject
 

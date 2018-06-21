@@ -28,7 +28,7 @@
 
 	The JKLRand class uses the JKLRandInt function to generate its values.  The
 	price of speed is that this	function has all the usual defects of simple
-	linear congruential generators.  See the notes in jRand.cc, and make sure you
+	linear congruential generators.  See the notes in jRand.cpp, and make sure you
 	understand how to use it properly.
 
 	Copyright (C) 1997 Dustin Laurence.

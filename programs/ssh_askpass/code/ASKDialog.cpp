@@ -1,11 +1,11 @@
 /******************************************************************************
- ASKDialog.cc
+ ASKDialog.cpp
 
 	Asks for the passphrase and prints it to stdout.
 
 	BASE CLASS = public JXGetStringDialog
 
-	Copyright (C) 2006 by New Planet Software, Inc..
+	Copyright (C) 2006 by John Lindal.
 
  *****************************************************************************/
 

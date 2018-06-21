@@ -1,5 +1,5 @@
 /******************************************************************************
- test_JStack.cc
+ test_JStack.cpp
 
 	Program to test JStack class.
 

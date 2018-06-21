@@ -1,5 +1,5 @@
 /******************************************************************************
- SVNInfoLog.cc
+ SVNInfoLog.cpp
 
 	BASE CLASS = SVNTextBase
 

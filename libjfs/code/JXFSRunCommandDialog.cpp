@@ -1,5 +1,5 @@
 /******************************************************************************
- JXFSRunCommandDialog.cpp.cc
+ JXFSRunCommandDialog.cpp
 
 	BASE CLASS = JXWindowDirector
 

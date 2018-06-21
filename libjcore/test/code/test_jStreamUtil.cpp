@@ -1,5 +1,5 @@
 /******************************************************************************
- test_jStreamUtil.cc
+ test_jStreamUtil.cpp
 
 	Program to test stream utilities.
 

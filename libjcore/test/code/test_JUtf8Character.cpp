@@ -1,5 +1,5 @@
 /******************************************************************************
- test_JUtf8Character.cc
+ test_JUtf8Character.cpp
 
 	Program to test JUtf8Character class.
 

@@ -1,5 +1,5 @@
 /******************************************************************************
- JXSpellList.cc
+ JXSpellList.cpp
 
 	BASE CLASS = JXStringList
 

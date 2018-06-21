@@ -1,5 +1,5 @@
 /******************************************************************************
- test_JMessageProtocol.cc
+ test_JMessageProtocol.cpp
 
 	Program to test JMessageProtocol class.
 

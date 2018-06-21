@@ -1,5 +1,5 @@
 /******************************************************************************
- SyGFindFileTask.cc
+ SyGFindFileTask.cpp
 
 	BASE CLASS = JBroadcaster
 

@@ -1,5 +1,5 @@
 /******************************************************************************
- test_JFileArray.cc
+ test_JFileArray.cpp
 
 	Program to test JFileArray class.
 

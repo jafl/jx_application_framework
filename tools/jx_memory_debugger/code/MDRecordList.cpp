@@ -1,5 +1,5 @@
 /******************************************************************************
- MDRecordList.cc
+ MDRecordList.cpp
 
 	BASE CLASS = JContainer
 

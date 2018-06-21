@@ -1,5 +1,5 @@
 /******************************************************************************
- mdGlobals.cc
+ mdGlobals.cpp
 
 	Access to global objects and factories.
 

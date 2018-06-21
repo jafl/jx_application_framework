@@ -1,5 +1,5 @@
 /******************************************************************************
- test_JLinkedList.cc
+ test_JLinkedList.cpp
 
 	Program to test JLinkedList and JLinkedListIterator classes.
 

@@ -1,5 +1,5 @@
 /******************************************************************************
- <PRE>PrefsDialog.cc
+ <PRE>PrefsDialog.cpp
 
 	BASE CLASS = JXDialogDirector
 

@@ -1,11 +1,9 @@
 /******************************************************************************
- GPMMainDirector.cc
-
-	<Description>
+ GPMMainDirector.cpp
 
 	BASE CLASS = public JXWindowDirector
 
-	Copyright (C) 2001 by New Planet Software.
+	Copyright (C) 2001 by Glenn W. Bach.
 
  *****************************************************************************/
 

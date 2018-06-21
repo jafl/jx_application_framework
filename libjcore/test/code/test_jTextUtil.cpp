@@ -1,5 +1,5 @@
 /******************************************************************************
- test_jTextUtil.cc
+ test_jTextUtil.cpp
 
 	Program to test jTextUtil.
 

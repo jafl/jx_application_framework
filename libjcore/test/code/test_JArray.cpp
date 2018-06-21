@@ -1,5 +1,5 @@
 /******************************************************************************
- test_JArray.cc
+ test_JArray.cpp
 
 	Program to test JArray and JListIterator classes.
 

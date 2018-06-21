@@ -1,5 +1,5 @@
 /******************************************************************************
- GPMProcessList.cc
+ GPMProcessList.cpp
 
 	BASE CLASS = JContainer
 

@@ -1,11 +1,9 @@
 /******************************************************************************
- GPMPrefsManager.cc
-
-	<Description>
+ GPMPrefsManager.cpp
 
 	BASE CLASS = public JXPrefsManager
 
-	Copyright (C) 2001 by New Planet Software.
+	Copyright (C) 2001 by Glenn W. Bach.
 
  *****************************************************************************/
 

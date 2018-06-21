@@ -1,5 +1,5 @@
 /******************************************************************************
- MDRecordTable.cc
+ MDRecordTable.cpp
 
 	BASE CLASS = JXEditTable
 

@@ -567,7 +567,7 @@ public:
 			}
 		else
 			{
-			assert_msg( 0, "CBSymbolList.cc:ClosestMatchCompare::Compare() didn't get a zero" );
+			assert_msg( 0, "CBSymbolList.cpp:ClosestMatchCompare::Compare() didn't get a zero" );
 			return JListT::kFirstEqualSecond;
 			}
 	}

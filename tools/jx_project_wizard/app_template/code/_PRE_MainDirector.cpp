@@ -1,5 +1,5 @@
 /******************************************************************************
- <PRE>MainDirector.cc
+ <PRE>MainDirector.cpp
 
 	BASE CLASS = public JXWindowDirector, public JPrefObject
 

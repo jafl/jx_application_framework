@@ -1,5 +1,5 @@
 /******************************************************************************
- test_JStringMatch.cc
+ test_JStringMatch.cpp
 
 	Program to test JStringMatch class.
 

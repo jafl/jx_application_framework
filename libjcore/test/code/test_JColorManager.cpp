@@ -1,5 +1,5 @@
 /******************************************************************************
- test_JColorManager.cc
+ test_JColorManager.cpp
 
 	Program to test JColorManager class.
 

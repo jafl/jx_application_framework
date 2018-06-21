@@ -1,5 +1,5 @@
 /******************************************************************************
- testhash.cc
+ test_jHashFunctions.cpp
 
 	Test hash functions.
 

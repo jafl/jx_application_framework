@@ -1,5 +1,5 @@
 /******************************************************************************
- test_JStyledText.cc
+ test_JStyledText.cpp
 
 	Program to test JStyledText class.
 

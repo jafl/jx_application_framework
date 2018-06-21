@@ -1,5 +1,5 @@
 /******************************************************************************
- testsystem.cc
+ testsystem.cpp
 
 	Test JHash parameter code.
 

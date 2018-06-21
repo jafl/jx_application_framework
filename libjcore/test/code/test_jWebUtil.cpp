@@ -1,5 +1,5 @@
 /******************************************************************************
- test_jWebUtil.cc
+ test_jWebUtil.cpp
 
 	Program to test jWebUtil.
 

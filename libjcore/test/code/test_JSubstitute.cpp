@@ -1,5 +1,5 @@
 /******************************************************************************
- test_JSubstitute.cc
+ test_JSubstitute.cpp
 
 	A test program for JSubstitute.
 

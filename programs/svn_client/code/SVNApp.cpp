@@ -1,7 +1,5 @@
 /******************************************************************************
- SVNApp.cc
-
-	<Description>
+ SVNApp.cpp
 
 	BASE CLASS = public JXApplication
 

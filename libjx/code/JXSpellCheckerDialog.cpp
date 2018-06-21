@@ -1,5 +1,5 @@
 /******************************************************************************
- JXSpellCheckerDialog.cc
+ JXSpellCheckerDialog.cpp
 
 	BASE CLASS = JXDialogDirector
 

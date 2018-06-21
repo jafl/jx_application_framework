@@ -341,7 +341,7 @@ MakeFilesInitText::CBBuildManager
 "# Edit this file to include the files in your project.
 # Please refer to the makemake documentation for more information.
 
--suffix .cc
+-suffix .cpp
 
 @my_program_name
 

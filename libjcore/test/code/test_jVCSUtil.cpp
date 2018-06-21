@@ -1,5 +1,5 @@
 /******************************************************************************
- test_jVCSUtil.cc
+ test_jVCSUtil.cpp
 
 	Program to test version control utils.
 

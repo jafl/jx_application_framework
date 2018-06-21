@@ -1,5 +1,5 @@
 /******************************************************************************
- SVNRepoView.cc
+ SVNRepoView.cpp
 
 	BASE CLASS = JXNamedTreeListWidget, SVNTabBase
 

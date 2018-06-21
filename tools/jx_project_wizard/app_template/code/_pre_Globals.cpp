@@ -1,5 +1,5 @@
 /******************************************************************************
- <pre>Globals.cc
+ <pre>Globals.cpp
 
 	Access to global objects and factories.
 

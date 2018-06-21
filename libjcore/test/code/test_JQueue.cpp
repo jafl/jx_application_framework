@@ -1,5 +1,5 @@
 /******************************************************************************
- test_JQueue.cc
+ test_JQueue.cpp
 
 	Program to test JQueue class.
 

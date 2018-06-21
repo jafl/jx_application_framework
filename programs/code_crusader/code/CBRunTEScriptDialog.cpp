@@ -1,5 +1,5 @@
 /******************************************************************************
- CBRunTEScriptDialog.cpp.cc
+ CBRunTEScriptDialog.cpp
 
 	BASE CLASS = JXWindowDirector, JPrefObject
 

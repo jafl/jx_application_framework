@@ -1,5 +1,5 @@
 /******************************************************************************
- testnew.cc
+ testnew.cpp
 
 	Test program for the JCore memory manager system.
 

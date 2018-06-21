@@ -1,5 +1,5 @@
 /******************************************************************************
- <PRE>App.cc
+ <PRE>App.cpp
 
 	BASE CLASS = public JXApplication
 

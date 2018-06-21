@@ -1,5 +1,5 @@
 /******************************************************************************
- test_JPrefsFile.cc
+ test_JPrefsFile.cpp
 
 	Program to test JPrefsFile classes.
 

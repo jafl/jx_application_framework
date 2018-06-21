@@ -1,5 +1,5 @@
 /******************************************************************************
- SVNCommandLog.cc
+ SVNCommandLog.cpp
 
 	BASE CLASS = SVNTextBase
 

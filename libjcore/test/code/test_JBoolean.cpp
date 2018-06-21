@@ -1,5 +1,5 @@
 /******************************************************************************
- test_JBoolean.cc
+ test_JBoolean.cpp
 
 	Program to test JBoolean enum.
 

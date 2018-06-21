@@ -1,9 +1,9 @@
 /******************************************************************************
- GPMAboutDialog.cc
+ GPMAboutDialog.cpp
 
 	BASE CLASS = JXDialogDirector
 
-	Copyright (C) 2001 by New Planet Software.
+	Copyright (C) 2001 by Glenn W. Bach.
 
  ******************************************************************************/
 

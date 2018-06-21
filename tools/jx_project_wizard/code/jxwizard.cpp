@@ -1,5 +1,5 @@
 /******************************************************************************
- jx_project_wizard.cc
+ jx_project_wizard.cpp
 
 	Copyright (C) 2000 by John Lindal.
 

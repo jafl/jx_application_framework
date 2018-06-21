@@ -1,5 +1,5 @@
 /******************************************************************************
- jx_memory_debugger.cc
+ jx_memory_debugger.cpp
 
 	Copyright (C) 2010 by John Lindal.
 

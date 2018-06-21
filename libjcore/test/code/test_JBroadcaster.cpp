@@ -1,5 +1,5 @@
 /******************************************************************************
- test_JBroadcaster.cc
+ test_JBroadcaster.cpp
 
 	Program to test JBroadcaster class.
 

@@ -1,11 +1,11 @@
 /******************************************************************************
- GPMApp.cc
+ GPMApp.cpp
 
 	<Description>
 
 	BASE CLASS = public JXApplication
 
-	Copyright (C) 2001 by New Planet Software.
+	Copyright (C) 2001 by Glenn W. Bach.
 
  *****************************************************************************/
 

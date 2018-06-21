@@ -1,11 +1,9 @@
 /******************************************************************************
- GPMMDIServer.cc
-
-	<Description>
+ GPMMDIServer.cpp
 
 	BASE CLASS = public JXMDIServer
 
-	Copyright (C) 2001 by New Planet Software.
+	Copyright (C) 2001 by Glenn W. Bach.
 
  *****************************************************************************/
 

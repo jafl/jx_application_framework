@@ -1,5 +1,5 @@
 /******************************************************************************
- test_JString.cc
+ test_JString.cpp
 
 	Program to test JString class.
 

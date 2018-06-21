@@ -1,5 +1,5 @@
 /******************************************************************************
- test_jXUtil.cc
+ test_jXUtil.cpp
 
 	Test X utility functions.
 

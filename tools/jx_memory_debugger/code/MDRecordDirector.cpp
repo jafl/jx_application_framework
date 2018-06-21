@@ -1,5 +1,5 @@
 /******************************************************************************
- MDRecordDirector.cc
+ MDRecordDirector.cpp
 
 	BASE CLASS = public JXWindowDirector, public JPrefObject
 

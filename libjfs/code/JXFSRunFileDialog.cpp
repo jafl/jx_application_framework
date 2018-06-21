@@ -1,5 +1,5 @@
 /******************************************************************************
- JXFSRunFileDialog.cpp.cc
+ JXFSRunFileDialog.cpp
 
 	BASE CLASS = JXDialogDirector
 

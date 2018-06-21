@@ -1,5 +1,5 @@
 /******************************************************************************
- MDHeaderWidget.cc
+ MDHeaderWidget.cpp
 
 	BASE CLASS = JXColHeaderWidget
 

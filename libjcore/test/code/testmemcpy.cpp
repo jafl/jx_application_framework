@@ -1,5 +1,5 @@
 /******************************************************************************
- testmemcpy.cc
+ testmemcpy.cpp
 
 	Test memcpy speed vs for loop vs unrolled loop.
 

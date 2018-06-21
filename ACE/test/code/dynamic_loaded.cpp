@@ -1,7 +1,7 @@
 /******************************************************************************
  dynamic_loaded.cpp
 
-	This code is dynamically loaded by dynamic_loader.cc.
+	This code is dynamically loaded by dynamic_loader.cpp.
 
 	Written by Glenn Bach & John Lindal.
 

@@ -1,5 +1,5 @@
 /******************************************************************************
- MDMainDirector.cc
+ MDMainDirector.cpp
 
 	BASE CLASS = public JXWindowDirector, public JPrefObject
 

@@ -1,11 +1,9 @@
 /******************************************************************************
- ASKApp.cc
-
-	<Description>
+ ASKApp.cpp
 
 	BASE CLASS = public JXApplication
 
-	Copyright (C) 2006 by New Planet Software, Inc..
+	Copyright (C) 2006 by John Lindal.
 
  *****************************************************************************/
 

@@ -1,5 +1,5 @@
 /******************************************************************************
- GPMListHeaderWidget.cc
+ GPMListHeaderWidget.cpp
 
 	BASE CLASS = JXColHeaderWidget
 

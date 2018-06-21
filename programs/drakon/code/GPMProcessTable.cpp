@@ -1,5 +1,5 @@
 /******************************************************************************
- GPMProcessTable.cc
+ GPMProcessTable.cpp
 
 	BASE CLASS = JXTable
 

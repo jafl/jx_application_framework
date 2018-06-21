@@ -1,7 +1,5 @@
 /******************************************************************************
- <PRE>MDIServer.cc
-
-	<Description>
+ <PRE>MDIServer.cpp
 
 	BASE CLASS = public JXMDIServer
 

@@ -1,7 +1,7 @@
 /******************************************************************************
- nps-ssh-askpass.cc
+ nps-ssh-askpass.cpp
 
-	Copyright (C) 2006 by New Planet Software, Inc..
+	Copyright (C) 2006 by John Lindal.
 
  ******************************************************************************/
 

@@ -1,5 +1,5 @@
 /******************************************************************************
- MDPrefsDialog.cc
+ MDPrefsDialog.cpp
 
 	BASE CLASS = JXDialogDirector
 

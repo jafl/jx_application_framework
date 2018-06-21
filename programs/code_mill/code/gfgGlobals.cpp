@@ -3,7 +3,7 @@
 
 	Access to global objects and factories.
 
-	Copyright (C) 2002 by New Planet Software.
+	Copyright (C) 2002 by Glenn W. Bach.
 
  ******************************************************************************/
 

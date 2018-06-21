@@ -1,5 +1,5 @@
 /******************************************************************************
- test_JPtrArray.cc
+ test_JPtrArray.cpp
 
 	Program to test JPtrArray and JPtrArrayIterator classes.
 

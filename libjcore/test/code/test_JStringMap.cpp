@@ -1,5 +1,5 @@
 /******************************************************************************
- testmap.cc
+ test_JStringMap.cpp
 
 	Test code for the JStringMap class and related code.
 

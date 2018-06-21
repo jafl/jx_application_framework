@@ -1,5 +1,5 @@
 /******************************************************************************
- <PRE>PrefsManager.cc
+ <PRE>PrefsManager.cpp
 
 	BASE CLASS = public JXPrefsManager
 

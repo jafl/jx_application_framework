@@ -1,5 +1,5 @@
 /******************************************************************************
- test_JStringIterator.cc
+ test_JStringIterator.cpp
 
 	Program to test JStringIterator class.
 

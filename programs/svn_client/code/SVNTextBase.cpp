@@ -1,5 +1,5 @@
 /******************************************************************************
- SVNTextBase.cc
+ SVNTextBase.cpp
 
 	BASE CLASS = JXStaticText, SVNTabBase
 

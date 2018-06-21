@@ -1,5 +1,5 @@
 /******************************************************************************
- test_JDirInfo.cc
+ test_JDirInfo.cpp
 
 	Program to test JDirInfo & JDirEntry classes.
 

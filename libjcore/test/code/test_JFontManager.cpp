@@ -1,5 +1,5 @@
 /******************************************************************************
- test_JFontManager.cc
+ test_JFontManager.cpp
 
 	Program to test JFontManager class.
 

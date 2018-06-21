@@ -1,5 +1,5 @@
 /******************************************************************************
- testtable.cc
+ test_JHashTable.cpp
 
 	Test code for the JHashTable class and related code.
 

@@ -1,9 +1,9 @@
 /******************************************************************************
- askGlobals.cc
+ askGlobals.cpp
 
 	Access to global objects and factories.
 
-	Copyright (C) 2006 by New Planet Software, Inc..
+	Copyright (C) 2006 by John Lindal.
 
  ******************************************************************************/
 

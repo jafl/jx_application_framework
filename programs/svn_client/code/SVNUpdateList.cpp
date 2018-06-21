@@ -1,5 +1,5 @@
 /******************************************************************************
- SVNUpdateList.cc
+ SVNUpdateList.cpp
 
 	BASE CLASS = SVNListBase
 

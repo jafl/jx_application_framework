@@ -1,9 +1,9 @@
 /******************************************************************************
  jNew.cpp
 
-	JNew.cc defines the JCore operator new, JNew.  JNew provides many memory
-	management features that the built-in allocator does not, principally for
-	detection of memory leaks.
+	Defines the JCore operator new, JNew.  JNew provides many memory
+	management features that the built-in allocator does not, principally
+	for detection of memory leaks.
 
 	Copyright (C) 1997 by Dustin Laurence.
 	

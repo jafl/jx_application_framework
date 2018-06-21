@@ -1,5 +1,5 @@
 /******************************************************************************
- test_JPtrArrayJString.cc
+ test_JPtrArrayJString.cpp
 
 	Program to test JPtrArray<JString>.
 

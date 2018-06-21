@@ -1,7 +1,5 @@
 /******************************************************************************
- SVNMDIServer.cc
-
-	<Description>
+ SVNMDIServer.cpp
 
 	BASE CLASS = public JXMDIServer
 

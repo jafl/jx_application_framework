@@ -1,9 +1,9 @@
 /******************************************************************************
- gpmGlobals.cc
+ gpmGlobals.cpp
 
 	Access to global objects and factories.
 
-	Copyright (C) 2001 by New Planet Software.
+	Copyright (C) 2001 by Glenn W. Bach.
 
  ******************************************************************************/
 

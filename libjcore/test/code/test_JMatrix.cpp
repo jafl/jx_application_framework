@@ -1,5 +1,5 @@
 /******************************************************************************
- test_JMatrix.cc
+ test_JMatrix.cpp
 
 	Program to test JMatrix class.
 

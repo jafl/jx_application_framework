@@ -1,5 +1,5 @@
 /******************************************************************************
- CBRunCommandDialog.cpp.cc
+ CBRunCommandDialog.cpp
 
 	BASE CLASS = JXDialogDirector, JPrefObject
 

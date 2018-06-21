@@ -1,5 +1,5 @@
 /******************************************************************************
- SVNPrefsManager.cc
+ SVNPrefsManager.cpp
 
 	BASE CLASS = public JXPrefsManager
 

@@ -1,5 +1,5 @@
 /******************************************************************************
- MDPrefsManager.cc
+ MDPrefsManager.cpp
 
 	BASE CLASS = public JXPrefsManager
 

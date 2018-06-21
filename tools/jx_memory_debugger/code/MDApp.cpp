@@ -1,5 +1,5 @@
 /******************************************************************************
- MDApp.cc
+ MDApp.cpp
 
 	BASE CLASS = public JXApplication
 

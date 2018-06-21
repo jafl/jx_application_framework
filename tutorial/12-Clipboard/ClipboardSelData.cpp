@@ -1,5 +1,5 @@
 /******************************************************************************
- GFilterDragData.cc
+ GFilterDragData.cpp
 
 	BASE CLASS = public JXSelectionData
 
