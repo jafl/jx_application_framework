@@ -6,7 +6,7 @@
 	When the drop is intra-application, we simply call the Widget directly.
 	When the drop is inter-application, we send ClientMessages.
 
-	Refer to http://www.newplanetsoftware.com/xdnd/ for the complete protocol.
+	Refer to http://johnlindal.wixsite.com/xdnd for the complete protocol.
 
 	When we are the source, itsDragger, itsDraggerWindow, and itsDraggerTypeList
 	refer to the source Widget.  If the mouse is in a local window, itsMouseContainer

@@ -295,8 +295,6 @@ PrintHelp()
 	std::cout << "-p  Pad the colormap so that Netscape will dither it" << std::endl;
 	std::cout << "-b  alpha R G B file -- alpha blend with specified color" << std::endl;
 	std::cout << std::endl;
-	std::cout << "jafl@newplanetsoftware.com" << std::endl;
-	std::cout << std::endl;
 }
 
 /******************************************************************************
@@ -312,8 +310,6 @@ PrintVersion()
 	std::cout << std::endl;
 	std::cout << "Copyright (C) 1998 by John Lindal." << std::endl;
 	std::cout << "This program may be freely distributed at no charge." << std::endl;
-	std::cout << std::endl;
-	std::cout << "jafl@newplanetsoftware.com" << std::endl;
 	std::cout << std::endl;
 }
 

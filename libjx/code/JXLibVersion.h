@@ -607,7 +607,7 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //		Added CaretShouldFollowScroll().
 //	Created JXSearchTextDialog.  This is global and extensible.
 //		It also supports the new XSearch protocol for sharing search settings
-//		between programs.  (http://www.newplanetsoftware.com/xsearch/)
+//		between programs.  (http://johnlindal.wixsite.com/xsearch)
 //	Created JXSharedPrefsManager to share JXHelpManager and other settings
 //		between all programs that use JX.
 //	JXTable:
@@ -1026,7 +1026,7 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //			 compiler to remind you.)
 //	JXSaveFileDialog:
 //		Added draggable icon to implement local saving via the new XDS protocol.
-//			http://www.newplanetsoftware.com/xds/
+//			http://johnlindal.wixsite.com/xdsave
 //	jXUtil.h:
 //		JXURLToFileName() now returns kJTrue as long as the URL is on the
 //			same machine, even if the file or directory doesn't exist.
@@ -1800,9 +1800,6 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //		Added IsAtMin(), ScrollToMin(), IsAtMax(), ScrollToMax().
 
 // version 1.1.7:
-//	You must register your application signatures (for prefs, MDI, etc)
-//		with jx-registry@newplanetsoftware.com to ensure that they
-//		are unique.
 //	Moved all global variables behind the function interface in jXGlobals.h:
 //		gApplication, gXChooseSaveFile, gXAssert,
 //		document manager, help manager, MDI server
@@ -1880,7 +1877,7 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //	JXGC:
 //		Added functions for drawing dashed lines.
 //	JXDNDManager:
-//		Now uses protocol described at http://www.newplanetsoftware.com/xdnd/
+//		Now uses protocol described at http://johnlindal.wixsite.com/xdnd
 //	JXContainer:
 //		Changed prototype of WillAcceptDrop(), HandleDNDDrop().
 //	JXWidget:

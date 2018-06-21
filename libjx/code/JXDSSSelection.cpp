@@ -2,7 +2,7 @@
  JXDSSSelection.cpp
 
 	XdndDirectSave0
-	http://www.newplanetsoftware.com/xds/
+	http://johnlindal.wixsite.com/xdsave
 
 	BASE CLASS = JXSelectionData
 

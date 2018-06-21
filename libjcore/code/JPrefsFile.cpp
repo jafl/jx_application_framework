@@ -9,11 +9,6 @@
 		--		--------
 		UNIX	~/.*.pref
 
-	To guarantee that your preference file name is unique, you should
-	register the stem with jx-registry@newplanetsoftware.com
-	(This is a free service.  We simply check whether anybody else has
-	 already registered the signature.)
-
 	Each item in the JPrefsFile has an id.  This id is specified when the
 	item is created, and -must- be unique.  The id is the only guaranteed way
 	to get at the data after it is created.

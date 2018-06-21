@@ -28,9 +28,7 @@ static const JUtf8Byte* kVersionStr =
 
 	"compile_jstrings 2.0.0\n"
 	"\n"
-	"Copyright (C) 2000-17 John Lindal.\n"
-	"\n"
-	"http://www.newplanetsoftware.com/jx/";
+	"Copyright (C) 2000-17 John Lindal.";
 
 // Prototypes
 

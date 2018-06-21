@@ -8,11 +8,6 @@
 	If the application supports MDI, it must create a derived class and
 	construct it with a unique application signature.
 
-	To guarantee that your application signature is unique, you should
-	register it with jx-registry@newplanetsoftware.com
-	(This is a free service.  We simply check whether anybody else has
-	 already registered the signature.)
-
 	The derived class must implement the following functions:
 
 		CanAcceptMDIReqest

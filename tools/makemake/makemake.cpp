@@ -39,9 +39,7 @@ static const JUtf8Byte* kVersionStr =
 
 	"makemake 3.4.1\n"
 	"\n"
-	"Copyright (C) 1994-2017 by John Lindal.\n"
-	"\n"
-	"http://www.newplanetsoftware.com/";
+	"Copyright (C) 1994-2017 by John Lindal.";
 
 static const JUtf8Byte* kMakeBinary         = J_MAKE_BINARY_NAME;
 static const JUtf8Byte* kDependTargetName   = "jdepend";

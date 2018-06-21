@@ -6,7 +6,7 @@
 	same dialog window.
 
 	We also support the XSearch protocol so our settings can be shared with
-	other programs.  (http://www.newplanetsoftware.com/xsearch/)
+	other programs.  (http://johnlindal.wixsite.com/xsearch)
 
 	Derived classes must override BuildWindow() and call SetObjects()
 	at the end of their implementation.  They must also call
@@ -1063,7 +1063,7 @@ JXSearchTextDialog::WriteSetup
 /******************************************************************************
  XSearch protocol
 
-	This protocol is described at http://www.newplanetsoftware.com/xsearch/
+	This protocol is described at http://johnlindal.wixsite.com/xsearch
 
  ******************************************************************************/
 
