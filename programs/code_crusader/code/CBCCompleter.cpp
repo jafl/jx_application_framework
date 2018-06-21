@@ -17,21 +17,23 @@ static const JCharacter* kKeywordList[] =
 	// C
 
 	"auto", "break", "case", "char", "const", "continue", "default", "do",
-	"double", "else", "enum", "extern", "float", "for", "goto", "if", "int",
-	"long", "register", "return", "short", "signed", "sizeof", "static",
-	"struct", "switch", "typedef", "union", "unsigned", "void", "volatile",
-	"while",
+	"double", "else", "enum", "extern", "float", "for", "goto", "if",
+	"inline", "int", "long", "register", "restrict", "return", "short",
+	"signed", "sizeof", "static", "struct", "switch", "typedef", "union",
+	"unsigned", "void", "volatile", "while",
 
 	// C++
 
-	"and", "and_eq", "asm", "bitand", "bitor", "bool", "catch", "class",
-	"compl", "const_cast", "delete", "dynamic_cast", "explicit", "export",
-	"false", "final", "friend", "inline", "mutable", "namespace", "new",
-	"noexcept", "not", "not_eq", "nullptr", "operator", "or", "or_eq",
-	"overload", "override", "private", "protected", "public",
-	"reinterpret_cast", "static_cast", "template", "this", "thread_local",
-	"throw", "true", "try", "typeid", "typename", "using", "virtual",
-	"wchar_t", "xor", "xor_eq",
+	"alignas", "alignof", "and", "and_eq", "asm", "atomic_cancel",
+	"atomic_commit", "atomic_noexcept", "bitand", "bitor", "bool", "catch",
+	"char16_t", "char32_t", "class", "compl", "concept", "constexpr",
+	"const_cast", "decltype", "delete", "dynamic_cast", "explicit",
+	"export", "false", "final", "friend", "module", "mutable", "namespace",
+	"new", "noexcept", "not", "not_eq", "nullptr", "operator", "or",
+	"or_eq", "overload", "override", "private", "protected", "public",
+	"reinterpret_cast", "requires", "static_assert", "static_cast",
+	"template", "this", "thread_local", "throw", "true", "try", "typeid",
+	"typename", "using", "virtual", "wchar_t", "xor", "xor_eq",
 
 	// preprocessor
 
