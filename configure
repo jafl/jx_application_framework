@@ -148,8 +148,8 @@ elif command -v apt-get; then
 
 	configure_linux;
 	rm -f programs/code_medic/lldb-include;
-	ln -sf /usr/lib/llvm-3.9/include programs/code_medic/lldb-include;
-	ln -sf /usr/lib/llvm-3.9/lib/liblldb.so.1 lib/liblldb.so;
+	ln -sf /usr/lib/llvm-6.0/include programs/code_medic/lldb-include;
+	ln -sf /usr/lib/llvm-6.0/lib/liblldb.so.1 lib/liblldb.so;
 
 elif command -v dnf; then
 
