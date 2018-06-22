@@ -51,11 +51,11 @@ static const JUtf8Byte* kFallbackFontNames[] =
 #ifdef _J_OSX
 	"Mshtakan",			// Armenian
 	"Arial Unicode MS",	// Arabic, Armenian, CJK, Cyrillic, Greek, Hebrew
-	"Arial"				// Latin, some Cyrillic, some Arabic
+	kDefaultFontName	// Latin, some Cyrillic, some Arabic
 #else
-	"FreeSans",						// Arabic, Armenian, Cyrillic, Greek, Hebrew, Latin
 	"Source Han Sans CN Normal",	// CJK - Fedora
-	"Noto Sans CJK SC"				// CJK - Ubuntu
+	"Noto Sans CJK SC",				// CJK - Ubuntu
+	kDefaultFontName				// Arabic, Armenian, Cyrillic, Greek, Hebrew, Latin
 #endif
 };
 
