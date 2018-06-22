@@ -36,14 +36,14 @@ static const JUtf8Byte* kDefaultFontName =
 	#ifdef _J_OSX
 	"Arial";
 	#else
-	nullptr;
+	"FreeSans";
 	#endif
 
 static const JUtf8Byte* kMonospaceFontName =
 	#ifdef _J_OSX
 	"Menlo";
 	#else
-	"Bitstream Vera Sans Mono";
+	"DejaVu Sans Mono";
 	#endif
 
 static const JUtf8Byte* kFallbackFontNames[] =
@@ -53,7 +53,9 @@ static const JUtf8Byte* kFallbackFontNames[] =
 	"Arial Unicode MS",	// Arabic, Armenian, CJK, Cyrillic, Greek, Hebrew
 	"Arial"				// Latin, some Cyrillic, some Arabic
 #else
-	?
+	"FreeSans",						// Arabic, Armenian, Cyrillic, Greek, Hebrew, Latin
+	"Source Han Sans CN Normal",	// CJK - Fedora
+	"Noto Sans CJK SC"				// CJK - Ubuntu
 #endif
 };
 

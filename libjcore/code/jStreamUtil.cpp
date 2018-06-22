@@ -232,7 +232,7 @@ JReadUntil
 			}
 
 		const JSize byteCount = c.GetByteCount();
-		if (p + byteCount - buf >= bufSize)
+		if (p + byteCount - buf >= (JInt64) bufSize)
 			{
 			str->Append(buf, p - buf);
 			p = buf;

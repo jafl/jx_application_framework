@@ -18,7 +18,6 @@
 
 #include <jx_folder_small.xpm>
 #include <jx_hard_disk_small.xpm>
-#include <jx_zip_disk_small.xpm>
 #include <jx_floppy_disk_small.xpm>
 #include <jx_cdrom_disk_small.xpm>
 

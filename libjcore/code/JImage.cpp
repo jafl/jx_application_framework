@@ -671,8 +671,8 @@ JImage::ReadFromJXPM
 JError
 JImage::AllocateImageData
 	(
-	const JSize			w,
-	const JSize			h,
+	const JCoordinate	w,
+	const JCoordinate	h,
 	unsigned short**	data,
 	unsigned short***	cols
 	)

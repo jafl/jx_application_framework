@@ -409,16 +409,18 @@ JGetUserMountPointList
 			  hasmntopt(info, "user") != nullptr  ||
 			  hasmntopt(info, "users") != nullptr ||
 			  hasmntopt(info, "pamconsole") != nullptr ||
-			  (jUserOwnsDevice(info->mnt_fsname) &&
+			  (jUserOwnsDevice(JString(info->mnt_fsname, kJFalse)) &&
 			   hasmntopt(info, "owner") != nullptr)) ||
-			JIsRootDirectory(info->mnt_dir) ||
+			JIsRootDirectory(JString(info->mnt_dir, kJFalse)) ||
 			strcmp(info->mnt_type, MNTTYPE_SWAP) == 0)
 			{
 			continue;
 			}
 
 		const JMountType type =
-			JGetUserMountPointType(info->mnt_dir, info->mnt_fsname, info->mnt_type);
+			JGetUserMountPointType(JString(info->mnt_dir, kJFalse),
+								   JString(info->mnt_fsname, kJFalse),
+								   JString(info->mnt_type, kJFalse));
 		if (type == kJUnknownMountType ||
 			ACE_OS::stat(info->mnt_dir, &stbuf) != 0)
 			{
@@ -544,29 +546,6 @@ JGetUserMountPointType
 
 #else
 
-static const JRegex devIndexPattern = "[0-9]+$";
-
-inline void
-jReadLine
-	(
-	const int	fd,
-	JString&	buffer
-	)
-{
-	JIndex i = 0;
-	JUtf8Byte c;
-	while (read(fd, &c, 1) == 1)
-		{
-		if (c == '\n')
-			{
-			break;
-			}
-		buffer[i] = c;
-		i++;
-		}
-	buffer[i] = '\0';
-}
-
 JMountType
 JGetUserMountPointType
 	(
@@ -575,23 +554,20 @@ JGetUserMountPointType
 	const JString& fsType
 	)
 {
-	if (strstr(fsType, "iso9660") != nullptr)
+	if (fsType.Contains("iso9660"))
 		{
 		return kJCDROM;
 		}
-	else if (strstr(path, "floppy") != nullptr)
+	else if (path.Contains("floppy"))
 		{
 		return kJFloppyDisk;	// hot-swappable drives are often /dev/sd*
 		}
-	else if (strncmp("/dev/hd", device, 7) == 0)		// IDE
+	else if (device.BeginsWith("/dev/hd") ||		// IDE
+			 device.BeginsWith("/dev/sd"))			// SCSI
 		{
 		return kJHardDisk;
 		}
-	else if (strncmp("/dev/sd", device, 7) == 0)		// SCSI
-		{
-		return kJHardDisk;
-		}
-	else if (strncmp("/dev/fd", device, 7) == 0)
+	else if (device.BeginsWith("/dev/fd"))
 		{
 		return kJFloppyDisk;
 		}
@@ -825,7 +801,7 @@ JIsMounted
 	)
 {
 	struct stat stbuf1, stbuf2;
-	if (stat(path, &stbuf1) != 0)
+	if (stat(path.GetBytes(), &stbuf1) != 0)
 		{
 		return kJFalse;
 		}

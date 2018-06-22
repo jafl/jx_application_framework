@@ -33,7 +33,6 @@
 #include "JMinMax.h"
 #include <stdlib.h>
 #include <sstream>
-#include <strstream>
 #include <iomanip>
 #include <unicode/ucol.h>
 #include "jErrno.h"
@@ -1507,6 +1506,20 @@ JString::CompleteConversion
 
  ******************************************************************************/
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated"
+
+#if defined __GNUC__ && ! defined __clang__
+	// hack for https://gcc.gnu.org/bugzilla/show_bug.cgi?id=53431
+	#undef __DEPRECATED
+#endif
+
+#include <strstream>
+
+#if defined __GNUC__ && ! defined __clang__
+	#define __DEPRECATED 1
+#endif
+
 JString
 JString::EncodeBase64()
 	const
@@ -1542,6 +1555,8 @@ JString::DecodeBase64
 		return kJFalse;
 		}
 }
+
+#pragma GCC diagnostic pop
 
 /******************************************************************************
  Read
@@ -1670,7 +1685,7 @@ JString::ReadDelimited
 			}
 
 		const JSize byteCount = c.GetByteCount();
-		if (p + byteCount - buf >= bufSize)
+		if (p + byteCount - buf >= (JInt64) bufSize)
 			{
 			Append(buf, p - buf);
 			p = buf;

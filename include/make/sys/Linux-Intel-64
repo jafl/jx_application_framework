@@ -68,7 +68,6 @@ J_RAW_SYSTEM_STUFF := \
   -D_J_HAS_PROC \
   -D_XOPEN_SOURCE -D_XOPEN_SOURCE_EXTENDED \
   -D_XFT_NO_COMPAT_ -I/usr/include/freetype2 \
-  -Wno-narrowing \
   ${shell getconf LFS_CFLAGS}
 
 SEARCHDIRS += -I/usr/include/freetype2
@@ -85,13 +84,15 @@ LINKER := g++
 
 CC       := gcc
 CXX      := g++
-CPPFLAGS  = ${DEPENDFLAGS} -Wno-deprecated
+CPPFLAGS  = ${DEPENDFLAGS}
 CFLAGS    = ${J_MAKE_NEEDS_OUTPUT_ARG}
-CXXFLAGS  = ${J_MAKE_NEEDS_OUTPUT_ARG}
+CXXFLAGS  = ${J_MAKE_NEEDS_OUTPUT_ARG} -std=c++17
 
 # libraries to link
 
-J_GCC_LIBS  := -L/usr/lib64 -lpcre -lstdc++ -lm -lc -ldl
+J_GCC_LIBS  := ${shell PKG_CONFIG_PATH=${PKG_CONFIG_PATH} \
+                 pkg-config --libs icu-i18n libpcre} \
+               -lstdc++ -lm -lc -ldl
 J_ACE_LIBS  := -L${JX_ROOT}/lib -lACE
 J_X11_LIBS  := -L${JX_ROOT}/lib ${J_X11_LIB_DIR} ${J_XINERAMA_LIBS} -lfontconfig -lXext -lXft -lXpm -lX11
 

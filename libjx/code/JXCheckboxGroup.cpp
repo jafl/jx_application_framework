@@ -20,6 +20,7 @@
 #include "JXCheckboxGroup.h"
 #include "JXCheckbox.h"
 #include "JXDeleteObjectTask.h"
+#include <algorithm>
 #include <jAssert.h>
 
 /******************************************************************************

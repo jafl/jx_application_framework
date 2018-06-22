@@ -126,13 +126,13 @@ JTEST(Join)
 {
 	JPtrArray<JString> list(JPtrArrayT::kDeleteAll);
 
-	JAssertStringsEqual("", list.Join(","));
+	JAssertStringsEqual("", JStringJoin(",", list));
 
 	list.Append(JString("foobar", kJFalse));
-	JAssertStringsEqual("foobar", list.Join(","));
+	JAssertStringsEqual("foobar", JStringJoin(",", list));
 
 	list.Append(JString("barbaz", kJFalse));
-	JAssertStringsEqual("foobar,barbaz", list.Join(","));
+	JAssertStringsEqual("foobar,barbaz", JStringJoin(",", list));
 
-	JAssertStringsEqual("foobarbarbaz", list.Join(""));
+	JAssertStringsEqual("foobarbarbaz", JStringJoin("", list));
 }

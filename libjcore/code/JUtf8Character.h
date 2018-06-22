@@ -9,6 +9,7 @@
 #define _H_JUtf8Character
 
 #include "jTypes.h"
+#include <string.h>
 
 class JUtf8Character
 {

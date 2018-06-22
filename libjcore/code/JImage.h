@@ -84,8 +84,8 @@ protected:
 	virtual void	PrepareForImageData() = 0;
 	virtual void	ImageDataFinished() = 0;
 
-	JError	AllocateImageData(const JSize w, const JSize h, unsigned short** data,
-							  unsigned short*** cols);
+	JError	AllocateImageData(const JCoordinate w, const JCoordinate h,
+							  unsigned short** data, unsigned short*** cols);
 
 private:
 

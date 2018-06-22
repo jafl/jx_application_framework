@@ -19,6 +19,7 @@
 #include <JColorManager.h>
 #include <JListUtil.h>
 #include <sstream>
+#include <algorithm>
 #include <jAssert.h>
 
 /******************************************************************************

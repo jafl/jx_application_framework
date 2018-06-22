@@ -81,9 +81,6 @@ public:
 	JBoolean	Includes(const T* dataPtr) const;
 	JBoolean	Find(const T* dataPtr, JIndex* elementIndex) const;
 
-	T	Join(const JUtf8Byte* separator) const;
-	T	Join(const T& separator) const;
-
 	JPtrArrayT::CleanUpAction	GetCleanUpAction() const;
 	void						SetCleanUpAction(const JPtrArrayT::CleanUpAction action);
 	void						CleanOut();

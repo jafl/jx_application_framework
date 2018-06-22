@@ -48,6 +48,7 @@
 
 #include <JString.h>
 #include <sstream>
+#include <algorithm>
 #include <jAssert.h>
 
 const JCoordinate kButConBuffer = 5;

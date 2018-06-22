@@ -8,7 +8,7 @@
  ******************************************************************************/
 
 #include <JTestManager.h>
-#include <ace/reactor.h>
+#include <ace/Reactor.h>
 #include <ace/Acceptor.h>
 #include <ace/LSOCK_Acceptor.h>
 #include <ace/Connector.h>

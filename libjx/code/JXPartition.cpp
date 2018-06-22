@@ -298,7 +298,7 @@ JXPartition::RestoreGeometry
 	for (JIndex i=1; i<=count; i++)
 		{
 		const JSize size = sizes.GetElement(i);
-		if (size < JPartition::GetMinCompartmentSize(i))
+		if (size < (JSize) JPartition::GetMinCompartmentSize(i))
 			{
 			return;
 			}

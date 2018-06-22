@@ -15,6 +15,7 @@
 #include "JXRadioButton.h"
 #include "JXWindowPainter.h"
 #include "jXPainterUtil.h"
+#include <algorithm>
 #include <jAssert.h>
 
 const JSize kFrameDownWidth    = 1;
