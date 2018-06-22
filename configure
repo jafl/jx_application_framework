@@ -147,6 +147,7 @@ elif command -v apt-get; then
 #	./bin/patch_ace.pl ACE/ACE_wrappers/ace;
 
 	configure_linux;
+	rm -f programs/code_medic/lldb-include;
 	ln -sf /usr/lib/llvm-3.9/include programs/code_medic/lldb-include;
 	ln -sf /usr/lib/llvm-3.9/lib/liblldb.so.1 lib/liblldb.so;
 

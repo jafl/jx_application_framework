@@ -53,9 +53,9 @@ static const JUtf8Byte* kFallbackFontNames[] =
 	"Arial Unicode MS",	// Arabic, Armenian, CJK, Cyrillic, Greek, Hebrew
 	"Arial"				// Latin, some Cyrillic, some Arabic
 #else
-	"FreeSans",						// Armenian, Cyrillic, Greek, Latin
-	"Source Han Sans CN Normal",	// CJK
-	"Lohit Devanagari"				// Arabic, Hebrew
+	"FreeSans",						// Arabic, Armenian, Cyrillic, Greek, Hebrew, Latin
+	"Source Han Sans CN Normal",	// CJK - Fedora
+	"Noto Sans CJK SC"				// CJK - Ubuntu
 #endif
 };
 

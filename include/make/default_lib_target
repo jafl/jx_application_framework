@@ -19,7 +19,7 @@ else
   default: ${LIB_NAME_ROOT}.a
 endif
   ifneq (${jx.test.skip},true)
-	@if [[ -d test ]]; then cd test; makemake; make FROM_LIB=1 test; fi
+	@if { test -d test; } then cd test; makemake; make FROM_LIB=1 test; fi
   endif
   ifneq (${J_WANT_INSTALL},0)
   ifeq (${shell whoami},root)
