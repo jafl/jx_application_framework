@@ -22,12 +22,11 @@ endif
 #
 
 BEGIN_ACE_MAKE = \
-    if { test -f ${ACE_ROOT}/ace/Makefile -o -f ${ACE_ROOT}/ace/GNUmakefile; } then \
-        { \
+    if [[ -f ${ACE_ROOT}/ace/Makefile || -f ${ACE_ROOT}/ace/GNUmakefile ]]; then \
         cd ${ACE_ROOT}/ace; ${MAKE}
 
 END_ACE_MAKE = \
-    ; } \
+    ; \
     fi
 
 #
@@ -35,35 +34,27 @@ END_ACE_MAKE = \
 #
 
 .PHONY : jxinstall
-ifdef J_FORCE_ACE_STATIC
-  jxinstall: prep static
-	@${RM} -r ACE_wrappers/ace/libACE.so ACE_wrappers/ace/.shobj/
-else
 ifdef J_BUILD_SHARED_LIB
   jxinstall: prep shared
 else
   jxinstall: prep static
 endif
-endif
   ifeq ($(shell whoami),root)
-	@if { test -f ACE_wrappers/ace/libACE.a; } then \
-         { \
+	@if [[ -f ACE_wrappers/ace/libACE.a ]]; then \
          cp ACE_wrappers/ace/libACE.a ${JX_LIB_ROOT}/libACE.a; \
-         } \
      fi
-	@if { test -f ACE_wrappers/ace/libACE.so; } then \
-         { \
+	@if [[ -f ACE_wrappers/ace/libACE.so ]]; then \
          cp ACE_wrappers/ace/libACE.so ${JX_LIB_ROOT}/libACE.so; \
-         } \
      fi
   endif
 
 .PHONY : prep
 prep:
-	@if { test -x ACE_wrappers/bin/mwc.pl -a ! -f ${ACE_ROOT}/ace/Makefile -a ! -f ${ACE_ROOT}/ace/GNUmakefile; } then \
-         { \
+	@if [[ -x ACE_wrappers/bin/mwc.pl && \
+           ! -f ${ACE_ROOT}/ace/Makefile && \
+           ! -f ${ACE_ROOT}/ace/GNUmakefile ]]; \
+     then \
          cd ACE_wrappers; ./bin/mwc.pl -type gnuace ACE.mwc; \
-         } \
      fi
 
 .PHONY : shared

@@ -1,5 +1,7 @@
 # Constants used in all Makefiles
 
+SHELL := /bin/bash
+
 #
 # version numbers
 #
@@ -8,7 +10,14 @@ JX_VERSION     := 4.0.0
 JX_LIB_VERSION := 4_0_0
 JX             := JX-${JX_VERSION}
 
-ACE_VERSION := 6.4.6
+ACE_VERSION := $(shell perl -e \
+    'if (-f "ACE/ACE_wrappers/ace/Version.h") { \
+         $$data=`cat ACE/ACE_wrappers/ace/Version.h`; \
+         if ($$data =~ /\#define ACE_VERSION "(.+)"/) { \
+              print $$1; exit; \
+         } \
+     } \
+     print "6.4.6";')    # default version downloaded from libjx.sourceforge.net
 
 #
 # useful directories
@@ -27,23 +36,14 @@ else
   JX_ROOT_LIB_DIRECTORY := /usr/lib
 endif
 
-# Complain if JX_INSTALL_ROOT is set but not usable
-#ifdef JX_INSTALL_ROOT
-#  override JX_INSTALL_ROOT := \
-#    ${shell if { test -d ${JX_INSTALL_ROOT} -a -w ${JX_INSTALL_ROOT}; } \
-#            then { echo ${JX_INSTALL_ROOT}; } \
-#            else { echo; } fi }
-#endif
-
 ifndef JX_INSTALL_ROOT
   ifeq ($(shell whoami),root)
     override JX_INSTALL_ROOT := ${JX_ROOT_BIN_DIRECTORY}
   else
     override JX_INSTALL_ROOT := \
-      ${shell if { test -d ${HOME}/bin -a -w ${HOME}/bin; } \
-              then { echo ${HOME}/bin; } \
-              else { test -d ${JX_ROOT}/bin || mkdir ${JX_ROOT}/bin; \
-                     cd ${JX_ROOT}/bin; pwd; } fi }
+      ${shell if [[ -d ${HOME}/bin && -w ${HOME}/bin ]]; \
+              then echo ${HOME}/bin; \
+              else mkdir -p ${JX_ROOT}/bin; cd ${JX_ROOT}/bin; pwd; fi }
   endif
 endif
 

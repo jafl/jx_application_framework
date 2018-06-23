@@ -8,17 +8,11 @@
 
 J_X11_LIB_DIR := -L/usr/X11R6/lib
 
-# Uncomment this and change it if your X11 headers are not in /usr/include/X11.
-
-# J_X11_INCLUDE_DIR := -I/usr/include
-
-# This sets the optimization level.
-
-J_OPTIMIZE_LEVEL := 0
-
 # Comment this out if your system is not ELF.
 
 J_BUILD_SHARED_LIB := -fPIC
+J_BEGIN_LINK_STATIC := -Xlinker -Bstatic
+J_END_LINK_STATIC   := -Xlinker -Bdynamic
 
 # This flag tells the linker to build a shared library.
 
@@ -27,14 +21,6 @@ J_SHARED_LIB_LINK_OPTION := -shared
 # This specifies the suffix for shared libraries
 
 J_SHARED_LIB_SUFFIX := so
-
-# Uncomment this if libACE.so doesn't work
-
-# J_FORCE_ACE_STATIC := yes
-
-# Uncomment this if your system requires threads
-
-# J_USE_THREADS := yes
 
 # Uncomment this if your system requires separate .o files for
 # static and shared libraries.  The actual value is not used.
@@ -49,16 +35,6 @@ J_COMPILE_DEBUG := -g
 
 J_STRIP_DEBUG := strip -g
 
-# Comment this out if ACE or other code gives you warnings that
-# you can't avoid.
-
-J_DIE_ON_WARNING := -Werror
-
-# Uncomment this if your version of GNU make does not automatically
-# generate the -o parameter.
-
-# J_MAKE_NEEDS_OUTPUT_ARG = -o $@
-
 # Comment this out if your version of "ar" does not accept the -s option.
 
 J_RANLIB_VIA_AR_S := -D_J_RANLIB_VIA_AR_S
@@ -72,13 +48,14 @@ J_RANLIB_VIA_AR_S := -D_J_RANLIB_VIA_AR_S
 # J_USE_READDIR_R := -DJ_USE_READDIR_R
 # J_USE_READDIR_R := -DJ_USE_POSIX_READDIR_R
 
-# Uncomment this if your system doesn't have memmove(). (used by jlib/regex)
-
-# J_REGEX_USE_BCOPY := -DUSEBCOPY
-
 # Uncomment this if ctags fails on your system
 
 # J_HAS_CTAGS_BUG = -D_J_CTAGS_BUG
+
+# Comment this out if you don't have Xinerama
+
+J_HAS_XINERAMA  := -D_J_HAS_XINERAMA
+J_XINERAMA_LIBS := -lXinerama
 
 # Add to this until everything compiles.
 #
@@ -105,16 +82,21 @@ LINKER := g++
 CC       := gcc
 CXX      := g++
 CPPFLAGS  = ${DEPENDFLAGS}
-CFLAGS    = ${J_MAKE_NEEDS_OUTPUT_ARG}
-CXXFLAGS  = ${J_MAKE_NEEDS_OUTPUT_ARG}
+CFLAGS    = 
+CXXFLAGS  = -std=c++17
 
 # libraries to link
 
 J_GCC_LIBS  := ${shell PKG_CONFIG_PATH=${PKG_CONFIG_PATH} \
                  pkg-config --libs icu-i18n libpcre} \
-               -lstdc++ -lm -lc -ldl
+               -lstdc++ -lpthread -lm -lc -ldl
 J_ACE_LIBS  := -L${JX_ROOT}/lib -lACE
 J_X11_LIBS  := -L${JX_ROOT}/lib ${J_X11_LIB_DIR} -lXext -lXft -lXpm -lX11
+
+# lldb
+
+J_LLDB_LIBS          := -L/usr/lib64/llvm -llldb
+J_POST_LINK_LLDB_CMD := :
 
 # modify settings based on OS, compiler, etc.
 

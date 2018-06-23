@@ -21,11 +21,12 @@ END_DIR   = ) fi
 
 .PHONY : Makefiles
 Makefiles:
-	@if { test -d ${JX_ROOT}/programs/code_crusader \
-               -a -d ${JX_ROOT}/programs/code_medic; } then \
+	@if [[ -d ${JX_ROOT}/programs/code_crusader && \
+            -d ${JX_ROOT}/programs/code_medic ]]; \
+      then \
          cd ${JX_ROOT}/programs/code_medic; \
          ${MAKE} -f Make.header update_jcc; \
-     fi
+      fi
 	@${foreach dir, \
           ${wildcard ../lib?*/. ../tools/*/. ../programs/*/.} \
           ../ACE/test/ ../tutorial/, \

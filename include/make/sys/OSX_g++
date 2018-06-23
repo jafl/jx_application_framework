@@ -8,18 +8,6 @@
 
 J_X11_LIB_DIR := -L/usr/X11/lib
 
-# Uncomment this and change it if your X11 headers are not in /usr/include/X11.
-
-J_X11_INCLUDE_DIR := -I/usr/X11/include
-
-# This sets the optimization level
-
-J_OPTIMIZE_LEVEL := 0
-
-# Comment this out if your system is not ELF.
-
-#J_BUILD_SHARED_LIB := -fPIC
-
 # This flag tells the linker to build a shared library.
 
 J_SHARED_LIB_LINK_OPTION := -shared
@@ -32,35 +20,9 @@ J_SHARED_LIB_SUFFIX := dylib
 
 J_COMPILE_DEBUG := -g
 
-# Comment this out if ACE or other code gives you warnings that
-# you can't avoid.
-
-#J_DIE_ON_WARNING := -Werror
-
-# Uncomment this if your version of GNU make does not automatically
-# generate the -o parameter.
-
-# J_MAKE_NEEDS_OUTPUT_ARG = -o $@
-
 # This command is used to strip debugging info but not the symbol table.
 
 J_STRIP_DEBUG := strip -S
-
-# Comment this out if your version of "ar" does not accept the -s option.
-
-# J_RANLIB_VIA_AR_S := -D_J_RANLIB_VIA_AR_S
-
-# Uncomment this if your system doesn't have memmove() (used by jlib/regex)
-
-# J_REGEX_USE_BCOPY := -DUSEBCOPY
-
-# Uncomment this if ctags fails on your system
-
-# J_HAS_CTAGS_BUG = -D_J_CTAGS_BUG
-
-# ACE needs threads
-
-J_USE_THREADS := yes
 
 # Adjust these until everything compiles
 
@@ -69,6 +31,8 @@ J_RAW_SYSTEM_STUFF := \
   -DU_CHARSET_IS_UTF8=1 \
   -D_J_LLDB_HAS_SBVALUE_GETSUMMARY \
   -D_J_HAS_SYSCTL -D_XFT_NO_COMPAT_ -I/usr/X11/include/freetype2
+
+SEARCHDIRS += -I/usr/X11/include
 
 #
 # Nothing below this line should ever need to be changed.
@@ -87,8 +51,8 @@ CXX      := clang++
 CPPFLAGS  = ${DEPENDFLAGS} \
             ${shell PKG_CONFIG_PATH=${PKG_CONFIG_PATH} \
               pkg-config --cflags icu-i18n libpcre}
-CFLAGS    = ${J_MAKE_NEEDS_OUTPUT_ARG}
-CXXFLAGS  = ${J_MAKE_NEEDS_OUTPUT_ARG} -std=c++17
+CFLAGS    = 
+CXXFLAGS  = -std=c++17
 
 # libraries to link
 

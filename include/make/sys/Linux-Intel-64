@@ -8,14 +8,6 @@
 
 J_X11_LIB_DIR := -L/usr/X11R6/lib64
 
-# Uncomment this and change it if your X11 headers are not in /usr/include/X11.
-
-# J_X11_INCLUDE_DIR := -I/usr/include
-
-# This sets the optimization level
-
-J_OPTIMIZE_LEVEL := 0
-
 # Comment this out if your system is not ELF.
 
 J_BUILD_SHARED_LIB  := -fPIC
@@ -34,16 +26,6 @@ J_SHARED_LIB_SUFFIX := so
 
 J_COMPILE_DEBUG := -g
 
-# Comment this out if ACE or other code gives you warnings that
-# you can't avoid.
-
-#J_DIE_ON_WARNING := -Werror
-
-# Uncomment this if your version of GNU make does not automatically
-# generate the -o parameter.
-
-# J_MAKE_NEEDS_OUTPUT_ARG = -o $@
-
 # This command is used to strip debugging info but not the symbol table.
 
 J_STRIP_DEBUG := strip -g
@@ -51,10 +33,6 @@ J_STRIP_DEBUG := strip -g
 # Comment this out if your version of "ar" does not accept the -s option.
 
 J_RANLIB_VIA_AR_S := -D_J_RANLIB_VIA_AR_S
-
-# Uncomment this if your system doesn't have memmove() (used by jlib/regex)
-
-# J_REGEX_USE_BCOPY := -DUSEBCOPY
 
 # Comment this out if you don't have Xinerama
 
@@ -85,14 +63,14 @@ LINKER := g++
 CC       := gcc
 CXX      := g++
 CPPFLAGS  = ${DEPENDFLAGS}
-CFLAGS    = ${J_MAKE_NEEDS_OUTPUT_ARG}
-CXXFLAGS  = ${J_MAKE_NEEDS_OUTPUT_ARG} -std=c++17
+CFLAGS    = 
+CXXFLAGS  = -std=c++17
 
 # libraries to link
 
 J_GCC_LIBS  := ${shell PKG_CONFIG_PATH=${PKG_CONFIG_PATH} \
                  pkg-config --libs icu-i18n libpcre} \
-               -lstdc++ -lm -lc -ldl
+               -lstdc++ -lpthread -lm -lc -ldl
 J_ACE_LIBS  := -L${JX_ROOT}/lib -lACE
 J_X11_LIBS  := -L${JX_ROOT}/lib ${J_X11_LIB_DIR} ${J_XINERAMA_LIBS} -lfontconfig -lXext -lXft -lXpm -lX11
 

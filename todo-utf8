@@ -145,6 +145,9 @@ jx_project_wizard
 	convert app_template to { }
 	convert help to online
 
+code_medic
+	test on ubuntu with lldb-6.0
+
 -----
 
 https://en.wikibooks.org/wiki/Unicode/Character_reference/21000-21FFF
