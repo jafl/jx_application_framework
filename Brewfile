@@ -1,0 +1,6 @@
+brew "coreutils"
+brew "ace"
+brew "icu4c"
+brew "pcre"
+brew "pkg-config"
+brew "aspell"
