@@ -5,12 +5,6 @@ include ${JX_ROOT}/include/make/jx_config
 
 ACE_MAKE_FLAGS := exceptions=0
 
-ifeq (${J_USE_THREADS},yes)
-  ACE_MAKE_FLAGS += threads=1
-else
-  ACE_MAKE_FLAGS += threads=0
-endif
-
 ifdef J_COMPILE_DEBUG
   ACE_DEBUG := debug=1
 else
