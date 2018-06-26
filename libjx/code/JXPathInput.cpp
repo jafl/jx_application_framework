@@ -780,6 +780,7 @@ JXPathInput::Complete
 			{
 			JAppendDirSeparator(&maxPrefix);	// invalidates iter
 			}
+		iter.Invalidate();			// avoid double iterator
 		te->Paste(maxPrefix);		// so Undo removes only completion
 
 		if (*menu != nullptr)

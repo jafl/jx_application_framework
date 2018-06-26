@@ -422,16 +422,15 @@ JXWDManager::UpdateWDMenu1
 			JString nmShortcut;
 			if (style == JXMenu::kWindowsStyle)
 				{
-				nmShortcut = "Ctrl-0";
+				nmShortcut = "Ctrl-";
 				}
 			else
 				{
 				assert( style == JXMenu::kMacintoshStyle );
-				nmShortcut = "Meta-0";
+				nmShortcut = "Meta-";
 				}
 
-			JStringIterator iter(&nmShortcut, kJIteratorStartAtEnd);
-			iter.SetPrev(kShortcutChar [ info.shortcutIndex ]);
+			nmShortcut.Append(kShortcutChar[ info.shortcutIndex ]);
 			menu->SetItemNMShortcut(menuIndex, nmShortcut);
 			}
 		}

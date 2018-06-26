@@ -57,7 +57,6 @@
 #include "JXDisplay.h"
 #include "JXColorManager.h"
 #include "jXGlobals.h"
-#include <JStringIterator.h>
 #include <jFileUtil.h>
 #include <algorithm>
 #include <jAssert.h>
@@ -619,16 +618,15 @@ JXDocumentManager::UpdateDocumentMenu
 			JString nmShortcut;
 			if (style == JXMenu::kWindowsStyle)
 				{
-				nmShortcut = "Ctrl-0";
+				nmShortcut = "Ctrl-";
 				}
 			else
 				{
 				assert( style == JXMenu::kMacintoshStyle );
-				nmShortcut = "Meta-0";
+				nmShortcut = "Meta-";
 				}
 
-			JStringIterator iter(&nmShortcut, kJIteratorStartAtEnd);
-			iter.SetPrev(kShortcutChar [ info.shortcut ]);
+			nmShortcut.Append(kShortcutChar[ info.shortcut ]);
 			menu->SetItemNMShortcut(i, nmShortcut);
 			}
 		}

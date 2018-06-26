@@ -132,13 +132,14 @@ JXTextButton::CalcULIndex()
 	if (itsShortcuts != nullptr)
 		{
 		JString s = *itsShortcuts;
-		{
+
 		JStringIterator iter(&s);
 		if (iter.Next("^M") || iter.Prev("^m"))	// indicated with black border
 			{
 			iter.RemoveLastMatch();
 			}
-		}
+		iter.Invalidate();
+
 		itsULIndex = JXWindow::GetULShortcutIndex(itsLabel, &s);
 		}
 	else
