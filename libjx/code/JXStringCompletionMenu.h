@@ -24,7 +24,7 @@ public:
 
 	JBoolean	AddString(const JString& str);
 
-	void	CompletionRequested(const JSize prefixLength);
+	void	CompletionRequested(const JSize prefixCharCount);
 	void	ClearRequestCount();
 
 protected:
@@ -36,7 +36,7 @@ private:
 	JXTEBase*		itsTE;				// not owned
 	const JBoolean	itsAllowTabChar;
 	JSize			itsRequestCount;
-	JSize			itsPrefixLength;
+	JSize			itsPrefixCharCount;
 
 private:
 

@@ -40,9 +40,9 @@ JXStringCompletionMenu::JXStringCompletionMenu
 	JXTextMenu(JString("*", kJFalse), te, kFixedLeft, kFixedTop, 0,0, 10,10),
 	itsAllowTabChar(allowTabChar)
 {
-	itsTE           = te;
-	itsRequestCount = 0;
-	itsPrefixLength = 0;
+	itsTE              = te;
+	itsRequestCount    = 0;
+	itsPrefixCharCount = 0;
 
 	Hide();
 	SetToHiddenPopupMenu(kJTrue);
@@ -130,13 +130,13 @@ JXStringCompletionMenu::AddString
 void
 JXStringCompletionMenu::CompletionRequested
 	(
-	const JSize prefixLength
+	const JSize prefixCharCount
 	)
 {
 	itsRequestCount++;
 	if (itsRequestCount > 1 && !IsEmpty())
 		{
-		itsPrefixLength = prefixLength;
+		itsPrefixCharCount = prefixCharCount;
 
 		// prepend "insert tab character" option
 
@@ -210,8 +210,9 @@ JXStringCompletionMenu::HandleSelection
 		{
 		JString s = GetItemText(index);
 		JStringIterator iter(&s);
-		iter.SkipNext(strlen(kItemPrefixStr));
+		iter.SkipNext(strlen(kItemPrefixStr) + itsPrefixCharCount);
 		iter.RemoveAllPrev();
+		iter.Invalidate();	// avoid double iterator
 		itsTE->Paste(s);
 		}
 }
