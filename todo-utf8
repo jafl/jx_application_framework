@@ -43,15 +43,12 @@ put back
 implement flex/bison parser for libjexpr
 
 leibnitz - symbol font
-	transform to unicode and use X11 utf8 string width/drawing functions
+	transform to unicode
 
 jx_project_wizard
 	convert logic to use JSubstitute - need way to specify case match?
 	convert app_template to { }
 	convert help to online
-
-code_medic
-	test on ubuntu with lldb-6.0
 
 -----
 
@@ -59,6 +56,7 @@ test
 	man pages
 	styled unix terminal output - yui build output
 	default & vi key handlers
+	code_medic on ubuntu with lldb-6.0
 
 test every function that uses JStringIterator or Split
 	libjx
