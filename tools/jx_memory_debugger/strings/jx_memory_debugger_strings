@@ -18,6 +18,9 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 https://github.com/jafl/jx_application_framework"
 
+HELP_URL		"http://libjx.sourceforge.net/jx_memory_debugger/help.html"
+CHANGE_LOG_URL	"http://libjx.sourceforge.net/jx_memory_debugger/ChangeLog.html"
+
 # mdGlobals
 
 Description::mdGlobals
@@ -25,11 +28,15 @@ Description::mdGlobals
 
 Memory Debugger for the JX Application Framework
 
+This program displays the memory usage of any program writting using the JX
+Application Framework and is very useful for detecting and tracking down
+memory leaks.
+
 $copyright"
 
 #2345678901234567890123456789012345678901234567890123456789012345678901234567890
 
-CommandLineHelp
+CommandLineHelp::mdGlobals
 "JX Memory Debugger $vers
 
 $copyright

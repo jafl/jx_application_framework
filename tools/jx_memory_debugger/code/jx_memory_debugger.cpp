@@ -117,6 +117,6 @@ PrintCommandLineHelp()
 		"vers",      MDGetVersionNumberStr(),
 		"copyright", JGetString("COPYRIGHT").GetBytes()
 		};
-	const JString s = JGetString("CommandLineHelp", map, sizeof(map));
+	const JString s = JGetString("CommandLineHelp::mdGlobals", map, sizeof(map));
 	std::cout << std::endl << s << std::endl << std::endl;
 }

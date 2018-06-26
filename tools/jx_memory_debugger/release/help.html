@@ -1,0 +1,69 @@
+<html>
+<head>
+
+<title>JX Memory Debugger Help</title>
+<link rel="stylesheet" type="text/css" href="http://libjx.sourceforge.net/help/base.css" />
+<link rel="stylesheet" type="text/css" href="../../../doc/html/help/base.css" />	<!-- dev -->
+
+</head>
+<body>
+
+<h1>JX Memory Debugger Help</h1>
+
+<p>Please submit all suggestions and bugs via <a href="https://github.com/jafl/jx_application_framework/issues">github</a>.</p>
+<hr>
+
+<h2>Table of Contents</h2>
+
+<ul>
+	<li><a href="#MDOverviewHelp">Overview</a></li>
+
+	<li><a href="#MDMainHelp">Live/Exit Stats</a></li>
+
+	<li><a href="#MDRecordHelp">Query Results / Leftovers</a></li>
+
+	<li><a href="ChangeLog.html">Changes from previous versions</a></li>
+
+	<li><a href="http://libjx.sourceforge.net/help/credits.html">Credits</a></li>
+
+	<li><a href="https://www.gnu.org/licenses/gpl-3.0.en.html">License</a></li>
+</ul>
+
+
+<hr>
+<h2><a name="MDOverviewHelp">Overview of JX Memory Debugger</a></h2>
+
+<p>This program helps analyze the memory usage of programs built on top of the <a href="https://github.com/jafl/jx_application_framework">JX Application Framework</a>.  It only displays memory allocated via <code>jnew</code> by your code or by JX.  It cannot display memory allocated via <code>malloc()</code> or by other libraries like ACE or PCRE.</p>
+
+<p>Statistics are displayed in the <a href="#MDMainHelp">Live Stats window</a>.</p>
+
+<p>Detailed information can be displayed by opening a <a href="#MDRecordHelp">Query Results window</a>.</p>
+
+
+<hr>
+<h2><a name="MDMainHelp">Live/Exit Stats</a></h2>
+
+<p>This window displays live statistics of the program's memory usage while the program is running.  After the program exits, the window displays the leftovers: the blocks that were allocated but not deallocated.<p/>
+
+<p>First, set the binary to run and the arguments to pass to it.  Then click the "Run" button.</p>
+
+<p>"Blocks" counts the number of allocated memory blocks.  "Bytes" is the total size of the allocated blocks.  "Deallocated" counts the number of blocks that have been deallocated over the life of the process.</p>
+
+<p>The histogram displays the number of blocks in each size range.  Each size range includes values larger than the next lower "Max Size" and at most equal to the range's "Max Size".  The last bucket is open ended.  Note that the histogram is logarithmic.</p>
+
+
+<hr>
+<h2><a name="MDRecordHelp">Query Results / Leftovers</a></h2>
+
+<p>When you select "Get allocated records" from the File menu in the <a href="#MDMainHelp">Live Stats window</a>, you can set the filter criteria for which records will be returned.  You can enter a file name to restrict the results to everything allocated in a single source file.  You can also enter a minimum allocation size.  The matching records (at the time of the query) are displayed in a Query Results window.  When the program exits, a Leftovers window opens automatically to show the blocks that were never deallocated.</p>
+
+<p>The first column indicates if there is an error in the allocation.  The next two columns display the file name and line number.  The size of the block is in column four.  If the block was allocated via <code>jnew[]</code>, column five displays <code>[]</code>.  The last column displays the data, rendered as a string.  This is useless for binary data, but very useful for string data.</p>
+
+<p>The Data column is also useful for detecting uninitialized or shredded memory.  Unless you override <code>JMM_INITIALIZE</code> and <code>JMM_SHRED</code>, uninitialized bytes will display as &#xA7;, while shredded bytes will display as &#xD7;.</p>
+
+<p>If you double click on the Data column, you will get a text field, so you can copy part or all of the text.</p>
+
+<p>Double clicking in any other column will attempt to open the source file to display the line which allocated the block.  Since <code>jx_memory_debugger</code> does not know where the code was compiled, you must run <code>jx_memory_debugger</code> in the build directory in order to be able to open files.  To change the command to open a file, select "Edit preferences..." from the Preferences menu.</p>
+
+</body>
+</html>
