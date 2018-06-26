@@ -162,6 +162,11 @@ JXSpellChecker::CheckWord
 {
 	suggestionList->DeleteAll();
 
+	if (!word.IsAscii())	// ispell *may* split on non-english characters
+		{
+		return kJTrue;
+		}
+
 	JStringIterator iter1(word);
 	JUtf8Character c;
 	while (iter1.Next(&c))
@@ -178,12 +183,10 @@ JXSpellChecker::CheckWord
 	JString test = JReadUntil(itsInFD, '\n');
 	if (test.IsEmpty())
 		{
-		test = JReadUntil(itsInFD, '\n');
-		}
-	if (test.IsEmpty())
-		{
 		return kJTrue;
 		}
+
+	JReadUntil(itsInFD, '\n');	// flush extra newline
 
 	c = test.GetFirstCharacter();
 	if (c == '*' || c == '+' || c == '-')
