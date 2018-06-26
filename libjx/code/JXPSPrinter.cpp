@@ -70,20 +70,20 @@ void
 JXPSPrinter::SetDestination
 	(
 	const Destination	dest,
-	const JString&		printCmd,
-	const JString&		fileName
+	const JString*		printCmd,
+	const JString*		fileName
 	)
 {
 	itsDestination = dest;
 
 	if (printCmd != nullptr)
 		{
-		itsPrintCmd = printCmd;
+		itsPrintCmd = *printCmd;
 		}
 
 	if (fileName != nullptr)
 		{
-		itsFileName = fileName;
+		itsFileName = *fileName;
 		}
 }
 

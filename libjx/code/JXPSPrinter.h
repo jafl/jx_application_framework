@@ -49,8 +49,8 @@ public:
 
 	Destination		GetDestination() const;
 	void			SetDestination(const Destination dest,
-								   const JString& printCmd,
-								   const JString& fileName);
+								   const JString* printCmd,
+								   const JString* fileName);
 
 	const JString&	GetPrintCmd() const;
 	void			SetPrintCmd(const JString& cmd);
