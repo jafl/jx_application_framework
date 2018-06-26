@@ -36,7 +36,8 @@ LDFLAGS   :=
 # tests
 
 TESTS := \
-      test_jXUtil test_jXEventUtil test_JXTextMenuData
+      test_jXUtil test_jXEventUtil test_JXTextMenuData \
+      test_JXSpellChecker
 
 #####
 

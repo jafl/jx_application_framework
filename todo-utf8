@@ -4,6 +4,8 @@ validate contents of TextChanged messages
 call FilterText after set font or font name or SetAllFontAndName
 
 fix jStreamUtil.cpp TODO's
+JAsynchDataReceiver::handle_input
+	we cannot assume received complete utf-8 characters
 
 
 finish JTextEditor tests
@@ -40,42 +42,34 @@ put back
 
 implement flex/bison parser for libjexpr
 
+leibnitz - symbol font
+	transform to unicode and use X11 utf8 string width/drawing functions
+
+jx_project_wizard
+	convert logic to use JSubstitute - need way to specify case match?
+	convert app_template to { }
+	convert help to online
+
+code_medic
+	test on ubuntu with lldb-6.0
+
 -----
 
 test
 	man pages
 	styled unix terminal output - yui build output
 	default & vi key handlers
-	fonts in Linux via VirtualBox Fedora
-		need fallbacks
 
-unit test libjx
-	JXCSFDialogBase
-	JXDocumentManager
-	JXFileListTable
-	JXFontManager
-	JXHelpManager
-	JXHelpText
-	JXInputField
-	JXMenu
-	JXPathInput
-	JXSaveFileInput
-	JXSpellChecker
-	JXStringCompletionMenu
-	JXTextButton
-	JXTextMenu
-	JXTextMenuData
-	JXWDManager
-	JXWindow
-	JXWindowPainter
-
------
-
-unit test every function that uses JStringIterator or Split
+test every function that uses JStringIterator or Split
 	libjx
+		JXFileListTable
 	libjexpr
+		?
 	libj2dplot
+		J2DPlotWidget
 	libjfs
+		JFSBindingList
+		JFSFileTreeNode
 
 unit tests
 	JPrefsFile
@@ -106,21 +100,11 @@ untested JStringIterator usage:
 	JTranslateLocalToRemote
 	JTranslateRemoteToLocal
 
-JAsynchDataReceiver::handle_input
-	we cannot assume received complete utf-8 characters
-
 -----
-
-convert all functions to use JString intead of JUtf8Byte*
-	call GetBytes() only when pass string to system function
 
 analyze all uses of toupper/lower - not all languages do this by single character
 
 re-evaluate all uses of JIndexRange - character or utf8 byte?
-
-UTF8_STRING for X selection
-use real X compose mechanism
-	remove JXComposeRuleList
 
 utf8 - sorting vs searching
 	searching should include diacriticals
@@ -130,23 +114,6 @@ utf8 - sorting vs searching
 
 	ignore accents for case-sensitive search: strength=primary caseLevel=on
 	http://demo.icu-project.org/icu-bin/collation.html
-
-is YUI yogi output correct with check mark? - NO
-	need XDrawString16() ?
-
-leibnitz - symbol font
-	transform to unicode and use X11 utf8 string width/drawing functions
-
-jx_memory_debugger
-	convert help to online
-
-jx_project_wizard
-	convert logic to use JSubstitute - need way to specify case match?
-	convert app_template to { }
-	convert help to online
-
-code_medic
-	test on ubuntu with lldb-6.0
 
 -----
 
