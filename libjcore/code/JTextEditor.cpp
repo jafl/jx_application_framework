@@ -3394,7 +3394,7 @@ JTextEditor::GetLineEnd
 		}
 	else
 		{
-		return itsPrevTextEnd;	// consistent with rest of output from Recalc()
+		return itsPrevTextLastIndex;	// consistent with rest of output from Recalc()
 		}
 }
 
@@ -3795,7 +3795,8 @@ JTextEditor::Recalc
 
 	// save for next time
 
-	itsPrevTextEnd = itsText->AdjustTextIndex(itsText->GetBeyondEnd(), -1);
+	itsPrevTextLastIndex = itsText->AdjustTextIndex(itsText->GetBeyondEnd(), -1);
+	itsPrevTextEnd       = itsText->SelectAll().GetCount();
 
 	// show the changes
 
@@ -3880,7 +3881,7 @@ JTextEditor::Recalc1
 		const JIndex endCharIndex = iter->GetPrevCharacterIndex();
 
 		while (lineIndex < GetLineCount() &&
-			   (itsPrevTextEnd.charIndex+1) - GetLineStart(lineIndex+1).charIndex >
+			   (itsPrevTextEnd.charCount+1) - GetLineStart(lineIndex+1).charIndex >
 					textLength.charCount - endCharIndex)
 			{
 			itsLineStarts->RemoveElement(lineIndex+1);
@@ -3897,20 +3898,21 @@ JTextEditor::Recalc1
 			}
 		else if (iter->GetNextCharacterIndex() >= end.charIndex &&
 				 lineIndex < GetLineCount() &&
-				 (itsPrevTextEnd.charIndex+1) - GetLineStart(lineIndex+1).charIndex ==
+				 (itsPrevTextEnd.charCount+1) - GetLineStart(lineIndex+1).charIndex ==
 					textLength.charCount - endCharIndex)
 			{
 			// The rest of the line starts merely shift.
 
 			const JSize lineCount = GetLineCount();
-			const TextCount delta(textLength.charCount - itsPrevTextEnd.charIndex,
-								  textLength.byteCount - itsPrevTextEnd.byteIndex);
-			if (delta.charCount != 0)
+			const long charDelta  = textLength.charCount - itsPrevTextEnd.charCount,
+					   byteDelta  = textLength.byteCount - itsPrevTextEnd.byteCount;
+			if (charDelta != 0)
 				{
 				TextIndex* lineStart = const_cast<TextIndex*>(itsLineStarts->GetCArray());
 				for (JIndex i=lineIndex; i<lineCount; i++)
 					{
-					lineStart[i] += delta;
+					lineStart[i].charIndex += charDelta;
+					lineStart[i].byteIndex += byteDelta;
 					}
 				}
 			break;
@@ -3928,7 +3930,7 @@ JTextEditor::Recalc1
 		// far enough yet, so the above breakout code didn't trigger.
 
 		if (lineIndex < GetLineCount() &&
-			(itsPrevTextEnd.charIndex+1) - GetLineStart(lineIndex+1).charIndex ==
+			(itsPrevTextEnd.charCount+1) - GetLineStart(lineIndex+1).charIndex ==
 				textLength.charCount - endCharIndex)
 			{
 			itsLineStarts->RemoveElement(lineIndex+1);
