@@ -24,11 +24,3 @@ ${JXDIR}/JXButtonStates
 ${JXDIR}/JXKeyModifiers
 ${JXDIR}/jXEventUtil
 literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
-
-@test_JXSpellChecker
-${CODEDIR}/test_JXSpellChecker
-${CODEDIR}/JXSharedPrefsManager_mock
-${CODEDIR}/JXSpellCheckerDialog_mock
-${JXDIR}/JXSpellChecker
-${JXDIR}/JXSharedPrefObject
-literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a

@@ -1,5 +1,5 @@
 /******************************************************************************
- test_JXSpellChecker.cpp
+ test_JSpellChecker.cpp
 
 	Test interface to aspell.
 
@@ -8,8 +8,7 @@
  *****************************************************************************/
 
 #include <JTestManager.h>
-#include <JXSpellChecker.h>
-#include <JPtrArray-JString.h>
+#include <JSpellChecker.h>
 #include <jAssert.h>
 
 int main()
@@ -19,7 +18,7 @@ int main()
 
 JTEST(Exercise)
 {
-	JXSpellChecker sp;
+	JSpellChecker sp;
 	JAssertTrue(sp.IsAvailable());
 
 	JPtrArray<JString> list(JPtrArrayT::kDeleteAll);

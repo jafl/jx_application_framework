@@ -1,28 +1,18 @@
 /******************************************************************************
  JXSpellChecker.cpp
 
-	BASE CLASS = JXSharedPrefObject
+	BASE CLASS = JSpellChecker, JXSharedPrefObject
 
 	Copyright (C) 1997 by Glenn W. Bach.
+	Copyright (C) 2018 by John Lindal.
 
  *****************************************************************************/
 
 #include "JXSpellChecker.h"
 #include "JXSpellCheckerDialog.h"
 #include "JXSharedPrefsManager.h"
-#include "JXWindowDirector.h"
-#include "JXWindow.h"
 #include "JXTEBase.h"
 #include "jXGlobals.h"
-#include <JProcess.h>
-#include <JOutPipeStream.h>
-#include <JStringIterator.h>
-#include <JStringMatch.h>
-#include <JRegex.h>
-#include <jStreamUtil.h>
-#include <jProcessUtil.h>
-#include <jDirUtil.h>
-#include <sstream>
 #include <jAssert.h>
 
 // setup information
@@ -46,44 +36,8 @@ JXSpellChecker::JXSpellChecker()
 	JXSharedPrefObject(kCurrentPrefsVersion,
 					   JXSharedPrefsManager::kLatestSpellCheckerVersionID,
 					   kVersList, kVersCount),
-	itsProcess(nullptr),
-	itsInFD(ACE_INVALID_HANDLE),
-	itsOutPipe(nullptr),
 	itsReportNoErrorsFlag(kJTrue)
 {
-	const JString cwd = JGetCurrentDirectory();
-	JString home;
-	if (JGetHomeDirectory(&home))
-		{
-		JChangeDirectory(home);
-		}
-
-	int toFD, fromFD;
-	JError err = JProcess::Create(&itsProcess, JString("aspell -a", kJFalse),
-								  kJCreatePipe, &toFD,
-								  kJCreatePipe, &fromFD,
-								  kJTossOutput, nullptr);
-	if (!err.OK())
-		{
-		err = JProcess::Create(&itsProcess, JString("ispell -a", kJFalse),
-							   kJCreatePipe, &toFD,
-							   kJCreatePipe, &fromFD,
-							   kJTossOutput, nullptr);
-		}
-
-	if (err.OK())
-		{
-		itsInFD = fromFD;
-		assert(itsInFD != ACE_INVALID_HANDLE);
-
-		itsOutPipe = jnew JOutPipeStream(toFD, kJTrue);
-		assert(itsOutPipe != nullptr);
-
-		JIgnoreUntil(itsInFD, '\n');
-		}
-
-	JChangeDirectory(cwd);
-
 	JXSharedPrefObject::ReadPrefs();
 }
 
@@ -94,9 +48,6 @@ JXSpellChecker::JXSpellChecker()
 
 JXSpellChecker::~JXSpellChecker()
 {
-	jdelete itsOutPipe;
-	close(itsInFD);
-	jdelete itsProcess;
 }
 
 /******************************************************************************
@@ -110,7 +61,7 @@ JXSpellChecker::Check
 	JXTEBase* editor
 	)
 {
-	if (itsProcess == nullptr)
+	if (!IsAvailable())
 		{
 		return;
 		}
@@ -133,7 +84,7 @@ JXSpellChecker::CheckSelection
 	)
 {
 	JCharacterRange range;
-	if (itsProcess == nullptr ||
+	if (!IsAvailable() ||
 		!editor->GetSelection(&range))
 		{
 		return;
@@ -143,115 +94,6 @@ JXSpellChecker::CheckSelection
 		jnew JXSpellCheckerDialog(this, editor, editor->GetText()->CharToTextRange(nullptr, range));
 	assert( dlog != nullptr );
 	dlog->Check();
-}
-
-/******************************************************************************
- CheckWord
-
- *****************************************************************************/
-
-static const JRegex resultSplitPattern = "\\s*,\\s*";
-
-JBoolean
-JXSpellChecker::CheckWord
-	(
-	const JString&		word,
-	JPtrArray<JString>*	suggestionList,
-	JBoolean*			goodFirstSuggestion
-	)
-{
-	suggestionList->DeleteAll();
-
-	if (!word.IsAscii())	// ispell *may* split on non-english characters
-		{
-		return kJTrue;
-		}
-
-	JStringIterator iter1(word);
-	JUtf8Character c;
-	while (iter1.Next(&c))
-		{
-		if (!c.IsAlpha())	// ispell splits on non-alpha characters
-			{
-			return kJTrue;
-			}
-		}
-
-	word.Print(*itsOutPipe);
-	*itsOutPipe << std::endl;
-
-	JString test = JReadUntil(itsInFD, '\n');
-	if (test.IsEmpty())
-		{
-		return kJTrue;
-		}
-
-	JReadUntil(itsInFD, '\n');	// flush extra newline
-
-	c = test.GetFirstCharacter();
-	if (c == '*' || c == '+' || c == '-')
-		{
-		return kJTrue;
-		}
-
-	JStringIterator iter2(&test);
-	if (iter2.Next(":"))
-		{
-		iter2.RemoveAllPrev();
-		test.TrimWhitespace();	// invalidates iter2
-		test.Split(resultSplitPattern, suggestionList);
-		}
-
-	*goodFirstSuggestion = JI2B(c == '&');
-	return kJFalse;
-}
-
-/******************************************************************************
- Learn
-
- ******************************************************************************/
-
-void
-JXSpellChecker::Learn
-	(
-	const JString& word
-	)
-{
-	*itsOutPipe << '&';
-	word.Print(*itsOutPipe);
-	*itsOutPipe << std::endl << '#' << std::endl;
-}
-
-/******************************************************************************
- LearnCaps
-
- ******************************************************************************/
-
-void
-JXSpellChecker::LearnCaps
-	(
-	const JString& word
-	)
-{
-	*itsOutPipe << '*';
-	word.Print(*itsOutPipe);
-	*itsOutPipe << std::endl << '#' << std::endl;
-}
-
-/******************************************************************************
- Ignore
-
- ******************************************************************************/
-
-void
-JXSpellChecker::Ignore
-	(
-	const JString& word
-	)
-{
-	*itsOutPipe << '@';
-	word.Print(*itsOutPipe);
-	*itsOutPipe << std::endl;
 }
 
 /******************************************************************************
@@ -277,7 +119,7 @@ JXSpellChecker::ShouldReportNoErrors
 void
 JXSpellChecker::SaveWindowSize
 	(
-	const JRect bounds
+	const JRect& bounds
 	)
 {
 	itsDefaultWindowSize.x = bounds.width();

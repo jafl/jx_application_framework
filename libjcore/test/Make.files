@@ -92,6 +92,10 @@ literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
 ${CODEDIR}/test_JRunArray
 literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
 
+@test_JSpellChecker
+${CODEDIR}/test_JSpellChecker
+literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
+
 @test_JStack
 ${CODEDIR}/test_JStack
 literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
@@ -116,13 +120,13 @@ literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
 ${CODEDIR}/test_JStringPtrMap
 literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
 
-@test_JSubstitute
-${CODEDIR}/test_JSubstitute
-literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
-
 @test_JStyledText
 ${CODEDIR}/test_JStyledText
 ${CODEDIR}/StyledText
+literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
+
+@test_JSubstitute
+${CODEDIR}/test_JSubstitute
 literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
 
 @test_JTextEditor

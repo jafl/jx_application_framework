@@ -2,21 +2,20 @@
  JXSpellChecker.h
 
 	Copyright (C) 1997 by Glenn W. Bach.
+	Copyright (C) 2018 by John Lindal.
 
  *****************************************************************************/
 
 #ifndef _H_JXSpellChecker
 #define _H_JXSpellChecker
 
+#include <JSpellChecker.h>
 #include "JXSharedPrefObject.h"
-#include <JPtrArray-JString.h>
 #include <JRect.h>
 
-class JProcess;
-class JOutPipeStream;
 class JXTEBase;
 
-class JXSpellChecker : public JXSharedPrefObject
+class JXSpellChecker : public JSpellChecker, JXSharedPrefObject
 {
 public:
 
@@ -24,19 +23,11 @@ public:
 
 	virtual	~JXSpellChecker();
 
-	JBoolean	IsAvailable() const;
-
 	JBoolean	WillReportNoErrors() const;
 	void		ShouldReportNoErrors(const JBoolean report);
 
 	void		Check(JXTEBase* te);
 	void		CheckSelection(JXTEBase* te);
-	JBoolean	CheckWord(const JString& word, JPtrArray<JString>* suggestionList,
-						  JBoolean* goodFirstSuggestion);
-
-	void	Learn(const JString& word);
-	void	LearnCaps(const JString& word);
-	void	Ignore(const JString& word);
 
 	virtual void	ReadPrefs(std::istream& input);
 	virtual void	WritePrefs(std::ostream& output, const JFileVersion vers) const;
@@ -44,20 +35,14 @@ public:
 	// called by JXSpellCheckerDialog
 
 	const JPoint&	GetWindowSize() const;
-	void			SaveWindowSize(const JRect bounds);
+	void			SaveWindowSize(const JRect& bounds);
 
 private:
-
-	JProcess*		itsProcess;
-	int				itsInFD;
-	JOutPipeStream*	itsOutPipe;
 
 	JBoolean		itsReportNoErrorsFlag;
 	JPoint			itsDefaultWindowSize;
 
 private:
-
-	void		CleanUpOnFinished();
 
 	// not allowed
 
@@ -65,18 +50,6 @@ private:
 	const JXSpellChecker& operator=(const JXSpellChecker& source);
 };
 
-
-/******************************************************************************
- IsAvailable
-
- ******************************************************************************/
-
-inline JBoolean
-JXSpellChecker::IsAvailable()
-	const
-{
-	return JI2B(itsProcess != nullptr);
-}
 
 /******************************************************************************
  WillReportNoErrors

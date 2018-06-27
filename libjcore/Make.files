@@ -106,6 +106,7 @@
 .cpp ./code/JSTUndoStyle
 .cpp ./code/JSTUndoTabShift
 .cpp ./code/JSTUndoTyping
+.cpp ./code/JSpellChecker
 .cpp ./code/JPartition
 .cpp ./code/JSliderBase
 .cpp ./code/JUserNotification
