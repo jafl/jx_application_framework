@@ -9,10 +9,11 @@
 #define _H_LLDBRunBackgroundCommandTask
 
 #include <JXUrgentTask.h>
+#include <JBroadcaster.h>
 
 class CMCommand;
 
-class LLDBRunBackgroundCommandTask : public JXUrgentTask
+class LLDBRunBackgroundCommandTask : public JXUrgentTask, virtual public JBroadcaster
 {
 public:
 

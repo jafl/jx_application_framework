@@ -22,7 +22,7 @@ LLDBGetFullPath::LLDBGetFullPath
 	const JIndex		lineIndex	// for convenience
 	)
 	:
-	CMGetFullPath("NOP", fileName, lineIndex)
+	CMGetFullPath("", fileName, lineIndex)
 {
 }
 

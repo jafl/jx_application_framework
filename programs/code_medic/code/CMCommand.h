@@ -10,7 +10,7 @@
 
 #include <JString.h>
 
-class CMCommand
+class CMCommand : virtual public JBroadcaster
 {
 public:
 
