@@ -1763,10 +1763,10 @@ JXTEBase::GetAvailDataTypes
 			{
 			*canGetText = kJTrue;
 			*textType   = type;
-			break;
 			}
-		else if (type == XA_STRING ||
-				 type == selMgr->GetMimePlainTextXAtom())
+		else if (!*canGetText &&
+				 (type == XA_STRING ||
+				  type == selMgr->GetMimePlainTextXAtom()))
 			{
 			*canGetText = kJTrue;
 			*textType   = type;
