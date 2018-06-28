@@ -2489,8 +2489,12 @@ JStyledText::Outdent
 
 	NewUndo(undo, isNew);
 
-	BroadcastTextChanged(range, -JInteger(deleteCount), -JInteger(deleteCount),
-						 kJTrue, kJFalse);
+	BroadcastTextChanged(
+		TextRange(
+			JCharacterRange(range.charRange.first, range.charRange.last - deleteCount),
+			JUtf8ByteRange (range.byteRange.first, range.byteRange.last - deleteCount)),
+		-JInteger(deleteCount), -JInteger(deleteCount),
+		kJTrue, kJFalse);
 
 	return TextRange(cr, JUtf8ByteRange(range.byteRange.first, range.byteRange.last - deleteCount));
 }

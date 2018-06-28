@@ -1,9 +1,3 @@
-JStyledText
-	validate contents of TextChanged messages
-JTextEditor
-	undo should select inserted text in the active TextEditor instance
-	validate caret/selection after TextChanged
-
 call FilterText after set font or font name or SetAllFontAndName
 
 fix jStreamUtil.cpp TODO's
@@ -13,9 +7,10 @@ JAsynchDataReceiver::handle_input
 
 finish JTextEditor tests
 	GetCmdStatus
-	MouseActions
-	KeyPress
 	2 TE's for 1 ST
+		MouseActions
+		KeyPress
+		validate caret/selection after TextChanged
 
 JStyledTextBuffer
 	need smarter update during indent/outdent, to maintain caret location
@@ -23,6 +18,8 @@ JStyledTextBuffer
 	CleanRightMargin
 
 JTextEditor:
+	undo should select inserted text in the active TextEditor instance
+	type to replace selection:  caret ends up in front of inserted character
 	tab makes rest of text invisible
 	clicking in selection doesn't set caret location
 		treats ending newline line as part of selection

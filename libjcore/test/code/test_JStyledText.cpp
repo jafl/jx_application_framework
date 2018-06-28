@@ -1451,8 +1451,33 @@ JTEST(Move)
 			JAssertEqual(-6, tc->GetByteDelta());
 		});
 
-	bcastTest.Expect(JStyledText::kTextChanged);
-	bcastTest.Expect(JStyledText::kTextChanged);
+	bcastTest.Expect(JStyledText::kTextChanged,
+		[] (const JBroadcaster::Message& m)
+		{
+			const JStyledText::TextChanged* tc =
+				dynamic_cast<const JStyledText::TextChanged*>(&m);
+			JAssertNotNull(tc);
+			JAssertEqual(8, tc->GetRange().charRange.first);
+			JAssertEqual(7, tc->GetRange().charRange.last);
+			JAssertEqual(9, tc->GetRange().byteRange.first);
+			JAssertEqual(8, tc->GetRange().byteRange.last);
+			JAssertEqual(-3, tc->GetCharDelta());
+			JAssertEqual(-4, tc->GetByteDelta());
+		});
+
+	bcastTest.Expect(JStyledText::kTextChanged,
+		[] (const JBroadcaster::Message& m)
+		{
+			const JStyledText::TextChanged* tc =
+				dynamic_cast<const JStyledText::TextChanged*>(&m);
+			JAssertNotNull(tc);
+			JAssertEqual(5, tc->GetRange().charRange.first);
+			JAssertEqual(7, tc->GetRange().charRange.last);
+			JAssertEqual(6, tc->GetRange().byteRange.first);
+			JAssertEqual(9, tc->GetRange().byteRange.last);
+			JAssertEqual(3, tc->GetCharDelta());
+			JAssertEqual(4, tc->GetByteDelta());
+		});
 
 	text.Undo();
 	text.Undo();
@@ -1470,7 +1495,19 @@ JTEST(TabSelection)
 	text.SetText(JString("\xC3\xA1" "bcd\n1234\nwxzy", kJFalse));
 
 	JBroadcastTester bcastTest(&text);
-	bcastTest.Expect(JStyledText::kTextChanged);
+	bcastTest.Expect(JStyledText::kTextChanged,
+		[] (const JBroadcaster::Message& m)
+		{
+			const JStyledText::TextChanged* tc =
+				dynamic_cast<const JStyledText::TextChanged*>(&m);
+			JAssertNotNull(tc);
+			JAssertEqual(1, tc->GetRange().charRange.first);
+			JAssertEqual(7, tc->GetRange().charRange.last);
+			JAssertEqual(1, tc->GetRange().byteRange.first);
+			JAssertEqual(8, tc->GetRange().byteRange.last);
+			JAssertEqual(2, tc->GetCharDelta());
+			JAssertEqual(2, tc->GetByteDelta());
+		});
 
 	text.Indent(TextRange(JCharacterRange(1,1), JUtf8ByteRange(1,2)), 2);
 	JAssertStringsEqual("\t\t" "\xC3\xA1" "bcd\n1234\nwxzy", text.GetText());
@@ -1478,38 +1515,152 @@ JTEST(TabSelection)
 	text.Outdent(TextRange(JCharacterRange(8,13), JUtf8ByteRange(9,14)), 3);
 	JAssertStringsEqual("\t\t" "\xC3\xA1" "bcd\n1234\nwxzy", text.GetText());
 
-	bcastTest.Expect(JStyledText::kTextChanged);
+	bcastTest.Expect(JStyledText::kTextChanged,
+		[] (const JBroadcaster::Message& m)
+		{
+			const JStyledText::TextChanged* tc =
+				dynamic_cast<const JStyledText::TextChanged*>(&m);
+			JAssertNotNull(tc);
+			JAssertEqual(8, tc->GetRange().charRange.first);
+			JAssertEqual(22, tc->GetRange().charRange.last);
+			JAssertEqual(9, tc->GetRange().byteRange.first);
+			JAssertEqual(23, tc->GetRange().byteRange.last);
+			JAssertEqual(6, tc->GetCharDelta());
+			JAssertEqual(6, tc->GetByteDelta());
+		});
 
 	text.Indent(TextRange(JCharacterRange(8,13), JUtf8ByteRange(9,14)), 3);
 	JAssertStringsEqual("\t\t" "\xC3\xA1" "bcd\n\t\t\t1234\n\t\t\twxzy", text.GetText());
 
-	bcastTest.Expect(JStyledText::kTextChanged);
-	bcastTest.Expect(JStyledText::kTextChanged);
-	bcastTest.Expect(JStyledText::kTextChanged);
-	bcastTest.Expect(JStyledText::kTextChanged);
+	bcastTest.Expect(JStyledText::kTextChanged,
+		[] (const JBroadcaster::Message& m)
+		{
+			const JStyledText::TextChanged* tc =
+				dynamic_cast<const JStyledText::TextChanged*>(&m);
+			JAssertNotNull(tc);
+			JAssertEqual(8, tc->GetRange().charRange.first);
+			JAssertEqual(16, tc->GetRange().charRange.last);
+			JAssertEqual(9, tc->GetRange().byteRange.first);
+			JAssertEqual(17, tc->GetRange().byteRange.last);
+			JAssertEqual(-6, tc->GetCharDelta());
+			JAssertEqual(-6, tc->GetByteDelta());
+		});
+
+	bcastTest.Expect(JStyledText::kTextChanged,
+		[] (const JBroadcaster::Message& m)
+		{
+			const JStyledText::TextChanged* tc =
+				dynamic_cast<const JStyledText::TextChanged*>(&m);
+			JAssertNotNull(tc);
+			JAssertEqual(1, tc->GetRange().charRange.first);
+			JAssertEqual(5, tc->GetRange().charRange.last);
+			JAssertEqual(1, tc->GetRange().byteRange.first);
+			JAssertEqual(6, tc->GetRange().byteRange.last);
+			JAssertEqual(-2, tc->GetCharDelta());
+			JAssertEqual(-2, tc->GetByteDelta());
+		});
 
 	text.Undo();
 	text.Undo();
 	JAssertStringsEqual("\xC3\xA1" "bcd\n1234\nwxzy", text.GetText());
+
+	bcastTest.Expect(JStyledText::kTextChanged,
+		[] (const JBroadcaster::Message& m)
+		{
+			const JStyledText::TextChanged* tc =
+				dynamic_cast<const JStyledText::TextChanged*>(&m);
+			JAssertNotNull(tc);
+			JAssertEqual(1, tc->GetRange().charRange.first);
+			JAssertEqual(7, tc->GetRange().charRange.last);
+			JAssertEqual(1, tc->GetRange().byteRange.first);
+			JAssertEqual(8, tc->GetRange().byteRange.last);
+			JAssertEqual(2, tc->GetCharDelta());
+			JAssertEqual(2, tc->GetByteDelta());
+		});
+
+	bcastTest.Expect(JStyledText::kTextChanged,
+		[] (const JBroadcaster::Message& m)
+		{
+			const JStyledText::TextChanged* tc =
+				dynamic_cast<const JStyledText::TextChanged*>(&m);
+			JAssertNotNull(tc);
+			JAssertEqual(8, tc->GetRange().charRange.first);
+			JAssertEqual(22, tc->GetRange().charRange.last);
+			JAssertEqual(9, tc->GetRange().byteRange.first);
+			JAssertEqual(23, tc->GetRange().byteRange.last);
+			JAssertEqual(6, tc->GetCharDelta());
+			JAssertEqual(6, tc->GetByteDelta());
+		});
+
 	text.Redo();
 	text.Redo();
 
-	bcastTest.Expect(JStyledText::kTextChanged);
+	bcastTest.Expect(JStyledText::kTextChanged,
+		[] (const JBroadcaster::Message& m)
+		{
+			const JStyledText::TextChanged* tc =
+				dynamic_cast<const JStyledText::TextChanged*>(&m);
+			JAssertNotNull(tc);
+			JAssertEqual(1, tc->GetRange().charRange.first);
+			JAssertEqual(19, tc->GetRange().charRange.last);
+			JAssertEqual(1, tc->GetRange().byteRange.first);
+			JAssertEqual(20, tc->GetRange().byteRange.last);
+			JAssertEqual(-3, tc->GetCharDelta());
+			JAssertEqual(-3, tc->GetByteDelta());
+		});
 
 	text.Outdent(TextRange(JCharacterRange(1,22), JUtf8ByteRange(1,23)), 1);
 	JAssertStringsEqual("\t" "\xC3\xA1" "bcd\n\t\t1234\n\t\twxzy", text.GetText());
 
-	bcastTest.Expect(JStyledText::kTextChanged);
-	bcastTest.Expect(JStyledText::kTextChanged);
+	bcastTest.Expect(JStyledText::kTextChanged,
+		[] (const JBroadcaster::Message& m)
+		{
+			const JStyledText::TextChanged* tc =
+				dynamic_cast<const JStyledText::TextChanged*>(&m);
+			JAssertNotNull(tc);
+			JAssertEqual(1, tc->GetRange().charRange.first);
+			JAssertEqual(22, tc->GetRange().charRange.last);
+			JAssertEqual(1, tc->GetRange().byteRange.first);
+			JAssertEqual(23, tc->GetRange().byteRange.last);
+			JAssertEqual(3, tc->GetCharDelta());
+			JAssertEqual(3, tc->GetByteDelta());
+		});
 
 	text.Undo();
 	JAssertStringsEqual("\t\t" "\xC3\xA1" "bcd\n\t\t\t1234\n\t\t\twxzy", text.GetText());
+
+	bcastTest.Expect(JStyledText::kTextChanged,
+		[] (const JBroadcaster::Message& m)
+		{
+			const JStyledText::TextChanged* tc =
+				dynamic_cast<const JStyledText::TextChanged*>(&m);
+			JAssertNotNull(tc);
+			JAssertEqual(1, tc->GetRange().charRange.first);
+			JAssertEqual(19, tc->GetRange().charRange.last);
+			JAssertEqual(1, tc->GetRange().byteRange.first);
+			JAssertEqual(20, tc->GetRange().byteRange.last);
+			JAssertEqual(-3, tc->GetCharDelta());
+			JAssertEqual(-3, tc->GetByteDelta());
+		});
+
 	text.Redo();
 
 	text.Outdent(TextRange(JCharacterRange(1,19), JUtf8ByteRange(1,20)), 2);
 	JAssertStringsEqual("\t" "\xC3\xA1" "bcd\n\t\t1234\n\t\twxzy", text.GetText());
 
-	bcastTest.Expect(JStyledText::kTextChanged);
+	bcastTest.Expect(JStyledText::kTextChanged,
+		[] (const JBroadcaster::Message& m)
+		{
+			const JStyledText::TextChanged* tc =
+				dynamic_cast<const JStyledText::TextChanged*>(&m);
+			JAssertNotNull(tc);
+			JAssertEqual(1, tc->GetRange().charRange.first);
+			JAssertEqual(14, tc->GetRange().charRange.last);
+			JAssertEqual(1, tc->GetRange().byteRange.first);
+			JAssertEqual(15, tc->GetRange().byteRange.last);
+			JAssertEqual(-5, tc->GetCharDelta());
+			JAssertEqual(-5, tc->GetByteDelta());
+		});
 
 	text.Outdent(TextRange(JCharacterRange(1,19), JUtf8ByteRange(1,20)), 2, kJTrue);
 	JAssertStringsEqual("\xC3\xA1" "bcd\n1234\nwxzy", text.GetText());
@@ -1521,17 +1672,53 @@ JTEST(TabSelectionMixed)
 	text.SetText(JString("\t" "\xC3\xA1" "bcd\n  \t1234\n\twxzy", kJFalse));
 
 	JBroadcastTester bcastTest(&text);
-	bcastTest.Expect(JStyledText::kTextChanged);
+	bcastTest.Expect(JStyledText::kTextChanged,
+		[] (const JBroadcaster::Message& m)
+		{
+			const JStyledText::TextChanged* tc =
+				dynamic_cast<const JStyledText::TextChanged*>(&m);
+			JAssertNotNull(tc);
+			JAssertEqual(1, tc->GetRange().charRange.first);
+			JAssertEqual(14, tc->GetRange().charRange.last);
+			JAssertEqual(1, tc->GetRange().byteRange.first);
+			JAssertEqual(15, tc->GetRange().byteRange.last);
+			JAssertEqual(-5, tc->GetCharDelta());
+			JAssertEqual(-5, tc->GetByteDelta());
+		});
 
 	text.Outdent(TextRange(JCharacterRange(1,19), JUtf8ByteRange(1,20)), 1);
 	JAssertStringsEqual("\xC3\xA1" "bcd\n1234\nwxzy", text.GetText());
 
-	bcastTest.Expect(JStyledText::kTextChanged);
+	bcastTest.Expect(JStyledText::kTextChanged,
+		[] (const JBroadcaster::Message& m)
+		{
+			const JStyledText::TextChanged* tc =
+				dynamic_cast<const JStyledText::TextChanged*>(&m);
+			JAssertNotNull(tc);
+			JAssertEqual(1, tc->GetRange().charRange.first);
+			JAssertEqual(19, tc->GetRange().charRange.last);
+			JAssertEqual(1, tc->GetRange().byteRange.first);
+			JAssertEqual(20, tc->GetRange().byteRange.last);
+			JAssertEqual(5, tc->GetCharDelta());
+			JAssertEqual(5, tc->GetByteDelta());
+		});
 
 	text.Undo();
 	JAssertStringsEqual("\t" "\xC3\xA1" "bcd\n  \t1234\n\twxzy", text.GetText());
 
-	bcastTest.Expect(JStyledText::kTextChanged);
+	bcastTest.Expect(JStyledText::kTextChanged,
+		[] (const JBroadcaster::Message& m)
+		{
+			const JStyledText::TextChanged* tc =
+				dynamic_cast<const JStyledText::TextChanged*>(&m);
+			JAssertNotNull(tc);
+			JAssertEqual(1, tc->GetRange().charRange.first);
+			JAssertEqual(14, tc->GetRange().charRange.last);
+			JAssertEqual(1, tc->GetRange().byteRange.first);
+			JAssertEqual(15, tc->GetRange().byteRange.last);
+			JAssertEqual(-5, tc->GetCharDelta());
+			JAssertEqual(-5, tc->GetByteDelta());
+		});
 
 	text.Undo();
 	JAssertStringsEqual("\xC3\xA1" "bcd\n1234\nwxzy", text.GetText());
@@ -1541,7 +1728,19 @@ JTEST(TabSelectionMixed)
 
 	text.SetText(JString("  " "\xC3\xA1" "bcd\n   1234\n    wxzy", kJFalse));
 
-	bcastTest.Expect(JStyledText::kTextChanged);
+	bcastTest.Expect(JStyledText::kTextChanged,
+		[] (const JBroadcaster::Message& m)
+		{
+			const JStyledText::TextChanged* tc =
+				dynamic_cast<const JStyledText::TextChanged*>(&m);
+			JAssertNotNull(tc);
+			JAssertEqual(1, tc->GetRange().charRange.first);
+			JAssertEqual(17, tc->GetRange().charRange.last);
+			JAssertEqual(1, tc->GetRange().byteRange.first);
+			JAssertEqual(18, tc->GetRange().byteRange.last);
+			JAssertEqual(-6, tc->GetCharDelta());
+			JAssertEqual(-6, tc->GetByteDelta());
+		});
 
 	text.Outdent(TextRange(JCharacterRange(1,23), JUtf8ByteRange(1,24)), 1);
 	JAssertStringsEqual("\xC3\xA1" "bcd\n 1234\n  wxzy", text.GetText());
@@ -1555,7 +1754,19 @@ JTEST(CleanWhitespaceTabs)
 
 	JBroadcastTester bcastTest(&text);
 	bcastTest.Expect(JStyledText::kTextSet);
-	bcastTest.Expect(JStyledText::kTextChanged);
+	bcastTest.Expect(JStyledText::kTextChanged,
+		[] (const JBroadcaster::Message& m)
+		{
+			const JStyledText::TextChanged* tc =
+				dynamic_cast<const JStyledText::TextChanged*>(&m);
+			JAssertNotNull(tc);
+			JAssertEqual(1, tc->GetRange().charRange.first);
+			JAssertEqual(18, tc->GetRange().charRange.last);
+			JAssertEqual(1, tc->GetRange().byteRange.first);
+			JAssertEqual(19, tc->GetRange().byteRange.last);
+			JAssertEqual(-2, tc->GetCharDelta());
+			JAssertEqual(-2, tc->GetByteDelta());
+		});
 
 	text.SetText(JString("\t " "\xC3\xA1" "bcd\n  \t1234\n\twxzy", kJFalse));
 	TextRange r =
@@ -1566,7 +1777,19 @@ JTEST(CleanWhitespaceTabs)
 	JAssertEqual(JCharacterRange(1,18), r.charRange);
 
 	bcastTest.Expect(JStyledText::kTextSet);
-	bcastTest.Expect(JStyledText::kTextChanged);
+	bcastTest.Expect(JStyledText::kTextChanged,
+		[] (const JBroadcaster::Message& m)
+		{
+			const JStyledText::TextChanged* tc =
+				dynamic_cast<const JStyledText::TextChanged*>(&m);
+			JAssertNotNull(tc);
+			JAssertEqual(1, tc->GetRange().charRange.first);
+			JAssertEqual(17, tc->GetRange().charRange.last);
+			JAssertEqual(1, tc->GetRange().byteRange.first);
+			JAssertEqual(18, tc->GetRange().byteRange.last);
+			JAssertEqual(-3, tc->GetCharDelta());
+			JAssertEqual(-3, tc->GetByteDelta());
+		});
 
 	text.SetText(JString("\t " "\xC3\xA1" "bcd\n  \t1234\n\twxzy", kJFalse));
 	r = text.CleanWhitespace(TextRange(
@@ -1576,9 +1799,47 @@ JTEST(CleanWhitespaceTabs)
 	JAssertEqual(JCharacterRange(1,17), r.charRange);
 
 	bcastTest.Expect(JStyledText::kTextSet);
-	bcastTest.Expect(JStyledText::kTextChanged);
-	bcastTest.Expect(JStyledText::kTextChanged);
-	bcastTest.Expect(JStyledText::kTextChanged);
+	bcastTest.Expect(JStyledText::kTextChanged,
+		[] (const JBroadcaster::Message& m)
+		{
+			const JStyledText::TextChanged* tc =
+				dynamic_cast<const JStyledText::TextChanged*>(&m);
+			JAssertNotNull(tc);
+			JAssertEqual(8, tc->GetRange().charRange.first);
+			JAssertEqual(13, tc->GetRange().charRange.last);
+			JAssertEqual(9, tc->GetRange().byteRange.first);
+			JAssertEqual(14, tc->GetRange().byteRange.last);
+			JAssertEqual(-2, tc->GetCharDelta());
+			JAssertEqual(-2, tc->GetByteDelta());
+		});
+
+	bcastTest.Expect(JStyledText::kTextChanged,
+		[] (const JBroadcaster::Message& m)
+		{
+			const JStyledText::TextChanged* tc =
+				dynamic_cast<const JStyledText::TextChanged*>(&m);
+			JAssertNotNull(tc);
+			JAssertEqual(8, tc->GetRange().charRange.first);
+			JAssertEqual(15, tc->GetRange().charRange.last);
+			JAssertEqual(9, tc->GetRange().byteRange.first);
+			JAssertEqual(16, tc->GetRange().byteRange.last);
+			JAssertEqual(2, tc->GetCharDelta());
+			JAssertEqual(2, tc->GetByteDelta());
+		});
+
+	bcastTest.Expect(JStyledText::kTextChanged,
+		[] (const JBroadcaster::Message& m)
+		{
+			const JStyledText::TextChanged* tc =
+				dynamic_cast<const JStyledText::TextChanged*>(&m);
+			JAssertNotNull(tc);
+			JAssertEqual(8, tc->GetRange().charRange.first);
+			JAssertEqual(13, tc->GetRange().charRange.last);
+			JAssertEqual(9, tc->GetRange().byteRange.first);
+			JAssertEqual(14, tc->GetRange().byteRange.last);
+			JAssertEqual(-2, tc->GetCharDelta());
+			JAssertEqual(-2, tc->GetByteDelta());
+		});
 
 	text.SetText(JString("\t " "\xC3\xA1" "bcd\n  \t1234\n\twxzy", kJFalse));
 	r = text.CleanWhitespace(TextRange(
@@ -1590,7 +1851,19 @@ JTEST(CleanWhitespaceTabs)
 	JAssertEqual(JCharacterRange(8,13), r.charRange);
 
 	bcastTest.Expect(JStyledText::kTextSet);
-	bcastTest.Expect(JStyledText::kTextChanged);
+	bcastTest.Expect(JStyledText::kTextChanged,
+		[] (const JBroadcaster::Message& m)
+		{
+			const JStyledText::TextChanged* tc =
+				dynamic_cast<const JStyledText::TextChanged*>(&m);
+			JAssertNotNull(tc);
+			JAssertEqual(1, tc->GetRange().charRange.first);
+			JAssertEqual(17, tc->GetRange().charRange.last);
+			JAssertEqual(1, tc->GetRange().byteRange.first);
+			JAssertEqual(18, tc->GetRange().byteRange.last);
+			JAssertEqual(-3, tc->GetCharDelta());
+			JAssertEqual(-3, tc->GetByteDelta());
+		});
 
 	text.SetText(JString("\t " "\xC3\xA1" "bcd\n   1234\n\twxzy", kJFalse));
 	r = text.CleanWhitespace(TextRange(
@@ -1608,7 +1881,19 @@ JTEST(CleanWhitespaceSpaces)
 
 	JBroadcastTester bcastTest(&text);
 	bcastTest.Expect(JStyledText::kTextSet);
-	bcastTest.Expect(JStyledText::kTextChanged);
+	bcastTest.Expect(JStyledText::kTextChanged,
+		[] (const JBroadcaster::Message& m)
+		{
+			const JStyledText::TextChanged* tc =
+				dynamic_cast<const JStyledText::TextChanged*>(&m);
+			JAssertNotNull(tc);
+			JAssertEqual(1, tc->GetRange().charRange.first);
+			JAssertEqual(27, tc->GetRange().charRange.last);
+			JAssertEqual(1, tc->GetRange().byteRange.first);
+			JAssertEqual(28, tc->GetRange().byteRange.last);
+			JAssertEqual(7, tc->GetCharDelta());
+			JAssertEqual(7, tc->GetByteDelta());
+		});
 
 	text.SetText(JString("\t " "\xC3\xA1" "bcd\n  \t1234\n\twxzy", kJFalse));
 	TextRange r =
@@ -1619,7 +1904,19 @@ JTEST(CleanWhitespaceSpaces)
 	JAssertEqual(JCharacterRange(1,27), r.charRange);
 
 	bcastTest.Expect(JStyledText::kTextSet);
-	bcastTest.Expect(JStyledText::kTextChanged);
+	bcastTest.Expect(JStyledText::kTextChanged,
+		[] (const JBroadcaster::Message& m)
+		{
+			const JStyledText::TextChanged* tc =
+				dynamic_cast<const JStyledText::TextChanged*>(&m);
+			JAssertNotNull(tc);
+			JAssertEqual(1, tc->GetRange().charRange.first);
+			JAssertEqual(26, tc->GetRange().charRange.last);
+			JAssertEqual(1, tc->GetRange().byteRange.first);
+			JAssertEqual(27, tc->GetRange().byteRange.last);
+			JAssertEqual(6, tc->GetCharDelta());
+			JAssertEqual(6, tc->GetByteDelta());
+		});
 
 	text.SetText(JString("\t " "\xC3\xA1" "bcd\n  \t1234\n\twxzy", kJFalse));
 	r = text.CleanWhitespace(TextRange(
@@ -1629,9 +1926,47 @@ JTEST(CleanWhitespaceSpaces)
 	JAssertEqual(JCharacterRange(1,26), r.charRange);
 
 	bcastTest.Expect(JStyledText::kTextSet);
-	bcastTest.Expect(JStyledText::kTextChanged);
-	bcastTest.Expect(JStyledText::kTextChanged);
-	bcastTest.Expect(JStyledText::kTextChanged);
+	bcastTest.Expect(JStyledText::kTextChanged,
+		[] (const JBroadcaster::Message& m)
+		{
+			const JStyledText::TextChanged* tc =
+				dynamic_cast<const JStyledText::TextChanged*>(&m);
+			JAssertNotNull(tc);
+			JAssertEqual(8, tc->GetRange().charRange.first);
+			JAssertEqual(16, tc->GetRange().charRange.last);
+			JAssertEqual(9, tc->GetRange().byteRange.first);
+			JAssertEqual(17, tc->GetRange().byteRange.last);
+			JAssertEqual(1, tc->GetCharDelta());
+			JAssertEqual(1, tc->GetByteDelta());
+		});
+
+	bcastTest.Expect(JStyledText::kTextChanged,
+		[] (const JBroadcaster::Message& m)
+		{
+			const JStyledText::TextChanged* tc =
+				dynamic_cast<const JStyledText::TextChanged*>(&m);
+			JAssertNotNull(tc);
+			JAssertEqual(8, tc->GetRange().charRange.first);
+			JAssertEqual(15, tc->GetRange().charRange.last);
+			JAssertEqual(9, tc->GetRange().byteRange.first);
+			JAssertEqual(16, tc->GetRange().byteRange.last);
+			JAssertEqual(-1, tc->GetCharDelta());
+			JAssertEqual(-1, tc->GetByteDelta());
+		});
+
+	bcastTest.Expect(JStyledText::kTextChanged,
+		[] (const JBroadcaster::Message& m)
+		{
+			const JStyledText::TextChanged* tc =
+				dynamic_cast<const JStyledText::TextChanged*>(&m);
+			JAssertNotNull(tc);
+			JAssertEqual(8, tc->GetRange().charRange.first);
+			JAssertEqual(16, tc->GetRange().charRange.last);
+			JAssertEqual(9, tc->GetRange().byteRange.first);
+			JAssertEqual(17, tc->GetRange().byteRange.last);
+			JAssertEqual(1, tc->GetCharDelta());
+			JAssertEqual(1, tc->GetByteDelta());
+		});
 
 	text.SetText(JString("\t " "\xC3\xA1" "bcd\n  \t1234\n\twxzy", kJFalse));
 	r = text.CleanWhitespace(TextRange(
