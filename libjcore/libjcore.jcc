@@ -595,6 +595,10 @@ T
 2 "JSTUndoTyping.cpp"
 F
 "./code/JSTUndoTyping.cpp"
+T
+2 "JSpellChecker.cpp"
+F
+"./code/JSpellChecker.cpp"
 F
 T
 1 "widgets"

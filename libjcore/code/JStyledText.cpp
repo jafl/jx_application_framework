@@ -1583,10 +1583,7 @@ JStyledText::SetAllFontNameAndSize
 
 	itsDefaultFont.Set(name, size, itsDefaultFont.GetStyle());
 
-	BroadcastTextChanged(TextRange(
-		JCharacterRange(1, itsText.GetCharacterCount()),
-		JUtf8ByteRange(1, itsText.GetByteCount())),
-		0, 0, kJFalse, kJFalse);
+	BroadcastTextChanged(SelectAll(), 0, 0, kJFalse, kJFalse);
 }
 
 /******************************************************************************
@@ -2019,9 +2016,7 @@ JStyledText::DeleteText
 
 	NewUndo(newUndo, kJTrue);
 
-	BroadcastTextChanged(TextRange(
-		JCharacterRange(range.charRange.first, 0),
-		JUtf8ByteRange(range.byteRange.first, 0)),
+	BroadcastTextChanged(TextRange(range.GetFirst(), TextCount(0,0)),
 		- (JInteger) range.charRange.GetCount(),
 		- (JInteger) range.byteRange.GetCount(),
 		kJTrue);
@@ -2333,9 +2328,7 @@ JStyledText::ForwardDelete
 
 	NewUndo(typingUndo, isNew);
 
-	BroadcastTextChanged(TextRange(
-		JCharacterRange(caretIndex.charIndex, 0),
-		JUtf8ByteRange(caretIndex.byteIndex, 0)),
+	BroadcastTextChanged(TextRange(caretIndex, TextCount(0,0)),
 		charDelta, byteDelta, kJTrue);
 
 	if (undo != nullptr)
@@ -2637,9 +2630,7 @@ JStyledText::MoveText
 		undo = GetMoveUndo(srcIndex, destIndex, srcRange.GetCount(), &isNew);
 
 		PrivateDeleteText(srcRange);
-		BroadcastTextChanged(TextRange(
-			JCharacterRange(srcRange.charRange.first, 0),
-			JUtf8ByteRange(srcRange.byteRange.first, 0)),
+		BroadcastTextChanged(TextRange(srcRange.GetFirst(), TextCount(0,0)),
 			-JInteger(srcRange.charRange.GetCount()),
 			-JInteger(srcRange.byteRange.GetCount()),
 			kJTrue);
@@ -3438,8 +3429,8 @@ JStyledText::GetTypingUndo
 	JSTUndoBase* undo = nullptr;
 	if (GetCurrentUndo(&undo) &&
 		(typingUndo = dynamic_cast<JSTUndoTyping*>(undo)) != nullptr &&
-		typingUndo->IsActive() &&
-		typingUndo->MatchesCurrentIndex(start))
+		 typingUndo->IsActive() &&
+		 typingUndo->MatchesCurrentIndex(start))
 		{
 		*isNew = kJFalse;
 		return typingUndo;
@@ -3477,8 +3468,8 @@ JStyledText::GetStyleUndo
 	JSTUndoBase* undo = nullptr;
 	if (GetCurrentUndo(&undo) &&
 		(styleUndo = dynamic_cast<JSTUndoStyle*>(undo)) != nullptr &&
-		styleUndo->IsActive() &&
-		styleUndo->SameRange(range))
+		 styleUndo->IsActive() &&
+		 styleUndo->SameRange(range))
 		{
 		*isNew = kJFalse;
 		return styleUndo;
@@ -3540,8 +3531,8 @@ JStyledText::GetTabShiftUndo
 	JSTUndoBase* undo = nullptr;
 	if (GetCurrentUndo(&undo) &&
 		(tabShiftUndo = dynamic_cast<JSTUndoTabShift*>(undo)) != nullptr &&
-		tabShiftUndo->IsActive() &&
-		tabShiftUndo->SameStartIndex(range))
+		 tabShiftUndo->IsActive() &&
+		 tabShiftUndo->SameStartIndex(range))
 		{
 		*isNew = kJFalse;
 		return tabShiftUndo;
