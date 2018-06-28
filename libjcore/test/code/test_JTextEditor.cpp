@@ -328,6 +328,8 @@ JTEST(LayoutBreakWidth)
 	text.SetText(JString("foo", kJFalse));
 
 	JAssertEqual(4, te.CalcCaretCharLocation(JPoint(100,0)));
+
+	te.GoToColumn(1, 10);	// make sure it doesn't crash
 }
 
 JTEST(GetCmdStatus)
@@ -758,6 +760,11 @@ JTEST(TabSelection)
 
 	te.TabSelectionRight(3);
 	JAssertStringsEqual("\t\t" "\xC3\xA1" "bcd\n\t\t\t1234\n\t\t\twxzy", text.GetText());
+
+	JCharacterRange r;
+	JAssertTrue(te.GetSelection(&r));
+	JAssertEqual(8, r.first);
+	JAssertEqual(22, r.last);
 
 	te.SelectAll();
 	te.TabSelectionLeft(1);
