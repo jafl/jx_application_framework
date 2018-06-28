@@ -11,6 +11,7 @@
 
 #include "JBroadcastTester.h"
 #include "JTestManager.h"
+#include "jAssert.h"
 
 /******************************************************************************
  Constructor
@@ -29,6 +30,10 @@ JBroadcastTester::JBroadcastTester
 
 /******************************************************************************
  Destructor
+
+	We don't bother to delete the validator objects, because this is only
+	for functional testing.  Everything is cleaned up when the program
+	exits.
 
  ******************************************************************************/
 
@@ -52,7 +57,7 @@ JBroadcastTester::Expect
 {
 	Validation v;
 	v.type      = type;
-	v.validator = validator;
+	v.validator = jnew std::function<void(const Message&)>(validator);
 	itsExpectedMessages.Append(v);
 }
 
@@ -80,7 +85,7 @@ JBroadcastTester::Receive
 
 		if (v.validator != nullptr)
 			{
-			v.validator(message);
+			(*v.validator)(message);
 			}
 		}
 }
@@ -109,4 +114,17 @@ JBroadcastTester::ReceiveGoingAway
 {
 	JAssertTrue(itsExpectGoingAwayFlag);
 	JAssertTrue(itsExpectedMessages.IsEmpty());
+}
+
+/******************************************************************************
+ NOP (static private)
+
+ ******************************************************************************/
+
+void
+JBroadcastTester::NOP
+	(
+	const Message& m
+	)
+{
 }

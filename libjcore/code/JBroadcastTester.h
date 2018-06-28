@@ -23,7 +23,7 @@ public:
 
 	virtual ~JBroadcastTester();
 
-	void	Expect(const JUtf8Byte* type, std::function<void(const Message&)> validator = nullptr);
+	void	Expect(const JUtf8Byte* type, std::function<void(const Message&)> validator = NOP);
 	void	ExpectGoingAway();
 
 protected:
@@ -35,14 +35,18 @@ public:
 
 	struct Validation
 	{
-		const JUtf8Byte*					type;
-		std::function<void(const Message&)>	validator;
+		const JUtf8Byte*						type;
+		std::function<void(const Message&)>*	validator;
 	};
 
 private:
 
 	JQueue<Validation, JArray<Validation> >	itsExpectedMessages;
 	JBoolean								itsExpectGoingAwayFlag;
+
+private:
+
+	static void	NOP(const Message&);
 };
 
 #endif
