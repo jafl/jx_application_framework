@@ -11,7 +11,7 @@
 #include "jAssert.h"
 
 const JUInt32 JUtf8Character::kUtf32SubstitutionCharacter       = 0x0000FFFD;
-const JUtf8Character JUtf8Character::kUtf8SubstitutionCharacter = "\xEF\xBF\xBD";
+const JUtf8Character JUtf8Character::kUtf8SubstitutionCharacter("\xEF\xBF\xBD");
 
 /******************************************************************************
  Constructor

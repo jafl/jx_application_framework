@@ -212,7 +212,7 @@ JRegex::BackslashForLiteral
 	const JString& text
 	)
 {
-	const JUtf8Character backslash = "\\";
+	const JUtf8Character backslash("\\");
 
 	JString s = text;
 	JStringIterator iter(&s, kJIteratorStartAtEnd);

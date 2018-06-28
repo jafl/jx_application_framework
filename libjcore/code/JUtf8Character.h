@@ -30,8 +30,9 @@ public:
 
 	JUtf8Character();
 	JUtf8Character(const JUtf8Byte asciiCharacter);
-	JUtf8Character(const JUtf8Byte* utf8Character);
 	JUtf8Character(const JUtf8Character& source);
+
+	explicit JUtf8Character(const JUtf8Byte* utf8Character);
 
 	const JUtf8Character& operator=(const JUtf8Character& source);
 	const JUtf8Character& operator=(const JUtf8Byte asciiCharacter);

@@ -558,8 +558,8 @@ void TestSet(const JString& s)
 
 	JAssertTrue(i.Prev(&c, kJFalse));
 	JAssertEqual('Q', c);
-	JAssertTrue(i.SetPrev("\xE2\x9C\x94"));
-	JAssertTrue(i.SetPrev("\xE2\x9C\x94"));
+	JAssertTrue(i.SetPrev(JUtf8Character("\xE2\x9C\x94")));
+	JAssertTrue(i.SetPrev(JUtf8Character("\xE2\x9C\x94")));
 	JAssertTrue(i.Prev(&c));
 	JAssertStringsEqual("\xC2\xA9", c.GetBytes());
 	JAssertEqual(7, s.GetCharacterCount());
