@@ -1,5 +1,8 @@
-validate contents of TextChanged messages
-	broadcast char/byte delta with TextChanged, to allow adjusting selection/caret
+JStyledText
+	validate contents of TextChanged messages
+JTextEditor
+	undo should select inserted text in the active TextEditor instance
+	validate caret/selection after TextChanged
 
 call FilterText after set font or font name or SetAllFontAndName
 
@@ -20,8 +23,6 @@ JStyledTextBuffer
 	CleanRightMargin
 
 JTextEditor:
-	undo paste doesn't update caret location
-		set selection/caret after performing undo operations
 	tab makes rest of text invisible
 	clicking in selection doesn't set caret location
 		treats ending newline line as part of selection

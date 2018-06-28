@@ -434,7 +434,7 @@ private:
 
 	JBoolean		itsSelActiveFlag;		// kJTrue => draw solid selection
 	JBoolean		itsCaretVisibleFlag;	// kJTrue => draw caret
-	CaretLocation	itsCaretLoc;			// insertion point is -at- this character; do not set directly - call SetCaretLocation()
+	CaretLocation	itsCaret;				// insertion point is -at- this character; do not set directly - call SetCaretLocation()
 	JCoordinate		itsCaretX;				// horizontal location used by MoveCaretVert()
 	JFont			itsInsertionFont;		// style for characters that user types
 
@@ -745,7 +745,7 @@ JTextEditor::TEShowCaret()
 	if (!itsCaretVisibleFlag)
 		{
 		itsCaretVisibleFlag = kJTrue;
-		TERefreshCaret(itsCaretLoc);
+		TERefreshCaret(itsCaret);
 		}
 }
 
@@ -760,7 +760,7 @@ JTextEditor::TEHideCaret()
 	if (itsCaretVisibleFlag)
 		{
 		itsCaretVisibleFlag = kJFalse;
-		TERefreshCaret(itsCaretLoc);
+		TERefreshCaret(itsCaret);
 		}
 }
 
@@ -1021,7 +1021,7 @@ JTextEditor::GetCaretLocation
 	)
 	const
 {
-	*charIndex = itsCaretLoc.location.charIndex;
+	*charIndex = itsCaret.location.charIndex;
 	return itsSelection.IsEmpty();
 }
 
@@ -1043,7 +1043,7 @@ JTextEditor::GetCaretLocation
 	)
 	const
 {
-	*caretLoc = itsCaretLoc;
+	*caretLoc = itsCaret;
 	return itsSelection.IsEmpty();
 }
 
@@ -1132,7 +1132,7 @@ inline JStyledText::TextIndex
 JTextEditor::GetInsertionIndex()
 	const
 {
-	return itsSelection.IsEmpty() ? itsCaretLoc.location : itsSelection.GetFirst();
+	return itsSelection.IsEmpty() ? itsCaret.location : itsSelection.GetFirst();
 }
 
 /******************************************************************************
@@ -1354,7 +1354,7 @@ JTextEditor::SetCaretColor
 	if (color != itsCaretColor)
 		{
 		itsCaretColor = color;
-		TERefreshCaret(itsCaretLoc);
+		TERefreshCaret(itsCaret);
 		}
 }
 

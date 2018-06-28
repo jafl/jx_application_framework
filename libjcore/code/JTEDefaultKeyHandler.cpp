@@ -87,7 +87,7 @@ JTEDefaultKeyHandler::HandleKeyPress
 			}
 		else
 			{
-			te->itsSelectionPivot = te->itsCaretLoc.location;
+			te->itsSelectionPivot = te->itsCaret.location;
 			}
 
 		if (restoreCaretX && (key == kJUpArrow || key == kJDownArrow))
@@ -115,21 +115,21 @@ JTEDefaultKeyHandler::HandleKeyPress
 		{
 		te->SetCaretLocation(st->GetWordStart(
 			hasSelection ? te->itsSelection.GetFirst() :
-			st->AdjustTextIndex(te->itsCaretLoc.location, -1)));
+			st->AdjustTextIndex(te->itsCaret.location, -1)));
 		}
 
 	else if (key == kJLeftArrow && motion == JTextEditor::kMoveByPartialWord)
 		{
 		te->SetCaretLocation(st->GetPartialWordStart(
 			hasSelection ? te->itsSelection.GetFirst() :
-			st->AdjustTextIndex(te->itsCaretLoc.location, -1)));
+			st->AdjustTextIndex(te->itsCaret.location, -1)));
 		}
 
 	else if (key == kJLeftArrow)
 		{
 		te->SetCaretLocation(
 			hasSelection ? te->itsSelection.GetFirst() :
-			st->AdjustTextIndex(te->itsCaretLoc.location, -1));
+			st->AdjustTextIndex(te->itsCaret.location, -1));
 		}
 
 	// right arrow
@@ -143,7 +143,7 @@ JTEDefaultKeyHandler::HandleKeyPress
 		{
 		te->SetCaretLocation(st->AdjustTextIndex(
 			st->GetWordEnd(
-				hasSelection ? te->itsSelection.GetLast(*st) : te->itsCaretLoc.location),
+				hasSelection ? te->itsSelection.GetLast(*st) : te->itsCaret.location),
 			+1));
 		}
 
@@ -151,7 +151,7 @@ JTEDefaultKeyHandler::HandleKeyPress
 		{
 		te->SetCaretLocation(st->AdjustTextIndex(
 			st->GetPartialWordEnd(
-				hasSelection ? te->itsSelection.GetLast(*st) : te->itsCaretLoc.location),
+				hasSelection ? te->itsSelection.GetLast(*st) : te->itsCaret.location),
 			+1));
 		}
 
@@ -161,7 +161,7 @@ JTEDefaultKeyHandler::HandleKeyPress
 		}
 	else if (key == kJRightArrow)
 		{
-		te->SetCaretLocation(st->AdjustTextIndex(te->itsCaretLoc.location, +1));
+		te->SetCaretLocation(st->AdjustTextIndex(te->itsCaret.location, +1));
 		}
 
 	// up arrow
@@ -175,7 +175,7 @@ JTEDefaultKeyHandler::HandleKeyPress
 		{
 		te->SetCaretLocation(st->GetParagraphStart(
 			st->AdjustTextIndex(
-				hasSelection ? te->itsSelection.GetFirst() : te->itsCaretLoc.location,
+				hasSelection ? te->itsSelection.GetFirst() : te->itsCaret.location,
 				-1)));
 		}
 
@@ -184,12 +184,12 @@ JTEDefaultKeyHandler::HandleKeyPress
 		te->SetCaretLocation(te->itsSelection.GetFirst());
 		}
 	else if (key == kJUpArrow &&
-			 te->itsCaretLoc.location.charIndex == st->GetText().GetCharacterCount()+1 &&
+			 te->itsCaret.location.charIndex == st->GetText().GetCharacterCount()+1 &&
 			 st->EndsWithNewline())
 		{
-		te->SetCaretLocation(te->GetLineStart(te->itsCaretLoc.lineIndex));
+		te->SetCaretLocation(te->GetLineStart(te->itsCaret.lineIndex));
 		}
-	else if (key == kJUpArrow && te->itsCaretLoc.lineIndex > 1)
+	else if (key == kJUpArrow && te->itsCaret.lineIndex > 1)
 		{
 		te->MoveCaretVert(-1);
 		}
@@ -209,7 +209,7 @@ JTEDefaultKeyHandler::HandleKeyPress
 		{
 		te->SetCaretLocation(st->AdjustTextIndex(
 			st->GetParagraphEnd(
-				hasSelection ? te->itsSelection.GetAfter() : te->itsCaretLoc.location),
+				hasSelection ? te->itsSelection.GetAfter() : te->itsCaret.location),
 			+1));
 		}
 
@@ -217,7 +217,7 @@ JTEDefaultKeyHandler::HandleKeyPress
 		{
 		te->SetCaretLocation(te->itsSelection.GetAfter());
 		}
-	else if (key == kJDownArrow && te->itsCaretLoc.lineIndex < te->GetLineCount())
+	else if (key == kJDownArrow && te->itsCaret.lineIndex < te->GetLineCount())
 		{
 		te->MoveCaretVert(+1);
 		}
@@ -262,17 +262,17 @@ JTEDefaultKeyHandler::HandleKeyPress
 
 	if (willSelectText)
 		{
-		const CaretLocation savedCaretLoc = te->itsCaretLoc;
-		if (te->itsCaretLoc.location.charIndex < te->itsSelectionPivot.charIndex)
+		const CaretLocation savedCaretLoc = te->itsCaret;
+		if (te->itsCaret.location.charIndex < te->itsSelectionPivot.charIndex)
 			{
 			te->SetSelection(
-				TextRange(te->itsCaretLoc.location, te->itsSelectionPivot),
+				TextRange(te->itsCaret.location, te->itsSelectionPivot),
 				kJFalse);
 			}
-		else if (te->itsCaretLoc.location.charIndex > te->itsSelectionPivot.charIndex)
+		else if (te->itsCaret.location.charIndex > te->itsSelectionPivot.charIndex)
 			{
 			te->SetSelection(
-				TextRange(te->itsSelectionPivot, te->itsCaretLoc.location),
+				TextRange(te->itsSelectionPivot, te->itsCaret.location),
 				kJFalse);
 			}
 
