@@ -587,7 +587,7 @@ public:
 				{ };
 		};
 
-	// debugger state changes
+	// debugger state
 
 	class BreakpointsChanged : public JBroadcaster::Message
 		{

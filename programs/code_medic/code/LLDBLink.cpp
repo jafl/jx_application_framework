@@ -1769,8 +1769,8 @@ LLDBLink::ProgramStopped
 	lldb::SBFrame f  = t.GetProcess().GetSelectedThread().GetSelectedFrame();
 	if (f.IsValid())
 		{
-		lldb::SBLineEntry line = f.GetLineEntry();
-		lldb::SBFileSpec file  = line.GetFileSpec();
+		const lldb::SBLineEntry line = f.GetLineEntry();
+		const lldb::SBFileSpec file  = line.GetFileSpec();
 		JString fullName;
 		if (file.IsValid())
 			{
@@ -1783,7 +1783,7 @@ LLDBLink::ProgramStopped
 			location.SetFunctionName(f.GetFunctionName());
 			}
 
-		lldb::SBAddress addr = f.GetPCAddress();
+		const lldb::SBAddress addr = f.GetPCAddress();
 		if (addr.IsValid())
 			{
 			const JString a = JString(addr.GetLoadAddress(t), JString::kBase16);
@@ -1791,11 +1791,11 @@ LLDBLink::ProgramStopped
 			}
 		Broadcast(CMLink::ProgramStopped(location));
 
-		if (msg != NULL)
+		if (msg != NULL && file.IsValid())
 			{
 			*msg = "; file: " + location.GetFileName() + ", line: " + JString(location.GetLineNumber(), JString::kBase10) + ", func: " + location.GetFunctionName() + ", addr: " + location.GetMemoryAddress();
 			}
-		return kJTrue;
+		return file.IsValid();
 		}
 	else
 		{
