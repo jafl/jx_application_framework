@@ -427,7 +427,6 @@ private:
 
 	// information for Recalc
 
-	JBoolean				itsNeedCaretBcastFlag;
 	JStyledText::TextIndex	itsPrevTextLastIndex;	// last char index after last Recalc
 	JStyledText::TextCount	itsPrevTextEnd;			// text length after last Recalc
 
