@@ -737,12 +737,11 @@ JXInputField::GetFTCMinContentSize
 JBoolean
 JXInputField::StyledText::NeedsToFilterText
 	(
-	const JString&			text,
-	const JRunArray<JFont>&	style
+	const JString& text
 	)
 	const
 {
-	return JI2B( JXStyledText::NeedsToFilterText(text, style) || text.Contains("\n") );
+	return JI2B( JXStyledText::NeedsToFilterText(text) || text.Contains("\n") );
 }
 
 /******************************************************************************

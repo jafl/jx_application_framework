@@ -1,8 +1,9 @@
 /******************************************************************************
  JXStyledText.cpp
 
-	Implements optional font substitution.  It is only appropriate for
-	text displayed on a single Display.
+	Implements optional font substitution.  It is only appropriate for text
+	displayed on a single Display, because otherwise, there are multiple
+	JFontManager's involved.
 
 	BASE CLASS = JStyledText
 
@@ -59,34 +60,36 @@ JXStyledText::~JXStyledText()
 }
 
 /******************************************************************************
- NeedsToFilterText (virtual protected)
+ NeedsToAdjustFontToDisplayGlyphs(virtual protected)
 
  ******************************************************************************/
 
 JBoolean
-JXStyledText::NeedsToFilterText
+JXStyledText::NeedsToAdjustFontToDisplayGlyphs
 	(
 	const JString&			text,
 	const JRunArray<JFont>&	style
 	)
 	const
 {
-	if (itsFontManager != nullptr)
+	if (itsFontManager == nullptr)
 		{
-		JStringIterator siter(text);
-		JRunArrayIterator<JFont> fiter(style);
+		return kJFalse;
+		}
 
-		JUtf8Character c;
-		JFont f;
-		while (siter.Next(&c))
+	JStringIterator siter(text);
+	JRunArrayIterator<JFont> fiter(style);
+
+	JUtf8Character c;
+	JFont f;
+	while (siter.Next(&c))
+		{
+		const JBoolean ok = fiter.Next(&f);
+		assert( ok );
+
+		if (!f.HasGlyphForCharacter(itsFontManager, c))
 			{
-			const JBoolean ok = fiter.Next(&f);
-			assert( ok );
-
-			if (!f.HasGlyphForCharacter(itsFontManager, c))
-				{
-				return kJTrue;
-				}
+			return kJTrue;
 			}
 		}
 
@@ -94,37 +97,43 @@ JXStyledText::NeedsToFilterText
 }
 
 /******************************************************************************
- FilterText (virtual protected)
+ AdjustFontToDisplayGlyphs (virtual protected)
 
 	Font substitution to hopefully make all characters render.
 
  ******************************************************************************/
 
 JBoolean
-JXStyledText::FilterText
+JXStyledText::AdjustFontToDisplayGlyphs
 	(
-	JString*			text,
+	const TextRange&	range,
+	const JString&		text,
 	JRunArray<JFont>*	style
 	)
 {
-	if (itsFontManager != nullptr)
+	if (itsFontManager == nullptr)
 		{
-		JStringIterator siter(text);
-		JRunArrayIterator<JFont> fiter(style);
+		return kJFalse;
+		}
 
-		JUtf8Character c;
-		JFont f;
-		while (siter.Next(&c))
+	JBoolean changed = kJFalse;
+
+	JStringIterator siter(text);
+	JRunArrayIterator<JFont> fiter(style);
+
+	JUtf8Character c;
+	JFont f;
+	while (siter.Next(&c))
+		{
+		const JBoolean ok = fiter.Next(&f);
+		assert( ok );
+
+		if (f.SubstituteToDisplayGlyph(itsFontManager, c))
 			{
-			const JBoolean ok = fiter.Next(&f);
-			assert( ok );
-
-			if (f.SubstituteToDisplayGlyph(itsFontManager, c))
-				{
-				fiter.SetPrev(f);
-				}
+			fiter.SetPrev(f);
+			changed = kJTrue;
 			}
 		}
 
-	return kJTrue;
+	return changed;
 }

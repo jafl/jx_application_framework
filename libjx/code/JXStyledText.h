@@ -24,8 +24,10 @@ public:
 
 protected:
 
-	virtual JBoolean	NeedsToFilterText(const JString& text, const JRunArray<JFont>& style) const override;
-	virtual JBoolean	FilterText(JString* text, JRunArray<JFont>* style) override;
+	virtual JBoolean	NeedsToAdjustFontToDisplayGlyphs(const JString& text, const JRunArray<JFont>& style) const;
+	virtual JBoolean	AdjustFontToDisplayGlyphs(const TextRange& range,
+												  const JString& text,
+												  JRunArray<JFont>* style);
 
 private:
 

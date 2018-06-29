@@ -397,8 +397,13 @@ protected:
 								 const JBoolean deletion,
 								 const JBoolean adjustStyles = kJTrue);
 
-	virtual JBoolean	NeedsToFilterText(const JString& text, const JRunArray<JFont>& style) const;
+	virtual JBoolean	NeedsToFilterText(const JString& text) const;
 	virtual JBoolean	FilterText(JString* text, JRunArray<JFont>* style);
+
+	virtual JBoolean	NeedsToAdjustFontToDisplayGlyphs(const JString& text, const JRunArray<JFont>& style) const;
+	virtual JBoolean	AdjustFontToDisplayGlyphs(const TextRange& range,
+												  const JString& text,
+												  JRunArray<JFont>* style);
 
 	virtual void	AdjustStylesBeforeBroadcast(const JString& text,
 												JRunArray<JFont>* styles,

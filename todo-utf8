@@ -1,5 +1,3 @@
-call FilterText after set font or font name or SetAllFontAndName
-
 fix jStreamUtil.cpp TODO's
 JAsynchDataReceiver::handle_input
 	we cannot assume received complete utf-8 characters

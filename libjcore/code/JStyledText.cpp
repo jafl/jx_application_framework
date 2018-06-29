@@ -1336,6 +1336,8 @@ JStyledText::SetFontName
 
 	if (changed)
 		{
+		AdjustFontToDisplayGlyphs(range, itsText, itsStyles);
+
 		if (undo != nullptr)
 			{
 			NewUndo(undo, isNew);
@@ -1500,6 +1502,8 @@ JStyledText::SetFont
 		itsStyles->SetElement(range.charRange.first, f);
 		}
 
+	AdjustFontToDisplayGlyphs(range, itsText, itsStyles);
+
 	if (undo != nullptr)
 		{
 		NewUndo(undo, isNew);
@@ -1526,6 +1530,8 @@ JStyledText::SetFont
 		{
 		sIter.SkipNext();
 		}
+
+	AdjustFontToDisplayGlyphs(range, itsText, itsStyles);
 
 	BroadcastTextChanged(range, 0, 0, kJFalse, kJFalse);
 }
@@ -1569,6 +1575,9 @@ JStyledText::SetAllFontNameAndSize
 		itsStyles->SetRunData(i, f);
 		}
 
+	const TextRange& all = SelectAll();
+	AdjustFontToDisplayGlyphs(all, itsText, itsStyles);
+
 	if (itsUndoList != nullptr)
 		{
 		for (JSTUndoBase* u : *itsUndoList)
@@ -1583,7 +1592,7 @@ JStyledText::SetAllFontNameAndSize
 
 	itsDefaultFont.Set(name, size, itsDefaultFont.GetStyle());
 
-	BroadcastTextChanged(SelectAll(), 0, 0, kJFalse, kJFalse);
+	BroadcastTextChanged(all, 0, 0, kJFalse, kJFalse);
 }
 
 /******************************************************************************
@@ -1885,12 +1894,23 @@ JStyledText::CleanText
 	// (last so we don't pass anything illegal to FilterText())
 
 	*okToInsert = kJTrue;
-	if (NeedsToFilterText(*cleanText  != nullptr ? **cleanText  : text,
-						  *cleanStyle != nullptr ? **cleanStyle : style))
+	if (NeedsToFilterText(*cleanText  != nullptr ? **cleanText  : text))
 		{
 		COPY_FOR_CLEAN_TEXT
 
 		*okToInsert = FilterText(*cleanText, *cleanStyle);
+		}
+
+	if (NeedsToAdjustFontToDisplayGlyphs(*cleanText  != nullptr ? **cleanText  : text,
+										 *cleanStyle != nullptr ? **cleanStyle : style))
+		{
+		COPY_FOR_CLEAN_TEXT
+
+		AdjustFontToDisplayGlyphs(
+			TextRange(
+				JCharacterRange(1, (**cleanText).GetCharacterCount()),
+				JUtf8ByteRange (1, (**cleanText).GetByteCount())),
+			**cleanText, *cleanStyle);
 		}
 
 	return JI2B( *cleanText != nullptr );
@@ -1969,8 +1989,7 @@ JStyledText::RemoveIllegalChars
 JBoolean
 JStyledText::NeedsToFilterText
 	(
-	const JString&			text,
-	const JRunArray<JFont>&	style
+	const JString& text
 	)
 	const
 {
@@ -1993,6 +2012,41 @@ JStyledText::FilterText
 	)
 {
 	return kJTrue;
+}
+
+/******************************************************************************
+ NeedsToAdjustFontToDisplayGlyphs(virtual protected)
+
+ ******************************************************************************/
+
+JBoolean
+JStyledText::NeedsToAdjustFontToDisplayGlyphs
+	(
+	const JString&			text,
+	const JRunArray<JFont>&	style
+	)
+	const
+{
+	return kJFalse;
+}
+
+/******************************************************************************
+ AdjustFontToDisplayGlyphs (virtual protected)
+
+	Font substitution to hopefully make all characters render.  Returns
+	kJTrue if font was modified.
+
+ ******************************************************************************/
+
+JBoolean
+JStyledText::AdjustFontToDisplayGlyphs
+	(
+	const TextRange&	range,
+	const JString&		text,
+	JRunArray<JFont>*	style
+	)
+{
+	return kJFalse;
 }
 
 /******************************************************************************

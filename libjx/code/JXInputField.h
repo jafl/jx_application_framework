@@ -75,7 +75,7 @@ protected:
 
 		protected:
 
-		virtual JBoolean	NeedsToFilterText(const JString& text, const JRunArray<JFont>& style) const override;
+		virtual JBoolean	NeedsToFilterText(const JString& text) const override;
 		virtual JBoolean	FilterText(JString* text, JRunArray<JFont>* style) override;
 
 		private:

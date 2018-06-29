@@ -102,12 +102,11 @@ JXSaveFileInput::IsCharacterInWord
 JBoolean
 JXSaveFileInput::StyledText::NeedsToFilterText
 	(
-	const JString&			text,
-	const JRunArray<JFont>&	style
+	const JString& text
 	)
 	const
 {
-	return JI2B(JXInputField::StyledText::NeedsToFilterText(text, style) ||
+	return JI2B(JXInputField::StyledText::NeedsToFilterText(text) ||
 				text.Contains(ACE_DIRECTORY_SEPARATOR_STR) ||
 				(!theAllowSpaceFlag && text.Contains(" ")));
 }
