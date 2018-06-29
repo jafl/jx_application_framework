@@ -1703,7 +1703,6 @@ JXTEBase::GetAvailDataTypes
 
 	JXSelectionManager* selMgr = GetSelectionManager();
 
-	JBoolean utf8 = kJFalse;
 	for (const Atom type : typeList)
 		{
 		if (type == selMgr->GetUtf8StringXAtom() ||
@@ -1711,9 +1710,8 @@ JXTEBase::GetAvailDataTypes
 			{
 			*canGetText = kJTrue;
 			*textType   = type;
-			utf8        = kJTrue;
 			}
-		else if (!utf8 &&
+		else if (!*canGetText &&
 				 (type == XA_STRING ||
 				  type == selMgr->GetMimePlainTextXAtom()))
 			{

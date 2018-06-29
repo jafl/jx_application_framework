@@ -381,7 +381,7 @@ CMThreadsWidget::Receive
 			Rebuild();
 			}
 		}
-	if (sender == itsLink && message.Is(CMLink::kFrameChanged))
+	else if (sender == itsLink && message.Is(CMLink::kFrameChanged))
 		{
 		// We don't need to rebuild our list when we get the next
 		// ProgramStopped message.

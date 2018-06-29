@@ -24,7 +24,7 @@ LLDBGetInitArgs::LLDBGetInitArgs
 	JXInputField* argInput
 	)
 	:
-	CMGetInitArgs("NOP"),
+	CMGetInitArgs(""),
 	itsArgInput(argInput)
 {
 }
