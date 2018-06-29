@@ -113,8 +113,10 @@ public:
 
 	// misc
 
-	JIndex	GetPrevByteIndex() const;		// asserts
-	JIndex	GetNextByteIndex() const;		// asserts
+	JIndex		GetPrevByteIndex() const;		// asserts
+	JIndex		GetNextByteIndex() const;		// asserts
+	JBoolean	GetPrevByteIndex(JIndex* i) const;
+	JBoolean	GetNextByteIndex(JIndex* i) const;
 
 private:
 
@@ -244,6 +246,54 @@ JStringIterator::GetNextCharacterIndex
 		}
 
 	*i = itsCharacterOffset + 1;
+	return kJTrue;
+}
+
+/******************************************************************************
+ GetPrevByteIndex
+
+	Returns kJTrue if there is a previous character.
+
+ ******************************************************************************/
+
+inline JBoolean
+JStringIterator::GetPrevByteIndex
+	(
+	JIndex* i
+	)
+	const
+{
+	if (AtBeginning())
+		{
+		*i = 0;
+		return kJFalse;
+		}
+
+	*i = itsByteOffset;
+	return kJTrue;
+}
+
+/******************************************************************************
+ GetNextByteIndex
+
+	Returns kJTrue if there is a next character.
+
+ ******************************************************************************/
+
+inline JBoolean
+JStringIterator::GetNextByteIndex
+	(
+	JIndex* i
+	)
+	const
+{
+	if (AtEnd())
+		{
+		*i = 0;
+		return kJFalse;
+		}
+
+	*i = itsByteOffset + 1;
 	return kJTrue;
 }
 

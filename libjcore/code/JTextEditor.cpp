@@ -1627,6 +1627,7 @@ teDrawSpaces
 	(
 	const JStyledText*	stb,
 	const JIndex		startChar,
+	const JIndex		startByte,
 	const JInteger		direction,		// +1/-1
 	const JIndex		trueRunEnd,
 	JPainter&			p,
@@ -1645,9 +1646,9 @@ teDrawSpaces
 	p.SetLineWidth(1);
 	p.SetPenColor(wsColor);
 
-	JIndex i = startChar;
+	JIndex i = startChar, j = startByte;
 	JPoint pt;
-	while (text[i-1] == ' ')
+	while (stb->GetText().ByteIndexValid(j) && text[j-1] == ' ')
 		{
 		if ((direction == +1 && i > trueRunEnd) ||
 			(direction == -1 && i < trueRunEnd))
@@ -1667,6 +1668,7 @@ teDrawSpaces
 			l += w;
 			}
 		i += direction;
+		j += direction;
 		}
 }
 
@@ -1728,7 +1730,7 @@ JTextEditor::TEDrawLine
 
 		if (!wsInit && itsDrawWhitespaceFlag)
 			{
-			teDrawSpaces(itsText, startChar, +1, trueRunEnd,
+			teDrawSpaces(itsText, startChar, iter->GetNextByteIndex(), +1, trueRunEnd,
 						 p, left, wsYCenter, f, itsWhitespaceColor);
 			}
 		wsInit = kJTrue;
@@ -1805,18 +1807,20 @@ JTextEditor::TEDrawLine
 				p.LineTo(bottom);
 				}
 
-			if (itsDrawWhitespaceFlag)
+			JIndex i;
+			if (itsDrawWhitespaceFlag && iter->GetPrevCharacterIndex(&i))
 				{
-				teDrawSpaces(itsText, startChar + runLength - 1, -1, *firstInRun,
+				teDrawSpaces(itsText, i, iter->GetPrevByteIndex(), -1, *firstInRun,
 							 p, left, wsYCenter, f, itsWhitespaceColor);
 				}
 
 			left += GetTabWidth(startChar + runLength, left);
 			runLength++;
+			iter->SkipNext();	// move past tab character
 
-			if (itsDrawWhitespaceFlag)
+			if (itsDrawWhitespaceFlag && iter->GetNextCharacterIndex(&i))
 				{
-				teDrawSpaces(itsText, startChar + runLength, +1, trueRunEnd,
+				teDrawSpaces(itsText, i, iter->GetNextByteIndex(), +1, trueRunEnd,
 							 p, left, wsYCenter, f, itsWhitespaceColor);
 				}
 			}
@@ -1857,9 +1861,12 @@ JTextEditor::TEDrawLine
 			p.LineTo(pt3);
 			p.LineTo(pt4);
 
-			const JFont& f = styles.GetRunDataRef(*runIndex);
-			teDrawSpaces(itsText, endChar, -1, *firstInRun,
-						 p, left, wsYCenter, f, itsWhitespaceColor);
+			if (endChar > 1)
+				{
+				const JFont& f = styles.GetRunDataRef(*runIndex);
+				teDrawSpaces(itsText, endChar, iter->GetPrevByteIndex(), -1, *firstInRun,
+							 p, left, wsYCenter, f, itsWhitespaceColor);
+				}
 			}
 
 		const JSize runLength = styles.GetRunLength(*runIndex);
@@ -4191,23 +4198,27 @@ JTextEditor::IncludeWhitespaceOnLine
 					runIndex, firstInRun);
 				}
 			*lineWidth += GetTabWidth(iter->GetPrevCharacterIndex(), *lineWidth);
-			first       = TextIndex(iter->GetNextCharacterIndex(), iter->GetNextByteIndex());
 
-			// update *runIndex,*firstInRun after passing tab character
-
-			const JSize runLength = itsText->GetStyles().GetRunLength(*runIndex);
-			if (first.charIndex > *firstInRun + runLength-1)
+			if (!iter->AtEnd())
 				{
-				*firstInRun += runLength;
-				(*runIndex)++;
-				}
+				first = TextIndex(iter->GetNextCharacterIndex(), iter->GetNextByteIndex());
 
-			// tab characters can wrap to the next line
+				// update *runIndex,*firstInRun after passing tab character
 
-			if (!itsBreakCROnlyFlag && *lineWidth > itsWidth)
-				{
-				*endOfLine = kJTrue;
-				break;
+				const JSize runLength = itsText->GetStyles().GetRunLength(*runIndex);
+				if (first.charIndex > *firstInRun + runLength-1)
+					{
+					*firstInRun += runLength;
+					(*runIndex)++;
+					}
+
+				// tab characters can wrap to the next line
+
+				if (!itsBreakCROnlyFlag && *lineWidth > itsWidth)
+					{
+					*endOfLine = kJTrue;
+					break;
+					}
 				}
 			}
 		else if (c == '\n')
