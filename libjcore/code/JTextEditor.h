@@ -359,7 +359,8 @@ protected:
 
 	JBoolean	GetSelection(JStyledText::TextRange* range) const;
 	void		SetSelection(const JStyledText::TextRange& range,
-							 const JBoolean needCaretBcast = kJTrue);
+							 const JBoolean needCaretBcast = kJTrue,
+							 const JBoolean ignoreCopyWhenSelect = kJFalse);
 	void		TEGetDoubleClickSelection(const JStyledText::TextIndex& charIndex,
 										  const JBoolean partialWord,
 										  const JBoolean dragging,
@@ -505,7 +506,7 @@ private:
 
 	JCoordinate	GetEWNHeight() const;
 
-	void	InsertKeyPress(const JUtf8Character& key);
+	void	InsertCharacter(const JUtf8Character& c);
 	void	BackwardDelete(const JBoolean deleteToTabStop,
 						   JString* returnText = nullptr, JRunArray<JFont>* returnStyle = nullptr);
 	void	ForwardDelete(const JBoolean deleteToTabStop,

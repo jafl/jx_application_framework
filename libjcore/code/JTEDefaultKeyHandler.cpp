@@ -250,7 +250,7 @@ JTEDefaultKeyHandler::HandleKeyPress
 
 	else if (key.IsPrint() || key == '\n' || key == '\t')
 		{
-		te->InsertKeyPress(key);
+		te->InsertCharacter(key);
 		}
 
 	else

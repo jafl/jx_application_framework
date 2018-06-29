@@ -309,13 +309,18 @@ JTextEditor::Receive
 			itsInsertionFont = itsText->GetDefaultFont();
 			}
 
+		itsNeedCaretBcastFlag = kJFalse;
 		RecalcAll();
+		itsNeedCaretBcastFlag = kJTrue;
+
 		SetCaretLocation(CaretLocation(TextIndex(1,1),1));
 		}
 
 	else if (sender == itsText &&
 			 message.Is(JStyledText::kTextChanged))
 		{
+		itsNeedCaretBcastFlag = kJFalse;
+
 		const JStyledText::TextChanged* info =
 			dynamic_cast<const JStyledText::TextChanged*>(&message);
 		assert( info != nullptr );
@@ -349,8 +354,10 @@ JTextEditor::Receive
 		else if (!itsSelection.IsEmpty() &&
 				 r.charRange.last - cd < itsSelection.charRange.first)
 			{
-			itsSelection.charRange += cd;
-			itsSelection.byteRange += bd;
+			TextRange r  = itsSelection;
+			r.charRange += cd;
+			r.byteRange += bd;
+			SetSelection(r, kJTrue, kJTrue);
 			}
 		else if (!itsSelection.IsEmpty() &&
 				 r.charRange.first < itsSelection.charRange.first)
@@ -362,6 +369,8 @@ JTextEditor::Receive
 			{
 			SetCaretLocation(CalcCaretLocation(itsSelection.GetFirst()));
 			}
+
+		itsNeedCaretBcastFlag = kJTrue;
 		}
 
 	else if (sender == itsText &&
@@ -945,7 +954,8 @@ void
 JTextEditor::SetSelection
 	(
 	const TextRange&	range,
-	const JBoolean		needCaretBcast
+	const JBoolean		needCaretBcast,
+	const JBoolean		ignoreCopyWhenSelect
 	)
 {
 	if (itsIsDragSourceFlag)
@@ -974,7 +984,7 @@ JTextEditor::SetSelection
 	const CaretLocation origCaretLoc       = itsCaret;
 	const JUtf8ByteRange origByteSelection = itsSelection.byteRange;
 
-	itsCaret  = CaretLocation();
+	itsCaret     = CaretLocation();
 	itsSelection = range;
 
 	const JIndex newStartLine = GetLineForByte(itsSelection.byteRange.first);
@@ -989,7 +999,7 @@ JTextEditor::SetSelection
 
 	TECaretShouldBlink(kJFalse);
 
-	if (theCopyWhenSelectFlag && itsType != kStaticText)
+	if (!ignoreCopyWhenSelect && theCopyWhenSelectFlag && itsType != kStaticText)
 		{
 		Copy();
 		}
@@ -2666,26 +2676,32 @@ JTextEditor::TEHandleKeyPress
 }
 
 /******************************************************************************
- InsertKeyPress (private)
+ InsertCharacter (private)
 
  ******************************************************************************/
 
 void
-JTextEditor::InsertKeyPress
+JTextEditor::InsertCharacter
 	(
-	const JUtf8Character& key
+	const JUtf8Character& c
 	)
 {
 	const JBoolean hadSelection = !itsSelection.IsEmpty();
 	if (hadSelection)
 		{
 		itsInsertionFont = itsText->GetStyles().GetElement(itsSelection.charRange.first);
-		itsCaret      = CalcCaretLocation(itsSelection.GetFirst());
+		itsCaret         = CalcCaretLocation(itsSelection.GetFirst());
 		}
+
+	itsNeedCaretBcastFlag = kJFalse;
+	const TextIndex loc   = itsCaret.location;
 
 	JUndo* undo = itsText->InsertCharacter(
 		hadSelection ? itsSelection : TextRange(itsCaret.location, TextCount(0,0)),
-		key, itsInsertionFont);
+		c, itsInsertionFont);
+
+	itsNeedCaretBcastFlag = kJTrue;
+	SetCaretLocation(itsText->AdjustTextIndex(loc, +1));
 
 	undo->Activate();		// cancel SetCaretLocation()
 }
@@ -3793,7 +3809,7 @@ JTextEditor::Recalc
 	if (itsSelection.IsEmpty())
 		{
 		const JIndex origLine = itsCaret.lineIndex;
-		itsCaret.lineIndex = GetLineForChar(itsCaret.location.charIndex);
+		itsCaret.lineIndex    = GetLineForChar(itsCaret.location.charIndex);
 		lineChanged           = JI2B(itsCaret.lineIndex != origLine);
 		}
 

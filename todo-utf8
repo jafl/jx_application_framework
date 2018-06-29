@@ -17,7 +17,6 @@ JStyledTextBuffer
 
 JTextEditor:
 	undo should select inserted text in the active TextEditor instance
-	type to replace selection:  caret ends up in front of inserted character
 	clicking in selection doesn't set caret location
 		treats ending newline line as part of selection
 	dropOnSelf crashed
