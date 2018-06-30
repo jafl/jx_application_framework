@@ -1,10 +1,8 @@
 JTextEditor:
-	dropOnSelf crashed
 	"Replace All" did nothing when something was selected
 	undo should select inserted text in the active TextEditor instance
 	don't change insertion font when glyphs are rendered with different font
 		use isExact to tell which glyphs are substitutions?
-	tab arrow should not overflow available width
 
 
 fix jStreamUtil.cpp TODO's

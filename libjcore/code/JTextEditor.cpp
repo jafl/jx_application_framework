@@ -1765,19 +1765,23 @@ JTextEditor::TEDrawLine
 
 		if (foundTab)
 			{
+			const JCoordinate tabWidth = GetTabWidth(startChar + runLength, left);
+
 			if (itsDrawWhitespaceFlag)
 				{
 				p.SetLineWidth(1);
 				p.SetPenColor(itsWhitespaceColor);
 
+				const JCoordinate box = JMax(4L, JMin(10L, wsRect.height(), tabWidth));
+
 				wsRect.left  = left;
-				wsRect.right = left + wsRect.height();
+				wsRect.right = left + box;
 
 				const JCoordinate xc = wsRect.xcenter();
 				const JCoordinate yc = wsRect.ycenter();
-				const JPoint top   (xc, wsRect.top);
+				const JPoint top   (xc, yc - box/2);
 				const JPoint left  (wsRect.left, yc);
-				const JPoint bottom(xc, wsRect.bottom);
+				const JPoint bottom(xc, yc + box/2);
 				const JPoint right (wsRect.right, yc);
 
 				p.Line(left, right);
@@ -1792,7 +1796,7 @@ JTextEditor::TEDrawLine
 							 p, left, wsYCenter, f, itsWhitespaceColor);
 				}
 
-			left += GetTabWidth(startChar + runLength, left);
+			left += tabWidth;
 			runLength++;
 			iter->SkipNext();	// move past tab character
 
