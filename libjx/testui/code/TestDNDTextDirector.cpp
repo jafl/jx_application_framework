@@ -100,12 +100,12 @@ TestDNDTextDirector::BuildWindow()
 			"plain\n\nbold\n\nitalicunderline\n\ntrplunderline\n\nstrike\n\nboldred\n",
 			0, kJFalse));
 
-		text->SetFontStyle(TEXT_RANGE(8, 13), JFontStyle(kJTrue, kJFalse, 0, kJFalse), kJTrue);
+		text->SetFontStyle(TEXT_RANGE( 8, 13), JFontStyle(kJTrue, kJFalse, 0, kJFalse), kJTrue);
 		text->SetFontStyle(TEXT_RANGE(14, 30), JFontStyle(kJFalse, kJTrue, 1, kJFalse), kJTrue);
 		text->SetFontStyle(TEXT_RANGE(31, 45), JFontStyle(kJFalse, kJFalse, 3, kJFalse), kJTrue);
 		text->SetFontStyle(TEXT_RANGE(46, 53), JFontStyle(kJFalse, kJFalse, 0, kJTrue), kJTrue);
-		text->SetFontStyle(TEXT_RANGE(54, 62), JFontStyle(kJTrue, kJFalse, 0, kJFalse,
-											JColorManager::GetRedColor()), kJTrue);
+		text->SetFontStyle(TEXT_RANGE(54, 62),
+			JFontStyle(kJTrue, kJFalse, 0, kJFalse, JColorManager::GetRedColor()), kJTrue);
 		}
 }
 

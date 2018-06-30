@@ -35,7 +35,8 @@ protected:
 private:
 
 	JStyledText*	itsText;
-	TestTextEditor*	itsTextEditor;	// owned by its enclosure
+	TestTextEditor*	itsTextEditor1;	// owned by its enclosure
+	TestTextEditor*	itsTextEditor2;	// owned by its enclosure
 	JXTextMenu*		itsFileMenu;	// owned by menu bar
 
 // begin JXLayout

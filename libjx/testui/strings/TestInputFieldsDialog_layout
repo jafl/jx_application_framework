@@ -1,4 +1,4 @@
-1
+0
 max10Label::TestInputFieldsDialog::JXLayout "req'd max 10 chars:"
 cancelButton::TestInputFieldsDialog::JXLayout "Cancel"
 highIntLabel::TestInputFieldsDialog::JXLayout "High (<8):"

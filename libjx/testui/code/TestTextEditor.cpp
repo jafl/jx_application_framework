@@ -47,7 +47,9 @@ TestTextEditor::TestTextEditor
 	)
 	:
 	JXTextEditor(text, ownsText, menuBar, scrollbarSet,
-				 enclosure, hSizing, vSizing, x,y, w,h)
+				 enclosure, hSizing, vSizing, x,y, w,h),
+	itsAutoIndentCmdIndex(0),
+	itsFirstUndoDepthCmdIndex(0)
 {
 	if (!editable)
 		{
@@ -61,18 +63,15 @@ TestTextEditor::TestTextEditor
 	// adjust the edit menu
 
 	JXTextMenu* editMenu;
-	const JBoolean ok = GetEditMenu(&editMenu);
-	assert( ok );
-	const JSize editCount = editMenu->GetItemCount();
-	editMenu->ShowSeparatorAfter(editCount);
+	if (GetEditMenu(&editMenu))
+		{
+		const JSize editCount = editMenu->GetItemCount();
+		editMenu->ShowSeparatorAfter(editCount);
 
-	itsAutoIndentCmdIndex     = editCount + 1;
-	itsFirstUndoDepthCmdIndex = itsAutoIndentCmdIndex + 1;
-	editMenu->AppendMenuItems(kEditMenuStr);
-
-	// start with some challenging glyphs
-
-	text->SetText(JString("ABC Ж Җ ζ Ǽ ậ ϖ Ӝ ἆ Ɽ 转 燜 ㄊ 먄 욶 א ݣ ﺺ Բարեւ", kJFalse));
+		itsAutoIndentCmdIndex     = editCount + 1;
+		itsFirstUndoDepthCmdIndex = itsAutoIndentCmdIndex + 1;
+		editMenu->AppendMenuItems(kEditMenuStr);
+		}
 }
 
 /******************************************************************************
@@ -127,6 +126,11 @@ TestTextEditor::Receive
 void
 TestTextEditor::UpdateCustomEditMenuItems()
 {
+	if (itsAutoIndentCmdIndex == 0)
+		{
+		return;
+		}
+
 	JXTextMenu* editMenu;
 	const JBoolean ok = GetEditMenu(&editMenu);
 	assert( ok );
@@ -167,7 +171,7 @@ TestTextEditor::HandleCustomEditMenuItems
 		GetText()->ShouldAutoIndent(!GetText()->WillAutoIndent());
 		return kJTrue;
 		}
-	else if (index >= itsFirstUndoDepthCmdIndex)
+	else if (itsFirstUndoDepthCmdIndex > 0 && index >= itsFirstUndoDepthCmdIndex)
 		{
 		GetText()->SetUndoDepth(kUndoDepth[ index - itsFirstUndoDepthCmdIndex ]);
 		return kJTrue;

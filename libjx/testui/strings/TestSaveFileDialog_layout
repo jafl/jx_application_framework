@@ -1,4 +1,4 @@
-1
+0
 promptLabel::TestSaveFileDialog::JXLayout ""
 desktopButton::TestSaveFileDialog::JXLayout "Desktop"
 saveButton::TestSaveFileDialog::shortcuts::JXLayout "^M"

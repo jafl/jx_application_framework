@@ -3,7 +3,7 @@
 
 	Interface for the JXTextEditor class
 
-	Copyright (C) 1996 by John Lindal.
+	Copyright (C) 1996-2018 by John Lindal.
 
  ******************************************************************************/
 
@@ -30,8 +30,11 @@ public:
 
 	virtual ~JXTextEditor();
 
+	void	ShareMenus(JXTextEditor* te);
+
 protected:
 
+	virtual void	HandleFocusEvent() override;		// must call inherited
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:

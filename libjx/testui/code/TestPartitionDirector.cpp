@@ -82,12 +82,10 @@ TestPartitionDirector::~TestPartitionDirector()
 void
 TestPartitionDirector::BuildWindow()
 {
-JIndex i;
-
 	JArray<JCoordinate> sizes;
 	JArray<JCoordinate> minSizes;
 
-	for (i=1; i<=kInitCompartmentCount; i++)
+	for (JIndex i=1; i<=kInitCompartmentCount; i++)
 		{
 		sizes.AppendElement(kInitSize);
 		minSizes.AppendElement(kMinSize);
@@ -134,7 +132,7 @@ JIndex i;
 	itsVertMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsVertMenu);
 
-	for (i=1; i<=kInitCompartmentCount; i++)
+	for (JIndex i=1; i<=kInitCompartmentCount; i++)
 		{
 		if (i != kInitElasticIndex)
 			{

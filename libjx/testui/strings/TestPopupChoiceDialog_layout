@@ -1,4 +1,4 @@
-1
+0
 cancelButton::TestPopupChoiceDialog::JXLayout "Cancel"
 okButton::TestPopupChoiceDialog::JXLayout "OK"
 okButton::TestPopupChoiceDialog::shortcuts::JXLayout "^M"

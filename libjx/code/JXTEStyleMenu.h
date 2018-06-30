@@ -28,6 +28,8 @@ public:
 
 	virtual ~JXTEStyleMenu();
 
+	void	SetTE(JXTextEditor* te);
+
 protected:
 
 	virtual JFontStyle	GetFontStyleForMenuUpdate() const;
@@ -44,5 +46,22 @@ private:
 	JXTEStyleMenu(const JXTEStyleMenu& source);
 	const JXTEStyleMenu& operator=(const JXTEStyleMenu& source);
 };
+
+
+/******************************************************************************
+ SetTE
+
+	Allows menu to be shared by multiple widgets.
+
+ ******************************************************************************/
+
+inline void
+JXTEStyleMenu::SetTE
+	(
+	JXTextEditor* te
+	)
+{
+	itsTE = te;
+}
 
 #endif

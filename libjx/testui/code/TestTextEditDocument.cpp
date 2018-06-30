@@ -16,6 +16,7 @@
 #include <JXMenuBar.h>
 #include <JXTextMenu.h>
 #include <JXDocumentMenu.h>
+#include <JXVertPartition.h>
 #include <JXScrollbarSet.h>
 #include <JXStandAlonePG.h>
 #include <JXDeleteObjectTask.h>
@@ -63,6 +64,10 @@ TestTextEditDocument::TestTextEditDocument
 				   kJFalse, kJTrue, JString::empty)
 {
 	BuildWindow(kJTrue);
+
+	// start with some challenging glyphs
+
+	itsText->SetText(JString("ABC Ж Җ ζ Ǽ ậ ϖ Ӝ ἆ Ɽ 转 燜 ㄊ 먄 욶 א ݣ ﺺ Բարեւ", kJFalse));
 }
 
 TestTextEditDocument::TestTextEditDocument
@@ -100,6 +105,15 @@ TestTextEditDocument::BuildWindow
 	const JBoolean fileWritable
 	)
 {
+	JArray<JCoordinate> sizes;
+	JArray<JCoordinate> minSizes;
+
+	for (JIndex i=1; i<=2; i++)
+		{
+		sizes.AppendElement(140);
+		minSizes.AppendElement(50);
+		}
+
 // begin JXLayout
 
 	JXWindow* window = jnew JXWindow(this, 400,330, JString::empty);
@@ -110,10 +124,10 @@ TestTextEditDocument::BuildWindow
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 400,30);
 	assert( menuBar != nullptr );
 
-	JXScrollbarSet* scrollbarSet =
-		jnew JXScrollbarSet(window,
+	JXVertPartition* partition =
+		jnew JXVertPartition(sizes, 1, minSizes, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 400,300);
-	assert( scrollbarSet != nullptr );
+	assert( partition != nullptr );
 
 // end JXLayout
 
@@ -123,14 +137,36 @@ TestTextEditDocument::BuildWindow
 
 	itsText = jnew JXStyledText(kJTrue, kJTrue, GetDisplay()->GetFontManager());
 	assert( itsText != nullptr );
+	ListenTo(itsText);
 
-	itsTextEditor =
+	JXContainer* compartment = partition->GetCompartment(1);
+
+	JXScrollbarSet* scrollbarSet =
+		jnew JXScrollbarSet(compartment, JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 100,100);
+	assert( scrollbarSet != nullptr );
+	scrollbarSet->FitToEnclosure();
+
+	itsTextEditor1 =
 		jnew TestTextEditor(itsText, kJFalse, fileWritable, menuBar, scrollbarSet,
 							scrollbarSet->GetScrollEnclosure(),
 							JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 10,10);
-	assert( itsTextEditor != nullptr );
-	itsTextEditor->FitToEnclosure();
-	ListenTo(itsTextEditor->GetText());
+	assert( itsTextEditor1 != nullptr );
+	itsTextEditor1->FitToEnclosure();
+
+	compartment = partition->GetCompartment(2);
+
+	scrollbarSet =
+		jnew JXScrollbarSet(compartment, JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 100,100);
+	assert( scrollbarSet != nullptr );
+	scrollbarSet->FitToEnclosure(kJTrue, kJTrue);
+
+	itsTextEditor2 =
+		jnew TestTextEditor(itsText, kJFalse, fileWritable, nullptr, scrollbarSet,
+							scrollbarSet->GetScrollEnclosure(),
+							JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 10,10);
+	assert( itsTextEditor2 != nullptr );
+	itsTextEditor2->FitToEnclosure();
+	itsTextEditor2->ShareMenus(itsTextEditor1);
 
 	itsFileMenu = menuBar->PrependTextMenu(JGetString("FileMenuTitle::JXGlobal"));
 	itsFileMenu->SetShortcuts(JGetString("FileMenuShortcut::TestTextEditDocument"));
@@ -171,9 +207,9 @@ TestTextEditDocument::Receive
 		HandleFileMenu(selection->GetIndex());
 		}
 
-	else if (sender == itsTextEditor->GetText() && message.Is(JStyledText::kTextChanged))
+	else if (sender == itsText && message.Is(JStyledText::kTextChanged))
 		{
-		if (itsTextEditor->GetText()->IsAtLastSaveLocation())
+		if (itsText->IsAtLastSaveLocation())
 			{
 			DataReverted();
 			}
@@ -240,11 +276,11 @@ TestTextEditDocument::HandleFileMenu
 		}
 	else if (index == kPageSetupCmd)
 		{
-		itsTextEditor->HandlePSPageSetup();
+		itsTextEditor1->HandlePSPageSetup();
 		}
 	else if (index == kPrintCmd)
 		{
-		itsTextEditor->PrintPS();
+		itsTextEditor1->PrintPS();
 		}
 	else if (index == kCloseCmd)
 		{
@@ -319,7 +355,7 @@ TestTextEditDocument::DiscardChanges()
 		}
 	else
 		{
-		itsTextEditor->GetText()->SetText(JString::empty);
+		itsText->SetText(JString::empty);
 		}
 
 	DataReverted();
@@ -337,8 +373,8 @@ TestTextEditDocument::ReadFile
 	)
 {
 	JStyledText::PlainTextFormat format;
-	itsTextEditor->GetText()->ReadPlainText(fileName, &format);
-	itsTextEditor->GetText()->SetLastSaveLocation();
+	itsText->ReadPlainText(fileName, &format);
+	itsText->SetLastSaveLocation();
 }
 
 /******************************************************************************
@@ -366,13 +402,13 @@ TestTextEditDocument::WriteTextFile
 	)
 	const
 {
-	itsTextEditor->GetText()->WritePlainText(output, JStyledText::kUNIXText);
+	itsText->WritePlainText(output, JStyledText::kUNIXText);
 	if (!safetySave)
 		{
-		itsTextEditor->GetText()->DeactivateCurrentUndo();
+		itsText->DeactivateCurrentUndo();
 		if (output.good())
 			{
-			itsTextEditor->GetText()->SetLastSaveLocation();
+			itsText->SetLastSaveLocation();
 			}
 		}
 }

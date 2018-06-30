@@ -1523,11 +1523,11 @@ alignment: FL_ALIGN_CENTER
 style: FL_NORMAL_STYLE
 size: FL_NORMAL_SIZE
 lcol: FL_BLACK
-label: JXScrollbarSet
+label: JXVertPartition(sizes, 1, minSizes,
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
-name: (scrollbarSet)
+name: (partition)
 callback: 
 argument: 
 

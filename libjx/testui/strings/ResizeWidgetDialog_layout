@@ -1,4 +1,4 @@
-1
+0
 heightLabel::ResizeWidgetDialog::JXLayout "Height:"
 widthLabel::ResizeWidgetDialog::JXLayout "Width:"
 okButton::ResizeWidgetDialog::shortcuts::JXLayout "^M"
