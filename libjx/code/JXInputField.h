@@ -57,7 +57,8 @@ public:
 	JBoolean	GetTable(JXEditTable** table) const;
 	void		SetTable(JXEditTable* table);
 
-	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers) override;
+	virtual void	HandleKeyPress(const JUtf8Character& c, const int keySym,
+								   const JXKeyModifiers& modifiers) override;
 
 	virtual JString	ToString() const override;
 

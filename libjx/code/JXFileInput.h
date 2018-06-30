@@ -48,7 +48,8 @@ public:
 	JBoolean	ChooseFile(const JString& prompt, const JString& instr = JString::empty);
 	JBoolean	SaveFile(const JString& prompt, const JString& instr = JString::empty);
 
-	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers) override;
+	virtual void	HandleKeyPress(const JUtf8Character& c, const int keySym,
+								   const JXKeyModifiers& modifiers) override;
 
 	static JFont	GetFont();
 

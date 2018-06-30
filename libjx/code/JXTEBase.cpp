@@ -43,7 +43,6 @@
 #include "JXColorManager.h"
 #include "jXGlobals.h"
 #include "jXActionDefs.h"
-#include "jXKeysym.h"
 
 #include <JFontManager.h>
 #include <JRegex.h>
@@ -1116,7 +1115,8 @@ JXTEBase::TECaretShouldBlink
 void
 JXTEBase::HandleKeyPress
 	(
-	const int				origKey,
+	const JUtf8Character&	c,
+	const int				origKeySym,
 	const JXKeyModifiers&	origModifiers
 	)
 {
@@ -1125,11 +1125,11 @@ JXTEBase::HandleKeyPress
 		(JXGetSearchTextDialog())->SetActiveTE(this);
 		}
 
-	int key                  = origKey;
+	int keySym               = origKeySym;
 	JXKeyModifiers modifiers = origModifiers;
 	if (theWindowsHomeEndFlag)
 		{
-		RemapWindowsHomeEnd(&key, &modifiers);
+		RemapWindowsHomeEnd(&keySym, &modifiers);
 		}
 
 	const JBoolean controlOn = modifiers.control();
@@ -1144,44 +1144,43 @@ JXTEBase::HandleKeyPress
 		}
 
 	JBoolean processed = kJFalse;
-	char typedKey;
 
 	if (type == kFullEditor &&
-		(((key == 'z' || key == 'Z') && !controlOn &&  metaOn && !shiftOn) ||
-		 (key == JXCtrl('Z')         &&  controlOn && !metaOn && !shiftOn)))
+		(((c == 'z' || c == 'Z') && !controlOn &&  metaOn && !shiftOn) ||
+		 (c == JXCtrl('Z')       &&  controlOn && !metaOn && !shiftOn)))
 		{
 		GetText()->Undo();
 		processed = kJTrue;
 		}
 	else if (type == kFullEditor &&
-			 (((key == 'x' || key == 'X') && !controlOn &&  metaOn && !shiftOn) ||
-			  (key == JXCtrl('X')         &&  controlOn && !metaOn && !shiftOn)))
+			 (((c == 'x' || c == 'X') && !controlOn &&  metaOn && !shiftOn) ||
+			  (c == JXCtrl('X')       &&  controlOn && !metaOn && !shiftOn)))
 		{
 		Cut();
 		processed = kJTrue;
 		}
-	else if (((key == 'c' || key == 'C') && !controlOn &&  metaOn && !shiftOn) ||
-			 (key == JXCtrl('C')         &&  controlOn && !metaOn && !shiftOn))
+	else if (((c == 'c' || c == 'C') && !controlOn &&  metaOn && !shiftOn) ||
+			 (c == JXCtrl('C')       &&  controlOn && !metaOn && !shiftOn))
 		{
 		Copy();
 		processed = kJTrue;
 		}
 	else if (type == kFullEditor &&
-			 (((key == 'v' || key == 'V') && !controlOn &&  metaOn && !shiftOn) ||
-			  (key == JXCtrl('V')         &&  controlOn && !metaOn && !shiftOn)))
+			 (((c == 'v' || c == 'V') && !controlOn &&  metaOn && !shiftOn) ||
+			  (c == JXCtrl('V')       &&  controlOn && !metaOn && !shiftOn)))
 		{
 		Paste();
 		processed = kJTrue;
 		}
-	else if (((key == 'a' || key == 'A') && !controlOn &&  metaOn && !shiftOn) ||
-			 (key == JXCtrl('A')         &&  controlOn && !metaOn && !shiftOn))
+	else if (((c == 'a' || c == 'A') && !controlOn &&  metaOn && !shiftOn) ||
+			 (c == JXCtrl('A')       &&  controlOn && !metaOn && !shiftOn))
 		{
 		SelectAll();
 		processed = kJTrue;
 		}
 
-	else if (key == kJLeftArrow || key == kJRightArrow ||
-			 key == kJUpArrow   || key == kJDownArrow)
+	else if (c == kJLeftArrow || c == kJRightArrow ||
+			 c == kJUpArrow   || c == kJDownArrow)
 		{
 		CaretMotion motion = kMoveByCharacter;
 		if ((thePWMod == kCtrlMetaPWMod && controlOn && metaOn) ||
@@ -1201,7 +1200,7 @@ JXTEBase::HandleKeyPress
 
 		if (type == kFullEditor || shiftOn || motion != kMoveByCharacter)
 			{
-			processed = TEHandleKeyPress(key, shiftOn, motion, kJFalse);
+			processed = TEHandleKeyPress(c, shiftOn, motion, kJFalse);
 			}
 		else
 			{
@@ -1210,8 +1209,9 @@ JXTEBase::HandleKeyPress
 		}
 
 	else if (type == kFullEditor &&
-			 !((controlOn || metaOn) && '1' <= key && key <= '9') &&
-			 OKToPassToJTE(key, &typedKey))
+			 !((controlOn || metaOn) && c.IsAscii() &&
+			   '1' <= c.GetBytes()[0] && c.GetBytes()[0] <= '9') &&
+			 !c.IsBlank())
 		{
 		JBoolean deleteToTabStop = GetText()->TabInsertsSpaces();
 		if (shiftOn)
@@ -1219,7 +1219,7 @@ JXTEBase::HandleKeyPress
 			deleteToTabStop = !deleteToTabStop;
 			}
 
-		processed = TEHandleKeyPress(typedKey, shiftOn, kMoveByCharacter, deleteToTabStop);
+		processed = TEHandleKeyPress(c, shiftOn, kMoveByCharacter, deleteToTabStop);
 		}
 
 	if (!processed)
@@ -1231,66 +1231,44 @@ JXTEBase::HandleKeyPress
 			const JRect ap = GetAperture();
 			const JRect b  = GetBounds();
 
-			if ((key == XK_Page_Up || key == XK_KP_Page_Up) &&
+			if ((keySym == XK_Page_Up || keySym == XK_KP_Page_Up) &&
 				 ap.top == b.top)
 				{
 				SetCaretLocation(1);
 				}
-			else if ((key == XK_Page_Down || key == XK_KP_Page_Down) &&
+			else if ((keySym == XK_Page_Down || keySym == XK_KP_Page_Down) &&
 					  ap.bottom == b.bottom)
 				{
 				SetCaretLocation(GetText()->GetText().GetCharacterCount()+1);
 				}
 			}
 
-		int k = key;
-		if (type != kFullEditor && k == ' ')
+		int k = keySym;
+		if (type != kFullEditor && c == ' ')
 			{
 			k = XK_Page_Down;
 			}
-		else if (type != kFullEditor && k == kJDeleteKey)
+		else if (type != kFullEditor && c == kJDeleteKey)
 			{
 			k = XK_Page_Up;
 			}
 
-		JXScrollableWidget::HandleKeyPress(k, modifiers);
+		JXScrollableWidget::HandleKeyPress(c, k, modifiers);
 
 		if (theScrollCaretFlag)
 			{
 			// move caret to top/bottom regardless of where it was
 
-			if (key == XK_Home || key == XK_KP_Home)
+			if (keySym == XK_Home || keySym == XK_KP_Home)
 				{
 				SetCaretLocation(1);
 				}
-			else if (key == XK_End || key == XK_KP_End)
+			else if (keySym == XK_End || keySym == XK_KP_End)
 				{
 				SetCaretLocation(GetText()->GetText().GetCharacterCount()+1);
 				}
 			}
 		}
-}
-
-/******************************************************************************
- OKToPassToJTE (private)
-
-	Map Latin 1,2,3,4,9 to 8-bit ASCII.
-
- ******************************************************************************/
-
-JBoolean
-JXTEBase::OKToPassToJTE
-	(
-	const int	key,
-	char*		c
-	)
-	const
-{
-	const int flags = 0xFF00 & key;
-	*c              = 0x00FF & key;
-	return JI2B(*c != 0 &&
-				(flags == 0x0000 || flags == 0x0100 || flags == 0x0200 ||
-				 flags == 0x0300 || flags == 0x1300));
 }
 
 /******************************************************************************

@@ -48,7 +48,8 @@ public:
 	static void	SkipScrollSetup(std::istream& input);
 	void		WriteScrollSetup(std::ostream& output) const;
 
-	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers) override;
+	virtual void	HandleKeyPress(const JUtf8Character& c, const int key,
+								   const JXKeyModifiers& modifiers) override;
 
 	DisplayState	SaveDisplayState() const;
 	void			RestoreDisplayState(const DisplayState& state);

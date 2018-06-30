@@ -354,6 +354,7 @@ private:
 	JXGC*			itsGC;
 	Window			itsXWindow;
 	Pixmap			itsBufferPixmap;
+	XIC				itsXIC;
 	JString			itsTitle;
 	JString			itsWindowType;
 	JColorID		itsBackColor;

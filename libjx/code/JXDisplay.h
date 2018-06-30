@@ -230,6 +230,7 @@ public:
 	JBoolean	FindXWindow(const Window xWindow, JXWindow** window) const;
 
 	const int*	GetJXKeyModifierMapping() const;
+	XIM			GetXIM() const;
 
 	// installed by JXApplication
 
@@ -296,6 +297,7 @@ private:
 	JXKeyModifiers		itsLatestKeyModifiers;
 	XModifierKeymap*	itsModifierKeymap;
 	int					itsJXKeyModifierMapping [ 1+kJXKeyModifierMapCount ];
+	XIM					itsXIM;
 
 	JArray<CursorInfo>*	itsCursorList;
 	JXGC*				itsDefaultGC;
@@ -649,6 +651,18 @@ JXDisplay::GetJXKeyModifierMapping()
 	const
 {
 	return itsJXKeyModifierMapping;
+}
+
+/******************************************************************************
+ GetXIM
+
+ ******************************************************************************/
+
+inline XIM
+JXDisplay::GetXIM()
+	const
+{
+	return itsXIM;
 }
 
 /******************************************************************************

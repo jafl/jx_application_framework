@@ -51,7 +51,8 @@ public:
 	JBoolean	WillSelectWhenChangePath() const;
 	void		ShouldSelectWhenChangePath(const JBoolean select);
 
-	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers) override;
+	virtual void	HandleKeyPress(const JUtf8Character& c, const int keySym,
+								   const JXKeyModifiers& modifiers) override;
 	virtual void	HandleShortcut(const int key, const JXKeyModifiers& modifiers) override;
 
 	virtual JBoolean	IsSelectable(const JPoint& cell,

@@ -60,7 +60,7 @@ public:
 	virtual JBoolean	OKToUnfocus();
 	JBoolean			WantsTab() const;
 	JBoolean			WantsModifiedTab() const;
-	virtual void		HandleKeyPress(const int key,				// must call inherited
+	virtual void		HandleKeyPress(const JUtf8Character& c, const int keySym,	// must call inherited
 									   const JXKeyModifiers& modifiers);
 
 	JBoolean		WillAcceptShortcut() const;

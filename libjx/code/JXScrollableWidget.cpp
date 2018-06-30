@@ -28,7 +28,6 @@
 #include "JXWindowPainter.h"
 #include "JXColorManager.h"
 #include "jXPainterUtil.h"
-#include "jXKeysym.h"
 #include "jXGlobals.h"
 #include <JMinMax.h>
 #include <jMath.h>
@@ -640,7 +639,8 @@ JXScrollableWidget::ScrollForWheel
 void
 JXScrollableWidget::HandleKeyPress
 	(
-	const int				key,
+	const JUtf8Character&	c,
+	const int				keySym,
 	const JXKeyModifiers&	modifiers
 	)
 {
@@ -661,63 +661,63 @@ JXScrollableWidget::HandleKeyPress
 	JXScrollbar* scrollbar = modifiers.meta() ? hScrollbar : vScrollbar;
 
 	if (itsScrollbarSet != nullptr &&
-		(key == XK_Home || key == XK_KP_Home))
+		(keySym == XK_Home || keySym == XK_KP_Home))
 		{
 		ScrollTo(0,0);
 		}
 	else if (itsScrollbarSet != nullptr &&
-			 (key == XK_End || key == XK_KP_End))
+			 (keySym == XK_End || keySym == XK_KP_End))
 		{
 		scrollbar->ScrollToMax();
 		}
 	else if (itsScrollbarSet != nullptr &&
-			 (key == XK_Page_Up || key == XK_KP_Page_Up))
+			 (keySym == XK_Page_Up || keySym == XK_KP_Page_Up))
 		{
 		scrollbar->StepPage(modifiers.shift() ? -0.5 : -1.0);
 		}
 	else if (itsScrollbarSet != nullptr &&
-			 (key == XK_Page_Down || key == XK_KP_Page_Down))
+			 (keySym == XK_Page_Down || keySym == XK_KP_Page_Down))
 		{
 		scrollbar->StepPage(modifiers.shift() ? +0.5 : +1.0);
 		}
 
-	else if (itsScrollbarSet != nullptr && key == kJLeftArrow)
+	else if (itsScrollbarSet != nullptr && c == kJLeftArrow)
 		{
 		hScrollbar->StepLine(-1);
 		}
-	else if (itsScrollbarSet != nullptr && key == kJRightArrow)
+	else if (itsScrollbarSet != nullptr && c == kJRightArrow)
 		{
 		hScrollbar->StepLine(+1);
 		}
-	else if (itsScrollbarSet != nullptr && key == kJUpArrow)
+	else if (itsScrollbarSet != nullptr && c == kJUpArrow)
 		{
 		vScrollbar->StepLine(-1);
 		}
-	else if (itsScrollbarSet != nullptr && key == kJDownArrow)
+	else if (itsScrollbarSet != nullptr && c == kJDownArrow)
 		{
 		vScrollbar->StepLine(+1);
 		}
 
 	// scroll to tab
 
-	else if (itsScrollbarSet != nullptr &&
-			 '1' <= key && key <= '9' &&
+	else if (itsScrollbarSet != nullptr && c.IsAscii() &&
+			 '1' <= c.GetBytes()[0] && c.GetBytes()[0] <= '9' &&
 			 ctrl == itsVCtrl &&
 			 meta == itsVMeta)
 		{
-		vScrollbar->ScrollToTab(key - '0');
+		vScrollbar->ScrollToTab(c.GetBytes()[0] - '0');
 		}
-	else if (itsScrollbarSet != nullptr &&
-			 '1' <= key && key <= '9' &&
+	else if (itsScrollbarSet != nullptr && c.IsAscii() &&
+			 '1' <= c.GetBytes()[0] && c.GetBytes()[0] <= '9' &&
 			 ctrl == itsHCtrl &&
 			 meta == itsHMeta)
 		{
-		hScrollbar->ScrollToTab(key - '0');
+		hScrollbar->ScrollToTab(c.GetBytes()[0] - '0');
 		}
 
 	else
 		{
-		JXWidget::HandleKeyPress(key, modifiers);
+		JXWidget::HandleKeyPress(c, keySym, modifiers);
 		}
 }
 

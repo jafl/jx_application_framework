@@ -38,6 +38,8 @@ public:
 	const JUtf8Character& operator=(const JUtf8Byte asciiCharacter);
 	const JUtf8Character& operator=(const JUtf8Byte* utf8Character);
 
+	JBoolean			IsBlank() const;
+	JBoolean			IsAscii() const;
 	JSize				GetByteCount() const;
 	const JUtf8Byte*	GetBytes() const;
 	JUtf8Byte*			AllocateBytes() const;	// client must call delete [] when finished with it
@@ -75,6 +77,30 @@ private:
 	JUtf8Byte		itsBytes[ kMaxByteCount+1 ];
 };
 
+
+/******************************************************************************
+ IsBlank
+
+ ******************************************************************************/
+
+inline JBoolean
+JUtf8Character::IsBlank()
+	const
+{
+	return JI2B(itsBytes[0] == 0);
+}
+
+/******************************************************************************
+ IsAscii
+
+ ******************************************************************************/
+
+inline JBoolean
+JUtf8Character::IsAscii()
+	const
+{
+	return JI2B(itsByteCount == 1);
+}
 
 /******************************************************************************
  GetByteCount

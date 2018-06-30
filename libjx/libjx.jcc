@@ -1095,6 +1095,7 @@ F
 T "../include/jcore/" T
 T "./code/" T
 T "./test/" T
+T "/usr/X11/include/X11/" T
 F
 # C preprocessor
 F

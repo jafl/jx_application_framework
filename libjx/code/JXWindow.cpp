@@ -33,7 +33,6 @@
 #include "jXGlobals.h"
 
 #include <X11/Xatom.h>
-#include "jXKeysym.h"
 
 #include <JThisProcess.h>
 #include <JStringIterator.h>
@@ -228,6 +227,24 @@ JXWindow::JXWindow
 	itsGC = jnew JXGC(itsDisplay, itsXWindow);
 	assert( itsGC != nullptr );
 
+	// Create IC to use when typing
+
+	itsXIC = XCreateIC(itsDisplay->GetXIM(),
+					   XNInputStyle,   XIMPreeditNothing | XIMStatusNothing,
+					   XNClientWindow, itsXWindow,
+					   XNFocusWindow,  itsXWindow,
+					   nullptr);
+
+	XSetICFocus(itsXIC);
+
+	long icEventMask;
+	XGetICValues(itsXIC, XNFilterEvents, &icEventMask, nullptr);
+	if ((kEventMask ^ icEventMask) != 0)
+		{
+std::cout << "new events!" << std::endl;
+		XSelectInput(*itsDisplay, itsXWindow, kEventMask | icEventMask);
+		}
+
 	// notify the display that we exist
 
 	itsDisplay->WindowCreated(this, itsXWindow);
@@ -278,6 +295,8 @@ JXWindow::~JXWindow()
 		{
 		XFreePixmap(*itsDisplay, itsBufferPixmap);
 		}
+
+	XDestroyIC(itsXIC);
 
 	jdelete itsGC;
 	XDestroyRegion(itsUpdateRegion);
@@ -3367,11 +3386,25 @@ JXWindow::HandleKeyPress
 		return;
 		}
 
-	JUtf8Byte buffer[10];
-	KeySym keySym;
-	JSize charCount =
-		XLookupString(const_cast<XKeyEvent*>(&(xEvent.xkey)), buffer, 10, &keySym, nullptr);
-	if (charCount == 0)
+	JUtf8Byte buffer[256];
+	KeySym keySym = 0;
+	Status status;
+	JSize byteCount =
+		Xutf8LookupString(itsXIC, const_cast<XKeyPressedEvent*>(&(xEvent.xkey)),
+						  buffer, sizeof(buffer)-1, &keySym, &status);
+
+	assert( status != XBufferOverflow );
+
+	if (status == XLookupNone)
+		{
+		return;
+		}
+	else if (status == XLookupChars)
+		{
+		keySym = 0;
+		}
+
+	if (byteCount == 0)
 		{
 		buffer[0] = '\0';
 		}
@@ -3386,25 +3419,25 @@ JXWindow::HandleKeyPress
 		}
 	else if (keySym == XK_Left || keySym == XK_KP_Left)
 		{
-		charCount = 1;
+		byteCount = 1;
 		buffer[0] = kJLeftArrow;
 		buffer[1] = '\0';
 		}
 	else if (keySym == XK_Up || keySym == XK_KP_Up)
 		{
-		charCount = 1;
+		byteCount = 1;
 		buffer[0] = kJUpArrow;
 		buffer[1] = '\0';
 		}
 	else if (keySym == XK_Right || keySym == XK_KP_Right)
 		{
-		charCount = 1;
+		byteCount = 1;
 		buffer[0] = kJRightArrow;
 		buffer[1] = '\0';
 		}
 	else if (keySym == XK_Down || keySym == XK_KP_Down)
 		{
-		charCount = 1;
+		byteCount = 1;
 		buffer[0] = kJDownArrow;
 		buffer[1] = '\0';
 		}
@@ -3413,13 +3446,13 @@ JXWindow::HandleKeyPress
 
 	else if (XK_space <= keySym && keySym <= XK_question)
 		{
-		charCount = 1;
+		byteCount = 1;
 		buffer[0] = keySym;
 		buffer[1] = '\0';
 		}
 	else if (XK_KP_0 <= keySym && keySym <= XK_KP_9)
 		{
-		charCount = 1;
+		byteCount = 1;
 		buffer[0] = '0' + (keySym - XK_KP_0);
 		buffer[1] = '\0';
 		}
@@ -3445,7 +3478,7 @@ JXWindow::HandleKeyPress
 
 	// ESC cancels Drag-And-Drop
 
-	if (charCount == 1 && buffer[0] == kJEscapeKey &&
+	if (byteCount == 1 && buffer[0] == kJEscapeKey &&
 		GetDNDManager()->IsDragging())
 		{
 		if (GetDNDManager()->CancelDND())
@@ -3472,7 +3505,7 @@ JXWindow::HandleKeyPress
 		// doesn't get lost as a shortcut.
 
 		DeactivateHint();
-		itsFocusWidget->HandleKeyPress(kJTabKey, modifiers);
+		itsFocusWidget->HandleKeyPress(kJTabKey, 0, modifiers);
 		}
 	else if (keySym == XK_Tab)
 		{
@@ -3496,12 +3529,15 @@ JXWindow::HandleKeyPress
 		{
 		DeactivateHint();
 
-		if (charCount > 0)
+		if (byteCount > 0)
 			{
-			for (JUnsignedOffset i=0; i<charCount; i++)
+			const JString s(buffer, byteCount, kJFalse);
+			JStringIterator iter(s);
+			JUtf8Character c;
+			while (iter.Next(&c))
 				{
-				itsFocusWidget->HandleKeyPress((unsigned char) buffer[i], modifiers);
-				if (charCount > 1 && i < charCount-1 &&
+				itsFocusWidget->HandleKeyPress(c, 0, modifiers);
+				if (iter.GetPrevCharacterIndex() > 1 && !iter.AtEnd() &&
 					!JXDisplay::WindowExists(display, xDisplay, xWindow))
 					{
 					break;
@@ -3510,7 +3546,7 @@ JXWindow::HandleKeyPress
 			}
 		else
 			{
-			itsFocusWidget->HandleKeyPress(keySym, modifiers);
+			itsFocusWidget->HandleKeyPress(JUtf8Character(), keySym, modifiers);
 			}
 		}
 

@@ -16,7 +16,6 @@
 #include "JXColorManager.h"
 #include "jXConstants.h"
 #include "jXGlobals.h"
-#include "jXKeysym.h"
 #include <JStringIterator.h>
 #include <jAssert.h>
 

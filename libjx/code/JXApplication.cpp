@@ -516,6 +516,11 @@ JXApplication::HandleOneEvent()
 			XEvent xEvent;
 			XNextEvent(*display, &xEvent);
 
+			if (XFilterEvent(&xEvent, None))	// XIM
+				{
+				continue;
+				}
+
 			if (xEvent.type != MotionNotify)
 				{
 				itsLastIdleTime = itsCurrentTime;

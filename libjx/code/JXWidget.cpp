@@ -406,7 +406,8 @@ JXWidget::HandleFocusEvent()
 void
 JXWidget::HandleKeyPress
 	(
-	const int				key,
+	const JUtf8Character&	c,
+	const int				keySym,
 	const JXKeyModifiers&	modifiers
 	)
 {

@@ -92,6 +92,23 @@ JTEST(IsValid)
 	JAssertFalse(JUtf8Character::IsValid("\xF6\x9C\x94"));
 }
 
+JTEST(IsBlank)
+{
+std::cout << JUtf8Character("").GetByteCount() << std::endl;
+	JAssertTrue(JUtf8Character("").IsBlank());
+	JAssertFalse(JUtf8Character("1").IsBlank());
+	JAssertFalse(JUtf8Character("\xC2\xA9").IsBlank());
+	JAssertFalse(JUtf8Character("\xE2\x9C\x94").IsBlank());
+}
+
+JTEST(IsAscii)
+{
+	JAssertTrue(JUtf8Character("").IsAscii());
+	JAssertTrue(JUtf8Character("1").IsAscii());
+	JAssertFalse(JUtf8Character("\xC2\xA9").IsAscii());
+	JAssertFalse(JUtf8Character("\xE2\x9C\x94").IsAscii());
+}
+
 JTEST(IsCompleteCharacter)
 {
 	JSize byteCount;

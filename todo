@@ -1,3 +1,6 @@
+Fedora 27 window manager
+	JXWindow does not analyze correctly
+
 medic-lldb
 	does not display new execution ptr location after "set execution point"
 

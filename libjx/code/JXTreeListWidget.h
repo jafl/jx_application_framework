@@ -53,7 +53,8 @@ public:
 	JSize	GetMaxOpenDepth() const;
 	void	SetMaxOpenDepth(const JSize maxDepth);
 
-	virtual void		HandleKeyPress(const int key, const JXKeyModifiers& modifiers) override;
+	virtual void		HandleKeyPress(const JUtf8Character& c, const int keySym,
+									   const JXKeyModifiers& modifiers) override;
 	virtual JBoolean	IsSelectable(const JPoint& cell,
 									 const JBoolean forExtend) const override;
 	virtual JBoolean	IsEditable(const JPoint& cell) const override;

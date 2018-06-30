@@ -26,7 +26,8 @@ public:
 	const JString&	GetPassword() const;
 	void			ClearPassword();
 
-	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers) override;
+	virtual void	HandleKeyPress(const JUtf8Character& c, const int keySym,
+								   const JXKeyModifiers& modifiers) override;
 
 protected:
 

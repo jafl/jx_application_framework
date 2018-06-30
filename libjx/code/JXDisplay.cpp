@@ -55,7 +55,6 @@
 #include "JXImageCache.h"
 #include "JXCursor.h"
 #include "jXGlobals.h"
-#include "jXKeysym.h"
 #include <X11/Xutil.h>
 #include <X11/cursorfont.h>
 #include <X11/Xproto.h>		// for error request codes
@@ -177,6 +176,15 @@ JXDisplay::JXDisplay
 	itsDefaultGC = jnew JXGC(this, GetRootWindow());
 	assert( itsDefaultGC != nullptr );
 
+	XSetLocaleModifiers("");				// loads the XMODIFIERS environment variable
+	itsXIM = XOpenIM(itsXDisplay, nullptr, nullptr, nullptr);
+	if (!itsXIM)
+	{
+		XSetLocaleModifiers("@im=none");	// fallback to internal input method
+		itsXIM = XOpenIM(itsXDisplay, nullptr, nullptr, nullptr);
+	}
+	assert( itsXIM != nullptr );
+
 	itsNeedsUpdateFlag = kJFalse;
 	itsMouseContainer  = nullptr;
 	itsMouseGrabber    = nullptr;
@@ -259,6 +267,7 @@ JXDisplay::~JXDisplay()
 	jdelete itsCursorList;
 
 	XFreeModifiermap(itsModifierKeymap);
+	XCloseIM(itsXIM);
 
 	XCloseDisplay(itsXDisplay);
 }

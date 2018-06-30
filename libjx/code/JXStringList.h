@@ -40,7 +40,8 @@ public:
 	void		SetStyles(const JRunArray<JFontStyle>& styleList);
 	void		SetAllStyles(const JFontStyle& style);
 
-	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers) override;
+	virtual void	HandleKeyPress(const JUtf8Character& c, const int keySym,
+								   const JXKeyModifiers& modifiers) override;
 	void			ClearIncrementalSearchBuffer();
 
 	// called by urgent task

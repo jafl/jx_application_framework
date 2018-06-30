@@ -57,7 +57,8 @@ public:
 	virtual void	Suspend() override;
 	virtual void	Resume() override;
 
-	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers) override;
+	virtual void	HandleKeyPress(const JUtf8Character& c, const int keySym,
+								   const JXKeyModifiers& modifiers) override;
 	virtual void	HandleShortcut(const int key, const JXKeyModifiers& modifiers) override;
 
 	JXTextMenu*		AppendEditMenu(JXMenuBar* menuBar);	// no extras
@@ -341,8 +342,7 @@ private:
 								 const JArray<Atom>& typeList, const Time time,
 								 JString* text, JRunArray<JFont>* style) const;
 
-	JBoolean	OKToPassToJTE(const int key, char* c) const;
-	void		RemapWindowsHomeEnd(int* key, JXKeyModifiers* modifiers) const;
+	void	RemapWindowsHomeEnd(int* key, JXKeyModifiers* modifiers) const;
 
 	void	PrivateActivate();
 	void	PrivateDeactivate();

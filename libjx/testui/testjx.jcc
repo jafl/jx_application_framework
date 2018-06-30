@@ -196,6 +196,7 @@ T "../../include/make/" T
 T "../../libjcore/code/" T
 T "../../libjx/code/" T
 T "./" T
+T "/usr/X11/include/X11/" T
 F
 # C preprocessor
 T "JHTMLFlexLexer" "yyFlexLexer"
