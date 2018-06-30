@@ -2346,6 +2346,11 @@ JTextEditor::TEHandleMouseUp()
 		{
 		itsPrevDragType = itsDragType;
 		}
+	else if (itsDragType == kDragAndDrop)
+		{
+		SetCaretLocation(CalcCaretLocation(itsPrevPt));
+		itsPrevDragType = kInvalidDrag;
+		}
 	else
 		{
 		itsPrevDragType = kInvalidDrag;

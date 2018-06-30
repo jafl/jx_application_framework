@@ -438,7 +438,7 @@ private:
 	JCoordinate		itsCaretX;				// horizontal location used by MoveCaretVert()
 	JFont			itsInsertionFont;		// style for characters that user types
 
-	JStyledText::TextRange	itsSelection;		// caret is visible if this is empty
+	JStyledText::TextRange	itsSelection;	// caret is visible if this is empty; do not set directly - call SetSelection()
 
 	// used during drag
 

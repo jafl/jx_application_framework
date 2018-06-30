@@ -1,3 +1,12 @@
+JTextEditor:
+	dropOnSelf crashed
+	"Replace All" did nothing when something was selected
+	undo should select inserted text in the active TextEditor instance
+	don't change insertion font when glyphs are rendered with different font
+		use isExact to tell which glyphs are substitutions?
+	tab arrow should not overflow available width
+
+
 fix jStreamUtil.cpp TODO's
 JAsynchDataReceiver::handle_input
 	we cannot assume received complete utf-8 characters
@@ -14,16 +23,6 @@ JStyledTextBuffer
 	need smarter update during indent/outdent, to maintain caret location
 	AutoIndent
 	CleanRightMargin
-
-JTextEditor:
-	undo should select inserted text in the active TextEditor instance
-	clicking in selection doesn't set caret location
-		treats ending newline line as part of selection
-	dropOnSelf crashed
-	"Replace All" did nothing when something was selected
-	don't change insertion font when glyphs are rendered with different font
-		use isExact to tell which glyphs are substitutions?
-
 
 JXFontManager
 	some characters extend above line height
