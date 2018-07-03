@@ -1273,7 +1273,8 @@ TestWidget::PrintFileNames
 void
 TestWidget::HandleKeyPress
 	(
-	const int				key,
+	const JUtf8Character&	c,
+	const int				keySym,
 	const JXKeyModifiers&	modifiers
 	)
 {
@@ -1283,7 +1284,7 @@ TestWidget::HandleKeyPress
 	std::cout << "Control pressed: " << modifiers.control() << std::endl;
 	std::cout << "Meta pressed   : " << modifiers.meta()    << std::endl;
 */
-	JXScrollableWidget::HandleKeyPress(key, modifiers);
+	JXScrollableWidget::HandleKeyPress(c, keySym, modifiers);
 }
 
 /******************************************************************************

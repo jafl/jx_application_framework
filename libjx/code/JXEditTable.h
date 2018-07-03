@@ -29,7 +29,8 @@ public:
 
 	virtual void		HandleKeyPress(const JUtf8Character& c, const int keySym,
 									   const JXKeyModifiers& modifiers) override;
-	virtual JBoolean	WantsInputFieldKey(const int key, const JXKeyModifiers& modifiers) const;
+	virtual JBoolean	WantsInputFieldKey(const JUtf8Character& c, const int keySym,
+										   const JXKeyModifiers& modifiers) const;
 
 	JXTEBase*	GetEditMenuHandler() const;
 

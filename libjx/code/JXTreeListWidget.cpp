@@ -592,21 +592,22 @@ JXTreeListWidget::ToggleNode
 void
 JXTreeListWidget::HandleKeyPress
 	(
-	const int				key,
+	const JUtf8Character&	c,
+	const int				keySym,
 	const JXKeyModifiers&	modifiers
 	)
 {
-	if (key == kJLeftArrow && !IsEditing())
+	if (c == kJLeftArrow && !IsEditing())
 		{
 		CloseSelectedNodes(modifiers.shift(), modifiers.meta());
 		}
-	else if (key == kJRightArrow && !IsEditing())
+	else if (c == kJRightArrow && !IsEditing())
 		{
 		OpenSelectedNodes(modifiers.shift(), modifiers.meta());
 		}
 	else
 		{
-		JXStyleTable::HandleKeyPress(key, modifiers);
+		JXStyleTable::HandleKeyPress(c, keySym, modifiers);
 		}
 }
 

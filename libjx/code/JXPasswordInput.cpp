@@ -225,12 +225,13 @@ JXPasswordInput::HandleMouseUp
 void
 JXPasswordInput::HandleKeyPress
 	(
-	const int				key,
+	const JUtf8Character&	c,
+	const int				keySym,
 	const JXKeyModifiers&	modifiers
 	)
 {
-	if (key == kJLeftArrow || key == kJRightArrow ||
-		key == kJUpArrow   || key == kJDownArrow)
+	if (c == kJLeftArrow || c == kJRightArrow ||
+		c == kJUpArrow   || c == kJDownArrow)
 		{
 		if (modifiers.shift())
 			{
@@ -243,6 +244,6 @@ JXPasswordInput::HandleKeyPress
 		}
 	else
 		{
-		JXInputField::HandleKeyPress(key, modifiers);
+		JXInputField::HandleKeyPress(c, keySym, modifiers);
 		}
 }

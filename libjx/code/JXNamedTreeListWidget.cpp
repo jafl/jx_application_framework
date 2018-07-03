@@ -365,11 +365,12 @@ JXNamedTreeListWidget::HandleFocusEvent()
 void
 JXNamedTreeListWidget::HandleKeyPress
 	(
-	const int				key,
+	const JUtf8Character&	c,
+	const int				keySym,
 	const JXKeyModifiers&	modifiers
 	)
 {
-	if (key == ' ' || (key == kJEscapeKey && !IsEditing()))
+	if (c == ' ' || (c == kJEscapeKey && !IsEditing()))
 		{
 		ClearIncrementalSearchBuffer();
 		(GetTableSelection()).ClearSelection();
@@ -377,9 +378,9 @@ JXNamedTreeListWidget::HandleKeyPress
 
 	// incremental search
 
-	else if (JXIsPrint(key) && !modifiers.control() && !modifiers.meta())
+	else if (c.IsPrint() && !modifiers.control() && !modifiers.meta())
 		{
-		itsKeyBuffer.Append(JUtf8Character(key).GetBytes());
+		itsKeyBuffer.Append(c);
 
 		JIndex index;
 		if (itsNamedTreeList->ClosestMatch(itsKeyBuffer, &index))
@@ -396,11 +397,11 @@ JXNamedTreeListWidget::HandleKeyPress
 
 	else
 		{
-		if (0 < key && key <= 255)
+		if (!c.IsBlank())
 			{
 			ClearIncrementalSearchBuffer();
 			}
-		JXTreeListWidget::HandleKeyPress(key, modifiers);
+		JXTreeListWidget::HandleKeyPress(c, keySym, modifiers);
 		}
 }
 

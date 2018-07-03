@@ -78,16 +78,17 @@ JXCharInput::SetCharacter
 void
 JXCharInput::HandleKeyPress
 	(
-	const int				key,
+	const JUtf8Character&	c,
+	const int				keySym,
 	const JXKeyModifiers&	modifiers
 	)
 {
 	JXEditTable* table;
 	const JBoolean willDie = JI2B( GetTable(&table) &&
-								   table->WantsInputFieldKey(key, modifiers) );
+								   table->WantsInputFieldKey(c, keySym, modifiers) );
 
 	SelectAll();
-	JXInputField::HandleKeyPress(key, modifiers);
+	JXInputField::HandleKeyPress(c, keySym, modifiers);
 	if (!willDie)
 		{
 		SelectAll();

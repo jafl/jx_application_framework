@@ -507,13 +507,14 @@ JXInputField::InputValid()
 void
 JXInputField::HandleKeyPress
 	(
-	const int				key,
+	const JUtf8Character&	c,
+	const int				keySym,
 	const JXKeyModifiers&	modifiers
 	)
 {
-	if (itsTable != nullptr && itsTable->WantsInputFieldKey(key, modifiers))
+	if (itsTable != nullptr && itsTable->WantsInputFieldKey(c, keySym, modifiers))
 		{
-		itsTable->HandleKeyPress(key, modifiers);
+		itsTable->HandleKeyPress(c, keySym, modifiers);
 		return;
 		}
 	else if (itsTable != nullptr)
@@ -524,11 +525,11 @@ JXInputField::HandleKeyPress
 		itsTable->TableScrollToCell(cell);
 		}
 
-	if (key == JXCtrl('K') && modifiers.control() && HasSelection())
+	if (c == JXCtrl('K') && modifiers.control() && HasSelection())
 		{
 		Cut();
 		}
-	else if (key == JXCtrl('K') && modifiers.control())
+	else if (c == JXCtrl('K') && modifiers.control())
 		{
 		JIndex i;
 		const JBoolean ok = GetCaretLocation(&i);
@@ -539,7 +540,7 @@ JXInputField::HandleKeyPress
 
 	else
 		{
-		JXTEBase::HandleKeyPress(key, modifiers);
+		JXTEBase::HandleKeyPress(c, keySym, modifiers);
 		}
 }
 

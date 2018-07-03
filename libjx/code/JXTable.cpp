@@ -358,12 +358,11 @@ JXTable::ContinueSelectionDrag
 JBoolean
 JXTable::HandleSelectionKeyPress
 	(
-	const int				key,
+	const JUtf8Character&	c,
 	const JXKeyModifiers&	modifiers
 	)
 {
-	return JI2B(0 < key && key <= 255 &&
-				JTable::HandleSelectionKeyPress(key, modifiers.shift()));
+	return JTable::HandleSelectionKeyPress(c, modifiers.shift());
 }
 
 /******************************************************************************

@@ -206,60 +206,61 @@ JXEditTable::ResizeInputField
 void
 JXEditTable::HandleKeyPress
 	(
-	const int				key,
+	const JUtf8Character&	c,
+	const int				keySym,
 	const JXKeyModifiers&	modifiers
 	)
 {
 	const JBoolean shiftOn = modifiers.shift();
 	const JBoolean metaOn  = modifiers.meta();
 
-	if (key == kJReturnKey && metaOn)
+	if (c == kJReturnKey && metaOn)
 		{
 		EndEditing();
 		}
-	else if (key == kJReturnKey && shiftOn)
+	else if (c == kJReturnKey && shiftOn)
 		{
 		ShiftEditing(0,-1);
 		}
-	else if (key == kJReturnKey)
+	else if (c == kJReturnKey)
 		{
 		ShiftEditing(0,1);
 		}
 
-	else if (key == kJTabKey && shiftOn)
+	else if (c == kJTabKey && shiftOn)
 		{
 		ShiftEditing(-1,0);
 		}
-	else if (key == kJTabKey)
+	else if (c == kJTabKey)
 		{
 		ShiftEditing(1,0);
 		}
 
-	else if (metaOn && (key == kJUpArrow || key == '8'))
+	else if (metaOn && (c == kJUpArrow || c == '8'))
 		{
 		ShiftEditing(0,-1);
 		}
-	else if (metaOn && (key == kJDownArrow || key == '2'))
+	else if (metaOn && (c == kJDownArrow || c == '2'))
 		{
 		ShiftEditing(0,1);
 		}
-	else if (metaOn && (key == kJLeftArrow || key == '4'))
+	else if (metaOn && (c == kJLeftArrow || c == '4'))
 		{
 		ShiftEditing(-1,0);
 		}
-	else if (metaOn && (key == kJRightArrow || key == '6'))
+	else if (metaOn && (c == kJRightArrow || c == '6'))
 		{
 		ShiftEditing(1,0);
 		}
 
-	else if (key == kJEscapeKey)
+	else if (c == kJEscapeKey)
 		{
 		CancelEditing();
 		}
 
 	else
 		{
-		JXTable::HandleKeyPress(key, modifiers);
+		JXTable::HandleKeyPress(c, keySym, modifiers);
 		}
 }
 
@@ -273,26 +274,27 @@ JXEditTable::HandleKeyPress
 JBoolean
 JXEditTable::WantsInputFieldKey
 	(
-	const int				key,
+	const JUtf8Character&	c,
+	const int				keySym,
 	const JXKeyModifiers&	modifiers
 	)
 	const
 {
 	return JI2B(
-		key == kJReturnKey || key == kJTabKey || key == kJEscapeKey ||
+		c == kJReturnKey || c == kJTabKey || c == kJEscapeKey ||
 		(modifiers.meta() &&
-		 (key == kJUpArrow || key == '8' ||
-		  key == kJDownArrow || key == '2' ||
-		  key == kJLeftArrow || key == '4' ||
-		  key == kJRightArrow || key == '6')) ||
+		 (c == kJUpArrow || c == '8' ||
+		  c == kJDownArrow || c == '2' ||
+		  c == kJLeftArrow || c == '4' ||
+		  c == kJRightArrow || c == '6')) ||
 
 		// JXScrollableWidget
 
 		(!JXTEBase::WillUseWindowsHomeEnd() &&
-		 (key == XK_Home || key == XK_KP_Home ||
-		  key == XK_End || key == XK_KP_End)) ||
-		key == XK_Page_Up || key == XK_KP_Page_Up ||
-		key == XK_Page_Down || key == XK_KP_Page_Down);
+		 (keySym == XK_Home || keySym == XK_KP_Home ||
+		  keySym == XK_End || keySym == XK_KP_End)) ||
+		keySym == XK_Page_Up || keySym == XK_KP_Page_Up ||
+		keySym == XK_Page_Down || keySym == XK_KP_Page_Down);
 }
 
 /******************************************************************************

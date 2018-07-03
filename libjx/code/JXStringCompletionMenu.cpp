@@ -204,7 +204,7 @@ JXStringCompletionMenu::HandleSelection
 	if (itsAllowTabChar && index == kInsertTabCmd)
 		{
 		// tab may insert spaces
-		itsTE->JXTEBase::HandleKeyPress('\t', JXKeyModifiers(GetDisplay()));
+		itsTE->JXTEBase::HandleKeyPress('\t', 0, JXKeyModifiers(GetDisplay()));
 		}
 	else if (index - (itsAllowTabChar ? kSpecialCmdCount : 0) <= kMaxItemCount)
 		{

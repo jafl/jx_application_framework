@@ -724,21 +724,19 @@ JXMenuTable::MenuSelectItem
 void
 JXMenuTable::HandleKeyPress
 	(
-	const int				key,
+	const JUtf8Character&	c,
+	const int				keySym,
 	const JXKeyModifiers&	modifiers
 	)
 {
-	// JIsASCII() protects call to isspace()
-
-	if (JIsASCII(key) && (isspace(key) || key == kJEscapeKey))
+	if (c.IsSpace() || c == kJEscapeKey)
 		{
 		GetMenuManager()->CloseCurrentMenus();		// destroys us
 		return;
 		}
 
 	JIndex index;
-	const JBoolean isShortcut = JI2B(
-		JXIsPrint(key) && itsBaseMenuData->ShortcutToIndex(key, &index));
+	const JBoolean isShortcut = itsBaseMenuData->ShortcutToIndex(c, &index);
 	if (isShortcut && !itsBaseMenuData->HasSubmenu(index))
 		{
 		itsMenu->BroadcastSelection(index, kJFalse);		// destroys us

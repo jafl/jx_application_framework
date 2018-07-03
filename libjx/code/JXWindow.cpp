@@ -51,7 +51,7 @@ JBoolean JXWindow::theFocusFollowsCursorInDockFlag = kJFalse;
 // JXSelectionManager needs PropertyNotify
 
 const unsigned int kEventMask =
-	FocusChangeMask | KeyPressMask |
+	FocusChangeMask | KeyPressMask | KeyReleaseMask |
 	ButtonPressMask | ButtonReleaseMask |
 	PointerMotionMask | PointerMotionHintMask |
 	EnterWindowMask | LeaveWindowMask |
@@ -235,13 +235,10 @@ JXWindow::JXWindow
 					   XNFocusWindow,  itsXWindow,
 					   nullptr);
 
-	XSetICFocus(itsXIC);
-
 	long icEventMask;
 	XGetICValues(itsXIC, XNFilterEvents, &icEventMask, nullptr);
-	if ((kEventMask ^ icEventMask) != 0)
+	if ((kEventMask | icEventMask) != kEventMask)
 		{
-std::cout << "new events!" << std::endl;
 		XSelectInput(*itsDisplay, itsXWindow, kEventMask | icEventMask);
 		}
 
@@ -3327,6 +3324,8 @@ JXWindow::HandleFocusIn
 	)
 {
 	itsHasFocusFlag = kJTrue;
+	XSetICFocus(itsXIC);
+
 	if (itsFocusWidget != nullptr)
 		{
 		itsFocusWidget->HandleWindowFocusEvent();
@@ -3352,6 +3351,8 @@ JXWindow::HandleFocusOut
 	)
 {
 	itsHasFocusFlag = kJFalse;
+	XUnsetICFocus(itsXIC);
+
 	if (itsFocusWidget != nullptr)
 		{
 		itsFocusWidget->HandleWindowUnfocusEvent();

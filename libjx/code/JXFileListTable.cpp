@@ -979,7 +979,8 @@ JXFileListTable::HandleFocusEvent()
 void
 JXFileListTable::HandleKeyPress
 	(
-	const int				key,
+	const JUtf8Character&	c,
+	const int				keySym,
 	const JXKeyModifiers&	modifiers
 	)
 {
@@ -987,12 +988,12 @@ JXFileListTable::HandleKeyPress
 	JTableSelection& s          = GetTableSelection();
 	const JBoolean hadSelection = s.GetFirstSelectedCell(&topSelCell);
 
-	if (key == ' ')
+	if (c == ' ')
 		{
 		ClearSelection();
 		}
 
-	else if (key == kJReturnKey)
+	else if (c == kJReturnKey)
 		{
 		ClearIncrementalSearchBuffer();
 		if (hadSelection && modifiers.meta())
@@ -1005,36 +1006,36 @@ JXFileListTable::HandleKeyPress
 			}
 		}
 
-	else if (key == kJDeleteKey && itsBSRemoveSelFlag)
+	else if (c == kJDeleteKey && itsBSRemoveSelFlag)
 		{
 		RemoveSelectedFiles();
 		}
 
-	else if (key == kJUpArrow || key == kJDownArrow)
+	else if (c == kJUpArrow || c == kJDownArrow)
 		{
 		ClearIncrementalSearchBuffer();
-		if (!hadSelection && key == kJUpArrow && GetRowCount() > 0)
+		if (!hadSelection && c == kJUpArrow && GetRowCount() > 0)
 			{
 			SelectSingleEntry(GetRowCount());
 			}
 		else
 			{
-			HandleSelectionKeyPress(key, modifiers);
+			HandleSelectionKeyPress(c, modifiers);
 			}
 		}
 
-	else if ((key == 'c' || key == 'C') && modifiers.meta() && !modifiers.shift())
+	else if ((c == 'c' || c == 'C') && modifiers.meta() && !modifiers.shift())
 		{
 		CopySelectedFileNames();
 		}
-	else if ((key == 'a' || key == 'A') && modifiers.meta() && !modifiers.shift())
+	else if ((c == 'a' || c == 'A') && modifiers.meta() && !modifiers.shift())
 		{
 		SelectAll();
 		}
 
-	else if (JXIsPrint(key) && !modifiers.control() && !modifiers.meta())
+	else if (c.IsPrint() && !modifiers.control() && !modifiers.meta())
 		{
-		itsKeyBuffer.Append(JUtf8Character(key));
+		itsKeyBuffer.Append(c);
 
 		JIndex index;
 		if (ClosestMatch(itsKeyBuffer, &index))
@@ -1047,7 +1048,7 @@ JXFileListTable::HandleKeyPress
 
 	else
 		{
-		JXTable::HandleKeyPress(key, modifiers);
+		JXTable::HandleKeyPress(c, keySym, modifiers);
 		}
 }
 

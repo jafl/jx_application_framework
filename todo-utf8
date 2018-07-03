@@ -1,4 +1,5 @@
 JTextEditor:
+	click at right of input field with single character:  caret set in front of char
 	"Replace All" did nothing when something was selected
 	undo should select inserted text in the active TextEditor instance
 	set font should select result
@@ -26,8 +27,6 @@ JStyledTextBuffer
 JXFontManager
 	some characters extend above line height
 
-XIM to type utf-8 characters
-
 put back
 	JVIKeyHandler
 	JTEStyler
@@ -49,6 +48,7 @@ test
 	styled unix terminal output - yui build output
 	default & vi key handlers
 	code_medic on ubuntu with lldb-6.0
+	file & path input fields (new shared base class)
 
 test every function that uses JStringIterator or Split
 	libjx
@@ -104,6 +104,9 @@ utf8 - sorting vs searching
 
 	ignore accents for case-sensitive search: strength=primary caseLevel=on
 	http://demo.icu-project.org/icu-bin/collation.html
+
+XIM
+	support input methods that need a drawing area
 
 -----
 

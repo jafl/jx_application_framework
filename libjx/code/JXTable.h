@@ -49,7 +49,7 @@ protected:
 	void		BeginSelectionDrag(const JPoint& cell, const JXMouseButton button,
 								   const JXKeyModifiers& modifiers);
 	void		ContinueSelectionDrag(const JPoint& pt, const JXKeyModifiers& modifiers);
-	JBoolean	HandleSelectionKeyPress(const int key,
+	JBoolean	HandleSelectionKeyPress(const JUtf8Character& c,
 										const JXKeyModifiers& modifiers);
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;

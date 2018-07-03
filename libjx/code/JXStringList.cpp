@@ -277,11 +277,12 @@ JXStringList::HandleFocusEvent()
 void
 JXStringList::HandleKeyPress
 	(
-	const int				key,
+	const JUtf8Character&	c,
+	const int				keySym,
 	const JXKeyModifiers&	modifiers
 	)
 {
-	if (key == ' ' || (key == kJEscapeKey && !IsEditing()))
+	if (c == ' ' || (c == kJEscapeKey && !IsEditing()))
 		{
 		ClearIncrementalSearchBuffer();
 		(GetTableSelection()).ClearSelection();
@@ -289,9 +290,9 @@ JXStringList::HandleKeyPress
 
 	// incremental search
 
-	else if (JXIsPrint(key) && !modifiers.control() && !modifiers.meta())
+	else if (c.IsPrint() && !modifiers.control() && !modifiers.meta())
 		{
-		itsKeyBuffer.Append(JUtf8Character(key));
+		itsKeyBuffer.Append(c);
 
 		JIndex index;
 		if (ClosestMatch(itsKeyBuffer, &index))
@@ -308,11 +309,11 @@ JXStringList::HandleKeyPress
 
 	else
 		{
-		if (0 < key && key <= 255)
+		if (!c.IsBlank())
 			{
 			ClearIncrementalSearchBuffer();
 			}
-		JXTable::HandleKeyPress(key, modifiers);
+		JXTable::HandleKeyPress(c, keySym, modifiers);
 		}
 }
 

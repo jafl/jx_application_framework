@@ -77,17 +77,18 @@ JXFLInputBase::Apply()
 void
 JXFLInputBase::HandleKeyPress
 	(
-	const int				key,
+	const JUtf8Character&	c,
+	const int				keySym,
 	const JXKeyModifiers&	modifiers
 	)
 {
-	if (key == kJReturnKey)
+	if (c == kJReturnKey)
 		{
 		(itsFLSet->GetTable())->Focus();
 		}
 	else
 		{
-		JXInputField::HandleKeyPress(key, modifiers);
+		JXInputField::HandleKeyPress(c, keySym, modifiers);
 		}
 }
 

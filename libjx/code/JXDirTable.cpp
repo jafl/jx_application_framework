@@ -634,7 +634,8 @@ JXDirTable::HandleFocusEvent()
 void
 JXDirTable::HandleKeyPress
 	(
-	const int				key,
+	const JUtf8Character&	c,
+	const int				keySym,
 	const JXKeyModifiers&	modifiers
 	)
 {
@@ -642,13 +643,13 @@ JXDirTable::HandleKeyPress
 	JTableSelection& s          = GetTableSelection();
 	const JBoolean hadSelection = s.GetFirstSelectedCell(&topSelCell);
 
-	if (key == ' ')
+	if (c == ' ')
 		{
 		itsKeyBuffer.Clear();
 		s.ClearSelection();
 		}
 
-	else if (key == kJReturnKey)
+	else if (c == kJReturnKey)
 		{
 		if (hadSelection)
 			{
@@ -657,7 +658,7 @@ JXDirTable::HandleKeyPress
 			}
 		}
 
-	else if (key == kJUpArrow)
+	else if (c == kJUpArrow)
 		{
 		itsKeyBuffer.Clear();
 		if (modifiers.meta())
@@ -671,11 +672,11 @@ JXDirTable::HandleKeyPress
 			}
 		else
 			{
-			HandleSelectionKeyPress(key, modifiers);
+			HandleSelectionKeyPress(c, modifiers);
 			}
 		}
 
-	else if (key == kJDownArrow)
+	else if (c == kJDownArrow)
 		{
 		itsKeyBuffer.Clear();
 		if (modifiers.meta())
@@ -688,30 +689,30 @@ JXDirTable::HandleKeyPress
 			}
 		else
 			{
-			HandleSelectionKeyPress(key, modifiers);
+			HandleSelectionKeyPress(c, modifiers);
 			}
 		}
 
-	else if (key == kJLeftArrow)
+	else if (c == kJLeftArrow)
 		{
 		const JError err = itsDirInfo->GoUp();
 		err.ReportIfError();
 		}
 
-	else if (key == kJRightArrow)
+	else if (c == kJRightArrow)
 		{
 		GoToSelectedDirectory();
 		}
 
 	else if (itsAllowSelectMultipleFlag &&
-			 (key == 'a' || key == 'A') && modifiers.meta() && !modifiers.shift())
+			 (c == 'a' || c == 'A') && modifiers.meta() && !modifiers.shift())
 		{
 		SelectAll();
 		}
 
-	else if (JXIsPrint(key) && !modifiers.control() && !modifiers.meta())
+	else if (c.IsPrint()&& !modifiers.control() && !modifiers.meta())
 		{
-		itsKeyBuffer.Append(JUtf8Character(key));
+		itsKeyBuffer.Append(c);
 
 		JIndex index;
 		if (ClosestMatch(itsKeyBuffer, &index))
@@ -724,7 +725,7 @@ JXDirTable::HandleKeyPress
 
 	else
 		{
-		JXTable::HandleKeyPress(key, modifiers);
+		JXTable::HandleKeyPress(c, keySym, modifiers);
 		}
 
 	// anything here also needs to be done before HandleDoubleClick()
@@ -764,7 +765,7 @@ JXDirTable::HandleShortcut
 		{
 		if (Focus())
 			{
-			HandleKeyPress(key, modifiers);
+			HandleKeyPress(JUtf8Character(key), 0, modifiers);
 			}
 		}
 	else
