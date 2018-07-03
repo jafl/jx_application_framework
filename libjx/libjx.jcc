@@ -410,6 +410,10 @@ T
 F
 "./code/JXCharInput.cpp"
 T
+2 "JXFSInputBase.cpp"
+F
+"./code/JXFSInputBase.cpp"
+T
 2 "JXPathInput.cpp"
 F
 "./code/JXPathInput.cpp"

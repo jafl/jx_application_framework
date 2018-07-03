@@ -99,6 +99,7 @@
 .cpp ./code/JXFloatInput
 .cpp ./code/JXPasswordInput
 .cpp ./code/JXCharInput
+.cpp ./code/JXFSInputBase
 .cpp ./code/JXPathInput
 .cpp ./code/JXFileInput
 .cpp ./code/JXStyledText
