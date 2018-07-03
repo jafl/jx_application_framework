@@ -1,4 +1,4 @@
-1
+0
 itsFirstPageIndexLabel::JXPTPrintSetupDialog::JXLayout "Print page"
 itsPrintAllCB::JXPTPrintSetupDialog::shortcuts::JXLayout "#A"
 itsChooseFileButton::JXPTPrintSetupDialog::JXLayout "Choose file"

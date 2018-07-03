@@ -1,4 +1,4 @@
-1
+0
 fontSizeLabel::JXChooseFontSizeDialog::JXLayout "Font size (points):"
 okButton::JXChooseFontSizeDialog::JXLayout "OK"
 cancelButton::JXChooseFontSizeDialog::JXLayout "Cancel"

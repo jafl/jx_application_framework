@@ -1,4 +1,4 @@
-1
+0
 itsCopyWhenSelectCB::JXMacWinPrefsDialog::JXLayout "Automatically copy text when it is selected"
 itsScrollCaretCB::JXMacWinPrefsDialog::JXLayout "Caret follows when you scroll"
 restartHint::JXMacWinPrefsDialog::JXLayout "(You must restart the program after changing this setting.)"

@@ -1,4 +1,4 @@
-1
+0
 itsShowImagesCB::JXToolBarEditDir::JXLayout "Show images"
 itsShowTextCB::JXToolBarEditDir::shortcuts::JXLayout "#T"
 cancelButton::JXToolBarEditDir::shortcuts::JXLayout "^["

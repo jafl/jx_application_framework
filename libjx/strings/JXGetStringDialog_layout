@@ -1,4 +1,4 @@
-1
+0
 promptDisplay::JXGetStringDialog::JXLayout ""
 cancelButton::JXGetStringDialog::JXLayout "Cancel"
 okButton::JXGetStringDialog::shortcuts::JXLayout "^M"

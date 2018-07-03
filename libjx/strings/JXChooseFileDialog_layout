@@ -1,4 +1,4 @@
-1
+0
 openButton::JXChooseFileDialog::shortcuts::JXLayout "^M"
 desktopButton::JXChooseFileDialog::JXLayout "Desktop"
 filterLabel::JXChooseFileDialog::JXLayout "Filter:"

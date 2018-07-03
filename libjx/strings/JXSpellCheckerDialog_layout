@@ -1,4 +1,4 @@
-1
+0
 itsLearnCapsButton::JXSpellCheckerDialog::JXLayout "Learn word with caps"
 notFoundLabel::JXSpellCheckerDialog::JXLayout "Not in Dictionary:"
 itsChangeButton::JXSpellCheckerDialog::JXLayout "Change"

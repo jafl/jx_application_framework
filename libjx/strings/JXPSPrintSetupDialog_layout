@@ -1,4 +1,4 @@
-1
+0
 printerLabel::JXPSPrintSetupDialog::JXLayout "Printer"
 itsPrintCmdLabel::JXPSPrintSetupDialog::JXLayout "Print command:"
 okButton::JXPSPrintSetupDialog::JXLayout "Print"

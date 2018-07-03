@@ -1,4 +1,4 @@
-1
+0
 replaceFindLabel::JXSearchTextDialog::JXLayout "Replace & Find"
 itsSearchIsRegexCB::JXSearchTextDialog::JXLayout "Regex search (egrep)"
 itsReplaceAllButton::JXSearchTextDialog::JXLayout "Replace all"

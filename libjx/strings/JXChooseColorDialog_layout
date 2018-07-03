@@ -1,4 +1,4 @@
-1
+0
 brightnessLabel::JXChooseColorDialog::JXLayout "Bright:"
 sampleLabel::JXChooseColorDialog::JXLayout "Sample:"
 okButton::JXChooseColorDialog::shortcuts::JXLayout "^M"

@@ -1,4 +1,4 @@
-1
+0
 file1VarHint::JXEditWWWPrefsDialog::JXLayout "(use $f in place of file)"
 file2Label::JXEditWWWPrefsDialog::JXLayout "Shell cmd to view file in file manager:"
 okButton::JXEditWWWPrefsDialog::shortcuts::JXLayout "^M"

@@ -1,4 +1,4 @@
-1
+0
 widthLabel::JXPTPageSetupDialog::JXLayout "Page width:"
 charsLabel::JXPTPageSetupDialog::JXLayout "characters"
 okButton::JXPTPageSetupDialog::shortcuts::JXLayout "^M"

@@ -1,4 +1,4 @@
-1
+0
 itsPaperTypeMenu::JXPSPageSetupDialog::JXLayout "Paper size:"
 okButton::JXPSPageSetupDialog::JXLayout "OK"
 orientationLabel::JXPSPageSetupDialog::JXLayout "Orientation:"
