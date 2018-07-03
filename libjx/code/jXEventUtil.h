@@ -23,8 +23,6 @@ JBoolean JXGetMouseLocation(const XEvent& xEvent, JXDisplay* display,
 JBoolean JXGetButtonAndModifierStates(const XEvent& xEvent, JXDisplay* display,
 									  unsigned int* state);
 
-JBoolean JXIsPrint(const int keysym);
-
 JUtf8Byte	JXCtrl(const JUtf8Character& c);
 
 #endif

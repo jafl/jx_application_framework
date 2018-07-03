@@ -16,13 +16,6 @@ int main()
 	return JTestManager::Execute();
 }
 
-JTEST(IsPrint)
-{
-	JAssertFalse(JXIsPrint(27));	// esc
-	JAssertTrue(JXIsPrint(97));		// a
-	JAssertFalse(JXIsPrint(210));	// out of range
-}
-
 JTEST(Ctrl)
 {
 	JAssertEqual(3, (long) JXCtrl('C'));

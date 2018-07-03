@@ -13,28 +13,6 @@
 #include <jAssert.h>
 
 /******************************************************************************
- JXIsPrint
-
-	Returns kJTrue if the keysym is between 1 and 255 and isprint() returns
-	kJTrue.
-
- ******************************************************************************/
-
-JBoolean
-JXIsPrint
-	(
-	const int keysym
-	)
-{
-	if (keysym <= 0 || 128 < keysym)
-		{
-		return kJFalse;
-		}
-
-	return JUtf8Character(keysym).IsPrint();
-}
-
-/******************************************************************************
  JXCtrl
 
 	Input must be character @ (0x40) through _ (0x5F).
