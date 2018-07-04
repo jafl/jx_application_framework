@@ -64,7 +64,7 @@ JXCharInput::GetCharacter()
 void
 JXCharInput::SetCharacter
 	(
-	const JUtf8Character c
+	const JUtf8Character& c
 	)
 {
 	GetText()->SetText(JString(c.GetBytes(), kJFalse));

@@ -48,11 +48,8 @@ test
 	styled unix terminal output - yui build output
 	default & vi key handlers
 	code_medic on ubuntu with lldb-6.0
-	file & path input fields (new shared base class)
 
 test every function that uses JStringIterator or Split
-	libjx
-		JXFileListTable
 	libjexpr
 		?
 	libj2dplot

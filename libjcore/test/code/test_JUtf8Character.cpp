@@ -94,7 +94,6 @@ JTEST(IsValid)
 
 JTEST(IsBlank)
 {
-std::cout << JUtf8Character("").GetByteCount() << std::endl;
 	JAssertTrue(JUtf8Character("").IsBlank());
 	JAssertFalse(JUtf8Character("1").IsBlank());
 	JAssertFalse(JUtf8Character("\xC2\xA9").IsBlank());
