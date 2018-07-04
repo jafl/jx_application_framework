@@ -31,6 +31,10 @@ public:
 
 protected:
 
+	virtual void		HandleMouseUp(const JPoint& pt, const JXMouseButton button,
+									  const JXButtonStates& buttonStates,
+									  const JXKeyModifiers& modifiers) override;
+
 	virtual JBoolean	WillAcceptDrop(const JArray<Atom>& typeList, Atom* action,
 									   const JPoint& pt, const Time time,
 									   const JXWidget* source) override;

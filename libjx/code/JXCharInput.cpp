@@ -68,6 +68,25 @@ JXCharInput::SetCharacter
 	)
 {
 	GetText()->SetText(JString(c.GetBytes(), kJFalse));
+	SelectAll();
+}
+
+/******************************************************************************
+ HandleMouseUp (virtual protected)
+
+ ******************************************************************************/
+
+void
+JXCharInput::HandleMouseUp
+	(
+	const JPoint&			pt,
+	const JXMouseButton		button,
+	const JXButtonStates&	buttonStates,
+	const JXKeyModifiers&	modifiers
+	)
+{
+	JXInputField::HandleMouseUp(pt, button, buttonStates, modifiers);
+	SelectAll();
 }
 
 /******************************************************************************
