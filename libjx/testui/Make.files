@@ -22,6 +22,7 @@
 .cpp ./code/TestPartitionDirector
 .cpp ./code/TestCompartment
 .cpp ./code/SetElasticDialog
+.cpp ./code/TestFileListDirector
 .cpp ./code/TestButtonsDialog
 .cpp ./code/TestInputFieldsDialog
 .cpp ./code/TestPopupChoiceDialog

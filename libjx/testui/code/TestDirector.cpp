@@ -24,6 +24,7 @@
 #include "TestLinkedDocument.h"
 #include "TestDNDTextDirector.h"
 #include "TestImageDirector.h"
+#include "TestFileListDirector.h"
 #include "TestChooseSaveFile.h"
 #include "testjxGlobals.h"
 
@@ -105,6 +106,7 @@ static const JUtf8Byte* kTestMenuStr =
 	"  | Linked documents                  %k Super-O"
 	"  | Drag-And-Drop (text)              %k Hyper-O"
 	"  | Image viewer                      %k Ctrl-I"
+	"  | File List"
 	"%l| Enable Smileys menu %b"
 	"%l| Zombie process"
 	"%l| Place window at (0,0)             %k Ctrl-1"
@@ -125,7 +127,7 @@ enum
 	kTestPartitionsCmd, kTestTabGroupCmd,
 	kTestStrTableCmd, kTestNumTableCmd,
 	kTestTextEditorCmd, kTestLinkedDocCmd, kTestDNDTextCmd,
-	kTestImageViewCmd,
+	kTestImageViewCmd, kTestFileListCmd,
 	kTestDisabledMenuCmd,
 	kTestZombieProcessCmd,
 	kTestPlaceWindow0Cmd, kTestPlaceWindow30Cmd, kTestPlaceWindow100Cmd,
@@ -849,6 +851,13 @@ TestDirector::HandleTestMenu
 	else if (index == kTestImageViewCmd)
 		{
 		TestImageDirector* dir = jnew TestImageDirector(this);
+		assert( dir != nullptr );
+		dir->Activate();
+		}
+
+	else if (index == kTestFileListCmd)
+		{
+		TestFileListDirector* dir = jnew TestFileListDirector(this);
 		assert( dir != nullptr );
 		dir->Activate();
 		}

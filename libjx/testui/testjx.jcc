@@ -81,6 +81,10 @@ T
 2 "SetElasticDialog.cpp"
 F
 "./code/SetElasticDialog.cpp"
+T
+2 "TestFileListDirector.cpp"
+F
+"./code/TestFileListDirector.cpp"
 F
 T
 1 "Dialogs"

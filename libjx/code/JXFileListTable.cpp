@@ -421,6 +421,8 @@ JXFileListTable::FilterFile
 		info.nameIndex = 1;
 		}
 
+	iter.Invalidate();
+
 	if (itsRegex == nullptr || itsRegex->Match(JString(fullName->GetBytes() + info.nameIndex-1, kJFalse)))
 		{
 		const JString fileName(*fullName, JCharacterRange(info.nameIndex, fullName->GetCharacterCount()));
@@ -483,7 +485,7 @@ JIndex i;
 	JIndex lastIndex = firstIndex+2;	// first one that could be different
 	while (lastIndex <= count)
 		{
-		const VisInfo info  = itsVisibleList->GetElement(lastIndex);
+		const VisInfo info = itsVisibleList->GetElement(lastIndex);
 		const JUtf8Byte* n =
 			(itsFileList->GetElement(info.fileIndex))->GetBytes() + info.nameIndex-1;
 		if (JString::Compare(n, fileName, kJFalse) != 0)
@@ -507,7 +509,7 @@ JIndex i;
 
 	// back up so drawing starts at the beginning of a directory name
 
-	JStringIterator iter(*firstFile, kJIteratorStartBefore, minLength);
+	JStringIterator iter(*firstFile, kJIteratorStartAfter, minLength);
 	JUtf8Character c;
 	while (iter.Prev(&c) && c != ACE_DIRECTORY_SEPARATOR_CHAR)
 		{
