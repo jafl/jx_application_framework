@@ -1,3 +1,15 @@
+analyze all uses of toupper/lower - not all languages do this by single character
+
+utf8 - sorting vs searching
+	searching should include diacriticals
+	sorting may not
+
+	test diacriticals in Utf8Char toupper/lower
+
+	ignore accents for case-sensitive search: strength=primary caseLevel=on
+	http://demo.icu-project.org/icu-bin/collation.html
+
+
 JTextEditor:
 	"Replace All" did nothing when something was selected
 	undo should select inserted text in the active TextEditor instance
@@ -75,7 +87,6 @@ unit tests
 	JWebBrowser
 
 untested JStringIterator usage:
-	JExpandHomeDirShortcut - ~user/foo/bar
 	JVersionSocket
 	JWebBrowser::ShowURL
 	JWebBrowser::ConvertVarNames
@@ -88,18 +99,7 @@ untested JStringIterator usage:
 
 -----
 
-analyze all uses of toupper/lower - not all languages do this by single character
-
-re-evaluate all uses of JIndexRange - character or utf8 byte?
-
-utf8 - sorting vs searching
-	searching should include diacriticals
-	sorting may not
-
-	test diacriticals in Utf8Char toupper/lower
-
-	ignore accents for case-sensitive search: strength=primary caseLevel=on
-	http://demo.icu-project.org/icu-bin/collation.html
+evaluate all uses of JIndexRange - character or utf8 byte?
 
 XIM
 	support input methods that need a drawing area
