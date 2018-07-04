@@ -13,10 +13,14 @@
 #include <JXFloatInput.h>
 #include <JXIntegerInput.h>
 #include <JXPasswordInput.h>
+#include <JXCharInput.h>
+#include <JXPathInput.h>
+#include <JXFileInput.h>
 #include <JXStaticText.h>
 #include <jXGlobals.h>
 #include <JFontManager.h>
 #include <JColorManager.h>
+#include <jDirUtil.h>
 #include <jAssert.h>
 
 /******************************************************************************
@@ -53,17 +57,17 @@ TestInputFieldsDialog::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 620,180, JString::empty);
+	JXWindow* window = jnew JXWindow(this, 620,210, JString::empty);
 	assert( window != nullptr );
 
 	JXTextButton* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::TestInputFieldsDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 180,150, 70,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 180,180, 70,20);
 	assert( cancelButton != nullptr );
 
 	JXTextButton* okButton =
 		jnew JXTextButton(JGetString("okButton::TestInputFieldsDialog::JXLayout"), window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 390,150, 70,20);
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 390,180, 70,20);
 	assert( okButton != nullptr );
 	okButton->SetShortcuts(JGetString("okButton::TestInputFieldsDialog::shortcuts::JXLayout"));
 
@@ -220,6 +224,39 @@ TestInputFieldsDialog::BuildWindow()
 	assert( pwLabel != nullptr );
 	pwLabel->SetToLabel();
 
+	JXStaticText* pathLabel =
+		jnew JXStaticText(JGetString("pathLabel::TestInputFieldsDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 300,110, 40,20);
+	assert( pathLabel != nullptr );
+	pathLabel->SetToLabel();
+
+	JXStaticText* fileLabel =
+		jnew JXStaticText(JGetString("fileLabel::TestInputFieldsDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 300,130, 40,20);
+	assert( fileLabel != nullptr );
+	fileLabel->SetToLabel();
+
+	JXStaticText* charLabel =
+		jnew JXStaticText(JGetString("charLabel::TestInputFieldsDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,130, 100,20);
+	assert( charLabel != nullptr );
+	charLabel->SetToLabel();
+
+	JXCharInput* charInput =
+		jnew JXCharInput(window,
+					JXWidget::kHElastic, JXWidget::kFixedTop, 110,130, 180,20);
+	assert( charInput != nullptr );
+
+	JXPathInput* pathInput =
+		jnew JXPathInput(window,
+					JXWidget::kHElastic, JXWidget::kFixedTop, 340,110, 260,20);
+	assert( pathInput != nullptr );
+
+	JXFileInput* fileInput =
+		jnew JXFileInput(window,
+					JXWidget::kHElastic, JXWidget::kFixedTop, 340,130, 260,20);
+	assert( fileInput != nullptr );
+
 // end JXLayout
 
 	window->SetTitle(JGetString("WindowTitle::TestInputFieldsDialog"));
@@ -248,6 +285,14 @@ TestInputFieldsDialog::BuildWindow()
 
 	pwInput->GetText()->SetText(JGetString("Password::TestInputFieldsDialog"));
 	pwInput->SetHint(JGetString("PasswordHint::TestInputFieldsDialog"));
+
+	pathInput->SetBasePath(JGetCurrentDirectory());
+	pathInput->GetText()->SetText(JString("~", kJFalse));
+
+	fileInput->SetBasePath(JGetCurrentDirectory());
+	fileInput->GetText()->SetText(JString("./testjx", kJFalse));
+
+	charInput->SetCharacter(JUtf8Character("\xC3\xA7"));
 }
 
 /******************************************************************************

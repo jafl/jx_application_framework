@@ -3,9 +3,8 @@ Magic: 15000
 Internal Form Definition File
     (do not change)
 
-Number of forms: 16
+Number of forms: 17
 Unit of measure: FL_COORD_PIXEL
-SnapGrid: 5
 
 =============== FORM ===============
 Name: ResizeWidgetDialog
@@ -142,13 +141,13 @@ argument:
 =============== FORM ===============
 Name: TestInputFieldsDialog
 Width: 620
-Height: 180
-Number of Objects: 29
+Height: 210
+Number of Objects: 35
 
 --------------------
 class: FL_BOX
 type: FL_FLAT_BOX
-box: 0 0 620 180
+box: 0 0 620 210
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -166,7 +165,7 @@ argument:
 --------------------
 class: FL_BUTTON
 type: FL_NORMAL_BUTTON
-box: 180 150 70 20
+box: 180 180 70 20
 boxtype: FL_UP_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -184,7 +183,7 @@ argument:
 --------------------
 class: FL_BUTTON
 type: FL_RETURN_BUTTON
-box: 390 150 70 20
+box: 390 180 70 20
 boxtype: FL_UP_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -664,6 +663,114 @@ shortcut:
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
 name: (pwLabel)
+callback: 
+argument: 
+
+--------------------
+class: FL_TEXT
+type: FL_NORMAL_TEXT
+box: 300 110 40 20
+boxtype: FL_FLAT_BOX
+colors: FL_COL1 FL_MCOL
+alignment: FL_ALIGN_LEFT|FL_ALIGN_INSIDE
+style: FL_NORMAL_STYLE
+size: FL_NORMAL_SIZE
+lcol: FL_BLACK
+label: Path:
+shortcut: 
+resize: FL_RESIZE_ALL
+gravity: FL_NorthWest FL_NoGravity
+name: (pathLabel)
+callback: 
+argument: 
+
+--------------------
+class: FL_TEXT
+type: FL_NORMAL_TEXT
+box: 300 130 40 20
+boxtype: FL_FLAT_BOX
+colors: FL_COL1 FL_MCOL
+alignment: FL_ALIGN_LEFT|FL_ALIGN_INSIDE
+style: FL_NORMAL_STYLE
+size: FL_NORMAL_SIZE
+lcol: FL_BLACK
+label: File:
+shortcut: 
+resize: FL_RESIZE_ALL
+gravity: FL_NorthWest FL_NoGravity
+name: (fileLabel)
+callback: 
+argument: 
+
+--------------------
+class: FL_TEXT
+type: FL_NORMAL_TEXT
+box: 10 130 100 20
+boxtype: FL_FLAT_BOX
+colors: FL_COL1 FL_MCOL
+alignment: FL_ALIGN_LEFT|FL_ALIGN_INSIDE
+style: FL_NORMAL_STYLE
+size: FL_NORMAL_SIZE
+lcol: FL_BLACK
+label: Character:
+shortcut: 
+resize: FL_RESIZE_ALL
+gravity: FL_NorthWest FL_NoGravity
+name: (charLabel)
+callback: 
+argument: 
+
+--------------------
+class: FL_BOX
+type: FL_NO_BOX
+box: 110 130 180 20
+boxtype: FL_NO_BOX
+colors: FL_COL1 FL_COL1
+alignment: FL_ALIGN_CENTER
+style: FL_NORMAL_STYLE
+size: FL_NORMAL_SIZE
+lcol: FL_BLACK
+label: JXCharInput
+shortcut: 
+resize: FL_RESIZE_ALL
+gravity: FL_North FL_NoGravity
+name: (charInput)
+callback: 
+argument: 
+
+--------------------
+class: FL_BOX
+type: FL_NO_BOX
+box: 340 110 260 20
+boxtype: FL_NO_BOX
+colors: FL_COL1 FL_COL1
+alignment: FL_ALIGN_CENTER
+style: FL_NORMAL_STYLE
+size: FL_NORMAL_SIZE
+lcol: FL_BLACK
+label: JXPathInput
+shortcut: 
+resize: FL_RESIZE_ALL
+gravity: FL_North FL_NoGravity
+name: (pathInput)
+callback: 
+argument: 
+
+--------------------
+class: FL_BOX
+type: FL_NO_BOX
+box: 340 130 260 20
+boxtype: FL_NO_BOX
+colors: FL_COL1 FL_COL1
+alignment: FL_ALIGN_CENTER
+style: FL_NORMAL_STYLE
+size: FL_NORMAL_SIZE
+lcol: FL_BLACK
+label: JXFileInput
+shortcut: 
+resize: FL_RESIZE_ALL
+gravity: FL_North FL_NoGravity
+name: (fileInput)
 callback: 
 argument: 
 
@@ -2466,6 +2573,66 @@ callback:
 argument: 
 return: FL_RETURN_CHANGED
     slsize: 0.15
+
+=============== FORM ===============
+Name: TestFileListDirector
+Width: 400
+Height: 330
+Number of Objects: 3
+
+--------------------
+class: FL_BOX
+type: FL_FLAT_BOX
+box: 0 0 400 330
+boxtype: FL_FLAT_BOX
+colors: FL_COL1 FL_COL1
+alignment: FL_ALIGN_CENTER
+style: FL_NORMAL_STYLE
+size: FL_DEFAULT_SIZE
+lcol: FL_BLACK
+label: 
+shortcut: 
+resize: FL_RESIZE_ALL
+gravity: FL_NoGravity FL_NoGravity
+name: 
+callback: 
+argument: 
+
+--------------------
+class: FL_BOX
+type: FL_NO_BOX
+box: 0 0 400 30
+boxtype: FL_NO_BOX
+colors: FL_COL1 FL_COL1
+alignment: FL_ALIGN_CENTER
+style: FL_NORMAL_STYLE
+size: FL_NORMAL_SIZE
+lcol: FL_BLACK
+label: JXMenuBar
+shortcut: 
+resize: FL_RESIZE_ALL
+gravity: FL_North FL_NoGravity
+name: (menuBar)
+callback: 
+argument: 
+
+--------------------
+class: FL_BOX
+type: FL_NO_BOX
+box: 0 30 400 300
+boxtype: FL_NO_BOX
+colors: FL_COL1 FL_COL1
+alignment: FL_ALIGN_CENTER
+style: FL_NORMAL_STYLE
+size: FL_NORMAL_SIZE
+lcol: FL_BLACK
+label: JXFileListSet(menuBar,
+shortcut: 
+resize: FL_RESIZE_ALL
+gravity: FL_NoGravity FL_NoGravity
+name: itsFLSet
+callback: 
+argument: 
 
 ==============================
 create_the_forms
