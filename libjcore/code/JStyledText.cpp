@@ -2282,6 +2282,8 @@ JStyledText::BackwardDelete
 		returnIndex = TextIndex(iter.GetNextCharacterIndex(), iter.GetNextByteIndex());
 		}
 
+	iter.Invalidate();
+
 	BroadcastTextChanged(TextRange(returnIndex, TextCount(0,0)),
 						 charDelta, byteDelta, kJTrue);
 
@@ -2381,6 +2383,8 @@ JStyledText::ForwardDelete
 	iter.RemoveLastMatch();		// invalidates match
 
 	NewUndo(typingUndo, isNew);
+
+	iter.Invalidate();
 
 	BroadcastTextChanged(TextRange(caretIndex, TextCount(0,0)),
 		charDelta, byteDelta, kJTrue);
@@ -2543,6 +2547,8 @@ JStyledText::Outdent
 
 	NewUndo(undo, isNew);
 
+	iter.Invalidate();
+
 	BroadcastTextChanged(
 		TextRange(
 			JCharacterRange(range.charRange.first, range.charRange.last - deleteCount),
@@ -2626,6 +2632,8 @@ JStyledText::Indent
 
 	const JUtf8ByteRange br(range.byteRange.first, range.byteRange.last + insertCount);
 	const TextRange tr(cr, br);
+
+	iter.Invalidate();
 
 	BroadcastTextChanged(tr, insertCount, insertCount, kJFalse, kJFalse);
 
@@ -2885,6 +2893,8 @@ JStyledText::CleanWhitespace
 			}
 		}
 		while (iter.Next("\n") && !iter.AtEnd());
+
+	iter.Invalidate();
 
 	// replace selection with cleaned text/style
 
@@ -3809,10 +3819,10 @@ JStyledText::BroadcastTextChanged
 		AdjustStylesBeforeBroadcast(itsText, itsStyles, &recalcRange, &redrawRange, deletion);
 		}
 
-	assert( recalcRange.charRange.Contains(range.charRange) );
-	assert( recalcRange.byteRange.Contains(range.byteRange) );
-	assert( redrawRange.charRange.Contains(range.charRange) );
-	assert( redrawRange.byteRange.Contains(range.byteRange) );
+	assert( recalcRange.charRange.Contains(range.charRange) || range.charRange.first == itsText.GetCharacterCount()+1 );
+	assert( recalcRange.byteRange.Contains(range.byteRange) || range.byteRange.first == itsText.GetByteCount()+1 );
+	assert( redrawRange.charRange.Contains(range.charRange) || range.charRange.first == itsText.GetCharacterCount()+1 );
+	assert( redrawRange.byteRange.Contains(range.byteRange) || range.byteRange.first == itsText.GetByteCount()+1 );
 	assert( itsText.GetCharacterCount() == itsStyles->GetElementCount() );
 
 	if (recalcRange.charRange.Contains(redrawRange.charRange))
