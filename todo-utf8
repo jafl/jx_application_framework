@@ -1,5 +1,4 @@
 JTextEditor:
-	click at right of input field with single character:  caret set in front of char
 	"Replace All" did nothing when something was selected
 	undo should select inserted text in the active TextEditor instance
 	set font should select result

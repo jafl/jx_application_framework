@@ -4338,9 +4338,14 @@ JTextEditor::CalcCaretLocation
 		}
 
 	TextIndex lineEnd = GetLineEnd(lineIndex);
-	if (lineEnd.charIndex == lineStart.charIndex)
+	if (lineEnd.charIndex == lineStart.charIndex &&
+		GetCharacter(lineEnd).IsSpace())
 		{
 		return CaretLocation(lineStart, lineIndex);
+		}
+	else if (lineEnd.charIndex == lineStart.charIndex)
+		{
+		return CaretLocation(itsText->AdjustTextIndex(lineStart, 1), lineIndex);
 		}
 
 	if ((lineEnd.charIndex < itsText->GetText().GetCharacterCount() ||
