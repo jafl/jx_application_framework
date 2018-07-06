@@ -28,6 +28,7 @@
 #include <JXChooseSaveFile.h>
 #include <JXSharedPrefsManager.h>
 #include <JXSplashWindow.h>
+#include <JXTipOfTheDayDialog.h>
 #include <jXActionDefs.h>
 #include <JThisProcess.h>
 #include <JString.h>
@@ -56,6 +57,7 @@ static const JCharacter* kHelpMenuStr =
 	"%l| Table of Contents       %i" kJXHelpTOCAction
 	"  | Overview"
 	"  | This window       %k F1 %i" kJXHelpSpecificAction
+	"%l| Tip of the Day"
 	"%l| Changes"
 	"  | Credits";
 
@@ -63,6 +65,7 @@ enum
 {
 	kHelpAboutCmd = 1,
 	kHelpTOCCmd, kHelpOverviewCmd, kHelpWindowCmd,
+	kTipCmd,
 	kHelpChangeLogCmd, kHelpCreditsCmd
 };
 
@@ -706,6 +709,13 @@ THXApp::HandleHelpMenu
 	else if (index == kHelpWindowCmd)
 		{
 		(JXGetHelpManager())->ShowSection(windowSectionName);
+		}
+
+	else if (index == kTipCmd)
+		{
+		JXTipOfTheDayDialog* dlog = jnew JXTipOfTheDayDialog;
+		assert( dlog != NULL );
+		dlog->BeginDialog();
 		}
 
 	else if (index == kHelpChangeLogCmd)
