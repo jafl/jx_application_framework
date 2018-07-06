@@ -54,6 +54,8 @@ jx_project_wizard
 
 -----
 
+evaluate all uses of JIndexRange - character or utf8 byte?
+
 test
 	man pages
 	styled unix terminal output - yui build output
@@ -96,13 +98,6 @@ untested JStringIterator usage:
 	JGetUserMountPointList
 	JTranslateLocalToRemote
 	JTranslateRemoteToLocal
-
------
-
-evaluate all uses of JIndexRange - character or utf8 byte?
-
-XIM
-	support input methods that need a drawing area
 
 -----
 

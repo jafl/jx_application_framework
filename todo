@@ -1,9 +1,6 @@
 Fedora 27 window manager
 	JXWindow does not analyze correctly
 
-medic-lldb
-	does not display new execution ptr location after "set execution point"
-
 jcc:
 	move VCS detail code from CBDiffFileDialog to jVCSUtil?
 
@@ -15,7 +12,7 @@ switch to cairo for rendering
 	postscript printing
 
 multi-pane editing
-	CBTextDocument has handle to JTextBuffer
+	CBTextDocument has handle to JStyledText
 	use partitions to show multiple views
 		double appropriate window dimension, if screen has space
 	each partition needs small [x] to close
@@ -29,7 +26,7 @@ medic - OSX
 	JMemoryManager executes in multiple threads when run target program
 	because lldb picks up JCore operator new
 
-java
+medic - java
 	selected stack frame
 		select source line
 			get code offset <-> line number for method
@@ -64,9 +61,6 @@ xdebug
 	request source from debugger instead of assuming that file:// exists
 	*set* values
 	support conditional breakpoints, etc.
-
-lldb
-	LLDBLink::RunUntil() does not stop at specified address
 
 -----
 
@@ -124,11 +118,13 @@ leibnitz
 		not reseting color correctly?
 		does draw correctly when quit and restart
 
-	THX3DPlotDirector leaking
-
 memory analyzer
 	jcc -- crash with deleted JMessageProtocol -- only when open project
 	print table:  partial column on page 1
+
+	option to print MDStatsDirector
+	records window:
+		show info about query in window title
 
 JXMenu::PrepareToOpenMenu()
 	itsOwner may delete us!
@@ -140,13 +136,7 @@ objdump
 readelf
 dwarfdump
 
-ASIO
-	http://think-async.com/Asio - lightweight networking library
-	JXApplication should call io_service::poll_one()
-	requires exceptions - only worth switching when ACE no longer works without
-
 OSX window placement
-	System G windows in dirs with no prefs open downward
 	jcc man page window and "find file" result window appear under active window
 
 Docking
@@ -191,24 +181,10 @@ libjexpr write to mathml
 	http://en.wikipedia.org/wiki/MathML
 	http://www.w3.org/TR/MathML/
 	http://www.w3.org/TR/MathML2/
-libj3d write scene to canvas 3d
-	http://www.graphycalc.com/
-
-printing
-	embed fonts into .ps file
-	gs -dNOPAUSE -dBATCH -sDEVICE=pswrite -sOutputFile=junk2.ps junk.ps
-	http://www.stat.auckland.ac.nz/~paul/R/CM/CMR.html
-	http://pages.cs.wisc.edu/~ghost/doc/gnu/7.05/Fonts.htm
 
 -----
 
-Daily Comics
-	if skip before loaded, saves prev in that slot
-	export favorites to HTML for sharing
-	xkcd:
-		include title attribute from image
-
-glove:
+glove
 	switch to JXExprEditor
 	clean up .fd to match current layouts
 	test layouts on Linux and OS X
@@ -227,14 +203,6 @@ systemg
 		systemg code/*.cpp code/*.h
 		rewrite MDI server to collect files in same directory
 			then pass collection to SyGFindFileTask
-
-leibnitz
-	finish 3D plotting
-		latent pg for eval?
-		scale axes to fit range
-		allow range to be away from origin
-		edit axis scale:  min, max, delta
-	Add tip-of-the-day with editing shortcuts like space, fn names, etc.
 
 JKeyHandler
 	if we build key handlers for different file types:
@@ -271,11 +239,6 @@ jcc
 
 	Class trees need to search symbol database for function location.
 
-memory analyzer
-	option to print MDStatsDirector
-	records window:
-		show info about query in window title
-
 drakon
 	FreeBSD missing
 		size, resident, share
@@ -294,12 +257,6 @@ Dock
 		What key?  Tab is fully loaded in jcc
 		cycle through leaf nodes of tree from left to right
 		(first, build array of leaf nodes, then find current pane and switch to next)
-
-JXHelpDirector
-	Add forward and backward buttons/menus
-	Middle-click on link => new window
-	Right-click on link => menu
-		"Open %k Left-click | Open in new window %k Middle-click"
 
 JPrefsManager
 	Atomic lock around SaveToDisk(), etc. in case multiple instances try writing
@@ -329,3 +286,8 @@ object model
 	object constructor initializes hash table of get/set function pointers
 		in base class JXWidget
 	need generalized object to contain values for get/set
+
+ASIO
+	http://think-async.com/Asio
+	source is half the size of ACE, but it's all header files - everything is inline
+	JXApplication should call io_service::poll_one()
