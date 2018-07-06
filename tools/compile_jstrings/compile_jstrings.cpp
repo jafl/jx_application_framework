@@ -146,7 +146,7 @@ main
 				}
 			else if (c == "\n")
 				{
-				iter.SetNext("n", kJFalse);
+				iter.SetNext('n', kJFalse);
 				iter.Insert("\\");
 				}
 			}
