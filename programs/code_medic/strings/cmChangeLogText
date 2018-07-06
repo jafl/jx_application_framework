@@ -12,6 +12,12 @@ Please send all bug reports and suggestions for features to
 <p>
 <hr>
 
+<h3> 4.2.1 </h3>
+
+Fixed bug so the execution point indicator updates after \"set execution point\".
+<p>
+Various stability fixes for lldb.
+
 <h3> 4.2 </h3>
 
 Window layouts adapt to translated text widths and font size differences.

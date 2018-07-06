@@ -1191,6 +1191,8 @@ LLDBLink::SetExecutionPoint
 		cmd        += ":";
 		cmd        += JString(lineIndex, JString::kBase10);
 		itsDebugger->HandleCommand(cmd);
+
+		ProgramStopped();
 		}
 }
 
@@ -1260,6 +1262,8 @@ LLDBLink::SetExecutionPoint
 		JString cmd = "_regexp-jump *";
 		cmd        += addr;
 		itsDebugger->HandleCommand(cmd);
+
+		ProgramStopped();
 		}
 }
 
@@ -1795,7 +1799,7 @@ LLDBLink::ProgramStopped
 			{
 			*msg = "; file: " + location.GetFileName() + ", line: " + JString(location.GetLineNumber(), JString::kBase10) + ", func: " + location.GetFunctionName() + ", addr: " + location.GetMemoryAddress();
 			}
-		return file.IsValid();
+		return JI2B(file.IsValid());
 		}
 	else
 		{
