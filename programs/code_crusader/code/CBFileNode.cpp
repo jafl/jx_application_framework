@@ -206,24 +206,13 @@ CBFileNode::ViewVCSDiffs
 	const
 {
 	JString fullName;
-	if (!GetFullName(&fullName))
+	if (GetFullName(&fullName))
+		{
+		(CBGetDiffFileDialog())->ViewVCSDiffs(fullName, silent);
+		}
+	else
 		{
 		ReportNotFound();
-		return;
-		}
-
-	const JVCSType type = JGetVCSType(fullName, kJTrue);
-	if (type == kJCVSType)
-		{
-		(CBGetDiffFileDialog())->ViewCVSDiffs(fullName, silent);
-		}
-	else if (type == kJSVNType)
-		{
-		(CBGetDiffFileDialog())->ViewSVNDiffs(fullName, silent);
-		}
-	else if (type == kJGitType)
-		{
-		(CBGetDiffFileDialog())->ViewGitDiffs(fullName, silent);
 		}
 }
 

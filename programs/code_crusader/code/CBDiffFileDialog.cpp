@@ -1167,7 +1167,39 @@ CBDiffFileDialog::BuildDiffCmd()
 }
 
 /******************************************************************************
- ViewCVSDiffs
+ ViewVCSDiffs
+
+ ******************************************************************************/
+
+void
+CBDiffFileDialog::ViewVCSDiffs
+	(
+	const JCharacter*	fullName,
+	const JBoolean		silent
+	)
+{
+	if (!CBDocumentManager::WarnFileSize(fullName))
+		{
+		return;
+		}
+
+	const JVCSType type = JGetVCSType(fullName);
+	if (type == kJCVSType)
+		{
+		ViewCVSDiffs(fullName, silent);
+		}
+	else if (type == kJSVNType)
+		{
+		ViewSVNDiffs(fullName, silent);
+		}
+	else if (type == kJGitType)
+		{
+		ViewGitDiffs(fullName, silent);
+		}
+}
+
+/******************************************************************************
+ ViewCVSDiffs (private)
 
  ******************************************************************************/
 
@@ -1178,25 +1210,24 @@ CBDiffFileDialog::ViewCVSDiffs
 	const JBoolean		silent
 	)
 {
-	if (CBDocumentManager::WarnFileSize(fullName))
-		{
-		itsTabGroup->ShowTab(kCVSDiffTabIndex);		// update styles
+	itsTabGroup->ShowTab(kCVSDiffTabIndex);
 
-		JString getCmd, diffCmd, name1, name2;
-		if (BuildCVSDiffCmd(fullName, itsCVSRev1Cmd, nullptr, itsCVSRev2Cmd, nullptr,
-							&getCmd, &diffCmd, &name1, &name2, silent))
-			{
-			const JError err =
-				CBDiffDocument::CreateCVS(fullName, getCmd, diffCmd,
-										  itsCommonStyleMenu->GetStyle(),
-										  name1, itsCVSOnly1StyleMenu->GetStyle(),
-										  name2, itsCVSOnly2StyleMenu->GetStyle(),
-										  silent);
-			if (!silent)
-				{
-				err.ReportIfError();
-				}
-			}
+	JString getCmd, diffCmd, name1, name2;
+	if (!BuildCVSDiffCmd(fullName, kCurrentRevCmd, nullptr, kCurrentRevCmd, nullptr,
+						 &getCmd, &diffCmd, &name1, &name2, silent))
+		{
+		return;
+		}
+
+	const JError err =
+		CBDiffDocument::CreateCVS(fullName, getCmd, diffCmd,
+								  itsCommonStyleMenu->GetStyle(),
+								  name1, itsCVSOnly1StyleMenu->GetStyle(),
+								  name2, itsCVSOnly2StyleMenu->GetStyle(),
+								  silent);
+	if (!silent)
+		{
+		err.ReportIfError();
 		}
 }
 
@@ -1214,30 +1245,32 @@ CBDiffFileDialog::ViewCVSDiffs
 	const JBoolean		silent
 	)
 {
-	if (CBDocumentManager::WarnFileSize(fullName))
+	if (!CBDocumentManager::WarnFileSize(fullName))
 		{
-		JIndex rev1Cmd = kRevisionNumberCmd, rev2Cmd = kRevisionNumberCmd;
-		if (JString::IsEmpty(rev1))
-			{
-			rev1Cmd = rev2Cmd = kCurrentRevCmd;
-			}
-		else if (JString::IsEmpty(rev2))
-			{
-			rev2Cmd = kCurrentRevCmd;
-			}
+		return;
+		}
 
-		JString getCmd, diffCmd, name1, name2;
-		if (BuildCVSDiffCmd(fullName, rev1Cmd, rev1, rev2Cmd, rev2,
-							&getCmd, &diffCmd, &name1, &name2, silent))
-			{
-			const JError err =
-				CBDiffDocument::CreateCVS(fullName, getCmd, diffCmd,
-										  itsCommonStyleMenu->GetStyle(),
-										  name1, itsCVSOnly1StyleMenu->GetStyle(),
-										  name2, itsCVSOnly2StyleMenu->GetStyle(),
-										  silent);
-			err.ReportIfError();
-			}
+	JIndex rev1Cmd = kRevisionNumberCmd, rev2Cmd = kRevisionNumberCmd;
+	if (JString::IsEmpty(rev1))
+		{
+		rev1Cmd = rev2Cmd = kCurrentRevCmd;
+		}
+	else if (JString::IsEmpty(rev2))
+		{
+		rev2Cmd = kCurrentRevCmd;
+		}
+
+	JString getCmd, diffCmd, name1, name2;
+	if (BuildCVSDiffCmd(fullName, rev1Cmd, rev1, rev2Cmd, rev2,
+						&getCmd, &diffCmd, &name1, &name2, silent))
+		{
+		const JError err =
+			CBDiffDocument::CreateCVS(fullName, getCmd, diffCmd,
+									  itsCommonStyleMenu->GetStyle(),
+									  name1, itsCVSOnly1StyleMenu->GetStyle(),
+									  name2, itsCVSOnly2StyleMenu->GetStyle(),
+									  silent);
+		err.ReportIfError();
 		}
 }
 
@@ -1428,7 +1461,7 @@ CBDiffFileDialog::GetPreviousCVSRevision
 }
 
 /******************************************************************************
- ViewSVNDiffs
+ ViewSVNDiffs (private)
 
  ******************************************************************************/
 
@@ -1439,25 +1472,24 @@ CBDiffFileDialog::ViewSVNDiffs
 	const JBoolean		silent
 	)
 {
-	if (CBDocumentManager::WarnFileSize(fullName))
-		{
-		itsTabGroup->ShowTab(kSVNDiffTabIndex);		// update styles
+	itsTabGroup->ShowTab(kSVNDiffTabIndex);
 
-		JString getCmd, diffCmd, name1, name2;
-		if (BuildSVNDiffCmd(fullName, itsSVNRev1Cmd, nullptr, itsSVNRev2Cmd, nullptr,
-							&getCmd, &diffCmd, &name1, &name2, silent))
-			{
-			const JError err =
-				CBDiffDocument::CreateSVN(fullName, getCmd, diffCmd,
-										  itsCommonStyleMenu->GetStyle(),
-										  name1, itsSVNOnly1StyleMenu->GetStyle(),
-										  name2, itsSVNOnly2StyleMenu->GetStyle(),
-										  silent);
-			if (!silent)
-				{
-				err.ReportIfError();
-				}
-			}
+	JString getCmd, diffCmd, name1, name2;
+	if (!BuildSVNDiffCmd(fullName, kCurrentRevCmd, nullptr, kCurrentRevCmd, nullptr,
+						 &getCmd, &diffCmd, &name1, &name2, silent))
+		{
+		return;
+		}
+
+	const JError err =
+		CBDiffDocument::CreateSVN(fullName, getCmd, diffCmd,
+								  itsCommonStyleMenu->GetStyle(),
+								  name1, itsSVNOnly1StyleMenu->GetStyle(),
+								  name2, itsSVNOnly2StyleMenu->GetStyle(),
+								  silent);
+	if (!silent)
+		{
+		err.ReportIfError();
 		}
 }
 
@@ -1475,30 +1507,32 @@ CBDiffFileDialog::ViewSVNDiffs
 	const JBoolean		silent
 	)
 {
-	if (CBDocumentManager::WarnFileSize(fullName))
+	if (!CBDocumentManager::WarnFileSize(fullName))
 		{
-		JIndex rev1Cmd = kRevisionNumberCmd, rev2Cmd = kRevisionNumberCmd;
-		if (JString::IsEmpty(rev1))
-			{
-			rev1Cmd = rev2Cmd = kCurrentRevCmd;
-			}
-		else if (JString::IsEmpty(rev2))
-			{
-			rev2Cmd = kCurrentRevCmd;
-			}
+		return;
+		}
 
-		JString getCmd, diffCmd, name1, name2;
-		if (BuildSVNDiffCmd(fullName, rev1Cmd, rev1, rev2Cmd, rev2,
-							&getCmd, &diffCmd, &name1, &name2, silent))
-			{
-			const JError err =
-				CBDiffDocument::CreateSVN(fullName, getCmd, diffCmd,
-										  itsCommonStyleMenu->GetStyle(),
-										  name1, itsSVNOnly1StyleMenu->GetStyle(),
-										  name2, itsSVNOnly2StyleMenu->GetStyle(),
-										  silent);
-			err.ReportIfError();
-			}
+	JIndex rev1Cmd = kRevisionNumberCmd, rev2Cmd = kRevisionNumberCmd;
+	if (JString::IsEmpty(rev1))
+		{
+		rev1Cmd = rev2Cmd = kCurrentRevCmd;
+		}
+	else if (JString::IsEmpty(rev2))
+		{
+		rev2Cmd = kCurrentRevCmd;
+		}
+
+	JString getCmd, diffCmd, name1, name2;
+	if (BuildSVNDiffCmd(fullName, rev1Cmd, rev1, rev2Cmd, rev2,
+						&getCmd, &diffCmd, &name1, &name2, silent))
+		{
+		const JError err =
+			CBDiffDocument::CreateSVN(fullName, getCmd, diffCmd,
+									  itsCommonStyleMenu->GetStyle(),
+									  name1, itsSVNOnly1StyleMenu->GetStyle(),
+									  name2, itsSVNOnly2StyleMenu->GetStyle(),
+									  silent);
+		err.ReportIfError();
 		}
 }
 
@@ -1544,22 +1578,9 @@ CBDiffFileDialog::BuildSVNDiffCmd
 		JString revName;
 		if (cmd1 == kPreviousRevCmd)
 			{
-			cmd1 = kRevisionNumberCmd;
-			rev1 = "PREV";
-
-			if (forDirectory)
-				{
-				getRev = "PREV";
-				}
-			else if (!GetPreviousSVNRevision(fullName, &getRev))
-				{
-				if (!silent)
-					{
-					(JGetUserNotification())->ReportError(JGetString("VCSNoPreviousRevision::CBDiffFileDialog"));
-					}
-				return kJFalse;
-				}
-
+			cmd1    = kRevisionNumberCmd;
+			rev1    = "PREV";
+			getRev  = "PREV";
 			*name1 += rev1;
 			}
 		else if (cmd1 == kRevisionDateCmd)
@@ -1636,9 +1657,10 @@ CBDiffFileDialog::BuildSVNDiffCmd
 		}
 	else
 		{
-		*name1 += "current";
-		*name2  = "edited";
-		*getCmd = CBDiffDocument::theLocalSVNGetMarker;
+		*name1  += "current";
+		*name2   = "edited";
+		*getCmd += "-r BASE ";
+		*getCmd += JPrepArgForExec(file1);
 		}
 
 	if (itsIgnoreSpaceChangeCB->IsChecked())
@@ -1664,36 +1686,6 @@ CBDiffFileDialog::BuildSVNDiffCmd
 		}
 
 	return kJTrue;
-}
-
-/******************************************************************************
- GetPreviousSVNRevision (private)
-
- ******************************************************************************/
-
-JBoolean
-CBDiffFileDialog::GetPreviousSVNRevision
-	(
-	const JCharacter*	fullName,
-	JString*			rev
-	)
-{
-	if (!JGetCurrentSVNRevision(fullName, rev))
-		{
-		return kJFalse;
-		}
-
-	JIndex r = atoi(*rev);
-	if (r == 1)
-		{
-		rev->Clear();
-		return kJFalse;
-		}
-	else
-		{
-		*rev = JString((JUInt64) r-1);
-		return kJTrue;
-		}
 }
 
 /******************************************************************************
@@ -1756,7 +1748,7 @@ CBDiffFileDialog::BuildSVNRepositoryPath
 }
 
 /******************************************************************************
- ViewGitDiffs
+ ViewGitDiffs (private)
 
  ******************************************************************************/
 
@@ -1767,25 +1759,24 @@ CBDiffFileDialog::ViewGitDiffs
 	const JBoolean		silent
 	)
 {
-	if (CBDocumentManager::WarnFileSize(fullName))
-		{
-		itsTabGroup->ShowTab(kGitDiffTabIndex);		// update styles
+	itsTabGroup->ShowTab(kGitDiffTabIndex);
 
-		JString get1Cmd, get2Cmd, diffCmd, name1, name2;
-		if (BuildGitDiffCmd(fullName, itsGitRev1Cmd, nullptr, itsGitRev2Cmd, nullptr,
-							&get1Cmd, &get2Cmd, &diffCmd, &name1, &name2, silent))
-			{
-			const JError err =
-				CBDiffDocument::CreateGit(fullName, get1Cmd, get2Cmd, diffCmd,
-										  itsCommonStyleMenu->GetStyle(),
-										  name1, itsGitOnly1StyleMenu->GetStyle(),
-										  name2, itsGitOnly2StyleMenu->GetStyle(),
-										  silent);
-			if (!silent)
-				{
-				err.ReportIfError();
-				}
-			}
+	JString get1Cmd, get2Cmd, diffCmd, name1, name2;
+	if (!BuildGitDiffCmd(fullName, kCurrentRevCmd, nullptr, kCurrentRevCmd, nullptr,
+						 &get1Cmd, &get2Cmd, &diffCmd, &name1, &name2, silent))
+		{
+		return;
+		}
+
+	const JError err =
+		CBDiffDocument::CreateGit(fullName, get1Cmd, get2Cmd, diffCmd,
+								  itsCommonStyleMenu->GetStyle(),
+								  name1, itsGitOnly1StyleMenu->GetStyle(),
+								  name2, itsGitOnly2StyleMenu->GetStyle(),
+								  silent);
+	if (!silent)
+		{
+		err.ReportIfError();
 		}
 }
 
@@ -1803,31 +1794,33 @@ CBDiffFileDialog::ViewGitDiffs
 	const JBoolean		silent
 	)
 {
-	if (CBDocumentManager::WarnFileSize(fullName))
+	if (!CBDocumentManager::WarnFileSize(fullName))
 		{
-		JIndex rev1Cmd = kRevisionNumberCmd, rev2Cmd = kRevisionNumberCmd;
-		if (JString::IsEmpty(rev1))
-			{
-			rev1Cmd = kCurrentRevCmd;
-			rev2Cmd = kCurrentRevCmd;
-			}
-		else if (JString::IsEmpty(rev2))
-			{
-			rev2Cmd = kCurrentRevCmd;
-			}
+		return;
+		}
 
-		JString get1Cmd, get2Cmd, diffCmd, name1, name2;
-		if (BuildGitDiffCmd(fullName, rev1Cmd, rev1, rev2Cmd, rev2,
-							&get1Cmd, &get2Cmd, &diffCmd, &name1, &name2, silent))
-			{
-			const JError err =
-				CBDiffDocument::CreateGit(fullName, get1Cmd, get2Cmd, diffCmd,
-										  itsCommonStyleMenu->GetStyle(),
-										  name1, itsGitOnly1StyleMenu->GetStyle(),
-										  name2, itsGitOnly2StyleMenu->GetStyle(),
-										  silent);
-			err.ReportIfError();
-			}
+	JIndex rev1Cmd = kRevisionNumberCmd, rev2Cmd = kRevisionNumberCmd;
+	if (JString::IsEmpty(rev1))
+		{
+		rev1Cmd = kCurrentRevCmd;
+		rev2Cmd = kCurrentRevCmd;
+		}
+	else if (JString::IsEmpty(rev2))
+		{
+		rev2Cmd = kCurrentRevCmd;
+		}
+
+	JString get1Cmd, get2Cmd, diffCmd, name1, name2;
+	if (BuildGitDiffCmd(fullName, rev1Cmd, rev1, rev2Cmd, rev2,
+						&get1Cmd, &get2Cmd, &diffCmd, &name1, &name2, silent))
+		{
+		const JError err =
+			CBDiffDocument::CreateGit(fullName, get1Cmd, get2Cmd, diffCmd,
+									  itsCommonStyleMenu->GetStyle(),
+									  name1, itsGitOnly1StyleMenu->GetStyle(),
+									  name2, itsGitOnly2StyleMenu->GetStyle(),
+									  silent);
+		err.ReportIfError();
 		}
 }
 

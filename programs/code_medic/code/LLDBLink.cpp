@@ -1191,6 +1191,8 @@ LLDBLink::SetExecutionPoint
 		cmd        += ":";
 		cmd        += JString((JUInt64) lineIndex);
 		itsDebugger->HandleCommand(cmd);
+
+		ProgramStopped();
 		}
 }
 
@@ -1260,6 +1262,8 @@ LLDBLink::SetExecutionPoint
 		JString cmd = "_regexp-jump *";
 		cmd        += addr;
 		itsDebugger->HandleCommand(cmd);
+
+		ProgramStopped();
 		}
 }
 
@@ -1798,7 +1802,7 @@ LLDBLink::ProgramStopped
 					", func: " + location.GetFunctionName() +
 					", addr: " + location.GetMemoryAddress();
 			}
-		return file.IsValid();
+		return JI2B(file.IsValid());
 		}
 	else
 		{

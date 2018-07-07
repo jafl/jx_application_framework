@@ -1,0 +1,55 @@
+0
+
+# Copyright © 2018 by John Lindal. All rights reserved.
+
+TIP_OF_THE_DAY
+
+"
+To enter an expression, just type it in!  Try this example: <tt>3+4*i</tt>
+
+<div>
+
+Pressing the spacebar extends the selection one \"level\" up to the expression containing the current selection.  Try this example: <tt>3+4*i sp sp sp /5</tt>
+
+<div>
+
+All the available functions are on the \"Math &rarr; Apply function\" submenu, but you can just type the shortcut directly.  Typing the opening parenthesis switches input to the function's first argument.
+
+<div>
+
+The \"Math &rarr; Apply function\" submenu can be used to apply a function to the selected portion of an expression.
+
+<div>
+
+Use the \"Move left/right\" items on the \"Math\" menu to rearrange terms in an expression.
+
+<div>
+
+Use the \"Group left/right\" items on the \"Math\" menu to group the selected terms in an expression into a sub-expression.
+
+<div>
+
+Electrical engineers can type <tt>j</tt> and it will automatically be converted to <tt>i</tt>.
+
+<div>
+
+To type a greek character, press the backtick key and then type the equivalent english letter, e.g., <tt>`p</tt> produces &pi;.
+
+<div>
+
+You can switch to Macintosh-style menu shortcuts in the Miscellaneous Preferences dialog.
+
+<div>
+
+Clicking the middle mouse button in an input area pastes the current contents of the clipboard.
+
+<div>
+
+Holding down the Shift key while clicking any scrollbar arrow scrolls by half a page at a time.
+
+The same is true for the Page Up and Page Down keys.
+
+<div>
+
+Double clicking a <em>file</em> in the Save File dialog copies the name to the input field. This is useful if you want to replace a file or create a new file with a similar name.
+"

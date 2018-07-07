@@ -1024,7 +1024,7 @@ CBTextDocument::UpdateFileMenu()
 	const JString* s;
 	if (onDisk)
 		{
-		const JVCSType type = JGetVCSType(GetFilePath(), kJTrue);
+		const JVCSType type = JGetVCSType(GetFilePath());
 		if (type == kJCVSType)
 			{
 			enable = kJTrue;
@@ -1042,6 +1042,7 @@ CBTextDocument::UpdateFileMenu()
 			}
 		else
 			{
+			enable = kJTrue;
 			s = & JGetString("DiffVCSMenuText::CBTextDocument");
 			}
 		}
@@ -1155,20 +1156,7 @@ CBTextDocument::HandleFileMenu
 		if (onDisk)
 			{
 			Save();
-
-			const JVCSType type = JGetVCSType(GetFilePath(), kJTrue);
-			if (type == kJCVSType)
-				{
-				(CBGetDiffFileDialog())->ViewCVSDiffs(fullName);
-				}
-			else if (type == kJSVNType)
-				{
-				(CBGetDiffFileDialog())->ViewSVNDiffs(fullName);
-				}
-			else if (type == kJGitType)
-				{
-				(CBGetDiffFileDialog())->ViewGitDiffs(fullName);
-				}
+			(CBGetDiffFileDialog())->ViewVCSDiffs(fullName);
 			}
 		}
 
@@ -1746,7 +1734,7 @@ CBTextDocument::UpdateDiffMenu()
 		itsDiffMenu->EnableItem(kDiffAs1Cmd);
 		itsDiffMenu->EnableItem(kDiffAs2Cmd);
 
-		const JVCSType type = JGetVCSType(GetFilePath(), kJTrue);
+		const JVCSType type = JGetVCSType(GetFilePath());
 		if (type == kJCVSType)
 			{
 			enable = kJTrue;
@@ -1807,7 +1795,7 @@ CBTextDocument::HandleDiffMenu
 
 	else if (index == kDiffAsVCSCmd)
 		{
-		const JVCSType type = JGetVCSType(GetFilePath(), kJTrue);
+		const JVCSType type = JGetVCSType(GetFilePath());
 		if (type == kJCVSType)
 			{
 			(CBGetDiffFileDialog())->SetCVSFile(fullName);

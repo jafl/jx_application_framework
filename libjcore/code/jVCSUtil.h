@@ -31,7 +31,7 @@ public:
 
 JBoolean	JIsVCSDirectory(const JString& name);
 JSize		JGetVCSDirectoryNames(const JUtf8Byte*** dirNames);
-JVCSType	JGetVCSType(const JString& path, const JBoolean deepInspection = kJFalse);
+JVCSType	JGetVCSType(const JString& path);
 JBoolean	JIsManagedByVCS(const JString& fullName, JVCSType* returnType = nullptr);
 
 void		JEditVCS(const JString& fullName);
@@ -43,7 +43,6 @@ JBoolean	JGetVCSRepositoryPath(const JString& path, JString* repoPath);
 
 // SVN specific
 
-JBoolean	JGetCurrentSVNRevision(const JString& fullName, JString* rev);
 JBoolean	JGetSVNEntryType(const JString& url, JString* type, JString* error);
 
 // CVS specific

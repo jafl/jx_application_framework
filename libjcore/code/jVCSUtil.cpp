@@ -83,8 +83,7 @@ JGetVCSDirectoryNames
 JVCSType
 JGetVCSType
 	(
-	const JString&	path,
-	const JBoolean	deepInspection
+	const JString& path
 	)
 {
 	JString p = path, n;
@@ -100,17 +99,7 @@ JGetVCSType
 	vcsDir         = JCombinePathAndName(vcsDir, kSubversionFileName);
 	if (JFileExists(vcsDir))
 		{
-		if (!deepInspection)
-			{
-			return kJSVNType;
-			}
-
-		JSize size;
-		const JError err = JGetFileLength(vcsDir, &size);
-		if (err.OK() && size > 10)
-			{
-			return kJSVNType;
-			}
+		return kJSVNType;
 		}
 
 	vcsDir = JCombinePathAndName(p, kCVSDirName);
@@ -125,13 +114,13 @@ JGetVCSType
 		return kJSCCSType;
 		}
 
-	// check git & new svc last, since they need to search directory tree up to root
+	// check git & new svn last, since they need to search directory tree up to root
 
 	if (JSearchGitRoot(p, &n))
 	{
 		return kJGitType;
 	}
-	else if (!deepInspection && jSearchVCSRoot(p, kSubversionDirName, &n))
+	else if (jSearchVCSRoot(p, kSubversionDirName, &n))
 	{
 		return kJSVNType;
 	}
@@ -458,22 +447,6 @@ JGetVCSRepositoryPath
 		repoPath->Clear();
 		return kJFalse;
 		}
-}
-
-/******************************************************************************
- JGetCurrentSVNRevision
-
- ******************************************************************************/
-
-JBoolean
-JGetCurrentSVNRevision
-	(
-	const JString&	fullName,
-	JString*		rev
-	)
-{
-	rev->Clear();
-	return kJFalse;
 }
 
 /******************************************************************************

@@ -60,7 +60,7 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //	*** Removed JMessageProtocol::Translate*AndSend
 //	*** Removed FirstElement(), GetElement(), LastElement() from JPtrArray
 //			Use GetFirstElement(), GetElement(), GetLastElement() instead
-//	Added JPtrArray::Join for joining lists of strings.
+//	Added JStringJoin for joining lists of strings.
 //	*** Removed JGetJDataDirectories() because it is no longer used
 //	*** Removed HTML parsing from JTextEditor.  HTML belongs on the web.
 //			Removed JHTMLScanner, JTEHTMLScanner, JExtractHTMLTitle.
@@ -79,6 +79,10 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //		silently converting to "0"
 //	*** Converted to nullptr.  NULL is forced to be undefined.
 //	Added support for range-based for loops to JList, etc.
+//	Added move constructor for JArray.
+//	jVCSUtil:
+//		*** Removed unecessary "deepInspection" argument from JGetVCSType().
+//		*** Removed obsolete JGetCurrentSVNRevision().
 
 // version 3.2.0:
 //	jMountUtil:
