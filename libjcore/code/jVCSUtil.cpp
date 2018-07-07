@@ -487,78 +487,7 @@ JGetVCSRepositoryPath
 		{
 		repoPath->Clear();
 		return kJFalse;
-		}
-}
-
-/******************************************************************************
- JGetCurrentSVNRevision
-
- ******************************************************************************/
-
-static const JRegex svn4RevisionPattern = "<entry[^>]+committed-rev=\"([^\"]+)\"";
-
-JBoolean
-JGetCurrentSVNRevision
-	(
-	const JCharacter*	fullName,
-	JString*			rev
-	)
-{
-	JString path, name, entriesFileName, data, pattern;
-	JSplitPathAndName(fullName, &path, &name);
-	entriesFileName = JCombinePathAndName(path, kSubversionDirName);
-	entriesFileName = JCombinePathAndName(entriesFileName, kSubversionFileName);
-	JReadFile(entriesFileName, &data);
-
-	if (data.BeginsWith("<?xml"))
-		{
-		pattern = "<entry[^>]+name=\"" + JRegex::BackslashForLiteral(name) + "\"(.|\n)*?>";
-		JRegex r(pattern);
-		JIndexRange range;
-		JArray<JIndexRange> matchList;
-		if (r.Match(data, &range) &&
-			svn4RevisionPattern.MatchWithin(data, range, &matchList))
-			{
-			*rev = data.GetSubstring(matchList.GetElement(2));
-			return kJTrue;
 			}
-		}
-	else
-		{
-		std::istrstream input(data, data.GetLength());
-
-		const JString version = JReadLine(input);
-		if (version == "8" || version == "9" || version == "10")
-			{
-			pattern = "\n\f\n" + name + "\n";
-
-			JBoolean found;
-			JIgnoreUntil(input, pattern, &found);
-			if (found)
-				{
-				const JString data2 = JReadUntil(input, '\f');
-				std::istrstream input2(data2, data2.GetLength());
-
-				JIgnoreLine(input2);		// file
-				JIgnoreLine(input2);		// ???
-				JIgnoreLine(input2);		// ???
-				JIgnoreLine(input2);		// ???
-				JIgnoreLine(input2);		// ???
-				JIgnoreLine(input2);		// timestamp
-				JIgnoreLine(input2);		// hash
-				JIgnoreLine(input2);		// timestamp
-
-				*rev = JReadLine(input2);
-				if (input2.good())
-					{
-					return kJTrue;
-					}
-				}
-			}
-		}
-
-	rev->Clear();
-	return kJFalse;
 }
 
 /******************************************************************************

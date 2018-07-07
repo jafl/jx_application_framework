@@ -39,17 +39,13 @@ public:
 
 	void	ViewDiffs(const JCharacter* fullName1, const JCharacter* fullName2,
 					  const JBoolean silent = kJFalse);
-	void	ViewCVSDiffs(const JCharacter* fileName,
+	void	ViewVCSDiffs(const JCharacter* fullName,
 						 const JBoolean silent = kJFalse);
 	void	ViewCVSDiffs(const JCharacter* fullName,
 						 const JCharacter* rev1, const JCharacter* rev2,
 						 const JBoolean silent = kJFalse);
-	void	ViewSVNDiffs(const JCharacter* fileName,
-						 const JBoolean silent = kJFalse);
 	void	ViewSVNDiffs(const JCharacter* fullName,
 						 const JCharacter* rev1, const JCharacter* rev2,
-						 const JBoolean silent = kJFalse);
-	void	ViewGitDiffs(const JCharacter* fileName,
 						 const JBoolean silent = kJFalse);
 	void	ViewGitDiffs(const JCharacter* fullName,
 						 const JCharacter* rev1, const JCharacter* rev2,
@@ -175,6 +171,8 @@ private:
 	JBoolean	CheckVCSFileOrPath(JXFileInput* widget, const JBoolean reportError,
 								   JString* fullName) const;
 	void		UpdateVCSRevMenu(JXTextMenu* menu, const JIndex cmd);
+
+	void		ViewCVSDiffs(const JCharacter* fullName, const JBoolean silent);
 	void		HandleCVSRevMenu(JXTextMenu* menu, const JIndex index,
 								 JIndex* cmd, JXInputField* input);
 	JBoolean	BuildCVSDiffCmd(const JCharacter* fullName,
@@ -187,6 +185,7 @@ private:
 	JBoolean	GetCurrentCVSRevision(const JCharacter* fullName, JString* rev);
 	JBoolean	GetPreviousCVSRevision(const JCharacter* fullName, JString* rev);
 
+	void		ViewSVNDiffs(const JCharacter* fullName, const JBoolean silent);
 	JBoolean	CheckSVNFileOrPath(JXFileInput* widget, const JBoolean reportError,
 								   JString* fullName) const;
 	void		HandleSVNRevMenu(JXTextMenu* menu, const JIndex index,
@@ -198,11 +197,11 @@ private:
 								JString* name1, JString* name2,
 								const JBoolean silent,
 								const JBoolean forDirectory = kJFalse);
-	JBoolean	GetPreviousSVNRevision(const JCharacter* fullName, JString* rev);
 	JBoolean	BuildSVNRepositoryPath(JString* fullName, const JIndex cmd,
 									   const JCharacter* rev, JString* name,
 									   const JBoolean silent);
 
+	void		ViewGitDiffs(const JCharacter* fullName, const JBoolean silent);
 	void		HandleGitRevMenu(JXTextMenu* menu, const JIndex index,
 								 JIndex* cmd, JXInputField* input);
 	JBoolean	BuildGitDiffCmd(const JCharacter* fullName,

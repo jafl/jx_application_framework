@@ -42,6 +42,7 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //		SIZE::MONO::FONT.
 //	jVCSUtil:
 //		*** Removed unecessary "deepInspection" argument from JGetVCSType().
+//		*** Removed obsolete JGetCurrentSVNRevision().
 
 // version 3.2.0:
 //	jMountUtil:

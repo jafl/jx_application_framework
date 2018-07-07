@@ -1073,7 +1073,7 @@ T "@" "pwd" "" F F F T T F F "" "" "" F
 F
 # build settings
 1
-T
+F
 "jcc"
 "${LIB_DEPS}"
 "make -k all"

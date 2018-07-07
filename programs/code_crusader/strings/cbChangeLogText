@@ -14,6 +14,8 @@ Please send all bug reports and suggestions for features to
 
 <h3> 6.8.1 </h3>
 
+Re-enabled diff for SVN.
+<p>
 Updated list of C and C++ keywords for syntax hilighting and completion.
 <p>
 Uses all the include paths used by <code>gcc</code>, not just <code>/usr/include</code>.

@@ -1156,20 +1156,7 @@ CBTextDocument::HandleFileMenu
 		if (onDisk)
 			{
 			Save();
-
-			const JVCSType type = JGetVCSType(GetFilePath());
-			if (type == kJCVSType)
-				{
-				(CBGetDiffFileDialog())->ViewCVSDiffs(fullName);
-				}
-			else if (type == kJSVNType)
-				{
-				(CBGetDiffFileDialog())->ViewSVNDiffs(fullName);
-				}
-			else if (type == kJGitType)
-				{
-				(CBGetDiffFileDialog())->ViewGitDiffs(fullName);
-				}
+			(CBGetDiffFileDialog())->ViewVCSDiffs(fullName);
 			}
 		}
 
