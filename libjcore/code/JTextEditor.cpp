@@ -338,6 +338,7 @@ JTextEditor::JTextEditor
 	itsSelectionColor( source.itsSelectionColor ),
 	itsSelectionOutlineColor( source.itsSelectionOutlineColor ),
 	itsDragColor( source.itsDragColor ),
+	itsWhitespaceColor( source.itsWhitespaceColor ),
 
 	itsInsertionFont( source.itsInsertionFont ),
 
@@ -366,6 +367,8 @@ JTextEditor::JTextEditor
 	itsBcastAllTextChangedFlag = source.itsBcastAllTextChangedFlag;
 	itsBreakCROnlyFlag         = source.itsBreakCROnlyFlag;
 	itsIsPrintingFlag          = kJFalse;
+	itsDrawWhitespaceFlag      = source.itsDrawWhitespaceFlag;
+	itsCaretMode               = kLineCaret;
 
 	itsWidth           = source.itsWidth;
 	itsHeight          = source.itsHeight;
@@ -399,6 +402,7 @@ JTextEditor::JTextEditor
 	itsOwnsCRMRulesFlag = kJFalse;
 	if (source.itsCRMRuleList != NULL)
 		{
+		// TODO:  deep copy contents of list
 		SetCRMRuleList(source.itsCRMRuleList, source.itsOwnsCRMRulesFlag);
 		}
 
