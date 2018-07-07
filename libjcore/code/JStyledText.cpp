@@ -135,8 +135,15 @@ JStyledText::JStyledText
 
 	itsText( source.itsText ),
 	itsPasteStyledTextFlag( source.itsPasteStyledTextFlag ),
+	itsTabToSpacesFlag( source.itsTabToSpacesFlag ),
+	itsAutoIndentFlag( source.itsAutoIndentFlag ),
 
-	itsDefaultFont( source.itsDefaultFont )
+	itsDefaultFont( source.itsDefaultFont ),
+
+	itsCharInWordFn( source.itsCharInWordFn ),
+
+	itsCRMLineWidth( source.itsCRMLineWidth ),
+	itsCRMTabCharCount( source.itsCRMTabCharCount )
 {
 	itsStyles = jnew JRunArray<JFont>(*(source.itsStyles));
 	assert( itsStyles != nullptr );
@@ -147,19 +154,26 @@ JStyledText::JStyledText
 	itsLastSaveRedoIndex = itsFirstRedoIndex;
 	itsUndoState         = kIdle;
 	itsMaxUndoCount      = source.itsMaxUndoCount;
-	itsTabToSpacesFlag   = source.itsTabToSpacesFlag;
-
-	itsCRMLineWidth      = source.itsCRMLineWidth;
-	itsCRMTabCharCount   = source.itsCRMTabCharCount;
 
 	itsCRMRuleList       = nullptr;
 	itsOwnsCRMRulesFlag  = kJFalse;
 	if (source.itsCRMRuleList != nullptr)
 		{
-		SetCRMRuleList(source.itsCRMRuleList, source.itsOwnsCRMRulesFlag);
-		}
+		itsCRMRuleList = jnew CRMRuleList;
+		assert( itsCRMRuleList != nullptr );
 
-	itsCharInWordFn = source.itsCharInWordFn;
+		for (const CRMRule& r : *source.itsCRMRuleList)
+			{
+			CRMRule r1(jnew JRegex(*r.first), jnew JRegex(*r.rest), jnew JString(*r.replace));
+			assert( r1.first   != nullptr );
+			assert( r1.rest    != nullptr );
+			assert( r1.replace != nullptr );
+
+			itsCRMRuleList->AppendElement(r1);
+			}
+
+		itsOwnsCRMRulesFlag = kJTrue;
+		}
 }
 
 /******************************************************************************

@@ -113,11 +113,6 @@ medic
 
 -----
 
-leibnitz
-	abs( => grey right bar
-		not reseting color correctly?
-		does draw correctly when quit and restart
-
 memory analyzer
 	jcc -- crash with deleted JMessageProtocol -- only when open project
 	print table:  partial column on page 1
