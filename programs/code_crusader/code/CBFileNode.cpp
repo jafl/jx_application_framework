@@ -212,7 +212,7 @@ CBFileNode::ViewVCSDiffs
 		return;
 		}
 
-	const JVCSType type = JGetVCSType(fullName, kJTrue);
+	const JVCSType type = JGetVCSType(fullName);
 	if (type == kJCVSType)
 		{
 		(CBGetDiffFileDialog())->ViewCVSDiffs(fullName, silent);

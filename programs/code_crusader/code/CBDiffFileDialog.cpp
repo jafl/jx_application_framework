@@ -1184,7 +1184,7 @@ CBDiffFileDialog::ViewCVSDiffs
 		itsTabGroup->ShowTab(kCVSDiffTabIndex);		// update styles
 
 		JString getCmd, diffCmd, name1, name2;
-		if (BuildCVSDiffCmd(fullName, itsCVSRev1Cmd, NULL, itsCVSRev2Cmd, NULL,
+		if (BuildCVSDiffCmd(fullName, kCurrentRevCmd, NULL, kCurrentRevCmd, NULL,
 							&getCmd, &diffCmd, &name1, &name2, silent))
 			{
 			const JError err =
@@ -1445,7 +1445,7 @@ CBDiffFileDialog::ViewSVNDiffs
 		itsTabGroup->ShowTab(kSVNDiffTabIndex);		// update styles
 
 		JString getCmd, diffCmd, name1, name2;
-		if (BuildSVNDiffCmd(fullName, itsSVNRev1Cmd, NULL, itsSVNRev2Cmd, NULL,
+		if (BuildSVNDiffCmd(fullName, kCurrentRevCmd, NULL, kCurrentRevCmd, NULL,
 							&getCmd, &diffCmd, &name1, &name2, silent))
 			{
 			const JError err =
@@ -1637,9 +1637,10 @@ CBDiffFileDialog::BuildSVNDiffCmd
 		}
 	else
 		{
-		*name1 += "current";
-		*name2  = "edited";
-		*getCmd = CBDiffDocument::theLocalSVNGetMarker;
+		*name1  += "current";
+		*name2   = "edited";
+		*getCmd += "-r BASE ";
+		*getCmd += JPrepArgForExec(file1);
 		}
 
 	if (itsIgnoreSpaceChangeCB->IsChecked())
@@ -1773,7 +1774,7 @@ CBDiffFileDialog::ViewGitDiffs
 		itsTabGroup->ShowTab(kGitDiffTabIndex);		// update styles
 
 		JString get1Cmd, get2Cmd, diffCmd, name1, name2;
-		if (BuildGitDiffCmd(fullName, itsGitRev1Cmd, NULL, itsGitRev2Cmd, NULL,
+		if (BuildGitDiffCmd(fullName, kCurrentRevCmd, NULL, kCurrentRevCmd, NULL,
 							&get1Cmd, &get2Cmd, &diffCmd, &name1, &name2, silent))
 			{
 			const JError err =

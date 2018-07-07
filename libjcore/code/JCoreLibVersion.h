@@ -40,6 +40,8 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //		can be overridden in translation files by specifying any of
 //		NAME::FONT, SIZE::FONT, SIZE::ROWCOLHDR::FONT, NAME::MONO::FONT,
 //		SIZE::MONO::FONT.
+//	jVCSUtil:
+//		*** Removed unecessary "deepInspection" argument from JGetVCSType().
 
 // version 3.2.0:
 //	jMountUtil:

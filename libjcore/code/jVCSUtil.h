@@ -31,7 +31,7 @@ public:
 
 JBoolean	JIsVCSDirectory(const JCharacter* name);
 JSize		JGetVCSDirectoryNames(const JCharacter*** dirNames);
-JVCSType	JGetVCSType(const JCharacter* path, const JBoolean deepInspection = kJFalse);
+JVCSType	JGetVCSType(const JCharacter* path);
 JBoolean	JIsManagedByVCS(const JCharacter* fullName, JVCSType* returnType = NULL);
 
 void		JEditVCS(const JCharacter* fullName);
