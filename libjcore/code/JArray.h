@@ -19,6 +19,7 @@ public:
 
 	JArray(const JSize aBlockSize = 5);
 	JArray(const JArray<T>& source);
+	JArray(JArray<T>&& dyingSource);
 
 	virtual ~JArray();
 

@@ -68,6 +68,25 @@ JArray<T>::JArray
 }
 
 /******************************************************************************
+ Move constructor
+
+ ******************************************************************************/
+
+template <class T>
+JArray<T>::JArray
+	(
+	JArray<T>&& dyingSource
+	)
+	:
+	JList<T>(dyingSource),
+	itsElements(dyingSource.itsElements),
+	itsSlotCount(dyingSource.itsSlotCount),
+	itsBlockSize(dyingSource.itsBlockSize)
+{
+	dyingSource.itsElements = nullptr;
+}
+
+/******************************************************************************
  Destructor
 
  ******************************************************************************/

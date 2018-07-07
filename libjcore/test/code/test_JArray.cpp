@@ -467,3 +467,20 @@ JTEST(FunctionalProgramming)
 	std::for_each(begin(a), end(a), [&sum](long v){ sum += v; });
 	JAssertEqual(10, sum);
 }
+
+JTEST(Move)
+{
+	JArray<long>* a1 = jnew JArray<long>;
+	assert( a1 != nullptr );
+	a1->AppendElement(3);
+	a1->AppendElement(2);
+	a1->AppendElement(5);
+
+	JArray<long> a2(std::move(*a1));
+
+	jdelete a1;
+	a1 = nullptr;
+
+	JAssertEqual(3, a2.GetElementCount());
+	JAssertEqual(5, a2.GetElement(3));
+}
