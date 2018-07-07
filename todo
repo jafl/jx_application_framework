@@ -2,12 +2,6 @@ Fedora 27 window manager
 	JXWindow does not analyze correctly
 
 jcc:
-	centralize ViewVCSDiffs in CBDiffFileDialog
-		CBFileNode::ViewVCSDiffs
-		CBTextDocument::HandleFileMenu
-
-	move VCS detail code from CBDiffFileDialog to jVCSUtil?
-
 	shell window doesn't work on ubuntu or fedora -- bash process is stopped
 		use -s instead of -i?
 
