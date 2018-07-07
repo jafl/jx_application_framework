@@ -2,10 +2,14 @@ Fedora 27 window manager
 	JXWindow does not analyze correctly
 
 jcc:
+	centralize ViewVCSDiffs in CBDiffFileDialog
+		CBFileNode::ViewVCSDiffs
+		CBTextDocument::HandleFileMenu
+
 	move VCS detail code from CBDiffFileDialog to jVCSUtil?
 
-	fix SVN diff to use svn cat -r BASE or PREV
-	re-enable "compare with subversion" and detect .svn just like .git
+	shell window doesn't work on ubuntu or fedora -- bash process is stopped
+		use -s instead of -i?
 
 switch to cairo for rendering
 	anti-aliased lines
@@ -207,7 +211,6 @@ JKeyHandler
 			if one returns kJFalse, the next one gets it
 
 jcc
-	shell window doesn't work on ubuntu -- bash process is stopped
 	search results:  option to show n lines above and below matching line
 
 	Pick a default size and location for text windows when first run
