@@ -33,7 +33,7 @@ public:
 
 	TestLink();
 
-	void	SendBytes(const JUtf8Byte* data);
+	void	SendBytes(const JUtf8Byte* data);	// allow broken up UTF-8 characters
 };
 
 typedef ACE_Acceptor<TestLink, ACE_LSOCK_ACCEPTOR>		TestAcceptor;

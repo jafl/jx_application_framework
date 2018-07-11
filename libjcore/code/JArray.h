@@ -17,7 +17,7 @@ class JArray : public JList<T>
 {
 public:
 
-	JArray(const JSize aBlockSize = 5);
+	JArray(const JSize blockSize = 10);
 	JArray(const JArray<T>& source);
 	JArray(JArray<T>&& dyingSource);
 

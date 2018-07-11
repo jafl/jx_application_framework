@@ -10,6 +10,7 @@
 
 #include "JNetworkProtocolBase.h"
 #include "JPtrArray-JString.h"
+#include "JUtf8ByteBuffer.h"
 #include "JRegex.h"
 
 class JMessageProtocolT
@@ -119,12 +120,11 @@ public:
 
 private:
 
-	JPtrArray<JString>	itsMessageList;		// complete messages + empty one at the end
-
-	JString		itsRecvData;				// buffer containing unprocessed characters
-	JUtf8Byte*	itsBuffer;					// buffer to receive raw bytes
-	JSize		itsBufferSize;
-	JSize		itsBufferOffset;			// partial character from last recv
+	JUtf8Byte*			itsRecvBuffer;		// buffer to receive raw bytes
+	JSize				itsRecvBufferSize;
+	JUtf8ByteBuffer		itsByteBuffer;		// buffer containing unprocessed bytes
+	JString				itsRecvData;		// buffer containing unprocessed characters
+	JPtrArray<JString>	itsMessageList;		// complete messages
 
 	JString		itsSeparatorStr;			// sent between messages
 	JString		itsDisconnectStr;			// can be empty; sent to terminate connection
@@ -136,9 +136,8 @@ private:
 
 private:
 
-	void		JMessageProtocolX();
-	JString*	NewMessage();
-	void		UpdateTokenPattern();
+	void	JMessageProtocolX();
+	void	UpdateTokenPattern();
 
 	// not allowed
 

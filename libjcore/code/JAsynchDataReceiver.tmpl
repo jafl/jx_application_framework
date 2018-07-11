@@ -23,7 +23,8 @@
 template <ACE_PEER_STREAM_1>
 JAsynchDataReceiver<ACE_PEER_STREAM_2>::JAsynchDataReceiver()
 	:
-	ACE_Svc_Handler<ACE_PEER_STREAM_2,ACE_SYNCH>()
+	ACE_Svc_Handler<ACE_PEER_STREAM_2,ACE_SYNCH>(),
+	itsByteBuffer(JAsynchDataReceiverT::kDefaultBufferSize)
 {
 	JAsynchDataReceiverX();
 }
@@ -34,7 +35,8 @@ JAsynchDataReceiver<ACE_PEER_STREAM_2>::JAsynchDataReceiver
 	const ACE_HANDLE fd
 	)
 	:
-	ACE_Svc_Handler<ACE_PEER_STREAM_2,ACE_SYNCH>()
+	ACE_Svc_Handler<ACE_PEER_STREAM_2,ACE_SYNCH>(),
+	itsByteBuffer(JAsynchDataReceiverT::kDefaultBufferSize)
 {
 	JAsynchDataReceiverX();
 
@@ -48,10 +50,10 @@ template <ACE_PEER_STREAM_1>
 void
 JAsynchDataReceiver<ACE_PEER_STREAM_2>::JAsynchDataReceiverX()
 {
-	itsBufferSize = JAsynchDataReceiverT::kDefaultBufferSize;
+	itsRecvBufferSize = JAsynchDataReceiverT::kDefaultBufferSize;
 
-	itsBuffer = jnew JUtf8Byte [ itsBufferSize ];
-	assert( itsBuffer != nullptr );
+	itsRecvBuffer = jnew JUtf8Byte [ itsRecvBufferSize ];
+	assert( itsRecvBuffer != nullptr );
 
 	itsInHandleInputFlag = kJFalse;
 }
@@ -64,7 +66,7 @@ JAsynchDataReceiver<ACE_PEER_STREAM_2>::JAsynchDataReceiverX()
 template <ACE_PEER_STREAM_1>
 JAsynchDataReceiver<ACE_PEER_STREAM_2>::~JAsynchDataReceiver()
 {
-	jdelete [] itsBuffer;
+	jdelete [] itsRecvBuffer;
 }
 
 /******************************************************************************
@@ -79,7 +81,7 @@ JSize
 JAsynchDataReceiver<ACE_PEER_STREAM_2>::GetBufferSize()
 	const
 {
-	return itsBufferSize;
+	return itsRecvBufferSize;
 }
 
 template <ACE_PEER_STREAM_1>
@@ -91,11 +93,11 @@ JAsynchDataReceiver<ACE_PEER_STREAM_2>::SetBufferSize
 {
 	assert( bufferSize > 0 );
 
-	itsBufferSize = bufferSize;
+	itsRecvBufferSize = bufferSize;
 
-	jdelete [] itsBuffer;
-	itsBuffer = jnew JUtf8Byte [ itsBufferSize ];
-	assert( itsBuffer != nullptr );
+	jdelete [] itsRecvBuffer;
+	itsRecvBuffer = jnew JUtf8Byte [ itsRecvBufferSize ];
+	assert( itsRecvBuffer != nullptr );
 }
 
 /******************************************************************************
@@ -123,10 +125,12 @@ JAsynchDataReceiver<ACE_PEER_STREAM_2>::handle_input
 
 	// Read the available data.
 
-	const ssize_t count = (ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH>::peer()).recv(itsBuffer, itsBufferSize);
+	const ssize_t count = (ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH>::peer()).recv(itsRecvBuffer, itsRecvBufferSize);
 	if (count > 0)
 		{
-		const JString data(itsBuffer, count);
+		itsByteBuffer.Append(itsRecvBuffer, count);
+
+		const JString data = itsByteBuffer.ExtractCharacters();
 		Broadcast(JAsynchDataReceiverT::DataReady(data));
 
 //		std::cerr << "read:\n---\n" << data << "\n---" << std::endl;

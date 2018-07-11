@@ -25,6 +25,7 @@
 .cpp ./code/JInterpolate
 .cpp ./code/JStringManager
 .cpp ./code/jTextUtil
+.cpp ./code/JUtf8ByteBuffer
 .cpp ./code/jMath
 .cpp ./code/JComplex
 .cpp ./code/JVector

@@ -11,6 +11,8 @@
 #include <jStreamUtil.h>
 #include <fstream>
 #include <sstream>
+#include <fcntl.h>
+#include <unistd.h>
 #include <jAssert.h>
 
 int main()
@@ -26,6 +28,10 @@ JTEST(JReadAll)
 	JString s;
 	JReadAll(input, &s);
 	JAssertStringsEqual("This is \xE2\x9C\x94 test", s);
+
+	int fd = open("data/test_JReadAll.txt", O_RDONLY);
+	JReadAll(fd, &s);
+	JAssertStringsEqual("This is \xE2\x9C\x94 test", s);
 }
 
 JTEST(JReadLine)	// also tests JReadUntil
@@ -39,10 +45,26 @@ JTEST(JReadLine)	// also tests JReadUntil
 	JBoolean foundNewLine;
 	s = JReadLine(input, &foundNewLine);
 	JAssertTrue(foundNewLine);
-	JAssertStringsEqual("This is another test");
+	JAssertStringsEqual("This is another test", s);
 
 	s = JReadLine(input);
 	JAssertEqual(1100, s.GetCharacterCount());
+}
+
+JTEST(JReadUntil)
+{
+	int fd = open("data/test_JReadLine.txt", O_RDONLY);
+
+	JBoolean foundDelimiter;
+	JString s = JReadUntil(fd, ' ', &foundDelimiter);
+	JAssertStringsEqual("This", s);
+	JAssertTrue(foundDelimiter);
+
+	s = JReadUntil(fd, '\n', &foundDelimiter);
+	JAssertStringsEqual("is \xE2\x9C\x94 test", s);
+	JAssertTrue(foundDelimiter);
+
+	close(fd);
 }
 
 JTEST(JReadUntilws)
@@ -54,15 +76,15 @@ JTEST(JReadUntilws)
 	JAssertStringsEqual("This", s);
 
 	JBoolean foundws;
-	s = JReadLine(input, &foundws);
+	s = JReadUntilws(input, &foundws);
 	JAssertTrue(foundws);
-	JAssertStringsEqual("is");
+	JAssertStringsEqual("is", s);
 
-	s = JReadLine(input);
-	JAssertStringsEqual("\xE2\x9C\x94");
+	s = JReadUntilws(input);
+	JAssertStringsEqual("\xE2\x9C\x94", s);
 
-	s = JReadLine(input);
-	JAssertStringsEqual("test");
+	s = JReadUntilws(input);
+	JAssertStringsEqual("test", s);
 }
 
 JTEST(JIgnoreLine)
@@ -72,8 +94,10 @@ JTEST(JIgnoreLine)
 
 	JIgnoreLine(input);
 
+	JBoolean foundNewLine;
 	JString s = JReadLine(input, &foundNewLine);
-	JAssertStringsEqual("This is another test");
+	JAssertStringsEqual("This is another test", s);
+	JAssertTrue(foundNewLine);
 }
 
 JTEST(JIgnoreUntil1)
@@ -84,7 +108,7 @@ JTEST(JIgnoreUntil1)
 	JIgnoreUntil(input, ' ');
 
 	JString s = JReadLine(input);
-	JAssertStringsEqual("is \xE2\x9C\x94 test");
+	JAssertStringsEqual("is \xE2\x9C\x94 test", s);
 }
 
 JTEST(JIgnoreUntilN)
@@ -95,7 +119,7 @@ JTEST(JIgnoreUntilN)
 	JIgnoreUntil(input, "\xE2\x9C\x94");
 
 	JString s = JReadLine(input);
-	JAssertStringsEqual(" test");
+	JAssertStringsEqual(" test", s);
 }
 
 JTEST(Base64)
@@ -110,5 +134,5 @@ JTEST(Base64)
 	std::ostringstream output2;
 	JDecodeBase64(input2, output2);
 
-	JAssertStringsEqual(s, output2.str());
+	JAssertStringsEqual(s, output2.str().c_str());
 }

@@ -38,6 +38,7 @@ JMessageProtocol<ACE_PEER_STREAM_2>::JMessageProtocol
 	)
 	:
 	JNetworkProtocolBase<ACE_PEER_STREAM_2>(synchSend),
+	itsByteBuffer(JMessageProtocolT::kDefaultBufferSize),
 	itsMessageList(JPtrArrayT::kDeleteAll),
 	itsSeparatorStr(kJFalse),
 	itsDisconnectStr(kJFalse)
@@ -53,6 +54,7 @@ JMessageProtocol<ACE_PEER_STREAM_2>::JMessageProtocol
 	)
 	:
 	JNetworkProtocolBase<ACE_PEER_STREAM_2>(synchSend),
+	itsByteBuffer(JMessageProtocolT::kDefaultBufferSize),
 	itsMessageList(JPtrArrayT::kDeleteAll),
 	itsSeparatorStr(kJFalse),
 	itsDisconnectStr(kJFalse)
@@ -69,13 +71,10 @@ template <ACE_PEER_STREAM_1>
 void
 JMessageProtocol<ACE_PEER_STREAM_2>::JMessageProtocolX()
 {
-	NewMessage();
+	itsRecvBufferSize = JMessageProtocolT::kDefaultBufferSize;
 
-	itsBufferSize   = JMessageProtocolT::kDefaultBufferSize;
-	itsBufferOffset = 0;
-
-	itsBuffer = jnew JUtf8Byte [ itsBufferSize ];
-	assert( itsBuffer != nullptr );
+	itsRecvBuffer = jnew JUtf8Byte [ itsRecvBufferSize ];
+	assert( itsRecvBuffer != nullptr );
 
 	UseUNIXProtocol();
 
@@ -96,7 +95,7 @@ JMessageProtocol<ACE_PEER_STREAM_2>::JMessageProtocolX()
 template <ACE_PEER_STREAM_1>
 JMessageProtocol<ACE_PEER_STREAM_2>::~JMessageProtocol()
 {
-	jdelete [] itsBuffer;
+	jdelete [] itsRecvBuffer;
 }
 
 /******************************************************************************
@@ -177,6 +176,22 @@ JMessageProtocol<ACE_PEER_STREAM_2>::UseDOSProtocol()
 }
 
 /******************************************************************************
+ UpdateTokenPattern (private)
+
+ ******************************************************************************/
+
+template <ACE_PEER_STREAM_1>
+void
+JMessageProtocol<ACE_PEER_STREAM_2>::UpdateTokenPattern()
+{
+	JString pattern(kJFalse);
+	pattern  = JRegex::BackslashForLiteral(itsSeparatorStr);
+	pattern += "|";
+	pattern += JRegex::BackslashForLiteral(itsDisconnectStr);
+	itsTokenPattern.SetPatternOrDie(pattern);
+}
+
+/******************************************************************************
  Buffer size
 
 	This controls how much is read from the connection at one time.
@@ -188,7 +203,7 @@ JSize
 JMessageProtocol<ACE_PEER_STREAM_2>::GetBufferSize()
 	const
 {
-	return itsBufferSize;
+	return itsRecvBufferSize;
 }
 
 template <ACE_PEER_STREAM_1>
@@ -200,11 +215,11 @@ JMessageProtocol<ACE_PEER_STREAM_2>::SetBufferSize
 {
 	assert( bufferSize > 0 );
 
-	itsBufferSize = bufferSize;
+	itsRecvBufferSize = bufferSize;
 
-	jdelete [] itsBuffer;
-	itsBuffer = jnew JUtf8Byte [ itsBufferSize ];
-	assert( itsBuffer != nullptr );
+	jdelete [] itsRecvBuffer;
+	itsRecvBuffer = jnew JUtf8Byte [ itsRecvBufferSize ];
+	assert( itsRecvBuffer != nullptr );
 }
 
 /******************************************************************************
@@ -248,7 +263,7 @@ JBoolean
 JMessageProtocol<ACE_PEER_STREAM_2>::HasMessages()
 	const
 {
-	return JConvertToBoolean( itsMessageList.GetElementCount() > 1 );
+	return !itsMessageList.IsEmpty();
 }
 
 /******************************************************************************
@@ -261,7 +276,7 @@ JSize
 JMessageProtocol<ACE_PEER_STREAM_2>::GetMessageCount()
 	const
 {
-	return itsMessageList.GetElementCount() - 1;
+	return itsMessageList.GetElementCount();
 }
 
 /******************************************************************************
@@ -279,9 +294,9 @@ JMessageProtocol<ACE_PEER_STREAM_2>::GetNextMessage
 	JString* message
 	)
 {
-	if (itsMessageList.GetElementCount() > 1)
+	if (!itsMessageList.IsEmpty())
 		{
-		*message = *(itsMessageList.GetFirstElement());
+		*message = *itsMessageList.GetFirstElement();
 		itsMessageList.DeleteElement(1);
 		return kJTrue;
 		}
@@ -307,9 +322,9 @@ JMessageProtocol<ACE_PEER_STREAM_2>::PeekNextMessage
 	JString* message
 	)
 {
-	if (itsMessageList.GetElementCount() > 1)
+	if (!itsMessageList.IsEmpty())
 		{
-		*message = *(itsMessageList.GetFirstElement());
+		*message = *itsMessageList.GetFirstElement();
 		return kJTrue;
 		}
 	else
@@ -409,7 +424,7 @@ JMessageProtocol<ACE_PEER_STREAM_2>::handle_input
 
 	// We flush the system buffer even if we have received a disconnect.
 
-	const ssize_t count = (ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH>::peer()).recv(itsBuffer + itsBufferOffset, itsBufferSize - itsBufferOffset);
+	const ssize_t count = (ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH>::peer()).recv(itsRecvBuffer, itsRecvBufferSize);
 
 	if (itsReceivedDisconnectFlag || count <= 0)
 		{
@@ -417,27 +432,11 @@ JMessageProtocol<ACE_PEER_STREAM_2>::handle_input
 		return 0;
 		}
 
-	JSize remainingCount = itsBufferOffset + count;
-	JSize validCount     = 0;
-	JSize byteCount;
-	while (JUtf8Character::IsCompleteCharacter(itsBuffer + validCount, remainingCount, &byteCount))
-		{
-		validCount     += byteCount;
-		remainingCount -= byteCount;
-		}
-
-	itsRecvData.Append(itsBuffer, validCount);
-
-	memmove(itsBuffer, itsBuffer + validCount, remainingCount);
-	itsBufferOffset = remainingCount;
+	itsByteBuffer.Append(itsRecvBuffer, count);
+	itsRecvData.Append(itsByteBuffer.ExtractCharacters());
 
 	JPtrArray<JString> list(JPtrArrayT::kDeleteAll);
 	itsRecvData.Split(itsTokenPattern, &list, 0, kJTrue);
-
-	if (itsTokenPattern.Match(*(list.GetFirstElement())))
-		{
-		list.DeleteElement(1);
-		}
 
 	if (itsTokenPattern.Match(*(list.GetLastElement())))
 		{
@@ -450,20 +449,9 @@ JMessageProtocol<ACE_PEER_STREAM_2>::handle_input
 		}
 
 	const JSize blockCount = list.GetElementCount();
-	assert( blockCount % 2 == 0 );
-
-	for (JIndex i=1; i<=blockCount; i+=2)
+	for (JIndex i=1; i<=blockCount; i++)
 		{
 		const JString* s = list.GetElement(i);
-		if (!s->IsEmpty())
-			{
-			JString* msg = itsMessageList.GetLastElement();
-			msg->Append(*s);
-			NewMessage();
-			Broadcast(JMessageProtocolT::MessageReady(*msg));
-			}
-
-		s = list.GetElement(i+1);
 		if (*s == itsDisconnectStr)
 			{
 			itsReceivedDisconnectFlag = kJTrue;
@@ -471,41 +459,17 @@ JMessageProtocol<ACE_PEER_STREAM_2>::handle_input
 			Broadcast(JMessageProtocolT::ReceivedDisconnect());
 			return 0;	// we might be deleted and itsInHandleInputFlag is now irrelevant
 			}
+		else if (!s->IsEmpty() && *s != itsSeparatorStr)
+			{
+			JString* msg = jnew JString(*s);
+			assert( msg != nullptr );
+			itsMessageList.Append(msg);
+			Broadcast(JMessageProtocolT::MessageReady(*msg));
+			}
 		}
 
 	itsInHandleInputFlag = kJFalse;
 	return 0;
-}
-
-/******************************************************************************
- NewMessage (private)
-
- ******************************************************************************/
-
-template <ACE_PEER_STREAM_1>
-JString*
-JMessageProtocol<ACE_PEER_STREAM_2>::NewMessage()
-{
-	JString* msg = jnew JString;
-	assert( msg != nullptr );
-	itsMessageList.Append(msg);
-	return msg;
-}
-
-/******************************************************************************
- UpdateTokenPattern (private)
-
- ******************************************************************************/
-
-template <ACE_PEER_STREAM_1>
-void
-JMessageProtocol<ACE_PEER_STREAM_2>::UpdateTokenPattern()
-{
-	JString pattern(kJFalse);
-	pattern  = JRegex::BackslashForLiteral(itsSeparatorStr);
-	pattern += "|";
-	pattern += JRegex::BackslashForLiteral(itsDisconnectStr);
-	itsTokenPattern.SetPatternOrDie(pattern);
 }
 
 #endif

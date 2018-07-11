@@ -9,6 +9,7 @@
 
 #include "jStreamUtil.h"
 #include "JString.h"
+#include "JUtf8ByteBuffer.h"
 #include "jFileUtil.h"
 #include "jFStreamUtil.h"
 #include "jErrno.h"
@@ -791,15 +792,16 @@ JReadAll
 
 	const JSize bufLength = 1024;
 
-	char buf[ bufLength ];
+	char readBuf[ bufLength ];
+	JUtf8ByteBuffer byteBuf(bufLength);
 	while (1)
 		{
-		size_t dataLength;
-		ssize_t result = jReadN(input, buf, bufLength, &dataLength);
+		size_t byteCount;
+		const ssize_t result = jReadN(input, readBuf, bufLength, &byteCount);
 
-		if (dataLength > 0)
+		if (byteCount > 0)
 			{
-			str->Append(buf, dataLength);	// TODO: append only complete characters
+			byteBuf.Append(readBuf, byteCount);
 			}
 
 		if (result == -1)
@@ -808,6 +810,7 @@ JReadAll
 				{
 				::close(input);
 				}
+			str->Set(byteBuf.GetCArray(), byteBuf.GetElementCount());
 			return kJFalse;
 			}
 		else if (result == 0)
@@ -816,6 +819,7 @@ JReadAll
 				{
 				::close(input);
 				}
+			str->Set(byteBuf.GetCArray(), byteBuf.GetElementCount());
 			return kJTrue;
 			}
 		// else, keep reading
@@ -883,19 +887,18 @@ JReadUntil
 	str->Clear();
 	JBoolean isDelimiter = kJFalse;
 
-	const JSize bufSize = 1024;
-	JUtf8Byte buf[ bufSize ];
+	const JSize bufLength = 1024;
 
-	JIndex i = 0;
+	JUtf8ByteBuffer byteBuf(bufLength);
 	while (1)
 		{
-		char c;
+		JUtf8Byte c;
 		size_t dataLength;
-		ssize_t result = jReadN(input, &c, 1, &dataLength);
+		const ssize_t result = jReadN(input, &c, 1, &dataLength);
 
-		if (result == -1)
+		if (result == -1 || result == 0)
 			{
-			return kJFalse;
+			break;
 			}
 
 		for (JUnsignedOffset j=0; j<delimiterCount; j++)
@@ -907,27 +910,14 @@ JReadUntil
 					{
 					*delimiter = c;
 					}
-				break;
+				goto done;
 				}
 			}
 
-		if (isDelimiter || result == 0)
-			{
-			break;
-			}
-		else
-			{
-			buf[i] = c;
-			i++;
-			if (i == bufSize)
-				{
-				str->Append(buf, bufSize);	// TODO: append only complete characters
-				i=0;
-				}
-			}
+		byteBuf.Append(&c, 1);
 		}
-
-	str->Append(buf, i);
+done:
+	str->Set(byteBuf.GetCArray(), byteBuf.GetElementCount());
 	return isDelimiter;
 }
 

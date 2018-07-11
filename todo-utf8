@@ -19,11 +19,6 @@ JTextEditor:
 		use isExact to tell which glyphs are substitutions?
 
 
-fix jStreamUtil.cpp TODO's
-JAsynchDataReceiver::handle_input
-	we cannot assume received complete utf-8 characters
-
-
 finish JTextEditor tests
 	GetCmdStatus
 	2 TE's for 1 ST
@@ -62,6 +57,7 @@ test
 	styled unix terminal output - yui build output
 	default & vi key handlers
 	code_medic on ubuntu with lldb-6.0
+	jcc CBExecOutputDocument: test usage of JUtf8ByteBuffer inside JAsynchDataReceiver
 
 test every function that uses JStringIterator or Split
 	libjexpr

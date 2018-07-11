@@ -35,18 +35,18 @@
 template <class T>
 JArray<T>::JArray
 	(
-	const JSize aBlockSize
+	const JSize blockSize
 	)
 	:
 	JList<T>()
 {
-	assert( aBlockSize > 0 );
+	assert( blockSize > 0 );
 
-	itsElements = jnew T [ aBlockSize ];
+	itsElements = jnew T [ blockSize ];
 	assert( itsElements != nullptr );
 
-	itsSlotCount = aBlockSize;
-	itsBlockSize = aBlockSize;
+	itsSlotCount = blockSize;
+	itsBlockSize = blockSize;
 }
 
 /******************************************************************************
@@ -794,7 +794,7 @@ JArray<T>::ResizeMemoryAllocation
 		memcpy(newElements, itsElements, JCollection::GetElementCount() * sizeof(T));
 
 		jdelete [] itsElements;
-		itsElements = newElements;
+		itsElements  = newElements;
 		itsSlotCount = newSlotCount;
 		}
 }

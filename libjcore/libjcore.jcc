@@ -98,6 +98,10 @@ T
 2 "jTextUtil.cpp"
 F
 "./code/jTextUtil.cpp"
+T
+2 "JUtf8ByteBuffer.cpp"
+F
+"./code/JUtf8ByteBuffer.cpp"
 F
 T
 1 "math"

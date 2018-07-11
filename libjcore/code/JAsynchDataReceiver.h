@@ -73,8 +73,9 @@ public:
 
 private:
 
-	JUtf8Byte*	itsBuffer;					// buffer to receive raw bytes
-	JSize		itsBufferSize;
+	JUtf8Byte*		itsRecvBuffer;					// buffer to receive raw bytes
+	JSize			itsRecvBufferSize;
+	JUtf8ByteBuffer	itsByteBuffer;
 
 	JBoolean	itsInHandleInputFlag;		// kJTrue => stack passes through handle_input()
 
