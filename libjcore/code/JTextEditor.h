@@ -102,6 +102,8 @@ public:
 				const JColorID outlineColor, const JColorID wsColor,
 				const JCoordinate width);
 
+	JTextEditor(const JTextEditor& source, const JBoolean shareStyledText = kJFalse);
+
 	virtual ~JTextEditor();
 
 	Type		GetType() const;
@@ -535,7 +537,6 @@ private:
 
 	// not allowed
 
-	JTextEditor(const JTextEditor& source);
 	const JTextEditor& operator=(const JTextEditor& source);
 
 public:

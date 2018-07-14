@@ -198,7 +198,6 @@ JTextEditor::JTextEditor
 	itsSelectionOutlineColor(outlineColor),
 	itsWhitespaceColor(wsColor),
 
-	itsKeyHandler(nullptr),
 	itsDragType(kInvalidDrag),
 	itsPrevDragType(kInvalidDrag),
 	itsIsDragSourceFlag(kJFalse)
@@ -242,6 +241,78 @@ JTextEditor::JTextEditor
 		itsLineStarts->SetBlockSize(128);
 		itsLineGeom->SetBlockSize(128);
 		}
+
+	SetKeyHandler(nullptr);
+
+	ListenTo(itsText);
+}
+
+/******************************************************************************
+ Copy constructor
+
+	If shareStyledText and the source does not own the JStyledText, the new
+	object will share it.
+
+ ******************************************************************************/
+
+JTextEditor::JTextEditor
+	(
+	const JTextEditor&	source,
+	const JBoolean		shareStyledText
+	)
+	:
+	itsType(source.itsType),
+	itsOwnsTextFlag(JI2B(!shareStyledText || source.itsOwnsTextFlag)),
+
+	itsFontManager(source.itsFontManager),
+
+	itsCaretColor(source.itsCaretColor),
+	itsSelectionColor(source.itsSelectionColor),
+	itsSelectionOutlineColor(source.itsSelectionOutlineColor),
+	itsWhitespaceColor(source.itsWhitespaceColor),
+
+	itsDragType(kInvalidDrag),
+	itsPrevDragType(kInvalidDrag),
+	itsIsDragSourceFlag(kJFalse)
+{
+	if (itsOwnsTextFlag)
+		{
+		itsText = jnew JStyledText(*source.itsText);
+		assert( itsText != nullptr );
+		}
+	else
+		{
+		itsText = source.itsText;
+		}
+
+	itsActiveFlag              = kJFalse;
+	itsSelActiveFlag           = kJFalse;
+	itsCaretVisibleFlag        = kJFalse;
+	itsPerformDNDFlag          = source.itsPerformDNDFlag;
+	itsMoveToFrontOfTextFlag   = source.itsMoveToFrontOfTextFlag;
+	itsBcastLocChangedFlag     = source.itsBcastLocChangedFlag;
+	itsBreakCROnlyFlag         = source.itsBreakCROnlyFlag;
+	itsIsPrintingFlag          = kJFalse;
+	itsDrawWhitespaceFlag      = source.itsDrawWhitespaceFlag;
+	itsAlwaysShowSelectionFlag = source.itsAlwaysShowSelectionFlag;
+	itsCaretMode               = kLineCaret;
+
+	itsWidth           = source.itsWidth;
+	itsHeight          = source.itsHeight;
+	itsGUIWidth        = source.itsGUIWidth;
+	itsLeftMarginWidth = source.itsLeftMarginWidth;
+	itsDefTabWidth     = source.itsDefTabWidth;
+	itsMaxWordWidth    = source.itsMaxWordWidth;
+
+	itsLineStarts = jnew JArray<TextIndex>(*source.itsLineStarts);
+	assert( itsLineStarts != nullptr );
+
+	itsLineGeom = jnew JRunArray<LineGeometry>(*source.itsLineGeom);
+	assert( itsLineGeom != nullptr );
+
+	itsCaret         = CaretLocation(TextIndex(1,1),1);
+	itsCaretX        = 0;
+	itsInsertionFont = itsText->CalcInsertionFont(TextIndex(1,1));
 
 	SetKeyHandler(nullptr);
 

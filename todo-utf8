@@ -5,9 +5,11 @@ finish JTextEditor tests
 		KeyPress
 		validate caret/selection after TextChanged
 
+JXFileList
+JXTreeListWidget
+	render as many characters as possible via fallback fonts
+
 JTextEditor:
-	copy ctor for libjexpr
-	"Replace All" did nothing when something was selected
 	undo should select inserted text in the active TextEditor instance
 	set font should select result
 	don't change insertion font when glyphs are rendered with different font
