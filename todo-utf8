@@ -1,3 +1,10 @@
+finish JTextEditor tests
+	GetCmdStatus
+	2 TE's for 1 ST
+		MouseActions
+		KeyPress
+		validate caret/selection after TextChanged
+
 JTextEditor:
 	copy ctor for libjexpr
 	"Replace All" did nothing when something was selected
@@ -5,14 +12,6 @@ JTextEditor:
 	set font should select result
 	don't change insertion font when glyphs are rendered with different font
 		use isExact to tell which glyphs are substitutions?
-
-
-finish JTextEditor tests
-	GetCmdStatus
-	2 TE's for 1 ST
-		MouseActions
-		KeyPress
-		validate caret/selection after TextChanged
 
 JStyledTextBuffer
 	need smarter update during indent/outdent, to maintain caret location
@@ -83,14 +82,5 @@ untested JStringIterator usage:
 	JTranslateRemoteToLocal
 
 -----
-
-utf8 - sorting vs searching
-	searching should include diacriticals
-	sorting may not
-
-	test diacriticals in Utf8Char toupper/lower
-
-	ignore accents for case-sensitive search: strength=primary caseLevel=on
-	http://demo.icu-project.org/icu-bin/collation.html
 
 https://en.wikibooks.org/wiki/Unicode/Character_reference/21000-21FFF

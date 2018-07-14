@@ -1882,6 +1882,8 @@ JString::CharacterToUtf8ByteRange
 
 	Replaces strcmp(): + if s1>s2, 0 if s1==s2, - if s1<s2
 
+	http://demo.icu-project.org/icu-bin/collation.html
+
  ******************************************************************************/
 
 int

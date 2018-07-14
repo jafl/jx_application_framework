@@ -38,6 +38,7 @@ private:
 private:
 
 	void	BuildWindow();
+	void	AddDirectory(const JUtf8Byte* path);
 
 	void	UpdateFileMenu();
 	void	HandleFileMenu(const JIndex index);

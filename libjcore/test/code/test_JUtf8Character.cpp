@@ -293,6 +293,8 @@ JTEST(ToLower)
 	JAssertEqual(JUtf8Character("b"), JUtf8Character("B").ToLower());
 	JAssertEqual(JUtf8Character("\xC3\xA6"), JUtf8Character("\xC3\xA6").ToLower());	// ae
 	JAssertEqual(JUtf8Character("\xC3\xA6"), JUtf8Character("\xC3\x86").ToLower());	// ae
+	JAssertEqual(JUtf8Character("\xC3\xA9"), JUtf8Character("\xC3\xA9").ToLower());	// 'e
+	JAssertEqual(JUtf8Character("\xC3\xA9"), JUtf8Character("\xC3\x89").ToLower());	// 'e
 	JAssertEqual(JUtf8Character("\xCF\x86"), JUtf8Character("\xCE\xA6").ToLower());	// phi
 	JAssertEqual(JUtf8Character("\xCF\x83"), JUtf8Character("\xCE\xA3").ToLower());	// sigma
 }
@@ -303,6 +305,8 @@ JTEST(ToUpper)
 	JAssertEqual(JUtf8Character("B"), JUtf8Character("b").ToUpper());
 	JAssertEqual(JUtf8Character("\xC3\x86"), JUtf8Character("\xC3\x86").ToUpper());	// ae
 	JAssertEqual(JUtf8Character("\xC3\x86"), JUtf8Character("\xC3\xA6").ToUpper());	// ae
+	JAssertEqual(JUtf8Character("\xC3\x89"), JUtf8Character("\xC3\x89").ToUpper());	// 'e
+	JAssertEqual(JUtf8Character("\xC3\x89"), JUtf8Character("\xC3\xA9").ToUpper());	// 'e
 	JAssertEqual(JUtf8Character("\xCE\xA6"), JUtf8Character("\xCF\x86").ToUpper());	// phi
 	JAssertEqual(JUtf8Character("\xCE\xA3"), JUtf8Character("\xCF\x83").ToUpper());	// sigma
 }

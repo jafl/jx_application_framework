@@ -249,7 +249,7 @@ JCompareStringsCaseInsensitive
 }
 
 /******************************************************************************
- Join
+ JStringJoin
 
 	It would be nice if this were a member function of JPtrArray, but it is
 	only for strings, and g++ 7 complains when T is an abstract base class.

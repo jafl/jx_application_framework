@@ -49,24 +49,14 @@ TestFileListDirector::TestFileListDirector
 {
 	BuildWindow();
 
-	JDirInfo* info;
-	const JBoolean ok = JDirInfo::Create(JString("./", kJFalse), &info);
-	assert( ok );
-
-	JXFileListTable* table = itsFLSet->GetTable();
-	for (const JDirEntry* e : *info)
-		{
-		if (e->IsFile())
-			{
-			table->AddFile(e->GetFullName());
-			}
-		}
+	AddDirectory("./");
+	AddDirectory("./test-file-list");
 
 	JString s1, s2;
 	if (JConvertToAbsolutePath(JString("../Make.header", kJFalse), nullptr, &s1) &&
 		JGetTrueName(s1, &s2))
 		{
-		table->AddFile(s2);
+		itsFLSet->GetTable()->AddFile(s2);
 		}
 }
 
@@ -119,6 +109,31 @@ TestFileListDirector::BuildWindow()
 
 	itsFileMenu->SetItemImage(kUseWildcardCmd, jx_filter_wildcard);
 	itsFileMenu->SetItemImage(kUseRegexCmd,    jx_filter_regex);
+}
+
+/******************************************************************************
+ AddDirectory (private)
+
+ ******************************************************************************/
+
+void
+TestFileListDirector::AddDirectory
+	(
+	const JUtf8Byte* path
+	)
+{
+	JDirInfo* info;
+	const JBoolean ok = JDirInfo::Create(JString(path, kJFalse), &info);
+	assert( ok );
+
+	JXFileListTable* table = itsFLSet->GetTable();
+	for (const JDirEntry* e : *info)
+		{
+		if (e->IsFile())
+			{
+			table->AddFile(e->GetFullName());
+			}
+		}
 }
 
 /******************************************************************************
