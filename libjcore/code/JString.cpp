@@ -166,7 +166,7 @@ JString::JString
 	itsIterator(nullptr)
 {
 	JSize byteCount = origByteCount;
-	if (byteCount == 0)
+	if (str != nullptr && byteCount == 0)
 		{
 		byteCount = strlen(str);
 		}
@@ -2068,9 +2068,15 @@ JString::CopyNormalizedBytes
 	const JSize			capacity
 	)
 {
+	if (maxBytes == 0)
+		{
+		destination[0] = 0;
+		return 0;
+		}
+
 	JSize currByteCount;
 	JUInt32 curr = JUtf8Character::Utf8ToUtf32(source, &currByteCount);
-	if (curr == 0 || maxBytes == 0)
+	if (curr == 0)
 		{
 		destination[0] = 0;
 		return 0;

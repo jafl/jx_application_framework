@@ -28,6 +28,8 @@ JTEST(Exercise)
 	JAssertStringsEqual("\xC3\xA5\xE2\x9C\x94\n", buf.ExtractCharacters());
 	JAssertTrue(buf.IsEmpty());
 
+	std::cout << "expect invalid: a5" << std::endl;
+
 	buf.Append("\xA5\xE2\x9C\x94\n", 5);
 	JAssertStringsEqual("\xEF\xBF\xBD\xE2\x9C\x94\n", buf.ExtractCharacters());
 	JAssertTrue(buf.IsEmpty());

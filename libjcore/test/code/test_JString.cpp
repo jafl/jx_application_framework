@@ -135,6 +135,12 @@ JTEST(Construction)
 	JString s15(JUtf8Character("\xC3\x85"));
 	JAssertEqual(2, s15.GetByteCount());
 	JAssertStringsEqual("\xC3\x85", s15);
+
+	JString s16(nullptr, 0);
+	JAssertStringsEqual("", s16);
+
+	s16.Set("\xA7", 0);
+	JAssertStringsEqual("", s16);
 }
 
 JTEST(LazyConstruction)
@@ -546,7 +552,7 @@ JTEST(Get)
 	delete [] s1;
 	s1 = nullptr;
 
-	std::cout << "expect invalid:  f8 9c 94" << std::endl;
+	std::cout << "expect invalid: f8 9c 94" << std::endl;
 
 	s = "\xC3\xA6" "34567\xCE\xA6" "90\xCE\xA6\xF8\x9C\x94";
 	JAssertEqual(JUtf8Character("\xC3\xA6"), s.GetFirstCharacter());
