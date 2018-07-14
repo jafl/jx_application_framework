@@ -1,15 +1,3 @@
-analyze all uses of toupper/lower - not all languages do this by single character
-
-utf8 - sorting vs searching
-	searching should include diacriticals
-	sorting may not
-
-	test diacriticals in Utf8Char toupper/lower
-
-	ignore accents for case-sensitive search: strength=primary caseLevel=on
-	http://demo.icu-project.org/icu-bin/collation.html
-
-
 JTextEditor:
 	copy ctor for libjexpr
 	"Replace All" did nothing when something was selected
@@ -49,8 +37,6 @@ jx_project_wizard
 	convert help to online
 
 -----
-
-evaluate all uses of JIndexRange - character or utf8 byte?
 
 test
 	man pages
@@ -97,5 +83,14 @@ untested JStringIterator usage:
 	JTranslateRemoteToLocal
 
 -----
+
+utf8 - sorting vs searching
+	searching should include diacriticals
+	sorting may not
+
+	test diacriticals in Utf8Char toupper/lower
+
+	ignore accents for case-sensitive search: strength=primary caseLevel=on
+	http://demo.icu-project.org/icu-bin/collation.html
 
 https://en.wikibooks.org/wiki/Unicode/Character_reference/21000-21FFF
