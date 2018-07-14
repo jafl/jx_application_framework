@@ -174,6 +174,9 @@ public:
 	JBoolean	WillShowWhitespace() const;
 	void		ShouldShowWhitespace(const JBoolean show);
 
+	JBoolean	WillAlwaysShowSelection() const;
+	void		ShouldAlwaysShowSelection(const JBoolean show);
+
 	JBoolean	WillMoveToFrontOfText() const;
 	void		ShouldMoveToFrontOfText(const JBoolean moveToFront);
 
@@ -404,6 +407,7 @@ private:
 	JBoolean	itsBcastLocChangedFlag;		// kJTrue => broadcast CaretLocationChanged instead of CaretLineChanged
 	JBoolean	itsIsPrintingFlag;			// kJTrue => stack threads through Print()
 	JBoolean	itsDrawWhitespaceFlag;		// kJTrue => show tabs, spaces, newlines
+	JBoolean	itsAlwaysShowSelectionFlag;	// kJTrue => show selection even when not active
 	CaretMode	itsCaretMode;
 
 	JFontManager*	itsFontManager;
@@ -928,6 +932,31 @@ JTextEditor::ShouldShowWhitespace
 	if (show != itsDrawWhitespaceFlag)
 		{
 		itsDrawWhitespaceFlag = show;
+		TERefresh();
+		}
+}
+
+/******************************************************************************
+ Showing selection
+
+ ******************************************************************************/
+
+inline JBoolean
+JTextEditor::WillAlwaysShowSelection()
+	const
+{
+	return itsAlwaysShowSelectionFlag;
+}
+
+inline void
+JTextEditor::ShouldAlwaysShowSelection
+	(
+	const JBoolean show
+	)
+{
+	if (show != itsAlwaysShowSelectionFlag)
+		{
+		itsAlwaysShowSelectionFlag = show;
 		TERefresh();
 		}
 }

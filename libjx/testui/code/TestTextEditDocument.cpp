@@ -152,6 +152,7 @@ TestTextEditDocument::BuildWindow
 							JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 10,10);
 	assert( itsTextEditor1 != nullptr );
 	itsTextEditor1->FitToEnclosure();
+	itsTextEditor1->ShouldAlwaysShowSelection(kJTrue);
 
 	compartment = partition->GetCompartment(2);
 
@@ -166,6 +167,7 @@ TestTextEditDocument::BuildWindow
 							JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 10,10);
 	assert( itsTextEditor2 != nullptr );
 	itsTextEditor2->FitToEnclosure();
+	itsTextEditor2->ShouldAlwaysShowSelection(kJTrue);
 	itsTextEditor2->ShareMenus(itsTextEditor1);
 
 	itsFileMenu = menuBar->PrependTextMenu(JGetString("FileMenuTitle::JXGlobal"));

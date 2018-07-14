@@ -205,16 +205,17 @@ JTextEditor::JTextEditor
 {
 	assert( itsText != nullptr );
 
-	itsActiveFlag            = kJFalse;
-	itsSelActiveFlag         = kJFalse;
-	itsCaretVisibleFlag      = kJFalse;
-	itsPerformDNDFlag        = kJFalse;
-	itsMoveToFrontOfTextFlag = kJFalse;
-	itsBcastLocChangedFlag   = kJFalse;
-	itsBreakCROnlyFlag       = breakCROnly;
-	itsIsPrintingFlag        = kJFalse;
-	itsDrawWhitespaceFlag    = kJFalse;
-	itsCaretMode             = kLineCaret;
+	itsActiveFlag              = kJFalse;
+	itsSelActiveFlag           = kJFalse;
+	itsCaretVisibleFlag        = kJFalse;
+	itsPerformDNDFlag          = kJFalse;
+	itsMoveToFrontOfTextFlag   = kJFalse;
+	itsBcastLocChangedFlag     = kJFalse;
+	itsBreakCROnlyFlag         = breakCROnly;
+	itsIsPrintingFlag          = kJFalse;
+	itsDrawWhitespaceFlag      = kJFalse;
+	itsAlwaysShowSelectionFlag = kJFalse;
+	itsCaretMode               = kLineCaret;
 
 	itsWidth           = width - kDefLeftMarginWidth - kRightMarginWidth;
 	itsHeight          = 0;
@@ -1558,7 +1559,8 @@ JTextEditor::TEDrawText
 
 	// draw selection region
 
-	if (itsActiveFlag && !itsSelection.IsEmpty() && itsType != kStaticText)
+	if ((itsActiveFlag || itsAlwaysShowSelectionFlag) &&
+		!itsSelection.IsEmpty() && itsType != kStaticText)
 		{
 		TEDrawSelection(p, rect, startLine, h);
 		}
@@ -1896,7 +1898,7 @@ JTextEditor::TEDrawSelection
 	const JCoordinate	startVisLineTop
 	)
 {
-	assert( itsActiveFlag && !itsSelection.IsEmpty() && itsType != kStaticText );
+	assert( !itsSelection.IsEmpty() );
 
 	// calculate intersection of selection region and drawing region
 
