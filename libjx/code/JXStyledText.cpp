@@ -116,6 +116,11 @@ JXStyledText::AdjustFontToDisplayGlyphs
 		return kJFalse;
 		}
 
+	if (range.charRange.GetCount() > 1e4)
+		{
+		Broadcast(WillBeBusy());
+		}
+
 	JBoolean changed = kJFalse;
 
 	JStringIterator siter(text);
