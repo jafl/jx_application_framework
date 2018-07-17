@@ -268,10 +268,11 @@ JPainter::GetStringWidth
  AlignString (protected)
 
 	Adjust the given coordinates as appropriate for the given alignment.
+	Returns the width of the string, if it was computed.
 
  ******************************************************************************/
 
-void
+JSize
 JPainter::AlignString
 	(
 	JCoordinate*		left,
@@ -284,14 +285,15 @@ JPainter::AlignString
 	)
 	const
 {
+	JSize strWidth = 0;
 	if (hAlign == kHAlignCenter)
 		{
-		const JCoordinate strWidth = GetStringWidth(str);
+		strWidth = GetStringWidth(str);
 		*left += (width-strWidth)/2;
 		}
 	else if (hAlign == kHAlignRight)
 		{
-		const JCoordinate strWidth = GetStringWidth(str);
+		strWidth = GetStringWidth(str);
 		*left += width-strWidth;
 		}
 
@@ -305,6 +307,8 @@ JPainter::AlignString
 		const JCoordinate lineHeight = GetLineHeight();
 		*top += height-lineHeight;
 		}
+
+	return strWidth;
 }
 
 /******************************************************************************

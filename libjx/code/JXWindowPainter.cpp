@@ -397,7 +397,7 @@ JXWindowPainter::String
 	const JPoint& o = GetOrigin();
 	JCoordinate x   = o.x + left;
 	JCoordinate y   = o.y + top + ascent;
-	AlignString(&x,&y, str, width, hAlign, height, vAlign);
+	const JSize sw  = AlignString(&x,&y, str, width, hAlign, height, vAlign);
 
 	itsGC->DrawString(itsDrawable, GetFontDrawable(), x,y, str);
 	if (uIndex > 0)
@@ -424,7 +424,7 @@ JXWindowPainter::String
 		itsGC->DrawLine(itsDrawable, xu, yu, xu+w-1, yu);
 		}
 
-	StyleString(str, x-o.x, y-o.y, ascent, descent, font.GetStyle().color);
+	StyleString(str, x-o.x, y-o.y, ascent, descent, sw);
 }
 
 void
@@ -471,8 +471,8 @@ JXWindowPainter::String
 	const JPoint& o   = GetOrigin();
 
 	JCoordinate ascent, descent;
-	const JSize lineHeight  = GetLineHeight(&ascent, &descent) + 1;
-	const JSize stringWidth = GetStringWidth(str);
+	const JSize lineHeight = GetLineHeight(&ascent, &descent) + 1;
+	JSize stringWidth;
 
 	const JCoordinate x0 = o.x + left;
 	const JCoordinate y0 = o.y + top;
@@ -481,22 +481,34 @@ JXWindowPainter::String
 	JCoordinate dx=0, dy=0;
 	if (45.0 < angle && angle <= 135.0)
 		{
-		quadrant = 2;
-		AlignString(&dx,&dy, str, height, hAlign, width, vAlign);
+		quadrant    = 2;
+		stringWidth = AlignString(&dx,&dy, str, height, hAlign, width, vAlign);
+		if (stringWidth == 0)
+			{
+			stringWidth = GetStringWidth(str);
+			}
 		srcImage = jnew JXImage(itsDisplay, itsDrawable,
 							   JRect(y0-dx - stringWidth, x0+dy, y0-dx + 1, x0+dy + lineHeight + 1));
 		}
 	else if (135.0 < angle && angle <= 225.0)
 		{
-		quadrant = 3;
-		AlignString(&dx,&dy, str, width, hAlign, height, vAlign);
+		quadrant    = 3;
+		stringWidth = AlignString(&dx,&dy, str, width, hAlign, height, vAlign);
+		if (stringWidth == 0)
+			{
+			stringWidth = GetStringWidth(str);
+			}
 		srcImage = jnew JXImage(itsDisplay, itsDrawable,
 							   JRect(y0-dy - lineHeight, x0-dx - stringWidth, y0-dy + 1, x0-dx + 1));
 		}
 	else	// 225.0 < angle && angle <= 315.0
 		{
-		quadrant = 4;
-		AlignString(&dx,&dy, str, height, hAlign, width, vAlign);
+		quadrant    = 4;
+		stringWidth = AlignString(&dx,&dy, str, height, hAlign, width, vAlign);
+		if (stringWidth == 0)
+			{
+			stringWidth = GetStringWidth(str);
+			}
 		srcImage = jnew JXImage(itsDisplay, itsDrawable,
 							   JRect(y0+dx, x0-dy - lineHeight, y0+dx + stringWidth + 1, x0-dy + 1));
 		}
@@ -578,7 +590,8 @@ JXWindowPainter::String
 /******************************************************************************
  StyleString (private)
 
-	Apply styles that the font id doesn't include.
+	Apply styles that the font id doesn't include.  If w>0, it is assumed
+	to be the width of the string.
 
  ******************************************************************************/
 
@@ -590,22 +603,22 @@ JXWindowPainter::StyleString
 	const JCoordinate	y,
 	const JCoordinate	ascent,
 	const JCoordinate	descent,
-	const JColorID	color
+	const JSize			w
 	)
 {
 	const JFontStyle& fontStyle = GetFont().GetStyle();
 
 	if (fontStyle.underlineCount > 0 || fontStyle.strike)
 		{
-		const JPoint origPenLoc        = GetPenLocation();
+		const JPoint origPenLoc     = GetPenLocation();
 		const JColorID origPenColor = GetPenColor();
-		const JSize origLW             = GetLineWidth();
-		const JBoolean wasDashed       = LinesAreDashed();
+		const JSize origLW          = GetLineWidth();
+		const JBoolean wasDashed    = LinesAreDashed();
 
-		SetPenColor(color);
+		SetPenColor(fontStyle.color);
 		DrawDashedLines(kJFalse);
 
-		const JSize strWidth = GetStringWidth(str);
+		const JSize strWidth = w > 0 ? w : GetStringWidth(str);
 
 		if (fontStyle.underlineCount > 0)
 			{

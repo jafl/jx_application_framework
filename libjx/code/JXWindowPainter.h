@@ -114,7 +114,7 @@ private:
 	void	StyleString(const JString& str,
 						const JCoordinate x, const JCoordinate y,
 						const JCoordinate ascent, const JCoordinate descent,
-						const JColorID color);
+						const JSize w);
 
 	void	CalcClipRegion(const Region region);
 

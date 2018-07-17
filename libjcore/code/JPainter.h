@@ -179,7 +179,7 @@ public:
 
 protected:
 
-	void	AlignString(JCoordinate* left, JCoordinate* top, const JString& str,
+	JSize	AlignString(JCoordinate* left, JCoordinate* top, const JString& str,
 						const JCoordinate width, const HAlignment hAlign,
 						const JCoordinate height, const VAlignment vAlign) const;
 
