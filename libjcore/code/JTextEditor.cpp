@@ -198,6 +198,7 @@ JTextEditor::JTextEditor
 	itsSelectionOutlineColor(outlineColor),
 	itsWhitespaceColor(wsColor),
 
+	itsKeyHandler(nullptr),		// make SetKeyHandler() safe
 	itsDragType(kInvalidDrag),
 	itsPrevDragType(kInvalidDrag),
 	itsIsDragSourceFlag(kJFalse)
@@ -271,6 +272,7 @@ JTextEditor::JTextEditor
 	itsSelectionOutlineColor(source.itsSelectionOutlineColor),
 	itsWhitespaceColor(source.itsWhitespaceColor),
 
+	itsKeyHandler(nullptr),		// make SetKeyHandler() safe
 	itsDragType(kInvalidDrag),
 	itsPrevDragType(kInvalidDrag),
 	itsIsDragSourceFlag(kJFalse)

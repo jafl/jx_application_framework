@@ -593,7 +593,7 @@ JXGC::DrawString
 	)
 	const
 {
-	JXFontManager::XFont xfont = itsDisplay->GetXFontManager()->GetXFontInfo(itsLastFontID);
+	const JXFontManager::XFont xfont = itsDisplay->GetXFontManager()->GetXFontInfo(itsLastFontID);
 
 	XftColor color;
 	if (xfont.type == JXFontManager::kTrueType)
