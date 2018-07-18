@@ -915,6 +915,8 @@ JTEST(InsertCharacter)
 			JAssertEqual(-1, tc->GetByteDelta());
 		});
 
+	bcastTest.Expect(JStyledText::kUndoFinished);
+
 	text.Undo();
 
 	bcastTest.Expect(JStyledText::kTextChanged,
@@ -930,6 +932,8 @@ JTEST(InsertCharacter)
 			JAssertEqual(-3, tc->GetCharDelta());
 			JAssertEqual(-3, tc->GetByteDelta());
 		});
+
+	bcastTest.Expect(JStyledText::kUndoFinished);
 
 	text.Undo();
 
@@ -1461,6 +1465,8 @@ JTEST(Move)
 			JAssertEqual(-6, tc->GetCharDelta());
 			JAssertEqual(-6, tc->GetByteDelta());
 		});
+
+	bcastTest.Expect(JStyledText::kUndoFinished);
 
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)

@@ -455,10 +455,10 @@ JTextEditor::Receive
 		const JStyledText::UndoFinished* info =
 			dynamic_cast<const JStyledText::UndoFinished*>(&message);
 		assert( info != nullptr );
-
-		if (itsActiveFlag)
+		const TextRange r = info->GetRange();
+		if (itsActiveFlag && !r.IsEmpty())
 			{
-			SetSelection(info->GetRange());
+			SetSelection(r);
 			}
 		}
 

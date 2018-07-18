@@ -3889,10 +3889,7 @@ JStyledText::BroadcastUndoFinished
 	const TextRange& range
 	)
 {
-	if (!range.IsEmpty())
-		{
-		Broadcast(UndoFinished(range));
-		}
+	Broadcast(UndoFinished(range));
 }
 
 /******************************************************************************
