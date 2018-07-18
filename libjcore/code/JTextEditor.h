@@ -1486,7 +1486,9 @@ JTextEditor::SetCurrentFontName
 {
 	if (!itsSelection.IsEmpty())
 		{
+		const JStyledText::TextRange r = itsSelection;
 		itsText->SetFontName(itsSelection, name, kJFalse);
+		SetSelection(r);
 		}
 	else
 		{
@@ -1502,7 +1504,9 @@ JTextEditor::SetCurrentFontSize
 {
 	if (!itsSelection.IsEmpty())
 		{
+		const JStyledText::TextRange r = itsSelection;
 		itsText->SetFontSize(itsSelection, size, kJFalse);
+		SetSelection(r);
 		}
 	else
 		{
@@ -1518,7 +1522,9 @@ JTextEditor::SetCurrentFontBold
 {
 	if (!itsSelection.IsEmpty())
 		{
+		const JStyledText::TextRange r = itsSelection;
 		itsText->SetFontBold(itsSelection, bold, kJFalse);
+		SetSelection(r);
 		}
 	else
 		{
@@ -1534,7 +1540,9 @@ JTextEditor::SetCurrentFontItalic
 {
 	if (!itsSelection.IsEmpty())
 		{
+		const JStyledText::TextRange r = itsSelection;
 		itsText->SetFontItalic(itsSelection, italic, kJFalse);
+		SetSelection(r);
 		}
 	else
 		{
@@ -1550,7 +1558,9 @@ JTextEditor::SetCurrentFontUnderline
 {
 	if (!itsSelection.IsEmpty())
 		{
+		const JStyledText::TextRange r = itsSelection;
 		itsText->SetFontUnderline(itsSelection, count, kJFalse);
+		SetSelection(r);
 		}
 	else
 		{
@@ -1566,7 +1576,9 @@ JTextEditor::SetCurrentFontStrike
 {
 	if (!itsSelection.IsEmpty())
 		{
+		const JStyledText::TextRange r = itsSelection;
 		itsText->SetFontStrike(itsSelection, strike, kJFalse);
+		SetSelection(r);
 		}
 	else
 		{
@@ -1582,7 +1594,9 @@ JTextEditor::SetCurrentFontColor
 {
 	if (!itsSelection.IsEmpty())
 		{
+		const JStyledText::TextRange r = itsSelection;
 		itsText->SetFontColor(itsSelection, color, kJFalse);
+		SetSelection(r);
 		}
 	else
 		{
@@ -1598,7 +1612,9 @@ JTextEditor::SetCurrentFontStyle
 {
 	if (!itsSelection.IsEmpty())
 		{
+		const JStyledText::TextRange r = itsSelection;
 		itsText->SetFontStyle(itsSelection, style, kJFalse);
+		SetSelection(r);
 		}
 	else
 		{
@@ -1614,7 +1630,9 @@ JTextEditor::SetCurrentFont
 {
 	if (!itsSelection.IsEmpty())
 		{
+		const JStyledText::TextRange r = itsSelection;
 		itsText->SetFont(itsSelection, f, kJFalse);
+		SetSelection(r);
 		}
 	else
 		{

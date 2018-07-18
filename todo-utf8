@@ -13,22 +13,21 @@ JXTreeListWidget
 		if flag is set, break up calls to fontMgr GetCharWidth(), GetStringWidth()
 	JXWindowPainter:  base String() checks this flag
 
-JTextEditor:
-	set font should select result
-	don't change insertion font when glyphs are rendered with different font
-		use isExact to tell which glyphs are substitutions?
-
-JStyledTextBuffer
+JStyledText
 	need smarter update during indent/outdent, to maintain caret location
 	AutoIndent
 	CleanRightMargin
 
-JXFontManager
-	some characters extend above line height
-
 put back
 	JVIKeyHandler
 	JTEStyler
+
+JTextEditor:
+	don't change insertion font when glyphs are rendered with different font
+		use isExact to tell which glyphs are substitutions?
+
+JXFontManager
+	some characters extend above line height
 
 implement flex/bison parser for libjexpr
 
