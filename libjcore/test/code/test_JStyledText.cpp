@@ -560,6 +560,8 @@ JTEST(ReplaceAllInRange)
 			JAssertEqual(-4, tc->GetByteDelta());
 		});
 
+	bcastTest.Expect(JStyledText::kUndoFinished);
+
 	JBoolean canUndo, canRedo;
 	JAssertTrue(text.HasSingleUndo());
 	JAssertFalse(text.HasMultipleUndo(&canUndo, &canRedo));
@@ -895,6 +897,7 @@ JTEST(InsertCharacter)
 			JAssertEqual(1, tc->GetByteDelta());
 		});
 
+	bcastTest.Expect(JStyledText::kUndoFinished);
 
 	text.Undo();
 
@@ -1039,6 +1042,8 @@ JTEST(DeleteText)
 			JAssertEqual(9, tc->GetByteDelta());
 		});
 
+	bcastTest.Expect(JStyledText::kUndoFinished);
+
 	text.Undo();
 
 	JAssertTrue(text.HasMultipleUndo(&canUndo, &canRedo));
@@ -1058,6 +1063,8 @@ JTEST(DeleteText)
 			JAssertEqual(5, tc->GetCharDelta());
 			JAssertEqual(7, tc->GetByteDelta());
 		});
+
+	bcastTest.Expect(JStyledText::kUndoFinished);
 
 	text.Undo();
 
@@ -1150,6 +1157,8 @@ JTEST(BackwardDelete)
 			JAssertEqual(1, tc->GetCharDelta());
 			JAssertEqual(1, tc->GetByteDelta());
 		});
+
+	bcastTest.Expect(JStyledText::kUndoFinished);
 
 	text.Undo();
 
@@ -1302,6 +1311,8 @@ JTEST(ForwardDelete)
 			JAssertEqual(1, tc->GetCharDelta());
 			JAssertEqual(1, tc->GetByteDelta());
 		});
+
+	bcastTest.Expect(JStyledText::kUndoFinished);
 
 	text.Undo();
 
@@ -1479,6 +1490,8 @@ JTEST(Move)
 			JAssertEqual(4, tc->GetByteDelta());
 		});
 
+	bcastTest.Expect(JStyledText::kUndoFinished);
+
 	text.Undo();
 	text.Undo();
 
@@ -1546,6 +1559,8 @@ JTEST(TabSelection)
 			JAssertEqual(-6, tc->GetByteDelta());
 		});
 
+	bcastTest.Expect(JStyledText::kUndoFinished);
+
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
 		{
@@ -1559,6 +1574,8 @@ JTEST(TabSelection)
 			JAssertEqual(-2, tc->GetCharDelta());
 			JAssertEqual(-2, tc->GetByteDelta());
 		});
+
+	bcastTest.Expect(JStyledText::kUndoFinished);
 
 	text.Undo();
 	text.Undo();
@@ -1578,6 +1595,8 @@ JTEST(TabSelection)
 			JAssertEqual(2, tc->GetByteDelta());
 		});
 
+	bcastTest.Expect(JStyledText::kUndoFinished);
+
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
 		{
@@ -1591,6 +1610,8 @@ JTEST(TabSelection)
 			JAssertEqual(6, tc->GetCharDelta());
 			JAssertEqual(6, tc->GetByteDelta());
 		});
+
+	bcastTest.Expect(JStyledText::kUndoFinished);
 
 	text.Redo();
 	text.Redo();
@@ -1626,6 +1647,8 @@ JTEST(TabSelection)
 			JAssertEqual(3, tc->GetByteDelta());
 		});
 
+	bcastTest.Expect(JStyledText::kUndoFinished);
+
 	text.Undo();
 	JAssertStringsEqual("\t\t" "\xC3\xA1" "bcd\n\t\t\t1234\n\t\t\twxzy", text.GetText());
 
@@ -1642,6 +1665,8 @@ JTEST(TabSelection)
 			JAssertEqual(-3, tc->GetCharDelta());
 			JAssertEqual(-3, tc->GetByteDelta());
 		});
+
+	bcastTest.Expect(JStyledText::kUndoFinished);
 
 	text.Redo();
 
@@ -1703,6 +1728,8 @@ JTEST(TabSelectionMixed)
 			JAssertEqual(5, tc->GetByteDelta());
 		});
 
+	bcastTest.Expect(JStyledText::kUndoFinished);
+
 	text.Undo();
 	JAssertStringsEqual("\t" "\xC3\xA1" "bcd\n  \t1234\n\twxzy", text.GetText());
 
@@ -1719,6 +1746,8 @@ JTEST(TabSelectionMixed)
 			JAssertEqual(-5, tc->GetCharDelta());
 			JAssertEqual(-5, tc->GetByteDelta());
 		});
+
+	bcastTest.Expect(JStyledText::kUndoFinished);
 
 	text.Undo();
 	JAssertStringsEqual("\xC3\xA1" "bcd\n1234\nwxzy", text.GetText());
@@ -1827,6 +1856,8 @@ JTEST(CleanWhitespaceTabs)
 			JAssertEqual(2, tc->GetByteDelta());
 		});
 
+	bcastTest.Expect(JStyledText::kUndoFinished);
+
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
 		{
@@ -1840,6 +1871,8 @@ JTEST(CleanWhitespaceTabs)
 			JAssertEqual(-2, tc->GetCharDelta());
 			JAssertEqual(-2, tc->GetByteDelta());
 		});
+
+	bcastTest.Expect(JStyledText::kUndoFinished);
 
 	text.SetText(JString("\t " "\xC3\xA1" "bcd\n  \t1234\n\twxzy", kJFalse));
 	r = text.CleanWhitespace(TextRange(
@@ -1954,6 +1987,8 @@ JTEST(CleanWhitespaceSpaces)
 			JAssertEqual(-1, tc->GetByteDelta());
 		});
 
+	bcastTest.Expect(JStyledText::kUndoFinished);
+
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
 		{
@@ -1967,6 +2002,8 @@ JTEST(CleanWhitespaceSpaces)
 			JAssertEqual(1, tc->GetCharDelta());
 			JAssertEqual(1, tc->GetByteDelta());
 		});
+
+	bcastTest.Expect(JStyledText::kUndoFinished);
 
 	text.SetText(JString("\t " "\xC3\xA1" "bcd\n  \t1234\n\twxzy", kJFalse));
 	r = text.CleanWhitespace(TextRange(

@@ -62,6 +62,7 @@ JSTUndoStyle::Undo()
 	text->ReplaceUndo(this, newUndo);		// deletes us
 
 	text->BroadcastTextChanged(itsRange, 0, 0, kJFalse);
+	text->BroadcastUndoFinished(itsRange);
 }
 
 /******************************************************************************

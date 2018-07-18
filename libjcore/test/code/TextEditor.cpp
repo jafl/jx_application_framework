@@ -12,6 +12,7 @@
 #include "TextEditor.h"
 #include "TestFontManager.h"
 #include "TestPainter.h"
+#include <JTestManager.h>
 #include <jAssert.h>
 
 /******************************************************************************
@@ -32,7 +33,8 @@ TextEditor::TextEditor
 	itsWidth(0),
 	itsHeight(0),
 	itsClipText(nullptr),
-	itsClipStyle(nullptr)
+	itsClipStyle(nullptr),
+	itsHasSearchTextFlag(kJFalse)
 {
 	RecalcAll();
 }
@@ -298,6 +300,20 @@ TextEditor::TECaretShouldBlink
 }
 
 /******************************************************************************
+ SetHasSearchText (virtual)
+
+ ******************************************************************************/
+
+void
+TextEditor::SetHasSearchText
+	(
+	const JBoolean has
+	)
+{
+	itsHasSearchTextFlag = has;
+}
+
+/******************************************************************************
  TEHasSearchText (virtual)
 
  ******************************************************************************/
@@ -306,5 +322,42 @@ JBoolean
 TextEditor::TEHasSearchText()
 	const
 {
-	return kJFalse;
+	return itsHasSearchTextFlag;
+}
+
+/******************************************************************************
+ Activate
+
+ ******************************************************************************/
+
+void
+TextEditor::Activate()
+{
+	TEActivate();
+}
+
+/******************************************************************************
+ CheckCmdStatus
+
+ ******************************************************************************/
+
+void
+TextEditor::CheckCmdStatus
+	(
+	const JRunArray<JBoolean>& expected
+	)
+	const
+{
+	JString crmActionText, crm2ActionText;
+	JBoolean isReadOnly;
+	const JArray<JBoolean> status = GetCmdStatus(&crmActionText, &crm2ActionText, &isReadOnly);
+
+	const JSize count = status.GetElementCount();
+	JAssertEqual(expected.GetElementCount(), count);
+
+	for (JIndex i=1; i<=count; i++)
+		{
+		JString s((JUInt64) i);
+		JAssertEqualWithMessage(expected.GetElement(i), status.GetElement(i), s.GetBytes());
+		}
 }

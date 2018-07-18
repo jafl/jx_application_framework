@@ -65,9 +65,13 @@ JSTUndoMove::SetCount
 void
 JSTUndoMove::Undo()
 {
+	JStyledText* text = GetText();
+
 	JStyledText::TextRange newRange;
-	const JBoolean ok = GetText()->MoveText(		// deletes us
+	const JBoolean ok = text->MoveText(		// deletes us
 		JStyledText::TextRange(itsDestIndex, itsCount), itsSrcIndex,
 		kJFalse, &newRange);
 	assert( ok );
+
+	text->BroadcastUndoFinished(newRange);		// no instance variables; we have been deleted
 }

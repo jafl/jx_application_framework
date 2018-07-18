@@ -79,9 +79,10 @@ JSTUndoTextBase::UndoText
 	const JInteger charDelta = pasteCount.charCount - range.charRange.GetCount(),
 				   byteDelta = pasteCount.byteCount - range.byteRange.GetCount();
 
-	text->BroadcastTextChanged(
-		JStyledText::TextRange(charRange, byteRange),
-		charDelta, byteDelta, !range.IsEmpty());
+	const JStyledText::TextRange r(charRange, byteRange);
+
+	text->BroadcastTextChanged(r, charDelta, byteDelta, !range.IsEmpty());
+	text->BroadcastUndoFinished(r);
 }
 
 /******************************************************************************

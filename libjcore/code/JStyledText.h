@@ -31,6 +31,7 @@ class JStyledText : virtual public JBroadcaster
 {
 	friend class JSTUndoTextBase;
 	friend class JSTUndoStyle;
+	friend class JSTUndoMove;
 
 public:
 
@@ -396,6 +397,7 @@ protected:
 								 const JInteger charDelta, const JInteger byteDelta,
 								 const JBoolean deletion,
 								 const JBoolean adjustStyles = kJTrue);
+	void	BroadcastUndoFinished(const TextRange& range);
 
 	virtual JBoolean	NeedsToFilterText(const JString& text) const;
 	virtual JBoolean	FilterText(JString* text, JRunArray<JFont>* style);
@@ -504,6 +506,7 @@ public:
 	static const JUtf8Byte* kTextSet;
 	static const JUtf8Byte* kTextChanged;
 	static const JUtf8Byte* kDefaultFontChanged;
+	static const JUtf8Byte* kUndoFinished;
 	static const JUtf8Byte* kWillBeBusy;
 
 	class TextSet : public JBroadcaster::Message
@@ -570,6 +573,27 @@ public:
 			:
 			JBroadcaster::Message(kDefaultFontChanged)
 			{ };
+	};
+
+	class UndoFinished : public JBroadcaster::Message
+	{
+	public:
+
+		UndoFinished(const TextRange& r)
+			:
+			JBroadcaster::Message(kUndoFinished),
+			itsRange(r)
+			{ };
+
+		const TextRange&
+		GetRange() const
+		{
+			return itsRange;
+		}
+
+	private:
+
+		const TextRange	itsRange;
 	};
 
 	class WillBeBusy : public JBroadcaster::Message

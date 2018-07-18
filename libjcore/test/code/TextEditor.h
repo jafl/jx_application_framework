@@ -22,6 +22,7 @@ public:
 	JCoordinate	GetHeight() const;
 
 	virtual JBoolean	TEHasSearchText() const override;
+	void				SetHasSearchText(const JBoolean has);
 
 	// expose protected functionality
 
@@ -40,6 +41,9 @@ public:
 
 	void	TestReplaceSelection(const JStringMatch& match, const JString& replaceStr,
 								 JInterpolate* interpolator, const JBoolean preserveCase);
+
+	void	Activate();
+	void	CheckCmdStatus(const JRunArray<JBoolean>& expected) const;
 
 protected:
 
@@ -66,6 +70,8 @@ private:
 
 	mutable JString*			itsClipText;
 	mutable JRunArray<JFont>*	itsClipStyle;
+
+	JBoolean	itsHasSearchTextFlag;
 
 private:
 

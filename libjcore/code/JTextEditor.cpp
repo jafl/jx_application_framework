@@ -449,6 +449,19 @@ JTextEditor::Receive
 			}
 		}
 
+	else if (sender == itsText &&
+			 message.Is(JStyledText::kUndoFinished))
+		{
+		const JStyledText::UndoFinished* info =
+			dynamic_cast<const JStyledText::UndoFinished*>(&message);
+		assert( info != nullptr );
+
+		if (itsActiveFlag)
+			{
+			SetSelection(info->GetRange());
+			}
+		}
+
 	// something else
 
 	else

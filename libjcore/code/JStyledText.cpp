@@ -79,6 +79,7 @@ isWhitespace
 const JUtf8Byte* JStyledText::kTextSet            = "TextSet::JStyledText";
 const JUtf8Byte* JStyledText::kTextChanged        = "TextChanged::JStyledText";
 const JUtf8Byte* JStyledText::kDefaultFontChanged = "DefaultFontChanged::JStyledText";
+const JUtf8Byte* JStyledText::kUndoFinished       = "UndoFinished::JStyledText";
 const JUtf8Byte* JStyledText::kWillBeBusy         = "WillBeBusy::JStyledText";
 
 /******************************************************************************
@@ -3872,6 +3873,26 @@ JStyledText::AdjustStylesBeforeBroadcast
 	const JBoolean		deletion
 	)
 {
+}
+
+/******************************************************************************
+ BroadcastUndoFinished (protected)
+
+	Separate from BroadcastTextChanged() because that function may modify
+	the range before sending the message.
+
+ ******************************************************************************/
+
+void
+JStyledText::BroadcastUndoFinished
+	(
+	const TextRange& range
+	)
+{
+	if (!range.IsEmpty())
+		{
+		Broadcast(UndoFinished(range));
+		}
 }
 
 /******************************************************************************
