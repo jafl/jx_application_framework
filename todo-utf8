@@ -20,7 +20,6 @@ JStyledText
 
 put back
 	JVIKeyHandler
-	JTEStyler
 
 JTextEditor:
 	don't change insertion font when glyphs are rendered with different font

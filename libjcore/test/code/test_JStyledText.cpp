@@ -9,7 +9,7 @@
 
 #include <JTestManager.h>
 #include <JBroadcastTester.h>
-#include <StyledText.h>
+#include "StyledText.h"
 #include <JStringIterator.h>
 #include <JInterpolate.h>
 #include <JRegex.h>

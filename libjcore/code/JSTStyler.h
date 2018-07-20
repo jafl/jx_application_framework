@@ -1,41 +1,43 @@
 /******************************************************************************
- JTEStyler.h
+ JSTStyler.h
 
-	Copyright (C) 1998 by John Lindal.
+	Copyright (C) 1998 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 
-#ifndef _H_JTEStyler
-#define _H_JTEStyler
+#ifndef _H_JSTStyler
+#define _H_JSTStyler
 
-#include "JTextEditor.h"	// need def of Font
+#include "JStyledText.h"
 #include <FlexLexer.h>
 
-class JTEStyler
+class JSTStyler
 {
 public:
 
 	// Feel free to request other items in this union.  It is only here
-	// because certain exceptional languages like PHP require additional
-	// state.  We don't provide a void* because then we would have to keep
-	// track of whether or not it needs to be deleted.
+	// because certain exceptional languages like TCL and PHP require
+	// additional state.  We don't provide a void* because then we would
+	// have to keep track of whether or not it needs to be deleted.
 
 	union TokenExtra
 	{
-		yy_state_type lexerState;
+		JIndex			indexValue;
+		JSize			sizeValue;
+		yy_state_type	lexerState;
 	};
 
 	struct TokenData
 	{
-		JTextEditor::TextIndex	startIndex;
-		TokenExtra				data;
+		JIndex		startIndex;
+		TokenExtra	data;
 
 		TokenData()
 			:
-			data()
+			startIndex(0), data()
 		{ };
 
-		TokenData(const JTextEditor::TextIndex& i, const TokenExtra& d)
+		TokenData(const JIndex i, const TokenExtra& d)
 			:
 			startIndex(i), data(d)
 		{ };
@@ -43,15 +45,16 @@ public:
 
 public:
 
-	JTEStyler();
+	JSTStyler();
 
-	virtual ~JTEStyler();
+	virtual ~JSTStyler();
 
 	static JArray<TokenData>*	NewTokenStartList();
 
-	void	UpdateStyles(const JTextEditor* te,
+	void	UpdateStyles(const JStyledText* te,
 						 const JString& text, JRunArray<JFont>* styles,
-						 JIndexRange* recalcRange, JIndexRange* redrawRange,
+						 JStyledText::TextRange* recalcRange,
+						 JStyledText::TextRange* redrawRange,
 						 const JBoolean deletion, JArray<TokenData>* tokenStartList);
 
 	JBoolean	IsActive() const;
@@ -63,37 +66,37 @@ protected:
 	virtual TokenExtra	GetFirstTokenExtraData() const;
 	virtual void		PreexpandCheckRange(const JString& text,
 											const JRunArray<JFont>& styles,
-											const JIndexRange& modifiedRange,
+											const JCharacterRange& modifiedRange,
 											const JBoolean deletion,
-											JIndexRange* checkRange);
+											JCharacterRange* checkRange);
 	void				ExtendCheckRange(const JIndex newEndIndex);
 
-	const JTextEditor*		GetTextEditor() const;
-	JFontManager*			GetFontManager() const;
+	const JStyledText*		GetStyledText() const;
+	const JFontManager*		GetFontManager() const;
 	const JFont&			GetDefaultFont() const;
 	const JString&			GetText() const;
 	const JRunArray<JFont>&	GetStyles() const;
 
-	JBoolean	SetStyle(const JIndexRange& range, const JFontStyle& style);
+	JBoolean	SetStyle(const JCharacterRange& range, const JFontStyle& style);
 	void		SaveTokenStart(const TokenExtra& data);
 
-	void	AdjustStyle(const JIndexRange& range, const JFontStyle& style);
+	void	AdjustStyle(const JCharacterRange& range, const JFontStyle& style);
 
 private:
 
 	JBoolean	itsActiveFlag;
 
-	const JTextEditor*	itsTE;			// not owned; nullptr unless lexing
-	JFontManager*		itsFontMgr;		// not owned; nullptr unless lexing
+	const JStyledText*	itsST;			// not owned; nullptr unless lexing
+	const JFontManager*	itsFontMgr;		// not owned; nullptr unless lexing
 	const JString*		itsText;		// not owned; nullptr unless lexing
 	JRunArray<JFont>*	itsStyles;		// not owned; nullptr unless lexing
 
 	JBoolean	itsRedoAllFlag;						// kJTrue => itsStyles is *not* full
 	JFont*		itsDefFont;							// nullptr unless processing
 
-	JIndexRange*	itsRecalcRange;					// not owned; nullptr unless lexing
-	JIndexRange*	itsRedrawRange;					// not owned; nullptr unless lexing
-	JIndexRange		itsCheckRange;
+	JStyledText::TextRange*	itsRecalcRange;		// not owned; nullptr unless lexing
+	JStyledText::TextRange*	itsRedrawRange;		// not owned; nullptr unless lexing
+	JCharacterRange			itsCheckRange;
 
 	JArray<TokenData>*	itsTokenStartList;			// not owned; nullptr unless lexing
 	JSize				itsTokenStartFactor;
@@ -109,13 +112,15 @@ private:
 
 	JBoolean	OnlyColorChanged(JFontStyle s1, JFontStyle s2) const;
 
+	void	ExpandTextRange(JStyledText::TextRange* r1, const JCharacterRange& r2) const;
+
 	static JListT::CompareResult
 		CompareTokenStarts(const TokenData& t1, const TokenData& t2);
 
 	// not allowed
 
-	JTEStyler(const JTEStyler& source);
-	const JTEStyler& operator=(const JTEStyler& source);
+	JSTStyler(const JSTStyler& source);
+	const JSTStyler& operator=(const JSTStyler& source);
 };
 
 
@@ -125,14 +130,14 @@ private:
  ******************************************************************************/
 
 inline JBoolean
-JTEStyler::IsActive()
+JSTStyler::IsActive()
 	const
 {
 	return itsActiveFlag;
 }
 
 inline void
-JTEStyler::SetActive
+JSTStyler::SetActive
 	(
 	const JBoolean active
 	)
@@ -141,27 +146,15 @@ JTEStyler::SetActive
 }
 
 /******************************************************************************
- GetTextEditor (protected)
+ GetStyledText (protected)
 
  ******************************************************************************/
 
-inline const JTextEditor*
-JTEStyler::GetTextEditor()
+inline const JStyledText*
+JSTStyler::GetStyledText()
 	const
 {
-	return itsTE;
-}
-
-/******************************************************************************
- GetFontManager (protected)
-
- ******************************************************************************/
-
-inline JFontManager*
-JTEStyler::GetFontManager()
-	const
-{
-	return itsFontMgr;
+	return itsST;
 }
 
 /******************************************************************************
@@ -170,7 +163,7 @@ JTEStyler::GetFontManager()
  ******************************************************************************/
 
 inline const JFont&
-JTEStyler::GetDefaultFont()
+JSTStyler::GetDefaultFont()
 	const
 {
 	return *itsDefFont;
@@ -182,7 +175,7 @@ JTEStyler::GetDefaultFont()
  ******************************************************************************/
 
 inline const JString&
-JTEStyler::GetText()
+JSTStyler::GetText()
 	const
 {
 	return *itsText;
@@ -194,7 +187,7 @@ JTEStyler::GetText()
  ******************************************************************************/
 
 inline const JRunArray<JFont>&
-JTEStyler::GetStyles()
+JSTStyler::GetStyles()
 	const
 {
 	return *itsStyles;

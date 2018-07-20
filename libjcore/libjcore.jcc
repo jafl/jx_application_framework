@@ -600,6 +600,10 @@ T
 F
 "./code/JSTUndoTyping.cpp"
 T
+2 "JSTStyler.cpp"
+F
+"./code/JSTStyler.cpp"
+T
 2 "JSpellChecker.cpp"
 F
 "./code/JSpellChecker.cpp"

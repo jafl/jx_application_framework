@@ -1,13 +1,13 @@
 /******************************************************************************
- JTEStyler.cpp
+ JSTStyler.cpp
 
 	This is the base class for an object that can efficiently control the
-	styles inside a JTextEditor.  Derive a class from JTextEditor and
-	override AdjustStylesBeforeRecalc() and pass the arguments directly to
-	JTEStyler::UpdateStyles().
+	styles inside a JStyledText.  Derive a class from JStyledText and
+	override AdjustStylesBeforeBroadcast() and pass the arguments directly
+	to JSTStyler::UpdateStyles().
 
 	tokenStartList is used to avoid lexing more of the text than necessary.
-	Each JTextEditor object must own one and must never modify the contents
+	Each JStyledText object must own one and must never modify the contents
 	between calls to UpdateStyles().
 
 	Derived classes must override the following function:
@@ -45,11 +45,11 @@
 
 	BASE CLASS = none
 
-	Copyright (C) 1998 by John Lindal.
+	Copyright (C) 1998 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 
-#include "JTEStyler.h"
+#include "JSTStyler.h"
 #include "JFontManager.h"
 #include "JListUtil.h"
 #include "JMinMax.h"
@@ -57,6 +57,10 @@
 #include "JStopWatch.h"
 #include <strstream>
 #include "jAssert.h"
+
+typedef JStyledText::TextIndex TextIndex;
+typedef JStyledText::TextCount TextCount;
+typedef JStyledText::TextRange TextRange;
 
 const JSize kDecimationFactor = 50;
 const JSize kListBlockSize    = 50;
@@ -69,7 +73,7 @@ const JSize kListBlockSize    = 50;
 
 #if DEBUG_RUN_INFO
 
-JIndex debugRunIndex, debugFirstInRun;
+static JIndex debugRunIndex, debugFirstInRun;
 
 #define check_run(styles, index, runIndex, firstIndexInRun) \
 	styles->FindRun(index, &debugRunIndex, &debugFirstInRun) && \
@@ -86,11 +90,11 @@ JIndex debugRunIndex, debugFirstInRun;
 
  ******************************************************************************/
 
-JTEStyler::JTEStyler()
+JSTStyler::JSTStyler()
 {
 	itsActiveFlag  = kJTrue;
 
-	itsTE          = nullptr;
+	itsST          = nullptr;
 	itsFontMgr     = nullptr;
 	itsText        = nullptr;
 	itsStyles      = nullptr;
@@ -107,7 +111,7 @@ JTEStyler::JTEStyler()
 
  ******************************************************************************/
 
-JTEStyler::~JTEStyler()
+JSTStyler::~JSTStyler()
 {
 }
 
@@ -119,13 +123,13 @@ JTEStyler::~JTEStyler()
  ******************************************************************************/
 
 void
-JTEStyler::UpdateStyles
+JSTStyler::UpdateStyles
 	(
-	const JTextEditor*	te,
+	const JStyledText*	st,
 	const JString&		text,
 	JRunArray<JFont>*	styles,
-	JIndexRange*		recalcRange,
-	JIndexRange*		redrawRange,
+	TextRange*			recalcRange,
+	TextRange*			redrawRange,
 	const JBoolean		deletion,
 	JArray<TokenData>*	tokenStartList
 	)
@@ -136,19 +140,18 @@ JTEStyler::UpdateStyles
 		return;
 		}
 
-	if (text.IsEmpty())
+	const JSize textLength = text.GetCharacterCount();
+	if (textLength == 0)
 		{
 		tokenStartList->RemoveAll();
 		return;
 		}
 
-	const JSize charCount = text.GetCharacterCount();
-
 	TokenData tokenData;
-	if (recalcRange->first == 1 && recalcRange->last >= text.GetLength())
+	if (recalcRange->charRange.first == 1 && recalcRange->charRange.last >= textLength)
 		{
 		itsRedoAllFlag = kJTrue;
-		itsCheckRange.Set(1, text.GetLength());
+		itsCheckRange.Set(1, textLength);
 
 		tokenStartList->RemoveAll();
 		tokenData = TokenData(1, GetFirstTokenExtraData());
@@ -162,8 +165,8 @@ JTEStyler::UpdateStyles
 
 		// calculate the range that needs to be checked
 
-		JIndex firstIndex = recalcRange->first;
-		JIndex lastIndex  = recalcRange->last;
+		JIndex firstIndex = recalcRange->charRange.first;
+		JIndex lastIndex  = recalcRange->charRange.last;
 		if ((deletion && firstIndex > 1) || firstIndex > textLength)
 			{
 			// This fixes the case when the last character of the token is deleted.
@@ -197,8 +200,8 @@ JTEStyler::UpdateStyles
 
 		// let derived class expand the range
 
-		JIndexRange savedRange = itsCheckRange;
-		PreexpandCheckRange(text, *styles, *recalcRange, deletion, &itsCheckRange);
+		JCharacterRange savedRange = itsCheckRange;
+		PreexpandCheckRange(text, *styles, recalcRange->charRange, deletion, &itsCheckRange);
 		assert( itsCheckRange.Contains(savedRange) &&
 				itsCheckRange.last <= styles->GetElementCount() );
 
@@ -248,12 +251,13 @@ JTEStyler::UpdateStyles
 
 	// scan the text and adjust the styles
 
-	std::istrstream input(text.GetCString(), text.GetLength());
+	std::istrstream input(text.GetRawBytes(), textLength);
 	JSeekg(input, itsTokenStart-1);
 
-	itsTE          = te;
-	itsFontMgr     = te->TEGetFontManager();
-	itsDefFont     = jnew JFont(te->GetDefaultFont());
+	JFont f = st->GetDefaultFont();
+
+	itsST          = st;
+	itsDefFont     = &f;
 	itsText        = &text;
 	itsStyles      = styles;
 	itsRecalcRange = recalcRange;
@@ -268,19 +272,16 @@ JTEStyler::UpdateStyles
 
 	#if DEBUG_TIMING_INFO
 	timer.StopTimer();
-	std::cout << "JTEStyler: " << timer.PrintTimeInterval() << std::endl;
+	std::cout << "JSTStyler: " << timer.PrintTimeInterval() << std::endl;
 	#endif
 
-	itsTE             = nullptr;
-	itsFontMgr        = nullptr;
+	itsST             = nullptr;
+	itsDefFont        = nullptr;
 	itsText           = nullptr;
 	itsStyles         = nullptr;
 	itsRecalcRange    = nullptr;
 	itsRedrawRange    = nullptr;
 	itsTokenStartList = nullptr;
-
-	jdelete itsDefFont;
-	itsDefFont = nullptr;
 }
 
 /******************************************************************************
@@ -294,13 +295,13 @@ JTEStyler::UpdateStyles
  ******************************************************************************/
 
 void
-JTEStyler::PreexpandCheckRange
+JSTStyler::PreexpandCheckRange
 	(
 	const JString&			text,
 	const JRunArray<JFont>&	styles,
-	const JIndexRange&		modifiedRange,
+	const JCharacterRange&	modifiedRange,
 	const JBoolean			deletion,
-	JIndexRange*			checkRange
+	JCharacterRange*		checkRange
 	)
 {
 }
@@ -314,14 +315,14 @@ JTEStyler::PreexpandCheckRange
  ******************************************************************************/
 
 void
-JTEStyler::ExtendCheckRange
+JSTStyler::ExtendCheckRange
 	(
 	const JIndex newEndIndex
 	)
 {
 	if (itsCheckRange.last < newEndIndex)
 		{
-		itsCheckRange.last = JMin(newEndIndex, itsText->GetLength());
+		itsCheckRange.last = JMin(newEndIndex, itsText->GetCharacterCount());
 		}
 }
 
@@ -333,10 +334,10 @@ JTEStyler::ExtendCheckRange
  ******************************************************************************/
 
 JBoolean
-JTEStyler::SetStyle
+JSTStyler::SetStyle
 	(
-	const JIndexRange&	range,
-	const JFontStyle&	style
+	const JCharacterRange&	range,
+	const JFontStyle&		style
 	)
 {
 	assert( !range.IsEmpty() );
@@ -353,12 +354,12 @@ JTEStyler::SetStyle
 		{
 		JFont f = *itsDefFont;
 		f.SetStyle(style);
-		itsStyles->AppendElements(f, range.GetLength());
+		itsStyles->AppendElements(f, range.GetCount());
 		}
 	else if (range.last >= itsCheckRange.first)
 		{
-		JIndexRange fontRange;
-		fontRange.SetFirstAndLength(itsTokenFirstInRun, itsStyles->GetRunLength(itsTokenRunIndex));
+		JCharacterRange fontRange;
+		fontRange.SetFirstAndCount(itsTokenFirstInRun, itsStyles->GetRunLength(itsTokenRunIndex));
 		const JBoolean beyondCurrentRun = !fontRange.Contains(range);
 
 		JFont f                     = itsStyles->GetRunData(itsTokenRunIndex);
@@ -372,7 +373,7 @@ JTEStyler::SetStyle
 			// extend the check range if we slop over into another style run
 			// (HTML: type '<' after 'x' in "x<!--<br><h3>text</h3>-->")
 
-			// extend past end of run to ensure that we keep going until we
+			// extend past end of run to insure that we keep going until we
 			// find a correctly styled token
 
 			if (beyondCurrentRun || styleExtendsBeyondToken)
@@ -381,6 +382,7 @@ JTEStyler::SetStyle
 				JIndex firstInRun = itsTokenFirstInRun;
 				const JBoolean ok = itsStyles->FindRun(itsTokenStart, range.last,
 													   &runIndex, &firstInRun);
+				assert( ok );
 				ExtendCheckRange(firstInRun + itsStyles->GetRunLength(runIndex));
 				}
 
@@ -397,22 +399,22 @@ JTEStyler::SetStyle
 
 			if (!beyondCurrentRun && OnlyColorChanged(style, origStyle))
 				{
-				*itsRedrawRange += range;
+				ExpandTextRange(itsRedrawRange, range);
 				}
 			else
 				{
-				*itsRecalcRange += range;
+				ExpandTextRange(itsRecalcRange, range);
 				}
 
 			f = *itsDefFont;
 			f.SetStyle(style);
 
-			itsStyles->RemoveNextElements(range.first, range.GetLength(),
+			itsStyles->RemoveNextElements(range.first, range.GetCount(),
 										  &itsTokenRunIndex, &itsTokenFirstInRun);
 
 			run_assert(itsStyles, range.first, itsTokenRunIndex, itsTokenFirstInRun);
 
-			itsStyles->InsertElementsAtIndex(range.first, f, range.GetLength(),
+			itsStyles->InsertElementsAtIndex(range.first, f, range.GetCount(),
 											 &itsTokenRunIndex, &itsTokenFirstInRun);
 
 			run_assert(itsStyles, range.first, itsTokenRunIndex, itsTokenFirstInRun);
@@ -424,8 +426,8 @@ JTEStyler::SetStyle
 		{
 		const JBoolean ok = itsStyles->FindRun(range.first, itsTokenStart,
 											   &itsTokenRunIndex, &itsTokenFirstInRun);
-		assert( ok || range.last == itsText->GetLength() );
-		assert( range.last == itsText->GetLength() ||
+		assert( ok || range.last == itsText->GetCharacterCount() );
+		assert( range.last == itsText->GetCharacterCount() ||
 				check_run(itsStyles, itsTokenStart, itsTokenRunIndex, itsTokenFirstInRun) );
 		}
 
@@ -439,8 +441,8 @@ JTEStyler::SetStyle
 
  ******************************************************************************/
 
-JArray<JTEStyler::TokenData>*
-JTEStyler::NewTokenStartList()
+JArray<JSTStyler::TokenData>*
+JSTStyler::NewTokenStartList()
 {
 	JArray<TokenData>* list = jnew JArray<TokenData>(kListBlockSize);
 	assert( list != nullptr );
@@ -457,7 +459,7 @@ JTEStyler::NewTokenStartList()
  ******************************************************************************/
 
 void
-JTEStyler::SaveTokenStart
+JSTStyler::SaveTokenStart
 	(
 	const TokenExtra& data
 	)
@@ -477,8 +479,8 @@ JTEStyler::SaveTokenStart
 
  ******************************************************************************/
 
-JTEStyler::TokenExtra
-JTEStyler::GetFirstTokenExtraData()
+JSTStyler::TokenExtra
+JSTStyler::GetFirstTokenExtraData()
 	const
 {
 	return TokenExtra();
@@ -490,7 +492,7 @@ JTEStyler::GetFirstTokenExtraData()
  ******************************************************************************/
 
 JListT::CompareResult
-JTEStyler::CompareTokenStarts
+JSTStyler::CompareTokenStarts
 	(
 	const TokenData& t1,
 	const TokenData& t2
@@ -508,23 +510,23 @@ JTEStyler::CompareTokenStarts
  ******************************************************************************/
 
 void
-JTEStyler::AdjustStyle
+JSTStyler::AdjustStyle
 	(
-	const JIndexRange&	range,
-	const JFontStyle&	style
+	const JCharacterRange&	range,
+	const JFontStyle&		style
 	)
 {
 	assert( range.last < itsTokenStart );
 	assert( itsRecalcRange != nullptr );
 
-	*itsRecalcRange += range;
+	ExpandTextRange(itsRecalcRange, range);
 
 	// adjust the styles
 
 	JFont f = itsStyles->GetElement(range.first);
 	f.SetStyle(style);
 
-	itsStyles->SetNextElements(range.first, range.GetLength(), f);
+	itsStyles->SetNextElements(range.first, range.GetCount(), f);
 
 	// update state
 
@@ -544,7 +546,7 @@ JTEStyler::AdjustStyle
  ******************************************************************************/
 
 inline JBoolean
-JTEStyler::OnlyColorChanged
+JSTStyler::OnlyColorChanged
 	(
 	JFontStyle s1,
 	JFontStyle s2
@@ -553,4 +555,33 @@ JTEStyler::OnlyColorChanged
 {
 	s1.color = s2.color = 0;	// make sure the color is the same
 	return JI2B(s1 == s2);		// avoids maintenance when fields are added
+}
+
+/******************************************************************************
+ ExpandTextRange (private)
+
+ ******************************************************************************/
+
+void
+JSTStyler::ExpandTextRange
+	(
+	TextRange*				r1,
+	const JCharacterRange&	r2
+	)
+	const
+{
+	if (r1->charRange.Contains(r2))
+		{
+		return;
+		}
+
+	const JIndexRange cr = r1->charRange + r2;
+
+	const TextIndex start =
+		itsST->AdjustTextIndex(r1->GetFirst(), cr.first - r1->charRange.first);
+
+	const TextIndex after =
+		itsST->AdjustTextIndex(r1->GetAfter(), cr.last - r1->charRange.last);
+
+	*r1 = TextRange(start, after);
 }

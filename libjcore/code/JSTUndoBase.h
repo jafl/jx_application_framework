@@ -29,8 +29,7 @@ protected:
 
 	JStyledText*	GetText() const;
 
-	void	SetFont(JRunArray<JFont>* styles,
-					const JString& name, const JSize size);
+	void	SetFont(JRunArray<JFont>* styles, const JString& name, const JSize size);
 
 private:
 

@@ -10,7 +10,7 @@
  ******************************************************************************/
 
 #include "StyledText.h"
-#include "JFontManager.h"
+#include <JFontManager.h>
 #include <jAssert.h>
 
 /******************************************************************************
@@ -23,7 +23,9 @@ StyledText::StyledText
 	const JBoolean useMultipleUndo
 	)
 	:
-	JStyledText(useMultipleUndo, kJTrue)
+	JStyledText(useMultipleUndo, kJTrue),
+	itsStyler(nullptr),
+	itsTokenStartList(nullptr)
 {
 }
 
@@ -34,100 +36,26 @@ StyledText::StyledText
 
 StyledText::~StyledText()
 {
+	jdelete itsTokenStartList;
 }
 
 /******************************************************************************
- GetWordStart
+ AdjustStylesBeforeBroadcast (virtual protected)
 
  ******************************************************************************/
 
-JStyledText::TextIndex
-StyledText::GetWordStart
+void
+StyledText::AdjustStylesBeforeBroadcast
 	(
-	const JIndex charIndex,
-	const JIndex byteIndex
+	const JString&		text,
+	JRunArray<JFont>*	styles,
+	TextRange*			recalcRange,
+	TextRange*			redrawRange,
+	const JBoolean		deletion
 	)
-	const
 {
-	return JStyledText::GetWordStart(TextIndex(charIndex, byteIndex));
-}
-
-/******************************************************************************
- GetWordEnd
-
- ******************************************************************************/
-
-JStyledText::TextIndex
-StyledText::GetWordEnd
-	(
-	const JIndex charIndex,
-	const JIndex byteIndex
-	)
-	const
-{
-	return JStyledText::GetWordEnd(TextIndex(charIndex, byteIndex));
-}
-
-/******************************************************************************
- GetPartialWordStart
-
- ******************************************************************************/
-
-JStyledText::TextIndex
-StyledText::GetPartialWordStart
-	(
-	const JIndex charIndex,
-	const JIndex byteIndex
-	)
-	const
-{
-	return JStyledText::GetPartialWordStart(TextIndex(charIndex, byteIndex));
-}
-
-/******************************************************************************
- GetPartialWordEnd
-
- ******************************************************************************/
-
-JStyledText::TextIndex
-StyledText::GetPartialWordEnd
-	(
-	const JIndex charIndex,
-	const JIndex byteIndex
-	)
-	const
-{
-	return JStyledText::GetPartialWordEnd(TextIndex(charIndex, byteIndex));
-}
-
-/******************************************************************************
- GetParagraphStart
-
- ******************************************************************************/
-
-JStyledText::TextIndex
-StyledText::GetParagraphStart
-	(
-	const JIndex charIndex,
-	const JIndex byteIndex
-	)
-	const
-{
-	return JStyledText::GetParagraphStart(TextIndex(charIndex, byteIndex));
-}
-
-/******************************************************************************
- GetParagraphEnd
-
- ******************************************************************************/
-
-JStyledText::TextIndex
-StyledText::GetParagraphEnd
-	(
-	const JIndex charIndex,
-	const JIndex byteIndex
-	)
-	const
-{
-	return JStyledText::GetParagraphEnd(TextIndex(charIndex, byteIndex));
+	if (itsStyler != nullptr)
+		{
+		itsStyler->UpdateStyles(this, text, styles, recalcRange, redrawRange, deletion, itsTokenStartList);
+		}
 }

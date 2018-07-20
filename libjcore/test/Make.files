@@ -133,6 +133,12 @@ ${CODEDIR}/test_JStyledText
 ${CODEDIR}/StyledText
 literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
 
+@test_JSTStyler
+${CODEDIR}/test_JSTStyler
+${CODEDIR}/StyledText
+${CODEDIR}/TestStyler
+literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
+
 @test_JSubstitute
 ${CODEDIR}/test_JSubstitute
 literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a

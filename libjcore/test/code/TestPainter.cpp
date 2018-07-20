@@ -7,7 +7,7 @@
 
  ******************************************************************************/
 
-#include <TestPainter.h>
+#include "TestPainter.h"
 #include "TestFontManager.h"
 #include <jAssert.h>
 
