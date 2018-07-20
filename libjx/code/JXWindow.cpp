@@ -3377,15 +3377,13 @@ JXWindow::SetXIMPosition
 	const JPoint& ptG
 	)
 {
-	JPoint ptR = GlobalToRoot(ptG);
-
 	XPoint xpt;
-	xpt.x = ptR.x;
-	xpt.y = ptR.y;
+	xpt.x = ptG.x;
+	xpt.y = ptG.y;
 
-    XVaNestedList attr = XVaCreateNestedList(0, XNSpotLocation, &xpt, NULL);
-    XSetICValues(itsXIC, XNPreeditAttributes, attr, NULL);
-    XFree(attr);
+	XVaNestedList attr = XVaCreateNestedList(0, XNSpotLocation, &xpt, NULL);
+	XSetICValues(itsXIC, XNPreeditAttributes, attr, NULL);
+	XFree(attr);
 }
 
 /******************************************************************************
