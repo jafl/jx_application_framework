@@ -235,9 +235,6 @@ public:
 	JColorID	GetWhitespaceColor() const;
 	void		SetWhitespaceColor(const JColorID color);
 
-	JBoolean	WillBroadcastCaretLocationChanged() const;
-	void		ShouldBroadcastCaretLocationChanged(const JBoolean broadcast);
-
 	CaretMode	GetCaretMode() const;
 	void		SetCaretMode(const CaretMode mode);
 
@@ -406,7 +403,6 @@ private:
 	JBoolean	itsBreakCROnlyFlag;			// kJFalse => break line at whitespace
 	JBoolean	itsPerformDNDFlag;			// kJTrue => drag-and-drop enabled
 	JBoolean	itsMoveToFrontOfTextFlag;	// kJTrue => left arrow w/ moveEOL puts caret after whitespace
-	JBoolean	itsBcastLocChangedFlag;		// kJTrue => broadcast CaretLocationChanged instead of CaretLineChanged
 	JBoolean	itsIsPrintingFlag;			// kJTrue => stack threads through Print()
 	JBoolean	itsDrawWhitespaceFlag;		// kJTrue => show tabs, spaces, newlines
 	JBoolean	itsAlwaysShowSelectionFlag;	// kJTrue => show selection even when not active
@@ -527,8 +523,7 @@ private:
 							 const JBoolean replaceIsRegex,
 							 const JBoolean preserveCase);
 
-	void		BroadcastCaretMessages(const CaretLocation& caretLoc,
-									   const JBoolean lineChanged);
+	void		BroadcastCaretMessages(const CaretLocation& caretLoc);
 
 	static JInteger	GetLineHeight(const LineGeometry& data);
 
@@ -544,7 +539,6 @@ public:
 	// JBroadcaster messages
 
 	static const JUtf8Byte* kTypeChanged;
-	static const JUtf8Byte* kCaretLineChanged;
 	static const JUtf8Byte* kCaretLocationChanged;
 
 	class TypeChanged : public JBroadcaster::Message
@@ -568,36 +562,16 @@ public:
 		Type	itsType;
 	};
 
-	class CaretLineChanged : public JBroadcaster::Message
-	{
-	public:
-
-		CaretLineChanged(const JIndex lineIndex)
-			:
-			JBroadcaster::Message(kCaretLineChanged),
-			itsLineIndex(lineIndex)
-			{ };
-
-		JIndex
-		GetLineIndex() const
-		{
-			return itsLineIndex;
-		};
-
-	private:
-
-		JIndex itsLineIndex;
-	};
-
 	class CaretLocationChanged : public JBroadcaster::Message
 	{
 	public:
 
-		CaretLocationChanged(const JIndex lineIndex, const JIndex columnIndex)
+		CaretLocationChanged(const JIndex lineIndex, const JIndex columnIndex, const JIndex charIndex)
 			:
 			JBroadcaster::Message(kCaretLocationChanged),
 			itsLineIndex(lineIndex),
-			itsColumnIndex(columnIndex)
+			itsColumnIndex(columnIndex),
+			itsCharIndex(charIndex)
 			{ };
 
 		JIndex
@@ -612,9 +586,15 @@ public:
 			return itsColumnIndex;
 		};
 
+		JIndex
+		GetCharacterIndex() const
+		{
+			return itsCharIndex;
+		};
+
 	private:
 
-		JIndex itsLineIndex, itsColumnIndex;
+		JIndex itsLineIndex, itsColumnIndex, itsCharIndex;
 	};
 };
 
@@ -1227,7 +1207,14 @@ JTextEditor::GetLineHeight
 	)
 	const
 {
-	return (itsLineGeom->GetElement(lineIndex)).height;
+	if (lineIndex == itsLineGeom->GetElementCount()+1 && itsText->EndsWithNewline())
+		{
+		return itsText->CalcInsertionFont(itsText->SelectAll().GetAfter()).GetLineHeight(itsFontManager);
+		}
+	else
+		{
+		return itsLineGeom->GetElement(lineIndex).height;
+		}
 }
 
 /******************************************************************************
@@ -1317,29 +1304,6 @@ JTextEditor::GetCharRight
 {
 	return itsLeftMarginWidth +
 		GetCharRight(CalcCaretLocation(JStyledText::TextIndex(charIndex, 0)));
-}
-
-/******************************************************************************
- Broadcast CaretLocationChanged instead of CaretLineChanged
-
-	Broadcasting both messages is redundant.
-
- ******************************************************************************/
-
-inline JBoolean
-JTextEditor::WillBroadcastCaretLocationChanged()
-	const
-{
-	return itsBcastLocChangedFlag;
-}
-
-inline void
-JTextEditor::ShouldBroadcastCaretLocationChanged
-	(
-	const JBoolean broadcast
-	)
-{
-	itsBcastLocChangedFlag = broadcast;
 }
 
 /******************************************************************************

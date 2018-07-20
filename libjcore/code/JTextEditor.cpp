@@ -11,11 +11,6 @@
 	selected text / styles.  Modifications can always safely be done
 	directly on the JStyledText, assuming you have the required data.
 
-	CaretLineChanged is broadcast by default.  If anybody requests
-	CaretLocationChanged, CaretLineChanged will no longer be broadcast,
-	since it duplicates the information.  Generic classes should accept
-	either message to avoid depending on the setting.
-
 	When the text ends with a newline, we have to draw the caret on the
 	next line.  This is a special case because (charIndex == bufLength+1)
 	would normally catch this.  We handle this special case internally
@@ -160,7 +155,6 @@ JBoolean JTextEditor::theCopyWhenSelectFlag = kJFalse;
 // JBroadcaster message types
 
 const JUtf8Byte* JTextEditor::kTypeChanged          = "TypeChanged::JTextEditor";
-const JUtf8Byte* JTextEditor::kCaretLineChanged     = "CaretLineChanged::JTextEditor";
 const JUtf8Byte* JTextEditor::kCaretLocationChanged = "CaretLocationChanged::JTextEditor";
 
 /******************************************************************************
@@ -210,7 +204,6 @@ JTextEditor::JTextEditor
 	itsCaretVisibleFlag        = kJFalse;
 	itsPerformDNDFlag          = kJFalse;
 	itsMoveToFrontOfTextFlag   = kJFalse;
-	itsBcastLocChangedFlag     = kJFalse;
 	itsBreakCROnlyFlag         = breakCROnly;
 	itsIsPrintingFlag          = kJFalse;
 	itsDrawWhitespaceFlag      = kJFalse;
@@ -292,7 +285,6 @@ JTextEditor::JTextEditor
 	itsCaretVisibleFlag        = kJFalse;
 	itsPerformDNDFlag          = source.itsPerformDNDFlag;
 	itsMoveToFrontOfTextFlag   = source.itsMoveToFrontOfTextFlag;
-	itsBcastLocChangedFlag     = source.itsBcastLocChangedFlag;
 	itsBreakCROnlyFlag         = source.itsBreakCROnlyFlag;
 	itsIsPrintingFlag          = kJFalse;
 	itsDrawWhitespaceFlag      = source.itsDrawWhitespaceFlag;
@@ -1062,8 +1054,7 @@ JTextEditor::SetSelection
 	if (needCaretBcast)
 		{
 		BroadcastCaretMessages(
-			CaretLocation(itsSelection.GetFirst(), newStartLine),
-			kJTrue);
+			CaretLocation(itsSelection.GetFirst(), newStartLine));
 		}
 
 	TECaretShouldBlink(kJFalse);
@@ -2338,7 +2329,7 @@ JTextEditor::TEHandleMouseDrag
 	if (itsDragType == kSelectDrag && caretLoc.location.charIndex < itsSelectionPivot.charIndex)
 		{
 		SetSelection(TextRange(caretLoc.location, itsSelectionPivot), kJFalse);
-		BroadcastCaretMessages(caretLoc, kJTrue);
+		BroadcastCaretMessages(caretLoc);
 		}
 	else if (itsDragType == kSelectDrag && caretLoc.location.charIndex == itsSelectionPivot.charIndex)
 		{
@@ -2347,7 +2338,7 @@ JTextEditor::TEHandleMouseDrag
 	else if (itsDragType == kSelectDrag && caretLoc.location.charIndex > itsSelectionPivot.charIndex)
 		{
 		SetSelection(TextRange(itsSelectionPivot, caretLoc.location), kJFalse);
-		BroadcastCaretMessages(caretLoc, kJTrue);
+		BroadcastCaretMessages(caretLoc);
 		}
 	else if (itsDragType == kSelectWordDrag || itsDragType == kSelectPartialWordDrag)
 		{
@@ -2363,7 +2354,7 @@ JTextEditor::TEHandleMouseDrag
 			*static_cast<const JUtf8ByteRange*>(&br)),
 			kJFalse);
 
-		BroadcastCaretMessages(caretLoc, kJTrue);
+		BroadcastCaretMessages(caretLoc);
 		}
 	else if (itsDragType == kSelectLineDrag)
 		{
@@ -2371,7 +2362,7 @@ JTextEditor::TEHandleMouseDrag
 			GetLineStart( JMin(itsLineSelPivot, caretLoc.lineIndex) ),
 			GetLineEnd(   JMax(itsLineSelPivot, caretLoc.lineIndex) )),
 			kJFalse);
-		BroadcastCaretMessages(caretLoc, kJTrue);
+		BroadcastCaretMessages(caretLoc);
 		}
 	else if (itsDragType == kDragAndDrop && JMouseMoved(itsStartPt, pt))
 		{
@@ -2896,8 +2887,7 @@ JTextEditor::SetCaretLocation
 		TERefreshCaret(itsCaret);
 		}
 
-	BroadcastCaretMessages(itsCaret,
-		JI2B(hadSelection || origCaretLoc.lineIndex != itsCaret.lineIndex));
+	BroadcastCaretMessages(itsCaret);
 
 	TECaretShouldBlink(kJTrue);
 }
@@ -2910,30 +2900,17 @@ JTextEditor::SetCaretLocation
 void
 JTextEditor::BroadcastCaretMessages
 	(
-	const CaretLocation&	caretLoc,
-	const JBoolean			lineChanged
+	const CaretLocation& caretLoc
 	)
 {
-	if (itsBcastLocChangedFlag)
+	JIndex line = caretLoc.lineIndex;
+	JIndex col  = GetColumnForChar(caretLoc);
+	if (IsTrailingNewline(caretLoc.location))
 		{
-		JIndex line = caretLoc.lineIndex;
-		JIndex col  = GetColumnForChar(caretLoc);
-		if (IsTrailingNewline(caretLoc.location))
-			{
-			line++;
-			col = 1;
-			}
-		Broadcast(CaretLocationChanged(line, col));
+		line++;
+		col = 1;
 		}
-	else if (lineChanged)
-		{
-		JIndex line = caretLoc.lineIndex;
-		if (IsTrailingNewline(caretLoc.location))
-			{
-			line++;
-			}
-		Broadcast(CaretLineChanged(line));
-		}
+	Broadcast(CaretLocationChanged(line, col, caretLoc.location.charIndex));
 }
 
 /******************************************************************************
@@ -3796,8 +3773,6 @@ JTextEditor::RecalcAll()
 
 	itsLineGeom->RemoveAll();
 
-	const JIndex origLine = itsCaret.lineIndex;
-
 	const TextRange r(TextIndex(1,1),
 		TextCount(itsText->GetText().GetCharacterCount(),
 				  itsText->GetText().GetByteCount()));
@@ -3806,11 +3781,11 @@ JTextEditor::RecalcAll()
 
 	if (HasSelection())
 		{
-		BroadcastCaretMessages(CalcCaretLocation(itsSelection.GetFirst()), kJTrue);
+		BroadcastCaretMessages(CalcCaretLocation(itsSelection.GetFirst()));
 		}
 	else
 		{
-		BroadcastCaretMessages(itsCaret, JI2B(itsCaret.lineIndex != origLine));
+		BroadcastCaretMessages(itsCaret);
 		}
 }
 

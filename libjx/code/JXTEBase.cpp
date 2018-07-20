@@ -1,15 +1,14 @@
 /******************************************************************************
  JXTEBase.cpp
 
-	We implement the routines required by JTextEditor that only depend on JX.
+	We implement the routines required by JTextEditor that depend on JX.
 
-	We paste the following data types:
-		XA_STRING, TEXT, text/x-jxstyled0
+	We accept the following data types:
+		XA_STRING, UTF8_STRING,
+		text/plain, text/plain;charset=utf-8,
+		text/x-jxstyled0
 
-	We accept drops of the following data types:
-		text/plain, text/x-jxstyled0
-
-	To paste other formats, override TEGetExternalClipboard().
+	To paste other formats, override TEGetClipboard().
 
 	To accept drops of other formats that can be pasted (and should therefore
 		display an insertion caret), override TEXWillAcceptDrop() and
@@ -2326,13 +2325,24 @@ JXTEBase::Receive
 		itsGoToLineDialog = nullptr;
 		}
 
-	else if (sender == GetText() && message.Is(JStyledText::kWillBeBusy))
-		{
-		(JXGetApplication())->DisplayBusyCursor();
-		}
-
 	else
 		{
+		if (sender == this && message.Is(JTextEditor::kCaretLocationChanged))
+			{
+			const JTextEditor::CaretLocationChanged* info =
+				dynamic_cast<const JTextEditor::CaretLocationChanged*>(&message);
+			assert( info != nullptr );
+
+			JPoint pt;
+			pt.x = GetCharLeft(info->GetCharacterIndex());
+			pt.y = GetLineBottom(info->GetLineIndex());
+			GetWindow()->SetXIMPosition(JXContainer::LocalToGlobal(pt));
+			}
+		else if (sender == GetText() && message.Is(JStyledText::kWillBeBusy))
+			{
+			(JXGetApplication())->DisplayBusyCursor();
+			}
+
 		JXScrollableWidget::Receive(sender, message);
 		JTextEditor::Receive(sender, message);
 		}

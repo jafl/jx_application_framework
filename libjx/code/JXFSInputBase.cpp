@@ -51,7 +51,6 @@ JXFSInputBase::JXFSInputBase
 	SetIsRequired();
 	GetText()->SetCharacterInWordFunction(IsCharacterInWord);
 	GetText()->SetDefaultFont(JFontManager::GetDefaultMonospaceFont());
-	ShouldBroadcastCaretLocationChanged(kJTrue);
 	SetHint(JGetString(itsDefaultHintID));
 	ListenTo(this);
 	ListenTo(this->GetText());

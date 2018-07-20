@@ -280,7 +280,7 @@ JTEDefaultKeyHandler::HandleKeyPress
 
 		// show moving end of selection
 
-		te->BroadcastCaretMessages(savedCaretLoc, kJTrue);
+		te->BroadcastCaretMessages(savedCaretLoc);
 		}
 
 	return processed;

@@ -97,8 +97,7 @@ TestTextEditor::Receive
 	)
 {
 	JXTextMenu* editMenu;
-	const JBoolean ok = GetEditMenu(&editMenu);
-	assert( ok );
+	GetEditMenu(&editMenu);
 
 	if (sender == editMenu && message.Is(JXMenu::kNeedsUpdate))
 		{

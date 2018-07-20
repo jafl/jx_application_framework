@@ -73,6 +73,7 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //			Removed functions that accepted or returned ranges as pair of
 //				JIndex values, because these are ambiguous.  Switch to
 //				the versions that use JCharacterRange.
+//			Removed CaretLineChanged message.  Always broadcasts CaretLocationChanged.
 //	*** Removed JGetCurrentFontManager & JGetCurrentColormap.
 //	*** Changed all /usr/lib paths to /usr/local/lib on OSX because of SIP
 //	*** JString(float) now requires second argument to prevent nullptr from

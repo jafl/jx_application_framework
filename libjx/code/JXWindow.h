@@ -249,6 +249,10 @@ public:
 	void		MenuItemInserted(JXTextMenu* menu, const JIndex newItem);
 	void		MenuItemRemoved(JXTextMenu* menu, const JIndex oldItem);
 
+	// called by JXTEBase
+
+	void	SetXIMPosition(const JPoint& ptG);
+
 	// called by JXHintManager
 
 	void	SetCurrentHintManager(JXHintManager* mgr);
