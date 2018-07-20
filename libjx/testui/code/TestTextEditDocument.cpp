@@ -16,7 +16,7 @@
 #include <JXMenuBar.h>
 #include <JXTextMenu.h>
 #include <JXDocumentMenu.h>
-#include <JXVertPartition.h>
+#include <JXHorizPartition.h>
 #include <JXScrollbarSet.h>
 #include <JXStandAlonePG.h>
 #include <JXDeleteObjectTask.h>
@@ -124,8 +124,8 @@ TestTextEditDocument::BuildWindow
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 400,30);
 	assert( menuBar != nullptr );
 
-	JXVertPartition* partition =
-		jnew JXVertPartition(sizes, 1, minSizes, window,
+	JXHorizPartition* partition =
+		jnew JXHorizPartition(sizes, 1, minSizes, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 400,300);
 	assert( partition != nullptr );
 
