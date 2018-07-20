@@ -3,8 +3,9 @@
 
 							The Array-in-a-File Class
 
-	An array implemented as a file.  All data is stored as ascii text and
-	is transferred via strstream objects. Each element can have an arbitrary size.
+	An array implemented as a file.  All data is stored as text and is
+	transferred via stringstream objects. Each element can have an
+	arbitrary size.
 
 	A JFileArray can be embedded within other JFileArray by storing all the
 	embedded file's data inside one element of the enclosing file.
