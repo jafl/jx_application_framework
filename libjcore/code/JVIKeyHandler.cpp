@@ -109,16 +109,13 @@ JVIKeyHandler::PrehandleKeyPress
 		{
 		SetMode(kCommandMode);
 
-		JTextEditor::CaretLocation loc;
-		if (te->GetCaretLocation(&loc) && loc.charIndex > 1)
+		JTextEditor::CaretLocation caret;
+		if (te->GetCaretLocation(&caret) && caret.location.charIndex > 1)
 			{
-			JStringIterator iter(te->GetText());
-			iter.UnsafeMoveTo(kJIteratorStartBefore, loc.charIndex, loc.byteIndex);
-			JUtf8Character c;
-			if (iter.Prev(&c) && c != '\n')
+			const JStyledText::TextIndex i = te->GetText()->AdjustTextIndex(caret.location, -1);
+			if (te->GetCharacter(i) != '\n')
 				{
-				te->SetCaretLocation(JTextEditor::CaretLocation(
-					iter.GetNextCharacterIndex(), iter.GetNextByteIndex(), loc.lineIndex));
+				te->SetCaretLocation(JTextEditor::CaretLocation(i, caret.lineIndex));
 				}
 			}
 
@@ -192,15 +189,11 @@ JVIKeyHandler::HandleKeyPress
 	else if (key == 'a')
 		{
 		SetMode(kTextEntryMode);
-		const JTextEditor::TextIndex i = te->GetInsertionIndex();
-
-		JStringIterator iter(te->GetText());
-		iter.UnsafeMoveTo(kJIteratorStartBefore, i.charIndex, i.byteIndex);
-		JUtf8Character c;
-		if (iter.Next(&c, kJFalse) && c != '\n')
+		const JStyledText::TextIndex i = te->GetInsertionIndex();
+		if (te->GetText()->GetText().CharacterIndexValid(i.charIndex) &&
+			te->GetCharacter(i) != '\n')
 			{
-			te->SetCaretLocation(JTextEditor::TextIndex(
-				iter.GetNextCharacterIndex(), iter.GetNextByteIndex()));
+			te->SetCaretLocation(te->GetText()->AdjustTextIndex(i, +1));
 			}
 		}
 	else if (key == 'A')
@@ -213,12 +206,12 @@ JVIKeyHandler::HandleKeyPress
 		SetMode(kTextEntryMode);
 
 		te->GoToBeginningOfLine();
-		const JTextEditor::TextIndex i = te->GetInsertionIndex();
-		te->SetCaretLocation(te->AdjustTextIndex(i, -1));
+		const JStyledText::TextIndex i = te->GetInsertionIndex();
+		te->SetCaretLocation(te->GetText()->AdjustTextIndex(i, -1));
 		InsertKeyPress('\n');
 		if (i.charIndex == 1)
 			{
-			te->SetCaretLocation(JTextEditor::CaretLocation(1,1,1));
+			te->SetCaretLocation(JTextEditor::CaretLocation(JStyledText::TextIndex(1,1),1));
 			}
 		}
 	else if (key == 'o')
@@ -245,7 +238,7 @@ JVIKeyHandler::HandleKeyPress
 		}
 	else if (key == 'G')
 		{
-		te->SetCaretLocation(te->GetText().GetCharacterCount()+1);
+		te->SetCaretLocation(te->GetText()->SelectAll().GetAfter());
 		}
 
 	else if (key.IsDigit())	// after 0 => beginning of line
@@ -282,7 +275,7 @@ JVIKeyHandler::HandleKeyPress
 				}
 			else
 				{
-				if (te->GetInsertionIndex().charIndex >= te->GetText().GetCharacterCount())
+				if (te->GetInsertionIndex().charIndex >= te->GetText()->GetText().GetCharacterCount())
 					{
 					break;
 					}
@@ -320,7 +313,7 @@ JVIKeyHandler::HandleKeyPress
 		CutBuffer* buf = GetCutBuffer(cutbufPattern);
 		if (buf->buf != nullptr)
 			{
-			const JTextEditor::TextIndex i = te->GetInsertionIndex();
+			const JStyledText::TextIndex i = te->GetInsertionIndex();
 			if (buf->line)
 				{
 				te->GoToBeginningOfLine();
@@ -329,16 +322,11 @@ JVIKeyHandler::HandleKeyPress
 					MoveCaretVert(1);
 					}
 				}
-			else if (key == 'p')
+			else if (key == 'p' &&
+					 te->GetText()->GetText().CharacterIndexValid(i.charIndex) &&
+					 te->GetCharacter(i) != '\n')
 				{
-				JStringIterator iter(te->GetText());
-				iter.UnsafeMoveTo(kJIteratorStartBefore, i.charIndex, i.byteIndex);
-				JUtf8Character c;
-				if (iter.Next(&c) && c != '\n')
-					{
-					te->SetCaretLocation(JTextEditor::TextIndex(
-						iter.GetNextCharacterIndex(), iter.GetNextByteIndex()));
-					}
+				te->SetCaretLocation(te->GetText()->AdjustTextIndex(i, +1));
 				}
 
 			const JSize count = GetOperationCount();
@@ -351,21 +339,19 @@ JVIKeyHandler::HandleKeyPress
 
 	else if (key == 'u')
 		{
-		te->Undo();
+		te->GetText()->Undo();
 		}
 
 	else if (key == '$')	// after d$ and y$
 		{
 		te->GoToEndOfLine();
-		const JTextEditor::TextIndex i = te->GetInsertionIndex();
+		const JStyledText::TextIndex i = te->GetInsertionIndex();
 
-		JStringIterator iter(te->GetText());
-		iter.UnsafeMoveTo(kJIteratorStartBefore, i.charIndex, i.byteIndex);
-		JUtf8Character c;
-		if (iter.Next(&c) && c == '\n')
+		if (i.charIndex > 1 &&
+			te->GetText()->GetText().CharacterIndexValid(i.charIndex) &&
+			te->GetCharacter(i) == '\n')
 			{
-			te->SetCaretLocation(te->AdjustTextIndex(JTextEditor::TextIndex(
-				iter.GetNextCharacterIndex(), iter.GetNextByteIndex()), -1));
+			te->SetCaretLocation(te->GetText()->AdjustTextIndex(i, -1));
 			}
 		}
 
@@ -390,24 +376,24 @@ JVIKeyHandler::YankLines
 {
 	JTextEditor* te = GetTE();
 	te->GoToBeginningOfLine();
-	const JTextEditor::TextIndex start = te->GetInsertionIndex();
+	const JStyledText::TextIndex start = te->GetInsertionIndex();
 
 	MoveCaretVert(GetOperationCount());
 
-	const JTextEditor::TextIndex end = te->GetInsertionIndex();
+	const JStyledText::TextIndex end = te->GetInsertionIndex();
 
 	const JCharacterRange cr(start.charIndex, end.charIndex-1);
 	const JUtf8ByteRange  br(start.byteIndex, end.byteIndex-1);
 	if (!cr.IsEmpty())
 		{
-		const JString s(te->GetText().GetRawBytes(), br, kJFalse);
+		const JString s(te->GetText()->GetText().GetRawBytes(), br, kJFalse);
 
 		CutBuffer* buf = GetCutBuffer(yankDeletePattern, match);
 		buf->Set(s, kJTrue);
 
 		if (del)
 			{
-			te->SetSelection(cr, br);
+			te->SetSelection(JStyledText::TextRange(cr, br));
 			te->DeleteSelection();
 			}
 		}
@@ -427,31 +413,29 @@ JVIKeyHandler::YankToEndOfLine
 {
 	JTextEditor* te = GetTE();
 
-	const JTextEditor::TextIndex start = te->GetInsertionIndex();
+	const JStyledText::TextIndex start = te->GetInsertionIndex();
 
 	const JIndex line = te->GetLineForChar(start.charIndex) + GetOperationCount() - 1;
 
-	JTextEditor::TextIndex end = te->GetLineEnd(line);
+	JStyledText::TextIndex beyond = te->GetLineEnd(line);
 
-	JStringIterator iter(te->GetText());
-	iter.UnsafeMoveTo(kJIteratorStartBefore, end.charIndex, end.byteIndex);
-	JUtf8Character c;
-	if (iter.Next(&c) && c != '\n')
+	if (te->GetText()->GetText().CharacterIndexValid(beyond.charIndex) &&
+		te->GetCharacter(beyond) != '\n')
 		{
-		end = te->AdjustTextIndex(end, +1);
+		beyond = te->GetText()->AdjustTextIndex(beyond, +1);
 		}
 
-	const JUtf8ByteRange br(start.byteIndex, end.byteIndex-1);
+	const JUtf8ByteRange br(start.byteIndex, beyond.byteIndex-1);
 	if (!br.IsEmpty())
 		{
-		const JString s(te->GetText().GetRawBytes(), br, kJFalse);
+		const JString s(te->GetText()->GetText().GetRawBytes(), br, kJFalse);
 
 		CutBuffer* buf = GetCutBuffer(cutbufPattern);
 		buf->Set(s, kJFalse);
 
 		if (del)
 			{
-			te->SetSelection(JCharacterRange(start.charIndex, end.charIndex-1), br);
+			te->SetSelection(JStyledText::TextRange(JCharacterRange(start.charIndex, beyond.charIndex-1), br));
 			te->DeleteSelection();
 			}
 

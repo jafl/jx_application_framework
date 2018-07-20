@@ -22,6 +22,7 @@ class JTextEditor : virtual public JBroadcaster
 {
 	friend class JTEKeyHandler;
 	friend class JTEDefaultKeyHandler;
+	friend class JVIKeyHandler;
 
 public:
 

@@ -1,8 +1,9 @@
-finish JTextEditor tests
+JTextEditor tests
 	2 TE's for 1 ST
 		MouseActions
 		KeyPress
 		validate caret/selection after TextChanged
+	JVIKeyHandler
 
 JXFileList
 JXTreeListWidget
@@ -17,9 +18,6 @@ JStyledText
 	need smarter update during indent/outdent, to maintain caret location
 	AutoIndent
 	CleanRightMargin
-
-put back
-	JVIKeyHandler
 
 JTextEditor:
 	don't change insertion font when glyphs are rendered with different font

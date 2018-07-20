@@ -99,6 +99,7 @@
 .cpp ./code/JTextEditor
 .cpp ./code/JTEKeyHandler
 .cpp ./code/JTEDefaultKeyHandler
+.cpp ./code/JVIKeyHandler
 .cpp ./code/JStyledText
 .cpp ./code/JSTUndoBase
 .cpp ./code/JSTUndoTextBase
