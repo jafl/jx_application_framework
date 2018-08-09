@@ -1,6 +1,8 @@
 brew "coreutils"
+brew "gnu-tar"
 brew "ace"
 brew "icu4c"
 brew "pcre"
+brew "gd"
 brew "pkg-config"
 brew "aspell"
