@@ -111,7 +111,7 @@ if [[ $SYS == Darwin ]]; then
 		/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)";
 	fi
 
-	brew install coreutils ace icu4c pcre;
+	brew install coreutils gnu-tar ace icu4c pcre gd;
 
 	if [[ ! -L ACE/ACE_wrappers ]]; then
 		rm -rf ACE/ACE_wrappers;

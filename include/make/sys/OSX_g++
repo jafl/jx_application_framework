@@ -4,13 +4,17 @@
 # Adjustable parameters
 #
 
-# This tells us where to find the X libraries.
+# X11 libraries & headers
 
-J_X11_LIB_DIR := -L/usr/X11/lib
-
-# Uncomment this and change it if your X11 headers are not in /usr/include/X11.
-
-J_X11_INCLUDE_DIR := -I/usr/X11/include
+ifeq ($(realpath /usr/X11/lib),)
+  # MacPorts
+  J_X11_LIB_DIR := -L/opt/local/lib
+  J_X11_INCLUDE_DIR := -I/opt/local/include -I/opt/local/include/freetype2
+else
+  # XQuartz
+  J_X11_LIB_DIR := -L/usr/X11/lib
+  J_X11_INCLUDE_DIR := -I/usr/X11/include
+endif
 
 # This sets the optimization level
 
