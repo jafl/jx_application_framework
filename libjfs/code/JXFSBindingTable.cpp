@@ -275,14 +275,15 @@ JXFSBindingTable::HandleMouseDown
 void
 JXFSBindingTable::HandleKeyPress
 	(
-	const int				key,
+	const JUtf8Character&	c,
+	const int				keySym,
 	const JXKeyModifiers&	modifiers
 	)
 {
 	JPoint cell;
 	if (GetEditedCell(&cell) && cell.x == kPatternColumn &&
-		(key == kJTabKey ||
-		 (modifiers.meta() && (key == kJRightArrow || key == '6'))))
+		(c == kJTabKey ||
+		 (modifiers.meta() && (c == kJRightArrow || c == '6'))))
 		{
 		if (EndEditing() &&
 			(GetTableSelection()).GetSingleSelectedCell(&cell))
@@ -293,7 +294,7 @@ JXFSBindingTable::HandleKeyPress
 
 	else
 		{
-		JXEditTable::HandleKeyPress(key, modifiers);
+		JXEditTable::HandleKeyPress(c, keySym, modifiers);
 		}
 }
 

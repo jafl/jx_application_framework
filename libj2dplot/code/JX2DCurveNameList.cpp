@@ -237,7 +237,8 @@ JX2DCurveNameList::ExtractInputData
 void
 JX2DCurveNameList::HandleKeyPress
 	(
-	const int				key,
+	const JUtf8Character&	c,
+	const int				keySym,
 	const JXKeyModifiers&	modifiers
 	)
 {
@@ -246,7 +247,7 @@ JX2DCurveNameList::HandleKeyPress
 	const JBoolean ok  = s.GetFirstSelectedCell(&cell);
 	assert( ok );
 
-	if (key == kJUpArrow)
+	if (c == kJUpArrow)
 		{
 		cell.y--;
 		if (CellValid(cell))
@@ -254,7 +255,7 @@ JX2DCurveNameList::HandleKeyPress
 			BeginEditing(cell);
 			}
 		}
-	else if (key == kJDownArrow)
+	else if (c == kJDownArrow)
 		{
 		cell.y++;
 		if (CellValid(cell))
@@ -265,6 +266,6 @@ JX2DCurveNameList::HandleKeyPress
 
 	else
 		{
-		JXEditTable::HandleKeyPress(key, modifiers);
+		JXEditTable::HandleKeyPress(c, keySym, modifiers);
 		}
 }

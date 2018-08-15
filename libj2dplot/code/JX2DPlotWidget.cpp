@@ -291,11 +291,12 @@ JX2DPlotWidget::DrawBorder
 void
 JX2DPlotWidget::HandleKeyPress
 	(
-	const int key,
-	const JXKeyModifiers& modifiers
+	const JUtf8Character&	c,
+	const int				keySym,
+	const JXKeyModifiers&	modifiers
 	)
 {
-	PWHandleKeyPress(key, modifiers.shift(), modifiers.meta(), kJFalse);
+	PWHandleKeyPress(c, modifiers.shift(), modifiers.meta(), kJFalse);
 }
 
 /******************************************************************************

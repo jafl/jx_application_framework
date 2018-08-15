@@ -244,7 +244,7 @@ protected:
 	JBoolean		GetLegendIndex(const JPoint& pt, JIndex* curveIndex) const;
 
 	// for cursors
-	void	PWHandleKeyPress(const int key, const JBoolean reverse,
+	void	PWHandleKeyPress(const JUtf8Character& key, const JBoolean reverse,
 							 const JBoolean interval, const JBoolean skip);
 
 	virtual JPainter*	PWCreateDragInsidePainter() = 0;

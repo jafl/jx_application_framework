@@ -60,7 +60,8 @@ public:
 	void			SetEPSMarksFileName(const JString& fileName);
 	void			PrintMarksEPS();
 
-	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers) override;
+	virtual void		HandleKeyPress(const JUtf8Character& c, const int keySym,
+									   const JXKeyModifiers& modifiers) override;
 
 	void	PWXReadSetup(std::istream& input);
 	void	PWXWriteSetup(std::ostream& output) const;

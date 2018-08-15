@@ -4619,10 +4619,10 @@ static J2DPlotWidget::CursorIndex kNextCursor[2][2][2][2][5] =
 void
 J2DPlotWidget::PWHandleKeyPress
 	(
-	const int		key,
-	const JBoolean	reverse,
-	const JBoolean	interval,
-	const JBoolean	skip
+	const JUtf8Character&	key,
+	const JBoolean			reverse,
+	const JBoolean			interval,
+	const JBoolean			skip
 	)
 {
 	if (key == kJTabKey)
