@@ -251,14 +251,17 @@ JStyledText::SetText
 		jdelete cleanStyle;
 		}
 
-	TextRange origRange, recalcRange, redrawRange;
-	origRange = recalcRange = redrawRange = SelectAll();
-	AdjustStylesBeforeBroadcast(itsText, itsStyles, &recalcRange, &redrawRange, kJFalse);
-	assert( recalcRange.charRange == origRange.charRange );
-	assert( recalcRange.byteRange == origRange.byteRange );
-	assert( redrawRange.charRange == origRange.charRange );
-	assert( redrawRange.byteRange == origRange.byteRange );
-	assert( itsText.GetCharacterCount() == itsStyles->GetElementCount() );
+	if (!itsText.IsEmpty())
+		{
+		TextRange origRange, recalcRange, redrawRange;
+		origRange = recalcRange = redrawRange = SelectAll();
+		AdjustStylesBeforeBroadcast(itsText, itsStyles, &recalcRange, &redrawRange, kJFalse);
+		assert( recalcRange.charRange == origRange.charRange );
+		assert( recalcRange.byteRange == origRange.byteRange );
+		assert( redrawRange.charRange == origRange.charRange );
+		assert( redrawRange.byteRange == origRange.byteRange );
+		assert( itsText.GetCharacterCount() == itsStyles->GetElementCount() );
+		}
 
 	Broadcast(TextSet());
 	return !cleaned;
@@ -3838,7 +3841,7 @@ JStyledText::BroadcastTextChanged
 	TextRange recalcRange = range,
 			  redrawRange = range;
 
-	if (adjustStyles)
+	if (!itsText.IsEmpty() && adjustStyles)
 		{
 		AdjustStylesBeforeBroadcast(itsText, itsStyles, &recalcRange, &redrawRange, deletion);
 		}
