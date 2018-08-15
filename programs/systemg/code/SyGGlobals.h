@@ -33,14 +33,14 @@ SyGViewManPageDialog*	SyGGetManPageDialog();
 SyGFindFileDialog*		SyGGetFindFileDialog();
 SyGChooseSaveFile*		SyGGetChooseSaveFile();
 
-JBoolean	SyGIsTrashDirectory(const JCharacter* path);
+JBoolean	SyGIsTrashDirectory(const JString& path);
 JBoolean	SyGGetTrashDirectory(JString* path, const JBoolean reportErrors = kJTrue);
 JBoolean	SyGTrashDirectoryIsEmpty();
 void		SyGUpdateTrash();
 JBoolean	SyGEmptyTrashDirectory();
 
-JBoolean	SyGDeleteDirEntry(const JCharacter* fullName);
-JBoolean	SyGExec(const JCharacter* cmd, const JBoolean report = kJTrue);
+JBoolean	SyGDeleteDirEntry(const JString& fullName);
+JBoolean	SyGExec(const JString& cmd, const JBoolean report = kJTrue);
 
 	// called by SyGApplication
 
@@ -51,7 +51,7 @@ void		SyGCleanUpBeforeSuddenDeath(const JXDocumentManager::SafetySaveReason reas
 	// called by SyGRecentFileMenu
 
 JBoolean	SyGGetRecentFileDirectory(JString* path, const JBoolean reportErrors = kJTrue);
-void		SyGAddRecentFile(const JCharacter* fullname);
+void		SyGAddRecentFile(const JString& fullname);
 
 	// used during intra-app DND
 
@@ -72,8 +72,8 @@ JXImage*	SyGGetReadOnlyFolderSmallIcon(const JBoolean selected = kJFalse);
 JXImage*	SyGGetLockedFolderSmallIcon(const JBoolean selected = kJFalse);
 JXImage*	SyGGetExecSmallIcon(const JBoolean selected = kJFalse);
 JXImage*	SyGGetUnknownSmallIcon(const JBoolean selected = kJFalse);
-JXImage*	SyGGetDirectorySmallIcon(const JCharacter* path);
-JIndex		SyGGetMountPointLargeIcon(const JCharacter* path, SyGFileTreeList* fileList,
+JXImage*	SyGGetDirectorySmallIcon(const JString& path);
+JIndex		SyGGetMountPointLargeIcon(const JString& path, SyGFileTreeList* fileList,
 									  JXPM* plainIcon, JXPM* selectedIcon);
 
 #include "SyGTaskBarUtil.h"
@@ -82,12 +82,12 @@ JIndex		SyGGetMountPointLargeIcon(const JCharacter* path, SyGFileTreeList* fileL
 
 	// version info
 
-const JCharacter*	SyGGetVersionNumberStr();
-JString				SyGGetVersionStr();
+const JString&	SyGGetVersionNumberStr();
+JString			SyGGetVersionStr();
 
 	// called by Directors
 
-const JCharacter*	SyGGetWMClassInstance();
-const JCharacter*	SyGGetFolderWindowClass();
+const JUtf8Byte*	SyGGetWMClassInstance();
+const JUtf8Byte*	SyGGetFolderWindowClass();
 
 #endif

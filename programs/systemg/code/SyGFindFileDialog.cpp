@@ -96,7 +96,7 @@ SyGFindFileDialog::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 360,220, "");
+	JXWindow* window = jnew JXWindow(this, 360,220, JString::empty);
 	assert( window != nullptr );
 
 	itsActionRG =
@@ -167,7 +167,7 @@ SyGFindFileDialog::BuildWindow()
 
 // end JXLayout
 
-	window->SetTitle("Find files");
+	window->SetTitle(JGetString("WindowTitle::SyGFindFileDialog"));
 	window->SetCloseAction(JXWindow::kDeactivateDirector);
 	window->PlaceAsDialogWindow();
 	window->LockCurrentMinSize();
@@ -185,15 +185,13 @@ SyGFindFileDialog::BuildWindow()
 
 	const JFont& font = window->GetFontManager()->GetDefaultMonospaceFont();
 
-	itsFileInput->ShouldBroadcastAllTextChanged(kJTrue);
-	itsFileInput->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
+	itsFileInput->GetText()->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
 	itsFileInput->SetFont(font);
-	ListenTo(itsFileInput);
+	ListenTo(itsFileInput->GetText());
 
-	itsExprInput->ShouldBroadcastAllTextChanged(kJTrue);
-	itsExprInput->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
+	itsExprInput->GetText()->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
 	itsExprInput->SetFont(font);
-	ListenTo(itsExprInput);
+	ListenTo(itsExprInput->GetText());
 
 	itsStayOpenCB->SetState(kJTrue);
 
@@ -248,7 +246,7 @@ SyGFindFileDialog::UpdateButtons()
 		}
 
 	assert( field != nullptr );
-	if (field->IsEmpty())
+	if (field->GetText()->IsEmpty())
 		{
 		itsSearchButton->Deactivate();
 		}
@@ -284,12 +282,12 @@ SyGFindFileDialog::Receive
 		}
 	else if (sender == itsHelpButton && message.Is(JXButton::kPushed))
 		{
-		(SyGGetManPageDialog())->ViewManPage("find");
+		(SyGGetManPageDialog())->ViewManPage(JString("find", kJFalse));
 		}
 
 	else if (sender == itsChoosePathButton && message.Is(JXButton::kPushed))
 		{
-		itsPathInput->ChoosePath("");
+		itsPathInput->ChoosePath(JString::empty);
 		}
 
 	else if (sender == itsActionRG && message.Is(JXRadioGroup::kSelectionChanged))
@@ -297,9 +295,9 @@ SyGFindFileDialog::Receive
 		UpdateDisplay();
 		}
 
-	else if ((sender == itsFileInput || sender == itsExprInput) &&
-			 (message.Is(JTextEditor::kTextSet) ||
-			  message.Is(JTextEditor::kTextChanged)))
+	else if ((sender == itsFileInput->GetText() || sender == itsExprInput->GetText()) &&
+			 (message.Is(JStyledText::kTextSet) ||
+			  message.Is(JStyledText::kTextChanged)))
 		{
 		UpdateButtons();
 		}
@@ -334,11 +332,11 @@ SyGFindFileDialog::Search()
 	const JIndex action = itsActionRG->GetSelectedItem();
 	if (action == kFindFileAction && itsFileInput->InputValid())
 		{
-		SearchFileName(path, itsFileInput->GetText());
+		SearchFileName(path, itsFileInput->GetText()->GetText());
 		}
 	else if (action == kFindExprAction && itsExprInput->InputValid())
 		{
-		SearchExpr(path, itsExprInput->GetText());
+		SearchExpr(path, itsExprInput->GetText()->GetText());
 		}
 
 	return kJTrue;
@@ -352,10 +350,10 @@ SyGFindFileDialog::Search()
 void
 SyGFindFileDialog::Search
 	(
-	const JCharacter* path
+	const JString& path
 	)
 {
-	itsPathInput->SetText(path);
+	itsPathInput->GetText()->SetText(path);
 	Activate();
 }
 
@@ -367,12 +365,12 @@ SyGFindFileDialog::Search
 void
 SyGFindFileDialog::SearchFileName
 	(
-	const JCharacter* path,
-	const JCharacter* pattern
+	const JString& path,
+	const JString& pattern
 	)
 {
-	JString expr = "-iname ";
-	expr        += JPrepArgForExec(pattern);
+	JString expr("-iname ");
+	expr += JPrepArgForExec(pattern);
 
 	SearchExpr(path, expr);
 }
@@ -385,15 +383,15 @@ SyGFindFileDialog::SearchFileName
 void
 SyGFindFileDialog::SearchExpr
 	(
-	const JCharacter* path,
-	const JCharacter* expr
+	const JString& path,
+	const JString& expr
 	)
 {
-	JString e = "( ";
-	e        += expr;
-	e        += " )";
+	JString e("( ");
+	e += expr;
+	e += " )";
 
-	const JCharacter** vcsDirName;
+	const JUtf8Byte** vcsDirName;
 	const JSize vcsDirNameCount = JGetVCSDirectoryNames(&vcsDirName);
 	for (JUnsignedOffset i=0; i<vcsDirNameCount; i++)
 		{

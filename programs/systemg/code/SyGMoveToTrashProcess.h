@@ -25,7 +25,7 @@ public:
 protected:
 
 	SyGMoveToTrashProcess(SyGFileTreeTable* table, JPtrArray<JString>* fullNameList,
-						  const JCharacter* trashDir);
+						  const JString& trashDir);
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 

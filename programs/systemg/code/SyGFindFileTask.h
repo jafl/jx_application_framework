@@ -23,14 +23,14 @@ public:
 
 public:
 
-	static JBoolean	Create(SyGTreeDir* dir, const JCharacter* path,
-						   const JCharacter* expr, SyGFindFileTask** task);
+	static JBoolean	Create(SyGTreeDir* dir, const JString& path,
+						   const JString& expr, SyGFindFileTask** task);
 
 	virtual ~SyGFindFileTask();
 
 protected:
 
-	SyGFindFileTask(SyGTreeDir* dir, const JCharacter* relPath,
+	SyGFindFileTask(SyGTreeDir* dir, const JString& relPath,
 					JProcess* p, int outFD, int errFD);
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
@@ -52,7 +52,7 @@ private:
 	void	ReceiveErrorLine();
 	void	DisplayErrors();
 
-	static void	SplitPath(const JCharacter* origRelPath, JPtrArray<JString>* pathList);
+	static void	SplitPath(const JString& origRelPath, JPtrArray<JString>* pathList);
 
 	// not allowed
 

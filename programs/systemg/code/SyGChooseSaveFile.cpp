@@ -51,12 +51,12 @@ SyGChooseSaveFile::~SyGChooseSaveFile()
 JXSaveFileDialog*
 SyGChooseSaveFile::CreateSaveFileDialog
 	(
-	JXDirector*			supervisor,
-	JDirInfo*			dirInfo,
-	const JCharacter*	fileFilter,
-	const JCharacter*	origName,
-	const JCharacter*	prompt,
-	const JCharacter*	message
+	JXDirector*		supervisor,
+	JDirInfo*		dirInfo,
+	const JString&	fileFilter,
+	const JString&	origName,
+	const JString&	prompt,
+	const JString&	message
 	)
 {
 	itsSaveDialog =
@@ -74,12 +74,12 @@ SyGChooseSaveFile::CreateSaveFileDialog
 JXChooseFileDialog*
 SyGChooseSaveFile::CreateChooseFileDialog
 	(
-	JXDirector*			supervisor,
-	JDirInfo*			dirInfo,
-	const JCharacter*	fileFilter,
-	const JCharacter*	origName,
-	const JBoolean		allowSelectMultiple,
-	const JCharacter*	message
+	JXDirector*		supervisor,
+	JDirInfo*		dirInfo,
+	const JString&	fileFilter,
+	const JString&	origName,
+	const JBoolean	allowSelectMultiple,
+	const JString&	message
 	)
 {
 	itsChooseDialog =
@@ -98,11 +98,11 @@ SyGChooseSaveFile::CreateChooseFileDialog
 JXChoosePathDialog*
 SyGChooseSaveFile::CreateChoosePathDialog
 	(
-	JXDirector*			supervisor,
-	JDirInfo*			dirInfo,
-	const JCharacter*	fileFilter,
-	const JBoolean		selectOnlyWritable,
-	const JCharacter*	message
+	JXDirector*		supervisor,
+	JDirInfo*		dirInfo,
+	const JString&	fileFilter,
+	const JBoolean	selectOnlyWritable,
+	const JString&	message
 	)
 {
 	itsPathDialog =

@@ -27,14 +27,14 @@
 
 SyGEditPrefsDialog::SyGEditPrefsDialog
 	(
-	const JCharacter*	terminalCmd,
-	const JCharacter*	manViewCmd,
-	const JCharacter*	gitStatusCmd,
-	const JCharacter*	gitHistoryCmd,
-	const JCharacter*	postCheckoutCmd,
-	const JBoolean		del,
-	const JBoolean		newWindows,
-	const JBoolean		perFolderPrefs
+	const JString&	terminalCmd,
+	const JString&	manViewCmd,
+	const JString&	gitStatusCmd,
+	const JString&	gitHistoryCmd,
+	const JString&	postCheckoutCmd,
+	const JBoolean	del,
+	const JBoolean	newWindows,
+	const JBoolean	perFolderPrefs
 	)
 	:
 	JXDialogDirector(JXGetApplication(), kJTrue)
@@ -60,19 +60,19 @@ SyGEditPrefsDialog::~SyGEditPrefsDialog()
 void
 SyGEditPrefsDialog::BuildWindow
 	(
-	const JCharacter*	terminalCmd,
-	const JCharacter*	manViewCmd,
-	const JCharacter*	gitStatusCmd,
-	const JCharacter*	gitHistoryCmd,
-	const JCharacter*	postCheckoutCmd,
-	const JBoolean		del,
-	const JBoolean		newWindows,
-	const JBoolean		perFolderPrefs
+	const JString&	terminalCmd,
+	const JString&	manViewCmd,
+	const JString&	gitStatusCmd,
+	const JString&	gitHistoryCmd,
+	const JString&	postCheckoutCmd,
+	const JBoolean	del,
+	const JBoolean	newWindows,
+	const JBoolean	perFolderPrefs
 	)
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 470,380, "");
+	JXWindow* window = jnew JXWindow(this, 470,380, JString::empty);
 	assert( window != nullptr );
 
 	itsManInput =
@@ -118,7 +118,7 @@ SyGEditPrefsDialog::BuildWindow
 		jnew JXStaticText(JGetString("cmdHint::SyGEditPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 155,230, 300,20);
 	assert( cmdHint != nullptr );
-	cmdHint->SetFontSize(JGetDefaultFontSize()-2);
+	cmdHint->SetFontSize(JFontManager::GetDefaultFontSize()-2);
 	cmdHint->SetToLabel();
 
 	itsDelCB =
@@ -135,7 +135,7 @@ SyGEditPrefsDialog::BuildWindow
 		jnew JXStaticText(JGetString("warnLabel::SyGEditPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 40,90, 310,20);
 	assert( warnLabel != nullptr );
-	warnLabel->SetFontSize(JGetDefaultFontSize()-2);
+	warnLabel->SetFontSize(JFontManager::GetDefaultFontSize()-2);
 	warnLabel->SetToLabel();
 
 	JXStaticText* branchLabel =
@@ -148,7 +148,7 @@ SyGEditPrefsDialog::BuildWindow
 		jnew JXStaticText(JGetString("branchHint::SyGEditPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 215,320, 240,20);
 	assert( branchHint != nullptr );
-	branchHint->SetFontSize(JGetDefaultFontSize()-2);
+	branchHint->SetFontSize(JFontManager::GetDefaultFontSize()-2);
 	branchHint->SetToLabel();
 
 	JXStaticText* statusLabel =
@@ -182,7 +182,7 @@ SyGEditPrefsDialog::BuildWindow
 		jnew JXStaticText(JGetString("openHint::SyGEditPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 40,40, 410,20);
 	assert( openHint != nullptr );
-	openHint->SetFontSize(JGetDefaultFontSize()-2);
+	openHint->SetFontSize(JFontManager::GetDefaultFontSize()-2);
 	openHint->SetToLabel();
 
 	itsFolderPrefsCB =
@@ -192,28 +192,28 @@ SyGEditPrefsDialog::BuildWindow
 
 // end JXLayout
 
-	window->SetTitle("Edit preferences");
+	window->SetTitle(JGetString("WindowTitle::SyGEditPrefsDialog"));
 	SetButtons(okButton, cancelButton);
 
 	const JFont& font = window->GetFontManager()->GetDefaultMonospaceFont();
 
-	itsManInput->SetText(manViewCmd);
+	itsManInput->GetText()->SetText(manViewCmd);
 	itsManInput->SetIsRequired();
 	itsManInput->SetFont(font);
 
-	itsTerminalInput->SetText(terminalCmd);
+	itsTerminalInput->GetText()->SetText(terminalCmd);
 	itsTerminalInput->SetIsRequired();
 	itsTerminalInput->SetFont(font);
 
-	itsGitStatusInput->SetText(gitStatusCmd);
+	itsGitStatusInput->GetText()->SetText(gitStatusCmd);
 	itsGitStatusInput->SetIsRequired();
 	itsGitStatusInput->SetFont(font);
 
-	itsGitHistoryInput->SetText(gitHistoryCmd);
+	itsGitHistoryInput->GetText()->SetText(gitHistoryCmd);
 	itsGitHistoryInput->SetIsRequired();
 	itsGitHistoryInput->SetFont(font);
 
-	itsPostCheckoutInput->SetText(postCheckoutCmd);
+	itsPostCheckoutInput->GetText()->SetText(postCheckoutCmd);
 	itsPostCheckoutInput->SetIsRequired();
 	itsPostCheckoutInput->SetFont(font);
 
@@ -242,11 +242,11 @@ SyGEditPrefsDialog::GetPrefs
 	)
 	const
 {
-	*terminalCmd     = itsTerminalInput->GetText();
-	*manViewCmd      = itsManInput->GetText();
-	*gitStatusCmd    = itsGitStatusInput->GetText();
-	*gitHistoryCmd   = itsGitHistoryInput->GetText();
-	*postCheckoutCmd = itsPostCheckoutInput->GetText();
+	*terminalCmd     = itsTerminalInput->GetText()->GetText();
+	*manViewCmd      = itsManInput->GetText()->GetText();
+	*gitStatusCmd    = itsGitStatusInput->GetText()->GetText();
+	*gitHistoryCmd   = itsGitHistoryInput->GetText()->GetText();
+	*postCheckoutCmd = itsPostCheckoutInput->GetText()->GetText();
 
 	*newWindows     = itsOpenNewWindowsCB->IsChecked();
 	*del            = itsDelCB->IsChecked();

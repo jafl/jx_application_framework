@@ -1,4 +1,4 @@
-0
+1
 
 # Copyright (C) 2000-15 by John Lindal.
 
@@ -63,18 +63,47 @@ DNDCopyDescription::SyGGlobals	"copy the items"
 DNDMoveDescription::SyGGlobals	"move the items"
 DNDLinkDescription::SyGGlobals	"create aliases for the items"
 
-# SyGTreeDir
+TrashName::SyGGlobals	"Trash"
 
-TrashName::SyGTreeDir	"Trash"
+# SyGApplication
+
+OpenDirectoryPrompt::SyGApplication	"Select path"
+PathDoesNotExist::SyGApplication	"\"$name\" does not exist."
+Unreadable::SyGApplication			"Unable to read contents of \"$name\"."
+InvalidShortcut::SyGApplication		"\"$name\" does not exist or is unreadable.  Do you want to remove this shortcut?"
+
+# SyGEditPrefsDialog
+
+WindowTitle::SyGEditPrefsDialog		"Edit preferences"
+OpenFilesPrompt::SyGEditPrefsDialog	"Open files"
+
+# SyGTreeDir
 
 TrashButtonHint::SyGTreeDir
 "Click here to open the trash or drag here to drop in the trash."
 
 # SyGTreeSet
 
-TrashName::SyGTreeSet	"Trash"
+FilterLabel::SyGTreeSet		"Filter:"
+EmptyTrashLabel::SyGTreeSet	"Empty"
 
 # SyGFileTreeTable
+
+ViewMenuTitle::SyGFileTreeTable			"View"
+GitMenuTitle::SyGFileTreeTable			"Git"
+ShortcutsMenuTitle::SyGFileTreeTable	"Shortcuts"
+
+BranchIndicator::SyGFileTreeTable	"On $branch$stash"
+
+FormatWindowTitle::SyGFileTreeTable	"Erase disk"
+FormatPrompt::SyGFileTreeTable		"Choose the type of disk to create:"
+
+MountLabel::SyGFileTreeTable	"Mount"
+UnmountLabel::SyGFileTreeTable	"Unmount"
+
+NewNamePrefix::SyGFileTreeTable	"Untitled"
+
+SelectDirectory::SyGFileTreeTable	"Select path"
 
 WarnDeleteSingleFile::SyGFileTreeTable
 "Are you sure you want to permanently delete \"$name\"?"
@@ -130,6 +159,8 @@ AskRelativeAlias::SyGFileTreeTable	"Do you want the alias for $name to be a rela
 
 DeletePrunedBranchesTitle::SyGFileTreeTable		"Prune Local Git Branches"
 DeletePrunedBranchesPrompt::SyGFileTreeTable	"Select the local branches that you would like to prune:"
+
+RemoteSavingUnusupported::SyGFileTreeTable	"Remote saving is not yet supported."
 
 # SyGNewGitRemoteDialog
 
@@ -208,6 +239,7 @@ Usage:  systemg [--choose | --open | --run | (path|file) [...]]
 
 # SyGAboutDialog
 
+WindowTitle::SyGAboutDialog			"About"
 ChangeButtonLabel::SyGAboutDialog	"Changes"
 
 UpgradeNotice::SyGAboutDialog
@@ -215,3 +247,24 @@ UpgradeNotice::SyGAboutDialog
 
 
 You have just upgraded from version $vers"
+
+# SyGViewManPageDialog
+
+WindowTitle::SyGViewManPageDialog	"Man pages"
+
+# SyGFindFileDialog
+
+WindowTitle::SyGFindFileDialog	"Find files"
+
+# SyGColUtils
+
+NameColumnTitle::SyGColUtils		"Name"
+UIDColumnTitle::SyGColUtils			"User"
+GIDColumnTitle::SyGColUtils			"Group"
+SizeColumnTitle::SyGColUtils		"Size"
+PermissionsColumnTitle::SyGColUtils	"Permissions"
+DateColumnTitle::SyGColUtils		"Date"
+
+# SyGFolderDragSource
+
+Hint::SyGFolderDragSource	"Drag this to drag the URL for this folder, or click and hold for a menu."

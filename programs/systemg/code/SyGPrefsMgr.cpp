@@ -20,7 +20,7 @@
 
 // JBroadcaster messages
 
-const JCharacter* SyGPrefsMgr::kPrefsChanged = "PrefsChanged::SyGPrefsMgr";
+const JUtf8Byte* SyGPrefsMgr::kPrefsChanged = "PrefsChanged::SyGPrefsMgr";
 
 /******************************************************************************
  Constructor

@@ -48,7 +48,7 @@ SyGMoveToTrashProcess::SyGMoveToTrashProcess
 	(
 	SyGFileTreeTable*	table,
 	JPtrArray<JString>*	fullNameList,
-	const JCharacter*	trashDir
+	const JString&		trashDir
 	)
 	:
 	itsTable(table),
@@ -121,7 +121,7 @@ SyGMoveToTrashProcess::ProcessNextFile()
 		return;
 		}
 
-	JString* origName = itsFullNameList->FirstElement();
+	JString* origName = itsFullNameList->GetFirstElement();
 	JStripTrailingDirSeparator(origName);
 	JString path, name;
 	JSplitPathAndName(*origName, &path, &name);
@@ -132,13 +132,13 @@ SyGMoveToTrashProcess::ProcessNextFile()
 		JString root, suffix;
 		if (JSplitRootAndSuffix(name, &root, &suffix))
 			{
-			suffix.PrependCharacter('.');
+			suffix.Prepend(".");
 			}
-		const JString newName2 = JGetUniqueDirEntryName(itsTrashDir, root, suffix);
+		const JString newName2 = JGetUniqueDirEntryName(itsTrashDir, root, suffix.GetBytes());
 		JRenameDirEntry(newName, newName2);
 		}
 
-	const JCharacter* argv[] = { "mv", "-f", *origName, newName, nullptr };
+	const JUtf8Byte* argv[] = { "mv", "-f", origName->GetBytes(), newName.GetBytes(), nullptr };
 
 	const JError err = JSimpleProcess::Create(&itsProcess, argv, sizeof(argv));
 	err.ReportIfError();

@@ -21,6 +21,7 @@
 #include <JXNewDirButton.h>
 #include <JXScrollbarSet.h>
 #include <JXCurrentPathMenu.h>
+#include <jDirUtil.h>
 #include <jGlobals.h>
 #include <jAssert.h>
 
@@ -31,10 +32,10 @@
 
 SyGChoosePathDialog::SyGChoosePathDialog
 	(
-	JXDirector*			supervisor,
-	JDirInfo*			dirInfo,
-	const JCharacter*	fileFilter,
-	const JBoolean		selectOnlyWritable
+	JXDirector*		supervisor,
+	JDirInfo*		dirInfo,
+	const JString&	fileFilter,
+	const JBoolean	selectOnlyWritable
 	)
 	:
 	JXChoosePathDialog(supervisor, dirInfo, fileFilter, selectOnlyWritable)
@@ -58,13 +59,13 @@ SyGChoosePathDialog::~SyGChoosePathDialog()
 void
 SyGChoosePathDialog::BuildWindow
 	(
-	const JBoolean		newWindow,
-	const JCharacter*	message
+	const JBoolean	newWindow,
+	const JString&	message
 	)
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 310,400, "");
+	JXWindow* window = jnew JXWindow(this, 310,400, JString::empty);
 	assert( window != nullptr );
 
 	JXTextButton* cancelButton =
@@ -125,12 +126,12 @@ SyGChoosePathDialog::BuildWindow
 	explanText->SetToLabel();
 
 	JXPathHistoryMenu* pathHistory =
-		jnew JXPathHistoryMenu(1, "", window,
+		jnew JXPathHistoryMenu(1, JString::empty, window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 260,20, 30,20);
 	assert( pathHistory != nullptr );
 
 	JXStringHistoryMenu* filterHistory =
-		jnew JXStringHistoryMenu(1, "", window,
+		jnew JXStringHistoryMenu(1, JString::empty, window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 260,50, 30,20);
 	assert( filterHistory != nullptr );
 
@@ -152,7 +153,7 @@ SyGChoosePathDialog::BuildWindow
 	itsNewWindowCB->SetShortcuts(JGetString("itsNewWindowCB::SyGChoosePathDialog::shortcuts::JXLayout"));
 
 	JXCurrentPathMenu* currPathMenu =
-		jnew JXCurrentPathMenu("/", window,
+		jnew JXCurrentPathMenu(JGetRootDirectory(), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 20,110, 180,20);
 	assert( currPathMenu != nullptr );
 

@@ -39,17 +39,12 @@
 #include <jx_help_specific.xpm>
 #include <jx_help_toc.xpm>
 
-const JCharacter* kDirPrefsName     = ".systemg_folder_prefs_";
-const JCharacter* kOrigDirPrefsName = ".systemG.Desktop";
-
-// Windows menu
-
-static const JCharacter* kWindowsMenuTitleStr = "Windows";
+const JString kDirPrefsName    (".systemg_folder_prefs_", kJFalse);
+const JString kOrigDirPrefsName(".systemG.Desktop", kJFalse);
 
 // Preferences menu
 
-static const JCharacter* kPrefsMenuTitleStr = "Preferences";
-static const JCharacter* kPrefsMenuStr =
+static const JUtf8Byte* kPrefsMenuStr =
 	"    Preferences..."
 	"  | File bindings..."
 	"  | Toolbar buttons..."
@@ -67,8 +62,7 @@ enum
 
 // Help menu
 
-static const JCharacter* kHelpMenuTitleStr = "Help";
-static const JCharacter* kHelpMenuStr =
+static const JUtf8Byte* kHelpMenuStr =
 	"    About"
 	"%l| Table of Contents %k F1 %i" kJXHelpTOCAction
 	"  | Getting started"
@@ -86,11 +80,6 @@ enum
 	kCreditsCmd
 };
 
-// string ID's
-
-static const JCharacter* kTrashNameID       = "TrashName::SyGTreeDir";
-static const JCharacter* kTrashButtonHintID = "TrashButtonHint::SyGTreeDir";
-
 /******************************************************************************
  Constructor
 
@@ -98,7 +87,7 @@ static const JCharacter* kTrashButtonHintID = "TrashButtonHint::SyGTreeDir";
 
 SyGTreeDir::SyGTreeDir
 	(
-	const JCharacter* startPath
+	const JString& startPath
 	)
 	:
 	JXWindowDirector(JXGetApplication()),
@@ -164,11 +153,11 @@ SyGTreeDir::GetName()
 {
 	if (SyGIsTrashDirectory(GetDirectory()))
 		{
-		return JGetString(kTrashNameID);
+		return JGetString("TrashName::SyGGlobals");
 		}
 	else
 		{
-		return itsPathInput->GetText();
+		return itsPathInput->GetText()->GetText();
 		}
 }
 
@@ -208,14 +197,14 @@ SyGTreeDir::GetDirectory()
 void
 SyGTreeDir::BuildWindow
 	(
-	const JCharacter* startPath
+	const JString& startPath
 	)
 {
 	JXCurrentPathMenu* pathMenu = nullptr;
 
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 420,500, "");
+	JXWindow* window = jnew JXWindow(this, 420,500, JString::empty);
 	assert( window != nullptr );
 
 	JXMenuBar* menuBar =
@@ -260,18 +249,18 @@ SyGTreeDir::BuildWindow
 		JRenameFile(origPrefsFile, prefsFile);
 		}
 
-	std::istream* input       = nullptr;
+	std::istream* input  = nullptr;
 	const JString* prefs = nullptr;
 	std::string s;
 	if (!JFileReadable(prefsFile) &&
 		(SyGGetApplication())->GetMountPointPrefs(startPath, &prefs))
 		{
-		s.assign(prefs->GetCString(), prefs->GetLength());
+		s.assign(prefs->GetBytes(), prefs->GetByteCount());
 		input = jnew std::istringstream(s);
 		}
 	else
 		{
-		input = jnew std::ifstream(prefsFile);
+		input = jnew std::ifstream(prefsFile.GetBytes());
 		}
 	assert( input != nullptr );
 
@@ -309,7 +298,7 @@ SyGTreeDir::BuildWindow
 
 	// trash button
 
-	trashButton->SetHint(JGetString(kTrashButtonHintID));
+	trashButton->SetHint(JGetString("TrashButtonHint::SyGTreeDir"));
 
 	// widgets
 
@@ -343,17 +332,17 @@ SyGTreeDir::BuildWindow
 	// menus
 
 	JXWDMenu* windowsMenu =
-		jnew JXWDMenu(kWindowsMenuTitleStr, menuBar,
+		jnew JXWDMenu(JGetString("WindowsMenuTitle::JXGlobal"), menuBar,
 					 JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
 	assert( windowsMenu != nullptr );
 	menuBar->AppendMenu(windowsMenu);
 
-	itsPrefsMenu = menuBar->AppendTextMenu(kPrefsMenuTitleStr);
+	itsPrefsMenu = menuBar->AppendTextMenu(JGetString("PrefsMenuTitle::JXGlobal"));
 	itsPrefsMenu->SetMenuItems(kPrefsMenuStr, "SyGTreeDir");
 	itsPrefsMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsPrefsMenu);
 
-	itsHelpMenu = menuBar->AppendTextMenu(kHelpMenuTitleStr);
+	itsHelpMenu = menuBar->AppendTextMenu(JGetString("HelpMenuTitle::JXGlobal"));
 	itsHelpMenu->SetMenuItems(kHelpMenuStr, "SyGTreeDir");
 	itsHelpMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsHelpMenu);
@@ -393,7 +382,7 @@ SyGTreeDir::SaveState()
 		std::ostringstream data;
 		WriteState(data);
 		const std::string s = data.str();
-		(SyGGetApplication())->SetMountPointPrefs(path, s.c_str());
+		(SyGGetApplication())->SetMountPointPrefs(path, JString(s));
 		}
 
 	JString prefsFile = JCombinePathAndName(path, kDirPrefsName);
@@ -401,7 +390,7 @@ SyGTreeDir::SaveState()
 
 	// don't overwrite newer version of prefs
 
-	std::ifstream input(prefsFile);
+	std::ifstream input(prefsFile.GetBytes());
 	if (input.good())
 		{
 		JFileVersion vers;
@@ -413,7 +402,7 @@ SyGTreeDir::SaveState()
 		}
 	input.close();
 
-	std::ofstream output(prefsFile);
+	std::ofstream output(prefsFile.GetBytes());
 	WriteState(output);
 }
 
@@ -539,7 +528,7 @@ SyGTreeDir::HandleHelpMenu
 //		}
 	else if (index == kChangesCmd)
 		{
-		(JXGetHelpManager())->ShowChanges();
+		(JXGetHelpManager())->ShowChangeLog();
 		}
 	else if (index == kCreditsCmd)
 		{

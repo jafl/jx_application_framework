@@ -17,11 +17,6 @@
 #include <JXHelpManager.h>
 #include <jAssert.h>
 
-// string ID's
-
-static const JCharacter* kUpgradeNoticeID     = "UpgradeNotice::SyGAboutDialog";
-static const JCharacter* kChangeButtonLabelID = "ChangeButtonLabel::SyGAboutDialog";
-
 /******************************************************************************
  Constructor
 
@@ -31,8 +26,8 @@ static const JCharacter* kChangeButtonLabelID = "ChangeButtonLabel::SyGAboutDial
 
 SyGAboutDialog::SyGAboutDialog
 	(
-	JXDirector*			supervisor,
-	const JCharacter*	prevVersStr
+	JXDirector*		supervisor,
+	const JString&	prevVersStr
 	)
 	:
 	JXDialogDirector(supervisor, kJTrue)
@@ -62,12 +57,12 @@ SyGAboutDialog::~SyGAboutDialog()
 void
 SyGAboutDialog::BuildWindow
 	(
-	const JCharacter* prevVersStr
+	const JString& prevVersStr
 	)
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 430,180, "");
+	JXWindow* window = jnew JXWindow(this, 430,180, JString::empty);
 	assert( window != nullptr );
 
 	JXImageWidget* sygIcon =
@@ -104,7 +99,7 @@ SyGAboutDialog::BuildWindow
 
 // end JXLayout
 
-	window->SetTitle("About");
+	window->SetTitle(JGetString("WindowTitle::SyGAboutDialog"));
 	SetButtons(okButton, nullptr);
 
 	ListenTo(itsHelpButton);
@@ -114,18 +109,18 @@ SyGAboutDialog::BuildWindow
 
 	JString text;
 	text = SyGGetVersionStr();
-	if (!JString::IsEmpty(prevVersStr))
+	if (!prevVersStr.IsEmpty())
 		{
-		const JCharacter* map[] =
+		const JUtf8Byte* map[] =
 			{
-			"vers", prevVersStr
+			"vers", prevVersStr.GetBytes()
 			};
-		text += JGetString(kUpgradeNoticeID);
+		text += JGetString("UpgradeNotice::SyGAboutDialog");
 		(JGetStringManager())->Replace(&text, map, sizeof(map));
-		itsHelpButton->SetLabel(JGetString(kChangeButtonLabelID));
+		itsHelpButton->SetLabel(JGetString("ChangeButtonLabel::SyGAboutDialog"));
 		itsIsUpgradeFlag = kJTrue;
 		}
-	textWidget->SetText(text);
+	textWidget->GetText()->SetText(text);
 
 	// System G icon
 
@@ -167,18 +162,18 @@ SyGAboutDialog::Receive
 		{
 		if (itsIsUpgradeFlag)
 			{
-			(JXGetHelpManager())->ShowChanges();
+			JXGetHelpManager()->ShowChangeLog();
 			}
 		else
 			{
-			(JXGetHelpManager())->ShowTOC();
+			JXGetHelpManager()->ShowTOC();
 			}
 		EndDialog(kJTrue);
 		}
 
 	else if (sender == itsCreditsButton && message.Is(JXButton::kPushed))
 		{
-		(JXGetHelpManager())->ShowCredits();
+		JXGetHelpManager()->ShowCredits();
 		EndDialog(kJTrue);
 		}
 

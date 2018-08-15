@@ -21,13 +21,15 @@
 #include <JXChooseSaveFile.h>
 
 #include <JSimpleProcess.h>
+#include <JStringIterator.h>
 #include <jAssert.h>
 
 const JSize kHistoryLength = 20;
 
-static const JCharacter* kDefaultViewCmd = "jcc --man";
-static const JCharacter* kDefaultViewBin = "jcc";
-static const JCharacter* kDefaultViewArg = " --man ";
+static const JString kDefaultViewCmd("jcc --man", kJFalse);
+static const JString kDefaultViewBin("jcc", kJFalse);
+static const JString kDefaultViewArg(" --man ", kJFalse);
+
 JString SyGViewManPageDialog::itsViewCmd = kDefaultViewCmd;
 
 // setup information
@@ -91,7 +93,7 @@ SyGViewManPageDialog::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 360,150, "");
+	JXWindow* window = jnew JXWindow(this, 360,150, JString::empty);
 	assert( window != nullptr );
 
 	itsCloseButton =
@@ -136,7 +138,7 @@ SyGViewManPageDialog::BuildWindow()
 	itsHelpButton->SetShortcuts(JGetString("itsHelpButton::SyGViewManPageDialog::shortcuts::JXLayout"));
 
 	itsFnHistoryMenu =
-		jnew JXStringHistoryMenu(kHistoryLength, "", window,
+		jnew JXStringHistoryMenu(kHistoryLength, JString::empty, window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 310,40, 30,20);
 	assert( itsFnHistoryMenu != nullptr );
 
@@ -152,7 +154,7 @@ SyGViewManPageDialog::BuildWindow()
 
 // end JXLayout
 
-	window->SetTitle("Man pages");
+	window->SetTitle(JGetString("WindowTitle::SyGViewManPageDialog"));
 	window->SetCloseAction(JXWindow::kDeactivateDirector);
 	window->PlaceAsDialogWindow();
 	window->LockCurrentMinSize();
@@ -163,9 +165,8 @@ SyGViewManPageDialog::BuildWindow()
 	ListenTo(itsHelpButton);
 	ListenTo(itsFnHistoryMenu);
 
-	itsFnName->ShouldBroadcastAllTextChanged(kJTrue);
-	itsFnName->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
-	ListenTo(itsFnName);
+	itsFnName->GetText()->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
+	ListenTo(itsFnName->GetText());
 
 	itsManIndex->SetIsRequired(kJFalse);
 	itsStayOpenCB->SetState(kJTrue);
@@ -181,7 +182,7 @@ SyGViewManPageDialog::BuildWindow()
 void
 SyGViewManPageDialog::UpdateDisplay()
 {
-	if (itsFnName->IsEmpty())
+	if (itsFnName->GetText()->IsEmpty())
 		{
 		itsViewButton->Deactivate();
 		}
@@ -218,7 +219,7 @@ SyGViewManPageDialog::Receive
 		}
 	else if (sender == itsHelpButton && message.Is(JXButton::kPushed))
 		{
-		(JXGetHelpManager())->ShowSection(kSyGManPageHelpName);
+		(JXGetHelpManager())->ShowSection("SyGViewManHelp");
 		}
 
 	else if (sender == itsFnHistoryMenu && message.Is(JXMenu::kItemSelected))
@@ -227,9 +228,9 @@ SyGViewManPageDialog::Receive
 		itsFnName->Focus();
 		}
 
-	else if (sender == itsFnName &&
-			 (message.Is(JTextEditor::kTextSet) ||
-			  message.Is(JTextEditor::kTextChanged)))
+	else if (sender == itsFnName->GetText() &&
+			 (message.Is(JStyledText::kTextSet) ||
+			  message.Is(JStyledText::kTextChanged)))
 		{
 		UpdateDisplay();
 		}
@@ -250,15 +251,15 @@ SyGViewManPageDialog::ViewManPage()
 {
 	if (itsFnName->InputValid() && itsManIndex->InputValid())
 		{
-		JCharacter manIndex = ' ';
-		if (!itsManIndex->IsEmpty())
+		JUtf8Character manIndex = ' ';
+		if (!itsManIndex->GetText()->IsEmpty())
 			{
-			manIndex = (itsManIndex->GetText()).GetFirstCharacter();
+			manIndex = (itsManIndex->GetText()->GetText()).GetFirstCharacter();
 			}
 
-		ViewManPage(itsFnName->GetText(), manIndex,
+		ViewManPage(itsFnName->GetText()->GetText(), manIndex,
 					itsAproposCheckbox->IsChecked());
-		AddToHistory(itsFnName->GetText(), manIndex,
+		AddToHistory(itsFnName->GetText()->GetText(), manIndex,
 					 itsAproposCheckbox->IsChecked());
 		}
 }
@@ -271,9 +272,9 @@ SyGViewManPageDialog::ViewManPage()
 void
 SyGViewManPageDialog::ViewManPage
 	(
-	const JCharacter*	item,
-	const JCharacter	index,
-	const JBoolean		apropos
+	const JString&			item,
+	const JUtf8Character&	index,
+	const JBoolean			apropos
 	)
 {
 	JString cmd = itsViewCmd;
@@ -291,8 +292,8 @@ SyGViewManPageDialog::ViewManPage
 			}
 		#endif
 
-		const JCharacter pageIndexStr[] = { index, ' ', '\0' };
-		cmd += pageIndexStr;
+		cmd += index;
+		cmd += " ";
 		}
 	cmd += JPrepArgForExec(item);
 
@@ -341,21 +342,27 @@ SyGViewManPageDialog::ViewManPages
 void
 SyGViewManPageDialog::SetFunction
 	(
-	const JCharacter* historyStr
+	const JString& historyStr
 	)
 {
 	JString fnName = historyStr;
 
-	JCharacter manIndex[] = { '\0', '\0' };
+	JUtf8Character manIndex;
 	if (fnName.GetLastCharacter() == ')')
 		{
-		manIndex[0] = fnName.GetCharacter(fnName.GetLength()-1);
-		fnName.RemoveSubstring(fnName.GetLength()-3, fnName.GetLength());
+		JStringIterator iter(&fnName, kJIteratorStartAtEnd);
+		iter.SkipPrev();
+
+		const JBoolean ok = iter.Prev(&manIndex);
+		assert( ok );
+
+		iter.SkipPrev(2);
+		iter.RemoveAllNext();
 		}
 
-	if (manIndex[0] == '*')
+	if (manIndex == '*')
 		{
-		manIndex[0] = '\0';
+		manIndex = '\0';
 		itsAproposCheckbox->SetState(kJTrue);
 		}
 	else
@@ -363,8 +370,8 @@ SyGViewManPageDialog::SetFunction
 		itsAproposCheckbox->SetState(kJFalse);
 		}
 
-	itsFnName->SetText(fnName);
-	itsManIndex->SetText(manIndex);
+	itsFnName->GetText()->SetText(fnName);
+	itsManIndex->GetText()->SetText(JString(manIndex));
 }
 
 /******************************************************************************
@@ -436,9 +443,9 @@ SyGViewManPageDialog::WritePrefs
 void
 SyGViewManPageDialog::AddToHistory
 	(
-	const JCharacter*	pageName,
-	const JCharacter	pageIndex,
-	const JBoolean		apropos
+	const JString&			pageName,
+	const JUtf8Character&	pageIndex,
+	const JBoolean			apropos
 	)
 {
 	JString historyStr = pageName;
@@ -448,10 +455,10 @@ SyGViewManPageDialog::AddToHistory
 		}
 	else if (pageIndex != ' ')
 		{
-		historyStr.AppendCharacter(' ');
-		historyStr.AppendCharacter('(');
-		historyStr.AppendCharacter(pageIndex);
-		historyStr.AppendCharacter(')');
+		historyStr.Append(" ");
+		historyStr.Append("(");
+		historyStr.Append(pageIndex);
+		historyStr.Append(")");
 		}
 
 	itsFnHistoryMenu->AddString(historyStr);

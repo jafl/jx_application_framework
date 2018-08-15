@@ -20,12 +20,10 @@
 #include <JXCurrentPathMenu.h>
 #include <JXImage.h>
 #include <jMouseUtil.h>
+#include <jDirUtil.h>
 #include <jAssert.h>
 
 #include <jx_folder_small.xpm>
-
-static const JCharacter* kHintText =
-	"Drag this to drag the URL for this folder, or click and hold for a menu.";
 
 /******************************************************************************
  Constructor
@@ -52,9 +50,9 @@ SyGFolderDragSource::SyGFolderDragSource
 	assert( icon != nullptr );
 	SetImage(icon, kJTrue);
 
-	SetHint(kHintText);
+	SetHint(JGetString("Hint::SyGFolderDragSource"));
 
-	itsPathMenu = jnew JXCurrentPathMenu("/", this, kFixedLeft, kFixedTop, 0,0, 10,10);
+	itsPathMenu = jnew JXCurrentPathMenu(JGetRootDirectory(), this, kFixedLeft, kFixedTop, 0,0, 10,10);
 	assert( itsPathMenu != nullptr );
 	itsPathMenu->Hide();
 	itsPathMenu->SetToHiddenPopupMenu(kJTrue);

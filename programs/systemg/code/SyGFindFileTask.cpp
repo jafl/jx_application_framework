@@ -13,6 +13,7 @@
 #include "SyGFileTree.h"
 #include "SyGGlobals.h"
 #include <JProcess.h>
+#include <JStringIterator.h>
 #include <jDirUtil.h>
 #include <jAssert.h>
 
@@ -25,13 +26,13 @@ JBoolean
 SyGFindFileTask::Create
 	(
 	SyGTreeDir*			dir,
-	const JCharacter*	path,
-	const JCharacter*	expr,
+	const JString&		path,
+	const JString&		expr,
 	SyGFindFileTask**	task
 	)
 {
-	JString cmd = "find . ";
-	cmd        += expr;
+	JString cmd("find . ");
+	cmd += expr;
 
 	JProcess* p;
 	int outFD, errFD;
@@ -42,7 +43,10 @@ SyGFindFileTask::Create
 	if (err.OK())
 		{
 		JString relPath = path;
-		relPath.RemoveSubstring(1, dir->GetDirectory().GetLength());
+		JStringIterator iter(&relPath);
+		iter.SkipNext(dir->GetDirectory().GetCharacterCount());
+		iter.RemoveAllPrev();
+		iter.Invalidate();
 
 		*task = jnew SyGFindFileTask(dir, relPath, p, outFD, errFD);
 		assert( *task != nullptr );
@@ -63,11 +67,11 @@ SyGFindFileTask::Create
 
 SyGFindFileTask::SyGFindFileTask
 	(
-	SyGTreeDir*			dir,
-	const JCharacter*	relPath,
-	JProcess*			process,
-	int					outFD,
-	int					errFD
+	SyGTreeDir*		dir,
+	const JString&	relPath,
+	JProcess*		process,
+	int				outFD,
+	int				errFD
 	)
 	:
 	itsDirector(dir),
@@ -184,12 +188,16 @@ SyGFindFileTask::ReceiveMessageLine()
 		{
 		return;
 		}
-	path.RemoveSubstring(1, 2);
+
+	JStringIterator iter(&path);
+	iter.SkipNext(2);
+	iter.RemoveAllPrev();
+	iter.Invalidate();
 
 	JPtrArray<JString> pathList(JPtrArrayT::kDeleteAll);
 	SplitPath(path, &pathList);
 
-	JString* name = pathList.LastElement();
+	JString* name = pathList.GetLastElement();
 	pathList.RemoveElement(pathList.GetElementCount());
 
 	for (JIndex i=itsPathList->GetElementCount(); i>=1; i--)
@@ -251,20 +259,22 @@ SyGFindFileTask::DisplayErrors()
 void
 SyGFindFileTask::SplitPath
 	(
-	const JCharacter*	origRelPath,
+	const JString&		origRelPath,
 	JPtrArray<JString>*	pathList
 	)
 {
 	pathList->CleanOut();
-	if (JString::IsEmpty(origRelPath))
+	if (origRelPath.IsEmpty())
 		{
 		return;
 		}
 
 	JString relPath = origRelPath;
-	while (relPath.BeginsWith(ACE_DIRECTORY_SEPARATOR_STR))
+	JStringIterator iter(&relPath);
+	JUtf8Character c;
+	while (iter.Next(&c) && c == ACE_DIRECTORY_SEPARATOR_CHAR)
 		{
-		relPath.RemoveSubstring(1,1);
+		iter.RemovePrev();
 		}
 	JStripTrailingDirSeparator(&relPath);
 

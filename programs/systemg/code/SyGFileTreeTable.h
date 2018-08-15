@@ -66,12 +66,12 @@ public:
 	void	GoUp(const JBoolean sameWindow);
 	void	GoTo(const JString& path, const JBoolean sameWindow);
 
-	JBoolean	SelectName(const JCharacter* name, const SyGFileTreeNode* parent,
+	JBoolean	SelectName(const JString& name, const SyGFileTreeNode* parent,
 						   JPoint* cell,
 						   const JBoolean updateContent = kJTrue,
 						   const JBoolean updateView = kJTrue);
 	JBoolean	SelectName(const JPtrArray<JString>& pathList,
-						   const JCharacter* name, JPoint* cell,
+						   const JString& name, JPoint* cell,
 						   const JBoolean clearSelection = kJTrue,
 						   const JBoolean updateContent = kJTrue);
 
@@ -91,19 +91,20 @@ public:
 	void		SetCurrentColIndex(const JIndex index);
 	void		SetCurrentColType(const GFMColType type);
 
-	virtual JBoolean	IsEditable(const JPoint& cell) const;
-	virtual void		HandleKeyPress(const int key, const JXKeyModifiers& modifiers) override;
+	virtual JBoolean	IsEditable(const JPoint& cell) const override;
+	virtual void		HandleKeyPress(const JUtf8Character& c, const int keySym,
+									   const JXKeyModifiers& modifiers) override;
 	virtual void		HandleShortcut(const int key, const JXKeyModifiers& modifiers) override;
 
-	static Atom	GetDNDAction(const JXWidget* source, const JCharacter* sourcePath,
+	static Atom	GetDNDAction(const JXWidget* source, const JString& sourcePath,
 							 const JXContainer* target, const JXKeyModifiers& modifiers);
 
 protected:
 
-	virtual void		AdjustToTree();
-	virtual JSize		GetMinCellWidth(const JPoint& cell) const;
-	virtual void		TableDrawCell(JPainter &p, const JPoint& cell, const JRect& rect);
-	virtual JBoolean	GetImage(const JIndex index, const JXImage** image) const;
+	virtual void		AdjustToTree() override;
+	virtual JSize		GetMinCellWidth(const JPoint& cell) const override;
+	virtual void		TableDrawCell(JPainter &p, const JPoint& cell, const JRect& rect) override;
+	virtual JBoolean	GetImage(const JIndex index, const JXImage** image) const override;
 
 	virtual void	HandleMouseHere(const JPoint& pt, const JXKeyModifiers& modifiers) override;
 	virtual void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
@@ -127,7 +128,7 @@ protected:
 									  const JXWidget* source) override;
 
 	virtual void		GetSelectionData(JXSelectionData* data,
-										 const JCharacter* id) override;
+										 const JString& id) override;
 	virtual Atom		GetDNDAction(const JXContainer* target,
 									  const JXButtonStates& buttonStates,
 									  const JXKeyModifiers& modifiers) override;
@@ -142,9 +143,9 @@ protected:
 		CreateTreeListInput(const JPoint& cell, JXContainer* enclosure,
 							const HSizingOption hSizing, const VSizingOption vSizing,
 							const JCoordinate x, const JCoordinate y,
-							const JCoordinate w, const JCoordinate h);
+							const JCoordinate w, const JCoordinate h) override;
 
-	virtual JBoolean	ExtractInputData(const JPoint& cell);
+	virtual JBoolean	ExtractInputData(const JPoint& cell) override;
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 	virtual void	ReceiveWithFeedback(JBroadcaster* sender, Message* message) override;
@@ -264,11 +265,11 @@ private:
 	void	UpdateGitLocalBranchMenu();
 	void	HandleGitMenu(const JIndex index);
 
-	JBoolean	GetGitBranches(const JCharacter* cmd,
+	JBoolean	GetGitBranches(const JUtf8Byte* cmd,
 							   JPtrArray<JString>* branchList, JIndex* currentIndex,
 							   JPtrArray<JString>* repoList);
-	void		CreateGitBranch(const JCharacter* branchName);
-	void		CommitGitBranch(const JCharacter* msg);
+	void		CreateGitBranch(const JString& branchName);
+	void		CommitGitBranch(const JString& msg);
 	void		RevertGitBranch();
 
 	void		SwitchToGitBranch(const JString& branch);
@@ -282,7 +283,7 @@ private:
 
 	JBoolean	GetGitStashList(JPtrArray<JString>* idList, JPtrArray<JString>* nameList);
 	void		Stash(const JString& name);
-	void		Unstash(const JCharacter* action, const JString& stashId);
+	void		Unstash(const JUtf8Byte* action, const JString& stashId);
 
 	static JBoolean	FindGitStash(const JString& branchName,
 								 const JPtrArray<JString>& idList,

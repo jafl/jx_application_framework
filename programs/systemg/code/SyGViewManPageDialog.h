@@ -30,17 +30,17 @@ public:
 
 	virtual void	Activate() override;
 
-	void	ViewManPage(const JCharacter* item, const JCharacter index = ' ',
+	void	ViewManPage(const JString& item, const JUtf8Character& index = ' ',
 						const JBoolean apropos = kJFalse);
 	void	ViewManPages(const JPtrArray<JString>& list);
 
 	static const JString&	GetViewManPageCommand();
-	static void				SetViewManPageCommand(const JCharacter* cmd);
+	static void				SetViewManPageCommand(const JString& cmd);
 
 protected:
 
-	virtual void	ReadPrefs(std::istream& input);
-	virtual void	WritePrefs(std::ostream& output) const;
+	virtual void	ReadPrefs(std::istream& input) override;
+	virtual void	WritePrefs(std::ostream& output) const override;
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
@@ -66,8 +66,8 @@ private:
 	void	BuildWindow();
 	void	UpdateDisplay();
 	void	ViewManPage();
-	void	SetFunction(const JCharacter* historyStr);
-	void	AddToHistory(const JCharacter* pageName, const JCharacter pageIndex,
+	void	SetFunction(const JString& historyStr);
+	void	AddToHistory(const JString& pageName, const JUtf8Character& pageIndex,
 						 const JBoolean apropos);
 
 	// not allowed
@@ -91,7 +91,7 @@ SyGViewManPageDialog::GetViewManPageCommand()
 inline void
 SyGViewManPageDialog::SetViewManPageCommand
 	(
-	const JCharacter* cmd
+	const JString& cmd
 	)
 {
 	itsViewCmd = cmd;

@@ -38,7 +38,7 @@ protected:
 									  const Atom action, const Time time,
 									  const JXWidget* source) override;
 
-	virtual void Receive(JBroadcaster* sender, const Message& message);
+	virtual void Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

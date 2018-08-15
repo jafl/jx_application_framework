@@ -48,7 +48,7 @@ const JString&
 SyGNewGitRemoteDialog::GetRepoURL()
 	const
 {
-	return itsRemoteURLInputField->GetText();
+	return itsRemoteURLInputField->GetText()->GetText();
 }
 
 /******************************************************************************
@@ -60,7 +60,7 @@ const JString&
 SyGNewGitRemoteDialog::GetLocalName()
 	const
 {
-	return itsLocalNameInputField->GetText();
+	return itsLocalNameInputField->GetText()->GetText();
 }
 
 /******************************************************************************
@@ -73,7 +73,7 @@ SyGNewGitRemoteDialog::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 310,160, "");
+	JXWindow* window = jnew JXWindow(this, 310,160, JString::empty);
 	assert( window != nullptr );
 
 	JXTextButton* okButton =

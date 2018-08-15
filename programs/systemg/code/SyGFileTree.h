@@ -29,7 +29,7 @@ public:
 	JBoolean	HiddenVisible() const;
 	void		ShowHidden(const JBoolean show);
 
-	void	SetWildcardFilter(const JCharacter* filter);
+	void	SetWildcardFilter(const JString& filter);
 	void	ClearWildcardFilter();
 
 	void	SetNodeCompareFunction(const GFMColType type);

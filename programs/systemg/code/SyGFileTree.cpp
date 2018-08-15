@@ -106,7 +106,7 @@ SyGFileTree::ShowHidden
 void
 SyGFileTree::SetWildcardFilter
 	(
-	const JCharacter* filter
+	const JString& filter
 	)
 {
 	GetRootDirInfo()->SetWildcardFilter(filter);

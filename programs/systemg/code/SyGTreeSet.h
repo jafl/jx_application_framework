@@ -31,7 +31,7 @@ class SyGTreeSet : public JXWidgetSet
 {
 public:
 
-	SyGTreeSet(JXMenuBar* menuBar, const JCharacter* pathName,
+	SyGTreeSet(JXMenuBar* menuBar, const JString& pathName,
 			   SyGPathInput* pathInput, JXCurrentPathMenu* pathMenu,
 			   SyGTrashButton* trashButton, JXContainer* enclosure,
 			   const HSizingOption hSizing, const VSizingOption vSizing,
@@ -39,7 +39,7 @@ public:
 			   const JCoordinate w, const JCoordinate h);
 
 	SyGTreeSet(std::istream& input, const JFileVersion vers,
-			   JXMenuBar* menuBar, const JCharacter* pathName,
+			   JXMenuBar* menuBar, const JString& pathName,
 			   SyGPathInput* pathInput, JXCurrentPathMenu* pathMenu,
 			   SyGTrashButton* trashButton, JXContainer* enclosure,
 			   const HSizingOption hSizing, const VSizingOption vSizing,
@@ -51,7 +51,7 @@ public:
 	SyGFileTreeTable* GetTable() const;
 
 	void	GoToItsPath();
-	void	SetWildcardFilter(const JCharacter* filter);
+	void	SetWildcardFilter(const JString& filter);
 	void	SavePreferences(std::ostream& os);
 
 	JBoolean	FilterVisible() const;
@@ -80,7 +80,7 @@ private:
 
 private:
 
-	void SyGTreeSetX(JXMenuBar* menuBar, const JCharacter* pathName,
+	void SyGTreeSetX(JXMenuBar* menuBar, const JString& pathName,
 					 SyGPathInput* pathInput, JXCurrentPathMenu* pathMenu,
 					 SyGTrashButton* trashButton, 
 					 const JCoordinate w, const JCoordinate h);

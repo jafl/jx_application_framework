@@ -13,7 +13,6 @@
 #include <JString.h>
 #include <JXWindow.h>
 #include <jASCIIConstants.h>
-
 #include <jAssert.h>
 
 /******************************************************************************
@@ -55,24 +54,25 @@ SyGFilterInput::~SyGFilterInput()
 void
 SyGFilterInput::HandleKeyPress
 	(
-	const int key,
-	const JXKeyModifiers&   modifiers
+	const JUtf8Character&	c,
+	const int				keySym,
+	const JXKeyModifiers&	modifiers
 	)
 {
-	if (key == kJReturnKey)
+	if (c == kJReturnKey)
 		{
 		itsDirList->Focus();
 		}
 
-	else if (key == kJEscapeKey)
+	else if (c == kJEscapeKey)
 		{
-		SetText(itsInitialText);
+		GetText()->SetText(itsInitialText);
 		itsDirList->Focus();
 		}
 
 	else
 		{
-		JXInputField::HandleKeyPress(key, modifiers);
+		JXInputField::HandleKeyPress(c, keySym, modifiers);
 		}
 }
 
@@ -84,6 +84,6 @@ SyGFilterInput::HandleKeyPress
 void
 SyGFilterInput::HandleFocusEvent()
 {
-	itsInitialText = GetText();
+	itsInitialText = GetText()->GetText();
 	JXInputField::HandleFocusEvent();
 }

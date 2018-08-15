@@ -19,11 +19,11 @@ class SyGEditPrefsDialog : public JXDialogDirector
 {
 public:
 
-	SyGEditPrefsDialog(const JCharacter* terminalCmd,
-					   const JCharacter* manViewCmd,
-					   const JCharacter* gitStatusCmd,
-					   const JCharacter* gitHistoryCmd,
-					   const JCharacter* postCheckoutCmd,
+	SyGEditPrefsDialog(const JString& terminalCmd,
+					   const JString& manViewCmd,
+					   const JString& gitStatusCmd,
+					   const JString& gitHistoryCmd,
+					   const JString& postCheckoutCmd,
 					   const JBoolean del, const JBoolean newWindows,
 					   const JBoolean perFolderPrefs);
 
@@ -52,11 +52,11 @@ private:
 
 private:
 
-	void	BuildWindow(const JCharacter* terminalCmd,
-						const JCharacter* manViewCmd,
-						const JCharacter* gitStatusCmd,
-						const JCharacter* gitHistoryCmd,
-						const JCharacter* postCheckoutCmd,
+	void	BuildWindow(const JString& terminalCmd,
+						const JString& manViewCmd,
+						const JString& gitStatusCmd,
+						const JString& gitHistoryCmd,
+						const JString& postCheckoutCmd,
 						const JBoolean del, const JBoolean newWindows,
 						const JBoolean perFolderPrefs);
 

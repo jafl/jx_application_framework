@@ -28,7 +28,7 @@ public:
 
 	virtual ~SyGApplication();
 
-	virtual JBoolean	Close();
+	virtual JBoolean	Close() override;
 
 	JBoolean	OpenDirectory();
 	JBoolean	OpenDirectory(const JString& pathName,
@@ -49,41 +49,41 @@ public:
 	void	RemoveShortcut(const JString& shortcut);
 	void	RemoveAllShortcuts();
 
-	JBoolean	IsMountPoint(const JCharacter* path, JMountType* type = nullptr) const;
-	JBoolean	GetMountPointPrefs(const JCharacter* path, const JString** prefs) const;
-	void		SetMountPointPrefs(const JCharacter* path, const JCharacter* prefs);
+	JBoolean	IsMountPoint(const JString& path, JMountType* type = nullptr) const;
+	JBoolean	GetMountPointPrefs(const JString& path, const JString** prefs) const;
+	void		SetMountPointPrefs(const JString& path, const JString& prefs);
 
 	void	DirectoryRenamed(const Message& message);
 	void	UpdateTrash();
 
-	void			OpenTerminal(const JCharacter* path);
+	void			OpenTerminal(const JString& path);
 	const JString&	GetTerminalCommand() const;
-	void			SetTerminalCommand(const JCharacter* cmd);
+	void			SetTerminalCommand(const JString& cmd);
 
 	const JString&	GetGitStatusCommand() const;
-	void			SetGitStatusCommand(const JCharacter* cmd);
+	void			SetGitStatusCommand(const JString& cmd);
 
 	const JString&	GetGitHistoryCommand() const;
-	void			SetGitHistoryCommand(const JCharacter* cmd);
+	void			SetGitHistoryCommand(const JString& cmd);
 
 	const JString&	GetPostCheckoutCommand() const;
-	void			SetPostCheckoutCommand(const JCharacter* cmd);
+	void			SetPostCheckoutCommand(const JString& cmd);
 
-	void	DisplayAbout(const JCharacter* prevVersStr = nullptr);
+	void	DisplayAbout(const JString& prevVersStr = JString::empty);
 
 	JBoolean	RestoreProgramState();
 	void		SaveProgramState();
 
-	static const JCharacter*	GetAppSignature();
-	static void					InitStrings();
+	static const JUtf8Byte*	GetAppSignature();
+	static void				InitStrings();
 
 protected:
 
-	virtual void	ReadPrefs(std::istream& input);
-	virtual void	WritePrefs(std::ostream& output) const;
+	virtual void	ReadPrefs(std::istream& input) override;
+	virtual void	WritePrefs(std::ostream& output) const override;
 
-	virtual void	DirectorClosed(JXDirector* theDirector);
-	virtual void	CleanUpBeforeSuddenDeath(const JXDocumentManager::SafetySaveReason reason);
+	virtual void	DirectorClosed(JXDirector* theDirector) override;
+	virtual void	CleanUpBeforeSuddenDeath(const JXDocumentManager::SafetySaveReason reason) override;
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
@@ -101,10 +101,10 @@ private:
 
 private:
 
-	const JCharacter*	GetNMShortcut(JIndex* i) const;
+	JString	GetNMShortcut(JIndex* i) const;
 
 	void	UpdateMountPointList() const;
-	JString	GetMountPointPrefsPath(const JCharacter* path) const;
+	JString	GetMountPointPrefsPath(const JString& path) const;
 
 	static JListT::CompareResult
 		CompareShortcuts(JString* const & s1, JString* const & s2);
@@ -116,8 +116,8 @@ private:
 
 public:
 
-	static const JCharacter* kTrashNeedsUpdate;
-	static const JCharacter* kShortcutsChanged;
+	static const JUtf8Byte* kTrashNeedsUpdate;
+	static const JUtf8Byte* kShortcutsChanged;
 
 	class TrashNeedsUpdate : public JBroadcaster::Message
 		{
@@ -179,7 +179,7 @@ SyGApplication::GetTerminalCommand()
 inline void
 SyGApplication::SetTerminalCommand
 	(
-	const JCharacter* cmd
+	const JString& cmd
 	)
 {
 	itsTermCmd = cmd;
@@ -201,7 +201,7 @@ SyGApplication::GetGitStatusCommand()
 inline void
 SyGApplication::SetGitStatusCommand
 	(
-	const JCharacter* cmd
+	const JString& cmd
 	)
 {
 	itsGitStatusCmd = cmd;
@@ -223,7 +223,7 @@ SyGApplication::GetGitHistoryCommand()
 inline void
 SyGApplication::SetGitHistoryCommand
 	(
-	const JCharacter* cmd
+	const JString& cmd
 	)
 {
 	itsGitHistoryCmd = cmd;
@@ -245,7 +245,7 @@ SyGApplication::GetPostCheckoutCommand()
 inline void
 SyGApplication::SetPostCheckoutCommand
 	(
-	const JCharacter* cmd
+	const JString& cmd
 	)
 {
 	itsPostCheckoutCmd = cmd;

@@ -41,11 +41,13 @@ SyGHeaderWidget::SyGHeaderWidget
 	JXColHeaderWidget(table, scrollbarSet, enclosure, hSizing,vSizing, x,y, w,h),
 	itsTable(table)
 {
-	SetRowBorderInfo(0, GetColormap()->GetBlackColor());
-	SetColBorderInfo(0, GetColormap()->GetBlackColor());
+	JColorManager* mgr = GetDisplay()->GetColorManager();
+
+	SetRowBorderInfo(0, mgr->GetBlackColor());
+	SetColBorderInfo(0, mgr->GetBlackColor());
 
 	WantInput(kJFalse,kJFalse);	// we don't want focus
-	SetBackColor(GetColormap()->GetWhiteColor());
+	SetBackColor(mgr->GetWhiteColor());
 }
 
 /******************************************************************************

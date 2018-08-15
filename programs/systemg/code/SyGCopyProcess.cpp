@@ -116,9 +116,9 @@ SyGCopyProcess::CleanSrcList
 JBoolean
 SyGCopyProcess::ActionIsUseful
 	(
-	const JCharacter*	srcName,
-	const JCharacter*	destPath,
-	JString*			destName
+	const JString&	srcName,
+	const JString&	destPath,
+	JString*		destName
 	)
 {
 	if (!JNameUsed(srcName) || JSameDirEntry(srcName, destPath))
@@ -149,10 +149,10 @@ SyGCopyProcess::ActionIsUseful
 JBoolean
 SyGCopyProcess::OKToReplace
 	(
-	const JCharacter*	srcName,
-	const JCharacter*	destName,
-	JBoolean*			ask,
-	JBoolean*			first
+	const JString&	srcName,
+	const JString&	destName,
+	JBoolean*		ask,
+	JBoolean*		first
 	)
 {
 	JString destPath, name;
@@ -171,9 +171,9 @@ SyGCopyProcess::OKToReplace
 
 			if (trueDest.BeginsWith(trueSrc))
 				{
-				const JCharacter* map[] =
+				const JUtf8Byte* map[] =
 					{
-					"src", name.GetCString()
+					"src", name.GetBytes()
 					};
 				const JString msg = JGetString("NoMoveIntoSelf::SyGCopyProcess", map, sizeof(map));
 				(JGetUserNotification())->ReportError(msg);
@@ -188,11 +188,11 @@ SyGCopyProcess::OKToReplace
 	const JBoolean destIsDir = JDirectoryExists(destName);
 	if (srcIsDir != destIsDir)			// can't replace one type with the other
 		{
-		const JCharacter* map[] =
+		const JUtf8Byte* map[] =
 			{
 			"src_type",  (srcIsDir  ? "directory" : "file"),
 			"dest_type", (destIsDir ? "directory" : "file"),
-			"dest",      name.GetCString()
+			"dest",      name.GetBytes()
 			};
 		const JString msg = JGetString("OnlyReplaceSameType::SyGCopyProcess", map, sizeof(map));
 		(JGetUserNotification())->ReportError(msg);
@@ -208,9 +208,9 @@ SyGCopyProcess::OKToReplace
 
 		if (trueSrc.BeginsWith(trueDest))
 			{
-			const JCharacter* map[] =
+			const JUtf8Byte* map[] =
 				{
-				"dest", name.GetCString()
+				"dest", name.GetBytes()
 				};
 			const JString msg = JGetString("NoReplaceWithContents::SyGCopyProcess", map, sizeof(map));
 			(JGetUserNotification())->ReportError(msg);
@@ -218,9 +218,9 @@ SyGCopyProcess::OKToReplace
 			}
 		else if (trueDest.BeginsWith(trueSrc))
 			{
-			const JCharacter* map[] =
+			const JUtf8Byte* map[] =
 				{
-				"src", name.GetCString()
+				"src", name.GetBytes()
 				};
 			const JString msg = JGetString("NoMoveIntoSelf::SyGCopyProcess", map, sizeof(map));
 			(JGetUserNotification())->ReportError(msg);
@@ -236,9 +236,9 @@ SyGCopyProcess::OKToReplace
 
 	if (*ask)
 		{
-		const JCharacter* map[] =
+		const JUtf8Byte* map[] =
 			{
-			"name", name.GetCString()
+			"name", name.GetBytes()
 			};
 		const JString msg = JGetString("AskReplace::SyGCopyProcess", map, sizeof(map));
 		if (!(JGetUserNotification())->AskUserYes(msg))
@@ -375,34 +375,34 @@ SyGCopyProcess::SyGCopyProcess
 	if (isCopy && itsVCSType == kJSVNType)
 		{
 		prefixCount = 2;
-		itsSrcNameList->InsertAtIndex(1, "svn");
-		itsSrcNameList->InsertAtIndex(2, "cp");
+		itsSrcNameList->InsertAtIndex(1, JString("svn", kJFalse));
+		itsSrcNameList->InsertAtIndex(2, JString("cp", kJFalse));
 		}
 	else if (isCopy)
 		{
 		prefixCount = 2;
-		itsSrcNameList->InsertAtIndex(1, "cp");
-		itsSrcNameList->InsertAtIndex(2, "-Rdf");
+		itsSrcNameList->InsertAtIndex(1, JString("cp", kJFalse));
+		itsSrcNameList->InsertAtIndex(2, JString("-Rdf", kJFalse));
 		}
 	else if (itsVCSType == kJSVNType)
 		{
 		prefixCount = 3;
-		itsSrcNameList->InsertAtIndex(1, "svn");
-		itsSrcNameList->InsertAtIndex(2, "mv");
-		itsSrcNameList->InsertAtIndex(3, "--force");
+		itsSrcNameList->InsertAtIndex(1, JString("svn", kJFalse));
+		itsSrcNameList->InsertAtIndex(2, JString("mv", kJFalse));
+		itsSrcNameList->InsertAtIndex(3, JString("--force", kJFalse));
 		}
 	else if (itsVCSType == kJGitType)
 		{
 		prefixCount = 3;
-		itsSrcNameList->InsertAtIndex(1, "git");
-		itsSrcNameList->InsertAtIndex(2, "mv");
-		itsSrcNameList->InsertAtIndex(3, "-f");
+		itsSrcNameList->InsertAtIndex(1, JString("git", kJFalse));
+		itsSrcNameList->InsertAtIndex(2, JString("mv", kJFalse));
+		itsSrcNameList->InsertAtIndex(3, JString("-f", kJFalse));
 		}
 	else
 		{
 		prefixCount = 2;
-		itsSrcNameList->InsertAtIndex(1, "mv");
-		itsSrcNameList->InsertAtIndex(2, "-f");
+		itsSrcNameList->InsertAtIndex(1, JString("mv", kJFalse));
+		itsSrcNameList->InsertAtIndex(2, JString("-f", kJFalse));
 		}
 
 	itsSrcNameList->Append(destPath);
@@ -432,7 +432,7 @@ SyGCopyProcess::Start
 	const JSize prefixCount
 	)
 {
-	const JString* destPath = itsSrcNameList->LastElement();
+	const JString* destPath = itsSrcNameList->GetLastElement();
 
 	const JError err = JSimpleProcess::Create(&itsProcess, *destPath, *itsSrcNameList);
 
@@ -469,7 +469,7 @@ SyGCopyProcess::Receive
 {
 	if (sender == itsProcess && message.Is(JProcess::kFinished))
 		{
-		JString* destPath = itsSrcNameList->LastElement();
+		JString* destPath = itsSrcNameList->GetLastElement();
 		itsSrcNameList->RemoveElement(itsSrcNameList->GetElementCount());
 
 		JBoolean done = kJTrue;
@@ -537,8 +537,8 @@ SyGCopyProcess::Receive
 				{
 				done = kJFalse;
 
-				itsSrcNameList->InsertAtIndex(1, "mv");
-				itsSrcNameList->InsertAtIndex(2, "-f");
+				itsSrcNameList->InsertAtIndex(1, JString("mv", kJFalse));
+				itsSrcNameList->InsertAtIndex(2, JString("-f", kJFalse));
 				itsSrcNameList->Append(destPath);
 				Start(2);
 				}
@@ -564,8 +564,8 @@ SyGCopyProcess::Receive
 void
 SyGCopyProcess::RemoveExecutePermissions
 	(
-	const JCharacter* srcPath,
-	const JCharacter* destPath
+	const JString& srcPath,
+	const JString& destPath
 	)
 {
 	JString path, name;

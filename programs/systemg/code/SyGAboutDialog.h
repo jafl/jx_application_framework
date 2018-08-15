@@ -18,7 +18,7 @@ class SyGAboutDialog : public JXDialogDirector
 {
 public:
 
-	SyGAboutDialog(JXDirector* supervisor, const JCharacter* prevVersStr);
+	SyGAboutDialog(JXDirector* supervisor, const JString& prevVersStr);
 
 	virtual ~SyGAboutDialog();
 
@@ -39,7 +39,7 @@ private:
 
 private:
 
-	void	BuildWindow(const JCharacter* prevVersStr);
+	void	BuildWindow(const JString& prevVersStr);
 
 	// not allowed
 

@@ -17,12 +17,12 @@ class SyGChoosePathDialog : public JXChoosePathDialog
 public:
 
 	SyGChoosePathDialog(JXDirector* supervisor, JDirInfo* dirInfo,
-					   const JCharacter* fileFilter,
+					   const JString& fileFilter,
 					   const JBoolean selectOnlyWritable);
 
 	virtual ~SyGChoosePathDialog();
 
-	void		BuildWindow(const JBoolean newWindow, const JCharacter* message = nullptr);
+	void		BuildWindow(const JBoolean newWindow, const JString& message = JString::empty);
 
 	JBoolean	OpenInNewWindow() const;
 

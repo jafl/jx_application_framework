@@ -146,10 +146,21 @@ T
 2 "systemg_strings"
 F
 "./strings/systemg_strings"
-T
-2 "SyGHelpText.h"
 F
-"./code/SyGHelpText.h"
+T
+1 "release"
+T
+2 "VERSION"
+F
+"./release/VERSION"
+T
+2 "help.html"
+F
+"./release/help.html"
+T
+2 "ChangeLog.html"
+F
+"./release/ChangeLog.html"
 F
 F
 # tasks

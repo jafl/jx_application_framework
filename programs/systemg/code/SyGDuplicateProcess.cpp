@@ -94,7 +94,7 @@ SyGDuplicateProcess::Receive
 			dynamic_cast<const JProcess::Finished*>(&message);
 		if (info->Successful() && itsTable != nullptr && !itsTable->IsEditing())
 			{
-			SyGFileTreeNode* node   = itsNodeList.FirstElement();
+			SyGFileTreeNode* node   = itsNodeList.GetFirstElement();
 			SyGFileTreeNode* parent = nullptr;
 			if (node != nullptr)
 				{
@@ -166,20 +166,20 @@ SyGDuplicateProcess::ProcessNextFile()
 		return;
 		}
 
-	const JString* origName = itsFullNameList.FirstElement();
+	const JString* origName = itsFullNameList.GetFirstElement();
 	JString path, name, root, suffix;
 	JSplitPathAndName(*origName, &path, &name);
 	if (JSplitRootAndSuffix(name, &root, &suffix))
 		{
-		suffix.PrependCharacter('.');
+		suffix.Prepend(".");
 		}
 
 	root += "_copy";
-	name  = JGetUniqueDirEntryName(path, root, suffix);
+	name  = JGetUniqueDirEntryName(path, root, suffix.GetBytes());
 
 	JSplitPathAndName(name, &path, &itsCurrentName);
 
-	const JCharacter* argv[] = { "cp", "-Rdf", *origName, name, nullptr };
+	const JUtf8Byte* argv[] = { "cp", "-Rdf", origName->GetBytes(), name.GetBytes(), nullptr };
 
 	JVCSType type;
 	if (JIsManagedByVCS(*origName, &type) && type == kJSVNType)

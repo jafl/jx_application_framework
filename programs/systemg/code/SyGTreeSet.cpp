@@ -40,10 +40,6 @@
 
 const JCoordinate kEmptyButtonWidth = 50;
 
-// string ID's
-
-static const JCharacter* kTrashNameID = "TrashName::SyGTreeSet";
-
 /******************************************************************************
  Constructor
 
@@ -52,7 +48,7 @@ static const JCharacter* kTrashNameID = "TrashName::SyGTreeSet";
 SyGTreeSet::SyGTreeSet
 	(
 	JXMenuBar*			menuBar,
-	const JCharacter*	pathName,
+	const JString&		pathName,
 	SyGPathInput*		pathInput,
 	JXCurrentPathMenu*	pathMenu,
 	SyGTrashButton*		trashButton,
@@ -78,7 +74,7 @@ SyGTreeSet::SyGTreeSet
 	std::istream&		input,
 	const JFileVersion	vers,
 	JXMenuBar*			menuBar,
-	const JCharacter*	pathName,
+	const JString&		pathName,
 	SyGPathInput*		pathInput,
 	JXCurrentPathMenu*	pathMenu,
 	SyGTrashButton*		trashButton,
@@ -106,7 +102,7 @@ SyGTreeSet::SyGTreeSet
 
 	JString filter;
 	input >> filter;
-	itsFilterInput->SetText(filter);
+	itsFilterInput->GetText()->SetText(filter);
 
 	itsFilterHistory->ReadSetup(input);
 	itsTable->LoadPrefs(input, vers);
@@ -129,7 +125,7 @@ SyGTreeSet::SyGTreeSet
 void SyGTreeSet::SyGTreeSetX
 	(
 	JXMenuBar*			menuBar,
-	const JCharacter*	pathName,
+	const JString&		pathName,
 	SyGPathInput*		pathInput,
 	JXCurrentPathMenu*	pathMenu,
 	SyGTrashButton*		trashButton,
@@ -141,7 +137,7 @@ void SyGTreeSet::SyGTreeSetX
 	itsEmptyButton = nullptr;
 
 	const JFont& font              = GetFontManager()->GetDefaultMonospaceFont();
-	const JCoordinate filterHeight = font.GetLineHeight();
+	const JCoordinate filterHeight = font.GetLineHeight(GetFontManager());
 	const JCoordinate headerHeight = SyGHeaderWidget::GetPreferredHeight(GetFontManager());
 
 	// file list -- created first so it gets focus by default
@@ -188,13 +184,13 @@ void SyGTreeSet::SyGTreeSetX
 	// header:  filter
 
 	itsFilterLabel =
-		jnew JXStaticText("Filter:", this, kFixedLeft, kFixedTop,
+		jnew JXStaticText(JGetString("FilterLabel::SyGTreeSet"), this, kFixedLeft, kFixedTop,
 						  5,0, 40, filterHeight);
 	assert( itsFilterLabel != nullptr );
 	itsFilterLabel->SetToLabel();
 
 	itsFilterHistory =
-		jnew JXStringHistoryMenu(10, "", this, kFixedRight, kFixedTop,
+		jnew JXStringHistoryMenu(10, JString::empty, this, kFixedRight, kFixedTop,
 								 0,0, 30, filterHeight);
 	assert( itsFilterHistory != nullptr );
 	ListenTo(itsFilterHistory);
@@ -205,17 +201,20 @@ void SyGTreeSet::SyGTreeSetX
 		jnew SyGFilterInput(itsTable, this, kHElastic, kFixedTop,
 							45,0, w - 45 - itsFilterHistory->GetFrameWidth(), filterHeight);
 	assert( itsFilterInput != nullptr );
-	ListenTo(itsFilterInput);
 	itsFilterInput->SetFont(font);
 
 	// footer:  path input, drag source
 
 	itsPathInput = pathInput;
 	itsPathInput->SetDirList(itsTable);
-	itsPathInput->SetText(path);
-	ListenTo(itsPathInput);
+	itsPathInput->GetText()->SetText(path);
 
 	itsPathMenu = pathMenu;
+
+	// after all instance variables initialized
+
+	ListenTo(itsFilterInput);
+	ListenTo(itsPathInput);
 	ListenTo(itsPathMenu);
 
 	// share Edit menu
@@ -272,7 +271,7 @@ SyGTreeSet::Receive
 
 	else if (sender == itsFilterInput && message.Is(JXWidget::kLostFocus))
 		{
-		SetWildcardFilter(itsFilterInput->GetText());
+		SetWildcardFilter(itsFilterInput->GetText()->GetText());
 		}
 	else if (sender == itsFilterHistory && message.Is(JXMenu::kItemSelected))
 		{
@@ -320,7 +319,7 @@ SyGTreeSet::UpdateDisplay
 		}
 	else if (isTrashDir)
 		{
-		name = JGetString(kTrashNameID);
+		name = JGetString("TrashName::SyGGlobals");
 		}
 	else
 		{
@@ -332,7 +331,7 @@ SyGTreeSet::UpdateDisplay
 	// path input
 
 	const JString p = JConvertToHomeDirShortcut(path);
-	itsPathInput->SetText(p);
+	itsPathInput->GetText()->SetText(p);
 
 	// Empty button (for trash)
 
@@ -343,7 +342,7 @@ SyGTreeSet::UpdateDisplay
 		itsMenuBar->SetSize(w - kEmptyButtonWidth, kJXDefaultMenuBarHeight);
 
 		itsEmptyButton =
-			jnew JXTextButton("Empty", encl, kFixedRight, kFixedTop,
+			jnew JXTextButton(JGetString("EmptyTrashLabel::SyGTreeSet"), encl, kFixedRight, kFixedTop,
 							 w - kEmptyButtonWidth, 0,
 							 kEmptyButtonWidth, kJXDefaultMenuBarHeight);
 		assert( itsEmptyButton != nullptr );
@@ -383,11 +382,11 @@ SyGTreeSet::GoToItsPath()
 void
 SyGTreeSet::SetWildcardFilter
 	(
-	const JCharacter* filter
+	const JString& filter
 	)
 {
 	const JString f = filter;		// use copy in case filter is reference from input or menu
-	itsFilterInput->SetText(f);
+	itsFilterInput->GetText()->SetText(f);
 	itsFilterHistory->AddString(f);
 	itsFileTree->SetWildcardFilter(f);
 }
@@ -455,7 +454,7 @@ SyGTreeSet::ShowFilter
 		itsFilterHistory->Show();
 		itsScrollbarSet->Place(0, filterHeight);
 		itsScrollbarSet->AdjustSize(0, -filterHeight);
-		SetWildcardFilter(itsFilterInput->GetText());
+		SetWildcardFilter(itsFilterInput->GetText()->GetText());
 		}
 	else if (!show && itsFilterInput->WouldBeVisible())
 		{

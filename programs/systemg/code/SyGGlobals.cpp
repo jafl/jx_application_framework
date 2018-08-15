@@ -53,33 +53,22 @@ static JXImage*	theSelectedExecIcon           = nullptr;
 static JXImage*	theUnknownIcon                = nullptr;
 static JXImage*	theSelectedUnknownIcon        = nullptr;
 
-static const JCharacter* kTrashDirName      = "/.trashcan/";
+static const JString kTrashDirName("/.trashcan/", kJFalse);
 static JString theTrashDir;			// only need to compute this once
-static JDirInfo* theTrashDirInfo            = nullptr;
-static const JCharacter* kRecentFileDirName = "/.jxfvwm2taskbar/recent_files/";
+static JDirInfo* theTrashDirInfo = nullptr;
+static const JString kRecentFileDirName("/.jxfvwm2taskbar/recent_files/", kJFalse);
 static JString theRecentFileDir;	// only need to compute this once
-const JSize kRecentFileCount                = 20;
+const JSize kRecentFileCount     = 20;
 
 const long kTrashCanPerms      = 0700;
 const long kRecentFileDirPerms = 0700;
 
-static const JCharacter* kFolderWindowClass = "SystemG_Folder";
+static const JUtf8Byte* kFolderWindowClass = "SystemG_Folder";
 
 // private functions
 
 void	SyGCreateIcons();
 void	SyGDeleteIcons();
-
-// string ID's
-
-static const JCharacter* kDescriptionID              = "Description::SyGGlobals";
-static const JCharacter* kCreateTrashErrorID         = "CreateTrashError::SyGGlobals";
-static const JCharacter* kEmptyTrashErrorID          = "EmptyTrashError::SyGGlobals";
-static const JCharacter* kCreateRecentFileDirErrorID = "CreateRecentFileDirError::SyGGlobals";
-static const JCharacter* kNoPrefsDirID               = "NoPrefsDir::SyGGlobals";
-static const JCharacter* kDNDCopyDescriptionID       = "DNDCopyDescription::SyGGlobals";
-static const JCharacter* kDNDMoveDescriptionID       = "DNDMoveDescription::SyGGlobals";
-static const JCharacter* kDNDLinkDescriptionID       = "DNDLinkDescription::SyGGlobals";
 
 /******************************************************************************
  SyGCreateGlobals
@@ -99,7 +88,7 @@ SyGCreateGlobals
 	JString oldPrefsFile, newPrefsFile;
 	if (JGetPrefsDirectory(&oldPrefsFile))
 		{
-		oldPrefsFile = JCombinePathAndName(oldPrefsFile, ".gSystemG.pref");
+		oldPrefsFile = JCombinePathAndName(oldPrefsFile, JString(".gSystemG.pref", kJFalse));
 		if (JFileExists(oldPrefsFile) &&
 			(JPrefsFile::GetFullName(app->GetSignature(), &newPrefsFile)).OK() &&
 			!JFileExists(newPrefsFile))
@@ -246,7 +235,7 @@ SyGGetMDIServer()
 JBoolean
 SyGIsTrashDirectory
 	(
-	const JCharacter* path
+	const JString& path
 	)
 {
 	JString dir;
@@ -276,7 +265,7 @@ SyGGetTrashDirectory
 		{
 		if (reportErrors)
 			{
-			(JGetUserNotification())->ReportError(JGetString(kNoPrefsDirID));
+			(JGetUserNotification())->ReportError(JGetString("NoPrefsDir::SyGGlobals"));
 			}
 		return kJFalse;
 		}
@@ -305,7 +294,7 @@ SyGGetTrashDirectory
 		path->Clear();
 		if (reportErrors)
 			{
-			(JGetStringManager())->ReportError(kCreateTrashErrorID, err);
+			(JGetStringManager())->ReportError("CreateTrashError::SyGGlobals", err);
 			}
 		return kJFalse;
 		}
@@ -363,7 +352,7 @@ SyGEmptyTrashDirectory()
 		}
 	else if (hasTrash)
 		{
-		(JGetUserNotification())->ReportError(JGetString(kEmptyTrashErrorID));
+		(JGetUserNotification())->ReportError(JGetString("EmptyTrashError::SyGGlobals"));
 		return kJFalse;
 		}
 	else
@@ -382,7 +371,7 @@ SyGEmptyTrashDirectory()
 JBoolean
 SyGDeleteDirEntry
 	(
-	const JCharacter* fullName
+	const JString& fullName
 	)
 {
 	const JString sysCmd = "rm -rf " + JPrepArgForExec(fullName);
@@ -399,8 +388,8 @@ SyGDeleteDirEntry
 JBoolean
 SyGExec
 	(
-	const JCharacter*	cmd,
-	const JBoolean		report
+	const JString&	cmd,
+	const JBoolean	report
 	)
 {
 	JString errOutput;
@@ -536,15 +525,15 @@ SyGGetDNDAskActions
 	actionList->AppendElement(dndMgr->GetDNDActionMoveXAtom());
 	actionList->AppendElement(dndMgr->GetDNDActionLinkXAtom());
 
-	JString* s = jnew JString(JGetString(kDNDCopyDescriptionID));
+	JString* s = jnew JString(JGetString("DNDCopyDescription::SyGGlobals"));
 	assert( s != nullptr );
 	descriptionList->Append(s);
 
-	s = jnew JString(JGetString(kDNDMoveDescriptionID));
+	s = jnew JString(JGetString("DNDMoveDescription::SyGGlobals"));
 	assert( s != nullptr );
 	descriptionList->Append(s);
 
-	s = jnew JString(JGetString(kDNDLinkDescriptionID));
+	s = jnew JString(JGetString("DNDLinkDescription::SyGGlobals"));
 	assert( s != nullptr );
 	descriptionList->Append(s);
 }
@@ -554,13 +543,13 @@ SyGGetDNDAskActions
 
  ******************************************************************************/
 
-const JCharacter*
+const JUtf8Byte*
 SyGGetWMClassInstance()
 {
-	return JGetString("SyGName");
+	return JGetString("SyGName").GetBytes();
 }
 
-const JCharacter*
+const JUtf8Byte*
 SyGGetFolderWindowClass()
 {
 	return kFolderWindowClass;
@@ -571,7 +560,7 @@ SyGGetFolderWindowClass()
 
  ******************************************************************************/
 
-const JCharacter*
+const JString&
 SyGGetVersionNumberStr()
 {
 	return JGetString("VERSION");
@@ -585,12 +574,12 @@ SyGGetVersionNumberStr()
 JString
 SyGGetVersionStr()
 {
-	const JCharacter* map[] =
+	const JUtf8Byte* map[] =
 		{
-		"version",   JGetString("VERSION"),
-		"copyright", JGetString("COPYRIGHT")
+		"version",   JGetString("VERSION").GetBytes(),
+		"copyright", JGetString("COPYRIGHT").GetBytes()
 		};
-	return JGetString(kDescriptionID, map, sizeof(map));
+	return JGetString("Description::SyGGlobals", map, sizeof(map));
 }
 
 /******************************************************************************
@@ -724,7 +713,7 @@ SyGGetUnknownSmallIcon
 JXImage*
 SyGGetDirectorySmallIcon
 	(
-	const JCharacter* path
+	const JString& path
 	)
 {
 	JMountType type;
@@ -758,7 +747,7 @@ SyGGetDirectorySmallIcon
 JIndex
 SyGGetMountPointLargeIcon
 	(
-	const JCharacter*	path,
+	const JString&		path,
 	SyGFileTreeList*	fileList,
 	JXPM*				plainIcon,
 	JXPM*				selectedIcon
@@ -885,7 +874,7 @@ SyGGetRecentFileDirectory
 		{
 		if (reportErrors)
 			{
-			(JGetUserNotification())->ReportError(JGetString(kNoPrefsDirID));
+			(JGetUserNotification())->ReportError(JGetString("NoPrefsDir::SyGGlobals"));
 			}
 		return kJFalse;
 		}
@@ -912,7 +901,7 @@ SyGGetRecentFileDirectory
 		path->Clear();
 		if (reportErrors)
 			{
-			(JGetStringManager())->ReportError(kCreateRecentFileDirErrorID, err);
+			(JGetStringManager())->ReportError("CreateRecentFileDirError::SyGGlobals", err);
 			}
 		return kJFalse;
 		}
@@ -926,7 +915,7 @@ SyGGetRecentFileDirectory
 void
 SyGAddRecentFile
 	(
-	const JCharacter* fullname
+	const JString& fullname
 	)
 {
 	JString recentDir;

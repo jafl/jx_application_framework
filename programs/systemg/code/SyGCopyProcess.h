@@ -47,14 +47,14 @@ private:
 private:
 
 	void	Start(const JSize prefixCount);
-	void	RemoveExecutePermissions(const JCharacter* srcPath,
-									 const JCharacter* destPath);
+	void	RemoveExecutePermissions(const JString& srcPath,
+									 const JString& destPath);
 
 	static JBoolean	CleanSrcList(JPtrArray<JString>* srcNameList,
 								 SyGFileTreeNode* destNode);
-	static JBoolean	ActionIsUseful(const JCharacter* srcName, const JCharacter* destPath,
+	static JBoolean	ActionIsUseful(const JString& srcName, const JString& destPath,
 								   JString* destName);
-	static JBoolean	OKToReplace(const JCharacter* srcName, const JCharacter* destName,
+	static JBoolean	OKToReplace(const JString& srcName, const JString& destName,
 								JBoolean* ask, JBoolean* first);
 
 	// not allowed

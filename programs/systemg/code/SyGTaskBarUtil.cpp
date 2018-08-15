@@ -43,13 +43,13 @@ static JDirInfo* theTrashDirInfo = nullptr;
 
 // shared prefs
 
-static const JCharacter* kTaskBarSetupFileName = ".jxfvwm2taskbar/systemg";
+static const JString kTaskBarSetupFileName(".jxfvwm2taskbar/systemg");
 
 const JFileVersion kCurrentTaskBarSetupVersion = 0;
 
 // Prototypes
 
-JBoolean	SyGGetTaskBarSetupFileName(JString* fileName);
+JBoolean SyGGetTaskBarSetupFileName(JString* fileName);
 
 #if defined SYSTEM_G
 
@@ -65,8 +65,6 @@ SyGWriteTaskBarSetup
 	const JBoolean				replace
 	)
 {
-JIndex i;
-
 	JString fileName;
 	if (!SyGGetTaskBarSetupFileName(&fileName) ||
 		(!replace && JFileExists(fileName)))
@@ -89,7 +87,7 @@ JIndex i;
 		return;
 		}
 
-	std::ofstream output(tmpName);
+	std::ofstream output(tmpName.GetBytes());
 	output << kCurrentTaskBarSetupVersion << ' ';
 
 	JString trashDir;
@@ -112,7 +110,7 @@ JIndex i;
 		output << std::endl;
 		}
 
-	const JCharacter* argv[] = { "mv", "-f", tmpName, fileName, nullptr };
+	const JUtf8Byte* argv[] = { "mv", "-f", tmpName.GetBytes(), fileName.GetBytes(), nullptr };
 	err = JExecute(argv, sizeof(argv), nullptr);
 	err.ReportIfError();
 }

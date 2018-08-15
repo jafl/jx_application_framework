@@ -6,7 +6,7 @@
  ******************************************************************************/
 
 #include "SyGColUtils.h"
-#include <JString.h>
+#include <jGlobals.h>
 #include <jAssert.h>
 
 const JCoordinate kUIDWidth		= 60;
@@ -14,12 +14,6 @@ const JCoordinate kGIDWidth		= 60;
 const JCoordinate kSizeWidth	= 60;
 const JCoordinate kModeWidth	= 90;
 const JCoordinate kDateWidth	= 180;
-
-const JCharacter* kUIDTitleStr	= "User";
-const JCharacter* kGIDTitleStr	= "Group";
-const JCharacter* kSizeTitleStr	= "Size";
-const JCharacter* kModeTitleStr	= "Permissions";
-const JCharacter* kDateTitleStr	= "Date";
 
 const JCoordinate kGFMBufferWidth = 6;
 
@@ -72,8 +66,6 @@ InsertFMCol
 			{
 			*index = GetFMColCount(visibleCols, leadingCols)+1;
 			}
-
-		JCoordinate width;
 
 		if (type == kGFMUID)
 			{
@@ -429,32 +421,36 @@ GetFMColTitle
 {
 	GFMColType type = GetFMColType(index, leadingCols, visibleCols);
 
+	const JUtf8Byte* id = nullptr;
 	if (type == kGFMUID)
 		{
-		*str =  kUIDTitleStr;
+		id = "UIDColumnTitle::SyGColUtils";
 		}
-
 	else if (type == kGFMGID)
 		{
-		*str =  kGIDTitleStr;
+		id = "GIDColumnTitle::SyGColUtils";
 		}
-
 	else if (type == kGFMSize)
 		{
-		*str =  kSizeTitleStr;
+		id = "SizeColumnTitle::SyGColUtils";
 		}
-
 	else if (type == kGFMMode)
 		{
-		*str =  kModeTitleStr;
+		id = "PermissionsColumnTitle::SyGColUtils";
 		}
-
 	else if (type == kGFMDate)
 		{
-		*str =  kDateTitleStr;
+		id = "DateColumnTitle::SyGColUtils";
 		}
 
-
+	if (id != nullptr)
+		{
+		*str = JGetString(id);
+		}
+	else
+		{
+		str->Clear();
+		}
 }
 
 /******************************************************************************

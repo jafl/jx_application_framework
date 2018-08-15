@@ -26,13 +26,13 @@ class SyGTreeDir : public JXWindowDirector
 {
 public:
 
-	SyGTreeDir(const JCharacter* startPath);
+	SyGTreeDir(const JString& startPath);
 
 	virtual ~SyGTreeDir();
 
-	virtual JBoolean		Close();
-	virtual const JString&	GetName() const;
-	virtual JBoolean		GetMenuIcon(const JXImage** icon) const;
+	virtual JBoolean		Close() override;
+	virtual const JString&	GetName() const override;
+	virtual JBoolean		GetMenuIcon(const JXImage** icon) const override;
 
 	const JString&		GetDirectory() const;
 	SyGTreeSet*			GetTreeSet() const;
@@ -63,7 +63,7 @@ private:
 
 private:
 
-	void	BuildWindow(const JCharacter* startPath);
+	void	BuildWindow(const JString& startPath);
 	void	WriteState(std::ostream& output);
 
 	void	HandleHelpMenu(const JIndex index);

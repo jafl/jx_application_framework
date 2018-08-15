@@ -33,22 +33,22 @@ protected:
 
 //	virtual JXSaveFileDialog*
 //	CreateSaveFileDialog(JXDirector* supervisor, JDirInfo* dirInfo,
-//						 const JCharacter* fileFilter, const JCharacter* origName,
-//						 const JCharacter* prompt, const JCharacter* message);
+//						 const JString& fileFilter, const JString& origName,
+//						 const JString& prompt, const JString& message) override;
 
 //	virtual JXChooseFileDialog*
 //	CreateChooseFileDialog(JXDirector* supervisor, JDirInfo* dirInfo,
-//						   const JCharacter* fileFilter, const JCharacter* origName,
-//						   const JBoolean allowSelectMultiple, const JCharacter* message);
+//						   const JString& fileFilter, const JString& origName,
+//						   const JBoolean allowSelectMultiple, const JString& message) override;
 
 	virtual JXChoosePathDialog*
 	CreateChoosePathDialog(JXDirector* supervisor, JDirInfo* dirInfo,
-						   const JCharacter* fileFilter,
+						   const JString& fileFilter,
 						   const JBoolean selectOnlyWritable,
-						   const JCharacter* message);
+						   const JString& message) override;
 
-	virtual void	ReadPrefs(std::istream& input);
-	virtual void	WritePrefs(std::ostream& output) const;
+	virtual void	ReadPrefs(std::istream& input) override;
+	virtual void	WritePrefs(std::ostream& output) const override;
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 

@@ -22,7 +22,8 @@ public:
 
 	virtual ~SyGFilterInput();
 
-	virtual void HandleKeyPress(const int key, const JXKeyModifiers& modifiers);
+	virtual void	HandleKeyPress(const JUtf8Character& c, const int keySym,
+								   const JXKeyModifiers& modifiers) override;
 
 protected:
 

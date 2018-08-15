@@ -81,8 +81,8 @@ public:
 
 protected:
 
-	virtual void	UpgradeData(const JBoolean isNew, const JFileVersion currentVersion);
-	virtual void	SaveAllBeforeDestruct();
+	virtual void	UpgradeData(const JBoolean isNew, const JFileVersion currentVersion) override;
+	virtual void	SaveAllBeforeDestruct() override;
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
@@ -100,7 +100,7 @@ private:
 
 public:
 
-	static const JCharacter* kPrefsChanged;
+	static const JUtf8Byte* kPrefsChanged;
 
 	class PrefsChanged : public JBroadcaster::Message
 		{

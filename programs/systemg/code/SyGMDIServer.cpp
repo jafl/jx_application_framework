@@ -13,10 +13,6 @@
 #include <jDirUtil.h>
 #include <jAssert.h>
 
-// string ID's
-
-static const JCharacter* kCommandLineHelpID = "CommandLineHelp::SyGMDIServer";
-
 /******************************************************************************
  Constructor
 
@@ -45,7 +41,7 @@ SyGMDIServer::~SyGMDIServer()
 void
 SyGMDIServer::HandleMDIRequest
 	(
-	const JCharacter*			dir,
+	const JString&				dir,
 	const JPtrArray<JString>&	argList
 	)
 {
@@ -61,12 +57,12 @@ SyGMDIServer::HandleMDIRequest
 		}
 
 	JBoolean restore = IsFirstTime();
-	if (argCount == 2 && *(argList.LastElement()) == "--choose")
+	if (argCount == 2 && *(argList.GetLastElement()) == "--choose")
 		{
 		app->OpenDirectory();
 		restore = kJFalse;
 		}
-	else if (argCount == 2 && *(argList.LastElement()) == "--open")
+	else if (argCount == 2 && *(argList.GetLastElement()) == "--open")
 		{
 		OpenFiles();
 		if (IsFirstTime())
@@ -74,7 +70,7 @@ SyGMDIServer::HandleMDIRequest
 			exit(0);
 			}
 		}
-	else if (argCount == 2 && *(argList.LastElement()) == "--run")
+	else if (argCount == 2 && *(argList.GetLastElement()) == "--run")
 		{
 		JXFSBindingManager::Exec(dir);
 		}
@@ -125,7 +121,9 @@ void
 SyGMDIServer::OpenFiles()
 {
 	JPtrArray<JString> fileList(JPtrArrayT::kDeleteAll);
-	if ((JGetChooseSaveFile())->ChooseFiles("Open files", nullptr, &fileList))
+	if ((JGetChooseSaveFile())->ChooseFiles(
+			JGetString("OpenFilesPrompt::SyGEditPrefsDialog"),
+			JString::empty, &fileList))
 		{
 		JXFSBindingManager::Exec(fileList);
 		}
@@ -139,11 +137,13 @@ SyGMDIServer::OpenFiles()
 void
 SyGMDIServer::PrintCommandLineHelp()
 {
-	const JCharacter* map[] =
+	const JString versStr = SyGGetVersionNumberStr();
+
+	const JUtf8Byte* map[] =
 		{
-		"version",   SyGGetVersionNumberStr(),
-		"copyright", JGetString("COPYRIGHT")
+		"version",   versStr.GetBytes(),
+		"copyright", JGetString("COPYRIGHT").GetBytes()
 		};
-	const JString s = JGetString(kCommandLineHelpID, map, sizeof(map));
+	const JString s = JGetString("CommandLineHelp::SyGMDIServer", map, sizeof(map));
 	std::cout << std::endl << s << std::endl << std::endl;
 }

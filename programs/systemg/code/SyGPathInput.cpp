@@ -76,24 +76,25 @@ SyGPathInput::SetDirList
 void
 SyGPathInput::HandleKeyPress
 	(
-	const int key,
-	const JXKeyModifiers&   modifiers
+	const JUtf8Character&	c,
+	const int				keySym,
+	const JXKeyModifiers&	modifiers
 	)
 {
-	if (key == kJReturnKey)
+	if (c == kJReturnKey)
 		{
 		itsDirList->Focus();
 		}
 
-	else if (key == kJEscapeKey)
+	else if (c == kJEscapeKey)
 		{
-		SetText(itsInitialText);
+		GetText()->SetText(itsInitialText);
 		itsDirList->Focus();
 		}
 
 	else
 		{
-		JXPathInput::HandleKeyPress(key, modifiers);
+		JXPathInput::HandleKeyPress(c, keySym, modifiers);
 		}
 }
 
@@ -105,6 +106,6 @@ SyGPathInput::HandleKeyPress
 void
 SyGPathInput::HandleFocusEvent()
 {
-	itsInitialText = GetText();
+	itsInitialText = GetText()->GetText();
 	JXPathInput::HandleFocusEvent();
 }
