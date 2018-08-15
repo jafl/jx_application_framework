@@ -292,7 +292,7 @@ protected:
 
 	void	SetType(const Type type);
 
-	void				RecalcAll();
+	void				RecalcAll(const JBoolean broadcastCaretMessages = kJTrue);
 	JArray<JBoolean>	GetCmdStatus(JString* crmActionText, JString* crm2ActionText,
 									 JBoolean* isReadOnly) const;
 

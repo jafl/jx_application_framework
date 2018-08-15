@@ -438,6 +438,19 @@ JTEST(GetCmdStatus)
 	te.CheckCmdStatus(status);
 }
 
+JTEST(SetText)
+{
+	StyledText text;
+	text.SetText(JString("abcdefgh", kJFalse));
+
+	TextEditor te(&text, kJTrue, 100);
+
+	te.SetCaretLocation(100);
+
+	// triggers TextEditor::Receive()
+	text.SetText(JString("abcd", kJFalse));
+}
+
 JTEST(MouseActions)
 {
 	// TEGetDoubleClickSelection

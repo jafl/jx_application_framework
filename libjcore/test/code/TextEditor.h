@@ -64,6 +64,8 @@ protected:
 	virtual void		TEPasteDropData() override;
 	virtual void		TECaretShouldBlink(const JBoolean blink) override;
 
+	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
+
 private:
 
 	JCoordinate	itsWidth, itsHeight;

@@ -36,6 +36,7 @@ TextEditor::TextEditor
 	itsClipStyle(nullptr),
 	itsHasSearchTextFlag(kJFalse)
 {
+	ListenTo(this);
 	RecalcAll();
 }
 
@@ -360,4 +361,33 @@ TextEditor::CheckCmdStatus
 		JString s((JUInt64) i);
 		JAssertEqualWithMessage(expected.GetElement(i), status.GetElement(i), s.GetBytes());
 		}
+}
+
+/******************************************************************************
+ Receive (virtual protected)
+
+	Listen for menu update requests and menu selections.
+
+ ******************************************************************************/
+
+void
+TextEditor::Receive
+	(
+	JBroadcaster*	sender,
+	const Message&	message
+	)
+{
+	if (sender == this && message.Is(JTextEditor::kCaretLocationChanged))
+		{
+		const JTextEditor::CaretLocationChanged* info =
+			dynamic_cast<const JTextEditor::CaretLocationChanged*>(&message);
+		assert( info != nullptr );
+
+		const JIndex i = info->GetCharacterIndex();
+
+		JAssertTrue(0 < i && i <= GetText()->GetText().GetCharacterCount()+1);
+		JAssertTrue(info->GetLineIndex() <= GetLineCount()+1);
+		}
+
+	JTextEditor::Receive(sender, message);
 }

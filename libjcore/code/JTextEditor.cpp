@@ -374,7 +374,7 @@ JTextEditor::Receive
 			itsInsertionFont = itsText->GetDefaultFont();
 			}
 
-		RecalcAll();
+		RecalcAll(kJFalse);
 		SetCaretLocation(CaretLocation(TextIndex(1,1),1));
 		}
 
@@ -387,7 +387,7 @@ JTextEditor::Receive
 		const TextRange& r = info->GetRange();
 		if (r.charRange.GetCount() == itsText->GetText().GetCharacterCount())
 			{
-			RecalcAll();
+			RecalcAll(kJFalse);
 			}
 		else
 			{
@@ -3760,7 +3760,10 @@ JTextEditor::GetTabWidth
  ******************************************************************************/
 
 void
-JTextEditor::RecalcAll()
+JTextEditor::RecalcAll
+	(
+	const JBoolean broadcastCaretMessages
+	)
 {
 	if (itsBreakCROnlyFlag)
 		{
@@ -3779,11 +3782,11 @@ JTextEditor::RecalcAll()
 
 	Recalc(r, r);
 
-	if (HasSelection())
+	if (broadcastCaretMessages && HasSelection())
 		{
 		BroadcastCaretMessages(CalcCaretLocation(itsSelection.GetFirst()));
 		}
-	else
+	else if (broadcastCaretMessages)
 		{
 		BroadcastCaretMessages(itsCaret);
 		}
