@@ -547,6 +547,17 @@ JUpdateCVSIgnore
 }
 
 /******************************************************************************
+ JGetGitDirectoryName
+
+ ******************************************************************************/
+
+const JString&
+JGetGitDirectoryName()
+{
+	return kGitDirName;
+}
+
+/******************************************************************************
  JSearchGitRoot
 
 	Search directory tree up to root.

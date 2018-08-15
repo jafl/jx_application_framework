@@ -51,6 +51,7 @@ void		JUpdateCVSIgnore(const JString& ignoreFullName);
 
 // git specific
 
-JBoolean	JSearchGitRoot(const JString& path, JString* gitRoot);
+const JString&	JGetGitDirectoryName();
+JBoolean		JSearchGitRoot(const JString& path, JString* gitRoot);
 
 #endif
