@@ -1,3 +1,5 @@
+all programs: move pkg into release
+
 JTextEditor tests
 	2 TE's for 1 ST
 		MouseActions
