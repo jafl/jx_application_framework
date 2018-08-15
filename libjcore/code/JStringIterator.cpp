@@ -659,19 +659,19 @@ JStringIterator::Next
 
 	Finishes matching and sets itsLastMatch.
 
-	If ignoreLastMatch, ignores the range currently stored in itsLastMatch.
-	This is useful for extracting everything except end-of-token.
+	If includeLastMatch, includes the range currently stored in itsLastMatch.
+	This is off by default to simplify extracting everything except end-of-token.
 
  ******************************************************************************/
 
 const JStringMatch&
 JStringIterator::FinishMatch
 	(
-	const JBoolean ignoreLastMatch
+	const JBoolean includeLastMatch
 	)
 {
 	JCursorPosition pos = itsByteOffset;
-	if (ignoreLastMatch && itsLastMatch != nullptr)
+	if (!includeLastMatch && itsLastMatch != nullptr)
 		{
 		const JSize ignoreCount = itsLastMatch->GetByteCount();
 		if (pos < itsMatchStartByte)

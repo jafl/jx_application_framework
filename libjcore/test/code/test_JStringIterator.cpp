@@ -476,7 +476,7 @@ void TestAccumulate(const JString& s)
 	i.MoveTo(kJIteratorStartAtBeginning, 0);
 	i.BeginMatch();
 	JAssertTrue(i.Next("\xC3\x85"));
-	const JStringMatch& m4 = i.FinishMatch(kJFalse);
+	const JStringMatch& m4 = i.FinishMatch(kJTrue);
 	JAssertEqual(5, m4.GetCharacterCount());
 	JAssertEqual(7, m4.GetByteCount());
 	JAssertStringsEqual("123\xC2\xA9\xC3\x85", m4.GetString());
@@ -494,7 +494,7 @@ void TestAccumulate(const JString& s)
 	i.MoveTo(kJIteratorStartAtEnd, 0);
 	i.BeginMatch();
 	JAssertTrue(i.Prev("\xC3\x85"));
-	const JStringMatch& m6 = i.FinishMatch(kJFalse);
+	const JStringMatch& m6 = i.FinishMatch(kJTrue);
 	JAssertEqual(3, m6.GetCharacterCount());
 	JAssertEqual(7, m6.GetByteCount());
 	JAssertStringsEqual("\xC3\x85\xC3\xA5\xE2\x9C\x94", m6.GetString());

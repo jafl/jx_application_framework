@@ -72,7 +72,7 @@ public:
 	// accumulate
 
 	void				BeginMatch();
-	const JStringMatch&	FinishMatch(const JBoolean ignoreLastMatch = kJTrue);
+	const JStringMatch&	FinishMatch(const JBoolean includeLastMatch = kJFalse);
 
 	// modify - only allowed if constructed from non-const JString*
 	// (invalidates last match)
