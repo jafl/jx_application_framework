@@ -276,6 +276,8 @@ SyGFindFileTask::SplitPath
 		{
 		iter.RemovePrev();
 		}
+	iter.Invalidate();
+
 	JStripTrailingDirSeparator(&relPath);
 
 	JString p, n;

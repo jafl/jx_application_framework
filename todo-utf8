@@ -1,5 +1,3 @@
-all programs: move pkg into release
-
 JTextEditor tests
 	2 TE's for 1 ST
 		MouseActions
@@ -52,9 +50,6 @@ test every function that uses JStringIterator or Split
 		?
 	libj2dplot
 		J2DPlotWidget
-	libjfs
-		JFSBindingList
-		JFSFileTreeNode
 
 unit tests
 	JPrefsFile

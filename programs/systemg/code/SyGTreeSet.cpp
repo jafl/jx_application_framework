@@ -402,7 +402,7 @@ SyGTreeSet::SavePreferences
 	std::ostream& os
 	)
 {
-	os << ' ' << itsFilterInput->GetText();
+	os << ' ' << itsFilterInput->GetText()->GetText();
 
 	os << ' ';
 	itsFilterHistory->WriteSetup(os);
