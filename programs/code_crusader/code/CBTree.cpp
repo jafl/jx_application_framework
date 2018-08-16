@@ -1178,8 +1178,10 @@ JIndex i,j;
 /******************************************************************************
  ArrangeRoots (private)
 
-	Find the ordering of the given root classes that minimizes the length of
-	the MI connections.
+	Find the ordering of the given root classes that minimizes the length
+	of the MI connections.  The algorithm is based on the concept of
+	dynamic programming to avoid factorial runtime -- but it can still be
+	really slow!
 
 	Returns kJFalse if the user cancels.
 
@@ -1195,6 +1197,7 @@ CBTree::ArrangeRoots
 	const
 {
 	const JSize rootCount = rootList.GetElementCount();
+	// std::cout << "# roots: " << rootCount << std::endl;
 
 	JArray<RootSubset> l1(100), l2(100);
 	JArray<RootSubset> *list1 = &l1, *list2 = &l2;
@@ -1217,87 +1220,91 @@ CBTree::ArrangeRoots
 	do
 		{
 		const JSize subsetCount = list1->GetElementCount();
+		//std::cout << "do loop: " << subsetCount << std::endl;
+
 		for (JIndex subsetIndex=1; subsetIndex<=subsetCount; subsetIndex++)
 			{
 			const RootSubset* subset = list1->GetCArray() + subsetIndex-1;
 			const JSize subsetSize   = (subset->order)->GetElementCount();
 			for (JIndex newRootIndex=1; newRootIndex<=rootCount; newRootIndex++)
 				{
-				if (!(subset->content)->GetElement(newRootIndex))
+				if ((subset->content)->GetElement(newRootIndex))
 					{
-					// try adding this root to the end of the subset
-
-					JIndex i;
-					JSize newLinkLength = subset->linkLength;
-
-					// add length of links from new root
-
-					const RootMIInfo* rootPtr   = rootList.GetCArray();
-					const RootMIInfo* rootInfo  = rootPtr + newRootIndex-1;
-					const JCoordinate newHeight = rootInfo->h;
-					const JSize linkCount       = (rootInfo->connList)->GetElementCount();
-					const RootConn* connInfo    = (rootInfo->connList)->GetCArray();
-					for (i=0; i<linkCount; i++)
-						{
-						if ((subset->content)->GetElement(connInfo[i].otherRoot))
-							{
-							newLinkLength += connInfo[i].dy;
-							}
-						else
-							{
-							newLinkLength += newHeight - connInfo[i].dy;
-							}
-						}
-
-					// add length of links continuing past new root
-
-					for (i=1; i<=subsetSize; i++)
-						{
-						const JIndex j = (subset->order)->GetElement(i);
-
-						const RootMIInfo* rootInfo = rootPtr + j-1;
-						const JSize linkCount      = (rootInfo->connList)->GetElementCount();
-						const RootConn* connInfo   = (rootInfo->connList)->GetCArray();
-						for (JIndex k=0; k<linkCount; k++)
-							{
-							const JIndex otherRoot = connInfo[k].otherRoot;
-							if (otherRoot != newRootIndex &&
-								!(subset->content)->GetElement(otherRoot))
-								{
-								newLinkLength += newHeight;
-								}
-							}
-						}
-
-					// if this hasn't been tried or it beats the previous record, save it
-
-					(subset->content)->SetElement(newRootIndex, kJTrue);
-
-					JBoolean found;
-					i = list2->SearchSorted1(*subset, JOrderedSetT::kAnyMatch, &found);
-					if (found && newLinkLength < (list2->GetCArray())[i-1].linkLength)
-						{
-						RootSubset foundSubset = list2->GetElement(i);
-						*(foundSubset.content) = *(subset->content);
-						*(foundSubset.order)   = *(subset->order);
-						(foundSubset.order)->AppendElement(newRootIndex);
-						foundSubset.linkLength = newLinkLength;
-						list2->SetElement(i, foundSubset);
-						}
-					else if (!found)
-						{
-						JArray<JBoolean>* newContent = jnew JArray<JBoolean>(*(subset->content));
-						assert( newContent != NULL );
-
-						JArray<JIndex>* newOrder = jnew JArray<JIndex>(*(subset->order));
-						assert( newOrder != NULL );
-						newOrder->AppendElement(newRootIndex);
-
-						list2->InsertElementAtIndex(i, RootSubset(newContent, newOrder, newLinkLength));
-						}
-
-					(subset->content)->SetElement(newRootIndex, kJFalse);
+					continue;
 					}
+
+				// try adding this root to the end of the subset
+
+				JIndex i;
+				JSize newLinkLength = subset->linkLength;
+
+				// add length of links from new root
+
+				const RootMIInfo* rootPtr   = rootList.GetCArray();
+				const RootMIInfo* rootInfo  = rootPtr + newRootIndex-1;
+				const JCoordinate newHeight = rootInfo->h;
+				const JSize linkCount       = (rootInfo->connList)->GetElementCount();
+				const RootConn* connInfo    = (rootInfo->connList)->GetCArray();
+				for (i=0; i<linkCount; i++)
+					{
+					if ((subset->content)->GetElement(connInfo[i].otherRoot))
+						{
+						newLinkLength += connInfo[i].dy;
+						}
+					else
+						{
+						newLinkLength += newHeight - connInfo[i].dy;
+						}
+					}
+
+				// add length of links continuing past new root
+
+				for (i=1; i<=subsetSize; i++)
+					{
+					const JIndex j = (subset->order)->GetElement(i);
+
+					const RootMIInfo* rootInfo = rootPtr + j-1;
+					const JSize linkCount      = (rootInfo->connList)->GetElementCount();
+					const RootConn* connInfo   = (rootInfo->connList)->GetCArray();
+					for (JIndex k=0; k<linkCount; k++)
+						{
+						const JIndex otherRoot = connInfo[k].otherRoot;
+						if (otherRoot != newRootIndex &&
+							!(subset->content)->GetElement(otherRoot))
+							{
+							newLinkLength += newHeight;
+							}
+						}
+					}
+
+				// if this hasn't been tried or it beats the previous record, save it
+
+				(subset->content)->SetElement(newRootIndex, kJTrue);
+
+				JBoolean found;
+				i = list2->SearchSorted1(*subset, JOrderedSetT::kAnyMatch, &found);
+				if (found && newLinkLength < (list2->GetCArray())[i-1].linkLength)
+					{
+					RootSubset foundSubset = list2->GetElement(i);
+					*(foundSubset.content) = *(subset->content);
+					*(foundSubset.order)   = *(subset->order);
+					(foundSubset.order)->AppendElement(newRootIndex);
+					foundSubset.linkLength = newLinkLength;
+					list2->SetElement(i, foundSubset);
+					}
+				else if (!found)
+					{
+					JArray<JBoolean>* newContent = jnew JArray<JBoolean>(*(subset->content));
+					assert( newContent != NULL );
+
+					JArray<JIndex>* newOrder = jnew JArray<JIndex>(*(subset->order));
+					assert( newOrder != NULL );
+					newOrder->AppendElement(newRootIndex);
+
+					list2->InsertElementAtIndex(i, RootSubset(newContent, newOrder, newLinkLength));
+					}
+
+				(subset->content)->SetElement(newRootIndex, kJFalse);
 				}
 
 			if (!pg.IncrementProgress())
