@@ -43,10 +43,10 @@ init_tarball:
 	@mkdir -p ${PKG_PATH}/lib ${PKG_PATH}/docs_HTML
 	@if [[ -e README ]];    then ln -s ../README    ${PKG_PATH}/README;    fi
 	@if [[ -e README.md ]]; then ln -s ../README.md ${PKG_PATH}/README.md; fi
-	@ln -s ../COPYING              ${PKG_PATH}/COPYING
-	@ln -s ../pkg/install          ${PKG_PATH}/install
-	@ln -s ../pkg/uninstall        ${PKG_PATH}/uninstall
-	@ln -s ../pkg/desktop          ${PKG_PATH}/desktop
+	@ln -s ../COPYING               ${PKG_PATH}/COPYING
+	@ln -s ../release/pkg/install   ${PKG_PATH}/install
+	@ln -s ../release/pkg/uninstall ${PKG_PATH}/uninstall
+	@ln -s ../release/pkg/desktop   ${PKG_PATH}/desktop
 ifdef MENU_STRINGS_FILE
 	@ln -s ../${MENU_STRINGS_FILE} ${PKG_PATH}/menu_strings
 endif
@@ -77,12 +77,12 @@ _post_build_pkgs:
 build_rpm:
   ifeq (${HAS_RPM},1)
 	@${SUDO} mkdir -p -m 755 ${RPM_BUILD_DIR} ${RPM_SRC_DIR} ${RPM_SPEC_DIR} ${RPM_BIN_DIR} ${RPM_SRPM_DIR}
-	@${SUDO} ./pkg/uninstall
+	@${SUDO} ./release/pkg/uninstall
 	@${SUDO} cp ${J_DISTR_TAR_DIR}/${SOURCE_TAR_NAME} ${RPM_TAR_FILE}
 	@${SUDO} ${RPM} --define '_topdir ${RPM_SRC_ROOT}' ${RPM_SPEC_FILE}
 	@${SUDO} mv ${RPM_BIN_DIR}/*.rpm ${J_DISTR_TAR_DIR}/
 	@${SUDO} chown ${USER}. ${J_DISTR_TAR_DIR}/*.rpm
-	@${SUDO} ./pkg/uninstall
+	@${SUDO} ./release/pkg/uninstall
   endif
 
 # build_deb (SOURCE_TAR_NAME, const DEB_CTRL_FILE, const DEB_PKG_FILE)

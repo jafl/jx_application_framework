@@ -130,9 +130,9 @@ LN := Leibnitz-${LEIBNITZ_VERSION}
 LN_RELEASE_TAR_NAME := Leibnitz_${LEIBNITZ_VERSION}.tar
 
 RPM_TAR_FILE  := ${RPM_SRC_DIR}/Leibnitz_${LEIBNITZ_VERSION}.tar
-RPM_SPEC_FILE := ./pkg/leibnitz.spec
+RPM_SPEC_FILE := ./release/pkg/leibnitz.spec
 
-DEB_CTRL_FILE := ./pkg/leibnitz.debctrl
+DEB_CTRL_FILE := ./release/pkg/leibnitz.debctrl
 DEB_PKG_FILE  := leibnitz_${LEIBNITZ_VERSION}_i386.deb
 
 .PHONY : release

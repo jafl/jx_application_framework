@@ -17,9 +17,9 @@ f=`find . -path './strings/*_strings' -a ! -path './strings/*_shared_strings'`;
 perl -pi -e "s/^(VERSION\s+)\"[0-9.]+\"/\$1\"$2\"/" $f;
 
 # spec
-f=`find . -path './pkg/*.spec'`;
+f=`find . -path './release/pkg/*.spec'`;
 perl -pi -e "s/^(%define\s+[a-z_]+_version\s*) [0-9.]+/\$1 $2/ unless \$replaced; \$replaced=1;" $f;
 
 # debctrl
-f=`find . -path './pkg/*.debctrl'`;
+f=`find . -path './release/pkg/*.debctrl'`;
 perl -pi -e "s/^(Version:\s*) [0-9.]+/\$1 $2/" $f;

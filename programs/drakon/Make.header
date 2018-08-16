@@ -119,9 +119,9 @@ PROG := Drakon-${PROG_VERSION}
 PROG_RELEASE_TAR_NAME := Drakon_${PROG_VERSION}.tar
 
 RPM_TAR_FILE  := ${RPM_SRC_DIR}/Drakon_${PROG_VERSION}.tar
-RPM_SPEC_FILE := ./pkg/drakon.spec
+RPM_SPEC_FILE := ./release/pkg/drakon.spec
 
-DEB_CTRL_FILE := ./pkg/drakon.debctrl
+DEB_CTRL_FILE := ./release/pkg/drakon.debctrl
 DEB_PKG_FILE  := drakon_${PROG_VERSION}_i386.deb
 
 .PHONY : release
