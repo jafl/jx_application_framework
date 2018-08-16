@@ -191,5 +191,5 @@ JXFSCommandHistoryMenu::AddCommand
 		type = "RunSingle::JXFSCommandHistoryMenu";
 		}
 
-	AddItem(cmd, JGetString(type));
+	AddItem(cmd, type == nullptr ? JString::empty : JGetString(type));
 }

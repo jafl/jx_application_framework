@@ -292,17 +292,16 @@ JXFSBindingManager::ProcessFiles()
 
 	(JXGetApplication())->DisplayBusyCursor();
 
-	for (JFSBinding* f : *itsFileList)
+	for (i=itsFileList->GetElementCount(); i>=1; i--)
 		{
 		JFSBinding::CommandType t;
 		JBoolean singleFile;
-		f->GetCommand(&t, &singleFile);
+		itsFileList->GetElement(i)->GetCommand(&t, &singleFile);
 
 		if (singleFile)
 			{
 			Exec(i, i);
 			itsFileList->DeleteElement(i);
-			i--;	// compensate for shift
 			}
 		}
 
@@ -317,6 +316,7 @@ JXFSBindingManager::ProcessFiles()
 		JString cmd;
 		JFSBinding::CommandType type = JFSBinding::kRunPlain;
 
+		i = 1;
 		for (JFSBinding* f : *itsFileList)
 			{
 			JFSBinding::CommandType t;
@@ -337,6 +337,8 @@ JXFSBindingManager::ProcessFiles()
 				cmd        = c;
 				type       = t;
 				}
+
+			i++;
 			}
 
 		Exec(startIndex, itsFileList->GetElementCount());

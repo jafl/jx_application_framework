@@ -537,7 +537,7 @@ JFSBindingList::CleanFileName
 	)
 {
 	JStringIterator iter(s);
-	if (iter.Next(fileNamePattern))
+	while (iter.Next(fileNamePattern))
 		{
 		iter.RemoveLastMatch();
 		}
