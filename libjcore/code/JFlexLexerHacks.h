@@ -1,5 +1,5 @@
 /******************************************************************************
- CMFlexLexerHacks.h
+ JFlexLexerHacks.h
 
 	flex uses a different argument type on OSX and Linux :(
 
@@ -7,8 +7,8 @@
 
  ******************************************************************************/
 
-#ifndef _H_CMFlexLexerHacks
-#define _H_CMFlexLexerHacks
+#ifndef _H_JFlexLexerHacks
+#define _H_JFlexLexerHacks
 
 #ifdef _J_OSX
 typedef size_t FlexLexerInputSize;
