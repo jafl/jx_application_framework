@@ -61,6 +61,8 @@ ljx    := -ljx-${JX_LIB_VERSION}
 #
 # flex
 #
+# C++17 does not allow register keyword.
+#
 
 LEX    := flex
 LFLAGS := 
@@ -71,7 +73,9 @@ LFLAGS :=
 
 %.cpp : %.l
 	${LEX} ${LFLAGS} -o$@ $<
-	@perl -n -e 's/^class istream;$$/#include <iostream.h>/; print;' < $@ > $@.new
+	@perl -n -e 's/\bregister\b//g;' \
+           -e 'print;' < $@ > $@.new
+	@cp $@.new /tmp/$@
 	@mv $@.new $@
 
 #
