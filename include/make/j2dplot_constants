@@ -14,7 +14,7 @@ J2DPLOT_LIB_VERSION := 2_0_0
 lj2dplot  := -lj2dplot-${J2DPLOT_LIB_VERSION}
 
 #
-# String data files
+# String data files -- prepend to allow app to override
 #
 
-J_STRING_FILES += ${JX_ROOT}/libj2dplot/strings/*
+J_STRING_FILES := ${JX_ROOT}/libj2dplot/strings/* ${J_STRING_FILES}
