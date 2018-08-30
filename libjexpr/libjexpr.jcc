@@ -47,10 +47,6 @@ T
 F
 "./code/JExprEditor.cpp"
 T
-2 "JExprNodeList.cpp"
-F
-"./code/JExprNodeList.cpp"
-T
 2 "JExprRectList.cpp"
 F
 "./code/JExprRectList.cpp"
@@ -138,9 +134,9 @@ T
 F
 "./code/JExponent.cpp"
 T
-2 "JFunctionData.cpp"
+2 "jFunctionUtil.cpp"
 F
-"./code/JFunctionData.cpp"
+"./code/jFunctionUtil.cpp"
 T
 2 "JFunctionWithArgs.cpp"
 F

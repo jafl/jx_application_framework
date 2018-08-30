@@ -16,15 +16,14 @@ class JAlgSign : public JUnaryFunction
 {
 public:
 
-	JAlgSign();
-	JAlgSign(JFunction* arg);
+	JAlgSign(JFunction* arg = nullptr);
 	JAlgSign(const JAlgSign& source);
 
 	virtual ~JAlgSign();
 
-	virtual JBoolean	Evaluate(JFloat* result) const;
-	virtual JBoolean	Evaluate(JComplex* result) const;
-	virtual JFunction*	Copy() const;
+	virtual JBoolean	Evaluate(JFloat* result) const override;
+	virtual JBoolean	Evaluate(JComplex* result) const override;
+	virtual JFunction*	Copy() const override;
 
 private:
 

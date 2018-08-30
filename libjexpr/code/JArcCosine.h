@@ -16,15 +16,14 @@ class JArcCosine : public JUnaryFunction
 {
 public:
 
-	JArcCosine();
-	JArcCosine(JFunction* arg);
+	JArcCosine(JFunction* arg = nullptr);
 	JArcCosine(const JArcCosine& source);
 
 	virtual ~JArcCosine();
 
-	virtual JBoolean	Evaluate(JFloat* result) const;
-	virtual JBoolean	Evaluate(JComplex* result) const;
-	virtual JFunction*	Copy() const;
+	virtual JBoolean	Evaluate(JFloat* result) const override;
+	virtual JBoolean	Evaluate(JComplex* result) const override;
+	virtual JFunction*	Copy() const override;
 
 private:
 

@@ -21,12 +21,10 @@ public:
 
 	virtual ~JConstantValue();
 
-	virtual JBoolean	Evaluate(JFloat* result) const;
-	virtual JBoolean	Evaluate(JComplex* result) const;
-	virtual void		Print(std::ostream& output) const;
-	virtual JFunction*	Copy() const;
-	virtual JBoolean	SameAs(const JFunction& theFunction) const;
-	virtual void		BuildNodeList(JExprNodeList* nodeList, const JIndex myNode);
+	virtual JBoolean	Evaluate(JFloat* result) const override;
+	virtual JBoolean	Evaluate(JComplex* result) const override;
+	virtual void		Print(std::ostream& output) const override;
+	virtual JFunction*	Copy() const override;
 
 	JFloat	GetValue() const;
 	void	SetValue(const JFloat value);

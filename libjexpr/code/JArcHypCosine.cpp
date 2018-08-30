@@ -18,18 +18,12 @@
 
  ******************************************************************************/
 
-JArcHypCosine::JArcHypCosine()
-	:
-	JUnaryFunction(kJArcHypCosineNameIndex, kJArcHypCosineType)
-{
-}
-
 JArcHypCosine::JArcHypCosine
 	(
 	JFunction* arg
 	)
 	:
-	JUnaryFunction(arg, kJArcHypCosineNameIndex, kJArcHypCosineType)
+	JUnaryFunction("arccosh", arg)
 {
 }
 

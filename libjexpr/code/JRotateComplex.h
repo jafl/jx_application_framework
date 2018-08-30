@@ -22,10 +22,10 @@ public:
 
 	virtual ~JRotateComplex();
 
-	virtual JBoolean	Evaluate(JFloat* result) const;
-	virtual JBoolean	Evaluate(JComplex* result) const;
-	virtual JFunction*	Copy() const;
-	virtual JBoolean	SameAs(const JFunction& theFunction) const;
+	virtual JBoolean	Evaluate(JFloat* result) const override;
+	virtual JBoolean	Evaluate(JComplex* result) const override;
+	virtual JFunction*	Copy() const override;
+	virtual JBoolean	SameAs(const JFunction& theFunction) const override;
 
 private:
 

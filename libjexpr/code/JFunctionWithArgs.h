@@ -10,26 +10,25 @@
 #ifndef _H_JFunctionWithArgs
 #define _H_JFunctionWithArgs
 
-#include <JFunction.h>
+#include "JFunction.h"
+#include <JString.h>
 
 class JFunctionWithArgs : public JFunction
 {
 public:
 
-	JFunctionWithArgs(const JFnNameIndex nameIndex, const JFunctionType type);
+	JFunctionWithArgs(const JUtf8Byte* name);
 	JFunctionWithArgs(const JFunctionWithArgs& source);
 
 	virtual ~JFunctionWithArgs();
 
 	const JString&	GetName() const;
-	const JString&	GetMathematicaName() const;
-	virtual void	Print(std::ostream& output) const;
-	virtual JIndex	PrepareToRender(const JExprRenderer& renderer,
-									const JPoint& upperLeft, const JSize fontSize,
-									JExprRectList* rectList);
+	virtual void	Print(std::ostream& output) const override;
+	virtual JIndex	Layout(const JExprRenderer& renderer,
+						   const JPoint& upperLeft, const JSize fontSize,
+						   JExprRectList* rectList) override;
 	virtual void	Render(const JExprRenderer& renderer,
-						   const JExprRectList& rectList) const;
-	virtual void	BuildNodeList(JExprNodeList* nodeList, const JIndex myNode);
+						   const JExprRectList& rectList) const override;
 
 	virtual JSize				GetArgCount() const = 0;
 	virtual const JFunction*	GetArg(const JIndex index) const = 0;
@@ -38,14 +37,9 @@ public:
 
 	JBoolean	ReplaceArg(const JFunction* origArg, JFunction* newArg);
 
-	// provides safe downcasting
-
-	virtual JFunctionWithArgs*			CastToJFunctionWithArgs();
-	virtual const JFunctionWithArgs*	CastToJFunctionWithArgs() const;
-
 private:
 
-	const JFnNameIndex	itsNameIndex;
+	const JString	itsName;
 
 private:
 
@@ -55,5 +49,18 @@ private:
 
 	const JFunctionWithArgs& operator=(const JFunctionWithArgs& source);
 };
+
+
+/******************************************************************************
+ GetName
+
+ ******************************************************************************/
+
+inline const JString&
+JFunctionWithArgs::GetName()
+	const
+{
+	return itsName;
+}
 
 #endif

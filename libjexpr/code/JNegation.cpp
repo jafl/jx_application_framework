@@ -11,9 +11,9 @@
 
  ******************************************************************************/
 
-#include <JNegation.h>
-#include <JExprRenderer.h>
-#include <JExprRectList.h>
+#include "JNegation.h"
+#include "JExprRenderer.h"
+#include "JExprRectList.h"
 #include <JString.h>
 #include <jAssert.h>
 
@@ -141,12 +141,12 @@ JNegation::Print
 }
 
 /******************************************************************************
- PrepareToRender
+ Layout
 
  ******************************************************************************/
 
 JIndex
-JNegation::PrepareToRender
+JNegation::Layout
 	(
 	const JExprRenderer&	renderer,
 	const JPoint&			upperLeft,
@@ -163,7 +163,7 @@ JNegation::PrepareToRender
 	const JFunctionType argType = arg->GetType();
 	if (argType == kJDivisionType)
 		{
-		argUpperLeft.x += renderer.GetspaceWidth(fontSize);
+		argUpperLeft.x += renderer.GetSpaceWidth(fontSize);
 		}
 
 	JRect ourRect(upperLeft, argUpperLeft);
@@ -172,7 +172,7 @@ JNegation::PrepareToRender
 	// get rectangle for our argument
 
 	const JIndex argIndex =
-		arg->PrepareToRender(renderer, argUpperLeft, fontSize, rectList);
+		arg->Layout(renderer, argUpperLeft, fontSize, rectList);
 	JRect argRect = rectList->GetRect(argIndex);
 
 	if (ParenthesizeArgForRender(*this, *arg))

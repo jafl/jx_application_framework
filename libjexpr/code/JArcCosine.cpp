@@ -20,18 +20,12 @@
 
  ******************************************************************************/
 
-JArcCosine::JArcCosine()
-	:
-	JUnaryFunction(kJArcCosineNameIndex, kJArcCosineType)
-{
-}
-
 JArcCosine::JArcCosine
 	(
 	JFunction* arg
 	)
 	:
-	JUnaryFunction(arg, kJArcCosineNameIndex, kJArcCosineType)
+	JUnaryFunction("arccos", arg)
 {
 }
 

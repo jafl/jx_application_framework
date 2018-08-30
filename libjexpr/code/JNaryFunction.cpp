@@ -23,12 +23,11 @@ const JSize kMaxReasonableArgCount = 10;
 
 JNaryFunction::JNaryFunction
 	(
-	const JFnNameIndex		nameIndex,
-	const JFunctionType		type,
+	const JUtf8Byte*		name,
 	JPtrArray<JFunction>*	argList
 	)
 	:
-	JFunctionWithArgs(nameIndex, type),
+	JFunctionWithArgs(name),
 	itsArgList(argList)
 {
 	if (argList == nullptr)
@@ -71,133 +70,6 @@ JNaryFunction::JNaryFunction
 		JFunction* arg       = sourceArg->Copy();
 		itsArgList->Append(arg);
 		}
-}
-
-/******************************************************************************
- SameAs
-
-	Derived classes must use SameAsAnyOrder, SameAsSameOrder,
-	or provide their own code.
-
- ******************************************************************************/
-
-JBoolean
-JNaryFunction::SameAs
-	(
-	const JFunction& theFunction
-	)
-	const
-{
-	assert( 0 );
-	return kJFalse;
-}
-
-/******************************************************************************
- SameAsSameOrder (protected)
-
-	Returns kJTrue if the given function is identical to us.
-	The arguments in corresponding slots must be identical.
-
- ******************************************************************************/
-
-JBoolean
-JNaryFunction::SameAsSameOrder
-	(
-	const JFunction& theFunction
-	)
-	const
-{
-	if (!JFunctionWithArgs::SameAs(theFunction))
-		{
-		return kJFalse;
-		}
-
-	const JNaryFunction& theNaryFunction = (const JNaryFunction&) theFunction;
-
-	const JSize count = GetArgCount();
-	if (count != theNaryFunction.GetArgCount())
-		{
-		return kJFalse;
-		}
-
-	for (JIndex i=1; i<=count; i++)
-		{
-		const JFunction* itsArg = GetArg(i);
-		const JFunction* theArg = theNaryFunction.GetArg(i);
-		if (!itsArg->SameAs(*theArg))
-			{
-			return kJFalse;
-			}
-		}
-
-	return kJTrue;
-}
-
-/******************************************************************************
- SameAsAnyOrder (protected)
-
-	Returns kJTrue if the given function is identical to us.
-	The arguments of one can be any permutation of the arguments of the other,
-	but there must be a one-to-one correspondence between them.
-
- ******************************************************************************/
-
-JBoolean
-JNaryFunction::SameAsAnyOrder
-	(
-	const JFunction& theFunction
-	)
-	const
-{
-	if (!JFunctionWithArgs::SameAs(theFunction))
-		{
-		return kJFalse;
-		}
-
-	const JNaryFunction& theNaryFunction = (const JNaryFunction&) theFunction;
-
-	const JSize count = GetArgCount();
-	if (count != theNaryFunction.GetArgCount())
-		{
-		return kJFalse;
-		}
-
-	// Since the arguments can be in any order, we have to keep track
-	// of which arguments have already been matched.
-
-	JArray<JBoolean> usedFlags(count);
-	{
-	for (JIndex i=1; i<=count; i++)
-		{
-		usedFlags.InsertElementAtIndex(i, kJFalse);
-		}
-	}
-	{
-	for (JIndex i=1; i<=count; i++)
-		{
-		const JFunction* itsArg = GetArg(i);
-		JBoolean matched = kJFalse;
-		for (JIndex j=1; j<=count; j++)
-			{
-			if (!usedFlags.GetElement(j))
-				{
-				const JFunction* theArg = theNaryFunction.GetArg(j);
-				if (itsArg->SameAs(*theArg))
-					{
-					matched = kJTrue;
-					usedFlags.SetElement(j, kJTrue);
-					break;
-					}
-				}
-			}
-		if (!matched)
-			{
-			return kJFalse;
-			}
-		}
-	}
-
-	return kJTrue;
 }
 
 /******************************************************************************
@@ -342,24 +214,4 @@ JNaryFunction::DeleteArg
 		itsArgList->DeleteElement(argIndex);
 		}
 	return found;
-}
-
-/******************************************************************************
- Cast to JNaryFunction*
-
-	Not inline because they are virtual
-
- ******************************************************************************/
-
-JNaryFunction*
-JNaryFunction::CastToJNaryFunction()
-{
-	return this;
-}
-
-const JNaryFunction*
-JNaryFunction::CastToJNaryFunction()
-	const
-{
-	return this;
 }

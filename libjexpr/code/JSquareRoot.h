@@ -22,14 +22,14 @@ public:
 
 	virtual ~JSquareRoot();
 
-	virtual JBoolean	Evaluate(JFloat* result) const;
-	virtual JBoolean	Evaluate(JComplex* result) const;
-	virtual JFunction*	Copy() const;
-	virtual JIndex		PrepareToRender(const JExprRenderer& renderer,
-										const JPoint& upperLeft, const JSize fontSize,
-										JExprRectList* rectList);
+	virtual JBoolean	Evaluate(JFloat* result) const override;
+	virtual JBoolean	Evaluate(JComplex* result) const override;
+	virtual JFunction*	Copy() const override;
+	virtual JIndex		Layout(const JExprRenderer& renderer,
+							   const JPoint& upperLeft, const JSize fontSize,
+							   JExprRectList* rectList) override;
 	virtual void		Render(const JExprRenderer& renderer,
-							   const JExprRectList& rectList) const;
+							   const JExprRectList& rectList) const override;
 
 private:
 

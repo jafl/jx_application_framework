@@ -21,25 +21,13 @@
 
 JUnaryFunction::JUnaryFunction
 	(
-	const JFnNameIndex	nameIndex,
-	const JFunctionType	type
+	const JUtf8Byte*	name,
+	JFunction*			arg
 	)
 	:
-	JFunctionWithArgs(nameIndex, type)
+	JFunctionWithArgs(name),
+	itsArg(arg)
 {
-	itsArg = nullptr;
-}
-
-JUnaryFunction::JUnaryFunction
-	(
-	JFunction*			arg,
-	const JFnNameIndex	nameIndex,
-	const JFunctionType	type
-	)
-	:
-	JFunctionWithArgs(nameIndex, type)
-{
-	itsArg = arg;
 }
 
 /******************************************************************************
@@ -62,32 +50,13 @@ JUnaryFunction::JUnaryFunction
 	const JUnaryFunction& source
 	)
 	:
-	JFunctionWithArgs(source)
+	JFunctionWithArgs(source),
+	itsArg(nullptr)
 {
-	itsArg = (source.itsArg)->Copy();
-}
-
-/******************************************************************************
- SameAs
-
-	Returns kJTrue if the given function is identical to us.
-
- ******************************************************************************/
-
-JBoolean
-JUnaryFunction::SameAs
-	(
-	const JFunction& theFunction
-	)
-	const
-{
-	if (!JFunctionWithArgs::SameAs(theFunction))
+	if (source.itsArg != nullptr)
 		{
-		return kJFalse;
+		itsArg = (source.itsArg)->Copy();
 		}
-
-	const JUnaryFunction& theUnaryFunction = (const JUnaryFunction&) theFunction;
-	return itsArg->SameAs(*(theUnaryFunction.itsArg));
 }
 
 /******************************************************************************
@@ -149,24 +118,4 @@ JUnaryFunction::SetArg
 	assert( index == 1);
 	jdelete itsArg;
 	itsArg = arg;
-}
-
-/******************************************************************************
- Cast to JUnaryFunction*
-
-	Not inline because they are virtual
-
- ******************************************************************************/
-
-JUnaryFunction*
-JUnaryFunction::CastToJUnaryFunction()
-{
-	return this;
-}
-
-const JUnaryFunction*
-JUnaryFunction::CastToJUnaryFunction()
-	const
-{
-	return this;
 }

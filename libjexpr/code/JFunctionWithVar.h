@@ -18,19 +18,16 @@ class JFunctionWithVar : public JFunction
 public:
 
 	JFunctionWithVar(const JVariableList* theVariableList,
-					 const JIndex variableIndex, JFunction* arrayIndex,
-					 const JFunctionType type);
+					 const JIndex variableIndex, JFunction* arrayIndex);
 	JFunctionWithVar(const JFunctionWithVar& source);
 
 	virtual ~JFunctionWithVar();
 
-	virtual JIndex		PrepareToRender(const JExprRenderer& renderer,
-										const JPoint& upperLeft, const JSize fontSize,
-										JExprRectList* rectList);
+	virtual JIndex		Layout(const JExprRenderer& renderer,
+							   const JPoint& upperLeft, const JSize fontSize,
+							   JExprRectList* rectList) override;
 	virtual void		Render(const JExprRenderer& renderer,
-							   const JExprRectList& rectList) const;
-	virtual JBoolean	SameAs(const JFunction& theFunction) const;
-	virtual void		BuildNodeList(JExprNodeList* nodeList, const JIndex myNode);
+							   const JExprRectList& rectList) const override;
 
 	void	PrintVariable(std::ostream& output) const;
 
@@ -45,30 +42,19 @@ public:
 
 	// called by JVariableList
 
-	virtual JBoolean	UsesVariable(const JIndex variableIndex) const;
-	virtual void		VariablesInserted(const JIndex firstIndex, const JSize count);
-	virtual void		VariablesRemoved(const JIndex firstIndex, const JSize count);
-	virtual void		VariableMoved(const JIndex origIndex, const JIndex newIndex);
-	virtual void		VariablesSwapped(const JIndex index1, const JIndex index2);
-
-	// provides safe downcasting
-
-	virtual JFunctionWithVar*		CastToJFunctionWithVar();
-	virtual const JFunctionWithVar*	CastToJFunctionWithVar() const;
+	virtual JBoolean	UsesVariable(const JIndex variableIndex) const override;
+	virtual void		VariablesInserted(const JIndex firstIndex, const JSize count) override;
+	virtual void		VariablesRemoved(const JIndex firstIndex, const JSize count) override;
+	virtual void		VariableMoved(const JIndex origIndex, const JIndex newIndex) override;
+	virtual void		VariablesSwapped(const JIndex index1, const JIndex index2) override;
 
 private:
 
 	const JVariableList*	itsVariableList;
 	JIndex					itsVariableIndex;
-	JFunction*				itsArrayIndex;
+	JFunction*				itsArrayIndex;		// can be nullptr
 
 private:
-
-	JSize	GetStringWidth(const JExprRenderer& renderer,
-						   const JSize fontSize, const JString& str) const;
-	void	DrawString(const JExprRenderer& renderer,
-					   const JCoordinate left, const JCoordinate midline,
-					   const JSize fontSize, const JString& str) const;
 
 	// not allowed
 

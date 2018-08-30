@@ -11,11 +11,11 @@
 
  ******************************************************************************/
 
-#include <JSummation.h>
-#include <JNegation.h>
-#include <JExprRenderer.h>
-#include <JExprRectList.h>
-#include <jParserData.h>
+#include "JSummation.h"
+#include "JNegation.h"
+#include "JExprRenderer.h"
+#include "JExprRectList.h"
+#include <JString.h>
 #include <jAssert.h>
 
 /******************************************************************************
@@ -146,7 +146,7 @@ JSummation::Print
 		const JFunction* arg = GetArg(i);
 		if (arg->GetType() == kJNegationType)
 			{
-			output << JPGetSubtractionString();
+			output << '-';
 			f = arg;
 			const JNegation* neg = dynamic_cast<const JNegation*>(arg);
 			assert( neg != nullptr );
@@ -154,7 +154,7 @@ JSummation::Print
 			}
 		else if (i > 1)
 			{
-			output << JPGetAdditionString();
+			output << '+';
 			}
 
 		if (ParenthesizeArgForPrint(*f, *arg))
@@ -171,12 +171,12 @@ JSummation::Print
 }
 
 /******************************************************************************
- PrepareToRender
+ Layout
 
  ******************************************************************************/
 
 JIndex
-JSummation::PrepareToRender
+JSummation::Layout
 	(
 	const JExprRenderer&	renderer,
 	const JPoint&			upperLeft,
@@ -195,9 +195,9 @@ JSummation::PrepareToRender
 
 	// get rectangle for each argument
 
-	const JSize spaceWidth = renderer.GetStringWidth(fontSize, " ");
-	const JSize plusWidth  = renderer.GetStringWidth(fontSize, JPGetAdditionString());
-	const JSize minusWidth = renderer.GetStringWidth(fontSize, JPGetSubtractionString());
+	const JSize spaceWidth = renderer.GetSpaceWidth(fontSize);
+	const JSize plusWidth  = renderer.GetStringWidth(fontSize, JString("+", kJFalse));
+	const JSize minusWidth = renderer.GetStringWidth(fontSize, JString("-", kJFalse));
 
 	const JSize argCount = GetArgCount();
 	{
@@ -223,7 +223,7 @@ JSummation::PrepareToRender
 			}
 
 		const JIndex argIndex =
-			arg->PrepareToRender(renderer, argUpperLeft, fontSize, rectList);
+			arg->Layout(renderer, argUpperLeft, fontSize, rectList);
 		JRect argRect = rectList->GetRect(argIndex);
 		argUpperLeft.x = argRect.right;
 
@@ -299,7 +299,7 @@ JSummation::Render
 	// draw ourselves
 
 	JCoordinate h          = ourRect.left;
-	const JSize spaceWidth = renderer.GetStringWidth(fontSize, " ");
+	const JSize spaceWidth = renderer.GetSpaceWidth(fontSize);
 
 	const JSize argCount = GetArgCount();
 	for (JIndex i=1; i<=argCount; i++)
@@ -308,7 +308,7 @@ JSummation::Render
 		const JFunction* arg = GetArg(i);
 		if (arg->GetType() == kJNegationType)
 			{
-			renderer.DrawString(h, ourMidline, fontSize, JPGetSubtractionString());
+			renderer.DrawString(h, ourMidline, fontSize, JString("-", kJFalse));
 			f = arg;
 			const JNegation* neg = dynamic_cast<const JNegation*>(arg);
 			assert( neg != nullptr );
@@ -316,7 +316,7 @@ JSummation::Render
 			}
 		else if (i > 1)
 			{
-			renderer.DrawString(h, ourMidline, fontSize, JPGetAdditionString());
+			renderer.DrawString(h, ourMidline, fontSize, JString("+", kJFalse));
 			}
 
 		arg->Render(renderer, rectList);

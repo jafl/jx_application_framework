@@ -16,15 +16,14 @@ class JArcHypTangent : public JUnaryFunction
 {
 public:
 
-	JArcHypTangent();
-	JArcHypTangent(JFunction* arg);
+	JArcHypTangent(JFunction* arg = nullptr);
 	JArcHypTangent(const JArcHypTangent& source);
 
 	virtual ~JArcHypTangent();
 
-	virtual JBoolean	Evaluate(JFloat* result) const;
-	virtual JBoolean	Evaluate(JComplex* result) const;
-	virtual JFunction*	Copy() const;
+	virtual JBoolean	Evaluate(JFloat* result) const override;
+	virtual JBoolean	Evaluate(JComplex* result) const override;
+	virtual JFunction*	Copy() const override;
 
 private:
 

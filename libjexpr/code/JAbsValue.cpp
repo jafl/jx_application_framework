@@ -24,18 +24,12 @@
 
  ******************************************************************************/
 
-JAbsValue::JAbsValue()
-	:
-	JUnaryFunction(kJAbsValueNameIndex, kJAbsValueType)
-{
-}
-
 JAbsValue::JAbsValue
 	(
 	JFunction* arg
 	)
 	:
-	JUnaryFunction(arg, kJAbsValueNameIndex, kJAbsValueType)
+	JUnaryFunction("abs", arg)
 {
 }
 
@@ -124,12 +118,12 @@ JAbsValue::Evaluate
 }
 
 /******************************************************************************
- PrepareToRender
+ Layout
 
  ******************************************************************************/
 
 JIndex
-JAbsValue::PrepareToRender
+JAbsValue::Layout
 	(
 	const JExprRenderer&	renderer,
 	const JPoint&			upperLeft,
@@ -146,7 +140,7 @@ JAbsValue::PrepareToRender
 
 	JFunction* arg = GetArg();
 	const JIndex argIndex =
-		arg->PrepareToRender(renderer, argUpperLeft, fontSize, rectList);
+		arg->Layout(renderer, argUpperLeft, fontSize, rectList);
 
 	// calculate our rectangle
 

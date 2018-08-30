@@ -9,27 +9,21 @@
 
  ******************************************************************************/
 
-#include <JFunction.h>
-#include <jParseFunction.h>
-#include <JExprRenderer.h>
-#include <JExprRectList.h>
-#include <JString.h>
+#include "JFunction.h"
+#include "JExprRenderer.h"
+#include "JExprRectList.h"
+#include "JExprParser.h"
 #include <sstream>
 #include <jAssert.h>
-
-JFunction::JFunctionPrintDest JFunction::itsPrintDest = kStandardDest;
 
 /******************************************************************************
  Constructor
 
  ******************************************************************************/
 
-JFunction::JFunction
-	(
-	const JFunctionType type
-	)
+JFunction::JFunction()
 	:
-	itsType( type )
+	itsParent(nullptr)
 {
 }
 
@@ -52,25 +46,8 @@ JFunction::JFunction
 	const JFunction& source
 	)
 	:
-	itsType( source.itsType )
+	itsParent(nullptr)
 {
-}
-
-/******************************************************************************
- SameAs
-
-	Returns kJTrue if the given function is identical to us.
-
- ******************************************************************************/
-
-JBoolean
-JFunction::SameAs
-	(
-	const JFunction& theFunction
-	)
-	const
-{
-	return JConvertToBoolean( itsType == theFunction.itsType );
 }
 
 /******************************************************************************
@@ -83,19 +60,21 @@ JFunction::SameAs
 JFunction*
 JFunction::StreamIn
 	(
-	std::istream&				input,
-	const JVariableList*	theVariableList,
+	std::istream&			input,
+	const JVariableList*	varList,
+	JFontManager*			fontManager,
 	const JBoolean			allowUIF
 	)
 {
 	JString expr;
 	input >> expr;
 
-	JFunction* theFunction;
-	const JBoolean ok =
-		JParseFunction(expr, theVariableList, &theFunction, allowUIF);
-	assert( ok );
-	return theFunction;
+	JExprParser p(expr, varList, fontManager, allowUIF);
+
+	const int result = p.yyparse();
+	assert( result == 0 );
+
+	return p.GetFunction();
 }
 
 /******************************************************************************
@@ -129,15 +108,19 @@ JFunction::StreamOut
 JFunction*
 JFunction::Copy
 	(
-	const JVariableList* newVariableList
+	const JVariableList*	newVariableList,
+	JFontManager*			fontManager
 	)
 	const
 {
 	const JString expr = Print();
-	JFunction* theFunction;
-	const JBoolean ok = JParseFunction(expr, newVariableList, &theFunction);
-	assert( ok );
-	return theFunction;
+
+	JExprParser p(expr, newVariableList, fontManager);
+
+	const int result = p.yyparse();
+	assert( result == 0 );
+
+	return p.GetFunction();
 }
 
 /******************************************************************************
@@ -155,41 +138,14 @@ JFunction::Print()
 }
 
 /******************************************************************************
- PrintForMathematica
-
- ******************************************************************************/
-
-JString
-JFunction::PrintForMathematica()
-	const
-{
-	itsPrintDest = kMathematica;
-	const JString result = Print();
-	itsPrintDest = kStandardDest;
-	return result;
-}
-
-void
-JFunction::PrintForMathematica
-	(
-	std::ostream& output
-	)
-	const
-{
-	itsPrintDest = kMathematica;
-	Print(output);
-	itsPrintDest = kStandardDest;
-}
-
-/******************************************************************************
- PrepareToRender
+ Layout
 
 	The default behavior is to display what Print displays.
 
  ******************************************************************************/
 
 JIndex
-JFunction::PrepareToRender
+JFunction::Layout
 	(
 	const JExprRenderer&	renderer,
 	const JPoint&			upperLeft,
@@ -292,144 +248,4 @@ JFunction::VariablesSwapped
 	const JIndex index2
 	)
 {
-}
-
-/******************************************************************************
- Cast to JFunctionWithArgs*
-
-	Not inline because they are virtual
-
- ******************************************************************************/
-
-JFunctionWithArgs*
-JFunction::CastToJFunctionWithArgs()
-{
-	return nullptr;
-}
-
-const JFunctionWithArgs*
-JFunction::CastToJFunctionWithArgs()
-	const
-{
-	return nullptr;
-}
-
-/******************************************************************************
- Cast to JUnaryFunction*
-
-	Not inline because they are virtual
-
- ******************************************************************************/
-
-JUnaryFunction*
-JFunction::CastToJUnaryFunction()
-{
-	return nullptr;
-}
-
-const JUnaryFunction*
-JFunction::CastToJUnaryFunction()
-	const
-{
-	return nullptr;
-}
-
-/******************************************************************************
- Cast to JBinaryFunction*
-
-	Not inline because they are virtual
-
- ******************************************************************************/
-
-JBinaryFunction*
-JFunction::CastToJBinaryFunction()
-{
-	return nullptr;
-}
-
-const JBinaryFunction*
-JFunction::CastToJBinaryFunction()
-	const
-{
-	return nullptr;
-}
-
-/******************************************************************************
- Cast to JBinaryOperator*
-
-	Not inline because they are virtual
-
- ******************************************************************************/
-
-JBinaryOperator*
-JFunction::CastToJBinaryOperator()
-{
-	return nullptr;
-}
-
-const JBinaryOperator*
-JFunction::CastToJBinaryOperator()
-	const
-{
-	return nullptr;
-}
-
-/******************************************************************************
- Cast to JNaryFunction*
-
-	Not inline because they are virtual
-
- ******************************************************************************/
-
-JNaryFunction*
-JFunction::CastToJNaryFunction()
-{
-	return nullptr;
-}
-
-const JNaryFunction*
-JFunction::CastToJNaryFunction()
-	const
-{
-	return nullptr;
-}
-
-/******************************************************************************
- Cast to JNaryOperator*
-
-	Not inline because they are virtual
-
- ******************************************************************************/
-
-JNaryOperator*
-JFunction::CastToJNaryOperator()
-{
-	return nullptr;
-}
-
-const JNaryOperator*
-JFunction::CastToJNaryOperator()
-	const
-{
-	return nullptr;
-}
-
-/******************************************************************************
- Cast to JFunctionWithVar*
-
-	Not inline because they are virtual
-
- ******************************************************************************/
-
-JFunctionWithVar*
-JFunction::CastToJFunctionWithVar()
-{
-	return nullptr;
-}
-
-const JFunctionWithVar*
-JFunction::CastToJFunctionWithVar()
-	const
-{
-	return nullptr;
 }

@@ -51,12 +51,12 @@
 
 // JBroadcaster message types
 
-const JCharacter* JVariableList::kVarInserted          = "VarInserted::JVariableList";
-const JCharacter* JVariableList::kVarRemoved           = "VarRemoved::JVariableList";
-const JCharacter* JVariableList::kVarMoved             = "VarMoved::JVariableList";
-const JCharacter* JVariableList::kVarNameChanged       = "VarNameChanged::JVariableList";
-const JCharacter* JVariableList::kVarValueChanged      = "VarValueChanged::JVariableList";
-const JCharacter* JVariableList::kDiscValueNameChanged = "DiscValueNameChanged::JVariableList";
+const JUtf8Byte* JVariableList::kVarInserted          = "VarInserted::JVariableList";
+const JUtf8Byte* JVariableList::kVarRemoved           = "VarRemoved::JVariableList";
+const JUtf8Byte* JVariableList::kVarMoved             = "VarMoved::JVariableList";
+const JUtf8Byte* JVariableList::kVarNameChanged       = "VarNameChanged::JVariableList";
+const JUtf8Byte* JVariableList::kVarValueChanged      = "VarValueChanged::JVariableList";
+const JUtf8Byte* JVariableList::kDiscValueNameChanged = "DiscValueNameChanged::JVariableList";
 
 /******************************************************************************
  Constructor
@@ -125,17 +125,15 @@ JVariableList::JVariableListX()
 JBoolean
 JVariableList::ParseVariableName
 	(
-	const JCharacter*	expr,
-	const JSize			exprLength,
-	JIndex*				index
+	const JString&	name,
+	JIndex*			index
 	)
 	const
 {
 	const JSize count = GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		const JString& name = GetVariableName(i);
-		if (JStringsEqual(expr, exprLength, name))
+		if (name == GetVariableName(i))
 			{
 			*index = i;
 			return kJTrue;
@@ -162,9 +160,9 @@ JVariableList::ParseVariableName
 JVariableList::MatchResult
 JVariableList::FindUniqueVarName
 	(
-	const JCharacter*	prefix,
-	JIndex*				index,
-	JString*			maxPrefix
+	const JString&	prefix,
+	JIndex*			index,
+	JString*		maxPrefix
 	)
 	const
 {
@@ -229,10 +227,10 @@ JVariableList::FindUniqueVarName
 JBoolean
 JVariableList::ParseDiscreteValue
 	(
-	const JCharacter*	expr,
-	const JSize			exprLength,
-	const JIndex&		variableIndex,
-	JIndex*				valueIndex
+	const JString&	expr,
+	const JSize		exprLength,
+	const JIndex&	variableIndex,
+	JIndex*			valueIndex
 	)
 	const
 {

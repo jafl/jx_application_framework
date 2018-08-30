@@ -112,12 +112,12 @@ JConjugate::Evaluate
 }
 
 /******************************************************************************
- PrepareToRender
+ Layout
 
  ******************************************************************************/
 
 JIndex
-JConjugate::PrepareToRender
+JConjugate::Layout
 	(
 	const JExprRenderer&	renderer,
 	const JPoint&			upperLeft,
@@ -134,7 +134,7 @@ JConjugate::PrepareToRender
 
 	JFunction* arg = GetArg();
 	const JIndex argIndex =
-		arg->PrepareToRender(renderer, argUpperLeft, fontSize, rectList);
+		arg->Layout(renderer, argUpperLeft, fontSize, rectList);
 
 	// calculate our rectangle
 

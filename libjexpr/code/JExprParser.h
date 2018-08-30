@@ -11,12 +11,14 @@
 #include "JExprScanner.h"
 
 class JFunction;
+class JFontManager;
 
 class JExprParser
 {
 public:
 
-	JExprParser(const JString& text);
+	JExprParser(const JString& text, const JVariableList* varList,
+				JFontManager* fontManager, const JBoolean allowUIF = kJFalse);
 
 	virtual	~JExprParser();
 
@@ -26,6 +28,10 @@ public:
 
 private:
 
+	const JVariableList*	itsVarList;
+	JFontManager*			itsFontManager;
+	const JBoolean			itsAllowUIFFlag;
+
 	JExprScanner*	itsScanner;
 	JFunction*		itsCurrentNode;
 
@@ -33,6 +39,9 @@ private:
 
 	int yylex(YYSTYPE* lvalp);
 	int yyerror(const char* message);
+
+	JFunction*	UpdateSum(JFunction* f, JFunction* arg);
+	JFunction*	UpdateProduct(JFunction* f, JFunction* arg);
 
 	// not allowed
 
@@ -42,7 +51,7 @@ private:
 
 
 /******************************************************************************
- GetRootNode
+ GetFunction
 
  *****************************************************************************/
 

@@ -47,8 +47,8 @@ JExprScanner::LexerInput
 	FlexLexerInputSize	flexBufSize
 	)
 {
-	assert(flexBuf != NULL);
-	assert(flexBufSize > 0);
+	assert( flexBuf != nullptr );
+	assert( flexBufSize > 0 );
 
 	const FlexLexerInputSize bytesLeft = itsInputBuffer.GetByteCount() - itsBytesRead;
 	const FlexLexerInputSize numCopy   = (bytesLeft > flexBufSize) ? flexBufSize : bytesLeft;

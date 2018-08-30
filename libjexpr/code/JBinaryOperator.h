@@ -16,19 +16,12 @@ class JBinaryOperator : public JBinaryFunction
 {
 public:
 
-	JBinaryOperator(const JFnNameIndex nameIndex, const JFunctionType type);
-	JBinaryOperator(JFunction* arg1, JFunction* arg2, const JFnNameIndex nameIndex,
-					const JFunctionType type);
+	JBinaryOperator(const JUtf8Byte* name, JFunction* arg1, JFunction* arg2);
 	JBinaryOperator(const JBinaryOperator& source);
 
 	virtual ~JBinaryOperator();
 
 	virtual void	Print(std::ostream& output) const;
-
-	// provides safe downcasting
-
-	virtual JBinaryOperator*		CastToJBinaryOperator();
-	virtual const JBinaryOperator*	CastToJBinaryOperator() const;
 
 protected:
 

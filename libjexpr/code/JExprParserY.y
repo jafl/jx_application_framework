@@ -40,6 +40,7 @@ Copyright (C) 2018 by John Lindal.
 #include "JTruncateToInt.h"
 #include "JUserInputFunction.h"
 #include "JVariableValue.h"
+#include "JVariableList.h"
 #include <JPtrArray-JString.h>
 
 // also uncomment yydebug=1; below
@@ -79,7 +80,7 @@ Copyright (C) 2018 by John Lindal.
 %{
 
 // debugging output
-
+/*
 #define YYPRINT(file, type, value)	yyprint(file, type, value)
 #include <stdio.h>
 
@@ -91,12 +92,12 @@ yyprint
 	YYSTYPE	value
 	)
 {
-	if (value.pString != NULL)
+	if (value.pString != nullptr)
 		{
 		fprintf(file, "string:  %s", (value.pString)->GetBytes());
 		}
 }
-
+*/
 %}
 
 %{
@@ -119,112 +120,327 @@ yyprint
 
 expression
 	: e P_EOF
-		{itsCurrentNode = $1; YYACCEPT;}
+		{
+		itsCurrentNode = $1;
+		YYACCEPT;
+		}
 	;
 
 e
 	: P_NUMBER
-		{$$ = jnew JConstantValue(*$1);}
+		{
+		JFloat v;
+		if (!$1->ConvertToFloat(&v))
+			{
+			YYERROR;
+			}
+		$$ = jnew JConstantValue(v);
+		assert( $$ != nullptr );
+		}
+
+	| P_NUMBER P_E P_NUMBER
+		{
+		JFloat v, e;
+		if (!$1->ConvertToFloat(&v) || !$3->ConvertToFloat(&e))
+			{
+			YYERROR;
+			}
+		JProduct* p = jnew JProduct();
+		assert( p != nullptr );
+		p->AppendArg(jnew JConstantValue(v));
+		p->AppendArg(jnew JExponent(jnew JConstantValue(10), jnew JConstantValue(e)));
+		$$ = p;
+		}
+
+	| P_NUMBER P_E '-' P_NUMBER
+		{
+		JFloat v, e;
+		if (!$1->ConvertToFloat(&v) || !$4->ConvertToFloat(&e))
+			{
+			YYERROR;
+			}
+		JProduct* p = jnew JProduct();
+		assert( p != nullptr );
+		p->AppendArg(jnew JConstantValue(v));
+		p->AppendArg(jnew JExponent(jnew JConstantValue(10), jnew JNegation(jnew JConstantValue(e))));
+		$$ = p;
+		}
+
 	| P_E
-		{$$ = jnew JNamedConstant(kEJNamedConstIndex);}
+		{
+		$$ = jnew JNamedConstant(kEJNamedConstIndex);
+		assert( $$ != nullptr );
+		}
+
 	| P_PI
-		{$$ = jnew JNamedConstant(kPiJNamedConstIndex);}
+		{
+		$$ = jnew JNamedConstant(kPiJNamedConstIndex);
+		assert( $$ != nullptr );
+		}
+
 	| P_I
-		{$$ = jnew JNamedConstant(kIJNamedConstIndex);}
+		{
+		$$ = jnew JNamedConstant(kIJNamedConstIndex);
+		assert( $$ != nullptr );
+		}
+
 	| P_VARIABLE
-		{$$ = jnew JVariableValue(*$1);}
+		{
+		JIndex i;
+		if (!itsVarList->ParseVariableName(*$1, &i))
+			{
+			YYERROR;
+			}
+		$$ = jnew JVariableValue(itsVarList, i, nullptr);
+		assert( $$ != nullptr );
+		}
+
+	| P_VARIABLE '[' e ']'
+		{
+		JIndex i;
+		if (!itsVarList->ParseVariableName(*$1, &i))
+			{
+			YYERROR;
+			}
+		$$ = jnew JVariableValue(itsVarList, i, $3);
+		assert( $$ != nullptr );
+		}
+
 	| P_INPUT
-		{$$ = jnew JUserInputFunction();}
+		{
+		$$ = jnew JUserInputFunction(itsVarList, itsFontManager);
+		assert( $$ != nullptr );
+		}
 
 	| '(' e ')'
-		{$$ = $2;}
+		{
+		$$ = $2;
+		}
 
 	| e '+' e
-		{$$ = yy.MathFunction.updateSum($1, $3);}
+		{
+		$$ = UpdateSum($1, $3);
+		}
+
 	| e '-' e
-		{$$ = yy.MathFunction.updateSum($1, jnew yy.MathFunction.Negate($3));}
+		{
+		$$ = UpdateSum($1, jnew JNegation($3));
+		}
+
 	| e '*' e
-		{$$ = yy.MathFunction.updateProduct($1, $3);}
+		{
+		$$ = UpdateProduct($1, $3);
+		}
+
 	| e '/' e
-		{$$ = jnew JDivision($1, $3);}
+		{
+		$$ = jnew JDivision($1, $3);
+		assert( $$ != nullptr );
+		}
+
 	| e '^' e
-		{$$ = jnew JExponent($1, $3);}
+		{
+		$$ = jnew JExponent($1, $3);
+		assert( $$ != nullptr );
+		}
+
 	| '-' e %prec UMINUS
-		{$$ = JNegation($2);}
+		{
+		$$ = jnew JNegation($2);
+		assert( $$ != nullptr );
+		}
 
 	| P_FN_ABS '(' e ')'
-		{$$ = jnew JAbsValue($3);}
+		{
+		$$ = jnew JAbsValue($3);
+		assert( $$ != nullptr );
+		}
+
 	| P_FN_PHASE '(' e ')'
-		{$$ = jnew JPhaseAngle($3);}
+		{
+		$$ = jnew JPhaseAngle($3);
+		assert( $$ != nullptr );
+		}
+
 	| P_FN_CONJUGATE '(' e ')'
-		{$$ = jnew JConjugate($3);}
+		{
+		$$ = jnew JConjugate($3);
+		assert( $$ != nullptr );
+		}
+
 	| P_FN_ROTATE '(' e ',' e ')'
-		{$$ = jnew JRotateComplex($3, $5);}
+		{
+		$$ = jnew JRotateComplex($3, $5);
+		assert( $$ != nullptr );
+		}
+
 	| P_FN_RE '(' e ')'
-		{$$ = jnew JRealPart($3);}
+		{
+		$$ = jnew JRealPart($3);
+		assert( $$ != nullptr );
+		}
+
 	| P_FN_IM '(' e ')'
-		{$$ = jnew JImagPart($3);}
+		{
+		$$ = jnew JImagPart($3);
+		assert( $$ != nullptr );
+		}
 
 	| P_FN_MIN '(' arglist ')'
-		{$$ = jnew JMinFunc($3);}
+		{
+		$$ = jnew JMinFunc($3);
+		assert( $$ != nullptr );
+		}
+
 	| P_FN_MAX '(' arglist ')'
-		{$$ = jnew JMaxFunc($3);}
+		{
+		$$ = jnew JMaxFunc($3);
+		assert( $$ != nullptr );
+		}
 
 	| P_FN_SQRT '(' e ')'
-		{$$ = jnew JSquareRoot($3);}
+		{
+		$$ = jnew JSquareRoot($3);
+		assert( $$ != nullptr );
+		}
+
 	| P_FN_PARALLEL '(' arglist ')'
-		{$$ = jnew JParallel($3);}
+		{
+		$$ = jnew JParallel($3);
+		assert( $$ != nullptr );
+		}
 
 	| P_FN_SIGN '(' e ')'
-		{$$ = jnew JAlgSign($3);}
+		{
+		$$ = jnew JAlgSign($3);
+		assert( $$ != nullptr );
+		}
+
 	| P_FN_ROUND '(' e ')'
-		{$$ = jnew JRoundToInt($3);}
+		{
+		$$ = jnew JRoundToInt($3);
+		assert( $$ != nullptr );
+		}
+
 	| P_FN_TRUNCATE '(' e ')'
-		{$$ = jnew JTruncateToInt($3);}
+		{
+		$$ = jnew JTruncateToInt($3);
+		assert( $$ != nullptr );
+		}
 
 	| P_FN_LOG '(' e ',' e ')'
-		{$$ = jnew JLogB($3, $5);}
+		{
+		$$ = jnew JLogB($3, $5);
+		assert( $$ != nullptr );
+		}
+
 	| P_FN_LOG2 '(' e ')'
-		{$$ = jnew JLogB(jnew JConstantValue(2), $3);}
+		{
+		$$ = jnew JLogB(jnew JConstantValue(2), $3);
+		assert( $$ != nullptr );
+		}
+
 	| P_FN_LOG10 '(' e ')'
-		{$$ = jnew JLogB(jnew JConstantValue(10), $3);}
+		{
+		$$ = jnew JLogB(jnew JConstantValue(10), $3);
+		assert( $$ != nullptr );
+		}
+
 	| P_FN_LN '(' e ')'
-		{$$ = jnew JLogE($3);}
+		{
+		$$ = jnew JLogE($3);
+		assert( $$ != nullptr );
+		}
 
 	| P_FN_ARCSIN '(' e ')'
-		{$$ = jnew JArcSine($3);}
+		{
+		$$ = jnew JArcSine($3);
+		assert( $$ != nullptr );
+		}
+
 	| P_FN_ARCCOS '(' e ')'
-		{$$ = jnew JArcCosine($3);}
+		{
+		$$ = jnew JArcCosine($3);
+		assert( $$ != nullptr );
+		}
+
 	| P_FN_ARCTAN '(' e ')'
-		{$$ = jnew JArcTangent($3);}
+		{
+		$$ = jnew JArcTangent($3);
+		assert( $$ != nullptr );
+		}
+
 	| P_FN_ARCTAN2 '(' e ',' e ')'
-		{$$ = jnew JArcTangent2($3, $5);}
+		{
+		$$ = jnew JArcTangent2($3, $5);
+		assert( $$ != nullptr );
+		}
 
 	| P_FN_SIN '(' e ')'
-		{$$ = jnew JSine($3);}
+		{
+		$$ = jnew JSine($3);
+		assert( $$ != nullptr );
+		}
+
 	| P_FN_COS '(' e ')'
-		{$$ = jnew JCosine($3);}
+		{
+		$$ = jnew JCosine($3);
+		assert( $$ != nullptr );
+		}
+
 	| P_FN_TAN '(' e ')'
-		{$$ = jnew JTangent($3);}
+		{
+		$$ = jnew JTangent($3);
+		assert( $$ != nullptr );
+		}
 
 	| P_FN_SINH '(' e ')'
-		{$$ = jnew JHypSine($3);}
+		{
+		$$ = jnew JHypSine($3);
+		assert( $$ != nullptr );
+		}
+
 	| P_FN_COSH '(' e ')'
-		{$$ = jnew JHypCosine($3);}
+		{
+		$$ = jnew JHypCosine($3);
+		assert( $$ != nullptr );
+		}
+
 	| P_FN_TANH '(' e ')'
-		{$$ = jnew JHypTangent($3);}
+		{
+		$$ = jnew JHypTangent($3);
+		assert( $$ != nullptr );
+		}
 
 	| P_FN_ARCSINH '(' e ')'
-		{$$ = jnew JArcHypSine($3);}
+		{
+		$$ = jnew JArcHypSine($3);
+		assert( $$ != nullptr );
+		}
+
 	| P_FN_ARCCOSH '(' e ')'
-		{$$ = jnew JArcHypCosine($3);}
+		{
+		$$ = jnew JArcHypCosine($3);
+		assert( $$ != nullptr );
+		}
+
 	| P_FN_ARCTANH '(' e ')'
-		{$$ = jnew JArcHypTangent($3);}
+		{
+		$$ = jnew JArcHypTangent($3);
+		assert( $$ != nullptr );
+		}
 	;
 
 arglist
 	: e
-		{$$ = jnew JPtrArray<JFunction>(JPtrArrayT::kDeleteAll); $$->AppendElement($1);}
+		{
+		$$ = jnew JPtrArray<JFunction>(JPtrArrayT::kDeleteAll);
+		assert( $$ != nullptr );
+		$$->AppendElement($1);
+		}
+
 	| arglist ',' e
-		{$$ = $1; $$->AppendElement($3);}
+		{
+		$$ = $1; $$->AppendElement($3);
+		}
 	;

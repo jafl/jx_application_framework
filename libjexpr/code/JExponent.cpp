@@ -161,12 +161,12 @@ JExponent::SameAs
 }
 
 /******************************************************************************
- PrepareToRender
+ Layout
 
  ******************************************************************************/
 
 JIndex
-JExponent::PrepareToRender
+JExponent::Layout
 	(
 	const JExprRenderer&	renderer,
 	const JPoint&			upperLeft,
@@ -180,7 +180,7 @@ JExponent::PrepareToRender
 
 	JFunction* base = GetArg1();
 	const JIndex baseIndex =
-		base->PrepareToRender(renderer, argUpperLeft, fontSize, rectList);
+		base->Layout(renderer, argUpperLeft, fontSize, rectList);
 
 	JRect baseRect = rectList->GetRect(baseIndex);
 	argUpperLeft.x = baseRect.right;
@@ -199,7 +199,7 @@ JExponent::PrepareToRender
 
 	JFunction* exponent = GetArg2();
 	const JIndex expIndex =
-		exponent->PrepareToRender(renderer, argUpperLeft, expFontSize, rectList);
+		exponent->Layout(renderer, argUpperLeft, expFontSize, rectList);
 	const JRect expRect = rectList->GetRect(expIndex);
 
 	// calculate our rectangle

@@ -20,7 +20,7 @@ class JFontManager;
 JBoolean
 JApplyFunction
 	(
-	const JCharacter*		fnName,
+	const JUtf8Byte*		fnName,
 	const JVariableList*	varList,
 	const JFunction&		origF,
 	JFontManager*			fontMgr,

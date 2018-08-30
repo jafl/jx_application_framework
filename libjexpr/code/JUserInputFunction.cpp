@@ -17,21 +17,18 @@
 #include <JExprEditor.h>
 #include <JExprRectList.h>
 
-#include <jParseFunction.h>
-#include <jParserData.h>
 #include <JVariableList.h>
 #include <JFunctionWithVar.h>
 #include <JProduct.h>
 #include <JExponent.h>
 #include <JConstantValue.h>
 
+#include <JColorManager.h>
 #include <JPainter.h>
-#include <JString.h>
-#include <string.h>
 #include <jGlobals.h>
 #include <jAssert.h>
 
-static const JCharacter* kEmptyString = "?";
+static const JString kEmptyString("?", kJFalse);
 
 const JCoordinate kHMarginWidth = 2;
 const JCoordinate kVMarginWidth = 1;
@@ -47,16 +44,15 @@ JUserInputFunction::JUserInputFunction
 	(
 	const JVariableList*	varList,
 	JFontManager*			fontManager,
-	const JCharacter*		text
+	const JString&			text
 	)
 	:
-	JFunction(kJUserInputType),
-	JTextEditor(kFullEditor, kJTrue, kJFalse, fontManager,
-				colormap->GetBlackColor(),				// caret
-				colormap->GetDefaultSelectionColor(),	// selection
-				colormap->GetBlueColor(),				// outline
-				colormap->GetBlackColor(),				// drag (not used)
-				colormap->GetBlackColor(),				// whitespace (not used)
+	JTextEditor(kFullEditor, jnew StyledText(this, fontManager), kJTrue,
+				fontManager, kJTrue,
+				JColorManager::GetBlackColor(),				// caret
+				JColorManager::GetDefaultSelectionColor(),	// selection
+				JColorManager::GetBlueColor(),				// outline
+				JColorManager::GetBlackColor(),				// whitespace (not used)
 				1)
 {
 	itsVarList = varList;
@@ -75,7 +71,7 @@ JUserInputFunction::JUserInputFunction
 	RecalcAll(kJTrue);
 	TESetLeftMarginWidth(kMinLeftMarginWidth);
 
-	if (text != nullptr)
+	if (!text.IsEmpty())
 		{
 		SetParseableText(this, text);
 		}
@@ -181,36 +177,12 @@ JUserInputFunction::Print
 }
 
 /******************************************************************************
- SameAs
-
-	Returns kJTrue if the given function is identical to us.
-	We only compare the text.
-
- ******************************************************************************/
-
-JBoolean
-JUserInputFunction::SameAs
-	(
-	const JFunction& theFunction
-	)
-	const
-{
-	if (!JFunction::SameAs(theFunction))
-		{
-		return kJFalse;
-		}
-
-	const JUserInputFunction& theUIF = (const JUserInputFunction&) theFunction;
-	return JConvertToBoolean( GetText() == theUIF.GetText() );
-}
-
-/******************************************************************************
- PrepareToRender
+ Layout
 
  ******************************************************************************/
 
 JIndex
-JUserInputFunction::PrepareToRender
+JUserInputFunction::Layout
 	(
 	const JExprRenderer&	renderer,
 	const JPoint&			upperLeft,
@@ -295,22 +267,6 @@ JUserInputFunction::Render
 	JRect frame = ourRect;
 	frame.Shrink(kHMarginWidth-1, kVMarginWidth-1);
 	p->Rect(frame);
-}
-
-/******************************************************************************
- BuildNodeList
-
-	We are a terminal node.
-
- ******************************************************************************/
-
-void
-JUserInputFunction::BuildNodeList
-	(
-	JExprNodeList*	nodeList,
-	const JIndex	myNode
-	)
-{
 }
 
 /******************************************************************************
@@ -950,4 +906,36 @@ JUserInputFunction::TEHasSearchText()
 	const
 {
 	return kJFalse;
+}
+
+/******************************************************************************
+ AdjustStylesBeforeBroadcast (virtual protected)
+
+	Draw the empty string using gray.
+
+ ******************************************************************************/
+
+void
+JUserInputFunction::StyledText::AdjustStylesBeforeBroadcast
+	(
+	const JString&			text,
+	JRunArray<JFont>*		styles,
+	JStyledText::TextRange*	recalcRange,
+	JStyledText::TextRange*	redrawRange,
+	const JBoolean			deletion
+	)
+{
+	const JSize totalLength = text.GetCharacterCount();
+
+	JFont f = styles->GetFirstElement();
+	styles->RemoveAll();
+
+	f.SetColor(text == kEmptyString ? JColorManager::GetInactiveLabelColor() :
+									  JColorManager::GetBlackColor());
+
+	styles->AppendElements(f, totalLength);
+
+	*recalcRange = *redrawRange = JStyledText::TextRange(
+		JCharacterRange(1, totalLength),
+		JUtf8ByteRange(1, text.GetByteCount()));
 }

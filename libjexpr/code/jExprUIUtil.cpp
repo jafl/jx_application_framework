@@ -9,8 +9,6 @@
 
 #include <jExprUIUtil.h>
 
-#include <jParseFunction.h>
-#include <jParserData.h>
 #include <JVariableList.h>
 #include <JFunctionWithArgs.h>
 #include <JUserInputFunction.h>
@@ -30,7 +28,7 @@
 JBoolean
 JApplyFunction
 	(
-	const JCharacter*		fnName,
+	const JUtf8Byte*		fnName,
 	const JVariableList*	varList,
 	const JFunction&		origF,
 	JFontManager*			fontMgr,
@@ -43,7 +41,7 @@ JApplyFunction
 	*newF   = nullptr;
 	*newUIF = nullptr;
 
-	JString buffer = fnName;
+	JString buffer(fnName);
 	buffer.TrimWhitespace();
 	if (buffer.GetLastCharacter() != '(')
 		{

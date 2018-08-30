@@ -19,18 +19,12 @@
 
  ******************************************************************************/
 
-JAlgSign::JAlgSign()
-	:
-	JUnaryFunction(kJSignNameIndex, kJSignType)
-{
-}
-
 JAlgSign::JAlgSign
 	(
 	JFunction* arg
 	)
 	:
-	JUnaryFunction(arg, kJSignNameIndex, kJSignType)
+	JUnaryFunction("sign", arg)
 {
 }
 

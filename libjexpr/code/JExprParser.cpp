@@ -6,7 +6,8 @@
  *****************************************************************************/
 
 #include "JExprParser.h"
-#include "JFunction.h"
+#include "JSummation.h"
+#include "JProduct.h"
 #include <jAssert.h>
 
 /******************************************************************************
@@ -16,13 +17,19 @@
 
 JExprParser::JExprParser
 	(
-	const JString& text
+	const JString&			text,
+	const JVariableList*	varList,
+	JFontManager*			fontManager,
+	const JBoolean			allowUIF
 	)
 	:
-	itsCurrentNode(NULL)
+	itsVarList(varList),
+	itsFontManager(fontManager),
+	itsAllowUIFFlag(allowUIF),
+	itsCurrentNode(nullptr)
 {
 	itsScanner = jnew JExprScanner(text);
-	assert(itsScanner != NULL);
+	assert( itsScanner != nullptr );
 }
 
 /******************************************************************************
@@ -63,4 +70,60 @@ JExprParser::yyerror
 {
 	std::cerr << "yyerror() called: " << message << std::endl;
 	return 0;
+}
+
+/******************************************************************************
+ UpdateSum (private)
+
+ *****************************************************************************/
+
+JFunction*
+JExprParser::UpdateSum
+	(
+	JFunction*	f,
+	JFunction*	arg
+	)
+{
+	JSummation* s = dynamic_cast<JSummation*>(f);
+	if (s != nullptr)
+		{
+		s->AppendArg(arg);
+		}
+	else
+		{
+		s = jnew JSummation;
+		assert( s != nullptr );
+		s->AppendArg(f);
+		s->AppendArg(arg);
+		}
+
+	return s;
+}
+
+/******************************************************************************
+ UpdateProduct (private)
+
+ *****************************************************************************/
+
+JFunction*
+JExprParser::UpdateProduct
+	(
+	JFunction*	f,
+	JFunction*	arg
+	)
+{
+	JProduct* s = dynamic_cast<JProduct*>(f);
+	if (s != nullptr)
+		{
+		s->AppendArg(arg);
+		}
+	else
+		{
+		s = jnew JProduct;
+		assert( s != nullptr );
+		s->AppendArg(f);
+		s->AppendArg(arg);
+		}
+
+	return s;
 }

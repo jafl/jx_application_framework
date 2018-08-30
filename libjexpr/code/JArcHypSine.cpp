@@ -18,18 +18,12 @@
 
  ******************************************************************************/
 
-JArcHypSine::JArcHypSine()
-	:
-	JUnaryFunction(kJArcHypSineNameIndex, kJArcHypSineType)
-{
-}
-
 JArcHypSine::JArcHypSine
 	(
 	JFunction* arg
 	)
 	:
-	JUnaryFunction(arg, kJArcHypSineNameIndex, kJArcHypSineType)
+	JUnaryFunction("arcsinh", arg)
 {
 }
 

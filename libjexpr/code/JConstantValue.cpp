@@ -24,8 +24,6 @@ JConstantValue::JConstantValue
 	(
 	const JFloat value
 	)
-	:
-	JFunction(kJConstantValueType)
 {
 	itsValue = value;
 }
@@ -117,43 +115,4 @@ JConstantValue::Print
 //	const int origPrecis = output.precision(JString::kDefSigDigitCount);
 //	output << itsValue;
 //	output.precision(origPrecis);
-}
-
-/******************************************************************************
- SameAs
-
-	Returns kJTrue if the given function is identical to us.
-
- ******************************************************************************/
-
-JBoolean
-JConstantValue::SameAs
-	(
-	const JFunction& theFunction
-	)
-	const
-{
-	if (!JFunction::SameAs(theFunction))
-		{
-		return kJFalse;
-		}
-
-	const JConstantValue& theConstantValue = (const JConstantValue&) theFunction;
-	return JConvertToBoolean( itsValue == theConstantValue.itsValue );
-}
-
-/******************************************************************************
- BuildNodeList
-
-	We are a terminal node.
-
- ******************************************************************************/
-
-void
-JConstantValue::BuildNodeList
-	(
-	JExprNodeList*	nodeList,
-	const JIndex	myNode
-	)
-{
 }

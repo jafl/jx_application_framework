@@ -145,12 +145,12 @@ JLogB::SameAs
 }
 
 /******************************************************************************
- PrepareToRender
+ Layout
 
  ******************************************************************************/
 
 JIndex
-JLogB::PrepareToRender
+JLogB::Layout
 	(
 	const JExprRenderer&	renderer,
 	const JPoint&			upperLeft,
@@ -160,11 +160,7 @@ JLogB::PrepareToRender
 {
 	// intialize our rectangle
 
-	const JCharacter* name = GetName();
-	const JSize nameLength = strlen(name);
-	assert( nameLength > 1 );
-	assert( name[ nameLength-1 ] == '(' );
-	const JString fnName = JString(name, nameLength-1);
+	const JString& fnName = GetName();
 
 	JRect ourRect;
 	ourRect.top    = upperLeft.y;
@@ -179,7 +175,7 @@ JLogB::PrepareToRender
 
 	JFunction* base = GetArg1();
 	const JIndex baseIndex =
-		base->PrepareToRender(renderer, argUpperLeft, baseFontSize, rectList);
+		base->Layout(renderer, argUpperLeft, baseFontSize, rectList);
 	const JRect baseRect = rectList->GetRect(baseIndex);
 	argUpperLeft.x = baseRect.right;
 
@@ -187,7 +183,7 @@ JLogB::PrepareToRender
 
 	JFunction* arg = GetArg2();
 	const JIndex argIndex =
-		arg->PrepareToRender(renderer, argUpperLeft, fontSize, rectList);
+		arg->Layout(renderer, argUpperLeft, fontSize, rectList);
 	const JRect argRect          = rectList->GetRect(argIndex);
 	ourRect                      = JCovering(ourRect, argRect);
 	const JCoordinate ourMidline = rectList->GetMidline(argIndex);
@@ -236,12 +232,7 @@ JLogB::Render
 
 	// draw ourselves
 
-	const JCharacter* name = GetName();
-	const JSize nameLength = strlen(name);
-	assert( nameLength > 1 );
-	assert( name[ nameLength-1 ] == '(' );
-	const JString fnName = JString(name, nameLength-1);
-	renderer.DrawString(ourRect.left, ourMidline, fontSize, fnName);
+	renderer.DrawString(ourRect.left, ourMidline, fontSize, GetName());
 
 	// draw the base
 

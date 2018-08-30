@@ -15,7 +15,6 @@
 .cpp ./code/JXExprEvalDirector
 .cpp ./code/JXExprInput
 .cpp ./code/JExprEditor
-.cpp ./code/JExprNodeList
 .cpp ./code/JExprRectList
 .cpp ./code/JExprRenderer
 .cpp ./code/jExprUIUtil
@@ -37,7 +36,7 @@
 .cpp ./code/JCosine
 .cpp ./code/JDivision
 .cpp ./code/JExponent
-.cpp ./code/JFunctionData
+.cpp ./code/jFunctionUtil
 .cpp ./code/JFunctionWithArgs
 .cpp ./code/JFunctionWithVar
 .cpp ./code/JHypCosine

@@ -16,15 +16,14 @@ class JArcHypSine : public JUnaryFunction
 {
 public:
 
-	JArcHypSine();
-	JArcHypSine(JFunction* arg);
+	JArcHypSine(JFunction* arg = nullptr);
 	JArcHypSine(const JArcHypSine& source);
 
 	virtual ~JArcHypSine();
 
-	virtual JBoolean	Evaluate(JFloat* result) const;
-	virtual JBoolean	Evaluate(JComplex* result) const;
-	virtual JFunction*	Copy() const;
+	virtual JBoolean	Evaluate(JFloat* result) const override;
+	virtual JBoolean	Evaluate(JComplex* result) const override;
+	virtual JFunction*	Copy() const override;
 
 private:
 

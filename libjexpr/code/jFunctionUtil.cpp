@@ -1,5 +1,5 @@
 /******************************************************************************
- JFunctionData.cpp
+ jFunctionUtil.cpp
 
 	Information used by all JFunctions.
 
@@ -7,7 +7,7 @@
 
  ******************************************************************************/
 
-#include <JFunction.h>
+#include <jFunctionUtil.h>
 #include <JConstantValue.h>
 #include <jAssert.h>
 

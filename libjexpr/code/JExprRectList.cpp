@@ -135,11 +135,11 @@ JExprRectList::ShiftRect
 	This routine would be faster if the rects were sorted in increasing
 	order by area.  Then we could just pick the first rect that contained
 	both pt1 and pt2.  (Equal area rectangles don't overlap.)  The rects
-	could be sorted either in AddRect or after PrepareToRender was finished.
+	could be sorted either in AddRect or after Layout was finished.
 
 	The problem with sorting the rects is that the indices will change,
 	so nobody can assume they are constant.  This is minimized by sorting
-	after PrepareToRender is finished.
+	after Layout is finished.
 
  ******************************************************************************/
 

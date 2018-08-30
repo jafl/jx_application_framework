@@ -13,15 +13,12 @@ Copyright (C) 2018 by John Lindal.
 
 #define NEW_TOKEN(s) \
 	lvalp->pString = jnew JString(s); \
-	assert( lvalp->pString != NULL );
+	assert( lvalp->pString != nullptr );
 %}
 
 %option c++ yyclass = "JExprScanner" prefix="JExpr"
 %option 8bit nodefault
 %option noyywrap
-
-EXP		([eE][-+]?[0-9]+)
-HEX		("0"[xX][0-9a-fA-F]+)
 
 %%
 
@@ -31,26 +28,30 @@ HEX		("0"[xX][0-9a-fA-F]+)
 	bzero(lvalp, sizeof(YYSTYPE));
 %}
 
-[1-9][0-9]*{EXP}?        |
-0                        |
-[0-9]+"."([0-9]+)?{EXP}? |
-([0-9]+)?"."[0-9]+{EXP}? |
-{HEX} {
+0                   |
+[1-9][0-9]*         |
+[0-9]+"."([0-9]+)?  |
+([0-9]+)?"."[0-9]+  |
+"0"[xX][0-9a-fA-F]+ {
 	NEW_TOKEN(yytext);
 	return P_NUMBER;
 }
 
 "pi"     |
+"PI"     |
 "\u03c0" {
 	return P_PI;
 	}
 
-"e" {
+"e" |
+"E" {
 	return P_E;
 	}
 
 "i" |
-"j" {
+"I" |
+"j" |
+"J" {
 	return P_I;
 	}
 

@@ -18,18 +18,12 @@
 
  ******************************************************************************/
 
-JArcHypTangent::JArcHypTangent()
-	:
-	JUnaryFunction(kJArcHypTangentNameIndex, kJArcHypTangentType)
-{
-}
-
 JArcHypTangent::JArcHypTangent
 	(
 	JFunction* arg
 	)
 	:
-	JUnaryFunction(arg, kJArcHypTangentNameIndex, kJArcHypTangentType)
+	JUnaryFunction("arctanh", arg)
 {
 }
 

@@ -17,19 +17,15 @@ class JBinaryFunction : public JFunctionWithArgs
 {
 public:
 
-	JBinaryFunction(const JFnNameIndex nameIndex, const JFunctionType type);
-	JBinaryFunction(JFunction* arg1, JFunction* arg2, const JFnNameIndex nameIndex,
-					const JFunctionType type);
+	JBinaryFunction(const JUtf8Byte* name, JFunction* arg1, JFunction* arg2);
 	JBinaryFunction(const JBinaryFunction& source);
 
 	virtual ~JBinaryFunction();
 
-	virtual JBoolean	SameAs(const JFunction& theFunction) const;
-
-	virtual JSize				GetArgCount() const;
-	virtual const JFunction*	GetArg(const JIndex index) const;
-	virtual JFunction*			GetArg(const JIndex index);
-	virtual void				SetArg(const JIndex index, JFunction* arg);
+	virtual JSize				GetArgCount() const override;
+	virtual const JFunction*	GetArg(const JIndex index) const override;
+	virtual JFunction*			GetArg(const JIndex index) override;
+	virtual void				SetArg(const JIndex index, JFunction* arg) override;
 
 	const JFunction*	GetArg1() const;
 	const JFunction*	GetArg2() const;
@@ -37,16 +33,6 @@ public:
 	JFunction*			GetArg2();
 	void				SetArg1(JFunction* arg);
 	void				SetArg2(JFunction* arg);
-
-	// provides safe downcasting
-
-	virtual JBinaryFunction*		CastToJBinaryFunction();
-	virtual const JBinaryFunction*	CastToJBinaryFunction() const;
-
-protected:
-
-	JBoolean	SameAsSameOrder(const JFunction& theFunction) const;
-	JBoolean	SameAsEitherOrder(const JFunction& theFunction) const;
 
 private:
 

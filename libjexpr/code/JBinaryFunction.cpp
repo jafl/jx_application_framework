@@ -21,25 +21,12 @@
 
 JBinaryFunction::JBinaryFunction
 	(
-	const JFnNameIndex	nameIndex,
-	const JFunctionType	type
-	)
-	:
-	JFunctionWithArgs(nameIndex, type)
-{
-	itsArg1 = nullptr;
-	itsArg2 = nullptr;
-}
-
-JBinaryFunction::JBinaryFunction
-	(
+	const JUtf8Byte*	name,
 	JFunction*			arg1,
-	JFunction*			arg2,
-	const JFnNameIndex	nameIndex,
-	const JFunctionType	type
+	JFunction*			arg2
 	)
 	:
-	JFunctionWithArgs(nameIndex, type)
+	JFunctionWithArgs(name)
 {
 	itsArg1 = arg1;
 	itsArg2 = arg2;
@@ -66,89 +53,18 @@ JBinaryFunction::JBinaryFunction
 	const JBinaryFunction& source
 	)
 	:
-	JFunctionWithArgs(source)
+	JFunctionWithArgs(source),
+	itsArg1(nullptr),
+	itsArg2(nullptr)
 {
-	itsArg1 = (source.itsArg1)->Copy();
-	itsArg2 = (source.itsArg2)->Copy();
-}
-
-/******************************************************************************
- SameAs
-
-	Derived classes must use SameAsEitherOrder, SameAsSameOrder,
-	or provide their own code.
-
- ******************************************************************************/
-
-JBoolean
-JBinaryFunction::SameAs
-	(
-	const JFunction& theFunction
-	)
-	const
-{
-	assert( 0 );
-	return kJFalse;
-}
-
-/******************************************************************************
- SameAsSameOrder (protected)
-
-	Returns kJTrue if the given function is identical to us.
-	The arguments in corresponding slots must be identical.
-
- ******************************************************************************/
-
-JBoolean
-JBinaryFunction::SameAsSameOrder
-	(
-	const JFunction& theFunction
-	)
-	const
-{
-	if (!JFunctionWithArgs::SameAs(theFunction))
+	if (source.itsArg1 != nullptr)
 		{
-		return kJFalse;
+		itsArg1 = (source.itsArg1)->Copy();
 		}
 
-	const JBinaryFunction& theBinaryFunction = (const JBinaryFunction&) theFunction;
-	return JConvertToBoolean(
-			itsArg1->SameAs(*(theBinaryFunction.itsArg1)) &&
-			itsArg2->SameAs(*(theBinaryFunction.itsArg2)) );
-}
-
-/******************************************************************************
- SameAsEitherOrder (protected)
-
-	Returns kJTrue if the given function is identical to us.
-	The arguments can be in either order.
-
- ******************************************************************************/
-
-JBoolean
-JBinaryFunction::SameAsEitherOrder
-	(
-	const JFunction& theFunction
-	)
-	const
-{
-	if (!JFunctionWithArgs::SameAs(theFunction))
+	if (source.itsArg2 != nullptr)
 		{
-		return kJFalse;
-		}
-
-	const JBinaryFunction& theBinaryFunction = (const JBinaryFunction&) theFunction;
-	if (itsArg1->SameAs(*(theBinaryFunction.itsArg1)))
-		{
-		return itsArg2->SameAs(*(theBinaryFunction.itsArg2));
-		}
-	if (itsArg1->SameAs(*(theBinaryFunction.itsArg2)))
-		{
-		return itsArg2->SameAs(*(theBinaryFunction.itsArg1));
-		}
-	else
-		{
-		return kJFalse;
+		itsArg2 = (source.itsArg2)->Copy();
 		}
 }
 
@@ -234,24 +150,4 @@ JBinaryFunction::SetArg
 		jdelete itsArg2;
 		itsArg2 = arg;
 		}
-}
-
-/******************************************************************************
- Cast to JBinaryFunction*
-
-	Not inline because they are virtual
-
- ******************************************************************************/
-
-JBinaryFunction*
-JBinaryFunction::CastToJBinaryFunction()
-{
-	return this;
-}
-
-const JBinaryFunction*
-JBinaryFunction::CastToJBinaryFunction()
-	const
-{
-	return this;
 }

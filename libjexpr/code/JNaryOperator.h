@@ -16,18 +16,10 @@ class JNaryOperator : public JNaryFunction
 {
 public:
 
-	JNaryOperator(const JFnNameIndex nameIndex, const JFunctionType type,
-				  JPtrArray<JFunction>* argList = nullptr);
+	JNaryOperator(const JUtf8Byte* name, JPtrArray<JFunction>* argList = nullptr);
 	JNaryOperator(const JNaryOperator& source);
 
 	virtual ~JNaryOperator();
-
-	virtual JBoolean	SameAs(const JFunction& theFunction) const;
-
-	// provides safe downcasting
-
-	virtual JNaryOperator*			CastToJNaryOperator();
-	virtual const JNaryOperator*	CastToJNaryOperator() const;
 
 private:
 

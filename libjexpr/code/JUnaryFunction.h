@@ -17,27 +17,19 @@ class JUnaryFunction : public JFunctionWithArgs
 {
 public:
 
-	JUnaryFunction(const JFnNameIndex nameIndex, const JFunctionType type);
-	JUnaryFunction(JFunction* arg, const JFnNameIndex nameIndex, const JFunctionType type);
+	JUnaryFunction(const JUtf8Byte* name, JFunction* arg = nullptr);
 	JUnaryFunction(const JUnaryFunction& source);
 
 	virtual ~JUnaryFunction();
 
-	virtual JBoolean	SameAs(const JFunction& theFunction) const;
-
-	virtual JSize				GetArgCount() const;
-	virtual const JFunction*	GetArg(const JIndex index) const;
-	virtual JFunction*			GetArg(const JIndex index);
-	virtual void				SetArg(const JIndex index, JFunction* arg);
+	virtual JSize				GetArgCount() const override;
+	virtual const JFunction*	GetArg(const JIndex index) const override;
+	virtual JFunction*			GetArg(const JIndex index) override;
+	virtual void				SetArg(const JIndex index, JFunction* arg) override;
 
 	const JFunction*	GetArg() const;
 	JFunction*			GetArg();
 	void				SetArg(JFunction* arg);
-
-	// provides safe downcasting
-
-	virtual JUnaryFunction*			CastToJUnaryFunction();
-	virtual const JUnaryFunction*	CastToJUnaryFunction() const;
 
 private:
 

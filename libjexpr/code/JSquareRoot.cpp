@@ -124,12 +124,12 @@ JSquareRoot::Evaluate
 }
 
 /******************************************************************************
- PrepareToRender
+ Layout
 
  ******************************************************************************/
 
 JIndex
-JSquareRoot::PrepareToRender
+JSquareRoot::Layout
 	(
 	const JExprRenderer&	renderer,
 	const JPoint&			upperLeft,
@@ -141,7 +141,7 @@ JSquareRoot::PrepareToRender
 
 	JFunction* arg = GetArg();
 	const JIndex argIndex =
-		arg->PrepareToRender(renderer, upperLeft, fontSize, rectList);
+		arg->Layout(renderer, upperLeft, fontSize, rectList);
 
 	// shift our argument to make space for the square root sign
 

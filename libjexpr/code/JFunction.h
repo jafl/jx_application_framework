@@ -10,57 +10,45 @@
 #ifndef _H_JFunction
 #define _H_JFunction
 
-#include <JFunctionType.h>
 #include <JComplex.h>
 #include <JRect.h>
 
 class JString;
 class JVariableList;
-class JExprNodeList;
-
-class JFunctionWithArgs;
-class JUnaryFunction;
-class JBinaryFunction;
-class JBinaryOperator;
-class JNaryFunction;
-class JNaryOperator;
-class JFunctionWithVar;
 
 class JExprRenderer;
 class JExprRectList;
+class JFontManager;
 
 class JFunction
 {
 public:
 
-	JFunction(const JFunctionType type);
+	JFunction();
 	JFunction(const JFunction& source);
 
 	virtual ~JFunction();
 
-	JFunctionType		GetType() const;
+	JBoolean	GetParent(JFunction** parent);
+	JBoolean	GetParent(const JFunction** parent) const;
+	void		SetParent(JFunction* parent);
 
 	virtual JBoolean	Evaluate(JFloat* result) const = 0;
 	virtual JBoolean	Evaluate(JComplex* result) const = 0;
 	JString				Print() const;
 	virtual void		Print(std::ostream& output) const = 0;
-	virtual JIndex		PrepareToRender(const JExprRenderer& renderer,
-										const JPoint& upperLeft, const JSize fontSize,
-										JExprRectList* rectList);
+	virtual JIndex		Layout(const JExprRenderer& renderer,
+							   const JPoint& upperLeft, const JSize fontSize,
+							   JExprRectList* rectList);
 	virtual void		Render(const JExprRenderer& renderer,
 							   const JExprRectList& rectList) const;
 	virtual JFunction*	Copy() const = 0;
-	virtual JBoolean	SameAs(const JFunction& theFunction) const;
-	virtual void		BuildNodeList(JExprNodeList* nodeList, const JIndex myNode) = 0;
 
 	static JFunction*	StreamIn(std::istream& input, const JVariableList* theVariableList,
-								 const JBoolean allowUIF = kJFalse);
+								 JFontManager* fontManager, const JBoolean allowUIF = kJFalse);
 	void				StreamOut(std::ostream& output) const;
 
-	JFunction*	Copy(const JVariableList* newVariableList) const;
-
-	JString	PrintForMathematica() const;
-	void	PrintForMathematica(std::ostream& output) const;
+	JFunction*	Copy(const JVariableList* newVariableList, JFontManager* fontManager) const;
 
 	// called by JVariableList -- must call inherited
 
@@ -70,40 +58,9 @@ public:
 	virtual void		VariableMoved(const JIndex origIndex, const JIndex newIndex);
 	virtual void		VariablesSwapped(const JIndex index1, const JIndex index2);
 
-	// provides safe downcasting
-
-	virtual JFunctionWithArgs*			CastToJFunctionWithArgs();
-	virtual const JFunctionWithArgs*	CastToJFunctionWithArgs() const;
-	virtual JUnaryFunction*				CastToJUnaryFunction();
-	virtual const JUnaryFunction*		CastToJUnaryFunction() const;
-	virtual JBinaryFunction*			CastToJBinaryFunction();
-	virtual const JBinaryFunction*		CastToJBinaryFunction() const;
-	virtual JBinaryOperator*			CastToJBinaryOperator();
-	virtual const JBinaryOperator*		CastToJBinaryOperator() const;
-	virtual JNaryFunction*				CastToJNaryFunction();
-	virtual const JNaryFunction*		CastToJNaryFunction() const;
-	virtual JNaryOperator*				CastToJNaryOperator();
-	virtual const JNaryOperator*		CastToJNaryOperator() const;
-	virtual JFunctionWithVar*			CastToJFunctionWithVar();
-	virtual const JFunctionWithVar*		CastToJFunctionWithVar() const;
-
-public:		// ought to be protected, but Visual C++ complains about GetPrintDestination()
-
-	enum JFunctionPrintDest
-	{
-		kStandardDest,
-		kMathematica
-	};
-
-protected:
-
-	JFunctionPrintDest	GetPrintDestination() const;
-
 private:
 
-	const JFunctionType itsType;
-
-	static JFunctionPrintDest	itsPrintDest;
+	JFunction*	itsParent;
 
 private:
 
@@ -113,48 +70,39 @@ private:
 };
 
 
-inline int
-operator==
-	(
-	const JFunction& f1,
-	const JFunction& f2
-	)
-{
-	return f1.SameAs(f2);
-}
-
-inline int
-operator!=
-	(
-	const JFunction& f1,
-	const JFunction& f2
-	)
-{
-	return !(f1 == f2);
-}
-
 /******************************************************************************
- GetType
+ Parent
 
  ******************************************************************************/
 
-inline JFunctionType
-JFunction::GetType()
-	const
+inline JBoolean
+JFunction::GetParent
+	(
+	JFunction** parent
+	)
 {
-	return itsType;
+	*parent = itsParent;
+	return JI2B( *parent != nullptr );
 }
 
-/******************************************************************************
- GetPrintDestination
-
- ******************************************************************************/
-
-inline JFunction::JFunctionPrintDest
-JFunction::GetPrintDestination()
+inline JBoolean
+JFunction::GetParent
+	(
+	const JFunction** parent
+	)
 	const
 {
-	return itsPrintDest;
+	*parent = itsParent;
+	return JI2B( *parent != nullptr );
+}
+
+inline void
+JFunction::SetParent
+	(
+	JFunction* parent
+	)
+{
+	itsParent = parent;
 }
 
 #endif

@@ -12,6 +12,7 @@
 
 #include <JFunction.h>
 #include <JTextEditor.h>
+#include <JXStyledText.h>
 
 class JFontManager;
 class JVariableList;
@@ -44,21 +45,19 @@ public:
 	JBoolean	Parse(JFunction** f, JUserInputFunction** newUIF,
 					  JBoolean* needRender);
 
-	virtual JBoolean	Evaluate(JFloat* result) const;
-	virtual JBoolean	Evaluate(JComplex* result) const;
-	virtual void		Print(std::ostream& output) const;
-	virtual JFunction*	Copy() const;
-	virtual JBoolean	SameAs(const JFunction& theFunction) const;
-	virtual JIndex		PrepareToRender(const JExprRenderer& renderer,
-										const JPoint& upperLeft, const JSize fontSize,
-										JExprRectList* rectList);
+	virtual JBoolean	Evaluate(JFloat* result) const override;
+	virtual JBoolean	Evaluate(JComplex* result) const override;
+	virtual void		Print(std::ostream& output) const override;
+	virtual JFunction*	Copy() const override;
+	virtual JIndex		Layout(const JExprRenderer& renderer,
+							   const JPoint& upperLeft, const JSize fontSize,
+							   JExprRectList* rectList) override;
 	virtual void		Render(const JExprRenderer& renderer,
-							   const JExprRectList& rectList) const;
-	virtual void		BuildNodeList(JExprNodeList* nodeList, const JIndex myNode);
+							   const JExprRectList& rectList) const override;
 
 	static const JString&	GetEmptyString();
 
-	virtual JBoolean	TEHasSearchText() const;
+	virtual JBoolean	TEHasSearchText() const override;
 
 	// called by other input objects
 
@@ -67,23 +66,47 @@ public:
 
 protected:
 
-	virtual void		TERefresh();
-	virtual void		TERefreshRect(const JRect& rect);
-	virtual void		TERedraw();
+	virtual void		TERefresh() override;
+	virtual void		TERefreshRect(const JRect& rect) override;
+	virtual void		TERedraw() override;
 	virtual void		TESetGUIBounds(const JCoordinate w, const JCoordinate h,
-									   const JCoordinate changeY);
-	virtual JBoolean	TEWidthIsBeyondDisplayCapacity(const JSize width) const;
+									   const JCoordinate changeY) override;
+	virtual JBoolean	TEWidthIsBeyondDisplayCapacity(const JSize width) const override;
 	virtual JBoolean	TEScrollToRect(const JRect& rect,
-									   const JBoolean centerInDisplay);
-	virtual JBoolean	TEScrollForDrag(const JPoint& pt);
-	virtual JBoolean	TEScrollForDND(const JPoint& pt);
-	virtual void		TESetVertScrollStep(const JCoordinate vStep);
-	virtual void		TEClipboardChanged();
-	virtual JBoolean	TEGetExternalClipboard(JString* text, JRunArray<JFont>* style) const;
-	virtual void		TEDisplayBusyCursor() const;
-	virtual JBoolean	TEBeginDND();
-	virtual void		TEPasteDropData();
-	virtual void		TECaretShouldBlink(const JBoolean blink);
+									   const JBoolean centerInDisplay) override;
+	virtual JBoolean	TEScrollForDrag(const JPoint& pt) override;
+	virtual JBoolean	TEScrollForDND(const JPoint& pt) override;
+	virtual void		TESetVertScrollStep(const JCoordinate vStep) override;
+	virtual void		TEUpdateClipboard(const JString& text, const JRunArray<JFont>& style) const override;
+	virtual JBoolean	TEGetClipboard(JString* text, JRunArray<JFont>* style) const override;
+	virtual JBoolean	TEBeginDND() override;
+	virtual void		TEPasteDropData() override;
+	virtual void		TECaretShouldBlink(const JBoolean blink) override;
+
+protected:
+
+	class StyledText : public JXStyledText
+	{
+		public:
+
+		StyledText(JUserInputFunction* field, JFontManager* fontManager)
+			:
+			JXStyledText(kJFalse, kJFalse, fontManager),
+			itsField(field)
+		{ };
+
+		protected:
+
+		virtual void	AdjustStylesBeforeBroadcast(
+							const JString& text, JRunArray<JFont>* styles,
+							JStyledText::TextRange* recalcRange,
+							JStyledText::TextRange* redrawRange,
+							const JBoolean deletion) override;
+
+		private:
+
+		JUserInputFunction*	itsField;
+	};
 
 private:
 

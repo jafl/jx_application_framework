@@ -10,7 +10,8 @@
 #ifndef _H_JNamedConstant
 #define _H_JNamedConstant
 
-#include <JFunction.h>
+#include "JFunction.h"
+#include "jFunctionUtil.h"
 
 class JNamedConstant : public JFunction
 {
@@ -21,17 +22,10 @@ public:
 
 	virtual ~JNamedConstant();
 
-	virtual JBoolean	Evaluate(JFloat* result) const;
-	virtual JBoolean	Evaluate(JComplex* result) const;
-	virtual void		Print(std::ostream& output) const;
-	virtual JIndex		PrepareToRender(const JExprRenderer& renderer,
-										const JPoint& upperLeft, const JSize fontSize,
-										JExprRectList* rectList);
-	virtual void		Render(const JExprRenderer& renderer,
-							   const JExprRectList& rectList) const;
-	virtual JFunction*	Copy() const;
-	virtual JBoolean	SameAs(const JFunction& theFunction) const;
-	virtual void		BuildNodeList(JExprNodeList* nodeList, const JIndex myNode);
+	virtual JBoolean	Evaluate(JFloat* result) const override;
+	virtual JBoolean	Evaluate(JComplex* result) const override;
+	virtual void		Print(std::ostream& output) const override;
+	virtual JFunction*	Copy() const override;
 
 private:
 

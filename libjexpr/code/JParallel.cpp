@@ -152,12 +152,12 @@ JParallel::Evaluate
 }
 
 /******************************************************************************
- PrepareToRender
+ Layout
 
  ******************************************************************************/
 
 JIndex
-JParallel::PrepareToRender
+JParallel::Layout
 	(
 	const JExprRenderer&	renderer,
 	const JPoint&			upperLeft,
@@ -184,7 +184,7 @@ JParallel::PrepareToRender
 		{
 		JFunction* arg = GetArg(i);
 		const JIndex argIndex =
-			arg->PrepareToRender(renderer, argUpperLeft, fontSize, rectList);
+			arg->Layout(renderer, argUpperLeft, fontSize, rectList);
 		JRect argRect  = rectList->GetRect(argIndex);
 		argUpperLeft.x = argRect.right + opWidth;
 

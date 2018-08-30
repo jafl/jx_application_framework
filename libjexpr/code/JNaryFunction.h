@@ -17,19 +17,16 @@ class JNaryFunction : public JFunctionWithArgs
 {
 public:
 
-	JNaryFunction(const JFnNameIndex nameIndex, const JFunctionType type,
-				  JPtrArray<JFunction>* argList = nullptr);
+	JNaryFunction(const JUtf8Byte* name, JPtrArray<JFunction>* argList = nullptr);
 	JNaryFunction(const JNaryFunction& source);
 
 	virtual ~JNaryFunction();
 
-	virtual JBoolean	SameAs(const JFunction& theFunction) const;
-
-	virtual JSize				GetArgCount() const;
+	virtual JSize				GetArgCount() const override;
 	JBoolean					ArgIndexValid(const JIndex index) const;
-	virtual const JFunction*	GetArg(const JIndex index) const;
-	virtual JFunction*			GetArg(const JIndex index);
-	virtual void				SetArg(const JIndex index, JFunction* arg);
+	virtual const JFunction*	GetArg(const JIndex index) const override;
+	virtual JFunction*			GetArg(const JIndex index) override;
+	virtual void				SetArg(const JIndex index, JFunction* arg) override;
 	void						InsertArg(const JIndex index, JFunction* arg);
 	void						PrependArg(JFunction* arg);
 	void						AppendArg(JFunction* arg);
@@ -38,11 +35,6 @@ public:
 	JBoolean					FindArg(JFunction* arg, JIndex* index);
 	void						MoveArgToIndex(const JIndex currentIndex,
 											   const JIndex newIndex);
-
-	// provides safe downcasting
-
-	virtual JNaryFunction*			CastToJNaryFunction();
-	virtual const JNaryFunction*	CastToJNaryFunction() const;
 
 protected:
 

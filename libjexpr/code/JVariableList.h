@@ -77,11 +77,10 @@ public:
 									 const JIndex elementIndex,
 									 const JIndex valueIndex) = 0;
 
-	JBoolean	ParseVariableName(const JCharacter* expr, const JSize exprLength,
-								  JIndex* index) const;
-	MatchResult	FindUniqueVarName(const JCharacter* prefix, JIndex* index,
+	JBoolean	ParseVariableName(const JString& name, JIndex* index) const;
+	MatchResult	FindUniqueVarName(const JString& prefix, JIndex* index,
 								  JString* maxPrefix) const;
-	JBoolean	ParseDiscreteValue(const JCharacter* expr, const JSize exprLength,
+	JBoolean	ParseDiscreteValue(const JString& expr, const JSize exprLength,
 								   const JIndex& variableIndex,
 								   JIndex* valueIndex) const;
 
@@ -127,12 +126,12 @@ public:
 
 	// JBroadcaster messages
 
-	static const JCharacter* kVarInserted;
-	static const JCharacter* kVarRemoved;
-	static const JCharacter* kVarMoved;
-	static const JCharacter* kVarNameChanged;
-	static const JCharacter* kVarValueChanged;
-	static const JCharacter* kDiscValueNameChanged;
+	static const JUtf8Byte* kVarInserted;
+	static const JUtf8Byte* kVarRemoved;
+	static const JUtf8Byte* kVarMoved;
+	static const JUtf8Byte* kVarNameChanged;
+	static const JUtf8Byte* kVarValueChanged;
+	static const JUtf8Byte* kDiscValueNameChanged;
 
 private:
 
@@ -142,7 +141,7 @@ private:
 		{
 		public:
 
-			VarMessage(const JCharacter* type, const JIndex index)
+			VarMessage(const JUtf8Byte* type, const JIndex index)
 				:
 				JBroadcaster::Message(type),
 				itsVarIndex(index)

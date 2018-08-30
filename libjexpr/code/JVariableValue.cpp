@@ -29,8 +29,7 @@ JVariableValue::JVariableValue
 	JFunction*				arrayIndex
 	)
 	:
-	JFunctionWithVar(theVariableList, variableIndex, arrayIndex,
-					 kJVariableValueType)
+	JFunctionWithVar(theVariableList, variableIndex, arrayIndex)
 {
 	assert( theVariableList->IsNumeric(variableIndex) );
 }

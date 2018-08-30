@@ -156,12 +156,12 @@ JDivision::SameAs
 }
 
 /******************************************************************************
- PrepareToRender
+ Layout
 
  ******************************************************************************/
 
 JIndex
-JDivision::PrepareToRender
+JDivision::Layout
 	(
 	const JExprRenderer&	renderer,
 	const JPoint&			upperLeft,
@@ -176,13 +176,13 @@ JDivision::PrepareToRender
 
 	// get rectangle for numerator
 
-	const JCoordinate spaceWidth = renderer.GetStringWidth(fontSize, " ");
+	const JCoordinate spaceWidth = renderer.GetSpaceWidth(fontSize);
 	JPoint argUpperLeft = upperLeft;
 	argUpperLeft.x += spaceWidth;
 
 	JFunction* numerator = GetArg1();
 	const JIndex numIndex =
-		numerator->PrepareToRender(renderer, argUpperLeft, fontSize, rectList);
+		numerator->Layout(renderer, argUpperLeft, fontSize, rectList);
 	const JRect numRect = rectList->GetRect(numIndex);
 	argUpperLeft.y = numRect.bottom;
 	ourRect        = JCovering(ourRect, numRect);
@@ -197,7 +197,7 @@ JDivision::PrepareToRender
 
 	JFunction* denominator = GetArg2();
 	const JIndex denIndex =
-		denominator->PrepareToRender(renderer, argUpperLeft, fontSize, rectList);
+		denominator->Layout(renderer, argUpperLeft, fontSize, rectList);
 	const JRect denRect = rectList->GetRect(denIndex);
 	ourRect             = JCovering(ourRect, denRect);
 

@@ -54,8 +54,6 @@ public:
 
 protected:
 
-	virtual const JCharacter*	GetMultiplicationString() const;
-
 	virtual void		EIPRefresh();
 	virtual void		EIPRedraw();
 	virtual void		EIPBoundsChanged();

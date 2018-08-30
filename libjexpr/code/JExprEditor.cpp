@@ -99,7 +99,7 @@ static const JCharacter* kEvalSelectionCmdStr = "Evaluate selection";
 
 // JBroadcaster message types
 
-const JCharacter* JExprEditor::kExprChanged = "ExprChanged::JExprEditor";
+const JUtf8Byte* JExprEditor::kExprChanged = "ExprChanged::JExprEditor";
 
 /******************************************************************************
  Constructor
@@ -829,139 +829,143 @@ JExprEditor::GroupArguments
 {
 	JFunction* f;
 	JFunction* parentF;
-	if (delta != 0 && GetNegAdjSelFunction(&f, &parentF))
+	if (delta == 0 || !GetNegAdjSelFunction(&f, &parentF))
 		{
-		JNaryOperator* naryParentF = parentF->CastToJNaryOperator();
-		if (naryParentF != nullptr)
+		return;
+		}
+
+	JNaryOperator* naryParentF = parentF->CastToJNaryOperator();
+	if (naryParentF == nullptr)
+		{
+		return;
+		}
+
+	JIndex argIndex;
+	const JBoolean found = naryParentF->FindArg(f, &argIndex);
+	assert( found );
+	const JIndex firstArg = JMin(argIndex, argIndex+delta);
+	const JIndex lastArg  = JMax(argIndex, argIndex+delta);
+
+	const JSize parentArgCount = naryParentF->GetArgCount();
+
+	const JBoolean sameType =
+		JI2B( parentF->GetType() == f->GetType() );
+	const JBoolean argsInRange =
+		JI2B( 1 <= firstArg && lastArg <= parentArgCount );
+	const JBoolean groupAll =
+		JI2B( lastArg - firstArg + 1 == parentArgCount );
+
+	JUnaryFunction* neg = f->CastToJUnaryFunction();
+	const JBoolean extendNegation =
+		JI2B( parentF->GetType() == kJSummationType &&
+			  neg != nullptr && neg->GetType() == kJNegationType &&
+			  (neg->GetArg())->GetType() == kJSummationType );
+
+	// handle special case w+x-(y+z)
+	// (if gobbles last argument, remove parentF entirely)
+
+	if (extendNegation && argsInRange)
+		{
+		SaveStateForUndo();
+		JNaryOperator* naryF = (neg->GetArg())->CastToJNaryOperator();
+		assert( naryF != nullptr );
+		if (delta > 0)
 			{
-			JIndex argIndex;
-			const JBoolean found = naryParentF->FindArg(f, &argIndex);
-			assert( found );
-			const JIndex firstArg = JMin(argIndex, argIndex+delta);
-			const JIndex lastArg  = JMax(argIndex, argIndex+delta);
-
-			const JSize parentArgCount = naryParentF->GetArgCount();
-
-			const JBoolean sameType =
-				JI2B( parentF->GetType() == f->GetType() );
-			const JBoolean argsInRange =
-				JI2B( 1 <= firstArg && lastArg <= parentArgCount );
-			const JBoolean groupAll =
-				JI2B( lastArg - firstArg + 1 == parentArgCount );
-
-			JUnaryFunction* neg = f->CastToJUnaryFunction();
-			const JBoolean extendNegation =
-				JI2B( parentF->GetType() == kJSummationType &&
-					  neg != nullptr && neg->GetType() == kJNegationType &&
-					  (neg->GetArg())->GetType() == kJSummationType );
-
-			// handle special case w+x-(y+z)
-			// (if gobbles last argument, remove parentF entirely)
-
-			if (extendNegation && argsInRange)
+			for (JIndex i=1; i <= (JSize) delta; i++)
 				{
-				SaveStateForUndo();
-				JNaryOperator* naryF = (neg->GetArg())->CastToJNaryOperator();
-				assert( naryF != nullptr );
-				if (delta > 0)
-					{
-					for (JIndex i=1; i <= (JSize) delta; i++)
-						{
-						naryF->AppendArg(Negate(*(naryParentF->GetArg(argIndex+1))));
-						naryParentF->DeleteArg(argIndex+1);
-						}
-					}
-				else	// from above, know that delta != 0
-					{
-					for (JIndex i=1; i <= (JSize) -delta; i++)
-						{
-						naryF->PrependArg(Negate(*(naryParentF->GetArg(argIndex-i))));
-						naryParentF->DeleteArg(argIndex-i);
-						}
-					}
-				itsActiveUIF = nullptr;
-				if (groupAll)
-					{
-					f = f->Copy();
-					ReplaceFunction(parentF, f);
-					}
-				Render();
-				SelectFunction(f);
-				}
-
-			// create a new JNaryOperator to contain the group
-
-			else if (!sameType && argsInRange && !groupAll)
-				{
-				JIndex i;
-				SaveStateForUndo();
-
-				// Copy the parent function and delete the args that
-				// will not be in the group.
-
-				JFunction* newF      = parentF->Copy();
-				JNaryOperator* group = newF->CastToJNaryOperator();
-				assert( group != nullptr );
-				while (group->GetArgCount() > lastArg)
-					{
-					group->DeleteArg(lastArg+1);
-					}
-				for (i=1; i<firstArg; i++)
-					{
-					group->DeleteArg(1);
-					}
-
-				// Replace the original args from the parent function
-				// with the new group.
-
-				for (i=1; i<=lastArg-firstArg+1; i++)
-					{
-					naryParentF->DeleteArg(firstArg);
-					}
-				naryParentF->InsertArg(firstArg, group);
-
-				// show the result
-
-				itsActiveUIF = nullptr;
-				Render();
-				SelectFunction(group);
-				}
-
-			// add the arguments to the existing group
-
-			else if (sameType && argsInRange && !groupAll)
-				{
-				SaveStateForUndo();
-				JNaryOperator* naryF = f->CastToJNaryOperator();
-				assert( naryF != nullptr );
-				if (delta > 0)
-					{
-					for (JIndex i=1; i <= (JSize) delta; i++)
-						{
-						naryF->AppendArg((naryParentF->GetArg(argIndex+1))->Copy());
-						naryParentF->DeleteArg(argIndex+1);
-						}
-					}
-				else	// from above, know that delta != 0
-					{
-					for (JIndex i=1; i <= (JSize) -delta; i++)
-						{
-						naryF->PrependArg((naryParentF->GetArg(argIndex-i))->Copy());
-						naryParentF->DeleteArg(argIndex-i);
-						}
-					}
-				itsActiveUIF = nullptr;
-				Render();
-				SelectFunction(f);
-				}
-
-			// group all arguments => just remove existing group
-
-			else if (sameType && argsInRange && groupAll)
-				{
-				UngroupArguments();
+				naryF->AppendArg(Negate(*(naryParentF->GetArg(argIndex+1))));
+				naryParentF->DeleteArg(argIndex+1);
 				}
 			}
+		else	// from above, know that delta != 0
+			{
+			for (JIndex i=1; i <= (JSize) -delta; i++)
+				{
+				naryF->PrependArg(Negate(*(naryParentF->GetArg(argIndex-i))));
+				naryParentF->DeleteArg(argIndex-i);
+				}
+			}
+		itsActiveUIF = nullptr;
+		if (groupAll)
+			{
+			f = f->Copy();
+			ReplaceFunction(parentF, f);
+			}
+		Render();
+		SelectFunction(f);
+		}
+
+	// create a new JNaryOperator to contain the group
+
+	else if (!sameType && argsInRange && !groupAll)
+		{
+		JIndex i;
+		SaveStateForUndo();
+
+		// Copy the parent function and delete the args that
+		// will not be in the group.
+
+		JFunction* newF      = parentF->Copy();
+		JNaryOperator* group = newF->CastToJNaryOperator();
+		assert( group != nullptr );
+		while (group->GetArgCount() > lastArg)
+			{
+			group->DeleteArg(lastArg+1);
+			}
+		for (i=1; i<firstArg; i++)
+			{
+			group->DeleteArg(1);
+			}
+
+		// Replace the original args from the parent function
+		// with the new group.
+
+		for (i=1; i<=lastArg-firstArg+1; i++)
+			{
+			naryParentF->DeleteArg(firstArg);
+			}
+		naryParentF->InsertArg(firstArg, group);
+
+		// show the result
+
+		itsActiveUIF = nullptr;
+		Render();
+		SelectFunction(group);
+		}
+
+	// add the arguments to the existing group
+
+	else if (sameType && argsInRange && !groupAll)
+		{
+		SaveStateForUndo();
+		JNaryOperator* naryF = f->CastToJNaryOperator();
+		assert( naryF != nullptr );
+		if (delta > 0)
+			{
+			for (JIndex i=1; i <= (JSize) delta; i++)
+				{
+				naryF->AppendArg((naryParentF->GetArg(argIndex+1))->Copy());
+				naryParentF->DeleteArg(argIndex+1);
+				}
+			}
+		else	// from above, know that delta != 0
+			{
+			for (JIndex i=1; i <= (JSize) -delta; i++)
+				{
+				naryF->PrependArg((naryParentF->GetArg(argIndex-i))->Copy());
+				naryParentF->DeleteArg(argIndex-i);
+				}
+			}
+		itsActiveUIF = nullptr;
+		Render();
+		SelectFunction(f);
+		}
+
+	// group all arguments => just remove existing group
+
+	else if (sameType && argsInRange && groupAll)
+		{
+		UngroupArguments();
 		}
 }
 
@@ -2253,9 +2257,6 @@ JExprEditor::DeleteFunction
 /******************************************************************************
  ReplaceFunction (private)
 
-	This is not appropriate for JExprNodeList because we can assume that
-	the parent is always a JFunction and never a JDecision.
-
  ******************************************************************************/
 
 void
@@ -2291,9 +2292,6 @@ JExprEditor::ReplaceFunction
 
 /******************************************************************************
  GetParentFunction (private)
-
-	This is not appropriate for JExprNodeList because we can assume that
-	the parent is always a JFunction and never a JDecision.
 
 	The caller -can- assume that the result is either a JFunctionWithArgs
 	or a JFunctionWithVar.
@@ -2403,7 +2401,7 @@ JExprEditor::Render()
 	// calculate the locations of everything
 
 	JPoint upperLeft(0,0);
-	itsFunction->PrepareToRender(*this, upperLeft, GetInitialFontSize(), itsRectList);
+	itsFunction->Layout(*this, upperLeft, GetInitialFontSize(), itsRectList);
 
 	// tell whether or not we now need the tab key
 
@@ -2499,13 +2497,23 @@ JExprEditor::GetLineHeight
 	const
 {
 	const JFont font = itsFontManager->GetFont(JGetDefaultFontName(), fontSize, itsDefaultStyle);
-	return font.GetLineHeight();
+	return font.GetLineHeight(itsFontManager);
 }
 
 /******************************************************************************
  Strings
 
  ******************************************************************************/
+
+JSize
+JExprEditor::GetSpaceWidth
+	(
+	const JSize fontSize
+	)
+	const
+{
+	return GetStringWidth(JString(" ", kJFalse));
+}
 
 JSize
 JExprEditor::GetStringWidth
@@ -2516,7 +2524,7 @@ JExprEditor::GetStringWidth
 	const
 {
 	const JFont font = itsFontManager->GetFont(JGetDefaultFontName(), fontSize, itsDefaultStyle);
-	return font.GetStringWidth(str);
+	return font.GetStringWidthitsFontManager, (str);
 }
 
 void
@@ -2532,43 +2540,6 @@ JExprEditor::DrawString
 	const JCoordinate h = GetLineHeight(fontSize);
 	JCoordinate y = midline - h/2;
 	itsPainter->SetFont(itsFontManager->GetFont(JGetDefaultFontName(), fontSize, itsDefaultStyle));
-	itsPainter->String(left,y, str);
-}
-
-/******************************************************************************
- Greek characters
-
- ******************************************************************************/
-
-JSize
-JExprEditor::GetGreekCharWidth
-	(
-	const JSize			fontSize,
-	const JCharacter	c
-	)
-	const
-{
-	const JCharacter str[2] = {c, 0};
-
-	const JFont font = itsFontManager->GetFont(JGetGreekFontName(), fontSize, itsDefaultStyle);
-	return font.GetStringWidth(str);
-}
-
-void
-JExprEditor::DrawGreekCharacter
-	(
-	const JCoordinate	left,
-	const JCoordinate	midline,
-	const JSize			fontSize,
-	const JCharacter	c
-	)
-	const
-{
-	const JCoordinate h = GetLineHeight(fontSize);
-	JCoordinate y = midline - h/2;
-	itsPainter->SetFont(itsFontManager->GetFont(JGetGreekFontName(), fontSize, itsDefaultStyle));
-
-	const JCharacter str[2] = {c, 0};
 	itsPainter->String(left,y, str);
 }
 

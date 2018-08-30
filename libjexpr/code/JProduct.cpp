@@ -11,11 +11,13 @@
 
  ******************************************************************************/
 
-#include <JProduct.h>
-#include <JExprRenderer.h>
-#include <JExprRectList.h>
-#include <jParserData.h>
+#include "JProduct.h"
+#include "JExprRenderer.h"
+#include "JExprRectList.h"
+#include <JString.h>
 #include <jAssert.h>
+
+static const JString kMultiplicationSymbol("\xC2\xB7", kJFalse);
 
 /******************************************************************************
  Constructor
@@ -143,7 +145,7 @@ JProduct::Print
 		{
 		if (i > 1)
 			{
-			output << JPGetMultiplicationString();
+			output << '*';
 			}
 
 		const JFunction* arg = GetArg(i);
@@ -161,12 +163,12 @@ JProduct::Print
 }
 
 /******************************************************************************
- PrepareToRender
+ Layout
 
  ******************************************************************************/
 
 JIndex
-JProduct::PrepareToRender
+JProduct::Layout
 	(
 	const JExprRenderer&	renderer,
 	const JPoint&			upperLeft,
@@ -185,15 +187,15 @@ JProduct::PrepareToRender
 
 	// get rectangle for each argument
 
-	const JSize spaceWidth = renderer.GetStringWidth(fontSize, " ");
-	const JSize timesWidth = renderer.GetStringWidth(fontSize, renderer.GetMultiplicationString());
+	const JSize spaceWidth = renderer.GetSpaceWidth(fontSize);
+	const JSize timesWidth = renderer.GetStringWidth(fontSize, kMultiplicationSymbol);
 	const JSize argCount   = GetArgCount();
 	{
 	for (JIndex i=1; i<=argCount; i++)
 		{
 		JFunction* arg = GetArg(i);
 		const JIndex argIndex =
-			arg->PrepareToRender(renderer, argUpperLeft, fontSize, rectList);
+			arg->Layout(renderer, argUpperLeft, fontSize, rectList);
 		JRect argRect  = rectList->GetRect(argIndex);
 		argUpperLeft.x = argRect.right + spaceWidth + timesWidth;
 
@@ -260,10 +262,7 @@ JProduct::Render
 
 	// draw ourselves
 
-	const JCharacter* timesStr = renderer.GetMultiplicationString();
-
-	const JSize spaceWidth = renderer.GetStringWidth(fontSize, " ")/2;
-	const JSize timesWidth = renderer.GetStringWidth(fontSize, timesStr);
+	const JSize spaceWidth = renderer.GetSpaceWidth(fontSize)/2;
 
 	const JSize argCount = GetArgCount();
 	for (JIndex i=1; i<=argCount; i++)
@@ -285,7 +284,7 @@ JProduct::Render
 
 		if (i < argCount)
 			{
-			renderer.DrawString(h, ourMidline, fontSize, timesStr);
+			renderer.DrawString(h, ourMidline, fontSize, kMultiplicationSymbol);
 			}
 		}
 }

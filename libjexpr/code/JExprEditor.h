@@ -106,7 +106,7 @@ public:
 
 	JBoolean	Cut(JFunction** f);
 	JBoolean	Copy(JFunction** f) const;
-	PasteResult	Paste(const JCharacter* expr);
+	PasteResult	Paste(const JString& expr);
 	PasteResult	Paste(const JFunction& f);
 
 	void		Print(JEPSPrinter& p);
@@ -115,7 +115,7 @@ public:
 
 	JBoolean	EvaluateSelection(JFloat* value) const;
 	void		NegateSelection();
-	void		ApplyFunctionToSelection(const JCharacter* fnName);
+	void		ApplyFunctionToSelection(const JUtf8Byte* fnName);
 	void		AddArgument();
 	void		MoveArgument(const JInteger delta);
 	void		GroupArguments(const JInteger delta);
@@ -126,38 +126,35 @@ public:
 
 // JExprRenderer routines
 
-	virtual JSize	GetInitialFontSize() const;
-	virtual JSize	GetSuperSubFontSize(const JSize baseFontSize) const;
-	virtual JSize	GetStringWidth(const JSize fontSize, const JCharacter* str) const;
-	virtual JSize	GetLineHeight(const JSize fontSize) const;
+	virtual JSize	GetInitialFontSize() const override;
+	virtual JSize	GetSuperSubFontSize(const JSize baseFontSize) const override;
+	virtual JSize	GetSpaceWidth(const JSize fontSize) const override;
+	virtual JSize	GetStringWidth(const JSize fontSize, const JString& str) const override;
+	virtual JSize	GetLineHeight(const JSize fontSize) const override;
 	virtual void	DrawString(const JCoordinate left, const JCoordinate midline,
-							   const JSize fontSize, const JCharacter* str) const;
+							   const JSize fontSize, const JString& str) const override;
 
-	virtual JSize	GetGreekCharWidth(const JSize fontSize, const JCharacter c) const;
-	virtual void	DrawGreekCharacter(const JCoordinate left, const JCoordinate midline,
-									   const JSize fontSize, const JCharacter c) const;
-
-	virtual JSize	GetHorizBarHeight() const;
+	virtual JSize	GetHorizBarHeight() const override;
 	virtual void	DrawHorizBar(const JCoordinate left, const JCoordinate v,
-								 const JSize length) const;
+								 const JSize length) const override;
 
-	virtual JSize	GetVertBarWidth() const;
+	virtual JSize	GetVertBarWidth() const override;
 	virtual void	DrawVertBar(const JCoordinate h, const JCoordinate top,
-								const JSize length) const;
+								const JSize length) const override;
 
-	virtual JSize	GetSuperscriptHeight(const JCoordinate baseHeight) const;
-	virtual JSize	GetSubscriptDepth(const JCoordinate baseHeight) const;
+	virtual JSize	GetSuperscriptHeight(const JCoordinate baseHeight) const override;
+	virtual JSize	GetSubscriptDepth(const JCoordinate baseHeight) const override;
 
-	virtual JSize	GetParenthesisWidth(const JCoordinate argHeight) const;
-	virtual void	DrawParentheses(const JRect& argRect) const;
+	virtual JSize	GetParenthesisWidth(const JCoordinate argHeight) const override;
+	virtual void	DrawParentheses(const JRect& argRect) const override;
 
-	virtual JSize	GetSquareBracketWidth(const JCoordinate argHeight) const;
-	virtual void	DrawSquareBrackets(const JRect& argRect) const;
+	virtual JSize	GetSquareBracketWidth(const JCoordinate argHeight) const override;
+	virtual void	DrawSquareBrackets(const JRect& argRect) const override;
 
-	virtual JSize	GetSquareRootLeadingWidth(const JCoordinate argHeight) const;
-	virtual JSize	GetSquareRootTrailingWidth(const JCoordinate argHeight) const;
-	virtual JSize	GetSquareRootExtraHeight() const;
-	virtual void	DrawSquareRoot(const JRect& enclosure) const;
+	virtual JSize	GetSquareRootLeadingWidth(const JCoordinate argHeight) const override;
+	virtual JSize	GetSquareRootTrailingWidth(const JCoordinate argHeight) const override;
+	virtual JSize	GetSquareRootExtraHeight() const override;
+	virtual void	DrawSquareRoot(const JRect& enclosure) const override;
 
 	// for JUserInputFunction
 
@@ -166,7 +163,7 @@ public:
 protected:
 
 	const JExprRectList*	GetRectList() const;	// ideally, we wouldn't need this
-	JArray<JBoolean>		GetCmdStatus(const JCharacter** evalStr) const;
+	JArray<JBoolean>		GetCmdStatus(const JString* evalStr) const;
 
 	JBoolean	GetSelection(JIndex* selection) const;
 	JBoolean	GetSelectionRect(JRect* selRect) const;
@@ -179,7 +176,7 @@ protected:
 	void		EIPHandleMouseDrag(const JPoint& currPt);
 	void		EIPHandleMouseUp();
 	JBoolean	MouseOnActiveUIF(const JPoint& pt) const;
-	void		EIPHandleKeyPress(const JCharacter key);
+	void		EIPHandleKeyPress(const JUtf8Character& key);
 
 	virtual void		EIPRefresh() = 0;
 	virtual void		EIPRedraw() = 0;
@@ -240,12 +237,12 @@ private:
 
 	void	SaveStateForUndo();
 
-	void		ApplyOperatorKey(const JCharacter key,JFunction* targetF);
+	void		ApplyOperatorKey(const JUtf8Character& key, JFunction* targetF);
 	JBoolean	CanApplyCommaOperator();
 	JBoolean	GetCommaTarget(JFunction* startF, JNaryFunction** targetF,
 							   JIndex* newArgIndex);
 
-	void	SendKeyToActiveUIF(const JCharacter key);
+	void	SendKeyToActiveUIF(const JUtf8Character& key);
 	void	ActivateUIF(JUserInputFunction* uif);
 
 	void		Render();
@@ -270,7 +267,7 @@ public:
 
 	// JBroadcaster messages
 
-	static const JCharacter* kExprChanged;
+	static const JUtf8Byte* kExprChanged;
 
 	class ExprChanged : public JBroadcaster::Message
 	{

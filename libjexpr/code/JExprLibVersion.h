@@ -23,6 +23,7 @@ static const char* kCurrentJExprLibVersionStr = "2.0.0";
 // version 2.0.0:
 //	Supports utf-8
 //	*** Replaced recursive descent parser with flex/bison parser.
+//	*** Replaced CastTo*() with dynamic_cast.
 
 // version 1.1.9:
 //	Renamed from JParser to JExpr.

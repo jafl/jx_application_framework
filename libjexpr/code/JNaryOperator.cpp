@@ -3,8 +3,7 @@
 
 							The Nary Operator Class
 
-	This abstract class defines the requirements for all 2 argument operators.
-	We provide a more appropriate default implementation of Print.
+	This abstract class defines the requirements for all N argument operators.
 
 	BASE CLASS = JNaryFunction
 
@@ -21,12 +20,11 @@
 
 JNaryOperator::JNaryOperator
 	(
-	const JFnNameIndex		nameIndex,
-	const JFunctionType		type,
+	const JUtf8Byte*		name,
 	JPtrArray<JFunction>*	argList
 	)
 	:
-	JNaryFunction(nameIndex, type, argList)
+	JNaryFunction(name, argList)
 {
 }
 
@@ -51,41 +49,4 @@ JNaryOperator::JNaryOperator
 	:
 	JNaryFunction(source)
 {
-}
-
-/******************************************************************************
- SameAs
-
-	Returns kJTrue if the given function is identical to us.
-
- ******************************************************************************/
-
-JBoolean
-JNaryOperator::SameAs
-	(
-	const JFunction& theFunction
-	)
-	const
-{
-	return JNaryFunction::SameAsAnyOrder(theFunction);
-}
-
-/******************************************************************************
- Cast to JNaryOperator*
-
-	Not inline because they are virtual
-
- ******************************************************************************/
-
-JNaryOperator*
-JNaryOperator::CastToJNaryOperator()
-{
-	return this;
-}
-
-const JNaryOperator*
-JNaryOperator::CastToJNaryOperator()
-	const
-{
-	return this;
 }

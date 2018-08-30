@@ -12,7 +12,8 @@
 
  ******************************************************************************/
 
-#include <JBinaryOperator.h>
+#include "JBinaryOperator.h"
+#include "jFunctionUtil.h"
 #include <jAssert.h>
 
 /******************************************************************************
@@ -22,23 +23,12 @@
 
 JBinaryOperator::JBinaryOperator
 	(
-	const JFnNameIndex	nameIndex,
-	const JFunctionType	type
-	)
-	:
-	JBinaryFunction(nameIndex, type)
-{
-}
-
-JBinaryOperator::JBinaryOperator
-	(
+	const JUtf8Byte*	name,
 	JFunction*			arg1,
-	JFunction*			arg2,
-	const JFnNameIndex	nameIndex,
-	const JFunctionType	type
+	JFunction*			arg2
 	)
 	:
-	JBinaryFunction(arg1, arg2, nameIndex, type)
+	JBinaryFunction(name, arg1, arg2)
 {
 }
 
@@ -78,14 +68,7 @@ JBinaryOperator::Print
 	const
 {
 	PrintArg(output, GetArg1());
-	if (GetPrintDestination() == kMathematica)
-		{
-		output << GetMathematicaName();
-		}
-	else
-		{
-		output << GetName();
-		}
+	GetName().Print(output);
 	PrintArg(output, GetArg2());
 }
 
@@ -97,7 +80,7 @@ JBinaryOperator::Print
 void
 JBinaryOperator::PrintArg
 	(
-	std::ostream&			output,
+	std::ostream&		output,
 	const JFunction*	arg
 	)
 	const
@@ -112,24 +95,4 @@ JBinaryOperator::PrintArg
 		{
 		arg->Print(output);
 		}
-}
-
-/******************************************************************************
- Cast to JBinaryOperator*
-
-	Not inline because they are virtual
-
- ******************************************************************************/
-
-JBinaryOperator*
-JBinaryOperator::CastToJBinaryOperator()
-{
-	return this;
-}
-
-const JBinaryOperator*
-JBinaryOperator::CastToJBinaryOperator()
-	const
-{
-	return this;
 }
