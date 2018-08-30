@@ -12,13 +12,16 @@
 
 // These have to be #defined so they can be used for conditional compilation.
 
-#define CURRENT_J2DPLOT_MAJOR_VERSION	1
-#define CURRENT_J2DPLOT_MINOR_VERSION	1
-#define CURRENT_J2DPLOT_PATCH_VERSION	1
+#define CURRENT_J2DPLOT_MAJOR_VERSION	2
+#define CURRENT_J2DPLOT_MINOR_VERSION	0
+#define CURRENT_J2DPLOT_PATCH_VERSION	0
 
 // This is mainly provided so programmers can see the official version number.
 
-static const char* kCurrentJ2DPlotLibVersionStr = "1.1.1";
+static const char* kCurrentJ2DPlotLibVersionStr = "2.0.0";
+
+// version 2.0.0:
+//	Supports utf-8
 
 // version 1.1.1:
 //	JX2DPlotEPSPrinter:

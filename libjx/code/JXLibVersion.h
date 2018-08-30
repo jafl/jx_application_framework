@@ -21,6 +21,7 @@
 static const char* kCurrentJXLibVersionStr = "4.0.0";
 
 // version 4.0.0:
+//	Supports utf-8
 //	Upgraded to new api's using JFont.
 //	*** Upgraded jxlayout to work with latest version of fdesign
 //		Bug in fdesign makes it impossible to set FL_NO_BOX, so you have

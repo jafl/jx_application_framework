@@ -12,13 +12,17 @@
 
 // This has to be a #define so it can be used for conditional compilation.
 
-#define CURRENT_JEXPR_MAJOR_VERSION	1
-#define CURRENT_JEXPR_MINOR_VERSION	1
-#define CURRENT_JEXPR_PATCH_VERSION	11
+#define CURRENT_JEXPR_MAJOR_VERSION	2
+#define CURRENT_JEXPR_MINOR_VERSION	0
+#define CURRENT_JEXPR_PATCH_VERSION	0
 
 // This is mainly provided so programmers can see the official version number.
 
-static const char* kCurrentJExprLibVersionStr = "1.1.11";
+static const char* kCurrentJExprLibVersionStr = "2.0.0";
+
+// version 2.0.0:
+//	Supports utf-8
+//	*** Replaced recursive descent parser with flex/bison parser.
 
 // version 1.1.9:
 //	Renamed from JParser to JExpr.
