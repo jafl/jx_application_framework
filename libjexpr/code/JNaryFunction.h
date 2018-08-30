@@ -17,7 +17,8 @@ class JNaryFunction : public JFunctionWithArgs
 {
 public:
 
-	JNaryFunction(const JFnNameIndex nameIndex, const JFunctionType type);
+	JNaryFunction(const JFnNameIndex nameIndex, const JFunctionType type,
+				  JPtrArray<JFunction>* argList = nullptr);
 	JNaryFunction(const JNaryFunction& source);
 
 	virtual ~JNaryFunction();

@@ -16,7 +16,7 @@ class JMaxFunc : public JNaryFunction
 {
 public:
 
-	JMaxFunc();
+	JMaxFunc(JPtrArray<JFunction>* argList = nullptr);
 	JMaxFunc(const JMaxFunc& source);
 
 	virtual ~JMaxFunc();

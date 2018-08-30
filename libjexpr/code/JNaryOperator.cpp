@@ -21,11 +21,12 @@
 
 JNaryOperator::JNaryOperator
 	(
-	const JFnNameIndex	nameIndex,
-	const JFunctionType	type
+	const JFnNameIndex		nameIndex,
+	const JFunctionType		type,
+	JPtrArray<JFunction>*	argList
 	)
 	:
-	JNaryFunction(nameIndex, type)
+	JNaryFunction(nameIndex, type, argList)
 {
 }
 

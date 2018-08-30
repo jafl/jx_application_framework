@@ -16,7 +16,7 @@ class JMinFunc : public JNaryFunction
 {
 public:
 
-	JMinFunc();
+	JMinFunc(JPtrArray<JFunction>* argList);
 	JMinFunc(const JMinFunc& source);
 
 	virtual ~JMinFunc();

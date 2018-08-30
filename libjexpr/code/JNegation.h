@@ -16,8 +16,7 @@ class JNegation : public JUnaryFunction
 {
 public:
 
-	JNegation();
-	JNegation(JFunction* arg);
+	JNegation(JFunction* arg = nullptr);
 	JNegation(const JNegation& source);
 
 	virtual ~JNegation();

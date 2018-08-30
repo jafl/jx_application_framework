@@ -19,9 +19,12 @@
 
  ******************************************************************************/
 
-JMinFunc::JMinFunc()
+JMinFunc::JMinFunc
+	(
+	JPtrArray<JFunction>* argList
+	)
 	:
-	JNaryFunction(kJMinFuncNameIndex, kJMinFuncType)
+	JNaryFunction(kJMinFuncNameIndex, kJMinFuncType, argList)
 {
 }
 

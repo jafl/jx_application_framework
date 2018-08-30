@@ -16,7 +16,8 @@ class JNaryOperator : public JNaryFunction
 {
 public:
 
-	JNaryOperator(const JFnNameIndex nameIndex, const JFunctionType type);
+	JNaryOperator(const JFnNameIndex nameIndex, const JFunctionType type,
+				  JPtrArray<JFunction>* argList = nullptr);
 	JNaryOperator(const JNaryOperator& source);
 
 	virtual ~JNaryOperator();

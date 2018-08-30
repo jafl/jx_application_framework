@@ -16,7 +16,7 @@ class JParallel : public JNaryOperator
 {
 public:
 
-	JParallel();
+	JParallel(JPtrArray<JFunction>* argList);
 	JParallel(const JParallel& source);
 
 	virtual ~JParallel();

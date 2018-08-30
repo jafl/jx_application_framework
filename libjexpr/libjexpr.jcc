@@ -2,6 +2,29 @@ jx_browser_data 87
 # project tree
 0 "root"
 T
+1 "parser"
+T
+2 "JExprParserY.y"
+F
+"./code/JExprParserY.y"
+T
+2 "JExprParser.cpp"
+F
+"./code/JExprParser.cpp"
+T
+2 "JExprScanner.cpp"
+F
+"./code/JExprScanner.cpp"
+T
+2 "JExprScannerL.l"
+F
+"./code/JExprScannerL.l"
+T
+2 "JVariableList.cpp"
+F
+"./code/JVariableList.cpp"
+F
+T
 1 "editor"
 T
 2 "JXExprEditor.cpp"
@@ -43,13 +66,6 @@ T
 2 "JUserInputFunction.cpp"
 F
 "./code/JUserInputFunction.cpp"
-F
-T
-1 "parser"
-T
-2 "JVariableList.cpp"
-F
-"./code/JVariableList.cpp"
 F
 T
 1 "function"
@@ -190,10 +206,6 @@ T
 F
 "./code/JPhaseAngle.cpp"
 T
-2 "JPiecewiseFunction.cpp"
-F
-"./code/JPiecewiseFunction.cpp"
-T
 2 "JProduct.cpp"
 F
 "./code/JProduct.cpp"
@@ -253,7 +265,7 @@ T "./" "medic -f +$line $full_name" "" F F F T F F F "" "" "" T
 F
 # build settings
 1
-T
+F
 "libjexpr-${JEXPR_LIB_VERSION}.a,libjexpr-${JEXPR_LIB_VERSION}.so"
 ""
 "make -k all"

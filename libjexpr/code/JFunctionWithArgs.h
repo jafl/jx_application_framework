@@ -21,15 +21,15 @@ public:
 
 	virtual ~JFunctionWithArgs();
 
-	const JCharacter*	GetName() const;
-	const JCharacter*	GetMathematicaName() const;
-	virtual void		Print(std::ostream& output) const;
-	virtual JIndex		PrepareToRender(const JExprRenderer& renderer,
-										const JPoint& upperLeft, const JSize fontSize,
-										JExprRectList* rectList);
-	virtual void		Render(const JExprRenderer& renderer,
-							   const JExprRectList& rectList) const;
-	virtual void		BuildNodeList(JExprNodeList* nodeList, const JIndex myNode);
+	const JString&	GetName() const;
+	const JString&	GetMathematicaName() const;
+	virtual void	Print(std::ostream& output) const;
+	virtual JIndex	PrepareToRender(const JExprRenderer& renderer,
+									const JPoint& upperLeft, const JSize fontSize,
+									JExprRectList* rectList);
+	virtual void	Render(const JExprRenderer& renderer,
+						   const JExprRectList& rectList) const;
+	virtual void	BuildNodeList(JExprNodeList* nodeList, const JIndex myNode);
 
 	virtual JSize				GetArgCount() const = 0;
 	virtual const JFunction*	GetArg(const JIndex index) const = 0;

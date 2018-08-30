@@ -19,9 +19,12 @@
 
  ******************************************************************************/
 
-JMaxFunc::JMaxFunc()
+JMaxFunc::JMaxFunc
+	(
+	JPtrArray<JFunction>* argList
+	)
 	:
-	JNaryFunction(kJMaxFuncNameIndex, kJMaxFuncType)
+	JNaryFunction(kJMaxFuncNameIndex, kJMaxFuncType, argList)
 {
 }
 

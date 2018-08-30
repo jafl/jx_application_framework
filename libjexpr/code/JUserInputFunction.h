@@ -22,7 +22,7 @@ class JUserInputFunction : public JFunction, public JTextEditor
 public:
 
 	JUserInputFunction(const JVariableList* varList, JFontManager* fontManager,
-					   const JCharacter* text = nullptr);
+					   const JString& text = JString::empty);
 	JUserInputFunction(const JUserInputFunction& source);
 
 	virtual ~JUserInputFunction();
@@ -39,7 +39,7 @@ public:
 	JBoolean	HandleMouseDrag(const JPoint& pt, const JExprRectList& rectList,
 								const JExprRenderer& renderer);
 	JBoolean	HandleMouseUp();
-	JBoolean	HandleKeyPress(const JCharacter key, JBoolean* needParse,
+	JBoolean	HandleKeyPress(const JUtf8Character& key, JBoolean* needParse,
 							   JBoolean* needRender);
 	JBoolean	Parse(JFunction** f, JUserInputFunction** newUIF,
 					  JBoolean* needRender);
@@ -56,14 +56,14 @@ public:
 							   const JExprRectList& rectList) const;
 	virtual void		BuildNodeList(JExprNodeList* nodeList, const JIndex myNode);
 
-	static const JCharacter*	GetEmptyString();
+	static const JString&	GetEmptyString();
 
 	virtual JBoolean	TEHasSearchText() const;
 
 	// called by other input objects
 
 	static JString	GetParseableText(const JTextEditor& te);
-	static void		SetParseableText(JTextEditor* te, const JCharacter* text);
+	static void		SetParseableText(JTextEditor* te, const JString& text);
 
 protected:
 

@@ -14,19 +14,13 @@
 #include <JNegation.h>
 #include <JExprRenderer.h>
 #include <JExprRectList.h>
-#include <jParserData.h>
+#include <JString.h>
 #include <jAssert.h>
 
 /******************************************************************************
  Constructor
 
  ******************************************************************************/
-
-JNegation::JNegation()
-	:
-	JUnaryFunction(kJSubtractionNameIndex, kJNegationType)
-{
-}
 
 JNegation::JNegation
 	(
@@ -131,7 +125,7 @@ JNegation::Print
 	)
 	const
 {
-	output << JPGetSubtractionString();
+	output << '-';
 
 	const JFunction* arg = GetArg();
 	if (ParenthesizeArgForPrint(*this, *arg))
@@ -163,13 +157,13 @@ JNegation::PrepareToRender
 	// intialize our rectangle
 
 	JPoint argUpperLeft = upperLeft;
-	argUpperLeft.x += renderer.GetStringWidth(fontSize, JPGetSubtractionString());
+	argUpperLeft.x += renderer.GetStringWidth(fontSize, JString("-", kJFalse));
 
 	JFunction* arg = GetArg();
 	const JFunctionType argType = arg->GetType();
 	if (argType == kJDivisionType)
 		{
-		argUpperLeft.x += renderer.GetStringWidth(fontSize, " ");
+		argUpperLeft.x += renderer.GetspaceWidth(fontSize);
 		}
 
 	JRect ourRect(upperLeft, argUpperLeft);
@@ -222,7 +216,7 @@ JNegation::Render
 
 	// draw ourselves
 
-	renderer.DrawString(ourRect.left, ourMidline, fontSize, JPGetSubtractionString());
+	renderer.DrawString(ourRect.left, ourMidline, fontSize, JString("-", kJFalse));
 
 	const JFunction* arg = GetArg();
 	arg->Render(renderer, rectList);

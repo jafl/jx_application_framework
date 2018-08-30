@@ -28,9 +28,12 @@
 
  ******************************************************************************/
 
-JParallel::JParallel()
+JParallel::JParallel
+	(
+	JPtrArray<JFunction>* argList
+	)
 	:
-	JNaryOperator(kJParallelNameIndex, kJParallelType)
+	JNaryOperator(kJParallelNameIndex, kJParallelType, argList)
 {
 }
 
@@ -174,7 +177,7 @@ JParallel::PrepareToRender
 	// get rectangle for each argument
 
 	const JSize opWidth =
-		2*(renderer.GetStringWidth(fontSize, " ") + renderer.GetVertBarWidth());
+		2*(renderer.GetSpaceWidth(fontSize) + renderer.GetVertBarWidth());
 	const JSize argCount = GetArgCount();
 	{
 	for (JIndex i=1; i<=argCount; i++)
@@ -249,7 +252,7 @@ JParallel::Render
 
 	// draw ourselves
 
-	const JSize spaceWidth = renderer.GetStringWidth(fontSize, " ");
+	const JSize spaceWidth = renderer.GetSpaceWidth(fontSize);
 	const JSize barWidth   = renderer.GetVertBarWidth();
 	const JSize lineHeight = renderer.GetLineHeight(fontSize);
 

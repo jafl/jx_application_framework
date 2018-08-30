@@ -23,14 +23,19 @@ const JSize kMaxReasonableArgCount = 10;
 
 JNaryFunction::JNaryFunction
 	(
-	const JFnNameIndex	nameIndex,
-	const JFunctionType	type
+	const JFnNameIndex		nameIndex,
+	const JFunctionType		type,
+	JPtrArray<JFunction>*	argList
 	)
 	:
-	JFunctionWithArgs(nameIndex, type)
+	JFunctionWithArgs(nameIndex, type),
+	itsArgList(argList)
 {
-	itsArgList = jnew JPtrArray<JFunction>(JPtrArrayT::kDeleteAll, kMaxReasonableArgCount);
-	assert( itsArgList != nullptr );
+	if (argList == nullptr)
+		{
+		itsArgList = jnew JPtrArray<JFunction>(JPtrArrayT::kDeleteAll, kMaxReasonableArgCount);
+		assert( itsArgList != nullptr );
+		}
 }
 
 /******************************************************************************

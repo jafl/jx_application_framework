@@ -12,6 +12,9 @@
 
 #include <JRect.h>
 
+class JString;
+class JUtf8Character;
+
 class JExprRenderer
 {
 public:
@@ -22,16 +25,16 @@ public:
 
 	virtual JSize	GetInitialFontSize() const = 0;
 	virtual JSize	GetSuperSubFontSize(const JSize baseFontSize) const = 0;
-	virtual JSize	GetStringWidth(const JSize fontSize, const JCharacter* str) const = 0;
+	virtual JSize	GetStringWidth(const JSize fontSize, const JString& str) const = 0;
 	virtual JSize	GetLineHeight(const JSize fontSize) const = 0;
 	virtual void	DrawString(const JCoordinate left, const JCoordinate midline,
-							   const JSize fontSize, const JCharacter* str) const = 0;
+							   const JSize fontSize, const JString& str) const = 0;
 
-	virtual JSize	GetGreekCharWidth(const JSize fontSize, const JCharacter c) const = 0;
+	virtual JSize	GetGreekCharWidth(const JSize fontSize, const JUtf8Character& c) const = 0;
 	virtual void	DrawGreekCharacter(const JCoordinate left, const JCoordinate midline,
-									   const JSize fontSize, const JCharacter c) const = 0;
+									   const JSize fontSize, const JUtf8Character& c) const = 0;
 
-	virtual const JCharacter*	GetMultiplicationString() const = 0;
+	virtual const JString&	GetMultiplicationString() const = 0;
 
 	virtual JSize	GetHorizBarHeight() const = 0;
 	virtual void	DrawHorizBar(const JCoordinate left, const JCoordinate v,
