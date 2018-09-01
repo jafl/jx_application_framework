@@ -239,6 +239,8 @@ public:
 	CaretMode	GetCaretMode() const;
 	void		SetCaretMode(const CaretMode mode);
 
+	JFontManager*	GetFontManager() const;
+
 public:		// ought to be protected
 
 	struct CaretLocation
@@ -1621,6 +1623,18 @@ inline void
 JTextEditor::TEDNDFinished()
 {
 	itsIsDragSourceFlag = kJFalse;
+}
+
+/******************************************************************************
+ GetFontManager
+
+ ******************************************************************************/
+
+inline JFontManager*
+JTextEditor::GetFontManager()
+	const
+{
+	return itsFontManager;
 }
 
 /******************************************************************************
