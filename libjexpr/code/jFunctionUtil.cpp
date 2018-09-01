@@ -7,8 +7,14 @@
 
  ******************************************************************************/
 
-#include <jFunctionUtil.h>
-#include <JConstantValue.h>
+#include "jFunctionUtil.h"
+#include "JConstantValue.h"
+#include "JDivision.h"
+#include "JExponent.h"
+#include "JNegation.h"
+#include "JParallel.h"
+#include "JProduct.h"
+#include "JSummation.h"
 #include <jAssert.h>
 
 /******************************************************************************
@@ -62,42 +68,38 @@ static const int kNeedParenForRender[] =
 
  ******************************************************************************/
 
-JFunctionParenType GetParenType(const JFunction& f);
-
-JFunctionParenType
-GetParenType
+static JFunctionParenType
+jGetParenType
 	(
 	const JFunction& f
 	)
 {
-	const JFunctionType fnType = f.GetType();
-
-	if (fnType == kJExponentType)
+	if (dynamic_cast<const JExponent*>(&f) != nullptr)
 		{
 		return kExponentParenType;
 		}
-	else if (fnType == kJParallelType)
+	else if (dynamic_cast<const JParallel*>(&f) != nullptr)
 		{
 		return kParallelParenType;
 		}
-	else if (fnType == kJProductType)
+	else if (dynamic_cast<const JProduct*>(&f) != nullptr)
 		{
 		return kProductParenType;
 		}
-	else if (fnType == kJDivisionType)
+	else if (dynamic_cast<const JDivision*>(&f) != nullptr)
 		{
 		return kDivisionParenType;
 		}
-	else if (fnType == kJNegationType)
+	else if (dynamic_cast<const JNegation*>(&f) != nullptr)
 		{
 		return kNegationParenType;
 		}
-	else if (fnType == kJSummationType)
+	else if (dynamic_cast<const JSummation*>(&f) != nullptr)
 		{
 		return kSummationParenType;
 		}
-	else if (fnType == kJConstantValueType &&
-			 ((const JConstantValue&) f).GetValue() < 0.0)
+	else if (dynamic_cast<const JConstantValue*>(&f) != nullptr &&
+			 dynamic_cast<const JConstantValue*>(&f)->GetValue() < 0.0)
 		{
 		return kNegativeConstantType;
 		}
@@ -113,15 +115,14 @@ GetParenType
  ******************************************************************************/
 
 JBoolean
-ParenthesizeArgForPrint
+JParenthesizeArgForPrint
 	(
 	const JFunction& f,
 	const JFunction& arg
 	)
 {
-	return JConvertToBoolean(
-				kNeedParenForPrint[ GetParenType(f) * kFunctionParenTypeCount +
-									GetParenType(arg)] );
+	return JI2B(kNeedParenForPrint[ jGetParenType(f) * kFunctionParenTypeCount +
+									jGetParenType(arg)] );
 }
 
 /******************************************************************************
@@ -130,13 +131,12 @@ ParenthesizeArgForPrint
  ******************************************************************************/
 
 JBoolean
-ParenthesizeArgForRender
+JParenthesizeArgForRender
 	(
 	const JFunction& f,
 	const JFunction& arg
 	)
 {
-	return JConvertToBoolean(
-				kNeedParenForRender[ GetParenType(f) * kFunctionParenTypeCount +
-									 GetParenType(arg)] );
+	return JI2B(kNeedParenForRender[ jGetParenType(f) * kFunctionParenTypeCount +
+									 jGetParenType(arg)] );
 }

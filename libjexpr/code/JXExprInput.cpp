@@ -9,11 +9,9 @@
 
  ******************************************************************************/
 
-#include <JXExprInput.h>
+#include "JXExprInput.h"
+#include "JUserInputFunction.h"
 #include <JXTextMenu.h>
-#include <jParserData.h>
-#include <JUserInputFunction.h>
-#include <JString.h>
 #include <jGlobals.h>
 #include <jAssert.h>
 
@@ -94,7 +92,8 @@ JXExprInput::SetVarName
 void
 JXExprInput::HandleKeyPress
 	(
-	const int				key,
+	const JUtf8Character&	c,
+	const int				keySym,
 	const JXKeyModifiers&	modifiers
 	)
 {
@@ -112,7 +111,7 @@ JXExprInput::HandleKeyPress
 		}
 	else
 		{
-		JXInputField::HandleKeyPress(key, modifiers);
+		JXInputField::HandleKeyPress(c, keySym, modifiers);
 		}
 }
 

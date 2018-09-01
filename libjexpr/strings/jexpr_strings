@@ -1,5 +1,19 @@
 0
 
+# JExprEditor
+
+EvalFnCmd::JExprEditor			"Evaluate function"
+EvalSelectionCmd::JExprEditor	"Evaluate selection"
+ParseError::JExprEditor			"Unable to parse \"$name\""
+NowhereToPaste::JExprEditor		"Please select a place to paste first."
+EmptyFunction::JExprEditor		"This function is empty."
+
 # JFunctionWithVar
 
 ArrayIndexOutOfBounds::JFunctionWithVar	"Array index out of bounds"
+
+# JXExprEvalDirector
+
+WindowTitle::JXExprEvalDirector				"Result"
+CloseButtonLabel::JXExprEvalDirector		"Close"
+CloseButtonShortcuts::JXExprEvalDirector	"#W^["

@@ -50,20 +50,21 @@ public:
 
 	virtual void	EvaluateSelection() const;
 
-	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers) override;
+	virtual void	HandleKeyPress(const JUtf8Character& c, const int keySym,
+								   const JXKeyModifiers& modifiers) override;
 
 protected:
 
-	virtual void		EIPRefresh();
-	virtual void		EIPRedraw();
-	virtual void		EIPBoundsChanged();
-	virtual JBoolean	EIPScrollToRect(const JRect& r);
-	virtual JBoolean	EIPScrollForDrag(const JPoint& pt);
-	virtual void		EIPAdjustNeedTab(const JBoolean needTab);
+	virtual void		EIPRefresh() override;
+	virtual void		EIPRedraw() override;
+	virtual void		EIPBoundsChanged() override;
+	virtual JBoolean	EIPScrollToRect(const JRect& r) override;
+	virtual JBoolean	EIPScrollForDrag(const JPoint& pt) override;
+	virtual void		EIPAdjustNeedTab(const JBoolean needTab) override;
 
-	virtual void		EIPClipboardChanged();
-	virtual JBoolean	EIPOwnsClipboard();
-	virtual JBoolean	EIPGetExternalClipboard(JString* text);
+	virtual void		EIPClipboardChanged() override;
+	virtual JBoolean	EIPOwnsClipboard() override;
+	virtual JBoolean	EIPGetExternalClipboard(JString* text) override;
 
 	virtual void	ApertureResized(const JCoordinate dw, const JCoordinate dh) override;
 

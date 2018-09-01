@@ -59,11 +59,6 @@ public:
 
 	virtual JBoolean	TEHasSearchText() const override;
 
-	// called by other input objects
-
-	static JString	GetParseableText(const JTextEditor& te);
-	static void		SetParseableText(JTextEditor* te, const JString& text);
-
 protected:
 
 	virtual void		TERefresh() override;
@@ -114,6 +109,7 @@ private:
 
 	JCoordinate	itsWidth;
 	JCoordinate	itsHeight;
+	JBoolean	itsGreekFlag;
 
 	mutable JBoolean	itsNeedRedrawFlag;
 	mutable JBoolean	itsNeedRenderFlag;

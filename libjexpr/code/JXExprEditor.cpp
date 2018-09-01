@@ -22,11 +22,10 @@
 
  ******************************************************************************/
 
-#include <JXExprEditor.h>
-#include <JXExprEvalDirector.h>
-#include <JFunction.h>
-#include <JExprRectList.h>
-#include <jParserData.h>
+#include "JXExprEditor.h"
+#include "JXExprEvalDirector.h"
+#include "JFunction.h"
+#include "JExprRectList.h"
 
 #include <JXDisplay.h>
 #include <JXWindow.h>
@@ -40,7 +39,6 @@
 #include <JXColorManager.h>
 #include <jXGlobals.h>
 #include <jXActionDefs.h>
-#include <jXKeysym.h>
 
 #include <JMinMax.h>
 #include <jASCIIConstants.h>
@@ -698,14 +696,14 @@ JXExprEditor::HandleUnfocusEvent()
 void
 JXExprEditor::HandleKeyPress
 	(
-	const int				key,
+	const JUtf8Character&	c,
+	const int				keySym,
 	const JXKeyModifiers&	modifiers
 	)
 {
-	if (0 < key && key <= 255 &&
-		!modifiers.meta() && !modifiers.control())
+	if (c.IsPrint() && !modifiers.meta() && !modifiers.control())
 		{
-		EIPHandleKeyPress(key);
+		EIPHandleKeyPress(c);
 		}
 	else
 		{

@@ -26,12 +26,13 @@ public:
 	virtual ~JXExprInput();
 
 	JString	GetVarName() const;
-	void	SetVarName(const JCharacter* str);
+	void	SetVarName(const JString& str);
 
 	static JXTextMenu*	CreateFontMenu(JXContainer* enclosure);
 	void				SetFontMenu(JXTextMenu* menu);
 
-	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers) override;
+	virtual void	HandleKeyPress(const JUtf8Character& c, const int keySym,
+								   const JXKeyModifiers& modifiers) override;
 
 protected:
 

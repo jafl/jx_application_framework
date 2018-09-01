@@ -248,6 +248,10 @@ F
 F
 T
 1 "strings"
+T
+2 "jexpr_strings"
+F
+"./strings/jexpr_strings"
 F
 F
 # tasks

@@ -65,37 +65,33 @@
 
  ******************************************************************************/
 
-#include <JExprEditor.h>
-#include <JExprNodeList.h>
-#include <JExprRectList.h>
-#include <JVariableList.h>
-#include <JUserInputFunction.h>
+#include "JExprEditor.h"
+#include "JExprRectList.h"
+#include "JVariableList.h"
+#include "JUserInputFunction.h"
 
-#include <jParseFunction.h>
-#include <jExprUIUtil.h>
-#include <JFunctionWithVar.h>
-#include <JUnaryFunction.h>
-#include <JBinaryFunction.h>
-#include <JNaryFunction.h>
-#include <JSummation.h>
-#include <JNegation.h>
-#include <JProduct.h>
-#include <JDivision.h>
-#include <JExponent.h>
-#include <JParallel.h>
-#include <JConstantValue.h>
+#include "JExprParser.h"
+#include "jExprUIUtil.h"
+#include "JFunctionWithVar.h"
+#include "JUnaryFunction.h"
+#include "JBinaryFunction.h"
+#include "JNaryFunction.h"
+#include "JSummation.h"
+#include "JNegation.h"
+#include "JProduct.h"
+#include "JDivision.h"
+#include "JExponent.h"
+#include "JParallel.h"
+#include "JConstantValue.h"
 
 #include <JEPSPrinter.h>
 #include <JFontManager.h>
-#include <JString.h>
+#include <JColorManager.h>
 #include <JMinMax.h>
 #include <jASCIIConstants.h>
 #include <jMath.h>
 #include <jGlobals.h>
 #include <jAssert.h>
-
-static const JCharacter* kEvalFnCmdStr        = "Evaluate function";
-static const JCharacter* kEvalSelectionCmdStr = "Evaluate selection";
 
 // JBroadcaster message types
 
@@ -116,8 +112,8 @@ JExprEditor::JExprEditor
 	:
 	JExprRenderer(),
 	itsFontManager(fontManager),
-	itsTextColor(colormap->GetBlackColor()),
-	itsSelectionColor(colormap->GetDefaultSelectionColor()),
+	itsTextColor(JColorManager::GetBlackColor()),
+	itsSelectionColor(JColorManager::GetDefaultSelectionColor()),
 	itsDefaultStyle(itsTextColor)
 {
 	itsVarList    = varList;
@@ -241,7 +237,7 @@ JExprEditor::ContainsUIF()
 	for (JIndex i=1; i<=rectCount; i++)
 		{
 		const JFunction* f = itsRectList->GetFunction(i);
-		if (f->GetType() == kJUserInputType)
+		if (dynamic_cast<const JUserInputFunction*>(f) != nullptr)
 			{
 			return kJTrue;
 			}
@@ -533,16 +529,18 @@ JExprEditor::Paste()
 
 		if (result == kParseError)
 			{
-			JString errorStr = "Unable to parse \"";
-			errorStr += text;
-			errorStr += "\"";
-			un->ReportError(errorStr);
+			const JUtf8Byte* map[] =
+			{
+				"name", text.GetBytes()
+			};
+			const JString msg = JGetString("ParseError::JExprEditor", map, sizeof(map));
+			un->ReportError(msg);
 			}
 		}
 
 	if (result == kNowhereToPaste)
 		{
-		un->ReportError("Please select a place to paste first.");
+		un->ReportError(JGetString("NowhereToPaste::JExprEditor"));
 		}
 }
 
@@ -559,7 +557,7 @@ JExprEditor::Paste()
 JExprEditor::PasteResult
 JExprEditor::Paste
 	(
-	const JCharacter* expr
+	const JString& expr
 	)
 {
 	JFunction* selF;
@@ -1385,7 +1383,7 @@ JExprEditor::GetCmdStatus
 
 	if (evalStr != nullptr)
 		{
-		*evalStr = (hasSelection ? kEvalSelectionCmdStr : kEvalFnCmdStr);
+		*evalStr = JGetString(hasSelection ? "EvalSelectionCmd::JExprEditor" : "EvalFnCmd::JExprEditor");
 		}
 
 	if (hasSelection)
@@ -1764,7 +1762,7 @@ JExprEditor::MouseOnActiveUIF
 void
 JExprEditor::EIPHandleKeyPress
 	(
-	const JCharacter key
+	const JUtf8Character& key
 	)
 {
 	if (itsFunction == nullptr || itsRectList == nullptr || !itsActiveFlag)
@@ -1901,7 +1899,34 @@ JExprEditor::EIPHandleKeyPress
 
 	else if (itsActiveUIF != nullptr)
 		{
-		SendKeyToActiveUIF(key);
+		if (itsUndoFunction == nullptr)
+			{
+			SaveStateForUndo();
+			}
+
+		JBoolean needParse, needRender;
+		const JBoolean changed = itsActiveUIF->HandleKeyPress(key, &needParse, &needRender);
+
+		JFunction* newF = nullptr;
+		JUserInputFunction* newUIF = nullptr;
+		if (needParse && itsActiveUIF->Parse(&newF, &newUIF, &needRender))
+			{
+			ReplaceFunction(itsActiveUIF, newF);
+			itsActiveUIF = nullptr;
+			Render();
+			ActivateUIF(newUIF);
+			}
+		else if (needRender)
+			{
+			JUserInputFunction* savedUIF = itsActiveUIF;
+			itsActiveUIF = nullptr;
+			Render();
+			itsActiveUIF = savedUIF;
+			}
+		else if (changed)
+			{
+			EIPRefresh();
+			}
 		}
 }
 
@@ -2084,47 +2109,6 @@ JExprEditor::GetCommaTarget
 	// falling through means that we can't find an nary function
 
 	return kJFalse;
-}
-
-/******************************************************************************
- SendKeyToActiveUIF (private)
-
- ******************************************************************************/
-
-void
-JExprEditor::SendKeyToActiveUIF
-	(
-	const JCharacter key
-	)
-{
-	if (itsUndoFunction == nullptr)
-		{
-		SaveStateForUndo();
-		}
-
-	JBoolean needParse, needRender;
-	JBoolean changed = itsActiveUIF->HandleKeyPress(key, &needParse, &needRender);
-
-	JFunction* newF = nullptr;
-	JUserInputFunction* newUIF = nullptr;
-	if (needParse && itsActiveUIF->Parse(&newF, &newUIF, &needRender))
-		{
-		ReplaceFunction(itsActiveUIF, newF);
-		itsActiveUIF = nullptr;
-		Render();
-		ActivateUIF(newUIF);
-		}
-	else if (needRender)
-		{
-		JUserInputFunction* savedUIF = itsActiveUIF;
-		itsActiveUIF = nullptr;
-		Render();
-		itsActiveUIF = savedUIF;
-		}
-	else if (changed)
-		{
-		EIPRefresh();
-		}
 }
 
 /******************************************************************************

@@ -15,7 +15,6 @@
 #include <JComplex.h>
 
 class JString;
-class JDecision;
 class JFunction;
 
 class JVariableList : public JContainer
@@ -39,9 +38,6 @@ public:
 	virtual const JString&	GetVariableName(const JIndex index) const = 0;
 	virtual void			GetVariableName(const JIndex index, JString* name,
 											JString* subscript) const = 0;
-
-	virtual JBoolean	IsNumeric(const JIndex index) const = 0;
-	virtual JBoolean	IsDiscrete(const JIndex index) const = 0;
 
 	virtual JBoolean	IsArray(const JIndex index) const = 0;
 	virtual JBoolean	ArrayIndexValid(const JIndex variableIndex,
@@ -67,31 +63,10 @@ public:
 									const JIndex elementIndex,
 									const JComplex& value) = 0;
 
-	virtual JIndex			GetDiscreteValue(const JIndex variableIndex,
-											 const JIndex elementIndex) const = 0;
-	virtual JSize			GetDiscreteValueCount(const JIndex index) const = 0;
-	virtual const JString&	GetDiscreteValueName(const JIndex variableIndex,
-												 const JIndex valueIndex) const = 0;
-
-	virtual void	SetDiscreteValue(const JIndex variableIndex,
-									 const JIndex elementIndex,
-									 const JIndex valueIndex) = 0;
-
 	JBoolean	ParseVariableName(const JString& name, JIndex* index) const;
-	MatchResult	FindUniqueVarName(const JString& prefix, JIndex* index,
-								  JString* maxPrefix) const;
-	JBoolean	ParseDiscreteValue(const JString& expr, const JSize exprLength,
-								   const JIndex& variableIndex,
-								   JIndex* valueIndex) const;
-
-	JBoolean	HaveSameValues(const JIndex index1, const JIndex index2) const;
-
 	JBoolean	OKToRemoveVariable(const JIndex variableIndex) const;
 
 	// reference counting
-
-	void	VariableUserCreated(JDecision* d) const;
-	void	VariableUserDeleted(JDecision* d) const;
 
 	void	VariableUserCreated(JFunction* f) const;
 	void	VariableUserDeleted(JFunction* f) const;
@@ -106,8 +81,7 @@ protected:
 
 private:
 
-	JPtrArray<JDecision>*	itsDVarUserList;	// doesn't own objects
-	JPtrArray<JFunction>*	itsFVarUserList;	// doesn't own objects
+	JPtrArray<JFunction>*	itsVarUserList;	// doesn't own objects
 	JArray<JBoolean>*		itsEvalStack;
 
 private:

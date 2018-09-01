@@ -40,10 +40,8 @@
 
  ******************************************************************************/
 
-#include <JVariableList.h>
-#include <JDecision.h>
-#include <JFunction.h>
-#include <jParseUtil.h>
+#include "JVariableList.h"
+#include "JFunction.h"
 #include <JString.h>
 #include <JList.h>
 #include <JListUtil.h>
@@ -92,8 +90,7 @@ JVariableList::JVariableList
 
 JVariableList::~JVariableList()
 {
-	jdelete itsDVarUserList;		// objects deleted by owners
-	jdelete itsFVarUserList;		// objects deleted by owners
+	jdelete itsVarUserList;		// objects deleted by owners
 	jdelete itsEvalStack;
 }
 
@@ -105,11 +102,8 @@ JVariableList::~JVariableList()
 void
 JVariableList::JVariableListX()
 {
-	itsDVarUserList = jnew JPtrArray<JDecision>(JPtrArrayT::kForgetAll);
-	assert( itsDVarUserList != nullptr );
-
-	itsFVarUserList = jnew JPtrArray<JFunction>(JPtrArrayT::kForgetAll);
-	assert( itsFVarUserList != nullptr );
+	itsVarUserList = jnew JPtrArray<JFunction>(JPtrArrayT::kForgetAll);
+	assert( itsVarUserList != nullptr );
 
 	itsEvalStack = jnew JArray<JBoolean>(10);
 	assert( itsEvalStack != nullptr );
@@ -141,153 +135,6 @@ JVariableList::ParseVariableName
 		}
 
 	return kJFalse;
-}
-
-/******************************************************************************
- FindUniqueVarName
-
-	Checks if prefix is the beginning of a variable name.
-
-	If not, returns kNoMatch.
-	If there is a single match, returns the index and the variable name.
-	If there are multiple matches, returns index=0 and the most characters
-		that are common to all the matches.
-
-	If there is an exact match, it is returned as if there was a single match.
-
- ******************************************************************************/
-
-JVariableList::MatchResult
-JVariableList::FindUniqueVarName
-	(
-	const JString&	prefix,
-	JIndex*			index,
-	JString*		maxPrefix
-	)
-	const
-{
-	assert( !JString::IsEmpty(prefix) );
-
-	const JSize count = GetElementCount();
-	JArray<JIndex> matchList;
-
-	for (JIndex i=1; i<=count; i++)
-		{
-		const JString& name = GetVariableName(i);
-		if (name == prefix)
-			{
-			*index     = i;
-			*maxPrefix = name;
-			return kSingleMatch;
-			}
-		else if (JStringBeginsWith(name, name.GetLength(), prefix))
-			{
-			matchList.AppendElement(i);
-			}
-		}
-
-	const JSize matchCount = matchList.GetElementCount();
-	if (matchCount == 0)
-		{
-		*index = 0;
-		maxPrefix->Clear();
-		return kNoMatch;
-		}
-	else if (matchCount == 1)
-		{
-		*index     = matchList.GetElement(1);
-		*maxPrefix = GetVariableName(*index);
-		return kSingleMatch;
-		}
-	else
-		{
-		*maxPrefix = GetVariableName( matchList.GetElement(1) );
-		for (JIndex i=2; i<=matchCount; i++)
-			{
-			const JString& varName   = GetVariableName( matchList.GetElement(i) );
-			const JSize matchLength  = JCalcMatchLength(*maxPrefix, varName);
-			const JSize prefixLength = maxPrefix->GetLength();
-			if (matchLength < prefixLength)
-				{
-				maxPrefix->RemoveSubstring(matchLength+1, prefixLength);
-				}
-			}
-		*index = 0;
-		return kMultipleMatch;
-		}
-}
-
-/******************************************************************************
- ParseDiscreteValue
-
-	Returns kJTrue if expr is the name of a value for the given variable.
-
- ******************************************************************************/
-
-JBoolean
-JVariableList::ParseDiscreteValue
-	(
-	const JString&	expr,
-	const JSize		exprLength,
-	const JIndex&	variableIndex,
-	JIndex*			valueIndex
-	)
-	const
-{
-	const JSize count = GetDiscreteValueCount(variableIndex);
-
-	for (JIndex i=1; i<=count; i++)
-		{
-		const JString& name = GetDiscreteValueName(variableIndex, i);
-		if (JStringsEqual(expr, exprLength, name))
-			{
-			*valueIndex = i;
-			return kJTrue;
-			}
-		}
-
-	return kJFalse;
-}
-
-/******************************************************************************
- HaveSameValues
-
- ******************************************************************************/
-
-JBoolean
-JVariableList::HaveSameValues
-	(
-	const JIndex index1,
-	const JIndex index2
-	)
-	const
-{
-	if (IsNumeric(index1) && IsNumeric(index2))
-		{
-		return kJTrue;
-		}
-	else if (IsDiscrete(index1) && IsDiscrete(index2))
-		{
-		const JSize valueCount = GetDiscreteValueCount(index1);
-		if (valueCount != GetDiscreteValueCount(index2))
-			{
-			return kJFalse;
-			}
-		for (JIndex i=1; i<=valueCount; i++)
-			{
-			const JString& value1 = GetDiscreteValueName(index1, i);
-			const JString& value2 = GetDiscreteValueName(index2, i);
-			if (value1 != value2)
-				{
-				return kJFalse;
-				}
-			}
-		return kJTrue;
-		}
-	else
-		{
-		return kJFalse;
-		}
 }
 
 /******************************************************************************
@@ -338,21 +185,10 @@ JVariableList::OKToRemoveVariable
 	)
 	const
 {
-JIndex i;
-
-	const JSize dCount = itsDVarUserList->GetElementCount();
-	for (i=1; i<=dCount; i++)
+	const JSize count = itsVarUserList->GetElementCount();
+	for (JIndex i=1; i<=count; i++)
 		{
-		if ((itsDVarUserList->GetElement(i))->UsesVariable(variableIndex))
-			{
-			return kJFalse;
-			}
-		}
-
-	const JSize fCount = itsFVarUserList->GetElementCount();
-	for (i=1; i<=fCount; i++)
-		{
-		if ((itsFVarUserList->GetElement(i))->UsesVariable(variableIndex))
+		if ((itsVarUserList->GetElement(i))->UsesVariable(variableIndex))
 			{
 			return kJFalse;
 			}
@@ -372,31 +208,11 @@ JIndex i;
 void
 JVariableList::VariableUserCreated
 	(
-	JDecision* d
-	)
-	const
-{
-	itsDVarUserList->Append(d);
-}
-
-void
-JVariableList::VariableUserDeleted
-	(
-	JDecision* d
-	)
-	const
-{
-	itsDVarUserList->Remove(d);
-}
-
-void
-JVariableList::VariableUserCreated
-	(
 	JFunction* f
 	)
 	const
 {
-	itsFVarUserList->Append(f);
+	itsVarUserList->Append(f);
 }
 
 void
@@ -406,7 +222,7 @@ JVariableList::VariableUserDeleted
 	)
 	const
 {
-	itsFVarUserList->Remove(f);
+	itsVarUserList->Remove(f);
 }
 
 /******************************************************************************
@@ -421,24 +237,15 @@ JVariableList::VariablesInserted
 	)
 	const
 {
-JIndex i;
-
-	for (i=1; i<=info.GetCount(); i++)
+	for (JIndex i=1; i<=info.GetCount(); i++)
 		{
 		itsEvalStack->InsertElementAtIndex(info.GetFirstIndex(), kJFalse);
 		}
 
-	const JSize dCount = itsDVarUserList->GetElementCount();
-	for (i=1; i<=dCount; i++)
+	const JSize count = itsVarUserList->GetElementCount();
+	for (JIndex i=1; i<=count; i++)
 		{
-		(itsDVarUserList->GetElement(i))->
-			VariablesInserted(info.GetFirstIndex(), info.GetCount());
-		}
-
-	const JSize fCount = itsFVarUserList->GetElementCount();
-	for (i=1; i<=fCount; i++)
-		{
-		(itsFVarUserList->GetElement(i))->
+		(itsVarUserList->GetElement(i))->
 			VariablesInserted(info.GetFirstIndex(), info.GetCount());
 		}
 }
@@ -455,11 +262,9 @@ JVariableList::VariablesRemoved
 	)
 	const
 {
-JIndex i;
-
 	#ifndef NDEBUG
 	{
-	for (i=info.GetFirstIndex(); i<=info.GetLastIndex(); i++)
+	for (JIndex i=info.GetFirstIndex(); i<=info.GetLastIndex(); i++)
 		{
 		assert( OKToRemoveVariable(i) );
 		}
@@ -468,17 +273,10 @@ JIndex i;
 
 	itsEvalStack->RemoveNextElements(info.GetFirstIndex(), info.GetCount());
 
-	const JSize dCount = itsDVarUserList->GetElementCount();
-	for (i=1; i<=dCount; i++)
+	const JSize count = itsVarUserList->GetElementCount();
+	for (JIndex i=1; i<=count; i++)
 		{
-		(itsDVarUserList->GetElement(i))->
-			VariablesRemoved(info.GetFirstIndex(), info.GetCount());
-		}
-
-	const JSize fCount = itsFVarUserList->GetElementCount();
-	for (i=1; i<=fCount; i++)
-		{
-		(itsFVarUserList->GetElement(i))->
+		(itsVarUserList->GetElement(i))->
 			VariablesRemoved(info.GetFirstIndex(), info.GetCount());
 		}
 }
@@ -495,21 +293,12 @@ JVariableList::VariableMoved
 	)
 	const
 {
-JIndex i;
-
 	itsEvalStack->MoveElementToIndex(info.GetOrigIndex(), info.GetNewIndex());
 
-	const JSize dCount = itsDVarUserList->GetElementCount();
-	for (i=1; i<=dCount; i++)
+	const JSize count = itsVarUserList->GetElementCount();
+	for (JIndex i=1; i<=count; i++)
 		{
-		(itsDVarUserList->GetElement(i))->
-			VariableMoved(info.GetOrigIndex(), info.GetNewIndex());
-		}
-
-	const JSize fCount = itsFVarUserList->GetElementCount();
-	for (i=1; i<=fCount; i++)
-		{
-		(itsFVarUserList->GetElement(i))->
+		(itsVarUserList->GetElement(i))->
 			VariableMoved(info.GetOrigIndex(), info.GetNewIndex());
 		}
 }
@@ -526,21 +315,12 @@ JVariableList::VariablesSwapped
 	)
 	const
 {
-JIndex i;
-
 	itsEvalStack->SwapElements(info.GetIndex1(), info.GetIndex2());
 
-	const JSize dCount = itsDVarUserList->GetElementCount();
-	for (i=1; i<=dCount; i++)
+	const JSize count = itsVarUserList->GetElementCount();
+	for (JIndex i=1; i<=count; i++)
 		{
-		(itsDVarUserList->GetElement(i))->
-			VariablesSwapped(info.GetIndex1(), info.GetIndex2());
-		}
-
-	const JSize fCount = itsFVarUserList->GetElementCount();
-	for (i=1; i<=fCount; i++)
-		{
-		(itsFVarUserList->GetElement(i))->
+		(itsVarUserList->GetElement(i))->
 			VariablesSwapped(info.GetIndex1(), info.GetIndex2());
 		}
 }
@@ -557,7 +337,7 @@ JVariableList::Receive
 	const Message&	message
 	)
 {
-	const JCollection* mainList = GetOrderedSet();
+	const JCollection* mainList = GetList();
 
 	if (sender == const_cast<JCollection*>(mainList) &&
 		message.Is(JListT::kElementsInserted))

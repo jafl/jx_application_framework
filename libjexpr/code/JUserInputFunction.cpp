@@ -53,10 +53,10 @@ JUserInputFunction::JUserInputFunction
 				JColorManager::GetDefaultSelectionColor(),	// selection
 				JColorManager::GetBlueColor(),				// outline
 				JColorManager::GetBlackColor(),				// whitespace (not used)
-				1)
+				1),
+	itsVarList(varList),
+	itsGreekFlag(kJFalse)
 {
-	itsVarList = varList;
-
 	// width and height will be set by JTextEditor
 
 	itsWidth  = 0;
@@ -73,7 +73,7 @@ JUserInputFunction::JUserInputFunction
 
 	if (!text.IsEmpty())
 		{
-		SetParseableText(this, text);
+		GetText()->SetText(text);
 		}
 	else
 		{
@@ -192,23 +192,25 @@ JUserInputFunction::Layout
 {
 	itsNeedRenderFlag = kJFalse;
 
-	if (fontSize != GetDefaultFont().GetSize())
+	if (fontSize != GetText()->GetDefaultFont().GetSize())
 		{
-		JIndex selStart, selEnd, caretLoc;
-		const JBoolean hasSelection = GetSelection(&selStart, &selEnd);
-		const JBoolean hasCaret     = GetCaretLocation(&caretLoc);
+		JCharacterRange sel;
+		const JBoolean hasSelection = GetSelection(&sel);
+
+		JIndex caret;
+		GetCaretLocation(&caret);
 
 		SelectAll();
 		SetCurrentFontSize(fontSize);	// changes itsWidth and itsHeight
-		SetDefaultFontSize(fontSize);
+		GetText()->SetDefaultFontSize(fontSize);
 
 		if (hasSelection)
 			{
-			SetSelection(selStart, selEnd);
+			SetSelection(sel);
 			}
 		else
 			{
-			SetCaretLocation(caretLoc);
+			SetCaretLocation(caret);
 			}
 		}
 
@@ -278,7 +280,7 @@ JBoolean
 JUserInputFunction::IsEmpty()
 	const
 {
-	return JConvertToBoolean( GetText() == kEmptyString );
+	return JI2B( GetText().GetText() == kEmptyString );
 }
 
 /******************************************************************************
@@ -289,7 +291,7 @@ JUserInputFunction::IsEmpty()
 void
 JUserInputFunction::Clear()
 {
-	SetText(kEmptyString);
+	GetText()->SetText(kEmptyString);
 }
 
 /******************************************************************************
@@ -297,7 +299,7 @@ JUserInputFunction::Clear()
 
  ******************************************************************************/
 
-const JCharacter*
+const JString&
 JUserInputFunction::GetEmptyString()
 {
 	return kEmptyString;
@@ -372,7 +374,7 @@ JUserInputFunction::HandleMouseDrag
 JBoolean
 JUserInputFunction::HandleMouseUp()
 {
-	TEHandleMouseUp(kJFalse);
+	TEHandleMouseUp();
 	return itsNeedRedrawFlag;
 }
 
@@ -391,25 +393,17 @@ JUserInputFunction::HandleMouseUp()
 JBoolean
 JUserInputFunction::HandleKeyPress
 	(
-	const JCharacter	key,
-	JBoolean*			needParse,
-	JBoolean*			needRender
+	const JUtf8Character&	key,
+	JBoolean*				needParse,
+	JBoolean*				needRender
 	)
 {
 	*needRender = kJFalse;
 	*needParse  = kJFalse;
 
-	if (key == JPGetGreekCharPrefixChar())
+	if (key == '\'')
 		{
-		const JFont currFont = GetCurrentFont();
-		if (strcmp(currFont.GetName(), JGetDefaultFontName()) == 0)
-			{
-			SetCurrentFontName(JGetGreekFontName());
-			}
-		else
-			{
-			SetCurrentFontName(JGetDefaultFontName());
-			}
+		itsGreekFlag = ! itsGreekFlag;
 		return kJTrue;
 		}
 
@@ -420,20 +414,37 @@ JUserInputFunction::HandleKeyPress
 		}
 	else if (isEmpty)
 		{
-		const JFont font = GetCurrentFont();
 		SelectAll();
-		SetCurrentFontName(font.GetName());
 		}
 	else if (key == '(' || key == '[')
 		{
 		GoToEndOfLine();
 		}
 
-	TEHandleKeyPress(key, kJFalse, kMoveByCharacter, kJFalse);
+	JUtf8Character c   = key;
+	const JUtf8Byte b1 = c.GetBytes()[0];
+	if (itsGreekFlag && isupper(b1))		// only translate ascii
+	{
+		JUtf8Byte b[] = { '\xCE', JUtf8Byte('\x91' + (b1 - 'A')), 0 };
+		c.Set(b);
+	}
+	else if (itsGreekFlag && islower(b1) && b1 < 'p')
+	{
+		JUtf8Byte b[] = { '\xCE', JUtf8Byte('\xB1' + (b1 - 'a')), 0 };
+		c.Set(b);
+	}
+	else if (itsGreekFlag && islower(b1))
+	{
+		JUtf8Byte b[] = { '\xCF', JUtf8Byte('\x80' + (b1 - 'p')), 0 };
+		c.Set(b);
+	}
 
-	const JString& text = GetText();
-	const JSize textLen = text.GetLength();
-	JCharacter c = '\0';
+	TEHandleKeyPress(c, kJFalse, kMoveByCharacter, kJFalse);
+
+	const JString& text = GetText()->GetText();
+	const JSize textLen = text.GetCharacterCount();
+
+	c = ' ';
 	if (textLen > 0)
 		{
 		c = text.GetLastCharacter();
@@ -441,13 +452,13 @@ JUserInputFunction::HandleKeyPress
 
 	if (textLen == 0)
 		{
-		SetText(kEmptyString);
+		GetText()->SetText(kEmptyString);
 		}
 	else if (textLen > 1 && (c == '(' || c == '['))
 		{
 		*needParse = kJTrue;
 		}
-	else if (textLen > 1 && tolower(c) == 'e')
+	else if (textLen > 1 && c.ToLower() == 'e')
 		{
 		*needParse = JI2B((text.GetSubstring(1, textLen-1)).IsFloat() &&
 						  !text.IsHexValue());
@@ -468,11 +479,6 @@ JUserInputFunction::HandleKeyPress
 
  ******************************************************************************/
 
-extern const JCharacter* kArgSeparatorString;
-
-extern const JSize stdFunctionCount;
-extern const JStdFunctionInfo stdFunction[];
-
 JBoolean
 JUserInputFunction::Parse
 	(
@@ -485,16 +491,16 @@ JUserInputFunction::Parse
 	*newUIF     = nullptr;
 	*needRender = kJFalse;
 
-	JString buffer = GetParseableText(*this);
+	JString buffer = GetText()->GetText();
 	if (buffer == kEmptyString)
 		{
-		(JGetUserNotification())->ReportError("This function is empty.");
+		(JGetUserNotification())->ReportError(JGetString("EmptyFunction::JExprEditor"));
 		return kJFalse;
 		}
 
 	buffer.TrimWhitespace();
-	const JSize length = buffer.GetLength();
-	const JCharacter lastChar = buffer.GetLastCharacter();
+	const JSize length            = buffer.GetCharacterCount();
+	const JUtf8Character lastChar = buffer.GetLastCharacter();
 
 	JFloat x;
 	if (lastChar == '(')
@@ -502,10 +508,10 @@ JUserInputFunction::Parse
 		JFunction* newArg;
 		JUserInputFunction* extraUIF;
 		JUserInputFunction* tempUIF =
-			jnew JUserInputFunction(itsVarList, TEGetFontManager(), TEGetColormap());
+			jnew JUserInputFunction(itsVarList, GetFontManager());
 		assert( tempUIF != nullptr );
 		const JBoolean ok =
-			JApplyFunction(buffer, itsVarList, *tempUIF, TEGetFontManager(), TEGetColormap(),
+			JApplyFunction(buffer, itsVarList, *tempUIF, GetFontManager(),
 						   f, &newArg, &extraUIF);
 		jdelete tempUIF;
 		if (ok)
@@ -515,54 +521,36 @@ JUserInputFunction::Parse
 			}
 		else
 			{
-			SetSelection(length, GetTextLength());
+			SetSelection(JCharacterRange(length, length));
 			DeleteSelection();
 			}
 		return ok;
 		}
 	else if (lastChar == '[')
 		{
-		JIndex varIndex;
-		const JString varNamePrefix = buffer.GetSubstring(1,length-1);
-		JString maxPrefix;
-		const JVariableList::MatchResult match =
-			itsVarList->FindUniqueVarName(varNamePrefix, &varIndex, &maxPrefix);
-		if (match == JVariableList::kSingleMatch)
-			{
-			buffer = maxPrefix + "[";
-			}
-		else if (match == JVariableList::kMultipleMatch)
-			{
-			SetParseableText(this, maxPrefix);
-			GoToEndOfLine();
-			*needRender = kJTrue;
-			return kJFalse;
-			}
-		// JParseFunction reports kNoMatch as an error
-
 		buffer += "1]";
 		const JBoolean ok = JParseFunction(buffer, itsVarList, f);
 		if (ok)
 			{
-			JFunctionWithVar* fwv = (**f).CastToJFunctionWithVar();
+			JFunctionWithVar* fwv = dynamic_cast<JFunctionWithVar*>(*f);
 			assert( fwv != nullptr );
-			*newUIF = jnew JUserInputFunction(itsVarList, TEGetFontManager(), TEGetColormap());
+			*newUIF = jnew JUserInputFunction(itsVarList, GetFontManager());
 			assert( *newUIF != nullptr );
 			fwv->SetArrayIndex(*newUIF);
 			}
 		else
 			{
-			SetSelection(length, length);
+			SetSelection(JCharacterRange(length, length));
 			DeleteSelection();
 			}
 		return ok;
 		}
-	else if (tolower(lastChar) == 'e' && length>1 && !buffer.IsHexValue() &&
+	else if (lastChar.ToLower() == 'e' && length>1 && !buffer.IsHexValue() &&
 			 (buffer.GetSubstring(1,length-1)).ConvertToFloat(&x))
 		{
 		JConstantValue* expBase = jnew JConstantValue(10.0);
 		assert( expBase != nullptr );
-		*newUIF = jnew JUserInputFunction(itsVarList, TEGetFontManager(), TEGetColormap());
+		*newUIF = jnew JUserInputFunction(itsVarList, GetFontManager());
 		assert( *newUIF != nullptr );
 		JExponent* exponent = jnew JExponent(expBase, *newUIF);
 		assert( exponent != nullptr );
@@ -584,93 +572,8 @@ JUserInputFunction::Parse
 		}
 	else
 		{
-		JIndex varIndex;
-		JString maxPrefix;
-		const JVariableList::MatchResult match =
-			itsVarList->FindUniqueVarName(buffer, &varIndex, &maxPrefix);
-		if (match == JVariableList::kSingleMatch)
-			{
-			buffer = maxPrefix;
-			}
-		else if (match == JVariableList::kMultipleMatch)
-			{
-			SetParseableText(this, maxPrefix);
-			GoToEndOfLine();
-			*needRender = kJTrue;
-			return kJFalse;
-			}
-		// JParseFunction reports kNoMatch as an error
-
 		return JParseFunction(buffer, itsVarList, f);
 		}
-}
-
-/******************************************************************************
- GetParseableText (static)
-
- ******************************************************************************/
-
-JString
-JUserInputFunction::GetParseableText
-	(
-	const JTextEditor& te
-	)
-{
-	const JCharacter* greekFontName     = JGetGreekFontName();
-	const JCharacter* greekPrefixString = JPGetGreekCharPrefixString();
-
-	JString text = te.GetText();
-	const JSize length = text.GetLength();
-	for (JIndex i=length; i>=1; i--)
-		{
-		if (strcmp(te.GetFont(i).GetName(), greekFontName) == 0)
-			{
-			text.InsertSubstring(greekPrefixString, i);
-			}
-		}
-
-	return text;
-}
-
-/******************************************************************************
- SetParseableText (static)
-
- ******************************************************************************/
-
-void
-JUserInputFunction::SetParseableText
-	(
-	JTextEditor*		te,
-	const JCharacter*	text
-	)
-{
-	JArray<JIndex> greekList;
-
-	JString newText = text;
-	{
-	const JCharacter greekPrefix = JPGetGreekCharPrefixChar();
-
-	JSize length = newText.GetLength();
-	for (JIndex i=1; i<=length; i++)
-		{
-		if (newText.GetCharacter(i) == greekPrefix)
-			{
-			greekList.AppendElement(i);
-			newText.RemoveSubstring(i,i);
-			length--;
-			}
-		}
-	}
-
-	te->SetText(newText);
-	{
-	const JSize greekCount = greekList.GetElementCount();
-	for (JIndex i=1; i<=greekCount; i++)
-		{
-		const JIndex j = greekList.GetElement(i);
-		te->SetFontName(j,j, JGetGreekFontName(), kJTrue);
-		}
-	}
 }
 
 /******************************************************************************

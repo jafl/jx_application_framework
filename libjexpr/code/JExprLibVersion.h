@@ -22,6 +22,7 @@ static const char* kCurrentJExprLibVersionStr = "2.0.0";
 
 // version 2.0.0:
 //	Supports utf-8
+//	*** Removed JDecision and all related classes.
 //	*** Replaced recursive descent parser with flex/bison parser.
 //	*** Replaced CastTo*() with dynamic_cast.
 

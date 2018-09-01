@@ -12,8 +12,8 @@
 
 class JFunction;
 
-JBoolean ParenthesizeArgForPrint(const JFunction& f, const JFunction& arg);
-JBoolean ParenthesizeArgForRender(const JFunction& f, const JFunction& arg);
+JBoolean JParenthesizeArgForPrint(const JFunction& f, const JFunction& arg);
+JBoolean JParenthesizeArgForRender(const JFunction& f, const JFunction& arg);
 
 enum JNamedConstIndex
 {

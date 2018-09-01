@@ -9,15 +9,16 @@
 
  ******************************************************************************/
 
-#include <JXExprEvalDirector.h>
+#include "JXExprEvalDirector.h"
+#include "JVariableList.h"
+#include "JFunction.h"
 #include <JXWindow.h>
 #include <JXTextButton.h>
 #include <JXStaticText.h>
-#include <JVariableList.h>
-#include <JNamedConstant.h>
 #include <JString.h>
 #include <JComplex.h>
 #include <jMath.h>
+#include <jGlobals.h>
 #include <jAssert.h>
 
 const JSize kSlopWidth = 20;
@@ -65,25 +66,25 @@ JXExprEvalDirector::BuildWindow
 	JXWindowDirector* supervisor
 	)
 {
-	JXWindow* window = jnew JXWindow(this, 200,40, "");
+	JXWindow* window = jnew JXWindow(this, 200,40, JString::empty);
 	assert( window != nullptr );
 
 	itsTextDisplay =
-		jnew JXStaticText("", kJFalse, kJTrue, nullptr, window,
+		jnew JXStaticText(JString::empty, kJFalse, kJTrue, nullptr, window,
 						 JXWidget::kHElastic, JXWidget::kVElastic,
 						 10,10, 140,20);
 	assert( itsTextDisplay != nullptr );
 
 	itsCloseButton =
-		jnew JXTextButton("Close", window,
+		jnew JXTextButton(JGetString("CloseButtonLabel::JXExprEvalDirector"), window,
 						 JXWidget::kFixedRight, JXWidget::kFixedTop,
 						 150,10, 40,20);
 	assert( itsCloseButton != nullptr );
-	itsCloseButton->SetShortcuts("#W^[");
+	itsCloseButton->SetShortcuts(JGetString("CloseButtonShortcuts::JXExprEvalDirector"));
 
 	ListenTo(itsCloseButton);
 
-	window->SetTitle("Result");
+	window->SetTitle(JGetString("WindowTitle::JXExprEvalDirector"));
 	window->SetMinSize( 100, 40);
 	window->SetMaxSize(5000, 40);
 	UpdateDisplay();
@@ -142,7 +143,7 @@ JXExprEvalDirector::UpdateDisplay()
 		str += "error";
 		}
 
-	itsTextDisplay->SetText(str);
+	itsTextDisplay->GetText()->SetText(str);
 
 	const JSize bdw = itsTextDisplay->GetBoundsWidth();
 	const JSize apw = itsTextDisplay->GetApertureWidth();

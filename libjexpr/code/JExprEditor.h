@@ -242,7 +242,6 @@ private:
 	JBoolean	GetCommaTarget(JFunction* startF, JNaryFunction** targetF,
 							   JIndex* newArgIndex);
 
-	void	SendKeyToActiveUIF(const JUtf8Character& key);
 	void	ActivateUIF(JUserInputFunction* uif);
 
 	void		Render();
