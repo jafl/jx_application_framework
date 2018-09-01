@@ -20,18 +20,12 @@
 
  ******************************************************************************/
 
-JArcSine::JArcSine()
-	:
-	JUnaryFunction(kJArcSineNameIndex, kJArcSineType)
-{
-}
-
 JArcSine::JArcSine
 	(
 	JFunction* arg
 	)
 	:
-	JUnaryFunction(arg, kJArcSineNameIndex, kJArcSineType)
+	JUnaryFunction("arcsin", arg)
 {
 }
 

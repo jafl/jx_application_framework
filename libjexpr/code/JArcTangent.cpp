@@ -20,18 +20,12 @@
 
  ******************************************************************************/
 
-JArcTangent::JArcTangent()
-	:
-	JUnaryFunction(kJArcTangentNameIndex, kJArcTangentType)
-{
-}
-
 JArcTangent::JArcTangent
 	(
 	JFunction* arg
 	)
 	:
-	JUnaryFunction(arg, kJArcTangentNameIndex, kJArcTangentType)
+	JUnaryFunction("arctan", arg)
 {
 }
 

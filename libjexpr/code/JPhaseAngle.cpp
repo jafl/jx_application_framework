@@ -18,18 +18,12 @@
 
  ******************************************************************************/
 
-JPhaseAngle::JPhaseAngle()
-	:
-	JUnaryFunction(kJPhaseAngleNameIndex, kJPhaseAngleType)
-{
-}
-
 JPhaseAngle::JPhaseAngle
 	(
 	JFunction* arg
 	)
 	:
-	JUnaryFunction(arg, kJPhaseAngleNameIndex, kJPhaseAngleType)
+	JUnaryFunction("phase", arg)
 {
 }
 

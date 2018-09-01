@@ -11,9 +11,10 @@
 
  ******************************************************************************/
 
-#include <JExponent.h>
-#include <JExprRenderer.h>
-#include <JExprRectList.h>
+#include "JExponent.h"
+#include "JExprRenderer.h"
+#include "JExprRectList.h"
+#include "jFunctionUtil.h"
 #include <JRect.h>
 #include <jMath.h>
 #include <jErrno.h>
@@ -24,19 +25,13 @@
 
  ******************************************************************************/
 
-JExponent::JExponent()
-	:
-	JBinaryOperator(kJExponentNameIndex, kJExponentType)
-{
-}
-
 JExponent::JExponent
 	(
 	JFunction* arg1,
 	JFunction* arg2
 	)
 	:
-	JBinaryOperator(arg1, arg2, kJExponentNameIndex, kJExponentType)
+	JBinaryOperator("^", arg1, arg2)
 {
 }
 
@@ -144,23 +139,6 @@ JExponent::Evaluate
 }
 
 /******************************************************************************
- SameAs
-
-	Returns kJTrue if the given function is identical to us.
-
- ******************************************************************************/
-
-JBoolean
-JExponent::SameAs
-	(
-	const JFunction& theFunction
-	)
-	const
-{
-	return JBinaryOperator::SameAsSameOrder(theFunction);
-}
-
-/******************************************************************************
  Layout
 
  ******************************************************************************/
@@ -185,7 +163,7 @@ JExponent::Layout
 	JRect baseRect = rectList->GetRect(baseIndex);
 	argUpperLeft.x = baseRect.right;
 
-	if (ParenthesizeArgForRender(*this, *base))
+	if (JParenthesizeArgForRender(*this, *base))
 		{
 		const JSize parenWidth = renderer.GetParenthesisWidth(baseRect.height());
 		rectList->ShiftRect(baseIndex, parenWidth, 0);
@@ -242,7 +220,7 @@ JExponent::Render
 	const
 {
 	const JFunction* base = GetArg1();
-	if (ParenthesizeArgForRender(*this, *base))
+	if (JParenthesizeArgForRender(*this, *base))
 		{
 		JIndex baseIndex;
 		const JBoolean found = rectList.FindFunction(base, &baseIndex);

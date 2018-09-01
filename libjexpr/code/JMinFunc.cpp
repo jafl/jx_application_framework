@@ -24,7 +24,7 @@ JMinFunc::JMinFunc
 	JPtrArray<JFunction>* argList
 	)
 	:
-	JNaryFunction(kJMinFuncNameIndex, kJMinFuncType, argList)
+	JNaryFunction("min", argList)
 {
 }
 
@@ -136,21 +136,4 @@ JMinFunc::Evaluate
 
 	*result = real(*result);
 	return kJTrue;
-}
-
-/******************************************************************************
- SameAs
-
-	Returns kJTrue if the given function is identical to us.
-
- ******************************************************************************/
-
-JBoolean
-JMinFunc::SameAs
-	(
-	const JFunction& theFunction
-	)
-	const
-{
-	return JNaryFunction::SameAsAnyOrder(theFunction);
 }

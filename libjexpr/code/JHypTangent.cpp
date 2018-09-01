@@ -19,18 +19,12 @@
 
  ******************************************************************************/
 
-JHypTangent::JHypTangent()
-	:
-	JUnaryFunction(kJHypTangentNameIndex, kJHypTangentType)
-{
-}
-
 JHypTangent::JHypTangent
 	(
 	JFunction* arg
 	)
 	:
-	JUnaryFunction(arg, kJHypTangentNameIndex, kJHypTangentType)
+	JUnaryFunction("tanh", arg)
 {
 }
 

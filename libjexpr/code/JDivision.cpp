@@ -22,19 +22,13 @@
 
  ******************************************************************************/
 
-JDivision::JDivision()
-	:
-	JBinaryOperator(kJDivisionNameIndex, kJDivisionType)
-{
-}
-
 JDivision::JDivision
 	(
 	JFunction* arg1,
 	JFunction* arg2
 	)
 	:
-	JBinaryOperator(arg1, arg2, kJDivisionNameIndex, kJDivisionType)
+	JBinaryOperator("/", arg1, arg2)
 {
 }
 
@@ -136,23 +130,6 @@ JDivision::Evaluate
 		{
 		return kJFalse;
 		}
-}
-
-/******************************************************************************
- SameAs
-
-	Returns kJTrue if the given function is identical to us.
-
- ******************************************************************************/
-
-JBoolean
-JDivision::SameAs
-	(
-	const JFunction& theFunction
-	)
-	const
-{
-	return JBinaryOperator::SameAsSameOrder(theFunction);
 }
 
 /******************************************************************************

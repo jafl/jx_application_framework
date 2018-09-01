@@ -16,8 +16,7 @@ class JSquareRoot : public JUnaryFunction
 {
 public:
 
-	JSquareRoot();
-	JSquareRoot(JFunction* arg);
+	JSquareRoot(JFunction* arg = nullptr);
 	JSquareRoot(const JSquareRoot& source);
 
 	virtual ~JSquareRoot();

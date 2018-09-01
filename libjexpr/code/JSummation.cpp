@@ -15,6 +15,7 @@
 #include "JNegation.h"
 #include "JExprRenderer.h"
 #include "JExprRectList.h"
+#include "jFunctionUtil.h"
 #include <JString.h>
 #include <jAssert.h>
 
@@ -23,9 +24,12 @@
 
  ******************************************************************************/
 
-JSummation::JSummation()
+JSummation::JSummation
+	(
+	JPtrArray<JFunction>* argList
+	)
 	:
-	JNaryOperator(kJAdditionNameIndex, kJSummationType)
+	JNaryOperator("+", argList)
 {
 }
 
@@ -144,12 +148,11 @@ JSummation::Print
 		{
 		const JFunction* f   = this;
 		const JFunction* arg = GetArg(i);
-		if (arg->GetType() == kJNegationType)
+		const JNegation* neg = dynamic_cast<const JNegation*>(arg);
+		if (neg != nullptr)
 			{
 			output << '-';
-			f = arg;
-			const JNegation* neg = dynamic_cast<const JNegation*>(arg);
-			assert( neg != nullptr );
+			f   = arg;
 			arg = neg->GetArg();
 			}
 		else if (i > 1)
@@ -157,7 +160,7 @@ JSummation::Print
 			output << '+';
 			}
 
-		if (ParenthesizeArgForPrint(*f, *arg))
+		if (JParenthesizeArgForPrint(*f, *arg))
 			{
 			output << '(';
 			arg->Print(output);
@@ -205,16 +208,15 @@ JSummation::Layout
 		{
 		JFunction* f   = this;
 		JFunction* arg = GetArg(i);
-		if (arg->GetType() == kJNegationType)
+		JNegation* neg = dynamic_cast<JNegation*>(arg);
+		if (neg != nullptr)
 			{
 			argUpperLeft.x += minusWidth + spaceWidth;
 			if (i > 1)
 				{
 				argUpperLeft.x += spaceWidth;
 				}
-			f = arg;
-			JNegation* neg = dynamic_cast<JNegation*>(arg);
-			assert( neg != nullptr );
+			f   = arg;
 			arg = neg->GetArg();
 			}
 		else if (i > 1)
@@ -227,7 +229,7 @@ JSummation::Layout
 		JRect argRect = rectList->GetRect(argIndex);
 		argUpperLeft.x = argRect.right;
 
-		if (ParenthesizeArgForRender(*f, *arg))
+		if (JParenthesizeArgForRender(*f, *arg))
 			{
 			const JSize parenWidth = renderer.GetParenthesisWidth(argRect.height());
 			rectList->ShiftRect(argIndex, parenWidth, 0);
@@ -253,10 +255,9 @@ JSummation::Layout
 		for (JIndex i=1; i<=argCount; i++)
 			{
 			const JFunction* arg = GetArg(i);
-			if (arg->GetType() == kJNegationType)
+			const JNegation* neg = dynamic_cast<const JNegation*>(arg);
+			if (neg != nullptr)
 				{
-				const JNegation* neg = dynamic_cast<const JNegation*>(arg);
-				assert( neg != nullptr );
 				arg = neg->GetArg();
 				}
 
@@ -306,12 +307,11 @@ JSummation::Render
 		{
 		const JFunction* f   = this;
 		const JFunction* arg = GetArg(i);
-		if (arg->GetType() == kJNegationType)
+		const JNegation* neg = dynamic_cast<const JNegation*>(arg);
+		if (neg != nullptr)
 			{
 			renderer.DrawString(h, ourMidline, fontSize, JString("-", kJFalse));
-			f = arg;
-			const JNegation* neg = dynamic_cast<const JNegation*>(arg);
-			assert( neg != nullptr );
+			f   = arg;
 			arg = neg->GetArg();
 			}
 		else if (i > 1)
@@ -327,7 +327,7 @@ JSummation::Render
 		const JRect argRect = rectList.GetRect(argIndex);
 		h = argRect.right;
 
-		if (ParenthesizeArgForRender(*f, *arg))
+		if (JParenthesizeArgForRender(*f, *arg))
 			{
 			renderer.DrawParentheses(argRect);
 			h += renderer.GetParenthesisWidth(argRect.height());

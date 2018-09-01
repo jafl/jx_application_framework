@@ -16,8 +16,7 @@ class JImagPart : public JUnaryFunction
 {
 public:
 
-	JImagPart();
-	JImagPart(JFunction* arg);
+	JImagPart(JFunction* arg = nullptr);
 	JImagPart(const JImagPart& source);
 
 	virtual ~JImagPart();

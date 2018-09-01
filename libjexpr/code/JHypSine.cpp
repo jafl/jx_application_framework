@@ -19,18 +19,12 @@
 
  ******************************************************************************/
 
-JHypSine::JHypSine()
-	:
-	JUnaryFunction(kJHypSineNameIndex, kJHypSineType)
-{
-}
-
 JHypSine::JHypSine
 	(
 	JFunction* arg
 	)
 	:
-	JUnaryFunction(arg, kJHypSineNameIndex, kJHypSineType)
+	JUnaryFunction("sinh", arg)
 {
 }
 

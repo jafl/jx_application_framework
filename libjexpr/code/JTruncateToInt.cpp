@@ -19,18 +19,12 @@
 
  ******************************************************************************/
 
-JTruncateToInt::JTruncateToInt()
-	:
-	JUnaryFunction(kJTruncateNameIndex, kJTruncateType)
-{
-}
-
 JTruncateToInt::JTruncateToInt
 	(
 	JFunction* arg
 	)
 	:
-	JUnaryFunction(arg, kJTruncateNameIndex, kJTruncateType)
+	JUnaryFunction("truncate", arg)
 {
 }
 

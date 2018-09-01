@@ -16,8 +16,7 @@ class JCosine : public JUnaryFunction
 {
 public:
 
-	JCosine();
-	JCosine(JFunction* arg);
+	JCosine(JFunction* arg = nullptr);
 	JCosine(const JCosine& source);
 
 	virtual ~JCosine();

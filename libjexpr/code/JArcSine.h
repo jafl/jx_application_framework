@@ -16,8 +16,7 @@ class JArcSine : public JUnaryFunction
 {
 public:
 
-	JArcSine();
-	JArcSine(JFunction* arg);
+	JArcSine(JFunction* arg = nullptr);
 	JArcSine(const JArcSine& source);
 
 	virtual ~JArcSine();

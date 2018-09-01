@@ -16,7 +16,6 @@ class JArcTangent2 : public JBinaryFunction
 {
 public:
 
-	JArcTangent2();
 	JArcTangent2(JFunction* arg1, JFunction* arg2);
 	JArcTangent2(const JArcTangent2& source);
 
@@ -25,7 +24,6 @@ public:
 	virtual JBoolean	Evaluate(JFloat* result) const override;
 	virtual JBoolean	Evaluate(JComplex* result) const override;
 	virtual JFunction*	Copy() const override;
-	virtual JBoolean	SameAs(const JFunction& theFunction) const override;
 
 private:
 

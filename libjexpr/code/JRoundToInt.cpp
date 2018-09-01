@@ -19,18 +19,12 @@
 
  ******************************************************************************/
 
-JRoundToInt::JRoundToInt()
-	:
-	JUnaryFunction(kJRoundNameIndex, kJRoundType)
-{
-}
-
 JRoundToInt::JRoundToInt
 	(
 	JFunction* arg
 	)
 	:
-	JUnaryFunction(arg, kJRoundNameIndex, kJRoundType)
+	JUnaryFunction("round", arg)
 {
 }
 

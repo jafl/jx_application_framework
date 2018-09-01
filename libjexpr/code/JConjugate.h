@@ -16,8 +16,7 @@ class JConjugate : public JUnaryFunction
 {
 public:
 
-	JConjugate();
-	JConjugate(JFunction* arg);
+	JConjugate(JFunction* arg = nullptr);
 	JConjugate(const JConjugate& source);
 
 	virtual ~JConjugate();

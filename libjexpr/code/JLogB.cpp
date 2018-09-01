@@ -24,19 +24,13 @@
 
  ******************************************************************************/
 
-JLogB::JLogB()
-	:
-	JBinaryFunction(kJLogBNameIndex, kJLogBType)
-{
-}
-
 JLogB::JLogB
 	(
 	JFunction* arg1,
 	JFunction* arg2
 	)
 	:
-	JBinaryFunction(arg1, arg2, kJLogBNameIndex, kJLogBType)
+	JBinaryFunction("log", arg1, arg2)
 {
 }
 
@@ -125,23 +119,6 @@ JLogB::Evaluate
 	jclear_errno();
 	*result = log(x)/log(b);
 	return jerrno_is_clear();
-}
-
-/******************************************************************************
- SameAs
-
-	Returns kJTrue if the given function is identical to us.
-
- ******************************************************************************/
-
-JBoolean
-JLogB::SameAs
-	(
-	const JFunction& theFunction
-	)
-	const
-{
-	return JBinaryFunction::SameAsSameOrder(theFunction);
 }
 
 /******************************************************************************

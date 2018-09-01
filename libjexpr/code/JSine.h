@@ -16,8 +16,7 @@ class JSine : public JUnaryFunction
 {
 public:
 
-	JSine();
-	JSine(JFunction* arg);
+	JSine(JFunction* arg = nullptr);
 	JSine(const JSine& source);
 
 	virtual ~JSine();

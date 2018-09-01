@@ -16,8 +16,7 @@ class JTangent : public JUnaryFunction
 {
 public:
 
-	JTangent();
-	JTangent(JFunction* arg);
+	JTangent(JFunction* arg = nullptr);
 	JTangent(const JTangent& source);
 
 	virtual ~JTangent();

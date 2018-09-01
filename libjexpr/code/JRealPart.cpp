@@ -18,18 +18,12 @@
 
  ******************************************************************************/
 
-JRealPart::JRealPart()
-	:
-	JUnaryFunction(kJRealPartNameIndex, kJRealPartType)
-{
-}
-
 JRealPart::JRealPart
 	(
 	JFunction* arg
 	)
 	:
-	JUnaryFunction(arg, kJRealPartNameIndex, kJRealPartType)
+	JUnaryFunction("re", arg)
 {
 }
 

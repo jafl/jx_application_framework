@@ -16,8 +16,7 @@ class JHypCosine : public JUnaryFunction
 {
 public:
 
-	JHypCosine();
-	JHypCosine(JFunction* arg);
+	JHypCosine(JFunction* arg = nullptr);
 	JHypCosine(const JHypCosine& source);
 
 	virtual ~JHypCosine();

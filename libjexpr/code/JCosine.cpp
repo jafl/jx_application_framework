@@ -20,18 +20,12 @@
 
  ******************************************************************************/
 
-JCosine::JCosine()
-	:
-	JUnaryFunction(kJCosineNameIndex, kJCosineType)
-{
-}
-
 JCosine::JCosine
 	(
 	JFunction* arg
 	)
 	:
-	JUnaryFunction(arg, kJCosineNameIndex, kJCosineType)
+	JUnaryFunction("cos", arg)
 {
 }
 

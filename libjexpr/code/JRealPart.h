@@ -16,8 +16,7 @@ class JRealPart : public JUnaryFunction
 {
 public:
 
-	JRealPart();
-	JRealPart(JFunction* arg);
+	JRealPart(JFunction* arg = nullptr);
 	JRealPart(const JRealPart& source);
 
 	virtual ~JRealPart();

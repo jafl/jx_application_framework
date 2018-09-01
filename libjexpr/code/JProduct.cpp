@@ -14,6 +14,7 @@
 #include "JProduct.h"
 #include "JExprRenderer.h"
 #include "JExprRectList.h"
+#include "jFunctionUtil.h"
 #include <JString.h>
 #include <jAssert.h>
 
@@ -24,9 +25,12 @@ static const JString kMultiplicationSymbol("\xC2\xB7", kJFalse);
 
  ******************************************************************************/
 
-JProduct::JProduct()
+JProduct::JProduct
+	(
+	JPtrArray<JFunction>* argList
+	)
 	:
-	JNaryOperator(kJMultiplicationNameIndex, kJProductType)
+	JNaryOperator("*", argList)
 {
 }
 
@@ -149,7 +153,7 @@ JProduct::Print
 			}
 
 		const JFunction* arg = GetArg(i);
-		if (ParenthesizeArgForPrint(*this, *arg))
+		if (JParenthesizeArgForPrint(*this, *arg))
 			{
 			output << '(';
 			arg->Print(output);
@@ -199,7 +203,7 @@ JProduct::Layout
 		JRect argRect  = rectList->GetRect(argIndex);
 		argUpperLeft.x = argRect.right + spaceWidth + timesWidth;
 
-		if (ParenthesizeArgForRender(*this, *arg))
+		if (JParenthesizeArgForRender(*this, *arg))
 			{
 			const JSize parenWidth = renderer.GetParenthesisWidth(argRect.height());
 			rectList->ShiftRect(argIndex, parenWidth, 0);
@@ -276,7 +280,7 @@ JProduct::Render
 		const JRect argRect = rectList.GetRect(argIndex);
 		JCoordinate h       = argRect.right + spaceWidth;
 
-		if (ParenthesizeArgForRender(*this, *arg))
+		if (JParenthesizeArgForRender(*this, *arg))
 			{
 			renderer.DrawParentheses(argRect);
 			h += renderer.GetParenthesisWidth(argRect.height());

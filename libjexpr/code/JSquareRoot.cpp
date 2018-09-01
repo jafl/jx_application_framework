@@ -24,18 +24,12 @@
 
  ******************************************************************************/
 
-JSquareRoot::JSquareRoot()
-	:
-	JUnaryFunction(kJSquareRootNameIndex, kJSquareRootType)
-{
-}
-
 JSquareRoot::JSquareRoot
 	(
 	JFunction* arg
 	)
 	:
-	JUnaryFunction(arg, kJSquareRootNameIndex, kJSquareRootType)
+	JUnaryFunction("sqrt", arg)
 {
 }
 

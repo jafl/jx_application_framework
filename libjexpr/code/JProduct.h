@@ -16,7 +16,7 @@ class JProduct : public JNaryOperator
 {
 public:
 
-	JProduct();
+	JProduct(JPtrArray<JFunction>* argList = nullptr);
 	JProduct(const JProduct& source);
 
 	virtual ~JProduct();

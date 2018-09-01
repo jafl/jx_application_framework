@@ -16,7 +16,6 @@ class JExponent : public JBinaryOperator
 {
 public:
 
-	JExponent();
 	JExponent(JFunction* arg1, JFunction* arg2);
 	JExponent(const JExponent& source);
 

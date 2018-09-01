@@ -20,19 +20,13 @@
 
  ******************************************************************************/
 
-JArcTangent2::JArcTangent2()
-	:
-	JBinaryFunction(kJArcTangent2NameIndex, kJArcTangent2Type)
-{
-}
-
 JArcTangent2::JArcTangent2
 	(
 	JFunction* arg1,
 	JFunction* arg2
 	)
 	:
-	JBinaryFunction(arg1, arg2, kJArcTangent2NameIndex, kJArcTangent2Type)
+	JBinaryFunction("arctan2", arg1, arg2)
 {
 }
 
@@ -127,21 +121,4 @@ JArcTangent2::Evaluate
 	jclear_errno();
 	*result = JATan(y/x);
 	return jerrno_is_clear();
-}
-
-/******************************************************************************
- SameAs
-
-	Returns kJTrue if the given function is identical to us.
-
- ******************************************************************************/
-
-JBoolean
-JArcTangent2::SameAs
-	(
-	const JFunction& theFunction
-	)
-	const
-{
-	return JBinaryFunction::SameAsSameOrder(theFunction);
 }

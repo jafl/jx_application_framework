@@ -16,9 +16,10 @@
 
  ******************************************************************************/
 
-#include <JParallel.h>
-#include <JExprRenderer.h>
-#include <JExprRectList.h>
+#include "JParallel.h"
+#include "JExprRenderer.h"
+#include "JExprRectList.h"
+#include "jFunctionUtil.h"
 #include <JRect.h>
 #include <jMath.h>
 #include <jAssert.h>
@@ -33,7 +34,7 @@ JParallel::JParallel
 	JPtrArray<JFunction>* argList
 	)
 	:
-	JNaryOperator(kJParallelNameIndex, kJParallelType, argList)
+	JNaryOperator("parallel", argList)
 {
 }
 
@@ -188,7 +189,7 @@ JParallel::Layout
 		JRect argRect  = rectList->GetRect(argIndex);
 		argUpperLeft.x = argRect.right + opWidth;
 
-		if (ParenthesizeArgForRender(*this, *arg))
+		if (JParenthesizeArgForRender(*this, *arg))
 			{
 			const JSize parenWidth = renderer.GetParenthesisWidth(argRect.height());
 			rectList->ShiftRect(argIndex, parenWidth, 0);
@@ -292,7 +293,7 @@ JParallel::Render
 		const JRect argRect = rectList.GetRect(argIndex);
 		JCoordinate h = argRect.right + spaceWidth;
 
-		if (ParenthesizeArgForRender(*this, *arg))
+		if (JParenthesizeArgForRender(*this, *arg))
 			{
 			renderer.DrawParentheses(argRect);
 			h += renderer.GetParenthesisWidth(argRect.height());

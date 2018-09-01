@@ -16,8 +16,7 @@ class JPhaseAngle : public JUnaryFunction
 {
 public:
 
-	JPhaseAngle();
-	JPhaseAngle(JFunction* arg);
+	JPhaseAngle(JFunction* arg = nullptr);
 	JPhaseAngle(const JPhaseAngle& source);
 
 	virtual ~JPhaseAngle();

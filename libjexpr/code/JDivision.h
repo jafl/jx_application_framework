@@ -16,7 +16,6 @@ class JDivision : public JBinaryOperator
 {
 public:
 
-	JDivision();
 	JDivision(JFunction* arg1, JFunction* arg2);
 	JDivision(const JDivision& source);
 
@@ -25,7 +24,6 @@ public:
 	virtual JBoolean	Evaluate(JFloat* result) const override;
 	virtual JBoolean	Evaluate(JComplex* result) const override;
 	virtual JFunction*	Copy() const override;
-	virtual JBoolean	SameAs(const JFunction& theFunction) const override;
 	virtual JIndex		Layout(const JExprRenderer& renderer,
 							   const JPoint& upperLeft, const JSize fontSize,
 							   JExprRectList* rectList) override;

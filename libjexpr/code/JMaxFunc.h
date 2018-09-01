@@ -24,7 +24,6 @@ public:
 	virtual JBoolean	Evaluate(JFloat* result) const override;
 	virtual JBoolean	Evaluate(JComplex* result) const override;
 	virtual JFunction*	Copy() const override;
-	virtual JBoolean	SameAs(const JFunction& theFunction) const override;
 
 private:
 

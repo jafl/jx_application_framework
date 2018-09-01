@@ -18,18 +18,12 @@
 
  ******************************************************************************/
 
-JImagPart::JImagPart()
-	:
-	JUnaryFunction(kJImagPartNameIndex, kJImagPartType)
-{
-}
-
 JImagPart::JImagPart
 	(
 	JFunction* arg
 	)
 	:
-	JUnaryFunction(arg, kJImagPartNameIndex, kJImagPartType)
+	JUnaryFunction("im", arg)
 {
 }
 

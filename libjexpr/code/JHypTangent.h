@@ -16,8 +16,7 @@ class JHypTangent : public JUnaryFunction
 {
 public:
 
-	JHypTangent();
-	JHypTangent(JFunction* arg);
+	JHypTangent(JFunction* arg = nullptr);
 	JHypTangent(const JHypTangent& source);
 
 	virtual ~JHypTangent();

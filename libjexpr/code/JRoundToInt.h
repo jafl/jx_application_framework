@@ -16,8 +16,7 @@ class JRoundToInt : public JUnaryFunction
 {
 public:
 
-	JRoundToInt();
-	JRoundToInt(JFunction* arg);
+	JRoundToInt(JFunction* arg = nullptr);
 	JRoundToInt(const JRoundToInt& source);
 
 	virtual ~JRoundToInt();

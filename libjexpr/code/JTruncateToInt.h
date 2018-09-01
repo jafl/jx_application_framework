@@ -16,8 +16,7 @@ class JTruncateToInt : public JUnaryFunction
 {
 public:
 
-	JTruncateToInt();
-	JTruncateToInt(JFunction* arg);
+	JTruncateToInt(JFunction* arg = nullptr);
 	JTruncateToInt(const JTruncateToInt& source);
 
 	virtual ~JTruncateToInt();

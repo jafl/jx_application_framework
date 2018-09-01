@@ -21,18 +21,12 @@
 
  ******************************************************************************/
 
-JLogE::JLogE()
-	:
-	JUnaryFunction(kJLogENameIndex, kJLogEType)
-{
-}
-
 JLogE::JLogE
 	(
 	JFunction* arg
 	)
 	:
-	JUnaryFunction(arg, kJLogENameIndex, kJLogEType)
+	JUnaryFunction("ln", arg)
 {
 }
 

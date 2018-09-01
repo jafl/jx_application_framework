@@ -14,6 +14,8 @@
 #include "JNegation.h"
 #include "JExprRenderer.h"
 #include "JExprRectList.h"
+#include "jFunctionUtil.h"
+#include "JDivision.h"
 #include <JString.h>
 #include <jAssert.h>
 
@@ -27,7 +29,7 @@ JNegation::JNegation
 	JFunction* arg
 	)
 	:
-	JUnaryFunction(arg, kJSubtractionNameIndex, kJNegationType)
+	JUnaryFunction("-", arg)
 {
 }
 
@@ -128,7 +130,7 @@ JNegation::Print
 	output << '-';
 
 	const JFunction* arg = GetArg();
-	if (ParenthesizeArgForPrint(*this, *arg))
+	if (JParenthesizeArgForPrint(*this, *arg))
 		{
 		output << '(';
 		arg->Print(output);
@@ -160,8 +162,7 @@ JNegation::Layout
 	argUpperLeft.x += renderer.GetStringWidth(fontSize, JString("-", kJFalse));
 
 	JFunction* arg = GetArg();
-	const JFunctionType argType = arg->GetType();
-	if (argType == kJDivisionType)
+	if (dynamic_cast<JDivision*>(arg) != nullptr)
 		{
 		argUpperLeft.x += renderer.GetSpaceWidth(fontSize);
 		}
@@ -175,7 +176,7 @@ JNegation::Layout
 		arg->Layout(renderer, argUpperLeft, fontSize, rectList);
 	JRect argRect = rectList->GetRect(argIndex);
 
-	if (ParenthesizeArgForRender(*this, *arg))
+	if (JParenthesizeArgForRender(*this, *arg))
 		{
 		const JSize parenWidth = renderer.GetParenthesisWidth(argRect.height());
 		rectList->ShiftRect(argIndex, parenWidth, 0);
@@ -221,7 +222,7 @@ JNegation::Render
 	const JFunction* arg = GetArg();
 	arg->Render(renderer, rectList);
 
-	if (ParenthesizeArgForRender(*this, *arg))
+	if (JParenthesizeArgForRender(*this, *arg))
 		{
 		JIndex argIndex;
 		const JBoolean found = rectList.FindFunction(arg, &argIndex);

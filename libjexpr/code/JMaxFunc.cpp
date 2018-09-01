@@ -24,7 +24,7 @@ JMaxFunc::JMaxFunc
 	JPtrArray<JFunction>* argList
 	)
 	:
-	JNaryFunction(kJMaxFuncNameIndex, kJMaxFuncType, argList)
+	JNaryFunction("max", argList)
 {
 }
 
@@ -136,21 +136,4 @@ JMaxFunc::Evaluate
 
 	*result = real(*result);
 	return kJTrue;
-}
-
-/******************************************************************************
- SameAs
-
-	Returns kJTrue if the given function is identical to us.
-
- ******************************************************************************/
-
-JBoolean
-JMaxFunc::SameAs
-	(
-	const JFunction& theFunction
-	)
-	const
-{
-	return JNaryFunction::SameAsAnyOrder(theFunction);
 }

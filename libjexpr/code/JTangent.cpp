@@ -20,18 +20,12 @@
 
  ******************************************************************************/
 
-JTangent::JTangent()
-	:
-	JUnaryFunction(kJTangentNameIndex, kJTangentType)
-{
-}
-
 JTangent::JTangent
 	(
 	JFunction* arg
 	)
 	:
-	JUnaryFunction(arg, kJTangentNameIndex, kJTangentType)
+	JUnaryFunction("tan", arg)
 {
 }
 

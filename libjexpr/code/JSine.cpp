@@ -20,18 +20,12 @@
 
  ******************************************************************************/
 
-JSine::JSine()
-	:
-	JUnaryFunction(kJSineNameIndex, kJSineType)
-{
-}
-
 JSine::JSine
 	(
 	JFunction* arg
 	)
 	:
-	JUnaryFunction(arg, kJSineNameIndex, kJSineType)
+	JUnaryFunction("sin", arg)
 {
 }
 

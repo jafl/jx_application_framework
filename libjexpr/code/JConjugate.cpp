@@ -22,18 +22,12 @@
 
  ******************************************************************************/
 
-JConjugate::JConjugate()
-	:
-	JUnaryFunction(kJConjugateNameIndex, kJConjugateType)
-{
-}
-
 JConjugate::JConjugate
 	(
 	JFunction* arg
 	)
 	:
-	JUnaryFunction(arg, kJConjugateNameIndex, kJConjugateType)
+	JUnaryFunction("conjugate", arg)
 {
 }
 

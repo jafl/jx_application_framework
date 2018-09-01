@@ -16,8 +16,7 @@ class JArcTangent : public JUnaryFunction
 {
 public:
 
-	JArcTangent();
-	JArcTangent(JFunction* arg);
+	JArcTangent(JFunction* arg = nullptr);
 	JArcTangent(const JArcTangent& source);
 
 	virtual ~JArcTangent();

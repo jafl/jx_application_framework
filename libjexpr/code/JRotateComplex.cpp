@@ -19,19 +19,13 @@
 
  ******************************************************************************/
 
-JRotateComplex::JRotateComplex()
-	:
-	JBinaryFunction(kJRotateNameIndex, kJRotateType)
-{
-}
-
 JRotateComplex::JRotateComplex
 	(
 	JFunction* arg1,
 	JFunction* arg2
 	)
 	:
-	JBinaryFunction(arg1, arg2, kJRotateNameIndex, kJRotateType)
+	JBinaryFunction("rotate", arg1, arg2)
 {
 }
 
@@ -112,21 +106,4 @@ JRotateComplex::Evaluate
 	jclear_errno();
 	*result = x * exp(JComplex(0.0, a));
 	return jerrno_is_clear();
-}
-
-/******************************************************************************
- SameAs
-
-	Returns kJTrue if the given function is identical to us.
-
- ******************************************************************************/
-
-JBoolean
-JRotateComplex::SameAs
-	(
-	const JFunction& theFunction
-	)
-	const
-{
-	return JBinaryFunction::SameAsSameOrder(theFunction);
 }

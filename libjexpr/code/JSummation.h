@@ -16,7 +16,7 @@ class JSummation : public JNaryOperator
 {
 public:
 
-	JSummation();
+	JSummation(JPtrArray<JFunction>* argList = nullptr);
 	JSummation(const JSummation& source);
 
 	virtual ~JSummation();

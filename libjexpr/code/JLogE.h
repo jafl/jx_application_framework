@@ -16,8 +16,7 @@ class JLogE : public JUnaryFunction
 {
 public:
 
-	JLogE();
-	JLogE(JFunction* arg);
+	JLogE(JFunction* arg = nullptr);
 	JLogE(const JLogE& source);
 
 	virtual ~JLogE();

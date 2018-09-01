@@ -19,18 +19,12 @@
 
  ******************************************************************************/
 
-JHypCosine::JHypCosine()
-	:
-	JUnaryFunction(kJHypCosineNameIndex, kJHypCosineType)
-{
-}
-
 JHypCosine::JHypCosine
 	(
 	JFunction* arg
 	)
 	:
-	JUnaryFunction(arg, kJHypCosineNameIndex, kJHypCosineType)
+	JUnaryFunction("cosh", arg)
 {
 }
 
