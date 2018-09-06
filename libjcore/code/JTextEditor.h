@@ -239,7 +239,7 @@ public:
 	CaretMode	GetCaretMode() const;
 	void		SetCaretMode(const CaretMode mode);
 
-	JFontManager*	GetFontManager() const;
+	JFontManager*	TEGetFontManager() const;
 
 public:		// ought to be protected
 
@@ -1626,12 +1626,12 @@ JTextEditor::TEDNDFinished()
 }
 
 /******************************************************************************
- GetFontManager
+ TEGetFontManager
 
  ******************************************************************************/
 
 inline JFontManager*
-JTextEditor::GetFontManager()
+JTextEditor::TEGetFontManager()
 	const
 {
 	return itsFontManager;

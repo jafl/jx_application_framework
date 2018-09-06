@@ -508,10 +508,10 @@ JUserInputFunction::Parse
 		JFunction* newArg;
 		JUserInputFunction* extraUIF;
 		JUserInputFunction* tempUIF =
-			jnew JUserInputFunction(itsVarList, GetFontManager());
+			jnew JUserInputFunction(itsVarList, TEGetFontManager());
 		assert( tempUIF != nullptr );
 		const JBoolean ok =
-			JApplyFunction(buffer, itsVarList, *tempUIF, GetFontManager(),
+			JApplyFunction(buffer, itsVarList, *tempUIF, TEGetFontManager(),
 						   f, &newArg, &extraUIF);
 		jdelete tempUIF;
 		if (ok)
@@ -534,7 +534,7 @@ JUserInputFunction::Parse
 			{
 			JFunctionWithVar* fwv = dynamic_cast<JFunctionWithVar*>(*f);
 			assert( fwv != nullptr );
-			*newUIF = jnew JUserInputFunction(itsVarList, GetFontManager());
+			*newUIF = jnew JUserInputFunction(itsVarList, TEGetFontManager());
 			assert( *newUIF != nullptr );
 			fwv->SetArrayIndex(*newUIF);
 			}
@@ -550,7 +550,7 @@ JUserInputFunction::Parse
 		{
 		JConstantValue* expBase = jnew JConstantValue(10.0);
 		assert( expBase != nullptr );
-		*newUIF = jnew JUserInputFunction(itsVarList, GetFontManager());
+		*newUIF = jnew JUserInputFunction(itsVarList, TEGetFontManager());
 		assert( *newUIF != nullptr );
 		JExponent* exponent = jnew JExponent(expBase, *newUIF);
 		assert( exponent != nullptr );
