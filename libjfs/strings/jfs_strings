@@ -103,8 +103,6 @@ DefaultBindingList::JFSBindingList
 
 \".fd\" \"jfdesign\" p T
 
-\"^From[[:space:]]+.*.{3}[[:space:]]+.{3}[[:space:]]+[[:digit:]]+[[:space:]]+([[:digit:]]+:)+[[:digit:]]+[[:space:]]+(...[[:space:]])?[[:digit:]]{4}\" \"arrow\" p F
-\"^GDBNotebook database file\" \"buzzer\" p F
 \"^\\\\*\\\\*\\\\* Glove File Format \\\\*\\\\*\\\\*\" \"glove\" p F
 \"^jx_browser_data\"           \"jcc\" p F
 \"^jx_browser_symbol_table\"   \"jcc\" p F
@@ -114,7 +112,7 @@ DefaultBindingList::JFSBindingList
 
 DefaultBindingList-OSX::JFSBindingList
 
-"2 F F \"/bin/sh -c $q\" \"gnome-terminal --title $q -x $u\"
+"2 F F \"/bin/sh -c $q\" \"xterm -title $q -n $q -e $u\"
 \".gif\"  \"open\" p F
 \".png\"  \"open\" p F
 \".jpg\"  \"open\" p F
@@ -159,8 +157,6 @@ DefaultBindingList-OSX::JFSBindingList
 
 \".fd\" \"jfdesign\" p T
 
-\"^From[[:space:]]+.*.{3}[[:space:]]+.{3}[[:space:]]+[[:digit:]]+[[:space:]]+([[:digit:]]+:)+[[:digit:]]+[[:space:]]+(...[[:space:]])?[[:digit:]]{4}\" \"arrow\" p F
-\"^GDBNotebook database file\" \"buzzer\" p F
 \"^\\\\*\\\\*\\\\* Glove File Format \\\\*\\\\*\\\\*\" \"glove\" p F
 \"^jx_browser_data\"           \"jcc\" p F
 \"^jx_browser_symbol_table\"   \"jcc\" p F

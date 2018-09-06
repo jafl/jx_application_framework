@@ -31,7 +31,6 @@ JVariableValue::JVariableValue
 	:
 	JFunctionWithVar(theVariableList, variableIndex, arrayIndex)
 {
-	assert( theVariableList->IsNumeric(variableIndex) );
 }
 
 /******************************************************************************
@@ -145,6 +144,5 @@ JVariableValue::SetVariableIndex
 	const JIndex variableIndex
 	)
 {
-	assert( GetVariableList()->IsNumeric(variableIndex) );
 	JFunctionWithVar::SetVariableIndex(variableIndex);
 }

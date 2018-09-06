@@ -699,7 +699,7 @@ JFSBindingList::Revert()
 void
 JFSBindingList::Load
 	(
-	std::istream&		input,
+	std::istream&	input,
 	const JBoolean	isSystem
 	)
 {
