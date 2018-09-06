@@ -75,7 +75,6 @@ LFLAGS :=
 	${LEX} ${LFLAGS} -o$@ $<
 	@perl -n -e 's/\bregister\b//g;' \
            -e 'print;' < $@ > $@.new
-	@cp $@.new /tmp/$@
 	@mv $@.new $@
 
 #
