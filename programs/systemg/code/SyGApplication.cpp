@@ -29,15 +29,15 @@ static const JUtf8Byte* kAppSignature = "systemg";
 
 #ifdef _J_OSX
 static const JString kDefaultTermCmd       ("xterm -title $n -n $n", kJFalse);
-static const JString kDefaultGitStatusCmd  ("git citool", kJFalse);
+static const JString kDefaultGitStatusCmd  ("git gui", kJFalse);
 static const JString kDefaultGitHistoryCmd ("gitk --all", kJFalse);
 #elif defined _J_CYGWIN
 static const JString kDefaultTermCmd       ("xterm -title $n -n $n", kJFalse);
-static const JString kDefaultGitStatusCmd  ("xterm -e git citool", kJFalse);
+static const JString kDefaultGitStatusCmd  ("xterm -e git gui", kJFalse);
 static const JString kDefaultGitHistoryCmd ("xterm -e gitk --all", kJFalse);
 #else
 static const JString kDefaultTermCmd       ("gnome-terminal --working-directory=$p", kJFalse);
-static const JString kDefaultGitStatusCmd  ("git citool", kJFalse);
+static const JString kDefaultGitStatusCmd  ("git gui", kJFalse);
 static const JString kDefaultGitHistoryCmd ("gitk --all", kJFalse);
 #endif
 
