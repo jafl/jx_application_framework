@@ -12,16 +12,16 @@
 
  ******************************************************************************/
 
-#include <JUserInputFunction.h>
-#include <jExprUIUtil.h>
-#include <JExprEditor.h>
-#include <JExprRectList.h>
+#include "JUserInputFunction.h"
+#include "JExprEditor.h"
+#include "JExprRectList.h"
+#include "JExprParser.h"
 
-#include <JVariableList.h>
-#include <JFunctionWithVar.h>
-#include <JProduct.h>
-#include <JExponent.h>
-#include <JConstantValue.h>
+#include "JVariableList.h"
+#include "JFunctionWithVar.h"
+#include "JProduct.h"
+#include "JExponent.h"
+#include "JConstantValue.h"
 
 #include <JColorManager.h>
 #include <JPainter.h>
@@ -42,21 +42,22 @@ const JCoordinate kVMarginWidth = 1;
 
 JUserInputFunction::JUserInputFunction
 	(
-	const JVariableList*	varList,
-	JFontManager*			fontManager,
-	const JString&			text
+	JExprEditor*	editor,
+	const JString&	text
 	)
 	:
-	JTextEditor(kFullEditor, jnew StyledText(this, fontManager), kJTrue,
-				fontManager, kJTrue,
+	JTextEditor(kFullEditor, jnew StyledText(editor->GetFontManager()), kJTrue,
+				editor->GetFontManager(), kJTrue,
 				JColorManager::GetBlackColor(),				// caret
 				JColorManager::GetDefaultSelectionColor(),	// selection
 				JColorManager::GetBlueColor(),				// outline
 				JColorManager::GetBlackColor(),				// whitespace (not used)
 				1),
-	itsVarList(varList),
+	itsEditor(editor),
 	itsGreekFlag(kJFalse)
 {
+	assert( itsEditor != nullptr );
+
 	// width and height will be set by JTextEditor
 
 	itsWidth  = 0;
@@ -92,10 +93,9 @@ JUserInputFunction::JUserInputFunction
 	)
 	:
 	JFunction(source),
-	JTextEditor(source)
+	JTextEditor(source),
+	itsEditor(source.itsEditor)
 {
-	itsVarList = source.itsVarList;
-
 	itsWidth  = source.itsWidth;
 	itsHeight = source.itsHeight;
 
@@ -407,6 +407,8 @@ JUserInputFunction::HandleKeyPress
 		return kJTrue;
 		}
 
+	const JString& text = GetText()->GetText();
+
 	const JBoolean isEmpty = IsEmpty();
 	if (isEmpty && (key == '(' || key == '['))
 		{
@@ -416,9 +418,11 @@ JUserInputFunction::HandleKeyPress
 		{
 		SelectAll();
 		}
-	else if (key == '(' || key == '[')
+	else if (key == '(' || key == '[' ||
+			 (key.ToLower() == 'e' && !IsEmpty() && !text.IsHexValue() && text.IsFloat()))
 		{
-		GoToEndOfLine();
+		*needParse = kJTrue;
+		return kJFalse;
 		}
 
 	JUtf8Character c   = key;
@@ -441,27 +445,9 @@ JUserInputFunction::HandleKeyPress
 
 	TEHandleKeyPress(c, kJFalse, kMoveByCharacter, kJFalse);
 
-	const JString& text = GetText()->GetText();
-	const JSize textLen = text.GetCharacterCount();
-
-	c = ' ';
-	if (textLen > 0)
-		{
-		c = text.GetLastCharacter();
-		}
-
-	if (textLen == 0)
+	if (GetText()->GetText().IsEmpty())
 		{
 		GetText()->SetText(kEmptyString);
-		}
-	else if (textLen > 1 && (c == '(' || c == '['))
-		{
-		*needParse = kJTrue;
-		}
-	else if (textLen > 1 && c.ToLower() == 'e')
-		{
-		*needParse = JI2B((text.GetSubstring(1, textLen-1)).IsFloat() &&
-						  !text.IsHexValue());
 		}
 
 	*needRender = itsNeedRenderFlag;
@@ -471,10 +457,9 @@ JUserInputFunction::HandleKeyPress
 /******************************************************************************
  Parse
 
-	If the last character is '(', parse the characters in the buffer as a function.
-	If the last character is '[', parse the characters in the buffer as an array variable.
-	If the last character is 'e', parse the characters in the buffer as a number
-								  and then append 10^?.
+	If c is '(', parse the characters in the buffer as a function.
+	If c is '[', parse the characters in the buffer as an array variable.
+	If c is 'e', parse the characters in the buffer as a number and then append 10^?.
 	Otherwise, parse the characters in the buffer as a normal variable.
 
  ******************************************************************************/
@@ -482,6 +467,7 @@ JUserInputFunction::HandleKeyPress
 JBoolean
 JUserInputFunction::Parse
 	(
+	const JUtf8Character&	c,
 	JFunction**				f,
 	JUserInputFunction**	newUIF,
 	JBoolean*				needRender
@@ -499,58 +485,48 @@ JUserInputFunction::Parse
 		}
 
 	buffer.TrimWhitespace();
-	const JSize length            = buffer.GetCharacterCount();
-	const JUtf8Character lastChar = buffer.GetLastCharacter();
 
 	JFloat x;
-	if (lastChar == '(')
+	if (c == '(')
 		{
 		JFunction* newArg;
 		JUserInputFunction* extraUIF;
-		JUserInputFunction* tempUIF =
-			jnew JUserInputFunction(itsVarList, TEGetFontManager());
+		JUserInputFunction* tempUIF = jnew JUserInputFunction(itsEditor);
 		assert( tempUIF != nullptr );
-		const JBoolean ok =
-			JApplyFunction(buffer, itsVarList, *tempUIF, TEGetFontManager(),
-						   f, &newArg, &extraUIF);
+		const JBoolean ok = itsEditor->ApplyFunction(buffer, *tempUIF, f, &newArg, &extraUIF);
 		jdelete tempUIF;
 		if (ok)
 			{
 			*newUIF = dynamic_cast<JUserInputFunction*>(newArg);
 			assert( *newUIF != nullptr );
 			}
-		else
-			{
-			SetSelection(JCharacterRange(length, length));
-			DeleteSelection();
-			}
 		return ok;
 		}
-	else if (lastChar == '[')
+	else if (c == '[')
 		{
 		buffer += "1]";
-		const JBoolean ok = JParseFunction(buffer, itsVarList, f);
-		if (ok)
+
+		JExprParser p(itsEditor->GetVariableList(), itsEditor->GetFontManager());
+		if (p.Parse(buffer, f))
 			{
 			JFunctionWithVar* fwv = dynamic_cast<JFunctionWithVar*>(*f);
 			assert( fwv != nullptr );
-			*newUIF = jnew JUserInputFunction(itsVarList, TEGetFontManager());
+			*newUIF = jnew JUserInputFunction(itsEditor);
 			assert( *newUIF != nullptr );
 			fwv->SetArrayIndex(*newUIF);
+			return kJTrue;
 			}
 		else
 			{
-			SetSelection(JCharacterRange(length, length));
-			DeleteSelection();
+			return kJFalse;
 			}
-		return ok;
 		}
-	else if (lastChar.ToLower() == 'e' && length>1 && !buffer.IsHexValue() &&
-			 (buffer.GetSubstring(1,length-1)).ConvertToFloat(&x))
+	else if (c.ToLower() == 'e' && !IsEmpty() && !buffer.IsHexValue() &&
+			 buffer.ConvertToFloat(&x))
 		{
 		JConstantValue* expBase = jnew JConstantValue(10.0);
 		assert( expBase != nullptr );
-		*newUIF = jnew JUserInputFunction(itsVarList, TEGetFontManager());
+		*newUIF = jnew JUserInputFunction(itsEditor);
 		assert( *newUIF != nullptr );
 		JExponent* exponent = jnew JExponent(expBase, *newUIF);
 		assert( exponent != nullptr );
@@ -572,7 +548,8 @@ JUserInputFunction::Parse
 		}
 	else
 		{
-		return JParseFunction(buffer, itsVarList, f);
+		JExprParser p(itsEditor->GetVariableList(), itsEditor->GetFontManager());
+		return p.Parse(buffer, f);
 		}
 }
 
@@ -716,7 +693,12 @@ JUserInputFunction::TESetVertScrollStep
  ******************************************************************************/
 
 void
-JUserInputFunction::TEClipboardChanged()
+JUserInputFunction::TEUpdateClipboard
+	(
+	const JString&			text,
+	const JRunArray<JFont>&	style
+	)
+	const
 {
 }
 
@@ -728,7 +710,7 @@ JUserInputFunction::TEClipboardChanged()
  ******************************************************************************/
 
 JBoolean
-JUserInputFunction::TEGetExternalClipboard
+JUserInputFunction::TEGetClipboard
 	(
 	JString*			text,
 	JRunArray<JFont>*	style
@@ -736,19 +718,6 @@ JUserInputFunction::TEGetExternalClipboard
 	const
 {
 	return kJFalse;
-}
-
-/******************************************************************************
- TEDisplayBusyCursor (virtual protected)
-
-	This is never needed.
-
- ******************************************************************************/
-
-void
-JUserInputFunction::TEDisplayBusyCursor()
-	const
-{
 }
 
 /******************************************************************************

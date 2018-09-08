@@ -12,31 +12,31 @@
 
 class JFunction;
 class JFontManager;
+class JExprEditor;
 
 class JExprParser
 {
 public:
 
-	JExprParser(const JString& text, const JVariableList* varList,
-				JFontManager* fontManager, const JBoolean allowUIF = kJFalse);
+	JExprParser(const JVariableList* varList, JFontManager* fontManager);
+	JExprParser(JExprEditor* editor);
 
 	virtual	~JExprParser();
 
-	int		yyparse();
-
-	JFunction*	GetFunction() const;
+	JBoolean	Parse(const JString& expr, JFunction** f);
 
 private:
 
+	JExprEditor*			itsEditor;		// if not NULL, enables JUserInputFunction
 	const JVariableList*	itsVarList;
 	JFontManager*			itsFontManager;
-	const JBoolean			itsAllowUIFFlag;
 
 	JExprScanner*	itsScanner;
-	JFunction*		itsCurrentNode;
+	JFunction*		itsParseResult;
 
 private:
 
+	int yyparse();
 	int yylex(YYSTYPE* lvalp);
 	int yyerror(const char* message);
 
@@ -48,18 +48,5 @@ private:
 	JExprParser(const JExprParser& source);
 	const JExprParser& operator=(const JExprParser& source);
 };
-
-
-/******************************************************************************
- GetFunction
-
- *****************************************************************************/
-
-inline JFunction*
-JExprParser::GetFunction()
-	const
-{
-	return itsCurrentNode;
-}
 
 #endif

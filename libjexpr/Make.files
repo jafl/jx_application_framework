@@ -17,7 +17,6 @@
 .cpp ./code/JExprEditor
 .cpp ./code/JExprRectList
 .cpp ./code/JExprRenderer
-.cpp ./code/jExprUIUtil
 .cpp ./code/JUserInputFunction
 .cpp ./code/JFunction
 .cpp ./code/JAbsValue

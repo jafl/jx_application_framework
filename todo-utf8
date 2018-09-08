@@ -1,3 +1,6 @@
+libjexpr
+	set parent for each JFunction
+
 JTextEditor tests
 	2 TE's for 1 ST
 		MouseActions
@@ -25,8 +28,6 @@ JTextEditor:
 
 JXFontManager
 	some characters extend above line height
-
-implement flex/bison parser for libjexpr
 
 leibnitz - symbol font
 	transform to unicode

@@ -15,15 +15,14 @@
 #include <JXStyledText.h>
 
 class JFontManager;
-class JVariableList;
+class JExprEditor;
 class JExprRectList;
 
 class JUserInputFunction : public JFunction, public JTextEditor
 {
 public:
 
-	JUserInputFunction(const JVariableList* varList, JFontManager* fontManager,
-					   const JString& text = JString::empty);
+	JUserInputFunction(JExprEditor* editor, const JString& text = JString::empty);
 	JUserInputFunction(const JUserInputFunction& source);
 
 	virtual ~JUserInputFunction();
@@ -34,6 +33,9 @@ public:
 	JBoolean	IsEmpty() const;
 	void		Clear();
 
+	JBoolean	IsGreek() const;
+	void		SetGreek(const JBoolean greek);
+
 	JBoolean	HandleMouseDown(const JPoint& pt, const JBoolean extendSelection,
 								const JExprRectList& rectList,
 								const JExprRenderer& renderer);
@@ -42,8 +44,8 @@ public:
 	JBoolean	HandleMouseUp();
 	JBoolean	HandleKeyPress(const JUtf8Character& key, JBoolean* needParse,
 							   JBoolean* needRender);
-	JBoolean	Parse(JFunction** f, JUserInputFunction** newUIF,
-					  JBoolean* needRender);
+	JBoolean	Parse(const JUtf8Character& c, JFunction** f,
+					  JUserInputFunction** newUIF, JBoolean* needRender);
 
 	virtual JBoolean	Evaluate(JFloat* result) const override;
 	virtual JBoolean	Evaluate(JComplex* result) const override;
@@ -84,10 +86,9 @@ protected:
 	{
 		public:
 
-		StyledText(JUserInputFunction* field, JFontManager* fontManager)
+		StyledText(JFontManager* fontManager)
 			:
-			JXStyledText(kJFalse, kJFalse, fontManager),
-			itsField(field)
+			JXStyledText(kJFalse, kJFalse, fontManager)
 		{ };
 
 		protected:
@@ -97,19 +98,14 @@ protected:
 							JStyledText::TextRange* recalcRange,
 							JStyledText::TextRange* redrawRange,
 							const JBoolean deletion) override;
-
-		private:
-
-		JUserInputFunction*	itsField;
 	};
 
 private:
 
-	const JVariableList*	itsVarList;
-
-	JCoordinate	itsWidth;
-	JCoordinate	itsHeight;
-	JBoolean	itsGreekFlag;
+	JExprEditor*	itsEditor;
+	JCoordinate		itsWidth;
+	JCoordinate		itsHeight;
+	JBoolean		itsGreekFlag;
 
 	mutable JBoolean	itsNeedRedrawFlag;
 	mutable JBoolean	itsNeedRenderFlag;
@@ -142,6 +138,27 @@ inline void
 JUserInputFunction::Deactivate()
 {
 	TEDeactivate();
+}
+
+/******************************************************************************
+ Greek
+
+ ******************************************************************************/
+
+inline JBoolean
+JUserInputFunction::IsGreek()
+	const
+{
+	return itsGreekFlag;
+}
+
+inline void
+JUserInputFunction::SetGreek
+	(
+	const JBoolean greek
+	)
+{
+	itsGreekFlag = greek;
 }
 
 #endif

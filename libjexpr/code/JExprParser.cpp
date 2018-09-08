@@ -6,6 +6,7 @@
  *****************************************************************************/
 
 #include "JExprParser.h"
+#include "JExprEditor.h"
 #include "JSummation.h"
 #include "JProduct.h"
 #include <jAssert.h>
@@ -17,19 +18,27 @@
 
 JExprParser::JExprParser
 	(
-	const JString&			text,
 	const JVariableList*	varList,
-	JFontManager*			fontManager,
-	const JBoolean			allowUIF
+	JFontManager*			fontManager
 	)
 	:
+	itsEditor(nullptr),
 	itsVarList(varList),
 	itsFontManager(fontManager),
-	itsAllowUIFFlag(allowUIF),
-	itsCurrentNode(nullptr)
+	itsParseResult(nullptr)
 {
-	itsScanner = jnew JExprScanner(text);
-	assert( itsScanner != nullptr );
+}
+
+JExprParser::JExprParser
+	(
+	JExprEditor* editor
+	)
+	:
+	itsEditor(editor),
+	itsVarList(editor->GetVariableList()),
+	itsFontManager(editor->GetFontManager()),
+	itsParseResult(nullptr)
+{
 }
 
 /******************************************************************************
@@ -39,8 +48,38 @@ JExprParser::JExprParser
 
 JExprParser::~JExprParser()
 {
-	jdelete itsScanner;
-	jdelete itsCurrentNode;
+}
+
+/******************************************************************************
+ Parse
+
+ *****************************************************************************/
+
+JBoolean
+JExprParser::Parse
+	(
+	const JString&	expr,
+	JFunction**		f
+	)
+{
+	JExprScanner scanner(expr);
+	itsScanner = &scanner;
+
+	const int result = yyparse();
+	if (result == 0)
+		{
+		*f = itsParseResult;
+		}
+	else
+		{
+		*f = nullptr;
+		jdelete itsParseResult;
+		}
+
+	itsScanner     = nullptr;
+	itsParseResult = nullptr;
+
+	return JI2B( *f != nullptr );
 }
 
 /******************************************************************************

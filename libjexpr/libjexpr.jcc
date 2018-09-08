@@ -55,10 +55,6 @@ T
 F
 "./code/JExprRenderer.cpp"
 T
-2 "jExprUIUtil.cpp"
-F
-"./code/jExprUIUtil.cpp"
-T
 2 "JUserInputFunction.cpp"
 F
 "./code/JUserInputFunction.cpp"

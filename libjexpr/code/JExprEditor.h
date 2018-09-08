@@ -115,7 +115,7 @@ public:
 
 	JBoolean	EvaluateSelection(JFloat* value) const;
 	void		NegateSelection();
-	void		ApplyFunctionToSelection(const JUtf8Byte* fnName);
+	void		ApplyFunctionToSelection(const JString& fnName);
 	void		AddArgument();
 	void		MoveArgument(const JInteger delta);
 	void		GroupArguments(const JInteger delta);
@@ -158,12 +158,17 @@ public:
 
 	// for JUserInputFunction
 
-	JPainter*	GetPainter() const;
+	JFontManager*	GetFontManager() const;
+	JPainter*		GetPainter() const;
+
+	JBoolean	ApplyFunction(const JString& fnName, const JFunction& origF,
+							  JFunction** newF, JFunction** newArg,
+							  JUserInputFunction** newUIF);
 
 protected:
 
 	const JExprRectList*	GetRectList() const;	// ideally, we wouldn't need this
-	JArray<JBoolean>		GetCmdStatus(const JString* evalStr) const;
+	JArray<JBoolean>		GetCmdStatus(JString* evalStr) const;
 
 	JBoolean	GetSelection(JIndex* selection) const;
 	JBoolean	GetSelectionRect(JRect* selRect) const;
@@ -249,9 +254,6 @@ private:
 	void		ReplaceFunction(JFunction* origF, JFunction* newF);
 
 	JUserInputFunction*	PrivateClearFunction();
-
-	JFunction*			GetParentFunction(JFunction* f) const;
-	JFunction*			GetParentFunction(JFunction* f, const JExprNodeList& nodeList) const;
 	JUserInputFunction*	FindNextUIF(JUserInputFunction* currUIF) const;
 
 	JBoolean	GetNegAdjSelFunction(JFunction** selF, JFunction** parentF) const;
@@ -314,6 +316,18 @@ JExprEditor::GetFunction()
 	const
 {
 	return itsFunction;
+}
+
+/******************************************************************************
+ GetFontManager
+
+ ******************************************************************************/
+
+inline JFontManager*
+JExprEditor::GetFontManager()
+	const
+{
+	return itsFontManager;
 }
 
 /******************************************************************************

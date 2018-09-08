@@ -14,11 +14,11 @@
 #include <JRect.h>
 
 class JString;
-class JVariableList;
+class JFontManager;
 
 class JExprRenderer;
 class JExprRectList;
-class JFontManager;
+class JVariableList;
 
 class JFunction
 {
@@ -43,12 +43,6 @@ public:
 	virtual void		Render(const JExprRenderer& renderer,
 							   const JExprRectList& rectList) const;
 	virtual JFunction*	Copy() const = 0;
-
-	static JFunction*	StreamIn(std::istream& input, const JVariableList* theVariableList,
-								 JFontManager* fontManager, const JBoolean allowUIF = kJFalse);
-	void				StreamOut(std::ostream& output) const;
-
-	JFunction*	Copy(const JVariableList* newVariableList, JFontManager* fontManager) const;
 
 	// called by JVariableList -- must call inherited
 

@@ -121,7 +121,7 @@ yyprint
 expression
 	: e P_EOF
 		{
-		itsCurrentNode = $1;
+		itsParseResult = $1;
 		YYACCEPT;
 		}
 	;
@@ -208,7 +208,14 @@ e
 
 	| P_INPUT
 		{
-		$$ = jnew JUserInputFunction(itsVarList, itsFontManager);
+		if (itsEditor != nullptr)
+			{
+			$$ = jnew JUserInputFunction(itsEditor);
+			}
+		else
+			{
+			YYERROR;
+			}
 		assert( $$ != nullptr );
 		}
 

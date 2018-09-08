@@ -71,7 +71,6 @@
 #include "JUserInputFunction.h"
 
 #include "JExprParser.h"
-#include "jExprUIUtil.h"
 #include "JFunctionWithVar.h"
 #include "JUnaryFunction.h"
 #include "JBinaryFunction.h"
@@ -82,6 +81,8 @@
 #include "JDivision.h"
 #include "JExponent.h"
 #include "JParallel.h"
+#include "JLogB.h"
+#include "JVariableValue.h"
 #include "JConstantValue.h"
 
 #include <JEPSPrinter.h>
@@ -212,8 +213,7 @@ JUserInputFunction*
 JExprEditor::PrivateClearFunction()
 {
 	jdelete itsFunction;
-	JUserInputFunction* newUIF =
-		jnew JUserInputFunction(itsVarList, itsFontManager);
+	JUserInputFunction* newUIF = jnew JUserInputFunction(this);
 	assert( newUIF != nullptr );
 	itsFunction = newUIF;
 
@@ -300,7 +300,7 @@ JExprEditor::EndEditing()
 	JFunction* newF = nullptr;
 	JUserInputFunction* newUIF = nullptr;
 	JBoolean needRender;
-	if (itsActiveUIF->Parse(&newF, &newUIF, &needRender))
+	if (itsActiveUIF->Parse(' ', &newF, &newUIF, &needRender))
 		{
 		ReplaceFunction(itsActiveUIF, newF);
 		itsActiveUIF = nullptr;
@@ -563,8 +563,9 @@ JExprEditor::Paste
 	JFunction* selF;
 	if (GetSelectedFunction(&selF))
 		{
+		JExprParser p(this);
 		JFunction* newF;
-		if (JParseFunction(expr, itsVarList, &newF, kJTrue))
+		if (p.Parse(expr, &newF))
 			{
 			SaveStateForUndo();
 			ReplaceFunction(selF, newF);
@@ -579,8 +580,9 @@ JExprEditor::Paste
 		}
 	else if (itsActiveUIF != nullptr && itsActiveUIF->IsEmpty())
 		{
+		JExprParser p(this);
 		JFunction* newF;
-		if (JParseFunction(expr, itsVarList, &newF, kJTrue))
+		if (p.Parse(expr, &newF))
 			{
 			SaveStateForUndo();
 			ReplaceFunction(itsActiveUIF, newF);
@@ -717,7 +719,7 @@ JExprEditor::NegateSelection()
 void
 JExprEditor::ApplyFunctionToSelection
 	(
-	const JCharacter* fnName
+	const JString& fnName
 	)
 {
 	JFunction* f = itsActiveUIF;
@@ -726,8 +728,7 @@ JExprEditor::ApplyFunctionToSelection
 		JFunction* newF;
 		JFunction* newArg;
 		JUserInputFunction* newUIF;
-		if (JApplyFunction(fnName, itsVarList, *f, itsFontManager,
-						   &newF, &newArg, &newUIF))
+		if (ApplyFunction(fnName, *f, &newF, &newArg, &newUIF))
 			{
 			SaveStateForUndo();
 			itsActiveUIF = nullptr;
@@ -746,6 +747,101 @@ JExprEditor::ApplyFunctionToSelection
 }
 
 /******************************************************************************
+ ApplyFunction
+
+	Apply the specified function to the given JFunction.  Returns the
+	resulting function, the copy of the argument that was passed in,
+	and the first new UIF, if successful.
+
+ ******************************************************************************/
+
+JBoolean
+JExprEditor::ApplyFunction
+	(
+	const JString&			fnName,
+	const JFunction&		origF,
+
+	JFunction**				newF,
+	JFunction**				newArg,
+	JUserInputFunction**	newUIF
+	)
+{
+	*newF   = nullptr;
+	*newUIF = nullptr;
+
+	const JSize fnCount            = JPGetStdFunctionCount();
+	const JStdFunctionInfo* fnInfo = JPGetStdFunctionInfo();
+
+	JBoolean found = kJFalse;
+	JSize argCount = 0;
+	for (JIndex i=1; i<=fnCount; i++)
+		{
+		if (fnName == fnInfo[i-1].name)
+			{
+			found    = kJTrue;
+			argCount = fnInfo[i-1].argCount;
+			break;
+			}
+		}
+
+	if (!found)
+		{
+		const JUtf8Byte* map[] =
+		{
+			"name", fnName.GetBytes()
+		};
+		const JString msg = JGetString("UnknownFunction::JExprEditor", map, sizeof(map));
+		(JGetUserNotification())->ReportError(msg);
+		return kJFalse;
+		}
+
+	JString buffer(fnName);
+	buffer += "(";
+	for (JIndex i=1; i<argCount; i++)
+		{
+		buffer += "1,";
+		}
+	buffer += "1)";
+
+	const JSize origArgCount = argCount;
+
+	JExprParser p(this);
+	const JBoolean ok = p.Parse(buffer, newF);
+	if (ok)
+		{
+		*newArg = origF.Copy();
+
+		const JBoolean isLogB = JI2B( dynamic_cast<JLogB*>(*newF) != nullptr );
+
+		JFunctionWithArgs* fwa = dynamic_cast<JFunctionWithArgs*>(*newF);
+		assert( fwa != nullptr );
+		argCount = fwa->GetArgCount();
+		for (JIndex i=1; i<=argCount; i++)
+			{
+			if (i == 2 && isLogB)
+				{
+				fwa->SetArg(2, *newArg);
+				}
+			else if (i == 1 && !isLogB)
+				{
+				fwa->SetArg(1, *newArg);
+				}
+			else if (!isLogB || origArgCount > 1)
+				{
+				JUserInputFunction* uif = jnew JUserInputFunction(this);
+				assert( uif != nullptr );
+				fwa->SetArg(i, uif);
+				if (*newUIF == nullptr)
+					{
+					*newUIF = uif;
+					}
+				}
+			}
+		}
+	return ok;
+}
+
+/******************************************************************************
  AddArgument
 
  ******************************************************************************/
@@ -756,12 +852,11 @@ JExprEditor::AddArgument()
 	JFunction* f;
 	if (GetSelectedFunction(&f))
 		{
-		JNaryFunction* naryF = f->CastToJNaryFunction();
+		JNaryFunction* naryF = dynamic_cast<JNaryFunction*>(f);
 		if (naryF != nullptr)
 			{
 			SaveStateForUndo();
-			JUserInputFunction* uif =
-				jnew JUserInputFunction(itsVarList, itsFontManager);
+			JUserInputFunction* uif = jnew JUserInputFunction(this);
 			assert( uif != nullptr );
 			naryF->AppendArg(uif);
 			Render();
@@ -790,7 +885,7 @@ JExprEditor::MoveArgument
 	JFunction* parentF;
 	if (delta != 0 && GetNegAdjSelFunction(&f, &parentF))
 		{
-		JNaryFunction* naryParentF = parentF->CastToJNaryFunction();
+		JNaryFunction* naryParentF = dynamic_cast<JNaryFunction*>(parentF);
 		if (naryParentF != nullptr)
 			{
 			JIndex argIndex;
@@ -832,7 +927,7 @@ JExprEditor::GroupArguments
 		return;
 		}
 
-	JNaryOperator* naryParentF = parentF->CastToJNaryOperator();
+	JNaryOperator* naryParentF = dynamic_cast<JNaryOperator*>(parentF);
 	if (naryParentF == nullptr)
 		{
 		return;
@@ -847,17 +942,17 @@ JExprEditor::GroupArguments
 	const JSize parentArgCount = naryParentF->GetArgCount();
 
 	const JBoolean sameType =
-		JI2B( parentF->GetType() == f->GetType() );
+		JI2B( typeid(parentF) == typeid(f) );
 	const JBoolean argsInRange =
 		JI2B( 1 <= firstArg && lastArg <= parentArgCount );
 	const JBoolean groupAll =
 		JI2B( lastArg - firstArg + 1 == parentArgCount );
 
-	JUnaryFunction* neg = f->CastToJUnaryFunction();
+	JUnaryFunction* neg = dynamic_cast<JUnaryFunction*>(f);
 	const JBoolean extendNegation =
-		JI2B( parentF->GetType() == kJSummationType &&
-			  neg != nullptr && neg->GetType() == kJNegationType &&
-			  (neg->GetArg())->GetType() == kJSummationType );
+		JI2B( typeid(parentF) == typeid(JSummation) &&
+			  neg != nullptr && typeid(neg) == typeid(JNegation) &&
+			  typeid(neg->GetArg()) == typeid(JSummation) );
 
 	// handle special case w+x-(y+z)
 	// (if gobbles last argument, remove parentF entirely)
@@ -865,7 +960,7 @@ JExprEditor::GroupArguments
 	if (extendNegation && argsInRange)
 		{
 		SaveStateForUndo();
-		JNaryOperator* naryF = (neg->GetArg())->CastToJNaryOperator();
+		JNaryOperator* naryF = dynamic_cast<JNaryOperator*>(neg->GetArg());
 		assert( naryF != nullptr );
 		if (delta > 0)
 			{
@@ -904,7 +999,7 @@ JExprEditor::GroupArguments
 		// will not be in the group.
 
 		JFunction* newF      = parentF->Copy();
-		JNaryOperator* group = newF->CastToJNaryOperator();
+		JNaryOperator* group = dynamic_cast<JNaryOperator*>(newF);
 		assert( group != nullptr );
 		while (group->GetArgCount() > lastArg)
 			{
@@ -936,7 +1031,7 @@ JExprEditor::GroupArguments
 	else if (sameType && argsInRange && !groupAll)
 		{
 		SaveStateForUndo();
-		JNaryOperator* naryF = f->CastToJNaryOperator();
+		JNaryOperator* naryF = dynamic_cast<JNaryOperator*>(f);
 		assert( naryF != nullptr );
 		if (delta > 0)
 			{
@@ -981,10 +1076,10 @@ JExprEditor::UngroupArguments()
 	JFunction* parentF;
 	if (GetNegAdjSelFunction(&f, &parentF))
 		{
-		JNaryOperator* naryF       = f->CastToJNaryOperator();
-		JNaryOperator* naryParentF = parentF->CastToJNaryOperator();
+		JNaryOperator* naryF       = dynamic_cast<JNaryOperator*>(f);
+		JNaryOperator* naryParentF = dynamic_cast<JNaryOperator*>(parentF);
 		if (naryF != nullptr && naryParentF != nullptr &&
-			naryF->GetType() == naryParentF->GetType())
+			typeid(naryF) == typeid(naryParentF))
 			{
 			SaveStateForUndo();
 
@@ -1007,13 +1102,13 @@ JExprEditor::UngroupArguments()
 		// handle special case w+x-(y+z)
 
 		else if (naryParentF != nullptr &&
-				 naryParentF->GetType() == kJSummationType &&
-				 f->GetType()           == kJNegationType)
+				 typeid(naryParentF) == typeid(JSummation) &&
+				 typeid(f)           == typeid(JNegation))
 			{
-			const JUnaryFunction* neg = f->CastToJUnaryFunction();
+			const JUnaryFunction* neg = dynamic_cast<const JUnaryFunction*>(f);
 			assert( neg != nullptr );
-			const JNaryOperator* naryF = (neg->GetArg())->CastToJNaryOperator();
-			if (naryF != nullptr && naryF->GetType() == kJSummationType)
+			const JNaryOperator* naryF = dynamic_cast<const JNaryOperator*>(neg->GetArg());
+			if (naryF != nullptr && typeid(naryF) == typeid(JSummation))
 				{
 				SaveStateForUndo();
 
@@ -1051,10 +1146,9 @@ JExprEditor::Negate
 	)
 	const
 {
-	if (f.GetType() == kJNegationType)
+	const JUnaryFunction* neg = dynamic_cast<const JUnaryFunction*>(&f);
+	if (neg != nullptr)
 		{
-		const JUnaryFunction* neg = f.CastToJUnaryFunction();
-		assert( neg != nullptr );
 		return (neg->GetArg())->Copy();
 		}
 	else
@@ -1074,8 +1168,7 @@ JBoolean
 JExprEditor::HasSelection()
 	const
 {
-	return JConvertToBoolean(
-			itsRectList != nullptr && itsRectList->SelectionValid(itsSelection) );
+	return JI2B( itsRectList != nullptr && itsRectList->SelectionValid(itsSelection) );
 }
 
 /******************************************************************************
@@ -1188,17 +1281,18 @@ JExprEditor::GetNegAdjSelFunction
 		 GetConstSelectedFunction(const_cast<const JFunction**>(selF))) &&
 		*selF != itsFunction)
 		{
-		JExprNodeList nodeList(itsFunction);
-		*parentF = GetParentFunction(*selF, nodeList);
+		JBoolean hasParent = (**selF).GetParent(parentF);
+		assert( hasParent );
 
 		JFunction* grandparentF = nullptr;
 		if (*parentF != itsFunction)
 			{
-			grandparentF = GetParentFunction(*parentF, nodeList);
+			hasParent = (**parentF).GetParent(&grandparentF);
+			assert( hasParent );
 			}
 
-		if ((**parentF).GetType() == kJNegationType && grandparentF != nullptr &&
-			grandparentF->GetType() == kJSummationType)
+		if (typeid(**parentF) == typeid(JNegation) && grandparentF != nullptr &&
+			typeid(grandparentF) == typeid(JSummation))
 			{
 			*selF    = *parentF;
 			*parentF = grandparentF;
@@ -1286,16 +1380,15 @@ JExprEditor::SelectFunction
 		JBoolean found = itsRectList->FindFunction(f, &fIndex);
 		while (!found)
 			{
-			const JFunctionWithArgs* fwa = f->CastToJFunctionWithArgs();
+			const JFunctionWithArgs* fwa = dynamic_cast<const JFunctionWithArgs*>(f);
 			assert( fwa != nullptr && fwa->GetArgCount() > 0 );
 			f     = fwa->GetArg(1);
 			found = itsRectList->FindFunction(f, &fIndex);
 			}
 
-		if (f->GetType() == kJUserInputType)
+		const JUserInputFunction* uif = dynamic_cast<const JUserInputFunction*>(f);
+		if (uif != nullptr)
 			{
-			const JUserInputFunction* uif = dynamic_cast<const JUserInputFunction*>(f);
-			assert( uif != nullptr );
 			ActivateUIF(const_cast<JUserInputFunction*>(uif));
 			}
 		else
@@ -1317,11 +1410,7 @@ JExprEditor::SetNormalFont()
 {
 	if (itsActiveUIF != nullptr)
 		{
-		itsActiveUIF->SetCurrentFontName(JGetDefaultFontName());
-		JUserInputFunction* savedUIF = itsActiveUIF;
-		itsActiveUIF = nullptr;
-		Render();
-		itsActiveUIF = savedUIF;
+		itsActiveUIF->SetGreek(kJFalse);
 		}
 }
 
@@ -1330,11 +1419,7 @@ JExprEditor::SetGreekFont()
 {
 	if (itsActiveUIF != nullptr)
 		{
-		itsActiveUIF->SetCurrentFontName(JGetGreekFontName());
-		JUserInputFunction* savedUIF = itsActiveUIF;
-		itsActiveUIF = nullptr;
-		Render();
-		itsActiveUIF = savedUIF;
+		itsActiveUIF->SetGreek(kJTrue);
 		}
 }
 
@@ -1351,7 +1436,7 @@ JExprEditor::SetGreekFont()
 JArray<JBoolean>
 JExprEditor::GetCmdStatus
 	(
-	const JCharacter** evalStr
+	JString* evalStr
 	)
 	const
 {
@@ -1396,7 +1481,7 @@ JExprEditor::GetCmdStatus
 		flags.SetElement(kApplyFnToSelCmd, kJTrue);
 
 		JFunction* selF = itsRectList->GetFunction(itsSelection);
-		if (selF->CastToJNaryFunction() != nullptr)
+		if (dynamic_cast<JNaryFunction*>(selF) != nullptr)
 			{
 			flags.SetElement(kAddArgCmd, kJTrue);
 			}
@@ -1407,8 +1492,7 @@ JExprEditor::GetCmdStatus
 		flags.SetElement(kNegateSelCmd, kJTrue);
 		flags.SetElement(kApplyFnToSelCmd, kJTrue);
 
-		const JFont font = itsActiveUIF->GetCurrentFont();
-		if (strcmp(font.GetName(), JGetDefaultFontName()) == 0)
+		if (itsActiveUIF->IsGreek())
 			{
 			flags.SetElement(kSetGreekFontCmd, kJTrue);
 			}
@@ -1421,7 +1505,7 @@ JExprEditor::GetCmdStatus
 	JFunction *selF, *parentF;
 	if (GetNegAdjSelFunction(&selF, &parentF))
 		{
-		JNaryFunction* naryParentF = parentF->CastToJNaryFunction();
+		JNaryFunction* naryParentF = dynamic_cast<JNaryFunction*>(parentF);
 		if (naryParentF != nullptr)
 			{
 			const JSize parentArgCount = naryParentF->GetArgCount();
@@ -1437,7 +1521,7 @@ JExprEditor::GetCmdStatus
 				flags.SetElement(kMoveArgRightCmd, kJTrue);
 				}
 
-			if (naryParentF->CastToJNaryOperator() != nullptr)
+			if (dynamic_cast<JNaryOperator*>(naryParentF) != nullptr)
 				{
 				if (argIndex > 1)
 					{
@@ -1447,16 +1531,16 @@ JExprEditor::GetCmdStatus
 					{
 					flags.SetElement(kGroupRightCmd, kJTrue);
 					}
-				if (selF->GetType() == naryParentF->GetType())
+				if (typeid(selF) == typeid(naryParentF))
 					{
 					flags.SetElement(kUngroupCmd, kJTrue);
 					}
-				else if (naryParentF->GetType() == kJSummationType &&
-						 selF->GetType()        == kJNegationType)
+				else if (typeid(naryParentF) == typeid(JSummation) &&
+						 typeid(selF)        == typeid(JNegation))
 					{
-					const JUnaryFunction* neg = selF->CastToJUnaryFunction();
+					const JUnaryFunction* neg = dynamic_cast<const JUnaryFunction*>(selF);
 					assert( neg != nullptr );
-					if ((neg->GetArg())->GetType() == kJSummationType)
+					if (typeid(neg->GetArg()) == typeid(JSummation))
 						{
 						flags.SetElement(kUngroupCmd, kJTrue);
 						}
@@ -1524,8 +1608,6 @@ JExprEditor::DrawForPrint
 	const JPoint&	topLeft
 	)
 {
-	const JRect bounds = GetPrintBounds();
-
 	p.ShiftOrigin(topLeft);
 	EIPDraw(p);
 	p.ShiftOrigin(-topLeft);
@@ -1681,8 +1763,8 @@ JExprEditor::EIPHandleMouseUp()
 		assert( itsActiveUIF == nullptr );
 
 		JFunction* selectedF = itsRectList->GetFunction(itsSelection);
-		const JFunctionType selectedFType = selectedF->GetType();
-		if (selectedFType == kJUserInputType)
+		const std::type_info& selectedFType = typeid(selectedF);
+		if (selectedFType == typeid(JUserInputFunction))
 			{
 			JUserInputFunction* uif = dynamic_cast<JUserInputFunction*>(selectedF);
 			assert( uif != nullptr );
@@ -1692,13 +1774,13 @@ JExprEditor::EIPHandleMouseUp()
 			itsActiveUIF->HandleMouseUp();
 			EIPRefresh();
 			}
-		else if ((selectedFType == kJConstantValueType ||
-				  selectedFType == kJVariableValueType) &&
+		else if ((selectedFType == typeid(JConstantValue) ||
+				  selectedFType == typeid(JVariableValue)) &&
 				 selectedF == itsPrevSelectedFunction)
 			{
 			SaveStateForUndo();
 			JString s;
-			if (selectedFType == kJConstantValueType)
+			if (selectedFType == typeid(JConstantValue))
 				{
 				JConstantValue* constVal = dynamic_cast<JConstantValue*>(selectedF);
 				assert( constVal != nullptr );
@@ -1706,13 +1788,12 @@ JExprEditor::EIPHandleMouseUp()
 				}
 			else
 				{
-				assert( selectedFType == kJVariableValueType );
-				JFunctionWithVar* varVal = selectedF->CastToJFunctionWithVar();
+				assert( selectedFType == typeid(JVariableValue) );
+				JFunctionWithVar* varVal = dynamic_cast<JFunctionWithVar*>(selectedF);
 				assert( varVal != nullptr );
 				s = itsVarList->GetVariableName(varVal->GetVariableIndex());
 				}
-			JUserInputFunction* newUIF =
-				jnew JUserInputFunction(itsVarList, itsFontManager, s);
+			JUserInputFunction* newUIF = jnew JUserInputFunction(this, s);
 			assert( newUIF != nullptr );
 			ReplaceFunction(selectedF, newUIF);
 			Render();
@@ -1801,8 +1882,7 @@ JExprEditor::EIPHandleKeyPress
 
 		// replace selection with JUserInputFunction
 
-		JUserInputFunction* newUIF =
-			jnew JUserInputFunction(itsVarList, itsFontManager);
+		JUserInputFunction* newUIF = jnew JUserInputFunction(this);
 		assert( newUIF != nullptr );
 		JFunction* selectedF = itsRectList->GetFunction(itsSelection);
 		ReplaceFunction(selectedF, newUIF);
@@ -1810,7 +1890,7 @@ JExprEditor::EIPHandleKeyPress
 		ActivateUIF(newUIF);
 		}
 
-	else if (selectionValid && JIsPrint(key))
+	else if (selectionValid && key.IsPrint())
 		{
 		SaveStateForUndo();
 
@@ -1823,8 +1903,7 @@ JExprEditor::EIPHandleKeyPress
 			{
 			// replace selection with JUserInputFunction
 
-			JUserInputFunction* newUIF =
-				jnew JUserInputFunction(itsVarList, itsFontManager);
+			JUserInputFunction* newUIF = jnew JUserInputFunction(this);
 			assert( newUIF != nullptr );
 			newUIF->Activate();
 			JBoolean needParse, needRender;
@@ -1857,7 +1936,7 @@ JExprEditor::EIPHandleKeyPress
 		JFunction* arg1 = nullptr;
 		JUserInputFunction* newUIF = nullptr;
 		JBoolean needRender;
-		if (itsActiveUIF->Parse(&arg1, &newUIF, &needRender))
+		if (itsActiveUIF->Parse(key, &arg1, &newUIF, &needRender))
 			{
 			assert( newUIF == nullptr );
 			ReplaceFunction(itsActiveUIF, arg1);
@@ -1909,7 +1988,7 @@ JExprEditor::EIPHandleKeyPress
 
 		JFunction* newF = nullptr;
 		JUserInputFunction* newUIF = nullptr;
-		if (needParse && itsActiveUIF->Parse(&newF, &newUIF, &needRender))
+		if (needParse && itsActiveUIF->Parse(key, &newF, &newUIF, &needRender))
 			{
 			ReplaceFunction(itsActiveUIF, newF);
 			itsActiveUIF = nullptr;
@@ -1940,22 +2019,23 @@ JExprEditor::EIPHandleKeyPress
 void
 JExprEditor::ApplyOperatorKey
 	(
-	const JCharacter	key,
-	JFunction*			targetF
+	const JUtf8Character&	key,
+	JFunction*				targetF
 	)
 {
-	const JFunctionType targetType = targetF->GetType();
+	const std::type_info& targetType = typeid(targetF);
 
 	JFunction* parentF = nullptr;
-	JFunctionType parentType = kJVariableValueType;
+	const std::type_info* parentType = & typeid(JVariableValue);
 	if (targetF != itsFunction)
 		{
-		parentF    = GetParentFunction(targetF);
-		parentType = parentF->GetType();
+		const JBoolean hasParent = targetF->GetParent(&parentF);
+		assert( hasParent );
+
+		parentType = & typeid(parentF);
 		}
 
-	JUserInputFunction* newUIF =
-		jnew JUserInputFunction(itsVarList, itsFontManager);
+	JUserInputFunction* newUIF = jnew JUserInputFunction(this);
 	assert( newUIF != nullptr );
 
 	JFunction* newArg = newUIF;
@@ -1967,20 +2047,20 @@ JExprEditor::ApplyOperatorKey
 
 	JFunction* newF = nullptr;
 
-	if (((key == '+' || key == '-') && targetType == kJSummationType) ||
-		(key == '*' && targetType == kJProductType) ||
-		(key == '|' && targetType == kJParallelType))
+	if (((key == '+' || key == '-') && targetType == typeid(JSummation)) ||
+		(key == '*' && targetType == typeid(JProduct)) ||
+		(key == '|' && targetType == typeid(JParallel)))
 		{
-		JNaryOperator* naryOp = targetF->CastToJNaryOperator();
+		JNaryOperator* naryOp = dynamic_cast<JNaryOperator*>(targetF);
 		assert( naryOp != nullptr );
 		naryOp->SetArg(naryOp->GetArgCount()+1, newArg);
 		}
 	else if (parentF != nullptr &&
-			(((key == '+' || key == '-') && parentType == kJSummationType) ||
-			 (key == '*' && parentType == kJProductType) ||
-			 (key == '|' && parentType == kJParallelType)))
+			(((key == '+' || key == '-') && *parentType == typeid(JSummation)) ||
+			 (key == '*' && *parentType == typeid(JProduct)) ||
+			 (key == '|' && *parentType == typeid(JParallel))))
 		{
-		JNaryOperator* naryOp = parentF->CastToJNaryOperator();
+		JNaryOperator* naryOp = dynamic_cast<JNaryOperator*>(parentF);
 		assert( naryOp != nullptr );
 		JIndex selFIndex;
 		const JBoolean found = naryOp->FindArg(targetF, &selFIndex);
@@ -2087,17 +2167,17 @@ JExprEditor::GetCommaTarget
 		return kJFalse;
 		}
 
-	JExprNodeList nodeList(itsFunction);
-
 	JFunction* currF = startF;
 	JFunction* parentF = nullptr;
 	while (currF != itsFunction)
 		{
-		parentF = GetParentFunction(currF, nodeList);
-		JNaryFunction* naryParentF = parentF->CastToJNaryFunction();
-		if (naryParentF != nullptr && parentF->CastToJNaryOperator() == nullptr)
+		const JBoolean hasParent = currF->GetParent(&parentF);
+		assert( hasParent );
+
+		JNaryFunction* naryParentF = dynamic_cast<JNaryFunction*>(parentF);
+		if (naryParentF != nullptr && dynamic_cast<JNaryOperator*>(parentF) == nullptr)
 			{
-			*targetF = naryParentF;
+			*targetF             = naryParentF;
 			const JBoolean found = naryParentF->FindArg(currF, newArgIndex);
 			assert( found );
 			(*newArgIndex)++;	// insert after current arg
@@ -2177,10 +2257,11 @@ JExprEditor::DeleteFunction
 		return itsFunction;
 		}
 
-	JExprNodeList nodeList(itsFunction);
+	JFunction* parentF;
+	JBoolean hasParent = targetF->GetParent(&parentF);
+	assert( hasParent );
 
-	JFunction* parentF = GetParentFunction(targetF, nodeList);
-	JFunctionWithArgs* parentfwa = parentF->CastToJFunctionWithArgs();
+	JFunctionWithArgs* parentfwa = dynamic_cast<JFunctionWithArgs*>(parentF);
 	if (parentfwa == nullptr || parentfwa->GetArgCount() == 1)
 		{
 		JFunction* currentF = parentF;
@@ -2191,8 +2272,11 @@ JExprEditor::DeleteFunction
 				PrivateClearFunction();
 				return itsFunction;
 				}
-			JFunction* ancestorF = GetParentFunction(currentF, nodeList);
-			parentfwa = ancestorF->CastToJFunctionWithArgs();
+			JFunction* ancestorF;
+			hasParent = currentF->GetParent(&ancestorF);
+			assert( hasParent );
+
+			parentfwa = dynamic_cast<JFunctionWithArgs*>(ancestorF);
 			if (parentfwa != nullptr && parentfwa->GetArgCount() > 1)
 				{
 				targetF = currentF;
@@ -2228,7 +2312,7 @@ JExprEditor::DeleteFunction
 		}
 	else if (parentArgCount > 2)
 		{
-		JNaryFunction* naryF = parentF->CastToJNaryFunction();
+		JNaryFunction* naryF = dynamic_cast<JNaryFunction*>(parentF);
 		assert( naryF != nullptr );
 		const JBoolean ok = naryF->DeleteArg(targetF);
 		assert( ok );
@@ -2257,9 +2341,12 @@ JExprEditor::ReplaceFunction
 		}
 	else
 		{
-		JFunction* parentF     = GetParentFunction(origF);
-		JFunctionWithArgs* fwa = parentF->CastToJFunctionWithArgs();
-		JFunctionWithVar* fwv  = parentF->CastToJFunctionWithVar();
+		JFunction* parentF;
+		const JBoolean hasParent = origF->GetParent(&parentF);
+		assert( hasParent );
+
+		JFunctionWithArgs* fwa = dynamic_cast<JFunctionWithArgs*>(parentF);
+		JFunctionWithVar* fwv  = dynamic_cast<JFunctionWithVar*>(parentF);
 		if (fwa != nullptr)
 			{
 			const JBoolean ok = fwa->ReplaceArg(origF, newF);
@@ -2272,49 +2359,6 @@ JExprEditor::ReplaceFunction
 			fwv->SetArrayIndex(newF);
 			}
 		}
-}
-
-/******************************************************************************
- GetParentFunction (private)
-
-	The caller -can- assume that the result is either a JFunctionWithArgs
-	or a JFunctionWithVar.
-
-	*** Do not call this on the root node (itsFunction)
-
- ******************************************************************************/
-
-JFunction*
-JExprEditor::GetParentFunction
-	(
-	JFunction* f
-	)
-	const
-{
-	JExprNodeList nodeList(itsFunction);
-	return GetParentFunction(f, nodeList);
-}
-
-JFunction*
-JExprEditor::GetParentFunction
-	(
-	JFunction*				f,
-	const JExprNodeList&	nodeList
-	)
-	const
-{
-	JIndex fIndex;
-	const JBoolean found = nodeList.Find(f, &fIndex);
-	assert( found );
-
-	const JIndex parentIndex = nodeList.GetParentIndex(fIndex);
-	assert( parentIndex != kJExprRootNode );
-
-	JFunction* parentF = nodeList.GetFunction(parentIndex);
-	assert( parentF->CastToJFunctionWithArgs() != nullptr ||
-			parentF->CastToJFunctionWithVar()  != nullptr );
-
-	return parentF;
 }
 
 /******************************************************************************
@@ -2337,30 +2381,26 @@ JExprEditor::FindNextUIF
 		}
 
 	const JSize rectCount = itsRectList->GetElementCount();
-	{
+
 	for (JIndex i=currentIndex+1; i<=rectCount; i++)
 		{
 		const JFunction* f = itsRectList->GetFunction(i);
-		if (f->GetType() == kJUserInputType)
+		const JUserInputFunction* uif = dynamic_cast<const JUserInputFunction*>(f);
+		if (uif != nullptr)
 			{
-			const JUserInputFunction* uif = dynamic_cast<const JUserInputFunction*>(f);
-			assert( uif != nullptr );
 			return const_cast<JUserInputFunction*>(uif);
 			}
 		}
-	}
-	{
+
 	for (JIndex i=1; i<=currentIndex; i++)
 		{
 		const JFunction* f = itsRectList->GetFunction(i);
-		if (f->GetType() == kJUserInputType)
+		const JUserInputFunction* uif = dynamic_cast<const JUserInputFunction*>(f);
+		if (uif != nullptr)
 			{
-			const JUserInputFunction* uif = dynamic_cast<const JUserInputFunction*>(f);
-			assert( uif != nullptr );
 			return const_cast<JUserInputFunction*>(uif);
 			}
 		}
-	}
 
 	return nullptr;
 }
@@ -2447,7 +2487,7 @@ JSize
 JExprEditor::GetInitialFontSize()
 	const
 {
-	return JGetDefaultFontSize();
+	return JFontManager::GetDefaultFontSize();
 }
 
 JSize
@@ -2457,7 +2497,7 @@ JExprEditor::GetSuperSubFontSize
 	)
 	const
 {
-	const JSize size = JGetDefaultFontSize();
+	const JSize size = JFontManager::GetDefaultFontSize();
 	if (baseFontSize == size)
 		{
 		return size-2;
@@ -2480,7 +2520,7 @@ JExprEditor::GetLineHeight
 	)
 	const
 {
-	const JFont font = itsFontManager->GetFont(JGetDefaultFontName(), fontSize, itsDefaultStyle);
+	const JFont font = itsFontManager->GetFont(JFontManager::GetDefaultFontName(), fontSize, itsDefaultStyle);
 	return font.GetLineHeight(itsFontManager);
 }
 
@@ -2496,19 +2536,19 @@ JExprEditor::GetSpaceWidth
 	)
 	const
 {
-	return GetStringWidth(JString(" ", kJFalse));
+	return GetStringWidth(fontSize, JString(" ", kJFalse));
 }
 
 JSize
 JExprEditor::GetStringWidth
 	(
-	const JSize			fontSize,
-	const JCharacter*	str
+	const JSize		fontSize,
+	const JString&	str
 	)
 	const
 {
-	const JFont font = itsFontManager->GetFont(JGetDefaultFontName(), fontSize, itsDefaultStyle);
-	return font.GetStringWidthitsFontManager, (str);
+	const JFont font = itsFontManager->GetFont(JFontManager::GetDefaultFontName(), fontSize, itsDefaultStyle);
+	return font.GetStringWidth(itsFontManager, str);
 }
 
 void
@@ -2517,13 +2557,13 @@ JExprEditor::DrawString
 	const JCoordinate	left,
 	const JCoordinate	midline,
 	const JSize			fontSize,
-	const JCharacter*	str
+	const JString&		str
 	)
 	const
 {
 	const JCoordinate h = GetLineHeight(fontSize);
 	JCoordinate y = midline - h/2;
-	itsPainter->SetFont(itsFontManager->GetFont(JGetDefaultFontName(), fontSize, itsDefaultStyle));
+	itsPainter->SetFont(itsFontManager->GetFont(JFontManager::GetDefaultFontName(), fontSize, itsDefaultStyle));
 	itsPainter->String(left,y, str);
 }
 
