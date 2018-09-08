@@ -142,12 +142,10 @@ JBinaryFunction::SetArg
 
 	if (index == 1)
 		{
-		jdelete itsArg1;
-		itsArg1 = arg;
+		SetArg1(arg);
 		}
 	else	// index = 2
 		{
-		jdelete itsArg2;
-		itsArg2 = arg;
+		SetArg2(arg);
 		}
 }

@@ -134,6 +134,8 @@ JNaryFunction::SetArg
 		assert( index == itsArgList->GetElementCount()+1 );
 		itsArgList->Append(arg);
 		}
+
+	arg->SetParent(this);
 }
 
 /******************************************************************************
@@ -150,6 +152,7 @@ JNaryFunction::InsertArg
 {
 	assert( arg != nullptr );
 	itsArgList->InsertAtIndex(index, arg);
+	arg->SetParent(this);
 }
 
 /******************************************************************************
@@ -165,6 +168,7 @@ JNaryFunction::PrependArg
 {
 	assert( arg != nullptr );
 	itsArgList->Prepend(arg);
+	arg->SetParent(this);
 }
 
 /******************************************************************************
@@ -180,6 +184,7 @@ JNaryFunction::AppendArg
 {
 	assert( arg != nullptr );
 	itsArgList->Append(arg);
+	arg->SetParent(this);
 }
 
 /******************************************************************************

@@ -1,6 +1,3 @@
-libjexpr
-	set parent for each JFunction
-
 JTextEditor tests
 	2 TE's for 1 ST
 		MouseActions

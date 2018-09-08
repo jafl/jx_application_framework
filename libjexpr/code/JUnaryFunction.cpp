@@ -116,6 +116,5 @@ JUnaryFunction::SetArg
 	)
 {
 	assert( index == 1);
-	jdelete itsArg;
-	itsArg = arg;
+	SetArg(arg);
 }

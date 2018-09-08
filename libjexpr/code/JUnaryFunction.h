@@ -73,6 +73,7 @@ JUnaryFunction::SetArg
 {
 	jdelete itsArg;
 	itsArg = arg;
+	itsArg->SetParent(this);
 }
 
 #endif

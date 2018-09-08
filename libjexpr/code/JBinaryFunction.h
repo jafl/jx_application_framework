@@ -90,6 +90,7 @@ JBinaryFunction::SetArg1
 {
 	jdelete itsArg1;
 	itsArg1 = arg;
+	itsArg1->SetParent(this);
 }
 
 inline void
@@ -100,6 +101,7 @@ JBinaryFunction::SetArg2
 {
 	jdelete itsArg2;
 	itsArg2 = arg;
+	itsArg2->SetParent(this);
 }
 
 #endif
