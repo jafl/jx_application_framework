@@ -81,7 +81,7 @@ JArcCosine::Evaluate
 	const
 {
 	JFloat argValue;
-	if (!GetArg()->Evaluate(&argValue))
+	if (!GetArg()->Evaluate(&argValue) || !(-1.0 <= argValue && argValue <= 1.0))
 		{
 		return kJFalse;
 		}

@@ -71,6 +71,7 @@
 #include "JUserInputFunction.h"
 
 #include "JExprParser.h"
+#include "jFunctionUtil.h"
 #include "JFunctionWithVar.h"
 #include "JUnaryFunction.h"
 #include "JBinaryFunction.h"
@@ -769,22 +770,8 @@ JExprEditor::ApplyFunction
 	*newF   = nullptr;
 	*newUIF = nullptr;
 
-	const JSize fnCount            = JPGetStdFunctionCount();
-	const JStdFunctionInfo* fnInfo = JPGetStdFunctionInfo();
-
-	JBoolean found = kJFalse;
 	JSize argCount = 0;
-	for (JIndex i=1; i<=fnCount; i++)
-		{
-		if (fnName == fnInfo[i-1].name)
-			{
-			found    = kJTrue;
-			argCount = fnInfo[i-1].argCount;
-			break;
-			}
-		}
-
-	if (!found)
+	if (!JGetArgCount(fnName, &argCount))
 		{
 		const JUtf8Byte* map[] =
 		{

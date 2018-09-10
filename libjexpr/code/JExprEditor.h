@@ -25,6 +25,7 @@ class JFunctionWithArgs;
 class JUserInputFunction;
 class JExprNodeList;
 class JExprRectList;
+class JStyledText;
 
 class JExprEditor : public JExprRenderer, virtual public JBroadcaster
 {
@@ -164,6 +165,8 @@ public:
 	JBoolean	ApplyFunction(const JString& fnName, const JFunction& origF,
 							  JFunction** newF, JFunction** newArg,
 							  JUserInputFunction** newUIF);
+
+	virtual JStyledText*	BuildStyledText() = 0;
 
 protected:
 

@@ -114,7 +114,7 @@ yyprint
 %left '+' '-'
 %left '*' '/'
 %right '^'
-%left UMINUS
+%left UMINUS UPLUS
 
 %%
 
@@ -129,19 +129,39 @@ expression
 e
 	: P_NUMBER
 		{
-		JFloat v;
-		if (!$1->ConvertToFloat(&v))
+		JPtrArray<JString> s(JPtrArrayT::kDeleteAll);
+		$1->Split("e", &s, 2);
+
+		if (s.GetElementCount() == 2)
 			{
-			YYERROR;
+			JFloat v, e;
+			if (!s.GetElement(1)->ConvertToFloat(&v) ||
+				!s.GetElement(2)->ConvertToFloat(&e))
+				{
+				YYERROR;
+				}
+			JProduct* p = jnew JProduct();
+			assert( p != nullptr );
+			p->AppendArg(jnew JConstantValue(v));
+			p->AppendArg(jnew JExponent(jnew JConstantValue(10), jnew JConstantValue(e)));
+			$$ = p;
 			}
-		$$ = jnew JConstantValue(v);
-		assert( $$ != nullptr );
+		else
+			{
+			JFloat v;
+			if (!$1->ConvertToFloat(&v))
+				{
+				YYERROR;
+				}
+			$$ = jnew JConstantValue(v);
+			assert( $$ != nullptr );
+			}
 		}
 
-	| P_NUMBER P_E P_NUMBER
+	| P_NUMBER P_E '+' P_NUMBER
 		{
 		JFloat v, e;
-		if (!$1->ConvertToFloat(&v) || !$3->ConvertToFloat(&e))
+		if (!$1->ConvertToFloat(&v) || !$4->ConvertToFloat(&e))
 			{
 			YYERROR;
 			}
@@ -255,6 +275,11 @@ e
 		{
 		$$ = jnew JNegation($2);
 		assert( $$ != nullptr );
+		}
+
+	| '+' e %prec UPLUS
+		{
+		$$ = $2;
 		}
 
 	| P_FN_ABS '(' e ')'

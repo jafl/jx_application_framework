@@ -9,10 +9,6 @@ NowhereToPaste::JExprEditor		"Please select a place to paste first."
 EmptyFunction::JExprEditor		"This function is empty."
 UnknownFunction::JExprEditor	"Unknown function \"$name\""
 
-# JFunctionWithVar
-
-ArrayIndexOutOfBounds::JFunctionWithVar	"Array index out of bounds"
-
 # JXExprEvalDirector
 
 WindowTitle::JXExprEvalDirector				"Result"

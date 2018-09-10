@@ -143,7 +143,6 @@ JFunctionWithVar::EvaluateArrayIndex
 	*index = JRound(x);
 	if (!itsVariableList->ArrayIndexValid(itsVariableIndex, *index))
 		{
-		(JGetUserNotification())->ReportError(JGetString("ArrayIndexOutOfBounds::JFunctionWithVar"));
 		return kJFalse;
 		}
 	else

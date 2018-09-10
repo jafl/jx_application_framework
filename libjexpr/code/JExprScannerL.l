@@ -20,6 +20,8 @@ Copyright (C) 2018 by John Lindal.
 %option 8bit nodefault
 %option noyywrap
 
+EXP	([eE][0-9]+)
+
 %%
 
 %{
@@ -28,11 +30,13 @@ Copyright (C) 2018 by John Lindal.
 	bzero(lvalp, sizeof(YYSTYPE));
 %}
 
-0                   |
-[1-9][0-9]*         |
-[0-9]+"."([0-9]+)?  |
-([0-9]+)?"."[0-9]+  |
-"0"[xX][0-9a-fA-F]+ {
+	/* We have to slurp e#, because that is also a valid variable name. */
+
+0{EXP}?                   |
+[1-9][0-9]*{EXP}?         |
+[0-9]+"."([0-9]+)?{EXP}?  |
+([0-9]+)?"."[0-9]+{EXP}?  |
+"0"[xX][0-9a-fA-F]+{EXP}? {
 	NEW_TOKEN(yytext);
 	return P_NUMBER;
 }
@@ -43,15 +47,11 @@ Copyright (C) 2018 by John Lindal.
 	return P_PI;
 	}
 
-"e" |
-"E" {
+[eE] {
 	return P_E;
 	}
 
-"i" |
-"I" |
-"j" |
-"J" {
+[iIjJ] {
 	return P_I;
 	}
 
@@ -135,7 +135,7 @@ Copyright (C) 2018 by John Lindal.
 	return P_FN_PARALLEL;
 	}
 
-"phase" {
+"arg" {
 	return P_FN_PHASE;
 	}
 
@@ -179,7 +179,7 @@ Copyright (C) 2018 by John Lindal.
 	return P_FN_TRUNCATE;
 	}
 
-[^-*/+^(),[:space:]0-9?][^-*/+^(),[:space:]]* {
+[[:alpha:]`][[:alnum:]`_]* {
 	NEW_TOKEN(yytext);
 	return P_VARIABLE;
 }

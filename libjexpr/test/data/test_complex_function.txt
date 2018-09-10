@@ -1,0 +1,39 @@
+N x		1
+N y		2
+N z		3
+N w		4
+*
+
+T T (0,1)		i
+T T (0,1)		j
+T T (0,1)		I
+T T (-1,0)		i*j
+T T (-1,0)		i^2
+
+T T (3,4)		3+4*i
+T T (5,0)		abs(3-4*j)
+
+T T (1,0)		x
+T T (0,-1)		sqrt(-x)
+T T (0,1.41421)	sqrt(x-z)
+
+T T (1,0)		re(1+i)
+T T (1,0)		im(1+i)
+
+T T (0.7854,0)	arg(1+j)
+T T (0,-1)		conjugate(j)
+
+T T (-1,0)		e^(i*pi)
+T T (0,-1)		i^3
+
+T T (0,1)		rotate(1, pi/2)
+T T (1,1)		rotate(sqrt(2),pi/4)
+T T (-1,0)		rotate(-j,-pi/2)
+
+T T (0,1.5708)	ln(i)
+
+T T (0,1.1752)	sin(i)
+T T (0,1.81845)	arcsin(3*i)
+T T (1.5708,0)	arcsin(1)
+
+T F (0,0)		1.0/(y-2.0*x)

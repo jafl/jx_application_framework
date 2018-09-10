@@ -1,0 +1,134 @@
+N x		1
+N y		2
+N z		3
+N w		4
+N dx	-0.5
+N dy	-1.5
+N dz	-2.5
+N dw	-3.5
+N a[3]	1	2	3
+N R_1	1000
+N a_x[3]	1	2	3
+N bac[2]	1	2
+N a_y[2]	1	2
+N `a		1
+N `b		2
+N `g		3
+N C_`m		4
+*
+
+T T 3.5		3.5
+T T -7.1	-7.1
+T T 300		3e2
+T T 300		3E+2
+T T 0.03	3e-2
+T T 2.71828	e
+
+T T 10		`a + `b + `g + C_`m
+T T 5.30486	sqrt(25+pi*sin(pi/2)+ln(e)-x)
+T T 1		R_1/1000
+
+T T 1		ln(e)
+T T 2		log10(100)
+T T 3		log2(8)
+T T 4		log(3,81)+y/2-1
+
+T T 2		a[2]
+T F 0		a[4]
+T F 0		a[-1]
+T T 2		a[3/y^2]+1
+
+F F 0		3+2^?
+T T 81		((z-y)/((x/3)^(y/2+1))^2)
+
+T T -3.5	(dw)
+T T -3.5	(+dw)
+T T 3.5		((-dw))
+T T -3		-(x+y)
+T T 3		-(-(x+y))
+T T 3		--(x+y)
+T T 2		-w*dx
+
+T T 3		x+y
+T T 0		-x+y+z-w
+T T 1.5		+x+(y-z)+dy*(-1)
+T T 2		x-((y-z))
+T T -4.5	-(y+z)+x-x/2
+T T 2		x+(y+z/3)-y
+
+T T -0.5	0.5*x + -0.5*y
+T T 1.5		x+5e-1*x
+T T 0.5		(5E-1)*x
+
+T T -1		y*dx
+T T 12		w*z/2*y
+T T 3		x*(y*z)*0.5
+T T 0.75	x*(y+z/3)*dx*dx
+T T 1.5		x*(y+z/3)*dx^2*2
+T T 3		(y+z/3)*x
+T T 15		(x+y)*(y+z)
+
+T T -0.5		-x/2
+T T 0.166667	x/y/z
+T T 4			y/x*y
+T T 4			y*y/x^2
+
+T T 4			y^2
+T T 0.25		(x/2)^2
+T T 9			(x+2)^2
+T T 4			(x+2/y)^2
+T T 2.41785e+24	y^z^w
+T T 2.41785e+24	y^((z^w))
+T T 4096		(y^z)^w
+
+T F 0			y/(x+2*dx)
+T F 0			sqrt(-1)
+T T 1			sqrt(abs(-1))
+T F 0			arcsin(y)
+
+T T -0.46967	x+y/(x*y^(x/2+z)/z)-y
+T T -2			-x+y/(x*y)-y
+T T -2.66667	((-x+y)-z)/(x*(y+z/3))-y
+T T 2.66667		x*(x+y/z/w/dx)*y^2
+T T 4.33333		x-(x+y/z/w/dx)+y^2
+
+T T 1		sin(pi/2)
+T T 0.5		sin(pi/4)^2
+T T 0.5		sin(pi/6)
+T T 0.78540	arctan(x)
+
+T T 4		max(x,y,z,w,dx)
+T T -0.5	min(dx/x/x^2/x,x,y/2,z/(-dw/x+dx),w^2)
+
+T T 1.41421	sqrt(2)
+T T 5		sqrt((y+z)*(dy/(dx-x)+w))
+T T 9		3+sqrt((y+z)*(dy/(dx-x)+w))+x
+
+T T 1.5		abs(dy)
+T T 25		abs(-(y+z)*(dy/(dx-x)+w))
+T T 0.2		5/(x/x/x+abs(-(y+z)*(dy/(dx-x)+w))-1)
+
+T T 10		parallel(20,20)
+T T 1.5		parallel(x+y,z)
+T T 2		parallel(y^2,w)
+T T 1.9922	parallel(w/x/(x/x),w,y^z^y)
+T T 1.9922	parallel(y^2/x/(x/x),w,y^z^y)
+T T 1		parallel(y,parallel(w,w))
+T T 2.2		x+parallel(y,z)
+T T 0.5		x*parallel(y+1,z*x)-1
+T T 100		parallel(20,20)^2
+
+T T 1.1752	sinh(1)
+T T 1		cosh(y-2*x)
+T T 1		tanh(1.0e3)
+
+T T 5		abs(3+4*j)
+T F 0		sqrt(x-z)
+
+T T 5		re(w+x)
+T T 0		im(w+x)
+T T 0		re(j)
+T T 1		im(j)
+
+T T 0		arg(5)
+T T 0.78540	arg(1+j)

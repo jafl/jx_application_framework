@@ -85,7 +85,7 @@ JSquareRoot::Evaluate
 	const
 {
 	JFloat argValue;
-	if (GetArg()->Evaluate(&argValue))
+	if (GetArg()->Evaluate(&argValue) && argValue >= 0.0)
 		{
 		jclear_errno();
 		*result = sqrt(argValue);

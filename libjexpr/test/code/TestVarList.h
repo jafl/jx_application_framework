@@ -1,9 +1,7 @@
 /******************************************************************************
  TestVarList.h
 
-	Interface for TestVarList class.
-
-	Copyright (C) 1995 by John Lindal.
+	Written by John Lindal.
 
  ******************************************************************************/
 
@@ -25,9 +23,6 @@ public:
 	TestVarList(std::istream& input);
 
 	virtual ~TestVarList();
-
-	JBoolean	AddNumericVar(const JCharacter* name, const JFloat value);
-	JBoolean	AddNumericArray(const JCharacter* name, const TVLNArray& values);
 
 // implementation of JVariableList
 

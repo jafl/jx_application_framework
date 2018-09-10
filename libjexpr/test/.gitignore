@@ -1,2 +1,3 @@
-testjexpr
-code/testjexprStringData.h
+test_*
+!test_*.cpp
+!test_*.txt

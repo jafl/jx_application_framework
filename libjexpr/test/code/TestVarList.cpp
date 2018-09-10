@@ -1,25 +1,22 @@
 /******************************************************************************
  TestVarList.cpp
 
-							The TestVarList Class
-
-	This class implements the simplest possible variable list for testing
-	the parser.
+	The simplest possible variable list for testing the parser.
 
 	BASE CLASS = JVariableList
 
-	Copyright (C) 1995 by John Lindal.
+	Written by John Lindal.
 
  ******************************************************************************/
 
 #include "TestVarList.h"
-#include <jParseFunction.h>
+#include <JStringIterator.h>
+#include <JStringMatch.h>
 #include <jStreamUtil.h>
 #include <jMath.h>
-#include <jGlobals.h>
 #include <jAssert.h>
 
-static const JString kUnknownValueSymbol = "?";
+static const JString kUnknownValueSymbol("?", kJFalse);
 
 /******************************************************************************
  Constructor
@@ -50,45 +47,59 @@ TestVarList::TestVarList
 	TestVarListX();
 
 	input >> std::ws;
+	JString name, sizeStr;
 	while (input.peek() != '*')
 		{
-		JCharacter type;
+		JUtf8Character type;
 		input >> type >> std::ws;
 		if (type == 'N')
 			{
-			JString name = JReadUntilws(input);
+			name = JReadUntilws(input);
 			if (name.GetLastCharacter() != ']')
 				{
 				JFloat value;
 				input >> value;
-				AddNumericVar(name, value);
+
+				itsNumericNames->Append(name);
+				itsNumericValues->AppendElement(value);
+				itsNumericArrays->AppendElement(static_cast<TVLNArray*>(nullptr));
 				}
 			else
 				{
-				const JSize nameLen = name.GetLength();
-				JIndex bracketIndex;
-				const JBoolean foundBracket = name.LocateSubstring("[", &bracketIndex);
-				assert( foundBracket && bracketIndex < nameLen-1 );
-				const JString sizeStr = name.GetSubstring(bracketIndex+1, nameLen-1);
-				name.RemoveSubstring(bracketIndex, nameLen);
+				JStringIterator iter(&name);
+				JBoolean found = iter.Next("[");
+				assert( found && !iter.AtEnd() );
+
+				iter.BeginMatch();
+				found = iter.Next("]");
+				assert( found && iter.AtEnd() );
+
+				sizeStr = iter.FinishMatch().GetString();
+
+				iter.Prev("[");
+				iter.RemoveAllNext();
+				iter.Invalidate();
+
 				JSize arraySize;
 				const JBoolean isNumber = sizeStr.ConvertToUInt(&arraySize);
 				assert( isNumber );
+
 				TVLNArray values(arraySize);
-				for (JIndex i=1; i<= arraySize; i++)
+				for (JIndex i=1; i<=arraySize; i++)
 					{
 					JFloat value;
 					input >> value;
 					values.AppendElement(value);
 					}
-				AddNumericArray(name, values);
+
+				itsNumericNames->Append(name);
+				itsNumericValues->AppendElement(0.0);
+				itsNumericArrays->Append(values);
 				}
 			}
 		else
 			{
-			JString errorStr = "Unsupported variable type 'x'";
-			errorStr.SetCharacter(errorStr.GetLength()-1, type);
-			(JGetUserNotification())->ReportError(errorStr);
+			std::cerr << "Unsupported variable type '" << type << '\'' << std::endl;
 			JIgnoreLine(input);
 			}
 		input >> std::ws;
@@ -110,7 +121,7 @@ TestVarList::TestVarListX()
 	itsNumericArrays = jnew JPtrArray<TVLNArray>(JPtrArrayT::kDeleteAll);
 	assert( itsNumericArrays != nullptr );
 
-	InstallOrderedSet(itsNumericNames);
+	InstallList(itsNumericNames);
 }
 
 /******************************************************************************
@@ -123,57 +134,6 @@ TestVarList::~TestVarList()
 	jdelete itsNumericNames;
 	jdelete itsNumericValues;
 	jdelete itsNumericArrays;
-}
-
-/******************************************************************************
- AddNumericVar
-
- ******************************************************************************/
-
-JBoolean
-TestVarList::AddNumericVar
-	(
-	const JCharacter*	name,
-	const JFloat		value
-	)
-{
-	JIndex index;
-	if (JNameValid(name) && !ParseVariableName(name, strlen(name), &index))
-		{
-		itsNumericNames->Append(name);
-		itsNumericValues->AppendElement(value);
-		itsNumericArrays->AppendElement(static_cast<TVLNArray*>(nullptr));
-		return kJTrue;
-		}
-	else
-		{
-		return kJFalse;
-		}
-}
-
-/******************************************************************************
- AddNumericArray
-
- ******************************************************************************/
-
-JBoolean
-TestVarList::AddNumericArray
-	(
-	const JCharacter*	name,
-	const TVLNArray&	values
-	)
-{
-	if (JNameValid(name))
-		{
-		itsNumericNames->Append(name);
-		itsNumericValues->AppendElement(0.0);
-		itsNumericArrays->Append(values);
-		return kJTrue;
-		}
-	else
-		{
-		return kJFalse;
-		}
 }
 
 /******************************************************************************
@@ -208,16 +168,18 @@ TestVarList::GetVariableName
 	const
 {
 	const JString* fullName = itsNumericNames->GetElement(index);
-	const JSize fullLen     = fullName->GetLength();
 
-	JIndex subStart;
-	if (fullName->LocateSubstring("_", &subStart) &&
-		1 < subStart && subStart < fullLen)
+	JPtrArray<JString> s(JPtrArrayT::kDeleteAll);
+	fullName->Split("_", &s, 2);
+
+	name->Clear();
+	if (s.GetElementCount() == 2)
 		{
-		*name = fullName->GetSubstring(1, subStart-1);
-		*subscript = fullName->GetSubstring(subStart+1, fullLen);
+		*name      = *s.GetElement(1);
+		*subscript = *s.GetElement(2);
 		}
-	else
+
+	if (name->IsEmpty() || subscript->IsEmpty())
 		{
 		*name = *fullName;
 		subscript->Clear();
