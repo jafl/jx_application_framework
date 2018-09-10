@@ -10,7 +10,7 @@
 
 #include "JString.h"
 #include <sstream>
-#include <math.h>
+#include <jMath.h>
 
 class JTestManager;
 class JError;
@@ -130,7 +130,6 @@ JAreEqual
 		  << "  Expected " << expectedValue
 		  << " but got " << actualValue;
 
-		const std::string msg = s.str();
 		JTestManager::Instance()->ReportFailure(s.str().c_str(), file, line);
 		return kJFalse;
 		}
@@ -152,21 +151,37 @@ JAreWithin
 		{
 		return kJTrue;
 		}
-	else
-		{
-		std::ostringstream s;
-		if (msg != nullptr)
-			{
-			s << msg << ": ";
-			}
-		s << "Values are not within " << epsilon << ":"
-		  << "  Expected " << expectedValue
-		  << " but got " << actualValue;
 
-		const std::string msg = s.str();
-		JTestManager::Instance()->ReportFailure(s.str().c_str(), file, line);
-		return kJFalse;
+	if (JSign(expectedValue) == JSign(actualValue))
+		{
+		T logV = log10(fabs(expectedValue));
+
+		const T expectedExponent = floor(logV);
+		const T expectedMantissa = logV - expectedExponent;
+
+		logV = log10(fabs(actualValue));
+
+		const T actualExponent = floor(logV);
+		const T actualMantissa = logV - expectedExponent;
+
+		if (fabs(expectedExponent - actualExponent) < epsilon &&
+			fabs(expectedMantissa - actualMantissa) < epsilon)
+			{
+			return kJTrue;
+			}
 		}
+
+	std::ostringstream s;
+	if (msg != nullptr)
+		{
+		s << msg << ": ";
+		}
+	s << "Values are not within " << epsilon << ":"
+	  << "  Expected " << expectedValue
+	  << " but got " << actualValue;
+
+	JTestManager::Instance()->ReportFailure(s.str().c_str(), file, line);
+	return kJFalse;
 }
 
 inline JBoolean

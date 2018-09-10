@@ -165,7 +165,6 @@ JTestManager::IsNull
 			}
 		s << "Value is not null";
 
-		const std::string msg = s.str();
 		ReportFailure(s.str().c_str(), file, line);
 		return kJFalse;
 		}
@@ -198,7 +197,6 @@ JTestManager::IsNotNull
 			}
 		s << "Value is null";
 
-		const std::string msg = s.str();
 		ReportFailure(s.str().c_str(), file, line);
 		return kJFalse;
 		}
@@ -231,7 +229,6 @@ JTestManager::IsTrue
 			}
 		s << "Value is not true";
 
-		const std::string msg = s.str();
 		ReportFailure(s.str().c_str(), file, line);
 		return kJFalse;
 		}
@@ -264,7 +261,6 @@ JTestManager::IsFalse
 			}
 		s << "Value is not false";
 
-		const std::string msg = s.str();
 		ReportFailure(s.str().c_str(), file, line);
 		return kJFalse;
 		}
@@ -292,7 +288,6 @@ JTestManager::IsOK
 		std::ostringstream s;
 		s << "Error: " << err.GetType() << ": " << err.GetMessage();
 
-		const std::string msg = s.str();
 		ReportFailure(s.str().c_str(), file, line);
 		return kJFalse;
 		}
@@ -332,7 +327,6 @@ JTestManager::StringsAreEqual
 		s << '\t'; JString(expectedValue, strlen(expectedValue), kJFalse).PrintHex(s); s << std::endl;
 		s << '\t'; JString(actualValue, strlen(actualValue), kJFalse).PrintHex(s); s << std::endl;
 
-		const std::string msg = s.str();
 		ReportFailure(s.str().c_str(), file, line);
 		return kJFalse;
 		}
