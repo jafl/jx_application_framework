@@ -2,146 +2,146 @@
 
 @test_JArray
 ${CODEDIR}/test_JArray
-literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
+literal: ${LIB_DEPS}
 
 @test_JBoolean
 ${CODEDIR}/test_JBoolean
-literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
+literal: ${LIB_DEPS}
 
 @test_JBroadcaster
 ${CODEDIR}/test_JBroadcaster
-literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
+literal: ${LIB_DEPS}
 
 @test_JColorManager
 ${CODEDIR}/test_JColorManager
-literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
+literal: ${LIB_DEPS}
 
 @test_JDirInfo
 ${CODEDIR}/test_JDirInfo
-literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
+literal: ${LIB_DEPS}
 
 @test_JFileArray
 ${CODEDIR}/test_JFileArray
-literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
+literal: ${LIB_DEPS}
 
 @test_jFileUtil
 ${CODEDIR}/test_jFileUtil
-literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
+literal: ${LIB_DEPS}
 
 @test_JFontManager
 ${CODEDIR}/test_JFontManager
-literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
+literal: ${LIB_DEPS}
 
 @test_jFStreamUtil
 ${CODEDIR}/test_jFStreamUtil
-literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
+literal: ${LIB_DEPS}
 
 @test_jHashFunctions
 ${CODEDIR}/test_jHashFunctions
-literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
+literal: ${LIB_DEPS}
 
 @test_JHashTable
 ${CODEDIR}/test_JHashTable
-literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
+literal: ${LIB_DEPS}
 
 @test_JInterpolate
 ${CODEDIR}/test_JInterpolate
-literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
+literal: ${LIB_DEPS}
 
 @test_JKLRand
 ${CODEDIR}/test_JKLRand
-literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
+literal: ${LIB_DEPS}
 
 @test_JLinkedList
 ${CODEDIR}/test_JLinkedList
-literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
+literal: ${LIB_DEPS}
 
 @test_JListUtil
 ${CODEDIR}/test_JListUtil
-literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
+literal: ${LIB_DEPS}
 
 @test_JMatrix
 ${CODEDIR}/test_JMatrix
-literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
+literal: ${LIB_DEPS}
 
 @test_JMessageProtocol
 ${CODEDIR}/test_JMessageProtocol
-literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
+literal: ${LIB_DEPS}
 
 @test_JPipe
 ${CODEDIR}/test_JPipe
-literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
+literal: ${LIB_DEPS}
 
 @test_jProcessUtil
 ${CODEDIR}/test_jProcessUtil
-literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
+literal: ${LIB_DEPS}
 
 @test_JPtrArray
 ${CODEDIR}/test_JPtrArray
-literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
+literal: ${LIB_DEPS}
 
 @test_JPtrArrayJString
 ${CODEDIR}/test_JPtrArrayJString
-literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
+literal: ${LIB_DEPS}
 
 @test_JQueue
 ${CODEDIR}/test_JQueue
-literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
+literal: ${LIB_DEPS}
 
 @test_JRegex
 ${CODEDIR}/test_JRegex
-literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
+literal: ${LIB_DEPS}
 
 @test_JRunArray
 ${CODEDIR}/test_JRunArray
-literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
+literal: ${LIB_DEPS}
 
 @test_JSpellChecker
 ${CODEDIR}/test_JSpellChecker
-literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
+literal: ${LIB_DEPS}
 
 @test_JStack
 ${CODEDIR}/test_JStack
-literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
+literal: ${LIB_DEPS}
 
 @test_jStreamUtil
 ${CODEDIR}/test_jStreamUtil
-literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
+literal: ${LIB_DEPS}
 
 @test_JString
 ${CODEDIR}/test_JString
-literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
+literal: ${LIB_DEPS}
 
 @test_JStringIterator
 ${CODEDIR}/test_JStringIterator
-literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
+literal: ${LIB_DEPS}
 
 @test_JStringMap
 ${CODEDIR}/test_JStringMap
-literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
+literal: ${LIB_DEPS}
 
 @test_JStringMatch
 ${CODEDIR}/test_JStringMatch
-literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
+literal: ${LIB_DEPS}
 
 @test_JStringPtrMap
 ${CODEDIR}/test_JStringPtrMap
-literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
+literal: ${LIB_DEPS}
 
 @test_JStyledText
 ${CODEDIR}/test_JStyledText
 ${CODEDIR}/StyledText
-literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
+literal: ${LIB_DEPS}
 
 @test_JSTStyler
 ${CODEDIR}/test_JSTStyler
 ${CODEDIR}/StyledText
 ${CODEDIR}/TestStyler
-literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
+literal: ${LIB_DEPS}
 
 @test_JSubstitute
 ${CODEDIR}/test_JSubstitute
-literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
+literal: ${LIB_DEPS}
 
 @test_JTextEditor
 ${CODEDIR}/test_JTextEditor
@@ -149,68 +149,68 @@ ${CODEDIR}/TextEditor
 ${CODEDIR}/StyledText
 ${CODEDIR}/TestFontManager
 ${CODEDIR}/TestPainter
-literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
+literal: ${LIB_DEPS}
 
 @test_jTextUtil
 ${CODEDIR}/test_jTextUtil
-literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
+literal: ${LIB_DEPS}
 
 @test_jTime
 ${CODEDIR}/test_jTime
-literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
+literal: ${LIB_DEPS}
 
 @test_JUtf8ByteBuffer
 ${CODEDIR}/test_JUtf8ByteBuffer
-literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
+literal: ${LIB_DEPS}
 
 @test_JUtf8Character
 ${CODEDIR}/test_JUtf8Character
-literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
+literal: ${LIB_DEPS}
 
 @test_jVCSUtil
 ${CODEDIR}/test_jVCSUtil
-literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
+literal: ${LIB_DEPS}
 
 @test_JVector
 ${CODEDIR}/test_JVector
-literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
+literal: ${LIB_DEPS}
 
 @test_jWebUtil
 ${CODEDIR}/test_jWebUtil
-literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
+literal: ${LIB_DEPS}
 
 # unconverted
 
 @test_JPrefsFile
 ${CODEDIR}/test_JPrefsFile
-literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
+literal: ${LIB_DEPS}
 
 # must be run manually
 
 @testnew
 ${CODEDIR}/testnew
-literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
+literal: ${LIB_DEPS}
 
 @testrandom
 ${CODEDIR}/testrandom
-literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
+literal: ${LIB_DEPS}
 
 @testrandperiod
 ${CODEDIR}/testrandperiod
-literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
+literal: ${LIB_DEPS}
 
 @testmemcpy
 ${CODEDIR}/testmemcpy
-literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
+literal: ${LIB_DEPS}
 
 @testJTextChooseSaveFile
 ${CODEDIR}/testJTextChooseSaveFile
-literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
+literal: ${LIB_DEPS}
 
 @testJTextProgressDisplay
 ${CODEDIR}/testJTextProgressDisplay
-literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
+literal: ${LIB_DEPS}
 
 @testJTextUserNotification
 ${CODEDIR}/testJTextUserNotification
-literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
+literal: ${LIB_DEPS}

@@ -41,24 +41,15 @@ TESTS := \
 #####
 
 .PHONY : default
-default: libs all
+default:
+	@cd ${JXLIBDIR}; ${MAKE}
 
 .PHONY : Makefiles
 Makefiles:
 
 .PHONY : test
-test: libs ${TESTS}
+test: ${TESTS}
 	$(call run_tests,${TESTS})
-
-#
-# required libraries
-#
-
-.PHONY : libs
-libs:
-ifneq (${FROM_LIB},1)
-	@cd ${JXLIBDIR}; ${MAKE}
-endif
 
 .PHONY : touch
 touch::

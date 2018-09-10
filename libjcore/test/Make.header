@@ -24,6 +24,14 @@ include ${JX_ROOT}/include/make/jx_config
 DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} \
                -g ${SEARCHDIRS}
 
+# library dependencies
+
+ifdef J_BUILD_SHARED_LIB
+  LIB_DEPS := ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.${J_SHARED_LIB_SUFFIX}
+else
+  LIB_DEPS := ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
+endif
+
 # make variables
 
 CPPFLAGS  += -Wno-sign-compare
@@ -53,24 +61,15 @@ TESTS := \
 #####
 
 .PHONY : default
-default: libs test
+default:
+	@cd ${JCORELIBDIR}; ${MAKE}
 
 .PHONY : Makefiles
 Makefiles:
 
 .PHONY : test
-test: libs ${TESTS}
+test: ${TESTS}
 	$(call run_tests,${TESTS})
-
-#
-# required libraries
-#
-
-.PHONY : libs
-libs:
-ifneq (${FROM_LIB},1)
-	@cd ${JCORELIBDIR}; ${MAKE}
-endif
 
 .PHONY : touch
 touch::
