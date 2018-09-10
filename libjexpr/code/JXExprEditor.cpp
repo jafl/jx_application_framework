@@ -1197,3 +1197,36 @@ JXExprEditor::EIPGetExternalClipboard
 
 	return gotData;
 }
+
+/******************************************************************************
+ BuildStyledText (virtual)
+
+ ******************************************************************************/
+
+JStyledText*
+JXExprEditor::BuildStyledText()
+{
+	JStyledText* text = jnew StyledText(GetFontManager());
+	assert( text != nullptr );
+	return text;
+}
+
+/******************************************************************************
+ AdjustStylesBeforeBroadcast (virtual protected)
+
+	Draw the empty string using gray.
+
+ ******************************************************************************/
+
+void
+JXExprEditor::StyledText::AdjustStylesBeforeBroadcast
+	(
+	const JString&			text,
+	JRunArray<JFont>*		styles,
+	JStyledText::TextRange*	recalcRange,
+	JStyledText::TextRange*	redrawRange,
+	const JBoolean			deletion
+	)
+{
+	JUserInputFunction::AdjustStylesBeforeBroadcast(text, styles, recalcRange, redrawRange, deletion);
+}

@@ -46,7 +46,7 @@ JUserInputFunction::JUserInputFunction
 	const JString&	text
 	)
 	:
-	JTextEditor(kFullEditor, jnew StyledText(editor->GetFontManager()), kJTrue,
+	JTextEditor(kFullEditor, editor->BuildStyledText(), kJTrue,
 				editor->GetFontManager(), kJTrue,
 				JColorManager::GetBlackColor(),				// caret
 				JColorManager::GetDefaultSelectionColor(),	// selection
@@ -781,14 +781,14 @@ JUserInputFunction::TEHasSearchText()
 }
 
 /******************************************************************************
- AdjustStylesBeforeBroadcast (virtual protected)
+ AdjustStylesBeforeBroadcast (static)
 
 	Draw the empty string using gray.
 
  ******************************************************************************/
 
 void
-JUserInputFunction::StyledText::AdjustStylesBeforeBroadcast
+JUserInputFunction::AdjustStylesBeforeBroadcast
 	(
 	const JString&			text,
 	JRunArray<JFont>*		styles,

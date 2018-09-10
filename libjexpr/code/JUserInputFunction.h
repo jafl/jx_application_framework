@@ -12,7 +12,6 @@
 
 #include <JFunction.h>
 #include <JTextEditor.h>
-#include <JXStyledText.h>
 
 class JFontManager;
 class JExprEditor;
@@ -61,6 +60,12 @@ public:
 
 	virtual JBoolean	TEHasSearchText() const override;
 
+	static void	AdjustStylesBeforeBroadcast(
+						const JString& text, JRunArray<JFont>* styles,
+						JStyledText::TextRange* recalcRange,
+						JStyledText::TextRange* redrawRange,
+						const JBoolean deletion);
+
 protected:
 
 	virtual void		TERefresh() override;
@@ -79,26 +84,6 @@ protected:
 	virtual JBoolean	TEBeginDND() override;
 	virtual void		TEPasteDropData() override;
 	virtual void		TECaretShouldBlink(const JBoolean blink) override;
-
-protected:
-
-	class StyledText : public JXStyledText
-	{
-		public:
-
-		StyledText(JFontManager* fontManager)
-			:
-			JXStyledText(kJFalse, kJFalse, fontManager)
-		{ };
-
-		protected:
-
-		virtual void	AdjustStylesBeforeBroadcast(
-							const JString& text, JRunArray<JFont>* styles,
-							JStyledText::TextRange* recalcRange,
-							JStyledText::TextRange* redrawRange,
-							const JBoolean deletion) override;
-	};
 
 private:
 

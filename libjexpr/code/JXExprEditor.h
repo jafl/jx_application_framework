@@ -12,6 +12,7 @@
 
 #include <JXScrollableWidget.h>
 #include <JExprEditor.h>
+#include <JXStyledText.h>
 
 class JString;
 class JVariableList;
@@ -53,6 +54,8 @@ public:
 	virtual void	HandleKeyPress(const JUtf8Character& c, const int keySym,
 								   const JXKeyModifiers& modifiers) override;
 
+	virtual JStyledText*	BuildStyledText() override;
+
 protected:
 
 	virtual void		EIPRefresh() override;
@@ -90,6 +93,26 @@ protected:
 
 	JXEPSPrinter&		GetEPSPrinter();
 	const JXEPSPrinter&	GetEPSPrinter() const;
+
+protected:
+
+	class StyledText : public JXStyledText
+	{
+		public:
+
+		StyledText(JFontManager* fontManager)
+			:
+			JXStyledText(kJFalse, kJFalse, fontManager)
+		{ };
+
+		protected:
+
+		virtual void	AdjustStylesBeforeBroadcast(
+							const JString& text, JRunArray<JFont>* styles,
+							JStyledText::TextRange* recalcRange,
+							JStyledText::TextRange* redrawRange,
+							const JBoolean deletion) override;
+	};
 
 private:
 
