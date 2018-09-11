@@ -63,7 +63,7 @@ Copyright (C) 2018 by John Lindal.
 
 %pure-parser
 
-%token<pString>	P_NUMBER P_VARIABLE
+%token<pString>	P_NUMBER P_HEX P_VARIABLE
 %token			P_PI P_E P_I
 %token			P_INPUT
 %token			P_FN_ABS P_FN_ARCCOS P_FN_ARCCOSH P_FN_ARCSIN P_FN_ARCSINH
@@ -130,6 +130,7 @@ e
 	: P_NUMBER
 		{
 		JPtrArray<JString> s(JPtrArrayT::kDeleteAll);
+		$1->ToLower();
 		$1->Split("e", &s, 2);
 
 		if (s.GetElementCount() == 2)
@@ -184,6 +185,17 @@ e
 		p->AppendArg(jnew JConstantValue(v));
 		p->AppendArg(jnew JExponent(jnew JConstantValue(10), jnew JNegation(jnew JConstantValue(e))));
 		$$ = p;
+		}
+
+	| P_HEX
+		{
+		JFloat v;
+		if (!$1->ConvertToFloat(&v))
+			{
+			YYERROR;
+			}
+		$$ = jnew JConstantValue(v);
+		assert( $$ != nullptr );
 		}
 
 	| P_E

@@ -32,13 +32,17 @@ EXP	([eE][0-9]+)
 
 	/* We have to slurp e#, because that is also a valid variable name. */
 
-0{EXP}?                   |
-[1-9][0-9]*{EXP}?         |
-[0-9]+"."([0-9]+)?{EXP}?  |
-([0-9]+)?"."[0-9]+{EXP}?  |
-"0"[xX][0-9a-fA-F]+{EXP}? {
+0{EXP}?                  |
+[1-9][0-9]*{EXP}?        |
+[0-9]+"."([0-9]+)?{EXP}? |
+([0-9]+)?"."[0-9]+{EXP}? {
 	NEW_TOKEN(yytext);
 	return P_NUMBER;
+}
+
+"0"[xX][0-9a-fA-F]+ {
+	NEW_TOKEN(yytext);
+	return P_HEX;
 }
 
 "pi"     |

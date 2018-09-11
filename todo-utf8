@@ -1,3 +1,16 @@
+libjexpr
+	tests for JExprEditor
+		CmdIndex
+		selection
+		apply fn
+		evaluate
+		cut/copy/paste
+		undo
+		group/ungroup/move
+		add arg
+		greek characters
+
+
 JTextEditor tests
 	2 TE's for 1 ST
 		MouseActions
@@ -5,8 +18,11 @@ JTextEditor tests
 		validate caret/selection after TextChanged
 	JVIKeyHandler
 
-JXFileList
+JXFileListTable
 JXTreeListWidget
+JXStringTable
+JXStringList
+JXDirTable
 	render as many characters as possible via fallback fonts
 
 	JFont:
@@ -26,9 +42,6 @@ JTextEditor:
 JXFontManager
 	some characters extend above line height
 
-leibnitz - symbol font
-	transform to unicode
-
 jx_project_wizard
 	convert logic to use JSubstitute - need way to specify case match?
 	convert app_template to { }
@@ -42,6 +55,7 @@ test
 	default & vi key handlers
 	code_medic on ubuntu with lldb-6.0
 	jcc CBExecOutputDocument: test usage of JUtf8ByteBuffer inside JAsynchDataReceiver
+	leibnitz - greek characters
 
 test every function that uses JStringIterator or Split
 	libjexpr

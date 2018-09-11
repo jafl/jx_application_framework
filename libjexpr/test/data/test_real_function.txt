@@ -19,9 +19,13 @@ N C_`m		4
 
 T T 3.5		3.5
 T T -7.1	-7.1
+T T 0.5		.5
+T T 255		0xFF
+T T 65506	0xFFe2
 T T 300		3e2
 T T 300		3E+2
 T T 0.03	3e-2
+T T 3		0.03e2
 T T 2.71828	e
 
 T T 10		`a + `b + `g + C_`m

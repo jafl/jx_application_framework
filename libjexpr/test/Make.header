@@ -44,7 +44,7 @@ LDFLAGS   :=
 # tests
 
 TESTS := \
-      test_JExprParser
+      test_JExprParser test_JExprEditor
 
 #####
 

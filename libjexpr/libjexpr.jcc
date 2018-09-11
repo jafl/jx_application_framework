@@ -268,10 +268,8 @@ F
 # search paths
 T "../include/make/" T
 T "../libjcore/code/" T
-T "../libjtoolbar/code/" T
-T "../libjtree/code/" T
 T "../libjx/code/" T
-T "./code/" T
+T "./" T
 F
 # C preprocessor
 F

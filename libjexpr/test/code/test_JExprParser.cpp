@@ -1,7 +1,7 @@
 /******************************************************************************
  test_JExprParser.cpp
 
-	Test JExprParser.
+	Tests for JExprParser.
 
 	Written by John Lindal.
 
@@ -122,6 +122,39 @@ JTEST(ComplexFunction)
 				msg = "Eval imag incorrect: " + expr;
 				JAssertWithinWithMessage(1e-5, expectedResult.imag(), result.imag(), msg.GetBytes());
 				}
+			}
+
+		jdelete f;
+		}
+}
+
+JTEST(Printing)
+{
+	std::ifstream input("./data/test_print_function.txt");
+
+	TestFontManager fontMgr;
+	TestVarList varList(input);
+	JExprParser p(&varList, &fontMgr);
+
+	JString expr, expected, result, msg;
+	while (1)
+		{
+		input >> expr >> expected;
+		if (!input.good())
+			{
+			break;
+			}
+
+		JFunction* f;
+		JBoolean ok = p.Parse(expr, &f);
+		JAssertTrue(ok);
+
+		if (ok)
+			{
+			result = f->Print();
+
+			msg = "Print incorrect: " + expr;
+			JAssertEqualWithMessage(expected, result, msg.GetBytes());
 			}
 
 		jdelete f;
