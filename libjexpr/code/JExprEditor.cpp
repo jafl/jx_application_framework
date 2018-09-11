@@ -929,17 +929,18 @@ JExprEditor::GroupArguments
 	const JSize parentArgCount = naryParentF->GetArgCount();
 
 	const JBoolean sameType =
-		JI2B( typeid(parentF) == typeid(f) );
+		JI2B( typeid(*parentF) == typeid(*f) );
 	const JBoolean argsInRange =
 		JI2B( 1 <= firstArg && lastArg <= parentArgCount );
 	const JBoolean groupAll =
 		JI2B( lastArg - firstArg + 1 == parentArgCount );
 
 	JUnaryFunction* neg = dynamic_cast<JUnaryFunction*>(f);
+	JFunction* negArg   = neg->GetArg();
 	const JBoolean extendNegation =
-		JI2B( typeid(parentF) == typeid(JSummation) &&
-			  neg != nullptr && typeid(neg) == typeid(JNegation) &&
-			  typeid(neg->GetArg()) == typeid(JSummation) );
+		JI2B( typeid(*parentF) == typeid(JSummation) &&
+			  neg != nullptr && typeid(*neg) == typeid(JNegation) &&
+			  typeid(*negArg) == typeid(JSummation) );
 
 	// handle special case w+x-(y+z)
 	// (if gobbles last argument, remove parentF entirely)
@@ -1066,7 +1067,7 @@ JExprEditor::UngroupArguments()
 		JNaryOperator* naryF       = dynamic_cast<JNaryOperator*>(f);
 		JNaryOperator* naryParentF = dynamic_cast<JNaryOperator*>(parentF);
 		if (naryF != nullptr && naryParentF != nullptr &&
-			typeid(naryF) == typeid(naryParentF))
+			typeid(*naryF) == typeid(*naryParentF))
 			{
 			SaveStateForUndo();
 
@@ -1089,13 +1090,13 @@ JExprEditor::UngroupArguments()
 		// handle special case w+x-(y+z)
 
 		else if (naryParentF != nullptr &&
-				 typeid(naryParentF) == typeid(JSummation) &&
-				 typeid(f)           == typeid(JNegation))
+				 typeid(*naryParentF) == typeid(JSummation) &&
+				 typeid(*f)           == typeid(JNegation))
 			{
 			const JUnaryFunction* neg = dynamic_cast<const JUnaryFunction*>(f);
 			assert( neg != nullptr );
 			const JNaryOperator* naryF = dynamic_cast<const JNaryOperator*>(neg->GetArg());
-			if (naryF != nullptr && typeid(naryF) == typeid(JSummation))
+			if (naryF != nullptr && typeid(*naryF) == typeid(JSummation))
 				{
 				SaveStateForUndo();
 
@@ -1278,8 +1279,8 @@ JExprEditor::GetNegAdjSelFunction
 			assert( hasParent );
 			}
 
-		if (typeid(**parentF) == typeid(JNegation) && grandparentF != nullptr &&
-			typeid(grandparentF) == typeid(JSummation))
+		if (typeid(**parentF) == typeid(JNegation) &&
+			grandparentF != nullptr && typeid(*grandparentF) == typeid(JSummation))
 			{
 			*selF    = *parentF;
 			*parentF = grandparentF;
@@ -1518,16 +1519,17 @@ JExprEditor::GetCmdStatus
 					{
 					flags.SetElement(kGroupRightCmd, kJTrue);
 					}
-				if (typeid(selF) == typeid(naryParentF))
+				if (typeid(*selF) == typeid(*naryParentF))
 					{
 					flags.SetElement(kUngroupCmd, kJTrue);
 					}
-				else if (typeid(naryParentF) == typeid(JSummation) &&
-						 typeid(selF)        == typeid(JNegation))
+				else if (typeid(*naryParentF) == typeid(JSummation) &&
+						 typeid(*selF)        == typeid(JNegation))
 					{
 					const JUnaryFunction* neg = dynamic_cast<const JUnaryFunction*>(selF);
 					assert( neg != nullptr );
-					if (typeid(neg->GetArg()) == typeid(JSummation))
+					const JFunction* negArg = neg->GetArg();
+					if (typeid(*negArg) == typeid(JSummation))
 						{
 						flags.SetElement(kUngroupCmd, kJTrue);
 						}
@@ -1750,7 +1752,7 @@ JExprEditor::EIPHandleMouseUp()
 		assert( itsActiveUIF == nullptr );
 
 		JFunction* selectedF = itsRectList->GetFunction(itsSelection);
-		const std::type_info& selectedFType = typeid(selectedF);
+		const std::type_info& selectedFType = typeid(*selectedF);
 		if (selectedFType == typeid(JUserInputFunction))
 			{
 			JUserInputFunction* uif = dynamic_cast<JUserInputFunction*>(selectedF);
@@ -2010,7 +2012,7 @@ JExprEditor::ApplyOperatorKey
 	JFunction*				targetF
 	)
 {
-	const std::type_info& targetType = typeid(targetF);
+	const std::type_info& targetType = typeid(*targetF);
 
 	JFunction* parentF = nullptr;
 	const std::type_info* parentType = & typeid(JVariableValue);
@@ -2019,7 +2021,7 @@ JExprEditor::ApplyOperatorKey
 		const JBoolean hasParent = targetF->GetParent(&parentF);
 		assert( hasParent );
 
-		parentType = & typeid(parentF);
+		parentType = & typeid(*parentF);
 		}
 
 	JUserInputFunction* newUIF = jnew JUserInputFunction(this);
