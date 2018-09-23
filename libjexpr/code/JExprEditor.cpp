@@ -224,6 +224,19 @@ JExprEditor::PrivateClearFunction()
 }
 
 /******************************************************************************
+ BuildStyledText (virtual)
+
+ ******************************************************************************/
+
+JStyledText*
+JExprEditor::BuildStyledText()
+{
+	JStyledText* text = jnew JStyledText(kJFalse, kJFalse);
+	assert( text != nullptr );
+	return text;
+}
+
+/******************************************************************************
  ContainsUIF
 
 	Returns kJTrue if we contain any JUserInputFunctions.
@@ -518,7 +531,7 @@ JExprEditor::Paste()
 
 	JString text;
 	PasteResult result = kPasteOK;
-	if (EIPOwnsClipboard())
+	if (itsFunctionClip != nullptr && EIPOwnsClipboard())
 		{
 		result = Paste(*itsFunctionClip);
 		}

@@ -14,8 +14,6 @@
 	of all ExprExitorSets so the menus don't get thrown out when a JXExprEditor
 	is deleted.
 
-	*** Windows containing JXExprEditors must use the display's colormap.
-
 	BASE CLASS = JXScrollableWidget, JExprEditor
 
 	Copyright (C) 1996 by John Lindal.

@@ -166,7 +166,7 @@ public:
 							  JFunction** newF, JFunction** newArg,
 							  JUserInputFunction** newUIF);
 
-	virtual JStyledText*	BuildStyledText() = 0;
+	virtual JStyledText*	BuildStyledText();
 
 protected:
 

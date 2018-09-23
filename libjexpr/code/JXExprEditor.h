@@ -14,8 +14,6 @@
 #include <JExprEditor.h>
 #include <JXStyledText.h>
 
-class JString;
-class JVariableList;
 class JXTextMenu;
 class JXMenuBar;
 class JXEPSPrinter;
@@ -49,7 +47,7 @@ public:
 	JBoolean		EditMenuIndexToCmd(const JIndex index, CmdIndex* cmd) const;
 	JBoolean		EditMenuCmdToIndex(const CmdIndex cmd, JIndex* index) const;
 
-	virtual void	EvaluateSelection() const;
+	virtual void	DisplayEvaluateSelection() const;
 
 	virtual void	HandleKeyPress(const JUtf8Character& c, const int keySym,
 								   const JXKeyModifiers& modifiers) override;
