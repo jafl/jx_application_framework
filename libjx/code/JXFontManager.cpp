@@ -34,7 +34,7 @@ static const JRegex nxmRegex = "^([0-9]+)x([0-9]+)$";
 
 static const JUtf8Byte* kDefaultFontName =
 	#ifdef _J_OSX
-	"Arial";		// Latin, some Cyrillic, some Arabic
+	"Arial";		// Latin, Greek, some Cyrillic, some Arabic
 	#else
 	"FreeSans";		// Arabic, Armenian, Cyrillic, Greek, Hebrew, Latin
 	#endif
