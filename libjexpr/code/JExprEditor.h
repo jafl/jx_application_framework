@@ -88,8 +88,6 @@ public:
 	void		ClearSelection();
 	void		SelectFunction(const JFunction* f);
 
-	void		EIPActivate();
-	void		EIPDeactivate();
 	JBoolean	EndEditing();
 	void		CancelEditing();
 
@@ -169,6 +167,9 @@ public:
 	virtual JStyledText*	BuildStyledText();
 
 protected:
+
+	void	EIPActivate();
+	void	EIPDeactivate();
 
 	const JExprRectList*	GetRectList() const;	// ideally, we wouldn't need this
 	JArray<JBoolean>		GetCmdStatus(JString* evalStr) const;
@@ -286,7 +287,7 @@ public:
 
 
 /******************************************************************************
- EIPActivate
+ EIPActivate (protected)
 
  ******************************************************************************/
 

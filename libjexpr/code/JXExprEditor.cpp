@@ -21,7 +21,6 @@
  ******************************************************************************/
 
 #include "JXExprEditor.h"
-#include "JXExprEvalDirector.h"
 #include "JFunction.h"
 #include "JExprRectList.h"
 
@@ -922,28 +921,6 @@ JXExprEditor::HandleFunctionMenu
 		ApplyFunctionToSelection(
 			JPGetStdFnName(kFnCmdToFnIndex[item-1]));
 		}
-}
-
-/******************************************************************************
- EvaluateSelection (virtual)
-
- ******************************************************************************/
-
-void
-JXExprEditor::EvaluateSelection()
-	const
-{
-	const JFunction* f;
-	if (!GetConstSelectedFunction(&f))
-		{
-		f = GetFunction();
-		}
-
-	JXExprEvalDirector* newDir =
-		jnew JXExprEvalDirector(GetWindow()->GetDirector(),
-							   GetVariableList(), *f);
-	assert( newDir != nullptr );
-	newDir->Activate();
 }
 
 /******************************************************************************

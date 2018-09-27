@@ -12,18 +12,6 @@ JXDirTable
 
 
 
-libjexpr
-	tests for JExprEditor
-		CmdIndex
-		selection
-		apply fn
-		evaluate
-		cut/copy/paste
-		undo
-		group/ungroup/move
-		add arg
-		greek characters
-
 JTextEditor tests
 	2 TE's for 1 ST
 		MouseActions

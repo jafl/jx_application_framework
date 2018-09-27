@@ -263,7 +263,7 @@ JExprEditor::ContainsUIF()
 }
 
 /******************************************************************************
- EIPDeactivate
+ EIPDeactivate (protected)
 
 	If the current UIF is invalid, we simply clear it.  This is because
 	EndEditing() should already have been called.  If it wasn't, then the
@@ -949,7 +949,7 @@ JExprEditor::GroupArguments
 		JI2B( lastArg - firstArg + 1 == parentArgCount );
 
 	JUnaryFunction* neg = dynamic_cast<JUnaryFunction*>(f);
-	JFunction* negArg   = neg->GetArg();
+	JFunction* negArg   = neg != nullptr ? neg->GetArg() : nullptr;
 	const JBoolean extendNegation =
 		JI2B( typeid(*parentF) == typeid(JSummation) &&
 			  neg != nullptr && typeid(*neg) == typeid(JNegation) &&

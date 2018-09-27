@@ -117,7 +117,7 @@ JFunctionWithArgs::PrintArgs
 		(GetArg(i))->Print(output);
 		if (i < argCount)
 			{
-			output << ", ";
+			output << ",";
 			}
 		}
 }

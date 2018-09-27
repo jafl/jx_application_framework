@@ -173,7 +173,7 @@ JUserInputFunction::Print
 	)
 	const
 {
-	output << kEmptyString;
+	kEmptyString.Print(output);
 }
 
 /******************************************************************************

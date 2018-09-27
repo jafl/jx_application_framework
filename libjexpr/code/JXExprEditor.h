@@ -47,8 +47,6 @@ public:
 	JBoolean		EditMenuIndexToCmd(const JIndex index, CmdIndex* cmd) const;
 	JBoolean		EditMenuCmdToIndex(const CmdIndex cmd, JIndex* index) const;
 
-	virtual void	DisplayEvaluateSelection() const;
-
 	virtual void	HandleKeyPress(const JUtf8Character& c, const int keySym,
 								   const JXKeyModifiers& modifiers) override;
 

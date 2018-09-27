@@ -1,22 +1,26 @@
 /******************************************************************************
- TestExprEditor.h
+ ExprEditor.h
 
 	Written by John Lindal.
 
  ******************************************************************************/
 
-#ifndef _H_TestExprEditor
-#define _H_TestExprEditor
+#ifndef _H_ExprEditor
+#define _H_ExprEditor
 
 #include <JExprEditor.h>
+#include <JRunArray.h>
 
-class TestExprEditor : public JExprEditor
+class ExprEditor : public JExprEditor
 {
 public:
 
-	TestExprEditor(JFontManager* fontManager, const JVariableList* varList);
+	ExprEditor(const JVariableList* varList, JFontManager* fontManager);
 
-	virtual ~TestExprEditor();
+	virtual ~ExprEditor();
+
+	void	Activate();
+	void	CheckCmdStatus(const JRunArray<JBoolean>& expected) const;
 
 	void	HandleKeyPress(const JUtf8Character& c);
 
@@ -41,8 +45,8 @@ private:
 
 	// not allowed
 
-	TestExprEditor(const TestExprEditor& source);
-	const TestExprEditor& operator=(const TestExprEditor& source);
+	ExprEditor(const ExprEditor& source);
+	const ExprEditor& operator=(const ExprEditor& source);
 };
 
 #endif

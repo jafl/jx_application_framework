@@ -62,7 +62,7 @@ literal: ${LIB_DEPS}
 
 @test_JExprEditor
 ${CODEDIR}/test_JExprEditor
-${CODEDIR}/TestExprEditor
+${CODEDIR}/ExprEditor
 ${CODEDIR}/TestFontManager
 ${CODEDIR}/TestVarList
 ${JEXPRDIR}/JExprParser

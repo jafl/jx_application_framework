@@ -1,5 +1,5 @@
 /******************************************************************************
- TestExprEditor.cpp
+ ExprEditor.cpp
 
 	BASE CLASS = JExprEditor
 
@@ -7,10 +7,10 @@
 
  ******************************************************************************/
 
-#include "TestExprEditor.h"
+#include "ExprEditor.h"
 #include <JFunction.h>
 #include <JExprRectList.h>
-#include <JString.h>
+#include <JTestManager.h>
 #include <JRect.h>
 #include <jMath.h>
 #include <jAssert.h>
@@ -20,10 +20,10 @@
 
  ******************************************************************************/
 
-TestExprEditor::TestExprEditor
+ExprEditor::ExprEditor
 	(
-	JFontManager*			fontManager,
-	const JVariableList*	varList
+	const JVariableList*	varList,
+	JFontManager*			fontManager
 	)
 	:
 	JExprEditor(varList, fontManager)
@@ -37,7 +37,7 @@ TestExprEditor::TestExprEditor
 
  ******************************************************************************/
 
-TestExprEditor::~TestExprEditor()
+ExprEditor::~ExprEditor()
 {
 }
 
@@ -47,7 +47,7 @@ TestExprEditor::~TestExprEditor()
  ******************************************************************************/
 
 void
-TestExprEditor::EIPRefresh()
+ExprEditor::EIPRefresh()
 {
 }
 
@@ -57,7 +57,7 @@ TestExprEditor::EIPRefresh()
  ******************************************************************************/
 
 void
-TestExprEditor::EIPRedraw()
+ExprEditor::EIPRedraw()
 {
 }
 
@@ -67,7 +67,7 @@ TestExprEditor::EIPRedraw()
  ******************************************************************************/
 
 void
-TestExprEditor::EIPBoundsChanged()
+ExprEditor::EIPBoundsChanged()
 {
 }
 
@@ -77,7 +77,7 @@ TestExprEditor::EIPBoundsChanged()
  ******************************************************************************/
 
 JBoolean
-TestExprEditor::EIPScrollToRect
+ExprEditor::EIPScrollToRect
 	(
 	const JRect& r
 	)
@@ -91,7 +91,7 @@ TestExprEditor::EIPScrollToRect
  ******************************************************************************/
 
 JBoolean
-TestExprEditor::EIPScrollForDrag
+ExprEditor::EIPScrollForDrag
 	(
 	const JPoint& pt
 	)
@@ -105,7 +105,7 @@ TestExprEditor::EIPScrollForDrag
  ******************************************************************************/
 
 void
-TestExprEditor::EIPAdjustNeedTab
+ExprEditor::EIPAdjustNeedTab
 	(
 	const JBoolean needTab
 	)
@@ -118,7 +118,7 @@ TestExprEditor::EIPAdjustNeedTab
  ******************************************************************************/
 
 void
-TestExprEditor::HandleMouseDown
+ExprEditor::HandleMouseDown
 	(
 	const JPoint&	pt,
 	const JBoolean	extend
@@ -133,7 +133,7 @@ TestExprEditor::HandleMouseDown
  ******************************************************************************/
 
 void
-TestExprEditor::HandleMouseDrag
+ExprEditor::HandleMouseDrag
 	(
 	const JPoint& pt
 	)
@@ -147,7 +147,7 @@ TestExprEditor::HandleMouseDrag
  ******************************************************************************/
 
 void
-TestExprEditor::HandleMouseUp
+ExprEditor::HandleMouseUp
 	(
 	const JPoint& pt
 	)
@@ -161,7 +161,7 @@ TestExprEditor::HandleMouseUp
  ******************************************************************************/
 
 void
-TestExprEditor::HandleKeyPress
+ExprEditor::HandleKeyPress
 	(
 	const JUtf8Character& c
 	)
@@ -175,7 +175,7 @@ TestExprEditor::HandleKeyPress
  ******************************************************************************/
 
 void
-TestExprEditor::EIPClipboardChanged()
+ExprEditor::EIPClipboardChanged()
 {
 }
 
@@ -187,7 +187,7 @@ TestExprEditor::EIPClipboardChanged()
  ******************************************************************************/
 
 JBoolean
-TestExprEditor::EIPOwnsClipboard()
+ExprEditor::EIPOwnsClipboard()
 {
 	return kJTrue;
 }
@@ -200,11 +200,46 @@ TestExprEditor::EIPOwnsClipboard()
  ******************************************************************************/
 
 JBoolean
-TestExprEditor::EIPGetExternalClipboard
+ExprEditor::EIPGetExternalClipboard
 	(
 	JString* text
 	)
 {
 	text->Clear();
 	return kJFalse;
+}
+
+/******************************************************************************
+ Activate
+
+ ******************************************************************************/
+
+void
+ExprEditor::Activate()
+{
+	EIPActivate();
+}
+
+/******************************************************************************
+ CheckCmdStatus
+
+ ******************************************************************************/
+
+void
+ExprEditor::CheckCmdStatus
+	(
+	const JRunArray<JBoolean>& expected
+	)
+	const
+{
+	const JArray<JBoolean> status = GetCmdStatus(nullptr);
+
+	const JSize count = status.GetElementCount();
+	JAssertEqual(expected.GetElementCount(), count);
+
+	for (JIndex i=1; i<=count; i++)
+		{
+		JString s((JUInt64) i);
+		JAssertEqualWithMessage(expected.GetElement(i), status.GetElement(i), s.GetBytes());
+		}
 }
