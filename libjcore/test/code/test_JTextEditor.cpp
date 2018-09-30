@@ -10,11 +10,13 @@
 #include <JTestManager.h>
 #include "TextEditor.h"
 #include "StyledText.h"
+#include "JVIKeyHandler.h"
 #include <JRegex.h>
 #include <JInterpolate.h>
 #include <JFontManager.h>
 #include <jFStreamUtil.h>
 #include <jFileUtil.h>
+#include <jASCIIConstants.h>
 #include <jGlobals.h>
 #include <jAssert.h>
 
@@ -449,15 +451,6 @@ JTEST(SetText)
 
 	// triggers TextEditor::Receive()
 	text.SetText(JString("abcd", kJFalse));
-}
-
-JTEST(MouseActions)
-{
-	// TEGetDoubleClickSelection
-}
-
-JTEST(KeyPress)
-{
 }
 
 JTEST(SearchTextForward)
@@ -958,4 +951,175 @@ JTEST(SetAllFontNameAndSize)
 	JAssertEqual(15, f.GetSize());
 	JAssertFalse(f.GetStyle().bold);
 	JAssertEqual(2, f.GetStyle().underlineCount);
+}
+
+JTEST(GetDoubleClickSelection)
+{
+	StyledText text;
+	text.SetText(JString("b fooBar  flip23bar k", kJFalse));
+
+	TextEditor te(&text, kJTrue, 50);
+
+	// foo
+
+	TextRange r;
+	te.GetDoubleClickSelection(TextIndex(4,4), kJFalse, kJFalse, &r);
+	JAssertEqual(JCharacterRange(3,8), r.charRange);
+
+	te.GetDoubleClickSelection(TextIndex(4,4), kJTrue, kJFalse, &r);
+	JAssertEqual(JCharacterRange(3,5), r.charRange);
+
+	// Bar
+
+	te.GetDoubleClickSelection(TextIndex(8,8), kJFalse, kJFalse, &r);
+	JAssertEqual(JCharacterRange(3,8), r.charRange);
+
+	te.GetDoubleClickSelection(TextIndex(8,8), kJTrue, kJFalse, &r);
+	JAssertEqual(JCharacterRange(6,8), r.charRange);
+
+	// space
+
+	te.GetDoubleClickSelection(TextIndex(10,10), kJFalse, kJFalse, &r);
+	JAssertEqual(JCharacterRange(10,10), r.charRange);
+
+	te.GetDoubleClickSelection(TextIndex(10,10), kJTrue, kJFalse, &r);
+	JAssertEqual(JCharacterRange(10,10), r.charRange);
+
+	// flip
+
+	te.GetDoubleClickSelection(TextIndex(12,12), kJFalse, kJFalse, &r);
+	JAssertEqual(JCharacterRange(11,19), r.charRange);
+
+	te.GetDoubleClickSelection(TextIndex(12,12), kJTrue, kJFalse, &r);
+	JAssertEqual(JCharacterRange(11,14), r.charRange);
+
+	// 23
+
+	te.GetDoubleClickSelection(TextIndex(16,16), kJFalse, kJFalse, &r);
+	JAssertEqual(JCharacterRange(11,19), r.charRange);
+
+	te.GetDoubleClickSelection(TextIndex(16,16), kJTrue, kJFalse, &r);
+	JAssertEqual(JCharacterRange(15,16), r.charRange);
+
+	// bar
+
+	te.GetDoubleClickSelection(TextIndex(17,17), kJFalse, kJFalse, &r);
+	JAssertEqual(JCharacterRange(11,19), r.charRange);
+
+	te.GetDoubleClickSelection(TextIndex(17,17), kJTrue, kJFalse, &r);
+	JAssertEqual(JCharacterRange(17,19), r.charRange);
+}
+
+JTEST(DefaultKeyHandler)
+{
+	StyledText text;
+	TextEditor te1(&text, kJTrue, 50);
+	TextEditor te2(&text, kJTrue, 50);
+
+	text.TabShouldInsertSpaces(kJTrue);
+	text.SetCRMTabCharCount(4);
+
+	te1.Activate();
+	te1.HandleKeyPress('c', kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
+	te1.HandleKeyPress('a', kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
+	te1.HandleKeyPress('t', kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
+	JAssertStringsEqual("cat", text.GetText());
+
+	te2.Activate();
+	te2.HandleKeyPress('s', kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
+	JAssertStringsEqual("cats", text.GetText());
+
+	te2.SetCaretLocation(1);
+	te2.HandleKeyPress('z', kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
+	JAssertStringsEqual("zcats", text.GetText());
+
+	te1.HandleKeyPress('a', kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
+	JAssertStringsEqual("zcatsa", text.GetText());
+
+	te2.HandleKeyPress(kJDeleteKey, kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
+	JAssertStringsEqual("catsa", text.GetText());
+
+	te1.HandleKeyPress(kJDeleteKey, kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
+	JAssertStringsEqual("cats", text.GetText());
+
+	te1.Paste(JString("Dog", kJFalse));
+	te1.HandleKeyPress('s', kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
+	JAssertStringsEqual("catsDogs", text.GetText());
+
+	te2.GoToEndOfLine();
+	text.Undo();
+	JAssertStringsEqual("catsDog", text.GetText());
+
+	te2.HandleKeyPress(kJLeftArrow, kJFalse, JTextEditor::kMoveByWord, kJFalse);
+	JIndex i;
+	JAssertTrue(te2.GetCaretLocation(&i));
+	JAssertEqual(i, 1);
+
+	te2.HandleKeyPress(kJRightArrow, kJFalse, JTextEditor::kMoveByPartialWord, kJFalse);
+	JAssertTrue(te2.GetCaretLocation(&i));
+	JAssertEqual(i, 5);
+
+	te1.HandleKeyPress(kJLeftArrow, kJTrue, JTextEditor::kMoveByPartialWord, kJFalse);
+	JCharacterRange r;
+	JAssertTrue(te1.GetSelection(&r));
+	JAssertEqual(JCharacterRange(5,7), r);
+
+	te1.HandleKeyPress('!', kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
+	JAssertStringsEqual("cats!", text.GetText());
+
+	te2.HandleKeyPress(kJTabKey, kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
+	te2.HandleKeyPress(' ', kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
+	JAssertStringsEqual("cats     !", text.GetText());
+
+	te2.HandleKeyPress(kJDeleteKey, kJFalse, JTextEditor::kMoveByCharacter, kJTrue);
+	JAssertStringsEqual("cats    !", text.GetText());
+
+	te2.HandleKeyPress(kJDeleteKey, kJFalse, JTextEditor::kMoveByCharacter, kJTrue);
+	JAssertStringsEqual("cats!", text.GetText());
+
+	te1.HandleKeyPress(kJLeftArrow, kJTrue, JTextEditor::kMoveByCharacter, kJFalse);
+	te1.HandleKeyPress(kJForwardDeleteKey, kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
+	JAssertStringsEqual("cats", text.GetText());
+}
+
+JTEST(VIKeyHandler)
+{
+	StyledText text;
+	TextEditor te1(&text, kJTrue, 50);
+	TextEditor te2(&text, kJTrue, 50);
+
+	text.TabShouldInsertSpaces(kJTrue);
+	text.SetCRMTabCharCount(4);
+
+	te1.SetKeyHandler(jnew JVIKeyHandler(&te1));
+	te2.SetKeyHandler(jnew JVIKeyHandler(&te2));
+
+	te1.Activate();
+	te1.HandleKeyPress('i', kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
+	te1.HandleKeyPress('c', kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
+	te1.HandleKeyPress('a', kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
+	te1.HandleKeyPress('t', kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
+	JAssertStringsEqual("cat", text.GetText());
+
+	te2.Activate();
+	te2.HandleKeyPress('i', kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
+	te2.HandleKeyPress('s', kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
+	JAssertStringsEqual("cats", text.GetText());
+
+	te2.HandleKeyPress(kJEscapeKey, kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
+	te2.HandleKeyPress('0', kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
+	te2.HandleKeyPress('i', kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
+	te2.HandleKeyPress('z', kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
+	JAssertStringsEqual("zcats", text.GetText());
+
+	te1.HandleKeyPress('a', kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
+	JAssertStringsEqual("zcatsa", text.GetText());
+
+	te2.HandleKeyPress(kJEscapeKey, kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
+	te2.HandleKeyPress('x', kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
+	JAssertStringsEqual("catsa", text.GetText());
+
+	te1.HandleKeyPress(kJEscapeKey, kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
+	te1.HandleKeyPress('x', kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
+	JAssertStringsEqual("cats", text.GetText());
 }

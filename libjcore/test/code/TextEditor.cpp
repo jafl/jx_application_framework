@@ -364,9 +364,45 @@ TextEditor::CheckCmdStatus
 }
 
 /******************************************************************************
+ GetDoubleClickSelection
+
+ ******************************************************************************/
+
+void
+TextEditor::GetDoubleClickSelection
+	(
+	const JStyledText::TextIndex&	i,
+	const JBoolean					partialWord,
+	const JBoolean					dragging,
+	JStyledText::TextRange*			range
+	)
+{
+	TEGetDoubleClickSelection(i, partialWord, dragging, range);
+}
+
+/******************************************************************************
+ HandleKeyPress
+
+	Returns kJTrue if the key was processed.
+
+ ******************************************************************************/
+
+JBoolean
+TextEditor::HandleKeyPress
+	(
+	const JUtf8Character&	c,
+	const JBoolean			selectText,
+	const CaretMotion		motion,
+	const JBoolean			deleteToTabStop
+	)
+{
+	return TEHandleKeyPress(c, selectText, motion, deleteToTabStop);
+}
+
+/******************************************************************************
  Receive (virtual protected)
 
-	Listen for menu update requests and menu selections.
+	Validate messages
 
  ******************************************************************************/
 

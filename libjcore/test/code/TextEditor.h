@@ -45,6 +45,14 @@ public:
 	void	Activate();
 	void	CheckCmdStatus(const JRunArray<JBoolean>& expected) const;
 
+	void	GetDoubleClickSelection(const JStyledText::TextIndex& charIndex,
+									const JBoolean partialWord,
+									const JBoolean dragging,
+									JStyledText::TextRange* range);
+
+	JBoolean	HandleKeyPress(const JUtf8Character& key, const JBoolean selectText,
+							   const CaretMotion motion, const JBoolean deleteToTabStop);
+
 protected:
 
 	virtual void		TERefresh() override;

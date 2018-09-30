@@ -131,12 +131,6 @@ JVIKeyHandler::PrehandleKeyPress
 		return kJTrue;
 		}
 
-	if (itsMode == kTextEntryMode)
-		{
-		*result = kJFalse;
-		return kJTrue;
-		}
-
 	return kJFalse;
 }
 
@@ -160,7 +154,8 @@ JVIKeyHandler::HandleKeyPress
 		return result;
 		}
 
-	if (key == kJLeftArrow || key == kJRightArrow ||
+	if (itsMode == kTextEntryMode ||
+		key == kJLeftArrow || key == kJRightArrow ||
 		key == kJUpArrow || key == kJDownArrow)
 		{
 		ClearKeyBuffers();
@@ -273,12 +268,12 @@ JVIKeyHandler::HandleKeyPress
 					}
 				BackwardDelete(deleteToTabStop, &s);
 				}
+			else if (te->GetInsertionIndex().charIndex > te->GetText()->GetText().GetCharacterCount())
+				{
+				BackwardDelete(kJFalse, &s);
+				}
 			else
 				{
-				if (te->GetInsertionIndex().charIndex >= te->GetText()->GetText().GetCharacterCount())
-					{
-					break;
-					}
 				ForwardDelete(deleteToTabStop, &s);
 				}
 

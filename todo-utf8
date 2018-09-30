@@ -12,13 +12,6 @@ JXDirTable
 
 
 
-JTextEditor tests
-	2 TE's for 1 ST
-		MouseActions
-		KeyPress
-		validate caret/selection after TextChanged
-	JVIKeyHandler
-
 JStyledText
 	need smarter update during indent/outdent, to maintain caret location
 	AutoIndent
