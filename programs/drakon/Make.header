@@ -38,7 +38,7 @@ J_STRING_FILES := ${PROG_STRING_FILES}
 include ${JX_ROOT}/include/make/jx_constants
 include ${JX_ROOT}/include/make/jx_config
 
-DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} -fexceptions \
+DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} \
                ${J_COMPILE_DEBUG} ${SEARCHDIRS}
 
 TOUCHPATHS := ${JCORELIBDIR} ${JXLIBDIR}
