@@ -23,12 +23,7 @@ typedef JTextEditor::CaretLocation CaretLocation;
 
  ******************************************************************************/
 
-JTEDefaultKeyHandler::JTEDefaultKeyHandler
-	(
-	JTextEditor* te
-	)
-	:
-	JTEKeyHandler(te)
+JTEDefaultKeyHandler::JTEDefaultKeyHandler()
 {
 }
 

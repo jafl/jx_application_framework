@@ -235,10 +235,12 @@ ProcessText::TestPGTask	"Crunching numbers..."
 
 # TestTextEditDocument
 
-FilesMenuTitle::TestTextEditDocument	"Files"
 FileMenuShortcut::TestTextEditDocument	"#F"
+FilesMenuTitle::TestTextEditDocument	"Files"
 ChooseFilesPrompt::TestTextEditDocument	"Files to open:"
 OpenFilesProgress::TestTextEditDocument	"Opening files..."
+
+EmulatorMenuTitle::TestTextEditDocument	"Emulator"
 
 # TestDNDTextDirector
 

@@ -11,6 +11,7 @@
 #include "TestTextEditor.h"
 
 #include <JXStyledText.h>
+#include <JXVIKeyHandler.h>
 #include <JXDocumentManager.h>
 #include <JXWindow.h>
 #include <JXMenuBar.h>
@@ -49,6 +50,18 @@ enum
 	kCloseCmd
 };
 
+// Emulator menu
+
+static const JUtf8Byte* kEmulatorMenuStr =
+	"    None %r"
+	"  | vi   %r";
+
+enum
+{
+	kNoEmulatorCmd = 1,
+	kVIEmulatorCmd
+};
+
 /******************************************************************************
  Constructor
 
@@ -61,7 +74,8 @@ TestTextEditDocument::TestTextEditDocument
 	:
 	JXFileDocument(supervisor,
 				   (JXGetDocumentManager())->GetNewFileName(),
-				   kJFalse, kJTrue, JString::empty)
+				   kJFalse, kJTrue, JString::empty),
+	itsEmulatorType(kNoEmulator)
 {
 	BuildWindow(kJTrue);
 
@@ -76,7 +90,8 @@ TestTextEditDocument::TestTextEditDocument
 	const JString&	fileName
 	)
 	:
-	JXFileDocument(supervisor, fileName, kJTrue, kJTrue, JString::empty)
+	JXFileDocument(supervisor, fileName, kJTrue, kJTrue, JString::empty),
+	itsEmulatorType(kNoEmulator)
 {
 	assert( JFileExists(fileName) );
 
@@ -181,6 +196,11 @@ TestTextEditDocument::BuildWindow
 						   JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
 	assert( fileListMenu != nullptr );
 	menuBar->PrependMenu(fileListMenu);
+
+	itsEmulatorMenu = menuBar->AppendTextMenu(JGetString("EmulatorMenuTitle::TestTextEditDocument"));
+	itsEmulatorMenu->SetMenuItems(kEmulatorMenuStr);
+	itsEmulatorMenu->SetUpdateAction(JXMenu::kDisableNone);
+	ListenTo(itsEmulatorMenu);
 }
 
 /******************************************************************************
@@ -207,6 +227,18 @@ TestTextEditDocument::Receive
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleFileMenu(selection->GetIndex());
+		}
+
+	else if (sender == itsEmulatorMenu && message.Is(JXMenu::kNeedsUpdate))
+		{
+		UpdateEmulatorMenu();
+		}
+	else if (sender == itsEmulatorMenu && message.Is(JXMenu::kItemSelected))
+		{
+		const JXMenu::ItemSelected* selection =
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
+		assert( selection != nullptr );
+		HandleEmulatorMenu(selection->GetIndex());
 		}
 
 	else if (sender == itsText && message.Is(JStyledText::kTextChanged))
@@ -412,5 +444,39 @@ TestTextEditDocument::WriteTextFile
 			{
 			itsText->SetLastSaveLocation();
 			}
+		}
+}
+
+/******************************************************************************
+ UpdateEmulatorMenu (private)
+
+ ******************************************************************************/
+
+void
+TestTextEditDocument::UpdateEmulatorMenu()
+{
+	itsEmulatorMenu->CheckItem(itsEmulatorType);
+}
+
+/******************************************************************************
+ HandleEmulatorMenu (private)
+
+ ******************************************************************************/
+
+void
+TestTextEditDocument::HandleEmulatorMenu
+	(
+	const JIndex index
+	)
+{
+	if (index == kNoEmulatorCmd)
+		{
+		itsTextEditor2->SetKeyHandler(nullptr);
+		itsEmulatorType = kNoEmulator;
+		}
+	else if (index == kVIEmulatorCmd)
+		{
+		itsTextEditor2->SetKeyHandler(jnew JXVIKeyHandler);
+		itsEmulatorType = kVIEmulator;
 		}
 }

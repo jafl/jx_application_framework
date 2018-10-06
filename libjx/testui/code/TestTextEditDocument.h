@@ -34,10 +34,21 @@ protected:
 
 private:
 
+	enum EmulatorType
+	{
+		kNoEmulator = 1,
+		kVIEmulator
+	};
+
+private:
+
 	JStyledText*	itsText;
-	TestTextEditor*	itsTextEditor1;	// owned by its enclosure
-	TestTextEditor*	itsTextEditor2;	// owned by its enclosure
-	JXTextMenu*		itsFileMenu;	// owned by menu bar
+	TestTextEditor*	itsTextEditor1;		// owned by its enclosure
+	TestTextEditor*	itsTextEditor2;		// owned by its enclosure
+	JXTextMenu*		itsFileMenu;		// owned by menu bar
+	JXTextMenu*		itsEmulatorMenu;	// owned by menu bar
+
+	EmulatorType	itsEmulatorType;
 
 // begin JXLayout
 
@@ -53,6 +64,9 @@ private:
 
 	void	OpenFiles();
 	void	RevertToSaved();
+
+	void	UpdateEmulatorMenu();
+	void	HandleEmulatorMenu(const JIndex item);
 
 	// not allowed
 

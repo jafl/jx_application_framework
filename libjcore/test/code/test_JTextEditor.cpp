@@ -1091,8 +1091,8 @@ JTEST(VIKeyHandler)
 	text.TabShouldInsertSpaces(kJTrue);
 	text.SetCRMTabCharCount(4);
 
-	te1.SetKeyHandler(jnew JVIKeyHandler(&te1));
-	te2.SetKeyHandler(jnew JVIKeyHandler(&te2));
+	te1.SetKeyHandler(jnew JVIKeyHandler);
+	te2.SetKeyHandler(jnew JVIKeyHandler);
 
 	te1.Activate();
 	te1.HandleKeyPress('i', kJFalse, JTextEditor::kMoveByCharacter, kJFalse);

@@ -22,13 +22,7 @@
 
  ******************************************************************************/
 
-JXVIKeyHandler::JXVIKeyHandler
-	(
-	JXTEBase* te
-	)
-	:
-	JVIKeyHandler(te),
-	itsJXTE(te)
+JXVIKeyHandler::JXVIKeyHandler()
 {
 }
 
@@ -39,6 +33,23 @@ JXVIKeyHandler::JXVIKeyHandler
 
 JXVIKeyHandler::~JXVIKeyHandler()
 {
+}
+
+/******************************************************************************
+ Initialize (virtual)
+
+ ******************************************************************************/
+
+void
+JXVIKeyHandler::Initialize
+	(
+	JTextEditor* te
+	)
+{
+	JVIKeyHandler::Initialize(te);
+
+	itsJXTE = dynamic_cast<JXTEBase*>(te);
+	assert( itsJXTE != nullptr );
 }
 
 /******************************************************************************

@@ -30,16 +30,8 @@ JVIKeyHandler::CutBuffer JVIKeyHandler::theNamedCutBuffer[ JVIKeyHandler::kNamed
 
  ******************************************************************************/
 
-JVIKeyHandler::JVIKeyHandler
-	(
-	JTextEditor* te
-	)
-	:
-	JTEKeyHandler(te)
+JVIKeyHandler::JVIKeyHandler()
 {
-	itsDefKeyHandler = jnew JTEDefaultKeyHandler(te);
-	assert( itsDefKeyHandler != nullptr );
-	itsDefKeyHandler->Initialize();
 }
 
 /******************************************************************************
@@ -55,14 +47,22 @@ JVIKeyHandler::~JVIKeyHandler()
 }
 
 /******************************************************************************
- Initialize (virtual protected)
+ Initialize (virtual)
 
  ******************************************************************************/
 
 void
-JVIKeyHandler::Initialize()
+JVIKeyHandler::Initialize
+	(
+	JTextEditor* te
+	)
 {
-	JTEKeyHandler::Initialize();
+	JTEKeyHandler::Initialize(te);
+
+	itsDefKeyHandler = jnew JTEDefaultKeyHandler;
+	assert( itsDefKeyHandler != nullptr );
+	itsDefKeyHandler->Initialize(te);
+
 	SetMode(kCommandMode);
 }
 

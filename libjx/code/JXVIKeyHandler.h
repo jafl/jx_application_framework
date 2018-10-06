@@ -16,13 +16,15 @@ class JXVIKeyHandler : public JVIKeyHandler
 {
 public:
 
-	JXVIKeyHandler(JXTEBase* te);
+	JXVIKeyHandler();
 
 	virtual ~JXVIKeyHandler();
 
 	virtual JBoolean	HandleKeyPress(const JUtf8Character& key, const JBoolean selectText,
 									   const JTextEditor::CaretMotion motion,
 									   const JBoolean deleteToTabStop) override;
+
+	virtual void	Initialize(JTextEditor* te) override;
 
 private:
 

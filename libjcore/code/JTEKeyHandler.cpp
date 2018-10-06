@@ -15,12 +15,7 @@
 
  ******************************************************************************/
 
-JTEKeyHandler::JTEKeyHandler
-	(
-	JTextEditor* te
-	)
-	:
-	itsTE(te)
+JTEKeyHandler::JTEKeyHandler()
 {
 }
 
@@ -34,7 +29,7 @@ JTEKeyHandler::~JTEKeyHandler()
 }
 
 /******************************************************************************
- Initialize (virtual protected)
+ Initialize (virtual)
 
 	This is necessary because the old key handler is deleted in
 	JTextEditor::SetKeyHandler(), *after* the jnew one is constructed.
@@ -42,8 +37,12 @@ JTEKeyHandler::~JTEKeyHandler()
  ******************************************************************************/
 
 void
-JTEKeyHandler::Initialize()
+JTEKeyHandler::Initialize
+	(
+	JTextEditor* te
+	)
 {
+	itsTE = te;
 }
 
 /******************************************************************************

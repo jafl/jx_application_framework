@@ -14,7 +14,7 @@ class JTEDefaultKeyHandler : public JTEKeyHandler
 {
 public:
 
-	JTEDefaultKeyHandler(JTextEditor* te);
+	JTEDefaultKeyHandler();
 
 	virtual ~JTEDefaultKeyHandler();
 

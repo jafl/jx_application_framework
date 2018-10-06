@@ -2672,12 +2672,12 @@ JTextEditor::SetKeyHandler
 
 	if (handler == nullptr)
 		{
-		handler = jnew JTEDefaultKeyHandler(this);
+		handler = jnew JTEDefaultKeyHandler;
 		assert( handler != nullptr );
 		}
 
 	itsKeyHandler = handler;
-	itsKeyHandler->Initialize();
+	itsKeyHandler->Initialize(this);
 }
 
 /******************************************************************************

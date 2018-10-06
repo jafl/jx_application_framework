@@ -14,7 +14,7 @@ class JTEKeyHandler
 {
 public:
 
-	JTEKeyHandler(JTextEditor* te);
+	JTEKeyHandler();
 
 	virtual ~JTEKeyHandler();
 
@@ -24,7 +24,7 @@ public:
 
 	// called by JTextEditor
 
-	virtual void	Initialize();
+	virtual void	Initialize(JTextEditor* te);
 
 protected:
 
