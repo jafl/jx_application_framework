@@ -178,6 +178,7 @@ JXTextMenuTable::TableDrawCell
 			if (GetDisplay()->IsOSX())
 				{
 				font.SetName(kOSXSymbolFontName);
+				font.SetSize(font.GetSize()+2);
 				hAlign = JPainter::kHAlignRight;
 
 				rect.left  += kHilightBorderWidth;
