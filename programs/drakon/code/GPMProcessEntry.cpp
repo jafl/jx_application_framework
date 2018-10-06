@@ -133,7 +133,6 @@ GPMProcessEntry::Update
 		// shared across #if
 		ReadCmdline();	// not in ctor, to make ctor faster
 	}
-	}
 	catch (...)
 	{
 		itsState = kZombie;
