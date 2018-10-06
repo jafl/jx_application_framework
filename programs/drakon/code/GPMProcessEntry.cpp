@@ -119,18 +119,25 @@ GPMProcessEntry::Update
 	itsPercentMemory = 0;
 
 #ifdef _J_HAS_PROC
+	try
 	{
-	ReadStat();
-	ReadStatM();
+		ReadStat();
+		ReadStatM();
 
-	JSize mem;
-	if (GPMGetSystemMemory(&mem))
-		{
-		itsPercentMemory = JFloat(itsResident * 100) / mem;
-		}
+		JSize mem;
+		if (GPMGetSystemMemory(&mem))
+			{
+			itsPercentMemory = JFloat(itsResident * 100) / mem;
+			}
 
-	// shared across #if
-	ReadCmdline();	// not in ctor, to make ctor faster
+		// shared across #if
+		ReadCmdline();	// not in ctor, to make ctor faster
+	}
+	}
+	catch (...)
+	{
+		itsState = kZombie;
+//		std::cerr << "failed to update: " << itsPID << std::endl;
 	}
 #elif defined _J_HAS_SYSCTL
 	{

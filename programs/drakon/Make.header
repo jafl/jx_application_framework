@@ -41,6 +41,10 @@ include ${JX_ROOT}/include/make/jx_config
 DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} \
                ${J_COMPILE_DEBUG} ${SEARCHDIRS}
 
+ifndef J_HAS_SYSCTL
+  DEPENDFLAGS += -fexceptions
+endif
+
 TOUCHPATHS := ${JCORELIBDIR} ${JXLIBDIR}
 
 # library dependencies

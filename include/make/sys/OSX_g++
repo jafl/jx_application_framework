@@ -74,6 +74,8 @@ J_RAW_SYSTEM_STUFF := \
   -D_J_HAS_SYSCTL -D_XFT_NO_COMPAT_ -I/usr/X11/include/freetype2 \
   -Wno-deprecated -Wno-c++11-narrowing
 
+J_HAS_SYSCTL := yes
+
 #
 # Nothing below this line should ever need to be changed.
 #
