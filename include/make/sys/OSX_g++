@@ -42,6 +42,8 @@ J_RAW_SYSTEM_STUFF := \
 
 SEARCHDIRS += -I/usr/X11/include
 
+J_HAS_SYSCTL := yes
+
 #
 # Nothing below this line should ever need to be changed.
 #

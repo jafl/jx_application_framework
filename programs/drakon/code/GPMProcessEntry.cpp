@@ -118,10 +118,9 @@ GPMProcessEntry::Update
 {
 	itsPercentMemory = 0;
 
+#ifdef _J_HAS_PROC
 	try
 	{
-#ifdef _J_HAS_PROC
-		{
 		ReadStat();
 		ReadStatM();
 
@@ -130,56 +129,8 @@ GPMProcessEntry::Update
 			{
 			itsPercentMemory = JFloat(itsResident * 100) / mem;
 			}
-		}
-#elif defined _J_HAS_SYSCTL
-		{
-		int mib[] = { CTL_KERN, KERN_PROC, KERN_PROC_PID, itsPID };
 
-		kinfo_proc entry;
-		size_t len = sizeof(entry);
-		int result = sysctl(mib, 4, &entry, &len, nullptr, 0);
-		if (result != 0)
-			{
-			itsState = kZombie;
-			}
-		else
-			{
-			itsCommand  = entry.kp_proc.p_comm;
-			itsPPID     = entry.kp_eproc.e_ppid;
-			itsPriority = entry.kp_proc.p_priority;
-			itsNice     = entry.kp_proc.p_nice;
-			itsSize     = 0;
-			itsResident = 0;
-			itsShare    = 0;
-			itsUTime    = entry.kp_proc.p_uticks;
-			itsSTime    = entry.kp_proc.p_sticks;
-
-			if (entry.kp_proc.p_stat == SSLEEP)
-				{
-				itsState = kSleep;
-				}
-			else if (entry.kp_proc.p_stat == SSTOP)
-				{
-				itsState = kStopped;
-				}
-			else if (entry.kp_proc.p_stat == SZOMB)
-				{
-				itsState = kZombie;
-				}
-			else
-				{
-				itsState = kRun;
-				}
-
-			JSize mem;
-			if (GPMGetSystemMemory(&mem))
-				{
-				itsPercentMemory = JFloat(itsResident) / mem;
-				}
-			}
-		}
-#endif
-
+		// shared across #if
 		ReadCmdline();	// not in ctor, to make ctor faster
 	}
 	catch (...)
@@ -187,6 +138,57 @@ GPMProcessEntry::Update
 		itsState = kZombie;
 //		std::cerr << "failed to update: " << itsPID << std::endl;
 	}
+#elif defined _J_HAS_SYSCTL
+	{
+	int mib[] = { CTL_KERN, KERN_PROC, KERN_PROC_PID, itsPID };
+
+	kinfo_proc entry;
+	size_t len = sizeof(entry);
+	int result = sysctl(mib, 4, &entry, &len, NULL, 0);
+	if (result != 0)
+		{
+		itsState = kZombie;
+		}
+	else
+		{
+		itsCommand  = entry.kp_proc.p_comm;
+		itsPPID     = entry.kp_eproc.e_ppid;
+		itsPriority = entry.kp_proc.p_priority;
+		itsNice     = entry.kp_proc.p_nice;
+		itsSize     = 0;
+		itsResident = 0;
+		itsShare    = 0;
+		itsUTime    = entry.kp_proc.p_uticks;
+		itsSTime    = entry.kp_proc.p_sticks;
+
+		if (entry.kp_proc.p_stat == SSLEEP)
+			{
+			itsState = kSleep;
+			}
+		else if (entry.kp_proc.p_stat == SSTOP)
+			{
+			itsState = kStopped;
+			}
+		else if (entry.kp_proc.p_stat == SZOMB)
+			{
+			itsState = kZombie;
+			}
+		else
+			{
+			itsState = kRun;
+			}
+
+		JSize mem;
+		if (GPMGetSystemMemory(&mem))
+			{
+			itsPercentMemory = JFloat(itsResident) / mem;
+			}
+		}
+
+	// shared across #if
+	ReadCmdline();	// not in ctor, to make ctor faster
+	}
+#endif
 
 	SetName(itsCommand);
 	ShouldBeOpenable(HasChildren());
@@ -377,7 +379,7 @@ GPMProcessEntry::ReadCmdline()
 
 #elif defined KERN_PROCARGS2
 
-	int mib[] = { CTL_KERN, KERN_ARGMAX };
+	int mib[] = { CTL_KERN, KERN_ARGMAX, 0 };
 
 	int argmax;
 	size_t len = sizeof(argmax);
