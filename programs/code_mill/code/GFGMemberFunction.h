@@ -20,7 +20,7 @@ public:
 	virtual ~GFGMemberFunction();
 
 	const JString&	GetFnName() const;
-	void			SetFnName(const JCharacter* str);
+	void			SetFnName(const JString& str);
 
 	JBoolean		IsProtected() const;
 	void			ShouldBeProtected(const JBoolean protect);
@@ -32,10 +32,10 @@ public:
 	void			ShouldBeUsed(const JBoolean use);
 
 	const JString&	GetInterface() const;
-	void			SetInterface(const JCharacter* str);
+	void			SetInterface(const JString& str);
 
 	const JString&	GetReturnType() const;
-	void			SetReturnType(const JCharacter* type);
+	void			SetReturnType(const JString& type);
 
 	JBoolean		IsConst() const;
 	void			ShouldBeConst(const JBoolean isConst);
@@ -43,7 +43,7 @@ public:
 	JSize			GetArgCount() const;
 	const JString&	GetArg(const JIndex index) const;
 	const JString&	GetArgString() const;
-	void			AddArg(const JCharacter* arg);
+	void			AddArg(const JString& arg);
 
 	static JListT::CompareResult
 		CompareFunction(GFGMemberFunction* const & f1, GFGMemberFunction* const & f2);
@@ -93,7 +93,7 @@ GFGMemberFunction::GetFnName()
 inline void
 GFGMemberFunction::SetFnName
 	(
-	const JCharacter* name
+	const JString& name
 	)
 {
 	itsFnName = name;
@@ -174,7 +174,7 @@ GFGMemberFunction::ShouldBeUsed
 	const JBoolean use
 	)
 {
-	itsIsUsed	= use;
+	itsIsUsed = use;
 }
 
 /******************************************************************************
@@ -209,10 +209,10 @@ GFGMemberFunction::GetReturnType()
 inline void
 GFGMemberFunction::SetReturnType
 	(
-	const JCharacter* type
+	const JString& type
 	)
 {
-	itsReturnType	= type;
+	itsReturnType = type;
 }
 
 /******************************************************************************

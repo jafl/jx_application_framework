@@ -29,7 +29,7 @@ public:
 	virtual ~GFGLink();
 
 	JBoolean	StartCTags();
-	void		ParseClass(GFGClass* list, const JCharacter* filename, const JCharacter* classname);
+	void		ParseClass(GFGClass* list, const JString& filename, const JString& classname);
 	
 private:
 
@@ -59,7 +59,7 @@ private:
 
 public:
 
-	static const JCharacter* kFileParsed;
+	static const JUtf8Byte* kFileParsed;
 
 	class FileParsed : public JBroadcaster::Message
 		{

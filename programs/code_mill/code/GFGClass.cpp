@@ -97,27 +97,23 @@ GFGClass::GetBaseClass
 void
 GFGClass::AddBaseClass
 	(
-	const JCharacter* classname, 
-	const JCharacter* filename
+	const JString& classname, 
+	const JString& filename
 	)
 {
-	JString* cname	= jnew JString(classname);
-	assert(cname != nullptr);
-	JString* fname	= jnew JString(filename);
-	assert(fname != nullptr);
-	
 	if (itsBaseClasses == nullptr)
 		{
-		itsBaseClasses		= jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
+		itsBaseClasses = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 		assert(itsBaseClasses != nullptr);
 		}
+	itsBaseClasses->Append(classname);
+
 	if (itsBaseClassFiles == nullptr)
 		{
-		itsBaseClassFiles	= jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
+		itsBaseClassFiles = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 		assert(itsBaseClassFiles != nullptr);
 		}
-	itsBaseClasses->Append(cname);
-	itsBaseClassFiles->Append(fname);
+	itsBaseClassFiles->Append(filename);
 }
 
 /******************************************************************************
@@ -170,27 +166,23 @@ GFGClass::GetAncestor
 void
 GFGClass::AddAncestor
 	(
-	const JCharacter* classname, 
-	const JCharacter* filename
+	const JString& classname, 
+	const JString& filename
 	)
 {
-	JString* cname	= jnew JString(classname);
-	assert(cname != nullptr);
-	JString* fname	= jnew JString(filename);
-	assert(fname != nullptr);
-	
 	if (itsAncestors == nullptr)
 		{
-		itsAncestors		= jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
+		itsAncestors = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 		assert(itsAncestors != nullptr);
 		}
+	itsAncestors->Append(classname);
+
 	if (itsAncestorFiles == nullptr)
 		{
-		itsAncestorFiles	= jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
+		itsAncestorFiles = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 		assert(itsAncestorFiles != nullptr);
 		}
-	itsAncestors->Append(cname);
-	itsAncestorFiles->Append(fname);
+	itsAncestorFiles->Append(filename);
 }
 
 /******************************************************************************
@@ -297,13 +289,13 @@ GFGClass::WriteFunction
 		return;
 		}
 
-	JString access	= "public";
+	JString access("public");
 	if (fn->IsProtected())
 		{
-		access	= "protected";
+		access = "protected";
 		}
 
-	JString s	= GFGGetPrefsManager()->GetFunctionComment(fn->GetFnName(), access);
+	const JString s = GFGGetPrefsManager()->GetFunctionComment(fn->GetFnName(), access);
 	s.Print(os);
 
 	fn->GetReturnType().Print(os);

@@ -16,7 +16,7 @@ class GFGAboutDialog : public JXDialogDirector
 {
 public:
 
-	GFGAboutDialog(JXDirector* supervisor, const JCharacter* prevVersStr);
+	GFGAboutDialog(JXDirector* supervisor, const JString& prevVersStr);
 
 	virtual	~GFGAboutDialog();
 
@@ -37,7 +37,7 @@ private:
 
 private:
 
-	void	BuildWindow(const JCharacter* prevVersStr);
+	void	BuildWindow(const JString& prevVersStr);
 
 	// not allowed
 

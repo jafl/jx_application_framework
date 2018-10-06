@@ -17,11 +17,6 @@
 #include <JXHelpManager.h>
 #include <jAssert.h>
 
-// string ID's
-
-static const JCharacter* kUpgradeNoticeID     = "UpgradeNotice::GFGAboutDialog";
-static const JCharacter* kChangeButtonLabelID = "ChangeButtonLabel::GFGAboutDialog";
-
 /******************************************************************************
  Constructor
 
@@ -31,8 +26,8 @@ static const JCharacter* kChangeButtonLabelID = "ChangeButtonLabel::GFGAboutDial
 
 GFGAboutDialog::GFGAboutDialog
 	(
-	JXDirector*			supervisor,
-	const JCharacter*	prevVersStr
+	JXDirector*		supervisor,
+	const JString&	prevVersStr
 	)
 	:
 	JXDialogDirector(supervisor, kJTrue)
@@ -61,12 +56,12 @@ GFGAboutDialog::~GFGAboutDialog()
 void
 GFGAboutDialog::BuildWindow
 	(
-	const JCharacter* prevVersStr
+	const JString& prevVersStr
 	)
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 370,120, "");
+	JXWindow* window = jnew JXWindow(this, 370,120, JString::empty);
 	assert( window != nullptr );
 
 	JXStaticText* textWidget =
@@ -109,18 +104,18 @@ GFGAboutDialog::BuildWindow
 	imageWidget->SetImage(image, kJTrue);
 
 	JString text = GFGGetVersionStr();
-	if (!JString::IsEmpty(prevVersStr))
+	if (!prevVersStr.IsEmpty())
 		{
-		const JCharacter* map[] =
+		const JUtf8Byte* map[] =
 			{
-			"vers", prevVersStr
+			"vers", prevVersStr.GetBytes()
 			};
-		text += JGetString(kUpgradeNoticeID);
+		text += JGetString("UpgradeNotice::GFGAboutDialog");
 		(JGetStringManager())->Replace(&text, map, sizeof(map));
-		itsHelpButton->SetLabel(JGetString(kChangeButtonLabelID));
+		itsHelpButton->SetLabel(JGetString("ChangeButtonLabel::GFGAboutDialog"));
 		itsIsUpgradeFlag = kJTrue;
 		}
-	textWidget->SetText(text);
+	textWidget->GetText()->SetText(text);
 
 	const JSize bdh = textWidget->GetBoundsHeight();
 	const JSize aph = textWidget->GetApertureHeight();

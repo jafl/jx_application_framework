@@ -10,9 +10,8 @@
 #include <GFGMemberFunction.h>
 #include <JPtrArray-JString.h>
 #include <JRegex.h>
+#include <JStringIterator.h>
 #include <jAssert.h>
-
-static const JRegex pureVirtualPattern = "[[:space:]]*=[[:space:]]*0;$";
 
 /******************************************************************************
  Constructor
@@ -44,18 +43,20 @@ GFGMemberFunction::~GFGMemberFunction()
 
  ******************************************************************************/
 
+static const JRegex pureVirtualPattern = "[[:space:]]*=[[:space:]]*0;$";
+
 void
 GFGMemberFunction::SetInterface
 	(
-	const JCharacter* interface
+	const JString& interface
 	)
 {
 	itsInterface = interface;
 
-	JIndexRange r;
-	if (pureVirtualPattern.Match(itsInterface, &r))
+	JStringIterator iter(&itsInterface);
+	if (iter.Next(pureVirtualPattern))
 		{
-		itsInterface.ReplaceSubstring(r.first, r.last, ";");
+		iter.ReplaceLastMatch(";");
 		}
 }
 
@@ -84,7 +85,7 @@ GFGMemberFunction::GetArg
 void
 GFGMemberFunction::AddArg
 	(
-	const JCharacter* arg
+	const JString& arg
 	)
 {
 	if (itsArgs == nullptr)

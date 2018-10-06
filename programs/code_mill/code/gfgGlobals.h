@@ -22,7 +22,7 @@ GFGApp*				GFGGetApplication();
 GFGPrefsManager*	GFGGetPrefsManager();
 GFGMDIServer*		GFGGetMDIServer();
 
-const JCharacter*	GFGGetVersionNumberStr();
+const JString&		GFGGetVersionNumberStr();
 JString				GFGGetVersionStr();
 
 	// called by GFGApp

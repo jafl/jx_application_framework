@@ -1,8 +1,6 @@
 /******************************************************************************
  GFGApp.cpp
 
-	<Description>
-
 	BASE CLASS = public JXApplication
 
 	Copyright (C) 2002 by Glenn W. Bach.
@@ -15,7 +13,7 @@
 #include "gfgGlobals.h"
 #include <jAssert.h>
 
-static const JCharacter* kAppSignature = "forge";
+static const JUtf8Byte* kAppSignature = "forge";
 
 /******************************************************************************
  Constructor
@@ -37,7 +35,7 @@ GFGApp::GFGApp
 
 	if (!*displayAbout)
 		{
-		*prevVersStr = (GFGGetPrefsManager())->GetPrevVersionStr();
+		*prevVersStr = GFGGetPrefsManager()->GetPrevVersionStr();
 		if (*prevVersStr == GFGGetVersionNumberStr())
 			{
 			prevVersStr->Clear();
@@ -73,7 +71,7 @@ GFGApp::~GFGApp()
 void
 GFGApp::DisplayAbout
 	(
-	const JCharacter* prevVersStr
+	const JString& prevVersStr
 	)
 {
 	GFGAboutDialog* dlog = jnew GFGAboutDialog(this, prevVersStr);
@@ -136,7 +134,7 @@ GFGApp::ShouldBeDeletingTemplate
 
  ******************************************************************************/
 
-const JCharacter*
+const JUtf8Byte*
 GFGApp::GetAppSignature()
 {
 	return kAppSignature;

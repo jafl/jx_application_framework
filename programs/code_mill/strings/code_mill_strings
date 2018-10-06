@@ -1,6 +1,6 @@
 0
 
-VERSION		"1.1.0"
+VERSION		"2.0.0"
 
 COPYRIGHT
 "Copyright (C) 2002-2018 John Lindal.
@@ -30,6 +30,9 @@ Program description
 $copyright"
 
 # GFGMDIServer
+
+MissingTemplate::GFGMDIServer	"Please specify the template file to load."
+
 #2345678901234567890123456789012345678901234567890123456789012345678901234567890
 
 CommandLineHelp::GFGMDIServer
@@ -47,6 +50,19 @@ Usage:
 --output_path  <path>:  sets initial value of output path"
 
 #2345678901234567890123456789012345678901234567890123456789012345678901234567890
+
+# GFGMainDirector
+
+WindowTitle::GFGMainDirector		"Code Mill"
+MissingClassName::GFGMainDirector	"Please provide a class name."
+InvalidDestPath::GFGMainDirector	"Please provide a valid destination directory."
+CreateFileFailed::GFGMainDirector	"There was an error creating the files."
+
+UseLabel::GFGMainDirector	"Override"
+RTLabel::GFGMainDirector	"Return Type"
+FNLabel::GFGMainDirector	"Function Name"
+ConstLabel::GFGMainDirector	"Const"
+ArgsLabel::GFGMainDirector	"Arguments"
 
 # GFGPrefsDialog
 

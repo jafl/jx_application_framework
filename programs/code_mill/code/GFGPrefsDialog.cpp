@@ -8,19 +8,14 @@
  ******************************************************************************/
 
 #include "GFGPrefsDialog.h"
-
 #include <JXChooseSaveFile.h>
 #include <JXHelpManager.h>
 #include <JXInputField.h>
 #include <JXStaticText.h>
 #include <JXTextButton.h>
 #include <JXWindow.h>
-
 #include <JXColorManager.h>
-#include <JString.h>
-
 #include <jXGlobals.h>
-
 #include <jAssert.h>
 
 /******************************************************************************
@@ -69,7 +64,7 @@ GFGPrefsDialog::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 510,530, "");
+	JXWindow* window = jnew JXWindow(this, 510,530, JString::empty);
 	assert( window != nullptr );
 
 	JXStaticText* headerCommentLabel =
@@ -150,16 +145,16 @@ GFGPrefsDialog::BuildWindow
 	SetButtons(okButton, cancelButton);
 
 	itsHeaderInput->SetIsRequired();
-    itsSourceInput->SetIsRequired();
-    itsConstructorInput->SetIsRequired();
-    itsDestructorInput->SetIsRequired();
-    itsFunctionInput->SetIsRequired();
+	itsSourceInput->SetIsRequired();
+	itsConstructorInput->SetIsRequired();
+	itsDestructorInput->SetIsRequired();
+	itsFunctionInput->SetIsRequired();
 
-    itsHeaderInput->SetText(header);
-    itsSourceInput->SetText(source);
-    itsConstructorInput->SetText(constructor);
-    itsDestructorInput->SetText(destructor);
-    itsFunctionInput->SetText(function);
+	itsHeaderInput->GetText()->SetText(header);
+	itsSourceInput->GetText()->SetText(source);
+	itsConstructorInput->GetText()->SetText(constructor);
+	itsDestructorInput->GetText()->SetText(destructor);
+	itsFunctionInput->GetText()->SetText(function);
 
 }
 
@@ -171,18 +166,18 @@ GFGPrefsDialog::BuildWindow
 void
 GFGPrefsDialog::GetValues
 	(
-	JString* header, 
+	JString* header,
 	JString* source,
-	JString* constructor, 
+	JString* constructor,
 	JString* destructor,
 	JString* function
 	)
 {
-	*header			= itsHeaderInput->GetText();
-	*source			= itsSourceInput->GetText();
-	*constructor	= itsConstructorInput->GetText();
-	*destructor		= itsDestructorInput->GetText();
-	*function		= itsFunctionInput->GetText();
+	*header			= itsHeaderInput->GetText()->GetText();
+	*source			= itsSourceInput->GetText()->GetText();
+	*constructor	= itsConstructorInput->GetText()->GetText();
+	*destructor		= itsDestructorInput->GetText()->GetText();
+	*function		= itsFunctionInput->GetText()->GetText();
 }
 
 /******************************************************************************

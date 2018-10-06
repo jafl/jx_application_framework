@@ -15,25 +15,17 @@
 #include <JOutPipeStream.h>
 #include <JProcess.h>
 #include <JRegex.h>
-#include <JTextEditor.h>
+#include <JStringIterator.h>
+#include <JStringMatch.h>
 
 #include <jDirUtil.h>
 #include <jStreamUtil.h>
 #include <jTime.h>
 #include <jAssert.h>
 
-const JCharacter* kUnableToStartCTagsID	= "UnableToStartCTags::GFGLink";
-const JCharacter* kCTagsCmd				= "ctags --filter=yes --filter-terminator=\\\f -n --fields=kzafimns --format=2 --c-types=p ";
-const JCharacter kDelimiter 			= '\f';
-const JCharacter* GFGLink::kFileParsed	= "kFileParsed::GFGLink";
-
-static const JRegex memberLine("([^[:space:]]+)[[:space:]]+[^[:space:]]+[[:space:]]+[^[:space:]]+[[:space:]]+[^[:space:]]+[[:space:]]+line:([[:digit:]]+)[[:space:]]+class:([^[:space:]]+)[[:space:]]+access:([^[:space:]]+)");
-// index
-// 1	= whole line
-// 2	= class name
-// 3	= line number
-// 4	= base class
-// 5	= access
+const JUtf8Byte* kCTagsCmd				= "ctags --filter=yes --filter-terminator=\\\f -n --fields=kzafimns --format=2 --c-types=p ";
+const JUtf8Byte kDelimiter 				= '\f';
+const JUtf8Byte* GFGLink::kFileParsed	= "FileParsed::GFGLink";
 
 /******************************************************************************
  Constructor
@@ -66,9 +58,9 @@ GFGLink::~GFGLink()
 void
 GFGLink::ParseClass
 	(
-	GFGClass* 		  list,
-	const JCharacter* filename, 
-	const JCharacter* classname
+	GFGClass*		list,
+	const JString&	filename, 
+	const JString&	classname
 	)
 {
 	JBoolean ok	= kJTrue;
@@ -83,7 +75,7 @@ GFGLink::ParseClass
 		itsCurrentClass	= classname;
 		itsCurrentFile	= filename;
 
-		JConvertToAbsolutePath(filename, "", &itsCurrentFile);
+		JConvertToAbsolutePath(filename, nullptr, &itsCurrentFile);
 
 		itsCurrentFile.Print(*itsOutputLink);
 		*itsOutputLink << std::endl;
@@ -94,14 +86,14 @@ GFGLink::ParseClass
 
 		if (found)
 			{
-			JIndex findex;
-			while (	result.LocateSubstring("\n", &findex) &&
-					findex > 1)
+			JPtrArray<JString> lines(JPtrArrayT::kDeleteAll);
+			result.Split("\n", &lines);
+
+			for (const JString* line : lines)
 				{
-				JString line	= result.GetSubstring(1, findex - 1);
-				result.RemoveSubstring(1, findex);
-				ParseLine(line);
+				ParseLine(*line);
 				}
+
 			Broadcast(FileParsed());
 			}
 		}
@@ -130,6 +122,14 @@ GFGLink::StopCTags()
 
  ******************************************************************************/
 
+static const JRegex linePattern("([^[:space:]]+)[[:space:]]+[^[:space:]]+[[:space:]]+[^[:space:]]+[[:space:]]+[^[:space:]]+[[:space:]]+line:([[:digit:]]+)[[:space:]]+class:([^[:space:]]+)[[:space:]]+access:([^[:space:]]+)");
+// index
+// 0 = whole line
+// 1 = class name
+// 2 = line number
+// 3 = base class
+// 4 = access
+
 void
 GFGLink::ParseLine
 	(
@@ -137,72 +137,69 @@ GFGLink::ParseLine
 	)
 {
 	// we only care about virtual functions
-	JBoolean required	= kJFalse;
+
+	JBoolean required = kJFalse;
 	if (data.Contains("implementation:pure virtual"))
 		{
-		required	= kJTrue;
+		required = kJTrue;
 		}
 	else if (!data.Contains("implementation:virtual"))
 		{
 		return;
 		}
 
-	JArray<JIndexRange> subList;
-	if (memberLine.Match(data, &subList))
+	JStringIterator iter(data);
+	if (!iter.Next(linePattern))
 		{
-		JIndexRange sRange	= subList.GetElement(2);
-		JString name		= data.GetSubstring(sRange);
-		if (name.BeginsWith("~"))
-			{
-			return;
-			}
-
-		GFGMemberFunction* fn	= jnew GFGMemberFunction();
-		assert(fn != nullptr);
-
-		fn->SetFnName(name);
-		fn->ShouldBeRequired(required);
-
-		sRange	= subList.GetElement(3);
-		JIndex line;
-		JString lineStr		= data.GetSubstring(sRange);
-		lineStr.ConvertToUInt(&line);
-
-		sRange	= subList.GetElement(4);
-		JString base		= data.GetSubstring(sRange);
-		if (base != itsCurrentClass)
-			{
-			jdelete fn;
-			return;
-			}
-
-		sRange	= subList.GetElement(5);
-		JString access		= data.GetSubstring(sRange);
-		if (access == "protected")
-			{
-			fn->ShouldBeProtected(kJTrue);
-			}
-
-		ParseInterface(fn, line);
-
-		// Override entry from base class so function will only be
-		// marked as pure virtual if nobody implemented it.
-
-		JBoolean found;
-		const JIndex i =
-			itsClassList->SearchSorted1(fn, JListT::kAnyMatch, &found);
-		if (found)
-			{
-			itsClassList->DeleteElement(i);
-			}
-		itsClassList->InsertAtIndex(i, fn);
+		return;
 		}
+
+	const JStringMatch& m = iter.GetLastMatch();
+	if (m.GetSubstring(3) != itsCurrentClass)
+		{
+		return;
+		}
+
+	JString name = m.GetSubstring(1);
+	if (name.BeginsWith("~"))
+		{
+		return;
+		}
+
+	GFGMemberFunction* fn = jnew GFGMemberFunction;
+	assert( fn != nullptr );
+
+	fn->SetFnName(name);
+	fn->ShouldBeRequired(required);
+
+	JIndex line;
+	m.GetSubstring(2).ConvertToUInt(&line);
+
+	if (m.GetSubstring(4) == "protected")
+		{
+		fn->ShouldBeProtected(kJTrue);
+		}
+
+	ParseInterface(fn, line);
+
+	// Override entry from base class so function will only be
+	// marked as pure virtual if nobody implemented it.
+
+	JBoolean found;
+	const JIndex i = itsClassList->SearchSorted1(fn, JListT::kAnyMatch, &found);
+	if (found)
+		{
+		itsClassList->DeleteElement(i);
+		}
+	itsClassList->InsertAtIndex(i, fn);
 }
 
 /******************************************************************************
  ParseInterface (private)
 
  ******************************************************************************/
+
+static const JRegex commentPattern("//.*?\n");
 
 void
 GFGLink::ParseInterface
@@ -211,23 +208,23 @@ GFGLink::ParseInterface
 	const JIndex 		line
 	)
 {
-	std::ifstream is(itsCurrentFile);
+	std::ifstream is(itsCurrentFile.GetBytes());
 	if (!is.good())
 		{
 		return;
 		}
 
 	// skip to the function's line
-	JString str;
-	for (JIndex i = 1; i < line; i++)
+
+	for (JIndex i=1; i<line; i++)
 		{
-		str	= JReadLine(is);
+		JIgnoreLine(is);
 		}
 
-	JSize p1	= JTellg(is);
+	JSize p1 = JTellg(is);
 
 	is >> std::ws;
-	str	= JReadUntilws(is);
+	JString str = JReadUntilws(is);
 	if (str != "virtual")
 		{
 		return;
@@ -254,44 +251,41 @@ GFGLink::ParseInterface
 		}
 
 	// get arguments
-	JCharacter delim	= ',';
-	while (delim == ',')
+	JUtf8Byte delim;
+	do
 		{
-		JBoolean ok	= JReadUntil(is, 2, ",)", &str, &delim);
-		if (!ok)
+		if (!JReadUntil(is, 2, ",)", &str, &delim))
 			{
 			return;
 			}
-		JIndex findex;
-		if (str.LocateSubstring("//", &findex))
+
+		JStringIterator iter(&str);
+		while (iter.Next(commentPattern))
 			{
-			JIndex eindex;
-			if (str.LocateSubstring("\n", &eindex) &&
-				eindex >= findex)
-				{
-				str.RemoveSubstring(findex, eindex);
-				}
+			iter.RemoveLastMatch();
 			}
+
 		str.TrimWhitespace();
 		if (!str.IsEmpty())
 			{
 			fn->AddArg(str);
-			}		
+			}
 		}
+		while (delim == ',');
 
 	is >> std::ws;
 
 	// is it const;
-	str	= JReadUntil(is, ';');
+	str = JReadUntil(is, ';');
 	if (str.Contains("const"))
 		{
 		fn->ShouldBeConst(kJTrue);
 		}
 
-	JSize p2	= JTellg(is);
+	JSize p2 = JTellg(is);
 	JSeekg(is, p1);
 
-	str	= JRead(is, p2 - p1);
+	str = JRead(is, p2 - p1);
 	fn->SetInterface(str);
 }
 
@@ -308,7 +302,7 @@ GFGLink::StartCTags()
 {
 	assert( itsCTagsProcess == nullptr );
 
-	JString cmd = kCTagsCmd;
+	JString cmd(kCTagsCmd);
 
 	int toFD, fromFD;
 	const JError err = JProcess::Create(&itsCTagsProcess, cmd,
@@ -329,7 +323,7 @@ GFGLink::StartCTags()
 		}
 	else
 		{
-		(JGetStringManager())->ReportError(kUnableToStartCTagsID, err);
+		(JGetStringManager())->ReportError("UnableToStartCTags::GFGLink", err);
 		return kJFalse;
 		}
 }

@@ -29,14 +29,14 @@ public:
 
 public:
 
-	GFGMainDirector(JXDirector* supervisor, const JPtrArray<JString>& files);
+	GFGMainDirector(JXDirector* supervisor, const JPtrArray<JString>& argList);
 
 	virtual	~GFGMainDirector();
 
 protected:
 
-	virtual void	ReadPrefs(std::istream& input);
-	virtual void	WritePrefs(std::ostream& output) const;
+	virtual void	ReadPrefs(std::istream& input) override;
+	virtual void	WritePrefs(std::ostream& output) const override;
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
@@ -66,7 +66,7 @@ private:
 
 private:
 
-	void 		BuildWindow(const JCharacter* outputPath);
+	void 		BuildWindow(const JString& outputPath);
 	JBoolean 	Write();
 
 	// not allowed

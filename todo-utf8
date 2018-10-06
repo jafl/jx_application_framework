@@ -24,7 +24,6 @@ JTextEditor:
 JXFontManager
 	some characters extend above line height
 
-code_mill
 drakon
 svn_client
 leibnitz
@@ -36,6 +35,9 @@ jx_project_wizard
 	convert logic to use JSubstitute - need way to specify case match?
 	convert app_template to { }
 	convert help to online
+
+code_mill
+	not receiving anything from ctags
 
 -----
 

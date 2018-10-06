@@ -40,53 +40,7 @@
 #include <jAssert.h>
 
 const JCoordinate kColHeaderHeight		= 20;
-const JCoordinate kGapHeight			= 40;
 const JFileVersion kCurrentPrefsVersion	= 1;
-
-const JCharacter* kUseLabel		= "Override";
-const JCharacter* kRTLabel		= "Return Type";
-const JCharacter* kFNLabel		= "Function Name";
-const JCharacter* kConstLabel	= "Const";
-const JCharacter* kArgsLabel	= "Arguments";
-
-static const JCharacter* kFileMenuTitleStr = "File";
-static const JCharacter* kFileMenuStr =
-	"Quit %k Meta-Q %i" kJXQuitAction;
-
-enum
-{
-	kQuitCmd = 1
-};
-
-static const JCharacter* kPrefsMenuTitleStr = "Preferences";
-static const JCharacter* kPrefsMenuStr =
-	"    Edit preferences  %i" kGFGEditPreferencesAction
-	"  | Edit tool bar...  %i" kGFGEditToolBarAction;
-
-enum
-{
-	kPrefsCmd = 1,
-	kEditToolBarCmd
-};
-
-static const JCharacter* kHelpMenuTitleStr = "Help";
-static const JCharacter* kHelpMenuStr =
-	"    About"
-	"%l| Table of Contents       %i" kJXHelpTOCAction
-	"  | Overview"
-	"  | This window       %k F1 %i" kJXHelpSpecificAction
-	"%l| Changes"
-	"  | Credits";
-
-enum
-{
-	kAboutCmd = 1,
-	kTOCCmd,
-	kOverviewCmd,
-	kThisWindowCmd,
-	kChangesCmd,
-	kCreditsCmd
-};
 
 /******************************************************************************
  Constructor
@@ -95,31 +49,31 @@ enum
 
 GFGMainDirector::GFGMainDirector
 	(
-	JXDirector* supervisor,
-	const JPtrArray<JString>& files
+	JXDirector*					supervisor,
+	const JPtrArray<JString>&	argList
 	)
 	:
 	JXWindowDirector(supervisor),
 	JPrefObject(GFGGetPrefsManager(), kGFGMainDirectorID)
 {
-	itsClass	= jnew GFGClass();
+	itsClass = jnew GFGClass();
 	assert(itsClass != nullptr);
 
 	JString outputPath;
 
-	const JSize count = files.GetElementCount();
+	const JSize count = argList.GetElementCount();
 	JString classname, filename;
-	for (JIndex i = 1; i <= count; i++)
+	for (JIndex i = 2; i <= count; i++)
 		{
-		const JString* argName = files.GetElement(i);
+		const JString* argName = argList.GetElement(i);
 		if (*argName == "--output_path" && i < count)
 			{
-			outputPath = *(files.GetElement(i+1));
+			outputPath = *(argList.GetElement(i+1));
 			i++;
 			}
 		else if (!argName->BeginsWith("-"))
 			{
-			std::ifstream is(*argName);
+			std::ifstream is(argName->GetBytes());
 			if (is.good())
 				{
 				int version;
@@ -172,18 +126,12 @@ GFGMainDirector::~GFGMainDirector()
 void
 GFGMainDirector::BuildWindow
 	(
-	const JCharacter* outputPath
+	const JString& outputPath
 	)
 {
-	const JCoordinate minWidth  = 200;
-	const JCoordinate minHeight = 200;
-
-	const JCoordinate w		= 650;
-	const JCoordinate h		= 400;
-
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 650,460, "");
+	JXWindow* window = jnew JXWindow(this, 650,460, JString::empty);
 	assert( window != nullptr );
 
 	itsClassInput =
@@ -247,7 +195,7 @@ GFGMainDirector::BuildWindow
 		jnew JXStaticText(JGetString("itsBaseClassTxt::GFGMainDirector::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 105,45, 110,20);
 	assert( itsBaseClassTxt != nullptr );
-	const JFontStyle itsBaseClassTxt_style(kJTrue, kJFalse, 0, kJFalse, GetColormap()->GetBlackColor());
+	const JFontStyle itsBaseClassTxt_style(kJTrue, kJFalse, 0, kJFalse, JColorManager::GetBlackColor());
 	itsBaseClassTxt->SetFontStyle(itsBaseClassTxt_style);
 	itsBaseClassTxt->SetToLabel();
 
@@ -281,7 +229,7 @@ GFGMainDirector::BuildWindow
 
 // end JXLayout
 
-	window->SetTitle("Code Mill");
+	window->SetTitle(JGetString("WindowTitle::GFGMainDirector"));
 	window->LockCurrentMinSize();
 
 	ListenTo(itsChooseButton);
@@ -303,7 +251,7 @@ GFGMainDirector::BuildWindow
 		bases += cname;
 		}
 
-	itsBaseClassTxt->SetText(bases);
+	itsBaseClassTxt->GetText()->SetText(bases);
 
 	JXImage* image = jnew JXImage(GetDisplay(), gfg_main_window_icon);
 	assert( image != nullptr );
@@ -327,16 +275,16 @@ GFGMainDirector::BuildWindow
 	assert(widget != nullptr);
 	widget->FitToEnclosure(kJTrue, kJFalse);
 
-	widget->SetColTitle(GFGFunctionTable::kFUsed, kUseLabel);
-	widget->SetColTitle(GFGFunctionTable::kFReturnType, kRTLabel);
-	widget->SetColTitle(GFGFunctionTable::kFFunctionName, kFNLabel);
-	widget->SetColTitle(GFGFunctionTable::kFConst, kConstLabel);
-	widget->SetColTitle(GFGFunctionTable::kFArgs, kArgsLabel);
+	widget->SetColTitle(GFGFunctionTable::kFUsed, JGetString("UseLabel::GFGMainDirector"));
+	widget->SetColTitle(GFGFunctionTable::kFReturnType, JGetString("RTLabel::GFGMainDirector"));
+	widget->SetColTitle(GFGFunctionTable::kFFunctionName, JGetString("FNLabel::GFGMainDirector"));
+	widget->SetColTitle(GFGFunctionTable::kFConst, JGetString("ConstLabel::GFGMainDirector"));
+	widget->SetColTitle(GFGFunctionTable::kFArgs, JGetString("ArgsLabel::GFGMainDirector"));
 
 	itsClassInput->SetIsRequired();
-	itsDirInput->SetText(outputPath);
-	itsAuthorInput->SetText(GFGGetPrefsManager()->GetAuthor());
-	itsCopyrightInput->SetText(GFGGetPrefsManager()->GetCopyright());
+	itsDirInput->GetText()->SetText(outputPath);
+	itsAuthorInput->GetText()->SetText(GFGGetPrefsManager()->GetAuthor());
+	itsCopyrightInput->GetText()->SetText(GFGGetPrefsManager()->GetCopyright());
 
 	JPrefObject::ReadPrefs();
 }
@@ -357,9 +305,9 @@ GFGMainDirector::Receive
 		{
 		JString path;
 		if (itsDirInput != nullptr &&
-			JGetChooseSaveFile()->ChooseRWPath("", nullptr, itsDirInput->GetText(), &path))
+			JGetChooseSaveFile()->ChooseRWPath(JString::empty, JString::empty, itsDirInput->GetText()->GetText(), &path))
 			{
-			itsDirInput->SetText(path);
+			itsDirInput->GetText()->SetText(path);
 			}
 		}
 	else if (sender == itsHelpButton && message.Is(JXButton::kPushed))
@@ -372,8 +320,8 @@ GFGMainDirector::Receive
 		}
 	else if (sender == itsGenerateButton && message.Is(JXButton::kPushed))
 		{
-		GFGGetPrefsManager()->SetAuthor(itsAuthorInput->GetText());
-		GFGGetPrefsManager()->SetCopyright(itsCopyrightInput->GetText());
+		GFGGetPrefsManager()->SetAuthor(itsAuthorInput->GetText()->GetText());
+		GFGGetPrefsManager()->SetCopyright(itsCopyrightInput->GetText()->GetText());
 
 		if (Write())
 			{
@@ -439,10 +387,10 @@ GFGMainDirector::WritePrefs
 JBoolean
 GFGMainDirector::Write()
 {
-	JString cname	= itsClassInput->GetText();
+	JString cname = itsClassInput->GetText()->GetText();
 	if (cname.IsEmpty())
 		{
-		JGetUserNotification()->ReportError("Please provide a class name.");
+		JGetUserNotification()->ReportError(JGetString("MissingClassName::GFGMainDirector"));
 		itsClassInput->Focus();
 		return kJFalse;
 		}
@@ -451,7 +399,7 @@ GFGMainDirector::Write()
 	JString dir;
 	if (!itsDirInput->GetPath(&dir))
 		{
-		JGetUserNotification()->ReportError("Please provide a valid destination directory.");
+		JGetUserNotification()->ReportError(JGetString("InvalidDestPath::GFGMainDirector"));
 		itsDirInput->Focus();
 		return kJFalse;
 		}
@@ -475,10 +423,10 @@ GFGMainDirector::Write()
 		sourcefile	= JCombinePathAndName(dir, sourcename);
 		}
 
-	std::ofstream oh(headerfile);
+	std::ofstream oh(headerfile.GetBytes());
 	if (!oh.good())
 		{
-		JGetUserNotification()->ReportError("There was an error creating the files.");
+		JGetUserNotification()->ReportError(JGetString("CreateFileFailed::GFGMainDirector"));
 		return kJFalse;
 		}
 
@@ -511,11 +459,11 @@ GFGMainDirector::Write()
 	JString s	= GFGGetPrefsManager()->GetHeaderComment(cname);
 	s.Print(oh);
 
-	const JCharacter* map[] =
+	const JUtf8Byte* map[] =
 		{
-		"class", cname,
-		"basefile", basefiles,
-		"base", bases
+		"class",    cname.GetBytes(),
+		"basefile", basefiles.GetBytes(),
+		"base",     bases.GetBytes()
 		};
 	s = JGetString("CLASS_HEADER_START", map, sizeof(map));
 
@@ -554,10 +502,10 @@ GFGMainDirector::Write()
 
 	oh.close();
 
-	std::ofstream os(sourcefile);
+	std::ofstream os(sourcefile.GetBytes());
 	if (!os.good())
 		{
-		JGetUserNotification()->ReportError("There was an error creating the files.");
+		JGetUserNotification()->ReportError(JGetString("CreateFileFailed::GFGMainDirector"));
 		return kJFalse;
 		}
 
@@ -572,10 +520,10 @@ GFGMainDirector::Write()
 	s	= GFGGetPrefsManager()->GetConstructorComment();
 	s.Print(os);
 
-	const JCharacter* map2[] =
+	const JUtf8Byte* map2[] =
 		{
-		"class", cname,
-		"constructs", baseconstructors
+		"class",      cname.GetBytes(),
+		"constructs", baseconstructors.GetBytes()
 		};
 
 	s = JGetString("CLASS_CONSTRUCTOR_DATA", map2, sizeof(map2));
@@ -585,10 +533,10 @@ GFGMainDirector::Write()
 	s	= GFGGetPrefsManager()->GetDestructorComment();
 	s.Print(os);
 
-	const JCharacter* map3[] =
+	const JUtf8Byte* map3[] =
 		{
-		"class", cname,
-		"constructs", baseconstructors
+		"class",      cname.GetBytes(),
+		"constructs", baseconstructors.GetBytes()
 		};
 
 	s = JGetString("CLASS_DESTRUCTOR_DATA", map3, sizeof(map3));

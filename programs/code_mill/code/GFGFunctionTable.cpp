@@ -92,8 +92,8 @@ GFGFunctionTable::GFGFunctionTableX()
 {
 	itsNeedsAdjustment	= kJTrue;
 	
-	SetRowBorderInfo(0, GetColormap()->GetBlackColor());
-	SetColBorderInfo(0, GetColormap()->GetBlackColor());
+	SetRowBorderInfo(0, JColorManager::GetBlackColor());
+	SetColBorderInfo(0, JColorManager::GetBlackColor());
 	AppendCols(kFArgs);
 	AppendRows(itsList->GetElementCount());
 	
@@ -183,7 +183,7 @@ GFGFunctionTable::TableDrawCell
 	
 	if (JRound(cell.y/2)*2 != cell.y)
 		{
-		p.SetPenColor(GetColormap()->GetGrayColor(95));
+		p.SetPenColor(JColorManager::GetGrayColor(95));
 		p.SetFilling(kJTrue);
 		p.Rect(rect);
 		p.SetFilling(kJFalse);
@@ -197,7 +197,7 @@ GFGFunctionTable::TableDrawCell
 			{
 			JRect r(rect.ycenter(), rect.xcenter(), rect.ycenter(), rect.xcenter());
 			r.Expand(kBulletRadius, kBulletRadius);
-			p.SetPenColor((p.GetColormap())->GetBlackColor());
+			p.SetPenColor(JColorManager::GetBlackColor());
 			p.SetFilling(kJTrue);
 			p.Ellipse(r);
 			}
@@ -214,8 +214,7 @@ GFGFunctionTable::TableDrawCell
 
 	if (fn->IsProtected())
 		{
-		JColorID color	= GetColormap()->GetBrownColor();
-		style.color			= color;
+		style.color = JColorManager::GetBrownColor();
 		}
 
 	JString str;
@@ -258,17 +257,18 @@ GFGFunctionTable::TableDrawCell
 void
 GFGFunctionTable::HandleKeyPress
 	(
-	const int key,
-	const JXKeyModifiers& modifiers
+	const JUtf8Character&	c,
+	const int				keySym,
+	const JXKeyModifiers&	modifiers
 	)
 {
-	if (key == ' ')
+	if (c == ' ')
 		{
 		GetTableSelection().ClearSelection();
 		}
 	else
 		{
-		JXTable::HandleKeyPress(key, modifiers);
+		JXTable::HandleKeyPress(c, keySym, modifiers);
 		}
 }
 
@@ -286,27 +286,28 @@ GFGFunctionTable::AdjustColumnWidths()
 		}
 	itsNeedsAdjustment = kJFalse;
 
-	const JFont& font = GetFontManager()->GetDefaultMonospaceFont();
+	JFontManager* fontMgr = GetFontManager();
+	const JFont& font     = fontMgr->GetDefaultMonospaceFont();
 
 	const JSize count	= itsList->GetElementCount();
 	for (JIndex i = 1; i <= count; i++)
 		{
 		const GFGMemberFunction* fn	= itsList->GetElement(i);
-		JSize width	= font.GetStringWidth(fn->GetReturnType());
+		JSize width	= font.GetStringWidth(fontMgr, fn->GetReturnType());
 		JCoordinate adjWidth = width + 2 * kHMarginWidth;
 		if (adjWidth > GetColWidth(kFReturnType))
 			{
 			SetColWidth(kFReturnType, adjWidth);
 			}
 			
-		width    = font.GetStringWidth(fn->GetFnName());
+		width    = font.GetStringWidth(fontMgr, fn->GetFnName());
 		adjWidth = width + 2 * kHMarginWidth;
 		if (adjWidth > GetColWidth(kFFunctionName))
 			{
 			SetColWidth(kFFunctionName, adjWidth);
 			}
 
-		width    = font.GetStringWidth(fn->GetArgString());
+		width    = font.GetStringWidth(fontMgr, fn->GetArgString());
 		adjWidth = width + 2 * kHMarginWidth;
 		if (adjWidth > GetColWidth(kFArgs))
 			{

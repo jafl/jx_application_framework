@@ -26,17 +26,17 @@ public:
 
 	JSize			GetBaseClassCount() const;
 	void			GetBaseClass(const JIndex index, JString* classname, JString* filename) const;
-	void			AddBaseClass(const JCharacter* classname, const JCharacter* filename);
+	void			AddBaseClass(const JString& classname, const JString& filename);
 
 	const JString&	GetClassName() const;
-	void			SetClassName(const JCharacter* classname);
+	void			SetClassName(const JString& classname);
 
 	const JString&	GetFileName() const;
-	void			SetFileName(const JCharacter* filename);
+	void			SetFileName(const JString& filename);
 
 	JSize	GetAncestorCount() const;
 	void	GetAncestor(const JIndex index, JString* classname, JString* filename) const;
-	void	AddAncestor(const JCharacter* classname, const JCharacter* filename);
+	void	AddAncestor(const JString& classname, const JString& filename);
 
 	void	Populate();
 
@@ -94,10 +94,10 @@ GFGClass::GetClassName()
 inline void
 GFGClass::SetClassName
 	(
-	const JCharacter* classname
+	const JString& classname
 	)
 {
-	itsClassName	= classname;
+	itsClassName = classname;
 }
 
 /******************************************************************************
@@ -120,10 +120,10 @@ GFGClass::GetFileName()
 inline void
 GFGClass::SetFileName
 	(
-	const JCharacter* filename
+	const JString& filename
 	)
 {
-	itsFileName	= filename;
+	itsFileName = filename;
 }
 
 #endif

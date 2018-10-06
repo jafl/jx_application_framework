@@ -43,34 +43,34 @@ public:
 	JString GetPrevVersionStr() const;
 	void	EditPrefs();
 
-	JString	GetHeaderComment(const JCharacter* classname = nullptr) const;
-	void	SetHeaderComment(const JCharacter* comment);
+	JString	GetHeaderComment(const JString& classname = JString::empty) const;
+	void	SetHeaderComment(const JString& comment);
 
 	JString	GetAuthor() const;
-	void	SetAuthor(const JCharacter* author);
+	void	SetAuthor(const JString& author);
 
 	JString	GetYear() const;
-	void	SetYear(const JCharacter* year);
+	void	SetYear(const JString& year);
 
 	JString	GetCopyright(const JBoolean replaceVars = kJFalse) const;
-	void	SetCopyright(const JCharacter* copyright);
+	void	SetCopyright(const JString& copyright);
 
-	JString	GetSourceComment(const JCharacter* classname = nullptr, const JCharacter* base = nullptr) const;
-	void	SetSourceComment(const JCharacter* comment);
+	JString	GetSourceComment(const JString& classname = JString::empty, const JString& base = JString::empty) const;
+	void	SetSourceComment(const JString& comment);
 
 	JString	GetConstructorComment() const;
-	void	SetConstructorComment(const JCharacter* comment);
+	void	SetConstructorComment(const JString& comment);
 
 	JString	GetDestructorComment() const;
-	void	SetDestructorComment(const JCharacter* comment);
+	void	SetDestructorComment(const JString& comment);
 
-	JString	GetFunctionComment(const JCharacter* fnname = nullptr, const JCharacter* access = nullptr) const;
-	void	SetFunctionComment(const JCharacter* comment);
+	JString	GetFunctionComment(const JString& fnname = JString::empty, const JString& access = JString::empty) const;
+	void	SetFunctionComment(const JString& comment);
 
 protected:
 
-	virtual void	UpgradeData(const JBoolean isNew, const JFileVersion currentVersion);
-	virtual void	SaveAllBeforeDestruct();
+	virtual void	UpgradeData(const JBoolean isNew, const JFileVersion currentVersion) override;
+	virtual void	SaveAllBeforeDestruct() override;
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:

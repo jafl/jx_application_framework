@@ -167,14 +167,14 @@ GFGPrefsManager::Receive
 }
 
 /******************************************************************************
- GetHeaderComment (public)
+ GetHeaderComment
 
  ******************************************************************************/
 
 JString
 GFGPrefsManager::GetHeaderComment
 	(
-	const JCharacter* classname
+	const JString& classname
 	)
 	const
 {
@@ -190,13 +190,13 @@ GFGPrefsManager::GetHeaderComment
 		comment	= JGetString("CLASS_HEADER_COMMENT");
 		}
 		
-	if (classname != nullptr)
+	if (!classname.IsEmpty())
 		{
-		JString copyright	= GetCopyright(kJTrue);
-		const JCharacter* map[] =
+		JString copyright = GetCopyright(kJTrue);
+		const JUtf8Byte* map[] =
 			{
-			"class", classname,
-			"copyright", copyright
+			"class",     classname.GetBytes(),
+			"copyright", copyright.GetBytes()
 			};
 		JGetStringManager()->Replace(&comment, map, sizeof(map));
 		}
@@ -205,24 +205,23 @@ GFGPrefsManager::GetHeaderComment
 }
 
 /******************************************************************************
- SetHeaderComment (public)
+ SetHeaderComment
 
  ******************************************************************************/
 
 void
 GFGPrefsManager::SetHeaderComment
 	(
-	const JCharacter* comment
+	const JString& comment
 	)
 {
 	std::ostringstream os;
-	JString str(comment);
-	os << str;
+	os << comment;
 	SetData(kGFGHeaderCommentID, os);
 }
 
 /******************************************************************************
- GetAuthor (public)
+ GetAuthor
 
  ******************************************************************************/
 
@@ -240,29 +239,28 @@ GFGPrefsManager::GetAuthor()
 		}
 	else
 		{
-		return "";
+		return JString::empty;
 		}
 }
 
 /******************************************************************************
- SetAuthor (public)
+ SetAuthor
 
  ******************************************************************************/
 
 void
 GFGPrefsManager::SetAuthor
 	(
-	const JCharacter* author
+	const JString& author
 	)
 {
 	std::ostringstream os;
-	JString str(author);
-	os << str;
+	os << author;
 	SetData(kGFGAuthorID, os);
 }
 
 /******************************************************************************
- GetYear (public)
+ GetYear
 
  ******************************************************************************/
 
@@ -290,25 +288,24 @@ GFGPrefsManager::GetYear()
 }
 
 /******************************************************************************
- SetYear (public)
+ SetYear
 
  ******************************************************************************/
 
 void
 GFGPrefsManager::SetYear
 	(
-	const JCharacter* year
+	const JString& year
 	)
 {
 	std::ostringstream os;
-	JString str(year);
-	os << str;
+	os << year;
 	SetData(kGFGYearID, os);
 }
 
 
 /******************************************************************************
- GetCopyright (public)
+ GetCopyright
 
  ******************************************************************************/
 
@@ -333,12 +330,12 @@ GFGPrefsManager::GetCopyright
 		
 	if (replaceVars)
 		{
-		JString author	= GetAuthor();
-		JString year	= GetYear();
-		const JCharacter* map[] =
+		JString author = GetAuthor();
+		JString year   = GetYear();
+		const JUtf8Byte* map[] =
 			{
-			"year", year,
-			"author", author
+			"year",   year.GetBytes(),
+			"author", author.GetBytes()
 			};
 		JGetStringManager()->Replace(&copyright, map, sizeof(map));
 		}
@@ -347,32 +344,31 @@ GFGPrefsManager::GetCopyright
 }
 
 /******************************************************************************
- SetCopyright (public)
+ SetCopyright
 
  ******************************************************************************/
 
 void
 GFGPrefsManager::SetCopyright
 	(
-	const JCharacter* copyright
+	const JString& copyright
 	)
 {
 	std::ostringstream os;
-	JString str(copyright);
-	os << str;
+	os << copyright;
 	SetData(kGFGCopyrightID, os);
 }
 
 /******************************************************************************
- GetSourceComment (public)
+ GetSourceComment
 
  ******************************************************************************/
 
 JString
 GFGPrefsManager::GetSourceComment
 	(
-	const JCharacter* classname,
-	const JCharacter* base
+	const JString& classname,
+	const JString& base
 	)
 	const
 {
@@ -388,14 +384,14 @@ GFGPrefsManager::GetSourceComment
 		comment	= JGetString("CLASS_SOURCE_COMMENT");
 		}
 		
-	if (classname != nullptr)
+	if (!classname.IsEmpty())
 		{
-		JString copyright	= GetCopyright(kJTrue);
-		const JCharacter* map[] =
+		JString copyright = GetCopyright(kJTrue);
+		const JUtf8Byte* map[] =
 			{
-			"class", classname,
-			"base", base,
-			"copyright", copyright
+			"class",     classname.GetBytes(),
+			"base",      base.GetBytes(),
+			"copyright", copyright.GetBytes()
 			};
 		JGetStringManager()->Replace(&comment, map, sizeof(map));
 		}
@@ -404,24 +400,23 @@ GFGPrefsManager::GetSourceComment
 }
 
 /******************************************************************************
- SetSourceComment (public)
+ SetSourceComment
 
  ******************************************************************************/
 
 void
 GFGPrefsManager::SetSourceComment
 	(
-	const JCharacter* comment
+	const JString& comment
 	)
 {
 	std::ostringstream os;
-	JString str(comment);
-	os << str;
+	os << comment;
 	SetData(kGFGSourceCommentID, os);
 }
 
 /******************************************************************************
- GetConstructorComment (public)
+ GetConstructorComment
 
  ******************************************************************************/
 
@@ -452,17 +447,16 @@ GFGPrefsManager::GetConstructorComment()
 void
 GFGPrefsManager::SetConstructorComment
 	(
-	const JCharacter* comment
+	const JString& comment
 	)
 {
 	std::ostringstream os;
-	JString str(comment);
-	os << str;
+	os << comment;
 	SetData(kGFGConstructorCommentID, os);
 }
 
 /******************************************************************************
- GetDestructorComment (public)
+ GetDestructorComment
 
  ******************************************************************************/
 
@@ -493,25 +487,24 @@ GFGPrefsManager::GetDestructorComment()
 void
 GFGPrefsManager::SetDestructorComment
 	(
-	const JCharacter* comment
+	const JString& comment
 	)
 {
 	std::ostringstream os;
-	JString str(comment);
-	os << str;
+	os << comment;
 	SetData(kGFGDestructorCommentID, os);
 }
 
 /******************************************************************************
- GetFunctionComment (public)
+ GetFunctionComment
 
  ******************************************************************************/
 
 JString
 GFGPrefsManager::GetFunctionComment
 	(
-	const JCharacter* fnname,
-	const JCharacter* access
+	const JString& fnName,
+	const JString& access
 	)
 	const
 {
@@ -527,12 +520,12 @@ GFGPrefsManager::GetFunctionComment
 		comment	= JGetString("CLASS_FUNCTION_COMMENT");
 		}
 
-	if (fnname != nullptr)
+	if (!fnName.IsEmpty())
 		{
-		const JCharacter* map[] =
+		const JUtf8Byte* map[] =
 			{
-			"function", fnname,
-			"access", access
+			"function", fnName.GetBytes(),
+			"access",   access.GetBytes()
 			};
 		JGetStringManager()->Replace(&comment, map, sizeof(map));
 		}
@@ -548,11 +541,10 @@ GFGPrefsManager::GetFunctionComment
 void
 GFGPrefsManager::SetFunctionComment
 	(
-	const JCharacter* comment
+	const JString& comment
 	)
 {
 	std::ostringstream os;
-	JString str(comment);
-	os << str;
+	os << comment;
 	SetData(kGFGFunctionCommentID, os);
 }

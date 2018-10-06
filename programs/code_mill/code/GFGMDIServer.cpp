@@ -13,16 +13,9 @@
 #include "GFGMainDirector.h"
 #include "GFGApp.h"
 #include "gfgGlobals.h"
-
 #include <JXChooseSaveFile.h>
-
 #include <jFileUtil.h>
-
 #include <jAssert.h>
-
-// string ID's
-
-static const JCharacter* kCommandLineHelpID = "CommandLineHelp::GFGMDIServer";
 
 /******************************************************************************
  Constructor
@@ -52,14 +45,14 @@ GFGMDIServer::~GFGMDIServer()
 void
 GFGMDIServer::HandleMDIRequest
 	(
-	const JCharacter*			dir,
+	const JString&				dir,
 	const JPtrArray<JString>&	argList
 	)
 {
 	const JSize count = argList.GetElementCount();
 	if (count <= 1)
 		{
-		JGetUserNotification()->ReportError("Please specify the template file to load.");
+		JGetUserNotification()->ReportError(JGetString("MissingTemplate::GFGMDIServer"));
 		return;
 		}
 
@@ -78,9 +71,9 @@ GFGMDIServer::HandleMDIRequest
 
 	if (GFGGetApplication()->IsDeletingTemplate())
 		{
-		for (JIndex i = 2; i <= count; i++)
+		for (JIndex i=2; i <= count; i++)
 			{
-			JString arg	= *(argList.GetElement(i));
+			const JString& arg	= *(argList.GetElement(i));
 			if (!arg.BeginsWith("-"))
 				{
 				JRemoveFile(arg);
@@ -97,10 +90,10 @@ GFGMDIServer::HandleMDIRequest
 void
 GFGMDIServer::PrintCommandLineHelp()
 {
-	const JCharacter* map[] =
+	const JUtf8Byte* map[] =
 		{
-		"vers", GFGGetVersionNumberStr()
+		"vers", GFGGetVersionNumberStr().GetBytes()
 		};
-	const JString s = JGetString(kCommandLineHelpID, map, sizeof(map));
+	const JString s = JGetString("CommandLineHelp::GFGMDIServer", map, sizeof(map));
 	std::cout << std::endl << s << std::endl << std::endl;
 }
