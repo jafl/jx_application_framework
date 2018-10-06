@@ -6,7 +6,9 @@ SHELL=/bin/bash
 
 .PHONY : libs
 libs::
-	@for path in ${TOUCHPATHS}; do ( if cd $$path; then ${MAKE}; fi ) done
+	@for path in ${TOUCHPATHS}; do \
+       if ! ( if cd $$path; then ${MAKE}; fi ); then exit 1; fi \
+     done;
 
 .PHONY : staticACE
 staticACE:

@@ -161,6 +161,10 @@ JTEST(Path)
 	JAssertStringsEqual("/usr/local/../local/", s);
 	JAssertTrue(JIsAbsolutePath(s));
 
+	s = "/usr/lib/../..";
+	JAssertTrue(JGetTrueName(s, &name));
+	JAssertStringsEqual("/", name);
+
 	s = JGetRootDirectory();
 	JAssertTrue(JIsRootDirectory(s));
 
