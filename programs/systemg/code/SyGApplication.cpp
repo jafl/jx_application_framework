@@ -247,9 +247,12 @@ SyGApplication::OpenDirectory
 			}
 
 		iter.ReplaceLastMatch(p1);
+		iter.MoveTo(kJIteratorStartAtBeginning, 0);
 		iter.BeginMatch();
 		}
 	iter.Invalidate();
+
+	JCleanPath(&trueName);
 
 	// check if window is already open
 
