@@ -18,8 +18,7 @@ public:
 
 	virtual	~ASKApp();
 
-	static const JCharacter*	GetAppSignature();
-	static void					InitStrings();
+	static void	InitStrings();
 
 private:
 

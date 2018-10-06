@@ -17,10 +17,6 @@ void ParseTextOptions(const int argc, char* argv[]);
 void PrintVersion();
 void PrintCommandLineHelp();
 
-// string ID's
-
-static const JCharacter* kCommandLineHelpID = "CommandLineHelp::main";
-
 /******************************************************************************
  main
 
@@ -105,11 +101,11 @@ PrintVersion()
 void
 PrintCommandLineHelp()
 {
-	const JCharacter* map[] =
+	const JUtf8Byte* map[] =
 		{
-		"version",   ASKGetVersionNumberStr(),
-		"copyright", JGetString("COPYRIGHT")
+		"version",   ASKGetVersionNumberStr().GetBytes(),
+		"copyright", JGetString("COPYRIGHT").GetBytes()
 		};
-	const JString s = JGetString(kCommandLineHelpID, map, sizeof(map));
+	const JString s = JGetString("CommandLineHelp::main", map, sizeof(map));
 	std::cout << std::endl << s << std::endl << std::endl;
 }

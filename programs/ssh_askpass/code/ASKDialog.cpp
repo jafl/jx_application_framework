@@ -31,7 +31,7 @@ ASKDialog::ASKDialog
 	)
 	:
 	JXGetStringDialog(supervisor, JGetString("Title::ASKDialog"),
-					  JGetString("Prompt::ASKDialog"), nullptr, kJTrue, kJTrue)
+					  JGetString("Prompt::ASKDialog"), JString::empty, kJTrue, kJTrue)
 {
 }
 

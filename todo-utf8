@@ -24,6 +24,14 @@ JTextEditor:
 JXFontManager
 	some characters extend above line height
 
+code_mill
+drakon
+svn_client
+leibnitz
+jcc
+medic
+glove
+
 jx_project_wizard
 	convert logic to use JSubstitute - need way to specify case match?
 	convert app_template to { }

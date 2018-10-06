@@ -12,7 +12,7 @@
 #include "askGlobals.h"
 #include <jAssert.h>
 
-static const JCharacter* kAppSignature = "nps-ssh-askpass";
+static const JUtf8Byte* kAppSignature = "nps-ssh-askpass";
 
 /******************************************************************************
  Constructor
@@ -38,17 +38,6 @@ ASKApp::ASKApp
 ASKApp::~ASKApp()
 {
 	ASKDeleteGlobals();
-}
-
-/******************************************************************************
- GetAppSignature (static)
-
- ******************************************************************************/
-
-const JCharacter*
-ASKApp::GetAppSignature()
-{
-	return kAppSignature;
 }
 
 /******************************************************************************

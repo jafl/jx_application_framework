@@ -16,10 +16,10 @@
 
 class ASKMDIServer;
 
-ASKApp*				ASKGetApplication();
+ASKApp*			ASKGetApplication();
 
-const JCharacter*	ASKGetVersionNumberStr();
-JString				ASKGetVersionStr();
+const JString&	ASKGetVersionNumberStr();
+JString			ASKGetVersionStr();
 
 	// called by ASKApp
 
