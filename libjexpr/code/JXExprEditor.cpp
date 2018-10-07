@@ -23,6 +23,7 @@
 #include "JXExprEditor.h"
 #include "JFunction.h"
 #include "JExprRectList.h"
+#include "JUserInputFunction.h"
 
 #include <JXDisplay.h>
 #include <JXWindow.h>
@@ -46,9 +47,7 @@
 
 // Edit menu
 
-static const JCharacter* kEditMenuTitleStr    = "Edit";
-static const JCharacter* kEditMenuShortcutStr = "#E";
-static const JCharacter* kMacEditMenuStr =
+static const JUtf8Byte* kMacEditMenuStr =
 	"    Undo       %k Meta-Z %i" kJXUndoAction
 	"%l| Cut        %k Meta-X %i" kJXCutAction
 	"  | Copy       %k Meta-C %i" kJXCopyAction
@@ -56,7 +55,7 @@ static const JCharacter* kMacEditMenuStr =
 	"  | Clear                %i" kJXClearAction
 	"%l| Select all %k Meta-A %i" kJXSelectAllAction;
 
-static const JCharacter* kWinEditMenuStr =
+static const JUtf8Byte* kWinEditMenuStr =
 	"    Undo       %h uz %k Ctrl-Z %i" kJXUndoAction
 	"%l| Cut        %h tx %k Ctrl-X %i" kJXCutAction
 	"  | Copy       %h c  %k Ctrl-C %i" kJXCopyAction
@@ -67,7 +66,7 @@ static const JCharacter* kWinEditMenuStr =
 struct EditMenuItemInfo
 {
 	JExprEditor::CmdIndex	cmd;
-	const JCharacter*		id;
+	const JUtf8Byte*		id;
 };
 
 static const EditMenuItemInfo kEditMenuItemInfo[] =
@@ -79,7 +78,6 @@ static const EditMenuItemInfo kEditMenuItemInfo[] =
 	{ JExprEditor::kDeleteSelCmd, kJXClearAction     },
 	{ JExprEditor::kSelectAllCmd, kJXSelectAllAction }
 };
-const JSize kEditMenuItemCount = sizeof(kEditMenuItemInfo)/sizeof(EditMenuItemInfo);
 
 // used when setting images
 
@@ -92,9 +90,7 @@ enum
 
 // Math menu
 
-static const JCharacter* kMathMenuTitleStr    = "Math";
-static const JCharacter* kMathMenuShortcutStr = "#M";
-static const JCharacter* kMacMathMenuStr =
+static const JUtf8Byte* kMacMathMenuStr =
 	"    Evaluate        %k Meta-="
 	"  | Print to EPS..."
 	"%l| Negate"
@@ -106,7 +102,7 @@ static const JCharacter* kMacMathMenuStr =
 	"  | Group right     %k Meta-)"
 	"  | Ungroup";
 
-static const JCharacter* kWinMathMenuStr =
+static const JUtf8Byte* kWinMathMenuStr =
 	"    Evaluate        %h e %k Ctrl-="
 	"  | Print to EPS... %h p"
 	"%l| Negate          %h n"
@@ -134,82 +130,40 @@ const JSize kMathMenuItemCount = sizeof(kMathMenuItemToCmd)/sizeof(JExprEditor::
 
 // Function menu
 
-static const JCharacter* kFunctionMenuStr =
-	"    absolute value               %k abs("
-	"  | square root                  %k sqrt("
-	"%l| logarithm (any base)         %k log("
-	"  | natural logarithm            %k ln("
-	"%l| sine                         %k sin("
-	"  | cosine                       %k cos("
-	"  | tangent                      %k tan("
-	"%l| inverse sine                 %k arcsin("
-	"  | inverse cosine               %k arccos("
-	"  | inverse tangent              %k arctan("
-	"  | inverse tangent(y, x)        %k arctan2("
-	"%l| hyperbolic sine              %k sinh("
-	"  | hyperbolic cosine            %k cosh("
-	"  | hyperbolic tangent           %k tanh("
-	"%l| inverse hyperbolic sine      %k arcsinh("
-	"  | inverse hyperbolic cosine    %k arccosh("
-	"  | inverse hyperbolic tangent   %k arctanh("
-	"%l| real part                    %k re("
-	"  | imaginary part               %k im("
-	"  | phase angle                  %k arg("
-	"  | complex conjugate            %k conjugate("
-	"  | rotate(z, angle)             %k rotate("
-	"%l| minimum                      %k min("
-	"  | maximum                      %k max("
-	"  | parallel                     %k parallel("
-	"%l| algebraic sign               %k sign("
-	"  | round to integer             %k round("
-	"  | truncate to integer          %k truncate(";
-
-static JIndex kFnCmdToFnIndex[] =
-{
-	kJAbsValueNameIndex,
-	kJSquareRootNameIndex,
-
-	kJLogBNameIndex,
-	kJLogENameIndex,
-
-	kJSineNameIndex,
-	kJCosineNameIndex,
-	kJTangentNameIndex,
-
-	kJArcSineNameIndex,
-	kJArcCosineNameIndex,
-	kJArcTangentNameIndex,
-	kJArcTangent2NameIndex,
-
-	kJHypSineNameIndex,
-	kJHypCosineNameIndex,
-	kJHypTangentNameIndex,
-	kJArcHypSineNameIndex,
-	kJArcHypCosineNameIndex,
-	kJArcHypTangentNameIndex,
-
-	kJRealPartNameIndex,
-	kJImagPartNameIndex,
-	kJPhaseAngleNameIndex,
-	kJConjugateNameIndex,
-	kJRotateNameIndex,
-
-	kJMinFuncNameIndex,
-	kJMaxFuncNameIndex,
-	kJParallelNameIndex,
-
-	kJSignNameIndex,
-	kJRoundNameIndex,
-	kJTruncateNameIndex
-};
-const JSize kFunctionMenuItemCount = sizeof(kFnCmdToFnIndex)/sizeof(JIndex);
+static const JUtf8Byte* kFunctionMenuStr =
+	"    absolute value               %k abs"
+	"  | square root                  %k sqrt"
+	"%l| logarithm (any base)         %k log"
+	"  | natural logarithm            %k ln"
+	"%l| sine                         %k sin"
+	"  | cosine                       %k cos"
+	"  | tangent                      %k tan"
+	"%l| inverse sine                 %k arcsin"
+	"  | inverse cosine               %k arccos"
+	"  | inverse tangent              %k arctan"
+	"  | inverse tangent(y, x)        %k arctan2"
+	"%l| hyperbolic sine              %k sinh"
+	"  | hyperbolic cosine            %k cosh"
+	"  | hyperbolic tangent           %k tanh"
+	"%l| inverse hyperbolic sine      %k arcsinh"
+	"  | inverse hyperbolic cosine    %k arccosh"
+	"  | inverse hyperbolic tangent   %k arctanh"
+	"%l| real part                    %k re"
+	"  | imaginary part               %k im"
+	"  | phase angle                  %k arg"
+	"  | complex conjugate            %k conjugate"
+	"  | rotate(z, angle)             %k rotate"
+	"%l| minimum                      %k min"
+	"  | maximum                      %k max"
+	"  | parallel                     %k parallel"
+	"%l| algebraic sign               %k sign"
+	"  | round to integer             %k round"
+	"  | truncate to integer          %k truncate";
 
 // Font menu
 
-static const JCharacter* kFontMenuTitleStr    = "Font";
-static const JCharacter* kFontMenuShortcutStr = "#F";
-static const JCharacter* kMacFontMenuStr = "Normal      %r | Greek      %r";
-static const JCharacter* kWinFontMenuStr = "Normal %h n %r | Greek %h g %r";
+static const JUtf8Byte* kMacFontMenuStr = "Normal      %r | Greek      %r";
+static const JUtf8Byte* kWinFontMenuStr = "Normal %h n %r | Greek %h g %r";
 
 static const JExprEditor::CmdIndex kFontMenuItemToCmd[] =
 {
@@ -238,8 +192,7 @@ JXExprEditor::JXExprEditor
 	)
 	:
 	JXScrollableWidget(scrollbarSet, enclosure, hSizing, vSizing, x,y, w,h),
-	JExprEditor(varList, JXScrollableWidget::GetFontManager(),
-				JXScrollableWidget::GetColormap())
+	JExprEditor(varList, JXScrollableWidget::GetFontManager())
 {
 	JXExprEditorX();
 	CreateMenus(menuBar, nullptr);
@@ -261,8 +214,7 @@ JXExprEditor::JXExprEditor
 	)
 	:
 	JXScrollableWidget(scrollbarSet, enclosure, hSizing, vSizing, x,y, w,h),
-	JExprEditor(varList, JXScrollableWidget::GetFontManager(),
-				JXScrollableWidget::GetColormap())
+	JExprEditor(varList, JXScrollableWidget::GetFontManager())
 {
 	JXExprEditorX();
 	CreateMenus(menuBar, editMenu);
@@ -283,8 +235,7 @@ JXExprEditor::JXExprEditor
 	)
 	:
 	JXScrollableWidget(scrollbarSet, enclosure, hSizing, vSizing, x,y, w,h),
-	JExprEditor(varList, JXScrollableWidget::GetFontManager(),
-				JXScrollableWidget::GetColormap())
+	JExprEditor(varList, JXScrollableWidget::GetFontManager())
 {
 	JXExprEditorX();
 
@@ -309,9 +260,6 @@ JXExprEditor::JXExprEditor
 void
 JXExprEditor::JXExprEditorX()
 {
-	// required by JXGetCurrColormap
-	assert( GetWindow()->GetColormap() == GetDisplay()->GetColormap() );
-
 	itsEPSPrinter = jnew JXEPSPrinter(GetDisplay());
 	assert( itsEPSPrinter != nullptr );
 	ListenTo(itsEPSPrinter);
@@ -356,14 +304,14 @@ JXExprEditor::CreateMenus
 		}
 	else
 		{
-		itsEditMenu = menuBar->AppendTextMenu(kEditMenuTitleStr);
+		itsEditMenu = menuBar->AppendTextMenu(JGetString("EditMenuTitle::JXGlobal"));
 		if (JXMenu::GetDefaultStyle() == JXMenu::kMacintoshStyle)
 			{
 			itsEditMenu->SetMenuItems(kMacEditMenuStr);
 			}
 		else
 			{
-			itsEditMenu->SetShortcuts(kEditMenuShortcutStr);
+			itsEditMenu->SetShortcuts(JGetString("EditMenuShortcut::JXGlobal"));
 			itsEditMenu->SetMenuItems(kWinEditMenuStr);
 			}
 
@@ -375,14 +323,14 @@ JXExprEditor::CreateMenus
 		}
 	ListenTo(itsEditMenu);
 
-	itsMathMenu = menuBar->AppendTextMenu(kMathMenuTitleStr);
+	itsMathMenu = menuBar->AppendTextMenu(JGetString("MathMenuTitle::JXExprEditor"));
 	if (JXMenu::GetDefaultStyle() == JXMenu::kMacintoshStyle)
 		{
 		itsMathMenu->SetMenuItems(kMacMathMenuStr);
 		}
 	else
 		{
-		itsMathMenu->SetShortcuts(kMathMenuShortcutStr);
+		itsMathMenu->SetShortcuts(JGetString("MathMenuShortcut::JXExprEditor"));
 		itsMathMenu->SetMenuItems(kWinMathMenuStr);
 		}
 	itsMathMenu->SetUpdateAction(JXMenu::kDisableAll);
@@ -394,14 +342,14 @@ JXExprEditor::CreateMenus
 	itsFunctionMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsFunctionMenu);
 
-	itsFontMenu = menuBar->AppendTextMenu(kFontMenuTitleStr);
+	itsFontMenu = menuBar->AppendTextMenu(JGetString("FontMenuTitle::JXExprEditor"));
 	if (JXMenu::GetDefaultStyle() == JXMenu::kMacintoshStyle)
 		{
 		itsFontMenu->SetMenuItems(kMacFontMenuStr);
 		}
 	else
 		{
-		itsFontMenu->SetShortcuts(kFontMenuShortcutStr);
+		itsFontMenu->SetShortcuts(JGetString("FontMenuShortcut::JXExprEditor"));
 		itsFontMenu->SetMenuItems(kWinFontMenuStr);
 		}
 	ListenTo(itsFontMenu);
@@ -704,7 +652,7 @@ JXExprEditor::HandleKeyPress
 		}
 	else
 		{
-		JXScrollableWidget::HandleKeyPress(key, modifiers);
+		JXScrollableWidget::HandleKeyPress(c, keySym, modifiers);
 		}
 }
 
@@ -805,7 +753,7 @@ JXExprEditor::HandleEditMenu
 #define IndexToCmdFn EditMenuIndexToCmd
 #define CmdToIndexFn EditMenuCmdToIndex
 #define MenuVar      itsEditMenu
-#define CmdCount     kEditMenuItemCount
+#define CmdType      EditMenuItemInfo
 #define CmdIDList    kEditMenuItemInfo
 #include <JXMenuItemIDUtil.th>
 #undef ClassName
@@ -823,7 +771,7 @@ JXExprEditor::HandleEditMenu
 void
 JXExprEditor::UpdateMathMenu()
 {
-	const JCharacter* evalStr;
+	JString evalStr;
 
 	const JArray<JBoolean> enableFlags = GetCmdStatus(&evalStr);
 	for (JIndex i=1; i<=kMathMenuItemCount; i++)
@@ -858,7 +806,7 @@ JXExprEditor::HandleMathMenu
 		{
 		if (EndEditing())
 			{
-			EvaluateSelection();
+			DisplaySelectionValue();
 			}
 		}
 	else if (cmd == kPrintEPSCmd)
@@ -916,10 +864,10 @@ JXExprEditor::HandleFunctionMenu
 	const JIndex item
 	)
 {
-	if (item <= kFunctionMenuItemCount)
+	JString fnName;
+	if (itsFunctionMenu->GetItemNMShortcut(item, &fnName))
 		{
-		ApplyFunctionToSelection(
-			JPGetStdFnName(kFnCmdToFnIndex[item-1]));
+		ApplyFunctionToSelection(fnName);
 		}
 }
 
@@ -1154,20 +1102,19 @@ JXExprEditor::EIPGetExternalClipboard
 			{
 			if (returnType == XA_STRING)
 				{
-				*text = JString(reinterpret_cast<JCharacter*>(data), dataLength);
+				text->Set(reinterpret_cast<JUtf8Byte*>(data), dataLength);
 				gotData = kJTrue;
 				}
 			selManager->DeleteData(&data, delMethod);
 			}
 		else
 			{
-			(JGetUserNotification())->ReportError(
-				"Unable to paste the current contents of the X Clipboard.");
+			(JGetUserNotification())->ReportError(JGetString("UnableToPaste::JXExprEditor"));
 			}
 		}
 	else
 		{
-		(JGetUserNotification())->ReportError("The X Clipboard is empty.");
+		(JGetUserNotification())->ReportError(JGetString("EmptyClipboard::JXExprEditor"));
 		}
 
 	return gotData;
@@ -1181,7 +1128,7 @@ JXExprEditor::EIPGetExternalClipboard
 JStyledText*
 JXExprEditor::BuildStyledText()
 {
-	JStyledText* text = jnew StyledText(GetFontManager());
+	JStyledText* text = jnew StyledText(JXScrollableWidget::GetFontManager());
 	assert( text != nullptr );
 	return text;
 }

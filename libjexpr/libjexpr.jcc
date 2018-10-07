@@ -35,10 +35,6 @@ T
 F
 "./code/JXExprEditorSet.cpp"
 T
-2 "JXExprEvalDirector.cpp"
-F
-"./code/JXExprEvalDirector.cpp"
-T
 2 "JXExprInput.cpp"
 F
 "./code/JXExprInput.cpp"

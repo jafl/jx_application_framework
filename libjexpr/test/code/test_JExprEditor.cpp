@@ -104,7 +104,6 @@ JTEST(GetCmdStatus)
 	status.SetElement(JExprEditor::kPasteCmd, kJTrue);
 	status.SetElement(JExprEditor::kSelectAllCmd, kJTrue);
 	status.SetElement(JExprEditor::kPrintEPSCmd, kJTrue);
-	status.SetElement(JExprEditor::kEvaluateSelCmd, kJTrue);
 	status.SetElement(JExprEditor::kNegateSelCmd, kJTrue);
 	status.SetElement(JExprEditor::kApplyFnToSelCmd, kJTrue);
 

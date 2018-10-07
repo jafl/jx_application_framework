@@ -25,8 +25,8 @@ public:
 
 	virtual ~JXExprInput();
 
-	JString	GetVarName() const;
-	void	SetVarName(const JString& str);
+	const JString&	GetVarName() const;
+	void			SetVarName(const JString& str);
 
 	static JXTextMenu*	CreateFontMenu(JXContainer* enclosure);
 	void				SetFontMenu(JXTextMenu* menu);
@@ -41,6 +41,7 @@ protected:
 private:
 
 	JXTextMenu*	itsFontMenu;	// can be nullptr
+	JBoolean	itsGreekFlag;
 
 private:
 
@@ -52,5 +53,32 @@ private:
 	JXExprInput(const JXExprInput& source);
 	const JXExprInput& operator=(const JXExprInput& source);
 };
+
+
+/******************************************************************************
+ GetVarName
+
+ ******************************************************************************/
+
+inline const JString&
+JXExprInput::GetVarName()
+	const
+{
+	return GetText().GetText();
+}
+
+/******************************************************************************
+ SetVarName
+
+ ******************************************************************************/
+
+inline void
+JXExprInput::SetVarName
+	(
+	const JString& str
+	)
+{
+	GetText()->SetText(str);
+}
 
 #endif

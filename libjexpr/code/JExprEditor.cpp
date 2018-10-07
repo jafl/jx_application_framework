@@ -1452,7 +1452,7 @@ JExprEditor::GetCmdStatus
 		return flags;
 		}
 
-	flags.SetElement(kEvaluateSelCmd, kJTrue);
+	flags.SetElement(kEvaluateSelCmd, CanDisplaySelectionValue());
 	flags.SetElement(kSelectAllCmd, kJTrue);
 	flags.SetElement(kPrintEPSCmd, kJTrue);
 
@@ -1552,6 +1552,29 @@ JExprEditor::GetCmdStatus
 		}
 
 	return flags;
+}
+
+/******************************************************************************
+ CanDisplaySelectionValue (virtual protected)
+
+ ******************************************************************************/
+
+JBoolean
+JExprEditor::CanDisplaySelectionValue()
+	const
+{
+	return kJFalse;
+}
+
+/******************************************************************************
+ DisplaySelectionValue (virtual protected)
+
+ ******************************************************************************/
+
+void
+JExprEditor::DisplaySelectionValue()
+	const
+{
 }
 
 /******************************************************************************

@@ -17,6 +17,8 @@ DirNotWritable::JXGlobal		"You do not have write access to this directory."
 FileNotWritable::JXGlobal		"You do not have write access to this file."
 
 FileMenuTitle::JXGlobal		"File"
+EditMenuTitle::JXGlobal		"Edit"
+EditMenuShortcut::JXGlobal	"#E"
 WindowsMenuTitle::JXGlobal	"Windows"
 PrefsMenuTitle::JXGlobal	"Preferences"
 HelpMenuTitle::JXGlobal		"Help"
@@ -34,8 +36,6 @@ DataNotCompatibleExtra::JXTEBase	"  (Unknown type:  $atom)"
 CopyDescription::JXTEBase			"copy the text"
 MoveDescription::JXTEBase			"move the text"
 
-EditMenuTitle::JXTEBase			"Edit"
-EditMenuShortcut::JXTEBase		"#E"
 SearchMenuTitle::JXTEBase		"Search"
 SearchMenuShortcut::JXTEBase	"#S"
 

@@ -21,6 +21,10 @@ class JUserInputFunction : public JFunction, public JTextEditor
 {
 public:
 
+	static const JUtf8Byte kSwitchFontCharacter;
+
+public:
+
 	JUserInputFunction(JExprEditor* editor, const JString& text = JString::empty);
 	JUserInputFunction(const JUserInputFunction& source);
 
@@ -59,6 +63,8 @@ public:
 	static const JString&	GetEmptyString();
 
 	virtual JBoolean	TEHasSearchText() const override;
+
+	static JUtf8Character	ConvertToGreek(const JUtf8Character& c);
 
 	static void	AdjustStylesBeforeBroadcast(
 						const JString& text, JRunArray<JFont>* styles,

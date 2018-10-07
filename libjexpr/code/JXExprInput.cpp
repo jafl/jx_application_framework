@@ -17,10 +17,8 @@
 
 // Font menu
 
-static const JCharacter* kFontMenuTitleStr    = "Font";
-static const JCharacter* kFontMenuShortcutStr = "#F";
-static const JCharacter* kMacFontMenuStr = "Normal      %r | Greek      %r";
-static const JCharacter* kWinFontMenuStr = "Normal %h n %r | Greek %h g %r";
+static const JUtf8Byte* kMacFontMenuStr = "Normal      %r | Greek      %r";
+static const JUtf8Byte* kWinFontMenuStr = "Normal %h n %r | Greek %h g %r";
 
 enum
 {
@@ -44,7 +42,8 @@ JXExprInput::JXExprInput
 	const JCoordinate	h
 	)
 	:
-	JXInputField(enclosure, hSizing, vSizing, x,y, w,h)
+	JXInputField(enclosure, hSizing, vSizing, x,y, w,h),
+	itsGreekFlag(kJFalse)
 {
 	itsFontMenu = nullptr;
 }
@@ -56,32 +55,6 @@ JXExprInput::JXExprInput
 
 JXExprInput::~JXExprInput()
 {
-}
-
-/******************************************************************************
- GetVarName
-
- ******************************************************************************/
-
-JString
-JXExprInput::GetVarName()
-	const
-{
-	return JUserInputFunction::GetParseableText(*this);
-}
-
-/******************************************************************************
- SetVarName
-
- ******************************************************************************/
-
-void
-JXExprInput::SetVarName
-	(
-	const JCharacter* str
-	)
-{
-	JUserInputFunction::SetParseableText(this, str);
 }
 
 /******************************************************************************
@@ -97,21 +70,15 @@ JXExprInput::HandleKeyPress
 	const JXKeyModifiers&	modifiers
 	)
 {
-	if (key == JPGetGreekCharPrefixChar())
+	if (c == JUserInputFunction::kSwitchFontCharacter)
 		{
-		const JFont font = GetCurrentFont();
-		if (strcmp(font.GetName(), JGetDefaultFontName()) == 0)
-			{
-			SetCurrentFontName(JGetGreekFontName());
-			}
-		else
-			{
-			SetCurrentFontName(JGetDefaultFontName());
-			}
+		itsGreekFlag = ! itsGreekFlag;
 		}
 	else
 		{
-		JXInputField::HandleKeyPress(c, keySym, modifiers);
+		JXInputField::HandleKeyPress(
+			itsGreekFlag ? JUserInputFunction::ConvertToGreek(c) : c,
+			keySym, modifiers);
 		}
 }
 
@@ -130,9 +97,11 @@ JXExprInput::CreateFontMenu
 	JXContainer* enclosure
 	)
 {
-	JXTextMenu* menu = jnew JXTextMenu(kFontMenuTitleStr, enclosure,
-									  kFixedLeft, kVElastic, 0,0, 10,10);
+	JXTextMenu* menu =
+		jnew JXTextMenu(JGetString("FontMenuTitle::JXExprInput"), enclosure,
+						kFixedLeft, kVElastic, 0,0, 10,10);
 	assert( menu != nullptr );
+	menu->SetUpdateAction(JXMenu::kDisableNone);
 
 	if (JXMenu::GetDefaultStyle() == JXMenu::kMacintoshStyle)
 		{
@@ -140,7 +109,7 @@ JXExprInput::CreateFontMenu
 		}
 	else
 		{
-		menu->SetShortcuts(kFontMenuShortcutStr);
+		menu->SetShortcuts(JGetString("FontMenuShortcut::JXExprInput"));
 		menu->SetMenuItems(kWinFontMenuStr);
 		}
 
@@ -204,17 +173,7 @@ JXExprInput::Receive
 void
 JXExprInput::UpdateFontMenu()
 {
-	itsFontMenu->EnableAll();
-
-	JFont font = GetCurrentFont();
-	if (JString::Compare(font.GetName(), JGetGreekFontName()) == 0)
-		{
-		itsFontMenu->CheckItem(kGreekFontCmd);
-		}
-	else
-		{
-		itsFontMenu->CheckItem(kNormalFontCmd);
-		}
+	itsFontMenu->CheckItem(itsGreekFlag ? kGreekFontCmd : kNormalFontCmd);
 }
 
 /******************************************************************************
@@ -230,10 +189,10 @@ JXExprInput::HandleFontMenu
 {
 	if (item == kNormalFontCmd)
 		{
-		SetCurrentFontName(JGetDefaultFontName());
+		itsGreekFlag = kJFalse;
 		}
 	else if (item == kGreekFontCmd)
 		{
-		SetCurrentFontName(JGetGreekFontName());
+		itsGreekFlag = kJTrue;
 		}
 }

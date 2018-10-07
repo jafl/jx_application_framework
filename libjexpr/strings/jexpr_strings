@@ -1,5 +1,15 @@
 0
 
+# JXExprEditor
+
+MathMenuTitle::JXExprEditor		"Math"
+MathMenuShortcut::JXExprEditor	"#M"
+FontMenuTitle::JXExprEditor		"Font"
+FontMenuShortcut::JXExprEditor	"#F"
+
+UnableToPaste::JXExprEditor		"Unable to paste the current contents of the X Clipboard."
+EmptyClipboard::JXExprEditor	"The X Clipboard is empty."
+
 # JExprEditor
 
 EvalFnCmd::JExprEditor			"Evaluate function"
@@ -8,3 +18,8 @@ ParseError::JExprEditor			"Unable to parse \"$name\""
 NowhereToPaste::JExprEditor		"Please select a place to paste first."
 EmptyFunction::JExprEditor		"This function is empty."
 UnknownFunction::JExprEditor	"Unknown function \"$name\""
+
+# JXExprInput
+
+FontMenuTitle::JXExprInput		"Font"
+FontMenuShortcut::JXExprInput	"#F"

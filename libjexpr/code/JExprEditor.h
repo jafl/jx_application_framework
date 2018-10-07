@@ -200,6 +200,9 @@ protected:
 
 	JBoolean	GetClipboard(const JFunction** f) const;
 
+	virtual JBoolean	CanDisplaySelectionValue() const;
+	virtual void		DisplaySelectionValue() const;
+
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:

@@ -28,6 +28,8 @@
 #include <jGlobals.h>
 #include <jAssert.h>
 
+const JUtf8Byte JUserInputFunction::kSwitchFontCharacter = '\'';
+
 static const JString kEmptyString("?", kJFalse);
 
 const JCoordinate kHMarginWidth = 2;
@@ -393,7 +395,7 @@ JUserInputFunction::HandleMouseUp()
 JBoolean
 JUserInputFunction::HandleKeyPress
 	(
-	const JUtf8Character&	key,
+	const JUtf8Character&	c,
 	JBoolean*				needParse,
 	JBoolean*				needRender
 	)
@@ -401,7 +403,7 @@ JUserInputFunction::HandleKeyPress
 	*needRender = kJFalse;
 	*needParse  = kJFalse;
 
-	if (key == '\'')
+	if (c == kSwitchFontCharacter)
 		{
 		itsGreekFlag = ! itsGreekFlag;
 		return kJTrue;
@@ -410,7 +412,7 @@ JUserInputFunction::HandleKeyPress
 	const JString& text = GetText()->GetText();
 
 	const JBoolean isEmpty = IsEmpty();
-	if (isEmpty && (key == '(' || key == '['))
+	if (isEmpty && (c == '(' || c == '['))
 		{
 		return kJFalse;
 		}
@@ -418,32 +420,15 @@ JUserInputFunction::HandleKeyPress
 		{
 		SelectAll();
 		}
-	else if (key == '(' || key == '[' ||
-			 (key.ToLower() == 'e' && !IsEmpty() && !text.IsHexValue() && text.IsFloat()))
+	else if (c == '(' || c == '[' ||
+			 (c.ToLower() == 'e' && !IsEmpty() && !text.IsHexValue() && text.IsFloat()))
 		{
 		*needParse = kJTrue;
 		return kJFalse;
 		}
 
-	JUtf8Character c   = key;
-	const JUtf8Byte b1 = c.GetBytes()[0];
-	if (itsGreekFlag && isupper(b1))		// only translate ascii
-	{
-		JUtf8Byte b[] = { '\xCE', JUtf8Byte('\x91' + (b1 - 'A')), 0 };
-		c.Set(b);
-	}
-	else if (itsGreekFlag && islower(b1) && b1 < 'p')
-	{
-		JUtf8Byte b[] = { '\xCE', JUtf8Byte('\xB1' + (b1 - 'a')), 0 };
-		c.Set(b);
-	}
-	else if (itsGreekFlag && islower(b1))
-	{
-		JUtf8Byte b[] = { '\xCF', JUtf8Byte('\x80' + (b1 - 'p')), 0 };
-		c.Set(b);
-	}
-
-	TEHandleKeyPress(c, kJFalse, kMoveByCharacter, kJFalse);
+	TEHandleKeyPress(itsGreekFlag ? ConvertToGreek(c) : c,
+					 kJFalse, kMoveByCharacter, kJFalse);
 
 	if (GetText()->GetText().IsEmpty())
 		{
@@ -452,6 +437,38 @@ JUserInputFunction::HandleKeyPress
 
 	*needRender = itsNeedRenderFlag;
 	return itsNeedRedrawFlag;
+}
+
+/******************************************************************************
+ ConvertToGreek (static)
+
+ ******************************************************************************/
+
+JUtf8Character
+JUserInputFunction::ConvertToGreek
+	(
+	const JUtf8Character& c
+	)
+{
+	JUtf8Character g   = c;
+	const JUtf8Byte b1 = g.GetBytes()[0];
+	if (isupper(b1))		// only translate ascii
+	{
+		JUtf8Byte b[] = { '\xCE', JUtf8Byte('\x91' + (b1 - 'A')), 0 };
+		g.Set(b);
+	}
+	else if (islower(b1) && b1 < 'p')
+	{
+		JUtf8Byte b[] = { '\xCE', JUtf8Byte('\xB1' + (b1 - 'a')), 0 };
+		g.Set(b);
+	}
+	else if (islower(b1))
+	{
+		JUtf8Byte b[] = { '\xCF', JUtf8Byte('\x80' + (b1 - 'p')), 0 };
+		g.Set(b);
+	}
+
+	return g;
 }
 
 /******************************************************************************

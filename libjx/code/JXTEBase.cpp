@@ -1908,14 +1908,14 @@ JXTEBase::StaticAppendEditMenu
 {
 	// create basic menu
 
-	JXTextMenu* editMenu = menuBar->AppendTextMenu(JGetString("EditMenuTitle::JXTEBase"));
+	JXTextMenu* editMenu = menuBar->AppendTextMenu(JGetString("EditMenuTitle::JXGlobal"));
 	if (JXMenu::GetDefaultStyle() == JXMenu::kMacintoshStyle)
 		{
 		editMenu->SetMenuItems(kMacEditMenuStr, "JXTEBase");
 		}
 	else
 		{
-		editMenu->SetShortcuts(JGetString("EditMenuShortcut::JXTEBase"));
+		editMenu->SetShortcuts(JGetString("EditMenuShortcut::JXGlobal"));
 		editMenu->SetMenuItems(kWinEditMenuStr, "JXTEBase");
 		}
 
