@@ -180,7 +180,7 @@ GPMMainDirector::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 530,350, "");
+	JXWindow* window = jnew JXWindow(this, 530,350, JString::empty);
 	assert( window != nullptr );
 
 	JXMenuBar* menuBar =
@@ -194,7 +194,7 @@ GPMMainDirector::BuildWindow()
 	assert( itsToolBar != nullptr );
 
 	itsFullCmdDisplay =
-		jnew JXStaticText("", kJFalse, kJTrue, nullptr, window,
+		jnew JXStaticText("", kJFalse, kJTrue, NULL, window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 0,330, 530,20);
 	assert( itsFullCmdDisplay != nullptr );
 
