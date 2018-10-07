@@ -25,9 +25,8 @@ JTEST(RealFunction)
 {
 	std::ifstream input("./data/test_real_function.txt");
 
-	TestFontManager fontMgr;
 	TestVarList varList(input);
-	JExprParser p(&varList, &fontMgr);
+	JExprParser p(&varList);
 
 	JString expr, msg;
 	while (1)
@@ -77,9 +76,8 @@ JTEST(ComplexFunction)
 {
 	std::ifstream input("./data/test_complex_function.txt");
 
-	TestFontManager fontMgr;
 	TestVarList varList(input);
-	JExprParser p(&varList, &fontMgr);
+	JExprParser p(&varList);
 
 	JString expr, msg;
 	while (1)
@@ -132,9 +130,8 @@ JTEST(Printing)
 {
 	std::ifstream input("./data/test_print_function.txt");
 
-	TestFontManager fontMgr;
 	TestVarList varList(input);
-	JExprParser p(&varList, &fontMgr);
+	JExprParser p(&varList);
 
 	JString expr, expected, result, msg;
 	while (1)

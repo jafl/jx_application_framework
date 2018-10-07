@@ -18,13 +18,11 @@
 
 JExprParser::JExprParser
 	(
-	const JVariableList*	varList,
-	JFontManager*			fontManager
+	const JVariableList* varList
 	)
 	:
 	itsEditor(nullptr),
 	itsVarList(varList),
-	itsFontManager(fontManager),
 	itsParseResult(nullptr)
 {
 }
@@ -36,7 +34,6 @@ JExprParser::JExprParser
 	:
 	itsEditor(editor),
 	itsVarList(editor->GetVariableList()),
-	itsFontManager(editor->GetFontManager()),
 	itsParseResult(nullptr)
 {
 }

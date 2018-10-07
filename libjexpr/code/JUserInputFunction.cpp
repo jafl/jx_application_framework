@@ -523,7 +523,7 @@ JUserInputFunction::Parse
 		{
 		buffer += "1]";
 
-		JExprParser p(itsEditor->GetVariableList(), itsEditor->GetFontManager());
+		JExprParser p(itsEditor->GetVariableList());
 		if (p.Parse(buffer, f))
 			{
 			JFunctionWithVar* fwv = dynamic_cast<JFunctionWithVar*>(*f);
@@ -565,7 +565,7 @@ JUserInputFunction::Parse
 		}
 	else
 		{
-		JExprParser p(itsEditor->GetVariableList(), itsEditor->GetFontManager());
+		JExprParser p(itsEditor->GetVariableList());
 		return p.Parse(buffer, f);
 		}
 }

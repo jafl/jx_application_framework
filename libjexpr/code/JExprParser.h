@@ -18,7 +18,7 @@ class JExprParser
 {
 public:
 
-	JExprParser(const JVariableList* varList, JFontManager* fontManager);
+	JExprParser(const JVariableList* varList);
 	JExprParser(JExprEditor* editor);
 
 	virtual	~JExprParser();
@@ -29,7 +29,6 @@ private:
 
 	JExprEditor*			itsEditor;		// if not NULL, enables JUserInputFunction
 	const JVariableList*	itsVarList;
-	JFontManager*			itsFontManager;
 
 	JExprScanner*	itsScanner;
 	JFunction*		itsParseResult;

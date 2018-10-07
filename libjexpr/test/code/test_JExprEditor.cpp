@@ -170,7 +170,7 @@ JTEST(GetCmdStatus)
 	std::cout << "GetCmdStatus::move arg" << std::endl;
 	e.CheckCmdStatus(status);
 
-	JExprParser p(&varList, &fontMgr);
+	JExprParser p(&varList);
 	JAssertTrue(p.Parse(JString("1+2", kJFalse), &f));
 
 	e.SetFunction(&varList, f);
