@@ -6,7 +6,7 @@
  ********************************************************************************/
 
 #include "J2DPlotJFunction.h"
-#include <jParseFunction.h>
+#include <JExprParser.h>
 #include <JVariableList.h>
 #include <JFunction.h>
 #include <JString.h>
@@ -23,14 +23,17 @@ J2DPlotJFunction::Create
 	J2DPlotJFunction**	plotfunction,
 	J2DPlotWidget*		plot,
 	JVariableList*		varList,
+	JFontManager*		fontManager,
 	const JString&		function,
 	const JIndex		xIndex,
 	const JFloat		xMin,
 	const JFloat		xMax
 	)
 {
+	JExprParser p(varList, fontManager);
+
 	JFunction* f;
-	if (JParseFunction(function, varList, &f))
+	if (p.Parse(function, &f))
 		{
 		*plotfunction = jnew J2DPlotJFunction(plot, varList, f, kJTrue, xIndex, xMin, xMax);
 		return kJTrue;

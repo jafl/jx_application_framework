@@ -1,3 +1,8 @@
-1
+0
+
+DataTitle::main		"Error bars"
+LogDataTitle::main	"Logarithmic scale"
+VectorTitle::main	"Vectors"
 
 ActionsMenuTitle::Test2DPlotDirector	"Actions"
+PlotTitle::Test2DPlotDirector			"New plot"

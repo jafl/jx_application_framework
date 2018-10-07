@@ -1,0 +1,5 @@
+-suffix .cpp
+
+@test_J2DPlotWidget
+${CODEDIR}/test_J2DPlotWidget
+literal: ${LIB_DEPS}

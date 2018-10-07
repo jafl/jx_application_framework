@@ -1,4 +1,4 @@
-jx_browser_data 83
+jx_browser_data 87
 # project tree
 0 "root"
 T
@@ -11,6 +11,20 @@ T
 2 "Test2DPlotDirector.cpp"
 F
 "./code/Test2DPlotDirector.cpp"
+F
+T
+1 "strings"
+T
+2 "testj2dplot_strings"
+F
+"./strings/testj2dplot_strings"
+F
+T
+1 "layouts"
+T
+2 "testj2dplot.fd"
+F
+"./testj2dplot.fd"
 F
 F
 # tasks

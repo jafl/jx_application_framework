@@ -17,8 +17,7 @@
 #include "J2DPlotLibVersion.h"
 #include <JKLRand.h>
 #include <jMath.h>
-#include <string.h>
-#include <stdlib.h>
+#include <jGlobals.h>
 #include <jAssert.h>
 
 // Prototypes
@@ -106,7 +105,7 @@ TestData
 	ok = data->SetYErrors(yPErr, yMErr);
 	assert( ok );
 
-	plot->AddCurve(data, kJTrue, "sin(x)", kJTrue, kJTrue);
+	plot->AddCurve(data, kJTrue, JString("sin(x)", kJFalse), kJTrue, kJTrue);
 
 	x.RemoveAll();
 	y.RemoveAll();
@@ -118,9 +117,10 @@ TestData
 		y.AppendElement(cos(i*delta));
 		}
 
-	plot->AddCurve(x, y, kJFalse, "cos(x)", &i, kJTrue, kJFalse);
+	JIndex i;
+	plot->AddCurve(x, y, kJFalse, JString("cos(x)", kJFalse), &i, kJTrue, kJFalse);
 
-	plot->SetTitle("Error bars");
+	plot->SetTitle(JGetString("DataTitle::main"));
 }
 
 /******************************************************************************
@@ -148,7 +148,8 @@ TestLogData
 		y.AppendElement(pow(2, i*delta));
 		}
 
-	plot->AddCurve(x, y, kJFalse, "log2(x)", &i, kJTrue, kJFalse);
+	JIndex i;
+	plot->AddCurve(x, y, kJFalse, JString("log2(x)", kJFalse), &i, kJTrue, kJFalse);
 
 	x.RemoveAll();
 	y.RemoveAll();
@@ -159,10 +160,10 @@ TestLogData
 		y.AppendElement((i*delta)*(i*delta));
 		}
 
-	plot->AddCurve(x, y, kJFalse, "x^2", &i, kJTrue, kJFalse);
+	plot->AddCurve(x, y, kJFalse, JString("x^2", kJFalse), &i, kJTrue, kJFalse);
 
 	plot->SetYScale(0.1, 1000, 0, kJFalse);
-	plot->SetTitle("Logarithmic scale");
+	plot->SetTitle(JGetString("LogDataTitle::main"));
 }
 
 /******************************************************************************
@@ -192,9 +193,9 @@ TestVector
 		data->AddElement(0.8+x, 5.0+y, x,y);
 		}
 
-	plot->AddCurve(data, kJTrue, "vector");
+	plot->AddCurve(data, kJTrue, JString("vector", kJFalse));
 
-	plot->SetTitle("Vectors");
+	plot->SetTitle(JGetString("VectorTitle::main"));
 }
 
 /******************************************************************************

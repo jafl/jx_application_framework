@@ -12,13 +12,15 @@
 
 class JVariableList;
 class JFunction;
+class JFontManager;
 
 class J2DPlotJFunction : public JPlotFunctionBase
 {
 public:
 
 	static JBoolean Create(	J2DPlotJFunction **plotfunction, J2DPlotWidget* plot,
-							JVariableList* varList, const JString& function,
+							JVariableList* varList, JFontManager* fontManager,
+							const JString& function,
 							const JIndex xIndex, const JFloat xMin, const JFloat xMax);
 
 	J2DPlotJFunction(J2DPlotWidget* plot, JVariableList* varList, JFunction* f,

@@ -19,7 +19,7 @@
 
 // Actions menu
 
-static const JCharacter* kActionsMenuStr =
+static const JUtf8Byte* kActionsMenuStr =
 	"    PostScript page setup..."
 	"  | Print PostScript...      %k Meta-P"
 	"%l| Print plot as EPS..."
@@ -103,7 +103,7 @@ Test2DPlotDirector::BuildWindow()
 
 	// do this after everything is constructed so Receive() doesn't crash
 
-	itsPlotWidget->SetTitle("New plot");
+	itsPlotWidget->SetTitle(JGetString("PlotTitle::Test2DPlotDirector"));
 }
 
 /******************************************************************************

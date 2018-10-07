@@ -15,7 +15,7 @@ LimitsMustBeDifferent::JX2DPlotScaleDialog	"Limits cannot be equal."
 PositiveLimitsForLog::JX2DPlotScaleDialog	"Limits must be positive when using log scale."
 
 WindowTitle::JX2DPlotLabelDialog		"Edit Plot Labels"
-FontMenuTitle::JX2DPlotLabelDialog		"Font:"
+FontNameMenuTitle::JX2DPlotLabelDialog	"Font:"
 FontSizeMenuTitle::JX2DPlotLabelDialog	"Size:"
 
 WindowTitle::JX2DCurveOptionsDialog		"Curve Options"

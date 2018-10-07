@@ -98,9 +98,9 @@ F
 T
 1 "strings"
 T
-2 "libj2dplot_strings"
+2 "j2dplot_strings"
 F
-"./strings/libj2dplot_strings"
+"./strings/j2dplot_strings"
 F
 F
 # tasks
@@ -121,8 +121,7 @@ F
 # search paths
 T "../include/make/" T
 T "../libjcore/code/" T
-T "../libjtoolbar/code/" T
-T "../libjtree/code/" T
+T "../libjexpr/code/" T
 T "../libjx/code/" T
 T "./code/" T
 F
