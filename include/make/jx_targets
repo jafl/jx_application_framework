@@ -16,7 +16,9 @@ staticACE:
 	@cd ${ACELIBDIR}; ${MAKE} static
   endif
 
+#
 # Building packages
+#
 
 ifneq (${shell which rpm 2> /dev/null},)
   HAS_RPM := 1
@@ -58,7 +60,9 @@ ifdef J_RPM_GZ_LIBS
          cp ${LIB} ${PKG_PATH}/lib/; gzip ${PKG_PATH}/lib/${notdir ${LIB}}; }
 endif
 
+#
 # build_pkgs (PKG_PATH, SOURCE_TAR_NAME)
+#
 
 .PHONY : build_pkgs
 build_pkgs: _pre_build_pkgs build_rpm build_deb _post_build_pkgs
@@ -73,7 +77,9 @@ _pre_build_pkgs:
 _post_build_pkgs:
 	@gzip ${J_DISTR_TAR_DIR}/${SOURCE_TAR_NAME}
 
+#
 # build_rpm (SOURCE_TAR_NAME, const RPM_TAR_FILE, const RPM_SPEC_FILE)
+#
 
 .PHONY : build_rpm
 build_rpm:
@@ -87,7 +93,9 @@ build_rpm:
 	@${SUDO} ./release/pkg/uninstall
   endif
 
+#
 # build_deb (SOURCE_TAR_NAME, const DEB_CTRL_FILE, const DEB_PKG_FILE)
+#
 
 DEB_INSTALL_SCRIPT_PATH = ${dir ${shell find debian -name install}}
 
