@@ -66,17 +66,17 @@ THXBaseConvDirector::THXBaseConvDirector
 
 		switch (fromBase)
 			{
-			case  2:  its2Input->SetText(fromValue); break;
-			case  8:  its8Input->SetText(fromValue); break;
-			case 10: its10Input->SetText(fromValue); break;
-			case 16: its16Input->SetText(fromValue); break;
+			case  2:  its2Input->GetText()->SetText(fromValue); break;
+			case  8:  its8Input->GetText()->SetText(fromValue); break;
+			case 10: its10Input->GetText()->SetText(fromValue); break;
+			case 16: its16Input->GetText()->SetText(fromValue); break;
 			}
 		}
 	else
 		{
 		JString s;
 		input >> s;
-		its10Input->SetText(s);
+		its10Input->GetText()->SetText(s);
 		}
 
 	JXWindow* window = GetWindow();
@@ -131,7 +131,7 @@ THXBaseConvDirector::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 180,160, "");
+	JXWindow* window = jnew JXWindow(this, 180,160, JString::empty);
 	assert( window != nullptr );
 
 	itsCloseButton =
@@ -192,7 +192,7 @@ THXBaseConvDirector::BuildWindow()
 
 // end JXLayout
 
-	window->SetTitle("Base Conversion");
+	window->SetTitle(JGetString("WindowTitle::THXBaseConvDirector"));
 	window->SetWMClass(THXGetWMClassInstance(), THXGetBaseConvWindowClass());
 	window->LockCurrentMinSize();
 	window->SetCloseAction(JXWindow::kDeactivateDirector);
@@ -204,17 +204,10 @@ THXBaseConvDirector::BuildWindow()
 	assert( icon != nullptr );
 	window->SetIcon(icon);
 
-	its2Input->ShouldBroadcastAllTextChanged(kJTrue);		// want every keypress
-	ListenTo(its2Input);
-
-	its8Input->ShouldBroadcastAllTextChanged(kJTrue);		// want every keypress
-	ListenTo(its8Input);
-
-	its10Input->ShouldBroadcastAllTextChanged(kJTrue);		// want every keypress
-	ListenTo(its10Input);
-
-	its16Input->ShouldBroadcastAllTextChanged(kJTrue);		// want every keypress
-	ListenTo(its16Input);
+	ListenTo(its2Input->GetText());
+	ListenTo(its8Input->GetText());
+	ListenTo(its10Input->GetText());
+	ListenTo(its16Input->GetText());
 
 	ListenTo(itsCloseButton);
 	ListenTo(itsHelpButton);
@@ -251,8 +244,8 @@ THXBaseConvDirector::Receive
 	else
 		{
 		if (!itsIgnoreTextFlag &&
-			(message.Is(JTextEditor::kTextSet) ||
-			 message.Is(JTextEditor::kTextChanged)))
+			(message.Is(JStyledText::kTextSet) ||
+			 message.Is(JStyledText::kTextChanged)))
 			{
 			itsIgnoreTextFlag = kJTrue;
 			Convert(sender);
@@ -293,13 +286,13 @@ THXBaseConvDirector::Convert
 		}
 
 	JUInt value;
-	if (!(input->GetText()).ConvertToUInt(&value, base))
+	if (!input->GetText()->GetText().ConvertToUInt(&value, base))
 		{
 		for (JUnsignedOffset i=0; i<kTHXBaseCount; i++)
 			{
 			if (itsInput[i] != input)
 				{
-				itsInput[i]->SetText("");
+				itsInput[i]->GetText()->SetText(JString::empty);
 				}
 			}
 		return;
@@ -310,7 +303,7 @@ THXBaseConvDirector::Convert
 		if (itsInput[i] != input)
 			{
 			const JString s(value, kBase[i], kJTrue);
-			itsInput[i]->SetText(s);
+			itsInput[i]->GetText()->SetText(s);
 			}
 		}
 }

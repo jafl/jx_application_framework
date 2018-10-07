@@ -12,10 +12,6 @@
 #include <JXDisplay.h>
 #include <jAssert.h>
 
-// string ID's
-
-static const JCharacter* kCommandLineHelpID = "CommandLineHelp::THXMDIServer";
-
 /******************************************************************************
  Constructor
 
@@ -44,7 +40,7 @@ THXMDIServer::~THXMDIServer()
 void
 THXMDIServer::HandleMDIRequest
 	(
-	const JCharacter*			dir,
+	const JString&				dir,
 	const JPtrArray<JString>&	argList
 	)
 {
@@ -59,11 +55,11 @@ THXMDIServer::HandleMDIRequest
 void
 THXMDIServer::PrintCommandLineHelp()
 {
-	const JCharacter* map[] =
+	const JUtf8Byte* map[] =
 		{
-		"vers", THXGetVersionNumberStr()
+		"vers", THXGetVersionNumberStr().GetBytes()
 		};
-	JString s = JGetString(kCommandLineHelpID);
+	JString s = JGetString("CommandLineHelp::THXMDIServer");
 	(JGetStringManager())->Replace(&s, map, sizeof(map));
 	std::cout << std::endl << s << std::endl << std::endl;
 }

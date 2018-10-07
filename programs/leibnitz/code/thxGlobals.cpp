@@ -24,15 +24,11 @@ static JXPTPrinter*			theTapePrinter     = nullptr;
 static JXPSPrinter*			thePSGraphPrinter  = nullptr;
 static JX2DPlotEPSPrinter*	theEPSGraphPrinter = nullptr;
 
-static const JCharacter* kWMClassInstance = "Leibnitz";
-static const JCharacter* kExprWindowClass = "Leibnitz_Expression";
-static const JCharacter* kPlotWindowClass = "Leibnitz_Plot";
-static const JCharacter* kConvWindowClass = "Leibnitz_Base_Conversion";
-static const JCharacter* kVarWindowClass  = "Leibnitz_Constants";
-
-// string ID's
-
-static const JCharacter* kDescriptionID = "Description::thxGlobals";
+static const JUtf8Byte* kWMClassInstance = "Leibnitz";
+static const JUtf8Byte* kExprWindowClass = "Leibnitz_Expression";
+static const JUtf8Byte* kPlotWindowClass = "Leibnitz_Plot";
+static const JUtf8Byte* kConvWindowClass = "Leibnitz_Base_Conversion";
+static const JUtf8Byte* kVarWindowClass  = "Leibnitz_Constants";
 
 /******************************************************************************
  THXCreateGlobals
@@ -171,7 +167,7 @@ THXGetTapePrinter()
 
  ******************************************************************************/
 
-const JCharacter*
+const JUtf8Byte*
 THXGetWMClassInstance()
 {
 	return kWMClassInstance;
@@ -182,7 +178,7 @@ THXGetWMClassInstance()
 
  ******************************************************************************/
 
-const JCharacter*
+const JUtf8Byte*
 THXGetExprWindowClass()
 {
 	return kExprWindowClass;
@@ -193,7 +189,7 @@ THXGetExprWindowClass()
 
  ******************************************************************************/
 
-const JCharacter*
+const JUtf8Byte*
 THXGetPlotWindowClass()
 {
 	return kPlotWindowClass;
@@ -204,7 +200,7 @@ THXGetPlotWindowClass()
 
  ******************************************************************************/
 
-const JCharacter*
+const JUtf8Byte*
 THXGetBaseConvWindowClass()
 {
 	return kConvWindowClass;
@@ -215,7 +211,7 @@ THXGetBaseConvWindowClass()
 
  ******************************************************************************/
 
-const JCharacter*
+const JUtf8Byte*
 THXGetVarWindowClass()
 {
 	return kVarWindowClass;
@@ -226,7 +222,7 @@ THXGetVarWindowClass()
 
  ******************************************************************************/
 
-const JCharacter*
+const JString&
 THXGetVersionNumberStr()
 {
 	return JGetString("VERSION");
@@ -240,10 +236,10 @@ THXGetVersionNumberStr()
 JString
 THXGetVersionStr()
 {
-	const JCharacter* map[] =
+	const JUtf8Byte* map[] =
 		{
-		"version",   JGetString("VERSION"),
-		"copyright", JGetString("COPYRIGHT")
+		"version",   JGetString("VERSION").GetBytes(),
+		"copyright", JGetString("COPYRIGHT").GetBytes()
 		};
-	return JGetString(kDescriptionID, map, sizeof(map));
+	return JGetString("Description::thxGlobals", map, sizeof(map));
 }

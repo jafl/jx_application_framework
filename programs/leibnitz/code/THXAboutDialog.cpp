@@ -18,11 +18,6 @@
 #include <JXImage.h>
 #include <jAssert.h>
 
-// string ID's
-
-static const JCharacter* kUpgradeNoticeID     = "UpgradeNotice::THXAboutDialog";
-static const JCharacter* kChangeButtonLabelID = "ChangeButtonLabel::THXAboutDialog";
-
 /******************************************************************************
  Constructor
 
@@ -32,8 +27,8 @@ static const JCharacter* kChangeButtonLabelID = "ChangeButtonLabel::THXAboutDial
 
 THXAboutDialog::THXAboutDialog
 	(
-	JXDirector*			supervisor,
-	const JCharacter*	prevVersStr
+	JXDirector*		supervisor,
+	const JString&	prevVersStr
 	)
 	:
 	JXDialogDirector(supervisor, kJTrue)
@@ -63,12 +58,12 @@ THXAboutDialog::~THXAboutDialog()
 void
 THXAboutDialog::BuildWindow
 	(
-	const JCharacter* prevVersStr
+	const JString& prevVersStr
 	)
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 430,180, "");
+	JXWindow* window = jnew JXWindow(this, 430,180, JString::empty);
 	assert( window != nullptr );
 
 	JXImageWidget* thxIcon =
@@ -105,7 +100,7 @@ THXAboutDialog::BuildWindow
 
 // end JXLayout
 
-	window->SetTitle("About");
+	window->SetTitle(JGetString("WindowTitle::THXAboutDialog"));
 	SetButtons(okButton, nullptr);
 
 	ListenTo(itsHelpButton);
@@ -114,18 +109,18 @@ THXAboutDialog::BuildWindow
 	// text
 
 	JString text = THXGetVersionStr();
-	if (!JString::IsEmpty(prevVersStr))
+	if (!prevVersStr.IsEmpty())
 		{
-		const JCharacter* map[] =
+		const JUtf8Byte* map[] =
 			{
-			"vers", prevVersStr
+			"vers", prevVersStr.GetBytes()
 			};
-		text += JGetString(kUpgradeNoticeID);
+		text += JGetString("UpgradeNotice::THXAboutDialog");
 		(JGetStringManager())->Replace(&text, map, sizeof(map));
-		itsHelpButton->SetLabel(JGetString(kChangeButtonLabelID));
+		itsHelpButton->SetLabel(JGetString("ChangeButtonLabel::THXAboutDialog"));
 		itsIsUpgradeFlag = kJTrue;
 		}
-	textWidget->SetText(text);
+	textWidget->GetText()->SetText(text);
 
 	// Program icon
 

@@ -33,6 +33,8 @@ $copyright"
 # THXMDIServer
 #2345678901234567890123456789012345678901234567890123456789012345678901234567890
 
+ActionsMenuTitle::thxGlobals	"Actions"
+
 CommandLineHelp::THXMDIServer
 
 "Leibnitz $vers
@@ -47,6 +49,7 @@ expressions and plotting functions.
 
 # THXAboutDialog
 
+WindowTitle::THXAboutDialog			"About"
 ChangeButtonLabel::THXAboutDialog	"Changes"
 
 UpgradeNotice::THXAboutDialog
@@ -54,3 +57,41 @@ UpgradeNotice::THXAboutDialog
 
 
 You have just upgraded from version $vers"
+
+# THXApp
+
+NoPrefsDir::THXApp		"I am unable to find your preferences directory."
+NewWindowItem::THXApp	"New window"
+
+CannotReadNewerVersion::THXApp
+"Unable to read the file \"$name\" because it was created by a newer version of this program."
+
+# THXExprDirector
+
+WindowTitle::THXExprDirector		"Leibnitz"
+SaveTapePrompt::THXExprDirector		"Save tape as:"
+
+# THX2DPlotDirector
+
+EditFunctionItem::THX2DPlotDirector	"Edit function"
+PlotTitle::THX2DPlotDirector		"New plot"
+
+# THX2DPlotFunctionDialog
+
+WindowTitle::THX2DPlotFunctionDialog	"Plot 2D function"
+FinishFunction::THX2DPlotFunctionDialog	"Please finish entering the function."
+
+# THXVarDirector
+
+WindowTitle::THXVarDirector			"Constants"
+NameColumnTitle::THXVarDirector		"Name"
+ValueColumnTitle::THXVarDirector	"Value"
+
+# THXVarList
+
+NewVarName::THXVarList	"new"
+NameUsed::THXVarList	"This variable name is already used."
+
+# THXBaseConvDirector
+
+WindowTitle::THXBaseConvDirector	"Base Conversion"

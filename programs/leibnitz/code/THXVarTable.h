@@ -48,12 +48,12 @@ protected:
 									const JXButtonStates& buttonStates,
 									const JXKeyModifiers& modifiers) override;
 
-	virtual void			TableDrawCell(JPainter& p, const JPoint& cell, const JRect& rect);
+	virtual void			TableDrawCell(JPainter& p, const JPoint& cell, const JRect& rect) override;
 	virtual JXInputField*	CreateXInputField(const JPoint& cell,
 											  const JCoordinate x, const JCoordinate y,
-											  const JCoordinate w, const JCoordinate h);
-	virtual JBoolean		ExtractInputData(const JPoint& cell);
-	virtual void			PrepareDeleteXInputField();
+											  const JCoordinate w, const JCoordinate h) override;
+	virtual JBoolean		ExtractInputData(const JPoint& cell) override;
+	virtual void			PrepareDeleteXInputField() override;
 
 	virtual void	ApertureResized(const JCoordinate dw, const JCoordinate dh) override;
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;

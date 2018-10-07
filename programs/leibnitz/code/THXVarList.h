@@ -40,10 +40,10 @@ public:
 	virtual ~THXVarList();
 
 	JIndex		NewFunction();
-	JBoolean	SetVariableName(const JIndex index, const JCharacter* name);
+	JBoolean	SetVariableName(const JIndex index, const JString& name);
 
 	const JFunction*	GetFunction(const JIndex index) const;
-	JBoolean			SetFunction(const JIndex index, const JCharacter* expr);
+	JBoolean			SetFunction(const JIndex index, const JString& expr);
 
 	JBoolean	OKToRemoveFunction(const JIndex index) const;
 	void		RemoveFunction(const JIndex index);

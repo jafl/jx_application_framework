@@ -26,7 +26,7 @@ JXPTPrinter*		THXGetTapePrinter();
 JXPSPrinter*		THXGetPSGraphPrinter();
 JX2DPlotEPSPrinter*	THXGetEPSGraphPrinter();
 
-const JCharacter*	THXGetVersionNumberStr();
+const JString&		THXGetVersionNumberStr();
 JString				THXGetVersionStr();
 
 	// called by THXApp
@@ -36,10 +36,10 @@ void THXDeleteGlobals();
 
 	// called by Directors
 
-const JCharacter*	THXGetWMClassInstance();
-const JCharacter*	THXGetExprWindowClass();
-const JCharacter*	THXGetPlotWindowClass();
-const JCharacter*	THXGetBaseConvWindowClass();
-const JCharacter*	THXGetVarWindowClass();
+const JUtf8Byte*	THXGetWMClassInstance();
+const JUtf8Byte*	THXGetExprWindowClass();
+const JUtf8Byte*	THXGetPlotWindowClass();
+const JUtf8Byte*	THXGetBaseConvWindowClass();
+const JUtf8Byte*	THXGetVarWindowClass();
 
 #endif

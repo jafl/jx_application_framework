@@ -29,7 +29,7 @@ public:
 	virtual ~THX2DPlotDirector();
 
 	void	AddFunction(THXVarList* varList, const JFunction& f,
-						const JCharacter* name,
+						const JString& name,
 						const JFloat xMin, const JFloat xMax);
 
 	void	WriteState(std::ostream& output) const;
@@ -61,7 +61,7 @@ private:
 	void	THX2DPlotDirectorX();
 	void	BuildWindow();
 	void	AddFunction(THXVarList* varList, JFunction* f,
-						const JCharacter* name,
+						const JString& name,
 						const JFloat xMin, const JFloat xMax);
 	void	EditFunction(const JIndex index);
 	void	UpdateFunction();

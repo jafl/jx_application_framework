@@ -16,7 +16,7 @@
 
 // remember to keep the enum up to date
 
-static const JCharacter kOpKey[] =
+static const JUtf8Byte kOpKey[] =
 {
 	'.', 'e', '+', '-', '*', '/', '=', kJEscapeKey
 };
@@ -240,7 +240,7 @@ JXKeyModifiers modifiers(GetDisplay());
 					}
 				}
 
-			itsExpr->HandleKeyPress('0' + i, modifiers);
+			itsExpr->HandleKeyPress('0' + i, 0, modifiers);
 			return kJTrue;
 			}
 		}
@@ -254,7 +254,7 @@ JXKeyModifiers modifiers(GetDisplay());
 				itsExpr->SelectAll();
 				}
 
-			itsExpr->HandleKeyPress(kOpKey[i], modifiers);
+			itsExpr->HandleKeyPress(kOpKey[i], 0, modifiers);
 			return kJTrue;
 			}
 		}

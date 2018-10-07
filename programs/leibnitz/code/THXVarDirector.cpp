@@ -28,8 +28,7 @@
 
 // Actions menu
 
-static const JCharacter* kActionsMenuTitleStr = "Actions";
-static const JCharacter* kActionsMenuStr =
+static const JUtf8Byte* kActionsMenuStr =
 	"    New constant        %k Meta-Shift-N"
 	"  | Remove constant     %k Meta-R"
 	"%l| New expression      %k Meta-N"
@@ -138,7 +137,7 @@ THXVarDirector::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 260,250, "");
+	JXWindow* window = jnew JXWindow(this, 260,250, JString::empty);
 	assert( window != nullptr );
 
 	JXMenuBar* menuBar =
@@ -158,13 +157,13 @@ THXVarDirector::BuildWindow
 
 // end JXLayout
 
-	window->SetTitle("Constants");
+	window->SetTitle(JGetString("WindowTitle::THXVarDirector"));
 	window->SetWMClass(THXGetWMClassInstance(), THXGetVarWindowClass());
 	window->SetMinSize(150,150);
 	window->SetCloseAction(JXWindow::kDeactivateDirector);
 	window->ShouldFocusWhenShow(kJTrue);
 
-	itsActionsMenu = menuBar->AppendTextMenu(kActionsMenuTitleStr);
+	itsActionsMenu = menuBar->AppendTextMenu(JGetString("ActionsMenuTitle::thxGlobals"));
 	itsActionsMenu->SetMenuItems(kActionsMenuStr);
 	itsActionsMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsActionsMenu);
@@ -187,8 +186,8 @@ THXVarDirector::BuildWindow
 							  JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 10,10);
 	assert( colHeader != nullptr );
 	colHeader->FitToEnclosure();
-	colHeader->SetColTitle(1, "Name");
-	colHeader->SetColTitle(2, "Value");
+	colHeader->SetColTitle(1, JGetString("NameColumnTitle::THXVarDirector"));
+	colHeader->SetColTitle(2, JGetString("ValueColumnTitle::THXVarDirector"));
 	colHeader->TurnOnColResizing(20);
 }
 

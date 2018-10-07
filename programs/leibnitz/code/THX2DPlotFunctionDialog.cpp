@@ -41,12 +41,12 @@ THX2DPlotFunctionDialog::THX2DPlotFunctionDialog
 
 THX2DPlotFunctionDialog::THX2DPlotFunctionDialog
 	(
-	JXDirector*				supervisor,
-	const THXVarList*		varList,
-	const JFunction&		f,
-	const JCharacter*		curveName,
-	const JFloat			min,
-	const JFloat			max
+	JXDirector*			supervisor,
+	const THXVarList*	varList,
+	const JFunction&	f,
+	const JString&		curveName,
+	const JFloat		min,
+	const JFloat		max
 	)
 	:
 	JXDialogDirector(supervisor, kJTrue)
@@ -55,7 +55,7 @@ THX2DPlotFunctionDialog::THX2DPlotFunctionDialog
 
 	itsExprWidget->SetFunction(varList, f.Copy());
 	itsPlotMenu->Hide();
-	itsCurveName->SetText(curveName);
+	itsCurveName->GetText()->SetText(curveName);
 	itsMinInput->SetValue(min);
 	itsMaxInput->SetValue(max);
 }
@@ -83,7 +83,7 @@ THX2DPlotFunctionDialog::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 330,320, "");
+	JXWindow* window = jnew JXWindow(this, 330,320, JString::empty);
 	assert( window != nullptr );
 
 	JXExprEditorSet* exprEditorSet =
@@ -142,7 +142,7 @@ THX2DPlotFunctionDialog::BuildWindow
 
 // end JXLayout
 
-	window->SetTitle("Plot 2D function");
+	window->SetTitle(JGetString("WindowTitle::THX2DPlotFunctionDialog"));
 	SetButtons(okButton, cancelButton);
 
 	(THXGetApplication())->BuildPlotMenu(itsPlotMenu, prevPlot, &itsPlotIndex);
@@ -176,7 +176,7 @@ THX2DPlotFunctionDialog::GetSettings
 {
 	*plotIndex = itsPlotIndex;
 	*f         = itsExprWidget->GetFunction();
-	*curveName = itsCurveName->GetText();
+	*curveName = itsCurveName->GetText()->GetText();
 
 	if (curveName->IsEmpty())
 		{
@@ -244,7 +244,7 @@ THX2DPlotFunctionDialog::OKToDeactivate()
 
 	else if (itsExprWidget->ContainsUIF())
 		{
-		(JGetUserNotification())->ReportError("Please finish entering the function.");
+		(JGetUserNotification())->ReportError(JGetString("FinishFunction::THX2DPlotFunctionDialog"));
 		itsExprWidget->Focus();
 		return kJFalse;
 		}

@@ -30,7 +30,7 @@ public:
 
 	virtual ~THXApp();
 
-	void	DisplayAbout(const JCharacter* prevVersStr = nullptr);
+	void	DisplayAbout(const JString& prevVersStr = JString::empty);
 
 	THXVarList*			GetVariableList() const;
 	THXExprDirector*	NewExpression(const JBoolean centerOnScreen = kJFalse);
@@ -41,23 +41,23 @@ public:
 	void	BuildPlotMenu(JXTextMenu* menu, const THX2DPlotDirector* origPlot,
 						  JIndex* initialChoice) const;
 
-	JXTextMenu*	CreateHelpMenu(JXMenuBar* menuBar, const JCharacter* idNamespace);
+	JXTextMenu*	CreateHelpMenu(JXMenuBar* menuBar, const JUtf8Byte* idNamespace);
 	void		UpdateHelpMenu(JXTextMenu* menu);
-	void		HandleHelpMenu(JXTextMenu* menu, const JCharacter* windowSectionName,
+	void		HandleHelpMenu(JXTextMenu* menu, const JUtf8Byte* windowSectionName,
 							   const JIndex index);
 
 	JBoolean	KeyPadIsVisible() const;
 	void		SetKeyPadVisible(const JBoolean visible);
 	void		ToggleKeyPadVisible();
 
-	static const JCharacter*	GetAppSignature();
-	static void					InitStrings();
+	static const JUtf8Byte*	GetAppSignature();
+	static void				InitStrings();
 
 protected:
 
-	virtual JBoolean	Close();
-	virtual void		CleanUpBeforeSuddenDeath(const JXDocumentManager::SafetySaveReason reason);
-	virtual void		DirectorClosed(JXDirector* theDirector);
+	virtual JBoolean	Close() override;
+	virtual void		CleanUpBeforeSuddenDeath(const JXDocumentManager::SafetySaveReason reason) override;
+	virtual void		DirectorClosed(JXDirector* theDirector) override;
 	virtual void		Receive(JBroadcaster* sender, const Message& message) override;
 
 private:

@@ -57,11 +57,12 @@ THXExprEditor::~THXExprEditor()
 void
 THXExprEditor::HandleKeyPress
 	(
-	const int				key,
+	const JUtf8Character&	c,
+	const int				keySym,
 	const JXKeyModifiers&	modifiers
 	)
 {
-	if (key == '=')
+	if (c == '=')
 		{
 		JIndex selection;
 		const JBoolean hadSelection = GetSelection(&selection);
@@ -81,7 +82,7 @@ THXExprEditor::HandleKeyPress
 		}
 	else
 		{
-		JXExprEditor::HandleKeyPress(key, modifiers);
+		JXExprEditor::HandleKeyPress(c, keySym, modifiers);
 		}
 }
 
@@ -111,14 +112,14 @@ THXExprEditor::EvaluateSelection()
 		valueStr = "Error";
 		}
 
-	const JSize textLength = itsTapeWidget->GetTextLength();
+	const JSize textLength = itsTapeWidget->GetText()->GetText().GetCharacterCount();
 
 	JString newText = f->Print();
 	if (textLength > 0)
 		{
 		newText.Prepend("\n\n");
 		}
-	newText.AppendCharacter('\n');
+	newText.Append("\n");
 	newText.Append(valueStr);
 
 	itsTapeWidget->SetCaretLocation(textLength+1);

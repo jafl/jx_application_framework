@@ -8,19 +8,17 @@
  ******************************************************************************/
 
 #include "THXVarList.h"
-#include <jParseFunction.h>
+#include <JExprParser.h>
 #include <JConstantValue.h>
-#include <jParserData.h>
-#include <JString.h>
+#include <JStringIterator.h>
 #include <jGlobals.h>
 #include <jAssert.h>
 
-static const JCharacter* kXName = "x";
-static const JCharacter* kYName = "y";
-static const JCharacter* kTName = "t";
+static const JString kXName("x");
+static const JString kYName("y");
+static const JString kTName("t");
 
-static const JCharacter* kNewVarName     = "new";
-static const JString kUnknownValueSymbol = "?";
+static const JString kUnknownValueSymbol("?");
 
 /******************************************************************************
  Constructor
@@ -42,8 +40,6 @@ THXVarList::THXVarList
 	:
 	JVariableList()
 {
-JIndex i;
-
 	THXVarListX();
 
 	JSize varCount;
@@ -54,7 +50,9 @@ JIndex i;
 
 	(JGetUserNotification())->SetSilent(kJTrue);		// complain the second time
 
-	for (i=1; i<=varCount; i++)
+	JExprParser p(this);
+
+	for (JIndex i=1; i<=varCount; i++)
 		{
 		JString* name = jnew JString;
 		assert( name != nullptr );
@@ -65,7 +63,7 @@ JIndex i;
 		assert( fStr != nullptr );
 		input >> *fStr;
 		JFunction* f;
-		if (JParseFunction(*fStr, this, &f))
+		if (p.Parse(*fStr, &f))
 			{
 			jdelete fStr;
 			itsFunctions->Append(f);
@@ -81,11 +79,11 @@ JIndex i;
 	(JGetUserNotification())->SetSilent(kJFalse);
 
 	const JSize misfitCount = misfitIndexList.GetElementCount();
-	for (i=1; i<=misfitCount; i++)
+	for (JIndex i=1; i<=misfitCount; i++)
 		{
 		const JString* fStr = misfitFnList.GetElement(i);
 		JFunction* f;
-		if (JParseFunction(*fStr, this, &f))
+		if (p.Parse(*fStr, &f))
 			{
 			const JIndex j = misfitIndexList.GetElement(i);
 			itsFunctions->SetElement(j, f, JPtrArrayT::kDelete);
@@ -104,7 +102,7 @@ THXVarList::THXVarListX()
 	itsFunctions = jnew JPtrArray<JFunction>(JPtrArrayT::kDeleteAll);
 	assert( itsFunctions != nullptr );
 
-	InstallOrderedSet(itsNames);
+	InstallList(itsNames);
 
 	// variables for plotting
 
@@ -149,17 +147,18 @@ THXVarList::NewFunction()
 	JString* name = jnew JString;
 	assert( name != nullptr );
 
-	JIndex i = 1,j;
+	JUInt64 i = 1;
+	JIndex j;
 	do
 		{
-		*name = kNewVarName;
+		*name = JGetString("NewVarName::THXVarList");
 		if (i > 1)
 			{
 			*name += JString(i);
 			}
 		i++;
 		}
-		while (ParseVariableName(*name, name->GetLength(), &j));
+		while (ParseVariableName(*name, &j));
 
 	itsNames->Append(name);
 
@@ -198,8 +197,8 @@ THXVarList::RemoveFunction
 JBoolean
 THXVarList::SetVariableName
 	(
-	const JIndex		varIndex,
-	const JCharacter*	name
+	const JIndex	varIndex,
+	const JString&	name
 	)
 {
 	assert( varIndex > kUserFnOffset );
@@ -209,9 +208,9 @@ THXVarList::SetVariableName
 		{
 		return kJFalse;
 		}
-	else if (ParseVariableName(name, strlen(name), &index) && index != varIndex)
+	else if (ParseVariableName(name, &index) && index != varIndex)
 		{
-		(JGetUserNotification())->ReportError("This variable name is already used.");
+		(JGetUserNotification())->ReportError(JGetString("NameUsed::THXVarList"));
 		return kJFalse;
 		}
 	else
@@ -231,14 +230,16 @@ THXVarList::SetVariableName
 JBoolean
 THXVarList::SetFunction
 	(
-	const JIndex		index,
-	const JCharacter*	expr
+	const JIndex	index,
+	const JString&	expr
 	)
 {
 	assert( index > kUserFnOffset );
 
+	JExprParser p(this);
+
 	JFunction* f;
-	if (JParseFunction(expr, this, &f))
+	if (p.Parse(expr, &f))
 		{
 		itsFunctions->SetElement(index, f, JPtrArrayT::kDelete);
 		Broadcast(VarValueChanged(index,1));
@@ -281,25 +282,14 @@ THXVarList::GetVariableName
 	)
 	const
 {
-	const JString* fullName    = itsNames->GetElement(index);
-	const JCharacter firstChar = fullName->GetFirstCharacter();
-	const JSize fullLen        = fullName->GetLength();
+	const JString* fullName = itsNames->GetElement(index);
+	if (fullName->GetCharacterCount() > 1)
+		{
+		*name      = fullName->GetFirstCharacter();
+		*subscript = *fullName;
 
-	const JCharacter greekPrefixChar = JPGetGreekCharPrefixChar();
-	if (firstChar == greekPrefixChar && fullLen > 2)
-		{
-		*name      = fullName->GetSubstring(1,2);
-		*subscript = fullName->GetSubstring(3, fullLen);
-		}
-	else if (firstChar == greekPrefixChar)
-		{
-		*name = *fullName;
-		subscript->Clear();
-		}
-	else if (fullLen > 1)
-		{
-		*name      = fullName->GetSubstring(1,1);
-		*subscript = fullName->GetSubstring(2, fullLen);
+		JStringIterator iter(subscript);
+		iter.RemoveNext(1);
 		}
 	else
 		{

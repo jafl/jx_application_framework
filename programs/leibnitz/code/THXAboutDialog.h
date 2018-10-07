@@ -18,7 +18,7 @@ class THXAboutDialog : public JXDialogDirector
 {
 public:
 
-	THXAboutDialog(JXDirector* supervisor, const JCharacter* prevVersStr);
+	THXAboutDialog(JXDirector* supervisor, const JString& prevVersStr);
 
 	virtual ~THXAboutDialog();
 
@@ -39,7 +39,7 @@ private:
 
 private:
 
-	void	BuildWindow(const JCharacter* prevVersStr);
+	void	BuildWindow(const JString& prevVersStr);
 
 	// not allowed
 

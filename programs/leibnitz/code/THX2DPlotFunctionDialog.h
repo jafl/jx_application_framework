@@ -27,7 +27,7 @@ public:
 	THX2DPlotFunctionDialog(JXDirector* supervisor, const THXVarList* varList,
 							const THX2DPlotDirector* prevPlot = nullptr);
 	THX2DPlotFunctionDialog(JXDirector* supervisor, const THXVarList* varList,
-							const JFunction& f, const JCharacter* curveName,
+							const JFunction& f, const JString& curveName,
 							const JFloat min, const JFloat max);
 
 	virtual ~THX2DPlotFunctionDialog();
@@ -38,7 +38,7 @@ public:
 
 protected:
 
-	virtual JBoolean	OKToDeactivate();
+	virtual JBoolean	OKToDeactivate() override;
 	virtual void		Receive(JBroadcaster* sender, const Message& message) override;
 
 private:

@@ -41,17 +41,16 @@
 
 // application signature (MDI)
 
-static const JCharacter* kAppSignature = "leibnitz";
+static const JUtf8Byte* kAppSignature = "leibnitz";
 
 // state information
 
-static const JCharacter* kStateFileName    = ".leibnitz.session";
-static const JCharacter* kOldStateFileName = ".THX-1138.session";
+static const JString kStateFileName(".leibnitz.session");
+static const JString kOldStateFileName(".THX-1138.session");
 
 // Help menu
 
-static const JCharacter* kHelpMenuTitleStr = "Help";
-static const JCharacter* kHelpMenuStr =
+static const JUtf8Byte* kHelpMenuStr =
 	"    About" 
 	"%l| Table of Contents       %i" kJXHelpTOCAction
 	"  | Overview"
@@ -142,7 +141,7 @@ THXApp::Close()
 void
 THXApp::DisplayAbout
 	(
-	const JCharacter* prevVersStr
+	const JString& prevVersStr
 	)
 {
 	THXAboutDialog* dlog = jnew THXAboutDialog(this, prevVersStr);
@@ -281,8 +280,7 @@ JIndex i;
 
 	if (!JGetPrefsDirectory(&itsStatePath))
 		{
-		(JGetUserNotification())->ReportError(
-			"I am unable to find your preferences directory.");
+		(JGetUserNotification())->ReportError(JGetString("NoPrefsDir::THXApp"));
 		JThisProcess::Exit(1);
 		}
 
@@ -298,7 +296,7 @@ JIndex i;
 			}
 		}
 
-	std::ifstream input(fullName);
+	std::ifstream input(fullName.GetBytes());
 
 	JFileVersion vers;
 	input >> vers;
@@ -309,9 +307,11 @@ JIndex i;
 		}
 	else if (vers > kCurrentStateVersion)
 		{
-		JString msg = "Unable to read the file \"";
-		msg += fullName;
-		msg += "\" because it was created by a newer version of this program.";
+		const JUtf8Byte* map[] =
+		{
+			"name", fullName.GetBytes()
+		};
+		const JString msg = JGetString("CannotReadNewerVersion::THXApp", map, sizeof(map));
 		(JGetUserNotification())->ReportError(msg);
 		JThisProcess::Exit(1);
 		}
@@ -348,22 +348,7 @@ JIndex i;
 		{
 		THXExprDirector::ReadPrefs(input, vers);
 
-		if (vers < 8 && (JXGetSharedPrefsManager())->WasNew())
-			{
-			(JXGetHelpManager())->ReadPrefs(input);
-			}
-		else if (vers < 8)
-			{
-			std::ostringstream data;
-			(JXGetHelpManager())->WritePrefs(data, (JXGetHelpManager())->GetCurrentPrefsVersion());
-
-			(JXGetHelpManager())->ReadPrefs(input);
-
-			const std::string s = data.str();
-			std::istringstream in2(s);
-			(JXGetHelpManager())->ReadPrefs(in2);
-			(JXGetHelpManager())->JXSharedPrefObject::WritePrefs();
-			}
+		// ignoring obsolete JXGetHelpManager data, since it was removed in version 8
 		}
 
 	if (vers >= 5)
@@ -465,7 +450,7 @@ THXApp::SaveProgramState()
 JIndex i;
 
 	const JString fullName = JCombinePathAndName(itsStatePath, kStateFileName);
-	std::ofstream output(fullName);
+	std::ofstream output(fullName.GetBytes());
 
 	output << kCurrentStateVersion;
 	output << ' ' << JString(THXGetVersionNumberStr());
@@ -620,7 +605,7 @@ THXApp::BuildPlotMenu
 		{
 		menu->ShowSeparatorAfter(count);
 		}
-	menu->AppendItem("New window", JXMenu::kRadioType);
+	menu->AppendItem(JGetString("NewWindowItem::THXApp"), JXMenu::kRadioType);
 	menu->SetUpdateAction(JXMenu::kDisableNone);
 }
 
@@ -653,10 +638,10 @@ JXTextMenu*
 THXApp::CreateHelpMenu
 	(
 	JXMenuBar*			menuBar,
-	const JCharacter*	idNamespace
+	const JUtf8Byte*	idNamespace
 	)
 {
-	JXTextMenu* menu = menuBar->AppendTextMenu(kHelpMenuTitleStr);
+	JXTextMenu* menu = menuBar->AppendTextMenu(JGetString("HelpMenuTitle::JXGlobal"));
 	menu->SetMenuItems(kHelpMenuStr, idNamespace);
 	menu->SetUpdateAction(JXMenu::kDisableNone);
 
@@ -688,7 +673,7 @@ void
 THXApp::HandleHelpMenu
 	(
 	JXTextMenu*			menu,
-	const JCharacter*	windowSectionName,
+	const JUtf8Byte*	windowSectionName,
 	const JIndex		index
 	)
 {
@@ -753,7 +738,7 @@ THXApp::CleanUpBeforeSuddenDeath
 
  ******************************************************************************/
 
-const JCharacter*
+const JUtf8Byte*
 THXApp::GetAppSignature()
 {
 	return kAppSignature;

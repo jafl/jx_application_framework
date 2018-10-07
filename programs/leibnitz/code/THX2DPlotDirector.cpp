@@ -26,8 +26,7 @@
 
 // Actions menu
 
-static const JCharacter* kActionsMenuTitleStr = "Actions";
-static const JCharacter* kActionsMenuStr =
+static const JUtf8Byte* kActionsMenuStr =
 	"    New expression      %k Meta-N"
 	"  | Edit constants      %k Meta-E"
 	"  | Plot 2D function... %k Meta-Shift-P"
@@ -49,10 +48,6 @@ enum
 	kPrintPlotEPSCmd, kPrintMarksEPSCmd,
 	kCloseWindowCmd, kQuitCmd
 };
-
-// Curve options pop up menu
-
-static const JCharacter* kEditFunctionItemStr = "Edit function";
 
 /******************************************************************************
  Constructor
@@ -179,7 +174,7 @@ THX2DPlotDirector::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 600,400, "");
+	JXWindow* window = jnew JXWindow(this, 600,400, JString::empty);
 	assert( window != nullptr );
 
 	JXMenuBar* menuBar =
@@ -207,14 +202,14 @@ THX2DPlotDirector::BuildWindow()
 
 	ListenTo(itsPlotWidget);
 
-	itsActionsMenu = menuBar->PrependTextMenu(kActionsMenuTitleStr);
+	itsActionsMenu = menuBar->PrependTextMenu(JGetString("ActionsMenuTitle::thxGlobals"));
 	itsActionsMenu->SetMenuItems(kActionsMenuStr);
 	itsActionsMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsActionsMenu);
 
 	JXTextMenu* optionsMenu               = itsPlotWidget->GetOptionsMenu();
 	const JIndex editFunctionSubmenuIndex = optionsMenu->GetItemCount()+1;
-	optionsMenu->AppendItem(kEditFunctionItemStr);
+	optionsMenu->AppendItem(JGetString("EditFunctionItem::THX2DPlotDirector"));
 
 	itsEditFnMenu = jnew JXTextMenu(optionsMenu, editFunctionSubmenuIndex, menuBar);
 	assert( itsEditFnMenu != nullptr );
@@ -227,12 +222,12 @@ THX2DPlotDirector::BuildWindow()
 	JXTextMenu* curveOptionsMenu = itsPlotWidget->GetCurveOptionsMenu();
 	itsEditFunctionItemIndex     = curveOptionsMenu->GetItemCount()+1;
 	curveOptionsMenu->ShowSeparatorAfter(itsEditFunctionItemIndex-1);
-	curveOptionsMenu->AppendItem(kEditFunctionItemStr);
+	curveOptionsMenu->AppendItem(JGetString("EditFunctionItem::THX2DPlotDirector"));
 	ListenTo(curveOptionsMenu);
 
 	// do this after everything is constructed so Receive() doesn't crash
 
-	itsPlotWidget->SetTitle("New plot");
+	itsPlotWidget->SetTitle(JGetString("PlotTitle::THX2DPlotDirector"));
 }
 
 /******************************************************************************
@@ -245,7 +240,7 @@ THX2DPlotDirector::AddFunction
 	(
 	THXVarList*			varList,
 	const JFunction&	f,
-	const JCharacter*	name,
+	const JString&		name,
 	const JFloat		xMin,
 	const JFloat		xMax
 	)
@@ -263,11 +258,11 @@ THX2DPlotDirector::AddFunction
 void
 THX2DPlotDirector::AddFunction
 	(
-	THXVarList*			varList,
-	JFunction*			f,
-	const JCharacter*	name,
-	const JFloat		xMin,
-	const JFloat		xMax
+	THXVarList*		varList,
+	JFunction*		f,
+	const JString&	name,
+	const JFloat	xMin,
+	const JFloat	xMax
 	)
 {
 	J2DPlotJFunction* data =

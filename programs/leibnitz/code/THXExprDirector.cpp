@@ -39,8 +39,7 @@ const JFileVersion kCurrentDefGeomVersion = 0;
 
 // Actions menu
 
-static const JCharacter* kActionsMenuTitleStr = "Actions";
-static const JCharacter* kActionsMenuStr =
+static const JUtf8Byte* kActionsMenuStr =
 	"    New expression      %k Meta-N"
 	"  | Edit constants      %k Meta-E"
 	"  | Plot 2D function... %k Meta-Shift-P"
@@ -65,8 +64,7 @@ enum
 
 // Preferences menu
 
-static const JCharacter* kPrefsMenuTitleStr = "Preferences";
-static const JCharacter* kPrefsMenuStr =
+static const JUtf8Byte* kPrefsMenuStr =
 	"    Show keypad %b"
 	"  | Mac/Win/X emulation..."
 	"%l| Save window size as default";
@@ -113,7 +111,7 @@ THXExprDirector::THXExprDirector
 
 	JString tapeText;
 	input >> tapeText >> itsTapeName;
-	itsTapeWidget->SetText(tapeText);
+	itsTapeWidget->GetText()->SetText(tapeText);
 
 	if (vers >= 4)
 		{
@@ -211,7 +209,7 @@ THXExprDirector::UseDefaultGeometry()
 {
 	if (!itsDefGeom.IsEmpty())
 		{
-		const std::string s(itsDefGeom.GetCString(), itsDefGeom.GetLength());
+		const std::string s(itsDefGeom.GetRawBytes(), itsDefGeom.GetByteCount());
 		std::istringstream input(s);
 
 		JFileVersion vers;
@@ -282,7 +280,7 @@ THXExprDirector::BuildWindow
 
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 360,240, "");
+	JXWindow* window = jnew JXWindow(this, 360,240, JString::empty);
 	assert( window != nullptr );
 
 	JXMenuBar* menuBar =
@@ -302,7 +300,7 @@ THXExprDirector::BuildWindow
 
 // end JXLayout
 
-	window->SetTitle("Leibnitz");
+	window->SetTitle(JGetString("WindowTitle::THXExprDirector"));
 	window->LockCurrentMinSize();
 	window->ShouldFocusWhenShow(kJTrue);
 	window->SetWMClass(THXGetWMClassInstance(), THXGetExprWindowClass());
@@ -351,12 +349,12 @@ THXExprDirector::BuildWindow
 
 	// create menus
 
-	itsActionsMenu = menuBar->PrependTextMenu(kActionsMenuTitleStr);
+	itsActionsMenu = menuBar->PrependTextMenu(JGetString("ActionsMenuTitle::thxGlobals"));
 	itsActionsMenu->SetMenuItems(kActionsMenuStr);
 	itsActionsMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsActionsMenu);
 
-	itsPrefsMenu = menuBar->AppendTextMenu(kPrefsMenuTitleStr);
+	itsPrefsMenu = menuBar->AppendTextMenu(JGetString("PrefsMenuTitle::JXGlobal"));
 	itsPrefsMenu->SetMenuItems(kPrefsMenuStr);
 	itsPrefsMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsPrefsMenu);
@@ -522,13 +520,14 @@ void
 THXExprDirector::SaveTape()
 {
 	JString newName;
-	if ((JXGetChooseSaveFile())->SaveFile("Save tape as:", nullptr,
-										  itsTapeName, &newName))
+	if ((JXGetChooseSaveFile())->SaveFile(
+			JGetString("SaveTapePrompt::THXExprDirector"),
+			JString::empty, itsTapeName, &newName))
 		{
 		itsTapeName = newName;
 
-		std::ofstream output(itsTapeName);
-		(itsTapeWidget->GetText()).Print(output);
+		std::ofstream output(itsTapeName.GetBytes());
+		itsTapeWidget->GetText()->GetText().Print(output);
 		}
 }
 

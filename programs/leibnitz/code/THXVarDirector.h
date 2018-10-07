@@ -31,7 +31,7 @@ public:
 
 	// public so THXApp can call it
 
-	virtual JBoolean	OKToDeactivate();
+	virtual JBoolean	OKToDeactivate() override;
 
 protected:
 
