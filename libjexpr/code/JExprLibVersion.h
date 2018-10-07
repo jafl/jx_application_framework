@@ -25,6 +25,7 @@ static const char* kCurrentJExprLibVersionStr = "2.0.0";
 //	*** Removed JDecision and all related classes.
 //	*** Replaced recursive descent parser with flex/bison parser.
 //	*** Replaced CastTo*() with dynamic_cast.
+//	*** Removed JXExprEvalDirector because it is never the right solution.
 
 // version 1.1.9:
 //	Renamed from JParser to JExpr.

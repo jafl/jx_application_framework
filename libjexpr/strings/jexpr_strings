@@ -8,9 +8,3 @@ ParseError::JExprEditor			"Unable to parse \"$name\""
 NowhereToPaste::JExprEditor		"Please select a place to paste first."
 EmptyFunction::JExprEditor		"This function is empty."
 UnknownFunction::JExprEditor	"Unknown function \"$name\""
-
-# JXExprEvalDirector
-
-WindowTitle::JXExprEvalDirector				"Result"
-CloseButtonLabel::JXExprEvalDirector		"Close"
-CloseButtonShortcuts::JXExprEvalDirector	"#W^["

@@ -12,7 +12,6 @@
 .cpp ./code/JVariableList
 .cpp ./code/JXExprEditor
 .cpp ./code/JXExprEditorSet
-.cpp ./code/JXExprEvalDirector
 .cpp ./code/JXExprInput
 .cpp ./code/JExprEditor
 .cpp ./code/JExprRectList
