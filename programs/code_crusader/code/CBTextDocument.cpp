@@ -1348,7 +1348,7 @@ CBTextDocument::ReadFile
 
 	JBoolean setTabWidth, setTabMode, tabInsertsSpaces, setAutoIndent, autoIndent;
 	JSize tabWidth;
-	CBMParseEditorOptions(itsTextEditor->GetText(), &setTabWidth, &tabWidth,
+	CBMParseEditorOptions(fileName, itsTextEditor->GetText(), &setTabWidth, &tabWidth,
 						  &setTabMode, &tabInsertsSpaces, &setAutoIndent, &autoIndent);
 
 	if (setTabWidth)

@@ -137,7 +137,7 @@ elif command -v apt-get; then
 		libx11-dev libxinerama-dev libxpm-dev libxft-dev \
 			libxmu-dev libxi-dev \
 		libxml2-dev libgd-dev libjpeg-dev libpng-dev \
-		libace-dev libicu-dev libpcre3-dev \
+		libace-dev libicu-dev libpcre3-dev editorconfig \
 		llvm liblldb-$LLDB_VERS-dev \
 		xutils-dev libx11-xcb-dev libxcb-dri2-0-dev \
 		libxcb-xfixes0-dev x11proto-gl-dev libdrm-dev \
@@ -162,7 +162,7 @@ elif command -v dnf; then
 		libX11-devel libXinerama-devel libXpm-devel libXft-devel \
 			libXmu-devel libXi-devel \
 		libxml2-devel gd-devel libjpeg-devel libpng-devel \
-		libicu-devel pcre-devel \
+		libicu-devel pcre-devel editorconfig-core-c \
 		lldb-devel llvm-devel \
 		imake libtool xorg-x11-proto-devel libdrm-devel \
 		xorg-x11-server-devel libXdamage-devel expat-devel \
@@ -179,7 +179,7 @@ elif command -v yum; then
 		libX11-devel libXinerama-devel libXpm-devel libXft-devel \
 			libXmu-devel libXi-devel \
 		libxml2-devel gd-devel libjpeg-devel libpng-devel \
-		libicu-devel pcre-devel \
+		libicu-devel pcre-devel editorconfig-core-c \
 		lldb-devel llvm-devel \
 		imake libtool xorg-x11-proto-devel libdrm-devel \
 		xorg-x11-server-devel libXdamage-devel expat-devel \
@@ -196,7 +196,7 @@ elif command -v zypper; then
 		libX11-devel libXinerama-devel libXpm-devel libXft-devel \
 			libXmu-devel libXi-devel \
 		libxml2-devel gd-devel libjpeg-devel libpng-devel \
-		libicu-devel pcre-devel \
+		libicu-devel pcre-devel editorconfig-core-c \
 		llvm-devel imake libtool xorg-x11-proto-devel libdrm-devel \
 		xorg-x11-server-devel libXdamage-devel expat-devel \
 		aspell aspell-en xforms-devel;

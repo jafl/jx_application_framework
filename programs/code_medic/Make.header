@@ -26,7 +26,8 @@ SEARCHDIRS := -I${CODEDIR} \
               -I${JEXPRDIR} \
               -I${J2DPLOTDIR} \
               -I./lldb-include \
-              ${shell xml2-config --cflags}
+              ${shell xml2-config --cflags} \
+              ${shell pkg-config --cflags editorconfig}
 
 # other constants
 
@@ -66,7 +67,8 @@ endif
 
 # make variables
 
-LOADLIBES := -L${JLIBDIR} ${lj2dplot} ${ljexpr} ${J_LLDB_LIBS} ${J_STD_LIBS}
+LOADLIBES := -L${JLIBDIR} ${lj2dplot} ${ljexpr} ${J_LLDB_LIBS} \
+             ${shell pkg-config --libs editorconfig} ${J_STD_LIBS}
 LDFLAGS   := -Xlinker -headerpad_max_install_names
 ifdef J_BUILD_SHARED_LIB
   LDFLAGS += -Xlinker -R${RPM_LIB_PATH}
@@ -76,6 +78,7 @@ DEBUG_LOADLIBES := -L${JLIBDIR} \
                    ${J_BEGIN_LINK_STATIC} \
                    ${lj2dplot} ${ljexpr} \
                    ${ljx} ${ljcore} ${J_ACE_LIBS} \
+                   ${shell pkg-config --libs editorconfig} \
                    ${J_END_LINK_STATIC} \
                    ${J_LLDB_LIBS} ${J_X11_LIBS} ${J_IMG_LIBS} ${J_GCC_LIBS}
 
