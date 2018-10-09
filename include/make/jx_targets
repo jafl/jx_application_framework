@@ -60,7 +60,9 @@ endif
 
 ifdef J_RPM_GZ_LIBS
 	@${foreach LIB, ${J_RPM_GZ_LIBS}, \
-         cp ${LIB} ${PKG_PATH}/lib/; gzip ${PKG_PATH}/lib/${notdir ${LIB}}; }
+       if [[ -f ${LIB} ]]; then \
+         cp ${LIB} ${PKG_PATH}/lib/; gzip ${PKG_PATH}/lib/${notdir ${LIB}}; \
+       fi; }
 endif
 
 # build_pkgs (PKG_PATH, SOURCE_TAR_NAME)
