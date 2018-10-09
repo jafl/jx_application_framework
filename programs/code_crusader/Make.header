@@ -21,7 +21,8 @@ SEARCHDIRS := -I${CODEDIR} \
               -I${JCOREDIR} \
               -I${JXDIR} \
               -I${JFSDIR} \
-              ${shell xml2-config --cflags}
+              ${shell xml2-config --cflags} \
+              ${shell pkg-config --cflags editorconfig}
 
 # other constants
 
@@ -61,7 +62,7 @@ endif
 
 # make variables
 
-LOADLIBES := -L${JLIBDIR} ${ljfs} ${J_STD_LIBS}
+LOADLIBES := -L${JLIBDIR} ${ljfs} ${shell pkg-config --libs editorconfig} ${J_STD_LIBS}
 ifdef J_BUILD_SHARED_LIB
   LDFLAGS := -Xlinker -R${RPM_LIB_PATH}
 endif
@@ -69,6 +70,7 @@ endif
 DEBUG_LOADLIBES := -L${JLIBDIR} \
                    ${J_BEGIN_LINK_STATIC} \
                    ${ljfs} ${ljx} ${ljcore} ${J_ACE_LIBS} \
+                   ${shell pkg-config --libs editorconfig} \
                    ${J_END_LINK_STATIC} \
                    ${J_X11_LIBS} ${J_IMG_LIBS} ${J_GCC_LIBS}
 

@@ -1,4 +1,4 @@
-%define jcc_version   6.8.1
+%define jcc_version   6.9.0
 %define ctags_version 5.8.0
 %define mm_version    3.3.0
 

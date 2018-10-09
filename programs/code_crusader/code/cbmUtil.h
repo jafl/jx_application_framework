@@ -20,7 +20,7 @@ class CBFnMenuUpdater;
 
 CBFnMenuUpdater*	CBMGetFnMenuUpdater();
 
-void	CBMParseEditorOptions(const JString& text,
+void	CBMParseEditorOptions(const JString& fullName, const JString& text,
 							  JBoolean* setTabWidth, JSize* tabWidth,
 							  JBoolean* setTabMode, JBoolean* tabInsertsSpaces,
 							  JBoolean* setAutoIndent, JBoolean* autoIndent);

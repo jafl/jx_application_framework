@@ -111,7 +111,7 @@ if [[ $SYS == Darwin ]]; then
 		/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)";
 	fi
 
-	brew install coreutils gnu-tar ace icu4c pcre gd;
+	brew install coreutils gnu-tar ace icu4c pcre gd editorconfig;
 
 	if [[ ! -L ACE/ACE_wrappers ]]; then
 		rm -rf ACE/ACE_wrappers;
@@ -133,7 +133,7 @@ elif command -v apt-get; then
 		libx11-dev libxinerama-dev libxpm-dev libxft-dev \
 			libxmu-dev libxi-dev \
 		libxml2-dev libgd-dev libjpeg-dev libpng-dev \
-		libicu-dev libpcre3-dev \
+		libicu-dev libpcre3-dev editorconfig \
 		llvm automake xutils-dev libx11-xcb-dev \
 		libxcb-dri2-0-dev libxcb-xfixes0-dev \
 		x11proto-gl-dev libdrm-dev \
@@ -159,7 +159,7 @@ elif command -v dnf; then
 		libX11-devel libXinerama-devel libXpm-devel libXft-devel \
 			libXmu-devel libXi-devel \
 		libxml2-devel gd-devel libjpeg-devel libpng-devel \
-		libicu-devel pcre-devel \
+		libicu-devel pcre-devel editorconfig-core-c \
 		llvm-devel imake libtool xorg-x11-proto-devel libdrm-devel \
 		xorg-x11-server-devel libXdamage-devel expat-devel \
 		aspell aspell-en xforms-devel;
@@ -175,7 +175,7 @@ elif command -v yum; then
 		libX11-devel libXinerama-devel libXpm-devel libXft-devel \
 			libXmu-devel libXi-devel \
 		libxml2-devel gd-devel libjpeg-devel libpng-devel \
-		libicu-devel pcre-devel \
+		libicu-devel pcre-devel editorconfig-core-c \
 		llvm-devel imake libtool xorg-x11-proto-devel libdrm-devel \
 		xorg-x11-server-devel libXdamage-devel expat-devel \
 		aspell aspell-en xforms-devel;
@@ -191,7 +191,7 @@ elif command -v zypper; then
 		libX11-devel libXinerama-devel libXpm-devel libXft-devel \
 			libXmu-devel libXi-devel \
 		libxml2-devel gd-devel libjpeg-devel libpng-devel \
-		libicu-devel pcre-devel \
+		libicu-devel pcre-devel editorconfig-core-c \
 		llvm-devel imake libtool xorg-x11-proto-devel libdrm-devel \
 		xorg-x11-server-devel libXdamage-devel expat-devel \
 		aspell aspell-en xforms-devel;

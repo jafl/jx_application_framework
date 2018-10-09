@@ -28,6 +28,7 @@
 #include <jFileUtil.h>
 #include <jDirUtil.h>
 #include <jASCIIConstants.h>
+#include <editorconfig/editorconfig.h>
 #include <jAssert.h>
 
 // shared prefs
@@ -355,6 +356,7 @@ static JRegex viAutoIndentOption     = VI_START "(autoindent|noautoindent|ai|noa
 void
 CBMParseEditorOptions
 	(
+	const JString&	fullName,
 	const JString&	text,
 	JBoolean*		setTabWidth,
 	JSize*			tabWidth,
@@ -364,6 +366,8 @@ CBMParseEditorOptions
 	JBoolean*		autoIndent
 	)
 {
+	// configure patterns
+
 	emacsTopTabWidthOption.SetCaseSensitive(kJFalse);
 	emacsTopTabWidthOption.SetSingleLine(kJTrue);
 	emacsTopTabModeOption.SetCaseSensitive(kJFalse);
@@ -371,9 +375,50 @@ CBMParseEditorOptions
 	emacsTabWidthOption.SetCaseSensitive(kJFalse);
 	emacsTabModeOption.SetCaseSensitive(kJFalse);
 
+	// process file
+
 	*setTabWidth   = kJFalse;
 	*setTabMode    = kJFalse;
 	*setAutoIndent = kJFalse;
+
+	{
+	editorconfig_handle eh = editorconfig_handle_init();
+	if (editorconfig_parse(fullName, eh) == 0)
+		{
+		const JUtf8Byte *name, *value;
+
+		const JSize nvCount = editorconfig_handle_get_name_value_count(eh);
+		for (int i=0; i<nvCount; i++)
+			{
+			editorconfig_handle_get_name_value(eh, i, &name, &value);
+			if (strcmp(name, "indent_style") == 0)
+				{
+				*setTabMode       = kJTrue;
+				*tabInsertsSpaces = JI2B( strcmp(value, "space") == 0 );
+				}
+			}
+
+		if (*setTabMode)
+			{
+			for (int i=0; i<nvCount; i++)
+				{
+				editorconfig_handle_get_name_value(eh, i, &name, &value);
+				if (*tabInsertsSpaces && strcmp(name, "indent_size") == 0)
+					{
+					*setTabWidth = JString::ConvertToUInt(value, tabWidth);
+					break;
+					}
+				else if (!*tabInsertsSpaces && strcmp(name, "tab_width") == 0)
+					{
+					*setTabWidth = JString::ConvertToUInt(value, tabWidth);
+					break;
+					}
+				}
+			}
+		}
+
+	editorconfig_handle_destroy(eh);
+	}
 
 	JArray<JIndexRange> matchList;
 	if (emacsTopTabWidthOption.Match(text, &matchList) ||

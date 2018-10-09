@@ -12,6 +12,10 @@ Please send all bug reports and suggestions for features to
 <p>
 <hr>
 
+<h3> 6.9 </h3>
+
+Added support for <a href=\"https://editorconfig.org\">EditorConfig</a>.
+
 <h3> 6.8.1 </h3>
 
 Re-enabled diff for SVN.

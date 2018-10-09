@@ -907,7 +907,7 @@ CMSourceDirector::UpdateFileType()
 		{
 		JBoolean setTabWidth, setTabMode, tabInsertsSpaces, setAutoIndent, autoIndent;
 		JSize tabWidth;
-		CBMParseEditorOptions(itsText->GetText(), &setTabWidth, &tabWidth,
+		CBMParseEditorOptions(itsCurrentFile, itsText->GetText(), &setTabWidth, &tabWidth,
 							  &setTabMode, &tabInsertsSpaces, &setAutoIndent, &autoIndent);
 		if (setTabWidth)
 			{
