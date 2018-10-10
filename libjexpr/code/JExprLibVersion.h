@@ -26,6 +26,7 @@ static const char* kCurrentJExprLibVersionStr = "2.0.0";
 //	*** Replaced recursive descent parser with flex/bison parser.
 //	*** Replaced CastTo*() with dynamic_cast.
 //	*** Removed JXExprEvalDirector because it is never the right solution.
+//	*** Removed JFunction::StreamIn/Out - just write out f.Print()
 
 // version 1.1.9:
 //	Renamed from JParser to JExpr.

@@ -30,7 +30,7 @@ J2DPlotJFunction::Create
 	const JFloat		xMax
 	)
 {
-	JExprParser p(varList, fontManager);
+	JExprParser p(varList);
 
 	JFunction* f;
 	if (p.Parse(function, &f))
