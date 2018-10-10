@@ -21,7 +21,7 @@ GPMApp*				GPMGetApplication();
 GPMPrefsManager*	GPMGetPrefsManager();
 GPMMDIServer*		GPMGetMDIServer();
 
-const JCharacter*	GPMGetVersionNumberStr();
+const JString&		GPMGetVersionNumberStr();
 JString				GPMGetVersionStr();
 
 JBoolean			GPMGetSystemMemory(JSize* mem);
@@ -34,7 +34,7 @@ void		GPMCleanUpBeforeSuddenDeath(const JXDocumentManager::SafetySaveReason reas
 
 	// called by Directors
 
-const JCharacter*	GPMGetWMClassInstance();
-const JCharacter*	GPMGetMainWindowClass();
+const JUtf8Byte*	GPMGetWMClassInstance();
+const JUtf8Byte*	GPMGetMainWindowClass();
 
 #endif

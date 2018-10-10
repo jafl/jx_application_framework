@@ -26,8 +26,8 @@
 
 #include <jAssert.h>
 
-const JCharacter* GPMProcessList::kListChanged      = "ListChanged::GPMProcessList";
-const JCharacter* GPMProcessList::kPrepareForUpdate = "PrepareForUpdate::GPMProcessList";
+const JUtf8Byte* GPMProcessList::kListChanged      = "ListChanged::GPMProcessList";
+const JUtf8Byte* GPMProcessList::kPrepareForUpdate = "PrepareForUpdate::GPMProcessList";
 
 /******************************************************************************
  Constructor
@@ -47,7 +47,7 @@ GPMProcessList::GPMProcessList()
 	itsVisibleEntries = jnew JPtrArray<GPMProcessEntry>(JPtrArrayT::kForgetAll);
 	assert(itsVisibleEntries != nullptr);
 	itsVisibleEntries->SetCompareFunction(GPMProcessEntry::CompareListPID);
-	InstallOrderedSet(itsVisibleEntries);
+	InstallList(itsVisibleEntries);
 	itsListColType = kListPID;
 	itsTreeColType = kTreeCommand;
 
@@ -350,7 +350,7 @@ GPMProcessList::FindProcessEntry
 JBoolean
 GPMProcessList::ClosestMatch
 	(
-	const JCharacter*	prefix,
+	const JString&		prefix,
 	GPMProcessEntry**	entry
 	)
 	const

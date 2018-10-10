@@ -61,7 +61,7 @@ GPMProcessEntry::GPMProcessEntry
 	const kinfo_proc&	entry
 	)
 	:
-	JNamedTreeNode(tree, "", kJFalse),
+	JNamedTreeNode(tree, JString::empty, kJFalse),
 	itsLastUTime(0),
 	itsLastSTime(0)
 {
@@ -81,8 +81,8 @@ GPMProcessEntry::GPMProcessEntry
 
 GPMProcessEntry::GPMProcessEntry
 	(
-	JTree*				tree,
-	const JCharacter*	prefix
+	JTree*			tree,
+	const JString&	prefix
 	)
 	:
 	JNamedTreeNode(tree, prefix, kJFalse)
@@ -402,7 +402,7 @@ GPMProcessEntry::ReadCmdline()
 			for (int i=0; i<argc; i++)
 				{
 				itsFullCommand += ((char*) buf) + offset;
-				itsFullCommand.AppendCharacter(' ');
+				itsFullCommand.Append(" ");
 
 				offset += strlen(((char*) buf) + offset) + 1;
 				}

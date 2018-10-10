@@ -64,8 +64,7 @@ enum
 
 // File menu
 
-static const JCharacter* kFileMenuTitleStr = "File";
-static const JCharacter* kFileMenuStr =
+static const JUtf8Byte* kFileMenuStr =
 	"Quit %k Meta-Q %i" kJXQuitAction;
 
 enum
@@ -75,8 +74,7 @@ enum
 
 // Process menu
 
-static const JCharacter* kProcessMenuTitleStr = "Process";
-static const JCharacter* kProcessMenuStr =
+static const JUtf8Byte* kProcessMenuStr =
 	"    Show processes from all users %b %i" kGPMShowAllAction
 	"%l| End process                      %i" kGPMStopAction
 	"  | Kill process                     %i" kGPMKillAction
@@ -97,8 +95,7 @@ enum
 
 // Prefs menu
 
-static const JCharacter* kPrefsMenuTitleStr = "Preferences";
-static const JCharacter* kPrefsMenuStr =
+static const JUtf8Byte* kPrefsMenuStr =
 	"Toolbar buttons...  %i" kGPMToolbarButtonsAction;
 
 enum
@@ -108,8 +105,7 @@ enum
 
 // Help menu
 
-static const JCharacter* kHelpMenuTitleStr = "Help";
-static const JCharacter* kHelpMenuStr =
+static const JUtf8Byte* kHelpMenuStr =
 	"    About"
 	"%l| Table of Contents       %i" kJXHelpTOCAction
 	"  | Overview"
@@ -194,13 +190,13 @@ GPMMainDirector::BuildWindow()
 	assert( itsToolBar != nullptr );
 
 	itsFullCmdDisplay =
-		jnew JXStaticText("", kJFalse, kJTrue, NULL, window,
+		jnew JXStaticText(JString::empty, kJFalse, kJTrue, NULL, window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 0,330, 530,20);
 	assert( itsFullCmdDisplay != nullptr );
 
 // end JXLayout
 
-	window->SetTitle("Drakon Process Manager");
+	window->SetTitle(JGetString("WindowTitle::GPMMainDirector"));
 	window->SetCloseAction(JXWindow::kQuitApp);
 	window->SetMinSize(530, 250);
 	window->SetWMClass(GPMGetWMClassInstance(), GPMGetMainWindowClass());
@@ -232,8 +228,8 @@ GPMMainDirector::BuildWindow()
 	itsTabGroup->AdjustSize(0, -statusHeight);
 	itsTabGroup->Move(0, statusHeight);
 
-	JXContainer* listTab = itsTabGroup->AppendTab("List");
-	JXContainer* treeTab = itsTabGroup->AppendTab("Tree");
+	JXContainer* listTab = itsTabGroup->AppendTab(JGetString("ListTabTitle::GPMMainDirector"));
+	JXContainer* treeTab = itsTabGroup->AppendTab(JGetString("TreeTabTitle::GPMMainDirector"));
 
 	// list view
 
@@ -298,12 +294,12 @@ GPMMainDirector::BuildWindow()
 
 	// menus
 
-	itsFileMenu = menuBar->AppendTextMenu(kFileMenuTitleStr);
+	itsFileMenu = menuBar->AppendTextMenu(JGetString("FileMenuTitle::JXGlobal"));
 	itsFileMenu->SetMenuItems(kFileMenuStr);
 	itsFileMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsFileMenu);
 
-	itsProcessMenu = menuBar->AppendTextMenu(kProcessMenuTitleStr);
+	itsProcessMenu = menuBar->AppendTextMenu(JGetString("ProcessMenuTitle::GPMMainDirector"));
 	itsProcessMenu->SetMenuItems(kProcessMenuStr, "GPMProcessTable");
 	ListenTo(itsProcessMenu);
 
@@ -314,12 +310,12 @@ GPMMainDirector::BuildWindow()
 	itsProcessMenu->SetItemImage(kContinueCmd, JXPM(gpm_cont));
 	itsProcessMenu->SetItemImage(kReNiceCmd, JXPM(gpm_slow));
 
-	itsPrefsMenu = menuBar->AppendTextMenu(kPrefsMenuTitleStr);
+	itsPrefsMenu = menuBar->AppendTextMenu(JGetString("PrefsMenuTitle::JXGlobal"));
 	itsPrefsMenu->SetMenuItems(kPrefsMenuStr);
 	itsPrefsMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsPrefsMenu);
 
-	itsHelpMenu = menuBar->AppendTextMenu(kHelpMenuTitleStr);
+	itsHelpMenu = menuBar->AppendTextMenu(JGetString("HelpMenuTitle::JXGlobal"));
 	itsHelpMenu->SetMenuItems(kHelpMenuStr);
 	itsHelpMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsHelpMenu);
@@ -567,11 +563,11 @@ GPMMainDirector::HandleProcessMenu
 			}
 		else
 			{
-			JString cmd = "xterm -title 'Drakon sudo' -e /bin/sh -c 'sudo -k ; sudo kill -";
-			cmd        += JString((JUInt64) sigValue);
-			cmd        += " ";
-			cmd        += JString((JUInt64) pid);
-			cmd        += "'";
+			JString cmd("xterm -title 'Drakon sudo' -e /bin/sh -c 'sudo -k ; sudo kill -");
+			cmd += JString((JUInt64) sigValue);
+			cmd += " ";
+			cmd += JString((JUInt64) pid);
+			cmd += "'";
 			JSimpleProcess::Create(cmd, kJTrue);
 			}
 		}

@@ -16,7 +16,7 @@ class GPMAboutDialog : public JXDialogDirector
 {
 public:
 
-	GPMAboutDialog(JXDirector* supervisor, const JCharacter* prevVersStr);
+	GPMAboutDialog(JXDirector* supervisor, const JString& prevVersStr);
 
 	virtual ~GPMAboutDialog();
 
@@ -26,7 +26,7 @@ protected:
 
 private:
 
-	JBoolean				itsIsUpgradeFlag;
+	JBoolean	itsIsUpgradeFlag;
 
 // begin JXLayout
 
@@ -37,7 +37,7 @@ private:
 
 private:
 
-	void	BuildWindow(const JCharacter* prevVersStr);
+	void	BuildWindow(const JString& prevVersStr);
 
 	// not allowed
 

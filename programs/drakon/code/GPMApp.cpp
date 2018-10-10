@@ -15,7 +15,7 @@
 #include "gpmGlobals.h"
 #include <jAssert.h>
 
-static const JCharacter* kAppSignature = "npsprocessmgr";
+static const JUtf8Byte* kAppSignature = "npsprocessmgr";
 
 /******************************************************************************
  Constructor
@@ -72,7 +72,7 @@ GPMApp::~GPMApp()
 void
 GPMApp::DisplayAbout
 	(
-	const JCharacter* prevVersStr
+	const JString& prevVersStr
 	)
 {
 	GPMAboutDialog* dlog = jnew GPMAboutDialog(this, prevVersStr);
@@ -108,7 +108,7 @@ GPMApp::CleanUpBeforeSuddenDeath
 
  ******************************************************************************/
 
-const JCharacter*
+const JUtf8Byte*
 GPMApp::GetAppSignature()
 {
 	return kAppSignature;

@@ -12,10 +12,6 @@
 #include "gpmGlobals.h"
 #include <jAssert.h>
 
-// string ID's
-
-static const JCharacter* kCommandLineHelpID = "CommandLineHelp::GPMMDIServer";
-
 /******************************************************************************
  Constructor
 
@@ -45,7 +41,7 @@ GPMMDIServer::~GPMMDIServer()
 void
 GPMMDIServer::HandleMDIRequest
 	(
-	const JCharacter*			dir,
+	const JString&				dir,
 	const JPtrArray<JString>&	argList
 	)
 {
@@ -63,11 +59,11 @@ GPMMDIServer::HandleMDIRequest
 void
 GPMMDIServer::PrintCommandLineHelp()
 {
-	const JCharacter* map[] =
+	const JUtf8Byte* map[] =
 		{
-		"version",   GPMGetVersionNumberStr(),
-		"copyright", JGetString("COPYRIGHT")
+		"version",   GPMGetVersionNumberStr().GetBytes(),
+		"copyright", JGetString("COPYRIGHT").GetBytes()
 		};
-	const JString s = JGetString(kCommandLineHelpID, map, sizeof(map));
+	const JString s = JGetString("CommandLineHelp::GPMMDIServer", map, sizeof(map));
 	std::cout << std::endl << s << std::endl << std::endl;
 }

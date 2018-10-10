@@ -39,18 +39,16 @@ GPMTreeHeaderWidget::GPMTreeHeaderWidget
 	JXColHeaderWidget(table, scrollbarSet, enclosure, hSizing,vSizing, x,y, w,h),
 	itsList(list)
 {
-	SetColTitle(1, "");
-	SetColTitle(2, "Command");
-	SetColTitle(3, "");
-	SetColTitle(4, "PID");
-	SetColTitle(5, "User");
-	SetColTitle(6, "Nice");
-	SetColTitle(7, "Size");
-//	SetColTitle(8, "Resident");
-//	SetColTitle(9, "Share");
-	SetColTitle(8, "%CPU");
-	SetColTitle(9, "%Memory");
-	SetColTitle(10, "Time");
+	SetColTitle(1, JString::empty);
+	SetColTitle(2, JGetString("CommandColumnTitle::GPMListHeaderWidget"));
+	SetColTitle(3, JString::empty);
+	SetColTitle(4, JGetString("PIDColumnTitle::GPMListHeaderWidget"));
+	SetColTitle(5, JGetString("UserColumnTitle::GPMListHeaderWidget"));
+	SetColTitle(6, JGetString("NiceColumnTitle::GPMListHeaderWidget"));
+	SetColTitle(7, JGetString("SizeColumnTitle::GPMListHeaderWidget"));
+	SetColTitle(8, JGetString("CPUColumnTitle::GPMListHeaderWidget"));
+	SetColTitle(9, JGetString("MemoryColumnTite::GPMListHeaderWidget"));
+	SetColTitle(10, JGetString("TimeColumnTitle::GPMListHeaderWidget"));
 }
 
 /******************************************************************************
@@ -90,8 +88,8 @@ GPMTreeHeaderWidget::TableDrawCell
 		}
 
 	const JFont font = GetFontManager()->GetFont(
-		JGetDefaultFontName(), JGetDefaultRowColHeaderFontSize(),
-		JFontStyle(kJTrue, kJFalse, underLines, kJFalse, (p.GetColormap())->GetBlackColor()));
+		JFontManager::GetDefaultFontName(), JFontManager::GetDefaultRowColHeaderFontSize(),
+		JFontStyle(kJTrue, kJFalse, underLines, kJFalse, JColorManager::GetBlackColor()));
 	p.SetFont(font);
 	p.String(rect, str, JPainter::kHAlignCenter, JPainter::kVAlignCenter);
 }

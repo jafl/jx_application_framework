@@ -145,7 +145,7 @@ GPMProcessTreeList::Receive
 			const GPMProcessEntry* entry;
 			if (IsVisible() && GetSelectedProcess(&entry))
 				{
-				itsFullCmdDisplay->SetText(entry->GetFullCommand());
+				itsFullCmdDisplay->GetText()->SetText(entry->GetFullCommand());
 				}
 			}
 
@@ -166,7 +166,7 @@ GPMProcessTreeList::TableDrawCell
 	const JRect&	rect
 	)
 {
-	GPMProcessTable::DrawRowBackground(p, cell, rect, (p.GetColormap())->GetGrayColor(95));
+	GPMProcessTable::DrawRowBackground(p, cell, rect, JColorManager::GetGrayColor(95));
 
 	if (cell.x == GPMProcessList::kTreeOpenClose ||
 		cell.x == GPMProcessList::kTreeCommand)
@@ -339,7 +339,7 @@ GPMProcessTreeList::GetSelectedProcess
 
 	if (!list.IsEmpty())
 		{
-		*entry = dynamic_cast<GPMProcessEntry*>(list.FirstElement());
+		*entry = dynamic_cast<GPMProcessEntry*>(list.GetFirstElement());
 		return kJTrue;
 		}
 	else

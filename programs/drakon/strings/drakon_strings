@@ -60,3 +60,21 @@ UpgradeNotice::GPMAboutDialog
 
 
 You have just upgraded from version $vers"
+
+# GPMMainDirector
+
+WindowTitle::GPMMainDirector		"Drakon Process Manager"
+ProcessMenuTitle::GPMMainDirector	"Process"
+ListTabTitle::GPMMainDirector		"List"
+TreeTabTitle::GPMMainDirector		"Tree"
+
+# GPMListHeaderWidget
+
+PIDColumnTitle::GPMListHeaderWidget		"PID"
+UserColumnTitle::GPMListHeaderWidget	"User"
+NiceColumnTitle::GPMListHeaderWidget	"Nice"
+SizeColumnTitle::GPMListHeaderWidget	"Size"
+CPUColumnTitle::GPMListHeaderWidget		"%CPU"
+MemoryColumnTite::GPMListHeaderWidget	"%Memory"
+TimeColumnTitle::GPMListHeaderWidget	"Time"
+CommandColumnTitle::GPMListHeaderWidget	"Command"

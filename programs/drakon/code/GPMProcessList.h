@@ -73,7 +73,7 @@ public:
 	const GPMProcessEntry*	GetProcessEntry(const JIndex index) const;
 	JBoolean				GetEntryIndex(const GPMProcessEntry* entry, JIndex *index);
 	JBoolean				FindProcessEntry(const pid_t pid, GPMProcessEntry** entry) const;
-	JBoolean				ClosestMatch(const JCharacter* prefix, GPMProcessEntry** entry) const;
+	JBoolean				ClosestMatch(const JString& prefix, GPMProcessEntry** entry) const;
 
 	const JPtrArray<GPMProcessEntry>&	GetHiddenProcesses() const;
 
@@ -117,8 +117,8 @@ private:
 
 public:
 
-	static const JCharacter* kListChanged;
-	static const JCharacter* kPrepareForUpdate;
+	static const JUtf8Byte* kListChanged;
+	static const JUtf8Byte* kPrepareForUpdate;
 
 	class ListChanged : public JBroadcaster::Message
 		{

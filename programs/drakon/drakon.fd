@@ -214,7 +214,7 @@ resize: FL_RESIZE_ALL
 gravity: FL_South FL_NoGravity
 name: itsFullCmdDisplay
 callback: 
-argument: "", kJFalse, kJTrue, NULL,
+argument: JString::empty, kJFalse, kJTrue, NULL,
 
 ==============================
 create_the_forms

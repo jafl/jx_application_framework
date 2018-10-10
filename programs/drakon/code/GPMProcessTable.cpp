@@ -40,7 +40,7 @@ const JCoordinate kDefColWidth	= 100;
 const JCoordinate kDefRowHeight	= 20;
 const JCoordinate kHMarginWidth	= 5;
 
-static const JCharacter* kContextMenuStr =
+static const JUtf8Byte* kContextMenuStr =
 	"    End process"
 	"  | Kill process"
 	"%l| Pause process"
@@ -94,8 +94,8 @@ GPMProcessTable::GPMProcessTable
 	SetColWidth(GPMProcessList::kListMemory, 70);
 	SetColWidth(GPMProcessList::kListTime,   60);
 
-	SetRowBorderInfo(0, GetColormap()->GetBlackColor());
-	SetColBorderInfo(0, GetColormap()->GetBlackColor());
+	SetRowBorderInfo(0, JColorManager::GetBlackColor());
+	SetColBorderInfo(0, JColorManager::GetBlackColor());
 
 	itsZombieImage = jnew JXImage(GetDisplay(), jx_edit_clear);
 	assert( itsZombieImage != nullptr );
@@ -127,7 +127,7 @@ GPMProcessTable::CreateContextMenu
 	JXContainer* enclosure
 	)
 {
-	JXTextMenu* menu = jnew JXTextMenu("", enclosure, kFixedLeft, kFixedTop, 0,0, 10,10);
+	JXTextMenu* menu = jnew JXTextMenu(JString::empty, enclosure, kFixedLeft, kFixedTop, 0,0, 10,10);
 	assert( menu != nullptr );
 	menu->SetMenuItems(kContextMenuStr);
 	menu->SetToHiddenPopupMenu(kJTrue);
@@ -212,7 +212,7 @@ GPMProcessTable::Receive
 			const GPMProcessEntry* entry;
 			if (IsVisible() && GetSelectedProcess(&entry))
 				{
-				itsFullCmdDisplay->SetText(entry->GetFullCommand());
+				itsFullCmdDisplay->GetText()->SetText(entry->GetFullCommand());
 				}
 			}
 
@@ -233,7 +233,7 @@ GPMProcessTable::TableDrawCell
 	const JRect&	rect
 	)
 {
-	DrawRowBackground(p, cell, rect, (p.GetColormap())->GetGrayColor(95));
+	DrawRowBackground(p, cell, rect, JColorManager::GetGrayColor(95));
 
 	HilightIfSelected(p, cell, rect);
 
@@ -456,11 +456,12 @@ GPMProcessTable::HandleFocusEvent()
 void
 GPMProcessTable::HandleKeyPress
 	(
-	const int				key,
+	const JUtf8Character&	c,
+	const int				keySym,
 	const JXKeyModifiers&	modifiers
 	)
 {
-	if (key == ' ' || key == kJEscapeKey)
+	if (c == ' ' || c == kJEscapeKey)
 		{
 		itsKeyBuffer.Clear();
 		GetTableSelection().ClearSelection();
@@ -468,9 +469,9 @@ GPMProcessTable::HandleKeyPress
 
 	// incremental search
 
-	else if (JXIsPrint(key) && !modifiers.control() && !modifiers.meta())
+	else if (c.IsPrint() && !modifiers.control() && !modifiers.meta())
 		{
-		itsKeyBuffer.AppendCharacter(key);
+		itsKeyBuffer.Append(c);
 
 		GPMProcessEntry* entry;
 		JIndex index;
@@ -489,11 +490,11 @@ GPMProcessTable::HandleKeyPress
 
 	else
 		{
-		if (JXIsPrint(key))
+		if (c.IsPrint())
 			{
 			itsKeyBuffer.Clear();
 			}
-		JXTable::HandleKeyPress(key, modifiers);
+		JXTable::HandleKeyPress(c, keySym, modifiers);
 		}
 }
 
@@ -604,11 +605,11 @@ GPMProcessTable::HandleContextMenu
 		}
 	else
 		{
-		JString cmd = "xterm -title 'Drakon sudo' -e /bin/sh -c 'sudo -k ; sudo kill -";
-		cmd        += JString((JUInt64) sigValue);
-		cmd        += " ";
-		cmd        += JString((JUInt64) pid);
-		cmd        += "'";
+		JString cmd("xterm -title 'Drakon sudo' -e /bin/sh -c 'sudo -k ; sudo kill -");
+		cmd += JString((JUInt64) sigValue);
+		cmd += " ";
+		cmd += JString((JUInt64) pid);
+		cmd += "'";
 		JSimpleProcess::Create(cmd, kJTrue);
 		}
 }

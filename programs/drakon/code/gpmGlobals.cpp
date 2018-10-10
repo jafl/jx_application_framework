@@ -25,10 +25,6 @@ static GPMMDIServer*	theMDIServer    = nullptr;
 static JSize			theSystemMemory      = 0;
 static const JRegex		totalMemoryPattern   = "^MemTotal:\\s*([0-9]+)";
 
-// string ID's
-
-static const JCharacter* kDescriptionID = "Description::gpmGlobals";
-
 /******************************************************************************
  GPMCreateGlobals
 
@@ -167,7 +163,7 @@ GPMGetMDIServer()
 
  ******************************************************************************/
 
-const JCharacter*
+const JString&
 GPMGetVersionNumberStr()
 {
 	return JGetString("VERSION");
@@ -181,12 +177,12 @@ GPMGetVersionNumberStr()
 JString
 GPMGetVersionStr()
 {
-	const JCharacter* map[] =
+	const JUtf8Byte* map[] =
 		{
-		"version",   JGetString("VERSION"),
-		"copyright", JGetString("COPYRIGHT")
+		"version",   JGetString("VERSION").GetBytes(),
+		"copyright", JGetString("COPYRIGHT").GetBytes()
 		};
-	return JGetString(kDescriptionID, map, sizeof(map));
+	return JGetString("Description::gpmGlobals", map, sizeof(map));
 }
 
 /******************************************************************************
@@ -194,13 +190,13 @@ GPMGetVersionStr()
 
  ******************************************************************************/
 
-const JCharacter*
+const JUtf8Byte*
 GPMGetWMClassInstance()
 {
 	return "Drakon";
 }
 
-const JCharacter*
+const JUtf8Byte*
 GPMGetMainWindowClass()
 {
 	return "Drakon_Main_Window";

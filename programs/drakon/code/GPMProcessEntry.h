@@ -40,7 +40,7 @@ public:
 	GPMProcessEntry(JTree* tree, const kinfo_proc& entry);
 	#endif
 
-	GPMProcessEntry(JTree* tree, const JCharacter* prefix);
+	GPMProcessEntry(JTree* tree, const JString& prefix);
 
 	virtual ~GPMProcessEntry();
 

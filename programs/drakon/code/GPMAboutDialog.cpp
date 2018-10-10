@@ -17,11 +17,6 @@
 #include <JXHelpManager.h>
 #include <jAssert.h>
 
-// string ID's
-
-static const JCharacter* kUpgradeNoticeID     = "UpgradeNotice::GPMAboutDialog";
-static const JCharacter* kChangeButtonLabelID = "ChangeButtonLabel::GPMAboutDialog";
-
 /******************************************************************************
  Constructor
 
@@ -31,8 +26,8 @@ static const JCharacter* kChangeButtonLabelID = "ChangeButtonLabel::GPMAboutDial
 
 GPMAboutDialog::GPMAboutDialog
 	(
-	JXDirector*			supervisor,
-	const JCharacter*	prevVersStr
+	JXDirector*		supervisor,
+	const JString&	prevVersStr
 	)
 	:
 	JXDialogDirector(supervisor, kJTrue)
@@ -62,7 +57,7 @@ GPMAboutDialog::~GPMAboutDialog()
 void
 GPMAboutDialog::BuildWindow
 	(
-	const JCharacter* prevVersStr
+	const JString& prevVersStr
 	)
 {
 // begin JXLayout
@@ -118,18 +113,18 @@ GPMAboutDialog::BuildWindow
 	npsIcon->SetImage(image, kJTrue);
 
 	JString text = GPMGetVersionStr();
-	if (!JString::IsEmpty(prevVersStr))
+	if (!prevVersStr.IsEmpty())
 		{
-		const JCharacter* map[] =
+		const JUtf8Byte* map[] =
 			{
-			"vers", prevVersStr
+			"vers", prevVersStr.GetBytes()
 			};
-		text += JGetString(kUpgradeNoticeID);
+		text += JGetString("UpgradeNotice::GPMAboutDialog");
 		(JGetStringManager())->Replace(&text, map, sizeof(map));
-		itsHelpButton->SetLabel(JGetString(kChangeButtonLabelID));
+		itsHelpButton->SetLabel(JGetString("ChangeButtonLabel::GPMAboutDialog"));
 		itsIsUpgradeFlag = kJTrue;
 		}
-	textWidget->SetText(text);
+	textWidget->GetText()->SetText(text);
 
 	const JSize bdh = textWidget->GetBoundsHeight();
 	const JSize aph = textWidget->GetApertureHeight();
