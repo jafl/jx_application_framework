@@ -27,6 +27,8 @@ public:
 	virtual void		Print(std::ostream& output) const override;
 	virtual JFunction*	Copy() const override;
 
+	static JBoolean	IsNamedConstant(const JString& name);
+
 private:
 
 	JNamedConstIndex	itsNameIndex;

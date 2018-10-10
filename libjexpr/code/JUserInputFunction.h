@@ -65,6 +65,7 @@ public:
 	virtual JBoolean	TEHasSearchText() const override;
 
 	static JUtf8Character	ConvertToGreek(const JUtf8Character& c);
+	static JString			ConvertToGreek(const JString& s);
 
 	static void	AdjustStylesBeforeBroadcast(
 						const JString& text, JRunArray<JFont>* styles,

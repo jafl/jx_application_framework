@@ -43,12 +43,6 @@ public:
 	virtual JBoolean	ArrayIndexValid(const JIndex variableIndex,
 										const JIndex elementIndex) const = 0;
 
-	virtual JBoolean		ValueIsKnown(const JIndex variableIndex,
-										 const JIndex elementIndex) const = 0;
-	JBoolean				ValueIsUnknown(const JIndex variableIndex,
-										   const JIndex elementIndex) const;
-	virtual const JString&	GetUnknownValueSymbol(const JIndex index) const = 0;
-
 	virtual JBoolean	GetNumericValue(const JIndex variableIndex,
 										const JIndex elementIndex,
 										JFloat* value) const = 0;
@@ -65,6 +59,8 @@ public:
 
 	JBoolean	ParseVariableName(const JString& name, JIndex* index) const;
 	JBoolean	OKToRemoveVariable(const JIndex variableIndex) const;
+
+	static JBoolean	NameValid(const JString& name);
 
 	// reference counting
 
@@ -278,22 +274,6 @@ public:
 			JIndex	itsVarIndex, itsValueIndex;
 		};
 };
-
-/******************************************************************************
- ValueIsUnknown
-
- ******************************************************************************/
-
-inline JBoolean
-JVariableList::ValueIsUnknown
-	(
-	const JIndex variableIndex,
-	const JIndex elementIndex
-	)
-	const
-{
-	return !ValueIsKnown(variableIndex, elementIndex);
-}
 
 /******************************************************************************
  IsOnEvalStack (protected)

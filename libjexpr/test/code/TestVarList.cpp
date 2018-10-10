@@ -10,6 +10,7 @@
  ******************************************************************************/
 
 #include "TestVarList.h"
+#include <JUserInputFunction.h>
 #include <JStringIterator.h>
 #include <JStringMatch.h>
 #include <jStreamUtil.h>
@@ -54,7 +55,7 @@ TestVarList::TestVarList
 		input >> type >> std::ws;
 		if (type == 'N')
 			{
-			name = JReadUntilws(input);
+			name = JUserInputFunction::ConvertToGreek(JReadUntilws(input));
 			if (name.GetLastCharacter() != ']')
 				{
 				JFloat value;

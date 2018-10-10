@@ -1,63 +1,16 @@
 -suffix .cpp
 
+@test_JVariableList
+${CODEDIR}/test_JVariableList
+literal: ${LIB_DEPS}
+
+@test_JUserInputFunction
+${CODEDIR}/test_JUserInputFunction
+literal: ${LIB_DEPS}
+
 @test_JExprParser
 ${CODEDIR}/test_JExprParser
-${CODEDIR}/TestFontManager
 ${CODEDIR}/TestVarList
-${JEXPRDIR}/JExprParser
-.y ${JEXPRDIR}/JExprParserY
-${JEXPRDIR}/JExprScanner
-.l ${JEXPRDIR}/JExprScannerL
-${JEXPRDIR}/JVariableList
-${JEXPRDIR}/JExprEditor
-${JEXPRDIR}/JExprRectList
-${JEXPRDIR}/JExprRenderer
-${JEXPRDIR}/JUserInputFunction
-${JEXPRDIR}/JFunction
-${JEXPRDIR}/JAbsValue
-${JEXPRDIR}/JAlgSign
-${JEXPRDIR}/JArcCosine
-${JEXPRDIR}/JArcHypCosine
-${JEXPRDIR}/JArcHypSine
-${JEXPRDIR}/JArcHypTangent
-${JEXPRDIR}/JArcSine
-${JEXPRDIR}/JArcTangent
-${JEXPRDIR}/JArcTangent2
-${JEXPRDIR}/JBinaryFunction
-${JEXPRDIR}/JBinaryOperator
-${JEXPRDIR}/JConjugate
-${JEXPRDIR}/JConstantValue
-${JEXPRDIR}/JCosine
-${JEXPRDIR}/JDivision
-${JEXPRDIR}/JExponent
-${JEXPRDIR}/jFunctionUtil
-${JEXPRDIR}/JFunctionWithArgs
-${JEXPRDIR}/JFunctionWithVar
-${JEXPRDIR}/JHypCosine
-${JEXPRDIR}/JHypSine
-${JEXPRDIR}/JHypTangent
-${JEXPRDIR}/JImagPart
-${JEXPRDIR}/JLogB
-${JEXPRDIR}/JLogE
-${JEXPRDIR}/JMaxFunc
-${JEXPRDIR}/JMinFunc
-${JEXPRDIR}/JNamedConstant
-${JEXPRDIR}/JNaryFunction
-${JEXPRDIR}/JNaryOperator
-${JEXPRDIR}/JNegation
-${JEXPRDIR}/JParallel
-${JEXPRDIR}/JPhaseAngle
-${JEXPRDIR}/JProduct
-${JEXPRDIR}/JRealPart
-${JEXPRDIR}/JRotateComplex
-${JEXPRDIR}/JRoundToInt
-${JEXPRDIR}/JSine
-${JEXPRDIR}/JSquareRoot
-${JEXPRDIR}/JSummation
-${JEXPRDIR}/JTangent
-${JEXPRDIR}/JTruncateToInt
-${JEXPRDIR}/JUnaryFunction
-${JEXPRDIR}/JVariableValue
 literal: ${LIB_DEPS}
 
 @test_JExprEditor
@@ -65,58 +18,4 @@ ${CODEDIR}/test_JExprEditor
 ${CODEDIR}/ExprEditor
 ${CODEDIR}/TestFontManager
 ${CODEDIR}/TestVarList
-${JEXPRDIR}/JExprParser
-.y ${JEXPRDIR}/JExprParserY
-${JEXPRDIR}/JExprScanner
-.l ${JEXPRDIR}/JExprScannerL
-${JEXPRDIR}/JVariableList
-${JEXPRDIR}/JExprEditor
-${JEXPRDIR}/JExprRectList
-${JEXPRDIR}/JExprRenderer
-${JEXPRDIR}/JUserInputFunction
-${JEXPRDIR}/JFunction
-${JEXPRDIR}/JAbsValue
-${JEXPRDIR}/JAlgSign
-${JEXPRDIR}/JArcCosine
-${JEXPRDIR}/JArcHypCosine
-${JEXPRDIR}/JArcHypSine
-${JEXPRDIR}/JArcHypTangent
-${JEXPRDIR}/JArcSine
-${JEXPRDIR}/JArcTangent
-${JEXPRDIR}/JArcTangent2
-${JEXPRDIR}/JBinaryFunction
-${JEXPRDIR}/JBinaryOperator
-${JEXPRDIR}/JConjugate
-${JEXPRDIR}/JConstantValue
-${JEXPRDIR}/JCosine
-${JEXPRDIR}/JDivision
-${JEXPRDIR}/JExponent
-${JEXPRDIR}/jFunctionUtil
-${JEXPRDIR}/JFunctionWithArgs
-${JEXPRDIR}/JFunctionWithVar
-${JEXPRDIR}/JHypCosine
-${JEXPRDIR}/JHypSine
-${JEXPRDIR}/JHypTangent
-${JEXPRDIR}/JImagPart
-${JEXPRDIR}/JLogB
-${JEXPRDIR}/JLogE
-${JEXPRDIR}/JMaxFunc
-${JEXPRDIR}/JMinFunc
-${JEXPRDIR}/JNamedConstant
-${JEXPRDIR}/JNaryFunction
-${JEXPRDIR}/JNaryOperator
-${JEXPRDIR}/JNegation
-${JEXPRDIR}/JParallel
-${JEXPRDIR}/JPhaseAngle
-${JEXPRDIR}/JProduct
-${JEXPRDIR}/JRealPart
-${JEXPRDIR}/JRotateComplex
-${JEXPRDIR}/JRoundToInt
-${JEXPRDIR}/JSine
-${JEXPRDIR}/JSquareRoot
-${JEXPRDIR}/JSummation
-${JEXPRDIR}/JTangent
-${JEXPRDIR}/JTruncateToInt
-${JEXPRDIR}/JUnaryFunction
-${JEXPRDIR}/JVariableValue
 literal: ${LIB_DEPS}

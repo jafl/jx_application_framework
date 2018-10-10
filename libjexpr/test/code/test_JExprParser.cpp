@@ -12,6 +12,7 @@
 #include "TestVarList.h"
 #include "TestFontManager.h"
 #include <JFunction.h>
+#include <JRegex.h>
 #include <jStreamUtil.h>
 #include <fstream>
 #include <jAssert.h>
@@ -19,6 +20,12 @@
 int main()
 {
 	return JTestManager::Execute();
+}
+
+JTEST(Patterns)
+{
+	JRegex r = "[[:alpha:]`][[:alnum:]`_]*";
+	JAssertTrue(r.Match(JString("\xCF\x80", kJFalse)));
 }
 
 JTEST(RealFunction)

@@ -150,3 +150,19 @@ JNamedConstant::Print
 		output << 'e';
 		}
 }
+
+/******************************************************************************
+ IsNamedConstant (static)
+
+ ******************************************************************************/
+
+JBoolean
+JNamedConstant::IsNamedConstant
+	(
+	const JString& name
+	)
+{
+	return JI2B( name == JGetCurrentImagString() ||
+				 name == "\xCF\x80"              ||
+				 name == "e" );
+}

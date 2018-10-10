@@ -16,23 +16,11 @@
 	In some applications, one may even store only JFloat because one never uses
 	JComplex at all.
 
-	SetNumericValue() and SetDiscreteValue() should assert if they are called
-	incorrectly because it is the client's responsibility to call them only
-	when appropriate.  IsNumeric(), IsArray(), and ArrayIndexValid() are
-	available so the client can figure this out.
-
 	By providing functions for keeping an evalutation stack, we allow derived
 	classes to catch variables defined in terms of themselves and to avoid the
 	resulting infinite recursion that GetNumericValue() would get stuck in.
 	The stack is implemented as an array of JBoolean so all operations are
 	merely array look-ups.
-
-	Notes:
-
-	An array is either all numeric or all discrete.
-
-	If a discrete variable is an array, it is assumed that each element of
-	the array uses the same set of value names.
 
 	BASE CLASS = JContainer
 
@@ -41,9 +29,9 @@
  ******************************************************************************/
 
 #include "JVariableList.h"
-#include "JFunction.h"
-#include <JString.h>
-#include <JList.h>
+#include "JNamedConstant.h"
+#include "JUserInputFunction.h"
+#include <JRegex.h>
 #include <JListUtil.h>
 #include <jAssert.h>
 
@@ -124,17 +112,34 @@ JVariableList::ParseVariableName
 	)
 	const
 {
+	const JString* n   = &name;
+	JBoolean allocated = kJFalse;
+	if (n->Contains(JUserInputFunction::kSwitchFontCharacter))
+		{
+		n = jnew JString(JUserInputFunction::ConvertToGreek(name));
+		assert( n != nullptr );
+		allocated = kJTrue;
+		}
+
+	JBoolean found = kJFalse;
+
 	const JSize count = GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		if (name == GetVariableName(i))
+		if (*n == GetVariableName(i))
 			{
 			*index = i;
-			return kJTrue;
+			found  = kJTrue;
+			break;
 			}
 		}
 
-	return kJFalse;
+	if (allocated)
+		{
+		jdelete n;
+		}
+
+	return found;
 }
 
 /******************************************************************************
@@ -169,6 +174,25 @@ JVariableList::PopOffEvalStack
 	assert( IsOnEvalStack(variableIndex) );
 
 	itsEvalStack->SetElement(variableIndex, kJFalse);
+}
+
+/******************************************************************************
+ NameValid (static)
+
+	Keep in sync with JExprScannerL.l
+
+ ******************************************************************************/
+
+static const JRegex namePattern = "^[[:alpha:]`][[:alnum:]`_]*$";
+
+JBoolean
+JVariableList::NameValid
+	(
+	const JString& name
+	)
+{
+	return JI2B( namePattern.Match(name) &&
+				 !JNamedConstant::IsNamedConstant(name) );
 }
 
 /******************************************************************************

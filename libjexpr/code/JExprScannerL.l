@@ -22,6 +22,12 @@ Copyright (C) 2018 by John Lindal.
 
 EXP	([eE][0-9]+)
 
+U    [\x80-\xbf]
+U2   [\xc2-\xdf]
+U3   [\xe0-\xef]
+U4   [\xf0-\xf4]
+UNI  ({U2}{U}|{U3}{U}{U}|{U4}{U}{U}{U})
+
 %%
 
 %{
@@ -183,7 +189,7 @@ EXP	([eE][0-9]+)
 	return P_FN_TRUNCATE;
 	}
 
-[[:alpha:]`][[:alnum:]`_]* {
+([[:alpha:]`]|{UNI})([[:alnum:]`_]|{UNI})* {	/* keep in sync with JVariableList::VariableNameValid() */
 	NEW_TOKEN(yytext);
 	return P_VARIABLE;
 }

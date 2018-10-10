@@ -25,10 +25,11 @@
 
 #include <JColorManager.h>
 #include <JPainter.h>
+#include <JStringIterator.h>
 #include <jGlobals.h>
 #include <jAssert.h>
 
-const JUtf8Byte JUserInputFunction::kSwitchFontCharacter = '\'';
+const JUtf8Byte JUserInputFunction::kSwitchFontCharacter = '`';
 
 static const JString kEmptyString("?", kJFalse);
 
@@ -444,28 +445,108 @@ JUserInputFunction::HandleKeyPress
 
  ******************************************************************************/
 
+JString
+JUserInputFunction::ConvertToGreek
+	(
+	const JString& s
+	)
+{
+	if (!s.Contains(JUserInputFunction::kSwitchFontCharacter))
+		{
+		return s;
+		}
+
+	JString g = s;
+
+	JStringIterator iter(&g);
+	JUtf8Character c;
+	while (iter.Next(&c))
+		{
+		if (c == JUserInputFunction::kSwitchFontCharacter)
+			{
+			iter.RemovePrev();
+			if (iter.Next(&c))
+				{
+				iter.SetPrev(JUserInputFunction::ConvertToGreek(c));
+				}
+			}
+		}
+
+	return g;
+}
+
+/******************************************************************************
+ ConvertToGreek (static)
+
+ ******************************************************************************/
+
+struct GreekCharacterMapping
+{
+	JUtf8Byte			ascii;
+	const JUtf8Byte*	lower;
+	const JUtf8Byte*	upper;
+};
+
+static const GreekCharacterMapping kGreekData[] =
+{
+	{ 'A', "\xCE\xB1", "\xCE\x91" },	// alpha
+	{ 'B', "\xCE\xB2", "\xCE\x92" },	// beta
+	{ 'D', "\xCE\xB4", "\xCE\x94" },	// delta
+	{ 'E', "\xCE\xB5", "\xCE\x95" },	// epsilon
+	{ 'F', "\xCF\x86", "\xCE\xA6" },	// phi
+	{ 'G', "\xCE\xB3", "\xCE\x93" },	// gamma
+	{ 'H', "\xCE\xB7", "\xCE\x97" },	// eta
+	{ 'I', "\xCE\xB9", "\xCE\x99" },	// iota
+	{ 'J', "\xCE\xB8", "\xCE\x98" },	// theta
+	{ 'K', "\xCE\xBA", "\xCE\x9A" },	// kappa
+	{ 'L', "\xCE\xBB", "\xCE\x9B" },	// lambda
+	{ 'M', "\xCE\xBC", "\xCE\x9C" },	// mu
+	{ 'N', "\xCE\xBD", "\xCE\x9D" },	// nu
+	{ 'O', "\xCE\xBF", "\xCE\x9F" },	// omicron
+	{ 'P', "\xCF\x80", "\xCE\xA0" },	// pi
+	{ 'Q', "\xCE\xBE", "\xCE\x9E" },	// xi
+	{ 'R', "\xCF\x81", "\xCE\xA1" },	// rho
+	{ 'S', "\xCF\x83", "\xCE\xA3" },	// sigma
+	{ 'T', "\xCF\x84", "\xCE\xA4" },	// tau
+	{ 'U', "\xCF\x85", "\xCE\xA5" },	// upsilon
+	{ 'W', "\xCF\x89", "\xCE\xA9" },	// omega
+	{ 'X', "\xCF\x87", "\xCE\xA7" },	// chi
+	{ 'Y', "\xCF\x88", "\xCE\xA8" },	// psi
+	{ 'Z', "\xCE\xB6", "\xCE\x96" }		// zeta
+};
+
+const JSize kGreekCount = sizeof(kGreekData) / sizeof(GreekCharacterMapping);
+
+static JBoolean theInitGreekMappingFlag = kJFalse;
+static GreekCharacterMapping kGreekMapping[1+int('Z')];
+
 JUtf8Character
 JUserInputFunction::ConvertToGreek
 	(
 	const JUtf8Character& c
 	)
 {
+	if (!theInitGreekMappingFlag)
+		{
+		bzero(kGreekMapping, sizeof(kGreekMapping));
+
+		for (int i=0; i<kGreekCount; i++)
+			{
+			kGreekMapping[ int(kGreekData[i].ascii) ] = kGreekData[i];
+			}
+
+		theInitGreekMappingFlag = kJTrue;
+		}
+
 	JUtf8Character g   = c;
 	const JUtf8Byte b1 = g.GetBytes()[0];
-	if (isupper(b1))		// only translate ascii
+	if (isupper(b1) && kGreekMapping[int(b1)].ascii != 0)
 	{
-		JUtf8Byte b[] = { '\xCE', JUtf8Byte('\x91' + (b1 - 'A')), 0 };
-		g.Set(b);
+		g.Set(kGreekMapping[int(b1)].upper);
 	}
-	else if (islower(b1) && b1 < 'p')
+	else if (islower(b1) && kGreekMapping[toupper(b1)].ascii != 0)
 	{
-		JUtf8Byte b[] = { '\xCE', JUtf8Byte('\xB1' + (b1 - 'a')), 0 };
-		g.Set(b);
-	}
-	else if (islower(b1))
-	{
-		JUtf8Byte b[] = { '\xCF', JUtf8Byte('\x80' + (b1 - 'p')), 0 };
-		g.Set(b);
+		g.Set(kGreekMapping[toupper(b1)].lower);
 	}
 
 	return g;

@@ -60,7 +60,7 @@
 const JUtf8Byte* JRegex::kError = "Error::JRegex";
 
 // Constant static data (i.e. ordinary file scope constants)
-static const int defaultCFlags = PCRE_MULTILINE | PCRE_UTF8;
+static const int defaultCFlags = PCRE_MULTILINE | PCRE_UTF8 | PCRE_UCP;
 static const int defaultEFlags = 0;
 
 // JAFL 5/11/98

@@ -28,7 +28,7 @@ T T 0.03	3e-2
 T T 3		0.03e2
 T T 2.71828	e
 
-T T 10		`a + `b + `g + C_`m
+T T 10		α + β + γ + C_μ
 T T 5.30486	sqrt(25+pi*sin(pi/2)+ln(e)-x)
 T T 1		R_1/1000
 
