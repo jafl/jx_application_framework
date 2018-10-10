@@ -29,6 +29,7 @@
 #include <JXMacWinPrefsDialog.h>
 #include <JXImage.h>
 #include <jXActionDefs.h>
+#include <JExprParser.h>
 #include <JFunction.h>
 #include <fstream>
 #include <sstream>
@@ -96,7 +97,7 @@ THXExprDirector::THXExprDirector
 
 THXExprDirector::THXExprDirector
 	(
-	std::istream&			input,
+	std::istream&		input,
 	const JFileVersion	vers,
 	JXDirector*			supervisor,
 	const THXVarList*	varList
@@ -106,7 +107,15 @@ THXExprDirector::THXExprDirector
 {
 	BuildWindow(varList);
 
-	JFunction* f = JFunction::StreamIn(input, varList, kJTrue);
+	JString expr;
+	input >> expr;
+
+	JExprParser p(itsExprWidget);
+
+	JFunction* f;
+	const JBoolean ok = p.Parse(expr, &f);
+	assert( ok );
+
 	itsExprWidget->SetFunction(varList, f);
 
 	JString tapeText;
@@ -147,9 +156,7 @@ THXExprDirector::WriteState
 	)
 	const
 {
-	const JFunction* f = itsExprWidget->GetFunction();
-	f->StreamOut(output);
-
+	output << ' ' << itsExprWidget->GetFunction()->Print();
 	output << ' ' << itsTapeWidget->GetText();
 	output << ' ' << itsTapeName;
 	output << ' ' << itsTapeWidget->GetPTPrintFileName();

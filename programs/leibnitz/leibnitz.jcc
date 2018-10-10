@@ -120,7 +120,6 @@ F
 # search paths
 T "../../include/make" T
 T "../../libj2dplot/code/" T
-T "../../libj3d/code/" T
 T "../../libjcore/code/" T
 T "../../libjexpr/code/" T
 T "../../libjx/code/" T

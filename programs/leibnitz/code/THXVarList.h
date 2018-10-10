@@ -50,44 +50,27 @@ public:
 
 // implementation of JVariableList
 
-	virtual const JString&	GetVariableName(const JIndex index) const;
+	virtual const JString&	GetVariableName(const JIndex index) const override;
 	virtual void			GetVariableName(const JIndex index, JString* name,
-											JString* subscript) const;
+											JString* subscript) const override;
 
-	virtual JBoolean	IsNumeric(const JIndex index) const;
-	virtual JBoolean	IsDiscrete(const JIndex index) const;
-
-	virtual JBoolean	IsArray(const JIndex index) const;
+	virtual JBoolean	IsArray(const JIndex index) const override;
 	virtual JBoolean	ArrayIndexValid(const JIndex variableIndex,
-										const JIndex elementIndex) const;
-
-	virtual JBoolean		ValueIsKnown(const JIndex variableIndex,
-										 const JIndex elementIndex) const;
-	virtual const JString&	GetUnknownValueSymbol(const JIndex index) const;
+										const JIndex elementIndex) const override;
 
 	virtual JBoolean	GetNumericValue(const JIndex variableIndex,
 										const JIndex elementIndex,
-										JFloat* value) const;
+										JFloat* value) const override;
 	virtual JBoolean	GetNumericValue(const JIndex variableIndex,
 										const JIndex elementIndex,
-										JComplex* value) const;
+										JComplex* value) const override;
 
 	virtual void	SetNumericValue(const JIndex variableIndex,
 									const JIndex elementIndex,
-									const JFloat value);
+									const JFloat value) override;
 	virtual void	SetNumericValue(const JIndex variableIndex,
 									const JIndex elementIndex,
-									const JComplex& value);
-
-	virtual JIndex			GetDiscreteValue(const JIndex variableIndex,
-											 const JIndex elementIndex) const;
-	virtual JSize			GetDiscreteValueCount(const JIndex index) const;
-	virtual const JString&	GetDiscreteValueName(const JIndex variableIndex,
-												 const JIndex valueIndex) const;
-
-	virtual void	SetDiscreteValue(const JIndex variableIndex,
-									 const JIndex elementIndex,
-									 const JIndex valueIndex);
+									const JComplex& value) override;
 
 private:
 

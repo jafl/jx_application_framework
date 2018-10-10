@@ -21,6 +21,7 @@
 #include <jXActionDefs.h>
 #include <JX2DPlotWidget.h>
 #include <J2DPlotJFunction.h>
+#include <JExprParser.h>
 #include <JFunction.h>
 #include <jAssert.h>
 
@@ -67,7 +68,7 @@ THX2DPlotDirector::THX2DPlotDirector
 
 THX2DPlotDirector::THX2DPlotDirector
 	(
-	std::istream&			input,
+	std::istream&		input,
 	const JFileVersion	vers,
 	JXDirector*			supervisor,
 	THXVarList*			varList
@@ -83,13 +84,21 @@ THX2DPlotDirector::THX2DPlotDirector
 	JSize fnCount;
 	input >> fnCount;
 
+	JExprParser p(varList);
+	JString expr;
+
 	for (JIndex i=1; i<=fnCount; i++)
 		{
 		JFloat xMin, xMax;
 		input >> xMin >> xMax;
 
-		JFunction* f = JFunction::StreamIn(input, varList);
-		AddFunction(varList, f, "", xMin, xMax);
+		input >> expr;
+
+		JFunction* f;
+		const JBoolean ok = p.Parse(expr, &f);
+		assert( ok );
+
+		AddFunction(varList, f, JString::empty, xMin, xMax);
 		}
 
 	itsPlotWidget->PWXReadSetup(input);
@@ -151,8 +160,7 @@ THX2DPlotDirector::WriteState
 		fnData->GetXRange(&xMin, &xMax);
 		output << ' ' << xMin << ' ' << xMax;
 
-		output << ' ';
-		(fnData->GetFunction()).StreamOut(output);
+		output << ' ' << fnData->GetFunction().Print();
 		}
 
 	output << ' ';

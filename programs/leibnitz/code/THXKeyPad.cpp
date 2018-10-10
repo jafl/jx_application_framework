@@ -167,8 +167,8 @@ THXKeyPad::CreateButtons()
 
 // end kpLayout
 
-	itsOpButton[kMultiplyOpIndex]->SetLabel("\xD7");
-	itsOpButton[kDivideOpIndex]->SetLabel("\xF7");
+	itsOpButton[kMultiplyOpIndex]->SetLabel(JGetString("MultiplicationSymbol::THXKeyPad"));
+	itsOpButton[kDivideOpIndex]->SetLabel(JGetString("DivisionSymbol::THXKeyPad"));
 
 	for (JUnsignedOffset i=0; i<10; i++)
 		{

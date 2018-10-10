@@ -1,3 +1,6 @@
+leibnitz
+	parents not being set correctly for parsed function
+
 JXFileListTable
 JXTreeListWidget
 JXStringTable
@@ -24,9 +27,7 @@ JTextEditor:
 JXFontManager
 	some characters extend above line height
 
-drakon
 svn_client
-leibnitz
 jcc
 medic
 glove

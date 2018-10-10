@@ -1,4 +1,4 @@
-0
+1
 
 # main
 
@@ -95,3 +95,8 @@ NameUsed::THXVarList	"This variable name is already used."
 # THXBaseConvDirector
 
 WindowTitle::THXBaseConvDirector	"Base Conversion"
+
+# THXKeyPad
+
+MultiplicationSymbol::THXKeyPad	"×"
+DivisionSymbol::THXKeyPad		"÷"

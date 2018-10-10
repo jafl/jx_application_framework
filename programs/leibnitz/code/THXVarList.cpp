@@ -9,6 +9,7 @@
 
 #include "THXVarList.h"
 #include <JExprParser.h>
+#include <JUserInputFunction.h>
 #include <JConstantValue.h>
 #include <JStringIterator.h>
 #include <jGlobals.h>
@@ -57,6 +58,7 @@ THXVarList::THXVarList
 		JString* name = jnew JString;
 		assert( name != nullptr );
 		input >> *name;
+		name->Set(JUserInputFunction::ConvertToGreek(*name));
 		itsNames->Append(name);
 
 		JString* fStr = jnew JString;
@@ -204,7 +206,7 @@ THXVarList::SetVariableName
 	assert( varIndex > kUserFnOffset );
 
 	JIndex index;
-	if (!JNameValid(name))
+	if (!JVariableList::NameValid(name))
 		{
 		return kJFalse;
 		}
@@ -299,36 +301,6 @@ THXVarList::GetVariableName
 }
 
 /******************************************************************************
- IsNumeric
-
- ******************************************************************************/
-
-JBoolean
-THXVarList::IsNumeric
-	(
-	const JIndex index
-	)
-	const
-{
-	return kJTrue;
-}
-
-/******************************************************************************
- IsDiscrete
-
- ******************************************************************************/
-
-JBoolean
-THXVarList::IsDiscrete
-	(
-	const JIndex index
-	)
-	const
-{
-	return kJFalse;
-}
-
-/******************************************************************************
  IsArray
 
  ******************************************************************************/
@@ -357,37 +329,6 @@ THXVarList::ArrayIndexValid
 	const
 {
 	return JConvertToBoolean( elementIndex == 1 );
-}
-
-/******************************************************************************
- ValueIsKnown
-
- ******************************************************************************/
-
-JBoolean
-THXVarList::ValueIsKnown
-	(
-	const JIndex variableIndex,
-	const JIndex elementIndex
-	)
-	const
-{
-	return kJTrue;
-}
-
-/******************************************************************************
- GetUnknownValueSymbol
-
- ******************************************************************************/
-
-const JString&
-THXVarList::GetUnknownValueSymbol
-	(
-	const JIndex index
-	)
-	const
-{
-	return kUnknownValueSymbol;
 }
 
 /******************************************************************************
@@ -495,69 +436,6 @@ THXVarList::SetNumericValue
 	)
 {
 	assert_msg( 0, "THXVarList does not store complex values" );
-}
-
-/******************************************************************************
- GetDiscreteValue
-
- ******************************************************************************/
-
-JIndex
-THXVarList::GetDiscreteValue
-	(
-	const JIndex variableIndex,
-	const JIndex elementIndex
-	)
-	const
-{
-	return 1;
-}
-
-/******************************************************************************
- GetDiscreteValueCount
-
- ******************************************************************************/
-
-JSize
-THXVarList::GetDiscreteValueCount
-	(
-	const JIndex index
-	)
-	const
-{
-	return 0;
-}
-
-/******************************************************************************
- GetDiscreteValueName
-
- ******************************************************************************/
-
-const JString&
-THXVarList::GetDiscreteValueName
-	(
-	const JIndex variableIndex,
-	const JIndex valueIndex
-	)
-	const
-{
-	return kUnknownValueSymbol;
-}
-
-/******************************************************************************
- SetDiscreteValue
-
- ******************************************************************************/
-
-void
-THXVarList::SetDiscreteValue
-	(
-	const JIndex variableIndex,
-	const JIndex elementIndex,
-	const JIndex valueIndex
-	)
-{
-	assert_msg( 0, "THXVarList has no discrete values" );
 }
 
 /******************************************************************************
