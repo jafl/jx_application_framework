@@ -30,7 +30,7 @@ public:
 
 	virtual void	Activate() override;
 
-	void	ViewManPage(const JString& item, const JUtf8Character& index = ' ',
+	void	ViewManPage(const JString& item, const JUtf8Character& index = JUtf8Character(' '),
 						const JBoolean apropos = kJFalse);
 	void	ViewManPages(const JPtrArray<JString>& list);
 

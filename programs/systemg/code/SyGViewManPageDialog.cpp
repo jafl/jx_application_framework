@@ -251,7 +251,7 @@ SyGViewManPageDialog::ViewManPage()
 {
 	if (itsFnName->InputValid() && itsManIndex->InputValid())
 		{
-		JUtf8Character manIndex = ' ';
+		JUtf8Character manIndex(' ');
 		if (!itsManIndex->GetText()->IsEmpty())
 			{
 			manIndex = (itsManIndex->GetText()->GetText()).GetFirstCharacter();

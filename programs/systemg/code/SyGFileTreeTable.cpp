@@ -89,8 +89,8 @@
 #include "git_commit_all.xpm"
 #include "git_revert_all.xpm"
 
-const Time kDirUpdateInterval      = 10;	// milliseconds
-const JUtf8Character kPermTestChar = 'w';
+const Time kDirUpdateInterval = 10;		// milliseconds
+const JUtf8Character kPermTestChar('w');
 
 static const JUtf8Byte* kDNDClassID = "SyGFileTreeTable";
 

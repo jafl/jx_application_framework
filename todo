@@ -1,9 +1,17 @@
 Fedora 27 window manager
 	JXWindow does not analyze correctly
 
-jcc:
-	shell window doesn't work on ubuntu or fedora -- bash process is stopped
-		use -s instead of -i?
+jcc
+	implement *not* "one a a time" for commands -- svn remove, yui build
+		when invoke one-at-a-time from not-one-at-a-time, invoke separate loop
+		when invoke @ commands, must treat as one-at-a-time
+
+	if modified separately in memory and on disk, offer to show diff
+		if window closed, deactivate "Redo diff" button
+
+	vi emulator
+		dd doesn't work on last line of file
+		Ndd doesn't include last line of file even if it should be included
 
 switch to cairo for rendering
 	anti-aliased lines
@@ -63,25 +71,14 @@ xdebug
 -----
 
 jcc
-	implement *not* "one a a time" for commands -- svn remove, yui build
-		when invoke one-at-a-time from not-one-at-a-time, invoke separate loop
-		when invoke @ commands, must treat as one-at-a-time
-
-	if modified separately in memory and on disk, offer to show diff
-		if window closed, deactivate "Redo diff" button
+	shell window doesn't work on ubuntu or fedora -- bash process is stopped
+		use -s instead of -i?
 
 	execute selected text by passing to interpreter running in command window
 		perl/php -- executes only after closing pipe, wrap php in <? ... ?> if not already there
 		python/ruby -- write to pipe after invoking, to allow inspecting result
 
 	pref to turn off making mixed whitespace visible when indentation is mixed
-
-	vi emulator
-		dd doesn't work on last line of file
-		Ndd doesn't include last line of file even if it should be included
-
-	CBProjectTable AddDirectoryTree & AddFiles:
-		treelist should stop listening to tree until done adding
 
 medic
 	accept connection or switch to gdb:  should stop listening on port
@@ -215,13 +212,12 @@ jcc
 			.jmp file stores list of .jcc files (relative or home or absolute paths)
 		merge search paths and build separate .jst file
 		separate .jup file
+
 	Tooltip-like window when open function arg list
 		bold current argument, based on number of commas after opening paren
 	Tooltip for scrolltabs: which function it is in
 	Tooltip while scrolling: which function it is in
 
-	CBTreeDirector:
-		ReceiveWithFeedback:  include src file for C++
 	Editor for regex's so compiler support is not hard-coded
 	Cascade option for undocked windows
 	Option to search all files in current project
