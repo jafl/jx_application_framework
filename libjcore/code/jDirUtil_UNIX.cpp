@@ -1279,6 +1279,10 @@ JCleanPath
 	static const JRegex multiSlashPattern  = "(?<!:)/{2,}";
 
 	JStringIterator iter(path);
+	if (path->BeginsWith("file://"))
+		{
+		iter.SkipNext(7);
+		}
 	while (iter.Next(multiSlashPattern))
 		{
 		iter.ReplaceLastMatch("/");
