@@ -1169,7 +1169,20 @@ CBTreeDirector::ReceiveWithFeedback
 				{
 				if ((classList.NthElement(i))->GetFileName(&fullName))
 					{
-					info->AddFile(fullName);
+					// since cmd-; works fine with .h file, no real value
+					// to using source file instead of header file
+
+					JString complName;
+					if (0 && CBGetDocumentManager()->GetComplementFile(
+							fullName, CBGetPrefsManager()->GetFileType(fullName),
+							&complName, GetProjectDoc(), kJTrue))
+						{
+						info->AddFile(complName);
+						}
+					else
+						{
+						info->AddFile(fullName);
+						}
 					}
 				}
 			}
