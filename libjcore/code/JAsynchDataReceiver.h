@@ -9,6 +9,7 @@
 #define _H_JAsynchDataReceiver
 
 #include "JPtrArray-JString.h"
+#include "JUtf8ByteBuffer.h"
 #include <ace/Svc_Handler.h>
 #include <ace/Synch_Traits.h>
 

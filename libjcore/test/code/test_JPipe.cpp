@@ -49,7 +49,7 @@ JTEST(Input)
 	JAssertOK(err);
 
 	JString data;
-	JReadAll(fromFD, &data, kJTrue);
+	JReadAll(fromFD, &data);
 
 	JStringIterator iter(data);
 	JAssertTrue(iter.Next("test_JPipe"));
@@ -75,7 +75,7 @@ JTEST(Output)
 	JAssertOK(err);
 
 	JString data;
-	JReadAll(fromFD, &data, kJTrue);
+	JReadAll(fromFD, &data);
 
 	JStringIterator iter(data);
 	JAssertTrue(iter.Next("This line contains 'junk'"));
@@ -114,7 +114,7 @@ JTEST(ChildInput)
 		JWait(1);	// required to receive data on OS X
 
 		JString data;
-		JReadAll(fd[0], &data, kJTrue);
+		JReadAll(fd[0], &data);
 
 		JAssertStringsEqual(kMessage, data);
 		}

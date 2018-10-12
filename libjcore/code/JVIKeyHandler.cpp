@@ -203,7 +203,7 @@ JVIKeyHandler::HandleKeyPress
 		te->GoToBeginningOfLine();
 		const JStyledText::TextIndex i = te->GetInsertionIndex();
 		te->SetCaretLocation(te->GetText()->AdjustTextIndex(i, -1));
-		InsertKeyPress('\n');
+		InsertKeyPress(JUtf8Character('\n'));
 		if (i.charIndex == 1)
 			{
 			te->SetCaretLocation(JTextEditor::CaretLocation(JStyledText::TextIndex(1,1),1));
@@ -214,7 +214,7 @@ JVIKeyHandler::HandleKeyPress
 		SetMode(kTextEntryMode);
 
 		te->GoToEndOfLine();
-		InsertKeyPress('\n');
+		InsertKeyPress(JUtf8Character('\n'));
 		}
 
 	else if ((key == '0' || key == '^') && itsKeyBuffer.IsEmpty())

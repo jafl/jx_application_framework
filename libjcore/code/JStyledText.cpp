@@ -3846,10 +3846,10 @@ JStyledText::BroadcastTextChanged
 		AdjustStylesBeforeBroadcast(itsText, itsStyles, &recalcRange, &redrawRange, deletion);
 		}
 
-	assert( recalcRange.charRange.Contains(range.charRange) || range.charRange.first == itsText.GetCharacterCount()+1 );
-	assert( recalcRange.byteRange.Contains(range.byteRange) || range.byteRange.first == itsText.GetByteCount()+1 );
-	assert( redrawRange.charRange.Contains(range.charRange) || range.charRange.first == itsText.GetCharacterCount()+1 );
-	assert( redrawRange.byteRange.Contains(range.byteRange) || range.byteRange.first == itsText.GetByteCount()+1 );
+	assert( recalcRange.charRange == SelectAll().charRange || recalcRange.charRange.Contains(range.charRange) || range.charRange.first == itsText.GetCharacterCount()+1 );
+	assert( recalcRange.byteRange == SelectAll().byteRange || recalcRange.byteRange.Contains(range.byteRange) || range.byteRange.first == itsText.GetByteCount()+1 );
+	assert( redrawRange.charRange == SelectAll().charRange || redrawRange.charRange.Contains(range.charRange) || range.charRange.first == itsText.GetCharacterCount()+1 );
+	assert( redrawRange.byteRange == SelectAll().byteRange || redrawRange.byteRange.Contains(range.byteRange) || range.byteRange.first == itsText.GetByteCount()+1 );
 	assert( itsText.GetCharacterCount() == itsStyles->GetElementCount() );
 
 	if (recalcRange.charRange.Contains(redrawRange.charRange))

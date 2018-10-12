@@ -29,9 +29,9 @@ public:
 public:
 
 	JUtf8Character();
-	JUtf8Character(const JUtf8Byte asciiCharacter);
 	JUtf8Character(const JUtf8Character& source);
 
+	explicit JUtf8Character(const JUtf8Byte asciiCharacter);	// avoid sneaky conversion from int or float
 	explicit JUtf8Character(const JUtf8Byte* utf8Character);
 
 	const JUtf8Character& operator=(const JUtf8Character& source);

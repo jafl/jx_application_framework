@@ -15,6 +15,7 @@
 #include "JXFontManager.h"
 #include "jXConstants.h"
 #include <JStringIterator.h>
+#include <jASCIIConstants.h>
 #include <jGlobals.h>
 #include <jAssert.h>
 
@@ -204,7 +205,7 @@ JXStringCompletionMenu::HandleSelection
 	if (itsAllowTabChar && index == kInsertTabCmd)
 		{
 		// tab may insert spaces
-		itsTE->JXTEBase::HandleKeyPress('\t', 0, JXKeyModifiers(GetDisplay()));
+		itsTE->JXTEBase::HandleKeyPress(JUtf8Character(kJTabKey), 0, JXKeyModifiers(GetDisplay()));
 		}
 	else if (index - (itsAllowTabChar ? kSpecialCmdCount : 0) <= kMaxItemCount)
 		{

@@ -430,7 +430,7 @@ JXWDManager::UpdateWDMenu1
 				nmShortcut = "Meta-";
 				}
 
-			nmShortcut.Append(kShortcutChar[ info.shortcutIndex ]);
+			nmShortcut.Append(JUtf8Character(kShortcutChar[ info.shortcutIndex ]));
 			menu->SetItemNMShortcut(menuIndex, nmShortcut);
 			}
 		}

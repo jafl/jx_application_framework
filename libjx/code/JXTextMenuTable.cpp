@@ -184,7 +184,7 @@ JXTextMenuTable::TableDrawCell
 				rect.left  += kHilightBorderWidth;
 				rect.right -= kHNMSMarginWidth;
 
-				rect.right -= font.GetCharWidth(GetFontManager(), 'W');
+				rect.right -= font.GetCharWidth(GetFontManager(), JUtf8Character('W'));
 				rect.right += font.GetCharWidth(GetFontManager(), nmShortcut->GetLastCharacter());
 				}
 			else

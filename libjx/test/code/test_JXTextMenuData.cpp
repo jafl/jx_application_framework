@@ -129,7 +129,7 @@ JTEST(ParseLinux)
 	JAssertStringsEqual("Meta-Hyper-A", *s);
 
 	JIndex i;
-	JAssertFalse(data.ShortcutToIndex('a', &i));
+	JAssertFalse(data.ShortcutToIndex(JUtf8Character('a'), &i));
 
 	JAssertFalse(data.HasCheckboxes());
 	JAssertFalse(data.HasSubmenus());
@@ -171,7 +171,7 @@ JTEST(ParseWindows)
 	JAssertStringsEqual("Ctrl-Hyper-A", *s);
 
 	JIndex i;
-	JAssertTrue(data.ShortcutToIndex('a', &i));
+	JAssertTrue(data.ShortcutToIndex(JUtf8Character('a'), &i));
 	JAssertEqual(3, i);
 
 	JAssertFalse(data.HasCheckboxes());

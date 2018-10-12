@@ -165,6 +165,6 @@ JXStyleTable::GetMin1DVisibleWidth
 		}
 	else
 		{
-		return kMin1DVisCharCount *	(GetFont()).GetCharWidth(GetFontManager(), 'W');
+		return kMin1DVisCharCount * (GetFont()).GetCharWidth(GetFontManager(), JUtf8Character('W'));
 		}
 }

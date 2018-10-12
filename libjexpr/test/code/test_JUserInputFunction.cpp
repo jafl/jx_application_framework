@@ -18,11 +18,11 @@ int main()
 
 JTEST(ConvertToGreekCharacter)
 {
-	JAssertStringsEqual("f", JUserInputFunction::ConvertToGreek('f').GetBytes());
-	JAssertStringsEqual("7", JUserInputFunction::ConvertToGreek('7').GetBytes());
-	JAssertStringsEqual("+", JUserInputFunction::ConvertToGreek('+').GetBytes());
+	JAssertStringsEqual("v", JUserInputFunction::ConvertToGreek(JUtf8Character('v')).GetBytes());
+	JAssertStringsEqual("7", JUserInputFunction::ConvertToGreek(JUtf8Character('7')).GetBytes());
+	JAssertStringsEqual("+", JUserInputFunction::ConvertToGreek(JUtf8Character('+')).GetBytes());
 
-	JAssertStringsEqual("\xCF\x80", JUserInputFunction::ConvertToGreek('p').GetBytes());
+	JAssertStringsEqual("\xCF\x80", JUserInputFunction::ConvertToGreek(JUtf8Character('p')).GetBytes());
 }
 
 JTEST(ConvertToGreekString)

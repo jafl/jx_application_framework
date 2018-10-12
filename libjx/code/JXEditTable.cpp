@@ -349,7 +349,7 @@ JXEditTable::GetMin1DVisibleWidth
 		else
 			{
 			return kMin1DVisCharCount *
-				(itsInputField->GetText()->GetDefaultFont()).GetCharWidth(GetFontManager(), 'W');
+				(itsInputField->GetText()->GetDefaultFont()).GetCharWidth(GetFontManager(), JUtf8Character('W'));
 			}
 		}
 

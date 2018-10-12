@@ -39,7 +39,7 @@ JXNewDirButton::JXNewDirButton
 	assert( itsFolderIcon != nullptr );
 	itsFolderIcon->ConvertToRemoteStorage();
 
-	const JSize spaceWidth = GetFont().GetCharWidth(GetFontManager(), ' ');
+	const JSize spaceWidth = GetFont().GetCharWidth(GetFontManager(), JUtf8Character(' '));
 	const JSize spaceCount = JRound(itsFolderIcon->GetWidth() / (JFloat) spaceWidth);
 	JString s = JGetString("Label::JXNewDirButton");
 	for (JIndex i=1; i<=spaceCount; i++)

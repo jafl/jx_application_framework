@@ -1132,7 +1132,7 @@ JDirInfo::AppendRegex
 			}
 		else if (c == '?')
 			{
-			iter.SetNext('.', kJFalse);
+			iter.SetNext(JUtf8Character('.'), kJFalse);
 			}
 		else if (JRegex::NeedsBackslashToBeLiteral(c))
 			{

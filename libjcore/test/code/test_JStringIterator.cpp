@@ -545,8 +545,8 @@ void TestSet(const JString& s)
 	JAssertEqual(12, s.GetByteCount());
 
 	i.MoveTo(kJIteratorStartBefore, 5);
-	JAssertTrue(i.SetNext('s'));
-	JAssertTrue(i.SetNext('Q'));
+	JAssertTrue(i.SetNext(JUtf8Character('s')));
+	JAssertTrue(i.SetNext(JUtf8Character('Q')));
 	JAssertTrue(i.Next(&c, kJFalse));
 	JAssertStringsEqual("\xE2\x9C\x94", c.GetBytes());
 	JAssertEqual(7, s.GetCharacterCount());

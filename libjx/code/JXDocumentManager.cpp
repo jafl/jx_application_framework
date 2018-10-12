@@ -626,7 +626,7 @@ JXDocumentManager::UpdateDocumentMenu
 				nmShortcut = "Meta-";
 				}
 
-			nmShortcut.Append(kShortcutChar[ info.shortcut ]);
+			nmShortcut.Append(JUtf8Character(kShortcutChar[ info.shortcut ]));
 			menu->SetItemNMShortcut(i, nmShortcut);
 			}
 		}
