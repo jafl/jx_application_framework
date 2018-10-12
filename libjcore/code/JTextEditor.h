@@ -103,7 +103,7 @@ public:
 				const JColorID outlineColor, const JColorID wsColor,
 				const JCoordinate width);
 
-	JTextEditor(const JTextEditor& source, const JBoolean shareStyledText = kJFalse);
+	JTextEditor(const JTextEditor& source, JStyledText* text);
 
 	virtual ~JTextEditor();
 

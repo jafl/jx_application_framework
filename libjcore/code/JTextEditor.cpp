@@ -244,19 +244,21 @@ JTextEditor::JTextEditor
 /******************************************************************************
  Copy constructor
 
-	If shareStyledText and the source does not own the JStyledText, the new
-	object will share it.
+	if text is not nullptr, we take ownership of it.
+
+	If text is nullptr and the source does not own the JStyledText, we will
+	share it.
 
  ******************************************************************************/
 
 JTextEditor::JTextEditor
 	(
 	const JTextEditor&	source,
-	const JBoolean		shareStyledText
+	JStyledText*		text
 	)
 	:
 	itsType(source.itsType),
-	itsOwnsTextFlag(JI2B(!shareStyledText || source.itsOwnsTextFlag)),
+	itsOwnsTextFlag(JI2B(text != nullptr || source.itsOwnsTextFlag)),
 
 	itsFontManager(source.itsFontManager),
 
@@ -270,7 +272,11 @@ JTextEditor::JTextEditor
 	itsPrevDragType(kInvalidDrag),
 	itsIsDragSourceFlag(kJFalse)
 {
-	if (itsOwnsTextFlag)
+	if (itsOwnsTextFlag && text != nullptr)
+		{
+		itsText = text;
+		}
+	else if (itsOwnsTextFlag)
 		{
 		itsText = jnew JStyledText(*source.itsText);
 		assert( itsText != nullptr );
@@ -303,6 +309,9 @@ JTextEditor::JTextEditor
 
 	itsLineGeom = jnew JRunArray<LineGeometry>(*source.itsLineGeom);
 	assert( itsLineGeom != nullptr );
+
+	itsPrevTextLastIndex = source.itsPrevTextLastIndex;
+	itsPrevTextEnd       = source.itsPrevTextEnd;
 
 	itsCaret         = CaretLocation(TextIndex(1,1),1);
 	itsCaretX        = 0;
@@ -1697,8 +1706,10 @@ teDrawSpaces
 	const JUtf8Byte* text          = stb->GetText().GetBytes();
 	const JRunArray<JFont>& styles = stb->GetStyles();
 
+	const JUtf8Character space(' ');
+
 	JCoordinate l = left;
-	JSize w       = f.GetCharWidth(p.GetFontManager(), ' ');
+	JSize w       = f.GetCharWidth(p.GetFontManager(), space);
 
 	p.SetLineWidth(1);
 	p.SetPenColor(wsColor);
@@ -1711,7 +1722,7 @@ teDrawSpaces
 			(direction == -1 && i < trueRunEnd))
 			{
 			JFont f = styles.GetElement(i);
-			w       = f.GetCharWidth(p.GetFontManager(), ' ');
+			w       = f.GetCharWidth(p.GetFontManager(), space);
 			}
 
 		if (direction == -1)

@@ -29,7 +29,7 @@
 #include <jGlobals.h>
 #include <jAssert.h>
 
-const JUtf8Byte JUserInputFunction::kSwitchFontCharacter = '`';
+const JUtf8Character JUserInputFunction::kSwitchFontCharacter('`');
 
 static const JString kEmptyString("?", kJFalse);
 
@@ -38,8 +38,6 @@ const JCoordinate kVMarginWidth = 1;
 
 /******************************************************************************
  Constructor
-
-	text can be nullptr
 
  ******************************************************************************/
 
@@ -72,7 +70,7 @@ JUserInputFunction::JUserInputFunction
 	TECaretShouldBlink(kJTrue);
 	TEActivateSelection();
 
-	RecalcAll(kJTrue);
+	RecalcAll();
 	TESetLeftMarginWidth(kMinLeftMarginWidth);
 
 	if (!text.IsEmpty())
@@ -96,14 +94,15 @@ JUserInputFunction::JUserInputFunction
 	)
 	:
 	JFunction(source),
-	JTextEditor(source),
-	itsEditor(source.itsEditor)
+	JTextEditor(source, source.itsEditor->BuildStyledText()),
+	itsEditor(source.itsEditor),
+	itsWidth(source.itsWidth),
+	itsHeight(source.itsHeight),
+	itsGreekFlag(kJFalse),
+	itsNeedRedrawFlag(kJTrue),
+	itsNeedRenderFlag(kJTrue)
 {
-	itsWidth  = source.itsWidth;
-	itsHeight = source.itsHeight;
-
-	itsNeedRedrawFlag = kJTrue;
-	itsNeedRenderFlag = kJTrue;
+	GetText()->SetText(source.GetText().GetText());
 
 	TECaretShouldBlink(kJTrue);
 	TEActivateSelection();

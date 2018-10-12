@@ -21,7 +21,7 @@ class JUserInputFunction : public JFunction, public JTextEditor
 {
 public:
 
-	static const JUtf8Byte kSwitchFontCharacter;
+	static const JUtf8Character kSwitchFontCharacter;
 
 public:
 
