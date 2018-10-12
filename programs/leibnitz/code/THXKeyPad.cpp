@@ -240,7 +240,7 @@ JXKeyModifiers modifiers(GetDisplay());
 					}
 				}
 
-			itsExpr->HandleKeyPress('0' + i, 0, modifiers);
+			itsExpr->HandleKeyPress(JUtf8Character('0' + i), 0, modifiers);
 			return kJTrue;
 			}
 		}
@@ -254,7 +254,7 @@ JXKeyModifiers modifiers(GetDisplay());
 				itsExpr->SelectAll();
 				}
 
-			itsExpr->HandleKeyPress(kOpKey[i], 0, modifiers);
+			itsExpr->HandleKeyPress(JUtf8Character(kOpKey[i]), 0, modifiers);
 			return kJTrue;
 			}
 		}

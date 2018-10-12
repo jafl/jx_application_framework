@@ -51,7 +51,7 @@ private:
 	JXTextMenu*		itsPrefsMenu;
 	JXTextMenu*		itsHelpMenu;
 
-	static JString	itsDefGeom;			// window size + partition geometry
+	static JString	theDefGeom;			// window size + partition geometry
 	JString			itsTapeName;		// file in which user last saved tape
 
 // begin JXLayout

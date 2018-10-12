@@ -46,7 +46,7 @@ THXBaseConvDirector::THXBaseConvDirector
 
 THXBaseConvDirector::THXBaseConvDirector
 	(
-	std::istream&			input,
+	std::istream&		input,
 	const JFileVersion	vers,
 	JXDirector*			supervisor
 	)
@@ -111,7 +111,7 @@ THXBaseConvDirector::WriteState
 	)
 	const
 {
-	output << its10Input->GetText();
+	output << its10Input->GetText()->GetText();
 
 	output << ' ';
 	GetWindow()->WriteGeometry(output);
@@ -272,7 +272,7 @@ THXBaseConvDirector::Convert
 
 	for (JUnsignedOffset i=0; i<kTHXBaseCount; i++)
 		{
-		if (sender == itsInput[i])
+		if (sender == itsInput[i]->GetText())
 			{
 			input = itsInput[i];
 			base  = kBase[i];

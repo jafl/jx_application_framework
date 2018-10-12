@@ -35,7 +35,7 @@
 #include <sstream>
 #include <jAssert.h>
 
-JString	THXExprDirector::itsDefGeom;
+JString	THXExprDirector::theDefGeom;
 const JFileVersion kCurrentDefGeomVersion = 0;
 
 // Actions menu
@@ -157,7 +157,7 @@ THXExprDirector::WriteState
 	const
 {
 	output << ' ' << itsExprWidget->GetFunction()->Print();
-	output << ' ' << itsTapeWidget->GetText();
+	output << ' ' << itsTapeWidget->GetText()->GetText();
 	output << ' ' << itsTapeName;
 	output << ' ' << itsTapeWidget->GetPTPrintFileName();
 
@@ -182,13 +182,13 @@ THXExprDirector::WriteState
 void
 THXExprDirector::ReadPrefs
 	(
-	std::istream&			input,
+	std::istream&		input,
 	const JFileVersion	vers
 	)
 {
 	if (vers >= 2)
 		{
-		input >> itsDefGeom;
+		input >> theDefGeom;
 		}
 }
 
@@ -203,7 +203,7 @@ THXExprDirector::WritePrefs
 	std::ostream& output
 	)
 {
-	output << itsDefGeom;
+	output << theDefGeom;
 }
 
 /******************************************************************************
@@ -214,9 +214,9 @@ THXExprDirector::WritePrefs
 void
 THXExprDirector::UseDefaultGeometry()
 {
-	if (!itsDefGeom.IsEmpty())
+	if (!theDefGeom.IsEmpty())
 		{
-		const std::string s(itsDefGeom.GetRawBytes(), itsDefGeom.GetByteCount());
+		const std::string s(theDefGeom.GetRawBytes(), theDefGeom.GetByteCount());
 		std::istringstream input(s);
 
 		JFileVersion vers;
@@ -247,7 +247,7 @@ THXExprDirector::SetDefaultGeometry()
 	data << ' ';
 	itsPartition->WriteGeometry(data);
 
-	itsDefGeom = data.str();
+	theDefGeom = data.str();
 }
 
 /******************************************************************************
