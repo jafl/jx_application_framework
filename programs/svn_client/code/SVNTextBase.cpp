@@ -38,12 +38,12 @@ SVNTextBase::SVNTextBase
 	const JCoordinate	h
 	)
 	:
-	JXStaticText("", kJFalse, kJTrue, scrollbarSet, enclosure, hSizing, vSizing, x, y, w, h),
+	JXStaticText(JString::empty, kJFalse, kJTrue, scrollbarSet, enclosure, hSizing, vSizing, x, y, w, h),
 	SVNTabBase(director),
 	itsProcess(nullptr),
 	itsLink(nullptr)
 {
-	SetDefaultFont(GetFontManager()->GetDefaultMonospaceFont());
+	GetText()->SetDefaultFont(JFontManager::GetDefaultMonospaceFont());
 
 	FitToEnclosure();
 
@@ -87,7 +87,7 @@ SVNTextBase::RefreshContent()
 		DeleteLink();
 		}
 
-	SetText("");
+	GetText()->SetText(JString::empty);
 
 	JProcess* p;
 	int outFD;
@@ -163,9 +163,9 @@ SVNTextBase::ReceiveData
 
 	const DisplayState state = SaveDisplayState();
 
-	SetCaretLocation(GetTextLength()+1);
+	SetCaretLocation(GetText()->GetText().GetCharacterCount()+1);
 	Paste(info->GetData());
-	ClearUndo();
+	GetText()->ClearUndo();
 
 	RestoreDisplayState(state);
 }

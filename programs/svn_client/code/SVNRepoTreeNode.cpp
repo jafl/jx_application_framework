@@ -17,10 +17,6 @@
 #include <libxml/parser.h>
 #include <jAssert.h>
 
-// string ID's
-
-static const JCharacter* kBusyLabel = "BusyLabel::SVNRepoTreeNode";
-
 /******************************************************************************
  Constructor
 
@@ -28,20 +24,20 @@ static const JCharacter* kBusyLabel = "BusyLabel::SVNRepoTreeNode";
 
 SVNRepoTreeNode::SVNRepoTreeNode
 	(
-	JTree*				tree,
-	const JCharacter*	repoPath,
-	const JCharacter*	repoRevision,
-	const JCharacter*	name,
-	const Type			type,
-	const JIndex		revision,
-	const time_t		modTime,
-	const JCharacter*	author,
-	const JSize			size
+	JTree*			tree,
+	const JString&	repoPath,
+	const JString&	repoRevision,
+	const JString&	name,
+	const Type		type,
+	const JIndex	revision,
+	const time_t	modTime,
+	const JString&	author,
+	const JSize		size
 	)
 	:
 	JNamedTreeNode(tree, name, JI2B(type == kDirectory)),
 	itsRepoPath(repoPath),
-	itsRepoRevision(JStringEmpty(repoRevision) ? "" : repoRevision),
+	itsRepoRevision(repoRevision),
 	itsNeedUpdateFlag(kJTrue),
 	itsType(type),
 	itsRevision(revision),
@@ -88,7 +84,9 @@ JString
 SVNRepoTreeNode::GetAgeString()
 	const
 {
-	return (itsModTime == 0 ? "" : JPrintTimeInterval(JRound(difftime(time(nullptr), itsModTime))));
+	return (itsModTime == 0 ?
+			JString::empty :
+			JPrintTimeInterval(JRound(difftime(time(nullptr), itsModTime))));
 }
 
 /******************************************************************************
@@ -102,8 +100,8 @@ SVNRepoTreeNode::GetAgeString()
 JError
 SVNRepoTreeNode::Rename
 	(
-	const JCharacter*	newName,
-	const JBoolean		sort
+	const JString&	newName,
+	const JBoolean	sort
 	)
 {
 	if (newName == GetName())
@@ -115,10 +113,10 @@ SVNRepoTreeNode::Rename
 	JSplitPathAndName(itsRepoPath, &path, &name);
 	const JString newRepoPath = JCombinePathAndName(path, newName);
 
-	JString cmd = "svn move ";
-	cmd        += itsRepoPath;
-	cmd        += " ";
-	cmd        += newRepoPath;
+	JString cmd("svn move ");
+	cmd += itsRepoPath;
+	cmd += " ";
+	cmd += newRepoPath;
 
 	(JXGetApplication())->DisplayBusyCursor();
 
@@ -204,7 +202,7 @@ SVNRepoTreeNode::Update()
 		return;
 		}
 
-	JString cmd = "/bin/sh -c 'svn list";
+	JString cmd("/bin/sh -c 'svn list");
 	if (!itsRepoRevision.IsEmpty())
 		{
 		cmd += " -r ";
@@ -216,7 +214,7 @@ SVNRepoTreeNode::Update()
 	cmd += JPrepArgForExec(itsResponseFullName);
 	cmd += "'";
 
-	int outFD, errFD;
+	int errFD;
 	err = JProcess::Create(&itsProcess, cmd,
 						   kJIgnoreConnection, nullptr,
 						   kJIgnoreConnection, nullptr,
@@ -230,8 +228,9 @@ SVNRepoTreeNode::Update()
 		DeleteAllChildren();
 
 		SVNRepoTreeNode* node =
-			jnew SVNRepoTreeNode(GetTree(), "", 0, JGetString(kBusyLabel),
-								kBusy, 0, 0, "", 0);
+			jnew SVNRepoTreeNode(GetTree(), JString::empty, JString::empty,
+								 JGetString("BusyLabel::SVNRepoTreeNode"),
+								 kBusy, 0, 0, JString::empty, 0);
 		assert( node != nullptr );
 		this->Append(node);
 		}
@@ -314,7 +313,7 @@ SVNRepoTreeNode::ParseResponse()
 {
 	DeleteAllChildren();
 
-	xmlDoc* doc = xmlReadFile(itsResponseFullName, nullptr, XML_PARSE_NOBLANKS | XML_PARSE_NOCDATA);
+	xmlDoc* doc = xmlReadFile(itsResponseFullName.GetBytes(), nullptr, XML_PARSE_NOBLANKS | XML_PARSE_NOCDATA);
 	if (doc != nullptr)
 		{
 		xmlNode* root = xmlDocGetRootElement(doc);
@@ -353,7 +352,7 @@ SVNRepoTreeNode::ParseResponse()
 				child = JGetXMLChildNode(entry, "commit");
 				if (child != nullptr)
 					{
-					rev = atol(JGetXMLNodeAttr(child, "revision"));
+					rev = atol(JGetXMLNodeAttr(child, "revision").GetBytes());
 
 					xmlNode* child2 = JGetXMLChildNode(child, "author");
 					if (child2 != nullptr && child2->children != nullptr &&
@@ -420,8 +419,9 @@ SVNRepoTreeNode::DisplayErrors()
 	for (JIndex i=1; i<=count; i++)
 		{
 		SVNRepoTreeNode* node =
-			jnew SVNRepoTreeNode(GetTree(), "", 0, *(itsErrorList->GetElement(i)),
-								kError, 0, 0, "", 0);
+			jnew SVNRepoTreeNode(GetTree(), JString::empty, JString::empty,
+								 *(itsErrorList->GetElement(i)),
+								 kError, 0, 0, JString::empty, 0);
 		assert( node != nullptr );
 		this->InsertAtIndex(i, node);
 		}

@@ -14,7 +14,7 @@
 #include <JSimpleProcess.h>
 #include <jAssert.h>
 
-static const JCharacter* kAppSignature = "nps_svn_client";
+static const JUtf8Byte* kAppSignature = "nps_svn_client";
 
 /******************************************************************************
  Constructor
@@ -90,7 +90,7 @@ SVNApp::Close()
 void
 SVNApp::DisplayAbout
 	(
-	const JCharacter* prevVersStr
+	const JString& prevVersStr
 	)
 {
 	SVNAboutDialog* dlog = jnew SVNAboutDialog(this, prevVersStr);
@@ -142,7 +142,7 @@ SVNApp::CleanUpBeforeSuddenDeath
 
  ******************************************************************************/
 
-const JCharacter*
+const JUtf8Byte*
 SVNApp::GetAppSignature()
 {
 	return kAppSignature;

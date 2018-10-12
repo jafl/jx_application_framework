@@ -36,6 +36,7 @@
 #include <JTableSelection.h>
 #include <JFontManager.h>
 #include <JSubstitute.h>
+#include <JStringIterator.h>
 #include <jStreamUtil.h>
 #include <jDirUtil.h>
 #include <jProcessUtil.h>
@@ -52,7 +53,7 @@
 #include <svn_repo_busy.xpm>
 #include <svn_repo_busy_selected.xpm>
 
-static const JCharacter* kDNDAtomName = "Item::SVNRepoDragData";
+static const JUtf8Byte* kDNDAtomName = "Item::SVNRepoDragData";
 
 const Time kRefreshInterval    = 60000;		// 1 min (milliseconds)
 const JCoordinate kMarginWidth = 6;
@@ -69,7 +70,7 @@ const JSize kExtraColCount = 4;
 
 // Context menu
 
-static const JCharacter* kContextMenuStr =
+static const JUtf8Byte* kContextMenuStr =
 	"    Compare with edited"
 	"  | Compare with current"
 	"  | Compare with previous"
@@ -97,8 +98,8 @@ enum
 SVNRepoView::SVNRepoView
 	(
 	SVNMainDirector*	director,
-	const JCharacter*	repoPath,
-	const JCharacter*	repoRevision,
+	const JString&		repoPath,
+	const JString&		repoRevision,
 	JXTextMenu*			editMenu,
 	JXScrollbarSet*		scrollbarSet,
 	JXContainer*		enclosure,
@@ -136,7 +137,7 @@ SVNRepoView::SVNRepoView
 	ShouldHilightTextOnly(kJTrue);
 	WantInput(kJTrue);
 
-	itsAltRowColor = GetColormap()->GetGrayColor(95);
+	itsAltRowColor = JColorManager::GetGrayColor(95);
 	itsDNDDataType = GetDisplay()->RegisterXAtom(kDNDAtomName);
 
 	FitToEnclosure();
@@ -164,13 +165,13 @@ SVNRepoView::~SVNRepoView()
 SVNRepoTreeList*
 SVNRepoView::BuildTreeList
 	(
-	const JCharacter*	repoPath,
-	const JCharacter*	repoRevision
+	const JString&	repoPath,
+	const JString&	repoRevision
 	)
 {
 	SVNRepoTreeNode* root =
-		jnew SVNRepoTreeNode(nullptr, repoPath, repoRevision, "",
-							SVNRepoTreeNode::kDirectory, 0, 0, "", 0);
+		jnew SVNRepoTreeNode(nullptr, repoPath, repoRevision, JString::empty,
+							SVNRepoTreeNode::kDirectory, 0, 0, JString::empty, 0);
 	assert( root != nullptr );
 
 	SVNRepoTree* tree = jnew SVNRepoTree(root);
@@ -339,7 +340,7 @@ SVNRepoView::GetCellString
 		}
 	else if (cell.x == kSizeColIndex && type == SVNRepoTreeNode::kDirectory)
 		{
-		return "-";
+		return JString("-", kJFalse);
 		}
 	else
 		{
@@ -361,7 +362,7 @@ SVNRepoView::GetMinCellWidth
 {
 	if (JIndex(cell.x) > GetNodeColIndex())
 		{
-		return 2 * kMarginWidth + GetFont().GetStringWidth(GetCellString(cell));
+		return 2 * kMarginWidth + GetFont().GetStringWidth(GetFontManager(), GetCellString(cell));
 		}
 	else
 		{
@@ -377,8 +378,8 @@ SVNRepoView::GetMinCellWidth
 void
 SVNRepoView::AdjustToTree()
 {
-	const JFontStyle error(kJTrue, kJFalse, 0, kJFalse, GetColormap()->GetRedColor());
-	const JFontStyle busy(GetColormap()->GetGrayColor(60));
+	const JFontStyle error(kJTrue, kJFalse, 0, kJFalse, JColorManager::GetRedColor());
+	const JFontStyle busy(JColorManager::GetGrayColor(60));
 
 	const JSize count = GetRowCount();
 	for (JIndex i=1; i<=count; i++)
@@ -651,13 +652,13 @@ SVNRepoView::ExtractInputData
 	const JBoolean ok = GetXInputField(&input);
 	assert( ok );
 
-	if (input->IsEmpty())
+	if (input->GetText()->IsEmpty())
 		{
 		return kJTrue;		// treat as cancel
 		}
 
 	SVNRepoTreeNode* node = itsRepoTreeList->GetRepoNode(cell.y);
-	const JString newName = input->GetText();	// copy since need after input field gone
+	const JString newName = input->GetText()->GetText();	// copy since need after input field gone
 	const JBoolean sort   = (GetDisplay()->GetLatestButtonStates()).AllOff();
 	const JError err      = node->Rename(newName, sort);
 	input                 = nullptr;				// nodes sorted => CancelEditing()
@@ -1094,7 +1095,6 @@ SVNRepoView::HandleDNDDrop
 	const Atom dndName             = dndMgr->GetDNDSelectionName();
 	JXSelectionManager* selManager = GetSelectionManager();
 	JIndex dndIndex                = 0;
-	const Window dragWindow        = dndMgr->GetDraggerWindow();
 
 	unsigned char* data = nullptr;
 	JSize dataLength;
@@ -1111,10 +1111,11 @@ SVNRepoView::HandleDNDDrop
 			JStripTrailingDirSeparator(&itsCopyItemSrcURI);
 			JSplitPathAndName(itsCopyItemSrcURI, &path, &initialName);
 
-			JIndex i;
-			if (initialName.LocateSubstring("@", &i))
+			JStringIterator iter(&initialName);
+			if (iter.Next("@"))
 				{
-				initialName.RemoveSubstring(i, initialName.GetLength());
+				iter.SkipPrev();
+				iter.RemoveAllNext();
 				JStripTrailingDirSeparator(&initialName);
 				}
 
@@ -1132,7 +1133,7 @@ SVNRepoView::HandleDNDDrop
 					GetDirector(), JGetString("CopyItemWindowTitle::SVNRepoView"),
 					JGetString("CopyItemPrompt::SVNRepoView"), initialName);
 			assert( itsCopyItemDialog != nullptr );
-			(itsCopyItemDialog->GetInputField())->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
+			itsCopyItemDialog->GetInputField()->GetText()->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
 			ListenTo(itsCopyItemDialog);
 			itsCopyItemDialog->BeginDialog();
 			}
@@ -1201,7 +1202,8 @@ SVNRepoView::HandleDNDResponse
 void
 SVNRepoView::HandleKeyPress
 	(
-	const int				key,
+	const JUtf8Character&	c,
+	const int				keySym,
 	const JXKeyModifiers&	modifiers
 	)
 {
@@ -1210,7 +1212,7 @@ SVNRepoView::HandleKeyPress
 		return;		// don't let selection change during DND
 		}
 
-	if (key == kJReturnKey || key == XK_F2)
+	if (c == kJReturnKey || keySym == XK_F2)
 		{
 		ClearIncrementalSearchBuffer();
 
@@ -1226,27 +1228,27 @@ SVNRepoView::HandleKeyPress
 			}
 		}
 
-	else if ((key == kJUpArrow || key == kJDownArrow) && !IsEditing())
+	else if ((c == kJUpArrow || c == kJDownArrow) && !IsEditing())
 		{
 		const JBoolean hasSelection = (GetTableSelection()).HasSelection();
-		if (!hasSelection && key == kJUpArrow && GetRowCount() > 0)
+		if (!hasSelection && c == kJUpArrow && GetRowCount() > 0)
 			{
 			SelectSingleCell(JPoint(GetNodeColIndex(), GetRowCount()));
 			}
-		else if (!hasSelection && key == kJDownArrow && GetRowCount() > 0)
+		else if (!hasSelection && c == kJDownArrow && GetRowCount() > 0)
 			{
 			SelectSingleCell(JPoint(GetNodeColIndex(), 1));
 			}
 		else
 			{
-			HandleSelectionKeyPress(key, modifiers);
+			HandleSelectionKeyPress(c, modifiers);
 			}
 		ClearIncrementalSearchBuffer();
 		}
 
 	else
 		{
-		JXNamedTreeListWidget::HandleKeyPress(key, modifiers);
+		JXNamedTreeListWidget::HandleKeyPress(c, keySym, modifiers);
 		}
 }
 
@@ -1262,7 +1264,7 @@ SVNRepoView::CreateContextMenu()
 {
 	if (itsContextMenu == nullptr)
 		{
-		itsContextMenu = jnew JXTextMenu("", this, kFixedLeft, kFixedTop, 0,0, 10,10);
+		itsContextMenu = jnew JXTextMenu(JString::empty, this, kFixedLeft, kFixedTop, 0,0, 10,10);
 		assert( itsContextMenu != nullptr );
 		itsContextMenu->SetMenuItems(kContextMenuStr, "SVNRepoView");
 		itsContextMenu->SetUpdateAction(JXMenu::kDisableNone);
@@ -1474,7 +1476,12 @@ SVNRepoView::GetSelectedFilesForDiff
 			const JString& url = node->GetRepoPath();
 			if (hasCheckout && url.BeginsWith(baseURL))
 				{
-				path     = url.GetSubstring(baseURL.GetLength()+1, url.GetLength());
+				JStringIterator iter(url);
+				iter.SkipNext(baseURL.GetCharacterCount());
+				iter.BeginMatch();
+				iter.MoveTo(kJIteratorStartAtEnd, 0);
+				path = iter.FinishMatch().GetString();
+
 				fullName = JCombinePathAndName(basePath, path);
 				fullNameList->Append(fullName);
 				}
@@ -1593,7 +1600,7 @@ SVNRepoView::CreateDirectory()
 	itsCreateDirectoryDialog =
 		jnew SVNCreateRepoDirectoryDialog(
 			GetDirector(), JGetString("CreateDirectoryWindowTitle::SVNRepoView"),
-			JGetString("CreateDirectoryPrompt::SVNRepoView"), "", parentNode);
+			JGetString("CreateDirectoryPrompt::SVNRepoView"), JString::empty, parentNode);
 	assert( itsCreateDirectoryDialog != nullptr );
 	ListenTo(itsCreateDirectoryDialog);
 	itsCreateDirectoryDialog->BeginDialog();
@@ -1605,7 +1612,7 @@ SVNRepoView::CreateDirectory()
 
  ******************************************************************************/
 
-static const JCharacter* kSVNCreateDirectoryCmd = "svn mkdir $path";
+static const JString kSVNCreateDirectoryCmd("svn mkdir $path");
 
 JBoolean
 SVNRepoView::CreateDirectory1()
@@ -1673,7 +1680,7 @@ SVNRepoView::DuplicateItem()
 
  ******************************************************************************/
 
-static const JCharacter* kSVNDuplicateItemCmd = "svn copy $rev $src $dst";
+static const JString kSVNDuplicateItemCmd("svn copy $rev $src $dst");
 
 JBoolean
 SVNRepoView::DuplicateItem1()
@@ -1704,7 +1711,7 @@ SVNRepoView::DuplicateItem1()
 	subst.Substitute(&cmd);
 
 	GetDirector()->Execute("DuplicateItemTab::SVNMainDirector", cmd,
-							 kJTrue, kJFalse, kJFalse);
+						   kJTrue, kJFalse, kJFalse);
 	return kJTrue;
 }
 
@@ -1713,7 +1720,7 @@ SVNRepoView::DuplicateItem1()
 
  ******************************************************************************/
 
-static const JCharacter* kSVNCopyItemCmd = "svn copy $src $dst";
+static const JString kSVNCopyItemCmd("svn copy $src $dst");
 
 JBoolean
 SVNRepoView::CopyItem()
@@ -1731,7 +1738,7 @@ SVNRepoView::CopyItem()
 	subst.Substitute(&cmd);
 
 	GetDirector()->Execute("CopyItemTab::SVNMainDirector", cmd,
-							 kJTrue, kJFalse, kJFalse);
+						   kJTrue, kJFalse, kJFalse);
 	return kJTrue;
 }
 

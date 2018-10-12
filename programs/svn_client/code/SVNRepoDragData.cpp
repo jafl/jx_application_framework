@@ -20,9 +20,9 @@
 
 SVNRepoDragData::SVNRepoDragData
 	(
-	JXDisplay*			display,
-	const Atom			type,
-	const JCharacter*	uri
+	JXDisplay*		display,
+	const Atom		type,
+	const JString&	uri
 	)
 	:
 	JXSelectionData(display),
@@ -74,11 +74,11 @@ SVNRepoDragData::ConvertData
 		{
 		*returnType   = XA_STRING;
 		*bitsPerBlock = 8;
-		*dataLength   = itsURI.GetLength();
+		*dataLength   = itsURI.GetByteCount();
 		*data         = jnew unsigned char[ *dataLength ];
 		if (*data != nullptr)
 			{
-			memcpy(*data, itsURI.GetCString(), *dataLength);
+			memcpy(*data, itsURI.GetRawBytes(), *dataLength);
 			return kJTrue;
 			}
 		}

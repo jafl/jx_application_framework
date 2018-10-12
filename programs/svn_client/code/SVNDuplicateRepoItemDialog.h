@@ -16,8 +16,8 @@ class SVNDuplicateRepoItemDialog : public JXGetStringDialog
 {
 public:
 
-	SVNDuplicateRepoItemDialog(JXDirector* supervisor, const JCharacter* windowTitle,
-							   const JCharacter* prompt, const JCharacter* initialName,
+	SVNDuplicateRepoItemDialog(JXDirector* supervisor, const JString& windowTitle,
+							   const JString& prompt, const JString& initialName,
 							   SVNRepoTreeNode* srcNode);
 
 	virtual ~SVNDuplicateRepoItemDialog();

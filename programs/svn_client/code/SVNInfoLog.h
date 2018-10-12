@@ -17,7 +17,7 @@ class SVNInfoLog : public SVNTextBase
 public:
 
 	SVNInfoLog(SVNMainDirector* director, JXTextMenu* editMenu,
-			   const JCharacter* fullName, const JCharacter* rev,
+			   const JString& fullName, const JString& rev,
 			   JXScrollbarSet* scrollbarSet, JXContainer* enclosure,
 			   const HSizingOption hSizing, const VSizingOption vSizing,
 			   const JCoordinate x, const JCoordinate y,
@@ -27,14 +27,14 @@ public:
 
 	const JString&	GetFullName() const;
 
-	virtual void		UpdateInfoMenu(JXTextMenu* menu);
+	virtual void		UpdateInfoMenu(JXTextMenu* menu) override;
 	virtual void		GetSelectedFiles(JPtrArray<JString>* fullNameList,
-										 const JBoolean includeDeleted = kJFalse);
-	virtual JBoolean	GetBaseRevision(JString* rev);
+										 const JBoolean includeDeleted = kJFalse) override;
+	virtual JBoolean	GetBaseRevision(JString* rev) override;
 
 protected:
 
-	virtual JError	StartProcess(JProcess** p, int* outFD);
+	virtual JError	StartProcess(JProcess** p, int* outFD) override;
 
 	virtual void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
 									const JSize clickCount,
@@ -51,7 +51,7 @@ private:
 
 private:
 
-	void	Execute(const JCharacter* cmd);
+	void	Execute(const JString& cmd);
 
 	void	CreateContextMenu();
 	void	UpdateContextMenu();

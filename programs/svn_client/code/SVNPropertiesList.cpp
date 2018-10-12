@@ -20,10 +20,10 @@
 #include <JSimpleProcess.h>
 #include <jAssert.h>
 
-static const JCharacter* kPropEditCmd   = "svn propedit $prop_name $file_name";
-static const JCharacter* kPropRemoveCmd = "svn propdel $prop_name $file_name";
+static const JString kPropEditCmd("svn propedit $prop_name $file_name", kJFalse);
+static const JString kPropRemoveCmd("svn propdel $prop_name $file_name", kJFalse);
 
-static const JCharacter* kSpecialPropertyList[] =
+static const JUtf8Byte* kSpecialPropertyList[] =
 {
 	"svn:ignore",
 	"svn:keywords",
@@ -34,12 +34,7 @@ static const JCharacter* kSpecialPropertyList[] =
 	"svn:needs-lock"
 };
 
-const JSize kSpecialPropertyCount = sizeof(kSpecialPropertyList) / sizeof(JCharacter*);
-
-// string ID's
-
-static const JCharacter* kCreatePropertyWindowTitleID = "CreatePropertyWindowTitle::SVNPropertiesList";
-static const JCharacter* kCreatePropertyPromptID      = "CreatePropertyPrompt::SVNPropertiesList";
+const JSize kSpecialPropertyCount = sizeof(kSpecialPropertyList) / sizeof(JUtf8Byte*);
 
 /******************************************************************************
  Constructor
@@ -50,7 +45,7 @@ SVNPropertiesList::SVNPropertiesList
 	(
 	SVNMainDirector*	director,
 	JXTextMenu*			editMenu,
-	const JCharacter*	fullName,
+	const JString&		fullName,
 	JXScrollbarSet*		scrollbarSet,
 	JXContainer*		enclosure,
 	const HSizingOption hSizing,
@@ -92,11 +87,11 @@ SVNPropertiesList::~SVNPropertiesList()
 JString
 SVNPropertiesList::GetCommand
 	(
-	const JCharacter* fullName
+	const JString& fullName
 	)
 {
-	JString cmd = "svn --non-interactive proplist ";
-	cmd        += JPrepArgForExec(fullName);
+	JString cmd("svn --non-interactive proplist ");
+	cmd += JPrepArgForExec(fullName);
 	return cmd;
 }
 
@@ -319,8 +314,8 @@ SVNPropertiesList::CreateProperty()
 
 	itsCreatePropertyDialog =
 		jnew JXGetStringDialog(
-			GetDirector(), JGetString(kCreatePropertyWindowTitleID),
-			JGetString(kCreatePropertyPromptID), "");
+			GetDirector(), JGetString("CreatePropertyWindowTitle::SVNPropertiesList"),
+			JGetString("CreatePropertyPrompt::SVNPropertiesList"), JString::empty);
 	assert( itsCreatePropertyDialog != nullptr );
 	ListenTo(itsCreatePropertyDialog);
 	itsCreatePropertyDialog->BeginDialog();
@@ -403,7 +398,7 @@ SVNPropertiesList::RemoveNextProperty()
 {
 	if (!itsRemovePropertyCmdList->IsEmpty())
 		{
-		const JString cmd = *(itsRemovePropertyCmdList->FirstElement());
+		const JString cmd = *itsRemovePropertyCmdList->GetFirstElement();
 		itsRemovePropertyCmdList->DeleteElement(1);
 
 		JSimpleProcess* p;

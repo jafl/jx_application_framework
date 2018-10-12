@@ -18,7 +18,7 @@ class SVNGetRepoDialog : public JXDialogDirector, public JPrefObject
 {
 public:
 
-	SVNGetRepoDialog(JXDirector* supervisor, const JCharacter* windowTitle);
+	SVNGetRepoDialog(JXDirector* supervisor, const JString& windowTitle);
 
 	virtual ~SVNGetRepoDialog();
 
@@ -26,8 +26,8 @@ public:
 
 protected:
 
-	virtual void	ReadPrefs(std::istream& input);
-	virtual void	WritePrefs(std::ostream& output) const;
+	virtual void	ReadPrefs(std::istream& input) override;
+	virtual void	WritePrefs(std::ostream& output) const override;
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
@@ -42,7 +42,7 @@ private:
 
 private:
 
-	void	BuildWindow(const JCharacter* windowTitle);
+	void	BuildWindow(const JString& windowTitle);
 
 	// not allowed
 

@@ -32,9 +32,9 @@ public:
 
 	virtual ~SVNTextBase();
 
-	virtual void	UpdateActionsMenu(JXTextMenu* menu);
-	virtual void	UpdateInfoMenu(JXTextMenu* menu);
-	virtual void	RefreshContent();
+	virtual void	UpdateActionsMenu(JXTextMenu* menu) override;
+	virtual void	UpdateInfoMenu(JXTextMenu* menu) override;
+	virtual void	RefreshContent() override;
 
 protected:
 

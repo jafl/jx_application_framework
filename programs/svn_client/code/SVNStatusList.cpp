@@ -16,10 +16,11 @@
 #include <JTableSelection.h>
 #include <JSimpleProcess.h>
 #include <JSubstitute.h>
+#include <JStringIterator.h>
 #include <jDirUtil.h>
 #include <jAssert.h>
 
-static const JCharacter* kIgnoreCmd = "svn propedit svn:ignore $path";
+static const JString kIgnoreCmd("svn propedit svn:ignore $path", kJFalse);
 
 /******************************************************************************
  Constructor
@@ -40,7 +41,7 @@ SVNStatusList::SVNStatusList
 	const JCoordinate	h
 	)
 	:
-	SVNListBase(director, editMenu, "svn --non-interactive status",
+	SVNListBase(director, editMenu, JString("svn --non-interactive status", kJFalse),
 				kJFalse, kJFalse, kJFalse, kJTrue,
 				scrollbarSet, enclosure, hSizing, vSizing, x, y, w, h)
 {
@@ -70,15 +71,18 @@ SVNStatusList::StyleLine
 	const JFontStyle&	removeStyle
 	)
 {
-	const JCharacter c1 = line.GetCharacter(1);
-	const JCharacter c2 = line.GetCharacter(2);
+	JStringIterator iter(line);
+	JUtf8Character c1, c2;
+	iter.Next(&c1);
+	iter.Next(&c2);
+
 	if (c1 == 'C' || c1 == '!' || c1 == '~' || c2 == 'C')
 		{
 		SetStyle(index, errorStyle);
 		}
 	else if (c1 == '?' || c1 == 'I')
 		{
-		SetStyle(index, GetColormap()->GetGrayColor(50));
+		SetStyle(index, JColorManager::GetGrayColor(50));
 		}
 	else if (c1 == 'A')
 		{
@@ -102,9 +106,7 @@ SVNStatusList::ExtractRelativePath
 	)
 	const
 {
-	JString s = line.GetSubstring(8, line.GetLength());
-	s.TrimWhitespace();
-	return s;
+	return SVNListBase::ExtractRelativePath(line, 8);
 }
 
 /******************************************************************************
@@ -172,7 +174,7 @@ SVNStatusList::Ignore()
 		GetSelectedFiles(&list);
 
 		JString path, name;
-		JSplitPathAndName(*(list.FirstElement()), &path, &name);
+		JSplitPathAndName(*list.GetFirstElement(), &path, &name);
 
 		JXTextSelection* data = jnew JXTextSelection(GetDisplay(), name);
 		assert( data != nullptr );

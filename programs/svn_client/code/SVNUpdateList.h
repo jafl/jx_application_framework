@@ -23,16 +23,16 @@ public:
 
 	virtual ~SVNUpdateList();
 
-	virtual void	RefreshContent();
+	virtual void	RefreshContent() override;
 
 protected:
 
-	virtual JBoolean	ShouldDisplayLine(JString* line) const;
+	virtual JBoolean	ShouldDisplayLine(JString* line) const override;
 	virtual void		StyleLine(const JIndex index, const JString& line,
 								  const JFontStyle& errorStyle,
 								  const JFontStyle& addStyle,
-								  const JFontStyle& removeStyle);
-	virtual JString		ExtractRelativePath(const JString& line) const;
+								  const JFontStyle& removeStyle) override;
+	virtual JString		ExtractRelativePath(const JString& line) const override;
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 

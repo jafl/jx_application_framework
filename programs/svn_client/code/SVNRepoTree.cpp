@@ -110,7 +110,7 @@ SVNRepoTree::SaveOpenNodes()
 void
 SVNRepoTree::SavePathToOpen
 	(
-	const JCharacter* origUrl
+	const JString&origUrl
 	)
 {
 	JString url = origUrl;
@@ -125,7 +125,7 @@ SVNRepoTree::SavePathToOpen
 	JStripTrailingDirSeparator(&baseUrl);
 
 	JString path, name;
-	while (url.GetLength() > baseUrl.GetLength())
+	while (url.GetCharacterCount() > baseUrl.GetCharacterCount())
 		{
 		JString* s = jnew JString(url);
 		assert( s != nullptr );

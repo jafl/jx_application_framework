@@ -23,9 +23,9 @@
 SVNCreateRepoDirectoryDialog::SVNCreateRepoDirectoryDialog
 	(
 	JXDirector*			supervisor,
-	const JCharacter*	windowTitle,
-	const JCharacter*	prompt,
-	const JCharacter*	initialName,
+	const JString&		windowTitle,
+	const JString&		prompt,
+	const JString&		initialName,
 	SVNRepoTreeNode*	parentNode
 	)
 	:
@@ -34,7 +34,7 @@ SVNCreateRepoDirectoryDialog::SVNCreateRepoDirectoryDialog
 {
 	assert( itsParentNode != nullptr );
 
-	GetInputField()->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
+	GetInputField()->GetText()->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
 }
 
 /******************************************************************************

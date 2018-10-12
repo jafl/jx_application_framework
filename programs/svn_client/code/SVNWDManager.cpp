@@ -21,10 +21,6 @@ const JFileVersion kCurrentStateVersion = 1;
 
 	// version  1 restores open nodes in repo view
 
-// string ID's
-
-static const JCharacter* kNewBrowserInstrID = "NewBrowserInstr::SVNWDManager";
-
 /******************************************************************************
  Constructor
 
@@ -61,8 +57,8 @@ SVNWDManager::NewBrowser
 	)
 {
 	JString path;
-	if ((JXGetChooseSaveFile())->ChooseRWPath("", JGetString(kNewBrowserInstrID),
-											  nullptr, &path))
+	if ((JXGetChooseSaveFile())->ChooseRWPath(JString::empty, JGetString("NewBrowserInstr::SVNWDManager"),
+											  JString::empty, &path))
 		{
 		*dir = OpenDirectory(path);
 		return kJTrue;
@@ -82,7 +78,7 @@ SVNWDManager::NewBrowser
 JBoolean
 SVNWDManager::GetBrowser
 	(
-	const JCharacter*	path,
+	const JString&		path,
 	SVNMainDirector**	dir
 	)
 {
@@ -142,7 +138,7 @@ SVNWDManager::GetBrowser
 JBoolean
 SVNWDManager::GetBrowserForExactURL
 	(
-	const JCharacter*	url,
+	const JString&		url,
 	SVNMainDirector**	dir
 	)
 {
@@ -177,8 +173,8 @@ SVNWDManager::GetBrowserForExactURL
 SVNMainDirector*
 SVNWDManager::OpenDirectory
 	(
-	const JCharacter*	path,
-	JBoolean*			wasOpen		// can be nullptr
+	const JString&	path,
+	JBoolean*		wasOpen		// can be nullptr
 	)
 {
 	SVNMainDirector* dir;

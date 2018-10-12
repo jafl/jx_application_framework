@@ -16,7 +16,7 @@ class SVNAboutDialog : public JXDialogDirector
 {
 public:
 
-	SVNAboutDialog(JXDirector* supervisor, const JCharacter* prevVersStr);
+	SVNAboutDialog(JXDirector* supervisor, const JString& prevVersStr);
 
 	virtual	~SVNAboutDialog();
 
@@ -37,7 +37,7 @@ private:
 
 private:
 
-	void	BuildWindow(const JCharacter* prevVersStr);
+	void	BuildWindow(const JString& prevVersStr);
 
 	// not allowed
 

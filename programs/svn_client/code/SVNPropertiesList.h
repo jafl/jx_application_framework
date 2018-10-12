@@ -18,7 +18,7 @@ class SVNPropertiesList : public SVNListBase
 public:
 
 	SVNPropertiesList(SVNMainDirector* director, JXTextMenu* editMenu,
-					  const JCharacter* fullName,
+					  const JString& fullName,
 					  JXScrollbarSet* scrollbarSet, JXContainer* enclosure,
 					  const HSizingOption hSizing, const VSizingOption vSizing,
 					  const JCoordinate x, const JCoordinate y,
@@ -26,22 +26,22 @@ public:
 
 	virtual ~SVNPropertiesList();
 
-	virtual void		UpdateActionsMenu(JXTextMenu* menu);
+	virtual void		UpdateActionsMenu(JXTextMenu* menu) override;
 	virtual void		GetSelectedFiles(JPtrArray<JString>* fullNameList,
-										 const JBoolean includeDeleted = kJFalse);
-	virtual void		OpenSelectedItems();
-	virtual JBoolean	CreateProperty();
-	virtual JBoolean	SchedulePropertiesForRemove();
+										 const JBoolean includeDeleted = kJFalse) override;
+	virtual void		OpenSelectedItems() override;
+	virtual JBoolean	CreateProperty() override;
+	virtual JBoolean	SchedulePropertiesForRemove() override;
 
 protected:
 
-	virtual JBoolean	ShouldDisplayLine(JString* line) const;
+	virtual JBoolean	ShouldDisplayLine(JString* line) const override;
 	virtual void		StyleLine(const JIndex index, const JString& line,
 								  const JFontStyle& errorStyle,
 								  const JFontStyle& addStyle,
-								  const JFontStyle& removeStyle);
-	virtual JString		ExtractRelativePath(const JString& line) const;
-	virtual void		CopySelectedItems(const JBoolean fullPath);
+								  const JFontStyle& removeStyle) override;
+	virtual JString		ExtractRelativePath(const JString& line) const override;
+	virtual void		CopySelectedItems(const JBoolean fullPath) override;
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
@@ -54,7 +54,7 @@ private:
 
 private:
 
-	static JString	GetCommand(const JCharacter* fullName);
+	static JString	GetCommand(const JString& fullName);
 
 	JBoolean	CreateProperty1();
 	JBoolean	RemoveNextProperty();

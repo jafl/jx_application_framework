@@ -36,12 +36,13 @@ public:
 
 	virtual ~SVNListBase();
 
-	virtual void	UpdateActionsMenu(JXTextMenu* menu);
-	virtual void	UpdateInfoMenu(JXTextMenu* menu);
-	virtual void	RefreshContent();
+	virtual void	UpdateActionsMenu(JXTextMenu* menu) override;
+	virtual void	UpdateInfoMenu(JXTextMenu* menu) override;
+	virtual void	RefreshContent() override;
 	virtual void	GetSelectedFiles(JPtrArray<JString>* fullNameList,
-									 const JBoolean includeDeleted = kJFalse);
-	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers) override;
+									 const JBoolean includeDeleted = kJFalse) override;
+	virtual void	HandleKeyPress(const JUtf8Character& c,
+								   const int keySym, const JXKeyModifiers& modifiers) override;
 
 	virtual void	OpenSelectedItems();
 
@@ -83,6 +84,8 @@ protected:
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 	virtual void	ReceiveGoingAway(JBroadcaster* sender) override;
+
+	static JString	ExtractRelativePath(const JString& line, const JUnsignedOffset offset);
 
 private:
 

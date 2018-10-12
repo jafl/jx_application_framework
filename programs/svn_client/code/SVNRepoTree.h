@@ -25,7 +25,7 @@ public:
 	const JString&	GetRepoPath() const;
 	void			Update(SVNRepoTreeList* view, const JBoolean fresh = kJTrue);
 	void			ReopenIfNeeded(SVNRepoTreeNode* node);
-	void			SavePathToOpen(const JCharacter* url);
+	void			SavePathToOpen(const JString& url);
 
 	static void	SkipSetup(std::istream& input, JFileVersion vers);
 	void		ReadSetup(std::istream& input, JFileVersion vers);

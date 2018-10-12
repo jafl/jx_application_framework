@@ -43,8 +43,7 @@
 
 // File menu
 
-static const JCharacter* kFileMenuTitleStr = "File";
-static const JCharacter* kFileMenuStr =
+static const JUtf8Byte* kFileMenuStr =
 	"    Open directory...                   %k Meta-O                   %i" kSVNOpenDirectoryAction
 	"  | Browse repository...                %k Meta-Shift-O             %i" kSVNBrowseRepoAction
 	"%l| Check out repository...                                         %i" kSVNCheckOutRepoAction
@@ -70,13 +69,12 @@ enum
 
 // Edit menu additions
 
-static const JCharacter* kEditMenuAddStr =
+static const JUtf8Byte* kEditMenuAddStr =
 	"Copy full path %k Meta-Shift-C %i" kSVNCopyFullPathAction;
 
 // Actions menu
 
-static const JCharacter* kActionsMenuTitleStr = "Actions";
-static const JCharacter* kActionsMenuStr =
+static const JUtf8Byte* kActionsMenuStr =
 	"    Refresh display            %k F5     %i" kSVNRefreshStatusAction
 	"  | Close tab                  %k Ctrl-W %i" kSVNCloseTabAction
 	"%l| Update working copy        %k Meta-@ %i" kSVNUpdateWorkingCopyAction
@@ -101,8 +99,7 @@ static const JCharacter* kActionsMenuStr =
 
 // Info menu
 
-static const JCharacter* kInfoMenuTitleStr = "Info";
-static const JCharacter* kInfoMenuStr =
+static const JUtf8Byte* kInfoMenuStr =
 	"    Info & Log %k Meta-I     %i" kSVNInfoLogSelectedFilesAction
 	"  | Properties               %i" kSVNPropSelectedFilesAction
 	"%l| Compare with edited      %i" kSVNDiffEditedSelectedFilesAction
@@ -118,10 +115,7 @@ static const JCharacter* kInfoMenuStr =
 
 // Misc menus
 
-static const JCharacter* kWindowsMenuTitleStr = "Windows";
-
-static const JCharacter* kPrefsMenuTitleStr = "Preferences";
-static const JCharacter* kPrefsMenuStr =
+static const JUtf8Byte* kPrefsMenuStr =
 	"    Integration..."
 	"  | Edit tool bar..."
 	"  | File bindings..."
@@ -139,8 +133,7 @@ enum
 	kSaveWindSizeCmd
 };
 
-static const JCharacter* kHelpMenuTitleStr = "Help";
-static const JCharacter* kHelpMenuStr =
+static const JUtf8Byte* kHelpMenuStr =
 	"    About"
 	"%l| Table of Contents       %i" kJXHelpTOCAction
 	"  | Overview"
@@ -165,8 +158,8 @@ enum
 
 SVNMainDirector::SVNMainDirector
 	(
-	JXDirector*			supervisor,
-	const JCharacter*	path
+	JXDirector*		supervisor,
+	const JString&	path
 	)
 	:
 	JXWindowDirector(supervisor),
@@ -193,7 +186,7 @@ SVNMainDirector::SVNMainDirector
 SVNMainDirector::SVNMainDirector
 	(
 	JXDirector*		supervisor,
-	std::istream&		input,
+	std::istream&	input,
 	JFileVersion	vers
 	)
 	:
@@ -319,7 +312,7 @@ SVNMainDirector::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 500,300, "");
+	JXWindow* window = jnew JXWindow(this, 500,300, JString::empty);
 	assert( window != nullptr );
 
 	JXMenuBar* menuBar =
@@ -356,7 +349,7 @@ SVNMainDirector::BuildWindow()
 
 	// menus
 
-	itsFileMenu = menuBar->AppendTextMenu(kFileMenuTitleStr);
+	itsFileMenu = menuBar->AppendTextMenu(JGetString("FileMenuTitle::JXGlobal"));
 	itsFileMenu->SetMenuItems(kFileMenuStr, "SVNMainDirector");
 	ListenTo(itsFileMenu);
 
@@ -373,7 +366,7 @@ SVNMainDirector::BuildWindow()
 			}
 		}
 
-	itsActionsMenu = menuBar->AppendTextMenu(kActionsMenuTitleStr);
+	itsActionsMenu = menuBar->AppendTextMenu(JGetString("ActionsMenuTitle::SVNMainDirector"));
 	itsActionsMenu->SetMenuItems(kActionsMenuStr, "SVNMainDirector");
 	ListenTo(itsActionsMenu);
 
@@ -388,24 +381,24 @@ SVNMainDirector::BuildWindow()
 	itsActionsMenu->SetItemImage(kRevertAllChangesCmd,         svn_revert_all);
 	itsActionsMenu->SetItemImage(kCreateDirectoryCmd,          jx_folder_small);
 
-	itsInfoMenu = menuBar->AppendTextMenu(kInfoMenuTitleStr);
+	itsInfoMenu = menuBar->AppendTextMenu(JGetString("InfoMenuTitle::SVNMainDirector"));
 	itsInfoMenu->SetMenuItems(kInfoMenuStr, "SVNMainDirector");
 	ListenTo(itsInfoMenu);
 
 	itsInfoMenu->SetItemImage(kInfoLogSelectedFilesCmd, svn_info_log);
 
 	JXWDMenu* wdMenu =
-		jnew JXWDMenu(kWindowsMenuTitleStr, menuBar,
+		jnew JXWDMenu(JGetString("WindowsMenuTitle::JXGlobal"), menuBar,
 					 JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
 	assert( wdMenu != nullptr );
 	menuBar->AppendMenu(wdMenu);
 
-	itsPrefsMenu = menuBar->AppendTextMenu(kPrefsMenuTitleStr);
+	itsPrefsMenu = menuBar->AppendTextMenu(JGetString("PrefsMenuTitle::JXGlobal"));
 	itsPrefsMenu->SetMenuItems(kPrefsMenuStr, "SVNMainDirector");
 	itsPrefsMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsPrefsMenu);
 
-	itsHelpMenu = menuBar->AppendTextMenu(kHelpMenuTitleStr);
+	itsHelpMenu = menuBar->AppendTextMenu(JGetString("HelpMenuTitle::JXGlobal"));
 	itsHelpMenu->SetMenuItems(kHelpMenuStr, "SVNMainDirector");
 	itsHelpMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsHelpMenu);
@@ -432,7 +425,7 @@ SVNMainDirector::BuildWindow()
 		JXScrollbarSet* scrollbarSet = BuildScrollbarSet(card);
 
 		itsRepoWidget =
-			jnew SVNRepoView(this, repoPath, 0, itsEditMenu,
+			jnew SVNRepoView(this, repoPath, JString::empty, itsEditMenu,
 							scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 							JXWidget::kHElastic, JXWidget::kVElastic,
 							0,0, 100,100);
@@ -519,12 +512,12 @@ SVNMainDirector::BuildScrollbarSet
 void
 SVNMainDirector::UpdateWindowTitle
 	(
-	const JCharacter* path
+	const JString& path
 	)
 {
-	const JCharacter* map[] =
+	const JUtf8Byte* map[] =
 		{
-		"path", path
+		"path", path.GetBytes()
 		};
 	const JString title = JGetString("WindowTitleID::SVNMainDirector", map, sizeof(map));
 	GetWindow()->SetTitle(title);
@@ -958,7 +951,7 @@ SVNMainDirector::HandleFileMenu
 void
 SVNMainDirector::CheckOut
 	(
-	const JCharacter* url
+	const JString& url
 	)
 {
 	SVNMainDirector* dir;
@@ -994,7 +987,7 @@ SVNMainDirector::CheckOut()
 	JSplitPathAndName(repoPath, &path, &name);
 
 	if (!(JXGetChooseSaveFile())->SaveFile(
-			JGetString("CheckOutDirectoryPrompt::SVNMainDirector"), nullptr, name, &path))
+			JGetString("CheckOutDirectoryPrompt::SVNMainDirector"), JString::empty, name, &path))
 		{
 		return;
 		}
@@ -1004,10 +997,10 @@ SVNMainDirector::CheckOut()
 		JRemoveFile(path);
 		}
 
-	JString repoCmd = "svn co ";
-	repoCmd        += JPrepArgForExec(repoPath);
-	repoCmd        += " ";
-	repoCmd        += JPrepArgForExec(path);
+	JString repoCmd("svn co ");
+	repoCmd += JPrepArgForExec(repoPath);
+	repoCmd += " ";
+	repoCmd += JPrepArgForExec(path);
 	Execute("CheckOutTab::SVNMainDirector", repoCmd, kJFalse, kJTrue, kJFalse);
 
 	itsPath            = path;
@@ -1241,16 +1234,16 @@ SVNMainDirector::RefreshRepo()
 void
 SVNMainDirector::BrowseRepo
 	(
-	const JCharacter* rev
+	const JString& rev
 	)
 {
 	JString repoPath;
 	const JBoolean hasRepo = GetRepoPath(&repoPath);
 	assert( hasRepo );
 
-	const JCharacter* map[] =
+	const JUtf8Byte* map[] =
 		{
-		"rev", rev
+		"rev", rev.GetBytes()
 		};
 	const JString title = JGetString("RepoRevTab::SVNMainDirector", map, sizeof(map));
 
@@ -1326,7 +1319,8 @@ SVNMainDirector::CleanUpWorkingCopy()
 {
 	if (HasPath())
 		{
-		Execute("CleanUpTab::SVNMainDirector", "svn cleanup", kJFalse, kJTrue, kJTrue);
+		Execute("CleanUpTab::SVNMainDirector",
+				JString("svn cleanup", kJFalse), kJFalse, kJTrue, kJTrue);
 		}
 }
 
@@ -1338,7 +1332,7 @@ SVNMainDirector::CleanUpWorkingCopy()
 void
 SVNMainDirector::Commit
 	(
-	const JCharacter* cmd
+	const JString& cmd
 	)
 {
 	if (HasPath())
@@ -1357,7 +1351,8 @@ SVNMainDirector::CommitAll()
 {
 	if (HasPath())
 		{
-		Execute("CommitAllTab::SVNMainDirector", "svn commit", kJTrue, kJTrue, kJFalse);
+		Execute("CommitAllTab::SVNMainDirector",
+				JString("svn commit", kJFalse), kJTrue, kJTrue, kJFalse);
 		}
 }
 
@@ -1372,7 +1367,8 @@ SVNMainDirector::RevertAll()
 	if (HasPath() &&
 		(JGetUserNotification())->AskUserNo(JGetString("WarnRevertAll::SVNMainDirector")))
 		{
-		Execute("RevertAllTab::SVNMainDirector", "svn revert -R .", kJFalse, kJTrue, kJTrue);
+		Execute("RevertAllTab::SVNMainDirector",
+				JString("svn revert -R .", kJFalse), kJFalse, kJTrue, kJTrue);
 		}
 }
 
@@ -1384,8 +1380,8 @@ SVNMainDirector::RevertAll()
 void
 SVNMainDirector::Execute
 	(
-	const JCharacter*	tabStringID,
-	const JCharacter*	cmd,
+	const JUtf8Byte*	tabStringID,
+	const JString&		cmd,
 	const JBoolean		refreshRepo,
 	const JBoolean		refreshStatus,
 	const JBoolean		reloadOpenFiles
@@ -1495,7 +1491,7 @@ SVNMainDirector::HandleInfoMenu
 		itsBrowseRepoRevisionDialog =
 			jnew JXGetStringDialog(
 				this, JGetString("BrowseRepoRevWindowTitle::SVNMainDirector"),
-				JGetString("BrowseRepoRevPrompt::SVNMainDirector"), "");
+				JGetString("BrowseRepoRevPrompt::SVNMainDirector"), JString::empty);
 		assert( itsBrowseRepoRevisionDialog != nullptr );
 		ListenTo(itsBrowseRepoRevisionDialog);
 		itsBrowseRepoRevisionDialog->BeginDialog();
@@ -1544,8 +1540,8 @@ SVNMainDirector::ShowInfoLog
 void
 SVNMainDirector::ShowInfoLog
 	(
-	const JCharacter* origFullName,
-	const JCharacter* rev
+	const JString& origFullName,
+	const JString& rev
 	)
 {
 	JString fullName = origFullName;
@@ -1600,7 +1596,7 @@ SVNMainDirector::ShowProperties
 void
 SVNMainDirector::ShowProperties
 	(
-	const JCharacter* origFullName
+	const JString& origFullName
 	)
 {
 	JString fullName = origFullName;

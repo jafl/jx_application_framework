@@ -21,21 +21,21 @@ const JFileVersion kCurrentPrefsFileVersion = 1;
 
 // integration
 
-static const JCharacter* kCodeCrusaderCmd[] =
+static const JUtf8Byte* kCodeCrusaderCmd[] =
 {
 	"jcc --vcs-commit",
 	"",		// not used
 	"jcc --reload-open"
 };
 
-static const JCharacter* kCmdLineCmd[] =
+static const JUtf8Byte* kCmdLineCmd[] =
 {
 	"gnome-terminal -t \"Commit\" -x vi",
 	"gnome-terminal -t \"svn diff $rev_option $file_name\" -x /bin/sh -c \"svn diff $rev_option $file_name | less\"",
 	""		// not possible
 };
 
-static const JCharacter** kIntegrationCmd[2] =
+static const JUtf8Byte** kIntegrationCmd[2] =
 {
 	kCodeCrusaderCmd,
 	kCmdLineCmd
@@ -156,12 +156,12 @@ SVNPrefsManager::UpgradeData
 			dataStream >> diffCmd;
 			dataStream >> reloadChangedCmd;
 
-			const JCharacter* editor = getenv("SVN_EDITOR");
+			const JUtf8Byte* editor = getenv("SVN_EDITOR");
 			if (type == kCodeCrusader)
 				{
 				commitEditor = kCodeCrusaderCmd[ kCommitEditor ];
 				}
-			else if (type == kCustom && !JStringEmpty(editor))
+			else if (type == kCustom && !JString::IsEmpty(editor))
 				{
 				commitEditor = editor;
 				}
@@ -176,7 +176,7 @@ SVNPrefsManager::UpgradeData
 
 	// check if Code Crusader is available
 
-	const JBoolean hasJCC = JProgramAvailable("jcc");
+	const JBoolean hasJCC = JProgramAvailable(JGetString("CodeCrusaderBinary::SVNGlobal"));
 
 	Integration type;
 	JString commitEditor, diffCmd, reloadChangedCmd;
@@ -201,15 +201,15 @@ SVNPrefsManager::UpgradeData
 		else
 			{
 			GetCommand(kCommitEditor, &type, &commitEditor);
-			setenv("SVN_EDITOR", commitEditor, 1);
+			setenv("SVN_EDITOR", commitEditor.GetBytes(), 1);
 			}
 		}
 	else
 		{
 		SetIntegration(hasJCC ? kCodeCrusader : kCmdLine,
-					   kCmdLineCmd[ kCommitEditor ],
-					   kCmdLineCmd[ kDiffCmd ],
-					   kCmdLineCmd[ kReloadChangedCmd ]);
+					   JString(kCmdLineCmd[ kCommitEditor ], kJFalse),
+					   JString(kCmdLineCmd[ kDiffCmd ], kJFalse),
+					   JString(kCmdLineCmd[ kReloadChangedCmd ], kJFalse));
 		}
 }
 
@@ -384,7 +384,7 @@ SVNPrefsManager::GetCommand
 		*cmd = kIntegrationCmd[ *type ][ cmdType ];
 		}
 
-	return !JStringEmpty(*cmd);
+	return !cmd->IsEmpty();
 }
 
 /******************************************************************************
@@ -443,7 +443,7 @@ SVNPrefsManager::SetIntegration
 	Integration t;
 	JString e;
 	GetCommand(kCommitEditor, &t, &e);
-	setenv("SVN_EDITOR", e, 1);
+	setenv("SVN_EDITOR", e.GetBytes(), 1);
 }
 
 /******************************************************************************

@@ -35,11 +35,11 @@ public:
 
 public:
 
-	SVNRepoTreeNode(JTree* tree, const JCharacter* repoPath,
-					const JCharacter* repoRevision,
-					const JCharacter* name, const Type type,
+	SVNRepoTreeNode(JTree* tree, const JString& repoPath,
+					const JString& repoRevision,
+					const JString& name, const Type type,
 					const JIndex revision, const time_t modTime,
-					const JCharacter* author, const JSize size);
+					const JString& author, const JSize size);
 
 	virtual ~SVNRepoTreeNode();
 
@@ -53,7 +53,7 @@ public:
 	JSize			GetFileSize() const;
 
 	void	Update();
-	JError	Rename(const JCharacter* newName, const JBoolean sort = kJTrue);
+	JError	Rename(const JString& newName, const JBoolean sort = kJTrue);
 
 	SVNRepoTree*			GetRepoTree();
 	const SVNRepoTree*		GetRepoTree() const;
@@ -68,7 +68,7 @@ public:
 
 protected:
 
-	virtual JBoolean	OKToOpen() const;
+	virtual JBoolean	OKToOpen() const override;
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 	virtual void	ReceiveGoingAway(JBroadcaster* sender) override;

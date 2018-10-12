@@ -29,7 +29,7 @@ class SVNMainDirector : public JXWindowDirector
 {
 public:
 
-	SVNMainDirector(JXDirector* supervisor, const JCharacter* path);
+	SVNMainDirector(JXDirector* supervisor, const JString& path);
 	SVNMainDirector(JXDirector* supervisor, std::istream& input, const JFileVersion vers);
 
 	virtual	~SVNMainDirector();
@@ -39,17 +39,17 @@ public:
 	JBoolean		GetPath(JString* path) const;
 	JBoolean		GetRepoPath(JString* path) const;
 	void			RefreshRepo();
-	void			BrowseRepo(const JCharacter* rev);
+	void			BrowseRepo(const JString& rev);
 	JBoolean		GetRepoWidget(SVNRepoView** widget);
 	void			RefreshStatus();
 	void			ScheduleStatusRefresh();
 	void			UpdateWorkingCopy();
-	void			Commit(const JCharacter* cmd);
+	void			Commit(const JString& cmd);
 	void			ShowInfoLog(SVNTabBase* tab);
-	void			ShowInfoLog(const JCharacter* fullName,
-								const JCharacter* rev = nullptr);
+	void			ShowInfoLog(const JString& fullName,
+								const JString& rev = JString::empty);
 	void			ShowProperties(SVNTabBase* tab);
-	void			ShowProperties(const JCharacter* fullName);
+	void			ShowProperties(const JString& fullName);
 
 	JBoolean	OKToStartActionProcess() const;
 	void		RegisterActionProcess(SVNTabBase* tab, JProcess* p,
@@ -57,9 +57,9 @@ public:
 									  const JBoolean refreshStatus,
 									  const JBoolean reload);
 
-	static void	CheckOut(const JCharacter* url);
+	static void	CheckOut(const JString& url);
 
-	void	Execute(const JCharacter* tabStringID, const JCharacter* cmd,
+	void	Execute(const JUtf8Byte* tabStringID, const JString& cmd,
 					const JBoolean refreshRepo, const JBoolean refreshStatus,
 					const JBoolean reloadOpenFiles);
 
@@ -109,7 +109,7 @@ private:
 	void			SVNMainDirectorX();
 	void			BuildWindow();
 	JXScrollbarSet*	BuildScrollbarSet(JXContainer* widget);
-	void			UpdateWindowTitle(const JCharacter* title);
+	void			UpdateWindowTitle(const JString& title);
 
 	void	UpdateFileMenu();
 	void	HandleFileMenu(const JIndex index);

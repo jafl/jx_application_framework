@@ -28,7 +28,7 @@ class SVNRepoView : public JXNamedTreeListWidget, public SVNTabBase
 public:
 
 	SVNRepoView(SVNMainDirector* director,
-				const JCharacter* repoPath, const JCharacter* repoRevision,
+				const JString& repoPath, const JString& repoRevision,
 				JXTextMenu* editMenu,
 				JXScrollbarSet* scrollbarSet, JXContainer* enclosure,
 				const HSizingOption hSizing, const VSizingOption vSizing,
@@ -40,36 +40,37 @@ public:
 	SVNRepoTree*		GetRepoTree() const;
 	SVNRepoTreeList*	GetRepoTreeList() const;
 
-	virtual void		UpdateActionsMenu(JXTextMenu* menu);
-	virtual void		UpdateInfoMenu(JXTextMenu* menu);
-	virtual void		RefreshContent();
+	virtual void		UpdateActionsMenu(JXTextMenu* menu) override;
+	virtual void		UpdateInfoMenu(JXTextMenu* menu) override;
+	virtual void		RefreshContent() override;
 	virtual void		GetSelectedFiles(JPtrArray<JString>* fullNameList,
-										 const JBoolean includeDeleted = kJFalse);
+										 const JBoolean includeDeleted = kJFalse) override;
 	virtual void		GetSelectedFilesForDiff(JPtrArray<JString>* fullNameList,
-												JArray<JIndex>* revList);
-	virtual JBoolean	GetBaseRevision(JString* rev);
-	virtual void		OpenFiles();
-	virtual void		ShowFiles();
-	virtual JBoolean	ScheduleForRemove();
-	virtual JBoolean	CreateDirectory();
-	virtual JBoolean	DuplicateItem();
+												JArray<JIndex>* revList) override;
+	virtual JBoolean	GetBaseRevision(JString* rev) override;
+	virtual void		OpenFiles() override;
+	virtual void		ShowFiles() override;
+	virtual JBoolean	ScheduleForRemove() override;
+	virtual JBoolean	CreateDirectory() override;
+	virtual JBoolean	DuplicateItem() override;
 
-	virtual JBoolean	CanCheckOutSelection() const;
-	virtual void		CheckOutSelection();
+	virtual JBoolean	CanCheckOutSelection() const override;
+	virtual void		CheckOutSelection() override;
 
 	static void	SkipSetup(std::istream& input, JFileVersion vers);
 	void		ReadSetup(const JBoolean hadSetup, std::istream& input, JFileVersion vers);
 	void		WriteSetup(std::ostream& output) const;
 
-	virtual JBoolean	IsEditable(const JPoint& cell) const;
-	virtual void		HandleKeyPress(const int key, const JXKeyModifiers& modifiers) override;
+	virtual JBoolean	IsEditable(const JPoint& cell) const override;
+	virtual void		HandleKeyPress(const JUtf8Character& c,
+									   const int keySym, const JXKeyModifiers& modifiers) override;
 
 protected:
 
-	virtual void		AdjustToTree();
-	virtual void		TableDrawCell(JPainter &p, const JPoint& cell, const JRect& rect);
-	virtual JBoolean	GetImage(const JIndex index, const JXImage** image) const;
-	virtual JSize		GetMinCellWidth(const JPoint& cell) const;
+	virtual void		AdjustToTree() override;
+	virtual void		TableDrawCell(JPainter &p, const JPoint& cell, const JRect& rect) override;
+	virtual JBoolean	GetImage(const JIndex index, const JXImage** image) const override;
+	virtual JSize		GetMinCellWidth(const JPoint& cell) const override;
 
 	virtual void	HandleMouseHere(const JPoint& pt, const JXKeyModifiers& modifiers) override;
 	virtual void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
@@ -102,9 +103,9 @@ protected:
 		CreateTreeListInput(const JPoint& cell, JXContainer* enclosure,
 							const HSizingOption hSizing, const VSizingOption vSizing,
 							const JCoordinate x, const JCoordinate y,
-							const JCoordinate w, const JCoordinate h);
+							const JCoordinate w, const JCoordinate h) override;
 
-	virtual JBoolean	ExtractInputData(const JPoint& cell);
+	virtual JBoolean	ExtractInputData(const JPoint& cell) override;
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
@@ -152,8 +153,8 @@ private:
 
 private:
 
-	static SVNRepoTreeList*	BuildTreeList(const JCharacter* repoPath,
-										  const JCharacter* repoRevision);
+	static SVNRepoTreeList*	BuildTreeList(const JString& repoPath,
+										  const JString& repoRevision);
 
 	JString	GetCellString(const JPoint& cell) const;
 	void	StartDragRect(const JPoint& pt, const JXMouseButton button,

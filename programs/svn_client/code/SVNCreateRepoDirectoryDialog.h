@@ -16,8 +16,8 @@ class SVNCreateRepoDirectoryDialog : public JXGetStringDialog
 {
 public:
 
-	SVNCreateRepoDirectoryDialog(JXDirector* supervisor, const JCharacter* windowTitle,
-							const JCharacter* prompt, const JCharacter* initialName,
+	SVNCreateRepoDirectoryDialog(JXDirector* supervisor, const JString& windowTitle,
+							const JString& prompt, const JString& initialName,
 							SVNRepoTreeNode* parentNode);
 
 	virtual ~SVNCreateRepoDirectoryDialog();

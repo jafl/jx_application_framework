@@ -20,10 +20,6 @@ static SVNPrefsManager*	thePrefsManager = nullptr;
 static SVNWDManager*	theWDManager    = nullptr;		// owned by JX
 static SVNMDIServer*	theMDIServer    = nullptr;
 
-// string ID's
-
-static const JCharacter* kDescriptionID = "Description::svnGlobals";
-
 /******************************************************************************
  SVNCreateGlobals
 
@@ -155,7 +151,7 @@ SVNGetMDIServer()
 
  ******************************************************************************/
 
-const JCharacter*
+const JString&
 SVNGetVersionNumberStr()
 {
 	return JGetString("VERSION");
@@ -169,12 +165,12 @@ SVNGetVersionNumberStr()
 JString
 SVNGetVersionStr()
 {
-	const JCharacter* map[] =
+	const JUtf8Byte* map[] =
 		{
-		"version",   JGetString("VERSION"),
-		"copyright", JGetString("COPYRIGHT")
+		"version",   JGetString("VERSION").GetBytes(),
+		"copyright", JGetString("COPYRIGHT").GetBytes()
 		};
-	return JGetString(kDescriptionID, map, sizeof(map));
+	return JGetString("Description::svnGlobals", map, sizeof(map));
 }
 
 /******************************************************************************
@@ -182,13 +178,13 @@ SVNGetVersionStr()
 
  ******************************************************************************/
 
-const JCharacter*
+const JUtf8Byte*
 SVNGetWMClassInstance()
 {
 	return "NPS SVN Client";
 }
 
-const JCharacter*
+const JUtf8Byte*
 SVNGetMainWindowClass()
 {
 	return "NPS_SVN_Client_Main_Window";

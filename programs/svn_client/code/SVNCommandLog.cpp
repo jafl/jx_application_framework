@@ -22,7 +22,7 @@ SVNCommandLog::SVNCommandLog
 	(
 	SVNMainDirector*	director,
 	JXTextMenu*			editMenu,
-	const JCharacter*	cmd,
+	const JString&		cmd,
 	const JBoolean		refreshRepo,
 	const JBoolean		refreshStatus,
 	const JBoolean		reloadOpenFiles,

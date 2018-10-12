@@ -58,8 +58,7 @@ SVNTabGroup::SVNTabGroup
 	itsImageList = jnew JPtrArray<JXImage>(JPtrArrayT::kDeleteAll, kBusyIconCount);
 	assert( itsImageList != nullptr );
 
-	JXDisplay* display   = enclosure->GetDisplay();
-	JXColorManager* colormap = enclosure->GetColormap();
+	JXDisplay* display = enclosure->GetDisplay();
 	for (JIndex i=1; i<=kBusyIconCount; i++)
 		{
 		JXImage* icon = jnew JXImage(display, kBusyIcon[i-1]);

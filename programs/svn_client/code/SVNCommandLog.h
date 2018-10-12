@@ -15,7 +15,7 @@ class SVNCommandLog : public SVNTextBase
 public:
 
 	SVNCommandLog(SVNMainDirector* director,  JXTextMenu* editMenu,
-				  const JCharacter* cmd, const JBoolean refreshRepo,
+				  const JString& cmd, const JBoolean refreshRepo,
 				  const JBoolean refreshStatus, const JBoolean reloadOpenFiles,
 				  JXScrollbarSet* scrollbarSet, JXContainer* enclosure,
 				  const HSizingOption hSizing, const VSizingOption vSizing,

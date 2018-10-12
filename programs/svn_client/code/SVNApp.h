@@ -18,12 +18,12 @@ public:
 
 	virtual	~SVNApp();
 
-	void	DisplayAbout(const JCharacter* prevVersStr = nullptr);
+	void	DisplayAbout(const JString& prevVersStr = JString::empty);
 
 	void	ReloadOpenFilesInIDE();
 
-	static const JCharacter*	GetAppSignature();
-	static void					InitStrings();
+	static const JUtf8Byte*	GetAppSignature();
+	static void				InitStrings();
 
 protected:
 

@@ -15,6 +15,8 @@
 #include <jXGlobals.h>
 #include <JProcess.h>
 #include <JRegex.h>
+#include <JStringIterator.h>
+#include <JStringMatch.h>
 #include <jStreamUtil.h>
 #include <jAssert.h>
 
@@ -22,7 +24,7 @@ static const JRegex revisionPattern = "^r([0-9]+)$";
 
 // Context menu
 
-static const JCharacter* kContextMenuStr =
+static const JUtf8Byte* kContextMenuStr =
 	"    Compare with edited"
 	"  | Compare with current"
 	"  | Compare with previous"
@@ -47,8 +49,8 @@ SVNInfoLog::SVNInfoLog
 	(
 	SVNMainDirector*	director,
 	JXTextMenu*			editMenu,
-	const JCharacter*	fullName,
-	const JCharacter*	rev,
+	const JString&		fullName,
+	const JString&		rev,
 	JXScrollbarSet*		scrollbarSet,
 	JXContainer*		enclosure,
 	const HSizingOption hSizing,
@@ -61,7 +63,7 @@ SVNInfoLog::SVNInfoLog
 	:
 	SVNTextBase(director, editMenu, scrollbarSet, enclosure, hSizing, vSizing, x, y, w, h),
 	itsFullName(fullName),
-	itsRevision(JStringEmpty(rev) ? "" : rev),
+	itsRevision(rev),
 	itsContextMenu(nullptr)
 {
 }
@@ -113,7 +115,7 @@ SVNInfoLog::StartProcess
 void
 SVNInfoLog::Execute
 	(
-	const JCharacter* cmd
+	const JString& cmd
 	)
 {
 	(JXGetApplication())->DisplayBusyCursor();
@@ -130,7 +132,7 @@ SVNInfoLog::Execute
 		return;
 		}
 
-	const JFontStyle red(kJTrue, kJFalse, 0, kJFalse, GetColormap()->GetRedColor());
+	const JFontStyle red(kJTrue, kJFalse, 0, kJFalse, JColorManager::GetRedColor());
 
 	JString text;
 	JReadAll(errFD, &text);
@@ -176,17 +178,18 @@ SVNInfoLog::GetBaseRevision
 	)
 {
 	JString s;
-	JArray<JIndexRange> matchList;
-	if (GetSelection(&s) && revisionPattern.Match(s, &matchList))
+	if (GetSelection(&s))
 		{
-		*rev = s.GetSubstring(matchList.GetElement(2));
-		return kJTrue;
+		JStringIterator iter(s);
+		if (iter.Next(revisionPattern))
+			{
+			*rev = iter.GetLastMatch().GetSubstring(1);
+			return kJTrue;
+			}
 		}
-	else
-		{
-		rev->Clear();
-		return kJFalse;
-		}
+
+	rev->Clear();
+	return kJFalse;
 }
 
 /******************************************************************************
@@ -262,7 +265,7 @@ SVNInfoLog::CreateContextMenu()
 {
 	if (itsContextMenu == nullptr)
 		{
-		itsContextMenu = jnew JXTextMenu("", this, kFixedLeft, kFixedTop, 0,0, 10,10);
+		itsContextMenu = jnew JXTextMenu(JString::empty, this, kFixedLeft, kFixedTop, 0,0, 10,10);
 		assert( itsContextMenu != nullptr );
 		itsContextMenu->SetMenuItems(kContextMenuStr, "SVNInfoLog");
 		itsContextMenu->SetUpdateAction(JXMenu::kDisableNone);

@@ -28,9 +28,9 @@ SVNPrefsDialog::SVNPrefsDialog
 	(
 	JXDirector*							supervisor,
 	const SVNPrefsManager::Integration	type,
-	const JCharacter*					commitEditor,
-	const JCharacter*					diffCmd,
-	const JCharacter*					reloadChangedCmd
+	const JString&						commitEditor,
+	const JString&						diffCmd,
+	const JString&						reloadChangedCmd
 	)
 	:
 	JXDialogDirector(supervisor, kJTrue)
@@ -64,9 +64,9 @@ SVNPrefsDialog::GetData
 {
 	*type = (SVNPrefsManager::Integration) itsIntegrationRG->GetSelectedItem();
 
-	*commitEditor     = itsCommitEditor->GetText();
-	*diffCmd          = itsDiffCmd->GetText();
-	*reloadChangedCmd = itsReloadChangedCmd->GetText();
+	*commitEditor     = itsCommitEditor->GetText()->GetText();
+	*diffCmd          = itsDiffCmd->GetText()->GetText();
+	*reloadChangedCmd = itsReloadChangedCmd->GetText()->GetText();
 }
 
 /******************************************************************************
@@ -78,14 +78,14 @@ void
 SVNPrefsDialog::BuildWindow
 	(
 	const SVNPrefsManager::Integration	type,
-	const JCharacter*					commitEditor,
-	const JCharacter*					diffCmd,
-	const JCharacter*					reloadChangedCmd
+	const JString&						commitEditor,
+	const JString&						diffCmd,
+	const JString&						reloadChangedCmd
 	)
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 400,250, "");
+	JXWindow* window = jnew JXWindow(this, 400,250, JString::empty);
 	assert( window != nullptr );
 
 	itsCommitEditor =
@@ -172,15 +172,15 @@ SVNPrefsDialog::BuildWindow
 
 	itsIntegrationRG->SelectItem(type);
 
-	itsCommitEditor->SetText(commitEditor);
+	itsCommitEditor->GetText()->SetText(commitEditor);
 	itsCommitEditor->SetIsRequired();
 	itsCommitEditor->SetFont(JFontManager::GetDefaultMonospaceFont());
 
-	itsDiffCmd->SetText(diffCmd);
+	itsDiffCmd->GetText()->SetText(diffCmd);
 	itsDiffCmd->SetIsRequired();
 	itsDiffCmd->SetFont(JFontManager::GetDefaultMonospaceFont());
 
-	itsReloadChangedCmd->SetText(reloadChangedCmd);
+	itsReloadChangedCmd->GetText()->SetText(reloadChangedCmd);
 	itsReloadChangedCmd->SetFont(JFontManager::GetDefaultMonospaceFont());
 
 	UpdateDisplay();
@@ -196,7 +196,7 @@ SVNPrefsDialog::BuildWindow
 void
 SVNPrefsDialog::UpdateDisplay()
 {
-	if (JProgramAvailable("jcc"))
+	if (JProgramAvailable(JGetString("CodeCrusaderBinary::SVNGlobal")))
 		{
 		itsJCCIntegrationRB->Activate();
 		}

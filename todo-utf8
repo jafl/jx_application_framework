@@ -1,11 +1,9 @@
-leibnitz
-	parents not being set correctly for parsed function
-
 JXFileListTable
 JXTreeListWidget
 JXStringTable
 JXStringList
 JXDirTable
+j2dplot title, labels, legend
 	render as many characters as possible via fallback fonts
 
 	JFont:
@@ -27,7 +25,6 @@ JTextEditor:
 JXFontManager
 	some characters extend above line height
 
-svn_client
 jcc
 medic
 glove

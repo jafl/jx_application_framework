@@ -29,8 +29,8 @@ const JFileVersion kCurrentPrefsVersion = 1;
 
 SVNGetRepoDialog::SVNGetRepoDialog
 	(
-	JXDirector*			supervisor,
-	const JCharacter*	windowTitle
+	JXDirector*		supervisor,
+	const JString&	windowTitle
 	)
 	:
 	JXDialogDirector(supervisor, kJTrue),
@@ -61,7 +61,7 @@ const JString&
 SVNGetRepoDialog::GetRepo()
 	const
 {
-	const JString& s = itsRepoInput->GetText();
+	const JString& s = itsRepoInput->GetText()->GetText();
 	itsRepoHistoryMenu->AddString(s);
 	return s;
 }
@@ -74,12 +74,12 @@ SVNGetRepoDialog::GetRepo()
 void
 SVNGetRepoDialog::BuildWindow
 	(
-	const JCharacter* windowTitle
+	const JString& windowTitle
 	)
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 310,110, "");
+	JXWindow* window = jnew JXWindow(this, 310,110, JString::empty);
 	assert( window != nullptr );
 
 	JXTextButton* okButton =
@@ -100,7 +100,7 @@ SVNGetRepoDialog::BuildWindow
 	assert( itsRepoInput != nullptr );
 
 	itsRepoHistoryMenu =
-		jnew JXStringHistoryMenu(kHistoryLength, "", window,
+		jnew JXStringHistoryMenu(kHistoryLength, JString::empty, window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 260,40, 30,20);
 	assert( itsRepoHistoryMenu != nullptr );
 
@@ -134,7 +134,7 @@ SVNGetRepoDialog::Receive
 {
 	if (sender == itsRepoHistoryMenu && message.Is(JXMenu::kItemSelected))
 		{
-		itsRepoInput->SetText(itsRepoHistoryMenu->GetItemText(message));
+		itsRepoInput->GetText()->SetText(itsRepoHistoryMenu->GetItemText(message));
 		}
 	else
 		{

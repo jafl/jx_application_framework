@@ -24,7 +24,7 @@ SVNPrefsManager*	SVNGetPrefsManager();
 SVNWDManager*		SVNGetWDManager();
 SVNMDIServer*		SVNGetMDIServer();
 
-const JCharacter*	SVNGetVersionNumberStr();
+const JString&		SVNGetVersionNumberStr();
 JString				SVNGetVersionStr();
 
 	// called by SVNApp
@@ -35,7 +35,7 @@ void		SVNCleanUpBeforeSuddenDeath(const JXDocumentManager::SafetySaveReason reas
 
 	// called by Directors
 
-const JCharacter*	SVNGetWMClassInstance();
-const JCharacter*	SVNGetMainWindowClass();
+const JUtf8Byte*	SVNGetWMClassInstance();
+const JUtf8Byte*	SVNGetMainWindowClass();
 
 #endif

@@ -14,7 +14,7 @@ class SVNRepoDragData : public JXSelectionData
 {
 public:
 
-	SVNRepoDragData(JXDisplay* display, const Atom type, const JCharacter* uri);
+	SVNRepoDragData(JXDisplay* display, const Atom type, const JString& uri);
 
 	virtual	~SVNRepoDragData();
 

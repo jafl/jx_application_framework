@@ -34,7 +34,7 @@ public:
 protected:
 
 	virtual void	DrawTab(const JIndex index, JXWindowPainter& p,
-							const JRect& rect, const Edge edge);
+							const JRect& rect, const Edge edge) override;
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:

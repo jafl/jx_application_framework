@@ -21,9 +21,9 @@ public:
 	virtual ~SVNWDManager();
 
 	JBoolean			NewBrowser(SVNMainDirector** dir);
-	JBoolean			GetBrowser(const JCharacter* path, SVNMainDirector** dir);
-	JBoolean			GetBrowserForExactURL(const JCharacter* url, SVNMainDirector** dir);
-	SVNMainDirector*	OpenDirectory(const JCharacter* path, JBoolean* wasOpen = nullptr);
+	JBoolean			GetBrowser(const JString& path, SVNMainDirector** dir);
+	JBoolean			GetBrowserForExactURL(const JString& url, SVNMainDirector** dir);
+	SVNMainDirector*	OpenDirectory(const JString& path, JBoolean* wasOpen = nullptr);
 
 	// called by CBPrefsManager
 

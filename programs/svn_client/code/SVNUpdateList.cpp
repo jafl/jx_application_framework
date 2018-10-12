@@ -11,10 +11,11 @@
 #include "svnGlobals.h"
 #include <JProcess.h>
 #include <JRegex.h>
+#include <JStringIterator.h>
 #include <jAssert.h>
 
-static const JRegex revisionPattern      = "revision [0-9]+\\.$";
-static const JCharacter* conflictPattern = "conflicts:";
+static const JRegex revisionPattern = "revision [0-9]+\\.$";
+static const JString conflictPattern("conflicts:", kJFalse);
 
 /******************************************************************************
  Constructor
@@ -35,7 +36,7 @@ SVNUpdateList::SVNUpdateList
 	const JCoordinate	h
 	)
 	:
-	SVNListBase(director, editMenu, "svn --non-interactive update",
+	SVNListBase(director, editMenu, JString("svn --non-interactive update", kJFalse),
 				kJFalse, kJTrue, kJTrue, kJTrue,
 				scrollbarSet, enclosure, hSizing, vSizing, x, y, w, h),
 	itsHasRefreshedFlag(kJFalse)
@@ -81,8 +82,11 @@ SVNUpdateList::StyleLine
 	const JFontStyle&	removeStyle
 	)
 {
-	const JCharacter c1 = line.GetCharacter(1);
-	const JCharacter c2 = line.GetCharacter(2);
+	JStringIterator iter(line);
+	JUtf8Character c1, c2;
+	iter.Next(&c1);
+	iter.Next(&c2);
+
 	if (c1 == 'C' || c2 == 'C')
 		{
 		SetStyle(index, errorStyle);
@@ -109,9 +113,7 @@ SVNUpdateList::ExtractRelativePath
 	)
 	const
 {
-	JString s = line.GetSubstring(6, line.GetLength());
-	s.TrimWhitespace();
-	return s;
+	return SVNListBase::ExtractRelativePath(line, 6);
 }
 
 /******************************************************************************

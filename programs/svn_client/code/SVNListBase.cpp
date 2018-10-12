@@ -17,7 +17,9 @@
 #include <JXTextSelection.h>
 #include <jXGlobals.h>
 #include <JTableSelection.h>
+#include <JFontManager.h>
 #include <JProcess.h>
+#include <JStringIterator.h>
 #include <jStreamUtil.h>
 #include <jDirUtil.h>
 #include <jASCIIConstants.h>
@@ -25,7 +27,7 @@
 
 // Context menu
 
-static const JCharacter* kContextMenuStr =
+static const JUtf8Byte* kContextMenuStr =
 	"    Compare with edited"
 	"  | Compare with current"
 	"  | Compare with previous"
@@ -77,7 +79,7 @@ SVNListBase::SVNListBase
 	itsMessageLink(nullptr),
 	itsErrorLink(nullptr)
 {
-	SetFont(JGetMonospaceFontName(), JGetDefaultMonoFontSize());
+	SetFont(JFontManager::GetDefaultMonospaceFontName(), JFontManager::GetDefaultFontSize());
 	SetSelectionBehavior(kJTrue, kJTrue);
 
 	itsLineList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
@@ -288,8 +290,8 @@ SVNListBase::ReceiveMessageLine()
 		return;
 		}
 
-	const JFontStyle red(kJTrue, kJFalse, 0, kJFalse, GetColormap()->GetRedColor());
-	const JFontStyle blue = GetColormap()->GetBlueColor();
+	const JFontStyle red(kJTrue, kJFalse, 0, kJFalse, JColorManager::GetRedColor());
+	const JFontStyle blue = JColorManager::GetBlueColor();
 	const JFontStyle strike(kJFalse, kJFalse, 0, kJTrue);
 
 	JString* temp = jnew JString(line);
@@ -349,7 +351,7 @@ SVNListBase::ReceiveErrorLine()
 void
 SVNListBase::DisplayErrors()
 {
-	const JFontStyle red(kJTrue, kJFalse, 0, kJFalse, GetColormap()->GetRedColor());
+	const JFontStyle red(kJTrue, kJFalse, 0, kJFalse, JColorManager::GetRedColor());
 
 	const JSize count = itsErrorList->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
@@ -580,7 +582,8 @@ SVNListBase::HandleMouseDrag
 void
 SVNListBase::HandleKeyPress
 	(
-	const int				key,
+	const JUtf8Character&	c,
+	const int				keySym,
 	const JXKeyModifiers&	modifiers
 	)
 {
@@ -588,29 +591,29 @@ SVNListBase::HandleKeyPress
 	const JBoolean hadSelection = s.HasSelection();
 	itsSavedSelection->CleanOut();
 
-	if (key == kJReturnKey)
+	if (c == kJReturnKey)
 		{
 		OpenSelectedItems();
 		}
 
 	// space->clear is handled by JXStringList
 
-	else if (key == kJUpArrow || key == kJDownArrow)
+	else if (c == kJUpArrow || c == kJDownArrow)
 		{
 		ClearIncrementalSearchBuffer();
-		if (!hadSelection && key == kJUpArrow && GetRowCount() > 0)
+		if (!hadSelection && c == kJUpArrow && GetRowCount() > 0)
 			{
 			SelectSingleCell(JPoint(1, GetRowCount()));
 			}
 		else
 			{
-			HandleSelectionKeyPress(key, modifiers);
+			HandleSelectionKeyPress(c, modifiers);
 			}
 		}
 
 	else
 		{
-		JXStringList::HandleKeyPress(key, modifiers);
+		JXStringList::HandleKeyPress(c, keySym, modifiers);
 		}
 }
 
@@ -626,7 +629,7 @@ SVNListBase::CreateContextMenu()
 {
 	if (itsContextMenu == nullptr && itsEnableContextMenuFlag)
 		{
-		itsContextMenu = jnew JXTextMenu("", this, kFixedLeft, kFixedTop, 0,0, 10,10);
+		itsContextMenu = jnew JXTextMenu(JString::empty, this, kFixedLeft, kFixedTop, 0,0, 10,10);
 		assert( itsContextMenu != nullptr );
 		itsContextMenu->SetMenuItems(kContextMenuStr, "SVNListBase");
 		itsContextMenu->SetUpdateAction(JXMenu::kDisableNone);
@@ -801,12 +804,33 @@ SVNListBase::GetSelectedFiles
 		{
 		const JString* line   = itsLineList->GetElement(cell.y);
 		name                  = ExtractRelativePath(*line);
-		const JBoolean exists = JConvertToAbsolutePath(name, basePath, &fullName);
+		const JBoolean exists = JConvertToAbsolutePath(name, &basePath, &fullName);
 		if (exists || includeDeleted)
 			{
 			fullNameList->Append(fullName);
 			}
 		}
+}
+
+/******************************************************************************
+ ExtractRelativePath (static)
+
+ ******************************************************************************/
+
+JString
+SVNListBase::ExtractRelativePath
+	(
+	const JString&			line,
+	const JUnsignedOffset	offset
+	)
+{
+	JStringIterator iter(line);
+	iter.SkipNext(offset);
+	iter.BeginMatch();
+	iter.MoveTo(kJIteratorStartAtEnd, 0);
+	JString s = iter.FinishMatch().GetString();
+	s.TrimWhitespace();
+	return s;
 }
 
 /******************************************************************************
@@ -838,7 +862,7 @@ SVNListBase::CompareLines::Compare
 	const JString p1 = itsWidget->ExtractRelativePath(*s1);
 	const JString p2 = itsWidget->ExtractRelativePath(*s2);
 
-	const int r = JStringCompare(p1, p2, kJFalse);
+	const int r = JString::Compare(p1, p2, kJFalse);
 	if (r > 0)
 		{
 		return JListT::kFirstGreaterSecond;

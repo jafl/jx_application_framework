@@ -17,11 +17,6 @@
 #include <JXHelpManager.h>
 #include <jAssert.h>
 
-// string ID's
-
-static const JCharacter* kUpgradeNoticeID     = "UpgradeNotice::SVNAboutDialog";
-static const JCharacter* kChangeButtonLabelID = "ChangeButtonLabel::SVNAboutDialog";
-
 /******************************************************************************
  Constructor
 
@@ -31,8 +26,8 @@ static const JCharacter* kChangeButtonLabelID = "ChangeButtonLabel::SVNAboutDial
 
 SVNAboutDialog::SVNAboutDialog
 	(
-	JXDirector*			supervisor,
-	const JCharacter*	prevVersStr
+	JXDirector*		supervisor,
+	const JString&	prevVersStr
 	)
 	:
 	JXDialogDirector(supervisor, kJTrue)
@@ -62,12 +57,12 @@ SVNAboutDialog::~SVNAboutDialog()
 void
 SVNAboutDialog::BuildWindow
 	(
-	const JCharacter* prevVersStr
+	const JString& prevVersStr
 	)
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 430,200, "");
+	JXWindow* window = jnew JXWindow(this, 430,200, JString::empty);
 	assert( window != nullptr );
 
 	JXStaticText* textWidget =
@@ -115,18 +110,18 @@ SVNAboutDialog::BuildWindow
 	imageWidget->SetImage(image, kJTrue);
 
 	JString text = SVNGetVersionStr();
-	if (!JStringEmpty(prevVersStr))
+	if (!prevVersStr.IsEmpty())
 		{
-		const JCharacter* map[] =
+		const JUtf8Byte* map[] =
 			{
-			"vers", prevVersStr
+			"vers", prevVersStr.GetBytes()
 			};
-		text += JGetString(kUpgradeNoticeID);
+		text += JGetString("UpgradeNotice::SVNAboutDialog");
 		(JGetStringManager())->Replace(&text, map, sizeof(map));
-		itsHelpButton->SetLabel(JGetString(kChangeButtonLabelID));
+		itsHelpButton->SetLabel(JGetString("ChangeButtonLabel::SVNAboutDialog"));
 		itsIsUpgradeFlag = kJTrue;
 		}
-	textWidget->SetText(text);
+	textWidget->GetText()->SetText(text);
 
 	// NPS icon
 

@@ -23,9 +23,9 @@
 SVNDuplicateRepoItemDialog::SVNDuplicateRepoItemDialog
 	(
 	JXDirector*			supervisor,
-	const JCharacter*	windowTitle,
-	const JCharacter*	prompt,
-	const JCharacter*	initialName,
+	const JString&		windowTitle,
+	const JString&		prompt,
+	const JString&		initialName,
 	SVNRepoTreeNode*	srcNode
 	)
 	:
@@ -34,7 +34,7 @@ SVNDuplicateRepoItemDialog::SVNDuplicateRepoItemDialog
 {
 	assert( itsSrcNode != nullptr );
 
-	GetInputField()->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
+	GetInputField()->GetText()->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
 }
 
 /******************************************************************************

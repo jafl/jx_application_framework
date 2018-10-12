@@ -36,9 +36,9 @@ public:
 	virtual void	ShowFiles();
 
 	virtual JBoolean	GetBaseRevision(JString* rev);
-	void				CompareEdited(const JCharacter* rev);
-	void				CompareCurrent(const JCharacter* rev = nullptr);
-	void				ComparePrev(const JCharacter* rev = nullptr);
+	void				CompareEdited(const JString& rev);
+	void				CompareCurrent(const JString& rev = JString::empty);
+	void				ComparePrev(const JString& rev = JString::empty);
 
 	virtual JBoolean	ScheduleForAdd();
 	virtual JBoolean	ScheduleForRemove();
@@ -61,13 +61,13 @@ private:
 
 private:
 
-	JBoolean	Prepare(JString* cmd, const JCharacter* warnMsgID = nullptr,
+	JBoolean	Prepare(JString* cmd, const JUtf8Byte* warnMsgID = nullptr,
 						const JBoolean includeDeleted = kJFalse);
-	JBoolean	Execute(const JCharacter* cmd, const JCharacter* warnMsgID = nullptr,
+	JBoolean	Execute(const JString& cmd, const JUtf8Byte* warnMsgID = nullptr,
 						const JBoolean includeDeleted = kJFalse,
 						const JBoolean blocking = kJTrue);
 	void		Compare(const JString& rev, const JBoolean isPrev);
-	JBoolean	ExecuteDiff(const JCharacter* cmd, const JCharacter* rev, const JBoolean isPrev);
+	JBoolean	ExecuteDiff(const JString& cmd, const JString& rev, const JBoolean isPrev);
 	JBoolean	ExecuteJCCDiff(const JString& rev, const JBoolean isPrev);
 
 	// not allowed

@@ -21,9 +21,9 @@ public:
 
 	SVNPrefsDialog(JXDirector* supervisor,
 				   const SVNPrefsManager::Integration type,
-				   const JCharacter* commitEditor,
-				   const JCharacter* diffCmd,
-				   const JCharacter* reloadChangedCmd);
+				   const JString& commitEditor,
+				   const JString& diffCmd,
+				   const JString& reloadChangedCmd);
 
 	virtual	~SVNPrefsDialog();
 
@@ -51,8 +51,8 @@ private:
 private:
 
 	void	BuildWindow(const SVNPrefsManager::Integration type,
-						const JCharacter* commitEditor, const JCharacter* diffCmd,
-						const JCharacter* reloadChangedCmd);
+						const JString& commitEditor, const JString& diffCmd,
+						const JString& reloadChangedCmd);
 	void	UpdateDisplay();
 
 	// not allowed

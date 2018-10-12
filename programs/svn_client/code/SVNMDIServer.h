@@ -22,8 +22,8 @@ public:
 
 protected:
 
-	virtual void	HandleMDIRequest(const JCharacter* dir,
-									 const JPtrArray<JString>& argList);
+	virtual void	HandleMDIRequest(const JString& dir,
+									 const JPtrArray<JString>& argList) override;
 
 private:
 

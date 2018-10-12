@@ -12,6 +12,8 @@
 #include "SVNRepoView.h"
 #include "SVNRepoTree.h"
 #include "svnGlobals.h"
+#include <JStringIterator.h>
+#include <JStringMatch.h>
 #include <jDirUtil.h>
 #include <jWebUtil.h>
 #include <jStreamUtil.h>
@@ -56,7 +58,7 @@ enum Action
 void
 SVNMDIServer::HandleMDIRequest
 	(
-	const JCharacter*			dir,
+	const JString&				dir,
 	const JPtrArray<JString>&	argList
 	)
 {
@@ -101,27 +103,28 @@ SVNMDIServer::HandleMDIRequest
 			if (isURL)
 				{
 				fullPath = arg;
-				JIndex j;
-				if (fullPath.LocateLastSubstring("@", &j) &&
-					1 < j && j < fullPath.GetLength())
+
+				JStringIterator iter(&fullPath, kJIteratorStartAtEnd);
+				iter.BeginMatch();
+				if (iter.Prev("@"))
 					{
-					rev = fullPath.GetSubstring(j+1, fullPath.GetLength());
+					rev = iter.FinishMatch().GetString();
 					if (rev.Contains("/"))
 						{
 						rev.Clear();	// found username instead
 						}
 					else
 						{
-						fullPath.RemoveSubstring(j, fullPath.GetLength());
+						iter.RemoveAllNext();
 						}
 					}
 				}
-			else if (!JConvertToAbsolutePath(arg, dir, &s) ||
+			else if (!JConvertToAbsolutePath(arg, &dir, &s) ||
 					 !JGetTrueName(s, &fullPath))
 				{
-				const JCharacter* map[] =
+				const JUtf8Byte* map[] =
 					{
-					"path", arg
+					"path", arg.GetBytes()
 					};
 				(JGetUserNotification())->ReportError(JGetString("PathNotFound::SVNMDIServer", map, sizeof(map)));
 				continue;
@@ -234,10 +237,10 @@ SVNMDIServer::HandleMDIRequest
 void
 SVNMDIServer::PrintCommandLineHelp()
 {
-	const JCharacter* map[] =
+	const JUtf8Byte* map[] =
 		{
-		"vers",      SVNGetVersionNumberStr(),
-		"copyright", JGetString("COPYRIGHT")
+		"vers",      SVNGetVersionNumberStr().GetBytes(),
+		"copyright", JGetString("COPYRIGHT").GetBytes()
 		};
 	const JString s = JGetString("CommandLineHelp::SVNMDIServer", map, sizeof(map));
 	std::cout << std::endl << s << std::endl << std::endl;

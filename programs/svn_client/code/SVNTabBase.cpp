@@ -17,11 +17,6 @@
 #include <jDirUtil.h>
 #include <jAssert.h>
 
-// string ID's
-
-static const JCharacter* kWarnRemoveID = "WarnRemove::SVNTabBase";
-static const JCharacter* kWarnRevertID = "WarnRevert::SVNTabBase";
-
 /******************************************************************************
  Constructor
 
@@ -141,7 +136,7 @@ SVNTabBase::GetBaseRevision
 void
 SVNTabBase::CompareEdited
 	(
-	const JCharacter* rev
+	const JString& rev
 	)
 {
 	Compare(rev, kJFalse);
@@ -155,11 +150,11 @@ SVNTabBase::CompareEdited
 void
 SVNTabBase::CompareCurrent
 	(
-	const JCharacter* rev
+	const JString& rev
 	)
 {
 	JString r;
-	if (!JStringEmpty(rev))
+	if (!rev.IsEmpty())
 		{
 		r = rev;
 		if (itsDirector->HasPath())
@@ -179,11 +174,11 @@ SVNTabBase::CompareCurrent
 void
 SVNTabBase::ComparePrev
 	(
-	const JCharacter* revStr
+	const JString& revStr
 	)
 {
-	JString r = "PREV";
-	if (!JStringEmpty(revStr))
+	JString r("PREV");
+	if (!revStr.IsEmpty())
 		{
 		JString s = revStr;
 		JUInt rev;
@@ -243,9 +238,9 @@ SVNTabBase::Compare
 JBoolean
 SVNTabBase::ExecuteDiff
 	(
-	const JCharacter*	origCmd,
-	const JCharacter*	rev,
-	const JBoolean		isPrev
+	const JString&	origCmd,
+	const JString&	rev,
+	const JBoolean	isPrev
 	)
 {
 	JPtrArray<JString> fileList(JPtrArrayT::kDeleteAll);
@@ -372,7 +367,7 @@ SVNTabBase::ExecuteJCCDiff
 JBoolean
 SVNTabBase::ScheduleForAdd()
 {
-	if (Execute("svn add $file_name"))
+	if (Execute(JString("svn add $file_name", kJFalse)))
 		{
 		itsDirector->RefreshStatus();
 		return kJTrue;
@@ -391,7 +386,7 @@ SVNTabBase::ScheduleForAdd()
 JBoolean
 SVNTabBase::ScheduleForRemove()
 {
-	if (Execute("svn remove $file_name", kWarnRemoveID, kJTrue))
+	if (Execute(JString("svn remove $file_name", kJFalse), "WarnRemove::SVNTabBase", kJTrue))
 		{
 		itsDirector->RefreshStatus();
 		return kJTrue;
@@ -410,7 +405,7 @@ SVNTabBase::ScheduleForRemove()
 JBoolean
 SVNTabBase::ForceScheduleForRemove()
 {
-	if (Execute("svn remove --force $file_name", kWarnRemoveID, kJTrue))
+	if (Execute(JString("svn remove --force $file_name", kJFalse), "WarnRemove::SVNTabBase", kJTrue))
 		{
 		itsDirector->RefreshStatus();
 		return kJTrue;
@@ -429,7 +424,7 @@ SVNTabBase::ForceScheduleForRemove()
 JBoolean
 SVNTabBase::Resolved()
 {
-	if (Execute("svn resolved $file_name"))
+	if (Execute(JString("svn resolved $file_name", kJFalse)))
 		{
 		itsDirector->RefreshStatus();
 		return kJTrue;
@@ -448,7 +443,7 @@ SVNTabBase::Resolved()
 void
 SVNTabBase::Commit()
 {
-	JString cmd = "svn commit $file_name";
+	JString cmd("svn commit $file_name");
 	if (Prepare(&cmd, nullptr, kJTrue))
 		{
 		itsDirector->Commit(cmd);
@@ -463,7 +458,7 @@ SVNTabBase::Commit()
 JBoolean
 SVNTabBase::Revert()
 {
-	if (Execute("svn revert $file_name", kWarnRevertID, kJTrue))
+	if (Execute(JString("svn revert $file_name", kJFalse), "WarnRevert::SVNTabBase", kJTrue))
 		{
 		itsDirector->RefreshStatus();
 		(SVNGetApplication())->ReloadOpenFilesInIDE();
@@ -561,7 +556,7 @@ JBoolean
 SVNTabBase::Prepare
 	(
 	JString*			cmd,
-	const JCharacter*	warnMsgID,
+	const JUtf8Byte*	warnMsgID,
 	const JBoolean		includeDeleted
 	)
 {
@@ -600,8 +595,8 @@ SVNTabBase::Prepare
 JBoolean
 SVNTabBase::Execute
 	(
-	const JCharacter*	origCmd,
-	const JCharacter*	warnMsgID,
+	const JString&		origCmd,
+	const JUtf8Byte*	warnMsgID,
 	const JBoolean		includeDeleted,
 	const JBoolean		blocking
 	)
