@@ -427,11 +427,22 @@ JGetVCSRepositoryPath
 		if (!repoPath->IsEmpty() && !repo.IsEmpty())
 			{
 			*repoPath = JCombinePathAndName(*repoPath, repo);
-			found = kJTrue;
+			found     = kJTrue;
 			}
 		}
 	else if (type == kJSVNType)
 		{
+		int fromFD;
+		const JError err = JExecute(origPath,
+									JString("svn info --show-item url", kJFalse), nullptr,
+									kJIgnoreConnection, nullptr,
+									kJCreatePipe, &fromFD);
+		if (err.OK())
+			{
+			JReadAll(fromFD, repoPath);
+			repoPath->TrimWhitespace();
+			found = ! repoPath->IsEmpty();
+			}
 		}
 
 	if (found)
