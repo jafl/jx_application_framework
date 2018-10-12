@@ -3526,7 +3526,7 @@ JXWindow::HandleKeyPress
 		// doesn't get lost as a shortcut.
 
 		DeactivateHint();
-		itsFocusWidget->HandleKeyPress(kJTabKey, 0, modifiers);
+		itsFocusWidget->HandleKeyPress(JUtf8Character(kJTabKey), 0, modifiers);
 		}
 	else if (keySym == XK_Tab)
 		{
@@ -4227,7 +4227,7 @@ JXWindow::InstallShortcuts
 			modifiers.SetState(kJXMetaKeyIndex, kJFalse);
 			}
 		else if (c == 'F' &&
-				 (fnIndex = strtoul(list.GetBytes() + iter.GetNextByteIndex(), nullptr, 10)) > 0 &&
+				 (fnIndex = strtoul(list.GetBytes() + iter.GetPrevByteIndex(), nullptr, 10)) > 0 &&
 				 fnIndex <= 35)
 			{
 			InstallShortcut(widget, XK_F1 + fnIndex-1, modifiers);
