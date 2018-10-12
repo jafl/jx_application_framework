@@ -25,4 +25,30 @@ JBoolean JXGetButtonAndModifierStates(const XEvent& xEvent, JXDisplay* display,
 
 JUtf8Byte	JXCtrl(const JUtf8Character& c);
 
+
+/******************************************************************************
+ JXCtrl
+
+	Input must be character @ (0x40) through _ (0x5F).
+
+ ******************************************************************************/
+
+inline JUtf8Byte
+JXCtrl
+	(
+	const JUtf8Byte c		// must be character @ (0x40) through _ (0x5F)
+	)
+{
+	return ( ('@' <= c && c <= '_') ? (c - '@') : -1 );
+}
+
+inline JUtf8Byte
+JXCtrl
+	(
+	const JUtf8Character& c
+	)
+{
+	return JXCtrl(c.GetBytes()[0]);
+}
+
 #endif
