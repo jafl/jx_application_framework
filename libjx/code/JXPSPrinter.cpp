@@ -61,7 +61,7 @@ JXPSPrinter::~JXPSPrinter()
 /******************************************************************************
  SetDestination
 
-	cmd and fileName can be nullptr.  They are there to force the caller to
+	cmd and fileName can be empty.  They are there to force the caller to
 	consider them.
 
  ******************************************************************************/
@@ -70,20 +70,20 @@ void
 JXPSPrinter::SetDestination
 	(
 	const Destination	dest,
-	const JString*		printCmd,
-	const JString*		fileName
+	const JString&		printCmd,
+	const JString&		fileName
 	)
 {
 	itsDestination = dest;
 
-	if (printCmd != nullptr)
+	if (!printCmd.IsEmpty())
 		{
-		itsPrintCmd = *printCmd;
+		itsPrintCmd = printCmd;
 		}
 
-	if (fileName != nullptr)
+	if (!fileName.IsEmpty())
 		{
-		itsFileName = *fileName;
+		itsFileName = fileName;
 		}
 }
 

@@ -553,7 +553,7 @@ JXPSPrintSetupDialog::SetParameters
 	JString fullName;
 	itsFileInput->GetFile(&fullName);
 
-	p->SetDestination(newDest, &itsPrintCmd->GetText()->GetText(), &fullName);
+	p->SetDestination(newDest, itsPrintCmd->GetText()->GetText(), fullName);
 
 	JInteger copyCount;
 	const JBoolean ok = itsCopyCount->GetValue(&copyCount);

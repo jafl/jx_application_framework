@@ -54,7 +54,7 @@ JXPTPrinter::~JXPTPrinter()
 /******************************************************************************
  SetDestination
 
-	cmd and fileName can be nullptr.  They are there to force the caller to
+	cmd and fileName can be empty.  They are there to force the caller to
 	consider them.
 
  ******************************************************************************/
@@ -69,12 +69,12 @@ JXPTPrinter::SetDestination
 {
 	itsDestination = dest;
 
-	if (printCmd != nullptr)
+	if (!printCmd.IsEmpty())
 		{
 		itsPrintCmd = printCmd;
 		}
 
-	if (fileName != nullptr)
+	if (!fileName.IsEmpty())
 		{
 		itsFileName = fileName;
 		}
