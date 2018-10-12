@@ -314,7 +314,7 @@ JExprEditor::EndEditing()
 	JFunction* newF = nullptr;
 	JUserInputFunction* newUIF = nullptr;
 	JBoolean needRender;
-	if (itsActiveUIF->Parse(' ', &newF, &newUIF, &needRender))
+	if (itsActiveUIF->Parse(JUtf8Character(' '), &newF, &newUIF, &needRender))
 		{
 		ReplaceFunction(itsActiveUIF, newF);
 		itsActiveUIF = nullptr;
@@ -1809,7 +1809,7 @@ JExprEditor::EIPHandleMouseUp()
 				{
 				JConstantValue* constVal = dynamic_cast<JConstantValue*>(selectedF);
 				assert( constVal != nullptr );
-				s = constVal->GetValue();
+				s = JString(constVal->GetValue());
 				}
 			else
 				{
@@ -2654,7 +2654,7 @@ JExprEditor::GetSuperscriptHeight
 	)
 	const
 {
-	return JRound(baseHeight/2.0);
+	return JRound(baseHeight*2.0/3.0);
 }
 
 /******************************************************************************
