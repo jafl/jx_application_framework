@@ -2121,7 +2121,7 @@ CBTextDocument::UpdateFileType
 	JBoolean wordWrap;
 	itsFileType =
 		CBGetPrefsManager()->GetFileType(*this, &itsActionMgr, &itsMacroMgr,
-										   &itsCRMRuleList, &scriptPath, &wordWrap);
+										 &itsCRMRuleList, &scriptPath, &wordWrap);
 
 	if ((!init && itsFileType != origType) || !itsOverrideFlag[ kWordWrapIndex ])
 		{
