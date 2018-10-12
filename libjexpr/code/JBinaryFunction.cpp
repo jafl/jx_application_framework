@@ -29,7 +29,10 @@ JBinaryFunction::JBinaryFunction
 	JFunctionWithArgs(name)
 {
 	itsArg1 = arg1;
+	itsArg1->SetParent(this);
+
 	itsArg2 = arg2;
+	itsArg2->SetParent(this);
 }
 
 /******************************************************************************
@@ -60,11 +63,13 @@ JBinaryFunction::JBinaryFunction
 	if (source.itsArg1 != nullptr)
 		{
 		itsArg1 = (source.itsArg1)->Copy();
+		itsArg1->SetParent(this);
 		}
 
 	if (source.itsArg2 != nullptr)
 		{
 		itsArg2 = (source.itsArg2)->Copy();
+		itsArg2->SetParent(this);
 		}
 }
 

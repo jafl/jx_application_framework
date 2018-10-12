@@ -28,6 +28,7 @@ JUnaryFunction::JUnaryFunction
 	JFunctionWithArgs(name),
 	itsArg(arg)
 {
+	itsArg->SetParent(this);
 }
 
 /******************************************************************************
@@ -56,6 +57,7 @@ JUnaryFunction::JUnaryFunction
 	if (source.itsArg != nullptr)
 		{
 		itsArg = (source.itsArg)->Copy();
+		itsArg->SetParent(this);
 		}
 }
 

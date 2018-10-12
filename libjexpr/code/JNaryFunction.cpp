@@ -35,6 +35,13 @@ JNaryFunction::JNaryFunction
 		itsArgList = jnew JPtrArray<JFunction>(JPtrArrayT::kDeleteAll, kMaxReasonableArgCount);
 		assert( itsArgList != nullptr );
 		}
+	else
+		{
+		for (JFunction* arg : *argList)
+			{
+			arg->SetParent(this);
+			}
+		}
 }
 
 /******************************************************************************
@@ -69,6 +76,7 @@ JNaryFunction::JNaryFunction
 		JFunction* sourceArg = (source.itsArgList)->GetElement(i);
 		JFunction* arg       = sourceArg->Copy();
 		itsArgList->Append(arg);
+		arg->SetParent(this);
 		}
 }
 
