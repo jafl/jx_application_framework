@@ -1,4 +1,4 @@
-%define leibnitz_version 2.1.0
+%define leibnitz_version 3.0.0
 
 Summary: Leibnitz provides electronic paper for calculations and graphs.
 Name: Leibnitz

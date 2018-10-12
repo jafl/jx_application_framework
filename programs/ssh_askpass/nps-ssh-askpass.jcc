@@ -35,7 +35,6 @@ F
 # tasks
 4
 "makemake"
-T "./" "jxlayout --choose --post-cmd \"jcc --force-reload-open\" -cp code $project_name.fd" "" F F T T T T F "Compile layouts" "Meta-'" "&|3Ss+=IL_ywwy[Pm}cG::CBCommandManager" F
 F
 # build settings
 1

@@ -1,5 +1,5 @@
 Package: nps-ssh-askpass
-Version: 2.0.0
+Version: 1.2.0
 Maintainer: New Planet Software <http://www.newplanetsoftware.com/nps/contact.php>
 Homepage: http://www.newplanetsoftware.com/ssh_askpass/
 Section: contrib/utils
