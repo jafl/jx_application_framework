@@ -165,7 +165,8 @@ JTEST(GetCmdStatus)
 	status.SetElement(JExprEditor::kDeleteSelCmd, kJFalse);
 	status.SetElement(JExprEditor::kAddArgCmd, kJFalse);
 	status.SetElement(JExprEditor::kMoveArgRightCmd, kJTrue);
-	status.SetElement(JExprEditor::kSetGreekFontCmd, kJTrue);
+	status.SetElement(JExprEditor::kSetNormalFontCmd, kJTrue);
+	status.SetElement(JExprEditor::kSetGreekFontCmd, kJFalse);
 
 	std::cout << "GetCmdStatus::move arg" << std::endl;
 	e.CheckCmdStatus(status);
@@ -180,8 +181,6 @@ JTEST(GetCmdStatus)
 	status.SetElement(JExprEditor::kMoveArgLeftCmd, kJTrue);
 	status.SetElement(JExprEditor::kMoveArgRightCmd, kJFalse);
 	status.SetElement(JExprEditor::kGroupLeftCmd, kJTrue);
-	status.SetElement(JExprEditor::kSetNormalFontCmd, kJTrue);
-	status.SetElement(JExprEditor::kSetGreekFontCmd, kJFalse);
 
 	std::cout << "GetCmdStatus::group arg" << std::endl;
 	e.CheckCmdStatus(status);

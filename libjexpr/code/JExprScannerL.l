@@ -51,9 +51,9 @@ UNI  ({U2}{U}|{U3}{U}{U}|{U4}{U}{U}{U})
 	return P_HEX;
 }
 
-"pi"     |
-"PI"     |
-"\u03c0" {
+"pi"         |
+"PI"         |
+[\xCF][\x80] {
 	return P_PI;
 	}
 

@@ -646,7 +646,9 @@ JXExprEditor::HandleKeyPress
 	const JXKeyModifiers&	modifiers
 	)
 {
-	if (c.IsPrint() && !modifiers.meta() && !modifiers.control())
+	// we need the delete key, which isn't printable
+
+	if ((c.IsAscii() || c.IsPrint()) && !modifiers.meta() && !modifiers.control())
 		{
 		EIPHandleKeyPress(c);
 		}
@@ -891,19 +893,17 @@ JXExprEditor::UpdateFontMenu()
 		{
 		const JBoolean enableFlag =
 			enableFlags.GetElement(kFontMenuItemToCmd[i-1]);
-		if (!enableFlag && activeIndex == 0)
+		if (enableFlag && activeIndex == 0)
 			{
 			activeIndex = i;
 			}
-		else if (!enableFlag)
-			{
-			return;
-			}
 		}
 
-	assert( activeIndex > 0 );
-	itsFontMenu->CheckItem(activeIndex);
-	itsFontMenu->EnableAll();
+	if (activeIndex != 0)
+		{
+		itsFontMenu->CheckItem(activeIndex);
+		itsFontMenu->EnableAll();
+		}
 }
 
 /******************************************************************************
