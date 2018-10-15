@@ -23,9 +23,12 @@
 #include <jTime.h>
 #include <jAssert.h>
 
-const JUtf8Byte* kCTagsCmd				= "ctags --filter=yes --filter-terminator=\\\f -n --fields=kzafimns --format=2 --c-types=p ";
-const JUtf8Byte kDelimiter 				= '\f';
-const JUtf8Byte* GFGLink::kFileParsed	= "FileParsed::GFGLink";
+const JString kCTagsCmd("ctags --filter=yes --filter-terminator=\a -n --fields=kzafimns --format=2 --c-types=p");
+const JUtf8Byte kDelimiter = '\a';
+
+// JBroadcaster messages
+
+const JUtf8Byte* GFGLink::kFileParsed = "FileParsed::GFGLink";
 
 /******************************************************************************
  Constructor
@@ -302,10 +305,8 @@ GFGLink::StartCTags()
 {
 	assert( itsCTagsProcess == nullptr );
 
-	JString cmd(kCTagsCmd);
-
 	int toFD, fromFD;
-	const JError err = JProcess::Create(&itsCTagsProcess, cmd,
+	const JError err = JProcess::Create(&itsCTagsProcess, kCTagsCmd,
 										kJCreatePipe, &toFD,
 										kJCreatePipe, &fromFD,
 										kJAttachToFromFD, nullptr);

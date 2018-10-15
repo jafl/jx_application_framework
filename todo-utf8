@@ -34,9 +34,6 @@ jx_project_wizard
 	convert app_template to { }
 	convert help to online
 
-code_mill
-	not reading from ctags
-
 -----
 
 test
