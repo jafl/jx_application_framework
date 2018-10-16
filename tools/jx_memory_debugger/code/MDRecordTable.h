@@ -30,7 +30,8 @@ public:
 
 	virtual JBoolean	IsEditable(const JPoint& cell) const override;
 
-	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers) override;
+	virtual void	HandleKeyPress(const JUtf8Character& c,
+								   const int keySym, const JXKeyModifiers& modifiers) override;
 
 protected:
 

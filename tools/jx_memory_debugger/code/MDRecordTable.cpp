@@ -324,7 +324,8 @@ MDRecordTable::HandleFocusEvent()
 void
 MDRecordTable::HandleKeyPress
 	(
-	const int				key,
+	const JUtf8Character&	c,
+	const int				keySym,
 	const JXKeyModifiers&	modifiers
 	)
 {
@@ -332,27 +333,27 @@ MDRecordTable::HandleKeyPress
 	JTableSelection& s          = GetTableSelection();
 	const JBoolean hadSelection = s.GetFirstSelectedCell(&topSelCell);
 
-	if (key == ' ' || key == kJEscapeKey)
+	if (c == ' ' || c == kJEscapeKey)
 		{
 		itsKeyBuffer.Clear();
 		GetTableSelection().ClearSelection();
 		}
 
-	else if (key == kJReturnKey)
+	else if (c == kJReturnKey)
 		{
 		OpenSelectedFiles();
 		}
 
-	else if (key == kJUpArrow || key == kJDownArrow)
+	else if (c == kJUpArrow || c == kJDownArrow)
 		{
 		itsKeyBuffer.Clear();
-		if (!hadSelection && key == kJUpArrow && GetRowCount() > 0)
+		if (!hadSelection && c == kJUpArrow && GetRowCount() > 0)
 			{
 			s.SelectRow(GetRowCount());
 			}
 		else
 			{
-			HandleSelectionKeyPress(key, modifiers);
+			HandleSelectionKeyPress(c, modifiers);
 			if (s.GetFirstSelectedCell(&topSelCell))
 				{
 				s.SelectRow(topSelCell.y);
@@ -362,9 +363,9 @@ MDRecordTable::HandleKeyPress
 
 	// incremental search
 
-	else if (JXIsPrint(key) && !modifiers.control() && !modifiers.meta())
+	else if (c.IsPrint() && !modifiers.control() && !modifiers.meta())
 		{
-		itsKeyBuffer.Append(JUtf8Character(key));
+		itsKeyBuffer.Append(JUtf8Character(c));
 
 		MDRecord* record;
 		JIndex index;
@@ -383,11 +384,11 @@ MDRecordTable::HandleKeyPress
 
 	else
 		{
-		if (JXIsPrint(key))
+		if (c.IsPrint())
 			{
 			itsKeyBuffer.Clear();
 			}
-		JXEditTable::HandleKeyPress(key, modifiers);
+		JXEditTable::HandleKeyPress(c, keySym, modifiers);
 		}
 }
 
