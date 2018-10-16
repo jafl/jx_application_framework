@@ -44,6 +44,7 @@
 #include <JXHelpManager.h>
 #include <JXTipOfTheDayDialog.h>
 #include <JXStandAlonePG.h>
+#include <JXWebBrowser.h>
 #include <jXActionDefs.h>
 
 #include <JConstBitmap.h>
@@ -107,6 +108,9 @@ static const JUtf8Byte* kTestMenuStr =
 	"  | Drag-And-Drop (text)              %k Hyper-O"
 	"  | Image viewer                      %k Ctrl-I"
 	"  | File List"
+	"%l| Send email"
+	"  | Show file content"
+	"  | Show web page"
 	"%l| Enable Smileys menu %b"
 	"%l| Zombie process"
 	"%l| Place window at (0,0)             %k Ctrl-1"
@@ -128,6 +132,7 @@ enum
 	kTestStrTableCmd, kTestNumTableCmd,
 	kTestTextEditorCmd, kTestLinkedDocCmd, kTestDNDTextCmd,
 	kTestImageViewCmd, kTestFileListCmd,
+	kSendEmailCmd, kShowFileContentCmd, kShowWebPageCmd,
 	kTestDisabledMenuCmd,
 	kTestZombieProcessCmd,
 	kTestPlaceWindow0Cmd, kTestPlaceWindow30Cmd, kTestPlaceWindow100Cmd,
@@ -860,6 +865,19 @@ TestDirector::HandleTestMenu
 		TestFileListDirector* dir = jnew TestFileListDirector(this);
 		assert( dir != nullptr );
 		dir->Activate();
+		}
+
+	else if (index == kSendEmailCmd)
+		{
+		JXGetWebBrowser()->ShowURL(JString("mailto:me@example.com", kJFalse));
+		}
+	else if (index == kShowFileContentCmd)
+		{
+		JXGetWebBrowser()->ShowURL(JString("file:/etc/hosts", kJFalse));
+		}
+	else if (index == kShowWebPageCmd)
+		{
+		JXGetWebBrowser()->ShowURL(JString("http://example.com", kJFalse));
 		}
 
 	else if (index == kTestDisabledMenuCmd)

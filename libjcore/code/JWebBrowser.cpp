@@ -86,20 +86,19 @@ JWebBrowser::ShowURL
 	const JString& url
 	)
 {
-	JString s = url;
-	JStringIterator iter(&s);
-	if (iter.Next(kMailURLPrefix, kJFalse))
+	if (url.BeginsWith(kMailURLPrefix))
 		{
-		iter.RemoveLastMatch();
-		ComposeMail(s);
+		ComposeMail(JString(url,
+			JCharacterRange(strlen(kMailURLPrefix)+1, url.GetCharacterCount()),
+			kJFalse));
 		return;
 		}
 
-	iter.MoveTo(kJIteratorStartAtBeginning, 0);
-	if (iter.Next(kFileURLPrefix, kJFalse))
+	if (url.BeginsWith(kFileURLPrefix))
 		{
-		iter.RemoveLastMatch();
-		ShowFileContent(s);
+		ShowFileContent(JString(url,
+			JCharacterRange(strlen(kFileURLPrefix)+1, url.GetCharacterCount()),
+			kJFalse));
 		return;
 		}
 
@@ -294,7 +293,7 @@ JWebBrowser::ReadConfig
 void
 JWebBrowser::WriteConfig
 	(
-	std::ostream&			output,
+	std::ostream&		output,
 	const JFileVersion	vers
 	)
 	const

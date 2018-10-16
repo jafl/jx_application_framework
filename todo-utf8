@@ -1,3 +1,18 @@
+unit tests
+	JPrefsFile
+	JMDIServer
+	JPrefsManager
+
+	JPTPrinter
+
+test JStringIterator usage:
+	JVersionSocket - wait for version notice
+	JPTPrinter::Print
+	JPTPrinter::InvertPageOrder
+	JPSPrinterBase::PSString
+
+
+
 JXFileListTable
 JXTreeListWidget
 JXStringTable
@@ -39,42 +54,18 @@ jx_project_wizard
 test
 	man pages
 	styled unix terminal output - yui build output
-	default & vi key handlers
 	code_medic on ubuntu with lldb-6.0
 	jcc CBExecOutputDocument: test usage of JUtf8ByteBuffer inside JAsynchDataReceiver
-	leibnitz - greek characters
 
 test every function that uses JStringIterator or Split
-	libjexpr
+	jcc
 		?
-	libj2dplot
-		J2DPlotWidget
+	medic
+		?
+	glove
+		?
 
-unit tests
-	JPrefsFile
-
-	JPTPrinter
-	JEPSPrinter
-	JPSPrinter
-	JPSPrinterBase
-	JHTMLScanner
-	JMDIServer
-	JPrefsManager
-	JStringManager
-	JTEHTMLScanner
-	JTEKeyHandler
-	JVIKeyHandler
-	JVersionSocket
-	JWebBrowser
-
-untested JStringIterator usage:
-	JVersionSocket
-	JWebBrowser::ShowURL
-	JWebBrowser::ConvertVarNames
-	JPTPrinter::Print
-	JPTPrinter::InvertPageOrder
-	JPSPrinterBase::PSString
-	JGetUserMountPointList
+test JStringIterator usage:
 	JTranslateLocalToRemote
 	JTranslateRemoteToLocal
 

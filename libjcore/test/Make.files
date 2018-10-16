@@ -175,6 +175,10 @@ literal: ${LIB_DEPS}
 ${CODEDIR}/test_JVector
 literal: ${LIB_DEPS}
 
+@test_JWebBrowser
+${CODEDIR}/test_JWebBrowser
+literal: ${LIB_DEPS}
+
 @test_jWebUtil
 ${CODEDIR}/test_jWebUtil
 literal: ${LIB_DEPS}
