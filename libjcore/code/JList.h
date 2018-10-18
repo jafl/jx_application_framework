@@ -96,8 +96,7 @@ private:
 			JBoolean
 			Contains(const JIndex index) const
 			{
-				return JConvertToBoolean(
-						GetFirstIndex() <= index && index <= GetLastIndex() );
+				return JI2B( itsFirstIndex <= index && index <= GetLastIndex() );
 			};
 
 		private:

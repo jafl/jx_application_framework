@@ -1,7 +1,7 @@
 /******************************************************************************
  JXPTPrinter.cpp
 
-	This class implements the functions required to draw to a Postscript file.
+	This class implements the functions required to print plain text.
 
 	BASE CLASS = JPTPrinter
 
@@ -177,7 +177,7 @@ JXPTPrinter::Print
 	JString fileName;
 	if (itsDestination == kPrintToPrinter)
 		{
-		if (!(JCreateTempFile(&fileName)).OK())
+		if (!JCreateTempFile(&fileName).OK())
 			{
 			fileName = JGetRootDirectory();		// force failure below
 			}
