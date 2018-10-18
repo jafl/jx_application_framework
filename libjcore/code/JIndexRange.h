@@ -78,7 +78,7 @@ public:
 		const JBoolean e2 = range.IsEmpty();
 		return JI2B((IsNothing() && range.IsNothing()) ||
 					( e1 &&  e2 && first == range.first) ||
-					(!e1 &&  e2 && first <  range.first && range.first <= last) ||
+					(!e1 &&  e2 && first <= range.first && range.first <= last) ||
 					(!e1 && !e2 && first <= range.first && range.last <= last));
 	};
 
