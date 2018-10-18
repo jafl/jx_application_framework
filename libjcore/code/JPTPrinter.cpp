@@ -337,6 +337,7 @@ JPTPrinter::InvertPageOrder
 		const JStringMatch& m = iter.FinishMatch();
 		m.GetString().Print(output);
 		output << kPageSeparatorStr;
+		iter.BeginMatch();
 		}
 
 	const JStringMatch& m = iter.FinishMatch();
