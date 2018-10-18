@@ -64,12 +64,22 @@ literal: ${LIB_DEPS}
 ${CODEDIR}/test_JMatrix
 literal: ${LIB_DEPS}
 
+@test_JMDIServer
+${CODEDIR}/test_JMDIServer
+${CODEDIR}/TestMDIServer
+literal: ${LIB_DEPS}
+
 @test_JMessageProtocol
 ${CODEDIR}/test_JMessageProtocol
 literal: ${LIB_DEPS}
 
 @test_JPipe
 ${CODEDIR}/test_JPipe
+literal: ${LIB_DEPS}
+
+@test_JPTPrinter
+${CODEDIR}/test_JPTPrinter
+${CODEDIR}/TestPTPrinter
 literal: ${LIB_DEPS}
 
 @test_jProcessUtil

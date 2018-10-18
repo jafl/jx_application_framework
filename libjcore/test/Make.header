@@ -56,8 +56,8 @@ TESTS := \
   test_JPipe test_JFileArray \
   test_JStyledText test_jTextUtil test_JTextEditor test_JSpellChecker \
   test_JSTStyler \
-  test_JWebBrowser \
-  test_JUtf8ByteBuffer test_JMessageProtocol
+  test_JWebBrowser test_JPTPrinter \
+  test_JUtf8ByteBuffer test_JMessageProtocol test_JMDIServer
 
 #####
 

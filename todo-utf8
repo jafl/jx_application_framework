@@ -1,16 +1,6 @@
 unit tests
 	JPrefsFile
-	JMDIServer
 	JPrefsManager
-
-	JPTPrinter
-
-test JStringIterator usage:
-	JVersionSocket - wait for version notice
-	JPTPrinter::Print
-	JPTPrinter::InvertPageOrder
-	JPSPrinterBase::PSString
-
 
 
 JXFileListTable
@@ -52,6 +42,7 @@ jx_project_wizard
 -----
 
 test
+	JVersionSocket - wait for version notice
 	man pages
 	styled unix terminal output - yui build output
 	code_medic on ubuntu with lldb-6.0
