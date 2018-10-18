@@ -75,7 +75,7 @@ BADESCCHAR   (\\[^bfnrt\\'"u[:digit:]])
 CHAR         ([^\n'\\]|{ESCCHAR}|{UESCCODE})
 
 CCONST       (\'{CHAR}\')
-BADCCONST    (\'(\\|{BADESCCHAR}|({BADESCCHAR}|{CHAR}){2,})\')
+BADCCONST    (\'(\\|{BADESCCHAR}|({BADESCCHAR}|{CHAR}){2,})\'|\'(\\?{CHAR}?))
 %%
 
 %{
