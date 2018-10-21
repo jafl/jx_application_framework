@@ -4455,6 +4455,7 @@ SyGFileTreeTable::FetchRemoteGitBranch1
 		iter.SkipNext();
 		iter.RemoveAllPrev();
 		}
+	iter.Invalidate();
 
 	itsFetchGitBranch = branch;
 
