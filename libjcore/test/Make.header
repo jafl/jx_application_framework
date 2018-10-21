@@ -53,7 +53,7 @@ TESTS := \
   test_JHashTable test_JStringMap test_JStringPtrMap \
   test_jFileUtil test_jStreamUtil test_jFStreamUtil test_JDirInfo \
   test_jProcessUtil test_jVCSUtil test_jWebUtil test_jTime \
-  test_JPipe test_JFileArray \
+  test_JPipe test_JFileArray test_JPrefsFile test_JPrefsManager \
   test_JStyledText test_jTextUtil test_JTextEditor test_JSpellChecker \
   test_JSTStyler \
   test_JWebBrowser test_JPTPrinter \

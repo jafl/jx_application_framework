@@ -82,6 +82,16 @@ ${CODEDIR}/test_JPTPrinter
 ${CODEDIR}/TestPTPrinter
 literal: ${LIB_DEPS}
 
+@test_JPrefsFile
+${CODEDIR}/test_JPrefsFile
+literal: ${LIB_DEPS}
+
+@test_JPrefsManager
+${CODEDIR}/test_JPrefsManager
+${CODEDIR}/TestPrefsManager
+${CODEDIR}/TestPrefObject
+literal: ${LIB_DEPS}
+
 @test_jProcessUtil
 ${CODEDIR}/test_jProcessUtil
 literal: ${LIB_DEPS}
@@ -193,38 +203,32 @@ literal: ${LIB_DEPS}
 ${CODEDIR}/test_jWebUtil
 literal: ${LIB_DEPS}
 
-# unconverted
-
-@test_JPrefsFile
-${CODEDIR}/test_JPrefsFile
-literal: ${LIB_DEPS}
-
 # must be run manually
 
 @testnew
-${CODEDIR}/testnew
+${CODEDIR}/_testnew
 literal: ${LIB_DEPS}
 
 @testrandom
-${CODEDIR}/testrandom
+${CODEDIR}/_testrandom
 literal: ${LIB_DEPS}
 
 @testrandperiod
-${CODEDIR}/testrandperiod
+${CODEDIR}/_testrandperiod
 literal: ${LIB_DEPS}
 
 @testmemcpy
-${CODEDIR}/testmemcpy
+${CODEDIR}/_testmemcpy
 literal: ${LIB_DEPS}
 
 @testJTextChooseSaveFile
-${CODEDIR}/testJTextChooseSaveFile
+${CODEDIR}/_testJTextChooseSaveFile
 literal: ${LIB_DEPS}
 
 @testJTextProgressDisplay
-${CODEDIR}/testJTextProgressDisplay
+${CODEDIR}/_testJTextProgressDisplay
 literal: ${LIB_DEPS}
 
 @testJTextUserNotification
-${CODEDIR}/testJTextUserNotification
+${CODEDIR}/_testJTextUserNotification
 literal: ${LIB_DEPS}
