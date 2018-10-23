@@ -95,7 +95,7 @@ lib:
 #
 
 .PHONY : test
-test: install-pre install_libs
+test: install_pre install_libs
 
 #
 # build all for ~/bin
