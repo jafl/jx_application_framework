@@ -78,11 +78,11 @@ static void installPHPRegex (const langType language)
 		"\\3", "v,variable,variables", NULL);
 
 	/* function regex is covered by PHP regex */
-	addTagRegex (language, "(^|[ \t])([A-Za-z0-9_]+)[ \t]*[=:][ \t]*function[ \t]*\\(",
+	addTagRegex (language, "(^|[ \t])([A-Za-z0-9_\x7f-\xff]+)[ \t]*[=:][ \t]*function([ \t]+[A-Za-z0-9_\x7f-\xff]+)?[ \t]*\\(",
 		"\\2", "j,jsfunction,javascript functions", NULL);
-	addTagRegex (language, "(^|[ \t])([A-Za-z0-9_.]+)\\.([A-Za-z0-9_]+)[ \t]*=[ \t]*function[ \t]*\\(",
+	addTagRegex (language, "(^|[ \t])([A-Za-z0-9_.\x7f-\xff]+)\\.([A-Za-z0-9_\x7f-\xff]+)[ \t]*=[ \t]*function([ \t]+[A-Za-z0-9_\x7f-\xff]+)?[ \t]*\\(",
 		"\\2.\\3", "j,jsfunction,javascript functions", NULL);
-	addTagRegex (language, "(^|[ \t])([A-Za-z0-9_.]+)\\.([A-Za-z0-9_]+)[ \t]*=[ \t]*function[ \t]*\\(",
+	addTagRegex (language, "(^|[ \t])([A-Za-z0-9_.\x7f-\xff]+)\\.([A-Za-z0-9_\x7f-\xff]+)[ \t]*=[ \t]*function([ \t]+[A-Za-z0-9_\x7f-\xff]+)?[ \t]*\\(",
 		"\\3", "j,jsfunction,javascript functions", NULL);
 }
 
@@ -206,7 +206,7 @@ static void findPhpTags (void)
 				++cp;
 			else if (! ((*cp == '_')  || isalnum ((int) *cp)))
 				continue;
-	      
+
 			vStringClear (name);
 			while (isalnum ((int) *cp)  ||  *cp == '_')
 			{

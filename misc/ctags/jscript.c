@@ -24,16 +24,16 @@
 
 static void installJavaScriptRegex (const langType language)
 {
-	addTagRegex (language, "^[ \t]*function[ \t]*([A-Za-z0-9_]+)[ \t]*\\(",
+	addTagRegex (language, "^[ \t]*function[ \t]*([A-Za-z0-9_\x7f-\xff]+)[ \t]*\\(",
 		"\\1", "f,function,functions", NULL);
-	addTagRegex (language, "^[ \t]*([A-Za-z0-9_]+)[ \t]*[=:][ \t]*function[ \t]*\\(",
+	addTagRegex (language, "^[ \t]*var[ \t]*([A-Za-z0-9_\x7f-\xff]+)[ \t]*=[ \t]*function([ \t]+[A-Za-z0-9_\x7f-\xff]+)?[ \t]*\\(",
 		"\\1", "f,function,functions", NULL);
-	addTagRegex (language, "^[ \t]*([A-Za-z0-9_.]+)\\.([A-Za-z0-9_]+)[ \t]*=[ \t]*function[ \t]*\\(",
+	addTagRegex (language, "^[ \t]*([A-Za-z0-9_\x7f-\xff]+)[ \t]*[=:][ \t]*function([ \t]+[A-Za-z0-9_\x7f-\xff]+)?[ \t]*\\(",
+		"\\1", "f,function,functions", NULL);
+	addTagRegex (language, "^[ \t]*([A-Za-z0-9_.\x7f-\xff]+)\\.([A-Za-z0-9_\x7f-\xff]+)[ \t]*=[ \t]*function([ \t]+[A-Za-z0-9_\x7f-\xff]+)?[ \t]*\\(",
 		"\\1.\\2", "f,function,functions", NULL);
-	addTagRegex (language, "^[ \t]*([A-Za-z0-9_.]+)\\.([A-Za-z0-9_]+)[ \t]*=[ \t]*function[ \t]*\\(",
+	addTagRegex (language, "^[ \t]*([A-Za-z0-9_.\x7f-\xff]+)\\.([A-Za-z0-9_\x7f-\xff]+)[ \t]*=[ \t]*function([ \t]+[A-Za-z0-9_\x7f-\xff]+)?[ \t]*\\(",
 		"\\2", "f,function,functions", NULL);
-	addTagRegex (language, "^[ \t]*var[ \t]*([A-Za-z0-9_]+)[ \t]*=[ \t]*function[ \t]*\\(",
-		"\\1", "f,function,functions", NULL);
 }
 
 /* Create parser definition stucture */
