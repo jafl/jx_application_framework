@@ -58,10 +58,16 @@ SEARCHDIRS += -I/usr/include/freetype2
 
 LINKER := g++
 
-# make variables
+# make variables - allow overriding for Travis CI
 
-CC       := gcc
-CXX      := g++
+ifndef CC
+	CC := gcc
+endif
+
+ifndef CXX
+	CXX := g++
+endif
+
 CPPFLAGS  = ${DEPENDFLAGS}
 CFLAGS    = 
 CXXFLAGS  = -std=c++17
