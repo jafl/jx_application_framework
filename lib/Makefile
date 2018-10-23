@@ -52,10 +52,10 @@ layouts:
 #
 
 .PHONY : install
-install: install-pre install-libs install-apps
+install: install_pre install_libs install_apps
 
-.PHONY: install-pre
-install-pre:
+.PHONY: install_pre
+install_pre:
 	@if { ! test -e ./libACE-*.so -o -e ./libACE-*.a; } then \
          cd ../ACE; ${MAKE} jxinstall; \
      fi
@@ -67,16 +67,16 @@ install-pre:
          ${MAKE} Makefiles; \
      fi
 
-.PHONY: install-libs
-install-libs:
+.PHONY: install_libs
+install_libs:
 	@cd ../libjcore; ${MAKE} COMPILE_STRINGS=0 default
 	@cd ../tools/compile_jstrings; ${MAKE} jxinstall
-	@${foreach dir, \
-          ${wildcard ../lib?*/.}, \
-       ${BEGIN_DIR}; ${MAKE} default; ${END_DIR};}
+	@for dir in libjcore libjx libjfs libjexpr libj2dplot; do \
+       if ! ( cd ../$$dir; ${MAKE} default; ); then exit 1; fi \
+     done;
 
-.PHONY: install-apps
-install-apps:
+.PHONY: install_apps
+install_apps:
 	@${foreach dir, \
           ${wildcard ../tools/*/. ../programs/*/.}, \
        ${BEGIN_DIR}; ${MAKE} jxinstall; ${END_DIR};}
@@ -95,7 +95,7 @@ lib:
 #
 
 .PHONY : test
-test: install-pre install-libs
+test: install-pre install_libs
 
 #
 # build all for ~/bin
