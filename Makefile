@@ -9,6 +9,10 @@ JMAKE = ${MAKE} PATH=${PATH}:${JX_INSTALL_ROOT}
 default:
 	@cd lib; ${JMAKE} install
 
+.PHONY : test
+test:
+	@cd lib; ${JMAKE} test
+
 #
 # print ACE version
 #

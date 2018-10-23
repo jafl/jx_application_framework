@@ -52,10 +52,10 @@ layouts:
 #
 
 .PHONY : install
-install: install1 install2
+install: install-pre install-libs install-apps
 
-.PHONY: install1
-install1:
+.PHONY: install-pre
+install-pre:
 	@if { ! test -e ./libACE-*.so -o -e ./libACE-*.a; } then \
          cd ../ACE; ${MAKE} jxinstall; \
      fi
@@ -67,13 +67,16 @@ install1:
          ${MAKE} Makefiles; \
      fi
 
-.PHONY: install2
-install2:
+.PHONY: install-libs
+install-libs:
 	@cd ../libjcore; ${MAKE} COMPILE_STRINGS=0 default
 	@cd ../tools/compile_jstrings; ${MAKE} jxinstall
-	@-${foreach dir, \
+	@${foreach dir, \
           ${wildcard ../lib?*/.}, \
        ${BEGIN_DIR}; ${MAKE} default; ${END_DIR};}
+
+.PHONY: install-apps
+install-apps:
 	@${foreach dir, \
           ${wildcard ../tools/*/. ../programs/*/.}, \
        ${BEGIN_DIR}; ${MAKE} jxinstall; ${END_DIR};}
@@ -88,15 +91,11 @@ lib:
        ${BEGIN_DIR}; makemake; ${MAKE} default; ${END_DIR};}
 
 #
-# build all test suites
+# run all test suites
 #
 
 .PHONY : test
-test:
-	@${foreach dir, \
-          ${wildcard ../lib?*/test/.} \
-          ../ACE/test/ ../tutorial/, \
-       ${BEGIN_DIR}; makemake; ${MAKE} all; ${END_DIR};}
+test: install-pre install-libs
 
 #
 # build all for ~/bin
