@@ -1,3 +1,5 @@
+[![Build Status](https://secure.travis-ci.org/jafl/jx_application_framework.png?branch=utf8)](http://travis-ci.org/jafl/jx_application_framework)
+
 This repository contains all the New Planet Software tools and applications:
 
 * JX Application Framework

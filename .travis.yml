@@ -1,0 +1,7 @@
+language: cpp
+script: ./configure && make
+sudo: enabled
+matrix:
+  include:
+    - os: osx
+      osx_image: xcode10
