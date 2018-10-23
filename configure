@@ -129,7 +129,7 @@ elif command -v apt-get; then
 
 	# debian
 
-	LLDB_VERS=6.0
+	LLDB_VERS=${TRAVIS_CI_LLDB_VERS:-6.0}
 
 	$SUDO apt update;
 	$SUDO apt -y install curl \
