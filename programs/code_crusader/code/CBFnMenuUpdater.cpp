@@ -178,16 +178,13 @@ CBFnMenuUpdater::ReadFunctionList
 	// build symbol list
 
 	const JBoolean hasNS = CBHasNamespace(lang);
+	JString fnName;
 	while (1)
 		{
-		JString* fnName = jnew JString;
-		assert( fnName != nullptr );
-
 		input >> std::ws;
-		*fnName = JReadUntil(input, '\t');	// fn name
+		fnName = JReadUntil(input, '\t');	// fn name
 		if (input.eof() || input.fail())
 			{
-			jdelete fnName;
 			break;
 			}
 
@@ -196,17 +193,15 @@ CBFnMenuUpdater::ReadFunctionList
 		JIndex lineIndex;
 		input >> lineIndex;					// line index
 
-		if (IgnoreSymbol(*fnName))
+		if (IgnoreSymbol(fnName))
 			{
-			jdelete fnName;
 			continue;
 			}
 
 		// toss qualified or unqualified version
 
-		if (hasNS && !includeNS && cbIsQualified(*fnName))
+		if (hasNS && !includeNS && cbIsQualified(fnName))
 			{
-			jdelete fnName;
 			continue;
 			}
 
@@ -215,7 +210,7 @@ CBFnMenuUpdater::ReadFunctionList
 		JIndex i;
 		if (sort)
 			{
-			i = fnNameList.GetInsertionSortIndex(fnName);
+			i = fnNameList.GetInsertionSortIndex(&fnName);
 			}
 		else
 			{
