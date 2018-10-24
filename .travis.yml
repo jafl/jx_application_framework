@@ -16,7 +16,7 @@ matrix:
       env:
         - MATRIX_EVAL="export CC=gcc-7 && export CXX=g++-7"
       before_install:
-        - sudo apt-get install dpkg && sudo apt-get install
+        - sudo apt-get update && sudo apt-get install dpkg
         - curl -sSL "https://build.travis-ci.org/files/gpg/debian-sid.asc" | sudo -E apt-key add -
         - echo "deb http://ftp.us.debian.org/debian unstable main contrib non-free" | sudo tee -a ${TRAVIS_ROOT}/etc/apt/sources.list >/dev/null
 
