@@ -2,16 +2,18 @@ language: cpp
 script: ./configure && make test
 matrix:
   include:
-    - os: osx
-      osx_image: xcode10
+#    - os: osx
+#      osx_image: xcode10
 
     - os: linux
       addons:
         apt:
           sources:
             - ubuntu-toolchain-r-test
+            - stretch
           packages:
             - g++-7
+            - libace-dev
       env:
         - MATRIX_EVAL="export CC=gcc-7 && export CXX=g++-7 && export TRAVIS_CI_LLDB_VERS=3.9"
 

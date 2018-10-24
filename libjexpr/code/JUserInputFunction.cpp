@@ -529,7 +529,7 @@ JUserInputFunction::ConvertToGreek
 		{
 		bzero(kGreekMapping, sizeof(kGreekMapping));
 
-		for (int i=0; i<kGreekCount; i++)
+		for (int i=0; i<int(kGreekCount); i++)
 			{
 			kGreekMapping[ int(kGreekData[i].ascii) ] = kGreekData[i];
 			}

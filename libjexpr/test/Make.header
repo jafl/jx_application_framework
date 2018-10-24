@@ -32,6 +32,7 @@ DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} \
 
 ifdef J_BUILD_SHARED_LIB
   LIB_DEPS := ${JLIBDIR}/libjexpr-${JEXPR_LIB_VERSION}.${J_SHARED_LIB_SUFFIX} \
+              ${JLIBDIR}/libjx-${JX_LIB_VERSION}.${J_SHARED_LIB_SUFFIX} \
               ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.${J_SHARED_LIB_SUFFIX}
 else
   LIB_DEPS := ${JLIBDIR}/libjexpr-${JEXPR_LIB_VERSION}.a \
@@ -40,8 +41,14 @@ endif
 
 # make variables
 
-LOADLIBES := ${J_IMG_LIBS} ${J_ACE_LIBS} ${J_GCC_LIBS}
-LDFLAGS   := 
+ifdef J_BUILD_SHARED_LIB
+  LOADLIBES := ${JLIBDIR}/libjexpr-${JEXPR_LIB_VERSION}.${J_SHARED_LIB_SUFFIX} \
+               ${J_STD_LIBS}
+else
+  LOADLIBES := ${J_IMG_LIBS} ${J_ACE_LIBS} ${J_GCC_LIBS}
+endif
+
+LDFLAGS :=
 
 # tests
 

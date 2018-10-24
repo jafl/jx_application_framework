@@ -38,6 +38,10 @@ CPPFLAGS  += -Wno-sign-compare
 LOADLIBES := ${J_IMG_LIBS} ${J_ACE_LIBS} ${J_GCC_LIBS}
 LDFLAGS   := 
 
+ifdef J_BUILD_SHARED_LIB
+  LOADLIBES := ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.${J_SHARED_LIB_SUFFIX} ${LOADLIBES}
+endif
+
 # tests
 
 TESTS := \

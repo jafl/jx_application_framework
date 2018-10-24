@@ -46,15 +46,15 @@ TOUCHPATHS := ${JCORELIBDIR} ${JXLIBDIR} ${JEXPRLIBDIR} ${J2DPLOTLIBDIR}
 # library dependencies
 
 ifdef J_BUILD_SHARED_LIB
-  LIB_DEPS := ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.${J_SHARED_LIB_SUFFIX} \
+  LIB_DEPS := ${JLIBDIR}/libj2dplot-${J2DPLOT_LIB_VERSION}.${J_SHARED_LIB_SUFFIX} \
               ${JLIBDIR}/libjexpr-${JEXPR_LIB_VERSION}.${J_SHARED_LIB_SUFFIX} \
               ${JLIBDIR}/libjx-${JX_LIB_VERSION}.${J_SHARED_LIB_SUFFIX} \
-              ${JLIBDIR}/libj2dplot-${J2DPLOT_LIB_VERSION}.${J_SHARED_LIB_SUFFIX}
+              ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.${J_SHARED_LIB_SUFFIX}
 else
-  LIB_DEPS := ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a \
+  LIB_DEPS := ${JLIBDIR}/libj2dplot-${J2DPLOT_LIB_VERSION}.a \
               ${JLIBDIR}/libjexpr-${JEXPR_LIB_VERSION}.a \
               ${JLIBDIR}/libjx-${JX_LIB_VERSION}.a \
-              ${JLIBDIR}/libj2dplot-${J2DPLOT_LIB_VERSION}.a
+              ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
 endif
 
 # make variables
