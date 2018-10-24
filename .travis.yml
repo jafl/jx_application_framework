@@ -2,21 +2,23 @@ language: cpp
 script: ./configure && make test
 matrix:
   include:
-#    - os: osx
-#      osx_image: xcode10
+    - os: osx
+      osx_image: xcode10
 
     - os: linux
       addons:
         apt:
           sources:
             - ubuntu-toolchain-r-test
-            - debian-sid
             - llvm-toolchain-trusty-7
           packages:
             - g++-7
-            - libace-dev
       env:
         - MATRIX_EVAL="export CC=gcc-7 && export CXX=g++-7 && export TRAVIS_CI_LLDB_VERS=3.9"
+      before_install:
+        - sudo apt-get install dpkg && sudo apt-get install
+          curl -sSL "https://build.travis-ci.org/files/gpg/debian-sid.asc" | sudo -E apt-key add -
+          echo "deb http://ftp.us.debian.org/debian unstable main contrib non-free" | sudo tee -a ${TRAVIS_ROOT}/etc/apt/sources.list >/dev/null
 
 before_install:
   - eval "${MATRIX_EVAL}"
