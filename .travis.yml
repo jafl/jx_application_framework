@@ -2,9 +2,11 @@ language: cpp
 script: ./configure && make test
 matrix:
   include:
-#    - os: osx
-#      osx_image: xcode10
+    - os: osx
+      osx_image: xcode10
 
+  # libace 6.0.3 on Trusty is broken
+  exclude:
     - os: linux
       addons:
         apt:
@@ -15,10 +17,6 @@ matrix:
             - g++-7
       env:
         - MATRIX_EVAL="export CC=gcc-7 && export CXX=g++-7"
-      before_install:
-        - sudo apt-get update && sudo apt-get install dpkg
-        - curl -sSL "https://build.travis-ci.org/files/gpg/debian-sid.asc" | sudo -E apt-key add -
-        - echo "deb http://ftp.us.debian.org/debian unstable main contrib non-free" | sudo tee -a ${TRAVIS_ROOT}/etc/apt/sources.list >/dev/null
 
 before_install:
   - eval "${MATRIX_EVAL}"
