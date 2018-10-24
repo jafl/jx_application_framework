@@ -10,7 +10,8 @@ matrix:
         apt:
           sources:
             - ubuntu-toolchain-r-test
-            - stretch
+            - debian-sid
+            - llvm-toolchain-trusty-7
           packages:
             - g++-7
             - libace-dev
