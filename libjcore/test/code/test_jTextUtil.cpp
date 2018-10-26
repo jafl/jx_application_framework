@@ -10,6 +10,7 @@
 #include <JTestManager.h>
 #include <jTextUtil.h>
 #include <JFontManager.h>
+#include <jFStreamUtil.h>
 #include <jGlobals.h>
 #include <jAssert.h>
 
@@ -225,6 +226,43 @@ JTEST(AnalyzeWhitespaceWidth)
 	JAssertTrue(useSpaces);
 	JAssertFalse(isMixed);
 	JAssertEqual(4, tabWidth);
+}
+
+struct WhitespaceData
+{
+	const JUtf8Byte*	fileName;
+	const JSize			inputTabWidth;
+	const JBoolean		inputDefaultUseSpaces;
+	const JSize			outputTabWidth;
+	const JBoolean		outputUseSpaces;
+	const JBoolean		outputIsMixed;
+};
+
+static const WhitespaceData kWhitespaceTestData[] =
+{
+	{ "./data/test_whitespace.1.txt", 4, kJFalse, 2, kJTrue, kJFalse }
+};
+
+const int kWhitespaceTestDataCount = sizeof(kWhitespaceTestData) / sizeof(WhitespaceData);
+
+JTEST(AnalyzeWhitespace)
+{
+	JString text;
+	for (int i=0; i<kWhitespaceTestDataCount; i++)
+		{
+		JReadFile(JString(kWhitespaceTestData[i].fileName, kJFalse), &text);
+
+		JBoolean useSpaces, isMixed;
+		const JSize tabWidth = JAnalyzeWhitespace(text,
+			kWhitespaceTestData[i].inputTabWidth,
+			kWhitespaceTestData[i].inputDefaultUseSpaces,
+			&useSpaces, &isMixed);
+
+		std::cout << kWhitespaceTestData[i].fileName << std::endl;
+		JAssertEqual(kWhitespaceTestData[i].outputTabWidth, tabWidth);
+		JAssertEqual(kWhitespaceTestData[i].outputUseSpaces, useSpaces);
+		JAssertEqual(kWhitespaceTestData[i].outputIsMixed, isMixed);
+		}
 }
 
 JTEST(Markdown)

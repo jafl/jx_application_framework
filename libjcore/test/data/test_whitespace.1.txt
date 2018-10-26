@@ -1,0 +1,22 @@
+language: cpp
+script: ./configure && make test
+matrix:
+  include:
+    - os: osx
+      osx_image: xcode10
+
+  # libace 6.0.3 on Trusty is broken
+  exclude:
+    - os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-trusty-7
+          packages:
+            - g++-7
+      env:
+        - MATRIX_EVAL="export CC=gcc-7 && export CXX=g++-7"
+
+before_install:
+  - eval "${MATRIX_EVAL}"
