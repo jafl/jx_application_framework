@@ -5,3 +5,4 @@
 -prefix ${CODEDIR}/
 
 compile_jstrings
+literal: ${LIB_DEPS}
