@@ -2681,7 +2681,7 @@ JXWindow::HandleEvent
 		// we have been deleted -- primarily for Netscape plug-in
 
 		itsXWindow     = None;
-		itsFocusWidget = nullptr;		// too late to validate
+		itsFocusWidget = nullptr;	// too late to validate
 		itsDirector->Close();		// deletes us
 		}
 	else if (xEvent.type == DestroyNotify)

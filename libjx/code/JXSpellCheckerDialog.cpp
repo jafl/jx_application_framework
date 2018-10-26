@@ -104,7 +104,7 @@ JXSpellCheckerDialog::Close()
 		(JGetUserNotification())->DisplayMessage(JGetString("NoErrors::JXSpellCheckerDialog"));
 		}
 
-	return JXDialogDirector::Close();
+	return JXDialogDirector::Close();		// deletes us if successful
 }
 
 /******************************************************************************

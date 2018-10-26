@@ -70,6 +70,8 @@ JSTUndoTextBase::UndoText
 
 	text->ReplaceUndo(this, newUndo);		// deletes us
 
+	// NO instance variables past this point; we have been deleted
+
 	JCharacterRange charRange;
 	charRange.SetFirstAndCount(range.charRange.first, pasteCount.charCount);
 

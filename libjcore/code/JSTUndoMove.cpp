@@ -73,5 +73,7 @@ JSTUndoMove::Undo()
 		kJFalse, &newRange);
 	assert( ok );
 
-	text->BroadcastUndoFinished(newRange);		// no instance variables; we have been deleted
+	// NO instance variables past this point; we have been deleted
+
+	text->BroadcastUndoFinished(newRange);
 }

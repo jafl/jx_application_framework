@@ -59,10 +59,14 @@ JSTUndoStyle::Undo()
 
 	text->SetFont(itsRange, *itsOrigStyles);
 
+	const JStyledText::TextRange r = itsRange;
+
 	text->ReplaceUndo(this, newUndo);		// deletes us
 
-	text->BroadcastTextChanged(itsRange, 0, 0, kJFalse);
-	text->BroadcastUndoFinished(itsRange);
+	// NO instance variables past this point; we have been deleted
+
+	text->BroadcastTextChanged(r, 0, 0, kJFalse);
+	text->BroadcastUndoFinished(r);
 }
 
 /******************************************************************************
