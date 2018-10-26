@@ -135,21 +135,16 @@ JXTextMenuTable::TableDrawCell
 		{
 		JIndex ulIndex;
 		JFont font;
-		const JString& text =
-			itsTextMenuData->GetText(cell.y, &ulIndex, &font);
+		const JString& text = itsTextMenuData->GetText(cell.y, &ulIndex, &font);
 
+		AdjustFont(GetDisplay(), kTextColumnIndex, text, &font);
 		if (!itsTextMenuData->IsEnabled(cell.y))
 			{
 			font.SetColor(JColorManager::GetInactiveLabelColor());
 			}
-
-		if (!font.HasGlyphsForString(GetFontManager(), text))
-			{
-			font.SubstituteToDisplayGlyph(GetFontManager(), text.GetFirstCharacter());
-			}
 		p.SetFont(font);
 
-		rect.left += kHMarginWidth;
+		rect.left += kHilightBorderWidth;
 
 		JXWindowPainter* xp = dynamic_cast<JXWindowPainter*>(&p);
 		assert( xp != nullptr );
@@ -172,25 +167,18 @@ JXTextMenuTable::TableDrawCell
 		JFont font;
 		if (itsTextMenuData->GetNMShortcut(cell.y, &nmShortcut, &font))
 			{
-			font.ClearStyle();
+			AdjustFont(GetDisplay(), kSubmenuColumnIndex, *nmShortcut, &font);
+
+			rect.left  += kHNMSMarginWidth;
+			rect.right -= kHilightBorderWidth;
 
 			JPainter::HAlignment hAlign = JPainter::kHAlignLeft;
 			if (GetDisplay()->IsOSX())
 				{
-				font.SetName(kOSXSymbolFontName);
-				font.SetSize(font.GetSize()+2);
 				hAlign = JPainter::kHAlignRight;
-
-				rect.left  += kHilightBorderWidth;
-				rect.right -= kHNMSMarginWidth;
 
 				rect.right -= font.GetCharWidth(GetFontManager(), JUtf8Character('W'));
 				rect.right += font.GetCharWidth(GetFontManager(), nmShortcut->GetLastCharacter());
-				}
-			else
-				{
-				rect.left  += kHNMSMarginWidth;
-				rect.right -= kHilightBorderWidth;
 				}
 
 			if (!itsTextMenuData->IsEnabled(cell.y))
@@ -199,9 +187,77 @@ JXTextMenuTable::TableDrawCell
 				}
 
 			p.SetFont(font);
-
 			p.String(rect, *nmShortcut, hAlign, JPainter::kVAlignCenter);
 			}
+		}
+}
+
+/******************************************************************************
+ AdjustFont (static)
+
+ ******************************************************************************/
+
+void
+JXTextMenuTable::AdjustFont
+	(
+	JXDisplay*		display,
+	const JIndex	colIndex,
+	const JString&	text,
+	JFont*			font
+	)
+{
+	if (colIndex == kTextColumnIndex)
+		{
+		// We don't perform the full character-by-character font
+		// substitution because menu items are translated, so they should
+		// all be in the same language, and thus display correctly in the
+		// default font.  The only exception is the menu of fonts, where it
+		// is safe to assume that all characters in the name will render in
+		// a single font.
+
+		font->SubstituteToDisplayGlyph(display->GetFontManager(), text.GetFirstCharacter());
+		}
+	else if (colIndex == kSubmenuColumnIndex)
+		{
+		font->ClearStyle();
+
+		if (display->IsOSX())
+			{
+			font->SetName(kOSXSymbolFontName);
+			font->SetSize(font->GetSize()+2);
+			}
+		}
+}
+
+/******************************************************************************
+ GetTextWidth (static)
+
+ ******************************************************************************/
+
+JSize
+JXTextMenuTable::GetTextWidth
+	(
+	JFontManager*	fontMgr,
+	const JFont&	font,
+	const JIndex	colIndex,
+	const JString&	text
+	)
+{
+	if (colIndex == kTextColumnIndex)
+		{
+		return 2*kHilightBorderWidth + font.GetStringWidth(fontMgr, text);
+		}
+	else if (colIndex == kSubmenuColumnIndex)
+		{
+		return kHNMSMarginWidth +
+				font.GetStringWidth(fontMgr, text) -
+				font.GetCharWidth(fontMgr, text.GetLastCharacter()) +
+				font.GetCharWidth(fontMgr, JUtf8Character('W')) +
+				kHilightBorderWidth;
+		}
+	else
+		{
+		return 0;
 		}
 }
 

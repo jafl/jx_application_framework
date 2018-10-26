@@ -12,6 +12,7 @@ literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
 
 @test_JXTextMenuData
 ${CODEDIR}/test_JXTextMenuData
+${CODEDIR}/JXTextMenuTable_mock
 ${CODEDIR}/JXTextMenu_mock
 ${CODEDIR}/JXMenu_mock
 ${CODEDIR}/JXContainer_mock

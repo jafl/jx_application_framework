@@ -1084,6 +1084,8 @@ JXTextMenuData::ConfigureTable
 	JXTextMenuTable* table
 	)
 {
+	JFontManager* fontMgr = itsMenu->GetFontManager();
+
 	const JBoolean hasCheckboxes = HasCheckboxes();
 	const JBoolean hasSubmenus   = HasSubmenus();
 
@@ -1106,11 +1108,17 @@ JXTextMenuData::ConfigureTable
 
 			if (itemData.text != nullptr)
 				{
-				const JCoordinate th = itemData.font.GetLineHeight(itsMenu->GetFontManager());
-				h                    = JMax(h, th);
-				const JCoordinate tw = 2*JXTextMenuTable::kHMarginWidth +
-					itemData.font.GetStringWidth(itsMenu->GetFontManager(), *(itemData.text));
-				itsMaxTextWidth = JMax(itsMaxTextWidth, tw);
+				JFont f = itemData.font;
+				JXTextMenuTable::AdjustFont(itsMenu->GetDisplay(),
+											JXTextMenuTable::kTextColumnIndex,
+											*(itemData.text), &f);
+
+				h = JMax(h, (JCoordinate) f.GetLineHeight(fontMgr));
+
+				itsMaxTextWidth = JMax(itsMaxTextWidth, (JCoordinate)
+					JXTextMenuTable::GetTextWidth(fontMgr, f,
+												  JXTextMenuTable::kTextColumnIndex,
+												  *(itemData.text)));
 				}
 
 			if (itemData.image != nullptr)
@@ -1122,14 +1130,18 @@ JXTextMenuData::ConfigureTable
 			if (itemData.nmShortcut != nullptr)
 				{
 				itsHasNMShortcutsFlag = kJTrue;
+
 				JFont f = itemData.font;
-				f.ClearStyle();
-				const JCoordinate th = f.GetLineHeight(itsMenu->GetFontManager());
-				h = JMax(h, th);
-				const JCoordinate tw = JXTextMenuTable::kHNMSMarginWidth +
-					JXTextMenuTable::kHMarginWidth +
-					itemData.font.GetStringWidth(itsMenu->GetFontManager(), *(itemData.nmShortcut));
-				itsMaxShortcutWidth = JMax(itsMaxShortcutWidth, tw);
+				JXTextMenuTable::AdjustFont(itsMenu->GetDisplay(),
+											JXTextMenuTable::kSubmenuColumnIndex,
+											*(itemData.nmShortcut), &f);
+
+				h = JMax(h, (JCoordinate) f.GetLineHeight(fontMgr));
+
+				itsMaxShortcutWidth = JMax(itsMaxShortcutWidth, (JCoordinate)
+					JXTextMenuTable::GetTextWidth(fontMgr, f,
+												  JXTextMenuTable::kSubmenuColumnIndex,
+												  *(itemData.nmShortcut)));
 				}
 
 			h += 2*(JXTextMenuTable::kHilightBorderWidth + 1);
@@ -1182,7 +1194,7 @@ JXTextMenuData::ConfigureTable
 	// set a sensible scroll step
 
 	const JCoordinate scrollStep =
-		itsDefaultFont.GetLineHeight(itsMenu->GetFontManager()) +
+		itsDefaultFont.GetLineHeight(fontMgr) +
 		2*(JXTextMenuTable::kHilightBorderWidth + 1);
 	table->SetDefaultRowHeight(scrollStep);
 }

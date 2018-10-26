@@ -72,7 +72,7 @@ JXStyleMenuTable::TableDrawCell
 		p.SetFilling(origFill);
 
 		rect = origRect;
-		rect.left += colorRect.width() + kHMarginWidth;
+		rect.left += colorRect.width() + kHilightBorderWidth;
 		JXTextMenuTable::TableDrawCell(p, cell, rect);
 		}
 	else

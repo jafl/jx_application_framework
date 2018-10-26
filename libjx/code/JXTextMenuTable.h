@@ -13,6 +13,7 @@
 #include "JXMenuTable.h"
 #include "jXConstants.h"	// need definition of kJXDefaultBorderWidth
 
+class JFont;
 class JXTextMenuData;
 
 class JXTextMenuTable : public JXMenuTable
@@ -21,7 +22,6 @@ public:
 
 	enum
 	{
-		kHMarginWidth       = 2,
 		kHNMSMarginWidth    = 10,
 		kSeparatorHeight    = 10,						// must be even
 		kHilightBorderWidth = kJXDefaultBorderWidth,
@@ -40,6 +40,11 @@ public:
 					const JCoordinate w, const JCoordinate h);
 
 	virtual ~JXTextMenuTable();
+
+	static void		AdjustFont(JXDisplay* display, const JIndex colIndex,
+							   const JString& text, JFont* font);
+	static JSize	GetTextWidth(JFontManager* fontMgr, const JFont& font,
+								 const JIndex colIndex, const JString& text);
 
 protected:
 

@@ -49,8 +49,8 @@ JXTextMenuDirector::CreateMenuTable()
 {
 	JXTextMenuTable* table =
 		jnew JXTextMenuTable(itsMenu, itsMenuData, GetWindow(),
-							JXWidget::kHElastic, JXWidget::kVElastic,
-							0,0, 10,10);
+							 JXWidget::kHElastic, JXWidget::kVElastic,
+							 0,0, 10,10);
 	assert( table != nullptr );
 	return table;
 }
