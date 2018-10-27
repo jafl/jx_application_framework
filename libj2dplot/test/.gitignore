@@ -1,3 +1,0 @@
-test_*
-!test_*.cpp
-!test_*.txt
