@@ -64,7 +64,13 @@ endif
 
 define run_tests
     @echo ==========; \
-     ${foreach p, $(1), echo; echo $p; if ! ./$p; then e=1; fi;} \
+     echo executing updated tests; \
+     mkdir -p .timestamps; \
+     ${foreach p, $(1), \
+       if [[ ! -f .timestamps/$p || $p -nt .timestamps/$p ]]; then \
+         echo; echo $p; \
+         if ./$p; then touch .timestamps/$p; else e=1; fi; \
+       fi;} \
      echo ==========; \
      if [[ "$$e" = "1" ]]; then false; fi
 endef
