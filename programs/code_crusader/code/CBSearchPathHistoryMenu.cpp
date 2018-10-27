@@ -129,7 +129,9 @@ CBSearchPathHistoryMenu::AddPath
 {
 	if (!JString::IsEmpty(fullName))
 		{
-		AddItem(fullName, recurse ? kRecurseFlag : "");
+		const JString path = JConvertToHomeDirShortcut(fullName);
+
+		AddItem(path, recurse ? kRecurseFlag : "");
 		}
 }
 
