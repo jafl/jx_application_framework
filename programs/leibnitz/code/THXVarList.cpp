@@ -19,8 +19,6 @@ static const JString kXName("x");
 static const JString kYName("y");
 static const JString kTName("t");
 
-static const JString kUnknownValueSymbol("?");
-
 /******************************************************************************
  Constructor
 
