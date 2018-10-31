@@ -17,8 +17,6 @@
 #include <jMath.h>
 #include <jAssert.h>
 
-static const JString kUnknownValueSymbol("?", kJFalse);
-
 /******************************************************************************
  Constructor
 
@@ -188,36 +186,6 @@ TestVarList::GetVariableName
 }
 
 /******************************************************************************
- IsNumeric
-
- ******************************************************************************/
-
-JBoolean
-TestVarList::IsNumeric
-	(
-	const JIndex index
-	)
-	const
-{
-	return kJTrue;
-}
-
-/******************************************************************************
- IsDiscrete
-
- ******************************************************************************/
-
-JBoolean
-TestVarList::IsDiscrete
-	(
-	const JIndex index
-	)
-	const
-{
-	return kJFalse;
-}
-
-/******************************************************************************
  IsArray
 
  ******************************************************************************/
@@ -249,37 +217,6 @@ TestVarList::ArrayIndexValid
 			elementIndex == 1 ||
 			(IsArray(variableIndex) &&
 			 (itsNumericArrays->GetElement(variableIndex))->IndexValid(elementIndex)));
-}
-
-/******************************************************************************
- ValueIsKnown
-
- ******************************************************************************/
-
-JBoolean
-TestVarList::ValueIsKnown
-	(
-	const JIndex variableIndex,
-	const JIndex elementIndex
-	)
-	const
-{
-	return kJTrue;
-}
-
-/******************************************************************************
- GetUnknownValueSymbol
-
- ******************************************************************************/
-
-const JString&
-TestVarList::GetUnknownValueSymbol
-	(
-	const JIndex index
-	)
-	const
-{
-	return kUnknownValueSymbol;
 }
 
 /******************************************************************************
@@ -359,67 +296,4 @@ TestVarList::SetNumericValue
 	)
 {
 	assert_msg( 0, "TestVarList::SetNumericValue() is not supported" );
-}
-
-/******************************************************************************
- GetDiscreteValue
-
- ******************************************************************************/
-
-JIndex
-TestVarList::GetDiscreteValue
-	(
-	const JIndex variableIndex,
-	const JIndex elementIndex
-	)
-	const
-{
-	return 1;
-}
-
-/******************************************************************************
- GetDiscreteValueCount
-
- ******************************************************************************/
-
-JSize
-TestVarList::GetDiscreteValueCount
-	(
-	const JIndex index
-	)
-	const
-{
-	return 0;
-}
-
-/******************************************************************************
- GetDiscreteValueName
-
- ******************************************************************************/
-
-const JString&
-TestVarList::GetDiscreteValueName
-	(
-	const JIndex variableIndex,
-	const JIndex valueIndex
-	)
-	const
-{
-	return kUnknownValueSymbol;
-}
-
-/******************************************************************************
- SetDiscreteValue
-
- ******************************************************************************/
-
-void
-TestVarList::SetDiscreteValue
-	(
-	const JIndex variableIndex,
-	const JIndex elementIndex,
-	const JIndex valueIndex
-	)
-{
-	assert_msg( 0, "TestVarList::SetDiscreteValue() is not supported" );
 }
