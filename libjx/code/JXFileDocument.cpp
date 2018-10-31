@@ -75,11 +75,11 @@ const JUtf8Byte* JXFileDocument::kWriteFailed = "WriteFailed::JXFileDocument";
 
 JXFileDocument::JXFileDocument
 	(
-	JXDirector*		supervisor,
-	const JString&	fileName,
-	const JBoolean	onDisk,
-	const JBoolean	wantBackupFile,
-	const JString&	defaultFileNameSuffix
+	JXDirector*			supervisor,
+	const JString&		fileName,
+	const JBoolean		onDisk,
+	const JBoolean		wantBackupFile,
+	const JUtf8Byte*	defaultFileNameSuffix
 	)
 	:
 	JXDocument(supervisor),

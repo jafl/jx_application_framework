@@ -90,7 +90,7 @@ protected:
 
 	JXFileDocument(JXDirector* supervisor, const JString& fileName,
 				   const JBoolean onDisk, const JBoolean wantBackupFile,
-				   const JString& defaultFileNameSuffix);
+				   const JUtf8Byte* defaultFileNameSuffix);
 
 	void		AdjustWindowTitle();
 	void		FileChanged(const JString& fileName, const JBoolean onDisk);
