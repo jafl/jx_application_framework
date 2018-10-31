@@ -174,11 +174,6 @@ libjexpr write to mathml
 
 -----
 
-glove
-	switch to JXExprEditor
-	clean up .fd to match current layouts
-	test layouts on Linux and OS X
-
 systemg
 	store alternate-open prefs for every executable in the directory
 		use these prefs when plain-open is invoked

@@ -24,21 +24,21 @@ public:
 	GloveHistoryDir(JXDirector* supervisor);
 
 	virtual ~GloveHistoryDir();
-	void	AppendText(const JCharacter* text, const JBoolean show = kJTrue);
+	void	AppendText(const JString& text, const JBoolean show = kJTrue);
 	void	Print();
 	void	WriteData(std::ostream& os);
 	void	ReadData(std::istream& is);
-	virtual JBoolean	NeedsSave() const;
-	virtual void		SafetySave(const JXDocumentManager::SafetySaveReason reason);
-	virtual JXPM		GetMenuIcon() const;
+	virtual JBoolean	NeedsSave() const override;
+	virtual void		SafetySave(const JXDocumentManager::SafetySaveReason reason) override;
+	virtual JBoolean	GetMenuIcon(const JXImage** icon) const override;
 
 protected:
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
-	virtual JBoolean	OKToClose();
-	virtual JBoolean	OKToRevert();
-	virtual JBoolean	CanRevert();
-	virtual void		DiscardChanges();
+	virtual JBoolean	OKToClose() override;
+	virtual JBoolean	OKToRevert() override;
+	virtual JBoolean	CanRevert() override;
+	virtual void		DiscardChanges() override;
 
 private:
 
@@ -59,7 +59,7 @@ private:
 
 public:
 
-	static const JCharacter* kSessionChanged;
+	static const JUtf8Byte* kSessionChanged;
 	
 	class SessionChanged : public JBroadcaster::Message
 	{

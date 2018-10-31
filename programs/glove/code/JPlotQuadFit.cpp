@@ -145,7 +145,7 @@ JPlotQuadFit::JPlotQuadFitX
 		}
 	SetParameterCount(3);
 	SetHasGoodnessOfFit(kJTrue);
-	itsFunctionName = jnew JString("y = a + bx + cx^2");
+	itsFunctionName.Set("y = a + bx + cx^2");
 
 	itsRealCount = 0;
 
@@ -373,7 +373,6 @@ JPlotQuadFit::GetGoodnessOfFit
 	const
 {
 	const JPlotDataBase* data = GetDataToFit();
-	const JSize count = data->GetElementCount();
 	if (data->HasXErrors() || data->HasYErrors())
 		{
 		*value = itsChi2/(itsRealCount - 3);
@@ -396,7 +395,7 @@ JString
 JPlotQuadFit::GetFunctionString()
 	const
 {
-	return *itsFunctionName;
+	return itsFunctionName;
 }
 
 /*********************************************************************************
@@ -409,7 +408,7 @@ JString
 JPlotQuadFit::GetFitFunctionString()
 	const
 {
-	return *itsFunctionName;
+	return itsFunctionName;
 }
 
 
@@ -467,7 +466,6 @@ JPlotQuadFit::QuadFirstPass()
 	for (i=1; i<= rcount; i++)
 		{
 		point = itsRealData->GetElement(i);
-		JFloat yerr = yAdjError.GetElement(i);
 		odata.SetElement(i, 1, 1);
 		odata.SetElement(i, 2, point.x);
 		odata.SetElement(i, 3, point.x*point.x);
@@ -890,7 +888,6 @@ JPlotQuadFit::ChiSqr
 	const JIndex 	type
 	)
 {
-	const JPlotDataBase* data = GetDataToFit();
 	J2DDataPoint point;
 	JSize rcount = itsRealData->GetElementCount();
 	JFloat c = 0;
@@ -960,9 +957,8 @@ JPlotQuadFit::FunctionN
 	const JIndex 	type
 	)
 {
-	const JPlotDataBase* data = GetDataToFit();
 	J2DDataPoint point;
-	JSize rcount = itsRealData->GetElementCount();
+	JSize rcount = itsRealData->GetElementCount(); 
 	JFloat c = 0;
 
 	JFloat A;
@@ -1026,7 +1022,7 @@ JPlotQuadFit::BracketAndMinimize
 {
 	JFloat factor=0.01, small=TOLL, bmin, bmax;
 	JFloat cbmax, cbmin, btemp;
-	int i, iter;
+	int iter;
 
 	btemp = *parameter;
 
@@ -1466,10 +1462,10 @@ JPlotQuadFit::Shift
 void
 JPlotQuadFit::SetFunctionName
 	(
-	const JCharacter* name
+	const JString& name
 	)
 {
-	*itsFunctionName = name;
+	itsFunctionName = name;
 }
 
 /*********************************************************************************

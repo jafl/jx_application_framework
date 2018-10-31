@@ -12,10 +12,6 @@
 #include "JPlotDataBase.h"
 #include "GVarList.h"
 #include <JFunction.h>
-#include <jParseFunction.h>
-
-#include <JString.h>
-#include <JArray.h>
 #include <jMath.h>
 #include <jAssert.h>
 
@@ -120,7 +116,7 @@ JPlotModuleFit::JPlotModuleFit
 	JString fstring;
 	is >> fstring;
 	GVarList* list = jnew GVarList;
-	list->AddVariable("x", 0);
+	list->AddVariable(JString("x", kJFalse), 0);
 	for (int i = 1; i <= parmscount; i++)
 		{
 		JSize index = i;
@@ -130,7 +126,7 @@ JPlotModuleFit::JPlotModuleFit
 			}
 		JString parm(*(names->GetElement(index)));
 		JFloat value = values->GetElement(index);
-		JBoolean added = list->AddVariable(parm, value);
+		list->AddVariable(parm, value);
 		}
 	JFunction* f;
 	JParseFunction(fstring, list, &f);
@@ -158,7 +154,7 @@ JPlotModuleFit::JPlotModuleFitX
 	itsValues = values;
 	itsFunction = function;
 	itsList = list;
-	itsFunctionName = jnew JString(function->Print());
+	itsFunctionName = function->Print();
 	GenerateDiffData();
 }
 
@@ -175,7 +171,6 @@ JPlotModuleFit::~JPlotModuleFit()
 	jdelete itsNames;
 	jdelete itsValues;
 	jdelete itsFunction;
-	jdelete itsFunctionName;
 	jdelete itsList;
 }
 
@@ -402,7 +397,7 @@ JString
 JPlotModuleFit::GetFunctionString()
 	const
 {
-	return *itsFunctionName;
+	return itsFunctionName;
 }
 
 /*********************************************************************************
@@ -415,7 +410,7 @@ JString
 JPlotModuleFit::GetFitFunctionString()
 	const
 {
-	return *itsFunctionName;
+	return itsFunctionName;
 }
 
 /*********************************************************************************

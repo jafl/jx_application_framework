@@ -277,13 +277,13 @@ GXGetDelimiterDialog::GetDelimiterType()
 
  ******************************************************************************/
 
-JCharacter
+JUtf8Byte
 GXGetDelimiterDialog::GetCharacter()
 {
 	assert(itsRG->GetSelectedItem() == kChar);
 	assert(itsCharInput->GetTextLength() > 0);
 	const JString& temp = itsCharInput->GetText();
-	return temp.GetCharacter(1);
+	return temp.GetRawBytes()[0];
 }
 
 /******************************************************************************

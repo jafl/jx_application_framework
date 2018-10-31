@@ -28,7 +28,6 @@
 
 const JCoordinate kDefColWidth  = 120;
 const JCoordinate kHMarginWidth = 5;
-const JCoordinate kVMarginWidth = 1;
 
 /******************************************************************************
  Constructor
@@ -54,10 +53,10 @@ GloveCursorTable::GloveCursorTable
 {
 	itsPlot = plot;
 	AppendCols(2, kDefColWidth);
-	SetColBorderInfo(1, GetColormap()->GetGrayColor(80));
-	SetRowBorderInfo(1, GetColormap()->GetGrayColor(80));
+	SetColBorderInfo(1, JColorManager::GetGrayColor(80));
+	SetRowBorderInfo(1, JColorManager::GetGrayColor(80));
 	
-	const JSize lineHeight = JFontManager::GetDefaultFont().GetLineHeight(GetFontManager);
+	const JSize lineHeight = JFontManager::GetDefaultFont().GetLineHeight(GetFontManager());
 	AppendRows(1, lineHeight + 2);
 	
 	itsShowX = kJFalse;
@@ -215,6 +214,8 @@ GloveCursorTable::AdjustTable()
 
  ******************************************************************************/
 
+static const JString kNewline("\n", kJFalse);
+
 void
 GloveCursorTable::SendToSession()
 {
@@ -233,7 +234,7 @@ GloveCursorTable::SendToSession()
 			str = "dx = " + JString(itsX2 - itsX1);	
 			itsSession->AppendText(str);
 			}
-		itsSession->AppendText("\n");
+		itsSession->AppendText(kNewline);
 		}
 	if (itsShowY)
 		{
@@ -248,7 +249,7 @@ GloveCursorTable::SendToSession()
 			str = "dy = " + JString(itsY2 - itsY1);	
 			itsSession->AppendText(str);
 			}
-		itsSession->AppendText("\n");
+		itsSession->AppendText(kNewline);
 		}
 	JSize count = itsPlot->GetXMarkCount();
 	if (count > 0)
@@ -261,7 +262,7 @@ GloveCursorTable::SendToSession()
 			str = JString(value);
 			itsSession->AppendText(str);
 			}
-		itsSession->AppendText("\n");
+		itsSession->AppendText(kNewline);
 		}
 	count = itsPlot->GetYMarkCount();
 	if (count > 0)
@@ -274,6 +275,6 @@ GloveCursorTable::SendToSession()
 			str = JString(value);
 			itsSession->AppendText(str);
 			}
-		itsSession->AppendText("\n");
+		itsSession->AppendText(kNewline);
 		}
 }

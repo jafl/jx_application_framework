@@ -29,17 +29,18 @@ public:
 					const JFloat ymin, const JFloat ymax);
 	virtual ~JPlotFitBase();	
 
-	virtual JBoolean GetYRange(	JFloat* min, JFloat* max,
-								JFloat  xMin, JFloat  xMax);
+	virtual JBoolean	GetYRange(const JFloat xMin, const JFloat xMax,
+								  const JBoolean xLinear,
+								  JFloat* yMin, JFloat* yMax) const override;
 
-	virtual JBoolean	GetGoodnessOfFitName(JString* name) const;
-	virtual JBoolean	GetGoodnessOfFit(JFloat* value) const;
+	virtual JBoolean	GetGoodnessOfFitName(JString* name) const override;
+	virtual JBoolean	GetGoodnessOfFit(JFloat* value) const override;
 	
 	void				AdjustDataRange(const JFloat xmin, const JFloat xmax,
 										const JFloat ymin, const JFloat ymax);
 
-	virtual JString		GetFunctionString() const;
-	virtual JString		GetFitFunctionString() const;
+	virtual JString		GetFunctionString() const override;
+	virtual JString		GetFitFunctionString() const override;
 
 	void				GenerateFit(const JVector& parameters, const JFloat chi2);
 
@@ -74,10 +75,10 @@ protected:
 								 const JVector& xi);
 	virtual JFloat		ChiSqr(const JVector& p);
 
-	virtual void 		GenerateDiffData();
+	virtual void 		GenerateDiffData() override;
 
-	virtual JBoolean	DataElementValid(const JIndex index);
-	virtual JBoolean	GetDataElement(const JIndex index, J2DDataPoint* point);
+	virtual JBoolean	DataElementValid(const JIndex index) override;
+	virtual JBoolean	GetDataElement(const JIndex index, J2DDataPoint* point) override;
 
 	J2DDataPoint		GetRealElement(const JIndex index);
 	JSize				GetRealElementCount();
@@ -87,7 +88,7 @@ protected:
 	virtual JFloat		FunctionN(const JFloat x) = 0;
 	virtual JFloat		FunctionNPrimed(const JFloat x);
 	
-	void				SetFunctionString(const JCharacter* str);
+	void				SetFunctionString(const JString& str);
 
 private:
 

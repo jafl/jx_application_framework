@@ -26,27 +26,27 @@ public:
 
 	GXTransformFunctionDialog(JXDirector* supervisor, GVarList* list, const JSize colCount);
 	virtual ~GXTransformFunctionDialog();
-	
+
 	JIndex	GetDestination();
 	const JString& GetFunctionString();
-	
+
 protected:
 
 	virtual void		Receive(JBroadcaster* sender, const Message& message) override;
-	virtual JBoolean	OKToDeactivate();
+	virtual JBoolean	OKToDeactivate() override;
 
 private:
 
 // begin JXLayout
 
-    JXTextButton*  itsTransformButton;
-    JXTextButton*  itsCloseButton;
-    JXTextButton*  itsClearButton;
-    JXInputField*  itsFunctionString;
-    JXTextButton*  itsEditButton;
-    JXTextMenu*    itsDestMenu;
-    JXTextMenu*    itsVarMenu;
-    JXStaticText*  itsColNumber;
+	JXTextButton*  itsTransformButton;
+	JXTextButton*  itsCloseButton;
+	JXTextButton*  itsClearButton;
+	JXInputField*  itsFunctionString;
+	JXTextButton*  itsEditButton;
+	JXTextMenu*    itsDestMenu;
+	JXTextMenu*    itsVarMenu;
+	JXStaticText*  itsColNumber;
 
 // end JXLayout
 

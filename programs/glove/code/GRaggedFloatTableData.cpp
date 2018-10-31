@@ -12,9 +12,9 @@
 #include "GRaggedFloatTableData.h"
 #include <jAssert.h>
 
-const JCharacter* GRaggedFloatTableData::kElementInserted = "ElementInserted::GRaggedFloatTableData";
-const JCharacter* GRaggedFloatTableData::kElementRemoved  = "ElementRemoved::GRaggedFloatTableData";
-const JCharacter* GRaggedFloatTableData::kDataChanged     = "DataChanged::GRaggedFloatTableData";
+const JUtf8Byte* GRaggedFloatTableData::kElementInserted = "ElementInserted::GRaggedFloatTableData";
+const JUtf8Byte* GRaggedFloatTableData::kElementRemoved  = "ElementRemoved::GRaggedFloatTableData";
+const JUtf8Byte* GRaggedFloatTableData::kDataChanged     = "DataChanged::GRaggedFloatTableData";
 
 /******************************************************************************
  Constructor

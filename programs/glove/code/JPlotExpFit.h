@@ -25,14 +25,15 @@ public:
 				const JFloat xMin, const JFloat xMax);
 	virtual ~JPlotExpFit();	
 
-	virtual JBoolean GetYRange(	JFloat* min, JFloat* max,
-								JFloat  xMin, JFloat  xMax);
+	virtual JBoolean	GetYRange(const JFloat xMin, const JFloat xMax,
+								  const JBoolean xLinear,
+								  JFloat* yMin, JFloat* yMax) const override;
 
-	virtual JBoolean	GetYValue(const JFloat x, JFloat* y) const;
-	virtual const JPlotDataBase*		GetDataToFit() const;
+	virtual JBoolean	GetYValue(const JFloat x, JFloat* y) const override;
+	virtual const JPlotDataBase*		GetDataToFit() const override;
 
-	virtual JBoolean	GetParameter(const JIndex index, JFloat* value) const;
-	virtual JBoolean	GetParameterError(const JIndex index, JFloat* value) const;
+	virtual JBoolean	GetParameter(const JIndex index, JFloat* value) const override;
+	virtual JBoolean	GetParameterError(const JIndex index, JFloat* value) const override;
 //	virtual JBoolean	GetGoodnessOfFit(JFloat* value) const;
 
 private:

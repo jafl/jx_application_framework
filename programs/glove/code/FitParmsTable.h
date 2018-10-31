@@ -26,7 +26,7 @@ public:
 
 	virtual ~FitParmsTable();
 	void	Clear();
-	void	Append(const JCharacter* col1, const JCharacter* col2);
+	void	Append(const JString& col1, const JString& col2);
 
 protected:
 

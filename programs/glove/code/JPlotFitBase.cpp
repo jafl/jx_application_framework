@@ -1,8 +1,8 @@
 /*********************************************************************************
  JPlotFitBase.cpp
- 
+
 	JPlotFitBase class.
- 
+
 	Copyright @ 2000 by Glenn W. Bach.
 
  ********************************************************************************/
@@ -35,14 +35,14 @@ const JFloat	CON		= 1.4;
 
 
 /*********************************************************************************
- Constructor 
- 
+ Constructor
+
 
  ********************************************************************************/
 
 JPlotFitBase::JPlotFitBase
 	(
-	J2DPlotWidget* 	plot, 
+	J2DPlotWidget* 	plot,
 	JPlotDataBase* 	fitData,
 	const JFloat	xMin,
 	const JFloat	xMax
@@ -56,11 +56,11 @@ JPlotFitBase::JPlotFitBase
 
 JPlotFitBase::JPlotFitBase
 	(
-	J2DPlotWidget* plot, 
+	J2DPlotWidget* plot,
 	JPlotDataBase* fitData,
-	const JFloat xmin, 
+	const JFloat xmin,
 	const JFloat xmax,
-	const JFloat ymin, 
+	const JFloat ymin,
 	const JFloat ymax
 	)
 	:
@@ -93,13 +93,13 @@ JPlotFitBase::JPlotFitBase
 void
 JPlotFitBase::JPlotFitBaseX
 	(
-	J2DPlotWidget* plot, 
+	J2DPlotWidget* plot,
 	JPlotDataBase* fitData
 	)
 {
 	itsCurrentConstantParmIndex	= 0;
 	itsUseAltFunction			= kJFalse;
-	
+
 	if (fitData->HasXErrors() || fitData->HasYErrors())
 		{
 		SetHasParameterErrors(kJTrue);
@@ -127,10 +127,10 @@ JPlotFitBase::JPlotFitBaseX
 
 /*********************************************************************************
  Destructor
- 
+
 
  ********************************************************************************/
- 
+
 JPlotFitBase::~JPlotFitBase()
 {
 }
@@ -138,16 +138,16 @@ JPlotFitBase::~JPlotFitBase()
 
 /*********************************************************************************
  GetYRange
- 
+
 
  ********************************************************************************/
 
 JBoolean
 JPlotFitBase::GetYRange
 	(
-	JFloat* min, 
+	JFloat* min,
 	JFloat* max,
-	JFloat	xMin, 
+	JFloat	xMin,
 	JFloat	xMax
 	)
 {
@@ -155,7 +155,7 @@ JPlotFitBase::GetYRange
 	GetYValue(xMin, &tempMin);
 	JFloat tempMax;
 	GetYValue(xMax, &tempMax);
-	
+
 	if (tempMin <= tempMax)
 		{
 		*min = tempMin;
@@ -171,7 +171,7 @@ JPlotFitBase::GetYRange
 
 /*********************************************************************************
  GetGoodnessOfFitName
- 
+
 
  ********************************************************************************/
 
@@ -196,7 +196,7 @@ JPlotFitBase::GetGoodnessOfFitName
 
 /*********************************************************************************
  GetGoodnessOfFit
- 
+
 
  ********************************************************************************/
 
@@ -208,7 +208,6 @@ JPlotFitBase::GetGoodnessOfFit
 	const
 {
 	const JPlotDataBase* data = GetData();
-	const JSize count = data->GetElementCount();
 	if (data->HasXErrors() || data->HasYErrors())
 		{
 		*value = itsChi2/(itsRealData->GetElementCount() - GetParameterCount());
@@ -217,13 +216,13 @@ JPlotFitBase::GetGoodnessOfFit
 		{
 		*value = GetStdDev();
 		}
-	
+
 	return kJTrue;
 }
 
 /*********************************************************************************
  GenerateFit
- 
+
 
  ********************************************************************************/
 
@@ -238,7 +237,6 @@ JPlotFitBase::GenerateFit
 	JVector err(p.GetDimensionCount());
 
 	itsChi2	= chi2;
-	const JPlotDataBase* data = GetData();
 	const JSize n	= p.GetDimensionCount();
 	JMatrix xi(n,n);
 	JSize iter;
@@ -261,7 +259,7 @@ JPlotFitBase::GenerateFit
 		{
 		err.SetElement(i, CalcError(p, i));
 		}
-	
+
 	SetCurrentParameters(p);
 	SetErrors(err);
 	GenerateDiffData();
@@ -272,7 +270,7 @@ JPlotFitBase::GenerateFit
 
  ********************************************************************************/
 
-JFloat 
+JFloat
 JPlotFitBase::CalcError
 	(
 	const JVector& 	parameters,
@@ -281,9 +279,9 @@ JPlotFitBase::CalcError
 {
 	itsCurrentConstantParmIndex	= constIndex;
 	itsCurrentConstantParm		= parameters.GetElement(constIndex);
-	
+
 	JFloat currentParm			= itsCurrentConstantParm;
-	
+
 	const JSize n	= parameters.GetDimensionCount() - 1;
 	JVector p(n);
 	JMatrix xi(n,n);
@@ -318,7 +316,7 @@ JPlotFitBase::CalcError
 	b	= currentParm * 1.01;
 //	std::cout << "Calculating error for parameter: " << constIndex << std::endl;
 	Bracket(&a, &b, &c, &f1, &f2, &f3, pS, xiS.GetColVector(itsCurrentConstantParmIndex));
-	Minimize(a, b, c, pS, xiS.GetColVector(itsCurrentConstantParmIndex), &sig);	
+	Minimize(a, b, c, pS, xiS.GetColVector(itsCurrentConstantParmIndex), &sig);
 	sig =  fabs(sig)/10 * JSign(currentParm);
 //	std::cout << "Calculating error for parameter: " << constIndex << std::endl;
 //	std::cout << "Starting guess: " << sig << std::endl;
@@ -333,7 +331,7 @@ JPlotFitBase::CalcError
 	JFloat chitemp = MinimizeN(&p, &xi, &iter);
 //	std::cout << "Chitemp start: " << chitemp << std::endl;
 	JFloat lastchi;
-	
+
 	do
 		{
 		if (chitemp > chiplus)
@@ -475,10 +473,10 @@ JPlotFitBase::CalcError
 
 /*********************************************************************************
  ChiSqr
- 
+
  ********************************************************************************/
 
-JFloat 
+JFloat
 JPlotFitBase::ChiSqr
 	(
 	const JVector& p
@@ -501,13 +499,13 @@ JPlotFitBase::ChiSqr
 	else
 		{
 		SetCurrentParameters(p);
-		}	
-	
+		}
+
 	J2DDataPoint point;
 	JSize rcount = itsRealData->GetElementCount();
 	JFloat c = 0;
-	
-	for (JSize i = 1; i <= rcount; i++) 
+
+	for (JSize i = 1; i <= rcount; i++)
 		{
 		point = itsRealData->GetElement(i);
 		JFloat sy = point.yerr;
@@ -523,17 +521,17 @@ JPlotFitBase::ChiSqr
 		e += sy * sy;
 		JFloat tc = point.y - FunctionN(point.x);
 		tc *= tc;
-		c += tc/e; 
+		c += tc/e;
 		}
 	return c;
 }
 
 /*********************************************************************************
  Function
- 
+
  ********************************************************************************/
 
-JFloat 
+JFloat
 JPlotFitBase::Function
 	(
 	JFloat	 			Bt,
@@ -549,10 +547,10 @@ JPlotFitBase::Function
 
 /*********************************************************************************
  ChiSqrSqrt
- 
+
  ********************************************************************************/
 
-JFloat 
+JFloat
 JPlotFitBase::ChiSqrSqrt
 	(
 	const JVector& parameters
@@ -568,16 +566,16 @@ JPlotFitBase::ChiSqrSqrt
 
 /*********************************************************************************
  Minimize
- 
+
 
  ********************************************************************************/
 
-JFloat 
+JFloat
 JPlotFitBase::Minimize
 	(
 	JFloat 			ax,
 	JFloat 			bx,
-	JFloat 			cx, 
+	JFloat 			cx,
 	const JVector& 	parms,
 	const JVector& 	xi,
 	JFloat* 		xmin
@@ -591,47 +589,47 @@ JPlotFitBase::Minimize
 	x = bx;
 	w = bx;
 	v = bx;
-	
-	
+
+
 	fx = Function(bx, parms, xi);
 	fw = fx;
 	fw = fx;
-	if (ax<cx) 
+	if (ax<cx)
 		{
 		low = ax;
 		high = cx;
 		}
-	else 
+	else
 		{
 		low = cx;
 		high = ax;
 		}
 	iter = 1;
-	while (iter<= ITMAX) 
-		{	
+	while (iter<= ITMAX)
+		{
 		middle=0.5*(low+high);
 		tol1=TOLL*fabs(x)+ZEPS;
 		tol2 = 2.0*(tol1);
-		if (fabs(x-middle) <= (tol2-0.5*(high-low))) 
+		if (fabs(x-middle) <= (tol2-0.5*(high-low)))
 			{
 			*xmin= x;
 			ymin= fx;
 			return fx;
 			}
-		if (fabs(oldstep) > tol1) 
+		if (fabs(oldstep) > tol1)
 			{
 			r=(x - w) * (fx - fv);
 			q=(x - v) * (fx - fw);
 			p=(x - v) * q + (w - x)* r;
 			q= 2.0 * (q - r);
-			if (q > 0.0) 
+			if (q > 0.0)
 				{
 				p = -p;
 				}
 			q = fabs(q);
 			steptemp = oldstep;
 			oldstep = step;
-			if ((fabs(p) >= fabs(0.5*q*steptemp)) || (p <= q*(low-x)) || (p >= q*(high-x))) 
+			if ((fabs(p) >= fabs(0.5*q*steptemp)) || (p <= q*(low-x)) || (p >= q*(high-x)))
 				{
 				if (x >= middle)
 					{
@@ -642,12 +640,12 @@ JPlotFitBase::Minimize
 					oldstep = high - x;
 					}
 				step = CGOLD*oldstep;
-				} 
-			else 
+				}
+			else
 				{
 				step = p/q;
 				u = x + step;
-				if ((u-low < tol2) || (high-u < tol2)) 
+				if ((u-low < tol2) || (high-u < tol2))
 					{
 					if ((middle - x) > 0.0)
 						{
@@ -672,7 +670,7 @@ JPlotFitBase::Minimize
 				}
 			step = CGOLD*oldstep;
 			}
-			
+
 		if (fabs(step) >= tol1)
 			{
 			u = x + step;
@@ -680,7 +678,7 @@ JPlotFitBase::Minimize
 		else
 			{
 			if (step > 0.0)
-			 	{
+				{
 				u = x + fabs(tol1);
 				}
 			else
@@ -689,11 +687,11 @@ JPlotFitBase::Minimize
 				}
 			}
 		fu = Function(u, parms, xi);
-		if (fu <= fx) 
+		if (fu <= fx)
 			{
-			if (u >= x) 
+			if (u >= x)
 				{
-				low=x; 
+				low=x;
 				}
 			else
 				{
@@ -705,27 +703,27 @@ JPlotFitBase::Minimize
 			fv = fw;
 			fw = fx;
 			fx = fu;
-			} 
-		else 
+			}
+		else
 			{
-			if (u < x) 
+			if (u < x)
 				{
 				low = u;
 				}
-			else 
+			else
 				{
 				high = u;
 				}
-			if ((fu <= fw) || (w == x)) 
+			if ((fu <= fw) || (w == x))
 				{
 				v = w;
 				w = u;
 				fv = fw;
 				fw = fu;
-				} 
-			else 
+				}
+			else
 				{
-				if ((fu <= fv) || (v == x) || (v == w)) 
+				if ((fu <= fv) || (v == x) || (v == w))
 					{
 					v = u;
 					fv = fu;
@@ -735,7 +733,7 @@ JPlotFitBase::Minimize
 
 		iter++;
 		}
-	if (iter > ITMAX) 
+	if (iter > ITMAX)
 		{
 		*xmin = x;
 		ymin = fx;
@@ -745,15 +743,15 @@ JPlotFitBase::Minimize
 
 /*********************************************************************************
  MinimizeN
- 
+
 
  ********************************************************************************/
 
-JFloat 
+JFloat
 JPlotFitBase::MinimizeN
 	(
-	JVector* 	p, 
-	JMatrix* 	xi, 
+	JVector* 	p,
+	JMatrix* 	xi,
 	JSize 		*iter
 	)
 {
@@ -764,20 +762,20 @@ JPlotFitBase::MinimizeN
 	JVector pt(*p);
 	JVector ptt(n);
 	JVector xit(n);
-	
+
 	fret = ChiSqrSqrt(*p);
 
-	for (*iter = 1; *iter <= ITMAX; ++(*iter)) 
+	for (*iter = 1; *iter <= ITMAX; ++(*iter))
 		{
 		fp = fret;
 		ibig=0;
 		del=0.0;
-		for (i = 1; i <= n; i++) 
+		for (i = 1; i <= n; i++)
 			{
 			xit = xi->GetColVector(i);
 			fptt = fret;
 			fret = LinearMinimization(p, &xit);
-			if (fabs(fptt-fret) > del) 
+			if (fabs(fptt-fret) > del)
 				{
 				del=fabs(fptt-fret);
 				ibig=i;
@@ -791,10 +789,10 @@ JPlotFitBase::MinimizeN
 		xit = *p - pt;
 		pt = *p;
 		fptt = ChiSqrSqrt(ptt);
-		if (fptt < fp) 
+		if (fptt < fp)
 			{
 			t = 2.0*(fp - 2.0*fret+fptt) * (fp-fret-del)*(fp-fret-del) -del*(fp-fptt)*(fp-fptt);
-			if (t < 0.0) 
+			if (t < 0.0)
 				{
 				fret = LinearMinimization(p, &xit);
 				xi->SetColVector(ibig, xi->GetColVector(n));
@@ -807,14 +805,14 @@ JPlotFitBase::MinimizeN
 
 /*********************************************************************************
  LinearMinimization
- 
+
 
  ********************************************************************************/
 
-JFloat 
+JFloat
 JPlotFitBase::LinearMinimization
 	(
-	JVector* p, 
+	JVector* p,
 	JVector* xi
 	)
 {
@@ -840,18 +838,18 @@ JPlotFitBase::LinearMinimization
 
 /*********************************************************************************
  Bracket
- 
+
 
  ********************************************************************************/
 
-void 
+void
 JPlotFitBase::Bracket
 	(
-	JFloat 			*ax, 
-	JFloat 			*bx, 
-	JFloat 			*cx, 
-	JFloat 			*fa, 
-	JFloat 			*fb, 
+	JFloat 			*ax,
+	JFloat 			*bx,
+	JFloat 			*cx,
+	JFloat 			*fa,
+	JFloat 			*fb,
 	JFloat 			*fc,
 	const JVector& 		p,
 	const JVector& 		xi
@@ -861,16 +859,16 @@ JPlotFitBase::Bracket
 
 	*fa = Function(*ax, p, xi);
 	*fb = Function(*bx, p, xi);
-	
-	if (*fb > *fa) 
+
+	if (*fb > *fa)
 		{
 		Shift(dum,*ax,*bx,dum);
 		Shift(dum,*fb,*fa,dum);
 		}
 	*cx = (*bx)+GOLD*(*bx-*ax);
 	*fc = Function(*cx, p, xi);
-	
-	while (*fb > *fc) 
+
+	while (*fb > *fc)
 		{
 		r = (*bx-*ax)*(*fb-*fc);
 		q = (*bx-*cx)*(*fb-*fa);
@@ -886,18 +884,18 @@ JPlotFitBase::Bracket
 		u = (*bx)-((*bx-*cx)*q-(*bx-*ax)*r)/
 			(2.0*sign*JMax(fabs(q-r),TINY));
 		ulim = (*bx)+GLIMIT*(*cx-*bx);
-		if ((*bx-u)*(u-*cx) > 0.0) 
+		if ((*bx-u)*(u-*cx) > 0.0)
 			{
 			fu = Function(u, p, xi);
-			if (fu < *fc) 
+			if (fu < *fc)
 				{
 				*ax = (*bx);
 				*bx = u;
 				*fa = (*fb);
 				*fb = fu;
 				return;
-				} 
-			else if (fu > *fb) 
+				}
+			else if (fu > *fb)
 				{
 				*cx = u;
 				*fc = fu;
@@ -905,24 +903,24 @@ JPlotFitBase::Bracket
 				}
 			u = (*cx)+GOLD*(*cx-*bx);
 			fu = Function(u, p, xi);
-			} 
-		else if ((*cx-u)*(u-ulim) > 0.0) 
+			}
+		else if ((*cx-u)*(u-ulim) > 0.0)
 			{
 			fu = Function(u, p, xi);
-			if (fu < *fc) 
+			if (fu < *fc)
 				{
 				JFloat temp = *cx+GOLD*(*cx-*bx);
 				Shift(*bx,*cx,u,temp);
 				temp = Function(u, p, xi);
 				Shift(*fb,*fc,fu,temp);
 				}
-			} 
-		else if ((u-ulim)*(ulim-*cx) >= 0.0) 
+			}
+		else if ((u-ulim)*(ulim-*cx) >= 0.0)
 			{
 			u = ulim;
 			fu = Function(u, p, xi);
-			} 
-		else 
+			}
+		else
 			{
 			u = (*cx)+GOLD*(*cx-*bx);
 			fu = Function(u, p, xi);
@@ -932,7 +930,7 @@ JPlotFitBase::Bracket
 		}
 }
 
-void 
+void
 JPlotFitBase::Shift
 	(
 	JFloat& a,
@@ -948,7 +946,7 @@ JPlotFitBase::Shift
 
 /*********************************************************************************
  DataElementValid
- 
+
 
  ********************************************************************************/
 
@@ -961,9 +959,9 @@ JPlotFitBase::DataElementValid
 	const JPlotDataBase* data = GetData();
 	J2DDataPoint point;
 	data->GetElement(index, &point);
-	
+
 	if (itsUsingRange)
-		{		
+		{
 		if ((point.x >= itsRangeXMin) &&
 			(point.x <= itsRangeXMax) &&
 			(point.y >= itsRangeYMin) &&
@@ -981,7 +979,7 @@ JPlotFitBase::DataElementValid
 
 /******************************************************************************
  GetDataElement
- 
+
 
  *****************************************************************************/
 
@@ -1004,7 +1002,7 @@ JPlotFitBase::GetDataElement
 
 /*****************************************************************************
  AdjustDiffData
- 
+
 
  *****************************************************************************/
 
@@ -1066,7 +1064,7 @@ JPlotFitBase::FunctionNPrimed
 			{
 			a.SetElement(j, i, (a.GetElement(j - 1, i) * fac - a.GetElement(j - 1, i - 1))/(fac - 1.0));
 			fac	= CON * CON * fac;
-			JFloat errt	= 
+			JFloat errt	=
 				JMax(fabs(a.GetElement(j, i) - a.GetElement(j - 1, i)),
 					 fabs(a.GetElement(j, i) - a.GetElement(j - 1, i - 1)));
 			if (errt <= err)
@@ -1115,7 +1113,7 @@ JPlotFitBase::GetFitFunctionString()
 void
 JPlotFitBase::SetFunctionString
 	(
-	const JCharacter* str
+	const JString& str
 	)
 {
 	itsFunctionStr	= str;
@@ -1123,9 +1121,9 @@ JPlotFitBase::SetFunctionString
 
 /*********************************************************************************
  GenerateDiffData (protected)
- 
+
  ********************************************************************************/
- 
+
 void
 JPlotFitBase::GenerateDiffData()
 {
@@ -1158,7 +1156,7 @@ JPlotFitBase::GenerateDiffData()
 				else
 					{
 					yerrdata.AppendElement(data.yerr);
-					}				
+					}
 				}
 			else
 				{

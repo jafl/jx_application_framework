@@ -18,7 +18,6 @@
 
 const JCoordinate kDefColWidth  = 50;
 const JCoordinate kHMarginWidth = 5;
-const JCoordinate kVMarginWidth = 1;
 
 /******************************************************************************
  Constructor
@@ -45,8 +44,8 @@ FitParmsTable::FitParmsTable
 	assert(itsCol1 != nullptr);
 	itsCol2 = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 	assert(itsCol2 != nullptr);
-	SetColBorderInfo(0, GetColormap()->GetBlackColor());
-	SetRowBorderInfo(0, GetColormap()->GetBlackColor());
+	SetColBorderInfo(0, JColorManager::GetBlackColor());
+	SetRowBorderInfo(0, JColorManager::GetBlackColor());
 }
 
 /******************************************************************************
@@ -120,8 +119,8 @@ FitParmsTable::Clear()
 void
 FitParmsTable::Append
 	(
-	const JCharacter* col1, 
-	const JCharacter* col2
+	const JString& col1, 
+	const JString& col2
 	)
 {
 	

@@ -26,8 +26,6 @@
 
 #include <jProcessUtil.h>
 #include <jStreamUtil.h>
-#include <jParseFunction.h>
-#include <sstream>
 #include <jAssert.h>
 
 const int kASCIIZero = 48;
@@ -41,10 +39,10 @@ const int kASCIIZero = 48;
 JBoolean
 FitModule::Create
 	(
-	FitModule** 		module,
-	PlotDir* 			dir, 
-	JPlotDataBase* 		fitData,
-	const JCharacter* 	sysCmd
+	FitModule** 	module,
+	PlotDir* 		dir,
+	JPlotDataBase* 	fitData,
+	const JString& 	sysCmd
 	)
 {
 	int inFD;
@@ -98,8 +96,6 @@ FitModule::FitModule
 	assert(itsNames != nullptr);
 	itsValues = jnew JArray<JFloat>;
 	assert(itsValues != nullptr);
-	itsFunction = jnew JString();
-	assert (itsFunction != nullptr);
 	itsStatusRead = kJFalse;
 	itsHeaderRead = kJFalse;
 	itsFunctionRead = kJFalse;
@@ -261,13 +257,13 @@ FitModule::HandleInput
 		}
 	else if (itsHeaderRead)
 		{
-		*itsFunction = istr;
-		itsFunction->TrimWhitespace();
+		itsFunction = istr;
+		itsFunction.TrimWhitespace();
 		itsFunctionRead = kJTrue;
 		}
 	else if (itsStatusRead)
 		{
-		std::string s(str);
+		std::string s(str.GetRawBytes(), str.GetByteCount());
 		std::istringstream iss(s);
 		iss >> itsParmsCount;
 		iss >> itsHasErrors;
@@ -276,12 +272,12 @@ FitModule::HandleInput
 		}
 	else
 		{
-		JCharacter c = str.GetCharacter(1);
+		JUtf8Byte c = str.GetRawBytes()[0];
 		int val = c - kASCIIZero;
 		if (val == kGloveFail)
 			{
 			str.RemoveSubstring(1,2);
-			str.Prepend("Module error: ");
+			str.Prepend(JGetString("Error::DataModule"));
 			JGetUserNotification()->ReportError(str);
 			DeleteFitModTask* dft = jnew DeleteFitModTask(this);
 			assert(dft != nullptr);
@@ -293,7 +289,7 @@ FitModule::HandleInput
 			}
 		else
 			{
-			JGetUserNotification()->ReportError("Unknown module error");
+			JGetUserNotification()->ReportError(JGetString("UnknownError::FitModule"));
 			DeleteFitModTask* dft = jnew DeleteFitModTask(this);
 			assert(dft != nullptr);
 			dft->Go();

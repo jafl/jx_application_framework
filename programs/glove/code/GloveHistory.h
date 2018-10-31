@@ -38,8 +38,8 @@ public:
 protected:
 
 	virtual void		Receive(JBroadcaster* sender, const Message& message) override;
-	virtual JCoordinate	GetPrintHeaderHeight(JPagePrinter& p) const;
-	virtual void		DrawPrintHeader(JPagePrinter& p, const JCoordinate headerHeight);
+	virtual JCoordinate	GetPrintHeaderHeight(JPagePrinter& p) const override;
+	virtual void		DrawPrintHeader(JPagePrinter& p, const JCoordinate headerHeight) override;
 
 private:
 
@@ -68,7 +68,7 @@ public:
 
 	// JBroadcaster messages
 
-	static const JCharacter* kFontWillChange;
+	static const JUtf8Byte* kFontWillChange;
 
 	class FontWillChange : public JBroadcaster::Message
 	{

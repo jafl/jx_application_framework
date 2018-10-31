@@ -55,3 +55,34 @@ UpgradeNotice::GLAboutDialog
 
 
 You have just upgraded from version $vers"
+
+# GLMDIServer
+
+DirectoryAccessDenied::GLMDIServer	"Unable to access \"$name\"."
+OpenFilesProgress::GLMDIServer		"Opening files..."
+NotAFile::GLMDIServer				"\"$name\" is not a regular file, so it cannot be opened."
+
+# GLFitDescription
+
+DefaultName::GLFitDescription	"Untitled"
+
+# DataModule
+
+Finished::DataModule		"Data module completed."
+ColumnRemoved::DataModule	"Module column removed."
+Error::DataModule			"Module Error."
+Loading::DateModule			"Loading data..."
+
+# FitModule
+
+UnknownError::FitModule		"Unknown module error."
+
+# GloveHistory
+
+FontMenuTitle::GloveHistory		"Font"
+FontSizeMenuTitle::GloveHistory	"Size"
+
+# GlovePlotter
+
+ModuleMenuTitle::GlovePlotter	"Cursor modules"
+ModuleError::GlovePlotter		"Module error: "

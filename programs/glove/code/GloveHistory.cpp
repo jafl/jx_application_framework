@@ -44,17 +44,12 @@ const JCoordinate kHeaderStartX	= 30;
 
 // Font menu
 
-static const JCharacter* kFontMenuTitleStr = "Font";
-static const JCharacter* kFontRegex        = "^[0-9]x[0-9]*$";
-static const JCharacter* kDefaultFontName  = "6x13";
-
-// Font size menu (Courier is used if no other fonts are available.)
-
-static const JCharacter* kSizeMenuTitleStr = "Size";
+static const JString kFontRegex("^[0-9]x[0-9]*$");
+static const JString kDefaultFontName("6x13");
 
 // JBroadcaster message types
 
-const JCharacter* GloveHistory::kFontWillChange = "GloveHistory::FontWillChange";
+const JUtf8Byte* GloveHistory::kFontWillChange = "GloveHistory::FontWillChange";
 
 /******************************************************************************
  Constructor
@@ -91,7 +86,7 @@ GloveHistory::GloveHistory
 	// add the font or size menu
 
 	JRegex regex(kFontRegex);
-	if (JXXFontMenu::Create(regex, CompareFontNames, kFontMenuTitleStr, menuBar,
+	if (JXXFontMenu::Create(regex, CompareFontNames, JGetString("FontMenuTitle::GloveHistory"), menuBar,
 							kFixedLeft, kFixedTop, 0,0, 10,10, &itsFontMenu))
 		{
 		itsSizeMenu = nullptr;
@@ -105,7 +100,7 @@ GloveHistory::GloveHistory
 		itsFontMenu = nullptr;
 		SetDefaultFont(GetFontManager()->GetDefaultMonospaceFont());
 
-		itsSizeMenu = jnew JXFontSizeMenu(JGetMonospaceFontName(), kSizeMenuTitleStr, menuBar,
+		itsSizeMenu = jnew JXFontSizeMenu(JGetMonospaceFontName(), JGetString("FontSizeMenuTitle::GloveHistory"), menuBar,
 										 kFixedLeft, kFixedTop, 0,0, 10,10);
 		assert( itsSizeMenu != nullptr );
 		menuBar->AppendMenu(itsSizeMenu);

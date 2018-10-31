@@ -23,10 +23,6 @@ T
 2 "GLMDIServer.cpp"
 F
 "./code/GLMDIServer.cpp"
-T
-2 "GLHelpText.h"
-F
-"./code/GLHelpText.h"
 F
 T
 1 "widgets"
@@ -62,10 +58,6 @@ T
 2 "GloveCursorMonitor.cpp"
 F
 "./code/GloveCursorMonitor.cpp"
-T
-2 "JXExprWidget.cpp"
-F
-"./code/JXExprWidget.cpp"
 F
 T
 1 "directors"
@@ -160,6 +152,18 @@ F
 T
 1 "fits"
 T
+2 "JFitBase.cpp"
+F
+"./code/JFitBase.cpp"
+T
+2 "JPlotFitBase.cpp"
+F
+"./code/JPlotFitBase.cpp"
+T
+2 "JPlotLinearFit.cpp"
+F
+"./code/JPlotLinearFit.cpp"
+T
 2 "JPlotExpFit.cpp"
 F
 "./code/JPlotExpFit.cpp"
@@ -168,10 +172,6 @@ T
 F
 "./code/JPlotFitFunction.cpp"
 T
-2 "JPlotLinearFit.cpp"
-F
-"./code/JPlotLinearFit.cpp"
-T
 2 "JPlotModuleFit.cpp"
 F
 "./code/JPlotModuleFit.cpp"
@@ -179,14 +179,6 @@ T
 2 "JPlotQuadFit.cpp"
 F
 "./code/JPlotQuadFit.cpp"
-T
-2 "JFitBase.cpp"
-F
-"./code/JFitBase.cpp"
-T
-2 "JPlotFitBase.cpp"
-F
-"./code/JPlotFitBase.cpp"
 T
 2 "JPlotFitQuad.cpp"
 F
@@ -374,36 +366,7 @@ F
 # tasks
 4
 "makemake"
-T "./" "make -k " "" T F T F T F T "" "" "+.'<^Y,K7s?#{89D[Rs\\::CBCommandManager" F
-T "./" "make beta_nolimit" "" T F T F T F T "" "" "tP2{fu]*tW$L9`%Dy(M*::CBCommandManager" F
-T "./" "make -k" "" T F T F T F T "" "" "4BH{DqTV;Ocb)?/I)`3D::CBCommandManager" F
-T "./" "make beta_limit" "" T F T F T F T "" "" " (6s_Vf+6NFLm[b[v@e\\::CBCommandManager" F
-T "./" "make zip" "" T F T F T F T "" "" "g%H'bkQmUDZ5-^H>4jO]::CBCommandManager" F
-T "./" "make source" "" T F T F T F T "" "" "Br|G\\zA%L<n5br!?0=-=::CBCommandManager" T
-T "./" "make CHECKSTRING=$file_name checksyntax" "" T F T T T T F "" "" "X+,29'CdW5evTolA*yLR::CBCommandManager" F
-T "./" "make $file_name_root" "" T F T T T T F "" "" "]o2v>Fq@TllgF^aHLq_4::CBCommandManager" T
 T "./" "./glove test1.glv" "" F F F F T T F "" "" "R8Jou)kyC$5xOnrhPu%0::CBCommandManager" F
-T "./" "./glove test.glv" "" F F F F T T F "" "" "5T.?oQ?M%ZXO<C]1[c>&::CBCommandManager" F
-T "./" "./glove" "" F F F F T T F "" "" "k]e`un_w.j&xPnMlcYFs::CBCommandManager" F
-T "./" "./glove ../../../data/balmer.glv" "" F F F F T T F "" "" "{:8TwxpI02Q.$7!\"gI/H::CBCommandManager" F
-T "./" "./glove ../../../data/ag983.txt" "" F F F F T T F "" "" "ex)VV$>A13\"P$>j`T Sz::CBCommandManager" F
-T "./" "./glove ../../../data/lorentz1.glv" "" F F F F T T F "" "" ".>?V0E>cl/y8zCb'P_!h::CBCommandManager" F
-T "./" "./glove ../../../data/thermist.glv" "" F F F F T T F "" "" "FM.CflKR[-%M9Xi9M8KJ::CBCommandManager" F
-T "./" "./glove ../../../data/Res0Q100.glv" "" F F F F T T F "" "" "LdKLA3z@cuj[T)HXM[Y<::CBCommandManager" F
-T "./" "./glove ../../../data/Res0Q100.dat" "" F F F F T T F "" "" "H}BV=;WFO EykHJ`].u`::CBCommandManager" F
-T "./" "./glove ../../../data/thermist.dat" "" F F F F T T F "" "" "|;>5kv._cQYX*]L+T)Bc::CBCommandManager" F
-T "./" "./glove ../../../data/photop.glv" "" F F F F T T F "" "" "aE~i{u#RZ\\/1Q3O\\+v^P::CBCommandManager" F
-T "./" "./glove ../../../data/photop.dat" "" F F F F T T F "" "" "5s3BiA.r}*3#7*pREQcY::CBCommandManager" F
-T "./" "./glove ../../../data/piersons.glv" "" F F F F T T F "" "" "<*SyncQm`LNDV6UY+>BU::CBCommandManager" F
-T "./" "./glove ../../../data/piersons2.glv" "" F F F F T T F "" "" "H!K:& #FG:o;[b,swS|l::CBCommandManager" F
-T "./" "./glove ../../../data/expsigxy.glv" "" F F F F T T F "" "" "LOpN94:#H~=,4R%n=&|+::CBCommandManager" F
-T "./" "./glove ../../../data/expsigxy" "" F F F F T T F "" "" "\\sYXIZL4y& fdCg~}omL::CBCommandManager" F
-T "./" "./glove ../../../data/lorentz1.dat" "" F F F F T T F "" "" "OmY0dGk7eTWesbS'2Sdw::CBCommandManager" F
-T "./" "./glove ../../../data/balmer" "" F F F F T T F "" "" "#Qy*?6sb&*cEWf~}y37 ::CBCommandManager" F
-T "./" "./glove ../../../data/piersons.dat" "" F F F F T T F "" "" "s8Yl\\0 uyF2F<Ac>Ok[c::CBCommandManager" F
-T "./" "./glove ../../../data/maxwell1.glv" "" F F F F T T F "" "" ":FhcOH;YD-G+d9FLE\"3p::CBCommandManager" T
-T "./" "medic glove -f +$line $full_name" "" F F F T F F F "" "" "CRHgAs.r+2B0Z_o'gy^`::CBCommandManager" F
-T "./" "medic -f +$line $full_name" "" F F F T F F F "" "" "sA*%gwZY)nGi&ns`{!`y::CBCommandManager" T
 F
 # build settings
 1

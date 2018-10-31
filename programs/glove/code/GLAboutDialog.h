@@ -18,7 +18,7 @@ class GLAboutDialog : public JXDialogDirector
 {
 public:
 
-	GLAboutDialog(JXDirector* supervisor, const JCharacter* prevVersStr);
+	GLAboutDialog(JXDirector* supervisor, const JString& prevVersStr);
 
 	virtual ~GLAboutDialog();
 
@@ -39,7 +39,7 @@ private:
 
 private:
 
-	void	BuildWindow(const JCharacter* prevVersStr);
+	void	BuildWindow(const JString& prevVersStr);
 
 	// not allowed
 

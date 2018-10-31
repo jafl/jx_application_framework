@@ -39,7 +39,7 @@ public:
 protected:
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
-	virtual JBoolean	OKToDeactivate();
+	virtual JBoolean	OKToDeactivate() override;
 	
 private:
 

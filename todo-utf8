@@ -1,3 +1,9 @@
+glove
+	switch to JXExprEditor
+	clean up .fd to match current layouts
+	test layouts on Linux and OS X
+
+
 JXFileListTable
 JXTreeListWidget
 JXStringTable
@@ -27,7 +33,6 @@ JXFontManager
 
 jcc
 medic
-glove
 
 jx_project_wizard
 	convert logic to use JSubstitute - need way to specify case match?

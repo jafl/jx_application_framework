@@ -30,7 +30,7 @@ public:
 	static JBoolean Create(	FitModule** module,
 							PlotDir* dir,
 							JPlotDataBase* fitData,
-							const JCharacter* sysCmd);
+							const JString& sysCmd);
 	virtual ~FitModule();
 
 protected:

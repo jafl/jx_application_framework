@@ -98,11 +98,11 @@ JPlotLinearFit::JPlotLinearFitX
 	itsYIsLog = ylog;
 	if (!xlog && !ylog)
 		{
-		itsFunctionName = jnew JString("y = a+bx");
+		itsFunctionName.Set("y = a+bx");
 		}
 	else if (!xlog && ylog)
 		{
-		itsFunctionName = jnew JString("y = a Exp(bx)");
+		itsFunctionName.Set("y = a Exp(bx)");
 		}
 	itsRealCount = 0;
 	GenerateFit();
@@ -396,7 +396,6 @@ JPlotLinearFit::GetGoodnessOfFit
 	const
 {
 	const JPlotDataBase* data = GetDataToFit();
-	const JSize count = data->GetElementCount();
 	if (data->HasXErrors() || data->HasYErrors())
 		{
 		*value = itsChi2/(itsRealCount - 2);
@@ -419,7 +418,7 @@ JString
 JPlotLinearFit::GetFunctionString()
 	const
 {
-	return *itsFunctionName;
+	return itsFunctionName;
 }
 
 /*********************************************************************************
@@ -432,7 +431,7 @@ JString
 JPlotLinearFit::GetFitFunctionString()
 	const
 {
-	return *itsFunctionName;
+	return itsFunctionName;
 }
 
 
@@ -971,7 +970,7 @@ JPlotLinearFit::Root
 {
 	JFloat small=TOLL, factor=0.1, xmin, xmax, ypos=0, yneg=0;
 	JFloat x, x1, x2, x3, y1, y2, y3, middle, tol1, p, q, r, s;
-	JFloat min1, min2, step1, step2, ymin, ymax, xpos, xneg, xtemp2;
+	JFloat min1, min2, step1, step2, ymin, ymax, xpos, xneg;
 	int iter;
 
 	iter = 1;
@@ -1161,10 +1160,10 @@ JPlotLinearFit::ChiSqrErr
 void
 JPlotLinearFit::SetFunctionName
 	(
-	const JCharacter* name
+	const JString& name
 	)
 {
-	*itsFunctionName = name;
+	itsFunctionName = name;
 }
 
 /*********************************************************************************

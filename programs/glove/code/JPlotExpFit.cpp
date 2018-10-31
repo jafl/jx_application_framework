@@ -32,7 +32,7 @@ JPlotExpFit::JPlotExpFit
 	:
 	JPlotLinearFit(plot, fitData, xMin, xMax, kJFalse)
 {
-	SetFunctionName("y = a Exp(bx)");
+	SetFunctionName(JString("y = a Exp(bx)", kJFalse));
 	itsXData = jnew JArray<JFloat>;
 	itsYData = jnew JArray<JFloat>;
 	itsHasXErrors = kJFalse;

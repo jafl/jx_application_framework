@@ -27,9 +27,9 @@ public:
 
 	virtual ~GVarList();
 
-	JBoolean	AddVariable(const JCharacter* name, const JFloat value);
+	JBoolean	AddVariable(const JString& name, const JFloat value);
 	void		RemoveVariable(const JIndex index);
-	JBoolean	AddArray(const JCharacter* name, const GNArray& values);
+	JBoolean	AddArray(const JString& name, const GNArray& values);
 
 	JBoolean	IsVariable(const JIndex index) const;
 	JBoolean	SetValue(const JIndex index, const JFloat value);
@@ -39,44 +39,28 @@ public:
 								const JFloat value);
 	virtual void	SetNumericValue(const JIndex variableIndex,
 									const JIndex elementIndex,
-									const JFloat value);
+									const JFloat value) override;
 	virtual void	SetNumericValue(const JIndex variableIndex,
 									const JIndex elementIndex,
-									const JComplex& value);
-	virtual void	SetDiscreteValue(const JIndex variableIndex,
-									 const JIndex elementIndex,
-									 const JIndex valueIndex);
+									const JComplex& value) override;
 	
 // implementation of JVariableList
 
-	virtual const JString&	GetVariableName(const JIndex index) const;
+	virtual const JString&	GetVariableName(const JIndex index) const override;
 	virtual void			GetVariableName(const JIndex index, JString* name,
-											JString* subscript) const;
+											JString* subscript) const override;
 	JBoolean				SetVariableName(const JIndex index, const JString& str);
 
 	const JPtrArray<JString>&	GetVariables() const;
 
-	virtual JBoolean	IsNumeric(const JIndex index) const;
-	virtual JBoolean	IsDiscrete(const JIndex index) const;
-
-	virtual JBoolean	IsArray(const JIndex index) const;
+	virtual JBoolean	IsArray(const JIndex index) const override;
 	virtual JBoolean	ArrayIndexValid(const JIndex variableIndex,
-										const JIndex elementIndex) const;
-
-	virtual JBoolean		ValueIsKnown(const JIndex variableIndex,
-										 const JIndex elementIndex) const;
-	virtual const JString&	GetUnknownValueSymbol(const JIndex index) const;
+										const JIndex elementIndex) const override;
 
 	virtual JBoolean	GetNumericValue(const JIndex variableIndex,
-										const JIndex elementIndex, JFloat* value) const;
+										const JIndex elementIndex, JFloat* value) const override;
 	virtual JBoolean	GetNumericValue(const JIndex variableIndex,
-										const JIndex elementIndex, JComplex* value) const;
-
-	virtual JIndex			GetDiscreteValue(const JIndex variableIndex,
-											 const JIndex elementIndex) const;
-	virtual JSize			GetDiscreteValueCount(const JIndex index) const;
-	virtual const JString&	GetDiscreteValueName(const JIndex variableIndex,
-												 const JIndex valueIndex) const;
+										const JIndex elementIndex, JComplex* value) const override;
 
 private:
 

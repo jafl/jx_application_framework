@@ -24,10 +24,7 @@
 #include <unistd.h>
 #include <jAssert.h>
 
-const JFileVersion kCurrentPrefsFileVersion 	= 2;
-const JCharacter* kGloveAppSig 					= "gGlove";
-
-extern const JCharacter* kGloveVersionNumberStr;
+const JFileVersion kCurrentPrefsFileVersion = 2;
 
 /******************************************************************************
  Constructor

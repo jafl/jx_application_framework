@@ -11,7 +11,7 @@
 
 #include <jAssert.h>
 
-static const JCharacter* kGloveTextDataXAtomName = "GLOVE_TEXT";
+static const JUtf8Byte* kGloveTextDataXAtomName = "GLOVE_TEXT";
 
 /******************************************************************************
  Constructor
@@ -24,7 +24,7 @@ GXTextSelection::GXTextSelection
 	const std::string&	text
 	)
 	:
-	JXTextSelection(display, text.c_str(), nullptr)
+	JXTextSelection(display, JString(text.c_str(), kJFalse), nullptr)
 {
 }
 
@@ -86,10 +86,10 @@ GXTextSelection::ConvertData
 	if (requestType == itsGloveTextXAtom)
 		{
 		*bitsPerBlock = 8;
-		*data = jnew unsigned char[ itsGloveData.GetLength()];
+		*data = jnew unsigned char[ itsGloveData.GetByteCount()];
 		assert( *data != nullptr );
-		memcpy(*data, itsGloveData, itsGloveData.GetLength());
-		*dataLength = itsGloveData.GetLength();
+		memcpy(*data, itsGloveData.GetRawBytes(), itsGloveData.GetByteCount());
+		*dataLength = itsGloveData.GetByteCount();
 		*returnType = itsGloveTextXAtom;
 		return kJTrue;
 		}

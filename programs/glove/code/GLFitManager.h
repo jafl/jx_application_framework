@@ -10,9 +10,7 @@
 #ifndef _H_GLFitManager
 #define _H_GLFitManager
 
-
-#include <GLFitDescription.h>
-
+#include "GLFitDescription.h"
 #include <JPrefObject.h>
 #include <JBroadcaster.h>
 #include <JPtrArray.h>
@@ -59,7 +57,7 @@ private:
 
 public:
 
-	static const JCharacter* kFitsChanged;
+	static const JUtf8Byte* kFitsChanged;
 
 	class FitsChanged : public JBroadcaster::Message
 		{

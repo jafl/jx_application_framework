@@ -65,7 +65,6 @@ GLUndoElementsInsert::Undo()
 	JPoint start 						= GetStartCell();
 	JPoint end 							= GetEndCell();
 	GLUndoElementsBase::UndoType type 	= GetType();
-	JSize cols							= data->GetDataColCount();
 
 	if (type == GLUndoElementsBase::kRows)
 		{

@@ -17,7 +17,6 @@
 #include <JXMenuBar.h>
 #include <JXTextMenu.h>
 #include <JXWindowPainter.h>
-#include <jXKeysym.h>
 
 #include <JProcess.h>
 #include <JOutPipeStream.h>
@@ -26,8 +25,7 @@
 #include <jStreamUtil.h>
 #include <jAssert.h>
 
-static const JCharacter* kModuleMenuTitleStr = "Cursor modules";
-static const JCharacter* kModuleMenuStr = "Reload modules %l";
+static const JUtf8Byte* kModuleMenuStr = "Reload modules %l";
 
 enum
 {
@@ -59,7 +57,7 @@ GlovePlotter::GlovePlotter
 	itsSessionDir = sessionDir;
 	JXTextMenu* cursorMenu = GetCursorMenu();
 	cursorMenu->ShowSeparatorAfter(cursorMenu->GetItemCount());
-	cursorMenu->AppendItem(kModuleMenuTitleStr);
+	cursorMenu->AppendItem(JGetString("ModuleMenuTitle::GlovePlotter"));
 	
 	itsModuleMenu = jnew JXTextMenu(cursorMenu, cursorMenu->GetItemCount(), menuBar);
 	assert( itsModuleMenu != nullptr );
@@ -127,12 +125,12 @@ GlovePlotter::Receive
 					{
 					if (itsCursorFirstPass)
 						{
-						JCharacter c = str.GetCharacter(1);
+						JUtf8Byte c = str.GetRawBytes()[0];
 						int val = c - kASCIIZero;
 						if (val == kGloveFail)
 							{
 							str.RemoveSubstring(1,2);
-							str.Prepend("Module error: ");
+							str.Prepend(JGetString("ModuleError::GlovePlotter"));
 							JGetUserNotification()->ReportError(str);
 							}
 						itsCursorFirstPass = kJFalse;

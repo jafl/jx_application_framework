@@ -31,7 +31,7 @@ public:
 	static JBoolean Create(	DataModule** module,
 							GXRaggedFloatTable* table, 
 							GRaggedFloatTableData* data,
-							const JCharacter* sysCmd);
+							const JString& sysCmd);
 	virtual ~DataModule();
 
 protected:

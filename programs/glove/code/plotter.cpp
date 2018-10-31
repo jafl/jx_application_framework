@@ -17,9 +17,6 @@
 #include <jWebUtil.h>
 #include <jAssert.h>
 
-extern JCharacter* kGLSig;
-extern JCharacter* kAppSignature;
-
 void ParseTextOptions(const int argc, char* argv[]);
 
 void PrintHelp();
@@ -39,7 +36,7 @@ main
 {
 	ParseTextOptions(argc, argv);
 
-	if (!GLMDIServer::WillBeMDIServer(kAppSignature, argc, argv))
+	if (!GLMDIServer::WillBeMDIServer(GLPlotApp::GetAppSignature(), argc, argv))
 		{
 		return 0;
 		}
@@ -114,10 +111,10 @@ ParseTextOptions
 void
 PrintHelp()
 {
-	const JCharacter* map[] =
+	const JUtf8Byte* map[] =
 		{
-		"version",   JGetString("VERSION"),
-		"copyright", JGetString("COPYRIGHT")
+		"version",   JGetString("VERSION").GetBytes(),
+		"copyright", JGetString("COPYRIGHT").GetBytes()
 		};
 	const JString s = JGetString("GLCommandLineHelp", map, sizeof(map));
 	std::cout << std::endl << s << std::endl << std::endl;
@@ -132,10 +129,10 @@ void
 PrintVersion()
 {
 	std::cout << std::endl;
-	const JCharacter* map[] =
+	const JUtf8Byte* map[] =
 		{
-		"version",   JGetString("VERSION"),
-		"copyright", JGetString("COPYRIGHT")
+		"version",   JGetString("VERSION").GetBytes(),
+		"copyright", JGetString("COPYRIGHT").GetBytes()
 		};
 	std::cout << JGetString("GLDescription", map, sizeof(map));
 	std::cout << std::endl << std::endl;

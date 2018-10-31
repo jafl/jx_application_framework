@@ -27,19 +27,19 @@ public:
 						const JIndex startX2, const JIndex startY2);
 
 	virtual ~GXCreateVectorPlotDialog();
-	
-	void GetColumns(JIndex* X1, JIndex* Y1, 
+
+	void GetColumns(JIndex* X1, JIndex* Y1,
 					JIndex* X2, JIndex* Y2);
-					
+
 	JBoolean GetPlotIndex(JIndex* index);
-	
+
 	const JString& GetLabel();
-	
+
 protected:
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
-	virtual JBoolean	OKToDeactivate();
-	
+	virtual JBoolean	OKToDeactivate() override;
+
 private:
 
 	JIndex itsStartX1;
@@ -51,18 +51,18 @@ private:
 
 // begin JXLayout
 
-    JXTextMenu*    itsX1Menu;
-    JXTextMenu*    itsY1Menu;
-    JXTextMenu*    itsX2Menu;
-    JXTextMenu*    itsY2Menu;
-    JXTextMenu*    itsPlotsMenu;
-    JXInputField*  itsLabelInput;
+	JXTextMenu*    itsX1Menu;
+	JXTextMenu*    itsY1Menu;
+	JXTextMenu*    itsX2Menu;
+	JXTextMenu*    itsY2Menu;
+	JXTextMenu*    itsPlotsMenu;
+	JXInputField*  itsLabelInput;
 
 // end JXLayout
 
 private:
 
-	void	BuildWindow(GRaggedFloatTableData* data, 
+	void	BuildWindow(GRaggedFloatTableData* data,
 						const JIndex startX, const JIndex startY,
 						const JIndex startXErr, const JIndex startYErr);
 

@@ -22,8 +22,7 @@
 #include <jGlobals.h>
 #include <jAssert.h>
 
-const JSize kCellFrameWidth            = kJXDefaultBorderWidth;
-const JCoordinate kDragRegionHalfWidth = 2;
+const JSize kCellFrameWidth = kJXDefaultBorderWidth;
 
 /******************************************************************************
  Constructor
@@ -75,8 +74,8 @@ GXRowHeaderWidget::TableDrawCell
 	JXDrawUpFrame(p, rect, kCellFrameWidth);
 
 	const JFont font = GetFontManager()->GetFont(
-		JGetDefaultFontName(), 10,
-		JFontStyle(kJTrue, kJFalse, 0, kJFalse, GetColormap()->GetBlackColor()));
+		JFontManager::GetDefaultFontName(), 10,
+		JFontStyle(kJTrue, kJFalse, 0, kJFalse, JColorManager::GetBlackColor()));
 	p.SetFont(font);
 	JString str(cell.y, 0);
 	p.String(rect, str, JPainter::kHAlignCenter, JPainter::kVAlignCenter);

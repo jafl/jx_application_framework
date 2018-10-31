@@ -92,9 +92,9 @@ private:
 
 public:
 
-	static const JCharacter* kElementInserted;
-	static const JCharacter* kElementRemoved;
-	static const JCharacter* kDataChanged;
+	static const JUtf8Byte* kElementInserted;
+	static const JUtf8Byte* kElementRemoved;
+	static const JUtf8Byte* kDataChanged;
 
 	class ElementInserted : public JBroadcaster::Message
 		{

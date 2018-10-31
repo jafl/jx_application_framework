@@ -25,15 +25,15 @@ const JFileVersion kCurrentSetupVersion	= 0;
 
 GLFitDescription::GLFitDescription
 	(
-	const FitType 		type, 
-	const JCharacter* 	form,
-	const JCharacter* 	name
+	const FitType	type,
+	const JString&	form,
+	const JString&	name
 	)
 	:
 	JFitBase(1),
 	itsType(type),
 	itsFnForm(form),
-	itsFnName(name),
+	itsFnName(name.IsEmpty() ? JGetString("DefaultName::GLFitDescription") : name),
 	itsRequiresStartValues(kJFalse),
 	itsCanUseStartValues(kJTrue)
 {

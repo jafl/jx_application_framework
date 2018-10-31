@@ -40,7 +40,7 @@ GXColByIncDialog::GXColByIncDialog
 	
 	for (JSize i = 1; i <= count; i++)
 		{
-		JString str(i);
+		JString str((JUInt64) i);
 		str.Prepend("Column "); 
 		itsDestMenu->AppendItem(str);
 		}

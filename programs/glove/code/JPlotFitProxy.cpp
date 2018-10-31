@@ -13,7 +13,6 @@
 
 #include <J2DPlotData.h>
 #include <JFunction.h>
-#include <jParseFunction.h>
 #include <jAssert.h>
 
 /******************************************************************************
@@ -41,7 +40,7 @@ JPlotFitProxy::JPlotFitProxy
 		}
 	itsParms	= jnew GVarList();
 	assert(itsParms != nullptr);
-	itsParms->AddVariable("x", 0);
+	itsParms->AddVariable(JString("x", kJFalse), 0);
 	const JSize count	= fit->GetParameterCount();
 	SetParameterCount(count);
 	for (JIndex i = 1; i <= count; i++)
@@ -113,7 +112,7 @@ JPlotFitProxy::JPlotFitProxy
 
 	itsParms	= jnew GVarList();
 	assert(itsParms != nullptr);
-	itsParms->AddVariable("x", 0);
+	itsParms->AddVariable(JString("x", kJFalse), 0);
 
 	JSize count;
 	is >> count;

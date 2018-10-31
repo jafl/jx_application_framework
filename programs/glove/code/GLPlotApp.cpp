@@ -23,15 +23,13 @@
 #include <stdlib.h>
 #include <jAssert.h>
 
-const JCharacter* kCursorSubPath = "/cursormodule/";
-const JCharacter* kDataSubPath = "/datamodule/";
-const JCharacter* kImportSubPath = "/importmodule/";
-const JCharacter* kExportSubPath = "/exportmodule/";
-const JCharacter* kFitSubPath = "/fitmodule/";
+static const JUtf8Byte* kAppSignature = "glove";
 
-static const JCharacter* kGloveFileSignature = "*** Glove File Format ***";
-
-const JCharacter* kAppSignature = "glove";
+static const JString kCursorSubPath("/cursormodule/", kJFalse);
+static const JString kDataSubPath("/datamodule/", kJFalse);
+static const JString kImportSubPath("/importmodule/", kJFalse);
+static const JString kExportSubPath("/exportmodule/", kJFalse);
+static const JString kFitSubPath("/fitmodule/", kJFalse);
 
 /******************************************************************************
  Constructor
@@ -57,7 +55,7 @@ GLPlotApp::GLPlotApp
 	
 	if (!JGetHomeDirectory(&homeDir))
 		{
-		homeDir == "/";		
+		homeDir = JGetRootDirectory();
 		}
 	
 	JAppendDirSeparator(&homeDir);
@@ -68,9 +66,7 @@ GLPlotApp::GLPlotApp
 	itsModulePath->Append(str);
 	str = jnew JString("/usr/local/lib/glove");
 	itsModulePath->Append(str);
-	
 
-	
 	*displayAbout = InitGLGlobals(this);
 
 	if (!*displayAbout)
@@ -309,7 +305,7 @@ GLPlotApp::UpdateFileImpProgs()
 void 
 GLPlotApp::NewFile()
 {
-	JString str = "Untitled " + JString(itsDirNumber);
+	JString str = "Untitled " + JString((JUInt64) itsDirNumber);
 	itsDirNumber++;
 	GXDataDocument* tableDir = jnew GXDataDocument(this, str, kJFalse);
 	assert( tableDir != nullptr);
@@ -324,7 +320,7 @@ GLPlotApp::NewFile()
 void 
 GLPlotApp::OpenFile
 	(
-	const JCharacter* fileName
+	const JString& fileName
 	)
 {
 	JXFileDocument* doc;
@@ -622,7 +618,7 @@ GLPlotApp::GetFitModules()
 void
 GLPlotApp::DisplayAbout
 	(
-	const JCharacter* prevVersStr
+	const JString& prevVersStr
 	)
 {
 	GLAboutDialog* dlog = jnew GLAboutDialog(this, prevVersStr);
@@ -643,7 +639,21 @@ GLPlotApp::GetModulePath()
 }
 
 /******************************************************************************
+ GetAppSignature (static)
+
+ ******************************************************************************/
+
+const JUtf8Byte*
+GLPlotApp::GetAppSignature()
+{
+	return kAppSignature;
+}
+
+/******************************************************************************
  InitStrings (static public)
+
+	If we are going to print something to the command line and then quit,
+	we haven't initialized JX, but we still need the string data.
 
  ******************************************************************************/
 

@@ -28,7 +28,7 @@ class GXDataDocument : public JXFileDocument
 {
 public:
 
-	GXDataDocument(JXDirector* supervisor, const JCharacter* fileName,
+	GXDataDocument(JXDirector* supervisor, const JString& fileName,
 					const JBoolean onDisk);
 
 	virtual ~GXDataDocument();
@@ -36,24 +36,24 @@ public:
 	void CreateNewPlot(	const JIndex type,
 						const JArray<JFloat>& xCol, const JArray<JFloat>* xErrCol,
 						const JArray<JFloat>& yCol, const JArray<JFloat>* yErrCol,
-						const JBoolean linked, const JCharacter* label );
+						const JBoolean linked, const JString& label );
 						
 	void AddToPlot( const JIndex plotIndex, const JIndex type,
 					const JArray<JFloat>& xCol, const JArray<JFloat>* xErrCol,
 					const JArray<JFloat>& yCol, const JArray<JFloat>* yErrCol,
-					const JBoolean linked, const JCharacter* label );
+					const JBoolean linked, const JString& label );
 	
 	void 					GetPlotNames(JPtrArray<JString>& names);
 	GRaggedFloatTableData*	GetData();
-	const JCharacter*		GetInternalModuleName(const JIndex index);
+	const JUtf8Byte*		GetInternalModuleName(const JIndex index);
 	JSize					GetInternalModuleCount();
 
 protected:
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
-	virtual void	DirectorClosed(JXDirector* theDirector);
-	virtual void	WriteTextFile(std::ostream& output, const JBoolean safetySave) const;
-	virtual void	DiscardChanges();
+	virtual void	DirectorClosed(JXDirector* theDirector) override;
+	virtual void	WriteTextFile(std::ostream& output, const JBoolean safetySave) const override;
+	virtual void	DiscardChanges() override;
 			
 private:
 
@@ -82,7 +82,7 @@ private:
 private:
 
 	void		BuildWindow();
-	void		LoadFile(const JCharacter* fileName);
+	void		LoadFile(const JString& fileName);
 
 	void		UpdateFileMenu();
 	void		HandleFileMenu(const JIndex item);

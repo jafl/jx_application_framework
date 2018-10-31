@@ -33,7 +33,6 @@
 #include "JXToolBar.h"
 
 #include <JXDialogDirector.h>
-#include <JXHelpDirector.h>
 #include <JXDocumentMenu.h>
 #include <JXWindow.h>
 #include <JXMenuBar.h>
@@ -59,10 +58,16 @@
 #include <jFileUtil.h>
 #include <jAssert.h>
 
+static const JUtf8Byte* kGloveFileSignature = "*** Glove File Format ***";
+static const JFileVersion kCurrentGloveVersion = 3;
+
+// version 2:
+//	Fixed problem with PlotDir::WriteData() (needed a space)
+//	Changed PlotDir to use PWXRead/WriteSetup()
+
 // File menu information
 
-static const JCharacter* kFileMenuTitleStr  = "File";
-static const JCharacter* kFileMenuStr =
+static const JUtf8Byte* kFileMenuStr =
 	"    New %k Meta-N %i New::GXDataDocument"
 	"  | Open... %k Meta-O %i Open::GXDataDocument"
 	"  | Save %k Meta-S %i Save::GXDataDocument"
@@ -72,13 +77,6 @@ static const JCharacter* kFileMenuStr =
 	"  | Print... %k Meta-P %i " kJXPrintAction
 	"%l| Close %k Meta-W %i " kJXCloseWindowAction
 	"  | Quit %k Meta-Q %i " kJXQuitAction;
-
-static const JCharacter* kGloveFileSignature   = "*** Glove File Format ***";
-static const JFileVersion kCurrentGloveVersion = 3;
-
-// version 2:
-//	Fixed problem with PlotDir::WriteData() (needed a space)
-//	Changed PlotDir to use PWXRead/WriteSetup()
 
 enum
 {
@@ -95,10 +93,7 @@ enum
 
 const JSize kMaxPlotTitleSize = 20;
 
-static const JCharacter* kWindowListMenuTitleStr = "Windows";
-
-static const JCharacter* kExportMenuTitleStr = "Export modules";
-static const JCharacter* kExportMenuStr =
+static const JUtf8Byte* kExportMenuStr =
 	"Reload %l";
 
 enum
@@ -106,8 +101,7 @@ enum
 	kReloadModuleCmd = 1
 };
 
-static const JCharacter* kHelpMenuTitleStr = "Help";
-static const JCharacter* kHelpMenuStr =
+static const JUtf8Byte* kHelpMenuStr =
 	"About "
 	"%l| Table of Contents %i TOC::GXDataDocument"
 	"  | This window %i ThisWindow::GXDataDocument"
@@ -134,13 +128,13 @@ const JCoordinate kToolBarHeight 	= 40;
 
 const JCoordinate kEditButtonStart	= 130;
 
-static const JCharacter* kInternalModuleNames[] =
+static const JUtf8Byte* kInternalModuleNames[] =
 {
 	"Text (delimited)",
 	"Text (fixed-width)"
 };
 
-const JSize kInternalModuleCount = sizeof(kInternalModuleNames)/sizeof(JCharacter*);
+const JSize kInternalModuleCount = sizeof(kInternalModuleNames)/sizeof(JUtf8Byte*);
 
 enum
 {
@@ -155,9 +149,9 @@ enum
 
 GXDataDocument::GXDataDocument
 	(
-	JXDirector*			supervisor,
-	const JCharacter*	fileName,
-	const JBoolean		onDisk
+	JXDirector*		supervisor,
+	const JString&	fileName,
+	const JBoolean	onDisk
 	)
 	:
 	JXFileDocument(supervisor, fileName, onDisk, kJFalse, ".glv")
@@ -212,7 +206,7 @@ GXDataDocument::BuildWindow()
 	JSize w = 453;
 	JSize h = 360;
 
-	JXWindow* window = jnew JXWindow(this, w,h, "");
+	JXWindow* window = jnew JXWindow(this, w,h, JString::empty);
 	assert( window != nullptr );
 
 	JXMenuBar* menuBar =
@@ -231,7 +225,7 @@ GXDataDocument::BuildWindow()
 
 	window->SetMinSize(150, 150);
 
-	itsFileMenu = menuBar->AppendTextMenu(kFileMenuTitleStr);
+	itsFileMenu = menuBar->AppendTextMenu(JGetString("FileMenuTitle::JXGlobal"));
 	itsFileMenu->SetMenuItems(kFileMenuStr);
 	ListenTo(itsFileMenu);
 
@@ -272,7 +266,7 @@ GXDataDocument::BuildWindow()
 	JRect enclApG     = encl->GetApertureGlobal();
 
 	JXTextButton* okButton =
-		jnew JXTextButton("OK", encl,
+		jnew JXTextButton(JGetString("OKLabel::JXGlobal"), encl,
 						JXWidget::kFixedLeft, JXWidget::kFixedTop,
 						0, 0, kRowHeaderWidth-2, kColHeaderHeight-2);
 	assert(okButton != nullptr);
@@ -304,7 +298,7 @@ GXDataDocument::BuildWindow()
 	assert( colHeader != nullptr );
 
 	JXDocumentMenu* windowListMenu =
-		jnew JXDocumentMenu(kWindowListMenuTitleStr, menuBar,
+		jnew JXDocumentMenu(JGetString("WindowsMenuTitle::JXGlobal"), menuBar,
 			JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
 	assert( windowListMenu != nullptr );
 	menuBar->AppendMenu(windowListMenu);
@@ -315,7 +309,7 @@ GXDataDocument::BuildWindow()
 	itsExportMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsExportMenu);
 
-	itsHelpMenu = menuBar->AppendTextMenu(kHelpMenuTitleStr);
+	itsHelpMenu = menuBar->AppendTextMenu(JGetString("HelpMenuTitle::JXGlobal"));
 	itsHelpMenu->SetMenuItems(kHelpMenuStr);
 	itsHelpMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsHelpMenu);
@@ -477,7 +471,7 @@ GXDataDocument::HandleFileMenu
 	else if (index == kOpenCmd)
 		{
 		JString filename;
-		if (JGetChooseSaveFile()->ChooseFile("Select Data File", "", &filename))
+		if (JGetChooseSaveFile()->ChooseFile("Select Data File", JString::empty, &filename))
 			{
 			(GLGetApplication())->OpenFile(filename);
 			}
@@ -1071,7 +1065,7 @@ GXDataDocument::DiscardChanges()
 
  ******************************************************************************/
 
-const JCharacter*
+const JUtf8Byte*
 GXDataDocument::GetInternalModuleName
 	(
 	const JIndex index

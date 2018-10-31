@@ -43,10 +43,11 @@ public:
 	const JPtrArray<JString>&	GetModulePath() const;
 
 	void NewFile();
-	void OpenFile(const JCharacter* filename);
-	void DisplayAbout(const JCharacter* prevVersStr = nullptr);
+	void OpenFile(const JString& filename);
+	void DisplayAbout(const JString& prevVersStr = JString::empty);
 
-	static void					InitStrings();
+	static const JUtf8Byte*	GetAppSignature();
+	static void				InitStrings();
 
 protected:
 

@@ -110,7 +110,6 @@ GLUndoElementsCut::Undo()
 	
 	GRaggedFloatTableData* data 		= GetData();
 	JPoint start 						= GetStartCell();
-	JPoint end 							= GetEndCell();
 	GLUndoElementsBase::UndoType type 	= GetType();
 
 	if (type == GLUndoElementsBase::kCols)

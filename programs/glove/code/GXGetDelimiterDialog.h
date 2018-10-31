@@ -39,20 +39,20 @@ public:
 	GXGetDelimiterDialog(JXWindowDirector* supervisor, const JString& text);
 
 	virtual ~GXGetDelimiterDialog();
-	
+
 	DelimiterType	GetDelimiterType();
-	JCharacter		GetCharacter();
+	JUtf8Byte		GetCharacter();
 	JBoolean		IsSkippingLines();
 	JSize			GetSkipLineCount();
 	JBoolean		HasComments();
 	const JString&	GetCommentString();
-	
+
 protected:
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
-	virtual void	ReadPrefs(std::istream& input);
-	virtual void	WritePrefs(std::ostream& output) const;
-	
+	virtual void	ReadPrefs(std::istream& input) override;
+	virtual void	WritePrefs(std::ostream& output) const override;
+
 private:
 
 	JIndex 					itsFilterIndex;
@@ -60,12 +60,12 @@ private:
 
 // begin JXLayout
 
-    JXRadioGroup*   itsRG;
-    JXInputField*   itsCharInput;
-    JXTextCheckbox* itsSkipCB;
-    JXTextCheckbox* itsCommentCB;
-    JXIntegerInput* itsSkipCountInput;
-    JXInputField*   itsCommentInput;
+	JXRadioGroup*   itsRG;
+	JXInputField*   itsCharInput;
+	JXTextCheckbox* itsSkipCB;
+	JXTextCheckbox* itsCommentCB;
+	JXIntegerInput* itsSkipCountInput;
+	JXInputField*   itsCommentInput;
 
 // end JXLayout
 

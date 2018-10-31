@@ -14,15 +14,10 @@
 #include <JUserNotification.h>
 #include <JString.h>
 
-#include <jParseFunction.h>
 #include <jStreamUtil.h>
 #include <jMath.h>
 #include <jGlobals.h>
-
-#include <string.h>
 #include <jAssert.h>
-
-static const JString kUnknownValueSymbol = "?";
 
 /******************************************************************************
  Constructor
@@ -87,7 +82,7 @@ GVarList::GVarList
 	input >> std::ws;
 	while (input.peek() != '*')
 		{
-		JCharacter type;
+		JUtf8Byte type;
 		input >> type >> std::ws;
 		if (type == 'N')
 			{
@@ -384,37 +379,6 @@ GVarList::SetVariableName
 		}
 }
 
-
-/******************************************************************************
- IsNumeric
-
- ******************************************************************************/
-
-JBoolean
-GVarList::IsNumeric
-	(
-	const JIndex index
-	)
-	const
-{
-	return kJTrue;
-}
-
-/******************************************************************************
- IsDiscrete
-
- ******************************************************************************/
-
-JBoolean
-GVarList::IsDiscrete
-	(
-	const JIndex index
-	)
-	const
-{
-	return kJFalse;
-}
-
 /******************************************************************************
  IsArray
 
@@ -447,37 +411,6 @@ GVarList::ArrayIndexValid
 			elementIndex == 1 ||
 			(IsArray(variableIndex) &&
 			 (itsArrays->GetElement(variableIndex))->IndexValid(elementIndex)));
-}
-
-/******************************************************************************
- ValueIsKnown
-
- ******************************************************************************/
-
-JBoolean
-GVarList::ValueIsKnown
-	(
-	const JIndex variableIndex,
-	const JIndex elementIndex
-	)
-	const
-{
-	return kJTrue;
-}
-
-/******************************************************************************
- GetUnknownValueSymbol
-
- ******************************************************************************/
-
-const JString&
-GVarList::GetUnknownValueSymbol
-	(
-	const JIndex index
-	)
-	const
-{
-	return kUnknownValueSymbol;
 }
 
 /******************************************************************************
@@ -533,70 +466,7 @@ GVarList::GetNumericValue
 }
 
 /******************************************************************************
- SetDiscreteValue
-
- ******************************************************************************/
-
-void
-GVarList::SetDiscreteValue
-	(
-	const JIndex 	variableIndex, 
-	const JIndex 	elementIndex,
-	const JIndex	valueIndex
-	)
-{
-
-}
-
-/******************************************************************************
- GetDiscreteValue
-
- ******************************************************************************/
-
-JIndex
-GVarList::GetDiscreteValue
-	(
-	const JIndex variableIndex,
-	const JIndex elementIndex
-	)
-	const
-{
-	return 1;
-}
-
-/******************************************************************************
- GetDiscreteValueCount
-
- ******************************************************************************/
-
-JSize
-GVarList::GetDiscreteValueCount
-	(
-	const JIndex index
-	)
-	const
-{
-	return 0;
-}
-
-/******************************************************************************
- GetDiscreteValueName
-
- ******************************************************************************/
-
-const JString&
-GVarList::GetDiscreteValueName
-	(
-	const JIndex variableIndex,
-	const JIndex valueIndex
-	)
-	const
-{
-	return kUnknownValueSymbol;
-}
-
-/******************************************************************************
- GetVariableCount (public)
+ GetVariableCount
 
  ******************************************************************************/
 

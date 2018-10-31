@@ -25,7 +25,7 @@ public:
 
 protected:
 
-	virtual void	HandleMDIRequest(const JCharacter* dir,
+	virtual void	HandleMDIRequest(const JString& dir,
 									 const JPtrArray<JString>& argList) override;
 
 //	virtual void	Receive(JBroadcaster* sender, const Message& message) override;

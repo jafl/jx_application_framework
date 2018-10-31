@@ -12,21 +12,17 @@
 
 #include <JXPTPrinter.h>
 
-#include <JString.h>
-#include <JPtrArray.h>
-
+#include <JPtrArray-JString.h>
 #include <jDirUtil.h>
-#include <jFileUtil.h>
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <jAssert.h>
 
-GLFitManager*			itsFitManager	= nullptr;
-GLPrefsMgr*				itsPrefsMgr 	= nullptr;
-GLPlotApp*				itsApplication 	= nullptr;
+static GLFitManager*	itsFitManager	= nullptr;
+static GLPrefsMgr*		itsPrefsMgr 	= nullptr;
+static GLPlotApp*		itsApplication 	= nullptr;
 static JXPTPrinter*		itsPrinter		= nullptr;
-GLMDIServer*			itsMDIServer	= nullptr;
+static GLMDIServer*		itsMDIServer	= nullptr;
 
 /******************************************************************************
  InitGLGlobals

@@ -12,9 +12,9 @@
 
 #include <JPlotFitFunction.h>
 #include <JArray.h>
+#include <JString.h>
 
 class J2DPlotWidget;
-class JString;
 class JVector;
 class JMatrix;
 
@@ -29,21 +29,22 @@ public:
 					const JFloat ymin, const JFloat ymax);
 	virtual ~JPlotQuadFit();	
 
-	virtual JBoolean GetYRange(	JFloat* min, JFloat* max,
-								JFloat  xMin, JFloat  xMax);
+	virtual JBoolean	GetYRange(const JFloat xMin, const JFloat xMax,
+								  const JBoolean xLinear,
+								  JFloat* yMin, JFloat* yMax) const override;
 
-	virtual JBoolean	GetParameterName(const JIndex index, JString* name) const;
-	virtual JBoolean	GetParameter(const JIndex index, JFloat* value) const;
+	virtual JBoolean	GetParameterName(const JIndex index, JString* name) const override;
+	virtual JBoolean	GetParameter(const JIndex index, JFloat* value) const override;
 
-	virtual JBoolean	GetParameterError(const JIndex index, JFloat* value) const;
+	virtual JBoolean	GetParameterError(const JIndex index, JFloat* value) const override;
 
-	virtual JBoolean	GetGoodnessOfFitName(JString* name) const;
-	virtual JBoolean	GetGoodnessOfFit(JFloat* value) const;
+	virtual JBoolean	GetGoodnessOfFitName(JString* name) const override;
+	virtual JBoolean	GetGoodnessOfFit(JFloat* value) const override;
 	
-	virtual JString		GetFunctionString() const;
-	virtual JString		GetFitFunctionString() const;
+	virtual JString		GetFunctionString() const override;
+	virtual JString		GetFitFunctionString() const override;
 
-	virtual JBoolean	GetYValue(const JFloat x, JFloat* y) const;
+	virtual JBoolean	GetYValue(const JFloat x, JFloat* y) const override;
 	virtual const JPlotDataBase*		GetDataToFit() const;
 
 	void				AdjustDataRange(const JFloat xmin, const JFloat xmax,
@@ -88,12 +89,12 @@ protected:
 										const JIndex type);
 	
 	void				GenerateFit();
-	void				SetFunctionName(const JCharacter* name);
+	void				SetFunctionName(const JString& name);
 	JFloat				GetCurrentXMax() const;
 	JFloat				GetCurrentXMin() const;
 	JFloat				GetCurrentStepCount() const;
-	virtual JBoolean	DataElementValid(const JIndex index);
-	virtual JBoolean	GetDataElement(const JIndex index, J2DDataPoint* point);
+	virtual JBoolean	DataElementValid(const JIndex index) override;
+	virtual JBoolean	GetDataElement(const JIndex index, J2DDataPoint* point) override;
 
 private:
 

@@ -53,7 +53,7 @@ GLMDIServer::~GLMDIServer()
 void
 GLMDIServer::HandleMDIRequest
 	(
-	const JCharacter* dir,
+	const JString& dir,
 	const JPtrArray<JString>& argList
 	)
 {
@@ -73,11 +73,13 @@ GLMDIServer::HandleMDIRequest
 	JUserNotification* un = JGetUserNotification();
 
 	const JString origDir = JGetCurrentDirectory();
-	if (JChangeDirectory(dir) != kJNoError)
+	if (!JChangeDirectory(dir).OK())
 		{
-		JString msg = "Unable to access \"";
-		msg += dir;
-		msg += "\".";
+		const JUtf8Byte* map[] =
+		{
+			"name", dir.GetBytes()
+		};
+		const JString msg = JGetString("DirectoryAccessDenied::GLMDIServer", map, sizeof(map));
 		un->ReportError(msg);
 		return;
 		}
@@ -86,7 +88,7 @@ GLMDIServer::HandleMDIRequest
 	pg.RaiseWhenUpdate();
 	if (argCount > 4)
 		{
-		pg.FixedLengthProcessBeginning(argCount-1, "Opening files...", kJTrue, kJFalse);
+		pg.FixedLengthProcessBeginning(argCount-1, JGetString("OpenFilesProgress::GLMDIServer"), kJTrue, kJFalse);
 		}
 
 	for (JIndex i=2; i<=argCount; i++)
@@ -102,9 +104,11 @@ GLMDIServer::HandleMDIRequest
 		const JBoolean isFile = JFileExists(fileName);
 		if (!isFile && JNameUsed(fileName))
 			{
-			JString msg = "\"";
-			msg += fileName;
-			msg += "\" is not a regular file, so it cannot be opened.";
+			const JUtf8Byte* map[] =
+			{
+				"name", fileName.GetBytes()
+			};
+			const JString msg = JGetString("NotAFile::GLMDIServer", map, sizeof(map));
 			un->ReportError(msg);
 			shouldOpen = kJFalse;
 			}

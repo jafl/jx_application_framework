@@ -11,13 +11,9 @@
 #define _H_GLFitDescription
 
 #include "JFitBase.h"
-
-#include <GVarList.h>
-
+#include "GVarList.h"
 #include <JArray.h>
 #include <JString.h>
-
-#include <jTypes.h>
 
 class GLFitDescription : public JFitBase
 {
@@ -36,7 +32,8 @@ public:
 
 public:
 
-	GLFitDescription(const FitType type, const JCharacter* form = "", const JCharacter* name = "Untitled");
+	GLFitDescription(const FitType type, const JString& form = JString::empty,
+					 const JString& name = JString::empty);
 
 	static JBoolean	Create(std::istream& is, GLFitDescription** fd);
 	
@@ -50,7 +47,7 @@ public:
 
 
 	virtual JString	GetFitFunctionString() const;
-	void			SetFitFunctionString(const JCharacter* form);
+	void			SetFitFunctionString(const JString& form);
 
 	const JString&	GetFnName() const;
 
@@ -66,7 +63,7 @@ public:
 
 protected:
 
-	void			SetFnName(const JCharacter* name);
+	void			SetFnName(const JString& name);
 	void			DoesRequireStartValues(const JBoolean require);
 	void			SetCanUseStartValues(const JBoolean use);
 

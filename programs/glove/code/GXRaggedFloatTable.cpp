@@ -52,9 +52,6 @@
 
 #include <JFunction.h>
 #include <JFunctionWithVar.h>
-#include <JExprNodeList.h>
-#include <JFunctionType.h>
-#include <jParseFunction.h>
 #include <JPainter.h>
 #include <JFontStyle.h>
 #include <JUserNotification.h>
@@ -67,7 +64,6 @@
 #include <JListUtil.h>
 
 #include <jXActionDefs.h>
-#include <jXKeysym.h>
 
 #include <jStreamUtil.h>
 #include <jASCIIConstants.h>
@@ -452,8 +448,9 @@ GXRaggedFloatTable::HandleMouseDrag
 void
 GXRaggedFloatTable::HandleKeyPress
 	(
-	const int key,
-	const JXKeyModifiers& modifiers
+	const JUtf8Character&	c,
+	const int				keySym,
+	const JXKeyModifiers&	modifiers
 	)
 {
 	if (key == kJEscapeKey)

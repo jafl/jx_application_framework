@@ -27,7 +27,7 @@ public:
 protected:
 
 	virtual void	Receive(JBroadcaster* sender,
-							const JBroadcaster::Message& message);
+							const JBroadcaster::Message& message) override;
 	
 	virtual void	Draw(JXWindowPainter& p, const JRect& rect) override;
 	virtual void	DrawBorder(JXWindowPainter& p, const JRect& frame) override;

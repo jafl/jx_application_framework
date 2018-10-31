@@ -39,36 +39,36 @@ class PlotDir : public JXDocument
 public:
 
 	PlotDir(JXDirector* supervisor, JXFileDocument* notifySupervisor,
-			const JCharacter* filename, const JBoolean hideOnClose = kJFalse);
+			const JString& filename, const JBoolean hideOnClose = kJFalse);
 
 	virtual ~PlotDir();
 
 	GlovePlotter*		GetPlot();
-	void 				NewFileName(const JCharacter* filename);
+	void 				NewFileName(const JString& filename);
 
 	void 				WriteSetup(std::ostream& os);
 	void 				ReadSetup(std::istream& is, const JFloat gloveVersion);
 
 	void 				WriteData(std::ostream& os, GRaggedFloatTableData* data);
 	void 				ReadData(std::istream& is, GRaggedFloatTableData* data, const JFloat gloveVersion);
-	virtual JBoolean	NeedsSave() const;
+	virtual JBoolean	NeedsSave() const override;
 	GloveHistoryDir*	GetSessionDir();
 	JBoolean			AddFitModule(JPlotModuleFit* fit, JPlotDataBase* fitData);
-	virtual void		SafetySave(const JXDocumentManager::SafetySaveReason reason);
-	virtual JXPM		GetMenuIcon() const;
+	virtual void		SafetySave(const JXDocumentManager::SafetySaveReason reason) override;
+	virtual JBoolean	GetMenuIcon(const JXImage** icon) const override;
 
-	void				AddFitProxy(JPlotFitProxy* fit, const JIndex index, const JCharacter* name);
+	void				AddFitProxy(JPlotFitProxy* fit, const JIndex index, const JString& name);
 
-	virtual JBoolean	Close();
+	virtual JBoolean	Close() override;
 
 	JBoolean			CurveIsFit(const JIndex index) const;
 
 protected:
 
-	virtual JBoolean	OKToClose();
-	virtual JBoolean	OKToRevert();
-	virtual JBoolean	CanRevert();
-	virtual void		DiscardChanges();
+	virtual JBoolean	OKToClose() override;
+	virtual JBoolean	OKToRevert() override;
+	virtual JBoolean	CanRevert() override;
+	virtual void		DiscardChanges() override;
 	virtual void		Receive(JBroadcaster* sender, const Message& message) override;
 
 private:

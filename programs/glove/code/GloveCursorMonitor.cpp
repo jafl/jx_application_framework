@@ -19,7 +19,6 @@
 const JSize kXBorderOffset = 10;
 const JSize kYBorderOffset = 5;
 const JSize kXValueSpacing = 5;
-const int  kValuePrecision = 3;
 
 /*******************************************************************************
  Constructor
@@ -42,7 +41,7 @@ GloveCursorMonitor::GloveCursorMonitor
 	JXWidget(enclosure, hSizing, vSizing, x,y, w,h)
 {
 	SetBorderWidth(kJXDefaultBorderWidth);
-	SetBackColor(GetColormap()->GetWhiteColor());
+	SetBackColor(JColorManager::GetWhiteColor());
 	itsPlot  = plot;
 	itsShowX = kJFalse;
 	itsShowY = kJFalse;
