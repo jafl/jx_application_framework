@@ -96,29 +96,20 @@ JPlotExpFit::GetYValue
 JBoolean
 JPlotExpFit::GetYRange
 	(
-	JFloat* min, 
-	JFloat* max,
-	JFloat  xMin, 
-	JFloat  xMax
+	const JFloat	xMin,
+	const JFloat	xMax,
+	const JBoolean	xLinear,
+	JFloat*			yMin,
+	JFloat*			yMax
 	)
+	const
 {
-	JFloat a, b;
-	GetParameter(1, &a);
-	GetParameter(2, &b);
-	
-	JFloat tempMin = a * exp(b*xMin);
-	JFloat tempMax = a * exp(b*xMax);
-	
-	if (tempMin <= tempMax)
-		{
-		*min = tempMin;
-		*max = tempMax;
-		}
-	else
-		{
-		*min = tempMax;
-		*max = tempMin;
-		}
+	JFloat y1, y2;
+	GetYValue(xMin, &y1);
+	GetYValue(xMax, &y2);
+
+	*yMin = JMin(y1, y2);
+	*yMax = JMax(y1, y2);
 	return kJTrue;
 }
 

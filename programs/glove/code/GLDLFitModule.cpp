@@ -14,17 +14,17 @@
 #include <ace/DLL.h>
 #include <jAssert.h>
 
-typedef const JCharacter** (GetParmsFn)();
+typedef const JUtf8Byte** (GetParmsFn)();
 typedef JSize (GetParmCountFn)();
-typedef const JCharacter* (GetNameFn)();
+typedef const JUtf8Byte* (GetNameFn)();
 
-const JCharacter* kInitValName		= "GetStartValues";
-const JCharacter* kFNName			= "FunctionN";
-const JCharacter* kFNPrimedName		= "FunctionNPrimed";
-const JCharacter* kGetParmsName		= "GetParms";
-const JCharacter* kParmCountName	= "GetParmCount";
-const JCharacter* kFormName			= "GetFunctionForm";
-const JCharacter* kFitName			= "GetFitName";
+const JUtf8Byte* kInitValName		= "GetStartValues";
+const JUtf8Byte* kFNName			= "FunctionN";
+const JUtf8Byte* kFNPrimedName		= "FunctionNPrimed";
+const JUtf8Byte* kGetParmsName		= "GetParms";
+const JUtf8Byte* kParmCountName	= "GetParmCount";
+const JUtf8Byte* kFormName			= "GetFunctionForm";
+const JUtf8Byte* kFitName			= "GetFitName";
 
 /******************************************************************************
  Create & Constructor
@@ -34,11 +34,11 @@ const JCharacter* kFitName			= "GetFitName";
 JBoolean
 GLDLFitModule::Create
 	(
-	const JCharacter*	moduleName,
+	const JString&		moduleName,
 	GLDLFitModule**		fit
 	)
 {
-	ACE_DLL* module = jnew ACE_DLL(moduleName);
+	ACE_DLL* module = jnew ACE_DLL(moduleName.GetBytes());
 	assert(module != nullptr);
 
 	JBoolean ok	= kJTrue;
@@ -87,9 +87,9 @@ GLDLFitModule::GLDLFitModule
 	EvalFn* 			fprimed,
 	InitialValFn* 		initFn,
 	const JSize 		count, 
-	const JCharacter** 	parms, 
-	const JCharacter* 	form, 
-	const JCharacter* 	name
+	const JUtf8Byte** 	parms, 
+	const JUtf8Byte* 	form, 
+	const JUtf8Byte* 	name
 	)
 	:
 	itsFunctionalForm(form),

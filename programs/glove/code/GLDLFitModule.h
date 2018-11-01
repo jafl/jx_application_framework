@@ -23,9 +23,7 @@ class GLDLFitModule
 {
 public:
 
-public:
-
-	static JBoolean Create(const JCharacter* moduleName, GLDLFitModule** fit);
+	static JBoolean Create(const JString& moduleName, GLDLFitModule** fit);
 	virtual ~GLDLFitModule();
 
 	JBoolean	HasStartValues() const;
@@ -47,8 +45,8 @@ protected:
 
 	GLDLFitModule(ACE_DLL* module, EvalFn* function, EvalFn* fprimed, 
 				  InitialValFn* initFn,
-				  const JSize count, const JCharacter** parms, 
-				  const JCharacter* form, const JCharacter* name);
+				  const JSize count, const JUtf8Byte** parms, 
+				  const JUtf8Byte* form, const JUtf8Byte* name);
 
 private:
 

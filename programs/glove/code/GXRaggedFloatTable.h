@@ -149,7 +149,7 @@ private:
 
 	Atom						itsGloveTextXAtom;
 
-	GVarList*					itsVarList;
+	GVarList*					itsTransformVarList;
 	JXTextButton*				itsOKButton;
 	DragType					itsDragType;
 

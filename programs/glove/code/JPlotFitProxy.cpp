@@ -7,12 +7,10 @@
 	
  *****************************************************************************/
 
-#include <JPlotFitProxy.h>
-
+#include "JPlotFitProxy.h"
 #include "GVarList.h"
-
 #include <J2DPlotData.h>
-#include <JFunction.h>
+#include <JExprParser.h>
 #include <jAssert.h>
 
 /******************************************************************************
@@ -38,7 +36,7 @@ JPlotFitProxy::JPlotFitProxy
 		fit->GetGoodnessOfFitName(&itsGOFName);
 		fit->GetGoodnessOfFit(&itsGOF);
 		}
-	itsParms	= jnew GVarList();
+	itsParms = jnew GVarList();
 	assert(itsParms != nullptr);
 	itsParms->AddVariable(JString("x", kJFalse), 0);
 	const JSize count	= fit->GetParameterCount();
@@ -89,7 +87,12 @@ JPlotFitProxy::JPlotFitProxy
 	fit->GetXRange(&xMin, &xMax);
 	SetXRange(xMin, xMax);
 	itsFn	= nullptr;
-	JParseFunction(itsFnString, itsParms, &itsFn);
+
+	JExprParser p(itsParms);
+
+	const JBoolean ok = p.Parse(itsFnString, &itsFn);
+	assert( ok );
+
 	SetHasGoodnessOfFit(itsHasGOF);
 }
 
@@ -153,10 +156,14 @@ JPlotFitProxy::JPlotFitProxy
 
 	is >> itsFnString;
 	
-	itsFn	= nullptr;
-	JParseFunction(itsFnString, itsParms, &itsFn);
-	SetHasGoodnessOfFit(itsHasGOF);
+	itsFn = nullptr;
 
+	JExprParser p(itsParms);
+
+	const JBoolean ok = p.Parse(itsFnString, &itsFn);
+	assert( ok );
+
+	SetHasGoodnessOfFit(itsHasGOF);
 	GenerateDiffData();
 }
 

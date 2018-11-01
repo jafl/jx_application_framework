@@ -66,7 +66,7 @@ JPlotFitExp::JPlotFitExpX
 	itsBParm	= 0;
 	itsAErr	= 0;
 	itsBErr	= 0;
-	SetFunctionString("a*e^(b*x)");
+	SetFunctionString(JString("a*e^(b*x)", kJFalse));
 	SetParameterCount(2);
 	SetHasGoodnessOfFit(kJTrue);
 }

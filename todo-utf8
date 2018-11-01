@@ -3,6 +3,8 @@ glove
 	clean up .fd to match current layouts
 	test layouts on Linux and OS X
 
+	test column xform:  add two columns
+
 
 JXFileListTable
 JXTreeListWidget

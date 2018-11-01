@@ -135,40 +135,6 @@ JPlotFitBase::~JPlotFitBase()
 {
 }
 
-
-/*********************************************************************************
- GetYRange
-
-
- ********************************************************************************/
-
-JBoolean
-JPlotFitBase::GetYRange
-	(
-	JFloat* min,
-	JFloat* max,
-	JFloat	xMin,
-	JFloat	xMax
-	)
-{
-	JFloat tempMin;
-	GetYValue(xMin, &tempMin);
-	JFloat tempMax;
-	GetYValue(xMax, &tempMax);
-
-	if (tempMin <= tempMax)
-		{
-		*min = tempMin;
-		*max = tempMax;
-		}
-	else
-		{
-		*min = tempMax;
-		*max = tempMin;
-		}
-	return kJTrue;
-}
-
 /*********************************************************************************
  GetGoodnessOfFitName
 

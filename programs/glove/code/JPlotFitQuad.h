@@ -27,11 +27,7 @@ public:
 
 private:
 
-	void				JPlotFitQuadX(J2DPlotWidget* plot, 
-										JPlotDataBase* fitData);
-
-	JFloat	itsA, itsB, itsC;
-	
+	void	JPlotFitQuadX(J2DPlotWidget* plot, JPlotDataBase* fitData);	
 };
 
 #endif

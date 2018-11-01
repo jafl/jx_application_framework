@@ -30,8 +30,8 @@ public:
 	virtual ~JPlotFitNonLinear();
 
 	void	SetVarList(GVarList* varList);
-	void	SetFunction(const JCharacter* function);
-	void	SetFPrimed(const JCharacter* fPrimed);
+	void	SetFunction(const JString& function);
+	void	SetFPrimed(const JString& fPrimed);
 	void	SetInitialParameters(const JVector& p);
 
 	virtual JBoolean	GetParameterName(const JIndex index, JString* name) const;

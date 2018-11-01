@@ -65,7 +65,7 @@ JPlotFitPowerLaw::JPlotFitPowerLawX
 	itsBParm	= 0;
 	itsAErr	= 0;
 	itsBErr	= 0;
-	SetFunctionString("a*x^b");
+	SetFunctionString(JString("a*x^b", kJFalse));
 	SetParameterCount(2);
 	SetHasGoodnessOfFit(kJTrue);
 }

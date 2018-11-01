@@ -96,7 +96,7 @@ JPlotFitLinearEq::InitializePolynomial
 			}
 		if (power > 1)
 			{
-			xTerm += "^" + JString(power);
+			xTerm += "^" + JString((JUInt64) power);
 			}
 		name += parm + xTerm;
 		if (i != count)

@@ -9,17 +9,11 @@
 	
  *****************************************************************************/
 
-#include <JPlotFitNonLinear.h>
+#include "JPlotFitNonLinear.h"
 #include "GVarList.h"
-
-
-#include <JFunction.h>
+#include <JExprParser.h>
 #include <JVector.h>
-
-#include <jParseFunction.h>
-
 #include <jAssert.h>
-
 
 /******************************************************************************
  Constructor
@@ -175,13 +169,15 @@ JPlotFitNonLinear::SetVarList
 void
 JPlotFitNonLinear::SetFunction
 	(
-	const JCharacter* function
+	const JString& function
 	)
 {
 	assert(itsVarList != nullptr);
 	SetFunctionString(function);
-	
-	JBoolean ok	= JParseFunction(function, itsVarList, &itsFunction);
+
+	JExprParser p(itsVarList);
+
+	const JBoolean ok = p.Parse(function, &itsFunction);
 	assert(ok);
 }
 
@@ -193,11 +189,14 @@ JPlotFitNonLinear::SetFunction
 void
 JPlotFitNonLinear::SetFPrimed
 	(
-	const JCharacter* fPrimed
+	const JString& fPrimed
 	)
 {
 	assert(itsVarList != nullptr);
-	JBoolean ok	= JParseFunction(fPrimed, itsVarList, &itsFPrimed);
+
+	JExprParser p(itsVarList);
+
+	const JBoolean ok = p.Parse(fPrimed, &itsFPrimed);
 	assert(ok);
 }
 

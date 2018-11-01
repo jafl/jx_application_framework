@@ -243,7 +243,6 @@ JPlotFitQuad2::CalculateFirstPass()
 	JSize i,j, k;
 	JArray<JFloat> yAdjError;
 	
-	const JPlotDataBase* data = GetData();
 	J2DDataPoint point;
 	JSize rcount = GetRealElementCount();
 	for (i=1; i<= rcount; i++)

@@ -29,10 +29,6 @@ public:
 					const JFloat ymin, const JFloat ymax);
 	virtual ~JPlotQuadFit();	
 
-	virtual JBoolean	GetYRange(const JFloat xMin, const JFloat xMax,
-								  const JBoolean xLinear,
-								  JFloat* yMin, JFloat* yMax) const override;
-
 	virtual JBoolean	GetParameterName(const JIndex index, JString* name) const override;
 	virtual JBoolean	GetParameter(const JIndex index, JFloat* value) const override;
 

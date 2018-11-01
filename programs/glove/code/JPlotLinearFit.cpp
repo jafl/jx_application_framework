@@ -205,27 +205,20 @@ JPlotLinearFit::GetYValue
 JBoolean
 JPlotLinearFit::GetYRange
 	(
-	JFloat* min,
-	JFloat* max,
-	JFloat  xMin,
-	JFloat  xMax
+	const JFloat	xMin,
+	const JFloat	xMax,
+	const JBoolean	xLinear,
+	JFloat*			yMin,
+	JFloat*			yMax
 	)
+	const
 {
-	JFloat tempMin;
-	GetYValue(xMin, &tempMin);
-	JFloat tempMax;
-	GetYValue(xMax, &tempMax);
+	JFloat y1, y2;
+	GetYValue(xMin, &y1);
+	GetYValue(xMax, &y2);
 
-	if (tempMin <= tempMax)
-		{
-		*min = tempMin;
-		*max = tempMax;
-		}
-	else
-		{
-		*min = tempMax;
-		*max = tempMin;
-		}
+	*yMin = JMin(y1, y2);
+	*yMax = JMax(y1, y2);
 	return kJTrue;
 }
 

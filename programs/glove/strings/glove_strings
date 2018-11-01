@@ -75,14 +75,32 @@ Loading::DateModule			"Loading data..."
 
 # FitModule
 
-UnknownError::FitModule		"Unknown module error."
+UnknownError::FitModule	"Unknown module error."
+CannotAddFit::FitModule	"Fit could not be added."
+ParseFailed::FitModule	"Function could not be parsed."
 
 # GloveHistory
 
-FontMenuTitle::GloveHistory		"Font"
-FontSizeMenuTitle::GloveHistory	"Size"
+PrintHeader::GloveHistory	"Glove session"
 
 # GlovePlotter
 
 ModuleMenuTitle::GlovePlotter	"Cursor modules"
 ModuleError::GlovePlotter		"Module error: "
+
+# GVarList
+
+UnsupportedVariable::GVarList	"Unsupported variable type '${name}'"
+NameUsed::GVarList				"This variable name is already used."
+
+# GXRaggedFloatTable
+
+DataMenuTitle::GXRaggedFloatTable			"Data"
+CopyFailed::GXRaggedFloatTable				"Unable to copy to the clipboard."
+NoSelection::GXRaggedFloatTable				"Nothing is selected."
+SelectionMismatch::GXRaggedFloatTable		"The selected area doesn't match the clipboard area."
+SelectDataModulePrompt::GXRaggedFloatTable	"Select data module"
+NoDataToPlot::GXRaggedFloatTable			"You have no data to plot."
+ReplaceColWarning::GXRaggedFloatTable		"Replace destination column?"
+NoDataToTransform::GXRaggedFloatTable		"You have no data to transform."
+GenerateIfNoTransform::GXRaggedFloatTable	"Use \"Generate column\" if you aren't transforming column values."

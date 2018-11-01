@@ -11,7 +11,7 @@
 #include "J2DPlotWidget.h"
 #include "JPlotDataBase.h"
 #include "GVarList.h"
-#include <JFunction.h>
+#include <JExprParser.h>
 #include <jMath.h>
 #include <jAssert.h>
 
@@ -87,9 +87,9 @@ JPlotModuleFit::JPlotModuleFit
 
 JPlotModuleFit::JPlotModuleFit
 	(
-	J2DPlotWidget* 		plot, 
-	JPlotDataBase* 		fitData,
-	std::istream& 			is
+	J2DPlotWidget* 	plot, 
+	JPlotDataBase* 	fitData,
+	std::istream& 	is
 	)
 	:
 	JPlotFitFunction(plot, fitData, 0, 10)
@@ -128,8 +128,13 @@ JPlotModuleFit::JPlotModuleFit
 		JFloat value = values->GetElement(index);
 		list->AddVariable(parm, value);
 		}
+
+	JExprParser p(list);
+
 	JFunction* f;
-	JParseFunction(fstring, list, &f);
+	const JBoolean ok = p.Parse(fstring, &f);
+	assert( ok );
+
 	JPlotModuleFitX(plot, fitData, names, values, f, list, parmscount, errors, gof);	
 }
 
@@ -213,40 +218,6 @@ JPlotModuleFit::GetYValue
 {
 	itsList->SetValue(1, x);
 	itsFunction->Evaluate(y);
-	return kJTrue;
-}
-
-
-/*********************************************************************************
- GetYRange
- 
-
- ********************************************************************************/
-
-JBoolean
-JPlotModuleFit::GetYRange
-	(
-	JFloat* min, 
-	JFloat* max,
-	JFloat  xMin, 
-	JFloat  xMax
-	)
-{
-	JFloat tempMin;
-	GetYValue(xMin, &tempMin);
-	JFloat tempMax;
-	GetYValue(xMax, &tempMax);
-	
-	if (tempMin <= tempMax)
-		{
-		*min = tempMin;
-		*max = tempMax;
-		}
-	else
-		{
-		*min = tempMax;
-		*max = tempMin;
-		}
 	return kJTrue;
 }
 

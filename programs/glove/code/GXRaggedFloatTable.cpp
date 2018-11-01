@@ -50,8 +50,9 @@
 #include <JXWindow.h>
 #include <JXWindowDirector.h>
 
-#include <JFunction.h>
+#include <JExprParser.h>
 #include <JFunctionWithVar.h>
+#include <JFunctionWithArgs.h>
 #include <JPainter.h>
 #include <JFontStyle.h>
 #include <JUserNotification.h>
@@ -79,12 +80,10 @@ const JFileVersion	kCurrentTableVersion = 0;
 const JCoordinate kDefColWidth  = 100;
 const JCoordinate kDefRowWidth 	= 20;
 const JCoordinate kHMarginWidth = 2;
-const JCoordinate kVMarginWidth = 1;
 
 // Edit menu information
 
-static const JCharacter* kEditMenuTitleStr  = "Edit";
-static const JCharacter* kEditMenuStr =
+static const JUtf8Byte* kEditMenuStr =
 	"    Undo               %k Meta-Z %i " kJXUndoAction
 	"  | Redo               %k Meta-Shift-Z %i " kJXRedoAction
 	"%l| Cut                %k Meta-X %i " kJXCutAction
@@ -111,8 +110,7 @@ enum
 // Data menu information
 
 
-static const JCharacter* kDataMenuTitleStr  = "Data";
-static const JCharacter* kDataMenuStr =
+static const JUtf8Byte* kDataMenuStr =
 	"    Plot data... %i Plot::GXRaggedFloatTable"
 	"  | Plot vector field...  %i PlotVector::GXRaggedFloatTable"
 	"%l| Transform... %i Transform::GXRaggedFloatTable"
@@ -142,8 +140,7 @@ enum
 	kNewColByIncCmd
 };
 
-static const JCharacter* kModuleMenuTitleStr  = "Data module";
-static const JCharacter* kModuleMenuStr =
+static const JUtf8Byte* kModuleMenuStr =
 	"Reload %l";
 
 enum
@@ -153,8 +150,7 @@ enum
 
 // Selection Targets for Cut/Copy/Paste
 
-static const JCharacter* kTextDataXAtomName 		= "XA_STRING";
-static const JCharacter* kGloveTextDataXAtomName 	= "GLOVE_TEXT";
+static const JUtf8Byte* kGloveTextDataXAtomName = "GLOVE_TEXT";
 
 /******************************************************************************
  Constructor
@@ -192,7 +188,7 @@ GXRaggedFloatTable::GXRaggedFloatTable
 
 	itsFloatInputField = nullptr;
 
-	itsEditMenu = menuBar->AppendTextMenu(kEditMenuTitleStr);
+	itsEditMenu = menuBar->AppendTextMenu(JGetString("EditMenuTitle::JXGlobal"));
 	itsEditMenu->SetMenuItems(kEditMenuStr);
 	itsEditMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsEditMenu);
@@ -210,7 +206,7 @@ GXRaggedFloatTable::GXRaggedFloatTable
 	assert(image != nullptr);
 	itsEditMenu->SetItemImage(kPasteCmd, image, kJTrue);
 
-	itsDataMenu = menuBar->AppendTextMenu(kDataMenuTitleStr);
+	itsDataMenu = menuBar->AppendTextMenu(JGetString("DataMenuTitle::GXRaggedFloatTable"));
 	itsDataMenu->SetMenuItems(kDataMenuStr);
 	itsDataMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsDataMenu);
@@ -240,7 +236,7 @@ GXRaggedFloatTable::GXRaggedFloatTable
 	itsColByRangeDialog 		= nullptr;
 	itsColByIncDialog 			= nullptr;
 	itsTransDialog 				= nullptr;
-	itsVarList 					= nullptr;
+	itsTransformVarList			= nullptr;
 
 	itsFirstRedoIndex   		= 1;
 	itsUndoState        		= kIdle;
@@ -314,21 +310,19 @@ GXRaggedFloatTable::TableDrawCell
 	const JRect&	rect
 	)
 {
-	JXColorManager* colormap = GetColormap();
-
 	if ((GetTableSelection()).IsSelected(cell))
 		{
 		p.SetFilling(kJTrue);
-		p.SetPenColor(colormap->GetDefaultSelectionColor());
+		p.SetPenColor(JColorManager::GetDefaultSelectionColor());
 		p.Rect(rect);
 		p.SetFilling(kJFalse);
-		p.SetPenColor(colormap->GetBlackColor());
+		p.SetPenColor(JColorManager::GetBlackColor());
 		}
 
 	JPoint editCell;
 	if (!GetEditedCell(&editCell) || cell != editCell)
 		{
-		p.SetFont(GetFontManager()->GetDefaultFont());
+		p.SetFont(JFontManager::GetDefaultFont());
 
 /* Original code that used the string buffer */
 //		if (itsFloatBufferData->GetElement(cell, &str))
@@ -453,7 +447,7 @@ GXRaggedFloatTable::HandleKeyPress
 	const JXKeyModifiers&	modifiers
 	)
 {
-	if (key == kJEscapeKey)
+	if (c == kJEscapeKey)
 		{
 		(GetTableSelection()).ClearSelection();
 		TableRefresh();
@@ -462,17 +456,15 @@ GXRaggedFloatTable::HandleKeyPress
 	JTableSelection& selection = GetTableSelection();
 	if (!GetEditedCell(&cell) && selection.HasSelection())
 		{
-		JTableSelectionIterator* iter =
-			jnew JTableSelectionIterator(&selection);
-		assert(iter != nullptr);
-		JBoolean success = iter->Next(&cell);
-		jdelete iter;
-		if (key == kJReturnKey || key == XK_KP_Enter)
+		JTableSelectionIterator iter(&selection);
+		iter.Next(&cell);
+
+		if (c == kJReturnKey || keySym == XK_KP_Enter)
 			{
 			selection.ClearSelection();
 			BeginEditing(cell);
 			}
-		else if (key == kJUpArrow)
+		else if (c == kJUpArrow)
 			{
 			if (cell.y > 1)
 				{
@@ -490,7 +482,7 @@ GXRaggedFloatTable::HandleKeyPress
 				}
 			}
 
-		else if (key == kJDownArrow)
+		else if (c == kJDownArrow)
 			{
 			if (cell.y < (JCoordinate)GetRowCount())
 				{
@@ -515,7 +507,7 @@ GXRaggedFloatTable::HandleKeyPress
 				TableScrollToCell(cell);
 				}
 			}
-		else if (key == kJLeftArrow)
+		else if (c == kJLeftArrow)
 			{
 			if (cell.x > 1)
 				{
@@ -532,7 +524,7 @@ GXRaggedFloatTable::HandleKeyPress
 				TableScrollToCell(cell);
 				}
 			}
-		else if (key == kJRightArrow)
+		else if (c == kJRightArrow)
 			{
 			if (cell.x < (JCoordinate)GetColCount())
 				{
@@ -556,12 +548,12 @@ GXRaggedFloatTable::HandleKeyPress
 			}
 		else
 			{
-			JXEditTable::HandleKeyPress(key, modifiers);
+			JXEditTable::HandleKeyPress(c, keySym, modifiers);
 			}
 		}
 	else
 		{
-		JXEditTable::HandleKeyPress(key, modifiers);
+		JXEditTable::HandleKeyPress(c, keySym, modifiers);
 		}
 
 }
@@ -832,7 +824,6 @@ GXRaggedFloatTable::SelectCol
 	const JIndex col
 	)
 {
-	const JSize rowCount = GetRowCount();
 	JTableSelection& selection = GetTableSelection();
 	selection.ClearSelection();
 	selection.SelectCol(col);
@@ -870,17 +861,13 @@ GXRaggedFloatTable::ExtendSelectionToCol
 	const JIndex col
 	)
 {
-	const JSize rowCount = GetRowCount();
 	JTableSelection& selection = GetTableSelection();
-	JTableSelectionIterator* iter =
-		jnew JTableSelectionIterator(&selection);
-	assert (iter != nullptr);
+	JTableSelectionIterator iter(&selection);
 
 	JPoint sCell;
-	JBoolean success = iter->Next(&sCell);
+	JBoolean success = iter.Next(&sCell);
 	if (!success)
 		{
-		jdelete iter;
 		return;
 		}
 
@@ -904,7 +891,6 @@ GXRaggedFloatTable::ExtendSelectionToCol
 //			}
 		}
 
-	jdelete iter;
 	TableRefresh();
 }
 
@@ -988,8 +974,8 @@ GXRaggedFloatTable::Receive
 			EvaluateTransformFunction();
 			}
 		itsTransDialog = nullptr;
-		jdelete itsVarList;
-		itsVarList = nullptr;
+		jdelete itsTransformVarList;
+		itsTransformVarList = nullptr;
 		}
 
 	else if (sender == itsColByIncDialog && message.Is(JXDialogDirector::kDeactivated))
@@ -1271,7 +1257,7 @@ GXRaggedFloatTable::HandleCopyCmd()
 
 	if (!GetSelectionManager()->SetData(kJXClipboardName, data))
 		{
-		(JGetUserNotification())->ReportError("Unable to copy to the X Clipboard.");
+		(JGetUserNotification())->ReportError(JGetString("CopyFailed::GXRaggedFloatTable"));
 		}
 }
 
@@ -1283,9 +1269,6 @@ GXRaggedFloatTable::HandleCopyCmd()
 void
 GXRaggedFloatTable::HandlePasteCmd()
 {
-	const JXWindow* window = GetWindow();
-
-	JBoolean gotData = kJFalse;
 	JBoolean hasGloveData = kJFalse;
 	JXSelectionManager* selManager = GetSelectionManager();
 
@@ -1469,9 +1452,6 @@ GXRaggedFloatTable::HandlePasteCmd()
 void
 GXRaggedFloatTable::HandleSpecialPasteCmd()
 {
-	const JXWindow* window = GetWindow();
-
-	JBoolean gotData = kJFalse;
 	JBoolean hasGloveData = kJFalse;
 	JXSelectionManager* selManager = GetSelectionManager();
 
@@ -1523,7 +1503,7 @@ GXRaggedFloatTable::HandleSpecialPasteCmd()
 
 			if (type1 == kNoneSelected)
 				{
-				JGetUserNotification()->ReportError("Nothing is selected.");
+				JGetUserNotification()->ReportError(JGetString("NoSelection::GXRaggedFloatTable"));
 				}
 
 			else if (type1 == kRowsSelected)
@@ -1542,7 +1522,7 @@ GXRaggedFloatTable::HandleSpecialPasteCmd()
 					}
 				else
 					{
-					JGetUserNotification()->ReportError("The selected area doesn't match the clipboard area.");
+					JGetUserNotification()->ReportError(JGetString("SelectionMismatch::GXRaggedFloatTable"));
 					}
 				}
 
@@ -1562,7 +1542,7 @@ GXRaggedFloatTable::HandleSpecialPasteCmd()
 					}
 				else
 					{
-					JGetUserNotification()->ReportError("The selected area doesn't match the clipboard area.");
+					JGetUserNotification()->ReportError(JGetString("SelectionMismatch::GXRaggedFloatTable"));
 					}
 				}
 
@@ -2047,7 +2027,7 @@ GXRaggedFloatTable::HandleDataMenu
 	else if (index == kDataModuleCmd)
 		{
 		JString modName;
-		if (JGetChooseSaveFile()->ChooseFile("Select data module", "", &modName))
+		if (JGetChooseSaveFile()->ChooseFile(JGetString("SelectDataModulePrompt::GXRaggedFloatTable"), JString::empty, &modName))
 			{
 			DataModule* dm;
 			DataModule::Create(&dm, this, itsFloatData, modName);
@@ -2115,7 +2095,7 @@ GXRaggedFloatTable::ChoosePlotColumns
 {
 	if (itsFloatData->GetDataColCount() == 0)
 		{
-		JGetUserNotification()->ReportError("You have no data to plot.");
+		JGetUserNotification()->ReportError(JGetString("NoDataToPlot::GXRaggedFloatTable"));
 		return;
 		}
 
@@ -2279,13 +2259,12 @@ GXRaggedFloatTable::CreateNewColByRange()
 	JFloat end;
 	JInteger count;
 	itsColByRangeDialog->GetValues(&beg, &end, &count);
-	JBoolean ascending = itsColByRangeDialog->IsAscending();
 
 	JBoolean replace = kJFalse;
 	JSize colCount = itsFloatData->GetDataColCount();
 	if (dest <= colCount)
 		{
-		replace = JGetUserNotification()->AskUserYes("Replace destination column?");
+		replace = JGetUserNotification()->AskUserYes(JGetString("ReplaceColWarning::GXRaggedFloatTable"));
 		}
 
 	if (!replace)
@@ -2350,13 +2329,12 @@ GXRaggedFloatTable::CreateNewColByInc()
 	JFloat inc;
 	JInteger count;
 	itsColByIncDialog->GetValues(&beg, &inc, &count);
-	JBoolean ascending = itsColByIncDialog->IsAscending();
 
 	JBoolean replace = kJFalse;
 	JSize colCount = itsFloatData->GetDataColCount();
 	if (dest <= colCount)
 		{
-		replace = JGetUserNotification()->AskUserYes("Replace destination column?");
+		replace = JGetUserNotification()->AskUserYes(JGetString("ReplaceColWarning::GXRaggedFloatTable"));
 		}
 
 	if (!replace)
@@ -2464,25 +2442,25 @@ void
 GXRaggedFloatTable::ChooseNewTransformFunction()
 {
 	assert (itsTransDialog == nullptr);
-	assert (itsVarList == nullptr);
+	assert (itsTransformVarList == nullptr);
 
 	const JSize count = itsFloatData->GetDataColCount() + 1;
 	if (count == 1)
 		{
-		JGetUserNotification()->ReportError("You have no data to transform.");
+		JGetUserNotification()->ReportError(JGetString("NoDataToTransform::GXRaggedFloatTable"));
 		return;
 		}
 
-	itsVarList = jnew GVarList();
+	itsTransformVarList = jnew GVarList();
 	JArray<JFloat>* ar = jnew JArray<JFloat>;
 	for (JSize i = 1; i < count; i++)
 		{
 		ar->AppendElement(0);
 		}
-	itsVarList->AddArray("col",*ar);
+	itsTransformVarList->AddArray(JString("col", kJFalse), *ar);
 
 	itsTransDialog =
-		jnew GXTransformFunctionDialog(GetWindow()->GetDirector(), itsVarList, count);
+		jnew GXTransformFunctionDialog(GetWindow()->GetDirector(), itsTransformVarList, count);
 	assert (itsTransDialog != nullptr);
 	ListenTo(itsTransDialog);
 	itsTransDialog->BeginDialog();
@@ -2492,6 +2470,43 @@ GXRaggedFloatTable::ChooseNewTransformFunction()
  EvaluateTransformFunction
 
  ******************************************************************************/
+
+void
+jCollectColumnIndexes
+	(
+	const JFunction*	root,
+	JArray<JIndex>*		inds
+	)
+{
+	const JFunctionWithVar* fwv = dynamic_cast<const JFunctionWithVar*>(root);
+	if (fwv != nullptr)
+		{
+		const JFunction* ai = fwv->GetArrayIndex();
+		if (ai != nullptr)
+			{
+			JFloat x;
+			const JBoolean ok = ai->Evaluate(&x);
+			assert( ok );
+			const JIndex i = JRound(x);
+			JIndex tmp;
+			if (!inds->SearchSorted(i, JListT::kAnyMatch, &tmp))
+				{
+				inds->InsertSorted(i, kJFalse);
+				}
+			}
+		return;
+		}
+
+	const JFunctionWithArgs* fwa = dynamic_cast<const JFunctionWithArgs*>(root);
+	if (fwa != nullptr)
+		{
+		const JSize argCount = fwa->GetArgCount();
+		for (JIndex i=1; i<=argCount; i++)
+			{
+			jCollectColumnIndexes(fwa->GetArg(i), inds);
+			}
+		}
+}
 
 void
 GXRaggedFloatTable::EvaluateTransformFunction()
@@ -2504,96 +2519,77 @@ GXRaggedFloatTable::EvaluateTransformFunction()
 	JBoolean replace = kJFalse;
 	if (dest <= count)
 		{
-		replace = JGetUserNotification()->AskUserYes("Replace destination column?");
+		replace = JGetUserNotification()->AskUserYes(JGetString("ReplaceColWarning::GXRaggedFloatTable"));
 		}
 
 	JArray<JFloat> newArray;
 
+	JExprParser p(itsTransformVarList);
+
 	JFunction* f;
-	if (JParseFunction(fnStr,itsVarList,&f))
+	if (!p.Parse(fnStr, &f))
 		{
-		JFloat val = 0;
-		JExprNodeList* nl = jnew JExprNodeList(f);
-		const JSize count = nl->GetElementCount();
-		JArray<JIndex>* inds = jnew JArray<JIndex>;
-		inds->SetCompareFunction(JCompareIndices);
-		JIndex colArrayIndex;
-		for (JSize i = 1; i <= count; i++)
+		return;
+		}
+
+	JArray<JIndex> inds;
+	inds.SetCompareFunction(JCompareIndices);
+	jCollectColumnIndexes(f, &inds);
+
+	const JSize indCount = inds.GetElementCount();
+	if (indCount == 0)
+		{
+		JGetUserNotification()->ReportError(JGetString("GenerateIfNoTransform::GXRaggedFloatTable"));
+		jdelete f;
+		return;
+		}
+
+	JSize minRowCount = itsFloatData->GetDataRowCount(inds.GetElement(1));
+	for (JIndex i = 2; i <= indCount; i++)
+		{
+		const JSize rowCount = itsFloatData->GetDataRowCount(inds.GetElement(i));
+		if (rowCount < minRowCount)
 			{
-			if (nl->GetNodeType(i) == kJFunctionNode)
-				{
-				JFunction* tf = nl->GetFunction(i);
-				JFunctionWithVar* sf = tf->CastToJFunctionWithVar();
-				if (nl->GetFunctionType(i) == kJVariableValueType)
-					{
-					const JFunction* ai = sf->GetArrayIndex();
-					if (ai != nullptr)
-						{
-						colArrayIndex = sf->GetVariableIndex();
-						JString nstr(ai->Print());
-						JFloat temp;
-						nstr.ConvertToFloat(&temp);
-						JIndex ti = (JIndex)temp;
-						JIndex junk;
-						if (!inds->SearchSorted(ti, JListT::kAnyMatch, &junk))
-							{
-							inds->InsertSorted(ti, kJFalse);
-							}
-						}
-					}
-				}
-			}
-		const JSize indCount = inds->GetElementCount();
-		if (indCount == 0)
-			{
-			JGetUserNotification()->ReportError("Use \"Generate column\" if you aren't transforming column values.");
-			jdelete f;
-			return;
-			}
-		JSize minRowCount = itsFloatData->GetDataRowCount(inds->GetElement(1));
-		for (JIndex i = 2; i <= indCount; i++)
-			{
-			const JSize rowCount = itsFloatData->GetDataRowCount(inds->GetElement(i));
-			if (rowCount < minRowCount)
-				{
-				minRowCount = rowCount;
-				}
-			}
-		for (JSize r = 1; r <= minRowCount; r++)
-			{
-			for (JIndex i = 1; i <= indCount; i++)
-				{
-				JFloat value;
-				itsFloatData->GetElement(r, inds->GetElement(i), &value);
-				itsVarList->SetNumericValue(colArrayIndex, inds->GetElement(i), value);
-				}
-			JFloat value;
-			f->Evaluate(&value);
-			newArray.AppendElement(value);
-			}
-		if (!replace)
-			{
-			GLUndoElementsInsert* undo =
-				jnew GLUndoElementsInsert(this, JPoint(dest, 1),
-										 JPoint(dest, 1),
-										 GLUndoElementsBase::kCols);
-			assert(undo != nullptr);
-			NewUndo(undo);
-			itsFloatData->InsertCols(dest, 1);
-			itsFloatData->SetCol(dest, newArray);
-			}
-		else
-			{
-			GLUndoElementsChange* undo =
-				jnew GLUndoElementsChange(this, JPoint(dest, 1),
-										 JPoint(dest, itsFloatData->GetDataRowCount(dest)),
-										 GLUndoElementsBase::kCols);
-			assert(undo != nullptr);
-			NewUndo(undo);
-			itsFloatData->RemoveAllElements(dest);
-			itsFloatData->SetCol(dest, newArray);
+			minRowCount = rowCount;
 			}
 		}
+
+	for (JSize r = 1; r <= minRowCount; r++)
+		{
+		for (JIndex i = 1; i <= indCount; i++)
+			{
+			JFloat value;
+			itsFloatData->GetElement(r, inds.GetElement(i), &value);
+			itsTransformVarList->SetNumericValue(1, inds.GetElement(i), value);
+			}
+		JFloat value;
+		f->Evaluate(&value);
+		newArray.AppendElement(value);
+		}
+
+	if (replace)
+		{
+		GLUndoElementsChange* undo =
+			jnew GLUndoElementsChange(this, JPoint(dest, 1),
+									 JPoint(dest, itsFloatData->GetDataRowCount(dest)),
+									 GLUndoElementsBase::kCols);
+		assert(undo != nullptr);
+		NewUndo(undo);
+		itsFloatData->RemoveAllElements(dest);
+		itsFloatData->SetCol(dest, newArray);
+		}
+	else
+		{
+		GLUndoElementsInsert* undo =
+			jnew GLUndoElementsInsert(this, JPoint(dest, 1),
+									 JPoint(dest, 1),
+									 GLUndoElementsBase::kCols);
+		assert(undo != nullptr);
+		NewUndo(undo);
+		itsFloatData->InsertCols(dest, 1);
+		itsFloatData->SetCol(dest, newArray);
+		}
+
 	jdelete f;
 }
 
@@ -2612,7 +2608,7 @@ GXRaggedFloatTable::WriteDataCols
 	SelectionType type = GetSelectionType();
 	if (type != kColsSelected)
 		{
-		JString str = "This module requires " + JString(cols);
+		JString str = "This module requires " + JString((JUInt64) cols);
 		if (cols == 1)
 			{
 			str += " column to be selected.";
@@ -2642,7 +2638,7 @@ GXRaggedFloatTable::WriteDataCols
 
 	if (cols > (int)ncols)
 		{
-		JString str = "This module requires " + JString(cols) + " columns to be selected.";
+		JString str = "This module requires " + JString((JUInt64) cols) + " columns to be selected.";
 		JGetUserNotification()->ReportError(str);
 		return kJFalse;
 		}
@@ -2764,7 +2760,7 @@ GXRaggedFloatTable::PrintRealTable
 		RemoveRow(GetRowCount());
 		}
 
-	const JColorID gray50Color = GetColormap()->GetGrayColor(50);
+	const JColorID gray50Color = JColorManager::GetGrayColor(50);
 	SetRowBorderInfo(0, gray50Color);
 	SetColBorderInfo(0, gray50Color);
 
@@ -2940,7 +2936,7 @@ GXRaggedFloatTable::NewUndo
 		assert( itsFirstRedoIndex > 1 );
 
 		itsFirstRedoIndex--;
-		JUndo* oldUndo = itsUndoList->GetElement(itsFirstRedoIndex);
+//		JUndo* oldUndo = itsUndoList->GetElement(itsFirstRedoIndex);
 //		jdelete oldUndo;
 		itsUndoList->SetElement(itsFirstRedoIndex, undo, JPtrArrayT::kDelete);
 
@@ -2952,7 +2948,7 @@ GXRaggedFloatTable::NewUndo
 		{
 		assert( itsFirstRedoIndex <= itsUndoList->GetElementCount() );
 
-		JUndo* oldRedo = itsUndoList->GetElement(itsFirstRedoIndex);
+//		JUndo* oldRedo = itsUndoList->GetElement(itsFirstRedoIndex);
 //		jdelete oldRedo;
 		itsUndoList->SetElement(itsFirstRedoIndex, undo, JPtrArrayT::kDelete);
 		itsFirstRedoIndex++;

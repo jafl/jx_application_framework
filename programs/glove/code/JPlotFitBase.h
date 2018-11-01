@@ -29,10 +29,6 @@ public:
 					const JFloat ymin, const JFloat ymax);
 	virtual ~JPlotFitBase();	
 
-	virtual JBoolean	GetYRange(const JFloat xMin, const JFloat xMax,
-								  const JBoolean xLinear,
-								  JFloat* yMin, JFloat* yMax) const override;
-
 	virtual JBoolean	GetGoodnessOfFitName(JString* name) const override;
 	virtual JBoolean	GetGoodnessOfFit(JFloat* value) const override;
 	

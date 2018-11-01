@@ -13,7 +13,7 @@
 #include "GloveModule.h"
 #include "JPlotModuleFit.h"
 #include "GlovePlotter.h"
-#include <DeleteFitModTask.h>
+#include "DeleteFitModTask.h"
 #include "GVarList.h"
 
 #include <JXApplication.h>
@@ -22,8 +22,8 @@
 #include <JOutPipeStream.h>
 #include <JCreateProgressDisplay.h>
 #include <JProcess.h>
-#include <JFunction.h>
-
+#include <JExprParser.h>
+#include <JStringIterator.h>
 #include <jProcessUtil.h>
 #include <jStreamUtil.h>
 #include <jAssert.h>
@@ -276,7 +276,11 @@ FitModule::HandleInput
 		int val = c - kASCIIZero;
 		if (val == kGloveFail)
 			{
-			str.RemoveSubstring(1,2);
+			JStringIterator iter(&str);
+			iter.SkipNext(2);
+			iter.RemoveAllPrev();
+			iter.Invalidate();
+
 			str.Prepend(JGetString("Error::DataModule"));
 			JGetUserNotification()->ReportError(str);
 			DeleteFitModTask* dft = jnew DeleteFitModTask(this);
@@ -313,9 +317,9 @@ FitModule::HandleDataRead
 		{
 		itsPG = JGetCreatePG()->New();
 		itsPG->VariableLengthProcessBeginning(
-			"Loading data...", kJTrue, kJTrue);
+			JGetString("Loading::DateModule"), kJTrue, kJTrue);
 		}
-	std::string s(str);
+	std::string s(str.GetRawBytes(), str.GetByteCount());
 	std::istringstream iss(s);
 	JString* instr = jnew JString();
 	iss >> *instr;
@@ -354,7 +358,7 @@ FitModule::HandleFit()
 	JSize realcount = itsNames->GetElementCount();
 	if (realcount != count)
 		{
-		JGetUserNotification()->ReportError("Unknown module error.");
+		JGetUserNotification()->ReportError(JGetString("UnknownError::FitModule"));
 		DeleteFitModTask* dft = jnew DeleteFitModTask(this);
 		assert(dft != nullptr);
 		dft->Go();
@@ -363,7 +367,7 @@ FitModule::HandleFit()
 	else
 		{
 		GVarList* list = jnew GVarList;
-		list->AddVariable("x", 0);
+		list->AddVariable(JString("x", kJFalse), 0);
 		for (JSize i = 1; i <= itsParmsCount; i++)
 			{
 			JSize index = i;
@@ -373,11 +377,13 @@ FitModule::HandleFit()
 				}
 			JString parm(*(itsNames->GetElement(index)));
 			JFloat value = itsValues->GetElement(index);
-			JBoolean added = list->AddVariable(parm, value);
+			list->AddVariable(parm, value);
 			}
-		JString function(*itsFunction);
+
+		JExprParser p(list);
+
 		JFunction* f;
-		if (JParseFunction(function, list, &f))
+		if (p.Parse(itsFunction, &f))
 			{
 			JFloat xmax, xmin, ymax, ymin;
 			itsDir->GetPlot()->GetRange(&xmin, &xmax, &ymin, &ymax);
@@ -389,12 +395,12 @@ FitModule::HandleFit()
 			if (!(itsDir->AddFitModule(fit, itsData)))
 				{
 				jdelete fit;
-				JGetUserNotification()->ReportError("Fit could not be added.");
+				JGetUserNotification()->ReportError(JGetString("CannotAddFit::FitModule"));
 				}
 			}
 		else
 			{
-			JGetUserNotification()->ReportError("Function could not be parsed.");
+			JGetUserNotification()->ReportError(JGetString("ParseFailed::FitModule"));
 			}
 		}
 	DeleteFitModTask* dft = jnew DeleteFitModTask(this);

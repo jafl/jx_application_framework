@@ -10,10 +10,8 @@
  ******************************************************************************/
 
 #include "GVarList.h"
-
-#include <JUserNotification.h>
-#include <JString.h>
-
+#include <JStringIterator.h>
+#include <JStringMatch.h>
 #include <jStreamUtil.h>
 #include <jMath.h>
 #include <jGlobals.h>
@@ -95,12 +93,17 @@ GVarList::GVarList
 				}
 			else
 				{
-				const JSize nameLen = name.GetLength();
-				JIndex bracketIndex;
-				const JBoolean foundBracket = name.LocateSubstring("[", &bracketIndex);
-				assert( foundBracket && bracketIndex < nameLen-1 );
-				const JString sizeStr = name.GetSubstring(bracketIndex+1, nameLen-1);
-				name.RemoveSubstring(bracketIndex, nameLen);
+				JStringIterator iter(&name);
+				const JBoolean foundBracket = iter.Next("[");
+				assert( foundBracket && !iter.AtEnd() );
+
+				iter.BeginMatch();
+				iter.Next("]");
+				const JString sizeStr = iter.FinishMatch().GetString();
+				iter.SkipPrev(2 + sizeStr.GetCharacterCount());
+				iter.RemoveAllNext();
+				iter.Invalidate();
+
 				JFloat x;
 				const JBoolean isNumber = sizeStr.ConvertToFloat(&x);
 				assert( isNumber );
@@ -117,8 +120,12 @@ GVarList::GVarList
 			}
 		else
 			{
-			JString errorStr = "Unsupported variable type 'x'";
-			errorStr.SetCharacter(errorStr.GetLength()-1, type);
+			const JUtf8Character typeStr(type);
+			const JUtf8Byte* map[] =
+				{
+				"name", typeStr.GetBytes()
+				};
+			const JString errorStr = JGetString("UnsupportedVariable::GVarList", map, sizeof(map));
 			JGetUserNotification()->ReportError(errorStr);
 			JIgnoreUntil(input, '\n');
 			}
@@ -141,7 +148,7 @@ GVarList::GVarListX()
 	itsArrays = jnew JPtrArray<GNArray>(JPtrArrayT::kDeleteAll);
 	assert( itsArrays != nullptr );
 
-	InstallOrderedSet(itsNames);
+	InstallList(itsNames);
 }
 
 /******************************************************************************
@@ -164,12 +171,12 @@ GVarList::~GVarList()
 JBoolean
 GVarList::AddVariable
 	(
-	const JCharacter*	name,
-	const JFloat		value
+	const JString&	name,
+	const JFloat	value
 	)
 {
 	JIndex index;
-	if (JNameValid(name) && !ParseVariableName(name, strlen(name), &index))
+	if (NameValid(name) && !ParseVariableName(name, &index))
 		{
 		JString* varName = jnew JString(name);
 		assert( varName != nullptr );
@@ -180,7 +187,7 @@ GVarList::AddVariable
 		}
 	else
 		{
-		JGetUserNotification()->ReportError("This name is already taken.");
+		JGetUserNotification()->ReportError(JGetString("NameUsed::GVarList"));
 		return kJFalse;
 		}
 }
@@ -211,11 +218,11 @@ GVarList::RemoveVariable
 JBoolean
 GVarList::AddArray
 	(
-	const JCharacter*	name,
+	const JString&	name,
 	const GNArray&	values
 	)
 {
-	if (JNameValid(name))
+	if (NameValid(name))
 		{
 		JString* varName = jnew JString(name);
 		assert( varName != nullptr );
@@ -297,7 +304,6 @@ GVarList::SetNumericValue
 	const JComplex& value
 	)
 {
-
 }
 
 /******************************************************************************
@@ -331,19 +337,16 @@ GVarList::GetVariableName
 	)
 	const
 {
-	const JString* fullName = itsNames->GetElement(index);
-	const JSize fullLen     = fullName->GetLength();
-
-	JIndex subStart;
-	if (fullName->LocateSubstring("_", &subStart) &&
-		1 < subStart && subStart < fullLen)
+	JPtrArray<JString> s(JPtrArrayT::kDeleteAll);
+	itsNames->GetElement(index)->Split("_", &s, 2);
+	if (s.GetElementCount() == 2)
 		{
-		*name = fullName->GetSubstring(1, subStart-1);
-		*subscript = fullName->GetSubstring(subStart+1, fullLen);
+		*name = *s.GetElement(1);
+		*subscript = *s.GetElement(2);
 		}
 	else
 		{
-		*name = *fullName;
+		*name = *s.GetElement(1);
 		subscript->Clear();
 		}
 }
@@ -361,13 +364,13 @@ GVarList::SetVariableName
 	)
 {
 	JIndex index;
-	if (!JNameValid(str))
+	if (!NameValid(str))
 		{
 		return kJFalse;
 		}
-	else if (ParseVariableName(str, strlen(str), &index) && index != varIndex)
+	else if (ParseVariableName(str, &index) && index != varIndex)
 		{
-		(JGetUserNotification())->ReportError("This variable name is already used.");
+		(JGetUserNotification())->ReportError(JGetString("NameUsed::GVarList"));
 		return kJFalse;
 		}
 	else

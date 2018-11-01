@@ -19,11 +19,9 @@
 #include <JXScrollbarSet.h>
 #include <JXScrollbar.h>
 #include <JXToolBar.h>
+#include <JXStyledText.h>
 
-#include <JString.h>
 #include <JFontManager.h>
-#include <JFontStyle.h>
-#include <JUserNotification.h>
 #include <JRegex.h>
 #include <JPagePrinter.h>
 
@@ -69,14 +67,15 @@ GloveHistory::GloveHistory
 	const JCoordinate	h
 	)
 	:
-	JXTEBase(kFullEditor, kJFalse, kJFalse, scrollbarSet,
-			 enclosure, hSizing, vSizing, x,y, w,h)
+	JXTEBase(kFullEditor,
+			 jnew JXStyledText(kJFalse, kJFalse, enclosure->GetFontManager()), kJTrue,
+			 kJFalse, scrollbarSet, enclosure, hSizing, vSizing, x,y, w,h)
 {
 	WantInput(kJTrue, kJFalse);
 
 	(scrollbarSet->GetVScrollbar())->SetScrollDelay(0);
 
-	itsTabCharCount     = kDefTabCharCount;
+	itsTabCharCount = kDefTabCharCount;
 
 	// adjust the edit menu
 
@@ -86,25 +85,25 @@ GloveHistory::GloveHistory
 	// add the font or size menu
 
 	JRegex regex(kFontRegex);
-	if (JXXFontMenu::Create(regex, CompareFontNames, JGetString("FontMenuTitle::GloveHistory"), menuBar,
+	if (JXXFontMenu::Create(regex, CompareFontNames, JGetString("FontMenuTitle::JXGlobal"), menuBar,
 							kFixedLeft, kFixedTop, 0,0, 10,10, &itsFontMenu))
 		{
 		itsSizeMenu = nullptr;
 		itsFontMenu->SetFontName(kDefaultFontName);
-		SetDefaultFont(GetFontManager()->GetFont(kDefaultFontName));
+		GetText()->SetDefaultFont(JFontManager::GetDefaultFont());
 		menuBar->AppendMenu(itsFontMenu);
 		ListenTo(itsFontMenu);
 		}
 	else
 		{
 		itsFontMenu = nullptr;
-		SetDefaultFont(GetFontManager()->GetDefaultMonospaceFont());
+		GetText()->SetDefaultFont(JFontManager::GetDefaultMonospaceFont());
 
-		itsSizeMenu = jnew JXFontSizeMenu(JGetMonospaceFontName(), JGetString("FontSizeMenuTitle::GloveHistory"), menuBar,
+		itsSizeMenu = jnew JXFontSizeMenu(JFontManager::GetDefaultMonospaceFontName(), JGetString("SizeMenuTitle::JXGlobal"), menuBar,
 										 kFixedLeft, kFixedTop, 0,0, 10,10);
 		assert( itsSizeMenu != nullptr );
 		menuBar->AppendMenu(itsSizeMenu);
-		itsSizeMenu->SetFontSize(JGetDefaultFontSize());
+		itsSizeMenu->SetFontSize(JFontManager::GetDefaultFontSize());
 		ListenTo(itsSizeMenu);
 		}
 
@@ -158,12 +157,13 @@ GloveHistory::AdjustFont()
 
 	// save selection or caret location
 
-	JIndex selStart, selEnd, caretIndex;
+	JCharacterRange selRange;
+	JIndex caretIndex;
 	const JBoolean hasSelection = HasSelection();
 	JBoolean ok;
 	if (hasSelection)
 		{
-		ok = GetSelection(&selStart, &selEnd);
+		ok = GetSelection(&selRange);
 		}
 	else
 		{
@@ -179,21 +179,21 @@ GloveHistory::AdjustFont()
 		{
 		JFont font = GetFontManager()->GetFont(itsFontMenu->GetFontName());
 		SetCurrentFont(font);
-		SetDefaultFont(font);
+		GetText()->SetDefaultFont(font);
 		}
 	else
 		{
 		assert( itsSizeMenu != nullptr );
 		const JSize size = itsSizeMenu->GetFontSize();
 		SetCurrentFontSize(size);
-		SetDefaultFontSize(size);
+		GetText()->SetDefaultFontSize(size);
 		}
 
 	// restore selection or caret location
 
 	if (hasSelection)
 		{
-		SetSelection(selStart, selEnd);
+		SetSelection(selRange);
 		}
 	else
 		{
@@ -219,13 +219,13 @@ GloveHistory::AdjustTabWidth()
 	if (itsFontMenu != nullptr)
 		{
 		const JFont font = fontMgr->GetFont(itsFontMenu->GetFontName());
-		charWidth = font.GetCharWidth(fontMgr, ' ');
+		charWidth = font.GetCharWidth(fontMgr, JUtf8Character(' '));
 		}
 	else
 		{
 		assert( itsSizeMenu != nullptr );
-		const JFont font = fontMgr->GetFont(JGetMonospaceFontName(), itsSizeMenu->GetFontSize());
-		charWidth = font.GetCharWidth(fontMgr, ' ');
+		const JFont font = fontMgr->GetFont(JFontManager::GetDefaultMonospaceFontName(), itsSizeMenu->GetFontSize());
+		charWidth = font.GetCharWidth(fontMgr, JUtf8Character(' '));
 		}
 
 	SetDefaultTabWidth(itsTabCharCount * charWidth);
@@ -246,8 +246,8 @@ GloveHistory::CompareFontNames
 	JString* const & s2
 	)
 {
-	const JCharacter c1 = s1->GetFirstCharacter() - '0';
-	const JCharacter c2 = s2->GetFirstCharacter() - '0';
+	const int c1 = s1->GetRawBytes()[0] - '0';
+	const int c2 = s2->GetRawBytes()[0] - '0';
 
 	if (c1 > c2)
 		{
@@ -259,13 +259,11 @@ GloveHistory::CompareFontNames
 		}
 	else
 		{
-		JFloat x1;
-		const JString s11  = s1->GetSubstring(3, s1->GetLength());
-		const JBoolean ok1 = s11.ConvertToFloat(&x1);
-
-		JFloat x2;
-		const JString s21  = s2->GetSubstring(3, s2->GetLength());
-		const JBoolean ok2 = s21.ConvertToFloat(&x2);
+		JUInt x1, x2;
+		const JBoolean ok1 = JString::ConvertToUInt(s1->GetBytes() + 2, &x1);
+		assert( ok1 );
+		const JBoolean ok2 = JString::ConvertToUInt(s2->GetBytes() + 2, &x2);
+		assert( ok2 );
 
 		if (x1 > x2)
 			{
@@ -312,7 +310,7 @@ GloveHistory::DrawPrintHeader
 	JPoint topLeft;
 	topLeft.y 	= (headerHeight - p.GetLineHeight())/2;
 	topLeft.x 	= kHeaderStartX;
-	p.String(topLeft, "Glove session");
+	p.String(topLeft, JGetString("PrintHeader::GloveHistory"));
 }
 
 /******************************************************************************

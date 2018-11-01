@@ -20,7 +20,7 @@
 
 #include <JProcess.h>
 #include <JOutPipeStream.h>
-#include <JUserNotification.h>
+#include <JStringIterator.h>
 #include <jProcessUtil.h>
 #include <jStreamUtil.h>
 #include <jAssert.h>
@@ -129,7 +129,11 @@ GlovePlotter::Receive
 						int val = c - kASCIIZero;
 						if (val == kGloveFail)
 							{
-							str.RemoveSubstring(1,2);
+							JStringIterator iter(&str);
+							iter.SkipNext(2);
+							iter.RemoveAllPrev();
+							iter.Invalidate();
+
 							str.Prepend(JGetString("ModuleError::GlovePlotter"));
 							JGetUserNotification()->ReportError(str);
 							}

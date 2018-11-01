@@ -42,9 +42,6 @@ public:
 	virtual ~JPlotModuleFit();	
 
 	virtual void GetElement(const JIndex index, J2DDataPoint* data) const override;
-	virtual JBoolean	GetYRange(const JFloat xMin, const JFloat xMax,
-								  const JBoolean xLinear,
-								  JFloat* yMin, JFloat* yMax) const override;
 
 	virtual	void UpdateFunction(const JFloat xmin, const JFloat xmax, 
 								const JSize steps);
