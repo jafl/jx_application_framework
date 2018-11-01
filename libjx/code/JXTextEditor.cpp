@@ -61,13 +61,13 @@ JXTextEditor::JXTextEditor
 		AppendEditMenu(menuBar, kJTrue, kJTrue, kJTrue, kJTrue, kJTrue, kJTrue, kJTrue, kJTrue);
 		AppendSearchReplaceMenu(menuBar);
 
-		itsFontMenu = jnew JXFontNameMenu(JGetString("FontMenuTitle::JXTextEditor"), menuBar,
+		itsFontMenu = jnew JXFontNameMenu(JGetString("FontMenuTitle::JXGlobal"), menuBar,
 										  kFixedLeft, kFixedTop, 0,0, 10,10);
 		assert( itsFontMenu != nullptr );
 		menuBar->AppendMenu(itsFontMenu);
 		ListenTo(itsFontMenu);
 
-		itsSizeMenu = jnew JXFontSizeMenu(itsFontMenu, JGetString("SizeMenuTitle::JXTextEditor"), menuBar,
+		itsSizeMenu = jnew JXFontSizeMenu(itsFontMenu, JGetString("SizeMenuTitle::JXGlobal"), menuBar,
 										  kFixedLeft, kFixedTop, 0,0, 10,10);
 		assert( itsSizeMenu != nullptr );
 		menuBar->AppendMenu(itsSizeMenu);
