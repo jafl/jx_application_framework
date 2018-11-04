@@ -13,6 +13,9 @@ jcc
 		dd doesn't work on last line of file
 		Ndd doesn't include last line of file even if it should be included
 
+	Pick a default size and location for text windows when first run
+		based on desktop size (if not auto-dock all)
+
 switch to cairo for rendering
 	anti-aliased lines
 	postscript printing
@@ -23,6 +26,30 @@ multi-pane editing
 		double appropriate window dimension, if screen has space
 	each partition needs small [x] to close
 	small [+] buttons to split either horiz or vert
+
+JXMenu::PrepareToOpenMenu()
+	itsOwner may delete us!
+
+JPrefsManager
+	Atomic lock around SaveToDisk(), etc. in case multiple instances try writing
+
+Clean up prefs
+	JXPrefsDialog has tree list and card file
+		tree list pane adjusts width to bounds of tree list
+		card file pane sets min size to union of card sizes
+	Split CBTextEditorPrefs into multiple panes
+	factor out JXEditStylesWidget from JXEditStylesDialog so it can be a card
+
+support D
+	http://en.wikipedia.org/wiki/D_(programming_language)
+	http://www.digitalmars.com/d/download.html
+	http://digitalmars.com/d/archives/digitalmars/D/Exuberant_Ctags_Support_for_D_51878.html
+
+libjexpr write to mathml
+	https://developer.mozilla.org/en/Mathml
+	http://en.wikipedia.org/wiki/MathML
+	http://www.w3.org/TR/MathML/
+	http://www.w3.org/TR/MathML2/
 
 -----
 
@@ -78,8 +105,6 @@ jcc
 		perl/php -- executes only after closing pipe, wrap php in <? ... ?> if not already there
 		python/ruby -- write to pipe after invoking, to allow inspecting result
 
-	pref to turn off making mixed whitespace visible when indentation is mixed
-
 medic
 	accept connection or switch to gdb:  should stop listening on port
 		need simple example to submit to ACE list
@@ -106,8 +131,6 @@ medic
 		switch from running binary to core dump
 		switch from one program to another
 
------
-
 memory analyzer
 	jcc -- crash with deleted JMessageProtocol -- only when open project
 	print table:  partial column on page 1
@@ -116,18 +139,12 @@ memory analyzer
 	records window:
 		show info about query in window title
 
-JXMenu::PrepareToOpenMenu()
-	itsOwner may delete us!
-
 -----
 
 nm
 objdump
 readelf
 dwarfdump
-
-OSX window placement
-	jcc man page window and "find file" result window appear under active window
 
 Docking
 	OSX: window placement inside dock sometimes wrong (iconfied windows)
@@ -153,24 +170,6 @@ vi emulator
 
 	md d'd  mark starting line, cut to ending line
 	my y'y  mark starting line, copy to ending line
-
-Clean up prefs
-	JXPrefsDialog has tree list and card file
-		tree list pane adjusts width to bounds of tree list
-		card file pane sets min size to union of card sizes
-	Split CBTextEditorPrefs into multiple panes
-	factor out JXEditStylesWidget from JXEditStylesDialog so it can be a card
-
-support D
-	http://en.wikipedia.org/wiki/D_(programming_language)
-	http://www.digitalmars.com/d/download.html
-	http://digitalmars.com/d/archives/digitalmars/D/Exuberant_Ctags_Support_for_D_51878.html
-
-libjexpr write to mathml
-	https://developer.mozilla.org/en/Mathml
-	http://en.wikipedia.org/wiki/MathML
-	http://www.w3.org/TR/MathML/
-	http://www.w3.org/TR/MathML2/
 
 -----
 
@@ -198,15 +197,6 @@ JKeyHandler
 
 jcc
 	search results:  option to show n lines above and below matching line
-
-	Pick a default size and location for text windows when first run
-		based on desktop size (if not auto-dock all)
-
-	multi-project
-		open all .jcc files and display in one tree
-			.jmp file stores list of .jcc files (relative or home or absolute paths)
-		merge search paths and build separate .jst file
-		separate .jup file
 
 	Tooltip-like window when open function arg list
 		bold current argument, based on number of commas after opening paren
@@ -240,9 +230,6 @@ Dock
 		What key?  Tab is fully loaded in jcc
 		cycle through leaf nodes of tree from left to right
 		(first, build array of leaf nodes, then find current pane and switch to next)
-
-JPrefsManager
-	Atomic lock around SaveToDisk(), etc. in case multiple instances try writing
 
 JTextEditor::DrawInMargin
 	line #'s

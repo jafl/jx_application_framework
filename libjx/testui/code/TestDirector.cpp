@@ -47,10 +47,12 @@
 #include <JXWebBrowser.h>
 #include <jXActionDefs.h>
 
+#include <JFontManager.h>
+#include <JStopWatch.h>
+#include <JStringIterator.h>
 #include <JConstBitmap.h>
 #include <JBroadcastSnooper.h>
 #include <jProcessUtil.h>
-#include <jTime.h>
 #include <jFileUtil.h>
 #include <jSysUtil.h>
 #include <unistd.h>
@@ -121,7 +123,8 @@ static const JUtf8Byte* kTestMenuStr =
 	"  | Window config                     %k Ctrl-0"
 	"%l| Force broken pipe (does not dump core)"
 	"  | Generate X error (dumps core)"
-	"  | Lock up for 10 seconds (test MDI)";
+	"  | Lock up for 10 seconds (test MDI)"
+	"%l| Timing for font substitution";
 
 enum
 {
@@ -137,7 +140,8 @@ enum
 	kTestZombieProcessCmd,
 	kTestPlaceWindow0Cmd, kTestPlaceWindow30Cmd, kTestPlaceWindow100Cmd,
 	kTestMoveWindowCmd, kRaiseAllWindowsCmd, kPrintWMConfigCmd,
-	kTestBrokenPipe, kTestUncaughtXError, kLockUpToTestMDICmd
+	kTestBrokenPipeCmd, kTestUncaughtXErrorCmd, kLockUpToTestMDICmd,
+	kTimeFontSubCmd
 };
 
 // UserNotification menu
@@ -943,7 +947,7 @@ TestDirector::HandleTestMenu
 		GetWindow()->PrintWindowConfig();
 		}
 
-	else if (index == kTestBrokenPipe)
+	else if (index == kTestBrokenPipeCmd)
 		{
 		// This is clearly a ludicrous action, but it does test the
 		// JCore signal handling system.
@@ -961,7 +965,7 @@ TestDirector::HandleTestMenu
 			}
 		}
 
-	else if (index == kTestUncaughtXError)
+	else if (index == kTestUncaughtXErrorCmd)
 		{
 		// This is clearly a ludicrous action, but it does test the
 		// JX error handling system.
@@ -972,6 +976,45 @@ TestDirector::HandleTestMenu
 	else if (index == kLockUpToTestMDICmd)
 		{
 		JWait(10.0);
+		}
+
+	else if (index == kTimeFontSubCmd)
+		{
+		const JSize size = 10*1024*1024;
+		JKLRand r;
+
+		JFontManager* fontMgr = GetDisplay()->GetFontManager();
+
+		JString s;
+		s.SetBlockSize(size);
+		for (JIndex i=1; i<=size; i++)
+			{
+			s.Append(JUtf8Character(r.UniformLong(32, 127)));
+			}
+
+		const JFont f = JFontManager::GetDefaultFont();
+
+		JStopWatch w;
+		w.StartTimer();
+
+		f.HasGlyphsForString(fontMgr, s);
+
+		w.StopTimer();
+		std::cout << "check glyphs: " << w.PrintTimeInterval() << std::endl;
+
+		JStringIterator iter(s);
+		JUtf8Character c;
+
+		w.StartTimer();
+
+		while (iter.Next(&c))
+			{
+			JFont f1 = f;
+			f1.SubstituteToDisplayGlyph(fontMgr, c);
+			}
+
+		w.StopTimer();
+		std::cout << "substitute glyphs: " << w.PrintTimeInterval() << std::endl;
 		}
 }
 

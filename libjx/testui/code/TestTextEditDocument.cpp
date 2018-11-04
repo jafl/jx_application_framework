@@ -74,7 +74,7 @@ TestTextEditDocument::TestTextEditDocument
 	:
 	JXFileDocument(supervisor,
 				   (JXGetDocumentManager())->GetNewFileName(),
-				   kJFalse, kJTrue, JString::empty),
+				   kJFalse, kJTrue, ""),
 	itsEmulatorType(kNoEmulator)
 {
 	BuildWindow(kJTrue);
@@ -90,7 +90,7 @@ TestTextEditDocument::TestTextEditDocument
 	const JString&	fileName
 	)
 	:
-	JXFileDocument(supervisor, fileName, kJTrue, kJTrue, JString::empty),
+	JXFileDocument(supervisor, fileName, kJTrue, kJTrue, ""),
 	itsEmulatorType(kNoEmulator)
 {
 	assert( JFileExists(fileName) );

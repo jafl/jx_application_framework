@@ -1,5 +1,5 @@
 glove
-	switch to JXExprEditor
+	make file prefix consistent: GL
 	clean up .fd to match current layouts
 	test layouts on Linux and OS X
 
@@ -13,12 +13,12 @@ JXStringList
 JXDirTable
 j2dplot title, labels, legend
 	render as many characters as possible via fallback fonts
-
-	JFont:
-		flag to allow fallback - makes it a different object!
-		if flag is set, break up calls to fontMgr GetCharWidth(), GetStringWidth()
-	JXWindowPainter:  base String() checks this flag
-
+	if (!HasGlyphsForString)
+		JXFontManager:
+			compute string width in chunks
+			compute separate char width if substitution
+		JXWindowPainter:
+			draw string in chunks
 
 
 JStyledText
@@ -34,6 +34,8 @@ JXFontManager
 	some characters extend above line height
 
 jcc
+	menu of supported formats in "open text file" dialog
+	sub-menu of supported formats on File menu, just like "file formats"
 medic
 
 jx_project_wizard
