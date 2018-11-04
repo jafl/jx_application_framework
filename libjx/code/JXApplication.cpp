@@ -1221,7 +1221,8 @@ JXApplication::StripBaseOptions
 		JString* arg = argList->GetElement(i);
 		if (*arg == kXDebugOptionName        ||
 			*arg == kFTCHorizDebugOptionName ||
-			*arg == kFTCVertDebugOptionName)
+			*arg == kFTCVertDebugOptionName  ||
+			*arg == kPseudotranslateOptionName)
 			{
 			argList->DeleteElement(i);
 			count--;
