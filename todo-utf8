@@ -1,3 +1,8 @@
+JString::EndsWidth
+	can't just back up N bytes - may not be byte aligned
+	must be byte aligned so diacriticals can be correctly processed
+
+
 glove
 	make file prefix consistent: GL
 	clean up .fd to match current layouts
