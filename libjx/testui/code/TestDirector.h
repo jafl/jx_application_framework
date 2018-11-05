@@ -104,6 +104,8 @@ private:
 	void	FGProcess(const JBoolean fixedLength);
 	void	BeginBGProcess(const JBoolean fixedLength);
 
+	void	TestFontSubstitutionTiming();
+
 	void	UpdateIconMenu();
 	void	HandleIconMenu(const JIndex item);
 

@@ -980,42 +980,80 @@ TestDirector::HandleTestMenu
 
 	else if (index == kTimeFontSubCmd)
 		{
-		const JSize size = 10*1024*1024;
-		JKLRand r;
-
-		JFontManager* fontMgr = GetDisplay()->GetFontManager();
-
-		JString s;
-		s.SetBlockSize(size);
-		for (JIndex i=1; i<=size; i++)
-			{
-			s.Append(JUtf8Character(r.UniformLong(32, 127)));
-			}
-
-		const JFont f = JFontManager::GetDefaultFont();
-
-		JStopWatch w;
-		w.StartTimer();
-
-		f.HasGlyphsForString(fontMgr, s);
-
-		w.StopTimer();
-		std::cout << "check glyphs: " << w.PrintTimeInterval() << std::endl;
-
-		JStringIterator iter(s);
-		JUtf8Character c;
-
-		w.StartTimer();
-
-		while (iter.Next(&c))
-			{
-			JFont f1 = f;
-			f1.SubstituteToDisplayGlyph(fontMgr, c);
-			}
-
-		w.StopTimer();
-		std::cout << "substitute glyphs: " << w.PrintTimeInterval() << std::endl;
+		TestFontSubstitutionTiming();
 		}
+}
+
+/******************************************************************************
+ TestFontSubstitutionTiming (private)
+
+ ******************************************************************************/
+
+void
+TestDirector::TestFontSubstitutionTiming()
+{
+	const JSize size = 10*1024*1024;
+	JKLRand r;
+
+	JFontManager* fontMgr = GetDisplay()->GetFontManager();
+
+	JString s;
+	s.SetBlockSize(size);
+	for (JIndex i=1; i<=size; i++)
+		{
+		s.Append(JUtf8Character(r.UniformLong(32, 127)));
+		}
+
+	const JFont f = JFontManager::GetDefaultFont();
+
+	JStopWatch w;
+	w.StartTimer();
+
+	f.HasGlyphsForString(fontMgr, s);
+
+	w.StopTimer();
+	std::cout << "check ascii glyphs: " << w.PrintTimeInterval() << std::endl;
+	{
+	JStringIterator iter(s);
+	JUtf8Character c;
+
+	w.StartTimer();
+
+	while (iter.Next(&c))
+		{
+		JFont f1 = f;
+		f1.SubstituteToDisplayGlyph(fontMgr, c);
+		}
+	}
+	w.StopTimer();
+	std::cout << "substitute ascii glyphs: " << w.PrintTimeInterval() << std::endl;
+
+	s.SetBlockSize(4*size);
+	for (JIndex i=1; i<=size; i++)
+		{
+		s.Append(JUtf8Character::Utf32ToUtf8(r.UniformLong(46000, 55000)));
+		}
+
+	w.StartTimer();
+
+	f.HasGlyphsForString(fontMgr, s);
+
+	w.StopTimer();
+	std::cout << "check korean glyphs: " << w.PrintTimeInterval() << std::endl;
+	{
+	JStringIterator iter(s);
+	JUtf8Character c;
+
+	w.StartTimer();
+
+	while (iter.Next(&c))
+		{
+		JFont f1 = f;
+		f1.SubstituteToDisplayGlyph(fontMgr, c);
+		}
+	}
+	w.StopTimer();
+	std::cout << "substitute korean glyphs: " << w.PrintTimeInterval() << std::endl;
 }
 
 /******************************************************************************
