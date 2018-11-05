@@ -36,6 +36,12 @@ JTEST(Construction)
 
 	JUtf8Character c6(c5);
 	JAssertEqual(3, c6.GetByteCount());
+
+	JUtf8Character c7("abcd");
+	JAssertEqual(1, c7.GetByteCount());
+
+	JUtf8Character c8("\xE2\x9C\x94" "abcd");
+	JAssertEqual(3, c8.GetByteCount());
 }
 
 JTEST(Set)
