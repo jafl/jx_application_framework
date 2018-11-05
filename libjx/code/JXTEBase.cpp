@@ -83,7 +83,7 @@ static const JUtf8Byte* kMacEditMenuStr =
 	"%l| Cut        %k Meta-X       %i" kJXCutAction
 	"  | Copy       %k Meta-C       %i" kJXCopyAction
 	"  | Paste      %k Meta-V       %i" kJXPasteAction
-	"  | Clear                      %i" kJXClearAction
+	"  | Delete                     %i" kJXClearAction
 	"%l| Select all %k Meta-A       %i" kJXSelectAllAction;
 
 static const JUtf8Byte* kWinEditMenuStr =
@@ -92,7 +92,7 @@ static const JUtf8Byte* kWinEditMenuStr =
 	"%l| Cut        %h tx %k Ctrl-X       %i" kJXCutAction
 	"  | Copy       %h c  %k Ctrl-C       %i" kJXCopyAction
 	"  | Paste      %h pv %k Ctrl-V       %i" kJXPasteAction
-	"  | Clear      %h l                  %i" kJXClearAction
+	"  | Delete     %h l                  %i" kJXClearAction
 	"%l| Select all %h a  %k Ctrl-A       %i" kJXSelectAllAction;
 
 #define kCleanRightMarginAction		"CleanRightMarginCmd::JXTEBase"
