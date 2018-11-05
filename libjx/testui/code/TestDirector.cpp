@@ -992,7 +992,7 @@ TestDirector::HandleTestMenu
 void
 TestDirector::TestFontSubstitutionTiming()
 {
-	const JSize size = 10*1024*1024;
+	const JSize size = 1024*1024;
 	JKLRand r;
 
 	JFontManager* fontMgr = GetDisplay()->GetFontManager();
@@ -1001,7 +1001,7 @@ TestDirector::TestFontSubstitutionTiming()
 	s.SetBlockSize(size);
 	for (JIndex i=1; i<=size; i++)
 		{
-		s.Append(JUtf8Character(r.UniformLong(32, 127)));
+		s.Append(JUtf8Character(r.UniformLong(32, 126)));
 		}
 
 	const JFont f = JFontManager::GetDefaultFont();
@@ -1009,10 +1009,10 @@ TestDirector::TestFontSubstitutionTiming()
 	JStopWatch w;
 	w.StartTimer();
 
-	f.HasGlyphsForString(fontMgr, s);
+	JBoolean hasGlyphs = f.HasGlyphsForString(fontMgr, s);
 
 	w.StopTimer();
-	std::cout << "check ascii glyphs: " << w.PrintTimeInterval() << std::endl;
+	std::cout << "check ascii glyphs: " << hasGlyphs << ' ' << w.PrintTimeInterval() << std::endl;
 	{
 	JStringIterator iter(s);
 	JUtf8Character c;
@@ -1029,6 +1029,7 @@ TestDirector::TestFontSubstitutionTiming()
 	std::cout << "substitute ascii glyphs: " << w.PrintTimeInterval() << std::endl;
 
 	s.SetBlockSize(4*size);
+	s.Clear();
 	for (JIndex i=1; i<=size; i++)
 		{
 		s.Append(JUtf8Character::Utf32ToUtf8(r.UniformLong(46000, 55000)));
@@ -1036,10 +1037,10 @@ TestDirector::TestFontSubstitutionTiming()
 
 	w.StartTimer();
 
-	f.HasGlyphsForString(fontMgr, s);
+	hasGlyphs = f.HasGlyphsForString(fontMgr, s);
 
 	w.StopTimer();
-	std::cout << "check korean glyphs: " << w.PrintTimeInterval() << std::endl;
+	std::cout << "check korean glyphs: " << hasGlyphs << ' ' << w.PrintTimeInterval() << std::endl;
 	{
 	JStringIterator iter(s);
 	JUtf8Character c;
