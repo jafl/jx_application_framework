@@ -3,27 +3,23 @@ JString::EndsWidth
 	must be byte aligned so diacriticals can be correctly processed
 
 
-glove
-	make file prefix consistent: GL
-	clean up .fd to match current layouts
-	test layouts on Linux and OS X
-
-	test column xform:  add two columns
-
-
-JXFileListTable
-JXTreeListWidget
-JXStringTable
-JXStringList
-JXDirTable
-j2dplot title, labels, legend
-	render as many characters as possible via fallback fonts
+render as many characters as possible via fallback fonts
 	if (!HasGlyphsForString)
 		JXFontManager:
 			compute string width in chunks
 			compute separate char width if substitution
 		JXWindowPainter:
 			draw string in chunks
+
+	test with plot labels, testjx file list, file chooser, systemg
+
+
+glove
+	make file prefix consistent: GL
+	clean up .fd to match current layouts
+	test layouts on Linux and OS X
+
+	test column xform:  add two columns
 
 
 JStyledText
