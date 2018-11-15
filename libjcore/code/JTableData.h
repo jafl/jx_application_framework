@@ -356,12 +356,6 @@ public:
 				itsRect(row, col, row+1, col+1)
 				{ };
 
-			RectChanged(const JPoint& cell)
-				:
-				JBroadcaster::Message(kRectChanged),
-				itsRect(cell.y, cell.x, cell.y+1, cell.x+1)
-				{ };
-
 			const JRect&
 			GetRect() const
 			{

@@ -102,7 +102,7 @@ THXVarList::THXVarListX()
 	itsFunctions = jnew JPtrArray<JFunction>(JPtrArrayT::kDeleteAll);
 	assert( itsFunctions != nullptr );
 
-	InstallList(itsNames);
+	InstallCollection(itsNames);
 
 	// variables for plotting
 

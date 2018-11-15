@@ -28,10 +28,8 @@ JSTUndoStyle::JSTUndoStyle
 {
 	assert( !itsRange.IsEmpty() );
 
-	itsOrigStyles = jnew JRunArray<JFont>;
+	itsOrigStyles = jnew JRunArray<JFont>(text->GetStyles(), itsRange.charRange);
 	assert( itsOrigStyles != nullptr );
-
-	itsOrigStyles->AppendSlice(text->GetStyles(), itsRange.charRange);
 }
 
 /******************************************************************************

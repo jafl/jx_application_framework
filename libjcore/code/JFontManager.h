@@ -14,8 +14,6 @@
 #include "JStringMap.h"
 #include "JFont.h"
 
-const JFontID kInvalidFontID = 0;
-
 class JFontManager
 {
 	friend class JFont;

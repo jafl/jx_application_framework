@@ -34,7 +34,7 @@ JQueue<T,S>::JQueue()
 	itsElements = jnew S;
 	assert( itsElements != nullptr );
 
-	InstallList(itsElements);
+	InstallCollection(itsElements);
 }
 
 /******************************************************************************
@@ -53,7 +53,7 @@ JQueue<T,S>::JQueue
 	itsElements = jnew S(*(source.itsElements));
 	assert( itsElements != nullptr );
 
-	InstallList(itsElements);
+	InstallCollection(itsElements);
 }
 
 /******************************************************************************

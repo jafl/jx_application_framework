@@ -3,7 +3,7 @@
 
 	Interface for JListIterator class template
 
-	Copyright (C) 1994-97 by John Lindal.
+	Copyright (C) 1994-2018 by John Lindal.
 
  ******************************************************************************/
 
@@ -33,11 +33,11 @@ public:
 
 	virtual ~JListIterator();
 
-	virtual JBoolean	Prev(T* data);
-	virtual JBoolean	Next(T* data);
+	virtual JBoolean	Prev(T* data) = 0;
+	virtual JBoolean	Next(T* data) = 0;
 
-	virtual void		SkipPrev(const JSize count = 1);
-	virtual void		SkipNext(const JSize count = 1);
+	virtual void		SkipPrev(const JSize count = 1) = 0;
+	virtual void		SkipNext(const JSize count = 1) = 0;
 
 	virtual void		MoveTo(const JIteratorPosition newPosition, const JIndex index);
 	JBoolean			AtBeginning();
@@ -45,11 +45,13 @@ public:
 
 	// only allowed if constructed from non-const JList<T>*
 
-	virtual JBoolean	SetPrev(const T& data);
-	virtual JBoolean	SetNext(const T& data);
+	virtual JBoolean	SetPrev(const T& data) = 0;
+	virtual JBoolean	SetNext(const T& data) = 0;
 
-	virtual JBoolean	RemovePrev();
-	virtual JBoolean	RemoveNext();
+	virtual JBoolean	RemovePrev(const JSize count = 1) = 0;
+	virtual JBoolean	RemoveNext(const JSize count = 1) = 0;
+
+	virtual JBoolean	Insert(const T& data) = 0;
 
 	// range-based for loop
 

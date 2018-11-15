@@ -285,32 +285,47 @@ public:
 
 	JCompareAliasWrapper
 		(
-		const JList<T>&			data,
+		const JList<T>&					data,
 		const JElementComparison<T>&	compareObj,
 		const T*						searchData = nullptr
 		)
 		:
 		itsData(data),
 		itsCompareObj(compareObj),
-		itsSearchData(searchData)
+		itsSearchData(searchData),
+		itsIter(itsData.NewIterator())
 	{ };
 
-	virtual ~JCompareAliasWrapper() { };
+	virtual ~JCompareAliasWrapper()
+	{
+		jdelete itsIter;
+	};
 
 	virtual JListT::CompareResult
 	Compare(const JIndex& i1, const JIndex& i2) const
 	{
 		if (itsSearchData == nullptr || (i1 > 0 && i2 > 0))
 			{
-			return itsCompareObj.Compare(itsData.GetElement(i1), itsData.GetElement(i2));
+			T d1, d2;
+			itsIter->MoveTo(kJIteratorStartBefore, i1);
+			itsIter->Next(&d1);
+			itsIter->MoveTo(kJIteratorStartBefore, i2);
+			itsIter->Next(&d2);
+			return itsCompareObj.Compare(d1, d2);
 			}
 		else if (i1 == 0)
 			{
-			return itsCompareObj.Compare(*itsSearchData, itsData.GetElement(i2));
+			T d2;
+			itsIter->MoveTo(kJIteratorStartBefore, i2);
+			itsIter->Next(&d2);
+			return itsCompareObj.Compare(*itsSearchData, d2);
 			}
 		else	// i2 == 0
 			{
-			return itsCompareObj.Compare(itsData.GetElement(i1), *itsSearchData);
+			T d1;
+			itsIter->MoveTo(kJIteratorStartBefore, i1);
+			itsIter->Next(&d1);
+			return itsCompareObj.Compare(d1, *itsSearchData);
 			}
 	}
 
@@ -324,9 +339,10 @@ public:
 
 private:
 
-	const JList<T>&			itsData;
+	const JList<T>&					itsData;
 	const JElementComparison<T>&	itsCompareObj;
 	const T*						itsSearchData;
+	JListIterator<T>*				itsIter;
 };
 
 /******************************************************************************

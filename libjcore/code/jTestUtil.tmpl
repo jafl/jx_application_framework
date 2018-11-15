@@ -1,0 +1,79 @@
+#ifndef _T_jTestUtil
+#define _T_jTestUtil
+
+/******************************************************************************
+ jTestUtil.cpp
+
+	Copyright (C) 2018 by John Lindal.
+
+ ******************************************************************************/
+
+#include "jTestUtil.h"
+#include "JString.h"
+#include <sstream>
+#include "jAssert.h"
+
+/******************************************************************************
+ JSetList
+
+ ******************************************************************************/
+
+template <class T>
+void
+JSetList
+	(
+	const JUtf8Byte*	data,
+	JList<T>*			list
+	)
+{
+	list->RemoveAll();
+
+	JListIterator<T>* iter = list->NewIterator();
+
+	std::istringstream input(data);
+	T v;
+	while (1)
+		{
+		input >> v;
+		if (!input.good())
+			{
+			break;
+			}
+
+		iter->Insert(v);
+		iter->SkipNext();
+		}
+
+	jdelete iter;
+}
+
+/******************************************************************************
+ JPrintList
+
+ ******************************************************************************/
+
+template <class T>
+JString
+JPrintList
+	(
+	JList<T>& list
+	)
+{
+	std::ostringstream data;
+
+	JListIterator<T>* iter = list.NewIterator();
+
+	T v;
+	while (iter->Next(&v))
+		{
+		data << v << ' ';
+		}
+
+	jdelete iter;
+
+	JString s(data.str());
+	s.TrimWhitespace();
+	return s;
+}
+
+#endif

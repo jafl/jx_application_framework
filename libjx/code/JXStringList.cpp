@@ -237,9 +237,14 @@ JXStringList::SetStyles
 	const JSize count = GetRowCount();
 	assert( styleList.GetElementCount() == count );
 
-	for (JIndex i=1; i<=count; i++)
+	JRunArrayIterator<JFontStyle> iter(styleList);
+
+	JFontStyle style;
+	JIndex i = 1;
+	while (iter.Next(&style))
 		{
-		itsStyles->SetCellStyle(JPoint(1,i), styleList.GetElement(i));
+		itsStyles->SetCellStyle(JPoint(1,i), style);
+		i++;
 		}
 }
 

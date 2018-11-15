@@ -95,9 +95,9 @@ protected:
 
 private:
 
-	JDirInfo*				itsDirInfo;			// not owned
-	JRunArray<JBoolean>*	itsActiveCells;
-	JXTimerTask*			itsDirUpdateTask;
+	JDirInfo*			itsDirInfo;			// not owned
+	JArray<JBoolean>*	itsActiveCells;
+	JXTimerTask*		itsDirUpdateTask;
 
 	JBoolean	itsIgnoreSelChangesFlag;		// kJTrue while cleaning selection
 	JBoolean	itsAllowSelectFilesFlag;

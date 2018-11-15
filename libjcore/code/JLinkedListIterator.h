@@ -1,9 +1,7 @@
 /******************************************************************************
  JLinkedListIterator.h
 
-	Interface for JLinkedListIterator class template
-
-	Copyright (C) 1996-97 by John Lindal.
+	Copyright (C) 1996-2018 by John Lindal.
 
  ******************************************************************************/
 
@@ -32,30 +30,32 @@ public:
 
 	virtual ~JLinkedListIterator();
 
-	virtual JBoolean	Prev(T* item);
-	virtual JBoolean	Next(T* item);
+	virtual JBoolean	Prev(T* item) override;
+	virtual JBoolean	Next(T* item) override;
 
-	virtual void		SkipPrev(const JSize count = 1);
-	virtual void		SkipNext(const JSize count = 1);
+	virtual void		SkipPrev(const JSize count = 1) override;
+	virtual void		SkipNext(const JSize count = 1) override;
 
-	virtual void		MoveTo(const JIteratorPosition newPosition, const JIndex index);
+	virtual void		MoveTo(const JIteratorPosition newPosition, const JIndex index) override;
 
 	// only allowed if constructed from non-const JList<T>*
 
-	virtual JBoolean	SetPrev(const T& data);
-	virtual JBoolean	SetNext(const T& data);
+	virtual JBoolean	SetPrev(const T& data) override;
+	virtual JBoolean	SetNext(const T& data) override;
 
-	virtual JBoolean	RemovePrev();
-	virtual JBoolean	RemoveNext();
+	virtual JBoolean	RemovePrev(const JSize count = 1) override;
+	virtual JBoolean	RemoveNext(const JSize count = 1) override;
+
+	virtual JBoolean	Insert(const T& data) override;
 
 protected:
 
-	virtual void	ListChanged(const JBroadcaster::Message& message);
+	virtual void	ListChanged(const JBroadcaster::Message& message) override;
 
 private:
 
 	JLinkedList<T>*			itsLinkedList;
-	JLinkedListElement<T>*	itsCurrElement;		// element pointed to by ((JIndex) cursor)
+	JLinkedListElement<T>*	itsCurrElement;		// if cursor > 0, it is after this element
 
 private:
 

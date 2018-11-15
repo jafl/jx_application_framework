@@ -22,17 +22,12 @@
 
 	BASE CLASS = JList
 
-	Copyright (C) 1994-97 by John Lindal.
+	Copyright (C) 1994-2018 by John Lindal.
 
  ******************************************************************************/
 
 #include "JRunArray.h"
 #include "jAssert.h"
-
-template <class T>
-const JElementComparison<T>* JRunArray<T>::itsCurrentCompareObj = nullptr;
-
-static int (*theCurrentQuickSortCompareFn)(const void*, const void*) = nullptr;
 
 /******************************************************************************
  Constructor
@@ -77,23 +72,7 @@ JRunArray<T>::JRunArray
 	itsRuns = jnew JArray< JRunArrayElement<T> >;
 	assert( itsRuns != nullptr );
 
-	InsertSlice(1, source, range);
-}
-
-template <class T>
-JRunArray<T>::JRunArray
-	(
-	const JRunArray<T>&	source,
-	const JIndex		startIndex,
-	const JIndex		endIndex
-	)
-	:
-	JList<T>(source)
-{
-	itsRuns = jnew JArray< JRunArrayElement<T> >;
-	assert( itsRuns != nullptr );
-
-	InsertSlice(1, source, startIndex, endIndex);
+	IteratorInsertSlice(1, source, range, 1, 1);
 }
 
 /******************************************************************************
@@ -133,83 +112,18 @@ JRunArray<T>::operator=
 }
 
 /******************************************************************************
- InsertElementAtIndex
-
-	Insert an element into the array at the specified index. Any elements
-	at or above index are moved down. If index is any value greater
-	than the current size, then the element is appended to the end
-	of the array.
+ PrependElement (virtual)
 
  ******************************************************************************/
 
 template <class T>
 void
-JRunArray<T>::InsertElementAtIndex
+JRunArray<T>::PrependElement
 	(
-	const JIndex	elementIndex,
-	const T&		data
+	const T& data
 	)
 {
-	InsertElementsAtIndex(elementIndex, data, 1);
-}
-
-/******************************************************************************
- InsertElementsAtIndex
-
-	Insert a run of elements into the array at the specified index.
-	Any elements at or below elementIndex are moved down. If index is any value
-	greater than the current size, then the elements are appended to the end
-	of the array.
-
-	The second version assumes *runIndex,*firstIndexInRun refer to the run
-	containing elementIndex and updates them based on what has to be done
-	to the runs.
-
- ******************************************************************************/
-
-template <class T>
-void
-JRunArray<T>::InsertElementsAtIndex
-	(
-	const JIndex	elementIndex,
-	const T&		data,
-	const JSize		newElementCount
-	)
-{
-	if (newElementCount > 0)
-		{
-		const JIndex trueElementIndex =
-			PrivateInsertElementsAtIndex(elementIndex, data, newElementCount);
-
-		JListT::ElementsInserted message(trueElementIndex, newElementCount);
-		JList<T>::NotifyIterators(message);
-		JBroadcaster::Broadcast(message);
-		}
-}
-
-template <class T>
-void
-JRunArray<T>::InsertElementsAtIndex
-	(
-	const JIndex	elementIndex,
-	const T&		data,
-	const JSize		newElementCount,
-	JIndex*			runIndex,
-	JIndex*			firstIndexInRun
-	)
-{
-	assert( *firstIndexInRun <= elementIndex );
-
-	if (newElementCount > 0)
-		{
-		const JIndex trueElementIndex =
-			PrivateInsertElementsAtIndex(elementIndex, data, newElementCount,
-										 runIndex, firstIndexInRun);
-
-		JListT::ElementsInserted message(trueElementIndex, newElementCount);
-		JList<T>::NotifyIterators(message);
-		JBroadcaster::Broadcast(message);
-		}
+	PrependElements(data, 1);
 }
 
 /******************************************************************************
@@ -224,10 +138,25 @@ void
 JRunArray<T>::PrependElements
 	(
 	const T&	data,
-	const JSize	newElementCount
+	const JSize	count
 	)
 {
-	InsertElementsAtIndex(1, data, newElementCount);
+	IteratorInsertElementsAtIndex(1, data, count, 1, 1);
+}
+
+/******************************************************************************
+ AppendElement (virtual)
+
+ ******************************************************************************/
+
+template <class T>
+void
+JRunArray<T>::AppendElement
+	(
+	const T& data
+	)
+{
+	AppendElements(data, 1);
 }
 
 /******************************************************************************
@@ -242,41 +171,162 @@ void
 JRunArray<T>::AppendElements
 	(
 	const T&	data,
-	const JSize	newElementCount
+	const JSize	count
 	)
 {
-	InsertElementsAtIndex(JCollection::GetElementCount()+1, data, newElementCount);
+	const JSize totalCount = this->GetElementCount();
+
+	JIndex runIndex, firstIndexInRun;
+	const JBoolean ok = FindRun(totalCount, &runIndex, &firstIndexInRun);
+	assert( ok );
+
+	IteratorInsertElementsAtIndex(totalCount+1, data, count, runIndex, firstIndexInRun);
+}
+
+/******************************************************************************
+ IteratorInsertElementsAtIndex (private)
+
+	Insert a run of elements into the array at the specified index.
+	Any elements at or below elementIndex are moved down. If index is any value
+	greater than the current size, then the elements are appended to the end
+	of the array.
+
+	Assumes *runIndex,*firstIndexInRun refer to the run containing
+	elementIndex and updates them based on what has to be done to the runs.
+
+ ******************************************************************************/
+
+template <class T>
+void
+JRunArray<T>::IteratorInsertElementsAtIndex
+	(
+	const JIndex	elementIndex,
+	const T&		data,
+	const JSize		newElementCount,
+	const JIndex	origRunIndex,
+	const JIndex	origFirstIndexInRun
+	)
+{
+	if (newElementCount > 0)
+		{
+		JIndex runIndex        = origRunIndex;
+		JIndex firstIndexInRun = origFirstIndexInRun;
+
+		const JIndex trueElementIndex =
+			PrivateInsertElementsAtIndex(elementIndex, data, newElementCount,
+										 &runIndex, &firstIndexInRun);
+
+		JListT::ElementsInserted message(trueElementIndex, newElementCount);
+		JList<T>::NotifyIterators(message);
+		JBroadcaster::Broadcast(message);
+		}
+}
+
+/******************************************************************************
+ IteratorInsertSlice (private)
+
+	Optimized copy of a slice of another JRunArray.
+
+ ******************************************************************************/
+
+template <class T>
+void
+JRunArray<T>::IteratorInsertSlice
+	(
+	const JIndex		elementIndex,
+	const JRunArray<T>&	source,
+	const JIndexRange&	range,
+	const JIndex		origRunIndex,
+	const JIndex		origFirstIndexInRun
+	)
+{
+	JIndex startRun, firstIndexInStartRun;
+	if (!source.FindRun(range.first, &startRun, &firstIndexInStartRun))
+		{
+		return;
+		}
+
+	JIndex endRun = startRun, firstIndexInEndRun = firstIndexInStartRun;
+	if (!source.IncrementalFindRun(range.first, range.last, &endRun, &firstIndexInEndRun))
+		{
+		return;
+		}
+
+	JIndex runIndex        = origRunIndex,
+		   firstIndexInRun = origFirstIndexInRun;
+
+	if (startRun == endRun)
+		{
+		PrivateInsertElementsAtIndex(elementIndex, source.GetRunData(startRun), range.GetCount(),
+									 &runIndex, &firstIndexInRun);
+		return;
+		}
+
+	const JRunArrayElement<T>* sourceRuns = (source.itsRuns)->GetCArray();
+
+	JSize count = sourceRuns[startRun-1].length - (range.first - firstIndexInStartRun);
+	JIndex i    = PrivateInsertElementsAtIndex(elementIndex, sourceRuns[startRun-1].data, count,
+											   &runIndex, &firstIndexInRun);
+	{
+	JListT::ElementsInserted message(i, count);
+	JList<T>::NotifyIterators(message);
+	JBroadcaster::Broadcast(message);
+	}
+
+	i += count;
+	JIndex lastIndexInRun = firstIndexInRun + GetRunLength(runIndex) - 1;
+	if (i > lastIndexInRun)
+		{
+		runIndex++;
+		firstIndexInRun = lastIndexInRun + 1;
+		}
+
+	JBoolean needSplit = JI2B(i != firstIndexInRun);
+
+	for (JIndex j=startRun+1; j<endRun; j++)
+		{
+		count = sourceRuns[j-1].length;
+
+		if (needSplit)
+			{
+			PrivateInsertElementsAtIndex(i, sourceRuns[j-1].data, count,
+										 &runIndex, &firstIndexInRun);
+			needSplit = kJFalse;
+			}
+		else
+			{
+			InsertRun(runIndex, count, sourceRuns[j-1].data);
+			}
+
+		JListT::ElementsInserted message(i, count);
+		JList<T>::NotifyIterators(message);
+		JBroadcaster::Broadcast(message);
+
+		i += count;
+		runIndex++;
+		firstIndexInRun = i;
+		}
+
+	count = range.last - firstIndexInEndRun + 1;
+	PrivateInsertElementsAtIndex(i, sourceRuns[endRun-1].data, count,
+								 &runIndex, &firstIndexInRun);
+	{
+	JListT::ElementsInserted message(i, count);
+	JList<T>::NotifyIterators(message);
+	JBroadcaster::Broadcast(message);
+	}
 }
 
 /******************************************************************************
  PrivateInsertElementsAtIndex
 
-	We need this method so MoveElementToIndex can insert an element without
-	the ElementsInserted message being broadcast.
+	Returns the actual starting index so caller can broadcast the correct
+	index.
 
-	It returns the actual starting index so InsertElementsAtIndex can
-	broadcast the correct index.
-
-	The second version assumes *runIndex,*firstIndexInRun refer to the run
-	containing elementIndex and updates them based on what has to be done
-	to the runs.
+	Assumes *runIndex,*firstIndexInRun refer to the run containing
+	elementIndex and updates them based on what has to be done to the runs.
 
  ******************************************************************************/
-
-template <class T>
-JIndex
-JRunArray<T>::PrivateInsertElementsAtIndex
-	(
-	const JIndex	elementIndex,
-	const T&		data,
-	const JSize		newElementCount
-	)
-{
-	JIndex runIndex, firstIndexInRun;
-	FindRun(elementIndex, &runIndex, &firstIndexInRun);
-	return PrivateInsertElementsAtIndex(elementIndex, data, newElementCount,
-										&runIndex, &firstIndexInRun);
-}
 
 template <class T>
 JIndex
@@ -294,7 +344,7 @@ JRunArray<T>::PrivateInsertElementsAtIndex
 
 	if (JList<T>::IndexValid(elementIndex))
 		{
-		if (data == GetRunDataRef(*runIndex))
+		if (data == GetRunData(*runIndex))
 			{
 			IncrementRunLength(*runIndex, newElementCount);
 			}
@@ -321,10 +371,10 @@ JRunArray<T>::PrivateInsertElementsAtIndex
 		{
 		// We need to append the data to the end of the array.
 
-		const JSize elementCount = this->JCollection::GetElementCount();
+		const JSize elementCount = this->GetElementCount();
 		const JSize runCount     = GetRunCount();
 
-		if (runCount > 0 && data == GetRunDataRef(runCount))
+		if (runCount > 0 && data == GetRunData(runCount))
 			{
 			IncrementRunLength(runCount, newElementCount);
 			}
@@ -334,255 +384,42 @@ JRunArray<T>::PrivateInsertElementsAtIndex
 			}
 
 		*runIndex        = GetRunCount();
-		*firstIndexInRun = JCollection::GetElementCount() - GetRunLength(*runIndex) + 1;
+		*firstIndexInRun = this->GetElementCount() - GetRunLength(*runIndex) + 1;
 
 		return elementCount + 1;
 		}
 }
 
 /******************************************************************************
- InsertElementsAtIndex
-
-	Copy the specified number of elements from the given JRunArray.
-
- ******************************************************************************/
-
-template <class T>
-void
-JRunArray<T>::InsertElementsAtIndex
-	(
-	const JIndex		insertionIndex,
-	const JRunArray<T>&	source,
-	const JIndex		firstIndex,
-	const JSize			count
-	)
-{
-	InsertSlice(insertionIndex, source, firstIndex, firstIndex + count - 1);
-}
-
-/******************************************************************************
- RemoveNextElements
-
-	The second version assumes *runIndex,*firstIndexInRun refer to the run
-	containing firstIndex and updates them based on what has to be done
-	to the runs.
-
- ******************************************************************************/
-
-template <class T>
-void
-JRunArray<T>::RemoveNextElements
-	(
-	const JIndex	firstIndex,
-	const JSize		count
-	)
-{
-	if (firstIndex == 1 && count == JCollection::GetElementCount())
-		{
-		RemoveAll();
-		}
-	else if (count > 0)
-		{
-		assert( JList<T>::IndexValid(firstIndex) &&
-				JList<T>::IndexValid(firstIndex+count-1) );
-
-		PrivateRemoveNextElements(firstIndex, count);
-
-		JListT::ElementsRemoved message(firstIndex, count);
-		JList<T>::NotifyIterators(message);
-		JBroadcaster::Broadcast(message);
-		}
-}
-
-template <class T>
-void
-JRunArray<T>::RemoveNextElements
-	(
-	const JIndex	firstIndex,
-	const JSize		count,
-	JIndex*			runIndex,
-	JIndex*			firstIndexInRun
-	)
-{
-	if (firstIndex == 1 && count == JCollection::GetElementCount())
-		{
-		RemoveAll();
-		}
-	else if (count > 0)
-		{
-		assert( JList<T>::IndexValid(firstIndex) &&
-				JList<T>::IndexValid(firstIndex+count-1) );
-		assert( *firstIndexInRun <= firstIndex );
-
-		PrivateRemoveNextElements(firstIndex, count, runIndex, firstIndexInRun);
-
-		JListT::ElementsRemoved message(firstIndex, count);
-		JList<T>::NotifyIterators(message);
-		JBroadcaster::Broadcast(message);
-		}
-}
-
-// private
-
-template <class T>
-void
-JRunArray<T>::IteratorRemoveNextElements
-	(
-	const JIndex	firstIndex,
-	const JSize		count,
-	const JIndex	origRunIndex,
-	const JIndex	origFirstIndexInRun
-	)
-{
-	if (firstIndex == 1 && count == JCollection::GetElementCount())
-		{
-		RemoveAll();
-		}
-	else if (count > 0)
-		{
-		JIndex runIndex        = origRunIndex;
-		JIndex firstIndexInRun = origFirstIndexInRun;
-		PrivateRemoveNextElements(firstIndex, count, &runIndex, &firstIndexInRun);
-
-		JListT::ElementsRemoved message(firstIndex, count);
-		JList<T>::NotifyIterators(message);
-		JBroadcaster::Broadcast(message);
-		}
-}
-
-/******************************************************************************
- PrivateRemoveNextElements (private)
-
-	We need this method so MoveElementToIndex() can remove an element without
-	the ElementsRemoved message being broadcast.
-
-	The second version assumes *runIndex,*firstIndexInRun refer to the run
-	containing firstIndex and updates them based on what has to be done
-	to the runs.
-
- ******************************************************************************/
-
-template <class T>
-void
-JRunArray<T>::PrivateRemoveNextElements
-	(
-	const JIndex	firstIndex,
-	const JSize		count
-	)
-{
-	JIndex runIndex, firstIndexInRun;
-	const JBoolean found = FindRun(firstIndex, &runIndex, &firstIndexInRun);
-	assert( found );
-
-	PrivateRemoveNextElements(firstIndex, count, &runIndex, &firstIndexInRun);
-}
-
-template <class T>
-void
-JRunArray<T>::PrivateRemoveNextElements
-	(
-	const JIndex	firstIndex,
-	const JSize		count,
-	JIndex*			runIndex,
-	JIndex*			firstIndexInRun
-	)
-{
-	if (firstIndex == 1 && count == JCollection::GetElementCount())
-		{
-		RemoveAll();
-		return;
-		}
-
-	JSize remainder = count;
-	while (remainder > 0)
-		{
-		const JSize rightCount =
-			GetRunLength(*runIndex) - (firstIndex - *firstIndexInRun);
-
-		if (*firstIndexInRun == firstIndex && rightCount <= remainder)
-			{
-			RemoveRun(*runIndex, runIndex, firstIndexInRun);
-			remainder -= rightCount;
-			}
-		else if (*firstIndexInRun < firstIndex && rightCount <= remainder)
-			{
-			DecrementRunLength(*runIndex, rightCount);
-			remainder       -= rightCount;
-			*firstIndexInRun = firstIndex;
-			(*runIndex)++;
-			}
-		else	// remainder < rightCount
-			{
-			DecrementRunLength(*runIndex, remainder);
-			break;
-			}
-		}
-}
-
-/******************************************************************************
- RemoveAll
-
- ******************************************************************************/
-
-template <class T>
-void
-JRunArray<T>::RemoveAll()
-{
-	if (!JCollection::IsEmpty())
-		{
-		JListT::ElementsRemoved message(1, JCollection::GetElementCount());
-
-		itsRuns->RemoveAll();
-		JCollection::SetElementCount(0);
-
-		JList<T>::NotifyIterators(message);
-		JBroadcaster::Broadcast(message);
-		}
-}
-
-/******************************************************************************
- GetElement
+ GetFirstElement (virtual)
 
  ******************************************************************************/
 
 template <class T>
 T
-JRunArray<T>::GetElement
-	(
-	const JIndex elementIndex
-	)
+JRunArray<T>::GetFirstElement()
 	const
 {
-	JIndex runIndex, firstIndexInRun;
-	const JBoolean ok = FindRun(elementIndex, &runIndex, &firstIndexInRun);
-	assert( ok );
-	return GetRunDataRef(runIndex);
+	return GetRunData(1);
 }
 
 /******************************************************************************
- SetElement
+ GetLastElement (virtual)
 
  ******************************************************************************/
 
 template <class T>
-void
-JRunArray<T>::SetElement
-	(
-	const JIndex	elementIndex,
-	const T&		data
-	)
+T
+JRunArray<T>::GetLastElement()
+	const
 {
-	assert( JList<T>::IndexValid(elementIndex) );
-
-	if (PrivateSetElement(elementIndex, data))
-		{
-		JListT::ElementChanged message(elementIndex);
-		JList<T>::NotifyIterators(message);
-		JBroadcaster::Broadcast(message);
-		}
+	return GetRunData(itsRuns->GetElementCount());
 }
 
-// private
+/******************************************************************************
+ IteratorSetElement (private)
+
+ ******************************************************************************/
 
 template <class T>
 void
@@ -607,30 +444,12 @@ JRunArray<T>::IteratorSetElement
 /******************************************************************************
  PrivateSetElement (private)
 
-	We need this method so SwapElements can avoid the ElementChanged message.
-
 	Returns kJTrue if the element actually changed.
 
-	The second version assumes *runIndex,*firstIndexInRun refer to the run
-	containing elementIndex and updates them based on what has to be done
-	to the runs.
+	Assumes *runIndex,*firstIndexInRun refer to the run containing
+	elementIndex and updates them based on what has to be done to the runs.
 
  ******************************************************************************/
-
-template <class T>
-JBoolean
-JRunArray<T>::PrivateSetElement
-	(
-	const JIndex	elementIndex,
-	const T&		data
-	)
-{
-	JIndex runIndex, firstIndexInRun;
-	const JBoolean found = FindRun(elementIndex, &runIndex, &firstIndexInRun);
-	assert( found );
-
-	return PrivateSetElement(elementIndex, data, &runIndex, &firstIndexInRun);
-}
 
 template <class T>
 JBoolean
@@ -642,7 +461,7 @@ JRunArray<T>::PrivateSetElement
 	JIndex*			firstIndexInRun
 	)
 {
-	const T originalElement = GetRunDataRef(*runIndex);
+	const T originalElement = GetRunData(*runIndex);
 	if (data == originalElement)
 		{
 		return kJFalse;
@@ -654,7 +473,7 @@ JRunArray<T>::PrivateSetElement
 	// check if the element can go in the previous run
 
 	if (*runIndex > 1 && elementIndex == *firstIndexInRun &&
-		data == GetRunDataRef(*runIndex-1))
+		data == GetRunData(*runIndex-1))
 		{
 		*firstIndexInRun -= GetRunLength(*runIndex-1);
 
@@ -674,7 +493,7 @@ JRunArray<T>::PrivateSetElement
 	// check if the element can go in the next run
 
 	else if (*runIndex < GetRunCount() && elementIndex == lastIndexInRun &&
-			 data == GetRunDataRef(*runIndex+1))
+			 data == GetRunData(*runIndex+1))
 		{
 		IncrementRunLength(*runIndex+1, 1);
 
@@ -720,7 +539,13 @@ JRunArray<T>::PrivateSetElement
 
 		// The item now has the run all to itself. Update the value and length.
 
-		SetRunInfo(*runIndex, 1, data);
+		JRunArrayElement<T> run = itsRuns->GetElement(*runIndex);
+
+		this->SetElementCount(this->GetElementCount() - run.length + 1);
+
+		run.length = 1;
+		run.data   = data;
+		itsRuns->SetElement(*runIndex, run);
 
 		*firstIndexInRun = elementIndex;
 		}
@@ -729,105 +554,135 @@ JRunArray<T>::PrivateSetElement
 }
 
 /******************************************************************************
- SetNextElements
+ IteratorRemoveElements (private)
 
  ******************************************************************************/
 
 template <class T>
 void
-JRunArray<T>::SetNextElements
+JRunArray<T>::IteratorRemoveElements
 	(
 	const JIndex	firstIndex,
 	const JSize		count,
-	const T&		data
+	const JIndex	origRunIndex,
+	const JIndex	origFirstIndexInRun
 	)
 {
-	JIndex runIndex, firstIndexInRun;
-	const JBoolean found = FindRun(firstIndex, &runIndex, &firstIndexInRun);
-	assert( found );
+	if (firstIndex == 1 && count == this->GetElementCount())
+		{
+		RemoveAll();
+		}
+	else if (count > 0)
+		{
+		JIndex runIndex        = origRunIndex;
+		JIndex firstIndexInRun = origFirstIndexInRun;
+		PrivateRemoveElements(firstIndex, count, &runIndex, &firstIndexInRun);
 
-	SetNextElements(firstIndex, count, data, &runIndex, &firstIndexInRun);
+		JListT::ElementsRemoved message(firstIndex, count);
+		JList<T>::NotifyIterators(message);
+		JBroadcaster::Broadcast(message);
+		}
 }
+
+/******************************************************************************
+ PrivateRemoveElements (private)
+
+	We need this method so MoveElementToIndex() can remove an element without
+	the ElementsRemoved message being broadcast.
+
+	Assumes *runIndex,*firstIndexInRun refer to the run containing
+	firstIndex and updates them based on what has to be done to the runs.
+
+ ******************************************************************************/
 
 template <class T>
 void
-JRunArray<T>::SetNextElements
+JRunArray<T>::PrivateRemoveElements
 	(
 	const JIndex	firstIndex,
 	const JSize		count,
-	const T&		data,
 	JIndex*			runIndex,
 	JIndex*			firstIndexInRun
 	)
 {
-	RemoveNextElements(firstIndex, count, runIndex, firstIndexInRun);
-	InsertElementsAtIndex(firstIndex, data, count, runIndex, firstIndexInRun);
+	if (firstIndex == 1 && count == this->GetElementCount())
+		{
+		RemoveAll();
+		return;
+		}
+
+	JSize remainder = count;
+	while (remainder > 0 && firstIndex <= this->GetElementCount())
+		{
+		const JSize rightCount =
+			GetRunLength(*runIndex) - (firstIndex - *firstIndexInRun);
+
+		if (*firstIndexInRun == firstIndex && rightCount <= remainder)
+			{
+			RemoveRun(*runIndex, runIndex, firstIndexInRun);
+			remainder -= rightCount;
+			}
+		else if (*firstIndexInRun < firstIndex && rightCount <= remainder)
+			{
+			DecrementRunLength(*runIndex, rightCount);
+			remainder       -= rightCount;
+			*firstIndexInRun = firstIndex;
+			(*runIndex)++;
+			}
+		else	// remainder < rightCount
+			{
+			DecrementRunLength(*runIndex, remainder);
+			break;
+			}
+		}
 }
 
 /******************************************************************************
- MoveElementToIndex
+ RemoveAll (virtual)
 
  ******************************************************************************/
 
 template <class T>
 void
-JRunArray<T>::MoveElementToIndex
-	(
-	const JIndex currentIndex,
-	const JIndex newIndex
-	)
+JRunArray<T>::RemoveAll()
 {
-	assert( JList<T>::IndexValid(currentIndex) );
-	assert( JList<T>::IndexValid(newIndex) );
-
-	if (currentIndex == newIndex)
+	if (!this->IsEmpty())
 		{
-		return;
+		JListT::ElementsRemoved message(1, this->GetElementCount());
+
+		itsRuns->RemoveAll();
+		this->SetElementCount(0);
+
+		JList<T>::NotifyIterators(message);
+		JBroadcaster::Broadcast(message);
 		}
-
-	const T savedElement = GetElement(currentIndex);
-	PrivateRemoveNextElements(currentIndex, 1);
-	PrivateInsertElementsAtIndex(newIndex, savedElement, 1);
-
-	JListT::ElementMoved message(currentIndex, newIndex);
-	JList<T>::NotifyIterators(message);
-	JBroadcaster::Broadcast(message);
 }
 
 /******************************************************************************
- SwapElements
-
-	Sends dependents an arrayElementChanged message for both elements.
+ AllElementsEqual
 
  ******************************************************************************/
 
 template <class T>
-void
-JRunArray<T>::SwapElements
+JBoolean
+JRunArray<T>::AllElementsEqual
 	(
-	const JIndex index1,
-	const JIndex index2
+	T* data
 	)
+	const
 {
-	assert( JList<T>::IndexValid(index1) );
-	assert( JList<T>::IndexValid(index2) );
-
-	if (index1 == index2)
+	if (GetRunCount() == 1)
 		{
-		return;
+		if (data != nullptr)
+			{
+			*data = GetRunData(1);
+			}
+		return kJTrue;
 		}
-
-	const T savedElement = GetElement(index1);
-	if (PrivateSetElement(index1, GetElement(index2)))
+	else
 		{
-		// We only have to do this if the elements are different.
-
-		PrivateSetElement(index2, savedElement);
+		return kJFalse;
 		}
-
-	JListT::ElementsSwapped message(index1, index2);
-	JList<T>::NotifyIterators(message);
-	JBroadcaster::Broadcast(message);
 }
 
 /******************************************************************************
@@ -861,7 +716,7 @@ JRunArray<T>::SumElements
 	for (JIndex i=runIndex; i<=runCount && index <= endIndex; i++)
 		{
 		const JSize runLength = GetRunLength(i);
-		const JInteger v      = value(GetRunDataRef(i));
+		const JInteger v      = value(GetRunData(i));
 
 		const JIndex newIndex = (i == runIndex ? firstIndexInRun : index) + runLength;
 		if (newIndex <= endIndex)
@@ -923,7 +778,7 @@ JRunArray<T>::FindPositiveSum
 	for (JIndex i=runIndex; i<=runCount && *trueSum < requestedSum; i++)
 		{
 		const JSize runLength = GetRunLength(i);
-		const JInteger v      = value(GetRunDataRef(i));
+		const JInteger v      = value(GetRunData(i));
 
 		const JInteger newSum =
 			*trueSum + v * (runLength - (i == runIndex ? startIndex - firstIndexInRun : 0));
@@ -954,371 +809,18 @@ JRunArray<T>::FindPositiveSum
 }
 
 /******************************************************************************
- PrependSlice
+ GetBlockSize
+
+	Get the block size used by the underlying JArray.
 
  ******************************************************************************/
 
 template <class T>
-void
-JRunArray<T>::PrependSlice
-	(
-	const JRunArray<T>&	source,
-	const JIndexRange&	range
-	)
-{
-	InsertSlice(1, source, range.first, range.last);
-}
-
-template <class T>
-void
-JRunArray<T>::PrependSlice
-	(
-	const JRunArray<T>&	source,
-	const JIndex		startIndex,
-	const JIndex		endIndex
-	)
-{
-	InsertSlice(1, source, startIndex, endIndex);
-}
-
-/******************************************************************************
- AppendSlice
-
- ******************************************************************************/
-
-template <class T>
-void
-JRunArray<T>::AppendSlice
-	(
-	const JRunArray<T>&	source,
-	const JIndexRange&	range
-	)
-{
-	InsertSlice(JCollection::GetElementCount()+1, source, range.first, range.last);
-}
-
-template <class T>
-void
-JRunArray<T>::AppendSlice
-	(
-	const JRunArray<T>&	source,
-	const JIndex		startIndex,
-	const JIndex		endIndex
-	)
-{
-	InsertSlice(JCollection::GetElementCount()+1, source, startIndex, endIndex);
-}
-
-/******************************************************************************
- InsertSlice
-
-	Optimized copy of a slice of another JRunArray.
-
- ******************************************************************************/
-
-template <class T>
-void
-JRunArray<T>::InsertSlice
-	(
-	const JIndex		index,
-	const JRunArray<T>&	source,
-	const JIndexRange&	range
-	)
-{
-	InsertSlice(1, source, range.first, range.last);
-}
-
-template <class T>
-void
-JRunArray<T>::InsertSlice
-	(
-	const JIndex		index,
-	const JRunArray<T>&	source,
-	const JIndex		startIndex,
-	const JIndex		endIndex
-	)
-{
-	JIndex startRun, firstIndexInStartRun;
-	if (!source.FindRun(startIndex, &startRun, &firstIndexInStartRun))
-		{
-		return;
-		}
-
-	JIndex endRun = startRun, firstIndexInEndRun = firstIndexInStartRun;
-	if (!source.FindRun(startIndex, endIndex, &endRun, &firstIndexInEndRun))
-		{
-		return;
-		}
-
-	if (startRun == endRun)
-		{
-		InsertElementsAtIndex(index, source.GetRunDataRef(startRun), endIndex - startIndex + 1);
-		return;
-		}
-
-	JIndex runIndex, firstIndexInRun;
-	FindRun(index, &runIndex, &firstIndexInRun);
-
-	const JRunArrayElement<T>* sourceRuns = (source.itsRuns)->GetCArray();
-
-	JSize count = sourceRuns[startRun-1].length - (startIndex - firstIndexInStartRun);
-	JIndex i    = PrivateInsertElementsAtIndex(index, sourceRuns[startRun-1].data, count,
-											   &runIndex, &firstIndexInRun);
-	{
-	JListT::ElementsInserted message(i, count);
-	JList<T>::NotifyIterators(message);
-	JBroadcaster::Broadcast(message);
-	}
-
-	i += count;
-	JIndex lastIndexInRun = firstIndexInRun + GetRunLength(runIndex) - 1;
-	if (i > lastIndexInRun)
-		{
-		runIndex++;
-		firstIndexInRun = lastIndexInRun + 1;
-		}
-
-	JBoolean needSplit = JI2B(i != firstIndexInRun);
-
-	for (JIndex j=startRun+1; j<endRun; j++)
-		{
-		count = sourceRuns[j-1].length;
-
-		if (needSplit)
-			{
-			PrivateInsertElementsAtIndex(i, sourceRuns[j-1].data, count,
-										 &runIndex, &firstIndexInRun);
-			needSplit = kJFalse;
-			}
-		else
-			{
-			InsertRun(runIndex, count, sourceRuns[j-1].data);
-			}
-
-		JListT::ElementsInserted message(i, count);
-		JList<T>::NotifyIterators(message);
-		JBroadcaster::Broadcast(message);
-
-		i += count;
-		runIndex++;
-		firstIndexInRun = i;
-		}
-
-	count = endIndex - firstIndexInEndRun + 1;
-	PrivateInsertElementsAtIndex(i, sourceRuns[endRun-1].data, count,
-								 &runIndex, &firstIndexInRun);
-	{
-	JListT::ElementsInserted message(i, count);
-	JList<T>::NotifyIterators(message);
-	JBroadcaster::Broadcast(message);
-	}
-}
-
-/******************************************************************************
- Sort (virtual)
-
-	We sort the runs and then merge them afterwards.
-	Broadcasts JListT::Sorted.
-
- ******************************************************************************/
-
-template <class T>
-void
-JRunArray<T>::Sort()
-{
-	assert( itsCurrentCompareObj == nullptr );
-
-	const JBoolean ok = JRunArray<T>::GetCompareObject(&itsCurrentCompareObj);
-	assert( ok );
-
-	itsRuns->SetCompareFunction(CompareRuns);
-	itsRuns->SetSortOrder(JList<T>::GetSortOrder());
-
-	itsRuns->Sort();
-
-	itsCurrentCompareObj = nullptr;
-	itsRuns->SetCompareFunction(nullptr);
-
-	MergeAdjacentRuns();
-
-	JListT::Sorted message;
-	JList<T>::NotifyIterators(message);
-	JBroadcaster::Broadcast(message);
-}
-
-/******************************************************************************
- SearchSorted1 (virtual)
-
-	We search by run.
-
- ******************************************************************************/
-
-template <class T>
-JIndex
-JRunArray<T>::SearchSorted1
-	(
-	const T&							origTarget,
-	const JListT::SearchReturn	which,
-	JBoolean*							found
-	)
+JSize
+JRunArray<T>::GetBlockSize()
 	const
 {
-	assert( itsCurrentCompareObj == nullptr );
-
-	const JBoolean ok = JRunArray<T>::GetCompareObject(&itsCurrentCompareObj);
-	assert( ok );
-
-	itsRuns->SetCompareFunction(CompareRuns);
-	itsRuns->SetSortOrder(JList<T>::GetSortOrder());
-
-	JRunArrayElement<T> target(1, origTarget);
-	const JIndex runIndex = itsRuns->SearchSorted1(target, which, found);
-
-	itsCurrentCompareObj = nullptr;
-	itsRuns->SetCompareFunction(nullptr);
-
-	const JRunArrayElement<T>* runData = itsRuns->GetCArray();
-
-	JIndex elementIndex = 1;
-	for (JIndex i=1; i<runIndex; i++)
-		{
-		elementIndex += runData[i-1].length;
-		}
-	if (*found && which == JListT::kLastMatch)
-		{
-		elementIndex += runData[runIndex-1].length - 1;
-		}
-	return elementIndex;
-}
-
-/******************************************************************************
- CompareRuns (static private)
-
-	This function translates comparisons of JRunArrayElement<T>
-	into comparisons of T.
-
- ******************************************************************************/
-
-template <class T>
-JListT::CompareResult
-JRunArray<T>::CompareRuns
-	(
-	const JRunArrayElement<T>& r1,
-	const JRunArrayElement<T>& r2
-	)
-{
-	return itsCurrentCompareObj->Compare(r1.data, r2.data);
-}
-
-/******************************************************************************
- QuickSort
-
-	We sort the runs and then merge them afterwards.
-
-	Uses qsort() and broadcasts JListT::Sorted afterwards.
-
-	Since qsort() wants the sort order to be encoded in the comparison
-	function, and since the comparison function prototype is different,
-	we do -not- use the sorting information from JList.
-
-	The compare function should compare the data, not JRunArrayElements.
-
- ******************************************************************************/
-
-template <class T>
-void
-JRunArray<T>::QuickSort
-	(
-	int (*compare)(const void*, const void*)
-	)
-{
-	assert( theCurrentQuickSortCompareFn == nullptr );
-
-	theCurrentQuickSortCompareFn = compare;
-	itsRuns->QuickSort(QuickSortCompareRuns);
-	theCurrentQuickSortCompareFn = nullptr;
-
-	MergeAdjacentRuns();
-
-	JListT::Sorted message;
-	JList<T>::NotifyIterators(message);
-	JBroadcaster::Broadcast(message);
-}
-
-/******************************************************************************
- QuickSortCompareRuns (static private)
-
-	This function translates comparisons of JRunArrayElement<T>
-	into comparisons of T.
-
- ******************************************************************************/
-
-template <class T>
-int
-JRunArray<T>::QuickSortCompareRuns
-	(
-	const void* p1,
-	const void* p2
-	)
-{
-	const JRunArrayElement<T>* r1 = static_cast<const JRunArrayElement<T>*>(p1);
-	const JRunArrayElement<T>* r2 = static_cast<const JRunArrayElement<T>*>(p2);
-	return theCurrentQuickSortCompareFn(&(r1->data), &(r2->data));
-}
-
-/******************************************************************************
- MergeAdjacentRuns (private)
-
-	Called after sorting the runs.
-
- ******************************************************************************/
-
-template <class T>
-void
-JRunArray<T>::MergeAdjacentRuns()
-{
-	JSize runCount = GetRunCount();
-	for (JIndex i=1; i<runCount; i++)
-		{
-		if (GetRunDataRef(i) == GetRunDataRef(i+1))
-			{
-			IncrementRunLength(i, GetRunLength(i+1));
-			RemoveRun(i+1);
-			runCount = GetRunCount();
-			}
-		}
-}
-
-/******************************************************************************
- NewIterator
-
- ******************************************************************************/
-
-template <class T>
-JListIterator<T>*
-JRunArray<T>::NewIterator
-	(
-	const JIteratorPosition	start,
-	const JIndex			index
-	)
-{
-	JRunArrayIterator<T>* iter = jnew JRunArrayIterator<T>(this, start, index);
-	assert( iter != nullptr );
-	return iter;
-}
-
-template <class T>
-JListIterator<T>*
-JRunArray<T>::NewIterator
-	(
-	const JIteratorPosition	start,
-	const JIndex			index
-	)
-	const
-{
-	JRunArrayIterator<T>* iter = jnew JRunArrayIterator<T>(*this, start, index);
-	assert( iter != nullptr );
-	return iter;
+	return itsRuns->GetBlockSize();
 }
 
 /******************************************************************************
@@ -1339,7 +841,7 @@ JRunArray<T>::SetBlockSize
 }
 
 /******************************************************************************
- GetRunCount
+ GetRunCount (private)
 
  ******************************************************************************/
 
@@ -1352,7 +854,7 @@ JRunArray<T>::GetRunCount()
 }
 
 /******************************************************************************
- FindRun
+ FindRun (private)
 
 	Return the index of the run containing the element with the specified index.
 	firstIndexInRun is updated with the index of the first element in the run.
@@ -1377,23 +879,23 @@ JRunArray<T>::FindRun
 	)
 	const
 {
-	const JSize count = this->JCollection::GetElementCount();
+	const JSize count = this->GetElementCount();
 	if (elementIndex <= 1 + count/2)	// automatically catches count==0
 		{
 		*runIndex        = 1;
 		*firstIndexInRun = 1;
-		return FindRun(1, elementIndex, runIndex, firstIndexInRun);
+		return IncrementalFindRun(1, elementIndex, runIndex, firstIndexInRun);
 		}
 	else
 		{
 		*runIndex         = GetRunCount();
 		*firstIndexInRun  = count - GetRunLength(*runIndex) + 1;
-		return FindRun(count, elementIndex, runIndex, firstIndexInRun);
+		return IncrementalFindRun(count, elementIndex, runIndex, firstIndexInRun);
 		}
 }
 
 /******************************************************************************
- FindRun
+ IncrementalFindRun (private)
 
 	Assuming that *runIndex,*firstIndexInRun correspond to origIndex,
 	modify them to correspond to newIndex.
@@ -1404,7 +906,7 @@ JRunArray<T>::FindRun
 
 template <class T>
 JBoolean
-JRunArray<T>::FindRun
+JRunArray<T>::IncrementalFindRun
 	(
 	const JIndex	origIndex,
 	const JIndex	newIndex,
@@ -1419,14 +921,18 @@ JRunArray<T>::FindRun
 		{
 		return kJFalse;
 		}
+	else if (origIndex == newIndex)
+		{
+		return kJTrue;
+		}
 
 	assert( *firstIndexInRun <= origIndex );
 
+	JBoolean found = kJFalse;
 	if (newIndex < origIndex)
 		{
 		const JRunArrayElement<T>* r = itsRuns->GetCArray() + *runIndex-1;
 
-		JBoolean found = kJFalse;
 		for (JIndex i=*runIndex; i>=1; i--)
 			{
 			if (*firstIndexInRun <= newIndex)
@@ -1441,14 +947,12 @@ JRunArray<T>::FindRun
 				*firstIndexInRun -= r->length;
 				}
 			}
-		return found;
 		}
 	else if (origIndex < newIndex)
 		{
 		const JRunArrayElement<T>* r = itsRuns->GetCArray() + *runIndex-1;
 		JIndex lastIndexInRun        = *firstIndexInRun - 1;
 
-		JBoolean found       = kJFalse;
 		const JSize runCount = itsRuns->GetElementCount();
 		for (JIndex i=*runIndex; i<=runCount; i++, r++)
 			{
@@ -1461,12 +965,9 @@ JRunArray<T>::FindRun
 				break;
 				}
 			}
-		return found;
 		}
-	else	// origIndex == newIndex
-		{
-		return kJTrue;
-		}
+
+	return found;
 }
 
 /******************************************************************************
@@ -1486,7 +987,7 @@ JRunArray<T>::InsertRun
 	JRunArrayElement<T> run(newRunLength, data);
 	itsRuns->InsertElementAtIndex(runIndex, run);
 
-	JCollection::SetElementCount(JCollection::GetElementCount() + newRunLength);
+	this->SetElementCount(this->GetElementCount() + newRunLength);
 }
 
 /******************************************************************************
@@ -1512,14 +1013,14 @@ JRunArray<T>::RemoveRun
 {
 	assert( newRunIndex == nullptr || (*newRunIndex == runIndex && newFirstInRun != nullptr) );
 
-	JCollection::SetElementCount(JCollection::GetElementCount() - GetRunLength(runIndex));
+	this->SetElementCount(this->GetElementCount() - GetRunLength(runIndex));
 	itsRuns->RemoveElement(runIndex);
 
 	// If the specified run was between two runs with the same value,
 	// then we can merge them.
 
 	if (1 < runIndex && runIndex <= GetRunCount() &&
-		GetRunDataRef(runIndex-1) == GetRunDataRef(runIndex))
+		GetRunData(runIndex-1) == GetRunData(runIndex))
 		{
 		if (newRunIndex != nullptr)
 			{
@@ -1530,13 +1031,13 @@ JRunArray<T>::RemoveRun
 		const JSize runLength = GetRunLength(runIndex);
 		IncrementRunLength(runIndex-1, runLength);
 
-		JCollection::SetElementCount(JCollection::GetElementCount() - runLength);
+		this->SetElementCount(this->GetElementCount() - runLength);
 		itsRuns->RemoveElement(runIndex);
 		}
 }
 
 /******************************************************************************
- GetRunLength
+ GetRunLength (private)
 
  ******************************************************************************/
 
@@ -1570,7 +1071,7 @@ JRunArray<T>::SetRunLength
 {
 	JRunArrayElement<T> run = itsRuns->GetElement(runIndex);
 
-	JCollection::SetElementCount(JCollection::GetElementCount() - run.length + newLength);
+	this->SetElementCount(this->GetElementCount() - run.length + newLength);
 
 	run.length = newLength;
 	itsRuns->SetElement(runIndex, run);
@@ -1613,24 +1114,13 @@ JRunArray<T>::DecrementRunLength
 }
 
 /******************************************************************************
- GetRunData
+ GetRunData (private)
 
  ******************************************************************************/
 
 template <class T>
-T
-JRunArray<T>::GetRunData
-	(
-	const JIndex runIndex
-	)
-	const
-{
-	return GetRunDataRef(runIndex);
-}
-
-template <class T>
 const T&
-JRunArray<T>::GetRunDataRef
+JRunArray<T>::GetRunData
 	(
 	const JIndex runIndex
 	)
@@ -1642,9 +1132,7 @@ JRunArray<T>::GetRunDataRef
 }
 
 /******************************************************************************
- SetRunData
-
-	*** This function does not broadcast ElementChanged.
+ SetRunData (private)
 
  ******************************************************************************/
 
@@ -1662,28 +1150,35 @@ JRunArray<T>::SetRunData
 }
 
 /******************************************************************************
- SetRunInfo (private)
-
-	Set the length and data of the specified run, and keep elementCount up to date.
+ NewIterator
 
  ******************************************************************************/
 
 template <class T>
-void
-JRunArray<T>::SetRunInfo
+JListIterator<T>*
+JRunArray<T>::NewIterator
 	(
-	const JIndex	runIndex,
-	const JSize		newLength,
-	const T&		data
+	const JIteratorPosition	start,
+	const JIndex			index
 	)
 {
-	JRunArrayElement<T> run = itsRuns->GetElement(runIndex);
+	JRunArrayIterator<T>* iter = jnew JRunArrayIterator<T>(this, start, index);
+	assert( iter != nullptr );
+	return iter;
+}
 
-	JCollection::SetElementCount(JCollection::GetElementCount() - run.length + newLength);
-
-	run.length = newLength;
-	run.data   = data;
-	itsRuns->SetElement(runIndex, run);
+template <class T>
+JListIterator<T>*
+JRunArray<T>::NewIterator
+	(
+	const JIteratorPosition	start,
+	const JIndex			index
+	)
+	const
+{
+	JRunArrayIterator<T>* iter = jnew JRunArrayIterator<T>(*this, start, index);
+	assert( iter != nullptr );
+	return iter;
 }
 
 /******************************************************************************
@@ -1692,7 +1187,7 @@ JRunArray<T>::SetRunInfo
  ******************************************************************************/
 
 template <class T>
-JListIterator<T>
+JRunArrayIterator<T>
 begin
 	(
 	const JRunArray<T>& a
@@ -1702,7 +1197,7 @@ begin
 }
 
 template <class T>
-JListIterator<T>
+JRunArrayIterator<T>
 end
 	(
 	const JRunArray<T>& a

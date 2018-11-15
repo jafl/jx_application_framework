@@ -3,7 +3,7 @@
 
 	Interface for JRunArrayIterator class template
 
-	Copyright (C) 1994 by John Lindal.
+	Copyright (C) 1994-2018 by John Lindal.
 
  ******************************************************************************/
 
@@ -31,25 +31,40 @@ public:
 
 	virtual ~JRunArrayIterator();
 
-	virtual JBoolean	Prev(T* item);
-	virtual JBoolean	Next(T* item);
+	virtual JBoolean	Prev(T* item) override;
+	virtual JBoolean	Next(T* item) override;
 
-	virtual void		SkipPrev(const JSize count = 1);
-	virtual void		SkipNext(const JSize count = 1);
+	virtual void		SkipPrev(const JSize count = 1) override;
+	virtual void		SkipNext(const JSize count = 1) override;
 
-	virtual void		MoveTo(const JIteratorPosition newPosition, const JIndex index);
+	virtual void		MoveTo(const JIteratorPosition newPosition, const JIndex index) override;
 
 	// only allowed if constructed from non-const JList<T>*
 
-	virtual JBoolean	SetPrev(const T& data);
-	virtual JBoolean	SetNext(const T& data);
+	virtual JBoolean	SetPrev(const T& data) override;
+	virtual JBoolean	SetNext(const T& data) override;
 
-	virtual JBoolean	RemovePrev();
-	virtual JBoolean	RemoveNext();
+	JBoolean			SetPrev(const T& data, const JSize count);
+	JBoolean			SetNext(const T& data, const JSize count);
+
+	virtual JBoolean	RemovePrev(const JSize count = 1) override;
+	virtual JBoolean	RemoveNext(const JSize count = 1) override;
+
+	virtual JBoolean	Insert(const T& data) override;
+	JBoolean			Insert(const T& data, const JSize count);
+	JBoolean			InsertSlice(const JRunArray<T>& source, const JIndexRange& range);
+
+	JBoolean	PrevRun();
+	JBoolean	NextRun();
+
+	JIndex		GetRunStart() const;
+	JIndex		GetRunEnd() const;
+	JSize		GetRunLength() const;
+	T			GetRunData() const;
 
 protected:
 
-	virtual void	ListChanged(const JBroadcaster::Message& message);
+	virtual void	ListChanged(const JBroadcaster::Message& message) override;
 
 private:
 

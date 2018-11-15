@@ -845,7 +845,10 @@ JStyledText::GetFont
 	)
 	const
 {
-	return itsStyles->GetElement(charIndex);
+	JRunArrayIterator<JFont> iter(*itsStyles, kJIteratorStartBefore, charIndex);
+	JFont f;
+	iter.Next(&f);
+	return f;
 }
 
 inline void

@@ -208,14 +208,16 @@ JNetworkProtocolBase<ACE_PEER_STREAM_2>::handle_output
 		if (count > 0)
 			{
 			c.sendOffset += count;
+
+			JLinkedListIterator<Chunk> iter(itsSendData);
 			if (c.sendOffset >= c.count)
 				{
 				c.CleanOut();
-				itsSendData.RemoveElement(1);
+				iter.RemoveNext();
 				}
 			else
 				{
-				itsSendData.SetElement(1, c);
+				iter.SetNext(c);
 				}
 			}
 		else

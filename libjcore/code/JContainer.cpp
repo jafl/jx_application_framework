@@ -5,7 +5,7 @@
 
 	Class for a collection of objects stored in a JList.
 
-	By calling InstallList in the constructors and copy constructors,
+	By calling InstallCollection in the constructors and copy constructors,
 	derived classes need not worry about keeping JCollection::itsElementCount
 	up to date.  This class does it automatically by listening to Broadcast
 	from the specified JList.
@@ -36,7 +36,7 @@ JContainer::JContainer()
 	JCollection()
 {
 	// We get called before the JList gets created.
-	// Derived classes must therefore call InstallList
+	// Derived classes must therefore call InstallCollection
 
 	itsList = nullptr;
 }
@@ -54,7 +54,7 @@ JContainer::JContainer
 	JCollection(source)
 {
 	// We get called before the JList gets created.
-	// Derived classes must therefore call InstallList()
+	// Derived classes must therefore call InstallCollection()
 
 	itsList = nullptr;
 }
@@ -77,7 +77,7 @@ JContainer::operator=
 
 	// Usually, the pointer to the JList won't change, so we maintain the
 	// element count.  If the pointer does change, the derived class must call
-	// InstallList() again.
+	// InstallCollection() again.
 
 	const JSize origCount = GetElementCount();
 	JCollection::operator=(source);
@@ -87,12 +87,12 @@ JContainer::operator=
 }
 
 /******************************************************************************
- InstallList
+ InstallCollection
 
  ******************************************************************************/
 
 void
-JContainer::InstallList
+JContainer::InstallCollection
 	(
 	JCollection* list
 	)

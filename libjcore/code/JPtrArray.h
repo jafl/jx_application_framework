@@ -11,6 +11,7 @@
 #define _H_JPtrArray
 
 #include "JArray.h"
+#include "JArrayIterator.h"
 
 struct JPtrArrayT
 {
@@ -126,7 +127,7 @@ private:
 // it needs SetElementAction.
 
 template <class T>
-class JPtrArrayIterator : public JListIterator<T*>
+class JPtrArrayIterator : public JArrayIterator<T*>
 {
 public:
 

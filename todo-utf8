@@ -1,6 +1,16 @@
+JStyledText
+	undo outdent doesn't work correctly when
+		outdent, press return to move to next line, (repeat)
+
+unit test
+	JPackedTableData
+	JTable
+
 JString::EndsWidth
 	can't just back up N bytes - may not be byte aligned
 	must be byte aligned so diacriticals can be correctly processed
+
+always invalidate JStringIterator if part of a larger function
 
 
 render as many characters as possible via fallback fonts
@@ -11,7 +21,9 @@ render as many characters as possible via fallback fonts
 		JXWindowPainter:
 			draw string in chunks
 
-	test with plot labels, testjx file list, file chooser, systemg
+	menu: remove custom font for menu shortcuts
+
+	test with plot labels, testjx file list, file chooser, systemg, menu shortcuts
 
 
 glove
@@ -31,9 +43,6 @@ JTextEditor:
 	don't change insertion font when glyphs are rendered with different font
 		use isExact to tell which glyphs are substitutions?
 
-JXFontManager
-	some characters extend above line height
-
 jcc
 	menu of supported formats in "open text file" dialog
 	sub-menu of supported formats on File menu, just like "file formats"
@@ -46,6 +55,36 @@ jx_project_wizard
 
 -----
 
+test every usage of JRunArrayIterator and JLinkedListIterator
+	libjcore
+		JStyledText
+		JTextEditor
+		JSTStyler
+		JSTUndoBase::SetFont
+		?
+	libjx
+		JXStringList
+		JXStyledText
+		JXTextMenuData
+	webgif
+	compile_jstrings
+	makemake
+	jxlayout
+	jx_memory_debugger
+	jx_project_wizard
+	ssh_askpass
+	code_mill
+	drakon
+	leibnitz
+	svn_client
+	systemg
+	glove
+	jcc
+	medic
+
+JXFontManager
+	some characters extend above line height
+
 test
 	JVersionSocket - wait for version notice
 	man pages
@@ -53,13 +92,15 @@ test
 	code_medic on ubuntu with lldb-6.0
 	jcc CBExecOutputDocument: test usage of JUtf8ByteBuffer inside JAsynchDataReceiver
 
-test every function that uses JStringIterator or Split
+test every function that uses JStringIterator, Split
 	jcc
 		?
 	medic
 		?
 	glove
-		?
+		FitModule
+		GVarList
+		GlovePlotter
 
 test JStringIterator usage:
 	JTranslateLocalToRemote

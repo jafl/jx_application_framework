@@ -35,7 +35,7 @@ JXCheckboxGroup::JXCheckboxGroup()
 	itsCBList = jnew JPtrArray<JXCheckbox>(JPtrArrayT::kForgetAll);
 	assert( itsCBList != nullptr );
 
-	InstallList(itsCBList);
+	InstallCollection(itsCBList);
 }
 
 JXCheckboxGroup::JXCheckboxGroup
@@ -48,7 +48,7 @@ JXCheckboxGroup::JXCheckboxGroup
 	itsCBList = jnew JPtrArray<JXCheckbox>(cbList, JPtrArrayT::kForgetAll);
 	assert( itsCBList != nullptr );
 
-	InstallList(itsCBList);
+	InstallCollection(itsCBList);
 }
 
 /******************************************************************************

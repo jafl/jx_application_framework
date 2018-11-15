@@ -7,9 +7,9 @@
 	Efficient interation for JLinkedList objects.
 
 	To do:
-		Optimize ListChanged() so it doesn't always call FindElement().
+		Optimize ListChanged() so it doesn't always call IteratorFindElement().
 
-	Copyright (C) 1996-97 by John Lindal.
+	Copyright (C) 1996-2018 by John Lindal.
 
  ******************************************************************************/
 
@@ -84,24 +84,6 @@ JLinkedListIterator<T>::~JLinkedListIterator()
 }
 
 /******************************************************************************
- Assignment operator (private)
-
-	operator= is private because it is not allowed
-
- ******************************************************************************/
-
-template <class T>
-const JLinkedListIterator<T>&
-JLinkedListIterator<T>::operator=
-	(
-	const JLinkedListIterator<T>& source
-	)
-{
-	assert( 0 );
-	return *this;
-}
-
-/******************************************************************************
  Prev (virtual)
 
 	Return kJTrue if there is a previous item, fetching the previous
@@ -117,20 +99,20 @@ JLinkedListIterator<T>::Prev
 	T* item
 	)
 {
-	const JCursorPosition cursorPos = JListIterator<T>::GetCursor();
-	if (itsLinkedList == nullptr || cursorPos == 0)
+	if (itsLinkedList == nullptr || this->AtBeginning())
 		{
 		return kJFalse;
 		}
 
 	*item = itsCurrElement->data;
 
+	const JCursorPosition cursorPos = this->GetCursor();
 	if (cursorPos > 1)
 		{
-		itsCurrElement = itsCurrElement->prevElement;
+		itsCurrElement = itsCurrElement->prev;
 		}
 
-	JListIterator<T>::SetCursor(cursorPos-1);
+	this->SetCursor(cursorPos-1);
 	return kJTrue;
 }
 
@@ -150,19 +132,19 @@ JLinkedListIterator<T>::Next
 	T* item
 	)
 {
-	const JCursorPosition cursorPos = JListIterator<T>::GetCursor();
-	if (itsLinkedList == nullptr || cursorPos >= itsLinkedList->GetElementCount())
+	if (itsLinkedList == nullptr || this->AtEnd())
 		{
 		return kJFalse;
 		}
 
+	const JCursorPosition cursorPos = this->GetCursor();
 	if (cursorPos > 0)
 		{
-		itsCurrElement = itsCurrElement->nextElement;
+		itsCurrElement = itsCurrElement->next;
 		}
 
 	*item = itsCurrElement->data;
-	JListIterator<T>::SetCursor(cursorPos+1);
+	this->SetCursor(cursorPos+1);
 	return kJTrue;
 }
 
@@ -178,21 +160,22 @@ JLinkedListIterator<T>::SkipPrev
 	const JSize count
 	)
 {
-	JCursorPosition cursorPos = JListIterator<T>::GetCursor();
 	if (itsLinkedList != nullptr)
 		{
+		JCursorPosition cursorPos = this->GetCursor();
+
 		JSize remaining = count;
 		while (remaining > 0 && cursorPos > 0)
 			{
 			if (cursorPos > 1)
 				{
-				itsCurrElement = itsCurrElement->prevElement;
+				itsCurrElement = itsCurrElement->prev;
 				}
 			cursorPos--;
 			remaining--;
 			}
 
-		JListIterator<T>::SetCursor(cursorPos);
+		this->SetCursor(cursorPos);
 		}
 }
 
@@ -208,23 +191,23 @@ JLinkedListIterator<T>::SkipNext
 	const JSize count
 	)
 {
-	JCursorPosition cursorPos = JListIterator<T>::GetCursor();
 	if (itsLinkedList != nullptr)
 		{
-		const JSize maxPos = itsLinkedList->GetElementCount();
+		JCursorPosition cursorPos = this->GetCursor();
+		const JSize maxPos        = itsLinkedList->GetElementCount();
 
 		JSize remaining = count;
 		while (remaining > 0 && cursorPos < maxPos)
 			{
 			if (cursorPos > 0)
 				{
-				itsCurrElement = itsCurrElement->nextElement;
+				itsCurrElement = itsCurrElement->next;
 				}
 			cursorPos++;
 			remaining--;
 			}
 
-		JListIterator<T>::SetCursor(cursorPos);
+		this->SetCursor(cursorPos);
 		}
 }
 
@@ -244,12 +227,12 @@ JLinkedListIterator<T>::SetPrev
 	)
 {
 	JList<T>* obj;
-	if (!JLinkedListIterator<T>::GetList(&obj) || JListIterator<T>::AtBeginning())
+	if (!this->GetList(&obj) || this->AtBeginning())
 		{
 		return kJFalse;
 		}
 
-	itsLinkedList->IteratorSetElement(JListIterator<T>::GetCursor(), data, itsCurrElement);
+	itsLinkedList->IteratorSetElement(this->GetCursor(), data, itsCurrElement);
 	return kJTrue;
 }
 
@@ -269,14 +252,14 @@ JLinkedListIterator<T>::SetNext
 	)
 {
 	JList<T>* obj;
-	if (!JLinkedListIterator<T>::GetList(&obj) || JListIterator<T>::AtEnd())
+	if (!this->GetList(&obj) || this->AtEnd())
 		{
 		return kJFalse;
 		}
 
-	assert( itsCurrElement->nextElement != nullptr );
+	assert( itsCurrElement->next != nullptr );
 
-	itsLinkedList->IteratorSetElement(JListIterator<T>::GetCursor()+1, data, itsCurrElement->nextElement);
+	itsLinkedList->IteratorSetElement(this->GetCursor()+1, data, itsCurrElement->next);
 	return kJTrue;
 }
 
@@ -284,21 +267,24 @@ JLinkedListIterator<T>::SetNext
  RemovePrev (virtual)
 
 	Returns kJTrue if we have a non-const JLinkedList<T>* and
-	there is a previous item.
+	there is at least one previous item.
 
  ******************************************************************************/
 
 template <class T>
 JBoolean
-JLinkedListIterator<T>::RemovePrev()
+JLinkedListIterator<T>::RemovePrev
+	(
+	const JSize count
+	)
 {
 	JList<T>* obj;
-	if (!JLinkedListIterator<T>::GetList(&obj) || JListIterator<T>::AtBeginning())
+	if (!this->GetList(&obj) || this->AtBeginning())
 		{
 		return kJFalse;
 		}
 
-	itsLinkedList->IteratorRemoveNextElements(JListIterator<T>::GetCursor(), 1, itsCurrElement);
+	itsLinkedList->IteratorRemovePrevElements(this->GetCursor(), count, itsCurrElement);
 	return kJTrue;
 }
 
@@ -306,22 +292,58 @@ JLinkedListIterator<T>::RemovePrev()
  RemoveNext (virtual)
 
 	Returns kJTrue if we have a non-const JLinkedList<T>* and
-	there is a next item.
+	there is at least one next item.
 
  ******************************************************************************/
 
 template <class T>
 JBoolean
-JLinkedListIterator<T>::RemoveNext()
+JLinkedListIterator<T>::RemoveNext
+	(
+	const JSize count
+	)
 {
 	JList<T>* obj;
-	if (!JLinkedListIterator<T>::GetList(&obj) || JListIterator<T>::AtEnd())
+	if (!this->GetList(&obj) || this->AtEnd())
 		{
 		return kJFalse;
 		}
 
-	itsLinkedList->IteratorRemoveNextElements(JListIterator<T>::GetCursor()+1, 1,
-											  itsCurrElement->nextElement);
+	assert( itsCurrElement->next != nullptr );
+
+	itsLinkedList->IteratorRemoveNextElements(this->GetCursor()+1, count,
+											  itsCurrElement->next);
+	return kJTrue;
+}
+
+/******************************************************************************
+ Insert (virtual)
+
+	Returns kJTrue if we have a non-const JLinkedList<T>*.
+
+ ******************************************************************************/
+
+template <class T>
+JBoolean
+JLinkedListIterator<T>::Insert
+	(
+	const T& data
+	)
+{
+	JList<T>* obj;
+	if (!this->GetList(&obj))
+		{
+		return kJFalse;
+		}
+
+	if (this->AtBeginning())
+		{
+		itsLinkedList->PrependElement(data);
+		}
+	else
+		{
+		itsLinkedList->IteratorInsertElementAfter(this->GetCursor(), data, itsCurrElement);
+		}
 	return kJTrue;
 }
 
@@ -342,25 +364,27 @@ JLinkedListIterator<T>::MoveTo
 	const JIndex			index
 	)
 {
+	const JCursorPosition origPosition = this->GetCursor();
+
 	JListIterator<T>::MoveTo(newPosition, index);
 
-	if (itsLinkedList == nullptr)
+	const JCursorPosition cursorPosition = this->GetCursor();
+	if (itsLinkedList == nullptr || cursorPosition == origPosition)
 		{
 		return;
 		}
 
-	if (newPosition == kJIteratorStartAtBeginning ||
-		(newPosition == kJIteratorStartBefore && index == 1))
+	if (this->AtBeginning())
 		{
 		itsCurrElement = itsLinkedList->itsFirstElement;
 		}
-	else if (newPosition == kJIteratorStartAtEnd)
+	else if (this->AtEnd())
 		{
 		itsCurrElement = itsLinkedList->itsLastElement;
 		}
 	else
 		{
-		itsCurrElement = itsLinkedList->FindElement(JListIterator<T>::GetCursor());
+		itsCurrElement = itsLinkedList->IteratorFindElement(cursorPosition);
 		}
 }
 
@@ -368,7 +392,7 @@ JLinkedListIterator<T>::MoveTo
  ListChanged (virtual protected)
 
 	Respond to changes in itsLinkedList.  In order to optimize, we would have
-	to check if prevElement or nextElement was invalid.
+	to check if prev or next was invalid.
 
  ******************************************************************************/
 
@@ -385,14 +409,14 @@ JLinkedListIterator<T>::ListChanged
 		message.Is(JListT::kElementsRemoved) ||
 		message.Is(JListT::kCopied))
 		{
-		const JCursorPosition cursorPos = JListIterator<T>::GetCursor();
+		const JCursorPosition cursorPos = this->GetCursor();
 		if (cursorPos == 0)
 			{
 			itsCurrElement = itsLinkedList->itsFirstElement;
 			}
 		else
 			{
-			itsCurrElement = itsLinkedList->FindElement(cursorPos);
+			itsCurrElement = itsLinkedList->IteratorFindElement(cursorPos);
 			}
 		}
 	else if (message.Is(JListT::kGoingAway))

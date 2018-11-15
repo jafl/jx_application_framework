@@ -1,0 +1,297 @@
+#ifndef _T_JArrayIterator
+#define _T_JArrayIterator
+
+/******************************************************************************
+ JArrayIterator.tmpl
+
+	Efficient interation for JArray objects.
+
+	Refer to JListIterator.tmpl for information about interators in general.
+
+	Copyright (C) 1994-2018 by John Lindal.
+
+ ******************************************************************************/
+
+#include "JArrayIterator.h"
+#include "JArray.h"
+#include "jAssert.h"
+
+/******************************************************************************
+ Constructor
+
+ ******************************************************************************/
+
+template <class T>
+JArrayIterator<T>::JArrayIterator
+	(
+	const JArray<T>&		theArray,
+	const JIteratorPosition	start,
+	const JIndex			index
+	)
+	:
+	JListIterator<T>(theArray, start, index)
+{
+	itsArray = const_cast<JArray<T>*>(theArray);
+}
+
+template <class T>
+JArrayIterator<T>::JArrayIterator
+	(
+	JArray<T>*				theArray,
+	const JIteratorPosition	start,
+	const JIndex			index
+	)
+	JListIterator<T>(theArray, start, index)
+{
+	itsArray = theArray;
+}
+
+/******************************************************************************
+ Destructor
+
+ ******************************************************************************/
+
+template <class T>
+JArrayIterator<T>::~JArrayIterator()
+{
+}
+
+/******************************************************************************
+ Prev (virtual)
+
+	Returns kJTrue if there is a previous item, fetching the previous
+	item in the list and decrementing the iterator position.
+	Otherwise returns kJFalse without fetching or decrementing.
+
+ ******************************************************************************/
+
+template <class T>
+JBoolean
+JArrayIterator<T>::Prev
+	(
+	T* data
+	)
+{
+	if (AtBeginning())
+		{
+		return kJFalse;
+		}
+
+	const JCursorPosition cursorPos = this->GetCursor();
+
+	*data = itsArray->GetElement(cursorPos);
+
+	this->SetCursor(cursorPos-1);
+	return kJTrue;
+}
+
+/******************************************************************************
+ Next (virtual)
+
+	Returns kJTrue if there is a next item, fetching the next
+	item in the list and incrementing the iterator position.
+	Otherwise returns kJFalse without fetching or incrementing.
+
+ ******************************************************************************/
+
+template <class T>
+JBoolean
+JArrayIterator<T>::Next
+	(
+	T* data
+	)
+{
+	if (AtEnd())
+		{
+		return kJFalse;
+		}
+
+	const JCursorPosition cursorPos = this->GetCursor() + 1;
+
+	*data = itsArray->GetElement(cursorPos);
+
+	this->SetCursor(cursorPos);
+	return kJTrue;
+}
+
+/******************************************************************************
+ SkipPrev (virtual)
+
+ ******************************************************************************/
+
+template <class T>
+void
+JArrayIterator<T>::SkipPrev
+	(
+	const JSize count
+	)
+{
+	const JCursorPosition cursorPos = this->GetCursor();
+	this->SetCursor(count < cursorPos ? cursorPos - count : 0);
+}
+
+/******************************************************************************
+ SkipNext (virtual)
+
+ ******************************************************************************/
+
+template <class T>
+void
+JArrayIterator<T>::SkipNext
+	(
+	const JSize count
+	)
+{
+	const JCursorPosition cursorPos = this->GetCursor();
+	this->SetCursor(JMin(itsArray->GetElementCount(), cursorPos + count));
+}
+
+/******************************************************************************
+ SetPrev (virtual)
+
+	Returns kJTrue if we have a non-const JArray<T>* and
+	there is a previous item.
+
+ ******************************************************************************/
+
+template <class T>
+JBoolean
+JArrayIterator<T>::SetPrev
+	(
+	const T& data
+	)
+{
+	JList<T>* obj;
+	if (!this->GetList(&obj) || this->AtBeginning())
+		{
+		return kJFalse;
+		}
+
+	itsArray->SetElement(this->GetCursor(), data);
+	return kJTrue;
+}
+
+/******************************************************************************
+ SetNext (virtual)
+
+	Returns kJTrue if we have a non-const JArray<T>* and
+	there is a next item.
+
+ ******************************************************************************/
+
+template <class T>
+JBoolean
+JArrayIterator<T>::SetNext
+	(
+	const T& data
+	)
+{
+	JList<T>* obj;
+	if (!this->GetList(&obj) || this->AtEnd())
+		{
+		return kJFalse;
+		}
+
+	itsArray->SetElement(this->GetCursor()+1, data);
+	return kJTrue;
+}
+
+/******************************************************************************
+ RemovePrev (virtual)
+
+	Returns kJTrue if we have a non-const JArray<T>* and
+	there is at least one previous item.
+
+ ******************************************************************************/
+
+template <class T>
+JBoolean
+JArrayIterator<T>::RemovePrev
+	(
+	const JSize count
+	)
+{
+	JList<T>* obj;
+	if (!this->GetList(&obj) || this->AtBeginning())
+		{
+		return kJFalse;
+		}
+
+	itsArray->RemovePrevElements(this->GetCursor(), count);
+	return kJTrue;
+}
+
+/******************************************************************************
+ RemoveNext (virtual)
+
+	Returns kJTrue if we have a non-const JArray<T>* and
+	there is at least one next item.
+
+ ******************************************************************************/
+
+template <class T>
+JBoolean
+JArrayIterator<T>::RemoveNext
+	(
+	const JSize count
+	)
+{
+	JList<T>* obj;
+	if (!this->GetList(&obj) || this->AtEnd())
+		{
+		return kJFalse;
+		}
+
+	itsArray->RemoveNextElements(this->GetCursor()+1, count);
+	return kJTrue;
+}
+
+/******************************************************************************
+ Insert (virtual)
+
+	Returns kJTrue if we have a non-const JArray<T>*.
+
+ ******************************************************************************/
+
+template <class T>
+JBoolean
+JArrayIterator<T>::Insert
+	(
+	const T& data
+	)
+{
+	JList<T>* obj;
+	if (!this->GetList(&obj))
+		{
+		return kJFalse;
+		}
+
+	itsArray->InsertElementAtIndex(this->GetCursor()+1, data);
+	return kJTrue;
+}
+
+/******************************************************************************
+ ListChanged (virtual protected)
+
+	Respond to changes in itsConstList and recursively tell the next
+	iterator in the list to do the same.  Assuming that only a handful of
+	iterators are ever in a list, recursion should be safe.
+
+ ******************************************************************************/
+
+template <class T>
+void
+JArrayIterator<T>::ListChanged
+	(
+	const JBroadcaster::Message& message
+	)
+{
+	JListIterator<T>::ListChanged(message);
+
+	if (message.Is(JListT::kGoingAway))
+		{
+		itsArray = nullptr;
+		}
+}
+
+#endif

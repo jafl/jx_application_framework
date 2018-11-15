@@ -28,7 +28,7 @@ JXMenuData::JXMenuData()
 	itsBaseItemData = jnew JArray<BaseItemData>;
 	assert( itsBaseItemData != nullptr );
 
-	InstallList(itsBaseItemData);
+	InstallCollection(itsBaseItemData);
 }
 
 /******************************************************************************

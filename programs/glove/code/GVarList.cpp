@@ -148,7 +148,7 @@ GVarList::GVarListX()
 	itsArrays = jnew JPtrArray<GNArray>(JPtrArrayT::kDeleteAll);
 	assert( itsArrays != nullptr );
 
-	InstallList(itsNames);
+	InstallCollection(itsNames);
 }
 
 /******************************************************************************

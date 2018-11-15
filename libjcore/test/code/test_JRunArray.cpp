@@ -10,79 +10,17 @@
 #include <JTestManager.h>
 #include <JRunArray.h>
 #include <JBroadcastTester.h>
+#include <jTestUtil.h>
 #include <sstream>
 #include <algorithm>
 #include <numeric>
 #include <jAssert.h>
 
-#define verify2(str)	VerifyContents(iter2, str, __LINE__)
+#define verify(str, list)	JAssertStringsEqual(str, JPrintList(list));
 
 int main()
 {
 	return JTestManager::Execute();
-}
-
-void
-PrintArray
-	(
-	std::ostream&				output,
-	JRunArrayIterator<long>&	iter
-	)
-{
-	long i;
-	iter.MoveTo(kJIteratorStartAtBeginning, 0);
-	while (iter.Next(&i))
-		{
-		output << i << ' ';
-		}
-	output << std::endl;
-}
-
-void
-VerifyContents
-	(
-	JRunArrayIterator<long>&	iter,
-	const JUtf8Byte*			expectedStr,
-	const int					line
-	)
-{
-	std::ostringstream data;
-	PrintArray(data, iter);
-	JString s;
-	s = data.str();
-	s.TrimWhitespace();
-	JAreEqual(expectedStr, s, __FILE__, line);
-}
-
-JListT::CompareResult
-CompareLongs
-	(
-	const long& a,
-	const long& b
-	)
-{
-	if (a < b)
-		{
-		return JListT::kFirstLessSecond;
-		}
-	else if (a == b)
-		{
-		return JListT::kFirstEqualSecond;
-		}
-	else
-		{
-		return JListT::kFirstGreaterSecond;
-		}
-}
-
-int
-QuickSortCompareLongs
-	(
-	const void* a,
-	const void* b
-	)
-{
-	return (*(long*)a - *(long*)b);
 }
 
 JInteger
@@ -224,101 +162,7 @@ JTEST(Exercise)
 	}
 }
 	JRunArrayIterator<long> iter2(&a2);
-
-// test sort ascending
-
-	a2.AppendElement(3);
-	a2.AppendElement(5);
-	a2.AppendElement(2);
-	a2.AppendElement(1);
-	a2.AppendElement(5);
-
-	a2.SetCompareFunction(CompareLongs);
-	a2.SetSortOrder(JListT::kSortAscending);
-	a2.Sort();
-
-	verify2("1 1 1 1 2 3 3 5 5");
-
-// test insertion sort
-	{
-	JBoolean expect[] = { kJTrue, kJFalse, kJFalse, kJFalse };
-	long element[] = {3, -1, 10, 4};
-	const long eCount = sizeof(element)/sizeof(long);
-
-	JBoolean isDuplicate;
-	for (i=0; i<eCount; i++)
-		{
-		const JIndex j = a2.GetInsertionSortIndex(element[i], &isDuplicate);
-		a2.InsertElementAtIndex(j, element[i]);
-		JAssertEqual(expect[i], isDuplicate);
-		}
-	}
-
-// test binary search (sorted ascending)
-// -1 1 1 1 1 2 3 3 3 4 5 5 10
-	{
-	long element[]   = {     0,     4,    -1,    10,     -3,     20};
-	JBoolean found[] = {kJFalse, kJTrue, kJTrue, kJTrue, kJFalse, kJFalse};
-	JIndex pos[]     = {     0,     10,    1,    13,      0,      0};
-	const long eCount = sizeof(element)/sizeof(long);
-	assert( eCount == sizeof(found)/sizeof(JBoolean) );
-
-	for (i=0; i<eCount; i++)
-		{
-		JIndex p1=0, p2=0, p3=0;
-		JAssertTrue(
-			a2.SearchSorted(element[i], JListT::kFirstMatch, &p1) == found[i] &&
-			pos[i] == p1 &&
-			a2.SearchSorted(element[i], JListT::kLastMatch, &p2) == found[i] &&
-			pos[i] == p2 &&
-			a2.SearchSorted(element[i], JListT::kAnyMatch, &p3) == found[i] &&
-			pos[i] == p3);
-		}
-
-	JIndex p4=0, p5=0;
-	JAssertTrue(a2.SearchSorted(1, JListT::kFirstMatch, &p4));
-	JAssertEqual(2, p4);
-	JAssertTrue(a2.SearchSorted(1, JListT::kLastMatch, &p5));
-	JAssertEqual(5, p5);
-	}
-
-// test sort descending
-
-	a2.SetSortOrder(JListT::kSortDescending);
-	a2.Sort();
-
-	verify2("10 5 5 4 3 3 3 2 1 1 1 1 -1");
-
-// test binary search (sorted descending)
-// 10 5 5 4 3 3 3 2 1 1 1 1 -1
-	{
-	long element[]   = {     0,     4,    -1,    10,     -3,     20};
-	JBoolean found[] = {kJFalse, kJTrue, kJTrue, kJTrue, kJFalse, kJFalse};
-	JIndex pos[]     = {     0,     4,    13,    1,       0,      0};
-	const long eCount = sizeof(element)/sizeof(long);
-	assert( eCount == sizeof(found)/sizeof(JBoolean) );
-
-	for (i=0; i<eCount; i++)
-		{
-		JIndex p6=0, p7=0, p8=0;
-		JAssertTrue(
-			a2.SearchSorted(element[i], JListT::kFirstMatch, &p6) == found[i] &&
-			pos[i] == p6 &&
-			a2.SearchSorted(element[i], JListT::kLastMatch, &p7) == found[i] &&
-			pos[i] == p7 &&
-			a2.SearchSorted(element[i], JListT::kAnyMatch, &p8) == found[i] &&
-			pos[i] == p8);
-		}
-
-	JIndex p4=0, p5=0;
-	JAssertTrue(a2.SearchSorted(3, JListT::kFirstMatch, &p4));
-	JAssertEqual(5, p4);
-	JAssertTrue(a2.SearchSorted(3, JListT::kLastMatch, &p5));
-	JAssertEqual(7, p5);
-	}
-
-	a2.QuickSort(QuickSortCompareLongs);
-	verify2("-1 1 1 1 1 2 3 3 3 4 5 5 10");
+	verify("-1 1 1 1 1 2 3 3 3 4 5 5 10", a2);
 
 // test SumElements()
 

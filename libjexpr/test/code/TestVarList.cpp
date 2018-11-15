@@ -120,7 +120,7 @@ TestVarList::TestVarListX()
 	itsNumericArrays = jnew JPtrArray<TVLNArray>(JPtrArrayT::kDeleteAll);
 	assert( itsNumericArrays != nullptr );
 
-	InstallList(itsNumericNames);
+	InstallCollection(itsNumericNames);
 }
 
 /******************************************************************************

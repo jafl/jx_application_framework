@@ -23,6 +23,19 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 // version 4.0.0:
 //	JBroadcaster:
 //		Added ToString(), which can be overridden by derived classes.
+//	*** Removed using statements from jTypes.h & jFStreamUtil.h
+//			You should use the std:: prefix explicitly.
+//	*** Converted to nullptr.  NULL is forced to be undefined.
+//	*** Renamed JOrderedSet to JList to be more accurate.
+//	*** Removed all random-access functions from JList.
+//			JLinkedList must be modified via an iterator.
+//			JArray & JRunArray can be modified via an iterator.
+//	*** Removed FirstElement(), GetElement(), LastElement() from JPtrArray
+//			Use GetFirstElement(), GetElement(), GetLastElement() instead
+//	Added support for range-based for loops to JList, etc.
+//	Added move constructor for JArray.
+//	JContainer:
+//		*** Renamed InstallOrderedSet() to InstallCollection().
 //	*** Moved default font name, etc. to JFontManager
 //	*** Converted kJDefaultFontSize, kJDefaultRowColHeaderFontSize, and
 //			kJDefaultMonoFontSize to functions in JFontManager.
@@ -31,17 +44,20 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //		can be overridden in translation files by specifying any of
 //		NAME::FONT, SIZE::FONT, SIZE::ROWCOLHDR::FONT, NAME::MONO::FONT,
 //		SIZE::MONO::FONT.
-//	*** Renamed JOrderedSet to JList to be more accurate.
 //	*** UTF-8 support
 //			Completely redesigned JString API.  Introduced JStringIterator.
 //			Replaced JCharacter with JUtf8Byte & JUtf8Character.
 //			Introduced JCharacterRange & JUtf8ByteRange.
+//	*** JString(float) now requires second argument to prevent nullptr from
+//		silently converting to "0"
+//	Added JStringJoin for joining lists of strings.
 //	*** Created JFont.  Instances can only be obtained from JFontManager.
 //			Redesigned JFontManager so JFontID is system independent.
 //			Converted most of JFontManager api to protected.
 //			Exposed equivalent api from JFont.
 //			Removed all api's using JFontID.
 //			Switched JTextEditor::Font to JFont.
+//	*** Removed JGetCurrentFontManager & JGetCurrentColormap.
 //	*** Renamed JColorIndex to JColorID
 //	*** Renamed JColormap to JColorManager and redesigned it
 //			so JColorID is system independent.
@@ -55,15 +71,8 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //	*** Removed JCreateBuffer() - Run out of memory?  Seriously?
 //	*** Moved JSubset, JProbDistr, J*Histogram to misc/jextra.
 //	*** Updated JIntRange to match JIndexRange API.
-//	*** Removed using statements from jTypes.h & jFStreamUtil.h
-//			You should use the std:: prefix explicitly.
 //	*** Removed JMessageProtocol::Translate*AndSend
-//	*** Removed FirstElement(), GetElement(), LastElement() from JPtrArray
-//			Use GetFirstElement(), GetElement(), GetLastElement() instead
-//	Added JStringJoin for joining lists of strings.
 //	*** Removed JGetJDataDirectories() because it is no longer used
-//	*** Removed HTML parsing from JTextEditor.  HTML belongs on the web.
-//			Removed JHTMLScanner, JTEHTMLScanner, JExtractHTMLTitle.
 //	*** JTextEditor:
 //			Refactored into JStyledText & JTextEditor.
 //			Removed pointless useInternalClipboard option and
@@ -74,13 +83,9 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //				JIndex values, because these are ambiguous.  Switch to
 //				the versions that use JCharacterRange.
 //			Removed CaretLineChanged message.  Always broadcasts CaretLocationChanged.
-//	*** Removed JGetCurrentFontManager & JGetCurrentColormap.
+//	*** Removed HTML parsing from JTextEditor.  HTML belongs on the web.
+//			Removed JHTMLScanner, JTEHTMLScanner, JExtractHTMLTitle.
 //	*** Changed all /usr/lib paths to /usr/local/lib on OSX because of SIP
-//	*** JString(float) now requires second argument to prevent nullptr from
-//		silently converting to "0"
-//	*** Converted to nullptr.  NULL is forced to be undefined.
-//	Added support for range-based for loops to JList, etc.
-//	Added move constructor for JArray.
 //	jVCSUtil:
 //		*** Removed unecessary "deepInspection" argument from JGetVCSType().
 //		*** Removed obsolete JGetCurrentSVNRevision().

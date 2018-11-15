@@ -28,7 +28,7 @@ MDRecordList::MDRecordList()
 	itsRecords = jnew JPtrArray<MDRecord>(JPtrArrayT::kDeleteAll);
 	assert(itsRecords != nullptr);
 	itsRecords->SetCompareFunction(MDRecord::CompareState);
-	InstallList(itsRecords);
+	InstallCollection(itsRecords);
 
 	itsAlphaRecords = jnew JPtrArray<MDRecord>(JPtrArrayT::kForgetAll);
 	assert( itsAlphaRecords != nullptr );

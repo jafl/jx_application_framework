@@ -82,11 +82,13 @@ JSTUndoBase::SetFont
 	const JSize			size
 	)
 {
-	const JSize runCount = styles->GetRunCount();
-	for (JIndex i=1; i<=runCount; i++)
+	JRunArrayIterator<JFont> iter(styles);
+
+	do
 		{
-		JFont f = styles->GetRunData(i);
+		JFont f = iter.GetRunData();
 		f.Set(name, size, f.GetStyle());
-		styles->SetRunData(i, f);
+		iter.SetNext(f, iter.GetRunLength());
 		}
+		while (iter.NextRun());
 }

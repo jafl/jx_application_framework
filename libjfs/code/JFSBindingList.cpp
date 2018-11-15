@@ -105,7 +105,7 @@ JFSBindingList::JFSBindingList
 	assert( itsOverriddenList != nullptr );
 	itsOverriddenList->SetCompareFunction(JFSBinding::ComparePatterns);
 
-	InstallList(itsBindingList);
+	InstallCollection(itsBindingList);
 
 	*needUserCheck = Revert();
 }

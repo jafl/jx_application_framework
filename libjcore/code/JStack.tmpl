@@ -35,7 +35,7 @@ JStack<T,S>::JStack()
 	itsElements = jnew S;
 	assert( itsElements != nullptr );
 
-	InstallList(itsElements);
+	InstallCollection(itsElements);
 }
 
 /******************************************************************************
@@ -54,7 +54,7 @@ JStack<T,S>::JStack
 	itsElements = jnew S(*(source.itsElements));
 	assert( itsElements != nullptr );
 
-	InstallList(itsElements);
+	InstallCollection(itsElements);
 }
 
 /******************************************************************************

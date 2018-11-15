@@ -23,6 +23,7 @@
  ******************************************************************************/
 
 #include "JArray.h"
+#include "JMinMax.h"
 #include <string.h>		// for memcpy,memmove
 #include <stdlib.h>		// for qsort
 #include "jAssert.h"
@@ -181,7 +182,7 @@ T*
 JArray<T>::AllocateCArray()
 	const
 {
-	const JSize count = this->JCollection::GetElementCount();
+	const JSize count = this->GetElementCount();
 
 	T* data = jnew T [ count ];
 	assert( data != nullptr );
@@ -189,6 +190,36 @@ JArray<T>::AllocateCArray()
 	memcpy(data, itsElements, count * sizeof(T));
 
 	return data;
+}
+
+/******************************************************************************
+ PrependElement
+
+ ******************************************************************************/
+
+template <class T>
+void
+JArray<T>::PrependElement
+	(
+	const T& data
+	)
+{
+	InsertElementAtIndex(1, data);
+}
+
+/******************************************************************************
+ AppendElement
+
+ ******************************************************************************/
+
+template <class T>
+void
+JArray<T>::AppendElement
+	(
+	const T& data
+	)
+{
+	InsertElementAtIndex(this->GetElementCount() + 1, data);
 }
 
 /******************************************************************************
@@ -238,7 +269,7 @@ JArray<T>::CreateElement
 {
 	assert( index > 0 );
 
-	const JSize elementCount = this->JCollection::GetElementCount();
+	const JSize elementCount = this->GetElementCount();
 	if (elementCount >= itsSlotCount)
 		{
 		AddSlots();
@@ -255,9 +286,24 @@ JArray<T>::CreateElement
 		trueIndex = elementCount + 1;
 		}
 
-	JCollection::ElementAdded();
+	this->ElementAdded();
 
 	return trueIndex;
+}
+
+/******************************************************************************
+ RemoveElement
+
+ ******************************************************************************/
+
+template <class T>
+void
+JArray<T>::RemoveElement
+	(
+	const JIndex index
+	)
+{
+	RemoveNextElements(index, 1);
 }
 
 /******************************************************************************
@@ -270,20 +316,22 @@ void
 JArray<T>::RemoveNextElements
 	(
 	const JIndex	firstIndex,
-	const JSize		count
+	const JSize		origCount
 	)
 {
-	if (firstIndex == 1 && count == JCollection::GetElementCount())
+	if (firstIndex == 1 && origCount >= this->GetElementCount())
 		{
 		RemoveAll();
 		return;
 		}
 
-	const JSize lastIndex = firstIndex + count-1;
-	assert( JCollection::IndexValid(firstIndex) && JCollection::IndexValid(lastIndex) );
+	assert( this->IndexValid(firstIndex) );
 
-	const JSize elementCount = this->JCollection::GetElementCount();
-	JCollection::SetElementCount(elementCount - count);
+	const JSize elementCount = this->GetElementCount(),
+				lastIndex    = JMin(elementCount, firstIndex + origCount-1),
+				count        = lastIndex - firstIndex + 1;
+
+	this->SetElementCount(elementCount - count);
 
 	if (lastIndex < elementCount)
 		{
@@ -291,7 +339,7 @@ JArray<T>::RemoveNextElements
 				(elementCount - lastIndex) * sizeof(T));
 		}
 
-	while (itsSlotCount > JCollection::GetElementCount() + itsBlockSize)
+	while (itsSlotCount > this->GetElementCount() + itsBlockSize)
 		{
 		RemoveSlots();
 		}
@@ -299,6 +347,55 @@ JArray<T>::RemoveNextElements
 	JListT::ElementsRemoved message(firstIndex, count);
 	JBroadcaster::Broadcast(message);
 	JList<T>::NotifyIterators(message);
+}
+
+/******************************************************************************
+ RemovePrevElements
+
+ ******************************************************************************/
+
+template <class T>
+void
+JArray<T>::RemovePrevElements
+	(
+	const JIndex	lastIndex,
+	const JSize		origCount
+	)
+{
+	const JSize firstIndex   = origCount <= lastIndex ? lastIndex-origCount+1 : 1,
+				count        = lastIndex - firstIndex + 1;
+
+	RemoveNextElements(firstIndex, count);
+}
+
+/******************************************************************************
+ RemoveElements
+
+ ******************************************************************************/
+
+template <class T>
+void
+JArray<T>::RemoveElements
+	(
+	const JIndexRange& range
+	)
+{
+	RemoveNextElements(range.first, range.GetCount());
+}
+
+/******************************************************************************
+ RemoveElements
+
+ ******************************************************************************/
+
+template <class T>
+void
+JArray<T>::RemoveElements
+	(
+	const JListT::ElementsRemoved& info
+	)
+{
+	RemoveNextElements(info.GetFirstIndex(), info.GetCount());
 }
 
 /******************************************************************************
@@ -310,11 +407,11 @@ template <class T>
 void
 JArray<T>::RemoveAll()
 {
-	if (!JCollection::IsEmpty())
+	if (!this->IsEmpty())
 		{
-		JListT::ElementsRemoved message(1, JCollection::GetElementCount());
+		JListT::ElementsRemoved message(1, this->GetElementCount());
 
-		JCollection::SetElementCount(0);
+		this->SetElementCount(0);
 		ResizeMemoryAllocation(itsBlockSize);
 
 		JBroadcaster::Broadcast(message);
@@ -335,7 +432,7 @@ JArray<T>::GetElement
 	)
 	const
 {
-	assert( JCollection::IndexValid(index) );
+	assert( this->IndexValid(index) );
 
 	return ProtectedGetElement(index);
 }
@@ -369,11 +466,69 @@ JArray<T>::SetElement
 	const T&		data
 	)
 {
-	assert( JCollection::IndexValid(index) );
+	assert( this->IndexValid(index) );
 
 	StoreElement(index, data);
 
 	JBroadcaster::Broadcast(JListT::ElementChanged(index));
+}
+
+/******************************************************************************
+ GetElementFromEnd
+
+ ******************************************************************************/
+
+template <class T>
+T
+JArray<T>::GetElementFromEnd
+	(
+	const JIndex index
+	)
+	const
+{
+	return GetElement(this->GetIndexFromEnd(index));
+}
+
+/******************************************************************************
+ SetElementFromEnd
+
+ ******************************************************************************/
+
+template <class T>
+void
+JArray<T>::SetElementFromEnd
+	(
+	const JIndex	index,
+	const T&		data
+	)
+{
+	SetElement(this->GetIndexFromEnd(index), data);
+}
+
+/******************************************************************************
+ GetFirstElement
+
+ ******************************************************************************/
+
+template <class T>
+T
+JArray<T>::GetFirstElement()
+	const
+{
+	return GetElement(1);
+}
+
+/******************************************************************************
+ GetLastElement
+
+ ******************************************************************************/
+
+template <class T>
+T
+JArray<T>::GetLastElement()
+	const
+{
+	return GetElement(this->GetElementCount());
 }
 
 /******************************************************************************
@@ -389,8 +544,8 @@ JArray<T>::MoveElementToIndex
 	const JIndex newIndex
 	)
 {
-	assert( JCollection::IndexValid(currentIndex) );
-	assert( JCollection::IndexValid(newIndex) );
+	assert( this->IndexValid(currentIndex) );
+	assert( this->IndexValid(newIndex) );
 
 	if (currentIndex == newIndex)
 		{
@@ -415,6 +570,21 @@ JArray<T>::MoveElementToIndex
 }
 
 /******************************************************************************
+ MoveElementToIndex
+
+ ******************************************************************************/
+
+template <class T>
+void
+JArray<T>::MoveElementToIndex
+	(
+	const JListT::ElementMoved& info
+	)
+{
+	MoveElementToIndex(info.GetOrigIndex(), info.GetNewIndex());
+}
+
+/******************************************************************************
  SwapElements
 
 	Sends an ElementChanged message for each element.
@@ -429,8 +599,8 @@ JArray<T>::SwapElements
 	const JIndex index2
 	)
 {
-	assert( JCollection::IndexValid(index1) );
-	assert( JCollection::IndexValid(index2) );
+	assert( this->IndexValid(index1) );
+	assert( this->IndexValid(index2) );
 
 	if (index1 == index2)
 		{
@@ -442,6 +612,21 @@ JArray<T>::SwapElements
 	StoreElement(index2, savedElement);
 
 	JBroadcaster::Broadcast(JListT::ElementsSwapped(index1, index2));
+}
+
+/******************************************************************************
+ SwapElements
+
+ ******************************************************************************/
+
+template <class T>
+void
+JArray<T>::SwapElements
+	(
+	const JListT::ElementsSwapped& info
+	)
+{
+	SwapElements(info.GetIndex1(), info.GetIndex2());
 }
 
 /******************************************************************************
@@ -461,7 +646,7 @@ template <class T>
 void
 JArray<T>::Sort()
 {
-	const JSize count = this->JCollection::GetElementCount();
+	const JSize count = this->GetElementCount();
 	if (count < 2)
 		{
 		return;
@@ -472,9 +657,9 @@ JArray<T>::Sort()
 		{
 		const T& data = ProtectedGetElement(i);
 
-		JCollection::SetElementCount(i-1);		// safe because search doesn't modify data
-		const JIndex j = JArray<T>::GetInsertionSortIndex(data, &isDuplicate);
-		JCollection::SetElementCount(count);
+		this->SetElementCount(i-1);		// safe because search doesn't modify data
+		const JIndex j = GetInsertionSortIndex(data, &isDuplicate);
+		this->SetElementCount(count);
 
 		if (j != i)
 			{
@@ -484,7 +669,108 @@ JArray<T>::Sort()
 }
 
 /******************************************************************************
- SearchSorted1 (virtual)
+ InsertSorted
+
+	Returns kJTrue if the element was inserted.  Obviously, this is only
+	useful if insertIfDuplicate==kJFalse.
+
+	If index!=nullptr, it contains the index where the element was inserted.
+
+ ******************************************************************************/
+
+template <class T>
+JBoolean
+JArray<T>::InsertSorted
+	(
+	const T&		data,
+	const JBoolean	insertIfDuplicate,
+	JIndex*			index
+	)
+{
+	JBoolean isDuplicate;
+	const JIndex i = GetInsertionSortIndex(data, &isDuplicate);
+	if (!isDuplicate || insertIfDuplicate)
+		{
+		InsertElementAtIndex(i, data);
+		if (index != nullptr)
+			{
+			*index = i;
+			}
+		return kJTrue;
+		}
+	else
+		{
+		if (index != nullptr)
+			{
+			*index = 0;
+			}
+		return kJFalse;
+		}
+}
+
+/******************************************************************************
+ GetInsertionSortIndex
+
+	Returns index where jnew element should be inserted in order to keep
+	the list sorted.  If there is an element that matches the given one,
+	*isDuplicate is set to kJTrue.
+
+ ******************************************************************************/
+
+template <class T>
+JIndex
+JArray<T>::GetInsertionSortIndex
+	(
+	const T&	data,
+	JBoolean*	isDuplicate
+	)
+	const
+{
+	JBoolean found;
+	JIndex index = SearchSorted1(data, JListT::kLastMatch, &found);
+	if (found)
+		{
+		index++;
+		}
+
+	if (isDuplicate != nullptr)
+		{
+		*isDuplicate = found;
+		}
+	return index;
+}
+
+/******************************************************************************
+ SearchSorted
+
+	Returns kJTrue if the specified target is found.
+
+	"which" specifies what to return if more than one element matches
+	the given target.
+
+ ******************************************************************************/
+
+template <class T>
+JBoolean
+JArray<T>::SearchSorted
+	(
+	const T&							target,
+	const JListT::SearchReturn	which,
+	JIndex*								index
+	)
+	const
+{
+	JBoolean found;
+	*index = SearchSorted1(target, which, &found);
+	if (!found)
+		{
+		*index = 0;
+		}
+	return found;
+}
+
+/******************************************************************************
+ SearchSorted1
 
 	Returns index where the element is or where it should be inserted in
 	order to keep the list sorted.  If there is an element that matches the
@@ -499,20 +785,20 @@ template <class T>
 JIndex
 JArray<T>::SearchSorted1
 	(
-	const T&							target,
+	const T&					target,
 	const JListT::SearchReturn	which,
-	JBoolean*							found
+	JBoolean*					found
 	)
 	const
 {
 	const JElementComparison<T>* compareObj = nullptr;
-	const JBoolean hasCompare = JArray<T>::GetCompareObject(&compareObj);
+	const JBoolean hasCompare = JList<T>::GetCompareObject(&compareObj);
 	assert( hasCompare );
 
 	const JListT::SortOrder sortOrder = JList<T>::GetSortOrder();
 	*found = kJFalse;
 
-	const JSize count = this->JCollection::GetElementCount();
+	const JSize count = this->GetElementCount();
 	if (count == 0)
 		{
 		return 1;
@@ -672,7 +958,7 @@ JArray<T>::QuickSort
 	int (*compare)(const void*, const void*)
 	)
 {
-	::qsort(itsElements, JCollection::GetElementCount(), sizeof(T), compare);
+	::qsort(itsElements, this->GetElementCount(), sizeof(T), compare);
 	JBroadcaster::Broadcast(JListT::Sorted());
 }
 
@@ -784,19 +1070,51 @@ JArray<T>::ResizeMemoryAllocation
 	const JSize newSlotCount
 	)
 {
-	assert( newSlotCount >= JCollection::GetElementCount() );
+	assert( newSlotCount >= this->GetElementCount() );
 
 	if (newSlotCount != itsSlotCount)
 		{
 		T* newElements = jnew T [newSlotCount];
 		assert( newElements != nullptr );
 
-		memcpy(newElements, itsElements, JCollection::GetElementCount() * sizeof(T));
+		memcpy(newElements, itsElements, this->GetElementCount() * sizeof(T));
 
 		jdelete [] itsElements;
 		itsElements  = newElements;
 		itsSlotCount = newSlotCount;
 		}
+}
+
+/******************************************************************************
+ NewIterator (virtual)
+
+ ******************************************************************************/
+
+template <class T>
+JListIterator<T>*
+JArray<T>::NewIterator
+	(
+	const JIteratorPosition	start,
+	const JIndex			index
+	)
+{
+	JArrayIterator<T>* iter = jnew JArrayIterator<T>(this, start, index);
+	assert( iter != nullptr );
+	return iter;
+}
+
+template <class T>
+JListIterator<T>*
+JArray<T>::NewIterator
+	(
+	const JIteratorPosition	start,
+	const JIndex			index
+	)
+	const
+{
+	JArrayIterator<T>* iter = jnew JArrayIterator<T>(*this, start, index);
+	assert( iter != nullptr );
+	return iter;
 }
 
 /******************************************************************************

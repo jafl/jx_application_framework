@@ -1,9 +1,7 @@
 /******************************************************************************
  JList.h
 
-	Interface for JList class
-
-	Copyright (C) 1994-97 by John Lindal.
+	Copyright (C) 1994-2018 by John Lindal.
 
  ******************************************************************************/
 
@@ -282,42 +280,20 @@ public:
 
 	virtual ~JList();
 
-	virtual void	InsertElementAtIndex(const JIndex index, const T& data) = 0;
+	virtual T	GetFirstElement() const = 0;
+	virtual T	GetLastElement() const = 0;
 
-	void	PrependElement(const T& data);
-	void	AppendElement(const T& data);
+	virtual void	PrependElement(const T& data) = 0;
+	virtual void	AppendElement(const T& data) = 0;
 
-	void			RemoveElement(const JIndex index);
-	virtual void	RemoveNextElements(const JIndex firstIndex, const JSize count) = 0;
-	void			RemovePrevElements(const JIndex lastIndex, const JSize count);
-	void			RemoveElements(const JIndexRange& range);
-	void			RemoveElements(const JListT::ElementsRemoved& info);
-	virtual void	RemoveAll() = 0;	// separate so derived classes can optimize
-
-	virtual T		GetElement(const JIndex index) const = 0;
-	virtual void	SetElement(const JIndex index, const T& data) = 0;
-
-	T		GetElementFromEnd(const JIndex index) const;
-	void	SetElementFromEnd(const JIndex index, const T& data);
-
-	T	GetFirstElement() const;
-	T	GetLastElement() const;
-
-	// the second version has a different name to avoid shadowing
-
-	virtual void	MoveElementToIndex(const JIndex currentIndex,
-									   const JIndex newIndex) = 0;
-	void			MoveElementToIndexWithMsg(const JListT::ElementMoved& info);
-
-	virtual void	SwapElements(const JIndex index1, const JIndex index2) = 0;
-	void			SwapElementsWithMsg(const JListT::ElementsSwapped& info);
+	virtual void	RemoveAll() = 0;
 
 	virtual JListIterator<T>*
 		NewIterator(const JIteratorPosition start = kJIteratorStartAtBeginning,
-					const JIndex index = 0);
+					const JIndex index = 0) = 0;
 	virtual JListIterator<T>*
 		NewIterator(const JIteratorPosition start = kJIteratorStartAtBeginning,
-					const JIndex index = 0) const;
+					const JIndex index = 0) const = 0;
 
 	// sorting functions -- virtual so they can be optimized for particular storage methods
 
@@ -332,18 +308,6 @@ public:
 	void				SetSortOrder(const JListT::SortOrder order);
 
 	JBoolean		IsSorted() const;
-	virtual void	Sort();
-
-	JBoolean	InsertSorted(const T& data, const JBoolean insertIfDuplicate = kJTrue,
-							 JIndex* index = nullptr);
-	JIndex		GetInsertionSortIndex(const T& data, JBoolean* isDuplicate = nullptr) const;
-
-	JBoolean	SearchSorted(const T& target, const JListT::SearchReturn which,
-							 JIndex* index) const;
-
-	virtual JIndex	SearchSorted1(const T& target,
-								  const JListT::SearchReturn which,
-								  JBoolean* found) const;
 
 protected:
 
@@ -352,10 +316,10 @@ protected:
 
 private:
 
+	JListT::SortOrder		itsSortOrder;
 	JListT::CompareResult	(*itsCompareFn)(const T&, const T&);	// can be nullptr
 	JElementComparison<T>*	itsCompareObj;							// can be nullptr
 
-	JListT::SortOrder		itsSortOrder;
 	JListIterator<T>*		itsFirstIterator;	// linked list of active iterators
 
 private:

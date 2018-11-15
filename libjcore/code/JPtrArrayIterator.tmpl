@@ -4,8 +4,6 @@
 /******************************************************************************
  JPtrArrayIterator.tmpl
 
-						The Pointer Array Iterator Class
-
 	Provides a consistent interface for iterating over a JPtrArray.
 
 	Refer to JListIterator.tmpl for information about interators in general.
@@ -30,7 +28,7 @@ JPtrArrayIterator<T>::JPtrArrayIterator
 	const JIndex			index
 	)
 	:
-	JListIterator<T*>(theArray, start, index)
+	JArrayIterator<T*>(theArray, start, index)
 {
 }
 
@@ -42,7 +40,7 @@ JPtrArrayIterator<T>::JPtrArrayIterator
 	const JIndex			index
 	)
 	:
-	JListIterator<T*>(theArray, start, index)
+	JArrayIterator<T*>(theArray, start, index)
 {
 }
 

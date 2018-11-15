@@ -1,7 +1,7 @@
 /******************************************************************************
  test_JArray.cpp
 
-	Program to test JArray and JListIterator classes.
+	Program to test JArray and JArrayIterator classes.
 
 	Written by John Lindal.
 
@@ -133,7 +133,7 @@ JTEST(Exercise)
 
 	a1.MoveElementToIndex(3,a1.GetElementCount());
 
-	JListIterator<long> iter(&a1);
+	JArrayIterator<long> iter(&a1);
 
 	snoop1.Expect(JListT::kElementsRemoved,
 		[] (const JBroadcaster::Message& m)
@@ -196,7 +196,7 @@ JTEST(Exercise)
 	JAssertFalse(a2.IsEmpty());
 	JAssertEqual(4, a2.GetElementCount());
 
-	JListIterator<long> iter2(&a2, kJIteratorStartAtEnd);
+	JArrayIterator<long> iter2(&a2, kJIteratorStartAtEnd);
 	{
 	long expect[] = { 1, 3, 5, 1 };
 	long j        = 0;
@@ -247,7 +247,7 @@ JTEST(Exercise)
 	snoop2.Expect(JListT::kElementsInserted);
 	a2.AppendElement(1);
 }
-	JListIterator<long> iter2(&a2);
+	JArrayIterator<long> iter2(&a2);
 
 // test sort ascending
 

@@ -826,7 +826,10 @@ JTable::GetRowHeight
 	)
 	const
 {
-	return itsRowHeights->GetElement(index);
+	JRunArrayIterator<JCoordinate> iter(*itsRowHeights, kJIteratorStartBefore, index);
+	JCoordinate h;
+	iter.Next(&h);
+	return h;
 }
 
 /******************************************************************************
@@ -941,7 +944,10 @@ JTable::GetColWidth
 	)
 	const
 {
-	return itsColWidths->GetElement(index);
+	JRunArrayIterator<JCoordinate> iter(*itsColWidths, kJIteratorStartBefore, index);
+	JCoordinate w;
+	iter.Next(&w);
+	return w;
 }
 
 /******************************************************************************

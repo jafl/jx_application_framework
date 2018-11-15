@@ -47,7 +47,7 @@ GPMProcessList::GPMProcessList()
 	itsVisibleEntries = jnew JPtrArray<GPMProcessEntry>(JPtrArrayT::kForgetAll);
 	assert(itsVisibleEntries != nullptr);
 	itsVisibleEntries->SetCompareFunction(GPMProcessEntry::CompareListPID);
-	InstallList(itsVisibleEntries);
+	InstallCollection(itsVisibleEntries);
 	itsListColType = kListPID;
 	itsTreeColType = kTreeCommand;
 

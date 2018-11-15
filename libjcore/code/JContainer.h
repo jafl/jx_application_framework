@@ -23,7 +23,7 @@ public:
 
 protected:
 
-	void				InstallList(JCollection* list);
+	void				InstallCollection(JCollection* list);
 	const JCollection*	GetList();
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;

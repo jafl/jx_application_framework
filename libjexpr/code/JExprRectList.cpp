@@ -35,7 +35,7 @@ JExprRectList::JExprRectList()
 	itsFunctions = jnew JPtrArray<JFunction>(JPtrArrayT::kForgetAll, 10);
 	assert( itsFunctions != nullptr );
 
-	InstallList(itsRects);
+	InstallCollection(itsRects);
 }
 
 /******************************************************************************

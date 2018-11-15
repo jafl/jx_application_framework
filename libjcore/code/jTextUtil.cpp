@@ -1,5 +1,5 @@
 /******************************************************************************
- jTextUtils.cpp
+ jTextUtil.cpp
 
 	Utilities for text & JTextEditor.
 
@@ -249,51 +249,59 @@ JReadUNIXManOutput
 	JFont ulFont = defFont;
 	ulFont.SetUnderlineCount(1);
 
-	JStringIterator iter(&buffer);
-	JUtf8Character c, prev;
-	while (iter.Next(&c))
-		{
-		if (!iter.AtEnd() && prev == '_' && c == '\b')
-			{
-			iter.RemovePrev(2);	// toss marker
-			iter.Next(&c);		// leave character
+	JRunArrayIterator<JFont> siter(&styles);
 
-			const JSize count = styles.GetElementCount();
+	JStringIterator citer(&buffer);
+	JUtf8Character c, prev;
+	while (citer.Next(&c))
+		{
+		if (!citer.AtEnd() && prev == '_' && c == '\b')
+			{
+			citer.RemovePrev(2);	// toss marker
+			citer.Next(&c);			// leave character
+
 			if (c == '_' &&
-				(count == 1 ||
-				 styles.GetElement(count-1) != ulFont))
+				(styles.IsEmpty() ||
+				 styles.GetLastElement() != ulFont))
 				{
-				styles.SetElement(count, defFont);
+				siter.SetPrev(defFont);
 				}
 			else
 				{
-				styles.SetElement(count, ulFont);
+				siter.SetPrev(ulFont);
 				}
 			}
-		else if (!iter.AtEnd() && c == '\b' && iter.GetPrevCharacterIndex() > 1)
+		else if (!citer.AtEnd() && c == '\b' && citer.GetPrevCharacterIndex() > 1)
 			{
-			iter.RemovePrev();	// toss backspace
-			iter.Next(&c);
+			citer.RemovePrev();		// toss backspace
+			citer.Next(&c);			// leave character
+
 			if (c == prev)
 				{
-				iter.RemovePrev();	// toss duplicate
-				styles.SetElement(styles.GetElementCount(), boldFont);
+				citer.RemovePrev();	// toss duplicate
+				siter.SetPrev(boldFont);
 				}
 			else
 				{
-				iter.SkipPrev();	// reprocess
+				citer.SkipPrev();	// reprocess
 				}
 			}
 		else
 			{
-			styles.AppendElement(defFont);
+			siter.Insert(defFont);
+			siter.SkipNext();
 			}
 		}
 
-	iter.MoveTo(kJIteratorStartAtBeginning, 0);
-	while (iter.Next(theExtraLinesPattern))
+	citer.MoveTo(kJIteratorStartAtBeginning, 0);
+	siter.MoveTo(kJIteratorStartAtBeginning, 0);
+	while (citer.Next(theExtraLinesPattern))
 		{
-		iter.ReplaceLastMatch("\n\n");
+		const JCharacterRange r = citer.GetLastMatch().GetCharacterRange();
+		siter.MoveTo(kJIteratorStartBefore, r.first + 2);
+		siter.RemoveNext(r.GetCount() - 2);
+
+		citer.ReplaceLastMatch("\n\n");
 		}
 
 	st->SetText(buffer, &styles);
@@ -428,23 +436,26 @@ static const JRegex theFixedWidthPattern = "`((?>[^`]+))`";
 void
 jReplaceMarkdownPattern
 	(
-	JStringIterator*	iter,
+	JStringIterator*	citer,
 	const JRegex&		pattern,
 	const JFont&		f,
 	JRunArray<JFont>*	styles
 	)
 {
-	iter->MoveTo(kJIteratorStartAtBeginning, 0);
-	while (iter->Next(pattern))
+	JRunArrayIterator<JFont> siter(styles);
+
+	citer->MoveTo(kJIteratorStartAtBeginning, 0);
+	while (citer->Next(pattern))
 		{
-		const JStringMatch& m = iter->GetLastMatch();
+		const JStringMatch& m = citer->GetLastMatch();
 		const JString s       = m.GetSubstring(1);
 
 		const JCharacterRange r(m.GetCharacterRange());
-		styles->RemoveElements(r);
-		styles->InsertElementsAtIndex(r.first, f, s.GetCharacterCount());
+		siter.MoveTo(kJIteratorStartBefore, r.first);
+		siter.RemoveNext(r.GetCount());
+		siter.Insert(f, r.GetCount());
 
-		iter->ReplaceLastMatch(s);
+		citer->ReplaceLastMatch(s);
 		}
 }
 

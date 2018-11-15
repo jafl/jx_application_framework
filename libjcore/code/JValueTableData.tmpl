@@ -160,12 +160,7 @@ JValueTableData<S,T>::SetElement
 	const T&		data
 	)
 {
-	S* dataCol = itsCols->GetElement(cell.x);
-	if (data != dataCol->GetElement(cell.y))
-		{
-		dataCol->SetElement(cell.y, data);
-		Broadcast(JTableData::RectChanged(cell));
-		}
+	SetElement(cell.y, cell.x, data);
 }
 
 /******************************************************************************

@@ -132,13 +132,7 @@ JObjTableData<T>::SetElement
 	const T&		data
 	)
 {
-	JPtrArray<T>* colData = itsCols->GetElement(cell.x);
-	T* element = colData->GetElement(cell.y);
-	if (*element != data)
-		{
-		*element = data;
-		Broadcast(JTableData::RectChanged(cell));
-		}
+	SetElement(cell.y, cell.x, data);
 }
 
 /******************************************************************************

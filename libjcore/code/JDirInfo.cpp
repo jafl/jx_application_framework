@@ -160,7 +160,7 @@ JDirInfo::JDirInfo
 	itsAlphaEntries->SetCompareFunction(JDirEntry::CompareNames);
 	itsAlphaEntries->SetSortOrder(JListT::kSortAscending);
 
-	InstallList(itsVisEntries);
+	InstallCollection(itsVisEntries);
 
 	const JError err = BuildInfo();
 	assert_ok( err );
@@ -201,7 +201,7 @@ JDirInfo::JDirInfo
 	JDirInfoX(source);
 	PrivateCopySettings(source);
 	CopyDirEntries(source);
-	InstallList(itsVisEntries);
+	InstallCollection(itsVisEntries);
 }
 
 JDirInfo::JDirInfo
@@ -222,7 +222,7 @@ JDirInfo::JDirInfo
 
 	JDirInfoX(source);
 	PrivateCopySettings(source);
-	InstallList(itsVisEntries);
+	InstallCollection(itsVisEntries);
 
 	const JError err = BuildInfo();
 	assert_ok( err );

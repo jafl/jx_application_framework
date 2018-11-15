@@ -71,7 +71,7 @@ JXDirTable::JXDirTable
 	assert( data != nullptr );
 	itsDirInfo = data;
 
-	itsActiveCells = jnew JRunArray<JBoolean>;
+	itsActiveCells = jnew JArray<JBoolean>;
 	assert( itsActiveCells != nullptr );
 
 	itsDirUpdateTask = jnew JXTimerTask(kDirUpdatePeriod);
@@ -950,8 +950,6 @@ JXDirTable::AdjustTableContents()
 	itsActiveCells->RemoveAll();
 	if (count > 0)
 		{
-		itsActiveCells->AppendElements(kJTrue, count);
-
 		for (JIndex i=1; i<=count; i++)
 			{
 			const JDirEntry& entry = itsDirInfo->GetEntry(i);
@@ -959,7 +957,11 @@ JXDirTable::AdjustTableContents()
 				(entry.IsDirectory() && (!entry.IsReadable() || !entry.IsExecutable())) ||
 				(entry.IsFile() && (!entry.IsReadable() || !itsAllowSelectFilesFlag)))
 				{
-				itsActiveCells->SetElement(i, kJFalse);
+				itsActiveCells->AppendElement(kJFalse);
+				}
+			else
+				{
+				itsActiveCells->AppendElement(kJTrue);
 				}
 			}
 		}

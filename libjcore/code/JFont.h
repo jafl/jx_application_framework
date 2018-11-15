@@ -18,6 +18,7 @@ class JString;
 class JFontManager;
 
 typedef unsigned long JFontID;
+const JFontID kInvalidFontID = 0;
 
 class JFont
 {
@@ -90,7 +91,7 @@ public:		// collections must be able to use new[]  :(
 
 	JFont()
 		:
-		itsID(0), itsSize(0)
+		itsID(kInvalidFontID), itsSize(0)
 	{ };
 };
 

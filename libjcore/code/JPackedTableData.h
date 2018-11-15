@@ -78,8 +78,7 @@ public:
 
 	void		SetAllElements(const T& data);
 	void		ClearAllElements();
-	JBoolean	AllElementsEqual() const;
-	JBoolean	AllElementsEqual(T* data) const;
+	JBoolean	AllElementsEqual(T* data = nullptr) const;
 	JSize		CountElementsWithValue(const T& data) const;
 
 	const T		GetDefaultValue() const;
@@ -93,7 +92,6 @@ private:
 private:
 
 	JIndex	RCToI(const JIndex row, const JIndex col) const;
-	JIndex	RCToI(const JPoint& cell) const;
 
 	// not allowed
 

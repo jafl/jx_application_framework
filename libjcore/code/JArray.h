@@ -11,6 +11,7 @@
 #define _H_JArray
 
 #include "JList.h"
+#include "JArrayIterator.h"
 
 template <class T>
 class JArray : public JList<T>
@@ -30,27 +31,54 @@ public:
 	const T*	GetCArray() const;
 	T*			AllocateCArray() const;		// client must call delete [] when finished with it
 
-	virtual void	InsertElementAtIndex(const JIndex index, const T& data) override;
+	T			GetElement(const JIndex index) const;
+	void		SetElement(const JIndex index, const T& data);
 
-	virtual void	RemoveNextElements(const JIndex firstIndex, const JSize count) override;
+	T			GetElementFromEnd(const JIndex index) const;
+	void		SetElementFromEnd(const JIndex index, const T& data);
+
+	virtual T	GetFirstElement() const override;
+	virtual T	GetLastElement() const override;
+
+	void			InsertElementAtIndex(const JIndex index, const T& data);
+	virtual void	PrependElement(const T& data) override;
+	virtual void	AppendElement(const T& data) override;
+
+	void			RemoveElement(const JIndex index);
+	void			RemoveNextElements(const JIndex firstIndex, const JSize count);
+	void			RemovePrevElements(const JIndex lastIndex, const JSize count);
+	void			RemoveElements(const JIndexRange& range);
+	void			RemoveElements(const JListT::ElementsRemoved& info);
 	virtual void	RemoveAll() override;
 
-	virtual T		GetElement(const JIndex index) const override;
-	virtual void	SetElement(const JIndex index, const T& data) override;
+	void	MoveElementToIndex(const JIndex currentIndex, const JIndex newIndex);
+	void	MoveElementToIndex(const JListT::ElementMoved& info);
+	void	SwapElements(const JIndex index1, const JIndex index2);
+	void	SwapElements(const JListT::ElementsSwapped& info);
 
-	virtual void	MoveElementToIndex(const JIndex currentIndex, const JIndex newIndex) override;
-	virtual void	SwapElements(const JIndex index1, const JIndex index2) override;
+	virtual JListIterator<T>*
+		NewIterator(const JIteratorPosition start = kJIteratorStartAtBeginning,
+					const JIndex index = 0) override;
+	virtual JListIterator<T>*
+		NewIterator(const JIteratorPosition start = kJIteratorStartAtBeginning,
+					const JIndex index = 0) const override;
 
 	JSize	GetBlockSize() const;
 	void	SetBlockSize(const JSize newBlockSize);
 
-	// optimized for O(1) lookup time
+	// sorting functions
 
-	virtual void	Sort() override;
+	void		Sort();
 
-	virtual JIndex	SearchSorted1(const T& target,
-								  const JListT::SearchReturn which,
-								  JBoolean* found) const override;
+	JBoolean	InsertSorted(const T& data, const JBoolean insertIfDuplicate = kJTrue,
+							 JIndex* index = nullptr);
+	JIndex		GetInsertionSortIndex(const T& data, JBoolean* isDuplicate = nullptr) const;
+
+	JBoolean	SearchSorted(const T& target, const JListT::SearchReturn which,
+							 JIndex* index) const;
+	JIndex		SearchSorted1(const T& target,
+							  const JListT::SearchReturn which,
+							  JBoolean* found) const;
 
 	// unrelated, fast sort -- broadcasts Sorted
 	// (Do NOT use on JPtrArray!)

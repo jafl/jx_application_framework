@@ -465,23 +465,25 @@ private:
 
 	void		Recalc(const JStyledText::TextRange& recalcRange,
 					   const JStyledText::TextRange& redrawRange);
-	void		Recalc1(const JStyledText::TextRange& recalcRange,
-						JCoordinate* maxLineWidth,
-						JIndex* firstLineIndex, JIndex* lastLineIndex);
-	void		RecalcLine(JStringIterator* iter,
-						   const JIndex lineIndex, JCoordinate* lineWidth,
-						   JIndex* runIndex, JIndex* firstInRun);
-	void		GetSubwordForLine(JStringIterator* iter, const JIndex lineIndex,
-								  JCoordinate* lineWidth) const;
-	void		IncludeWhitespaceOnLine(JStringIterator* iter,
-										JCoordinate* lineWidth, JBoolean* endOfLine,
-										JIndex* runIndex, JIndex* firstInRun) const;
+	void		RecalcRange(const JStyledText::TextRange& recalcRange,
+							JCoordinate* maxLineWidth,
+							JIndex* firstLineIndex, JIndex* lastLineIndex);
+	void		RecalcLine(JStringIterator* textIter,
+						   JRunArrayIterator<JFont>* styleIter,
+						   JRunArrayIterator<LineGeometry>* geomIter,
+						   const JIndex lineIndex, JCoordinate* lineWidth);
+	void		GetSubwordForLine(JStringIterator* textIter,
+								  JRunArrayIterator<JFont>* styleIter,
+								  const JIndex lineIndex, JCoordinate* lineWidth) const;
+	void		IncludeWhitespaceOnLine(JStringIterator* textIter,
+										JRunArrayIterator<JFont>* styleIter,
+										JCoordinate* lineWidth, JBoolean* endOfLine) const;
 	JBoolean	NoPrevWhitespaceOnLine(const JStyledText::TextIndex& index) const;
 
 	void	TEDrawText(JPainter& p, const JRect& rect);
 	void	TEDrawLine(JPainter& p, const JCoordinate top, const LineGeometry& geom,
-					   JStringIterator* iter,
-					   const JIndex lineIndex, JIndex* runIndex, JIndex* firstInRun);
+					   JStringIterator* textIter, JRunArrayIterator<JFont>* styleIter,
+					   const JIndex lineIndex);
 	void	TEDrawSelection(JPainter& p, const JRect& rect, const JIndex startVisLine,
 							const JCoordinate startVisLineTop);
 	void	TEDrawCaret(JPainter& p, const CaretLocation& caretLoc);
@@ -498,10 +500,8 @@ private:
 	JCoordinate	GetCharRight(const CaretLocation& charLoc) const;
 	JCoordinate	GetCharWidth(const CaretLocation& charLoc, const JUtf8Character& c) const;
 	JCoordinate	GetStringWidth(const JStyledText::TextIndex& startIndex,
-							   const JStyledText::TextIndex& endIndex) const;
-	JCoordinate	GetStringWidth(const JStyledText::TextIndex& startIndex,
 							   const JStyledText::TextIndex& endIndex,
-							   JIndex* runIndex, JIndex* firstInRun) const;
+							   JRunArrayIterator<JFont>* iter) const;
 
 	JIndex	GetLineForByte(const JIndex byteIndex) const;
 
@@ -517,7 +517,7 @@ private:
 						  JString* returnText = nullptr, JRunArray<JFont>* returnStyle = nullptr);
 
 	JBoolean	LocateTab(const JStyledText::TextIndex& startIndex,
-						  const JSize count,
+						  const JIndex endCharIndex,
 						  JIndex* tabCharIndex, JIndex* pretabByteIndex) const;
 
 	void		ReplaceRange(JStringIterator* iter, JRunArray<JFont>* styles,
@@ -1216,7 +1216,10 @@ JTextEditor::GetLineHeight
 		}
 	else
 		{
-		return itsLineGeom->GetElement(lineIndex).height;
+		JRunArrayIterator<LineGeometry> iter(*itsLineGeom, kJIteratorStartBefore, lineIndex);
+		LineGeometry geom;
+		iter.Next(&geom);
+		return geom.height;
 		}
 }
 
@@ -1432,7 +1435,10 @@ JTextEditor::GetCurrentFont()
 {
 	if (!itsSelection.IsEmpty())
 		{
-		return itsText->GetStyles().GetElement(itsSelection.charRange.first);
+		JRunArrayIterator<JFont> iter(itsText->GetStyles(), kJIteratorStartBefore, itsSelection.charRange.first);
+		JFont f;
+		iter.Next(&f);
+		return f;
 		}
 	else
 		{

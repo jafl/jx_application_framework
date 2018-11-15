@@ -43,7 +43,7 @@ JTreeList::JTreeList
 	itsOpenNodeList = jnew JPtrArray<JTreeNode>(JPtrArrayT::kForgetAll);
 	assert( itsOpenNodeList != nullptr );
 
-	InstallList(itsVisibleNodeList);
+	InstallCollection(itsVisibleNodeList);
 
 	const JTreeNode* root = itsTree->GetRoot();
 	assert( root->IsOpenable() );
