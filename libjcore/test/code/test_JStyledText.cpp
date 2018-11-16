@@ -691,11 +691,13 @@ JTEST(SearchStyle)
 	found = text.SearchForward(BoldFontMatch(), first, kJTrue, &wrapped, &r);
 	JAssertTrue(found);
 	JAssertEqual(JCharacterRange(4, 7), r.charRange);
+	JAssertEqual(JUtf8ByteRange(5, 9), r.byteRange);
 	JAssertFalse(wrapped);
 
 	found = text.SearchForward(UnderlineFontMatch(), first, kJTrue, &wrapped, &r);
 	JAssertTrue(found);
 	JAssertEqual(JCharacterRange(14, 29), r.charRange);
+	JAssertEqual(JUtf8ByteRange(16, 31), r.byteRange);
 	JAssertFalse(wrapped);
 
 	TextIndex start(29, 31);
@@ -707,6 +709,7 @@ JTEST(SearchStyle)
 	found = text.SearchForward(BigFontMatch(), start, kJTrue, &wrapped, &r);
 	JAssertTrue(found);
 	JAssertEqual(JCharacterRange(1, 3), r.charRange);
+	JAssertEqual(JUtf8ByteRange(1, 4), r.byteRange);
 	JAssertTrue(wrapped);
 
 	// backward
@@ -717,6 +720,7 @@ JTEST(SearchStyle)
 	found = text.SearchBackward(BigFontMatch(), start, kJTrue, &wrapped, &r);
 	JAssertTrue(found);
 	JAssertEqual(JCharacterRange(1, 3), r.charRange);
+	JAssertEqual(JUtf8ByteRange(1, 4), r.byteRange);
 	JAssertFalse(wrapped);
 
 	start.charIndex = 1;
@@ -729,6 +733,7 @@ JTEST(SearchStyle)
 	found = text.SearchBackward(BoldFontMatch(), start, kJTrue, &wrapped, &r);
 	JAssertTrue(found);
 	JAssertEqual(JCharacterRange(4, 7), r.charRange);
+	JAssertEqual(JUtf8ByteRange(5, 9), r.byteRange);
 	JAssertTrue(wrapped);
 
 	start.charIndex = r.charRange.first;
@@ -737,6 +742,7 @@ JTEST(SearchStyle)
 	text.SearchBackward(BigFontMatch(), start, kJTrue, &wrapped, &r);
 	JAssertTrue(found);
 	JAssertEqual(JCharacterRange(1, 3), r.charRange);
+	JAssertEqual(JUtf8ByteRange(1, 4), r.byteRange);
 	JAssertFalse(wrapped);
 }
 

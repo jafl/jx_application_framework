@@ -54,12 +54,16 @@ public:
 	JBoolean			Insert(const T& data, const JSize count);
 	JBoolean			InsertSlice(const JRunArray<T>& source, const JIndexRange& range);
 
+	JBoolean	AtFirstRun() const;
+	JBoolean	AtLastRun() const;
+
 	JBoolean	PrevRun();
 	JBoolean	NextRun();
 
 	JIndex		GetRunStart() const;
 	JIndex		GetRunEnd() const;
 	JSize		GetRunLength() const;
+	JSize		GetRemainingInRun() const;
 	T			GetRunData() const;
 
 protected:

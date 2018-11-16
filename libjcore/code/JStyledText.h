@@ -474,7 +474,7 @@ private:
 						   const JFont& font);
 	TextCount	InsertText(const TextIndex& index, const JString& text,
 						   const JRunArray<JFont>& style);
-	TextCount	InsertText(JStringIterator* targetText, JRunArray<JFont>* targetStyle,
+	TextCount	InsertText(JStringIterator* targetText, JRunArrayIterator<JFont>* targetStyle,
 						   const JString& text, const JRunArray<JFont>& style);
 	void		PrivateDeleteText(const TextRange& range);
 	void		PrivateDeleteText(JStringIterator* iter, const TextCount& count);

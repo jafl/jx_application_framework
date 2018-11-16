@@ -58,6 +58,8 @@
 #include "jGlobals.h"
 #include "jAssert.h"
 
+typedef JRunArrayIterator<JFont>	JFontIterator;
+
 const JFileVersion kCurrentPrivateFormatVersion = 1;
 
 const JSize kDefaultMaxUndoCount = 100;
@@ -682,17 +684,12 @@ JStyledText::WritePrivateFormat
 	JArray<JColorID> colorList;
 	colorList.SetCompareFunction(JCompareUInt64);
 
-	JIndex startRunIndex, startFirstInRun;
-	JBoolean found = style.FindRun(range.charRange.first, &startRunIndex, &startFirstInRun);
-	assert( found );
-
-	JIndex i          = range.charRange.first;
-	JIndex runIndex   = startRunIndex;
-	JIndex firstInRun = startFirstInRun;
+	JFontIterator iter(style, kJIteratorStartBefore, range.charRange.first);
 	do
 		{
-		const JFont& f          = style.GetRunDataRef(runIndex);
+		const JFont f           = iter.GetRunData();
 		const JString& fontName = f.GetName();
+		JBoolean found;
 		const JIndex fontIndex =
 			fontNameList.SearchSorted1(const_cast<JString*>(&fontName), JListT::kAnyMatch, &found);
 		if (!found)
@@ -708,12 +705,10 @@ JStyledText::WritePrivateFormat
 			colorList.InsertElementAtIndex(colorIndex, color);
 			}
 
-		i += style.GetRunLength(runIndex) - (i - firstInRun);
-		runIndex++;
-		firstInRun = i;
 		styleRunCount++;
+		iter.NextRun();
 		}
-		while (i <= range.charRange.last);
+		while (iter.GetRunStart() <= range.charRange.last);
 
 	// write list of font names
 
@@ -737,22 +732,14 @@ JStyledText::WritePrivateFormat
 
 	output << ' ' << styleRunCount;
 
-	i          = range.charRange.first;
-	runIndex   = startRunIndex;
-	firstInRun = startFirstInRun;
+	iter.MoveTo(kJIteratorStartBefore, range.charRange.first);
 	do
 		{
-		JSize charCount = style.GetRunLength(runIndex) - (i - firstInRun);
-		if (range.charRange.last < i + charCount - 1)
-			{
-			charCount = range.charRange.last - i + 1;
-			}
-
-		const JFont& f          = style.GetRunDataRef(runIndex);
+		const JFont  f          = iter.GetRunData();
 		const JString& fontName = f.GetName();
 
 		JIndex fontIndex;
-		found = fontNameList.SearchSorted(const_cast<JString*>(&fontName), JListT::kAnyMatch, &fontIndex);
+		JBoolean found = fontNameList.SearchSorted(const_cast<JString*>(&fontName), JListT::kAnyMatch, &fontIndex);
 		assert( found );
 
 		const JFontStyle& fStyle = f.GetStyle();
@@ -761,18 +748,16 @@ JStyledText::WritePrivateFormat
 		found = colorList.SearchSorted(fStyle.color, JListT::kAnyMatch, &colorIndex);
 		assert( found );
 
-		output << ' ' << charCount;
+		output << ' ' << iter.GetRemainingInRun();
 		output << ' ' << fontIndex;
 		output << ' ' << f.GetSize();
 		output << ' ' << fStyle.bold << fStyle.italic << fStyle.strike;
 		output << ' ' << fStyle.underlineCount;
 		output << ' ' << colorIndex;
 
-		i += charCount;
-		runIndex++;
-		firstInRun = i;
+		iter.NextRun();
 		}
-		while (i <= range.charRange.last);
+		while (iter.GetRunStart() <= range.charRange.last);
 }
 
 /******************************************************************************
@@ -999,6 +984,7 @@ JStyledText::ReplaceAllInRange
 {
 	JString text;
 	JRunArray<JFont> styles;
+	JFontIterator styleIter(&styles);
 
 	if (range.charRange.GetCount() == itsText.GetCharacterCount())	// avoid counting characters
 		{
@@ -1008,7 +994,7 @@ JStyledText::ReplaceAllInRange
 	else
 		{
 		text.Set(itsText.GetRawBytes(), range.byteRange);
-		styles.AppendSlice(*itsStyles, range.charRange);
+		styleIter.InsertSlice(*itsStyles, range.charRange);
 		}
 
 	JLatentPG pg(100);
@@ -1017,37 +1003,41 @@ JStyledText::ReplaceAllInRange
 	JBoolean changed = kJFalse;
 
 	JRunArray<JFont> newStyles;
-	{
-	JStringIterator iter(&text);
-	while (iter.Next(regex))
+
+	JStringIterator textIter(&text);
+	while (textIter.Next(regex))
 		{
-		const JStringMatch& match = iter.GetLastMatch();
-		if (!entireWord || IsEntireWord(text, match))
+		const JStringMatch& match = textIter.GetLastMatch();
+		if (entireWord && !IsEntireWord(text, match))
 			{
-			const JString replaceText =
-				PrepareReplaceMatch(match, replaceStr, interpolator, preserveCase);
+			continue;
+			}
 
-			const JString s(text, kJFalse);
-			JStringIterator iter2(s);
-			iter2.UnsafeMoveTo(kJIteratorStartBefore, match.GetCharacterRange().first, match.GetUtf8ByteRange().first);
-			newStyles.RemoveAll();
-			newStyles.AppendElements(CalcInsertionFont(iter2, styles),
-									 replaceText.GetCharacterCount());
+		const JString replaceText =
+			PrepareReplaceMatch(match, replaceStr, interpolator, preserveCase);
 
-			styles.RemoveElements(match.GetCharacterRange());
-			iter.RemoveLastMatch();		// invalidates match
+		const JString s(text, kJFalse);
+		JStringIterator iter2(s);
+		iter2.UnsafeMoveTo(kJIteratorStartBefore, match.GetCharacterRange().first, match.GetUtf8ByteRange().first);
+		newStyles.RemoveAll();
+		newStyles.AppendElements(CalcInsertionFont(iter2, styles),
+								 replaceText.GetCharacterCount());
 
-			const TextCount count = InsertText(&iter, &styles, replaceText, newStyles);
-			iter.SkipNext(count.charCount);
+		styleIter.MoveTo(kJIteratorStartBefore, match.GetCharacterRange().first);
+		styleIter.RemoveNext(match.GetCharacterRange().GetCount());
+		textIter.RemoveLastMatch();		// invalidates match
 
-			changed = kJTrue;
-			if (!pg.IncrementProgress())
-				{
-				break;
-				}
+		const TextCount count = InsertText(&textIter, &styleIter, replaceText, newStyles);
+		textIter.SkipNext(count.charCount);
+
+		changed = kJTrue;
+		if (!pg.IncrementProgress())
+			{
+			break;
 			}
 		}
-	}
+	textIter.Invalidate();
+
 	pg.ProcessFinished();
 
 	if (changed)
@@ -1125,6 +1115,37 @@ JStyledText::IsEntireWord
 
  ******************************************************************************/
 
+void
+jComputeForwardRange
+	(
+	const JStyledText::TextIndex&	start,
+	const JString&					text,
+	const JFontIterator&			iter,
+	const JBoolean					wrapped,
+	JStyledText::TextRange*			range
+	)
+{
+	range->charRange.Set(iter.GetRunStart(), iter.GetRunEnd());
+
+	if (wrapped)
+		{
+		range->byteRange = JString::CharacterToUtf8ByteRange(text.GetRawBytes(), range->charRange);
+		}
+	else	// optimize from where we started
+		{
+		const JSize byteOffset =
+			JString::CountBytes(
+				text.GetRawBytes() + start.byteIndex - 1,
+				range->charRange.first - start.charIndex);
+
+		range->byteRange.SetFirstAndCount(
+			start.byteIndex + byteOffset,
+			JString::CountBytes(
+				text.GetRawBytes() + start.byteIndex + byteOffset - 1,
+				range->charRange.GetCount()));
+		}
+}
+
 JBoolean
 JStyledText::SearchForward
 	(
@@ -1135,75 +1156,55 @@ JStyledText::SearchForward
 	TextRange*			range
 	)
 {
-	JIndex startIndex = start.charIndex;
-
-	const JSize runCount = itsStyles->GetRunCount();
-	JIndex endRun        = runCount;
-
 	*wrapped = kJFalse;
 	range->SetToNothing();
-	while (1)
+
+	JFontIterator iter(*itsStyles, kJIteratorStartBefore, start.charIndex);
+	if (iter.GetRemainingInRun() < iter.GetRunLength())
 		{
-		JIndex runIndex, firstIndexInRun;
-		if (itsStyles->FindRun(startIndex, &runIndex, &firstIndexInRun))
-			{
-			const JIndex origStartRun = runIndex;
-			JIndex startRun           = runIndex;
-			if (startIndex > firstIndexInRun)
-				{
-				firstIndexInRun += itsStyles->GetRunLength(startRun);
-				startRun++;
-				}
-
-			for (JIndex i=startRun; i<=endRun; i++)
-				{
-				const JFont& f        = itsStyles->GetRunDataRef(i);
-				const JSize runLength = itsStyles->GetRunLength(i);
-				if (match.Match(f))
-					{
-					range->charRange.SetFirstAndCount(firstIndexInRun, runLength);
-
-					if (wrapped)
-						{
-						range->byteRange = JString::CharacterToUtf8ByteRange(itsText.GetRawBytes(), range->charRange);
-						}
-					else	// optimize from where we started
-						{
-						range->byteRange.SetFirstAndCount(
-							start.byteIndex,
-							JString::CountBytes(
-								itsText.GetRawBytes() + start.byteIndex - 1,
-								range->charRange.GetCount()));
-						}
-
-					return kJTrue;
-					}
-
-				firstIndexInRun += runLength;
-				}
-
-			if (wrapSearch && !(*wrapped) && origStartRun > 1)
-				{
-				startIndex = 1;
-				endRun     = origStartRun-1;
-				*wrapped   = kJTrue;
-				}
-			else
-				{
-				break;
-				}
-			}
-
-		else if (wrapSearch && !(*wrapped))
-			{
-			startIndex = 1;
-			*wrapped   = kJTrue;
-			}
-		else
-			{
-			break;
-			}
+		iter.NextRun();
 		}
+	if (iter.AtEnd())
+		{
+		if (!wrapSearch)
+			{
+			return kJFalse;
+			}
+		iter.MoveTo(kJIteratorStartAtBeginning, 0);
+		*wrapped = kJTrue;
+		}
+
+	do
+		{
+		if (match.Match(iter.GetRunData()))
+			{
+			jComputeForwardRange(start, itsText, iter, *wrapped, range);
+			return kJTrue;
+			}
+
+		iter.NextRun();
+		}
+		while (!iter.AtEnd());
+
+	if (!wrapSearch || *wrapped)
+		{
+		return kJFalse;
+		}
+
+	iter.MoveTo(kJIteratorStartAtBeginning, 0);
+	*wrapped = kJTrue;
+
+	do
+		{
+		if (match.Match(iter.GetRunData()))
+			{
+			jComputeForwardRange(start, itsText, iter, *wrapped, range);
+			return kJTrue;
+			}
+
+		iter.NextRun();
+		}
+		while (iter.GetRunStart() < start.charIndex);
 
 	return kJFalse;
 }
@@ -1769,7 +1770,7 @@ JStyledText::TextCount
 JStyledText::InsertText
 	(
 	JStringIterator*		targetText,
-	JRunArray<JFont>*		targetStyle,
+	JFontIterator*			targetStyle,
 	const JString&			text,
 	const JRunArray<JFont>&	style
 	)
@@ -1800,15 +1801,8 @@ JStyledText::InsertText
 		cleanStyle = const_cast<JRunArray<JFont>*>(&style);
 		}
 
-	// insert the styles first, before the iterator position changes
-
-	const JIndex charIndex =
-		targetText->GetString().IsEmpty() ? 1 :
-		targetText->AtEnd() ? targetText->GetString().GetCharacterCount() + 1 :
-		targetText->GetNextCharacterIndex();
-
-	targetStyle->InsertElementsAtIndex(charIndex, *cleanStyle, 1, cleanStyle->GetElementCount());
 	targetText->Insert(*cleanText);
+	targetStyle->InsertSlice(*cleanStyle, JIndexRange(1, cleanStyle->GetElementCount()));
 
 	const TextCount result(cleanText->GetCharacterCount(), cleanText->GetByteCount());
 

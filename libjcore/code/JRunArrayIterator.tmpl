@@ -88,6 +88,32 @@ JRunArrayIterator<T>::~JRunArrayIterator()
 }
 
 /******************************************************************************
+ AtFirstRun
+
+ ******************************************************************************/
+
+template <class T>
+JBoolean
+JRunArrayIterator<T>::AtFirstRun()
+	const
+{
+	return JI2B( itsRunIndex == 1 );
+}
+
+/******************************************************************************
+ AtLastRun
+
+ ******************************************************************************/
+
+template <class T>
+JBoolean
+JRunArrayIterator<T>::AtLastRun()
+	const
+{
+	return JI2B( itsRunIndex == itsRunArray->GetRunCount() );
+}
+
+/******************************************************************************
  PrevRun
 
 	If there is a previous run, moves the iterator position to the start of
@@ -156,7 +182,7 @@ JIndex
 JRunArrayIterator<T>::GetRunEnd()
 	const
 {
-	return GetRunStart() + itsRunArray->GetRunLength(itsRunIndex) - 1;
+	return this->GetCursor() - itsOffsetInRun + itsRunArray->GetRunLength(itsRunIndex);
 }
 
 /******************************************************************************
@@ -170,6 +196,19 @@ JRunArrayIterator<T>::GetRunLength()
 	const
 {
 	return itsRunArray->GetRunLength(itsRunIndex);
+}
+
+/******************************************************************************
+ GetRemainingInRun
+
+ ******************************************************************************/
+
+template <class T>
+JSize
+JRunArrayIterator<T>::GetRemainingInRun()
+	const
+{
+	return itsRunArray->GetRunLength(itsRunIndex) - itsOffsetInRun;
 }
 
 /******************************************************************************
