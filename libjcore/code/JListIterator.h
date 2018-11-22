@@ -33,6 +33,9 @@ public:
 
 	virtual ~JListIterator();
 
+	const JList<T>*	GetList() const;
+	JBoolean		GetList(JList<T>** obj) const;
+
 	virtual JBoolean	Prev(T* data) = 0;
 	virtual JBoolean	Next(T* data) = 0;
 
@@ -60,9 +63,6 @@ public:
 	bool				operator!=(const JListIterator<T>& it) const;
 
 protected:
-
-	const JList<T>*	GetConstList() const;
-	JBoolean		GetList(JList<T>** obj) const;
 
 	JCursorPosition	GetCursor() const;
 	void			SetCursor(const JCursorPosition pos);

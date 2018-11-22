@@ -59,8 +59,11 @@ public:
 	virtual void	PrependElement(const T& data) override;
 	virtual void	AppendElement(const T& data) override;
 
-	void		PrependElements(const T& data, const JSize count);
-	void		AppendElements(const T& data, const JSize count);
+	void	PrependElements(const T& data, const JSize count);
+	void	AppendElements(const T& data, const JSize count);
+
+	void	PrependSlice(const JRunArray<T>& source, const JIndexRange& range);
+	void	AppendSlice(const JRunArray<T>& source, const JIndexRange& range);
 
 	virtual void	RemoveAll() override;
 
@@ -78,6 +81,8 @@ public:
 		NewIterator(const JIteratorPosition start = kJIteratorStartAtBeginning,
 					const JIndex index = 0) const override;
 
+	JSize	GetRunCount() const;
+
 	JSize	GetBlockSize() const;
 	void	SetBlockSize(const JSize newBlockSize);
 
@@ -87,7 +92,6 @@ private:
 
 private:
 
-	JSize		GetRunCount() const;
 	JSize		GetRunLength(const JIndex runIndex) const;
 	const T&	GetRunData(const JIndex runIndex) const;
 	void		SetRunData(const JIndex runIndex, const T& data);

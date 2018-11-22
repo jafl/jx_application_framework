@@ -1017,13 +1017,15 @@ JStyledText::ReplaceAllInRange
 			PrepareReplaceMatch(match, replaceStr, interpolator, preserveCase);
 
 		const JString s(text, kJFalse);
-		JStringIterator iter2(s);
-		iter2.UnsafeMoveTo(kJIteratorStartBefore, match.GetCharacterRange().first, match.GetUtf8ByteRange().first);
-		newStyles.RemoveAll();
-		newStyles.AppendElements(CalcInsertionFont(iter2, styles),
-								 replaceText.GetCharacterCount());
+		JStringIterator textIter2(s);
+		textIter2.UnsafeMoveTo(kJIteratorStartBefore, match.GetCharacterRange().first, match.GetUtf8ByteRange().first);
 
 		styleIter.MoveTo(kJIteratorStartBefore, match.GetCharacterRange().first);
+
+		newStyles.RemoveAll();
+		newStyles.AppendElements(CalcInsertionFont(textIter2, styleIter),
+								 replaceText.GetCharacterCount());
+
 		styleIter.RemoveNext(match.GetCharacterRange().GetCount());
 		textIter.RemoveLastMatch();		// invalidates match
 
@@ -1116,7 +1118,7 @@ JStyledText::IsEntireWord
  ******************************************************************************/
 
 void
-jComputeForwardRange
+jComputeForwardFontRange
 	(
 	const JStyledText::TextIndex&	start,
 	const JString&					text,
@@ -1178,7 +1180,7 @@ JStyledText::SearchForward
 		{
 		if (match.Match(iter.GetRunData()))
 			{
-			jComputeForwardRange(start, itsText, iter, *wrapped, range);
+			jComputeForwardFontRange(start, itsText, iter, *wrapped, range);
 			return kJTrue;
 			}
 
@@ -1198,7 +1200,7 @@ JStyledText::SearchForward
 		{
 		if (match.Match(iter.GetRunData()))
 			{
-			jComputeForwardRange(start, itsText, iter, *wrapped, range);
+			jComputeForwardFontRange(start, itsText, iter, *wrapped, range);
 			return kJTrue;
 			}
 
@@ -1217,6 +1219,43 @@ JStyledText::SearchForward
 
  ******************************************************************************/
 
+void
+jComputeBackwardFontRange
+	(
+	const JStyledText::TextIndex&	start,
+	const JString&					text,
+	const JFontIterator&			iter,
+	const JBoolean					wrapped,
+	JStyledText::TextRange*			range
+	)
+{
+	range->charRange.Set(iter.GetRunStart(), iter.GetRunEnd());
+
+	if (wrapped)
+		{
+		range->byteRange = JString::CharacterToUtf8ByteRange(text.GetRawBytes(), range->charRange);
+		}
+	else	// optimize from where we started
+		{
+		JSize byteOffset;
+		JBoolean ok =
+			JString::CountBytesBackward(
+				text.GetRawBytes(), start.byteIndex,
+				start.charIndex - range->charRange.first, &byteOffset);
+		assert( ok );
+
+		JSize byteCount;
+		ok = JString::CountBytesBackward(
+				text.GetRawBytes(), start.byteIndex - byteOffset,
+				range->charRange.GetCount(), &byteCount);
+		assert( ok );
+
+		range->byteRange.Set(
+			start.byteIndex - byteOffset - byteCount,
+			start.byteIndex - byteOffset - 1);
+		}
+}
+
 JBoolean
 JStyledText::SearchBackward
 	(
@@ -1227,82 +1266,57 @@ JStyledText::SearchBackward
 	TextRange*			range
 	)
 {
-	JIndex startIndex = start.charIndex;
-
-	JIndex endRun = 1;
-
 	*wrapped = kJFalse;
 	range->SetToNothing();
-	while (1)
+
+	JFontIterator iter(*itsStyles, kJIteratorStartBefore, start.charIndex);
+	if (iter.GetRemainingInRun() < iter.GetRunLength())
 		{
-		JIndex runIndex, firstIndexInRun;
-		if (itsStyles->FindRun(startIndex, &runIndex, &firstIndexInRun))
-			{
-			const JIndex origStartRun = runIndex;
-			JIndex startRun           = runIndex;
-			if (startIndex < firstIndexInRun + itsStyles->GetRunLength(startRun)-1)
-				{
-				startRun--;
-				if (startRun > 0)
-					{
-					firstIndexInRun -= itsStyles->GetRunLength(startRun);
-					}
-				}
-
-			for (JIndex i=startRun; i>=endRun; i--)
-				{
-				const JFont& f = itsStyles->GetRunDataRef(i);
-				if (match.Match(f))
-					{
-					range->charRange.SetFirstAndCount(firstIndexInRun, itsStyles->GetRunLength(i));
-
-					if (wrapped)
-						{
-						range->byteRange = JString::CharacterToUtf8ByteRange(itsText.GetRawBytes(), range->charRange);
-						}
-					else	// optimize from where we started
-						{
-						JSize byteCount;
-						const JBoolean ok =
-							JString::CountBytesBackward(
-								itsText.GetRawBytes(), start.byteIndex - 1,
-								range->charRange.GetCount(), &byteCount);
-						assert(ok);
-
-						range->byteRange.Set(start.byteIndex - byteCount, start.byteIndex - 1);
-						}
-
-					return kJTrue;
-					}
-
-				if (i > endRun)
-					{
-					firstIndexInRun -= itsStyles->GetRunLength(i-1);
-					}
-				}
-
-			if (wrapSearch && !(*wrapped) && origStartRun < itsStyles->GetRunCount())
-				{
-				startIndex = itsStyles->GetElementCount();
-				endRun     = origStartRun+1;
-				*wrapped   = kJTrue;
-				}
-			else
-				{
-				break;
-				}
-			}
-
-		else if (wrapSearch && !(*wrapped))
-			{
-			startIndex = itsStyles->GetElementCount();
-			*wrapped   = kJTrue;
-			}
-		else
-			{
-			break;
-			}
+		iter.SkipPrev(iter.GetRunLength() - iter.GetRemainingInRun());
 		}
+	if (iter.AtBeginning())
+		{
+		if (!wrapSearch)
+			{
+			return kJFalse;
+			}
+		iter.MoveTo(kJIteratorStartAtEnd, 0);
+		iter.PrevRun();
+		*wrapped = kJTrue;
+		}
+
+	do
+		{
+		if (match.Match(iter.GetRunData()))
+			{
+			jComputeBackwardFontRange(start, itsText, iter, *wrapped, range);
+			return kJTrue;
+			}
+
+		iter.PrevRun();
+		}
+		while (!iter.AtBeginning());
+
+	if (!wrapSearch || *wrapped)
+		{
+		return kJFalse;
+		}
+
+	iter.MoveTo(kJIteratorStartAtEnd, 0);
+	iter.PrevRun();
+	*wrapped = kJTrue;
+
+	do
+		{
+		if (match.Match(iter.GetRunData()))
+			{
+			jComputeBackwardFontRange(start, itsText, iter, *wrapped, range);
+			return kJTrue;
+			}
+
+		iter.PrevRun();
+		}
+		while (iter.GetRunEnd() > start.charIndex);
 
 	return kJFalse;
 }
@@ -1519,15 +1533,18 @@ JStyledText::SetFont
 		undo = GetStyleUndo(range, &isNew);
 		}
 
+	JFontIterator iter(itsStyles, kJIteratorStartBefore, range.charRange.first);
+
 	if (range.charRange.last > range.charRange.first)
 		{
-		itsStyles->SetNextElements(range.charRange.first, range.charRange.GetCount(), f);
+		iter.RemoveNext(range.charRange.GetCount());
+		iter.Insert(f, range.charRange.GetCount());
 		}
 	else
 		{
 		assert( range.charRange.first == range.charRange.last );
 
-		itsStyles->SetElement(range.charRange.first, f);
+		iter.SetNext(f);
 		}
 
 	AdjustFontToDisplayGlyphs(range, itsText, itsStyles);
@@ -1595,13 +1612,15 @@ JStyledText::SetAllFontNameAndSize
 		ClearUndo();
 		}
 
-	const JSize runCount = itsStyles->GetRunCount();
-	for (JIndex i=1; i<=runCount; i++)
+	JRunArrayIterator<JFont> iter(itsStyles);
+
+	do
 		{
-		JFont f = itsStyles->GetRunData(i);
+		JFont f = iter.GetRunData();
 		f.Set(name, size, f.GetStyle());
-		itsStyles->SetRunData(i, f);
+		iter.SetNext(f, iter.GetRunLength());
 		}
+		while (iter.NextRun());
 
 	const TextRange& all = SelectAll();
 	AdjustFontToDisplayGlyphs(all, itsText, itsStyles);
@@ -1760,10 +1779,12 @@ JStyledText::InsertText
 	const JRunArray<JFont>&	style
 	)
 {
-	JStringIterator iter(&itsText);
-	iter.UnsafeMoveTo(kJIteratorStartBefore, index.charIndex, index.byteIndex);
+	JStringIterator textIter(&itsText);
+	textIter.UnsafeMoveTo(kJIteratorStartBefore, index.charIndex, index.byteIndex);
 
-	return InsertText(&iter, itsStyles, text, style);
+	JFontIterator styleIter(itsStyles, kJIteratorStartBefore, index.charIndex);
+
+	return InsertText(&textIter, &styleIter, text, style);
 }
 
 JStyledText::TextCount
@@ -1982,19 +2003,28 @@ JStyledText::RemoveIllegalChars
 
 	JBoolean changed = kJFalse;
 
-	JStringIterator iter(text);
-	while (iter.Next(illegalCharRegex))
+	JFontIterator* styleIter = nullptr;
+	if (style != nullptr && !style->IsEmpty())
 		{
-		const JStringMatch& m = iter.GetLastMatch();
+		styleIter = jnew JFontIterator(style);
+		assert( styleIter != nullptr );
+		}
 
-		if (style != nullptr && !style->IsEmpty())
+	JStringIterator textIter(text);
+	while (textIter.Next(illegalCharRegex))
+		{
+		const JStringMatch& m = textIter.GetLastMatch();
+
+		if (styleIter != nullptr)
 			{
-			style->RemoveElements(m.GetCharacterRange());
+			styleIter->MoveTo(kJIteratorStartBefore, m.GetCharacterRange().first);
+			styleIter->RemoveNext(m.GetCharacterRange().GetCount());
 			}
-		iter.RemoveLastMatch();		// invalidates m
+		textIter.RemoveLastMatch();		// invalidates m
 		changed = kJTrue;
 		}
 
+	jdelete styleIter;
 	return changed;
 }
 
@@ -2108,28 +2138,24 @@ JStyledText::PrivateDeleteText
 	const TextRange& range
 	)
 {
-	JStringIterator iter(&itsText);
+	JStringIterator textIter(&itsText);
+	textIter.UnsafeMoveTo(kJIteratorStartBefore, range.charRange.first, range.byteRange.first);
 
-	iter.UnsafeMoveTo(kJIteratorStartBefore, range.charRange.first, range.byteRange.first);
-	PrivateDeleteText(&iter, range.GetCount());
+	JFontIterator styleIter(itsStyles, kJIteratorStartBefore, range.charRange.first);
+
+	PrivateDeleteText(&textIter, &styleIter, range.charRange.GetCount());
 }
 
 void
 JStyledText::PrivateDeleteText
 	(
-	JStringIterator*	iter,
-	const TextCount&	count
+	JStringIterator*	textIter,
+	JFontIterator*		styleIter,
+	const JSize			charCount
 	)
 {
-	itsStyles->RemoveNextElements(iter->GetNextCharacterIndex(), count.charCount);
-
-	iter->BeginMatch();
-	iter->UnsafeMoveTo(
-		kJIteratorStartBefore,
-		iter->GetNextCharacterIndex() + count.charCount,
-		iter->GetNextByteIndex()      + count.byteCount);
-	iter->FinishMatch();
-	iter->RemoveLastMatch();
+	textIter->RemoveNext(charCount);
+	styleIter->RemoveNext(charCount);
 }
 
 /******************************************************************************
@@ -2145,6 +2171,11 @@ JStyledText::InsertCharacter
 	const JFont&			font
 	)
 {
+	JStringIterator textIter(&itsText);
+	textIter.UnsafeMoveTo(kJIteratorStartBefore, replaceRange.charRange.first, replaceRange.byteRange.first);
+
+	JFontIterator styleIter(itsStyles, kJIteratorStartBefore, replaceRange.charRange.first);
+
 	JBoolean isNew = kJTrue;
 	JSTUndoTyping* typingUndo;
 	if (replaceRange.IsEmpty())
@@ -2156,15 +2187,20 @@ JStyledText::InsertCharacter
 		typingUndo = jnew JSTUndoTyping(this, replaceRange);
 		assert( typingUndo != nullptr );
 
-		PrivateDeleteText(replaceRange);
+		PrivateDeleteText(&textIter, &styleIter, replaceRange.charRange.GetCount());
 		}
 
 	typingUndo->HandleCharacters(TextCount(1, key.GetByteCount()));
 
-	const JString s(key.GetBytes(), key.GetByteCount(), kJFalse);
+	const JString text(key.GetBytes(), key.GetByteCount(), kJFalse);
 
-	const TextCount pasteCount = InsertText(replaceRange.GetFirst(), s, font);
+	JRunArray<JFont> style;
+	style.AppendElement(font);
+
+	const TextCount pasteCount = InsertText(&textIter, &styleIter, text, style);
 	assert( pasteCount.charCount == 1 );
+
+	textIter.Invalidate();
 
 	const JInteger charDelta = pasteCount.charCount - replaceRange.charRange.GetCount(),
 				   byteDelta = pasteCount.byteCount - replaceRange.byteRange.GetCount();
@@ -2270,6 +2306,7 @@ JStyledText::BackwardDelete
 		}
 
 	const JStringMatch& match = iter.FinishMatch();
+	const JCharacterRange r   = match.GetCharacterRange();
 
 	if (returnText != nullptr)
 		{
@@ -2278,17 +2315,19 @@ JStyledText::BackwardDelete
 	if (returnStyle != nullptr)
 		{
 		returnStyle->RemoveAll();
-		returnStyle->AppendSlice(*itsStyles, match.GetCharacterRange());
+		returnStyle->AppendSlice(*itsStyles, r);
 		}
 
 	JBoolean isNew;
 	JSTUndoTyping* typingUndo = GetTypingUndo(caretIndex, &isNew);
 	typingUndo->HandleDelete(match);
 
-	const JInteger charDelta = - match.GetCharacterRange().GetCount(),
+	const JInteger charDelta = - r.GetCount(),
 				   byteDelta = - match.GetUtf8ByteRange().GetCount();
 
-	itsStyles->RemoveElements(match.GetCharacterRange());
+	JFontIterator styleIter(itsStyles, kJIteratorStartBefore, r.first);
+	styleIter.RemoveNext(r.GetCount());
+
 	iter.RemoveLastMatch();		// invalidates match
 
 	NewUndo(typingUndo, isNew);
@@ -2382,6 +2421,7 @@ JStyledText::ForwardDelete
 		}
 
 	const JStringMatch& match = iter.FinishMatch();
+	const JCharacterRange r   = match.GetCharacterRange();
 
 	if (returnText != nullptr)
 		{
@@ -2390,17 +2430,19 @@ JStyledText::ForwardDelete
 	if (returnStyle != nullptr)
 		{
 		returnStyle->RemoveAll();
-		returnStyle->AppendSlice(*itsStyles, match.GetCharacterRange());
+		returnStyle->AppendSlice(*itsStyles, r);
 		}
 
 	JBoolean isNew;
 	JSTUndoTyping* typingUndo = GetTypingUndo(caretIndex, &isNew);
 	typingUndo->HandleFwdDelete(match);
 
-	const JInteger charDelta = - match.GetCharacterRange().GetCount(),
+	const JInteger charDelta = - r.GetCount(),
 				   byteDelta = - match.GetUtf8ByteRange().GetCount();
 
-	itsStyles->RemoveElements(match.GetCharacterRange());
+	JFontIterator styleIter(itsStyles, kJIteratorStartBefore, r.first);
+	styleIter.RemoveNext(r.GetCount());
+
 	iter.RemoveLastMatch();		// invalidates match
 
 	NewUndo(typingUndo, isNew);
@@ -2444,13 +2486,13 @@ JStyledText::Outdent
 	JSize prefixSpaceCount     = 0;		// min # of spaces at start of line
 	JBoolean firstNonemptyLine = kJTrue;
 
-	JStringIterator iter(&itsText);
-	iter.UnsafeMoveTo(kJIteratorStartBefore, range.charRange.first, range.byteRange.first);
+	JStringIterator textIter(&itsText);
+	textIter.UnsafeMoveTo(kJIteratorStartBefore, range.charRange.first, range.byteRange.first);
 	do
 		{
 		JUtf8Character c;
-		if ((!iter.Prev(&c, kJFalse) || c == '\n') &&
-			iter.Next(&c, kJFalse) && c != '\n')
+		if ((!textIter.Prev(&c, kJFalse) || c == '\n') &&
+			textIter.Next(&c, kJFalse) && c != '\n')
 			{
 			for (JIndex j=1; j<=tabCount; j++)
 				{
@@ -2458,13 +2500,13 @@ JStyledText::Outdent
 				// accept fewer spaces in front of tab
 
 				JSize spaceCount = 0;
-				while (iter.Next(&c) && c == ' ' &&
+				while (textIter.Next(&c) && c == ' ' &&
 					   spaceCount < itsCRMTabCharCount)
 					{
 					spaceCount++;
 					}
 
-				if (iter.AtEnd())
+				if (textIter.AtEnd())
 					{
 					break;	// last line contains only whitespace
 					}
@@ -2490,7 +2532,7 @@ JStyledText::Outdent
 				}
 			}
 		}
-		while (iter.Next("\n") && range.charRange.Contains(iter.GetNextCharacterIndex()));
+		while (textIter.Next("\n") && range.charRange.Contains(textIter.GetNextCharacterIndex()));
 
 	// If same number of spaces at front of every line, remove those even if
 	// not enough to shift by one tab.
@@ -2512,7 +2554,8 @@ JStyledText::Outdent
 	JBoolean isNew;
 	JSTUndoTabShift* undo = GetTabShiftUndo(range, &isNew);
 
-	iter.UnsafeMoveTo(kJIteratorStartBefore, range.charRange.first, range.byteRange.first);
+	textIter.UnsafeMoveTo(kJIteratorStartBefore, range.charRange.first, range.byteRange.first);
+	JFontIterator styleIter(itsStyles, kJIteratorStartBefore, range.charRange.first);
 
 	JCharacterRange cr = range.charRange;
 
@@ -2520,8 +2563,8 @@ JStyledText::Outdent
 	do
 		{
 		JUtf8Character c;
-		if ((!iter.Prev(&c, kJFalse) || c == '\n') &&
-			iter.Next(&c, kJFalse) && c != '\n')
+		if ((!textIter.Prev(&c, kJFalse) || c == '\n') &&
+			textIter.Next(&c, kJFalse) && c != '\n')
 			{
 			for (JIndex j=1; j<=tabCount; j++)
 				{
@@ -2532,16 +2575,17 @@ JStyledText::Outdent
 				// accept fewer spaces in front of tab
 
 				JSize spaceCount = 0;
-				while (iter.Next(&c, kJFalse) && c == ' ' &&
+				while (textIter.Next(&c, kJFalse) && c == ' ' &&
 					   spaceCount < tabCharCount)
 					{
 					spaceCount++;
-					PrivateDeleteText(&iter, TextCount(1,1));
+					styleIter.MoveTo(kJIteratorStartBefore, textIter.GetNextCharacterIndex());
+					PrivateDeleteText(&textIter, &styleIter, 1);
 					deleteCount++;
 					cr.last--;
 					}
 
-				if (iter.AtEnd() ||	// last line contains only whitespace
+				if (textIter.AtEnd() ||	// last line contains only whitespace
 					!sufficientWS)	// only remove tabCharCount spaces at front of every line
 					{
 					break;
@@ -2556,19 +2600,20 @@ JStyledText::Outdent
 					{
 					break;
 					}
-				PrivateDeleteText(&iter, TextCount(1,1));
+				styleIter.MoveTo(kJIteratorStartBefore, textIter.GetNextCharacterIndex());
+				PrivateDeleteText(&textIter, &styleIter, 1);
 				deleteCount++;
 				cr.last--;
 				}
 			}
 		}
-		while (iter.Next("\n") && cr.Contains(iter.GetNextCharacterIndex()));
+		while (textIter.Next("\n") && cr.Contains(textIter.GetNextCharacterIndex()));
 
 	undo->SetCount(TextCount(cr.GetCount(), range.byteRange.GetCount() - deleteCount));
 
 	NewUndo(undo, isNew);
 
-	iter.Invalidate();
+	textIter.Invalidate();
 
 	BroadcastTextChanged(
 		TextRange(
@@ -2623,8 +2668,10 @@ JStyledText::Indent
 
 	JRunArray<JFont> style;
 
-	JStringIterator iter(&itsText);
-	iter.UnsafeMoveTo(kJIteratorStartBefore, range.charRange.first, range.byteRange.first);
+	JStringIterator textIter(&itsText);
+	textIter.UnsafeMoveTo(kJIteratorStartBefore, range.charRange.first, range.byteRange.first);
+
+	JFontIterator styleIter(itsStyles, kJIteratorStartBefore, range.charRange.first);
 
 	JCharacterRange cr = range.charRange;
 
@@ -2632,20 +2679,21 @@ JStyledText::Indent
 	do
 		{
 		JUtf8Character c;
-		if ((!iter.Prev(&c, kJFalse) || c == '\n') &&
-			iter.Next(&c, kJFalse) && c != '\n')
+		if ((!textIter.Prev(&c, kJFalse) || c == '\n') &&
+			textIter.Next(&c, kJFalse) && c != '\n')
 			{
-			style.RemoveAll();
-			style.AppendElements(CalcInsertionFont(
-				TextIndex(iter.GetNextCharacterIndex(), iter.GetNextByteIndex())),
-				tabs.GetCharacterCount());
+			styleIter.MoveTo(kJIteratorStartBefore, textIter.GetNextCharacterIndex());
 
-			const JSize count = InsertText(&iter, itsStyles, tabs, style).charCount;
+			style.RemoveAll();
+			style.AppendElements(CalcInsertionFont(textIter, styleIter),
+								 tabs.GetCharacterCount());
+
+			const JSize count = InsertText(&textIter, &styleIter, tabs, style).charCount;
 			insertCount      += count;
 			cr.last          += count;
 			}
 		}
-		while (iter.Next("\n") && cr.Contains(iter.GetNextCharacterIndex()));
+		while (textIter.Next("\n") && cr.Contains(textIter.GetNextCharacterIndex()));
 
 	undo->SetCount(TextCount(cr.GetCount(), range.byteRange.GetCount() + insertCount));
 
@@ -2654,7 +2702,7 @@ JStyledText::Indent
 	const JUtf8ByteRange br(range.byteRange.first, range.byteRange.last + insertCount);
 	const TextRange tr(cr, br);
 
-	iter.Invalidate();
+	textIter.Invalidate();
 
 	BroadcastTextChanged(tr, insertCount, insertCount, kJFalse, kJFalse);
 
@@ -2746,10 +2794,11 @@ JStyledText::MoveText
  ******************************************************************************/
 
 #define CLEAN_WS_ALIGNMENT \
-	iter.SkipPrev(); \
-	const JStringMatch& m = iter.FinishMatch(); \
-	style.RemoveElements(m.GetCharacterRange()); \
-	iter.RemoveLastMatch(); // invalidates m
+	textIter.SkipPrev(); \
+	const JCharacterRange r = textIter.FinishMatch().GetCharacterRange(); \
+	styleIter.MoveTo(kJIteratorStartBefore, r.first); \
+	styleIter.RemoveNext(r.GetCount()); \
+	textIter.RemoveLastMatch(); // invalidates m
 
 JStyledText::TextRange
 JStyledText::CleanWhitespace
@@ -2771,41 +2820,45 @@ JStyledText::CleanWhitespace
 
 	// strip trailing whitespace -- first, to clear blank lines
 
-	JStringIterator iter(&text);
+	JStringIterator textIter(&text);
+	JFontIterator styleIter(&style);
 	JBoolean keepGoing;
 	do
 		{
-		keepGoing = iter.Next("\n");
+		keepGoing = textIter.Next("\n");
 
 		JUtf8Character c;
 		JSize count = 0;
-		while (iter.Prev(&c, kJFalse) && isWhitespace(c))
+		while (textIter.Prev(&c, kJFalse) && isWhitespace(c))
 			{
-			iter.RemovePrev();
+			textIter.RemovePrev();
 			count++;
 			}
 
 		if (count > 0)
 			{
-			style.RemoveNextElements(iter.GetNextCharacterIndex(), count);
+			styleIter.MoveTo(kJIteratorStartBefore, textIter.GetNextCharacterIndex());
+			styleIter.RemoveNext(count);
 			}
 		}
 		while (keepGoing);
 
 	// clean indenting whitespace
 
-	iter.MoveTo(kJIteratorStartAtBeginning, 0);
+	textIter.MoveTo(kJIteratorStartAtBeginning, 0);
+	styleIter.MoveTo(kJIteratorStartAtBeginning, 0);
 	JString fill;
+	JFont f;
 	do
 		{
 		JSize n = 0;
-		TextIndex p(iter.GetNextCharacterIndex(), iter.GetNextByteIndex());
+		TextIndex p(textIter.GetNextCharacterIndex(), textIter.GetNextByteIndex());
 		JUtf8Character c;
 
 		if (itsTabToSpacesFlag)
 			{
-			iter.BeginMatch();
-			while (iter.Next(&c) && isWhitespace(c))
+			textIter.BeginMatch();
+			while (textIter.Next(&c) && isWhitespace(c))
 				{
 				if (c == ' ')
 					{
@@ -2813,7 +2866,7 @@ JStyledText::CleanWhitespace
 					if (n >= itsCRMTabCharCount)
 						{
 						n = 0;
-						iter.BeginMatch();
+						textIter.BeginMatch();
 						}
 					}
 				else	// tab
@@ -2826,17 +2879,18 @@ JStyledText::CleanWhitespace
 						fill += " ";
 						}
 
-					const JIndex i = iter.GetPrevCharacterIndex();
-					style.InsertElementsAtIndex(i, style.GetElement(i), count-1);
+					styleIter.MoveTo(kJIteratorStartBefore, textIter.GetPrevCharacterIndex());
+					styleIter.Next(&f);
+					styleIter.Insert(f, count-1);
 
-					iter.SkipPrev();
-					iter.BeginMatch();
-					iter.SkipNext();
-					iter.FinishMatch();
-					iter.ReplaceLastMatch(fill);
+					textIter.SkipPrev();
+					textIter.BeginMatch();
+					textIter.SkipNext();
+					textIter.FinishMatch();
+					textIter.ReplaceLastMatch(fill);
 
 					n = 0;
-					iter.BeginMatch();
+					textIter.BeginMatch();
 					}
 				}
 
@@ -2854,46 +2908,50 @@ JStyledText::CleanWhitespace
 					fill += " ";
 					}
 
-				const JIndex i = iter.GetPrevCharacterIndex();
-				style.InsertElementsAtIndex(i, style.GetElement(i), count);
+				styleIter.MoveTo(kJIteratorStartBefore, textIter.GetPrevCharacterIndex());
+				styleIter.Next(&f);
+				styleIter.Insert(f, count);
 
-				iter.SkipPrev();
-				iter.Insert(fill);
+				textIter.SkipPrev();
+				textIter.Insert(fill);
 				}
 			}
 		else
 			{
-			iter.BeginMatch();
-			while (iter.Next(&c) && isWhitespace(c))
+			textIter.BeginMatch();
+			while (textIter.Next(&c) && isWhitespace(c))
 				{
 				if (c == ' ')
 					{
 					n++;
 					if (n >= itsCRMTabCharCount)
 						{
-						const JStringMatch& m = iter.FinishMatch();
-						style.RemoveNextElements(
-							iter.GetNextCharacterIndex(), m.GetCharacterCount()-1);
+						const JStringMatch& m = textIter.FinishMatch();
 
-						iter.ReplaceLastMatch("\t");	// invalidates m
+						styleIter.MoveTo(kJIteratorStartBefore, textIter.GetNextCharacterIndex());
+						styleIter.RemoveNext(m.GetCharacterCount()-1);
+
+						textIter.ReplaceLastMatch("\t");	// invalidates m
 
 						n = 0;
-						iter.BeginMatch();
+						textIter.BeginMatch();
 						}
 					}
 				else	// tab
 					{
-					iter.SkipPrev();
-					const JStringMatch& m = iter.FinishMatch();
+					textIter.SkipPrev();
+					const JStringMatch& m = textIter.FinishMatch();
 					if (!m.IsEmpty())	// remove useless preceding spaces
 						{
-						style.RemoveElements(m.GetCharacterRange());
-						iter.RemoveLastMatch();		// invalidates m
+						const JCharacterRange r = m.GetCharacterRange();
+						styleIter.MoveTo(kJIteratorStartBefore, r.first);
+						styleIter.RemoveNext(r.GetCount());
+						textIter.RemoveLastMatch();		// invalidates m
 						}
-					iter.SkipNext();
+					textIter.SkipNext();
 
 					n = 0;
-					iter.BeginMatch();
+					textIter.BeginMatch();
 					}
 				}
 
@@ -2903,19 +2961,19 @@ JStyledText::CleanWhitespace
 				}
 			else if (align && itsCRMTabCharCount/2 < n)
 				{
-				iter.SkipPrev();
-				const JStringMatch& m = iter.FinishMatch();
+				textIter.SkipPrev();
+				const JCharacterRange r = textIter.FinishMatch().GetCharacterRange();
 
-				const JCharacterRange r = m.GetCharacterRange();
-				style.RemoveNextElements(r.first+1, r.GetCount()-1);
+				styleIter.MoveTo(kJIteratorStartBefore, r.first+1);
+				styleIter.RemoveNext(r.GetCount()-1);
 
-				iter.ReplaceLastMatch("\t");	// invalidates m
+				textIter.ReplaceLastMatch("\t");	// invalidates m
 				}
 			}
 		}
-		while (iter.Next("\n") && !iter.AtEnd());
+		while (textIter.Next("\n") && !textIter.AtEnd());
 
-	iter.Invalidate();
+	textIter.Invalidate();
 
 	// replace selection with cleaned text/style
 
@@ -4490,10 +4548,12 @@ JStyledText::CalcInsertionFont
 {
 	// create separate object on which to iterate, without copying
 	const JString s(itsText, kJFalse);
-	JStringIterator iter(s);
-	iter.UnsafeMoveTo(kJIteratorStartBefore, index.charIndex, index.byteIndex);
+	JStringIterator textIter(s);
+	textIter.UnsafeMoveTo(kJIteratorStartBefore, index.charIndex, index.byteIndex);
 
-	return CalcInsertionFont(iter, *itsStyles);
+	JFontIterator styleIter(*itsStyles, kJIteratorStartBefore, index.charIndex);
+
+	return CalcInsertionFont(textIter, styleIter);
 }
 
 // private
@@ -4501,24 +4561,31 @@ JStyledText::CalcInsertionFont
 JFont
 JStyledText::CalcInsertionFont
 	(
-	JStringIterator&		iter,
-	const JRunArray<JFont>&	styles
+	JStringIterator&	textIter,
+	JFontIterator&		styleIter
 	)
 	const
 {
 	JUtf8Character c;
-	if (iter.Prev(&c, kJFalse) && c == '\n')
+	if (textIter.Prev(&c, kJFalse) && c == '\n' && !textIter.AtEnd())
 		{
-		return styles.GetElement(
-			iter.AtEnd() ? iter.GetPrevCharacterIndex() : iter.GetNextCharacterIndex());
+		JFont f;
+		const JBoolean ok = styleIter.Next(&f);
+		assert( ok );
+		styleIter.SkipPrev();
+		return f;
 		}
-	else if (!iter.AtBeginning())
+	else if (!textIter.AtBeginning())
 		{
-		return styles.GetElement(iter.GetPrevCharacterIndex());
+		JFont f;
+		const JBoolean ok = styleIter.Prev(&f);
+		assert( ok );
+		styleIter.SkipNext();
+		return f;
 		}
-	else if (!styles.IsEmpty())
+	else if (!styleIter.GetList()->IsEmpty())
 		{
-		return styles.GetElement(1);
+		return styleIter.GetList()->GetFirstElement();
 		}
 	else
 		{

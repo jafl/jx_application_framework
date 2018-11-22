@@ -110,7 +110,7 @@ JBoolean
 JRunArrayIterator<T>::AtLastRun()
 	const
 {
-	return JI2B( itsRunIndex == itsRunArray->GetRunCount() );
+	return JI2B( itsRunIndex >= itsRunArray->GetRunCount() );
 }
 
 /******************************************************************************

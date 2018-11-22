@@ -145,6 +145,22 @@ JRunArray<T>::PrependElements
 }
 
 /******************************************************************************
+ PrependSlice
+
+ ******************************************************************************/
+
+template <class T>
+void
+JRunArray<T>::PrependSlice
+	(
+	const JRunArray<T>&	source,
+	const JIndexRange&	range
+	)
+{
+	IteratorInsertSlice(1, source, range, 1, 1);
+}
+
+/******************************************************************************
  AppendElement (virtual)
 
  ******************************************************************************/
@@ -181,6 +197,28 @@ JRunArray<T>::AppendElements
 	assert( ok );
 
 	IteratorInsertElementsAtIndex(totalCount+1, data, count, runIndex, firstIndexInRun);
+}
+
+/******************************************************************************
+ AppendSlice
+
+ ******************************************************************************/
+
+template <class T>
+void
+JRunArray<T>::AppendSlice
+	(
+	const JRunArray<T>&	source,
+	const JIndexRange&	range
+	)
+{
+	const JSize totalCount = this->GetElementCount();
+
+	JIndex runIndex, firstIndexInRun;
+	const JBoolean ok = FindRun(totalCount, &runIndex, &firstIndexInRun);
+	assert( ok );
+
+	IteratorInsertSlice(totalCount+1, source, range, runIndex, firstIndexInRun);
 }
 
 /******************************************************************************
@@ -841,7 +879,7 @@ JRunArray<T>::SetBlockSize
 }
 
 /******************************************************************************
- GetRunCount (private)
+ GetRunCount
 
  ******************************************************************************/
 

@@ -450,7 +450,7 @@ private:
 private:
 
 	JFont	CalcInsertionFont(JStringIterator& iter,
-							  const JRunArray<JFont>& styles) const;
+							  JRunArrayIterator<JFont>& styleIter) const;
 
 	JBoolean			GetCurrentUndo(JSTUndoBase** undo) const;
 	JBoolean			GetCurrentRedo(JSTUndoBase** redo) const;
@@ -477,7 +477,9 @@ private:
 	TextCount	InsertText(JStringIterator* targetText, JRunArrayIterator<JFont>* targetStyle,
 						   const JString& text, const JRunArray<JFont>& style);
 	void		PrivateDeleteText(const TextRange& range);
-	void		PrivateDeleteText(JStringIterator* iter, const TextCount& count);
+	void		PrivateDeleteText(JStringIterator* textIter,
+								  JRunArrayIterator<JFont>* styleIter,
+								  const JSize charCount);
 	JBoolean	CleanText(const JString& text, const JRunArray<JFont>& style,
 						  JString** cleanText, JRunArray<JFont>** cleanStyle,
 						  JBoolean* okToInsert);

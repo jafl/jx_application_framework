@@ -198,8 +198,8 @@ JListIterator<T>::MoveTo
 /******************************************************************************
  AtBeginning
 
-	Return kJTrue if iterator is positioned at the beginning of the ordered set
-	or if the ordered set has been deleted.
+	Return kJTrue if iterator is positioned at the beginning of the list
+	or if the list has been deleted.
 
  ******************************************************************************/
 
@@ -213,8 +213,8 @@ JListIterator<T>::AtBeginning()
 /******************************************************************************
  AtEnd
 
-	Return kJTrue if iterator is positioned at the end of the ordered set
-	or if the ordered set has been deleted.
+	Return kJTrue if iterator is positioned at the end of the list
+	or if the list has been deleted.
 
  ******************************************************************************/
 
@@ -227,15 +227,15 @@ JListIterator<T>::AtEnd()
 }
 
 /******************************************************************************
- GetList (protected)
+ GetList
 
-	Return the current ordered set for this iterator.
+	Return the current list for this iterator.
 
  ******************************************************************************/
 
 template <class T>
 const JList<T>*
-JListIterator<T>::GetConstList()
+JListIterator<T>::GetList()
 	const
 {
 	return itsConstList;

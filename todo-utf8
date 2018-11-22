@@ -1,6 +1,8 @@
 unit test
-	JPackedTableData
 	JTable
+	JTableSelection
+	JStringTableData
+	JFloatTableData
 
 always invalidate JStringIterator if part of a larger function
 
