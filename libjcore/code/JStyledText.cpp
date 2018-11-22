@@ -58,7 +58,7 @@
 #include "jGlobals.h"
 #include "jAssert.h"
 
-typedef JRunArrayIterator<JFont>	JFontIterator;
+typedef JRunArrayIterator<JFont>	FontIterator;
 
 const JFileVersion kCurrentPrivateFormatVersion = 1;
 
@@ -684,7 +684,7 @@ JStyledText::WritePrivateFormat
 	JArray<JColorID> colorList;
 	colorList.SetCompareFunction(JCompareUInt64);
 
-	JFontIterator iter(style, kJIteratorStartBefore, range.charRange.first);
+	FontIterator iter(style, kJIteratorStartBefore, range.charRange.first);
 	do
 		{
 		const JFont f           = iter.GetRunData();
@@ -984,7 +984,7 @@ JStyledText::ReplaceAllInRange
 {
 	JString text;
 	JRunArray<JFont> styles;
-	JFontIterator styleIter(&styles);
+	FontIterator styleIter(&styles);
 
 	if (range.charRange.GetCount() == itsText.GetCharacterCount())	// avoid counting characters
 		{
@@ -1122,7 +1122,7 @@ jComputeForwardFontRange
 	(
 	const JStyledText::TextIndex&	start,
 	const JString&					text,
-	const JFontIterator&			iter,
+	const FontIterator&				iter,
 	const JBoolean					wrapped,
 	JStyledText::TextRange*			range
 	)
@@ -1161,7 +1161,7 @@ JStyledText::SearchForward
 	*wrapped = kJFalse;
 	range->SetToNothing();
 
-	JFontIterator iter(*itsStyles, kJIteratorStartBefore, start.charIndex);
+	FontIterator iter(*itsStyles, kJIteratorStartBefore, start.charIndex);
 	if (iter.GetRemainingInRun() < iter.GetRunLength())
 		{
 		iter.NextRun();
@@ -1224,7 +1224,7 @@ jComputeBackwardFontRange
 	(
 	const JStyledText::TextIndex&	start,
 	const JString&					text,
-	const JFontIterator&			iter,
+	const FontIterator&				iter,
 	const JBoolean					wrapped,
 	JStyledText::TextRange*			range
 	)
@@ -1269,7 +1269,7 @@ JStyledText::SearchBackward
 	*wrapped = kJFalse;
 	range->SetToNothing();
 
-	JFontIterator iter(*itsStyles, kJIteratorStartBefore, start.charIndex);
+	FontIterator iter(*itsStyles, kJIteratorStartBefore, start.charIndex);
 	if (iter.GetRemainingInRun() < iter.GetRunLength())
 		{
 		iter.SkipPrev(iter.GetRunLength() - iter.GetRemainingInRun());
@@ -1533,7 +1533,7 @@ JStyledText::SetFont
 		undo = GetStyleUndo(range, &isNew);
 		}
 
-	JFontIterator iter(itsStyles, kJIteratorStartBefore, range.charRange.first);
+	FontIterator iter(itsStyles, kJIteratorStartBefore, range.charRange.first);
 
 	if (range.charRange.last > range.charRange.first)
 		{
@@ -1782,7 +1782,7 @@ JStyledText::InsertText
 	JStringIterator textIter(&itsText);
 	textIter.UnsafeMoveTo(kJIteratorStartBefore, index.charIndex, index.byteIndex);
 
-	JFontIterator styleIter(itsStyles, kJIteratorStartBefore, index.charIndex);
+	FontIterator styleIter(itsStyles, kJIteratorStartBefore, index.charIndex);
 
 	return InsertText(&textIter, &styleIter, text, style);
 }
@@ -1791,7 +1791,7 @@ JStyledText::TextCount
 JStyledText::InsertText
 	(
 	JStringIterator*		targetText,
-	JFontIterator*			targetStyle,
+	FontIterator*			targetStyle,
 	const JString&			text,
 	const JRunArray<JFont>&	style
 	)
@@ -2003,10 +2003,10 @@ JStyledText::RemoveIllegalChars
 
 	JBoolean changed = kJFalse;
 
-	JFontIterator* styleIter = nullptr;
+	FontIterator* styleIter = nullptr;
 	if (style != nullptr && !style->IsEmpty())
 		{
-		styleIter = jnew JFontIterator(style);
+		styleIter = jnew FontIterator(style);
 		assert( styleIter != nullptr );
 		}
 
@@ -2141,7 +2141,7 @@ JStyledText::PrivateDeleteText
 	JStringIterator textIter(&itsText);
 	textIter.UnsafeMoveTo(kJIteratorStartBefore, range.charRange.first, range.byteRange.first);
 
-	JFontIterator styleIter(itsStyles, kJIteratorStartBefore, range.charRange.first);
+	FontIterator styleIter(itsStyles, kJIteratorStartBefore, range.charRange.first);
 
 	PrivateDeleteText(&textIter, &styleIter, range.charRange.GetCount());
 }
@@ -2150,7 +2150,7 @@ void
 JStyledText::PrivateDeleteText
 	(
 	JStringIterator*	textIter,
-	JFontIterator*		styleIter,
+	FontIterator*		styleIter,
 	const JSize			charCount
 	)
 {
@@ -2174,7 +2174,7 @@ JStyledText::InsertCharacter
 	JStringIterator textIter(&itsText);
 	textIter.UnsafeMoveTo(kJIteratorStartBefore, replaceRange.charRange.first, replaceRange.byteRange.first);
 
-	JFontIterator styleIter(itsStyles, kJIteratorStartBefore, replaceRange.charRange.first);
+	FontIterator styleIter(itsStyles, kJIteratorStartBefore, replaceRange.charRange.first);
 
 	JBoolean isNew = kJTrue;
 	JSTUndoTyping* typingUndo;
@@ -2325,7 +2325,7 @@ JStyledText::BackwardDelete
 	const JInteger charDelta = - r.GetCount(),
 				   byteDelta = - match.GetUtf8ByteRange().GetCount();
 
-	JFontIterator styleIter(itsStyles, kJIteratorStartBefore, r.first);
+	FontIterator styleIter(itsStyles, kJIteratorStartBefore, r.first);
 	styleIter.RemoveNext(r.GetCount());
 
 	iter.RemoveLastMatch();		// invalidates match
@@ -2440,7 +2440,7 @@ JStyledText::ForwardDelete
 	const JInteger charDelta = - r.GetCount(),
 				   byteDelta = - match.GetUtf8ByteRange().GetCount();
 
-	JFontIterator styleIter(itsStyles, kJIteratorStartBefore, r.first);
+	FontIterator styleIter(itsStyles, kJIteratorStartBefore, r.first);
 	styleIter.RemoveNext(r.GetCount());
 
 	iter.RemoveLastMatch();		// invalidates match
@@ -2555,7 +2555,7 @@ JStyledText::Outdent
 	JSTUndoTabShift* undo = GetTabShiftUndo(range, &isNew);
 
 	textIter.UnsafeMoveTo(kJIteratorStartBefore, range.charRange.first, range.byteRange.first);
-	JFontIterator styleIter(itsStyles, kJIteratorStartBefore, range.charRange.first);
+	FontIterator styleIter(itsStyles, kJIteratorStartBefore, range.charRange.first);
 
 	JCharacterRange cr = range.charRange;
 
@@ -2671,7 +2671,7 @@ JStyledText::Indent
 	JStringIterator textIter(&itsText);
 	textIter.UnsafeMoveTo(kJIteratorStartBefore, range.charRange.first, range.byteRange.first);
 
-	JFontIterator styleIter(itsStyles, kJIteratorStartBefore, range.charRange.first);
+	FontIterator styleIter(itsStyles, kJIteratorStartBefore, range.charRange.first);
 
 	JCharacterRange cr = range.charRange;
 
@@ -2821,7 +2821,7 @@ JStyledText::CleanWhitespace
 	// strip trailing whitespace -- first, to clear blank lines
 
 	JStringIterator textIter(&text);
-	JFontIterator styleIter(&style);
+	FontIterator styleIter(&style);
 	JBoolean keepGoing;
 	do
 		{
@@ -4551,7 +4551,7 @@ JStyledText::CalcInsertionFont
 	JStringIterator textIter(s);
 	textIter.UnsafeMoveTo(kJIteratorStartBefore, index.charIndex, index.byteIndex);
 
-	JFontIterator styleIter(*itsStyles, kJIteratorStartBefore, index.charIndex);
+	FontIterator styleIter(*itsStyles, kJIteratorStartBefore, index.charIndex);
 
 	return CalcInsertionFont(textIter, styleIter);
 }
@@ -4562,7 +4562,7 @@ JFont
 JStyledText::CalcInsertionFont
 	(
 	JStringIterator&	textIter,
-	JFontIterator&		styleIter
+	FontIterator&		styleIter
 	)
 	const
 {

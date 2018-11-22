@@ -147,7 +147,7 @@ typedef JStyledText::TextIndex	TextIndex;
 typedef JStyledText::TextCount	TextCount;
 typedef JStyledText::TextRange	TextRange;
 
-typedef JRunArrayIterator<JFont>						JFontIterator;
+typedef JRunArrayIterator<JFont>						FontIterator;
 typedef JRunArrayIterator<JTextEditor::LineGeometry>	GeometryIterator;
 
 const JCoordinate kDefLeftMarginWidth = 10;
@@ -1008,7 +1008,7 @@ JTextEditor::Paste
 		JFont f = itsInsertionFont;
 		if (hadSelection)
 			{
-			JFontIterator iter(
+			FontIterator iter(
 				itsText->GetStyles(), kJIteratorStartBefore, range.charRange.first);
 			iter.Next(&f);
 			}
@@ -1661,7 +1661,7 @@ JTextEditor::TEDrawText
 	// draw text, one line at a time
 
 	JStringIterator* textIter = itsText->GetConstIterator(kJIteratorStartBefore, GetLineStart(startLine));
-	JFontIterator styleIter(itsText->GetStyles(), kJIteratorStartBefore, GetLineStart(startLine).charIndex);
+	FontIterator styleIter(itsText->GetStyles(), kJIteratorStartBefore, GetLineStart(startLine).charIndex);
 
 	JRunArrayIterator<LineGeometry> geomIter(itsLineGeom, kJIteratorStartBefore, startLine);
 	LineGeometry geom;
@@ -1695,7 +1695,7 @@ teDrawSpaces
 	JPainter&			p,
 	const JInteger		direction,		// +1/-1
 	JStringIterator*	textIter,
-	JFontIterator*		styleIter,
+	FontIterator*		styleIter,
 	const JCoordinate	left,
 	const JCoordinate	ycenter,
 	const JColorID		wsColor
@@ -1742,7 +1742,7 @@ JTextEditor::TEDrawLine
 	const JCoordinate	top,
 	const LineGeometry&	geom,
 	JStringIterator*	textIter,
-	JFontIterator*		styleIter,
+	FontIterator*		styleIter,
 	const JIndex		lineIndex
 	)
 {
@@ -2722,7 +2722,7 @@ JTextEditor::InsertCharacter
 	const JBoolean hadSelection = !itsSelection.IsEmpty();
 	if (hadSelection)
 		{
-		JFontIterator iter(itsText->GetStyles(), kJIteratorStartBefore, itsSelection.charRange.first);
+		FontIterator iter(itsText->GetStyles(), kJIteratorStartBefore, itsSelection.charRange.first);
 		iter.Next(&itsInsertionFont);
 
 		itsCaret = CalcCaretLocation(itsSelection.GetFirst());
@@ -2766,7 +2766,7 @@ JTextEditor::BackwardDelete
 	JBoolean setFont = kJFalse;
 	if (i.charIndex > 1)
 		{
-		JFontIterator iter(itsText->GetStyles(), kJIteratorStartBefore, i.charIndex);
+		FontIterator iter(itsText->GetStyles(), kJIteratorStartBefore, i.charIndex);
 		iter.Prev(&f);
 		setFont = kJTrue;
 		}
@@ -3559,7 +3559,7 @@ JTextEditor::GetCharWidth
 {
 	if (c != '\t')
 		{
-		JFontIterator iter(itsText->GetStyles(), kJIteratorStartBefore, charLoc.location.charIndex);
+		FontIterator iter(itsText->GetStyles(), kJIteratorStartBefore, charLoc.location.charIndex);
 		JFont f;
 		iter.Next(&f);
 		return f.GetCharWidth(itsFontManager, c);
@@ -3584,7 +3584,7 @@ JTextEditor::GetStringWidth
 	(
 	const TextIndex&	origStart,
 	const TextIndex&	end,
-	JFontIterator*		styleIter
+	FontIterator*		styleIter
 	)
 	const
 {
@@ -3596,7 +3596,7 @@ JTextEditor::GetStringWidth
 		{
 		allocatedStyleIter = kJTrue;
 
-		styleIter = jnew JFontIterator(itsText->GetStyles(), kJIteratorStartBefore, origStart.charIndex);
+		styleIter = jnew FontIterator(itsText->GetStyles(), kJIteratorStartBefore, origStart.charIndex);
 		assert( styleIter != nullptr );
 		}
 	else
@@ -3922,7 +3922,7 @@ JTextEditor::RecalcRange
 	const TextCount textLength(itsText->GetText().GetCharacterCount(),
 							   itsText->GetText().GetByteCount());
 
-	JFontIterator styleIter(itsText->GetStyles(), kJIteratorStartBefore, textIter->GetNextCharacterIndex());
+	FontIterator styleIter(itsText->GetStyles(), kJIteratorStartBefore, textIter->GetNextCharacterIndex());
 	GeometryIterator geomIter(itsLineGeom, kJIteratorStartBefore, lineIndex);
 
 	*maxLineWidth = itsWidth;
@@ -4025,7 +4025,7 @@ void
 JTextEditor::RecalcLine
 	(
 	JStringIterator*	textIter,
-	JFontIterator*		styleIter,
+	FontIterator*		styleIter,
 	GeometryIterator*	geomIter,
 	const JIndex		lineIndex,
 	JCoordinate*		lineWidth
@@ -4164,7 +4164,7 @@ void
 JTextEditor::IncludeWhitespaceOnLine
 	(
 	JStringIterator*	textIter,
-	JFontIterator*		styleIter,
+	FontIterator*		styleIter,
 	JCoordinate*		lineWidth,
 	JBoolean*			endOfLine
 	)
@@ -4250,7 +4250,7 @@ void
 JTextEditor::GetSubwordForLine
 	(
 	JStringIterator*	textIter,
-	JFontIterator*		styleIter,
+	FontIterator*		styleIter,
 	const JIndex		lineIndex,
 	JCoordinate*		lineWidth
 	)
@@ -4382,7 +4382,7 @@ JTextEditor::CalcCaretLocation
 	JCoordinate x     = 0;
 	JCoordinate prevD = pt.x;
 
-	JFontIterator fiter(itsText->GetStyles(), kJIteratorStartBefore, lineStart.charIndex);
+	FontIterator fiter(itsText->GetStyles(), kJIteratorStartBefore, lineStart.charIndex);
 	JFont f;
 
 	JStringIterator* iter = itsText->GetConstIterator(kJIteratorStartBefore, lineStart);

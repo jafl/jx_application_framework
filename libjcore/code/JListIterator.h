@@ -43,8 +43,12 @@ public:
 	virtual void		SkipNext(const JSize count = 1) = 0;
 
 	virtual void		MoveTo(const JIteratorPosition newPosition, const JIndex index);
-	JBoolean			AtBeginning();
-	JBoolean			AtEnd();
+	JBoolean			AtBeginning() const;
+	JBoolean			AtEnd() const;
+	JIndex				GetPrevElementIndex() const;		// asserts
+	JIndex				GetNextElementIndex() const;		// asserts
+	JBoolean			GetPrevElementIndex(JIndex* i) const;
+	JBoolean			GetNextElementIndex(JIndex* i) const;
 
 	// only allowed if constructed from non-const JList<T>*
 

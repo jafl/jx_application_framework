@@ -157,6 +157,88 @@ JListIterator<T>::~JListIterator()
 }
 
 /******************************************************************************
+ GetPrevElementIndex
+
+	asserts that there is a previous element
+
+ ******************************************************************************/
+
+template <class T>
+JIndex
+JListIterator<T>::GetPrevElementIndex()
+	const
+{
+	assert( !this->AtBeginning() );
+	return itsCursorPosition;
+}
+
+/******************************************************************************
+ GetNextElementIndex
+
+	asserts that there is a next element
+
+ ******************************************************************************/
+
+template <class T>
+JIndex
+JListIterator<T>::GetNextElementIndex()
+	const
+{
+	assert( !this->AtEnd() );
+	return itsCursorPosition + 1;
+}
+
+/******************************************************************************
+ GetPrevElementIndex
+
+	Returns kJTrue if there is a previous element.
+
+ ******************************************************************************/
+
+template <class T>
+JBoolean
+JListIterator<T>::GetPrevElementIndex
+	(
+	JIndex* i
+	)
+	const
+{
+	if (this->AtBeginning())
+		{
+		*i = 0;
+		return kJFalse;
+		}
+
+	*i = itsCursorPosition;
+	return kJTrue;
+}
+
+/******************************************************************************
+ GetNextElementIndex
+
+	Returns kJTrue if there is a next element.
+
+ ******************************************************************************/
+
+template <class T>
+JBoolean
+JListIterator<T>::GetNextElementIndex
+	(
+	JIndex* i
+	)
+	const
+{
+	if (this->AtEnd())
+		{
+		*i = 0;
+		return kJFalse;
+		}
+
+	*i = itsCursorPosition + 1;
+	return kJTrue;
+}
+
+/******************************************************************************
  MoveTo (virtual)
 
  ******************************************************************************/
@@ -206,6 +288,7 @@ JListIterator<T>::MoveTo
 template <class T>
 JBoolean
 JListIterator<T>::AtBeginning()
+	const
 {
 	return JConvertToBoolean( itsConstList == nullptr || itsCursorPosition == 0 );
 }
@@ -221,6 +304,7 @@ JListIterator<T>::AtBeginning()
 template <class T>
 JBoolean
 JListIterator<T>::AtEnd()
+	const
 {
 	return JConvertToBoolean( itsConstList == nullptr ||
 							  itsCursorPosition >= itsConstList->GetElementCount() );

@@ -99,14 +99,9 @@ private:
 	JCharacterRange			itsCheckRange;
 
 	JArray<TokenData>*	itsTokenStartList;			// not owned; nullptr unless lexing
-	JSize				itsTokenStartFactor;
-	JSize				itsTokenStartCount;
+	JSize				itsTokenStartCounter;
 
-	// information about next token that will be received
-
-	JIndex	itsTokenStart;
-	JIndex	itsTokenRunIndex;						// invalid when itsRedoAllFlag
-	JIndex	itsTokenFirstInRun;						// invalid when itsRedoAllFlag
+	JRunArrayIterator<JFont>*	itsIterator;		// nullptr unless lexing
 
 private:
 

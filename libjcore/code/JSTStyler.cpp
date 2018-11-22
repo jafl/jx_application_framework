@@ -79,25 +79,7 @@ typedef JStyledText::TextRange TextRange;
 const JSize kDecimationFactor = 50;
 const JSize kListBlockSize    = 50;
 
-#define DEBUG_RUN_INFO		0	// boolean
 #define DEBUG_TIMING_INFO	0	// boolean
-
-#define run_assert(styles, index, runIndex, firstIndexInRun) \
-	assert( check_run(styles, index, runIndex, firstIndexInRun) )
-
-#if DEBUG_RUN_INFO
-
-static JIndex debugRunIndex, debugFirstInRun;
-
-#define check_run(styles, index, runIndex, firstIndexInRun) \
-	styles->FindRun(index, &debugRunIndex, &debugFirstInRun) && \
-	debugRunIndex == runIndex && debugFirstInRun == firstIndexInRun
-
-#else
-
-#define check_run(styles, index, runIndex, firstIndexInRun)		kJTrue
-
-#endif
 
 /******************************************************************************
  Constructor
@@ -112,12 +94,12 @@ JSTStyler::JSTStyler()
 	itsFontMgr     = nullptr;
 	itsText        = nullptr;
 	itsStyles      = nullptr;
+	itsIterator    = nullptr;
 	itsDefFont     = nullptr;
 	itsRecalcRange = nullptr;
 	itsRedrawRange = nullptr;
 
-	itsTokenStartList   = nullptr;
-	itsTokenStartFactor = kDecimationFactor;
+	itsTokenStartList = nullptr;
 }
 
 /******************************************************************************
@@ -127,6 +109,7 @@ JSTStyler::JSTStyler()
 
 JSTStyler::~JSTStyler()
 {
+	jdelete itsIterator;	// paranoia
 }
 
 /******************************************************************************
@@ -160,6 +143,9 @@ JSTStyler::UpdateStyles
 		tokenStartList->RemoveAll();
 		return;
 		}
+
+	itsIterator = jnew JRunArrayIterator<JFont>(styles);
+	assert( itsIterator != nullptr );
 
 	TokenData tokenData;
 	if (recalcRange->charRange.first == 1 && recalcRange->charRange.last >= textLength)
@@ -200,17 +186,11 @@ JSTStyler::UpdateStyles
 			lastIndex = textLength;
 			}
 
-		JIndex runIndex1, firstIndexInRun1;
-		JBoolean ok = styles->FindRun(firstIndex, &runIndex1, &firstIndexInRun1);
-		assert( ok );
+		itsIterator->MoveTo(kJIteratorStartBefore, lastIndex);
+		const JIndex endIndex = itsIterator->GetRunEnd();
 
-		JIndex runIndex2        = runIndex1;
-		JIndex firstIndexInRun2 = firstIndexInRun1;
-		ok = styles->FindRun(firstIndex, lastIndex, &runIndex2, &firstIndexInRun2);
-		assert( ok );
-		run_assert(styles, lastIndex, runIndex2, firstIndexInRun2);
-
-		itsCheckRange.Set(firstIndexInRun1, firstIndexInRun2 + styles->GetRunLength(runIndex2)-1);
+		itsIterator->MoveTo(kJIteratorStartBefore, firstIndex);		// see below; faster to start here
+		itsCheckRange.Set(itsIterator->GetRunStart(), endIndex);
 
 		// let derived class expand the range
 
@@ -246,27 +226,19 @@ JSTStyler::UpdateStyles
 				tokenStartList->RemoveNextElements(tokenStartIndex+1, tokenStartCount - tokenStartIndex);
 				}
 			}
-
-		// While typing in one place, it is much faster to back up from itsCheckRange
-		// than to start from the top.
-
-		itsTokenRunIndex   = runIndex1;
-		itsTokenFirstInRun = firstIndexInRun1;
-		ok = styles->FindRun(firstIndex, tokenData.startIndex, &itsTokenRunIndex, &itsTokenFirstInRun);
-		assert( ok );
-		run_assert(styles, tokenData.startIndex, itsTokenRunIndex, itsTokenFirstInRun);
 		}
 
 	// prepare to accumulate new token starts
 
-	itsTokenStartList  = tokenStartList;
-	itsTokenStartCount = 0;
-	itsTokenStart      = tokenData.startIndex;
+	itsTokenStartList    = tokenStartList;
+	itsTokenStartCounter = 0;
+
+	itsIterator->MoveTo(kJIteratorStartBefore, tokenData.startIndex);
 
 	// scan the text and adjust the styles
 
 	std::istrstream input(text.GetRawBytes(), textLength);
-	JSeekg(input, itsTokenStart-1);
+	JSeekg(input, tokenData.startIndex-1);
 
 	JFont f = st->GetDefaultFont();
 
@@ -288,6 +260,9 @@ JSTStyler::UpdateStyles
 	timer.StopTimer();
 	std::cout << "JSTStyler: " << timer.PrintTimeInterval() << std::endl;
 	#endif
+
+	jdelete itsIterator;
+	itsIterator = nullptr;
 
 	itsST             = nullptr;
 	itsDefFont        = nullptr;
@@ -362,7 +337,7 @@ JSTStyler::SetStyle
 		return kJFalse;
 		}
 
-	assert( range.first == itsTokenStart );
+	assert( range.first == itsIterator->GetNextElementIndex() );
 
 	if (itsRedoAllFlag)
 		{
@@ -372,11 +347,10 @@ JSTStyler::SetStyle
 		}
 	else if (range.last >= itsCheckRange.first)
 		{
-		JCharacterRange fontRange;
-		fontRange.SetFirstAndCount(itsTokenFirstInRun, itsStyles->GetRunLength(itsTokenRunIndex));
+		const JCharacterRange fontRange(itsIterator->GetRunStart(), itsIterator->GetRunEnd());
 		const JBoolean beyondCurrentRun = !fontRange.Contains(range);
 
-		JFont f                     = itsStyles->GetRunData(itsTokenRunIndex);
+		JFont f                     = itsIterator->GetRunData();
 		const JFontStyle& origStyle = f.GetStyle();
 
 		const JBoolean styleExtendsBeyondToken =
@@ -392,12 +366,9 @@ JSTStyler::SetStyle
 
 			if (beyondCurrentRun || styleExtendsBeyondToken)
 				{
-				JIndex runIndex   = itsTokenRunIndex;
-				JIndex firstInRun = itsTokenFirstInRun;
-				const JBoolean ok = itsStyles->FindRun(itsTokenStart, range.last,
-													   &runIndex, &firstInRun);
-				assert( ok );
-				ExtendCheckRange(firstInRun + itsStyles->GetRunLength(runIndex));
+				JRunArrayIterator<JFont> iter(*itsIterator);
+				iter.MoveTo(kJIteratorStartBefore, range.last);
+				ExtendCheckRange(iter.GetRunEnd()+1);
 				}
 
 			// extend check range to next token since this token was not
@@ -423,28 +394,12 @@ JSTStyler::SetStyle
 			f = *itsDefFont;
 			f.SetStyle(style);
 
-			itsStyles->RemoveNextElements(range.first, range.GetCount(),
-										  &itsTokenRunIndex, &itsTokenFirstInRun);
-
-			run_assert(itsStyles, range.first, itsTokenRunIndex, itsTokenFirstInRun);
-
-			itsStyles->InsertElementsAtIndex(range.first, f, range.GetCount(),
-											 &itsTokenRunIndex, &itsTokenFirstInRun);
-
-			run_assert(itsStyles, range.first, itsTokenRunIndex, itsTokenFirstInRun);
+			itsIterator->RemoveNext(range.GetCount());
+			itsIterator->Insert(f, range.GetCount());
 			}
 		}
 
-	itsTokenStart = range.last+1;
-	if (!itsRedoAllFlag)
-		{
-		const JBoolean ok = itsStyles->FindRun(range.first, itsTokenStart,
-											   &itsTokenRunIndex, &itsTokenFirstInRun);
-		assert( ok || range.last == itsText->GetCharacterCount() );
-		assert( range.last == itsText->GetCharacterCount() ||
-				check_run(itsStyles, itsTokenStart, itsTokenRunIndex, itsTokenFirstInRun) );
-		}
-
+	itsIterator->MoveTo(kJIteratorStartAfter, range.last);
 	return JConvertToBoolean( range.last < itsCheckRange.last );
 }
 
@@ -468,7 +423,7 @@ JSTStyler::NewTokenStartList()
 /******************************************************************************
  SaveTokenStart (protected)
 
-	Automatically decimates the stream of token starts by itsTokenStartFactor.
+	Automatically decimates the stream of token starts by kDecimationFactor.
 
  ******************************************************************************/
 
@@ -478,11 +433,12 @@ JSTStyler::SaveTokenStart
 	const TokenExtra& data
 	)
 {
-	itsTokenStartCount++;
-	if (itsTokenStartCount >= itsTokenStartFactor)
+	itsTokenStartCounter++;
+	if (itsTokenStartCounter >= kDecimationFactor)
 		{
-		itsTokenStartCount = 0;
-		itsTokenStartList->AppendElement(TokenData(itsTokenStart, data));
+		itsTokenStartCounter = 0;
+		itsTokenStartList->AppendElement(
+			TokenData(itsIterator->GetNextElementIndex(), data));
 		}
 }
 
@@ -530,27 +486,23 @@ JSTStyler::AdjustStyle
 	const JFontStyle&		style
 	)
 {
-	assert( range.last < itsTokenStart );
+	assert( range.last < itsIterator->GetNextElementIndex() );
 	assert( itsRecalcRange != nullptr );
 
 	ExpandTextRange(itsRecalcRange, range);
 
 	// adjust the styles
 
-	JFont f = itsStyles->GetElement(range.first);
+	JRunArrayIterator<JFont> iter(*itsIterator);
+	iter.MoveTo(kJIteratorStartAfter, range.first);
+
+	JFont f;
+	const JBoolean ok = iter.Prev(&f);
+	assert( ok );
+
 	f.SetStyle(style);
-
-	itsStyles->SetNextElements(range.first, range.GetCount(), f);
-
-	// update state
-
-	if (itsTokenStart <= itsStyles->GetElementCount())
-		{
-		const JBoolean ok =
-			itsStyles->FindRun(itsTokenStart, &itsTokenRunIndex, &itsTokenFirstInRun);
-		assert( ok );
-		}
-}
+	iter.SetNext(f, range.GetCount());
+ }
 
 /******************************************************************************
  OnlyColorChanged (private)
