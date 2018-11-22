@@ -3,6 +3,18 @@
 
 	Implements vi keybindings.
 
+	TODO
+	dw   delete to end of word
+	db   delete to beginning of word
+	yw   yank to end of word
+	yb   yank to beginning of word
+
+	cc	 change line -- delete line and start insert mode
+	s	 change character -- delete character and start insert mode
+
+	md d'd  mark starting line, cut to ending line
+	my y'y  mark starting line, copy to ending line
+
 	BASE CLASS = JTEKeyHandler
 
 	Copyright (C) 2010 by John Lindal.
@@ -167,11 +179,11 @@ JVIKeyHandler::HandleKeyPress
 	JBoolean clearKeyBuffer = kJTrue;
 	JArray<JIndexRange> matchList;
 	JUtf8Character prevChar;
-	if (key == 'i')
+	if (key == 'i')			// insert at caret
 		{
 		SetMode(kTextEntryMode);
 		}
-	else if (key == 'I')
+	else if (key == 'I')	// insert at beginning of line
 		{
 		SetMode(kTextEntryMode);
 
@@ -181,7 +193,7 @@ JVIKeyHandler::HandleKeyPress
 		te->GoToBeginningOfLine();
 		te->ShouldMoveToFrontOfText(save);
 		}
-	else if (key == 'a')
+	else if (key == 'a')	// insert after caret
 		{
 		SetMode(kTextEntryMode);
 		const JStyledText::TextIndex i = te->GetInsertionIndex();
@@ -191,12 +203,12 @@ JVIKeyHandler::HandleKeyPress
 			te->SetCaretLocation(te->GetText()->AdjustTextIndex(i, +1));
 			}
 		}
-	else if (key == 'A')
+	else if (key == 'A')	// insert at end of line
 		{
 		SetMode(kTextEntryMode);
 		te->GoToEndOfLine();
 		}
-	else if (key == 'O')
+	else if (key == 'O')	// insert on new line above caret
 		{
 		SetMode(kTextEntryMode);
 
@@ -209,7 +221,7 @@ JVIKeyHandler::HandleKeyPress
 			te->SetCaretLocation(JTextEditor::CaretLocation(JStyledText::TextIndex(1,1),1));
 			}
 		}
-	else if (key == 'o')
+	else if (key == 'o')	// insert on new line below caret
 		{
 		SetMode(kTextEntryMode);
 
@@ -217,11 +229,11 @@ JVIKeyHandler::HandleKeyPress
 		InsertKeyPress(JUtf8Character('\n'));
 		}
 
-	else if ((key == '0' || key == '^') && itsKeyBuffer.IsEmpty())
+	else if ((key == '0' || key == '^') && itsKeyBuffer.IsEmpty())	// beginning of line
 		{
 		te->GoToBeginningOfLine();
 		}
-	else if (key == '\n')
+	else if (key == '\n')	// beginning of next line
 		{
 		MoveCaretVert(1);
 
@@ -231,12 +243,39 @@ JVIKeyHandler::HandleKeyPress
 		te->GoToBeginningOfLine();
 		te->ShouldMoveToFrontOfText(save);
 		}
-	else if (key == 'G')
+	else if (key == 'G')	// end of text
 		{
 		te->SetCaretLocation(te->GetText()->SelectAll().GetAfter());
 		}
 
-	else if (key.IsDigit())	// after 0 => beginning of line
+	else if (key == 'w')	// beginning of next word
+		{
+		const JSize count = GetOperationCount();
+		for (JIndex i=1; i<=count; i++)
+			{
+			itsDefKeyHandler->HandleKeyPress(kJRightArrow, kJFalse, kMoveByWord, kJFalse);
+			}
+		itsDefKeyHandler->HandleKeyPress(kJLeftArrow, kJFalse, kMoveByWord, kJFalse);
+		}
+	else if (key == 'e')	// end of next word
+		{
+		const JSize count = GetOperationCount();
+		for (JIndex i=1; i<=count; i++)
+			{
+			itsDefKeyHandler->HandleKeyPress(kJRightArrow, kJFalse, kMoveByWord, kJFalse);
+			}
+		itsDefKeyHandler->HandleKeyPress(kJLeftArrow, kJFalse, kMoveByCharacter, kJFalse);
+		}
+	else if (key == 'b')	// beginning of previous word
+		{
+		const JSize count = GetOperationCount();
+		for (JIndex i=1; i<=count; i++)
+			{
+			itsDefKeyHandler->HandleKeyPress(kJLeftArrow, kJFalse, kMoveByWord, kJFalse);
+			}
+		}
+
+	else if (key.IsDigit())				// operation count; must be after 0 => beginning of line
 		{
 		if (!numberPattern.Match(itsKeyBuffer))
 			{
@@ -245,13 +284,13 @@ JVIKeyHandler::HandleKeyPress
 		itsKeyBuffer.Append(key);
 		clearKeyBuffer = kJFalse;
 		}
-	else if (key == '"')
+	else if (key == '"')				// buffer name
 		{
 		itsMode = kBufferNameMode;		// don't use SetMode()
 		itsKeyBuffer.Append(key);
 		clearKeyBuffer = kJFalse;
 		}
-	else if (key == 'X' || key == 'x')
+	else if (key == 'X' || key == 'x')	// delete characters
 		{
 		CutBuffer* buf = GetCutBuffer(cutbufPattern);
 		buf->Set(JString::empty, kJFalse);
@@ -280,14 +319,14 @@ JVIKeyHandler::HandleKeyPress
 			buf->buf->Append(s);
 			}
 		}
-	else if (key == 'C' || key == 'D' ||
+	else if (key == 'C' || key == 'D' ||	// delete/cut rest of line
 			 (key == '$' && GetPrevCharacter(&prevChar) &&
 			  (prevChar == 'd' || prevChar == 'y')))
 		{
 		const JBoolean del = JNegate(GetPrevCharacter(&prevChar) && prevChar == 'y' && key == '$');
 		YankToEndOfLine(del, JI2B(key == 'C'));
 		}
-	else if ((key == 'Y' || key == 'y' || key == 'd') &&
+	else if ((key == 'Y' || key == 'y' || key == 'd') &&	// copy/cut
 			 yankDeletePattern.Match(itsKeyBuffer))
 		{
 		const JStringMatch match = yankDeletePattern.Match(itsKeyBuffer, kJTrue);
@@ -303,7 +342,7 @@ JVIKeyHandler::HandleKeyPress
 			}
 		}
 
-	else if (key == 'P' || key == 'p')
+	else if (key == 'P' || key == 'p')		// paste
 		{
 		CutBuffer* buf = GetCutBuffer(cutbufPattern);
 		if (buf->buf != nullptr)
@@ -332,12 +371,12 @@ JVIKeyHandler::HandleKeyPress
 			}
 		}
 
-	else if (key == 'u')
+	else if (key == 'u')	// undo
 		{
 		te->GetText()->Undo();
 		}
 
-	else if (key == '$')	// after d$ and y$
+	else if (key == '$')	// end of line; must be after d$ and y$
 		{
 		te->GoToEndOfLine();
 		const JStyledText::TextIndex i = te->GetInsertionIndex();

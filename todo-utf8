@@ -3,6 +3,7 @@ unit test
 	JTableSelection
 	JStringTableData
 	JFloatTableData
+	JVIKeyHandler:  #w, #e, #b
 
 always invalidate JStringIterator if part of a larger function
 
