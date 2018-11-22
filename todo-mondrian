@@ -1,64 +1,68 @@
-place, drag, resize, remove rectangles
-set options
-auto-stacking
-	check after every place,drag,resize:
-	if rect A is fully contained within rect B,
-	raise rect A immediately before rect B
-
-layout model
-	(just like partitions)
-	stacked/nested horiz and vert compartments
-	each compartment requests min width for each contained item
-		if cannot shrink other item to make space, request more space from container
-	existing layout parameters still apply
-		allows resizing for translation/font sizing
-
-assign fixed name for *every* widget to ensure stable translations
-
------
-
-build
-	string list
-	main window with single, generic widget type
-		create by dragging from palette
-		class name
-			widget renders based on class name
-				button with ^M => return button
-			tab complete in class name input field
-			menu next to class name input field with known types
-		x,y,w,h
-		text (enabled for some types)
-		shortcuts
-		sizing
-		variable name
-		ctor arguments
-		validation (for input fields)
-	palette
-		just another layout window
-		save in prefs -- allows rearranging, resizing, custom objects, etc
-	import from .fd
-	load/save own format
+import from .fd
+load/save private format - .md ?
+cmd line option to generate code from layout file
 
 main window is sorted JXStringList
-hash table stores serialized layouts
-open item from main window => look up and deserialize into layout
-	JXLayoutCanvas contains tree of JXLayoutObject
-	JXLayoutObject has option to accept drop to create child node
-layout window options
-	show rulers/grid
-	snap to grid (5,10,other)
-	align selected: top,bottom,center; right,left,center
+	hash table stores serialized layouts
+	open item from main window => look up and deserialize into layout
+palette
+	just another layout window
+	save in prefs -- allows rearranging, resizing, custom objects, etc
+
+MDWidget extends JXWidget
+	10px black border around MDWindow
+	share drawing code with JX*Widget, where possible
+	MDTabGroup: allow direct editing of all cards
+	MD*Partition: set number of compartments, for direct editing
+place/drag
+	drag new from palette
+	use DND, to drop inside another widget, e.g., scrollbarset or toolbar
+resize
+	like window - any edge or corner
+	shift key to turn off grid
+cut/copy/duplicate/delete
+	serialize/deserialize
+
+widget options
+	label, if appropriate
+	shortcuts, if appropriate
+	sizing
+	variable name, local/instance
+	ctor args
+	validation (for input fields)
+	fit-to-enclosure
+
+align selected: top,bottom,center; right,left,center
+
+layout options
+	show grid - draw as background for MDWindow and every container type
+	snap to grid (none,5,10)
 	outline bounding rects
+		only for non-bordered widgets, e.g., checkbox
+		expand frame by +1 and set 1px border
+
+assign fixed name for every widget to ensure stable translations
+
 need option to control tab order
 	show index in each item
 	cmd-click to select item without re-ordering
 	click to make object the next in list
-resize object:  only show corner handles if object very small
-special object for JXTabGroup, to allow direct editing of all cards
-sizing references
-	http://developer.apple.com/documentation/DeveloperTools/Conceptual/IB_UserGuide/Introduction/chapter_1_section_1.html
-	http://www.reportmill.com/ribs/support/layout-management/
-sizing
-	fixedLeft, fixedRight, elastic
-	floatingCenter, proportional
-	fixedLeftProportional, fixedRightProportional
+
+-----
+
+menu editor
+	build visually
+
+generates id for every item
+	fixed prefix, so these are excluded from toolbar config
+	override to provide useful value and include in toolbar config
+
+menu itself has id
+	generates string with list of item id's + separator locations
+		item-id::text
+		item-idid::macshortcut - if set
+		item-idid::winshortcut - if set
+	construct JXTextMenu directly from this
+	JXMenu broadcasts item id, not index
+		all menus constructed in BuildWindow and passed to widgets
+		(widgets do not need to own menu data + enum)
