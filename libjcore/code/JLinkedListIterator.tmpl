@@ -32,11 +32,12 @@ JLinkedListIterator<T>::JLinkedListIterator
 	:
 	JListIterator<T>(theLinkedList, start, index)
 {
-	itsLinkedList = const_cast<JLinkedList<T>*>(&theLinkedList);
+	itsLinkedList  = const_cast<JLinkedList<T>*>(&theLinkedList);
+	itsCurrElement = itsLinkedList->itsFirstElement;
 
 	// initialize instance variables -- our override not called by base class
 
-	MoveTo(start, index);
+	PrivateMoveTo();
 }
 
 template <class T>
@@ -49,11 +50,12 @@ JLinkedListIterator<T>::JLinkedListIterator
 	:
 	JListIterator<T>(theLinkedList, start, index)
 {
-	itsLinkedList = theLinkedList;
+	itsLinkedList  = theLinkedList;
+	itsCurrElement = itsLinkedList->itsFirstElement;
 
 	// initialize instance variables -- our override not called by base class
 
-	MoveTo(start, index);
+	PrivateMoveTo();
 }
 
 /******************************************************************************
@@ -369,11 +371,16 @@ JLinkedListIterator<T>::MoveTo
 	JListIterator<T>::MoveTo(newPosition, index);
 
 	const JCursorPosition cursorPosition = this->GetCursor();
-	if (itsLinkedList == nullptr || cursorPosition == origPosition)
+	if (itsLinkedList != nullptr && cursorPosition != origPosition)
 		{
-		return;
+		PrivateMoveTo();
 		}
+}
 
+template <class T>
+void
+JLinkedListIterator<T>::PrivateMoveTo()
+{
 	if (this->AtBeginning())
 		{
 		itsCurrElement = itsLinkedList->itsFirstElement;
@@ -384,7 +391,7 @@ JLinkedListIterator<T>::MoveTo
 		}
 	else
 		{
-		itsCurrElement = itsLinkedList->IteratorFindElement(cursorPosition);
+		itsCurrElement = itsLinkedList->IteratorFindElement(this->GetCursor());
 		}
 }
 

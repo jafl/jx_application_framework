@@ -66,8 +66,6 @@ JRunArray<T>::JRunArray
 	const JRunArray<T>&	source,
 	const JIndexRange&	range
 	)
-	:
-	JList<T>(source)
 {
 	itsRuns = jnew JArray< JRunArrayElement<T> >;
 	assert( itsRuns != nullptr );
@@ -193,8 +191,7 @@ JRunArray<T>::AppendElements
 	const JSize totalCount = this->GetElementCount();
 
 	JIndex runIndex, firstIndexInRun;
-	const JBoolean ok = FindRun(totalCount, &runIndex, &firstIndexInRun);
-	assert( ok );
+	FindRun(totalCount, &runIndex, &firstIndexInRun);
 
 	IteratorInsertElementsAtIndex(totalCount+1, data, count, runIndex, firstIndexInRun);
 }
@@ -215,8 +212,7 @@ JRunArray<T>::AppendSlice
 	const JSize totalCount = this->GetElementCount();
 
 	JIndex runIndex, firstIndexInRun;
-	const JBoolean ok = FindRun(totalCount, &runIndex, &firstIndexInRun);
-	assert( ok );
+	FindRun(totalCount, &runIndex, &firstIndexInRun);
 
 	IteratorInsertSlice(totalCount+1, source, range, runIndex, firstIndexInRun);
 }
@@ -455,27 +451,37 @@ JRunArray<T>::GetLastElement()
 }
 
 /******************************************************************************
- IteratorSetElement (private)
+ IteratorSetElements (private)
 
  ******************************************************************************/
 
 template <class T>
 void
-JRunArray<T>::IteratorSetElement
+JRunArray<T>::IteratorSetElements
 	(
 	const JIndex	elementIndex,
 	const T&		data,
+	const JSize		count,
 	const JIndex	origRunIndex,
 	const JIndex	origFirstIndexInRun
 	)
 {
 	JIndex runIndex        = origRunIndex;
 	JIndex firstIndexInRun = origFirstIndexInRun;
-	if (PrivateSetElement(elementIndex, data, &runIndex, &firstIndexInRun))
+
+	for (JIndex i=elementIndex; i<elementIndex+count; i++)
 		{
-		JListT::ElementChanged message(elementIndex);
-		JList<T>::NotifyIterators(message);
-		JBroadcaster::Broadcast(message);
+		if (i > elementIndex)
+			{
+			IncrementalFindRun(i-1, i, &runIndex, &firstIndexInRun);
+			}
+
+		if (PrivateSetElement(i, data, &runIndex, &firstIndexInRun))
+			{
+			JListT::ElementChanged message(elementIndex);
+			JList<T>::NotifyIterators(message);
+			JBroadcaster::Broadcast(message);
+			}
 		}
 }
 

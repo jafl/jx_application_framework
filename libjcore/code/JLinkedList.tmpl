@@ -119,20 +119,20 @@ JLinkedList<T>::CopyList
 		newElement = jnew JLinkedListElement<T>(sourceElement->data);
 		assert( newElement != nullptr );
 
-		newElement->prev = prev;		// link to previous element
+		newElement->prev = prev;			// link to previous element
 		newElement->next = nullptr;			// no initial link
 
 		if (prev != nullptr)
 			{
-			prev->next = newElement;	// set up link from previous element
+			prev->next = newElement;		// set up link from previous element
 			}
 		else
 			{
-			itsFirstElement = newElement;			// save link to first element
+			itsFirstElement = newElement;	// save link to first element
 			}
 
 		sourceElement = sourceElement->next;
-		prev   = newElement;
+		prev          = newElement;
 		}
 
 	itsLastElement = prev;					// save link to last element
@@ -184,7 +184,14 @@ JLinkedList<T>::PrependElement
 	newElement->prev = nullptr;
 	newElement->next = itsFirstElement;
 
-	itsFirstElement->prev = newElement;
+	if (itsFirstElement != nullptr)
+		{
+		itsFirstElement->prev = newElement;
+		}
+	else
+		{
+		itsLastElement = newElement;
+		}
 	itsFirstElement = newElement;
 
 	this->ElementAdded();
@@ -212,7 +219,14 @@ JLinkedList<T>::AppendElement
 	newElement->prev = itsLastElement;
 	newElement->next = nullptr;
 
-	itsLastElement->next = newElement;
+	if (itsLastElement != nullptr)
+		{
+		itsLastElement->next = newElement;
+		}
+	else
+		{
+		itsFirstElement = newElement;
+		}
 	itsLastElement = newElement;
 
 	this->ElementAdded();
@@ -308,6 +322,10 @@ JLinkedList<T>::IteratorInsertElementAfter
 	if (next != nullptr)
 		{
 		next->prev = newElement;
+		}
+	else
+		{
+		itsLastElement = newElement;
 		}
 
 	this->ElementAdded();

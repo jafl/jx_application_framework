@@ -32,14 +32,9 @@ JSetList
 
 	std::istringstream input(data);
 	T v;
-	while (1)
+	while (input.good())
 		{
 		input >> v;
-		if (!input.good())
-			{
-			break;
-			}
-
 		iter->Insert(v);
 		iter->SkipNext();
 		}
@@ -56,7 +51,7 @@ template <class T>
 JString
 JPrintList
 	(
-	JList<T>& list
+	const JList<T>& list
 	)
 {
 	std::ostringstream data;

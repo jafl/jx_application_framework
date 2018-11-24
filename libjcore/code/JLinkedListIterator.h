@@ -59,6 +59,8 @@ private:
 
 private:
 
+	void	PrivateMoveTo();
+
 	// not allowed
 
 	const JLinkedListIterator<T>& operator=(const JLinkedListIterator<T>& source);

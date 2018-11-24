@@ -31,7 +31,7 @@ JArrayIterator<T>::JArrayIterator
 	:
 	JListIterator<T>(theArray, start, index)
 {
-	itsArray = const_cast<JArray<T>*>(theArray);
+	itsArray = const_cast<JArray<T>*>(&theArray);
 }
 
 template <class T>
@@ -41,6 +41,7 @@ JArrayIterator<T>::JArrayIterator
 	const JIteratorPosition	start,
 	const JIndex			index
 	)
+	:
 	JListIterator<T>(theArray, start, index)
 {
 	itsArray = theArray;
@@ -72,7 +73,7 @@ JArrayIterator<T>::Prev
 	T* data
 	)
 {
-	if (AtBeginning())
+	if (this->AtBeginning())
 		{
 		return kJFalse;
 		}
@@ -101,7 +102,7 @@ JArrayIterator<T>::Next
 	T* data
 	)
 {
-	if (AtEnd())
+	if (this->AtEnd())
 		{
 		return kJFalse;
 		}

@@ -8,11 +8,14 @@
  ******************************************************************************/
 
 #include <JTestManager.h>
+#include <jTestUtil.h>
 #include <JArray.h>
 #include <JBroadcastTester.h>
 #include <algorithm>
 #include <numeric>
 #include <jAssert.h>
+
+#define verify(str, list)	JAssertStringsEqual(str, JPrintList(list));
 
 int main()
 {
@@ -40,17 +43,77 @@ CompareLongs
 		}
 }
 
-JTEST(Exercise)
+int
+qsortCompare(const void* e1, const void* e2)
 {
-	JArray<long> a1(1); // Ridiculous block size to really exercise resizer
-	JBroadcastTester snoop1(&a1);
-	JAssertTrue(a1.IsEmpty());
-	JAssertEqual(0, a1.GetElementCount());
+	return (*(long*)e1 - *(long*)e2);
+}
 
-	long i;
+JTEST(Construct)
+{
+	JArray<long> a;
+
+	JAssertTrue(a.IsEmpty());
+	JAssertEqual(0, a.GetElementCount());
+	JAssertFalse(a.IndexValid(1));
+
+	JSetList("1 2 3 4 5", &a);
+
+	JAssertFalse(a.IsEmpty());
+	JAssertEqual(5, a.GetElementCount());
+	JAssertTrue(a.IndexValid(1));
+	JAssertTrue(a.IndexValid(5));
+	JAssertFalse(a.IndexValid(6));
+	JAssertEqual(5, a.GetIndexFromEnd(1));
+	JAssertEqual(4, a.GetIndexFromEnd(2));
+	JAssertEqual(1, a.GetIndexFromEnd(5));
+
+	const JArray<long> a2 = a;
+	verify("1 2 3 4 5", a2);
+
+	JArray<long> a3;
+	JAssertTrue(a3.IsEmpty());
+	a3 = a;
+	verify("1 2 3 4 5", a3);
+}
+
+JTEST(Prepend)
+{
+	JArray<long> a(1);		// ridiculous block size to really exercise resizer
+	JBroadcastTester snoop(&a);
+
+	for (long j : { 5,4,3,2,1 })
+		{
+		snoop.Expect(JListT::kElementsInserted,
+			[] (const JBroadcaster::Message& m)
+			{
+				const JListT::ElementsInserted* ei =
+					dynamic_cast<const JListT::ElementsInserted*>(&m);
+				JAssertNotNull(ei);
+				JAssertEqual(1, ei->GetFirstIndex());
+				JAssertEqual(1, ei->GetLastIndex());
+				JAssertEqual(1, ei->GetCount());
+			});
+
+		a.PrependElement(j);
+		}
+
+	verify("1 2 3 4 5", a);
+
+	JAssertEqual(2, a.GetElement(2));
+	JAssertEqual(4, a.GetElementFromEnd(2));
+	JAssertEqual(1, a.GetFirstElement());
+	JAssertEqual(5, a.GetLastElement());
+}
+
+JTEST(Append)
+{
+	JArray<long> a(1);		// ridiculous block size to really exercise resizer
+	JBroadcastTester snoop(&a);
+
 	for (long j : { 1,2,3,4,5 })
 		{
-		snoop1.Expect(JListT::kElementsInserted,
+		snoop.Expect(JListT::kElementsInserted,
 			[j] (const JBroadcaster::Message& m)
 			{
 				const JListT::ElementsInserted* ei =
@@ -76,13 +139,165 @@ JTEST(Exercise)
 				JAssertEqual(j+2, k);
 			});
 
-		a1.AppendElement(j);
+		a.AppendElement(j);
 		}
 
-	JAssertFalse(a1.IsEmpty());
-	JAssertEqual(5, a1.GetElementCount());
+	verify("1 2 3 4 5", a);
 
-	snoop1.Expect(JListT::kElementsSwapped,
+	JAssertEqual(2, a.GetElement(2));
+	JAssertEqual(4, a.GetElementFromEnd(2));
+	JAssertEqual(1, a.GetFirstElement());
+	JAssertEqual(5, a.GetLastElement());
+}
+
+JTEST(Insert)
+{
+	JArray<long> a(1);		// ridiculous block size to really exercise resizer
+	JSetList("5 4 3 2 1", &a);
+	JBroadcastTester snoop(&a);
+
+	snoop.Expect(JListT::kElementsInserted);
+	a.InsertElementAtIndex(1, 6);
+	verify("6 5 4 3 2 1", a);
+
+	snoop.Expect(JListT::kElementsInserted);
+	a.InsertElementAtIndex(4, -1);
+	verify("6 5 4 -1 3 2 1", a);
+
+	snoop.Expect(JListT::kElementsInserted);
+	a.InsertElementAtIndex(7, 0);
+	verify("6 5 4 -1 3 2 0 1", a);
+
+	snoop.Expect(JListT::kElementsInserted);
+	a.InsertElementAtIndex(9, 10);
+	verify("6 5 4 -1 3 2 0 1 10", a);
+}
+
+JTEST(Remove)
+{
+	JArray<long> a(1);		// ridiculous block size to really exercise resizer
+	JSetList("1 2 3 4 5 6 7 8 9 10 11 12 13 14 15", &a);
+	JBroadcastTester snoop(&a);
+
+	snoop.Expect(JListT::kElementsRemoved,
+		[] (const JBroadcaster::Message& m)
+		{
+			const JListT::ElementsRemoved* er =
+				dynamic_cast<const JListT::ElementsRemoved*>(&m);
+			JAssertNotNull(er);
+			JAssertEqual(7, er->GetFirstIndex());
+			JAssertEqual(7, er->GetLastIndex());
+			JAssertEqual(1, er->GetCount());
+			JAssertFalse(er->Contains(6));
+			JAssertTrue(er->Contains(7));
+			JAssertFalse(er->Contains(8));
+
+			JIndex k = 6;
+			er->AdjustIndex(&k);
+			JAssertEqual(6, k);
+
+			k = 7;
+			er->AdjustIndex(&k);
+			JAssertEqual(0, k);
+
+			k = 8;
+			er->AdjustIndex(&k);
+			JAssertEqual(7, k);
+		});
+	a.RemoveElement(7);
+	verify("1 2 3 4 5 6 8 9 10 11 12 13 14 15", a);
+
+	snoop.Expect(JListT::kElementsRemoved);
+	a.RemoveElement(1);
+	verify("2 3 4 5 6 8 9 10 11 12 13 14 15", a);
+
+	snoop.Expect(JListT::kElementsRemoved);
+	a.RemoveElement(13);
+	verify("2 3 4 5 6 8 9 10 11 12 13 14", a);
+
+	snoop.Expect(JListT::kElementsRemoved,
+		[] (const JBroadcaster::Message& m)
+		{
+			const JListT::ElementsRemoved* er =
+				dynamic_cast<const JListT::ElementsRemoved*>(&m);
+			JAssertNotNull(er);
+			JAssertEqual(8, er->GetFirstIndex());
+			JAssertEqual(10, er->GetLastIndex());
+			JAssertEqual(3, er->GetCount());
+			JAssertFalse(er->Contains(7));
+			JAssertTrue(er->Contains(9));
+			JAssertFalse(er->Contains(11));
+
+			JIndex k = 7;
+			er->AdjustIndex(&k);
+			JAssertEqual(7, k);
+
+			k = 9;
+			er->AdjustIndex(&k);
+			JAssertEqual(0, k);
+
+			k = 11;
+			er->AdjustIndex(&k);
+			JAssertEqual(8, k);
+		});
+	a.RemoveNextElements(8, 3);
+	verify("2 3 4 5 6 8 9 13 14", a);
+
+	snoop.Expect(JListT::kElementsRemoved);
+	a.RemovePrevElements(5, 2);
+	verify("2 3 4 8 9 13 14", a);
+
+	snoop.Expect(JListT::kElementsRemoved);
+	a.RemoveAll();
+	JAssertTrue(a.IsEmpty());
+}
+
+JTEST(Move)
+{
+	JArray<long> a(1);		// ridiculous block size to really exercise resizer
+	JSetList("1 2 3 4 5", &a);
+	JBroadcastTester snoop(&a);
+
+	snoop.Expect(JListT::kElementMoved,
+		[] (const JBroadcaster::Message& m)
+		{
+			const JListT::ElementMoved* em =
+				dynamic_cast<const JListT::ElementMoved*>(&m);
+			JAssertNotNull(em);
+			JAssertEqual(3, em->GetOrigIndex());
+			JAssertEqual(5, em->GetNewIndex());
+
+			JIndex k = 2;
+			em->AdjustIndex(&k);
+			JAssertEqual(2, k);
+
+			k = 3;
+			em->AdjustIndex(&k);
+			JAssertEqual(5, k);
+
+			k = 4;
+			em->AdjustIndex(&k);
+			JAssertEqual(3, k);
+		});
+	a.MoveElementToIndex(3, a.GetIndexFromEnd(1));
+	verify("1 2 4 5 3", a);
+
+	snoop.Expect(JListT::kElementMoved);
+	a.MoveElementToIndex(3, 1);
+	verify("4 1 2 5 3", a);
+
+	snoop.Expect(JListT::kElementMoved);
+	a.MoveElementToIndex(4, 2);
+	verify("4 5 1 2 3", a);
+}
+
+JTEST(Swap)
+{
+	JArray<long> a(1);		// ridiculous block size to really exercise resizer
+	JSetList("1 2 3 4 5", &a);
+	JBroadcastTester snoop(&a);
+
+	snoop.Expect(JListT::kElementsSwapped,
 		[] (const JBroadcaster::Message& m)
 		{
 			const JListT::ElementsSwapped* es =
@@ -104,184 +319,43 @@ JTEST(Exercise)
 			JAssertEqual(2, k);
 		});
 
-	a1.SwapElements(2,5);
-
-	snoop1.Expect(JListT::kElementsInserted);
-	a1.InsertElementAtIndex(3,1);
-
-	snoop1.Expect(JListT::kElementMoved,
-		[] (const JBroadcaster::Message& m)
-		{
-			const JListT::ElementMoved* em =
-				dynamic_cast<const JListT::ElementMoved*>(&m);
-			JAssertNotNull(em);
-			JAssertEqual(3, em->GetOrigIndex());
-			JAssertEqual(6, em->GetNewIndex());
-
-			JIndex k = 2;
-			em->AdjustIndex(&k);
-			JAssertEqual(2, k);
-
-			k = 3;
-			em->AdjustIndex(&k);
-			JAssertEqual(6, k);
-
-			k = 4;
-			em->AdjustIndex(&k);
-			JAssertEqual(3, k);
-		});
-
-	a1.MoveElementToIndex(3,a1.GetElementCount());
-
-	JArrayIterator<long> iter(&a1);
-
-	snoop1.Expect(JListT::kElementsRemoved,
-		[] (const JBroadcaster::Message& m)
-		{
-			const JListT::ElementsRemoved* er =
-				dynamic_cast<const JListT::ElementsRemoved*>(&m);
-			JAssertNotNull(er);
-			JAssertEqual(4, er->GetFirstIndex());
-			JAssertEqual(4, er->GetLastIndex());
-			JAssertEqual(1, er->GetCount());
-			JAssertFalse(er->Contains(3));
-			JAssertTrue(er->Contains(4));
-			JAssertFalse(er->Contains(5));
-
-			JIndex k = 3;
-			er->AdjustIndex(&k);
-			JAssertEqual(3, k);
-
-			k = 4;
-			er->AdjustIndex(&k);
-			JAssertEqual(0, k);
-
-			k = 5;
-			er->AdjustIndex(&k);
-			JAssertEqual(4, k);
-		});
-
-	{
-	long expect[] = { 1, 5, 3, 2, 1 };
-	long j        = 0;
-	while (iter.Next(&i))
-		{
-		JAssertEqual(expect[j], i);
-		j++;
-
-		if (i == 5) a1.RemoveElement(4);
-		}
-	JAssertEqual(5, j);
-	}
-	snoop1.Expect(JListT::kElementsRemoved);
-	{
-	long expect[] = { 1, 2, 3, 5, 1 };
-	long j        = 0;
-	while (iter.Prev(&i))
-		{
-		JAssertEqual(expect[j], i);
-		j++;
-
-		if (i == 5) a1.RemoveElement(4);
-		}
-	JAssertEqual(5, j);
-	}
-	JAssertFalse(a1.IsEmpty());
-	JAssertEqual(4, a1.GetElementCount());
-
-	JArray<long> a2 = a1;
-{
-	JBroadcastTester snoop2(&a2);
-
-	JAssertFalse(a2.IsEmpty());
-	JAssertEqual(4, a2.GetElementCount());
-
-	JArrayIterator<long> iter2(&a2, kJIteratorStartAtEnd);
-	{
-	long expect[] = { 1, 3, 5, 1 };
-	long j        = 0;
-	while (iter2.Prev(&i))
-		{
-		JAssertEqual(expect[j], i);
-		j++;
-		}
-	JAssertEqual(4, j);
-	}
-	snoop2.Expect(JListT::kElementsRemoved,
-		[] (const JBroadcaster::Message& m)
-		{
-			const JListT::ElementsRemoved* er =
-				dynamic_cast<const JListT::ElementsRemoved*>(&m);
-			JAssertNotNull(er);
-			JAssertEqual(1, er->GetFirstIndex());
-			JAssertEqual(4, er->GetLastIndex());
-			JAssertEqual(4, er->GetCount());
-			JAssertTrue(er->Contains(3));
-			JAssertTrue(er->Contains(4));
-			JAssertFalse(er->Contains(5));
-
-			JIndex k = 3;
-			er->AdjustIndex(&k);
-			JAssertEqual(0, k);
-		});
-
-	a2.RemoveAll();
-	JAssertTrue(a2.IsEmpty());
-	JAssertEqual(0, a2.GetElementCount());
-
-	a2 = a1;
-	JAssertFalse(a2.IsEmpty());
-	JAssertEqual(4, a2.GetElementCount());
-
-	iter2.MoveTo(kJIteratorStartAtEnd, 0);
-	{
-	long expect[] = { 1, 3, 5, 1 };
-	long j        = 0;
-	while (iter2.Prev(&i))
-		{
-		JAssertEqual(expect[j], i);
-		j++;
-		}
-	JAssertEqual(4, j);
-	}
-	snoop2.Expect(JListT::kElementsInserted);
-	a2.AppendElement(1);
+	a.SwapElements(2,5);
+	verify("1 5 3 4 2", a);
 }
-	JArrayIterator<long> iter2(&a2);
+
+JTEST(Sort)
+{
+	JArray<long> a(1);		// ridiculous block size to really exercise resizer
+	JSetList("3 1 5 1 1", &a);
 
 // test sort ascending
 
-	a2.SetCompareFunction(CompareLongs);
-	a2.SetSortOrder(JListT::kSortAscending);
-	a2.Sort();
-	{
-	long expect[] = { 1, 1, 1, 3, 5 };
-	long j        = 0;
-	iter2.MoveTo(kJIteratorStartAtBeginning, 0);
-	while (iter2.Next(&i))
-		{
-		JAssertEqual(expect[j], i);
-		j++;
-		}
-	JAssertEqual(5, j);
-	}
+	a.SetCompareFunction(CompareLongs);
+	a.SetSortOrder(JListT::kSortAscending);
+	a.Sort();
+	verify("1 1 1 3 5", a);
+	JAssertTrue(a.IsSorted());
 
 // test insertion sort
 
 	{
 	JBoolean expect[] = { kJTrue, kJFalse, kJFalse, kJFalse };
-	long element[]    = { 3, -1, 10, 4 };
+	long element[]    = { 3, -1, 10 };
 	const long eCount = sizeof(element)/sizeof(long);
 
 	JBoolean isDuplicate;
-	for (i=0; i<eCount; i++)
+	for (JIndex i=0; i<eCount; i++)
 		{
-		const JIndex j =
-			a2.GetInsertionSortIndex(element[i], &isDuplicate);
-		a2.InsertElementAtIndex(j, element[i]);
+		const JIndex j = a.GetInsertionSortIndex(element[i], &isDuplicate);
+		a.InsertElementAtIndex(j, element[i]);
 		JAssertEqual(expect[i], isDuplicate);
 		}
 	}
+	verify("-1 1 1 1 3 3 5 10", a);
+
+	JAssertTrue(a.InsertSorted(4));
+	JAssertFalse(a.InsertSorted(3, kJFalse));
+	verify("-1 1 1 1 3 3 4 5 10", a);
 
 // test binary search (sorted ascending)
 
@@ -293,34 +367,24 @@ JTEST(Exercise)
 	const long eCount = sizeof(element)/sizeof(long);
 	assert( eCount == sizeof(found)/sizeof(JBoolean) );
 
-	for (i=0; i<eCount; i++)
+	for (JIndex i=0; i<eCount; i++)
 		{
 		JIndex j;
 		JAssertTrue(
-			a2.SearchSorted(element[i], JListT::kFirstMatch, &j) == found[i] &&
+			a.SearchSorted(element[i], JListT::kFirstMatch, &j) == found[i] &&
 			j == first[i] &&
-			a2.SearchSorted(element[i], JListT::kLastMatch, &j) == found[i] &&
+			a.SearchSorted(element[i], JListT::kLastMatch, &j) == found[i] &&
 			j == last[i] &&
-			a2.SearchSorted(element[i], JListT::kAnyMatch, &j) == found[i] &&
+			a.SearchSorted(element[i], JListT::kAnyMatch, &j) == found[i] &&
 			first[i] <= j && j <= last[i]);
 		}
 	}
 
 // test sort descending
 
-	a2.SetSortOrder(JListT::kSortDescending);
-	a2.Sort();
-	{
-	long expect[] = { 10, 5, 4, 3, 3, 1, 1, 1, -1 };
-	long j        = 0;
-	iter2.MoveTo(kJIteratorStartAtBeginning, 0);
-	while (iter2.Next(&i))
-		{
-		JAssertEqual(expect[j], i);
-		j++;
-		}
-	JAssertEqual(9, j);
-	}
+	a.SetSortOrder(JListT::kSortDescending);
+	a.Sort();
+	verify("10 5 4 3 3 1 1 1 -1", a);
 
 // test binary search (sorted descending)
 
@@ -332,18 +396,23 @@ JTEST(Exercise)
 	const long eCount = sizeof(element)/sizeof(long);
 	assert( eCount == sizeof(found)/sizeof(JBoolean) );
 
-	for (i=0; i<eCount; i++)
+	for (JIndex i=0; i<eCount; i++)
 		{
 		JIndex j;
 		JAssertTrue(
-			a2.SearchSorted(element[i], JListT::kFirstMatch, &j) == found[i] &&
+			a.SearchSorted(element[i], JListT::kFirstMatch, &j) == found[i] &&
 			j == first[i] &&
-			a2.SearchSorted(element[i], JListT::kLastMatch, &j) == found[i] &&
+			a.SearchSorted(element[i], JListT::kLastMatch, &j) == found[i] &&
 			j == last[i] &&
-			a2.SearchSorted(element[i], JListT::kAnyMatch, &j) == found[i] &&
+			a.SearchSorted(element[i], JListT::kAnyMatch, &j) == found[i] &&
 			first[i] <= j && j <= last[i]);
 		}
 	}
+
+// quick sort
+
+	a.QuickSort(qsortCompare);
+	verify("-1 1 1 1 3 3 4 5 10", a);
 }
 
 JTEST(SearchSorted1EdgeCases)
@@ -468,7 +537,7 @@ JTEST(FunctionalProgramming)
 	JAssertEqual(10, sum);
 }
 
-JTEST(Move)
+JTEST(MoveCtor)
 {
 	JArray<long>* a1 = jnew JArray<long>;
 	assert( a1 != nullptr );
@@ -483,4 +552,238 @@ JTEST(Move)
 
 	JAssertEqual(3, a2.GetElementCount());
 	JAssertEqual(5, a2.GetElement(3));
+}
+
+JTEST(Iterator)
+{
+	JArray<long> a;
+	JSetList("5 4 3 2 1", &a);
+
+	JListIterator<long>* iter = a.NewIterator(kJIteratorStartAtEnd);
+	JAssertFalse(iter->AtBeginning());
+	JAssertTrue(iter->AtEnd());
+
+	long j;
+	JAssertFalse(iter->Next(&j));
+
+	JIndex i;
+	JAssertFalse(iter->GetNextElementIndex(&i));
+	JAssertTrue(iter->GetPrevElementIndex(&i));
+	JAssertEqual(5, i);
+
+	JAssertTrue(iter->Prev(&j));
+	JAssertEqual(1, j);
+	JAssertEqual(4, iter->GetPrevElementIndex());
+	JAssertEqual(5, iter->GetNextElementIndex());
+	JAssertTrue(iter->Prev(&j));
+	JAssertEqual(2, j);
+	JAssertTrue(iter->Prev(&j));
+	JAssertEqual(3, j);
+	JAssertEqual(2, iter->GetPrevElementIndex());
+	JAssertEqual(3, iter->GetNextElementIndex());
+	JAssertTrue(iter->Prev(&j));
+	JAssertEqual(4, j);
+	JAssertTrue(iter->Prev(&j));
+	JAssertEqual(5, j);
+
+	JAssertFalse(iter->Prev(&j));
+	JAssertTrue(iter->AtBeginning());
+	JAssertFalse(iter->AtEnd());
+
+	JAssertFalse(iter->GetPrevElementIndex(&i));
+	JAssertTrue(iter->GetNextElementIndex(&i));
+	JAssertEqual(1, i);
+
+	JAssertTrue(iter->Next(&j));
+	JAssertEqual(5, j);
+	JAssertTrue(iter->Next(&j));
+	JAssertEqual(4, j);
+	JAssertTrue(iter->Next(&j));
+	JAssertEqual(3, j);
+	JAssertTrue(iter->Next(&j));
+	JAssertEqual(2, j);
+	JAssertTrue(iter->Next(&j));
+	JAssertEqual(1, j);
+
+	JAssertFalse(iter->Next(&j));
+	JAssertFalse(iter->AtBeginning());
+	JAssertTrue(iter->AtEnd());
+
+	iter->SkipNext(10);
+	iter->SkipPrev(3);
+	JAssertTrue(iter->Prev(&j));
+	JAssertEqual(4, j);
+
+	iter->SkipNext(2);
+	JAssertTrue(iter->Next(&j));
+	JAssertEqual(2, j);
+
+	jdelete iter;
+}
+
+JTEST(IteratorConst)
+{
+	JArray<long> a;
+	JSetList("5 4 3 2 1", &a);
+
+	const JArray<long>& b = a;
+
+	JListIterator<long>* iter = b.NewIterator(kJIteratorStartAfter, 2);
+
+	JAssertFalse(iter->SetPrev(1));
+	JAssertFalse(iter->SetNext(1));
+	JAssertFalse(iter->RemovePrev());
+	JAssertFalse(iter->RemoveNext());
+	JAssertFalse(iter->Insert(5));
+
+	jdelete iter;
+}
+
+JTEST(IteratorModification)
+{
+	JArray<long> a;
+	JSetList("5 4 3 2 1", &a);
+
+	JListIterator<long>* iter = a.NewIterator();
+	JAssertEqual(1, iter->GetNextElementIndex());
+
+	long j;
+
+	a.PrependElement(-1);
+	JAssertEqual(1, iter->GetNextElementIndex());
+	verify("-1 5 4 3 2 1", a);
+
+	JAssertTrue(iter->Next(&j));
+	JAssertEqual(-1, j);
+	JAssertEqual(2, iter->GetNextElementIndex());
+
+	a.PrependElement(-2);
+	JAssertEqual(3, iter->GetNextElementIndex());
+	JAssertTrue(iter->Next(&j));
+	JAssertEqual(5, j);
+	verify("-2 -1 5 4 3 2 1", a);
+
+	iter->MoveTo(kJIteratorStartAfter, 4);
+	a.AppendElement(-3);
+	JAssertEqual(5, iter->GetNextElementIndex());
+	JAssertTrue(iter->Next(&j));
+	JAssertEqual(3, j);
+	iter->SkipPrev();
+	verify("-2 -1 5 4 3 2 1 -3", a);
+
+	a.InsertElementAtIndex(2, -4);
+	JAssertEqual(6, iter->GetNextElementIndex());
+	JAssertTrue(iter->Next(&j));
+	JAssertEqual(3, j);
+	iter->SkipPrev();
+	verify("-2 -4 -1 5 4 3 2 1 -3", a);
+
+	iter->SetPrev(-4);
+	iter->SetNext(-3);
+	JAssertTrue(iter->Next(&j));
+	JAssertEqual(-3, j);
+	iter->SkipPrev();
+	verify("-2 -4 -1 5 -4 -3 2 1 -3", a);
+
+	iter->RemovePrev(2);
+	iter->RemoveNext(1);
+	JAssertEqual(4, iter->GetNextElementIndex());
+	JAssertTrue(iter->Next(&j));
+	JAssertEqual(2, j);
+	iter->SkipPrev();
+	verify("-2 -4 -1 2 1 -3", a);
+
+	iter->Insert(7);
+	JAssertEqual(4, iter->GetNextElementIndex());
+	JAssertTrue(iter->Next(&j));
+	JAssertEqual(7, j);
+	iter->SkipPrev();
+	verify("-2 -4 -1 7 2 1 -3", a);
+
+	jdelete iter;
+}
+
+JTEST(TwoIterators)
+{
+	JArray<long> a;
+	JSetList("5 4 3 2 1", &a);
+
+	JListIterator<long>* i1 = a.NewIterator(kJIteratorStartBefore, 3);
+	JListIterator<long>* i2 = a.NewIterator(kJIteratorStartAtEnd);
+
+	long j;
+
+	i1->Insert(-1);
+	JAssertEqual(3, i1->GetNextElementIndex());
+	JAssertTrue(i1->Next(&j));
+	JAssertEqual(-1, j);
+	i1->SkipPrev();
+	JAssertEqual(6, i2->GetPrevElementIndex());
+	JAssertTrue(i2->Prev(&j));
+	JAssertEqual(1, j);
+	i2->SkipNext();
+	verify("5 4 -1 3 2 1", a);
+
+	i1->RemoveNext(2);
+	JAssertEqual(3, i1->GetNextElementIndex());
+	JAssertTrue(i1->Next(&j));
+	JAssertEqual(2, j);
+	i1->SkipPrev();
+	JAssertEqual(4, i2->GetPrevElementIndex());
+	JAssertTrue(i2->Prev(&j));
+	JAssertEqual(1, j);
+	i2->SkipNext();
+	verify("5 4 2 1", a);
+
+	i2->Insert(-2);
+	JAssertEqual(3, i1->GetNextElementIndex());
+	JAssertTrue(i1->Next(&j));
+	JAssertEqual(2, j);
+	i1->SkipPrev();
+	JAssertEqual(4, i2->GetPrevElementIndex());
+	JAssertTrue(i2->Prev(&j));
+	JAssertEqual(1, j);
+	i2->SkipNext();
+	verify("5 4 2 1 -2", a);
+
+	a.PrependElement(-3);
+	JAssertEqual(4, i1->GetNextElementIndex());
+	JAssertTrue(i1->Next(&j));
+	JAssertEqual(2, j);
+	i1->SkipPrev();
+	JAssertEqual(5, i2->GetPrevElementIndex());
+	JAssertTrue(i2->Prev(&j));
+	JAssertEqual(1, j);
+	i2->SkipNext();
+	verify("-3 5 4 2 1 -2", a);
+
+	a.SwapElements(1, 6);
+	JAssertEqual(4, i1->GetNextElementIndex());
+	JAssertTrue(i1->Next(&j));
+	JAssertEqual(2, j);
+	i1->SkipPrev();
+	JAssertEqual(5, i2->GetPrevElementIndex());
+	JAssertTrue(i2->Prev(&j));
+	JAssertEqual(1, j);
+	i2->SkipNext();
+	verify("-2 5 4 2 1 -3", a);
+
+	{
+	JListIterator<long>* i3 = a.NewIterator(kJIteratorStartBefore, 4);
+	i3->Insert(-4);
+	jdelete i3;
+	}
+
+	JAssertEqual(4, i1->GetNextElementIndex());
+	JAssertTrue(i1->Next(&j));
+	JAssertEqual(-4, j);
+	i1->SkipPrev();
+	JAssertEqual(6, i2->GetPrevElementIndex());
+	JAssertTrue(i2->Prev(&j));
+	JAssertEqual(1, j);
+	i2->SkipNext();
+	verify("-2 5 4 -4 2 1 -3", a);
+
+	jdelete i1;
+	jdelete i2;
 }

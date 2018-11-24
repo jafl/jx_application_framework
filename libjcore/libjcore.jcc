@@ -169,6 +169,10 @@ T
 F
 "./code/JArray.h"
 T
+2 "JArrayIterator.h"
+F
+"./code/JArrayIterator.h"
+T
 2 "JAliasArray.h"
 F
 "./code/JAliasArray.h"
@@ -184,10 +188,6 @@ T
 2 "JPtrArray.h"
 F
 "./code/JPtrArray.h"
-T
-2 "JPtrArrayIterator.h"
-F
-"./code/JPtrArrayIterator.h"
 T
 2 "JPtrQueue.h"
 F

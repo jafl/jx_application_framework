@@ -266,7 +266,7 @@ JListIterator<T>::MoveTo
 		}
 	else if (newPosition == kJIteratorStartBefore)
 		{
-		assert( itsConstList->IndexValid(index) );
+		assert( itsConstList->IndexValid(index) || (itsConstList->IsEmpty() && index == 1) );
 		itsCursorPosition = index-1;
 		}
 	else

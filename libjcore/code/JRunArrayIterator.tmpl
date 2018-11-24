@@ -35,11 +35,13 @@ JRunArrayIterator<T>::JRunArrayIterator
 	:
 	JListIterator<T>(theRunArray, start, index)
 {
-	itsRunArray = const_cast<JRunArray<T>*>(&theRunArray);
+	itsRunArray    = const_cast<JRunArray<T>*>(&theRunArray);
+	itsRunIndex    = 1;
+	itsOffsetInRun = 0;
 
 	// initialize instance variables -- our override not called by base class
 
-	MoveTo(start, index);
+	PrivateMoveTo(0, start, index, kJTrue);
 }
 
 template <class T>
@@ -52,11 +54,13 @@ JRunArrayIterator<T>::JRunArrayIterator
 	:
 	JListIterator<T>(theRunArray, start, index)
 {
-	itsRunArray = const_cast<JRunArray<T>*>(theRunArray);
+	itsRunArray    = const_cast<JRunArray<T>*>(theRunArray);
+	itsRunIndex    = 1;
+	itsOffsetInRun = 0;
 
 	// initialize instance variables -- our override not called by base class
 
-	MoveTo(start, index);
+	PrivateMoveTo(0, start, index, kJTrue);
 }
 
 /******************************************************************************
@@ -125,15 +129,22 @@ template <class T>
 JBoolean
 JRunArrayIterator<T>::PrevRun()
 {
-	if (itsRunArray == nullptr || itsRunIndex <= 1)
+	if (itsRunArray == nullptr)
 		{
 		return kJFalse;
 		}
+	else if (itsRunIndex <= 2)
+		{
+		MoveTo(kJIteratorStartAtBeginning, 0);
+		return kJFalse;
+		}
+	else
+		{
+		MoveTo(kJIteratorStartAfter,
+			this->GetCursor() - itsOffsetInRun - itsRunArray->GetRunLength(itsRunIndex-1));
 
-	MoveTo(kJIteratorStartBefore,
-		this->GetCursor() - itsOffsetInRun - itsRunArray->GetRunLength(itsRunIndex-1));
-
-	return kJTrue;
+		return kJTrue;
+		}
 }
 
 /******************************************************************************
@@ -148,15 +159,22 @@ template <class T>
 JBoolean
 JRunArrayIterator<T>::NextRun()
 {
-	if (itsRunArray == nullptr || itsRunIndex >= itsRunArray->GetRunCount())
+	if (itsRunArray == nullptr)
 		{
 		return kJFalse;
 		}
+	else if (itsRunIndex >= itsRunArray->GetRunCount())
+		{
+		MoveTo(kJIteratorStartAtEnd, 0);
+		return kJFalse;
+		}
+	else
+		{
+		MoveTo(kJIteratorStartAfter,
+			this->GetCursor() - itsOffsetInRun + itsRunArray->GetRunLength(itsRunIndex));
 
-	MoveTo(kJIteratorStartBefore,
-		this->GetCursor() - itsOffsetInRun + itsRunArray->GetRunLength(itsRunIndex));
-
-	return kJTrue;
+		return kJTrue;
+		}
 }
 
 /******************************************************************************
@@ -405,7 +423,7 @@ JRunArrayIterator<T>::SetPrev
 	JIndex runIndex, firstInRun;
 	CalcPrevRunInfo(&runIndex, &firstInRun);
 
-	itsRunArray->IteratorSetElement(this->GetCursor(), data, runIndex, firstInRun);
+	itsRunArray->IteratorSetElements(this->GetCursor(), data, 1, runIndex, firstInRun);
 	return kJTrue;
 }
 
@@ -431,9 +449,70 @@ JRunArrayIterator<T>::SetNext
 		}
 
 	JIndex runIndex, firstInRun;
-	CalcNextRunInfo(&runIndex, &firstInRun);
+	CalcCurrentRunInfo(&runIndex, &firstInRun);
 
-	itsRunArray->IteratorSetElement(this->GetCursor()+1, data, runIndex, firstInRun);
+	itsRunArray->IteratorSetElements(this->GetCursor()+1, data, 1, runIndex, firstInRun);
+	return kJTrue;
+}
+
+/******************************************************************************
+ SetPrev
+
+	Returns kJTrue if we have a non-const JRunArray<T>* and
+	there are previous items.
+
+ ******************************************************************************/
+
+template <class T>
+JBoolean
+JRunArrayIterator<T>::SetPrev
+	(
+	const T&	data,
+	const JSize	count
+	)
+{
+	JList<T>* obj;
+	if (!this->GetList(&obj) || this->GetCursor() < count)
+		{
+		return kJFalse;
+		}
+
+	const JIndex startIndex = this->GetCursor() - count + 1;
+
+	JIndex runIndex, firstInRun;
+	CalcCurrentRunInfo(&runIndex, &firstInRun);
+
+	itsRunArray->IncrementalFindRun(this->GetCursor(), startIndex, &runIndex, &firstInRun);
+	itsRunArray->IteratorSetElements(startIndex, data, count, runIndex, firstInRun);
+	return kJTrue;
+}
+
+/******************************************************************************
+ SetNext
+
+	Returns kJTrue if we have a non-const JRunArray<T>* and
+	there are next items.
+
+ ******************************************************************************/
+
+template <class T>
+JBoolean
+JRunArrayIterator<T>::SetNext
+	(
+	const T&	data,
+	const JSize	count
+	)
+{
+	JList<T>* obj;
+	if (!this->GetList(&obj) || itsRunArray->GetElementCount() - this->GetCursor() < count)
+		{
+		return kJFalse;
+		}
+
+	JIndex runIndex, firstInRun;
+	CalcCurrentRunInfo(&runIndex, &firstInRun);
+
+	itsRunArray->IteratorSetElements(this->GetCursor()+1, data, count, runIndex, firstInRun);
 	return kJTrue;
 }
 
@@ -480,13 +559,13 @@ JRunArrayIterator<T>::RemoveNext
 	)
 {
 	JList<T>* obj;
-	if (!this->GetList(&obj) || this->AtBeginning())
+	if (!this->GetList(&obj) || this->AtEnd())
 		{
 		return kJFalse;
 		}
 
 	JIndex runIndex, firstInRun;
-	CalcNextRunInfo(&runIndex, &firstInRun);
+	CalcCurrentRunInfo(&runIndex, &firstInRun);
 
 	itsRunArray->IteratorRemoveElements(this->GetCursor()+1, count, runIndex, firstInRun);
 	return kJTrue;
@@ -530,7 +609,7 @@ JRunArrayIterator<T>::Insert
 	else
 		{
 		JIndex runIndex, firstInRun;
-		CalcNextRunInfo(&runIndex, &firstInRun);
+		CalcCurrentRunInfo(&runIndex, &firstInRun);
 
 		itsRunArray->IteratorInsertElementsAtIndex(this->GetCursor()+1, data, count, runIndex, firstInRun);
 		}
@@ -565,7 +644,7 @@ JRunArrayIterator<T>::InsertSlice
 	else
 		{
 		JIndex runIndex, firstInRun;
-		CalcNextRunInfo(&runIndex, &firstInRun);
+		CalcCurrentRunInfo(&runIndex, &firstInRun);
 
 		itsRunArray->IteratorInsertSlice(this->GetCursor()+1, source, range, runIndex, firstInRun);
 		}
@@ -594,17 +673,17 @@ JRunArrayIterator<T>::CalcPrevRunInfo
 		offsetInRun = itsRunArray->GetRunLength(*runIndex);
 		}
 
-	*firstInRun = this->GetCursor() - offsetInRun + 1;
+	*firstInRun = this->GetCursor() + 1 - offsetInRun;
 }
 
 /******************************************************************************
- CalcNextRunInfo (private)
+ CalcCurrentRunInfo (private)
 
  ******************************************************************************/
 
 template <class T>
 void
-JRunArrayIterator<T>::CalcNextRunInfo
+JRunArrayIterator<T>::CalcCurrentRunInfo
 	(
 	JIndex* runIndex,
 	JIndex* firstInRun
@@ -612,7 +691,7 @@ JRunArrayIterator<T>::CalcNextRunInfo
 	const
 {
 	*runIndex   = itsRunIndex;
-	*firstInRun = this->GetCursor() - itsOffsetInRun + 1;
+	*firstInRun = this->GetCursor() + 1 - itsOffsetInRun;
 }
 
 /******************************************************************************
@@ -638,11 +717,22 @@ JRunArrayIterator<T>::MoveTo
 	JListIterator<T>::MoveTo(newPosition, index);
 
 	const JCursorPosition cursorPosition = this->GetCursor();
-	if (itsRunArray == nullptr || cursorPosition == origPosition)
+	if (itsRunArray != nullptr && cursorPosition != origPosition)
 		{
-		return;
+		PrivateMoveTo(origPosition, newPosition, index, wasAtLimit);
 		}
+}
 
+template <class T>
+void
+JRunArrayIterator<T>::PrivateMoveTo
+	(
+	const JCursorPosition	origPosition,
+	const JIteratorPosition	newPosition,
+	const JIndex			index,
+	const JBoolean			wasAtLimit
+	)
+{
 	if (newPosition == kJIteratorStartAtBeginning ||
 		(newPosition == kJIteratorStartBefore && index == 1))
 		{
@@ -658,16 +748,20 @@ JRunArrayIterator<T>::MoveTo
 		}
 	else
 		{
+		const JCursorPosition cursorPosition = this->GetCursor();
+
 		JIndex firstIndexInRun;
 		JBoolean found;
 		if (wasAtLimit)
 			{
-			found = itsRunArray->FindRun(cursorPosition, &itsRunIndex, &firstIndexInRun);
+			found = itsRunArray->FindRun(cursorPosition+1, &itsRunIndex, &firstIndexInRun);
 			}
 		else	// incremental
 			{
 			firstIndexInRun = origPosition - itsOffsetInRun + 1;
-			found = itsRunArray->IncrementalFindRun(origPosition, cursorPosition, &itsRunIndex, &firstIndexInRun);
+			found           = itsRunArray->IncrementalFindRun(
+									origPosition+1, cursorPosition+1,
+									&itsRunIndex, &firstIndexInRun);
 			}
 		assert( found );
 
@@ -708,17 +802,30 @@ JRunArrayIterator<T>::ListChanged
 	else
 		{
 		const JCursorPosition p = this->GetCursor();
+
 		if (p == 0)
 			{
-			MoveTo(kJIteratorStartAtBeginning, 0);
+			itsRunIndex    = 1;
+			itsOffsetInRun = 0;
 			}
 		else if (p >= itsRunArray->GetElementCount())
 			{
-			MoveTo(kJIteratorStartAtEnd, 0);
+			itsRunIndex    = itsRunArray->GetRunCount()+1;
+			itsOffsetInRun = 0;
 			}
 		else
 			{
-			MoveTo(kJIteratorStartAfter, p);
+			JIndex firstIndexInRun;
+			const JBoolean found = itsRunArray->FindRun(p+1, &itsRunIndex, &firstIndexInRun);
+			assert( found );
+
+			itsOffsetInRun = p - firstIndexInRun + 1;
+
+			if (itsOffsetInRun >= itsRunArray->GetRunLength(itsRunIndex))
+				{
+				itsRunIndex++;
+				itsOffsetInRun = 0;
+				}
 			}
 		}
 }

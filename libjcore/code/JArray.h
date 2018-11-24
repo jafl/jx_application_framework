@@ -110,5 +110,6 @@ private:
 };
 
 #include "JArray.tmpl"
+#include "JArrayIterator.tmpl"
 
 #endif

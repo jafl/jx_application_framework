@@ -263,9 +263,9 @@ JList<T>::IsSorted()
 		{
 		const JListT::CompareResult r = itsCompareObj->Compare(obj1, obj2);
 		if ((itsSortOrder == JListT::kSortAscending &&
-			 r != JListT::kFirstLessSecond) ||
+			 r == JListT::kFirstGreaterSecond) ||
 			(itsSortOrder == JListT::kSortDescending &&
-			 r != JListT::kFirstGreaterSecond))
+			 r == JListT::kFirstLessSecond))
 			{
 			sorted = kJFalse;
 			break;

@@ -112,8 +112,8 @@ private:
 	void	IteratorInsertSlice(const JIndex elementIndex,
 								const JRunArray<T>& source, const JIndexRange& range,
 								const JIndex runIndex, const JIndex firstIndexInRun);
-	void	IteratorSetElement(const JIndex elementIndex, const T& data,
-							   const JIndex runIndex, const JIndex firstIndexInRun);
+	void	IteratorSetElements(const JIndex elementIndex, const T& data, const JSize count,
+								const JIndex runIndex, const JIndex firstIndexInRun);
 	void	IteratorRemoveElements(const JIndex firstIndex, const JSize count,
 									   const JIndex runIndex, const JIndex firstIndexInRun);
 

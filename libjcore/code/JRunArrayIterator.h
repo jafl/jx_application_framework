@@ -79,7 +79,11 @@ private:
 private:
 
 	void	CalcPrevRunInfo(JIndex* runIndex, JIndex* firstInRun) const;
-	void	CalcNextRunInfo(JIndex* runIndex, JIndex* firstInRun) const;
+	void	CalcCurrentRunInfo(JIndex* runIndex, JIndex* firstInRun) const;
+
+	void	PrivateMoveTo(const JCursorPosition origPosition,
+						  const JIteratorPosition newPosition, const JIndex index,
+						  const JBoolean wasAtLimit);
 
 	// not allowed
 

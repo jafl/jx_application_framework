@@ -16,7 +16,7 @@ template <class T>
 void JSetList(const JUtf8Byte* data, JList<T>* list);
 
 template <class T>
-JString JPrintList(JList<T>& list);
+JString JPrintList(const JList<T>& list);
 
 #include "jTestUtil.tmpl"
 
