@@ -70,7 +70,8 @@ JRunArray<T>::JRunArray
 	itsRuns = jnew JArray< JRunArrayElement<T> >;
 	assert( itsRuns != nullptr );
 
-	IteratorInsertSlice(1, source, range, 1, 1);
+	JIndex runIndex = 1, firstIndexInRun = 1;
+	IteratorInsertSlice(1, source, range, &runIndex, &firstIndexInRun);
 }
 
 /******************************************************************************
@@ -139,7 +140,8 @@ JRunArray<T>::PrependElements
 	const JSize	count
 	)
 {
-	IteratorInsertElementsAtIndex(1, data, count, 1, 1);
+	JIndex runIndex = 1, firstIndexInRun = 1;
+	IteratorInsertElementsAtIndex(1, data, count, &runIndex, &firstIndexInRun);
 }
 
 /******************************************************************************
@@ -155,7 +157,8 @@ JRunArray<T>::PrependSlice
 	const JIndexRange&	range
 	)
 {
-	IteratorInsertSlice(1, source, range, 1, 1);
+	JIndex runIndex = 1, firstIndexInRun = 1;
+	IteratorInsertSlice(1, source, range, &runIndex, &firstIndexInRun);
 }
 
 /******************************************************************************
@@ -193,7 +196,7 @@ JRunArray<T>::AppendElements
 	JIndex runIndex, firstIndexInRun;
 	FindRun(totalCount, &runIndex, &firstIndexInRun);
 
-	IteratorInsertElementsAtIndex(totalCount+1, data, count, runIndex, firstIndexInRun);
+	IteratorInsertElementsAtIndex(totalCount+1, data, count, &runIndex, &firstIndexInRun);
 }
 
 /******************************************************************************
@@ -214,7 +217,7 @@ JRunArray<T>::AppendSlice
 	JIndex runIndex, firstIndexInRun;
 	FindRun(totalCount, &runIndex, &firstIndexInRun);
 
-	IteratorInsertSlice(totalCount+1, source, range, runIndex, firstIndexInRun);
+	IteratorInsertSlice(totalCount+1, source, range, &runIndex, &firstIndexInRun);
 }
 
 /******************************************************************************
@@ -237,18 +240,15 @@ JRunArray<T>::IteratorInsertElementsAtIndex
 	const JIndex	elementIndex,
 	const T&		data,
 	const JSize		newElementCount,
-	const JIndex	origRunIndex,
-	const JIndex	origFirstIndexInRun
+	JIndex*			runIndex,
+	JIndex*			firstIndexInRun
 	)
 {
 	if (newElementCount > 0)
 		{
-		JIndex runIndex        = origRunIndex;
-		JIndex firstIndexInRun = origFirstIndexInRun;
-
 		const JIndex trueElementIndex =
 			PrivateInsertElementsAtIndex(elementIndex, data, newElementCount,
-										 &runIndex, &firstIndexInRun);
+										 runIndex, firstIndexInRun);
 
 		JListT::ElementsInserted message(trueElementIndex, newElementCount);
 		JList<T>::NotifyIterators(message);
@@ -270,8 +270,8 @@ JRunArray<T>::IteratorInsertSlice
 	const JIndex		elementIndex,
 	const JRunArray<T>&	source,
 	const JIndexRange&	range,
-	const JIndex		origRunIndex,
-	const JIndex		origFirstIndexInRun
+	JIndex*				runIndex,
+	JIndex*				firstIndexInRun
 	)
 {
 	JIndex startRun, firstIndexInStartRun;
@@ -286,13 +286,11 @@ JRunArray<T>::IteratorInsertSlice
 		return;
 		}
 
-	JIndex runIndex        = origRunIndex,
-		   firstIndexInRun = origFirstIndexInRun;
-
 	if (startRun == endRun)
 		{
-		PrivateInsertElementsAtIndex(elementIndex, source.GetRunData(startRun), range.GetCount(),
-									 &runIndex, &firstIndexInRun);
+		PrivateInsertElementsAtIndex(elementIndex,
+									 source.GetRunData(startRun), range.GetCount(),
+									 runIndex, firstIndexInRun);
 		return;
 		}
 
@@ -300,7 +298,7 @@ JRunArray<T>::IteratorInsertSlice
 
 	JSize count = sourceRuns[startRun-1].length - (range.first - firstIndexInStartRun);
 	JIndex i    = PrivateInsertElementsAtIndex(elementIndex, sourceRuns[startRun-1].data, count,
-											   &runIndex, &firstIndexInRun);
+											   runIndex, firstIndexInRun);
 	{
 	JListT::ElementsInserted message(i, count);
 	JList<T>::NotifyIterators(message);
@@ -308,14 +306,14 @@ JRunArray<T>::IteratorInsertSlice
 	}
 
 	i += count;
-	JIndex lastIndexInRun = firstIndexInRun + GetRunLength(runIndex) - 1;
+	JIndex lastIndexInRun = *firstIndexInRun + GetRunLength(*runIndex) - 1;
 	if (i > lastIndexInRun)
 		{
-		runIndex++;
-		firstIndexInRun = lastIndexInRun + 1;
+		(*runIndex)++;
+		*firstIndexInRun = lastIndexInRun + 1;
 		}
 
-	JBoolean needSplit = JI2B(i != firstIndexInRun);
+	JBoolean needSplit = JI2B(i != *firstIndexInRun);
 
 	for (JIndex j=startRun+1; j<endRun; j++)
 		{
@@ -324,12 +322,12 @@ JRunArray<T>::IteratorInsertSlice
 		if (needSplit)
 			{
 			PrivateInsertElementsAtIndex(i, sourceRuns[j-1].data, count,
-										 &runIndex, &firstIndexInRun);
+										 runIndex, firstIndexInRun);
 			needSplit = kJFalse;
 			}
 		else
 			{
-			InsertRun(runIndex, count, sourceRuns[j-1].data);
+			InsertRun(*runIndex, count, sourceRuns[j-1].data);
 			}
 
 		JListT::ElementsInserted message(i, count);
@@ -337,13 +335,13 @@ JRunArray<T>::IteratorInsertSlice
 		JBroadcaster::Broadcast(message);
 
 		i += count;
-		runIndex++;
-		firstIndexInRun = i;
+		(*runIndex)++;
+		*firstIndexInRun = i;
 		}
 
 	count = range.last - firstIndexInEndRun + 1;
 	PrivateInsertElementsAtIndex(i, sourceRuns[endRun-1].data, count,
-								 &runIndex, &firstIndexInRun);
+								 runIndex, firstIndexInRun);
 	{
 	JListT::ElementsInserted message(i, count);
 	JList<T>::NotifyIterators(message);
@@ -462,21 +460,18 @@ JRunArray<T>::IteratorSetElements
 	const JIndex	elementIndex,
 	const T&		data,
 	const JSize		count,
-	const JIndex	origRunIndex,
-	const JIndex	origFirstIndexInRun
+	JIndex*			runIndex,
+	JIndex*			firstIndexInRun
 	)
 {
-	JIndex runIndex        = origRunIndex;
-	JIndex firstIndexInRun = origFirstIndexInRun;
-
 	for (JIndex i=elementIndex; i<elementIndex+count; i++)
 		{
 		if (i > elementIndex)
 			{
-			IncrementalFindRun(i-1, i, &runIndex, &firstIndexInRun);
+			IncrementalFindRun(i-1, i, runIndex, firstIndexInRun);
 			}
 
-		if (PrivateSetElement(i, data, &runIndex, &firstIndexInRun))
+		if (PrivateSetElement(i, data, runIndex, firstIndexInRun))
 			{
 			JListT::ElementChanged message(elementIndex);
 			JList<T>::NotifyIterators(message);
@@ -608,8 +603,8 @@ JRunArray<T>::IteratorRemoveElements
 	(
 	const JIndex	firstIndex,
 	const JSize		count,
-	const JIndex	origRunIndex,
-	const JIndex	origFirstIndexInRun
+	JIndex*			runIndex,
+	JIndex*			firstIndexInRun
 	)
 {
 	if (firstIndex == 1 && count == this->GetElementCount())
@@ -618,9 +613,7 @@ JRunArray<T>::IteratorRemoveElements
 		}
 	else if (count > 0)
 		{
-		JIndex runIndex        = origRunIndex;
-		JIndex firstIndexInRun = origFirstIndexInRun;
-		PrivateRemoveElements(firstIndex, count, &runIndex, &firstIndexInRun);
+		PrivateRemoveElements(firstIndex, count, runIndex, firstIndexInRun);
 
 		JListT::ElementsRemoved message(firstIndex, count);
 		JList<T>::NotifyIterators(message);
@@ -630,9 +623,6 @@ JRunArray<T>::IteratorRemoveElements
 
 /******************************************************************************
  PrivateRemoveElements (private)
-
-	We need this method so MoveElementToIndex() can remove an element without
-	the ElementsRemoved message being broadcast.
 
 	Assumes *runIndex,*firstIndexInRun refer to the run containing
 	firstIndex and updates them based on what has to be done to the runs.

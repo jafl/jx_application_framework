@@ -75,11 +75,9 @@ private:
 	JRunArray<T>*	itsRunArray;
 	JIndex			itsRunIndex;
 	JIndex			itsOffsetInRun;
+	JBoolean		itsIgnoreListChangedFlag;
 
 private:
-
-	void	CalcPrevRunInfo(JIndex* runIndex, JIndex* firstInRun) const;
-	void	CalcCurrentRunInfo(JIndex* runIndex, JIndex* firstInRun) const;
 
 	void	PrivateMoveTo(const JCursorPosition origPosition,
 						  const JIteratorPosition newPosition, const JIndex index,

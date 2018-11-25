@@ -97,6 +97,8 @@ private:
 	void		SetRunData(const JIndex runIndex, const T& data);
 	JBoolean	FindRun(const JIndex elementIndex,
 						JIndex* runIndex, JIndex* firstIndexInRun) const;
+	JBoolean	IncrementalFindRun(const JIndex origIndex, const JIndex newIndex,
+								   JIndex* runIndex, JIndex* firstIndexInRun) const;
 
 	void	InsertRun(const JIndex runIndex, const JSize runLength, const T& item);
 	void	RemoveRun(const JIndex runIndex,
@@ -108,17 +110,14 @@ private:
 
 	void	IteratorInsertElementsAtIndex(const JIndex elementIndex,
 										  const T& data, const JSize newElementCount,
-										  const JIndex runIndex, const JIndex firstIndexInRun);
+										  JIndex* runIndex, JIndex* firstIndexInRun);
 	void	IteratorInsertSlice(const JIndex elementIndex,
 								const JRunArray<T>& source, const JIndexRange& range,
-								const JIndex runIndex, const JIndex firstIndexInRun);
+								JIndex* runIndex, JIndex* firstIndexInRun);
 	void	IteratorSetElements(const JIndex elementIndex, const T& data, const JSize count,
-								const JIndex runIndex, const JIndex firstIndexInRun);
+								JIndex* runIndex, JIndex* firstIndexInRun);
 	void	IteratorRemoveElements(const JIndex firstIndex, const JSize count,
-									   const JIndex runIndex, const JIndex firstIndexInRun);
-
-	JBoolean	IncrementalFindRun(const JIndex origIndex, const JIndex newIndex,
-								   JIndex* runIndex, JIndex* firstIndexInRun) const;
+								   JIndex* runIndex, JIndex* firstIndexInRun);
 
 	JIndex		PrivateInsertElementsAtIndex(const JIndex elementIndex,
 											 const T& data, const JSize newElementCount,

@@ -1,3 +1,7 @@
+JLinkedList iterators
+	ignore ListChanged if we made a change that doesn't change our state
+	e.g. - Insert or RemoveNext
+
 unit test
 	JTable
 	JTableSelection

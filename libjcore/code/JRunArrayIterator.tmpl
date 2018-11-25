@@ -33,7 +33,8 @@ JRunArrayIterator<T>::JRunArrayIterator
 	const JIndex			index
 	)
 	:
-	JListIterator<T>(theRunArray, start, index)
+	JListIterator<T>(theRunArray, start, index),
+	itsIgnoreListChangedFlag(kJFalse)
 {
 	itsRunArray    = const_cast<JRunArray<T>*>(&theRunArray);
 	itsRunIndex    = 1;
@@ -52,7 +53,8 @@ JRunArrayIterator<T>::JRunArrayIterator
 	const JIndex			index
 	)
 	:
-	JListIterator<T>(theRunArray, start, index)
+	JListIterator<T>(theRunArray, start, index),
+	itsIgnoreListChangedFlag(kJFalse)
 {
 	itsRunArray    = const_cast<JRunArray<T>*>(theRunArray);
 	itsRunIndex    = 1;
@@ -74,7 +76,8 @@ JRunArrayIterator<T>::JRunArrayIterator
 	const JRunArrayIterator<T>& source
 	)
 	:
-	JListIterator<T>(source)
+	JListIterator<T>(source),
+	itsIgnoreListChangedFlag(kJFalse)
 {
 	itsRunArray    = source.itsRunArray;
 	itsRunIndex    = source.itsRunIndex;
@@ -420,10 +423,9 @@ JRunArrayIterator<T>::SetPrev
 		return kJFalse;
 		}
 
-	JIndex runIndex, firstInRun;
-	CalcPrevRunInfo(&runIndex, &firstInRun);
-
-	itsRunArray->IteratorSetElements(this->GetCursor(), data, 1, runIndex, firstInRun);
+	SkipPrev();
+	SetNext(data);
+	SkipNext();
 	return kJTrue;
 }
 
@@ -448,10 +450,14 @@ JRunArrayIterator<T>::SetNext
 		return kJFalse;
 		}
 
-	JIndex runIndex, firstInRun;
-	CalcCurrentRunInfo(&runIndex, &firstInRun);
+	const JIndex itemIndex = this->GetCursor() + 1;
+	JIndex firstInRun      = itemIndex - itsOffsetInRun;
 
-	itsRunArray->IteratorSetElements(this->GetCursor()+1, data, 1, runIndex, firstInRun);
+	itsIgnoreListChangedFlag = kJTrue;
+	itsRunArray->IteratorSetElements(itemIndex, data, 1, &itsRunIndex, &firstInRun);
+	itsIgnoreListChangedFlag = kJFalse;
+
+	itsOffsetInRun = itemIndex - firstInRun;
 	return kJTrue;
 }
 
@@ -477,13 +483,21 @@ JRunArrayIterator<T>::SetPrev
 		return kJFalse;
 		}
 
-	const JIndex startIndex = this->GetCursor() - count + 1;
+	const JCursorPosition origCursorPosition = this->GetCursor();
 
-	JIndex runIndex, firstInRun;
-	CalcCurrentRunInfo(&runIndex, &firstInRun);
+	SkipPrev(count);
 
-	itsRunArray->IncrementalFindRun(this->GetCursor(), startIndex, &runIndex, &firstInRun);
-	itsRunArray->IteratorSetElements(startIndex, data, count, runIndex, firstInRun);
+	const JIndex itemIndex = this->GetCursor() + 1;
+	JIndex firstInRun      = itemIndex - itsOffsetInRun;
+
+	itsIgnoreListChangedFlag = kJTrue;
+	itsRunArray->IteratorSetElements(itemIndex, data, count, &itsRunIndex, &firstInRun);
+	itsIgnoreListChangedFlag = kJFalse;
+
+	itsOffsetInRun = origCursorPosition - firstInRun;
+
+	this->SetCursor(origCursorPosition);
+	SkipNext();
 	return kJTrue;
 }
 
@@ -509,10 +523,15 @@ JRunArrayIterator<T>::SetNext
 		return kJFalse;
 		}
 
-	JIndex runIndex, firstInRun;
-	CalcCurrentRunInfo(&runIndex, &firstInRun);
+	const JIndex itemIndex = this->GetCursor() + 1;
+	JIndex firstInRun      = itemIndex - itsOffsetInRun;
 
-	itsRunArray->IteratorSetElements(this->GetCursor()+1, data, count, runIndex, firstInRun);
+	itsIgnoreListChangedFlag = kJTrue;
+	itsRunArray->IteratorSetElements(itemIndex, data, count, &itsRunIndex, &firstInRun);
+	itsIgnoreListChangedFlag = kJFalse;
+
+	itsRunArray->IncrementalFindRun(itemIndex + count - 1, itemIndex, &itsRunIndex, &firstInRun);
+	itsOffsetInRun = itemIndex - firstInRun;
 	return kJTrue;
 }
 
@@ -564,10 +583,15 @@ JRunArrayIterator<T>::RemoveNext
 		return kJFalse;
 		}
 
-	JIndex runIndex, firstInRun;
-	CalcCurrentRunInfo(&runIndex, &firstInRun);
+	const JIndex itemIndex = this->GetCursor() + 1;
+	JIndex firstInRun      = itemIndex - itsOffsetInRun;
 
-	itsRunArray->IteratorRemoveElements(this->GetCursor()+1, count, runIndex, firstInRun);
+	itsIgnoreListChangedFlag = kJTrue;
+	itsRunArray->IteratorRemoveElements(itemIndex, count, &itsRunIndex, &firstInRun);
+	itsIgnoreListChangedFlag = kJFalse;
+
+	itsOffsetInRun = itemIndex - firstInRun;
+
 	return kJTrue;
 }
 
@@ -608,10 +632,15 @@ JRunArrayIterator<T>::Insert
 		}
 	else
 		{
-		JIndex runIndex, firstInRun;
-		CalcCurrentRunInfo(&runIndex, &firstInRun);
+		const JIndex itemIndex = this->GetCursor() + 1;
+		JIndex firstInRun      = itemIndex - itsOffsetInRun;
 
-		itsRunArray->IteratorInsertElementsAtIndex(this->GetCursor()+1, data, count, runIndex, firstInRun);
+		itsIgnoreListChangedFlag = kJTrue;
+		itsRunArray->IteratorInsertElementsAtIndex(itemIndex, data, count, &itsRunIndex, &firstInRun);
+		itsIgnoreListChangedFlag = kJFalse;
+
+		itsRunArray->IncrementalFindRun(itemIndex + count - 1, itemIndex, &itsRunIndex, &firstInRun);
+		itsOffsetInRun = itemIndex - firstInRun;
 		}
 	return kJTrue;
 }
@@ -639,59 +668,28 @@ JRunArrayIterator<T>::InsertSlice
 
 	if (this->AtBeginning())
 		{
-		itsRunArray->IteratorInsertSlice(1, source, range, 1, 1);
+		JIndex runIndex = 1, firstInRun = 1;
+
+		itsIgnoreListChangedFlag = kJTrue;
+		itsRunArray->IteratorInsertSlice(1, source, range, &runIndex, &firstInRun);
+		itsIgnoreListChangedFlag = kJFalse;
 		}
 	else
 		{
-		JIndex runIndex, firstInRun;
-		CalcCurrentRunInfo(&runIndex, &firstInRun);
+		const JIndex itemIndex = this->GetCursor() + 1;
+		JIndex firstInRun      = itemIndex - itsOffsetInRun;
 
-		itsRunArray->IteratorInsertSlice(this->GetCursor()+1, source, range, runIndex, firstInRun);
+		itsIgnoreListChangedFlag = kJTrue;
+		itsRunArray->IteratorInsertSlice(itemIndex, source, range, &itsRunIndex, &firstInRun);
+		itsIgnoreListChangedFlag = kJFalse;
+
+		itsRunArray->IncrementalFindRun(itemIndex + range.GetCount() - 1, itemIndex, &itsRunIndex, &firstInRun);
+		itsOffsetInRun = itemIndex - firstInRun;
+
+		SkipPrev(range.GetCount());
 		}
+
 	return kJTrue;
-}
-
-/******************************************************************************
- CalcPrevRunInfo (private)
-
- ******************************************************************************/
-
-template <class T>
-void
-JRunArrayIterator<T>::CalcPrevRunInfo
-	(
-	JIndex* runIndex,
-	JIndex* firstInRun
-	)
-	const
-{
-	*runIndex          = itsRunIndex;
-	JIndex offsetInRun = itsOffsetInRun;
-	if (offsetInRun == 0)
-		{
-		(*runIndex)--;
-		offsetInRun = itsRunArray->GetRunLength(*runIndex);
-		}
-
-	*firstInRun = this->GetCursor() + 1 - offsetInRun;
-}
-
-/******************************************************************************
- CalcCurrentRunInfo (private)
-
- ******************************************************************************/
-
-template <class T>
-void
-JRunArrayIterator<T>::CalcCurrentRunInfo
-	(
-	JIndex* runIndex,
-	JIndex* firstInRun
-	)
-	const
-{
-	*runIndex   = itsRunIndex;
-	*firstInRun = this->GetCursor() + 1 - itsOffsetInRun;
 }
 
 /******************************************************************************
@@ -799,7 +797,7 @@ JRunArrayIterator<T>::ListChanged
 		itsRunIndex    = 0;
 		itsOffsetInRun = 0;
 		}
-	else
+	else if (!itsIgnoreListChangedFlag)
 		{
 		const JCursorPosition p = this->GetCursor();
 

@@ -215,8 +215,21 @@ JTEST(Runs)
 	verify("0 -1 0 -1 -1 1 1 1 1 1 2 2 2 2 3 3 3 5 5 5 10 10 10 11 11", a);
 
 	runiter->MoveTo(kJIteratorStartAfter, 10);
-	runiter->SetPrev(-1);
-	verify("0 -1 0 -1 -1 1 1 1 1 -1 2 2 2 2 3 3 3 5 5 5 10 10 10 11 11", a);
+	runiter->SetPrev(-1, 3);
+	verify("0 -1 0 -1 -1 1 1 -1 -1 -1 2 2 2 2 3 3 3 5 5 5 10 10 10 11 11", a);
+
+	runiter->SetNext(-2, 3);
+	verify("0 -1 0 -1 -1 1 1 -1 -1 -1 -2 -2 -2 2 3 3 3 5 5 5 10 10 10 11 11", a);
+
+	long j;
+	iter->Next(&j);
+	JAssertEqual(-2, j);
+	iter->Next(&j);
+	JAssertEqual(-2, j);
+	iter->Next(&j);
+	JAssertEqual(-2, j);
+	iter->Next(&j);
+	JAssertEqual(2, j);
 
 	JSetList("-1 -1 -1 -1 0 0 1 1 1 1 2 2 2 2 3 3 3 5 5 5 10 10 10 11 11", &a);
 
