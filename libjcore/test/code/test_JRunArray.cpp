@@ -257,6 +257,15 @@ JTEST(Runs)
 	runiter->RemoveNext(6);
 	verify("1 1 3 3 5 5 10 10 10 11 11", a);
 
+	runiter->RemoveNext(3);
+	verify("1 1 3 3 10 10 11 11", a);
+
+	runiter->Insert(5, 3);
+	verify("1 1 3 3 5 5 5 10 10 11 11", a);
+
+	runiter->RemoveNext(3);
+	verify("1 1 3 3 10 10 11 11", a);
+
 	jdelete iter;
 }
 
@@ -501,6 +510,16 @@ JTEST(InsertSlice)
 	iter2.MoveTo(kJIteratorStartBefore, 7);
 	iter2.InsertSlice(a1, JIndexRange(1, 7));
 	verify("1 1 1 2 2 2 1 1 1 2 2 2 3 3 3 3 4 4 4 5 5 5", a2);
+
+	iter2.InsertSlice(a1, JIndexRange(5, 7));
+	verify("1 1 1 2 2 2 2 2 3 1 1 1 2 2 2 3 3 3 3 4 4 4 5 5 5", a2);
+
+	iter2.MoveTo(kJIteratorStartAtBeginning, 0);
+	iter2.InsertSlice(a1, JIndexRange(5, 7));
+	verify("2 2 3 1 1 1 2 2 2 2 2 3 1 1 1 2 2 2 3 3 3 3 4 4 4 5 5 5", a2);
+
+	iter2.InsertSlice(a1, JIndexRange(5, 7));
+	verify("2 2 3 2 2 3 1 1 1 2 2 2 2 2 3 1 1 1 2 2 2 3 3 3 3 4 4 4 5 5 5", a2);
 
 	a2 = a3;
 	a2.AppendSlice(a1, JIndexRange(15, 15));

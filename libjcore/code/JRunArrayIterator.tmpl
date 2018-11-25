@@ -591,7 +591,6 @@ JRunArrayIterator<T>::RemoveNext
 	itsIgnoreListChangedFlag = kJFalse;
 
 	itsOffsetInRun = itemIndex - firstInRun;
-
 	return kJTrue;
 }
 
@@ -685,8 +684,6 @@ JRunArrayIterator<T>::InsertSlice
 
 		itsRunArray->IncrementalFindRun(itemIndex + range.GetCount() - 1, itemIndex, &itsRunIndex, &firstInRun);
 		itsOffsetInRun = itemIndex - firstInRun;
-
-		SkipPrev(range.GetCount());
 		}
 
 	return kJTrue;
