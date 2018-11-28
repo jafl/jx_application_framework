@@ -337,7 +337,8 @@ JSTStyler::SetStyle
 		return kJFalse;
 		}
 
-	assert( range.first == itsIterator->GetNextElementIndex() );
+	assert( itsIterator->AtEnd() ||
+			(range.first == itsIterator->GetNextElementIndex()) );
 
 	if (itsRedoAllFlag)
 		{

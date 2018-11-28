@@ -453,7 +453,7 @@ jReplaceMarkdownPattern
 		const JCharacterRange r(m.GetCharacterRange());
 		siter.MoveTo(kJIteratorStartBefore, r.first);
 		siter.RemoveNext(r.GetCount());
-		siter.Insert(f, r.GetCount());
+		siter.Insert(f, s.GetCharacterCount());
 
 		citer->ReplaceLastMatch(s);
 		}

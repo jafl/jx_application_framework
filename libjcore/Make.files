@@ -24,7 +24,6 @@
 .cpp ./code/JSubstitute
 .cpp ./code/JInterpolate
 .cpp ./code/JStringManager
-.cpp ./code/jTextUtil
 .cpp ./code/JUtf8ByteBuffer
 .cpp ./code/jMath
 .cpp ./code/JComplex
@@ -110,6 +109,7 @@
 .cpp ./code/JSTUndoTyping
 .cpp ./code/JSTStyler
 .cpp ./code/JSpellChecker
+.cpp ./code/jTextUtil
 .cpp ./code/JPartition
 .cpp ./code/JSliderBase
 .cpp ./code/JUserNotification

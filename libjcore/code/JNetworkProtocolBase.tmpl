@@ -209,15 +209,17 @@ JNetworkProtocolBase<ACE_PEER_STREAM_2>::handle_output
 			{
 			c.sendOffset += count;
 
-			JLinkedListIterator<Chunk> iter(itsSendData);
+			JLinkedListIterator<Chunk> iter(&itsSendData);
 			if (c.sendOffset >= c.count)
 				{
 				c.CleanOut();
-				iter.RemoveNext();
+				const JBoolean ok = iter.RemoveNext();
+				assert( ok );
 				}
 			else
 				{
-				iter.SetNext(c);
+				const JBoolean ok = iter.SetNext(c);
+				assert( ok );
 				}
 			}
 		else

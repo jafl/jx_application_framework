@@ -849,11 +849,20 @@ JTEST(InsertCharacter)
 
 	text.InsertCharacter(TextRange(JCharacterRange(5,0), JUtf8ByteRange(6,0)), JUtf8Character('z'), JFontManager::GetDefaultFont());
 	JAssertStringsEqual("b" "\xC3\xAE" "xyzg" "b" "\xC3\xB8" "ld" "normal" "double underline", text.GetText());
-	JAssertEqual(20, text.GetStyles().GetElement(2).GetSize());
-	JAssertEqual(JFontManager::GetDefaultFontSize(), text.GetStyles().GetElement(3).GetSize());
-	JAssertEqual(JFontManager::GetDefaultFontSize(), text.GetStyles().GetElement(4).GetSize());
-	JAssertEqual(JFontManager::GetDefaultFontSize(), text.GetStyles().GetElement(5).GetSize());
-	JAssertEqual(20, text.GetStyles().GetElement(6).GetSize());
+
+	JRunArrayIterator<JFont> iter(text.GetStyles());
+	JFont f;
+	iter.SkipNext();
+	iter.Next(&f);
+	JAssertEqual(20, f.GetSize());
+	iter.Next(&f);
+	JAssertEqual(JFontManager::GetDefaultFontSize(), f.GetSize());
+	iter.Next(&f);
+	JAssertEqual(JFontManager::GetDefaultFontSize(), f.GetSize());
+	iter.Next(&f);
+	JAssertEqual(JFontManager::GetDefaultFontSize(), f.GetSize());
+	iter.Next(&f);
+	JAssertEqual(20, f.GetSize());
 
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
@@ -1030,7 +1039,11 @@ JTEST(DeleteText)
 	text.DeleteText(TextRange(JCharacterRange(10,18), JUtf8ByteRange(10,18)));
 	JAssertStringsEqual("b" "ld\n" "\t   nble underline", text.GetText());
 
-	JAssertEqual(2, text.GetStyles().GetElement(13).GetStyle().underlineCount);
+	JRunArrayIterator<JFont> iter(text.GetStyles());
+	iter.MoveTo(kJIteratorStartBefore, 13);
+	JFont f;
+	iter.Next(&f);
+	JAssertEqual(2, f.GetStyle().underlineCount);
 
 	JBoolean canUndo, canRedo;
 	JAssertFalse(text.HasSingleUndo());
@@ -1082,9 +1095,17 @@ JTEST(DeleteText)
 	JAssertFalse(canUndo);
 	JAssertTrue(canRedo);
 
-	JAssertEqual(20, text.GetStyles().GetElement(2).GetSize());
-	JAssertTrue(text.GetStyles().GetElement(6).GetStyle().bold);
-	JAssertEqual(2, text.GetStyles().GetElement(21).GetStyle().underlineCount);
+	iter.MoveTo(kJIteratorStartBefore, 2);
+	iter.Next(&f);
+	JAssertEqual(20, f.GetSize());
+
+	iter.MoveTo(kJIteratorStartBefore, 6);
+	iter.Next(&f);
+	JAssertTrue(f.GetStyle().bold);
+
+	iter.MoveTo(kJIteratorStartBefore, 21);
+	iter.Next(&f);
+	JAssertEqual(2, f.GetStyle().underlineCount);
 }
 
 JTEST(BackwardDelete)

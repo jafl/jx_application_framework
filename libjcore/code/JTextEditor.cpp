@@ -1701,7 +1701,8 @@ teDrawSpaces
 	const JColorID		wsColor
 	)
 {
-	const JIndex i = textIter->GetNextCharacterIndex();
+	const JIndex charIndex = textIter->GetNextCharacterIndex(),
+				 byteIndex = textIter->GetNextByteIndex();
 
 	p.SetLineWidth(1);
 	p.SetPenColor(wsColor);
@@ -1731,8 +1732,8 @@ teDrawSpaces
 			}
 		}
 
-	textIter->MoveTo(kJIteratorStartBefore, i);
-	styleIter->MoveTo(kJIteratorStartBefore, i);
+	textIter->UnsafeMoveTo(kJIteratorStartBefore, charIndex, byteIndex);
+	styleIter->MoveTo(kJIteratorStartBefore, charIndex);
 }
 
 void
@@ -1871,6 +1872,7 @@ JTextEditor::TEDrawLine
 				teDrawSpaces(p, -1,  textIter, styleIter, left, wsYCenter, itsWhitespaceColor);
 				}
 
+			startChar++;
 			left += tabWidth;
 			textIter->SkipNext();	// move past tab character
 			styleIter->SkipNext();

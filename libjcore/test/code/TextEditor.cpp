@@ -345,7 +345,7 @@ TextEditor::Activate()
 void
 TextEditor::CheckCmdStatus
 	(
-	const JRunArray<JBoolean>& expected
+	const JArray<JBoolean>& expected
 	)
 	const
 {

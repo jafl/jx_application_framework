@@ -95,10 +95,6 @@ T
 F
 "./code/JStringManager.cpp"
 T
-2 "jTextUtil.cpp"
-F
-"./code/jTextUtil.cpp"
-T
 2 "JUtf8ByteBuffer.cpp"
 F
 "./code/JUtf8ByteBuffer.cpp"
@@ -611,6 +607,10 @@ T
 2 "JSpellChecker.cpp"
 F
 "./code/JSpellChecker.cpp"
+T
+2 "jTextUtil.cpp"
+F
+"./code/jTextUtil.cpp"
 F
 T
 1 "widgets"

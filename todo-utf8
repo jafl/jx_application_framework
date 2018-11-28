@@ -2,12 +2,29 @@ JLinkedList iterators
 	ignore ListChanged if we made a change that doesn't change our state
 	e.g. - Insert or RemoveNext
 
+JRunArray
+	change runindex/firstinrun to be more useful to iterator
+
+JStyledText
+JTextEditor
+JPackedTableData
+JSTStyler
+JSTUndoBase
+JStyledTextSetFont
+JTable
+jTextUtil
+JXStringList
+JXStyledText
+JXTextMenuData
+	audit to ensure RunArrayIter is used correctly:  insert does not move
+	need option for insert to move?
+
 unit test
 	JTable
 	JTableSelection
 	JStringTableData
 	JFloatTableData
-	JVIKeyHandler:  #w, #e, #b
+	JVIKeyHandler:  split into multiple tests covering all options
 
 always invalidate JStringIterator if part of a larger function
 

@@ -31,7 +31,7 @@ else
 
 JFont f = itsDefaultFont;
 JBoolean changed = kJFalse;
-JRunArrayIterator<JFont> iter(itsStyles, kJIteratorStartBefore, range.charRange.first);
+FontIterator iter(itsStyles, kJIteratorStartBefore, range.charRange.first);
 for (JIndex i=range.charRange.first; i<=range.charRange.last; i++)
 	{
 	const JBoolean ok = iter.Next(&f);

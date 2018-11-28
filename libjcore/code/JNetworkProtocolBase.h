@@ -56,12 +56,7 @@ public:
 
 		Chunk(const char* data, const JSize count);
 
-		Chunk(const Chunk& c)
-			:
-			data(c.data),
-			count(c.count),
-			sendOffset(c.sendOffset)
-		{ };
+		// accept default copy constructor
 
 		void CleanOut()
 		{

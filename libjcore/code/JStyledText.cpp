@@ -733,7 +733,8 @@ JStyledText::WritePrivateFormat
 	output << ' ' << styleRunCount;
 
 	iter.MoveTo(kJIteratorStartBefore, range.charRange.first);
-	do
+	JBoolean keepGoing = kJTrue;
+	while (keepGoing)
 		{
 		const JFont  f          = iter.GetRunData();
 		const JString& fontName = f.GetName();
@@ -748,16 +749,18 @@ JStyledText::WritePrivateFormat
 		found = colorList.SearchSorted(fStyle.color, JListT::kAnyMatch, &colorIndex);
 		assert( found );
 
-		output << ' ' << iter.GetRemainingInRun();
+		const JIndex firstInRun = iter.GetRunStart();
+		const JSize remaining   = iter.GetRemainingInRun();
+		iter.NextRun();
+		keepGoing = JI2B( iter.GetRunStart() <= range.charRange.last );
+
+		output << ' ' << (keepGoing ? remaining : range.charRange.last - firstInRun + 1);
 		output << ' ' << fontIndex;
 		output << ' ' << f.GetSize();
 		output << ' ' << fStyle.bold << fStyle.italic << fStyle.strike;
 		output << ' ' << fStyle.underlineCount;
 		output << ' ' << colorIndex;
-
-		iter.NextRun();
 		}
-		while (iter.GetRunStart() <= range.charRange.last);
 }
 
 /******************************************************************************
@@ -1162,10 +1165,11 @@ JStyledText::SearchForward
 	range->SetToNothing();
 
 	FontIterator iter(*itsStyles, kJIteratorStartBefore, start.charIndex);
-	if (iter.GetRemainingInRun() < iter.GetRunLength())
+	if (!iter.AtEnd() && iter.GetRemainingInRun() < iter.GetRunLength())
 		{
 		iter.NextRun();
 		}
+
 	if (iter.AtEnd())
 		{
 		if (!wrapSearch)
@@ -1240,13 +1244,13 @@ jComputeBackwardFontRange
 		JSize byteOffset;
 		JBoolean ok =
 			JString::CountBytesBackward(
-				text.GetRawBytes(), start.byteIndex,
-				start.charIndex - range->charRange.first, &byteOffset);
+				text.GetRawBytes(), start.byteIndex - 1,
+				start.charIndex - 1 - range->charRange.last, &byteOffset);
 		assert( ok );
 
 		JSize byteCount;
 		ok = JString::CountBytesBackward(
-				text.GetRawBytes(), start.byteIndex - byteOffset,
+				text.GetRawBytes(), start.byteIndex - 1 - byteOffset,
 				range->charRange.GetCount(), &byteCount);
 		assert( ok );
 
@@ -1270,10 +1274,11 @@ JStyledText::SearchBackward
 	range->SetToNothing();
 
 	FontIterator iter(*itsStyles, kJIteratorStartBefore, start.charIndex);
-	if (iter.GetRemainingInRun() < iter.GetRunLength())
+	if (!iter.AtBeginning() && iter.GetRemainingInRun() < iter.GetRunLength())
 		{
 		iter.SkipPrev(iter.GetRunLength() - iter.GetRemainingInRun());
 		}
+
 	if (iter.AtBeginning())
 		{
 		if (!wrapSearch)
@@ -1281,19 +1286,17 @@ JStyledText::SearchBackward
 			return kJFalse;
 			}
 		iter.MoveTo(kJIteratorStartAtEnd, 0);
-		iter.PrevRun();
 		*wrapped = kJTrue;
 		}
 
 	do
 		{
+		iter.PrevRun();
 		if (match.Match(iter.GetRunData()))
 			{
 			jComputeBackwardFontRange(start, itsText, iter, *wrapped, range);
 			return kJTrue;
 			}
-
-		iter.PrevRun();
 		}
 		while (!iter.AtBeginning());
 
@@ -1322,7 +1325,7 @@ JStyledText::SearchBackward
 }
 
 /******************************************************************************
- FontMatch destructor
+ FontMatch
 
  ******************************************************************************/
 

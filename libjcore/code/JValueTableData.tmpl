@@ -285,22 +285,35 @@ JValueTableData<S,T>::InsertRows
 		{
 		const JIndex trueIndex = JMin(index, GetRowCount()+1);
 
+		JListIterator<T>* iter = nullptr;
+		if (initData != nullptr)
+			{
+			iter = initData->NewIterator();
+			}
+
+		T data = itsDefValue;
+
 		const JSize colCount = GetColCount();
 		for (JIndex j=1; j<=count; j++)
 			{
+			if (iter != nullptr)
+				{
+				iter->MoveTo(kJIteratorStartAtBeginning, 0);
+				}
+
 			for (JIndex i=1; i<=colCount; i++)
 				{
 				S* colData = itsCols->GetElement(i);
-				if (initData != nullptr)
+				if (iter != nullptr)
 					{
-					colData->InsertElementAtIndex(trueIndex, initData->GetElement(i));
+					const JBoolean ok = iter->Next(&data);
+					assert( ok );
 					}
-				else
-					{
-					colData->InsertElementAtIndex(trueIndex, itsDefValue);
-					}
+				colData->InsertElementAtIndex(trueIndex, data);
 				}
 			}
+
+		jdelete iter;
 
 		RowsAdded(count);
 		Broadcast(JTableData::RowsInserted(trueIndex, count));
@@ -482,6 +495,12 @@ JValueTableData<S,T>::InsertCols
 		{
 		const JIndex trueIndex = JMin(index, GetColCount()+1);
 
+		JListIterator<T>* iter = nullptr;
+		if (initData != nullptr)
+			{
+			iter = initData->NewIterator();
+			}
+
 		for (JIndex j=1; j<=count; j++)
 			{
 			S* colData = jnew S;
@@ -489,11 +508,15 @@ JValueTableData<S,T>::InsertCols
 			itsCols->InsertAtIndex(trueIndex, colData);
 
 			const JSize rowCount = GetRowCount();
-			if (initData != nullptr)
+			if (iter != nullptr)
 				{
+				iter->MoveTo(kJIteratorStartAtBeginning, 0);
+				T data;
 				for (JIndex i=1; i<=rowCount; i++)
 					{
-					colData->InsertElementAtIndex(i, initData->GetElement(i));
+					const JBoolean ok = iter->Next(&data);
+					assert( ok );
+					colData->InsertElementAtIndex(i, data);
 					}
 				}
 			else
@@ -504,6 +527,8 @@ JValueTableData<S,T>::InsertCols
 					}
 				}
 			}
+
+		jdelete iter;
 
 		ColsAdded(count);
 		Broadcast(JTableData::ColsInserted(trueIndex, count));

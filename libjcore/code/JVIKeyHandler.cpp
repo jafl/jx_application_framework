@@ -253,25 +253,25 @@ JVIKeyHandler::HandleKeyPress
 		const JSize count = GetOperationCount();
 		for (JIndex i=1; i<=count; i++)
 			{
-			itsDefKeyHandler->HandleKeyPress(kJRightArrow, kJFalse, kMoveByWord, kJFalse);
+			itsDefKeyHandler->HandleKeyPress(JUtf8Character(kJRightArrow), kJFalse, JTextEditor::kMoveByWord, kJFalse);
 			}
-		itsDefKeyHandler->HandleKeyPress(kJLeftArrow, kJFalse, kMoveByWord, kJFalse);
+		itsDefKeyHandler->HandleKeyPress(JUtf8Character(kJLeftArrow), kJFalse, JTextEditor::kMoveByWord, kJFalse);
 		}
 	else if (key == 'e')	// end of next word
 		{
 		const JSize count = GetOperationCount();
 		for (JIndex i=1; i<=count; i++)
 			{
-			itsDefKeyHandler->HandleKeyPress(kJRightArrow, kJFalse, kMoveByWord, kJFalse);
+			itsDefKeyHandler->HandleKeyPress(JUtf8Character(kJRightArrow), kJFalse, JTextEditor::kMoveByWord, kJFalse);
 			}
-		itsDefKeyHandler->HandleKeyPress(kJLeftArrow, kJFalse, kMoveByCharacter, kJFalse);
+		itsDefKeyHandler->HandleKeyPress(JUtf8Character(kJLeftArrow), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
 		}
 	else if (key == 'b')	// beginning of previous word
 		{
 		const JSize count = GetOperationCount();
 		for (JIndex i=1; i<=count; i++)
 			{
-			itsDefKeyHandler->HandleKeyPress(kJLeftArrow, kJFalse, kMoveByWord, kJFalse);
+			itsDefKeyHandler->HandleKeyPress(JUtf8Character(kJLeftArrow), kJFalse, JTextEditor::kMoveByWord, kJFalse);
 			}
 		}
 

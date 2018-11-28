@@ -336,8 +336,11 @@ JTEST(LayoutBreakWidth)
 
 JTEST(GetCmdStatus)
 {
-	JRunArray<JBoolean> status;
-	status.AppendElements(kJFalse, JTextEditor::kCmdCount);
+	JArray<JBoolean> status;
+	for (JIndex i=1; i<=JTextEditor::kCmdCount; i++)
+		{
+		status.AppendElement(kJFalse);
+		}
 
 	StyledText text(kJTrue);
 	text.SetText(JString("Foursc" "\xC3\xB8" "re and seven years ago...", kJFalse));
@@ -928,25 +931,32 @@ JTEST(SetAllFontNameAndSize)
 
 	te.SetAllFontNameAndSize(JString("foobar", kJFalse), 15);
 
-	JFont f = text.GetStyles().GetElement(2);
+	JRunArrayIterator<JFont> iter(text.GetStyles());
+	JFont f;
+
+	iter.MoveTo(kJIteratorStartBefore, 2);
+	iter.Next(&f);
 	JAssertStringsEqual("foobar", f.GetName());
 	JAssertEqual(15, f.GetSize());
 	JAssertFalse(f.GetStyle().bold);
 	JAssertEqual(0, f.GetStyle().underlineCount);
 
-	f = text.GetStyles().GetElement(5);
+	iter.MoveTo(kJIteratorStartBefore, 5);
+	iter.Next(&f);
 	JAssertStringsEqual("foobar", f.GetName());
 	JAssertEqual(15, f.GetSize());
 	JAssertTrue(f.GetStyle().bold);
 	JAssertEqual(0, f.GetStyle().underlineCount);
 
-	f = text.GetStyles().GetElement(10);
+	iter.MoveTo(kJIteratorStartBefore, 10);
+	iter.Next(&f);
 	JAssertStringsEqual("foobar", f.GetName());
 	JAssertEqual(15, f.GetSize());
 	JAssertFalse(f.GetStyle().bold);
 	JAssertEqual(0, f.GetStyle().underlineCount);
 
-	f = text.GetStyles().GetElement(17);
+	iter.MoveTo(kJIteratorStartBefore, 17);
+	iter.Next(&f);
 	JAssertStringsEqual("foobar", f.GetName());
 	JAssertEqual(15, f.GetSize());
 	JAssertFalse(f.GetStyle().bold);

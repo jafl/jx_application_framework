@@ -26,28 +26,36 @@ JTEST(Exercise)
 
 	text.SetText(JString("foo yes no zap bar baz", kJFalse));
 
-	JFontStyle style = text.GetStyles().GetElement(2).GetStyle();
-	JAssertEqual(JColorManager::GetBlackColor(), style.color);
-	JAssertFalse(style.bold);
-	JAssertFalse(style.strike);
+	JRunArrayIterator<JFont> iter(text.GetStyles());
 
-	style = text.GetStyles().GetElement(6).GetStyle();
-	JAssertEqual(JColorManager::GetGreenColor(), style.color);
-	JAssertFalse(style.bold);
-	JAssertFalse(style.strike);
+	JFont f;
+	iter.MoveTo(kJIteratorStartBefore, 2);
+	iter.Next(&f);
+	JAssertEqual(JColorManager::GetBlackColor(), f.GetStyle().color);
+	JAssertFalse(f.GetStyle().bold);
+	JAssertFalse(f.GetStyle().strike);
 
-	style = text.GetStyles().GetElement(10).GetStyle();
-	JAssertEqual(JColorManager::GetRedColor(), style.color);
-	JAssertTrue(style.bold);
-	JAssertFalse(style.strike);
+	iter.MoveTo(kJIteratorStartBefore, 6);
+	iter.Next(&f);
+	JAssertEqual(JColorManager::GetGreenColor(), f.GetStyle().color);
+	JAssertFalse(f.GetStyle().bold);
+	JAssertFalse(f.GetStyle().strike);
 
-	style = text.GetStyles().GetElement(13).GetStyle();
-	JAssertEqual(JColorManager::GetBlackColor(), style.color);
-	JAssertFalse(style.bold);
-	JAssertTrue(style.strike);
+	iter.MoveTo(kJIteratorStartBefore, 10);
+	iter.Next(&f);
+	JAssertEqual(JColorManager::GetRedColor(), f.GetStyle().color);
+	JAssertTrue(f.GetStyle().bold);
+	JAssertFalse(f.GetStyle().strike);
 
-	style = text.GetStyles().GetElement(16).GetStyle();
-	JAssertEqual(JColorManager::GetBlackColor(), style.color);
-	JAssertFalse(style.bold);
-	JAssertFalse(style.strike);
+	iter.MoveTo(kJIteratorStartBefore, 13);
+	iter.Next(&f);
+	JAssertEqual(JColorManager::GetBlackColor(), f.GetStyle().color);
+	JAssertFalse(f.GetStyle().bold);
+	JAssertTrue(f.GetStyle().strike);
+
+	iter.MoveTo(kJIteratorStartBefore, 16);
+	iter.Next(&f);
+	JAssertEqual(JColorManager::GetBlackColor(), f.GetStyle().color);
+	JAssertFalse(f.GetStyle().bold);
+	JAssertFalse(f.GetStyle().strike);
 }

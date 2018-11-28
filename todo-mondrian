@@ -1,5 +1,5 @@
 import from .fd
-load/save private format - .md ?
+load/save private format - .jxl
 cmd line option to generate code from layout file
 
 main window is sorted JXStringList
