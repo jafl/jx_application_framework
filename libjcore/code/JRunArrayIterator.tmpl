@@ -728,15 +728,12 @@ JRunArrayIterator<T>::PrivateMoveTo
 	const JBoolean			wasAtLimit
 	)
 {
-	if (newPosition == kJIteratorStartAtBeginning ||
-		(newPosition == kJIteratorStartBefore && index == 1))
+	if (this->AtBeginning())
 		{
 		itsRunIndex    = 1;
 		itsOffsetInRun = 0;
 		}
-	else if (newPosition == kJIteratorStartAtEnd ||
-			 (newPosition == kJIteratorStartAfter &&
-			  index == itsRunArray->GetElementCount()))
+	else if (this->AtEnd())
 		{
 		itsRunIndex    = itsRunArray->GetRunCount()+1;
 		itsOffsetInRun = 0;

@@ -6,9 +6,6 @@
 
 	Efficient interation for JLinkedList objects.
 
-	To do:
-		Optimize ListChanged() so it doesn't always call IteratorFindElement().
-
 	Copyright (C) 1996-2018 by John Lindal.
 
  ******************************************************************************/
@@ -310,8 +307,6 @@ JLinkedListIterator<T>::RemoveNext
 		{
 		return kJFalse;
 		}
-
-	assert( itsCurrElement->next != nullptr );
 
 	itsLinkedList->IteratorRemoveNextElements(this->GetCursor()+1, count,
 											  itsCurrElement->next);

@@ -232,6 +232,7 @@ JStringIterator::MoveTo
 	else if (newPosition == kJIteratorStartBeforeByte)
 		{
 		assert( (itsConstString->IsEmpty() && index == 1) ||
+				index == itsConstString->GetByteCount()+1 ||
 				itsConstString->ByteIndexValid(index) );
 
 		itsByteOffset      = index-1;
@@ -246,6 +247,7 @@ JStringIterator::MoveTo
 	else if (newPosition == kJIteratorStartBefore)
 		{
 		assert( (itsConstString->IsEmpty() && index == 1) ||
+				index == itsConstString->GetCharacterCount()+1 ||
 				itsConstString->CharacterIndexValid(index) );
 
 		JUtf8ByteRange r   = itsConstString->CharacterToUtf8ByteRange(JCharacterRange(1, index-1));
