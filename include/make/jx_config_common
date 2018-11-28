@@ -74,3 +74,9 @@ define run_tests
      echo ==========; \
      if [[ "$$e" = "1" ]]; then false; fi
 endef
+
+#
+# delete modified files if process fails
+#
+
+.DELETE_ON_ERROR:
