@@ -1,3 +1,7 @@
+JStyledText, JTextEditor, etc
+	check for special case code that places iterator at end
+	("before N+1" is now allowed)
+
 JLinkedList iterators
 	ignore ListChanged if we made a change that doesn't change our state
 	e.g. - Insert or RemoveNext

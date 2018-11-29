@@ -9,7 +9,6 @@
 #define _H_ExprEditor
 
 #include <JExprEditor.h>
-#include <JRunArray.h>
 
 class ExprEditor : public JExprEditor
 {
@@ -20,7 +19,7 @@ public:
 	virtual ~ExprEditor();
 
 	void	Activate();
-	void	CheckCmdStatus(const JRunArray<JBoolean>& expected) const;
+	void	CheckCmdStatus(const JArray<JBoolean>& expected) const;
 
 	void	HandleKeyPress(const JUtf8Character& c);
 

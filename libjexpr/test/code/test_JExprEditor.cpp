@@ -93,8 +93,11 @@ JTEST(Exercise)
 
 JTEST(GetCmdStatus)
 {
-	JRunArray<JBoolean> status;
-	status.AppendElements(kJFalse, JExprEditor::kCmdCount);
+	JArray<JBoolean> status;
+	for (JIndex i=1; i<=JExprEditor::kCmdCount; i++)
+		{
+		status.AppendElement(kJFalse);
+		}
 
 	TestFontManager fontMgr;
 	TestVarList varList;

@@ -228,7 +228,7 @@ ExprEditor::Activate()
 void
 ExprEditor::CheckCmdStatus
 	(
-	const JRunArray<JBoolean>& expected
+	const JArray<JBoolean>& expected
 	)
 	const
 {
