@@ -47,21 +47,21 @@ JTEST(Read)
 {
 	std::istringstream s("F");
 	JBoolean b;
-	s >> b;
+	s >> JBoolFromString(b);
 	JAssertFalse(b);
 
 	s.str("T");
-	s >> b;
+	s >> JBoolFromString(b);
 	JAssertTrue(b);
 
 	s.str("g");
-	s >> b;
+	s >> JBoolFromString(b);
 	JAssertFalse(s.good());
 }
 
 JTEST(Write)
 {
 	std::ostringstream s;
-	s << kJTrue << kJFalse;
+	s << JBoolToString(kJTrue) << JBoolToString(kJFalse);
 	JAssertStringsEqual("TF", s.str().c_str());
 }

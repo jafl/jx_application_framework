@@ -201,7 +201,7 @@ SVNMainDirector::SVNMainDirector
 	if (vers >= 1)
 		{
 		JBoolean hadRepoWidget;
-		input >> hadRepoWidget;
+		input >> JBoolFromString(hadRepoWidget);
 
 		if (itsRepoWidget != nullptr)
 			{
@@ -276,8 +276,7 @@ SVNMainDirector::StreamOut
 	output << ' ';
 	GetWindow()->WriteGeometry(output);
 
-	output << ' ';
-	output << JI2B(itsRepoWidget != nullptr);
+	output << ' ' << JBoolToString(JI2B(itsRepoWidget != nullptr));
 
 	if (itsRepoWidget != nullptr)
 		{

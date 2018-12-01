@@ -83,7 +83,7 @@ THXBaseConvDirector::THXBaseConvDirector
 	window->ReadGeometry(input);
 
 	JBoolean active;
-	input >> active;
+	input >> JBoolFromString(active);
 	if (active)
 		{
 		Activate();
@@ -116,7 +116,7 @@ THXBaseConvDirector::WriteState
 	output << ' ';
 	GetWindow()->WriteGeometry(output);
 
-	output << ' ' << IsActive();
+	output << ' ' << JBoolToString(IsActive());
 }
 
 /******************************************************************************

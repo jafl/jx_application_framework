@@ -1625,7 +1625,7 @@ JXDisplay::WMBehavior::Save
 JBoolean
 JXDisplay::WMBehavior::Read
 	(
-	std::istream&			input,
+	std::istream&		input,
 	const JFileVersion	vers
 	)
 {
@@ -1634,8 +1634,8 @@ JXDisplay::WMBehavior::Read
 		return kJFalse;
 		}
 
-	input >> desktopMapsWindowsFlag;
-	input >> frameCompensateFlag;
+	input >> JBoolFromString(desktopMapsWindowsFlag);
+	input >> JBoolFromString(frameCompensateFlag);
 	input >> reshowOffset;
 
 	return kJTrue;
@@ -1653,7 +1653,7 @@ JXDisplay::WMBehavior::WriteV0
 	)
 	const
 {
-	output << desktopMapsWindowsFlag;
-	output << ' ' << frameCompensateFlag;
+	output << JBoolToString(desktopMapsWindowsFlag);
+	output << JBoolToString(frameCompensateFlag);
 	output << ' ' << reshowOffset;
 }

@@ -114,10 +114,46 @@ enum JBoolean
 	kJTrue  = 1
 };
 
-const JSize kJBooleanDataStreamLength = sizeof(JUtf8Byte);
+struct JBoolRefHolder
+{
+	JBoolean& v;
 
-std::istream& operator>>(std::istream& input, JBoolean& jbool);
-std::ostream& operator<<(std::ostream& output, const JBoolean jbool);
+	explicit JBoolRefHolder(JBoolean& _v)
+		:
+		v(_v)
+	{};
+};
+
+struct JBoolConstRefHolder
+{
+	JBoolean const& v;
+
+	explicit JBoolConstRefHolder(JBoolean const& _v)
+		:
+		v(_v)
+	{};
+};
+
+std::ostream& operator<<(std::ostream& output, JBoolConstRefHolder const& data);
+std::istream& operator>>(std::istream& input, JBoolRefHolder const& data);
+
+inline JBoolConstRefHolder
+JBoolToString
+	(
+	JBoolean const& v
+	)
+{
+	return JBoolConstRefHolder(v);
+}
+
+inline JBoolRefHolder
+JBoolFromString
+	(
+	JBoolean& v
+	)
+{
+	return JBoolRefHolder(v);
+}
 
 inline JBoolean
 JConvertToBoolean

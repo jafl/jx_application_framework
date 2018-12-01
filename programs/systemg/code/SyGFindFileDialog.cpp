@@ -431,7 +431,7 @@ SyGFindFileDialog::ReadPrefs
 	window->Deiconify();
 
 	JBoolean stayOpen;
-	input >> stayOpen;
+	input >> JBoolFromString(stayOpen);
 	itsStayOpenCB->SetState(stayOpen);
 }
 
@@ -452,5 +452,5 @@ SyGFindFileDialog::WritePrefs
 	output << ' ';
 	GetWindow()->WriteGeometry(output);
 
-	output << ' ' << itsStayOpenCB->IsChecked();
+	output << ' ' << JBoolToString(itsStayOpenCB->IsChecked());
 }

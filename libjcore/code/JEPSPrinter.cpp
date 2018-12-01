@@ -89,9 +89,13 @@ JEPSPrinter::ReadEPSSetup
 	if (vers <= kCurrentSetupVersion)
 		{
 		JString fileName;
-		JBoolean bwFlag;
-		input >> fileName >> itsIncludePreviewFlag >> bwFlag;
+		input >> fileName;
 		SetOutputFileName(fileName);
+
+		input >> JBoolFromString(itsIncludePreviewFlag);
+
+		JBoolean bwFlag;
+		input >> JBoolFromString(bwFlag);
 		PSPrintBlackWhite(bwFlag);
 		}
 
@@ -112,8 +116,8 @@ JEPSPrinter::WriteEPSSetup
 {
 	output << ' ' << kCurrentSetupVersion;
 	output << ' ' << GetOutputFileName();
-	output << ' ' << itsIncludePreviewFlag;
-	output << ' ' << PSWillPrintBlackWhite();
+	output << ' ' << JBoolToString(itsIncludePreviewFlag)
+				  << JBoolToString(PSWillPrintBlackWhite());
 	output << kSetupDataEndDelimiter;
 }
 

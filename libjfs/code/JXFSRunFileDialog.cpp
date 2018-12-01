@@ -474,13 +474,13 @@ JXFSRunFileDialog::ReadSetup
 
 	itsCmdHistoryMenu->ReadSetup(input);
 
-	input >> checked;
+	input >> JBoolFromString(checked);
 	itsUseShellCB->SetState(checked);
 
-	input >> checked;
+	input >> JBoolFromString(checked);
 	itsUseWindowCB->SetState(checked);
 
-	input >> checked;
+	input >> JBoolFromString(checked);
 	itsSingleFileCB->SetState(checked);
 }
 
@@ -503,7 +503,7 @@ JXFSRunFileDialog::WriteSetup
 	output << ' ';
 	itsCmdHistoryMenu->WriteSetup(output);
 
-	output << ' ' << itsUseShellCB->IsChecked();
-	output << ' ' << itsUseWindowCB->IsChecked();
-	output << ' ' << itsSingleFileCB->IsChecked();
+	output << ' ' << JBoolToString(itsUseShellCB->IsChecked())
+				  << JBoolToString(itsUseWindowCB->IsChecked())
+				  << JBoolToString(itsSingleFileCB->IsChecked());
 }

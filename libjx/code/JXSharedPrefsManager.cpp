@@ -185,7 +185,7 @@ JXSharedPrefsManager::GetAll
 		{
 		itsFile->GetData(kFocusFollowsCursorInDockID, &data);
 		std::istringstream input(data);
-		input >> itsOrigFocusInDockFlag;
+		input >> JBoolFromString(itsOrigFocusInDockFlag);
 		JXWindow::ShouldFocusFollowCursorInDock(itsOrigFocusInDockFlag);
 		}
 	else
@@ -198,7 +198,7 @@ JXSharedPrefsManager::GetAll
 		{
 		itsFile->GetData(kCopyWhenSelectID, &data);
 		std::istringstream input(data);
-		input >> itsOrigCopyWhenSelectFlag;
+		input >> JBoolFromString(itsOrigCopyWhenSelectFlag);
 		JTextEditor::ShouldCopyWhenSelect(itsOrigCopyWhenSelectFlag);
 		}
 	else
@@ -211,7 +211,7 @@ JXSharedPrefsManager::GetAll
 		{
 		itsFile->GetData(kMiddleClickWillPasteID, &data);
 		std::istringstream input(data);
-		input >> itsOrigMiddleClickWillPasteFlag;
+		input >> JBoolFromString(itsOrigMiddleClickWillPasteFlag);
 		JXTEBase::MiddleButtonShouldPaste(itsOrigMiddleClickWillPasteFlag);
 		}
 	else
@@ -237,7 +237,7 @@ JXSharedPrefsManager::GetAll
 		{
 		itsFile->GetData(kCaretFollowsScrollID, &data);
 		std::istringstream input(data);
-		input >> itsOrigCaretScrollFlag;
+		input >> JBoolFromString(itsOrigCaretScrollFlag);
 		JXTEBase::CaretShouldFollowScroll(itsOrigCaretScrollFlag);
 		}
 	else
@@ -250,7 +250,7 @@ JXSharedPrefsManager::GetAll
 		{
 		itsFile->GetData(kWindowsHomeEndID, &data);
 		std::istringstream input(data);
-		input >> itsOrigWindowsHomeEndFlag;
+		input >> JBoolFromString(itsOrigWindowsHomeEndFlag);
 		JXTEBase::ShouldUseWindowsHomeEnd(itsOrigWindowsHomeEndFlag);
 		}
 	else
@@ -268,7 +268,7 @@ JXSharedPrefsManager::GetAll
 		{
 		itsFile->GetData(kAllowSpaceID, &data);
 		std::istringstream input(data);
-		input >> itsOrigAllowSpaceFlag;
+		input >> JBoolFromString(itsOrigAllowSpaceFlag);
 		JXSaveFileInput::ShouldAllowSpace(itsOrigAllowSpaceFlag);
 		}
 	else
@@ -321,7 +321,7 @@ JXSharedPrefsManager::PrivateSetFocusFollowsCursorInDock()
 	itsOrigFocusInDockFlag = JXWindow::WillFocusFollowCursorInDock();
 
 	std::ostringstream data;
-	data << itsOrigFocusInDockFlag;
+	data << JBoolToString(itsOrigFocusInDockFlag);
 	itsFile->SetData(kFocusFollowsCursorInDockID, data);
 }
 
@@ -338,7 +338,7 @@ JXSharedPrefsManager::PrivateSetCopyWhenSelectFlag()
 	itsOrigCopyWhenSelectFlag = JTextEditor::WillCopyWhenSelect();
 
 	std::ostringstream data;
-	data << itsOrigCopyWhenSelectFlag;
+	data << JBoolToString(itsOrigCopyWhenSelectFlag);
 	itsFile->SetData(kCopyWhenSelectID, data);
 }
 
@@ -355,7 +355,7 @@ JXSharedPrefsManager::PrivateSetMiddleClickWillPasteFlag()
 	itsOrigMiddleClickWillPasteFlag = JXTEBase::MiddleButtonWillPaste();
 
 	std::ostringstream data;
-	data << itsOrigMiddleClickWillPasteFlag;
+	data << JBoolToString(itsOrigMiddleClickWillPasteFlag);
 	itsFile->SetData(kMiddleClickWillPasteID, data);
 }
 
@@ -389,7 +389,7 @@ JXSharedPrefsManager::PrivateSetCaretFollowsScroll()
 	itsOrigCaretScrollFlag = JXTEBase::CaretWillFollowScroll();
 
 	std::ostringstream data;
-	data << itsOrigCaretScrollFlag;
+	data << JBoolToString(itsOrigCaretScrollFlag);
 	itsFile->SetData(kCaretFollowsScrollID, data);
 }
 
@@ -406,7 +406,7 @@ JXSharedPrefsManager::PrivateSetWindowsHomeEnd()
 	itsOrigWindowsHomeEndFlag = JXTEBase::WillUseWindowsHomeEnd();
 
 	std::ostringstream data;
-	data << itsOrigWindowsHomeEndFlag;
+	data << JBoolToString(itsOrigWindowsHomeEndFlag);
 	itsFile->SetData(kWindowsHomeEndID, data);
 }
 
@@ -423,7 +423,7 @@ JXSharedPrefsManager::PrivateSetAllowSpaceFlag()
 	itsOrigAllowSpaceFlag = JXSaveFileInput::WillAllowSpace();
 
 	std::ostringstream data;
-	data << itsOrigAllowSpaceFlag;
+	data << JBoolToString(itsOrigAllowSpaceFlag);
 	itsFile->SetData(kAllowSpaceID, data);
 }
 

@@ -724,7 +724,7 @@ JFSBindingList::Load
 	if (vers >= 2)
 		{
 		JBoolean useDefault, autoShell;
-		input >> useDefault >> autoShell;
+		input >> JBoolFromString(useDefault) >> JBoolFromString(autoShell);
 		if (!isSystem)
 			{
 			itsUseDefaultFlag = useDefault;
@@ -776,8 +776,8 @@ JFSBindingList::Save()
 		{
 		std::ostringstream data;
 		data << kCurrentBindingVersion;
-		data << ' ' << itsUseDefaultFlag;
-		data << ' ' << itsAutoShellFlag;
+		data << ' ' << JBoolToString(itsUseDefaultFlag)
+					<< JBoolToString(itsAutoShellFlag);
 		data << ' ' << itsShellCmd;
 		data << ' ' << itsWindowCmd;
 		data << '\n';

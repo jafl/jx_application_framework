@@ -39,14 +39,14 @@ JTEST(RealFunction)
 	while (1)
 		{
 		JBoolean expectedParseOK;
-		input >> expectedParseOK;
+		input >> JBoolFromString(expectedParseOK);
 		if (!input.good())
 			{
 			break;
 			}
 
 		JBoolean expectedEvalOK;
-		input >> expectedEvalOK;
+		input >> JBoolFromString(expectedEvalOK);
 
 		JFloat expectedResult;
 		input >> expectedResult;
@@ -90,14 +90,14 @@ JTEST(ComplexFunction)
 	while (1)
 		{
 		JBoolean expectedParseOK;
-		input >> expectedParseOK;
+		input >> JBoolFromString(expectedParseOK);
 		if (!input.good())
 			{
 			break;
 			}
 
 		JBoolean expectedEvalOK;
-		input >> expectedEvalOK;
+		input >> JBoolFromString(expectedEvalOK);
 
 		JComplex expectedResult;
 		input >> expectedResult;

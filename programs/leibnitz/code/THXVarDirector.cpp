@@ -87,7 +87,7 @@ THXVarDirector::THXVarDirector
 	itsVarTable->SetColWidth(THXVarTable::kNameColumn, colWidth);
 
 	JBoolean active;
-	input >> active;
+	input >> JBoolFromString(active);
 	if (active)
 		{
 		Activate();
@@ -121,7 +121,7 @@ THXVarDirector::WriteState
 	itsVarTable->WriteScrollSetup(output);
 
 	output << ' ' << itsVarTable->GetColWidth(THXVarTable::kNameColumn);
-	output << ' ' << JI2B(IsActive() && !GetWindow()->IsIconified());
+	output << ' ' << JBoolToString(JI2B(IsActive() && !GetWindow()->IsIconified()));
 }
 
 /******************************************************************************

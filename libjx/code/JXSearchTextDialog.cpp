@@ -991,7 +991,10 @@ JXSearchTextDialog::ReadSetup
 		}
 
 	JBoolean wrapSearch, ignoreCase, entireWord, searchIsRegex;
-	input >> wrapSearch >> ignoreCase >> entireWord >> searchIsRegex;
+	input >> JBoolFromString(wrapSearch)
+		  >> JBoolFromString(ignoreCase)
+		  >> JBoolFromString(entireWord)
+		  >> JBoolFromString(searchIsRegex);
 	itsWrapSearchCB->SetState(wrapSearch);
 	itsIgnoreCaseCB->SetState(ignoreCase);
 	itsEntireWordCB->SetState(entireWord);
@@ -1000,14 +1003,15 @@ JXSearchTextDialog::ReadSetup
 	if (vers >= 2)
 		{
 		JBoolean replaceIsRegex;
-		input >> replaceIsRegex;
+		input >> JBoolFromString(replaceIsRegex);
 		itsReplaceIsRegexCB->SetState(replaceIsRegex);
 		}
 
 	if (vers >= 3)
 		{
 		JBoolean singleLine, matchCase;
-		input >> singleLine >> matchCase;
+		input >> JBoolFromString(singleLine)
+			  >> JBoolFromString(matchCase);
 		itsSingleLineCB->SetState(singleLine);
 		itsPreserveCaseCB->SetState(matchCase);
 		}
@@ -1015,7 +1019,8 @@ JXSearchTextDialog::ReadSetup
 	if (vers >= 7)
 		{
 		JBoolean stayOpen, retainFocus;
-		input >> stayOpen >> retainFocus;
+		input >> JBoolFromString(stayOpen)
+			  >> JBoolFromString(retainFocus);
 		itsStayOpenCB->SetState(stayOpen);
 		itsRetainFocusCB->SetState(retainFocus);
 		}
@@ -1041,15 +1046,15 @@ JXSearchTextDialog::WriteSetup
 	output << ' ';
 	GetWindow()->WriteGeometry(output);
 
-	output << ' ' << itsWrapSearchCB->IsChecked();
-	output << ' ' << itsIgnoreCaseCB->IsChecked();
-	output << ' ' << itsEntireWordCB->IsChecked();
-	output << ' ' << itsSearchIsRegexCB->IsChecked();
-	output << ' ' << itsReplaceIsRegexCB->IsChecked();
-	output << ' ' << itsSingleLineCB->IsChecked();
-	output << ' ' << itsPreserveCaseCB->IsChecked();
-	output << ' ' << itsStayOpenCB->IsChecked();
-	output << ' ' << itsRetainFocusCB->IsChecked();
+	output << ' ' << JBoolToString(itsWrapSearchCB->IsChecked())
+				  << JBoolToString(itsIgnoreCaseCB->IsChecked())
+				  << JBoolToString(itsEntireWordCB->IsChecked())
+				  << JBoolToString(itsSearchIsRegexCB->IsChecked())
+				  << JBoolToString(itsReplaceIsRegexCB->IsChecked())
+				  << JBoolToString(itsSingleLineCB->IsChecked())
+				  << JBoolToString(itsPreserveCaseCB->IsChecked())
+				  << JBoolToString(itsStayOpenCB->IsChecked())
+				  << JBoolToString(itsRetainFocusCB->IsChecked());
 
 	output << ' ';
 	itsPrevSearchMenu->WriteSetup(output);

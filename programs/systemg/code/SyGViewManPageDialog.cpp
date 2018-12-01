@@ -401,7 +401,7 @@ SyGViewManPageDialog::ReadPrefs
 	if (vers >= 1)
 		{
 		JBoolean stayOpen;
-		input >> stayOpen;
+		input >> JBoolFromString(stayOpen);
 		itsStayOpenCB->SetState(stayOpen);
 		}
 
@@ -431,7 +431,7 @@ SyGViewManPageDialog::WritePrefs
 	output << ' ';
 	itsFnHistoryMenu->WriteSetup(output);
 
-	output << ' ' << itsStayOpenCB->IsChecked();
+	output << ' ' << JBoolToString(itsStayOpenCB->IsChecked());
 	output << ' ' << itsViewCmd;
 }
 

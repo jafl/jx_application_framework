@@ -131,14 +131,14 @@ JPSPrinter::ReadPSSetup
 	if (vers <= 3)
 		{
 		ImageOrientation orient;
-		input >> itsPaperType >> orient >> bwFlag;
+		input >> itsPaperType >> orient >> JBoolFromString(bwFlag);
 		SetOrientation(orient);
 		}
 	else if (vers <= kCurrentSetupVersion)
 		{
 		JString fileName;
 		ImageOrientation orient;
-		input >> fileName >> itsPaperType >> orient >> bwFlag;
+		input >> fileName >> itsPaperType >> orient >> JBoolFromString(bwFlag);
 		SetOutputFileName(fileName);
 		SetOrientation(orient);
 		}
@@ -168,7 +168,7 @@ JPSPrinter::WritePSSetup
 	output << ' ' << GetOutputFileName();
 	output << ' ' << itsPaperType;
 	output << ' ' << GetOrientation();
-	output << ' ' << PSWillPrintBlackWhite();
+	output << ' ' << JBoolToString(PSWillPrintBlackWhite());
 	output << kSetupDataEndDelimiter;
 }
 

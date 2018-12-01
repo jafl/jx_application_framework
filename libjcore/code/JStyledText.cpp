@@ -575,7 +575,9 @@ JStyledText::ReadPrivateFormat
 		input >> fontIndex;
 
 		input >> size;
-		input >> fStyle.bold >> fStyle.italic >> fStyle.strike;
+		input >> JBoolFromString(fStyle.bold);
+		input >> JBoolFromString(fStyle.italic);
+		input >> JBoolFromString(fStyle.strike);
 		input >> fStyle.underlineCount;
 
 		JIndex colorIndex;
@@ -757,7 +759,9 @@ JStyledText::WritePrivateFormat
 		output << ' ' << (keepGoing ? remaining : range.charRange.last - firstInRun + 1);
 		output << ' ' << fontIndex;
 		output << ' ' << f.GetSize();
-		output << ' ' << fStyle.bold << fStyle.italic << fStyle.strike;
+		output << ' ' << JBoolToString(fStyle.bold)
+					  << JBoolToString(fStyle.italic)
+					  << JBoolToString(fStyle.strike);
 		output << ' ' << fStyle.underlineCount;
 		output << ' ' << colorIndex;
 		}

@@ -21,6 +21,9 @@
 static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 
 // version 4.0.0:
+//	*** Removed JBoolean in favor of bool.
+//		All stream writes must be updated to use JBoolToString().
+//		All stream reads must be updated to use JBoolFromString().
 //	JBroadcaster:
 //		Added ToString(), which can be overridden by derived classes.
 //	*** Removed using statements from jTypes.h & jFStreamUtil.h

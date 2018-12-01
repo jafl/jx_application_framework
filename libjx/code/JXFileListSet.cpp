@@ -358,7 +358,7 @@ JXFileListSet::ReadSetup
 	assert( vers <= kCurrentSetupVersion );
 
 	JBoolean hadFilter;
-	input >> hadFilter;
+	input >> JBoolFromString(hadFilter);
 	if (hadFilter)
 		{
 		JString regexStr;
@@ -426,11 +426,11 @@ JXFileListSet::WriteSetup
 	JString regexStr;
 	if (itsTable->GetFilterRegex(&regexStr))
 		{
-		output << kJTrue << ' ' << regexStr;
+		output << JBoolToString(kJTrue) << ' ' << regexStr;
 		}
 	else
 		{
-		output << kJFalse;
+		output << JBoolToString(kJFalse);
 		}
 
 	output << ' ' << (long) itsFilterType;

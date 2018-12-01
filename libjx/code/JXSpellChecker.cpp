@@ -145,7 +145,7 @@ JXSpellChecker::ReadPrefs
 		return;
 		}
 
-	input >> itsReportNoErrorsFlag;
+	input >> JBoolFromString(itsReportNoErrorsFlag);
 	input >> itsDefaultWindowSize;
 }
 
@@ -165,7 +165,7 @@ JXSpellChecker::WritePrefs
 	if (vers == 0)
 		{
 		output << vers;
-		output << ' ' << itsReportNoErrorsFlag;
+		output << ' ' << JBoolToString(itsReportNoErrorsFlag);
 		output << ' ' << itsDefaultWindowSize;
 		}
 	else

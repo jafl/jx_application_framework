@@ -180,7 +180,7 @@ SyGChooseSaveFile::SGReadSetup
 		return;
 		}
 
-	input >> itsOpenInNewWindow;
+	input >> JBoolFromString(itsOpenInNewWindow);
 	JXChooseSaveFile::ReadSetup(input);
 }
 
@@ -192,7 +192,7 @@ SyGChooseSaveFile::SGWriteSetup
 	const
 {
 	output << kCurrentPrefsVersion << ' ';
-	output << itsOpenInNewWindow << ' ';
+	output << JBoolToString(itsOpenInNewWindow) << ' ';
 	JXChooseSaveFile::WriteSetup(output);
 }
 

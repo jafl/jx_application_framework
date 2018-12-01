@@ -84,6 +84,9 @@ jx_project_wizard
 
 -----
 
+replace JBoolean with bool
+	jTypes.h - remove JConvertToBoolean, JI2B, JNegate, operator!, JFloatToBoolean, JF2B
+
 test every usage of JRunArrayIterator and JLinkedListIterator
 	libjcore
 		JStyledText

@@ -3706,13 +3706,13 @@ SyGFileTreeTable::LoadPrefs
 	JBoolean prefs[kSyGTreePrefCount];
 	if (vers >= 2)
 		{
-		is >> prefs[0];
+		is >> JBoolFromString(prefs[0]);
 		}
-	is >> prefs[2];
-	is >> prefs[3];
-	is >> prefs[4];
-	is >> prefs[5];
-	is >> prefs[6];
+	is >> JBoolFromString(prefs[2]);
+	is >> JBoolFromString(prefs[3]);
+	is >> JBoolFromString(prefs[4]);
+	is >> JBoolFromString(prefs[5]);
+	is >> JBoolFromString(prefs[6]);
 	SetPreferences(prefs);
 
 	SetCurrentColType((GFMColType) type);
@@ -3733,12 +3733,12 @@ SyGFileTreeTable::SavePrefs
 
 	JBoolean prefs[kSyGTreePrefCount];
 	GetPreferences(prefs);
-	os << prefs[0];
-	os << prefs[2];
-	os << prefs[3];
-	os << prefs[4];
-	os << prefs[5];
-	os << prefs[6];
+	os << JBoolToString(prefs[0]);
+		  JBoolToString(prefs[2]);
+		  JBoolToString(prefs[3]);
+		  JBoolToString(prefs[4]);
+		  JBoolToString(prefs[5]);
+		  JBoolToString(prefs[6]);
 
 	os << ' ';
 }

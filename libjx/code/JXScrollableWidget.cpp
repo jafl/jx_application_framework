@@ -739,7 +739,7 @@ JXScrollableWidget::ReadScrollSetup
 	if (vers <= kCurrentSetupVersion)
 		{
 		JBoolean hadScrollbars;
-		input >> hadScrollbars;
+		input >> JBoolFromString(hadScrollbars);
 
 		JXScrollbar *hScrollbar, *vScrollbar;
 		const JBoolean hasScrollbars = GetScrollbars(&hScrollbar, &vScrollbar);
@@ -791,7 +791,7 @@ JXScrollableWidget::WriteScrollSetup
 
 	JXScrollbar *hScrollbar, *vScrollbar;
 	const JBoolean hasScrollbars = GetScrollbars(&hScrollbar, &vScrollbar);
-	output << ' ' << hasScrollbars;
+	output << ' ' << JBoolToString(hasScrollbars);
 
 	if (hasScrollbars)
 		{

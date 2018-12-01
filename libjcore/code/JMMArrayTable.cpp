@@ -171,13 +171,13 @@ JMMArrayTable::StreamAllocatedForDebug
 		const JMMRecord thisRecord = itsAllocatedTable->GetElement(i);
 		if (filter.Match(thisRecord))
 			{
-			output << ' ' << kJTrue;
+			output << ' ' << JBoolToString(kJTrue);
 			output << ' ';
 			thisRecord.StreamForDebug(output);
 			}
 		}
 
-	output << ' ' << kJFalse;
+	output << ' ' << JBoolToString(kJFalse);
 }
 
 /******************************************************************************

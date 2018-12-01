@@ -48,7 +48,7 @@ JXDockDirector::JXDockDirector
 	itsFocusWindow(nullptr)
 {
 	JBoolean splitHoriz;
-	input >> splitHoriz;
+	input >> JBoolFromString(splitHoriz);
 
 	BuildWindow(title, splitHoriz);
 	GetWindow()->ReadGeometry(input);
@@ -84,7 +84,7 @@ JXDockDirector::StreamOut
 	)
 	const
 {
-	output << ' ' << JI2B(itsHorizPartition != nullptr);
+	output << ' ' << JBoolToString(JI2B(itsHorizPartition != nullptr));
 
 	GetWindow()->WriteGeometry(output);
 

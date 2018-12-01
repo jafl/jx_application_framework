@@ -460,13 +460,13 @@ JXFSRunCommandDialog::ReadSetup
 
 	itsCmdHistoryMenu->ReadSetup(input);
 
-	input >> checked;
+	input >> JBoolFromString(checked);
 	itsUseShellCB->SetState(checked);
 
-	input >> checked;
+	input >> JBoolFromString(checked);
 	itsUseWindowCB->SetState(checked);
 
-	input >> checked;
+	input >> JBoolFromString(checked);
 	itsStayOpenCB->SetState(checked);
 }
 
@@ -498,13 +498,13 @@ JXFSRunCommandDialog::UpdateSetup
 
 	itsCmdHistoryMenu->ReadSetup(input);
 
-	input >> checked;
+	input >> JBoolFromString(checked);
 //	itsUseShellCB->SetState(checked);
 
-	input >> checked;
+	input >> JBoolFromString(checked);
 //	itsUseWindowCB->SetState(checked);
 
-	input >> checked;
+	input >> JBoolFromString(checked);
 //	itsStayOpenCB->SetState(checked);
 }
 
@@ -532,7 +532,7 @@ JXFSRunCommandDialog::WriteSetup
 	output << ' ';
 	itsCmdHistoryMenu->WriteSetup(output);
 
-	output << ' ' << itsUseShellCB->IsChecked();
-	output << ' ' << itsUseWindowCB->IsChecked();
-	output << ' ' << itsStayOpenCB->IsChecked();
+	output << ' ' << JBoolToString(itsUseShellCB->IsChecked())
+				  << JBoolToString(itsUseWindowCB->IsChecked())
+				  << JBoolToString(itsStayOpenCB->IsChecked());
 }

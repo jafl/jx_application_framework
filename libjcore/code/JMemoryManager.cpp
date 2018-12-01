@@ -923,7 +923,6 @@ JMemoryManager::ConnectToDebugger
 		}
 	else
 		{
-std::cout << "success connect" << std::endl;
 		SetProtocol(itsLink);
 		ListenTo(itsLink);
 		ClearWhenGoingAway(itsLink, &itsLink);
@@ -1392,11 +1391,11 @@ JMemoryManager::RecordFilter::Read
 	std::istream& input
 	)
 {
-	input >> includeInternal;
+	input >> JBoolFromString(includeInternal);
 	input >> minSize;
 
 	JBoolean hasFile;
-	input >> hasFile;
+	input >> JBoolFromString(hasFile);
 
 	if (hasFile)
 		{
@@ -1417,11 +1416,11 @@ JMemoryManager::RecordFilter::Write
 	)
 	const
 {
-	output << includeInternal;
+	output << JBoolToString(includeInternal);
 	output << ' ' << minSize;
 
 	const JBoolean hasFile = JI2B(fileName != nullptr && !fileName->IsEmpty());
-	output << ' ' << hasFile;
+	output << ' ' << JBoolToString(hasFile);
 	if (hasFile)
 		{
 		output << ' ' << *fileName;

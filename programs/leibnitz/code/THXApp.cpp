@@ -341,7 +341,7 @@ JIndex i;
 
 	if (vers >= 1)
 		{
-		input >> itsKeyPadVisibleFlag;
+		input >> JBoolFromString(itsKeyPadVisibleFlag);
 		}
 
 	if (vers >= 2)
@@ -462,7 +462,7 @@ JIndex i;
 	output << ' ';
 	itsBCDirector->WriteState(output);
 
-	output << ' ' << itsKeyPadVisibleFlag;
+	output << ' ' << JBoolToString(itsKeyPadVisibleFlag);
 
 	output << ' ';
 	THXExprDirector::WritePrefs(output);

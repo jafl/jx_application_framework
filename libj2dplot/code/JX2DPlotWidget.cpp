@@ -1500,7 +1500,7 @@ JX2DPlotWidget::PWXReadSetup
 
 	itsMarkDir->ReadSetup(input);
 	JBoolean active;
-	input >> active;
+	input >> JBoolFromString(active);
 	if (active)
 		{
 		itsMarkDir->Activate();
@@ -1541,7 +1541,7 @@ JX2DPlotWidget::PWXWriteSetup
 
 	output << ' ';
 	itsMarkDir->WriteSetup(output);
-	output << ' ' << itsMarkDir->IsActive();
+	output << ' ' << JBoolToString(itsMarkDir->IsActive());
 
 	output << ' ' << itsPSPrintName;
 	output << ' ' << itsEPSPlotName;

@@ -555,15 +555,15 @@ JXToolBar::ReadPrefs
 	itsGroupStarts->RemoveAll();
 
 	JBoolean show;
-	input >> show;
+	input >> JBoolFromString(show);
 	ShowToolBar(show);
 	JBoolean useSmall;
-	input >> useSmall;
+	input >> JBoolFromString(useSmall);
 	UseSmallButtons(useSmall);
 	if (vers == 1)
 		{
 		JBoolean textOnly;
-		input >> textOnly;
+		input >> JBoolFromString(textOnly);
 		if (textOnly)
 			{
 			SetButtonType(JXToolBarButton::kText);
@@ -584,7 +584,7 @@ JXToolBar::ReadPrefs
 		JString id;
 		input >> id;
 		JBoolean group;
-		input >> group;
+		input >> JBoolFromString(group);
 		if (!id.IsEmpty())
 			{
 			if (group)
@@ -613,8 +613,8 @@ JXToolBar::WritePrefs
 	const
 {
 	output << kCurrentPrefsVersion;
-	output << ' ' << itsIsShowingButtons;
-	output << ' ' << JI2B(itsCurrentButtonHeight == kSmallButtonHeight);
+	output << ' ' << JBoolToString(itsIsShowingButtons);
+	output << ' ' << JBoolToString(JI2B(itsCurrentButtonHeight == kSmallButtonHeight));
 	output << ' ' << (JIndex) itsButtonType;
 
 	const JSize count = itsButtons->GetElementCount();
@@ -623,7 +623,7 @@ JXToolBar::WritePrefs
 	for (JIndex i=1; i<=count; i++)
 		{
 		output << ' ' << (itsButtons->GetElement(i))->GetMenuItemID();
-		output << ' ' << itsGroupStarts->GetElement(i);
+		output << ' ' << JBoolToString(itsGroupStarts->GetElement(i));
 		}
 
 	output << ' ' << itsDialogPrefs;

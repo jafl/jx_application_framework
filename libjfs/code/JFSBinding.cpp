@@ -46,7 +46,7 @@ JFSBinding::JFSBinding
 
 JFSBinding::JFSBinding
 	(
-	std::istream&			input,
+	std::istream&		input,
 	const JFileVersion	vers,
 	const JBoolean		isSystem,
 	JBoolean*			isDefault,
@@ -77,7 +77,7 @@ JFSBinding::JFSBinding
 		{
 		*isDefault = itsPattern.IsEmpty();
 
-		input >> itsCmdType >> itsSingleFileFlag;
+		input >> itsCmdType >> JBoolFromString(itsSingleFileFlag);
 		}
 
 	*del = itsCmd.IsEmpty();
@@ -310,7 +310,7 @@ JFSBinding::ComparePatterns
 std::ostream&
 operator<<
 	(
-	std::ostream&			output,
+	std::ostream&		output,
 	const JFSBinding&	binding
 	)
 {
@@ -320,7 +320,7 @@ operator<<
 	output << binding.GetPattern();
 	output << ' ' << binding.GetCommand(&type, &singleFile);
 	output << ' ' << type;
-	output << ' ' << singleFile;
+	output << ' ' << JBoolToString(singleFile);
 	return output;
 }
 

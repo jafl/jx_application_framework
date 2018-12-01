@@ -364,7 +364,7 @@ JXDockManager::ReadSetup
 		while (1)
 			{
 			JBoolean keepGoing;
-			input >> keepGoing;
+			input >> JBoolFromString(keepGoing);
 			if (input.fail() || !keepGoing)
 				{
 				break;
@@ -410,11 +410,11 @@ JXDockManager::WriteSetup
 	while (cursor.Next())
 		{
 		windowType = cursor.GetKey();
-		output << ' ' << kJTrue;
+		output << ' ' << JBoolToString(kJTrue);
 		output << ' ' << windowType;
 		output << ' ' << cursor.GetValue();
 		}
-	output << ' ' << kJFalse;
+	output << ' ' << JBoolToString(kJFalse);
 
 	output << ' ';
 }

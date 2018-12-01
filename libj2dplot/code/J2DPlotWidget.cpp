@@ -3487,12 +3487,12 @@ J2DPlotWidget::PWWriteSetup
 	output << ' ' << GetXLabel();
 	output << ' ' << GetYLabel();
 	output << ' ' << GetTitle();
-	output << ' ' << FrameIsVisible();
-	output << ' ' << GridIsVisible();
-	output << ' ' << LegendIsVisible();
-	output << ' ' << XAxisIsLinear();
-	output << ' ' << YAxisIsLinear();
-	output << ' ' << itsIsZoomedFlag;
+	output << ' ' << JBoolToString(itsShowFrameFlag)
+				  << JBoolToString(itsShowGridFlag)
+				  << JBoolToString(itsShowLegendFlag)
+				  << JBoolToString(itsXAxisIsLinear)
+				  << JBoolToString(itsYAxisIsLinear)
+				  << JBoolToString(itsIsZoomedFlag);
 	output << ' ' << itsXScale[kMin];
 	output << ' ' << itsXScale[kMax];
 	output << ' ' << itsXScale[kInc];
@@ -3500,7 +3500,7 @@ J2DPlotWidget::PWWriteSetup
 	output << ' ' << itsYScale[kMax];
 	output << ' ' << itsYScale[kInc];
 
-	output << ' ' << itsUsingRange;
+	output << ' ' << JBoolToString(itsUsingRange);
 	if (itsUsingRange)
 		{
 		output << ' ' << itsRangeXMin;
@@ -3510,9 +3510,9 @@ J2DPlotWidget::PWWriteSetup
 		}
 
 	// Cursors
-	output << ' ' << itsXCursorVisible;
-	output << ' ' << itsYCursorVisible;
-	output << ' ' << itsDualCursors;
+	output << ' ' << JBoolToString(itsXCursorVisible)
+				  << JBoolToString(itsYCursorVisible)
+				  << JBoolToString(itsDualCursors);
 	output << ' ' << itsXCursorPos1;
 	output << ' ' << itsXCursorPos2;
 	output << ' ' << itsYCursorPos1;
@@ -3575,22 +3575,22 @@ J2DPlotWidget::PWReadSetup
 	input >> temp;
 	SetTitle(temp);
 	JBoolean bTest;
-	input >> bTest;
+	input >> JBoolFromString(bTest);
 	ShowFrame(bTest);
-	input >> bTest;
+	input >> JBoolFromString(bTest);
 	ShowGrid(bTest);
-	input >> bTest;
+	input >> JBoolFromString(bTest);
 	ShowLegend(bTest);
-	input >> itsXAxisIsLinear;
-	input >> itsYAxisIsLinear;
-	input >> itsIsZoomedFlag;
+	input >> JBoolFromString(itsXAxisIsLinear);
+	input >> JBoolFromString(itsYAxisIsLinear);
+	input >> JBoolFromString(itsIsZoomedFlag);
 	input >> itsXScale[kMin];
 	input >> itsXScale[kMax];
 	input >> itsXScale[kInc];
 	input >> itsYScale[kMin];
 	input >> itsYScale[kMax];
 	input >> itsYScale[kInc];
-	input >> itsUsingRange;
+	input >> JBoolFromString(itsUsingRange);
 	if (itsUsingRange)
 		{
 		input >> itsRangeXMin >> itsRangeXMax;
@@ -3602,9 +3602,9 @@ J2DPlotWidget::PWReadSetup
 	UpdatePlot(kJTrue);
 
 	// Cursors
-	input >> itsXCursorVisible;
-	input >> itsYCursorVisible;
-	input >> itsDualCursors;
+	input >> JBoolFromString(itsXCursorVisible);
+	input >> JBoolFromString(itsYCursorVisible);
+	input >> JBoolFromString(itsDualCursors);
 	if (vers == 0)
 		{
 		if (itsXCursorVisible)

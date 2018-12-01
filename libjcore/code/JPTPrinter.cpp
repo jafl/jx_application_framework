@@ -367,11 +367,11 @@ JPTPrinter::ReadPTSetup
 
 		if (vers >= 2)
 			{
-			input >> itsPrintReverseOrderFlag;
+			input >> JBoolFromString(itsPrintReverseOrderFlag);
 			}
 		if (vers >= 1)
 			{
-			input >> itsPrintLineNumberFlag;
+			input >> JBoolFromString(itsPrintLineNumberFlag);
 			}
 		}
 	JIgnoreUntil(input, kSetupDataEndDelimiter);
@@ -392,7 +392,7 @@ JPTPrinter::WritePTSetup
 	output << ' ' << kCurrentSetupVersion;
 	output << ' ' << itsPageWidth;
 	output << ' ' << itsPageHeight;
-	output << ' ' << itsPrintReverseOrderFlag;
-	output << ' ' << itsPrintLineNumberFlag;
+	output << ' ' << JBoolToString(itsPrintReverseOrderFlag)
+				  << JBoolToString(itsPrintLineNumberFlag);
 	output << kSetupDataEndDelimiter;
 }

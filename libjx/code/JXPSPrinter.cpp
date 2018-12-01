@@ -140,7 +140,7 @@ JXPSPrinter::ReadXPSSetup
 		PaperType type;
 		ImageOrientation orient;
 		JBoolean printBW;
-		input >> type >> orient >> itsPrintCmd >> printBW;
+		input >> type >> orient >> itsPrintCmd >> JBoolFromString(printBW);
 		SetPaperType(type);
 		SetOrientation(orient);
 		PSPrintBlackWhite(printBW);
@@ -161,7 +161,7 @@ JXPSPrinter::ReadXPSSetup
 				{
 				input >> itsDestination >> itsFileName;
 				}
-			input >> itsPrintCmd >> itsCollateFlag;
+			input >> itsPrintCmd >> JBoolFromString(itsCollateFlag);
 			}
 		JIgnoreUntil(input, kSetupDataEndDelimiter);
 
@@ -187,7 +187,7 @@ JXPSPrinter::WriteXPSSetup
 	output << ' ' << itsDestination;
 	output << ' ' << itsFileName;
 	output << ' ' << itsPrintCmd;
-	output << ' ' << itsCollateFlag;
+	output << ' ' << JBoolToString(itsCollateFlag);
 	output << kSetupDataEndDelimiter;
 
 	WritePSSetup(output);

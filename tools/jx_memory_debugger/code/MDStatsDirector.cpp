@@ -913,7 +913,7 @@ MDStatsDirector::ReceiveRecords
 	while (1)
 		{
 		JBoolean keepGoing;
-		input >> keepGoing;
+		input >> JBoolFromString(keepGoing);
 		if (!keepGoing)
 			{
 			break;

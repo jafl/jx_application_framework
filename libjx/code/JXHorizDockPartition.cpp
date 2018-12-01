@@ -222,7 +222,7 @@ JXHorizDockPartition::ReadSetup
 		{
 		JBoolean hasElasticIndex;
 		JIndex elasticIndex;
-		input >> hasElasticIndex >> elasticIndex;
+		input >> JBoolFromString(hasElasticIndex) >> elasticIndex;
 		if (hasElasticIndex)
 			{
 			SetElasticIndex(elasticIndex);
@@ -244,7 +244,7 @@ JXHorizDockPartition::ReadSetup
 			}
 
 		JBoolean hasPartition;
-		input >> hasPartition;
+		input >> JBoolFromString(hasPartition);
 		if (hasPartition)
 			{
 			SplitVert(i);
@@ -274,7 +274,7 @@ JXHorizDockPartition::WriteSetup
 	WriteGeometry(output);
 
 	JIndex elasticIndex;
-	output << ' ' << GetElasticIndex(&elasticIndex);
+	output << ' ' << JBoolToString(GetElasticIndex(&elasticIndex));
 	output << ' ' << elasticIndex;
 
 	for (JXDockWidget* dock : *itsDockList)
@@ -288,12 +288,12 @@ JXHorizDockPartition::WriteSetup
 		JXVertDockPartition* v;
 		if (dock->GetVertChildPartition(&v))
 			{
-			output << ' ' << kJTrue;
+			output << ' ' << JBoolToString(kJTrue);
 			v->WriteSetup(output);
 			}
 		else
 			{
-			output << ' ' << kJFalse;
+			output << ' ' << JBoolToString(kJFalse);
 			}
 		}
 }

@@ -670,7 +670,7 @@ GPMMainDirector::ReadPrefs
 	if (vers >= 1)
 		{
 		JBoolean show;
-		input >> show;
+		input >> JBoolFromString(show);
 		itsProcessList->ShouldShowUserOnly(show);
 		}
 
@@ -683,7 +683,7 @@ GPMMainDirector::ReadPrefs
 	if (3 <= vers && vers < 6)
 		{
 		JBoolean full;
-		input >> full;
+		input >> JBoolFromString(full);
 		}
 
 	if (vers >= 4)
@@ -721,7 +721,7 @@ GPMMainDirector::WritePrefs
 	const
 {
 	output << kCurrentPrefsVersion;
-	output << ' ' << itsProcessList->WillShowUserOnly();
+	output << ' ' << JBoolToString(itsProcessList->WillShowUserOnly());
 
 	GetWindow()->WriteGeometry(output);
 

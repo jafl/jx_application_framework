@@ -178,8 +178,8 @@ JMMRecord::StreamForDebug
 	)
 	const
 {
-	output << ! IsDeleted();
-	output << ' ' << ArrayNew();
+	output << JBoolToString(! IsDeleted())
+		   << JBoolToString(ArrayNew());
 	output << ' ' << JString(itsNewFile, kJFalse);
 	output << ' ' << itsNewLine;
 	output << ' ' << itsSize;

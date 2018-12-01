@@ -76,6 +76,9 @@ JXApplication::JXApplication
 	itsSignature(appSignature, 0),
 	itsRestartCmd(argv[0], 0)
 {
+	std::cout << std::boolalpha;	// since it will only be used for debugging
+	std::cerr << std::boolalpha;
+
 	JString displayName;
 	ParseBaseOptions(argc, argv, &displayName);
 

@@ -1308,7 +1308,7 @@ ApplyOptions
 
 				// shortcuts
 
-				optionMap >> std::ws >> supported;
+				optionMap >> std::ws >> JBoolFromString(supported);
 				if (supported)
 					{
 					optionMap >> std::ws;
@@ -1344,7 +1344,7 @@ ApplyOptions
 
 				for (i=2; i<=kOptionCount; i++)
 					{
-					optionMap >> std::ws >> supported;
+					optionMap >> std::ws >> JBoolFromString(supported);
 					if (supported)
 						{
 						optionMap >> std::ws;

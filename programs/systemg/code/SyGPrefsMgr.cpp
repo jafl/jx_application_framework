@@ -261,7 +261,7 @@ SyGPrefsMgr::SetTreePreferences
 	std::ostringstream data;
 	for (JIndex i = 0; i < kSyGTreePrefCount; i++)
 		{
-		data << prefs[i];
+		data << JBoolToString(prefs[i]);
 		}
 
 	SetData(kSTreeOptionsID, data);
@@ -281,7 +281,7 @@ SyGPrefsMgr::GetTreePreferences
 	std::istringstream dataStream(data);
 	for (JIndex i = 0; i < kSyGTreePrefCount; i++)
 		{
-		dataStream >> prefs[i];
+		dataStream >> JBoolFromString(prefs[i]);
 		}
 }
 
@@ -336,7 +336,7 @@ SyGPrefsMgr::SaveFilterStatePref
 	)
 {
 	std::ostringstream data;
-	data << show << ' ';
+	data << JBoolToString(show);
 	SetData(kSFilterVisibleID, data);
 }
 
@@ -350,7 +350,7 @@ SyGPrefsMgr::GetFilterStatePref()
 		std::string data;
 		GetData(kSFilterVisibleID, &data);
 		std::istringstream dataStream(data);
-		dataStream >> show;
+		dataStream >> JBoolFromString(show);
 		}
 	return show;
 }
@@ -406,7 +406,7 @@ SyGPrefsMgr::DelWillDelete()
 	GetData(kSDelDeleteID, &data);
 	std::istringstream dataStream(data);
 	JBoolean del;
-	dataStream >> del;
+	dataStream >> JBoolFromString(del);
 	return del;
 }
 
@@ -417,7 +417,7 @@ SyGPrefsMgr::DelShouldDelete
 	)
 {
 	std::ostringstream data;
-	data << del;
+	data << JBoolToString(del);
 	SetData(kSDelDeleteID, data);
 }
 
@@ -434,7 +434,7 @@ SyGPrefsMgr::WillOpenNewWindows()
 	GetData(kSNewWindowsID, &data);
 	std::istringstream dataStream(data);
 	JBoolean newWindows;
-	dataStream >> newWindows;
+	dataStream >> JBoolFromString(newWindows);
 	return newWindows;
 }
 
@@ -445,7 +445,7 @@ SyGPrefsMgr::ShouldOpenNewWindows
 	)
 {
 	std::ostringstream data;
-	data << newWindows;
+	data << JBoolToString(newWindows);
 	SetData(kSNewWindowsID, data);
 }
 
@@ -462,7 +462,7 @@ SyGPrefsMgr::WillSaveFolderPrefs()
 	GetData(kSPerFolderPrefsID, &data);
 	std::istringstream dataStream(data);
 	JBoolean perFolder;
-	dataStream >> perFolder;
+	dataStream >> JBoolFromString(perFolder);
 	return perFolder;
 }
 
@@ -473,6 +473,6 @@ SyGPrefsMgr::ShouldSaveFolderPrefs
 	)
 {
 	std::ostringstream data;
-	data << perFolder;
+	data << JBoolToString(perFolder);
 	SetData(kSPerFolderPrefsID, data);
 }

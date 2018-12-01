@@ -126,14 +126,14 @@ JXFileDocument::ReadJXFDSetup
 	if (vers <= kCurrentSetupVersion)
 		{
 		JBoolean wantBackup, allocTitleSpace;
-		input >> wantBackup >> allocTitleSpace;
+		input >> JBoolFromString(wantBackup) >> JBoolFromString(allocTitleSpace);
 		ShouldMakeBackupFile(wantBackup);
 		ShouldAllocateTitleSpace(allocTitleSpace);
 
 		if (vers >= 1)
 			{
 			JBoolean newBackupEveryOpen;
-			input >> newBackupEveryOpen;
+			input >> JBoolFromString(newBackupEveryOpen);
 			ShouldMakeNewBackupEveryOpen(newBackupEveryOpen);
 			}
 		}
@@ -154,9 +154,9 @@ JXFileDocument::WriteJXFDSetup
 	const
 {
 	output << ' ' << kCurrentSetupVersion;
-	output << ' ' << itsWantBackupFileFlag;
-	output << ' ' << itsAllocateTitleSpaceFlag;
-	output << ' ' << itsWantNewBackupEveryOpenFlag;
+	output << ' ' << JBoolToString(itsWantBackupFileFlag)
+				  << JBoolToString(itsAllocateTitleSpaceFlag)
+				  << JBoolToString(itsWantNewBackupEveryOpenFlag);
 	output << kSetupDataEndDelimiter;
 }
 

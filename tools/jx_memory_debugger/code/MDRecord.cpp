@@ -29,7 +29,7 @@ MDRecord::MDRecord
 	std::istream& input
 	)
 {
-	input >> itsIsValidFlag >> itsIsArrayNewFlag;
+	input >> JBoolFromString(itsIsValidFlag) >> JBoolFromString(itsIsArrayNewFlag);
 	input >> itsNewFile >> itsNewLine;
 	input >> itsSize >> itsData;
 }

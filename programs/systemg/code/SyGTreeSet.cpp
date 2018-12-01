@@ -95,7 +95,7 @@ SyGTreeSet::SyGTreeSet
 		input >> v;
 
 		JBoolean showHidden;
-		input >> showHidden;
+		input >> JBoolFromString(showHidden);
 		}
 
 	SyGTreeSetX(menuBar, pathName, pathInput, pathMenu, trashButton, w,h);
@@ -108,7 +108,7 @@ SyGTreeSet::SyGTreeSet
 	itsTable->LoadPrefs(input, vers);
 
 	JBoolean showFilter;
-	input >> showFilter;
+	input >> JBoolFromString(showFilter);
 	ShowFilter(showFilter);
 	itsTable->Focus();
 
@@ -410,7 +410,7 @@ SyGTreeSet::SavePreferences
 	os << ' ';
 	itsTable->SavePrefs(os);
 
-	os << ' ' << itsFilterInput->IsVisible();
+	os << ' ' << JBoolToString(itsFilterInput->IsVisible());
 
 	os << ' ';
 	itsTable->SaveDirState(os);

@@ -2441,7 +2441,7 @@ JXWindow::ReadGeometry
 	JPoint desktopLoc;
 	JCoordinate w,h;
 	JBoolean iconified;
-	input >> desktopLoc >> w >> h >> iconified;
+	input >> desktopLoc >> w >> h >> JBoolFromString(iconified);
 
 	int dockIt         = -1;
 	JXDockWidget* dock = nullptr;
@@ -2453,7 +2453,7 @@ JXWindow::ReadGeometry
 		JBoolean hadDocks = kJTrue;
 		if (vers >= 2)
 			{
-			input >> hadDocks;
+			input >> JBoolFromString(hadDocks);
 			}
 
 		JXDockManager* mgr;
@@ -2552,7 +2552,7 @@ JXWindow::WriteGeometry
 		output << ' ' << itsUndockedWMFrameLoc;
 		output << ' ' << itsUndockedGeom.width() - itsFTCDelta.x;
 		output << ' ' << itsUndockedGeom.height() - itsFTCDelta.y;
-		output << ' ' << kJFalse;
+		output << ' ' << JBoolToString(kJFalse);
 		}
 	else
 		{
@@ -2566,14 +2566,14 @@ JXWindow::WriteGeometry
 		output << ' ' << loc;
 		output << ' ' << GetFrameWidth() - itsFTCDelta.x;
 		output << ' ' << GetFrameHeight() - itsFTCDelta.y;
-		output << ' ' << itsIsIconifiedFlag;
+		output << ' ' << JBoolToString(itsIsIconifiedFlag);
 		}
 
 	output << ' ' << (itsDockWidget != nullptr ? itsDockWidget->GetID() :
 											  JXDockManager::kInvalidDockID);
 
 	JXDockManager* mgr;
-	output << ' ' << JI2B(JXGetDockManager(&mgr) && mgr->HasDocks());
+	output << ' ' << JBoolToString(JI2B(JXGetDockManager(&mgr) && mgr->HasDocks()));
 
 	output << kGeometryDataEndDelimiter;
 }

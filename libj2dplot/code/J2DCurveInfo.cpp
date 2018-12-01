@@ -30,15 +30,20 @@ operator>>
 	JFileVersion vers;
 	input >> vers;
 	assert( vers <= kCurrentSetupVersion );
-	input >> info.show >> info.lines >> info.symbols;
+	input >> JBoolFromString(info.show)
+		  >> JBoolFromString(info.lines)
+		  >> JBoolFromString(info.symbols);
 
 	if (vers == 0)
 		{
 		JBoolean points;
-		input >> points;
+		input >> JBoolFromString(points);
 		}
 
-	input >> info.own >> info.xerrors >> info.yerrors >> info.protect;
+	input >> JBoolFromString(info.own)
+		  >> JBoolFromString(info.xerrors)
+		  >> JBoolFromString(info.yerrors)
+		  >> JBoolFromString(info.protect);
 	input >> info.color >> info.symbol >> *(info.name);
 	return input;
 }
@@ -51,13 +56,13 @@ operator<<
 	)
 {
 	output << kCurrentSetupVersion;
-	output << ' ' << info.show;
-	output << ' ' << info.lines;
-	output << ' ' << info.symbols;
-	output << ' ' << info.own;
-	output << ' ' << info.xerrors;
-	output << ' ' << info.yerrors;
-	output << ' ' << info.protect;
+	output << ' ' << JBoolToString(info.show)
+				  << JBoolToString(info.lines)
+				  << JBoolToString(info.symbols)
+				  << JBoolToString(info.own)
+				  << JBoolToString(info.xerrors)
+				  << JBoolToString(info.yerrors)
+				  << JBoolToString(info.protect);
 	output << ' ' << info.color;
 	output << ' ' << info.symbol;
 	output << ' ' << *(info.name);
