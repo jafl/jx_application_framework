@@ -613,8 +613,8 @@ JXToolBar::WritePrefs
 	const
 {
 	output << kCurrentPrefsVersion;
-	output << ' ' << JBoolToString(itsIsShowingButtons);
-	output << ' ' << JBoolToString(JI2B(itsCurrentButtonHeight == kSmallButtonHeight));
+	output << ' ' << JBoolToString(itsIsShowingButtons)
+				  << JBoolToString(JI2B(itsCurrentButtonHeight == kSmallButtonHeight));
 	output << ' ' << (JIndex) itsButtonType;
 
 	const JSize count = itsButtons->GetElementCount();

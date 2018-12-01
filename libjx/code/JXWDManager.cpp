@@ -27,8 +27,6 @@
 #include "JXColorManager.h"
 #include "jXGlobals.h"
 #include "jXActionDefs.h"
-#include <JStringIterator.h>
-#include <algorithm>
 #include <jAssert.h>
 
 const JInteger kFirstShortcut = 0;

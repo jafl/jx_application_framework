@@ -1634,8 +1634,8 @@ JXDisplay::WMBehavior::Read
 		return kJFalse;
 		}
 
-	input >> JBoolFromString(desktopMapsWindowsFlag);
-	input >> JBoolFromString(frameCompensateFlag);
+	input >> JBoolFromString(desktopMapsWindowsFlag)
+		  >> JBoolFromString(frameCompensateFlag);
 	input >> reshowOffset;
 
 	return kJTrue;
@@ -1653,7 +1653,7 @@ JXDisplay::WMBehavior::WriteV0
 	)
 	const
 {
-	output << JBoolToString(desktopMapsWindowsFlag);
-	output << JBoolToString(frameCompensateFlag);
+	output << JBoolToString(desktopMapsWindowsFlag)
+		   << JBoolToString(frameCompensateFlag);
 	output << ' ' << reshowOffset;
 }

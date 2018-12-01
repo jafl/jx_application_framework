@@ -24,7 +24,6 @@
 #include "JVIKeyHandler.h"
 #include "JTEDefaultKeyHandler.h"
 #include "JRegex.h"
-#include "JStringIterator.h"
 #include "jASCIIConstants.h"
 #include "jAssert.h"
 

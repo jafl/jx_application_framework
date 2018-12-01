@@ -1,4 +1,4 @@
-1
+0
 directoryLabel::JXWMainDialog::JXLayout "Project directory:"
 emailLabel::JXWMainDialog::JXLayout "Email address:"
 itsQuitButton::JXWMainDialog::JXLayout "Quit"

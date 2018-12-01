@@ -15,9 +15,8 @@ unit test
 	JTableSelection
 	JStringTableData
 	JFloatTableData
+	JPTPrinter - send to file
 	JVIKeyHandler:  split into multiple tests covering all options
-
-always invalidate JStringIterator if part of a larger function
 
 
 JString::EndsWidth
@@ -89,6 +88,11 @@ test every usage of JRunArrayIterator and JLinkedListIterator
 		JXStringList
 		JXStyledText
 		JXTextMenuData
+	glove
+	jcc
+	medic
+
+always invalidate JStringIterator if part of a larger function
 	glove
 	jcc
 	medic

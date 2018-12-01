@@ -3708,11 +3708,11 @@ SyGFileTreeTable::LoadPrefs
 		{
 		is >> JBoolFromString(prefs[0]);
 		}
-	is >> JBoolFromString(prefs[2]);
-	is >> JBoolFromString(prefs[3]);
-	is >> JBoolFromString(prefs[4]);
-	is >> JBoolFromString(prefs[5]);
-	is >> JBoolFromString(prefs[6]);
+	is >> JBoolFromString(prefs[2])
+	   >> JBoolFromString(prefs[3])
+	   >> JBoolFromString(prefs[4])
+	   >> JBoolFromString(prefs[5])
+	   >> JBoolFromString(prefs[6]);
 	SetPreferences(prefs);
 
 	SetCurrentColType((GFMColType) type);
@@ -3733,12 +3733,12 @@ SyGFileTreeTable::SavePrefs
 
 	JBoolean prefs[kSyGTreePrefCount];
 	GetPreferences(prefs);
-	os << JBoolToString(prefs[0]);
-		  JBoolToString(prefs[2]);
-		  JBoolToString(prefs[3]);
-		  JBoolToString(prefs[4]);
-		  JBoolToString(prefs[5]);
-		  JBoolToString(prefs[6]);
+	os << JBoolToString(prefs[0])
+	   << JBoolToString(prefs[2])
+	   << JBoolToString(prefs[3])
+	   << JBoolToString(prefs[4])
+	   << JBoolToString(prefs[5])
+	   << JBoolToString(prefs[6]);
 
 	os << ' ';
 }
@@ -4855,6 +4855,7 @@ SyGFileTreeTable::PruneRemoteGitBranches
 		{
 		itsPruneBranchList->Append(iter.GetLastMatch().GetSubstring(1));
 		}
+	iter.Invalidate();
 
 	// prune the branches
 
