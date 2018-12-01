@@ -866,15 +866,7 @@ JStyledText::SearchBackward
 		}
 
 	JStringIterator iter(itsText);
-
-	if (i.charIndex > itsText.GetCharacterCount())
-		{
-		iter.MoveTo(kJIteratorStartAtEnd, 0);
-		}
-	else
-		{
-		iter.UnsafeMoveTo(kJIteratorStartBefore, i.charIndex, i.byteIndex);
-		}
+	iter.UnsafeMoveTo(kJIteratorStartBefore, i.charIndex, i.byteIndex);
 
 	while (1)
 		{
@@ -2256,15 +2248,8 @@ JStyledText::BackwardDelete
 		}
 
 	JStringIterator iter(&itsText);
+	iter.UnsafeMoveTo(kJIteratorStartBefore, caretIndex.charIndex, caretIndex.byteIndex);
 
-	if (caretIndex.charIndex > itsText.GetCharacterCount())
-		{
-		iter.MoveTo(kJIteratorStartAtEnd, 0);
-		}
-	else
-		{
-		iter.UnsafeMoveTo(kJIteratorStartBefore, caretIndex.charIndex, caretIndex.byteIndex);
-		}
 	iter.BeginMatch();
 
 	JUtf8Character c;
@@ -2289,14 +2274,7 @@ JStyledText::BackwardDelete
 					}
 				else	// normal delete when close to text
 					{
-					if (caretIndex.charIndex > itsText.GetCharacterCount())
-						{
-						iter.MoveTo(kJIteratorStartAtEnd, 0);
-						}
-					else
-						{
-						iter.UnsafeMoveTo(kJIteratorStartBefore, caretIndex.charIndex, caretIndex.byteIndex);
-						}
+					iter.UnsafeMoveTo(kJIteratorStartBefore, caretIndex.charIndex, caretIndex.byteIndex);
 					iter.Prev(&c);
 					break;
 					}

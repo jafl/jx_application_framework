@@ -1,7 +1,3 @@
-JStyledText, JTextEditor, etc
-	check for special case code that places iterator at end
-	("before N+1" is now allowed)
-
 JLinkedList iterators
 	ignore ListChanged if we made a change that doesn't change our state
 	e.g. - Insert or RemoveNext
@@ -11,15 +7,6 @@ JRunArray
 
 JStyledText
 JTextEditor
-JPackedTableData
-JSTStyler
-JSTUndoBase
-JStyledTextSetFont
-JTable
-jTextUtil
-JXStringList
-JXStyledText
-JXTextMenuData
 	audit to ensure RunArrayIter is used correctly:  insert does not move
 	need option for insert to move?
 
@@ -90,26 +77,18 @@ replace JBoolean with bool
 test every usage of JRunArrayIterator and JLinkedListIterator
 	libjcore
 		JStyledText
+		JStyledTextSetFont
+		JSTUndoBase::SetFont
+		jTextUtil
 		JTextEditor
 		JSTStyler
-		JSTUndoBase::SetFont
-		?
+		JPackedTableData
+		JTable
+		JNetworkProtocolBase
 	libjx
 		JXStringList
 		JXStyledText
 		JXTextMenuData
-	webgif
-	compile_jstrings
-	makemake
-	jxlayout
-	jx_memory_debugger
-	jx_project_wizard
-	ssh_askpass
-	code_mill
-	drakon
-	leibnitz
-	svn_client
-	systemg
 	glove
 	jcc
 	medic
