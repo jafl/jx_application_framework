@@ -221,6 +221,7 @@ JFSFileTreeNode::UpdatePath
 		iter.SkipNext(oldPath.GetCharacterCount());
 		iter.FinishMatch();
 		iter.ReplaceLastMatch(newPath);
+		iter.Invalidate();
 
 		UpdatePath(fullName, oldPath, newPath);
 

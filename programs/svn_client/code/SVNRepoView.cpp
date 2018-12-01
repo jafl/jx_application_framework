@@ -1118,6 +1118,7 @@ SVNRepoView::HandleDNDDrop
 				iter.RemoveAllNext();
 				JStripTrailingDirSeparator(&initialName);
 				}
+			iter.Invalidate();
 
 			assert( itsCopyItemDestNode == nullptr );
 
@@ -1481,6 +1482,7 @@ SVNRepoView::GetSelectedFilesForDiff
 				iter.BeginMatch();
 				iter.MoveTo(kJIteratorStartAtEnd, 0);
 				path = iter.FinishMatch().GetString();
+				iter.Invalidate();
 
 				fullName = JCombinePathAndName(basePath, path);
 				fullNameList->Append(fullName);

@@ -241,6 +241,7 @@ main
 			{
 			mtnIter.ReplaceLastMatch(J_SHARED_LIB_SUFFIX);
 			}
+		mtnIter.Invalidate();
 
 		JString* mainTargetObjs = jnew JString;
 		assert( mainTargetObjs != nullptr );
@@ -367,6 +368,8 @@ main
 					GetOutputSuffix(*suffixName, suffixMapIn, suffixMapOut));
 				assert( outSuffixName != nullptr );
 				}
+
+			fnIter.Invalidate();
 
 			JString* prefixName = jnew JString(prefix);
 			assert( prefixName != nullptr );

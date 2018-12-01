@@ -4279,6 +4279,8 @@ JXWindow::GetULShortcutIndex
 			}
 		listIter.Next(&c);
 		}
+	listIter.Invalidate();
+
 	c = c.ToLower();
 
 	JString s = label;

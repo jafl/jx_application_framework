@@ -515,6 +515,7 @@ JIndex i;
 		{
 		minLength--;
 		}
+	iter.Invalidate();
 
 	if (minLength == 1 && c == ACE_DIRECTORY_SEPARATOR_CHAR)
 		{

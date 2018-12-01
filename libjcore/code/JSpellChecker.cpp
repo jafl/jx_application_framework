@@ -105,6 +105,7 @@ JSpellChecker::CheckWord
 			return kJTrue;
 			}
 		}
+	iter1.Invalidate();
 
 	word.Print(*itsOutPipe);
 	*itsOutPipe << std::endl;

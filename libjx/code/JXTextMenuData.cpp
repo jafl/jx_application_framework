@@ -864,7 +864,7 @@ JXTextMenuData::ParseNMShortcut
 	modifiers->Clear();
 
 	// decode modifiers
-	{
+
 	JStringIterator iter(&keyStr);
 	while (1)
 		{
@@ -897,7 +897,9 @@ JXTextMenuData::ParseNMShortcut
 			break;
 			}
 		}
-	}
+
+	iter.Invalidate();
+
 	// nicer display for OS X
 
 	if (itsMenu->GetDisplay()->IsOSX() &&

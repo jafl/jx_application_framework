@@ -178,6 +178,7 @@ main
 
 			iter.BeginMatch();
 			}
+		iter.Invalidate();
 
 		data2 << "nullptr };" << std::endl;
 

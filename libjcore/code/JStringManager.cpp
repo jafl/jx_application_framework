@@ -273,14 +273,15 @@ JStringManager::Register
 		JString locale(getenv("LANG"), 0);
 
 		// remove character set
-		{
+
 		JStringIterator iter(&locale);
 		if (iter.Next("."))
 			{
 			iter.SkipPrev();
 			iter.RemoveAllNext();
 			}
-		}
+		iter.Invalidate();
+
 		// split locale into language & country
 
 		JPtrArray<JString> localeParts(JPtrArrayT::kDeleteAll);

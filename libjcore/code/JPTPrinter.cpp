@@ -257,6 +257,7 @@ JPTPrinter::Print
 		}
 
 	pg.ProcessFinished();
+	iter.Invalidate();
 
 	if (itsPrintReverseOrderFlag)
 		{

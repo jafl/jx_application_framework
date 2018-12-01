@@ -75,6 +75,7 @@ SVNStatusList::StyleLine
 	JUtf8Character c1, c2;
 	iter.Next(&c1);
 	iter.Next(&c2);
+	iter.Invalidate();
 
 	if (c1 == 'C' || c1 == '!' || c1 == '~' || c2 == 'C')
 		{

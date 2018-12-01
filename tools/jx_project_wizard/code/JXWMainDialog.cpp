@@ -578,6 +578,7 @@ JXWMainDialog::CopyAndAdjustTemplateFiles
 
 				iter.RemoveLastMatch();
 				iter.RemoveNext();
+				iter.Invalidate();
 
 				name.Prepend(*value.GetElement(kPrefix));
 				name.MatchCase(prefix, JCharacterRange(1, prefix.GetCharacterCount()),

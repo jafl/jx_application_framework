@@ -288,6 +288,8 @@ TestSaveFileDialog::HandleFormatChange
 		{
 		iter.RemoveAllNext();
 		}
+	iter.Invalidate();
+
 	const JSize nameLength = fileName.GetCharacterCount();
 
 	if (id == TestChooseSaveFile::kGIFFormat)

@@ -372,6 +372,8 @@ JPSPrinterBase::PSString
 		}
 	*itsFile << ") show\n";
 
+	iter.Invalidate();
+
 	// add the rest of the styles
 
 	const JSize strWidth = font.GetStringWidth(itsFontManager, str);

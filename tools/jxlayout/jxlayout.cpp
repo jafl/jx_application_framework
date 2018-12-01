@@ -275,6 +275,7 @@ main
 
 				tnIter.RemoveLastMatch();
 				}
+			tnIter.Invalidate();
 
 			// report errors
 
@@ -291,6 +292,7 @@ main
 				std::cerr << kDefTopEnclVarName << std::endl;
 				}
 			}
+		fnIter.Invalidate();
 
 		if (GenerateForm(input, formName, tagName, enclName,
 						 codePath, stringPath, codeSuffix, headerSuffix,
@@ -1076,6 +1078,8 @@ GetTempVarName
 		{
 		iter.RemoveLastMatch();
 		}
+	iter.Invalidate();
+
 	suffix.Prepend("_");
 
 	const JString prefix("obj", kJFalse);

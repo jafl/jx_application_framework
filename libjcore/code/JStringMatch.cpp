@@ -1,11 +1,7 @@
 /******************************************************************************
  JStringMatch.cpp
 
-						The JString Match Class
-
-	Stores information about a successful match by a JStringIterator.  As
-	with JStringIterator, this object is automatically updated when the
-	underlying JString changes.
+	Stores information about a successful match by a JStringIterator.
 
 	Copyright (C) 2016 by John Lindal.
 

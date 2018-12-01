@@ -163,6 +163,8 @@ GFGLink::ParseLine
 		return;
 		}
 
+	iter.Invalidate();
+
 	JString name = m.GetSubstring(1);
 	if (name.BeginsWith("~"))
 		{
@@ -267,6 +269,7 @@ GFGLink::ParseInterface
 			{
 			iter.RemoveLastMatch();
 			}
+		iter.Invalidate();
 
 		str.TrimWhitespace();
 		if (!str.IsEmpty())

@@ -541,6 +541,7 @@ JXTextMenu::AdjustPopupChoiceTitle
 		iter.SkipPrev();
 		iter.RemoveAllNext();
 		}
+	iter.Invalidate();
 
 	if (!newTitle.IsEmpty())
 		{
