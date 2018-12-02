@@ -82,6 +82,11 @@ JSTUndoBase::SetFont
 	const JSize			size
 	)
 {
+	if (styles->IsEmpty())
+		{
+		return;
+		}
+
 	JRunArrayIterator<JFont> iter(styles);
 
 	do
