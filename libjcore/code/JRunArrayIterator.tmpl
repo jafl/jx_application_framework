@@ -524,14 +524,20 @@ JRunArrayIterator<T>::SetNext
 		}
 
 	const JIndex itemIndex = this->GetCursor() + 1;
+	JIndex runIndex        = itsRunIndex;
 	JIndex firstInRun      = itemIndex - itsOffsetInRun;
 
+	const JBoolean wasAtBeginning = this->AtBeginning();
+	SkipPrev();
+
 	itsIgnoreListChangedFlag = kJTrue;
-	itsRunArray->IteratorSetElements(itemIndex, data, count, &itsRunIndex, &firstInRun);
+	itsRunArray->IteratorSetElements(itemIndex, data, count, &runIndex, &firstInRun);
 	itsIgnoreListChangedFlag = kJFalse;
 
-	itsRunArray->IncrementalFindRun(itemIndex + count - 1, itemIndex, &itsRunIndex, &firstInRun);
-	itsOffsetInRun = itemIndex - firstInRun;
+	if (!wasAtBeginning)
+		{
+		SkipNext();
+		}
 	return kJTrue;
 }
 
@@ -632,14 +638,20 @@ JRunArrayIterator<T>::Insert
 	else
 		{
 		const JIndex itemIndex = this->GetCursor() + 1;
+		JIndex runIndex        = itsRunIndex;
 		JIndex firstInRun      = itemIndex - itsOffsetInRun;
 
+		const JBoolean wasAtBeginning = this->AtBeginning();
+		SkipPrev();
+
 		itsIgnoreListChangedFlag = kJTrue;
-		itsRunArray->IteratorInsertElementsAtIndex(itemIndex, data, count, &itsRunIndex, &firstInRun);
+		itsRunArray->IteratorInsertElementsAtIndex(itemIndex, data, count, &runIndex, &firstInRun);
 		itsIgnoreListChangedFlag = kJFalse;
 
-		itsRunArray->IncrementalFindRun(itemIndex + count - 1, itemIndex, &itsRunIndex, &firstInRun);
-		itsOffsetInRun = itemIndex - firstInRun;
+		if (!wasAtBeginning)
+			{
+			SkipNext();
+			}
 		}
 	return kJTrue;
 }
@@ -676,14 +688,20 @@ JRunArrayIterator<T>::InsertSlice
 	else
 		{
 		const JIndex itemIndex = this->GetCursor() + 1;
+		JIndex runIndex        = itsRunIndex;
 		JIndex firstInRun      = itemIndex - itsOffsetInRun;
 
+		const JBoolean wasAtBeginning = this->AtBeginning();
+		SkipPrev();
+
 		itsIgnoreListChangedFlag = kJTrue;
-		itsRunArray->IteratorInsertSlice(itemIndex, source, range, &itsRunIndex, &firstInRun);
+		itsRunArray->IteratorInsertSlice(itemIndex, source, range, &runIndex, &firstInRun);
 		itsIgnoreListChangedFlag = kJFalse;
 
-		itsRunArray->IncrementalFindRun(itemIndex + range.GetCount() - 1, itemIndex, &itsRunIndex, &firstInRun);
-		itsOffsetInRun = itemIndex - firstInRun;
+		if (!wasAtBeginning)
+			{
+			SkipNext();
+			}
 		}
 
 	return kJTrue;
