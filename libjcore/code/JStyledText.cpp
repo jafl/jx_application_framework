@@ -1611,15 +1611,18 @@ JStyledText::SetAllFontNameAndSize
 		ClearUndo();
 		}
 
-	FontIterator iter(itsStyles);
-
-	do
+	if (!itsStyles->IsEmpty())
 		{
-		JFont f = iter.GetRunData();
-		f.Set(name, size, f.GetStyle());
-		iter.SetNext(f, iter.GetRunLength());
+		FontIterator iter(itsStyles);
+
+		do
+			{
+			JFont f = iter.GetRunData();
+			f.Set(name, size, f.GetStyle());
+			iter.SetNext(f, iter.GetRunLength());
+			}
+			while (iter.NextRun());
 		}
-		while (iter.NextRun());
 
 	const TextRange& all = SelectAll();
 	AdjustFontToDisplayGlyphs(all, itsText, itsStyles);

@@ -980,10 +980,14 @@ JPackedTableData<T>::CountElementsWithValue
 	)
 	const
 {
+	if (itsData->IsEmpty())
+		{
+		return 0;
+		}
+
 	JRunArrayIterator<T> iter(*itsData);
 
 	JSize valueCount = 0;
-
 	do
 		{
 		if (iter.GetRunData() == data)
