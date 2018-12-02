@@ -1360,7 +1360,7 @@ JStyledText::SetFontName
 
 	JFont f1 = itsDefaultFont, f2 = itsDefaultFont;
 	JBoolean changed = kJFalse;
-	JRunArrayIterator<JFont> iter(itsStyles, kJIteratorStartBefore, range.charRange.first);
+	FontIterator iter(itsStyles, kJIteratorStartBefore, range.charRange.first);
 	for (JIndex i=range.charRange.first; i<=range.charRange.last; i++)
 		{
 		const JBoolean ok = iter.Next(&f1);
@@ -1567,8 +1567,8 @@ JStyledText::SetFont
 	assert( range.GetCount().charCount == fontList.GetElementCount() );
 
 	JFont f = itsDefaultFont;
-	JRunArrayIterator<JFont> fIter(fontList);
-	JRunArrayIterator<JFont> sIter(itsStyles, kJIteratorStartBefore, range.charRange.first);
+	FontIterator fIter(fontList);
+	FontIterator sIter(itsStyles, kJIteratorStartBefore, range.charRange.first);
 
 	while (fIter.Next(&f) && sIter.SetNext(f))
 		{
@@ -1611,7 +1611,7 @@ JStyledText::SetAllFontNameAndSize
 		ClearUndo();
 		}
 
-	JRunArrayIterator<JFont> iter(itsStyles);
+	FontIterator iter(itsStyles);
 
 	do
 		{

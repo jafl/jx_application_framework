@@ -1263,7 +1263,7 @@ JTextEditor::Paginate
 
 	const JSize count = GetLineCount();
 
-	JRunArrayIterator<LineGeometry> iter(itsLineGeom);
+	GeometryIterator iter(itsLineGeom);
 	LineGeometry geom;
 
 	JIndex prev = 1, i = 0;
@@ -1663,7 +1663,7 @@ JTextEditor::TEDrawText
 	JStringIterator* textIter = itsText->GetConstIterator(kJIteratorStartBefore, GetLineStart(startLine));
 	FontIterator styleIter(itsText->GetStyles(), kJIteratorStartBefore, GetLineStart(startLine).charIndex);
 
-	JRunArrayIterator<LineGeometry> geomIter(itsLineGeom, kJIteratorStartBefore, startLine);
+	GeometryIterator geomIter(itsLineGeom, kJIteratorStartBefore, startLine);
 	LineGeometry geom;
 	for (JIndex i=startLine; i<=lineCount; i++)
 		{
@@ -2012,7 +2012,7 @@ JTextEditor::TEDrawSelection
 
 	const JCoordinate xmax = JMax(itsGUIWidth, itsWidth);
 
-	JRunArrayIterator<LineGeometry> iter(itsLineGeom, kJIteratorStartBefore, startLine);
+	GeometryIterator iter(itsLineGeom, kJIteratorStartBefore, startLine);
 	LineGeometry geom;
 	for (JIndex i=startLine; i<=endLine; i++)
 		{
