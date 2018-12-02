@@ -915,10 +915,12 @@ JTEST(TabSelectionMixed)
 
 JTEST(SetAllFontNameAndSize)
 {
-	StyledText text;
+	StyledText text(kJTrue);
 
 	TextEditor te(&text, kJFalse, 50);
 	te.SetCurrentFontSize(20);
+	te.Paste(JString("replace this", kJFalse));
+	te.SelectAll();
 	te.Paste(JString("b" "\xC3\xAE" "g", kJFalse));
 	te.SetCurrentFontSize(JFontManager::GetDefaultFontSize());
 	te.SetCurrentFontBold(kJTrue);

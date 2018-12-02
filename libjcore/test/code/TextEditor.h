@@ -123,7 +123,7 @@ TextEditor::SetAllFontNameAndSize
 	const JSize		size
 	)
 {
-	JTextEditor::SetAllFontNameAndSize(name, size, 36, kJTrue, kJTrue);
+	JTextEditor::SetAllFontNameAndSize(name, size, 36, kJTrue, kJFalse);
 }
 
 /******************************************************************************

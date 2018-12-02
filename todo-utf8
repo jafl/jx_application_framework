@@ -2,17 +2,11 @@ JLinkedList iterators
 	ignore ListChanged if we made a change that doesn't change our state
 	e.g. - Insert or RemoveNext
 
-JRunArray
-	change runindex/firstinrun to be more useful to iterator
-
-JStyledText
-JTextEditor
-	audit to ensure RunArrayIter is used correctly:  insert does not move
-	need option for insert to move?
-
 unit test
-	JTable
-	JTableSelection
+	JStyledText - every usage of JRunArrayIterator
+	JTextEditor - every usage of JRunArrayIterator
+	JTable - especially JRunArrayIterator
+	JTableSelection - especially JRunArrayIterator
 	JStringTableData
 	JFloatTableData
 	JPTPrinter - send to file
@@ -59,8 +53,8 @@ JTextEditor:
 		use isExact to tell which glyphs are substitutions?
 
 jcc
-	menu of supported formats in "open text file" dialog
-	sub-menu of supported formats on File menu, just like "file formats"
+	menu of supported text formats in "open text file" dialog
+	sub-menu of supported text formats on File menu, just like "file formats"
 medic
 
 jx_project_wizard
@@ -73,17 +67,9 @@ jx_project_wizard
 replace JBoolean with bool
 	jTypes.h - remove JConvertToBoolean, JI2B, JNegate, operator!, JFloatToBoolean, JF2B
 
-test every usage of JRunArrayIterator and JLinkedListIterator
+test every usage of JRunArrayIterator
 	libjcore
-		JStyledText
-		JStyledTextSetFont
-		JSTUndoBase::SetFont
-		jTextUtil
-		JTextEditor
 		JSTStyler
-		JPackedTableData
-		JTable
-		JNetworkProtocolBase
 	libjx
 		JXStringList
 		JXStyledText
