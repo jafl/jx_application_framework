@@ -13,27 +13,27 @@
 #include <JUndo.h>
 #include <JPoint.h>
 
-class GXRaggedFloatTable;
-class GRaggedFloatTableData;
+class GLRaggedFloatTable;
+class GLRaggedFloatTableData;
 
 class GLUndoBase : public JUndo
 {
 public:
 
-	GLUndoBase(GXRaggedFloatTable* table);
+	GLUndoBase(GLRaggedFloatTable* table);
 
 	virtual ~GLUndoBase();
 
 protected:
 
-	GRaggedFloatTableData*	GetData();
-	GXRaggedFloatTable*		GetTable();
+	GLRaggedFloatTableData*	GetData();
+	GLRaggedFloatTable*		GetTable();
 	void					NewUndo(JUndo* undo);
 
 private:
 
-	GRaggedFloatTableData*	itsData;	// we don't own this
-	GXRaggedFloatTable*		itsTable;	// we don't own this
+	GLRaggedFloatTableData*	itsData;	// we don't own this
+	GLRaggedFloatTable*		itsTable;	// we don't own this
 
 private:
 
@@ -48,7 +48,7 @@ private:
 
  ******************************************************************************/
 
-inline GRaggedFloatTableData*
+inline GLRaggedFloatTableData*
 GLUndoBase::GetData()
 {
 	return itsData;
@@ -59,7 +59,7 @@ GLUndoBase::GetData()
 
  ******************************************************************************/
 
-inline GXRaggedFloatTable*
+inline GLRaggedFloatTable*
 GLUndoBase::GetTable()
 {
 	return itsTable;

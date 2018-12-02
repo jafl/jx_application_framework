@@ -8,7 +8,7 @@
  ******************************************************************************/
 
 #include "GLPlotApp.h"
-#include "GXDataDocument.h"
+#include "GLDataDocument.h"
 #include "GLGlobals.h"
 #include "GLPrefsMgr.h"
 #include "GLAboutDialog.h"
@@ -307,7 +307,7 @@ GLPlotApp::NewFile()
 {
 	JString str = "Untitled " + JString((JUInt64) itsDirNumber);
 	itsDirNumber++;
-	GXDataDocument* tableDir = jnew GXDataDocument(this, str, kJFalse);
+	GLDataDocument* tableDir = jnew GLDataDocument(this, str, kJFalse);
 	assert( tableDir != nullptr);
 	tableDir->Activate();
 }
@@ -342,7 +342,7 @@ GLPlotApp::OpenFile
 		}
 	else
 		{
-		GXDataDocument* tableDir = jnew GXDataDocument(this, fileName, kJTrue);
+		GLDataDocument* tableDir = jnew GLDataDocument(this, fileName, kJTrue);
 		assert( tableDir != nullptr);
 		tableDir->Activate();
 		}

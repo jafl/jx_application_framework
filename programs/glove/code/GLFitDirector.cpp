@@ -1,8 +1,6 @@
 /******************************************************************************
  GLFitDirector.cpp
 
-	<Description>
-
 	BASE CLASS = public JXWindowDirector
 
 	Copyright (C) 2000 by Glenn W. Bach.
@@ -16,24 +14,24 @@
 #include "GLFitParameterTable.h"
 #include "GLParmColHeaderWidget.h"
 #include "GLChiSqLabel.h"
-#include "JPlotFitFunction.h"
-#include "JPlotFitLinearEq.h"
-#include "JPlotFitExp.h"
-#include "JPlotFitPowerLaw.h"
-#include "JPlotFitProxy.h"
+#include "GLPlotFitFunction.h"
+#include "GLPlotFitLinearEq.h"
+#include "GLPlotFitExp.h"
+#include "GLPlotFitPowerLaw.h"
+#include "GLPlotFitProxy.h"
 #include "GLPolyFitDescription.h"
 #include "GLBuiltinFitDescription.h"
 #include "GLNonLinearFitDescription.h"
 #include "GLModuleFitDescription.h"
 #include "GLNonLinearFitDialog.h"
 #include "GLPolyFitDialog.h"
-#include "GVarList.h"
-#include "GloveHistoryDir.h"
-#include "PlotDir.h"
+#include "GLVarList.h"
+#include "GLHistoryDir.h"
+#include "GLPlotDir.h"
 
-#include "JPlotFitLinear.h"
-#include "JPlotFitNonLinear.h"
-#include "JPlotFitModule.h"
+#include "GLPlotFitLinear.h"
+#include "GLPlotFitNonLinear.h"
+#include "GLPlotFitModule.h"
 
 #include "GLPrefsMgr.h"
 #include "GLGlobals.h"
@@ -52,7 +50,7 @@
 #include <JXColHeaderWidget.h>
 #include <JXColorManager.h>
 #include <JXDownRect.h>
-#include <JXExprWidget.h>
+#include <JXExprEditor.h>
 #include <JXHelpManager.h>
 #include <JXHorizPartition.h>
 #include <JXImage.h>
@@ -66,20 +64,15 @@
 #include <JXVertPartition.h>
 #include <JXWindow.h>
 
-#include <JChooseSaveFile.h>
-#include <JFunction.h>
-#include <JString.h>
+#include <JExprParser.h>
 #include <JVector.h>
-
 #include <jDirUtil.h>
-#include <jParseFunction.h>
 #include <jAssert.h>
 
 const JCoordinate kCloseButtonWidth 	= 50;
 const JCoordinate kCurrentPrefsVersion	= 1;
 
-static const JCharacter* kFitMenuTitleStr = "Fit";
-static const JCharacter* kFitMenuStr =
+static const JUtf8Byte* kFitMenuStr =
 	"   New non-linear fit   %k Meta-N %i NewNonLinear::FitDirector"
 	"  |New polynomial fit   %k Meta-Shift-N %i NewPoly::FitDirector"
 	"  |Remove fit   %k Backspace. %i RemoveFit::FitDirector"
@@ -107,8 +100,7 @@ enum
 	kCloseCmd
 };
 
-static const JCharacter* kPrefsMenuTitleStr = "Preferences";
-static const JCharacter* kPrefsMenuStr =
+static const JUtf8Byte* kPrefsMenuStr =
 	"   Edit preferences %i Preferences::FitDirector"
 	"  |Edit tool bar... %i EditToolBar::FitDirector"
 	"%l|Save window size %i SaveWindowSize::FitDirector";
@@ -120,8 +112,7 @@ enum
 	kSaveWindowSizeCmd
 };
 
-static const JCharacter* kHelpMenuTitleStr = "Help";
-static const JCharacter* kHelpMenuStr =
+static const JUtf8Byte* kHelpMenuStr =
 	"   About"
 	"%l|Table of Contents %i TOCHelp::FitDirector"
 	"  |This window       %i ThisWindowHelp::FitDirector"
@@ -137,9 +128,6 @@ enum
 	kCreditsCmd
 };
 
-const JCharacter* kFitPlotTitle		= "Fit";
-const JCharacter* kDiffPlotTitle	= "Residuals";
-
 /******************************************************************************
  Constructor
 
@@ -147,9 +135,9 @@ const JCharacter* kDiffPlotTitle	= "Residuals";
 
 GLFitDirector::GLFitDirector
 	(
-	PlotDir* 			supervisor,
-	J2DPlotWidget*		plot,
-	const JCharacter*	file
+	GLPlotDir* 		supervisor,
+	J2DPlotWidget*	plot,
+	const JString&	file
 	)
 	:
 	JXWindowDirector(supervisor),
@@ -177,7 +165,7 @@ GLFitDirector::GLFitDirector
 		itsToolBar->AppendButton(itsHelpMenu, kThisWindowCmd);
 		}
 
-	itsHistory	= jnew GloveHistoryDir(this);
+	itsHistory	= jnew GLHistoryDir(this);
 	assert(itsHistory != nullptr);
 
 	JString name;
@@ -307,7 +295,7 @@ GLFitDirector::BuildWindow()
 			kColHeaderHeight);
 	assert(header != nullptr);
 
-	header->SetColTitle(1, "Curves");
+	header->SetColTitle(1, JGetString("CurvesColTitle::GLFitDirector"));
 
 	container = itsListPartition->GetCompartment(2);
 
@@ -339,7 +327,7 @@ GLFitDirector::BuildWindow()
 			kColHeaderHeight);
 	assert(header != nullptr);
 
-	header->SetColTitle(1, "Fits");
+	header->SetColTitle(1, JGetString("FitsColTitle::GLFitDirector"));
 
 	// this is the expression widget that displays the current JFunction
 
@@ -353,11 +341,11 @@ GLFitDirector::BuildWindow()
 						   kExprHeight);
 	assert( scrollbarSet != nullptr );
 
-	itsExprVarList	= jnew GVarList();
+	itsExprVarList	= jnew GLVarList();
 	assert(itsExprVarList != nullptr);
 
 	itsExprWidget	=
-		jnew JXExprWidget(itsExprVarList,
+		jnew JXExprEditor(itsExprVarList,
 			scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 			JXWidget::kHElastic, JXWidget::kVElastic,
 			0, 0,
@@ -426,7 +414,7 @@ GLFitDirector::BuildWindow()
 
 	itsParameterTable->SetColHeaderWidget(itsParameterColHeader);
 
-	itsFitMenu = menuBar->AppendTextMenu(kFitMenuTitleStr);
+	itsFitMenu = menuBar->AppendTextMenu(JGetString("FitMenuTitle::GLFitDirector"));
 	itsFitMenu->SetMenuItems(kFitMenuStr);
 	itsFitMenu->SetUpdateAction(JXMenu::kDisableAll);
 	ListenTo(itsFitMenu);
@@ -448,14 +436,14 @@ GLFitDirector::BuildWindow()
 	assert(downRect != nullptr);
 
 	itsChiSq =
-		jnew JXStaticText("", container,
+		jnew JXStaticText(JString::empty, container,
 			JXWidget::kHElastic, JXWidget::kFixedBottom,
 			kChiSqLabelWidth + kJXDefaultBorderWidth,
 			kParmsTableHeight + kColHeaderHeight + kJXDefaultBorderWidth,
 			w - kFitListWidth - kPartitionHandleWidth - 2 * kJXDefaultBorderWidth,
 			kChiSqHeight - 2 * kJXDefaultBorderWidth);
 	assert(itsChiSq != nullptr);
-	itsChiSq->SetBackColor(GetColormap()->GetWhiteColor());
+	itsChiSq->SetBackColor(JColorManager::GetWhiteColor());
 
 	// now add the 2 plots
 
@@ -468,7 +456,7 @@ GLFitDirector::BuildWindow()
 			w - kFitListWidth - kPartitionHandleWidth,
 			container->GetApertureHeight());
 	assert(itsFitPlot != nullptr);
-	itsFitPlot->SetTitle(kFitPlotTitle);
+	itsFitPlot->SetTitle(JGetString("FitPlotTitle::GLFitDirector"));
 	itsFitPlot->SetXLabel(itsPlot->GetXLabel());
 	itsFitPlot->SetYLabel(itsPlot->GetYLabel());
 
@@ -481,17 +469,17 @@ GLFitDirector::BuildWindow()
 			w - kFitListWidth - kPartitionHandleWidth,
 			newHeight - kFirstPlotHeight - kTotalParmsHeight - 2 * kPartitionHandleWidth);
 	assert(itsDiffPlot != nullptr);
-	itsDiffPlot->SetTitle(kDiffPlotTitle);
+	itsDiffPlot->SetTitle(JGetString("DiffPlotTitle::GLFitDirector"));
 	itsDiffPlot->SetXLabel(itsPlot->GetXLabel());
 	itsDiffPlot->SetYLabel(itsPlot->GetYLabel());
 	itsDiffPlot->ShowFrame(kJFalse);
 
-	itsPrefsMenu = menuBar->AppendTextMenu(kPrefsMenuTitleStr);
+	itsPrefsMenu = menuBar->AppendTextMenu(JGetString("PrefsMenuTitle::JXGlobal"));
 	itsPrefsMenu->SetMenuItems(kPrefsMenuStr);
 	itsPrefsMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsPrefsMenu);
 
-	itsHelpMenu = menuBar->AppendTextMenu(kHelpMenuTitleStr);
+	itsHelpMenu = menuBar->AppendTextMenu(JGetString("HelpMenuTitle::JXGlobal"));
 	itsHelpMenu->SetMenuItems(kHelpMenuStr);
 	itsHelpMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsHelpMenu);
@@ -553,7 +541,7 @@ GLFitDirector::Receive
 		RemoveCurves();
 
 		itsParameterTable->ClearValues();
-		itsChiSq->SetText("");
+		itsChiSq->GetText()->SetText(JString::empty);
 
 		// add new curve.
 		itsFitPlot->AddCurve(&curve, kJFalse, itsPlot->GetCurveName(info->GetIndex()));
@@ -567,9 +555,12 @@ GLFitDirector::Receive
 		const GLFitDescription& fd	= GetFitManager()->GetFitDescription(info->GetIndex());
 		itsParameterTable->SetFitDescription(fd);
 		RemoveFit();
-		itsChiSq->SetText("");
+		itsChiSq->GetText()->SetText(JString::empty);
+
+		JExprParser p(const_cast<GLFitDescription&>(fd).GetVarList());
+
 		JFunction* f;
-		if (JParseFunction(fd.GetFitFunctionString(), const_cast<GLFitDescription&>(fd).GetVarList(), &f))
+		if (p.Parse(fd.GetFitFunctionString(), &f))
 			{
 			itsExprWidget->SetFunction(const_cast<GLFitDescription&>(fd).GetVarList(), f);
 			itsExprWidget->Show();
@@ -580,7 +571,6 @@ GLFitDirector::Receive
 		const GLFitDescriptionList::FitInitiated* info =
 			dynamic_cast<const GLFitDescriptionList::FitInitiated*>(&message);
 		assert(info != nullptr);
-		const GLFitDescription& fd	= GetFitManager()->GetFitDescription(info->GetIndex());
 		if (!itsParameterTable->BeginEditingStartValues())
 			{
 			Fit();
@@ -723,7 +713,7 @@ GLFitDirector::HandleFitMenu
 		JBoolean ok	= itsCurveList->GetCurrentCurveIndex(&index);
 		JPlotDataBase* data	= &(itsPlot->GetCurve(index));
 		assert(itsCurrentFit != nullptr);
-		JPlotFitProxy* proxy	= jnew JPlotFitProxy(itsCurrentFit, itsPlot, data);
+		GLPlotFitProxy* proxy	= jnew GLPlotFitProxy(itsCurrentFit, itsPlot, data);
 		assert(proxy != nullptr);
 		JIndex findex;
 		ok	= itsFitList->GetCurrentFitIndex(&findex);
@@ -923,17 +913,17 @@ GLFitDirector::Fit()
 		assert(ok);
 
 		JFloat xmax, xmin, ymax, ymin;
-		JPlotFitLinearEq* fit;
+		GLPlotFitLinearEq* fit;
 		if (itsFitPlot->IsUsingRange())
 			{
 			itsFitPlot->GetRange(&xmin, &xmax, &ymin, &ymax);
-			fit = jnew JPlotFitLinearEq(itsFitPlot, data, xmin, xmax, ymin, ymax);
+			fit = jnew GLPlotFitLinearEq(itsFitPlot, data, xmin, xmax, ymin, ymax);
 			assert(fit != nullptr);
 			}
 		else
 			{
 			data->GetXRange(&xmin, &xmax);
-			fit = jnew JPlotFitLinearEq(itsFitPlot, data, xmin, xmax);
+			fit = jnew GLPlotFitLinearEq(itsFitPlot, data, xmin, xmax);
 			assert(fit != nullptr);
 			}
 		fit->InitializePolynomial(powers);
@@ -946,7 +936,7 @@ GLFitDirector::Fit()
 				{
 				p.SetElement(i, parms.GetElement(i));
 				}
-			fit->JPlotFitBase::GenerateFit(p, 0);
+			fit->GLPlotFitBase::GenerateFit(p, 0);
 			}
 		else
 			{
@@ -960,17 +950,17 @@ GLFitDirector::Fit()
 			dynamic_cast<GLNonLinearFitDescription&>(const_cast<GLFitDescription&>(fd));
 
 		JFloat xmax, xmin, ymax, ymin;
-		JPlotFitNonLinear* fit;
+		GLPlotFitNonLinear* fit;
 		if (itsFitPlot->IsUsingRange())
 			{
 			itsFitPlot->GetRange(&xmin, &xmax, &ymin, &ymax);
-			fit = jnew JPlotFitNonLinear(itsFitPlot, data, xmin, xmax, ymin, ymax);
+			fit = jnew GLPlotFitNonLinear(itsFitPlot, data, xmin, xmax, ymin, ymax);
 			assert(fit != nullptr);
 			}
 		else
 			{
 			data->GetXRange(&xmin, &xmax);
-			fit = jnew JPlotFitNonLinear(itsFitPlot, data, xmin, xmax);
+			fit = jnew GLPlotFitNonLinear(itsFitPlot, data, xmin, xmax);
 			assert(fit != nullptr);
 			}
 		fit->SetVarList(nd.GetVarList());
@@ -993,17 +983,17 @@ GLFitDirector::Fit()
 	else if (fd.GetType() == GLFitDescription::kBLinear)
 		{
 		JFloat xmax, xmin, ymax, ymin;
-		JPlotFitLinear* fit;
+		GLPlotFitLinear* fit;
 		if (itsFitPlot->IsUsingRange())
 			{
 			itsFitPlot->GetRange(&xmin, &xmax, &ymin, &ymax);
-			fit = jnew JPlotFitLinear(itsFitPlot, data, xmin, xmax, ymin, ymax);
+			fit = jnew GLPlotFitLinear(itsFitPlot, data, xmin, xmax, ymin, ymax);
 			assert(fit != nullptr);
 			}
 		else
 			{
 			data->GetXRange(&xmin, &xmax);
-			fit = jnew JPlotFitLinear(itsFitPlot, data, xmin, xmax);
+			fit = jnew GLPlotFitLinear(itsFitPlot, data, xmin, xmax);
 			assert(fit != nullptr);
 			}
 		if (itsParameterTable->IsShowingStartCol())
@@ -1015,7 +1005,7 @@ GLFitDirector::Fit()
 				{
 				p.SetElement(i, parms.GetElement(i));
 				}
-			fit->JPlotFitBase::GenerateFit(p, 0);
+			fit->GLPlotFitBase::GenerateFit(p, 0);
 			}
 		else
 			{
@@ -1026,17 +1016,17 @@ GLFitDirector::Fit()
 	else if (fd.GetType() == GLFitDescription::kBExp)
 		{
 		JFloat xmax, xmin, ymax, ymin;
-		JPlotFitExp* fit;
+		GLPlotFitExp* fit;
 		if (itsFitPlot->IsUsingRange())
 			{
 			itsFitPlot->GetRange(&xmin, &xmax, &ymin, &ymax);
-			fit = jnew JPlotFitExp(itsFitPlot, data, xmin, xmax, ymin, ymax);
+			fit = jnew GLPlotFitExp(itsFitPlot, data, xmin, xmax, ymin, ymax);
 			assert(fit != nullptr);
 			}
 		else
 			{
 			data->GetXRange(&xmin, &xmax);
-			fit = jnew JPlotFitExp(itsFitPlot, data, xmin, xmax);
+			fit = jnew GLPlotFitExp(itsFitPlot, data, xmin, xmax);
 			assert(fit != nullptr);
 			}
 		if (itsParameterTable->IsShowingStartCol())
@@ -1048,7 +1038,7 @@ GLFitDirector::Fit()
 				{
 				p.SetElement(i, parms.GetElement(i));
 				}
-			fit->JPlotFitBase::GenerateFit(p, 0);
+			fit->GLPlotFitBase::GenerateFit(p, 0);
 			}
 		else
 			{
@@ -1059,17 +1049,17 @@ GLFitDirector::Fit()
 	else if (fd.GetType() == GLFitDescription::kBPower)
 		{
 		JFloat xmax, xmin, ymax, ymin;
-		JPlotFitPowerLaw* fit;
+		GLPlotFitPowerLaw* fit;
 		if (itsFitPlot->IsUsingRange())
 			{
 			itsFitPlot->GetRange(&xmin, &xmax, &ymin, &ymax);
-			fit = jnew JPlotFitPowerLaw(itsFitPlot, data, xmin, xmax, ymin, ymax);
+			fit = jnew GLPlotFitPowerLaw(itsFitPlot, data, xmin, xmax, ymin, ymax);
 			assert(fit != nullptr);
 			}
 		else
 			{
 			data->GetXRange(&xmin, &xmax);
-			fit = jnew JPlotFitPowerLaw(itsFitPlot, data, xmin, xmax);
+			fit = jnew GLPlotFitPowerLaw(itsFitPlot, data, xmin, xmax);
 			assert(fit != nullptr);
 			}
 		if (itsParameterTable->IsShowingStartCol())
@@ -1081,7 +1071,7 @@ GLFitDirector::Fit()
 				{
 				p.SetElement(i, parms.GetElement(i));
 				}
-			fit->JPlotFitBase::GenerateFit(p, 0);
+			fit->GLPlotFitBase::GenerateFit(p, 0);
 			}
 		else
 			{
@@ -1094,17 +1084,17 @@ GLFitDirector::Fit()
 		GLModuleFitDescription& md	=
 			dynamic_cast<GLModuleFitDescription&>(const_cast<GLFitDescription&>(fd));
 		JFloat xmax, xmin, ymax, ymin;
-		JPlotFitModule* fit;
+		GLPlotFitModule* fit;
 		if (itsFitPlot->IsUsingRange())
 			{
 			itsFitPlot->GetRange(&xmin, &xmax, &ymin, &ymax);
-			fit = jnew JPlotFitModule(itsFitPlot, data, xmin, xmax, ymin, ymax);
+			fit = jnew GLPlotFitModule(itsFitPlot, data, xmin, xmax, ymin, ymax);
 			assert(fit != nullptr);
 			}
 		else
 			{
 			data->GetXRange(&xmin, &xmax);
-			fit = jnew JPlotFitModule(itsFitPlot, data, xmin, xmax);
+			fit = jnew GLPlotFitModule(itsFitPlot, data, xmin, xmax);
 			assert(fit != nullptr);
 			}
 		fit->SetFitModule(md.GetFitModule());
@@ -1131,13 +1121,12 @@ GLFitDirector::Fit()
 		itsParameterTable->SetValue(i, value, error);
 		if (itsCurrentFit->GetGoodnessOfFit(&value))
 			{
-			itsChiSq->SetText(JString(value, JString::kPrecisionAsNeeded, JString::kStandardExponent, 0, 5));
+			itsChiSq->GetText()->SetText(JString(value, JString::kPrecisionAsNeeded, JString::kStandardExponent, 0, 5));
 			}
 		else
 			{
-			itsChiSq->SetText("");
+			itsChiSq->GetText()->SetText(JString::empty);
 			}
-
 		}
 }
 
@@ -1277,9 +1266,9 @@ GLFitDirector::AddHistoryText
 	str.Clear();
 	itsParameterTable->GetValueString(&str);
 	itsHistory->AppendText(str, kJFalse);
-	str = "Reduced Chi^2: " + itsChiSq->GetText() + "\n";
+	str = "Reduced Chi^2: " + itsChiSq->GetText()->GetText() + "\n";
 	itsHistory->AppendText(str, kJFalse);
-	itsHistory->AppendText("\n\n", kJFalse);
+	itsHistory->AppendText(JString("\n\n", kJFalse), kJFalse);
 }
 
 /******************************************************************************
@@ -1294,32 +1283,30 @@ GLFitDirector::Print()
 		{
 		if (itsPrinter->NewPage())
 			{
-			JCoordinate kTopMargin	= 20;
 			JCoordinate kLeftMargin	= 20;
 			JCoordinate width		= (JCoordinate)(itsPrinter->GetPageWidth() * 0.8);
 			JCoordinate tableD		= 70;
 			JCoordinate kPlotSep	= 20;
-			JCoordinate kExprX		= itsPrinter->GetPageWidth() - kLeftMargin - itsExprWidget->GetBoundsWidth();
 			JCoordinate kLMargin	= (itsPrinter->GetPageWidth() - width)/2;
 
 			// draw header info
-			JString str	= "Curve: ";
+			JString str	= JGetString("CurveTitle::GLFitDirector");
 			JIndex index;
 			JBoolean ok	= itsCurveList->GetCurrentCurveIndex(&index);
 			assert(ok);
-			str	+= + itsPlot->GetCurveName(index);
+			str	+= itsPlot->GetCurveName(index);
 			itsPrinter->String(kLeftMargin, 0, str);
 
-			str	= "Fit: ";
+			str	= JGetString("FitTitle::GLFitDirector");
 			ok	= itsFitList->GetCurrentFitIndex(&index);
 			assert(ok);
 			const GLFitDescription& fd	= GetFitManager()->GetFitDescription(index);
 			str += fd.GetFnName();
 			itsPrinter->String(kLeftMargin, kPlotSep, str);
 
-			str = "Normalized chi-squared (chi^2/n-";
+			str = JGetString("ChiSqTitle::GLFitDirector");
 			str += JString((JUInt64) fd.GetParameterCount()) + "): ";
-			str += itsChiSq->GetText();
+			str += itsChiSq->GetText()->GetText();
 			itsPrinter->String(kLeftMargin, kPlotSep*2, str);
 
 			// draw expression widget

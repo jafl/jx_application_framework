@@ -10,12 +10,12 @@
 #ifndef _H_GLFitDescription
 #define _H_GLFitDescription
 
-#include "JFitBase.h"
-#include "GVarList.h"
+#include "GLFitBase.h"
+#include "GLVarList.h"
 #include <JArray.h>
 #include <JString.h>
 
-class GLFitDescription : public JFitBase
+class GLFitDescription : public GLFitBase
 {
 public:
 
@@ -54,7 +54,7 @@ public:
 	JBoolean		RequiresStartValues() const;
 	JBoolean		CanUseStartValues() const;
 
-	GVarList*		GetVarList();
+	GLVarList*		GetVarList();
 
 	virtual void	WriteSetup(std::ostream& os); // must call base class first!
 
@@ -69,7 +69,7 @@ protected:
 
 private:
 
-	GVarList*	itsVarList;
+	GLVarList*	itsVarList;
 	FitType		itsType;
 	JString		itsFnForm;
 	JString		itsFnName;
@@ -150,7 +150,7 @@ GLFitDescription::CanUseStartValues()
 
  ******************************************************************************/
 
-inline GVarList*
+inline GLVarList*
 GLFitDescription::GetVarList()
 {
 	return itsVarList;

@@ -20,10 +20,6 @@
 #include <jGlobals.h>
 #include <jAssert.h>
 
-const JCharacter* kLabel	= "Normalized Chi-squared:";
-
-const JSize kFontSize		= 10;
-
 /******************************************************************************
  Constructor
 
@@ -82,9 +78,5 @@ GLChiSqLabel::Draw
 	)
 {
 	JXDrawUpFrame(p, GetBounds(), GetBorderWidth());
-	const JFont& font = GetFontManager()->GetFont(
-		JGetDefaultFontName(), kFontSize,
-		JFontStyle(kJTrue, kJFalse, 0, kJFalse, (p.GetColormap())->GetBlackColor()));
-	p.SetFont(font);
-	p.String(0, 0, kLabel, GetBoundsWidth(), JPainter::kHAlignCenter, GetBoundsHeight(), JPainter::kVAlignCenter);
+	p.String(0, 0, JGetString("Label::GLChiSqLabel"), GetBoundsWidth(), JPainter::kHAlignCenter, GetBoundsHeight(), JPainter::kVAlignCenter);
 }

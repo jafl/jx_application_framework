@@ -2,7 +2,7 @@ Fedora 27 window manager
 	JXWindow does not analyze correctly
 
 jcc
-	implement *not* "one a a time" for commands -- svn remove, yui build
+	implement *not* "one a a time" for commands -- svn remove, yui build, compile files
 		when invoke one-at-a-time from not-one-at-a-time, invoke separate loop
 		when invoke @ commands, must treat as one-at-a-time
 

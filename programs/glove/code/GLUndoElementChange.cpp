@@ -10,8 +10,8 @@
  ******************************************************************************/
 
 #include <GLUndoElementChange.h>
-#include <GXRaggedFloatTable.h>
-#include <GRaggedFloatTableData.h>
+#include <GLRaggedFloatTable.h>
+#include <GLRaggedFloatTableData.h>
 #include <jAssert.h>
 
 /******************************************************************************
@@ -21,7 +21,7 @@
 
 GLUndoElementChange::GLUndoElementChange
 	(
-	GXRaggedFloatTable* 	table,
+	GLRaggedFloatTable* 	table,
 	const JPoint& 			cell,
 	const JFloat 			value
 	)

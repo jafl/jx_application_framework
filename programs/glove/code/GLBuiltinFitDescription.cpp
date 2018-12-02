@@ -10,9 +10,8 @@
  *****************************************************************************/
 
 #include <GLBuiltinFitDescription.h>
-
+#include <jGlobals.h>
 #include <jAssert.h>
-
 
 /******************************************************************************
  Constructor
@@ -29,26 +28,26 @@ GLBuiltinFitDescription::GLBuiltinFitDescription
 	if (type == GLFitDescription::kBLinear)
 		{
 		SetParameterCount(2);
-		GetVarList()->AddVariable("a0", 0);
-		GetVarList()->AddVariable("a1", 0);
-		SetFnName("Linear");
-		SetFitFunctionString("a0 + a1 * x");
+		GetVarList()->AddVariable(JString("a0", kJFalse), 0);
+		GetVarList()->AddVariable(JString("a1", kJFalse), 0);
+		SetFnName(JGetString("LinearName::GLBuiltinFitDescription"));
+		SetFitFunctionString(JString("a0 + a1 * x", kJFalse));
 		}
 	else if (type == GLFitDescription::kBExp)
 		{
 		SetParameterCount(2);
-		GetVarList()->AddVariable("a", 0);
-		GetVarList()->AddVariable("b", 0);
-		SetFnName("Exponential");
-		SetFitFunctionString("a*e^(b*x)");
+		GetVarList()->AddVariable(JString("a", kJFalse), 0);
+		GetVarList()->AddVariable(JString("b", kJFalse), 0);
+		SetFnName(JGetString("ExponentialName::GLBuiltinFitDescription"));
+		SetFitFunctionString(JString("a*e^(b*x)", kJFalse));
 		}
 	else if (type == GLFitDescription::kBPower)
 		{
 		SetParameterCount(2);
-		GetVarList()->AddVariable("a", 0);
-		GetVarList()->AddVariable("b", 0);
-		SetFnName("Power Law");
-		SetFitFunctionString("a*x^b");
+		GetVarList()->AddVariable(JString("a", kJFalse), 0);
+		GetVarList()->AddVariable(JString("b", kJFalse), 0);
+		SetFnName(JGetString("PowerLawName::GLBuiltinFitDescription"));
+		SetFitFunctionString(JString("a*x^b", kJFalse));
 		}
 
 }

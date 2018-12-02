@@ -12,8 +12,7 @@
 #include "GLPolyFitDescription.h"
 #include "GLNonLinearFitDescription.h"
 
-#include <JPtrArray-JString.h>
-
+#include <jGlobals.h>
 #include <jAssert.h>
 
 const JFileVersion kCurrentSetupVersion	= 0;
@@ -30,17 +29,17 @@ GLFitDescription::GLFitDescription
 	const JString&	name
 	)
 	:
-	JFitBase(1),
+	GLFitBase(1),
 	itsType(type),
 	itsFnForm(form),
 	itsFnName(name.IsEmpty() ? JGetString("DefaultName::GLFitDescription") : name),
 	itsRequiresStartValues(kJFalse),
 	itsCanUseStartValues(kJTrue)
 {
-	itsVarList	= jnew GVarList();
+	itsVarList	= jnew GLVarList();
 	assert(itsVarList != nullptr);
 
-	itsVarList->AddVariable("x", 0);
+	itsVarList->AddVariable(JGetString("DefaultVarName::GLGlobal"), 0);
 }
 
 JBoolean
@@ -135,10 +134,10 @@ GLFitDescription::SetType
 void
 GLFitDescription::SetFitFunctionString
 	(
-	const JCharacter* form
+	const JString& form
 	)
 {
-	itsFnForm	= form;
+	itsFnForm = form;
 }
 
 /******************************************************************************
@@ -149,10 +148,10 @@ GLFitDescription::SetFitFunctionString
 void
 GLFitDescription::SetFnName
 	(
-	const JCharacter* name
+	const JString& name
 	)
 {
-	itsFnName	= name;
+	itsFnName = name;
 }
 
 /******************************************************************************

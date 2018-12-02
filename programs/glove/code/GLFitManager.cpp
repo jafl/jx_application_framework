@@ -20,11 +20,11 @@
 #include <jDirUtil.h>
 #include <jAssert.h>
 
-const JFileVersion	kCurrentPrefsVersion		= 1;
+const JFileVersion	kCurrentPrefsVersion = 1;
 
-const JCharacter* kFitDlDirName					= "fitdlmodule";
+const JString kFitDlDirName("fitdlmodule", kJFalse);
 
-const JCharacter* GLFitManager::kFitsChanged	= "kFitsChanged::GLFitManager";
+const JUtf8Byte* GLFitManager::kFitsChanged	= "kFitsChanged::GLFitManager";
 
 /******************************************************************************
  Constructor
@@ -264,7 +264,7 @@ GLFitManager::InitializeList()
 		JDirInfo* dir;
 		if (JDirInfo::Create(fitPath, &dir))
 			{
-			dir->SetWildcardFilter("*.so");
+			dir->SetWildcardFilter(JString("*.so", kJFalse));
 			const JSize count	= dir->GetEntryCount();
 			for (JIndex i = 1; i <= count; i++)
 				{

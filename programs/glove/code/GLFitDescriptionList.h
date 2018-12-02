@@ -26,13 +26,14 @@ public:
 	virtual ~GLFitDescriptionList();
 
 	JBoolean		GetCurrentFitIndex(JIndex* index);
-	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers) override;
+	virtual void	HandleKeyPress(const JUtf8Character& c,
+								   const int keySym, const JXKeyModifiers& modifiers) override;
 
 protected:
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
-	virtual void	TableDrawCell(JPainter& p, const JPoint& cell, const JRect& rect);
+	virtual void	TableDrawCell(JPainter& p, const JPoint& cell, const JRect& rect) override;
 	virtual void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
 									const JSize clickCount,
 									const JXButtonStates& buttonStates,
@@ -40,9 +41,9 @@ protected:
 
 	virtual JXInputField*	CreateXInputField(const JPoint& cell,
 											  const JCoordinate x, const JCoordinate y,
-											  const JCoordinate w, const JCoordinate h);
-	virtual void			PrepareDeleteXInputField();
-	virtual JBoolean		ExtractInputData(const JPoint& cell);
+											  const JCoordinate w, const JCoordinate h) override;
+	virtual void			PrepareDeleteXInputField() override;
+	virtual JBoolean		ExtractInputData(const JPoint& cell) override;
 
 	virtual void	ApertureResized(const JCoordinate dw, const JCoordinate dh) override;
 
@@ -68,8 +69,8 @@ private:
 
 public:
 
-	static const JCharacter* kFitSelected;
-	static const JCharacter* kFitInitiated;
+	static const JUtf8Byte* kFitSelected;
+	static const JUtf8Byte* kFitInitiated;
 
 	class FitSelected : public JBroadcaster::Message
 		{

@@ -7,7 +7,7 @@ Number of forms: 13
 Unit of measure: FL_COORD_PIXEL
 
 =============== FORM ===============
-Name: GXCreatePlotDialog
+Name: GLCreatePlotDialog
 Width: 370
 Height: 160
 Number of Objects: 10
@@ -193,7 +193,7 @@ callback:
 argument: 
 
 =============== FORM ===============
-Name: GXChooseFileImportDialog
+Name: GLChooseFileImportDialog
 Width: 330
 Height: 230
 Number of Objects: 7
@@ -931,7 +931,7 @@ callback:
 argument: 14
 
 =============== FORM ===============
-Name: GXColByRangeDialog
+Name: GLColByRangeDialog
 Width: 210
 Height: 190
 Number of Objects: 10
@@ -1117,7 +1117,7 @@ callback:
 argument: 
 
 =============== FORM ===============
-Name: GXColByIncDialog
+Name: GLColByIncDialog
 Width: 220
 Height: 190
 Number of Objects: 10
@@ -1303,7 +1303,7 @@ callback:
 argument: 
 
 =============== FORM ===============
-Name: GXPlotFunctionDialog
+Name: GLPlotFunctionDialog
 Width: 500
 Height: 80
 Number of Objects: 8

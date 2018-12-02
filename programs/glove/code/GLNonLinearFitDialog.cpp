@@ -8,7 +8,7 @@
  ******************************************************************************/
 
 #include "GLNonLinearFitDialog.h"
-#include "GVarList.h"
+#include "GLVarList.h"
 #include "GLVarTable.h"
 
 #include "GLGlobals.h"
@@ -24,14 +24,10 @@
 #include <JXTimerTask.h>
 #include <JXVertPartition.h>
 #include <JXWindow.h>
+#include <JXDeleteObjectTask.h>
 
-#include <JExprNodeList.h>
+#include <JFontManager.h>
 #include <JFunction.h>
-#include <JFunctionType.h>
-#include <JFunctionWithVar.h>
-#include <JString.h>
-
-#include <jParseFunction.h>
 #include <jAssert.h>
 
 const JCoordinate kDeleteButtonUpdateDelay	= 1000;
@@ -48,10 +44,10 @@ GLNonLinearFitDialog::GLNonLinearFitDialog
 	:
 	JXDialogDirector(supervisor, kJTrue)
 {
-	itsVarList	= jnew GVarList();
+	itsVarList	= jnew GLVarList();
 	assert(itsVarList != nullptr);
 
-	itsVarList->AddVariable("x", 0);
+	itsVarList->AddVariable(JGetString("DefaultVarName::GLGlobal"), 0);
 
 	BuildWindow();
 
@@ -68,8 +64,7 @@ GLNonLinearFitDialog::GLNonLinearFitDialog
 
 GLNonLinearFitDialog::~GLNonLinearFitDialog()
 {
-	// jdelete	itsVarList;	
-	// I need to find a way to safely delete this.
+	JXDeleteObjectTask<GLVarList>::Delete(itsVarList);
 }
 
 /******************************************************************************
@@ -99,7 +94,7 @@ GLNonLinearFitDialog::BuildWindow()
 	
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 400,430, "");
+	JXWindow* window = jnew JXWindow(this, 400,430, JString::empty);
 	assert( window != nullptr );
 
 	JXMenuBar* menuBar =
@@ -196,7 +191,7 @@ GLNonLinearFitDialog::BuildWindow()
 		jnew JXStaticText(JGetString("warningText::GLNonLinearFitDialog::derivativeLayout"), container,
 					JXWidget::kHElastic, JXWidget::kVElastic, 20,20, 90,60);
 	assert( warningText != nullptr );
-	warningText->SetFontSize(JGetDefaultFontSize()-2);
+	warningText->SetFontSize(JFontManager::GetDefaultFontSize()-2);
 
 	container->SetSize(derivativeLayout_Frame.width(), derivativeLayout_Frame.height());
 
@@ -256,7 +251,7 @@ GLNonLinearFitDialog::BuildWindow()
 	ListenTo(itsDeleteButton);
 	itsDeleteButton->Deactivate();
 
-	window->SetTitle("Non Linear Fit");
+	window->SetTitle(JGetString("WindowTitle::GLNonLinearFitDialog"));
 	UseModalPlacement(kJFalse);
 	window->PlaceAsDialogWindow();
 	window->LockCurrentMinSize();
@@ -350,17 +345,17 @@ GLNonLinearFitDialog::OKToDeactivate()
 		{
 		return kJTrue;
 		}
-	JString name	= itsNameInput->GetText();
+	JString name	= itsNameInput->GetText()->GetText();
 	name.TrimWhitespace();
 	if (name.IsEmpty())
 		{
-		JGetUserNotification()->ReportError("You must specify a name for this fit.");
+		JGetUserNotification()->ReportError(JGetString("MissingName::GLNonLinearFitDialog"));
 		itsNameInput->Focus();
 		return kJFalse;
 		}
 	if (itsFnEditor->ContainsUIF())
 		{
-		JGetUserNotification()->ReportError("You must specify a fit function.");
+		JGetUserNotification()->ReportError(JGetString("MissingFunction::GLNonLinearFitDialog"));
 		itsFnEditor->Focus();
 		return kJFalse;
 		}
@@ -401,5 +396,5 @@ const JString&
 GLNonLinearFitDialog::GetFitName()
 	const
 {
-	return itsNameInput->GetText();
+	return itsNameInput->GetText()->GetText();
 }

@@ -8,7 +8,7 @@
  ******************************************************************************/
 
 #include "GLVarTable.h"
-#include "GVarList.h"
+#include "GLVarList.h"
 #include <JXExprInput.h>
 #include <jXConstants.h>
 #include <JFunction.h>
@@ -29,7 +29,7 @@ const JIndex kUserParmsOffset	= 1;
 
 GLVarTable::GLVarTable
 	(
-	GVarList*			varList,
+	GLVarList*			varList,
 	JXScrollbarSet*		scrollbarSet,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
@@ -42,7 +42,7 @@ GLVarTable::GLVarTable
 	:
 	JXEditTable(1,1, scrollbarSet, enclosure, hSizing,vSizing, x,y, w,h)
 {
-	const JSize rowHeight = 2*kVMarginWidth + GetFontManager()->GetDefaultFont().GetLineHeight();
+	const JSize rowHeight = 2*kVMarginWidth + GetFontManager()->GetDefaultFont().GetLineHeight(GetFontManager());
 	SetDefaultRowHeight(rowHeight);
 
 	itsVarList   = varList;
@@ -92,7 +92,7 @@ GLVarTable::NewConstant()
 		parm	= "a" + JString((JUInt64) parmIndex);
 		parmIndex ++;
 		}
-	while (itsVarList->ParseVariableName(parm, parm.GetLength(), &index));
+	while (itsVarList->ParseVariableName(parm, &index));
 
 	if (itsVarList->AddVariable(parm, 0))
 		{

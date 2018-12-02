@@ -15,7 +15,7 @@
 #include <JXWindowDirector.h>
 
 class GLParmColHeaderWidget;
-class JXExprWidget;
+class JXExprEditor;
 class JXHorizPartition;
 class JXVertPartition;
 class JXImage;
@@ -24,7 +24,7 @@ class JXStaticText;
 class JXTextMenu;
 class JXToolBar;
 
-class JPlotFitFunction;
+class GLPlotFitFunction;
 class J2DPlotJFunction;
 class J2DPlotWidget;
 class JX2DPlotWidget;
@@ -34,11 +34,11 @@ class GLFitDescriptionList;
 class GLFitParameterTable;
 class GLNonLinearFitDialog;
 class GLPolyFitDialog;
-class PlotDir;
+class GLPlotDir;
 
-class GloveHistoryDir;
+class GLHistoryDir;
 
-class GVarList;
+class GLVarList;
 
 class GLFitDirector : public JXWindowDirector
 {
@@ -46,7 +46,7 @@ public:
 
 public:
 
-	GLFitDirector(PlotDir* supervisor, J2DPlotWidget* plot, const JString& file);
+	GLFitDirector(GLPlotDir* supervisor, J2DPlotWidget* plot, const JString& file);
 	virtual ~GLFitDirector();
 
 	virtual void	ReadPrefs(std::istream& input);
@@ -71,22 +71,22 @@ private:
 	JX2DPlotWidget*			itsFitPlot;
 	JX2DPlotWidget*			itsDiffPlot;
 	JXStaticText*			itsChiSq;
-	JPlotFitFunction*		itsCurrentFit;
+	GLPlotFitFunction*		itsCurrentFit;
 	J2DPlotJFunction*		itsTestFunction;
 
 	JXHorizPartition*		itsMainPartition;
 	JXVertPartition*		itsListPartition;
 	JXVertPartition*		itsPlotPartition;
 
-	GloveHistoryDir*		itsHistory;
+	GLHistoryDir*		itsHistory;
 
-	JXExprWidget*			itsExprWidget;
-	GVarList*				itsExprVarList;
+	JXExprEditor*			itsExprWidget;
+	GLVarList*				itsExprVarList;
 
 	GLNonLinearFitDialog*	itsNLFitDialog;
 	GLPolyFitDialog*		itsPolyFitDialog;
 
-	PlotDir*				itsDir;
+	GLPlotDir*				itsDir;
 	JXPSPrinter*			itsPrinter;
 
 private:

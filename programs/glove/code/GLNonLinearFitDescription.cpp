@@ -10,6 +10,7 @@
  *****************************************************************************/
 
 #include <GLNonLinearFitDescription.h>
+#include <jGlobals.h>
 #include <jAssert.h>
 
 const JFileVersion kCurrentSetupVersion	= 0;
@@ -21,9 +22,9 @@ const JFileVersion kCurrentSetupVersion	= 0;
 
 GLNonLinearFitDescription::GLNonLinearFitDescription
 	(
-	const JCharacter* 			name, 
-	const JCharacter* 			function,
-	const JCharacter* 			fPrimed,
+	const JString& 				name, 
+	const JString& 				function,
+	const JString& 				fPrimed,
 	const JPtrArray<JString>&	vars
 	)
 	:
@@ -35,7 +36,7 @@ GLNonLinearFitDescription::GLNonLinearFitDescription
 
 	JSize count		= vars.GetElementCount();
 	JIndex offset	= 0;
-	if (count > 1 && *(vars.GetElement(1)) == "x")
+	if (count > 1 && *(vars.GetElement(1)) == JGetString("DefaultVarName::GLGlobal"))
 		{
 		offset = 1;
 		count--;
@@ -53,7 +54,7 @@ GLNonLinearFitDescription::GLNonLinearFitDescription
 	std::istream& is
 	)
 	:
-	GLFitDescription(GLFitDescription::kNonLinear, "", "")
+	GLFitDescription(GLFitDescription::kNonLinear, JString::empty, JString::empty)
 {
 	JFileVersion version;
 	is >> version;

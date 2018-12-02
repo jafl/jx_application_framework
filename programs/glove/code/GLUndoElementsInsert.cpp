@@ -11,8 +11,8 @@
 
 #include <GLUndoElementsInsert.h>
 #include <GLUndoElementsCut.h>
-#include <GXRaggedFloatTable.h>
-#include <GRaggedFloatTableData.h>
+#include <GLRaggedFloatTable.h>
+#include <GLRaggedFloatTableData.h>
 
 #include <JMinMax.h>
 
@@ -25,7 +25,7 @@
 
 GLUndoElementsInsert::GLUndoElementsInsert
 	(
-	GXRaggedFloatTable* 				table,
+	GLRaggedFloatTable* 				table,
 	const JPoint&						start,
 	const JPoint&						end,
 	const GLUndoElementsBase::UndoType	type
@@ -61,7 +61,7 @@ GLUndoElementsInsert::Undo()
 		jnew GLUndoElementsCut(GetTable(), GetStartCell(), GetEndCell(), GetType());
 	assert(undo != nullptr);
 	
-	GRaggedFloatTableData* data 		= GetData();
+	GLRaggedFloatTableData* data 		= GetData();
 	JPoint start 						= GetStartCell();
 	JPoint end 							= GetEndCell();
 	GLUndoElementsBase::UndoType type 	= GetType();

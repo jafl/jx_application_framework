@@ -13,14 +13,14 @@
 #include <GLUndoElementBase.h>
 #include <JPoint.h>
 
-class GXRaggedFloatTable;
-class GRaggedFloatTableData;
+class GLRaggedFloatTable;
+class GLRaggedFloatTableData;
 
 class GLUndoElementAppend : public GLUndoElementBase
 {
 public:
 
-	GLUndoElementAppend(GXRaggedFloatTable* table, const JPoint& cell);
+	GLUndoElementAppend(GLRaggedFloatTable* table, const JPoint& cell);
 
 	virtual ~GLUndoElementAppend();
 

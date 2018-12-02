@@ -18,13 +18,13 @@ typedef const JUtf8Byte** (GetParmsFn)();
 typedef JSize (GetParmCountFn)();
 typedef const JUtf8Byte* (GetNameFn)();
 
-const JUtf8Byte* kInitValName		= "GetStartValues";
-const JUtf8Byte* kFNName			= "FunctionN";
-const JUtf8Byte* kFNPrimedName		= "FunctionNPrimed";
-const JUtf8Byte* kGetParmsName		= "GetParms";
+const JUtf8Byte* kInitValName	= "GetStartValues";
+const JUtf8Byte* kFNName		= "FunctionN";
+const JUtf8Byte* kFNPrimedName	= "FunctionNPrimed";
+const JUtf8Byte* kGetParmsName	= "GetParms";
 const JUtf8Byte* kParmCountName	= "GetParmCount";
-const JUtf8Byte* kFormName			= "GetFunctionForm";
-const JUtf8Byte* kFitName			= "GetFitName";
+const JUtf8Byte* kFormName		= "GetFunctionForm";
+const JUtf8Byte* kFitName		= "GetFitName";
 
 /******************************************************************************
  Create & Constructor

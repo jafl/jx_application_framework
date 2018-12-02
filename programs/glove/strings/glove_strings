@@ -46,8 +46,13 @@ A data acquisition, manipulation, and analysis program for X.
 
 $copyright"
 
+# global
+
+DefaultVarName::GLGlobal	"x"
+
 # GLAboutDialog
 
+WindowTitle::GLAboutDialog			"About"
 ChangeButtonLabel::GLAboutDialog	"Changes"
 
 UpgradeNotice::GLAboutDialog
@@ -66,41 +71,137 @@ NotAFile::GLMDIServer				"\"$name\" is not a regular file, so it cannot be opene
 
 DefaultName::GLFitDescription	"Untitled"
 
-# DataModule
+# GLDataModule
 
-Finished::DataModule		"Data module completed."
-ColumnRemoved::DataModule	"Module column removed."
-Error::DataModule			"Module Error."
+Finished::GLDataModule		"Data module completed."
+ColumnRemoved::GLDataModule	"Module column removed."
+Error::GLDataModule			"Module Error."
 Loading::DateModule			"Loading data..."
 
-# FitModule
+# GLFitModule
 
-UnknownError::FitModule	"Unknown module error."
-CannotAddFit::FitModule	"Fit could not be added."
-ParseFailed::FitModule	"Function could not be parsed."
+UnknownError::GLFitModule	"Unknown module error."
+CannotAddFit::GLFitModule	"Fit could not be added."
+ParseFailed::GLFitModule	"Function could not be parsed."
 
-# GloveHistory
+# GLHistory
 
-PrintHeader::GloveHistory	"Glove session"
+PrintHeader::GLHistory	"Glove session"
 
-# GlovePlotter
+# GLPlotter
 
-ModuleMenuTitle::GlovePlotter	"Cursor modules"
-ModuleError::GlovePlotter		"Module error: "
+ModuleMenuTitle::GLPlotter	"Cursor modules"
+ModuleError::GLPlotter		"Module error: "
 
-# GVarList
+# GLVarList
 
-UnsupportedVariable::GVarList	"Unsupported variable type '${name}'"
-NameUsed::GVarList				"This variable name is already used."
+UnsupportedVariable::GLVarList	"Unsupported variable type '${name}'"
+NameUsed::GLVarList				"This variable name is already used."
 
-# GXRaggedFloatTable
+# GLRaggedFloatTable
 
-DataMenuTitle::GXRaggedFloatTable			"Data"
-CopyFailed::GXRaggedFloatTable				"Unable to copy to the clipboard."
-NoSelection::GXRaggedFloatTable				"Nothing is selected."
-SelectionMismatch::GXRaggedFloatTable		"The selected area doesn't match the clipboard area."
-SelectDataModulePrompt::GXRaggedFloatTable	"Select data module"
-NoDataToPlot::GXRaggedFloatTable			"You have no data to plot."
-ReplaceColWarning::GXRaggedFloatTable		"Replace destination column?"
-NoDataToTransform::GXRaggedFloatTable		"You have no data to transform."
-GenerateIfNoTransform::GXRaggedFloatTable	"Use \"Generate column\" if you aren't transforming column values."
+DataMenuTitle::GLRaggedFloatTable			"Data"
+CopyFailed::GLRaggedFloatTable				"Unable to copy to the clipboard."
+NoSelection::GLRaggedFloatTable				"Nothing is selected."
+SelectionMismatch::GLRaggedFloatTable		"The selected area doesn't match the clipboard area."
+SelectDataModulePrompt::GLRaggedFloatTable	"Select data module"
+NoDataToPlot::GLRaggedFloatTable			"You have no data to plot."
+ReplaceColWarning::GLRaggedFloatTable		"Replace destination column?"
+NoDataToTransform::GLRaggedFloatTable		"You have no data to transform."
+GenerateIfNoTransform::GLRaggedFloatTable	"Use \"Generate column\" if you aren't transforming column values."
+
+# GLDataDocument
+
+OpenFilePrompt::GLDataDocument		"Select data file"
+OpenFailed::GLDataDocument			"Error opening file."
+FilterError::GLDataDocument			"Error executing filter."
+FilterFileError::GLDataDocument		"This file is not readable by this filter."
+FilterProcess::GLDataDocument		"Loading file..."
+PlotTitlePrefix::GLDataDocument		"Plot "
+MismatchedColumns::GLDataDocument	"The data columns must have the same number of elements."
+Ellipsis::GLDataDocument			"..."
+ExportFileName::GLDataDocument		"Untitled.dat"
+ExportPrompt::GLDataDocument		"Export file as:"
+ModuleError::GLDataDocument			"Error executing module."
+LoadFixedWidthFile::GLDataDocument	"Fixed width is not yet implemented."
+
+FileTooNew::GLDataDocument
+"This file was created by a newer version of Glove.  You need the newest version in order to open it."
+
+# GLExprDirector
+
+WindowTitle::GLExprDirector	"Function Editor"
+
+# GLChooseFileImportDialog
+
+WindowTitle::GLChooseFileImportDialog	"Choose Import Filter"
+
+# GLColByIncDialog
+
+WindowTitle::GLColByIncDialog		"New Column by Increment"
+MissingDestCol::GLColByIncDialog	"You must specify the destination column."
+NoData::GLColByIncDialog			"Count must be greater than zero."
+
+# GLColByRangeDialog
+
+WindowTitle::GLColByRangeDialog			"New Column by Range"
+ColumnTitlePrefix::GLColByRangeDialog	"Column "
+
+# GLCreatePlotDialog
+
+WindowTitle::GLCreatePlotDialog			"Choose Plot Data Columns"
+NoneItemLabel::GLCreatePlotDialog		"None"
+NewPlotItemLabel::GLCreatePlotDialog	"New Plot"
+DefaultLabel::GLCreatePlotDialog		"Untitled"
+SpecifyCurveLabel::GLCreatePlotDialog	"You must specify a curve label."
+
+# GLPlotFunctionDialog
+
+WindowTitle::GLPlotFunctionDialog	"Function Window"
+
+# GLChiSqLabel
+
+Label::GLChiSqLabel	"Normalized Chi-squared:"
+
+# GLNonLinearFitDialog
+
+WindowTitle::GLNonLinearFitDialog		"Non-linear Fit"
+MissingName::GLNonLinearFitDialog		"You must specify a name for this fit."
+MissingFunction::GLNonLinearFitDialog	"You must specify a fit function."
+
+# GLPolyFitDialog
+
+WindowTitle::GLPolyFitDialog	"Polynomial Fit"
+MissingPower::GLPolyFitDialog	"You must add at least one power."
+
+# GLPlotDir
+
+PlotMenuTitle::GLPlotDir		"Plot"
+AnalysisMenuTitle::GLPlotDir	"Analysis"
+DiffCurveName::GLPlotDir		"Residual data"
+DiffMenuItemPrefix::GLPlotDir	"Residual plot "
+FitMenuItemPrefix::GLPlotDir	"Fit "
+
+# GLFitParameterTable
+
+ParmNameTitle::GLFitParameterTable	"Parameter name"
+ParmStartTitle::GLFitParameterTable	"Start values"
+ParmFitTitle::GLFitParameterTable	"Fit values"
+ParmErrorTitle::GLFitParameterTable	"Error values"
+
+# GLBuiltinFitDescription
+
+LinearName::GLBuiltinFitDescription			"Linear"
+ExponentialName::GLBuiltinFitDescription	"Exponential"
+PowerLawName::GLBuiltinFitDescription		"Power Law"
+
+# GLFitDirector
+
+FitMenuTitle::GLFitDirector		"Fit"
+FitPlotTitle::GLFitDirector		"Fit"
+DiffPlotTitle::GLFitDirector	"Residuals"
+CurvesColTitle::GLFitDirector	"Curves"
+FitsColTitle::GLFitDirector		"Fits"
+CurveTitle::GLFitDirector		"Curve: "
+FitTitle::GLFitDirector			"Fit: "
+ChiSqTitle::GLFitDirector		"Normalized chi-squared (chi^2/n-"

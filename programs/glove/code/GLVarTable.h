@@ -14,7 +14,7 @@
 
 class JXTextMenu;
 class JXExprInput;
-class GVarList;
+class GLVarList;
 
 class GLVarTable : public JXEditTable
 {
@@ -28,7 +28,7 @@ public:
 
 public:
 
-	GLVarTable(GVarList* varList, 
+	GLVarTable(GLVarList* varList, 
 				JXScrollbarSet* scrollbarSet, JXContainer* enclosure,
 				const HSizingOption hSizing, const VSizingOption vSizing,
 				const JCoordinate x, const JCoordinate y,
@@ -46,19 +46,19 @@ protected:
 									const JXButtonStates& buttonStates,
 									const JXKeyModifiers& modifiers) override;
 
-	virtual void			TableDrawCell(JPainter& p, const JPoint& cell, const JRect& rect);
+	virtual void			TableDrawCell(JPainter& p, const JPoint& cell, const JRect& rect) override;
 	virtual JXInputField*	CreateXInputField(const JPoint& cell,
 											  const JCoordinate x, const JCoordinate y,
-											  const JCoordinate w, const JCoordinate h);
-	virtual JBoolean		ExtractInputData(const JPoint& cell);
-	virtual void			PrepareDeleteXInputField();
+											  const JCoordinate w, const JCoordinate h) override;
+	virtual JBoolean		ExtractInputData(const JPoint& cell) override;
+	virtual void			PrepareDeleteXInputField() override;
 
 	virtual void	ApertureResized(const JCoordinate dw, const JCoordinate dh) override;
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 
-	GVarList*		itsVarList;		// not owned
+	GLVarList*		itsVarList;		// not owned
 	JXExprInput*	itsTextInput;	// nullptr unless editing
 	JString*		itsOrigText;	// used while itsTextInput != nullptr
 

@@ -19,7 +19,7 @@ class GLPolyFitDescription : public GLFitDescription
 {
 public:
 
-	GLPolyFitDescription(const JCharacter* name, const JArray<JIndex>& powers);
+	GLPolyFitDescription(const JString& name, const JArray<JIndex>& powers);
 	GLPolyFitDescription(std::istream& is);
 	
 	virtual ~GLPolyFitDescription();

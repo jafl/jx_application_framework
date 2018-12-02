@@ -27,194 +27,182 @@ F
 T
 1 "widgets"
 T
-2 "FitParmsTable.cpp"
+2 "GLFitParmsTable.cpp"
 F
-"./code/FitParmsTable.cpp"
+"./code/GLFitParmsTable.cpp"
 T
-2 "GloveCursorTable.cpp"
+2 "GLHistory.cpp"
 F
-"./code/GloveCursorTable.cpp"
+"./code/GLHistory.cpp"
 T
-2 "GloveHistory.cpp"
+2 "GLPlotter.cpp"
 F
-"./code/GloveHistory.cpp"
+"./code/GLPlotter.cpp"
 T
-2 "GlovePlotter.cpp"
+2 "GLColHeaderWidget.cpp"
 F
-"./code/GlovePlotter.cpp"
+"./code/GLColHeaderWidget.cpp"
 T
-2 "GXColHeaderWidget.cpp"
+2 "GLRaggedFloatTable.cpp"
 F
-"./code/GXColHeaderWidget.cpp"
+"./code/GLRaggedFloatTable.cpp"
 T
-2 "GXRaggedFloatTable.cpp"
+2 "GLRowHeaderWidget.cpp"
 F
-"./code/GXRaggedFloatTable.cpp"
-T
-2 "GXRowHeaderWidget.cpp"
-F
-"./code/GXRowHeaderWidget.cpp"
-T
-2 "GloveCursorMonitor.cpp"
-F
-"./code/GloveCursorMonitor.cpp"
+"./code/GLRowHeaderWidget.cpp"
 F
 T
 1 "directors"
 T
-2 "GXDataDocument.cpp"
+2 "GLDataDocument.cpp"
 F
-"./code/GXDataDocument.cpp"
+"./code/GLDataDocument.cpp"
 T
-2 "ExprDirector.cpp"
+2 "GLExprDirector.cpp"
 F
-"./code/ExprDirector.cpp"
+"./code/GLExprDirector.cpp"
 T
-2 "FitModuleDialog.cpp"
+2 "GLFitModuleDialog.cpp"
 F
-"./code/FitModuleDialog.cpp"
+"./code/GLFitModuleDialog.cpp"
 T
-2 "FitParmsDir.cpp"
+2 "GLFitParmsDir.cpp"
 F
-"./code/FitParmsDir.cpp"
+"./code/GLFitParmsDir.cpp"
 T
 2 "GLAboutDialog.cpp"
 F
 "./code/GLAboutDialog.cpp"
 T
-2 "GloveCursorTableDir.cpp"
+2 "GLHistoryDir.cpp"
 F
-"./code/GloveCursorTableDir.cpp"
+"./code/GLHistoryDir.cpp"
 T
-2 "GloveHistoryDir.cpp"
+2 "GLChooseFileImportDialog.cpp"
 F
-"./code/GloveHistoryDir.cpp"
+"./code/GLChooseFileImportDialog.cpp"
 T
-2 "GXChooseFileImportDialog.cpp"
+2 "GLColByIncDialog.cpp"
 F
-"./code/GXChooseFileImportDialog.cpp"
+"./code/GLColByIncDialog.cpp"
 T
-2 "GXColByIncDialog.cpp"
+2 "GLColByRangeDialog.cpp"
 F
-"./code/GXColByIncDialog.cpp"
+"./code/GLColByRangeDialog.cpp"
 T
-2 "GXColByRangeDialog.cpp"
+2 "GLCreatePlotDialog.cpp"
 F
-"./code/GXColByRangeDialog.cpp"
+"./code/GLCreatePlotDialog.cpp"
 T
-2 "GXCreatePlotDialog.cpp"
+2 "GLCreateVectorPlotDialog.cpp"
 F
-"./code/GXCreatePlotDialog.cpp"
+"./code/GLCreateVectorPlotDialog.cpp"
 T
-2 "GXCreateVectorPlotDialog.cpp"
+2 "GLGetDelimiterDialog.cpp"
 F
-"./code/GXCreateVectorPlotDialog.cpp"
+"./code/GLGetDelimiterDialog.cpp"
 T
-2 "GXGetDelimiterDialog.cpp"
+2 "GLPlotFunctionDialog.cpp"
 F
-"./code/GXGetDelimiterDialog.cpp"
+"./code/GLPlotFunctionDialog.cpp"
 T
-2 "GXPlotFunctionDialog.cpp"
+2 "GLTransformFunctionDialog.cpp"
 F
-"./code/GXPlotFunctionDialog.cpp"
+"./code/GLTransformFunctionDialog.cpp"
 T
-2 "GXTransformFunctionDialog.cpp"
+2 "GLPlotDir.cpp"
 F
-"./code/GXTransformFunctionDialog.cpp"
-T
-2 "PlotDir.cpp"
-F
-"./code/PlotDir.cpp"
+"./code/GLPlotDir.cpp"
 F
 T
 1 "misc"
 T
-2 "DataModule.cpp"
+2 "GLDataModule.cpp"
 F
-"./code/DataModule.cpp"
+"./code/GLDataModule.cpp"
 T
-2 "FitModule.cpp"
+2 "GLFitModule.cpp"
 F
-"./code/FitModule.cpp"
+"./code/GLFitModule.cpp"
 T
-2 "GRaggedFloatTableData.cpp"
+2 "GLRaggedFloatTableData.cpp"
 F
-"./code/GRaggedFloatTableData.cpp"
+"./code/GLRaggedFloatTableData.cpp"
 T
-2 "GVarList.cpp"
+2 "GLVarList.cpp"
 F
-"./code/GVarList.cpp"
+"./code/GLVarList.cpp"
 T
-2 "GXTextSelection.cpp"
+2 "GLTextSelection.cpp"
 F
-"./code/GXTextSelection.cpp"
+"./code/GLTextSelection.cpp"
 F
 T
 1 "fits"
 T
-2 "JFitBase.cpp"
+2 "GLFitBase.cpp"
 F
-"./code/JFitBase.cpp"
+"./code/GLFitBase.cpp"
 T
-2 "JPlotFitBase.cpp"
+2 "GLPlotFitBase.cpp"
 F
-"./code/JPlotFitBase.cpp"
+"./code/GLPlotFitBase.cpp"
 T
-2 "JPlotLinearFit.cpp"
+2 "GLPlotLinearFit.cpp"
 F
-"./code/JPlotLinearFit.cpp"
+"./code/GLPlotLinearFit.cpp"
 T
-2 "JPlotExpFit.cpp"
+2 "GLPlotExpFit.cpp"
 F
-"./code/JPlotExpFit.cpp"
+"./code/GLPlotExpFit.cpp"
 T
-2 "JPlotFitFunction.cpp"
+2 "GLPlotFitFunction.cpp"
 F
-"./code/JPlotFitFunction.cpp"
+"./code/GLPlotFitFunction.cpp"
 T
-2 "JPlotModuleFit.cpp"
+2 "GLPlotModuleFit.cpp"
 F
-"./code/JPlotModuleFit.cpp"
+"./code/GLPlotModuleFit.cpp"
 T
-2 "JPlotQuadFit.cpp"
+2 "GLPlotQuadFit.cpp"
 F
-"./code/JPlotQuadFit.cpp"
+"./code/GLPlotQuadFit.cpp"
 T
-2 "JPlotFitQuad.cpp"
+2 "GLPlotFitQuad.cpp"
 F
-"./code/JPlotFitQuad.cpp"
+"./code/GLPlotFitQuad.cpp"
 T
-2 "JPlotFitLinear.cpp"
+2 "GLPlotFitLinear.cpp"
 F
-"./code/JPlotFitLinear.cpp"
+"./code/GLPlotFitLinear.cpp"
 T
-2 "JPlotFitExp.cpp"
+2 "GLPlotFitExp.cpp"
 F
-"./code/JPlotFitExp.cpp"
+"./code/GLPlotFitExp.cpp"
 T
-2 "JPlotFitPowerLaw.cpp"
+2 "GLPlotFitPowerLaw.cpp"
 F
-"./code/JPlotFitPowerLaw.cpp"
+"./code/GLPlotFitPowerLaw.cpp"
 T
-2 "JPlotFitQuad2.cpp"
+2 "GLPlotFitQuad2.cpp"
 F
-"./code/JPlotFitQuad2.cpp"
+"./code/GLPlotFitQuad2.cpp"
 T
-2 "JPlotFitLinearEq.cpp"
+2 "GLPlotFitLinearEq.cpp"
 F
-"./code/JPlotFitLinearEq.cpp"
+"./code/GLPlotFitLinearEq.cpp"
 T
-2 "JPlotFitNonLinear.cpp"
+2 "GLPlotFitNonLinear.cpp"
 F
-"./code/JPlotFitNonLinear.cpp"
+"./code/GLPlotFitNonLinear.cpp"
 T
 2 "GLDLFitModule.cpp"
 F
 "./code/GLDLFitModule.cpp"
 T
-2 "JPlotFitProxy.cpp"
+2 "GLPlotFitProxy.cpp"
 F
-"./code/JPlotFitProxy.cpp"
+"./code/GLPlotFitProxy.cpp"
 F
 T
 1 "fit manager"
@@ -267,9 +255,9 @@ T
 F
 "./code/GLModuleFitDescription.cpp"
 T
-2 "JPlotFitModule.cpp"
+2 "GLPlotFitModule.cpp"
 F
-"./code/JPlotFitModule.cpp"
+"./code/GLPlotFitModule.cpp"
 T
 2 "GLNonLinearFitDialog.cpp"
 F
@@ -282,21 +270,6 @@ T
 2 "GLPolyFitDialog.cpp"
 F
 "./code/GLPolyFitDialog.cpp"
-F
-T
-1 "tasks"
-T
-2 "DeleteBroadcasterTask.cpp"
-F
-"./code/DeleteBroadcasterTask.cpp"
-T
-2 "DeleteFitModTask.cpp"
-F
-"./code/DeleteFitModTask.cpp"
-T
-2 "GLClosePlotDirTask.cpp"
-F
-"./code/GLClosePlotDirTask.cpp"
 F
 T
 1 "undo classes"

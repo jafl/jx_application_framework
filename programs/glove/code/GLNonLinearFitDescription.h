@@ -17,9 +17,9 @@ class GLNonLinearFitDescription : public GLFitDescription
 {
 public:
 
-	GLNonLinearFitDescription(const JCharacter* name, 
-							  const JCharacter* function, 
-							  const JCharacter* fPrimed, 
+	GLNonLinearFitDescription(const JString& name, 
+							  const JString& function, 
+							  const JString& fPrimed, 
 							  const JPtrArray<JString>& vars);
 	GLNonLinearFitDescription(std::istream& is);
 								  

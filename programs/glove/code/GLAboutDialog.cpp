@@ -25,13 +25,6 @@
 
 #include <jAssert.h>
 
-extern const JCharacter* kGloveVersionStr;
-
-static const JCharacter* kUpgradeNoticeID     = "UpgradeNotice::GLAboutDialog";
-static const JCharacter* kChangeButtonLabelID = "ChangeButtonLabel::GLAboutDialog";
-static const JCharacter* kCopyright			  = "COPYRIGHT";
-static const JCharacter* kDescriptionID		  = "GLDescription";
-
 /******************************************************************************
  Constructor
 
@@ -41,8 +34,8 @@ static const JCharacter* kDescriptionID		  = "GLDescription";
 
 GLAboutDialog::GLAboutDialog
 	(
-	JXDirector*			supervisor,
-	const JCharacter*	prevVersStr
+	JXDirector*		supervisor,
+	const JString&	prevVersStr
 	)
 	:
 	JXDialogDirector(supervisor, kJTrue)
@@ -69,12 +62,12 @@ GLAboutDialog::~GLAboutDialog()
 void
 GLAboutDialog::BuildWindow
 	(
-	const JCharacter* prevVersStr
+	const JString& prevVersStr
 	)
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 430,180, "");
+	JXWindow* window = jnew JXWindow(this, 430,180, JString::empty);
 	assert( window != nullptr );
 
 	JXImageWidget* gloveIcon =
@@ -110,31 +103,31 @@ GLAboutDialog::BuildWindow
 
 // end JXLayout
 
-	window->SetTitle("About");
+	window->SetTitle(JGetString("WindowTitle::GLAboutDialog"));
 	SetButtons(okButton, nullptr);
 
 	ListenTo(itsHelpButton);
 	ListenTo(itsCreditsButton);
 
-	const JCharacter* map1[] =
+	const JUtf8Byte* map1[] =
 		{
-		"version",   JGetString("VERSION"),
-		"copyright", JGetString("COPYRIGHT")
+		"version",   JGetString("VERSION").GetBytes(),
+		"copyright", JGetString("COPYRIGHT").GetBytes()
 		};
-	JString text	= JGetString(kDescriptionID, map1, sizeof(map1));
+	JString text = JGetString("GLDescription", map1, sizeof(map1));
 
-	if (!JString::IsEmpty(prevVersStr))
+	if (!prevVersStr.IsEmpty())
 		{
-		const JCharacter* map[] =
+		const JUtf8Byte* map[] =
 			{
-			"vers", prevVersStr
+			"vers", prevVersStr.GetBytes()
 			};
-		text += JGetString(kUpgradeNoticeID);
+		text += JGetString("UpgradeNotice::GLAboutDialog");
 		(JGetStringManager())->Replace(&text, map, sizeof(map));
-		itsHelpButton->SetLabel(JGetString(kChangeButtonLabelID));
+		itsHelpButton->SetLabel(JGetString("ChangeButtonLabel::GLAboutDialog"));
 		itsIsUpgradeFlag = kJTrue;
 		}
-	textWidget->SetText(text);
+	textWidget->GetText()->SetText(text);
 
 	JXImage* image = jnew JXImage(GetDisplay(), JXPM(glove_icon));
 	assert(image != nullptr);

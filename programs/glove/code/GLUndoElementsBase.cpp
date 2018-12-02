@@ -10,8 +10,8 @@
  ******************************************************************************/
 
 #include <GLUndoElementsBase.h>
-#include <GXRaggedFloatTable.h>
-#include <GRaggedFloatTableData.h>
+#include <GLRaggedFloatTable.h>
+#include <GLRaggedFloatTableData.h>
 #include <jAssert.h>
 
 /******************************************************************************
@@ -21,7 +21,7 @@
 
 GLUndoElementsBase::GLUndoElementsBase
 	(
-	GXRaggedFloatTable* 	table,
+	GLRaggedFloatTable* 	table,
 	const JPoint&			start,
 	const JPoint&			end,
 	const UndoType			type

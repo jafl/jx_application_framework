@@ -10,8 +10,8 @@
  ******************************************************************************/
 
 #include <GLUndoElementBase.h>
-#include <GXRaggedFloatTable.h>
-#include <GRaggedFloatTableData.h>
+#include <GLRaggedFloatTable.h>
+#include <GLRaggedFloatTableData.h>
 #include <jAssert.h>
 
 /******************************************************************************
@@ -21,7 +21,7 @@
 
 GLUndoElementBase::GLUndoElementBase
 	(
-	GXRaggedFloatTable* 	table,
+	GLRaggedFloatTable* 	table,
 	const JPoint&			cell
 	)
 	:

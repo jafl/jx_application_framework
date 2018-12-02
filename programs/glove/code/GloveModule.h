@@ -1,5 +1,5 @@
-#ifndef _H_GloveImport
-#define _H_GloveImport
+#ifndef _H_GLModule
+#define _H_GLModule
 
 enum
 {

@@ -14,7 +14,7 @@
 
 #include <JString.h>
 
-class GVarList;
+class GLVarList;
 class GLVarTable;
 class JFunction;
 class JXExprEditor;
@@ -30,21 +30,21 @@ public:
 	GLNonLinearFitDialog(JXDirector* supervisor);
 	virtual ~GLNonLinearFitDialog();
 
-	JString			GetFunctionString() const;
-	JString			GetDerivativeString() const;
-	const GVarList&	GetVarList() const;
-	const JString&	GetFitName() const;
+	JString				GetFunctionString() const;
+	JString				GetDerivativeString() const;
+	const GLVarList&	GetVarList() const;
+	const JString&		GetFitName() const;
 
 protected:
 
 	virtual void		Receive(JBroadcaster* sender, const Message& message) override;
-	virtual JBoolean	OKToDeactivate();
+	virtual JBoolean	OKToDeactivate() override;
 
 private:
 
 	JXExprEditor*		itsFnEditor;
 	JXExprEditor*		itsDerivativeEditor;
-	GVarList*			itsVarList;
+	GLVarList*			itsVarList;
 	GLVarTable*			itsVarTable;
 	JXTimerTask*		itsDelButtonTask;
 
@@ -88,7 +88,7 @@ private:
 
  ******************************************************************************/
 
-inline const GVarList&
+inline const GLVarList&
 GLNonLinearFitDialog::GetVarList()
 	const
 {

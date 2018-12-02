@@ -10,8 +10,8 @@
  ******************************************************************************/
 
 #include <GLUndoElementsChange.h>
-#include <GXRaggedFloatTable.h>
-#include <GRaggedFloatTableData.h>
+#include <GLRaggedFloatTable.h>
+#include <GLRaggedFloatTableData.h>
 
 #include <JMinMax.h>
 
@@ -24,7 +24,7 @@
 
 GLUndoElementsChange::GLUndoElementsChange
 	(
-	GXRaggedFloatTable* 				table,
+	GLRaggedFloatTable* 				table,
 	const JPoint&						start,
 	const JPoint&						end,
 	const GLUndoElementsBase::UndoType	type
@@ -35,7 +35,7 @@ GLUndoElementsChange::GLUndoElementsChange
 	itsValues = jnew JPtrArray<JArray<JFloat> >(JPtrArrayT::kDeleteAll);
 	assert(itsValues != nullptr);
 
-	GRaggedFloatTableData* data = GetData();
+	GLRaggedFloatTableData* data = GetData();
 
 	JIndex colstart;
 	JIndex colend;
@@ -107,7 +107,7 @@ GLUndoElementsChange::Undo()
 		jnew GLUndoElementsChange(GetTable(), GetStartCell(), GetEndCell(), GetType());
 	assert(undo != nullptr);
 	
-	GRaggedFloatTableData* data 		= GetData();
+	GLRaggedFloatTableData* data 		= GetData();
 	JPoint start 						= GetStartCell();
 	JPoint end 							= GetEndCell();
 	GLUndoElementsBase::UndoType type 	= GetType();

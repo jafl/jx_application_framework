@@ -8,7 +8,7 @@
  *****************************************************************************/
 
 #include <GLCurveNameList.h>
-#include "PlotDir.h"
+#include "GLPlotDir.h"
 #include <J2DPlotWidget.h>
 
 #include <JXColorManager.h>
@@ -28,7 +28,7 @@ const JCoordinate kHMarginWidth = 3;
 const JCoordinate kVMarginWidth = 1;
 const JCoordinate kDefColWidth  = 100;
 
-const JCharacter* GLCurveNameList::kCurveSelected = "kCurveSelected::GLCurveNameList";
+const JUtf8Byte* GLCurveNameList::kCurveSelected = "kCurveSelected::GLCurveNameList";
 
 /******************************************************************************
  Constructor
@@ -37,7 +37,7 @@ const JCharacter* GLCurveNameList::kCurveSelected = "kCurveSelected::GLCurveName
 
 GLCurveNameList::GLCurveNameList
 	(
-	PlotDir*			dir,
+	GLPlotDir*			dir,
 	J2DPlotWidget* 		plot,
 	JXScrollbarSet*		scrollbarSet,
 	JXContainer*		enclosure,
@@ -83,9 +83,8 @@ GLCurveNameList::GLCurveNameList
 	AppendCols(1);
 	AdjustColWidth();
 
-	JXColorManager* colormap = GetColormap();
-	SetRowBorderInfo(0, colormap->GetBlackColor());
-	SetColBorderInfo(0, colormap->GetBlackColor());
+	SetRowBorderInfo(0, JColorManager::GetBlackColor());
+	SetColBorderInfo(0, JColorManager::GetBlackColor());
 
 	ListenTo(itsPlot);
 }
@@ -152,11 +151,11 @@ GLCurveNameList::TableDrawCell
 
 	JRect r = rect;
 	r.left += kHMarginWidth;
-	JColorID color	= GetColormap()->GetBlackColor();
-	if (itsDir->CurveIsFit(cell.y))
-		{
-		color	= GetColormap()->GetGrayColor(60);
-		}
+
+	const JColorID color = itsDir->CurveIsFit(cell.y) ?
+							JColorManager::GetBlackColor() :
+							JColorManager::GetGrayColor(60);
+
 	p.SetFontStyle(JFontStyle(kJFalse, kJFalse, 0, kJFalse, color));
 	p.String(r, *curveName, JPainter::kHAlignLeft, JPainter::kVAlignCenter);
 }
@@ -212,7 +211,7 @@ GLCurveNameList::CreateXInputField
 	itsInput = jnew JXInputField(this, kFixedLeft, kFixedTop, x, y, w, h);
 	assert(itsInput != nullptr);
 
-	itsInput->SetText(*(itsNameList->GetElement(cell.y)));
+	itsInput->GetText()->SetText(*(itsNameList->GetElement(cell.y)));
 	itsInput->SetIsRequired();
 	return itsInput;
 }
@@ -239,7 +238,7 @@ GLCurveNameList::ExtractInputData
 	const JPoint& cell
 	)
 {
-	const JString& name = itsInput->GetText();
+	const JString& name = itsInput->GetText()->GetText();
 	if (!name.IsEmpty())
 		{
 		*(itsNameList->GetElement(cell.y)) = name;
@@ -259,7 +258,8 @@ GLCurveNameList::ExtractInputData
 void
 GLCurveNameList::HandleKeyPress
 	(
-	const int 				key,
+	const JUtf8Character&	c,
+	const int 				keySym,
 	const JXKeyModifiers&	modifiers
 	)
 {
@@ -268,7 +268,7 @@ GLCurveNameList::HandleKeyPress
 	const JBoolean ok  = s.GetFirstSelectedCell(&cell);
 	assert( ok );
 
-	if (key == kJUpArrow)
+	if (c == kJUpArrow)
 		{
 		cell.y--;
 		if (CellValid(cell))
@@ -276,7 +276,7 @@ GLCurveNameList::HandleKeyPress
 			BeginEditing(cell);
 			}
 		}
-	else if (key == kJDownArrow)
+	else if (c == kJDownArrow)
 		{
 		cell.y++;
 		if (CellValid(cell))
@@ -287,7 +287,7 @@ GLCurveNameList::HandleKeyPress
 
 	else
 		{
-		JXEditTable::HandleKeyPress(key, modifiers);
+		JXEditTable::HandleKeyPress(c, keySym, modifiers);
 		}
 }
 
@@ -314,7 +314,7 @@ GLCurveNameList::Receive
 		itsNameList->Append(str);
 
 		const JCoordinate width = 2*kHMarginWidth +
-			GetFontManager()->GetDefaultFont().GetStringWidth(*str);
+			GetFontManager()->GetDefaultFont().GetStringWidth(GetFontManager(), *str);
 		if (width > itsMinColWidth)
 			{
 			itsMinColWidth = width;

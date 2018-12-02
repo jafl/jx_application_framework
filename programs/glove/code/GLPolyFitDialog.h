@@ -14,9 +14,9 @@
 
 #include <JArray.h>
 
-class GVarList;
+class GLVarList;
 class JString;
-class JXExprWidget;
+class JXExprEditor;
 class JXInputField;
 class JXTextButton;
 class JXTextCheckbox;
@@ -34,12 +34,12 @@ public:
 protected:
 
 	virtual void		Receive(JBroadcaster* sender, const Message& message) override;
-	virtual JBoolean	OKToDeactivate();
+	virtual JBoolean	OKToDeactivate() override;
 
 private:
 
-	JXExprWidget*		itsFn;
-	GVarList*			itsVarList;
+	JXExprEditor*		itsFn;
+	GLVarList*			itsVarList;
 	JXTextCheckbox*		itsCB[10];
 
 // begin JXLayout

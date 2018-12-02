@@ -8,11 +8,11 @@
  ******************************************************************************/
 
 #include "GLPolyFitDialog.h"
-#include "GVarList.h"
+#include "GLVarList.h"
 
 #include "GLGlobals.h"
 
-#include <JXExprWidget.h>
+#include <JXExprEditor.h>
 #include <JXInputField.h>
 #include <JXScrollbarSet.h>
 #include <JXStaticText.h>
@@ -20,10 +20,8 @@
 #include <JXTextCheckbox.h>
 #include <JXWindow.h>
 
-#include <JFunction.h>
+#include <JExprParser.h>
 #include <JString.h>
-
-#include <jParseFunction.h>
 #include <jAssert.h>
 
 const JCoordinate kDeleteButtonUpdateDelay	= 1000;
@@ -40,10 +38,10 @@ GLPolyFitDialog::GLPolyFitDialog
 	:
 	JXDialogDirector(supervisor, kJTrue)
 {
-	itsVarList	= jnew GVarList();
+	itsVarList	= jnew GLVarList();
 	assert(itsVarList != nullptr);
 
-	itsVarList->AddVariable("x", 0);
+	itsVarList->AddVariable(JGetString("DefaultVarName::GLGlobal"), 0);
 	const JSize count	= 10;
 	for (JIndex i = 1; i <= count; i++)
 		{
@@ -76,7 +74,7 @@ GLPolyFitDialog::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 380,450, "");
+	JXWindow* window = jnew JXWindow(this, 380,450, JString::empty);
 	assert( window != nullptr );
 
 	JXScrollbarSet* scrollbarSet =
@@ -171,8 +169,8 @@ GLPolyFitDialog::BuildWindow()
 // end JXLayout
 
 
-	itsFn	= 
-		jnew JXExprWidget(itsVarList, 
+	itsFn = 
+		jnew JXExprEditor(itsVarList, 
 			scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 			JXWidget::kHElastic, JXWidget::kVElastic,
 			0, 0, 100, 100);
@@ -182,19 +180,18 @@ GLPolyFitDialog::BuildWindow()
 
 	ListenTo(itsHelpButton);
 
-	const JSize count	= 10;
+	const JSize count = 10;
 	for (JIndex i = 1; i <= count; i++)
 		{
 		ListenTo(itsCB[i-1]);
 		}
 
-	window->SetTitle("Polynomial Fit");
+	window->SetTitle(JGetString("WindowTitle::GLPolyFitDialog"));
 	UseModalPlacement(kJFalse);
 	window->PlaceAsDialogWindow();
 	window->LockCurrentMinSize();
 	SetButtons(okButton, cancelButton);
 }
-
 
 /******************************************************************************
  GetPowers
@@ -250,7 +247,7 @@ GLPolyFitDialog::Receive
 					started	= kJTrue;
 					}
 				JString parm	= "a" + JString((JUInt64) i - 1);
-				JString xTerm	= " * x";
+				JString xTerm	= " * " + JGetString("DefaultVarName::GLGlobal");
 				if (i > 2)
 					{
 					xTerm += "^" + JString((JUInt64) i - 1);
@@ -269,8 +266,11 @@ GLPolyFitDialog::Receive
 		else
 			{
 			itsFn->Show();
+
+			JExprParser p(itsVarList);
+
 			JFunction* f;
-			if (JParseFunction(fStr, itsVarList, &f))
+			if (p.Parse(fStr, &f))
 				{
 				itsFn->SetFunction(itsVarList, f);
 				}
@@ -298,11 +298,11 @@ GLPolyFitDialog::OKToDeactivate()
 		{
 		return kJTrue;
 		}
-	JString name	= itsNameInput->GetText();
+	JString name = itsNameInput->GetText()->GetText();
 	name.TrimWhitespace();
 	if (name.IsEmpty())
 		{
-		JGetUserNotification()->ReportError("You must specify a name for this fit.");
+		JGetUserNotification()->ReportError(JGetString("MissingName::GLNonLinearFitDialog"));
 		itsNameInput->Focus();
 		return kJFalse;
 		}
@@ -320,7 +320,7 @@ GLPolyFitDialog::OKToDeactivate()
 
 	if (!checked)
 		{
-		JGetUserNotification()->ReportError("You must add at least one power.");
+		JGetUserNotification()->ReportError(JGetString("MissingPower::GLPolyFitDialog"));
 		}
 
 	return checked;
@@ -335,5 +335,5 @@ const JString&
 GLPolyFitDialog::GetFitName()
 	const
 {
-	return itsNameInput->GetText();
+	return itsNameInput->GetText()->GetText();
 }

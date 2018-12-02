@@ -30,19 +30,13 @@
 const JCoordinate kHMarginWidth = 3;
 const JCoordinate kVMarginWidth = 1;
 const JCoordinate kDefColWidth  = 100;
-const JCoordinate kSigFigCount	= 5;
 
 const JIndex kNameColIndex		= 1;
 const JIndex kStartColIndex		= 2;
 const JIndex kFitColIndex		= 3;
 const JIndex kErrorColIndex		= 4;
 
-const JCharacter* GLFitParameterTable::kValueChanged = "GLFitParameterTable::kValueChanged";
-
-const JCharacter* kParmNameTitle	= "Parameter name";
-const JCharacter* kParmStartTitle	= "Start values";
-const JCharacter* kParmFitTitle		= "Fit values";
-const JCharacter* kParmErrorTitle	= "Error values";
+const JUtf8Byte* GLFitParameterTable::kValueChanged = "GLFitParameterTable::kValueChanged";
 
 /******************************************************************************
  Constructor
@@ -314,12 +308,13 @@ GLFitParameterTable::ExtractInputData
 void
 GLFitParameterTable::HandleKeyPress
 	(
-	const int 				key,
+	const JUtf8Character&	c,
+	const int 				keySym,
 	const JXKeyModifiers&	modifiers
 	)
 {
 	JPoint cell;
-	if (key == kJReturnKey && GetEditedCell(&cell))
+	if (c == kJReturnKey && GetEditedCell(&cell))
 		{
 		if (EndEditing())
 			{
@@ -333,14 +328,14 @@ GLFitParameterTable::HandleKeyPress
 				}
 			}
 		}
-	else if (key == kJTabKey)
+	else if (c == kJTabKey)
 		{
 		// do nothing
 		}
 
 	else
 		{
-		JXEditTable::HandleKeyPress(key, modifiers);
+		JXEditTable::HandleKeyPress(c, keySym, modifiers);
 		}
 }
 
@@ -357,10 +352,10 @@ GLFitParameterTable::SetColHeaderWidget
 {
 	itsColHeaderWidget	= widget;
 	
-	itsColHeaderWidget->SetColTitle(1, kParmNameTitle);
-	itsColHeaderWidget->SetColTitle(2, kParmStartTitle);
-	itsColHeaderWidget->SetColTitle(3, kParmFitTitle);
-	itsColHeaderWidget->SetColTitle(4, kParmErrorTitle);
+	itsColHeaderWidget->SetColTitle(1, JGetString("ParmNameTitle::GLFitParameterTable"));
+	itsColHeaderWidget->SetColTitle(2, JGetString("ParmStartTitle::GLFitParameterTable"));
+	itsColHeaderWidget->SetColTitle(3, JGetString("ParmFitTitle::GLFitParameterTable"));
+	itsColHeaderWidget->SetColTitle(4, JGetString("ParmErrorTitle::GLFitParameterTable"));
 }
 
 /******************************************************************************
@@ -380,13 +375,12 @@ GLFitParameterTable::SetFitDescription
 	itsFitValues->RemoveAll();
 	itsErrorValues->RemoveAll();
 
-	GLFitDescription::FitType type = fit.GetType();
 	if (fit.RequiresStartValues())
 		{
 		if (!itsHasStartValues)
 			{
 			InsertCols(kStartColIndex, 1, kDefColWidth);
-			itsColHeaderWidget->SetColTitle(2, kParmStartTitle);
+			itsColHeaderWidget->SetColTitle(2, JGetString("ParmStartTitle::GLFitParameterTable"));
 			itsHasStartValues	= kJTrue;
 			AdjustColWidth();
 			}
@@ -438,7 +432,7 @@ GLFitParameterTable::ShowStartCol
 	else
 		{
 		InsertCols(kStartColIndex, 1, kDefColWidth);
-		itsColHeaderWidget->SetColTitle(2, kParmStartTitle);
+		itsColHeaderWidget->SetColTitle(2, JGetString("ParmStartTitle::GLFitParameterTable"));
 		itsHasStartValues	= kJTrue;
 		AdjustColWidth();
 		}
@@ -543,7 +537,7 @@ GLFitParameterTable::GetValueString
 		*text += "Fit value:   " + JString(fit, JString::kPrecisionAsNeeded, JString::kStandardExponent, 0, 6);
 		text->Append("\n\t");
 		*text += "Error value: " + JString(error, JString::kPrecisionAsNeeded, JString::kStandardExponent, 0, 6);
-		text->AppendCharacter('\n');
+		text->Append("\n");
 		}
 }
 

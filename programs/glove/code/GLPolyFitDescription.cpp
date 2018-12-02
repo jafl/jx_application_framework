@@ -22,11 +22,11 @@ const JFileVersion kCurrentSetupVersion	= 0;
 
 GLPolyFitDescription::GLPolyFitDescription
 	(
-	const JCharacter* 		name,
+	const JString&	 		name,
 	const JArray<JIndex>& 	powers
 	)
 	:
-	GLFitDescription(kPolynomial, "", name)
+	GLFitDescription(kPolynomial, JString::empty, name)
 {
 	itsPowers	= jnew JArray<JIndex>(powers);
 	assert(itsPowers != nullptr);
@@ -39,7 +39,7 @@ GLPolyFitDescription::GLPolyFitDescription
 	std::istream& is
 	)
 	:
-	GLFitDescription(kPolynomial, "", "")
+	GLFitDescription(kPolynomial, JString::empty, JString::empty)
 {
 	itsPowers	= jnew JArray<JIndex>;
 	assert(itsPowers != nullptr);
@@ -72,10 +72,10 @@ GLPolyFitDescription::GLPolyFitDescriptionX()
 	JString form;
 	for (JIndex i = 1; i <= count; i++)
 		{
-		JString parm	= "a" + JString((JUInt64) i - 1);
+		JString parm = "a" + JString((JUInt64) i - 1);
 		GetVarList()->AddVariable(parm, 0);
 		JString xTerm;
-		JIndex power	= itsPowers->GetElement(i);
+		JUInt64 power = itsPowers->GetElement(i);
 		if (power > 0)
 			{
 			xTerm = " * x";

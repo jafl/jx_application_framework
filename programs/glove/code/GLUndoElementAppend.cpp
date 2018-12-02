@@ -11,8 +11,8 @@
 
 #include <GLUndoElementAppend.h>
 #include <GLUndoElementCut.h>
-#include <GXRaggedFloatTable.h>
-#include <GRaggedFloatTableData.h>
+#include <GLRaggedFloatTable.h>
+#include <GLRaggedFloatTableData.h>
 #include <jAssert.h>
 
 /******************************************************************************
@@ -22,7 +22,7 @@
 
 GLUndoElementAppend::GLUndoElementAppend
 	(
-	GXRaggedFloatTable* 	table,
+	GLRaggedFloatTable* 	table,
 	const JPoint& 			cell
 	)
 	:

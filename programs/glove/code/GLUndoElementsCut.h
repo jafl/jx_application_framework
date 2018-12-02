@@ -14,14 +14,14 @@
 #include <JPoint.h>
 #include <JPtrArray.h>
 
-class GXRaggedFloatTable;
-class GRaggedFloatTableData;
+class GLRaggedFloatTable;
+class GLRaggedFloatTableData;
 
 class GLUndoElementsCut : public GLUndoElementsBase
 {
 public:
 
-	GLUndoElementsCut(GXRaggedFloatTable* table, const JPoint& start,
+	GLUndoElementsCut(GLRaggedFloatTable* table, const JPoint& start,
 						 const JPoint& end, 
 						 const GLUndoElementsBase::UndoType type);
 

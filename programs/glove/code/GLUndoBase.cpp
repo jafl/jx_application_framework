@@ -10,8 +10,8 @@
  ******************************************************************************/
 
 #include <GLUndoBase.h>
-#include <GXRaggedFloatTable.h>
-#include <GRaggedFloatTableData.h>
+#include <GLRaggedFloatTable.h>
+#include <GLRaggedFloatTableData.h>
 #include <jAssert.h>
 
 /******************************************************************************
@@ -21,7 +21,7 @@
 
 GLUndoBase::GLUndoBase
 	(
-	GXRaggedFloatTable* 	table
+	GLRaggedFloatTable* 	table
 	)
 	:
 	JUndo(),

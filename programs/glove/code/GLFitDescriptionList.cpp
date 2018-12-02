@@ -39,8 +39,8 @@ const JCoordinate kVMarginWidth = 1;
 const JCoordinate kDefColWidth  = 100;
 const JCoordinate kIconWidth	= 15;
 
-const JCharacter* GLFitDescriptionList::kFitSelected 	= "GLFitDescriptionList::kFitSelected";
-const JCharacter* GLFitDescriptionList::kFitInitiated	= "GLFitDescriptionList::kFitInitiated";;
+const JUtf8Byte* GLFitDescriptionList::kFitSelected  = "GLFitDescriptionList::kFitSelected";
+const JUtf8Byte* GLFitDescriptionList::kFitInitiated = "GLFitDescriptionList::kFitInitiated";;
 
 /******************************************************************************
  Constructor
@@ -68,17 +68,14 @@ GLFitDescriptionList::GLFitDescriptionList
 	const JSize rowHeight = 2*kVMarginWidth + JFontManager::GetDefaultFont().GetLineHeight(fontMgr);
 	SetDefaultRowHeight(rowHeight);
 
-	const JSize count = GetFitManager()->GetFitCount();
-
 	itsNameList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 	assert(itsNameList != nullptr);
 
 	AppendCols(1);
 	SyncWithManager();
 
-	JXColorManager* colormap = GetColormap();
-	SetRowBorderInfo(0, colormap->GetBlackColor());
-	SetColBorderInfo(0, colormap->GetBlackColor());
+	SetRowBorderInfo(0, JColorManager::GetBlackColor());
+	SetColBorderInfo(0, JColorManager::GetBlackColor());
 
 	itsBuiltInIcon	= jnew JXImage(GetDisplay(), JXPM(glBuiltInFit));
 	assert(itsBuiltInIcon != nullptr);
@@ -242,7 +239,7 @@ GLFitDescriptionList::CreateXInputField
 	itsInput = jnew JXInputField(this, kFixedLeft, kFixedTop, x, y, w, h);
 	assert(itsInput != nullptr);
 
-	itsInput->SetText(*(itsNameList->GetElement(cell.y)));
+	itsInput->GetText()->SetText(*(itsNameList->GetElement(cell.y)));
 	itsInput->SetIsRequired();
 	return itsInput;
 }
@@ -269,7 +266,7 @@ GLFitDescriptionList::ExtractInputData
 	const JPoint& cell
 	)
 {
-	const JString& name = itsInput->GetText();
+	const JString& name = itsInput->GetText()->GetText();
 	if (!name.IsEmpty())
 		{
 		*(itsNameList->GetElement(cell.y)) = name;
@@ -289,7 +286,8 @@ GLFitDescriptionList::ExtractInputData
 void
 GLFitDescriptionList::HandleKeyPress
 	(
-	const int 				key,
+	const JUtf8Character&	c,
+	const int 				keySym,
 	const JXKeyModifiers&	modifiers
 	)
 {
@@ -300,7 +298,7 @@ GLFitDescriptionList::HandleKeyPress
 		return;
 		}
 
-	if (key == kJUpArrow)
+	if (c == kJUpArrow)
 		{
 		cell.y--;
 		if (CellValid(cell))
@@ -308,7 +306,7 @@ GLFitDescriptionList::HandleKeyPress
 			BeginEditing(cell);
 			}
 		}
-	else if (key == kJDownArrow)
+	else if (c == kJDownArrow)
 		{
 		cell.y++;
 		if (CellValid(cell))
@@ -319,7 +317,7 @@ GLFitDescriptionList::HandleKeyPress
 
 	else
 		{
-		JXEditTable::HandleKeyPress(key, modifiers);
+		JXEditTable::HandleKeyPress(c, keySym, modifiers);
 		}
 }
 
@@ -384,7 +382,7 @@ GLFitDescriptionList::SyncWithManager()
 		itsNameList->Append(str);
 
 		const JCoordinate width = 2*kHMarginWidth + kIconWidth + 
-			GetFontManager()->GetDefaultFont().GetStringWidth(*str);
+			GetFontManager()->GetDefaultFont().GetStringWidth(GetFontManager(), *str);
 		if (width > itsMinColWidth)
 			{
 			itsMinColWidth = width;
