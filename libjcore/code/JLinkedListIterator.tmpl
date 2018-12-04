@@ -27,7 +27,8 @@ JLinkedListIterator<T>::JLinkedListIterator
 	const JIndex			index
 	)
 	:
-	JListIterator<T>(theLinkedList, start, index)
+	JListIterator<T>(theLinkedList, start, index),
+	itsIgnoreListChangedFlag(kJFalse)
 {
 	itsLinkedList  = const_cast<JLinkedList<T>*>(&theLinkedList);
 	itsCurrElement = itsLinkedList->itsFirstElement;
@@ -45,7 +46,8 @@ JLinkedListIterator<T>::JLinkedListIterator
 	const JIndex			index
 	)
 	:
-	JListIterator<T>(theLinkedList, start, index)
+	JListIterator<T>(theLinkedList, start, index),
+	itsIgnoreListChangedFlag(kJFalse)
 {
 	itsLinkedList  = theLinkedList;
 	itsCurrElement = itsLinkedList->itsFirstElement;
@@ -66,7 +68,8 @@ JLinkedListIterator<T>::JLinkedListIterator
 	const JLinkedListIterator<T>& source
 	)
 	:
-	JListIterator<T>(source)
+	JListIterator<T>(source),
+	itsIgnoreListChangedFlag(kJFalse)
 {
 	itsLinkedList  = source.itsLinkedList;
 	itsCurrElement = source.itsCurrElement;
@@ -159,7 +162,7 @@ JLinkedListIterator<T>::SkipPrev
 	const JSize count
 	)
 {
-	if (itsLinkedList != nullptr)
+	if (itsLinkedList != nullptr && !this->AtBeginning())
 		{
 		JCursorPosition cursorPos = this->GetCursor();
 
@@ -190,7 +193,7 @@ JLinkedListIterator<T>::SkipNext
 	const JSize count
 	)
 {
-	if (itsLinkedList != nullptr)
+	if (itsLinkedList != nullptr && !this->AtEnd())
 		{
 		JCursorPosition cursorPos = this->GetCursor();
 		const JSize maxPos        = itsLinkedList->GetElementCount();
@@ -283,7 +286,25 @@ JLinkedListIterator<T>::RemovePrev
 		return kJFalse;
 		}
 
+	JLinkedListElement<T>* e = itsCurrElement->next;
+
+	itsIgnoreListChangedFlag = kJTrue;
 	itsLinkedList->IteratorRemovePrevElements(this->GetCursor(), count, itsCurrElement);
+	itsIgnoreListChangedFlag = kJFalse;
+
+	if (this->AtBeginning())
+		{
+		itsCurrElement = itsLinkedList->itsFirstElement;
+		}
+	else if (e == nullptr)
+		{
+		itsCurrElement = itsLinkedList->itsLastElement;
+		}
+	else
+		{
+		itsCurrElement = e->prev;
+		}
+
 	return kJTrue;
 }
 
@@ -308,8 +329,11 @@ JLinkedListIterator<T>::RemoveNext
 		return kJFalse;
 		}
 
+	itsIgnoreListChangedFlag = kJTrue;
 	itsLinkedList->IteratorRemoveNextElements(this->GetCursor()+1, count,
 											  itsCurrElement->next);
+	itsIgnoreListChangedFlag = kJFalse;
+
 	return kJTrue;
 }
 
@@ -335,11 +359,17 @@ JLinkedListIterator<T>::Insert
 
 	if (this->AtBeginning())
 		{
+		itsIgnoreListChangedFlag = kJTrue;
 		itsLinkedList->PrependElement(data);
+		itsIgnoreListChangedFlag = kJFalse;
+
+		itsCurrElement = itsLinkedList->itsFirstElement;
 		}
 	else
 		{
+		itsIgnoreListChangedFlag = kJTrue;
 		itsLinkedList->IteratorInsertElementAfter(this->GetCursor(), data, itsCurrElement);
+		itsIgnoreListChangedFlag = kJFalse;
 		}
 	return kJTrue;
 }
@@ -407,19 +437,15 @@ JLinkedListIterator<T>::ListChanged
 {
 	JListIterator<T>::ListChanged(message);
 
-	if (message.Is(JListT::kElementsInserted) ||
-		message.Is(JListT::kElementsRemoved) ||
-		message.Is(JListT::kCopied))
+	if (!itsIgnoreListChangedFlag &&
+		(message.Is(JListT::kElementsInserted) ||
+		 message.Is(JListT::kElementsRemoved)))
 		{
-		const JCursorPosition cursorPos = this->GetCursor();
-		if (cursorPos == 0)
-			{
-			itsCurrElement = itsLinkedList->itsFirstElement;
-			}
-		else
-			{
-			itsCurrElement = itsLinkedList->IteratorFindElement(cursorPos);
-			}
+		PrivateMoveTo();
+		}
+	else if (message.Is(JListT::kCopied))
+		{
+		PrivateMoveTo();
 		}
 	else if (message.Is(JListT::kGoingAway))
 		{

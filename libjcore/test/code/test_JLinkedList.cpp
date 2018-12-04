@@ -304,6 +304,16 @@ JTEST(IteratorModification)
 	iter->SkipPrev();
 	verify("-2 -4 -1 7 2 1 -3", a);
 
+	iter->MoveTo(kJIteratorStartAtEnd, 0);
+	iter->RemovePrev(2);
+	iter->RemoveNext();
+	verify("-2 -4 -1 7 2", a);
+
+	iter->MoveTo(kJIteratorStartAfter, 2);
+	iter->RemovePrev(3);
+	iter->RemoveNext();
+	verify("7 2", a);
+
 	jdelete iter;
 }
 

@@ -1,7 +1,3 @@
-JLinkedList iterators
-	ignore ListChanged if we made a change that doesn't change our state
-	e.g. - Insert or RemoveNext
-
 JString::EndsWidth
 	can't just back up N bytes - may not be byte aligned
 	must be byte aligned so diacriticals can be correctly processed

@@ -56,6 +56,7 @@ private:
 
 	JLinkedList<T>*			itsLinkedList;
 	JLinkedListElement<T>*	itsCurrElement;		// if cursor > 0, it is after this element
+	JBoolean				itsIgnoreListChangedFlag;
 
 private:
 
