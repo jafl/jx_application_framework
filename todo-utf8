@@ -1,10 +1,7 @@
-JString::EndsWidth
-	can't just back up N bytes - may not be byte aligned
-	must be byte aligned so diacriticals can be correctly processed
-
 JStyledText
 	undo outdent doesn't work correctly when:
 		outdent, press return to move to next line, (repeat)
+	need smarter update during indent/outdent, to maintain caret location
 
 
 render as many characters as possible via fallback fonts
@@ -34,11 +31,10 @@ glove
 	clean up .fd to match current layouts
 	test layouts on Linux and OS X
 
-	test column xform:  add two columns
+	test column transform:  add two columns
 
 
 JStyledText
-	need smarter update during indent/outdent, to maintain caret location
 	AutoIndent
 	CleanRightMargin
 

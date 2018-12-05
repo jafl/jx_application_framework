@@ -130,6 +130,7 @@ literal: ${LIB_DEPS}
 
 @test_JString
 ${CODEDIR}/test_JString
+${CODEDIR}/TestString
 literal: ${LIB_DEPS}
 
 @test_JStringIterator

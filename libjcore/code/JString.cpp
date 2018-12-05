@@ -1077,11 +1077,34 @@ JString::SearchForward
 
 	// if the given string is longer than we are, we can't contain it
 
-	if (itsByteCount - *byteIndex + 1 < byteCount)
+	const JSize charCount = CountCharacters(str, byteCount);
+	if (charCount > itsCharacterCount)
 		{
 		*byteIndex = itsByteCount+1;
 		return kJFalse;
 		}
+
+	JSize myCharCount;
+	if (*byteIndex < itsByteCount/2)
+		{
+		myCharCount = itsCharacterCount - CountCharacters(itsBytes, *byteIndex-1);
+		}
+	else
+		{
+		myCharCount = CountCharacters(itsBytes + *byteIndex-1);
+		}
+
+	if (charCount > myCharCount)
+		{
+		*byteIndex = itsByteCount+1;
+		return kJFalse;
+		}
+
+	JSize tailByteCount;
+	const JBoolean ok = CountBytesBackward(itsBytes, itsByteCount, charCount, &tailByteCount);
+	assert( ok );
+
+	const JSize lastByte = itsByteCount - tailByteCount + 1;
 
 	// search forward for a match
 
@@ -1097,7 +1120,7 @@ JString::SearchForward
 		ucol_setStrength(coll, UCOL_PRIMARY);
 		}
 
-	for (JIndex i=*byteIndex; i<=itsByteCount - byteCount + 1; )
+	for (JIndex i=*byteIndex; i<=lastByte; )
 		{
 		const JUtf8Byte* s       = itsBytes + i-1;
 		const UCollationResult r = ucol_strcollUTF8(coll, s, byteCount, str, byteCount, &err);
@@ -1153,18 +1176,8 @@ JString::SearchBackward
 
 	assert( *byteIndex <= itsByteCount );
 
-	// if the given string runs past our end, back up *byteIndex
-
-	const JSize spaceAtEnd = itsByteCount - *byteIndex + 1;
-	if (spaceAtEnd < byteCount && itsByteCount >= byteCount)
-		{
-		*byteIndex = itsByteCount - byteCount + 1;
-		}
-	else if (spaceAtEnd < byteCount)
-		{
-		*byteIndex = 0;
-		return kJFalse;
-		}
+	// not worth the effort to compare
+	// # of characters in str vs # of characters after *byteIndex
 
 	// search backward for a match
 
@@ -1286,9 +1299,15 @@ JString::EndsWith
 		{
 		return kJTrue;
 		}
-	else if (itsByteCount >= range.GetCount())
+
+	const JSize charCount = CountCharacters(str, range);
+	if (itsCharacterCount > charCount)
 		{
-		JIndex i = itsByteCount - range.GetCount() + 1;
+		JSize byteCount;
+		const JBoolean ok = CountBytesBackward(itsBytes, itsByteCount, charCount, &byteCount);
+		assert( ok );
+
+		JIndex i = itsByteCount - byteCount + 1;
 		return SearchForward(str + range.first-1, range.GetCount(), caseSensitive, &i);
 		}
 	else
@@ -1771,6 +1790,25 @@ JString::IsValid
  CountCharacters (static)
 
  ******************************************************************************/
+
+JSize
+JString::CountCharacters
+	(
+	const JUtf8Byte* str
+	)
+{
+	JSize charCount = 0;
+	JSize byteCount;
+	while (*str != 0)
+		{
+		// accept invalid byte sequences as single characters
+		JUtf8Character::GetCharacterByteCount(str, &byteCount);
+		charCount++;
+		str += byteCount;
+		}
+
+	return charCount;
+}
 
 JSize
 JString::CountCharacters
@@ -2396,7 +2434,7 @@ std::istream&
 operator>>
 	(
 	std::istream&	input,
-	JString&	aString
+	JString&		aString
 	)
 {
 	if (&input == &std::cin)
@@ -2423,18 +2461,13 @@ operator>>
 std::ostream&
 operator<<
 	(
-	std::ostream&		output,
+	std::ostream&	output,
 	const JString&	aString
 	)
 {
-	if (&output == &std::cout)
+	if (&output == &std::cout || &output == &std::cerr)
 		{
-		aString.Print(std::cout);
-		return output;
-		}
-	else if (&output == &std::cerr)
-		{
-		aString.Print(std::cerr);
+		aString.Print(output);
 		return output;
 		}
 

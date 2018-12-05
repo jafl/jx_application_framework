@@ -272,9 +272,9 @@ protected:
 	JUtf8ByteRange	CharacterToUtf8ByteRange(const JCharacterRange& range) const;
 
 	JBoolean	SearchForward(const JUtf8Byte* str, const JSize byteCount,
-							  const JBoolean caseSensitive, JIndex* startIndex) const;
+							  const JBoolean caseSensitive, JIndex* byteIndex) const;
 	JBoolean	SearchBackward(const JUtf8Byte* str, const JSize byteCount,
-							   const JBoolean caseSensitive, JIndex* startIndex) const;
+							   const JBoolean caseSensitive, JIndex* byteIndex) const;
 
 	void	ReplaceBytes(const JUtf8ByteRange& replaceRange,
 						 const JUtf8Byte* stringToInsert, const JSize insertByteCount);
@@ -495,15 +495,6 @@ JString::IsValid
  CountCharacters (static)
 
  ******************************************************************************/
-
-inline JSize
-JString::CountCharacters
-	(
-	const JUtf8Byte* str
-	)
-{
-	return CountCharacters(str, JUtf8ByteRange(1, strlen(str)));
-}
 
 inline JSize
 JString::CountCharacters

@@ -8,7 +8,7 @@
  ******************************************************************************/
 
 #include <JTestManager.h>
-#include <JString.h>
+#include "TestString.h"
 #include <JMinMax.h>
 #include <fstream>
 #include <string>
@@ -559,6 +559,22 @@ JTEST(Get)
 	JAssertEqual(JUtf8Character::kUtf8SubstitutionCharacter, s.GetLastCharacter());
 }
 
+JTEST(Search)
+{
+	TestString s;
+
+	JIndex byteIndex;
+	JAssertFalse(s.TestSearchForward("", 0, kJTrue, &byteIndex));
+
+	s.Set("beic");
+
+	byteIndex = 1;
+	JAssertTrue(s.TestSearchForward("\xC3\xA9\xC3\xAD\xC3\xA7", 6, kJFalse, &byteIndex));
+
+	byteIndex = 4;
+	JAssertTrue(s.TestSearchBackward("\xC3\xA9\xC3\xAD\xC3\xA7", 6, kJFalse, &byteIndex));
+}
+
 JTEST(Contains)
 {
 	JString s;
@@ -597,6 +613,7 @@ JTEST(Contains)
 
 	JAssertTrue(s.EndsWith("b\xE2\x9C\x94\xCE\xA6"));
 	JAssertTrue(s.EndsWith("B\xE2\x9C\x94\xCF\x86", kJFalse));
+	JAssertFalse(s.EndsWith("abc"));
 
 	s = "\xC3\xB6";
 	JString s1("\x6F\xCC\x88", 0);	// force normalization
