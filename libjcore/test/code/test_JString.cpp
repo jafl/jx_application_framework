@@ -565,7 +565,7 @@ JTEST(Search)
 
 	JIndex byteIndex;
 	JAssertFalse(s.TestSearchForward("", 0, kJTrue, &byteIndex));
-
+/*
 	s.Set("beic");
 
 	byteIndex = 1;
@@ -573,6 +573,14 @@ JTEST(Search)
 
 	byteIndex = 4;
 	JAssertTrue(s.TestSearchBackward("\xC3\xA9\xC3\xAD\xC3\xA7", 6, kJFalse, &byteIndex));
+*/
+	s.Set("\xC3\xB6\xE2\x9C\x94");
+	JAssertTrue(s.BeginsWith("\x6F\xCC\x88\xE2\x9C\x94"));
+	JAssertTrue(s.Contains("\x6F\xCC\x88\xE2\x9C\x94"));
+	JAssertTrue(s.EndsWith("\x6F\xCC\x88\xE2\x9C\x94"));
+
+	byteIndex = 4;
+	JAssertTrue(s.TestSearchBackward("\x6F\xCC\x88\xE2\x9C\x94", 6, kJFalse, &byteIndex));
 }
 
 JTEST(Contains)

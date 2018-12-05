@@ -1075,36 +1075,8 @@ JString::SearchForward
 
 	assert( *byteIndex != 0 );
 
-	// if the given string is longer than we are, we can't contain it
-
-	const JSize charCount = CountCharacters(str, byteCount);
-	if (charCount > itsCharacterCount)
-		{
-		*byteIndex = itsByteCount+1;
-		return kJFalse;
-		}
-
-	JSize myCharCount;
-	if (*byteIndex < itsByteCount/2)
-		{
-		myCharCount = itsCharacterCount - CountCharacters(itsBytes, *byteIndex-1);
-		}
-	else
-		{
-		myCharCount = CountCharacters(itsBytes + *byteIndex-1);
-		}
-
-	if (charCount > myCharCount)
-		{
-		*byteIndex = itsByteCount+1;
-		return kJFalse;
-		}
-
-	JSize tailByteCount;
-	const JBoolean ok = CountBytesBackward(itsBytes, itsByteCount, charCount, &tailByteCount);
-	assert( ok );
-
-	const JSize lastByte = itsByteCount - tailByteCount + 1;
+	// not worth the effort to compare
+	// # of characters in str vs # of characters after *byteIndex
 
 	// search forward for a match
 
@@ -1120,7 +1092,7 @@ JString::SearchForward
 		ucol_setStrength(coll, UCOL_PRIMARY);
 		}
 
-	for (JIndex i=*byteIndex; i<=lastByte; )
+	for (JIndex i=*byteIndex; i<=itsByteCount; )
 		{
 		const JUtf8Byte* s       = itsBytes + i-1;
 		const UCollationResult r = ucol_strcollUTF8(coll, s, byteCount, str, byteCount, &err);
@@ -1307,8 +1279,9 @@ JString::EndsWith
 		const JBoolean ok = CountBytesBackward(itsBytes, itsByteCount, charCount, &byteCount);
 		assert( ok );
 
-		JIndex i = itsByteCount - byteCount + 1;
-		return SearchForward(str + range.first-1, range.GetCount(), caseSensitive, &i);
+		return JI2B(Compare(itsBytes + itsByteCount - byteCount, byteCount,
+							str + range.first-1, range.GetCount(),
+							caseSensitive) == 0);
 		}
 	else
 		{
