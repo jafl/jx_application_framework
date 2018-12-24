@@ -12,6 +12,10 @@ Please send all bug reports and suggestions for features to
 <p>
 <hr>
 
+<h3> 6.10 </h3>
+
+\"Edit Tasks Menu\" dialog no longer flags @ followed by a relative path as an error.
+
 <h3> 6.9 </h3>
 
 Added support for <a href=\"https://editorconfig.org\">EditorConfig</a>.

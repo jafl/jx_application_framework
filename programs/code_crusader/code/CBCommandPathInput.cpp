@@ -107,7 +107,7 @@ CBCommandPathInput::AdjustStylesBeforeRecalc
 	const JBoolean		deletion
 	)
 {
-	if (buffer == "@")
+	if (!buffer.IsEmpty() && buffer.GetFirstCharacter() == '@')
 		{
 		const JColormap* colormap = GetColormap();
 		const JSize totalLength   = buffer.GetLength();
@@ -144,7 +144,7 @@ CBCommandPathInput::GetTextColor
 	const JColormap*	colormap
 	)
 {
-	if (strcmp(path, "@") == 0)
+	if (*path == '@')
 		{
 		return colormap->GetBlackColor();
 		}
@@ -165,7 +165,7 @@ JString
 CBCommandPathInput::GetTextForChoosePath()
 	const
 {
-	if (GetText() == "@")
+	if (!GetText().IsEmpty() && GetText().GetFirstCharacter() == '@')
 		{
 		JString s;
 		if (!GetBasePath(&s) &&
