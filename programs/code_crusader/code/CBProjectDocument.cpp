@@ -338,18 +338,17 @@ CBProjectDocument::Create
 		projName = JCombineRootAndSuffix(path, kProjectFileSuffix);
 		}
 
-	const JString symName = GetSymbolFileName(fullName);
-	const JString setName = GetSettingFileName(fullName);
-
 	JString name = JCombineRootAndSuffix(path, ".jst");
 	if (JFileExists(name))
 		{
+		const JString symName = GetSymbolFileName(fullName);
 		JRenameFile(name, symName);
 		}
 
 	name = JCombineRootAndSuffix(path, ".jup");
 	if (JFileExists(name))
 		{
+		const JString setName = GetSettingFileName(fullName);
 		JRenameFile(name, setName);
 		}
 
@@ -388,6 +387,9 @@ CBProjectDocument::Create
 		}
 
 		(CBGetApplication())->DisplayBusyCursor();
+
+		const JString symName = GetSymbolFileName(fullName);
+		const JString setName = GetSettingFileName(fullName);
 
 		*doc = jnew CBProjectDocument(input, projName, setName, symName, silent);
 		assert( *doc != NULL );
