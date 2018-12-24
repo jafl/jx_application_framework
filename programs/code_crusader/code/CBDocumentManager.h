@@ -126,7 +126,7 @@ public:
 
 	void	UpdateSymbolDatabases();
 	void	CancelUpdateSymbolDatabases();
-	void	RefreshCVSStatus();
+	void	RefreshVCSStatus();
 
 	void		ChooseEditors();
 	JBoolean	WillEditTextFilesLocally() const;

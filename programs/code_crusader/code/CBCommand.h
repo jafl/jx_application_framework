@@ -19,7 +19,7 @@ class CBCommand : virtual public JBroadcaster
 {
 public:
 
-	CBCommand(const JCharacter* path, const JBoolean refreshCVSStatusWhenFinished,
+	CBCommand(const JCharacter* path, const JBoolean refreshVCSStatusWhenFinished,
 			  const JBoolean beepWhenFinished, CBProjectDocument* projDoc);
 
 	virtual	~CBCommand();
@@ -75,7 +75,7 @@ private:
 	JString					itsWindowTitle;
 	JString					itsDontCloseMsg;
 	const JBoolean			itsBeepFlag;
-	JBoolean				itsRefreshCVSStatusFlag;
+	JBoolean				itsRefreshVCSStatusFlag;
 	JBoolean				itsUpdateSymbolDatabaseFlag;
 	JBoolean				itsInQueueFlag;
 	JBoolean				itsSuccessFlag;

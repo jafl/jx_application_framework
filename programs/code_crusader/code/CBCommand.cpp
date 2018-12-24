@@ -49,7 +49,7 @@ static const JCharacter* kInfiniteLoopID             = "InfiniteLoop::CBCommand"
 CBCommand::CBCommand
 	(
 	const JCharacter*	path,
-	const JBoolean		refreshCVSStatusWhenFinished,
+	const JBoolean		refreshVCSStatusWhenFinished,
 	const JBoolean		beepWhenFinished,
 	CBProjectDocument*	projDoc
 	)
@@ -58,7 +58,7 @@ CBCommand::CBCommand
 	itsCmdPath(path),
 	itsOutputDoc(NULL),
 	itsBeepFlag(beepWhenFinished),
-	itsRefreshCVSStatusFlag(refreshCVSStatusWhenFinished),
+	itsRefreshVCSStatusFlag(refreshVCSStatusWhenFinished),
 	itsUpdateSymbolDatabaseFlag(kJFalse),
 	itsInQueueFlag(kJFalse),
 	itsSuccessFlag(kJTrue),
@@ -101,15 +101,15 @@ CBCommand::~CBCommand()
 		(CBGetDocumentManager())->UpdateSymbolDatabases();
 		}
 
-	// only refresh CVS status when all finished, since may be expensive
+	// only refresh VCS status when all finished, since may be expensive
 
-	if (itsParent != NULL && itsRefreshCVSStatusFlag)
+	if (itsParent != NULL && itsRefreshVCSStatusFlag)
 		{
-		itsParent->itsRefreshCVSStatusFlag = kJTrue;
+		itsParent->itsRefreshVCSStatusFlag = kJTrue;
 		}
-	else if (itsRefreshCVSStatusFlag)
+	else if (itsRefreshVCSStatusFlag)
 		{
-		(CBGetDocumentManager())->RefreshCVSStatus();
+		(CBGetDocumentManager())->RefreshVCSStatus();
 		}
 
 	if (itsParent != NULL && itsCallParentProcessFinishedFlag)

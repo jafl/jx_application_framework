@@ -837,12 +837,12 @@ CBTextDocument::HandleFileModifiedByOthers
 }
 
 /******************************************************************************
- RefreshCVSStatus
+ RefreshVCSStatus
 
  ******************************************************************************/
 
 void
-CBTextDocument::RefreshCVSStatus()
+CBTextDocument::RefreshVCSStatus()
 {
 	JBoolean onDisk;
 	const JString fullName = GetFullName(&onDisk);

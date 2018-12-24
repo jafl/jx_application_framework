@@ -106,7 +106,7 @@ public:
 	void	UpdateFileType(const JBoolean init = kJFalse);
 	void	StylerChanged(JTEStyler* styler);
 
-	void	RefreshCVSStatus();
+	void	RefreshVCSStatus();
 
 	static JBoolean	OpenAsBinaryFile(const JCharacter* fileName);
 
