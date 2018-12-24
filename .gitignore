@@ -5,10 +5,9 @@
 *.la
 *.dll
 *.exe
-*.jst
-*.jup
 *Y.hpp
 *.bak
+**/.jcc/*
 libj*/Makefile
 */test/Makefile
 programs/*/code/*StringData.h
