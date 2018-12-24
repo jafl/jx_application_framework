@@ -155,7 +155,7 @@ selected text instead of selecting text.
 <h3> Really cool mouse shortcuts </h3>
 
 <ul>
-<li> Button in upper right corner of window containing source or header file to open the header or source file, respectively (or press Meta-Tab if you are using Macintosh style menu shortcuts or Ctrl-Tab if you are using Windows style menu shortcuts)
+<li> Button in upper right corner of window containing source or header file to open the header or source file, respectively (or press Ctrl-Tab)
 <li> Button in upper right corner of window containing HTML file to view it in the browser of your choice (see above)
 <p>
 <li> Control-left-double-click on a file name to automatically find and open it.

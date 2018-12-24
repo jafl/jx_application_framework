@@ -275,7 +275,7 @@ CBSearchTE::SearchFile
 
 static const JCharacter* kSuffix[] =
 {
-	".jst", ".o", ".a", ".so", ".dylib"
+	".o", ".a", ".so", ".dylib"
 };
 
 const JSize kSuffixCount = sizeof(kSuffix) / sizeof(JCharacter*);

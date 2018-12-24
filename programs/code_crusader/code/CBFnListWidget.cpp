@@ -89,7 +89,7 @@ CBFnListWidget::CBFnListWidgetX
 	const JBoolean		showInheritedFns
 	)
 {
-	WantInput(kJTrue, kJFalse, kJTrue);	// need Meta-Tab
+	WantInput(kJTrue, kJFalse, kJTrue);	// need Ctrl-Tab
 
 	itsTreeWidget = treeWidget;
 

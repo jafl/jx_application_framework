@@ -4,8 +4,8 @@
 	1) Search & replace
 	2) Search for function name, class name, man page when a word is Meta-double-clicked
 	3) Search for file or view URL when it is Ctrl-double-clicked
-	4) Open complement file (source<->header) via Meta-Tab
-	5) View HTML file in browser via Meta-Tab
+	4) Open complement file (source<->header) via Ctrl-Tab
+	5) View HTML file in browser via Ctrl-Tab
 	6) Context-sensitive hilighting
 	7) Keyword completion
 	8) Character actions (e.g. semicolor triggers newline)

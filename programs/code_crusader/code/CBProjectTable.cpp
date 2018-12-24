@@ -53,7 +53,7 @@ static const JCharacter* kSelectionDataID = "CBProjectTable";
 
 static const JCharacter* kContextMenuStr =
 	"    Open selected files                 %k Left-dbl-click or Return."
-	"  | Open complement files               %k Middle-dbl-click or Meta-Tab."
+	"  | Open complement files               %k Middle-dbl-click or Control-Tab."
 	"%l| Edit sub-project configuration"
 	"%l| New group"
 	"  | Add files..."
@@ -311,8 +311,6 @@ CBProjectTable::AddDirectoryTree
 			const JString& name    = entry.GetName();
 			if (entry.IsFile() &&
 				!name.EndsWith(CBProjectDocument::GetProjectFileSuffix()) &&
-				!name.EndsWith(CBProjectDocument::GetSettingFileSuffix()) &&
-				!name.EndsWith(CBProjectDocument::GetSymbolFileSuffix()) &&
 				!name.EndsWith(CBBuildManager::GetSubProjectBuildSuffix()))
 				{
 				fullNameList.Append(entry.GetFullName());
