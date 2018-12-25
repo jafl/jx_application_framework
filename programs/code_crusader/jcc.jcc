@@ -1069,7 +1069,9 @@ F
 4
 "makemake"
 T "./" "make -k personal" "" T F T F T F T "" "" "" T
-T "@" "pwd" "" F F F T T F F "" "" "" F
+T "./" "pwd ; &stat ; ls -l $full_name" "" F F F T T T F "" "" "" F
+T "./" "stat $relative_name" "stat" F F F T T F F "" "" "" F
+T "./" "pwd ; &stat ; echo ====" "" F F F T T T F "" "" "" F
 F
 # build settings
 1

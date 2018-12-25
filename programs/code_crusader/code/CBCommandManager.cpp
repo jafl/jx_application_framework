@@ -393,12 +393,22 @@ CBCommandManager::Prepare
 			{
 			cmdPath = *(info.path);
 			cmdStr  = *(info.cmd);
+
+			JPtrArray<JString> subFullNameList(JPtrArrayT::kForgetAll);
+			subFullNameList.Append(const_cast<JString*>(fullNameList.NthElement(i)));
+
+			JArray<JIndex> subLineIndexList;
+			if (hasLines)
+				{
+				subLineIndexList.AppendElement(lineIndexList.GetElement(i));
+				}
+
 			if (Substitute(&cmdPath, &cmdStr, projDoc,
 						   *(fullNameList.NthElement(i)),
 						   (hasLines ? lineIndexList.GetElement(i) : 0),
 						   kJTrue) &&
 				Add(cmdPath, cmdStr, info, projDoc, NULL,
-					&fullNameList, &lineIndexList, cmd, cmdList))
+					&subFullNameList, &subLineIndexList, cmd, cmdList))
 				{
 				(**cmd).MarkEndOfSequence();
 				}
