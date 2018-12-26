@@ -28,10 +28,10 @@ public:
 	void		Append(const T& newElement);
 	T			GetNext();
 	JBoolean	GetNext(T* element);
-	const T		PeekNext();
-	JBoolean	PeekNext(T* element);
-	const T		PeekNext(const JIndex index);
-	JBoolean	PeekNext(const JIndex index, T* element);
+	const T		PeekNext() const;
+	JBoolean	PeekNext(T* element) const;
+	const T		PeekNext(const JIndex index) const;
+	JBoolean	PeekNext(const JIndex index, T* element) const;
 
 	void	Flush();
 	void	Discard(const JSize numToDiscard);

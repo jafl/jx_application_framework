@@ -152,6 +152,7 @@ JQueue<T,S>::GetNext
 template <class T, class S>
 const T
 JQueue<T,S>::PeekNext()
+	const
 {
 	return itsElements->GetElement(1);
 }
@@ -162,6 +163,7 @@ JQueue<T,S>::PeekNext
 	(
 	T* element
 	)
+	const
 {
 	if (!IsEmpty())
 		{
@@ -187,6 +189,7 @@ JQueue<T,S>::PeekNext
 	(
 	const JIndex index
 	)
+	const
 {
 	return itsElements->GetElement(index);
 }
@@ -198,6 +201,7 @@ JQueue<T,S>::PeekNext
 	const JIndex	index,
 	T*				element
 	)
+	const
 {
 	if (IndexValid(index))
 		{
