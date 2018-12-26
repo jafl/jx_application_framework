@@ -155,6 +155,7 @@ JStack<T,S>::Pop
 template <class T, class S>
 const T
 JStack<T,S>::Peek()
+	const
 {
 	return itsElements->GetElement(GetElementCount());
 }
@@ -165,6 +166,7 @@ JStack<T,S>::Peek
 	(
 	T* element
 	)
+	const
 {
 	const JSize count = GetElementCount();
 	if (count > 0)
@@ -192,6 +194,7 @@ JStack<T,S>::Peek
 	(
 	const JIndex index
 	)
+	const
 {
 	return itsElements->GetElement(GetElementCount() - index + 1);
 }
@@ -203,6 +206,7 @@ JStack<T,S>::Peek
 	const JIndex	index,
 	T*				element
 	)
+	const
 {
 	const JSize count = GetElementCount();
 	if (IndexValid(index))
