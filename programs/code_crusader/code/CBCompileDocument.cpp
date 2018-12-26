@@ -191,7 +191,7 @@ CBCompileDocument::ProcessFinished
 
  ******************************************************************************/
 
-static const JRegex gccErrorRegex    = ".:[0-9]+(:[0-9]+)?: ";
+static const JRegex gccErrorRegex    = ".:[0-9]+(:[0-9]+)?: (?:error|warning):";
 static const JRegex flexErrorRegex   = "..\", line [0-9]+: ";
 static const JRegex bisonErrorRegex  = "...\", line [0-9]+\\) error: ";
 static const JRegex makeErrorRegex   = ".(\\[[0-9]+\\])?: \\*\\*\\*";
@@ -203,6 +203,7 @@ static const JRegex maven3ErrorRegex = "^(?:\\[.+?\\]\\s+)?(.+?):[0-9]+:[0-9]+::
 
 static const JCharacter* makeIgnoreErrorStr = "(ignored)";
 static const JCharacter* gccMultilinePrefix = "   ";
+const JSize kGCCMultilinePrefixLength       = strlen(gccMultilinePrefix);
 
 const JCharacter kMultibyteMarker = '\xE2';
 
@@ -287,7 +288,9 @@ CBCompileDocument::AppendText
 		}
 	else if (!isJavacError && !isGCCError &&
 			 gccErrorRegex.Match(itsPrevLine, &gccPrevLineRange) &&
-			 text->BeginsWith(gccMultilinePrefix))
+			 text->BeginsWith(gccMultilinePrefix) &&
+			 text->GetLength() > kGCCMultilinePrefixLength &&
+			 !isspace(text->GetCharacter(kGCCMultilinePrefixLength+1)))
 		{
 		JString s = *text;
 		s.RemoveSubstring(1, strlen(gccMultilinePrefix));
