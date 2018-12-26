@@ -1139,15 +1139,21 @@ CBCommandTable::UpdateOptionsMenu()
 		itsOptionsMenu->CheckItem(kSaveAllCmd);
 		}
 
-	if (info.oneAtATime)
+	if (info.path->GetFirstCharacter() == '@')
 		{
+		itsOptionsMenu->DisableItem(kOneAtATimeCmd);
 		itsOptionsMenu->CheckItem(kOneAtATimeCmd);
+		info.oneAtATime = kJTrue;
+		changed         = kJTrue;
 		}
-
-//
-	itsOptionsMenu->DisableItem(kOneAtATimeCmd);
-	itsOptionsMenu->CheckItem(kOneAtATimeCmd);
-//
+	else
+		{
+		itsOptionsMenu->EnableItem(kOneAtATimeCmd);
+		if (info.oneAtATime)
+			{
+			itsOptionsMenu->CheckItem(kOneAtATimeCmd);
+			}
+		}
 
 	itsOptionsMenu->SetItemEnable(kUseWindowCmd, !info.isMake);
 	if (info.useWindow)

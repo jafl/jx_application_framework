@@ -19,16 +19,16 @@ class CBCommand : virtual public JBroadcaster
 {
 public:
 
-	CBCommand(const JCharacter* path, const JBoolean refreshVCSStatusWhenFinished,
+	CBCommand(const JString& path, const JBoolean refreshVCSStatusWhenFinished,
 			  const JBoolean beepWhenFinished, CBProjectDocument* projDoc);
 
 	virtual	~CBCommand();
 
 	void		SetParent(CBCommand* cmd);
-	JBoolean	Add(const JCharacter* origCmd, CBTextDocument* textDoc,
-					const JPtrArray<JString>* fullNameList,
-					const JArray<JIndex>* lineIndexList,
-					JPtrArray<JString>* fnList);
+	JBoolean	Add(const JPtrArray<JString>& cmdArgs,
+					const JPtrArray<JString>& fullNameList,
+					const JArray<JIndex>& lineIndexList,
+					CBFunctionStack* fnStack);
 	void		Add(CBCommand* subCmd, const CBCommandManager::CmdInfo& cmdInfo);
 	void		MarkEndOfSequence();
 	JBoolean	Start(const CBCommandManager::CmdInfo& info);
@@ -45,7 +45,7 @@ private:
 
 	struct CmdInfo
 	{
-		JString*					cmd;		// can be NULL
+		JPtrArray<JString>*			cmd;		// can be NULL
 		CBCommand*					cmdObj;		// can be NULL
 		CBCommandManager::CmdInfo*	cmdInfo;	// NULL if cmdObj==NULL
 		JBoolean					isMakeDepend;
@@ -55,7 +55,7 @@ private:
 			cmd(NULL), cmdObj(NULL), cmdInfo(NULL), isMakeDepend(kJFalse)
 		{ };
 
-		CmdInfo(JString* c, CBCommand* o, CBCommandManager::CmdInfo* i,
+		CmdInfo(JPtrArray<JString>* c, CBCommand* o, CBCommandManager::CmdInfo* i,
 				const JBoolean isMD)
 			:
 			cmd(c), cmdObj(o), cmdInfo(i), isMakeDepend(isMD)
@@ -99,7 +99,7 @@ private:
 	void	DeleteThis();
 	void	FinishWindow(CBExecOutputDocument** doc);
 
-	void	ReportInfiniteLoop(const JPtrArray<JString>& cmdList,
+	void	ReportInfiniteLoop(const CBFunctionStack& fnStack,
 							   const JIndex startIndex);
 
 	// not allowed

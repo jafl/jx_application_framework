@@ -9,8 +9,9 @@
 #define _H_CBCommandManager
 
 #include <JPrefObject.h>
-#include <JBroadcaster.h>
 #include <JString.h>
+#include <JStack.h>
+#include <JPtrQueue.h>
 
 class JProcess;
 class JXTextMenu;
@@ -21,6 +22,9 @@ class CBExecOutputDocument;
 class CBCompileDocument;
 class CBDocumentManager;
 class CBBuildManager;
+
+typedef JPtrArray<JPtrArray<JString> >							CBCmdQueue;
+typedef JStack<const JCharacter*, JArray<const JCharacter*> >	CBFunctionStack;
 
 class CBCommandManager : public JPrefObject, virtual public JBroadcaster
 {
@@ -105,14 +109,11 @@ public:
 					 const JPtrArray<JString>& fullNameList,
 					 const JArray<JIndex>& lineIndexList);
 
-	JBoolean	Prepare(const char* cmdName, CBProjectDocument* projDoc,
-						CBTextDocument* textDoc, CBCommand** cmd, CmdInfo** returnInfo,
-						JPtrArray<JString>* cmdList);
-	JBoolean	Prepare(const char* cmdName, CBProjectDocument* projDoc,
+	JBoolean	Prepare(const JString& cmdName, CBProjectDocument* projDoc,
 						const JPtrArray<JString>& fullNameList,
 						const JArray<JIndex>& lineIndexList,
 						CBCommand** cmd, CmdInfo** returnInfo,
-						JPtrArray<JString>* cmdList);
+						CBFunctionStack* fnStack);
 
 	JBoolean	GetMakeDependCmdStr(CBProjectDocument* projDoc, const JBoolean reportError,
 									JString* cmdStr) const;
@@ -121,7 +122,7 @@ public:
 						   CBCommand** resultCmd);
 
 	const JString&	GetMakeDependCommand() const;
-	void			SetMakeDependCommand(const JCharacter* cmd);
+	void			SetMakeDependCommand(const JString& cmd);
 
 	JBoolean	Substitute(CBProjectDocument* projDoc, const JBoolean reportError,
 						   JString* cmdStr) const;
@@ -129,13 +130,13 @@ public:
 	JSize		GetCommandCount() const;
 	CmdList*	GetCommandList();
 
-	void	AppendCommand(const JCharacter* path, const JCharacter* cmd,
-						  const JCharacter* name,
+	void	AppendCommand(const JString& path, const JString& cmd,
+						  const JString& name,
 						  const JBoolean isMake, const JBoolean isVCS,
 						  const JBoolean saveAll,
 						  const JBoolean oneAtATime, const JBoolean useWindow,
 						  const JBoolean raise, const JBoolean beep,
-						  const JCharacter* menuText, const JCharacter* menuShortcut,
+						  const JString& menuText, const JString& menuShortcut,
 						  const JBoolean separator);
 
 	void	UpdateAllCommandMenus();
@@ -197,23 +198,28 @@ private:
 	void	UpdateFileMarkers(const JBoolean convertFromAncient, JString* s);
 
 	static JBoolean	Prepare(const CmdInfo& info, CBProjectDocument* projDoc,
-							CBTextDocument* textDoc, CBCommand** cmd,
-							JPtrArray<JString>* cmdList);
-	static JBoolean	Prepare(const CmdInfo& info, CBProjectDocument* projDoc,
 							const JPtrArray<JString>& fullNameList,
 							const JArray<JIndex>& lineIndexList, CBCommand** cmd,
-							JPtrArray<JString>* cmdList);
-	JBoolean		FindCommandName(const JCharacter* name, CmdInfo* info) const;
-	static JBoolean	Substitute(JString* cmdPath, JString* cmd, CBProjectDocument* projDoc,
-							   const JCharacter* fullName, const JIndex lineIndex,
-							   const JBoolean onDisk,
-							   const JBoolean reportError = kJTrue);
-	static JBoolean	Add(const JCharacter* path, const JCharacter* cmdStr,
+							CBFunctionStack* fnStack);
+	JBoolean		FindCommandName(const JString& name, CmdInfo* info) const;
+	static JBoolean	Parse(const JString& cmd, CBCmdQueue* cmdQueue,
+						  CBFunctionStack* fnStack);
+	static JBoolean	BuildCmdPath(JString* cmdPath, CBProjectDocument* projDoc,
+								 const JString& fullName, const JBoolean reportError);
+	static JBoolean	ProcessCmdQueue(const JString& cmdPath, const CBCmdQueue& cmdQueue,
+									const CmdInfo& info, CBProjectDocument* projDoc,
+									const JPtrArray<JString>& fullNameList,
+									const JArray<JIndex>& lineIndexList,
+									const JBoolean reportError,
+									CBCommand** cmd, CBFunctionStack* fnStack);
+	static JBoolean	Substitute(JString* arg, CBProjectDocument* projDoc,
+							   const JString& fullName, const JIndex lineIndex,
+							   const JBoolean reportError);
+	static JBoolean	Add(const JString& path, const JPtrArray<JString>& cmdArgs,
 						const CmdInfo& info, CBProjectDocument* projDoc,
-						CBTextDocument* textDoc,
-						const JPtrArray<JString>* fullNameList,
-						const JArray<JIndex>* lineIndexList,
-						CBCommand** cmd, JPtrArray<JString>* cmdList);
+						const JPtrArray<JString>& fullNameList,
+						const JArray<JIndex>& lineIndexList,
+						CBCommand** cmd, CBFunctionStack* fnStack);
 
 	JString	GetUniqueMenuID();
 
@@ -259,7 +265,7 @@ CBCommandManager::GetMakeDependCommand()
 inline void
 CBCommandManager::SetMakeDependCommand
 	(
-	const JCharacter* cmd
+	const JString& cmd
 	)
 {
 	itsMakeDependCmd = cmd;

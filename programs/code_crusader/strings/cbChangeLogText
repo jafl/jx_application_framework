@@ -14,6 +14,8 @@ Please send all bug reports and suggestions for features to
 
 <h3> 6.10 </h3>
 
+The option \"Perform on one file at a time\" in \"Edit Tasks Menu\" dialog can now be turned off.
+<p>
 \"Edit Tasks Menu\" dialog no longer flags @ followed by a relative path as an error.
 <p>
 Moved private data files (<code>.jst</code> and <code>.jup</code>) to hidden directory (<code>.jcc</code>).

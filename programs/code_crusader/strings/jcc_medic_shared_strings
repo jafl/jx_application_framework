@@ -224,6 +224,12 @@ MustSaveText::CBCommandManager
 UnknownCmd::CBCommandManager
 "There is no command named \"$cmd\""
 
+FnsNotAllowed::CBCommandManager
+"Task names are not allowed in the command to rebuild dependencies in the Makefile."
+
+ArgsNotAllowed::CBCommandManager
+"You cannot pass arguments to a task when invoking it from another task."
+
 DefCmdBuildText::CBCommandManager				"Build (via make)"
 DefCmdBuildShortcut::CBCommandManager			"Meta-M"
 
@@ -347,9 +353,6 @@ CompileCloseMsg::CBCommand
 
 RunCloseMsg::CBCommand
 "You cannot close the Program Output window while the task is running."
-
-CmdsNotAllowed::CBCommand
-"Command names are not allowed in the command to rebuild dependencies in the Makefile."
 
 InfiniteLoop::CBCommand
 "This command cannot be executed because it would get stuck in an infinite loop:
