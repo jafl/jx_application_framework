@@ -134,8 +134,6 @@ CBCommandManager::MakeDepend
 	CmdInfo info(&cmdPath, &itsMakeDependCmd, NULL, NULL, NULL, NULL);
 
 	JPtrArray<JString> emptyFullNameList(JPtrArrayT::kForgetAll);
-	emptyFullNameList.Append("");
-
 	JArray<JIndex> emptyLineIndexList;
 
 	CBCommand* cmd = NULL;
@@ -313,18 +311,20 @@ CBCommandManager::Prepare
 	assert( !hasLines || lineIndexList.GetElementCount() == fullNameList.GetElementCount() );
 
 	const JBoolean usesFiles = JI2B(
-		!fullNameList.IsEmpty() &&
-		(info.cmd->Contains("$full_name")        ||
-		 info.cmd->Contains("$relative_name")    ||
-		 info.cmd->Contains("$file_name")        ||
-		 info.cmd->Contains("$file_name_root")   ||
-		 info.cmd->Contains("$file_name_suffix") ||
-		 info.cmd->Contains("$full_path")        ||
-		 info.cmd->Contains("$relative_path")    ||
-		 info.cmd->Contains("$line")));
+		info.cmd->Contains("$full_name")        ||
+		info.cmd->Contains("$relative_name")    ||
+		info.cmd->Contains("$file_name")        ||
+		info.cmd->Contains("$file_name_root")   ||
+		info.cmd->Contains("$file_name_suffix") ||
+		info.cmd->Contains("$full_path")        ||
+		info.cmd->Contains("$relative_path")    ||
+		info.cmd->Contains("$line"));
 
-	const JBoolean runAtFile  = JI2B( info.path->GetFirstCharacter() == '@' );
-	const JBoolean oneAtATime = JI2B( info.oneAtATime || runAtFile );
+	if (usesFiles && fullNameList.IsEmpty())
+		{
+		(JGetUserNotification())->ReportError("RequiresFile::CBCommandManager");
+		return kJFalse;
+		}
 
 	CBCmdQueue cmdQueue(JPtrArrayT::kDeleteAll);
 	if (!Parse(*info.cmd, &cmdQueue, fnStack))
@@ -332,7 +332,7 @@ CBCommandManager::Prepare
 		return kJFalse;
 		}
 
-	if (usesFiles && oneAtATime)
+	if (usesFiles && info.oneAtATime)
 		{
 		const JSize count = fullNameList.GetElementCount();
 		JString cmdPath;
@@ -350,9 +350,62 @@ CBCommandManager::Prepare
 				subLineIndexList.AppendElement(lineIndexList.GetElement(i));
 				}
 
-			if (BuildCmdPath(&cmdPath, projDoc, *(fullNameList.NthElement(i)), kJTrue) &&
+			if (BuildCmdPath(&cmdPath, projDoc, *fullNameList.NthElement(i), kJTrue) &&
 				ProcessCmdQueue(cmdPath, cmdQueue, info, projDoc,
 								subFullNameList, subLineIndexList,
+								kJTrue, cmd, fnStack))
+				{
+				(**cmd).MarkEndOfSequence();
+				}
+			else
+				{
+				jdelete *cmd;
+				*cmd = NULL;
+				break;
+				}
+			}
+		}
+	else if (usesFiles && info.path->GetFirstCharacter() == '@')
+		{
+		// group files in the same directory
+
+		JPtrArray<JString> nameList(fullNameList, JPtrArrayT::kForgetAll);
+		JArray<JIndex> lineList(lineIndexList);
+
+		JPtrArray<JString> samePathNameList(JPtrArrayT::kForgetAll);
+		JArray<JIndex> samePathLineList;
+
+		JString cmdPath, filePath, p, n;
+		while (!nameList.IsEmpty())
+			{
+			cmdPath = *info.path;
+			samePathNameList.RemoveAll();
+			samePathLineList.RemoveAll();
+			filePath.Clear();
+
+			const JSize nameCount = nameList.GetElementCount();
+			for (JIndex i=nameCount; i>=1; i--)
+				{
+				const JString* fullName = nameList.NthElement(i);
+				JSplitPathAndName(*fullName, &p, &n);
+				if (filePath.IsEmpty() || p == filePath)
+					{
+					samePathNameList.Append(const_cast<JString*>(fullName));
+					nameList.RemoveElement(i);
+
+					if (hasLines)
+						{
+						samePathLineList.AppendElement(lineList.GetElement(i));
+						lineList.RemoveElement(i);
+						}
+
+					filePath = p;
+					}
+				}
+
+			if (BuildCmdPath(&cmdPath, projDoc, *samePathNameList.FirstElement(), kJTrue) &&
+				ProcessCmdQueue(cmdPath, cmdQueue, info, projDoc,
+								samePathNameList, samePathLineList,
 								kJTrue, cmd, fnStack))
 				{
 				(**cmd).MarkEndOfSequence();
@@ -493,15 +546,12 @@ CBCommandManager::ProcessCmdQueue
 			{
 			const JString* cmdArg = cmdArgs->NthElement(j);
 
-			for (JIndex k=1; k<=nameCount; k++)
+			if (fullNameList.IsEmpty())
 				{
 				JString* arg = jnew JString(*cmdArg);
 				assert( arg != NULL );
 
-				if (!Substitute(arg, projDoc,
-								*(fullNameList.GetElement(k)),
-								(hasLines ? lineIndexList.GetElement(k) : 0),
-								reportError))
+				if (!Substitute(arg, projDoc, "", 0, reportError))
 					{
 					jdelete *cmd;
 					*cmd = NULL;
@@ -509,9 +559,29 @@ CBCommandManager::ProcessCmdQueue
 					}
 
 				args.Append(arg);
-				if (*arg == *cmdArg)	// no substitutions
+				}
+			else
+				{
+				for (JIndex k=1; k<=nameCount; k++)
 					{
-					break;
+					JString* arg = jnew JString(*cmdArg);
+					assert( arg != NULL );
+
+					if (!Substitute(arg, projDoc,
+									*(fullNameList.GetElement(k)),
+									(hasLines ? lineIndexList.GetElement(k) : 0),
+									reportError))
+						{
+						jdelete *cmd;
+						*cmd = NULL;
+						return kJFalse;
+						}
+
+					args.Append(arg);
+					if (!UsesFile(*cmdArg))
+						{
+						break;
+						}
 					}
 				}
 			}
@@ -595,7 +665,7 @@ CBCommandManager::BuildCmdPath
 
 	if (!cmdPath->IsEmpty() && cmdPath->GetFirstCharacter() == '@')
 		{
-		if (JStringEmpty(fullName) || !onDisk)
+		if (!onDisk)
 			{
 			if (reportError)
 				{
@@ -685,15 +755,7 @@ CBCommandManager::Substitute
 		return kJFalse;
 		}
 
-	if (!onDisk &&
-		(arg->Contains("$full_name")        ||
-		 arg->Contains("$relative_name")    ||
-		 arg->Contains("$file_name")        ||
-		 arg->Contains("$file_name_root")   ||
-		 arg->Contains("$file_name_suffix") ||
-		 arg->Contains("$full_path")        ||
-		 arg->Contains("$relative_path")    ||
-		 arg->Contains("$line")))
+	if (!onDisk && UsesFile(*arg))
 		{
 		if (reportError)
 			{
@@ -747,6 +809,28 @@ CBCommandManager::Substitute
 
 	(JGetStringManager())->Replace(arg, map, sizeof(map));
 	return kJTrue;
+}
+
+/******************************************************************************
+ UsesFile (static private)
+
+ ******************************************************************************/
+
+JBoolean
+CBCommandManager::UsesFile
+	(
+	const JString& arg
+	)
+{
+	return JI2B(
+		arg.Contains("$full_name")        ||
+		arg.Contains("$relative_name")    ||
+		arg.Contains("$file_name")        ||
+		arg.Contains("$file_name_root")   ||
+		arg.Contains("$file_name_suffix") ||
+		arg.Contains("$full_path")        ||
+		arg.Contains("$relative_path")    ||
+		arg.Contains("$line"));
 }
 
 /******************************************************************************

@@ -220,6 +220,7 @@ private:
 						const JPtrArray<JString>& fullNameList,
 						const JArray<JIndex>& lineIndexList,
 						CBCommand** cmd, CBFunctionStack* fnStack);
+	static JBoolean	UsesFile(const JString& arg);
 
 	JString	GetUniqueMenuID();
 
