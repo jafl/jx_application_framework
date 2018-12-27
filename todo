@@ -1,27 +1,34 @@
+jcc
+	merge
+		convert copyright symbol
+		use override on most common virtual functions
+		remove unnecessary "All rights reserved."
+		NULL -> nullptr
+		NthElement -> GetElement
+		JStringEmpty -> JString::IsEmpty
+		switch to JUnsignedOffset
+
+-----
+
 Fedora 27 window manager
 	JXWindow does not analyze correctly
 
 jcc
-	implement *not* "one a a time" for commands -- svn remove, yui build, compile files
-		when invoke one-at-a-time from not-one-at-a-time, invoke separate loop
-		when invoke @ commands, must treat as one-at-a-time
-
 	if modified separately in memory and on disk, offer to show diff
 		if window closed, deactivate "Redo diff" button
+
+	EditTasksDialog: top partition gets larger every time it is opened
 
 	vi emulator
 		dd doesn't work on last line of file
 		Ndd doesn't include last line of file even if it should be included
-
-	Pick a default size and location for text windows when first run
-		based on desktop size (if not auto-dock all)
 
 switch to cairo for rendering
 	anti-aliased lines
 	postscript printing
 
 multi-pane editing
-	CBTextDocument has handle to JStyledText
+	CBTextDocument owns JXStyledText
 	use partitions to show multiple views
 		double appropriate window dimension, if screen has space
 	each partition needs small [x] to close
@@ -32,13 +39,6 @@ JXMenu::PrepareToOpenMenu()
 
 JPrefsManager
 	Atomic lock around SaveToDisk(), etc. in case multiple instances try writing
-
-Clean up prefs
-	JXPrefsDialog has tree list and card file
-		tree list pane adjusts width to bounds of tree list
-		card file pane sets min size to union of card sizes
-	Split CBTextEditorPrefs into multiple panes
-	factor out JXEditStylesWidget from JXEditStylesDialog so it can be a card
 
 support D
 	http://en.wikipedia.org/wiki/D_(programming_language)
@@ -105,6 +105,25 @@ jcc
 		perl/php -- executes only after closing pipe, wrap php in <? ... ?> if not already there
 		python/ruby -- write to pipe after invoking, to allow inspecting result
 
+	Pick a default size and location for text windows when first run
+		based on desktop size (if not auto-dock all)
+
+	search results:  option to show n lines above and below matching line
+
+	Tooltip-like window when open function arg list
+		bold current argument, based on number of commas after opening paren
+	Tooltip for scrolltabs: which function it is in
+	Tooltip while scrolling: which function it is in
+
+	Editor for regex's so compiler support is not hard-coded
+	Cascade option for undocked windows
+	Option to search all files in current project
+	Symbol list: print unique prefix for file names (like in Files window)
+	PHP: balance <? ?>
+	JXChooseMonoFont: allow "Other..."
+
+	Class trees need to search symbol database for function location.
+
 medic
 	accept connection or switch to gdb:  should stop listening on port
 		need simple example to submit to ACE list
@@ -131,32 +150,6 @@ medic
 		switch from running binary to core dump
 		switch from one program to another
 
-memory analyzer
-	jcc -- crash with deleted JMessageProtocol -- only when open project
-	print table:  partial column on page 1
-
-	option to print MDStatsDirector
-	records window:
-		show info about query in window title
-
------
-
-nm
-objdump
-readelf
-dwarfdump
-
-Docking
-	OSX: window placement inside dock sometimes wrong (iconfied windows)
-	undock: window placement not restored
-	raise window via menu shortcut:  dock moves on Ubuntu, and focus not set to the window
-
-	When compartment minimized and move tab position, should readjust pane sizes
-	When min page size increases in dock, adjust panes so divider visible
-		(test:  move tab group tabs from side to top)
-
------
-
 systemg
 	store alternate-open prefs for every executable in the directory
 		use these prefs when plain-open is invoked
@@ -172,29 +165,13 @@ systemg
 		rewrite MDI server to collect files in same directory
 			then pass collection to SyGFindFileTask
 
-JKeyHandler
-	if we build key handlers for different file types:
-		specify key handler in CharAction config
-		JKeyHandlerStack extends JKeyHandler
-			to combine different key handlers, can construct a stack
-			if one returns kJFalse, the next one gets it
+memory analyzer
+	jcc -- crash with deleted JMessageProtocol -- only when open project
+	print table:  partial column on page 1
 
-jcc
-	search results:  option to show n lines above and below matching line
-
-	Tooltip-like window when open function arg list
-		bold current argument, based on number of commas after opening paren
-	Tooltip for scrolltabs: which function it is in
-	Tooltip while scrolling: which function it is in
-
-	Editor for regex's so compiler support is not hard-coded
-	Cascade option for undocked windows
-	Option to search all files in current project
-	Symbol list: print unique prefix for file names (like in Files window)
-	PHP: balance <? ?>
-	JXChooseMonoFont: allow "Other..."
-
-	Class trees need to search symbol database for function location.
+	option to print MDStatsDirector
+	records window:
+		show info about query in window title
 
 drakon
 	FreeBSD missing
@@ -209,11 +186,33 @@ drakon
 
 	SendSignal dialog
 
-Dock
+Clean up prefs
+	JXPrefsDialog has tree list and card file
+		tree list pane adjusts width to bounds of tree list
+		card file pane sets min size to union of card sizes
+	Split CBTextEditorPrefs into multiple panes
+	factor out JXEditStylesWidget from JXEditStylesDialog so it can be a card
+
+Docking
+	OSX: window placement inside dock sometimes wrong (iconfied windows)
+	undock: window placement not restored
+	raise window via menu shortcut:  dock moves on Ubuntu, and focus not set to the window
+
+	When compartment minimized and move tab position, should readjust pane sizes
+	When min page size increases in dock, adjust panes so divider visible
+		(test:  move tab group tabs from side to top)
+
 	Key shortcuts to move between dock compartments
 		What key?  Tab is fully loaded in jcc
 		cycle through leaf nodes of tree from left to right
 		(first, build array of leaf nodes, then find current pane and switch to next)
+
+JKeyHandler
+	if we build key handlers for different file types:
+		specify key handler in CharAction config
+		JKeyHandlerStack extends JKeyHandler
+			to combine different key handlers, can construct a stack
+			if one returns kJFalse, the next one gets it
 
 JTextEditor::DrawInMargin
 	line #'s
@@ -224,6 +223,11 @@ cygwin
 	jcc:  dragging files from systemg to diff dialog doesn't work
 
 -----
+
+nm
+objdump
+readelf
+dwarfdump
 
 ASIO
 	http://think-async.com/Asio
