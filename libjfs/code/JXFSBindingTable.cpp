@@ -713,7 +713,7 @@ JXFSBindingTable::SetColTitles
 	const
 {
 	widget->SetColTitle(1, JGetString("FileColTitle::JXFSBindingTable"));
-	widget->SetColTitle(1, JGetString("CommandColTitle::JXFSBindingTable"));
-	widget->SetColTitle(1, JGetString("TypeColTitle::JXFSBindingTable"));
-	widget->SetColTitle(1, JGetString("OneAtATime::JXFSBindingTable"));
+	widget->SetColTitle(2, JGetString("CommandColTitle::JXFSBindingTable"));
+	widget->SetColTitle(3, JGetString("TypeColTitle::JXFSBindingTable"));
+	widget->SetColTitle(4, JGetString("OneAtATime::JXFSBindingTable"));
 }
