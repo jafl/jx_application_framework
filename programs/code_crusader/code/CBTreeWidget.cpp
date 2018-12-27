@@ -85,7 +85,7 @@ CBTreeWidget::CBTreeWidget
 	itsQtSlotImage = jnew JXImage(GetDisplay(), jcc_qt_slot);
 	assert( itsQtSlotImage != nullptr );
 
-	WantInput(kJTrue, kJFalse, kJTrue);	// need Meta-Tab
+	WantInput(kJTrue, kJFalse, kJTrue);	// need Ctrl-Tab
 
 	const JColorID gray75Color = GetColormap()->GetGrayColor(75);
 	SetBackColor(gray75Color);

@@ -1,15 +1,3 @@
-jcc
-	merge
-		convert copyright symbol
-		use override on most common virtual functions
-		remove unnecessary "All rights reserved."
-		NULL -> nullptr
-		NthElement -> GetElement
-		JStringEmpty -> JString::IsEmpty
-		switch to JUnsignedOffset
-
------
-
 Fedora 27 window manager
 	JXWindow does not analyze correctly
 

@@ -79,17 +79,16 @@ JString CBProjectDocument::theAddFilesFilter;
 static const JCharacter* kProjectFileSignature = "jx_browser_data";
 const JSize kProjectFileSignatureLength        = strlen(kProjectFileSignature);
 static const JCharacter* kProjectFileSuffix    = ".jcc";
-const JSize kProjectFileSuffixLength           = strlen(kProjectFileSuffix);
+
+static const JCharacter* kDataDirectory        = ".jcc";
 
 static const JCharacter* kSettingFileSignature = "jx_browser_local_settings";
 const JSize kSettingFileSignatureLength        = strlen(kSettingFileSignature);
-static const JCharacter* kSettingFileSuffix    = ".jup";
-const JSize kSettingFileSuffixLength           = strlen(kSettingFileSuffix);
+static const JCharacter* kSettingFileName      = "prefs";
 
 static const JCharacter* kSymbolFileSignature  = "jx_browser_symbol_table";
 const JSize kSymbolFileSignatureLength         = strlen(kSymbolFileSignature);
-static const JCharacter* kSymbolFileSuffix     = ".jst";
-const JSize kSymbolFileSuffixLength            = strlen(kSymbolFileSuffix);
+static const JCharacter* kSymbolFileName       = "symbols";
 
 static const JCharacter* kNewProjectFileName   = "Untitled.jcc";
 static const JCharacter* kSaveNewFilePrompt    = "Save project as:";
@@ -167,7 +166,7 @@ static const JCharacter* kSourceMenuStr =
 	"  | Add directory tree...                                          %i" kCBAddDirectoryTreeToProjectAction
 	"  | Remove selected items          %k Backspace.                   %i" kCBRemoveFilesAction
 	"%l| Open selected files            %k Left-dbl-click or Return     %i" kCBOpenSelectedFilesAction
-	"  | Open complement files          %k Middle-dbl-click or Meta-Tab %i" kCBOpenComplFilesAction
+	"  | Open complement files          %k Middle-dbl-click or Control-Tab %i" kCBOpenComplFilesAction
 	"%l| Edit file path                 %k Meta-left-dbl-click          %i" kCBEditFilePathAction
 	"  | Edit sub-project configuration                                 %i" kCBEditSubprojConfigAction
 	"%l| Compare selected files with backup                             %i" kCBDiffSmartAction
@@ -280,8 +279,9 @@ CBProjectDocument::Create
 
 		if (fullName.EndsWith(kProjectFileSuffix))
 			{
-			fullName.RemoveSubstring(fullName.GetLength()-kProjectFileSuffixLength+1,
-									 fullName.GetLength());
+			JString root, suffix;
+			JSplitRootAndSuffix(fullName, &root, &suffix);
+			fullName = root;
 			}
 
 		std::ifstream input(tmplFile);
@@ -327,28 +327,32 @@ CBProjectDocument::Create
 	// make sure we use the project file, not the symbol file
 
 	JString projName = fullName;
-	JString setName  = GetSettingFileName(fullName);
-	JString symName  = GetSymbolFileName(fullName);
-	if (projName.EndsWith(kSymbolFileSuffix))
+
+	// legacy
+
+	JString path, suffix;
+	JSplitRootAndSuffix(fullName, &path, &suffix);
+
+	if (suffix == ".jst" || suffix == ".jup" || suffix == CBBuildManager::GetSubProjectBuildSuffix())
 		{
-		const JIndex length = projName.GetLength();
-		projName.ReplaceSubstring(length - kSymbolFileSuffixLength + 1, length,
-								  kProjectFileSuffix);
-		}
-	else if (projName.EndsWith(kSettingFileSuffix))
-		{
-		const JIndex length = projName.GetLength();
-		projName.ReplaceSubstring(length - kSettingFileSuffixLength + 1, length,
-								  kProjectFileSuffix);
+		projName = JCombineRootAndSuffix(path, kProjectFileSuffix);
 		}
 
-	const JCharacter* subProjBuildSuffix = CBBuildManager::GetSubProjectBuildSuffix();
-	if (projName.EndsWith(subProjBuildSuffix))
+	JString name = JCombineRootAndSuffix(path, ".jst");
+	if (JFileExists(name))
 		{
-		const JIndex length = projName.GetLength();
-		projName.ReplaceSubstring(length - strlen(subProjBuildSuffix) + 1, length,
-								  kProjectFileSuffix);
+		const JString symName = GetSymbolFileName(fullName);
+		JRenameFile(name, symName);
 		}
+
+	name = JCombineRootAndSuffix(path, ".jup");
+	if (JFileExists(name))
+		{
+		const JString setName = GetSettingFileName(fullName);
+		JRenameFile(name, setName);
+		}
+
+	// open the file
 
 	JXFileDocument* baseDoc;
 	if ((CBGetDocumentManager())->FileDocumentIsOpen(projName, &baseDoc))
@@ -383,6 +387,9 @@ CBProjectDocument::Create
 		}
 
 		(CBGetApplication())->DisplayBusyCursor();
+
+		const JString symName = GetSymbolFileName(fullName);
+		const JString setName = GetSettingFileName(fullName);
 
 		*doc = jnew CBProjectDocument(input, projName, setName, symName, silent);
 		assert( *doc != nullptr );
@@ -770,8 +777,6 @@ CBProjectDocument::CBProjectDocumentX
 	SetSaveNewFilePrompt(kSaveNewFilePrompt);
 
 	BuildWindow(fileList);
-
-	UpdateCVSIgnore();
 }
 
 /******************************************************************************
@@ -1190,10 +1195,12 @@ CBProjectDocument::GetSettingFileName
 	const JCharacter* fullName
 	)
 {
-	JString setName, suffix;
-	JSplitRootAndSuffix(fullName, &setName, &suffix);
-	setName += kSettingFileSuffix;
-	return setName;
+	JString path, name;
+	JSplitPathAndName(fullName, &path, &name);
+	name = JCombinePathAndName(path, kDataDirectory);
+	JCreateDirectory(name);
+	name = JCombinePathAndName(name, kSettingFileName);
+	return name;
 }
 
 /******************************************************************************
@@ -1207,13 +1214,13 @@ CBProjectDocument::GetSymbolFileName
 	const JCharacter* fullName
 	)
 {
-	JString symName, suffix;
-	JSplitRootAndSuffix(fullName, &symName, &suffix);
-	symName += kSymbolFileSuffix;
-	return symName;
+	JString path, name;
+	JSplitPathAndName(fullName, &path, &name);
+	name = JCombinePathAndName(path, kDataDirectory);
+	JCreateDirectory(name);
+	name = JCombinePathAndName(name, kSymbolFileName);
+	return name;
 }
-
-
 
 /******************************************************************************
  Close
@@ -1288,12 +1295,12 @@ CBProjectDocument::GetAllFileList()
 }
 
 /******************************************************************************
- RefreshCVSStatus
+ RefreshVCSStatus
 
  ******************************************************************************/
 
 void
-CBProjectDocument::RefreshCVSStatus()
+CBProjectDocument::RefreshVCSStatus()
 {
 	itsFileTable->Refresh();
 }
@@ -1396,8 +1403,9 @@ CBProjectDocument::GetName()
 	itsDocName = GetFileName();
 	if (itsDocName.EndsWith(kProjectFileSuffix))
 		{
-		itsDocName.RemoveSubstring(itsDocName.GetLength() - kProjectFileSuffixLength + 1,
-								   itsDocName.GetLength());
+		JString root, suffix;
+		JSplitRootAndSuffix(itsDocName, &root, &suffix);
+		itsDocName = root;
 		}
 	return itsDocName;
 }
@@ -2394,23 +2402,6 @@ CBProjectDocument::WriteStaticGlobalPrefs
 }
 
 /******************************************************************************
- UpdateCVSIgnore (private)
-
- ******************************************************************************/
-
-void
-CBProjectDocument::UpdateCVSIgnore()
-{
-	JString ignoreFile = JCombinePathAndName(GetFilePath(), "*");
-	ignoreFile        += kSymbolFileSuffix;
-	JUpdateCVSIgnore(ignoreFile);
-
-	ignoreFile  = JCombinePathAndName(GetFilePath(), "*");
-	ignoreFile += kSettingFileSuffix;
-	JUpdateCVSIgnore(ignoreFile);
-}
-
-/******************************************************************************
  ReceiveWithFeedback (virtual protected)
 
  ******************************************************************************/
@@ -2444,28 +2435,6 @@ const JCharacter*
 CBProjectDocument::GetProjectFileSuffix()
 {
 	return kProjectFileSuffix;
-}
-
-/******************************************************************************
- GetSettingFileSuffix (static)
-
- ******************************************************************************/
-
-const JCharacter*
-CBProjectDocument::GetSettingFileSuffix()
-{
-	return kSettingFileSuffix;
-}
-
-/******************************************************************************
- GetSymbolFileSuffix (static)
-
- ******************************************************************************/
-
-const JCharacter*
-CBProjectDocument::GetSymbolFileSuffix()
-{
-	return kSymbolFileSuffix;
 }
 
 /******************************************************************************

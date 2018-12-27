@@ -30,7 +30,7 @@ static const JCharacter* kTreeMenuStr =
 	"  | Update                 %k Meta-U                       %i" kCBUpdateClassTreeAction
 	"  | Minimize MI link lengths now                           %i" kCBMinimizeMILinkLengthAction
 	"%l| Open source            %k Left-dbl-click or Return     %i" kCBOpenSelectedFilesAction
-	"  | Open header            %k Middle-dbl-click or Meta-Tab %i" kCBOpenComplFilesAction
+	"  | Open header            %k Middle-dbl-click or Control-Tab %i" kCBOpenComplFilesAction
 	"  | Open function list     %k Right-dbl-click              %i" kCBOpenClassFnListAction
 	"%l| Create derived class...                                %i" kCBCreateDerivedClassAction
 	"%l| Collapse               %k Meta-<                       %i" kCBCollapseClassesAction

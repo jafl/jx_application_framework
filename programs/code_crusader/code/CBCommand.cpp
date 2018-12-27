@@ -9,7 +9,7 @@
 
 	BASE CLASS = virtual JBroadcaster
 
-	Copyright (C) 2002 by John Lindal.
+	Copyright (C) 2002-2018 by John Lindal.
 
  ******************************************************************************/
 
@@ -30,17 +30,6 @@
 
 const JCharacter* CBCommand::kFinished = "Finished::CBCommand";
 
-// string ID's
-
-static const JCharacter* kCompileWindowTitlePrefixID = "CompileWindowTitlePrefix::CBCommand";	// + proj
-static const JCharacter* kCompileCloseMsgID          = "CompileCloseMsg::CBCommand";
-
-static const JCharacter* kRunWindowTitlePrefixID     = "RunWindowTitlePrefix::CBCommand";		// + cmd
-static const JCharacter* kRunCloseMsgID              = "RunCloseMsg::CBCommand";
-
-static const JCharacter* kCmdsNotAllowedID           = "CmdsNotAllowed::CBCommand";
-static const JCharacter* kInfiniteLoopID             = "InfiniteLoop::CBCommand";
-
 /******************************************************************************
  Constructor
 
@@ -48,8 +37,8 @@ static const JCharacter* kInfiniteLoopID             = "InfiniteLoop::CBCommand"
 
 CBCommand::CBCommand
 	(
-	const JCharacter*	path,
-	const JBoolean		refreshCVSStatusWhenFinished,
+	const JString&		path,
+	const JBoolean		refreshVCSStatusWhenFinished,
 	const JBoolean		beepWhenFinished,
 	CBProjectDocument*	projDoc
 	)
@@ -58,7 +47,7 @@ CBCommand::CBCommand
 	itsCmdPath(path),
 	itsOutputDoc(nullptr),
 	itsBeepFlag(beepWhenFinished),
-	itsRefreshCVSStatusFlag(refreshCVSStatusWhenFinished),
+	itsRefreshVCSStatusFlag(refreshVCSStatusWhenFinished),
 	itsUpdateSymbolDatabaseFlag(kJFalse),
 	itsInQueueFlag(kJFalse),
 	itsSuccessFlag(kJTrue),
@@ -101,15 +90,15 @@ CBCommand::~CBCommand()
 		(CBGetDocumentManager())->UpdateSymbolDatabases();
 		}
 
-	// only refresh CVS status when all finished, since may be expensive
+	// only refresh VCS status when all finished, since may be expensive
 
-	if (itsParent != nullptr && itsRefreshCVSStatusFlag)
+	if (itsParent != nullptr && itsRefreshVCSStatusFlag)
 		{
-		itsParent->itsRefreshCVSStatusFlag = kJTrue;
+		itsParent->itsRefreshVCSStatusFlag = kJTrue;
 		}
-	else if (itsRefreshCVSStatusFlag)
+	else if (itsRefreshVCSStatusFlag)
 		{
-		(CBGetDocumentManager())->RefreshCVSStatus();
+		(CBGetDocumentManager())->RefreshVCSStatus();
 		}
 
 	if (itsParent != nullptr && itsCallParentProcessFinishedFlag)
@@ -171,108 +160,64 @@ CBCommand::FinishWindow
 /******************************************************************************
  Add
 
-	cmdList is used to detect infinite loops.
-
  ******************************************************************************/
 
 JBoolean
 CBCommand::Add
 	(
-	const JCharacter*			origCmd,
-	CBTextDocument*				textDoc,
-	const JPtrArray<JString>*	fullNameList,
-	const JArray<JIndex>*		lineIndexList,
-	JPtrArray<JString>*			cmdList
+	const JPtrArray<JString>&	cmdArgs,
+	const JPtrArray<JString>&	fullNameList,
+	const JArray<JIndex>&		lineIndexList,
+	CBFunctionStack*			fnStack
 	)
 {
-	if (JString::IsEmpty(origCmd))
+	const JString* firstArg = cmdArgs.FirstElement();
+	if (firstArg->GetFirstCharacter() == '&')
 		{
-		return kJTrue;
-		}
+		assert( fnStack != nullptr );
 
-	JPtrArray<JString> argList(JPtrArrayT::kDeleteAll);
-	JParseArgsForExec(origCmd, &argList);
+		// check for re-used command name
 
-	if (!argList.IsEmpty() && *(argList.LastElement()) != ";")
-		{
-		argList.Append(";");	// catch all commands inside loop
-		}
+		const JCharacter* cmdName = firstArg->GetCString()+1;
 
-	const JSize count = argList.GetElementCount();
-	JString cmd;
-	for (JIndex i=1; i<=count; i++)
-		{
-		JString* arg = argList.GetElement(i);
-		if (*arg == ";")
+		const JSize cmdCount = fnStack->GetElementCount();
+		for (JIndex j=1; j<=cmdCount; j++)
 			{
-			cmd.TrimWhitespace();
-			if (!cmd.IsEmpty())
+			if (strcmp(cmdName, fnStack->Peek(j)) == 0)
 				{
-				JString* s = jnew JString(cmd);
-				assert( s != nullptr );
-				itsCmdList->AppendElement(CmdInfo(s, nullptr, nullptr, kJFalse));
-				cmd.Clear();
+				ReportInfiniteLoop(*fnStack, j);
+				return kJFalse;
 				}
 			}
-		else if (!arg->IsEmpty() && arg->GetFirstCharacter() == '&' &&
-				 cmd.IsEmpty())
+
+		// prepare cmd for execution later
+
+		fnStack->Push(cmdName);
+
+		CBCommandManager* mgr =
+			(itsProjDoc != nullptr ? itsProjDoc->GetCommandManager() : CBGetCommandManager());
+		CBCommand* cmdObj;
+		CBCommandManager::CmdInfo* cmdInfo;
+		if (mgr->Prepare(cmdName, itsProjDoc, fullNameList, lineIndexList,
+						 &cmdObj, &cmdInfo, fnStack))
 			{
-			if (cmdList == nullptr)
-				{
-				(JGetUserNotification())->ReportError(JGetString(kCmdsNotAllowedID));
-				return kJFalse;
-				}
-
-			// check for re-used command name
-
-			const JCharacter* cmdName = arg->GetCString()+1;
-
-			const JSize cmdCount = cmdList->GetElementCount();
-			for (JIndex j=1; j<=cmdCount; j++)
-				{
-				if (cmdName == *(cmdList->GetElement(j)))
-					{
-					ReportInfiniteLoop(*cmdList, j);
-					return kJFalse;
-					}
-				}
-
-			// prepare cmd for execution later
-
-			cmdList->Append(cmdName);
-
-			CBCommandManager* mgr =
-				(itsProjDoc != nullptr ? itsProjDoc->GetCommandManager() : CBGetCommandManager());
-			CBCommand* cmdObj;
-			CBCommandManager::CmdInfo* cmdInfo;
-			if ((textDoc != nullptr &&
-				 mgr->Prepare(cmdName, itsProjDoc, textDoc,
-							  &cmdObj, &cmdInfo, cmdList)) ||
-				(fullNameList != nullptr && lineIndexList != nullptr &&
-				 mgr->Prepare(cmdName, itsProjDoc, *fullNameList, *lineIndexList,
-							  &cmdObj, &cmdInfo, cmdList)))
-				{
-				cmdObj->SetParent(this);
-				itsCmdList->AppendElement(CmdInfo(nullptr, cmdObj, cmdInfo, kJFalse));
-
-				i++;
-				while (*(argList.GetElement(i)) != ";")
-					{
-					i++;
-					}
-				}
-			else
-				{
-				return kJFalse;
-				}
-
-			cmdList->DeleteElement(cmdList->GetElementCount());
+			cmdObj->SetParent(this);
+			itsCmdList->AppendElement(CmdInfo(nullptr, cmdObj, cmdInfo, kJFalse));
 			}
 		else
 			{
-			cmd += " ";
-			cmd += JPrepArgForExec(*arg);
+			return kJFalse;
 			}
+
+		fnStack->Pop();
+		}
+	else
+		{
+		JPtrArray<JString>* args = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
+		assert( args != nullptr );
+		args->CopyObjects(cmdArgs, JPtrArrayT::kDeleteAll, kJFalse);
+
+		itsCmdList->AppendElement(CmdInfo(args, nullptr, nullptr, kJFalse));
 		}
 
 	return kJTrue;
@@ -302,33 +247,35 @@ CBCommand::Add
 /******************************************************************************
  ReportInfiniteLoop (private)
 
+	TODO:  unicode right arrow
+
  ******************************************************************************/
 
 void
 CBCommand::ReportInfiniteLoop
 	(
-	const JPtrArray<JString>&	cmdList,
-	const JIndex				startIndex
+	const CBFunctionStack&	fnStack,
+	const JIndex			startIndex
 	)
 {
-	const JSize cmdCount = cmdList.GetElementCount();
+	const JSize cmdCount = fnStack.GetElementCount();
 	JString loop;
-	for (JIndex i=startIndex; i<=cmdCount; i++)
+	for (JIndex i=startIndex; i>=1; i--)
 		{
 		if (!loop.IsEmpty())
 			{
 			loop += " -> ";
 			}
-		loop += *(cmdList.GetElement(i));
+		loop += fnStack.Peek(i);
 		}
 	loop += " -> ";
-	loop += *(cmdList.GetElement(startIndex));
+	loop += fnStack.Peek(startIndex);
 
 	const JCharacter* map[] =
 		{
 		"loop", loop.GetCString()
 		};
-	const JString msg = JGetString(kInfiniteLoopID, map, sizeof(map));
+	const JString msg = JGetString("InfiniteLoop::CBCommand", map, sizeof(map));
 	(JGetUserNotification())->ReportError(msg);
 }
 
@@ -402,9 +349,9 @@ CBCommand::Start
 			itsOutputDoc = mgr->GetOutputDoc();
 			itsOutputDoc->IncrementUseCount();
 			}
-		itsDontCloseMsg = JGetString(kRunCloseMsgID);
+		itsDontCloseMsg = JGetString("RunCloseMsg::CBCommand");
 
-		itsWindowTitle = JGetString(kRunWindowTitlePrefixID);
+		itsWindowTitle = JGetString("RunWindowTitlePrefix::CBCommand");
 		if (!(info.menuText)->IsEmpty())
 			{
 			itsWindowTitle += *(info.menuText);
@@ -504,12 +451,12 @@ CBCommand::StartMakeProcess
 void
 CBCommand::SetCompileDocStrings()
 {
-	itsWindowTitle = JGetString(kCompileWindowTitlePrefixID);
+	itsWindowTitle = JGetString("CompileWindowTitlePrefix::CBCommand");
 	if (itsProjDoc != nullptr)
 		{
 		itsWindowTitle += itsProjDoc->GetName();
 		}
-	itsDontCloseMsg = JGetString(kCompileCloseMsgID);
+	itsDontCloseMsg = JGetString("CompileCloseMsg::CBCommand");
 }
 
 /******************************************************************************
@@ -596,8 +543,16 @@ CBCommand::StartProcess()
 
 	if (itsOutputDoc != nullptr)
 		{
+		const JSize count = info.cmd->GetElementCount();
+		JString cmd;
+		for (JIndex i=1; i<=count; i++)
+			{
+			cmd += JPrepArgForExec(*info.cmd->GetElement(i));
+			cmd += " ";
+			}
+
 		itsOutputDoc->SetConnection(p, fromFD, toFD, itsWindowTitle, itsDontCloseMsg,
-									itsCmdPath, *(info.cmd), kJTrue);
+									itsCmdPath, cmd, kJTrue);
 
 		// We can't do this in Start() because we might be waiting for
 		// itsMakeDependCmd.  We must not listen to both at the same time.

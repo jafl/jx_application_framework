@@ -104,7 +104,7 @@
 
 <p>When you select the files, you can also choose the type of path information to store.  The default is relative to the project file's path, which makes it easy to transfer the project's directory structure to a different location or even a different machine.  Once a file has been added to the project, its path can be changed by holding down the Meta key and double clicking on the file with the left mouse button.  You can then either change the name directly or click on the button to use the Choose File dialog.</p>
 
-<p>To open a file from the Project window, double click with the left button.  To open the complement file of a C/C++ source or header file, double click with the middle button.  If you have <a href="#CBMiscHelp-MultiSelect">selected multiple files</a>, you can either use the items on the Source menu or the shortcuts Return and Meta-Tab if you are using Macintosh style menu shortcuts or Ctrl-Tab if you are using Windows style menu shortcuts.  These are the same bindings as in the inheritance trees.</p>
+<p>To open a file from the Project window, double click with the left button.  To open the complement file of a C/C++ source or header file, double click with the middle button.  If you have <a href="#CBMiscHelp-MultiSelect">selected multiple files</a>, you can either use the items on the Source menu or the shortcuts Return or Ctrl-Tab.  These are the same bindings as in the inheritance trees.</p>
 
 <p>If you add a library to the project and then try to open it, you will be asked to find the project file corresponding to the library.  This makes it easy to open sub-projects from the main project window.  These sub-projects are automatically built before building the main project.  You can change the project file for the library and other options via the "Edit sub-project configuration" item on the Source menu.  Each sub-project will be built using the command specified in its own Project Configuration dialog.</p>
 
@@ -145,7 +145,7 @@
 
 <p>The <a href="#CBProjectTutorialHelp">tutorial</a> provides a step-by-step introduction to this procedure when using makemake.  Once you understand this, you should study the help section on <a href="#CBCompileHelp">compiling</a>.</p>
 
-<p>The Config button in the upper right corner of the Project window opens the Make.header file (for makemake), the CMake.header (for CMake), the QMake.header file (for qmake), or the Makefile (for the manual option).  The shortcut for this button is Ctrl-Tab if you are using Macintosh style menu shortcuts or Meta-Tab if you are using Windows style menu shortcuts.  (This is the opposite of the shortcut for opening a header file.)</p>
+<p>The Config button in the upper right corner of the Project window opens the Make.header file (for makemake), the CMake.header (for CMake), the QMake.header file (for qmake), or the Makefile (for the manual option).</p>
 
 <p>As mentioned above, you can add libraries to the project. (static or shared, as specified in the <a href="#CBFileTypeHelp">Edit File Types</a> dialog) When using makemake, these will be included in Make.files as dependencies.  Unfortunately, <code>make</code> is not powerful enough to recognize .so.&lt;vers&gt;, so Code Crusader doesn't recognize it either.  To get a pure .so file, either create a symbolic link or place the version number in front of the .so suffix.  (The latter is preferred because then there is never any confusion at link time.)</p>
 
@@ -600,7 +600,7 @@ The following options can be changed in the Symbol Preferences dialog:
 
 <p>To add classes to the tree, use the "Add classes..." item on the Tree menu.  (Classes in the Project window are always included in the tree.)  To update the current tree without quitting, use the "Update" item.  The <a href="#CBFileTypeHelp">"Edit file types..."</a> item lets you set the suffixes for source and header files.  It is a good idea to add all the directories that contain source or header files, not just those that contain classes.  This way, when Code Crusader searches for a file (e.g. when you use "Open selection" in a Text Editor window), it is more likely to find it.  (Note that <code>/usr/include</code> is always searched.)</p>
 
-<p>To locate a particular class, press the space bar and then type the first few letters in its name.  This search is case-insensitive and ignores the namespaces.  To then open the source file, press Return.  To open the header file, press Meta-Tab if you are using Macintosh style menu shortcuts or Ctrl-Tab if you are using Windows style menu shortcuts.  You do not have to de-iconify the window before typing.</p>
+<p>To locate a particular class, press the space bar and then type the first few letters in its name.  This search is case-insensitive and ignores the namespaces.  To then open the source file, press Return.  To open the header file, press Ctrl-Tab.  You do not have to de-iconify the window before typing.</p>
 
 <p>To locate all classes that implement a particular function, select "Find function" from the Tree menu and then enter the name of the function to search for.  This is case sensitive.  If a single function is found, its definition will automatically be displayed.</p>
 
@@ -617,7 +617,7 @@ The following options can be changed in the Symbol Preferences dialog:
 	<dd>Open source file for the class
 	<br>(opens documentation file if source can't be found)</dd>
 
-	<dt>Middle button twice (or Meta-Tab if you are using Macintosh style menu shortcuts or Ctrl-Tab if you are using Windows style menu shortcuts)</dt>
+	<dt>Middle button twice (or Ctrl-Tab)</dt>
 	<dd>Open header file for the class</dd>
 
 	<dt>Right button twice</dt>
@@ -634,7 +634,7 @@ The following options can be changed in the Symbol Preferences dialog:
 
 <p>The setting in the Tree Preferences dialog controls whether or not the menu and each new window also displays the functions inherited from base classes.  If this is turned on, functions implemented by the class itself are boldfaced to make them easy to find. Changing the setting in the Tree Preferences dialog does not affect existing windows. In these windows, there is a menu item on the Options menu that controls the display.</p>
 
-<p>To locate a particular function, press the space bar and then type the first few letters in its name.  This search is case-insensitive. To then open the file containing the function's code, press Return.  To open the header file, press Meta-Tab if you are using Macintosh style menu shortcuts or Ctrl-Tab if you are using Windows style menu shortcuts.  You do not have to de-iconify the window before typing.</p>
+<p>To locate a particular function, press the space bar and then type the first few letters in its name.  This search is case-insensitive. To then open the file containing the function's code, press Return.  To open the header file, press Ctrl-Tab.  You do not have to de-iconify the window before typing.</p>
 
 <p>If you click on a function name in a Function List window:</p>
 
@@ -645,7 +645,7 @@ The following options can be changed in the Symbol Preferences dialog:
 	<dt>Left button twice (or Return)</dt>
 	<dd>Display source for the function</dd>
 
-	<dt>Middle button twice (or Meta-Tab if you are using Macintosh style menu shortcuts or Ctrl-Tab if you are using Windows style menu shortcuts)</dt>
+	<dt>Middle button twice (or Ctrl-Tab)</dt>
 	<dd>Display prototype for the function</dd>
 
 	<dt>Right button twice</dt>
@@ -1366,7 +1366,7 @@ The following options can be changed in the Symbol Preferences dialog:
 <p>Additional shortcuts:</p>
 
 <ul>
-	<li>Button in upper right corner of window containing source or header file to open the header or source file, respectively (or press Meta-Tab if you are using Macintosh style menu shortcuts or Ctrl-Tab if you are using Windows style menu shortcuts)</li>
+	<li>Button in upper right corner of window containing source or header file to open the header or source file, respectively (or press Ctrl-Tab)</li>
 	<li>Button in upper right corner of window containing HTML file to view it in the browser of your choice (see above)</li>
 
 	<li>Control-left-double-click on a file name to automatically find and open it.</li>

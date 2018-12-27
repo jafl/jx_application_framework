@@ -97,7 +97,7 @@ public:
 	void	DelayUpdateSymbolDatabase();
 	void	UpdateSymbolDatabase();
 	void	CancelUpdateSymbolDatabase();
-	void	RefreshCVSStatus();
+	void	RefreshVCSStatus();
 
 	void	SetProjectPrefs(const JBoolean reopenTextFiles,
 							const JBoolean doubleSpaceCompile,
@@ -117,8 +117,6 @@ public:
 	static void				SetAddFilesFilter(const JCharacter* filter);
 
 	static const JCharacter*	GetProjectFileSuffix();
-	static const JCharacter*	GetSettingFileSuffix();
-	static const JCharacter*	GetSymbolFileSuffix();
 
 	void	ConvertCompileRunDialogs(std::istream& projInput, const JFileVersion vers);
 
@@ -211,7 +209,6 @@ private:
 
 	void	CBProjectDocumentX(CBProjectTree* fileList);
 	void	BuildWindow(CBProjectTree* fileList);
-	void	UpdateCVSIgnore();
 
 	void	WriteFiles(std::ostream& projOutput,
 					   const JCharacter* setName, std::ostream* setOutput,

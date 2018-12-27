@@ -77,7 +77,7 @@ static const JCharacter* kInheritPrivateStr   = "private";
 static const JCharacter* kInheritStr[] =
 	{ kInheritPublicStr, kInheritProtectedStr, kInheritPrivateStr };
 
-static const JCharacter* kTemplateNamePrefix = "template ";
+static const JCharacter* kTemplateNameSuffix = "<>";
 static const JCharacter* kStructNamePrefix   = "struct ";
 static const JCharacter* kEnumNamePrefix     = "enum ";
 
@@ -1030,7 +1030,7 @@ CBClass::GetDrawName()
 
 	if (itsIsTemplateFlag)
 		{
-		drawName.Prepend(kTemplateNamePrefix);
+		drawName.Append(kTemplateNameSuffix);
 		}
 
 	return drawName;

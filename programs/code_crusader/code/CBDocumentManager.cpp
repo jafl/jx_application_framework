@@ -206,24 +206,24 @@ CBDocumentManager::AddToFileHistoryMenu
 }
 
 /******************************************************************************
- RefreshCVSStatus
+ RefreshVCSStatus
 
  ******************************************************************************/
 
 void
-CBDocumentManager::RefreshCVSStatus()
+CBDocumentManager::RefreshVCSStatus()
 {
 	JSize count = itsProjectDocuments->GetElementCount();
 	JIndex i;
 	for (i=1; i<=count; i++)
 		{
-		(itsProjectDocuments->GetElement(i))->RefreshCVSStatus();
+		(itsProjectDocuments->GetElement(i))->RefreshVCSStatus();
 		}
 
 	count = itsTextDocuments->GetElementCount();
 	for (i=1; i<=count; i++)
 		{
-		(itsTextDocuments->GetElement(i))->RefreshCVSStatus();
+		(itsTextDocuments->GetElement(i))->RefreshVCSStatus();
 		}
 }
 

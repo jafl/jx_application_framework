@@ -78,18 +78,8 @@ DefaultBindingList::JFSBindingList
 \".pdf\" \"xpdf\"    p F
 \".ps\"  \"gv\"      p T
 \".eps\" \"gv\"      p T
-\".txt\" \"jcc\"     p F
 
-\".jcc\"  \"jcc\" p F
-\".jst\"  \"jcc\" p F
-\".c\"    \"jcc\" p F
-\".cc\"   \"jcc\" p F
-\".cpp\"  \"jcc\" p F
-\".h\"    \"jcc\" p F
-\".pl\"   \"jcc\" p F
-\".php3\" \"jcc\" p F
-\".php\"  \"jcc\" p F
-
+\".jcc\"   \"jcc\" p F
 \".medic\" \"medic\" p T
 
 \".html\" \"firefox $q\" p T
@@ -104,8 +94,6 @@ DefaultBindingList::JFSBindingList
 \".fd\" \"jfdesign\" p T
 
 \"^\\\\*\\\\*\\\\* Glove File Format \\\\*\\\\*\\\\*\" \"glove\" p F
-\"^jx_browser_data\"           \"jcc\" p F
-\"^jx_browser_symbol_table\"   \"jcc\" p F
 "
 
 # OS X does a lot for us
@@ -134,17 +122,9 @@ DefaultBindingList-OSX::JFSBindingList
 \".pdf\"  \"open\" p F
 \".ps\"   \"open\" p T
 \".eps\"  \"open\" p T
-\".txt\"  \"jcc\"  p F
 
-\".jcc\"  \"jcc\" p F
-\".jst\"  \"jcc\" p F
-\".c\"    \"jcc\" p F
-\".cc\"   \"jcc\" p F
-\".cpp\"  \"jcc\" p F
-\".h\"    \"jcc\" p F
-\".pl\"   \"jcc\" p F
-\".php3\" \"jcc\" p F
-\".php\"  \"jcc\" p F
+\".jcc\"   \"jcc\" p F
+\".medic\" \"medic\" p T
 
 \".html\" \"firefox $q\" p T
 
@@ -158,6 +138,4 @@ DefaultBindingList-OSX::JFSBindingList
 \".fd\" \"jfdesign\" p T
 
 \"^\\\\*\\\\*\\\\* Glove File Format \\\\*\\\\*\\\\*\" \"glove\" p F
-\"^jx_browser_data\"           \"jcc\" p F
-\"^jx_browser_symbol_table\"   \"jcc\" p F
 "

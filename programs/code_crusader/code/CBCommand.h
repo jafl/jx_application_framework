@@ -19,16 +19,16 @@ class CBCommand : virtual public JBroadcaster
 {
 public:
 
-	CBCommand(const JCharacter* path, const JBoolean refreshCVSStatusWhenFinished,
+	CBCommand(const JString& path, const JBoolean refreshVCSStatusWhenFinished,
 			  const JBoolean beepWhenFinished, CBProjectDocument* projDoc);
 
 	virtual	~CBCommand();
 
 	void		SetParent(CBCommand* cmd);
-	JBoolean	Add(const JCharacter* origCmd, CBTextDocument* textDoc,
-					const JPtrArray<JString>* fullNameList,
-					const JArray<JIndex>* lineIndexList,
-					JPtrArray<JString>* fnList);
+	JBoolean	Add(const JPtrArray<JString>& cmdArgs,
+					const JPtrArray<JString>& fullNameList,
+					const JArray<JIndex>& lineIndexList,
+					CBFunctionStack* fnStack);
 	void		Add(CBCommand* subCmd, const CBCommandManager::CmdInfo& cmdInfo);
 	void		MarkEndOfSequence();
 	JBoolean	Start(const CBCommandManager::CmdInfo& info);
@@ -45,7 +45,7 @@ private:
 
 	struct CmdInfo
 	{
-		JString*					cmd;		// can be nullptr
+		JPtrArray<JString>*			cmd;		// can be nullptr
 		CBCommand*					cmdObj;		// can be nullptr
 		CBCommandManager::CmdInfo*	cmdInfo;	// nullptr if cmdObj==nullptr
 		JBoolean					isMakeDepend;
@@ -55,7 +55,7 @@ private:
 			cmd(nullptr), cmdObj(nullptr), cmdInfo(nullptr), isMakeDepend(kJFalse)
 		{ };
 
-		CmdInfo(JString* c, CBCommand* o, CBCommandManager::CmdInfo* i,
+		CmdInfo(JPtrArray<JString>* c, CBCommand* o, CBCommandManager::CmdInfo* i,
 				const JBoolean isMD)
 			:
 			cmd(c), cmdObj(o), cmdInfo(i), isMakeDepend(isMD)
@@ -75,7 +75,7 @@ private:
 	JString					itsWindowTitle;
 	JString					itsDontCloseMsg;
 	const JBoolean			itsBeepFlag;
-	JBoolean				itsRefreshCVSStatusFlag;
+	JBoolean				itsRefreshVCSStatusFlag;
 	JBoolean				itsUpdateSymbolDatabaseFlag;
 	JBoolean				itsInQueueFlag;
 	JBoolean				itsSuccessFlag;
@@ -99,7 +99,7 @@ private:
 	void	DeleteThis();
 	void	FinishWindow(CBExecOutputDocument** doc);
 
-	void	ReportInfiniteLoop(const JPtrArray<JString>& cmdList,
+	void	ReportInfiniteLoop(const CBFunctionStack& fnStack,
 							   const JIndex startIndex);
 
 	// not allowed

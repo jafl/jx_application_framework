@@ -52,6 +52,7 @@ need option to control tab order
 
 menu editor
 	build visually
+	remove bin/extract_menu_strings
 
 generates id for every item
 	fixed prefix, so these are excluded from toolbar config

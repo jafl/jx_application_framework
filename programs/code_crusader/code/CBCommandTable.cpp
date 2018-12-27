@@ -1144,11 +1144,6 @@ CBCommandTable::UpdateOptionsMenu()
 		itsOptionsMenu->CheckItem(kOneAtATimeCmd);
 		}
 
-//
-	itsOptionsMenu->DisableItem(kOneAtATimeCmd);
-	itsOptionsMenu->CheckItem(kOneAtATimeCmd);
-//
-
 	itsOptionsMenu->SetItemEnable(kUseWindowCmd, !info.isMake);
 	if (info.useWindow)
 		{
