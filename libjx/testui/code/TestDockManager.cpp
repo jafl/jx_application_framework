@@ -79,11 +79,11 @@ TestDockManager::DockAll()
 	ok = h->SplitVert(1, &v1);
 	assert( ok );
 
-	JXDockWidget* dock = dynamic_cast<JXDockWidget*>(v1->GetCompartment(1));
+	JXDockWidget* dock = v1->GetDockWidget(1);
 	assert( dock != nullptr );
 	SetDefaultDock("TestDirector", dock);
 
-	dock = dynamic_cast<JXDockWidget*>(v1->GetCompartment(2));
+	dock = v1->GetDockWidget(2);
 	assert( dock != nullptr );
 	SetDefaultDock("TestTextEditDocument", dock);
 
@@ -91,11 +91,11 @@ TestDockManager::DockAll()
 	ok = h->SplitVert(2, &v2);
 	assert( ok );
 
-	dock = dynamic_cast<JXDockWidget*>(v2->GetCompartment(1));
+	dock = v2->GetDockWidget(1);
 	assert( dock != nullptr );
 	SetDefaultDock("TestFloatTableDirector", dock);
 
-	dock = dynamic_cast<JXDockWidget*>(v2->GetCompartment(2));
+	dock = v2->GetDockWidget(2);
 	assert( dock != nullptr );
 	SetDefaultDock("TestImageDirector", dock);
 
