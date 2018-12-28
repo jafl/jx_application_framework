@@ -748,6 +748,7 @@ void
 JMemoryManager::EndRecursiveBlock()
 {
 	JMemoryManager* manager = Instance();
+	assert( manager->itsRecursionDepth > 0 );
 	manager->itsRecursionDepth--;
 	manager->EmptyStacks();
 }
