@@ -3,6 +3,13 @@ JStyledText
 		outdent, press return to move to next line, (repeat)
 	need smarter update during indent/outdent, to maintain caret location
 
+	AutoIndent
+	CleanRightMargin
+
+jcc
+	remove member function data from inheritance trees
+
+-----
 
 render as many characters as possible via fallback fonts
 	if (!HasGlyphsForString)
@@ -27,17 +34,11 @@ unit test
 	JVIKeyHandler:  split into multiple tests covering all options
 
 
-JStyledText
-	AutoIndent
-	CleanRightMargin
-
 JTextEditor:
 	don't change insertion font when glyphs are rendered with different font
 		use isExact to tell which glyphs are substitutions?
 
 jcc
-	remove member function data from inheritance trees
-
 	menu of supported text formats in "open text file" dialog
 	sub-menu of supported text formats on File menu, just like "file formats"
 medic

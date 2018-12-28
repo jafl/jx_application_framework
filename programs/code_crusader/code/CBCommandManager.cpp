@@ -383,8 +383,8 @@ CBCommandManager::Prepare
 			samePathLineList.RemoveAll();
 			filePath.Clear();
 
-			const JSize nameCount = nameList.GetElementCount();
-			for (JIndex i=nameCount; i>=1; i--)
+			JSize nameCount = nameList.GetElementCount();
+			for (JIndex i=1; i<=nameCount; i++)
 				{
 				const JString* fullName = nameList.GetElement(i);
 				JSplitPathAndName(*fullName, &p, &n);
@@ -400,6 +400,8 @@ CBCommandManager::Prepare
 						}
 
 					filePath = p;
+					nameCount--;
+					i--;
 					}
 				}
 
