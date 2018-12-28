@@ -169,7 +169,7 @@ JMMHashTable::PrintAllocated
 void
 JMMHashTable::StreamAllocatedForDebug
 	(
-	std::ostream&							output,
+	std::ostream&						output,
 	const JMemoryManager::RecordFilter&	filter
 	)
 	const

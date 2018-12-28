@@ -188,7 +188,7 @@
 	Repeated runs showed the accuracy was no better than a few percent.
 	This suggests that there is no noticable penalty for initialization or
 	shredding. Clearly hash tables were at least two orders of magnitude
-	better than arrays. For building the tree deallocation didn't cost much
+	better than arrays. For building the tree, deallocation didn't cost much
 	extra with arrays, though if the program would have kept running it
 	eventually would have.
 
@@ -423,7 +423,6 @@ JMemoryManager::Instance()
 
 		if (!JString::IsEmpty(pipeName))
 			{
-std::cout << "connection: " << pipeName << std::endl;
 			manager->ConnectToDebugger(pipeName);
 			ACE_Object_Manager::at_exit(nullptr, ::JMMHandleACEExit, nullptr);
 
@@ -468,7 +467,7 @@ JMemoryManager::New
 {
 	if (theAbortUnknownAllocFlag && line == 0)
 		{
-		std::cout << "Memory allocated by unknown code, aborting...\n" << std::endl;
+		std::cerr << "Memory allocated by unknown code, aborting..." << std::endl;
 		abort();
 		}
 
@@ -477,7 +476,7 @@ JMemoryManager::New
 
 	if (newBlock == nullptr)
 		{
-		std::cout << "failed to allocate block of size " << trueSize << std::endl;
+		std::cerr << "Failed to allocate block of size " << trueSize << std::endl;
 		}
 
 	assert(newBlock != nullptr);
