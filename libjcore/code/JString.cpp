@@ -428,7 +428,7 @@ JString::operator new
 	noexcept
 {
 	void* memory = JMemoryManager::New(sz, __FILE__, __LINE__, kJFalse);
-	theCurrentlyConstructingObject = NULL;
+	theCurrentlyConstructingObject = forceShallow ? NULL : static_cast<JString*>(memory);
 	return memory;
 }
 
