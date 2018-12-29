@@ -74,7 +74,7 @@ JXFileInput::GetFile
 
 	return JI2B(!text.IsEmpty() &&
 				(JIsAbsolutePath(text) || hasBasePath) &&
-				JConvertToAbsolutePath(text, &basePath, fullName) &&
+				JConvertToAbsolutePath(text, basePath, fullName) &&
 				JFileExists(*fullName) &&
 				(!itsRequireReadFlag  || JFileReadable(*fullName)) &&
 				(!itsRequireWriteFlag || JFileWritable(*fullName)) &&
@@ -114,7 +114,7 @@ JXFileInput::InputValid()
 		errID = "NoRelPath::JXFileInput";
 		RecalcAll();
 		}
-	else if (!JConvertToAbsolutePath(text, &basePath, &fullName) ||
+	else if (!JConvertToAbsolutePath(text, basePath, &fullName) ||
 			 !JFileExists(fullName))
 		{
 		errID = "DoesNotExist::JXFileInput";
@@ -171,7 +171,7 @@ JXFileInput::GetTextColor
 
 	JString fullName;
 	if ((JIsAbsolutePath(fileName) || !basePath.IsEmpty()) &&
-		JConvertToAbsolutePath(fileName, &basePath, &fullName) &&
+		JConvertToAbsolutePath(fileName, basePath, &fullName) &&
 		(!requireRead  || JFileReadable(fullName)) &&
 		(!requireWrite || JFileWritable(fullName)) &&
 		(!requireExec  || JFileExecutable(fullName)))

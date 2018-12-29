@@ -258,6 +258,7 @@ TestDirector::~TestDirector()
 	jdelete itsCSF;
 	jdelete itsAnimHelpTask;
 	jdelete itsAnimIconTask;
+
 	jdelete itsWindowSnooper;
 }
 
@@ -627,7 +628,7 @@ TestDirector::Receive
 		const JXTipOfTheDayDialog::ShowAtStartup* info =
 			dynamic_cast<const JXTipOfTheDayDialog::ShowAtStartup*>(&message);
 		assert( info != nullptr );
-		std::cout << "Should show at startup: " << info->ShouldShowAtStartup() << std::endl;
+		std::cout << "Should show at startup: " << JBoolToString(info->ShouldShowAtStartup()) << std::endl;
 		}
 
 	else
@@ -1012,7 +1013,7 @@ TestDirector::TestFontSubstitutionTiming()
 	JBoolean hasGlyphs = f.HasGlyphsForString(fontMgr, s);
 
 	w.StopTimer();
-	std::cout << "check ascii glyphs: " << hasGlyphs << ' ' << w.PrintTimeInterval() << std::endl;
+	std::cout << "check ascii glyphs: " << JBoolToString(hasGlyphs) << ' ' << w.PrintTimeInterval() << std::endl;
 	{
 	JStringIterator iter(s);
 	JUtf8Character c;
@@ -1040,7 +1041,7 @@ TestDirector::TestFontSubstitutionTiming()
 	hasGlyphs = f.HasGlyphsForString(fontMgr, s);
 
 	w.StopTimer();
-	std::cout << "check korean glyphs: " << hasGlyphs << ' ' << w.PrintTimeInterval() << std::endl;
+	std::cout << "check korean glyphs: " << JBoolToString(hasGlyphs) << ' ' << w.PrintTimeInterval() << std::endl;
 	{
 	JStringIterator iter(s);
 	JUtf8Character c;

@@ -376,7 +376,7 @@ JXPSPrintSetupDialog::OKToDeactivate
 
 	JString s, path, fileName;
 	JSplitPathAndName(origFullName, &s, &fileName);
-	if (!JConvertToAbsolutePath(s, nullptr, &path) || !JDirectoryExists(path))
+	if (!JConvertToAbsolutePath(s, JString::empty, &path) || !JDirectoryExists(path))
 		{
 		(JGetUserNotification())->ReportError(JGetString("DirectoryDoesNotExist::JXGlobal"));
 		return kJFalse;

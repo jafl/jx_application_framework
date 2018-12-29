@@ -55,10 +55,10 @@ JTEST(RealFunction)
 		expr = JReadLine(input);
 
 		JFunction* f;
-		JBoolean ok = p.Parse(expr, &f);
+		bool ok = p.Parse(expr, &f);
 
 		msg = "Parse failed: " + expr;
-		JAssertEqualWithMessage(expectedParseOK, ok, msg.GetBytes());
+		JAssertEqualWithMessage((bool) expectedParseOK, ok, msg.GetBytes());
 
 		if (ok)
 			{
@@ -66,7 +66,7 @@ JTEST(RealFunction)
 			ok = f->Evaluate(&result);
 
 			msg = "Eval failed: " + expr;
-			JAssertEqualWithMessage(expectedEvalOK, ok, msg.GetBytes());
+			JAssertEqualWithMessage((bool) expectedEvalOK, ok, msg.GetBytes());
 
 			if (ok)
 				{
@@ -106,10 +106,10 @@ JTEST(ComplexFunction)
 		expr = JReadLine(input);
 
 		JFunction* f;
-		JBoolean ok = p.Parse(expr, &f);
+		bool ok = p.Parse(expr, &f);
 
 		msg = "Parse failed: " + expr;
-		JAssertEqualWithMessage(expectedParseOK, ok, msg.GetBytes());
+		JAssertEqualWithMessage((bool) expectedParseOK, ok, msg.GetBytes());
 
 		if (ok)
 			{
@@ -117,7 +117,7 @@ JTEST(ComplexFunction)
 			ok = f->Evaluate(&result);
 
 			msg = "Eval failed: " + expr;
-			JAssertEqualWithMessage(expectedEvalOK, ok, msg.GetBytes());
+			JAssertEqualWithMessage((bool) expectedEvalOK, ok, msg.GetBytes());
 
 			if (ok)
 				{

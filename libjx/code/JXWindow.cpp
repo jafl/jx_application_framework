@@ -5050,8 +5050,8 @@ JXWindow::PrintWindowConfig()
 	const JXDisplay::WMBehavior& b = itsDisplay->GetWMBehavior();
 
 	std::cout << std::endl;
-	std::cout << "wmFrameCompensateFlag:    " << b.frameCompensateFlag << std::endl;
-	std::cout << "wmDesktopMapsWindowsFlag: " << b.desktopMapsWindowsFlag << std::endl;
+	std::cout << "wmFrameCompensateFlag:    " << JBoolToString(b.frameCompensateFlag) << std::endl;
+	std::cout << "wmDesktopMapsWindowsFlag: " << JBoolToString(b.desktopMapsWindowsFlag) << std::endl;
 	std::cout << "wmReshowOffset:           " << b.reshowOffset << std::endl;
 	std::cout << "itsWMFrameLoc:            " << itsWMFrameLoc << std::endl;
 	std::cout << "itsDesktopLoc:            " << itsDesktopLoc << std::endl;

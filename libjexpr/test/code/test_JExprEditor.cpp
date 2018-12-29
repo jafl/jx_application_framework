@@ -93,10 +93,10 @@ JTEST(Exercise)
 
 JTEST(GetCmdStatus)
 {
-	JArray<JBoolean> status;
+	JArray<bool> status;
 	for (JIndex i=1; i<=JExprEditor::kCmdCount; i++)
 		{
-		status.AppendElement(kJFalse);
+		status.AppendElement(false);
 		}
 
 	TestFontManager fontMgr;
@@ -104,13 +104,13 @@ JTEST(GetCmdStatus)
 	ExprEditor e(&varList, &fontMgr);
 	e.Activate();
 
-	status.SetElement(JExprEditor::kPasteCmd, kJTrue);
-	status.SetElement(JExprEditor::kSelectAllCmd, kJTrue);
-	status.SetElement(JExprEditor::kPrintEPSCmd, kJTrue);
-	status.SetElement(JExprEditor::kNegateSelCmd, kJTrue);
-	status.SetElement(JExprEditor::kApplyFnToSelCmd, kJTrue);
+	status.SetElement(JExprEditor::kPasteCmd, true);
+	status.SetElement(JExprEditor::kSelectAllCmd, true);
+	status.SetElement(JExprEditor::kPrintEPSCmd, true);
+	status.SetElement(JExprEditor::kNegateSelCmd, true);
+	status.SetElement(JExprEditor::kApplyFnToSelCmd, true);
 
-	status.SetElement(JExprEditor::kSetNormalFontCmd, kJTrue);
+	status.SetElement(JExprEditor::kSetNormalFontCmd, true);
 
 	std::cout << "GetCmdStatus::basic" << std::endl;
 	e.CheckCmdStatus(status);
@@ -120,10 +120,10 @@ JTEST(GetCmdStatus)
 	e.SetFunction(&varList, f);
 	e.SelectAll();
 
-	status.SetElement(JExprEditor::kCutCmd, kJTrue);
-	status.SetElement(JExprEditor::kCopyCmd, kJTrue);
-	status.SetElement(JExprEditor::kDeleteSelCmd, kJTrue);
-	status.SetElement(JExprEditor::kSetNormalFontCmd, kJFalse);
+	status.SetElement(JExprEditor::kCutCmd, true);
+	status.SetElement(JExprEditor::kCopyCmd, true);
+	status.SetElement(JExprEditor::kDeleteSelCmd, true);
+	status.SetElement(JExprEditor::kSetNormalFontCmd, false);
 
 	std::cout << "GetCmdStatus::has selection" << std::endl;
 	e.CheckCmdStatus(status);
@@ -131,19 +131,19 @@ JTEST(GetCmdStatus)
 	e.DeleteSelection();
 	e.Activate();
 
-	status.SetElement(JExprEditor::kUndoCmd, kJTrue);
-	status.SetElement(JExprEditor::kCutCmd, kJFalse);
-	status.SetElement(JExprEditor::kCopyCmd, kJFalse);
-	status.SetElement(JExprEditor::kDeleteSelCmd, kJFalse);
-	status.SetElement(JExprEditor::kSetNormalFontCmd, kJTrue);
+	status.SetElement(JExprEditor::kUndoCmd, true);
+	status.SetElement(JExprEditor::kCutCmd, false);
+	status.SetElement(JExprEditor::kCopyCmd, false);
+	status.SetElement(JExprEditor::kDeleteSelCmd, false);
+	status.SetElement(JExprEditor::kSetNormalFontCmd, true);
 
 	std::cout << "GetCmdStatus::has undo" << std::endl;
 	e.CheckCmdStatus(status);
 
 	e.SetGreekFont();
 
-	status.SetElement(JExprEditor::kSetNormalFontCmd, kJFalse);
-	status.SetElement(JExprEditor::kSetGreekFontCmd, kJTrue);
+	status.SetElement(JExprEditor::kSetNormalFontCmd, false);
+	status.SetElement(JExprEditor::kSetGreekFontCmd, true);
 
 	std::cout << "GetCmdStatus::greek font" << std::endl;
 	e.CheckCmdStatus(status);
@@ -151,11 +151,11 @@ JTEST(GetCmdStatus)
 	e.ApplyFunctionToSelection(JString("max", kJFalse));
 	e.SelectAll();
 
-	status.SetElement(JExprEditor::kCutCmd, kJTrue);
-	status.SetElement(JExprEditor::kCopyCmd, kJTrue);
-	status.SetElement(JExprEditor::kDeleteSelCmd, kJTrue);
-	status.SetElement(JExprEditor::kAddArgCmd, kJTrue);
-	status.SetElement(JExprEditor::kSetGreekFontCmd, kJFalse);
+	status.SetElement(JExprEditor::kCutCmd, true);
+	status.SetElement(JExprEditor::kCopyCmd, true);
+	status.SetElement(JExprEditor::kDeleteSelCmd, true);
+	status.SetElement(JExprEditor::kAddArgCmd, true);
+	status.SetElement(JExprEditor::kSetGreekFontCmd, false);
 
 	std::cout << "GetCmdStatus::add arg" << std::endl;
 	e.CheckCmdStatus(status);
@@ -163,13 +163,13 @@ JTEST(GetCmdStatus)
 	e.AddArgument();
 	e.ActivateNextUIF();
 
-	status.SetElement(JExprEditor::kCutCmd, kJFalse);
-	status.SetElement(JExprEditor::kCopyCmd, kJFalse);
-	status.SetElement(JExprEditor::kDeleteSelCmd, kJFalse);
-	status.SetElement(JExprEditor::kAddArgCmd, kJFalse);
-	status.SetElement(JExprEditor::kMoveArgRightCmd, kJTrue);
-	status.SetElement(JExprEditor::kSetNormalFontCmd, kJTrue);
-	status.SetElement(JExprEditor::kSetGreekFontCmd, kJFalse);
+	status.SetElement(JExprEditor::kCutCmd, false);
+	status.SetElement(JExprEditor::kCopyCmd, false);
+	status.SetElement(JExprEditor::kDeleteSelCmd, false);
+	status.SetElement(JExprEditor::kAddArgCmd, false);
+	status.SetElement(JExprEditor::kMoveArgRightCmd, true);
+	status.SetElement(JExprEditor::kSetNormalFontCmd, true);
+	status.SetElement(JExprEditor::kSetGreekFontCmd, false);
 
 	std::cout << "GetCmdStatus::move arg" << std::endl;
 	e.CheckCmdStatus(status);
@@ -181,21 +181,21 @@ JTEST(GetCmdStatus)
 	e.SelectAll();
 	e.AddArgument();
 
-	status.SetElement(JExprEditor::kMoveArgLeftCmd, kJTrue);
-	status.SetElement(JExprEditor::kMoveArgRightCmd, kJFalse);
-	status.SetElement(JExprEditor::kGroupLeftCmd, kJTrue);
+	status.SetElement(JExprEditor::kMoveArgLeftCmd, true);
+	status.SetElement(JExprEditor::kMoveArgRightCmd, false);
+	status.SetElement(JExprEditor::kGroupLeftCmd, true);
 
 	std::cout << "GetCmdStatus::group arg" << std::endl;
 	e.CheckCmdStatus(status);
 
 	e.GroupArguments(-1);
 
-	status.SetElement(JExprEditor::kCutCmd, kJTrue);
-	status.SetElement(JExprEditor::kCopyCmd, kJTrue);
-	status.SetElement(JExprEditor::kDeleteSelCmd, kJTrue);
-	status.SetElement(JExprEditor::kAddArgCmd, kJTrue);
-	status.SetElement(JExprEditor::kUngroupCmd, kJTrue);
-	status.SetElement(JExprEditor::kSetNormalFontCmd, kJFalse);
+	status.SetElement(JExprEditor::kCutCmd, true);
+	status.SetElement(JExprEditor::kCopyCmd, true);
+	status.SetElement(JExprEditor::kDeleteSelCmd, true);
+	status.SetElement(JExprEditor::kAddArgCmd, true);
+	status.SetElement(JExprEditor::kUngroupCmd, true);
+	status.SetElement(JExprEditor::kSetNormalFontCmd, false);
 
 	std::cout << "GetCmdStatus::ungroup arg" << std::endl;
 	e.CheckCmdStatus(status);

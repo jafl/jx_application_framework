@@ -647,7 +647,7 @@ JXFSInputBase::StyledText::AdjustStylesBeforeBroadcast
 	// want to further modify fullName.
 
 	else if (JIsRelativePath(text) &&
-			 !JConvertToAbsolutePath(text, &itsField->itsBasePath, &fullPath))
+			 !JConvertToAbsolutePath(text, itsField->itsBasePath, &fullPath))
 		{
 		if (itsField->HasBasePath())
 			{

@@ -39,18 +39,13 @@ EmptyTrashError::SyGGlobals
 
 Please check the ownership and write permissions of the remaining files."
 
-CreateTrashError::SyGGlobals
-"Unable to create a directory ~/.trashcan because:
-
-$err"
-
-CreateRecentFileDirError::SyGGlobals
-"Unable to create a directory ~/.jxfvwm2taskbar/recent_files because:
+CreatePrefsDirError::SyGGlobals
+"Unable to create a directory ~/$name because:
 
 $err"
 
 NoPrefsDir::SyGGlobals
-"Unable to create a directory for the trash because you do not have a home directory."
+"Unable to save preferences because you do not have a home directory."
 
 DNDCopyDescription::SyGGlobals	"copy the items"
 DNDMoveDescription::SyGGlobals	"move the items"

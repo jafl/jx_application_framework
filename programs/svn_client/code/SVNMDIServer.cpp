@@ -119,7 +119,7 @@ SVNMDIServer::HandleMDIRequest
 						}
 					}
 				}
-			else if (!JConvertToAbsolutePath(arg, &dir, &s) ||
+			else if (!JConvertToAbsolutePath(arg, dir, &s) ||
 					 !JGetTrueName(s, &fullPath))
 				{
 				const JUtf8Byte* map[] =

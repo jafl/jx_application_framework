@@ -160,7 +160,7 @@ JXPathHistoryMenu::RemoveInvalidPaths()
 	for (JIndex i=count; i>=firstIndex; i--)
 		{
 		const JString& dirName = JXTextMenu::GetItemText(i);
-		if (!JConvertToAbsolutePath(dirName, &itsBasePath, &fullName))
+		if (!JConvertToAbsolutePath(dirName, itsBasePath, &fullName))
 			{
 			RemoveItem(i);
 			}

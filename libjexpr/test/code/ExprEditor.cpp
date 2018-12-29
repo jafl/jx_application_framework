@@ -228,7 +228,7 @@ ExprEditor::Activate()
 void
 ExprEditor::CheckCmdStatus
 	(
-	const JArray<JBoolean>& expected
+	const JArray<bool>& expected
 	)
 	const
 {
@@ -240,6 +240,6 @@ ExprEditor::CheckCmdStatus
 	for (JIndex i=1; i<=count; i++)
 		{
 		JString s((JUInt64) i);
-		JAssertEqualWithMessage(expected.GetElement(i), status.GetElement(i), s.GetBytes());
+		JAssertEqualWithMessage(expected.GetElement(i), (bool) status.GetElement(i), s.GetBytes());
 		}
 }

@@ -62,8 +62,6 @@ JPtrArray<T>::JPtrArray
 	JArray<T*>(source),
 	itsCleanUpAction(action)
 {
-	assert( source.GetCleanUpAction() == JPtrArrayT::kForgetAll ||
-			GetCleanUpAction() == JPtrArrayT::kForgetAll );
 }
 
 /******************************************************************************
@@ -115,9 +113,6 @@ JDCCPtrArray<T>::JDCCPtrArray
 	:
 	JPtrArray<T>(source, action)
 {
-	assert( source.GetCleanUpAction() == JPtrArrayT::kForgetAll ||
-			this->GetCleanUpAction() == JPtrArrayT::kForgetAll );
-
 	JArray<T*>::RemoveAll();
 	JPtrArray<T>::CopyObjects(source, action, kJTrue);
 }

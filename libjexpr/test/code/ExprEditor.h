@@ -19,7 +19,7 @@ public:
 	virtual ~ExprEditor();
 
 	void	Activate();
-	void	CheckCmdStatus(const JArray<JBoolean>& expected) const;
+	void	CheckCmdStatus(const JArray<bool>& expected) const;
 
 	void	HandleKeyPress(const JUtf8Character& c);
 

@@ -78,7 +78,7 @@ GFGLink::ParseClass
 		itsCurrentClass	= classname;
 		itsCurrentFile	= filename;
 
-		JConvertToAbsolutePath(filename, nullptr, &itsCurrentFile);
+		JConvertToAbsolutePath(filename, JString::empty, &itsCurrentFile);
 
 		itsCurrentFile.Print(*itsOutputLink);
 		*itsOutputLink << std::endl;

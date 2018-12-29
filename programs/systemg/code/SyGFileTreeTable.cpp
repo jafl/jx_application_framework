@@ -3786,7 +3786,7 @@ SyGFileTreeTable::RestoreDirState
 	for (JIndex i=1; i<=nameCount; i++)
 		{
 		is >> file;
-		if (!JConvertToAbsolutePath(file, &basePath, &full))
+		if (!JConvertToAbsolutePath(file, basePath, &full))
 			{
 			continue;
 			}

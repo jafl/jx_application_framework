@@ -128,10 +128,6 @@ T
 2 "SyGNewGitRemoteDialog.cpp"
 F
 "./code/SyGNewGitRemoteDialog.cpp"
-T
-2 "SyGTaskBarUtil.cpp"
-F
-"./code/SyGTaskBarUtil.cpp"
 F
 T
 1 "layouts"

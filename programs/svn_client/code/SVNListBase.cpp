@@ -804,7 +804,7 @@ SVNListBase::GetSelectedFiles
 		{
 		const JString* line   = itsLineList->GetElement(cell.y);
 		name                  = ExtractRelativePath(*line);
-		const JBoolean exists = JConvertToAbsolutePath(name, &basePath, &fullName);
+		const JBoolean exists = JConvertToAbsolutePath(name, basePath, &fullName);
 		if (exists || includeDeleted)
 			{
 			fullNameList->Append(fullName);

@@ -76,9 +76,8 @@ JXImage*	SyGGetDirectorySmallIcon(const JString& path);
 JIndex		SyGGetMountPointLargeIcon(const JString& path, SyGFileTreeList* fileList,
 									  JXPM* plainIcon, JXPM* selectedIcon);
 
-#include "SyGTaskBarUtil.h"
-//JBoolean	SyGGetMountPointSmallIcon(const JMountType type, JXImage** image);
-//JXImage*	SyGGetTrashSmallIcon(const JBoolean selected = kJFalse);
+JBoolean	SyGGetMountPointSmallIcon(const JMountType type, JXImage** image);
+JXImage*	SyGGetTrashSmallIcon(const JBoolean selected = kJFalse);
 
 	// version info
 

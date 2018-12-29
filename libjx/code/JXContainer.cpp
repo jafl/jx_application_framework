@@ -2122,7 +2122,7 @@ JXContainer::FTCBuildLayout
 			GetFTCLog() << "+++ " << (horizontal ? "Horizontal" : "Vertical")
 				<< " (iter: " << count
 				<< "; cells: " << objCount
-				<< "; exact: " << exact << ")" << std::endl;
+				<< "; exact: " << JBoolToString(exact) << ")" << std::endl;
 			}
 
 		iter.MoveTo(kJIteratorStartAtBeginning, 0);
@@ -2454,7 +2454,7 @@ JXContainer::FTCWillOverlapNonincludedWidget
 			{
 			if (theDebugFTCWillOverlapNonincludedWidget && theDebugFTCFlag)
 				{
-				GetFTCLog() << "----- " << kJTrue << std::endl;
+				GetFTCLog() << "----- T" << std::endl;
 				}
 
 			return kJTrue;
@@ -2463,7 +2463,7 @@ JXContainer::FTCWillOverlapNonincludedWidget
 
 	if (theDebugFTCWillOverlapNonincludedWidget && theDebugFTCFlag)
 		{
-		GetFTCLog() << "----- " << kJFalse << std::endl;
+		GetFTCLog() << "----- F" << std::endl;
 		}
 	return kJFalse;
 }

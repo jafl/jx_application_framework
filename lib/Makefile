@@ -108,7 +108,7 @@ PERSONAL_TOOLS := \
 
 PERSONAL_PROGS := \
     code_crusader code_medic code_mill \
-    drakon leibnitz systemg ssh_askpass
+    drakon leibnitz systemg svn_client ssh_askpass
 
 .PHONY : personal
 personal:

@@ -53,10 +53,22 @@ static JXImage*	theSelectedExecIcon           = nullptr;
 static JXImage*	theUnknownIcon                = nullptr;
 static JXImage*	theSelectedUnknownIcon        = nullptr;
 
+// owned by JXImageCache
+static JXImage* theHDSmallIcon  = nullptr;
+static JXImage* theZipSmallIcon = nullptr;
+static JXImage* theFDSmallIcon  = nullptr;
+static JXImage* theCDSmallIcon  = nullptr;
+
+// owned by JXImageCache
+static JXImage* theTrashEmptySmallIcon         = nullptr;
+static JXImage* theTrashEmptySelectedSmallIcon = nullptr;
+static JXImage* theTrashFullSmallIcon          = nullptr;
+static JXImage* theTrashFullSelectedSmallIcon  = nullptr;
+
 static const JString kTrashDirName("/.trashcan/", kJFalse);
 static JString theTrashDir;			// only need to compute this once
 static JDirInfo* theTrashDirInfo = nullptr;
-static const JString kRecentFileDirName("/.jxfvwm2taskbar/recent_files/", kJFalse);
+static const JString kRecentFileDirName("/.systemg/recent_files/", kJFalse);
 static JString theRecentFileDir;	// only need to compute this once
 const JSize kRecentFileCount     = 20;
 
@@ -294,7 +306,13 @@ SyGGetTrashDirectory
 		path->Clear();
 		if (reportErrors)
 			{
-			(JGetStringManager())->ReportError("CreateTrashError::SyGGlobals", err);
+			const JUtf8Byte* map[] =
+			{
+				"name", kTrashDirName.GetBytes(),
+				"err",  err.GetMessage().GetBytes()
+			};
+			const JString msg = JGetString("CreatePrefsDirError::SyGGlobals", map, sizeof(map));
+			(JGetUserNotification())->ReportError(msg);
 			}
 		return kJFalse;
 		}
@@ -587,6 +605,16 @@ SyGGetVersionStr()
 
  ******************************************************************************/
 
+#include <jx_hard_disk_small.xpm>
+#include <jx_zip_disk_small.xpm>
+#include <jx_floppy_disk_small.xpm>
+#include <jx_cdrom_disk_small.xpm>
+
+#include <jx_trash_can_empty_small.xpm>
+#include <jx_trash_can_empty_selected_small.xpm>
+#include <jx_trash_can_full_small.xpm>
+#include <jx_trash_can_full_selected_small.xpm>
+
 #include <jx_folder_large.xpm>
 #include <jx_folder_selected_large.xpm>
 #include <jx_folder_read_only_large.xpm>
@@ -626,7 +654,15 @@ SyGCreateIcons()
 {
 	JXImageCache* c = theApplication->GetDisplay(1)->GetImageCache();
 
-	SyGCreateMountPointSmallIcons();
+	theHDSmallIcon  = c->GetImage(jx_hard_disk_small);
+	theZipSmallIcon = c->GetImage(jx_zip_disk_small);
+	theFDSmallIcon  = c->GetImage(jx_floppy_disk_small);
+	theCDSmallIcon  = c->GetImage(jx_cdrom_disk_small);
+
+	theTrashEmptySmallIcon         = c->GetImage(jx_trash_can_empty_small);
+	theTrashEmptySelectedSmallIcon = c->GetImage(jx_trash_can_empty_selected_small);
+	theTrashFullSmallIcon          = c->GetImage(jx_trash_can_full_small);
+	theTrashFullSelectedSmallIcon  = c->GetImage(jx_trash_can_full_selected_small);
 
 	theFileIcon                   = c->GetImage(jx_plain_file_small);
 	theSelectedFileIcon           = c->GetImage(jx_plain_file_selected_small);
@@ -647,7 +683,6 @@ SyGCreateIcons()
 void
 SyGDeleteIcons()
 {
-	SyGDeleteMountPointSmallIcons();
 }
 
 JXImage*
@@ -739,6 +774,52 @@ SyGGetDirectorySmallIcon
 		{
 		return SyGGetFolderSmallIcon();
 		}
+}
+
+JXImage*
+SyGGetTrashSmallIcon
+	(
+	const JBoolean selected
+	)
+{
+#if defined SYSTEM_G
+	if (SyGTrashDirectoryIsEmpty())
+#elif defined JX_FVWM2_TASKBAR
+	if (SyGTBTrashDirectoryIsEmpty())
+#endif
+		{
+		return selected ? theTrashEmptySelectedSmallIcon : theTrashEmptySmallIcon;
+		}
+	else
+		{
+		return selected ? theTrashFullSelectedSmallIcon : theTrashFullSmallIcon;
+		}
+}
+
+JBoolean
+SyGGetMountPointSmallIcon
+	(
+	const JMountType	type,
+	JXImage**			image
+	)
+{
+	if (type == kJHardDisk)
+		{
+		*image = theHDSmallIcon;
+		}
+	else if (type == kJFloppyDisk)
+		{
+		*image = theFDSmallIcon;
+		}
+	else if (type == kJCDROM)
+		{
+		*image = theCDSmallIcon;
+		}
+	else
+		{
+		*image = nullptr;
+		}
+	return JNegate(*image == nullptr);
 }
 
 // Returns type value.  This value is arbitrary.  Do not store it in files.
@@ -901,7 +982,13 @@ SyGGetRecentFileDirectory
 		path->Clear();
 		if (reportErrors)
 			{
-			(JGetStringManager())->ReportError("CreateRecentFileDirError::SyGGlobals", err);
+			const JUtf8Byte* map[] =
+			{
+				"name", kRecentFileDirName.GetBytes(),
+				"err",  err.GetMessage().GetBytes()
+			};
+			const JString msg = JGetString("CreatePrefsDirError::SyGGlobals", map, sizeof(map));
+			(JGetUserNotification())->ReportError(msg);
 			}
 		return kJFalse;
 		}

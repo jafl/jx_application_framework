@@ -53,7 +53,7 @@ TestFileListDirector::TestFileListDirector
 	AddDirectory("./test-file-list");
 
 	JString s1, s2;
-	if (JConvertToAbsolutePath(JString("../Make.header", kJFalse), nullptr, &s1) &&
+	if (JConvertToAbsolutePath(JString("../Make.header", kJFalse), JString::empty, &s1) &&
 		JGetTrueName(s1, &s2))
 		{
 		itsFLSet->GetTable()->AddFile(s2);

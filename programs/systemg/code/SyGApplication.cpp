@@ -183,7 +183,7 @@ SyGApplication::OpenDirectory
 
 	JString fixedName, trueName;
 	if (!JExpandHomeDirShortcut(pathName, &fixedName) ||
-		!JConvertToAbsolutePath(fixedName, nullptr, &trueName))
+		!JConvertToAbsolutePath(fixedName, JString::empty, &trueName))
 		{
 		if (reportError)
 			{
@@ -381,7 +381,6 @@ SyGApplication::Receive
 	if (sender == itsShortcutList)
 		{
 		Broadcast(ShortcutsChanged());
-		SyGWriteTaskBarSetup(*itsShortcutList, kJTrue);
 		}
 	else
 		{
@@ -789,8 +788,6 @@ SyGApplication::ReadPrefs
 		{
 		input >> itsGitHistoryCmd;
 		}
-
-	SyGWriteTaskBarSetup(*itsShortcutList, kJFalse);
 }
 
 /******************************************************************************

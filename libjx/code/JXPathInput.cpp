@@ -73,7 +73,7 @@ JXPathInput::GetPath
 
 	return JI2B(!text.IsEmpty() &&
 				(JIsAbsolutePath(text) || hasBasePath) &&
-				JConvertToAbsolutePath(text, &basePath, path) &&
+				JConvertToAbsolutePath(text, basePath, path) &&
 				JDirectoryExists(*path) &&
 				JDirectoryReadable(*path) &&
 				JCanEnterDirectory(*path) &&
@@ -113,7 +113,7 @@ JXPathInput::InputValid()
 		RecalcAll();
 		return kJFalse;
 		}
-	if (!JConvertToAbsolutePath(text, &basePath, &path))
+	if (!JConvertToAbsolutePath(text, basePath, &path))
 		{
 		(JGetUserNotification())->ReportError(JGetString("InvalidDir::JXPathInput"));
 		RecalcAll();
@@ -193,7 +193,7 @@ JXPathInput::GetTextColor
 
 	JString fullPath;
 	if ((JIsAbsolutePath(path) || !base.IsEmpty()) &&
-		JConvertToAbsolutePath(path, &base, &fullPath) &&
+		JConvertToAbsolutePath(path, base, &fullPath) &&
 		JDirectoryReadable(fullPath) &&
 		JCanEnterDirectory(fullPath) &&
 		(!requireWrite || JDirectoryWritable(fullPath)))

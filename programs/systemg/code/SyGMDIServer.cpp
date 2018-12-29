@@ -92,7 +92,7 @@ SyGMDIServer::HandleMDIRequest
 			else
 				{
 				JString path;
-				if (JConvertToAbsolutePath(arg, nullptr, &path))
+				if (JConvertToAbsolutePath(arg, JString::empty, &path))
 					{
 					app->OpenDirectory(path, nullptr, nullptr, kJTrue, kJTrue, forceNew, clearSelection);
 					clearSelection = kJFalse;
