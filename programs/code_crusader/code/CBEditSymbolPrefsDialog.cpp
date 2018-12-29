@@ -56,7 +56,7 @@ CBEditSymbolPrefsDialog::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 470,90, "");
+	JXWindow* window = jnew JXWindow(this, 470,90, JString::empty);
 	assert( window != nullptr );
 
 	JXTextButton* cancelButton =

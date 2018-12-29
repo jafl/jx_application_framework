@@ -11,8 +11,8 @@
 #include "CBRPChooseFileDialog.h"
 #include "CBRPChoosePathDialog.h"
 #include "CBProjectDocument.h"
+#include <JStringIterator.h>
 #include <jFileUtil.h>
-#include <jDirUtil.h>
 #include <jAssert.h>
 
 /******************************************************************************
@@ -53,10 +53,10 @@ CBRelPathCSF::~CBRelPathCSF()
 JBoolean
 CBRelPathCSF::ChooseRelFile
 	(
-	const JCharacter*	prompt,
-	const JCharacter*	instructions,
-	const JCharacter*	origName,
-	JString*			name
+	const JString&	prompt,
+	const JString&	instructions,
+	const JString&	origName,
+	JString*		name
 	)
 {
 	const JString fullOrigName = PrepareForChoose(origName);
@@ -79,12 +79,12 @@ CBRelPathCSF::ChooseRelFile
 JXChooseFileDialog*
 CBRelPathCSF::CreateChooseFileDialog
 	(
-	JXDirector*			supervisor,
-	JDirInfo*			dirInfo,
-	const JCharacter*	fileFilter,
-	const JBoolean		allowSelectMultiple,
-	const JCharacter*	origName,
-	const JCharacter*	message
+	JXDirector*		supervisor,
+	JDirInfo*		dirInfo,
+	const JString&	fileFilter,
+	const JBoolean	allowSelectMultiple,
+	const JString&	origName,
+	const JString&	message
 	)
 {
 	itsFileDialog =
@@ -102,10 +102,10 @@ CBRelPathCSF::CreateChooseFileDialog
 JBoolean
 CBRelPathCSF::ChooseRelRPath
 	(
-	const JCharacter*	prompt,
-	const JCharacter*	instructions,
-	const JCharacter*	origPath,
-	JString*			newPath
+	const JString&	prompt,
+	const JString&	instructions,
+	const JString&	origPath,
+	JString*		newPath
 	)
 {
 	const JString startPath = PrepareForChoose(origPath);
@@ -128,10 +128,10 @@ CBRelPathCSF::ChooseRelRPath
 JBoolean
 CBRelPathCSF::ChooseRelRWPath
 	(
-	const JCharacter*	prompt,
-	const JCharacter*	instructions,
-	const JCharacter*	origPath,
-	JString*			newPath
+	const JString&	prompt,
+	const JString&	instructions,
+	const JString&	origPath,
+	JString*		newPath
 	)
 {
 	const JString startPath = PrepareForChoose(origPath);
@@ -154,17 +154,17 @@ CBRelPathCSF::ChooseRelRWPath
 JString
 CBRelPathCSF::PrepareForChoose
 	(
-	const JCharacter* origName
+	const JString& origName
 	)
 {
 	CalcPathType(origName, &itsPathType);
 
 	JString startPath;
-	if (JString::IsEmpty(origName))
+	if (origName.IsEmpty())
 		{
 		startPath = GetProjectPath();
 		}
-	else if (!JString::IsEmpty(origName) &&
+	else if (!origName.IsEmpty() &&
 			 !JConvertToAbsolutePath(origName, GetProjectPath(), &startPath))
 		{
 		startPath = origName;
@@ -187,12 +187,12 @@ CBRelPathCSF::PrepareForChoose
 void
 CBRelPathCSF::CalcPathType
 	(
-	const JCharacter*	path,
-	PathType*			type
+	const JString&	path,
+	PathType*		type
 	)
 	const
 {
-	if (!JString::IsEmpty(path))
+	if (!path.IsEmpty())
 		{
 		*type = CalcPathType(path);
 		}
@@ -203,12 +203,12 @@ CBRelPathCSF::CalcPathType
 CBRelPathCSF::PathType
 CBRelPathCSF::CalcPathType
 	(
-	const JCharacter* path
+	const JString& path
 	)
 {
-	assert( !JString::IsEmpty(path) );
+	assert( !path.IsEmpty() );
 
-	if (path[0] == '~')
+	if (path.GetFirstCharacter() == '~')
 		{
 		return kHomeRelative;
 		}
@@ -230,11 +230,11 @@ CBRelPathCSF::CalcPathType
 JXChoosePathDialog*
 CBRelPathCSF::CreateChoosePathDialog
 	(
-	JXDirector*			supervisor,
-	JDirInfo*			dirInfo,
-	const JCharacter*	fileFilter,
-	const JBoolean		selectOnlyWritable,
-	const JCharacter*	message
+	JXDirector*		supervisor,
+	JDirInfo*		dirInfo,
+	const JString&	fileFilter,
+	const JBoolean	selectOnlyWritable,
+	const JString&	message
 	)
 {
 	itsPathDialog =
@@ -303,7 +303,7 @@ CBRelPathCSF::GetProjectPath()
 JString
 CBRelPathCSF::ConvertToRelativePath
 	(
-	const JCharacter* fullPath
+	const JString& fullPath
 	)
 {
 	return ConvertToRelativePath(fullPath, GetProjectPath(), itsPathType);
@@ -317,9 +317,9 @@ CBRelPathCSF::ConvertToRelativePath
 JString
 CBRelPathCSF::ConvertToRelativePath
 	(
-	const JCharacter*	fullPath,
-	const JCharacter*	projPath,
-	const PathType		pathType
+	const JString&	fullPath,
+	const JString&	projPath,
+	const PathType	pathType
 	)
 {
 	if (!JFileExists(fullPath) && !JDirectoryExists(fullPath))
@@ -340,7 +340,8 @@ CBRelPathCSF::ConvertToRelativePath
 			path = JConvertToRelativePath(fullPath, trueHome);
 			if (path.BeginsWith("." ACE_DIRECTORY_SEPARATOR_STR))
 				{
-				path.SetCharacter(1, '~');
+				JStringIterator iter(&path);
+				iter.SetNext(JUtf8Character('~'));
 				}
 			else if (JIsRelativePath(path))
 				{

@@ -148,7 +148,7 @@ CBGetComplementType
 struct CBComplName
 {
 	CBTextFileType		type;
-	const JCharacter*	name;
+	const JUtf8Byte*	name;
 };
 
 static const CBComplName kComplName[] =
@@ -165,7 +165,7 @@ static const CBComplName kComplName[] =
 
 const JSize kComplNameCount = sizeof(kComplName) / sizeof(CBComplName);
 
-const JCharacter*
+const JUtf8Byte*
 CBGetComplementFileTypeName
 	(
 	const CBTextFileType type

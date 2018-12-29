@@ -19,10 +19,10 @@ public:
 
 	static CBRPChooseFileDialog*
 		Create(JXDirector* supervisor, JDirInfo* dirInfo,
-			   const JCharacter* fileFilter,
+			   const JString& fileFilter,
 			   const JBoolean allowSelectMultiple,
 			   const CBRelPathCSF::PathType pathType,
-			   const JCharacter* origName, const JCharacter* message);
+			   const JString& origName, const JString& message);
 
 	virtual ~CBRPChooseFileDialog();
 
@@ -31,7 +31,7 @@ public:
 protected:
 
 	CBRPChooseFileDialog(JXDirector* supervisor, JDirInfo* dirInfo,
-						 const JCharacter* fileFilter,
+						 const JString& fileFilter,
 						 const JBoolean allowSelectMultiple);
 
 private:
@@ -45,8 +45,8 @@ private:
 private:
 
 	void	BuildWindow(const CBRelPathCSF::PathType pathType,
-						const JCharacter* origName,
-						const JCharacter* message);
+						const JString& origName,
+						const JString& message);
 
 	// not allowed
 

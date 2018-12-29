@@ -32,10 +32,8 @@
 #include <jFileUtil.h>
 #include <jAssert.h>
 
-static const JCharacter* kScriptDir         = "scripts";
-static const JCharacter* kCBNameRegexMarker = "*";
-
-extern const JCharacter* kJCCVersionNumberStr;
+static const JString kScriptDir("scripts", kJFalse);
+static const JUtf8Character kCBNameRegexMarker("*");
 
 const JFileVersion kCurrentTextColorVers = 1;
 
@@ -43,8 +41,8 @@ const JFileVersion kCurrentTextColorVers = 1;
 
 // JBroadcaster message types
 
-const JCharacter* CBPrefsManager::kFileTypesChanged = "FileTypesChanged::CBPrefsManager";
-const JCharacter* CBPrefsManager::kTextColorChanged = "TextColorChanged::CBPrefsManager";
+const JUtf8Byte* CBPrefsManager::kFileTypesChanged = "FileTypesChanged::CBPrefsManager";
+const JUtf8Byte* CBPrefsManager::kTextColorChanged = "TextColorChanged::CBPrefsManager";
 
 /******************************************************************************
  Constructor
@@ -324,18 +322,18 @@ CBPrefsManager::Receive
 
 struct CBNewSuffixInfo
 {
-	const JCharacter*	suffix;
+	const JUtf8Byte*	suffix;
 	JBoolean			found;
 };
 
 void
 cbAddNewSuffixes
 	(
-	const JCharacter*			macroName,		// can be nullptr
-	const JCharacter*			origCRMName,	// can be nullptr -- uses macroName
-	const CBTextFileType		type,
-	CBNewSuffixInfo*			newInfo,
-	const JSize					newSize,
+	const JUtf8Byte*		macroName,		// can be nullptr
+	const JUtf8Byte*		origCRMName,	// can be nullptr -- uses macroName
+	const CBTextFileType	type,
+	CBNewSuffixInfo*		newInfo,
+	const JSize				newSize,
 
 	JArray<CBPrefsManager::FileTypeInfo>*			fileTypeList,
 	JArray<CBPrefsManager::MacroSetInfo>*			macroList,
@@ -364,8 +362,8 @@ cbAddNewSuffixes
 
 	const JIndex macroID = CBPrefsManager::FindMacroName(macroName, macroList, kJTrue);
 
-	const JCharacter* crmName =
-		(origCRMName != nullptr ? origCRMName : macroName);
+	const JUtf8Byte* crmName =
+		(JString::IsEmpty(origCRMName) ? macroName : origCRMName);
 
 	const JIndex crmID = CBPrefsManager::FindCRMRuleListName(crmName, crmList);
 
@@ -394,8 +392,8 @@ cbAddNewSuffixes
 
 struct CBNewExternalSuffixInfo
 {
-	const JCharacter*	suffix;
-	const JCharacter*	cmd;
+	const JUtf8Byte*	suffix;
+	const JUtf8Byte*	cmd;
 	JBoolean			found;
 };
 
@@ -456,7 +454,6 @@ CBPrefsManager::UpgradeData
 	const JFileVersion	currentVersion
 	)
 {
-	JXDisplay* display = (CBGetApplication())->GetDisplay(1);
 	std::string data;
 
 	//
@@ -487,7 +484,8 @@ CBPrefsManager::UpgradeData
 
 	if (currentVersion < 5)
 		{
-		SetDefaultFont(JGetMonospaceFontName(), JGetDefaultMonoFontSize());
+		SetDefaultFont(JFontManager::GetDefaultMonospaceFontName(),
+					   JFontManager::GetDefaultMonospaceFontSize());
 		}
 
 	// collect file suffixes
@@ -560,7 +558,7 @@ CBPrefsManager::UpgradeData
 			if (!dataStream.eof() && !dataStream.fail() && vers == 1)
 				{
 				JBoolean breakCodeCROnly;
-				dataStream >> breakCodeCROnly;
+				dataStream >> JBoolFromString(breakCodeCROnly);
 				codeWrap = !breakCodeCROnly;
 				}
 			}
@@ -1148,7 +1146,8 @@ CBPrefsManager::UpgradeData
 		GetDefaultFont(&name, &size);
 		if (name != "Courier")
 			{
-			SetDefaultFont(JGetMonospaceFontName(), JGetDefaultMonoFontSize());
+			SetDefaultFont(JFontManager::GetDefaultMonospaceFontName(),
+						   JFontManager::GetDefaultMonospaceFontSize());
 			}
 		}
 
@@ -1222,7 +1221,7 @@ CBPrefsManager::UpgradeData
 
  ******************************************************************************/
 
-static const JCharacter* kOrigMacroName[] =
+static const JUtf8Byte* kOrigMacroName[] =
 {
 	"C/C++", "Eiffel", "FORTRAN", "HTML", "Java"
 };
@@ -1232,7 +1231,7 @@ static const JUnsignedOffset kCBOrigMacroID[] =
 	0, 100, 100, 4, 100
 };
 
-const JSize kOrigMacroCount = sizeof(kOrigMacroName)/sizeof(JCharacter*);
+const JSize kOrigMacroCount = sizeof(kOrigMacroName)/sizeof(JUtf8Byte*);
 
 static const CBTextFileType kOrigFileType[] =
 {
@@ -1316,7 +1315,7 @@ std::string data;
 		RemoveData(30000+i);
 		std::istringstream dataStream(data);
 		JBoolean wordWrap;
-		dataStream >> wordWrap;
+		dataStream >> JBoolFromString(wordWrap);
 
 		const JSize count = suffixList.GetElementCount();
 		for (JIndex j=1; j<=count; j++)
@@ -1341,7 +1340,7 @@ std::string data;
 	assert( ok );
 	RemoveData(39998);
 	std::istringstream dataStream(data);
-	dataStream >> itsExecOutputWordWrapFlag;
+	dataStream >> JBoolFromString(itsExecOutputWordWrapFlag);
 	}
 
 	{
@@ -1349,7 +1348,7 @@ std::string data;
 	assert( ok );
 	RemoveData(39999);
 	std::istringstream dataStream(data);
-	dataStream >> itsUnknownTypeWordWrapFlag;
+	dataStream >> JBoolFromString(itsUnknownTypeWordWrapFlag);
 	}
 }
 
@@ -1505,7 +1504,7 @@ CBPrefsManager::AddDefaultXMLActions
 	)
 	const
 {
-	mgr->SetAction('>',  "$(xml-auto-close $t)");
+	mgr->SetAction('>',  JString("$(xml-auto-close $t)", kJFalse));
 }
 
 /******************************************************************************
@@ -1513,19 +1512,19 @@ CBPrefsManager::AddDefaultXMLActions
 
  ******************************************************************************/
 
-static const JCharacter* kInitCSourceSuffix[] =
+static const JUtf8Byte* kInitCSourceSuffix[] =
 {
 	".c", ".cc", ".cpp", ".cxx", ".C", ".tmpl"
 };
 
-const JSize kInitCSourceSuffixCount = sizeof(kInitCSourceSuffix) / sizeof(JCharacter*);
+const JSize kInitCSourceSuffixCount = sizeof(kInitCSourceSuffix) / sizeof(JUtf8Byte*);
 
-static const JCharacter* kInitCHeaderSuffix[] =
+static const JUtf8Byte* kInitCHeaderSuffix[] =
 {
 	".h", ".hh", ".hpp", ".hxx", ".H", ".h"
 };
 
-const JSize kInitCHeaderSuffixCount = sizeof(kInitCHeaderSuffix) / sizeof(JCharacter*);
+const JSize kInitCHeaderSuffixCount = sizeof(kInitCHeaderSuffix) / sizeof(JUtf8Byte*);
 
 void
 CBPrefsManager::InitComplementSuffix
@@ -1563,7 +1562,7 @@ CBPrefsManager::InitComplementSuffix
 JIndex
 CBPrefsManager::FindMacroName
 	(
-	const JCharacter*		macroName,		// can be nullptr
+	const JUtf8Byte*		macroName,
 	JArray<MacroSetInfo>*	macroList,
 	const JBoolean			create
 	)
@@ -1622,7 +1621,7 @@ CBPrefsManager::FindMacroName
 JIndex
 CBPrefsManager::FindCRMRuleListName
 	(
-	const JCharacter*				crmName,	// can be nullptr
+	const JUtf8Byte*				crmName,
 	const JArray<CRMRuleListInfo>&	crmList
 	)
 {
@@ -1678,9 +1677,9 @@ CBPrefsManager::ConvertHTMLSuffixesToFileTypes
 		if (!found)
 			{
 			#ifdef _J_OSX
-			const JCharacter* cmd = "open $f";
+			const JUtf8Byte* cmd = "open $f";
 			#else
-			const JCharacter* cmd = "eog $f";
+			const JUtf8Byte* cmd = "eog $f";
 			#endif
 
 			FileTypeInfo info(jnew JString(suffix), nullptr, nullptr, kCBExternalFT,
@@ -1741,7 +1740,7 @@ CBPrefsManager::ReadFileTypeInfo
 		assert( info.complSuffix != nullptr );
 
 		listStream >> *(info.suffix) >> info.type;
-		listStream >> info.macroID >> info.wordWrap;
+		listStream >> info.macroID >> JBoolFromString(info.wordWrap);
 
 		if (vers >= 13)
 			{
@@ -1756,7 +1755,7 @@ CBPrefsManager::ReadFileTypeInfo
 		if (vers >= 26)
 			{
 			JBoolean hasEditCmd;
-			listStream >> hasEditCmd;
+			listStream >> JBoolFromString(hasEditCmd);
 			if (hasEditCmd)
 				{
 				info.editCmd = jnew JString;
@@ -1768,7 +1767,7 @@ CBPrefsManager::ReadFileTypeInfo
 		if (vers >= 40)
 			{
 			JBoolean hasScriptPath;
-			listStream >> hasScriptPath;
+			listStream >> JBoolFromString(hasScriptPath);
 			if (hasScriptPath)
 				{
 				info.scriptPath = jnew JString;
@@ -1785,7 +1784,8 @@ CBPrefsManager::ReadFileTypeInfo
 	ok = GetData(kCBMiscWordWrapID, &wrapData);
 	assert( ok );
 	std::istringstream wrapStream(wrapData);
-	wrapStream >> itsExecOutputWordWrapFlag >> itsUnknownTypeWordWrapFlag;
+	wrapStream >> JBoolFromString(itsExecOutputWordWrapFlag)
+			   >> JBoolFromString(itsUnknownTypeWordWrapFlag);
 }
 
 /******************************************************************************
@@ -1807,33 +1807,33 @@ CBPrefsManager::WriteFileTypeInfo()
 		{
 		FileTypeInfo info = itsFileTypeList->GetElement(i);
 		listStream << ' ' << *(info.suffix) << ' ' << info.type;
-		listStream << ' ' << info.macroID << ' ' << info.wordWrap;
+		listStream << ' ' << info.macroID << ' ' << JBoolToString(info.wordWrap);
 		listStream << ' ' << info.crmID << ' ' << *(info.complSuffix);
 
 		if (info.editCmd != nullptr)
 			{
-			listStream << ' ' << kJTrue << ' ' << *(info.editCmd);
+			listStream << ' ' << JBoolToString(kJTrue) << ' ' << *(info.editCmd);
 			}
 		else
 			{
-			listStream << ' ' << kJFalse;
+			listStream << ' ' << JBoolToString(kJFalse);
 			}
 
 		if (info.scriptPath != nullptr)
 			{
-			listStream << ' ' << kJTrue << ' ' << *(info.scriptPath);
+			listStream << ' ' << JBoolToString(kJTrue) << ' ' << *(info.scriptPath);
 			}
 		else
 			{
-			listStream << ' ' << kJFalse;
+			listStream << ' ' << JBoolToString(kJFalse);
 			}
 		}
 
 	SetData(kCBFileTypeListID, listStream);
 
 	std::ostringstream wrapStream;
-	wrapStream << itsExecOutputWordWrapFlag;
-	wrapStream << ' ' << itsUnknownTypeWordWrapFlag;
+	wrapStream << JBoolToString(itsExecOutputWordWrapFlag)
+			   << JBoolToString(itsUnknownTypeWordWrapFlag);
 	SetData(kCBMiscWordWrapID, wrapStream);
 }
 
@@ -1919,8 +1919,8 @@ CBPrefsManager::CompareFileTypeSpec
 	const FileTypeInfo& i2
 	)
 {
-	const JCharacter c1 = (i1.suffix)->GetFirstCharacter();
-	const JCharacter c2 = (i2.suffix)->GetFirstCharacter();
+	const JUtf8Character c1 = (i1.suffix)->GetFirstCharacter();
+	const JUtf8Character c2 = (i2.suffix)->GetFirstCharacter();
 
 	if (c1 == kCBContentRegexMarker && c2 != kCBContentRegexMarker)
 		{
@@ -1951,8 +1951,8 @@ CBPrefsManager::CompareFileTypeSpecAndLength
 	const FileTypeInfo& i2
 	)
 {
-	const JCharacter c1 = i1.suffix->GetFirstCharacter();
-	const JCharacter c2 = i2.suffix->GetFirstCharacter();
+	const JUtf8Character c1 = i1.suffix->GetFirstCharacter();
+	const JUtf8Character c2 = i2.suffix->GetFirstCharacter();
 
 	if (c1 == kCBContentRegexMarker && c2 != kCBContentRegexMarker)
 		{
@@ -2090,11 +2090,11 @@ const JSize kMaxInitCRMRuleCount = 4;
 
 struct InitCRMInfo
 {
-	const JCharacter*	name;
+	const JUtf8Byte*	name;
 	JSize				count;
-	const JCharacter*	first   [ kMaxInitCRMRuleCount ];
-	const JCharacter*	rest    [ kMaxInitCRMRuleCount ];
-	const JCharacter*	replace [ kMaxInitCRMRuleCount ];
+	const JUtf8Byte*	first   [ kMaxInitCRMRuleCount ];
+	const JUtf8Byte*	rest    [ kMaxInitCRMRuleCount ];
+	const JUtf8Byte*	replace [ kMaxInitCRMRuleCount ];
 };
 
 static const InitCRMInfo kInitCRM[] =
@@ -2214,10 +2214,10 @@ const JSize kInitCRMCount = sizeof(kInitCRM)/sizeof(InitCRMInfo);
 
 struct FTRegexInfo
 {
-	const JCharacter*	pattern;
+	const JUtf8Byte*	pattern;
 	CBTextFileType		type;
-	const JCharacter*	macroName;
-	const JCharacter*	crmName;
+	const JUtf8Byte*	macroName;
+	const JUtf8Byte*	crmName;
 	JBoolean			wrap;
 };
 
@@ -2282,13 +2282,15 @@ CBPrefsManager::CreateCRMRuleLists()
 		JString* name = jnew JString(kInitCRM[i].name);
 		assert( name != nullptr );
 
-		JTextEditor::CRMRuleList* ruleList = jnew JTextEditor::CRMRuleList;
+		JStyledText::CRMRuleList* ruleList = jnew JStyledText::CRMRuleList;
 		assert( ruleList != nullptr );
 
 		for (JUnsignedOffset j=0; j<kInitCRM[i].count; j++)
 			{
-			ruleList->AppendElement(JTextEditor::CRMRule(
-				kInitCRM[i].first[j], kInitCRM[i].rest[j], kInitCRM[i].replace[j]));
+			ruleList->AppendElement(JStyledText::CRMRule(
+				JString(kInitCRM[i].first[j],   kJFalse),
+				JString(kInitCRM[i].rest[j],    kJFalse),
+				JString(kInitCRM[i].replace[j], kJFalse)));
 			}
 
 		itsCRMList->AppendElement(
@@ -2350,13 +2352,13 @@ CBPrefsManager::CreateCRMRuleLists()
 #define FindIDFn      FindCRMRuleListID
 #define FTStructIDVar crmID
 #define EditDataFn    EditCRMRuleLists
-#define EditDataArg   JTextEditor::CRMRuleList
+#define EditDataArg   JStyledText::CRMRuleList
 #define EditDataSel   list
 #define UpdateDataFn  UpdateCRMRuleLists
 #define DialogClass   CBEditCRMDialog
 #define DialogVar     itsCRMDialog
 #define ExtractDataFn GetCRMRuleLists
-#define CopyConstr    jnew JTextEditor::CRMRuleList(*(origInfo.list))
+#define CopyConstr    jnew JStyledText::CRMRuleList(*(origInfo.list))
 #define PtrCheck      newInfo.list != nullptr
 #define Destr         (info.list)->DeleteAll(); \
 					  jdelete info.list
@@ -2393,7 +2395,7 @@ CBPrefsManager::CRMRuleListInfo::CreateAndRead
 	const JFileVersion	vers
 	)
 {
-	list = jnew JTextEditor::CRMRuleList;
+	list = jnew JStyledText::CRMRuleList;
 	assert( list != nullptr );
 
 	JSize ruleCount;
@@ -2403,7 +2405,7 @@ CBPrefsManager::CRMRuleListInfo::CreateAndRead
 	for (JIndex j=1; j<=ruleCount; j++)
 		{
 		input >> first >> rest >> replace;
-		list->AppendElement(JTextEditor::CRMRule(first, rest, replace));
+		list->AppendElement(JStyledText::CRMRule(first, rest, replace));
 		}
 }
 
@@ -2423,7 +2425,7 @@ CBPrefsManager::CRMRuleListInfo::Write
 
 	for (JIndex i=1; i<=ruleCount; i++)
 		{
-		JTextEditor::CRMRule r = list->GetElement(i);
+		JStyledText::CRMRule r = list->GetElement(i);
 		output << ' ' << (r.first)->GetPattern();
 		output << ' ' << (r.rest)->GetPattern();
 		output << ' ' << (r.first)->GetReplacePattern();
@@ -2485,8 +2487,6 @@ CBPrefsManager::SetColor
 void
 CBPrefsManager::ReadColors()
 {
-	JXColorManager* colormap = ((JXGetApplication())->GetCurrentDisplay())->GetColormap();
-
 	JBoolean ok[ kColorCount ];
 
 	std::string data;
@@ -2508,7 +2508,7 @@ CBPrefsManager::ReadColors()
 			else
 				{
 				dataStream >> color[i];
-				itsColor[i] = colormap->GetColor(color[i]);
+				itsColor[i] = JColorManager::GetColorID(color[i]);
 				ok[i]       = kJTrue;
 				}
 			}
@@ -2525,12 +2525,12 @@ CBPrefsManager::ReadColors()
 
 	const JColorID defaultColor[] =
 		{
-		colormap->GetBlackColor(),
-		colormap->GetWhiteColor(),
-		colormap->GetRedColor(),
-		colormap->GetDefaultSelectionColor(),
-		colormap->GetBlueColor(),
-		colormap->GetGrayColor(70)
+		JColorManager::GetBlackColor(),
+		JColorManager::GetWhiteColor(),
+		JColorManager::GetRedColor(),
+		JColorManager::GetDefaultSelectionColor(),
+		JColorManager::GetBlueColor(),
+		JColorManager::GetGrayColor(70)
 		};
 	assert( sizeof(defaultColor)/sizeof(JColorID) == kColorCount );
 
@@ -2546,14 +2546,12 @@ CBPrefsManager::ReadColors()
 void
 CBPrefsManager::WriteColors()
 {
-	JXColorManager* colormap = ((JXGetApplication())->GetCurrentDisplay())->GetColormap();
-
 	std::ostringstream data;
 	data << kCurrentTextColorVers;
 
 	for (JUnsignedOffset i=0; i<kColorCount; i++)
 		{
-		data << ' ' << colormap->GetRGB(itsColor[i]);
+		data << ' ' << JColorManager::GetRGB(itsColor[i]);
 		}
 
 	SetData(kCBTextColorID, data);
@@ -2583,8 +2581,8 @@ CBPrefsManager::GetDefaultFont
 void
 CBPrefsManager::SetDefaultFont
 	(
-	const JCharacter*	name,
-	const JSize			size
+	const JString&	name,
+	const JSize		size
 	)
 {
 	std::ostringstream data;
@@ -2804,8 +2802,8 @@ CBPrefsManager::SaveWindowSize
 JBoolean
 CBPrefsManager::EditWithOtherProgram
 	(
-	const JCharacter*	fileName,
-	JString*			cmd
+	const JString&	fileName,
+	JString*		cmd
 	)
 	const
 {
@@ -2820,9 +2818,9 @@ CBPrefsManager::EditWithOtherProgram
 			return kJFalse;
 			}
 
-		const JCharacter* map[] =
+		const JUtf8Byte* map[] =
 			{
-			"f", fileName
+			"f", fileName.GetBytes()
 			};
 		(JGetStringManager())->Replace(cmd, map, sizeof(map));
 		return kJTrue;
@@ -2893,7 +2891,7 @@ CBPrefsManager::GetFileType
 	const CBTextDocument&		doc,
 	CBCharActionManager**		actionMgr,
 	CBMacroManager**			macroMgr,
-	JTextEditor::CRMRuleList**	crmRuleList,
+	JStyledText::CRMRuleList**	crmRuleList,
 	JString*					scriptPath,
 	JBoolean*					wordWrap
 	)
@@ -2986,7 +2984,7 @@ CBPrefsManager::CalcFileType
 	for (JIndex i=1; i<=count; i++)
 		{
 		FileTypeInfo info   = itsFileTypeList->GetElement(i);
-		const JString& text = (doc.GetTextEditor())->GetText();
+		const JString& text = doc.GetTextEditor()->GetText()->GetText();
 		if (info.contentRegex != nullptr)
 			{
 			// JRegex is so slow on a large file (even with the ^ anchor!)
@@ -2998,7 +2996,7 @@ CBPrefsManager::CalcFileType
 				itsFileTypeList->SetElement(i, info);
 				}
 
-			const JString prefix = (info.suffix)->GetSubstring(info.literalRange);
+			const JString prefix = info.suffix->GetSubstring(info.literalRange);
 			if (text.BeginsWith(prefix) && (info.contentRegex)->Match(text))
 				{
 				*index = i;
@@ -3026,10 +3024,10 @@ CBPrefsManager::CalcFileType
 JIndexRange
 CBPrefsManager::GetLiteralPrefixRange
 	(
-	const JCharacter* regexStr
+	const JString& regexStr
 	)
 {
-	assert( regexStr[0] == kCBContentRegexMarker );
+	assert( regexStr.GetFirstCharacter() == kCBContentRegexMarker );
 
 	JIndex i = 1;
 	while (regexStr[i] != '\0' && regexStr[i] != '\\' &&
@@ -3192,7 +3190,7 @@ static const CBTextFileType kDefComplSuffixType[] =
 	kCBVeraHeaderFT
 };
 
-static const JCharacter* kDefComplSuffixStr[] =
+static const JUtf8Byte* kDefComplSuffixStr[] =
 {
 	".h",
 	".c", 
@@ -3221,14 +3219,14 @@ CBPrefsManager::GetDefaultComplementSuffix
 		FileTypeInfo info = itsFileTypeList->GetElement(i);
 
 		if (info.type == type && info.IsPlainSuffix() &&
-			name.EndsWith(*(info.suffix)) &&
-			name.GetLength() > (info.suffix)->GetLength())
+			name.EndsWith(*info.suffix) &&
+			name.GetCharacterCount() > info.suffix->GetCharacterCount())
 			{
 			for (JUnsignedOffset j=0; j<kDefComplSuffixCount; j++)
 				{
-				if (info.type == kDefComplSuffixType[j] && (info.complSuffix)->IsEmpty())
+				if (info.type == kDefComplSuffixType[j] && info.complSuffix->IsEmpty())
 					{
-					*(info.complSuffix) = kDefComplSuffixStr[j];
+					*info.complSuffix = kDefComplSuffixStr[j];
 					itsFileTypeList->SetElement(i, info);
 					break;
 					}
@@ -3263,8 +3261,8 @@ CBPrefsManager::SetDefaultComplementSuffix
 	JString root;
 	if (JSplitRootAndSuffix(name, &root, info.complSuffix))
 		{
-		(info.complSuffix)->PrependCharacter('.');
-		*(info.complSuffix) = CleanFileName(*(info.complSuffix));
+		info.complSuffix->Prepend(JUtf8Character('.'));
+		*info.complSuffix = CleanFileName(*info.complSuffix);
 		}
 
 	itsFileTypeList->SetElement(index, info);
@@ -3305,12 +3303,12 @@ CBPrefsManager::FileMatchesSuffix
 JString
 CBPrefsManager::CleanFileName
 	(
-	const JCharacter* name
+	const JString& name
 	)
 	const
 {
 	JString p, n;
-	if (!JString::IsEmpty(name))	// might be untitled document
+	if (!name.IsEmpty())	// might be untitled document
 		{
 		JSplitPathAndName(name, &p, &n);
 

@@ -64,7 +64,7 @@ CBExtEditorDialog::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 450,220, "");
+	JXWindow* window = jnew JXWindow(this, 450,220, JString::empty);
 	assert( window != nullptr );
 
 	itsEditTextFileCmdInput =
@@ -92,7 +92,7 @@ CBExtEditorDialog::BuildWindow
 		jnew JXStaticText(JGetString("editTextHint::CBExtEditorDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 160,80, 270,20);
 	assert( editTextHint != nullptr );
-	editTextHint->SetFontSize(JGetDefaultFontSize()-2);
+	editTextHint->SetFontSize(JFontManager::GetDefaultFontSize()-2);
 	editTextHint->SetToLabel();
 
 	JXStaticText* editTextLabel =
@@ -121,7 +121,7 @@ CBExtEditorDialog::BuildWindow
 		jnew JXStaticText(JGetString("editBinaryHint::CBExtEditorDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 200,150, 230,20);
 	assert( editBinaryHint != nullptr );
-	editBinaryHint->SetFontSize(JGetDefaultFontSize()-2);
+	editBinaryHint->SetFontSize(JFontManager::GetDefaultFontSize()-2);
 	editBinaryHint->SetToLabel();
 
 	JXStaticText* editBinaryLabel =

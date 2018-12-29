@@ -16,18 +16,19 @@ class CBManPageDocument : public CBTextDocument
 {
 public:
 
-	static JBoolean	Create(CBManPageDocument** doc, const JCharacter* pageName,
-						   const JCharacter pageIndex = ' ', const JBoolean apropos = kJFalse);
+	static JBoolean	Create(CBManPageDocument** doc, const JString& pageName,
+						   const JUtf8Character pageIndex = JUtf8Character(' '),
+						   const JBoolean apropos = kJFalse);
 
 	virtual ~CBManPageDocument();
 
 protected:
 
-	CBManPageDocument(const JCharacter* pageName, const JCharacter pageIndex,
+	CBManPageDocument(const JString& pageName, const JUtf8Character pageIndex,
 					  const JBoolean apropos, CBManPageDocument** trueDoc);
 
-	static JString	GetCmd1(const JCharacter* pageName, const JCharacter pageIndex);
-	static JString	GetCmd2(const JCharacter* pageName);
+	static JString	GetCmd1(const JString& pageName, const JUtf8Character pageIndex);
+	static JString	GetCmd2(const JString& pageName);
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 

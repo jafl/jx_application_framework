@@ -27,10 +27,6 @@
 
 const JFileVersion kCurrentSetupVersion = 0;
 
-// string ID's
-
-static const JCharacter* kCommandLineHelpID = "CommandLineHelp::CBMDIServer";
-
 /******************************************************************************
  Constructor
 
@@ -67,7 +63,7 @@ CBMDIServer::~CBMDIServer()
 void
 CBMDIServer::HandleMDIRequest
 	(
-	const JCharacter*			dir,
+	const JString&				dir,
 	const JPtrArray<JString>&	argList
 	)
 {
@@ -81,13 +77,14 @@ CBMDIServer::HandleMDIRequest
 		return;
 		}
 
-	const JString& execName = *(argList.FirstElement());
+	const JString& execName = *argList.GetFirstElement();
 
 	JXStandAlonePG pg;
 	pg.RaiseWhenUpdate();
 	if (argCount > 4)
 		{
-		pg.FixedLengthProcessBeginning(argCount-1, "Opening files...", kJTrue, kJFalse);
+		pg.FixedLengthProcessBeginning(argCount-1,
+			JGetString("OpeningFiles::CBMDIServer"), kJTrue, kJFalse);
 		}
 
 	JIndexRange lineRange;
@@ -114,7 +111,8 @@ CBMDIServer::HandleMDIRequest
 		else if (arg == "--apropos" && i < argCount)
 			{
 			i++;
-			CBManPageDocument::Create(nullptr, *(argList.GetElement(i)), ' ', kJTrue);
+			CBManPageDocument::Create(nullptr, *(argList.GetElement(i)),
+									  JUtf8Character(' '), kJTrue);
 			lineRange.SetToNothing();
 			restore = kJFalse;
 			}
@@ -244,7 +242,7 @@ CBMDIServer::HandleMDIRequest
 			}
 
 		else if (arg.GetFirstCharacter() == '+' &&
-				 arg.GetLength() > 1)
+				 arg.GetCharacterCount() > 1)
 			{
 			const JString s = arg.GetSubstring(2, arg.GetLength());
 			if (s.ConvertToUInt(&(lineRange.first)))
@@ -378,7 +376,7 @@ CBMDIServer::DisplayManPage
 			{
 			// apropos
 
-			CBManPageDocument::Create(nullptr, *arg2, ' ', kJTrue);
+			CBManPageDocument::Create(nullptr, *arg2, JUtf8Character(' '), kJTrue);
 			*index += 2;
 			return;
 			}
@@ -456,9 +454,9 @@ CBMDIServer::DisplayFileDiffs
 	JSize count = 0;
 	if (*index < argCount-1)
 		{
-		const JString* arg2 = argList.GetElement((*index)+2);
-		const JCharacter c  = arg2->IsEmpty() ? ' ' : arg2->GetFirstCharacter();
-		count               = (c == '-' || c == '+') ? 1 : 2;
+		const JString* arg2    = argList.GetElement((*index)+2);
+		const JUtf8Character c = arg2->IsEmpty() ? JUtf8Character(' ') : arg2->GetFirstCharacter();
+		count                  = (c == '-' || c == '+') ? 1 : 2;
 		}
 	else if (*index == argCount-1)
 		{
@@ -504,20 +502,24 @@ CBMDIServer::DisplayFileDiffs
 	JString full1, full2;
 	if (file1.IsEmpty() || file2.IsEmpty())
 		{
-		std::cerr << *(argList.FirstElement()) << ": too few arguments to --diff" << std::endl;
+		std::cerr << *argList.GetFirstElement() << ": too few arguments to --diff" << std::endl;
 		}
-	else if (!JConvertToAbsolutePath(file1, nullptr, &full1))
+	else if (!JConvertToAbsolutePath(file1, JString::empty, &full1))
 		{
-		JString msg = "\"";
-		msg += file1;
-		msg += "\" does not exist or is not a file.";
+		const JUtf8Byte* map[] =
+		{
+			"name", file1.GetBytes()
+		};
+		const JString msg = JGetString("NotAFile::CBMDIServer", map, sizeof(map));
 		(JGetUserNotification())->ReportError(msg);
 		}
-	else if (!JConvertToAbsolutePath(file2, nullptr, &full2))
+	else if (!JConvertToAbsolutePath(file2, JString::empty, &full2))
 		{
-		JString msg = "\"";
-		msg += file2;
-		msg += "\" does not exist or is not a file.";
+		const JUtf8Byte* map[] =
+		{
+			"name", file2.GetBytes()
+		};
+		const JString msg = JGetString("NotAFile::CBMDIServer", map, sizeof(map));
 		(JGetUserNotification())->ReportError(msg);
 		}
 	else
@@ -537,7 +539,7 @@ CBMDIServer::DisplayFileDiffs
 void
 CBMDIServer::DisplayVCSDiffs
 	(
-	const JCharacter*			type,
+	const JUtf8Byte*			type,
 	JIndex*						index,
 	const JPtrArray<JString>&	argList,
 	const JBoolean				silent
@@ -549,7 +551,7 @@ CBMDIServer::DisplayVCSDiffs
 	if (*index < argCount-1)
 		{
 		const JString* arg2 = argList.GetElement((*index)+2);
-		const JCharacter c  = arg2->IsEmpty() ? ' ' : arg2->GetFirstCharacter();
+		const JCharacter c  = arg2->IsEmpty() ? JUtf8Character(' ') : arg2->GetFirstCharacter();
 		count               = (c == '-' || c == '+') ? 1 : 2;
 		}
 	else if (*index == argCount-1)
@@ -583,7 +585,7 @@ CBMDIServer::DisplayVCSDiffs
 	*index += count;
 	if (file.IsEmpty())
 		{
-		std::cerr << *(argList.FirstElement()) << ": too few arguments to --" << type << "-diff" << std::endl;
+		std::cerr << *argList.GetFirstElement() << ": too few arguments to --" << type << "-diff" << std::endl;
 		return;
 		}
 
@@ -599,20 +601,24 @@ CBMDIServer::DisplayVCSDiffs
 			}
 		else if (type != "file")
 			{
-			JString msg = "Unable to display diff because \"";
-			msg += file;
-			msg += "\" is not a file.";
+			const JUtf8Byte* map[] =
+			{
+				"name", file.GetBytes()
+			};
+			const JString msg = JGetString("DiffFailed::CBMDIServer", map, sizeof(map));
 			(JGetUserNotification())->ReportError(msg);
 			return;
 			}
 		}
 
 	JString full = file;
-	if (!JIsURL(file) && !JConvertToAbsolutePath(file, nullptr, &full))
+	if (!JIsURL(file) && !JConvertToAbsolutePath(file, JString::empty, &full))
 		{
-		JString msg = "\"";
-		msg += file;
-		msg += "\" does not exist or is not a file.";
+		const JUtf8Byte* map[] =
+		{
+			"name", file.GetBytes()
+		};
+		const JString msg = JGetString("NotAFile::CBMDIServer", map, sizeof(map));
 		(JGetUserNotification())->ReportError(msg);
 		return;
 		}
@@ -649,8 +655,10 @@ CBMDIServer::ReadPrefs
 		return;
 		}
 
-	input >> itsCreateEditorFlag >> itsCreateProjectFlag;
-	input >> itsReopenLastFlag >> itsChooseFileFlag;
+	input >> JBoolFromString(itsCreateEditorFlag)
+		  >> JBoolFromString(itsCreateProjectFlag)
+		  >> JBoolFromString(itsReopenLastFlag)
+		  >> JBoolFromString(itsChooseFileFlag);
 }
 
 /******************************************************************************
@@ -667,10 +675,10 @@ CBMDIServer::WritePrefs
 {
 	output << kCurrentSetupVersion;
 
-	output << ' ' << itsCreateEditorFlag;
-	output << ' ' << itsCreateProjectFlag;
-	output << ' ' << itsReopenLastFlag;
-	output << ' ' << itsChooseFileFlag;
+	output << ' ' << JBoolToString(itsCreateEditorFlag)
+				  << JBoolToString(itsCreateProjectFlag)
+				  << JBoolToString(itsReopenLastFlag)
+				  << JBoolToString(itsChooseFileFlag);
 }
 
 /******************************************************************************
@@ -681,11 +689,11 @@ CBMDIServer::WritePrefs
 void
 CBMDIServer::PrintCommandLineHelp()
 {
-	const JCharacter* map[] =
+	const JUtf8Byte* map[] =
 		{
-		"version",   CBGetVersionNumberStr(),
-		"copyright", JGetString("COPYRIGHT")
+		"version",   CBGetVersionNumberStr().GetBytes(),
+		"copyright", JGetString("COPYRIGHT").GetBytes()
 		};
-	const JString s = JGetString(kCommandLineHelpID, map, sizeof(map));
+	const JString s = JGetString("CommandLineHelp::CBMDIServer", map, sizeof(map));
 	std::cout << std::endl << s << std::endl << std::endl;
 }

@@ -275,7 +275,7 @@ CBFileListDirector::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 340,450, "");
+	JXWindow* window = jnew JXWindow(this, 340,450, JString::empty);
 	assert( window != nullptr );
 
 	JXMenuBar* menuBar =

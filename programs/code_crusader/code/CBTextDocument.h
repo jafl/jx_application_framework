@@ -14,7 +14,7 @@
 #include <JPrefObject.h>
 #include "CBTextFileType.h"
 #include <JXWidget.h>		// need defn of H/VSizing
-#include <JTextEditor.h>	// need defn of PlainTextFormat, CRMRuleList
+#include <JStyledText.h>	// need defn of PlainTextFormat, CRMRuleList
 
 class JTEStyler;
 class CBTextEditor;
@@ -39,7 +39,7 @@ class CBTELineIndexInput;
 class CBTEColIndexInput;
 class JXScrollbarSet;
 typedef CBTextEditor* (CBTextEditorCtorFn)(CBTextDocument* document,
-											const JCharacter* fileName,
+											const JString& fileName,
 											JXMenuBar* menuBar,
 											CBTELineIndexInput* lineInput,
 											CBTEColIndexInput* colInput,
@@ -50,18 +50,18 @@ class CBTextDocument : public JXFileDocument, public JPrefObject
 public:
 
 	CBTextDocument(const CBTextFileType type = kCBUnknownFT,
-				   const JCharacter* helpSectionName = "CBEditorHelp",
+				   const JUtf8Byte* helpSectionName = "CBEditorHelp",
 				   const JBoolean setWMClass = kJTrue,
 				   CBTextEditorCtorFn* teCtorFn = ConstructTextEditor);
-	CBTextDocument(const JCharacter* fileName,
+	CBTextDocument(const JString& fileName,
 				   const CBTextFileType type = kCBUnknownFT,
 				   const JBoolean tmpl = kJFalse);
 	CBTextDocument(std::istream& input, const JFileVersion vers, JBoolean* keep);
 
 	virtual ~CBTextDocument();
 
-	virtual void		Activate();
-	virtual JBoolean	GetMenuIcon(const JXImage** icon) const;
+	virtual void		Activate() override;
+	virtual JBoolean	GetMenuIcon(const JXImage** icon) const override;
 
 	void	GoToLine(const JIndex lineIndex) const;
 	void	SelectLines(const JIndexRange& range) const;
@@ -107,7 +107,7 @@ public:
 
 	void	RefreshVCSStatus();
 
-	static JBoolean	OpenAsBinaryFile(const JCharacter* fileName);
+	static JBoolean	OpenAsBinaryFile(const JString& fileName);
 
 	// called by CBTextEditor
 
@@ -115,18 +115,18 @@ public:
 
 protected:
 
-	JXTextMenu*		InsertTextMenu(const JCharacter* title);
+	JXTextMenu*		InsertTextMenu(const JString& title);
 	CBCommandMenu*	GetCommandMenu();
 
-	void			ReadFile(const JCharacter* fileName, const JBoolean firstTime);
-	virtual void	WriteTextFile(std::ostream& output, const JBoolean safetySave) const;
-	virtual void	DiscardChanges();
+	void			ReadFile(const JString& fileName, const JBoolean firstTime);
+	virtual void	WriteTextFile(std::ostream& output, const JBoolean safetySave) const override;
+	virtual void	DiscardChanges() override;
 
 	virtual void	HandleFileModifiedByOthers(const JBoolean modTimeChanged,
-											   const JBoolean permsChanged);
+											   const JBoolean permsChanged) override;
 
-	virtual void	ReadPrefs(std::istream& input);
-	virtual void	WritePrefs(std::ostream& output) const;
+	virtual void	ReadPrefs(std::istream& input) override;
+	virtual void	WritePrefs(std::ostream& output) const override;
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
@@ -160,13 +160,13 @@ private:
 	CBTextFileType				itsFileType;
 	CBCharActionManager*		itsActionMgr;		// not owned; can be nullptr
 	CBMacroManager*				itsMacroMgr;		// not owned; can be nullptr
-	JTextEditor::CRMRuleList*	itsCRMRuleList;		// not owned; can be nullptr
+	JStyledText::CRMRuleList*	itsCRMRuleList;		// not owned; can be nullptr
 
-	const JCharacter*	itsHelpSectionName;
+	const JUtf8Byte*	itsHelpSectionName;
 	JBoolean			itsUpdateFileTypeFlag;		// kJFalse while constructing
 	JBoolean			itsOverrideFlag[ kSettingCount ];
 
-	JTextEditor::PlainTextFormat	itsFileFormat;
+	JStyledText::PlainTextFormat	itsFileFormat;
 
 	CBTabWidthDialog*	itsTabWidthDialog;
 
@@ -187,7 +187,7 @@ private:
 	void	CBTextDocumentX2(const JBoolean setWindowSize);
 	void	BuildWindow(const JBoolean setWMClass,
 						CBTextEditorCtorFn* teCtorFn);
-	void	DisplayFileName(const JCharacter* name);
+	void	DisplayFileName(const JString& name);
 
 	void	UpdateFileMenu();
 	void	HandleFileMenu(const JIndex item);
@@ -214,7 +214,7 @@ private:
 	void	UpdateReadOnlyDisplay();
 
 	static CBTextEditor*	ConstructTextEditor(CBTextDocument* document,
-												const JCharacter* fileName,
+												const JString& fileName,
 												JXMenuBar* menuBar,
 												CBTELineIndexInput* lineInput,
 												CBTEColIndexInput* colInput,
@@ -229,7 +229,7 @@ public:
 
 	// JBroadcaster messages
 
-	static const JCharacter* kSaved;
+	static const JUtf8Byte* kSaved;
 
 	class Saved : public JBroadcaster::Message
 		{

@@ -87,8 +87,8 @@ CBMacroTable::GetData
 	const JSize count            = GetRowCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		mgr->AddMacro(data->GetString(i, kMacroColumn),
-					  data->GetString(i, kScriptColumn));
+		mgr->AddMacro(data->GetString(i, kMacroColumn).GetBytes(),
+					  data->GetString(i, kScriptColumn).GetBytes());
 		}
 }
 

@@ -247,8 +247,6 @@ CBCommand::Add
 /******************************************************************************
  ReportInfiniteLoop (private)
 
-	TODO:  unicode right arrow
-
  ******************************************************************************/
 
 void
@@ -264,11 +262,11 @@ CBCommand::ReportInfiniteLoop
 		{
 		if (!loop.IsEmpty())
 			{
-			loop += " -> ";
+			loop += " \xE2\x86\x92 ";
 			}
 		loop += fnStack.Peek(i);
 		}
-	loop += " -> ";
+	loop += " \xE2\x86\x92 ";
 	loop += fnStack.Peek(startIndex);
 
 	const JCharacter* map[] =

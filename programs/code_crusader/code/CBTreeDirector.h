@@ -44,22 +44,22 @@ class CBTreeDirector : public JXWindowDirector, public JPrefObject
 public:
 
 	CBTreeDirector(CBProjectDocument* supervisor, CBTreeCreateFn* createTreeFn,
-				   const JCharacter* windowTitleSuffix,
-				   const JCharacter* windowHelpName,
+				   const JString& windowTitleSuffix,
+				   const JUtf8Byte* windowHelpName,
 				   const JXPM& windowIcon,
-				   const JCharacter* treeMenuTitle, const JCharacter* treeMenuItems,
-				   const JCharacter* treeMenuNamespace,
+				   const JString& treeMenuTitle, const JString& treeMenuItems,
+				   const JString& treeMenuNamespace,
 				   const JIndex toolBarPrefID, CBTreeInitToolBarFn* initToolBarFn);
 	CBTreeDirector(std::istream& projInput, const JFileVersion projVers,
 				   std::istream* setInput, const JFileVersion setVers,
 				   std::istream* symInput, const JFileVersion symVers,
 				   CBProjectDocument* supervisor, const JBoolean subProject,
 				   CBTreeStreamInFn* streamInTreeFn,
-				   const JCharacter* windowTitleSuffix,
-				   const JCharacter* windowHelpName,
+				   const JString& windowTitleSuffix,
+				   const JUtf8Byte* windowHelpName,
 				   const JXPM& windowIcon,
-				   const JCharacter* treeMenuTitle, const JCharacter* treeMenuItems,
-				   const JCharacter* treeMenuNamespace,
+				   const JString& treeMenuTitle, const JString& treeMenuItems,
+				   const JString& treeMenuNamespace,
 				   const JIndex toolBarPrefID, CBTreeInitToolBarFn* initToolBarFn,
 				   CBDirList* dirList, const JBoolean readCompileRunDialogs);
 
@@ -105,10 +105,10 @@ protected:
 	virtual void	UpdateTreeMenu() = 0;
 	virtual void	HandleTreeMenu(const JIndex index) = 0;
 
-	virtual void	ReadPrefs(std::istream& input);
-	virtual void	WritePrefs(std::ostream& output) const;
+	virtual void	ReadPrefs(std::istream& input) override;
+	virtual void	WritePrefs(std::ostream& output) const override;
 
-	virtual void	DirectorClosed(JXDirector* theDirector);
+	virtual void	DirectorClosed(JXDirector* theDirector) override;
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 	virtual void	ReceiveWithFeedback(JBroadcaster* sender, Message* message) override;
 
@@ -134,8 +134,8 @@ private:
 
 	JXGetStringDialog*	itsFindFnDialog;	// usually nullptr
 
-	const JCharacter*	itsWindowTitleSuffix;
-	const JCharacter*	itsWindowHelpName;
+	const JString		itsWindowTitleSuffix;
+	const JUtf8Byte*	itsWindowHelpName;
 
 // begin JXLayout
 
@@ -146,12 +146,12 @@ private:
 private:
 
 	JXScrollbarSet*	CBTreeDirectorX(CBProjectDocument* doc, const JXPM& windowIcon,
-									const JCharacter* treeMenuTitle, const JCharacter* treeMenuItems,
-									const JCharacter* treeMenuNamespace,
+									const JString& treeMenuTitle, const JString& treeMenuItems,
+									const JString& treeMenuNamespace,
 									const JIndex toolBarPrefID, CBTreeInitToolBarFn* initToolBarFn);
 	JXScrollbarSet*	BuildWindow(const JXPM& windowIcon,
-								const JCharacter* treeMenuTitle, const JCharacter* treeMenuItems,
-								const JCharacter* treeMenuNamespace,
+								const JString& treeMenuTitle, const JString& treeMenuItems,
+								const JString& treeMenuNamespace,
 								const JIndex toolBarPrefID, CBTreeInitToolBarFn* initToolBarFn);
 	void			AdjustWindowTitle();
 	void			ReconnectFunctionBrowsers();

@@ -23,7 +23,7 @@ public:
 
 	JBoolean	CanCreateMenu(const CBTextFileType type) const;
 
-	CBLanguage	UpdateMenu(const JCharacter* fileName, const CBTextFileType fileType,
+	CBLanguage	UpdateMenu(const JString& fileName, const CBTextFileType fileType,
 						   const JBoolean sort, const JBoolean includeNS,
 						   const JBoolean pack,
 						   JXTextMenu* menu, JArray<JIndex>* lineIndexList);

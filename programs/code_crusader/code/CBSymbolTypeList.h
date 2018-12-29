@@ -107,8 +107,8 @@ public:
 
 	// JBroadcaster messages
 
-	static const JCharacter* kVisibilityChanged;
-	static const JCharacter* kStyleChanged;
+	static const JUtf8Byte* kVisibilityChanged;
+	static const JUtf8Byte* kStyleChanged;
 
 	class VisibilityChanged : public JBroadcaster::Message
 		{

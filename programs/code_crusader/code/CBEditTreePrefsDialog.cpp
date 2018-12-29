@@ -67,7 +67,7 @@ CBEditTreePrefsDialog::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 320,290, "");
+	JXWindow* window = jnew JXWindow(this, 320,290, JString::empty);
 	assert( window != nullptr );
 
 	JXTextButton* cancelButton =

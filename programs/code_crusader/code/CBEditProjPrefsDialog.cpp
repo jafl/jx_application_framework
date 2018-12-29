@@ -64,7 +64,7 @@ CBEditProjPrefsDialog::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 360,310, "");
+	JXWindow* window = jnew JXWindow(this, 360,310, JString::empty);
 	assert( window != nullptr );
 
 	JXTextButton* cancelButton =

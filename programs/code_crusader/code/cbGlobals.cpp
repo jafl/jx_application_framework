@@ -44,15 +44,15 @@ static CBSymbolTypeList*	theSymbolTypeList    = nullptr;
 static CBPTPrinter*			thePTTextPrinter     = nullptr;
 static CBPSPrinter*			thePSTextPrinter     = nullptr;
 
-static const JCharacter* kProjectWindowClass       = "Code_Crusader_Project";
-static const JCharacter* kSymbolWindowClass        = "Code_Crusader_Symbol_List";
-static const JCharacter* kTreeWindowClass          = "Code_Crusader_Tree";
-static const JCharacter* kFileListWindowClass      = "Code_Crusader_File_List";
-static const JCharacter* kEditorWindowClass        = "Code_Crusader_Editor";
-static const JCharacter* kExecOutputWindowClass    = "Code_Crusader_Editor_Exec_Output";
-static const JCharacter* kCompileOutputWindowClass = "Code_Crusader_Editor_Compile_Output";
-static const JCharacter* kSearchOutputWindowClass  = "Code_Crusader_Editor_Search_Output";
-static const JCharacter* kShellWindowClass         = "Code_Crusader_Editor_Shell";
+static const JUtf8Byte* kProjectWindowClass       = "Code_Crusader_Project";
+static const JUtf8Byte* kSymbolWindowClass        = "Code_Crusader_Symbol_List";
+static const JUtf8Byte* kTreeWindowClass          = "Code_Crusader_Tree";
+static const JUtf8Byte* kFileListWindowClass      = "Code_Crusader_File_List";
+static const JUtf8Byte* kEditorWindowClass        = "Code_Crusader_Editor";
+static const JUtf8Byte* kExecOutputWindowClass    = "Code_Crusader_Editor_Exec_Output";
+static const JUtf8Byte* kCompileOutputWindowClass = "Code_Crusader_Editor_Compile_Output";
+static const JUtf8Byte* kSearchOutputWindowClass  = "Code_Crusader_Editor_Search_Output";
+static const JUtf8Byte* kShellWindowClass         = "Code_Crusader_Editor_Shell";
 
 // owned by JXImageCache
 static JXImage* theFileIcon           = nullptr;
@@ -70,10 +70,6 @@ static JBoolean theIsUpdateThread = kJFalse;
 
 void	CBCreateIcons();
 void	CBDeleteIcons();
-
-// string ID's
-
-static const JCharacter* kDescriptionID = "Description::cbGlobals";
 
 /******************************************************************************
  CBCreateGlobals
@@ -153,7 +149,7 @@ CBCreateGlobals
 
 	// symbol type list
 
-	theSymbolTypeList = jnew CBSymbolTypeList(permWindow->GetColormap());
+	theSymbolTypeList = jnew CBSymbolTypeList(permWindow->GetDisplay());
 	assert( theSymbolTypeList != nullptr );
 
 	// printers
@@ -473,61 +469,61 @@ CBGetPSTextPrinter()
 
  ******************************************************************************/
 
-const JCharacter*
+const JUtf8Byte*
 CBGetWMClassInstance()
 {
-	return JGetString("CBName");
+	return JGetString("CBName").GetBytes();
 }
 
-const JCharacter*
+const JUtf8Byte*
 CBGetProjectWindowClass()
 {
 	return kProjectWindowClass;
 }
 
-const JCharacter*
+const JUtf8Byte*
 CBGetSymbolWindowClass()
 {
 	return kSymbolWindowClass;
 }
 
-const JCharacter*
+const JUtf8Byte*
 CBGetTreeWindowClass()
 {
 	return kTreeWindowClass;
 }
 
-const JCharacter*
+const JUtf8Byte*
 CBGetFileListWindowClass()
 {
 	return kFileListWindowClass;
 }
 
-const JCharacter*
+const JUtf8Byte*
 CBGetEditorWindowClass()
 {
 	return kEditorWindowClass;
 }
 
-const JCharacter*
+const JUtf8Byte*
 CBGetExecOutputWindowClass()
 {
 	return kExecOutputWindowClass;
 }
 
-const JCharacter*
+const JUtf8Byte*
 CBGetCompileOutputWindowClass()
 {
 	return kCompileOutputWindowClass;
 }
 
-const JCharacter*
+const JUtf8Byte*
 CBGetSearchOutputWindowClass()
 {
 	return kSearchOutputWindowClass;
 }
 
-const JCharacter*
+const JUtf8Byte*
 CBGetShellWindowClass()
 {
 	return kShellWindowClass;
@@ -538,7 +534,7 @@ CBGetShellWindowClass()
 
  ******************************************************************************/
 
-const JCharacter*
+const JString&
 CBGetVersionNumberStr()
 {
 	return JGetString("VERSION");
@@ -552,12 +548,12 @@ CBGetVersionNumberStr()
 JString
 CBGetVersionStr()
 {
-	const JCharacter* map[] =
+	const JUtf8Byte* map[] =
 		{
-		"version",   JGetString("VERSION"),
-		"copyright", JGetString("COPYRIGHT")
+		"version",   JGetString("VERSION").GetBytes(),
+		"copyright", JGetString("COPYRIGHT").GetBytes()
 		};
-	return JGetString(kDescriptionID, map, sizeof(map));
+	return JGetString("Description::cbGlobals", map, sizeof(map));
 }
 
 /******************************************************************************

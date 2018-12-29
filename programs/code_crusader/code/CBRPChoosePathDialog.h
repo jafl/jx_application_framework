@@ -19,10 +19,10 @@ public:
 
 	static CBRPChoosePathDialog*
 		Create(JXDirector* supervisor, JDirInfo* dirInfo,
-			   const JCharacter* fileFilter,
+			   const JString& fileFilter,
 			   const JBoolean selectOnlyWritable,
 			   const CBRelPathCSF::PathType pathType,
-			   const JCharacter* message = nullptr);
+			   const JString& message = JString::empty);
 
 	virtual ~CBRPChoosePathDialog();
 
@@ -31,7 +31,7 @@ public:
 protected:
 
 	CBRPChoosePathDialog(JXDirector* supervisor, JDirInfo* dirInfo,
-						 const JCharacter* fileFilter,
+						 const JString& fileFilter,
 						 const JBoolean selectOnlyWritable);
 
 private:
@@ -45,7 +45,7 @@ private:
 private:
 
 	void	BuildWindow(const CBRelPathCSF::PathType pathType,
-						const JCharacter* message = nullptr);
+						const JString& message);
 
 	// not allowed
 

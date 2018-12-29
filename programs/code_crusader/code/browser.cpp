@@ -79,7 +79,7 @@ main
 		JPtrArray<CBTextDocument>* docList = docMgr->GetTextDocList();
 		if (!docList->IsEmpty())
 			{
-			(docList->FirstElement())->ShouldMakeBackupFile(kJFalse);
+			(docList->GetFirstElement())->ShouldMakeBackupFile(kJFalse);
 			}
 		}
 

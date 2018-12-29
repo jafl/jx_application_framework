@@ -23,8 +23,8 @@ class CBCompileDocument;
 class CBDocumentManager;
 class CBBuildManager;
 
-typedef JPtrArray<JPtrArray<JString> >							CBCmdQueue;
-typedef JStack<const JCharacter*, JArray<const JCharacter*> >	CBFunctionStack;
+typedef JPtrArray<JPtrArray<JString> >						CBCmdQueue;
+typedef JStack<const JUtf8Byte*, JArray<const JUtf8Byte*> >	CBFunctionStack;
 
 class CBCommandManager : public JPrefObject, virtual public JBroadcaster
 {
@@ -237,7 +237,7 @@ public:
 
 	// JBroadcaster messages
 
-	static const JCharacter* kUpdateCommandMenu;
+	static const JUtf8Byte* kUpdateCommandMenu;
 
 	class UpdateCommandMenu : public JBroadcaster::Message
 		{

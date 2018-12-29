@@ -137,7 +137,7 @@ CBRunCommandDialog::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 470,260, "");
+	JXWindow* window = jnew JXWindow(this, 470,260, JString::empty);
 	assert( window != nullptr );
 
 	JXTextButton* cancelButton =

@@ -13,8 +13,8 @@
 #include <JFontManager.h>
 #include <jAssert.h>
 
-static const JCharacter* kSampleText = "I program therefore I am.";
-static const JSize kRightMarginWidth = strlen(kSampleText);
+static const JString kSampleText("I program therefore I am.", kJFalse);
+static const JSize kRightMarginWidth = kSampleText.GetCharacterCount();
 
 /******************************************************************************
  Constructor
@@ -34,10 +34,10 @@ CBSampleText::CBSampleText
 	:
 	JXInputField(enclosure, hSizing, vSizing, x,y, w,h)
 {
-	SetText(kSampleText);
+	GetText()->SetText(kSampleText);
 
 	itsDrawRightMarginFlag = kJFalse;
-	itsRightMarginColor    = GetColormap()->GetBlackColor();
+	itsRightMarginColor    = JColorManager::GetBlackColor();
 }
 
 /******************************************************************************
@@ -65,7 +65,9 @@ CBSampleText::Draw
 		{
 		const JCoordinate x =
 			TEGetLeftMarginWidth() +
-			(kRightMarginWidth * GetDefaultFont().GetCharWidth(' '));
+			(kRightMarginWidth *
+			 GetText()->GetDefaultFont().GetCharWidth(
+					GetFontManager(), JUtf8Character(' ')));
 
 		const JColorID saveColor = p.GetPenColor();
 		p.SetPenColor(itsRightMarginColor);

@@ -89,7 +89,7 @@ CBEditCommandsDialog::BuildWindow
 
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 620,530, "");
+	JXWindow* window = jnew JXWindow(this, 620,530, JString::empty);
 	assert( window != nullptr );
 
 	itsPartition =

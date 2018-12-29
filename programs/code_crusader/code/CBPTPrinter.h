@@ -22,7 +22,7 @@ public:
 
 	virtual ~CBPTPrinter();
 
-	void	SetHeaderName(const JCharacter* name);
+	void	SetHeaderName(const JString& name);
 
 	// printing parameters
 
@@ -39,7 +39,7 @@ protected:
 
 	virtual JXPTPrintSetupDialog*
 		CreatePrintSetupDialog(const Destination destination,
-							   const JCharacter* printCmd, const JCharacter* fileName,
+							   const JString& printCmd, const JString& fileName,
 							   const JBoolean printLineNumbers);
 
 	virtual JBoolean	EndUserPrintSetup(const JBroadcaster::Message& message,
@@ -69,7 +69,7 @@ private:
 inline void
 CBPTPrinter::SetHeaderName
 	(
-	const JCharacter* name
+	const JString& name
 	)
 {
 	itsHeaderName = name;

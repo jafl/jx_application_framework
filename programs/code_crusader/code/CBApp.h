@@ -29,22 +29,22 @@ public:
 
 	virtual void	Quit();
 
-	static void					InitStrings();
-	static const JCharacter*	GetAppSignature();
+	static void				InitStrings();
+	static const JUtf8Byte*	GetAppSignature();
 
-	void	DisplayAbout(const JCharacter* prevVersStr = nullptr,
+	void	DisplayAbout(const JString& prevVersStr = JString::empty,
 						 const JBoolean init = kJFalse);
 	void	EditMiscPrefs();
 
-	JXTextMenu*	CreateHelpMenu(JXMenuBar* menuBar, const JCharacter* idNamespace);
+	JXTextMenu*	CreateHelpMenu(JXMenuBar* menuBar, const JUtf8Byte* idNamespace);
 	void		AppendHelpMenuToToolBar(JXToolBar* toolBar, JXTextMenu* menu);
 	void		UpdateHelpMenu(JXTextMenu* menu);
-	void		HandleHelpMenu(JXTextMenu* menu, const JCharacter* windowSectionName,
+	void		HandleHelpMenu(JXTextMenu* menu, const JUtf8Byte* windowSectionName,
 							   const JIndex index);
 
-	JBoolean	FindFile(const JCharacter* fileName, const JBoolean caseSensitive,
+	JBoolean	FindFile(const JString& fileName, const JBoolean caseSensitive,
 						 JString* fullName) const;
-	JBoolean	FindAndViewFile(const JCharacter* fileName,
+	JBoolean	FindAndViewFile(const JString& fileName,
 								const JIndexRange lineRange = JIndexRange(),
 								const JBoolean caseSensitive = kJTrue) const;
 

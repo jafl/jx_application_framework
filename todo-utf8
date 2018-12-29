@@ -9,6 +9,8 @@ JStyledText
 jcc
 	remove member function data from inheritance trees
 
+	CBCharActionManager only accepts single bytes, not JUtf8Character
+
 -----
 
 render as many characters as possible via fallback fonts

@@ -237,7 +237,7 @@ CBDiffFileDialog::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 550,210, "");
+	JXWindow* window = jnew JXWindow(this, 550,210, JString::empty);
 	assert( window != nullptr );
 
 	itsCloseButton =

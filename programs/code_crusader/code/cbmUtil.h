@@ -90,8 +90,8 @@ JBoolean	CBMBalanceBackward(const CBLanguage lang, const JString& str, JIndex* i
 inline JBoolean
 CBMIsOpenGroup
 	(
-	const CBLanguage	lang,
-	const JCharacter	c
+	const CBLanguage		lang,
+	const JUtf8Character&	c
 	)
 {
 	return JI2B( c == '(' || c == '{' || c == '[' ||
@@ -101,8 +101,8 @@ CBMIsOpenGroup
 inline JBoolean
 CBMIsCloseGroup
 	(
-	const CBLanguage	lang,
-	const JCharacter	c
+	const CBLanguage		lang,
+	const JUtf8Character&	c
 	)
 {
 	return JI2B( c == ')' || c == '}' || c == ']' ||
@@ -112,9 +112,9 @@ CBMIsCloseGroup
 inline JBoolean
 CBMIsMatchingPair
 	(
-	const CBLanguage	lang,
-	const JCharacter	openChar,
-	const JCharacter	closeChar
+	const CBLanguage		lang,
+	const JUtf8Character&	openChar,
+	const JUtf8Character&	closeChar
 	)
 {
 	return JI2B((openChar == '(' && closeChar == ')') ||

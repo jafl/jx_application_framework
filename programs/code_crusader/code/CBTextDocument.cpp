@@ -48,8 +48,6 @@
 #include <jFStreamUtil.h>
 #include <jAssert.h>
 
-static const JCharacter* kBinaryFileNamePrefix = "binary: ";
-
 // setup information
 
 const JFileVersion kCurrentSetupVersion = 2;
@@ -492,7 +490,7 @@ CBTextDocument::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 550,550, "");
+	JXWindow* window = jnew JXWindow(this, 550,550, JString::empty);
 	assert( window != nullptr );
 
 	itsFileDragSource =
@@ -1333,7 +1331,7 @@ CBTextDocument::ReadFile
 		{
 		// Don't let them overwrite it without thinking about it.
 
-		const JString name = kBinaryFileNamePrefix + GetFileName();
+		const JString name = JGetString("BinaryFilePrefix::CBTextDocument") + GetFileName();
 		FileChanged(name, kJFalse);
 
 		// Display the full path of the original file.
@@ -2367,19 +2365,19 @@ CBTextDocument::ReadPrefs
 	if (vers == 0)
 		{
 		JBoolean openOverComplement;
-		input >> openOverComplement;
+		input >> JBoolFromString(openOverComplement);
 		ShouldOpenComplFileOnTop(openOverComplement);
 		}
 	else if (vers == 1)
 		{
 		JBoolean breakCodeCROnly, openOverComplement;
-		input >> breakCodeCROnly >> openOverComplement;
+		input >> JBoolFromString(breakCodeCROnly) >> JBoolFromString(openOverComplement);
 		ShouldOpenComplFileOnTop(openOverComplement);
 		}
 	else if (vers <= kCurrentSetupVersion)
 		{
 		JBoolean openOverComplement;
-		input >> openOverComplement;
+		input >> JBoolFromString(openOverComplement);
 		ShouldOpenComplFileOnTop(openOverComplement);
 		}
 
@@ -2404,7 +2402,7 @@ CBTextDocument::WritePrefs
 	assert( itsTextEditor != nullptr );
 
 	output << kCurrentSetupVersion;
-	output << ' ' << itsOpenOverComplementFlag;
+	output << ' ' << JBoolToString(itsOpenOverComplementFlag);
 	output << kSetupDataEndDelimiter;
 
 	WriteJXFDSetup(output);

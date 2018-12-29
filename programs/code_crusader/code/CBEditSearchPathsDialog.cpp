@@ -98,7 +98,7 @@ CBEditSearchPathsDialog::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 370,370, "");
+	JXWindow* window = jnew JXWindow(this, 370,370, JString::empty);
 	assert( window != nullptr );
 
 	JXScrollbarSet* scrollbarSet =

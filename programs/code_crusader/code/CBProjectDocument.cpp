@@ -1461,7 +1461,7 @@ CBProjectDocument::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 510,430, "");
+	JXWindow* window = jnew JXWindow(this, 510,430, JString::empty);
 	assert( window != nullptr );
 
 	JXMenuBar* menuBar =

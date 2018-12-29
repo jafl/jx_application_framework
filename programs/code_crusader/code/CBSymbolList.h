@@ -39,8 +39,8 @@ public:
 	JBoolean		GetSignature(const JIndex symbolIndex,
 								 const JString** signature) const;
 
-	JBoolean	IsUniqueClassName(const JCharacter* name, CBLanguage* lang) const;
-	JBoolean	FindSymbol(const JCharacter* name, const JFAID_t contextFileID,
+	JBoolean	IsUniqueClassName(const JString& name, CBLanguage* lang) const;
+	JBoolean	FindSymbol(const JString& name, const JFAID_t contextFileID,
 						   const JString& contextNamespace, const CBLanguage contextLang,
 						   JPtrArray<JString>* cContextNamespaceList,
 						   JPtrArray<JString>* javaContextNamespaceList,
@@ -67,12 +67,12 @@ public:
 	// called by CBFileListTable
 
 	JBoolean	NeedsReparseAll() const;
-	void		FileChanged(const JCharacter* fileName,
+	void		FileChanged(const JString& fileName,
 							const CBTextFileType fileType, const JFAID_t id);
 
 protected:
 
-	virtual void	InitCtags(std::ostream& output);
+	virtual void	InitCtags(std::ostream& output) override;
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
@@ -119,10 +119,10 @@ private:
 	void	RemoveAllSymbols();
 	void	RemoveFile(const JIndex id);
 
-	void	ParseFile(const JCharacter* fileName,
+	void	ParseFile(const JString& fileName,
 					  const CBTextFileType fileType, const JFAID_t id);
 	void	ReadSymbolList(std::istream& input, const CBLanguage lang,
-						   const JCharacter* fileName, const JFAID_t fileID);
+						   const JString& fileName, const JFAID_t fileID);
 
 	JBoolean	ConvertToFullNames(JArray<JIndex>* noContextList,
 								   JArray<JIndex>* contextList,
@@ -138,7 +138,7 @@ private:
 	void		PrepareJavaContextNamespaceList(JPtrArray<JString>* contextNamespace) const;
 	void		PreparePHPContextNamespaceList(JPtrArray<JString>* contextNamespace) const;
 	void		PrepareContextNamespaceList(JPtrArray<JString>* contextNamespace,
-											const JCharacter* namespaceOp) const;
+											const JString& namespaceOp) const;
 	JBoolean	InContext(const JString& fullName,
 						  const JPtrArray<JString>& contextNamespace,
 						  const JBoolean caseSensitive) const;
@@ -158,7 +158,7 @@ public:
 
 	// JBroadcaster messages
 
-	static const JCharacter* kChanged;
+	static const JUtf8Byte* kChanged;
 
 	class Changed : public JBroadcaster::Message
 		{

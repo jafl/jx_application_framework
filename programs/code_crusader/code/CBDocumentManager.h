@@ -46,7 +46,7 @@ public:
 
 	virtual ~CBDocumentManager();
 
-	JBoolean	GetTemplateDirectory(const JCharacter* dirName,
+	JBoolean	GetTemplateDirectory(const JString& dirName,
 									 const JBoolean create, JString* fullName);
 	JBoolean	GetTextTemplateDirectory(const JBoolean create, JString* tmplDir);
 
@@ -54,21 +54,21 @@ public:
 	void		NewTextDocument();
 	void		NewTextDocumentFromTemplate();
 	void		NewShellDocument();
-	JBoolean	OpenTextDocument(const JCharacter* fileName,
+	JBoolean	OpenTextDocument(const JString& fileName,
 								 const JIndex lineIndex = 0,
 								 CBTextDocument** doc = nullptr,
 								 const JBoolean iconify = kJFalse,
 								 const JBoolean forceReload = kJFalse);
-	JBoolean	OpenTextDocument(const JCharacter* fileName,
+	JBoolean	OpenTextDocument(const JString& fileName,
 								 const JIndexRange& lineRange,
 								 CBTextDocument** doc = nullptr,
 								 const JBoolean iconify = kJFalse,
 								 const JBoolean forceReload = kJFalse);
-	static JBoolean	WarnFileSize(const JCharacter* fileName);
+	static JBoolean	WarnFileSize(const JString& fileName);
 
-	void	OpenBinaryDocument(const JCharacter* fileName);
+	void	OpenBinaryDocument(const JString& fileName);
 
-	void	OpenSomething(const JCharacter* fileName = nullptr,
+	void	OpenSomething(const JString& fileName = JString::empty,
 						  const JIndexRange lineRange = JIndexRange(),
 						  const JBoolean iconify = kJFalse,
 						  const JBoolean forceReload = kJFalse);
@@ -79,7 +79,7 @@ public:
 
 	JBoolean	HasProjectDocuments() const;
 	JBoolean	GetActiveProjectDocument(CBProjectDocument** doc) const;
-	JBoolean	ProjectDocumentIsOpen(const JCharacter* fileName,
+	JBoolean	ProjectDocumentIsOpen(const JString& fileName,
 									  CBProjectDocument** doc) const;
 	JBoolean	CloseProjectDocuments();
 
@@ -90,7 +90,7 @@ public:
 	JBoolean	SaveTextDocuments(const JBoolean saveUntitled);
 	void		ReloadTextDocuments(const JBoolean force);
 	JBoolean	CloseTextDocuments();
-	void		FileRenamed(const JCharacter* origFullName, const JCharacter* newFullName);
+	void		FileRenamed(const JString& origFullName, const JString& newFullName);
 	void		StylerChanged(JTEStyler* styler);
 
 	void	ProjDocCreated(CBProjectDocument* doc);
@@ -115,14 +115,14 @@ public:
 									  const CBTextFileType inputType,
 									  JXFileDocument** doc) const;
 
-	JBoolean	SearchFile(const JCharacter* fileName, const JCharacter* searchPattern,
+	JBoolean	SearchFile(const JString& fileName, const JString& searchPattern,
 						   const JBoolean caseSensitive, JIndex* lineIndex) const;
 
 	JPtrArray<CBProjectDocument>*	GetProjectDocList() const;
 	JPtrArray<CBTextDocument>*		GetTextDocList() const;
 
 	void	AddToFileHistoryMenu(const FileHistoryType type,
-								 const JCharacter* fullName);
+								 const JString& fullName);
 
 	void	UpdateSymbolDatabases();
 	void	CancelUpdateSymbolDatabases();
@@ -154,8 +154,8 @@ public:
 
 protected:
 
-	virtual void	ReadPrefs(std::istream& input);
-	virtual void	WritePrefs(std::ostream& output) const;
+	virtual void	ReadPrefs(std::istream& input) override;
+	virtual void	WritePrefs(std::ostream& output) const override;
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
@@ -188,16 +188,16 @@ private:
 
 private:
 
-	void		PrivateOpenSomething(const JCharacter* fileName,
+	void		PrivateOpenSomething(const JString& fileName,
 									 const JIndexRange& lineRange,
 									 const JBoolean iconify,
 									 const JBoolean forceReload);
-	JBoolean	PrivateOpenTextDocument(const JCharacter* fullName,
+	JBoolean	PrivateOpenTextDocument(const JString& fullName,
 										const JIndexRange& lineRange,
 										const JBoolean iconify,
 										const JBoolean forceReload,
 										CBTextDocument** doc) const;
-	void		PrivateOpenBinaryDocument(const JCharacter* fullName,
+	void		PrivateOpenBinaryDocument(const JString& fullName,
 										  const JBoolean iconify,
 										  const JBoolean forceReload) const;
 
@@ -232,7 +232,7 @@ private:
 		{
 		public:
 
-			ProjectDocumentMessage(const JCharacter* type, CBProjectDocument* doc)
+			ProjectDocumentMessage(const JUtf8Byte* type, CBProjectDocument* doc)
 				:
 				JBroadcaster::Message(type),
 				itsDoc(doc)
@@ -253,10 +253,10 @@ public:
 
 	// JBroadcaster messages
 
-	static const JCharacter* kProjectDocumentCreated;
-	static const JCharacter* kProjectDocumentDeleted;
-	static const JCharacter* kProjectDocumentActivated;
-	static const JCharacter* kAddFileToHistory;
+	static const JUtf8Byte* kProjectDocumentCreated;
+	static const JUtf8Byte* kProjectDocumentDeleted;
+	static const JUtf8Byte* kProjectDocumentActivated;
+	static const JUtf8Byte* kAddFileToHistory;
 
 	class ProjectDocumentCreated : public ProjectDocumentMessage
 		{
@@ -292,7 +292,7 @@ public:
 				ProjectDocumentMessage(kProjectDocumentActivated,
 									   list->IsEmpty() ?
 											(CBProjectDocument*) nullptr :
-											list->FirstElement())
+											list->GetFirstElement())
 				{ };
 		};
 
@@ -301,7 +301,7 @@ public:
 		public:
 
 			AddFileToHistory(const FileHistoryType type,
-							 const JCharacter* fullName)
+							 const JString& fullName)
 				:
 				JBroadcaster::Message(kAddFileToHistory),
 				itsType(type), itsFullName(fullName)
@@ -313,7 +313,7 @@ public:
 				return itsType;
 			}
 
-			const JCharacter*
+			const JString&
 			GetFullName() const
 			{
 				return itsFullName;
@@ -322,7 +322,7 @@ public:
 		private:
 
 			const FileHistoryType	itsType;
-			const JCharacter*		itsFullName;
+			const JString&			itsFullName;
 		};
 };
 

@@ -19,7 +19,7 @@ class CBAboutDialog : public JXDialogDirector
 {
 public:
 
-	CBAboutDialog(JXDirector* supervisor, const JCharacter* prevVersStr);
+	CBAboutDialog(JXDirector* supervisor, const JString& prevVersStr);
 
 	virtual ~CBAboutDialog();
 
@@ -41,7 +41,7 @@ private:
 
 private:
 
-	void	BuildWindow(const JCharacter* prevVersStr);
+	void	BuildWindow(const JString& prevVersStr);
 
 	// not allowed
 

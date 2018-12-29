@@ -11,9 +11,10 @@
 #include <JXPrefsManager.h>
 #include "CBTextFileType.h"
 #include "CBEmulator.h"
-#include <JTextEditor.h>		// need definition of CRMRule
+#include <JStyledText.h>		// need definition of CRMRule
 
 class JRegex;
+class JPoint;
 
 class JXWindow;
 class JXChooseSaveFile;
@@ -27,7 +28,7 @@ class CBEditFileTypesDialog;
 class CBEditMacroDialog;
 class CBEditCRMDialog;
 
-const JCharacter kCBContentRegexMarker = '^';
+const JUtf8Byte kCBContentRegexMarker = '^';
 
 // Preferences -- do not change ID's once they are assigned
 
@@ -148,7 +149,7 @@ public:
 
 	void		EditFileTypes();
 	void		EditMacros(CBMacroManager* macroMgr);
-	void		EditCRMRuleLists(JTextEditor::CRMRuleList* ruleList);
+	void		EditCRMRuleLists(JStyledText::CRMRuleList* ruleList);
 
 	JBoolean	GetWindowSize(const JPrefID& id, JPoint* desktopLoc,
 							  JCoordinate* width, JCoordinate* height) const;
@@ -161,7 +162,7 @@ public:
 	// text editor
 
 	void	GetDefaultFont(JString* name, JSize* size) const;
-	void	SetDefaultFont(const JCharacter* name, const JSize size);
+	void	SetDefaultFont(const JString& name, const JSize size);
 
 	JColorID		GetColor(const JIndex index) const;
 	void			SetColor(const JIndex index, const JColorID color);
@@ -175,10 +176,10 @@ public:
 	CBTextFileType	GetFileType(const JString& fileName) const;
 	CBTextFileType	GetFileType(const CBTextDocument& doc,
 								CBCharActionManager** actionMgr, CBMacroManager** macroMgr,
-								JTextEditor::CRMRuleList** crmRuleList,
+								JStyledText::CRMRuleList** crmRuleList,
 								JString* scriptPath, JBoolean* wordWrap) const;
 
-	JBoolean		EditWithOtherProgram(const JCharacter* fileName, JString* cmd) const;
+	JBoolean		EditWithOtherProgram(const JString& fileName, JString* cmd) const;
 
 	void	GetFileSuffixes(const CBTextFileType type,
 							JPtrArray<JString>* list) const;
@@ -195,8 +196,8 @@ public:
 
 protected:
 
-	virtual void	UpgradeData(const JBoolean isNew, const JFileVersion currentVersion);
-	virtual void	SaveAllBeforeDestruct();
+	virtual void	UpgradeData(const JBoolean isNew, const JFileVersion currentVersion) override;
+	virtual void	SaveAllBeforeDestruct() override;
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
 public:
@@ -239,7 +240,7 @@ public:
 		void		Free();
 	};
 
-	static JIndexRange	GetLiteralPrefixRange(const JCharacter* regexStr);
+	static JIndexRange	GetLiteralPrefixRange(const JString& regexStr);
 
 	static JListT::CompareResult
 		CompareFileTypeSpec(const FileTypeInfo& i1, const FileTypeInfo& i2);
@@ -270,7 +271,7 @@ public:
 
 	static JBoolean	FindMacroID(const JArray<MacroSetInfo>& list,
 								const JIndex id, JIndex* index);
-	static JIndex	FindMacroName(const JCharacter* macroName,
+	static JIndex	FindMacroName(const JUtf8Byte* macroName,
 								  JArray<MacroSetInfo>* macroList,
 								  const JBoolean create);
 
@@ -278,7 +279,7 @@ public:
 	{
 		JIndex						id;
 		JString*					name;
-		JTextEditor::CRMRuleList*	list;
+		JStyledText::CRMRuleList*	list;
 
 		CRMRuleListInfo()
 			:
@@ -286,7 +287,7 @@ public:
 		{ };
 
 		CRMRuleListInfo(const JPrefID& i, JString* n,
-						JTextEditor::CRMRuleList* l)
+						JStyledText::CRMRuleList* l)
 			:
 			id(i.GetID()), name(n), list(l)
 		{ };
@@ -298,7 +299,7 @@ public:
 
 	static JBoolean	FindCRMRuleListID(const JArray<CRMRuleListInfo>& list,
 									  const JIndex id, JIndex* index);
-	static JIndex	FindCRMRuleListName(const JCharacter* crmName,
+	static JIndex	FindCRMRuleListName(const JUtf8Byte* crmName,
 										const JArray<CRMRuleListInfo>& crmList);
 
 private:
@@ -352,7 +353,7 @@ private:
 
 	CBTextFileType	GetFileType(const JString& fileName, JIndex* index) const;
 	JBoolean		CalcFileType(const CBTextDocument& doc, JIndex* index) const;
-	JString			CleanFileName(const JCharacter* name) const;
+	JString			CleanFileName(const JString& name) const;
 
 	void	ReadColors();
 	void	WriteColors();
@@ -376,8 +377,8 @@ public:
 
 	// JBroadcaster messages
 
-	static const JCharacter* kFileTypesChanged;
-	static const JCharacter* kTextColorChanged;
+	static const JUtf8Byte* kFileTypesChanged;
+	static const JUtf8Byte* kTextColorChanged;
 
 	class FileTypesChanged : public JBroadcaster::Message
 		{

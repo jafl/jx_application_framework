@@ -54,7 +54,7 @@ public:
 
 	// called by CBMacroTable
 
-	void	AddMacro(const JCharacter* macro, const JCharacter* script);
+	void	AddMacro(const JUtf8Byte* macro, const JUtf8Byte* script);
 	void	RemoveAllMacros();
 
 	const CBMacroList&	GetMacroList() const;

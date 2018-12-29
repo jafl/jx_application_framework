@@ -66,7 +66,7 @@ CBProjectConfigDialog::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 410,380, "");
+	JXWindow* window = jnew JXWindow(this, 410,380, JString::empty);
 	assert( window != nullptr );
 
 	itsMethodRG =
@@ -148,7 +148,7 @@ CBProjectConfigDialog::BuildWindow
 		jnew JXStaticText(JGetString("configInstrText::CBProjectConfigDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kVElastic, 20,315, 370,25);
 	assert( configInstrText != nullptr );
-	configInstrText->SetFontSize(JGetDefaultFontSize()-2);
+	configInstrText->SetFontSize(JFontManager::GetDefaultFontSize()-2);
 
 	itsHelpButton =
 		jnew JXTextButton(JGetString("itsHelpButton::CBProjectConfigDialog::JXLayout"), window,

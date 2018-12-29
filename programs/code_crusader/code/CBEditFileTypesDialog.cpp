@@ -73,7 +73,7 @@ CBEditFileTypesDialog::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 700,400, "");
+	JXWindow* window = jnew JXWindow(this, 700,400, JString::empty);
 	assert( window != nullptr );
 
 	JXTextButton* cancelButton =

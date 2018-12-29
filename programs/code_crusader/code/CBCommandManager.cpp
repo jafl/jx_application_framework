@@ -471,7 +471,6 @@ CBCommandManager::Parse
 			{
 			if (!cmdArgs.IsEmpty())
 				{
-				// TODO: use move constructor
 				JPtrArray<JString>* a = jnew JPtrArray<JString>(cmdArgs, JPtrArrayT::kDeleteAll);
 				assert( a != nullptr );
 				cmdArgs.RemoveAll();

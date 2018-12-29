@@ -126,7 +126,7 @@ CBNewProjectSaveFileDialog::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 310,500, "");
+	JXWindow* window = jnew JXWindow(this, 310,500, JString::empty);
 	assert( window != nullptr );
 
 	JXScrollbarSet* scrollbarSet =

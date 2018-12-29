@@ -29,7 +29,7 @@ public:
 	// called by CBCharActionTable
 
 	JBoolean	GetAction(const unsigned char c, JString* script) const;
-	void		SetAction(const unsigned char c, const JCharacter* script);
+	void		SetAction(const unsigned char c, const JString& script);
 	void		ClearAction(const unsigned char c);
 	void		ClearAllActions();
 

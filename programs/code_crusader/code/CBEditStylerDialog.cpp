@@ -70,7 +70,7 @@ CBEditStylerDialog::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 370,390, "");
+	JXWindow* window = jnew JXWindow(this, 370,390, JString::empty);
 	assert( window != nullptr );
 
 	JXScrollbarSet* scrollbarSet1 =

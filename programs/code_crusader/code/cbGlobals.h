@@ -45,7 +45,7 @@ CBSymbolTypeList*		CBGetSymbolTypeList();
 CBPTPrinter*			CBGetPTTextPrinter();
 CBPSPrinter*			CBGetPSTextPrinter();
 
-const JCharacter*		CBGetVersionNumberStr();
+const JString&			CBGetVersionNumberStr();
 JString					CBGetVersionStr();
 
 JBoolean				CBInUpdateThread();
@@ -69,15 +69,15 @@ void     CBCleanUpBeforeSuddenDeath(const JXDocumentManager::SafetySaveReason re
 
 	// called by Directors
 
-const JCharacter*	CBGetWMClassInstance();
-const JCharacter*	CBGetProjectWindowClass();
-const JCharacter*	CBGetSymbolWindowClass();
-const JCharacter*	CBGetTreeWindowClass();
-const JCharacter*	CBGetFileListWindowClass();
-const JCharacter*	CBGetEditorWindowClass();
-const JCharacter*	CBGetExecOutputWindowClass();
-const JCharacter*	CBGetCompileOutputWindowClass();
-const JCharacter*	CBGetSearchOutputWindowClass();
-const JCharacter*	CBGetShellWindowClass();
+const JUtf8Byte*	CBGetWMClassInstance();
+const JUtf8Byte*	CBGetProjectWindowClass();
+const JUtf8Byte*	CBGetSymbolWindowClass();
+const JUtf8Byte*	CBGetTreeWindowClass();
+const JUtf8Byte*	CBGetFileListWindowClass();
+const JUtf8Byte*	CBGetEditorWindowClass();
+const JUtf8Byte*	CBGetExecOutputWindowClass();
+const JUtf8Byte*	CBGetCompileOutputWindowClass();
+const JUtf8Byte*	CBGetSearchOutputWindowClass();
+const JUtf8Byte*	CBGetShellWindowClass();
 
 #endif

@@ -219,7 +219,7 @@ CBFnListDirector::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 170,250, "");
+	JXWindow* window = jnew JXWindow(this, 170,250, JString::empty);
 	assert( window != nullptr );
 
 	JXScrollbarSet* scrollbarSet =

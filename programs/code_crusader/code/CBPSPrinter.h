@@ -24,7 +24,7 @@ public:
 	virtual ~CBPSPrinter();
 
 	const JString&	GetHeaderName() const;
-	void			SetPrintInfo(CBTextEditor* te, const JCharacter* headerName);
+	void			SetPrintInfo(CBTextEditor* te, const JString& headerName);
 
 	virtual JBoolean	OpenDocument();
 	virtual void		CloseDocument();
@@ -37,7 +37,7 @@ protected:
 
 	virtual JXPSPrintSetupDialog*
 		CreatePrintSetupDialog(const Destination destination,
-							   const JCharacter* printCmd, const JCharacter* fileName,
+							   const JString& printCmd, const JString& fileName,
 							   const JBoolean collate, const JBoolean bw);
 
 	virtual JBoolean	EndUserPrintSetup(const JBroadcaster::Message& message,
@@ -80,8 +80,8 @@ CBPSPrinter::GetHeaderName()
 inline void
 CBPSPrinter::SetPrintInfo
 	(
-	CBTextEditor*		te,
-	const JCharacter*	headerName
+	CBTextEditor*	te,
+	const JString&	headerName
 	)
 {
 	itsTE         = te;

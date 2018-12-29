@@ -67,7 +67,7 @@ CBTabWidthDialog::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 180,90, "");
+	JXWindow* window = jnew JXWindow(this, 180,90, JString::empty);
 	assert( window != nullptr );
 
 	JXTextButton* cancelButton =

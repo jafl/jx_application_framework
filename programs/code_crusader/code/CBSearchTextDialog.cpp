@@ -150,7 +150,7 @@ CBSearchTextDialog::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 450,470, "");
+	JXWindow* window = jnew JXWindow(this, 450,470, JString::empty);
 	assert( window != nullptr );
 
 	JXStaticText* replaceLabel =

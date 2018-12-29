@@ -139,7 +139,7 @@ CBSymbolSRDirector::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 400,230, "");
+	JXWindow* window = jnew JXWindow(this, 400,230, JString::empty);
 	assert( window != nullptr );
 
 	JXScrollbarSet* scrollbarSet =

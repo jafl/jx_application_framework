@@ -31,37 +31,37 @@ public:
 
 	virtual ~CBDiffFileDialog();
 
-	void	SetFile1(const JCharacter* fullName);
-	void	SetFile2(const JCharacter* fullName);
-	void	SetCVSFile(const JCharacter* fullName);
-	void	SetSVNFile(const JCharacter* fullName);
-	void	SetGitFile(const JCharacter* fullName);
+	void	SetFile1(const JString& fullName);
+	void	SetFile2(const JString& fullName);
+	void	SetCVSFile(const JString& fullName);
+	void	SetSVNFile(const JString& fullName);
+	void	SetGitFile(const JString& fullName);
 
-	void	ViewDiffs(const JCharacter* fullName1, const JCharacter* fullName2,
+	void	ViewDiffs(const JString& fullName1, const JString& fullName2,
 					  const JBoolean silent = kJFalse);
-	void	ViewVCSDiffs(const JCharacter* fullName,
+	void	ViewVCSDiffs(const JString& fullName,
 						 const JBoolean silent = kJFalse);
-	void	ViewCVSDiffs(const JCharacter* fullName,
-						 const JCharacter* rev1, const JCharacter* rev2,
+	void	ViewCVSDiffs(const JString& fullName,
+						 const JString& rev1, const JString& rev2,
 						 const JBoolean silent = kJFalse);
-	void	ViewSVNDiffs(const JCharacter* fullName,
-						 const JCharacter* rev1, const JCharacter* rev2,
+	void	ViewSVNDiffs(const JString& fullName,
+						 const JString& rev1, const JString& rev2,
 						 const JBoolean silent = kJFalse);
-	void	ViewGitDiffs(const JCharacter* fullName,
-						 const JCharacter* rev1, const JCharacter* rev2,
+	void	ViewGitDiffs(const JString& fullName,
+						 const JString& rev1, const JString& rev2,
 						 const JBoolean silent = kJFalse);
 
-	const JCharacter*	GetSmartDiffItemText(const JBoolean onDisk,
-											 const JCharacter* fullName,
-											 JBoolean* enable) const;
-	void				ViewDiffs(const JBoolean onDisk,
-								  const JCharacter* fullName,
-								  const JBoolean silent = kJFalse);
+	const JString&	GetSmartDiffItemText(const JBoolean onDisk,
+										 const JString& fullName,
+										 JBoolean* enable) const;
+	void			ViewDiffs(const JBoolean onDisk,
+							  const JString& fullName,
+							  const JBoolean silent = kJFalse);
 
 protected:
 
-	virtual void	ReadPrefs(std::istream& input);
-	virtual void	WritePrefs(std::ostream& output) const;
+	virtual void	ReadPrefs(std::istream& input) override;
+	virtual void	WritePrefs(std::ostream& output) const override;
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
@@ -165,63 +165,63 @@ private:
 	void		ChoosePath(JXFileInput* widget);
 
 	JString		BuildDiffCmd();
-	void		DiffDirectory(const JCharacter* fullName, const JCharacter* diffCmd,
-							  JXCheckbox* summaryCB, const JCharacter* summaryArgs);
+	void		DiffDirectory(const JString& fullName, const JString& diffCmd,
+							  JXCheckbox* summaryCB, const JString& summaryArgs);
 
 	JBoolean	CheckVCSFileOrPath(JXFileInput* widget, const JBoolean reportError,
 								   JString* fullName) const;
 	void		UpdateVCSRevMenu(JXTextMenu* menu, const JIndex cmd);
 
-	void		ViewCVSDiffs(const JCharacter* fullName, const JBoolean silent);
+	void		ViewCVSDiffs(const JString& fullName, const JBoolean silent);
 	void		HandleCVSRevMenu(JXTextMenu* menu, const JIndex index,
 								 JIndex* cmd, JXInputField* input);
-	JBoolean	BuildCVSDiffCmd(const JCharacter* fullName,
-								const JIndex rev1Cmd, const JCharacter* rev1,
-								const JIndex rev2Cmd, const JCharacter* rev2,
+	JBoolean	BuildCVSDiffCmd(const JString& fullName,
+								const JIndex rev1Cmd, const JString& rev1,
+								const JIndex rev2Cmd, const JString& rev2,
 								JString* getCmd, JString* diffCmd,
 								JString* name1, JString* name2,
 								const JBoolean silent);
 
-	JBoolean	GetCurrentCVSRevision(const JCharacter* fullName, JString* rev);
-	JBoolean	GetPreviousCVSRevision(const JCharacter* fullName, JString* rev);
+	JBoolean	GetCurrentCVSRevision(const JString& fullName, JString* rev);
+	JBoolean	GetPreviousCVSRevision(const JString& fullName, JString* rev);
 
-	void		ViewSVNDiffs(const JCharacter* fullName, const JBoolean silent);
+	void		ViewSVNDiffs(const JString& fullName, const JBoolean silent);
 	JBoolean	CheckSVNFileOrPath(JXFileInput* widget, const JBoolean reportError,
 								   JString* fullName) const;
 	void		HandleSVNRevMenu(JXTextMenu* menu, const JIndex index,
 								 JIndex* cmd, JXInputField* input);
-	JBoolean	BuildSVNDiffCmd(const JCharacter* fullName,
-								const JIndex rev1Cmd, const JCharacter* rev1,
-								const JIndex rev2Cmd, const JCharacter* rev2,
+	JBoolean	BuildSVNDiffCmd(const JString& fullName,
+								const JIndex rev1Cmd, const JString& rev1,
+								const JIndex rev2Cmd, const JString& rev2,
 								JString* getCmd, JString* diffCmd,
 								JString* name1, JString* name2,
 								const JBoolean silent,
 								const JBoolean forDirectory = kJFalse);
 	JBoolean	BuildSVNRepositoryPath(JString* fullName, const JIndex cmd,
-									   const JCharacter* rev, JString* name,
+									   const JString& rev, JString* name,
 									   const JBoolean silent);
 
-	void		ViewGitDiffs(const JCharacter* fullName, const JBoolean silent);
+	void		ViewGitDiffs(const JString& fullName, const JBoolean silent);
 	void		HandleGitRevMenu(JXTextMenu* menu, const JIndex index,
 								 JIndex* cmd, JXInputField* input);
-	JBoolean	BuildGitDiffCmd(const JCharacter* fullName,
-								const JIndex rev1Cmd, const JCharacter* rev1,
-								const JIndex rev2Cmd, const JCharacter* rev2,
+	JBoolean	BuildGitDiffCmd(const JString& fullName,
+								const JIndex rev1Cmd, const JString& rev1,
+								const JIndex rev2Cmd, const JString& rev2,
 								JString* get1Cmd, JString* get2Cmd, JString* diffCmd,
 								JString* name1, JString* name2,
 								const JBoolean silent);
-	JBoolean	BuildGitDiffDirectoryCmd(const JCharacter* path,
-										 const JIndex rev1Cmd, const JCharacter* rev1,
-										 const JIndex rev2Cmd, const JCharacter* rev2,
+	JBoolean	BuildGitDiffDirectoryCmd(const JString& path,
+										 const JIndex rev1Cmd, const JString& rev1,
+										 const JIndex rev2Cmd, const JString& rev2,
 										 JString* diffCmd);
-	JBoolean	GetCurrentGitRevision(const JCharacter* fullName, JString* rev);
-	JBoolean	GetPreviousGitRevision(const JCharacter* fullName, JString* rev);
-	JBoolean	GetLatestGitRevisions(const JCharacter* fullName,
+	JBoolean	GetCurrentGitRevision(const JString& fullName, JString* rev);
+	JBoolean	GetPreviousGitRevision(const JString& fullName, JString* rev);
+	JBoolean	GetLatestGitRevisions(const JString& fullName,
 									  JString* rev1, JString* rev2);
-	JBoolean	GetBestCommonGitAncestor(const JCharacter* path,
-										 JString* rev1, const JCharacter* rev2);
+	JBoolean	GetBestCommonGitAncestor(const JString& path,
+										 JString* rev1, const JString& rev2);
 
-	JString	GetSmartDiffInfo(const JCharacter* origFileName,
+	JString	GetSmartDiffInfo(const JString& origFileName,
 							 JBoolean* isSafetySave, JBoolean* isBackup) const;
 
 	void	UpdateBasePath();

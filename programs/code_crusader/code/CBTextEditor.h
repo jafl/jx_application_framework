@@ -9,7 +9,7 @@
 #define _H_CBTextEditor
 
 #include <JXTEBase.h>
-#include <JTEStyler.h>
+#include <JSTStyler.h>
 #include "CBTextFileType.h"
 
 class JXMenu;
@@ -24,7 +24,7 @@ class CBTextEditor : public JXTEBase
 {
 public:
 
-	CBTextEditor(CBTextDocument* document, const JCharacter* fileName,
+	CBTextEditor(CBTextDocument* document, const JString& fileName,
 				 JXMenuBar* menuBar, CBTELineIndexInput* lineInput,
 				 CBTEColIndexInput* colInput,
 				 JXScrollbarSet* scrollbarSet, JXContainer* enclosure,
@@ -39,19 +39,20 @@ public:
 	void	OpenSelection();
 	void	ScrollForDefinition(const CBLanguage lang);
 
-	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers) override;
+	virtual void	HandleKeyPress(const JUtf8Character& c,
+								   const int keySym, const JXKeyModifiers& modifiers) override;
 	virtual void	HandleShortcut(const int key, const JXKeyModifiers& modifiers) override;
 
-	JSize			GetTabCharCount() const;
-	void			SetTabCharCount(const JSize charCount);
+	JSize		GetTabCharCount() const;
+	void		SetTabCharCount(const JSize charCount);
 
-	void			SetFont(const JCharacter* name, const JSize size,
-							const JSize tabCharCount);
-	void			SetFont(const JCharacter* name, const JSize size,
-							const JSize tabCharCount, const JBoolean breakCROnly);
-	void			SetWritable(const JBoolean writable);
+	void		SetFont(const JString& name, const JSize size,
+						const JSize tabCharCount);
+	void		SetFont(const JString& name, const JSize size,
+						const JSize tabCharCount, const JBoolean breakCROnly);
+	void		SetWritable(const JBoolean writable);
 
-	static JCoordinate	CalcTabWidth(const JFont& font, const JSize tabCharCount);
+	JCoordinate	CalcTabWidth(const JFont& font, const JSize tabCharCount) const;
 
 	JBoolean	WillBalanceWhileTyping() const;
 	void		ShouldBalanceWhileTyping(const JBoolean balance);
@@ -73,7 +74,7 @@ public:
 	void		SetRightMarginColor(const JColorID color);
 
 	const JString&	GetScriptPath() const;
-	void			SetScriptPath(const JCharacter* path);
+	void			SetScriptPath(const JString& path);
 
 	void	RecalcStyles();
 
@@ -85,7 +86,7 @@ public:
 	// called by CBTextDocument
 
 	void	FileTypeChanged(const CBTextFileType type);
-	void	UpdateWritable(const JCharacter* name);
+	void	UpdateWritable(const JString& name);
 
 	// called by CBPSPrinter
 
@@ -113,8 +114,8 @@ protected:
 											 JIndexRange* recalcRange, JIndexRange* redrawRange,
 											 const JBoolean deletion);
 
-	virtual JCoordinate	GetPrintHeaderHeight(JPagePrinter& p) const;
-	virtual void		DrawPrintHeader(JPagePrinter& p, const JCoordinate footerHeight);
+	virtual JCoordinate	GetPrintHeaderHeight(JPagePrinter& p) const override;
+	virtual void		DrawPrintHeader(JPagePrinter& p, const JCoordinate footerHeight) override;
 
 	virtual JBoolean	VIsCharacterInWord(const JString& text,
 										   const JIndex charIndex) const;
@@ -142,7 +143,7 @@ private:
 
 	// keyword styling
 
-	JArray<JTEStyler::TokenData>*	itsTokenStartList;	// nullptr if styling is turned off
+	JArray<JSTStyler::TokenData>*	itsTokenStartList;	// nullptr if styling is turned off
 
 	// balance while typing
 
@@ -224,7 +225,7 @@ CBTextEditor::PrivateSetTabCharCount
 	)
 {
 	itsTabCharCount = charCount;
-	SetCRMTabCharCount(itsTabCharCount);
+	GetText()->SetCRMTabCharCount(itsTabCharCount);
 }
 
 inline JSize
@@ -235,7 +236,7 @@ CBTextEditor::GetTabCharCount()
 }
 
 /******************************************************************************
- CalcTabWidth (static)
+ CalcTabWidth
 
  ******************************************************************************/
 
@@ -245,8 +246,9 @@ CBTextEditor::CalcTabWidth
 	const JFont&	font,
 	const JSize		tabCharCount
 	)
+	const
 {
-	return tabCharCount * font.GetCharWidth(' ');
+	return tabCharCount * font.GetCharWidth(GetFontManager(), JUtf8Character(' '));
 }
 
 /******************************************************************************
@@ -257,9 +259,9 @@ CBTextEditor::CalcTabWidth
 inline void
 CBTextEditor::SetFont
 	(
-	const JCharacter*	name,
-	const JSize			size,
-	const JSize			tabCharCount
+	const JString&	name,
+	const JSize		size,
+	const JSize		tabCharCount
 	)
 {
 	SetFont(name, size, tabCharCount, WillBreakCROnly());
@@ -427,7 +429,7 @@ CBTextEditor::GetScriptPath()
 inline void
 CBTextEditor::SetScriptPath
 	(
-	const JCharacter* path
+	const JString& path
 	)
 {
 	itsScriptPath = path;

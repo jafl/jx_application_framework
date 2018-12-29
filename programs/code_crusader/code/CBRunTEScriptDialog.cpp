@@ -90,7 +90,7 @@ CBRunTEScriptDialog::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 390,110, "");
+	JXWindow* window = jnew JXWindow(this, 390,110, JString::empty);
 	assert( window != nullptr );
 
 	itsCloseButton =

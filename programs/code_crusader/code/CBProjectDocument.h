@@ -61,21 +61,21 @@ public:
 public:
 
 	static JBoolean		Create(CBProjectDocument** doc);
-	static FileStatus	Create(const JCharacter* fullName, const JBoolean silent,
+	static FileStatus	Create(const JString& fullName, const JBoolean silent,
 							   CBProjectDocument** doc);
-	static FileStatus	CanReadFile(const JCharacter* fullName);
+	static FileStatus	CanReadFile(const JString& fullName);
 	static FileStatus	CanReadFile(std::istream& input, JFileVersion* actualFileVersion);
 
 	virtual ~CBProjectDocument();
 
-	virtual void			Activate();
-	virtual const JString&	GetName() const;
-	virtual JBoolean		GetMenuIcon(const JXImage** icon) const;
-	virtual JBoolean		Close();
+	virtual void			Activate() override;
+	virtual const JString&	GetName() const override;
+	virtual JBoolean		GetMenuIcon(const JXImage** icon) const override;
+	virtual JBoolean		Close() override;
 
 	CBProjectTree*	GetFileTree() const;
 	CBProjectTable*	GetFileTable() const;
-	void			AddFile(const JCharacter* fullName,
+	void			AddFile(const JString& fullName,
 							const CBRelPathCSF::PathType pathType);
 	void			EditMakeConfig();
 
@@ -114,17 +114,17 @@ public:
 	static void		ShouldAskOKToOpenOldVersion(const JBoolean ask);
 
 	static const JString&	GetAddFilesFilter();
-	static void				SetAddFilesFilter(const JCharacter* filter);
+	static void				SetAddFilesFilter(const JString& filter);
 
-	static const JCharacter*	GetProjectFileSuffix();
+	static const JString&	GetProjectFileSuffix();
 
 	void	ConvertCompileRunDialogs(std::istream& projInput, const JFileVersion vers);
 
 	// called by CBNewProjectSaveFileDialog
 
-	static const JCharacter*	GetTemplateDirectoryName();
-	static JBoolean				GetProjectTemplateType(const JCharacter* fullName,
-													   JString* type);
+	static const JString&	GetTemplateDirectoryName();
+	static JBoolean			GetProjectTemplateType(const JString& fullName,
+												   JString* type);
 
 	// called by CBEditTreePrefsDialog
 
@@ -138,16 +138,16 @@ public:
 
 protected:
 
-	CBProjectDocument(const JCharacter* fullName,
+	CBProjectDocument(const JString& fullName,
 					  const CBBuildManager::MakefileMethod makefileMethod,
-					  const JBoolean fromTemplate, const JCharacter* tmplFile);
-	CBProjectDocument(std::istream& input, const JCharacter* projName,
-					  const JCharacter* setName, const JCharacter* symName,
+					  const JBoolean fromTemplate, const JString& tmplFile);
+	CBProjectDocument(std::istream& input, const JString& projName,
+					  const JString& setName, const JString& symName,
 					  const JBoolean silent);
 
-	virtual void	DiscardChanges();
-	virtual JError	WriteFile(const JCharacter* fullName, const JBoolean safetySave) const;
-	virtual void	WriteTextFile(std::ostream& output, const JBoolean safetySave) const;
+	virtual void	DiscardChanges() override;
+	virtual JError	WriteFile(const JString& fullName, const JBoolean safetySave) const override;
+	virtual void	WriteTextFile(std::ostream& output, const JBoolean safetySave) const override;
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 	virtual void	ReceiveWithFeedback(JBroadcaster* sender, Message* message) override;
@@ -211,16 +211,16 @@ private:
 	void	BuildWindow(CBProjectTree* fileList);
 
 	void	WriteFiles(std::ostream& projOutput,
-					   const JCharacter* setName, std::ostream* setOutput,
-					   const JCharacter* symName, std::ostream* symOutput) const;
+					   const JString& setName, std::ostream* setOutput,
+					   const JString& symName, std::ostream* symOutput) const;
 
 	void	SaveAsTemplate() const;
 	void	ReadTemplate(std::istream& input, const JFileVersion tmplVers,
 						 const JFileVersion projVers);
-	void	WriteTemplate(const JCharacter* fileName) const;
+	void	WriteTemplate(const JString& fileName) const;
 
-	static JString	GetSettingFileName(const JCharacter* fullName);
-	static JString	GetSymbolFileName(const JCharacter* fullName);
+	static JString	GetSettingFileName(const JString& fullName);
+	static JString	GetSymbolFileName(const JString& fullName);
 
 	void	ProcessNodeMessage(const Message& message);
 
@@ -472,7 +472,7 @@ CBProjectDocument::GetAddFilesFilter()
 inline void
 CBProjectDocument::SetAddFilesFilter
 	(
-	const JCharacter* filter
+	const JString& filter
 	)
 {
 	theAddFilesFilter = filter;

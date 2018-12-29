@@ -28,13 +28,13 @@ public:
 	virtual void	Activate() override;
 
 	JBoolean	RunScript();
-	JBoolean	RunSimpleScript(const JCharacter* scriptName, JTextEditor* te,
-								const JCharacter* fileName);
+	JBoolean	RunSimpleScript(const JString& scriptName, JTextEditor* te,
+								const JString& fileName);
 
 protected:
 
-	virtual void	ReadPrefs(std::istream& input);
-	virtual void	WritePrefs(std::ostream& output) const;
+	virtual void	ReadPrefs(std::istream& input) override;
+	virtual void	WritePrefs(std::ostream& output) const override;
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
@@ -55,11 +55,11 @@ private:
 
 	void		BuildWindow();
 	void		UpdateDisplay();
-	JBoolean	RunScript(JTextEditor* te, const JCharacter* fullName);
-	JBoolean	RunScript(const JCharacter* cmd, JTextEditor* te,
-						  const JCharacter* fullName);
+	JBoolean	RunScript(JTextEditor* te, const JString& fullName);
+	JBoolean	RunScript(const JString& cmd, JTextEditor* te,
+						  const JString& fullName);
 	void		ReplaceVariables(JString* cmd, JTextEditor* te,
-								 const JCharacter* fullName);
+								 const JString& fullName);
 
 	// not allowed
 

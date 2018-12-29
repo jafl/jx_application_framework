@@ -57,7 +57,7 @@
 JArray<CBPrefsManager::DataType>*
 CBPrefsManager::CreateListFn()
 {
-	JArray<DataType>* list = new JArray<DataType>;
+	JArray<DataType>* list = jnew JArray<DataType>;
 	assert( list != nullptr );
 	list->SetSortOrder(JListT::kSortAscending);
 	list->SetCompareFunction(CompareNameFn);
@@ -107,7 +107,7 @@ CBPrefsManager::CreateAndReadData
 		{
 		DataType info;
 
-		info.name = new JString;
+		info.name = jnew JString;
 		assert( info.name != nullptr );
 
 		listStream >> info.id >> *(info.name);
@@ -196,7 +196,7 @@ CBPrefsManager::EditDataFn
 		{
 		const DataType origInfo = ListVar->GetElement(i);
 
-		DataType newInfo(origInfo.id, new JString(*(origInfo.name)), CopyConstr);
+		DataType newInfo(origInfo.id, jnew JString(*(origInfo.name)), CopyConstr);
 		assert( newInfo.name != nullptr && PtrCheck );
 		list->AppendElement(newInfo);
 
@@ -211,7 +211,7 @@ CBPrefsManager::EditDataFn
 			}
 		}
 
-	DialogVar = new DialogClass(list, initialIndex, firstUnusedID);
+	DialogVar = jnew DialogClass(list, initialIndex, firstUnusedID);
 	assert( DialogVar != nullptr );
 	DialogVar->BeginDialog();
 	ListenTo(DialogVar);
@@ -235,7 +235,6 @@ JIndex i,j;
 		dlog.ExtractDataFn(&firstNewID, &lastNewID);
 
 	const JSize origCount = ListVar->GetElementCount();
-	const JSize newCount  = newList->GetElementCount();
 	const JSize ftCount   = itsFileTypeList->GetElementCount();
 
 	// throw out old objects and update file type->data links
@@ -243,7 +242,7 @@ JIndex i,j;
 	for (i=1; i<=origCount; i++)
 		{
 		DataType info = ListVar->GetElement(i);
-		delete info.name;
+		jdelete info.name;
 		Destr;
 
 		if (!FindIDFn(*newList, info.id, &j))
@@ -262,7 +261,7 @@ JIndex i,j;
 
 	// replace list with the new one
 
-	delete ListVar;
+	jdelete ListVar;
 	ListVar = newList;
 	ListVar->Sort();
 

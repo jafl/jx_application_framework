@@ -102,7 +102,7 @@ CBEditTextPrefsDialog::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 640,530, "");
+	JXWindow* window = jnew JXWindow(this, 640,530, JString::empty);
 	assert( window != nullptr );
 
 	itsTabCharCountInput =
@@ -361,7 +361,7 @@ CBEditTextPrefsDialog::BuildWindow
 		jnew JXStaticText(JGetString("wordWrapHint::CBEditTextPrefsDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 40,460, 250,20);
 	assert( wordWrapHint != nullptr );
-	wordWrapHint->SetFontSize(JGetDefaultFontSize()-2);
+	wordWrapHint->SetFontSize(JFontManager::GetDefaultFontSize()-2);
 	wordWrapHint->SetToLabel();
 
 	itsMiddleButtonPasteCB =

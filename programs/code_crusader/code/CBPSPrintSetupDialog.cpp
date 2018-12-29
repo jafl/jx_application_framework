@@ -99,7 +99,7 @@ CBPSPrintSetupDialog::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 370,300, "");
+	JXWindow* window = jnew JXWindow(this, 370,300, JString::empty);
 	assert( window != nullptr );
 
 	JXStaticText* printCmdLabel =

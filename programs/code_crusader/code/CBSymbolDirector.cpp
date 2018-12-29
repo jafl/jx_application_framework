@@ -581,7 +581,7 @@ CBSymbolDirector::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 400,430, "");
+	JXWindow* window = jnew JXWindow(this, 400,430, JString::empty);
 	assert( window != nullptr );
 
 	JXMenuBar* menuBar =

@@ -98,7 +98,7 @@ CBRPChoosePathDialog::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 310,460, "");
+	JXWindow* window = jnew JXWindow(this, 310,460, JString::empty);
 	assert( window != nullptr );
 
 	JXTextButton* openButton =

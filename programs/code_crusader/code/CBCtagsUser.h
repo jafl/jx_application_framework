@@ -250,7 +250,7 @@ public:
 
 public:
 
-	CBCtagsUser(const JCharacter* args);
+	CBCtagsUser(const JUtf8Byte* args);
 
 	virtual ~CBCtagsUser();
 
@@ -259,7 +259,7 @@ public:
 	static JBoolean	IsParsed(const CBTextFileType type);
 	static JBoolean	IsParsedForFunctionMenu(const CBTextFileType type);
 
-	static const JCharacter*	GetFunctionMenuTitle(const CBTextFileType type);
+	static const JUtf8Byte*	GetFunctionMenuTitle(const CBTextFileType type);
 
 	// Type groups
 
@@ -274,12 +274,12 @@ public:
 
 protected:
 
-	void	SetCtagsArgs(const JCharacter* args);
+	void	SetCtagsArgs(const JUtf8Byte* args);
 
-	JBoolean	ProcessFile(const JCharacter* fileName, const CBTextFileType fileType,
+	JBoolean	ProcessFile(const JString& fileName, const CBTextFileType fileType,
 							JString* result, CBLanguage* lang);
 	void		ReadExtensionFlags(std::istream& input, JStringPtrMap<JString>* flags) const;
-	Type		DecodeSymbolType(const CBLanguage lang, const JCharacter c) const;
+	Type		DecodeSymbolType(const CBLanguage lang, const JUtf8Byte c) const;
 
 	virtual void	InitCtags(std::ostream& output);
 	void			DeleteProcess();

@@ -2,6 +2,26 @@
 
 # Copyright (C) 2000 by John Lindal.
 
+# CBApp
+
+AskQuit::CBApp		"Are you sure you want to quit?"
+FileSearch::CBApp	"Searching for \"$name\"..."
+FileNotFound::CBApp	"Unable to find the file \"$name\"."
+
+# CBMDIServer
+
+OpeningFiles::CBMDIServer	"Opening files..."
+NotAFile::CBMDIServer		"\"$name\" does not exist or is not a file."
+DiffFailed::CBMDIServer		"Unable to display diff because \"$name\" is not a file."
+
+# CBAboutDialog
+
+WindowTitle::CBAboutDialog	"About"
+
+# CBEditMiscPrefsDialog
+
+WindowTitle::CBEditMiscPrefsDialog	"Miscellaneous Preferences"
+
 # CBFunctionMenu
 
 EmptyMenu::CBFunctionMenu	"No $name %d"
@@ -16,6 +36,7 @@ WarnFileTooLarge::CBDocumentManager	"\"$f\" is larger than 1MB, so it may take a
 
 # CBTextDocument
 
+BinaryFilePrefix::CBTextDocument		"binary: "
 OpenBinaryFileMessage::CBTextDocument	"$name appears to be a binary file.  You will lose information if you open it as a text file.  Do you wish to open it as a text file?"
 
 ConfigButtonHint::CBTextDocument	"Ctrl-Tab"

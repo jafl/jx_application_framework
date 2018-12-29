@@ -42,7 +42,7 @@ public:
 
 	CBProjectDocument*	GetProjectDocument() const;
 	CBSymbolList*		GetSymbolList() const;
-	JBoolean			FindSymbol(const JCharacter* name, const JCharacter* fileName,
+	JBoolean			FindSymbol(const JString& name, const JString& fileName,
 								   const JXMouseButton button);
 
 	JBoolean	HasSymbolBrowsers() const;
@@ -70,8 +70,8 @@ public:
 
 protected:
 
-	virtual void	ReadPrefs(std::istream& input);
-	virtual void	WritePrefs(std::ostream& output) const;
+	virtual void	ReadPrefs(std::istream& input) override;
+	virtual void	WritePrefs(std::ostream& output) const override;
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 	virtual void	ReceiveWithFeedback(JBroadcaster* sender, Message* message) override;

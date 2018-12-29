@@ -84,7 +84,7 @@ CBViewManPageDialog::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 360,150, "");
+	JXWindow* window = jnew JXWindow(this, 360,150, JString::empty);
 	assert( window != nullptr );
 
 	itsCloseButton =

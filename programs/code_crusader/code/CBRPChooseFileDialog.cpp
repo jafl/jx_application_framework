@@ -99,7 +99,7 @@ CBRPChooseFileDialog::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 310,430, "");
+	JXWindow* window = jnew JXWindow(this, 310,430, JString::empty);
 	assert( window != nullptr );
 
 	JXTextButton* openButton =

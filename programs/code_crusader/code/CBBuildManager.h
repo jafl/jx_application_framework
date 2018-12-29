@@ -36,8 +36,8 @@ public:
 
 	CBBuildManager(CBProjectDocument* doc, const MakefileMethod method = kMakemake,
 				   const JBoolean needWriteMakeFiles = kJTrue,
-				   const JCharacter* targetName = "",
-				   const JCharacter* depListExpr = "");
+				   const JString& targetName = JString::empty,
+				   const JString& depListExpr = JString::empty);
 	CBBuildManager(std::istream& projInput, const JFileVersion projVers,
 				   std::istream* setInput, const JFileVersion setVers,
 				   CBProjectDocument* doc);
@@ -54,11 +54,11 @@ public:
 	JBoolean	EditMakeConfig();
 
 	const JString&	GetBuildTargetName() const;
-	void			SetBuildTargetName(const JCharacter* targetName);
+	void			SetBuildTargetName(const JString& targetName);
 
 	MakefileMethod	GetMakefileMethod() const;
 
-	static const JCharacter*	GetSubProjectBuildSuffix();
+	static const JString&	GetSubProjectBuildSuffix();
 
 	static JBoolean	WillRebuildMakefileDaily();
 	static void		ShouldRebuildMakefileDaily(const JBoolean rebuild);
@@ -71,7 +71,7 @@ public:
 
 	void	ReadTemplate(std::istream& input, const JFileVersion tmplVers,
 						 const JFileVersion projVers, const MakefileMethod method,
-						 const JCharacter* targetName, const JCharacter* depListExpr);
+						 const JString& targetName, const JString& depListExpr);
 	void	WriteTemplate(std::ostream& output) const;
 
 	// called by CBProjectDocument
@@ -84,12 +84,12 @@ public:
 
 	// called by CBNewProjectSaveFileDialog
 
-	static const JCharacter*	GetMakefileMethodName(const MakefileMethod method);
+	static const JString&	GetMakefileMethodName(const MakefileMethod method);
 
-	static JString	GetMakeFilesName(const JCharacter* path);
-	static JString	GetCMakeInputName(const JCharacter* path, const JCharacter* projName);
-	static JString	GetQMakeInputName(const JCharacter* path, const JCharacter* projName);
-	static void		GetMakefileNames(const JCharacter* path, JPtrArray<JString>* list);
+	static JString	GetMakeFilesName(const JString& path);
+	static JString	GetCMakeInputName(const JString& path, const JString& projName);
+	static JString	GetQMakeInputName(const JString& path, const JString& projName);
+	static void		GetMakefileNames(const JString& path, JPtrArray<JString>* list);
 
 	// called by CBProjectConfigDialog
 
@@ -143,30 +143,30 @@ private:
 	void	UpdateProjectConfig();
 
 	void		PrintTargetName(std::ostream& output) const;
-	JBoolean	SaveOpenFile(const JCharacter* fileName);
+	JBoolean	SaveOpenFile(const JString& fileName);
 
-	void		CreateMakemakeFiles(const JCharacter* makeHeaderText,
-									const JCharacter* makeFilesText,
+	void		CreateMakemakeFiles(const JString& makeHeaderText,
+									const JString& makeFilesText,
 									const JBoolean readingTemplate);
-	void		CreateCMakeFiles(const JCharacter* cmakeHeaderText,
+	void		CreateCMakeFiles(const JString& cmakeHeaderText,
 								 const JBoolean readingTemplate);
-	void		CreateQMakeFiles(const JCharacter* qmakeHeaderText,
+	void		CreateQMakeFiles(const JString& qmakeHeaderText,
 								 const JBoolean readingTemplate);
 	void		RecreateMakeHeaderFile();
 
 	JBoolean	WriteSubProjectBuildFile(const JBoolean reportError);
 
-	void		UpdateMakeHeader(const JCharacter* fileName,
+	void		UpdateMakeHeader(const JString& fileName,
 								 const JPtrArray<JString>& libFileList,
 								 const JPtrArray<JString>& libProjPathList) const;
-	void		UpdateMakeFiles(const JCharacter* fileName, const JCharacter* text) const;
+	void		UpdateMakeFiles(const JString& fileName, const JString& text) const;
 
-	void		WriteCMakeInput(const JCharacter* inputFileName,
-								const JCharacter* src, const JCharacter* hdr,
-								const JCharacter* outputFileName) const;
-	void		WriteQMakeInput(const JCharacter* inputFileName,
-								const JCharacter* src, const JCharacter* hdr,
-								const JCharacter* outputFileName) const;
+	void		WriteCMakeInput(const JString& inputFileName,
+								const JString& src, const JString& hdr,
+								const JString& outputFileName) const;
+	void		WriteQMakeInput(const JString& inputFileName,
+								const JString& src, const JString& hdr,
+								const JString& outputFileName) const;
 
 	JBoolean	MakeFilesChanged() const;
 	JBoolean	CMakeHeaderChanged() const;
@@ -184,7 +184,7 @@ private:
 
 	void	ReadSetup(std::istream& projInput, const JFileVersion projVers,
 					  std::istream* setInput, const JFileVersion setVers,
-					  const JCharacter* projPath);
+					  const JString& projPath);
 
 	// not allowed
 
@@ -211,7 +211,7 @@ CBBuildManager::GetBuildTargetName()
 inline void
 CBBuildManager::SetBuildTargetName
 	(
-	const JCharacter* targetName
+	const JString& targetName
 	)
 {
 	itsTargetName = targetName;

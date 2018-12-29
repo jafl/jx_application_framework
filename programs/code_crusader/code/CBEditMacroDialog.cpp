@@ -97,7 +97,7 @@ CBEditMacroDialog::BuildWindow
 
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 350,530, "");
+	JXWindow* window = jnew JXWindow(this, 350,530, JString::empty);
 	assert( window != nullptr );
 
 	itsPartition =

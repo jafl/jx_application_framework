@@ -32,11 +32,11 @@ public:
 
 protected:
 
-	virtual void	HandleMDIRequest(const JCharacter* dir,
+	virtual void	HandleMDIRequest(const JString& dir,
 									 const JPtrArray<JString>& argList) override;
 
-	virtual void	ReadPrefs(std::istream& input);
-	virtual void	WritePrefs(std::ostream& output) const;
+	virtual void	ReadPrefs(std::istream& input) override;
+	virtual void	WritePrefs(std::ostream& output) const override;
 
 private:
 
@@ -52,7 +52,7 @@ private:
 							 const JBoolean clearFileList);
 	void	DisplayFileDiffs(JIndex* index, const JPtrArray<JString>& argList,
 							 const JBoolean silent);
-	void	DisplayVCSDiffs(const JCharacter* type, JIndex* index,
+	void	DisplayVCSDiffs(const JUtf8Byte* type, JIndex* index,
 							const JPtrArray<JString>& argList,
 							const JBoolean silent);
 

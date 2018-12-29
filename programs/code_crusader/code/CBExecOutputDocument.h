@@ -33,7 +33,7 @@ public:
 public:
 
 	CBExecOutputDocument(const CBTextFileType fileType = kCBExecOutputFT,
-						 const JCharacter* helpSectionName = "CBRunProgramHelp",
+						 const JUtf8Byte* helpSectionName = "CBRunProgramHelp",
 						 const JBoolean focusToCmd = kJTrue,
 						 const JBoolean allowStop = kJTrue);
 
@@ -45,19 +45,19 @@ public:
 	void	DecrementUseCount();
 
 	virtual void	SetConnection(JProcess* p, const int inFD, const int outFD,
-								  const JCharacter* windowTitle,
-								  const JCharacter* dontCloseMsg,
-								  const JCharacter* execDir,
-								  const JCharacter* execCmd,
+								  const JString& windowTitle,
+								  const JString& dontCloseMsg,
+								  const JString& execDir,
+								  const JString& execCmd,
 								  const JBoolean showPID);
 
 	JBoolean	ProcessRunning() const;
-	void		SendText(const JCharacter* text);
+	void		SendText(const JString& text);
 
 	virtual void	OpenPrevListItem();
 	virtual void	OpenNextListItem();
 
-	virtual void	ConvertSelectionToFullPath(JString* fileName) const;
+	virtual void	ConvertSelectionToFullPath(JString* fileName) const override;
 
 protected:
 
@@ -75,7 +75,7 @@ protected:
 	JBoolean	GetRecordLink(RecordLink** link) const;
 	JBoolean	GetDataLink(DataLink** link) const;
 
-	virtual JBoolean	OKToClose();
+	virtual JBoolean	OKToClose() override;
 	virtual void		Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
@@ -117,7 +117,7 @@ public:
 
 	// JBroadcaster messages
 
-	static const JCharacter* kFinished;
+	static const JUtf8Byte* kFinished;
 
 	class Finished : public JBroadcaster::Message
 		{

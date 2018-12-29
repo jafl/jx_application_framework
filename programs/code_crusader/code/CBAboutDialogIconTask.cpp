@@ -44,8 +44,7 @@ CBAboutDialogIconTask::CBAboutDialogIconTask
 	itsImageList = jnew JPtrArray<JXImage>(JPtrArrayT::kDeleteAll, kAboutIconCount);
 	assert( itsImageList != nullptr );
 
-	JXDisplay* display   = widget->GetDisplay();
-	JXColorManager* colormap = widget->GetColormap();
+	JXDisplay* display = widget->GetDisplay();
 	for (JIndex i=1; i<=kAboutIconCount; i++)
 		{
 		JXImage* icon = jnew JXImage(display, kAboutIcon[i-1]);

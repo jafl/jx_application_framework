@@ -28,7 +28,7 @@
 #include <jAssert.h>
 
 #ifdef _J_UNIX
-static const JCharacter* kSysIncludeDir[] =
+static const JUtf8Byte* kSysIncludeDir[] =
 {
 	"/usr/include/",
 	"/usr/local/include/"
@@ -37,7 +37,7 @@ static const JCharacter* kSysIncludeDir[] =
 
 // Application signature (MDI, prefs)
 
-static const JCharacter* kAppSignature = "jxcb";
+static const JUtf8Byte* kAppSignature = "jxcb";
 
 // setup information
 
@@ -45,8 +45,7 @@ const JFileVersion kCurrentSetupVersion = 0;
 
 // Help menu
 
-static const JCharacter* kHelpMenuTitleStr = "Help";
-static const JCharacter* kHelpMenuStr =
+static const JUtf8Byte* kHelpMenuStr =
 	"    About" 
 	"%l| Table of Contents       %i" kJXHelpTOCAction
 	"  | Overview"
@@ -172,7 +171,7 @@ void
 CBApp::Quit()
 {
 	if (!itsWarnBeforeQuitFlag ||
-		(JGetUserNotification())->AskUserNo("Are you sure you want to quit?"))
+		(JGetUserNotification())->AskUserNo(JGetString("AskQuit::CBApp")))
 		{
 		JXApplication::Quit();
 		}
@@ -188,15 +187,15 @@ CBApp::Quit()
 void
 CBApp::DisplayAbout
 	(
-	const JCharacter*	prevVersStr,
-	const JBoolean		init
+	const JString&	prevVersStr,
+	const JBoolean	init
 	)
 {
 	CBAboutDialog* dlog = jnew CBAboutDialog(this, prevVersStr);
 	assert( dlog != nullptr );
 	dlog->BeginDialog();
 
-	if (init && JString::IsEmpty(prevVersStr))
+	if (init && prevVersStr.IsEmpty())
 		{
 		JXAskInitDockAll* task = jnew JXAskInitDockAll(dlog);
 		assert( task != nullptr );
@@ -229,10 +228,10 @@ JXTextMenu*
 CBApp::CreateHelpMenu
 	(
 	JXMenuBar*			menuBar,
-	const JCharacter*	idNamespace
+	const JUtf8Byte*	idNamespace
 	)
 {
-	JXTextMenu* menu = menuBar->AppendTextMenu(kHelpMenuTitleStr);
+	JXTextMenu* menu = menuBar->AppendTextMenu(JGetString("HelpMenuTitle::JXGlobal"));
 	menu->SetMenuItems(kHelpMenuStr, idNamespace);
 	menu->SetUpdateAction(JXMenu::kDisableNone);
 
@@ -281,7 +280,7 @@ void
 CBApp::HandleHelpMenu
 	(
 	JXTextMenu*			menu,
-	const JCharacter*	windowSectionName,
+	const JUtf8Byte*	windowSectionName,
 	const JIndex		index
 	)
 {
@@ -334,9 +333,9 @@ CBApp::HandleHelpMenu
 JBoolean
 CBApp::FindFile
 	(
-	const JCharacter*	fileName,
-	const JBoolean		caseSensitive,
-	JString*			fullName
+	const JString&	fileName,
+	const JBoolean	caseSensitive,
+	JString*		fullName
 	)
 	const
 {
@@ -358,9 +357,12 @@ CBApp::FindFile
 		JBoolean found = kJFalse;
 
 		JLatentPG pg;
-		JString msg = "Searching for \"";
-		msg += fileName;
-		msg += "\"...";
+
+		const JUtf8Byte* map[] =
+		{
+			"name", fileName.GetBytes()
+		};
+		const JString msg = JGetString("FileSearch::CBApp", map, sizeof(map));
 		pg.FixedLengthProcessBeginning(dirCount+sysCount, msg, kJTrue, kJFalse);
 
 		JString path, newName;
@@ -432,9 +434,11 @@ CBApp::FindFile
 
 	if (!cancelled)
 		{
-		JString msg = "Unable to find the file \"";
-		msg += fileName;
-		msg += "\".";
+		const JUtf8Byte* map[] =
+		{
+			"name", fileName.GetBytes()
+		};
+		const JString msg = JGetString("FileNotFound::CBApp", map, sizeof(map));
 		(JGetUserNotification())->ReportError(msg);
 		}
 
@@ -451,15 +455,17 @@ void
 CBApp::GetSystemIncludeDirectories()
 {
 	int pid, fd, inFD;
-	const JError err = JExecute("gcc -Wp,-v -x c++ -fsyntax-only -", &pid,
+	const JError err = JExecute(JString("gcc -Wp,-v -x c++ -fsyntax-only -", kJFalse), &pid,
 								kJCreatePipe, &inFD,
 								kJCreatePipe, &fd,
 								kJAttachToFromFD);
 	if (!err.OK())
 		{
-		for (const JCharacter* s : kSysIncludeDir)
+		for (const JUtf8Byte* s : kSysIncludeDir)
 			{
-			itsSystemIncludeDirs->Append(s);
+			JString* p = jnew JString(s);
+			assert( p != nullptr );
+			itsSystemIncludeDirs->Append(p);
 			}
 		return;
 		}
@@ -477,7 +483,7 @@ CBApp::GetSystemIncludeDirectories()
 
 		if (s.GetFirstCharacter() == ' ')
 			{
-			s.RemoveSubstring(1,1);
+			s.TrimWhitespace();
 			if (!s.Contains(" "))
 				{
 				itsSystemIncludeDirs->Append(s);
@@ -561,7 +567,7 @@ CBApp::CollectSearchPaths
 JBoolean
 CBApp::FindAndViewFile
 	(
-	const JCharacter*	fileName,
+	const JString&		fileName,
 	const JIndexRange	lineRange,		// not reference because of default value
 	const JBoolean		caseSensitive
 	)
@@ -597,7 +603,7 @@ CBApp::ReadPrefs
 		return;
 		}
 
-	input >> itsWarnBeforeQuitFlag;
+	input >> JBoolFromString(itsWarnBeforeQuitFlag);
 }
 
 /******************************************************************************
@@ -614,7 +620,7 @@ CBApp::WritePrefs
 {
 	output << kCurrentSetupVersion;
 
-	output << ' ' << itsWarnBeforeQuitFlag;
+	output << ' ' << JBoolToString(itsWarnBeforeQuitFlag);
 }
 
 /******************************************************************************
@@ -649,7 +655,7 @@ CBApp::CleanUpBeforeSuddenDeath
 
  ******************************************************************************/
 
-const JCharacter*
+const JUtf8Byte*
 CBApp::GetAppSignature()
 {
 	return kAppSignature;

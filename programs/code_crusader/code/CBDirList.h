@@ -57,13 +57,13 @@ public:
 							JBoolean* recurse) const;
 
 	const JString&	GetPath(const JIndex index, JBoolean* recurse) const;
-	void			AddPath(const JCharacter* path, const JBoolean recurse);
+	void			AddPath(const JString& path, const JBoolean recurse);
 	void			RemoveAll();
 
 	const JString&	GetBasePath() const;
-	void			SetBasePath(const JCharacter* path);
+	void			SetBasePath(const JString& path);
 
-	JBoolean		Contains(const JCharacter* path) const;
+	JBoolean		Contains(const JString& path) const;
 
 	void	ReadDirectories(std::istream& input, const JFileVersion vers);
 	void	WriteDirectories(std::ostream& output) const;

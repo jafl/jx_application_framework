@@ -249,8 +249,8 @@ CBMacroManager::HighlightErrors
 void
 CBMacroManager::AddMacro
 	(
-	const JCharacter* macro,
-	const JCharacter* script
+	const JUtf8Byte* macro,
+	const JUtf8Byte* script
 	)
 {
 	assert( !JString::IsEmpty(macro) && script != nullptr );

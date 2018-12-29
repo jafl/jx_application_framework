@@ -70,7 +70,7 @@ public:
 
 	JBoolean	NewGroup(CBGroupNode** returnNode = nullptr);
 	void		AddDirectoryTree();
-	void		AddDirectoryTree(const JCharacter* fullPath,
+	void		AddDirectoryTree(const JString& fullPath,
 								 const CBRelPathCSF::PathType pathType);
 	void		AddFiles();
 	JBoolean	AddFiles(const JPtrArray<JString>& fullNameList,
@@ -103,9 +103,10 @@ public:
 	static DropFileAction	GetDropFileAction();
 	static void				SetDropFileAction(const DropFileAction action);
 
-	virtual void		HandleKeyPress(const int key, const JXKeyModifiers& modifiers) override;
+	virtual void		HandleKeyPress(const JUtf8Character& c,
+									   const int keySym, const JXKeyModifiers& modifiers) override;
 	virtual JBoolean	IsSelectable(const JPoint& cell,
-									 const JBoolean forExtend) const;
+									 const JBoolean forExtend) const override;
 
 	void	SetInputAction(const InputAction action);
 
@@ -113,8 +114,8 @@ protected:
 
 	JSize		GetDepth(const JIndex index) const;
 
-	virtual JBoolean	GetImage(const JIndex index, const JXImage** image) const;
-	virtual void		AdjustToTree();
+	virtual JBoolean	GetImage(const JIndex index, const JXImage** image) const override;
+	virtual void		AdjustToTree() override;
 
 	virtual void	Draw(JXWindowPainter& p, const JRect& rect) override;
 
@@ -131,7 +132,7 @@ protected:
 	virtual void	DNDInit(const JPoint& pt, const JXButtonStates& buttonStates,
 							const JXKeyModifiers& modifiers) override;
 	virtual void	GetSelectionData(JXSelectionData* data,
-									 const JCharacter* id) override;
+									 const JString& id) override;
 	virtual Atom	GetDNDAction(const JXContainer* target,
 								 const JXButtonStates& buttonStates,
 								 const JXKeyModifiers& modifiers) override;
@@ -150,15 +151,15 @@ protected:
 
 	virtual JXInputField*	CreateXInputField(const JPoint& cell,
 											  const JCoordinate x, const JCoordinate y,
-											  const JCoordinate w, const JCoordinate h);
-	virtual JBoolean		ExtractInputData(const JPoint& cell);
-	virtual void			PrepareDeleteXInputField();
+											  const JCoordinate w, const JCoordinate h) override;
+	virtual JBoolean		ExtractInputData(const JPoint& cell) override;
+	virtual void			PrepareDeleteXInputField() override;
 
 	virtual JXInputField*
 		CreateTreeListInput(const JPoint& cell, JXContainer* enclosure,
 							const HSizingOption hSizing, const VSizingOption vSizing,
 							const JCoordinate x, const JCoordinate y,
-							const JCoordinate w, const JCoordinate h);
+							const JCoordinate w, const JCoordinate h) override;
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
@@ -235,10 +236,10 @@ private:
 	void	InsertExtDroppedFiles(const JPtrArray<JString>& fileNameList,
 								  const CBRelPathCSF::PathType pathType);
 
-	void	AddDirectoryTree(const JCharacter* fullPath, const JCharacter* filterStr,
+	void	AddDirectoryTree(const JString& fullPath, const JString& filterStr,
 							 const CBRelPathCSF::PathType pathType);
-	void	AddDirectoryTree(const JCharacter* fullPath, const JCharacter* relPath,
-							 const JCharacter* filterStr,
+	void	AddDirectoryTree(const JString& fullPath, const JString& relPath,
+							 const JString& filterStr,
 							 const CBRelPathCSF::PathType pathType,
 							 JBoolean* changed);
 

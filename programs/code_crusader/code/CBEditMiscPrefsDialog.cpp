@@ -20,6 +20,7 @@
 #include <JXTextCheckbox.h>
 #include <JXAtLeastOneCBGroup.h>
 #include <JXMenu.h>
+#include <JFontManager.h>
 #include <jAssert.h>
 
 /******************************************************************************
@@ -54,7 +55,7 @@ CBEditMiscPrefsDialog::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 370,390, "");
+	JXWindow* window = jnew JXWindow(this, 370,390, JString::empty);
 	assert( window != nullptr );
 
 	JXStaticText* warnTitle =
@@ -140,7 +141,7 @@ CBEditMiscPrefsDialog::BuildWindow()
 		jnew JXStaticText(JGetString("restartHint::CBEditMiscPrefsDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 40,40, 290,20);
 	assert( restartHint != nullptr );
-	restartHint->SetFontSize(JGetDefaultFontSize()-2);
+	restartHint->SetFontSize(JFontManager::GetDefaultFontSize()-2);
 	restartHint->SetToLabel();
 
 	itsOpenOldProjCB =
@@ -160,7 +161,7 @@ CBEditMiscPrefsDialog::BuildWindow()
 
 // end JXLayout
 
-	window->SetTitle("Miscellaneous Preferences");
+	window->SetTitle(JGetString("WindowTitle::CBEditMiscPrefsDialog"));
 	SetButtons(okButton, cancelButton);
 
 	itsMacStyleCB->SetState(JI2B(JXMenu::GetDisplayStyle() == JXMenu::kMacintoshStyle));

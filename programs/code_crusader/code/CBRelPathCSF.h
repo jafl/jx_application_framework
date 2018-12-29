@@ -41,38 +41,38 @@ public:
 
 	const JString&	GetProjectPath() const;
 
-	JString			ConvertToRelativePath(const JCharacter* fullPath);
-	static JString	ConvertToRelativePath(const JCharacter* fullPath,
-										  const JCharacter* projPath,
+	JString			ConvertToRelativePath(const JString& fullPath);
+	static JString	ConvertToRelativePath(const JString& fullPath,
+										  const JString& projPath,
 										  const PathType pathType);
-	static PathType	CalcPathType(const JCharacter* path);
+	static PathType	CalcPathType(const JString& path);
 
-	JBoolean ChooseRelFile(const JCharacter* prompt,
-						   const JCharacter* instructions,		// can be nullptr
-						   const JCharacter* origName,
-						   JString* name);						// relative
+	JBoolean ChooseRelFile(const JString& prompt,
+						   const JString& instructions,
+						   const JString& origName,
+						   JString* name);					// relative
 
-	JBoolean ChooseRelRPath(const JCharacter* prompt,
-							const JCharacter* instructions,		// can be nullptr
-							const JCharacter* origPath,			// can be nullptr
-							JString* newPath);					// relative
-	JBoolean ChooseRelRWPath(const JCharacter* prompt,
-							 const JCharacter* instructions,	// can be nullptr
-							 const JCharacter* origPath,		// can be nullptr
-							 JString* newPath);					// relative
+	JBoolean ChooseRelRPath(const JString& prompt,
+							const JString& instructions,
+							const JString& origPath,
+							JString* newPath);				// relative
+	JBoolean ChooseRelRWPath(const JString& prompt,
+							 const JString& instructions,
+							 const JString& origPath,
+							 JString* newPath);				// relative
 
 protected:
 
 	virtual JXChooseFileDialog*
 	CreateChooseFileDialog(JXDirector* supervisor, JDirInfo* dirInfo,
-						   const JCharacter* fileFilter,
+						   const JString& fileFilter,
 						   const JBoolean allowSelectMultiple,
-						   const JCharacter* origName, const JCharacter* message);
+						   const JString& origName, const JString& message) override;
 
 	virtual JXChoosePathDialog*
 	CreateChoosePathDialog(JXDirector* supervisor, JDirInfo* dirInfo,
-						   const JCharacter* fileFilter,
-						   const JBoolean selectOnlyWritable, const JCharacter* message);
+						   const JString& fileFilter,
+						   const JBoolean selectOnlyWritable, const JString& message) override;
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
@@ -85,8 +85,8 @@ private:
 
 private:
 
-	JString	PrepareForChoose(const JCharacter* origName);
-	void	CalcPathType(const JCharacter* path, PathType* type) const;
+	JString	PrepareForChoose(const JString& origName);
+	void	CalcPathType(const JString& path, PathType* type) const;
 
 	// not allowed
 

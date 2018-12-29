@@ -27,8 +27,8 @@
 
 CBAboutDialog::CBAboutDialog
 	(
-	JXDirector*			supervisor,
-	const JCharacter*	prevVersStr
+	JXDirector*		supervisor,
+	const JString&	prevVersStr
 	)
 	:
 	JXDialogDirector(supervisor, kJTrue),
@@ -57,12 +57,12 @@ CBAboutDialog::~CBAboutDialog()
 void
 CBAboutDialog::BuildWindow
 	(
-	const JCharacter* prevVersStr
+	const JString& prevVersStr
 	)
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 430,180, "");
+	JXWindow* window = jnew JXWindow(this, 430,180, JString::empty);
 	assert( window != nullptr );
 
 	JXImageWidget* jccIcon =
@@ -99,7 +99,7 @@ CBAboutDialog::BuildWindow
 
 // end JXLayout
 
-	window->SetTitle("About");
+	window->SetTitle(JGetString("WindowTitle::CBAboutDialog"));
 	SetButtons(okButton, nullptr);
 
 	ListenTo(itsHelpButton);
@@ -108,18 +108,18 @@ CBAboutDialog::BuildWindow
 	// text
 
 	JString text = CBGetVersionStr();
-	if (!JString::IsEmpty(prevVersStr))
+	if (!prevVersStr.IsEmpty())
 		{
-		const JCharacter* map[] =
+		const JUtf8Byte* map[] =
 			{
-			"vers", prevVersStr
+			"vers", prevVersStr.GetBytes()
 			};
 		text += JGetString("UpgradeNotice::CBAboutDialog");
 		(JGetStringManager())->Replace(&text, map, sizeof(map));
 		itsHelpButton->SetLabel(JGetString("ChangeButtonLabel::CBAboutDialog"));
 		itsIsUpgradeFlag = kJTrue;
 		}
-	textWidget->SetText(text);
+	textWidget->GetText()->SetText(text);
 
 	// Code Crusader icon
 

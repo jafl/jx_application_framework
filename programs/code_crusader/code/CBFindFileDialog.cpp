@@ -83,7 +83,7 @@ CBFindFileDialog::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 290,140, "");
+	JXWindow* window = jnew JXWindow(this, 290,140, JString::empty);
 	assert( window != nullptr );
 
 	itsCloseButton =

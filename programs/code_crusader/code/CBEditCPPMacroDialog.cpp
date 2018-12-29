@@ -81,7 +81,7 @@ CBEditCPPMacroDialog::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 370,290, "");
+	JXWindow* window = jnew JXWindow(this, 370,290, JString::empty);
 	assert( window != nullptr );
 
 	JXScrollbarSet* scrollbarSet =
