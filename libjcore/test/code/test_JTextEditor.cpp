@@ -336,10 +336,10 @@ JTEST(LayoutBreakWidth)
 
 JTEST(GetCmdStatus)
 {
-	JArray<JBoolean> status;
+	JArray<bool> status;
 	for (JIndex i=1; i<=JTextEditor::kCmdCount; i++)
 		{
-		status.AppendElement(kJFalse);
+		status.AppendElement(false);
 		}
 
 	StyledText text(kJTrue);
@@ -348,96 +348,96 @@ JTEST(GetCmdStatus)
 	TextEditor te(&text, kJTrue, 50);
 	te.Activate();
 
-	status.SetElement(JTextEditor::kPasteCmd, kJTrue);
-	status.SetElement(JTextEditor::kSelectAllCmd, kJTrue);
-	status.SetElement(JTextEditor::kCheckSpellingCmd, kJTrue);
-	status.SetElement(JTextEditor::kCleanRightMarginCmd, kJTrue);
-	status.SetElement(JTextEditor::kCoerceRightMarginCmd, kJTrue);
-	status.SetElement(JTextEditor::kShiftSelLeftCmd, kJTrue);
-	status.SetElement(JTextEditor::kShiftSelRightCmd, kJTrue);
-	status.SetElement(JTextEditor::kForceShiftSelLeftCmd, kJTrue);
-	status.SetElement(JTextEditor::kShowWhitespaceCmd, kJTrue);
-	status.SetElement(JTextEditor::kCleanAllWhitespaceCmd, kJTrue);
-	status.SetElement(JTextEditor::kCleanAllWSAlignCmd, kJTrue);
-	status.SetElement(JTextEditor::kToggleReadOnlyCmd, kJTrue);
+	status.SetElement(JTextEditor::kPasteCmd, true);
+	status.SetElement(JTextEditor::kSelectAllCmd, true);
+	status.SetElement(JTextEditor::kCheckSpellingCmd, true);
+	status.SetElement(JTextEditor::kCleanRightMarginCmd, true);
+	status.SetElement(JTextEditor::kCoerceRightMarginCmd, true);
+	status.SetElement(JTextEditor::kShiftSelLeftCmd, true);
+	status.SetElement(JTextEditor::kShiftSelRightCmd, true);
+	status.SetElement(JTextEditor::kForceShiftSelLeftCmd, true);
+	status.SetElement(JTextEditor::kShowWhitespaceCmd, true);
+	status.SetElement(JTextEditor::kCleanAllWhitespaceCmd, true);
+	status.SetElement(JTextEditor::kCleanAllWSAlignCmd, true);
+	status.SetElement(JTextEditor::kToggleReadOnlyCmd, true);
 
-	status.SetElement(JTextEditor::kFindDialogCmd, kJTrue);
-	status.SetElement(JTextEditor::kFindClipboardBackwardCmd, kJTrue);
-	status.SetElement(JTextEditor::kFindClipboardForwardCmd, kJTrue);
+	status.SetElement(JTextEditor::kFindDialogCmd, true);
+	status.SetElement(JTextEditor::kFindClipboardBackwardCmd, true);
+	status.SetElement(JTextEditor::kFindClipboardForwardCmd, true);
 
 	std::cout << "GetCmdStatus::basic" << std::endl;
 	te.CheckCmdStatus(status);
 
 	te.SetHasSearchText(kJTrue);
 
-	status.SetElement(JTextEditor::kFindPreviousCmd, kJTrue);
-	status.SetElement(JTextEditor::kFindNextCmd, kJTrue);
-	status.SetElement(JTextEditor::kReplaceAllCmd, kJTrue);
+	status.SetElement(JTextEditor::kFindPreviousCmd, true);
+	status.SetElement(JTextEditor::kFindNextCmd, true);
+	status.SetElement(JTextEditor::kReplaceAllCmd, true);
 
 	std::cout << "GetCmdStatus::has search text" << std::endl;
 	te.CheckCmdStatus(status);
 
 	te.SetSelection(JCharacterRange(2,3));
 
-	status.SetElement(JTextEditor::kCutCmd, kJTrue);
-	status.SetElement(JTextEditor::kCopyCmd, kJTrue);
-	status.SetElement(JTextEditor::kDeleteSelCmd, kJTrue);
-	status.SetElement(JTextEditor::kCheckSpellingSelCmd, kJTrue);
-	status.SetElement(JTextEditor::kCleanWhitespaceSelCmd, kJTrue);
-	status.SetElement(JTextEditor::kCleanWSAlignSelCmd, kJTrue);
-	status.SetElement(JTextEditor::kEnterSearchTextCmd, kJTrue);
-	status.SetElement(JTextEditor::kEnterReplaceTextCmd, kJTrue);
-	status.SetElement(JTextEditor::kFindSelectionBackwardCmd, kJTrue);
-	status.SetElement(JTextEditor::kFindSelectionForwardCmd, kJTrue);
-	status.SetElement(JTextEditor::kReplaceSelectionCmd, kJTrue);
-	status.SetElement(JTextEditor::kReplaceFindPrevCmd, kJTrue);
-	status.SetElement(JTextEditor::kReplaceFindNextCmd, kJTrue);
-	status.SetElement(JTextEditor::kReplaceAllInSelectionCmd, kJTrue);
+	status.SetElement(JTextEditor::kCutCmd, true);
+	status.SetElement(JTextEditor::kCopyCmd, true);
+	status.SetElement(JTextEditor::kDeleteSelCmd, true);
+	status.SetElement(JTextEditor::kCheckSpellingSelCmd, true);
+	status.SetElement(JTextEditor::kCleanWhitespaceSelCmd, true);
+	status.SetElement(JTextEditor::kCleanWSAlignSelCmd, true);
+	status.SetElement(JTextEditor::kEnterSearchTextCmd, true);
+	status.SetElement(JTextEditor::kEnterReplaceTextCmd, true);
+	status.SetElement(JTextEditor::kFindSelectionBackwardCmd, true);
+	status.SetElement(JTextEditor::kFindSelectionForwardCmd, true);
+	status.SetElement(JTextEditor::kReplaceSelectionCmd, true);
+	status.SetElement(JTextEditor::kReplaceFindPrevCmd, true);
+	status.SetElement(JTextEditor::kReplaceFindNextCmd, true);
+	status.SetElement(JTextEditor::kReplaceAllInSelectionCmd, true);
 
 	std::cout << "GetCmdStatus::has selection" << std::endl;
 	te.CheckCmdStatus(status);
 
 	te.DeleteSelection();
 
-	status.SetElement(JTextEditor::kUndoCmd, kJTrue);
+	status.SetElement(JTextEditor::kUndoCmd, true);
 
-	status.SetElement(JTextEditor::kCutCmd, kJFalse);
-	status.SetElement(JTextEditor::kCopyCmd, kJFalse);
-	status.SetElement(JTextEditor::kDeleteSelCmd, kJFalse);
-	status.SetElement(JTextEditor::kCheckSpellingSelCmd, kJFalse);
-	status.SetElement(JTextEditor::kCleanWhitespaceSelCmd, kJFalse);
-	status.SetElement(JTextEditor::kCleanWSAlignSelCmd, kJFalse);
-	status.SetElement(JTextEditor::kEnterSearchTextCmd, kJFalse);
-	status.SetElement(JTextEditor::kEnterReplaceTextCmd, kJFalse);
-	status.SetElement(JTextEditor::kFindSelectionBackwardCmd, kJFalse);
-	status.SetElement(JTextEditor::kFindSelectionForwardCmd, kJFalse);
-	status.SetElement(JTextEditor::kReplaceSelectionCmd, kJFalse);
-	status.SetElement(JTextEditor::kReplaceFindPrevCmd, kJFalse);
-	status.SetElement(JTextEditor::kReplaceFindNextCmd, kJFalse);
-	status.SetElement(JTextEditor::kReplaceAllInSelectionCmd, kJFalse);
+	status.SetElement(JTextEditor::kCutCmd, false);
+	status.SetElement(JTextEditor::kCopyCmd, false);
+	status.SetElement(JTextEditor::kDeleteSelCmd, false);
+	status.SetElement(JTextEditor::kCheckSpellingSelCmd, false);
+	status.SetElement(JTextEditor::kCleanWhitespaceSelCmd, false);
+	status.SetElement(JTextEditor::kCleanWSAlignSelCmd, false);
+	status.SetElement(JTextEditor::kEnterSearchTextCmd, false);
+	status.SetElement(JTextEditor::kEnterReplaceTextCmd, false);
+	status.SetElement(JTextEditor::kFindSelectionBackwardCmd, false);
+	status.SetElement(JTextEditor::kFindSelectionForwardCmd, false);
+	status.SetElement(JTextEditor::kReplaceSelectionCmd, false);
+	status.SetElement(JTextEditor::kReplaceFindPrevCmd, false);
+	status.SetElement(JTextEditor::kReplaceFindNextCmd, false);
+	status.SetElement(JTextEditor::kReplaceAllInSelectionCmd, false);
 
 	std::cout << "GetCmdStatus::has undo" << std::endl;
 	te.CheckCmdStatus(status);
 
 	text.Undo();
 
-	status.SetElement(JTextEditor::kUndoCmd, kJFalse);
-	status.SetElement(JTextEditor::kRedoCmd, kJTrue);
+	status.SetElement(JTextEditor::kUndoCmd, false);
+	status.SetElement(JTextEditor::kRedoCmd, true);
 
-	status.SetElement(JTextEditor::kCutCmd, kJTrue);
-	status.SetElement(JTextEditor::kCopyCmd, kJTrue);
-	status.SetElement(JTextEditor::kDeleteSelCmd, kJTrue);
-	status.SetElement(JTextEditor::kCheckSpellingSelCmd, kJTrue);
-	status.SetElement(JTextEditor::kCleanWhitespaceSelCmd, kJTrue);
-	status.SetElement(JTextEditor::kCleanWSAlignSelCmd, kJTrue);
-	status.SetElement(JTextEditor::kEnterSearchTextCmd, kJTrue);
-	status.SetElement(JTextEditor::kEnterReplaceTextCmd, kJTrue);
-	status.SetElement(JTextEditor::kFindSelectionBackwardCmd, kJTrue);
-	status.SetElement(JTextEditor::kFindSelectionForwardCmd, kJTrue);
-	status.SetElement(JTextEditor::kReplaceSelectionCmd, kJTrue);
-	status.SetElement(JTextEditor::kReplaceFindPrevCmd, kJTrue);
-	status.SetElement(JTextEditor::kReplaceFindNextCmd, kJTrue);
-	status.SetElement(JTextEditor::kReplaceAllInSelectionCmd, kJTrue);
+	status.SetElement(JTextEditor::kCutCmd, true);
+	status.SetElement(JTextEditor::kCopyCmd, true);
+	status.SetElement(JTextEditor::kDeleteSelCmd, true);
+	status.SetElement(JTextEditor::kCheckSpellingSelCmd, true);
+	status.SetElement(JTextEditor::kCleanWhitespaceSelCmd, true);
+	status.SetElement(JTextEditor::kCleanWSAlignSelCmd, true);
+	status.SetElement(JTextEditor::kEnterSearchTextCmd, true);
+	status.SetElement(JTextEditor::kEnterReplaceTextCmd, true);
+	status.SetElement(JTextEditor::kFindSelectionBackwardCmd, true);
+	status.SetElement(JTextEditor::kFindSelectionForwardCmd, true);
+	status.SetElement(JTextEditor::kReplaceSelectionCmd, true);
+	status.SetElement(JTextEditor::kReplaceFindPrevCmd, true);
+	status.SetElement(JTextEditor::kReplaceFindNextCmd, true);
+	status.SetElement(JTextEditor::kReplaceAllInSelectionCmd, true);
 
 	std::cout << "GetCmdStatus::has redo" << std::endl;
 	te.CheckCmdStatus(status);
@@ -1065,11 +1065,11 @@ JTEST(DefaultKeyHandler)
 	te2.HandleKeyPress(JUtf8Character(kJLeftArrow), kJFalse, JTextEditor::kMoveByWord, kJFalse);
 	JIndex i;
 	JAssertTrue(te2.GetCaretLocation(&i));
-	JAssertEqual(i, 1);
+	JAssertEqual(1, i);
 
 	te2.HandleKeyPress(JUtf8Character(kJRightArrow), kJFalse, JTextEditor::kMoveByPartialWord, kJFalse);
 	JAssertTrue(te2.GetCaretLocation(&i));
-	JAssertEqual(i, 5);
+	JAssertEqual(5, i);
 
 	te1.HandleKeyPress(JUtf8Character(kJLeftArrow), kJTrue, JTextEditor::kMoveByPartialWord, kJFalse);
 	JCharacterRange r;
@@ -1164,12 +1164,12 @@ JTEST(VIKeyHandler)
 
 	JIndex i;
 	JAssertTrue(te1.GetCaretLocation(&i));
-	JAssertEqual(i, 1);
+	JAssertEqual(1, i);
 
 	te1.HandleKeyPress(JUtf8Character('G'), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
 
 	JAssertTrue(te1.GetCaretLocation(&i));
-	JAssertEqual(i, 12);
+	JAssertEqual(12, i);
 
 	te1.HandleKeyPress(JUtf8Character(kJUpArrow), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
 	te1.HandleKeyPress(JUtf8Character(kJRightArrow), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);

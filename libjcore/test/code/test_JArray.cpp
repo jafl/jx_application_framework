@@ -339,7 +339,7 @@ JTEST(Sort)
 // test insertion sort
 
 	{
-	JBoolean expect[] = { kJTrue, kJFalse, kJFalse, kJFalse };
+	bool expect[] = { true, false, false, false };
 	long element[]    = { 3, -1, 10 };
 	const long eCount = sizeof(element)/sizeof(long);
 
@@ -348,7 +348,7 @@ JTEST(Sort)
 		{
 		const JIndex j = a.GetInsertionSortIndex(element[i], &isDuplicate);
 		a.InsertElementAtIndex(j, element[i]);
-		JAssertEqual(expect[i], isDuplicate);
+		JAssertEqual(expect[i], (bool) isDuplicate);
 		}
 	}
 	verify("-1 1 1 1 3 3 5 10", a);

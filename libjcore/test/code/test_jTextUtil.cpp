@@ -232,15 +232,15 @@ struct WhitespaceData
 {
 	const JUtf8Byte*	fileName;
 	const JSize			inputTabWidth;
-	const JBoolean		inputDefaultUseSpaces;
+	const bool			inputDefaultUseSpaces;
 	const JSize			outputTabWidth;
-	const JBoolean		outputUseSpaces;
-	const JBoolean		outputIsMixed;
+	const bool			outputUseSpaces;
+	const bool			outputIsMixed;
 };
 
 static const WhitespaceData kWhitespaceTestData[] =
 {
-	{ "./data/test_whitespace.1.txt", 4, kJFalse, 2, kJTrue, kJFalse }
+	{ "./data/test_whitespace.1.txt", 4, false, 2, true, false }
 };
 
 const int kWhitespaceTestDataCount = sizeof(kWhitespaceTestData) / sizeof(WhitespaceData);
@@ -254,14 +254,14 @@ JTEST(AnalyzeWhitespace)
 
 		JBoolean useSpaces, isMixed;
 		const JSize tabWidth = JAnalyzeWhitespace(text,
-			kWhitespaceTestData[i].inputTabWidth,
-			kWhitespaceTestData[i].inputDefaultUseSpaces,
+			JI2B(kWhitespaceTestData[i].inputTabWidth),
+			JI2B(kWhitespaceTestData[i].inputDefaultUseSpaces),
 			&useSpaces, &isMixed);
 
 		std::cout << kWhitespaceTestData[i].fileName << std::endl;
 		JAssertEqual(kWhitespaceTestData[i].outputTabWidth, tabWidth);
-		JAssertEqual(kWhitespaceTestData[i].outputUseSpaces, useSpaces);
-		JAssertEqual(kWhitespaceTestData[i].outputIsMixed, isMixed);
+		JAssertEqual(kWhitespaceTestData[i].outputUseSpaces, (bool) useSpaces);
+		JAssertEqual(kWhitespaceTestData[i].outputIsMixed, (bool) isMixed);
 		}
 }
 

@@ -995,8 +995,8 @@ JTEST(CopyNormalizedBytes)
 	for (const JUtf8Byte* test : stringList)
 		{
 		const JSize srcLength = strlen(test);
-		const JBoolean allCopied = JI2B(
-			JString::CopyNormalizedBytes(test, srcLength, string, kStringLength) == srcLength);
+		const bool allCopied =
+			JString::CopyNormalizedBytes(test, srcLength, string, kStringLength) == srcLength;
 
 		JAssertEqualWithMessage(!strcmp(string, test), allCopied, test);
 		JAssertEqualWithMessage(0, JString::CompareMaxNBytes(string, test, kStringLength-1), test);

@@ -113,6 +113,7 @@ enum JBoolean
 	kJFalse = 0,
 	kJTrue  = 1
 };
+std::ostream& operator<<(std::ostream& output, const JBoolean jbool);
 
 struct JBoolRefHolder
 {

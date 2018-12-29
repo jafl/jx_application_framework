@@ -43,7 +43,7 @@ public:
 								 JInterpolate* interpolator, const JBoolean preserveCase);
 
 	void	Activate();
-	void	CheckCmdStatus(const JArray<JBoolean>& expected) const;
+	void	CheckCmdStatus(const JArray<bool>& expected) const;
 
 	void	GetDoubleClickSelection(const JStyledText::TextIndex& charIndex,
 									const JBoolean partialWord,
