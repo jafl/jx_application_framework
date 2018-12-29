@@ -391,6 +391,8 @@ JString::~JString()
 
  ******************************************************************************/
 
+#include "JMemoryManager.h"
+
 void*
 JString::operator new
 	(
@@ -398,7 +400,7 @@ JString::operator new
 	)
 	noexcept
 {
-	void* memory = ::operator new(sz);
+	void* memory = JMemoryManager::New(sz, __FILE__, __LINE__, kJFalse);
 	theCurrentlyConstructingObject = static_cast<JString*>(memory);
 	return memory;
 }
@@ -412,7 +414,7 @@ JString::operator new
 	)
 	noexcept
 {
-	void* memory = ::operator new(sz, file,line);
+	void* memory = JMemoryManager::New(sz, file, line, kJFalse);
 	theCurrentlyConstructingObject = static_cast<JString*>(memory);
 	return memory;
 }
@@ -425,7 +427,7 @@ JString::operator new
 	)
 	noexcept
 {
-	void* memory = ::operator new(sz);
+	void* memory = JMemoryManager::New(sz, __FILE__, __LINE__, kJFalse);
 	theCurrentlyConstructingObject = NULL;
 	return memory;
 }
