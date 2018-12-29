@@ -1350,7 +1350,7 @@ JIsRootDirectory
 
 	If path begins with '/', there is nothing to do.
 	If path begins with '~', the user's home directory is inserted.
-	Otherwise, if base is not nullptr and not empty, it is prepended.
+	Otherwise, if base is not empty, it is prepended.
 	Otherwise, the result of JGetCurrentDirectory() is prepended.
 
 	As a final check, it calls JNameUsed() to check that the result exists.
@@ -1365,7 +1365,7 @@ JBoolean
 JConvertToAbsolutePath
 	(
 	const JString&	path,
-	const JString*	base,		// can be nullptr
+	const JString&	base,
 	JString*		result
 	)
 {
@@ -1381,9 +1381,9 @@ JConvertToAbsolutePath
 		{
 		ok = JExpandHomeDirShortcut(path, result);
 		}
-	else if (!JString::IsEmpty(base))
+	else if (!base.IsEmpty())
 		{
-		*result = JCombinePathAndName(*base, path);
+		*result = JCombinePathAndName(base, path);
 		}
 	else
 		{

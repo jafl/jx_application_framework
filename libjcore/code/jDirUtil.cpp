@@ -91,7 +91,7 @@ JGetUniqueDirEntryName
 		}
 	else
 		{
-		const JBoolean ok = JConvertToAbsolutePath(path, nullptr, &fullPath);
+		const JBoolean ok = JConvertToAbsolutePath(path, JString::empty, &fullPath);
 		assert( ok );
 		}
 	assert( JDirectoryExists(fullPath) );

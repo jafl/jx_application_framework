@@ -171,7 +171,7 @@ JTEST(Path)
 	s = "./code";
 	JAssertTrue(JIsRelativePath(s));
 
-	JAssertTrue(JConvertToAbsolutePath(s, nullptr, &path));
+	JAssertTrue(JConvertToAbsolutePath(s, JString::empty, &path));
 	s = JConvertToRelativePath(path, JGetCurrentDirectory());
 	JAssertStringsEqual("./code", s);
 
@@ -181,7 +181,7 @@ JTEST(Path)
 	JAssertStringsEqual("../include", s);
 
 	s = "/usr";
-	JAssertTrue(JConvertToAbsolutePath(s, nullptr, &path));
+	JAssertTrue(JConvertToAbsolutePath(s, JString::empty, &path));
 	JAssertStringsEqual("/usr", path);
 
 	s = JGetClosestDirectory(
@@ -235,7 +235,7 @@ JTEST(RootSuffix)
 JTEST(Url)
 {
 	JString s("./test_jFileUtil", kJFalse), fullName;
-	JAssertTrue(JConvertToAbsolutePath(s, nullptr, &fullName));
+	JAssertTrue(JConvertToAbsolutePath(s, JString::empty, &fullName));
 
 	s = JFileNameToURL(fullName);
 
@@ -256,7 +256,7 @@ JTEST(HomeDirShortcut)
 	JAssertStringsEqual("~/test_j_file_util_test_directory", s);
 
 	JString s2;
-	JAssertTrue(JConvertToAbsolutePath(s, nullptr, &s2));
+	JAssertTrue(JConvertToAbsolutePath(s, JString::empty, &s2));
 	JAssertStringsEqual(path, s2);
 
 	s = JGetClosestDirectory(

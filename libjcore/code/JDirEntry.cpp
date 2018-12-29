@@ -57,7 +57,7 @@ JDirEntry::JDirEntryX
 	// parse path and name
 
 	JString fullName;
-	if (!JConvertToAbsolutePath(origFullName, nullptr, &fullName))
+	if (!JConvertToAbsolutePath(origFullName, JString::empty, &fullName))
 		{
 		fullName = origFullName;	// fail gracefully with type kDoesNotExist
 		}

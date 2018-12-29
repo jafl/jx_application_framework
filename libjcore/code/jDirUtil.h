@@ -77,7 +77,7 @@ JBoolean	JIsRootDirectory(const JString& dirName);
 JBoolean	JIsAbsolutePath(const JString& path);
 JBoolean	JIsRelativePath(const JString& path);
 
-JBoolean	JConvertToAbsolutePath(const JString& path, const JString* base, JString* result);
+JBoolean	JConvertToAbsolutePath(const JString& path, const JString& base, JString* result);
 JString		JConvertToRelativePath(const JString& path, const JString& base);
 
 JBoolean	JExpandHomeDirShortcut(const JString& path, JString* result,

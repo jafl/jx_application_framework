@@ -174,7 +174,7 @@ JDirInfo::BuildCWD
 	const JString& dirName
 	)
 {
-	const JBoolean ok = JConvertToAbsolutePath(dirName, nullptr, &itsCWD);
+	const JBoolean ok = JConvertToAbsolutePath(dirName, JString::empty, &itsCWD);
 	assert( ok );
 	JAppendDirSeparator(&itsCWD);
 }
@@ -726,7 +726,7 @@ JDirInfo::GoTo
 {
 	JString dirName;
 	if (origDirName.IsEmpty() ||
-		!JConvertToAbsolutePath(origDirName, nullptr, &dirName))
+		!JConvertToAbsolutePath(origDirName, JString::empty, &dirName))
 		{
 		return JBadPath(origDirName);
 		}
