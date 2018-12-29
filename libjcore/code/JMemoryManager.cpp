@@ -479,7 +479,6 @@ JMemoryManager::New
 		std::cerr << "Failed to allocate block of size " << trueSize << std::endl;
 		}
 
-	assert(newBlock != nullptr);
 	if (theInitializeFlag)
 		{
 		memset(newBlock, theAllocateGarbage, trueSize);
@@ -694,32 +693,31 @@ JMemoryManager::DeleteRecord
 	if (block == nullptr)
 		{
 		HandleNULLDeleted(file, line, isArray);
+		return;
+		}
+
+	JBoolean wasAllocated;
+	if (itsMemoryTable != nullptr)
+		{
+		JMMRecord record;
+		wasAllocated = itsMemoryTable->SetRecordDeleted(&record, block,
+														file, line, isArray);
+		// Can't do this unless we're keeping records
+		if (itsShredFlag && wasAllocated)
+			{
+			assert(record.GetAddress() == block);
+			memset(block, itsDeallocateGarbage, record.GetSize() );
+			}
 		}
 	else
 		{
-		JBoolean wasAllocated;
-		if (itsMemoryTable != nullptr)
-			{
-			JMMRecord record;
-			wasAllocated = itsMemoryTable->SetRecordDeleted(&record, block,
-															file, line, isArray);
-			// Can't do this unless we're keeping records
-			if (itsShredFlag && wasAllocated)
-				{
-				assert(record.GetAddress() == block);
-				memset(block, itsDeallocateGarbage, record.GetSize() );
-				}
-			}
-		else
-			{
-			wasAllocated = kJTrue; // Have to trust the client
-			}
+		wasAllocated = kJTrue; // Have to trust the client
+		}
 
-		// Try to avoid a seg fault so the program can continue
-		if (wasAllocated)
-			{
-			free(block);
-			}
+	// Try to avoid a seg fault so the program can continue
+	if (wasAllocated)
+		{
+		free(block);
 		}
 }
 
@@ -1146,19 +1144,25 @@ JMemoryManager::SendError
 void
 JMemoryManager::SendDebugMessage
 	(
-	std::ostringstream& dataStream
+	std::ostringstream& data
 	)
 	const
 {
-	const std::string data = dataStream.str();
-	JString s1(data.c_str(), data.length(), kJFalse);
-	JStringIterator iter(&s1);
-	while (iter.Next(kDisconnectStr))
+	std::string s = data.str();
+	while (true)
 		{
-		iter.ReplaceLastMatch("<ixnay on the disconnect string!>");
+		// we don't want to allocate a JStringMatch
+		const long i = s.find(kDisconnectStr);
+		if (i < 0)
+			{
+			break;
+			}
+
+		// replace with slightly shorter string, so reallocation is not required
+		s.replace(i, kDisconnectStrLength, "<ixnay on the disconnect string!>");
 		}
 
-	itsLink->SendMessage(s1);
+	itsLink->SendMessage(JString(s.c_str(), s.length(), kJFalse));
 }
 
 /******************************************************************************
@@ -1217,6 +1221,8 @@ JMemoryManager::HandleArrayDeletedAsObject
 /******************************************************************************
  HandleUnallocatedDeletion (protected)
 
+	It frequently happens that we don't catch the alloc for system code.
+
  *****************************************************************************/
 
 void
@@ -1227,7 +1233,7 @@ JMemoryManager::HandleUnallocatedDeletion
 	const JBoolean   isArray
 	)
 {
-	if (itsBroadcastErrorsFlag)
+	if (itsBroadcastErrorsFlag && line != 0)
 		{
 		Broadcast( UnallocatedDeletion(file, line, isArray) );
 		}

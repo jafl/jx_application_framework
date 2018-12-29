@@ -309,35 +309,34 @@ JMMHashTable::_SetRecordDeleted
 		*record = thisRecord;
 		return kJTrue;
 		}
+	else if (itsDeletedTable == nullptr)
+		{
+		NotifyUnallocatedDeletion(file, line, isArray);
+		return kJFalse;
+		}
 	else
 		{
-		if (itsDeletedTable == nullptr)
+		JHashCursor<JMMRecord> deallocCursor(itsDeletedTable, reinterpret_cast<JHashValue>(block) );
+		if ( deallocCursor.NextHash() )
 			{
-			NotifyUnallocatedDeletion(file, line, isArray);
+			// Seek most recent deallocation at that address
+			JMMRecord previousRecord = deallocCursor.GetValue();
+			while ( deallocCursor.NextHash() )
+				{
+				JMMRecord thisRecord = deallocCursor.GetValue();
+				if ( thisRecord.GetID() > previousRecord.GetID() )
+					{
+					previousRecord = thisRecord;
+					}
+				}
+
+			NotifyMultipleDeletion(previousRecord, file, line, isArray);
 			}
 		else
 			{
-			JHashCursor<JMMRecord> deallocCursor(itsDeletedTable, reinterpret_cast<JHashValue>(block) );
-			if ( deallocCursor.NextHash() )
-				{
-				// Seek most recent deallocation at that address
-				JMMRecord previousRecord = deallocCursor.GetValue();
-				while ( deallocCursor.NextHash() )
-					{
-					JMMRecord thisRecord = deallocCursor.GetValue();
-					if ( thisRecord.GetID() > previousRecord.GetID() )
-						{
-						previousRecord = thisRecord;
-						}
-					}
-
-				NotifyMultipleDeletion(previousRecord, file, line, isArray);
-				}
-			else
-				{
-				NotifyUnallocatedDeletion(file, line, isArray);
-				}
+			NotifyUnallocatedDeletion(file, line, isArray);
 			}
+
 		return kJFalse;
 		}
 }
