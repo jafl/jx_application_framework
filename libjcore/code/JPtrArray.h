@@ -40,6 +40,7 @@ public:
 
 	JPtrArray(const JPtrArrayT::CleanUpAction action, const JSize aBlockSize = 10);
 	JPtrArray(const JPtrArray<T>& source, const JPtrArrayT::CleanUpAction action);
+	JPtrArray(JPtrArray<T>&& dyingSource);
 
 	virtual ~JPtrArray();
 

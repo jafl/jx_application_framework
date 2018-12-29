@@ -214,7 +214,25 @@ JTEST(RangeBasedForLoop)
 		b[j++] = s;
 		}
 
-	JAssertEqual("foo", *b[0]);
-	JAssertEqual("bar", *b[1]);
-	JAssertEqual("baz", *b[2]);
+	JAssertStringsEqual("foo", *b[0]);
+	JAssertStringsEqual("bar", *b[1]);
+	JAssertStringsEqual("baz", *b[2]);
+}
+
+JTEST(MoveCtor)
+{
+	JPtrArray<JString>* a1 = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
+	assert( a1 != nullptr );
+	a1->Append(JString("foo", kJFalse));
+	a1->Append(JString("bar", kJFalse));
+	a1->Append(JString("baz", kJFalse));
+
+	JPtrArray<JString> a2(std::move(*a1));
+
+	jdelete a1;
+	a1 = nullptr;
+
+	JAssertStringsEqual("foo", *a2.GetElement(1));
+	JAssertStringsEqual("bar", *a2.GetElement(2));
+	JAssertStringsEqual("baz", *a2.GetElement(3));
 }

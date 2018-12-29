@@ -48,7 +48,7 @@ JPtrArray<T>::JPtrArray
 /******************************************************************************
  Copy constructor
 
-	CleanUpAction should not be kDeleteAll* for both original and copy.
+	CleanUpAction must not be kDeleteAll* for both original and copy.
 
  ******************************************************************************/
 
@@ -62,6 +62,25 @@ JPtrArray<T>::JPtrArray
 	JArray<T*>(source),
 	itsCleanUpAction(action)
 {
+	assert( source.GetCleanUpAction() == JPtrArrayT::kForgetAll ||
+			GetCleanUpAction() == JPtrArrayT::kForgetAll );
+}
+
+/******************************************************************************
+ Move constructor
+
+ ******************************************************************************/
+
+template <class T>
+JPtrArray<T>::JPtrArray
+	(
+	JPtrArray<T>&& dyingSource
+	)
+	:
+	JArray<T*>(std::move(dyingSource)),
+	itsCleanUpAction(dyingSource.itsCleanUpAction)
+{
+	dyingSource.itsCleanUpAction = JPtrArrayT::kForgetAll;
 }
 
 /******************************************************************************
@@ -83,7 +102,7 @@ JDCCPtrArray<T>::JDCCPtrArray
 /******************************************************************************
  Copy constructor
 
-	CleanUpAction should not be kDeleteAll* for both original and copy.
+	CleanUpAction must not be kDeleteAll* for both original and copy.
 
  ******************************************************************************/
 
@@ -96,6 +115,9 @@ JDCCPtrArray<T>::JDCCPtrArray
 	:
 	JPtrArray<T>(source, action)
 {
+	assert( source.GetCleanUpAction() == JPtrArrayT::kForgetAll ||
+			this->GetCleanUpAction() == JPtrArrayT::kForgetAll );
+
 	JArray<T*>::RemoveAll();
 	JPtrArray<T>::CopyObjects(source, action, kJTrue);
 }
