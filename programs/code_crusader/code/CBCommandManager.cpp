@@ -322,7 +322,7 @@ CBCommandManager::Prepare
 
 	if (usesFiles && fullNameList.IsEmpty())
 		{
-		(JGetUserNotification())->ReportError("RequiresFile::CBCommandManager");
+		(JGetUserNotification())->ReportError(JGetString("RequiresFile::CBCommandManager"));
 		return kJFalse;
 		}
 
