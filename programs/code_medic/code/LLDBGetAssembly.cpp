@@ -89,7 +89,8 @@ LLDBGetAssembly::HandleSuccess
 			line = JReadLine(input);
 
 			JIndex i;
-			if (line.LocateSubstring(":", &i) && i < line.GetLength())
+			if (!line.EndsWith(":") &&
+				line.LocateSubstring(":", &i) && i < line.GetLength())
 				{
 				s = line.GetSubstring(1, i-1);
 				if (s.BeginsWith("->") && s.GetLength() > 2)
@@ -116,7 +117,7 @@ LLDBGetAssembly::HandleSuccess
 			}
 
 		const JSize count = addrList.GetElementCount();
-		for (JIndex i=1; i<count; i++)
+		for (JIndex i=1; i<=count; i++)
 			{
 			JString* s = addrList.NthElement(i);
 			JIndexRange r;

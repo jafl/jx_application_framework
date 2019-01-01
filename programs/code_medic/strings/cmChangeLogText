@@ -12,6 +12,12 @@ Please send all bug reports and suggestions for features to
 <p>
 <hr>
 
+<h3> 4.2.3 </h3>
+
+Fixed bug so breakpoints are now displayed in disassembly windows.
+<p>
+Fixed bug in displaying instruction addresses in disassembly windows.
+
 <h3> 4.2.2 </h3>
 
 Added support for <a href=\"https://editorconfig.org\">EditorConfig</a>.

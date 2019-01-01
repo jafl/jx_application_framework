@@ -78,15 +78,20 @@ CMLineAddressTable::SetLineNumbers
 		}
 
 	JIndex startIndex = 1;
-	const JString* s  = itsLineTextList->LastElement();
-	if (s->GetLength() == (itsLineTextList->FirstElement())->GetLength() &&
-		s->BeginsWith("0x") && s->GetLength() > 2)
+	const JString* s1 = itsLineTextList->FirstElement();
+	const JString* sN = itsLineTextList->LastElement();
+	if (s1->BeginsWith("0x") && s1->GetLength() > 2 &&
+		sN->BeginsWith("0x") && sN->GetLength() > 2)
 		{
 		startIndex = 3;
-		while (startIndex < s->GetLength() &&
-			   s->GetCharacter(startIndex) == '0')
+
+		if (s1->GetLength() == sN->GetLength())
 			{
-			startIndex++;
+			while (startIndex < sN->GetLength() &&
+				   sN->GetCharacter(startIndex) == '0')
+				{
+				startIndex++;
+				}
 			}
 		}
 
@@ -247,7 +252,10 @@ CMLineAddressTable::GetBreakpoints
 
 	CMLocation loc;
 	loc.SetFunctionName(*fnName);
-	(GetLink()->GetBreakpointManager())->GetBreakpoints(loc, list);
+	if (!GetLink()->GetBreakpointManager()->GetBreakpoints(loc, list))
+		{
+		return;
+		}
 	list->Sort();
 
 	const JSize count = list->GetElementCount();
