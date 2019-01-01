@@ -320,7 +320,7 @@ JXChoosePathDialog::OKToDeactivate()
 
 	else if (itsSelectOnlyWritableFlag && !JDirectoryWritable(GetPath()))
 		{
-		(JGetUserNotification())->ReportError(JGetString("DirMustBeWritable::JXChoosePathDialog"));
+		JGetUserNotification()->ReportError(JGetString("DirMustBeWritable::JXChoosePathDialog"));
 		return kJFalse;
 		}
 	else

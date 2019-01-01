@@ -408,12 +408,12 @@ JSimpleProcess::ReportError
 		if (success)
 			{
 			text.Prepend("The program reported the following:\n\n");
-			(JGetUserNotification())->DisplayMessage(text);
+			JGetUserNotification()->DisplayMessage(text);
 			}
 		else
 			{
 			text.Prepend("An error occurred:\n\n");
-			(JGetUserNotification())->ReportError(text);
+			JGetUserNotification()->ReportError(text);
 			}
 		}
 }

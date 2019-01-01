@@ -292,7 +292,7 @@ void
 TestImageDirector::LoadImage()
 {
 	JString fullName;
-	if ((JGetChooseSaveFile())->ChooseFile(JGetString("ChooseImagePrompt::TestImageDirector"), JString::empty, &fullName))
+	if (JGetChooseSaveFile()->ChooseFile(JGetString("ChooseImagePrompt::TestImageDirector"), JString::empty, &fullName))
 		{
 		itsImageWidget->SetImage(nullptr, kJTrue);	// free current colors
 
@@ -351,7 +351,7 @@ TestImageDirector::SaveImage
 	JString fullName;
 	if (!itsFileName.IsEmpty() &&
 		itsImageWidget->GetImage(&image) &&
-		(JGetChooseSaveFile())->SaveFile(
+		JGetChooseSaveFile()->SaveFile(
 			JGetString("SaveImagePrompt::TestImageDirector"),
 			JString::empty, itsFileName, &fullName))
 		{
@@ -396,7 +396,7 @@ TestImageDirector::SaveMask()
 	if (!itsFileName.IsEmpty() &&
 		itsImageWidget->GetImage(&image) &&
 		image->GetMask(&mask) &&
-		(JGetChooseSaveFile())->SaveFile(
+		JGetChooseSaveFile()->SaveFile(
 			JGetString("SaveMaskPrompt::TestImageDirector"),
 			JString::empty, fileName, &fullName))
 		{
@@ -443,7 +443,7 @@ TestImageDirector::PasteImage()
 		}
 	else
 		{
-		(JGetUserNotification())->ReportError(JGetString("UnrecognizedFormat::TestImageDirector"));
+		JGetUserNotification()->ReportError(JGetString("UnrecognizedFormat::TestImageDirector"));
 		}
 }
 

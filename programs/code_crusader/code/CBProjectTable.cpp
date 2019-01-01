@@ -507,11 +507,11 @@ CBProjectTable::AddFiles
 			JString path, msg;
 			JSplitPathAndName(*(fullNameList.FirstElement()), &path, &msg);
 			msg += " is already in the project.";
-			(JGetUserNotification())->ReportError(msg);
+			JGetUserNotification()->ReportError(msg);
 			}
 		else if (!silent)
 			{
-			(JGetUserNotification())->ReportError(
+			JGetUserNotification()->ReportError(
 				"All the files that you selected are already in the project.");
 			}
 		}
@@ -724,7 +724,7 @@ CBProjectTable::RemoveSelection()
 	CancelEditing();
 
 	if (HasSelection() &&
-		(JGetUserNotification())->AskUserNo(JGetString("OKToRemove::CBProjectTable")))
+		JGetUserNotification()->AskUserNo(JGetString("OKToRemove::CBProjectTable")))
 		{
 		JTableSelectionIterator iter(&(GetTableSelection()));
 		JTreeList* treeList = GetTreeList();
@@ -1825,7 +1825,7 @@ CBProjectTable::HandleDNDDrop
 
 				if (fileNameList.IsEmpty() && pathList.IsEmpty() && urlList.IsEmpty())
 					{
-					(JGetUserNotification())->ReportError(
+					JGetUserNotification()->ReportError(
 						"You can only drop files and/or directories.");
 					}
 				else if (fileNameList.IsEmpty() && pathList.IsEmpty())
@@ -2383,7 +2383,7 @@ CBProjectTable::ExtractInputData
 						"f", newFullName
 						};
 					const JString msg = JGetString("OKToReplace::CBProjectTable", map, sizeof(map));
-					replace = (JGetUserNotification())->AskUserNo(msg);
+					replace = JGetUserNotification()->AskUserNo(msg);
 					}
 				else
 					{

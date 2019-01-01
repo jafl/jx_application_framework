@@ -149,7 +149,7 @@ JEPSPrinter::OpenDocument
 		}
 	else
 		{
-		(JGetUserNotification())->ReportError(JGetString("Error::JEPSPrinter"));
+		JGetUserNotification()->ReportError(JGetString("Error::JEPSPrinter"));
 
 		DeletePreviewData();
 		return kJFalse;

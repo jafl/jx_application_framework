@@ -268,7 +268,7 @@ JPSPrinter::NewPage()
 		}
 	else if (output.fail())
 		{
-		(JGetUserNotification())->ReportError(JGetString("Error::JPSPrinter"));
+		JGetUserNotification()->ReportError(JGetString("Error::JPSPrinter"));
 
 		CancelDocument();
 		return kJFalse;

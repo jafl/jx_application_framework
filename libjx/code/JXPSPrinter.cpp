@@ -236,12 +236,12 @@ JXPSPrinter::OpenDocument()
 		{
 		if (itsDestination == kPrintToPrinter)
 			{
-			(JGetUserNotification())->ReportError(JGetString("UnableToCreateTempFile::JXPSPrinter"));
+			JGetUserNotification()->ReportError(JGetString("UnableToCreateTempFile::JXPSPrinter"));
 			}
 		else
 			{
 			assert( itsDestination == kPrintToFile );
-			(JGetUserNotification())->ReportError(JGetString("UnableToSave::JXPSPrinter"));
+			JGetUserNotification()->ReportError(JGetString("UnableToSave::JXPSPrinter"));
 			}
 		}
 

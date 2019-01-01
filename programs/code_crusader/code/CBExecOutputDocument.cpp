@@ -235,7 +235,7 @@ CBExecOutputDocument::OKToClose()
 	if (itsUseCount > 0 || itsRecordLink != nullptr || itsDataLink != nullptr)
 		{
 		Activate();
-		(JGetUserNotification())->ReportError(itsDontCloseMsg);
+		JGetUserNotification()->ReportError(itsDontCloseMsg);
 		return kJFalse;
 		}
 	else

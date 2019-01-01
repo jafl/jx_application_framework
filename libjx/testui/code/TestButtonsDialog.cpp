@@ -302,7 +302,7 @@ TestButtonsDialog::Receive
 		assert( selection != nullptr );
 		if (selection->GetID() == 2)
 			{
-			(JGetUserNotification())->DisplayMessage(
+			JGetUserNotification()->DisplayMessage(
 				JGetString("GoodChoice::TestButtonsDialog"));
 			}
 		}
@@ -339,7 +339,7 @@ TestButtonsDialog::OKToDeactivate()
 
 	if (!Cancelled() && itsRG2->GetSelectedItem() == kSmileyBitmapCount)
 		{
-		(JGetUserNotification())->DisplayMessage(JGetString("Encouragement::TestButtonsDialog"));
+		JGetUserNotification()->DisplayMessage(JGetString("Encouragement::TestButtonsDialog"));
 		}
 
 	return kJTrue;

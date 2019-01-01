@@ -106,7 +106,7 @@ GDBAnalyzeCore::HandleSuccess
 				"name", programName.GetCString()
 				};
 			const JString instr = JGetString(kFindProgramID, map, sizeof(map));
-			found = (JGetChooseSaveFile())->ChooseFile("Name of program", instr,
+			found = JGetChooseSaveFile()->ChooseFile("Name of program", instr,
 													   &programFullName);
 			}
 

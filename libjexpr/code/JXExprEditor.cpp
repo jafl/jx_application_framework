@@ -1109,12 +1109,12 @@ JXExprEditor::EIPGetExternalClipboard
 			}
 		else
 			{
-			(JGetUserNotification())->ReportError(JGetString("UnableToPaste::JXExprEditor"));
+			JGetUserNotification()->ReportError(JGetString("UnableToPaste::JXExprEditor"));
 			}
 		}
 	else
 		{
-		(JGetUserNotification())->ReportError(JGetString("EmptyClipboard::JXExprEditor"));
+		JGetUserNotification()->ReportError(JGetString("EmptyClipboard::JXExprEditor"));
 		}
 
 	return gotData;

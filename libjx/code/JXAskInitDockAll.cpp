@@ -56,7 +56,7 @@ JXAskInitDockAll::Perform
 {
 	if (itsDirector == nullptr)
 		{
-		if ((JGetUserNotification())->AskUserYes(
+		if (JGetUserNotification()->AskUserYes(
 					JGetString("StartupTips::JXAskInitDockAll")))
 			{
 			(JXGetDockManager())->DockAll();

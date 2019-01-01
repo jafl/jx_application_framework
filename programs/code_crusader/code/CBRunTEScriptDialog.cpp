@@ -269,14 +269,14 @@ CBRunTEScriptDialog::RunScript()
 			}
 		else
 			{
-			(JGetUserNotification())->ReportError(
+			JGetUserNotification()->ReportError(
 				"The file does not exist on disk.");
 			return kJFalse;
 			}
 		}
 	else
 		{
-		(JGetUserNotification())->ReportError(
+		JGetUserNotification()->ReportError(
 			"There is no editor on which to run the script.");
 		return kJFalse;
 		}
@@ -350,7 +350,7 @@ CBRunTEScriptDialog::RunScript
 		if (!msg.IsEmpty())
 			{
 			msg.Prepend("Error occurred:\n\n");
-			(JGetUserNotification())->ReportError(msg);
+			JGetUserNotification()->ReportError(msg);
 			return kJFalse;
 			}
 

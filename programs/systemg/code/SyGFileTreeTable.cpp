@@ -1664,7 +1664,7 @@ SyGFileTreeTable::HandleDNDDrop
 									GetSelectionManager()->GetMimePlainTextXAtom(), 8,
 									PropModeReplace,
 									(unsigned char*) "", 0);
-					(JGetUserNotification())->ReportError(
+					JGetUserNotification()->ReportError(
 						JGetString("RemoteSavingUnusupported::SyGFileTreeTable"));
 					}
 				selManager->DeleteData(&data, delMethod);
@@ -2867,7 +2867,7 @@ SyGFileTreeTable::CreateNewTextFile()
 		}
 	else
 		{
-		(JGetUserNotification())->ReportError(JGetString("CreateTextFileError::SyGFileTreeTable"));
+		JGetUserNotification()->ReportError(JGetString("CreateTextFileError::SyGFileTreeTable"));
 		}
 }
 
@@ -3112,7 +3112,7 @@ SyGFileTreeTable::MakeLinkToFile
 			"name", srcName.GetBytes()
 			};
 		const JString msg = JGetString("AskRelativeAlias::SyGFileTreeTable", map, sizeof(map));
-		if ((JGetUserNotification())->AskUserYes(msg))
+		if (JGetUserNotification()->AskUserYes(msg))
 			{
 			src = JConvertToRelativePath(src, destPath);
 			}
@@ -3189,7 +3189,7 @@ void
 SyGFileTreeTable::FormatDisk()
 {
 	if (itsFormatProcess == nullptr &&
-		(JGetUserNotification())->AskUserNo(JGetString("WarnEraseDisk::SyGFileTreeTable")))
+		JGetUserNotification()->AskUserNo(JGetString("WarnEraseDisk::SyGFileTreeTable")))
 		{
 		assert( itsChooseDiskFormatDialog == nullptr );
 
@@ -4229,7 +4229,7 @@ static const JString gitRevertCmd("git reset --hard", kJFalse);
 void
 SyGFileTreeTable::RevertGitBranch()
 {
-	if (!(JGetUserNotification())->AskUserNo(JGetString("WarnRevertBranch::SyGFileTreeTable")))
+	if (!JGetUserNotification()->AskUserNo(JGetString("WarnRevertBranch::SyGFileTreeTable")))
 		{
 		return;
 		}
@@ -4366,7 +4366,7 @@ SyGFileTreeTable::SwitchToGitBranch
 		{
 		JString msg;
 		JReadAll(fromFD, &msg);
-		(JGetUserNotification())->DisplayMessage(msg);
+		JGetUserNotification()->DisplayMessage(msg);
 
 		// check for stashed changes
 
@@ -4586,7 +4586,7 @@ SyGFileTreeTable::RemoveGitBranch
 			"name", branch.GetBytes()
 			};
 		const JString msg = JGetString("WarnRemoveBranch::SyGFileTreeTable", map, sizeof(map));
-		if (!(JGetUserNotification())->AskUserNo(msg))
+		if (!JGetUserNotification()->AskUserNo(msg))
 			{
 			return kJFalse;
 			}
@@ -4804,7 +4804,7 @@ SyGFileTreeTable::RemoveGitRemote
 		"name", name.GetBytes()
 		};
 	const JString msg = JGetString("WarnRemoveRemote::SyGFileTreeTable", map, sizeof(map));
-	if (!(JGetUserNotification())->AskUserNo(msg))
+	if (!JGetUserNotification()->AskUserNo(msg))
 		{
 		return;
 		}

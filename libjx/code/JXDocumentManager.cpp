@@ -468,7 +468,7 @@ JXDocumentManager::FindFile
 			};
 		JString instrMsg = JGetString("PleaseFind::JXDocumentManager", map, sizeof(map));
 
-		while ((JGetChooseSaveFile())->ChooseFile(JGetString("ChooseFilePrompt::JXDocumentManager"), instrMsg, newFileName))
+		while (JGetChooseSaveFile()->ChooseFile(JGetString("ChooseFilePrompt::JXDocumentManager"), instrMsg, newFileName))
 			{
 			JString newPath, newName;
 			JSplitPathAndName(*newFileName, &newPath, &newName);
@@ -480,7 +480,7 @@ JXDocumentManager::FindFile
 					"name2", newName.GetBytes()
 					};
 				JString warnMsg = JGetString("WarnDifferentName::JXDocumentManager", map2, sizeof(map2));
-				if (!(JGetUserNotification())->AskUserNo(warnMsg))
+				if (!JGetUserNotification()->AskUserNo(warnMsg))
 					{
 					continue;
 					}

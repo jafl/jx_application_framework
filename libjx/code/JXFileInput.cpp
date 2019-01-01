@@ -138,7 +138,7 @@ JXFileInput::InputValid()
 		}
 	else
 		{
-		(JGetUserNotification())->ReportError(JGetString(errID));
+		JGetUserNotification()->ReportError(JGetString(errID));
 		return kJFalse;
 		}
 }
@@ -232,7 +232,7 @@ JXFileInput::ChooseFile
 {
 	const JString origName = GetTextForChooseFile();
 	JString newName;
-	if ((JGetChooseSaveFile())->ChooseFile(prompt, instr, origName, &newName))
+	if (JGetChooseSaveFile()->ChooseFile(prompt, instr, origName, &newName))
 		{
 		GetText()->SetText(newName);
 		return kJTrue;
@@ -259,7 +259,7 @@ JXFileInput::SaveFile
 {
 	const JString origName = GetTextForChooseFile();
 	JString newName;
-	if ((JGetChooseSaveFile())->SaveFile(prompt, instr, origName, &newName))
+	if (JGetChooseSaveFile()->SaveFile(prompt, instr, origName, &newName))
 		{
 		GetText()->SetText(newName);
 		return kJTrue;

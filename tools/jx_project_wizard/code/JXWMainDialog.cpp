@@ -412,7 +412,7 @@ JXWMainDialog::WriteTemplate()
 
 	if ((itsSrcPrefix->GetText()->GetText()).Contains(" "))
 		{
-		(JGetUserNotification())->ReportError(JGetString("SrcPrefixError::JXWMainDialog"));
+		JGetUserNotification()->ReportError(JGetString("SrcPrefixError::JXWMainDialog"));
 		itsSrcPrefix->Focus();
 		return kJFalse;
 		}
@@ -435,7 +435,7 @@ JXWMainDialog::WriteTemplate()
 	const JString testFile = JCombinePathAndName(templateDir, JString("_Binary_.fd", kJFalse));
 	if (!JFileExists(testFile))
 		{
-		(JGetUserNotification())->ReportError(JGetString("InvalidTmplDirError::JXWMainDialog"));
+		JGetUserNotification()->ReportError(JGetString("InvalidTmplDirError::JXWMainDialog"));
 		itsTemplateDir->Focus();
 		return kJFalse;
 		}

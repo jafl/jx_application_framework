@@ -401,7 +401,7 @@ JXFSBindingTable::ExtractInputData
 				"pattern", s.GetBytes()
 				};
 			const JString msg = JGetString("PatternUsed::JXFSBindingTable", map, sizeof(map));
-			(JGetUserNotification())->ReportError(msg);
+			JGetUserNotification()->ReportError(msg);
 			}
 		}
 
@@ -541,7 +541,7 @@ JXFSBindingTable::RemovePattern()
 				{
 				TableRefreshRow(cell.y);
 				GetWindow()->Update();
-				(JGetUserNotification())->DisplayMessage(JGetString("ReplacedBySystem::JXFSBindingTable"));
+				JGetUserNotification()->DisplayMessage(JGetString("ReplacedBySystem::JXFSBindingTable"));
 				}
 			UpdateButtons();
 			Broadcast(DataChanged());

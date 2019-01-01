@@ -274,7 +274,7 @@ CBCommand::ReportInfiniteLoop
 		"loop", loop.GetCString()
 		};
 	const JString msg = JGetString("InfiniteLoop::CBCommand", map, sizeof(map));
-	(JGetUserNotification())->ReportError(msg);
+	JGetUserNotification()->ReportError(msg);
 }
 
 /******************************************************************************

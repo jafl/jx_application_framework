@@ -87,7 +87,7 @@ JTextChooseSaveFile::ChooseFile
 			{
 			return kJTrue;
 			}
-		else if (!(JGetUserNotification())->AskUserYes(JGetString("FileDoesNotExist::JTextChooseSaveFile")))
+		else if (!JGetUserNotification()->AskUserYes(JGetString("FileDoesNotExist::JTextChooseSaveFile")))
 			{
 			return kJFalse;
 			}
@@ -161,7 +161,7 @@ JTextChooseSaveFile::ChooseFiles
 			assert( s != nullptr );
 			fullNameList->Append(s);
 			}
-		else if (!(JGetUserNotification())->AskUserYes(JGetString("FileDoesNotExist::JTextChooseSaveFile")))
+		else if (!JGetUserNotification()->AskUserYes(JGetString("FileDoesNotExist::JTextChooseSaveFile")))
 			{
 			fullNameList->CleanOut();
 			return kJFalse;
@@ -198,7 +198,7 @@ JTextChooseSaveFile::ChooseRPath
 			{
 			return kJTrue;
 			}
-		else if (!(JGetUserNotification())->AskUserYes(JGetString("DirectoryDoesNotExist::JTextChooseSaveFile")))
+		else if (!JGetUserNotification()->AskUserYes(JGetString("DirectoryDoesNotExist::JTextChooseSaveFile")))
 			{
 			return kJFalse;
 			}
@@ -236,14 +236,14 @@ JTextChooseSaveFile::ChooseRWPath
 			}
 		else if (JDirectoryExists(*newPath))
 			{
-			if (!(JGetUserNotification())->AskUserYes(JGetString("DirectoryNotWritable::JTextChooseSaveFile")))
+			if (!JGetUserNotification()->AskUserYes(JGetString("DirectoryNotWritable::JTextChooseSaveFile")))
 				{
 				return kJFalse;
 				}
 			}
 		else	// directory doesn't exist
 			{
-			if (!(JGetUserNotification())->AskUserYes(JGetString("DirectoryDoesNotExist::JTextChooseSaveFile")))
+			if (!JGetUserNotification()->AskUserYes(JGetString("DirectoryDoesNotExist::JTextChooseSaveFile")))
 				{
 				return kJFalse;
 				}
@@ -342,28 +342,28 @@ JTextChooseSaveFile::SaveFile
 			}
 		else if (fileWritable)
 			{
-			if ((JGetUserNotification())->AskUserNo(JGetString("FileExists::JTextChooseSaveFile")))
+			if (JGetUserNotification()->AskUserNo(JGetString("FileExists::JTextChooseSaveFile")))
 				{
 				return kJTrue;
 				}
 			}
 		else if (!dirExists)
 			{
-			if (!(JGetUserNotification())->AskUserYes(JGetString("DirectoryDoesNotExist::JTextChooseSaveFile")))
+			if (!JGetUserNotification()->AskUserYes(JGetString("DirectoryDoesNotExist::JTextChooseSaveFile")))
 				{
 				return kJFalse;
 				}
 			}
 		else if (!dirWritable && !fileExists)
 			{
-			if (!(JGetUserNotification())->AskUserYes(JGetString("DirectoryNotWritable::JTextChooseSaveFile")))
+			if (!JGetUserNotification()->AskUserYes(JGetString("DirectoryNotWritable::JTextChooseSaveFile")))
 				{
 				return kJFalse;
 				}
 			}
 		else	// file exists and is not writable
 			{
-			if (!(JGetUserNotification())->AskUserYes(JGetString("FileNotWritable::JTextChooseSaveFile")))
+			if (!JGetUserNotification()->AskUserYes(JGetString("FileNotWritable::JTextChooseSaveFile")))
 				{
 				return kJFalse;
 				}

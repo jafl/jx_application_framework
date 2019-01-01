@@ -108,7 +108,7 @@ JXDSSSelection::ConvertData
 			else if (itsAction != nullptr)
 				{
 				jdelete itsAction;
-				(JGetUserNotification())->ReportError(JGetString("MustSaveSameOnComputer::JXDSSSelection"));
+				JGetUserNotification()->ReportError(JGetString("MustSaveSameOnComputer::JXDSSSelection"));
 				}
 			const_cast<JXDSSSelection*>(this)->itsAction = nullptr;
 			}

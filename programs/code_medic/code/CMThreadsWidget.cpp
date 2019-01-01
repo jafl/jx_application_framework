@@ -209,7 +209,7 @@ CMThreadsWidget::HandleMouseDown
 				}
 			else
 				{
-				(JGetUserNotification())->ReportError(JGetString("NoSourceFile::CMThreadsWidget"));
+				JGetUserNotification()->ReportError(JGetString("NoSourceFile::CMThreadsWidget"));
 				}
 			}
 		else

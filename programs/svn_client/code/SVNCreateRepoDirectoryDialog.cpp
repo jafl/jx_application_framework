@@ -67,7 +67,7 @@ SVNCreateRepoDirectoryDialog::OKToDeactivate()
 	JNamedTreeNode* node;
 	if (itsParentNode->FindNamedChild(name, &node))
 		{
-		(JGetUserNotification())->ReportError(JGetString("NameUsed::SVNCreateRepoDirectoryDialog"));
+		JGetUserNotification()->ReportError(JGetString("NameUsed::SVNCreateRepoDirectoryDialog"));
 		return kJFalse;
 		}
 	else

@@ -839,7 +839,7 @@ JXSearchTextDialog::GetSearchParameters
 {
 	if (!HasSearchText())
 		{
-		(JGetUserNotification())->ReportError(JGetString("EmptySearchText::JXSearchTextDialog"));
+		JGetUserNotification()->ReportError(JGetString("EmptySearchText::JXSearchTextDialog"));
 		itsSearchInput->Focus();
 		return kJFalse;
 		}

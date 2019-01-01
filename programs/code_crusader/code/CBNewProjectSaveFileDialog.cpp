@@ -569,5 +569,5 @@ CBNewProjectSaveFileDialog::OKToReplaceFile
 		};
 	const JString msg = JGetString(kWarnFileExistsID, map, sizeof(map));
 
-	return (JGetUserNotification())->AskUserNo(msg);
+	return JGetUserNotification()->AskUserNo(msg);
 }

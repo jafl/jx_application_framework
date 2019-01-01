@@ -567,7 +567,7 @@ SVNTabBase::Prepare
 		return kJFalse;
 		}
 
-	if (warnMsgID != nullptr && !(JGetUserNotification())->AskUserNo(JGetString(warnMsgID)))
+	if (warnMsgID != nullptr && !JGetUserNotification()->AskUserNo(JGetString(warnMsgID)))
 		{
 		return kJFalse;
 		}

@@ -380,7 +380,7 @@ JXFSRunFileDialog::HandleChooseCmdButton
 	)
 {
 	JString fullName;
-	if ((JGetChooseSaveFile())->ChooseFile(
+	if (JGetChooseSaveFile()->ChooseFile(
 			JGetString("ChooseCmdPrompt::JXFSRunFileDialog"),
 			JString::empty, &fullName))
 		{

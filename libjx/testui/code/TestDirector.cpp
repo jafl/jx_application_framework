@@ -285,7 +285,7 @@ TestDirector::OpenTextFile
 			{
 			"name", fileName.GetBytes()
 			};
-		(JGetUserNotification())->ReportError(
+		JGetUserNotification()->ReportError(
 			JGetString("FileNotReadable::TestDirector", map, sizeof(map)));
 		}
 }
@@ -898,7 +898,7 @@ TestDirector::HandleTestMenu
 		std::cout << std::endl;
 		if (err.OK())
 			{
-			(JGetUserNotification())->DisplayMessage(
+			JGetUserNotification()->DisplayMessage(
 				JGetString("ZombieProcessNotification::TestDirector"));
 			}
 		else
@@ -1081,15 +1081,15 @@ TestDirector::HandleUNMenu
 {
 	if (index == kTestMessageCmd)
 		{
-		(JGetUserNotification())->DisplayMessage(JGetString("TestMessage::TestDirector"));
+		JGetUserNotification()->DisplayMessage(JGetString("TestMessage::TestDirector"));
 		}
 	else if (index == kTestWarningCmd)
 		{
-		(JGetUserNotification())->AskUserYes(JGetString("WarningMessage::TestDirector"));
+		JGetUserNotification()->AskUserYes(JGetString("WarningMessage::TestDirector"));
 		}
 	else if (index == kTestErrorCmd)
 		{
-		(JGetUserNotification())->ReportError(JGetString("ErrorMessage::TestDirector"));
+		JGetUserNotification()->ReportError(JGetString("ErrorMessage::TestDirector"));
 		}
 }
 
@@ -1178,7 +1178,7 @@ TestDirector::HandleCSFMenu
 			{
 			"result", resultStr.GetBytes()
 			};
-		(JGetUserNotification())->DisplayMessage(JGetString("CSFResult::TestDirector", map, sizeof(map)));
+		JGetUserNotification()->DisplayMessage(JGetString("CSFResult::TestDirector", map, sizeof(map)));
 		}
 }
 

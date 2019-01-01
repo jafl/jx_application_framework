@@ -67,7 +67,7 @@ SVNDuplicateRepoItemDialog::OKToDeactivate()
 	JNamedTreeNode* node;
 	if ((itsSrcNode->GetNamedParent())->FindNamedChild(name, &node))
 		{
-		(JGetUserNotification())->ReportError(JGetString("NameUsed::SVNDuplicateRepoItemDialog"));
+		JGetUserNotification()->ReportError(JGetString("NameUsed::SVNDuplicateRepoItemDialog"));
 		return kJFalse;
 		}
 	else

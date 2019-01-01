@@ -208,7 +208,7 @@ void
 JXPGMessageDirector::SaveMessages()
 {
 	JString fileName;
-	if ((JGetChooseSaveFile())->SaveFile(
+	if (JGetChooseSaveFile()->SaveFile(
 			JGetString("SavePrompt::JXPGMessageDirector"), JString::empty,
 			JGetString("DefaultName::JXPGMessageDirector"), &fileName))
 		{

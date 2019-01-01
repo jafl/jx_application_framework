@@ -1102,7 +1102,7 @@ GLDataDocument::LoadInternalFile
 		}
 	else if (index == kFixedWidthText)
 		{
-		(JGetUserNotification())->ReportError(JGetString("LoadFixedWidthFile::GLDataDocument"));
+		JGetUserNotification()->ReportError(JGetString("LoadFixedWidthFile::GLDataDocument"));
 		}
 }
 

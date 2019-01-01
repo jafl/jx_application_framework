@@ -162,7 +162,7 @@ TestPartitionDirector::InsertHorizCompartment
 		}
 	else
 		{
-		(JGetUserNotification())->ReportError(JGetString("OutOfSpace::TestPartitionDirector"));
+		JGetUserNotification()->ReportError(JGetString("OutOfSpace::TestPartitionDirector"));
 		}
 }
 
@@ -200,7 +200,7 @@ TestPartitionDirector::InsertVertCompartment
 		}
 	else
 		{
-		(JGetUserNotification())->ReportError(JGetString("OutOfSpace::TestPartitionDirector"));
+		JGetUserNotification()->ReportError(JGetString("OutOfSpace::TestPartitionDirector"));
 		}
 }
 
@@ -221,7 +221,7 @@ TestPartitionDirector::DeleteVertCompartment
 		}
 	else
 		{
-		(JGetUserNotification())->ReportError(JGetString("CannotRemoveLast::TestPartitionDirector"));
+		JGetUserNotification()->ReportError(JGetString("CannotRemoveLast::TestPartitionDirector"));
 		}
 }
 

@@ -1307,7 +1307,7 @@ CBTextDocument::OpenAsBinaryFile
 			"name", fileName
 			};
 		const JString msg = JGetString("OpenBinaryFileMessage::CBTextDocument", map, sizeof(map));
-		return !(JGetUserNotification())->AskUserNo(msg);
+		return !JGetUserNotification()->AskUserNo(msg);
 		}
 	else
 		{

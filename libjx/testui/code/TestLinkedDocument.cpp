@@ -45,7 +45,7 @@ TestLinkedDocument::TestLinkedDocument
 		}
 	else
 		{
-		(JGetUserNotification())->ReportError(
+		JGetUserNotification()->ReportError(
 			JGetString("FileNotFound::TestLinkedDocument"));
 		}
 
@@ -66,7 +66,7 @@ TestLinkedDocument::TestLinkedDocument
 			itsDoc = dynamic_cast<TestTextEditDocument*>(doc);
 			if (itsDoc == nullptr)
 				{
-				(JGetUserNotification())->ReportError(
+				JGetUserNotification()->ReportError(
 					JGetString("FileAlreadyOpen::TestLinkedDocument"));
 				}
 			}
@@ -85,7 +85,7 @@ TestLinkedDocument::TestLinkedDocument
 			{
 			"name", kRequiredFile.GetBytes()
 			};
-		(JGetUserNotification())->ReportError(
+		JGetUserNotification()->ReportError(
 			JGetString("OwnedFileNotFound::TestLinkedDocument", map, sizeof(map)));
 		}
 

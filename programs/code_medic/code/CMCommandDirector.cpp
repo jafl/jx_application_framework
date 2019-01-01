@@ -1336,7 +1336,7 @@ void
 CMCommandDirector::OpenSourceFiles()
 {
 	JPtrArray<JString> list(JPtrArrayT::kDeleteAll);
-	if ((JGetChooseSaveFile())->ChooseFiles("Choose Source Files", nullptr, &list))
+	if (JGetChooseSaveFile()->ChooseFiles("Choose Source Files", nullptr, &list))
 		{
 		const JSize count = list.GetElementCount();
 		for (JIndex i=1; i<=count; i++)
@@ -1478,7 +1478,7 @@ CMCommandDirector::ReportUnreadableSourceFile
 		"name", fileName
 		};
 	const JString err = JGetString("CannotOpenFile::CMCommandDirector", map, sizeof(map));
-	(JGetUserNotification())->ReportError(err);
+	JGetUserNotification()->ReportError(err);
 }
 
 /******************************************************************************
@@ -1490,7 +1490,7 @@ void
 CMCommandDirector::LoadConfig()
 {
 	JString fullName;
-	if ((JGetChooseSaveFile())->ChooseFile("Choose configuration file", nullptr, &fullName))
+	if (JGetChooseSaveFile()->ChooseFile("Choose configuration file", nullptr, &fullName))
 		{
 		std::ifstream input(fullName);
 
@@ -1547,7 +1547,7 @@ CMCommandDirector::LoadConfig()
 			}
 		else
 			{
-			(JGetUserNotification())->DisplayMessage(
+			JGetUserNotification()->DisplayMessage(
 				"This configuration file was created by a newer version of "
 				"Code Medic.  You need the newest version in order to open it.");
 			}
@@ -1573,7 +1573,7 @@ CMCommandDirector::SaveConfig()
 		origName = "debug_config";
 		}
 
-	if ((JGetChooseSaveFile())->SaveFile("Choose file name", nullptr, origName, &fullName))
+	if (JGetChooseSaveFile()->SaveFile("Choose file name", nullptr, origName, &fullName))
 		{
 		std::ofstream output(fullName);
 
@@ -1641,7 +1641,7 @@ CMCommandDirector::SaveInCurrentFile()
 void
 CMCommandDirector::SaveInNewFile()
 {
-	if ((JGetChooseSaveFile())->SaveFile("Choose file name:", nullptr, "",  &itsCurrentHistoryFile))
+	if (JGetChooseSaveFile()->SaveFile("Choose file name:", nullptr, "",  &itsCurrentHistoryFile))
 		{
 		SaveInCurrentFile();
 		}
@@ -1991,7 +1991,7 @@ CMCommandDirector::HandleDebugMenu
 			}
 		else if (s.Contains("##"))
 			{
-			(JGetUserNotification())->ReportError(JGetString("NoSelection::CMCommandDirector"));
+			JGetUserNotification()->ReportError(JGetString("NoSelection::CMCommandDirector"));
 			return;
 			}
 
@@ -2038,7 +2038,7 @@ CMCommandDirector::ChangeProgram()
 	JString fullName;
 	const JString instr = itsLink->GetChooseProgramInstructions();
 	if (itsLink->OKToDetachOrKill() &&
-		(JGetChooseSaveFile())->ChooseFile("Choose binary", instr, &fullName))
+		JGetChooseSaveFile()->ChooseFile("Choose binary", instr, &fullName))
 		{
 		CMMDIServer::UpdateDebuggerType(fullName);
 		itsLink->SetProgram(fullName);
@@ -2076,7 +2076,7 @@ CMCommandDirector::ChooseCoreFile()
 #endif
 
 	if (itsLink->OKToDetachOrKill() &&
-		(JGetChooseSaveFile())->ChooseFile("Choose core file", nullptr, origPath, &coreName))
+		JGetChooseSaveFile()->ChooseFile("Choose core file", nullptr, origPath, &coreName))
 		{
 		itsLink->SetCore(coreName);
 		}

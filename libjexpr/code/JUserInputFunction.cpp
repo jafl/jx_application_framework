@@ -577,7 +577,7 @@ JUserInputFunction::Parse
 	JString buffer = GetText()->GetText();
 	if (buffer == kEmptyString)
 		{
-		(JGetUserNotification())->ReportError(JGetString("EmptyFunction::JExprEditor"));
+		JGetUserNotification()->ReportError(JGetString("EmptyFunction::JExprEditor"));
 		return kJFalse;
 		}
 

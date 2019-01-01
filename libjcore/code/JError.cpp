@@ -156,7 +156,7 @@ JError::ReportIfError()
 {
 	if (!OK())
 		{
-		(JGetUserNotification())->ReportError(GetMessage());
+		JGetUserNotification()->ReportError(GetMessage());
 		}
 }
 

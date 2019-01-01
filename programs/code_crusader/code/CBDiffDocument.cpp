@@ -127,7 +127,7 @@ CBDiffDocument::CreatePlain
 				JReadAll(input, &msg);
 				if (!silent)
 					{
-					(JGetUserNotification())->DisplayMessage(msg);
+					JGetUserNotification()->DisplayMessage(msg);
 					}
 				}
 			else if (length > 0)
@@ -145,7 +145,7 @@ CBDiffDocument::CreatePlain
 					}
 				if (!silent)
 					{
-					(JGetUserNotification())->DisplayMessage("The files are identical.");
+					JGetUserNotification()->DisplayMessage("The files are identical.");
 					}
 				}
 			}
@@ -312,7 +312,7 @@ CBDiffDocument::CreateCVS
 					}
 				else if (!silent)
 					{
-					(JGetUserNotification())->DisplayMessage("The files are identical.");
+					JGetUserNotification()->DisplayMessage("The files are identical.");
 					}
 				}
 			else
@@ -341,7 +341,7 @@ CBDiffDocument::CreateCVS
 					JString msg = header + text;
 					if (!silent)
 						{
-						(JGetUserNotification())->DisplayMessage(msg);
+						JGetUserNotification()->DisplayMessage(msg);
 						}
 					}
 				else if (text.GetLength() > 0)
@@ -352,7 +352,7 @@ CBDiffDocument::CreateCVS
 					}
 				else if (!silent)
 					{
-					(JGetUserNotification())->DisplayMessage("The files are identical.");
+					JGetUserNotification()->DisplayMessage("The files are identical.");
 					}
 				}
 			}
@@ -496,7 +496,7 @@ CBDiffDocument::CreateSVN
 					}
 				else if (!silent)
 					{
-					(JGetUserNotification())->DisplayMessage("The files are identical.");
+					JGetUserNotification()->DisplayMessage("The files are identical.");
 					}
 				}
 			else
@@ -525,7 +525,7 @@ CBDiffDocument::CreateSVN
 					JString msg = header + text;
 					if (!silent)
 						{
-						(JGetUserNotification())->DisplayMessage(msg);
+						JGetUserNotification()->DisplayMessage(msg);
 						}
 					}
 				else if (text.GetLength() > 0)
@@ -536,7 +536,7 @@ CBDiffDocument::CreateSVN
 					}
 				else if (!silent)
 					{
-					(JGetUserNotification())->DisplayMessage("The files are identical.");
+					JGetUserNotification()->DisplayMessage("The files are identical.");
 					}
 				}
 			}

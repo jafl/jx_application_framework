@@ -787,7 +787,7 @@ CBFileTypeTable::ExtractInputData
 		if (isRegex && text.GetLength() == 1)
 			{
 			ok = kJFalse;
-			(JGetUserNotification())->ReportError(
+			JGetUserNotification()->ReportError(
 				"You must specify some text to match.");
 			}
 		else if (isRegex)
@@ -1230,7 +1230,7 @@ CBFileTypeTable::GetNewScriptDirectory()
 	JString sysDir, userDir;
 	if (!CBPrefsManager::GetScriptPaths(&sysDir, &userDir))
 		{
-		(JGetUserNotification())->ReportError(JGetString(kNewDirNoHomeID));
+		JGetUserNotification()->ReportError(JGetString(kNewDirNoHomeID));
 		return;
 		}
 
@@ -1305,7 +1305,7 @@ CBFileTypeTable::CreateDirectory
 			"err", err.GetMessage()
 			};
 		const JString msg = JGetString(kUnableToCreateDirID, map, sizeof(map));
-		(JGetUserNotification())->ReportError(msg);
+		JGetUserNotification()->ReportError(msg);
 		}
 	return err.OK();
 }

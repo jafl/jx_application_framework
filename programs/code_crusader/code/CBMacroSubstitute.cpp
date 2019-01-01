@@ -91,7 +91,7 @@ CBMacroSubstitute::Evaluate
 				if (!msg.IsEmpty())
 					{
 					msg.Prepend("Error occurred:\n\n");
-					(JGetUserNotification())->ReportError(msg);
+					JGetUserNotification()->ReportError(msg);
 					}
 
 				JReadAll(fromFD, value);

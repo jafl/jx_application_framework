@@ -494,7 +494,7 @@ JXInputField::InputValid()
 		}
 	else
 		{
-		(JGetUserNotification())->ReportError(errorStr);
+		JGetUserNotification()->ReportError(errorStr);
 		return kJFalse;
 		}
 }

@@ -318,7 +318,7 @@ CBSearchTE::ReplaceAllForward()
 	JBoolean searchIsRegex, caseSensitive, entireWord, wrapSearch;
 	JBoolean replaceIsRegex, preserveCase;
 	JRegex* regex;
-	if ((JXGetSearchTextDialog())->GetSearchParameters(
+	if (JXGetSearchTextDialog()->GetSearchParameters(
 			&searchStr, &searchIsRegex, &caseSensitive, &entireWord, &wrapSearch,
 			&replaceStr, &replaceIsRegex, &preserveCase,
 			&regex))

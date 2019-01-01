@@ -112,7 +112,7 @@ JXPGDirectorBase::Close()
 		}
 	else
 		{
-		(JGetUserNotification())->ReportError(JGetString("CannotQuitWhileRunning::JXPGDirectorBase"));
+		JGetUserNotification()->ReportError(JGetString("CannotQuitWhileRunning::JXPGDirectorBase"));
 		return kJFalse;
 		}
 }

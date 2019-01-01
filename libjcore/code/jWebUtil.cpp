@@ -189,7 +189,7 @@ JCheckForNewerVersion
 			"site", host.GetBytes()
 			};
 		const JString msg = JGetString("JRemindNewVersion", map, sizeof(map));
-		if ((JGetUserNotification())->AskUserYes(msg))
+		if (JGetUserNotification()->AskUserYes(msg))
 			{
 			(JGetWebBrowser())->ShowURL(JGetString("DOWNLOAD_URL"));
 			}

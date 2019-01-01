@@ -1027,7 +1027,7 @@ CBSearchTextDialog::SaveFileSet()
 	const
 {
 	JString newName;
-	if ((JGetChooseSaveFile())->SaveFile("Save file set as:", "",
+	if (JGetChooseSaveFile()->SaveFile("Save file set as:", "",
 										 itsFileSetName, &newName))
 		{
 		itsFileSetName = newName;

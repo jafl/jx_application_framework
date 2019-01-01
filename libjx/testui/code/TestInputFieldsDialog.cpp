@@ -320,7 +320,7 @@ JInteger v1,v2;
 			 itsUpperValue->GetValue(&v2) &&
 			 v1 >= v2)
 		{
-		(JGetUserNotification())->ReportError(JGetString("MinMaxError::TestInputFieldsDialog"));
+		JGetUserNotification()->ReportError(JGetString("MinMaxError::TestInputFieldsDialog"));
 		itsLowerValue->Focus();
 		return kJFalse;
 		}

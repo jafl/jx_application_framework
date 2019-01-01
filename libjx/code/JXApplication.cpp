@@ -244,7 +244,7 @@ JXApplication::OpenDisplay
 			{
 			"name", displayName.GetBytes()
 			};
-		(JGetUserNotification())->ReportError(JGetString("DisplayConnectError", map, sizeof(map)));
+		JGetUserNotification()->ReportError(JGetString("DisplayConnectError", map, sizeof(map)));
 
 		*displayIndex = 0;
 		return kJFalse;

@@ -511,7 +511,7 @@ CBMDIServer::DisplayFileDiffs
 			"name", file1.GetBytes()
 		};
 		const JString msg = JGetString("NotAFile::CBMDIServer", map, sizeof(map));
-		(JGetUserNotification())->ReportError(msg);
+		JGetUserNotification()->ReportError(msg);
 		}
 	else if (!JConvertToAbsolutePath(file2, JString::empty, &full2))
 		{
@@ -520,7 +520,7 @@ CBMDIServer::DisplayFileDiffs
 			"name", file2.GetBytes()
 		};
 		const JString msg = JGetString("NotAFile::CBMDIServer", map, sizeof(map));
-		(JGetUserNotification())->ReportError(msg);
+		JGetUserNotification()->ReportError(msg);
 		}
 	else
 		{
@@ -596,7 +596,7 @@ CBMDIServer::DisplayVCSDiffs
 		JString type, error;
 		if (!JGetSVNEntryType(file, &type, &error))
 			{
-			(JGetUserNotification())->ReportError(error);
+			JGetUserNotification()->ReportError(error);
 			return;
 			}
 		else if (type != "file")
@@ -606,7 +606,7 @@ CBMDIServer::DisplayVCSDiffs
 				"name", file.GetBytes()
 			};
 			const JString msg = JGetString("DiffFailed::CBMDIServer", map, sizeof(map));
-			(JGetUserNotification())->ReportError(msg);
+			JGetUserNotification()->ReportError(msg);
 			return;
 			}
 		}
@@ -619,7 +619,7 @@ CBMDIServer::DisplayVCSDiffs
 			"name", file.GetBytes()
 		};
 		const JString msg = JGetString("NotAFile::CBMDIServer", map, sizeof(map));
-		(JGetUserNotification())->ReportError(msg);
+		JGetUserNotification()->ReportError(msg);
 		return;
 		}
 

@@ -280,7 +280,7 @@ JIndex i;
 
 	if (!JGetPrefsDirectory(&itsStatePath))
 		{
-		(JGetUserNotification())->ReportError(JGetString("NoPrefsDir::THXApp"));
+		JGetUserNotification()->ReportError(JGetString("NoPrefsDir::THXApp"));
 		JThisProcess::Exit(1);
 		}
 
@@ -312,7 +312,7 @@ JIndex i;
 			"name", fullName.GetBytes()
 		};
 		const JString msg = JGetString("CannotReadNewerVersion::THXApp", map, sizeof(map));
-		(JGetUserNotification())->ReportError(msg);
+		JGetUserNotification()->ReportError(msg);
 		JThisProcess::Exit(1);
 		}
 
@@ -322,7 +322,7 @@ JIndex i;
 	JBoolean displayAbout = kJFalse;
 	if (prevProgramVers != THXGetVersionNumberStr())
 		{
-		if (!(JGetUserNotification())->AcceptLicense())
+		if (!JGetUserNotification()->AcceptLicense())
 			{
 			JThisProcess::Exit(0);
 			}
@@ -422,7 +422,7 @@ JIndex i;
 void
 THXApp::InitProgramState()
 {
-	if (!(JGetUserNotification())->AcceptLicense())
+	if (!JGetUserNotification()->AcceptLicense())
 		{
 		JThisProcess::Exit(0);
 		}

@@ -858,7 +858,7 @@ TestWidget::HandleMouseDown
 			}
 		else
 			{
-			(JGetUserNotification())->ReportError(JGetString("SecretMenuError::TestWidget"));
+			JGetUserNotification()->ReportError(JGetString("SecretMenuError::TestWidget"));
 			}
 		}
 	else if (ScrollForWheel(button, modifiers))
@@ -1080,7 +1080,7 @@ TestWidget::HandleDNDDrop
 	std::cout << "Data types available from DND source:" << std::endl;
 	std::cout << std::endl;
 
-//	(JGetUserNotification())->DisplayMessage("testing");
+//	JGetUserNotification()->DisplayMessage("testing");
 
 	Atom textType = None, urlType = None;
 	for (const Atom type : typeList)
@@ -1566,7 +1566,7 @@ TestWidget::Receive
 		assert( selection != nullptr );
 		if (selection->GetIndex() == kSecretMenuDialogCmd)
 			{
-			(JGetUserNotification())->DisplayMessage(
+			JGetUserNotification()->DisplayMessage(
 				JGetString("SecretMenuMessage::TestWidget"));
 			}
 		}

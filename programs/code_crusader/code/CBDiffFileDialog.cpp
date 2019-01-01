@@ -1320,7 +1320,7 @@ CBDiffFileDialog::BuildCVSDiffCmd
 			{
 			if (!silent)
 				{
-				(JGetUserNotification())->ReportError(JGetString("VCSNoPreviousRevision::CBDiffFileDialog"));
+				JGetUserNotification()->ReportError(JGetString("VCSNoPreviousRevision::CBDiffFileDialog"));
 				}
 			return kJFalse;
 			}
@@ -1710,7 +1710,7 @@ CBDiffFileDialog::BuildSVNRepositoryPath
 		{
 		if (!silent)
 			{
-			(JGetUserNotification())->ReportError(JGetString("SVNNoRepository::CBDiffFileDialog"));
+			JGetUserNotification()->ReportError(JGetString("SVNNoRepository::CBDiffFileDialog"));
 			}
 		return kJFalse;
 		}
@@ -1720,7 +1720,7 @@ CBDiffFileDialog::BuildSVNRepositoryPath
 		{
 		if (!silent)
 			{
-			(JGetUserNotification())->ReportError(JGetString("SVNNonstandardRepository::CBDiffFileDialog"));
+			JGetUserNotification()->ReportError(JGetString("SVNNonstandardRepository::CBDiffFileDialog"));
 			}
 		return kJFalse;
 		}
@@ -1883,7 +1883,7 @@ CBDiffFileDialog::BuildGitDiffCmd
 				{
 				if (!silent)
 					{
-					(JGetUserNotification())->ReportError(JGetString("VCSNoPreviousRevision::CBDiffFileDialog"));
+					JGetUserNotification()->ReportError(JGetString("VCSNoPreviousRevision::CBDiffFileDialog"));
 					}
 				return kJFalse;
 				}
@@ -1937,7 +1937,7 @@ CBDiffFileDialog::BuildGitDiffCmd
 				{
 				if (!silent)
 					{
-					(JGetUserNotification())->ReportError(JGetString("GitNoCommonAncestor::CBDiffFileDialog"));
+					JGetUserNotification()->ReportError(JGetString("GitNoCommonAncestor::CBDiffFileDialog"));
 					}
 				return kJFalse;
 				}
@@ -2021,7 +2021,7 @@ CBDiffFileDialog::BuildGitDiffDirectoryCmd
 			const JString s = JCombinePathAndName(trueName, ".") + ".";
 			if (!GetPreviousGitRevision(s, &get1Rev))
 				{
-				(JGetUserNotification())->ReportError(JGetString("VCSNoPreviousRevision::CBDiffFileDialog"));
+				JGetUserNotification()->ReportError(JGetString("VCSNoPreviousRevision::CBDiffFileDialog"));
 				return kJFalse;
 				}
 			}
@@ -2049,7 +2049,7 @@ CBDiffFileDialog::BuildGitDiffDirectoryCmd
 			const JString s = JCombinePathAndName(trueName, ".") + ".";
 			if (!GetCurrentGitRevision(s, &get1Rev))
 				{
-				(JGetUserNotification())->ReportError(JGetString("VCSNoCurrentRevision::CBDiffFileDialog"));
+				JGetUserNotification()->ReportError(JGetString("VCSNoCurrentRevision::CBDiffFileDialog"));
 				return kJFalse;
 				}
 			}
@@ -2355,7 +2355,7 @@ CBDiffFileDialog::ChooseFile
 {
 	const JString origName = widget->GetTextForChooseFile();
 	JString newName;
-	if ((JGetChooseSaveFile())->ChooseFile("", nullptr, origName, &newName))
+	if (JGetChooseSaveFile()->ChooseFile("", nullptr, origName, &newName))
 		{
 		widget->Focus();
 		widget->SetText(newName);
@@ -2375,7 +2375,7 @@ CBDiffFileDialog::ChoosePath
 {
 	const JString origPath = widget->GetTextForChooseFile();
 	JString newPath;
-	if ((JGetChooseSaveFile())->ChooseRPath("", nullptr, origPath, &newPath))
+	if (JGetChooseSaveFile()->ChooseRPath("", nullptr, origPath, &newPath))
 		{
 		widget->Focus();
 		widget->SetText(newPath);
@@ -2414,7 +2414,7 @@ CBDiffFileDialog::CheckVCSFileOrPath
 	if (reportError)
 		{
 		widget->Focus();
-		(JGetUserNotification())->ReportError(JGetString("VCSDiffTargetInvalid::CBDiffFileDialog"));
+		JGetUserNotification()->ReportError(JGetString("VCSDiffTargetInvalid::CBDiffFileDialog"));
 		}
 
 	if (fullName != nullptr)
@@ -2506,7 +2506,7 @@ CBDiffFileDialog::CheckSVNFileOrPath
 	if (reportError)
 		{
 		widget->Focus();
-		(JGetUserNotification())->ReportError(JGetString("SVNDiffTargetInvalid::CBDiffFileDialog"));
+		JGetUserNotification()->ReportError(JGetString("SVNDiffTargetInvalid::CBDiffFileDialog"));
 		}
 
 	if (fullName != nullptr)

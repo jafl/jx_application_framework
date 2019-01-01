@@ -101,7 +101,7 @@ CBKeyScriptTableBase::ContentsValid()
 				s.SelectRow(i);
 				s.SelectRow(j);
 				me->TableScrollToCell(JPoint(1,i));
-				(JGetUserNotification())->ReportError(
+				JGetUserNotification()->ReportError(
 					"The items in the left column must be unique.");
 				return kJFalse;
 				}

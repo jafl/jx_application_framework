@@ -50,7 +50,7 @@ JXFSBindingManager::Instance()
 		if (!needUserCheck.IsEmpty())
 			{
 			EditBindings();
-			(JGetUserNotification())->DisplayMessage(needUserCheck);
+			JGetUserNotification()->DisplayMessage(needUserCheck);
 			(itsSelf->itsBindingList)->Save();	// only display message once
 			}
 		}

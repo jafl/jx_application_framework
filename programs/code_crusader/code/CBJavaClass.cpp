@@ -120,13 +120,13 @@ CBJavaClass::ViewSource()
 				JString msg = "Unable to find the definition of \"";
 				msg += GetName();
 				msg += "\".";
-				(JGetUserNotification())->ReportError(msg);
+				JGetUserNotification()->ReportError(msg);
 				}
 			}
 		}
 	else
 		{
-		(JGetUserNotification())->ReportError("Ghost classes cannot be opened.");
+		JGetUserNotification()->ReportError("Ghost classes cannot be opened.");
 		}
 }
 
@@ -168,7 +168,7 @@ CBJavaClass::ViewDefinition
 			JString msg = "Unable to find any definition for \"";
 			msg += fnName;
 			msg += "\".";
-			(JGetUserNotification())->ReportError(msg);
+			JGetUserNotification()->ReportError(msg);
 			}
 		}
 	else if (GetFileName(&fileName))
@@ -202,7 +202,7 @@ CBJavaClass::ViewDefinition
 				JString msg = "Unable to find the definition of \"";
 				msg += fnName;
 				msg += "\".";
-				(JGetUserNotification())->ReportError(msg);
+				JGetUserNotification()->ReportError(msg);
 				}
 			}
 		}
@@ -211,7 +211,7 @@ CBJavaClass::ViewDefinition
 		JString msg = GetFullName();
 		msg.PrependCharacter('"');
 		msg += "\" is a ghost class, so no information is available for it.";
-		(JGetUserNotification())->ReportError(msg);
+		JGetUserNotification()->ReportError(msg);
 		}
 
 	return found;

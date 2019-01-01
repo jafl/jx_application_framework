@@ -109,13 +109,13 @@ JXPathInput::InputValid()
 	JString path;
 	if (JIsRelativePath(text) && !hasBasePath)
 		{
-		(JGetUserNotification())->ReportError(JGetString("NoRelPath::JXPathInput"));
+		JGetUserNotification()->ReportError(JGetString("NoRelPath::JXPathInput"));
 		RecalcAll();
 		return kJFalse;
 		}
 	if (!JConvertToAbsolutePath(text, basePath, &path))
 		{
-		(JGetUserNotification())->ReportError(JGetString("InvalidDir::JXPathInput"));
+		JGetUserNotification()->ReportError(JGetString("InvalidDir::JXPathInput"));
 		RecalcAll();
 		return kJFalse;
 		}
@@ -128,13 +128,13 @@ JXPathInput::InputValid()
 		{
 		if (!JDirectoryReadable(path))
 			{
-			(JGetUserNotification())->ReportError(JGetString("Unreadable::JXPathInput"));
+			JGetUserNotification()->ReportError(JGetString("Unreadable::JXPathInput"));
 			RecalcAll();
 			return kJFalse;
 			}
 		else if (itsRequireWriteFlag && !JDirectoryWritable(path))
 			{
-			(JGetUserNotification())->ReportError(JGetString("DirNotWritable::JXGlobal"));
+			JGetUserNotification()->ReportError(JGetString("DirNotWritable::JXGlobal"));
 			RecalcAll();
 			return kJFalse;
 			}
@@ -162,7 +162,7 @@ JXPathInput::InputValid()
 		errID = "InvalidDir::JXPathInput";
 		}
 
-	(JGetUserNotification())->ReportError(JGetString(errID));
+	JGetUserNotification()->ReportError(JGetString(errID));
 	RecalcAll();
 	return kJFalse;
 }
@@ -253,9 +253,9 @@ JXPathInput::ChoosePath
 	JString origPath = GetTextForChoosePath();
 	JString newPath;
 	if ((itsRequireWriteFlag &&
-		 (JGetChooseSaveFile())->ChooseRWPath(prompt, instr, origPath, &newPath)) ||
+		 JGetChooseSaveFile()->ChooseRWPath(prompt, instr, origPath, &newPath)) ||
 		(!itsRequireWriteFlag &&
-		 (JGetChooseSaveFile())->ChooseRPath(prompt, instr, origPath, &newPath)))
+		 JGetChooseSaveFile()->ChooseRPath(prompt, instr, origPath, &newPath)))
 		{
 		GetText()->SetText(newPath);
 		return kJTrue;

@@ -2237,11 +2237,11 @@ JVMLink::OKToDetachOrKill()
 {
 	if (itsProcess != nullptr)
 		{
-		return (JGetUserNotification())->AskUserYes(JGetString("WarnKillProgram::JVMLink"));
+		return JGetUserNotification()->AskUserYes(JGetString("WarnKillProgram::JVMLink"));
 		}
 	else if (itsDebugLink != nullptr)
 		{
-		return (JGetUserNotification())->AskUserYes(JGetString("WarnDetachProgram::JVMLink"));
+		return JGetUserNotification()->AskUserYes(JGetString("WarnDetachProgram::JVMLink"));
 		}
 	else
 		{

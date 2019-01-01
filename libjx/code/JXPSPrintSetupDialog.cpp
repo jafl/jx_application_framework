@@ -370,7 +370,7 @@ JXPSPrintSetupDialog::OKToDeactivate
 {
 	if (origFullName.IsEmpty())
 		{
-		(JGetUserNotification())->ReportError(JGetString("MissingFileName::JXPSPrintSetupDialog"));
+		JGetUserNotification()->ReportError(JGetString("MissingFileName::JXPSPrintSetupDialog"));
 		return kJFalse;
 		}
 
@@ -378,7 +378,7 @@ JXPSPrintSetupDialog::OKToDeactivate
 	JSplitPathAndName(origFullName, &s, &fileName);
 	if (!JConvertToAbsolutePath(s, JString::empty, &path) || !JDirectoryExists(path))
 		{
-		(JGetUserNotification())->ReportError(JGetString("DirectoryDoesNotExist::JXGlobal"));
+		JGetUserNotification()->ReportError(JGetString("DirectoryDoesNotExist::JXGlobal"));
 		return kJFalse;
 		}
 
@@ -386,12 +386,12 @@ JXPSPrintSetupDialog::OKToDeactivate
 	const JBoolean fileExists = JFileExists(fullName);
 	if (!fileExists && !JDirectoryWritable(path))
 		{
-		(JGetUserNotification())->ReportError(JGetString("DirNotWritable::JXPSPrintSetupDialog"));
+		JGetUserNotification()->ReportError(JGetString("DirNotWritable::JXPSPrintSetupDialog"));
 		return kJFalse;
 		}
 	else if (fileExists && !JFileWritable(fullName))
 		{
-		(JGetUserNotification())->ReportError(JGetString("FileNotWritable::JXGlobal"));
+		JGetUserNotification()->ReportError(JGetString("FileNotWritable::JXGlobal"));
 		return kJFalse;
 		}
 

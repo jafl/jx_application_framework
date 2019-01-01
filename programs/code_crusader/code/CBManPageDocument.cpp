@@ -244,7 +244,7 @@ CBManPageDocument::CBManPageDocument
 				text  = "No references to \"";
 				text += pageName;
 				text += "\" could be found in either the source files or the man pages.";
-				(JGetUserNotification())->DisplayMessage(text);
+				JGetUserNotification()->DisplayMessage(text);
 				*trueDoc = nullptr;
 				return;
 				}

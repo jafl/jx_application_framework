@@ -90,7 +90,7 @@ CBPHPClass::ViewSource()
 		}
 	else
 		{
-		(JGetUserNotification())->ReportError("Ghost classes cannot be opened.");
+		JGetUserNotification()->ReportError("Ghost classes cannot be opened.");
 		}
 }
 
@@ -132,7 +132,7 @@ CBPHPClass::ViewDefinition
 			JString msg = "Unable to find any definition for \"";
 			msg += fnName;
 			msg += "\".";
-			(JGetUserNotification())->ReportError(msg);
+			JGetUserNotification()->ReportError(msg);
 			}
 		}
 	else if (GetFileName(&fileName))
@@ -166,7 +166,7 @@ CBPHPClass::ViewDefinition
 				JString msg = "Unable to find the definition of \"";
 				msg += fnName;
 				msg += "\".";
-				(JGetUserNotification())->ReportError(msg);
+				JGetUserNotification()->ReportError(msg);
 				}
 			}
 		}
@@ -175,7 +175,7 @@ CBPHPClass::ViewDefinition
 		JString msg = GetFullName();
 		msg.PrependCharacter('"');
 		msg += "\" is a ghost class, so no information is available for it.";
-		(JGetUserNotification())->ReportError(msg);
+		JGetUserNotification()->ReportError(msg);
 		}
 
 	return found;

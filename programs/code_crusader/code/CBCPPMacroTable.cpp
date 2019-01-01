@@ -151,7 +151,7 @@ CBCPPMacroTable::ContentsValid()
 				s.SelectRow(i);
 				s.SelectRow(j);
 				me->TableScrollToCell(JPoint(1,i));
-				(JGetUserNotification())->ReportError(
+				JGetUserNotification()->ReportError(
 					"The macro names must be unique.");
 				return kJFalse;
 				}

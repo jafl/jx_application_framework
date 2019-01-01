@@ -66,7 +66,7 @@ CBCClass::ViewSource()
 	JString headerName;
 	if (!GetFileName(&headerName))
 		{
-		(JGetUserNotification())->ReportError("Ghost classes cannot be opened.");
+		JGetUserNotification()->ReportError("Ghost classes cannot be opened.");
 		}
 	else if (GetDeclareType() == kEnumType)
 		{
@@ -95,7 +95,7 @@ CBCClass::ViewHeader()
 		}
 	else
 		{
-		(JGetUserNotification())->ReportError("Ghost classes cannot be opened.");
+		JGetUserNotification()->ReportError("Ghost classes cannot be opened.");
 		}
 }
 
@@ -130,7 +130,7 @@ CBCClass::ViewDefinition
 			JString msg = "Unable to find any definition for \"";
 			msg += fnName;
 			msg += "\".";
-			(JGetUserNotification())->ReportError(msg);
+			JGetUserNotification()->ReportError(msg);
 			}
 		}
 	else if (GetFileName(&headerName))
@@ -182,7 +182,7 @@ CBCClass::ViewDefinition
 				JString msg = "Unable to find the definition for \"";
 				msg += fnName;
 				msg += "\".";
-				(JGetUserNotification())->ReportError(msg);
+				JGetUserNotification()->ReportError(msg);
 				}
 			}
 		}
@@ -191,7 +191,7 @@ CBCClass::ViewDefinition
 		JString msg = GetFullName();
 		msg.PrependCharacter('"');
 		msg += "\" is a ghost class, so no information is available for it.";
-		(JGetUserNotification())->ReportError(msg);
+		JGetUserNotification()->ReportError(msg);
 		}
 
 	return found;
@@ -272,7 +272,7 @@ CBCClass::ViewDeclaration
 			JString msg = "Unable to find any declaration for \"";
 			msg += fnName;
 			msg += "\".";
-			(JGetUserNotification())->ReportError(msg);
+			JGetUserNotification()->ReportError(msg);
 			}
 		}
 	else if (GetFileName(&headerName))
@@ -290,7 +290,7 @@ CBCClass::ViewDeclaration
 			JString msg = "Unable to find the declaration of \"";
 			msg += fnName;
 			msg += "\".";
-			(JGetUserNotification())->ReportError(msg);
+			JGetUserNotification()->ReportError(msg);
 			}
 		}
 	else if (reportNotFound)
@@ -298,7 +298,7 @@ CBCClass::ViewDeclaration
 		JString msg = GetFullName();
 		msg.PrependCharacter('"');
 		msg += "\" is a ghost class, so no information is available for it.";
-		(JGetUserNotification())->ReportError(msg);
+		JGetUserNotification()->ReportError(msg);
 		}
 
 	return found;

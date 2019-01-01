@@ -289,7 +289,7 @@ CBCommandManager::Prepare
 			"cmd", cmdName.GetCString()
 			};
 		const JString msg = JGetString("UnknownCmd::CBCommandManager", map, sizeof(map));
-		(JGetUserNotification())->ReportError(msg);
+		JGetUserNotification()->ReportError(msg);
 		return kJFalse;
 		}
 }
@@ -322,7 +322,7 @@ CBCommandManager::Prepare
 
 	if (usesFiles && fullNameList.IsEmpty())
 		{
-		(JGetUserNotification())->ReportError(JGetString("RequiresFile::CBCommandManager"));
+		JGetUserNotification()->ReportError(JGetString("RequiresFile::CBCommandManager"));
 		return kJFalse;
 		}
 
@@ -484,12 +484,12 @@ CBCommandManager::Parse
 			{
 			if (fnStack == nullptr)
 				{
-				(JGetUserNotification())->ReportError(JGetString("FnsNotAllowed::CBCommandManager"));
+				JGetUserNotification()->ReportError(JGetString("FnsNotAllowed::CBCommandManager"));
 				return kJFalse;
 				}
 			else if (*argList.GetElement(2) != ";")
 				{
-				(JGetUserNotification())->ReportError(JGetString("ArgsNotAllowed::CBCommandManager"));
+				JGetUserNotification()->ReportError(JGetString("ArgsNotAllowed::CBCommandManager"));
 				return kJFalse;
 				}
 
@@ -670,7 +670,7 @@ CBCommandManager::BuildCmdPath
 			{
 			if (reportError)
 				{
-				(JGetUserNotification())->ReportError(
+				JGetUserNotification()->ReportError(
 					JGetString(onDisk ? "RequiresFile::CBCommandManager" : "MustSaveText::CBCommandManager"));
 				}
 			return kJFalse;
@@ -686,7 +686,7 @@ CBCommandManager::BuildCmdPath
 		{
 		if (reportError)
 			{
-			(JGetUserNotification())->ReportError(JGetString("RequiresProject::CBCommandManager"));
+			JGetUserNotification()->ReportError(JGetString("RequiresProject::CBCommandManager"));
 			}
 		return kJFalse;
 		}
@@ -709,7 +709,7 @@ CBCommandManager::BuildCmdPath
 					"path", cmdPath->GetCString()
 					};
 				const JString msg = JGetString("InvalidPath::CBCommandManager", map, sizeof(map));
-				(JGetUserNotification())->ReportError(msg);
+				JGetUserNotification()->ReportError(msg);
 				}
 			return kJFalse;
 			}
@@ -751,7 +751,7 @@ CBCommandManager::Substitute
 		{
 		if (reportError)
 			{
-			(JGetUserNotification())->ReportError(JGetString("RequiresProject::CBCommandManager"));
+			JGetUserNotification()->ReportError(JGetString("RequiresProject::CBCommandManager"));
 			}
 		return kJFalse;
 		}
@@ -760,7 +760,7 @@ CBCommandManager::Substitute
 		{
 		if (reportError)
 			{
-			(JGetUserNotification())->ReportError(
+			JGetUserNotification()->ReportError(
 				JGetString(fullName.IsEmpty() ?
 					"RequiresFile::CBCommandManager" :
 					"MustSaveText::CBCommandManager"));

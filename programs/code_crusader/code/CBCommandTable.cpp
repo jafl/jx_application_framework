@@ -836,7 +836,7 @@ CBCommandTable::ExtractInputData
 		{
 		if (illegalNamePattern.Match(text))
 			{
-			(JGetUserNotification())->ReportError(JGetString("NoSpacesInCmdName::CBCommandTable"));
+			JGetUserNotification()->ReportError(JGetString("NoSpacesInCmdName::CBCommandTable"));
 			return kJFalse;
 			}
 		s = info.name;
@@ -1057,7 +1057,7 @@ CBCommandTable::ImportCommands()
 		const JString signature = JRead(input, strlen(kCommandFileSignature));
 		if (input.fail() || signature != kCommandFileSignature)
 			{
-			(JGetUserNotification())->ReportError(JGetString("ImportNotTaskFile::CBCommandTable"));
+			JGetUserNotification()->ReportError(JGetString("ImportNotTaskFile::CBCommandTable"));
 			return;
 			}
 
@@ -1065,7 +1065,7 @@ CBCommandTable::ImportCommands()
 		input >> vers;
 		if (input.fail() || vers > CBCommandManager::GetCurrentCmdInfoFileVersion())
 			{
-			(JGetUserNotification())->ReportError(JGetString("ImportNewerVersion::CBCommandTable"));
+			JGetUserNotification()->ReportError(JGetString("ImportNewerVersion::CBCommandTable"));
 			return;
 			}
 

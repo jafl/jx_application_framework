@@ -298,7 +298,7 @@ JPrefsManager::UpgradeData
 
 		if (reportError && err == kWrongVersion)
 			{
-			(JGetUserNotification())->ReportError(JGetString("NewerVersion::JPrefsManager"));
+			JGetUserNotification()->ReportError(JGetString("NewerVersion::JPrefsManager"));
 			}
 		else if (reportError)
 			{
@@ -307,7 +307,7 @@ JPrefsManager::UpgradeData
 				"msg", err.GetMessage().GetBytes()
 				};
 			const JString msg = JGetString("OtherError::JPrefsManager", map, sizeof(map));
-			(JGetUserNotification())->ReportError(msg);
+			JGetUserNotification()->ReportError(msg);
 			}
 		}
 

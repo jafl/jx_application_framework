@@ -516,7 +516,7 @@ JXCSFDialogBase::Receive
 			}
 		else
 			{
-			(JGetUserNotification())->ReportError(JGetString("NoAccessUp::JXCSFDialogBase"));
+			JGetUserNotification()->ReportError(JGetString("NoAccessUp::JXCSFDialogBase"));
 			}
 		}
 
@@ -531,7 +531,7 @@ JXCSFDialogBase::Receive
 			}
 		else if (!found)
 			{
-			(JGetUserNotification())->ReportError(JGetString("NoHomeDir::JXCSFDialogBase"));
+			JGetUserNotification()->ReportError(JGetString("NoHomeDir::JXCSFDialogBase"));
 			}
 		}
 
@@ -547,7 +547,7 @@ JXCSFDialogBase::Receive
 			}
 		else if (!found)
 			{
-			(JGetUserNotification())->ReportError(JGetString("NoHomeDir::JXCSFDialogBase"));
+			JGetUserNotification()->ReportError(JGetString("NoHomeDir::JXCSFDialogBase"));
 			}
 		}
 
@@ -703,15 +703,15 @@ JXCSFDialogBase::CreateNewDirectory()
 		}
 	else if (err == kJDirEntryAlreadyExists)
 		{
-		(JGetUserNotification())->ReportError(JGetString("DirectoryExists::JXGlobal"));
+		JGetUserNotification()->ReportError(JGetString("DirectoryExists::JXGlobal"));
 		}
 	else if (err == kJAccessDenied)
 		{
-		(JGetUserNotification())->ReportError(JGetString("DirNotWritable::JXGlobal"));
+		JGetUserNotification()->ReportError(JGetString("DirNotWritable::JXGlobal"));
 		}
 	else
 		{
-		(JGetUserNotification())->ReportError(JGetString("CannotCreateDir::JXCSFDialogBase"));
+		JGetUserNotification()->ReportError(JGetString("CannotCreateDir::JXCSFDialogBase"));
 		}
 }
 

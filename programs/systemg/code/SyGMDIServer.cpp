@@ -121,7 +121,7 @@ void
 SyGMDIServer::OpenFiles()
 {
 	JPtrArray<JString> fileList(JPtrArrayT::kDeleteAll);
-	if ((JGetChooseSaveFile())->ChooseFiles(
+	if (JGetChooseSaveFile()->ChooseFiles(
 			JGetString("OpenFilesPrompt::SyGEditPrefsDialog"),
 			JString::empty, &fileList))
 		{

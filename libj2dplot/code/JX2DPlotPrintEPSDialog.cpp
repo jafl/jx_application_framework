@@ -319,7 +319,7 @@ JX2DPlotPrintEPSDialog::OKToDeactivate()
 	GetPlotSize(&w, &h, &u);
 	if (w < 50 || h < 50)
 		{
-		(JGetUserNotification())->ReportError(JGetString("TooSmall::JX2DPlotPrintEPSDialog"));
+		JGetUserNotification()->ReportError(JGetString("TooSmall::JX2DPlotPrintEPSDialog"));
 		return kJFalse;
 		}
 	else

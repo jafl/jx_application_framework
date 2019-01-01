@@ -158,7 +158,7 @@ JXFloatInput::InputValid()
 		JFloat value;
 		if (!text.ConvertToFloat(&value))
 			{
-			(JGetUserNotification())->ReportError(JGetString("NotANumber::JXFloatInput"));
+			JGetUserNotification()->ReportError(JGetString("NotANumber::JXFloatInput"));
 			return kJFalse;
 			}
 
@@ -197,7 +197,7 @@ JXFloatInput::InputValid()
 
 		if (!valid)
 			{
-			(JGetUserNotification())->ReportError(errorStr);
+			JGetUserNotification()->ReportError(errorStr);
 			}
 		return valid;
 		}

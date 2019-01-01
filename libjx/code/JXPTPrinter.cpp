@@ -193,12 +193,12 @@ JXPTPrinter::Print
 		{
 		if (itsDestination == kPrintToPrinter)
 			{
-			(JGetUserNotification())->ReportError(JGetString("CannotCreateTempFile::JXPTPrinter"));
+			JGetUserNotification()->ReportError(JGetString("CannotCreateTempFile::JXPTPrinter"));
 			}
 		else
 			{
 			assert( itsDestination == kPrintToFile );
-			(JGetUserNotification())->ReportError(JGetString("CannotCreateFile::JXPTPrinter"));
+			JGetUserNotification()->ReportError(JGetString("CannotCreateFile::JXPTPrinter"));
 			}
 		return;
 		}
@@ -207,7 +207,7 @@ JXPTPrinter::Print
 	if (output.fail())
 		{
 		success = kJFalse;
-		(JGetUserNotification())->ReportError(JGetString("CannotPrint::JXPTPrinter"));
+		JGetUserNotification()->ReportError(JGetString("CannotPrint::JXPTPrinter"));
 		}
 
 	output.close();

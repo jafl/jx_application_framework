@@ -36,7 +36,7 @@ main
 	assert( app != nullptr );
 
 	if (displayLicense &&
-		!(JGetUserNotification())->AcceptLicense())
+		!JGetUserNotification()->AcceptLicense())
 		{
 		return 0;
 		}

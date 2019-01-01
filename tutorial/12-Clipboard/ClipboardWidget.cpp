@@ -231,7 +231,7 @@ ClipboardWidget::HandleEditMenu
 		// The selection data is then given to the selection manager.
 		if (!GetSelectionManager()->SetData(kJXClipboardName, data))
 			{
-			(JGetUserNotification())->ReportError("Unable to copy to the X Clipboard.");
+			JGetUserNotification()->ReportError("Unable to copy to the X Clipboard.");
 			}
 		}
 	else if (index == kPasteCmd)
@@ -302,7 +302,7 @@ ClipboardWidget::Paste()
 					}
 				else
 					{
-					(JGetUserNotification())->ReportError(
+					JGetUserNotification()->ReportError(
 						"Unable to retrieve text from the clipboard.");
 					}
 				}
@@ -310,11 +310,11 @@ ClipboardWidget::Paste()
 
 		// If we got this far, the data type that we want wasn't on the
 		// clipboard.
-		(JGetUserNotification())->ReportError("Unable to paste from clipboard.");
+		JGetUserNotification()->ReportError("Unable to paste from clipboard.");
 		}
 	else
 		{
 		// There isn't anything on the clipboard.
-		(JGetUserNotification())->ReportError("Clipboard is empty.");
+		JGetUserNotification()->ReportError("Clipboard is empty.");
 		}
 }

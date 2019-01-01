@@ -47,7 +47,7 @@ THXVarList::THXVarList
 	JArray<JIndex> misfitIndexList;
 	JPtrArray<JString> misfitFnList(JPtrArrayT::kDeleteAll);
 
-	(JGetUserNotification())->SetSilent(kJTrue);		// complain the second time
+	JGetUserNotification()->SetSilent(kJTrue);		// complain the second time
 
 	JExprParser p(this);
 
@@ -76,7 +76,7 @@ THXVarList::THXVarList
 			}
 		}
 
-	(JGetUserNotification())->SetSilent(kJFalse);
+	JGetUserNotification()->SetSilent(kJFalse);
 
 	const JSize misfitCount = misfitIndexList.GetElementCount();
 	for (JIndex i=1; i<=misfitCount; i++)
@@ -210,7 +210,7 @@ THXVarList::SetVariableName
 		}
 	else if (ParseVariableName(name, &index) && index != varIndex)
 		{
-		(JGetUserNotification())->ReportError(JGetString("NameUsed::THXVarList"));
+		JGetUserNotification()->ReportError(JGetString("NameUsed::THXVarList"));
 		return kJFalse;
 		}
 	else

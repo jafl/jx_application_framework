@@ -1257,7 +1257,7 @@ GLRaggedFloatTable::HandleCopyCmd()
 
 	if (!GetSelectionManager()->SetData(kJXClipboardName, data))
 		{
-		(JGetUserNotification())->ReportError(JGetString("CopyFailed::GLRaggedFloatTable"));
+		JGetUserNotification()->ReportError(JGetString("CopyFailed::GLRaggedFloatTable"));
 		}
 }
 

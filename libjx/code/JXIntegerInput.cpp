@@ -158,7 +158,7 @@ JXIntegerInput::InputValid()
 		JInteger value;
 		if (!text.ConvertToInteger(&value))
 			{
-			(JGetUserNotification())->ReportError(JGetString("NotANumber::JXIntegerInput"));
+			JGetUserNotification()->ReportError(JGetString("NotANumber::JXIntegerInput"));
 			return kJFalse;
 			}
 
@@ -197,7 +197,7 @@ JXIntegerInput::InputValid()
 
 		if (!valid)
 			{
-			(JGetUserNotification())->ReportError(errorStr);
+			JGetUserNotification()->ReportError(errorStr);
 			}
 		return valid;
 		}

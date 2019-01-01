@@ -365,7 +365,7 @@ GDBLink::Receive
 	else if (sender == itsDebuggerProcess && message.Is(JProcess::kFinished))
 		{
 		if (!itsWaitingToQuitFlag &&
-			(JGetUserNotification())->AskUserYes(JGetString("DebuggerCrashed::GDBLink")))
+			JGetUserNotification()->AskUserYes(JGetString("DebuggerCrashed::GDBLink")))
 			{
 			RestartDebugger();
 			}
@@ -2412,11 +2412,11 @@ GDBLink::OKToDetachOrKill()
 {
 	if (itsIsAttachedFlag)
 		{
-		return (JGetUserNotification())->AskUserYes(JGetString("WarnDetachProgram::GDBLink"));
+		return JGetUserNotification()->AskUserYes(JGetString("WarnDetachProgram::GDBLink"));
 		}
 	else if (itsIsDebuggingFlag)
 		{
-		return (JGetUserNotification())->AskUserYes(JGetString("WarnKillProgram::GDBLink"));
+		return JGetUserNotification()->AskUserYes(JGetString("WarnKillProgram::GDBLink"));
 		}
 	else
 		{

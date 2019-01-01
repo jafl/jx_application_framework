@@ -472,7 +472,7 @@ JXHorizDockPartition::InsertCompartment
 		}
 	else if (reportError)
 		{
-		(JGetUserNotification())->ReportError(JGetString("NoSpaceHoriz::JXHorizDockPartition"));
+		JGetUserNotification()->ReportError(JGetString("NoSpaceHoriz::JXHorizDockPartition"));
 		}
 }
 
@@ -543,7 +543,7 @@ JXHorizDockPartition::SplitVert
 
 			if (reportError)
 				{
-				(JGetUserNotification())->ReportError(JGetString("NoSpaceVert::JXHorizDockPartition"));
+				JGetUserNotification()->ReportError(JGetString("NoSpaceVert::JXHorizDockPartition"));
 				}
 			}
 		}

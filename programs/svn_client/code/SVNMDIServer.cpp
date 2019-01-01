@@ -126,7 +126,7 @@ SVNMDIServer::HandleMDIRequest
 					{
 					"path", arg.GetBytes()
 					};
-				(JGetUserNotification())->ReportError(JGetString("PathNotFound::SVNMDIServer", map, sizeof(map)));
+				JGetUserNotification()->ReportError(JGetString("PathNotFound::SVNMDIServer", map, sizeof(map)));
 				continue;
 				}
 
@@ -136,7 +136,7 @@ SVNMDIServer::HandleMDIRequest
 				const JBoolean open = (SVNGetWDManager())->GetBrowser(fullPath, &dir);
 				if (open && !dir->OKToStartActionProcess())
 					{
-					(JGetUserNotification())->ReportError(JGetString("WindowBusy::SVNMDIServer"));
+					JGetUserNotification()->ReportError(JGetString("WindowBusy::SVNMDIServer"));
 					}
 				else if (open && action == kRefreshRepo)
 					{
@@ -161,7 +161,7 @@ SVNMDIServer::HandleMDIRequest
 					JString type, error;
 					if (!JGetSVNEntryType(path, &type, &error))
 						{
-						(JGetUserNotification())->ReportError(error);
+						JGetUserNotification()->ReportError(error);
 						continue;
 						}
 					else if (type != "dir")
@@ -181,7 +181,7 @@ SVNMDIServer::HandleMDIRequest
 				if (action != kStatus && action != kInfoLog &&
 					!dir->OKToStartActionProcess())
 					{
-					(JGetUserNotification())->ReportError(JGetString("WindowBusy::SVNMDIServer"));
+					JGetUserNotification()->ReportError(JGetString("WindowBusy::SVNMDIServer"));
 					}
 				else if (action == kUpdate)
 					{

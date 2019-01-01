@@ -419,7 +419,7 @@ JXSaveFileDialog::OKToDeactivate()
 	const JString& fileName = itsFileNameInput->GetText()->GetText();
 	if (fileName.IsEmpty())
 		{
-		(JGetUserNotification())->ReportError(JGetString("MustEnterFileName::JXSaveFileDialog"));
+		JGetUserNotification()->ReportError(JGetString("MustEnterFileName::JXSaveFileDialog"));
 		return kJFalse;
 		}
 
@@ -430,12 +430,12 @@ JXSaveFileDialog::OKToDeactivate()
 
 	if (JDirectoryExists(fullName))
 		{
-		(JGetUserNotification())->ReportError(JGetString("DirExists::JXSaveFileDialog"));
+		JGetUserNotification()->ReportError(JGetString("DirExists::JXSaveFileDialog"));
 		return kJFalse;
 		}
 	else if (!JDirectoryWritable(path) && !fileExists)
 		{
-		(JGetUserNotification())->ReportError(JGetString("DirNotWritable::JXGlobal"));
+		JGetUserNotification()->ReportError(JGetString("DirNotWritable::JXGlobal"));
 		return kJFalse;
 		}
 	else if (!fileExists)
@@ -445,10 +445,10 @@ JXSaveFileDialog::OKToDeactivate()
 		}
 	else if (!JFileWritable(fullName))
 		{
-		(JGetUserNotification())->ReportError(JGetString("FileNotWritable::JXGlobal"));
+		JGetUserNotification()->ReportError(JGetString("FileNotWritable::JXGlobal"));
 		return kJFalse;
 		}
-	else if ((JGetUserNotification())->AskUserNo(JGetString("WarnReplaceFile::JXSaveFileDialog")))
+	else if (JGetUserNotification()->AskUserNo(JGetString("WarnReplaceFile::JXSaveFileDialog")))
 		{
 		itsFileName = fileName;
 		return kJTrue;

@@ -176,7 +176,7 @@ SyGCopyProcess::OKToReplace
 					"src", name.GetBytes()
 					};
 				const JString msg = JGetString("NoMoveIntoSelf::SyGCopyProcess", map, sizeof(map));
-				(JGetUserNotification())->ReportError(msg);
+				JGetUserNotification()->ReportError(msg);
 				return kJFalse;
 				}
 			}
@@ -195,7 +195,7 @@ SyGCopyProcess::OKToReplace
 			"dest",      name.GetBytes()
 			};
 		const JString msg = JGetString("OnlyReplaceSameType::SyGCopyProcess", map, sizeof(map));
-		(JGetUserNotification())->ReportError(msg);
+		JGetUserNotification()->ReportError(msg);
 		return kJFalse;
 		}
 	else if (srcIsDir && destIsDir)		// can't be replaced by contents or v.v.
@@ -213,7 +213,7 @@ SyGCopyProcess::OKToReplace
 				"dest", name.GetBytes()
 				};
 			const JString msg = JGetString("NoReplaceWithContents::SyGCopyProcess", map, sizeof(map));
-			(JGetUserNotification())->ReportError(msg);
+			JGetUserNotification()->ReportError(msg);
 			return kJFalse;
 			}
 		else if (trueDest.BeginsWith(trueSrc))
@@ -223,14 +223,14 @@ SyGCopyProcess::OKToReplace
 				"src", name.GetBytes()
 				};
 			const JString msg = JGetString("NoMoveIntoSelf::SyGCopyProcess", map, sizeof(map));
-			(JGetUserNotification())->ReportError(msg);
+			JGetUserNotification()->ReportError(msg);
 			return kJFalse;
 			}
 		}
 
 	if (*first)
 		{
-		*ask   = !(JGetUserNotification())->AskUserYes(JGetString("AskAutoReplace::SyGCopyProcess"));
+		*ask   = !JGetUserNotification()->AskUserYes(JGetString("AskAutoReplace::SyGCopyProcess"));
 		*first = kJFalse;
 		}
 
@@ -241,7 +241,7 @@ SyGCopyProcess::OKToReplace
 			"name", name.GetBytes()
 			};
 		const JString msg = JGetString("AskReplace::SyGCopyProcess", map, sizeof(map));
-		if (!(JGetUserNotification())->AskUserYes(msg))
+		if (!JGetUserNotification()->AskUserYes(msg))
 			{
 			return kJFalse;
 			}
@@ -334,7 +334,7 @@ SyGCopyProcess::SyGCopyProcess
 		type2 = JGetVCSType(destPath);
 		if (isCopy && type1 == type2 && type1 != kJGitType)
 			{
-			if ((JGetUserNotification())->AskUserYes(JGetString("UseVCSCopy::SyGCopyProcess")))
+			if (JGetUserNotification()->AskUserYes(JGetString("UseVCSCopy::SyGCopyProcess")))
 				{
 				itsVCSType = type1;
 				}
@@ -344,16 +344,16 @@ SyGCopyProcess::SyGCopyProcess
 			itsVCSType = type1;
 			}
 		else if (!isCopy &&
-				 ((type2 == kJUnknownVCSType && !(JGetUserNotification())->AskUserNo(JGetString("NoTargetVCSMove::SyGCopyProcess"))) ||
-				  (type2 != kJUnknownVCSType && !(JGetUserNotification())->AskUserNo(JGetString("MixedVCSMove::SyGCopyProcess")))))
+				 ((type2 == kJUnknownVCSType && !JGetUserNotification()->AskUserNo(JGetString("NoTargetVCSMove::SyGCopyProcess"))) ||
+				  (type2 != kJUnknownVCSType && !JGetUserNotification()->AskUserNo(JGetString("MixedVCSMove::SyGCopyProcess")))))
 			{
 			JXDeleteObjectTask<JBroadcaster>::Delete(this);
 			return;
 			}
 		}
 	else if (!isCopy &&
-			 ((allVCS && !(JGetUserNotification())->AskUserNo(JGetString("MixedVCSMove::SyGCopyProcess"))) ||
-			  (anyVCS && !(JGetUserNotification())->AskUserNo(JGetString("SomeVCSMove::SyGCopyProcess")))))
+			 ((allVCS && !JGetUserNotification()->AskUserNo(JGetString("MixedVCSMove::SyGCopyProcess"))) ||
+			  (anyVCS && !JGetUserNotification()->AskUserNo(JGetString("SomeVCSMove::SyGCopyProcess")))))
 		{
 		JXDeleteObjectTask<JBroadcaster>::Delete(this);
 		return;
@@ -533,7 +533,7 @@ SyGCopyProcess::Receive
 			{
 			process->ReportError(kJFalse);
 
-			if ((JGetUserNotification())->AskUserYes(JGetString("AskPlainVCSMove::SyGCopyProcess")))
+			if (JGetUserNotification()->AskUserYes(JGetString("AskPlainVCSMove::SyGCopyProcess")))
 				{
 				done = kJFalse;
 

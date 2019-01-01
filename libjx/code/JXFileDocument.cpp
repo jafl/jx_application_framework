@@ -297,7 +297,7 @@ JXFileDocument::OKToClose()
 	(JGetStringManager())->Replace(&msg, map, sizeof(map));
 
 	const JUserNotification::CloseAction action =
-		itsAskOKToCloseFlag ? (JGetUserNotification())->OKToClose(msg) :
+		itsAskOKToCloseFlag ? JGetUserNotification()->OKToClose(msg) :
 							  JUserNotification::kSaveData;
 	if (action == JUserNotification::kSaveData)
 		{
@@ -339,7 +339,7 @@ JXFileDocument::OKToRevert()
 			itsSavedFlag? "OKToRevertSavedPrompt::JXFileDocument" : "OKToRevertUnsavedPrompt::JXFileDocument",
 			map, sizeof(map));
 
-		return (JGetUserNotification())->AskUserNo(msg);
+		return JGetUserNotification()->AskUserNo(msg);
 		}
 
 	else if (!itsSavedFlag && ExistsOnDisk())
@@ -350,7 +350,7 @@ JXFileDocument::OKToRevert()
 			"name", itsFileName.GetBytes()
 			};
 		(JGetStringManager())->Replace(&msg, map, sizeof(map));
-		return (JGetUserNotification())->AskUserYes(msg);
+		return JGetUserNotification()->AskUserYes(msg);
 		}
 
 	else
@@ -673,7 +673,7 @@ JXFileDocument::SaveInCurrentFile()
 	if (exists && !JFileWritable(fullName))
 		{
 		JBoolean triedWrite = kJFalse;
-		if ((JGetUserNotification())->AskUserYes(
+		if (JGetUserNotification()->AskUserYes(
 				JGetString("TryChangeWriteProtect::JXFileDocument")))
 			{
 			mode_t perms;
@@ -700,7 +700,7 @@ JXFileDocument::SaveInCurrentFile()
 			triedWrite = kJTrue;
 			}
 
-		if ((JGetUserNotification())->AskUserYes(
+		if (JGetUserNotification()->AskUserYes(
 				JGetString(triedWrite ?
 					"TriedWriteSaveNewFile::JXFileDocument" : "NoTryWriteSaveNewFile::JXFileDocument")))
 			{
@@ -713,13 +713,13 @@ JXFileDocument::SaveInCurrentFile()
 		}
 	else if (!exists && !JDirectoryExists(itsFilePath))
 		{
-		(JGetUserNotification())->ReportError(
+		JGetUserNotification()->ReportError(
 			JGetString("DirNonexistentNoSaveError::JXFileDocument"));
 		return kJFalse;
 		}
 	else if (!exists && !dirWritable)
 		{
-		(JGetUserNotification())->ReportError(
+		JGetUserNotification()->ReportError(
 			JGetString("DirWriteProtectNoSaveError::JXFileDocument"));
 		return kJFalse;
 		}
@@ -733,7 +733,7 @@ JXFileDocument::SaveInCurrentFile()
 				};
 			const JString msg = JGetString("OverwriteChangedFilePrompt::JXFileDocument",
 										   map, sizeof(map));
-			if (!(JGetUserNotification())->AskUserNo(msg))
+			if (!JGetUserNotification()->AskUserNo(msg))
 				{
 				return kJFalse;
 				}
@@ -765,14 +765,14 @@ JXFileDocument::SaveInCurrentFile()
 						"err", err.GetMessage().GetBytes()
 						};
 					const JString msg = JGetString("NoBackupError::JXFileDocument", map, sizeof(map));
-					if (!(JGetUserNotification())->AskUserNo(msg))
+					if (!JGetUserNotification()->AskUserNo(msg))
 						{
 						return kJFalse;
 						}
 					}
 				}
 			else if (makeBackup &&
-					 !(JGetUserNotification())->AskUserNo(
+					 !JGetUserNotification()->AskUserNo(
 							JGetString("NoBackupDirWriteProtectError::JXFileDocument")))
 				{
 				return kJFalse;
@@ -1069,7 +1069,7 @@ JXFileDocument::CheckForSafetySaveFiles
 			};
 
 		if (id != nullptr &&
-			(JGetUserNotification())->AskUserYes(
+			JGetUserNotification()->AskUserYes(
 				JGetString(id, map, sizeof(map))))
 			{
 			if (safetyExists)

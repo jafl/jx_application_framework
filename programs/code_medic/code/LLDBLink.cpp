@@ -1925,11 +1925,11 @@ LLDBLink::OKToDetachOrKill()
 {
 	if (itsIsAttachedFlag)
 		{
-		return (JGetUserNotification())->AskUserYes(JGetString("WarnDetachProgram::LLDBLink"));
+		return JGetUserNotification()->AskUserYes(JGetString("WarnDetachProgram::LLDBLink"));
 		}
 	else if (IsDebugging())
 		{
-		return (JGetUserNotification())->AskUserYes(JGetString("WarnKillProgram::LLDBLink"));
+		return JGetUserNotification()->AskUserYes(JGetString("WarnKillProgram::LLDBLink"));
 		}
 	else
 		{

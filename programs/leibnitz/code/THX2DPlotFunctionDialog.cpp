@@ -244,7 +244,7 @@ THX2DPlotFunctionDialog::OKToDeactivate()
 
 	else if (itsExprWidget->ContainsUIF())
 		{
-		(JGetUserNotification())->ReportError(JGetString("FinishFunction::THX2DPlotFunctionDialog"));
+		JGetUserNotification()->ReportError(JGetString("FinishFunction::THX2DPlotFunctionDialog"));
 		itsExprWidget->Focus();
 		return kJFalse;
 		}

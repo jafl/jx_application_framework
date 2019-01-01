@@ -190,7 +190,7 @@ CBTEScriptMenu::HandleSelection
 			origName         = JCombinePathAndName(origName, "script");
 
 			JString fullName;
-			if ((JGetChooseSaveFile())->SaveFile(JGetString(kSavePromptID), nullptr,
+			if (JGetChooseSaveFile()->SaveFile(JGetString(kSavePromptID), nullptr,
 												 origName, &fullName))
 				{
 				std::ofstream output(fullName);

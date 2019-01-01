@@ -332,13 +332,13 @@ GLPlotApp::OpenFile
 		{
 		JString msg = fileName;
 		msg += " does not exist.";
-		(JGetUserNotification())->ReportError(msg);
+		JGetUserNotification()->ReportError(msg);
 		}
 	else if (!JFileReadable(fileName))
 		{
 		JString msg = fileName;
 		msg += " is not readable.";
-		(JGetUserNotification())->ReportError(msg);
+		JGetUserNotification()->ReportError(msg);
 		}
 	else
 		{

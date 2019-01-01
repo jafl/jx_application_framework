@@ -472,7 +472,7 @@ JXVertDockPartition::InsertCompartment
 		}
 	else
 		{
-		(JGetUserNotification())->ReportError(JGetString("NoSpaceVert::JXVertDockPartition"));
+		JGetUserNotification()->ReportError(JGetString("NoSpaceVert::JXVertDockPartition"));
 		}
 }
 
@@ -543,7 +543,7 @@ JXVertDockPartition::SplitHoriz
 
 			if (reportError)
 				{
-				(JGetUserNotification())->ReportError(JGetString("NoSpaceHoriz::JXVertDockPartition"));
+				JGetUserNotification()->ReportError(JGetString("NoSpaceHoriz::JXVertDockPartition"));
 				}
 			}
 		}

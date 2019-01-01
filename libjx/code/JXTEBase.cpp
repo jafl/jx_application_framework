@@ -467,7 +467,7 @@ JXTEBase::HandleMouseDown
 {
 	if (itsSearchMenu != nullptr || itsReplaceMenu != nullptr)
 		{
-		(JXGetSearchTextDialog())->SetActiveTE(this);
+		JXGetSearchTextDialog()->SetActiveTE(this);
 		}
 
 	const Type type = GetType();
@@ -1034,7 +1034,7 @@ JXTEBase::HandleFocusEvent()
 
 		if (itsSearchMenu != nullptr || itsReplaceMenu != nullptr)
 			{
-			(JXGetSearchTextDialog())->SetActiveTE(this);
+			JXGetSearchTextDialog()->SetActiveTE(this);
 			}
 		}
 }
@@ -1054,7 +1054,7 @@ JXTEBase::HandleUnfocusEvent()
 
 	if (itsSearchMenu != nullptr || itsReplaceMenu != nullptr)
 		{
-		(JXGetSearchTextDialog())->TEDeactivated(this);
+		JXGetSearchTextDialog()->TEDeactivated(this);
 		}
 }
 
@@ -1121,7 +1121,7 @@ JXTEBase::HandleKeyPress
 {
 	if (itsSearchMenu != nullptr || itsReplaceMenu != nullptr)
 		{
-		(JXGetSearchTextDialog())->SetActiveTE(this);
+		JXGetSearchTextDialog()->SetActiveTE(this);
 		}
 
 	int keySym               = origKeySym;
@@ -1352,7 +1352,7 @@ JXTEBase::HandleShortcut
 {
 	if (itsSearchMenu != nullptr || itsReplaceMenu != nullptr)
 		{
-		(JXGetSearchTextDialog())->SetActiveTE(this);
+		JXGetSearchTextDialog()->SetActiveTE(this);
 		}
 	JXScrollableWidget::HandleShortcut(key, modifiers);
 }
@@ -1623,7 +1623,7 @@ JXTEBase::TEUpdateClipboard
 
 	if (!GetSelectionManager()->SetData(kJXClipboardName, data))
 		{
-		(JGetUserNotification())->ReportError(JGetString("UnableToCopy::JXTEBase"));
+		JGetUserNotification()->ReportError(JGetString("UnableToCopy::JXTEBase"));
 		}
 }
 
@@ -2441,7 +2441,7 @@ JXTEBase::HandleEditMenu
 
 	if (itsSearchMenu != nullptr || itsReplaceMenu != nullptr)
 		{
-		(JXGetSearchTextDialog())->SetActiveTE(this);
+		JXGetSearchTextDialog()->SetActiveTE(this);
 		}
 
 	if (cmd == kUndoCmd)
@@ -2696,11 +2696,11 @@ JXTEBase::HandleSearchReplaceCmd
 	const CmdIndex cmd
 	)
 {
-	(JXGetSearchTextDialog())->SetActiveTE(this);
+	JXGetSearchTextDialog()->SetActiveTE(this);
 
 	if (cmd == kFindDialogCmd)
 		{
-		(JXGetSearchTextDialog())->Activate();
+		JXGetSearchTextDialog()->Activate();
 		}
 	else if (cmd == kFindPreviousCmd)
 		{
@@ -2797,7 +2797,7 @@ JBoolean
 JXTEBase::TEHasSearchText()
 	const
 {
-	return (JXGetSearchTextDialog())->HasSearchText();
+	return JXGetSearchTextDialog()->HasSearchText();
 }
 
 /******************************************************************************
@@ -2818,7 +2818,7 @@ JXTEBase::SearchForward
 	JString replaceStr;
 	JInterpolate* interpolator;
 	JBoolean entireWord, wrapSearch, preserveCase;
-	if (!(JXGetSearchTextDialog())->GetSearchParameters(
+	if (!JXGetSearchTextDialog()->GetSearchParameters(
 			&searchRegex, &entireWord, &wrapSearch,
 			&replaceStr, &interpolator, &preserveCase))
 		{
@@ -2861,7 +2861,7 @@ JXTEBase::SearchBackward()
 	JString replaceStr;
 	JInterpolate* interpolator;
 	JBoolean entireWord, wrapSearch, preserveCase;
-	if (!(JXGetSearchTextDialog())->GetSearchParameters(
+	if (!JXGetSearchTextDialog()->GetSearchParameters(
 			&searchRegex, &entireWord, &wrapSearch,
 			&replaceStr, &interpolator, &preserveCase))
 		{
@@ -2901,7 +2901,7 @@ JXTEBase::SearchClipboardForward()
 	JRunArray<JFont> style;
 	if (TEGetClipboard(&text, &style))
 		{
-		(JXGetSearchTextDialog())->SetSearchText(text);
+		JXGetSearchTextDialog()->SetSearchText(text);
 		return SearchForward();
 		}
 	else
@@ -2917,7 +2917,7 @@ JXTEBase::SearchClipboardBackward()
 	JRunArray<JFont> style;
 	if (TEGetClipboard(&text, &style))
 		{
-		(JXGetSearchTextDialog())->SetSearchText(text);
+		JXGetSearchTextDialog()->SetSearchText(text);
 		return SearchBackward();
 		}
 	else
@@ -2940,7 +2940,7 @@ JXTEBase::EnterSearchSelection()
 	JString selText;
 	if (GetSelection(&selText))
 		{
-		(JXGetSearchTextDialog())->SetSearchText(selText);
+		JXGetSearchTextDialog()->SetSearchText(selText);
 		return kJTrue;
 		}
 	else
@@ -2963,7 +2963,7 @@ JXTEBase::EnterReplaceSelection()
 	JString selText;
 	if (GetSelection(&selText))
 		{
-		(JXGetSearchTextDialog())->SetReplaceText(selText);
+		JXGetSearchTextDialog()->SetReplaceText(selText);
 		return kJTrue;
 		}
 	else
@@ -2989,7 +2989,7 @@ JXTEBase::ReplaceSelection()
 	JInterpolate* interpolator;
 	JBoolean entireWord, wrapSearch, preserveCase;
 	if (GetType() != kFullEditor ||
-		!(JXGetSearchTextDialog())->GetSearchParameters(
+		!JXGetSearchTextDialog()->GetSearchParameters(
 			&searchRegex, &entireWord, &wrapSearch,
 			&replaceStr, &interpolator, &preserveCase))
 		{
@@ -3029,7 +3029,7 @@ JXTEBase::ReplaceAll
 	JInterpolate* interpolator;
 	JBoolean entireWord, wrapSearch, preserveCase;
 	if (GetType() == kFullEditor &&
-		(JXGetSearchTextDialog())->GetSearchParameters(
+		JXGetSearchTextDialog()->GetSearchParameters(
 			&searchRegex, &entireWord, &wrapSearch,
 			&replaceStr, &interpolator, &preserveCase))
 		{

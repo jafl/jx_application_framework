@@ -1196,7 +1196,7 @@ SVNMainDirector::HandleActionsMenu
 		{
 		JIndex i;
 		if (itsTabGroup->GetCurrentTabIndex(&i) &&
-			(JGetUserNotification())->AskUserNo(JGetString("WarnRemoveProperties::SVNMainDirector")))
+			JGetUserNotification()->AskUserNo(JGetString("WarnRemoveProperties::SVNMainDirector")))
 			{
 			(itsTabList->GetElement(i))->SchedulePropertiesForRemove();
 			}
@@ -1364,7 +1364,7 @@ void
 SVNMainDirector::RevertAll()
 {
 	if (HasPath() &&
-		(JGetUserNotification())->AskUserNo(JGetString("WarnRevertAll::SVNMainDirector")))
+		JGetUserNotification()->AskUserNo(JGetString("WarnRevertAll::SVNMainDirector")))
 		{
 		Execute("RevertAllTab::SVNMainDirector",
 				JString("svn revert -R .", kJFalse), kJFalse, kJTrue, kJTrue);

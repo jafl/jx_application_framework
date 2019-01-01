@@ -367,9 +367,9 @@ JExprEditor::Undo()
 		return;
 		}
 
-	(JGetUserNotification())->SetSilent(kJTrue);
+	JGetUserNotification()->SetSilent(kJTrue);
 	const JBoolean currFnOK = EndEditing();
-	(JGetUserNotification())->SetSilent(kJFalse);
+	JGetUserNotification()->SetSilent(kJFalse);
 
 	if (currFnOK)
 		{
@@ -791,7 +791,7 @@ JExprEditor::ApplyFunction
 			"name", fnName.GetBytes()
 		};
 		const JString msg = JGetString("UnknownFunction::JExprEditor", map, sizeof(map));
-		(JGetUserNotification())->ReportError(msg);
+		JGetUserNotification()->ReportError(msg);
 		return kJFalse;
 		}
 

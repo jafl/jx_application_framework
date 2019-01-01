@@ -191,7 +191,7 @@ CBSymbolTable::DisplaySelectedSymbols()
 				"list", missingFiles
 				};
 			const JString msg = JGetString(kMissingFilesID, map, sizeof(map));
-			(JGetUserNotification())->ReportError(msg);
+			JGetUserNotification()->ReportError(msg);
 			}
 		}
 }

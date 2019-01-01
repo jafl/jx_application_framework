@@ -118,14 +118,14 @@ JXFSEditBindingsDialog::CheckData()
 		!(itsShellCmd->GetText()->GetText()).Contains("$u"))
 		{
 		itsShellCmd->Focus();
-		(JGetUserNotification())->ReportError(JGetString("MissingUorQ::JXFSEditBindingsDialog"));
+		JGetUserNotification()->ReportError(JGetString("MissingUorQ::JXFSEditBindingsDialog"));
 		return kJFalse;
 		}
 	else if (!(itsWindowCmd->GetText()->GetText()).Contains("$q") &&
 			 !(itsWindowCmd->GetText()->GetText()).Contains("$u"))
 		{
 		itsWindowCmd->Focus();
-		(JGetUserNotification())->ReportError(JGetString("MissingUorQ::JXFSEditBindingsDialog"));
+		JGetUserNotification()->ReportError(JGetString("MissingUorQ::JXFSEditBindingsDialog"));
 		return kJFalse;
 		}
 
@@ -405,7 +405,7 @@ JXFSEditBindingsDialog::Save
 {
 	if (!CheckData() ||
 		(askReplace && itsBindingList->NeedsRevert() &&
-		 !(JGetUserNotification())->AskUserYes(JGetString("WarnOverwrite::JXFSEditBindingsDialog"))))
+		 !JGetUserNotification()->AskUserYes(JGetString("WarnOverwrite::JXFSEditBindingsDialog"))))
 		{
 		return kJFalse;
 		}

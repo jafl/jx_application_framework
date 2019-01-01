@@ -303,7 +303,7 @@ CMStackWidget::HandleMouseDown
 				}
 			else
 				{
-				(JGetUserNotification())->ReportError(JGetString(kNoSourceFileID));
+				JGetUserNotification()->ReportError(JGetString(kNoSourceFileID));
 				}
 			}
 		else

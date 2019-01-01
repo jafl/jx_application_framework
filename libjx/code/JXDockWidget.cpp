@@ -199,7 +199,7 @@ JXDockWidget::Dock
 		{
 		if (reportError)
 			{
-			(JGetUserNotification())->ReportError(JGetString("WindowWillNotFit::JXDockWidget"));
+			JGetUserNotification()->ReportError(JGetString("WindowWillNotFit::JXDockWidget"));
 			}
 		return kJFalse;
 		}

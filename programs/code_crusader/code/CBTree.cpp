@@ -2126,7 +2126,7 @@ CBTree::DeriveFromSelected()
 
 	if (!JProgramAvailable(kCodeMillProgramName))
 		{
-		(JGetUserNotification())->DisplayMessage(JGetString(kRequiresCodeMillID));
+		JGetUserNotification()->DisplayMessage(JGetString(kRequiresCodeMillID));
 		return;
 		}
 

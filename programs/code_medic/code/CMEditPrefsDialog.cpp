@@ -341,7 +341,7 @@ CMEditPrefsDialog::ChooseDebugger
 	const JString prompt = JGetString("ChooseDebuggerPrompt::CMEditPrefsDialog", map, sizeof(map));
 
 	JString fullName;
-	if ((JGetChooseSaveFile())->ChooseFile(prompt, "", &fullName))
+	if (JGetChooseSaveFile()->ChooseFile(prompt, "", &fullName))
 		{
 		JString text = input->GetText();
 		JIndex i;

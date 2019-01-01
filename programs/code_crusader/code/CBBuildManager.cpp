@@ -262,7 +262,7 @@ CBBuildManager::UpdateMakeFiles
 		{
 		if (reportError)
 			{
-			(JGetUserNotification())->ReportError(JGetString(kMissingBuildTargetID));
+			JGetUserNotification()->ReportError(JGetString(kMissingBuildTargetID));
 			EditProjectConfig();
 			}
 		return kJFalse;
@@ -306,7 +306,7 @@ CBBuildManager::UpdateMakeFiles
 			CBProjectTable*	fileTable = itsProjDoc->GetFileTable();
 			fileTable->ClearSelection();
 			fileTable->SelectFileNodes(invalidList);
-			(JGetUserNotification())->ReportError(JGetString(kMissingSourceFilesID));
+			JGetUserNotification()->ReportError(JGetString(kMissingSourceFilesID));
 			itsProjDoc->Activate();
 			}
 		return kJFalse;
@@ -315,7 +315,7 @@ CBBuildManager::UpdateMakeFiles
 		{
 		if (reportError)
 			{
-			(JGetUserNotification())->ReportError(JGetString(kNoSourceFilesID));
+			JGetUserNotification()->ReportError(JGetString(kNoSourceFilesID));
 			itsProjDoc->Activate();
 			}
 		return kJFalse;
@@ -808,7 +808,7 @@ CBBuildManager::EditMakeConfig()
 			}
 		}
 
-	(JGetUserNotification())->ReportError(JGetString(kNoMakeFileID));
+	JGetUserNotification()->ReportError(JGetString(kNoMakeFileID));
 	return kJFalse;
 }
 

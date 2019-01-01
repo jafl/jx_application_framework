@@ -158,7 +158,7 @@ CBFileNameDisplay::HandleUnfocusEvent()
 		JExpandHomeDirShortcut(GetText(), &fullName))
 		{
 		if (JIsRelativePath(fullName) &&
-			!(JGetChooseSaveFile())->SaveFile("Save file as:", "", fullName, &fullName))
+			!JGetChooseSaveFile()->SaveFile("Save file as:", "", fullName, &fullName))
 			{
 			fullName.Clear();
 			}
@@ -204,12 +204,12 @@ CBFileNameDisplay::InputValid()
 		}
 	else if (text.IsEmpty())
 		{
-		(JGetUserNotification())->ReportError(JGetString(kEmptyErrorID));
+		JGetUserNotification()->ReportError(JGetString(kEmptyErrorID));
 		return kJFalse;
 		}
 	else if (text.EndsWith(ACE_DIRECTORY_SEPARATOR_STR))
 		{
-		(JGetUserNotification())->ReportError(JGetString(kNoFileNameID));
+		JGetUserNotification()->ReportError(JGetString(kNoFileNameID));
 		return kJFalse;
 		}
 	else if (JIsRelativePath(text))
@@ -240,7 +240,7 @@ CBFileNameDisplay::InputValid()
 			"f", text
 			};
 		const JString msg = JGetString(kOKToReplaceID, map, sizeof(map));
-		if (!(JGetUserNotification())->AskUserNo(msg))
+		if (!JGetUserNotification()->AskUserNo(msg))
 			{
 			return kJFalse;
 			}

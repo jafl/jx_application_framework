@@ -215,7 +215,7 @@ CBCtagsUser::ProcessFile
 
 		if (!CBInUpdateThread())
 			{
-			(JGetUserNotification())->ReportError(
+			JGetUserNotification()->ReportError(
 				"ctags is not responding correctly, "
 				"so some features will not work.");
 			}

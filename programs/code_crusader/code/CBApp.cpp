@@ -171,7 +171,7 @@ void
 CBApp::Quit()
 {
 	if (!itsWarnBeforeQuitFlag ||
-		(JGetUserNotification())->AskUserNo(JGetString("AskQuit::CBApp")))
+		JGetUserNotification()->AskUserNo(JGetString("AskQuit::CBApp")))
 		{
 		JXApplication::Quit();
 		}
@@ -439,7 +439,7 @@ CBApp::FindFile
 			"name", fileName.GetBytes()
 		};
 		const JString msg = JGetString("FileNotFound::CBApp", map, sizeof(map));
-		(JGetUserNotification())->ReportError(msg);
+		JGetUserNotification()->ReportError(msg);
 		}
 
 	fullName->Clear();

@@ -370,7 +370,7 @@ GLVarList::SetVariableName
 		}
 	else if (ParseVariableName(str, &index) && index != varIndex)
 		{
-		(JGetUserNotification())->ReportError(JGetString("NameUsed::GLVarList"));
+		JGetUserNotification()->ReportError(JGetString("NameUsed::GLVarList"));
 		return kJFalse;
 		}
 	else

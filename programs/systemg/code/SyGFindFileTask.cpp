@@ -243,11 +243,11 @@ SyGFindFileTask::DisplayErrors()
 {
 	if (!itsErrors.IsEmpty())
 		{
-		(JGetUserNotification())->ReportError(itsErrors);
+		JGetUserNotification()->ReportError(itsErrors);
 		}
 	else if (!itsFoundFilesFlag)
 		{
-		(JGetUserNotification())->DisplayMessage(JGetString("NoMatch::SyGFindFileTask"));
+		JGetUserNotification()->DisplayMessage(JGetString("NoMatch::SyGFindFileTask"));
 		}
 }
 

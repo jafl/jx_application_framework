@@ -191,7 +191,7 @@ SyGApplication::OpenDirectory
 			{
 				"name", pathName.GetBytes()
 			};
-			(JGetUserNotification())->ReportError(JGetString("PathDoesNotExist::SyGApplication", map, sizeof(map)));
+			JGetUserNotification()->ReportError(JGetString("PathDoesNotExist::SyGApplication", map, sizeof(map)));
 			}
 		return kJFalse;
 		}
@@ -218,7 +218,7 @@ SyGApplication::OpenDirectory
 			{
 				"name", pathName.GetBytes()
 			};
-			(JGetUserNotification())->ReportError(JGetString("Unreadable::SyGApplication", map, sizeof(map)));
+			JGetUserNotification()->ReportError(JGetString("Unreadable::SyGApplication", map, sizeof(map)));
 			}
 		return kJFalse;
 		}
@@ -241,7 +241,7 @@ SyGApplication::OpenDirectory
 					"name", p.GetBytes()
 				};
 				const JString msg = JGetString("PathDoesNotExist::SyGApplication", map, sizeof(map));
-				(JGetUserNotification())->ReportError(msg);
+				JGetUserNotification()->ReportError(msg);
 				}
 			return kJFalse;
 			}

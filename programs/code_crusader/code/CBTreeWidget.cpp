@@ -179,7 +179,7 @@ CBTreeWidget::FindClass
 		{
 		if (reportNotFound)
 			{
-			(JGetUserNotification())->ReportError(
+			JGetUserNotification()->ReportError(
 				"There are no classes with that name.");
 			}
 		return kJFalse;
@@ -255,7 +255,7 @@ CBTreeWidget::FindFunction
 		{
 		if (reportNotFound)
 			{
-			(JGetUserNotification())->ReportError(
+			JGetUserNotification()->ReportError(
 				"No class implements that function.");
 			}
 		return kJFalse;
@@ -445,7 +445,7 @@ CBTreeWidget::HandleMouseDown
 			}
 		else if (button == kJXRightButton && clickCount == 2)
 			{
-			(JGetUserNotification())->ReportError("Ghost classes cannot be opened.");
+			JGetUserNotification()->ReportError("Ghost classes cannot be opened.");
 			}
 		}
 
@@ -724,7 +724,7 @@ CBTreeWidget::HandleDNDDrop
 
 	if (dirList.IsEmpty() && urlList.IsEmpty())
 		{
-		(JGetUserNotification())->ReportError(
+		JGetUserNotification()->ReportError(
 			"You can only drop directories on the class tree, "
 			"not individual files.");
 		}

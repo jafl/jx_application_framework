@@ -259,7 +259,7 @@ CBProjectDocument::Create
 		std::ofstream temp(fullName);
 		if (!temp.good())
 			{
-			(JGetUserNotification())->ReportError(
+			JGetUserNotification()->ReportError(
 				"The project file could not be created.  "
 				"Please check that the directory is writable.");
 			return kJFalse;
@@ -374,7 +374,7 @@ CBProjectDocument::Create
 		(
 		 !theWarnOpenOldVersionFlag ||
 		 vers == kCurrentProjectFileVersion ||
-		 (JGetUserNotification())->AskUserYes(JGetString("WarnOldVersion::CBProjectDocument"))))
+		 JGetUserNotification()->AskUserYes(JGetString("WarnOldVersion::CBProjectDocument"))))
 		{
 		JString testContent;
 		JReadFile(projName, &testContent);
@@ -382,7 +382,7 @@ CBProjectDocument::Create
 			testContent.Contains("=======") &&
 			testContent.Contains(">>>>>>>"))
 		{
-			(JGetUserNotification())->ReportError(JGetString("VCSConflict::CBProjectDocument"));
+			JGetUserNotification()->ReportError(JGetString("VCSConflict::CBProjectDocument"));
 			return kNotMyFile;
 		}
 
@@ -396,7 +396,7 @@ CBProjectDocument::Create
 		}
 	else if (status == kNeedNewerVersion)
 		{
-		(JGetUserNotification())->ReportError(JGetString("NeedNewerVersion::CBProjectDocument"));
+		JGetUserNotification()->ReportError(JGetString("NeedNewerVersion::CBProjectDocument"));
 		}
 
 	return status;
@@ -1025,7 +1025,7 @@ CBProjectDocument::ReadTasksFromProjectFile
 	const FileStatus status = CanReadFile(input, &vers);
 	if (status == kFileReadable && vers < 71)
 		{
-		(JGetUserNotification())->ReportError(JGetString("FileTooOld::CBProjectDocument"));
+		JGetUserNotification()->ReportError(JGetString("FileTooOld::CBProjectDocument"));
 		return kJTrue;
 		}
 	else if (status == kFileReadable)
@@ -1037,13 +1037,13 @@ CBProjectDocument::ReadTasksFromProjectFile
 		if (!foundDelimiter ||
 			!CBCommandManager::ReadCommands(input, &makeDependCmd, 	cmdList))
 			{
-			(JGetUserNotification())->ReportError(JGetString("InvalidProjectFile::CBProjectDocument"));
+			JGetUserNotification()->ReportError(JGetString("InvalidProjectFile::CBProjectDocument"));
 			}
 		return kJTrue;
 		}
 	else if (status == kNeedNewerVersion)
 		{
-		(JGetUserNotification())->ReportError(JGetString("NeedNewerVersion::CBProjectDocument"));
+		JGetUserNotification()->ReportError(JGetString("NeedNewerVersion::CBProjectDocument"));
 		return kJTrue;
 		}
 	else
@@ -1964,7 +1964,7 @@ CBProjectDocument::SaveAsTemplate()
 		origName = JCombinePathAndName(origName, GetFileName());
 
 		JString tmplName;
-		if ((JGetChooseSaveFile())->SaveFile("Save project template as:", nullptr,
+		if (JGetChooseSaveFile()->SaveFile("Save project template as:", nullptr,
 											 origName, &tmplName))
 			{
 			WriteTemplate(tmplName);

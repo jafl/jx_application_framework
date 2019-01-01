@@ -277,7 +277,7 @@ SyGGetTrashDirectory
 		{
 		if (reportErrors)
 			{
-			(JGetUserNotification())->ReportError(JGetString("NoPrefsDir::SyGGlobals"));
+			JGetUserNotification()->ReportError(JGetString("NoPrefsDir::SyGGlobals"));
 			}
 		return kJFalse;
 		}
@@ -312,7 +312,7 @@ SyGGetTrashDirectory
 				"err",  err.GetMessage().GetBytes()
 			};
 			const JString msg = JGetString("CreatePrefsDirError::SyGGlobals", map, sizeof(map));
-			(JGetUserNotification())->ReportError(msg);
+			JGetUserNotification()->ReportError(msg);
 			}
 		return kJFalse;
 		}
@@ -370,7 +370,7 @@ SyGEmptyTrashDirectory()
 		}
 	else if (hasTrash)
 		{
-		(JGetUserNotification())->ReportError(JGetString("EmptyTrashError::SyGGlobals"));
+		JGetUserNotification()->ReportError(JGetString("EmptyTrashError::SyGGlobals"));
 		return kJFalse;
 		}
 	else
@@ -414,7 +414,7 @@ SyGExec
 	const JError err = JRunProgram(cmd, &errOutput);
 	if (!err.OK() && report)
 		{
-		(JGetUserNotification())->ReportError(err.GetMessage());
+		JGetUserNotification()->ReportError(err.GetMessage());
 		}
 	return err.OK();
 }
@@ -955,7 +955,7 @@ SyGGetRecentFileDirectory
 		{
 		if (reportErrors)
 			{
-			(JGetUserNotification())->ReportError(JGetString("NoPrefsDir::SyGGlobals"));
+			JGetUserNotification()->ReportError(JGetString("NoPrefsDir::SyGGlobals"));
 			}
 		return kJFalse;
 		}
@@ -988,7 +988,7 @@ SyGGetRecentFileDirectory
 				"err",  err.GetMessage().GetBytes()
 			};
 			const JString msg = JGetString("CreatePrefsDirError::SyGGlobals", map, sizeof(map));
-			(JGetUserNotification())->ReportError(msg);
+			JGetUserNotification()->ReportError(msg);
 			}
 		return kJFalse;
 		}

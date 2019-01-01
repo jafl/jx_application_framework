@@ -160,7 +160,7 @@ JStringManager::ReportError
 		"err", message.GetBytes()
 		};
 	const JString s = Get(id, map, sizeof(map));
-	(JGetUserNotification())->ReportError(s);
+	JGetUserNotification()->ReportError(s);
 }
 
 /******************************************************************************
