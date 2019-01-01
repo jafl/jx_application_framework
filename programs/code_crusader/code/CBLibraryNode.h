@@ -16,24 +16,24 @@ class CBLibraryNode : public CBFileNodeBase
 {
 public:
 
-	CBLibraryNode(CBProjectTree* tree, const JCharacter* fileName);
+	CBLibraryNode(CBProjectTree* tree, const JString& fileName);
 	CBLibraryNode(std::istream& input, const JFileVersion vers,
 				  CBProjectNode* parent);
 
 	virtual ~CBLibraryNode();
 
-	virtual void	OpenFile() const;
-	virtual void	OpenComplementFile() const;
+	virtual void	OpenFile() const override;
+	virtual void	OpenComplementFile() const override;
 	void			EditSubprojectConfig();
 
 	JBoolean	OpenProject(const JBoolean silent = kJFalse);
 
-	virtual void		StreamOut(std::ostream& output) const;
-	virtual JBoolean	IncludedInMakefile() const;
+	virtual void		StreamOut(std::ostream& output) const override;
+	virtual JBoolean	IncludedInMakefile() const override;
 	virtual void		BuildMakeFiles(JString* text,
 									   JPtrArray<JTreeNode>* invalidList,
 									   JPtrArray<JString>* libFileList,
-									   JPtrArray<JString>* libProjPathList) const;
+									   JPtrArray<JString>* libProjPathList) const override;
 
 protected:
 

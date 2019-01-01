@@ -23,8 +23,8 @@
 
 CBLibraryNode::CBLibraryNode
 	(
-	CBProjectTree*		tree,
-	const JCharacter*	fileName
+	CBProjectTree*	tree,
+	const JString&	fileName
 	)
 	:
 	CBFileNodeBase(tree, kCBLibraryNT, fileName)
@@ -44,12 +44,12 @@ CBLibraryNode::CBLibraryNode
 	CBLibraryNodeX();
 	if (vers >= 39)
 		{
-		input >> itsIncludeInDepListFlag;
+		input >> JBoolFromString(itsIncludeInDepListFlag);
 		}
 	input >> itsProjFileName;
 	if (vers >= 38)
 		{
-		input >> itsShouldBuildFlag;
+		input >> JBoolFromString(itsShouldBuildFlag);
 		}
 }
 
@@ -85,9 +85,9 @@ CBLibraryNode::StreamOut
 	const
 {
 	CBFileNodeBase::StreamOut(output);
-	output << ' ' << itsIncludeInDepListFlag;
+	output << ' ' << JBoolToString(itsIncludeInDepListFlag);
 	output << ' ' << itsProjFileName;
-	output << ' ' << itsShouldBuildFlag << '\n';
+	output << ' ' << JBoolToString(itsShouldBuildFlag) << '\n';
 }
 
 /******************************************************************************

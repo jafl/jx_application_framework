@@ -27,8 +27,8 @@
 
 CBFileNode::CBFileNode
 	(
-	CBProjectTree*		tree,
-	const JCharacter*	fileName
+	CBProjectTree*	tree,
+	const JString&	fileName
 	)
 	:
 	CBFileNodeBase(tree, kCBFileNT, fileName)
@@ -154,19 +154,21 @@ CBFileNode::OpenComplementFile()
 		const CBTextFileType type = CBGetPrefsManager()->GetFileType(fullName);
 		if (type == kCBHTMLFT || type == kCBXMLFT)
 			{
-			(JXGetWebBrowser())->ShowFileContent(fullName);
+			JXGetWebBrowser()->ShowFileContent(fullName);
 			}
 		else
 			{
-			(CBGetDocumentManager())->OpenComplementFile(fullName, type);
+			CBGetDocumentManager()->OpenComplementFile(fullName, type);
 			}
 		}
 	else
 		{
-		JString msg = "Unable to find complement of \"";
-		msg += GetFileName();
-		msg.AppendCharacter('"');
-		(JGetUserNotification())->ReportError(msg);
+		const JUtf8Byte* map[] =
+		{
+			"name", GetFileName().GetBytes()
+		};
+		const JString msg = JGetString("ComplFileNotFound::CBFileNode", map, sizeof(map));
+		JGetUserNotification()->ReportError(msg);
 		}
 }
 
@@ -185,7 +187,7 @@ CBFileNode::ViewPlainDiffs
 	JString fullName;
 	if (GetFullName(&fullName))
 		{
-		(CBGetDiffFileDialog())->ViewDiffs(kJTrue, fullName, silent);
+		CBGetDiffFileDialog()->ViewDiffs(kJTrue, fullName, silent);
 		}
 	else
 		{
@@ -234,7 +236,7 @@ CBFileNode::CreateFilesForTemplate
 	CBFileNodeBase::CreateFilesForTemplate(input, vers);
 
 	JBoolean exists;
-	input >> exists;
+	input >> JBoolFromString(exists);
 	if (exists)
 		{
 		JString relName, data;
@@ -249,17 +251,18 @@ CBFileNode::CreateFilesForTemplate
 		const JString& basePath = (projTree->GetProjectDoc())->GetFilePath();
 		path = JCombinePathAndName(basePath, path);
 
-		JUserNotification* un = JGetUserNotification();
 		if (!JDirectoryExists(path))
 			{
 			const JError err = JCreateDirectory(path);
 			if (!err.OK())
 				{
-				JString msg = "Unable to create the file ";
-				msg += relName;
-				msg += " from the template because:\n\n";
-				msg += err.GetMessage();
-				un->ReportError(msg);
+				const JUtf8Byte* map[] =
+				{
+					"name", relName.GetBytes(),
+					"err",  err.GetMessage().GetBytes()
+				};
+				const JString msg = JGetString("CreateFileFailedWithError::CBFileNode", map, sizeof(map));
+				JGetUserNotification()->ReportError(msg);
 				return;
 				}
 			}
@@ -267,26 +270,30 @@ CBFileNode::CreateFilesForTemplate
 		const JString fullName = JCombinePathAndName(path, name);
 		if (JFileExists(fullName))
 			{
-			JString msg = fullName;
-			msg.PrependCharacter('"');
-			msg += "\" already exists.  Do you want to overwrite it?";
-			if (!un->AskUserNo(msg))
+			const JUtf8Byte* map[] =
+			{
+				"name", fullName.GetBytes()
+			};
+			const JString msg = JGetString("WarnReplaceFile::CBFileNode", map, sizeof(map));
+			if (!JGetUserNotification()->AskUserNo(msg))
 				{
 				return;
 				}
 			}
 
-		std::ofstream output(fullName);
+		std::ofstream output(fullName.GetBytes());
 		if (output.good())
 			{
 			data.Print(output);
 			}
 		else
 			{
-			JString msg = "Unable to create the file ";
-			msg += relName;
-			msg += " from the template.";
-			un->ReportError(msg);
+			const JUtf8Byte* map[] =
+			{
+				"name", relName.GetBytes()
+			};
+			const JString msg = JGetString("CreateFileFailed::CBFileNode", map, sizeof(map));
+			JGetUserNotification()->ReportError(msg);
 			}
 		}
 }
@@ -299,7 +306,7 @@ CBFileNode::CreateFilesForTemplate
  ******************************************************************************/
 
 #ifdef _J_UNIX
-static const JCharacter* kPathPrefix = "./";
+static const JUtf8Byte* kPathPrefix = "./";
 #endif
 
 void
@@ -317,10 +324,10 @@ CBFileNode::SaveFilesInTemplate
 		{
 		JString data;
 		JReadFile(fullName, &data);
-		output << kJTrue << ' ' << relName << ' ' << data;
+		output << JBoolToString(kJTrue) << ' ' << relName << ' ' << data;
 		}
 	else
 		{
-		output << kJFalse;
+		output << JBoolToString(kJFalse);
 		}
 }

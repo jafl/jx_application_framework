@@ -26,7 +26,7 @@ class CBProjectNode : public JNamedTreeNode
 public:
 
 	CBProjectNode(CBProjectTree* tree, const CBProjectNodeType type,
-				  const JCharacter* name, const JBoolean isOpenable);
+				  const JString& name, const JBoolean isOpenable);
 
 	virtual ~CBProjectNode();
 
@@ -44,10 +44,10 @@ public:
 	virtual void		ViewPlainDiffs(const JBoolean silent) const;
 	virtual void		ViewVCSDiffs(const JBoolean silent) const;
 
-	JBoolean	Includes(const JCharacter* fullName) const;
-	JBoolean	FindFile(const JCharacter* fullName,
+	JBoolean	Includes(const JString& fullName) const;
+	JBoolean	FindFile(const JString& fullName,
 						 const CBProjectNode** node) const;
-	JBoolean	FindFile(const JCharacter* fullName, CBProjectNode** node);
+	JBoolean	FindFile(const JString& fullName, CBProjectNode** node);
 
 	virtual void		BuildMakeFiles(JString* text,
 									   JPtrArray<JTreeNode>* invalidList,
@@ -66,7 +66,7 @@ public:
 								   JProgressDisplay& pg) const;
 	virtual void		Print(JString* text) const;
 
-	virtual void	FileRenamed(const JCharacter* origFullName, const JCharacter* newFullName);
+	virtual void	FileRenamed(const JString& origFullName, const JString& newFullName);
 
 	static CBProjectNode*	StreamIn(std::istream& input, const JFileVersion vers,
 									 CBProjectNode* parent);
@@ -93,7 +93,7 @@ protected:
 				  CBProjectNode* parent, const CBProjectNodeType type,
 				  const JBoolean isOpenable);
 
-	virtual JBoolean	FindFile1(const JCharacter* fullName,
+	virtual JBoolean	FindFile1(const JString& fullName,
 								  CBProjectNode** node);
 
 private:
@@ -129,7 +129,7 @@ CBProjectNode::GetType()
 inline JBoolean
 CBProjectNode::Includes
 	(
-	const JCharacter* fullName
+	const JString& fullName
 	)
 	const
 {

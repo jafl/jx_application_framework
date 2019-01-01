@@ -16,7 +16,7 @@ class CBShellEditor : public CBTextEditor
 {
 public:
 
-	CBShellEditor(CBTextDocument* document, const JCharacter* fileName,
+	CBShellEditor(CBTextDocument* document, const JString& fileName,
 				 JXMenuBar* menuBar, CBTELineIndexInput* lineInput,
 				 CBTEColIndexInput* colInput,
 				 JXScrollbarSet* scrollbarSet, JXContainer* enclosure,
@@ -28,13 +28,14 @@ public:
 
 	void	InsertText(const JString& text);
 
-	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers) override;
+	virtual void	HandleKeyPress(const JUtf8Character& c,
+								   const int keySym, const JXKeyModifiers& modifiers) override;
 
 private:
 
-	CBShellDocument*	itsShellDoc;
-	JIndex				itsInsertIndex;
-	JFont				itsInsertFont;
+	CBShellDocument*		itsShellDoc;
+	JStyledText::TextIndex	itsInsertIndex;
+	JFont					itsInsertFont;
 
 private:
 

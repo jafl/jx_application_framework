@@ -23,25 +23,25 @@ public:
 	virtual ~CBCompileDocument();
 
 	virtual void	SetConnection(JProcess* p, const int inFD, const int outFD,
-								  const JCharacter* windowTitle,
-								  const JCharacter* dontCloseMsg,
-								  const JCharacter* execDir,
-								  const JCharacter* execCmd,
-								  const JBoolean showPID);
+								  const JString& windowTitle,
+								  const JString& dontCloseMsg,
+								  const JString& execDir,
+								  const JString& execCmd,
+								  const JBoolean showPID) override;
 
-	virtual void	OpenPrevListItem();
-	virtual void	OpenNextListItem();
+	virtual void	OpenPrevListItem() override;
+	virtual void	OpenNextListItem() override;
 
-	virtual void	ConvertSelectionToFullPath(JString* fileName) const;
+	virtual void	ConvertSelectionToFullPath(JString* fileName) const override;
 
 	static JBoolean	WillDoubleSpace();
 	static void		ShouldDoubleSpace(const JBoolean ds);
 
 protected:
 
-	virtual void		AppendText(const JString& text);
-	virtual JBoolean	ProcessFinished(const JProcess::Finished& info);
-	virtual JBoolean	NeedsFormattedData() const;
+	virtual void		AppendText(const JString& text) override;
+	virtual JBoolean	ProcessFinished(const JProcess::Finished& info) override;
+	virtual JBoolean	NeedsFormattedData() const override;
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
@@ -65,7 +65,7 @@ private:
 
 	JFont	GetErrorFont() const;
 
-	class MatchErrorStyle : public JTextEditor::FontMatch
+	class MatchErrorStyle : public JStyledText::FontMatch
 	{
 	public:
 

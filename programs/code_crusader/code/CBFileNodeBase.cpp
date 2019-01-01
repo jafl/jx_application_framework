@@ -19,10 +19,6 @@
 #include <jDirUtil.h>
 #include <jAssert.h>
 
-// string ID's
-
-static const JCharacter* kFileNotFoundID = "FileNotFound::CBFileNodeBase";
-
 /******************************************************************************
  Constructor
 
@@ -32,10 +28,10 @@ CBFileNodeBase::CBFileNodeBase
 	(
 	CBProjectTree*			tree,
 	const CBProjectNodeType	type,
-	const JCharacter*		fileName
+	const JString&			fileName
 	)
 	:
-	CBProjectNode(tree, type, "", kJFalse),
+	CBProjectNode(tree, type, JString::empty, kJFalse),
 	itsFileName(fileName)
 {
 	JString path, name;
@@ -45,7 +41,7 @@ CBFileNodeBase::CBFileNodeBase
 
 CBFileNodeBase::CBFileNodeBase
 	(
-	std::istream&				input,
+	std::istream&			input,
 	const JFileVersion		vers,
 	CBProjectNode*			parent,
 	const CBProjectNodeType	type
@@ -89,7 +85,7 @@ CBFileNodeBase::StreamOut
 void
 CBFileNodeBase::SetFileName
 	(
-	const JCharacter* fileName
+	const JString& fileName
 	)
 {
 	if (fileName != itsFileName)
@@ -136,8 +132,8 @@ CBFileNodeBase::GetFullName
 JBoolean
 CBFileNodeBase::GetFullName
 	(
-	const JCharacter*	fileName,
-	JString*			fullName
+	const JString&	fileName,
+	JString*		fullName
 	)
 	const
 {
@@ -145,7 +141,7 @@ CBFileNodeBase::GetFullName
 	assert( projTree != nullptr );
 
 	const JString& basePath = (projTree->GetProjectDoc())->GetFilePath();
-	return JI2B(!JString::IsEmpty(fileName) &&
+	return JI2B(!fileName.IsEmpty() &&
 				JConvertToAbsolutePath(fileName, basePath, fullName));
 }
 
@@ -157,8 +153,8 @@ CBFileNodeBase::GetFullName
 JBoolean
 CBFileNodeBase::FindFile1
 	(
-	const JCharacter*	fullName,
-	CBProjectNode**		node
+	const JString&	fullName,
+	CBProjectNode**	node
 	)
 {
 	JString name;
@@ -264,7 +260,7 @@ CBFileNodeBase::BuildCMakeData
 			const CBTextFileType type = CBGetPrefsManager()->GetFileType(itsFileName);
 			if (CBIncludeInCMakeSource(type))
 				{
-				src->AppendCharacter(' ');
+				src->Append(" ");
 				*src += itsFileName;
 
 				JString complName;
@@ -278,13 +274,13 @@ CBFileNodeBase::BuildCMakeData
 					complName = CBRelPathCSF::ConvertToRelativePath(
 									complName, GetProjectDoc()->GetFilePath(), pathType);
 
-					hdr->AppendCharacter(' ');
+					hdr->Append(" ");
 					*hdr += complName;
 					}
 				}
 			else if (CBIncludeInCMakeHeader(type))
 				{
-				hdr->AppendCharacter(' ');
+				hdr->Append(" ");
 				*hdr += itsFileName;
 				}
 			}
@@ -334,7 +330,7 @@ CBFileNodeBase::BuildQMakeData
 			const CBTextFileType type = CBGetPrefsManager()->GetFileType(itsFileName);
 			if (CBIncludeInQMakeSource(type))
 				{
-				src->AppendCharacter(' ');
+				src->Append(" ");
 				*src += itsFileName;
 
 				JString complName;
@@ -348,13 +344,13 @@ CBFileNodeBase::BuildQMakeData
 					complName = CBRelPathCSF::ConvertToRelativePath(
 									complName, GetProjectDoc()->GetFilePath(), pathType);
 
-					hdr->AppendCharacter(' ');
+					hdr->Append(" ");
 					*hdr += complName;
 					}
 				}
 			else if (CBIncludeInQMakeHeader(type))
 				{
-				hdr->AppendCharacter(' ');
+				hdr->Append(" ");
 				*hdr += itsFileName;
 				}
 			}
@@ -394,8 +390,8 @@ CBFileNodeBase::Print
 void
 CBFileNodeBase::FileRenamed
 	(
-	const JCharacter* origFullName,
-	const JCharacter* newFullName
+	const JString& origFullName,
+	const JString& newFullName
 	)
 {
 	const CBRelPathCSF::PathType type = CBRelPathCSF::CalcPathType(itsFileName);
@@ -410,7 +406,7 @@ CBFileNodeBase::FileRenamed
 		assert( ok );
 		if (s == origFullName)
 			{
-			s = CBRelPathCSF::ConvertToRelativePath(newFullName, nullptr, type);
+			s = CBRelPathCSF::ConvertToRelativePath(newFullName, JString::empty, type);
 			SetFileName(s);
 			}
 		}
@@ -462,12 +458,12 @@ void
 CBFileNodeBase::ReportNotFound()
 	const
 {
-	const JCharacter* map[] =
+	const JUtf8Byte* map[] =
 		{
-		"name", itsFileName.GetCString()
+		"name", itsFileName.GetBytes()
 		};
-	const JString msg = JGetString(kFileNotFoundID, map, sizeof(map));
-	(JGetUserNotification())->ReportError(msg);
+	const JString msg = JGetString("FileNotFound::CBFileNodeBase", map, sizeof(map));
+	JGetUserNotification()->ReportError(msg);
 }
 
 /******************************************************************************

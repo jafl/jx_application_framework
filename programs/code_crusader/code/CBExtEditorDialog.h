@@ -22,10 +22,10 @@ public:
 
 	CBExtEditorDialog(JXDirector* supervisor,
 					  const JBoolean editLocally,
-					  const JCharacter* editFileCmd,
-					  const JCharacter* editFileLineCmd,
+					  const JString& editFileCmd,
+					  const JString& editFileLineCmd,
 					  const JBoolean editBinaryLocally,
-					  const JCharacter* editBinaryFileCmd);
+					  const JString& editBinaryFileCmd);
 
 	virtual ~CBExtEditorDialog();
 
@@ -54,10 +54,10 @@ private:
 private:
 
 	void	BuildWindow(const JBoolean editTextLocally,
-						const JCharacter* editTextFileCmd,
-						const JCharacter* editTextFileLineCmd,
+						const JString& editTextFileCmd,
+						const JString& editTextFileLineCmd,
 						const JBoolean editBinaryLocally,
-						const JCharacter* editBinaryFileCmd);
+						const JString& editBinaryFileCmd);
 
 	void	UpdateDisplay();
 

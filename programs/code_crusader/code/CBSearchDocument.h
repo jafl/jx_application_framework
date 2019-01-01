@@ -20,33 +20,33 @@ public:
 
 	static JError	Create(const JPtrArray<JString>& fileList,
 						   const JPtrArray<JString>& nameList,
-						   const JCharacter* searchStr,
+						   const JString& searchStr,
 						   const JBoolean onlyListFiles,
 						   const JBoolean listFilesWithoutMatch);
 
 	static JError	Create(const JPtrArray<JString>& fileList,
 						   const JPtrArray<JString>& nameList,
-						   const JCharacter* searchStr,
-						   const JCharacter* replaceStr);
+						   const JString& searchStr,
+						   const JString& replaceStr);
 
 	virtual ~CBSearchDocument();
 
-	virtual void	OpenPrevListItem();
-	virtual void	OpenNextListItem();
+	virtual void	OpenPrevListItem() override;
+	virtual void	OpenNextListItem() override;
 
-	virtual void	ConvertSelectionToFullPath(JString* fileName) const;
+	virtual void	ConvertSelectionToFullPath(JString* fileName) const override;
 
 protected:
 
 	CBSearchDocument(const JBoolean isReplace, const JBoolean onlyListFiles,
 					 const JSize fileCount,
 					 JProcess* p, const int fd,
-					 const JCharacter* windowTitle);
+					 const JString& windowTitle);
 
-	virtual void		PlaceCmdLineWidgets();
-	virtual void		AppendText(const JString& text);
-	virtual JBoolean	ProcessFinished(const JProcess::Finished& info);
-	virtual JBoolean	NeedsFormattedData() const;
+	virtual void		PlaceCmdLineWidgets() override;
+	virtual void		AppendText(const JString& text) override;
+	virtual JBoolean	ProcessFinished(const JProcess::Finished& info) override;
+	virtual JBoolean	NeedsFormattedData() const override;
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
@@ -63,7 +63,7 @@ private:
 
 private:
 
-	void	ReplaceAll(const JCharacter* fileName);
+	void	ReplaceAll(const JString& fileName);
 
 	void	UpdateMatchMenu();
 	void	HandleMatchMenu(const JIndex index);
@@ -76,7 +76,7 @@ private:
 	JFontStyle	GetMatchStyle() const;
 	JFontStyle	GetErrorStyle() const;
 
-	class MatchFileNameStyle : public JTextEditor::FontMatch
+	class MatchFileNameStyle : public JStyledText::FontMatch
 	{
 	public:
 

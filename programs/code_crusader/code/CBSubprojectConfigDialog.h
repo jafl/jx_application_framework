@@ -23,7 +23,7 @@ public:
 
 	CBSubprojectConfigDialog(CBProjectDocument* supervisor,
 							 const JBoolean includeInDepList,
-							 const JCharacter* subProjName,
+							 const JString& subProjName,
 							 const JBoolean shouldBuild,
 							 CBRelPathCSF* csf);
 
@@ -53,9 +53,9 @@ private:
 
 	void	BuildWindow(CBProjectDocument* supervisor,
 						const JBoolean includeInDepList,
-						const JCharacter* subProjName,
+						const JString& subProjName,
 						const JBoolean shouldBuild,
-						const JCharacter* basePath);
+						const JString& basePath);
 	void	UpdateDisplay();
 
 	void	ChooseProjectFile();

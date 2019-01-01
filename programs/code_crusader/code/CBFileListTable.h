@@ -45,7 +45,7 @@ public:
 	void		UpdateFinished();
 
 	const JString&	GetFileName(const JFAID_t id) const;
-	JBoolean		GetFileID(const JCharacter* trueName, JFAID_t* id) const;
+	JBoolean		GetFileID(const JString& trueName, JFAID_t* id) const;
 
 	void	ReadSetup(std::istream& projInput, const JFileVersion projVers,
 					  std::istream* symInput, const JFileVersion symVers);
@@ -104,7 +104,7 @@ private:
 							  CBCTree* cTree, CBJavaTree* javaTree,
 							  CBPHPTree* phpTree,
 							  JProgressDisplay& pg);
-	JBoolean	AddFile(const JCharacter* fullName, const CBTextFileType fileType,
+	JBoolean	AddFile(const JString& fullName, const CBTextFileType fileType,
 						const time_t modTime, JFAID_t* id);
 
 	JBoolean	IDToIndex(const JFAID_t id, JIndex* index) const;

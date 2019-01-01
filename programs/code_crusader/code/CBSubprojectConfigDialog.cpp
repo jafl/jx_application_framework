@@ -29,7 +29,7 @@ CBSubprojectConfigDialog::CBSubprojectConfigDialog
 	(
 	CBProjectDocument*	supervisor,
 	const JBoolean		includeInDepList,
-	const JCharacter*	subProjName,
+	const JString&		subProjName,
 	const JBoolean		shouldBuild,
 	CBRelPathCSF*		csf
 	)
@@ -61,9 +61,9 @@ CBSubprojectConfigDialog::BuildWindow
 	(
 	CBProjectDocument*	supervisor,
 	const JBoolean		includeInDepList,
-	const JCharacter*	subProjName,
+	const JString&		subProjName,
 	const JBoolean		shouldBuild,
-	const JCharacter*	basePath
+	const JString&		basePath
 	)
 {
 // begin JXLayout
@@ -113,10 +113,10 @@ CBSubprojectConfigDialog::BuildWindow
 
 // end JXLayout
 
-	window->SetTitle("Sub-project Configuration");
+	window->SetTitle(JGetString("WindowTitle::CBSubprojectConfigDialog"));
 	SetButtons(okButton, cancelButton);
 
-	itsSubProjName->SetText(subProjName);
+	itsSubProjName->GetText()->SetText(subProjName);
 	itsSubProjName->SetBasePath(basePath);
 	itsSubProjName->ShouldAllowInvalidFile();
 
@@ -173,7 +173,7 @@ CBSubprojectConfigDialog::GetConfig
 {
 	*includeInDepList = itsIncludeInDepListCB->IsChecked();
 
-	*subProjName = itsSubProjName->GetText();
+	*subProjName = itsSubProjName->GetText()->GetText();
 	*shouldBuild = itsShouldBuildCB->IsChecked();
 }
 
@@ -213,18 +213,18 @@ CBSubprojectConfigDialog::ChooseProjectFile()
 {
 	const JString origName = itsSubProjName->GetTextForChooseFile();
 	JString newName;
-	if (itsCSF->ChooseRelFile("", "Select the project file that builds the library.",
+	if (itsCSF->ChooseRelFile(JString::empty, JGetString("ChooseProjectFile::CBSubprojectConfigDialog"),
 							  origName, &newName))
 		{
 		JString fullName;
 		if (JConvertToAbsolutePath(newName, itsCSF->GetProjectPath(), &fullName) &&
 			CBProjectDocument::CanReadFile(fullName) == JXFileDocument::kFileReadable)
 			{
-			itsSubProjName->SetText(newName);
+			itsSubProjName->GetText()->SetText(newName);
 			}
 		else
 			{
-			(JGetUserNotification())->ReportError("That is not a project file.");
+			JGetUserNotification()->ReportError(JGetString("NotProjectFile::CBSubprojectConfigDialog"));
 			}
 		}
 }

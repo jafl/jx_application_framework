@@ -14,7 +14,7 @@ class CBDocumentMenu : public JXDocumentMenu
 {
 public:
 
-	CBDocumentMenu(const JCharacter* title, JXContainer* enclosure,
+	CBDocumentMenu(const JString& title, JXContainer* enclosure,
 				   const HSizingOption hSizing, const VSizingOption vSizing,
 				   const JCoordinate x, const JCoordinate y,
 				   const JCoordinate w, const JCoordinate h);

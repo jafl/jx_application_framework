@@ -18,7 +18,7 @@ operator>>
 	long temp;
 	input >> temp;
 	type = (CBProjectNodeType) temp;
-	assert( kCBRootNT <= type && type < (long) kCBNTCount );
+	assert( kCBRootNT <= type && JSize(type) < kCBNTCount );
 	return input;
 }
 

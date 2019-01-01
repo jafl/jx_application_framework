@@ -30,7 +30,7 @@ public:
 	virtual ~CBShellDocument();
 
 	JBoolean	ProcessRunning() const;
-	void		SendCommand(const JCharacter* cmd);
+	void		SendCommand(const JString& cmd);
 
 protected:
 
@@ -60,7 +60,7 @@ private:
 	void	CloseOutFD();
 
 	static CBTextEditor*	ConstructShellEditor(CBTextDocument* document,
-												 const JCharacter* fileName,
+												 const JString& fileName,
 												 JXMenuBar* menuBar,
 												 CBTELineIndexInput* lineInput,
 												 CBTEColIndexInput* colInput,

@@ -14,27 +14,27 @@ class CBFileNode : public CBFileNodeBase
 {
 public:
 
-	CBFileNode(CBProjectTree* tree, const JCharacter* fileName);
+	CBFileNode(CBProjectTree* tree, const JString& fileName);
 	CBFileNode(std::istream& input, const JFileVersion vers,
 			   CBProjectNode* parent);
 
 	virtual ~CBFileNode();
 
-	virtual void	OpenFile() const;
-	virtual void	OpenComplementFile() const;
-	virtual void	ViewPlainDiffs(const JBoolean silent) const;
-	virtual void	ViewVCSDiffs(const JBoolean silent) const;
+	virtual void	OpenFile() const override;
+	virtual void	OpenComplementFile() const override;
+	virtual void	ViewPlainDiffs(const JBoolean silent) const override;
+	virtual void	ViewVCSDiffs(const JBoolean silent) const override;
 
 	virtual JBoolean	ParseFiles(CBFileListTable* parser,
 								   const JPtrArray<JString>& allSuffixList,
 								   CBSymbolList* symbolList,
 								   CBCTree* cTree, CBJavaTree* javaTree,
 								   CBPHPTree* phpTree,
-								   JProgressDisplay& pg) const;
+								   JProgressDisplay& pg) const override;
 
 	virtual void	CreateFilesForTemplate(std::istream& input,
-										   const JFileVersion vers) const;
-	virtual void	SaveFilesInTemplate(std::ostream& output) const;
+										   const JFileVersion vers) const override;
+	virtual void	SaveFilesInTemplate(std::ostream& output) const override;
 
 private:
 

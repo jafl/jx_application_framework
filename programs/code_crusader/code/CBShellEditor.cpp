@@ -10,6 +10,7 @@
 #include "CBShellEditor.h"
 #include "CBShellDocument.h"
 #include <JFontManager.h>
+#include <jTextUtil.h>
 #include <jASCIIConstants.h>
 #include <jAssert.h>
 
@@ -21,7 +22,7 @@
 CBShellEditor::CBShellEditor
 	(
 	CBTextDocument*		document,
-	const JCharacter*	fileName,
+	const JString&		fileName,
 	JXMenuBar*			menuBar,
 	CBTELineIndexInput*	lineInput,
 	CBTEColIndexInput*	colInput,
@@ -36,14 +37,14 @@ CBShellEditor::CBShellEditor
 	)
 	:
 	CBTextEditor(document, fileName, menuBar, lineInput, colInput,
-				 scrollbarSet, enclosure, hSizing, vSizing, x,y, w,h)
+				 scrollbarSet, enclosure, hSizing, vSizing, x,y, w,h),
+	itsInsertIndex(1,1)
 {
-	itsShellDoc    = (CBShellDocument*) document;
-	itsInsertIndex = 1;
+	itsShellDoc = (CBShellDocument*) document;
 
-	SetDefaultFontStyle(JFontStyle(kJTrue, kJFalse, 0, kJFalse));
+	GetText()->SetDefaultFontStyle(JFontStyle(kJTrue, kJFalse, 0, kJFalse));
 
-	itsInsertFont = GetDefaultFont();
+	itsInsertFont = GetText()->GetDefaultFont();
 	itsInsertFont.SetBold(kJFalse);
 }
 
@@ -67,26 +68,28 @@ CBShellEditor::InsertText
 	const JString& text
 	)
 {
-	JIndex index;
-	const JBoolean hadCaret = GetCaretLocation(&index);
+	CaretLocation savedCaret;
+	const JBoolean hadCaret = GetCaretLocation(&savedCaret);
 
 	SetCaretLocation(itsInsertIndex);
 	SetCurrentFont(itsInsertFont);
-	const JSize count = PasteUNIXTerminalOutput(text);
-	SetCurrentFont(GetDefaultFont());
-	ClearUndo();
+	const JStyledText::TextRange range =
+		JPasteUNIXTerminalOutput(text, itsInsertIndex, GetText());
+	SetCurrentFont(GetText()->GetDefaultFont());
+	GetText()->ClearUndo();
 
-	itsInsertIndex += count;
+	itsInsertIndex = range.GetAfter();
 	if (hadCaret)
 		{
-		index += count;
-		SetCaretLocation(index);
+		savedCaret.location.charIndex += range.charRange.GetCount();
+		savedCaret.location.byteIndex += range.byteRange.GetCount();
+		SetCaretLocation(savedCaret.location);
 		}
 
-	const JIndex i = itsInsertIndex-1;
-	if (GetFont(i).GetStyle().bold)
+	const JStyledText::TextIndex i = GetText()->AdjustTextIndex(itsInsertIndex, -1);
+	if (GetText()->GetFont(i.charIndex).GetStyle().bold)
 		{
-		SetFontBold(i, i, kJFalse, kJTrue);
+		GetText()->SetFontBold(JStyledText::TextRange(i, itsInsertIndex), kJFalse, kJTrue);
 		}
 }
 
@@ -98,15 +101,16 @@ CBShellEditor::InsertText
 void
 CBShellEditor::HandleKeyPress
 	(
-	const int				key,
+	const JUtf8Character&	c,
+	const int				keySym,
 	const JXKeyModifiers&	modifiers
 	)
 {
 	const JBoolean controlOn = modifiers.control();
 	const JBoolean metaOn    = modifiers.meta();
 	const JBoolean shiftOn   = modifiers.shift();
-	if ((key == kJLeftArrow && metaOn && !controlOn && !shiftOn) ||
-		(key == JXCtrl('A') && controlOn && !metaOn && !shiftOn))
+	if ((c == kJLeftArrow && metaOn && !controlOn && !shiftOn) ||
+		(c == JXCtrl('A') && controlOn && !metaOn && !shiftOn))
 		{
 		const JIndex index            = GetInsertionIndex();
 		const JRunArray<JFont>& styles = GetStyles();
@@ -119,31 +123,31 @@ CBShellEditor::HandleKeyPress
 			}
 		}
 
-	if (key == kJReturnKey)
+	if (c == kJReturnKey)
 		{
 		SetCurrentFont(itsInsertFont);
 		}
 	else
 		{
-		SetCurrentFont(GetDefaultFont());
+		SetCurrentFont(GetText()->GetDefaultFont());
 		}
 
 	JBoolean sentCmd = kJFalse;
-	if (key == kJReturnKey && !modifiers.shift() && !HasSelection())
+	if (c == kJReturnKey && !modifiers.shift() && !HasSelection())
 		{
 		JIndex index;
 		JBoolean ok = GetCaretLocation(&index);
 		assert( ok );
 
 		JString cmd;
-		const JRunArray<JFont>& styles = GetStyles();
-		if (index > 1 && styles.GetElement(index-1) == GetDefaultFont())
+		const JRunArray<JFont>& styles = GetText()->GetStyles();
+		if (index > 1 && styles.GetElement(index-1) == GetText()->GetDefaultFont())
 			{
 			JIndex runIndex, firstIndexInRun;
 			ok = styles.FindRun(index-1, &runIndex, &firstIndexInRun);
 
 			const JIndex endIndex = firstIndexInRun + styles.GetRunLength(runIndex);
-			cmd = (GetText()).GetSubstring(firstIndexInRun, endIndex - 1);
+			cmd = GetText()->GetSubstring(firstIndexInRun, endIndex - 1);
 			SetCaretLocation(endIndex);
 
 			if (cmd.BeginsWith("man "))
@@ -174,7 +178,7 @@ CBShellEditor::HandleKeyPress
 		sentCmd = kJTrue;
 		}
 
-	CBTextEditor::HandleKeyPress(key, modifiers);
+	CBTextEditor::HandleKeyPress(c, keySym, modifiers);
 
 	if (sentCmd)
 		{

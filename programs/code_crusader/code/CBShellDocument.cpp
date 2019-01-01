@@ -20,11 +20,6 @@
 
 const JSize kMenuButtonWidth = 60;
 
-// string ID's
-
-static const JCharacter* kKillLabelID      = "KillLabel::CBExecOutputDocument";
-static const JCharacter* kStopButtonHintID = "StopButtonHint::CBExecOutputDocument";
-
 /******************************************************************************
  Create (static)
 
@@ -36,8 +31,8 @@ CBShellDocument::Create
 	CBShellDocument** doc
 	)
 {
-	const JString shell     = JGetUserShell();
-	const JCharacter* cmd[] = { shell, "-i", nullptr };
+	const JString shell    = JGetUserShell();
+	const JUtf8Byte* cmd[] = { shell.GetBytes(), "-i", nullptr };
 
 	JProcess* p;
 	int inFD, outFD;
@@ -86,17 +81,15 @@ CBShellDocument::CBShellDocument
 	JXMenuBar* menuBar = GetMenuBar();
 	const JSize h      = menuBar->GetFrameHeight();
 
-	const JCoordinate x = 2 * kMenuButtonWidth;
-
 	itsKillButton =
-		jnew JXTextButton(JGetString(kKillLabelID), window,
+		jnew JXTextButton(JGetString("KillLabel::CBExecOutputDocument"), window,
 						 JXWidget::kFixedRight, JXWidget::kFixedTop,
 						 rect.right - kMenuButtonWidth,0, kMenuButtonWidth,h);
 	assert( itsKillButton != nullptr );
 	ListenTo(itsKillButton);
 
-	itsKillButton->SetShortcuts("^C#.");
-	itsKillButton->SetHint(JGetString(kStopButtonHintID));
+	itsKillButton->SetShortcuts(JGetString("KillButtonShortcuts::CBShellDocument"));
+	itsKillButton->SetHint(JGetString("StopButtonHint::CBExecOutputDocument"));
 
 	menuBar->AdjustSize(-kMenuButtonWidth, 0);
 
@@ -111,7 +104,7 @@ CBTextEditor*
 CBShellDocument::ConstructShellEditor
 	(
 	CBTextDocument*		document,
-	const JCharacter*	fileName,
+	const JString&		fileName,
 	JXMenuBar*			menuBar,
 	CBTELineIndexInput*	lineInput,
 	CBTEColIndexInput*	colInput,
@@ -188,7 +181,7 @@ CBShellDocument::DeleteLinks()
 void
 CBShellDocument::SendCommand
 	(
-	const JCharacter* cmd
+	const JString& cmd
 	)
 {
 	if (itsCmdStream != nullptr)

@@ -28,11 +28,34 @@ EmptyMenu::CBFunctionMenu	"No $name %d"
 
 # CBDocumentManager
 
-NotAFile::CBDocumentManager			"\"$f\" is not a regular file, so it cannot be opened."
-FileDoesNotExist::CBDocumentManager	"\"$f\" does not exist.  Do you want to create it?"
-CannotCreateFile::CBDocumentManager	"Unable to create \"$f\".  Please check that the directory is writable."
+NotAFile::CBDocumentManager					"\"$f\" is not a regular file, so it cannot be opened."
+FileDoesNotExist::CBDocumentManager			"\"$f\" does not exist."
+FileDoesNotExistCreate::CBDocumentManager	"\"$f\" does not exist.  Do you want to create it?"
+CannotCreateFile::CBDocumentManager			"Unable to create \"$f\".  Please check that the directory is writable."
+CannotReadFile::CBDocumentManager			"You do not have permission to read \"$f\""
 
 WarnFileTooLarge::CBDocumentManager	"\"$f\" is larger than 1MB, so it may take a while to open it, and syntax hilighting may be disabled.  Do you wish to proceed?"
+
+OpenFilesPrompt::CBDocumentManager		"Files to open:"
+OpeningFilesProgress::CBDocumentManager	"Opening files..."
+NewFilePrompt::CBDocumentManager		"Name of new file:"
+SaveNewFilePrompt::CBDocumentManager	"Save file as:"
+NoTextTemplates::CBDocumentManager		"There are no templates in \"~/.jxcb/$name\""
+NoHomeDirectory::CBDocumentManager		"Unable to create a directory for storing templates because you do not have a home directory."
+
+WarnSaveAll::CBDocumentManager	"Are you sure you want to save all text documents?"
+WarnCloseAll::CBDocumentManager	"Are you sure you want to close all text documents?"
+
+CannotCreateTemplates::CBDocumentManager
+"Unable to create the directory \"$name\" for storing templates because:
+
+$err"
+
+UpdateTypesProgress::CBDocumentManager	"Updating open files..."
+AdjustStylesProgress::CBDocumentManager	"Adjusting styles..."
+
+ComplFileProgress::CBDocumentManager	"Searching for complement of \"$name\"..."
+ComplFileNotFound::CBDocumentManager	"Unable to find complement of \"$name\".  Press the Save button if you wish to create it."
 
 # CBTextDocument
 
@@ -77,6 +100,10 @@ ReplaceTitle::CBSearchDocument	"Replace: $s --> $r"
 
 NoCloseWhileSearching::CBSearchDocument
 "You cannot close the Search Output window until the search is finished."
+
+# CBShellDocument
+
+KillButtonShortcuts::CBShellDocument	"^C#."
 
 # CBProjectDocument
 
@@ -128,6 +155,21 @@ AddFilesPrompt::CBProjectTable	"Wildcard filter(s) for files to be added:"
 # CBFileNodeBase
 
 FileNotFound::CBFileNodeBase	"Unable to find $name"
+
+# CBFileNode
+
+WarnReplaceFile::CBFileNode		"\"$name\" already exists.  Do you want to overwrite it?"
+CreateFileFailed::CBFileNode	"Unable to create the file \"$name\" from the template."
+ComplFileNotFound::CBFileNode	"Unable to find complement of \"$name\""
+
+CreateFileFailedWithError::CBFileNode
+"Unable to create the file \"$name\" from the template because:
+
+$err"
+
+# CBGroupNode
+
+NewGroupName::CBGroupNode	"New group"
 
 # CBEditSearchPathsDialog
 
@@ -410,3 +452,9 @@ SaveCharActionListPrompt::CBCharActionTable	"Save actions as:"
 ReplaceMacroList::CBMacroTable		"Replace existing macros"
 AppendToMacroList::CBMacroTable		"Merge with existing macros"
 SaveMacroListPrompt::CBMacroTable	"Save macros as:"
+
+# CBSubprojectConfigDialog
+
+WindowTitle::CBSubprojectConfigDialog		"Sub-project Configuration"
+ChooseProjectFile::CBSubprojectConfigDialog	"Select the project file that builds the library."
+NotProjectFile::CBSubprojectConfigDialog	"That is not a project file."

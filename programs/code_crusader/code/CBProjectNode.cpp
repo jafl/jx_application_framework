@@ -26,7 +26,7 @@ CBProjectNode::CBProjectNode
 	(
 	CBProjectTree*			tree,
 	const CBProjectNodeType	type,
-	const JCharacter*		name,
+	const JString&			name,
 	const JBoolean			isOpenable
 	)
 	:
@@ -39,14 +39,14 @@ CBProjectNode::CBProjectNode
 
 CBProjectNode::CBProjectNode
 	(
-	std::istream&				input,
+	std::istream&			input,
 	const JFileVersion		vers,
 	CBProjectNode*			parent,
 	const CBProjectNodeType	type,
 	const JBoolean			isOpenable
 	)
 	:
-	JNamedTreeNode(nullptr, "", isOpenable),
+	JNamedTreeNode(nullptr, JString::empty, isOpenable),
 	itsType(type)
 {
 	if (parent != nullptr)
@@ -73,7 +73,7 @@ CBProjectNode::CBProjectNode
 		while (1)
 			{
 			JBoolean keepGoing;
-			input >> keepGoing;
+			input >> JBoolFromString(keepGoing);
 			if (!keepGoing)
 				{
 				break;
@@ -167,11 +167,11 @@ CBProjectNode::StreamOut
 		const CBProjectNode* child = dynamic_cast<const CBProjectNode*>(GetChild(i));
 		assert( child != nullptr );
 
-		output << kJTrue << '\n';
+		output << JBoolToString(kJTrue) << '\n';
 		child->StreamOut(output);
 		}
 
-	output << kJFalse << '\n';
+	output << JBoolToString(kJFalse) << '\n';
 }
 
 /******************************************************************************
@@ -270,7 +270,7 @@ CBProjectNode::ViewVCSDiffs
 JBoolean
 CBProjectNode::FindFile
 	(
-	const JCharacter*		fullName,
+	const JString&			fullName,
 	const CBProjectNode**	node
 	)
 	const
@@ -282,8 +282,8 @@ CBProjectNode::FindFile
 JBoolean
 CBProjectNode::FindFile
 	(
-	const JCharacter*	fullName,
-	CBProjectNode**		node
+	const JString&	fullName,
+	CBProjectNode**	node
 	)
 {
 	if (JFileExists(fullName))
@@ -307,8 +307,8 @@ CBProjectNode::FindFile
 JBoolean
 CBProjectNode::FindFile1
 	(
-	const JCharacter*	fullName,
-	CBProjectNode**		node
+	const JString&	fullName,
+	CBProjectNode**	node
 	)
 {
 	const JSize count = GetChildCount();
@@ -486,8 +486,8 @@ CBProjectNode::Print
 void
 CBProjectNode::FileRenamed
 	(
-	const JCharacter* origFullName,
-	const JCharacter* newFullName
+	const JString& origFullName,
+	const JString& newFullName
 	)
 {
 	const JSize count = GetChildCount();

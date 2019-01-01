@@ -18,7 +18,7 @@ class CBFileHistoryMenu : public JXFileHistoryMenu
 public:
 
 	CBFileHistoryMenu(const CBDocumentManager::FileHistoryType type,
-					  const JCharacter* title, JXContainer* enclosure,
+					  const JString& title, JXContainer* enclosure,
 					  const HSizingOption hSizing, const VSizingOption vSizing,
 					  const JCoordinate x, const JCoordinate y,
 					  const JCoordinate w, const JCoordinate h);

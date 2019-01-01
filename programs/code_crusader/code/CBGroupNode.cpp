@@ -9,9 +9,8 @@
 
 #include "CBGroupNode.h"
 #include "CBProjectTree.h"
+#include <jGlobals.h>
 #include <jAssert.h>
-
-static const JCharacter* kNewGroupName = "New group";
 
 /******************************************************************************
  Constructor
@@ -27,7 +26,7 @@ CBGroupNode::CBGroupNode
 	const JBoolean	append
 	)
 	:
-	CBProjectNode(tree, kCBGroupNT, kNewGroupName, kJTrue)
+	CBProjectNode(tree, kCBGroupNT, JGetString("NewGroupName::CBGroupNode"), kJTrue)
 {
 	if (tree != nullptr && append)
 		{
