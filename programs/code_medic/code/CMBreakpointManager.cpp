@@ -142,7 +142,7 @@ CMBreakpointManager::GetBreakpoints
 	list->RemoveAll();
 	list->SetCleanUpAction(JPtrArrayT::kForgetAll);
 
-	if ((loc.GetFileID()).IsValid())
+	if (loc.GetFileID().IsValid())
 		{
 		CMBreakpoint target(loc.GetFileName(), loc.GetLineNumber());
 		JBoolean found;
@@ -165,11 +165,14 @@ CMBreakpointManager::GetBreakpoints
 		}
 	else if (!loc.GetFunctionName().IsEmpty())
 		{
+		const JString fn = loc.GetFunctionName() + "(";
+
 		const JSize count = itsBPList->GetElementCount();
 		for (JIndex i=1; i<=count; i++)
 			{
 			CMBreakpoint* bp = itsBPList->GetElement(i);
-			if (bp->GetFunctionName() == loc.GetFunctionName())
+			if (bp->GetFunctionName() == loc.GetFunctionName() ||
+				bp->GetFunctionName().BeginsWith(fn))
 				{
 				list->Append(bp);
 				}
