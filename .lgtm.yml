@@ -1,5 +1,11 @@
 extraction:
   cpp:
+    prepare:
+      packages:
+        - curl
+        - flex
+        - bison
+        - llvm
     configure:
       command:
         - ./configure
