@@ -52,12 +52,12 @@ CBNewProjectCSF::~CBNewProjectCSF()
 JXSaveFileDialog*
 CBNewProjectCSF::CreateSaveFileDialog
 	(
-	JXDirector*			supervisor,
-	JDirInfo*			dirInfo,
-	const JCharacter*	fileFilter,
-	const JCharacter*	origName,
-	const JCharacter*	prompt,
-	const JCharacter*	message
+	JXDirector*		supervisor,
+	JDirInfo*		dirInfo,
+	const JString&	fileFilter,
+	const JString&	origName,
+	const JString&	prompt,
+	const JString&	message
 	)
 {
 	itsSaveDialog =

@@ -140,6 +140,9 @@ ReloadingSymbols::CBProjectDocument	"Reloading symbols..."
 
 # CBNewProjectSaveFileDialog
 
+UserTemplateMarker::CBNewProjectSaveFileDialog	" (personal)"
+SysTemplateMarker::CBNewProjectSaveFileDialog	" (global)"
+
 WarnFileExists::CBNewProjectSaveFileDialog
 "$file already exists.  Are you sure you want to have it overwritten by $method?"
 
@@ -380,6 +383,13 @@ DefCmdCVSAddProjectText::CBCommandManager			"CVS add new project"
 DefCmdSVNAddProjectText::CBCommandManager			"SVN add new project"
 DefCmdVCSAddProjectShortcut::CBCommandManager		""
 
+# CBCommandMenu
+
+Title::CBCommandMenu					"Tasks"
+AddToProjectItemText::CBCommandMenu		"Add to project: "
+ManageProjectItemText::CBCommandMenu	"Manage project: "
+NoProjectName::CBCommandMenu			"none"
+
 # CBEditCommandsDialog
 
 WindowTitle::CBEditCommandsDialog	"Edit Tasks Menu"
@@ -429,10 +439,24 @@ FindFunctionPrompt::CBTreeDirector	"Name of function:"
 
 # CBTree
 
+MinMILengthsProgress::CBTree	"Minimizing multiple inheritance lengths..."
+
 RequiresCodeMill::CBTree
 "This feature requires that the Code Mill plug-in be installed in one of the directories on your execution path.
 
 Code Mill is available from https://sourceforge.net/projects/nps-codemill/"
+
+# CBClass
+
+TemplateNameSuffix::CBClass	"<>"
+StructNamePrefix::CBClass	"struct "
+EnumNamePrefix::CBClass		"enum "
+
+NoGhostFile::CBCClass	"Ghost classes cannot be opened."
+
+# CBJavaClass
+
+NoDefinition::CBJavaClass	"Unable to find the definition of \"$name\"."
 
 # CBSymbolTable
 

@@ -39,7 +39,7 @@ CBSymbolTypeList::CBSymbolTypeList
 {
 	CreateSymTypeList(display);
 	JPrefObject::ReadPrefs();
-	InstallOrderedSet(itsSymbolTypeList);
+	InstallCollection(itsSymbolTypeList);
 }
 
 /******************************************************************************

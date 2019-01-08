@@ -59,7 +59,7 @@
 #include <JPainter.h>
 #include <JXColorManager.h>
 #include <JFontManager.h>
-#include <JString.h>
+#include <JStringIterator.h>
 #include <JMinMax.h>
 #include <jGlobals.h>
 #include <jAssert.h>
@@ -67,19 +67,6 @@
 // class data
 
 JColorID CBClass::itsGhostNameColor;
-
-static const JCharacter* kGhostFileName = "Unknown";
-
-static const JCharacter* kInheritPublicStr    = "public";
-static const JCharacter* kInheritProtectedStr = "protected";
-static const JCharacter* kInheritPrivateStr   = "private";
-
-static const JCharacter* kInheritStr[] =
-	{ kInheritPublicStr, kInheritProtectedStr, kInheritPrivateStr };
-
-static const JCharacter* kTemplateNameSuffix = "<>";
-static const JCharacter* kStructNamePrefix   = "struct ";
-static const JCharacter* kEnumNamePrefix     = "enum ";
 
 static JFontStyle kConcreteLabelStyle;
 static JFontStyle kAbstractLabelStyle(kJFalse, kJTrue, 0, kJFalse, 0);
@@ -97,15 +84,16 @@ const JCoordinate kCollapsedLinkLength = 14;
 
 CBClass::CBClass
 	(
-	const JCharacter*		fullName,
-	const DeclareType		declType,
-	const JFAID_t			fileID,
-	CBTree*					tree,
-	CBClassRemoveNamespace*	removeNamespaceFn
+	const JString&		fullName,
+	const DeclareType	declType,
+	const JFAID_t		fileID,
+	CBTree*				tree,
+	const JUtf8Byte*	namespaceOperator
 	)
 	:
+	itsNamespaceOperator(namespaceOperator),
 	itsFullName(fullName),
-	itsName(removeNamespaceFn(fullName)),
+	itsName(RemoveNamespace(fullName)),
 	itsFileID(fileID)
 {
 	CBClassX(tree);
@@ -120,11 +108,13 @@ CBClass::CBClass
 
 CBClass::CBClass
 	(
-	std::istream&				input,
-	const JFileVersion		vers,
-	CBTree*					tree,
-	CBClassRemoveNamespace* removeNamespaceFn
+	std::istream&		input,
+	const JFileVersion	vers,
+	CBTree*				tree,
+	const JUtf8Byte*	namespaceOperator
 	)
+	:
+	itsNamespaceOperator(namespaceOperator)
 {
 JIndex i;
 
@@ -143,7 +133,7 @@ JIndex i;
 		}
 	else
 		{
-		itsName = removeNamespaceFn(itsFullName);
+		itsName = RemoveNamespace(itsFullName);
 		}
 
 	if (vers >= 1)
@@ -183,17 +173,19 @@ JIndex i;
 		input >> firstFoundParent;
 		}
 
-	input >> itsIsAbstractFlag;
+	input >> JBoolFromString(itsIsAbstractFlag);
 
 	itsIsTemplateFlag = kJFalse;
 	if (vers >= 49)
 		{
-		input >> itsIsTemplateFlag;
+		input >> JBoolFromString(itsIsTemplateFlag);
 		}
 
 	if (vers >= 10)
 		{
-		input >> itsVisibleFlag >> itsCollapsedFlag >> itsIsSelectedFlag;
+		input >> JBoolFromString(itsVisibleFlag)
+			  >> JBoolFromString(itsCollapsedFlag)
+			  >> JBoolFromString(itsIsSelectedFlag);
 		if (vers == 10)
 			{
 			itsCollapsedFlag = kJFalse;	// itsWasVisibleFlag was kJTrue
@@ -202,7 +194,8 @@ JIndex i;
 
 	if (vers >= 11)
 		{
-		input >> itsHasPrimaryChildrenFlag >> itsHasSecondaryChildrenFlag;
+		input >> JBoolFromString(itsHasPrimaryChildrenFlag)
+			  >> JBoolFromString(itsHasSecondaryChildrenFlag);
 		}
 
 	// parents
@@ -222,18 +215,18 @@ JIndex i;
 
 	// functions
 
-	JSize fnCount;
-	input >> fnCount;
-
-	for (i=1; i<=fnCount; i++)
+	if (vers < 88)
 		{
-		FunctionInfo fInfo;
-		fInfo.name = jnew JString;
-		assert( fInfo.name != nullptr );
-		JBoolean pureVirtual;
-		input >> *(fInfo.name) >> fInfo.access >> pureVirtual;
-		fInfo.implemented = !pureVirtual;
-		itsFunctionInfo->AppendElement(fInfo);
+		JSize fnCount;
+		input >> fnCount;
+
+		JString name;
+		for (i=1; i<=fnCount; i++)
+			{
+			int access;
+			JBoolean pureVirtual;
+			input >> name >> access >> JBoolFromString(pureVirtual);
+			}
 		}
 }
 
@@ -241,14 +234,14 @@ JIndex i;
 
 CBClass::CBClass
 	(
-	const JCharacter* name
+	const JString& name
 	)
 	:
+	itsNamespaceOperator(""),
 	itsFullName(name),
 	itsName(name),
 	itsTree(nullptr),
-	itsParentInfo(nullptr),
-	itsFunctionInfo(nullptr)
+	itsParentInfo(nullptr)
 {
 }
 
@@ -267,11 +260,6 @@ CBClass::CBClassX
 
 	itsHasPrimaryChildrenFlag   = kJFalse;
 	itsHasSecondaryChildrenFlag = kJFalse;
-
-	itsFunctionInfo = jnew JArray<FunctionInfo>;
-	assert( itsFunctionInfo != nullptr );
-	itsFunctionInfo->SetCompareFunction(CompareFunctionNames);
-	itsFunctionInfo->SetSortOrder(JListT::kSortAscending);
 
 	itsVisibleFlag    = kJTrue;
 	itsCollapsedFlag  = kJFalse;
@@ -300,17 +288,6 @@ CBClass::~CBClass()
 			}
 		jdelete itsParentInfo;
 		}
-
-	if (itsFunctionInfo != nullptr)
-		{
-		const JSize fCount = itsFunctionInfo->GetElementCount();
-		for (JIndex i=1; i<=fCount; i++)
-			{
-			FunctionInfo fInfo = itsFunctionInfo->GetElement(i);
-			jdelete fInfo.name;
-			}
-		jdelete itsFunctionInfo;
-		}
 }
 
 /******************************************************************************
@@ -330,13 +307,13 @@ JIndex i;
 	output << ' ' << itsFullName << ' ' << itsName;
 	output << ' ' << itsDeclType << ' ' << itsFileID;
 	output << ' ' << itsHCoord << ' ' << itsVCoord << ' ' << itsFrame;
-	output << ' ' << itsIsAbstractFlag;
-	output << ' ' << itsIsTemplateFlag;
-	output << ' ' << itsVisibleFlag;
-	output << ' ' << itsCollapsedFlag;
-	output << ' ' << itsIsSelectedFlag;
-	output << ' ' << itsHasPrimaryChildrenFlag;
-	output << ' ' << itsHasSecondaryChildrenFlag;
+	output << ' ' << JBoolToString(itsIsAbstractFlag)
+				  << JBoolToString(itsIsTemplateFlag)
+				  << JBoolToString(itsVisibleFlag)
+				  << JBoolToString(itsCollapsedFlag)
+				  << JBoolToString(itsIsSelectedFlag)
+				  << JBoolToString(itsHasPrimaryChildrenFlag)
+				  << JBoolToString(itsHasSecondaryChildrenFlag);
 
 	// parents
 
@@ -349,18 +326,6 @@ JIndex i;
 		output << ' ' << *(pInfo.name);
 		output << ' ' << itsTree->ClassToIndexForWrite(pInfo.parent);
 		output << ' ' << pInfo.inheritance;
-		}
-
-	// functions
-
-	const JSize fnCount = GetFunctionCount();
-	output << ' ' << fnCount;
-
-	for (i=1; i<=fnCount; i++)
-		{
-		const FunctionInfo fInfo = itsFunctionInfo->GetElement(i);
-		output << ' ' << *(fInfo.name) << ' ' << fInfo.access;
-		output << ' ' << !fInfo.implemented;
 		}
 
 	output << ' ';
@@ -442,8 +407,8 @@ CBClass::GetFileName
 void
 CBClass::AddParent
 	(
-	const InheritType type,
-	const JCharacter* name
+	const InheritType	type,
+	const JString&		name
 	)
 {
 	ParentInfo pInfo(jnew JString(name), nullptr, type);
@@ -543,7 +508,7 @@ CBClass::FindParent
 
 	// try all possible namespaces to look for existing parent
 
-	const JCharacter* namespaceOp = GetNamespaceOperator();
+	const JUtf8Byte* namespaceOp = GetNamespaceOperator();
 
 	JString nameSpace = itsFullName;
 	JString prefixStr, testName;
@@ -595,8 +560,8 @@ CBClass::FindParent
 CBClass*
 CBClass::NewGhost
 	(
-	const JCharacter*	name,
-	CBTree*				tree
+	const JString&	name,
+	CBTree*			tree
 	)
 {
 	assert_msg( 0, "The programmer forgot to override CBClass::NewGhost()" );
@@ -610,7 +575,7 @@ CBClass::NewGhost
 
  ******************************************************************************/
 
-const JCharacter*
+const JUtf8Byte*
 CBClass::GetNamespaceOperator()
 	const
 {
@@ -619,24 +584,28 @@ CBClass::GetNamespaceOperator()
 }
 
 /******************************************************************************
- IsInherited (virtual)
+ RemoveNamespace (protected)
 
-	Returns kJTrue if the specified function will be inherited by derived
-	classes.
+	Extracts the name of the class without the namespace prefix.
 
  ******************************************************************************/
 
-JBoolean
-CBClass::IsInherited
+JString
+CBClass::RemoveNamespace
 	(
-	const JIndex		index,
-	const InheritType	inherit,
-	FnAccessLevel*		access
+	const JString& fullName
 	)
-	const
 {
-	assert_msg( 0, "The programmer forgot to override CBClass::IsInherited()" );
-	return kJFalse;
+	JString name = fullName;
+
+	JStringIterator iter(&name, kJIteratorStartAtEnd);
+	if (iter.Prev(GetNamespaceOperator()))
+		{
+		iter.Next(GetNamespaceOperator());
+		iter.RemoveAllPrev();
+		}
+
+	return name;
 }
 
 /******************************************************************************
@@ -731,82 +700,7 @@ CBClass::AddChild
 		itsHasSecondaryChildrenFlag = kJTrue;
 		}
 }
-
-/******************************************************************************
- AddFunction
-
-	We sort the function names so others can perform an incremental search.
-
- ******************************************************************************/
-
-void
-CBClass::AddFunction
-	(
-	const JCharacter*	name,
-	const FnAccessLevel	access,
-	const JBoolean		implemented
-	)
-{
-	FunctionInfo fInfo(jnew JString(name), access, implemented);
-	assert( fInfo.name != nullptr );
-
-	itsFunctionInfo->InsertSorted(fInfo);
-	if (!implemented)
-		{
-		itsIsAbstractFlag = kJTrue;
-		}
-}
-
-/******************************************************************************
- Implements
-
-	Returns kJTrue if this class implements the specified function.
-
- ******************************************************************************/
-
-JBoolean
-CBClass::Implements
-	(
-	const JCharacter*	name,
-	const JBoolean		caseSensitive
-	)
-	const
-{
-	JString s = name;
-	FunctionInfo fInfo;
-	fInfo.name = &s;
-	JIndex i;
-	if (!itsFunctionInfo->SearchSorted(fInfo, JListT::kFirstMatch, &i))
-		{
-		return kJFalse;
-		}
-	else if (!caseSensitive)
-		{
-		return kJTrue;
-		}
-	else
-		{
-		// check each name that gives a case-insensitive match
-		// to see if it is a case-sensitive match
-
-		const JSize fnCount = itsFunctionInfo->GetElementCount();
-		for( ; i<=fnCount; i++)
-			{
-			const FunctionInfo info = itsFunctionInfo->GetElement(i);
-			if (JString::Compare(name, *(info.name), kJFalse) != 0)
-				{
-				break;
-				}
-			if (JString::Compare(name, *(info.name), kJTrue) == 0)
-				{
-				return kJTrue;
-				}
-			}
-
-		return kJFalse;
-		}
-}
-
+ 
 /******************************************************************************
  View... (virtual)
 
@@ -827,112 +721,6 @@ CBClass::ViewHeader()
 	const
 {
 	assert_msg( 0, "The programmer forgot to override CBClass::ViewHeader()" );
-}
-
-JBoolean
-CBClass::ViewDefinition
-	(
-	const JCharacter*	fnName,
-	const JBoolean		caseSensitive,
-	const JBoolean		reportNotFound
-	)
-	const
-{
-	assert_msg( 0, "The programmer forgot to override CBClass::ViewDefinition()" );
-	return kJFalse;
-}
-
-JBoolean
-CBClass::ViewDeclaration
-	(
-	const JCharacter*	fnName,
-	const JBoolean		caseSensitive,
-	const JBoolean		reportNotFound
-	)
-	const
-{
-	assert_msg( 0, "The programmer forgot to override CBClass::ViewDeclaration()" );
-	return kJFalse;
-}
-
-/******************************************************************************
- ViewInheritedDefinition (protected)
-
-	Search all ancestors for the given function.  Returns kJTrue if the
-	function was found.
-
- ******************************************************************************/
-
-JBoolean
-CBClass::ViewInheritedDefinition
-	(
-	const JCharacter*	fnName,
-	const JBoolean		caseSensitive,
-	const JBoolean		reportNotFound
-	)
-	const
-{
-	if (Implements(fnName, caseSensitive))
-		{
-		return ViewDefinition(fnName, caseSensitive, reportNotFound);
-		}
-
-	JBoolean found = kJFalse;
-
-	const JSize parentCount = GetParentCount();
-	for (JIndex i=1; i<=parentCount; i++)
-		{
-		const CBClass* parent;
-		const JBoolean ok = GetParent(i, &parent);
-		assert( ok );
-
-		if (parent->ViewInheritedDefinition(fnName, caseSensitive, reportNotFound))
-			{
-			found = kJTrue;
-			}
-		}
-
-	return found;
-}
-
-/******************************************************************************
- ViewInheritedDeclaration (protected)
-
-	Search all ancestors for the given function.  Returns kJTrue if the
-	function was found.
-
- ******************************************************************************/
-
-JBoolean
-CBClass::ViewInheritedDeclaration
-	(
-	const JCharacter*	fnName,
-	const JBoolean		caseSensitive,
-	const JBoolean		reportNotFound
-	)
-	const
-{
-	if (Implements(fnName, caseSensitive))
-		{
-		return ViewDeclaration(fnName, caseSensitive, reportNotFound);
-		}
-
-	JBoolean found = kJFalse;
-
-	const JSize parentCount = GetParentCount();
-	for (JIndex i=1; i<=parentCount; i++)
-		{
-		const CBClass* parent;
-		const JBoolean ok = GetParent(i, &parent);
-		assert( ok );
-
-		if (parent->ViewInheritedDeclaration(fnName, caseSensitive, reportNotFound))
-			{
-			found = kJTrue;
-			}
-		}
-
-	return found;
 }
 
 /******************************************************************************
@@ -1021,16 +809,16 @@ CBClass::GetDrawName()
 	JString drawName = itsFullName;
 	if (itsDeclType == kStructType)
 		{
-		drawName.Prepend(kStructNamePrefix);
+		drawName.Prepend(JGetString("StructNamePrefix::CBClass"));
 		}
 	else if (itsDeclType == kEnumType)
 		{
-		drawName.Prepend(kEnumNamePrefix);
+		drawName.Prepend(JGetString("EnumNamePrefix::CBClass"));
 		}
 
 	if (itsIsTemplateFlag)
 		{
-		drawName.Append(kTemplateNameSuffix);
+		drawName.Append(JGetString("TemplateNameSuffix::CBClass"));
 		}
 
 	return drawName;
@@ -1211,7 +999,7 @@ CBClass::DrawText
 	if (JIntersection(itsFrame, rect, &irect))
 		{
 		JFontStyle style = kConcreteLabelStyle;
-		AdjustNameStyle(p.GetColormap(), &style);
+		AdjustNameStyle(&style);
 		p.SetFontStyle(style);
 
 		if (NeedDrawName())
@@ -1352,21 +1140,6 @@ CBClass::CalcFrame()
 }
 
 /******************************************************************************
- CompareFunctionNames (static private)
-
- ******************************************************************************/
-
-JListT::CompareResult
-CBClass::CompareFunctionNames
-	(
-	const FunctionInfo& i1,
-	const FunctionInfo& i2
-	)
-{
-	return JCompareStringsCaseInsensitive(i1.name, i2.name);
-}
-
-/******************************************************************************
  Global functions for CBClass class
 
  ******************************************************************************/
@@ -1379,7 +1152,7 @@ CBClass::CompareFunctionNames
 std::istream&
 operator>>
 	(
-	std::istream&				input,
+	std::istream&			input,
 	CBClass::DeclareType&	type
 	)
 {
@@ -1412,7 +1185,7 @@ operator<<
 std::istream&
 operator>>
 	(
-	std::istream&				input,
+	std::istream&			input,
 	CBClass::InheritType&	type
 	)
 {
@@ -1434,42 +1207,5 @@ operator<<
 	)
 {
 	output << (long) type;
-	return output;
-}
-
-/******************************************************************************
- Global functions for CBClass::FnAccessLevel
-
- ******************************************************************************/
-
-std::istream&
-operator>>
-	(
-	std::istream&				input,
-	CBClass::FnAccessLevel&	access
-	)
-{
-	long temp;
-	input >> temp;
-	access = (CBClass::FnAccessLevel) temp;
-	assert( access == CBClass::kPublicAccess          ||
-			access == CBClass::kProtectedAccess       ||
-			access == CBClass::kPrivateAccess         ||
-			access == CBClass::kJavaDefaultAccess     ||
-			access == CBClass::kQtSignalAccess        ||
-			access == CBClass::kQtPublicSlotAccess    ||
-			access == CBClass::kQtProtectedSlotAccess ||
-			access == CBClass::kQtPrivateSlotAccess );
-	return input;
-}
-
-std::ostream&
-operator<<
-	(
-	std::ostream&						output,
-	const CBClass::FnAccessLevel	access
-	)
-{
-	output << (long) access;
 	return output;
 }

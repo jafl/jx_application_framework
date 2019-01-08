@@ -16,6 +16,8 @@
 #include <JRegex.h>
 #include <jAssert.h>
 
+static const JUtf8Byte* kNamespaceOperator = ".";
+
 /******************************************************************************
  Constructor
 
@@ -23,7 +25,7 @@
 
 CBJavaClass::CBJavaClass
 	(
-	const JCharacter*	name,
+	const JString&		name,
 	const DeclareType	declType,
 	const JFAID_t		fileID,
 	CBTree*				tree,
@@ -31,7 +33,7 @@ CBJavaClass::CBJavaClass
 	const JBoolean		isFinal
 	)
 	:
-	CBClass(name, declType, fileID, tree, RemoveNamespace),
+	CBClass(name, declType, fileID, tree, kNamespaceOperator),
 	itsIsPublicFlag(isPublic),
 	itsIsFinalFlag(isFinal)
 {
@@ -44,13 +46,14 @@ CBJavaClass::CBJavaClass
 	CBTree*				tree
 	)
 	:
-	CBClass(input, vers, tree, RemoveNamespace),
+	CBClass(input, vers, tree, kNamespaceOperator),
 	itsIsPublicFlag(kJTrue),
 	itsIsFinalFlag(kJFalse)
 {
 	if (vers >= 52)
 		{
-		input >> itsIsPublicFlag >> itsIsFinalFlag;
+		input >> JBoolFromString(itsIsPublicFlag)
+			  >> JBoolFromString(itsIsFinalFlag);
 		}
 }
 
@@ -77,8 +80,8 @@ CBJavaClass::StreamOut
 {
 	CBClass::StreamOut(output);
 
-	output << ' ' << itsIsPublicFlag;
-	output << ' ' << itsIsFinalFlag;
+	output << ' ' << JBoolToString(itsIsPublicFlag)
+				  << JBoolToString(itsIsFinalFlag);
 	output << ' ';
 }
 
@@ -99,34 +102,37 @@ CBJavaClass::ViewSource()
 		CBTextDocument* doc = nullptr;
 		if (docMgr->OpenTextDocument(fileName, 0, &doc))
 			{
-			JString p = "(class|interface|enum)[ \t\n]*";
-			p        += GetName();
-			p        += "\\b";
+			JString p("(class|interface|enum)[ \t\n]*");
+			p += GetName();
+			p += "\\b";
 			const JRegex r(p);
 
 			CBTextEditor* te = doc->GetTextEditor();
 			te->SetCaretLocation(1);
 
-			JArray<JIndexRange> matchList;
+			const JStyledText::TextIndex start(1,1);
 			JBoolean wrapped;
-			if (te->JTextEditor::SearchForward(r, kJFalse, kJFalse, &wrapped, &matchList))
+			const JStringMatch m =
+				te->GetText()->SearchForward(start, r, kJFalse, kJFalse, &wrapped);
+			if (!m.IsEmpty())
 				{
-				JIndexRange range = matchList.GetElement(1);
-				te->SelectLine(te->GetLineForChar(range.first));
+				te->SelectLine(te->GetLineForChar(m.GetCharacterRange().first));
 				te->ScrollForDefinition(kCBJavaLang);
 				}
 			else
 				{
-				JString msg = "Unable to find the definition of \"";
-				msg += GetName();
-				msg += "\".";
+				const JUtf8Byte* map[] =
+				{
+					"name", GetName().GetBytes()
+				};
+				const JString msg = JGetString("NoDefinition::CBJavaClass", map, sizeof(map));
 				JGetUserNotification()->ReportError(msg);
 				}
 			}
 		}
 	else
 		{
-		JGetUserNotification()->ReportError("Ghost classes cannot be opened.");
+		JGetUserNotification()->ReportError(JGetString("NoGhostFile::CBClass"));
 		}
 }
 
@@ -142,101 +148,6 @@ CBJavaClass::ViewHeader()
 }
 
 /******************************************************************************
- ViewDefinition (virtual)
-
-	Returns kJTrue if the function was found.
-
- ******************************************************************************/
-
-JBoolean
-CBJavaClass::ViewDefinition
-	(
-	const JCharacter*	fnName,
-	const JBoolean		caseSensitive,
-	const JBoolean		reportNotFound
-	)
-	const
-{
-	JBoolean found = kJFalse;
-
-	JString fileName;
-	if (!Implements(fnName, caseSensitive))
-		{
-		found = ViewInheritedDefinition(fnName, caseSensitive, reportNotFound);
-		if (!found && reportNotFound)
-			{
-			JString msg = "Unable to find any definition for \"";
-			msg += fnName;
-			msg += "\".";
-			JGetUserNotification()->ReportError(msg);
-			}
-		}
-	else if (GetFileName(&fileName))
-		{
-		CBDocumentManager* docMgr = CBGetDocumentManager();
-
-		// We need to use a multi-line regex to find the constructor
-		// instead of the class name.
-
-		CBTextDocument* doc = nullptr;
-		if (docMgr->OpenTextDocument(fileName, 0, &doc))
-			{
-			JString p = "\\b";
-			p        += fnName;
-			p        += "[ \t\n]*\\(";
-			const JRegex r(p);
-
-			CBTextEditor* te = doc->GetTextEditor();
-			te->SetCaretLocation(1);
-
-			JArray<JIndexRange> matchList;
-			JBoolean wrapped;
-			if (te->JTextEditor::SearchForward(r, kJFalse, kJFalse, &wrapped, &matchList))
-				{
-				JIndexRange range = matchList.GetElement(1);
-				te->SelectLine(te->GetLineForChar(range.first));
-				te->ScrollForDefinition(kCBJavaLang);
-				}
-			else if (reportNotFound)
-				{
-				JString msg = "Unable to find the definition of \"";
-				msg += fnName;
-				msg += "\".";
-				JGetUserNotification()->ReportError(msg);
-				}
-			}
-		}
-	else if (reportNotFound)
-		{
-		JString msg = GetFullName();
-		msg.PrependCharacter('"');
-		msg += "\" is a ghost class, so no information is available for it.";
-		JGetUserNotification()->ReportError(msg);
-		}
-
-	return found;
-}
-
-/******************************************************************************
- ViewDeclaration (virtual)
-
-	Returns kJTrue if the function was found.
-
- ******************************************************************************/
-
-JBoolean
-CBJavaClass::ViewDeclaration
-	(
-	const JCharacter*	fnName,
-	const JBoolean		caseSensitive,
-	const JBoolean		reportNotFound
-	)
-	const
-{
-	return ViewDefinition(fnName, caseSensitive, reportNotFound);
-}
-
-/******************************************************************************
  NewGhost (virtual protected)
 
 	Creates a new ghost CBJavaClass.
@@ -246,83 +157,14 @@ CBJavaClass::ViewDeclaration
 CBClass*
 CBJavaClass::NewGhost
 	(
-	const JCharacter*	name,
-	CBTree*				tree
+	const JString&	name,
+	CBTree*			tree
 	)
 {
 	CBJavaClass* newClass = jnew CBJavaClass(name, kGhostType, JFAID::kInvalidID, tree,
 											kJTrue, kJFalse);
 	assert( newClass != nullptr );
 	return newClass;
-}
-
-/******************************************************************************
- GetNamespaceOperator (virtual protected)
-
-	Returns the languages's namespace operator.
-
- ******************************************************************************/
-
-const JCharacter*
-CBJavaClass::GetNamespaceOperator()
-	const
-{
-	return ".";
-}
-
-/******************************************************************************
- RemoveNamespace (static)
-
-	Extracts the name of the class without the namespace prefix.
-
-	This can't use GetNamespaceOperator() because it is called from a
-	constructor.
-
- ******************************************************************************/
-
-JString
-CBJavaClass::RemoveNamespace
-	(
-	const JCharacter* fullName
-	)
-{
-	JString name = fullName;
-
-	JIndex dotIndex;
-	if (name.LocateLastSubstring(".", &dotIndex))
-		{
-		name.RemoveSubstring(1, dotIndex);
-		}
-
-	return name;
-}
-
-/******************************************************************************
- IsInherited (virtual)
-
-	Returns kJTrue if the specified function is inherited by derived classes.
-	Constructors, destructors, and private functions are not inherited.
-
-	If it is inherited, *access contains the access level adjusted according
-	to the inheritance access.
-
- ******************************************************************************/
-
-JBoolean
-CBJavaClass::IsInherited
-	(
-	const JIndex		index,
-	const InheritType	inherit,
-	FnAccessLevel*		access
-	)
-	const
-{
-	const JString& fnName = GetFunctionName(index);
-	*access               = GetFnAccessLevel(index);
-
-	return JI2B(!IsPrivate(*access) &&		// private
-				fnName != GetName() &&		// ctor
-				fnName != "finalize");		// dtor
 }
 
 /******************************************************************************
@@ -337,7 +179,7 @@ CBJavaClass::AdjustNameStyle
 	)
 	const
 {
-	CBClass::AdjustNameStyle(colormap, style);
+	CBClass::AdjustNameStyle(style);
 
 	if (GetDeclareType() != kGhostType)
 		{

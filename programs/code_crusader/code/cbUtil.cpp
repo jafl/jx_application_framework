@@ -21,8 +21,8 @@
 void
 CBCleanUpAfterRename
 	(
-	const JCharacter* origFullName,
-	const JCharacter* newFullName
+	const JString& origFullName,
+	const JString& newFullName
 	)
 {
 	JString backupName = origFullName;
@@ -36,7 +36,7 @@ CBCleanUpAfterRename
 	const JString crashName = path + "##" + name + "##";
 	JRemoveFile(crashName);
 
-	if (!JString::IsEmpty(newFullName))
+	if (!newFullName.IsEmpty())
 		{
 		(CBGetDocumentManager())->FileRenamed(origFullName, newFullName);
 		}

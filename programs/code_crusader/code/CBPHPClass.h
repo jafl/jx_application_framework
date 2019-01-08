@@ -14,34 +14,21 @@ class CBPHPClass : public CBClass
 {
 public:
 
-	CBPHPClass(const JCharacter* name, const DeclareType declType,
+	CBPHPClass(const JString& name, const DeclareType declType,
 			   const JFAID_t fileID, CBTree* tree,
 			   const JBoolean isFinal);
 	CBPHPClass(std::istream& input, const JFileVersion vers, CBTree* tree);
 
 	virtual ~CBPHPClass();
 
-	virtual void	ViewSource() const;
-	virtual void	ViewHeader() const;
+	virtual void	ViewSource() const override;
+	virtual void	ViewHeader() const override;
 
-	virtual JBoolean	ViewDefinition(const JCharacter* fnName,
-									   const JBoolean caseSensitive,
-									   const JBoolean reportNotFound = kJTrue) const;
-	virtual JBoolean	ViewDeclaration(const JCharacter* fnName,
-										const JBoolean caseSensitive,
-										const JBoolean reportNotFound = kJTrue) const;
-
-	virtual JBoolean	IsInherited(const JIndex index, const InheritType inherit,
-									FnAccessLevel* access) const;
-
-	virtual void	StreamOut(std::ostream& output) const;
-
-	static JString	RemoveNamespace(const JCharacter* name);
+	virtual void	StreamOut(std::ostream& output) const override;
 
 protected:
 
-	virtual CBClass*			NewGhost(const JCharacter* name, CBTree* tree);
-	virtual const JCharacter*	GetNamespaceOperator() const;
+	virtual CBClass*	NewGhost(const JString& name, CBTree* tree) override;
 
 	virtual void	AdjustNameStyle(JFontStyle* style) const override;
 

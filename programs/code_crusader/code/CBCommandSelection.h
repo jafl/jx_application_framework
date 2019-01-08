@@ -22,7 +22,7 @@ public:
 
 	virtual	~CBCommandSelection();
 
-	static const JCharacter*	GetCommandXAtomName();
+	static const JUtf8Byte*	GetCommandXAtomName();
 
 protected:
 

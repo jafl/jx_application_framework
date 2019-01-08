@@ -32,14 +32,14 @@ const JIndex kAppendCmd  = 2;
 CBListChooseFileDialog*
 CBListChooseFileDialog::Create
 	(
-	JXDirector*			supervisor,
-	JDirInfo*			dirInfo,
-	const JCharacter*	fileFilter,
-	const JBoolean		allowSelectMultiple,
-	const JCharacter*	replaceListStr,
-	const JCharacter*	appendToListStr,
-	const JCharacter*	origName,
-	const JCharacter*	message
+	JXDirector*		supervisor,
+	JDirInfo*		dirInfo,
+	const JString&	fileFilter,
+	const JBoolean	allowSelectMultiple,
+	const JString&	replaceListStr,
+	const JString&	appendToListStr,
+	const JString&	origName,
+	const JString&	message
 	)
 {
 	CBListChooseFileDialog* dlog =
@@ -56,10 +56,10 @@ CBListChooseFileDialog::Create
 
 CBListChooseFileDialog::CBListChooseFileDialog
 	(
-	JXDirector*			supervisor,
-	JDirInfo*			dirInfo,
-	const JCharacter*	fileFilter,
-	const JBoolean		allowSelectMultiple
+	JXDirector*		supervisor,
+	JDirInfo*		dirInfo,
+	const JString&	fileFilter,
+	const JBoolean	allowSelectMultiple
 	)
 	:
 	JXChooseFileDialog(supervisor, dirInfo, fileFilter, allowSelectMultiple)
@@ -95,10 +95,10 @@ CBListChooseFileDialog::ReplaceExisting()
 void
 CBListChooseFileDialog::BuildWindow
 	(
-	const JCharacter* replaceListStr,
-	const JCharacter* appendToListStr,
-	const JCharacter* origName,
-	const JCharacter* message
+	const JString& replaceListStr,
+	const JString& appendToListStr,
+	const JString& origName,
+	const JString& message
 	)
 {
 // begin JXLayout
@@ -155,12 +155,12 @@ CBListChooseFileDialog::BuildWindow
 	assert( filterInput != nullptr );
 
 	JXPathHistoryMenu* pathHistory =
-		jnew JXPathHistoryMenu(1, "", window,
+		jnew JXPathHistoryMenu(1, JString::empty, window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 260,20, 30,20);
 	assert( pathHistory != nullptr );
 
 	JXStringHistoryMenu* filterHistory =
-		jnew JXStringHistoryMenu(1, "", window,
+		jnew JXStringHistoryMenu(1, JString::empty, window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 260,50, 30,20);
 	assert( filterHistory != nullptr );
 
@@ -190,7 +190,7 @@ CBListChooseFileDialog::BuildWindow
 	assert( appendRB != nullptr );
 
 	JXCurrentPathMenu* currPathMenu =
-		jnew JXCurrentPathMenu("/", window,
+		jnew JXCurrentPathMenu(JString("/", kJFalse), window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 20,110, 180,20);
 	assert( currPathMenu != nullptr );
 

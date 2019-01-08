@@ -15,7 +15,7 @@
 #include <JTableSelection.h>
 #include <jAssert.h>
 
-static const JCharacter* kCommandXAtomName = "text/x-CBCommand";
+static const JUtf8Byte* kCommandXAtomName = "text/x-CBCommand";
 
 /******************************************************************************
  Constructor
@@ -95,11 +95,11 @@ CBCommandSelection::ConvertData
 	if (requestType == itsCBCommandXAtom)
 		{
 		*returnType = itsCBCommandXAtom;
-		*dataLength = itsData.GetLength();
+		*dataLength = itsData.GetByteCount();
 		*data       = jnew unsigned char[ *dataLength ];
 		if (*data != nullptr)
 			{
-			memcpy(*data, itsData.GetCString(), *dataLength);
+			memcpy(*data, itsData.GetRawBytes(), *dataLength);
 			return kJTrue;
 			}
 		}
@@ -128,7 +128,7 @@ CBCommandSelection::ConvertData
 
  ******************************************************************************/
 
-const JCharacter*
+const JUtf8Byte*
 CBCommandSelection::GetCommandXAtomName()
 {
 	return kCommandXAtomName;

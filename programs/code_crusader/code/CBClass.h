@@ -21,8 +21,6 @@ class JPainter;
 class JFontManager;
 class CBTree;
 
-typedef JString (CBClassRemoveNamespace)(const JCharacter* name);
-
 class CBClass : virtual public JBroadcaster
 {
 	friend class CBTree;
@@ -48,18 +46,6 @@ public:
 		kInheritJavaDefault
 	};
 
-	enum FnAccessLevel
-	{
-		kPublicAccess = 0,
-		kProtectedAccess,
-		kPrivateAccess,
-		kJavaDefaultAccess,
-		kQtSignalAccess,
-		kQtPublicSlotAccess,
-		kQtProtectedSlotAccess,
-		kQtPrivateSlotAccess
-	};
-
 public:
 
 	virtual ~CBClass();
@@ -83,7 +69,7 @@ public:
 	JBoolean		IsEnum() const;
 	JBoolean		IsGhost() const;
 
-	void			AddParent(const InheritType type, const JCharacter* name);
+	void			AddParent(const InheritType type, const JString& name);
 	JBoolean		FindParents(const JBoolean okToCreateGhost);
 	JBoolean		HasParents() const;
 	JSize			GetParentCount() const;
@@ -96,28 +82,6 @@ public:
 	JBoolean		HasChildren() const;
 	JBoolean		HasPrimaryChildren() const;
 	JBoolean		HasSecondaryChildren() const;
-
-	JSize				GetFunctionCount() const;
-	const JString&		GetFunctionName(const JIndex index) const;
-	FnAccessLevel		GetFnAccessLevel(const JIndex index) const;
-	JBoolean			IsImplemented(const JIndex index) const;
-	virtual JBoolean	IsInherited(const JIndex index, const InheritType inherit,
-									FnAccessLevel* access) const;
-	static JBoolean		IsPublic(const FnAccessLevel access);
-	static JBoolean		IsProtected(const FnAccessLevel access);
-	static JBoolean		IsPrivate(const FnAccessLevel access);
-	static JBoolean		IsSignal(const FnAccessLevel access);
-	static JBoolean		IsSlot(const FnAccessLevel access);
-	void				AddFunction(const JCharacter* name, const FnAccessLevel access,
-									const JBoolean implemented);
-	JBoolean			Implements(const JCharacter* name, const JBoolean caseSensitive) const;
-
-	virtual JBoolean	ViewDefinition(const JCharacter* fnName,
-									   const JBoolean caseSensitive,
-									   const JBoolean reportNotFound = kJTrue) const;
-	virtual JBoolean	ViewDeclaration(const JCharacter* fnName,
-										const JBoolean caseSensitive,
-										const JBoolean reportNotFound = kJTrue) const;
 
 	void	Draw(JPainter& p, const JRect& rect) const;
 	void	DrawMILinks(JPainter& p, const JRect& rect) const;
@@ -153,24 +117,18 @@ public:
 
 protected:
 
-	CBClass(const JCharacter* fullName, const DeclareType declType,
+	CBClass(const JString& fullName, const DeclareType declType,
 			const JFAID_t fileID, CBTree* tree,
-			CBClassRemoveNamespace* removeNamespaceFn);
+			const JUtf8Byte* namespaceOperator);
 	CBClass(std::istream& input, const JFileVersion vers, CBTree* tree,
-			CBClassRemoveNamespace* removeNamespaceFn);
-	CBClass(const JCharacter* name);	// search target
+			const JUtf8Byte* namespaceOperator);
+	CBClass(const JString& name);	// search target
 
-	virtual CBClass*			NewGhost(const JCharacter* name, CBTree* tree);
-	virtual const JCharacter*	GetNamespaceOperator() const;
+	virtual CBClass*	NewGhost(const JString& name, CBTree* tree);
+	const JUtf8Byte*	GetNamespaceOperator() const;
+	JString				RemoveNamespace(const JString& fullName);
 
-	JBoolean	ViewInheritedDefinition(const JCharacter* fnName,
-										const JBoolean caseSensitive,
-										const JBoolean reportNotFound) const;
-	JBoolean	ViewInheritedDeclaration(const JCharacter* fnName,
-										 const JBoolean caseSensitive,
-										 const JBoolean reportNotFound) const;
-
-	virtual void	AdjustNameStyle(JFontStyle* style) const override;
+	virtual void	AdjustNameStyle(JFontStyle* style) const;
 
 private:
 
@@ -198,28 +156,9 @@ private:
 			{ };
 	};
 
-	struct FunctionInfo
-	{
-		JString*		name;
-		FnAccessLevel	access;
-		JBoolean		implemented;
-
-		FunctionInfo()
-			:
-			name(nullptr),
-			access(kPublicAccess),
-			implemented(kJTrue)
-			{ };
-
-		FunctionInfo(JString* n, const FnAccessLevel level, const JBoolean impl)
-			:
-			name(n),
-			access(level),
-			implemented(impl)
-			{ };
-	};
-
 private:
+
+	const JUtf8Byte* const	itsNamespaceOperator;	// must be first, to use when construction itsName
 
 	JString		itsFullName;					// namespace + class name
 	JString		itsName;						// class name
@@ -242,8 +181,6 @@ private:
 	JBoolean	itsHasPrimaryChildrenFlag;
 	JBoolean	itsHasSecondaryChildrenFlag;
 
-	JArray<FunctionInfo>*	itsFunctionInfo;
-
 	static JColorID	itsGhostNameColor;
 
 private:
@@ -263,9 +200,6 @@ private:
 	JPoint		GetLinkFromPt() const;
 	JPoint		GetLinkToPt() const;
 
-	static JListT::CompareResult
-		CompareFunctionNames(const FunctionInfo& i1, const FunctionInfo& i2);
-
 	// called by CBTree
 
 	void	ClearConnections();
@@ -282,9 +216,6 @@ std::ostream& operator<<(std::ostream& output, const CBClass::DeclareType type);
 
 std::istream& operator>>(std::istream& input, CBClass::InheritType& type);
 std::ostream& operator<<(std::ostream& output, const CBClass::InheritType type);
-
-std::istream& operator>>(std::istream& input, CBClass::FnAccessLevel& access);
-std::ostream& operator<<(std::ostream& output, const CBClass::FnAccessLevel access);
 
 
 /******************************************************************************
@@ -486,115 +417,6 @@ CBClass::HasSecondaryChildren()
 	const
 {
 	return itsHasSecondaryChildrenFlag;
-}
-
-/******************************************************************************
- GetFunctionCount
-
- ******************************************************************************/
-
-inline JSize
-CBClass::GetFunctionCount()
-	const
-{
-	return itsFunctionInfo->GetElementCount();
-}
-
-/******************************************************************************
- GetFunctionName
-
- ******************************************************************************/
-
-inline const JString&
-CBClass::GetFunctionName
-	(
-	const JIndex index
-	)
-	const
-{
-	return *((itsFunctionInfo->GetElement(index)).name);
-}
-
-/******************************************************************************
- GetFnAccessLevel
-
- ******************************************************************************/
-
-inline CBClass::FnAccessLevel
-CBClass::GetFnAccessLevel
-	(
-	const JIndex index
-	)
-	const
-{
-	return (itsFunctionInfo->GetElement(index)).access;
-}
-
-/******************************************************************************
- FnAccess types (static)
-
- ******************************************************************************/
-
-inline JBoolean
-CBClass::IsPublic
-	(
-	const FnAccessLevel access
-	)
-{
-	return JI2B(access == kPublicAccess || access == kQtPublicSlotAccess);
-}
-
-inline JBoolean
-CBClass::IsProtected
-	(
-	const FnAccessLevel access
-	)
-{
-	return JI2B(access == kProtectedAccess || access == kQtProtectedSlotAccess);
-}
-
-inline JBoolean
-CBClass::IsPrivate
-	(
-	const FnAccessLevel access
-	)
-{
-	return JI2B(access == kPrivateAccess || access == kQtPrivateSlotAccess);
-}
-
-inline JBoolean
-CBClass::IsSignal
-	(
-	const FnAccessLevel access
-	)
-{
-	return JI2B(access == kQtSignalAccess);
-}
-
-inline JBoolean
-CBClass::IsSlot
-	(
-	const FnAccessLevel access
-	)
-{
-	return JI2B(access == kQtPublicSlotAccess ||
-				access == kQtProtectedSlotAccess ||
-				access == kQtPrivateSlotAccess);
-}
-
-/******************************************************************************
- IsImplemented
-
- ******************************************************************************/
-
-inline JBoolean
-CBClass::IsImplemented
-	(
-	const JIndex index
-	)
-	const
-{
-	return (itsFunctionInfo->GetElement(index)).implemented;
 }
 
 /******************************************************************************

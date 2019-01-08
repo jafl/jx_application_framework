@@ -64,7 +64,7 @@ const JCharacter kGeometryDataEndDelimiter     = '\1';
 
 // Options menu
 
-static const JCharacter* kOptionsMenuStr =
+static const JUtf8Byte* kOptionsMenuStr =
 	"    This task invokes make / ant / etc.       %b %k (M)"
 	"  | This task invokes version control         %b %k (V)"
 	"%l| Save all files before performing          %b %k (S)"

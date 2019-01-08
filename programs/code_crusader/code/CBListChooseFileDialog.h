@@ -18,10 +18,10 @@ public:
 
 	static CBListChooseFileDialog*
 		Create(JXDirector* supervisor, JDirInfo* dirInfo,
-			   const JCharacter* fileFilter,
+			   const JString& fileFilter,
 			   const JBoolean allowSelectMultiple,
-			   const JCharacter* replaceListStr, const JCharacter* appendToListStr,
-			   const JCharacter* origName, const JCharacter* message);
+			   const JString& replaceListStr, const JString& appendToListStr,
+			   const JString& origName, const JString& message);
 
 	virtual ~CBListChooseFileDialog();
 
@@ -30,7 +30,7 @@ public:
 protected:
 
 	CBListChooseFileDialog(JXDirector* supervisor, JDirInfo* dirInfo,
-						   const JCharacter* fileFilter,
+						   const JString& fileFilter,
 						   const JBoolean allowSelectMultiple);
 
 private:
@@ -43,10 +43,10 @@ private:
 
 private:
 
-	void	BuildWindow(const JCharacter* replaceListStr,
-						const JCharacter* appendToListStr,
-						const JCharacter* origName,
-						const JCharacter* message);
+	void	BuildWindow(const JString& replaceListStr,
+						const JString& appendToListStr,
+						const JString& origName,
+						const JString& message);
 
 	// not allowed
 

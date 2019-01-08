@@ -73,7 +73,7 @@ public:
 
 	// JBroadcaster messages
 
-	static const JCharacter* kGetTargetInfo;
+	static const JUtf8Byte* kGetTargetInfo;
 
 	class GetTargetInfo : public JBroadcaster::Message
 		{
@@ -116,7 +116,7 @@ public:
 			};
 
 			void
-			AddFile(const JCharacter* fullName, const JIndex lineIndex = 0)
+			AddFile(const JString& fullName, const JIndex lineIndex = 0)
 			{
 				itsFileList.Append(fullName);
 				itsLineIndexList.AppendElement(lineIndex);

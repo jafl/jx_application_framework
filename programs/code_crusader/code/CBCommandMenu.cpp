@@ -29,8 +29,7 @@
 
 // Project menu
 
-static const JCharacter* kMenuTitleStr = "Tasks";
-static const JCharacter* kMenuStr =
+static const JUtf8Byte* kMenuStr =
 	"    Perform one-off task..."
 	"  | Customize this menu..."
 	"%l| Add to project: none"
@@ -47,13 +46,9 @@ enum
 	kInitCmdCount = kManageProjIndex
 };
 
-static const JCharacter* kAddToProjectItemText  = "Add to project: ";
-static const JCharacter* kManageProjectItemText = "Manage project: ";
-static const JCharacter* kNoProjectName         = "none";
-
 // Add to Project menu
 
-static const JCharacter* kAddToProjMenuStr =
+static const JUtf8Byte* kAddToProjMenuStr =
 	"  Absolute path                              %i" kCBAddToProjAbsoluteAction
 	"| Relative to project file   %k Meta-Shift-A %i" kCBAddToProjProjRelativeAction
 	"| Relative to home directory                 %i" kCBAddToProjHomeRelativeAction;
@@ -73,7 +68,7 @@ enum
 #include "jcc_show_php_tree.xpm"
 #include "jcc_show_file_list.xpm"
 
-static const JCharacter* kManageProjMenuStr =
+static const JUtf8Byte* kManageProjMenuStr =
 	"    Update symbol database         %k Meta-U       %i" kCBUpdateClassTreeAction
 	"%l| Show symbol browser            %k Ctrl-F12     %i" kCBShowSymbolBrowserAction
 	"  | Show C++ class tree                            %i" kCBShowCPPClassTreeAction
@@ -93,7 +88,7 @@ enum
 
 // JBroadcaster message types
 
-const JCharacter* CBCommandMenu::kGetTargetInfo = "GetTargetInfo::CBCommandMenu";
+const JUtf8Byte* CBCommandMenu::kGetTargetInfo = "GetTargetInfo::CBCommandMenu";
 
 /******************************************************************************
  Constructor
@@ -115,7 +110,7 @@ CBCommandMenu::CBCommandMenu
 	const JCoordinate		h
 	)
 	:
-	JXTextMenu(kMenuTitleStr, enclosure, hSizing, vSizing, x,y, w,h)
+	JXTextMenu(JGetString("Title::CBCommandMenu"), enclosure, hSizing, vSizing, x,y, w,h)
 {
 	CBCommandMenuX(projDoc, textDoc);
 }
@@ -316,14 +311,14 @@ CBCommandMenu::UpdateMenu()
 
 	SetItemEnable(kAddToProjIndex, CanAddToProject());
 
-	JString itemText = kAddToProjectItemText;
+	JString itemText = JGetString("AddToProjectItemText::CBCommandMenu");
 	if (projDoc != nullptr)
 		{
 		itemText += projDoc->GetName();
 		}
 	else
 		{
-		itemText += kNoProjectName;
+		itemText += JGetString("NoProjectName::CBCommandMenu");
 		}
 	SetItemText(kAddToProjIndex, itemText);
 
@@ -331,14 +326,14 @@ CBCommandMenu::UpdateMenu()
 
 	SetItemEnable(kManageProjIndex, CanManageProject());
 
-	itemText = kManageProjectItemText;
+	itemText = JGetString("ManageProjectItemText::CBCommandMenu");
 	if (projDoc != nullptr)
 		{
 		itemText += projDoc->GetName();
 		}
 	else
 		{
-		itemText += kNoProjectName;
+		itemText += JGetString("NoProjectName::CBCommandMenu");
 		}
 	SetItemText(kManageProjIndex, itemText);
 }

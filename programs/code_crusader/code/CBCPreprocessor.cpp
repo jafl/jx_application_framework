@@ -113,11 +113,11 @@ CBCPreprocessor::IsEntireWord
 inline int
 CBCPreprocessor::IsIDCharacter
 	(
-	const JCharacter c
+	const JUtf8Character& c
 	)
 	const
 {
-	return (isalnum(c) || c == '_');
+	return (c.IsAlnum() || c == '_');
 }
 
 /******************************************************************************
@@ -129,7 +129,7 @@ CBCPreprocessor::IsIDCharacter
 
  ******************************************************************************/
 
-static const JCharacter* kDefineMacroOption = "-I ";	// macro/macro+/macro=value
+static const JUtf8Byte* kDefineMacroOption = "-I ";	// macro/macro+/macro=value
 
 void
 CBCPreprocessor::PrintMacrosForCTags
@@ -143,18 +143,18 @@ CBCPreprocessor::PrintMacrosForCTags
 		{
 		const MacroInfo info = itsMacroList->GetElement(i);
 
-		if (!(info.name)->Contains(" ") &&
-			!(info.name)->Contains("\t") &&
-			!(info.value)->Contains(" ") &&
-			!(info.value)->Contains("\t"))
+		if (!info.name->Contains(" ") &&
+			!info.name->Contains("\t") &&
+			!info.value->Contains(" ") &&
+			!info.value->Contains("\t"))
 			{
 			output << kDefineMacroOption;
-			(info.name)->Print(output);
+			info.name->Print(output);
 
-			if (!(info.value)->IsEmpty())
+			if (!info.value->IsEmpty())
 				{
 				output << '=';
-				(info.value)->Print(output);
+				info.value->Print(output);
 				}
 
 			output << std::endl;
@@ -170,11 +170,11 @@ CBCPreprocessor::PrintMacrosForCTags
 void
 CBCPreprocessor::DefineMacro
 	(
-	const JCharacter* name,
-	const JCharacter* value
+	const JString& name,
+	const JString& value
 	)
 {
-	assert( !JString::IsEmpty(name) && value != nullptr );
+	assert( !name.IsEmpty() );
 
 	MacroInfo info(jnew JString(name), jnew JString(value));
 	assert( info.name != nullptr && info.value != nullptr );
@@ -233,7 +233,7 @@ CBCPreprocessor::ReadSetup
 		while (1)
 			{
 			JBoolean keepGoing;
-			input >> keepGoing;
+			input >> JBoolFromString(keepGoing);
 			if (!keepGoing)
 				{
 				break;
@@ -252,13 +252,13 @@ CBCPreprocessor::ReadSetup
 void
 CBCPreprocessor::ReadMacro
 	(
-	std::istream&			input,
+	std::istream&		input,
 	const JFileVersion	vers
 	)
 {
 	MacroInfo info(jnew JString, jnew JString);
 	assert( info.name != nullptr && info.value != nullptr );
-	input >> *(info.name) >> *(info.value);
+	input >> *info.name >> *info.value;
 	itsMacroList->AppendElement(info);
 }
 
@@ -279,7 +279,7 @@ CBCPreprocessor::WriteSetup
 	const JSize count = itsMacroList->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		output << kJTrue;
+		output << JBoolToString(kJTrue);
 
 		const MacroInfo info = itsMacroList->GetElement(i);
 		output << ' ' << *(info.name);
@@ -287,7 +287,7 @@ CBCPreprocessor::WriteSetup
 		output << '\n';
 		}
 
-	output << kJFalse << '\n';
+	output << JBoolToString(kJFalse) << '\n';
 }
 
 /******************************************************************************

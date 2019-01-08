@@ -30,19 +30,12 @@
 
 // Template menu
 
-static const JCharacter* kTemplateMenuStr = "None %r %l";
+static const JUtf8Byte* kTemplateMenuStr = "None %r %l";
 
 enum
 {
 	kNoTemplateCmd = 1
 };
-
-static const JCharacter* kUserTemplateMarker = " (personal)";
-static const JCharacter* kSysTemplateMarker  = " (global)";
-
-// string ID's
-
-static const JCharacter* kWarnFileExistsID = "WarnFileExists::CBNewProjectSaveFileDialog";
 
 /******************************************************************************
  Constructor function (static)
@@ -54,12 +47,12 @@ CBNewProjectSaveFileDialog::Create
 	(
 	JXDirector*								supervisor,
 	JDirInfo*								dirInfo,
-	const JCharacter*						fileFilter,
-	const JCharacter*						templateFile,
+	const JString&							fileFilter,
+	const JString&							templateFile,
 	const CBBuildManager::MakefileMethod	method,
-	const JCharacter*						origName,
-	const JCharacter*						prompt,
-	const JCharacter*						message
+	const JString&							origName,
+	const JString&							prompt,
+	const JString&							message
 	)
 {
 	CBNewProjectSaveFileDialog* dlog =
@@ -79,7 +72,7 @@ CBNewProjectSaveFileDialog::CBNewProjectSaveFileDialog
 	(
 	JXDirector*								supervisor,
 	JDirInfo*								dirInfo,
-	const JCharacter*						fileFilter,
+	const JString&							fileFilter,
 	const CBBuildManager::MakefileMethod	method
 	)
 	:
@@ -119,9 +112,9 @@ CBNewProjectSaveFileDialog::GetMakefileMethod()
 void
 CBNewProjectSaveFileDialog::BuildWindow
 	(
-	const JCharacter*	origName,
-	const JCharacter*	prompt,
-	const JCharacter*	message
+	const JString& origName,
+	const JString& prompt,
+	const JString& message
 	)
 {
 // begin JXLayout
@@ -215,12 +208,12 @@ CBNewProjectSaveFileDialog::BuildWindow
 	assert( makemakeRB != nullptr );
 
 	JXPathHistoryMenu* pathHistory =
-		jnew JXPathHistoryMenu(1, "", window,
+		jnew JXPathHistoryMenu(1, JString::empty, window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 260,20, 30,20);
 	assert( pathHistory != nullptr );
 
 	JXStringHistoryMenu* filterHistory =
-		jnew JXStringHistoryMenu(1, "", window,
+		jnew JXStringHistoryMenu(1, JString::empty, window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 260,50, 30,20);
 	assert( filterHistory != nullptr );
 
@@ -235,7 +228,7 @@ CBNewProjectSaveFileDialog::BuildWindow
 	assert( newDirButton != nullptr );
 
 	JXCurrentPathMenu* currPathMenu =
-		jnew JXCurrentPathMenu("/", window,
+		jnew JXCurrentPathMenu(JString("/", kJFalse), window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 20,110, 180,20);
 	assert( currPathMenu != nullptr );
 
@@ -274,7 +267,7 @@ CBNewProjectSaveFileDialog::BuildWindow
 void
 CBNewProjectSaveFileDialog::BuildTemplateMenu
 	(
-	const JCharacter* templateFile
+	const JString& templateFile
 	)
 {
 	itsTemplateIndex = kNoTemplateCmd;
@@ -340,10 +333,10 @@ CBNewProjectSaveFileDialog::BuildTemplateMenu
 void
 CBNewProjectSaveFileDialog::BuildTemplateMenuItems
 	(
-	const JCharacter*	path,
+	const JString&		path,
 	const JBoolean		isUserPath,
 	JPtrArray<JString>*	menuText,
-	const JCharacter*	templateFile,
+	const JString&		templateFile,
 	JString**			menuTextStr
 	)
 	const
@@ -365,11 +358,11 @@ CBNewProjectSaveFileDialog::BuildTemplateMenuItems
 
 				if (isUserPath)
 					{
-					*s += kUserTemplateMarker;
+					*s += JGetString("UserTemplateMarker::CBNewProjectSaveFileDialog");
 					}
 				else
 					{
-					*s += kSysTemplateMarker;
+					*s += JGetString("SysTemplateMarker::CBNewProjectSaveFileDialog");
 					}
 
 				menuText->InsertSorted(s);
@@ -413,7 +406,7 @@ CBNewProjectSaveFileDialog::GetProjectTemplate
 									&sysDir, &userDir);
 
 		*fullName = JCombinePathAndName(
-			nmShortcut == kUserTemplateMarker ? userDir : sysDir,
+			nmShortcut == JGetString("UserTemplateMarker::CBNewProjectSaveFileDialog") ? userDir : sysDir,
 			itsTemplateMenu->GetItemText(itsTemplateIndex));
 		return kJTrue;
 		}
@@ -555,19 +548,19 @@ CBNewProjectSaveFileDialog::OKToDeactivate()
 JBoolean
 CBNewProjectSaveFileDialog::OKToReplaceFile
 	(
-	const JCharacter* fullName,
-	const JCharacter* programName
+	const JString& fullName,
+	const JString& programName
 	)
 {
 	JString path, name;
 	JSplitPathAndName(fullName, &path, &name);
 
-	const JCharacter* map[] =
+	const JUtf8Byte* map[] =
 		{
-		"file",   name.GetCString(),
-		"method", programName
+		"file",   name.GetBytes(),
+		"method", programName.GetBytes()
 		};
-	const JString msg = JGetString(kWarnFileExistsID, map, sizeof(map));
+	const JString msg = JGetString("WarnFileExists::CBNewProjectSaveFileDialog", map, sizeof(map));
 
 	return JGetUserNotification()->AskUserNo(msg);
 }

@@ -44,28 +44,23 @@ const JSize kBlockSize = 100;
 
 // Code Mill info
 
-const JFileVersion kCodeMillDataVersion                  = 0;
-static const JCharacter* kCodeMillProgramName            = "code_mill";
-static const JCharacter* kCodeMillDeleteInputFilesOption = "--delete";
-static const JCharacter* kCodeMillOutputPathOption       = "--output_path";
+static const JString kCodeMillProgramName("code_mill", kJFalse);
+static const JString kCodeMillOptions("--delete --output_path", kJFalse);
+const JFileVersion kCodeMillDataVersion = 0;
 
 // JBroadcaster message types
 
-const JCharacter* CBTree::kChanged              = "Changed::CBTree";
-const JCharacter* CBTree::kBoundsChanged        = "BoundsChanged::CBTree";
-const JCharacter* CBTree::kNeedsRefresh         = "NeedsRefresh::CBTree";
-const JCharacter* CBTree::kFontSizeChanged      = "FontSizeChanged::CBTree";
+const JUtf8Byte* CBTree::kChanged              = "Changed::CBTree";
+const JUtf8Byte* CBTree::kBoundsChanged        = "BoundsChanged::CBTree";
+const JUtf8Byte* CBTree::kNeedsRefresh         = "NeedsRefresh::CBTree";
+const JUtf8Byte* CBTree::kFontSizeChanged      = "FontSizeChanged::CBTree";
 
-const JCharacter* CBTree::kPrepareForParse      = "PrepareForParse::CBTree";
-const JCharacter* CBTree::kParseFinished        = "ParseFinished::CBTree";
+const JUtf8Byte* CBTree::kPrepareForParse      = "PrepareForParse::CBTree";
+const JUtf8Byte* CBTree::kParseFinished        = "ParseFinished::CBTree";
 
-const JCharacter* CBTree::kClassSelected        = "ClassSelected::CBTree";
-const JCharacter* CBTree::kClassDeselected      = "ClassDeselected::CBTree";
-const JCharacter* CBTree::kAllClassesDeselected = "AllClassesDeselected::CBTree";
-
-// string ID's
-
-static const JCharacter* kRequiresCodeMillID = "RequiresCodeMill::CBTree";
+const JUtf8Byte* CBTree::kClassSelected        = "ClassSelected::CBTree";
+const JUtf8Byte* CBTree::kClassDeselected      = "ClassDeselected::CBTree";
+const JUtf8Byte* CBTree::kAllClassesDeselected = "AllClassesDeselected::CBTree";
 
 /******************************************************************************
  Constructor
@@ -135,20 +130,20 @@ JIndex i;
 		JBoolean showLoneClasses, showLoneStructs, showEnums;
 		if (projVers >= 12)
 			{
-			projInput >> showLoneClasses;
+			projInput >> JBoolFromString(showLoneClasses);
 			if (projVers >= 13)
 				{
-				projInput >> showLoneStructs;
+				projInput >> JBoolFromString(showLoneStructs);
 				}
 			}
 		if (projVers >= 10)
 			{
-			projInput >> showEnums;
+			projInput >> JBoolFromString(showEnums);
 			}
 
 		if (projVers >= 19)
 			{
-			projInput >> itsNeedsMinimizeMILinksFlag;
+			projInput >> JBoolFromString(itsNeedsMinimizeMILinksFlag);
 			}
 		else
 			{
@@ -160,11 +155,11 @@ JIndex i;
 		if (setVers < 87)
 			{
 			JBoolean showLoneClasses, showLoneStructs, showEnums;
-			*setInput >> showLoneClasses;
-			*setInput >> showLoneStructs;
-			*setInput >> showEnums;
+			*setInput >> JBoolFromString(showLoneClasses)
+					  >> JBoolFromString(showLoneStructs)
+					  >> JBoolFromString(showEnums);
 			}
-		*setInput >> itsNeedsMinimizeMILinksFlag;
+		*setInput >> JBoolFromString(itsNeedsMinimizeMILinksFlag);
 		}
 
 /* symbol file */
@@ -174,7 +169,7 @@ JIndex i;
 		JBoolean classNamesSorted = kJTrue;
 		if (symVers < 7)
 			{
-			*symInput >> classNamesSorted;
+			*symInput >> JBoolFromString(classNamesSorted);
 			}
 
 		// get number of classes in tree
@@ -290,7 +285,7 @@ CBTree::CBTreeX
 	)
 {
 	itsDirector = director;
-	itsFontSize = JGetDefaultFontSize();
+	itsFontSize = JFontManager::GetDefaultFontSize();
 
 	itsClassesByFull = jnew JPtrArray<CBClass>(JPtrArrayT::kDeleteAll, kBlockSize);
 	assert( itsClassesByFull != nullptr );
@@ -311,7 +306,7 @@ CBTree::CBTreeX
 
 	itsCollapsedList = nullptr;
 
-	InstallOrderedSet(itsClassesByFull);
+	InstallCollection(itsClassesByFull);
 
 	itsWidth = itsHeight = 0;
 	itsBroadcastClassSelFlag = kJTrue;
@@ -466,7 +461,7 @@ JIndex i;
 
 	if (setOutput != nullptr)
 		{
-		*setOutput << ' ' << itsNeedsMinimizeMILinksFlag;
+		*setOutput << ' ' << JBoolToString(itsNeedsMinimizeMILinksFlag);
 		}
 
 /* symbol file */
@@ -637,7 +632,7 @@ CBTree::UpdateFinished
 void
 CBTree::FileChanged
 	(
-	const JCharacter*		fileName,
+	const JString&			fileName,
 	const CBTextFileType	fileType,
 	const JFAID_t			id
 	)
@@ -917,7 +912,7 @@ CBTree::RecalcVisible
 		JIndex min = 1;
 		for (JIndex i = classCount; i >= min; i--)
 			{
-			CBClass* theClass = itsVisibleByGeom->NthElement(i);
+			CBClass* theClass = itsVisibleByGeom->GetElement(i);
 			if (!theClass->HasParents() && theClass->HasChildren())
 				{
 				itsVisibleByGeom->MoveElementToIndex(i, 1);
@@ -1109,7 +1104,7 @@ JIndex i,j;
 	JPtrArray<CBClass> newByGeom(*itsVisibleByGeom, JPtrArrayT::kForgetAll);
 
 	JLatentPG pg(1000);
-	pg.VariableLengthProcessBeginning("Minimizing multiple inheritance lengths...", kJTrue, kJFalse);
+	pg.VariableLengthProcessBeginning(JGetString("MinMILengthsProgress::CBTree"), kJTrue, kJFalse);
 	pg.DisplayBusyCursor();
 
 	for (i=1; i<=classCount; i++)
@@ -1281,7 +1276,7 @@ CBTree::ArrangeRoots
 				(subset->content)->SetElement(newRootIndex, kJTrue);
 
 				JBoolean found;
-				const JIndex i = list2->SearchSorted1(*subset, JOrderedSetT::kAnyMatch, &found);
+				const JIndex i = list2->SearchSorted1(*subset, JListT::kAnyMatch, &found);
 				if (found && newLinkLength < (list2->GetCArray())[i-1].linkLength)
 					{
 					RootSubset foundSubset = list2->GetElement(i);
@@ -1526,8 +1521,8 @@ CBTree::FindRoot
 JBoolean
 CBTree::FindClass
 	(
-	const JCharacter*	fullName,
-	const CBClass**		theClass
+	const JString&	fullName,
+	const CBClass**	theClass
 	)
 	const
 {
@@ -1537,8 +1532,8 @@ CBTree::FindClass
 JBoolean
 CBTree::FindClass
 	(
-	const JCharacter*	fullName,
-	CBClass**			theClass
+	const JString&	fullName,
+	CBClass**		theClass
 	)
 	const
 {
@@ -1573,8 +1568,8 @@ CBTree::FindClass
 JBoolean
 CBTree::IsUniqueClassName
 	(
-	const JCharacter*	name,
-	const CBClass**		theClass
+	const JString&	name,
+	const CBClass**	theClass
 	)
 	const
 {
@@ -1611,8 +1606,8 @@ CBTree::IsUniqueClassName
 JBoolean
 CBTree::ClosestVisibleMatch
 	(
-	const JCharacter*	prefixStr,
-	CBClass**			theClass
+	const JString&	prefixStr,
+	CBClass**		theClass
 	)
 	const
 {
@@ -1652,16 +1647,16 @@ CBTree::ClosestVisibleMatch
 JBoolean
 CBTree::FindParent
 	(
-	const JCharacter*	parentName,
-	const CBClass*		container,
-	CBClass**			parent,
-	JString*			nameSpace
+	const JString&	parentName,
+	const CBClass*	container,
+	CBClass**		parent,
+	JString*		nameSpace
 	)
 	const
 {
-	const JCharacter* namespaceOp = container->GetNamespaceOperator();
+	const JUtf8Byte* namespaceOp = container->GetNamespaceOperator();
 
-	JString parentSuffix = namespaceOp;
+	JString parentSuffix(namespaceOp);
 	parentSuffix += parentName;
 
 	const JSize classCount = itsClassesByFull->GetElementCount();
@@ -1670,7 +1665,7 @@ CBTree::FindParent
 		CBClass* c           = itsClassesByFull->GetElement(i);
 		const JString& cName = c->GetFullName();
 		if (cName.EndsWith(parentSuffix) &&
-			parentSuffix.GetLength() < cName.GetLength())
+			parentSuffix.GetCharacterCount() < cName.GetCharacterCount())
 			{
 			JString prefixClassName =
 				cName.GetSubstring(1, cName.GetLength() - parentSuffix.GetLength());
@@ -1822,7 +1817,7 @@ CBTree::GetSelectionCoverage
 	JPtrArray<CBClass> classList(JPtrArrayT::kForgetAll);
 	if (GetSelectedClasses(&classList))
 		{
-		*coverage = (classList.FirstElement())->GetFrame();
+		*coverage = (classList.GetFirstElement())->GetFrame();
 
 		const JSize count = classList.GetElementCount();
 		for (JIndex i=2; i<=count; i++)
@@ -1851,8 +1846,8 @@ CBTree::GetSelectionCoverage
 void
 CBTree::SelectClasses
 	(
-	const JCharacter*	name,
-	const JBoolean		deselectAll
+	const JString&	name,
+	const JBoolean	deselectAll
 	)
 {
 	if (deselectAll)
@@ -1893,9 +1888,9 @@ CBTree::SelectClasses
 void
 CBTree::SelectImplementors
 	(
-	const JCharacter*	fnName,
-	const JBoolean		caseSensitive,
-	const JBoolean		deselectAll
+	const JString&	fnName,
+	const JBoolean	caseSensitive,
+	const JBoolean	deselectAll
 	)
 {
 	if (deselectAll)
@@ -2126,7 +2121,7 @@ CBTree::DeriveFromSelected()
 
 	if (!JProgramAvailable(kCodeMillProgramName))
 		{
-		JGetUserNotification()->DisplayMessage(JGetString(kRequiresCodeMillID));
+		JGetUserNotification()->DisplayMessage(JGetString("RequiresCodeMill::CBTree"));
 		return;
 		}
 
@@ -2157,7 +2152,7 @@ CBTree::DeriveFromSelected()
 			}
 		argList.Append(dataFileName);
 
-		std::ofstream output(dataFileName);
+		std::ofstream output(dataFileName.GetBytes());
 		output << kCodeMillDataVersion << std::endl;
 
 		const JSize ancestorCount = ancestorList.GetElementCount();
@@ -2191,8 +2186,7 @@ CBTree::DeriveFromSelected()
 	if (success && fileCount > 0)
 		{
 		argList.Prepend(JPrepArgForExec(outputPath));
-		argList.Prepend(kCodeMillOutputPathOption);
-		argList.Prepend(kCodeMillDeleteInputFilesOption);
+		argList.Prepend(kCodeMillOptions);
 		argList.Prepend(kCodeMillProgramName);
 		JSimpleProcess::Create(argList, kJTrue);
 		}
@@ -2200,7 +2194,7 @@ CBTree::DeriveFromSelected()
 		{
 		for (JIndex i=1; i<=fileCount; i++)
 			{
-			remove(*(argList.GetElement(i)));
+			remove(argList.GetElement(i)->GetBytes());
 			}
 		}
 }
@@ -2550,7 +2544,7 @@ JCoordinate
 CBTree::GetLineHeight()
 	const
 {
-	return (itsClassesByFull->FirstElement())->GetTotalHeight();
+	return itsClassesByFull->GetFirstElement()->GetTotalHeight();
 }
 
 /******************************************************************************
@@ -2566,8 +2560,8 @@ CBTree::CompareClassFullNames
 	)
 {
 	return JCompareStringsCaseSensitive(
-			const_cast<JString*>(&(c1->GetFullName())),
-			const_cast<JString*>(&(c2->GetFullName())));
+			const_cast<JString*>(&c1->GetFullName()),
+			const_cast<JString*>(&c2->GetFullName()));
 }
 
 /******************************************************************************
@@ -2583,8 +2577,8 @@ CBTree::CompareClassNames
 	)
 {
 	return JCompareStringsCaseInsensitive(
-			const_cast<JString*>(&(c1->GetName())),
-			const_cast<JString*>(&(c2->GetName())));
+			const_cast<JString*>(&c1->GetName()),
+			const_cast<JString*>(&c2->GetName()));
 }
 
 /******************************************************************************

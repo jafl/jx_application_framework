@@ -52,11 +52,11 @@ public:
 	JBoolean	NeedsReparseAll() const;
 	void		RebuildLayout();
 
-	JBoolean	FindClass(const JCharacter* fullName, CBClass** theClass) const;
-	JBoolean	FindClass(const JCharacter* fullName, const CBClass** theClass) const;
-	JBoolean	IsUniqueClassName(const JCharacter* name, const CBClass** theClass) const;
-	JBoolean	ClosestVisibleMatch(const JCharacter* prefixStr, CBClass** theClass) const;
-	JBoolean	FindParent(const JCharacter* parentName, const CBClass* container,
+	JBoolean	FindClass(const JString& fullName, CBClass** theClass) const;
+	JBoolean	FindClass(const JString& fullName, const CBClass** theClass) const;
+	JBoolean	IsUniqueClassName(const JString& name, const CBClass** theClass) const;
+	JBoolean	ClosestVisibleMatch(const JString& prefixStr, CBClass** theClass) const;
+	JBoolean	FindParent(const JString& parentName, const CBClass* container,
 						   CBClass** parent, JString* nameSpace) const;
 
 	virtual void	StreamOut(std::ostream& projOutput, std::ostream* setOutput,
@@ -66,8 +66,8 @@ public:
 	void		DeselectAll();
 	JBoolean	GetSelectedClasses(JPtrArray<CBClass>* classList) const;
 	JBoolean	GetSelectionCoverage(JRect* coverage, JSize* count) const;
-	void		SelectClasses(const JCharacter* name, const JBoolean deselectAll = kJTrue);
-	void		SelectImplementors(const JCharacter* fnName, const JBoolean caseSensitive,
+	void		SelectClasses(const JString& name, const JBoolean deselectAll = kJTrue);
+	void		SelectImplementors(const JString& fnName, const JBoolean caseSensitive,
 								   const JBoolean deselectAll = kJTrue);
 	void		SelectParents();
 	void		SelectDescendants();
@@ -122,7 +122,7 @@ public:
 
 	// called by CBFileListTable
 
-	void	FileChanged(const JCharacter* fileName,
+	void	FileChanged(const JString& fileName,
 						const CBTextFileType fileType, const JFAID_t id);
 
 protected:
@@ -151,7 +151,7 @@ protected:
 
 	void	PlaceAll(JArray<RootGeom>* rootGeom = nullptr);
 
-	virtual void	ParseFile(const JCharacter* fileName, const JFAID_t id) = 0;
+	virtual void	ParseFile(const JString& fileName, const JFAID_t id) = 0;
 
 private:
 
@@ -290,17 +290,17 @@ public:
 
 	// JBroadcaster messages
 
-	static const JCharacter* kChanged;
-	static const JCharacter* kBoundsChanged;
-	static const JCharacter* kNeedsRefresh;
-	static const JCharacter* kFontSizeChanged;
+	static const JUtf8Byte* kChanged;
+	static const JUtf8Byte* kBoundsChanged;
+	static const JUtf8Byte* kNeedsRefresh;
+	static const JUtf8Byte* kFontSizeChanged;
 
-	static const JCharacter* kPrepareForParse;
-	static const JCharacter* kParseFinished;
+	static const JUtf8Byte* kPrepareForParse;
+	static const JUtf8Byte* kParseFinished;
 
-	static const JCharacter* kClassSelected;
-	static const JCharacter* kClassDeselected;
-	static const JCharacter* kAllClassesDeselected;
+	static const JUtf8Byte* kClassSelected;
+	static const JUtf8Byte* kClassDeselected;
+	static const JUtf8Byte* kAllClassesDeselected;
 
 	class Changed : public JBroadcaster::Message
 		{

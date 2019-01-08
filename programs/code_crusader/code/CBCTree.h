@@ -37,7 +37,7 @@ public:
 
 protected:
 
-	virtual void	ParseFile(const JCharacter* fileName, const JFAID_t id);
+	virtual void	ParseFile(const JString& fileName, const JFAID_t id);
 
 private:
 
@@ -50,25 +50,20 @@ private:
 	static CBClass* StreamInCClass(std::istream& input, const JFileVersion vers,
 								   CBTree* tree);
 
-	void	ReadHeaderFile(const JCharacter* fileName, JString* buffer);
-	void	ParseClasses(JString* buffer, const JCharacter* classNamePrefix,
+	void	ReadHeaderFile(const JString& fileName, JString* buffer);
+	void	ParseClasses(JString* buffer, const JString& classNamePrefix,
 						 const JFAID_t fileID);
 	void	ParseNamespace(const JString& nsName, const JFAID_t fileID,
 						   JString* buffer, const JIndex braceIndex);
-	void	ParseInheritance(const JCharacter* origNamespace,
+	void	ParseInheritance(const JString& origNamespace,
 							 CBCClass* theClass, JString* inheritance);
-	void	ParseFunctions(CBCClass* theClass, const JFAID_t fileID,
-						   JString* buffer, const JIndex braceIndex);
-	CBClass::FnAccessLevel
-	ParseFnAccessLevel(const CBClass::FnAccessLevel currLevel,
-					   const JString& buffer, const JIndex endIndex);
 	void	ParseEnumValues(CBCClass* theClass, JString* buffer, const JIndex braceIndex);
 
-	JIndex	FindEndOfBlock(const JIndex blockStartIndex, const JCharacter openBlockChar,
-						   const JCharacter closeBlockChar, const JString& buffer,
+	JIndex	FindEndOfBlock(const JIndex blockStartIndex, const JUtf8Character& openBlockChar,
+						   const JUtf8Character& closeBlockChar, const JString& buffer,
 						   JBoolean* hasNestedBlocks);
-	void	RemoveBalancedBlocks(JString* buffer, const JCharacter openChar,
-								 const JCharacter closeChar);
+	void	RemoveBalancedBlocks(JString* buffer, const JUtf8Character& openChar,
+								 const JUtf8Character& closeChar);
 
 	// not allowed
 

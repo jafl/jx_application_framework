@@ -34,7 +34,7 @@ CBDirList::CBDirListX()
 	itsDirList->SetSortOrder(JListT::kSortAscending);
 	itsDirList->SetCompareFunction(CBDirInfo::ComparePathNames);
 
-	InstallOrderedSet(itsDirList);
+	InstallCollection(itsDirList);
 }
 
 /******************************************************************************

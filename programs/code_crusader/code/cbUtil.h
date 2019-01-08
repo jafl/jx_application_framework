@@ -10,7 +10,7 @@
 
 #include "jTypes.h"
 
-void	CBCleanUpAfterRename(const JCharacter* origFullName,
-							 const JCharacter* newFullName);
+void	CBCleanUpAfterRename(const JString& origFullName,
+							 const JString& newFullName);
 
 #endif

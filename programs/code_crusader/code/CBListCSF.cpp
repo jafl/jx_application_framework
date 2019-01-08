@@ -18,8 +18,8 @@
 
 CBListCSF::CBListCSF
 	(
-	const JCharacter* replaceListStr,
-	const JCharacter* appendToListStr
+	const JString& replaceListStr,
+	const JString& appendToListStr
 	)
 	:
 	JXChooseSaveFile()
@@ -47,12 +47,12 @@ CBListCSF::~CBListCSF()
 JXChooseFileDialog*
 CBListCSF::CreateChooseFileDialog
 	(
-	JXDirector*			supervisor,
-	JDirInfo*			dirInfo,
-	const JCharacter*	fileFilter,
-	const JBoolean		allowSelectMultiple,
-	const JCharacter*	origName,
-	const JCharacter*	message
+	JXDirector*		supervisor,
+	JDirInfo*		dirInfo,
+	const JString&	fileFilter,
+	const JBoolean	allowSelectMultiple,
+	const JString&	origName,
+	const JString&	message
 	)
 {
 	itsChooseDialog =

@@ -16,8 +16,8 @@ class CBListCSF : public JXChooseSaveFile
 {
 public:
 
-	CBListCSF(const JCharacter* replaceListStr,
-			  const JCharacter* appendToListStr);
+	CBListCSF(const JString& replaceListStr,
+			  const JString& appendToListStr);
 
 	virtual ~CBListCSF();
 
@@ -27,9 +27,9 @@ protected:
 
 	virtual JXChooseFileDialog*
 	CreateChooseFileDialog(JXDirector* supervisor, JDirInfo* dirInfo,
-						   const JCharacter* fileFilter,
+						   const JString& fileFilter,
 						   const JBoolean allowSelectMultiple,
-						   const JCharacter* origName, const JCharacter* message);
+						   const JString& origName, const JString& message) override;
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
@@ -37,8 +37,8 @@ private:
 
 	CBListChooseFileDialog*	itsChooseDialog;
 	JBoolean				itsReplaceExistingFlag;
-	const JCharacter*		itsReplaceListStr;
-	const JCharacter*		itsAppendToListStr;
+	JString					itsReplaceListStr;
+	JString					itsAppendToListStr;
 
 private:
 

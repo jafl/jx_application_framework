@@ -26,11 +26,6 @@
 
 const JFileVersion kCurrentSetupVersion = 0;
 
-// string ID's
-
-static const JCharacter* kWindowTitleID         = "WindowTitle::CBEditCommandsDialog";
-static const JCharacter* kProjectTableCaptionID = "ProjectTableCaption::CBEditCommandsDialog";
-
 /******************************************************************************
  Constructor
 
@@ -115,7 +110,7 @@ CBEditCommandsDialog::BuildWindow
 
 // end JXLayout
 
-	window->SetTitle(JGetString(kWindowTitleID));
+	window->SetTitle(JGetString("WindowTitle::CBEditCommandsDialog"));
 	SetButtons(okButton, cancelButton);
 	UseModalPlacement(kJFalse);
 	window->PlaceAsDialogWindow();
@@ -281,13 +276,14 @@ CBEditCommandsDialog::BuildWindow
 
 // end thisProjectLayout
 
-		const JCharacter* map[] =
+		const JUtf8Byte* map[] =
 			{
-			"project", (projDoc->GetName()).GetCString()
+			"project", (projDoc->GetName()).GetBytes()
 			};
-		thisCaption->SetText(JGetString(kProjectTableCaptionID, map, sizeof(map)));
+		thisCaption->GetText()->SetText(
+			JGetString("ProjectTableCaption::CBEditCommandsDialog", map, sizeof(map)));
 
-		itsMakeDependCmd->SetText(itsCmdMgr->GetMakeDependCommand());
+		itsMakeDependCmd->GetText()->SetText(itsCmdMgr->GetMakeDependCommand());
 		itsMakeDependCmd->SetIsRequired();
 
 		const CBCommandManager::CmdList* thisCmdList = itsCmdMgr->GetCommandList();
@@ -339,7 +335,7 @@ CBEditCommandsDialog::Receive
 			if (itsCmdMgr != nullptr)
 				{
 				assert( itsMakeDependCmd != nullptr );
-				itsCmdMgr->SetMakeDependCommand(itsMakeDependCmd->GetText());
+				itsCmdMgr->SetMakeDependCommand(itsMakeDependCmd->GetText()->GetText());
 
 				assert( itsThisTable != nullptr );
 				itsThisTable->GetCommandList(itsCmdMgr->GetCommandList());

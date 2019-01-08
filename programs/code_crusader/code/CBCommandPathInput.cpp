@@ -60,7 +60,7 @@ CBCommandPathInput::GetPath
 	)
 	const
 {
-	const JString& text = GetText();
+	const JString& text = GetText().GetText();
 	if (text == "@")
 		{
 		*path = text;
@@ -80,7 +80,7 @@ CBCommandPathInput::GetPath
 JBoolean
 CBCommandPathInput::InputValid()
 {
-	if (GetText() == "@")
+	if (GetText().GetText() == "@")
 		{
 		return kJTrue;
 		}
@@ -137,9 +137,9 @@ CBCommandPathInput::xAdjustStylesBeforeRecalc
 JColorID
 CBCommandPathInput::GetTextColor
 	(
-	const JCharacter*	path,
-	const JCharacter*	base,
-	const JBoolean		requireWrite
+	const JString&	path,
+	const JString&	base,
+	const JBoolean	requireWrite
 	)
 {
 	if (*path == '@')

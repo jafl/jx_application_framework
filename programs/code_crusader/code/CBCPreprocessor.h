@@ -8,6 +8,7 @@
 #ifndef _H_CBCPreprocessor
 #define _H_CBCPreprocessor
 
+#include <JUtf8Character.h>
 #include <JArray.h>
 
 class JString;
@@ -47,7 +48,7 @@ public:
 
 	// called by CBMacroTable
 
-	void	DefineMacro(const JCharacter* name, const JCharacter* value);
+	void	DefineMacro(const JString& name, const JString& value);
 	void	UndefineAllMacros();
 
 	const CBPPMacroList&	GetMacroList() const;
@@ -60,7 +61,7 @@ private:
 
 	JBoolean	IsEntireWord(const JString& text, const JIndex wordIndex,
 					 const JSize wordLength) const;
-	int			IsIDCharacter(const JCharacter c) const;
+	int			IsIDCharacter(const JUtf8Character& c) const;
 
 	void	ReadMacro(std::istream& input, const JFileVersion vers);
 

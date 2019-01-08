@@ -67,7 +67,7 @@ CBSymbolList::CBSymbolList
 	itsSymbolList->SetSortOrder(JListT::kSortAscending);
 	itsSymbolList->SetCompareFunction(CompareSymbols);
 
-	InstallOrderedSet(itsSymbolList);
+	InstallCollection(itsSymbolList);
 }
 
 /******************************************************************************

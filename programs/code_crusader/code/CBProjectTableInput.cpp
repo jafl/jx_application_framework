@@ -56,17 +56,18 @@ CBProjectTableInput::~CBProjectTableInput()
 void
 CBProjectTableInput::HandleKeyPress
 	(
-	const int				key,
+	const JUtf8Character&	c,
+	const int				keySym,
 	const JXKeyModifiers&	modifiers
 	)
 {
 	if (itsProjectTable != nullptr &&
-		(key == '\r' || key == '\n') &&
+		(c == '\r' || c == '\n') &&
 		!modifiers.meta() && !modifiers.shift())
 		{
 		itsProjectTable->SetInputAction(
 			modifiers.control() ? CBProjectTable::kRename : CBProjectTable::kRelink);
 		}
 
-	JXFileInput::HandleKeyPress(key, modifiers);
+	JXFileInput::HandleKeyPress(c, keySym, modifiers);
 }

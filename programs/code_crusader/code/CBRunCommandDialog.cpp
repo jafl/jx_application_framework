@@ -30,7 +30,7 @@ const JSize kHistoryLength = 20;
 
 // Save Command menu
 
-static const JCharacter* kSaveCmdMenuStr =
+static const JUtf8Byte* kSaveCmdMenuStr =
 	"  For all projects"
 	"| For active project";
 
@@ -45,11 +45,6 @@ enum
 const JFileVersion kCurrentSetupVersion = 1;
 
 	// version  1 saves isVCS flag
-
-// string ID's
-
-static const JCharacter* kWindowTitleID   = "WindowTitle::CBRunCommandDialog";
-static const JCharacter* kSaveForActiveID = "SaveForActive::CBRunCommandDialog";
 
 /******************************************************************************
  Constructor
@@ -204,7 +199,7 @@ CBRunCommandDialog::BuildWindow()
 	pathLabel->SetToLabel();
 
 	itsPathHistoryMenu =
-		jnew JXPathHistoryMenu(kHistoryLength, "", window,
+		jnew JXPathHistoryMenu(kHistoryLength, JString::empty, window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 340,40, 30,20);
 	assert( itsPathHistoryMenu != nullptr );
 
@@ -243,7 +238,7 @@ CBRunCommandDialog::BuildWindow()
 
 // end JXLayout
 
-	window->SetTitle(JGetString(kWindowTitleID));
+	window->SetTitle(JGetString("WindowTitle::CBRunCommandDialog"));
 	SetButtons(itsRunButton, cancelButton);
 	UseModalPlacement(kJFalse);
 	window->PlaceAsDialogWindow();
@@ -257,19 +252,17 @@ CBRunCommandDialog::BuildWindow()
 	ListenTo(itsIsCVSCB);
 	ListenTo(itsUseWindowCB);
 
-	itsPathInput->SetText("." ACE_DIRECTORY_SEPARATOR_STR);
+	itsPathInput->GetText()->SetText(JString("." ACE_DIRECTORY_SEPARATOR_STR, kJFalse));
 	itsPathInput->ShouldAllowInvalidPath();
-	itsPathInput->ShouldBroadcastAllTextChanged(kJTrue);
-	ListenTo(itsPathInput);
+	ListenTo(itsPathInput->GetText());
 
 	if (itsProjDoc != nullptr)
 		{
 		itsPathInput->SetBasePath(itsProjDoc->GetFilePath());
 		}
 
-	itsCmdInput->ShouldBroadcastAllTextChanged(kJTrue);
-	itsCmdInput->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
-	ListenTo(itsCmdInput);
+	itsCmdInput->GetText()->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
+	ListenTo(itsCmdInput->GetText());
 
 	itsCmdInput->SetFont(window->GetFontManager()->GetDefaultMonospaceFont());
 
@@ -279,7 +272,7 @@ CBRunCommandDialog::BuildWindow()
 	// create hidden JXDocument so Meta-# shortcuts work
 
 	JXDocumentMenu* fileListMenu =
-		jnew JXDocumentMenu("", window,
+		jnew JXDocumentMenu(JString::empty, window,
 						   JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,-20, 10,10);
 	assert( fileListMenu != nullptr );
 
@@ -295,7 +288,7 @@ void
 CBRunCommandDialog::UpdateDisplay()
 {
 	JString p;
-	if (!itsCmdInput->IsEmpty() && itsPathInput->GetPath(&p))
+	if (!itsCmdInput->GetText()->IsEmpty() && itsPathInput->GetPath(&p))
 		{
 		itsRunButton->Activate();
 		}
@@ -383,7 +376,7 @@ CBRunCommandDialog::Receive
 		}
 	else if (sender == itsChoosePathButton && message.Is(JXButton::kPushed))
 		{
-		itsPathInput->ChoosePath("", nullptr);
+		itsPathInput->ChoosePath(JString::empty);
 		}
 
 	else if (sender == itsChooseCmdButton && message.Is(JXButton::kPushed))
@@ -392,8 +385,8 @@ CBRunCommandDialog::Receive
 		}
 
 	else if ((sender == itsCmdInput || sender == itsPathInput) &&
-			 (message.Is(JTextEditor::kTextSet) ||
-			  message.Is(JTextEditor::kTextChanged)))
+			 (message.Is(JStyledText::kTextSet) ||
+			  message.Is(JStyledText::kTextChanged)))
 		{
 		UpdateDisplay();
 		}
@@ -428,9 +421,9 @@ CBRunCommandDialog::Exec()
 		jdelete path;
 		return;
 		}
-	itsPathHistoryMenu->AddString(itsPathInput->GetText());
+	itsPathHistoryMenu->AddString(itsPathInput->GetText()->GetText());
 
-	JString* cmd = jnew JString(itsCmdInput->GetText());
+	JString* cmd = jnew JString(itsCmdInput->GetText()->GetText());
 	assert( cmd != nullptr );
 
 	JString* ss = jnew JString;
@@ -477,11 +470,11 @@ CBRunCommandDialog::UpdateSaveCmdMenu()
 		{
 		itsSaveCmdMenu->EnableItem(kSaveForActiveCmd);
 
-		const JCharacter* map[] =
+		const JUtf8Byte* map[] =
 			{
-			"project", (itsProjDoc->GetName()).GetCString()
+			"project", (itsProjDoc->GetName()).GetBytes()
 			};
-		const JString s = JGetString(kSaveForActiveID, map, sizeof(map));
+		const JString s = JGetString("SaveForActive::CBRunCommandDialog", map, sizeof(map));
 		itsSaveCmdMenu->SetItemText(kSaveForActiveCmd, s);
 		}
 }
@@ -522,11 +515,12 @@ CBRunCommandDialog::AddCommandToMenu
 	CBCommandManager* mgr
 	)
 {
-	mgr->AppendCommand(itsPathInput->GetText(), itsCmdInput->GetText(), "",
+	mgr->AppendCommand(itsPathInput->GetText()->GetText(),
+					   itsCmdInput->GetText()->GetText(), JString::empty,
 					   itsIsMakeCB->IsChecked(), itsIsCVSCB->IsChecked(),
 					   itsSaveAllCB->IsChecked(), itsOneAtATimeCB->IsChecked(),
 					   itsUseWindowCB->IsChecked(), itsRaiseCB->IsChecked(),
-					   itsBeepCB->IsChecked(), "", "", kJFalse);
+					   itsBeepCB->IsChecked(), JString::empty, JString::empty, kJFalse);
 }
 
 /******************************************************************************
@@ -555,35 +549,35 @@ CBRunCommandDialog::ReadPrefs
 	JBoolean checked;
 
 	input >> s;
-	itsPathInput->SetText(s);
+	itsPathInput->GetText()->SetText(s);
 
 	itsPathHistoryMenu->ReadSetup(input);
 
 	input >> s;
-	itsCmdInput->SetText(s);
+	itsCmdInput->GetText()->SetText(s);
 
-	input >> checked;
+	input >> JBoolFromString(checked);
 	itsIsMakeCB->SetState(checked);
 
 	if (vers >= 1)
 		{
-		input >> checked;
+		input >> JBoolFromString(checked);
 		itsIsCVSCB->SetState(checked);
 		}
 
-	input >> checked;
+	input >> JBoolFromString(checked);
 	itsSaveAllCB->SetState(checked);
 
-	input >> checked;
+	input >> JBoolFromString(checked);
 	itsOneAtATimeCB->SetState(checked);
 
-	input >> checked;
+	input >> JBoolFromString(checked);
 	itsUseWindowCB->SetState(checked);
 
-	input >> checked;
+	input >> JBoolFromString(checked);
 	itsRaiseCB->SetState(checked);
 
-	input >> checked;
+	input >> JBoolFromString(checked);
 	itsBeepCB->SetState(checked);
 
 	itsOneAtATimeCB->SetState(kJTrue);
@@ -607,18 +601,18 @@ CBRunCommandDialog::WritePrefs
 	output << ' ';
 	GetWindow()->WriteGeometry(output);
 
-	output << ' ' << itsPathInput->GetText();
+	output << ' ' << itsPathInput->GetText()->GetText();
 
 	output << ' ';
 	itsPathHistoryMenu->WriteSetup(output);
 
-	output << ' ' << itsCmdInput->GetText();
+	output << ' ' << itsCmdInput->GetText()->GetText();
 
-	output << ' ' << itsIsMakeCB->IsChecked();
-	output << ' ' << itsIsCVSCB->IsChecked();
-	output << ' ' << itsSaveAllCB->IsChecked();
-	output << ' ' << itsOneAtATimeCB->IsChecked();
-	output << ' ' << itsUseWindowCB->IsChecked();
-	output << ' ' << itsRaiseCB->IsChecked();
-	output << ' ' << itsBeepCB->IsChecked();
+	output << ' ' << JBoolToString(itsIsMakeCB->IsChecked())
+				  << JBoolToString(itsIsCVSCB->IsChecked())
+				  << JBoolToString(itsSaveAllCB->IsChecked())
+				  << JBoolToString(itsOneAtATimeCB->IsChecked())
+				  << JBoolToString(itsUseWindowCB->IsChecked())
+				  << JBoolToString(itsRaiseCB->IsChecked())
+				  << JBoolToString(itsBeepCB->IsChecked());
 }

@@ -20,10 +20,10 @@ public:
 
 	static CBNewProjectSaveFileDialog*
 		Create(JXDirector* supervisor, JDirInfo* dirInfo,
-			   const JCharacter* fileFilter, const JCharacter* templateFile,
+			   const JString& fileFilter, const JString& templateFile,
 			   const CBBuildManager::MakefileMethod method,
-			   const JCharacter* origName, const JCharacter* prompt,
-			   const JCharacter* message = nullptr);
+			   const JString& origName, const JString& prompt,
+			   const JString& message = JString::empty);
 
 	virtual ~CBNewProjectSaveFileDialog();
 
@@ -33,10 +33,10 @@ public:
 protected:
 
 	CBNewProjectSaveFileDialog(JXDirector* supervisor, JDirInfo* dirInfo,
-							   const JCharacter* fileFilter,
+							   const JString& fileFilter,
 							   const CBBuildManager::MakefileMethod method);
 
-	virtual JBoolean	OKToDeactivate();
+	virtual JBoolean	OKToDeactivate() override;
 	virtual void		Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
@@ -53,18 +53,18 @@ private:
 
 private:
 
-	void	BuildWindow(const JCharacter* origName, const JCharacter* prompt,
-						const JCharacter* message = nullptr);
+	void	BuildWindow(const JString& origName, const JString& prompt,
+						const JString& message = JString::empty);
 	void	UpdateMakefileMethod();
 
-	void	BuildTemplateMenu(const JCharacter* templateFile);
-	void	BuildTemplateMenuItems(const JCharacter* path, const JBoolean isUserPath,
+	void	BuildTemplateMenu(const JString& templateFile);
+	void	BuildTemplateMenuItems(const JString& path, const JBoolean isUserPath,
 								   JPtrArray<JString>* menuText,
-								   const JCharacter* templateFile,
+								   const JString& templateFile,
 								   JString** menuTextStr) const;
 
-	JBoolean	OKToReplaceFile(const JCharacter* fullName,
-								const JCharacter* programName);
+	JBoolean	OKToReplaceFile(const JString& fullName,
+								const JString& programName);
 
 	// not allowed
 
