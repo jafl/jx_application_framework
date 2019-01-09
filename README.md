@@ -1,3 +1,6 @@
+[![Total alerts](https://img.shields.io/lgtm/alerts/g/jafl/jx_application_framework.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/jafl/jx_application_framework/alerts/)
+[![Language grade: C/C++](https://img.shields.io/lgtm/grade/cpp/g/jafl/jx_application_framework.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/jafl/jx_application_framework/context:cpp)
+
 This repository contains all the New Planet Software tools and applications:
 
 * JX Application Framework
