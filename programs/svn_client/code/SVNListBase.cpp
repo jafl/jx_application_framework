@@ -438,7 +438,6 @@ SVNListBase::CopySelectedItems
 		{
 		const JSize count       = list.GetElementCount();
 		const JString& basePath = GetPath();
-		JString fullPath;
 		for (JIndex i=1; i<=count; i++)
 			{
 			JString* path = list.GetElement(i);

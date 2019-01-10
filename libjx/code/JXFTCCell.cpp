@@ -793,19 +793,19 @@ JXFTCCell::SyncSize
 		{
 		const JRect r = itsWidget->GetFrameForFTC();
 
-		const JCoordinate dw = itsFrameG.width() - r.width(),
-						  dh = itsFrameG.height() - r.height();
+		const JCoordinate fdw = itsFrameG.width() - r.width(),
+						  fdh = itsFrameG.height() - r.height();
 
-		if (theDebugFTCFlag && (dw != 0 || dh != 0))
+		if (theDebugFTCFlag && (fdw != 0 || fdh != 0))
 			{
 			GetFTCLog() << Indent(+1) << "Resizing widget: " << itsWidget->ToString() << std::endl;
 			GetFTCLog() << Indent(+2);
-			if (dw != 0) GetFTCLog() << "dw=" << dw;
-			if (dh != 0) GetFTCLog() << "dh=" << dh;
+			if (fdw != 0) GetFTCLog() << "dw=" << fdw;
+			if (fdh != 0) GetFTCLog() << "dh=" << fdh;
 			GetFTCLog() << std::endl;
 			}
 
-		itsWidget->AdjustSize(dw, dh);
+		itsWidget->AdjustSize(fdw, fdh);
 		if (itsWidget->NeedsInternalFTC() && !IsElastic())
 			{
 			if (theDebugFTCFlag)
@@ -817,7 +817,7 @@ JXFTCCell::SyncSize
 			if (itsWidget->FTCBuildLayout(itsSyncHorizontalFlag, &root))
 				{
 				root->Expand(itsSyncHorizontalFlag);	// NOOP - just sets up state
-				root->AdjustSize(dw, dh);
+				root->AdjustSize(fdw, fdh);
 				jdelete root;
 				}
 

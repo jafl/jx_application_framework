@@ -1847,15 +1847,15 @@ CBProjectTable::HandleDNDDrop
 					descriptionList.Append(&projRelText);
 					descriptionList.Append(&homeRelText);
 
-					Atom action = CBRelPathCSF::kProjectRelative;
-					if (dndMgr->ChooseDropAction(actionList, descriptionList, &action))
+					Atom action1 = CBRelPathCSF::kProjectRelative;
+					if (dndMgr->ChooseDropAction(actionList, descriptionList, &action1))
 						{
-						InsertExtDroppedFiles(fileNameList, (CBRelPathCSF::PathType) action);
+						InsertExtDroppedFiles(fileNameList, (CBRelPathCSF::PathType) action1);
 
 						const JSize pathCount = pathList.GetElementCount();
 						for (JIndex i=1; i<=pathCount; i++)
 							{
-							AddDirectoryTree(*(pathList.GetElement(i)), (CBRelPathCSF::PathType) action);
+							AddDirectoryTree(*(pathList.GetElement(i)), (CBRelPathCSF::PathType) action1);
 							}
 						}
 					}

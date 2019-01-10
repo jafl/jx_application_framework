@@ -593,13 +593,13 @@ CBMDIServer::DisplayVCSDiffs
 		{
 		(JXGetApplication())->DisplayBusyCursor();
 
-		JString type, error;
-		if (!JGetSVNEntryType(file, &type, &error))
+		JString type1, error;
+		if (!JGetSVNEntryType(file, &type1, &error))
 			{
 			JGetUserNotification()->ReportError(error);
 			return;
 			}
-		else if (type != "file")
+		else if (type1 != "file")
 			{
 			const JUtf8Byte* map[] =
 			{

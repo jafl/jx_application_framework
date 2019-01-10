@@ -247,7 +247,7 @@ GCLAppointment::CompareByTime
 void
 GCLAppointment::SetRecurrence
 	(
-	GCLRecurrence recurrence
+	const GCLRecurrence& recurrence
 	)
 {
 	if (itsRecurrence == NULL)
@@ -255,7 +255,7 @@ GCLAppointment::SetRecurrence
 		itsRecurrence	= jnew GCLRecurrence;
 		assert(itsRecurrence != NULL);
 		}
-	*itsRecurrence	= recurrence;
+	*itsRecurrence = recurrence;
 }
 
 /******************************************************************************

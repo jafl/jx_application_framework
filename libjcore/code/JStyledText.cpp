@@ -3169,7 +3169,7 @@ JStyledText::CRMRule::CRMRule
 
  ******************************************************************************/
 
-JStyledText::CRMRuleList::CRMRuleList
+JStyledText::CRMRuleList::CRMRuleList	// lgtm[cpp/rule-of-two]
 	(
 	const CRMRuleList& source
 	)

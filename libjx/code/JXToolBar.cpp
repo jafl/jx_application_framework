@@ -480,13 +480,13 @@ JXToolBar::AddMenuToTree
 	JSize itemCount = menu->GetItemCount();
 	for (JIndex i=1; i<=itemCount; i++)
 		{
-		const JString& name = menu->GetItemText(i);
+		const JString& name1 = menu->GetItemText(i);
 		const JXMenu* sub;
 		if (menu->GetSubmenu(i, &sub))
 			{
 			const JXTextMenu* temp	= dynamic_cast<const JXTextMenu*>(sub);
 			JXTextMenu* tsub = const_cast<JXTextMenu*>(temp);
-			AddMenuToTree(tsub, mnode, name);
+			AddMenuToTree(tsub, mnode, name1);
 			}
 		else
 			{
@@ -498,7 +498,7 @@ JXToolBar::AddMenuToTree
 				{
 				JXToolBarNode* tbnode =
 					jnew JXToolBarNode(menu, i, separator, checked,
-									  itsMenuTree, mnode, name);
+									  itsMenuTree, mnode, name1);
 				assert(tbnode != nullptr);
 				}
 			}

@@ -1334,9 +1334,9 @@ JXSearchTextDialog::ReadXSearch
 		const JString extraDataTag = JReadUntil(input, '\0');
 		if (extraDataTag == kXSearchExtraTag)
 			{
-			JFileVersion vers;
-			input >> vers;
-			if (!input.fail() && vers == 1)
+			JFileVersion vers1;
+			input >> vers1;
+			if (!input.fail() && vers1 == 1)
 				{
 				foundJX = kJTrue;
 

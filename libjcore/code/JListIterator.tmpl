@@ -93,7 +93,7 @@ JListIterator<T>::JListIterator
 	itsConstList = &theList;
 	itsList      = nullptr;
 
-	JListIteratorX(start, index);
+	JListIteratorX(start, index);	// lgtm[cpp/virtual-call-in-constructor]
 }
 
 template <class T>
@@ -107,7 +107,7 @@ JListIterator<T>::JListIterator
 	itsConstList = theList;
 	itsList      = theList;
 
-	JListIteratorX(start, index);
+	JListIteratorX(start, index);	// lgtm[cpp/virtual-call-in-constructor]
 }
 
 // private

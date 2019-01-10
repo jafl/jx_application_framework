@@ -467,9 +467,10 @@ JXWMainDialog::WriteTemplate()
 
 	// generate code
 
+	tm ts;
 	const time_t t = time(nullptr);
-	struct tm* ts  = gmtime(&t);
-	const JString currentYear((JUInt64) 1900 + ts->tm_year);
+	gmtime_r(&t, &ts);
+	const JString currentYear((JUInt64) 1900 + ts.tm_year);
 
 	JString f = projectDir, p, dirName;
 	JStripTrailingDirSeparator(&f);

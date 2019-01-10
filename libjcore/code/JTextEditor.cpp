@@ -1856,14 +1856,14 @@ JTextEditor::TEDrawLine
 
 				const JCoordinate xc = wsRect.xcenter();
 				const JCoordinate yc = wsRect.ycenter();
-				const JPoint top   (xc, yc - box/2);
-				const JPoint left  (wsRect.left, yc);
-				const JPoint bottom(xc, yc + box/2);
-				const JPoint right (wsRect.right, yc);
+				const JPoint topCenter   (xc, yc - box/2);
+				const JPoint left        (wsRect.left, yc);
+				const JPoint bottomCenter(xc, yc + box/2);
+				const JPoint right       (wsRect.right, yc);
 
 				p.Line(left, right);
-				p.Line(top, right);
-				p.LineTo(bottom);
+				p.Line(topCenter, right);
+				p.LineTo(bottomCenter);
 				}
 
 			JIndex i;

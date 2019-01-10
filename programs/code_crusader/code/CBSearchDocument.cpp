@@ -422,9 +422,9 @@ CBSearchDocument::AppendText
 			{
 			JString fileName;
 			JIndex lineIndex;
-			JString text;
+			JString text1;
 			JIndexRange matchRange;
-			input >> fileName >> lineIndex >> text >> matchRange;
+			input >> fileName >> lineIndex >> text1 >> matchRange;
 
 			JString fileStr = fileName;
 			fileStr.AppendCharacter(':');
@@ -434,7 +434,7 @@ CBSearchDocument::AppendText
 			te->Paste(fileStr);
 			te->Paste("\n\n");
 			const JIndex textOffset = te->GetTextLength();
-			te->Paste(text);
+			te->Paste(text1);
 			te->Paste("\n\n");
 
 			// display file name in bold

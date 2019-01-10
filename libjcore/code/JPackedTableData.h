@@ -27,8 +27,8 @@ public:
 
 	const JRunArray< T >&	GetData() const;
 
-	const T	GetElement(const JIndex row, const JIndex col) const;
-	const T	GetElement(const JPoint& cell) const;
+	T		GetElement(const JIndex row, const JIndex col) const;
+	T		GetElement(const JPoint& cell) const;
 	void	SetElement(const JIndex row, const JIndex col, const T& data);
 	void	SetElement(const JPoint& cell, const T& data);
 

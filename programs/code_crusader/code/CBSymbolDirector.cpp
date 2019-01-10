@@ -442,9 +442,9 @@ CBSymbolDirector::FindSymbol
 		{
 		(itsProjDoc->GetAllFileList())->GetFileID(fileName, &contextFileID);
 
-		JString path, name, className, suffix;
-		JSplitPathAndName(fileName, &path, &name);
-		JSplitRootAndSuffix(name, &className, &suffix);
+		JString path, name1, className, suffix;
+		JSplitPathAndName(fileName, &path, &name1);
+		JSplitRootAndSuffix(name1, &className, &suffix);
 
 		const CBClass* theClass;
 		if (cTree->IsUniqueClassName(className, &theClass))
@@ -502,11 +502,11 @@ CBSymbolDirector::FindSymbol
 		itsSymbolList->GetSymbol(symbolIndex, &lang, &type);
 
 		JIndex lineIndex;
-		const JString& fileName =
+		const JString& fileName1 =
 			itsSymbolList->GetFile(symbolIndex, &lineIndex);
 
 		CBTextDocument* doc = nullptr;
-		if ((CBGetDocumentManager())->OpenTextDocument(fileName, lineIndex, &doc) &&
+		if ((CBGetDocumentManager())->OpenTextDocument(fileName1, lineIndex, &doc) &&
 			CBSymbolList::ShouldSmartScroll(type))
 			{
 			(doc->GetTextEditor())->ScrollForDefinition(lang);

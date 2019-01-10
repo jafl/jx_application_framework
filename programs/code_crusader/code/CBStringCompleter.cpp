@@ -57,7 +57,7 @@ CBStringCompleter::CBStringCompleter
 		}
 
 	CBGetStyler(lang, &itsStyler);
-	UpdateWordList();
+	UpdateWordList();			// lgtm[cpp/virtual-call-in-constructor]
 	if (itsStyler != nullptr)
 		{
 		ListenTo(itsStyler);

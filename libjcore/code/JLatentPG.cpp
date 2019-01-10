@@ -241,20 +241,20 @@ JLatentPG::IncrementProgress
 
 		// delta must be calculated -after- ProcessBeginning()
 
-		const JSize delta = GetCurrentStepCount() - itsPG->GetCurrentStepCount();
-		if (delta > 1)
+		const JSize delta1 = GetCurrentStepCount() - itsPG->GetCurrentStepCount();
+		if (delta1 > 1)
 			{
-			itsPG->IncrementProgress(delta - 1);
+			itsPG->IncrementProgress(delta1 - 1);
 			}
 		result     = itsPG->IncrementProgress(message);
 		itsCounter = 0;
 		}
 	else if (pgRunning && message != nullptr)
 		{
-		const JSize delta = GetCurrentStepCount() - itsPG->GetCurrentStepCount();
-		if (delta > 1)
+		const JSize delta1 = GetCurrentStepCount() - itsPG->GetCurrentStepCount();
+		if (delta1 > 1)
 			{
-			itsPG->IncrementProgress(delta - 1);
+			itsPG->IncrementProgress(delta1 - 1);
 			}
 		result     = itsPG->IncrementProgress(message);
 		itsCounter = 0;

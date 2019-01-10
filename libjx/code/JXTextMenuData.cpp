@@ -874,20 +874,20 @@ JXTextMenuData::ParseNMShortcut
 			if (keyStr.BeginsWith(conv.str) &&
 				keyStr.GetByteCount() > conv.strLength)
 				{
-				const JXModifierKey key = JXMenu::AdjustNMShortcutModifier(conv.key);
-				if (!modifiers->Available(key))
+				const JXModifierKey mkey = JXMenu::AdjustNMShortcutModifier(conv.key);
+				if (!modifiers->Available(mkey))
 					{
 					return kJFalse;
 					}
 
-				if (key != conv.key)
+				if (mkey != conv.key)
 					{
-					AdjustNMShortcutString(str, conv.str, key);
+					AdjustNMShortcutString(str, conv.str, mkey);
 					}
 
 				iter.SkipNext(conv.strLength);
 				iter.RemoveAllPrev();
-				modifiers->SetState(key, kJTrue);
+				modifiers->SetState(mkey, kJTrue);
 				found = kJTrue;
 				break;
 				}

@@ -51,3 +51,9 @@ JTEST(PrintTimeInterval)
 	s = JPrintTimeInterval(1.5 * 365 * 24 * 60 * 60);
 	JAssertStringsEqual("1.5 years", s);
 }
+
+JTEST(GetTimezoneOffset)
+{
+	// test that the function doesn't crash
+	std::cout << "local timezone offset: " << JGetTimezoneOffset()/3600 << std::endl;
+}

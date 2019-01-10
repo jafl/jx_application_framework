@@ -142,8 +142,9 @@ JGetTimezoneOffset()
 	static long delta = 0;
 	if (delta == 0)
 		{
+		tm tmp;
 		time_t t  = time(nullptr);
-		time_t t1 = mktime(gmtime(&t));
+		time_t t1 = mktime(gmtime_r(&t, &tmp));
 		time_t t2 = mktime(localtime(&t));
 		delta     = t2 - t1;
 		}

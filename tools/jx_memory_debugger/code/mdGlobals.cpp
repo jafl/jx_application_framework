@@ -77,10 +77,11 @@ MDCleanUpBeforeSuddenDeath
 	const JXDocumentManager::SafetySaveReason reason
 	)
 {
+/*
 	if (reason != JXDocumentManager::kAssertFired)
 		{
 		}
-
+*/
 	// must be last to save everything
 
 	thePrefsManager->CleanUpBeforeSuddenDeath(reason);

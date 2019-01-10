@@ -353,9 +353,6 @@ GFGMainDirector::ReadPrefs
 {
 	JFileVersion vers;
 	input >> vers;
-	if (vers <= kCurrentPrefsVersion)
-		{
-		}
 
 	if (vers >= 1)
 		{

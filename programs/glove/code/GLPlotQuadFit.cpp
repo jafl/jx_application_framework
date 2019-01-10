@@ -1025,6 +1025,7 @@ GLPlotQuadFit::BracketAndMinimize
 			btemp = small;
 			}
 		factor = factor*1.2;
+		iter++;
 		}
 
 	Minimize(bmin, btemp, bmax, parameter, type);
@@ -1199,11 +1200,8 @@ GLPlotQuadFit::Minimize
 
 		iter++;
 		}
-	if (iter > ITMAX)
-		{
-		*xmin = x;
-		ymin = fx;
-		}
+
+	*xmin = x;
 	return fx;
 }
 

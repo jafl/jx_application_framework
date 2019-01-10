@@ -51,7 +51,7 @@ public:
 	void			SetNote(const JString& note);
 	const JString&	GetNote() const;
 
-	void			SetRecurrence(GCLRecurrence recurrence);
+	void			SetRecurrence(const GCLRecurrence& recurrence);
 	JBoolean		GetRecurrence(GCLRecurrence* recurrence);
 
 	void			ShouldStillRemind(const JBoolean remind);

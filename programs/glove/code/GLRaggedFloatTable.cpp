@@ -1601,12 +1601,12 @@ GLRaggedFloatTable::HandleInsertion
 		{
 		if (undo)
 			{
-			GLUndoElementsInsert* undo =
+			GLUndoElementsInsert* undo1 =
 				jnew GLUndoElementsInsert(this, JPoint(1, startRow),
 										 JPoint(itsFloatData->GetDataColCount(), startRow + rows - 1),
 										 GLUndoElementsBase::kRows);
-			assert(undo != nullptr);
-			NewUndo(undo);
+			assert(undo1 != nullptr);
+			NewUndo(undo1);
 			}
 		itsFloatData->InsertRows(startRow, rows);
 		}
@@ -1615,34 +1615,34 @@ GLRaggedFloatTable::HandleInsertion
 		{
 		if (undo)
 			{
-			GLUndoElementsInsert* undo =
+			GLUndoElementsInsert* undo1 =
 				jnew GLUndoElementsInsert(this, JPoint(startCol, 1),
 										 JPoint(startCol + cols - 1, GetRowCount()),
 										 GLUndoElementsBase::kCols);
-			assert(undo != nullptr);
-			NewUndo(undo);
+			assert(undo1 != nullptr);
+			NewUndo(undo1);
 			}
 		itsFloatData->InsertCols(startCol, cols);
 		}
 
 	else if (type == kElementsSelected)
 		{
-		if ((cols == 1) && (rows == 1) && undo)
+		if (cols == 1 && rows == 1 && undo)
 			{
 			JPoint cell(startCol, startRow);
-			GLUndoElementAppend* undo =
+			GLUndoElementAppend* undo1 =
 				jnew GLUndoElementAppend(this, cell);
-			assert(undo != nullptr);
-			NewUndo(undo);
+			assert(undo1 != nullptr);
+			NewUndo(undo1);
 			}
 		else if (undo)
 			{
-			GLUndoElementsInsert* undo =
+			GLUndoElementsInsert* undo1 =
 				jnew GLUndoElementsInsert(this, JPoint(startCol, startRow),
 										 JPoint(startCol + cols - 1, startRow + rows - 1),
 										 GLUndoElementsBase::kElements);
-			assert(undo != nullptr);
-			NewUndo(undo);
+			assert(undo1 != nullptr);
+			NewUndo(undo1);
 			}
 
 		for (JIndex col = startCol; col < startCol + cols; col++)

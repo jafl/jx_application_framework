@@ -672,12 +672,12 @@ GLFitDirector::HandleFitMenu
 		}
 	else if (index == kRemoveFitCmd)
 		{
-		JIndex index;
-		if (itsFitList->GetCurrentFitIndex(&index))
+		JIndex index1;
+		if (itsFitList->GetCurrentFitIndex(&index1))
 			{
 			itsExprWidget->ClearFunction();
 			itsExprWidget->Hide();
-			GetFitManager()->RemoveFitDescription(index);
+			GetFitManager()->RemoveFitDescription(index1);
 			}
 		}
 	else if (index == kFitCmd)
@@ -709,9 +709,9 @@ GLFitDirector::HandleFitMenu
 //			}
 //		whether or not the function is valid.
 
-		JIndex index;
-		JBoolean ok	= itsCurveList->GetCurrentCurveIndex(&index);
-		JPlotDataBase* data	= &(itsPlot->GetCurve(index));
+		JIndex index1;
+		JBoolean ok	= itsCurveList->GetCurrentCurveIndex(&index1);
+		JPlotDataBase* data	= &(itsPlot->GetCurve(index1));
 		assert(itsCurrentFit != nullptr);
 		GLPlotFitProxy* proxy	= jnew GLPlotFitProxy(itsCurrentFit, itsPlot, data);
 		assert(proxy != nullptr);
@@ -719,7 +719,7 @@ GLFitDirector::HandleFitMenu
 		ok	= itsFitList->GetCurrentFitIndex(&findex);
 		assert(ok);
 		const GLFitDescription& fd	= GetFitManager()->GetFitDescription(findex);
-		itsDir->AddFitProxy(proxy, index, fd.GetFnName());
+		itsDir->AddFitProxy(proxy, index1, fd.GetFnName());
 		}
 	else if (index == kShowHistoryCmd)
 		{

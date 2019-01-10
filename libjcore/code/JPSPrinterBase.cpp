@@ -335,7 +335,7 @@ JPSPrinterBase::PSString
 		{
 		*itsFile << "180 rotate\n";
 		}
-	else if (225.0 < angle && angle <= 315.0)
+	else if (225.0 < angle)
 		{
 		*itsFile << "270 rotate\n";
 		}

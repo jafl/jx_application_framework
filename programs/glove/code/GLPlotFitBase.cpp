@@ -556,7 +556,6 @@ GLPlotFitBase::Minimize
 	w = bx;
 	v = bx;
 
-
 	fx = Function(bx, parms, xi);
 	fw = fx;
 	fw = fx;
@@ -571,7 +570,7 @@ GLPlotFitBase::Minimize
 		high = ax;
 		}
 	iter = 1;
-	while (iter<= ITMAX)
+	while (iter <= ITMAX)
 		{
 		middle=0.5*(low+high);
 		tol1=TOLL*fabs(x)+ZEPS;
@@ -699,11 +698,8 @@ GLPlotFitBase::Minimize
 
 		iter++;
 		}
-	if (iter > ITMAX)
-		{
-		*xmin = x;
-		ymin = fx;
-		}
+
+	*xmin = x;
 	return fx;
 }
 

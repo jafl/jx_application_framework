@@ -132,19 +132,19 @@ SVNMDIServer::HandleMDIRequest
 
 			if (action == kRefreshRepo || action == kRefreshStatus)
 				{
-				SVNMainDirector* dir;
-				const JBoolean open = (SVNGetWDManager())->GetBrowser(fullPath, &dir);
-				if (open && !dir->OKToStartActionProcess())
+				SVNMainDirector* dir1;
+				const JBoolean open = (SVNGetWDManager())->GetBrowser(fullPath, &dir1);
+				if (open && !dir1->OKToStartActionProcess())
 					{
 					JGetUserNotification()->ReportError(JGetString("WindowBusy::SVNMDIServer"));
 					}
 				else if (open && action == kRefreshRepo)
 					{
-					dir->RefreshRepo();
+					dir1->RefreshRepo();
 					}
 				else if (open && action == kRefreshStatus)
 					{
-					dir->RefreshStatus();
+					dir1->RefreshStatus();
 					}
 				else
 					{
@@ -177,35 +177,35 @@ SVNMDIServer::HandleMDIRequest
 					}
 
 				JBoolean wasOpen;
-				SVNMainDirector* dir = (SVNGetWDManager())->OpenDirectory(path, &wasOpen);
+				SVNMainDirector* dir1 = (SVNGetWDManager())->OpenDirectory(path, &wasOpen);
 				if (action != kStatus && action != kInfoLog &&
-					!dir->OKToStartActionProcess())
+					!dir1->OKToStartActionProcess())
 					{
 					JGetUserNotification()->ReportError(JGetString("WindowBusy::SVNMDIServer"));
 					}
 				else if (action == kUpdate)
 					{
-					dir->UpdateWorkingCopy();
+					dir1->UpdateWorkingCopy();
 					}
 				else if (action == kInfoLog)
 					{
-					dir->ShowInfoLog(fullPath);
+					dir1->ShowInfoLog(fullPath);
 					}
 				else if (action == kPropList)
 					{
-					dir->ShowProperties(fullPath);
+					dir1->ShowProperties(fullPath);
 					}
 				else if (isURL && !rev.IsEmpty())
 					{
-					dir->BrowseRepo(rev);
+					dir1->BrowseRepo(rev);
 					}
 				else if (wasOpen)
 					{
-					dir->RefreshRepo();
-					dir->RefreshStatus();
+					dir1->RefreshRepo();
+					dir1->RefreshStatus();
 
 					SVNRepoView* widget;
-					if (isURL && dir->GetRepoWidget(&widget))
+					if (isURL && dir1->GetRepoWidget(&widget))
 						{
 						(widget->GetRepoTree())->SavePathToOpen(path);
 						}
@@ -224,8 +224,8 @@ SVNMDIServer::HandleMDIRequest
 		}
 	else if (restore && !(SVNGetPrefsManager())->RestoreProgramState())
 		{
-		SVNMainDirector* dir;
-		(SVNGetWDManager())->NewBrowser(&dir);
+		SVNMainDirector* dir1;
+		(SVNGetWDManager())->NewBrowser(&dir1);
 		}
 }
 

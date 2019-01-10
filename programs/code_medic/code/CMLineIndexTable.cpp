@@ -515,7 +515,7 @@ CMLineIndexTable::OpenLineMenu
 	JIndex bpIndex = firstBPIndex;
 	if (bpIndex == 0 && !GetFirstBreakpointOnLine(lineIndex, &bpIndex))
 		{
-		bpIndex == 0;
+		bpIndex = 0;
 		}
 
 	itsLineMenuBPRange.SetToNothing();

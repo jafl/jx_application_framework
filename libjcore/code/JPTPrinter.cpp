@@ -264,9 +264,9 @@ JPTPrinter::Print
 		jdelete tempOutput;
 		if (keepGoing)
 			{
-			JString text;
-			JReadFile(tempName, &text);
-			InvertPageOrder(text, trueOutput);
+			JString s;
+			JReadFile(tempName, &s);
+			InvertPageOrder(s, trueOutput);
 			}
 		JRemoveFile(tempName);
 		}

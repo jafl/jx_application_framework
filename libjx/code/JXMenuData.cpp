@@ -34,11 +34,12 @@ JXMenuData::JXMenuData()
 /******************************************************************************
  Destructor
 
+	DeleteAll() must be called in the derived class dtor.
+
  ******************************************************************************/
 
 JXMenuData::~JXMenuData()
 {
-	DeleteAll();
 	jdelete itsBaseItemData;
 }
 
