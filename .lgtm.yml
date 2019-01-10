@@ -1,0 +1,7 @@
+path_classifiers:
+  library:
+    - misc
+  docs:
+    - doc
+  test:
+    - obsolete
