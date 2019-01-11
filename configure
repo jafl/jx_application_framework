@@ -131,17 +131,19 @@ elif command -v apt-get; then
 
 	LLDB_VERS=7
 
-	$SUDO apt update;
-	$SUDO apt -y install curl \
-		g++ flex bison make automake \
-		libx11-dev libxinerama-dev libxpm-dev libxft-dev \
-			libxmu-dev libxi-dev \
-		libxml2-dev libgd-dev libjpeg-dev libpng-dev \
-		libace-dev libicu-dev libpcre3-dev libeditorconfig-dev \
-		llvm liblldb-$LLDB_VERS-dev \
-		xutils-dev libx11-xcb-dev libxcb-dri2-0-dev \
-		libxcb-xfixes0-dev x11proto-gl-dev libdrm-dev \
-		aspell libforms-bin;
+	if [[ -z $LGTM_SRC ]]; then
+		$SUDO apt update;
+		$SUDO apt -y install curl \
+			g++ flex bison make automake \
+			libx11-dev libxinerama-dev libxpm-dev libxft-dev \
+				libxmu-dev libxi-dev \
+			libxml2-dev libgd-dev libjpeg-dev libpng-dev \
+			libace-dev libicu-dev libpcre3-dev libeditorconfig-dev \
+			llvm liblldb-$LLDB_VERS-dev \
+			xutils-dev libx11-xcb-dev libxcb-dri2-0-dev \
+			libxcb-xfixes0-dev x11proto-gl-dev libdrm-dev \
+			aspell libforms-bin;
+	fi
 
 	if [[ ! -L ACE/ACE_wrappers ]]; then
 		rm -rf ACE/ACE_wrappers;
