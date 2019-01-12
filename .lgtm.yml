@@ -4,4 +4,6 @@ path_classifiers:
   docs:
     - doc
   test:
+    - programs/code_crusader/test
+    - programs/code_medic/test
     - obsolete
