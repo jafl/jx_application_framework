@@ -2271,8 +2271,12 @@ JStyledText::BackwardDelete
 				else if (c == '\t')
 					{
 					iter.Next(&c);
-					deleteCount += CRMGetTabWidth(
-						GetColumnForChar(lineStart, TextIndex(iter.GetNextCharacterIndex(), iter.GetNextByteIndex())));
+					JIndex i;
+					if (iter.GetNextCharacterIndex(&i))
+						{
+						deleteCount += CRMGetTabWidth(
+							GetColumnForChar(lineStart, TextIndex(i, iter.GetNextByteIndex())));
+						}
 					iter.Prev(&c);
 					}
 				else	// normal delete when close to text
@@ -2476,6 +2480,7 @@ JStyledText::Outdent
 
 	JStringIterator textIter(&itsText);
 	textIter.UnsafeMoveTo(kJIteratorStartBefore, range.charRange.first, range.byteRange.first);
+	JIndex i;
 	do
 		{
 		JUtf8Character c;
@@ -2520,7 +2525,9 @@ JStyledText::Outdent
 				}
 			}
 		}
-		while (textIter.Next("\n") && range.charRange.Contains(textIter.GetNextCharacterIndex()));
+		while (textIter.Next("\n") &&
+			   textIter.GetNextCharacterIndex(&i) &&
+			   range.charRange.Contains(i));
 
 	// If same number of spaces at front of every line, remove those even if
 	// not enough to shift by one tab.
@@ -2595,7 +2602,9 @@ JStyledText::Outdent
 				}
 			}
 		}
-		while (textIter.Next("\n") && cr.Contains(textIter.GetNextCharacterIndex()));
+		while (textIter.Next("\n") &&
+			   textIter.GetNextCharacterIndex(&i) &&
+			   cr.Contains(i));
 
 	undo->SetCount(TextCount(cr.GetCount(), range.byteRange.GetCount() - deleteCount));
 
@@ -2664,6 +2673,7 @@ JStyledText::Indent
 	JCharacterRange cr = range.charRange;
 
 	JSize insertCount = 0;	// only inserting single-byte characters
+	JIndex i;
 	do
 		{
 		JUtf8Character c;
@@ -2681,7 +2691,9 @@ JStyledText::Indent
 			cr.last          += count;
 			}
 		}
-		while (textIter.Next("\n") && cr.Contains(textIter.GetNextCharacterIndex()));
+		while (textIter.Next("\n") &&
+			   textIter.GetNextCharacterIndex(&i) &&
+			   cr.Contains(i));
 
 	undo->SetCount(TextCount(cr.GetCount(), range.byteRange.GetCount() + insertCount));
 
@@ -2916,8 +2928,9 @@ JStyledText::CleanWhitespace
 						{
 						const JStringMatch& m = textIter.FinishMatch();
 
-						styleIter.MoveTo(kJIteratorStartBefore, textIter.GetNextCharacterIndex());
-						styleIter.RemoveNext(m.GetCharacterCount()-1);
+						const JCharacterRange r = m.GetCharacterRange();
+						styleIter.MoveTo(kJIteratorStartBefore, r.first);
+						styleIter.RemoveNext(r.GetCount()-1);
 
 						textIter.ReplaceLastMatch("\t");	// invalidates m
 

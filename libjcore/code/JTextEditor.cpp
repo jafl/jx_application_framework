@@ -2931,8 +2931,15 @@ JTextEditor::GoToColumn
 			col += (c == '\t' ? itsText->CRMGetTabWidth(col) : 1);
 			}
 
-		caretLoc.location.charIndex = iter->GetNextCharacterIndex();
-		caretLoc.location.byteIndex = iter->GetNextByteIndex();
+		if (iter->AtEnd())
+			{
+			caretLoc.location = itsText->GetBeyondEnd();
+			}
+		else
+			{
+			caretLoc.location.charIndex = iter->GetNextCharacterIndex();
+			caretLoc.location.byteIndex = iter->GetNextByteIndex();
+			}
 
 		itsText->DisposeConstIterator(iter);
 		}
@@ -4193,13 +4200,14 @@ JTextEditor::IncludeWhitespaceOnLine
 
 		if (c == '\t')
 			{
-			if (textIter->GetPrevCharacterIndex() > first.charIndex)
+			const JIndex i = textIter->GetPrevCharacterIndex();
+			if (i > first.charIndex)
 				{
 				*lineWidth += GetStringWidth(	// tab is single byte
-					first, TextIndex(textIter->GetPrevCharacterIndex()-1, textIter->GetPrevByteIndex()-1),
+					first, TextIndex(i-1, textIter->GetPrevByteIndex()-1),
 					styleIter);
 				}
-			*lineWidth += GetTabWidth(textIter->GetPrevCharacterIndex(), *lineWidth);
+			*lineWidth += GetTabWidth(i, *lineWidth);
 
 			styleIter->SkipNext();
 
