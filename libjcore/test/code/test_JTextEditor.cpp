@@ -699,38 +699,6 @@ JTEST(ReplaceAll)
 	JAssertStringsEqual("Fivescor\xC3\xA9 found seven y\xC3\xA9" "fours foug\xC3\xB8...", text.GetText());
 }
 
-class BigFontMatch : public JStyledText::FontMatch
-{
-	virtual JBoolean Match(const JFont& f) const
-	{
-		return JI2B( f.GetSize() == 20 );
-	}
-};
-
-class BoldFontMatch : public JStyledText::FontMatch
-{
-	virtual JBoolean Match(const JFont& f) const
-	{
-		return f.GetStyle().bold;
-	}
-};
-
-class ItalicFontMatch : public JStyledText::FontMatch
-{
-	virtual JBoolean Match(const JFont& f) const
-	{
-		return f.GetStyle().italic;
-	}
-};
-
-class UnderlineFontMatch : public JStyledText::FontMatch
-{
-	virtual JBoolean Match(const JFont& f) const
-	{
-		return JI2B( f.GetStyle().underlineCount > 0 );
-	}
-};
-
 JTEST(SearchStyle)
 {
 	StyledText text;
@@ -749,17 +717,41 @@ JTEST(SearchStyle)
 
 	te.SetCaretLocation(1);
 
+	std::function<JBoolean(const JFont&)> bigFontMatch =
+		[] (const JFont& f)
+		{
+		return JI2B( f.GetSize() == 20 );
+		};
+
+	std::function<JBoolean(const JFont&)> boldFontMatch =
+		[] (const JFont& f)
+		{
+		return f.GetStyle().bold;
+		};
+
+	std::function<JBoolean(const JFont&)> italicFontMatch =
+		[] (const JFont& f)
+		{
+		return f.GetStyle().italic;
+		};
+
+	std::function<JBoolean(const JFont&)> underlineFontMatch =
+		[] (const JFont& f)
+		{
+		return JI2B( f.GetStyle().underlineCount > 0 );
+		};
+
 	// forward
 
 	JBoolean wrapped;
-	JBoolean found = te.SearchForward(ItalicFontMatch(), kJFalse, &wrapped);
+	JBoolean found = te.SearchForward(italicFontMatch, kJFalse, &wrapped);
 	JAssertFalse(found);
 	JAssertFalse(te.HasSelection());	// caret still at beginning
 	JAssertFalse(wrapped);
 
 	JString s;
 	JCharacterRange r;
-	found = te.SearchForward(BoldFontMatch(), kJTrue, &wrapped);
+	found = te.SearchForward(boldFontMatch, kJTrue, &wrapped);
 	JAssertTrue(found);
 	JAssertTrue(te.HasSelection());
 	JAssertTrue(te.GetSelection(&r));
@@ -768,19 +760,19 @@ JTEST(SearchStyle)
 	JAssertStringsEqual("b" "\xC3\xB8" "ld", s);
 	JAssertFalse(wrapped);
 
-	found = te.SearchForward(UnderlineFontMatch(), kJTrue, &wrapped);
+	found = te.SearchForward(underlineFontMatch, kJTrue, &wrapped);
 	JAssertTrue(found);
 	JAssertTrue(te.GetSelection(&s));
 	JAssertStringsEqual("double underline", s);
 	JAssertFalse(wrapped);
 
-	found = te.SearchForward(BoldFontMatch(), kJFalse, &wrapped);
+	found = te.SearchForward(boldFontMatch, kJFalse, &wrapped);
 	JAssertFalse(found);
 	JAssertTrue(te.GetSelection(&s));		// selection maintained
 	JAssertStringsEqual("double underline", s);
 	JAssertFalse(wrapped);
 
-	found = te.SearchForward(BigFontMatch(), kJTrue, &wrapped);
+	found = te.SearchForward(bigFontMatch, kJTrue, &wrapped);
 	JAssertTrue(found);
 	JAssertTrue(te.GetSelection(&r));
 	JAssertEqual(JCharacterRange(1, 3), r);
@@ -792,7 +784,7 @@ JTEST(SearchStyle)
 
 	te.SetCaretLocation(20);
 
-	te.SearchBackward(BigFontMatch(), kJTrue, &wrapped);
+	te.SearchBackward(bigFontMatch, kJTrue, &wrapped);
 	JAssertTrue(found);
 	JAssertTrue(te.GetSelection(&r));
 	JAssertEqual(JCharacterRange(1, 3), r);
@@ -800,7 +792,7 @@ JTEST(SearchStyle)
 	JAssertStringsEqual("b" "\xC3\xAE" "g", s);
 	JAssertFalse(wrapped);
 
-	found = te.SearchBackward(BoldFontMatch(), kJFalse, &wrapped);
+	found = te.SearchBackward(boldFontMatch, kJFalse, &wrapped);
 	JAssertFalse(found);
 	JAssertTrue(te.GetSelection(&r));		// selection maintained
 	JAssertEqual(JCharacterRange(1, 3), r);
@@ -808,7 +800,7 @@ JTEST(SearchStyle)
 	JAssertStringsEqual("b" "\xC3\xAE" "g", s);
 	JAssertFalse(wrapped);
 
-	found = te.SearchBackward(BoldFontMatch(), kJTrue, &wrapped);
+	found = te.SearchBackward(boldFontMatch, kJTrue, &wrapped);
 	JAssertTrue(found);
 	JAssertTrue(te.GetSelection(&r));
 	JAssertEqual(JCharacterRange(4, 7), r);
@@ -816,7 +808,7 @@ JTEST(SearchStyle)
 	JAssertStringsEqual("b" "\xC3\xB8" "ld", s);
 	JAssertTrue(wrapped);
 
-	te.SearchBackward(BigFontMatch(), kJTrue, &wrapped);
+	te.SearchBackward(bigFontMatch, kJTrue, &wrapped);
 	JAssertTrue(found);
 	JAssertTrue(te.GetSelection(&r));
 	JAssertEqual(JCharacterRange(1, 3), r);
@@ -825,7 +817,7 @@ JTEST(SearchStyle)
 	JAssertFalse(wrapped);
 
 	te.SetCaretLocation(4);
-	te.SearchBackward(BigFontMatch(), kJTrue, &wrapped);
+	te.SearchBackward(bigFontMatch, kJTrue, &wrapped);
 	JAssertTrue(found);
 	JAssertTrue(te.GetSelection(&r));
 	JAssertEqual(JCharacterRange(1, 3), r);

@@ -127,9 +127,9 @@ public:
 						   const JBoolean preserveCase,
 						   const JBoolean restrictToSelection = kJFalse);
 
-	JBoolean	SearchForward(const JStyledText::FontMatch& match,
+	JBoolean	SearchForward(std::function<JBoolean(const JFont&)> match,
 							  const JBoolean wrapSearch, JBoolean* wrapped);
-	JBoolean	SearchBackward(const JStyledText::FontMatch& match,
+	JBoolean	SearchBackward(std::function<JBoolean(const JFont&)> match,
 							   const JBoolean wrapSearch, JBoolean* wrapped);
 
 	virtual JBoolean	TEHasSearchText() const = 0;

@@ -703,9 +703,10 @@ JTextEditor::ReplaceAll
 JBoolean
 JTextEditor::SearchForward
 	(
-	const JStyledText::FontMatch&	match,
-	const JBoolean					wrapSearch,
-	JBoolean*						wrapped
+	std::function<JBoolean(const JFont&)>	match,
+
+	const JBoolean	wrapSearch,
+	JBoolean*		wrapped
 	)
 {
 	const TextIndex i(
@@ -736,9 +737,10 @@ JTextEditor::SearchForward
 JBoolean
 JTextEditor::SearchBackward
 	(
-	const JStyledText::FontMatch&	match,
-	const JBoolean					wrapSearch,
-	JBoolean*						wrapped
+	std::function<JBoolean(const JFont&)>	match,
+
+	const JBoolean	wrapSearch,
+	JBoolean*		wrapped
 	)
 {
 	const TextIndex i(

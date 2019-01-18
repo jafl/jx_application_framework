@@ -90,6 +90,7 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //				JIndex values, because these are ambiguous.  Switch to
 //				the versions that use JCharacterRange.
 //			Removed CaretLineChanged message.  Always broadcasts CaretLocationChanged.
+//			Replaced FontMatch with std::function<JBoolean(const JFont&)>.
 //	*** Removed HTML parsing from JTextEditor.  HTML belongs on the web.
 //			Removed JHTMLScanner, JTEHTMLScanner, JExtractHTMLTitle.
 //	*** Changed all /usr/lib paths to /usr/local/lib on OSX because of SIP

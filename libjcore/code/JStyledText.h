@@ -197,15 +197,6 @@ public:
 		void	DeleteAll();
 	};
 
-	class FontMatch
-	{
-	public:
-
-		virtual ~FontMatch();
-
-		virtual JBoolean	Match(const JFont&) const = 0;
-	};
-
 public:
 
 	JStyledText(const JBoolean useMultipleUndo, const JBoolean pasteStyledText);
@@ -268,10 +259,12 @@ public:
 								  const JBoolean preserveCase);
 	JBoolean	IsEntireWord(const TextRange& range) const;
 
-	JBoolean	SearchForward(const FontMatch& match, const TextIndex& startIndex,
+	JBoolean	SearchForward(std::function<JBoolean(const JFont&)> match,
+							  const TextIndex& startIndex,
 							  const JBoolean wrapSearch,
 							  JBoolean* wrapped, TextRange* range);
-	JBoolean	SearchBackward(const FontMatch& match, const TextIndex& startIndex,
+	JBoolean	SearchBackward(std::function<JBoolean(const JFont&)> match,
+							   const TextIndex& startIndex,
 							   const JBoolean wrapSearch,
 							   JBoolean* wrapped, TextRange* range);
 

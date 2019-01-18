@@ -1150,7 +1150,8 @@ jComputeForwardFontRange
 JBoolean
 JStyledText::SearchForward
 	(
-	const FontMatch&	match,
+	const std::function<JBoolean(const JFont&)>	match,
+
 	const TextIndex&	start,
 	const JBoolean		wrapSearch,
 	JBoolean*			wrapped,
@@ -1178,7 +1179,7 @@ JStyledText::SearchForward
 
 	do
 		{
-		if (match.Match(iter.GetRunData()))
+		if (match(iter.GetRunData()))
 			{
 			jComputeForwardFontRange(start, itsText, iter, *wrapped, range);
 			return kJTrue;
@@ -1198,7 +1199,7 @@ JStyledText::SearchForward
 
 	do
 		{
-		if (match.Match(iter.GetRunData()))
+		if (match(iter.GetRunData()))
 			{
 			jComputeForwardFontRange(start, itsText, iter, *wrapped, range);
 			return kJTrue;
@@ -1259,7 +1260,8 @@ jComputeBackwardFontRange
 JBoolean
 JStyledText::SearchBackward
 	(
-	const FontMatch&	match,
+	const std::function<JBoolean(const JFont&)>	match,
+
 	const TextIndex&	start,
 	const JBoolean		wrapSearch,
 	JBoolean*			wrapped,
@@ -1288,7 +1290,7 @@ JStyledText::SearchBackward
 	do
 		{
 		iter.PrevRun();
-		if (match.Match(iter.GetRunData()))
+		if (match(iter.GetRunData()))
 			{
 			jComputeBackwardFontRange(start, itsText, iter, *wrapped, range);
 			return kJTrue;
@@ -1307,7 +1309,7 @@ JStyledText::SearchBackward
 
 	do
 		{
-		if (match.Match(iter.GetRunData()))
+		if (match(iter.GetRunData()))
 			{
 			jComputeBackwardFontRange(start, itsText, iter, *wrapped, range);
 			return kJTrue;
@@ -1318,15 +1320,6 @@ JStyledText::SearchBackward
 		while (iter.GetRunEnd() > start.charIndex);
 
 	return kJFalse;
-}
-
-/******************************************************************************
- FontMatch
-
- ******************************************************************************/
-
-JStyledText::FontMatch::~FontMatch()
-{
 }
 
 /******************************************************************************
