@@ -1262,6 +1262,16 @@ JTEST(BackwardDelete)
 
 	text.BackwardDelete(TextIndex(16,17), TextIndex(32,33), kJTrue);
 	JAssertStringsEqual("b" "\xC3\xAE" "g\n" "b" "d\n" "\tnormal\n" "double underlin", text.GetText());
+
+	// edge cases
+
+	bcastTest.Expect(JStyledText::kTextSet);
+
+	text.SetText(JString("abc\t", kJFalse));
+
+	bcastTest.Expect(JStyledText::kTextChanged);
+	text.BackwardDelete(TextIndex(1,1), TextIndex(5,5), kJTrue);
+	JAssertStringsEqual("abc", text.GetText());
 }
 
 JTEST(ForwardDelete)
@@ -1722,6 +1732,20 @@ JTEST(TabSelection)
 
 	text.Outdent(TextRange(JCharacterRange(1,19), JUtf8ByteRange(1,20)), 2, kJTrue);
 	JAssertStringsEqual("\xC3\xA1" "bcd\n1234\nwxzy", text.GetText());
+
+	// edge cases
+
+	bcastTest.Expect(JStyledText::kTextSet);
+
+	text.SetText(JString("\tabcd\n", kJFalse));
+
+	bcastTest.Expect(JStyledText::kTextChanged);
+	text.Outdent(TextRange(JCharacterRange(1,6), JUtf8ByteRange(1,6)), 1);
+	JAssertStringsEqual("abcd\n", text.GetText());
+
+	bcastTest.Expect(JStyledText::kTextChanged);
+	text.Indent(TextRange(JCharacterRange(1,5), JUtf8ByteRange(1,5)), 1);
+	JAssertStringsEqual("\tabcd\n", text.GetText());
 }
 
 JTEST(TabSelectionMixed)
@@ -1937,6 +1961,27 @@ JTEST(CleanWhitespaceTabs)
 							JUtf8ByteRange(1,21)), kJTrue);
 	JAssertStringsEqual("\t" "\xC3\xA1" "bcd\n\t1234\n\twxzy", text.GetText());
 	JAssertEqual(JCharacterRange(1,17), r.charRange);
+
+	// edge cases
+
+	bcastTest.Expect(JStyledText::kTextSet);
+	bcastTest.Expect(JStyledText::kTextChanged);
+	bcastTest.Expect(JStyledText::kTextChanged);
+	bcastTest.Expect(JStyledText::kTextChanged);
+
+	text.SetText(JString("    abcd", kJFalse));
+	text.SetFontUnderline(TextRange(JCharacterRange(1,4), JUtf8ByteRange(1,4)), 2, kJFalse);
+	text.SetFontBold(TextRange(JCharacterRange(5,8), JUtf8ByteRange(5,8)), kJTrue, kJFalse);
+
+	text.CleanWhitespace(TextRange(JCharacterRange(1,8), JUtf8ByteRange(1,8)), kJFalse);
+	JAssertStringsEqual("\tabcd", text.GetText());
+
+	JFont f = text.GetFont(1);
+	JAssertFalse(f.GetStyle().bold);
+	JAssertEqual(2, f.GetStyle().underlineCount);
+	f = text.GetFont(2);
+	JAssertTrue(f.GetStyle().bold);
+	JAssertEqual(0, f.GetStyle().underlineCount);
 }
 
 JTEST(CleanWhitespaceSpaces)

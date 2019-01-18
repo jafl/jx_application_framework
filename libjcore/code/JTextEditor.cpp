@@ -2925,8 +2925,9 @@ JTextEditor::GoToColumn
 
 		JStringIterator* iter = itsText->GetConstIterator(kJIteratorStartBefore, GetLineStart(lineIndex));
 		JUtf8Character c;
-		while (col < columnIndex && iter->GetNextCharacterIndex() < end.charIndex &&
-			   iter->Next(&c))
+		JIndex charIndex;
+		while (col < columnIndex && iter->GetNextCharacterIndex(&charIndex) &&
+			   charIndex <= end.charIndex && iter->Next(&c))
 			{
 			col += (c == '\t' ? itsText->CRMGetTabWidth(col) : 1);
 			}

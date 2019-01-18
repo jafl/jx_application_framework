@@ -1,7 +1,5 @@
-medic - OSX
-	JMemoryManager executes in multiple threads when run target program
-		because lldb picks up JCore operator new
-	std::lock_guard
+jx_memory_debugger:  filtered histogram of allocation sizes
+	would "static string" optimzation help?
 
 Fedora 27 window manager
 	JXWindow does not analyze correctly

@@ -232,7 +232,7 @@ TestLayoutBreakWidth
 
 	te.GoToColumn(4, 10);
 	JAssertTrue(te.GetCaretLocation(&charIndex));
-	JAssertEqual(21, charIndex);
+	JAssertEqual(22, charIndex);
 
 	te.GoToColumn(4, 5);
 	JAssertTrue(te.GetCaretLocation(&charIndex));
@@ -332,6 +332,10 @@ JTEST(LayoutBreakWidth)
 	JAssertEqual(4, te.CalcCaretCharLocation(JPoint(100,0)));
 
 	te.GoToColumn(1, 10);	// make sure it doesn't crash
+
+	JIndex charIndex;
+	JAssertTrue(te.GetCaretLocation(&charIndex));
+	JAssertEqual(4, charIndex);
 }
 
 JTEST(GetCmdStatus)

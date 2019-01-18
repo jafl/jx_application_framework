@@ -49,6 +49,7 @@ jcc
 	menu of supported text formats in "open text file" dialog
 	sub-menu of supported text formats on File menu, just like "file formats"
 medic
+	test with JMemoryManager enabled - multiple threads
 
 jx_project_wizard
 	convert logic to use JSubstitute - need way to specify case match?
