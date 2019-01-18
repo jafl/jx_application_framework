@@ -1,3 +1,7 @@
+JListIterator:  Next(MatchFunction)
+
+
+
 JStyledText
 	undo outdent doesn't work correctly when:
 		outdent, press return to move to next line, (repeat)
@@ -7,7 +11,8 @@ JStyledText
 	CleanRightMargin
 
 jcc
-	remove member function data from inheritance trees
+	do NOT remove member function data from inheritance trees
+		store line number for each function, reported by ctags
 
 	CBCharActionManager only accepts single bytes, not JUtf8Character
 

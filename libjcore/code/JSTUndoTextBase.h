@@ -24,7 +24,7 @@ public:
 
 protected:
 
-	void	UndoText(const JStyledText::TextRange& range);
+	void	UndoText(const JStyledText::TextRange range);
 
 	void	PrependToSave(const JUtf8Character& c, const JIndex charIndex);
 	void	AppendToSave(const JUtf8Character& c, const JIndex charIndex);

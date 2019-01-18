@@ -321,13 +321,13 @@ JTEST(AllocateNullTerminatedBytes)
 {
 	JUtf8Byte* s = JUtf8Character('{').AllocateBytes();
 	JAssertStringsEqual("{", s);
-	jdelete s;
+	jdelete [] s;
 
 	s = JUtf8Character("\xC3\xA6").AllocateBytes();
 	JAssertStringsEqual("\xC3\xA6", s);
-	jdelete s;
+	jdelete [] s;
 
 	s = JUtf8Character("\xF0\xAF\xA7\x97").AllocateBytes();
 	JAssertStringsEqual("\xF0\xAF\xA7\x97", s);
-	jdelete s;
+	jdelete [] s;
 }

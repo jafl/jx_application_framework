@@ -50,12 +50,15 @@ JSTUndoTextBase::~JSTUndoTextBase()
 
 	Call this to put back the original text.
 
+	Does NOT take a reference because that might be an instance variable,
+	and we are deleted part way through.
+
  ******************************************************************************/
 
 void
 JSTUndoTextBase::UndoText
 	(
-	const JStyledText::TextRange& range
+	const JStyledText::TextRange range
 	)
 {
 	JStyledText* text = GetText();
