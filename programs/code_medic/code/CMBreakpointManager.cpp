@@ -190,12 +190,8 @@ CMBreakpointManager::GetBreakpoints
 void
 CMBreakpointManager::EnableAll()
 {
-//	for (CMBreakpoint* bp : *itsBPList)
-
-	const JSize count = itsBPList->GetElementCount();
-	for (JIndex i=1; i<=count; i++)
+	for (CMBreakpoint* bp : *itsBPList)
 		{
-		CMBreakpoint* bp = itsBPList->NthElement(i);
 		if (!bp->IsEnabled())
 			{
 			itsLink->SetBreakpointEnabled(bp->GetDebuggerIndex(), kJTrue);
@@ -211,12 +207,8 @@ CMBreakpointManager::EnableAll()
 void
 CMBreakpointManager::DisableAll()
 {
-//	for (CMBreakpoint* bp : *itsBPList)
-
-	const JSize count = itsBPList->GetElementCount();
-	for (JIndex i=1; i<=count; i++)
+	for (CMBreakpoint* bp : *itsBPList)
 		{
-		CMBreakpoint* bp = itsBPList->NthElement(i);
 		if (bp->IsEnabled())
 			{
 			itsLink->SetBreakpointEnabled(bp->GetDebuggerIndex(), kJFalse);
