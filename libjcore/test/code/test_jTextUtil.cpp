@@ -9,7 +9,9 @@
 
 #include <JTestManager.h>
 #include <jTextUtil.h>
+#include <JStyledText.h>
 #include <JFontManager.h>
+#include <JColorManager.h>
 #include <jFStreamUtil.h>
 #include <jGlobals.h>
 #include <jAssert.h>
@@ -17,6 +19,65 @@
 int main()
 {
 	return JTestManager::Execute();
+}
+
+JTEST(PasteUNIXTerminalOutput)
+{
+	JStyledText text(kJTrue, kJTrue);
+
+	JPasteUNIXTerminalOutput(JString(
+		"n" "\033[1m" "b" "\033[4m" "bu" "\033[22m" "u" "\033[24m"
+		"\033[3m" "i" "\033[31m" "ir" "\033[23m" "r" "\033[30m" "n",
+		kJFalse), JStyledText::TextIndex(1,1), &text);
+	JAssertStringsEqual("n" "b" "bu" "u" "i" "ir" "r" "n", text.GetText());
+
+	JFont f = text.GetFont(1);
+	JAssertFalse(f.GetStyle().bold);
+	JAssertFalse(f.GetStyle().italic);
+	JAssertEqual(0, f.GetStyle().underlineCount);
+	JAssertEqual(JColorManager::GetBlackColor(), f.GetStyle().color);
+
+	f = text.GetFont(2);
+	JAssertTrue(f.GetStyle().bold);
+	JAssertFalse(f.GetStyle().italic);
+	JAssertEqual(0, f.GetStyle().underlineCount);
+	JAssertEqual(JColorManager::GetBlackColor(), f.GetStyle().color);
+
+	f = text.GetFont(3);
+	JAssertTrue(f.GetStyle().bold);
+	JAssertFalse(f.GetStyle().italic);
+	JAssertEqual(1, f.GetStyle().underlineCount);
+	JAssertEqual(JColorManager::GetBlackColor(), f.GetStyle().color);
+
+	f = text.GetFont(5);
+	JAssertFalse(f.GetStyle().bold);
+	JAssertFalse(f.GetStyle().italic);
+	JAssertEqual(1, f.GetStyle().underlineCount);
+	JAssertEqual(JColorManager::GetBlackColor(), f.GetStyle().color);
+
+	f = text.GetFont(6);
+	JAssertFalse(f.GetStyle().bold);
+	JAssertTrue(f.GetStyle().italic);
+	JAssertEqual(0, f.GetStyle().underlineCount);
+	JAssertEqual(JColorManager::GetBlackColor(), f.GetStyle().color);
+
+	f = text.GetFont(8);
+	JAssertFalse(f.GetStyle().bold);
+	JAssertTrue(f.GetStyle().italic);
+	JAssertEqual(0, f.GetStyle().underlineCount);
+	JAssertEqual(JColorManager::GetRedColor(), f.GetStyle().color);
+
+	f = text.GetFont(9);
+	JAssertFalse(f.GetStyle().bold);
+	JAssertFalse(f.GetStyle().italic);
+	JAssertEqual(0, f.GetStyle().underlineCount);
+	JAssertEqual(JColorManager::GetRedColor(), f.GetStyle().color);
+
+	f = text.GetFont(10);
+	JAssertFalse(f.GetStyle().bold);
+	JAssertFalse(f.GetStyle().italic);
+	JAssertEqual(0, f.GetStyle().underlineCount);
+	JAssertEqual(JColorManager::GetBlackColor(), f.GetStyle().color);
 }
 
 JTEST(AnalyzeWhitespaceDetection)

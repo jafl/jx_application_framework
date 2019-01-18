@@ -316,7 +316,7 @@ JReadUNIXManOutput
 
  ******************************************************************************/
 
-static const JRegex theUNIXTerminalFormatPattern = "^\\[([0-9]+(?:;[0-9]+)*)m$";
+static const JRegex theUNIXTerminalFormatPattern = "\033\\[([0-9]+(?:;[0-9]+)*)m";
 
 JStyledText::TextRange
 JPasteUNIXTerminalOutput
@@ -344,6 +344,7 @@ JPasteUNIXTerminalOutput
 			{
 			buffer += *chunk;
 			styles.AppendElements(f, chunk->GetCharacterCount());
+			continue;
 			}
 
 		m.GetSubstring(1).Split(";", &cmdList);
