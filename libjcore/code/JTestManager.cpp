@@ -117,7 +117,7 @@ JTestManager::ReportFailure
 {
 	Instance()->itsFailureCount++;
 
-	std::cout << file << ':' << line << ": error in "
+	std::cout << file << ':' << line << ": error: "
 			  << Instance()->itsCurrentTestName << ": " << message << std::endl;
 }
 
