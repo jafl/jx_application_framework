@@ -39,6 +39,9 @@ public:
 	virtual JBoolean	Prev(T* data) = 0;
 	virtual JBoolean	Next(T* data) = 0;
 
+	JBoolean			Prev(std::function<JBoolean(const T&)> match, T* item);
+	JBoolean			Next(std::function<JBoolean(const T&)> match, T* item);
+
 	virtual void		SkipPrev(const JSize count = 1) = 0;
 	virtual void		SkipNext(const JSize count = 1) = 0;
 

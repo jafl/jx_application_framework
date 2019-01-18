@@ -638,6 +638,16 @@ JTEST(IsEntireWord)
 	JAssertFalse(is);
 }
 
+JBoolean bigFontMatch(const JFont& f)
+{
+	return JI2B( f.GetSize() == 20 );
+}
+
+JBoolean boldFontMatch(const JFont& f)
+{
+	return f.GetStyle().bold;
+}
+
 JTEST(SearchStyle)
 {
 	StyledText text;
@@ -649,34 +659,15 @@ JTEST(SearchStyle)
 	const TextIndex first(1,1);
 	TextRange r;
 
-	std::function<JBoolean(const JFont&)> bigFontMatch =
-		[] (const JFont& f)
-		{
-		return JI2B( f.GetSize() == 20 );
-		};
-
-	std::function<JBoolean(const JFont&)> boldFontMatch =
-		[] (const JFont& f)
-		{
-		return f.GetStyle().bold;
-		};
-
-	std::function<JBoolean(const JFont&)> italicFontMatch =
-		[] (const JFont& f)
-		{
-		return f.GetStyle().italic;
-		};
-
-	std::function<JBoolean(const JFont&)> underlineFontMatch =
-		[] (const JFont& f)
-		{
-		return JI2B( f.GetStyle().underlineCount > 0 );
-		};
-
 	// forward
 
 	JBoolean wrapped;
-	JBoolean found = text.SearchForward(italicFontMatch, first, kJFalse, &wrapped, &r);
+	JBoolean found = text.SearchForward([] (const JFont& f)
+		{
+		return f.GetStyle().italic;
+		},
+		first, kJFalse, &wrapped, &r);
+
 	JAssertFalse(found);
 	JAssertFalse(wrapped);
 
@@ -686,7 +677,12 @@ JTEST(SearchStyle)
 	JAssertEqual(JUtf8ByteRange(5, 9), r.byteRange);
 	JAssertFalse(wrapped);
 
-	found = text.SearchForward(underlineFontMatch, first, kJTrue, &wrapped, &r);
+	found = text.SearchForward([] (const JFont& f)
+		{
+		return JI2B( f.GetStyle().underlineCount > 0 );
+		},
+		first, kJTrue, &wrapped, &r);
+
 	JAssertTrue(found);
 	JAssertEqual(JCharacterRange(14, 29), r.charRange);
 	JAssertEqual(JUtf8ByteRange(16, 31), r.byteRange);

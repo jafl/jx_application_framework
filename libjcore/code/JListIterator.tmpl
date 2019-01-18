@@ -374,6 +374,66 @@ JListIterator<T>::SetCursor
 }
 
 /******************************************************************************
+ Prev
+
+	Returns kJTrue if there is a previous item that matches, fetching the
+	item in the list and adjusting the iterator position to before the
+	item.  Otherwise returns kJFalse, and the position will be at the
+	beginning of the list.
+
+ ******************************************************************************/
+
+template <class T>
+JBoolean
+JListIterator<T>::Prev
+	(
+	std::function<JBoolean(const T&)> match,
+
+	T* data
+	)
+{
+	while (Prev(data))
+		{
+		if (match(*data))
+			{
+			return kJTrue;
+			}
+		}
+
+	return kJFalse;
+}
+
+/******************************************************************************
+ Next
+
+	Returns kJTrue if there is a next item that matches, fetching the item
+	in the list and adjusting the iterator position to after the item.
+	Otherwise returns kJFalse, and the position will be at the end of the
+	list.
+
+ ******************************************************************************/
+
+template <class T>
+JBoolean
+JListIterator<T>::Next
+	(
+	std::function<JBoolean(const T&)> match,
+
+	T* data
+	)
+{
+	while (Next(data))
+		{
+		if (match(*data))
+			{
+			return kJTrue;
+			}
+		}
+
+	return kJFalse;
+}
+
+/******************************************************************************
  AddToIteratorList (private)
 
 	Add this iterator at the front of the active iterator list.

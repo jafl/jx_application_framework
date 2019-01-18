@@ -554,6 +554,16 @@ JTEST(MoveCtor)
 	JAssertEqual(5, a2.GetElement(3));
 }
 
+JBoolean matchGreater(const long v)
+{
+	return JI2B( v > 3 );
+};
+
+JBoolean matchLess(const long v)
+{
+	return JI2B( v < 3 );
+};
+
 JTEST(Iterator)
 {
 	JArray<long> a;
@@ -617,6 +627,25 @@ JTEST(Iterator)
 	iter->SkipNext(2);
 	JAssertTrue(iter->Next(&j));
 	JAssertEqual(2, j);
+
+	iter->MoveTo(kJIteratorStartAtBeginning, 0);
+	JAssertTrue(iter->Next(matchGreater, &j));
+	JAssertEqual(5, j);
+	JAssertTrue(iter->Next(matchGreater, &j));
+	JAssertEqual(4, j);
+	JAssertTrue(iter->Next(matchLess, &j));
+	JAssertEqual(2, j);
+	JAssertFalse(iter->Next(matchGreater, &j));
+	JAssertTrue(iter->AtEnd());
+
+	JAssertTrue(iter->Prev(matchLess, &j));
+	JAssertEqual(1, j);
+	JAssertTrue(iter->Prev(matchLess, &j));
+	JAssertEqual(2, j);
+	JAssertTrue(iter->Prev(matchGreater, &j));
+	JAssertEqual(4, j);
+	JAssertFalse(iter->Prev(matchLess, &j));
+	JAssertTrue(iter->AtBeginning());
 
 	jdelete iter;
 }
