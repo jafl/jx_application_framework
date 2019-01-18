@@ -38,7 +38,7 @@
 #include "jErrno.h"
 #include "jAssert.h"
 
-JSize JString::theDefaultBlockSize = 256;
+JSize JString::theDefaultBlockSize = 1024;
 const JString JString::empty("", kJFalse);
 
 static thread_local JString* theCurrentlyConstructingObject;
