@@ -183,6 +183,48 @@ CMBreakpointManager::GetBreakpoints
 }
 
 /******************************************************************************
+ EnableAll
+
+ ******************************************************************************/
+
+void
+CMBreakpointManager::EnableAll()
+{
+//	for (CMBreakpoint* bp : *itsBPList)
+
+	const JSize count = itsBPList->GetElementCount();
+	for (JIndex i=1; i<=count; i++)
+		{
+		CMBreakpoint* bp = itsBPList->NthElement(i);
+		if (!bp->IsEnabled())
+			{
+			itsLink->SetBreakpointEnabled(bp->GetDebuggerIndex(), kJTrue);
+			}
+		}
+}
+
+/******************************************************************************
+ DisableAll
+
+ ******************************************************************************/
+
+void
+CMBreakpointManager::DisableAll()
+{
+//	for (CMBreakpoint* bp : *itsBPList)
+
+	const JSize count = itsBPList->GetElementCount();
+	for (JIndex i=1; i<=count; i++)
+		{
+		CMBreakpoint* bp = itsBPList->NthElement(i);
+		if (bp->IsEnabled())
+			{
+			itsLink->SetBreakpointEnabled(bp->GetDebuggerIndex(), kJFalse);
+			}
+		}
+}
+
+/******************************************************************************
  ReadSetup
 
  ******************************************************************************/
@@ -190,7 +232,7 @@ CMBreakpointManager::GetBreakpoints
 void
 CMBreakpointManager::ReadSetup
 	(
-	std::istream&			input,
+	std::istream&		input,
 	const JFileVersion	vers
 	)
 {

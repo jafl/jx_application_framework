@@ -29,6 +29,9 @@ public:
 	JBoolean	GetBreakpoints(const CMLocation& loc,
 							   JPtrArray<CMBreakpoint>* list) const;
 
+	void	EnableAll();
+	void	DisableAll();
+
 	void	ReadSetup(std::istream& input, const JFileVersion vers);
 	void	WriteSetup(std::ostream& output) const;
 
