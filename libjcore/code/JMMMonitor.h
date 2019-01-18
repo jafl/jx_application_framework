@@ -47,9 +47,6 @@ protected:
 	virtual void HandleMultipleAllocation(const JMMRecord& thisRecord,
 										  const JMMRecord& firstRecord);
 
-	virtual void HandleNULLDeleted(const JUtf8Byte* file, const JUInt32 line,
-								   const JBoolean isArray);
-
 private:
 
 	// not allowed

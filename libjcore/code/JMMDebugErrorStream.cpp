@@ -141,22 +141,3 @@ JMMDebugErrorStream::HandleMultipleAllocation
 		JString(firstRecord.GetNewFile(), kJFalse) + ":" +
 		JString((JUInt64) firstRecord.GetNewLine()));
 }
-
-/******************************************************************************
- HandleNULLDeleted (virtual protected)
-
- *****************************************************************************/
-
-void
-JMMDebugErrorStream::HandleNULLDeleted
-	(
-	const JUtf8Byte* file,
-	const JUInt32    line,
-	const JBoolean   isArray
-	)
-{
-	JMemoryManager::SendError(
-		"Attempt to jdelete nullptr as " +
-		JString(JMMRecord::TypeName(isArray), kJFalse) + " at " +
-		JString(file, kJFalse) + ":" + JString((JUInt64) line));
-}

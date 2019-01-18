@@ -163,25 +163,3 @@ JMMErrorPrinter::HandleMultipleAllocation
 				  << std::endl;
 		}
 }
-
-/******************************************************************************
- HandleNULLDeleted (virtual protected)
-
- *****************************************************************************/
-
-void
-JMMErrorPrinter::HandleNULLDeleted
-	(
-	const JUtf8Byte* file,
-	const JUInt32    line,
-	const JBoolean   isArray
-	)
-{
-	if (itsPrintErrorsFlag)
-		{
-		std::cerr << "*** memory error: Attempt to delete nullptr as "
-				  << JMMRecord::TypeName(isArray) << " at"
-				  << "\n                     "
-				  << file << ":" << line << std::endl;
-		}
-}

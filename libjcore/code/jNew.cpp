@@ -24,16 +24,25 @@
 void*
 operator new
 	(
+	size_t size
+	)
+{
+	return operator new(size, JMemoryManager::kUnknownFile, 0);
+}
+
+void*
+operator new
+	(
 	size_t					size,
 	const std::nothrow_t&	nothrow_value
 	)
 	noexcept
 {
-	return operator new(size, "<UNKNOWN>", 0);
+	return operator new(size, JMemoryManager::kUnknownFile, 0);
 }
 
 /******************************************************************************
- operator new
+ placement operator new
 
  *****************************************************************************/
 
@@ -57,16 +66,25 @@ operator new
 void*
 operator new[]
 	(
+	size_t size
+	)
+{
+	return operator new[](size, JMemoryManager::kUnknownFile, 0);
+}
+
+void*
+operator new[]
+	(
 	size_t					size,
 	const std::nothrow_t&	nothrow_value
 	)
 	noexcept
 {
-	return operator new[](size, "<UNKNOWN>", 0);
+	return operator new[](size, JMemoryManager::kUnknownFile, 0);
 }
 
 /******************************************************************************
- operator new[]
+ placement operator new[]
 
  *****************************************************************************/
 
@@ -97,6 +115,28 @@ operator delete
 	JMemoryManager::Instance()->Delete(memory, kJFalse);
 }
 
+void
+operator delete
+	(
+	void*		memory,
+	std::size_t	size
+	)
+	noexcept
+{
+	JMemoryManager::Instance()->Delete(memory, kJFalse);
+}
+
+void
+operator delete
+	(
+	void*					memory,
+	const std::nothrow_t&	nothrow_value
+	)
+	noexcept
+{
+	JMemoryManager::Instance()->Delete(memory, kJFalse);
+}
+
 /******************************************************************************
  operator delete[]
 
@@ -106,6 +146,28 @@ void
 operator delete[]
 	(
 	void* memory
+	)
+	noexcept
+{
+	JMemoryManager::Instance()->Delete(memory, kJTrue);
+}
+
+void
+operator delete[]
+	(
+	void*		memory,
+	std::size_t	size
+	)
+	noexcept
+{
+	JMemoryManager::Instance()->Delete(memory, kJTrue);
+}
+
+void
+operator delete[]
+	(
+	void*					memory,
+	const std::nothrow_t&	nothrow_value
 	)
 	noexcept
 {
@@ -124,5 +186,5 @@ JLocateDelete
 	const JUInt32    line
 	)
 {
-	JMemoryManager::Instance()->LocateDelete(file, line);
+	JMemoryManager::LocateDelete(file, line);
 }

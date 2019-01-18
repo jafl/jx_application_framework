@@ -114,8 +114,6 @@ JHashRecord<V>::Set
 
  *****************************************************************************/
 
-#if 0
-
 template <class V>
 void
 JHashRecord<V>::PrintLayout()
@@ -133,7 +131,5 @@ JHashRecord<V>::PrintLayout()
 		 << offsetof(JHashRecord, itsValue)+sizeof(JHashRecord::itsValue) << "-"
 		 << sizeof(JHashRecord)-1 << "\n" << std::endl;
 }
-
-#endif
 
 #endif

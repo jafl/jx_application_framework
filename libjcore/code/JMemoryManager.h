@@ -19,6 +19,7 @@
 #include <ace/LSOCK_Stream.h>
 #include "JMessageProtocol.h"	// template; requires ace includes
 #include <sstream>
+#include <mutex>
 
 #include <stdlib.h> // For size_t
 
@@ -90,24 +91,9 @@ public:
 // Record keeping
 
 	JBoolean RecordingAllocated() const;
-//	JBoolean RecordingDeallocated() const;
-
-	void CancelRecordAllocated();
-	void CancelRecordDeallocated();
-
-// Allocation
-
-//	JBoolean Initializing() const;
-//	void CancelInitialize();
-
-//	JBoolean Shredding() const;
-//	void CancelShred();
 
 	unsigned char GetAllocateGarbage() const;
 	unsigned char GetDeallocateGarbage() const;
-
-	// This function doesn't mean anything--yet.  Stay tuned
-	size_t GetTagSize() const;
 
 // Statistics reporting
 
@@ -128,9 +114,6 @@ public:
 
 	JBoolean GetCheckDoubleAllocation() const;
 	void     SetCheckDoubleAllocation(const JBoolean yesNo);
-
-	JBoolean GetDisallowDeleteNULL() const;
-	void     SetDisallowDeleteNULL(const JBoolean yesNo);
 
 	static JBoolean GetAbortUnknownAlloc();
 	static void     SetAbortUnknownAlloc(const JBoolean yesNo);
@@ -161,9 +144,6 @@ protected:
 
 	void HandleMultipleAllocation(const JMMRecord& thisRecord,
 								  const JMMRecord& firstRecord);
-
-	void HandleNULLDeleted(const JUtf8Byte* file, const JUInt32 line,
-						   const JBoolean isArray);
 
 private:
 
@@ -199,11 +179,7 @@ private:
 	JMMDebugErrorStream*	itsErrorStream;
 	JString*				itsExitStatsFileName;
 	mutable std::ofstream*	itsExitStatsStream;
-
-	JSize itsRecursionDepth;
-
-	const JUtf8Byte* itsLastDeleteFile;
-	JUInt32          itsLastDeleteLine;
+	std::recursive_mutex*	itsMutex;
 
 	// Statistics
 
@@ -215,12 +191,9 @@ private:
 	JBoolean      itsShredFlag;
 	unsigned char itsDeallocateGarbage;
 
-	size_t itsTagSize;
-
 	// Error notification
 
 	JBoolean itsCheckDoubleAllocationFlag;
-	JBoolean itsDisallowDeleteNULLFlag;
 
 private:
 
@@ -244,7 +217,7 @@ private:
 
 	static JUInt32 GetNewID();
 
-	void LocateDelete(const JUtf8Byte* file, const JUInt32 line);
+	static void LocateDelete(const JUtf8Byte* file, const JUInt32 line);
 
 	void HandleExit();
 	void HandleACEExit();
@@ -405,37 +378,6 @@ public:
 			const JMMRecord&  itsThisRecord;
 			const JMMRecord&  itsFirstRecord;
 		};
-
-	/******************************************************************************
-	 NULLDeleted
-
-		Record is the JMMRecord recording the object's first deletion,
-		file and line is the location of the repeated deletion.
-	 *****************************************************************************/
-
-	static const JUtf8Byte* kNULLDeleted;
-	class NULLDeleted : public JBroadcaster::Message
-		{
-		public:
-
-			NULLDeleted(const JUtf8Byte* file, const JUInt32 line, const JBoolean isArray)
-				:
-				Message(kNULLDeleted),
-				itsFile(file),
-				itsLine(line),
-				itsIsArrayFlag(isArray)
-				{ };
-
-			const JUtf8Byte* GetFile() const { return itsFile; };
-			JUInt32          GetLine() const { return itsLine; };
-			JBoolean         IsArray() const { return itsIsArrayFlag; };
-
-		private:
-
-			const JUtf8Byte* itsFile;
-			const JUInt32    itsLine;
-			const JBoolean   itsIsArrayFlag;
-		};
 };
 
 /******************************************************************************
@@ -446,7 +388,7 @@ public:
 inline JBoolean
 JMemoryManager::RecordingAllocated() const
 {
-	return JConvertToBoolean(itsMemoryTable != nullptr);
+	return JI2B(itsMemoryTable != nullptr);
 }
 
 /******************************************************************************
@@ -520,17 +462,6 @@ JMemoryManager::GetAllocateGarbage() const
 }
 
 /******************************************************************************
- GetTagSize
-
- *****************************************************************************/
-
-inline size_t
-JMemoryManager::GetTagSize() const
-{
-	return itsTagSize;
-}
-
-/******************************************************************************
  GetDeallocateGarbage
 
  *****************************************************************************/
@@ -595,34 +526,6 @@ JMemoryManager::SetCheckDoubleAllocation
 	)
 {
 	itsCheckDoubleAllocationFlag = yesNo;
-}
-
-/******************************************************************************
- GetDisallowDeleteNULL
-
- *****************************************************************************/
-
-inline JBoolean
-JMemoryManager::GetDisallowDeleteNULL() const
-{
-	return itsDisallowDeleteNULLFlag;
-}
-
-/******************************************************************************
- SetDisallowDeleteNULL
-
-	Sets whether deletion of a nullptr pointer is considered an error (ANSI says
-	no).  Overrides the JMM_ALLOW_DELETE_NULL environment variable.
-
- *****************************************************************************/
-
-inline void
-JMemoryManager::SetDisallowDeleteNULL
-	(
-	const JBoolean yesNo
-	)
-{
-	itsDisallowDeleteNULLFlag = yesNo;
 }
 
 /******************************************************************************

@@ -214,23 +214,6 @@ JMMHashTable::StreamAllocationSizeHistogram
 }
 
 /******************************************************************************
- _CancelRecordDeallocated (virtual)
-
- *****************************************************************************/
-
-void
-JMMHashTable::_CancelRecordDeallocated()
-{
-	if (itsDeletedTable != nullptr)
-		{
-		itsDeletedCount = itsDeletedTable->GetElementCount();
-
-		jdelete itsDeletedTable;
-		itsDeletedTable = nullptr;
-		}
-}
-
-/******************************************************************************
  _AddNewRecord (virtual protected)
 
  *****************************************************************************/

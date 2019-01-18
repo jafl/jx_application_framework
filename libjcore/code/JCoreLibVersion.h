@@ -24,6 +24,13 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //	*** Removed JBoolean in favor of bool.
 //		All stream writes must be updated to use JBoolToString().
 //		All stream reads must be updated to use JBoolFromString().
+//	*** jNew:
+//		Replaced new & delete macros with jnew & jdelete, to avoid conflict
+//			with "= delete" notation for functions.
+//	JMemoryManager:
+//		Removed "null deleted" functionality since C++14 specifies that
+//			"delete null" is a nop.
+//		Updated code to be thread-safe.
 //	JBroadcaster:
 //		Added ToString(), which can be overridden by derived classes.
 //	*** Removed using statements from jTypes.h & jFStreamUtil.h
@@ -64,10 +71,7 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //	*** Renamed JColorIndex to JColorID
 //	*** Renamed JColormap to JColorManager and redesigned it
 //			so JColorID is system independent.
-//	*** jNew:
-//			Replaced new & delete macros with jnew & jdelete, to avoid conflict
-//				with "= delete" notation for functions.
-//			Removed j_prep_ace.h because it is no longer needed.
+//	*** Removed j_prep_ace.h because it is no longer needed.
 //	*** Removed support for nullptr's in JRegex and JString.
 //			If you have nullptr's, you have binary data and should treat it differently.
 //	*** Removed JCheckSiteName()

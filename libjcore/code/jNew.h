@@ -19,14 +19,8 @@
 #include <stdlib.h> // For size_t
 #include "jTypes.h"
 
-void* operator new(size_t size, const std::nothrow_t& nothrow_value) noexcept;
 void* operator new(size_t size, const JUtf8Byte* file, const JUInt32 line) noexcept;
-
-void* operator new[](size_t size, const std::nothrow_t& nothrow_value) noexcept;
 void* operator new[](size_t size, const JUtf8Byte* file, const JUInt32 line) noexcept;
-
-void operator delete(void* memory) noexcept;
-void operator delete[](void* memory) noexcept;
 
 void JLocateDelete(const JUtf8Byte* file, const JUInt32 line);
 

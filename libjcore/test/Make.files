@@ -69,6 +69,10 @@ ${CODEDIR}/test_JMDIServer
 ${CODEDIR}/TestMDIServer
 literal: ${LIB_DEPS}
 
+@test_JMemoryManager
+${CODEDIR}/test_JMemoryManager
+literal: ${LIB_DEPS}
+
 @test_JMessageProtocol
 ${CODEDIR}/test_JMessageProtocol
 literal: ${LIB_DEPS}
@@ -206,30 +210,36 @@ literal: ${LIB_DEPS}
 
 # must be run manually
 
-@testnew
+@test_new
 ${CODEDIR}/_testnew
 literal: ${LIB_DEPS}
 
-@testrandom
+@test_random
 ${CODEDIR}/_testrandom
 literal: ${LIB_DEPS}
 
-@testrandperiod
+@test_randperiod
 ${CODEDIR}/_testrandperiod
 literal: ${LIB_DEPS}
 
-@testmemcpy
+@test_memcpy
 ${CODEDIR}/_testmemcpy
+
+@test_hash
+${CODEDIR}/_testhash
 literal: ${LIB_DEPS}
 
-@testJTextChooseSaveFile
+@test_mutex
+${CODEDIR}/_testmutex
+
+@test_JTextChooseSaveFile
 ${CODEDIR}/_testJTextChooseSaveFile
 literal: ${LIB_DEPS}
 
-@testJTextProgressDisplay
+@test_JTextProgressDisplay
 ${CODEDIR}/_testJTextProgressDisplay
 literal: ${LIB_DEPS}
 
-@testJTextUserNotification
+@test_JTextUserNotification
 ${CODEDIR}/_testJTextUserNotification
 literal: ${LIB_DEPS}

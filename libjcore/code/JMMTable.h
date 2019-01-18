@@ -31,8 +31,6 @@ public:
 							  const JUtf8Byte* file, const JUInt32 line,
 							  const JBoolean isArray);
 
-	virtual void CancelRecordDeallocated();
-
 	virtual JSize GetAllocatedCount() const = 0;
 	virtual JSize GetAllocatedBytes() const = 0;
 	virtual JSize GetDeletedCount() const = 0;
@@ -43,8 +41,6 @@ public:
 	virtual void StreamAllocationSizeHistogram(std::ostream& output) const = 0;
 
 protected:
-
-	virtual void _CancelRecordDeallocated() = 0;
 
 	virtual void _AddNewRecord(const JMMRecord& record,
 									   const JBoolean checkDoubleAllocation) = 0;

@@ -63,6 +63,8 @@ main()
 }
 /*
 
+A long, long time ago:
+
 Starting test...
 memcpy:
 1 byte(s): 3.4e-09
@@ -74,6 +76,20 @@ for loop:
 2 byte(s): 2.8e-09
 3 byte(s): 4.3e-09
 4 byte(s): 5.5e-09
+
+2019-01-16:
+
+Starting test...
+memcpy:
+1 byte(s): 3.2e-09
+2 byte(s): 3.2e-09
+3 byte(s): 3.8e-09
+4 byte(s): 4e-09
+for loop:
+1 byte(s): 2.1e-09
+2 byte(s): 2.8e-09
+3 byte(s): 4.1e-09
+4 byte(s): 5.4e-09
 
 No discernable difference between memcpy and for loop.
 

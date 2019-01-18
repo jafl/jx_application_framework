@@ -59,7 +59,7 @@ public:
 	void Remove();
 	void MarkEmpty();
 
-//	void PrintLayout();
+	void PrintLayout();
 
 private:
 

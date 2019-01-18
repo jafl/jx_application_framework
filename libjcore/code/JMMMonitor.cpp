@@ -89,12 +89,6 @@ JMMMonitor::Receive
 			= dynamic_cast<const JMemoryManager::MultipleAllocation*>(&message);
 		HandleMultipleAllocation( msg->GetThisRecord(), msg->GetFirstRecord() );
 		}
-	else if ( message.Is(JMemoryManager::kNULLDeleted) )
-		{
-		const JMemoryManager::NULLDeleted* msg
-			= dynamic_cast<const JMemoryManager::NULLDeleted*>(&message);
-		HandleNULLDeleted( msg->GetFile(), msg->GetLine(), msg->IsArray() );
-		}
 }
 
 /******************************************************************************
@@ -179,21 +173,6 @@ JMMMonitor::HandleMultipleAllocation
 	(
 	const JMMRecord& thisRecord,
 	const JMMRecord& firstRecord
-	)
-{
-}
-
-/******************************************************************************
- HandleNULLDeleted (virtual protected)
-
- *****************************************************************************/
-
-void
-JMMMonitor::HandleNULLDeleted
-	(
-	const JUtf8Byte* file,
-	const JUInt32    line,
-	const JBoolean   isArray
 	)
 {
 }

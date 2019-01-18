@@ -128,14 +128,6 @@
 #		                       allocated for its own use.  The SetInternalExitStats
 #		                       method overrides the environment variable setting.
 
-#		JMM_DISALLOW_DELETE_NULL If this environment variable is set to "yes" the
-#		                       manager will consider deletion of a null pointer to
-#		                       be an error, in spite of ANSI.  Most people delete
-#		                       nullptr frequently, so the default is to allow it, but
-#		                       those with a particularly clean (not to say
-#		                       obsessive) style may find this useful.  Overridden
-#		                       by the SetDisllowDeleteNULL method.
-
 #		JMM_ABORT_UNKNOWN_ALLOC If set to "yes", the process will abort if memory
 #		                       is allocated by code that the memory manager cannot
 #		                       locate.  One reason to do this is to examine the
@@ -152,7 +144,7 @@
 #		                       to send exit stats.
 
 #		MALLOC_CHECK_          Setting this environment variable turns on checking
-#		                       in libc.  1 => print error  2 => abort
+#		                       in libc.  1 => print error  2 => abort  3 => both
 
 	(JMM_NO_PRINT_ERRORS is actually read in the JMMErrorPrinter proxy object.)
 
@@ -236,14 +228,13 @@ const JSize kDisconnectStrLength       = strlen(kDisconnectStr);
 
 	const JUtf8Byte* JMemoryManager::kMultipleAllocation = "MultipleAllocation::JMemoryManager";
 
-	const JUtf8Byte* JMemoryManager::kNULLDeleted = "NULLDeleted::JMemoryManager";
-
 // Constants
 
 	const unsigned char defaultAllocateGarbage   = 0xA7; // A for Allocate :-)
 	const unsigned char defaultDeallocateGarbage = 0xD7; // D for Delete   :-)
 
 // Static member data
+
 	static const JSize theStackMax = 50;
 
 	JBoolean  JMemoryManager::theConstructingFlag = kJFalse;
@@ -261,6 +252,13 @@ const JSize kDisconnectStrLength       = strlen(kDisconnectStr);
 	JBoolean      JMemoryManager::theAbortUnknownAllocFlag = kJFalse;
 
 	const JUtf8Byte* JMemoryManager::kUnknownFile = "<UNKNOWN>";
+
+	static JSize theRecursionDepth = 0;		// only modified inside mutex lock
+
+// clang linker error if these are declared as member data
+
+	static thread_local const JUtf8Byte* theLastDeleteFile = JMemoryManager::kUnknownFile;
+	static thread_local JUInt32          theLastDeleteLine = 0;
 
 // static functions
 
@@ -280,18 +278,16 @@ JMemoryManager::JMemoryManager()
 	itsErrorStream(nullptr),
 	itsExitStatsFileName(nullptr),
 	itsExitStatsStream(nullptr),
-	itsRecursionDepth(0),
-	itsLastDeleteFile(kUnknownFile),
-	itsLastDeleteLine(0),
 	itsBroadcastErrorsFlag(kJFalse),
 	itsPrintExitStatsFlag(kJFalse),
 	itsPrintInternalStatsFlag(kJFalse),
 	itsShredFlag(kJFalse), // Dummy initialization
 	itsDeallocateGarbage(defaultDeallocateGarbage),
-	itsTagSize(8),
-	itsCheckDoubleAllocationFlag(kJFalse),
-	itsDisallowDeleteNULLFlag(kJFalse)
+	itsCheckDoubleAllocationFlag(kJFalse)
 {
+	itsMutex = new std::recursive_mutex;
+	assert( itsMutex != nullptr );
+
 	// Instance() must set the flag
 	assert(theConstructingFlag == kJTrue);
 
@@ -327,12 +323,6 @@ JMemoryManager::JMemoryManager()
 		itsCheckDoubleAllocationFlag = kJTrue;
 		}
 
-	const JUtf8Byte* disallowDeleteNULL = getenv("JMM_DISALLOW_DELETE_NULL");
-	if (disallowDeleteNULL != nullptr && JString::Compare(disallowDeleteNULL, "yes", kJFalse) == 0)
-		{
-		itsDisallowDeleteNULLFlag = kJTrue;
-		}
-
 	const JUtf8Byte* recordAllocated = getenv("JMM_RECORD_ALLOCATED");
 	if (recordAllocated != nullptr && JString::Compare(recordAllocated, "yes", kJFalse) == 0)
 		{
@@ -352,7 +342,6 @@ JMemoryManager::JMemoryManager()
 			{
 			itsMemoryTable = new JMMHashTable(this, recordDeallocatedFlag);
 			}
-
 		assert(itsMemoryTable != nullptr);
 		}
 
@@ -369,20 +358,6 @@ JMemoryManager::JMemoryManager()
 JMemoryManager::~JMemoryManager()
 {
 	assert(0); // Impossible to call, except maliciously.  So don't do that.
-
-	// For form's sake, write it correctly
-
-	if (itsMemoryTable != nullptr)
-		{
-		delete itsMemoryTable;
-		itsMemoryTable = nullptr;
-		}
-
-	delete itsErrorPrinter;
-	// ACE deletes the link on exit
-	delete itsErrorStream;
-	delete itsExitStatsFileName;
-	delete itsExitStatsStream;
 }
 
 /******************************************************************************
@@ -423,6 +398,8 @@ JMemoryManager::Instance()
 
 		if (!JString::IsEmpty(pipeName))
 			{
+			theInternalFlag = kJTrue;
+
 			manager->ConnectToDebugger(pipeName);
 			ACE_Object_Manager::at_exit(nullptr, ::JMMHandleACEExit, nullptr);
 
@@ -433,18 +410,16 @@ JMemoryManager::Instance()
 			const JError err = JCreateTempFile(&fileName);
 			if (err.OK())
 				{
-				theInternalFlag = kJTrue;
-
 				manager->itsExitStatsFileName = new JString(fileName);
 				assert( manager->itsExitStatsFileName != nullptr );
-
-				theInternalFlag = kJFalse;
 				}
 			else
 				{
 				std::cerr << "Failed to create exit stats file:" << std::endl;
 				std::cerr << err.GetMessage() << std::endl;
 				}
+
+			theInternalFlag = kJFalse;
 			}
 		}
 
@@ -477,6 +452,7 @@ JMemoryManager::New
 	if (newBlock == nullptr)
 		{
 		std::cerr << "Failed to allocate block of size " << trueSize << std::endl;
+		return nullptr;
 		}
 
 	if (theInitializeFlag)
@@ -484,10 +460,16 @@ JMemoryManager::New
 		memset(newBlock, theAllocateGarbage, trueSize);
 		}
 
-	const JBoolean isManager = JI2B(theConstructingFlag || Instance()->itsRecursionDepth > 0 || theInternalFlag);
+	if (!theConstructingFlag)
+		{
+		Instance()->itsMutex->lock();
+		}
+
+	const JBoolean useStack  = JI2B(theConstructingFlag || theRecursionDepth > 0);
+	const JBoolean isManager = JI2B(useStack || theInternalFlag);
 	JMMRecord newRecord(GetNewID(), newBlock, trueSize, file, line, isArray, isManager);
 
-	if (theConstructingFlag || Instance()->itsRecursionDepth > 0)
+	if (useStack)
 		{
 		assert(theAllocStackSize < theStackMax);
 		theAllocStack[theAllocStackSize] = newRecord;
@@ -496,6 +478,11 @@ JMemoryManager::New
 	else
 		{
 		Instance()->AddNewRecord(newRecord);
+		}
+
+	if (!theConstructingFlag)
+		{
+		Instance()->itsMutex->unlock();
 		}
 
 	return newBlock;
@@ -513,12 +500,14 @@ JMemoryManager::Delete
 	const JBoolean isArray
 	)
 {
-	if (theConstructingFlag || Instance()->itsRecursionDepth > 0)
+	std::lock_guard lock(*itsMutex);
+
+	if (theConstructingFlag || theRecursionDepth > 0)
 		{
 		DeleteRequest thisRequest;
 		thisRequest.address = block;
-		thisRequest.file    = itsLastDeleteFile;
-		thisRequest.line    = itsLastDeleteLine;
+		thisRequest.file    = theLastDeleteFile;
+		thisRequest.line    = theLastDeleteLine;
 		thisRequest.array   = isArray;
 
 		assert(theDeallocStackSize < theStackMax);
@@ -530,11 +519,11 @@ JMemoryManager::Delete
 		}
 	else
 		{
-		DeleteRecord(block, itsLastDeleteFile, itsLastDeleteLine, isArray);
+		DeleteRecord(block, theLastDeleteFile, theLastDeleteLine, isArray);
 		}
 
-	itsLastDeleteFile = kUnknownFile;
-	itsLastDeleteLine = 0;
+	theLastDeleteFile = kUnknownFile;
+	theLastDeleteLine = 0;
 }
 
 /******************************************************************************
@@ -547,73 +536,17 @@ JMemoryManager::PrintMemoryStats()
 {
 	if (itsMemoryTable != nullptr)
 		{
-		std::cout << "\n   Dynamic memory usage:\n";
-#if 0
+		std::lock_guard lock(*itsMutex);
+
 		std::cout << "\n";
-		std::cout << "      Tag memory per block: " << 2*itsTagSize << " bytes" << "\n";
+		std::cout << "   Dynamic memory usage:\n";
+		std::cout << "      Blocks currently allocated: " << itsMemoryTable->GetAllocatedCount() << "\n";
+		std::cout << "       Bytes currently allocated: " << itsMemoryTable->GetAllocatedBytes() << "\n";
+		std::cout << "                  Deleted blocks: " << itsMemoryTable->GetDeletedCount() << "\n";
+		std::cout << "                    Total blocks: " << itsMemoryTable->GetTotalCount() << "\n";
 		std::cout << "\n";
-#endif
-		JSize count = itsMemoryTable->GetAllocatedCount();
-		std::cout << "      Blocks currently allocated: " << count << "\n";
-		count = itsMemoryTable->GetDeletedCount();
-		std::cout << "                  Deleted blocks: " << count << "\n";
-		count = itsMemoryTable->GetTotalCount();
-		std::cout << "                    Total blocks: " << count << "\n";
-		std::cout << "\n";
-#if 0
-		JSize currentMemory = 0;
-		for (JSize i=1;i<=blockCount;i++)
-			{
-			currentMemory += itsActiveRecordTable->GetElement(i).GetSize();
-			}
-		std::cout << "      Current memory allocated: " << currentMemory << " bytes\n";
-		std::cout << "        Total memory allocated: " << itsTotalUserMemory << " bytes\n";
-		std::cout << "    Total tag memory allocated: " << itsTotalBlocks*2*itsTagSize << " bytes\n";
-		std::cout << "        Total memory allocated: "
-			 << itsTotalUserMemory + itsTotalBlocks*2*itsTagSize << " bytes\n";
-		std::cout << "\n";
-		size_t managerMemory = sizeof(*this);
-		managerMemory += sizeof(*itsActiveRecordTable);
-		// Need space for array's internal list?
-		std::cout << "      Additional memory used by memory manager: " << managerMemory << " bytes\n";
-#endif
+
 		std::cout << std::endl;
-		}
-}
-
-/******************************************************************************
- CancelRecordAllocated
-
-	Discards (permanently) all allocation records.  Cancels JMM_RECORD_ALLOCATED.
-	Implies CancelRecordDeallocated.
-
- *****************************************************************************/
-
-void
-JMemoryManager::CancelRecordAllocated()
-{
-	if (itsMemoryTable != nullptr)
-		{
-		BeginRecursiveBlock();
-		delete itsMemoryTable;
-		itsMemoryTable = nullptr;
-		EndRecursiveBlock();
-		}
-}
-
-/******************************************************************************
- CancelRecordDeallocated
-
-	Discards (permanently) all deletion records.  Cancels JMM_RECORD_DEALLOCATED.
-
- *****************************************************************************/
-
-void
-JMemoryManager::CancelRecordDeallocated()
-{
-	if (itsMemoryTable != nullptr)
-		{
-		itsMemoryTable->CancelRecordDeallocated();
 		}
 }
 
@@ -627,6 +560,7 @@ JMemoryManager::PrintAllocated() const
 {
 	if (itsMemoryTable != nullptr)
 		{
+		std::lock_guard lock(*itsMutex);
 		itsMemoryTable->PrintAllocated(itsPrintInternalStatsFlag);
 		}
 }
@@ -672,6 +606,7 @@ JMemoryManager::AddNewRecord
 {
 	if (itsMemoryTable != nullptr)
 		{
+		std::lock_guard lock(*itsMutex);
 		itsMemoryTable->AddNewRecord(record, itsCheckDoubleAllocationFlag);
 		}
 }
@@ -692,7 +627,7 @@ JMemoryManager::DeleteRecord
 {
 	if (block == nullptr)
 		{
-		HandleNULLDeleted(file, line, isArray);
+		// should never happen, since C++14 specifies it that way
 		return;
 		}
 
@@ -702,6 +637,7 @@ JMemoryManager::DeleteRecord
 		JMMRecord record;
 		wasAllocated = itsMemoryTable->SetRecordDeleted(&record, block,
 														file, line, isArray);
+
 		// Can't do this unless we're keeping records
 		if (itsShredFlag && wasAllocated)
 			{
@@ -729,11 +665,11 @@ JMemoryManager::DeleteRecord
 void
 JMemoryManager::BeginRecursiveBlock()
 {
-	Instance()->itsRecursionDepth++;
-	if (Instance()->itsRecursionDepth > 1)
+	theRecursionDepth++;
+	if (theRecursionDepth > 1)
 	{
 		std::cout << "Unusual (but probably safe) memory manager behavior: JMM recursing at depth "
-			 << Instance()->itsRecursionDepth << ".  Please notify the author." << std::endl;
+			 << theRecursionDepth << ".  Please notify the author." << std::endl;
 	}
 }
 
@@ -746,8 +682,9 @@ void
 JMemoryManager::EndRecursiveBlock()
 {
 	JMemoryManager* manager = Instance();
-	assert( manager->itsRecursionDepth > 0 );
-	manager->itsRecursionDepth--;
+	assert( theRecursionDepth > 0 );
+	theRecursionDepth--;
+	assert( theRecursionDepth >= 0 );	// for case with multiple threads
 	manager->EmptyStacks();
 }
 
@@ -759,7 +696,7 @@ JMemoryManager::EndRecursiveBlock()
 void
 JMemoryManager::EmptyStacks()
 {
-	if (itsMemoryTable != nullptr && itsRecursionDepth == 0)
+	if (itsMemoryTable != nullptr && theRecursionDepth == 0)
 		{
 		// Do alloc stack first so dealloc's never have to search through the
 		// Alloc stack
@@ -783,7 +720,7 @@ JMemoryManager::EmptyStacks()
 }
 
 /******************************************************************************
- GetNewID (private)
+ GetNewID (static private)
 
  *****************************************************************************/
 
@@ -791,13 +728,13 @@ JUInt32
 JMemoryManager::GetNewID()
 {
 	// Guarantees access is only through this function
-	static JUInt32 nextID = 0;
+	static std::atomic_ulong nextID = 0;
 
 	return nextID++;
 }
 
 /******************************************************************************
- LocateDelete (private)
+ LocateDelete (static private)
 
  *****************************************************************************/
 
@@ -808,8 +745,8 @@ JMemoryManager::LocateDelete
 	const JUInt32    line
 	)
 {
-	itsLastDeleteFile = file;
-	itsLastDeleteLine = line;
+	theLastDeleteFile = file;
+	theLastDeleteLine = line;
 }
 
 /******************************************************************************
@@ -833,10 +770,14 @@ JMemoryManager::HandleACEExit()
 {
 	if (itsLink != nullptr)
 		{
+		theInternalFlag = kJTrue;
+
 		SendExitStats();
 		itsLink->SendDisconnect();
 		itsLink->Flush();
 		itsLink = nullptr;
+
+		theInternalFlag = kJFalse;
 		}
 }
 
@@ -886,7 +827,9 @@ JMemoryManager::Receive
 {
 	if (sender == itsLink && message.Is(JMessageProtocolT::kMessageReady))
 		{
+		theInternalFlag = kJTrue;
 		HandleDebugRequest();
+		theInternalFlag = kJFalse;
 		}
 	else
 		{
@@ -996,6 +939,8 @@ JMemoryManager::WriteRunningStats
 	)
 	const
 {
+	std::lock_guard lock(*itsMutex);
+
 	output << kRunningStatsMessage;
 	output << ' ' << itsMemoryTable->GetAllocatedCount();
 	output << ' ' << itsMemoryTable->GetAllocatedBytes();
@@ -1035,11 +980,13 @@ JMemoryManager::SendRecords
 void
 JMemoryManager::WriteRecords
 	(
-	std::ostream&			output,
+	std::ostream&		output,
 	const RecordFilter&	filter
 	)
 	const
 {
+	std::lock_guard lock(*itsMutex);
+
 	output << kRecordsMessage;
 	output << ' ';
 	itsMemoryTable->StreamAllocatedForDebug(output, filter);
@@ -1070,12 +1017,8 @@ JMemoryManager::SendExitStats()
 
 	SendDebugMessage(output);
 
-	theInternalFlag = kJTrue;
-
 	itsExitStatsStream = new std::ofstream(itsExitStatsFileName->GetBytes());
 	assert( itsExitStatsStream != nullptr );
-
-	theInternalFlag = kJFalse;
 }
 
 /******************************************************************************
@@ -1162,6 +1105,7 @@ JMemoryManager::SendDebugMessage
 		s.replace(i, kDisconnectStrLength, "<ixnay on the disconnect string!>");
 		}
 
+	std::lock_guard lock(*itsMutex);
 	itsLink->SendMessage(JString(s.c_str(), s.length(), kJFalse));
 }
 
@@ -1274,25 +1218,6 @@ JMemoryManager::HandleMultipleAllocation
 	if (itsBroadcastErrorsFlag)
 		{
 		Broadcast( MultipleAllocation(thisRecord, firstRecord) );
-		}
-}
-
-/******************************************************************************
- HandleNULLDeleted (protected)
-
- *****************************************************************************/
-
-void
-JMemoryManager::HandleNULLDeleted
-	(
-	const JUtf8Byte* file,
-	const JUInt32    line,
-	const JBoolean   isArray
-	)
-{
-	if (itsDisallowDeleteNULLFlag && itsBroadcastErrorsFlag)
-		{
-		Broadcast( NULLDeleted(file, line, isArray) );
 		}
 }
 
