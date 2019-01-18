@@ -11,9 +11,13 @@
 
 #include "JTestManager.h"
 #include "JError.h"
+#include <stdio.h>
+#include <unistd.h>
 #include "jAssert.h"
 
 static JTestManager* theManager = nullptr;
+
+static JBoolean theFormatOutputFlag = kJFalse;
 
 /******************************************************************************
  Instance
@@ -27,6 +31,8 @@ JTestManager::Instance()
 		{
 		theManager = new JTestManager();
 		assert( theManager != nullptr );
+
+		theFormatOutputFlag = JI2B( isatty(fileno(stdin)) );
 		}
 
 	return theManager;
@@ -117,8 +123,19 @@ JTestManager::ReportFailure
 {
 	Instance()->itsFailureCount++;
 
-	std::cout << file << ':' << line << ": error: "
-			  << Instance()->itsCurrentTestName << ": " << message << std::endl;
+	if (theFormatOutputFlag)
+		{
+		std::cerr << "\033[1m";
+		}
+
+	std::cerr << file << ':' << line << ": error: ";
+
+	if (theFormatOutputFlag)
+		{
+		std::cerr << "\033[22m";
+		}
+
+	std::cerr << Instance()->itsCurrentTestName << ": " << message << std::endl;
 }
 
 /******************************************************************************
