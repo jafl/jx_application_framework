@@ -49,7 +49,7 @@ CMRunProgramTask::Perform
 	Time*		maxSleepTime
 	)
 {
-	if (!(CMGetLink())->HasPendingCommands())
+	if (!CMGetLink()->HasPendingCommands())
 		{
 		(CMGetCommandDirector())->RunProgram();
 		jdelete this;

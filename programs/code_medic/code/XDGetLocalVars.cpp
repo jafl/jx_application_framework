@@ -49,7 +49,7 @@ XDGetLocalVars::HandleSuccess
 	const JString& data
 	)
 {
-	XDLink* link = dynamic_cast<XDLink*>(CMGetLink());
+	XDLink* link = dynamic_cast<XDLink*>CMGetLink();
 	xmlNode* root;
 	if (link == nullptr || !link->GetParsedData(&root))
 		{

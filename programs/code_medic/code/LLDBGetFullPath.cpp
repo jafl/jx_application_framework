@@ -47,5 +47,5 @@ LLDBGetFullPath::HandleSuccess
 	)
 {
 	Broadcast(FileNotFound(GetFileName()));
-	(CMGetLink())->RememberFile(GetFileName(), nullptr);
+	CMGetLink()->RememberFile(GetFileName(), nullptr);
 }

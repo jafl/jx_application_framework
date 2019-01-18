@@ -49,7 +49,7 @@ JVMGetStack::Starting()
 {
 	CMCommand::Starting();
 
-	JVMLink* link       = dynamic_cast<JVMLink*>(CMGetLink());
+	JVMLink* link       = dynamic_cast<JVMLink*>CMGetLink();
 	const JSize length  = link->GetObjectIDSize();
 	const JSize size    = length+8;
 	unsigned char* data = (unsigned char*) calloc(size, 1);
@@ -81,7 +81,7 @@ JVMGetStack::HandleSuccess
 	const JString& origData
 	)
 {
-	JVMLink* link = dynamic_cast<JVMLink*>(CMGetLink());
+	JVMLink* link = dynamic_cast<JVMLink*>CMGetLink();
 	const JVMSocket::MessageReady* msg;
 	if (!link->GetLatestMessageFromJVM(&msg))
 		{

@@ -84,10 +84,10 @@ CMRegistersDir::CMRegistersDir
 	itsShouldUpdateFlag(kJFalse),	// window is always initially hidden
 	itsNeedsUpdateFlag(kJTrue)
 {
-	itsCmd = (CMGetLink())->CreateGetRegisters(this);
+	itsCmd = CMGetLink()->CreateGetRegisters(this);
 
 	BuildWindow();
-	ListenTo(CMGetLink());
+	ListenToCMGetLink();
 }
 
 /******************************************************************************
@@ -324,12 +324,12 @@ CMRegistersDir::ReceiveGoingAway
 {
 	if (!CMIsShuttingDown())
 		{
-		ListenTo(CMGetLink());
+		ListenToCMGetLink();
 
 		Update("");
 
 		jdelete itsCmd;
-		itsCmd = (CMGetLink())->CreateGetRegisters(this);
+		itsCmd = CMGetLink()->CreateGetRegisters(this);
 		}
 
 	JXWindowDirector::ReceiveGoingAway(sender);

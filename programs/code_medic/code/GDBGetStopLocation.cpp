@@ -59,19 +59,19 @@ GDBGetStopLocation::GetLocation()
 		const JBoolean parsed = GDBLink::ParseMap(stream, &map);
 		if (!parsed)
 			{
-			(CMGetLink())->Log("invalid data map");
+			CMGetLink()->Log("invalid data map");
 			}
 		else if (!map.GetElement("fullname", &fullName))
 			{
-			(CMGetLink())->Log("missing file name");
+			CMGetLink()->Log("missing file name");
 			}
 		else if (!map.GetElement("line", &s))
 			{
-			(CMGetLink())->Log("missing line index");
+			CMGetLink()->Log("missing line index");
 			}
 		else if (!s->ConvertToUInt(&lineIndex))
 			{
-			(CMGetLink())->Log("line index is not integer");
+			CMGetLink()->Log("line index is not integer");
 			}
 		else
 			{
@@ -87,7 +87,7 @@ GDBGetStopLocation::GetLocation()
 		}
 	else
 		{
-		(CMGetLink())->Log("GDBGetStopLocation failed to match");
+		CMGetLink()->Log("GDBGetStopLocation failed to match");
 		}
 
 	return loc;

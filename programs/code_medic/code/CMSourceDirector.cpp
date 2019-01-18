@@ -787,7 +787,7 @@ CMSourceDirector::DisplayDisassembly
 
 		if (itsGetAssemblyCmd == nullptr)
 			{
-			itsGetAssemblyCmd = (CMGetLink())->CreateGetAssembly(this);
+			itsGetAssemblyCmd = CMGetLink()->CreateGetAssembly(this);
 			}
 
 		if (itsGetAssemblyCmd != nullptr)

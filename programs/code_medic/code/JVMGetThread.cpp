@@ -47,6 +47,6 @@ JVMGetThread::HandleSuccess
 	const JString& data
 	)
 {
-	JVMLink* link = dynamic_cast<JVMLink*>(CMGetLink());
+	JVMLink* link = dynamic_cast<JVMLink*>CMGetLink();
 	GetWidget()->FinishedLoading(link->GetCurrentThreadID());
 }

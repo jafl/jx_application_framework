@@ -54,7 +54,7 @@ LLDBGetCompletions::HandleSuccess
 	const JString& data
 	)
 {
-	LLDBLink* link = dynamic_cast<LLDBLink*>(CMGetLink());
+	LLDBLink* link = dynamic_cast<LLDBLink*>CMGetLink();
 	if (link == nullptr)
 		{
 		return;

@@ -33,7 +33,7 @@ JVMStackFrameNode::JVMStackFrameNode
 {
 	if (!UpdateNodeName())
 		{
-		ListenTo(CMGetLink());
+		ListenToCMGetLink();
 		}
 }
 
@@ -84,7 +84,7 @@ JVMStackFrameNode::Receive
 JBoolean
 JVMStackFrameNode::UpdateNodeName()
 {
-	JVMLink* link = dynamic_cast<JVMLink*>(CMGetLink());
+	JVMLink* link = dynamic_cast<JVMLink*>CMGetLink();
 	JString c, m;
 	if (link->GetClassName(itsClassID, &c) &&
 		link->GetMethodName(itsClassID, itsMethodID, &m))

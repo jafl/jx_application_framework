@@ -187,7 +187,7 @@ CMMDIServer::HandleMDIRequest
 				UpdateDebuggerType(program);
 				}
 
-			(CMGetLink())->SetProgram(program);
+			CMGetLink()->SetProgram(program);
 			}
 
 		itsFirstTimeFlag = kJFalse;
@@ -195,7 +195,7 @@ CMMDIServer::HandleMDIRequest
 
 	if (!core.IsEmpty())
 		{
-		(CMGetLink())->SetCore(core);
+		CMGetLink()->SetCore(core);
 		}
 
 	const JSize fileCount = fileList.GetElementCount();
@@ -211,7 +211,7 @@ CMMDIServer::HandleMDIRequest
 				}
 			else
 				{
-				(CMGetLink())->SetBreakpoint(*fileName, lineIndex);
+				CMGetLink()->SetBreakpoint(*fileName, lineIndex);
 				CMLink::NotifyUser("Breakpoint set in " + *fileName + " at line " + JString((JUInt64) lineIndex) + "\n\n", kJFalse);
 				}
 			}

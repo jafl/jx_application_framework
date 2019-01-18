@@ -64,15 +64,15 @@ GDBGetFrame::HandleSuccess
 		JIndex frameIndex;
 		if (!GDBLink::ParseMap(stream, &map))
 			{
-			(CMGetLink())->Log("invalid data map");
+			CMGetLink()->Log("invalid data map");
 			}
 		else if (!map.GetElement("level", &s))
 			{
-			(CMGetLink())->Log("missing frame index");
+			CMGetLink()->Log("missing frame index");
 			}
 		else if (!s->ConvertToUInt(&frameIndex))
 			{
-			(CMGetLink())->Log("frame index is not integer");
+			CMGetLink()->Log("frame index is not integer");
 			}
 		else
 			{
@@ -81,6 +81,6 @@ GDBGetFrame::HandleSuccess
 		}
 	else
 		{
-		(CMGetLink())->Log("GDBGetFrame failed to match");
+		CMGetLink()->Log("GDBGetFrame failed to match");
 		}
 }

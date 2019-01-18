@@ -85,7 +85,7 @@ CMThreadsDir::CMThreadsDir
 	itsCommandDir(supervisor)
 {
 	BuildWindow(supervisor);
-	ListenTo(CMGetLink());
+	ListenToCMGetLink();
 }
 
 /******************************************************************************
@@ -295,7 +295,7 @@ CMThreadsDir::ReceiveGoingAway
 {
 	if (!CMIsShuttingDown())
 		{
-		ListenTo(CMGetLink());
+		ListenToCMGetLink();
 		}
 
 	JXWindowDirector::ReceiveGoingAway(sender);

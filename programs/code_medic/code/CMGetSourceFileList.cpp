@@ -31,7 +31,7 @@ CMGetSourceFileList::CMGetSourceFileList
 	itsFileList(fileList),
 	itsNeedRedoOnFirstStop(kJTrue)
 {
-	ListenTo(CMGetLink());
+	ListenToCMGetLink();
 }
 
 /******************************************************************************

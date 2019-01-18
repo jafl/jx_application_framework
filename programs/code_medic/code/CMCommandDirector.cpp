@@ -1864,7 +1864,7 @@ CMCommandDirector::HandleDebugMenu
 		if ((te1 != nullptr && te1->GetSelection(&text) && !text.Contains("\n")) ||
 			(te2 != nullptr && te2->GetSelection(&text) && !text.Contains("\n")))
 			{
-			(CMGetLink())->WatchExpression(text);
+			CMGetLink()->WatchExpression(text);
 			}
 		}
 	else if (index == kWatchLocCmd)
@@ -1873,7 +1873,7 @@ CMCommandDirector::HandleDebugMenu
 		if ((te1 != nullptr && te1->GetSelection(&text) && !text.Contains("\n")) ||
 			(te2 != nullptr && te2->GetSelection(&text) && !text.Contains("\n")))
 			{
-			(CMGetLink())->WatchLocation(text);
+			CMGetLink()->WatchLocation(text);
 			}
 		}
 
@@ -2015,7 +2015,7 @@ CMCommandDirector::RunProgram()
 			itsWaitingToRunFlag = kJTrue;
 			}
 		}
-	else if ((CMGetLink())->HasPendingCommands())
+	else if (CMGetLink()->HasPendingCommands())
 		{
 		CMRunProgramTask* task = jnew CMRunProgramTask();
 		assert( task != nullptr );

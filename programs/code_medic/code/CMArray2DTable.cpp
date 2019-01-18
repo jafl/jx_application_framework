@@ -189,7 +189,7 @@ CMArray2DTable::ExtractInputData
 		if (text != itsOrigEditValue)
 			{
 			const JString name = itsArrayDir->GetExpression(cell);
-			(CMGetLink())->SetValue(name, text);
+			CMGetLink()->SetValue(name, text);
 			}
 		return kJTrue;
 		}

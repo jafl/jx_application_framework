@@ -42,7 +42,7 @@ LLDBSymbolsLoadedTask::~LLDBSymbolsLoadedTask()
 void
 LLDBSymbolsLoadedTask::Perform()
 {
-	LLDBLink* link = dynamic_cast<LLDBLink*>(CMGetLink());
+	LLDBLink* link = dynamic_cast<LLDBLink*>CMGetLink();
 	if (link != nullptr)
 		{
 		link->SymbolsLoaded(itsFileName);

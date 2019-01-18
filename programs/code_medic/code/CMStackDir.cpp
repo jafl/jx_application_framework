@@ -79,7 +79,7 @@ CMStackDir::CMStackDir
 	itsCommandDir(supervisor)
 {
 	BuildWindow(supervisor);
-	ListenTo(CMGetLink());
+	ListenToCMGetLink();
 }
 
 /******************************************************************************
@@ -292,7 +292,7 @@ CMStackDir::ReceiveGoingAway
 {
 	if (!CMIsShuttingDown())
 		{
-		ListenTo(CMGetLink());
+		ListenToCMGetLink();
 		}
 
 	JXWindowDirector::ReceiveGoingAway(sender);

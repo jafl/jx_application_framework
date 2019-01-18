@@ -30,7 +30,7 @@ XDGetContextVars::XDGetContextVars
 	JString cmd = "context_get -c ";
 	cmd        += contextID;
 	cmd        += " -d ";
-	cmd        += dynamic_cast<XDLink*>(CMGetLink())->GetStackFrameIndex();
+	cmd        += dynamic_cast<XDLink*>CMGetLink()->GetStackFrameIndex();
 	SetCommand(cmd);
 }
 
@@ -54,7 +54,7 @@ XDGetContextVars::HandleSuccess
 	const JString& data
 	)
 {
-	XDLink* link = dynamic_cast<XDLink*>(CMGetLink());
+	XDLink* link = dynamic_cast<XDLink*>CMGetLink();
 	xmlNode* root;
 	if (link == nullptr || !link->GetParsedData(&root))
 		{
@@ -111,12 +111,12 @@ XDGetContextVars::BuildTree
 				value.AppendCharacter('"');
 				}
 
-			n = (CMGetLink())->CreateVarNode(nullptr, name, fullName, value);
+			n = CMGetLink()->CreateVarNode(nullptr, name, fullName, value);
 			assert( n != nullptr );
 			}
 		else
 			{
-			n = (CMGetLink())->CreateVarNode(nullptr, name, fullName, "");
+			n = CMGetLink()->CreateVarNode(nullptr, name, fullName, "");
 			assert( n != nullptr );
 
 			if (type == "array" && JGetXMLNodeAttr(node, "children") == "1")

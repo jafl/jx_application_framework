@@ -54,7 +54,7 @@ XDSocket::open
 	const int result = JMessageProtocol<ACE_SOCK_STREAM>::open(data);
 	if (result == 0)
 		{
-		dynamic_cast<XDLink*>(CMGetLink())->ConnectionEstablished(this);
+		dynamic_cast<XDLink*>CMGetLink()->ConnectionEstablished(this);
 		}
 	return result;
 }
@@ -119,6 +119,6 @@ XDSocket::handle_close
 	ACE_Reactor_Mask	m
 	)
 {
-	dynamic_cast<XDLink*>(CMGetLink())->ConnectionFinished(this);
+	dynamic_cast<XDLink*>CMGetLink()->ConnectionFinished(this);
 	return JMessageProtocol<ACE_SOCK_STREAM>::handle_close(h, m);
 }

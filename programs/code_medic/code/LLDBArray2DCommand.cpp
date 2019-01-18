@@ -59,7 +59,7 @@ LLDBArray2DCommand::HandleSuccess
 	)
 {
 	lldb::SBFrame f =
-		dynamic_cast<LLDBLink*>(CMGetLink())->GetDebugger()->
+		dynamic_cast<LLDBLink*>CMGetLink()->GetDebugger()->
 			GetSelectedTarget().GetProcess().GetSelectedThread().GetSelectedFrame();
 	if (!f.IsValid())
 		{

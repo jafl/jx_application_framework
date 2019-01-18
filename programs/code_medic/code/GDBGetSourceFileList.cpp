@@ -93,6 +93,6 @@ GDBGetSourceFileList::HandleSuccess
 		{
 		std::ostringstream log;
 		log << "GDBGetSourceFileList failed to match";
-		(CMGetLink())->Log(log);
+		CMGetLink()->Log(log);
 		}
 }

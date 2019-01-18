@@ -108,7 +108,7 @@ CMBreakpoint::CMBreakpointX()
 		{
 		JBoolean exists;
 		JString fullName;
-		if ((CMGetLink())->FindFile(fileName, &exists, &fullName))
+		if (CMGetLink()->FindFile(fileName, &exists, &fullName))
 			{
 			if (exists)
 				{
@@ -117,7 +117,7 @@ CMBreakpoint::CMBreakpointX()
 			}
 		else
 			{
-			CMGetFullPath* cmd = (CMGetLink())->CreateGetFullPath(fileName);
+			CMGetFullPath* cmd = CMGetLink()->CreateGetFullPath(fileName);
 			ListenTo(cmd);
 			}
 		}
@@ -141,7 +141,7 @@ void
 CMBreakpoint::DisplayStatus()
 	const
 {
-	(CMGetLink())->ShowBreakpointInfo(itsDebuggerIndex);
+	CMGetLink()->ShowBreakpointInfo(itsDebuggerIndex);
 }
 
 /******************************************************************************
@@ -152,7 +152,7 @@ CMBreakpoint::DisplayStatus()
 void
 CMBreakpoint::ToggleEnabled()
 {
-	(CMGetLink())->SetBreakpointEnabled(itsDebuggerIndex, !itsEnabledFlag);
+	CMGetLink()->SetBreakpointEnabled(itsDebuggerIndex, !itsEnabledFlag);
 }
 
 /******************************************************************************
@@ -163,7 +163,7 @@ CMBreakpoint::ToggleEnabled()
 void
 CMBreakpoint::RemoveCondition()
 {
-	(CMGetLink())->RemoveBreakpointCondition(itsDebuggerIndex);
+	CMGetLink()->RemoveBreakpointCondition(itsDebuggerIndex);
 }
 
 /******************************************************************************
@@ -177,7 +177,7 @@ CMBreakpoint::SetIgnoreCount
 	const JSize count
 	)
 {
-	(CMGetLink())->SetBreakpointIgnoreCount(itsDebuggerIndex, count);
+	CMGetLink()->SetBreakpointIgnoreCount(itsDebuggerIndex, count);
 }
 
 /******************************************************************************

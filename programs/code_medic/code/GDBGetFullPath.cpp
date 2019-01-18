@@ -79,11 +79,11 @@ GDBGetFullPath::HandleSuccess
 		if (fullName == GetFileName())
 			{
 			Broadcast(FileNotFound(GetFileName()));
-			(CMGetLink())->RememberFile(GetFileName(), nullptr);
+			CMGetLink()->RememberFile(GetFileName(), nullptr);
 			}
 		else if (JIsAbsolutePath(fullName))
 			{
-			(CMGetLink())->RememberFile(GetFileName(), fullName);
+			CMGetLink()->RememberFile(GetFileName(), fullName);
 			Broadcast(FileFound(fullName, GetLineIndex()));
 			}
 		else
@@ -112,18 +112,18 @@ GDBGetFullPath::HandleSuccess
 		if (JFileReadable(fullName))
 			{
 			fileOK = kJTrue;
-			(CMGetLink())->RememberFile(GetFileName(), fullName);
+			CMGetLink()->RememberFile(GetFileName(), fullName);
 			Broadcast(FileFound(fullName, GetLineIndex()));
 			}
 		}
 	else
 		{
-		(CMGetLink())->Log("GDBGetFullPath failed to match");
+		CMGetLink()->Log("GDBGetFullPath failed to match");
 		}
 
 	if (!fileOK)
 		{
 		Broadcast(FileNotFound(GetFileName()));
-		(CMGetLink())->RememberFile(GetFileName(), nullptr);
+		CMGetLink()->RememberFile(GetFileName(), nullptr);
 		}
 }

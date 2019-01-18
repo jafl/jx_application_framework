@@ -88,7 +88,7 @@ top_group :
 
 	group P_EOF
 		{
-		itsCurrentNode = $$ = (CMGetLink())->CreateVarNode(nullptr, "", nullptr, $1->GetName());
+		itsCurrentNode = $$ = CMGetLink()->CreateVarNode(nullptr, "", nullptr, $1->GetName());
 		for (JIndex i=1; i<=$1->list->GetElementCount(); i++)
 			{
 			itsCurrentNode->Append($1->list->GetElement(i));
@@ -102,7 +102,7 @@ top_group :
 
 	| reference_value group P_EOF
 		{
-		itsCurrentNode = $$ = (CMGetLink())->CreateVarNode(nullptr, "", nullptr, *$1);
+		itsCurrentNode = $$ = CMGetLink()->CreateVarNode(nullptr, "", nullptr, *$1);
 		for (JIndex i=1; i<=$2->list->GetElementCount(); i++)
 			{
 			itsCurrentNode->Append($2->list->GetElement(i));
@@ -119,7 +119,7 @@ top_group :
 
 	| value P_EOF
 		{
-		itsCurrentNode = $$ = (CMGetLink())->CreateVarNode(nullptr, "", nullptr, *$1);
+		itsCurrentNode = $$ = CMGetLink()->CreateVarNode(nullptr, "", nullptr, *$1);
 		itsCurrentNode->MakePointer(itsIsPointerFlag);
 		itsIsPointerFlag = kJFalse;
 
@@ -130,8 +130,8 @@ top_group :
 
 	| reference_value value P_EOF
 		{
-		itsCurrentNode = $$ = (CMGetLink())->CreateVarNode(nullptr, "", nullptr, *$1);
-		CMVarNode* child = (CMGetLink())->CreateVarNode(itsCurrentNode, "", nullptr, *$2);
+		itsCurrentNode = $$ = CMGetLink()->CreateVarNode(nullptr, "", nullptr, *$1);
+		CMVarNode* child = CMGetLink()->CreateVarNode(itsCurrentNode, "", nullptr, *$2);
 		child->MakePointer(itsIsPointerFlag);
 		itsIsPointerFlag = kJFalse;
 
@@ -210,7 +210,7 @@ node_list :
 		{
 		$$ = $1;
 
-		CMVarNode* node = (CMGetLink())->CreateVarNode(nullptr, "", nullptr, *$3);
+		CMVarNode* node = CMGetLink()->CreateVarNode(nullptr, "", nullptr, *$3);
 		if ((($$->FirstElement())->GetName()).BeginsWith("["))
 			{
 			AppendAsArrayElement(node, $$);
@@ -257,7 +257,7 @@ node_list :
 	| node_list '.' '.' '.'
 		{
 		$$ = $1;
-		CMVarNode* child = (CMGetLink())->CreateVarNode(nullptr, "...", nullptr, "");
+		CMVarNode* child = CMGetLink()->CreateVarNode(nullptr, "...", nullptr, "");
 		$$->Append(child);
 		}
 	;
@@ -271,7 +271,7 @@ node :
 			$1->RemoveSubstring($1->GetLength(), $1->GetLength());
 			$1->TrimWhitespace();
 			}
-		itsCurrentNode = $$ = (CMGetLink())->CreateVarNode(nullptr, *$1, nullptr, *$2);
+		itsCurrentNode = $$ = CMGetLink()->CreateVarNode(nullptr, *$1, nullptr, *$2);
 		if (!$1->BeginsWith("_vptr.") && !$1->BeginsWith("_vb."))
 			{
 			itsCurrentNode->MakePointer(itsIsPointerFlag);
@@ -289,7 +289,7 @@ node :
 			$1->RemoveSubstring($1->GetLength(), $1->GetLength());
 			$1->TrimWhitespace();
 			}
-		itsCurrentNode = $$ = (CMGetLink())->CreateVarNode(nullptr, *$1, nullptr, $2->GetName());
+		itsCurrentNode = $$ = CMGetLink()->CreateVarNode(nullptr, *$1, nullptr, $2->GetName());
 		itsIsPointerFlag = kJFalse;
 		for (JIndex i=1; i<=$2->list->GetElementCount(); i++)
 			{
@@ -302,7 +302,7 @@ node :
 
 	| P_NO_DATA_FIELDS
 		{
-		itsCurrentNode = $$ = (CMGetLink())->CreateVarNode(nullptr, *$1, nullptr, "");
+		itsCurrentNode = $$ = CMGetLink()->CreateVarNode(nullptr, *$1, nullptr, "");
 		itsIsPointerFlag = kJFalse;
 
 		jdelete $1;
@@ -315,7 +315,7 @@ node :
 			$1->RemoveSubstring($1->GetLength(), $1->GetLength());
 			$1->TrimWhitespace();
 			}
-		itsCurrentNode = $$ = (CMGetLink())->CreateVarNode(nullptr, *$1, nullptr, "<nothing>");
+		itsCurrentNode = $$ = CMGetLink()->CreateVarNode(nullptr, *$1, nullptr, "<nothing>");
 		itsIsPointerFlag = kJFalse;
 
 		jdelete $1;
@@ -386,7 +386,7 @@ value_list :
 	| value_list '.' '.' '.'
 		{
 		$$ = $1;
-		CMVarNode* child = (CMGetLink())->CreateVarNode(nullptr, "...", nullptr, "");
+		CMVarNode* child = CMGetLink()->CreateVarNode(nullptr, "...", nullptr, "");
 		$$->Append(child);
 		}
 	;
@@ -397,7 +397,7 @@ value_node :
 
 	value
 		{
-		itsCurrentNode = $$ = (CMGetLink())->CreateVarNode(nullptr, "", nullptr, *$1);
+		itsCurrentNode = $$ = CMGetLink()->CreateVarNode(nullptr, "", nullptr, *$1);
 		itsCurrentNode->MakePointer(itsIsPointerFlag);
 		itsIsPointerFlag = kJFalse;
 

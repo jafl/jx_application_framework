@@ -77,7 +77,7 @@ GDBVarCommand::HandleSuccess
 		}
 	else
 		{
-		(CMGetLink())->Log("GDBVarCommand failed to match");
+		CMGetLink()->Log("GDBVarCommand failed to match");
 		}
 
 	if (!success)

@@ -101,7 +101,7 @@ GDBGetAssembly::HandleSuccess
 		stream.seekg(r.last);
 		if (!GDBLink::ParseMapArray(stream, &list))
 			{
-			(CMGetLink())->Log("invalid data map");
+			CMGetLink()->Log("invalid data map");
 			}
 		else
 			{
@@ -113,19 +113,19 @@ GDBGetAssembly::HandleSuccess
 
 				if (!map->GetElement("address", &addr))
 					{
-					(CMGetLink())->Log("invalid assembly instruction: missing address");
+					CMGetLink()->Log("invalid assembly instruction: missing address");
 					continue;
 					}
 
 				if (!map->GetElement("offset", &offset))
 					{
-					(CMGetLink())->Log("invalid assembly instruction: missing address");
+					CMGetLink()->Log("invalid assembly instruction: missing address");
 					continue;
 					}
 
 				if (!map->GetElement("inst", &inst))
 					{
-					(CMGetLink())->Log("invalid assembly instruction: missing inst");
+					CMGetLink()->Log("invalid assembly instruction: missing inst");
 					continue;
 					}
 

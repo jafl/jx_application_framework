@@ -63,11 +63,11 @@ GDBCheckCoreStatus::HandleSuccess
 		}
 	else
 		{
-		(CMGetLink())->Log("GDBCheckCoreStatus failed to match (ok if there is no core file)");
+		CMGetLink()->Log("GDBCheckCoreStatus failed to match (ok if there is no core file)");
 		}
 
 	// CMLink has to broadcast status of core regardless of whether or not
 	// we get what we expect from gdb.
 
-	dynamic_cast<GDBLink*>(CMGetLink())->SaveCoreName(fileName);
+	dynamic_cast<GDBLink*>CMGetLink()->SaveCoreName(fileName);
 }

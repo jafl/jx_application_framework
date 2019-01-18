@@ -58,11 +58,11 @@ GDBGetProgramName::HandleSuccess
 		}
 	else
 		{
-		(CMGetLink())->Log("GDBGetProgramName failed to match");
+		CMGetLink()->Log("GDBGetProgramName failed to match");
 		}
 
 	// CMLink has to broadcast SymbolsLoaded regardless of whether or not
 	// we get what we expect from gdb.
 
-	dynamic_cast<GDBLink*>(CMGetLink())->SaveProgramName(fileName);
+	dynamic_cast<GDBLink*>CMGetLink()->SaveProgramName(fileName);
 }

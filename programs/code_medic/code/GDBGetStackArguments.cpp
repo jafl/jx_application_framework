@@ -92,7 +92,7 @@ GDBGetStackArguments::HandleSuccess
 		stream.seekg(matchedRange.last);
 		if (!GDBLink::ParseMapArray(stream, &argList))
 			{
-			(CMGetLink())->Log("invalid stack argument list");
+			CMGetLink()->Log("invalid stack argument list");
 			break;
 			}
 
@@ -104,7 +104,7 @@ GDBGetStackArguments::HandleSuccess
 			if (!arg->GetElement("name", &name) ||
 				!arg->GetElement("value", &value))
 				{
-				(CMGetLink())->Log("invalid stack argument");
+				CMGetLink()->Log("invalid stack argument");
 				continue;
 				}
 

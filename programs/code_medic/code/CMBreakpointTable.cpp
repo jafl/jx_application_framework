@@ -139,7 +139,7 @@ CMBreakpointTable::~CMBreakpointTable()
 void
 CMBreakpointTable::Update()
 {
-	CMBreakpointManager* mgr = (CMGetLink())->GetBreakpointManager();
+	CMBreakpointManager* mgr = CMGetLink()->GetBreakpointManager();
 
 	// save selected cell
 
@@ -451,7 +451,7 @@ CMBreakpointTable::HandleMouseDown
 		CMBreakpoint* bp = itsBPList->GetElement(cell.y);
 		if (cell.x == kStatusColumn)
 			{
-			(CMGetLink())->SetBreakpointEnabled(bp->GetDebuggerIndex(), !bp->IsEnabled());
+			CMGetLink()->SetBreakpointEnabled(bp->GetDebuggerIndex(), !bp->IsEnabled());
 			}
 		else if (clickCount == 2 &&
 				 (cell.x == kFileNameColumn || cell.x == kLineNumberColumn))
@@ -501,7 +501,7 @@ CMBreakpointTable::HandleKeyPress
 		if (s.GetSingleSelectedCell(&cell))
 			{
 			CMBreakpoint* bp = itsBPList->GetElement(cell.y);
-			(CMGetLink())->RemoveBreakpoint(*bp);
+			CMGetLink()->RemoveBreakpoint(*bp);
 			}
 		}
 	else if (key == kJReturnKey)
@@ -515,7 +515,7 @@ CMBreakpointTable::HandleKeyPress
 		else if (cell.x == kStatusColumn)
 			{
 			CMBreakpoint* bp = itsBPList->GetElement(cell.y);
-			(CMGetLink())->SetBreakpointEnabled(bp->GetDebuggerIndex(), !bp->IsEnabled());
+			CMGetLink()->SetBreakpointEnabled(bp->GetDebuggerIndex(), !bp->IsEnabled());
 			}
 		else if (cell.x == kFileNameColumn || cell.x == kLineNumberColumn)
 			{
@@ -635,7 +635,7 @@ CMBreakpointTable::ExtractInputData
 		assert( ok );
 		if (((JSize) count) != bp->GetIgnoreCount())
 			{
-			(CMGetLink())->SetBreakpointIgnoreCount(bp->GetDebuggerIndex(), count);
+			CMGetLink()->SetBreakpointIgnoreCount(bp->GetDebuggerIndex(), count);
 			}
 		return kJTrue;
 		}
@@ -647,7 +647,7 @@ CMBreakpointTable::ExtractInputData
 		const JBoolean hasCondition = bp->GetCondition(&cond);
 		if (s != cond)
 			{
-			(CMGetLink())->SetBreakpointCondition(bp->GetDebuggerIndex(), s);
+			CMGetLink()->SetBreakpointCondition(bp->GetDebuggerIndex(), s);
 			}
 		return kJTrue;
 		}

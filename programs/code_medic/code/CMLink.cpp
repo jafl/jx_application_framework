@@ -475,7 +475,7 @@ CMLink::NotifyUser
 	const JBoolean		error
 	)
 {
-	(CMGetLink())->Broadcast(UserOutput(msg, error));
+	CMGetLink()->Broadcast(UserOutput(msg, error));
 }
 
 /******************************************************************************
@@ -489,7 +489,7 @@ CMLink::Log
 	const JCharacter* log
 	)
 {
-	(CMGetLink())->Broadcast(DebugOutput(log, kLogType));
+	CMGetLink()->Broadcast(DebugOutput(log, kLogType));
 }
 
 /******************************************************************************

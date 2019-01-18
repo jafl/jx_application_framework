@@ -169,16 +169,16 @@ CMChooseProcessDialog::Receive
 			assert(ok);
 			if (itsAttachToSelectionFlag)
 				{
-				(CMGetLink())->AttachToProcess(pid);
+				CMGetLink()->AttachToProcess(pid);
 				}
 			else
 				{
-				dynamic_cast<GDBLink*>(CMGetLink())->ProgramStarted(pid);
+				dynamic_cast<GDBLink*>CMGetLink()->ProgramStarted(pid);
 				}
 
 			if (itsStopProgramFlag)
 				{
-				(CMGetLink())->StopProgram();
+				CMGetLink()->StopProgram();
 				}
 			}
 		}

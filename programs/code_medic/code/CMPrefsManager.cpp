@@ -216,7 +216,7 @@ CMPrefsManager::UpdatePrefs
 
 	SetGDBCommand(gdbCmd);
 	SetJVMCommand(jvmCmd);
-	(CMGetLink())->ChangeDebugger();
+	CMGetLink()->ChangeDebugger();
 
 	SetEditFileCmds(editFileCmd, editFileLineCmd);
 

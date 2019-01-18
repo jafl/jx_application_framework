@@ -69,7 +69,7 @@ GDBGetBreakpoints::HandleSuccess
 		stream.seekg(newRange.last);
 		if (!GDBLink::ParseMap(stream, &map))
 			{
-			(CMGetLink())->Log("invalid data map");
+			CMGetLink()->Log("invalid data map");
 			break;
 			}
 		origRange.first = origRange.last = ((std::streamoff) stream.tellg()) + 1;
@@ -77,7 +77,7 @@ GDBGetBreakpoints::HandleSuccess
 		JString* s;
 		if (!map.GetElement("type", &s))
 			{
-			(CMGetLink())->Log("missing breakpoint type");
+			CMGetLink()->Log("missing breakpoint type");
 			}
 		else if (*s == "breakpoint")
 			{
@@ -120,18 +120,18 @@ GDBGetBreakpoints::ParseBreakpoint
 	{
 		if (!map.GetElement("line", &s))
 			{
-			(CMGetLink())->Log("warn: missing breakpoint line");
+			CMGetLink()->Log("warn: missing breakpoint line");
 			break;
 			}
 		if (!s->ConvertToUInt(&lineIndex))
 			{
-			(CMGetLink())->Log("warn: line number is not integer");
+			CMGetLink()->Log("warn: line number is not integer");
 			break;
 			}
 
 		if (!map.GetElement("file", &s))
 			{
-			(CMGetLink())->Log("warn: missing breakpoint filename");
+			CMGetLink()->Log("warn: missing breakpoint filename");
 			break;
 			}
 		fileName = *s;
@@ -150,7 +150,7 @@ GDBGetBreakpoints::ParseBreakpoint
 			JIndex i;
 			if (!s->LocateSubstring(":", &i))
 				{
-				(CMGetLink())->Log("warn: missing line number in original-location");
+				CMGetLink()->Log("warn: missing line number in original-location");
 				break;
 				}
 
@@ -159,7 +159,7 @@ GDBGetBreakpoints::ParseBreakpoint
 				JString n = s->GetSubstring(i+1, s->GetLength());
 				if (!n.ConvertToUInt(&lineIndex))
 					{
-					(CMGetLink())->Log("warn: line number is not integer in original-location");
+					CMGetLink()->Log("warn: line number is not integer in original-location");
 					break;
 					}
 
@@ -171,7 +171,7 @@ GDBGetBreakpoints::ParseBreakpoint
 
 	if (fileName.IsEmpty())
 		{
-		(CMGetLink())->Log("unable to parse breakpoint location");
+		CMGetLink()->Log("unable to parse breakpoint location");
 		}
 
 	JString fn;
@@ -263,18 +263,18 @@ GDBGetBreakpoints::ParseCommon
 	JString* s;
 	if (!map.GetElement("number", &s))
 		{
-		(CMGetLink())->Log("missing otherpoint number");
+		CMGetLink()->Log("missing otherpoint number");
 		return kJFalse;
 		}
 	if (!s->ConvertToUInt(bpIndex))
 		{
-		(CMGetLink())->Log("otherpoint number is not integer");
+		CMGetLink()->Log("otherpoint number is not integer");
 		return kJFalse;
 		}
 
 	if (!map.GetElement("disp", &s))
 		{
-		(CMGetLink())->Log("missing otherpoint action");
+		CMGetLink()->Log("missing otherpoint action");
 		return kJFalse;
 		}
 	if (JString::Compare(*s, "del", kJFalse) == 0)
@@ -292,7 +292,7 @@ GDBGetBreakpoints::ParseCommon
 
 	if (!map.GetElement("enabled", &s))
 		{
-		(CMGetLink())->Log("missing otherpoint enable status");
+		CMGetLink()->Log("missing otherpoint enable status");
 		return kJFalse;
 		}
 	*enabled = JI2B(*s == "y" || *s == "Y");
@@ -301,7 +301,7 @@ GDBGetBreakpoints::ParseCommon
 	if (map.GetElement("ignore", &s) && !s->IsEmpty() &&
 		!s->ConvertToUInt(ignoreCount))
 		{
-		(CMGetLink())->Log("ignore count is not integer");
+		CMGetLink()->Log("ignore count is not integer");
 		return kJFalse;
 		}
 

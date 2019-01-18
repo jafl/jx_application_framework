@@ -1179,7 +1179,7 @@ CMArray2DDir::WatchExpression()
 	while (iter.Next(&cell))
 		{
 		expr = GetExpression(cell);
-		(CMGetLink())->WatchExpression(expr);
+		CMGetLink()->WatchExpression(expr);
 		}
 }
 
@@ -1197,7 +1197,7 @@ CMArray2DDir::WatchLocation()
 	while (iter.Next(&cell))
 		{
 		expr = GetExpression(cell);
-		(CMGetLink())->WatchLocation(expr);
+		CMGetLink()->WatchLocation(expr);
 		}
 }
 

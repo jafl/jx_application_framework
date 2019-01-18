@@ -89,7 +89,7 @@ GDBVarTreeParser::yyerror
 
 	std::ostringstream log;
 	log << "yyerror() called: " << message;
-	(CMGetLink())->Log(log);
+	CMGetLink()->Log(log);
 
 	return 0;
 }
@@ -128,7 +128,7 @@ GDBVarTreeParser::AppendAsArrayElement
 {
 	const JString name = "[" + JString((JUInt64) list->GetElementCount()) + "]";
 
-	CMVarNode* node = (CMGetLink())->CreateVarNode(nullptr, name, nullptr, groupLabel);
+	CMVarNode* node = CMGetLink()->CreateVarNode(nullptr, name, nullptr, groupLabel);
 	assert( node != nullptr );
 	list->Append(node);
 
@@ -153,7 +153,7 @@ GDBVarTreeParser::ReportRecoverableError()
 		itsCurrentNode->GetLastChild(&child);
 		child->SetValid(kJFalse);
 
-		child = (CMGetLink())->CreateVarNode(itsCurrentNode,
+		child = CMGetLink()->CreateVarNode(itsCurrentNode,
 					JGetString("ErrorNodeName::GDBVarTreeParser"), nullptr,
 					JGetString("ErrorNodeValue::GDBVarTreeParser"));
 		child->SetValid(kJFalse);

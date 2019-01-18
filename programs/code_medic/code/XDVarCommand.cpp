@@ -28,7 +28,7 @@ XDVarCommand::XDVarCommand
 {
 	SetCommand(cmd);
 
-	itsRootNode = (CMGetLink())->CreateVarNode(kJFalse);
+	itsRootNode = CMGetLink()->CreateVarNode(kJFalse);
 	assert( itsRootNode != nullptr );
 }
 
@@ -53,7 +53,7 @@ XDVarCommand::HandleSuccess
 	const JString& data
 	)
 {
-	XDLink* link = dynamic_cast<XDLink*>(CMGetLink());
+	XDLink* link = dynamic_cast<XDLink*>CMGetLink();
 	xmlNode* root;
 	if (link == nullptr || !link->GetParsedData(&root))
 		{

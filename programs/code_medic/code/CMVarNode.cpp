@@ -35,7 +35,7 @@ CMVarNode::CMVarNode				// root node
 
 	if (itsShouldListenToLinkFlag)
 		{
-		ListenTo(CMGetLink());
+		ListenToCMGetLink();
 		}
 }
 
@@ -403,7 +403,7 @@ CMVarNode::Receive
 		if (!root->HasChildren())
 			{
 			DeleteAllChildren();
-			CMVarNode* child = (CMGetLink())->CreateVarNode(this, root->GetName(),
+			CMVarNode* child = CMGetLink()->CreateVarNode(this, root->GetName(),
 															root->GetFullName(),
 															root->GetValue());
 			assert( child != nullptr );
@@ -425,7 +425,7 @@ CMVarNode::Receive
 			 message.Is(CMVarCommand::kValueFailed))
 		{
 		DeleteAllChildren();
-		CMVarNode* child = (CMGetLink())->CreateVarNode(this, "", "", itsContentCommand->GetData());
+		CMVarNode* child = CMGetLink()->CreateVarNode(this, "", "", itsContentCommand->GetData());
 		assert( child != nullptr );
 		child->SetValid(kJFalse);
 		}
@@ -449,7 +449,7 @@ CMVarNode::ReceiveGoingAway
 {
 	if (itsShouldListenToLinkFlag && !CMIsShuttingDown())
 		{
-		ListenTo(CMGetLink());
+		ListenToCMGetLink();
 		}
 
 	JNamedTreeNode::ReceiveGoingAway(sender);
@@ -591,7 +591,7 @@ CMVarNode::UpdateValue()
 		jdelete itsValueCommand;
 
 		const JString expr = GetFullName();
-		itsValueCommand = (CMGetLink())->CreateVarValueCommand(expr);
+		itsValueCommand = CMGetLink()->CreateVarValueCommand(expr);
 		ListenTo(itsValueCommand);
 
 		SetValid(kJFalse);
@@ -745,7 +745,7 @@ CMVarNode::UpdateContent()
 	jdelete itsContentCommand;
 
 	const JString expr = GetFullName();
-	itsContentCommand = (CMGetLink())->CreateVarContentCommand(expr);
+	itsContentCommand = CMGetLink()->CreateVarContentCommand(expr);
 	ListenTo(itsContentCommand);
 
 	itsContentCommand->CMCommand::Send();

@@ -80,6 +80,6 @@ GDBGetInitArgs::HandleSuccess
 		}
 	else
 		{
-		(CMGetLink())->Log("GDBGetInitArgs failed to match");
+		CMGetLink()->Log("GDBGetInitArgs failed to match");
 		}
 }

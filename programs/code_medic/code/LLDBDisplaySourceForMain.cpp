@@ -33,7 +33,7 @@ LLDBDisplaySourceForMain::LLDBDisplaySourceForMain
 	:
 	CMDisplaySourceForMain(sourceDir, "")
 {
-	ListenTo(CMGetLink());
+	ListenToCMGetLink();
 }
 
 /******************************************************************************
@@ -84,7 +84,7 @@ LLDBDisplaySourceForMain::HandleSuccess
 	const JString& data
 	)
 {
-	lldb::SBTarget t = dynamic_cast<LLDBLink*>(CMGetLink())->GetDebugger()->GetSelectedTarget();
+	lldb::SBTarget t = dynamic_cast<LLDBLink*>CMGetLink()->GetDebugger()->GetSelectedTarget();
 	JBoolean found   = kJFalse;
 	if (t.IsValid())
 		{
@@ -122,8 +122,8 @@ LLDBDisplaySourceForMain::HandleSuccess
 
 	if (!found)
 		{
-		(CMGetLink())->NotifyUser(JGetString("CannotFindMain::LLDBDisplaySourceForMain"), kJTrue);
-		(CMGetLink())->Log("LLDBDisplaySourceForMain failed to find 'main'");
+		CMGetLink()->NotifyUser(JGetString("CannotFindMain::LLDBDisplaySourceForMain"), kJTrue);
+		CMGetLink()->Log("LLDBDisplaySourceForMain failed to find 'main'");
 
 		GetSourceDir()->ClearDisplay();
 		}

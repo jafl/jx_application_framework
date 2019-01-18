@@ -47,7 +47,7 @@ XDWelcomeTask::~XDWelcomeTask()
 void
 XDWelcomeTask::Perform()
 {
-	XDLink* link = dynamic_cast<XDLink*>(CMGetLink());
+	XDLink* link = dynamic_cast<XDLink*>CMGetLink();
 	if (link != nullptr)
 		{
 		link->BroadcastWelcome(itsMessage, itsErrorFlag);

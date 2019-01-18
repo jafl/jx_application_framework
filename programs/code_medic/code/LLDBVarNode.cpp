@@ -144,7 +144,7 @@ LLDBVarNode::BuildTree
 		name.AppendCharacter('>');
 		}
 
-	CMVarNode* node = (CMGetLink())->CreateVarNode(nullptr, name, nullptr, value);
+	CMVarNode* node = CMGetLink()->CreateVarNode(nullptr, name, nullptr, value);
 	assert( node != nullptr );
 
 	if (isPointer)

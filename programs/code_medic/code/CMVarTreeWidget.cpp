@@ -130,7 +130,7 @@ CMVarTreeWidget::CMVarTreeWidget
 
 	SetIndentWidth(kIndentWidth * GetFont().GetCharWidth('0'));
 
-	ListenTo(CMGetLink());
+	ListenToCMGetLink();
 	ListenTo(&(GetTableSelection()));
 
 	if (mainDisplay)
@@ -163,7 +163,7 @@ CMVarTreeWidget::NewExpression
 	const JCharacter* expr1 = JString::IsEmpty(expr) ? "" : expr;
 
 	CMVarNode* node =
-		(CMGetLink())->CreateVarNode((GetTreeList()->GetTree())->GetRoot(),
+		CMGetLink()->CreateVarNode((GetTreeList()->GetTree())->GetRoot(),
 									 expr1, expr1, "");
 	assert( node != nullptr );
 	if (JString::IsEmpty(expr))
@@ -194,7 +194,7 @@ CMVarTreeWidget::DisplayExpression
 	const JCharacter* expr
 	)
 {
-	CMVarNode* node = (CMGetLink())->CreateVarNode(itsTree->GetRoot(), expr, expr, "");
+	CMVarNode* node = CMGetLink()->CreateVarNode(itsTree->GetRoot(), expr, expr, "");
 	assert ( node != nullptr );
 	ShowNode(node);
 	return node;
@@ -237,7 +237,7 @@ CMVarTreeWidget::WatchExpression()
 		assert( node != nullptr );
 
 		expr = node->GetFullName();
-		(CMGetLink())->WatchExpression(expr);
+		CMGetLink()->WatchExpression(expr);
 		}
 
 	ClearIncrementalSearchBuffer();
@@ -261,7 +261,7 @@ CMVarTreeWidget::WatchLocation()
 		assert( node != nullptr );
 
 		expr = node->GetFullName();
-		(CMGetLink())->WatchLocation(expr);
+		CMGetLink()->WatchLocation(expr);
 		}
 
 	ClearIncrementalSearchBuffer();
@@ -852,7 +852,7 @@ CMVarTreeWidget::ExtractInputData
 		if (text != itsOrigEditValue)
 			{
 			const JString name = node->GetFullName();
-			(CMGetLink())->SetValue(name, text);
+			CMGetLink()->SetValue(name, text);
 			}
 		return kJTrue;
 		}
@@ -982,7 +982,7 @@ CMVarTreeWidget::ReceiveGoingAway
 {
 	if (!CMIsShuttingDown())
 		{
-		ListenTo(CMGetLink());
+		ListenToCMGetLink();
 		}
 
 	JXNamedTreeListWidget::ReceiveGoingAway(sender);

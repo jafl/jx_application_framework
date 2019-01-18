@@ -46,7 +46,7 @@ GDBDisplaySourceForMain::GDBDisplaySourceForMain
 	itsHasCoreFlag(kJFalse),
 	itsNextCmdIndex(1)
 {
-	ListenTo(CMGetLink());
+	ListenToCMGetLink();
 }
 
 /******************************************************************************
@@ -75,7 +75,7 @@ GDBDisplaySourceForMain::Receive
 		const CMLink::SymbolsLoaded* info =
 			dynamic_cast<const CMLink::SymbolsLoaded*>(&message);
 		assert( info != nullptr );
-		itsHasCoreFlag = (CMGetLink())->HasCore();
+		itsHasCoreFlag = CMGetLink()->HasCore();
 		if (info->Successful())
 			{
 			itsNextCmdIndex = 1;
@@ -134,7 +134,7 @@ GDBDisplaySourceForMain::HandleSuccess
 			"tbreak_cmd", kBreakCommand[ itsNextCmdIndex-1 ]
 			};
 		const JString cmd = JGetString("RunCommand::GDBDisplaySourceForMain", map, sizeof(map));
-		dynamic_cast<GDBLink*>(CMGetLink())->SendWhenStopped(cmd);
+		dynamic_cast<GDBLink*>CMGetLink()->SendWhenStopped(cmd);
 		}
 	else if (itsNextCmdIndex < kCommandCount)
 		{
@@ -144,20 +144,20 @@ GDBDisplaySourceForMain::HandleSuccess
 		}
 	else
 		{
-		(CMGetLink())->Log("GDBDisplaySourceForMain failed to match");
+		CMGetLink()->Log("GDBDisplaySourceForMain failed to match");
 
 		if (!itsHasCoreFlag)
 			{
 			GetSourceDir()->ClearDisplay();
 			}
 
-		dynamic_cast<GDBLink*>(CMGetLink())->FirstBreakImpossible();
+		dynamic_cast<GDBLink*>CMGetLink()->FirstBreakImpossible();
 
 		const JCharacter* map[] =
 			{
 			"tbreak_cmd", ""
 			};
 		const JString cmd = JGetString("RunCommand::GDBDisplaySourceForMain", map, sizeof(map));
-		dynamic_cast<GDBLink*>(CMGetLink())->SendWhenStopped(cmd);
+		dynamic_cast<GDBLink*>CMGetLink()->SendWhenStopped(cmd);
 		}
 }

@@ -169,7 +169,7 @@ GDBGetLocalVars::HandleSuccess
 			}
 		else
 			{
-			node = (CMGetLink())->CreateVarNode(nullptr, *(nameList.GetElement(i)), nullptr, "");
+			node = CMGetLink()->CreateVarNode(nullptr, *(nameList.GetElement(i)), nullptr, "");
 			assert( node != nullptr );
 			itsRootNode->Append(node);	// avoid automatic update
 			}

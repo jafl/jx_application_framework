@@ -94,7 +94,7 @@ CMCommand::~CMCommand()
 
 	if (itsState != kUnassigned)
 		{
-		(CMGetLink())->Cancel(this);
+		CMGetLink()->Cancel(this);
 		}
 }
 
@@ -122,7 +122,7 @@ CMCommand::SetTransactionID
 JBoolean
 CMCommand::Send()
 {
-	return (CMGetLink())->Send(this);
+	return CMGetLink()->Send(this);
 }
 
 /******************************************************************************

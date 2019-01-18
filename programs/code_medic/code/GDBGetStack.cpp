@@ -74,7 +74,7 @@ GDBGetStack::HandleSuccess
 		stream.seekg(newRange.last);
 		if (!GDBLink::ParseMap(stream, &map))
 			{
-			(CMGetLink())->Log("invalid data map");
+			CMGetLink()->Log("invalid data map");
 			break;
 			}
 		origRange.first = origRange.last = ((std::streamoff) stream.tellg()) + 1;
@@ -83,12 +83,12 @@ GDBGetStack::HandleSuccess
 		JIndex frameIndex;
 		if (!map.GetElement("level", &s))
 			{
-			(CMGetLink())->Log("missing frame index");
+			CMGetLink()->Log("missing frame index");
 			continue;
 			}
 		if (!s->ConvertToUInt(&frameIndex))
 			{
-			(CMGetLink())->Log("frame index is not integer");
+			CMGetLink()->Log("frame index is not integer");
 			continue;
 			}
 
@@ -102,7 +102,7 @@ GDBGetStack::HandleSuccess
 		JString* fnName;
 		if (!map.GetElement("func", &fnName))
 			{
-			(CMGetLink())->Log("missing function name");
+			CMGetLink()->Log("missing function name");
 			continue;
 			}
 		frameName += *fnName;
@@ -116,7 +116,7 @@ GDBGetStack::HandleSuccess
 		if (map.GetElement("line", &s) &&
 			!s->ConvertToUInt(&lineIndex))
 			{
-			(CMGetLink())->Log("line number is not integer");
+			CMGetLink()->Log("line number is not integer");
 			continue;
 			}
 

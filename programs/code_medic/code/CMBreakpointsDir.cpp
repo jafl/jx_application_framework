@@ -98,7 +98,7 @@ CMBreakpointsDir::CMBreakpointsDir
 	itsCommandDir(supervisor)
 {
 	BuildWindow(supervisor);
-	ListenTo(CMGetLink());
+	ListenToCMGetLink();
 	ListenTo(CMGetLink()->GetBreakpointManager());
 }
 
@@ -333,7 +333,7 @@ CMBreakpointsDir::ReceiveGoingAway
 {
 	if (!CMIsShuttingDown())
 		{
-		ListenTo(CMGetLink());
+		ListenToCMGetLink();
 		ListenTo(CMGetLink()->GetBreakpointManager());
 		}
 
@@ -407,16 +407,16 @@ CMBreakpointsDir::HandleActionMenu
 {
 	if (index == kEnableAllBreakpointsCmd)
 		{
-		(CMGetLink())->GetBreakpointManager()->EnableAll();
+		CMGetLink()->GetBreakpointManager()->EnableAll();
 		}
 	else if (index == kDisableAllBreakpointsCmd)
 		{
-		(CMGetLink())->GetBreakpointManager()->DisableAll();
+		CMGetLink()->GetBreakpointManager()->DisableAll();
 		}
 
 	else if (index == kRemoveAllBreakpointsCmd)
 		{
-		(CMGetLink())->RemoveAllBreakpoints();
+		CMGetLink()->RemoveAllBreakpoints();
 		}
 }
 
