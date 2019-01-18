@@ -14,6 +14,8 @@ Please send all bug reports and suggestions for features to
 
 <h3> 4.2.3 </h3>
 
+Added options to enable or disable all breakpoints in the Breakpoints window.
+<p>
 Fixed bug so breakpoints are now displayed in disassembly windows.
 <p>
 Fixed bug in displaying instruction addresses in disassembly windows.

@@ -46,11 +46,15 @@ enum
 
 static const JCharacter* kActionMenuTitleStr = "Actions";
 static const JCharacter* kActionMenuStr =
-	"Remove all breakpoints %k Ctrl-X %i" kCMClearAllBreakpointsAction;
+	"    Enable all breakpoints           %i" kCMEnableAllBreakpointsAction
+	"  | Disable all breakpoints          %i" kCMDisableAllBreakpointsAction
+	"%l| Remove all breakpoints %k Ctrl-X %i" kCMClearAllBreakpointsAction;
 
 enum
 {
-	kRemoveAllBreakpointsCmd = 1
+	kEnableAllBreakpointsCmd = 1,
+	kDisableAllBreakpointsCmd,
+	kRemoveAllBreakpointsCmd
 };
 
 // Windows menu
@@ -385,6 +389,8 @@ CMBreakpointsDir::UpdateActionMenu()
 	CMLink* link = CMGetLink();
 	if (link != NULL)
 		{
+		itsActionMenu->EnableItem(kEnableAllBreakpointsCmd);
+		itsActionMenu->EnableItem(kDisableAllBreakpointsCmd);
 		itsActionMenu->EnableItem(kRemoveAllBreakpointsCmd);
 		}
 }
@@ -400,7 +406,16 @@ CMBreakpointsDir::HandleActionMenu
 	const JIndex index
 	)
 {
-	if (index == kRemoveAllBreakpointsCmd)
+	if (index == kEnableAllBreakpointsCmd)
+		{
+		(CMGetLink())->GetBreakpointManager()->EnableAll();
+		}
+	else if (index == kDisableAllBreakpointsCmd)
+		{
+		(CMGetLink())->GetBreakpointManager()->DisableAll();
+		}
+
+	else if (index == kRemoveAllBreakpointsCmd)
 		{
 		(CMGetLink())->RemoveAllBreakpoints();
 		}
