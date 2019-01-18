@@ -42,11 +42,11 @@ CBJavaTree::CBJavaTree
 
 CBJavaTree::CBJavaTree
 	(
-	std::istream&			projInput,
+	std::istream&		projInput,
 	const JFileVersion	projVers,
-	std::istream*			setInput,
+	std::istream*		setInput,
 	const JFileVersion	setVers,
-	std::istream*			symInput,
+	std::istream*		symInput,
 	const JFileVersion	symVers,
 	CBJavaTreeDirector*	director,
 	const JSize			marginWidth,

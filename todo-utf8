@@ -1,7 +1,3 @@
-JListIterator:  Next(MatchFunction)
-
-
-
 JStyledText
 	undo outdent doesn't work correctly when:
 		outdent, press return to move to next line, (repeat)
