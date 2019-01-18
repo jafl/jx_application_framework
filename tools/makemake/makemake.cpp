@@ -1447,12 +1447,6 @@ CalcDepend
 	char*		argv[]
 	)
 {
-	// we don't bother to clean up at the end
-
-	(JMemoryManager::Instance())->CancelRecordAllocated();
-	(JMemoryManager::Instance())->CancelRecordDeallocated();
-	(JMemoryManager::Instance())->SetPrintExitStats(kJFalse);
-
 	// apply environment variables
 
 	const JUtf8Byte* env = getenv("J_MAKEMAKE_IGNORE_PATTERN");
