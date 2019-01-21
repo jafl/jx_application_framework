@@ -101,8 +101,8 @@ public:
 	JBoolean			IsImplemented(const JIndex index) const;
 	virtual JBoolean	IsInherited(const JIndex index, const InheritType inherit,
 									FnAccessLevel* access) const;
-	void				AddFunction(const JString& name, const FnAccessLevel access,
-									const JBoolean implemented);
+	void				AddFunction(const JString& name, const JIndex lineIndex,
+									const FnAccessLevel access, const JBoolean implemented);
 	JBoolean			Implements(const JString& name, const JBoolean caseSensitive) const;
 
 	JBoolean	ViewDefinition(const JString& fnName,
@@ -197,19 +197,22 @@ private:
 	struct FunctionInfo
 	{
 		JString*		name;
+		JIndex			lineIndex;
 		FnAccessLevel	access;
 		JBoolean		implemented;
 
 		FunctionInfo()
 			:
 			name(NULL),
+			lineIndex(0),
 			access(kPublicAccess),
 			implemented(kJTrue)
 			{ };
 
-		FunctionInfo(JString* n, const FnAccessLevel level, const JBoolean impl)
+		FunctionInfo(JString* n, const JIndex line, const FnAccessLevel level, const JBoolean impl)
 			:
 			name(n),
+			lineIndex(line),
 			access(level),
 			implemented(impl)
 			{ };

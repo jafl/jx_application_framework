@@ -759,11 +759,12 @@ void
 CBClass::AddFunction
 	(
 	const JString&		name,
+	const JIndex		lineIndex,
 	const FnAccessLevel	access,
 	const JBoolean		implemented
 	)
 {
-	FunctionInfo fInfo(jnew JString(name), access, implemented);
+	FunctionInfo fInfo(jnew JString(name), lineIndex, access, implemented);
 	assert( fInfo.name != NULL );
 
 	itsFunctionInfo->InsertSorted(fInfo);
