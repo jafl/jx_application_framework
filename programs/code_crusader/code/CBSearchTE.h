@@ -15,10 +15,10 @@ class CBSearchTE : public JTextEditor
 {
 public:
 
-	static const JCharacter kNewMatchLine;
-	static const JCharacter kRepeatMatchLine;
-	static const JCharacter kIncrementProgress;
-	static const JCharacter kError;
+	static const JUtf8Byte kNewMatchLine;
+	static const JUtf8Byte kRepeatMatchLine;
+	static const JUtf8Byte kIncrementProgress;
+	static const JUtf8Byte kError;
 
 public:
 
@@ -36,27 +36,26 @@ public:
 
 	static void	SetProtocol(CBSearchDocument::RecordLink* link);
 
-	virtual JBoolean	TEHasSearchText() const;
+	virtual JBoolean	TEHasSearchText() const override;
 
 protected:
 
-	virtual void		TERefresh();
-	virtual void		TERefreshRect(const JRect& rect);
-	virtual void		TERedraw();
+	virtual void		TERefresh() override;
+	virtual void		TERefreshRect(const JRect& rect) override;
+	virtual void		TERedraw() override;
 	virtual void		TESetGUIBounds(const JCoordinate w, const JCoordinate h,
-									   const JCoordinate changeY);
-	virtual JBoolean	TEWidthIsBeyondDisplayCapacity(const JSize width) const;
+									   const JCoordinate changeY) override;
+	virtual JBoolean	TEWidthIsBeyondDisplayCapacity(const JSize width) const override;
 	virtual JBoolean	TEScrollToRect(const JRect& rect,
-									   const JBoolean centerInDisplay);
-	virtual JBoolean	TEScrollForDrag(const JPoint& pt);
-	virtual JBoolean	TEScrollForDND(const JPoint& pt);
-	virtual void		TESetVertScrollStep(const JCoordinate vStep);
-	virtual void		TEClipboardChanged();
-	virtual JBoolean	TEGetExternalClipboard(JString* text, JRunArray<JFont>* style) const;
-	virtual void		TEDisplayBusyCursor() const;
-	virtual JBoolean	TEBeginDND();
-	virtual void		TEPasteDropData();
-	virtual void		TECaretShouldBlink(const JBoolean blink);
+									   const JBoolean centerInDisplay) override;
+	virtual JBoolean	TEScrollForDrag(const JPoint& pt) override;
+	virtual JBoolean	TEScrollForDND(const JPoint& pt) override;
+	virtual void		TESetVertScrollStep(const JCoordinate vStep) override;
+	virtual void		TEUpdateClipboard(const JString& text, const JRunArray<JFont>& style) const override;
+	virtual JBoolean	TEGetClipboard(JString* text, JRunArray<JFont>* style) const override;
+	virtual JBoolean	TEBeginDND() override;
+	virtual void		TEPasteDropData() override;
+	virtual void		TECaretShouldBlink(const JBoolean blink) override;
 
 private:
 

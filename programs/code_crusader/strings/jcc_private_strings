@@ -62,75 +62,6 @@ Text editor and UNIX development enviroment
 
 $copyright"
 
-# CBMDIServer
-#2345678901234567890123456789012345678901234567890123456789012345678901234567890
-
-CommandLineHelp::CBMDIServer
-
-"Code Crusader $version
-
-$copyright
-
-This X application provides a plain text editor and a UNIX development
-environment.
-
-Because Code Crusader fully supports the Multiple Document concept,
-it can be safely invoked from the command line or via a file manager
-as often as you like.
-
-Usage:
-  project_file_name
-  +line_number text_file_name
-  text_file_name:line_number
-
---help             prints this help
---version          prints version information
---iconic           files following this will open in iconified windows
---no-iconic        files following this will open in regular windows
---dock             files following this will open docked, if appropriate
---no-dock          files following this will open undocked, regardless
---force-reload     files following this will reload from disk if already open
---no-force-reload  turns off --force-reload
---reload-open      reload all open files from disk (also --force-reload-open)
---reopen           projects following this will reopen text files
---no-reopen        projects following this will not reopen text files
---man              page_name              : displays man page
---man              section_name page_name : displays man page from given section
---man              -k search_string       : displays list of relevant man pages
---apropos          search_string          : displays list of relevant man pages
---search           sets multifile search list to the remaining arguments
---add-search       adds the remaining arguments to the multifile search list
---diff             file1 file2 : compare two files
-                   file dir : compare file with same name in dir
-                   file : compare file with backup (~) or crash save (#)
---diff-silent      same as --diff, but don't report if files are identical
---cvs-diff         file : compare file with latest commit
-                   r1 file : compare file with revision r1
-                   r1:r2 file : compare file revision r1 with file revision r2
---cvs-diff-silent  same as --cvs-diff, but don't report if files are identical
---svn-diff         file : compare file with latest commit
-                   r1 file : compare file with revision r1
-                   r1:r2 file : compare file revision r1 with file revision r2
---svn-diff-silent  same as --svn-diff, but don't report if files are identical
---git-diff         file : compare file with latest commit
-                   c1 file : compare file with commit c1
-                   c1:c2 file : compare file commit c1 with file commit c2
---git-diff-silent  same as --git-diff, but don't report if files are identical
---vcs-commit       file_name : for use as Version Control System commit editor
--display           display_name : connect to the specified X display
---quit             same as Quit option on File menu; for switching displays
-
-Note that the --man option is designed so you can alias \"man\" to \"jcc --man\"
-and \"apropos\" to \"jcc --apropos\".  (Of course, this will only work if you
-are running X.)
-
-If you select an external editor (e.g. emacs or vi), then you must start Code
-Crusader with a project file.  Otherwise, it will quit immediately.  You can
-use the special option --turn-off-external-editor to get out of this situation
-if you do not have any project files."
-
-#2345678901234567890123456789012345678901234567890123456789012345678901234567890
-
 # CBDocumentManager
 
 NotAFile::CBDocumentManager					"\"$f\" is not a regular file, so it cannot be opened."
@@ -200,11 +131,17 @@ WaitCloseMsg::CBExecOutputDocument
 
 # CBSearchDocument
 
-SearchTitle::CBSearchDocument	"Search: $s"
-ReplaceTitle::CBSearchDocument	"Replace: $s --> $r"
+SearchTitle::CBSearchDocument		"Search: $s"
+ReplaceTitle::CBSearchDocument		"Replace: $s --> $r"
+MatchMenuTitle::CBSearchDocument	"Matches"
 
 NoCloseWhileSearching::CBSearchDocument
 "You cannot close the Search Output window until the search is finished."
+
+NoMatches::CBSearchDocument
+"
+
+Nothing matched"
 
 # CBShellDocument
 

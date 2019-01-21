@@ -40,7 +40,6 @@ CBSearchFontManager::GetFontNames
 	(
 	JPtrArray<JString>* fontNames
 	)
-	const
 {
 	fontNames->CleanOut();
 }
@@ -55,7 +54,6 @@ CBSearchFontManager::GetMonospaceFontNames
 	(
 	JPtrArray<JString>* fontNames
 	)
-	const
 {
 	fontNames->CleanOut();
 }
@@ -68,63 +66,15 @@ CBSearchFontManager::GetMonospaceFontNames
 JBoolean
 CBSearchFontManager::GetFontSizes
 	(
-	const JCharacter*	name,
-	JSize*				minSize,
-	JSize*				maxSize,
-	JArray<JSize>*		sizeList
+	const JString&	name,
+	JSize*			minSize,
+	JSize*			maxSize,
+	JArray<JSize>*	sizeList
 	)
-	const
 {
 	*minSize = *maxSize = 0;
 	sizeList->RemoveAll();
 	return kJFalse;
-}
-
-/******************************************************************************
- GetFontID (virtual)
-
- ******************************************************************************/
-
-JFontID
-CBSearchFontManager::GetFontID
-	(
-	const JCharacter*	name,
-	const JSize			size,
-	const JFontStyle&	style
-	)
-	const
-{
-	return 0;
-}
-
-/******************************************************************************
- GetFontName (virtual)
-
- ******************************************************************************/
-
-const JCharacter*
-CBSearchFontManager::GetFontName
-	(
-	const JFontID id
-	)
-	const
-{
-	return "font";
-}
-
-/******************************************************************************
- IsExact (virtual)
-
- ******************************************************************************/
-
-JBoolean
-CBSearchFontManager::IsExact
-	(
-	const JFontID id
-	)
-	const
-{
-	return kJTrue;
 }
 
 /******************************************************************************
@@ -142,7 +92,6 @@ CBSearchFontManager::GetLineHeight
 	JCoordinate*		ascent,
 	JCoordinate*		descent
 	)
-	const
 {
 	*ascent  = 1;
 	*descent = 1;
@@ -157,10 +106,9 @@ CBSearchFontManager::GetLineHeight
 JSize
 CBSearchFontManager::GetCharWidth
 	(
-	const JFontID		fontID,
-	const JCharacter	c
+	const JFontID			fontID,
+	const JUtf8Character&	c
 	)
-	const
 {
 	return 1;
 }
@@ -173,11 +121,54 @@ CBSearchFontManager::GetCharWidth
 JSize
 CBSearchFontManager::GetStringWidth
 	(
-	const JFontID		fontID,
-	const JCharacter*	str,
-	const JSize			charCount
+	const JFontID	fontID,
+	const JString&	str
 	)
-	const
 {
-	return charCount;
+	return str.GetCharacterCount();
+}
+
+/******************************************************************************
+ IsExact (virtual)
+
+ ******************************************************************************/
+
+JBoolean
+CBSearchFontManager::IsExact
+	(
+	const JFontID id
+	)
+{
+	return kJTrue;
+}
+
+/******************************************************************************
+ HasGlyphForCharacter (virtual)
+
+ ******************************************************************************/
+
+JBoolean
+CBSearchFontManager::HasGlyphForCharacter
+	(
+	const JFontID			id,
+	const JUtf8Character&	c
+	)
+{
+	return kJTrue;
+}
+
+/******************************************************************************
+ GetSubstituteFontName (virtual protected)
+
+ ******************************************************************************/
+
+JBoolean
+CBSearchFontManager::GetSubstituteFontName
+	(
+	const JFont&			f,
+	const JUtf8Character&	c,
+	JString*				name
+	)
+{
+	return kJFalse;
 }

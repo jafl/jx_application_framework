@@ -13,6 +13,7 @@ jcc
 
 	test
 		CalcFileType when using a prefix regex
+		search results, incl with multiple matches on a line
 
 -----
 

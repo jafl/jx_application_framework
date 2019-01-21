@@ -30,8 +30,7 @@ const JCoordinate kIndicatorHeight = 10;
 
 // Match menu
 
-static const JCharacter* kMatchMenuTitleStr = "Matches";
-static const JCharacter* kMatchMenuStr =
+static const JUtf8Byte* kMatchMenuStr =
 	"    First match             %k Ctrl-1"
 	"%l| Previous match          %k Meta-minus"		// and Meta-_
 	"  | Next match              %k Meta-plus"
@@ -56,7 +55,7 @@ CBSearchDocument::Create
 	(
 	const JPtrArray<JString>&	fileList,
 	const JPtrArray<JString>&	nameList,
-	const JCharacter*			searchStr,
+	const JString&				searchStr,
 	const JBoolean				onlyListFiles,
 	const JBoolean				listFilesWithoutMatch
 	)
@@ -106,9 +105,9 @@ CBSearchDocument::Create
 		JProcess* process = jnew JProcess(pid);
 		assert( process != nullptr );
 
-		const JCharacter* map[] =
+		const JUtf8Byte* map[] =
 			{
-			"s", searchStr
+			"s", searchStr.GetBytes()
 			};
 		const JString windowTitle = JGetString("SearchTitle::CBSearchDocument", map, sizeof(map));
 
@@ -140,8 +139,8 @@ CBSearchDocument::Create
 	(
 	const JPtrArray<JString>&	fileList,
 	const JPtrArray<JString>&	nameList,
-	const JCharacter*			searchStr,
-	const JCharacter*			replaceStr
+	const JString&				searchStr,
+	const JString&				replaceStr
 	)
 {
 	assert( !fileList.IsEmpty() );
@@ -187,10 +186,10 @@ CBSearchDocument::Create
 		JProcess* process = jnew JProcess(pid);
 		assert( process != nullptr );
 
-		const JCharacter* map[] =
+		const JUtf8Byte* map[] =
 			{
-			"s", searchStr,
-			"r", replaceStr
+			"s", searchStr.GetBytes(),
+			"r", replaceStr.GetBytes()
 			};
 		const JString windowTitle = JGetString("ReplaceTitle::CBSearchDocument", map, sizeof(map));
 
@@ -223,7 +222,7 @@ CBSearchDocument::CBSearchDocument
 	const JSize			fileCount,
 	JProcess*			p,
 	const int			fd,
-	const JCharacter*	windowTitle
+	const JString&		windowTitle
 	)
 	:
 	CBExecOutputDocument(kCBSearchOutputFT, "CBSearchTextHelp-Multifile", kJFalse, kJFalse),
@@ -231,8 +230,7 @@ CBSearchDocument::CBSearchDocument
 	itsOnlyListFilesFlag(onlyListFiles),
 	itsReplaceTE(nullptr)
 {
-	itsFoundFlag       = kJFalse;
-	itsPrevQuoteOffset = 0;
+	itsFoundFlag = kJFalse;
 
 	JXWidget::HSizingOption hSizing;
 	JXWidget::VSizingOption vSizing;
@@ -244,8 +242,7 @@ CBSearchDocument::CBSearchDocument
 	assert( itsIndicator != nullptr );
 	itsIndicator->SetMaxValue(fileCount);
 
-	JXMenuBar* menuBar = GetMenuBar();
-	itsMatchMenu = InsertTextMenu(kMatchMenuTitleStr);
+	itsMatchMenu = InsertTextMenu(JGetString("MatchMenuTitle::CBSearchDocument"));
 	itsMatchMenu->SetMenuItems(kMatchMenuStr, "CBSearchDocument");
 	itsMatchMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsMatchMenu->Deactivate();
@@ -261,7 +258,7 @@ CBSearchDocument::CBSearchDocument
 
 	SetConnection(p, fd, ACE_INVALID_HANDLE,
 				  windowTitle, JGetString("NoCloseWhileSearching::CBSearchDocument"),
-				  "/", windowTitle, kJFalse);
+				  JString("/", kJFalse), windowTitle, kJFalse);
 
 	(CBGetDocumentManager())->SetActiveListDocument(this);
 
@@ -291,8 +288,6 @@ void
 CBSearchDocument::PlaceCmdLineWidgets()
 {
 	CBExecOutputDocument::PlaceCmdLineWidgets();
-
-	JXWindow* window = GetWindow();
 
 	JXWidget::HSizingOption hSizing;
 	JXWidget::VSizingOption vSizing;
@@ -345,9 +340,9 @@ CBSearchDocument::ProcessFinished
 
 	if (!itsFoundFlag)
 		{
-		CBExecOutputDocument::AppendText("\n\nNothing matched");
+		CBExecOutputDocument::AppendText(JGetString("NoMatches::CBSearchDocument"));
 		DataReverted();
-		GetTextEditor()->ClearUndo();
+		GetTextEditor()->GetText()->ClearUndo();
 		}
 	else if (!GetTextEditor()->HasSelection())
 		{
@@ -361,6 +356,9 @@ CBSearchDocument::ProcessFinished
  AppendText (virtual protected)
 
  ******************************************************************************/
+
+static const JString kSingleNewline("\n", kJFalse);
+static const JString kDoubleNewline("\n\n", kJFalse);
 
 void
 CBSearchDocument::AppendText
@@ -377,8 +375,10 @@ CBSearchDocument::AppendText
 	CBTextEditor* te = GetTextEditor();
 
 	itsFoundFlag = kJTrue;
-	const std::string s(text.GetCString(), text.GetLength());
+	const std::string s(text.GetBytes(), text.GetByteCount());
 	std::istringstream input(s);
+
+	JStyledText* st = te->GetText();
 
 	if (text.GetFirstCharacter() == CBSearchTE::kError)
 		{
@@ -386,16 +386,16 @@ CBSearchDocument::AppendText
 		JString msg;
 		JReadAll(input, &msg);
 
-		const JIndex startIndex = te->GetTextLength() + 1;
-		te->SetCaretLocation(startIndex);
+		const JStyledText::TextIndex start = st->GetBeyondEnd();
+		te->SetCaretLocation(start.charIndex);
 		te->Paste(msg);
-		te->Paste("\n");
+		te->Paste(kSingleNewline);
 		if (!itsOnlyListFilesFlag)
 			{
-			te->Paste("\n");
+			te->Paste(kSingleNewline);
 			}
 
-		te->SetFontStyle(startIndex, startIndex + msg.GetLength()-1,
+		st->SetFontStyle(JStyledText::TextRange(start, st->GetBeyondEnd()),
 						 GetErrorStyle(), kJTrue);
 		}
 	else if (itsOnlyListFilesFlag)
@@ -411,58 +411,67 @@ CBSearchDocument::AppendText
 		}
 	else
 		{
-		JCharacter mode;
+		JUtf8Byte mode;
 		input.get(mode);
-
-		const JIndex startIndex    = te->GetTextLength() + 1;
-		const JFontStyle bold      = GetFileNameStyle();
-		const JFontStyle underline = GetMatchStyle();
 
 		if (mode == CBSearchTE::kNewMatchLine)
 			{
 			JString fileName;
-			JIndex lineIndex;
+			JUInt64 lineIndex;
 			JString text1;
-			JIndexRange matchRange;
-			input >> fileName >> lineIndex >> text1 >> matchRange;
+			JCharacterRange matchCharRange;
+			JUtf8ByteRange matchByteRange;
+			input >> fileName >> lineIndex >> text1 >> matchCharRange >> matchByteRange;
 
-			JString fileStr = fileName;
-			fileStr.AppendCharacter(':');
-			fileStr += JString((JUInt64) lineIndex);
-
-			te->SetCaretLocation(startIndex);
-			te->Paste(fileStr);
-			te->Paste("\n\n");
-			const JIndex textOffset = te->GetTextLength();
-			te->Paste(text1);
-			te->Paste("\n\n");
+			JStyledText::TextIndex start = st->GetBeyondEnd();
+			te->SetCaretLocation(start.charIndex);
 
 			// display file name in bold
 
-			te->SetFontStyle(startIndex, startIndex + fileName.GetLength()-1,
-							 bold, kJTrue);
+			te->Paste(fileName);
+			st->SetFontStyle(JStyledText::TextRange(start, st->GetBeyondEnd()),
+							 GetFileNameStyle(), kJTrue);
+
+			// line number
+
+			start = st->GetBeyondEnd();
+			te->SetCurrentFont(st->GetDefaultFont());
+
+			te->Paste(JString(":", kJFalse));
+			te->Paste(JString(lineIndex));
+			te->Paste(kDoubleNewline);
+
+			start           = st->GetBeyondEnd();
+			matchCharRange += start.charIndex - 1;
+			matchByteRange += start.byteIndex - 1;
+
+			te->Paste(text1);
+			te->Paste(kDoubleNewline);
 
 			// underline match
 
-			matchRange += textOffset;
-			te->SetFontStyle(matchRange.first, matchRange.last, underline, kJTrue);
+			st->SetFontStyle(JStyledText::TextRange(matchCharRange, matchByteRange),
+							 GetMatchStyle(), kJTrue);
 
 			// save text range in case of multiple matches
 
-			itsPrevQuoteOffset = textOffset;
+			itsPrevQuoteIndex = start;
 			}
 		else
 			{
 			assert( mode == CBSearchTE::kRepeatMatchLine &&
-					itsPrevQuoteOffset > 0 );
+					itsPrevQuoteIndex.charIndex > 1 );
 
-			JIndexRange matchRange;
-			input >> matchRange;
+			JCharacterRange matchCharRange;
+			JUtf8ByteRange matchByteRange;
+			input >> matchCharRange >> matchByteRange;
 
 			// underline match
 
-			matchRange += itsPrevQuoteOffset;
-			te->SetFontStyle(matchRange.first, matchRange.last, underline, kJTrue);
+			matchCharRange += itsPrevQuoteIndex.charIndex - 1;
+			matchByteRange += itsPrevQuoteIndex.byteIndex - 1;
+			st->SetFontStyle(JStyledText::TextRange(matchCharRange, matchByteRange),
+							 GetMatchStyle(), kJTrue);
 			}
 
 		itsMatchMenu->Activate();
@@ -477,10 +486,10 @@ CBSearchDocument::AppendText
 void
 CBSearchDocument::ReplaceAll
 	(
-	const JCharacter* fileName
+	const JString& fileName
 	)
 {
-	JTextEditor::PlainTextFormat format;
+	JStyledText::PlainTextFormat format;
 
 	JXFileDocument* doc;
 	if ((CBGetDocumentManager())->FileDocumentIsOpen(fileName, &doc))
@@ -492,16 +501,16 @@ CBSearchDocument::ReplaceAll
 
 			CBTextEditor* te = textDoc->GetTextEditor();
 			te->SetCaretLocation(1);
-			te->ReplaceAllForward();
+			te->ReplaceAll(kJFalse);
 			}
 		}
 	else if (JFileReadable(fileName) &&
-			 itsReplaceTE->ReadPlainText(fileName, &format, kJFalse))
+			 itsReplaceTE->GetText()->ReadPlainText(fileName, &format, kJFalse))
 		{
 		itsReplaceTE->SetCaretLocation(1);
 		if (itsReplaceTE->ReplaceAllForward())
 			{
-			itsReplaceTE->WritePlainText(fileName, format);
+			itsReplaceTE->GetText()->WritePlainText(fileName, format);
 			}
 		}
 }
@@ -650,13 +659,23 @@ CBSearchDocument::ShowFirstMatch()
  ******************************************************************************/
 
 JBoolean
+jMatchFileName
+	(
+	const JFont& font
+	)
+{
+	return font.GetStyle().bold;
+}
+
+
+JBoolean
 CBSearchDocument::ShowPrevMatch()
 {
 	CBTextEditor* te = GetTextEditor();
 	te->Focus();
 
 	JBoolean wrapped;
-	if (te->JTextEditor::SearchBackward(MatchFileNameStyle(), kJFalse, &wrapped))
+	if (te->JTextEditor::SearchBackward(jMatchFileName, kJFalse, &wrapped))
 		{
 		te->TEScrollToSelection(kJTrue);
 		return kJTrue;
@@ -680,7 +699,7 @@ CBSearchDocument::ShowNextMatch()
 	te->Focus();
 
 	JBoolean wrapped;
-	if (te->JTextEditor::SearchForward(MatchFileNameStyle(), kJFalse, &wrapped))
+	if (te->JTextEditor::SearchForward(jMatchFileName, kJFalse, &wrapped))
 		{
 		te->TEScrollToSelection(kJTrue);
 		return kJTrue;
@@ -701,7 +720,7 @@ JFontStyle
 CBSearchDocument::GetFileNameStyle()
 	const
 {
-	JFont font = GetTextEditor()->GetDefaultFont();
+	JFont font = GetTextEditor()->GetText()->GetDefaultFont();
 	font.SetBold(kJTrue);
 	return font.GetStyle();
 }
@@ -715,7 +734,7 @@ JFontStyle
 CBSearchDocument::GetMatchStyle()
 	const
 {
-	JFont font = GetTextEditor()->GetDefaultFont();
+	JFont font = GetTextEditor()->GetText()->GetDefaultFont();
 	font.SetUnderlineCount(1);
 	return font.GetStyle();
 }
@@ -732,27 +751,8 @@ JFontStyle
 CBSearchDocument::GetErrorStyle()
 	const
 {
-	JFont font = GetTextEditor()->GetDefaultFont();
+	JFont font = GetTextEditor()->GetText()->GetDefaultFont();
 //	font.SetBold(!itsOnlyListFilesFlag);
-	font.SetColor(GetColormap()->GetDarkRedColor());
+	font.SetColor(JColorManager::GetDarkRedColor());
 	return font.GetStyle();
-}
-
-/******************************************************************************
- MatchFileNameStyle class (private)
-
- ******************************************************************************/
-
-CBSearchDocument::MatchFileNameStyle::~MatchFileNameStyle()
-{
-}
-
-JBoolean
-CBSearchDocument::MatchFileNameStyle::Match
-	(
-	const JFont& font
-	)
-	const
-{
-	return font.GetStyle().bold;
 }

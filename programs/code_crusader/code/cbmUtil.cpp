@@ -828,11 +828,9 @@ CBMBalanceBackward
 JBoolean
 CBMIsCharacterInWord
 	(
-	const JString&	text,
-	const JIndex	charIndex
+	const JUtf8Character& c
 	)
 {
-	const JCharacter c = text.GetCharacter(charIndex);
 	return JI2B( isalnum(c) || c == '_' );
 }
 

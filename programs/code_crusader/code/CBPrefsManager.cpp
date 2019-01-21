@@ -3217,6 +3217,7 @@ CBPrefsManager::GetDefaultComplementSuffix
 	const
 {
 	const JSize count = itsFileTypeList->GetElementCount();
+	JString root, suffix;
 	for (JIndex i=1; i<=count; i++)
 		{
 		FileTypeInfo info = itsFileTypeList->GetElement(i);
@@ -3235,11 +3236,10 @@ CBPrefsManager::GetDefaultComplementSuffix
 					}
 				}
 
-			JString complName = name.GetSubstring(1, name.GetLength() -
-													 (info.suffix)->GetLength());
-			complName += *(info.complSuffix);
-			*index     = i;
-			return complName;
+			JSplitRootAndSuffix(name, &root, &suffix);
+			root  += *info.complSuffix;
+			*index = i;
+			return root;
 			}
 		}
 
@@ -3315,10 +3315,11 @@ CBPrefsManager::CleanFileName
 		{
 		JSplitPathAndName(name, &p, &n);
 
-		while (n.GetLastCharacter() == '~' ||
-			   n.GetLastCharacter() == '#')
+		JStringIterator iter(&n, kJIteratorStartAtEnd);
+		JUtf8Character c;
+		while (iter.Prev(&c) && (c == '~' || c == '#'))
 			{
-			n.RemoveSubstring(n.GetLength(), n.GetLength());
+			iter.RemoveNext();
 			}
 		}
 

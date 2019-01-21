@@ -16,6 +16,7 @@
 #include "cbGlobals.h"
 #include <JXWindow.h>
 #include <JXStandAlonePG.h>
+#include <JStringIterator.h>
 #include <jFileUtil.h>
 #include <jStreamUtil.h>
 #include <jWebUtil.h>
@@ -112,7 +113,7 @@ CBMDIServer::HandleMDIRequest
 			{
 			i++;
 			CBManPageDocument::Create(nullptr, *(argList.GetElement(i)),
-									  JUtf8Character(' '), kJTrue);
+									  JString::empty, kJTrue);
 			lineRange.SetToNothing();
 			restore = kJFalse;
 			}
@@ -244,15 +245,14 @@ CBMDIServer::HandleMDIRequest
 		else if (arg.GetFirstCharacter() == '+' &&
 				 arg.GetCharacterCount() > 1)
 			{
-			const JString s = arg.GetSubstring(2, arg.GetLength());
-			if (s.ConvertToUInt(&(lineRange.first)))
+			if (JString::ConvertToUInt(arg.GetBytes()+1, &lineRange.first))
 				{
 				lineRange.last = lineRange.first;
 				}
 			else
 				{
 				lineRange.SetToNothing();
-				std::cerr << execName << ": invalid line number " << s << std::endl;
+				std::cerr << execName << ": invalid line number " << arg << std::endl;
 				}
 			}
 		else
@@ -364,19 +364,19 @@ CBMDIServer::DisplayManPage
 
 	if (arg2 != nullptr && !arg2->IsEmpty() && arg2->GetFirstCharacter() != '-')
 		{
-		if (arg1->GetLength() == 1)
-			{
-			// display page of specified section
-
-			CBManPageDocument::Create(nullptr, *arg2, arg1->GetFirstCharacter());
-			*index += 2;
-			return;
-			}
-		else if (*arg1 == "-k")
+		if (*arg1 == "-k")
 			{
 			// apropos
 
-			CBManPageDocument::Create(nullptr, *arg2, JUtf8Character(' '), kJTrue);
+			CBManPageDocument::Create(nullptr, *arg2, JString::empty, kJTrue);
+			*index += 2;
+			return;
+			}
+		else
+			{
+			// display page of specified section
+
+			CBManPageDocument::Create(nullptr, *arg2, *arg1);
 			*index += 2;
 			return;
 			}
@@ -454,7 +454,7 @@ CBMDIServer::DisplayFileDiffs
 	JSize count = 0;
 	if (*index < argCount-1)
 		{
-		const JString* arg2    = argList.GetElement((*index)+2);
+		const JString* arg2    = argList.GetElement(*index+2);
 		const JUtf8Character c = arg2->IsEmpty() ? JUtf8Character(' ') : arg2->GetFirstCharacter();
 		count                  = (c == '-' || c == '+') ? 1 : 2;
 		}
@@ -466,17 +466,22 @@ CBMDIServer::DisplayFileDiffs
 	JString file1, file2;
 	if (count == 1)
 		{
-		file2 = *(argList.GetElement((*index)+1));
+		file2 = *argList.GetElement(*index+1);
 		if (file2.BeginsWith("#"))	// allows empty argument
 			{
 			file1 = file2;
-			while (file1.GetFirstCharacter() == '#')
+
+			JStringIterator iter(&file1);
+			JUtf8Character c;
+			while (iter.Next(&c) && c == '#')
 				{
-				file1.RemoveSubstring(1, 1);
+				iter.RemovePrev();
 				}
-			while (file1.GetLastCharacter() == '#')
+
+			iter.MoveTo(kJIteratorStartAtEnd, 0);
+			while (iter.Prev(&c) && c == '#')
 				{
-				file1.RemoveSubstring(file1.GetLength(), file1.GetLength());
+				iter.RemoveNext();
 				}
 			}
 		else
@@ -486,8 +491,8 @@ CBMDIServer::DisplayFileDiffs
 		}
 	else if (count == 2)
 		{
-		file1 = *(argList.GetElement((*index)+1));
-		file2 = *(argList.GetElement((*index)+2));
+		file1 = *argList.GetElement(*index+1);
+		file2 = *argList.GetElement(*index+2);
 
 		if (JFileExists(file1) && JDirectoryExists(file2))
 			{
@@ -550,9 +555,9 @@ CBMDIServer::DisplayVCSDiffs
 	JSize count = 0;
 	if (*index < argCount-1)
 		{
-		const JString* arg2 = argList.GetElement((*index)+2);
-		const JCharacter c  = arg2->IsEmpty() ? JUtf8Character(' ') : arg2->GetFirstCharacter();
-		count               = (c == '-' || c == '+') ? 1 : 2;
+		const JString* arg2    = argList.GetElement(*index+2);
+		const JUtf8Character c = arg2->IsEmpty() ? JUtf8Character(' ') : arg2->GetFirstCharacter();
+		count                  = (c == '-' || c == '+') ? 1 : 2;
 		}
 	else if (*index == argCount-1)
 		{
@@ -562,19 +567,20 @@ CBMDIServer::DisplayVCSDiffs
 	JString file, rev1, rev2;
 	if (count == 1)
 		{
-		file = *(argList.GetElement((*index)+1));
+		file = *argList.GetElement(*index+1);
 		}
 	else if (count == 2)
 		{
-		file = *(argList.GetElement((*index)+2));
+		file = *argList.GetElement(*index+2);
 
-		const JString* r = argList.GetElement((*index)+1);
-		JIndex i;
-		if (r->LocateSubstring(":", &i) &&
-			1 < i && i < r->GetLength())
+		const JString* r = argList.GetElement(*index+1);
+
+		JPtrArray<JString> s(JPtrArrayT::kDeleteAll);
+		r->Split(":", &s, 2);
+		if (s.GetElementCount() == 2)
 			{
-			rev1 = r->GetSubstring(1, i-1);
-			rev2 = r->GetSubstring(i+1, r->GetLength());
+			rev1 = *s.GetElement(1);
+			rev2 = *s.GetElement(2);
 			}
 		else
 			{

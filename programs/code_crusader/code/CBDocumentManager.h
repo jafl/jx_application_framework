@@ -115,9 +115,6 @@ public:
 									  const CBTextFileType inputType,
 									  JXFileDocument** doc) const;
 
-	JBoolean	SearchFile(const JString& fileName, const JString& searchPattern,
-						   const JBoolean caseSensitive, JIndex* lineIndex) const;
-
 	JPtrArray<CBProjectDocument>*	GetProjectDocList() const;
 	JPtrArray<CBTextDocument>*		GetTextDocList() const;
 
@@ -215,9 +212,6 @@ private:
 	JBoolean	FindOpenComplementFile(const JString& inputName,
 									   const CBTextFileType outputType,
 									   JXFileDocument** doc) const;
-
-	JBoolean	SearchLine(const JString& text, const JRegex& pattern,
-						   JIndex* charIndex) const;
 
 	// not allowed
 

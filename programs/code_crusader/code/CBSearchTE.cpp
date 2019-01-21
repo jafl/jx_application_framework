@@ -23,14 +23,14 @@
 
 const JSize kMaxQuoteLength = 500;
 
-static const JCharacter* kDisconnectStr         = "\0";
-const JCharacter kDisconnect                    = '\0';
-static const JCharacter* kRecordTerminatorStr   = "\1";
-const JCharacter kRecordTerminator              = '\1';
-const JCharacter CBSearchTE::kNewMatchLine      = '\2';
-const JCharacter CBSearchTE::kRepeatMatchLine   = '\3';
-const JCharacter CBSearchTE::kIncrementProgress = '\4';
-const JCharacter CBSearchTE::kError             = '\5';
+static const JUtf8Byte* kDisconnectStr         = "\0";
+const JUtf8Byte kDisconnect                    = '\0';
+static const JUtf8Byte* kRecordTerminatorStr   = "\1";
+const JUtf8Byte kRecordTerminator              = '\1';
+const JUtf8Byte CBSearchTE::kNewMatchLine      = '\2';
+const JUtf8Byte CBSearchTE::kRepeatMatchLine   = '\3';
+const JUtf8Byte CBSearchTE::kIncrementProgress = '\4';
+const JUtf8Byte CBSearchTE::kError             = '\5';
 
 /******************************************************************************
  Constructor
@@ -227,7 +227,8 @@ CBSearchTE::SearchFile
 					matchRange += 3;
 					}
 				output << kRepeatMatchLine;
-				output << ' ' << matchRange;
+				output << ' ' << matchCharRange;
+				output << ' ' << matchByteRange;
 				}
 			else
 				{
@@ -253,7 +254,8 @@ CBSearchTE::SearchFile
 				output << ' ' << printName;
 				output << ' ' << GetLineForChar(quoteRange.first);
 				output << ' ' << quoteText;
-				output << ' ' << matchRange;
+				output << ' ' << matchCharRange;
+				output << ' ' << matchByteRange;
 				}
 			output << kRecordTerminator;
 
@@ -453,22 +455,26 @@ CBSearchTE::TESetVertScrollStep
 }
 
 /******************************************************************************
- TEClipboardChanged (virtual protected)
+ TEUpdateClipboard (virtual protected)
 
  ******************************************************************************/
 
 void
-CBSearchTE::TEClipboardChanged()
+CBSearchTE::TEUpdateClipboard
+	(
+	const JString&			text,
+	const JRunArray<JFont>&	style
+	)
 {
 }
 
 /******************************************************************************
- TEGetExternalClipboard (virtual protected)
+ TEGetClipboard (virtual protected)
 
  ******************************************************************************/
 
 JBoolean
-CBSearchTE::TEGetExternalClipboard
+CBSearchTE::TEGetClipboard
 	(
 	JString*			text,
 	JRunArray<JFont>*	style

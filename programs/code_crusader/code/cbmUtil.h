@@ -27,7 +27,7 @@ void	CBMParseEditorOptions(const JString& fullName, const JString& text,
 void		CBMScrollForDefinition(JXTEBase* te, const CBLanguage lang);
 void		CBMSelectLines(JTextEditor* te, const JIndexRange& origRange);
 void		CBMBalanceFromSelection(JXTEBase* te, const CBLanguage lang);
-JBoolean	CBMIsCharacterInWord(const JString& text, const JIndex charIndex);
+JBoolean	CBMIsCharacterInWord(const JUtf8Character& c);
 
 	// for use by dialogs
 

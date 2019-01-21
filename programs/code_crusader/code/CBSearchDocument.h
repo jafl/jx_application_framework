@@ -52,10 +52,10 @@ protected:
 
 private:
 
-	const JBoolean	itsIsReplaceFlag;
-	const JBoolean	itsOnlyListFilesFlag;
-	JBoolean		itsFoundFlag;			// kJTrue => something matched
-	JSize			itsPrevQuoteOffset;		// start of previous quote from file
+	const JBoolean			itsIsReplaceFlag;
+	const JBoolean			itsOnlyListFilesFlag;
+	JBoolean				itsFoundFlag;			// kJTrue => something matched
+	JStyledText::TextIndex	itsPrevQuoteIndex;		// start of previous quote from file
 
 	JXTextMenu*				itsMatchMenu;
 	JXProgressIndicator*	itsIndicator;	// nullptr after ProcessFinished()
@@ -75,14 +75,6 @@ private:
 	JFontStyle	GetFileNameStyle() const;
 	JFontStyle	GetMatchStyle() const;
 	JFontStyle	GetErrorStyle() const;
-
-	class MatchFileNameStyle : public JStyledText::FontMatch
-	{
-	public:
-
-		virtual ~MatchFileNameStyle();
-		virtual JBoolean	Match(const JFont&) const;
-	};
 
 	// not allowed
 

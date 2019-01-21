@@ -925,6 +925,10 @@ T
 F
 "./strings/jcc_private_strings"
 T
+2 "jcc_cmd_line_strings"
+F
+"./strings/jcc_cmd_line_strings"
+T
 2 "jcc_medic_shared_strings"
 F
 "./strings/jcc_medic_shared_strings"

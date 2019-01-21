@@ -17,17 +17,17 @@ class CBManPageDocument : public CBTextDocument
 public:
 
 	static JBoolean	Create(CBManPageDocument** doc, const JString& pageName,
-						   const JUtf8Character pageIndex = JUtf8Character(' '),
+						   const JString& pageIndex = JString::empty,
 						   const JBoolean apropos = kJFalse);
 
 	virtual ~CBManPageDocument();
 
 protected:
 
-	CBManPageDocument(const JString& pageName, const JUtf8Character pageIndex,
+	CBManPageDocument(const JString& pageName, const JString& pageIndex,
 					  const JBoolean apropos, CBManPageDocument** trueDoc);
 
-	static JString	GetCmd1(const JString& pageName, const JUtf8Character pageIndex);
+	static JString	GetCmd1(const JString& pageName, const JString& pageIndex);
 	static JString	GetCmd2(const JString& pageName);
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;

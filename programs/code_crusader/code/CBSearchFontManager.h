@@ -18,26 +18,23 @@ public:
 
 	virtual ~CBSearchFontManager();
 
-	virtual void		GetFontNames(JPtrArray<JString>* fontNames) const;
-	virtual void		GetMonospaceFontNames(JPtrArray<JString>* fontNames) const;
-	virtual JBoolean	GetFontSizes(const JCharacter* name, JSize* minSize,
-									 JSize* maxSize, JArray<JSize>* sizeList) const;
+	virtual void		GetFontNames(JPtrArray<JString>* fontNames) override;
+	virtual void		GetMonospaceFontNames(JPtrArray<JString>* fontNames) override;
+	virtual JBoolean	GetFontSizes(const JString& name, JSize* minSize,
+									 JSize* maxSize, JArray<JSize>* sizeList) override;
 
 protected:
 
-	virtual JFontID				GetFontID(const JCharacter* name, const JSize size,
-										  const JFontStyle& style) const;
-	virtual const JCharacter*	GetFontName(const JFontID id) const;
-	virtual JBoolean			IsExact(const JFontID id) const;
-
 	virtual JSize	GetLineHeight(const JFontID fontID, const JSize size,
 								  const JFontStyle& style,
-								  JCoordinate* ascent, JCoordinate* descent) const;
+								  JCoordinate* ascent, JCoordinate* descent) override;
 
-	virtual JSize	GetCharWidth(const JFontID fontID, const JCharacter c) const;
+	virtual JSize	GetCharWidth(const JFontID fontID, const JUtf8Character& c) override;
+	virtual JSize	GetStringWidth(const JFontID fontID, const JString& str) override;
 
-	virtual JSize	GetStringWidth(const JFontID fontID,
-								   const JCharacter* str, const JSize charCount) const;
+	virtual JBoolean	IsExact(const JFontID id) override;
+	virtual JBoolean	HasGlyphForCharacter(const JFontID id, const JUtf8Character& c) override;
+	virtual JBoolean	GetSubstituteFontName(const JFont& f, const JUtf8Character& c, JString* name) override;
 
 private:
 
