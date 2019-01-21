@@ -121,6 +121,50 @@ CBCClass::NewGhost
 }
 
 /******************************************************************************
+ IsInherited (virtual)
+
+	Returns kJTrue if the specified function is inherited by derived classes.
+	Constructors, destructors, and private functions are not inherited.
+
+	If it is inherited, *access contains the access level adjusted according
+	to the inheritance access.
+
+ ******************************************************************************/
+
+JBoolean
+CBCClass::IsInherited
+	(
+	const JIndex		index,
+	const InheritType	inherit,
+	FnAccessLevel*		access
+	)
+	const
+{
+	const JString& fnName = GetFunctionName(index);
+	*access               = GetFnAccessLevel(index);
+
+	if (*access != kPrivateAccess &&			// private
+		fnName.GetFirstCharacter() != '~' &&	// dtor
+		fnName != GetName())					// ctor
+		{
+		if (inherit == kInheritPrivate)
+			{
+			*access = kPrivateAccess;
+			}
+		else if (inherit == kInheritProtected &&
+				 *access == kPublicAccess)
+			{
+			*access = kProtectedAccess;
+			}
+		return kJTrue;
+		}
+	else
+		{
+		return kJFalse;
+		}
+}
+
+/******************************************************************************
  AdjustNameStyle (virtual protected)
 
  ******************************************************************************/

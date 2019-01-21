@@ -46,6 +46,18 @@ public:
 		kInheritJavaDefault
 	};
 
+	enum FnAccessLevel
+	{
+		kPublicAccess = 0,
+		kProtectedAccess,
+		kPrivateAccess,
+		kJavaDefaultAccess,
+		kUnusedQtSignalAccess,
+		kUnusedQtPublicSlotAccess,
+		kUnusedQtProtectedSlotAccess,
+		kUnusedQtPrivateSlotAccess
+	};
+
 public:
 
 	virtual ~CBClass();
@@ -83,6 +95,23 @@ public:
 	JBoolean		HasPrimaryChildren() const;
 	JBoolean		HasSecondaryChildren() const;
 
+	JSize				GetFunctionCount() const;
+	const JString&		GetFunctionName(const JIndex index) const;
+	FnAccessLevel		GetFnAccessLevel(const JIndex index) const;
+	JBoolean			IsImplemented(const JIndex index) const;
+	virtual JBoolean	IsInherited(const JIndex index, const InheritType inherit,
+									FnAccessLevel* access) const;
+	void				AddFunction(const JString& name, const FnAccessLevel access,
+									const JBoolean implemented);
+	JBoolean			Implements(const JString& name, const JBoolean caseSensitive) const;
+
+	JBoolean	ViewDefinition(const JString& fnName,
+							   const JBoolean caseSensitive,
+							   const JBoolean reportNotFound = kJTrue) const;
+	JBoolean	ViewDeclaration(const JString& fnName,
+								const JBoolean caseSensitive,
+								const JBoolean reportNotFound = kJTrue) const;
+
 	void	Draw(JPainter& p, const JRect& rect) const;
 	void	DrawMILinks(JPainter& p, const JRect& rect) const;
 	void	DrawText(JPainter& p, const JRect& rect) const;
@@ -109,7 +138,7 @@ public:
 	virtual void	StreamOut(std::ostream& output) const;
 
 	static JColorID	GetGhostNameColor();
-	static void			SetGhostNameColor(const JColorID color);
+	static void		SetGhostNameColor(const JColorID color);
 
 	// called by CBTree::ReloadSetup
 
@@ -127,6 +156,13 @@ protected:
 	virtual CBClass*	NewGhost(const JString& name, CBTree* tree);
 	const JUtf8Byte*	GetNamespaceOperator() const;
 	JString				RemoveNamespace(const JString& fullName);
+
+	JBoolean	ViewInheritedDefinition(const JString& fnName,
+										const JBoolean caseSensitive,
+										const JBoolean reportNotFound) const;
+	JBoolean	ViewInheritedDeclaration(const JString& fnName,
+										 const JBoolean caseSensitive,
+										 const JBoolean reportNotFound) const;
 
 	virtual void	AdjustNameStyle(JFontStyle* style) const;
 
@@ -154,6 +190,31 @@ private:
 			inheritance(type),
 			indexFromFile(0)
 			{ };
+
+		void CleanOut();
+	};
+
+	struct FunctionInfo
+	{
+		JString*		name;
+		FnAccessLevel	access;
+		JBoolean		implemented;
+
+		FunctionInfo()
+			:
+			name(NULL),
+			access(kPublicAccess),
+			implemented(kJTrue)
+			{ };
+
+		FunctionInfo(JString* n, const FnAccessLevel level, const JBoolean impl)
+			:
+			name(n),
+			access(level),
+			implemented(impl)
+			{ };
+
+		void CleanOut();
 	};
 
 private:
@@ -181,6 +242,8 @@ private:
 	JBoolean	itsHasPrimaryChildrenFlag;
 	JBoolean	itsHasSecondaryChildrenFlag;
 
+	JArray<FunctionInfo>*	itsFunctionInfo;
+
 	static JColorID	itsGhostNameColor;
 
 private:
@@ -200,6 +263,9 @@ private:
 	JPoint		GetLinkFromPt() const;
 	JPoint		GetLinkToPt() const;
 
+	static JListT::CompareResult
+		CompareFunctionNames(const FunctionInfo& i1, const FunctionInfo& i2);
+
 	// called by CBTree
 
 	void	ClearConnections();
@@ -216,6 +282,9 @@ std::ostream& operator<<(std::ostream& output, const CBClass::DeclareType type);
 
 std::istream& operator>>(std::istream& input, CBClass::InheritType& type);
 std::ostream& operator<<(std::ostream& output, const CBClass::InheritType type);
+
+std::istream& operator>>(std::istream& input, CBClass::FnAccessLevel& access);
+std::ostream& operator<<(std::ostream& output, const CBClass::FnAccessLevel access);
 
 
 /******************************************************************************
@@ -417,6 +486,63 @@ CBClass::HasSecondaryChildren()
 	const
 {
 	return itsHasSecondaryChildrenFlag;
+}
+
+/******************************************************************************
+ GetFunctionCount
+
+ ******************************************************************************/
+
+inline JSize
+CBClass::GetFunctionCount()
+	const
+{
+	return itsFunctionInfo->GetElementCount();
+}
+
+/******************************************************************************
+ GetFunctionName
+
+ ******************************************************************************/
+
+inline const JString&
+CBClass::GetFunctionName
+	(
+	const JIndex index
+	)
+	const
+{
+	return *((itsFunctionInfo->GetElement(index)).name);
+}
+
+/******************************************************************************
+ GetFnAccessLevel
+
+ ******************************************************************************/
+
+inline CBClass::FnAccessLevel
+CBClass::GetFnAccessLevel
+	(
+	const JIndex index
+	)
+	const
+{
+	return (itsFunctionInfo->GetElement(index)).access;
+}
+
+/******************************************************************************
+ IsImplemented
+
+ ******************************************************************************/
+
+inline JBoolean
+CBClass::IsImplemented
+	(
+	const JIndex index
+	)
+	const
+{
+	return (itsFunctionInfo->GetElement(index)).implemented;
 }
 
 /******************************************************************************

@@ -20,6 +20,9 @@ public:
 
 	virtual ~CBCClass();
 
+	virtual JBoolean	IsInherited(const JIndex index, const InheritType inherit,
+									FnAccessLevel* access) const override;
+
 	virtual void	ViewSource() const override;
 	virtual void	ViewHeader() const override;
 

@@ -445,7 +445,7 @@ CBTreeWidget::HandleMouseDown
 			}
 		else if (button == kJXRightButton && clickCount == 2)
 			{
-			JGetUserNotification()->ReportError("Ghost classes cannot be opened.");
+			JGetUserNotification()->ReportError(JGetString("NoGhostFile::CBTreeWidget"));
 			}
 		}
 

@@ -7,8 +7,7 @@ JStyledText
 	CleanRightMargin
 
 jcc
-	do NOT remove member function data from inheritance trees
-		store line number for each function, reported by ctags
+	inheritance tree:  store line number for each class & function, reported by ctags
 
 	CBCharActionManager only accepts single bytes, not JUtf8Character
 
