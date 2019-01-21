@@ -65,14 +65,6 @@ private:
 
 	JFont	GetErrorFont() const;
 
-	class MatchErrorStyle : public JStyledText::FontMatch
-	{
-	public:
-
-		virtual ~MatchErrorStyle();
-		virtual JBoolean	Match(const JFont&) const;
-	};
-
 	// not allowed
 
 	CBCompileDocument(const CBCompileDocument& source);

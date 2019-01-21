@@ -604,13 +604,22 @@ CBCompileDocument::ShowFirstError()
  ******************************************************************************/
 
 JBoolean
+jMatchErrorStyle
+	(
+	const JFont& font
+	)
+{
+	return font.GetStyle().bold;
+}
+
+JBoolean
 CBCompileDocument::ShowPrevError()
 {
 	CBTextEditor* te = GetTextEditor();
 	te->Focus();
 
 	JBoolean wrapped;
-	if (te->JTextEditor::SearchBackward(MatchErrorStyle(), kJFalse, &wrapped))
+	if (te->JTextEditor::SearchBackward(jMatchErrorStyle, kJFalse, &wrapped))
 		{
 		te->TEScrollToSelection(kJTrue);
 		return kJTrue;
@@ -634,7 +643,7 @@ CBCompileDocument::ShowNextError()
 	te->Focus();
 
 	JBoolean wrapped;
-	if (te->JTextEditor::SearchForward(MatchErrorStyle(), kJFalse, &wrapped))
+	if (te->JTextEditor::SearchForward(jMatchErrorStyle, kJFalse, &wrapped))
 		{
 		te->TEScrollToSelection(kJTrue);
 		return kJTrue;
@@ -658,23 +667,4 @@ CBCompileDocument::GetErrorFont()
 	JFont font = GetTextEditor()->GetDefaultFont();
 	font.SetBold(kJTrue);
 	return font;
-}
-
-/******************************************************************************
- MatchErrorStyle class (private)
-
- ******************************************************************************/
-
-CBCompileDocument::MatchErrorStyle::~MatchErrorStyle()
-{
-}
-
-JBoolean
-CBCompileDocument::MatchErrorStyle::Match
-	(
-	const JFont& font
-	)
-	const
-{
-	return font.GetStyle().bold;
 }
