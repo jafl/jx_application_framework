@@ -161,7 +161,9 @@ public:
 
 	struct CRMRule
 	{
-		friend JStyledText;
+		JRegex*		first;
+		JRegex*		rest;
+		JString*	replace;
 
 		CRMRule()
 			:
@@ -175,12 +177,6 @@ public:
 
 		CRMRule(const JString& firstPattern, const JString& restPattern,
 				const JString& replacePattern);
-
-		private:
-
-		JRegex*		first;
-		JRegex*		rest;
-		JString*	replace;
 	};
 
 	class CRMRuleList : public JArray<CRMRule>

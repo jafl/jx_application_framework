@@ -26,6 +26,7 @@
 #include <JXFontManager.h>
 #include <JXColorManager.h>
 #include <JXSharedPrefsManager.h>
+#include <JStringIterator.h>
 #include <JRegex.h>
 #include <JSubstitute.h>
 #include <JDirInfo.h>
@@ -2034,7 +2035,7 @@ CBPrefsManager::CompareFileTypeSpecAndLength
 void
 CBPrefsManager::MacroSetInfo::CreateAndRead
 	(
-	std::istream&			input,
+	std::istream&		input,
 	const JFileVersion	vers
 	)
 {
@@ -2391,7 +2392,7 @@ CBPrefsManager::CreateCRMRuleLists()
 void
 CBPrefsManager::CRMRuleListInfo::CreateAndRead
 	(
-	std::istream&			input,
+	std::istream&		input,
 	const JFileVersion	vers
 	)
 {
@@ -2423,12 +2424,11 @@ CBPrefsManager::CRMRuleListInfo::Write
 	const JSize ruleCount = list->GetElementCount();
 	output << ruleCount;
 
-	for (JIndex i=1; i<=ruleCount; i++)
+	for (const JStyledText::CRMRule& r : *list)
 		{
-		JStyledText::CRMRule r = list->GetElement(i);
-		output << ' ' << (r.first)->GetPattern();
-		output << ' ' << (r.rest)->GetPattern();
-		output << ' ' << (r.first)->GetReplacePattern();
+		output << ' ' << r.first->GetPattern();
+		output << ' ' << r.rest->GetPattern();
+		output << ' ' << *r.replace;
 		}
 }
 
@@ -2990,14 +2990,16 @@ CBPrefsManager::CalcFileType
 			// JRegex is so slow on a large file (even with the ^ anchor!)
 			// that we must avoid running it at all costs.
 
-			if ((info.literalRange).IsNothing())
+			if (info.literalRange.IsNothing())
 				{
 				info.literalRange = GetLiteralPrefixRange(*(info.suffix));
 				itsFileTypeList->SetElement(i, info);
 				}
 
-			const JString prefix = info.suffix->GetSubstring(info.literalRange);
-			if (text.BeginsWith(prefix) && (info.contentRegex)->Match(text))
+			if (JString::CompareMaxNBytes(
+					text.GetBytes(), info.suffix->GetBytes()+1,
+					info.literalRange.GetCount(), kJTrue) &&
+				info.contentRegex->Match(text))
 				{
 				*index = i;
 				return kJTrue;
@@ -3021,7 +3023,7 @@ CBPrefsManager::CalcFileType
 
  ******************************************************************************/
 
-JIndexRange
+JUtf8ByteRange
 CBPrefsManager::GetLiteralPrefixRange
 	(
 	const JString& regexStr
@@ -3029,19 +3031,20 @@ CBPrefsManager::GetLiteralPrefixRange
 {
 	assert( regexStr.GetFirstCharacter() == kCBContentRegexMarker );
 
-	JIndex i = 1;
-	while (regexStr[i] != '\0' && regexStr[i] != '\\' &&
-		   !JRegex::NeedsBackslashToBeLiteral(regexStr[i]))
+	JStringIterator iter(regexStr, kJIteratorStartAfter, 1);
+	JUtf8Character c;
+	while (iter.Next(&c) && c != '\0' && c != '\\' &&
+		   !JRegex::NeedsBackslashToBeLiteral(c))
 		{
-		i++;
+		// keep going
 		}
 
-	if (regexStr[i] == '?')
+	if (c == '?' && iter.GetPrevCharacterIndex() > 2)
 		{
-		i--;
+		iter.SkipPrev();
 		}
 
-	return JIndexRange(2, i);
+	return JUtf8ByteRange(2, iter.GetPrevByteIndex());
 }
 
 /******************************************************************************

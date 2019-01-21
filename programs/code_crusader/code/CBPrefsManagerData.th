@@ -110,7 +110,7 @@ CBPrefsManager::CreateAndReadData
 		info.name = jnew JString;
 		assert( info.name != nullptr );
 
-		listStream >> info.id >> *(info.name);
+		listStream >> info.id >> *info.name;
 
 		std::string data;
 		const JBoolean ok = GetData(info.id, &data);
@@ -164,7 +164,7 @@ CBPrefsManager::WriteData
 	for (JIndex i=1; i<=count; i++)
 		{
 		DataType info = list.GetElement(i);
-		listStream << ' ' << info.id << ' ' << *(info.name);
+		listStream << ' ' << info.id << ' ' << *info.name;
 
 		std::ostringstream data;
 		info.Write(data);
@@ -196,7 +196,7 @@ CBPrefsManager::EditDataFn
 		{
 		const DataType origInfo = ListVar->GetElement(i);
 
-		DataType newInfo(origInfo.id, jnew JString(*(origInfo.name)), CopyConstr);
+		DataType newInfo(origInfo.id, jnew JString(*origInfo.name), CopyConstr);
 		assert( newInfo.name != nullptr && PtrCheck );
 		list->AppendElement(newInfo);
 

@@ -11,6 +11,9 @@ jcc
 
 	CBCharActionManager only accepts single bytes, not JUtf8Character
 
+	test
+		CalcFileType when using a prefix regex
+
 -----
 
 render as many characters as possible via fallback fonts

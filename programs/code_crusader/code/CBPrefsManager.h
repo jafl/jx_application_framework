@@ -207,7 +207,7 @@ public:
 		JString*				suffix;
 		JRegex*					nameRegex;		// can be nullptr
 		JRegex*					contentRegex;	// can be nullptr
-		JIndexRange				literalRange;	// initially nothing
+		JUtf8ByteRange			literalRange;	// initially nothing
 		CBTextFileType			type;
 		JIndex					macroID;		// MacroSetInfo::id
 		JIndex					crmID;			// CRMRuleListInfo::id
@@ -240,7 +240,7 @@ public:
 		void		Free();
 	};
 
-	static JIndexRange	GetLiteralPrefixRange(const JString& regexStr);
+	static JUtf8ByteRange	GetLiteralPrefixRange(const JString& regexStr);
 
 	static JListT::CompareResult
 		CompareFileTypeSpec(const FileTypeInfo& i1, const FileTypeInfo& i2);
