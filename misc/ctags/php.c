@@ -70,7 +70,7 @@ static void installPHPRegex (const langType language)
 		"\\1", "i,interface,interfaces", NULL);
 	addTagRegex(language, "^[ \t]*define[ \t]*\\([ \t]*['\"]?([" ALPHA "_][" ALNUM "_]*)",
 		"\\1", "d,define,constant definitions", NULL);
-	addTagRegex(language, "^[ \t]*((static|public|protected|private)[ \t]+)*function[ \t]+&?[ \t]*([" ALPHA "_][" ALNUM "_]*)",
+	addTagRegex(language, "^[ \t]*((abstract|static|public|protected|private)[ \t]+)*function[ \t]+&?[ \t]*([" ALPHA "_][" ALNUM "_]*)",
 		"\\3", "f,function,functions", NULL);
 	addTagRegex(language, "^[ \t]*(\\$|::\\$|\\$this->)([" ALPHA "_][" ALNUM "_]*)[ \t]*=",
 		"\\2", "v,variable,variables", NULL);
