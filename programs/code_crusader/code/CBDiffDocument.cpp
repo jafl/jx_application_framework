@@ -69,7 +69,7 @@ CBDiffDocument::CreatePlain
 	CBDiffDocument*		origDoc
 	)
 {
-	(JXGetApplication())->DisplayBusyCursor();
+	JXGetApplication()->DisplayBusyCursor();
 
 	// create temp file for diff to avoid pipe filling up
 
@@ -199,7 +199,7 @@ CBDiffDocument::CreateCVS
 	CBDiffDocument*		origDoc
 	)
 {
-	(JXGetApplication())->DisplayBusyCursor();
+	JXGetApplication()->DisplayBusyCursor();
 
 	// get rev1 file contents
 
@@ -409,7 +409,7 @@ CBDiffDocument::CreateSVN
 	CBDiffDocument*		origDoc
 	)
 {
-	(JXGetApplication())->DisplayBusyCursor();
+	JXGetApplication()->DisplayBusyCursor();
 
 	// create temp file for diff to avoid pipe filling up
 
@@ -594,7 +594,7 @@ CBDiffDocument::CreateGit
 	CBDiffDocument*		origDoc
 	)
 {
-	(JXGetApplication())->DisplayBusyCursor();
+	JXGetApplication()->DisplayBusyCursor();
 
 	// get revisions
 

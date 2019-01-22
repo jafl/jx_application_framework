@@ -21,10 +21,6 @@
 
 const JFileVersion kCurrentSetupVersion = 0;
 
-// string ID's
-
-static const JCharacter* kInstructionsID = "Instructions::CBEditSearchPathsDialog";
-
 /******************************************************************************
  Constructor
 
@@ -141,7 +137,7 @@ CBEditSearchPathsDialog::BuildWindow
 
 // end JXLayout
 
-	instrText->SetText(JGetString(kInstructionsID));
+	instrText->GetText()->SetText(JGetString("Instructions::CBEditSearchPathsDialog"));
 	window->AdjustSize(0, instrText->GetBoundsHeight() - instrText->GetFrameHeight());
 	instrText->SetSizing(JXWidget::kHElastic, JXWidget::kFixedTop);
 	scrollbarSet->SetSizing(JXWidget::kHElastic, JXWidget::kVElastic);
@@ -149,7 +145,7 @@ CBEditSearchPathsDialog::BuildWindow
 	removePathButton->SetSizing(JXWidget::kFixedRight, JXWidget::kFixedTop);
 	choosePathButton->SetSizing(JXWidget::kFixedRight, JXWidget::kFixedTop);
 
-	window->SetTitle("Search Paths for Symbol Database");
+	window->SetTitle(JGetString("WindowTitle::CBEditSearchPathsDialog"));
 	window->PlaceAsDialogWindow();
 	window->LockCurrentMinSize();
 	UseModalPlacement(kJFalse);

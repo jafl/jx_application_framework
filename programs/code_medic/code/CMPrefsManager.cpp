@@ -304,7 +304,7 @@ CMPrefsManager::UpgradeData
 			}
 		}
 
-	JXDisplay* display = (JXGetApplication())->GetDisplay(1);
+	JXDisplay* display = JXGetApplication()->GetDisplay(1);
 	if (currentVersion < 2)
 		{
 		SetDefaultFont(JGetMonospaceFontName(), JGetDefaultMonoFontSize());
@@ -954,7 +954,7 @@ CMPrefsManager::SetColorList
 	JRGB			colorList[]
 	)
 {
-	JXColorManager* colormap = ((JXGetApplication())->GetCurrentDisplay())->GetColormap();
+	JXColorManager* colormap = (JXGetApplication()->GetCurrentDisplay())->GetColormap();
 
 	JBoolean ok[ kColorCount ];
 	if (hasColors)
@@ -998,7 +998,7 @@ CMPrefsManager::SetColorList
 void
 CMPrefsManager::WriteColors()
 {
-	JXColorManager* colormap = ((JXGetApplication())->GetCurrentDisplay())->GetColormap();
+	JXColorManager* colormap = (JXGetApplication()->GetCurrentDisplay())->GetColormap();
 
 	std::ostringstream data;
 	data << kCurrentTextColorVers;

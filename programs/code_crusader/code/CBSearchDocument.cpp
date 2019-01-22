@@ -198,7 +198,7 @@ CBSearchDocument::Create
 								 process, fd[0], windowTitle);
 		assert( doc != nullptr );
 
-		(JXGetApplication())->Suspend();	// do this first so result window is active
+		JXGetApplication()->Suspend();	// do this first so result window is active
 		doc->Activate();
 
 		RecordLink* link;
@@ -330,7 +330,7 @@ CBSearchDocument::ProcessFinished
 		jdelete itsReplaceTE;
 		itsReplaceTE = nullptr;
 
-		(JXGetApplication())->Resume();
+		JXGetApplication()->Resume();
 		}
 
 	jdelete itsIndicator;

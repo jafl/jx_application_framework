@@ -825,7 +825,7 @@ CBSymbolList::InitCtags
 void
 CBSymbolList::ReadSymbolList
 	(
-	std::istream&			input,
+	std::istream&		input,
 	const CBLanguage	lang,
 	const JCharacter*	fullName,
 	const JFAID_t		fileID

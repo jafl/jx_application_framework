@@ -64,8 +64,6 @@
 .cpp ./code/CBTree
 .cpp ./code/CBClass
 .cpp ./code/CBEditTreePrefsDialog
-.cpp ./code/CBFnListDirector
-.cpp ./code/CBFnListWidget
 .cpp ./code/CBCTreeDirector
 .cpp ./code/CBCTree
 .cpp ./code/CBCClass

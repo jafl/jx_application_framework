@@ -94,7 +94,7 @@ JXDockManager::CreateDock
 {
 	const JString title = GetNewDockTitle();
 
-	(JXGetApplication())->SetCurrentDisplay(itsDisplay);
+	JXGetApplication()->SetCurrentDisplay(itsDisplay);
 	JXDockWindowTask::PrepareForDockAll();
 
 	JXDockDirector* dock = jnew JXDockDirector(title, splitHoriz);
@@ -344,7 +344,7 @@ JXDockManager::ReadSetup
 	JSize count;
 	input >> count;
 
-	(JXGetApplication())->SetCurrentDisplay(itsDisplay);
+	JXGetApplication()->SetCurrentDisplay(itsDisplay);
 
 	JString title;
 	for (JIndex i=1; i<=count; i++)

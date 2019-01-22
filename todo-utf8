@@ -7,7 +7,27 @@ JStyledText
 	CleanRightMargin
 
 jcc
-	inheritance tree:  store line number for each class & function, reported by ctags
+	unit test CBSearch classes - split CBSearchProcess out from CBSearchDocument
+
+	symbol list:
+		strip space from signature:( JBroadcaster* recipient )
+	CBSymbolSRDirector
+		expand horizontally to fit text
+	CBSymbolList needs to store
+		access: check "access" flag (public, private, protected, java-default)
+		implemented: check "implementation" flag
+		enum FnAccessLevel
+		{
+			kPublicAccess = 0,
+			kProtectedAccess,
+			kPrivateAccess,
+			kJavaDefaultAccess
+		}
+	replace CBFnListDirector with CBSymbolSRDirector
+		color protected, private, java-default
+	inheritance tree:
+		show list of functions returned by CBSymbolList
+			based on file and class name and possibly partially qualified name (java)
 
 	CBCharActionManager only accepts single bytes, not JUtf8Character
 

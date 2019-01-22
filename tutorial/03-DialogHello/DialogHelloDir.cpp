@@ -178,7 +178,7 @@ DialogHelloDir::HandleTextMenu
 		// Quit the program. The application object is one of the few global
 		// objects that can be accessed from anywhere within the application.
 
-		(JXGetApplication())->Quit();
+		JXGetApplication()->Quit();
 		}
 }
 

@@ -55,7 +55,7 @@ GDBGetSourceFileList::HandleSuccess
 {
 	if (origData.BeginsWith("Source files for which symbols have been read in:"))
 		{
-		(JXGetApplication())->DisplayBusyCursor();
+		JXGetApplication()->DisplayBusyCursor();
 
 		JXFileListTable* table = GetFileList()->GetTable();
 		table->RemoveAllFiles();

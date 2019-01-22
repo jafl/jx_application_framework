@@ -3946,7 +3946,7 @@ SyGFileTreeTable::UpdateGitMenus
 	JPtrArray<JString> repoList(JPtrArrayT::kDeleteAll);
 	repoList.SetCompareFunction(JCompareStringsCaseInsensitive);
 
-	(JXGetApplication())->DisplayBusyCursor();
+	JXGetApplication()->DisplayBusyCursor();
 
 	JIndex currentIndex;
 	const JBoolean hasRemote = GetGitBranches("git branch -r", &remoteList, &currentIndex, &repoList);

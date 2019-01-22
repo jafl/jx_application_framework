@@ -34,18 +34,18 @@ const JUtf8Byte* kUserDataFileDir = "~/.";
 JBoolean
 JGetDataDirectories
 	(
-	const JString&	signature,
-	const JString&	dirName,
-	JString*		sysDir,
-	JString*		userDir
+	const JUtf8Byte*	signature,
+	const JUtf8Byte*	dirName,
+	JString*			sysDir,
+	JString*			userDir
 	)
 {
 	*sysDir  = kSystemDataFileDir;
 	*sysDir += signature;
-	*sysDir  = JCombinePathAndName(*sysDir, dirName);
+	*sysDir  = JCombinePathAndName(*sysDir, JString(dirName, kJFalse));
 
-	JString relName(kUserDataFileDir, 0);
-	relName         += signature;
-	relName          = JCombinePathAndName(relName, dirName);
+	JString relName(kUserDataFileDir);
+	relName += signature;
+	relName  = JCombinePathAndName(relName, JString(dirName, kJFalse));
 	return JExpandHomeDirShortcut(relName, userDir);
 }

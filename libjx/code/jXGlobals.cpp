@@ -567,12 +567,12 @@ JXGetSpellChecker()
 JBoolean
 JXGetProgramDataDirectories
 	(
-	const JString&	dirName,
-	JString*		sysDir,
-	JString*		userDir
+	const JUtf8Byte*	dirName,
+	JString*			sysDir,
+	JString*			userDir
 	)
 {
-	return JGetDataDirectories((JXGetApplication())->GetSignature(),
+	return JGetDataDirectories(JXGetApplication()->GetSignature().GetBytes(),
 							   dirName, sysDir, userDir);
 }
 

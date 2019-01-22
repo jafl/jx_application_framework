@@ -597,7 +597,7 @@ CBMDIServer::DisplayVCSDiffs
 
 	if (JIsURL(file) && strcmp(type, "svn") == 0)
 		{
-		(JXGetApplication())->DisplayBusyCursor();
+		JXGetApplication()->DisplayBusyCursor();
 
 		JString type1, error;
 		if (!JGetSVNEntryType(file, &type1, &error))

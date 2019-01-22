@@ -58,6 +58,20 @@ public:
 		kUnusedQtPrivateSlotAccess
 	};
 
+	struct FunctionInfo
+	{
+		const JString&	name;
+		FnAccessLevel	access;
+		JBoolean		implemented;
+
+		FunctionInfo(const JString& n, const FnAccessLevel level, const JBoolean impl)
+			:
+			name(n),
+			access(level),
+			implemented(impl)
+			{ };
+	};
+
 public:
 
 	virtual ~CBClass();
@@ -94,23 +108,6 @@ public:
 	JBoolean		HasChildren() const;
 	JBoolean		HasPrimaryChildren() const;
 	JBoolean		HasSecondaryChildren() const;
-
-	JSize				GetFunctionCount() const;
-	const JString&		GetFunctionName(const JIndex index) const;
-	FnAccessLevel		GetFnAccessLevel(const JIndex index) const;
-	JBoolean			IsImplemented(const JIndex index) const;
-	virtual JBoolean	IsInherited(const JIndex index, const InheritType inherit,
-									FnAccessLevel* access) const;
-	void				AddFunction(const JString& name, const JIndex lineIndex,
-									const FnAccessLevel access, const JBoolean implemented);
-	JBoolean			Implements(const JString& name, const JBoolean caseSensitive) const;
-
-	JBoolean	ViewDefinition(const JString& fnName,
-							   const JBoolean caseSensitive,
-							   const JBoolean reportNotFound = kJTrue) const;
-	JBoolean	ViewDeclaration(const JString& fnName,
-								const JBoolean caseSensitive,
-								const JBoolean reportNotFound = kJTrue) const;
 
 	void	Draw(JPainter& p, const JRect& rect) const;
 	void	DrawMILinks(JPainter& p, const JRect& rect) const;
@@ -157,12 +154,8 @@ protected:
 	const JUtf8Byte*	GetNamespaceOperator() const;
 	JString				RemoveNamespace(const JString& fullName);
 
-	JBoolean	ViewInheritedDefinition(const JString& fnName,
-										const JBoolean caseSensitive,
-										const JBoolean reportNotFound) const;
-	JBoolean	ViewInheritedDeclaration(const JString& fnName,
-										 const JBoolean caseSensitive,
-										 const JBoolean reportNotFound) const;
+	virtual JBoolean	IsInherited(const JIndex index, const InheritType inherit,
+									FnAccessLevel* access) const;
 
 	virtual void	AdjustNameStyle(JFontStyle* style) const;
 
@@ -194,32 +187,6 @@ private:
 		void CleanOut();
 	};
 
-	struct FunctionInfo
-	{
-		JString*		name;
-		JIndex			lineIndex;
-		FnAccessLevel	access;
-		JBoolean		implemented;
-
-		FunctionInfo()
-			:
-			name(NULL),
-			lineIndex(0),
-			access(kPublicAccess),
-			implemented(kJTrue)
-			{ };
-
-		FunctionInfo(JString* n, const JIndex line, const FnAccessLevel level, const JBoolean impl)
-			:
-			name(n),
-			lineIndex(line),
-			access(level),
-			implemented(impl)
-			{ };
-
-		void CleanOut();
-	};
-
 private:
 
 	const JUtf8Byte* const	itsNamespaceOperator;	// must be first, to use when construction itsName
@@ -245,9 +212,7 @@ private:
 	JBoolean	itsHasPrimaryChildrenFlag;
 	JBoolean	itsHasSecondaryChildrenFlag;
 
-	JArray<FunctionInfo>*	itsFunctionInfo;
-
-	static JColorID	itsGhostNameColor;
+	static JColorID	theGhostNameColor;
 
 private:
 
@@ -492,63 +457,6 @@ CBClass::HasSecondaryChildren()
 }
 
 /******************************************************************************
- GetFunctionCount
-
- ******************************************************************************/
-
-inline JSize
-CBClass::GetFunctionCount()
-	const
-{
-	return itsFunctionInfo->GetElementCount();
-}
-
-/******************************************************************************
- GetFunctionName
-
- ******************************************************************************/
-
-inline const JString&
-CBClass::GetFunctionName
-	(
-	const JIndex index
-	)
-	const
-{
-	return *((itsFunctionInfo->GetElement(index)).name);
-}
-
-/******************************************************************************
- GetFnAccessLevel
-
- ******************************************************************************/
-
-inline CBClass::FnAccessLevel
-CBClass::GetFnAccessLevel
-	(
-	const JIndex index
-	)
-	const
-{
-	return (itsFunctionInfo->GetElement(index)).access;
-}
-
-/******************************************************************************
- IsImplemented
-
- ******************************************************************************/
-
-inline JBoolean
-CBClass::IsImplemented
-	(
-	const JIndex index
-	)
-	const
-{
-	return (itsFunctionInfo->GetElement(index)).implemented;
-}
-
-/******************************************************************************
  GetCoords
 
  ******************************************************************************/
@@ -689,7 +597,7 @@ CBClass::GetTree()
 inline JColorID
 CBClass::GetGhostNameColor()
 {
-	return itsGhostNameColor;
+	return theGhostNameColor;
 }
 
 inline void
@@ -698,7 +606,7 @@ CBClass::SetGhostNameColor
 	const JColorID color
 	)
 {
-	itsGhostNameColor = color;
+	theGhostNameColor = color;
 }
 
 #endif

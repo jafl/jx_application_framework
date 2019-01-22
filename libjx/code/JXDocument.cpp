@@ -79,7 +79,7 @@ JXDocument::JXDocument
 	(JXGetDocumentManager())->DocumentCreated(this);
 
 	JXWDManager* mgr;
-	if (((JXGetApplication())->GetCurrentDisplay())->GetWDManager(&mgr))
+	if ((JXGetApplication()->GetCurrentDisplay())->GetWDManager(&mgr))
 		{
 		mgr->DirectorCreated(this);
 		}

@@ -94,7 +94,7 @@ CMFileListDir::CMFileListDir
 	CMCommandDirector* supervisor
 	)
 	:
-	JXWindowDirector(JXGetApplication()),
+	JXWindowDirectorJXGetApplication(),
 	JPrefObject(CMGetPrefsManager(), kFileListSetupID),
 	itsCommandDir(supervisor)
 {
@@ -385,7 +385,7 @@ CMFileListDir::HandleFileMenu
 		}
 	else if (index == kQuitCmd)
 		{
-		(JXGetApplication())->Quit();
+		JXGetApplication()->Quit();
 		}
 }
 

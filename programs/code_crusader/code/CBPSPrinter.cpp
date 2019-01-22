@@ -187,7 +187,7 @@ CBPSPrinter::OpenDocument()
 {
 	assert( itsTE != nullptr );
 
-	(JXGetApplication())->DisplayBusyCursor();	// changing font can take a while
+	JXGetApplication()->DisplayBusyCursor();	// changing font can take a while
 
 	if (JXPSPrinter::OpenDocument())
 		{

@@ -78,7 +78,7 @@ JXCursorAnimator::SetFrameSequence
 void
 JXCursorAnimator::NextFrame()
 {
-	const Time currentTime = (JXGetApplication())->GetCurrentTime();
+	const Time currentTime = JXGetApplication()->GetCurrentTime();
 	if (itsActiveFlag && currentTime - itsLastUpdateTime >= kmsecPerFrame)
 		{
 		itsFrameCounter++;

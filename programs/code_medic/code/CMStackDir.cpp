@@ -75,7 +75,7 @@ CMStackDir::CMStackDir
 	CMCommandDirector* supervisor
 	)
 	:
-	JXWindowDirector(JXGetApplication()),
+	JXWindowDirectorJXGetApplication(),
 	itsCommandDir(supervisor)
 {
 	BuildWindow(supervisor);
@@ -331,7 +331,7 @@ CMStackDir::HandleFileMenu
 		}
 	else if (index == kQuitCmd)
 		{
-		(JXGetApplication())->Quit();
+		JXGetApplication()->Quit();
 		}
 }
 

@@ -124,7 +124,7 @@ CMArray2DDir::CMArray2DDir
 	const JCharacter*	expr
 	)
 	:
-	JXWindowDirector(JXGetApplication())
+	JXWindowDirectorJXGetApplication()
 {
 	// format variable for input field
 
@@ -144,7 +144,7 @@ CMArray2DDir::CMArray2DDir
 	CMCommandDirector*	supervisor
 	)
 	:
-	JXWindowDirector(JXGetApplication())
+	JXWindowDirectorJXGetApplication()
 {
 	input >> itsExpr >> itsRowRequestRange >> itsColRequestRange;
 	CMArray2DDirX(supervisor);
@@ -681,7 +681,7 @@ CMArray2DDir::ReceiveGoingAway
 void
 CMArray2DDir::FitToRanges()
 {
-	(JXGetApplication())->DisplayBusyCursor();
+	JXGetApplication()->DisplayBusyCursor();
 
 	JIntRange overlap;
 	if (JIntersection(itsRowDisplayRange, itsRowRequestRange, &overlap))
@@ -1030,7 +1030,7 @@ CMArray2DDir::HandleFileMenu
 		}
 	else if (index == kQuitCmd)
 		{
-		(JXGetApplication())->Quit();
+		JXGetApplication()->Quit();
 		}
 }
 

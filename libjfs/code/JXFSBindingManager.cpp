@@ -182,7 +182,7 @@ JXFSBindingManager::Exec
 		}
 	else if (!askForArgs)
 		{
-		(JXGetApplication())->DisplayBusyCursor();
+		JXGetApplication()->DisplayBusyCursor();
 		Exec(me->itsScriptPath, cmd, JFSBinding::kRunPlain);
 		}
 }
@@ -290,7 +290,7 @@ JXFSBindingManager::ProcessFiles()
 
 	// exec one-at-a-time cmds
 
-	(JXGetApplication())->DisplayBusyCursor();
+	JXGetApplication()->DisplayBusyCursor();
 
 	for (i=itsFileList->GetElementCount(); i>=1; i--)
 		{

@@ -28,7 +28,7 @@ CMDebugDir::CMDebugDir
 	JXDirector* supervisor
 	)
 	:
-	JXWindowDirector(JXGetApplication()),
+	JXWindowDirectorJXGetApplication(),
 	itsFile("/tmp/code_medic_log")
 {
 	itsLink = CMGetLink();

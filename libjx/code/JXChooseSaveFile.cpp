@@ -173,7 +173,7 @@ JXChooseSaveFile::ChooseFile
 
 	assert( itsChooseFileDialog == nullptr );
 
-	(JXGetApplication())->PrepareForBlockingWindow();
+	JXGetApplication()->PrepareForBlockingWindow();
 
 	itsChooseFileDialog =
 		CreateChooseFileDialog(JXGetApplication(), dirInfo,
@@ -299,7 +299,7 @@ JXChooseSaveFile::ChoosePath
 
 	assert( itsChoosePathDialog == nullptr );
 
-	(JXGetApplication())->PrepareForBlockingWindow();
+	JXGetApplication()->PrepareForBlockingWindow();
 
 	itsChoosePathDialog =
 		CreateChoosePathDialog(JXGetApplication(), dirInfo, itsUserFilter,
@@ -369,7 +369,7 @@ JXChooseSaveFile::SaveFile
 
 	assert( itsSaveFileDialog == nullptr );
 
-	(JXGetApplication())->PrepareForBlockingWindow();
+	JXGetApplication()->PrepareForBlockingWindow();
 
 	itsSaveFileDialog =
 		CreateSaveFileDialog(JXGetApplication(), dirInfo, itsUserFilter,

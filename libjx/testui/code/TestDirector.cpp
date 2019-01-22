@@ -303,7 +303,7 @@ TestDirector::BuildWindow
 	const JBoolean testWidgetIsImage
 	)
 {
-	JXDisplay* display = (JXGetApplication())->GetCurrentDisplay();
+	JXDisplay* display = JXGetApplication()->GetCurrentDisplay();
 
 // begin JXLayout
 
@@ -683,7 +683,7 @@ TestDirector::HandleAboutMenu
 
 	else if (index == kQuitCmd && itsIsMasterFlag)
 		{
-		(JXGetApplication())->Quit();
+		JXGetApplication()->Quit();
 		}
 	else if (index == kQuitCmd)
 		{

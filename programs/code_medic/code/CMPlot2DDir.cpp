@@ -104,7 +104,7 @@ CMPlot2DDir::CMPlot2DDir
 	const JCharacter*	origExpr
 	)
 	:
-	JXWindowDirector(JXGetApplication())
+	JXWindowDirectorJXGetApplication()
 {
 	CMPlot2DDirX1(supervisor);
 
@@ -129,7 +129,7 @@ CMPlot2DDir::CMPlot2DDir
 	CMCommandDirector*	supervisor
 	)
 	:
-	JXWindowDirector(JXGetApplication())
+	JXWindowDirectorJXGetApplication()
 {
 	CMPlot2DDirX1(supervisor);
 
@@ -829,7 +829,7 @@ CMPlot2DDir::HandleFileMenu
 		}
 	else if (index == kQuitCmd)
 		{
-		(JXGetApplication())->Quit();
+		JXGetApplication()->Quit();
 		}
 }
 

@@ -43,7 +43,7 @@ JXSpellChecker*			JXGetSpellChecker();
 JXDirector*				JXGetPersistentWindowOwner();
 JXSearchTextDialog*		JXGetSearchTextDialog();
 
-JBoolean				JXGetProgramDataDirectories(const JString& dirName,
+JBoolean				JXGetProgramDataDirectories(const JUtf8Byte* dirName,
 													JString* sysDir, JString* userDir);
 
 const JUtf8Byte*		JXGetInvisibleWindowClass();

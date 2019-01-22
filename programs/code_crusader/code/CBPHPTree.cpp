@@ -183,7 +183,7 @@ void
 CBPHPTree::ReadFunctionList
 	(
 	std::istream&	input,
-	CBClass*	theClass
+	CBClass*		theClass
 	)
 {
 	input >> std::ws;

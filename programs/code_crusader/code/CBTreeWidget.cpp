@@ -470,7 +470,7 @@ CBTreeWidget::HandleMouseDrag
 {
 	if (itsDragType == kWaitForPopupFnMenuDrag &&
 		!JMouseMoved(itsStartPt, pt) &&
-		(JXGetApplication())->GetCurrentTime() >= itsMouseDownTime + kJXDoubleClickTime)
+		JXGetApplication()->GetCurrentTime() >= itsMouseDownTime + kJXDoubleClickTime)
 		{
 		if (itsFnMenuDir != nullptr)
 			{
@@ -513,7 +513,7 @@ CBTreeWidget::ExpectPopupFnMenu
 	itsDragType      = kWaitForPopupFnMenuDrag;
 	itsStartPt       = pt;
 	itsFnMenuButton  = button;
-	itsMouseDownTime = (JXGetApplication())->GetCurrentTime();
+	itsMouseDownTime = JXGetApplication()->GetCurrentTime();
 	itsFnMenuClass   = theClass;
 }
 

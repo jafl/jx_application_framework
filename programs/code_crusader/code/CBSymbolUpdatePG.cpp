@@ -51,7 +51,7 @@ CBSymbolUpdatePG::ProcessBeginning
 	(
 	const ProcessType	processType,
 	const JSize			stepCount,
-	const JCharacter*	message,
+	const JString&		message,
 	const JBoolean		allowCancel,
 	const JBoolean		allowBackground
 	)
@@ -84,8 +84,8 @@ CBSymbolUpdatePG::ProcessBeginning
 JBoolean
 CBSymbolUpdatePG::IncrementProgress
 	(
-	const JCharacter*	message,
-	const JSize			delta
+	const JString&	message,
+	const JSize		delta
 	)
 {
 	IncrementStepCount(delta);
@@ -110,7 +110,7 @@ CBSymbolUpdatePG::IncrementProgress
 JBoolean
 CBSymbolUpdatePG::IncrementProgress
 	(
-	const JCharacter* message
+	const JString& message
 	)
 {
 	return IncrementProgress(message, 1);
@@ -132,7 +132,7 @@ CBSymbolUpdatePG::IncrementProgress
 	const JSize delta
 	)
 {
-	return IncrementProgress(nullptr, delta);
+	return IncrementProgress(JString::empty, delta);
 }
 
 /******************************************************************************

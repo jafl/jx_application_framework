@@ -19,7 +19,7 @@
 
 JXMDIServer::JXMDIServer()
 	:
-	JMDIServer((JXGetApplication())->GetSignature().GetBytes())
+	JMDIServer(JXGetApplication()->GetSignature().GetBytes())
 {
 	JXSetMDIServer(this);
 }
@@ -63,7 +63,7 @@ JXMDIServer::PreprocessArgList
 		{
 		if (*(argList->GetElement(i)) == JMDIServer::kQuitOptionName)
 			{
-			(JXGetApplication())->Quit();
+			JXGetApplication()->Quit();
 			argList->CleanOut();	// don't invoke HandleMDIRequest()
 			break;
 			}

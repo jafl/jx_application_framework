@@ -40,7 +40,7 @@ TestjxCreateGlobals
 	JXCreateDefaultDocumentManager();
 
 	TestDockManager* theDockManager =
-		jnew TestDockManager((JXGetApplication())->GetCurrentDisplay());
+		jnew TestDockManager(JXGetApplication()->GetCurrentDisplay());
 	assert( theDockManager != nullptr );
 
 	if (JFileExists(JString(kDockSetupFileName, kJFalse)))

@@ -213,6 +213,6 @@ UndoWidgetDir::HandleActionsMenu
 		}
 	else if (index == kQuit)
 		{
-		(JXGetApplication())->Quit();
+		JXGetApplication()->Quit();
 		}
 }

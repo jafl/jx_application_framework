@@ -84,7 +84,7 @@ SyGFolderDragSource::HandleMouseDown
 	)
 {
 	itsStartPt       = pt;
-	itsMouseDownTime = (JXGetApplication())->GetCurrentTime();
+	itsMouseDownTime = JXGetApplication()->GetCurrentTime();
 }
 
 /******************************************************************************
@@ -104,7 +104,7 @@ SyGFolderDragSource::HandleMouseDrag
 	const JBoolean pathValid = itsPathInput->GetPath(&path);
 
 	if (pathValid && !JMouseMoved(itsStartPt, pt) &&
-		(JXGetApplication())->GetCurrentTime() >= itsMouseDownTime + kJXDoubleClickTime)
+		JXGetApplication()->GetCurrentTime() >= itsMouseDownTime + kJXDoubleClickTime)
 		{
 		itsPathMenu->SetPath(path);
 		itsPathMenu->PopUp(this, pt, buttonStates, modifiers);

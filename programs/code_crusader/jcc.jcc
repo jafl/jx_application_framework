@@ -262,14 +262,6 @@ T
 F
 "./code/CBEditTreePrefsDialog.cpp"
 T
-2 "CBFnListDirector.cpp"
-F
-"./code/CBFnListDirector.cpp"
-T
-2 "CBFnListWidget.cpp"
-F
-"./code/CBFnListWidget.cpp"
-T
 2 "CBCTreeDirector.cpp"
 F
 "./code/CBCTreeDirector.cpp"

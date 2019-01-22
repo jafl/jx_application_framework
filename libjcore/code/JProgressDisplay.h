@@ -38,8 +38,7 @@ public:
 
 	virtual JBoolean	IncrementProgress(const JString& message = JString::empty) = 0;
 	virtual JBoolean	IncrementProgress(const JSize delta) = 0;
-	virtual JBoolean	IncrementProgress(const JString& message,
-										  const JSize delta) = 0;
+	virtual JBoolean	IncrementProgress(const JString& message, const JSize delta) = 0;
 	virtual JBoolean	ProcessContinuing();
 	virtual void		ProcessFinished();
 

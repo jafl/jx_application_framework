@@ -183,6 +183,6 @@ Test2DPlotDirector::HandleActionsMenu
 
 	else if (index == kQuitCmd)
 		{
-		(JXGetApplication())->Quit();
+		JXGetApplication()->Quit();
 		}
 }

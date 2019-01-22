@@ -757,7 +757,7 @@ CBSearchTextDialog::BuildSearchFileList
 	)
 	const
 {
-	(JXGetApplication())->DisplayBusyCursor();
+	JXGetApplication()->DisplayBusyCursor();
 
 	fileList->SetCleanUpAction(JPtrArrayT::kDeleteAll);
 	fileList->SetCompareFunction(JCompareStringsCaseSensitive);

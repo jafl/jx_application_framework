@@ -553,23 +553,23 @@ JXTreeListWidget::ToggleNode
 
 	if (siblings && wasOpen)
 		{
-		(JXGetApplication())->DisplayBusyCursor();
+		JXGetApplication()->DisplayBusyCursor();
 		itsTreeList->CloseSiblings(index);
 		}
 	else if (siblings)
 		{
-		(JXGetApplication())->DisplayBusyCursor();
+		JXGetApplication()->DisplayBusyCursor();
 		itsTreeList->OpenSiblings(index);
 		}
 
 	if (descendants && wasOpen)
 		{
-		(JXGetApplication())->DisplayBusyCursor();
+		JXGetApplication()->DisplayBusyCursor();
 		itsTreeList->CloseDescendants(index);
 		}
 	else if (descendants)
 		{
-		(JXGetApplication())->DisplayBusyCursor();
+		JXGetApplication()->DisplayBusyCursor();
 		itsTreeList->OpenDescendants(index, itsMaxOpenDepth);
 		}
 

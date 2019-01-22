@@ -538,7 +538,7 @@ SyGGetDNDAskActions
 	JPtrArray<JString>*	descriptionList
 	)
 {
-	JXDNDManager* dndMgr = ((JXGetApplication())->GetCurrentDisplay())->GetDNDManager();
+	JXDNDManager* dndMgr = (JXGetApplication()->GetCurrentDisplay())->GetDNDManager();
 	actionList->AppendElement(dndMgr->GetDNDActionCopyXAtom());
 	actionList->AppendElement(dndMgr->GetDNDActionMoveXAtom());
 	actionList->AppendElement(dndMgr->GetDNDActionLinkXAtom());

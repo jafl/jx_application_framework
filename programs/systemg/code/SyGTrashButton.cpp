@@ -224,7 +224,7 @@ SyGTrashButton::MoveFilesToTrash
 		return;
 		}
 
-	JXDisplay* display             = (JXGetApplication())->GetCurrentDisplay();
+	JXDisplay* display             = JXGetApplication()->GetCurrentDisplay();
 	JXSelectionManager* selManager = display->GetSelectionManager();
 	JXDNDManager* dndMgr           = display->GetDNDManager();
 	const Atom dndSelectionName    = dndMgr->GetDNDSelectionName();

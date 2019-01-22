@@ -55,7 +55,7 @@ JXHintManager::~JXHintManager()
 void
 JXHintManager::HandleMouseEnter()
 {
-	itsStartTime = (JXGetApplication())->GetCurrentTime();
+	itsStartTime = JXGetApplication()->GetCurrentTime();
 	itsPrevPt.Set(0,0);
 	DestroyWindow();
 }
@@ -85,7 +85,7 @@ JXHintManager::HandleMouseHere
 {
 	if (itsActiveFlag)
 		{
-		const Time t = (JXGetApplication())->GetCurrentTime();
+		const Time t = JXGetApplication()->GetCurrentTime();
 		if (itsDirector == nullptr && pt == itsPrevPt &&
 			t - itsStartTime > kHintWaitDelay)
 			{

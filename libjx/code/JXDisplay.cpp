@@ -220,7 +220,7 @@ JXDisplay::JXDisplay
 	itsIsOSXFlag = JI2B(XQueryExtension(itsXDisplay, "Apple-WM",
 										&major_opcode, &first_event, &first_error));
 
-	(JXGetApplication())->DisplayOpened(this);
+	JXGetApplication()->DisplayOpened(this);
 
 	if (_Xdebug)
 		{
@@ -245,7 +245,7 @@ JXDisplay::~JXDisplay()
 {
 	assert( itsWindowList->IsEmpty() );
 
-	(JXGetApplication())->DisplayClosed(this);
+	JXGetApplication()->DisplayClosed(this);
 
 	jdelete itsWDManager;
 	jdelete itsMenuManager;
@@ -1499,7 +1499,7 @@ JXDisplay::CheckForXErrors()
 	for (const XErrorEvent& error : theXErrorList)
 		{
 		JXDisplay* display;
-		const JBoolean found = (JXGetApplication())->FindDisplay(error.display, &display);
+		const JBoolean found = JXGetApplication()->FindDisplay(error.display, &display);
 		assert( found );
 
 		XError msg(error);

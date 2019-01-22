@@ -57,7 +57,7 @@ CBStylerBase::CBStylerBase
 	:
 	JTEStyler(),
 	JPrefObject(CBMGetPrefsManager(), prefID),
-	itsColormap(((JXGetApplication())->GetCurrentDisplay())->GetColormap()),
+	itsColormap((JXGetApplication()->GetCurrentDisplay())->GetColormap()),
 	itsTypeNameVersion(typeVersion),
 	itsTypeNameCount(typeCount),
 	itsTypeNames(typeNames),

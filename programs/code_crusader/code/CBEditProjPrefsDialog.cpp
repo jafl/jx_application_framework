@@ -132,7 +132,7 @@ CBEditProjPrefsDialog::BuildWindow
 
 // end JXLayout
 
-	window->SetTitle("Project Preferences");
+	window->SetTitle(JGetString("WindowTitle::CBEditProjPrefsDialog"));
 	SetButtons(okButton, cancelButton);
 
 	ListenTo(itsHelpButton);

@@ -426,7 +426,7 @@ CBSymbolDirector::FindSymbol
 	const JXMouseButton	button
 	)
 {
-	(JXGetApplication())->DisplayBusyCursor();
+	JXGetApplication()->DisplayBusyCursor();
 
 	CBTree* cTree    = (itsProjDoc->GetCTreeDirector())->GetTree();
 	CBTree* javaTree = (itsProjDoc->GetJavaTreeDirector())->GetTree();
@@ -845,7 +845,7 @@ CBSymbolDirector::HandleFileMenu
 		}
 	else if (index == kQuitCmd)
 		{
-		(JXGetApplication())->Quit();
+		JXGetApplication()->Quit();
 		}
 }
 

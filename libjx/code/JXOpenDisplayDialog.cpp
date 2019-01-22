@@ -54,7 +54,7 @@ JXOpenDisplayDialog::OKToDeactivate()
 
 	const JString& displayName = GetString();
 	JIndex displayIndex;
-	if ((JXGetApplication())->OpenDisplay(displayName, &displayIndex))
+	if (JXGetApplication()->OpenDisplay(displayName, &displayIndex))
 		{
 		itsDisplayIndex = displayIndex;
 		return kJTrue;

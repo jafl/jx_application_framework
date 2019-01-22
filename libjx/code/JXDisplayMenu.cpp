@@ -82,7 +82,7 @@ void
 JXDisplayMenu::SelectCurrentDisplay()
 	const
 {
-	(JXGetApplication())->SetCurrentDisplay(itsDisplayIndex);
+	JXGetApplication()->SetCurrentDisplay(itsDisplayIndex);
 }
 
 /******************************************************************************
@@ -94,7 +94,7 @@ JXDisplay*
 JXDisplayMenu::GetSelectedDisplay()
 	const
 {
-	return (JXGetApplication())->GetDisplay(itsDisplayIndex);
+	return JXGetApplication()->GetDisplay(itsDisplayIndex);
 }
 
 /******************************************************************************
@@ -122,11 +122,11 @@ JXDisplayMenu::BuildMenu()
 	SetUpdateAction(kDisableNone);
 
 	const JBoolean found =
-		(JXGetApplication())->GetDisplayIndex(GetDisplay(), &itsDisplayIndex);
+		JXGetApplication()->GetDisplayIndex(GetDisplay(), &itsDisplayIndex);
 	assert( found );
 
 	ListenTo(this);
-	ListenTo( (JXGetApplication())->GetDisplayList() );
+	ListenTo( JXGetApplication()->GetDisplayList() );
 }
 
 /******************************************************************************
@@ -141,7 +141,7 @@ JXDisplayMenu::Receive
 	const Message&	message
 	)
 {
-	const JPtrArray<JXDisplay>* displayList = (JXGetApplication())->GetDisplayList();
+	const JPtrArray<JXDisplay>* displayList = JXGetApplication()->GetDisplayList();
 
 	if (sender == this && message.Is(JXMenu::kNeedsUpdate))
 		{

@@ -33,7 +33,7 @@
 #include <jFileUtil.h>
 #include <jAssert.h>
 
-static const JString kScriptDir("scripts", kJFalse);
+static const JUtf8Byte* kScriptDir = "scripts";
 static const JUtf8Character kCBNameRegexMarker("*");
 
 const JFileVersion kCurrentTextColorVers = 1;

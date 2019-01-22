@@ -37,7 +37,7 @@ JStringManager*			JGetStringManager();
 const JString&			JGetString(const JUtf8Byte* id);
 JString					JGetString(const JUtf8Byte* id, const JUtf8Byte* map[], const JSize size);
 
-JBoolean	JGetDataDirectories(const JString& signature, const JString& dirName,
+JBoolean	JGetDataDirectories(const JUtf8Byte* signature, const JUtf8Byte* dirName,
 								JString* sysDir, JString* userDir);
 
 /******************************************************************************

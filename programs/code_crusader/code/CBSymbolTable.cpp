@@ -638,7 +638,7 @@ CBSymbolTable::Receive
 void
 CBSymbolTable::RebuildTable()
 {
-	(JXGetApplication())->DisplayBusyCursor();
+	JXGetApplication()->DisplayBusyCursor();
 
 	const JPoint scrollPt = (GetAperture()).topLeft();
 

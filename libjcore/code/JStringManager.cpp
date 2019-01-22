@@ -57,8 +57,8 @@
 #include <fstream>
 #include "jAssert.h"
 
-static const JString theDataDirName("string_data", kJFalse);
-static const JString theDefaultFileName("default", kJFalse);
+static const JUtf8Byte* kDataDirName = "string_data";
+static const JString kDefaultFileName("default", kJFalse);
 JBoolean JStringManager::thePseudotranslationFlag = kJFalse;
 
 // non-overridable strings
@@ -294,7 +294,7 @@ JStringManager::Register
 		const JString& language = *localeParts.GetElement(1);
 
 		JString path[2];
-		JGetDataDirectories(JString(signature, kJFalse), theDataDirName, path, path+1);
+		JGetDataDirectories(signature, kDataDirName, path, path+1);
 
 		// merge system first, then user
 
@@ -315,7 +315,7 @@ JStringManager::Register
 					continue;
 					}
 
-				name = JCombinePathAndName(p, theDefaultFileName);
+				name = JCombinePathAndName(p, kDefaultFileName);
 				if (MergeFile(name))
 					{
 					continue;

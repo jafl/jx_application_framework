@@ -113,7 +113,7 @@ CMArray1DDir::CMArray1DDir
 	const JCharacter*	expr
 	)
 	:
-	JXWindowDirector(JXGetApplication())
+	JXWindowDirectorJXGetApplication()
 {
 	// format variable for input field
 
@@ -131,7 +131,7 @@ CMArray1DDir::CMArray1DDir
 	CMCommandDirector*	supervisor
 	)
 	:
-	JXWindowDirector(JXGetApplication())
+	JXWindowDirectorJXGetApplication()
 {
 	input >> itsExpr >> itsRequestRange;
 	CMArray1DDirX(supervisor);
@@ -669,7 +669,7 @@ CMArray1DDir::HandleFileMenu
 		}
 	else if (index == kQuitCmd)
 		{
-		(JXGetApplication())->Quit();
+		JXGetApplication()->Quit();
 		}
 }
 

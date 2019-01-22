@@ -35,8 +35,8 @@ const JCoordinate kRecurseColumn = 1;
 const JCoordinate kIconColumn    = 2;
 const JCoordinate kTextColumn    = 3;
 
-static const JCharacter* kFlagOnStr  = "R";
-static const JCharacter* kFlagOffStr = "";		// must be empty
+static const JString kFlagOnStr("R", kJFalse);
+static const JString kFlagOffStr;		// must be empty
 
 /******************************************************************************
  Constructor
@@ -64,7 +64,7 @@ CBPathTable::CBPathTable
 	itsBasePath(pathList.GetBasePath())
 {
 	const JSize rowHeight = 2*kVMarginWidth +
-		GetFontManager()->GetDefaultMonospaceFont().GetLineHeight();
+		GetFontManager()->GetDefaultMonospaceFont().GetLineHeight(GetFontManager());
 	SetDefaultRowHeight(rowHeight);
 
 	itsFolderIcon = jnew JXImage(GetDisplay(), jx_folder_small);
@@ -102,9 +102,9 @@ CBPathTable::CBPathTable
 	SetTableData(itsData);
 
 	const JSize flagColWidth = 2*kHMarginWidth +
-		GetFontManager()->GetDefaultFont().GetStringWidth(kFlagOnStr);
+		GetFontManager()->GetDefaultFont().GetStringWidth(GetFontManager(), kFlagOnStr);
 
-	SetColBorderInfo(0, GetColormap()->GetBlackColor());
+	SetColBorderInfo(0, JColorManager::GetBlackColor());
 	SetColWidth(kRecurseColumn, flagColWidth);
 	SetColWidth(kIconColumn,    itsFolderIcon->GetWidth() + 2*kHMarginWidth);
 	FitToEnclosure();
@@ -223,11 +223,9 @@ CBPathTable::TableDrawCell
 		{
 		const JString& str = itsData->GetString(cell);
 
-		JSize size;
-		const JCharacter* name = JXPathInput::GetFont(&size);
-		JFont font = GetFontManager()->GetFont(name, size);
-		font.SetColor(JXPathInput::GetTextColor(str, itsBasePath, kJFalse, p.GetColormap()));
-		p.SetFont(font);
+		JFont f = JXFSInputBase::GetFont();
+		f.SetColor(JXPathInput::GetTextColor(str, itsBasePath, kJFalse));
+		p.SetFont(f);
 
 		JRect r = rect;
 		r.left += kHMarginWidth;
@@ -313,7 +311,7 @@ CBPathTable::CreateXInputField
 	itsPathInput = jnew JXPathInput(this, kFixedLeft, kFixedTop, x,y, w,h);
 	assert( itsPathInput != nullptr );
 
-	itsPathInput->SetText(itsData->GetString(cell));
+	itsPathInput->GetText()->SetText(itsData->GetString(cell));
 	itsPathInput->SetBasePath(itsBasePath);
 	itsPathInput->ShouldAllowInvalidPath();
 	UpdateButtons();
@@ -340,7 +338,7 @@ CBPathTable::ExtractInputData
 
 	if (itsPathInput->InputValid())
 		{
-		itsData->SetString(cell, itsPathInput->GetText());
+		itsData->SetString(cell, itsPathInput->GetText()->GetText());
 		return kJTrue;
 		}
 	else
@@ -415,11 +413,11 @@ CBPathTable::ChoosePath()
 	JPoint cell;
 	if (itsPathInput != nullptr && GetEditedCell(&cell))
 		{
-		JString path      = itsPathInput->GetText();
-		const JBoolean ok = itsCSF->ChooseRelRPath("", nullptr, path, &path);	// kills itsPathInput
+		JString path      = itsPathInput->GetText()->GetText();
+		const JBoolean ok = itsCSF->ChooseRelRPath(JString::empty, JString::empty, path, &path);	// kills itsPathInput
 		if (BeginEditing(cell) && ok && itsPathInput != nullptr)
 			{
-			itsPathInput->SetText(path);
+			itsPathInput->GetText()->SetText(path);
 			}
 		}
 }

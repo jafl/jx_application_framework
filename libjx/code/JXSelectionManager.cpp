@@ -429,7 +429,7 @@ JXSelectionManager::RequestData
 		if (!userBored && clock() > startTime + kUserBoredWaitingTime)
 			{
 			userBored = kJTrue;
-			(JXGetApplication())->DisplayBusyCursor();
+			JXGetApplication()->DisplayBusyCursor();
 			}
 		}
 
@@ -599,7 +599,7 @@ JXSelectionManager::SendData
 	std::cout << "Initiating incremental transfer" << std::endl;
 	#endif
 
-	(JXGetApplication())->DisplayBusyCursor();
+	JXGetApplication()->DisplayBusyCursor();
 
 	XID remainingLength = dataLength;		// must be 32 bits
 	XChangeProperty(*itsDisplay, requestor, property, itsAtoms[ kIncrementalSendAtomIndex ],
@@ -858,7 +858,7 @@ JXSelectionManager::ReceiveDataIncr
 	std::cout << "Initiating incremental receive" << std::endl;
 	#endif
 
-	(JXGetApplication())->DisplayBusyCursor();
+	JXGetApplication()->DisplayBusyCursor();
 
 	// we need to hear when the sender crashes
 

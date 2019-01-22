@@ -51,7 +51,7 @@ CMQuitTask::Perform
 
 	const JPtrArray<JXDirector>* list;
 	if (TimeToPerform(delta, maxSleepTime) &&
-		(JXGetApplication())->GetSubdirectors(&list))
+		JXGetApplication()->GetSubdirectors(&list))
 		{
 		quit = kJTrue;
 
@@ -68,7 +68,7 @@ CMQuitTask::Perform
 
 	if (quit)
 		{
-		(JXGetApplication())->Quit();
+		JXGetApplication()->Quit();
 		jdelete this;
 		}
 }

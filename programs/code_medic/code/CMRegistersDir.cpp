@@ -79,7 +79,7 @@ CMRegistersDir::CMRegistersDir
 	CMCommandDirector* supervisor
 	)
 	:
-	JXWindowDirector(JXGetApplication()),
+	JXWindowDirectorJXGetApplication(),
 	itsCommandDir(supervisor),
 	itsShouldUpdateFlag(kJFalse),	// window is always initially hidden
 	itsNeedsUpdateFlag(kJTrue)
@@ -403,7 +403,7 @@ CMRegistersDir::HandleFileMenu
 		}
 	else if (index == kQuitCmd)
 		{
-		(JXGetApplication())->Quit();
+		JXGetApplication()->Quit();
 		}
 }
 

@@ -110,7 +110,7 @@ CMVarTreeDir::CMVarTreeDir
 	CMCommandDirector* supervisor
 	)
 	:
-	JXWindowDirector(JXGetApplication()),
+	JXWindowDirectorJXGetApplication(),
 	itsCommandDir(supervisor)
 {
 	itsLink = CMGetLink();
@@ -411,7 +411,7 @@ CMVarTreeDir::HandleFileMenu
 		}
 	else if (index == kQuitCmd)
 		{
-		(JXGetApplication())->Quit();
+		JXGetApplication()->Quit();
 		}
 }
 

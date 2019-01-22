@@ -46,7 +46,7 @@ public:
 
 	virtual ~CBDocumentManager();
 
-	JBoolean	GetTemplateDirectory(const JString& dirName,
+	JBoolean	GetTemplateDirectory(const JUtf8Byte* dirName,
 									 const JBoolean create, JString* fullName);
 	JBoolean	GetTextTemplateDirectory(const JBoolean create, JString* tmplDir);
 

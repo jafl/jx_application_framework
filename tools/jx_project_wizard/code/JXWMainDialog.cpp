@@ -342,12 +342,12 @@ JXWMainDialog::Receive
 		if (WriteTemplate())
 			{
 			JPrefObject::WritePrefs();
-			(JXGetApplication())->Quit();
+			JXGetApplication()->Quit();
 			}
 		}
 	else if (sender == itsQuitButton && message.Is(JXButton::kPushed))
 		{
-		(JXGetApplication())->Quit();
+		JXGetApplication()->Quit();
 		}
 	else if (sender == itsHelpButton && message.Is(JXButton::kPushed))
 		{

@@ -28,7 +28,7 @@ JXPrefsManager::JXPrefsManager
 	const JBoolean		eraseFileIfOpen
 	)
 	:
-	JPrefsManager((JXGetApplication())->GetSignature(),
+	JPrefsManager(JXGetApplication()->GetSignature(),
 				  currentVersion, eraseFileIfOpen)
 {
 	itsSafetySaveTask = jnew JXTimerTask(kSafetySaveInterval);

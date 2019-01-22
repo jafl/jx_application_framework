@@ -81,7 +81,7 @@ CMThreadsDir::CMThreadsDir
 	CMCommandDirector* supervisor
 	)
 	:
-	JXWindowDirector(JXGetApplication()),
+	JXWindowDirectorJXGetApplication(),
 	itsCommandDir(supervisor)
 {
 	BuildWindow(supervisor);
@@ -334,7 +334,7 @@ CMThreadsDir::HandleFileMenu
 		}
 	else if (index == kQuitCmd)
 		{
-		(JXGetApplication())->Quit();
+		JXGetApplication()->Quit();
 		}
 }
 

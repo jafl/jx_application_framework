@@ -331,7 +331,7 @@ JXDockWidget::CloseAll()
 					{
 					w->Undock();
 					}
-				else if ((JXGetApplication())->DisplayExists(xDisplay))
+				else if (JXGetApplication()->DisplayExists(xDisplay))
 					{
 					itsTabGroup->DeleteTab(i);
 					itsWindowList->RemoveElement(i);

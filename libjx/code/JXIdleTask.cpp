@@ -70,7 +70,7 @@ JXIdleTask::~JXIdleTask()
 void
 JXIdleTask::Start()
 {
-	(JXGetApplication())->InstallIdleTask(this);
+	JXGetApplication()->InstallIdleTask(this);
 }
 
 /******************************************************************************
@@ -81,7 +81,7 @@ JXIdleTask::Start()
 void
 JXIdleTask::Stop()
 {
-	(JXGetApplication())->RemoveIdleTask(this);
+	JXGetApplication()->RemoveIdleTask(this);
 }
 
 /******************************************************************************

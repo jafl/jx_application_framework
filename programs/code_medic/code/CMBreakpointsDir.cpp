@@ -94,7 +94,7 @@ CMBreakpointsDir::CMBreakpointsDir
 	CMCommandDirector* supervisor
 	)
 	:
-	JXWindowDirector(JXGetApplication()),
+	JXWindowDirectorJXGetApplication(),
 	itsCommandDir(supervisor)
 {
 	BuildWindow(supervisor);
@@ -373,7 +373,7 @@ CMBreakpointsDir::HandleFileMenu
 		}
 	else if (index == kQuitCmd)
 		{
-		(JXGetApplication())->Quit();
+		JXGetApplication()->Quit();
 		}
 }
 

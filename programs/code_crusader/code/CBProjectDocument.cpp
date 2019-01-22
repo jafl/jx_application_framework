@@ -76,35 +76,31 @@ JBoolean CBProjectDocument::theReopenTextFilesFlag    = kJTrue;
 JBoolean CBProjectDocument::theWarnOpenOldVersionFlag = kJFalse;
 JString CBProjectDocument::theAddFilesFilter;
 
-static const JCharacter* kProjectFileSignature = "jx_browser_data";
-const JSize kProjectFileSignatureLength        = strlen(kProjectFileSignature);
-static const JCharacter* kProjectFileSuffix    = ".jcc";
+static const JUtf8Byte* kProjectFileSignature = "jx_browser_data";
+const JSize kProjectFileSignatureLength       = strlen(kProjectFileSignature);
+static const JUtf8Byte* kProjectFileSuffix    = ".jcc";
 
-static const JCharacter* kDataDirectory        = ".jcc";
+static const JString kDataDirectory(".jcc", kJFalse);
 
-static const JCharacter* kSettingFileSignature = "jx_browser_local_settings";
-const JSize kSettingFileSignatureLength        = strlen(kSettingFileSignature);
-static const JCharacter* kSettingFileName      = "prefs";
+static const JUtf8Byte* kSettingFileSignature = "jx_browser_local_settings";
+const JSize kSettingFileSignatureLength       = strlen(kSettingFileSignature);
+static const JString kSettingFileName("prefs", kJFalse);
 
-static const JCharacter* kSymbolFileSignature  = "jx_browser_symbol_table";
-const JSize kSymbolFileSignatureLength         = strlen(kSymbolFileSignature);
-static const JCharacter* kSymbolFileName       = "symbols";
+static const JUtf8Byte* kSymbolFileSignature  = "jx_browser_symbol_table";
+const JSize kSymbolFileSignatureLength        = strlen(kSymbolFileSignature);
+static const JString kSymbolFileName("symbols", kJFalse);
 
-static const JCharacter* kNewProjectFileName   = "Untitled.jcc";
-static const JCharacter* kSaveNewFilePrompt    = "Save project as:";
-
-static const JCharacter* kProjTemplateDir      = "project_templates";
-static const JCharacter* kTmplFileSignature    = "jx_browser_project_template";
-const JSize kTmplFileSignatureLength           = strlen(kTmplFileSignature);
-static const JCharacter* kWizardFileSignature  = "jx_browser_project_wizard";
-const JSize kWizardFileSignatureLength         = strlen(kWizardFileSignature);
+static const JUtf8Byte* kProjTemplateDir      = "project_templates";
+static const JUtf8Byte* kTmplFileSignature    = "jx_browser_project_template";
+const JSize kTmplFileSignatureLength          = strlen(kTmplFileSignature);
+static const JUtf8Byte* kWizardFileSignature  = "jx_browser_project_wizard";
+const JSize kWizardFileSignatureLength        = strlen(kWizardFileSignature);
 
 const JSize kSafetySavePeriod = 600000;		// 10 minutes (milliseconds)
 
 // File menu
 
-static const JCharacter* kFileMenuTitleStr = "File";
-static const JCharacter* kFileMenuStr =
+static const JUtf8Byte* kFileMenuStr =
 	"    New text file                  %k Meta-N       %i" kCBNewTextFileAction
 	"  | New text file from template... %k Meta-Shift-N %i" kCBNewTextFileFromTmplAction
 	"  | New project...                                 %i" kCBNewProjectAction
@@ -131,8 +127,7 @@ enum
 
 // Project menu
 
-static const JCharacter* kProjectMenuTitleStr = "Project";
-static const JCharacter* kProjectMenuStr =
+static const JUtf8Byte* kProjectMenuStr =
 	"    Edit project configuration...                  %i" kCBEditMakeConfigAction
 	"  | Update Makefile                                %i" kCBUpdateMakefileAction
 	"%l| Update symbol database         %k Meta-U       %i" kCBUpdateClassTreeAction
@@ -159,8 +154,7 @@ enum
 
 // Source menu
 
-static const JCharacter* kSourceMenuTitleStr = "Source";
-static const JCharacter* kSourceMenuStr =
+static const JUtf8Byte* kSourceMenuStr =
 	"    New group                                                      %i" kCBNewProjectGroupAction
 	"  | Add files...                                                   %i" kCBAddFilesToProjectAction
 	"  | Add directory tree...                                          %i" kCBAddDirectoryTreeToProjectAction
@@ -184,17 +178,9 @@ enum
 	kSaveAllTextCmd, kCloseAllTextCmd
 };
 
-static const JCharacter* kOpenFilesItemStr     = "Open selected files";
-static const JCharacter* kEditGroupNameItemStr = "Edit group name";
-
-// Windows menu
-
-static const JCharacter* kFileListMenuTitleStr = "Windows";
-
 // Preferences menu
 
-static const JCharacter* kPrefsMenuTitleStr = "Preferences";
-static const JCharacter* kPrefsMenuStr =
+static const JUtf8Byte* kPrefsMenuStr =
 	"    Project..."
 	"  | Toolbar buttons..."
 	"  | File types..."
@@ -215,7 +201,7 @@ enum
 
 class ChildAssertHandler : public JAssertBase
 {
-	virtual int Assert(const JCharacter* expr, const JCharacter* file, const int line, const JCharacter* message)
+	virtual int Assert(const JUtf8Byte* expr, const JUtf8Byte* file, const int line, const JUtf8Byte* message)
 	{
 		return JAssertBase::DefaultAssert(expr, file, line, message);
 	}
@@ -241,7 +227,10 @@ CBProjectDocument::Create
 
 	CBNewProjectCSF csf;
 	JString fullName;
-	if (!csf.SaveFile(kSaveNewFilePrompt, "", kNewProjectFileName, &fullName))
+	if (!csf.SaveFile(JGetString("SaveFilePrompt::CBProjectDocument"),
+					  JString::empty,
+					  JGetString("NewFileName::CBProjectDocument"),
+					  &fullName))
 		{
 		return kJFalse;
 		}
@@ -256,12 +245,10 @@ CBProjectDocument::Create
 
 	if (!fromTemplate || tmplType == kTmplFileSignature)
 		{
-		std::ofstream temp(fullName);
+		std::ofstream temp(fullName.GetBytes());
 		if (!temp.good())
 			{
-			JGetUserNotification()->ReportError(
-				"The project file could not be created.  "
-				"Please check that the directory is writable.");
+			JGetUserNotification()->ReportError(JGetString("FileCreateFailed::CBProjectDocument"));
 			return kJFalse;
 			}
 		temp.close();
@@ -284,7 +271,7 @@ CBProjectDocument::Create
 			fullName = root;
 			}
 
-		std::ifstream input(tmplFile);
+		std::ifstream input(tmplFile.GetBytes());
 		input.ignore(kWizardFileSignatureLength);
 
 		JFileVersion vers;
@@ -297,10 +284,10 @@ CBProjectDocument::Create
 
 		JString path, name;
 		JSplitPathAndName(fullName, &path, &name);
-		const JCharacter* map[] =
+		const JUtf8Byte* map[] =
 			{
-			"path", path,
-			"name", name
+			"path", path.GetBytes(),
+			"name", name.GetBytes()
 			};
 		(JGetStringManager())->Replace(&cmd, map, sizeof(map));
 
@@ -317,12 +304,12 @@ CBProjectDocument::Create
 JXFileDocument::FileStatus
 CBProjectDocument::Create
 	(
-	const JCharacter*	fullName,
+	const JString&		fullName,
 	const JBoolean		silent,
 	CBProjectDocument**	doc
 	)
 {
-	assert( !JString::IsEmpty(fullName) );
+	assert( !fullName.IsEmpty() );
 
 	// make sure we use the project file, not the symbol file
 
@@ -367,7 +354,7 @@ CBProjectDocument::Create
 
 	*doc = nullptr;
 
-	std::ifstream input(projName);
+	std::ifstream input(projName.GetBytes());
 	JFileVersion vers;
 	const FileStatus status = CanReadFile(input, &vers);
 	if (status == kFileReadable &&
@@ -407,7 +394,7 @@ CBProjectDocument::Create
 
  ******************************************************************************/
 
-const JCharacter*
+const JUtf8Byte*
 CBProjectDocument::GetTemplateDirectoryName()
 {
 	return kProjTemplateDir;
@@ -421,12 +408,12 @@ CBProjectDocument::GetTemplateDirectoryName()
 JBoolean
 CBProjectDocument::GetProjectTemplateType
 	(
-	const JCharacter*	fullName,
-	JString*			type
+	const JString&	fullName,
+	JString*		type
 	)
 {
 	JFileVersion actualFileVersion;
-	std::ifstream input(fullName);
+	std::ifstream input(fullName.GetBytes());
 	FileStatus status =
 		DefaultCanReadASCIIFile(input, kTmplFileSignature, kCurrentProjectTmplVersion,
 								&actualFileVersion);
@@ -465,10 +452,10 @@ CBProjectDocument::GetProjectTemplateType
 
 CBProjectDocument::CBProjectDocument
 	(
-	const JCharacter*						fullName,
+	const JString&							fullName,
 	const CBBuildManager::MakefileMethod	makefileMethod,
 	const JBoolean							fromTemplate,
-	const JCharacter*						tmplFile
+	const JString&							tmplFile
 	)
 	:
 	JXFileDocument(CBGetApplication(),
@@ -478,7 +465,7 @@ CBProjectDocument::CBProjectDocument
 	JFileVersion tmplVers, projVers;
 	if (fromTemplate)
 		{
-		input = jnew std::ifstream(tmplFile);
+		input = jnew std::ifstream(tmplFile.GetBytes());
 		input->ignore(kTmplFileSignatureLength);
 
 		*input >> tmplVers;
@@ -539,11 +526,11 @@ CBProjectDocument::CBProjectDocument
 
 CBProjectDocument::CBProjectDocument
 	(
-	std::istream&			projInput,
-	const JCharacter*	projName,
-	const JCharacter*	setName,
-	const JCharacter*	symName,
-	const JBoolean		silent
+	std::istream&	projInput,
+	const JString&	projName,
+	const JString&	setName,
+	const JString&	symName,
+	const JBoolean	silent
 	)
 	:
 	JXFileDocument(CBGetApplication(),
@@ -557,7 +544,7 @@ CBProjectDocument::CBProjectDocument
 
 	// open the setting file
 
-	std::ifstream setStream(setName);
+	std::ifstream setStream(setName.GetBytes());
 
 	const JString setSignature = JRead(setStream, kSettingFileSignatureLength);
 
@@ -576,7 +563,7 @@ CBProjectDocument::CBProjectDocument
 
 	// open the symbol file
 
-	std::ifstream symStream(symName);
+	std::ifstream symStream(symName.GetBytes());
 
 	const JString symSignature = JRead(symStream, kSymbolFileSignatureLength);
 
@@ -590,8 +577,6 @@ CBProjectDocument::CBProjectDocument
 		{
 		symInput = &symStream;
 		}
-
-	const JBoolean useProjSymData = JI2B( symInput == nullptr || symVers < 71 );
 
 	// read in project file tree
 
@@ -774,7 +759,7 @@ CBProjectDocument::CBProjectDocumentX
 	itsDelaySymbolUpdateTask = nullptr;
 	itsEditPathsDialog       = nullptr;
 
-	SetSaveNewFilePrompt(kSaveNewFilePrompt);
+	SetSaveNewFilePrompt(JGetString("SaveFilePrompt::CBProjectDocument"));
 
 	BuildWindow(fileList);
 }
@@ -831,12 +816,12 @@ CBProjectDocument::DeleteUpdateLink()
 JError
 CBProjectDocument::WriteFile
 	(
-	const JCharacter*	fullName,
-	const JBoolean		safetySave
+	const JString&	fullName,
+	const JBoolean	safetySave
 	)
 	const
 {
-	std::ofstream output(fullName);
+	std::ofstream output(fullName.GetBytes());
 	WriteTextFile(output, safetySave);
 	if (output.good())
 		{
@@ -879,7 +864,7 @@ CBProjectDocument::WriteTextFile
 	)
 	const
 {
-	(JXGetApplication())->DisplayBusyCursor();
+	JXGetApplication()->DisplayBusyCursor();
 
 	// create the setting and symbol files
 
@@ -891,12 +876,12 @@ CBProjectDocument::WriteTextFile
 		JBoolean onDisk;
 		setName = GetSettingFileName(GetFullName(&onDisk));
 
-		setOutput = jnew std::ofstream(setName);
+		setOutput = jnew std::ofstream(setName.GetBytes());
 		assert( setOutput != nullptr );
 
 		symName = GetSymbolFileName(GetFullName(&onDisk));
 
-		symOutput = jnew std::ofstream(symName);
+		symOutput = jnew std::ofstream(symName.GetBytes());
 		assert( symOutput != nullptr );
 		}
 
@@ -911,11 +896,11 @@ CBProjectDocument::WriteTextFile
 void
 CBProjectDocument::WriteFiles
 	(
-	std::ostream&			projOutput,
-	const JCharacter*	setName,
-	std::ostream*			setOutput,
-	const JCharacter*	symName,
-	std::ostream*			symOutput
+	std::ostream&	projOutput,
+	const JString&	setName,
+	std::ostream*	setOutput,
+	const JString&	symName,
+	std::ostream*	symOutput
 	)
 	const
 {
@@ -990,7 +975,7 @@ CBProjectDocument::WriteFiles
 		{
 		const JBoolean ok = JI2B( setOutput->good() );
 		jdelete setOutput;
-		if (!ok && setName != nullptr)
+		if (!ok && !setName.IsEmpty())
 			{
 			JRemoveFile(setName);
 			}
@@ -1000,7 +985,7 @@ CBProjectDocument::WriteFiles
 		{
 		const JBoolean ok = JI2B( symOutput->good() );
 		jdelete symOutput;
-		if (!ok && symName != nullptr)
+		if (!ok && !symName.IsEmpty())
 			{
 			JRemoveFile(symName);
 			}
@@ -1076,10 +1061,10 @@ CBProjectDocument::ConvertCompileRunDialogs
 JXFileDocument::FileStatus
 CBProjectDocument::CanReadFile
 	(
-	const JCharacter* fullName
+	const JString& fullName
 	)
 {
-	std::ifstream input(fullName);
+	std::ifstream input(fullName.GetBytes());
 	JFileVersion actualFileVersion;
 	return CanReadFile(input, &actualFileVersion);
 }
@@ -1124,7 +1109,7 @@ CBProjectDocument::ReadTemplate
 	else if (tmplVers < 2)
 		{
 		JBoolean shouldWriteMakeFilesFlag;
-		input >> shouldWriteMakeFilesFlag;
+		input >> JBoolFromString(shouldWriteMakeFilesFlag);
 
 		makefileMethod = (shouldWriteMakeFilesFlag ? CBBuildManager::kMakemake :
 													 CBBuildManager::kManual);
@@ -1151,11 +1136,11 @@ CBProjectDocument::ReadTemplate
 void
 CBProjectDocument::WriteTemplate
 	(
-	const JCharacter* fileName
+	const JString& fileName
 	)
 	const
 {
-	std::ofstream output(fileName);
+	std::ofstream output(fileName.GetBytes());
 	output << kTmplFileSignature;
 	output << ' ' << kCurrentProjectTmplVersion;
 	output << ' ' << kCurrentProjectFileVersion;
@@ -1192,7 +1177,7 @@ CBProjectDocument::WriteTemplate
 JString
 CBProjectDocument::GetSettingFileName
 	(
-	const JCharacter* fullName
+	const JString& fullName
 	)
 {
 	JString path, name;
@@ -1211,7 +1196,7 @@ CBProjectDocument::GetSettingFileName
 JString
 CBProjectDocument::GetSymbolFileName
 	(
-	const JCharacter* fullName
+	const JString& fullName
 	)
 {
 	JString path, name;
@@ -1272,7 +1257,7 @@ CBProjectDocument::DiscardChanges()
 void
 CBProjectDocument::AddFile
 	(
-	const JCharacter*				fullName,
+	const JString&					fullName,
 	const CBRelPathCSF::PathType	pathType
 	)
 {
@@ -1546,7 +1531,7 @@ CBProjectDocument::BuildWindow
 
 	// menus
 
-	itsFileMenu = menuBar->PrependTextMenu(kFileMenuTitleStr);
+	itsFileMenu = menuBar->PrependTextMenu(JGetString("FileMenuTitle::JXGlobal"));
 	itsFileMenu->SetMenuItems(kFileMenuStr, "CBProjectDocument");
 	itsFileMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsFileMenu);
@@ -1566,7 +1551,7 @@ CBProjectDocument::BuildWindow
 							  itsFileMenu, kRecentTextMenuCmd, menuBar);
 	assert( recentTextMenu != nullptr );
 
-	itsProjectMenu = menuBar->AppendTextMenu(kProjectMenuTitleStr);
+	itsProjectMenu = menuBar->AppendTextMenu(JGetString("ProjectMenuTitle::CBProjectDocument"));
 	itsProjectMenu->SetMenuItems(kProjectMenuStr, "CBProjectDocument");
 	itsProjectMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsProjectMenu);
@@ -1580,7 +1565,7 @@ CBProjectDocument::BuildWindow
 	itsProjectMenu->SetItemImage(kSearchFilesCmd,       jcc_search_files);
 	itsProjectMenu->SetItemImage(kDiffFilesCmd,         jcc_compare_files);
 
-	itsSourceMenu = menuBar->AppendTextMenu(kSourceMenuTitleStr);
+	itsSourceMenu = menuBar->AppendTextMenu(JGetString("SourceMenuTitle::CBProjectDocument"));
 	itsSourceMenu->SetMenuItems(kSourceMenuStr, "CBProjectDocument");
 	itsSourceMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsSourceMenu);
@@ -1597,12 +1582,12 @@ CBProjectDocument::BuildWindow
 	ListenTo(itsCmdMenu);
 
 	CBDocumentMenu* fileListMenu =
-		jnew CBDocumentMenu(kFileListMenuTitleStr, menuBar,
+		jnew CBDocumentMenu(JGetString("WindowsMenuTitle::JXGlobal"), menuBar,
 						   JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
 	assert( fileListMenu != nullptr );
 	menuBar->AppendMenu(fileListMenu);
 
-	itsPrefsMenu = menuBar->AppendTextMenu(kPrefsMenuTitleStr);
+	itsPrefsMenu = menuBar->AppendTextMenu(JGetString("PrefsMenuTitle::JXGlobal"));
 	itsPrefsMenu->SetMenuItems(kPrefsMenuStr, "CBProjectDocument");
 	itsPrefsMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsPrefsMenu);
@@ -1929,7 +1914,7 @@ CBProjectDocument::HandleFileMenu
 
 	else if (index == kPageSetupCmd)
 		{
-		(CBGetPTTextPrinter())->BeginUserPageSetup();
+		CBGetPTTextPrinter()->BeginUserPageSetup();
 		}
 	else if (index == kPrintCmd)
 		{
@@ -1945,7 +1930,7 @@ CBProjectDocument::HandleFileMenu
 		}
 	else if (index == kQuitCmd)
 		{
-		(JXGetApplication())->Quit();
+		JXGetApplication()->Quit();
 		}
 }
 
@@ -1964,8 +1949,8 @@ CBProjectDocument::SaveAsTemplate()
 		origName = JCombinePathAndName(origName, GetFileName());
 
 		JString tmplName;
-		if (JGetChooseSaveFile()->SaveFile("Save project template as:", nullptr,
-											 origName, &tmplName))
+		if (JGetChooseSaveFile()->SaveFile(JGetString("SaveTmplPrompt::CBProjectDocument"),
+										   JString::empty, origName, &tmplName))
 			{
 			WriteTemplate(tmplName);
 			}
@@ -1984,11 +1969,12 @@ CBProjectDocument::Print
 	)
 	const
 {
-	JString s = "Project name:  ";
-	s += GetFileName();
-	s += "\nProject path:  ";
-	s += GetFilePath();
-	s += "\n";
+	const JUtf8Byte* map[] =
+	{
+		"name", GetFileName().GetBytes(),
+		"path", GetFilePath().GetBytes()
+	};
+	JString s = JGetString("PrintHeader::CBProjectDocument", map, sizeof(map));
 
 	itsFileTree->Print(&s);
 
@@ -2115,7 +2101,7 @@ CBProjectDocument::UpdateSourceMenu()
 	const JBoolean hasSelection = itsFileTable->GetSelectionType(&selType, &single, &index);
 	if (hasSelection && selType == CBProjectTable::kFileSelection)
 		{
-		itsSourceMenu->SetItemText(kOpenFilesCmd, kOpenFilesItemStr);
+		itsSourceMenu->SetItemText(kOpenFilesCmd, JGetString("OpenFilesItemText::CBProjectDocument"));
 
 		itsSourceMenu->EnableItem(kRemoveSelCmd);
 		itsSourceMenu->EnableItem(kOpenFilesCmd);
@@ -2129,7 +2115,7 @@ CBProjectDocument::UpdateSourceMenu()
 		}
 	else if (hasSelection)
 		{
-		itsSourceMenu->SetItemText(kOpenFilesCmd, kEditGroupNameItemStr);
+		itsSourceMenu->SetItemText(kOpenFilesCmd, JGetString("EditGroupNameItemText::CBProjectDocument"));
 
 		itsSourceMenu->EnableItem(kRemoveSelCmd);
 		itsSourceMenu->SetItemEnable(kOpenFilesCmd, single);
@@ -2142,7 +2128,7 @@ CBProjectDocument::UpdateSourceMenu()
 		}
 	else
 		{
-		itsSourceMenu->SetItemText(kOpenFilesCmd, kOpenFilesItemStr);
+		itsSourceMenu->SetItemText(kOpenFilesCmd, JGetString("OpenFilesItemText::CBProjectDocument"));
 
 		itsSourceMenu->DisableItem(kRemoveSelCmd);
 		itsSourceMenu->DisableItem(kOpenFilesCmd);
@@ -2340,39 +2326,42 @@ CBProjectDocument::ReadStaticGlobalPrefs
 {
 	if (vers >= 51)
 		{
-		input >> theWarnOpenOldVersionFlag;
+		input >> JBoolFromString(theWarnOpenOldVersionFlag);
 		}
 
 	if (vers >= 19)
 		{
 		CBProjectTable::DropFileAction action;
-		input >> theReopenTextFilesFlag >> action;
+		input >> JBoolFromString(theReopenTextFilesFlag) >> action;
 		CBProjectTable::SetDropFileAction(action);
 		}
 
 	if (20 <= vers && vers <= 42)
 		{
 		JBoolean beepAfterMake, beepAfterCompile;
-		input >> beepAfterMake >> beepAfterCompile;
+		input >> JBoolFromString(beepAfterMake)
+			  >> JBoolFromString(beepAfterCompile);
 		}
 
 	if (37 <= vers && vers <= 42)
 		{
 		JBoolean raiseBeforeMake, raiseBeforeCompile, raiseBeforeRun;
-		input >> raiseBeforeMake >> raiseBeforeCompile >> raiseBeforeRun;
+		input >> JBoolFromString(raiseBeforeMake)
+			  >> JBoolFromString(raiseBeforeCompile)
+			  >> JBoolFromString(raiseBeforeRun);
 		}
 
 	if (vers >= 42)
 		{
 		JBoolean doubleSpaceCompile;
-		input >> doubleSpaceCompile;
+		input >> JBoolFromString(doubleSpaceCompile);
 		CBCompileDocument::ShouldDoubleSpace(doubleSpaceCompile);
 		}
 
 	if (vers >= 46)
 		{
 		JBoolean rebuildMakefileDaily;
-		input >> rebuildMakefileDaily;
+		input >> JBoolFromString(rebuildMakefileDaily);
 		CBBuildManager::ShouldRebuildMakefileDaily(rebuildMakefileDaily);
 		}
 
@@ -2393,11 +2382,14 @@ CBProjectDocument::WriteStaticGlobalPrefs
 	std::ostream& output
 	)
 {
-	output << theWarnOpenOldVersionFlag;
-	output << ' ' << theReopenTextFilesFlag;
+	output << JBoolToString(theWarnOpenOldVersionFlag)
+		   << JBoolToString(theReopenTextFilesFlag);
+
 	output << ' ' << CBProjectTable::GetDropFileAction();
-	output << ' ' << CBCompileDocument::WillDoubleSpace();
-	output << ' ' << CBBuildManager::WillRebuildMakefileDaily();
+
+	output << ' ' << JBoolToString(CBCompileDocument::WillDoubleSpace())
+				  << JBoolToString(CBBuildManager::WillRebuildMakefileDaily());
+
 	output << ' ' << theAddFilesFilter;
 }
 
@@ -2431,7 +2423,7 @@ CBProjectDocument::ReceiveWithFeedback
 
  ******************************************************************************/
 
-const JCharacter*
+const JUtf8Byte*
 CBProjectDocument::GetProjectFileSuffix()
 {
 	return kProjectFileSuffix;
@@ -2486,7 +2478,7 @@ CBProjectDocument::SymbolUpdateProgress()
 
 	long type;
 
-	const std::string s(msg.GetCString(), msg.GetLength());
+	const std::string s(msg.GetBytes(), msg.GetByteCount());
 	std::istringstream input(s);
 	input >> type;
 
@@ -2532,12 +2524,12 @@ CBProjectDocument::SymbolUpdateProgress()
 			itsUpdatePG->ProcessFinished();
 			}
 
-		(JXGetApplication())->DisplayBusyCursor();
+		JXGetApplication()->DisplayBusyCursor();
 
 		itsUpdateCounter->Hide();
 		itsUpdateCleanUpIndicator->Hide();
 		itsUpdateLabel->Show();
-		itsUpdateLabel->SetText(JGetString("ReloadingSymbols::CBProjectDocument"));
+		itsUpdateLabel->GetText()->SetText(JGetString("ReloadingSymbols::CBProjectDocument"));
 		GetWindow()->Redraw();
 
 		std::ostringstream pgOutput;
@@ -2555,12 +2547,12 @@ CBProjectDocument::SymbolUpdateProgress()
 			itsUpdatePG->ProcessFinished();
 			}
 
-		(JXGetApplication())->DisplayBusyCursor();
+		JXGetApplication()->DisplayBusyCursor();
 
 		itsUpdateCounter->Hide();
 		itsUpdateCleanUpIndicator->Hide();
 		itsUpdateLabel->Show();
-		itsUpdateLabel->SetText(JGetString("ReloadingSymbols::CBProjectDocument"));
+		itsUpdateLabel->GetText()->SetText(JGetString("ReloadingSymbols::CBProjectDocument"));
 		GetWindow()->Redraw();
 
 		*itsUpdateStream << kSymbolTableLocked << std::endl;
@@ -2576,7 +2568,7 @@ CBProjectDocument::SymbolUpdateProgress()
 		JBoolean onDisk;
 		const JString symName = GetSymbolFileName(GetFullName(&onDisk));
 
-		std::ifstream symInput(symName);
+		std::ifstream symInput(symName.GetBytes());
 
 		const JString symSignature = JRead(symInput, kSymbolFileSignatureLength);
 
@@ -2756,7 +2748,7 @@ CBProjectDocument::UpdateSymbolDatabase()
 				output, itsFileTree, *itsDirList, itsSymbolDirector,
 				itsCTreeDirector, itsJavaTreeDirector, itsPHPTreeDirector))
 			{
-			output.write(JMessageProtocolT::kStdDisconnectStr, JMessageProtocolT::kStdDisconnectLength);
+			output.write(JMessageProtocolT::kStdDisconnectStr, JMessageProtocolT::kStdDisconnectByteCount);
 			output.close();
 
 			JWait(15);	// give last message a chance to be received
@@ -2795,10 +2787,10 @@ CBProjectDocument::UpdateSymbolDatabase()
 		JBoolean onDisk;
 		const JString symName = GetSymbolFileName(GetFullName(&onDisk));
 
-		std::ostream* symOutput = jnew std::ofstream(symName);
+		std::ostream* symOutput = jnew std::ofstream(symName.GetBytes());
 		assert( symOutput != nullptr );
 
-		WriteFiles(projOutput, nullptr, nullptr, symName, symOutput);
+		WriteFiles(projOutput, JString::empty, nullptr, symName, symOutput);
 
 		output << kSymbolTableWritten << std::endl;
 		output.close();

@@ -106,7 +106,7 @@ CMMemoryDir::CMMemoryDir
 	const JCharacter*	expr
 	)
 	:
-	JXWindowDirector(JXGetApplication())
+	JXWindowDirectorJXGetApplication()
 {
 	// format variable for input field
 
@@ -126,7 +126,7 @@ CMMemoryDir::CMMemoryDir
 	CMCommandDirector*	supervisor
 	)
 	:
-	JXWindowDirector(JXGetApplication())
+	JXWindowDirectorJXGetApplication()
 {
 	long type;
 	input >> itsExpr >> type >> itsItemCount;
@@ -612,7 +612,7 @@ CMMemoryDir::HandleFileMenu
 		}
 	else if (index == kQuitCmd)
 		{
-		(JXGetApplication())->Quit();
+		JXGetApplication()->Quit();
 		}
 }
 

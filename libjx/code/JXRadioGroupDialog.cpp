@@ -135,7 +135,7 @@ JXRadioGroupDialog::BuildWindow
 	for (JIndex i=1; i<=actionCount; i++)
 		{
 		JXTextRadioButton* button =
-			jnew JXTextRadioButton(i, *(choiceList.GetElement(i)), itsRG,
+			jnew JXTextRadioButton(i, *choiceList.GetElement(i), itsRG,
 								  JXWidget::kFixedLeft, JXWidget::kFixedTop,
 								  kRGHLMarginWidth, kItemVDelta + (i-1) * kItemVSeparation,
 								  10,kTextHeight);

@@ -47,11 +47,11 @@
 CBProjectTable::DropFileAction
 	CBProjectTable::itsDropFileAction = CBProjectTable::kProjectRelative;
 
-static const JCharacter* kSelectionDataID = "CBProjectTable";
+static const JUtf8Byte* kSelectionDataID = "CBProjectTable";
 
 // Context menu
 
-static const JCharacter* kContextMenuStr =
+static const JUtf8Byte* kContextMenuStr =
 	"    Open selected files                 %k Left-dbl-click or Return."
 	"  | Open complement files               %k Middle-dbl-click or Control-Tab."
 	"%l| Edit sub-project configuration"
@@ -72,9 +72,6 @@ enum
 	kEditPathCmd,
 	kDiffSmartCmd, kDiffVCSCmd, kShowLocationCmd
 };
-
-static const JCharacter* kOpenFilesItemStr     = "Open selected files";
-static const JCharacter* kEditGroupNameItemStr = "Edit group name";
 
 /******************************************************************************
  Constructor
@@ -237,7 +234,7 @@ CBProjectTable::AddDirectoryTree()
 	CBRelPathCSF* csf = itsDoc->GetRelPathCSF();
 
 	JString path;
-	if (csf->ChooseRPath("", "", nullptr, &path))
+	if (csf->ChooseRPath(JString::empty, JString::empty, JString::empty, &path))
 		{
 		AddDirectoryTree(path, csf->GetPathType());
 		}
@@ -246,7 +243,7 @@ CBProjectTable::AddDirectoryTree()
 void
 CBProjectTable::AddDirectoryTree
 	(
-	const JCharacter*				fullPath,
+	const JString&					fullPath,
 	const CBRelPathCSF::PathType	pathType
 	)
 {
@@ -269,8 +266,8 @@ CBProjectTable::AddDirectoryTree
 void
 CBProjectTable::AddDirectoryTree
 	(
-	const JCharacter*				fullPath,
-	const JCharacter*				filterStr,
+	const JString&					fullPath,
+	const JString&					filterStr,
 	const CBRelPathCSF::PathType	pathType
 	)
 {
@@ -290,9 +287,9 @@ CBProjectTable::AddDirectoryTree
 void
 CBProjectTable::AddDirectoryTree
 	(
-	const JCharacter*				fullPath,
-	const JCharacter*				relPath,
-	const JCharacter*				filterStr,
+	const JString&					fullPath,
+	const JString&					relPath,
+	const JString&					filterStr,
 	const CBRelPathCSF::PathType	pathType,
 	JBoolean*						changed
 	)
@@ -373,7 +370,7 @@ CBProjectTable::AddFiles()
 	CBRelPathCSF* csf = itsDoc->GetRelPathCSF();
 
 	JPtrArray<JString> fullNameList(JPtrArrayT::kDeleteAll);
-	if (csf->ChooseFiles("", nullptr, &fullNameList))
+	if (csf->ChooseFiles(JString::empty, JString::empty, &fullNameList))
 		{
 		AddFiles(fullNameList, csf->GetPathType());
 		}
@@ -393,7 +390,7 @@ CBProjectTable::AddFiles
 		return kJFalse;
 		}
 
-	(JXGetApplication())->DisplayBusyCursor();
+	JXGetApplication()->DisplayBusyCursor();
 
 	CBProjectTree* tree = itsDoc->GetFileTree();
 	JTreeList* treeList = GetTreeList();
@@ -436,7 +433,7 @@ CBProjectTable::AddFiles
 	const JSize count = fullNameList.GetElementCount();
 
 	JLatentPG pg(10);
-	pg.FixedLengthProcessBeginning(count, "Adding files...", kJTrue, kJFalse);
+	pg.FixedLengthProcessBeginning(count, JGetString("ParsingFilesProgress::CBProjectDocument"), kJTrue, kJFalse);
 
 	for (JIndex i=1; i<=count; i++)
 		{
@@ -504,15 +501,19 @@ CBProjectTable::AddFiles
 
 		if (!silent && fullNameList.GetElementCount() == 1)
 			{
-			JString path, msg;
-			JSplitPathAndName(*(fullNameList.FirstElement()), &path, &msg);
-			msg += " is already in the project.";
+			JString path, name;
+			JSplitPathAndName(*fullNameList.GetFirstElement(), &path, &name);
+			const JUtf8Byte* map[] =
+			{
+				"name", name.GetBytes()
+			};
+			const JString msg = JGetString("FileAlreadyInProject::CBProjectDocument", map, sizeof(map));
 			JGetUserNotification()->ReportError(msg);
 			}
 		else if (!silent)
 			{
 			JGetUserNotification()->ReportError(
-				"All the files that you selected are already in the project.");
+				JGetString("AllFilesAlreadyInProject::CBProjectDocument"));
 			}
 		}
 	else if (firstNew != nullptr && updateProject)
@@ -909,12 +910,12 @@ CBProjectTable::Receive
 		ok = GetEditedCell(&cell);
 		assert( ok );
 
-		JString newName = inputField->GetText();
+		JString newName = inputField->GetText()->GetText();
 
-		ok = (itsDoc->GetRelPathCSF())->ChooseRelFile("", "", newName, &newName);	// kills inputField
+		ok = (itsDoc->GetRelPathCSF())->ChooseRelFile(JString::empty, JString::empty, newName, &newName);	// kills inputField
 		if (BeginEditing(cell) && ok && GetXInputField(&inputField))
 			{
-			inputField->SetText(newName);
+			inputField->GetText()->SetText(newName);
 			}
 		}
 
@@ -1344,13 +1345,14 @@ CBProjectTable::HandleMouseUp
 void
 CBProjectTable::HandleKeyPress
 	(
-	const int				key,
+	const JUtf8Character&	c,
+	const int				keySym,
 	const JXKeyModifiers&	modifiers
 	)
 {
 	(CBGetDocumentManager())->SetActiveProjectDocument(itsDoc);
 
-	if (key == kJReturnKey)
+	if (c == kJReturnKey)
 		{
 		if (IsEditing())
 			{
@@ -1362,12 +1364,12 @@ CBProjectTable::HandleKeyPress
 			}
 		}
 
-	else if (key == kJDeleteKey || key == kJForwardDeleteKey)
+	else if (c == kJDeleteKey || c == kJForwardDeleteKey)
 		{
 		RemoveSelection();
 		}
 
-	else if (key == '\t' &&
+	else if (c == '\t' &&
 			 !modifiers.GetState(kJXMetaKeyIndex)   &&
 			 modifiers.GetState(kJXControlKeyIndex) &&
 			 !modifiers.shift())
@@ -1375,27 +1377,27 @@ CBProjectTable::HandleKeyPress
 		OpenComplementFiles();
 		}
 
-	else if ((key == kJUpArrow || key == kJDownArrow) && !IsEditing())
+	else if ((c == kJUpArrow || c == kJDownArrow) && !IsEditing())
 		{
 		const JBoolean hasSelection = HasSelection();
-		if (!hasSelection && key == kJUpArrow && GetRowCount() > 0)
+		if (!hasSelection && c == kJUpArrow && GetRowCount() > 0)
 			{
 			SelectSingleCell(JPoint(GetNodeColIndex(), GetRowCount()));
 			}
-		else if (!hasSelection && key == kJDownArrow && GetRowCount() > 0)
+		else if (!hasSelection && c == kJDownArrow && GetRowCount() > 0)
 			{
 			SelectSingleCell(JPoint(GetNodeColIndex(), 1));
 			}
 		else
 			{
-			HandleSelectionKeyPress(key, modifiers);
+			HandleSelectionKeyPress(c, modifiers);
 			}
 		ClearIncrementalSearchBuffer();
 		}
 
 	else
 		{
-		JXNamedTreeListWidget::HandleKeyPress(key, modifiers);
+		JXNamedTreeListWidget::HandleKeyPress(c, keySym, modifiers);
 		}
 }
 
@@ -1430,10 +1432,10 @@ void
 CBProjectTable::GetSelectionData
 	(
 	JXSelectionData*	data,
-	const JCharacter*	id
+	const JString&		id
 	)
 {
-	if (strcmp(id, kSelectionDataID) == 0)
+	if (id == kSelectionDataID)
 		{
 		assert( HasSelection() );
 
@@ -1826,7 +1828,7 @@ CBProjectTable::HandleDNDDrop
 				if (fileNameList.IsEmpty() && pathList.IsEmpty() && urlList.IsEmpty())
 					{
 					JGetUserNotification()->ReportError(
-						"You can only drop files and/or directories.");
+						JGetString("OnlyDropFilesDirs::CBProjectDocument"));
 					}
 				else if (fileNameList.IsEmpty() && pathList.IsEmpty())
 					{
@@ -1840,12 +1842,9 @@ CBProjectTable::HandleDNDDrop
 					actionList.AppendElement(CBRelPathCSF::kHomeRelative);
 
 					JPtrArray<JString> descriptionList(JPtrArrayT::kForgetAll);
-					JString absPathText = "Add files using absolute path";
-					JString projRelText = "Add files using path relative to project file";
-					JString homeRelText = "Add files using path relative to home directory";
-					descriptionList.Append(&absPathText);
-					descriptionList.Append(&projRelText);
-					descriptionList.Append(&homeRelText);
+					descriptionList.Append(const_cast<JString*>(&JGetString("AddFilesAbsPath::CBProjectDocument")));
+					descriptionList.Append(const_cast<JString*>(&JGetString("AddFilesRelProj::CBProjectDocument")));
+					descriptionList.Append(const_cast<JString*>(&JGetString("AddFilesRelHome::CBProjectDocument")));
 
 					Atom action1 = CBRelPathCSF::kProjectRelative;
 					if (dndMgr->ChooseDropAction(actionList, descriptionList, &action1))
@@ -2117,7 +2116,7 @@ CBProjectTable::CreateContextMenu()
 {
 	if (itsContextMenu == nullptr)
 		{
-		itsContextMenu = jnew JXTextMenu("", this, kFixedLeft, kFixedTop, 0,0, 10,10);
+		itsContextMenu = jnew JXTextMenu(JString::empty, this, kFixedLeft, kFixedTop, 0,0, 10,10);
 		assert( itsContextMenu != nullptr );
 		itsContextMenu->SetMenuItems(kContextMenuStr, "CBProjectTable");
 		itsContextMenu->SetUpdateAction(JXMenu::kDisableNone);
@@ -2143,7 +2142,7 @@ CBProjectTable::UpdateContextMenu()
 	const JBoolean hasSelection = GetSelectionType(&selType, &single, &index);
 	if (hasSelection && selType == kFileSelection)
 		{
-		itsContextMenu->SetItemText(kOpenFilesCmd, kOpenFilesItemStr);
+		itsContextMenu->SetItemText(kOpenFilesCmd, JGetString("OpenFilesItemText::CBProjectDocument"));
 
 		itsContextMenu->EnableItem(kRemoveSelCmd);
 		itsContextMenu->EnableItem(kOpenFilesCmd);
@@ -2157,7 +2156,7 @@ CBProjectTable::UpdateContextMenu()
 		}
 	else if (hasSelection)
 		{
-		itsContextMenu->SetItemText(kOpenFilesCmd, kEditGroupNameItemStr);
+		itsContextMenu->SetItemText(kOpenFilesCmd, JGetString("EditGroupNameItemText::CBProjectDocument"));
 
 		itsContextMenu->EnableItem(kRemoveSelCmd);
 		itsContextMenu->SetItemEnable(kOpenFilesCmd, single);
@@ -2170,7 +2169,7 @@ CBProjectTable::UpdateContextMenu()
 		}
 	else
 		{
-		itsContextMenu->SetItemText(kOpenFilesCmd, kOpenFilesItemStr);
+		itsContextMenu->SetItemText(kOpenFilesCmd, JGetString("OpenFilesItemText::CBProjectDocument"));
 
 		itsContextMenu->DisableItem(kRemoveSelCmd);
 		itsContextMenu->DisableItem(kOpenFilesCmd);
@@ -2272,14 +2271,14 @@ CBProjectTable::CreateXInputField
 	JXInputField* inputField =
 		JXNamedTreeListWidget::CreateXInputField(cell, x,y, w,h);
 	inputField->SetIsRequired();
-	inputField->SetCharacterInWordFunction(JXPathInput::IsCharacterInWord);
+	inputField->GetText()->SetCharacterInWordFunction(JXPathInput::IsCharacterInWord);
 
 	if (GetDepth(cell.y) == kFileDepth)
 		{
 		CBFileNodeBase* node =
 			dynamic_cast<CBFileNodeBase*>(GetProjectNode(cell.y));
 		assert( node != nullptr );
-		inputField->SetText(node->GetFileName());
+		inputField->GetText()->SetText(node->GetFileName());
 
 		JRect r;
 		JBoolean ok = GetImageRect(cell.y, &r);
@@ -2367,7 +2366,7 @@ CBProjectTable::ExtractInputData
 			JString origFullName, newFullName;
 			const JBoolean existed = node->GetFullName(&origFullName);
 
-			node->SetFileName(inputField->GetText());
+			node->SetFileName(inputField->GetText()->GetText());
 
 			const JBoolean exists = node->GetFullName(&newFullName);
 
@@ -2378,9 +2377,9 @@ CBProjectTable::ExtractInputData
 				JBoolean replace = kJTrue;
 				if (exists)
 					{
-					const JCharacter* map[] =
+					const JUtf8Byte* map[] =
 						{
-						"f", newFullName
+						"f", newFullName.GetBytes()
 						};
 					const JString msg = JGetString("OKToReplace::CBProjectTable", map, sizeof(map));
 					replace = JGetUserNotification()->AskUserNo(msg);
@@ -2400,7 +2399,7 @@ CBProjectTable::ExtractInputData
 					const JError err = JRenameVCS(origFullName, newFullName);
 					if (err.OK())
 						{
-						CBCleanUpAfterRename(origFullName, nullptr);
+						CBCleanUpAfterRename(origFullName, JString::empty);
 						}
 					else
 						{
@@ -2480,7 +2479,7 @@ CBProjectTable::ReadSetup
 		while (1)
 			{
 			JBoolean keepGoing;
-			*setInput >> keepGoing;
+			*setInput >> JBoolFromString(keepGoing);
 			if (setInput->fail() || !keepGoing)
 				{
 				break;
@@ -2509,7 +2508,7 @@ CBProjectTable::ReadSetup
 		for (JIndex i=groupCount; i>=1; i--)
 			{
 			JBoolean isOpen;
-			projInput >> isOpen;
+			projInput >> JBoolFromString(isOpen);
 			if (useProjData && isOpen && treeList->IndexValid(i))
 				{
 				treeList->Open(i);
@@ -2554,12 +2553,12 @@ CBProjectTable::WriteSetup
 
 			if (treeList->IsOpen(child))
 				{
-				*setOutput << ' ' << kJTrue;
+				*setOutput << ' ' << JBoolToString(kJTrue);
 				*setOutput << ' ' << child->GetName();
 				}
 			}
 
-		*setOutput << ' ' << kJFalse << ' ';
+		*setOutput << ' ' << JBoolToString(kJFalse) << ' ';
 		WriteScrollSetup(*setOutput);
 
 		*setOutput << ' ';

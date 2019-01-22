@@ -21,7 +21,7 @@ CBDirList::CBDirList()
 {
 	CBDirListX();
 
-	AddPath("./", kJTrue);
+	AddPath(JString("./", kJFalse), kJTrue);
 }
 
 // private
@@ -174,8 +174,8 @@ CBDirList::GetTruePath
 void
 CBDirList::AddPath
 	(
-	const JCharacter*	path,
-	const JBoolean		recurse
+	const JString&	path,
+	const JBoolean	recurse
 	)
 {
 	CBDirInfo info(jnew JString(path), recurse);
@@ -193,7 +193,7 @@ CBDirList::AddPath
 void
 CBDirList::SetBasePath
 	(
-	const JCharacter* path
+	const JString& path
 	)
 {
 	assert( JIsAbsolutePath(path) );
@@ -210,11 +210,11 @@ CBDirList::SetBasePath
 JBoolean
 CBDirList::Contains
 	(
-	const JCharacter* p
+	const JString& p
 	)
 	const
 {
-	if (JString::IsEmpty(p))
+	if (p.IsEmpty())
 		{
 		return kJFalse;
 		}
@@ -276,7 +276,7 @@ CBDirList::ReadDirectories
 		while (1)
 			{
 			JBoolean keepGoing;
-			input >> keepGoing;
+			input >> JBoolFromString(keepGoing);
 			if (!keepGoing)
 				{
 				break;
@@ -305,7 +305,7 @@ CBDirList::ReadDirectory
 	input >> path;
 	if (vers >= 21)
 		{
-		input >> recurse;
+		input >> JBoolFromString(recurse);
 		}
 	AddPath(path, recurse);
 }
@@ -327,15 +327,15 @@ CBDirList::WriteDirectories
 	const JSize dirCount = GetElementCount();
 	for (JIndex i=1; i<=dirCount; i++)
 		{
-		output << kJTrue;
+		output << JBoolToString(kJTrue);
 
 		const CBDirInfo info = itsDirList->GetElement(i);
 		output << ' ' << *(info.path);
-		output << ' ' << info.recurse;
+		output << ' ' << JBoolToString(info.recurse);
 		output << '\n';
 		}
 
-	output << kJFalse << '\n';
+	output << JBoolToString(kJFalse) << '\n';
 }
 
 /******************************************************************************

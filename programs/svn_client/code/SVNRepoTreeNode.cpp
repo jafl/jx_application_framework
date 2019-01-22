@@ -118,7 +118,7 @@ SVNRepoTreeNode::Rename
 	cmd += " ";
 	cmd += newRepoPath;
 
-	(JXGetApplication())->DisplayBusyCursor();
+	JXGetApplication()->DisplayBusyCursor();
 
 	JSimpleProcess* p;
 	JSimpleProcess::Create(&p, cmd, kJFalse);

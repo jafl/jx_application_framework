@@ -18,27 +18,26 @@ public:
 
 	virtual ~CBSymbolUpdatePG();
 
-	virtual JBoolean	IncrementProgress(const JCharacter* message = nullptr);
-	virtual JBoolean	IncrementProgress(const JSize delta);
-	virtual JBoolean	IncrementProgress(const JCharacter* message,
-										  const JSize delta);
-	virtual void		ProcessFinished();
-	virtual void		DisplayBusyCursor();
+	virtual JBoolean	IncrementProgress(const JString& message = JString::empty) override;
+	virtual JBoolean	IncrementProgress(const JSize delta) override;
+	virtual JBoolean	IncrementProgress(const JString& message, const JSize delta) override;
+	virtual void		ProcessFinished() override;
+	virtual void		DisplayBusyCursor() override;
 
 	void	SetScaleFactor(const JSize scaleFactor);
 
 protected:
 
 	virtual void	ProcessBeginning(const ProcessType processType, const JSize stepCount,
-									 const JCharacter* message, const JBoolean allowCancel,
-									 const JBoolean allowBackground);
+									 const JString& message, const JBoolean allowCancel,
+									 const JBoolean allowBackground) override;
 
-	virtual JBoolean	CheckForCancel();
+	virtual JBoolean	CheckForCancel() override;
 
 private:
 
 	std::ostream&	itsLink;
-	JSize		itsScaleFactor;
+	JSize			itsScaleFactor;
 
 private:
 

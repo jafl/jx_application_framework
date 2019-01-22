@@ -156,7 +156,7 @@ SVNMDIServer::HandleMDIRequest
 				JString path = fullPath, name;
 				if (isURL)
 					{
-					(JXGetApplication())->DisplayBusyCursor();
+					JXGetApplication()->DisplayBusyCursor();
 
 					JString type, error;
 					if (!JGetSVNEntryType(path, &type, &error))

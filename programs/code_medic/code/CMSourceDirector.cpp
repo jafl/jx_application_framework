@@ -155,7 +155,7 @@ CMSourceDirector::CMSourceDirector
 	const Type			type
 	)
 	:
-	JXWindowDirector(JXGetApplication()),
+	JXWindowDirectorJXGetApplication(),
 	itsType(type),
 	itsSrcMainCmd(nullptr),
 	itsGetAssemblyCmd(nullptr)
@@ -182,7 +182,7 @@ CMSourceDirector::CMSourceDirector
 	const Type			type
 	)
 	:
-	JXWindowDirector(JXGetApplication()),
+	JXWindowDirectorJXGetApplication(),
 	itsType(type),
 	itsSrcMainCmd(nullptr),
 	itsGetAssemblyCmd(nullptr)

@@ -118,7 +118,7 @@ SVNInfoLog::Execute
 	const JString& cmd
 	)
 {
-	(JXGetApplication())->DisplayBusyCursor();
+	JXGetApplication()->DisplayBusyCursor();
 
 	pid_t pid;
 	int outFD, errFD;

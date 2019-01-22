@@ -37,7 +37,7 @@
 #include <JStringIterator.h>
 #include <jAssert.h>
 
-static const JString kTextTemplateDir("text_templates", kJFalse);
+static const JUtf8Byte* kTextTemplateDir = "text_templates";
 
 // External editors
 
@@ -462,7 +462,7 @@ CBDocumentManager::NewTextDocumentFromTemplate()
 		{
 		const JUtf8Byte* map[] =
 		{
-			"name", kTextTemplateDir.GetBytes()
+			"name", kTextTemplateDir
 		};
 		const JString msg = JGetString("NoTextTemplates::CBDocumentManager", map, sizeof(map));
 		JGetUserNotification()->ReportError(msg);
@@ -515,9 +515,9 @@ CBDocumentManager::GetTextTemplateDirectory
 JBoolean
 CBDocumentManager::GetTemplateDirectory
 	(
-	const JString&	dirName,
-	const JBoolean	create,
-	JString*		fullName
+	const JUtf8Byte*	dirName,
+	const JBoolean		create,
+	JString*			fullName
 	)
 {
 	fullName->Clear();

@@ -76,7 +76,7 @@ JXStandAlonePG::ProcessBeginning
 
 	if (!allowBackground)
 		{
-		(JXGetApplication())->PrepareForBlockingWindow();
+		JXGetApplication()->PrepareForBlockingWindow();
 		}
 
 	assert( itsProgressDirector == nullptr );
@@ -188,7 +188,7 @@ JXStandAlonePG::ProcessContinuing()
 
 	if (!AllowBackground())
 		{
-		while ((JXGetApplication())->HandleOneEventForWindow(window, kJFalse))
+		while (JXGetApplication()->HandleOneEventForWindow(window, kJFalse))
 			{ };
 		}
 
@@ -221,7 +221,7 @@ JXStandAlonePG::ProcessFinished()
 
 	if (!AllowBackground())
 		{
-		(JXGetApplication())->BlockingWindowFinished();
+		JXGetApplication()->BlockingWindowFinished();
 		}
 
 	JXProgressDisplay::ProcessFinished();

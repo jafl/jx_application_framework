@@ -295,15 +295,16 @@ CBNewProjectSaveFileDialog::BuildTemplateMenu
 			// We have to extract user/sys here because otherwise we would
 			// have to keep extra state while building the sorted list.
 
-			itemText = *(menuText.GetElement(i));
+			itemText = *menuText.GetElement(i);
 
-			JIndex j;
-			const JBoolean found = itemText.LocateLastSubstring(" (", &j);
-			assert( found );
+			JPtrArray<JString> s(JPtrArrayT::kDeleteAll);
+			itemText.Split(" (", &s, 2);
+			assert( s.GetElementCount() == 2 );
 
-			const JIndexRange r(j, itemText.GetLength());
-			nmShortcut = itemText.GetSubstring(r);
-			itemText.RemoveSubstring(r);
+			itemText = *s.GetElement(1);
+
+			nmShortcut = *s.GetElement(2);
+			nmShortcut.Prepend("(");
 
 			itsTemplateMenu->AppendItem(itemText, JXMenu::kRadioType);
 			itsTemplateMenu->SetItemNMShortcut(itsTemplateMenu->GetItemCount(), nmShortcut);

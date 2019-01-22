@@ -2340,7 +2340,7 @@ JXTEBase::Receive
 			}
 		else if (sender == GetText() && message.Is(JStyledText::kWillBeBusy))
 			{
-			(JXGetApplication())->DisplayBusyCursor();
+			JXGetApplication()->DisplayBusyCursor();
 			}
 
 		JXScrollableWidget::Receive(sender, message);
@@ -3033,7 +3033,7 @@ JXTEBase::ReplaceAll
 			&searchRegex, &entireWord, &wrapSearch,
 			&replaceStr, &interpolator, &preserveCase))
 		{
-		(JXGetApplication())->DisplayBusyCursor();
+		JXGetApplication()->DisplayBusyCursor();
 
 		return JTextEditor::ReplaceAll(*searchRegex, entireWord,
 									   replaceStr, interpolator,

@@ -251,7 +251,7 @@ SVNTabBase::ExecuteDiff
 		return kJFalse;
 		}
 
-	(JXGetApplication())->DisplayBusyCursor();
+	JXGetApplication()->DisplayBusyCursor();
 
 	JSubstitute subst;
 	subst.DefineVariable("rev_option", rev);
@@ -609,7 +609,7 @@ SVNTabBase::Execute
 
 	if (blocking)
 		{
-		(JXGetApplication())->DisplayBusyCursor();
+		JXGetApplication()->DisplayBusyCursor();
 
 		JSimpleProcess* p;
 		if (itsDirector->HasPath())

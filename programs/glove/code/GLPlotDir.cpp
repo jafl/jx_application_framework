@@ -169,7 +169,7 @@ GLPlotDir::GLPlotDir
 	itsAnalysisMenu->DisableItem(kDiffPlotCmd);
 
 	itsSessionDir =
-		jnew GLHistoryDir(JXGetApplication());
+		jnew GLHistoryDirJXGetApplication();
 	assert(itsSessionDir != nullptr);
 	JXGetDocumentManager()->DocumentMustStayOpen(itsSessionDir, kJTrue);
 	ListenTo(itsSessionDir);

@@ -326,7 +326,7 @@ JXProgressDisplay::ProcessFinished()
 void
 JXProgressDisplay::DisplayBusyCursor()
 {
-	(JXGetApplication())->DisplayBusyCursor();
+	JXGetApplication()->DisplayBusyCursor();
 }
 
 /******************************************************************************

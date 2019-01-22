@@ -140,6 +140,9 @@ CBJavaTree::UpdateFinished
 
 	Parses the given file and creates one CBJavaClass.
 
+	We do not create java.lang.Object, because that destroys the ability to
+	minimize MI links.
+
  ******************************************************************************/
 
 void
@@ -163,17 +166,6 @@ CBJavaTree::ParseFile
 		return;
 		}
 
-	CBClass* newClass = classList.FirstElement();
-
-/* this destroys the ability to minimize MI links
-
-	// default superclass
-
-	if (newClass != nullptr && !newClass->HasParents())
-		{
-		newClass->AddParent(CBClass::kInheritPublic, "java.lang.Object");
-		}
-*/
 	// extract functions via ctags
 
 	JString data;
@@ -181,7 +173,7 @@ CBJavaTree::ParseFile
 	if (ProcessFile(fileName, kCBJavaSourceFT, &data, &lang))
 		{
 		std::istrstream input(data.GetCString(), data.GetLength());
-		ReadFunctionList(input, newClass);
+		ReadFunctionList(input, classList);
 		}
 }
 
@@ -193,8 +185,8 @@ CBJavaTree::ParseFile
 void
 CBJavaTree::ReadFunctionList
 	(
-	std::istream&	input,
-	CBClass*	theClass
+	std::istream&				input,
+	const JPtrArray<CBClass>&	classList
 	)
 {
 	input >> std::ws;

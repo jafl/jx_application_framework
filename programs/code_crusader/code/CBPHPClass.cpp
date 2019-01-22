@@ -128,7 +128,7 @@ CBPHPClass::NewGhost
 }
 
 /******************************************************************************
- IsInherited (virtual)
+ IsInherited (virtual protected)
 
 	Returns kJTrue if the specified function is inherited by derived classes.
 	Constructors, destructors, and private functions are not inherited.

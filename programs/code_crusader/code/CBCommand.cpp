@@ -479,7 +479,7 @@ CBCommand::StartProcess()
 		{
 		if (itsBeepFlag && itsParent == nullptr)
 			{
-			((JXGetApplication())->GetCurrentDisplay())->Beep();
+			(JXGetApplication()->GetCurrentDisplay())->Beep();
 			}
 		DeleteThis();
 		return kJFalse;

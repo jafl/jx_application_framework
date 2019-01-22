@@ -66,7 +66,7 @@
 
 // class data
 
-JColorID CBClass::itsGhostNameColor;
+JColorID CBClass::theGhostNameColor;
 
 static JFontStyle kConcreteLabelStyle;
 static JFontStyle kAbstractLabelStyle(kJFalse, kJTrue, 0, kJFalse, 0);
@@ -775,56 +775,6 @@ CBClass::AddFunction
 }
 
 /******************************************************************************
- Implements
-
-	Returns kJTrue if this class implements the specified function.
-
- ******************************************************************************/
-
-JBoolean
-CBClass::Implements
-	(
-	const JString&	name,
-	const JBoolean	caseSensitive
-	)
-	const
-{
-	JString s = name;
-	FunctionInfo fInfo;
-	fInfo.name = &s;
-	JIndex i;
-	if (!itsFunctionInfo->SearchSorted(fInfo, JListT::kFirstMatch, &i))
-		{
-		return kJFalse;
-		}
-	else if (!caseSensitive)
-		{
-		return kJTrue;
-		}
-	else
-		{
-		// check each name that gives a case-insensitive match
-		// to see if it is a case-sensitive match
-
-		const JSize fnCount = itsFunctionInfo->GetElementCount();
-		for( ; i<=fnCount; i++)
-			{
-			const FunctionInfo info = itsFunctionInfo->GetElement(i);
-			if (JString::Compare(name, *info.name, kJFalse) != 0)
-				{
-				break;
-				}
-			if (name == *info.name)
-				{
-				return kJTrue;
-				}
-			}
-
-		return kJFalse;
-		}
-}
-
-/******************************************************************************
  View... (virtual)
 
 	These are not pure virtual because CBTree needs to be able to construct
@@ -844,100 +794,6 @@ CBClass::ViewHeader()
 	const
 {
 	assert_msg( 0, "The programmer forgot to override CBClass::ViewHeader()" );
-}
-
-JBoolean
-CBClass::ViewDefinition
-	(
-	const JString&	fnName,
-	const JBoolean	caseSensitive,
-	const JBoolean	reportNotFound
-	)
-	const
-{
-	assert_msg( 0, "The programmer forgot to override CBClass::ViewDefinition()" );
-	return kJFalse;
-}
-
-JBoolean
-CBClass::ViewDeclaration
-	(
-	const JString&	fnName,
-	const JBoolean	caseSensitive,
-	const JBoolean	reportNotFound
-	)
-	const
-{
-	assert_msg( 0, "The programmer forgot to override CBClass::ViewDeclaration()" );
-	return kJFalse;
-}
-
-/******************************************************************************
- ViewInheritedDefinition (protected)
-
-	Search all ancestors for the given function.  Returns kJTrue if the
-	function was found.
-
- ******************************************************************************/
-
-JBoolean
-CBClass::ViewInheritedDefinition
-	(
-	const JString&	fnName,
-	const JBoolean	caseSensitive,
-	const JBoolean	reportNotFound
-	)
-	const
-{
-	if (Implements(fnName, caseSensitive))
-		{
-		return ViewDefinition(fnName, caseSensitive, reportNotFound);
-		}
-
-	for (const ParentInfo& info : *itsParentInfo)
-		{
-		if (info.parent != nullptr &&
-			info.parent->ViewInheritedDefinition(fnName, caseSensitive, reportNotFound))
-			{
-			return kJTrue;
-			}
-		}
-
-	return kJFalse;
-}
-
-/******************************************************************************
- ViewInheritedDeclaration (protected)
-
-	Search all ancestors for the given function.  Returns kJTrue if the
-	function was found.
-
- ******************************************************************************/
-
-JBoolean
-CBClass::ViewInheritedDeclaration
-	(
-	const JString&	fnName,
-	const JBoolean	caseSensitive,
-	const JBoolean	reportNotFound
-	)
-	const
-{
-	if (Implements(fnName, caseSensitive))
-		{
-		return ViewDeclaration(fnName, caseSensitive, reportNotFound);
-		}
-
-	for (const ParentInfo& info : *itsParentInfo)
-		{
-		if (info.parent != nullptr &&
-			info.parent->ViewInheritedDeclaration(fnName, caseSensitive, reportNotFound))
-			{
-			return kJTrue;
-			}
-		}
-
-	return kJFalse;
 }
 
 /******************************************************************************

@@ -1522,7 +1522,7 @@ TestWidget::Receive
 		}
 	else if (sender == itsQuitButton && message.Is(JXButton::kPushed))
 		{
-		(JXGetApplication())->Quit();
+		JXGetApplication()->Quit();
 		}
 
 	else if (window->GetIconWidget(&windowIcon) &&

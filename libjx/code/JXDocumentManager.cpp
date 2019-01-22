@@ -109,7 +109,7 @@ JXDocumentManager::JXDocumentManager
 
 	itsUpdateDocMenuTask = nullptr;
 
-	JXDisplay* d = (JXGetApplication())->GetCurrentDisplay();
+	JXDisplay* d = JXGetApplication()->GetCurrentDisplay();
 	itsDefaultMenuIcon = jnew JXImage(d, jx_plain_file_small);
 	assert( itsDefaultMenuIcon != nullptr );
 

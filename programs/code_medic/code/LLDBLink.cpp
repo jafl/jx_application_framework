@@ -508,7 +508,7 @@ LLDBLink::HandleLLDBEvent
 		{
 		if (eventType & lldb::SBCommandInterpreter::eBroadcastBitQuitCommandReceived)
 			{
-			(JXGetApplication())->Quit();
+			JXGetApplication()->Quit();
 			}
 		}
 

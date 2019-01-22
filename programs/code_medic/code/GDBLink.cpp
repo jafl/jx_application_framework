@@ -728,7 +728,7 @@ GDBLink::ReadFromDebugger()
 
 		else if (token.type == GDBScanner::kDebuggerFinished)
 			{
-			(JXGetApplication())->Quit();
+			JXGetApplication()->Quit();
 			itsWaitingToQuitFlag = kJTrue;
 			}
 		}

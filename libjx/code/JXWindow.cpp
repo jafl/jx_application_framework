@@ -95,7 +95,7 @@ JXWindow::JXWindow
 	const JBoolean		isOverlay
 	)
 	:
-	JXContainer((JXGetApplication())->GetCurrentDisplay(), this, nullptr),
+	JXContainer(JXGetApplication()->GetCurrentDisplay(), this, nullptr),
 	itsDirector(director),
 	itsIconDir(nullptr),
 	itsMainWindow(nullptr),
@@ -153,7 +153,7 @@ JXWindow::JXWindow
 
 	// get display/colormap for this window
 
-	itsDisplay   = (JXGetApplication())->GetCurrentDisplay();
+	itsDisplay   = JXGetApplication()->GetCurrentDisplay();
 	itsBackColor = JColorManager::GetDefaultBackColor();
 
 	// create window
@@ -511,7 +511,7 @@ JXWindow::Close()
 	else
 		{
 		assert( itsCloseAction == kQuitApp );
-		(JXGetApplication())->Quit();
+		JXGetApplication()->Quit();
 		return kJTrue;
 		}
 }
@@ -1301,7 +1301,7 @@ JXWindow::WaitForWM
 	const time_t start = time(nullptr);
 	while (XPending(*d) > 0)
 		{
-		(JXGetApplication())->HandleOneEventForWindow(w);
+		JXGetApplication()->HandleOneEventForWindow(w);
 		if (time(nullptr) - start > 2)	// sometimes we get events for other windows
 			{
 			break;
@@ -2703,7 +2703,7 @@ JXWindow::HandleEvent
 		}
 	else if (IsSaveYourselfMessage(itsDisplay, xEvent))
 		{
-		const JString& cmd = (JXGetApplication())->GetRestartCommand();
+		const JString& cmd = JXGetApplication()->GetRestartCommand();
 		char* s            = const_cast<JUtf8Byte*>(cmd.GetBytes());
 		XSetCommand(*itsDisplay, itsXWindow, &s, 1);
 		}
@@ -2981,7 +2981,7 @@ JXWindow::HandleButtonPress
 	// If a blocking dialog window was popped up, then we will never get
 	// the ButtonRelease event because HandleOneEventForWindow() tossed it.
 
-	if ((JXGetApplication())->HadBlockingWindow())
+	if (JXGetApplication()->HadBlockingWindow())
 		{
 		itsCleanAfterBlockFlag = kJTrue;
 		if (itsIsDraggingFlag && itsProcessDragFlag && itsMouseContainer != nullptr)
@@ -3097,7 +3097,7 @@ JXWindow::HandleButtonRelease
 	// If a blocking dialog window was popped up, then we will never get
 	// other ButtonRelease events because HandleOneEventForWindow() tossed them.
 
-	else if ((JXGetApplication())->HadBlockingWindow() && !itsCleanAfterBlockFlag)
+	else if (JXGetApplication()->HadBlockingWindow() && !itsCleanAfterBlockFlag)
 		{
 		itsCleanAfterBlockFlag = kJTrue;
 		if (itsIsDraggingFlag && itsProcessDragFlag && itsMouseContainer != nullptr)

@@ -116,13 +116,13 @@ public:
 	static const JString&	GetAddFilesFilter();
 	static void				SetAddFilesFilter(const JString& filter);
 
-	static const JString&	GetProjectFileSuffix();
+	static const JUtf8Byte*	GetProjectFileSuffix();
 
 	void	ConvertCompileRunDialogs(std::istream& projInput, const JFileVersion vers);
 
 	// called by CBNewProjectSaveFileDialog
 
-	static const JString&	GetTemplateDirectoryName();
+	static const JUtf8Byte*	GetTemplateDirectoryName();
 	static JBoolean			GetProjectTemplateType(const JString& fullName,
 												   JString* type);
 

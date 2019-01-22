@@ -75,7 +75,7 @@ JXUserNotification::DisplayMessage
 
 	if (!IsSilent())
 		{
-		(JXGetApplication())->PrepareForBlockingWindow();
+		JXGetApplication()->PrepareForBlockingWindow();
 
 		itsCurrentDialog = jnew JXMessageDialog(JXGetApplication(), message);
 		assert( itsCurrentDialog != nullptr );
@@ -98,7 +98,7 @@ JXUserNotification::ReportError
 
 	if (!IsSilent())
 		{
-		(JXGetApplication())->PrepareForBlockingWindow();
+		JXGetApplication()->PrepareForBlockingWindow();
 
 		itsCurrentDialog = jnew JXErrorDialog(JXGetApplication(), message);
 		assert( itsCurrentDialog != nullptr );
@@ -121,7 +121,7 @@ JXUserNotification::AskUserYes
 {
 	assert( itsCurrentDialog == nullptr );
 
-	(JXGetApplication())->PrepareForBlockingWindow();
+	JXGetApplication()->PrepareForBlockingWindow();
 
 	itsCurrentDialog = jnew JXWarningDialog(JXGetApplication(), message);
 	assert( itsCurrentDialog != nullptr );
@@ -159,7 +159,7 @@ JXUserNotification::OKToClose
 {
 	assert( itsCurrentDialog == nullptr && itsOKToCloseDialog == nullptr );
 
-	(JXGetApplication())->PrepareForBlockingWindow();
+	JXGetApplication()->PrepareForBlockingWindow();
 
 	itsOKToCloseDialog = jnew JXOKToCloseDialog(JXGetApplication(), message);
 	assert( itsOKToCloseDialog != nullptr );
@@ -182,7 +182,7 @@ JXUserNotification::AcceptLicense()
 {
 	assert( itsCurrentDialog == nullptr );
 
-	(JXGetApplication())->PrepareForBlockingWindow();
+	JXGetApplication()->PrepareForBlockingWindow();
 
 	itsCurrentDialog = jnew JXAcceptLicenseDialog(JXGetApplication());
 	assert( itsCurrentDialog != nullptr );

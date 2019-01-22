@@ -63,7 +63,7 @@ LLDBGetSourceFileList::HandleSuccess
 	lldb::SBTarget t = link->GetDebugger()->GetSelectedTarget();
 	if (t.IsValid())
 		{
-		(JXGetApplication())->DisplayBusyCursor();
+		JXGetApplication()->DisplayBusyCursor();
 
 		JXFileListTable* table = GetFileList()->GetTable();
 		table->RemoveAllFiles();

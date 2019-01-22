@@ -107,7 +107,7 @@ CMLocalVarsDir::CMLocalVarsDir
 	CMCommandDirector* supervisor
 	)
 	:
-	JXWindowDirector(JXGetApplication()),
+	JXWindowDirectorJXGetApplication(),
 	itsCommandDir(supervisor),
 	itsNeedsUpdateFlag(kJFalse)
 {
@@ -493,7 +493,7 @@ CMLocalVarsDir::HandleFileMenu
 		}
 	else if (index == kQuitCmd)
 		{
-		(JXGetApplication())->Quit();
+		JXGetApplication()->Quit();
 		}
 }
 

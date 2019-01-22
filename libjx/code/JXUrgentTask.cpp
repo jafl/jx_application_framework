@@ -28,7 +28,7 @@ JXUrgentTask::JXUrgentTask()
 
 JXUrgentTask::~JXUrgentTask()
 {
-	(JXGetApplication())->RemoveUrgentTask(this);
+	JXGetApplication()->RemoveUrgentTask(this);
 }
 
 /******************************************************************************
@@ -39,5 +39,5 @@ JXUrgentTask::~JXUrgentTask()
 void
 JXUrgentTask::Go()
 {
-	(JXGetApplication())->InstallUrgentTask(this);
+	JXGetApplication()->InstallUrgentTask(this);
 }

@@ -317,7 +317,7 @@ DNDWidget::HandleKeyPress
 	else if (key == 'q')
 		{
 		// Quit the application if 'q' was pressed
-		(JXGetApplication())->Quit();
+		JXGetApplication()->Quit();
 		}
 		
 	// If anything else was pressed, pass it up the inheritance tree

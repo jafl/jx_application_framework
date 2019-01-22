@@ -134,7 +134,7 @@ JIndex i;
 
 	output << ' ' << (long) CBPrefsManager::kColorCount;
 
-	JXColorManager* colormap = ((JXGetApplication())->GetCurrentDisplay())->GetColormap();
+	JXColorManager* colormap = (JXGetApplication()->GetCurrentDisplay())->GetColormap();
 	for (i=1; i<=CBPrefsManager::kColorCount; i++)
 		{
 		output << ' ' << colormap->GetRGB(prefsMgr->GetColor(i));

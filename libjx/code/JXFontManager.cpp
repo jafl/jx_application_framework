@@ -239,7 +239,7 @@ JXFontManager::GetMonospaceFontNames
 		return;
 		}
 
-	(JXGetApplication())->DisplayBusyCursor();
+	JXGetApplication()->DisplayBusyCursor();
 
 	fontNames->CleanOut();
 	fontNames->SetCompareFunction(JCompareStringsCaseInsensitive);

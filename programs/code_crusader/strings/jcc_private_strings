@@ -149,6 +149,28 @@ KillButtonShortcuts::CBShellDocument	"^C#."
 
 # CBProjectDocument
 
+ProjectMenuTitle::CBProjectDocument			"Project"
+SourceMenuTitle::CBProjectDocument			"Source"
+OpenFilesItemText::CBProjectDocument		"Open selected files"
+EditGroupNameItemText::CBProjectDocument	"Edit group name"
+ReloadingSymbols::CBProjectDocument			"Reloading symbols..."
+ParsingFilesProgress::CBProjectDocument		"Adding files..."
+FileAlreadyInProject::CBProjectDocument		"\"$name\" is already in the project."
+AllFilesAlreadyInProject::CBProjectDocument	"All the files that you selected are already in the project."
+OnlyDropFilesDirs::CBProjectDocument		"You can only drop files and/or directories."
+ConfigButtonHint::CBProjectDocument			"Open build configuration file"
+
+NewFileName::CBProjectDocument		"Untitled.jcc"
+SaveFilePrompt::CBProjectDocument	"Save project as:"
+SaveTmplPrompt::CBProjectDocument	"Save project template as:"
+
+AddFilesAbsPath::CBProjectDocument	"Add files using absolute path"
+AddFilesRelProj::CBProjectDocument	"Add files using path relative to project file"
+AddFilesRelHome::CBProjectDocument	"Add files using path relative to home directory"
+
+FileCreateFailed::CBProjectDocument
+"The project file could not be created.  Please check that the directory is writable."
+
 NeedNewerVersion::CBProjectDocument
 "This project file was created by a newer version of Code Crusader.  You need the newest version in order to open it."
 
@@ -176,9 +198,10 @@ WizardExecError::CBProjectDocument
 
 $err"
 
-ConfigButtonHint::CBProjectDocument	"Open build configuration file"
-
-ReloadingSymbols::CBProjectDocument	"Reloading symbols..."
+PrintHeader::CBProjectDocument
+"Project name:  $name
+Project path:  $path
+"
 
 # CBNewProjectSaveFileDialog
 
@@ -187,6 +210,10 @@ SysTemplateMarker::CBNewProjectSaveFileDialog	" (global)"
 
 WarnFileExists::CBNewProjectSaveFileDialog
 "$file already exists.  Are you sure you want to have it overwritten by $method?"
+
+# CBEditProjPrefsDialog
+
+WindowTitle::CBEditProjPrefsDialog	"Project Preferences"
 
 # CBProjectTable
 
@@ -217,6 +244,8 @@ $err"
 NewGroupName::CBGroupNode	"New group"
 
 # CBEditSearchPathsDialog
+
+WindowTitle::CBEditSearchPathsDialog	"Search Paths for Symbol Database"
 
 Instructions::CBEditSearchPathsDialog
 "Code Crusader will search these directories for source files to parse.
